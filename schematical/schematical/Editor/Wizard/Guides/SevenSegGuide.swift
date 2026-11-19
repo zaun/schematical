@@ -13,7 +13,7 @@ enum SevenSegGuide {
                            + "voltage. These are on the datasheet's first page and in its characteristics "
                            + "table.",
                        page: .kindFields,
-                       keys: ["device.digits", "device.size", "device.color", "device.chip", "device.vf"],
+                       keys: ["device.digits", "device.size", "device.color", "device.type", "device.chip", "device.vf"],
                        searchTerms: optical + ["Description"]),
             WizardStep(id: "kind.wiring", title: "Wiring",
                        intro: "Which pin lights which segment, and which pins are the digits' commons. The "
@@ -41,6 +41,13 @@ enum SevenSegGuide {
             "device.color": FieldGuide(
                 label: "Color", help: "The color the segments light in.",
                 whereToFind: optical, alsoCalled: ["Emitted color"], example: "Red"),
+            "device.type": FieldGuide(
+                label: "Display type",
+                help: "led for an LED display (the default). numitron for an incandescent tube: it is wired "
+                    + "and simulated like an LED display. vfd for a vacuum fluorescent tube: the commons are "
+                    + "its grids, and a segment glows while its anode and its digit's grid are both high.",
+                whereToFind: ["Description"], alsoCalled: ["Numitron", "Vacuum fluorescent display"],
+                example: "led"),
             "device.chip": FieldGuide(
                 label: "LED chip", help: "The LED material the datasheet names. It is shown, not used.",
                 whereToFind: optical + ["Description"], alsoCalled: ["Chip material", "Source color"],

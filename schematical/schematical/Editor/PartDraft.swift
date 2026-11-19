@@ -1,7 +1,7 @@
 import Foundation
 
 /// One pin row of a pinout (docs/parts-format.md § Pinouts and pins).
-struct PinDraft: Hashable, Identifiable, Sendable {
+nonisolated struct PinDraft: Hashable, Identifiable, Sendable {
     var id = UUID()
     /// The pin number (numbered pinouts) or ball name ("A1", ball pinouts).
     var designator: String
@@ -59,7 +59,7 @@ struct PinDraft: Hashable, Identifiable, Sendable {
 }
 
 /// One of a part's `footprintChoices`: a package name and a bundled footprint id.
-struct FootprintChoiceDraft: Hashable, Identifiable, Sendable {
+nonisolated struct FootprintChoiceDraft: Hashable, Identifiable, Sendable {
     var id = UUID()
     var package: String
     var footprint: String
@@ -91,7 +91,7 @@ struct FootprintChoiceDraft: Hashable, Identifiable, Sendable {
 
 /// One inline datasheet of a single part file (plan-46-A): a
 /// `datasheets.json` entry without "md".
-struct DatasheetDraft: Equatable, Sendable {
+nonisolated struct DatasheetDraft: Equatable, Sendable {
     var id: String
     var url: String
 
@@ -284,7 +284,7 @@ struct PartDraft: Equatable, Sendable {
         self.kind = kind
         if case let .array(footprints)? = root["footprints"] { self.footprints = footprints }
         if case let .array(entries)? = root["datasheets"] {
-            let drafts = entries.compactMap(DatasheetDraft.init(json:))
+            let drafts = entries.compactMap { DatasheetDraft(json: $0) }
             if drafts.count == entries.count { datasheets = drafts }
         }
         fileExtras = root.filter {
@@ -345,7 +345,7 @@ struct PartDraft: Equatable, Sendable {
         datasheet = takeString(&part, "datasheet")
         connectorFootprint = takeString(&part, "connectorFootprint")
         if case let .array(items)? = part["footprintChoices"] {
-            let choices = items.compactMap(FootprintChoiceDraft.init(json:))
+            let choices = items.compactMap { FootprintChoiceDraft(json: $0) }
             if choices.count == items.count {
                 footprintChoices = choices
                 part.removeValue(forKey: "footprintChoices")
@@ -418,7 +418,7 @@ struct PartDraft: Equatable, Sendable {
 
     // MARK: Writing a file
 
-    func encoded() -> JSONValue {
+    nonisolated func encoded() -> JSONValue {
         var device = deviceExtras
         device["id"] = .string(deviceID)
         device["function"] = .string(function)

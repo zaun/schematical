@@ -169,7 +169,7 @@ struct CustomFootprintDraft: Hashable, Sendable {
         bodyWidth = footprint.body.width
         bodyHeight = footprint.body.height
         bodyRound = footprint.bodyRound
-        pads = footprint.pads.map(PadDraft.init)
+        pads = footprint.pads.map { PadDraft($0) }
     }
 
     /// An `explicit` entry of a part file; nil for any other shape (it then
@@ -181,7 +181,7 @@ struct CustomFootprintDraft: Hashable, Sendable {
               case let .number(height)? = body["height"], case let .array(padItems)? = keys["pads"],
               Set(keys.keys).isSubset(of: ["id", "description", "note", "style", "pins", "body", "pads"]),
               Set(body.keys).isSubset(of: ["width", "height", "round"]) else { return nil }
-        let pads = padItems.compactMap(PadDraft.init(json:))
+        let pads = padItems.compactMap { PadDraft(json: $0) }
         guard pads.count == padItems.count else { return nil }
         self.init(id: id, description: description, bodyWidth: width, bodyHeight: height, pads: pads)
         if case let .bool(round)? = body["round"] { bodyRound = round }

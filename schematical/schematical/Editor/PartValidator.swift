@@ -32,22 +32,30 @@ nonisolated final class PartValidator: @unchecked Sendable {
     }
 
     /// The bundled footprints, for the editor's footprint picker.
-    private(set) lazy var footprints: [Footprint] = {
+    var footprints: [Footprint] {
         lock.lock()
         defer { lock.unlock() }
-        return (0..<part_library_footprint_count(library.pointer)).compactMap { index in
+        if let kept = keptFootprints { return kept }
+        let found = (0..<part_library_footprint_count(library.pointer)).compactMap { index in
             part_library_footprint_at(library.pointer, index).map { Footprint($0.pointee) }
         }
-    }()
+        keptFootprints = found
+        return found
+    }
+    private var keptFootprints: [Footprint]?
 
     /// The bundled datasheet ids, for the editor's datasheet picker.
-    private(set) lazy var datasheetIDs: [String] = {
+    var datasheetIDs: [String] {
         lock.lock()
         defer { lock.unlock() }
-        return (0..<part_library_datasheet_count(library.pointer)).compactMap { index in
+        if let kept = keptDatasheetIDs { return kept }
+        let found = (0..<part_library_datasheet_count(library.pointer)).compactMap { index in
             part_library_datasheet_at(library.pointer, index).map { String(cString: $0.pointee.id) }
         }
-    }()
+        keptDatasheetIDs = found
+        return found
+    }
+    private var keptDatasheetIDs: [String]?
 
     /// Checks a file's text; the part it describes, or the loader's message.
     func validate(text: String, source: String = "part") -> Result<CatalogPart, Failure> {

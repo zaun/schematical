@@ -2,7 +2,7 @@ import SwiftUI
 
 /// UserDefaults keys for the app's preferences. `@AppStorage` saves changes as
 /// they are made and reads them back on launch.
-enum PreferenceKey {
+nonisolated enum PreferenceKey {
     static let showObsoleteParts = "showObsoleteParts"
     static let showMilitaryParts = "showMilitaryParts"
     static let showAutomotiveParts = "showAutomotiveParts"

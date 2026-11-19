@@ -40,7 +40,7 @@ struct WizardStep: Identifiable, Hashable, Sendable {
 /// variant (nil for a kind without variants, or before one is chosen). A
 /// kind with no guide gets steps derived from its schema.
 struct KindGuide: Sendable {
-    let steps: @Sendable (String?) -> [WizardStep]
+    let steps: @MainActor @Sendable (String?) -> [WizardStep]
     /// Guidance for the kind's keys, by side-qualified dotted path
     /// (`"device.gates.op"`, `"part.family"`); plan-46-L.
     var fields: [String: FieldGuide] = [:]

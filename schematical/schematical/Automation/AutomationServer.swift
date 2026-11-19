@@ -25,7 +25,7 @@ final class AutomationServer {
     static let shared = AutomationServer()
 
     /// The port the server listens on.
-    static let port: UInt16 = 47800
+    nonisolated static let port: UInt16 = 47800
 
     /// Where an agent connects.
     static let url = "http://127.0.0.1:\(port)/mcp"

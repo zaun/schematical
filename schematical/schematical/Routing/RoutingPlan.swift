@@ -203,7 +203,7 @@ nonisolated struct RoutingPlan: Sendable {
     }
 }
 
-extension Router.Run {
+nonisolated extension Router.Run {
     /// The nets that take part in the plan: not coupled pairs and not
     /// plane-fan-out nets (their copper is already down), not nets with
     /// nothing left to join.

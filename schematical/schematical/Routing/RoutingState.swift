@@ -268,7 +268,7 @@ nonisolated struct RoutingState: Sendable {
     }
 }
 
-extension RoutingGrid {
+nonisolated extension RoutingGrid {
     /// Puts the fixed copper's values back over the cells inside `box` on
     /// every map.
     mutating func restoreFixed(in box: CGRect) {

@@ -278,7 +278,7 @@ extension AutomationTools {
                  "lines": bus.lines.map { [[$0.a.x, $0.a.y], [$0.b.x, $0.b.y]] },
                  "ports": bus.ports.enumerated().map { index, port -> [String: Any] in
                      ["number": index + 1, "side": "\(port.side)",
-                      "bounds": bus.body(of: port).map(rectJSON) as Any,
+                      "bounds": bus.body(of: port).map { rectJSON($0) } as Any,
                       "pins": bus.wires.compactMap { wire -> [String: Any]? in
                           bus.pinTip(port, wire: wire.id).map { ["wire": wire.name, "x": $0.x, "y": $0.y] }
                       }]

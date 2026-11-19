@@ -47,76 +47,76 @@ final class PCBUndoTests: XCTestCase {
 
     func testMoveFootprint() throws {
         let c = try withPart()
-        try assertStep(c.doc, "Move") { c.doc.moveFootprint(c.chip.id, to: p(40, 30)) }
+        assertStep(c.doc, "Move") { c.doc.moveFootprint(c.chip.id, to: p(40, 30)) }
     }
 
     func testMoveFootprintOrigin() throws {
         let c = try withPart()
-        try assertStep(c.doc, "Move") { c.doc.moveFootprintOrigin(c.chip.id, to: p(40, 30)) }
+        assertStep(c.doc, "Move") { c.doc.moveFootprintOrigin(c.chip.id, to: p(40, 30)) }
     }
 
     func testRotateFootprint() throws {
         let c = try withPart()
-        try assertStep(c.doc, "Rotate") { c.doc.rotateFootprint(c.chip.id) }
+        assertStep(c.doc, "Rotate") { c.doc.rotateFootprint(c.chip.id) }
     }
 
     func testSetFootprintSide() throws {
         let c = try withPart()
-        try assertStep(c.doc, "Change Side") { c.doc.setFootprintSide(c.chip.id, .bottom) }
+        assertStep(c.doc, "Change Side") { c.doc.setFootprintSide(c.chip.id, .bottom) }
     }
 
     func testSetFootprintOrigin() throws {
         let c = try withPart()
         let other = try XCTUnwrap(FootprintOrigin.allCases.first { $0 != c.chip.board?.origin })
-        try assertStep(c.doc, "Change Origin") { c.doc.setFootprintOrigin(c.chip.id, other) }
+        assertStep(c.doc, "Change Origin") { c.doc.setFootprintOrigin(c.chip.id, other) }
     }
 
     func testSetFootprintStyle() throws {
         let doc = TestSupport.newDocument()
         let part = try XCTUnwrap(TestSupport.allParts.first { $0.connectorFootprint != nil }, "no part with a connector footprint")
         let chip = try TestSupport.place(doc, part.name, at: p(200, 200))
-        try assertStep(doc, "Change Style") { doc.setFootprintStyle(chip.id, .connector) }
+        assertStep(doc, "Change Style") { doc.setFootprintStyle(chip.id, .connector) }
     }
 
     func testSetFootprintMarks() throws {
         let c = try withPart()
         let other = try XCTUnwrap(MarkLayer.allCases.first { $0 != c.chip.board?.outline })
-        try assertStep(c.doc, "Change Marks") { c.doc.setFootprintMarks(c.chip.id, outline: other) }
+        assertStep(c.doc, "Change Marks") { c.doc.setFootprintMarks(c.chip.id, outline: other) }
     }
 
     // MARK: Board
 
     func testSetBoardSize() throws {
         let doc = TestSupport.newDocument()
-        try assertStep(doc, "Change Board Size") { doc.setBoardSize(width: 120, height: 90) }
+        assertStep(doc, "Change Board Size") { doc.setBoardSize(width: 120, height: 90) }
     }
 
     func testSetLayerCount() throws {
         let doc = TestSupport.newDocument()
-        try assertStep(doc, "Change Layers") { doc.setLayerCount(4) }
+        assertStep(doc, "Change Layers") { doc.setLayerCount(4) }
     }
 
     func testSetLayerColor() throws {
         let doc = TestSupport.newDocument()
-        try assertStep(doc, "Change Layer Color") { doc.setLayerColor(.top, LayerColor(red: 1, green: 2, blue: 3)) }
+        assertStep(doc, "Change Layer Color") { doc.setLayerColor(.top, LayerColor(red: 1, green: 2, blue: 3)) }
     }
 
     func testSetLayerType() throws {
         let doc = TestSupport.newDocument()
         doc.setLayerCount(4)
-        try assertStep(doc, "Change Layer Type") { doc.setLayerType(.inner(3), .wire) }
+        assertStep(doc, "Change Layer Type") { doc.setLayerType(.inner(3), .wire) }
     }
 
     func testSetBoardUnits() throws {
         let doc = TestSupport.newDocument()
         let other = try XCTUnwrap(BoardUnits.allCases.first { $0 != doc.board.units })
-        try assertStep(doc, "Change Units") { doc.setBoardUnits(other) }
+        assertStep(doc, "Change Units") { doc.setBoardUnits(other) }
     }
 
     func testSetBoardColor() throws {
         let doc = TestSupport.newDocument()
         let other = try XCTUnwrap(BoardColor.allCases.first { $0 != doc.board.color })
-        try assertStep(doc, "Change Board Color") { doc.setBoardColor(other) }
+        assertStep(doc, "Change Board Color") { doc.setBoardColor(other) }
     }
 
     // MARK: Texts
@@ -128,47 +128,47 @@ final class PCBUndoTests: XCTestCase {
 
     func testAddText() throws {
         let doc = TestSupport.newDocument()
-        try assertStep(doc, "Add Text") { doc.addText(at: p(10, 10)) }
+        assertStep(doc, "Add Text") { doc.addText(at: p(10, 10)) }
     }
 
     func testSetText() throws {
         let c = withText()
-        try assertStep(c.doc, "Edit Text") { c.doc.setText(c.text, "Rev A") }
+        assertStep(c.doc, "Edit Text") { c.doc.setText(c.text, "Rev A") }
     }
 
     func testSetTextSize() throws {
         let c = withText()
-        try assertStep(c.doc, "Change Font Size") { c.doc.setTextSize(c.text, 80) }
+        assertStep(c.doc, "Change Font Size") { c.doc.setTextSize(c.text, 80) }
     }
 
     func testSetTextLayer() throws {
         let c = withText()
-        try assertStep(c.doc, "Change Layer") { c.doc.setTextLayer(c.text, .document) }
+        assertStep(c.doc, "Change Layer") { c.doc.setTextLayer(c.text, .document) }
     }
 
     func testSetTextSide() throws {
         let c = withText()
-        try assertStep(c.doc, "Change Side") { c.doc.setTextSide(c.text, .bottom) }
+        assertStep(c.doc, "Change Side") { c.doc.setTextSide(c.text, .bottom) }
     }
 
     func testMoveText() throws {
         let c = withText()
-        try assertStep(c.doc, "Move") { c.doc.moveText(c.text, to: p(20, 20)) }
+        assertStep(c.doc, "Move") { c.doc.moveText(c.text, to: p(20, 20)) }
     }
 
     func testSetTextRotation() throws {
         let c = withText()
-        try assertStep(c.doc, "Rotate") { c.doc.setTextRotation(c.text, 180) }
+        assertStep(c.doc, "Rotate") { c.doc.setTextRotation(c.text, 180) }
     }
 
     func testRotateText() throws {
         let c = withText()
-        try assertStep(c.doc, "Rotate") { c.doc.rotateText(c.text) }
+        assertStep(c.doc, "Rotate") { c.doc.rotateText(c.text) }
     }
 
     func testDeleteText() throws {
         let c = withText()
-        try assertStep(c.doc, "Delete Text") { c.doc.deleteText(c.text) }
+        assertStep(c.doc, "Delete Text") { c.doc.deleteText(c.text) }
     }
 
     // MARK: Traces
@@ -181,7 +181,7 @@ final class PCBUndoTests: XCTestCase {
 
     func testAddTrace() throws {
         let doc = TestSupport.newDocument()
-        try assertStep(doc, "Add Trace") {
+        assertStep(doc, "Add Trace") {
             XCTAssertNotNil(doc.addTrace(from: p(0, 0), to: p(10.16, 0), layer: .top, diagonalFirst: false))
         }
     }
@@ -193,27 +193,27 @@ final class PCBUndoTests: XCTestCase {
         let b = BoardTrace(id: UUID(), layer: .top, width: 10, points: [p(10.16, 0), p(10.16, 10.16)])
         doc.replaceContents(chips: [], wires: [], junctions: [], buses: [], nextReference: 1,
                             board: BoardSettings(), texts: [], traces: [a, b])
-        try assertStep(doc, "Join Traces") { doc.join(a.id) }
+        assertStep(doc, "Join Traces") { doc.join(a.id) }
     }
 
     func testSetTraceWidth() throws {
         let c = try withTrace()
-        try assertStep(c.doc, "Change Trace Width") { c.doc.setTraceWidth(c.trace, 20) }
+        assertStep(c.doc, "Change Trace Width") { c.doc.setTraceWidth(c.trace, 20) }
     }
 
     func testSetTraceLayer() throws {
         let c = try withTrace()
-        try assertStep(c.doc, "Change Layer") { c.doc.setTraceLayer(c.trace, .bottom) }
+        assertStep(c.doc, "Change Layer") { c.doc.setTraceLayer(c.trace, .bottom) }
     }
 
     func testDeleteTrace() throws {
         let c = try withTrace()
-        try assertStep(c.doc, "Delete Trace") { c.doc.deleteTrace(c.trace) }
+        assertStep(c.doc, "Delete Trace") { c.doc.deleteTrace(c.trace) }
     }
 
     func testMoveTraces() throws {
         let c = try withTrace()
-        try assertStep(c.doc, "Move") { c.doc.moveTraces([c.trace], by: CGSize(width: 5.08, height: 0)) }
+        assertStep(c.doc, "Move") { c.doc.moveTraces([c.trace], by: CGSize(width: 5.08, height: 0)) }
     }
 
     // MARK: Group drags
@@ -222,7 +222,7 @@ final class PCBUndoTests: XCTestCase {
         let c = try withPart()
         c.doc.select(.footprint(c.chip.id))
         let base = c.doc.boardGroupBase()
-        try assertStep(c.doc, "Move") { c.doc.moveBoardGroup(base, by: CGSize(width: 5, height: 5)) }
+        assertStep(c.doc, "Move") { c.doc.moveBoardGroup(base, by: CGSize(width: 5, height: 5)) }
     }
 
     func testSettleBoardGroup() throws {
@@ -231,7 +231,7 @@ final class PCBUndoTests: XCTestCase {
         c.doc.select(.trace(other))
         let base = c.doc.boardGroupBase()
         c.doc.moveBoardGroup(base, by: CGSize(width: -12.7, height: 0))
-        try assertStep(c.doc, "Move") { c.doc.settleBoardGroup(base) }
+        assertStep(c.doc, "Move") { c.doc.settleBoardGroup(base) }
     }
 
     // MARK: Independence of the two lists

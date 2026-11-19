@@ -10,7 +10,7 @@ import Foundation
 /// is kept only when it leaves no more connections unrouted and the copper
 /// it touched scores lower (wire + vias + bends); otherwise the state goes
 /// back exactly as it was. Passes repeat until one keeps nothing.
-extension Router.Run {
+nonisolated extension Router.Run {
     /// A net the improvement may take up: not fanned out to a Plane, not a
     /// coupled pair's (a pair is one piece, and stays as routed).
     func polishable(_ net: Int) -> Bool {

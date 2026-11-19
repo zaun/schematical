@@ -10,7 +10,7 @@ nonisolated struct RoutingTerminal: Hashable, Sendable {
     var tie: CGPoint?
 }
 
-extension RoutingGrid {
+nonisolated extension RoutingGrid {
     /// The terminals of `component` for net `net`, on the layers `allowed`
     /// marks, sorted by node: every cell centre inside a pad's copper (a
     /// through-hole pad's on every layer) that the net may use — or, for a

@@ -83,7 +83,7 @@ nonisolated struct PaintedText {
 /// The one interface symbol and layer drawing goes through, so the same
 /// code draws the live canvas and writes an export. Painters are values;
 /// transform a copy to draw part of a picture turned or shifted.
-protocol SchematicPainter {
+nonisolated protocol SchematicPainter {
     mutating func fill(_ path: Path, with ink: Ink)
     mutating func stroke(_ path: Path, with ink: Ink, style: StrokeStyle)
     mutating func draw(_ text: PaintedText, at point: CGPoint, anchor: UnitPoint)
@@ -91,7 +91,7 @@ protocol SchematicPainter {
     mutating func rotate(by angle: Angle)
 }
 
-extension SchematicPainter {
+nonisolated extension SchematicPainter {
     mutating func stroke(_ path: Path, with ink: Ink, lineWidth: CGFloat) {
         stroke(path, with: ink, style: StrokeStyle(lineWidth: lineWidth))
     }

@@ -49,6 +49,7 @@ struct schematicalApp: App {
         }
         .windowToolbarStyle(.unifiedCompact(showsTitle: false))
         .commands {
+            AboutCommands()
             SchematicFileCommands()
             BillOfMaterialsCommands()
             DesignRuleCheckCommands()

@@ -87,10 +87,10 @@ struct PCBCanvasView: View {
     var clearsHoles = false
 
     @State private var interaction: Interaction?
-    /// Where the pointer is (board mm), for the Trace tool's landing ring.
-    @State private var hoverPoint: CGPoint?
-    /// Where the pointer is on screen, for the pad label beside it.
-    @State private var hoverLocation: CGPoint?
+    /// Where the pointer is, for the hovered pad and the Trace tool's
+    /// landing ring. Only `PCBHoverLayer` reads it, so the pointer moving
+    /// redraws that layer and not the board.
+    @State private var hover = BoardHover()
     /// Where the current press started, in screen points.
     @State private var pressLocation: CGPoint = .zero
     /// What the current press did to the selection; a click finishes it.
@@ -163,10 +163,9 @@ struct PCBCanvasView: View {
             }
         }
         .overlay(alignment: .topLeading) {
-            if let hovered = hoveredPad, let location = hoverLocation {
-                PadLabel(text: hovered.label)
-                    .offset(x: location.x + 14, y: location.y + 14)
-                    .allowsHitTesting(false)
+            if !exporting {
+                PCBHoverLayer(document: document, viewport: viewport, hover: hover, visible: shown,
+                              showsPad: showsHoveredPad, ringLayer: hoverRingLayer)
             }
         }
         .contentShape(Rectangle())
@@ -184,12 +183,12 @@ struct PCBCanvasView: View {
         .onContinuousHover { phase in
             switch phase {
             case let .active(location):
-                hoverPoint = board(location)
-                hoverLocation = location
-                pointer?.point = hoverPoint
+                hover.point = board(location)
+                hover.location = location
+                pointer?.point = hover.point
             case .ended:
-                hoverPoint = nil
-                hoverLocation = nil
+                hover.point = nil
+                hover.location = nil
                 pointer?.point = nil
             }
         }
@@ -266,15 +265,22 @@ struct PCBCanvasView: View {
         return true
     }
 
-    /// The pad under the pointer and its name, while nothing is being
-    /// dragged (a trace being drawn still shows it, at its end).
-    private var hoveredPad: (pad: PlacedPad, label: String)? {
+    /// Whether the pad under the pointer is outlined and named: while
+    /// nothing is being dragged (a trace being drawn still shows it, at its
+    /// end).
+    private var showsHoveredPad: Bool {
         switch interaction {
-        case nil, .drawTrace?: break
-        default: return nil
+        case nil, .drawTrace?: true
+        default: false
         }
-        guard let hoverPoint else { return nil }
-        return document.padLabel(at: hoverPoint, visible: shown)
+    }
+
+    /// The layer whose landing ring follows the pointer: the Trace tool's,
+    /// while no trace is being drawn (a drawn trace has its own ring).
+    private var hoverRingLayer: CopperLayer? {
+        guard tool == .trace else { return nil }
+        if case .drawTrace? = interaction { return nil }
+        return traceLayer
     }
 
     /// A screen point in board millimetres.
@@ -293,6 +299,7 @@ struct PCBCanvasView: View {
         let colour = board.color
 
         let visible = shown
+        let chipPads = document.chipPads
         // The board, under the grid so the dots show on it: a rectangle,
         // or a card's outline with its edge tab. With the PCB layer hidden,
         // only its outline, so the Planes' shading shows on the canvas.
@@ -324,8 +331,8 @@ struct PCBCanvasView: View {
                 for finger in board.fingers where !finger.isThroughHole && finger.side == side {
                     context.fill(Path(finger.rect), with: .color(style.color.color))
                 }
-                for chip in document.chips where chip.board?.side == side {
-                    for pad in chip.boardPads where pad.drill == 0 {
+                for (chip, pads) in zip(document.chips, chipPads) where chip.board?.side == side {
+                    for pad in pads where pad.drill == 0 {
                         context.fill(Self.outline(of: pad), with: .color(style.color.color))
                     }
                 }
@@ -349,7 +356,7 @@ struct PCBCanvasView: View {
             // drilled holes.
             let boardPads = (board.fingers.filter(\.isThroughHole) + board.extraPads).map(\.pad) + board.holes.map(\.pad)
                 + document.holes.map(\.pad)
-            for pad in boardPads + document.chips.flatMap({ $0.boardPads.filter { $0.drill > 0 } }) {
+            for pad in boardPads + chipPads.flatMap({ $0.filter { $0.drill > 0 } }) {
                 // A non-plated hole has no copper: just the hole.
                 if pad.plated { context.fill(Self.outline(of: pad), with: .color(Self.copper)) }
                 if let hole = pad.holeRect {
@@ -369,10 +376,8 @@ struct PCBCanvasView: View {
         drawTraceTool(in: &context)
         guard !exporting else { return }
 
-        // The hovered pad's outline (its name shows beside the pointer).
-        if let hovered = hoveredPad {
-            context.stroke(Self.outline(of: hovered.pad), with: .color(.white.opacity(0.9)), lineWidth: 1.5 / scale)
-        }
+        // The hovered pad's outline and the Trace tool's ring at the
+        // pointer are `PCBHoverLayer`'s, over this canvas.
 
         // Selection boxes, one per selected item that is drawn, on top of
         // everything. A selected item on a hidden layer stays selected.
@@ -575,7 +580,8 @@ struct PCBCanvasView: View {
     }
 
     /// The Trace tool's preview while dragging, and the green ring where a
-    /// press or release would land.
+    /// release would land. (Before a press, the ring follows the pointer:
+    /// `PCBHoverLayer`.)
     private func drawTraceTool(in context: inout GraphicsContext) {
         guard tool == .trace else { return }
         let ring: CGPoint?
@@ -599,7 +605,7 @@ struct PCBCanvasView: View {
             }
             ring = route.last
         } else {
-            ring = hoverPoint.map { TraceDrawing.anchor(document, at: $0, layer: traceLayer, scale: scale) }
+            ring = nil
         }
         if let ring {
             // Green where a release would land; a red cross where it can't.
@@ -865,6 +871,64 @@ struct PCBCanvasView: View {
         selectionPress = nil
         interaction = nil
         if document.isGestureOpen { document.endGesture() }
+    }
+}
+
+/// Where the pointer is over a PCB canvas: in board mm, and on screen.
+/// Observed, and read only by `PCBHoverLayer`.
+@MainActor @Observable
+final class BoardHover {
+    var point: CGPoint?
+    var location: CGPoint?
+
+    /// As `TraceKeyContext`'s: an isolated deinit aborts the runtime.
+    nonisolated deinit {}
+}
+
+/// What follows the pointer over the PCB canvas, drawn over it: the hovered
+/// pad's outline and its name beside the pointer, and the Trace tool's
+/// green ring where a press would land. A layer of its own, so the pointer
+/// moving redraws only this and never the board under it.
+private struct PCBHoverLayer: View {
+    let document: SchematicDocument
+    let viewport: CanvasViewport
+    let hover: BoardHover
+    /// The layers the canvas shows; a pad that isn't drawn isn't hovered.
+    let visible: BoardVisibility
+    /// False during a move, pan or box.
+    let showsPad: Bool
+    /// The Trace tool's layer while it waits for a press, else nil.
+    let ringLayer: CopperLayer?
+
+    var body: some View {
+        let scale = viewport.zoom * BoardScale.pointsPerMM
+        let offset = viewport.offset
+        let point = hover.point
+        let hovered = showsPad ? point.flatMap { document.padLabel(at: $0, visible: visible) } : nil
+        let ring = ringLayer.flatMap { layer in
+            point.map { TraceDrawing.anchor(document, at: $0, layer: layer, scale: scale) }
+        }
+        Canvas { context, _ in
+            guard hovered != nil || ring != nil else { return }
+            context.translateBy(x: offset.width, y: offset.height)
+            context.scaleBy(x: scale, y: scale)
+            if let ring {
+                let r = 6 / scale
+                context.stroke(Path(ellipseIn: CGRect(x: ring.x - r, y: ring.y - r, width: 2 * r, height: 2 * r)),
+                               with: .color(.green), lineWidth: 2 / scale)
+            }
+            if let hovered {
+                context.stroke(PCBCanvasView.outline(of: hovered.pad), with: .color(.white.opacity(0.9)),
+                               lineWidth: 1.5 / scale)
+            }
+        }
+        .overlay(alignment: .topLeading) {
+            if let hovered, let location = hover.location {
+                PadLabel(text: hovered.label)
+                    .offset(x: location.x + 14, y: location.y + 14)
+            }
+        }
+        .allowsHitTesting(false)
     }
 }
 

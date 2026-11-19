@@ -297,7 +297,7 @@ struct ParametricFootprintDraft: Equatable, Sendable {
     /// letter, columns up to the highest column number. With no usable
     /// names, a square that holds `count`.
     static func gridSize(balls: [String], count: Int) -> (rows: Int, columns: Int) {
-        let positions = balls.compactMap(position(ofBall:))
+        let positions = balls.compactMap { position(ofBall: $0) }
         guard !positions.isEmpty else {
             let side = max(Int(Double(max(count, 1)).squareRoot().rounded(.up)), 1)
             return (side, side)

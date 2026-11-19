@@ -81,9 +81,9 @@ final class RoutingSession {
                 let now = Date()
                 guard now.timeIntervalSince(last) >= 0.1 || progress.traces != nil else { return }
                 last = now
-                Task { @MainActor in self?.show(progress) }
+                Task { @MainActor [weak self] in self?.show(progress) }
             }, isCancelled: { flag.isSet })
-            await MainActor.run { self?.finish(result, problem: problem, document: document, snapshot: snapshot) }
+            await MainActor.run { [weak self] in self?.finish(result, problem: problem, document: document, snapshot: snapshot) }
         }
         return true
     }

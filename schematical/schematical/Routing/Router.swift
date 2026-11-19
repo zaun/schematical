@@ -13,6 +13,12 @@ import Foundation
 /// nothing for 3 rounds, the strategy's rounds run out, the time limit
 /// passes or the run is cancelled. Only legally stamped copper is ever in
 /// the ledger, so the result at any stop is legal.
+/// A run handed to `DispatchQueue.concurrentPerform`: the closure guards
+/// what it shares with a lock, which the compiler can't see.
+nonisolated private struct UncheckedWork: @unchecked Sendable {
+    let run: (Int) -> Void
+}
+
 nonisolated enum Router {
     /// How hard a strategy tries.
     struct Strategy: Sendable {
@@ -116,7 +122,9 @@ nonisolated enum Router {
                 if costs.count == 1 {
                     one(0)
                 } else {
-                    DispatchQueue.concurrentPerform(iterations: costs.count, execute: one)
+                    // Each run writes only its own slot, under `lock`.
+                    let work = UncheckedWork(run: one)
+                    DispatchQueue.concurrentPerform(iterations: costs.count) { work.run($0) }
                 }
                 var best: RoutingResult?
                 for case let result? in results where best.map({ Self.better(result, than: $0, strategy: strategy, pitch: problem.options.grid) }) ?? true {

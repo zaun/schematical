@@ -1,7 +1,7 @@
 import CoreGraphics
 import Foundation
 
-extension Router.Run {
+nonisolated extension Router.Run {
     /// The ledger's copper as a cleanup works on it.
     func cleanupInput() -> RoutingCleanup {
         var traces: [RoutedTrace] = [], vias: [RoutedVia] = []

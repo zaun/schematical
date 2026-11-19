@@ -40,6 +40,27 @@ final class RatsnestTests: XCTestCase {
         XCTAssertTrue(doc.ratsnest().isEmpty)
     }
 
+    /// A trace past the corner of a round pad's box does not touch the pad
+    /// (the pads of a tube sit on a circle, so traces pass them diagonally).
+    func testALinePastARoundPadsCornerDoesNotTouchIt() throws {
+        let doc = TestSupport.newDocument()
+        let tube = try TestSupport.place(doc, "IN-14", at: CGPoint(x: 100, y: 100))
+        let round = try XCTUnwrap(tube.boardPads.first { $0.designator == "2" })
+        let square = try XCTUnwrap(tube.boardPads.first { $0.designator == "1" })
+        XCTAssertEqual(round.shape, .round)
+        XCTAssertEqual(square.shape, .rect)
+        for (pad, cornerTouches) in [(round, false), (square, true)] {
+            let r = pad.rect
+            // Across the top-left corner, 10% of the pad inside its box.
+            let a = CGPoint(x: r.minX - 1, y: r.minY + 0.1 * r.height + 1 + 0.1 * r.width)
+            let b = CGPoint(x: r.minX + 0.1 * r.width + 1 + 0.1 * r.height, y: r.minY - 1)
+            XCTAssertEqual(SchematicDocument.segment(a, b, touches: pad), cornerTouches, "\(pad.shape)")
+            // Through the centre.
+            XCTAssertTrue(SchematicDocument.segment(CGPoint(x: r.minX - 1, y: r.midY),
+                                                    CGPoint(x: r.maxX + 1, y: r.midY), touches: pad))
+        }
+    }
+
     func testTraceBetweenThePadsRoutesIt() throws {
         let (doc, k, a) = try wiredPair()
         XCTAssertNotNil(doc.addTrace(from: k, to: a, layer: .top, diagonalFirst: false))

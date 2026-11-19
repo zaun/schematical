@@ -215,7 +215,7 @@ struct KindFieldsSection: View {
         guard let keys else {
             return (device, part.filter { !PartEditorForm.supplyKeys.contains($0.key) })
         }
-        let wanted = keys.compactMap(KindKey.init(qualified:))
+        let wanted = keys.compactMap { KindKey(qualified: $0) }
         func pick(_ side: KindKey.Side, _ fields: [Field]) -> [Field] {
             wanted.filter { $0.side == side }.compactMap { key in fields.first { $0.key == key.key } }
         }

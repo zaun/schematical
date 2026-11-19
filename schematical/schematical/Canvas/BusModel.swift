@@ -5,7 +5,7 @@ import Foundation
 
 /// One wire carried by a bus. Ports and wire ends refer to it by `id`; the
 /// schematic shows `name`.
-struct BusWire: Identifiable, Hashable {
+nonisolated struct BusWire: Identifiable, Hashable {
     let id: UUID
     /// Display name, 1–4 characters. Two wires of a bus may share one (the
     /// wire list warns); each is still its own net. Case sensitive: "D0"
@@ -19,7 +19,7 @@ struct BusWire: Identifiable, Hashable {
 }
 
 /// One end of a bus line.
-enum BusEnd: String, Hashable, CaseIterable {
+nonisolated enum BusEnd: String, Hashable, CaseIterable {
     case a
     case b
 
@@ -27,14 +27,14 @@ enum BusEnd: String, Hashable, CaseIterable {
 }
 
 /// A named end of a named line.
-struct BusLineEnd: Hashable {
+nonisolated struct BusLineEnd: Hashable {
     let line: UUID
     let end: BusEnd
 }
 
 /// One straight piece of a bus. Horizontal or vertical, on the grid,
 /// length > 0. Nothing lies between its two ends.
-struct BusLine: Identifiable, Hashable {
+nonisolated struct BusLine: Identifiable, Hashable {
     let id: UUID
     var a: CGPoint
     var b: CGPoint
@@ -95,7 +95,7 @@ struct BusLine: Identifiable, Hashable {
 
 /// Where two lines of one bus meet. Joints are never stored: they are worked
 /// out from where line ends touch (`Bus.joints`).
-enum BusJoint: Hashable {
+nonisolated enum BusJoint: Hashable {
     /// An L: exactly two line ends meet at a right angle.
     case corner(BusLineEnd, BusLineEnd, at: CGPoint)
     /// A T: one line's end lies strictly inside another line, at a right angle.
@@ -152,7 +152,7 @@ enum BusJoint: Hashable {
 }
 
 /// Why a bus is not valid (`Bus.problem`).
-enum BusProblem: Equatable {
+nonisolated enum BusProblem: Equatable {
     case noLines(bus: UUID)
     case notStraight(line: UUID)
     case overlap(UUID, UUID)
@@ -166,7 +166,7 @@ enum BusProblem: Equatable {
 /// PCB's card types, whose pins become its wires (`pinNames`), count and
 /// names both, until the type is Custom again. The type's settings are the
 /// board's (`CardOptions`, `CustomCard`).
-struct BusCard: Hashable {
+nonisolated struct BusCard: Hashable {
     var type: BoardType = .custom
     var cardOptions = CardOptions()
     var customCard = CustomCard()
@@ -185,7 +185,7 @@ struct BusCard: Hashable {
     }
 }
 
-struct Bus: Identifiable, Hashable {
+nonisolated struct Bus: Identifiable, Hashable {
     let id: UUID
     /// Shown in the bus editor; "BUS 1", "BUS 2", … when drawn. Unique
     /// (ignoring case); empty only until the document names it.
@@ -394,7 +394,7 @@ struct Bus: Identifiable, Hashable {
 /// A box on a bus line with one pin per ticked bus wire. Wires connect to
 /// its pins; every pin for the same bus wire, on any port of the bus, is one
 /// net.
-struct BusPort: Identifiable, Hashable {
+nonisolated struct BusPort: Identifiable, Hashable {
     let id: UUID
     /// The bus line it sits on.
     let line: UUID

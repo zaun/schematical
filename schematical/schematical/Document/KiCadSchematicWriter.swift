@@ -369,7 +369,6 @@ struct KiCadSchematicWriter {
     private func instance(of chip: PlacedChip, symbols: inout SymbolLibrary) -> String {
         let name = libraryName(of: chip)
         define(chip, name: name, in: &symbols)
-        let size = chip.layout.size
         let value: String
         if let ohms = chip.ohms {
             value = ResistorValue.text(ohms)

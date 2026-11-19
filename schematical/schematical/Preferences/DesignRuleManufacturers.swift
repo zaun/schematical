@@ -68,7 +68,7 @@ nonisolated enum DRCManufacturer: String, CaseIterable, Hashable, Sendable {
     }
 }
 
-extension DesignRules {
+nonisolated extension DesignRules {
     /// What a set uses for a value its manufacturer doesn't publish: the
     /// most conservative value published by the manufacturers here.
     enum Fallback {

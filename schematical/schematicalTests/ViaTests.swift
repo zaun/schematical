@@ -60,7 +60,7 @@ final class ViaTests: XCTestCase {
     /// Trace ends snap to a via's centre on any layer.
     func testTraceEndsSnapToVias() throws {
         let doc = TestSupport.newDocument()
-        try XCTUnwrap(doc.addVia(at: p(5.08, 5.08)))
+        _ = try XCTUnwrap(doc.addVia(at: p(5.08, 5.08)))
         for layer in [CopperLayer.top, .bottom] {
             XCTAssertEqual(doc.traceAnchor(at: p(5.3, 5.0), layer: layer, tolerance: tolerance), p(5.08, 5.08))
         }

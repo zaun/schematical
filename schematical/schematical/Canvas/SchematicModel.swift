@@ -934,21 +934,21 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
 }
 
 /// A pin on a placed chip.
-struct PinRef: Hashable {
+nonisolated struct PinRef: Hashable {
     let chipID: UUID
     /// The pin's position in its part's pinout (`ChipPin.index`).
     let index: Int
 }
 
 /// A pin on a bus port: the port, and the bus wire the pin is for.
-struct BusPinRef: Hashable {
+nonisolated struct BusPinRef: Hashable {
     let portID: UUID
     let wireID: UUID
 }
 
 /// One end of a wire: a pin on a placed part, a junction where wires meet,
 /// or a pin on a bus port.
-enum WireEnd: Hashable {
+nonisolated enum WireEnd: Hashable {
     case pin(PinRef)
     case junction(UUID)
     case busPin(BusPinRef)
@@ -958,7 +958,7 @@ enum WireEnd: Hashable {
 
 /// A grid point where wires meet. Wires that branch from a point on another
 /// wire both end here, so the point is fixed in place.
-struct Junction: Identifiable, Hashable {
+nonisolated struct Junction: Identifiable, Hashable {
     let id: UUID
     /// Moves only with a group drag (plan-15); always on the grid.
     var point: CGPoint
@@ -984,7 +984,7 @@ enum LineAnchor: Hashable {
 
 /// A wire joins two ends. Its route is the start tip, then the bends in
 /// `interior`, then the end tip. Every segment is horizontal or vertical.
-struct Wire: Identifiable, Hashable {
+nonisolated struct Wire: Identifiable, Hashable {
     let id: UUID
     var start: WireEnd
     var end: WireEnd
@@ -1255,15 +1255,44 @@ nonisolated enum OrthogonalRoute {
 @MainActor
 @Observable
 final class SchematicDocument {
-    private(set) var chips: [PlacedChip] = []
-    private(set) var wires: [Wire] = []
+    private(set) var chips: [PlacedChip] = [] {
+        didSet {
+            chipsRevision &+= 1
+            copperRevision &+= 1
+        }
+    }
+    private(set) var wires: [Wire] = [] { didSet { copperRevision &+= 1 } }
     private(set) var junctions: [Junction] = []
     /// Buses, in drawing order (plan-13). They carry no current themselves.
-    private(set) var buses: [Bus] = []
+    private(set) var buses: [Bus] = [] { didSet { copperRevision &+= 1 } }
+
+    /// Counts every change to what `connectivity()` reads (parts, wires,
+    /// buses, net labels, traces, vias, holes, board settings), so the
+    /// connectivity and ratsnest are built once per change, not once per
+    /// redraw. Observed: a view that reads only the kept result still
+    /// redraws when it goes stale.
+    private(set) var copperRevision = 0
+    /// Counts every change to `chips`, for `chipPads`.
+    @ObservationIgnored private var chipsRevision = 0
+    /// The last `connectivity()` and `ratsnest()`, and the `copperRevision`
+    /// they were built at (see Ratsnest.swift).
+    @ObservationIgnored var keptConnectivity: (revision: Int, copper: BoardConnectivity)?
+    @ObservationIgnored var keptRatsnest: (revision: Int, lines: [(CGPoint, CGPoint)])?
+    @ObservationIgnored private var keptChipPads: (revision: Int, pads: [[PlacedPad]])?
+
+    /// Each part's pads on the board (`PlacedChip.boardPads`), in `chips`
+    /// order, built once per change to the parts.
+    var chipPads: [[PlacedPad]] {
+        let chips = chips
+        if let kept = keptChipPads, kept.revision == chipsRevision { return kept.pads }
+        let pads = chips.map(\.boardPads)
+        keptChipPads = (chipsRevision, pads)
+        return pads
+    }
     /// Text blocks, in drawing order. Drawn under everything else.
     private(set) var notes: [SchematicNote] = []
     /// Net labels, in drawing order. Labels with the same name are one net.
-    private(set) var netLabels: [NetLabel] = []
+    private(set) var netLabels: [NetLabel] = [] { didSet { copperRevision &+= 1 } }
     /// A text block whose words the sidebar should start editing: one just
     /// placed, or double-clicked. The sidebar clears it. Editor state only.
     var editingNoteID: UUID?
@@ -1613,16 +1642,16 @@ final class SchematicDocument {
 
     /// The PCB's size, layers, colour and units. Changed through the edit
     /// functions, so every change is an undo step.
-    private(set) var board = BoardSettings()
+    private(set) var board = BoardSettings() { didSet { copperRevision &+= 1 } }
     /// Free texts on the PCB, in drawing order.
     private(set) var texts: [BoardText] = []
     /// Copper traces on the PCB, in drawing order (plan-16).
-    private(set) var traces: [BoardTrace] = []
+    private(set) var traces: [BoardTrace] = [] { didSet { copperRevision &+= 1 } }
     /// Vias on the PCB, in drawing order.
-    private(set) var vias: [BoardVia] = []
+    private(set) var vias: [BoardVia] = [] { didSet { copperRevision &+= 1 } }
     /// Drilled holes on the PCB (mounting holes and others), in drawing
     /// order.
-    private(set) var holes: [BoardHole] = []
+    private(set) var holes: [BoardHole] = [] { didSet { copperRevision &+= 1 } }
 
     /// Lowest number tried for the next part's reference ("U" plus a number).
     private(set) var nextReference = 1
@@ -3080,8 +3109,8 @@ final class SchematicDocument {
             return dx * dx + dy * dy <= 1
         }
         for side in [BoardSide.top, .bottom] {
-            for chip in chips.reversed() where chip.board?.side == side {
-                guard let pad = chip.boardPads.last(where: {
+            for (chip, pads) in zip(chips, chipPads).reversed() where chip.board?.side == side {
+                guard let pad = pads.last(where: {
                     $0.plated && visible.showsPad(drill: $0.drill, side: side) && hits($0)
                 }) else { continue }
                 guard let designator = pad.designator else { return (pad, "\(chip.reference) centre pad") }
@@ -3113,9 +3142,9 @@ final class SchematicDocument {
     /// The pads on `layer`, with their parts: a surface-mount pad is on its
     /// part's side layer; a through-hole pad is on every layer.
     func pads(on layer: CopperLayer) -> [(chip: PlacedChip, pad: PlacedPad)] {
-        chips.flatMap { chip -> [(chip: PlacedChip, pad: PlacedPad)] in
+        zip(chips, chipPads).flatMap { chip, pads -> [(chip: PlacedChip, pad: PlacedPad)] in
             guard let side = chip.board?.side else { return [] }
-            return chip.boardPads
+            return pads
                 .filter { $0.plated && ($0.drill > 0 || side.copperLayer == layer) }
                 .map { (chip: chip, pad: $0) }
         }

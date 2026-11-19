@@ -98,18 +98,18 @@ enum PinTableParser {
         var taken = Set<Int>()
         let cells = (0 ..< table.columnCount).map { table.cells(inColumn: $0) }
 
-        let numbers = cells.indices.filter { share(cells[$0], isNumberCell) >= 0.8 }
+        let numbers = cells.indices.filter { share(cells[$0]) { isNumberCell($0) } >= 0.8 }
         if let first = numbers.first {
             columns[first] = .number
             taken.formUnion(numbers)
-        } else if let ball = cells.indices.first(where: { share(cells[$0], isBallCell) >= 0.8 }) {
+        } else if let ball = cells.indices.first(where: { share(cells[$0]) { isBallCell($0) } >= 0.8 }) {
             // Only without a number column: pin names such as A0 … A14 look
             // like ball names.
             columns[ball] = .ball
             taken.insert(ball)
         }
         if let type = cells.indices.first(where: {
-            !taken.contains($0) && share(cells[$0], PinRoleGuesser.isTypeToken) >= 0.8
+            !taken.contains($0) && share(cells[$0]) { PinRoleGuesser.isTypeToken($0) } >= 0.8
         }) {
             columns[type] = .type
             taken.insert(type)

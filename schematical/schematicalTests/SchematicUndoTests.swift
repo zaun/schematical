@@ -78,7 +78,7 @@ final class SchematicUndoTests: XCTestCase {
         let doc = TestSupport.newDocument()
         let led = try TestSupport.place(doc, "GENERIC-LED", at: p(100, 100))
         let other = try XCTUnwrap(led.part.colors.first { $0 != led.color })
-        try assertStep(doc, "Change Color") { doc.setPartColor(led.id, other) }
+        assertStep(doc, "Change Color") { doc.setPartColor(led.id, other) }
         XCTAssertEqual(doc.undoName(on: .pcb), "Add Part", "a colour is not on the PCB list")
     }
 
@@ -86,41 +86,41 @@ final class SchematicUndoTests: XCTestCase {
         let doc = TestSupport.newDocument()
         let header = try TestSupport.place(doc, "GENERIC-HEADER-1X08", at: p(200, 200))
         let other = try XCTUnwrap(header.part.genders.first { $0 != header.gender })
-        try assertStep(doc, "Change Gender") { doc.setPartGender(header.id, other) }
+        assertStep(doc, "Change Gender") { doc.setPartGender(header.id, other) }
     }
 
     func testSetHeaderSize() throws {
         let doc = TestSupport.newDocument()
         let header = try TestSupport.place(doc, "GENERIC-HEADER-1X08", at: p(200, 200))
         let smaller = try TestSupport.part("GENERIC-HEADER-1X04")
-        try assertStep(doc, "Change Size") { doc.setHeaderSize(header.id, to: smaller) }
+        assertStep(doc, "Change Size") { doc.setHeaderSize(header.id, to: smaller) }
         XCTAssertEqual(doc.undoName(on: .pcb), "Change Size")
     }
 
     func testSetPartOhms() throws {
         let doc = TestSupport.newDocument()
         let pull = try TestSupport.place(doc, "PULLUP-5V", at: p(100, 100))
-        try assertStep(doc, "Change Resistance") { doc.setPartOhms(pull.id, 4700) }
+        assertStep(doc, "Change Resistance") { doc.setPartOhms(pull.id, 4700) }
     }
 
     func testSetPartFootprint() throws {
         let doc = TestSupport.newDocument()
         let pull = try TestSupport.place(doc, "PULLUP-5V", at: p(100, 100))
-        try assertStep(doc, "Change Footprint") { doc.setPartFootprint(pull.id, "RES-0805") }
+        assertStep(doc, "Change Footprint") { doc.setPartFootprint(pull.id, "RES-0805") }
         XCTAssertEqual(doc.undoName(on: .pcb), "Change Footprint")
     }
 
     func testRenameChip() throws {
         let doc = TestSupport.newDocument()
         let part = try TestSupport.place(doc, "SN74HC00N", at: p(200, 200))
-        try assertStep(doc, "Rename") { XCTAssertNil(doc.renameChip(part.id, prefix: "U", number: 7, page: .schematic)) }
+        assertStep(doc, "Rename") { XCTAssertNil(doc.renameChip(part.id, prefix: "U", number: 7, page: .schematic)) }
         XCTAssertEqual(doc.undoName(on: .pcb), "Rename")
     }
 
     func testRenameChipFromThePCBIsOnBoth() throws {
         let doc = TestSupport.newDocument()
         let part = try TestSupport.place(doc, "SN74HC00N", at: p(200, 200))
-        try assertStep(doc, "Rename", page: .pcb) {
+        assertStep(doc, "Rename", page: .pcb) {
             XCTAssertNil(doc.renameChip(part.id, prefix: "IC", number: 3, page: .pcb))
         }
         XCTAssertEqual(doc.undoName(on: .schematic), "Rename")
@@ -129,7 +129,7 @@ final class SchematicUndoTests: XCTestCase {
     func testFlipChip() throws {
         let doc = TestSupport.newDocument()
         let part = try TestSupport.place(doc, "SN74HC00N", at: p(200, 200))
-        try assertStep(doc, "Flip") { doc.flipChip(part.id) }
+        assertStep(doc, "Flip") { doc.flipChip(part.id) }
         XCTAssertEqual(doc.undoName(on: .pcb), "Add Part")
     }
 
@@ -137,7 +137,7 @@ final class SchematicUndoTests: XCTestCase {
         let c = try wiredPair()
         c.doc.select(.chip(c.right.id))
         let base = c.doc.schematicGroupBase()
-        try assertStep(c.doc, "Move") { c.doc.moveSchematicGroup(base, by: CGSize(width: 40, height: 60)) }
+        assertStep(c.doc, "Move") { c.doc.moveSchematicGroup(base, by: CGSize(width: 40, height: 60)) }
     }
 
     func testSettleSchematicGroup() throws {
@@ -148,49 +148,49 @@ final class SchematicUndoTests: XCTestCase {
         c.doc.toggleSelection(.wire(c.wire))
         let base = c.doc.schematicGroupBase()
         c.doc.moveSchematicGroup(base, by: CGSize(width: 40, height: 60))
-        try assertStep(c.doc, "Move") { c.doc.settleSchematicGroup(base) }
+        assertStep(c.doc, "Move") { c.doc.settleSchematicGroup(base) }
     }
 
     func testAddNote() throws {
         let doc = TestSupport.newDocument()
-        try assertStep(doc, "Add Text") { doc.addNote(at: p(100, 100)) }
+        assertStep(doc, "Add Text") { doc.addNote(at: p(100, 100)) }
     }
 
     func testSetNoteText() throws {
         let doc = TestSupport.newDocument()
         let id = doc.addNote(at: p(100, 100))
-        try assertStep(doc, "Edit Text") { doc.setNoteText(id, "Clock") }
+        assertStep(doc, "Edit Text") { doc.setNoteText(id, "Clock") }
     }
 
     func testSetNoteSize() throws {
         let doc = TestSupport.newDocument()
         let id = doc.addNote(at: p(100, 100))
-        try assertStep(doc, "Change Font Size") { doc.setNoteSize(id, 24) }
+        assertStep(doc, "Change Font Size") { doc.setNoteSize(id, 24) }
     }
 
     func testSetNoteFramed() throws {
         let doc = TestSupport.newDocument()
         let id = doc.addNote(at: p(100, 100))
-        try assertStep(doc, "Change Frame") { doc.setNoteFramed(id, false) }
+        assertStep(doc, "Change Frame") { doc.setNoteFramed(id, false) }
     }
 
     func testDeleteNote() throws {
         let doc = TestSupport.newDocument()
         let id = doc.addNote(at: p(100, 100))
-        try assertStep(doc, "Delete Text") { doc.deleteNote(id) }
+        assertStep(doc, "Delete Text") { doc.deleteNote(id) }
     }
 
     func testSetMemoryFile() throws {
         let doc = TestSupport.newDocument()
         let eeprom = try TestSupport.place(doc, "AT28C256-15PU", at: p(300, 300))
         let memory = MemoryFile(url: URL(fileURLWithPath: "/tmp/rom.bin"), bookmark: nil)
-        try assertStep(doc, "Change Load File") { doc.setMemoryFile(eeprom.id, memory) }
+        assertStep(doc, "Change Load File") { doc.setMemoryFile(eeprom.id, memory) }
     }
 
     func testToggleSwitch() throws {
         let doc = TestSupport.newDocument()
         let dip = try TestSupport.place(doc, try TestSupport.firstDip().name, at: p(200, 200))
-        try assertStep(doc, "Flip Switch") { XCTAssertEqual(doc.toggleSwitch(dip.id, position: 1), true) }
+        assertStep(doc, "Flip Switch") { XCTAssertEqual(doc.toggleSwitch(dip.id, position: 1), true) }
     }
 
     func testConnect() throws {
@@ -207,21 +207,21 @@ final class SchematicUndoTests: XCTestCase {
         c.doc.select(.chip(c.right.id))
         c.doc.toggleSelection(.wire(c.wire))
         c.doc.moveSchematicGroup(c.doc.schematicGroupBase(), by: CGSize(width: 40, height: 60))
-        try assertStep(c.doc, "Move") { c.doc.settleWires(attachedTo: c.right.id) }
+        assertStep(c.doc, "Move") { c.doc.settleWires(attachedTo: c.right.id) }
     }
 
     func testSettleWiresAttachedToPort() throws {
         let c = try busCircuit()
         let start = try XCTUnwrap(c.doc.port(c.port)?.port.start)
         XCTAssertTrue(c.doc.slidePort(c.port, to: start - 50))
-        try assertStep(c.doc, "Move") { c.doc.settleWires(attachedToPort: c.port) }
+        assertStep(c.doc, "Move") { c.doc.settleWires(attachedToPort: c.port) }
     }
 
     func testSettleWiresAttachedToBus() throws {
         let c = try busCircuit()
         let start = try XCTUnwrap(c.doc.port(c.port)?.port.start)
         XCTAssertTrue(c.doc.slidePort(c.port, to: start - 50))
-        try assertStep(c.doc, "Move") { c.doc.settleWires(attachedToBus: c.bus) }
+        assertStep(c.doc, "Move") { c.doc.settleWires(attachedToBus: c.bus) }
     }
 
     func testAdoptLooseEnds() throws {
@@ -232,7 +232,7 @@ final class SchematicUndoTests: XCTestCase {
         let new = try TestSupport.place(c.doc, "SN74HC00N", at: p(500, 600))
         c.doc.select(.chip(new.id))
         c.doc.moveSchematicGroup(c.doc.schematicGroupBase(), by: CGSize(width: 0, height: -400))
-        try assertStep(c.doc, "Connect") { c.doc.adoptLooseEnds(chips: [new.id]) }
+        assertStep(c.doc, "Connect") { c.doc.adoptLooseEnds(chips: [new.id]) }
         XCTAssertFalse(c.doc.hasLooseEnd(try XCTUnwrap(c.doc.wires.first)))
     }
 
@@ -242,54 +242,54 @@ final class SchematicUndoTests: XCTestCase {
         let start = try XCTUnwrap(path.first), end = try XCTUnwrap(path.last)
         let detour = [start, p(start.x + 20, start.y), p(start.x + 20, start.y + 80), p(end.x - 20, start.y + 80),
                       p(end.x - 20, end.y), end]
-        try assertStep(c.doc, "Move Wire") { c.doc.setWirePath(c.wire, detour) }
+        assertStep(c.doc, "Move Wire") { c.doc.setWirePath(c.wire, detour) }
     }
 
     func testInsertNode() throws {
         let c = try wiredPair()
         let path = c.doc.path(forWire: c.wire)
         let a = path[0], b = path[1]
-        try assertStep(c.doc, "Add Bend") { c.doc.insertNode(at: p((a.x + b.x) / 2, (a.y + b.y) / 2)) }
+        assertStep(c.doc, "Add Bend") { c.doc.insertNode(at: p((a.x + b.x) / 2, (a.y + b.y) / 2)) }
     }
 
     func testAddBusFromTo() throws {
         let doc = TestSupport.newDocument()
-        try assertStep(doc, "Add Bus") { XCTAssertNotNil(doc.addBus(from: p(100, 100), to: p(300, 100))) }
+        assertStep(doc, "Add Bus") { XCTAssertNotNil(doc.addBus(from: p(100, 100), to: p(300, 100))) }
     }
 
     func testAddBusCandidates() throws {
         let doc = TestSupport.newDocument()
-        try assertStep(doc, "Add Bus") { XCTAssertNotNil(doc.addBus(candidates: [[p(100, 100), p(300, 100)]])) }
+        assertStep(doc, "Add Bus") { XCTAssertNotNil(doc.addBus(candidates: [[p(100, 100), p(300, 100)]])) }
     }
 
     func testSetBusWireCount() throws {
         let c = try busCircuit()
         let count = try XCTUnwrap(c.doc.bus(c.bus)?.wires.count)
-        try assertStep(c.doc, "Change Bus Width") { XCTAssertNil(c.doc.setBusWireCount(c.bus, count + 2)) }
+        assertStep(c.doc, "Change Bus Width") { XCTAssertNil(c.doc.setBusWireCount(c.bus, count + 2)) }
     }
 
     func testRenameBusWire() throws {
         let c = try busCircuit()
         let wire = try XCTUnwrap(c.doc.bus(c.bus)?.wires.last?.id)
-        try assertStep(c.doc, "Rename Bus Wire") { XCTAssertNil(c.doc.renameBusWire(bus: c.bus, wire: wire, to: "X9")) }
+        assertStep(c.doc, "Rename Bus Wire") { XCTAssertNil(c.doc.renameBusWire(bus: c.bus, wire: wire, to: "X9")) }
     }
 
     func testAddPort() throws {
         let doc = TestSupport.newDocument()
         XCTAssertNotNil(doc.addBus(from: p(100, 100), to: p(300, 100)))
-        try assertStep(doc, "Add Port") { XCTAssertNil(doc.addPort(at: p(200, 100))) }
+        assertStep(doc, "Add Port") { XCTAssertNil(doc.addPort(at: p(200, 100))) }
     }
 
     func testSetPortWires() throws {
         let c = try busCircuit()
         let wires = try XCTUnwrap(c.doc.bus(c.bus)?.wires.prefix(2).map(\.id))
-        try assertStep(c.doc, "Change Port Pins") { XCTAssertNil(c.doc.setPortWires(c.port, Set(wires))) }
+        assertStep(c.doc, "Change Port Pins") { XCTAssertNil(c.doc.setPortWires(c.port, Set(wires))) }
     }
 
     func testRequestPortWires() throws {
         let c = try busCircuit()
         let wires = try XCTUnwrap(c.doc.bus(c.bus)?.wires.prefix(3).map(\.id))
-        try assertStep(c.doc, "Change Port Pins") { XCTAssertNil(c.doc.requestPortWires(c.port, Set(wires))) }
+        assertStep(c.doc, "Change Port Pins") { XCTAssertNil(c.doc.requestPortWires(c.port, Set(wires))) }
     }
 
     func testSetPortSide() throws {
@@ -297,19 +297,19 @@ final class SchematicUndoTests: XCTestCase {
         let (bus, port) = try XCTUnwrap(c.doc.port(c.port))
         let line = try XCTUnwrap(bus.line(port.line))
         let other = try XCTUnwrap(BusPort.sides(for: line).first { $0 != port.side })
-        try assertStep(c.doc, "Change Port Side") { XCTAssertNil(c.doc.setPortSide(c.port, other)) }
+        assertStep(c.doc, "Change Port Side") { XCTAssertNil(c.doc.setPortSide(c.port, other)) }
     }
 
     func testSlidePortTo() throws {
         let c = try busCircuit()
         let start = try XCTUnwrap(c.doc.port(c.port)?.port.start)
-        try assertStep(c.doc, "Move Port") { XCTAssertTrue(c.doc.slidePort(c.port, to: start - 50)) }
+        assertStep(c.doc, "Move Port") { XCTAssertTrue(c.doc.slidePort(c.port, to: start - 50)) }
     }
 
     func testSlidePortBy() throws {
         let c = try busCircuit()
         let start = try XCTUnwrap(c.doc.port(c.port)?.port.start)
-        try assertStep(c.doc, "Move Port") { c.doc.slidePort(c.port, from: start, by: -50) }
+        assertStep(c.doc, "Move Port") { c.doc.slidePort(c.port, from: start, by: -50) }
     }
 
     private func shifted(_ lines: [BusLine], by offset: CGSize) -> [BusLine] {
@@ -325,14 +325,14 @@ final class SchematicUndoTests: XCTestCase {
         let doc = TestSupport.newDocument()
         let bus = try XCTUnwrap(doc.addBus(from: p(100, 100), to: p(300, 100)))
         let lines = try XCTUnwrap(doc.bus(bus)?.lines)
-        try assertStep(doc, "Move Bus") { XCTAssertTrue(doc.setBusLines(bus, shifted(lines, by: CGSize(width: 0, height: 40)))) }
+        assertStep(doc, "Move Bus") { XCTAssertTrue(doc.setBusLines(bus, shifted(lines, by: CGSize(width: 0, height: 40)))) }
     }
 
     func testDragBus() throws {
         let doc = TestSupport.newDocument()
         let bus = try XCTUnwrap(doc.addBus(from: p(100, 100), to: p(300, 100)))
         let lines = try XCTUnwrap(doc.bus(bus)?.lines)
-        try assertStep(doc, "Move Bus") {
+        assertStep(doc, "Move Bus") {
             let reached = doc.dragBus(bus, from: .zero, to: CGSize(width: 0, height: 40)) { self.shifted(lines, by: $0) }
             XCTAssertEqual(reached, CGSize(width: 0, height: 40))
         }
@@ -344,13 +344,13 @@ final class SchematicUndoTests: XCTestCase {
         let body = try XCTUnwrap(c.doc.bus(c.bus)?.body(of: port))
         c.doc.erase(at: CGPoint(x: body.midX, y: body.midY))
         XCTAssertNotNil(c.doc.pendingRemoval)
-        try assertStep(c.doc, "Delete") { c.doc.confirmPendingRemoval() }
+        assertStep(c.doc, "Delete") { c.doc.confirmPendingRemoval() }
         XCTAssertNotEqual(c.doc.undoName(on: .pcb), "Delete", "ports are Schematic only")
     }
 
     func testEraseAPart() throws {
         let c = try wiredPair()
-        try assertStep(c.doc, "Delete") { c.doc.erase(at: centre(c.right)) }
+        assertStep(c.doc, "Delete") { c.doc.erase(at: centre(c.right)) }
         XCTAssertEqual(c.doc.undoName(on: .pcb), "Delete")
         // Undone from the PCB, it leaves the Schematic list too.
         XCTAssertTrue(c.doc.undo(on: .pcb))
@@ -362,7 +362,7 @@ final class SchematicUndoTests: XCTestCase {
         let c = try wiredPair()
         let path = c.doc.path(forWire: c.wire)
         let a = path[0], b = path[1]
-        try assertStep(c.doc, "Delete") { c.doc.erase(at: p((a.x + b.x) / 2, (a.y + b.y) / 2)) }
+        assertStep(c.doc, "Delete") { c.doc.erase(at: p((a.x + b.x) / 2, (a.y + b.y) / 2)) }
         XCTAssertEqual(c.doc.undoName(on: .pcb), "Add Part")
     }
 

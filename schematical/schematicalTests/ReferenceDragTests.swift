@@ -80,8 +80,8 @@ final class ReferenceDragTests: XCTestCase {
 
     func testDragMovesOnlyTheReference() throws {
         let c = try twoParts()
-        c.doc.pressSelection(.footprint(c.a), shift: false)
-        c.doc.pressSelection(.footprint(c.b), shift: true)
+        _ = c.doc.pressSelection(.footprint(c.a), shift: false)
+        _ = c.doc.pressSelection(.footprint(c.b), shift: true)
         let beforeA = try XCTUnwrap(try chip(c.doc, c.a).board)
         let beforeB = try XCTUnwrap(try chip(c.doc, c.b).board)
         let from = try centre(c.doc, c.a)
@@ -114,7 +114,7 @@ final class ReferenceDragTests: XCTestCase {
         XCTAssertNotNil(ReferenceDragging.press(c.doc, at: try centre(c.doc, c.a), scale: scale, visible: BoardVisibility()))
         XCTAssertEqual(c.doc.boardSelection.items, [.footprint(c.a)])
 
-        c.doc.pressSelection(.footprint(c.b), shift: true)
+        _ = c.doc.pressSelection(.footprint(c.b), shift: true)
         XCTAssertEqual(c.doc.boardSelection.items, [.footprint(c.a), .footprint(c.b)])
         XCTAssertNotNil(ReferenceDragging.press(c.doc, at: try centre(c.doc, c.a), scale: scale, visible: BoardVisibility()))
         XCTAssertEqual(c.doc.boardSelection.items, [.footprint(c.a), .footprint(c.b)])

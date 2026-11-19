@@ -16,7 +16,13 @@ extension SchematicDocument {
     /// that isn't added yet: it counts as copper, and a group it is in is
     /// reached only from its last point, so the line follows the cursor.
     func ratsnest(drawing: BoardTrace? = nil) -> [(CGPoint, CGPoint)] {
-        ratsnest(in: connectivity(drawing: drawing), drawing: drawing)
+        guard drawing == nil else { return ratsnest(in: connectivity(drawing: drawing), drawing: drawing) }
+        // Kept until the copper or the schematic changes (`copperRevision`).
+        let revision = copperRevision
+        if let kept = keptRatsnest, kept.revision == revision { return kept.lines }
+        let lines = ratsnest(in: connectivity())
+        keptRatsnest = (revision, lines)
+        return lines
     }
 
     /// The unrouted lines of `copper` (built with `drawing`), of every net
@@ -43,8 +49,24 @@ extension SchematicDocument {
     /// `drawing`, a trace not added yet, counts as the last trace. Traces
     /// and vias in `excludingTraces` / `excludingVias` are left out, as if
     /// deleted (the router's view after clearing copper).
+    ///
+    /// The plain call (nothing drawn, nothing left out) is built once per
+    /// change to the copper or the schematic (`copperRevision`) and kept:
+    /// the canvas and the sidebar ask for it on every redraw.
     func connectivity(drawing: BoardTrace? = nil, excludingTraces: Set<UUID> = [],
                       excludingVias: Set<UUID> = []) -> BoardConnectivity {
+        guard drawing == nil, excludingTraces.isEmpty, excludingVias.isEmpty else {
+            return buildConnectivity(drawing: drawing, excludingTraces: excludingTraces, excludingVias: excludingVias)
+        }
+        let revision = copperRevision
+        if let kept = keptConnectivity, kept.revision == revision { return kept.copper }
+        let copper = buildConnectivity(drawing: nil, excludingTraces: [], excludingVias: [])
+        keptConnectivity = (revision, copper)
+        return copper
+    }
+
+    private func buildConnectivity(drawing: BoardTrace?, excludingTraces: Set<UUID>,
+                                   excludingVias: Set<UUID>) -> BoardConnectivity {
         let traces = excludingTraces.isEmpty ? self.traces : self.traces.filter { !excludingTraces.contains($0.id) }
         let vias = excludingVias.isEmpty ? self.vias : self.vias.filter { !excludingVias.contains($0.id) }
         let netlist = NetlistBuilder.build(chips: chips, wires: wires, buses: buses, labels: netLabels)
@@ -73,9 +95,10 @@ extension SchematicDocument {
         typealias Pad = BoardConnectivity.Pad
         var pads: [Pad] = []
         var padsOfPin: [String: [Int]] = [:]
+        let chipPads = chipPads
         for (index, chip) in chips.enumerated() {
             guard let side = chip.board?.side else { continue }
-            for pad in chip.boardPads {
+            for pad in chipPads[index] {
                 if let designator = pad.designator {
                     padsOfPin["\(index)/\(designator)", default: []].append(pads.count)
                 }
@@ -124,30 +147,77 @@ extension SchematicDocument {
         }
         // A trace joins the pads it touches on its layer, and the traces it
         // shares a point with there.
+        // The pads and every trace segment are sorted into a coarse grid, so
+        // each trace and via is tested only against the copper near it.
+        // What touches is found first and joined after, in index order (the
+        // order of the joins decides the roots, and so the ratsnest's ties).
+        let segments = copper.map(\.segments)
+        func code(_ layer: CopperLayer) -> Int {
+            switch layer {
+            case .top: 1
+            case let .inner(place): place
+            case .bottom: 100
+            }
+        }
+        let layers = copper.map { code($0.layer) }
+        let padBoxes = pads.map { PointBox($0.pad.rect) }
+        // A plated through-hole pad is on every layer; a plated
+        // surface-mount pad on its side's; a non-plated hole on none.
+        let padThrough = pads.map { $0.pad.plated && $0.pad.drill > 0 }
+        let padLayer = pads.map { $0.pad.plated ? code($0.side.copperLayer) : -2 }
+        let padGrid = BoxGrid(padBoxes)
+        var segmentTrace: [Int] = [], segmentEnds: [(CGPoint, CGPoint)] = []
+        for (t, list) in segments.enumerated() {
+            for ends in list {
+                segmentTrace.append(t)
+                segmentEnds.append(ends)
+            }
+        }
+        let segmentGrid = BoxGrid(segmentEnds.map { PointBox($0.0, $0.1) })
+        let widest = copper.map(\.widthMM).max() ?? 0
+
+        // Two traces on one layer meet where a point of one is on a segment
+        // of the other: `meets[t]` is the later traces trace t meets.
+        var meets: [[Int]] = Array(repeating: [], count: copper.count)
         for (t, trace) in copper.enumerated() {
-            let node = pads.count + t
-            for (p, pad) in pads.enumerated()
-            where pad.pad.plated && (pad.pad.drill > 0 || pad.side.copperLayer == trace.layer) {
-                if trace.segments.contains(where: { Self.segment($0.0, $0.1, touches: pad.pad.rect) }) {
-                    union(node, p)
+            for point in trace.points {
+                for s in segmentGrid.near(PointBox(point, point), within: 1e-3) {
+                    let other = segmentTrace[s]
+                    guard other != t, layers[other] == layers[t],
+                          Self.distance(from: point, toSegment: segmentEnds[s].0, segmentEnds[s].1) < 1e-4 else { continue }
+                    meets[min(t, other)].append(max(t, other))
                 }
             }
-            for (o, other) in copper.enumerated().dropFirst(t + 1) where other.layer == trace.layer {
-                if Self.meet(trace, other) { union(node, pads.count + o) }
+        }
+        for t in copper.indices {
+            let node = pads.count + t
+            let layer = layers[t]
+            var touched: [Int] = []
+            for (a, b) in segments[t] {
+                let box = PointBox(a, b)
+                for p in padGrid.near(box, within: 1e-6)
+                where (padThrough[p] || padLayer[p] == layer) && box.reaches(padBoxes[p], within: 1e-6) {
+                    if Self.segment(a, b, touches: pads[p].pad) { touched.append(p) }
+                }
             }
+            for p in Set(touched).sorted() { union(node, p) }
+            for other in Set(meets[t]).sorted() { union(node, pads.count + other) }
         }
 
         // A via goes through every layer: it joins every trace that touches
         // its metal and every pad its metal overlaps.
         for (v, via) in vias.enumerated() {
             let node = viaBase + v
-            for (t, trace) in copper.enumerated() where trace.segments.contains(where: {
-                Self.distance(from: via.centre, toSegment: $0.0, $0.1) <= via.diameter / 2 + trace.widthMM / 2
-            }) {
-                union(node, pads.count + t)
+            let centre = PointBox(via.centre, via.centre)
+            var touched: [Int] = []
+            for s in segmentGrid.near(centre, within: via.diameter / 2 + widest / 2 + 1e-3) {
+                let t = segmentTrace[s]
+                if Self.distance(from: via.centre, toSegment: segmentEnds[s].0, segmentEnds[s].1)
+                    <= via.diameter / 2 + copper[t].widthMM / 2 { touched.append(t) }
             }
-            for (p, pad) in pads.enumerated() where Self.circle(via.centre, via.diameter / 2, meets: pad.pad.rect) {
-                union(node, p)
+            for t in Set(touched).sorted() { union(node, pads.count + t) }
+            for p in padGrid.near(centre, within: via.diameter / 2 + 1e-3) {
+                if Self.circle(via.centre, via.diameter / 2, meets: pads[p].pad.rect) { union(node, p) }
             }
         }
 
@@ -184,7 +254,7 @@ extension SchematicDocument {
         for (index, chip) in chips.enumerated() {
             guard case let .supply(_, mv, true) = chip.part.details else { continue }
             let pins = Set(chip.part.pins.map(\.designator))
-            for pad in chip.boardPads {
+            for pad in chipPads[index] {
                 guard let designator = pad.designator, !pins.contains(designator) else { continue }
                 if railNet[mv] == nil {
                     railNet[mv] = nextNet
@@ -201,7 +271,7 @@ extension SchematicDocument {
         var names = BoardConnectivity(pads: [], traces: [], vias: [], root: [], netOfPad: [:])
         names.railNets = railNet.mapValues(merged)
         for (index, chip) in chips.enumerated() {
-            for pad in chip.boardPads {
+            for pad in chipPads[index] {
                 guard let designator = pad.designator, let first = padsOfPin["\(index)/\(designator)"]?.first,
                       let net = netOfPad[first] else { continue }
                 names.pinNets["\(chip.id.uuidString)/\(designator)"] = net
@@ -328,20 +398,22 @@ extension SchematicDocument {
     }
 
     /// Whether a circle meets a rectangle.
+    /// Whether a trace's centre line a-b reaches a pad's copper: its box, or
+    /// for a round pad its ellipse (a line past the corner of a round pad's
+    /// box does not touch the pad).
+    static func segment(_ a: CGPoint, _ b: CGPoint, touches pad: PlacedPad) -> Bool {
+        guard segment(a, b, touches: pad.rect) else { return false }
+        guard pad.shape == .round, pad.rect.width > 0, pad.rect.height > 0 else { return true }
+        // Scaled so the ellipse is the unit circle.
+        func unit(_ p: CGPoint) -> CGPoint {
+            CGPoint(x: (p.x - pad.rect.midX) / (pad.rect.width / 2), y: (p.y - pad.rect.midY) / (pad.rect.height / 2))
+        }
+        return distance(from: .zero, toSegment: unit(a), unit(b)) <= 1
+    }
+
     static func circle(_ centre: CGPoint, _ radius: CGFloat, meets rect: CGRect) -> Bool {
         let x = min(max(centre.x, rect.minX), rect.maxX), y = min(max(centre.y, rect.minY), rect.maxY)
         return hypot(centre.x - x, centre.y - y) <= radius
-    }
-
-    /// Whether two traces on one layer meet: a point of one on a segment
-    /// of the other.
-    private static func meet(_ a: BoardTrace, _ b: BoardTrace) -> Bool {
-        func touches(_ points: [CGPoint], _ trace: BoardTrace) -> Bool {
-            points.contains { point in
-                trace.segments.contains { distance(from: point, toSegment: $0.0, $0.1) < 1e-4 }
-            }
-        }
-        return touches(a.points, b) || touches(b.points, a)
     }
 
     /// Prim's tree over groups of points: a group's distance to another is
@@ -358,22 +430,107 @@ extension SchematicDocument {
             }
             return best
         }
-        var inTree = [0]
+        // Each group still outside the tree keeps its shortest line to the
+        // tree, and only the group just added is measured against it. A tie
+        // stays with the group that joined the tree first, then the group
+        // first in `groups`, so the lines are the same every run.
         var rest = Array(groups.indices.dropFirst())
+        var nearest = rest.map { closest(groups[0], groups[$0]) }
         var lines: [(CGPoint, CGPoint)] = []
         while !rest.isEmpty {
-            var best: (index: Int, line: (CGPoint, CGPoint, CGFloat))?
-            for (i, g) in rest.enumerated() {
-                for t in inTree {
-                    let line = closest(groups[t], groups[g])
-                    if line.2 < best?.line.2 ?? .infinity { best = (i, line) }
-                }
-            }
+            var best: Int?
+            for i in rest.indices where nearest[i].2 < (best.map { nearest[$0].2 } ?? .infinity) { best = i }
             guard let best else { break }
-            lines.append((best.line.0, best.line.1))
-            inTree.append(rest.remove(at: best.index))
+            lines.append((nearest[best].0, nearest[best].1))
+            let added = rest.remove(at: best)
+            nearest.remove(at: best)
+            for i in rest.indices {
+                let line = closest(groups[added], groups[rest[i]])
+                if line.2 < nearest[i].2 { nearest[i] = line }
+            }
         }
         return lines
+    }
+}
+
+/// A box round a pad or a trace segment, for ruling out copper too far
+/// away to touch it before the exact tests.
+nonisolated struct PointBox {
+    var minX: CGFloat, minY: CGFloat, maxX: CGFloat, maxY: CGFloat
+
+    init(minX: CGFloat, minY: CGFloat, maxX: CGFloat, maxY: CGFloat) {
+        (self.minX, self.minY, self.maxX, self.maxY) = (minX, minY, maxX, maxY)
+    }
+
+    /// The box round a segment.
+    init(_ a: CGPoint, _ b: CGPoint) {
+        self.init(minX: min(a.x, b.x), minY: min(a.y, b.y), maxX: max(a.x, b.x), maxY: max(a.y, b.y))
+    }
+
+    init(_ rect: CGRect) {
+        self.init(minX: rect.minX, minY: rect.minY, maxX: rect.maxX, maxY: rect.maxY)
+    }
+
+    /// Whether `other` comes within `distance` of this box, edges included.
+    func reaches(_ other: PointBox, within distance: CGFloat) -> Bool {
+        other.minX <= maxX + distance && other.maxX >= minX - distance
+            && other.minY <= maxY + distance && other.maxY >= minY - distance
+    }
+
+}
+
+/// Boxes sorted into a coarse grid over the area they cover, to find the
+/// ones near another box without looking at them all.
+nonisolated struct BoxGrid {
+    private static let side = 32
+    private let originX: CGFloat, originY: CGFloat, cellWidth: CGFloat, cellHeight: CGFloat
+    /// The indices of the boxes touching each cell, ascending.
+    private var cells: [[Int]]
+
+    init(_ boxes: [PointBox]) {
+        var all = boxes.first ?? PointBox(minX: 0, minY: 0, maxX: 0, maxY: 0)
+        for box in boxes {
+            all.minX = min(all.minX, box.minX); all.maxX = max(all.maxX, box.maxX)
+            all.minY = min(all.minY, box.minY); all.maxY = max(all.maxY, box.maxY)
+        }
+        originX = all.minX
+        originY = all.minY
+        cellWidth = max((all.maxX - all.minX) / CGFloat(Self.side), 1e-3)
+        cellHeight = max((all.maxY - all.minY) / CGFloat(Self.side), 1e-3)
+        cells = Array(repeating: [], count: Self.side * Self.side)
+        for (index, box) in boxes.enumerated() {
+            let span = span(of: box, within: 0)
+            for row in span.rows {
+                for column in span.columns { cells[row * Self.side + column].append(index) }
+            }
+        }
+    }
+
+    /// The cells a box grown by `distance` covers. A box off the grid
+    /// lands in the edge cells, the same way for a stored box and a
+    /// search, so boxes that overlap always share a cell.
+    private func span(of box: PointBox, within distance: CGFloat) -> (columns: ClosedRange<Int>, rows: ClosedRange<Int>) {
+        func cell(_ value: CGFloat) -> Int { Int(min(max(value.rounded(.down), 0), CGFloat(Self.side - 1))) }
+        return (cell((box.minX - distance - originX) / cellWidth)...cell((box.maxX + distance - originX) / cellWidth),
+                cell((box.minY - distance - originY) / cellHeight)...cell((box.maxY + distance - originY) / cellHeight))
+    }
+
+    /// The indices of every stored box that might come within `distance`
+    /// of `box` (and some that don't), ascending, each once.
+    func near(_ box: PointBox, within distance: CGFloat) -> [Int] {
+        let span = span(of: box, within: distance)
+        if span.columns.count == 1, span.rows.count == 1 {
+            return cells[span.rows.lowerBound * Self.side + span.columns.lowerBound]
+        }
+        var found: [Int] = []
+        for row in span.rows {
+            for column in span.columns { found += cells[row * Self.side + column] }
+        }
+        found.sort()
+        var unique: [Int] = []
+        unique.reserveCapacity(found.count)
+        for index in found where unique.last != index { unique.append(index) }
+        return unique
     }
 }
 

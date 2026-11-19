@@ -48,10 +48,10 @@ final class AutorouteModel {
         var id: String { name }
     }
 
-    static let notFoundReason = "no legal way found"
+    nonisolated static let notFoundReason = "no legal way found"
     /// For a net the run left unrouted because it stopped early (Stop, or
     /// out of time), not because the router looked and found no way.
-    static let stoppedReason = "run stopped first"
+    nonisolated static let stoppedReason = "run stopped first"
 
     /// Why `outcome` is unrouted: the router's own reason, else an
     /// impossible net's, else the run stopping, else "no legal way found".
