@@ -29,7 +29,8 @@ is [format.md](format.md); this page is the procedure.
 3. **Write the file**, following format.md: front matter, the `##`
    sections in order, spec tables, `pins`, generated `pinout` / `package`
    / `ordering` blocks (one `package` block per footprint the claimed
-   parts use), and § Source fidelity. Model it on
+   parts use; one `ordering` line per claimed part in the PDF's ordering
+   table, copied from that part's own row), and § Source fidelity. Model it on
    `planning/spike-datasheet-format/samples/sn74hc00.md`.
 4. **Figures.** Use only the shared figures in the figures folder, with
    their parameters as `key: value` body lines:
@@ -49,13 +50,18 @@ is [format.md](format.md); this page is the procedure.
    the values in a small table or a sentence next to the figure.
 5. **Check.** Both must pass:
    - `python3 -I planning/spike-datasheet-format/check.py --quiet <file>`:
-     `ok` (warnings about size or repeated anchors are acceptable).
+     `ok`.
    - `python3 -I planning/spike-datasheet-format/validate.py --max 0 <file>`:
-     no errors. Read every warning of kind numbers, rows, registers,
-     waveforms, notes, and prose "negation differs" / "obligation
-     differs", and fix what is wrong. Values the text layer doesn't hold
-     go under `Derived:` or `From images:` in Conversion notes, checked on
-     the page image.
+     **0 errors**. Every error names the line and the PDF page and text
+     it compared with; fix the file (or, for a source problem, label it
+     as § Source fidelity says). Never silence an error by rewording
+     around it: a value the text layer doesn't hold goes under
+     `Derived:` or `From images:` in Conversion notes after you checked
+     it on the page image, and a sentence of your own gets
+     `Conversion note:`.
+   - Then compare the **to check by eye** items the validator lists
+     (waveforms, curves, picture pages, a scanned datasheet's tables)
+     with the page images. They are the only part a person still does.
 6. **Register** the file: add `"md"` to the id's entry in
    `datasheets.json`.
 

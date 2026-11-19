@@ -2,34 +2,36 @@
 """Validate a converted datasheet against its source PDF, without an agent.
 
 check.py says whether a file follows the format. This script says whether
-its content matches the PDF it came from. It reads the PDF's text layer
-with pdftotext (and OCRs pages that have none, with tesseract), then runs
-these checks:
+its content matches the PDF it came from. It reads the PDF's text with
+pdftotext (and OCRs pages that have none, with tesseract), every word with
+its position on the page (pdftotext -bbox-layout) and the list of pictures
+(pdfimages), then runs these checks:
 
-  numbers     Every number and hex value in the file must appear in the PDF.
-  rows        Every table row must have a match in the PDF: the row's
-              values must sit on the same PDF line (or within two lines) as
-              the row's words. In spec tables a miss is an error.
-  terms       Identifiers (register, bit, pin and symbol names, anything
-              with a digit or inner capitals) must appear in the PDF.
-  prose       Each sentence, list item, table note and long table cell is
-              matched to the closest PDF sentence. A weak match is reported
-              for review; so is a sentence whose negation ("not", "no") or
-              obligation ("must", "shall") differs from that PDF sentence.
-  notes       Every table note in the PDF ("[1] ...", "Notes: 1. ...") on
-              a converted page must be carried into the file.
-  pages       Converted PDF pages where most numbers are missing from the
-              file are reported (dropped content).
-  registers   In a register map with Bit 7 .. Bit 0 and Reset columns,
-              fixed 0/1 bits must agree with the reset value.
-  waveforms   Edges must join defined nodes; a node must sit on a
-              transition; a data bus must not be driven while its active-low
-              output enable has been high for two columns.
-  visual      Waveforms, curves and figures can't be checked from text;
-              each is listed with the PDF page it most likely came from.
+  numbers     Every number and hex value in the file is in the PDF.
+  terms       Identifiers (names with a digit or inner capitals) are in the PDF.
+  rows        A table row's values are next to the row's words in the PDF;
+              a function-table row is a row of the PDF.
+  cells       Each spec-table row is placed on the PDF line that holds its
+              values and compared there: the header each value is under
+              (Min/Typ/Max), the order, the sign, the unit, the symbol, the
+              condition numbers, and values or rows the file lacks.
+  coverage    Every row of a PDF table with Min/Typ/Max headers is in the file.
+  ordering    Each ordering line against its row of the PDF's ordering table.
+  catalog     The catalog's obsolete flags and pin counts against that table.
+  frontmatter source.pages, source.document, source.date, packages.
+  pages       The page ranges Conversion notes give.
+  figures     A shared figure's parameters are printed in the PDF.
+  prose       Each sentence is matched to the closest PDF passage: its words,
+              its numbers, its negation ("not") and obligation ("must").
+  notes       Every table note of the PDF on a converted page is in the file.
+  registers   A register map's fixed bits agree with its reset value.
+  waveforms   Edges join defined nodes on transitions; a bus is not driven
+              while its output enable is off.
 
-Errors are facts that don't match; warnings need a person to look.
-The exit status is 1 when any file has errors.
+Everything the script can decide is an error. What it can't decide (a
+waveform's shape, a curve, a scanned page) it lists as "to check by eye".
+There are no warnings. format.md § Validator describes each check; mutate.py
+tests them by planting mistakes. The exit status is 1 when any file has errors.
 
 Usage: python3 -I validate.py [--quiet] [--info] [--max N] [--json]
                               [--ocr auto|off|force] [--cache DIR] files...
@@ -37,7 +39,9 @@ Usage: python3 -I validate.py [--quiet] [--info] [--max N] [--json]
 
 import argparse
 import collections
+import fnmatch
 import hashlib
+import html
 import json
 import math
 import os
@@ -54,6 +58,7 @@ REPO = os.path.normpath(os.path.join(HERE, "..", ".."))
 DATASHEETS_DIR = os.path.join(REPO, "datasheets")
 
 PROSE_MIN = 0.6        # weighted share of a sentence's words found in one PDF passage
+PROSE_ORDER = 0.8      # share of a sentence's words that follow the order of that passage
 PROSE_LOW = 0.35       # below this a sentence is "not found", above it "reworded"
 ROW_TEXT_MIN = 0.5     # share of a row's words found next to its values
 NOTE_MIN = 0.5         # share of a PDF note's words found in one place in the file
@@ -61,6 +66,7 @@ PAGE_MIN = 0.4         # share of a page's numbers found in the file
 SKIP_SECTIONS = {"conversion notes"}
 SKIP_BLOCKS = {"pinout", "package", "ordering"}
 VALUE_COLS = {"min", "typ", "nom", "max", "value"}
+NAMED_COLS = {"symbol", "parameter", "conditions", "test conditions", "from", "to", "unit"} | VALUE_COLS
 
 STOP = set("""a an and are as at be been by can for from has have if in into is it its
 of on or that the their then there these this to was were which while will with
@@ -80,7 +86,7 @@ HEX_RE = re.compile(r"^0x([0-9a-f]+)$")
 HEX_H_RE = re.compile(r"^([0-9a-f]+)h$")
 BARE_HEX_RE = re.compile(r"^[0-9a-f]{1,8}$")
 MARK_RE = re.compile(r"(?<![\w\\])\[(\d+)\]")
-ISSUE_RE = re.compile(r"\b(Source conflict|Source error|Unconfirmed)\b")
+ISSUE_RE = re.compile(r"\b(Source conflict|Source error|Unconfirmed|Conversion note)\b")
 DASHES = {ord(c): "-" for c in "‐‑‒–—−"}
 QUOTES = {ord(c): "'" for c in "‘’‛′"}
 QUOTES.update({ord(c): '"' for c in "“”"})
@@ -89,7 +95,7 @@ QUOTES.update({ord(c): '"' for c in "“”"})
 # ---------------------------------------------------------------- text
 
 def norm(s):
-    s = unicodedata.normalize("NFKC", s).translate(DASHES).translate(QUOTES).lower()
+    s = unicodedata.normalize("NFKC", s).translate(DASHES).translate(QUOTES).replace("∆", "Δ").lower()
     s = s.replace("n't", " not").replace("cannot", "can not")
     return s
 
@@ -128,6 +134,10 @@ def tokens(s):
         if HEX_H_RE.match(t) and t[0].isdigit():
             out.append(t)          # 19h stays a hex value
             continue
+        m = re.fullmatch(r"(to)(\d+(?:\.\d+)?)", t)
+        if m:
+            out += ["to", canon_num(m.group(2))]        # "to125°C": a lost space
+            continue
         m = NUM_UNIT_RE.match(t) or NAME_NUM_RE.match(t)
         if m:
             a, b = m.group(1), m.group(2)
@@ -153,6 +163,20 @@ def md_plain(s):
     s = s.replace("~", "").replace("**", "").replace("`", "").replace("\\", "")
     s = re.sub(r"(?<!\w)\*|\*(?!\w)", "", s)
     return s
+
+
+ABBREV_RE = re.compile(r"(?:^|[\s(])(e\.g|i\.e|vs|fig|no|typ|min|max|approx|etc)\.$", re.I)
+
+
+def md_sentences(text):
+    """The sentences of a paragraph: split after . ! ? before a letter, not after an abbreviation."""
+    out = []
+    for piece in re.split(r"(?<=[.!?])\s+(?=[A-Za-z(!])", text):
+        if out and ABBREV_RE.search(out[-1]):
+            out[-1] += " " + piece
+        else:
+            out.append(piece)
+    return out
 
 
 def clip(s, n=110):
@@ -229,6 +253,9 @@ class Source:
                 for t in set(toks):
                     self.line_post[t].append(lid)
                 self.vocab.update(toks)
+                self.vocab.update(a + b for a, b in zip(toks, toks[1:]) if not is_num(a) and not is_num(b))
+                self.vocab.update(a + b + c for a, b, c in zip(toks, toks[1:], toks[2:])
+                                  if not (is_num(a) or is_num(b) or is_num(c)) and len(a + b + c) <= 12)
                 nums.update(t for t in toks if is_num(t))
             self.page_nums.append(nums)
         # reading-order sentences, for prose
@@ -236,15 +263,17 @@ class Source:
         self.sent_post = collections.defaultdict(list)
         for pi, (raw, _, _) in enumerate(pages):
             raw = self.fix(raw)
-            raw = re.sub(r"(\w)-\n\s*(\w)", r"\1\2", raw)
+            raw = re.sub(r"([a-z])-\n\s*([a-z])", r"\1\2", raw)
             for para in re.split(r"\n\s*\n", raw):
                 para = re.sub(r"\s+", " ", para)
-                for s in re.split(r"(?<=[.!?;:])\s+(?=[A-Z(\[•])|\s+•\s+", para):
+                for s in re.split(r"(?<=[.!?;:])\s+(?=[A-Z(\[•])|\s+•\s+|\s+(?=\(\d+\)\s+[A-Z])"
+                                  r"|\s+(?=\d+(?:\.\d+)+\s+[A-Z][a-z])|(?<=[a-z])\s+(?=\d+(?:\.\d+)+\s+[A-Z])"
+                                  r"|\s+(?=[†‡§¶]\s*[A-Z])", para):
                     toks = set(content(tokens(norm(s))))
                     if not toks:
                         continue
                     sid = len(self.sents)
-                    self.sents.append((pi + 1, s, toks))
+                    self.sents.append((pi + 1, s, toks, content(tokens(norm(s)))))
                     for t in toks:
                         self.sent_post[t].append(sid)
                     self.vocab.update(toks)
@@ -263,11 +292,15 @@ class Source:
             for m in re.finditer(r"(?<![\w.])([0-9A-Fa-f]{1,8})[hH]?(?![\w.])", lay):
                 self.hexes.add(canon_hex(m.group(1).lower()))
         self.nsent = max(1, len(self.sents))
+        self.micro = any("µ" in raw or "μ" in raw for raw, _, _ in pages)
+        self.page_toks = [set() for _ in pages]
+        for page, _, toks in self.lines:
+            self.page_toks[page - 1].update(toks)
 
     @staticmethod
     def fix(text):
         # I²C with a lost superscript prints as "I C".
-        return re.sub(r"\bI C\b", "I2C", text)
+        return re.sub(r"\bI C\b", "I2C", text).replace("#none#", "")
 
     def has(self, t):
         if t.startswith("0x"):
@@ -302,6 +335,25 @@ class Source:
             sid = best[1]
             best = (best[0], max((k for k in (sid - 1, sid, sid + 1) if 0 <= k < len(self.sents)),
                                  key=lambda k: sum(weight.get(t, 0) for t in toks & self.sents[k][2])))
+        return best
+
+    def best_lines(self, toks):
+        """Share of these words found within five layout lines of one place, and that line's id."""
+        toks = set(toks)
+        known = sorted((t for t in toks if t in self.line_post), key=lambda t: len(self.line_post[t]))
+        best = (0.0, None)
+        weight = {t: self.idf(t) for t in toks}
+        total = sum(weight.values()) or 1.0
+        for t in known[:3]:
+            for lid in self.line_post[t][:400]:
+                page = self.lines[lid][0]
+                win = set()
+                for k in range(lid - 2, lid + 3):
+                    if 0 <= k < len(self.lines) and self.lines[k][0] == page:
+                        win.update(self.lines[k][2])
+                score = sum(weight[x] for x in toks & win) / total
+                if score > best[0]:
+                    best = (score, lid)
         return best
 
     def absorb(self, words, missing):
@@ -396,7 +448,14 @@ class Doc:
         self.blocks = []     # (line, kind, attrs, body)
         self.terms = []      # (line, plain text) every text that carries facts
         self.converted_pages = None
+        self.fences = []     # (line, kind, attrs, body, section) every fenced block
+        self.prose = []      # (line, section, text) every line outside the blocks
+        self.section = ""
         self.derived = set()     # numbers listed under "Derived" in Conversion notes
+        self.known = set()       # every token listed there, and the catalog's pin names
+        self.row_text = {}       # (line, cell text) -> its whole table row
+        self.pin_units = set()   # the units that are pin descriptions (several source rows in one line)
+        self.issue_nums = set()  # numbers quoted in a labelled remark (Source error, Unconfirmed, …)
         self.in_derived = False
         section = ""
         para, para_line = [], 0
@@ -404,7 +463,7 @@ class Doc:
 
         def flush():
             if para and section.lower() not in SKIP_SECTIONS:
-                self.add_text(para_line, " ".join(para))
+                self.add_text(para_line, " ".join(para), [len(p) + 1 for p in para])
             para.clear()
 
         while i < len(lines):
@@ -415,10 +474,14 @@ class Doc:
                 j = i + 1
                 while j < len(lines) and lines[j].strip() != "```":
                     j += 1
+                self.section = section
                 if section.lower() not in SKIP_SECTIONS:
                     self.add_block(i + 1, kind, attrs, lines[i + 1:j])
+                self.fences.append((i + 1, kind, attrs, lines[i + 1:j], section))
                 i = j + 1
                 continue
+            if line.strip() and not line.startswith("#"):
+                self.prose.append((i + 1, section, line))
             if line.startswith("#"):
                 flush()
                 if line.startswith("## "):
@@ -439,6 +502,7 @@ class Doc:
                     vals = re.sub(r"\b(p|pp|page|pages|figure|figures|fig|table|tables|section|chapter)\.?\s*[\d.–-]+(?:\s*(?:and|,)\s*[\d.–-]+)*",
                                   " ", md_plain(line), flags=re.I)
                     self.derived.update(t for t in tokens(norm(vals)) if is_num(t))
+                    self.known.update(tokens(norm(vals)))
                 else:
                     self.in_derived = False
                 m = re.search(r"\b[Pp]ages? ([\d\s,–-]+(?:(?:and|plus)\s+[\d\s,–-]+)*)\s*converted", re.sub(r"\([^)]*\)", "", line))
@@ -450,12 +514,27 @@ class Doc:
             i += 1
         flush()
 
-    def add_text(self, line, text):
-        plain = re.sub(r"(?<![\w.])\d{1,3}(?: \d{3})+(?:\.\d+)?(?![\d.])", lambda m: m.group(0).replace(" ", ""), md_plain(text))
-        self.terms.append((line, plain))
-        for s in re.split(r"(?<=[.!?;])\s+(?=[A-Z(!])", plain):
+    def add_text(self, line, text, widths=None):
+        if ISSUE_RE.search(text):
+            self.issue_nums.update(t for t in tokens(norm(md_plain(text))) if is_num(t))
+        """`widths`: the length of each source line of `text` (joined with
+        spaces), so every sentence gets the line it starts on."""
+        group = lambda t: re.sub(r"(?<![\w.])\d{1,3}(?: \d{3})+(?:\.\d+)?(?![\d.])",
+                                 lambda m: m.group(0).replace(" ", ""), t)
+        self.terms.append((line, group(md_plain(text))))
+        pos = 0
+        for s in md_sentences(text):
+            at, k, acc = line, 0, 0
+            for k, w in enumerate(widths or ()):
+                if pos < acc + w:
+                    break
+                acc += w
+            at = line + k if widths else line
+            pos += len(s) + 1
+            if re.fullmatch(r"\s*(See|Refer to) \[[^\]]+\]\(#[^)]+\)\.?\s*", s):
+                continue          # a link to another section of the file
             if s.strip():
-                self.units.append((line, s))
+                self.units.append((at, group(md_plain(s))))
 
     def add_block(self, line, kind, attrs, body):
         if kind in SKIP_BLOCKS:
@@ -467,7 +546,9 @@ class Doc:
                 names, _, desc = b.partition(":")
                 self.terms.append((line + 1 + k, md_plain(names)))
                 if desc.strip():
+                    before = len(self.units)
                     self.add_text(line + 1 + k, desc.strip())
+                    self.pin_units.update(self.units[before:])
         elif kind == "equation":
             for k, b in enumerate(body):
                 self.terms.append((line + 1 + k, md_plain(b)))
@@ -486,6 +567,9 @@ class Doc:
         header = [c for _, c in rows[:delim]]
         names = [md_plain(re.sub(MARK_RE, "", c)).strip().lower() for c in header[-1]] if header else []
         allnames = {md_plain(c).strip().lower() for h in header for c in h}
+        # notes that are the converter's (Source error: …): a cell carrying such a marker was corrected
+        own_notes = {m.group(1) for n in body[k:] for m in [re.match(r"^\[(\d+)\]\s+(.*)", n.strip())]
+                     if m and ISSUE_RE.search(m.group(2))}
         data, above = [], {}
         for ln, cells in rows[delim + 1:]:
             if len(cells) > 1 and all(c == "<" for c in cells[1:]):
@@ -498,9 +582,13 @@ class Doc:
                 full.append("" if c == "<" else c)
             data.append((ln, full))
             self.terms.append((ln, " ".join(md_plain(c) for c in full)))
-            for c in full:
+            for n, c in enumerate(full):
+                if cells[n] in ("^", "<") or set(MARK_RE.findall(c)) & own_notes:
+                    continue      # said once on the row above; or corrected, with a labelled note
                 if len(c.split()) >= 4:
-                    self.units.append((ln, md_plain(c)))
+                    plain = md_plain(MARK_RE.sub("", c))
+                    self.units.append((ln, plain))
+                    self.row_text[(ln, plain)] = md_plain(" ".join(full))
         for n in body[k:]:
             if re.match(r"^\[\d+\]\s+\S", n.strip()):
                 ln = line + 1 + body.index(n)
@@ -509,7 +597,32 @@ class Doc:
             if attrs.get(key):
                 self.terms.append((line, md_plain(attrs[key])))
         spec = "unit" in allnames and bool(allnames & VALUE_COLS)
-        self.tables.append({"line": line, "attrs": attrs, "names": names, "rows": data, "spec": spec})
+        # column names through the header's merges, and the value columns
+        cols = []
+        for c in range(len(header[-1]) if header else 0):
+            name = ""
+            for cells in reversed(header):
+                v, cc = (cells[c] if c < len(cells) else ""), c
+                if v == "^":
+                    continue
+                while v == "<" and cc > 0:
+                    cc -= 1
+                    v = cells[cc]
+                name = v
+                break
+            cols.append(md_plain(MARK_RE.sub("", name)).strip().lower())
+        if "values" in attrs:
+            vcols = [c for c, n in enumerate(cols) if c > 0 and n not in NAMED_COLS]
+        else:
+            vcols = [c for c, n in enumerate(cols) if n in VALUE_COLS]
+            if not vcols and "unit" in cols and self.section == "Thermal information":
+                vcols = [c for c, n in enumerate(cols) if c > 0 and n not in NAMED_COLS]
+        raw = [(ln, cells) for ln, cells in rows[delim + 1:]]
+        notes = [n.strip() for n in body[k:] if re.match(r"^\[\d+\]\s+\S", n.strip())]
+        self.tables.append({"line": line, "attrs": attrs, "names": names, "rows": data, "spec": spec,
+                            "own_notes": own_notes,
+                            "cols": cols, "vcols": vcols, "raw": raw, "header": header, "notes": notes,
+                            "section": self.section})
 
 
 # ---------------------------------------------------------------- checks
@@ -518,9 +631,16 @@ class Report:
     def __init__(self, path):
         self.path = path
         self.items = []      # (severity, check, line, message)
+        self.scanned = False # the converted pages are scans (no text layer)
         self.stats = collections.OrderedDict()
 
     def add(self, sev, check, line, msg):
+        """sev: "error" (the file and the PDF disagree), "manual" (this script
+        can't decide it: a person compares), "info"."""
+        if sev == "soft":          # an error, unless the page is a scan the script reads by OCR
+            sev = "manual" if self.scanned else "error"
+            if sev == "manual":
+                msg += " [scanned source: check by eye]"
         self.items.append((sev, check, line, msg))
 
     def count(self, sev):
@@ -531,6 +651,7 @@ def check_numbers_terms(doc, src, rep):
     seen_num, seen_term = set(), set()
     n_num = n_num_ok = n_term = n_term_ok = 0
     for line, plain in doc.terms:
+        labelled = bool(ISSUE_RE.search(plain))       # the converter's own remark: its numbers count, its words don't
         for raw in TOKEN_RE.findall(unicodedata.normalize("NFKC", plain)):
             low = raw.lower()
             if re.fullmatch(r"0x[0-9a-fx]*x[0-9a-fx]*", low) and "x" in low[2:]:
@@ -542,16 +663,18 @@ def check_numbers_terms(doc, src, rep):
                         n_num_ok += 1
                     elif (t, line) not in seen_num:
                         seen_num.add((t, line))
-                        rep.add("error", "numbers", line, "%s is not in the source PDF" % raw)
+                        rep.add("soft", "numbers", line, "%s is not in the source PDF (a value calculated or read from "
+                                "a drawing goes under Derived or From images in Conversion notes)" % raw)
                 elif re.search(r"\d", t) or re.search(r"[a-z][A-Z]|[A-Z]{2}", raw):
                     if len(t) < 2:
                         continue
                     n_term += 1
-                    if src.has(t):
+                    if src.has(t) or t in doc.known or labelled:
                         n_term_ok += 1
                     elif t not in seen_term:
                         seen_term.add(t)
-                        rep.add("warning", "terms", line, '"%s" is not in the source PDF' % raw)
+                        rep.add("soft", "terms", line, '"%s" is not in the source PDF (a name read from a drawing '
+                                'goes under From images in Conversion notes)' % raw)
     rep.stats["numbers found"] = (n_num_ok, n_num)
     rep.stats["terms found"] = (n_term_ok, n_term)
 
@@ -589,8 +712,7 @@ def check_rows(doc, src, rep):
             if lid is not None:
                 near = " Closest: p.%d \"%s\"" % (src.lines[lid][0], clip(src.lines[lid][1]))
             if missing:
-                sev = "error" if t["spec"] else "warning"
-                rep.add(sev, "rows", line, "values %s are not next to this row's text in the source.%s"
+                rep.add("soft", "rows", line, "values %s are not next to this row's text in the source.%s"
                         % (", ".join(missing), near))
             elif w_share < ROW_TEXT_MIN and len([x for x in toks if not is_num(x)]) >= 2:
                 rep.add("info", "rows", line, "row text not found with its values (%.0f%%).%s"
@@ -598,6 +720,37 @@ def check_rows(doc, src, rep):
             else:
                 ok += 1
     rep.stats["rows matched"] = (ok, total)
+
+
+def lcs(a, b):
+    """Length of the longest common subsequence of two token lists."""
+    prev = [0] * (len(b) + 1)
+    for x in a:
+        cur = [0]
+        for j, y in enumerate(b):
+            cur.append(prev[j] + 1 if x == y else max(prev[j + 1], cur[j]))
+        prev = cur
+    return prev[-1]
+
+
+def matched_stretch(mine, theirs):
+    """The stretch of a source sentence (a token list) that a file sentence
+    matches: the window, a half longer than the file's sentence, that holds
+    the most of its words. The PDF's "sentences" run notes and headings
+    together, so a "not" outside that stretch is another sentence's."""
+    size = len(mine) + max(3, len(mine) // 2)
+    want = collections.Counter(mine)
+    best, top = theirs, -1
+    for start in range(len(theirs) - size + 1):
+        win = theirs[start:start + size]
+        hit = sum((want & collections.Counter(win)).values())
+        while win and win[0] not in want:
+            win = win[1:]
+        while win and win[-1] not in want:
+            win = win[:-1]
+        if hit > top or (hit == top and len(win) < len(best)):
+            best, top = win, hit
+    return best
 
 
 def check_prose(doc, src, rep):
@@ -609,27 +762,73 @@ def check_prose(doc, src, rep):
         if len(set(toks)) < 3:
             continue
         total += 1
+        if all(t in doc.known for t in toks):
+            ok += 1
+            continue          # quoted under From images: read from a picture, checked by a person
+        if (line, text) in doc.row_text:
+            # a table cell: the PDF sets it in sub-columns and wrapped lines, so it is matched by place
+            if not src.micro:
+                toks = [t.replace("μ", "m") for t in toks]      # a text layer without µ prints it as m
+            score, lid = src.best_lines(toks)
+            if score < PROSE_MIN:
+                rep.add("soft", "prose", line, "cell text is not printed in one place of the source (%.0f%% of its words "
+                        "are within five lines of the closest place%s). Text: \"%s\""
+                        % (100 * score, ", p.%d \"%s\"" % (src.lines[lid][0], clip(src.lines[lid][1], 80)) if lid is not None else "",
+                           clip(text, 90)))
+            else:
+                ok += 1
+            continue
         score, sid = src.best_passage(toks)
         near = ""
         if sid is not None:
             near = " Closest: p.%d \"%s\"" % (src.sents[sid][0], clip(src.sents[sid][1], 140))
         if score < PROSE_MIN:
-            sev, what = ("warning", "not found in") if score < PROSE_LOW else ("info", "reworded from")
-            rep.add(sev, "prose", line, "%s the source (%.0f%%).%s Text: \"%s\""
+            what = "not found in" if score < PROSE_LOW else "reworded from"
+            rep.add("soft", "prose", line, "%s the source (%.0f%% of its words are in the closest passage): use the "
+                    "source's words, or mark the converter's own remark \"Conversion note:\".%s Text: \"%s\""
                     % (what, 100 * score, near, clip(text, 90)))
             continue
         ok += 1
-        mine = set(tokens(norm(text)))
-        theirs = set(tokens(norm(src.sents[sid][1])))
-        mc, tc = set(content(list(mine))), set(content(list(theirs)))
+        window, ordered = set(), []
+        for k in (sid - 1, sid, sid + 1):
+            if 0 <= k < len(src.sents) and src.sents[k][0] == src.sents[sid][0]:
+                window |= src.sents[k][2]
+                ordered += src.sents[k][3]
+        if (line, text) not in doc.pin_units:
+            seq = lcs(toks, ordered) / len(toks)
+            if seq < PROSE_ORDER:
+                rep.add("soft", "prose", line, "reworded: only %.0f%% of its words follow the order of the source passage "
+                        "(joined, reordered or added words): write the source's sentences, shortened only by deleting.%s "
+                        "Text: \"%s\"" % (100 * seq, near, clip(text, 90)))
+                continue
+        lost = [t for t in toks if is_num(t) and t not in window and t not in doc.derived
+                and not (t.isdigit() and int(t) < 10)]
+        if lost:
+            wide = set()
+            for k in range(sid - 3, sid + 4):
+                if 0 <= k < len(src.sents) and src.sents[k][0] == src.sents[sid][0]:
+                    wide |= src.sents[k][2]
+            lost = [t for t in lost if t not in wide]
+            if lost:
+                rep.add("soft", "prose", line, "%s is not in the source passage this sentence matches.%s"
+                        % (", ".join(sorted(set(lost))), near))
+        mine_list = tokens(norm(text))
+        mine = set(mine_list)
+        theirs = matched_stretch(mine_list, tokens(norm(src.sents[sid][1])))
+        if (line, text) in doc.row_text:          # a table cell: the row's other cells may hold the "no"
+            around = set(tokens(norm(doc.row_text[(line, text)])))
+            mine_list = mine_list + [t for t in around if t in NEG or t in OBLIGE]
+            mine = set(mine_list)
+        mc, tc = set(content(mine_list)), set(content(theirs))
         if score < 0.75 or not tc or len(mc & tc) / len(tc) < 0.5:
             continue
-        if bool(mine & NEG) != bool(theirs & NEG):
-            which = "the source negates it" if theirs & NEG else "the source does not negate it"
-            rep.add("warning", "prose", line, "negation differs: %s.%s" % (which, near))
-        elif bool(mine & OBLIGE) != bool(theirs & OBLIGE):
-            which = "the source makes it a requirement" if theirs & OBLIGE else "the source doesn't say must"
-            rep.add("warning", "prose", line, "obligation differs: %s.%s" % (which, near))
+        count = lambda words, toks: sum(t in words for t in toks)
+        if count(NEG, mine_list) != count(NEG, theirs):
+            rep.add("soft", "prose", line, "negation differs: the source passage has %d of not/no/never, this sentence %d.%s"
+                    % (count(NEG, theirs), count(NEG, mine_list), near))
+        elif bool(mine & OBLIGE) != bool(set(theirs) & OBLIGE):
+            which = "the source makes it a requirement" if set(theirs) & OBLIGE else "the source doesn't say must"
+            rep.add("soft", "prose", line, "obligation differs: %s.%s" % (which, near))
     rep.stats["prose supported"] = (ok, total)
 
 
@@ -641,6 +840,9 @@ def source_notes(src, pages):
             continue
         s = text.strip()
         m = (re.match(r"^\[(\d+)\]\s+(\S.{8,})", s)                                # [1] text
+             or (text.startswith(s) or len(text) - len(text.lstrip()) < 12) and (
+                 re.match(r"^\((\d+)\)\s+([A-Z].{12,})", s)                               # (1) Text, at the left margin
+                 or re.match(r"^()[†‡§¶]\s*([A-Z].{12,})", s))                               # † Text
              or re.match(r"^notes?\s*(\d+)\s*:\s*(\S.{8,})", s, re.I)                 # Note 2: text
              or re.match(r"^notes?\s*:?\s+(\d+)[.)]\s+(\S.{8,})", s, re.I)            # Note: 1. text
              or re.match(r"^notes?\s*:\s+()([^\d\s].{8,})", s, re.I)                    # Note: text
@@ -673,6 +875,12 @@ def check_notes(doc, src, rep):
     for page, text in source_notes(src, doc.converted_pages):
         if re.match(r"^\s*(see|refer to)\b", text, re.I) and len(text) < 120:
             continue          # a cross-reference, not a fact
+        text = re.split(r"\s+(?:Figure|Table) \d", text)[0]
+        if re.search(r"page numbers for previous revisions|this symbol is in accordance with|"
+                     r"for more information about traditional and new thermal metrics|"
+                     r"\bI = Input\b|^Signal Types|package option addendum|www\.ti\.com|"
+                     r"for all available packages|component qualification in accordance with", text, re.I):
+            continue          # revision-history, logic-symbol and thermal-report boilerplate
         toks = set(content(tokens(norm(text))))
         if len(toks) < 3:
             continue
@@ -681,7 +889,7 @@ def check_notes(doc, src, rep):
         tot = sum(weight.values())
         best = max((sum(weight[t] for t in toks & u) / tot for u in md_units), default=0)
         if best < NOTE_MIN:
-            rep.add("warning", "notes", 0, "source note on p.%d is not in the file: \"%s\"" % (page, clip(text, 120)))
+            rep.add("soft", "notes", 0, "source note on p.%d is not in the file: \"%s\"" % (page, clip(text, 120)))
         else:
             ok += 1
     rep.stats["source notes carried"] = (ok, total)
@@ -701,7 +909,7 @@ def check_pages(doc, src, rep):
             if share < PAGE_MIN:
                 low.append("%d (%.0f%%)" % (p, 100 * share))
     if low:
-        rep.add("warning", "pages", 0, "few of these pages' numbers are in the file: " + ", ".join(low))
+        rep.add("info", "pages", 0, "few of these pages' numbers are in the file: " + ", ".join(low))
 
 
 def check_registers(doc, rep):
@@ -786,7 +994,7 @@ def check_waveform(rep, line, attrs, body, src):
             if i >= len(trans):
                 rep.add("error", "waveforms", line, 'node %s on %s is past the end of the wave' % (c, s["name"]))
             elif not trans[i]:
-                rep.add("warning", "waveforms", line, 'node %s on %s (column %d) is not on a transition'
+                rep.add("error", "waveforms", line, 'node %s on %s (column %d) is not on a transition'
                         % (c, s["name"], i))
     for e in wd.get("edge", []):
         m = re.match(r"^\s*([A-Za-z])\s*[-~|<>]+\s*([A-Za-z])\s*(.*)$", e)
@@ -797,7 +1005,7 @@ def check_waveform(rep, line, attrs, body, src):
                 rep.add("error", "waveforms", line, 'edge "%s" uses node %s, which no signal defines' % (e, n))
         label = m.group(3).strip()
         if label and not all(src.has(t) for t in tokens(norm(label)) if len(t) > 1):
-            rep.add("warning", "waveforms", line, 'edge label "%s" is not in the source PDF' % label)
+            rep.add("soft", "waveforms", line, 'edge label "%s" is not in the source PDF' % label)
     # A data bus must not be driven while its output enable is off.
     oe = [s for s in sigs if active_low(s["name"], "oe") or active_low(s["name"], "g")]
     we = [s for s in sigs if active_low(s["name"], "we") or active_low(s["name"], "w")]
@@ -842,8 +1050,1260 @@ def check_blocks(doc, src, rep):
             check_waveform(rep, line, attrs, body, src)
         if kind in ("wavedrom", "curve") or (kind == "figure" and "src" in attrs):
             page = guess_page(src, md_plain(attrs.get("caption", "")))
-            rep.add("info", "visual", line, "%s %s: compare by eye with the source%s"
+            rep.add("manual", "visual", line, "%s %s: compare by eye with the source%s"
                     % (kind, attrs.get("id", ""), " (likely p.%d)" % page if page else ""))
+
+
+# ---------------------------------------------------------------- positions
+
+WORD_RE = re.compile(r'<word xMin="([\d.]+)" yMin="([\d.]+)" xMax="([\d.]+)" yMax="([\d.]+)">(.*?)</word>')
+PNUM_RE = re.compile(r"(?<![A-Za-z0-9.])(?<![A-Za-z0-9][-/])([±+-]?)(\d+(?:\.\d+)?|\.\d+)(?!\d)(°[CFK](?:/[A-Za-z]{1,2})?|%|[^\W\d_]{0,5}(?:/[^\W\d_]{1,3})?)?")
+HEAD_WORDS = {"min": "min", "typ": "typ", "nom": "nom", "max": "max", "minimum": "min", "typical": "typ",
+              "maximum": "max", "nominal": "nom"}
+HEAD_RE = re.compile(r"^(MIN|TYP|NOM|MAX|VALUE|Min|Typ|Nom|Max)\.?(?:\(\d+\)|[†‡§¶*#]|\d)?$")
+LINE_TOL = 4.6         # words whose tops are this close share a line (subscripts sit 3.4 pt lower)
+JOIN_GAP = 0.6         # words this close are one word (a symbol and its subscript)
+SIGN_GAP = 7.0         # a lone dash this close before a number is its sign
+REF_WORDS = {"note", "notes", "figure", "figures", "fig", "table", "section", "see", "page", "and", "through"}
+
+
+def load_words(pdf, cache):
+    """Per page, the words of the text layer with their boxes: [x0, y0, x1, y1, text]."""
+    with open(pdf, "rb") as f:
+        digest = hashlib.sha1(f.read()).hexdigest()
+    path = os.path.join(cache, "%s-words.json" % digest)
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    out = run(["pdftotext", "-enc", "UTF-8", "-bbox-layout", pdf, "-"])
+    pages = [[[float(a), float(b), float(c), float(d), html.unescape(t)] for a, b, c, d, t in WORD_RE.findall(chunk)]
+             for chunk in out.split("<page ")[1:]]
+    os.makedirs(cache, exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(pages, f)
+    return pages
+
+
+def unit_norm(u):
+    u = unicodedata.normalize("NFKC", md_plain(u)).replace(" ", "").lower()
+    u = u.replace("α", "a")       # a Greek alpha set for the A of µA
+    return u.replace("μ", "u").replace("µ", "u").replace("ω", "ohm").replace("Ω", "ohm").replace("°", "")
+
+
+class PLine:
+    """One line of a PDF page: its words left to right, and the numbers in them."""
+    __slots__ = ("page", "y", "words", "nums", "toks", "text", "index")
+
+    def __init__(self, page, y, words):
+        self.page, self.y = page, y
+        merged = []
+        for x0, x1, text in sorted(words):
+            if merged and x0 - merged[-1][1] <= JOIN_GAP:
+                merged[-1] = [merged[-1][0], max(x1, merged[-1][1]), merged[-1][2] + text]
+            else:
+                merged.append([x0, x1, text])
+        self.words = merged
+        self.text = " ".join(w[2] for w in merged)
+        self.toks = set()
+        self.nums = []          # (x0, x1, canonical number, sign, unit suffix, word index)
+        sign, prev_num_x1 = None, None
+        for wi, (x0, x1, text) in enumerate(merged):
+            t = unicodedata.normalize("NFKC", text).translate(DASHES)
+            self.toks.update(tokens(norm(text)))
+            if wi and len(merged[wi - 1][2]) <= 2:
+                self.toks.update(tokens(norm(merged[wi - 1][2] + text)))     # "R θJA" is RθJA
+            if t in ("-", "±", "+"):
+                ranged = t == "-" and prev_num_x1 is not None and x0 - prev_num_x1 <= SIGN_GAP
+                sign = None if ranged else (t, x1)
+                continue
+            t = re.sub(r"\(\d{1,2}\)", "", t)
+            t = re.sub(r"(\d),(\d{3})(?!\d)", r"\1\2", t)
+            first = True
+            for m in PNUM_RE.finditer(t):
+                s = m.group(1)
+                if first and not s and m.start() == 0 and sign and x0 - sign[1] <= SIGN_GAP:
+                    s = sign[0]
+                if s == "-" and m.start() > 0 and t[m.start() - 1] in ")":
+                    s = ""
+                if not s and m.start() > 0 and t[m.start() - 1] in "\"'`^*":
+                    s = None          # a glyph the text layer lost (± printed as a quote mark)
+                first = False
+                v = m.group(2)
+                self.nums.append((x0, x1, canon_num("0" + v if v.startswith(".") else v),
+                                  "" if s == "+" else s, m.group(3) or "", wi))
+                if m.end() < len(t) and t[m.end():m.end() + 1] in "\"'`^*" and s == "":
+                    self.nums[-1] = self.nums[-1][:3] + (None,) + self.nums[-1][4:]
+            sign = None
+            prev_num_x1 = x1 if re.search(r"\d\W*$", t) or re.search(r"\d[^\W\d_]{0,3}$", t) else None
+
+    def ref_nums(self):
+        """Word indexes of numbers that are references (Note 1, Figure 3), not values."""
+        out = set()
+        for wi, (_, _, text) in enumerate(self.words):
+            if wi and re.sub(r"\W", "", self.words[wi - 1][2]).lower() in REF_WORDS:
+                out.add(wi)
+        return out
+
+
+def scan_pages(pdf, cache):
+    """Pages that are a scanned image (a picture of at least 1.5 megapixels):
+    their text layer, if any, is OCR and can't be trusted for tables."""
+    with open(pdf, "rb") as f:
+        digest = hashlib.sha1(f.read()).hexdigest()
+    path = os.path.join(cache, "%s-scans.json" % digest)
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    pages = set()
+    if shutil.which("pdfimages"):
+        for row in run(["pdfimages", "-list", pdf]).split("\n")[2:]:
+            f = row.split()
+            if len(f) > 4 and f[0].isdigit() and f[3].isdigit() and f[4].isdigit() and int(f[3]) * int(f[4]) >= 1500000:
+                pages.add(int(f[0]))
+    os.makedirs(cache, exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(sorted(pages), f)
+    return sorted(pages)
+
+
+class Positions:
+    """The PDF's text layer by position: lines, numbers with their x ranges,
+    and the Min/Typ/Max and Unit headers above them."""
+
+    def __init__(self, pages):
+        self.npages = len(pages)
+        self.micro = any("µ" in w[4] or "μ" in w[4] for words in pages for w in words)
+        self.lines = []                 # every PLine, in page and y order
+        self.page_lines = []            # page -> its PLines
+        self.num_post = collections.defaultdict(list)       # number -> line indexes
+        for pi, words in enumerate(pages):
+            rows = []
+            words = self.join_subscripts(words)
+            for x0, y0, x1, y1, text in sorted(words, key=lambda w: (w[1], w[0])):
+                if not text.strip():
+                    continue
+                if rows and y0 - rows[-1][0] <= LINE_TOL:
+                    rows[-1][1].append((x0, x1, text))
+                else:
+                    rows.append([y0, [(x0, x1, text)]])
+            pl = []
+            for y, ws in rows:
+                line = PLine(pi + 1, y, ws)
+                line.index = len(self.lines)
+                self.lines.append(line)
+                pl.append(line)
+                for n in {n[2] for n in line.nums}:
+                    self.num_post[n].append(line.index)
+            self.page_lines.append(pl)
+
+    @staticmethod
+    def join_subscripts(words):
+        """Older PDFs set a subscript as a smaller word a few points lower
+        ("I" then "CC"), too low to share its line. Join each to the word it
+        hangs on, so I_CC reads "ICC" and doesn't start a line of its own."""
+        words = [list(w) for w in words if w[4].strip()]
+        if not words:
+            return words
+        words.sort(key=lambda w: (w[0], w[1]))
+        by_end = collections.defaultdict(list)      # rounded right edge -> words ending there
+        gone = set()
+        for i, w in enumerate(words):
+            if True:
+                base = None
+                for key in (round(w[0]) - 1, round(w[0]), round(w[0]) + 1):
+                    for j in by_end.get(key, ()):
+                        b = words[j]
+                        if (j not in gone and abs(b[2] - w[0]) <= 1.5 and 1.5 <= w[1] - b[1] <= 7
+                                and w[3] - w[1] <= 0.95 * (b[3] - b[1])):
+                            base = j
+                if base is not None:
+                    b = words[base]
+                    by_end[round(b[2])].remove(base)
+                    b[2], b[4] = w[2], b[4] + w[4]
+                    by_end[round(b[2])].append(base)
+                    gone.add(i)
+                    continue
+            by_end[round(w[2])].append(i)
+        return [w for i, w in enumerate(words) if i not in gone]
+
+    def window(self, li, k):
+        page = self.lines[li].page
+        return [self.lines[j] for j in range(li - k, li + k + 1)
+                if 0 <= j < len(self.lines) and self.lines[j].page == page]
+
+    def candidates(self, vals, pages=None):
+        """Lines that hold every one of `vals` (a list of canonical numbers)."""
+        want = collections.Counter(vals)
+        rare = min(want, key=lambda v: len(self.num_post.get(v, ())))
+        out = []
+        for li in self.num_post.get(rare, ()):
+            line = self.lines[li]
+            if pages and line.page not in pages:
+                continue
+            have = collections.Counter(n[2] for n in line.nums)
+            if all(have[v] >= c for v, c in want.items()):
+                out.append(li)
+        return out
+
+    def heads_of(self, line):
+        """The Min/Typ/Max header words on a line: [(label, x0, x1)]."""
+        found = []
+        for wi, (x0, x1, text) in enumerate(line.words):
+            m = HEAD_RE.match(text)
+            prev = line.words[wi - 1][2] if wi else ""
+            nxt = line.words[wi + 1][2] if wi + 1 < len(line.words) else ""
+            if m and prev not in ("=", "to") and nxt != "to":
+                found.append((m.group(1).lower(), x0, x1))
+        if len(line.words) > 16:
+            return []
+        if any(not w[2].isupper() for w in line.words if HEAD_RE.match(w[2])) and len(found) < 2:
+            return []         # "Max tpd of 3.6 ns": a sentence, not a header
+        return found
+
+    def in_columns(self, li, vals):
+        """Whether every value has an occurrence right of the conditions (under the headers, when there are any)."""
+        heads = self.header(li)[0]
+        if not heads:
+            return True
+        gaps = sorted(b[1] - a[1] for a, b in zip(heads, heads[1:]))
+        lo = heads[0][1] - (gaps[len(gaps) // 2] / 2 if gaps else 25.0)
+        right = collections.Counter(n[2] for n in self.lines[li].nums if (n[0] + n[1]) / 2 >= lo)
+        want = collections.Counter(vals)
+        return all(right[v] >= c for v, c in want.items())
+
+    def header(self, li):
+        """The Min/Typ/Max header words above a line: [(label, x0, x1)], and the Unit header's x range."""
+        line = self.lines[li]
+        heads, unit = None, None
+        for j in range(li - 1, -1, -1):
+            up = self.lines[j]
+            if up.page != line.page:
+                break
+            found = self.heads_of(up)
+            for x0, x1, text in up.words:
+                if re.sub(r"[^A-Za-z]", "", text).lower() in ("unit", "units") and unit is None:
+                    unit = (x0, x1, up.y)
+            if found and heads is None:
+                heads = (found, up.y)
+                if unit and unit[2] - up.y > 30:
+                    unit = None          # a Unit header of an earlier table
+            if heads and (unit or heads[1] - up.y > 30):
+                break
+            if not heads and unit and unit[2] - up.y > 60:
+                break
+        return (heads[0] if heads else []), unit, (heads[1] if heads else None)
+
+    @staticmethod
+    def under(heads, x0, x1):
+        """The header a number sits under, or None when it is under none."""
+        if not heads:
+            return None
+        xc = (x0 + x1) / 2
+        best, dist = None, 1e9
+        for label, h0, h1 in heads:
+            d = min(abs(x1 - h1), abs(xc - (h0 + h1) / 2), abs(x0 - h0))
+            if d < dist:
+                best, dist = label, d
+        gaps = [b[1] - a[1] for a, b in zip(heads, heads[1:])]
+        tol = max(10.0, 0.45 * min(gaps)) if gaps else 25.0
+        return best if dist <= tol else None
+
+
+VALUE_CELL_RE = re.compile(r"^[<>≤≥]?\s?([±+-]?)\s?(\d+(?:\.\d+)?)$")
+
+
+def cell_numbers(cell, value):
+    """(number, sign) for each number in a table cell. The sign is None where it can't be told."""
+    plain = md_plain(MARK_RE.sub("", cell)).translate(DASHES).strip()
+    m = VALUE_CELL_RE.match(plain) if value else None
+    if m:
+        return [(canon_num(m.group(2)), "" if m.group(1) == "+" else m.group(1))]
+    plain = re.sub(r"(\d) (\d{3})(?!\d)", r"\1\2", plain)
+    return [(canon_num(n), None) for n in re.findall(r"(?<![A-Za-z0-9.])\d+(?:\.\d+)?", plain)]
+
+
+def check_cells(doc, pos, rep):
+    """Compare each spec-table row with the PDF line that holds its values:
+    which column each value is under, its sign, the row's unit, symbol and
+    conditions, and the PDF rows between two file rows."""
+    located = total = 0
+    doc.located, doc.loose, doc.columns, doc.strays, doc.row_vals, doc.label_rows = set(), [], {}, [], [], []
+    for t in doc.tables:
+        if not t["vcols"] or not (t["spec"] or "values" in t["attrs"] or t["section"] == "Thermal information"):
+            continue
+        cols, vcols = t["cols"], t["vcols"]
+        ucol = cols.index("unit") if "unit" in cols else None
+        scol = cols.index("symbol") if "symbol" in cols else None
+        # numbers the table states once for all rows
+        common, heading = set(), set()
+        texts = list(t["notes"])
+        banners = [t["attrs"].get("caption", ""), t["attrs"].get("conditions", "")] + [c for h in t["header"] for c in h]
+        rows = []
+        above = {}
+        for ln, cells in t["raw"]:
+            if len(cells) > 1 and all(c == "<" for c in cells[1:]):
+                banners.append(cells[0])
+                continue
+            full = []
+            for n, c in enumerate(cells):
+                if c == "^":
+                    c = above.get(n, "")
+                above[n] = c
+                full.append("" if c == "<" else c)
+            vals = []
+            for c in vcols:
+                if c < len(full):
+                    vals += [(c, v, s) for v, s in cell_numbers(full[c], True)]
+            other = [full[c] for c in range(len(full)) if c not in vcols]
+            words = [x for x in tokens(norm(md_plain(" ".join(other)))) if x not in STOP]
+            rows.append({"line": ln, "raw": cells, "full": full, "vals": vals, "words": words,
+                         "nums": {v for c in full for v, _ in cell_numbers(c, False)}})
+        for x in banners:
+            heading.update(v for v, _ in cell_numbers(x, False))
+        for x in texts + banners:
+            common.update(v for v, _ in cell_numbers(x, False))
+        symbols = {}
+        if scol is not None:
+            for r in rows:
+                key = "".join(tokens(norm(md_plain(MARK_RE.sub("", r["full"][scol])))))
+                r["symbol"] = key
+                if key:
+                    symbols[key] = r["full"][scol]
+        # candidates, and the best run of rows in page order
+        for r in rows:
+            r["cand"] = []
+            r["allvals"] = [v for _, v, _ in r["vals"]]
+            if not any(sign is not None for _, _, sign in r["vals"]):
+                r["vals"] = []        # only expressions (VCC - 0.1): nothing to place by
+            if not r["vals"]:
+                continue
+            total += 1
+            pure = [v for _, v, sign in r["vals"] if sign is not None]
+            cand = [li for li in pos.candidates(pure, doc.converted_pages)
+                    if pos.lines[li].page not in doc.scans and pos.in_columns(li, pure)][:150]
+            for li in cand:
+                near = set().union(*(x.toks for x in pos.window(li, 1)))
+                far = set().union(*(x.toks for x in pos.window(li, 4)))
+                w = r["words"]
+                own = pos.lines[li].toks
+                score = (sum(x in own for x in w) + 0.6 * sum(x in near for x in w)
+                         + 0.3 * sum(x in far for x in w)) / (1.9 * len(w)) if w else 0.5
+                extra = sum(1 for n in pos.lines[li].nums if n[2] not in r["nums"] and n[2] not in common)
+                r["cand"].append((li, score - min(0.6, 0.15 * extra)))
+        best = {}       # (row index, cand index) -> (total score, back pointer)
+        order = [i for i, r in enumerate(rows) if r["cand"]]
+        for n, i in enumerate(order):
+            for k, (li, score) in enumerate(rows[i]["cand"]):
+                top, back = 0.0, None
+                here = pos.lines[li]
+                for m in range(n):
+                    j = order[m]
+                    for k2, (li2, _) in enumerate(rows[j]["cand"]):
+                        if li2 >= li:
+                            continue
+                        there = pos.lines[li2]
+                        close = j == i - 1 and there.page == here.page and here.y - there.y <= 45
+                        if best[(j, k2)][0] + 0.5 * close > top:
+                            top, back = best[(j, k2)][0] + 0.5 * close, (j, k2)
+                best[(i, k)] = (top + 1 + score, back)
+        at = max(best, key=lambda key: best[key][0]) if best else None
+        chain = {}
+        while at:
+            chain[at[0]] = rows[at[0]]["cand"][at[1]][0]
+            at = best[at][1]
+        gaps = sorted(pos.lines[chain[b]].y - pos.lines[chain[a]].y for a, b in zip(sorted(chain), sorted(chain)[1:])
+                      if pos.lines[chain[a]].page == pos.lines[chain[b]].page and chain[a] != chain[b])
+        half = max(4.0, min(10.0, gaps[len(gaps) // 2] / 2)) if gaps else 6.0
+        groups = collections.defaultdict(list)
+        for li in chain.values():
+            groups[(pos.lines[li].page, pos.header(li)[2])].append(li)
+        labels = {}
+        for group, lis in groups.items():
+            plain = not pos.header(lis[0])[0]
+            found, cols = column_labels(pos, lis, {chain[i]: set(rows[i]["allvals"]) for i in chain} if plain else None)
+            labels.update(found)
+            if cols:
+                old = doc.columns.get(group)
+                doc.columns[group] = (cols[0], (old[1] if old else []) + cols[1])
+        labels["columns"] = doc.columns
+        labels["strays"] = doc.strays
+        labels["known"] = doc.known
+        left = {}
+        for li in chain.values():
+            page = pos.lines[li].page
+            left[page] = min(left.get(page, 1e9), pos.lines[li].words[0][0])
+        doc.located.update(chain.values())
+        doc.row_vals += [collections.Counter(r["allvals"]) for r in rows if r["allvals"]]
+        doc.loose += [collections.Counter(r["allvals"]) for i, r in enumerate(rows) if i not in chain and r["allvals"]]
+        for i, r in enumerate(rows):
+            if not r["vals"]:
+                continue
+            if i not in chain:
+                if between(rep, t, rows, i, chain, pos, labels, half):
+                    continue
+                if r["cand"]:
+                    li = max(r["cand"], key=lambda c: c[1])[0]       # out of order: line checks only
+                    located += 1
+                    check_line(rep, t, r, pos, li, None, None, {"columns": doc.columns, "strays": doc.strays})
+                elif len(r["vals"]) >= 2 and t["spec"]:
+                    if not report_scatter(rep, t, r, pos, doc) and not rep.scanned:
+                        explain_loose(rep, t, r, pos, doc)
+                continue
+            located += 1
+            li = chain[i]
+            line = pos.lines[li]
+            heads, unit, head_y = pos.header(li)
+            lo, hi = line.y - half, line.y + half
+            if i - 1 in chain and pos.lines[chain[i - 1]].page == line.page and line.y - pos.lines[chain[i - 1]].y < 90:
+                lo = (pos.lines[chain[i - 1]].y + line.y) / 2
+            elif i == 0 and head_y is not None and line.y - head_y < 90:
+                lo = head_y + 2
+            if i + 1 in chain and pos.lines[chain[i + 1]].page == line.page and pos.lines[chain[i + 1]].y - line.y < 90:
+                hi = (pos.lines[chain[i + 1]].y + line.y) / 2
+            elif i == len(rows) - 1:
+                hi = line.y + 5 * half        # the table's last row: look two rows further for dropped ones
+                for x in pos.page_lines[line.page - 1]:
+                    if line.y < x.y <= hi and (re.match(r"^(\(\d+\)|\[\d+\]|[†‡§*]|notes?\b|\d+(\.\d+)+ [A-Z])", x.text, re.I)
+                                               or pos.header(x.index)[2] != head_y):
+                        hi = x.y - 1          # a footnote, a heading or the next table
+                        break
+            band = [x for x in pos.page_lines[line.page - 1]
+                    if x is line or (lo < x.y <= hi and not FOOTER_RE.search(x.text))]
+            check_line(rep, t, r, pos, li, band, (symbols, (common, heading), ucol, scol,
+                                                   rows[i - 1] if i - 1 in chain else None,
+                                                   rows[i + 1] if i + 1 in chain else None,
+                                                   left[line.page], half), labels)
+        check_labels(rep, t, rows, chain, pos, doc, half, left)
+        check_header_words(rep, t, chain, pos, doc)
+    for ln, x, word in doc.label_rows:
+        if x.index not in doc.located:      # not a row another table of the file was placed on
+            rep.add("error", "coverage", ln, "the source table has a row starting \"%s\" that the file's table "
+                    "does not have: p.%d \"%s\"" % (word, x.page, clip(x.text, 90)))
+    seen = set()
+    for ln, x, what, own, v in doc.strays:
+        # a line another table of the file was placed on is that table's row (the source lists
+        # thermal values among the absolute maximum ratings; the file gives them their own table)
+        if (x.index, what) in seen or (not own and x.index in doc.located) or v in doc.issue_nums:
+            continue
+        if not own and any(v in loose for loose in doc.loose):
+            continue          # a value of a file row that has no single line (one joined from several)
+        seen.add((x.index, what))
+        rep.add("error", "cells", ln, "the source has %s %s, and the file's row does not: a dropped %s? p.%d \"%s\""
+                % (what, "on this row" if own else "on a line next to this row", "value" if own else "row",
+                   x.page, clip(x.text, 90)))
+    rep.stats["rows located"] = (located, total)
+
+
+FOOTER_RE = re.compile(r"Copyright|Submit Document Feedback|POST OFFICE BOX|www\.ti\.com", re.I)
+TABLE_END_RE = re.compile(r"^(\(\d+\)|\[\d+\]|[†‡§¶*•]|notes?\b|\d+(\.\d+)+ [A-Z]|absolute maximum|recommended operating|"
+                          r"electrical characteristics|switching characteristics|operating characteristics|timing requirements|"
+                          r"noise characteristics|thermal information|esd ratings|parameter measurement)|Copyright|Submit Document Feedback|"
+                          r"POST OFFICE BOX|www\.ti\.com", re.I)
+
+
+def check_coverage(doc, pos, rep):
+    """Every row of a source table with Min/Typ/Max headers, on a converted
+    page, is in the file. A row is a line with numbers standing in the
+    table's value columns (the columns the file's rows were found in). A
+    table none of whose rows is in the file is reported once."""
+    pages = (doc.converted_pages or set(range(1, pos.npages + 1))) - doc.scans
+    total = ok = 0
+    for p in sorted(pages):
+        if p > pos.npages:
+            continue
+        heads, head_y, last_y, orphan = None, None, None, []
+
+        def flush():
+            # a table with no row in the file: its lines must share value columns to be a table
+            rows = [(x, vals) for x, vals in orphan
+                    if any(abs(n[1] - m[1]) <= 1.5 or abs(n[0] - m[0]) <= 1.5
+                           for y, other in orphan if y is not x for n in vals for m in other)]
+            # a table the source prints twice with the same values: the file's rows already hold it
+            twice = all(any(not collections.Counter(n[2] for n in vals) - used for used in doc.row_vals)
+                        for _, vals in rows)
+            if len(rows) >= 2 and not twice:
+                rep.add("error", "coverage", 0, "a source table is not in the file: p.%d, %d rows from \"%s\" to \"%s\""
+                        % (p, len(rows), clip(rows[0][0].text, 60), clip(rows[-1][0].text, 60)))
+            orphan.clear()
+
+        for x in pos.page_lines[p - 1]:
+            own = pos.heads_of(x)
+            if own:
+                flush()
+                heads, head_y, last_y = own, x.y, x.y
+                continue
+            if heads is None:
+                continue
+            if TABLE_END_RE.search(x.text) or x.y - last_y > 42:
+                flush()
+                heads = None
+                continue
+            cols = doc.columns.get((p, head_y))
+            refs = x.ref_nums()
+            if cols:
+                vals = [n for n in x.nums if n[5] not in refs and column_of(cols, n)]
+            else:
+                vals = [n for n in x.nums if n[5] not in refs and pos.under(heads, n[0], n[1])]
+            if not vals:
+                continue
+            last_y = x.y
+            prev = pos.lines[x.index - 1] if x.index and pos.lines[x.index - 1].page == p else None
+            if prev is not None and x.y - prev.y < 14 and any(re.search(r"\d\.$|[-–]0\.?$", w[2]) for w in prev.words):
+                continue          # the rest of a number the line above breaks ("VCC-0." / "1")
+            if all(n[2] in doc.issue_nums for n in vals):
+                continue          # quoted in a Source error / Unconfirmed remark
+            have = collections.Counter(n[2] for n in vals)
+            if x.index in doc.located or any(not have - loose for loose in doc.loose):
+                total, ok = total + 1, ok + 1
+                continue
+            if not cols:
+                orphan.append((x, vals))
+                continue
+            total += 1
+            rep.add("error", "coverage", 0, "a source table row is not in the file: p.%d \"%s\" (%s)"
+                    % (p, clip(x.text, 100), ", ".join("%s%s under %s" % (n[3] or "", n[2], column_of(cols, n).upper())
+                                                         for n in vals)))
+        flush()
+    rep.stats["source rows covered"] = (ok, total)
+
+
+def check_function_tables(doc, src, rep):
+    """A function-table row (H, L, X cells) is printed as such a row in the source."""
+    letters = {"h", "l", "x", "z"}
+    runs = set()
+    for _, text, _ in src.lines:
+        words = [w.lower() for w in text.split()]
+        run = []
+        for w in words + [""]:
+            if w in letters:
+                run.append(w)
+            else:
+                for a in range(len(run)):
+                    for b in range(a + 2, len(run) + 1):
+                        runs.add(tuple(run[a:b]))
+                run = []
+    for t in doc.tables:
+        if t["section"] != "Function tables":
+            continue
+        for ln, cells in t["rows"]:
+            row = tuple(md_plain(c).strip().lower() for c in cells)
+            if len(row) >= 2 and all(c in letters for c in row) and row not in runs:
+                rep.add("soft", "rows", ln, "function-table row %s is not a row of the source" % " ".join(c.upper() for c in row))
+
+
+def between(rep, t, rows, i, chain, pos, labels, half):
+    """A row with no line of its own, between rows that have one: compare it
+    with the source rows that sit between its neighbours. True when reported."""
+    r = rows[i]
+    a = max((j for j in chain if j < i), default=None)
+    b = min((j for j in chain if j > i), default=None)
+    if a is None and b is None:
+        return False
+    la = pos.lines[chain[a]] if a is not None else None
+    lb = pos.lines[chain[b]] if b is not None else None
+    if la and lb and la.page != lb.page:
+        return False
+    ref = la or lb
+    lo = la.y if la else lb.y - 6 * half * (b - i)
+    hi = lb.y if lb else la.y + 6 * half * (i - a)
+    heads = pos.header(ref.index)[0]
+    cols = labels.get("columns", {}).get((ref.page, pos.header(ref.index)[2]))
+    under = lambda x, n: labels[(x.index, n[5])] if (x.index, n[5]) in labels else (
+        column_of(cols, n) if cols else pos.under(heads, n[0], n[1]))
+    lines = []
+    for x in pos.page_lines[ref.page - 1]:
+        if lo + 1 < x.y < hi - 1:
+            vals = [n for n in x.nums if under(x, n)]
+            if vals:
+                lines.append((x, vals))
+    mine = collections.Counter(v for _, v, sign in r["vals"] if sign is not None)
+    if not lines:
+        if la and lb:
+            rep.add("error", "cells", r["line"], "the source has no row with values between the rows before and after this one (p.%d)" % ref.page)
+            return True
+        return False
+    gap = [j for j in range((a if a is not None else -1) + 1, b if b is not None else len(rows)) if rows[j]["vals"]]
+    if la and lb and len(gap) == len(lines):
+        x, vals = lines[gap.index(i)]            # as many rows as lines: they pair off in order
+    else:
+        x, vals = max(lines, key=lambda lv: sum((mine & collections.Counter(n[2] for n in lv[1])).values()))
+    theirs = collections.Counter(n[2] for n in vals)
+    if mine == theirs or not (mine & theirs) and not (la and lb and len(gap) == len(lines)):
+        return False
+    if not theirs - mine:
+        # every source value is in the file's row; the rest may come from the same
+        # row of another source table (a row joined from one table per device)
+        def elsewhere(v):
+            for li in pos.num_post.get(v, ()):
+                h = pos.header(li)[0]
+                got = collections.Counter(n[2] for n in pos.lines[li].nums if pos.under(h, n[0], n[1]))
+                if got and not got - mine:
+                    return True
+            return False
+        if all(elsewhere(v) for v in (mine - theirs)):
+            return False
+    rep.add("error", "cells", r["line"], "this row has %s where the source row has %s. p.%d \"%s\""
+            % (", ".join(sorted((mine - theirs).elements())) or "nothing",
+               ", ".join("%s%s" % (n[3] or "", n[2]) for n in vals if (theirs - mine)[n[2]]) or "nothing",
+               x.page, clip(x.text, 90)))
+    return True
+
+
+def column_labels(pos, lis, values=None):
+    """Which Min/Typ/Max header each number of these lines is under:
+    {(line index, word index): label}. The numbers are grouped into columns
+    by their shared left edge, centre or right edge; when there are as many
+    columns as headers they pair off in order (headers are not always
+    centred over their values), otherwise each column takes the nearest
+    header."""
+    heads, unit, _ = pos.header(lis[0])
+    if not heads or values:
+        # no Min/Typ/Max header (one column per package): the columns are where the file's values stand
+        atoms = [(li, n) for li in lis for n in pos.lines[li].nums if n[2] in values.get(li, ())] if values else []
+        if not atoms:
+            return {}, None
+        key = lambda n: n[1]
+        xs = sorted(atoms, key=lambda a: key(a[1]))
+        groups = [[xs[0]]]
+        for a in xs[1:]:
+            if key(a[1]) - key(groups[-1][-1][1]) <= 3.0:
+                groups[-1].append(a)
+            else:
+                groups.append([a])
+        out = {(li, n[5]): "value" for li, n in atoms}
+        return out, (key, [(sum(key(n) for _, n in g) / len(g), "value") for g in groups])
+    gaps = sorted(b[1] - a[1] for a, b in zip(heads, heads[1:]))
+    lo = heads[0][1] - (gaps[len(gaps) // 2] / 2 if gaps else 25.0)       # left of this are conditions
+    hi = unit[0] - 1 if unit and unit[0] > heads[-1][1] else 1e9
+    atoms = [(li, n) for li in lis for n in pos.lines[li].nums if lo <= (n[0] + n[1]) / 2 and n[1] <= hi]
+    if not atoms:
+        return {}, None
+    keys = (lambda n: n[0], lambda n: (n[0] + n[1]) / 2, lambda n: n[1])
+    best = None
+    for which, key in enumerate(keys):
+        xs = sorted(atoms, key=lambda a: key(a[1]))
+        clusters = [[xs[0]]]
+        for a in xs[1:]:
+            if key(a[1]) - key(clusters[-1][-1][1]) <= 3.0:
+                clusters[-1].append(a)
+            else:
+                clusters.append([a])
+        if best is None or len(clusters) <= len(best[1]):
+            best = (which, clusters)
+    which, clusters = best
+    out = {}
+    hkey = (lambda h: h[1], lambda h: (h[1] + h[2]) / 2, lambda h: h[2])[which]
+    means = [sum(keys[which](n) for _, n in cl) / len(cl) for cl in clusters]
+    # Columns pair off with headers left to right, no two columns under one
+    # header, at the least total distance; a column may stay unpaired.
+    SKIP, FAR, INF = 60.0, 45.0, 1e18
+    dp = [[INF] * (len(heads) + 1) for _ in range(len(clusters) + 1)]      # dp[k][u]: first k columns, headers below u free
+    choice = {}
+    dp[0][0] = 0.0
+    for k in range(len(clusters)):
+        for u in range(len(heads) + 1):
+            if dp[k][u] == INF:
+                continue
+            if dp[k][u] + SKIP < dp[k + 1][u]:
+                dp[k + 1][u] = dp[k][u] + SKIP
+                choice[(k + 1, u)] = (u, None)
+            for h in range(u, len(heads)):
+                d = abs(hkey(heads[h]) - means[k])
+                if d <= FAR and dp[k][u] + d < dp[k + 1][h + 1]:
+                    dp[k + 1][h + 1] = dp[k][u] + d
+                    choice[(k + 1, h + 1)] = (u, h)
+    u = min(range(len(heads) + 1), key=lambda x: dp[len(clusters)][x])
+    columns = []
+    for k in range(len(clusters), 0, -1):
+        u, h = choice[(k, u)]
+        if h is not None:
+            columns.append((means[k - 1], heads[h][0]))
+        for li, n in clusters[k - 1]:
+            # an unpaired column (a value set off from its column by a footnote mark) takes the nearest header
+            out[(li, n[5])] = heads[h][0] if h is not None else Positions.under(heads, n[0], n[1])
+    return out, (keys[which], columns)
+
+
+def column_of(cols, n):
+    """The header of the value column a number of another line stands in, or None."""
+    if not cols:
+        return None
+    key, columns = cols
+    for mean, label in columns:
+        if abs(key(n) - mean) <= 3.5:
+            return label
+    return None
+
+
+def report_scatter(rep, t, r, pos, doc):
+    """A row whose values are on no single PDF line: say which line comes closest."""
+    vals = [v for _, v, _ in r["vals"]]
+    want = collections.Counter(vals)
+    best, top = None, 0
+    for v in want:
+        for li in pos.num_post.get(v, ()):
+            line = pos.lines[li]
+            if doc.converted_pages and line.page not in doc.converted_pages:
+                continue
+            have = collections.Counter(n[2] for n in line.nums)
+            hit = sum(min(c, have[x]) for x, c in want.items())
+            near = set().union(*(x.toks for x in pos.window(li, 2)))
+            score = hit + (sum(x in near for x in r["words"]) / len(r["words"]) if r["words"] else 0)
+            if score > top:
+                best, top = li, score
+    if best is None:
+        return False
+    line = pos.lines[best]
+    have = collections.Counter(n[2] for n in line.nums)
+    missing = list((want - have).elements())
+    if len(missing) != 1 or len(vals) < 2:
+        return False      # a row joined from several source tables, or one that wraps
+    near = set().union(*(x.toks for x in pos.window(best, 2)))
+    if r["words"] and sum(x in near for x in r["words"]) / len(r["words"]) < 0.6:
+        return False
+    for li in pos.num_post.get(missing[0], ()):          # the same row in another table: a joined row
+        if abs(li - best) > 3 and (not doc.converted_pages or pos.lines[li].page in doc.converted_pages):
+            far = set().union(*(x.toks for x in pos.window(li, 2)))
+            if not r["words"] or sum(x in far for x in r["words"]) / len(r["words"]) >= 0.6:
+                return False
+    heads = pos.header(best)[0]
+    extra = [n[2] for n in line.nums if n[2] not in want and pos.under(heads, n[0], n[1])]
+    if len(extra) != 1 or sum(1 for n in line.nums if pos.under(heads, n[0], n[1])) != len(vals):
+        return False      # not the same row with one value different
+    rep.add("error", "cells", r["line"], "value %s is not on this row in the source: the row with %s has %s. p.%d \"%s\""
+            % (missing[0], ", ".join(v for v in vals if v != missing[0]) or "its text",
+               ", ".join(extra) or "no other value", line.page, clip(line.text)))
+    return True
+
+
+def explain_loose(rep, t, r, pos, doc):
+    """A row whose values are on no single source line. It may join the same
+    row of several source tables (one table per device or temperature
+    range): then each piece is a whole source row of a different table.
+    Pieces from one table are several source rows made into one (rows stay
+    rows); values that are on no row with the rest are wrong."""
+    want = collections.Counter(v for _, v, sign in r["vals"] if sign is not None)
+    left = collections.Counter(want)
+    groups = []
+    for _ in range(6):
+        best, top = None, 0
+        for v in left:
+            for li in pos.num_post.get(v, ()):
+                line = pos.lines[li]
+                if (doc.converted_pages and line.page not in doc.converted_pages) or line.page in doc.scans:
+                    continue
+                heads, _, head_y = pos.header(li)
+                cols = doc.columns.get((line.page, head_y))
+                have = collections.Counter(n[2] for n in line.nums
+                                           if (column_of(cols, n) if cols else pos.under(heads, n[0], n[1])))
+                if not have or have - want:
+                    continue          # not a piece of this row: it has values the row lacks
+                hit = sum((have & left).values())
+                if hit > top:
+                    best, top = (li, (line.page, head_y), have), hit
+        if best is None:
+            break
+        groups.append(best)
+        left -= best[2]
+        if not left:
+            break
+    if left:
+        if any(v not in pos.num_post for v in left):
+            return            # a value the text layer doesn't hold (a picture): From images covers it
+        rep.add("error", "cells", r["line"], "%s %s on no source row together with this row's other values (%s)"
+                % (", ".join(sorted(left.elements())), "is" if sum(left.values()) == 1 else "are",
+                   ", ".join(v for _, v, _ in r["vals"])))
+    elif len({g for _, g, _ in groups}) < len(groups):
+        lines = [pos.lines[li] for li, _, _ in groups]
+        rep.add("error", "cells", r["line"], "this row is made of %d rows of one source table (rows stay rows): p.%d %s"
+                % (len(groups), lines[0].page, "; ".join('"%s"' % clip(x.text, 50) for x in lines[:3])))
+
+
+def check_labels(rep, t, rows, chain, pos, doc, half, left):
+    """A source row with no values (N/A) can still be dropped: every line of
+    the placed table that starts at the table's left edge starts a row, and
+    its first word must be in the file's table."""
+    if len(chain) < 2:
+        return
+    mine = set(doc.known)
+    for r in rows:
+        mine.update(tokens(norm(md_plain(" ".join(r["full"])))))
+    if not pos.micro:
+        mine.update(x.replace("μ", "m") for x in list(mine))
+    by_page = collections.defaultdict(list)
+    for li in chain.values():
+        by_page[pos.lines[li].page].append(pos.lines[li].y)
+    for page, ys in by_page.items():
+        if len(ys) < 2:
+            continue
+        lo, hi = min(ys) - 1, max(ys) + 5 * half
+        for x in pos.page_lines[page - 1]:
+            if x.y <= lo:
+                continue
+            if x.y > hi or (x.y > max(ys) + 1 and (TABLE_END_RE.search(x.text) or pos.heads_of(x))):
+                break
+            x0, _, word = x.words[0]
+            toks = [w for w in tokens(norm(word)) if not is_num(w) and len(w) > 1]
+            if x0 > left[page] + 3 or not toks or x.index in doc.located:
+                continue
+            if any(not any(w in m for m in mine) for w in toks):
+                doc.label_rows.append((t["line"], x, word))
+
+
+def check_header_words(rep, t, chain, pos, doc):
+    """The words of a table's headers and of each placed row's cells are printed in the source:
+    a header on the pages of its rows, a cell within six lines of its row."""
+    pages = {pos.lines[li].page for li in chain.values()}
+    if not pages:
+        return
+    fix = (lambda w: w.replace("μ", "m")) if not pos.micro else (lambda w: w)
+    words = lambda text: [fix(w) for w in tokens(norm(md_plain(MARK_RE.sub("", text))))
+                          if not is_num(w) and len(w) > 1 and w not in STOP and w not in UNITS]
+    on_pages = set()
+    for p in pages:
+        for x in pos.page_lines[p - 1]:
+            on_pages |= x.toks
+    for cells in t["header"]:
+        for c in cells:
+            w = words(c)
+            if not w or md_plain(MARK_RE.sub("", c)).strip().lower() in NAMED_COLS or ISSUE_RE.search(c):
+                continue
+            if sum(x in on_pages or x in doc.known for x in w) / len(w) < 0.6:
+                rep.add("soft", "cells", t["line"] + 1, "header \"%s\" is not printed on the source page of this table (p.%s): "
+                        "a heading of the converter's own is not written as the source's"
+                        % (md_plain(c), ", ".join(map(str, sorted(pages)))))
+
+
+def check_line(rep, t, r, pos, li, band, ctx, labels):
+    line = pos.lines[li]
+    doc_known = labels.get("known", ())
+    heads, unit, _ = pos.header(li)
+    known = labels.get("columns", {}).get((line.page, pos.header(li)[2]))
+    under = lambda x, n: labels[(x.index, n[5])] if (x.index, n[5]) in labels else (
+        column_of(known, n) if known else pos.under(heads, n[0], n[1]))
+    where = 'p.%d "%s"' % (line.page, clip(line.text, 90))
+    cols = t["cols"]
+    # columns, order and signs
+    last_x = -1.0
+    used, chosen = set(), []
+    for c, v, sign in r["vals"]:
+        occ = [n for n in line.nums if n[2] == v and n[5] not in used]
+        if not occ:
+            continue
+        label = cols[c] if cols[c] in VALUE_COLS else None
+        labelled = [(n, under(line, n)) for n in occ]
+        if label and sign is not None and heads and any(h for _, h in labelled):
+            match = [n for n, h in labelled if h == label]
+            if not match:
+                rep.add("error", "cells", r["line"], "%s is under %s in the source, not %s. %s"
+                        % (v, "/".join(sorted({h.upper() for _, h in labelled if h})), label.capitalize(), where))
+                continue
+            occ = match
+        after = [n for n in occ if n[0] >= last_x - 0.5]
+        if not after and sign is None:
+            continue
+        if not after:
+            rep.add("error", "cells", r["line"], "%s is left of the value before it in the source: the columns are in another order. %s"
+                    % (v, where))
+            continue
+        n = after[0]
+        used.add(n[5])
+        chosen.append(n)
+        last_x = n[0]
+        if sign is not None and n[3] is not None and sign != n[3] and not any(x[3] == sign for x in after):
+            rep.add("error", "cells", r["line"], "sign differs: the source has %s%s, the file %s%s. %s"
+                    % (n[3], v, sign, v, where))
+    if band is None:
+        return
+    symbols, (common, heading), ucol, scol, prev, nxt, left, reach = ctx
+    # the words of each cell the row states itself are printed within six lines of the row
+    near = set().union(*(x.toks for x in pos.window(li, 10)))
+    fix = (lambda w: w.replace("μ", "m")) if not pos.micro else (lambda w: w)
+    for c, cell in enumerate(r["raw"]):
+        if c in t["vcols"] or c == ucol or cell in ("", "^", "<") or set(MARK_RE.findall(cell)) & t["own_notes"]:
+            continue
+        w = [fix(x) for x in tokens(norm(md_plain(MARK_RE.sub("", cell))))
+             if not is_num(x) and len(x) > 1 and x not in STOP and x not in UNITS]
+        if w and sum(x in near or x in doc_known for x in w) / len(w) < 0.6:
+            rep.add("error", "cells", r["line"], "cell \"%s\" (%s) is not printed on this row in the source: a name or "
+                    "condition the source doesn't give is left out, or labelled. %s"
+                    % (md_plain(cell), cols[c] or "column %d" % (c + 1), where))
+    # symbol: a line that starts with another row's symbol
+    if scol is not None and r.get("symbol"):
+        seen = {k for k in symbols for x in band for w in x.words[:1]
+                if w[0] <= left + 45 and "".join(tokens(norm(w[2]))) == k}
+        if seen and r["symbol"] not in seen:
+            rep.add("error", "cells", r["line"], "the source row with these values is %s, not %s. %s"
+                    % (", ".join(md_plain(symbols[k]) for k in sorted(seen)), md_plain(r["full"][scol]), where))
+    # unit
+    if ucol is not None and r["full"][ucol].strip():
+        mine = unit_norm(MARK_RE.sub("", r["full"][ucol]))
+        if unit:
+            ux0, ux1 = unit[0] - 12, unit[1] + 12
+            in_col = lambda x: [w[2] for w in x.words if ux0 <= (w[0] + w[1]) / 2 <= ux1 and not re.search(r"\d", w[2])]
+            found = [u for x in band for u in in_col(x)]
+            if not found:
+                page = pos.page_lines[line.page - 1]
+                up = [u for x in page if x.y < line.y and line.y - x.y < 80 for u in in_col(x)][-1:]
+                down = [u for x in page if x.y > line.y and x.y - line.y < 80 for u in in_col(x)][:1]
+                found = up + down
+        else:
+            # no Unit column: the unit follows the value ("7 V", "20mA")
+            found = []
+            for n in chosen:
+                after = line.words[n[5] + 1][2] if n[5] + 1 < len(line.words) else ""
+                if n[4] or (re.fullmatch(r"[^\W\d_°%/]{1,6}|°C|%", after) and after.lower() not in ("to", "or", "and")):
+                    found.append(n[4] or after)
+        found = [u for u in found if unit_norm(u)]
+        theirs = {unit_norm(u) for u in found}
+        if not pos.micro:         # a text layer without µ prints it as m
+            theirs |= {"u" + u[1:] for u in theirs if u.startswith("m") and len(u) > 1}
+        if found and mine not in theirs and not any(
+                u.startswith(mine) or mine.startswith(u) for u in theirs if len(u) > 1):
+            rep.add("error", "cells", r["line"], "unit %s: the source row has %s. %s"
+                    % (md_plain(r["full"][ucol]), ", ".join(sorted(set(found))), where))
+    # numbers on this row in the source that the file's row doesn't have
+    stray, conds = [], []
+    mine = collections.Counter(r["allvals"])
+    printed = collections.Counter()
+    for x in band:
+        refs = x.ref_nums()
+        for n in x.nums:
+            if n[5] in refs or (unit and n[0] > unit[1] + 12):
+                continue
+            head = under(x, n)
+            if n[5] == 0 and len(x.words) > 1 and re.match(r"^\d+(\.\d+)+$", x.words[0][2]) and x.words[1][2][:1].isupper():
+                continue          # a section heading: "5.2 ESD Ratings"
+            if not head and heads and (n[0] + n[1]) / 2 < heads[0][1] - 8 and abs(x.y - line.y) <= reach:
+                lost = n[5] == 1 and len(n[2]) == 1 and len(x.words[0][2]) <= 2      # "V 1": a subscript I read as 1
+                if n[2] not in r["nums"] and n[2] not in heading and not lost:
+                    conds.append("%s%s" % (n[3] or "", n[2]))
+            # a value under a header: on the row's own line the file must have it, as often as
+            # it is printed there; on a line between two rows it belongs to a row the file lacks
+            if head and x is line and n[2] in mine and n[2] not in common:
+                printed[n[2]] += 1
+                if printed[n[2]] > mine[n[2]]:
+                    stray.append((x, "%s%s a %s time (under %s)" % (n[3] or "", n[2],
+                                  {2: "second", 3: "third"}.get(printed[n[2]], "further"), head.upper()), n[2]))
+                continue
+            if head and (x is not line or (n[2] not in r["nums"] and n[2] not in common)):
+                stray.append((x, "%s%s under %s" % (n[3] or "", n[2], head.upper()), n[2]))
+    if conds:
+        rep.add("error", "cells", r["line"], "the source row with these values has %s in its conditions, and the file's row does not. %s"
+                % (", ".join(conds), where))
+    for x, what, v in stray:
+        labels["strays"].append((r["line"], x, what, x is line, v))
+
+
+# ---------------------------------------------------------------- ordering table, front matter, figures
+
+STATUS = ("Active", "Obsolete", "NRND", "Last Time Buy", "Preview")
+ADD_COLS = ("part", "status", "material", "package", "qty", "rohs", "finish", "msl", "temp", "marking")
+MONTHS = {m: i + 1 for i, m in enumerate("january february march april may june july august september october "
+                                         "november december".split())}
+PARTS_DIR = os.path.join(REPO, "schematical", "schematical", "Parts")
+_CATALOG = None
+
+
+def catalog():
+    """Part name -> (part, device, "kind:id"), from the part files."""
+    global _CATALOG
+    if _CATALOG is None:
+        _CATALOG = {}
+        for name in sorted(os.listdir(PARTS_DIR)):
+            if not name.endswith(".json") or name in ("datasheets.json", "footprints.json"):
+                continue
+            with open(os.path.join(PARTS_DIR, name), encoding="utf-8") as f:
+                data = json.load(f)
+            for dev in data.get("devices", []):
+                for p in dev["parts"]:
+                    _CATALOG[p["name"]] = (p, dev, "%s:%s" % (data.get("kind"), dev["id"]))
+    return _CATALOG
+
+
+def claimed_parts(fm):
+    cat = catalog()
+    names = [n for n, (_, _, key) in cat.items() if key in fm.get("devices", [])]
+    out = []
+    for p in fm.get("parts", []):
+        if "*" in p or "?" in p:
+            out += sorted(n for n in names if fnmatch.fnmatchcase(n, p))
+        elif p in cat:
+            out.append(p)
+    return out
+
+
+def addendum(pos):
+    """The vendor's ordering table (TI's package option addendum), read by
+    position: {orderable: {status, package, pins, qty, carrier, temp, marking, marks, page}}.
+    Wrapped cells are joined; a marking's wrapped pieces join without a space
+    unless the piece before ends a marking (the table's own rule)."""
+    rows = {}
+    for lines in pos.page_lines:
+        head = next((x for x in lines if {"Orderable", "Status", "RoHS"} <= {w[2] for w in x.words}
+                     and any(w[2] == "marking" for w in x.words)), None)
+        if head is None:
+            continue
+        ws = head.words
+        starts = [k for k, w in enumerate(ws) if w[2] in ("Orderable", "Status", "Material", "Package", "RoHS", "Lead", "MSL", "Op")]
+        starts.append(max(k for k, w in enumerate(ws) if w[2] == "Part"))
+        if len(starts) != len(ADD_COLS):
+            continue
+        centres = []
+        for a, b in zip(starts, starts[1:] + [len(ws)]):
+            centres.append((ws[a][0] + ws[b - 1][1]) / 2)
+        cur, last_y = None, None
+        for x in lines:
+            if x.y <= head.y:
+                continue
+            cells = []
+            for w in x.words:
+                if cells and w[0] - cells[-1][1] <= 6.5:
+                    cells[-1] = [cells[-1][0], w[1], cells[-1][2] + " " + w[2]]
+                else:
+                    cells.append([w[0], w[1], w[2]])
+            got = {}
+            for x0, x1, text in cells:
+                c = min(range(len(centres)), key=lambda k: abs(centres[k] - (x0 + x1) / 2))
+                got[ADD_COLS[c]] = (got[ADD_COLS[c]] + " " + text) if ADD_COLS[c] in got else text
+            if "part" in got and got.get("status", "").split(" ")[0] in ("Active", "Obsolete", "NRND", "Last", "Preview"):
+                cur = {k: [v] for k, v in got.items()}
+                cur["page"] = x.page
+                rows[got["part"].replace(" ", "")] = cur
+                last_y = x.y
+            elif cur is not None and "part" not in got and not re.match(r"^\(\d+\)", x.text) and (
+                    x.y - last_y <= 16 or (x.y - last_y <= 30 and set(got) == {"marking"})):
+                for k, v in got.items():
+                    cur.setdefault(k, []).append(v)
+                last_y = x.y
+            else:
+                cur = None
+    out = {}
+    for part, r in rows.items():
+        marking = ""
+        for piece in r.get("marking", []):
+            marking += piece if not marking or not re.search(r"[,)]$", marking) else " " + piece
+        qty, _, carrier = " ".join(r.get("qty", [])).partition("|")
+        pkg, _, pins = " ".join(r.get("package", [])).partition("|")
+        carrier = carrier.strip()
+        out[part] = {
+            "status": " ".join(r.get("status", [])),
+            "package": pkg.strip(), "pins": int(pins) if pins.strip().isdigit() else None,
+            "qty": int(qty) if qty.strip().isdigit() else None,
+            "carrier": "" if carrier.lower() in ("", "-", "null") else carrier,
+            "carrier_raw": carrier,
+            "temp": "" if " ".join(r.get("temp", [])).strip() in ("", "-") else " ".join(r.get("temp", [])).strip(),
+            "marking": marking,
+            "marks": marks(marking),
+            "marks_split": marks(", ".join(r.get("marking", []))),      # each printed line a marking of its own
+            "page": r["page"],
+        }
+    return out
+
+
+def marks(text):
+    """The set of markings in a marking cell: alternatives are separated by
+    commas (or ~, or parentheses); spaces inside one are line breaks on the part."""
+    return {m for m in (re.sub(r"\s+", "", x) for x in re.split(r"[(),~]", text)) if m and m != "-"}
+
+
+def packing_text(row):
+    """The ordering block's packing field for an addendum row."""
+    if row["qty"] is None:
+        return ""
+    c = row["carrier"].upper()
+    kind = "Reel" if "T&R" in c or "REEL" in c else "Tube" if "TUBE" in c else "Tray" if "TRAY" in c else None
+    return "%s of %d" % (kind, row["qty"]) if kind else str(row["qty"])
+
+
+def check_ordering(doc, pos, rep):
+    add = addendum(pos)
+    claimed = claimed_parts(doc.fm)
+    lines = []
+    for line, kind, attrs, body, section in doc.fences:
+        if kind == "ordering":
+            for k, b in enumerate(body):
+                if b.strip():
+                    lines.append((line + 1 + k, [c.strip() for c in b.split("|")]))
+    rep.stats["ordering rows checked"] = (0, 0)
+    if not add:
+        if lines:
+            rep.add("error", "ordering", lines[0][0], "the source has no ordering table this script can read "
+                    "(TI package option addendum); the ordering lines must be checked by a person")
+        return
+    cat = catalog()
+    ok = 0
+    listed = set()
+    for ln, cells in lines:
+        if len(cells) not in (4, 5):
+            continue
+        part, packing, temp, marking = cells[:4]
+        status = cells[4] if len(cells) == 5 else ""
+        listed.add(part)
+        row = add.get(part)
+        if row is None:
+            rep.add("error", "ordering", ln, "%s has no row in the source's ordering table (p.%s)"
+                    % (part, ", ".join(str(p) for p in sorted({r["page"] for r in add.values()}))))
+            continue
+        bad = False
+        want = packing_text(row)
+        if packing != want:
+            bad = True
+            rep.add("error", "ordering", ln, '%s packing "%s": the source row has "%s | %s", written "%s" (p.%d)'
+                    % (part, packing, row["qty"] if row["qty"] is not None else "-", row["carrier_raw"] or "-", want, row["page"]))
+        if re.sub(r"\s+", " ", temp.translate(DASHES)) != re.sub(r"\s+", " ", row["temp"].translate(DASHES)):
+            bad = True
+            rep.add("error", "ordering", ln, '%s temperature "%s": the source row has "%s" (p.%d)'
+                    % (part, temp, row["temp"] or "-", row["page"]))
+        if "…" in marking or "..." in marking or marks(marking) not in (row["marks"], row["marks_split"]):
+            bad = True
+            rep.add("error", "ordering", ln, '%s marking "%s": the source row has "%s", written "%s" (p.%d)'
+                    % (part, marking, row["marking"] or "-", ", ".join(sorted(row["marks"])), row["page"]))
+        want = "" if row["status"] == "Active" else row["status"]
+        if status != want:
+            bad = True
+            rep.add("error", "ordering", ln, '%s status "%s": the source row says %s; the fifth field must be "%s" (p.%d)'
+                    % (part, status, row["status"], want, row["page"]))
+        ok += not bad
+    missing = [p for p in claimed if p in add and p not in listed]
+    if missing:
+        rep.add("error", "ordering", lines[0][0] if lines else 0,
+                "the ordering block has no line for %d claimed part(s) the source's ordering table lists: %s"
+                % (len(missing), ", ".join("%s | %s | %s | %s%s" % (p, packing_text(add[p]), add[p]["temp"],
+                   ", ".join(sorted(add[p]["marks"])), "" if add[p]["status"] == "Active" else " | " + add[p]["status"])
+                   for p in missing[:40])))
+    rep.stats["ordering rows checked"] = (ok, len(lines))
+    # the catalog against the ordering table
+    packages = doc.fm.get("packages", {})
+    for p in claimed:
+        row = add.get(p)
+        if row is None:
+            continue
+        part, dev, _ = cat[p]
+        flags = part.get("flags", [])
+        if row["status"] == "Obsolete" and "obsolete" not in flags:
+            rep.add("error", "catalog", 0, '%s is Obsolete in the source\'s ordering table (p.%d); the catalog part has no "obsolete" flag'
+                    % (p, row["page"]))
+        pins = [x for x in dev["pinouts"][part["pinout"]] if x.get("role") != "absent"]
+        if row["pins"] is not None and row["pins"] != len(pins):
+            rep.add("error", "catalog", 0, "%s has %d pins in the source's ordering table (p.%d); catalog pinout %s has %d"
+                    % (p, row["pins"], row["page"], part["pinout"], len(pins)))
+        m = re.search(r"\(([A-Z0-9]+)\)", row["package"])
+        if m and packages:
+            named = {x.strip() for x in packages.get(part["pinout"], "").split(",")}
+            if m.group(1) not in named:
+                rep.add("error", "frontmatter", 2, 'packages: %s is package %s in the source (p.%d); "%s" lists %s'
+                        % (p, m.group(1), row["page"], part["pinout"], ", ".join(sorted(named - {""})) or "nothing"))
+
+
+def check_frontmatter(doc, src, pos, rep):
+    fm = doc.fm["source"]
+    if fm.get("pages") != len(src.pages):
+        rep.add("error", "frontmatter", 2, "source.pages is %s; the PDF has %d pages" % (fm.get("pages"), len(src.pages)))
+    docno = fm.get("document", "")
+    if not docno:
+        return
+    flat = lambda t: re.sub(r"[\s\-–—]", "", t).upper()
+    hits = [(pi, text) for pi, (_, lay, _) in enumerate(src.pages) for text in lay.split("\n") if flat(docno) in flat(text)]
+    if not hits:
+        base = re.sub(r"[A-Z]$", "", flat(docno))
+        seen = sorted({m for _, lay, _ in src.pages for m in re.findall(re.escape(base) + r"[A-Z]?\b", flat(lay))})
+        rep.add("error", "frontmatter", 2, 'source.document "%s" is not printed in the PDF%s'
+                % (docno, " (it prints %s)" % ", ".join(seen[:3]) if seen else ""))
+        return
+    dates = []
+    for _, text in hits:
+        for mon, year in re.findall(r"\b([A-Za-z]{3,9})\.? (\d{4})\b", text):
+            key = next((k for k in MONTHS if k.startswith(mon.lower()[:3]) and mon.lower() == k[:len(mon)]), None)
+            if key:
+                dates.append("%s-%02d" % (year, MONTHS[key]))
+    if dates and fm.get("date"):
+        latest = max(dates)
+        if not latest.startswith(fm["date"]) or (len(fm["date"]) == 4 and False):
+            rep.add("error", "frontmatter", 2, 'source.date "%s": the PDF\'s document line gives %s as its latest date'
+                    % (fm["date"], latest))
+
+
+def check_page_ranges(doc, src, rep):
+    """The Conversion notes' "pages A–B converted" and "(C–D) dropped" against the PDF."""
+    n = len(src.pages)
+    conv = doc.converted_pages or set()
+    if not conv:
+        rep.add("error", "pages", 0, 'Conversion notes must say which source pages were converted ("Source pages 1–6 converted; …")')
+        return
+    if max(conv) > n:
+        rep.add("error", "pages", 0, "Conversion notes: page %d converted, but the PDF has %d pages" % (max(conv), n))
+    for line, section, text in doc.prose:
+        if section != "Conversion notes":
+            continue
+        for a, b in re.findall(r"\((\d+)\s*[–-]\s*(\d+)\)", text):
+            a, b = int(a), int(b)
+            if b > n:
+                rep.add("error", "pages", line, "Conversion notes: pages (%d–%d), but the PDF has %d pages" % (a, b, n))
+            both = sorted(conv & set(range(a, b + 1)))
+            if both and re.search(r"dropped", text) and not re.search(r"converted", text.split("(%d" % a)[0][-40:]):
+                rep.add("error", "pages", line, "Conversion notes: page %s is listed as converted and inside the dropped range (%d–%d)"
+                        % (", ".join(map(str, both)), a, b))
+
+
+def check_figures(doc, src, rep):
+    """A shared figure's parameters (CL: 50 pF): every number is in the source
+    (or listed under Derived / From images), and printed there with its unit."""
+    pairs = set()
+    for _, _, toks in src.lines:
+        pairs.update(zip(toks, toks[1:]))
+    for line, kind, attrs, body, section in doc.fences:
+        if kind != "figure":
+            continue
+        for k, b in enumerate(body):
+            key, sep, value = b.partition(":")
+            if not sep or not value.strip():
+                continue
+            toks = tokens(norm(md_plain(value)))
+            for n, v in enumerate(toks):
+                if not is_num(v) or v in doc.derived:
+                    continue
+                unit = toks[n + 1] if n + 1 < len(toks) and toks[n + 1] in UNITS else None
+                if re.search(r"(?<![\d.])%s\s?%%" % re.escape(v), md_plain(value)) and not any(
+                        re.search(r"(?<![\d.])%s\s?%%" % re.escape(v), raw) for raw, _, _ in src.pages):
+                    rep.add("error", "figures", line + 1 + k, "figure parameter \"%s\": the source never prints %s %%"
+                            % (b.strip(), v))
+                    continue
+                alts = {unit, "w" if unit == "ω" else unit, "kw" if unit == "kω" else unit, "mw" if unit == "mω" else unit}
+                if not src.has(v):
+                    rep.add("error", "figures", line + 1 + k, "figure parameter \"%s\": %s is not in the source PDF "
+                            "(a value read from the drawing goes under From images in Conversion notes)" % (b.strip(), v))
+                elif unit and not any((v, u) in pairs for u in alts):
+                    rep.add("error", "figures", line + 1 + k, "figure parameter \"%s\": the source never prints %s %s"
+                            % (b.strip(), v, unit))
+
+
+def check_variant(doc, src, rep):
+    """A -Q1 or -EP datasheet names its own device: text carried over from the
+    catalog device's datasheet names the part without the suffix."""
+    names = re.findall(r"\b([A-Z]{2,}\d[A-Z0-9]*)-(Q1|EP)\b", doc.fm.get("title", ""))
+    for base, suffix in names:
+        bare = re.compile(r"\b%s\b(?!-%s|[A-Z0-9])" % (re.escape(base), suffix))
+        pages = doc.converted_pages or range(1, len(src.pages) + 1)
+        in_pdf = any(bare.search(src.pages[p - 1][0]) for p in pages if p <= len(src.pages))
+        if in_pdf:
+            continue
+        for line, section, text in doc.prose:
+            if section != "Conversion notes" and bare.search(text) and not ISSUE_RE.search(text):
+                rep.add("error", "terms", line, "names %s; the source's converted pages only say %s-%s" % (base, base, suffix))
+
+
+_SOURCES = {}
+
+
+def sources(pdf, ocr, cache):
+    """The PDF's text (Source) and word positions (Positions), read once per run."""
+    key = (pdf, os.path.getmtime(pdf), ocr)
+    if key not in _SOURCES:
+        src = Source(load_pdf(pdf, ocr, cache))
+        src.scans = set(scan_pages(pdf, cache)) | set(src.ocr_pages)
+        _SOURCES[key] = (src, Positions(load_words(pdf, cache)))
+    return _SOURCES[key]
 
 
 def validate(path, ocr, cache):
@@ -853,12 +2313,33 @@ def validate(path, ocr, cache):
     if not os.path.exists(pdf):
         rep.add("error", "source", 0, "source PDF %s not found" % doc.fm["source"]["pdf"])
         return rep
-    src = Source(load_pdf(pdf, ocr, cache))
-    if src.ocr_pages:
-        rep.add("info", "source", 0, "OCR used for pages %s; expect misses there"
-                % ", ".join(map(str, src.ocr_pages)))
+    src, pos = sources(pdf, ocr, cache)
+    conv = doc.converted_pages or set(range(1, len(src.pages) + 1))
+    scans = sorted(conv & src.scans)
+    doc.scans = src.scans
+    rep.scanned = 2 * len(scans) >= len(conv)        # a scanned datasheet, not one with a picture page
+    if scans:
+        rep.add("manual", "source", 0, "pages %s are pictures (a scan, or a figure page): this script can't read "
+                "tables and values from them; a person compares those pages%s" % (", ".join(map(str, scans)),
+                "" if rep.scanned else ", and values read from them go under From images"))
+    cat = catalog()
+    for key in doc.fm.get("devices", []):
+        for part, dev, k in cat.values():
+            if k == key:
+                for pins in dev["pinouts"].values():
+                    for pin in pins:
+                        doc.known.update(tokens(norm(pin["name"])))
+                break
     check_numbers_terms(doc, src, rep)
     check_rows(doc, src, rep)
+    check_cells(doc, pos, rep)
+    check_coverage(doc, pos, rep)
+    check_function_tables(doc, src, rep)
+    check_ordering(doc, pos, rep)
+    check_frontmatter(doc, src, pos, rep)
+    check_page_ranges(doc, src, rep)
+    check_figures(doc, src, rep)
+    check_variant(doc, src, rep)
     check_prose(doc, src, rep)
     check_notes(doc, src, rep)
     check_pages(doc, src, rep)
@@ -866,7 +2347,7 @@ def validate(path, ocr, cache):
     check_blocks(doc, src, rep)
     flags = ISSUE_RE.findall(doc.text)
     rep.stats["source issues flagged"] = (len(flags), len(flags))
-    rep.items.sort(key=lambda x: ({"error": 0, "warning": 1, "info": 2}[x[0]], x[2]))
+    rep.items.sort(key=lambda x: ({"error": 0, "manual": 1, "info": 2}[x[0]], x[2]))
     return rep
 
 
@@ -893,7 +2374,7 @@ def main(argv):
             continue
         stats = ", ".join("%s %d" % (k, a) if k == "source issues flagged" else "%s %d/%d" % (k, a, b)
                           for k, (a, b) in rep.stats.items())
-        print("%s: %d errors, %d warnings; %s" % (path, rep.count("error"), rep.count("warning"), stats))
+        print("%s: %d errors, %d to check by eye; %s" % (path, rep.count("error"), rep.count("manual"), stats))
         if args.quiet:
             continue
         shown = collections.Counter()

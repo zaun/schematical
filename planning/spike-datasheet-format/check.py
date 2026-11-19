@@ -63,6 +63,8 @@ FRONT_KEYS = {"format", "version", "id", "title", "class", "source", "devices", 
 SOURCE_KEYS = {"pdf", "vendor", "document", "date", "pages"}
 VALUE_COLS = {"min", "typ", "nom", "max", "value"}
 NAMED_COLS = {"symbol", "parameter", "conditions", "test conditions", "from", "to", "unit"} | VALUE_COLS
+HOLD_TO_CATALOG = False     # mutate.py sets this: its copies of app files live in a temporary folder
+ORDER_STATUS = ("Obsolete", "NRND", "Last Time Buy", "Preview")
 SIZE_WARN = 30 * 1024
 SIZE_LIMIT = {"controller": 60 * 1024, "microprocessor": 120 * 1024, "microcontroller": 400 * 1024}
 MAX_CURVES = {"microprocessor": 12, "microcontroller": 12}
@@ -93,6 +95,8 @@ class Catalog:
         self.part_device = {}  # part name -> "kind:id"
         self.parts = {}        # part name -> part dict
         self.footprints = set()
+        self.by_datasheet = {} # datasheet id -> part names
+        self.datasheets = {}   # datasheet id -> entry of datasheets.json
         for name in sorted(os.listdir(PARTS_DIR)):
             if not name.endswith(".json"):
                 continue
@@ -101,8 +105,11 @@ class Catalog:
             if name == "footprints.json":
                 self.footprints = {fp["id"] for fp in data["footprints"]}
                 continue
+            if name == "datasheets.json":
+                self.datasheets = {d["id"]: d for d in data.get("datasheets", [])}
+                continue
             if "kind" not in data:
-                continue          # datasheets.json and other non-part files
+                continue          # other non-part files
             kind = data["kind"]
             for dev in data["devices"]:
                 key = "%s:%s" % (kind, dev["id"])
@@ -110,6 +117,8 @@ class Catalog:
                 for p in dev["parts"]:
                     self.part_device[p["name"]] = key
                     self.parts[p["name"]] = p
+                    if p.get("datasheet"):
+                        self.by_datasheet.setdefault(p["datasheet"], []).append(p["name"])
 
 
 # ---------------------------------------------------------------- helpers
@@ -257,8 +266,8 @@ def check_table(rep, start, body, attrs, section):
                     continue
                 if EXPR_RE.match(v) and ("~" in v or "×" in v):
                     continue
-                if v in RAILS:
-                    continue
+                if v in RAILS or v == "N/A":
+                    continue          # N/A: the source prints "N/A" for this cell
                 rep.err(ln, 'value cell "%s" (column %s) is not a number, ratio or symbol expression'
                         % (cells[c], names[c] or c + 1))
 
@@ -427,11 +436,34 @@ def check_file(path, cat, claims):
         rep.err(2, "a part is listed twice in parts")
     for p in claimed:
         claims.setdefault(p, []).append(path)
+    # The catalog says which datasheet each part was transcribed from: the
+    # file claims exactly the parts that name it.
+    home = os.path.join(REPO, "schematical", "schematical", "Datasheets")
+    full = os.path.abspath(path)
+    in_app = full.startswith(home + os.sep) or HOLD_TO_CATALOG     # the spike's samples are not held to the catalog
+    if in_app and not pending and fm.get("id") in cat.by_datasheet:
+        mine = set(cat.by_datasheet[fm["id"]])
+        for p in sorted(mine - set(claimed)):
+            rep.err(2, 'part "%s" names this datasheet in the catalog and is not claimed in "parts"' % p)
+        for p in sorted(set(claimed) - mine):
+            rep.err(2, 'part "%s" is claimed, but its catalog "datasheet" is "%s"'
+                    % (p, cat.parts[p].get("datasheet", "")))
+    if full.startswith(home + os.sep):
+        want = os.path.relpath(full, home).replace(os.sep, "/")
+        entry = cat.datasheets.get(fm.get("id"))
+        if entry is None:
+            rep.err(2, 'datasheets.json has no entry "%s"' % fm.get("id"))
+        elif entry.get("md") != want:
+            rep.err(2, 'datasheets.json entry "%s" needs "md": "%s" (it has %s)'
+                    % (fm.get("id"), want, json.dumps(entry.get("md"))))
     pinout_names = {pn for d in devs for pn in d["pinouts"]}
     for pn in fm.get("packages", {}):
         if pn not in pinout_names:
             rep.err(2, 'packages: unknown pinout "%s"' % pn)
     used_pinouts = {cat.parts[p]["pinout"] for p in claimed}
+    if "packages" in fm:
+        for pn in sorted(used_pinouts - set(fm["packages"])):
+            rep.err(2, 'packages: pinout "%s" of a claimed part is not listed' % pn)
     used_footprints = {cat.parts[p].get("footprint") for p in claimed} - {None}
 
     # ---- body
@@ -535,11 +567,34 @@ def check_file(path, cat, claims):
         if line.count("~") % 2:
             rep.warn(k, "odd number of ~ (unbalanced subscript?)")
 
+    # ---- note markers: only a table has notes
+    in_block = set()
+    for kind, attrs, start, body, section in blocks:
+        in_block.update(range(start - 1, start + len(body) + 1))
+        if kind != "table":
+            for n in MARK_RE.findall(attrs.get("caption", "")):
+                rep.err(start - 1, "marker [%s] in a %s caption has no note: only tables carry notes" % (n, kind))
+    notes_from = next((ln for t, ln in sections if t == "Conversion notes"), len(lines) + 1)
+    for k, line in enumerate(lines[body_start:], body_start + 1):
+        if k not in in_block and not line.startswith("#") and k < notes_from:      # Conversion notes may cite "note [2]"
+            for m in re.finditer(r"(?<![\w\\\]])\[(\d+)\](?!\()", line):
+                rep.err(k, "marker [%s] outside a table has no note: only tables carry notes" % m.group(1))
+
+    # ---- part status is the ordering block's fifth field, never a sentence
+    section_of = None
+    for k, line in enumerate(lines[body_start:], body_start + 1):
+        if line.startswith("## "):
+            section_of = line[3:].strip()
+        elif section_of == "Ordering information" and k not in in_block and re.search(
+                r"\b(obsolete|NRND|last[- ]time[- ]buy|not recommended for new)", line, re.I):
+            rep.err(k, "Ordering information: part status goes in the ordering line's fifth field, not in a sentence")
+
     # ---- blocks
     pins_seen = set()
     pinout_blocks = 0
     package_fps = set()
     ordering_blocks = 0
+    ordered = set()
     wavedrom_blocks = 0
     for kind, attrs, start, body, section in blocks:
         text_ = "\n".join(body)
@@ -550,10 +605,13 @@ def check_file(path, cat, claims):
             rep.err(start - 1, '%s block belongs in "%s", not "%s"' % (kind, home, section))
         if kind == "table":
             check_table(rep, start, body, attrs, section)
-            for g in attrs.get("parts", "").split(","):
-                g = g.strip()
-                if g and not any(fnmatch.fnmatchcase(p, g) for p in claimed):
+            globs = [g.strip() for g in attrs.get("parts", "").split(",") if g.strip()]
+            for g in globs:
+                if not any(fnmatch.fnmatchcase(p, g) for p in claimed):
                     rep.err(start - 1, 'table parts= "%s" matches no claimed part' % g)
+            if globs and claimed and all(any(fnmatch.fnmatchcase(p, g) for g in globs) for p in claimed):
+                rep.err(start - 1, 'table parts="%s" matches every claimed part, so it marks nothing: '
+                        'narrow the pattern (*S08* also matches LS08) or drop the attribute' % attrs["parts"])
         elif kind == "pins":
             names_all = {}
             for pn in pinout_names:
@@ -595,10 +653,23 @@ def check_file(path, cat, claims):
                 if not line.strip():
                     continue
                 cells = [c.strip() for c in line.split("|")]
-                if len(cells) != 4:
-                    rep.err(k, "ordering line must be 'part | packing | temp | marking'")
-                elif cells[0] not in claimed:
+                if len(cells) not in (4, 5):
+                    rep.err(k, "ordering line must be 'part | packing | temp | marking' or '… | marking | status'")
+                    continue
+                if cells[0] not in claimed:
                     rep.err(k, 'ordering: "%s" is not a claimed part' % cells[0])
+                if cells[0] in ordered:
+                    rep.err(k, 'ordering: "%s" has two lines' % cells[0])
+                ordered.add(cells[0])
+                if cells[2] and not re.match(r"^-?\d+ to -?\d+$", cells[2]):
+                    rep.err(k, 'ordering: temperature range "%s" must be "<min> to <max>" or empty' % cells[2])
+                if "…" in cells[3] or "..." in cells[3]:
+                    rep.err(k, "ordering: a marking list is written out in full, never cut short with an ellipsis")
+                if "(" in cells[3] or ")" in cells[3] or "~" in cells[3]:
+                    rep.err(k, "ordering: markings are separated by commas, without the table's parentheses")
+                if len(cells) == 5 and cells[4] not in ORDER_STATUS:
+                    rep.err(k, 'ordering: status "%s" must be one of %s (leave the field out for an active part)'
+                            % (cells[4], ", ".join(ORDER_STATUS)))
         elif kind == "wavedrom":
             wavedrom_blocks += 1
             check_wavedrom(rep, start, text_)

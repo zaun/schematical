@@ -297,11 +297,16 @@ A GFM pipe table, with these additions:
   `TO[7:1]` (a name directly followed by brackets) are bit references,
   not markers. Every marker
   needs a note and every note a marker. Notes are printed under their
-  table (not at the end of the document).
+  table (not at the end of the document). Only tables have notes: a
+  `[n]` in prose or in the caption of a `curve`, `figure` or `wavedrom`
+  is an error. A remark on prose is written inline, with its label
+  (`Source error: …`, `Conversion note: …`).
 - Attributes: `id` (anchor), `caption`, `values` (see spec tables), `parts` (comma-separated part
   name globs this table applies to, such as `SN54*`; the renderer marks
   the tables that don't apply to the part the user opened the datasheet
-  from), `conditions` (the "over recommended operating free-air
+  from. A pattern set that matches every claimed part marks nothing and
+  is an error: `*S08*` also matches `SN74LS08N`, write `SN?4S08*`),
+  `conditions` (the "over recommended operating free-air
   temperature range" line, printed under the caption).
 
 **Spec tables** are the tables in sections 7–11. Rules:
@@ -322,8 +327,8 @@ A GFM pipe table, with these additions:
   optional `±`, optional `<`, `>`, `≤` or `≥` before it for values the
   source gives only as a bound, such as a typical "< 10"), a rail name
   (`GND`, `VCC`, `VDD`, `VSS`, `AVCC`, `AREF`), an expression on a symbol (`V~CC~`, `V~CC~ + 0.5`,
-  `0.7 × V~DD~`), a ratio (`45/55`, `2:1`), or empty. A dash for "none"
-  is written as an empty cell.
+  `0.7 × V~DD~`), a ratio (`45/55`, `2:1`), `N/A` where the source
+  prints N/A, or empty. A dash for "none" is written as an empty cell.
 - Column groups (temperature ranges, SN54 vs SN74, speed grades -15/-20,
   standard vs fast mode) are header groups made with `<`: one table, not
   one table per group.
@@ -436,7 +441,8 @@ mechanical drawings of connectors and displays. Two forms:
   has. Sidecars are counted in the file's size.
 
 A figure that is neither worth drawing nor shared is described in one
-sentence of text instead (`Logic diagram: four 2-input NAND gates.`).
+sentence of text instead, which is the converter's and says so
+(`Conversion note: the logic diagram shows four 2-input NAND gates.`).
 
 ### `package`
 
@@ -454,13 +460,30 @@ reports any footprint left out. Dimensions the footprint doesn't hold
 ```ordering
 SN74HC00N | Tube of 25 | -40 to 85 | SN74HC00N
 SN74HC00DR | Reel of 2500 | -40 to 85 | HC00
+SN74HC00D | | -40 to 85 | HC00 | Obsolete
+SN74HC00PWRG4 | 2000 | | HC00, HC00A | NRND
 ```
 
 Generated: one row per claimed part with its package, pinout, footprint
-and flags from the catalog. Optional body lines add vendor columns,
-`<part> | <packing> | <temp range °C> | <marking>`; every part named must
-be claimed. A part-numbering key (oscillator frequency/stability codes,
-EEPROM option letters) is an ordinary `table` after the block.
+and flags from the catalog. The body lines add the vendor's columns,
+`<part> | <packing> | <temp range °C> | <marking>`, and a fifth field
+`| <status>` for a part that is not active. Every part named must be
+claimed, and a part has at most one line. When the PDF has an ordering
+table (TI's package option addendum), **every claimed part it lists has
+a line, and each field is that row of the table**, the row of exactly
+that orderable (not of its `.A` or `.B` variant):
+
+| Field | Written as |
+|---|---|
+| packing | `Reel of N` (the table's `N | LARGE T&R` or `SMALL T&R`), `Tube of N`, `Tray of N`; `N` alone when the table gives a quantity and no carrier; empty when it gives neither (`-`). Nothing else: no "Tape and reel", no status word. |
+| temp range | `<min> to <max>` as printed; empty when the table has `-`. |
+| marking | as printed, without the table's parentheses. Alternatives are separated by commas; a marking the table breaks over two lines is one marking (a space or nothing between the pieces: `5962-9682001Q2A SNJ54AHC08FK`). The list is complete: never `…`. Empty when the table has none. |
+| status | `Obsolete`, `NRND`, `Last Time Buy` or `Preview`, as the table prints it; left out for an active part. |
+
+Part status lives in this field only; the Ordering section has no
+sentence repeating it. A part-numbering key (oscillator
+frequency/stability codes, EEPROM option letters) is an ordinary `table`
+after the block.
 
 ### `equation`
 
@@ -486,14 +509,45 @@ rules below are written to keep conversions checkable.
     a percentage of V~DD~, a worked example's result, an opcode taken
     from the opcode matrix.
   - `- From images: 9.7, 12.9 (package drawing, p.3).` The value is read
-    from a drawing, a scanned page or an equation set as an image.
+    from a drawing, a scanned page or an equation set as an image. Names
+    are listed the same way when the text layer doesn't hold them
+    (`- From images: R~θJA~, ΔI~CC~ (thermal and electrical tables, p.5;
+    the text layer has other glyphs).`).
 
   Units stay as printed: a package drawn in inches keeps inches.
 - **Wording follows the source.** Shorten by deleting words, not by
   rewording. Keep the source's negations (*not*, *no*, *never*) and
   obligations (*must*, *shall*, *required*) exactly where it puts them:
   "spikes that must be suppressed" is a requirement, "spikes suppressed"
-  is a claim.
+  is a claim. Keep the source's sentences apart and in their order: two
+  source sentences joined into one, or a sentence put in other words,
+  is a rewording. `validate.py` measures this: a sentence, list item or
+  table note needs 60 % of its words (weighted by how rare they are) in
+  one passage of the PDF, 80 % of its words in that passage's order,
+  and its numbers in that passage. A sentence that is read from a
+  picture is quoted under `From images:`.
+- **The converter's own remarks are labelled.** A sentence that is not
+  the source's (what a dropped figure showed, which parts the catalog
+  doesn't carry, how a table was joined) goes in Conversion notes, or,
+  where it must sit next to the thing it explains, starts with
+  `Conversion note:`. The label covers its sentence only, and its
+  numbers are still checked against the PDF. A text converted from a
+  variant's datasheet names that variant (`SN74HCS11-Q1`, not
+  `SN74HCS11`).
+- **Rows and columns stay where the source has them.** A value sits
+  under the header it is printed under (a typical value stays in Typ; a
+  table headed VALUE has a `Value` column, not `Max`), on the row it is
+  printed on, with the sign and the unit printed there. A row that is
+  several rows in the source (one per temperature range) stays several
+  rows.
+- **A table says what the source's table says.** A cell holds what the
+  source prints for that row: a parameter name, a symbol or a condition
+  the source doesn't print is not added (a table whose source gives only
+  symbols has an empty Parameter column, or none), and a header is the
+  source's header. A cell the converter corrects carries a marker to a
+  `Source error:` note. Every row of a source table on a converted page is in the
+  file. A row may join the same row of several source tables (one table
+  per device or temperature range) into more columns.
 - **Tables keep the source's orientation.** Rows stay rows. Joining
   tables that repeat the same rows (one per device, one per mode) into
   more columns is allowed.
@@ -512,6 +566,7 @@ rules below are written to keep conversions checkable.
   | `Source conflict:` | Two places in the PDF disagree. | Keeps both, as printed, and says where each is. |
   | `Source error:` | The PDF is wrong, and the PDF itself proves it (another table, the opcode matrix, the bit layout). | Corrects it and names the evidence; with "kept out", leaves the wrong text out. |
   | `Unconfirmed:` | A value looks wrong, but nothing in the PDF proves it. | Keeps the vendor's value. Doesn't suggest a replacement. |
+  | `Conversion note:` | Not a source problem: the converter's own remark (see above). | — |
 
   Every one is also listed under a `- Source issues:` bullet in
   Conversion notes. A plausible reading is never written as a fact: if
@@ -542,40 +597,68 @@ a reason to drop facts.
 front matter keys and types; catalog links (devices, parts, part ↔
 device, a part claimed twice across the files given, pin names in
 `pins` blocks and full coverage, `pinout`/`package` names, `ordering`
-rows); section titles, order and the required set for the class; the
-`table` grid (cell counts, merges, notes ↔ markers, spec-table columns
-and value cells); WaveJSON (parses, `signal`/`reg`, data cells vs
-`data`, edge nodes exist, no node named twice); `curve` JSON; `figure` refs and sidecars;
-inline `!{…}` balance; and the size report. Exit status 1 on any error.
+lines and their field formats); **the claims** (a file in the app's
+`Datasheets/` folder claims exactly the catalog parts whose `"datasheet"`
+is its id, `packages` lists every pinout they use, and `datasheets.json`
+registers the file); section titles, order and the required set for the
+class; the `table` grid (cell counts, merges, notes ↔ markers, markers
+outside tables, spec-table columns and value cells, a `parts=` that
+marks nothing); WaveJSON (parses, `signal`/`reg`, data cells vs `data`,
+edge nodes exist, no node named twice); `curve` JSON; `figure` refs and
+sidecars; inline `!{…}` balance; and the size report. Exit status 1 on
+any error.
 
 ## Validator
 
 `check.py` says whether a file follows the format; it can't say whether
 the content is right. `python3 -I planning/spike-datasheet-format/validate.py
 <file.md>…` compares a file with its source PDF, without an agent. It
-reads the PDF's text layer with `pdftotext` (poppler) and OCRs pages
-that have none with `tesseract`; results are cached.
+reads the PDF three ways with poppler: the text (`pdftotext`, and
+`tesseract` OCR for pages with no text layer), **every word with its
+position on the page** (`pdftotext -bbox-layout`), and the pictures
+(`pdfimages -list`, to know which pages are scans). Results are cached.
 
-| Check | What it does | Severity |
-|---|---|---|
-| numbers | Every number and hex value is in the PDF, or listed under `Derived:` / `From images:`. | error |
-| rows | A table row's values sit on the same PDF line (or within two lines) as the row's words. A row may join several source tables. | error in spec tables, warning elsewhere |
-| registers | In a register map with Bit 7–Bit 0 and Reset columns, fixed 0/1 bits agree with the reset value (info when a note flags it). | error |
-| waveforms | Edges join defined nodes; nodes sit on transitions; a bus is not driven while its active-low output enable has been high for two columns. | error / warning |
-| terms | Identifiers (names with digits or inner capitals) are in the PDF. | warning |
-| prose | Each sentence, list item, table note and long cell is matched to the closest PDF passage: under 35 % of its words is "not found" (warning), 35–60 % "reworded" (info). Negation or obligation that differs from that passage is a warning. | warning / info |
-| notes | Table notes in the PDF (`[1] …`, `Notes: 1. …`) on converted pages appear in the file. | warning |
-| pages | Converted pages where under 40 % of the numbers reach the file. | warning |
-| visual | Each waveform, curve and figure, with the PDF page it most likely came from, to compare by eye. | info |
+Everything it can decide is an **error**. What it can't decide it lists
+as **to check by eye**; there are no warnings.
 
-Errors are facts that don't match; warnings need a person to look.
+| Check | What it does |
+|---|---|
+| numbers | Every number and hex value is in the PDF, or listed under `Derived:` / `From images:`. |
+| terms | Identifiers (names with digits or inner capitals) are in the PDF, are catalog pin names, or are listed under `From images:`. A `-Q1`/`-EP` datasheet doesn't name the device without its suffix. |
+| rows | A table row's values sit on the same PDF line (or within two lines) as the row's words. A function-table row (H, L, X) is a row of the PDF. |
+| cells | Each spec-table row is placed on the PDF line that holds its values, in the table's order, and compared there: every value is **under the header** it has in the file (Min, Typ, Nom, Max, Value), in the same left-to-right order, as often as it is printed, with the same **sign**; the row's **unit** is the one printed in the Unit column (or after the value); the line doesn't start with **another row's symbol**; the line has no **condition number** the file's row lacks; the **words of each cell** (parameter, symbol, conditions) are printed within ten lines of the row, and each header on the table's page; a value under a header on that line, or on a line between two rows, is in the file (**dropped value or row**). A row with no line of its own is compared with the source row between its neighbours, and otherwise must be the same row of several source tables (a joined row): pieces from one table are **rows made into one**. |
+| coverage | Every row of a PDF table with Min/Typ/Max/Value headers on a converted page was used by a file row; a table with no row in the file is reported once. In a placed table, every source line that starts at the table's left edge starts a row the file's table has (a row of `N/A` values can't be dropped unseen). |
+| ordering | Each `ordering` line against its row of the PDF's ordering table (TI package option addendum, read by column position, wrapped cells joined): packing, temperature range, marking set, status; a claimed part the table lists and the block doesn't. |
+| catalog | For each claimed part in that table: an Obsolete part has the catalog `obsolete` flag; the pin count is the catalog pinout's. |
+| frontmatter | `source.pages` is the PDF's page count; `source.document` is printed in the PDF; `source.date` is the latest date on the document-number line; `packages` names each part's package designator. |
+| pages | Conversion notes say which pages were converted; no page is both converted and in a dropped range; no page beyond the PDF. |
+| figures | A shared figure's parameters (`CL: 50 pF`) are printed in the PDF with their unit. |
+| registers | In a register map with Bit 7–Bit 0 and Reset columns, fixed 0/1 bits agree with the reset value. |
+| waveforms | Edges join defined nodes; nodes sit on transitions; a bus is not driven while its active-low output enable has been high for two columns; edge labels are in the PDF. |
+| prose | Each sentence, list item and table note is matched to the closest PDF passage: under 60 % of its words there, or under 80 % of them in its order, is an error (see Source fidelity); so is a number that isn't in that passage, and negation or obligation that differs from the stretch it matches. A long table cell is matched by place instead (its words within five lines of one spot). Sentences labelled `Source conflict:`, `Source error:`, `Unconfirmed:` or `Conversion note:` are the converter's and are not matched. |
+| notes | Table notes in the PDF (`[1] …`, `(1) …`, `† …`, `Notes: 1. …`) on converted pages appear in the file. |
+| visual | *By eye.* Each waveform, curve and sidecar figure, with the PDF page it most likely came from. |
+| source | *By eye.* The converted pages that are pictures (scans, or a figure page). When most converted pages are scans, the numbers, terms, rows, prose and notes findings of that file are listed by eye too, marked `[scanned source]`: OCR text can't settle them. |
+
 `--quiet` prints one summary line per file, `--info` adds the info
-items, `--json` gives machine-readable output. Exit status 1 on any
-error.
+items, `--json` gives machine-readable output, `--max 0` lists
+everything. Exit status 1 on any error.
 
 What it can't do: check a waveform's shape or a curve against the
-figure (it lists them for a person), check values that are only in
-images (they must be listed under `From images:`), or judge whether a
-reworded sentence kept its meaning beyond negation and obligation.
-Tables whose cells wrap in the PDF ("VDDx0." / "2") can give false row
-errors.
+figure, read values that are only in images (they must be listed under
+`From images:`, and a person checks that list), check a scanned
+datasheet's tables, or judge whether a relabelled sentence
+(`Conversion note:`, `Source error:`) is true. Those are the by-eye
+items, and they are all it leaves to a person.
+
+### Testing the checkers
+
+`python3 -I planning/spike-datasheet-format/mutate.py <file.md>…` plants
+one mistake at a time in copies of the files (a changed value, a flipped
+sign, a value moved to another column, a wrong unit, a dropped row, two
+rows' symbols exchanged, a changed condition, a dropped note, a removed
+"not", a changed ordering field or front-matter fact, …; `--help` lists
+the kinds) and counts how many both checkers catch. Run it after
+changing `check.py` or `validate.py`: a kind whose rate falls is a check
+that got weaker (`--min PCT` makes that an exit status). `--missed`
+lists the mistakes that got through.

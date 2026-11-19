@@ -46,6 +46,14 @@
 - [x] Add 20x4 and 40x2 and 40x4 character LCD modules
 - [x] Add a KiCad export for the schematic. (Save As ▸ Format ▸ KiCad Project: schematic and board)
 - [x] Add a Gerber export for the PCB
+- [ ] Two BUSes with the same name should be able to connect.
+- [ ] BUS wire name and netlabels should be up to 8.
+- [ ] Toggle a BUS name label in schematic view
+- [ ] After paste select all that was pasted (including wire ends) so it can be dragged
+- [ ] Bus ports are not selectable?
+- [ ] Add hex, bcd, etc. decoders
+- [ ] Flipped LED doesnt look correct
+- [ ] Two finger scroll in all tool modes
 
 ## Manufacturing (a board can't be ordered without these)
 
