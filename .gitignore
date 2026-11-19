@@ -8,6 +8,9 @@ xcuserdata/
 # Scratch files
 tmp/
 
+# Python bytecode
+__pycache__/
+
 # Claude Code local state
 .claude/
 
