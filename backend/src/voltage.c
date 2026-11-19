@@ -246,8 +246,8 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
         for (i = 0; i < part_count; i++) {
             const Part *part = parts[i];
             Level power = {0, 0};
-            size_t anode;
-            size_t cathode;
+            size_t anode = 0;
+            size_t cathode = 0;
 
             /* An LED, or each LED of a character LCD's backlight: the
                anode's level is carried to the cathode net. Only an LED skips
