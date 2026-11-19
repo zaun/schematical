@@ -28,13 +28,13 @@
 
 This single 2-input positive-AND gate is designed for 1.65 V to 5.5 V
 V~CC~ operation. The SN74LVC1G08-Q1 device performs the Boolean function
-Y = A · B in positive logic. It is AEC-Q100 qualified for automotive
+Y = A · B or Y = !{!{A} + !{B}} in positive logic. It is AEC-Q100 qualified for automotive
 applications.
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when powered down. The inputs accept
-voltages to 5.5 V, which allows down voltage translation to V~CC~. The
+current backflow through the device when powered down. Allows down voltage
+translation. Inputs accept voltages to 5.5V. The
 CMOS device has high output drive while maintaining low static power
 dissipation over a broad V~CC~ operating range.
 
@@ -154,23 +154,23 @@ Y: Output Y
 | Symbol | Parameter | Test conditions | V~CC~ | –40 °C to 85 °C | < | < | –40 °C to 125 °C recommended | < | < | Unit |
 | ^ | ^ | ^ | ^ | Min | Typ [1] | Max | Min | Typ | Max | ^ |
 |---|---|---|---|--:|--:|--:|--:|--:|--:|---|
-| V~OH~ | High-level output voltage | I~OH~ = -100 µA | 1.65 V to 5.5 V | V~CC~ - 0.1 | | | V~CC~ - 0.15 | | | V |
+| V~OH~ | | I~OH~ = -100 µA | 1.65 V to 5.5 V | V~CC~ - 0.1 | | | V~CC~ - 0.15 | | | V |
 | ^ | ^ | I~OH~ = -4 mA | 1.65 V | 1.2 | | | 1.2 | | | V |
 | ^ | ^ | I~OH~ = -8 mA | 2.3 V | 1.9 | | | 1.9 | | | V |
 | ^ | ^ | I~OH~ = -16 mA | 3 V | 2.4 | | | 2.4 | | | V |
 | ^ | ^ | I~OH~ = -24 mA | ^ | 2.3 | | | 2.3 | | | V |
 | ^ | ^ | I~OH~ = -32 mA | 4.5 V | 3.8 | | | 3.8 | | | V |
-| V~OL~ | Low-level output voltage | I~OL~ = 100 µA | 1.65 V to 5.5 V | | | 0.1 | | | 0.1 | V |
+| V~OL~ | | I~OL~ = 100 µA | 1.65 V to 5.5 V | | | 0.1 | | | 0.1 | V |
 | ^ | ^ | I~OL~ = 4 mA | 1.65 V | | | 0.45 | | | 0.45 | V |
 | ^ | ^ | I~OL~ = 8 mA | 2.3 V | | | 0.3 | | | 0.3 | V |
 | ^ | ^ | I~OL~ = 16 mA | 3 V | | | 0.4 | | | 0.4 | V |
 | ^ | ^ | I~OL~ = 24 mA | ^ | | | 0.55 | | | 0.55 | V |
 | ^ | ^ | I~OL~ = 32 mA | 4.5 V | | | 0.55 | | | 0.55 | V |
 | I~I~ | A or B inputs | V~I~ = 5.5 V or GND | 0 to 5.5 V | | | ±5 | | | ±5 | µA |
-| I~off~ | Partial-power-down leakage | V~I~ or V~O~ = 5.5 V | 0 | | | ±10 | | | ±10 | µA |
-| I~CC~ | Supply current | V~I~ = 5.5 V or GND, I~O~ = 0 | 1.65 V to 5.5 V | | | 10 | | | 10 | µA |
-| ΔI~CC~ | Supply-current change | One input at V~CC~ - 0.6 V, other inputs at V~CC~ or GND | 3 V to 5.5 V | | | 500 | | | 500 | µA |
-| C~i~ | Input capacitance | V~I~ = V~CC~ or GND | 3.3 V | | 4 | | | 4 | | pF |
+| I~off~ | | V~I~ or V~O~ = 5.5 V | 0 | | | ±10 | | | ±10 | µA |
+| I~CC~ | | V~I~ = 5.5 V or GND, I~O~ = 0 | 1.65 V to 5.5 V | | | 10 | | | 10 | µA |
+| ΔI~CC~ | | One input at V~CC~ - 0.6 V, other inputs at V~CC~ or GND | 3 V to 5.5 V | | | 500 | | | 500 | µA |
+| C~i~ | | V~I~ = V~CC~ or GND | 3.3 V | | 4 | | | 4 | | pF |
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25 °C.
 ```
@@ -242,11 +242,21 @@ generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. t~PLH~ and t~PHL~ are the same as t~pd~.
 
-The load circuit also has an R~L~ from the output to switch S1 (V~LOAD~,
-open or GND). S1 is open for t~PLH~/t~PHL~, which leaves the load below.
-The source figures also show pulse-duration, setup/hold and
-enable/disable waveforms; all parameters and waveforms are not
-applicable to all devices.
+All parameters and waveforms are not applicable to all devices.
+
+Conversion note: the load circuit also has a second R~L~, from the output
+to switch S1, which goes to V~LOAD~, open or GND; the figure below draws
+the load with S1 open.
+Conversion note: the source figures also show pulse-duration,
+setup-and-hold and enable/disable waveforms, which are not drawn here.
+
+```table id=s1 caption="Load circuit switch S1"
+| Test | S1 |
+|---|---|
+| t~PLH~/t~PHL~ | Open |
+| t~PLZ~/t~PZL~ | V~LOAD~ |
+| t~PHZ~/t~PZH~ | GND |
+```
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: see table
@@ -254,7 +264,8 @@ CL: see table
 ```
 
 ```table id=test-conditions caption="Test conditions (Figure 6-1 and Figure 6-2)"
-| V~CC~ | Figure | V~I~ | t~r~/t~f~ | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
+| V~CC~ | Figure | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
+| ^ | ^ | V~I~ | t~r~/t~f~ | ^ | ^ | ^ | ^ | ^ |
 |---|---|---|---|---|---|---|---|---|
 | 1.8 V ± 0.15 V | 6-1 | V~CC~ | ≤ 2 ns | V~CC~/2 | 2 × V~CC~ | 15 pF | 1 MΩ | 0.15 V |
 | 2.5 V ± 0.2 V | 6-1 | V~CC~ | ≤ 2 ns | V~CC~/2 | 2 × V~CC~ | 15 pF | 1 MΩ | 0.15 V |
@@ -276,7 +287,7 @@ The SN74LVC1G08-Q1 is a high-drive CMOS device used for implementing AND
 logic with a high output drive, such as LED applications. The device
 produces 24 mA of drive current at 3.3 V, for driving multiple outputs
 and high speed applications up to 100 MHz. The inputs are 5.5 V tolerant
-allowing the device to translate down to V~CC~. The source's examples
+allowing the device to translate down to V~CC~. Conversion note: the source's examples
 (Figure 8-1) show the gate between microcontroller or logic signals, and
 as a basic LED driver with the LED and a series resistor from Y to
 ground.
@@ -286,18 +297,23 @@ bus contention because it can drive currents that would exceed maximum
 limits. The high drive will also create fast edges into light loads so
 routing and load conditions must be considered to prevent ringing.
 
-Design procedure:
+Detailed design procedure:
 
-1. Inputs: rise and fall times per Δt/Δv, and high and low levels per
-   V~IH~ and V~IL~, in the
-   [recommended operating conditions](#recommended-operating-conditions).
-   Inputs are overvoltage tolerant allowing them to go as high as
-   V~I~ max at any valid V~CC~.
-2. Outputs: load currents must not exceed I~O~ max per output and must
-   not exceed total current (continuous current through V~CC~ or GND)
-   for the part, as given in the
-   [absolute maximum ratings](#absolute-maximum-ratings). Outputs must
-   not be pulled above V~CC~.
+1. Recommended Input Conditions
+   - Rise time and fall time specs. See Δt/ΔV in the
+     [recommended operating conditions](#recommended-operating-conditions)
+     table.
+   - Specified high and low levels. See V~IH~ and V~IL~ in the recommended
+     operating conditions table.
+   - Inputs are overvoltage tolerant allowing them to go as high as
+     V~I~ max in the recommended operating conditions table at any valid
+     V~CC~.
+2. Recommend Output Conditions
+   - Load currents must not exceed I~O~ max per output and must not exceed
+     total current (continuous current through V~CC~ or GND) for the
+     part. These limits are located in the
+     [absolute maximum ratings](#absolute-maximum-ratings) table.
+   - Outputs must not be pulled above V~CC~.
 
 Power: the supply can be any voltage between the min and max supply
 voltage rating in the recommended operating conditions. Verify that each
@@ -306,12 +322,15 @@ a 0.1 µF capacitor is recommended. 0.1 µF and 1 µF capacitors are
 commonly used in parallel. Install the bypass capacitor as close to the
 power pin as possible for best results.
 
-Layout: verify that the inputs do not ever float. Do not leave unused
-input pins unconnected because the undefined voltages at the outside
-connections result in undefined operational states. All unused inputs
-of digital logic devices must be connected to a high or low bias to
-prevent them from floating; generally the level is tied to GND or V~CC~,
-whichever makes more sense or is more convenient.
+When using multiple bit logic devices, verify that the inputs do not ever
+float. In many cases, functions or parts of functions of digital logic
+devices are unused; for example, when only two inputs of a triple-input
+AND gate are used or only 3 of the 4 buffer gates are used. Do not leave
+such input pins unconnected because the undefined voltages at the outside
+connections result in undefined operational states. All unused inputs of
+digital logic devices must be connected to a high or low bias to prevent
+them from floating. Generally the level is tied to GND or V~CC~,
+whichever make more sense or is more convenient.
 
 ## Package
 
@@ -327,14 +346,20 @@ whichever makes more sense or is more convenient.
 ## Ordering information
 
 ```ordering
+74LVC1G08QDBVRQ1G4 | Reel of 3000 | -40 to 125 | 33H5, C08O
+74LVC1G08QDCKRQ1G4 | Reel of 3000 | -40 to 125 | CEO
+SN74LVC1G08IDCKRQ1 | Reel of 3000 | -40 to 85 | CEO
+SN74LVC1G08QDBVRQ1 | Reel of 3000 | -40 to 125 | 33H5, C08O
+SN74LVC1G08QDCKRQ1 | Reel of 3000 | -40 to 125 | CEJ, CEO
+SN74LVC1G08QDRYRQ1 | Reel of 5000 | -40 to 125 | EM
 ```
 
 ## Conversion notes
 
-- Source pages 1–12 converted; support pages, revision history (13–14),
-  tape and reel, the package option addendum and mechanical pages
-  (14–30) dropped, replaced by the generated Package and Ordering
-  sections.
+- Source pages 1–12 converted. The ordering lines are from the package
+  option addendum (pp.16–17). Support pages, revision history (13–14),
+  tape and reel (14–15) and mechanical pages (18–30) are left out; the
+  generated Package section replaces them.
 - Dropped: features and applications lists, package information table,
   feature description bullets (repeated in Description), logic diagram
   (one AND gate), the layout example (Figure 8-3, an unused input tied to
@@ -347,15 +372,17 @@ whichever makes more sense or is more convenient.
   scale.
 - The text layer prints "£2 ns", "1 MW", "1 kW" and "500 W"; the page
   image shows ≤ 2 ns, 1 MΩ, 1 kΩ and 500 Ω.
-- Parameter names in the electrical characteristics table are added
-  (the source gives symbols only).
+- The electrical characteristics table of the source gives symbols only,
+  so its Parameter cells are empty except for I~I~.
 - The multi-V~CC~-pin bypass advice (0.01 µF or 0.022 µF per pin) is
   dropped: this device has one V~CC~ pin.
 - Source issues:
-  - Source error: the second form of the Boolean function is printed
-    with one overbar over A + B (§ 7.1, p.10) and as Ā + B̅ in the text
-    layer (p.1); neither is an AND. The function table (p.10) gives
-    Y = A · B. Kept out.
+  - Source error: § 7.1 (p.10) prints the second form of the Boolean
+    function with a bar over A and one bar over the whole sum A + B, but
+    none over B, which is not an AND. Page 1 prints it
+    with a bar over A, a bar over B and one over the sum (the text layer
+    holds only the bars over A and B), which is the AND of the function
+    table (p.10). The p.1 form is used; the p.10 form is kept out.
   - Unconfirmed: the –40 °C to 125 °C switching table refers to
     Figure 6-1 (C~L~ = 15 pF) but its maxima exceed the –40 °C to 85 °C
     values measured with Figure 6-2's 30 pF and 50 pF loads (p.6).

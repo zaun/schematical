@@ -233,11 +233,21 @@ generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. t~PLH~ and t~PHL~ are the same as t~pd~.
 
-The load circuit also has an R~L~ from the output to switch S1 (V~LOAD~,
-open or GND). S1 is open for t~PLH~/t~PHL~, which leaves the load below.
-The source figure also shows pulse-duration, setup/hold and
-enable/disable waveforms; all parameters and waveforms are not
-applicable to all devices.
+All parameters and waveforms are not applicable to all devices.
+
+Conversion note: the load circuit also has a second R~L~, from the output
+to switch S1, which goes to V~LOAD~, open or GND; the figure below draws
+the load with S1 open.
+Conversion note: the source figure also shows pulse-duration,
+setup-and-hold and enable/disable waveforms, which are not drawn here.
+
+```table id=s1 caption="Load circuit switch S1"
+| Test | S1 |
+|---|---|
+| t~PLH~/t~PHL~ | Open |
+| t~PLZ~/t~PZL~ | V~LOAD~ |
+| t~PHZ~/t~PZH~ | GND |
+```
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: see table
@@ -265,7 +275,7 @@ device ideal for high speed applications. It is a high-drive CMOS device
 that can be used for implementing AND logic with a high output drive,
 such as an LED application. It can produce 24 mA of drive current at
 3.3 V, making it ideal for driving multiple outputs and good for
-high-speed applications up to 100 MHz. The source's examples (Figure 4)
+high-speed applications up to 100 MHz. Conversion note: the source's examples (Figure 4)
 show a gate between microcontroller or logic signals, and a basic LED
 driver with the LED and a resistor from Y to ground.
 
@@ -275,18 +285,23 @@ exceed maximum limits. The high drive will also create fast edges into
 light loads so routing and load conditions must be considered to
 prevent ringing.
 
-Design procedure:
+Detailed design procedure:
 
-1. Inputs: rise and fall times per Δt/Δv, and high and low levels per
-   V~IH~ and V~IL~, in the
-   [recommended operating conditions](#recommended-operating-conditions).
-   Inputs are overvoltage tolerant allowing them to go as high as
-   V~I~ maximum at any valid V~CC~.
-2. Outputs: load currents must not exceed I~O~ maximum per output and
-   must not exceed total current (continuous current through V~CC~ or
-   GND) for the part; these limits are in the
-   [absolute maximum ratings](#absolute-maximum-ratings). Outputs must
-   not be pulled above V~CC~ in normal operating conditions.
+1. Recommended input conditions:
+   - Rise time and fall time specs. See Δt/ΔV in the
+     [recommended operating conditions](#recommended-operating-conditions)
+     table.
+   - Specified high and low levels. See V~IH~ and V~IL~ in the recommended
+     operating conditions table.
+   - Inputs are overvoltage tolerant allowing them to go as high as
+     V~I~ maximum in the recommended operating conditions table at any valid
+     V~CC~.
+2. Recommended output conditions:
+   - Load currents must not exceed I~O~ maximum per output and must not exceed
+     total current (continuous current through V~CC~ or GND) for the
+     part. These limits are located in the
+     [absolute maximum ratings](#absolute-maximum-ratings) table.
+   - Outputs must not be pulled above V~CC~ in normal operating conditions.
 
 Power: the power supply can be any voltage between the minimum and
 maximum supply voltage rating in the recommended operating conditions.
@@ -296,12 +311,15 @@ recommended. 0.1-µF and 1-µF capacitors are commonly used in parallel.
 The bypass capacitor must be installed as close to the power pin as
 possible for best results.
 
-Layout: inputs must not ever float. Unused input pins must not be left
-unconnected because the undefined voltages at the outside connections
-result in undefined operational states. All unused inputs of digital
-logic devices must be connected to a high or low bias to prevent them
-from floating; generally they will be tied to GND or V~CC~, whichever
-makes more sense or is more convenient.
+When using multiple bit logic devices inputs must not ever float. In many
+cases, functions or parts of functions of digital logic devices are
+unused; for example, when only two inputs of a triple-input AND gate are
+used or only 3 of the 4 buffer gates are used. Such input pins must not
+be left unconnected because the undefined voltages at the outside
+connections result in undefined operational states. All unused inputs of
+digital logic devices must be connected to a high or low bias to prevent
+them from floating. Generally they will be tied to GND or V~CC~ whichever
+make more sense or is more convenient.
 
 ## Package
 
@@ -317,14 +335,23 @@ makes more sense or is more convenient.
 ## Ordering information
 
 ```ordering
+SN74LVC2G08DCTR | Reel of 3000 | -40 to 125 | (2WJ5, C08) (R, Z)
+SN74LVC2G08DCTRE4 | 3000 | -40 to 125 | C08 (R, Z)
+SN74LVC2G08DCTRG4 | Reel of 3000 | -40 to 125 | C08 (R, Z)
+SN74LVC2G08DCUR | Reel of 3000 | -40 to 125 | (08, C08J, C08Q, C08R) (CR, CZ)
+SN74LVC2G08DCURE4 | Reel of 3000 | -40 to 125 | C08R
+SN74LVC2G08DCURG4 | Reel of 3000 | -40 to 125 | C08R
+SN74LVC2G08DCUT | Reel of 250 | -40 to 125 | (C08J, C08Q, C08R) CR
+SN74LVC2G08DCUTG4 | Reel of 250 | -40 to 125 | C08R
+SN74LVC2G08YZPR | Reel of 3000 | -40 to 85 | CE7, CEN
 ```
 
 ## Conversion notes
 
-- Source pages 1 and 3–12 converted; revision history (p.2), support pages,
-  the package option addendum, tape and reel and mechanical pages
-  (13–26) dropped, replaced by the generated Package and Ordering
-  sections.
+- Source pages 1 and 3–12 converted. The ordering lines are from the
+  package option addendum (pp.13–14). Revision history (p.2), support
+  pages, tape and reel and mechanical pages (15–26) are left out; the
+  generated Package section replaces them.
 - Dropped: features and applications lists, device information table,
   logic diagram (two AND gates), the layout example (Figure 6: an unused
   input tied to V~CC~ or GND), the multi-V~CC~-pin bypass advice (this

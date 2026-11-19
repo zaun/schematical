@@ -25,8 +25,9 @@
 
 The SN74LVC08A-Q1 quadruple 2-input positive-AND gate is designed for
 2.7V to 3.6V V~CC~ operation. The device performs the Boolean function
-Y = A · B or Y = !{!{A} + !{B}} in positive logic. It is qualified for
-automotive applications.
+Y = A • B or Y = !{!{A} + !{B}} in positive logic.
+
+Qualified for automotive applications.
 
 Inputs can be driven from either 3.3V or 5V devices. This feature allows
 the use of this device as a translator in a mixed 3.3V/5V system
@@ -47,12 +48,12 @@ GND: Ground
 VCC: Positive supply
 ```
 
-The BQA package drawing shows an exposed pad (PAD); the pin functions
-table does not describe it.
+Conversion note: the BQA package drawing shows an exposed pad (PAD); the
+pin functions table does not describe it.
 
 ## Functional description
 
-Logic diagram: four 2-input AND gates.
+Conversion note: the logic diagram, each gate (positive logic), is one 2-input AND gate.
 
 ## Function tables
 
@@ -112,11 +113,11 @@ Logic diagram: four 2-input AND gates.
 ## Thermal information
 
 ```table id=thermal caption="Thermal information [1]"
-| Symbol | Parameter | BQA (WQFN) | D (SOIC) | PW (TSSOP) | Unit |
+| Symbol | Parameter | BQA (WQFN), 14 pins | D (SOIC), 14 pins | PW (TSSOP), 14 pins | Unit |
 |---|---|--:|--:|--:|---|
 | R~θJA~ | Junction-to-ambient thermal resistance | 102.3 | 127.8 | 150.8 | °C/W |
 
-[1] All packages 14 pins. For more information about traditional and new thermal metrics, see the Semiconductor and IC package thermal metrics application report.
+[1] For more information about traditional and new thermal metrics, see the Semiconductor and IC package thermal metrics application report.
 ```
 
 ## Electrical characteristics
@@ -157,12 +158,15 @@ Logic diagram: four 2-input AND gates.
 
 ## Parameter measurement information
 
-For t~PLH~/t~PHL~ the switch S1 is open, which leaves R~L~ and C~L~ from
-the output to ground. C~L~ includes probe and jig capacitance. All input
+C~L~ includes probe and jig capacitance. All input
 pulses are supplied by generators having the following characteristics:
 PRR ≤ 10 MHz, Z~O~ = 50 Ω. The outputs are measured one at a time, with
 one transition per measurement. t~PLH~ and t~PHL~ are the same as
 t~pd~. All parameters and waveforms are not applicable to all devices.
+
+Conversion note: for t~PLH~/t~PHL~ the switch S1 of the load circuit
+(Figure 5-1) is open, which leaves R~L~ and C~L~ from the output to
+ground.
 
 ```table id=pmi caption="Load circuit and input conditions"
 | V~CC~ | V~I~ | t~r~/t~f~ | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -186,27 +190,37 @@ Information in the applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness.
 
-Power supply: the power supply can be any voltage between the minimum
+### Power supply recommendations
+
+The power supply can be any voltage between the minimum
 and maximum supply voltage rating located in the
 [recommended operating conditions](#recommended-operating-conditions).
 Each V~CC~ terminal should have a good bypass capacitor to prevent power
 disturbance. A 0.1-µF capacitor is recommended for this device. It is
 acceptable to parallel multiple bypass caps to reject different
-frequencies of noise; the 0.1-µF and 1-µF capacitors are commonly used
+frequencies of noise. The 0.1-µF and 1-µF capacitors are commonly used
 in parallel. The bypass capacitor should be installed as close to the
 power terminal as possible for best results.
 
-Layout: when using multiple-input and multiple-channel logic devices
+### Layout guidelines
+
+When using multiple-input and multiple-channel logic devices
 inputs must never be left floating. Such unused input pins must not be
 left unconnected because the undefined voltages at the outside
 connections result in undefined operational states. All unused inputs of
 digital logic devices must be connected to a logic high or logic low
 voltage, as defined by the input voltage specifications, to prevent them
 from floating. Generally, the inputs are tied to GND or V~CC~, whichever
-makes more sense for the logic function or is more convenient. The
-example layout ties unused inputs to V~CC~, leaves the unused output
-floating, places the bypass capacitor close to the device, and avoids
-90° corners for signal lines.
+makes more sense for the logic function or is more convenient.
+
+Conversion note: the example layout for the SN74LVC08A-Q1 (Figure 7-1) is given here by its labels.
+
+- Recommend GND flood fill for improved signal isolation, noise reduction, and thermal dissipation
+- Bypass capacitor placed close to the device
+- 0.1 µF
+- Unused inputs tied to V~CC~
+- Unused output left floating
+- Avoid 90° corners for signal lines
 
 ## Package
 
@@ -227,15 +241,17 @@ SN74LVC08AWBQARQ1 | Reel of 3000 | -40 to 125 | LVC08Q
 ## Conversion notes
 
 - Source pages 1–9 converted; the package option addendum, tape and
-  reel and mechanical pages dropped, replaced by the generated Package
+  reel and mechanical pages (10–22) dropped, replaced by the generated Package
   and Ordering sections. The D (SOIC) package is in the source but no
   claimed catalog part uses it.
 - Dropped: features list, package information table, revision history,
   support pages, the enable/disable and setup/hold waveforms of the
   generic measurement figure (they do not apply to this part); the
-  example layout (Figure 7-1) is described in one sentence.
-- The Boolean function's second form is an image in the PDF; written as
-  Y = !{!{A} + !{B}}.
+  example layout (Figure 7-1) is given as a list of its labels.
+- From images: µF (0.1 µF in Figure 7-1, p.8; the text layer has
+  "0.1 F").
+- From images: the Boolean function's second form
+  Y = !{!{A} + !{B}} (p.1, an image).
 - Source issues:
   - Source conflict: the feature list says "Operates from 1.65V to
     3.6V" (p.1), the description says the device is designed for 2.7V

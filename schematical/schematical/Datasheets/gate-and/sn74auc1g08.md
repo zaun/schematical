@@ -26,8 +26,9 @@
 This single 2-input positive-AND gate is operational at 0.8-V to 2.7-V
 V~CC~, but is designed specifically for 1.65-V to 1.95-V V~CC~
 operation. The SN74AUC1G08 device performs the Boolean function
-Y = A • B or Y = !{!{A} + !{B}} in positive logic. Inputs and outputs
-are 3.6-V tolerant to support mixed-mode signal operation.
+Y = A • B or Y = !{!{A} + !{B}} in positive logic. Optimized for 1.8-V
+operation and is 3.6-V I/O tolerant to support mixed-mode signal
+operation.
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
@@ -35,7 +36,7 @@ current backflow through the device when it is powered down.
 
 ## Pinout
 
-The source draws the YZP package in bottom view; the drawing here is
+Conversion note: the source draws the YZP package in bottom view, and the drawing here is
 generated from the catalog.
 
 ```pinout pinout=p5
@@ -138,13 +139,13 @@ VCC: Positive supply
 ```table id=ec caption="Electrical characteristics" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | Parameter | Test conditions | < | V~CC~ | Min | Typ [1] | Max | Unit |
 |---|---|---|---|---|--:|--:|--:|---|
-| V~OH~ | High-level output voltage | I~OH~ = -100 µA | < | 0.8 V to 2.7 V | V~CC~ - 0.1 | | | V |
+| V~OH~ | | I~OH~ = -100 µA | < | 0.8 V to 2.7 V | V~CC~ - 0.1 | | | V |
 | ^ | ^ | I~OH~ = -0.7 mA | < | 0.8 V | | 0.55 | | V |
 | ^ | ^ | I~OH~ = -3 mA | < | 1.1 V | 0.8 | | | V |
 | ^ | ^ | I~OH~ = -5 mA | < | 1.4 V | 1 | | | V |
 | ^ | ^ | I~OH~ = -8 mA | < | 1.65 V | 1.2 | | | V |
 | ^ | ^ | I~OH~ = -9 mA | < | 2.3 V | 1.8 | | | V |
-| V~OL~ | Low-level output voltage | I~OL~ = 100 µA | < | 0.8 V to 2.7 V | | | 0.2 | V |
+| V~OL~ | | I~OL~ = 100 µA | < | 0.8 V to 2.7 V | | | 0.2 | V |
 | ^ | ^ | I~OL~ = 0.7 mA | < | 0.8 V | | 0.25 | | V |
 | ^ | ^ | I~OL~ = 3 mA | < | 1.1 V | | | 0.3 | V |
 | ^ | ^ | I~OL~ = 5 mA | < | 1.4 V | | | 0.4 | V |
@@ -189,8 +190,9 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω, slew rate ≥ 1 V/ns. The outputs are measured one at a time,
 with one transition per measurement. t~PLH~ and t~PHL~ are the same as
-t~pd~. For t~PLH~/t~PHL~, switch S1 is open, so the output sees C~L~ and
-R~L~ to GND. Inputs switch between 0 V and V~CC~; timing is measured at
+t~pd~. Conversion note: the source's test table sets S1 open for
+t~PLH~/t~PHL~, which leaves R~L~ and C~L~ from the output to GND, and its
+waveforms draw the input from 0 V to V~CC~ with the delays measured at
 V~CC~/2.
 
 ```table id=pmi-load caption="Load values"
@@ -241,9 +243,10 @@ SN74AUC1G08YZPR | Reel of 3000 | -40 to 85 | UEN
 
 ## Conversion notes
 
-- Source pages 1–8 converted; the revision history, package option
-  addendum, tape and reel and mechanical pages (9–25) dropped, replaced
-  by the generated Package and Ordering sections.
+- Source pages 1–7 converted; the documentation support, package option
+  addendum, tape and reel and mechanical pages (8–25) dropped, replaced
+  by the generated Package and Ordering sections. The table of contents
+  and revision history on page 2 are dropped too.
 - Dropped: the NanoFree package text, the enable/disable-time,
   pulse-duration and setup/hold parts of Figure 1 (the source notes
   that not all parameters and waveforms apply to all devices; this gate

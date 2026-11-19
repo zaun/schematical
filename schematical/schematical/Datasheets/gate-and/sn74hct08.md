@@ -24,9 +24,10 @@
 ## Description
 
 These devices contain four independent 2-input AND gates. They perform
-the Boolean function Y = A · B in positive logic. Inputs are
-TTL-voltage compatible; outputs can drive up to 10 LSTTL loads.
-Operating voltage range 4.5 V to 5.5 V.
+the Boolean function Y = A · B in positive logic.
+
+Operating voltage range of 4.5V to 5.5V. Outputs can drive up to 10
+LSTTL loads. Inputs are TTL-voltage compatible.
 
 ## Pinout
 
@@ -85,21 +86,22 @@ VCC: Positive supply
 | Δt/Δv | Input transition rise/fall time | | | | 500 | ns |
 | T~A~ | Operating free-air temperature | | -40 | | 85 | °C |
 
-[1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation.
+[1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report Implications of Slow or Floating SMOS Inputs, literature number SCBA004.
 ```
 
 ## Thermal information
 
-```table id=thermal caption="Thermal information [1]"
-| Symbol | Parameter | D (SOIC) | DB (SSOP) | N (PDIP) | NS (SO) | PW (TSSOP) | Unit |
+```table id=thermal caption="Thermal information"
+| Symbol | Parameter | D (SOIC), 14 pins | DB (SSOP), 14 pins | N (PDIP), 14 pins | NS (SO), 14 pins | PW (TSSOP), 14 pins | Unit |
 |---|---|--:|--:|--:|--:|--:|---|
-| R~θJA~ | Junction-to-ambient thermal resistance | 138.7 | 114.8 | 103.8 | 129.3 | 157.6 | °C/W |
+| R~θJA~ | Junction-to-ambient thermal resistance [1] | 138.7 | 114.8 | 103.8 | 129.3 | 157.6 | °C/W |
 | R~θJC(top)~ | Junction-to-case (top) thermal resistance | 93.8 | 60 | 91.6 | 85.7 | 84.1 | °C/W |
 | R~θJB~ | Junction-to-board thermal resistance | 94.7 | 63.8 | 83.5 | 89.9 | 100.8 | °C/W |
 | Ψ~JT~ | Junction-to-top characterization parameter | 49.1 | 19.7 | 71.1 | 48.2 | 27.5 | °C/W |
 | Ψ~JB~ | Junction-to-board characterization parameter | 94.3 | 63.1 | 83.4 | 89.4 | 100.2 | °C/W |
+| R~θJC(bot)~ | Junction-to-case (bottom) thermal resistance | N/A | N/A | N/A | N/A | N/A | °C/W |
 
-[1] All packages 14 pins. R~θJC(bot)~ (junction-to-case (bottom) thermal resistance) is N/A for these packages. For more information about traditional and new thermal metrics, see the Semiconductor and IC package thermal metrics application report.
+[1] For more information about traditional and new thermal metrics, see the Semiconductor and IC package thermal metrics application report.
 ```
 
 ## Electrical characteristics
@@ -129,7 +131,7 @@ VCC: Positive supply
 
 ## Switching characteristics
 
-C~L~ = 50 pF; see [parameter measurement information](#parameter-measurement).
+C~L~ = 50 pF. See [Parameter Measurement Information](#parameter-measurement).
 
 ```table id=sw caption="Switching characteristics" conditions="C~L~ = 50 pF"
 | Symbol | Parameter | From (input) | To (output) | V~CC~ (V) | T~A~ = 25 °C | < | < | SN74HCT08 | < | Unit |
@@ -154,8 +156,8 @@ same as t~pd~.
 CL: 50 pF
 ```
 
-Propagation delays for TTL-compatible inputs: the input swings 0 V to
-3 V and is measured at 1.3 V; the outputs are measured at 50 %.
+Conversion note: in the source's voltage waveforms the input swings
+0 V to 3 V and is measured at 1.3 V; the outputs are measured at 50 %.
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delays for TTL-compatible inputs"
 VM: 1.3 V (input), 50 % (output)
@@ -163,24 +165,36 @@ VM: 1.3 V (input), 50 % (output)
 
 ## Application information
 
-Power: the power supply can be any voltage between the minimum and
+### Power supply recommendations
+
+The power supply can be any voltage between the minimum and
 maximum supply voltage rating located in the
 [recommended operating conditions](#recommended-operating-conditions).
 Each V~CC~ terminal should have a good bypass capacitor to prevent power
-disturbance. A 0.1-µF capacitor is recommended for this device. The
-0.1-µF and 1-µF capacitors are commonly used in parallel. The bypass
+disturbance. A 0.1-µF capacitor is recommended for this device. It is
+acceptable to parallel multiple bypass caps to reject different
+frequencies of noise. The 0.1-µF and 1-µF capacitors are commonly used in parallel. The bypass
 capacitor should be installed as close to the power terminal as possible
 for best results.
 
-Layout: inputs must not ever be left floating. Unused input pins must
-not be left unconnected because the undefined voltages at the outside
+### Layout guidelines
+
+When using multiple-input and multiple-channel logic devices inputs
+must not ever be left floating. In many cases, functions or parts of
+functions of digital logic devices are unused; for example, when only
+two inputs of a triple-input AND gate are used or only 3 of the 4
+buffer gates are used. Such unused input pins must not be left unconnected because the undefined voltages at the outside
 connections result in undefined operational states. All unused inputs of
 digital logic devices must be connected to a logic high or logic low
 voltage, as defined by the input voltage specifications, to prevent them
-from floating. Generally, the inputs are tied to GND or V~CC~, whichever
-makes more sense for the logic function or is more convenient. The
-source's layout example ties unused inputs to V~CC~ and leaves the
-unused output floating.
+from floating. The logic level that must be applied to any particular
+unused input depends on the function of the device. Generally, the inputs are tied to GND or V~CC~, whichever
+makes more sense for the logic function or is more convenient.
+
+Conversion note: the source's layout example uses a GND flood fill,
+places the 0.1 µF bypass capacitor close to the device, ties unused
+inputs to V~CC~, leaves the unused output floating and avoids 90°
+corners for signal lines.
 
 ## Package
 
@@ -202,31 +216,30 @@ unused output floating.
 ## Ordering information
 
 ```ordering
-SN74HCT08DBR | Reel of 2000 | -40 to 85 | HT08
+SN74HCT08D | | -40 to 85 | HCT08 | Obsolete
+SN74HCT08DBR | Reel of 2000 | -40 to 85 | HT08 | NRND
 SN74HCT08DR | Reel of 2500 | -40 to 85 | HCT08
 SN74HCT08DRE4 | Reel of 2500 | -40 to 85 | HCT08
 SN74HCT08DRG4 | Reel of 2500 | -40 to 85 | HCT08
 SN74HCT08N | Tube of 25 | -40 to 85 | SN74HCT08N
 SN74HCT08NE4 | Tube of 25 | -40 to 85 | SN74HCT08N
-SN74HCT08NSR | Reel of 2000 | -40 to 85 | HCT08
+SN74HCT08NSR | Reel of 2000 | -40 to 85 | HCT08 | Last Time Buy
+SN74HCT08PW | | -40 to 85 | HT08 | Obsolete
 SN74HCT08PWR | Reel of 2000 | -40 to 85 | HT08
 SN74HCT08PWRG4 | Reel of 2000 | -40 to 85 | HT08
+SN74HCT08PWT | | -40 to 85 | HT08 | Obsolete
 ```
-
-The package option addendum lists SN74HCT08D, SN74HCT08PW and
-SN74HCT08PWT as obsolete, SN74HCT08DBR as NRND and SN74HCT08NSR as last
-time buy.
 
 ## Conversion notes
 
 - Source pages 1–10 converted; the package option addendum, tape and
   reel and mechanical pages (11–27) dropped, replaced by the generated
   Package and Ordering sections.
-- Dropped: features list, package information table, revision history,
+- Dropped: features list, package information table, functional block
+  diagram (one 2-input AND gate, inputs xA and xB, output xY), revision history,
   support pages, layout example figure (described in one sentence), the
   "for clock inputs, f~max~" sentence of the measurement conditions (the
-  part has no clock input), and the application-report reference in ROC
-  note 1.
+  part has no clock input).
 - Source issues:
   - Source error: the package information table (p.1) gives NS as
     "SO, 4"; the pin configuration (p.3) shows the 14-pin SO and the

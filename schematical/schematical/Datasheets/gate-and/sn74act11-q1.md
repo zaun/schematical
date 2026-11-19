@@ -25,11 +25,11 @@
 
 The SN74ACT11-Q1 device contains three independent 3-input AND gates.
 These devices perform the Boolean function Y = A · B · C in positive
-logic. It is AEC-Q100 qualified for automotive applications (device
-temperature grade 1: –40 °C to +125 °C), operates from 4.5 V to 5.5 V,
-has TTL-compatible inputs, and drives ±24 mA continuous, or up to
-±75 mA in short bursts, at 5 V. It is available in a wettable flank QFN
-package.
+logic. AEC-Q100 qualified for automotive applications: Device temperature
+grade 1: -40°C to +125°C. Available in wettable flank QFN package.
+Operating voltage range of 4.5V to 5.5V. TTL-compatible inputs.
+Continuous ±24mA output drive at 5V. Supports up to ±75mA output drive
+at 5V in short bursts.
 
 ## Pinout
 
@@ -47,18 +47,24 @@ GND: Ground
 VCC: Positive Supply
 ```
 
-Thermal pad (BQA package only): the thermal pad can be connected to GND
-or left floating. Do not connect to any other signal or supply.
+```table id=thermal-pad caption="Thermal pad"
+| Name | Description |
+|---|---|
+| Thermal pad [1] | The thermal pad can be connected to GND or left floating. Do not connect to any other signal or supply |
+
+[1] BQA Package only
+```
 
 Source conflict: the source's pin table names pin 9 3C and pin 11 3A,
 but describes pin 9 as "Channel 3, Input A" and pin 11 as "Channel 3,
-Input C". The catalog pinout used here has 3A on pin 9 and 3C on pin
-11. The three inputs of each gate perform the same function.
+Input C". Conversion note: the catalog pinout used here has 3A on pin
+9 and 3C on pin 11; the three inputs of each gate perform the same
+function.
 
 ## Functional description
 
-Functional block diagram: one 3-input AND gate per channel, inputs xA,
-xB and xC, output xY.
+Conversion note: the functional block diagram shows one 3-input AND
+gate per channel, inputs xA, xB and xC, output xY.
 
 ### Balanced CMOS push-pull outputs
 
@@ -94,7 +100,8 @@ consumption and could cause oscillations. Do not leave TTL-compatible
 CMOS inputs floating at any time during operation. Unused inputs must
 be terminated at V~CC~ or GND. If a system will not be actively driving
 an input at all times, a pull-up or pull-down resistor can be added to
-provide a valid input voltage during these times; a 10kΩ resistor is
+provide a valid input voltage during these times. The resistor value
+will depend on multiple factors; however, a 10kΩ resistor is
 recommended and typically will meet all requirements.
 
 ### Wettable flanks
@@ -150,8 +157,8 @@ clamp-current ratings are observed.
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
 |---|---|---|--:|---|
-| V~(ESD)~ | Electrostatic discharge | Human body model (HBM), per AEC Q100-002, HBM ESD Classification Level 2 [1] | ±2000 | V |
-| ^ | ^ | Charged device model (CDM), per AEC Q100-011, CDM ESD Classification Level C4B | ±1000 | V |
+| V~(ESD)~ | Electrostatic discharge | Human body model (HBM), per AEC Q100-002 HBM ESD Classification Level 2 [1] | ±2000 | V |
+| ^ | ^ | Charged device model (CDM), per AEC Q100-011 CDM ESD Classification Level C4B | ±1000 | V |
 
 [1] AEC Q100-002 indicate that HBM stressing shall be in accordrance with the ANSI/ESDA/JEDEC JS-001 specification.
 ```
@@ -180,45 +187,45 @@ clamp-current ratings are observed.
 | PW (TSSOP) | 14 | 145.7 | 76.5 | 102.0 | 18.8 | 100.7 | | °C/W |
 | BQA (WQFN) | 14 | 91.3 | 99.4 | 61.0 | 14.5 | 60.8 | 37.0 | °C/W |
 
-[1] R~θJC(bot)~ is printed "-" for PW. For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application note.
+[1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application note. Conversion note: R~θJC(bot)~ is printed "-" for PW.
 ```
 
 ## Electrical characteristics
 
 ```table id=ec caption="Electrical characteristics" conditions="Over operating free-air temperature range (unless otherwise noted); typical at T~A~ = 25 °C"
-| Symbol | Parameter | Test conditions | V~CC~ | –40 °C to 125 °C | < | < | Unit |
-| ^ | ^ | ^ | ^ | Min | Typ | Max | ^ |
-|---|---|---|---|--:|--:|--:|---|
-| V~OH~ | High-level output voltage | I~OH~ = -50 µA | 4.5 V | 4.4 | 4.499 | | V |
-| ^ | ^ | ^ | 5.5 V | 5.4 | 5.499 | | V |
-| ^ | ^ | I~OH~ = -24 mA | 4.5 V | 3.7 | 4.16 | | V |
-| ^ | ^ | I~OH~ = -24 mA | 5.5 V | 4.7 | 5.18 | | V |
-| ^ | ^ | I~OH~ = -75 mA [1] | 5.5 V | 3.85 | | | V |
-| V~OL~ | Low-level output voltage [2] | I~OL~ = 50 µA | 4.5 V | | 0.001 | 0.1 | V |
-| ^ | ^ | ^ | 5.5 V | | 0.001 | 0.1 | V |
-| ^ | ^ | I~OL~ = 24 mA | 4.5 V | | 0.16 | 0.5 | V |
-| ^ | ^ | I~OL~ = 24 mA | 5.5 V | | 0.14 | 0.5 | V |
-| ^ | ^ | I~OL~ = 75 mA [1] | 5.5 V | | | 1.65 | V |
-| I~I~ | Input leakage current | V~I~ = 5.5 V or GND | 0 V to 5.5 V | | ±0.03 | ±1 | µA |
-| I~CC~ | Supply current | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | 0.08 | 1 | µA |
-| ΔI~CC~ | Supply-current change | V~I~ = V~CC~ – 2.1 V; any input | 4.5 V to 5.5 V | | | 100 | µA |
-| C~I~ | Input capacitance | V~I~ = V~CC~ or GND | 5 V | | | 2 | pF |
-| C~PD~ | Power dissipation capacitance | C~L~ = 50 pF, F = 1 MHz | 5 V | | | 20 | pF |
+| Parameter | Test conditions | V~CC~ | -40°C to 125°C | < | < | Unit |
+| ^ | ^ | ^ | Min | Typ | Max | ^ |
+|---|---|---|--:|--:|--:|---|
+| V~OH~ | I~OH~ = -50 µA | 4.5 V | 4.4 | 4.499 | | V |
+| ^ | ^ | 5.5 V | 5.4 | 5.499 | | ^ |
+| ^ | I~OH~ = -24 mA | 4.5 V | 3.7 | 4.16 | | ^ |
+| ^ | I~OH~ = -24 mA | 5.5 V | 4.7 | 5.18 | | ^ |
+| ^ | I~OH~ = -75 mA [1] | 5.5 V | 3.85 | | | ^ |
+| V~OL~ | I~OL~ = 50 µA [2] | 4.5 V | | 0.001 | 0.1 | V |
+| ^ | ^ | 5.5 V | | 0.001 | 0.1 | ^ |
+| ^ | I~OL~ = 24 mA [2] | 4.5 V | | 0.16 | 0.5 | ^ |
+| ^ | I~OL~ = 24 mA [2] | 5.5 V | | 0.14 | 0.5 | ^ |
+| ^ | I~OL~ = 75 mA [1] [2] | 5.5 V | | | 1.65 | ^ |
+| I~I~ | V~I~ = 5.5 V or GND | 0 V to 5.5 V | | ±0.03 | ±1 | µA |
+| I~CC~ | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | 0.08 | 1 | µA |
+| ΔI~CC~ | V~I~ = V~CC~ – 2.1 V; Any Input | 4.5 V to 5.5 V | | | 100 | µA |
+| C~I~ | V~I~ = V~CC~ or GND | 5 V | | 2 | | pF |
+| C~PD~ | C~L~ = 50 pF, F = 1 MHz | 5 V | | 20 | | pF |
 
 [1] Not more than one output should be tested at a time, and the duration of the test should not exceed 2 ms.
-[2] Source error: the source labels the V~OL~ test currents I~OH~ (I~OH~ = 50 µA, 24 mA, 75 mA). The V~OH~ rows of the same table give I~OH~ as negative (sourcing) currents; written I~OL~.
+[2] Source error: the source labels the V~OL~ test currents I~OH~ (I~OH~ = 50 µA, 24 mA, 75 mA), while the V~OH~ rows of the same table give I~OH~ as negative (sourcing) currents; written I~OL~.
 ```
 
 ## Switching characteristics
 
 ```table id=sw caption="Switching characteristics" conditions="C~L~ = 50 pF; over operating free-air temperature range; typical values measured at T~A~ = 25 °C (unless otherwise noted)"
-| Symbol | From (input) | To (output) | Load capacitance | V~CC~ | –40 °C to 125 °C | < | < | Unit |
+| Parameter | From (input) | To (output) | Load capacitance | V~CC~ | -40°C to 125°C | < | < | Unit |
 | ^ | ^ | ^ | ^ | ^ | Min | Typ | Max | ^ |
 |---|---|---|---|---|--:|--:|--:|---|
 | t~PLH~ | A, B, or C | Y | C~L~ = 50 pF | 5 V | | 5 | 8 | ns |
 | t~PHL~ | A, B, or C | Y | C~L~ = 50 pF | 5 V | | 5.2 | 7.8 | ns |
 | t~r~ | | Y | C~L~ = 50 pF | 5 V | | 2.8 | 4.7 | ns |
-| t~f~ | | Y | C~L~ = 50 pF | 5 V | | 2.6 | 4.1 | ns |
+| t~f~ | ^ | ^ | ^ | 5 V | | 2.6 | 4.1 | ns |
 ```
 
 ## Parameter measurement information
@@ -229,7 +236,7 @@ characteristics: PRR ≤ 1MHz, Z~O~ = 50Ω, t~t~ < 2.5ns, V~t~ = 1.5V. For
 push-pull outputs, R~L~ = 500Ω. The outputs are measured individually
 with one input transition per measurement. C~L~ includes probe and
 test-fixture capacitance. The greater between t~PLH~ and t~PHL~ is the
-same as t~pd~; the greater between t~r~ and t~f~ is the same as t~t~.
+same as t~pd~. The greater between t~r~ and t~f~ is the same as t~t~.
 
 ```figure ref=load-rl-cl caption="Load circuit for push-pull outputs"
 RL: 500 Ω
@@ -242,8 +249,8 @@ VM: V~t~ = 1.5 V (input), 50 % (outputs)
 
 ## Application information
 
-Information in this section is not part of the TI component
-specification.
+Information in the following applications sections is not part of the
+TI component specification.
 
 ### Typical application
 
@@ -252,7 +259,8 @@ pin of a motor controller. The controller requires three input signals
 to all be HIGH before being enabled, and should be disabled in the event
 that any one signal goes LOW. The 3-input AND gate function combines
 the three individual reset signals into a single active-low reset
-signal. Typical application schematic: the power supply's PG output,
+signal. Conversion note: the typical application schematic shows the
+power supply's PG output,
 the over-current detection's !{OC} output and an on/off switch drive
 the three inputs of one gate; its output drives the motor controller's
 !{RESET}.
@@ -266,7 +274,9 @@ the three inputs of one gate; its output drives the motor controller's
 ]}
 ```
 
-Power considerations: ensure the desired supply voltage is within the
+#### Power considerations
+
+Ensure the desired supply voltage is within the
 range specified in the
 [recommended operating conditions](#recommended-operating-conditions).
 The supply must be capable of sourcing current equal to the total
@@ -281,27 +291,32 @@ junction temperature, T~J(max)~ listed in the Absolute Maximum Ratings,
 is an additional limitation to prevent damage to the device. Do
 not violate any values listed in the Absolute Maximum Ratings.
 
-Input considerations: unused inputs must be terminated to either V~CC~
+#### Input considerations
+
+Unused inputs must be terminated to either V~CC~
 or ground. These can be directly terminated if the input is completely
 unused, or they can be connected with a pull-up or pull-down resistor
 if the input is to be used sometimes, but not always. The resistor size
 is limited by drive current of the controller, leakage current into the
 device, and the desired input transition rate. A 10-kΩ resistor value
-is often used due to these factors. The source states that the device
-has standard CMOS inputs, so input signal edge rates cannot be slow
-(Source conflict: the description and the Feature Description give
-TTL-compatible CMOS inputs). Slow input edge rates can cause
+is often used due to these factors. Conversion note: the source goes on
+to say that the SN74HC11 has standard CMOS inputs, so input signal edge
+rates cannot be slow. Source conflict: the description and the Feature
+Description give TTL-compatible CMOS inputs. Slow input edge rates can cause
 oscillations and damaging shoot-through current. The recommended rates
 are defined in the
 [recommended operating conditions](#recommended-operating-conditions).
 
-Output considerations: drawing current from the output will decrease
-the output voltage as specified by the V~OH~ specification; sinking
-current into the output will increase the output voltage as specified
-by the V~OL~ specification. Unused outputs can be left floating. Do not
+#### Output considerations
+
+Drawing current from the output will decrease the output voltage as
+specified by the V~OH~ specification in the Electrical Characteristics.
+Sinking current into the output will increase the output voltage as
+specified by the V~OL~ specification in the Electrical Characteristics.
+Unused outputs can be left floating. Do not
 connect outputs directly to V~CC~ or ground.
 
-Detailed design procedure:
+#### Detailed design procedure
 
 1. Add a decoupling capacitor from V~CC~ to GND. The capacitor needs to
    be placed physically close to the device and electrically close to
@@ -316,30 +331,39 @@ Detailed design procedure:
    steps provided in the application report, CMOS Power Consumption and
    C~pd~ Calculation.
 
-Power supply: the power supply can be any voltage between the minimum
+### Power supply recommendations
+
+The power supply can be any voltage between the minimum
 and maximum supply voltage rating located in the
 [recommended operating conditions](#recommended-operating-conditions).
 Each V~CC~ terminal should have a bypass capacitor to prevent power
-disturbance. A 0.1-µF capacitor is recommended for this device. It is
+disturbance. A 0.1µF capacitor is recommended for this device. It is
 acceptable to parallel multiple bypass caps to reject different
-frequencies of noise; the 0.1-µF and 1-µF capacitors are commonly used
+frequencies of noise. The 0.1µF and 1µF capacitors are commonly used
 in parallel. The bypass capacitor should be installed as close to the
 power terminal as possible for best results.
 
-Layout guidelines:
+### Layout guidelines
 
-- Bypass capacitor placement: place near the positive supply terminal
-  of the device; provide an electrically short ground return path; use
-  wide traces to minimize impedance; keep the device, capacitors, and
-  traces on the same side of the board whenever possible.
-- Signal trace geometry: 8mil to 12mil trace width; lengths less than
-  12cm to minimize transmission line effects; avoid 90° corners for
-  signal traces; use an unbroken ground plane below signal traces;
-  flood fill areas around signal traces with ground.
-- For traces longer than 12cm: use impedance controlled traces;
-  source-terminate using a series damping resistor near the output
-  (22 Ω in the source's example); avoid branches; buffer signals that
-  must branch separately.
+- Bypass capacitor placement
+  - Place near the positive supply terminal of the device
+  - Provide an electrically short ground return path
+  - Use wide traces to minimize impedance
+  - Keep the device, capacitors, and traces on the same side of the
+    board whenever possible
+- Signal trace geometry
+  - 8mil to 12mil trace width
+  - Lengths less than 12cm to minimize transmission line effects
+  - Avoid 90° corners for signal traces
+  - Use an unbroken ground plane below signal traces
+  - Flood fill areas around signal traces with ground
+  - For traces longer than 12cm
+    - Use impedance controlled traces
+    - Source-terminate using a series damping resistor near the output
+    - Avoid branches; buffer signals that must branch separately
+
+Conversion note: the source's example figure (Figure 8-7) shows a
+22 Ω damping resistor.
 
 ## Package
 
@@ -352,6 +376,8 @@ Layout guidelines:
 ## Ordering information
 
 ```ordering
+SN74ACT11PWRQ1 | Reel of 3000 | -40 to 125 | ACT11Q
+SN74ACT11WBQARQ1 | Reel of 3000 | -40 to 125 | AD11Q
 ```
 
 ## Conversion notes

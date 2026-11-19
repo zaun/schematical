@@ -32,7 +32,7 @@ fabrication site), extended temperature performance of –55 °C to 125 °C,
 EPIC (Enhanced-Performance Implanted
 CMOS) process. Component qualification in accordance with JEDEC and
 industry standards to ensure reliable operation over an extended
-temperature range; such qualification testing should not be viewed as
+temperature range. Such qualification testing should not be viewed as
 justifying use of this component beyond specified performance and
 environmental limits.
 
@@ -159,9 +159,10 @@ See [parameter measurement information](#parameter-measurement).
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
-time with one input transition per measurement. C~L~ is 15 pF or 50 pF,
-as given in the [switching characteristics](#sw). Inputs swing 0 V to
-3 V and are measured at 1.5 V; outputs are measured at 50 % V~CC~.
+time with one input transition per measurement. Conversion note: C~L~ is
+15 pF or 50 pF, as given in the [switching characteristics](#sw), and
+in the source figure inputs swing 0 V to 3 V and are measured at 1.5 V,
+outputs at 50 % V~CC~.
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 15 pF or 50 pF
@@ -171,7 +172,7 @@ CL: 15 pF or 50 pF
 VM: 1.5 V (input), 50 % VCC (output)
 ```
 
-The source figure also shows the 3-state and open-drain load circuit,
+Conversion note: the source figure also shows the 3-state and open-drain load circuit,
 pulse-duration, setup-and-hold and enable/disable waveforms, which do
 not apply to this part.
 
@@ -186,13 +187,10 @@ not apply to this part.
 ## Ordering information
 
 ```ordering
-SN74AHCT08MDREP | Reel of 2500 | -55 to 125 | AHCT08MEP
-SN74AHCT08MPWREP | Tape and reel | -55 to 125 | AHT08EP
-V62/03654-01YE | Reel of 2500 | -55 to 125 | AHCT08MEP
+SN74AHCT08MDREP | Reel of 2500 | -55 to 125 | AHCT08MEP | NRND
+SN74AHCT08MPWREP | | -55 to 125 | AHT08EP | Obsolete
+V62/03654-01YE | Reel of 2500 | -55 to 125 | AHCT08MEP | NRND
 ```
-
-The package option addendum lists SN74AHCT08MPWREP as obsolete and the
-other two as NRND.
 
 ## Conversion notes
 
@@ -201,7 +199,9 @@ other two as NRND.
   Ordering sections.
 - Dropped: the feature list (its ESD and latch-up ratings are kept as a
   sentence under Absolute maximum ratings), logic symbol and logic
-  diagram, the vendor ordering table (its data is in the Ordering block).
+  diagram, the vendor ordering table on p.1 (it gives "Tape and reel" for both
+  packages; the Ordering block follows the package option addendum,
+  p.5).
 - From images: the µA units of the V~OH~/V~OL~ (50 µA), I~I~ and I~CC~
   rows, p.3 (the text layer prints them as mA); the overlines of
   Y = !{!{A} + !{B}}, p.1.

@@ -26,9 +26,11 @@
 The SNx4AHC08 devices are quadruple 2-input positive-AND gates. These
 devices perform the Boolean function Y = A · B in positive logic.
 
-SN74AHC08 is specified from –40 °C to 125 °C, SN54AHC08 from –55 °C to
-125 °C. Operating range 2 V to 5.5 V; inputs are overvoltage tolerant up
-to 5.5 V at any valid V~CC~.
+2V to 5.5V operating range.
+
+Conversion note: SN74AHC08 is specified from
+–40 °C to 125 °C and SN54AHC08 from –55 °C to 125 °C (recommended
+operating conditions).
 
 ## Pinout
 
@@ -52,11 +54,14 @@ NC: No connection
 ## Functional description
 
 The SNx4AHC08 devices are quadruple 2-input positive-AND gates with low
-drive that will produce slow rise and fall times [1]. This slow transition
+drive that will produce slow rise and fall times. This slow transition
 reduces ringing on the output signal. The inputs are high impedance when
 V~CC~ = 0 V.
 
-[1] Source conflict: Overview (p.12) says low drive with slow rise and fall times; Design Requirements (p.13) says balanced output drive whose high drive will create fast edges into light loads. Both kept.
+Source conflict: the Overview (p.12) says low drive with slow rise and
+fall times, while the Design Requirements (p.13) say balanced output
+drive whose high drive will create fast edges into light loads; both
+are kept.
 
 ## Function tables
 
@@ -82,13 +87,19 @@ V~CC~ = 0 V.
 | | Continuous current through V~CC~ or GND | | | ±50 | mA |
 | T~J~ | Junction temperature | | | 150 | °C |
 | T~stg~ | Storage temperature | | -65 | 150 | °C |
-| V~(ESD)~ | Electrostatic discharge, human body model (HBM) [3] | ANSI/ESDA/JEDEC JS-001 | | ±2000 | V |
-| ^ | Electrostatic discharge, charged device model (CDM) [4] | JEDEC JESD22-C101 | | ±1000 | V |
 
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, which do not imply functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
-[3] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process. Manufacturing with less than 500-V HBM is possible with the necessary precautions.
-[4] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process. Manufacturing with less than 250-V CDM is possible with the necessary precautions.
+```
+
+```table id=esd caption="ESD ratings"
+| Symbol | Parameter | Conditions | Value | Unit |
+|---|---|---|--:|---|
+| V~(ESD)~ | Electrostatic discharge | Human body model (HBM), per ANSI/ESDA/JEDEC JS-001 [1] | ±2000 | V |
+| ^ | ^ | Charged device model (CDM), per JEDEC specification JESD22-C101 [2] | ±1000 | V |
+
+[1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process. Manufacturing with less than 500-V HBM is possible with the necessary precautions.
+[2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process. Manufacturing with less than 250-V CDM is possible with the necessary precautions.
 ```
 
 ## Recommended operating conditions
@@ -127,70 +138,72 @@ V~CC~ = 0 V.
 |---|---|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | R~θJA~ | Junction-to-ambient thermal resistance | 124.5 | 96 | 127 | 80 | 76 | 147.7 | 87.1 | 88.3 | °C/W |
 
-[1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report, SPRA953. All packages 14 pins.
+[1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report, SPRA953. Conversion note: all packages are 14 pins.
 ```
 
 ## Electrical characteristics
 
 ```table id=ec-25 caption="Electrical characteristics, T~A~ = 25 °C" conditions="Over operating free-air temperature range (unless otherwise noted)"
-| Symbol | Parameter | Test conditions | V~CC~ | Min | Typ | Max | Unit |
-|---|---|---|---|--:|--:|--:|---|
-| V~OH~ | High-level output voltage | I~OH~ = -50 µA | 2 V | 1.9 | 2 | | V |
-| ^ | ^ | ^ | 3 V | 2.9 | 3 | | V |
-| ^ | ^ | ^ | 4.5 V | 4.4 | 4.5 | | V |
-| ^ | ^ | I~OH~ = -4 mA | 3 V | 2.58 | | | V |
-| ^ | ^ | I~OH~ = -8 mA | 4.5 V | 3.94 | | | V |
-| V~OL~ | Low-level output voltage | I~OL~ = 50 µA | 2 V | | | 0.1 | V |
-| ^ | ^ | ^ | 3 V | | | 0.1 | V |
-| ^ | ^ | ^ | 4.5 V | | | 0.1 | V |
-| ^ | ^ | I~OL~ = 4 mA [1] | 3 V | | | 0.36 | V |
-| ^ | ^ | I~OL~ = 8 mA [1] | 4.5 V | | | 0.36 | V |
-| I~I~ | Input current | V~I~ = 5.5 V or GND | 0 V to 5.5 V | | | ±0.1 | µA |
-| I~CC~ | Supply current | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | | 2 | µA |
-| C~i~ | Input capacitance | V~I~ = V~CC~ or GND | 5 V | | 4 | 10 | pF |
+| Parameter | Test conditions | V~CC~ | Min | Typ | Max | Unit |
+| --- | --- | --- | --: | --: | --: | --- |
+| V~OH~ | I~OH~ = -50 µA | 2 V | 1.9 | 2 | | V |
+| ^ | ^ | 3 V | 2.9 | 3 | | V |
+| ^ | ^ | 4.5 V | 4.4 | 4.5 | | V |
+| ^ | I~OH~ = -4 mA | 3 V | 2.58 | | | V |
+| ^ | I~OH~ = -8 mA | 4.5 V | 3.94 | | | V |
+| V~OL~ | I~OL~ = 50 µA | 2 V | | | 0.1 | V |
+| ^ | ^ | 3 V | | | 0.1 | V |
+| ^ | ^ | 4.5 V | | | 0.1 | V |
+| ^ | I~OL~ = 4 mA [1] | 3 V | | | 0.36 | V |
+| ^ | I~OL~ = 8 mA [1] | 4.5 V | | | 0.36 | V |
+| I~I~ | V~I~ = 5.5 V or GND | 0 V to 5.5 V | | | ±0.1 | µA |
+| I~CC~ | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | | 2 | µA |
+| C~i~ | V~I~ = V~CC~ or GND | 5 V | | 4 | 10 | pF |
 
 [1] Source error: printed as I~OH~ = 4 mA and I~OH~ = 8 mA in the V~OL~ rows of all three electrical tables; the rows give V~OL~, and the recommended operating conditions give I~OL~ = 4 mA and 8 mA, so the condition is I~OL~.
 ```
 
 ```table id=ec-54 caption="Electrical characteristics, SN54AHC08, T~A~ = –55 °C to 125 °C" parts=SNJ54*,5962* conditions="Over operating free-air temperature range (unless otherwise noted)"
-| Symbol | Parameter | Test conditions | V~CC~ | Min | Max | Unit |
-|---|---|---|---|--:|--:|---|
-| V~OH~ | High-level output voltage | I~OH~ = -50 µA | 2 V | 1.9 | | V |
-| ^ | ^ | ^ | 3 V | 2.9 | | V |
-| ^ | ^ | ^ | 4.5 V | 4.4 | | V |
-| ^ | ^ | I~OH~ = -4 mA | 3 V | 2.48 | | V |
-| ^ | ^ | I~OH~ = -8 mA | 4.5 V | 3.8 | | V |
-| V~OL~ | Low-level output voltage | I~OL~ = 50 µA | 2 V | | 0.1 | V |
-| ^ | ^ | ^ | 3 V | | 0.1 | V |
-| ^ | ^ | ^ | 4.5 V | | 0.1 | V |
-| ^ | ^ | I~OL~ = 4 mA | 3 V | | 0.5 | V |
-| ^ | ^ | I~OL~ = 8 mA | 4.5 V | | 0.5 | V |
-| I~I~ | Input current | V~I~ = 5.5 V or GND | 0 V to 5.5 V | | ±1 [1] | µA |
-| I~CC~ | Supply current | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | 20 | µA |
-| C~i~ | Input capacitance | V~I~ = V~CC~ or GND | 5 V | | | pF |
+| Parameter | Test conditions | V~CC~ | Min | Max | Unit |
+| --- | --- | --- | --: | --: | --- |
+| V~OH~ | I~OH~ = -50 µA | 2 V | 1.9 | | V |
+| ^ | ^ | 3 V | 2.9 | | V |
+| ^ | ^ | 4.5 V | 4.4 | | V |
+| ^ | I~OH~ = -4 mA | 3 V | 2.48 | | V |
+| ^ | I~OH~ = -8 mA | 4.5 V | 3.8 | | V |
+| V~OL~ | I~OL~ = 50 µA | 2 V | | 0.1 | V |
+| ^ | ^ | 3 V | | 0.1 | V |
+| ^ | ^ | 4.5 V | | 0.1 | V |
+| ^ | I~OL~ = 4 mA [2] | 3 V | | 0.5 | V |
+| ^ | I~OL~ = 8 mA [2] | 4.5 V | | 0.5 | V |
+| I~I~ | V~I~ = 5.5 V or GND | 0 V to 5.5 V | | ±1 [1] | µA |
+| I~CC~ | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | 20 | µA |
+| C~i~ | V~I~ = V~CC~ or GND | 5 V | | | pF |
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested at V~CC~ = 0 V.
+[2] Source error: printed as I~OH~ = 4 mA and I~OH~ = 8 mA; the rows give V~OL~, and the recommended operating conditions give I~OL~ = 4 mA and 8 mA, so the condition is I~OL~.
 ```
 
-```table id=ec-74 caption="Electrical characteristics, SN74AHC08" parts=SN74* conditions="Over operating free-air temperature range (unless otherwise noted)"
-| Symbol | Parameter | Test conditions | V~CC~ | T~A~ = –40 °C to 125 °C | < | T~A~ = –40 °C to 85 °C | Unit |
-| ^ | ^ | ^ | ^ | Min | Max | Max | ^ |
-|---|---|---|---|--:|--:|--:|---|
-| V~OH~ | High-level output voltage | I~OH~ = -50 µA | 2 V | 1.9 | | | V |
-| ^ | ^ | ^ | 3 V | 2.9 | | | V |
-| ^ | ^ | ^ | 4.5 V | 4.4 | | | V |
-| ^ | ^ | I~OH~ = -4 mA | 3 V | 2.48 | | | V |
-| ^ | ^ | I~OH~ = -8 mA | 4.5 V | 3.8 | | | V |
-| V~OL~ | Low-level output voltage | I~OL~ = 50 µA | 2 V | | 0.1 | | V |
-| ^ | ^ | ^ | 3 V | | 0.1 | | V |
-| ^ | ^ | ^ | 4.5 V | | 0.1 | | V |
-| ^ | ^ | I~OL~ = 4 mA [1] | 3 V | | 0.5 | 0.44 | V |
-| ^ | ^ | I~OL~ = 8 mA [1] | 4.5 V | | 0.5 | 0.44 | V |
-| I~I~ | Input current | V~I~ = 5.5 V or GND | 0 V to 5.5 V | | ±1 | | µA |
-| I~CC~ | Supply current | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | 20 | | µA |
-| C~i~ | Input capacitance | V~I~ = V~CC~ or GND | 5 V | | | 10 | pF |
+```table id=ec-74 caption="Electrical characteristics, SN74AHC08, T~A~ = –40 °C to 125 °C" parts=SN74* conditions="Over operating free-air temperature range (unless otherwise noted)"
+| Parameter | Test conditions | V~CC~ | T~A~ | Min | Max | Unit |
+| --- | --- | --- | --- | --: | --: | --- |
+| V~OH~ | I~OH~ = -50 µA | 2 V | | 1.9 | | V |
+| ^ | ^ | 3 V | | 2.9 | | V |
+| ^ | ^ | 4.5 V | | 4.4 | | V |
+| ^ | I~OH~ = -4 mA | 3 V | | 2.48 | | V |
+| ^ | I~OH~ = -8 mA | 4.5 V | | 3.8 | | V |
+| V~OL~ | I~OL~ = 50 µA | 2 V | | | 0.1 | V |
+| ^ | ^ | 3 V | | | 0.1 | V |
+| ^ | ^ | 4.5 V | | | 0.1 | V |
+| ^ | I~OL~ = 4 mA [1] | 3 V | T~A~ = –40 °C to 85 °C | | 0.44 | V |
+| ^ | ^ | ^ | T~A~ = –40 °C to 125 °C Recommended | | 0.5 | V |
+| ^ | I~OL~ = 8 mA [1] | 4.5 V | T~A~ = –40 °C to 85 °C | | 0.44 | V |
+| ^ | ^ | ^ | T~A~ = –40 °C to 125 °C Recommended | | 0.5 | V |
+| I~I~ | V~I~ = 5.5 V or GND | 0 V to 5.5 V | | | ±1 | µA |
+| I~CC~ | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | | 20 | µA |
+| C~i~ | V~I~ = V~CC~ or GND | 5 V | T~A~ = –40 °C to 85 °C | | 10 | pF |
 
-[1] The source labels the –40 °C to 125 °C limit of these rows "Recommended".
+[1] Source error: printed as I~OH~ = 4 mA and I~OH~ = 8 mA; the rows give V~OL~, and the recommended operating conditions give I~OL~ = 4 mA and 8 mA, so the condition is I~OL~.
 ```
 
 ```table id=noise caption="Noise characteristics, SN74AHC08 [1]" conditions="V~CC~ = 5 V, C~L~ = 50 pF, T~A~ = 25 °C"
@@ -219,35 +232,37 @@ See [parameter measurement information](#parameter-measurement).
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ | Min | Typ | Max | Unit |
 |---|---|---|---|---|--:|--:|--:|---|
 | t~PLH~, t~PHL~ | A or B | Y | C~L~ = 15 pF | 25 °C [1] |  | 6.2 | 8.8 | ns |
-| ^ | ^ | ^ | ^ | -55 °C to 125 °C, SN54AHC08 [1] | 1 |  | 10.5 | ns |
-| ^ | ^ | ^ | ^ | -40 °C to 85 °C, SN74AHC08 | 1 |  | 10.5 | ns |
-| ^ | ^ | ^ | ^ | -40 °C to 125 °C Recommended, SN74AHC08 | 1 |  | 10.5 | ns |
+| ^ | ^ | ^ | ^ | -55 °C to 125 °C, SN54AHC08 [1] [2] |  | 1 | 10.5 | ns |
+| ^ | ^ | ^ | ^ | -40 °C to 85 °C, SN74AHC08 [2] |  | 1 | 10.5 | ns |
+| ^ | ^ | ^ | ^ | -40 °C to 125 °C Recommended, SN74AHC08 [2] |  | 1 | 10.5 | ns |
 | ^ | ^ | ^ | C~L~ = 50 pF | 25 °C |  | 8.7 | 12.3 | ns |
-| ^ | ^ | ^ | ^ | -55 °C to 125 °C, SN54AHC08 | 1 |  | 14 | ns |
-| ^ | ^ | ^ | ^ | -40 °C to 85 °C, SN74AHC08 | 1 |  | 14 | ns |
-| ^ | ^ | ^ | ^ | -40 °C to 125 °C Recommended, SN74AHC08 | 1 |  | 14 | ns |
+| ^ | ^ | ^ | ^ | -55 °C to 125 °C, SN54AHC08 [2] |  | 1 | 14 | ns |
+| ^ | ^ | ^ | ^ | -40 °C to 85 °C, SN74AHC08 [2] |  | 1 | 14 | ns |
+| ^ | ^ | ^ | ^ | -40 °C to 125 °C Recommended, SN74AHC08 [2] |  | 1 | 14 | ns |
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
+[2] Unconfirmed: the source prints this 1 under TYP and leaves MIN empty.
 ```
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ | Min | Typ | Max | Unit |
 |---|---|---|---|---|--:|--:|--:|---|
 | t~PLH~, t~PHL~ | A or B | Y | C~L~ = 15 pF | 25 °C [1] |  | 4.3 | 5.9 | ns |
-| ^ | ^ | ^ | ^ | -55 °C to 125 °C, SN54AHC08 [1] | 1 |  | 7 | ns |
-| ^ | ^ | ^ | ^ | -40 °C to 85 °C, SN74AHC08 | 1 |  | 7 | ns |
-| ^ | ^ | ^ | ^ | -40 °C to 125 °C Recommended, SN74AHC08 | 1 |  | 7 | ns |
+| ^ | ^ | ^ | ^ | -55 °C to 125 °C, SN54AHC08 [1] [2] |  | 1 | 7 | ns |
+| ^ | ^ | ^ | ^ | -40 °C to 85 °C, SN74AHC08 [2] |  | 1 | 7 | ns |
+| ^ | ^ | ^ | ^ | -40 °C to 125 °C Recommended, SN74AHC08 [2] |  | 1 | 7 | ns |
 | ^ | ^ | ^ | C~L~ = 50 pF | 25 °C |  | 5.8 | 7.9 | ns |
-| ^ | ^ | ^ | ^ | -55 °C to 125 °C, SN54AHC08 | 1 |  | 9 | ns |
-| ^ | ^ | ^ | ^ | -40 °C to 85 °C, SN74AHC08 | 1 |  | 9 | ns |
-| ^ | ^ | ^ | ^ | -40 °C to 125 °C Recommended, SN74AHC08 | 1 |  | 9 | ns |
+| ^ | ^ | ^ | ^ | -55 °C to 125 °C, SN54AHC08 [2] |  | 1 | 9 | ns |
+| ^ | ^ | ^ | ^ | -40 °C to 85 °C, SN74AHC08 [2] |  | 1 | 9 | ns |
+| ^ | ^ | ^ | ^ | -40 °C to 125 °C Recommended, SN74AHC08 [2] |  | 1 | 9 | ns |
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
+[2] Unconfirmed: the source prints this 1 under TYP and leaves MIN empty.
 ```
 
 ## Typical characteristics
 
-```curve id=voh caption="AHC family V~OH~ vs I~OH~, T~A~ = 25 °C, V~CC~ = 5.5 V, all outputs switching [1]"
+```curve id=voh caption="AHC family V~OH~ vs I~OH~, T~A~ = 25 °C, V~CC~ = 5.5 V, all outputs switching"
 {"x": {"label": "I_OH", "unit": "mA", "range": [-55, 0]},
  "y": {"label": "V_OH", "unit": "V", "range": [0, 5.5]},
  "series": [
@@ -256,7 +271,7 @@ See [parameter measurement information](#parameter-measurement).
  ]}
 ```
 
-```curve id=vol caption="AHC family V~OL~ vs I~OL~, T~A~ = 25 °C, V~CC~ = 5.5 V, all outputs switching [1]"
+```curve id=vol caption="AHC family V~OL~ vs I~OL~, T~A~ = 25 °C, V~CC~ = 5.5 V, all outputs switching"
 {"x": {"label": "I_OL", "unit": "mA", "range": [0, 40]},
  "y": {"label": "V_OL", "unit": "V", "range": [0, 3]},
  "series": [
@@ -265,15 +280,16 @@ See [parameter measurement information](#parameter-measurement).
  ]}
 ```
 
-Source conflict: Figure 5-1 is captioned "AHC Family V~OL~ vs I~OL~" but plots V~OH~ against I~OH~; Figure 8-2 is captioned "AHC Family V~OH~ vs I~OH~" but plots V~OL~ against I~OL~. The captions above follow the plotted axes.
+Source conflict: Figure 5-1 is captioned "AHC Family V~OL~ vs I~OL~" but plots V~OH~ against I~OH~, and Figure 8-2 is captioned "AHC Family V~OH~ vs I~OH~" but plots V~OL~ against I~OL~. Conversion note: the captions above follow the plotted axes.
 
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
-time with one input transition per measurement. C~L~ is 15 pF or 50 pF,
-as given in the [switching characteristics](#switching-characteristics).
+time with one input transition per measurement. Conversion note: C~L~ is
+15 pF or 50 pF, as given in the
+[switching characteristics](#switching-characteristics).
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 15 pF or 50 pF
@@ -283,9 +299,10 @@ CL: 15 pF or 50 pF
 VM: 50 % V~CC~
 ```
 
-The source figure also shows the 3-state and open-drain load circuit,
-pulse-duration, setup-and-hold and enable/disable waveforms; all
-parameters and waveforms are not applicable to all devices.
+Conversion note: the source figure also shows the 3-state and open-drain
+load circuit, pulse-duration, setup-and-hold and enable/disable
+waveforms. All parameters and waveforms are not applicable to all
+devices.
 
 ## Application information
 
@@ -295,38 +312,53 @@ completeness.
 
 A common application for AND gates is the use in power sequencing. Using
 the SN74AHC08 to verify that the processor has turned on can protect it
-from harmful signals. Typical application (Figure 8-1): input A is tied
+from harmful signals. Conversion note: in the typical application
+(Figure 8-1) input A is tied
 to V~CC~ = 5 V, the MCU (MSP43x) drives input B, Y drives the EN input of
 a temperature sensor, and the sensor's V~O~ returns to the MCU.
 
-Design requirements: this device uses CMOS technology and has balanced
+#### Design requirements
+
+This device uses CMOS technology and has balanced
 output drive. Take care to avoid bus contention because it can drive
 currents that would exceed maximum limits. The high drive will also
 create fast edges into light loads, so routing and load conditions must
 be considered to prevent ringing.
 
-- Rise time and fall time: see Δt/Δv in the
-  [recommended operating conditions](#recommended-operating-conditions).
-- High and low levels: see V~IH~ and V~IL~ in the same table.
-- Inputs are overvoltage tolerant allowing them to go as high as 5.5 V at
-  any valid V~CC~.
-- Load currents should not exceed 25 mA per output and 50 mA total for
-  the part.
-- Outputs should not be pulled above V~CC~.
+#### Detailed design procedure
 
-Power supply: any voltage between the minimum and maximum supply voltage
-rating. Each V~CC~ pin should have a good bypass capacitor to prevent
+1. Recommended input conditions
+   - Rise time and fall time specs: See (Δt/Δv) in the Section 5.3 table.
+   - Specified High and low levels: See (V~IH~ and V~IL~) in the Section 5.3 table.
+   - Inputs are overvoltage tolerant allowing them to go as high as 5.5 V
+     at any valid V~CC~
+2. Recommend output conditions
+   - Load currents should not exceed 25 mA per output and 50 mA total for
+     the part
+   - Outputs should not be pulled above V~CC~
+
+Conversion note: Section 5.3 is the
+[recommended operating conditions](#recommended-operating-conditions).
+
+### Power supply recommendations
+
+The power supply can be any voltage between the minimum and maximum
+supply voltage rating. Each V~CC~ pin should have a good bypass capacitor to prevent
 power disturbance. For devices with a single supply, 0.1 µF is
 recommended. If there are multiple V~CC~ pins, 0.01 µF or 0.022 µF is
-recommended for each power pin. A 0.1 µF and 1 µF are commonly used in
+recommended for each power pin. It is acceptable to parallel multiple
+bypass caps to reject different frequencies of noise. A 0.1 µF and 1 µF are commonly used in
 parallel. The bypass capacitor should be installed as close to the power
 pin as possible for best results.
 
-Layout: when using multiple bit logic devices inputs should not ever
-float. All unused inputs of digital logic devices must be connected to a
-high or low bias to prevent them from floating; generally they will be
-tied to GND or V~CC~. It is generally acceptable to float outputs unless
-the part is a transceiver. The layout example recommends a GND flood
+### Layout guidelines
+
+When using multiple bit logic devices inputs should not ever float. All
+unused inputs of digital logic devices must be connected to a high or
+low bias to prevent them from floating. Generally they will be tied to
+GND or V~CC~; whichever makes more sense or is more convenient. It is generally acceptable to float outputs unless
+the part is a transceiver. Conversion note: the layout example
+recommends a GND flood
 fill, a 0.1 µF bypass capacitor placed close to the device, unused inputs
 tied to V~CC~, unused outputs left floating, and no 90° corners on signal
 lines.
@@ -364,12 +396,13 @@ lines.
 
 ```ordering
 SN74AHC08BQAR | Reel of 3000 | -40 to 125 | AHC08
+SN74AHC08D | | -40 to 125 | AHC08 | Obsolete
 SN74AHC08DBR | Reel of 2000 | -40 to 125 | HA08
-SN74AHC08DGVR | Reel of 2000 | -40 to 125 | HA08
+SN74AHC08DGVR | Reel of 2000 | -40 to 125 | HA08 | Last Time Buy
 SN74AHC08DR | Reel of 2500 | -40 to 125 | AHC08
 SN74AHC08DR1G4 | Reel of 2500 | -40 to 125 | AHC08
-SN74AHC08N | Tube of 25 | -40 to 125 | SN74AHC08N
-SN74AHC08NSR | Reel of 2000 | -40 to 125 | AHC08
+SN74AHC08N | Tube of 25 | -40 to 125 | SN74AHC08N | Last Time Buy
+SN74AHC08NSR | Reel of 2000 | -40 to 125 | AHC08 | NRND
 SN74AHC08PWR | Reel of 2000 | -40 to 125 | HA08
 SN74AHC08PWRG4 | Reel of 2000 | -40 to 125 | HA08
 SN74AHC08RGYR | Reel of 3000 | -40 to 125 | HA08
@@ -377,10 +410,6 @@ SN74AHC08RGYRG4 | Reel of 3000 | -40 to 125 | HA08
 5962-9682001Q2A | Tube of 55 | -55 to 125 | 5962-9682001Q2A SNJ54AHC08FK
 SNJ54AHC08FK | Tube of 55 | -55 to 125 | 5962-9682001Q2A SNJ54AHC08FK
 ```
-
-The package option addendum lists SN74AHC08D as obsolete. The pin
-configuration also names a W package, for which the source lists no
-orderable part.
 
 ## Conversion notes
 
@@ -390,11 +419,16 @@ orderable part.
 - Dropped: features and applications lists, device information table,
   simplified schematic and functional block diagram (one AND gate), the
   layout example drawing (summarized in one sentence).
-- The ESD ratings table is merged into Absolute maximum ratings.
+- The pin configuration also names a W package, for which the source
+  lists no orderable part.
 - Curves digitized from Figures 5-1 and 8-2 to about 2 % of full scale.
 - The typical application circuit (Figure 8-1) is described in text.
 - The SN54AHC08 table prints no C~i~ value; the row is kept empty.
-- From images: MCU (MSP43x), EN, V~O~ (Figure 8-1, p.13).
+- From images: MCU (MSP43x), EN, V~O~ (Figure 8-1, p.13); 50 % V~CC~
+  (V~M~, Figure 6-1, p.11); "T~A~ = 25°C, V~CC~ = 5.5 V, All Outputs
+  Switching" and the AHC and AHCT curve labels (Figures 5-1 and 8-2,
+  pp.10 and 14).
+- The ordering block follows the package option addendum (pp.18–19).
 - Source issues:
   - Source error: the Description prints the second form of the Boolean
     function as Y = !{A + B} (a NOR); the function table (Table 7-1) gives
@@ -408,3 +442,6 @@ orderable part.
     description note).
   - Source conflict: captions of Figures 5-1 and 8-2 swapped against
     their plotted axes.
+  - Unconfirmed: the switching tables (5.8, 5.9, p.8) print the value 1
+    of the temperature-range rows under TYP, with MIN empty (table
+    notes).

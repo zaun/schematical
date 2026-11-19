@@ -27,18 +27,22 @@ This single 2-input positive-AND gate is designed for 0.8-V to 3.6-V
 V~CC~ operation and performs the Boolean function Y = A · B or
 Y = !{!{A} + !{B}} in positive logic.
 
-The AUP family has quiescent power consumption less than 1 µA. The
+The AUP family has quiescent power consumption less than 1 µA. This
 device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when it is powered down. The I~off~
-feature also allows for live insertion. Inputs are 3.6-V tolerant and
-have hysteresis, which allows slow input transitions and better
-switching noise immunity at the input.
+current backflow through the device when it is powered. Unconfirmed:
+"when it is powered" is the source's wording (p.12), in a paragraph
+about partial-power-down applications. The I~off~
+feature also allows for live insertion. Input hysteresis allows slow
+input transition and better switching noise immunity at the input.
+
+3.6-V I/O tolerant to support down translation.
 
 ## Pinout
 
-DBV, DCK and DRL have A on pin 1 and B on pin 2; the DPW (X2SON)
-package has B on pin 1 and A on pin 2. YFP ball B2 is DNU (do not use).
+Conversion note: DBV, DCK and DRL have A on pin 1 and B on pin 2, and
+the DPW (X2SON) package has B on pin 1 and A on pin 2. Conversion note:
+YFP ball B2 is DNU (do not use).
 
 ```pinout pinout=p5
 ```
@@ -121,7 +125,7 @@ DNU: Do not use
 | I~OH~ | High-level output current | V~CC~ = 0.8 V | | -20 | µA |
 | ^ | ^ | V~CC~ = 1.1 V | | -1.1 | mA |
 | ^ | ^ | V~CC~ = 1.4 V | | -1.7 | mA |
-| ^ | ^ | V~CC~ = 1.65 V | | -1.9 | mA |
+| ^ | ^ | V~CC~ = 1.65 | | -1.9 | mA |
 | ^ | ^ | V~CC~ = 2.3 V | | -3.1 | mA |
 | ^ | ^ | V~CC~ = 3 V | | -4 | mA |
 | I~OL~ | Low-level output current | V~CC~ = 0.8 V | | 20 | µA |
@@ -144,8 +148,8 @@ DNU: Do not use
 | R~θJA~ | Junction-to-ambient thermal resistance | 298.6 | 314.4 | 349.7 | 407.1 | 554.9 | 291.8 | °C/W |
 | R~θJC(top)~ | Junction-to-case (top) thermal resistance | 240.2 | 128.7 | 120.5 | 232 | 385.4 | 224.2 | °C/W |
 | R~θJB~ | Junction-to-board thermal resistance | 134.6 | 100.6 | 171.4 | 306.9 | 388.2 | 245.8 | °C/W |
-| Ψ~JT~ | Junction-to-top characterization parameter | 114.5 | 7.1 | 10.8 | 40.3 | 159 | 245.6 | °C/W |
-| Ψ~JB~ | Junction-to-board characterization parameter | 133.9 | 99.8 | 169.4 | 306 | 384.1 | 195.4 | °C/W |
+| ψ~JT~ | Junction-to-top characterization parameter | 114.5 | 7.1 | 10.8 | 40.3 | 159 | 245.6 | °C/W |
+| ψ~JB~ | Junction-to-board characterization parameter | 133.9 | 99.8 | 169.4 | 306 | 384.1 | 195.4 | °C/W |
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 ```
@@ -156,7 +160,7 @@ DNU: Do not use
 | Symbol | Parameter | Test conditions | < | V~CC~ | T~A~ = 25 °C | < | < | T~A~ = –40 °C to +85 °C | < | Unit |
 | ^ | ^ | ^ | < | ^ | Min | Typ | Max | Min | Max | ^ |
 |---|---|---|---|---|--:|--:|--:|--:|--:|---|
-| V~OH~ | High-level output voltage | I~OH~ = -20 µA | < | 0.8 V to 3.6 V | V~CC~ - 0.1 | | | V~CC~ - 0.1 | | V |
+| V~OH~ | | I~OH~ = -20 µA | < | 0.8 V to 3.6 V | V~CC~ - 0.1 | | | V~CC~ - 0.1 | | V |
 | ^ | ^ | I~OH~ = -1.1 mA | < | 1.1 V | 0.75 × V~CC~ | | | 0.7 × V~CC~ | | V |
 | ^ | ^ | I~OH~ = -1.7 mA | < | 1.4 V | 1.11 | | | 1.03 | | V |
 | ^ | ^ | I~OH~ = -1.9 mA | < | 1.65 V | 1.32 | | | 1.3 | | V |
@@ -164,7 +168,7 @@ DNU: Do not use
 | ^ | ^ | I~OH~ = -3.1 mA | < | 2.3 V | 1.9 | | | 1.85 | | V |
 | ^ | ^ | I~OH~ = -2.7 mA | < | 3 V | 2.72 | | | 2.67 | | V |
 | ^ | ^ | I~OH~ = -4 mA | < | 3 V | 2.6 | | | 2.55 | | V |
-| V~OL~ | Low-level output voltage | I~OL~ = 20 µA | < | 0.8 V to 3.6 V | | | 0.1 | | 0.1 | V |
+| V~OL~ | | I~OL~ = 20 µA | < | 0.8 V to 3.6 V | | | 0.1 | | 0.1 | V |
 | ^ | ^ | I~OL~ = 1.1 mA | < | 1.1 V | | | 0.3 × V~CC~ | | 0.3 × V~CC~ | V |
 | ^ | ^ | I~OL~ = 1.7 mA | < | 1.4 V | | | 0.31 | | 0.37 | V |
 | ^ | ^ | I~OL~ = 1.9 mA | < | 1.65 V | | | 0.31 | | 0.35 | V |
@@ -271,8 +275,15 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω, slew rate ≥ 1 V/ns. The outputs are measured one at a time,
 with one transition per measurement. t~PLH~ and t~PHL~ are the same as
-t~pd~. V~I~ = V~CC~ and V~M~ = V~CC~/2 at every V~CC~ (0.8 V to
-3.3 V ± 0.3 V).
+t~pd~.
+
+```table id=pmi-conditions caption="Load circuit test conditions"
+| | V~CC~ = 0.8 V | V~CC~ = 1.2 V ± 0.1 V | V~CC~ = 1.5 V ± 0.1 V | V~CC~ = 1.8 V ± 0.15 V | V~CC~ = 2.5 V ± 0.2 V | V~CC~ = 3.3 V ± 0.3 V |
+|---|---|---|---|---|---|---|
+| C~L~ | 5, 10, 15, 30 pF | 5, 10, 15, 30 pF | 5, 10, 15, 30 pF | 5, 10, 15, 30 pF | 5, 10, 15, 30 pF | 5, 10, 15, 30 pF |
+| V~M~ | V~CC~/2 | V~CC~/2 | V~CC~/2 | V~CC~/2 | V~CC~/2 | V~CC~/2 |
+| V~I~ | V~CC~ | V~CC~ | V~CC~ | V~CC~ | V~CC~ | V~CC~ |
+```
 
 ```figure ref=load-rl-cl caption="Load circuit"
 RL: 1 MΩ
@@ -289,39 +300,57 @@ The AUP family is TI's solution to the industry's low-power needs in
 battery-powered portable applications. It has a small amount of
 hysteresis built in, allowing for slower or noisy input signals. The
 lowered drive produces slower edges and prevents overshoot and
-undershoot on the outputs. AUP single-gate logic makes translators for
-lower-voltage microprocessors powered from 0.8 V to 1.2 V: it can drop
-the voltage of peripheral drivers and accessories that are still
-powered by 3.3 V.
+undershoot on the outputs.
 
-Typical application (source Figure 8-1): a 3.3-V bus driver drives the
-gate's input; the gate runs from a 1 V regulated V~CC~ with a 0.1 µF
-bypass capacitor and drives a 1-V microprocessor.
+The AUP family of single gate logic makes excellent translators for the
+new lower voltage Micro-processors that typically are powered from 0.8 V
+to 1.2 V. They can drop the voltage of peripheral drivers and
+accessories that are still powered by 3.3 V to the new µC power levels.
 
-Design requirements: the device uses CMOS technology and has balanced
-output drive. Take care to avoid bus contention because it can drive
+Conversion note: the typical application schematic (source Figure 8-1) shows a 3.3-V bus driver
+driving the gate's input, the gate on a 1 V regulated V~CC~ with a 0.1 µF
+capacitor, and the gate's output driving a 1-V micro processor.
+
+Design requirements: SN74AUP1G08 device uses CMOS technology and has
+balanced output drive. Take care to avoid bus contention because it can drive
 currents that would exceed maximum limits.
 
-- Inputs: see Δt/Δv, V~IH~ and V~IL~ in the
-  [recommended operating conditions](#recommended-operating-conditions).
-  Inputs are overvoltage tolerant, allowing them to go as high as 3.6 V
-  at any valid V~CC~.
-- Outputs: load currents should not exceed 20 mA on the output and
-  50 mA total for the part. Outputs should not be pulled above V~CC~.
+1. Recommended input conditions
+   - Rise time and fall time specifications. See (Δt/ΔV) in [Recommended Operating Conditions](#recommended-operating-conditions) table.
+   - Specified high and low levels. See (V~IH~ and V~IL~) in [Recommended Operating Conditions](#recommended-operating-conditions) table.
+   - Inputs are overvoltage tolerant allowing them to go as high as 3.6 V at any valid V~CC~
+2. Recommended output conditions
+   - Load currents should not exceed 20 mA on the output and 50 mA total for the part
+   - Outputs should not be pulled above V~CC~
 
-Power supply: any voltage between the minimum and maximum supply
-voltage in the recommended operating conditions. Each V~CC~ terminal
-should have a good bypass capacitor to prevent power disturbance; for
-devices with a single supply, 0.1 μF is recommended. A 0.1 μF and 1 μF
+### Power supply recommendations
+
+The power supply can be any voltage between the Min and Max supply
+voltage rating located in the Recommended Operating Conditions table.
+
+Each V~CC~ terminal should have a good bypass capacitor to prevent power
+disturbance. For devices with a single supply, 0.1 μF is recommended and
+if there are multiple V~CC~ terminals then 0.01 μF or 0.022 μF is
+recommended for each power terminal. It is ok to parallel multiple
+bypass caps to reject different frequencies of noise. A 0.1 μF and 1 μF
 are commonly used in parallel. The bypass capacitor should be installed
-as close to the power terminal as possible.
+as close to the power terminal as possible for best results.
 
-Layout: inputs should not ever float. Unused input pins should not be
-left unconnected, because the undefined voltages at the outside
-connections result in undefined operational states. All unused inputs
-of digital logic devices must be connected to a high or low bias to
-prevent them from floating; generally they will be tied to GND or V~CC~.
-It is generally OK to float outputs unless the part is a transceiver.
+### Layout guidelines
+
+When using multiple bit logic devices inputs should not ever float.
+
+In many cases, functions or parts of functions of digital logic devices
+are unused, for example, when only two inputs of a triple-input AND gate
+are used or only 3 of the 4 buffer gates are used. Such input pins
+should not be left unconnected because the undefined voltages at the
+outside connections result in undefined operational states. All unused
+inputs of digital logic devices must be connected to a high or low bias
+to prevent them from floating. The logic level that should be applied to
+any particular unused input depends on the function of the device.
+Generally they will be tied to GND or V~CC~ whichever make more sense or
+is more convenient. It is generally OK to float outputs unless the part
+is a transceiver.
 
 ## Package
 
@@ -354,28 +383,26 @@ It is generally OK to float outputs unless the part is a transceiver.
 ```ordering
 SN74AUP1G08DBVR | Reel of 3000 | -40 to 85 | H08F, H08R
 SN74AUP1G08DBVT | Reel of 250 | -40 to 85 | H08F, H08R
-SN74AUP1G08DCKR | Reel of 3000 | -40 to 85 | HE5, HEF, HEK, …
-SN74AUP1G08DCKRE4 | Reel of 3000 | -40 to 85 | HE5, HEF, HEK, …
+SN74AUP1G08DCKR | Reel of 3000 | -40 to 85 | HE5, HEF, HEK, HER, HEH, HEP, HES
+SN74AUP1G08DCKRE4 | Reel of 3000 | -40 to 85 | HE5, HEF, HEK, HER, HEH, HEP, HES
 SN74AUP1G08DCKT | Reel of 250 | -40 to 85 | HE5, HER
 SN74AUP1G08DPWR | Reel of 3000 | -40 to 85 | E, E4
 SN74AUP1G08DRLR | Reel of 4000 | -40 to 85 | HE7, HER
 SN74AUP1G08DRY2 | Reel of 5000 | -40 to 85 | HE
 SN74AUP1G08DRY2G4 | Reel of 5000 | -40 to 85 | HE
 SN74AUP1G08DRYR | Reel of 5000 | -40 to 85 | HE
-SN74AUP1G08DSF2 | Reel of 5000 | -40 to 85 | HE, HER
+SN74AUP1G08DSF2 | Reel of 5000 | -40 to 85 | HE, HER, HEH
 SN74AUP1G08DSF2G4 | Reel of 5000 | -40 to 85 | HE
-SN74AUP1G08DSFR | Reel of 5000 | -40 to 85 | HE, HER
+SN74AUP1G08DSFR | Reel of 5000 | -40 to 85 | HE, HER, HEH
 SN74AUP1G08YFPR | Reel of 3000 | -40 to 85 | HEN
 SN74AUP1G08YZPR | Reel of 3000 | -40 to 85 | HEN
 ```
 
-The source also lists SN74AUP1G08DBVRG4 and SN74AUP1G08DPWRG4 (and
-`.B` variants), which the catalog doesn't carry. An automotive version,
-SN74AUP1G08-Q1, has its own datasheet.
+Conversion note: the package option addendum also lists SN74AUP1G08DBVRG4.B and SN74AUP1G08DPWRG4.B (p.17), which the catalog doesn't carry, and a `.B` row for every part above. Conversion note: the addendum (p.19) names an automotive version, SN74AUP1G08-Q1.
 
 ## Conversion notes
 
-- Source pages 1–15 converted; the revision history, package option
+- Source pages 1–14 converted; the documentation support, revision history, package option
   addendum, tape and reel and mechanical pages (15–54) dropped, replaced
   by the generated Package and Ordering sections.
 - Dropped: Figure 6-2 (enable and disable times load circuit and
@@ -386,9 +413,11 @@ SN74AUP1G08-Q1, has its own datasheet.
   (25 MHz switching waveform), the layout example and the DPW package
   marketing text.
 - Curves digitized from Figures 5-1 and 5-2 to about 2 % of full scale.
-- The DCK part markings are cut off in the source's package option
-  addendum ("HE5, HEF, HEK, HE"); the list ends with "…" here.
+- The DCKR and DCKRE4 marking cells wrap in the package option addendum
+  ("HE" + "R" is HER, p.17).
 - From images: Y = !{!{A} + !{B}} overbars (p.1, p.12); curve points 24,
   10, 7.2, 5.8, 4.3, 3.4, 5.2, 5.6, 5.7, 6.0, 6.6, 125 (Figures 5-1 and
   5-2, p.9).
-- Source issues: none found.
+- Source issues:
+  - Unconfirmed: the overview says the I~off~ circuitry prevents current
+    backflow "when it is powered" (p.12).

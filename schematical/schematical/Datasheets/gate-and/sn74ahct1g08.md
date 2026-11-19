@@ -24,11 +24,11 @@
 ## Description
 
 The SN74AHCT1G08 device is a single 2-input positive-AND gate. The device
-performs the Boolean function Y = A × B in positive logic [1]. Low I~CC~
+performs the Boolean function Y = A × B in positive logic. Low I~CC~
 current allows this device to be used in power-sensitive or
 battery-powered applications.
 
-[1] Source error: the Description (p.1) and Overview (p.8) print the second form as Y = !{A + B} (a NOR); the function table (Table 7-1) gives Y = H only when A and B are both H. Kept out.
+Source error: the Description (p.1) and Overview (p.8) print the second form as Y = !{A + B} (a NOR); the function table (Table 7-1) gives Y = H only when A and B are both H. Kept out.
 
 ## Pinout
 
@@ -48,12 +48,12 @@ VCC: Supply Pin
 ## Functional description
 
 Robust inputs allow the device to up-translate with a propagation delay
-of 20 ns [1]. The V~CC~ for the device is optimized at 5 V. Up voltage
+of 20 ns. The V~CC~ for the device is optimized at 5 V. Up voltage
 translation from 3.3 V to 5 V is allowed. The inputs accept V~IH~ levels
 of 2 V. Output ringing is minimized by slow edge rates. Inputs are
 TTL-Voltage compatible.
 
-[1] Source conflict: the switching characteristics (p.6) give t~PLH~ and t~PHL~ of at most 10 ns.
+Source conflict: the switching characteristics (p.6) give t~PLH~ and t~PHL~ of at most 10 ns.
 
 ## Function tables
 
@@ -82,13 +82,19 @@ TTL-Voltage compatible.
 | | Continuous current through V~CC~ or GND | | | ±50 | mA |
 | T~J~ | Maximum junction temperature | | | 150 | °C |
 | T~stg~ | Storage temperature | | -65 | 150 | °C |
-| V~(ESD)~ | Electrostatic discharge, human-body model (HBM) [3] | ANSI/ESDA/JEDEC JS-001 | | ±2500 | V |
-| ^ | Electrostatic discharge, charged-device model (CDM) [4] | JEDEC JESD22-C101 | | ±1000 | V |
 
-[1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, which do not imply functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
+[1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, which do not imply functional operation of the device at these or any other conditions beyond those indicated under [Section 5.3](#recommended-operating-conditions). Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
-[3] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
-[4] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
+```
+
+```table id=esd caption="ESD ratings"
+| Symbol | Parameter | Conditions | Value | Unit |
+|---|---|---|--:|---|
+| V~(ESD)~ | Electrostatic discharge | Human-body model (HBM), per ANSI/ESDA/JEDEC JS-001 [1] | ±2500 | V |
+| ^ | ^ | Charged-device model (CDM), per JEDEC specification JESD22-C101 [2] | ±1000 | ^ |
+
+[1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
+[2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
 
 ## Recommended operating conditions
@@ -112,15 +118,16 @@ TTL-Voltage compatible.
 ## Thermal information
 
 ```table id=thermal caption="Thermal information [1]"
-| Symbol | Parameter | DBV (SOT-23) | DCK (SC70) | DRL (SOT) | Unit |
+| Symbol | Parameter | DBV (SOT-23) 5 pins | DCK (SC70) 5 pins | DRL (SOT) 5 pins | Unit |
 |---|---|--:|--:|--:|---|
 | R~θJA~ | Junction-to-ambient thermal resistance | 278 | 289.2 | 242.9 | °C/W |
 | R~θJC(top)~ | Junction-to-case (top) thermal resistance | 180.5 | 205.8 | 77.5 | °C/W |
 | R~θJB~ | Junction-to-board thermal resistance | 184.4 | 176.2 | 77.5 | °C/W |
 | ψ~JT~ | Junction-to-top characterization parameter | 115.4 | 117.6 | 9.6 | °C/W |
 | ψ~JB~ | Junction-to-board characterization parameter | 183.4 | 175.1 | 77.3 | °C/W |
+| R~θJC(bot)~ | Junction-to-case (bot) thermal resistance | N/A | N/A | N/A | °C/W |
 
-[1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report, SPRA953. All packages 5 pins. R~θJC(bot)~ (junction-to-case, bottom) is N/A for all of them.
+[1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report, SPRA953.
 ```
 
 ## Electrical characteristics
@@ -139,7 +146,7 @@ TTL-Voltage compatible.
 | ^ | ^ | ^ | -40 °C to 125 °C | | | ±1 | µA |
 | I~CC~ | Supply current | V~I~ = V~CC~ or GND, I~O~ = 0, V~CC~ = 5.5 V | 25 °C | | | 1 | µA |
 | ^ | ^ | ^ | -40 °C to 125 °C | | | 10 | µA |
-| ΔI~CC~ | Change in supply current [1] | One input at 3.4 V, other inputs at V~CC~ or GND, V~CC~ = 5.5 V | 25 °C | | | 1.35 | mA |
+| ΔI~CC~ [1] | Change in supply current | One input at 3.4 V, other inputs at V~CC~ or GND, V~CC~ = 5.5 V | 25 °C | | | 1.35 | mA |
 | ^ | ^ | ^ | -40 °C to 125 °C | | | 1.5 | mA |
 | C~I~ | Input capacitance | V~I~ = V~CC~ or GND, V~CC~ = 5 V | | | 4 | 10 | pF |
 
@@ -190,9 +197,10 @@ See [parameter measurement information](#parameter-measurement).
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
-time with one input transition per measurement. C~L~ is 15 pF or 50 pF,
-as given in the [switching characteristics](#sw). Inputs swing 0 V to
-3 V and are measured at 1.5 V; outputs are measured at 50 % V~CC~.
+time with one input transition per measurement. All parameters and
+waveforms are not applicable to all devices.
+
+Conversion note: C~L~ is 15 pF or 50 pF, as given in the [switching characteristics](#sw); in the figure the inputs swing 0 V to 3 V and are measured at 1.5 V, and the outputs are measured at 50 % V~CC~.
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 15 pF or 50 pF
@@ -202,9 +210,7 @@ CL: 15 pF or 50 pF
 VM: 1.5 V (input), 50 % VCC (output)
 ```
 
-The source figure also shows the 3-state and open-drain load circuit,
-pulse-duration, setup-and-hold and enable/disable waveforms; all
-parameters and waveforms are not applicable to all devices.
+Conversion note: the source figure also shows the 3-state and open-drain load circuit and the pulse-duration, setup-and-hold and enable/disable waveforms.
 
 ## Application information
 
@@ -216,39 +222,44 @@ The SN74AHCT1G08 device is a single AND gate, which is often used for
 many common functions like power sequencing or an on LED indicator.
 Because the device is configured to output LOW unless all inputs are
 HIGH, an LED tied to the output of the device will only turn HIGH when
-all systems connected are sending a HIGH, or ready signal. Typical
-application (Figure 8-1): as an AND logic function, A and B come from a
-µC or logic and Y drives a µC or logic; as a basic LED driver, Y drives
-an LED with a series resistor to ground.
+all systems connected are sending a HIGH, or ready signal.
 
-Design requirements: this device uses CMOS technology and has balanced
+Conversion note: the typical application diagram (Figure 8-1) shows two uses, an AND logic function where A and B come from a µC or logic and Y drives a µC or logic, and a basic LED driver where Y drives an LED with a series resistor to ground.
+
+### Design requirements
+
+This device uses CMOS technology and has balanced
 output drive. Take care to avoid bus contention because it can drive
 currents that would exceed maximum limits. The high drive also creates
 fast edges into light loads, so routing and load conditions must be
 considered to prevent ringing.
 
-- Rise time and fall time: see Δt/Δv in the
-  [recommended operating conditions](#recommended-operating-conditions).
-- High and low levels: see V~IH~ and V~IL~ in the same table.
+- For rise time and fall time specifications, see Δt/ΔV in
+  [Section 5.3](#recommended-operating-conditions).
+- For specified high and low levels, see V~IH~ and V~IL~ in Section 5.3.
 - Inputs are overvoltage tolerant allowing them to go as high as 5.5 V at
   any valid V~CC~.
 - Load currents must not exceed 25 mA per output and 50 mA total for the
   part.
 - Outputs must not be pulled above V~CC~.
 
-Power supply: any voltage between the minimum and maximum supply voltage
+### Power supply recommendations
+
+The power supply can be any voltage between the minimum and maximum supply voltage
 rating located in Recommended Operating Conditions. Each V~CC~ pin must
 have a good bypass capacitor to prevent power disturbance. TI recommends
 a 0.1-µF capacitor for devices with a single supply. 0.1-µF and 1-µF
 capacitors are commonly used in parallel. The bypass capacitor must be
 installed as close to the power pin as possible for best results.
 
-Layout: when using multiple bit logic devices inputs must not ever
-float. All unused inputs of digital logic devices must be connected to a
-high or low bias to prevent them from floating; generally they will be
-tied to GND or V~CC~. The layout example recommends a GND flood fill, a
-0.1 µF bypass capacitor placed close to the device, and no 90° corners
-on signal lines.
+### Layout guidelines
+
+When using multiple bit logic devices inputs must not ever float. All
+unused inputs of digital logic devices must be connected to a high or low
+bias to prevent them from floating. Generally they will be tied to GND or
+V~CC~, whichever make more sense or is more convenient.
+
+Conversion note: the layout example (Figure 8-3) recommends a GND flood fill, a 0.1 µF bypass capacitor placed close to the device, and avoiding 90° corners for signal lines.
 
 ## Package
 
@@ -266,18 +277,16 @@ on signal lines.
 ```ordering
 74AHCT1G08DBVRG4 | Reel of 3000 | -40 to 125 | B08G
 74AHCT1G08DCKRE4 | Reel of 3000 | -40 to 125 | BE3, BEG, BEL, BES
-74AHCT1G08DCKRG4 | Reel of 3000 | -40 to 125 | BE3, BEG, BEL, BES
+74AHCT1G08DCKRG4 | 3000 | -40 to 125 | BE3, BEG, BEL, BES
 74AHCT1G08DRLRG4 | Reel of 4000 | -40 to 125 | BEB, BES
-SN74AHCT1G08DBV3 | Reel of 3000 | -40 to 125 | B08Y
+SN74AHCT1G08DBV3 | Reel of 3000 | -40 to 125 | B08Y | Last Time Buy
 SN74AHCT1G08DBVR | Reel of 3000 | -40 to 125 | 38WH, 3C8F, B083, B08G, B08J, B08L, B08S
-SN74AHCT1G08DCK3 | Reel of 3000 | -40 to 125 | BEY
+SN74AHCT1G08DBVT | | -40 to 125 | B083, B08G, B08J, B08S | Obsolete
+SN74AHCT1G08DCK3 | Reel of 3000 | -40 to 125 | BEY | Last Time Buy
 SN74AHCT1G08DCKR | Reel of 3000 | -40 to 125 | 1PJ, BE3, BEG, BEJ, BEL, BES
+SN74AHCT1G08DCKT | | -40 to 125 | BE3, BEG, BES | Obsolete
 SN74AHCT1G08DRLR | Reel of 4000 | -40 to 125 | BEB, BES
 ```
-
-The package option addendum lists SN74AHCT1G08DBVT and SN74AHCT1G08DCKT
-as obsolete, and SN74AHCT1G08DBV3 and SN74AHCT1G08DCK3 as Last Time Buy.
-Where several markings are listed, only one appears on a part.
 
 ## Conversion notes
 
@@ -291,7 +300,8 @@ Where several markings are listed, only one appears on a part.
   oscilloscope-style plot of V~I~ and the AHCT1G08, AC and HC outputs at
   V~CC~ = 5 V, load 50 Ω / 50 pF); it compares families rather than
   characterizing this part.
-- The ESD ratings table is merged into Absolute maximum ratings.
+- The ESD ratings table is placed in the Absolute maximum ratings section.
+- Section 5.3 of the source is Recommended Operating Conditions.
 - The T~pd~ curve is digitized from Figure 5-1 to about 2 % of full scale.
 - The typical application diagram (Figure 8-1) is described in text.
 - From images: 5.89, 6.07, 6.36, 6.67, 6.96, 7.21, 7.38, 7.51 (T~pd~
@@ -304,3 +314,6 @@ Where several markings are listed, only one appears on a part.
     note).
   - Source conflict: "propagation delay of 20 ns" vs at most 10 ns in the
     switching characteristics (Functional description note).
+- Ordering: the addendum (pp.13–14) gives 74AHCT1G08DCKRG4 a quantity of
+  3000 and no carrier ("null"). Where several markings are listed, only
+  one appears on a part.

@@ -34,8 +34,9 @@ translation and also allow voltages at the inputs when V~CC~ = 0 V.
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when it is powered down. The YZP
-package is a NanoFree (DSBGA) package, using the die as the package.
+current backflow through the device when it is powered down. NanoFree
+package technology is a major breakthrough in IC packaging concepts,
+using the die as the package.
 
 ## Pinout
 
@@ -156,23 +157,23 @@ Latch-up performance exceeds 100 mA per JESD 78, class II.
 ```table id=ec caption="Electrical characteristics" conditions="Over operating free-air temperature range (unless otherwise noted)"
 | Symbol | Parameter | Test conditions | V~CC~ | Min | Typ | Max | Unit |
 |---|---|---|---|--:|--:|--:|---|
-| V~OH~ | High-level output voltage | I~OH~ = -100 µA | 1.65 V to 5.5 V | V~CC~ - 0.1 | | | V |
+| V~OH~ | | I~OH~ = -100 µA | 1.65 V to 5.5 V | V~CC~ - 0.1 | | | V |
 | ^ | ^ | I~OH~ = -4 mA | 1.65 V | 1.2 | | | V |
 | ^ | ^ | I~OH~ = -8 mA | 2.3 V | 1.9 | | | V |
 | ^ | ^ | I~OH~ = -16 mA | 3 V | 2.4 | | | V |
 | ^ | ^ | I~OH~ = -24 mA | ^ | 2.3 | | | V |
 | ^ | ^ | I~OH~ = -32 mA | 4.5 V | 3.8 | | | V |
-| V~OL~ | Low-level output voltage | I~OL~ = 100 µA | 1.65 V to 5.5 V | | | 0.1 | V |
+| V~OL~ | | I~OL~ = 100 µA | 1.65 V to 5.5 V | | | 0.1 | V |
 | ^ | ^ | I~OL~ = 4 mA | 1.65 V | | | 0.45 | V |
 | ^ | ^ | I~OL~ = 8 mA | 2.3 V | | | 0.3 | V |
 | ^ | ^ | I~OL~ = 16 mA | 3 V | | | 0.4 | V |
 | ^ | ^ | I~OL~ = 24 mA | ^ | | | 0.55 | V |
 | ^ | ^ | I~OL~ = 32 mA | 4.5 V | | | 0.55 | V |
 | I~I~ | All inputs | V~I~ = 5.5 V or GND | 0 to 5.5 V | | | ±5 | µA |
-| I~off~ | Partial-power-down leakage | V~I~ or V~O~ = 5.5 V | 0 | | | ±10 | µA |
-| I~CC~ | Supply current | V~I~ = 5.5 V or GND, I~O~ = 0 | 1.65 V to 5.5 V | | | 10 | µA |
-| ΔI~CC~ | Supply-current change | One input at V~CC~ - 0.6 V, other inputs at V~CC~ or GND | 3 V to 5.5 V | | | 500 | µA |
-| C~i~ | Input capacitance | V~I~ = V~CC~ or GND | 3.3 V | | 3.5 | | pF |
+| I~off~ | | V~I~ or V~O~ = 5.5 V | 0 | | | ±10 | µA |
+| I~CC~ | | V~I~ = 5.5 V or GND, I~O~ = 0 | 1.65 V to 5.5 V | | | 10 | µA |
+| ΔI~CC~ | | One input at V~CC~ - 0.6 V, other inputs at V~CC~ or GND | 3 V to 5.5 V | | | 500 | µA |
+| C~i~ | | V~I~ = V~CC~ or GND | 3.3 V | | 3.5 | | pF |
 ```
 
 ## Switching characteristics
@@ -236,11 +237,21 @@ generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. t~PLH~ and t~PHL~ are the same as t~pd~.
 
-The load circuit also has an R~L~ from the output to switch S1 (V~LOAD~,
-open or GND). S1 is open for t~PLH~/t~PHL~, which leaves the load below.
-The source figure also shows pulse-duration, setup/hold and
-enable/disable waveforms; all parameters and waveforms are not
-applicable to all devices.
+All parameters and waveforms are not applicable to all devices.
+
+Conversion note: the load circuit also has a second R~L~, from the output
+to switch S1, which goes to V~LOAD~, open or GND; the figure below draws
+the load with S1 open.
+Conversion note: the source figure also shows pulse-duration,
+setup-and-hold and enable/disable waveforms, which are not drawn here.
+
+```table id=s1 caption="Load circuit switch S1"
+| Test | S1 |
+|---|---|
+| t~PLH~/t~PHL~ | Open |
+| t~PLZ~/t~PZL~ | V~LOAD~ |
+| t~PHZ~/t~PZH~ | GND |
+```
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: 1 MΩ
@@ -248,7 +259,8 @@ CL: 15 pF
 ```
 
 ```table id=test-conditions caption="Test conditions (Figure 6-1)"
-| V~CC~ | V~I~ | t~r~/t~f~ | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
+| V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
+| ^ | V~I~ | t~r~/t~f~ | ^ | ^ | ^ | ^ | ^ |
 |---|---|---|---|---|---|---|---|
 | 1.8 V ± 0.15 V | V~CC~ | ≤ 2 ns | V~CC~/2 | 2 × V~CC~ | 15 pF | 1 MΩ | 0.15 V |
 | 2.5 V ± 0.2 V | V~CC~ | ≤ 2 ns | V~CC~/2 | 2 × V~CC~ | 15 pF | 1 MΩ | 0.15 V |
@@ -263,48 +275,60 @@ VM: see table
 ## Application information
 
 The SN74LVC1G11 device offers logical AND configuration for many design
-applications. This example describes basic power sequencing: power
-sequencing is often used in applications that require a processor or
+applications. This example describes basic power sequencing using the AND
+gate configuration. Power sequencing is often used in applications that require a processor or
 other delicate device with specific voltage timing requirements in order
 to protect the device from malfunctioning. In the application below, the
 power-good signals from the supplies tell the MCU to continue an
-operation: Supply 1, Supply 2 and Supply 3 drive the three inputs, Y
-drives the MCU, and V~CC~ = 3.3 V is bypassed with 0.1 µF.
+operation.
+
+Conversion note: in the typical application diagram (Figure 8-1),
+Supply 1, Supply 2 and Supply 3 drive the three inputs, Y drives the MCU,
+and V~CC~ (3.3 V) is bypassed with 0.1 µF.
 
 Design requirements:
 
-- Inputs: for rise time and fall time specifications, see Δt/Δv; for
-  specified high and low levels, see V~IH~ and V~IL~ in the
-  [recommended operating conditions](#recommended-operating-conditions).
-  Inputs and outputs are overvoltage tolerant and can therefore go as
-  high as 5.5 V at any valid V~CC~.
-- Outputs: load currents must not exceed ±50 mA.
-- Frequency: added trace resistance and capacitance can reduce maximum
-  frequency capability. Follow the layout practices below.
+- Recommended input conditions:
+  - For rise time and fall time specifications, see Δt/Δv in the
+    [recommended operating conditions](#recommended-operating-conditions)
+    table.
+  - For specified high and low levels, see V~IH~ and V~IL~ in the
+    recommended operating conditions table.
+  - Inputs and outputs are overvoltage tolerant and can therefore go as
+    high as 5.5 V at any valid V~CC~.
+- Recommended output conditions:
+  - Load currents must not exceed ±50 mA.
+- Frequency selection criterion:
+  - Added trace resistance and capacitance can reduce maximum frequency
+    capability. Follow the layout practices listed in the Layout
+    section.
 
 The SN74LVC1G11 device uses CMOS technology and has balanced output
 drive. Avoid bus contentions that can drive currents that can exceed
 maximum limits. Maintain input signals as close as possible to either
-0 V or V~CC~ for optimal operation. Figure 8-2 of the source shows a
+0 V or V~CC~ for optimal operation. Conversion note: Figure 8-2 of the source shows a
 simulated input-to-output voltage response at V~CC~ = 5 V showing the
 propagation delay.
 
 Power: the power supply can be any voltage between the minimum and
 maximum supply voltage rating listed in the recommended operating
-conditions. Ensure good bypass capacitance for each V~CC~ terminal; for
-devices with a single-supply, a 0.1-µF bypass capacitor is recommended.
+conditions. To prevent power disturbance, ensure good bypass capacitance
+for each V~CC~ terminal. For devices with a single-supply, a 0.1-µF
+bypass capacitor is recommended.
 Capacitors with values of 0.1 µF and 1 µF are commonly used in parallel.
 Place the bypass capacitor as close to the power terminal as possible for
 best results.
 
-Layout: inputs must never float. Unused input pins (for example, when
-only two inputs of a triple-input AND gate are used) must not be left
-unconnected, because the undefined voltages at the outside connections
-result in undefined operational states. All unused inputs of digital
-logic devices must be connected to a high or low bias to prevent them
-from floating; generally they are tied to GND or V~CC~, whichever makes
-more sense or is more convenient. It is generally acceptable to float
-outputs.
+When using multiple-bit logic devices, inputs must never float. In many
+cases, functions (or parts of functions) of digital logic devices are
+unused, for example, when only two inputs of a triple-input AND gate are
+used or when only 3 of the 4 buffer gates are used. Such input pins must
+not be left unconnected, because the undefined voltages at the outside
+connections result in undefined operational states. All unused inputs of
+digital logic devices must be connected to a high or low bias to prevent
+them from floating. Generally they are tied to GND or V~CC~, whichever
+makes more sense or is more convenient. It is generally acceptable to
+float outputs.
 
 ## Package
 
@@ -326,14 +350,25 @@ outputs.
 ## Ordering information
 
 ```ordering
+SN74LVC1G11DBVR | Reel of 3000 | -40 to 125 | C115, C11F, C11K, C11R
+SN74LVC1G11DBVRE4 | Reel of 3000 | -40 to 125 | C11F, C11R
+SN74LVC1G11DBVRG4 | Reel of 3000 | -40 to 125 | C11F, C11R
+SN74LVC1G11DCKR | Reel of 3000 | -40 to 125 | C35, C3F, C3J, C3K, C3R
+SN74LVC1G11DCKRE4 | Reel of 3000 | -40 to 125 | C35
+SN74LVC1G11DCKRG4 | Reel of 3000 | -40 to 125 | C35
+SN74LVC1G11DRYR | Reel of 5000 | -40 to 125 | C3
+SN74LVC1G11DRYRG4 | Reel of 5000 | -40 to 125 | C3
+SN74LVC1G11DSFR | Reel of 5000 | -40 to 125 | C3
+SN74LVC1G11DSFRG4 | Reel of 5000 | -40 to 125 | C3
+SN74LVC1G11YZPR | Reel of 3000 | -40 to 85 | C3N
 ```
 
 ## Conversion notes
 
-- Source pages 1–12 converted; support pages, revision history (13),
-  and the mechanical, package option addendum and tape and reel pages
-  (14–37) dropped, replaced by the generated Package and Ordering
-  sections.
+- Source pages 1–12 converted. The ordering lines are from the package
+  option addendum (pp.15–16). Support pages, revision history (13) and
+  the mechanical and tape and reel pages (14, 17–37) are left out; the
+  generated Package section replaces them.
 - Dropped: features and applications lists, device information table,
   logic diagram (one 3-input AND gate), the layout diagrams (Figure 8-3:
   an unused input tied to V~CC~ or GND), the transceiver and
@@ -344,8 +379,8 @@ outputs.
 - The text layer prints "£2 ns" and "1 MW"; the page image shows ≤ 2 ns
   and 1 MΩ. The text layer drops the overbars of the second Boolean form;
   the page image shows Y = !{!{A} + !{B} + !{C}} (p.1).
-- Parameter names in the electrical characteristics table are added
-  (the source gives symbols only).
+- The electrical characteristics table of the source gives symbols only,
+  so its Parameter cells are empty except for I~I~.
 - Source issues:
   - Source conflict: the 30 pF/50 pF switching tables refer to the Load
     Circuit and Voltage Waveforms, but the only such figure (Figure 6-1,

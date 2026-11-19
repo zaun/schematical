@@ -31,8 +31,8 @@ This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
 current backflow through the device when it is powered down.
 
-Enhanced product: SN74LV08AM is specified from –55 °C to 125 °C,
-SN74LV08AT from –40 °C to 105 °C.
+Conversion note: SN74LV08AM is specified from –55 °C to 125 °C,
+SN74LV08AT from –40 °C to 105 °C (recommended operating conditions).
 
 ## Pinout
 
@@ -181,7 +181,8 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time, with one input transition per measurement. t~PHL~ and t~PLH~ are
-the same as t~pd~.
+the same as t~pd~. All parameters and waveforms are not applicable to
+all devices.
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 50 pF
@@ -191,10 +192,9 @@ CL: 50 pF
 VM: 50 % V~CC~
 ```
 
-Figure 1 also shows the load circuit for 3-state and open-drain outputs
-(R~L~ = 1 kΩ) and the voltage waveforms for pulse duration, setup and
-hold times, and enable and disable times. All parameters and waveforms
-are not applicable to all devices.
+Conversion note: Figure 1 also shows the load circuit for 3-state and
+open-drain outputs (R~L~ = 1 kΩ) and the voltage waveforms for pulse
+duration, setup and hold times, and enable and disable times.
 
 ## Package
 
@@ -204,14 +204,11 @@ are not applicable to all devices.
 ## Ordering information
 
 ```ordering
-SN74LV08ATPWREP | Reel of 2000 | -40 to 105 | LV08AEP
+SN74LV08ATPWREP | Reel of 2000 | -40 to 105 | LV08AEP | NRND
 SN74LV08AMPWREP | Reel of 2000 | -55 to 125 | LV08AEP
-V62/03660-01XE | Reel of 2000 | -40 to 105 | LV08AEP
+V62/03660-01XE | Reel of 2000 | -40 to 105 | LV08AEP | NRND
 V62/03660-02XE | Reel of 2000 | -55 to 125 | LV08AEP
 ```
-
-Status in the package option addendum: SN74LV08ATPWREP and
-V62/03660-01XE are NRND; SN74LV08AMPWREP and V62/03660-02XE are Active.
 
 ## Conversion notes
 
@@ -228,4 +225,6 @@ V62/03660-01XE are NRND; SN74LV08AMPWREP and V62/03660-02XE are Active.
   source; it is the recommended operating free-air temperature range of
   the table's condition line.
 - The source gives no switching characteristics at V~CC~ = 2.5 V.
+- C~i~ typical values sit across the Min and Typ columns in the source;
+  they are placed under Typ.
 - Source issues: none found.

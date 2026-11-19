@@ -26,9 +26,9 @@
 The SN74AHCT1G08-Q1 is a 2-input AND Gate. Each gate performs the Boolean
 function Y = A × B in positive logic.
 
-AEC-Q100 qualified for automotive applications: device temperature
-grade 1, -40 °C to +125 °C. Operating range of 4.5 V to 5.5 V; inputs are
-TTL-voltage compatible; latch-up performance exceeds 250 mA per JESD 17.
+AEC-Q100 qualified for automotive applications: Device temperature
+grade 1: -40 °C to +125 °C. Operating range of 4.5 V to 5.5 V. Inputs are
+TTL-voltage compatible. Latch-up performance exceeds 250 mA per JESD 17.
 
 ## Pinout
 
@@ -89,11 +89,12 @@ requirements.
 
 The outputs to this device have both positive and negative clamping
 diodes, and the inputs to this device have negative clamping diodes only
-(Figure 7-1: output clamps to V~CC~ (+I~OK~) and GND (–I~OK~), input
-clamp to GND (–I~IK~)). Voltages beyond the values specified in the
+as shown in Figure 7-1. Voltages beyond the values specified in the
 Absolute Maximum Ratings table can cause damage to the device. The input
 and output voltage ratings may be exceeded if the input and output
 clamp-current ratings are observed.
+
+Conversion note: Figure 7-1 draws the output clamps to V~CC~ (+I~OK~) and GND (-I~OK~) and the input clamp to GND (-I~IK~).
 
 ## Function tables
 
@@ -120,12 +121,18 @@ clamp-current ratings are observed.
 | I~O~ | Continuous output current | V~O~ = 0 to V~CC~ | | ±25 | mA |
 | I~O~ | Continuous output current through V~CC~ or GND | | | ±50 | mA |
 | T~stg~ | Storage temperature | | -65 | 150 | °C |
-| V~(ESD)~ | Electrostatic discharge, human body model (HBM) [3] | AEC Q100-002, HBM ESD Classification Level 2 | | ±2000 | V |
-| ^ | Electrostatic discharge, charged device model (CDM) | AEC Q100-011, CDM ESD Classification Level C4B | | ±1000 | V |
 
 [1] Operation outside the Absolute Maximum Ratings may cause permanent device damage. Absolute maximum ratings do not imply functional operation of the device at these or any other conditions beyond those listed under Recommended Operating Conditions. If briefly operating outside the Recommended Operating Conditions but within the Absolute Maximum Ratings, the device may not sustain damage, but it may not be fully functional. Operating the device in this manner may affect device reliability, functionality, performance, and shorten the device lifetime.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
-[3] AEC Q100-002 indicate that HBM stressing shall be in accordance with the ANSI/ESDA/JEDEC JS-001 specification.
+```
+
+```table id=esd caption="ESD ratings"
+| Symbol | Parameter | Conditions | Value | Unit |
+|---|---|---|--:|---|
+| V~(ESD)~ | Electrostatic discharge | Human body model (HBM), per AEC Q100-002 [1] HBM ESD Classification Level 2 | ±2000 | V |
+| ^ | ^ | Charged device model (CDM), per AEC Q100-011 CDM ESD Classification Level C4B | ±1000 | ^ |
+
+[1] AEC Q100-002 indicate that HBM stressing shall be in accordance with the ANSI/ESDA/JEDEC JS-001 specification.
 ```
 
 ## Recommended operating conditions
@@ -148,32 +155,33 @@ clamp-current ratings are observed.
 ## Thermal information
 
 ```table id=thermal caption="Thermal information [1]"
-| Symbol | Parameter | DBV (SOT-23) | DCK (SC70) | Unit |
+| Symbol | Parameter | DBV (SOT-23) 5 pins | DCK (SC70) 5 pins | Unit |
 |---|---|--:|--:|---|
 | R~θJA~ | Junction-to-ambient thermal resistance | 278.0 | 293.4 | °C/W |
 | R~θJC(top)~ | Junction-to-case (top) thermal resistance | 180.5 | 208.8 | °C/W |
 | R~θJB~ | Junction-to-board thermal resistance | 184.4 | 180.6 | °C/W |
 | Ψ~JT~ | Junction-to-top characterization parameter | 115.4 | 120.6 | °C/W |
 | Ψ~JB~ | Junction-to-board characterization parameter | 183.4 | 179.5 | °C/W |
+| R~θJC(bot)~ | Junction-to-case (bottom) thermal resistance | N/A | N/A | °C/W |
 
-[1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report. Both packages 5 pins. R~θJC(bot)~ (junction-to-case, bottom) is N/A for both.
+[1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 ```
 
 ## Electrical characteristics
 
 ```table id=ec caption="Electrical characteristics" conditions="Over operating free-air temperature range (unless otherwise noted)"
-| Symbol | Parameter | Test conditions | V~CC~ | T~A~ = 25 °C | < | < | -40 °C to 125 °C | < | < | Unit |
-| ^ | ^ | ^ | ^ | Min | Typ | Max | Min | Typ | Max | ^ |
-|---|---|---|---|--:|--:|--:|--:|--:|--:|---|
-| V~OH~ | High-level output voltage | I~OH~ = -50 µA | 4.5 V | 4.4 | 4.5 | | V~CC~ - 0.1 | | | V |
-| ^ | ^ | I~OH~ = -8 mA | 4.5 V | 3.94 | | | 3.8 | | | V |
-| V~OL~ | Low-level output voltage | I~OL~ = 50 µA [1] | 4.5 V | | | 0.1 | | | 0.1 | V |
-| ^ | ^ | I~OL~ = 8 mA [1] | 4.5 V | | | 0.36 | | | 0.44 | V |
-| I~I~ | Input current | V~I~ = 0 V to V~CC~ | 0 V to 5.5 V | | | ±0.1 | | | ±1 | µA |
-| I~CC~ | Supply current | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | | 1 | | | 10 | µA |
-| ΔI~CC~ | Supply current change | One input at 0.3 V or 3.4 V, other inputs at V~CC~ or GND | 5.5 V | | | 1.35 | | | 1.5 | mA |
-| C~i~ | Input capacitance | V~I~ = V~CC~ or GND | 5 V | | 2 | 10 | | 2 | 10 | pF |
-| C~PD~ | Power dissipation capacitance [2] [3] | F = 1 MHz | 5 V | | 11 | | | | | pF |
+| Symbol | Test conditions | V~CC~ | T~A~ = 25 °C | < | < | -40 °C to 125 °C | < | < | Unit |
+| ^ | ^ | ^ | Min | Typ | Max | Min | Typ | Max | ^ |
+|---|---|---|--:|--:|--:|--:|--:|--:|---|
+| V~OH~ | I~OH~ = -50 µA | 4.5 V | 4.4 | 4.5 | | V~CC~ - 0.1 | | | V |
+| ^ | I~OH~ = -8 mA | 4.5 V | 3.94 | | | 3.8 | | | V |
+| V~OL~ | I~OL~ = 50 µA [1] | 4.5 V | | | 0.1 | | | 0.1 | V |
+| ^ | I~OL~ = 8 mA [1] | 4.5 V | | | 0.36 | | | 0.44 | V |
+| I~I~ | V~I~ = 0 V to V~CC~ | 0 V to 5.5 V | | | ±0.1 | | | ±1 | µA |
+| I~CC~ | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | | 1 | | | 10 | µA |
+| ΔI~CC~ | One input at 0.3 V or 3.4 V, other inputs at V~CC~ or GND | 5.5 V | | | 1.35 | | | 1.5 | mA |
+| C~i~ | V~I~ = V~CC~ or GND | 5 V | | 2 | 10 | | 2 | 10 | pF |
+| C~PD~ [2] [3] | F = 1 MHz | 5 V | | 11 | | | | | pF |
 
 [1] Source error: printed as I~OH~ = 50 µA and I~OH~ = 8 mA in the V~OL~ rows; the rows give V~OL~, so the condition is I~OL~.
 [2] C~PD~ is used to determine the dynamic power consumption, per channel.
@@ -221,7 +229,7 @@ pulses are supplied by generators having the following characteristics:
 PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~t~ < 3 ns. The outputs are measured one at a
 time with one input transition per measurement. C~L~ includes probe and
 test-fixture capacitance. The greater between t~PLH~ and t~PHL~ is the
-same as t~pd~; the greater between t~r~ and t~f~ is the same as t~t~.
+same as t~pd~. The greater between t~r~ and t~f~ is the same as t~t~.
 
 ```figure ref=load-cmos-50pf caption="Load circuit for push-pull outputs"
 CL: 15 pF or 50 pF
@@ -238,14 +246,14 @@ component specification, and TI does not warrant its accuracy or
 completeness.
 
 In this application, three 2-input AND gates are combined to produce a
-4-input AND gate function (Figure 8-1). Multiple SN74AHCT1G08-Q1 are used
+4-input AND gate function as shown in Figure 8-1. Multiple SN74AHCT1G08-Q1 are used
 to directly control the !{RESET} pin of a motor controller. The
 controller requires four input signals to all be HIGH before being
 enabled, and should be disabled in the event that any one signal goes
 LOW. The 4-input AND gate function combines the four individual reset
-signals (!{OC} from over current detection, PG from the power supply,
-ON/!{OFF} from the on/off switch, !{OT} from over temp detection) into a
-single active-low reset signal.
+signals into a single active-low reset signal.
+
+Conversion note: in the block diagram (Figure 8-1) the four signals are !{OC} from over current detection, PG from the power supply, ON/!{OFF} from the on/off switch and !{OT} from over temp detection.
 
 ```wavedrom id=app-timing caption="Application timing diagram"
 {"signal": [
@@ -257,23 +265,30 @@ single active-low reset signal.
 ]}
 ```
 
-Power considerations: ensure the desired supply voltage is within the
+### Power considerations
+
+Ensure the desired supply voltage is within the
 range specified in the Recommended Operating Conditions. The positive
 voltage supply must be capable of sourcing current equal to the total
-current to be sourced by all outputs plus the maximum static supply
-current, I~CC~, and any transient current required for switching; the
-ground must be capable of sinking the matching current. Be sure to not
-exceed the maximum total current through V~CC~ or GND listed in the
-Absolute Maximum Ratings. The maximum junction temperature, T~J(max)~
-listed in the Absolute Maximum Ratings [1], is an additional limitation
-to prevent damage to the device.
+current to be sourced by all outputs of the SN74AHCT1G08-Q1 plus the
+maximum static supply current, I~CC~, listed in the Electrical
+Characteristics, and any transient current required for switching. Be
+sure to not exceed the maximum total current through V~CC~ listed in the
+Absolute Maximum Ratings. The ground must be capable of sinking current
+equal to the total current to be sunk by all outputs of the
+SN74AHCT1G08-Q1 plus the maximum supply current, I~CC~, listed in the
+Electrical Characteristics, and any transient current required for
+switching. Be sure to not exceed the maximum total current through GND
+listed in the Absolute Maximum Ratings.
 
-[1] Source conflict: the Absolute Maximum Ratings table (p.4) lists no junction temperature.
+The maximum junction temperature, T~J(max)~ listed in the Absolute
+Maximum Ratings, is an additional limitation to prevent damage to the
+device. Source conflict: the Absolute Maximum Ratings table (p.4) lists no junction temperature.
 
-Load: the SN74AHCT1G08-Q1 can drive a load with a total capacitance less
+The SN74AHCT1G08-Q1 can drive a load with a total capacitance less
 than or equal to 50 pF while still meeting all of the data sheet
 specifications. Larger capacitive loads can be applied; however, it is
-not recommended to exceed 50 pF. It can drive a load with total
+not recommended to exceed 50 pF. The SN74AHCT1G08-Q1 can drive a load with total
 resistance described by R~L~ ≥ V~O~ / I~O~, with the output voltage and
 current defined in the Electrical Characteristics table with V~OH~ and
 V~OL~. When outputting in the HIGH state, the output voltage in the
@@ -282,7 +297,9 @@ voltage and the supply voltage at the V~CC~ pin. Ensure the resistive
 load at the output is larger than (V~CC~ / I~O(max)~) Ω, so that the
 maximum output current from the Absolute Maximum Ratings is not violated.
 
-Inputs: input signals must cross V~IL~(max) to be considered a logic
+### Input considerations
+
+Input signals must cross V~IL~(max) to be considered a logic
 LOW, and V~IH~(min) to be considered a logic HIGH. Do not exceed the
 maximum input voltage range found in the Absolute Maximum Ratings.
 Unused inputs must be terminated to either V~CC~ or ground. The unused
@@ -292,14 +309,18 @@ will be used sometimes, but not always. A 10-kΩ resistor value is often used. S
 can cause oscillations, additional power consumption, and reduction in
 device reliability.
 
-Outputs: push-pull outputs that could be in opposite states, even for a
+### Output considerations
+
+Push-pull outputs that could be in opposite states, even for a
 very short time period, should never be connected directly together.
 This can cause excessive current and damage to the device. Two channels
 within the same device with the same input signals can be connected in
 parallel for additional output drive strength. Unused outputs can be
 left floating. Do not connect outputs directly to V~CC~ or ground.
 
-Power supply: any voltage between the minimum and maximum supply voltage
+### Power supply recommendations
+
+The power supply can be any voltage between the minimum and maximum supply voltage
 rating located in the Recommended Operating Conditions. Each V~CC~
 terminal should have a good bypass capacitor to prevent power
 disturbance. A 0.1-µF capacitor is recommended for this device. The
@@ -307,13 +328,15 @@ disturbance. A 0.1-µF capacitor is recommended for this device. The
 capacitor should be installed as close to the power terminal as possible
 for best results.
 
-Layout: when using multiple-input and multiple-channel logic devices,
+### Layout guidelines
+
+When using multiple-input and multiple-channel logic devices,
 inputs must never be left floating. All unused inputs of digital logic
 devices must be connected to a logic high or logic low voltage, as
 defined by the input voltage specifications, to prevent them from
-floating. The layout example recommends a GND flood fill, a 0.1 µF
-bypass capacitor placed close to the device, and no 90° corners on
-signal lines.
+floating.
+
+Conversion note: the layout example (Figure 8-3) recommends a GND flood fill, a 0.1 µF bypass capacitor placed close to the device, and avoiding 90° corners for signal lines.
 
 ## Package
 
@@ -341,7 +364,7 @@ CAHCT1G08QDCKRQ1 | Reel of 3000 | -40 to 125 | 1PI
   described in text: the shared clamp-diodes figure also draws an input
   clamp to V~CC~, which this part does not have), the layout example
   drawing (summarized in one sentence), application-note references.
-- The ESD ratings table is merged into Absolute maximum ratings.
+- The ESD ratings table is placed in the Absolute maximum ratings section.
 - Curves digitized from Figures 5-1 and 5-2 (straight lines in the
   source) to about 2 % of full scale.
 - The application timing diagram is redrawn from Figure 8-2; the block
@@ -351,4 +374,8 @@ CAHCT1G08QDCKRQ1 | Reel of 3000 | -40 to 125 | 1PI
 - Source issues:
   - Source error: V~OL~ rows printed with I~OH~ (EC table note).
   - Source conflict: T~J(max)~ referenced but not in the Absolute Maximum
-    Ratings table (Application information note).
+    Ratings table (Application information).
+- The Electrical characteristics table of the source names its
+  parameters by symbol only; no parameter names are added.
+- The Switching characteristics unit is printed "nS" in the source
+  (p.5); written ns.

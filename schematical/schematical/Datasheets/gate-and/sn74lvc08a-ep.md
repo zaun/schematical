@@ -25,15 +25,15 @@
 
 The SN74LVC08A quadruple 2-input positive-AND gate is designed for 2.7-V
 to 3.6-V V~CC~ operation. The device performs the Boolean function
-Y = A · B or Y = !{!{A} + !{B}} in positive logic.
+Y = A • B or Y = !{!{A} + !{B}} in positive logic.
 
 Inputs can be driven from either 3.3 V or 5 V devices. This feature
 allows the use of this device as a translator in a mixed 3.3 V/5 V
 system environment.
 
-This enhanced product (EP) version has a controlled baseline (one
-assembly, one test site, one fabrication site) and extended temperature
-performance: Q suffix –40 °C to 125 °C, M suffix –55 °C to 125 °C.
+Controlled baseline – one assembly – one test site – one fabrication
+site. Extended temperature performance of –40°C to 125°C and –55°C to
+125°C.
 
 ## Pinout
 
@@ -52,7 +52,7 @@ VCC: Positive supply
 
 ## Function tables
 
-Logic diagram: four 2-input AND gates.
+Conversion note: the logic diagram, each gate (positive logic), is one 2-input AND gate.
 
 ```table id=function caption="Function table (each gate)"
 | A | B | Y |
@@ -147,13 +147,14 @@ ESD protection exceeds 2000 V per MIL-STD-883, Method 3015; exceeds
 
 ## Parameter measurement information
 
-Figure 1, load circuit and voltage waveforms. For t~PLH~/t~PHL~ the
-switch S1 is open, which leaves R~L~ and C~L~ from the output to ground.
 C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. All parameters
 and waveforms are not applicable to all devices.
+
+Conversion note: for t~PLH~/t~PHL~ the switch S1 of the load circuit
+(Figure 1) is open, which leaves R~L~ and C~L~ from the output to ground.
 
 ```table id=pmi caption="Load circuit and input conditions"
 | V~CC~ | V~I~ | t~r~/t~f~ | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -195,15 +196,19 @@ V62/04655-02YE | Reel of 2000 | -55 to 125 | LVC08AM
 ## Conversion notes
 
 - Source pages 1–5 converted; the package option addendum, tape and
-  reel and mechanical pages dropped, replaced by the generated Package
+  reel and mechanical pages (6–16) dropped, replaced by the generated Package
   and Ordering sections. Packing, temperature and marking of the V62
   parts come from the package option addendum.
-- Dropped: features list (the qualification pedigree and controlled
-  baseline are summarised in the description), the enable/disable and
+- Dropped: features list (except the controlled baseline, the
+  temperature ranges and the ESD protection), the enable/disable and
   setup/hold waveforms of the generic measurement figure (they do not
   apply to this part).
-- The Boolean function is garbled in the PDF text layer
-  ("Y + A • B or Y + A ) B"); written as Y = A · B.
+- From images: the Boolean function Y = A • B or
+  Y = !{!{A} + !{B}} (p.1; the text layer has "Y + A • B or Y + A ) B").
+  The source sets it after "function in"; it is written before "in
+  positive logic".
+- The source has no pin functions table; the pin descriptions are
+  written from the pin names and the function table.
 - Source issues:
   - Source conflict: the feature list says "Operates From 1.65 V to
     3.6 V" (p.1), the description says the device is designed for 2.7-V

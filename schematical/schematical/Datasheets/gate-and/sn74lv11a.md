@@ -129,16 +129,16 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 ## Thermal information
 
 ```table id=thermal caption="Thermal information [1]"
-| Symbol | Parameter | D | NS | PW | DB | DGV | Unit |
+| Symbol | Parameter | D (14 pins) | NS (14 pins) | PW (14 pins) | DB (14 pins) | DGV (14 pins) | Unit |
 |---|---|--:|--:|--:|--:|--:|---|
 | R~θJA~ | Junction-to-ambient thermal resistance | 86 | 76 | 113 | 96 | 127 | °C/W |
 
-[1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report (SPRA953). All packages 14 pins.
+[1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report (SPRA953).
 ```
 
 ## Electrical characteristics
 
-The source has no electrical characteristics table for output
+Conversion note: the source has no electrical characteristics table for output
 voltages, leakage and supply current; only the noise and operating
 characteristics below.
 
@@ -163,8 +163,8 @@ characteristics below.
 
 ## Switching characteristics
 
-See [parameter measurement information](#parameter-measurement). The
-SN74LV11A columns are over the recommended operating free-air
+See [parameter measurement information](#parameter-measurement).
+Conversion note: the SN74LV11A columns are over the recommended operating free-air
 temperature range.
 
 ```table id=sw-2v5 caption="Switching characteristics, V~CC~ = 2.5 V ± 0.2 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
@@ -193,12 +193,15 @@ temperature range.
 
 ## Parameter measurement information
 
-C~L~ includes probe and jig capacitance; it is 15 pF or 50 pF as given
-in the [switching characteristics](#switching-characteristics). All
+C~L~ includes probe and jig capacitance. All
 input pulses are supplied by generators having the following
 characteristics: PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The
 outputs are measured one at a time, with one input transition per
-measurement. t~PHL~ and t~PLH~ are the same as t~pd~.
+measurement. t~PHL~ and t~PLH~ are the same as t~pd~. All parameters
+and waveforms are not applicable to all devices.
+
+Conversion note: C~L~ is 15 pF or 50 pF as given in the
+[switching characteristics](#switching-characteristics).
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 15 pF or 50 pF
@@ -208,24 +211,27 @@ CL: 15 pF or 50 pF
 VM: 50 % V~CC~
 ```
 
-Figure 5-1 also shows the load circuit for 3-state and open-drain
-outputs (R~L~ = 1 kΩ) and the voltage waveforms for pulse duration,
-setup and hold times, and enable and disable times. All parameters and
-waveforms are not applicable to all devices.
+Conversion note: Figure 5-1 also shows the load circuit for 3-state and
+open-drain outputs (R~L~ = 1 kΩ) and the voltage waveforms for pulse
+duration, setup and hold times, and enable and disable times.
 
 ## Application information
 
-Power supply: the power supply can be any voltage between the minimum
+### Power supply recommendations
+
+The power supply can be any voltage between the minimum
 and maximum supply voltage rating located in the Recommended Operating
 Conditions. Each V~CC~ terminal should have a good bypass capacitor to
 prevent power disturbance. A 0.1-µF capacitor is recommended for this
 device. It is acceptable to parallel multiple bypass caps to reject
-different frequencies of noise; the 0.1-µF and 1-µF capacitors are
+different frequencies of noise. The 0.1-µF and 1-µF capacitors are
 commonly used in parallel. The bypass capacitor should be installed as
 close to the power terminal as possible for best results.
 
-Layout: when using multiple-input and multiple-channel logic devices,
-inputs must not ever be left floating. Unused input pins must not be left
+### Layout guidelines
+
+When using multiple-input and multiple-channel logic devices
+inputs must not ever be left floating. Such unused input pins must not be left
 unconnected because the undefined voltages at the outside connections
 result in undefined operational states. All unused inputs of digital
 logic devices must be connected to a logic high or logic low voltage, as
@@ -235,11 +241,15 @@ input depends on the function of the device. Generally, the inputs are
 tied to GND or V~CC~, whichever makes more sense for the logic function
 or is more convenient.
 
-The layout example (Figure 7-1) shows a 0.1-µF bypass capacitor placed
-close to the device, unused inputs tied to GND or V~CC~, an unused output
-left floating, a GND flood fill for improved signal isolation, noise
-reduction, and thermal dissipation, and signal lines that avoid 90°
-corners.
+Conversion note: the example layout for the SN74LV11A (Figure 7-1) is given here by its labels.
+
+- Recommend GND flood fill for improved signal isolation, noise reduction, and thermal dissipation
+- Bypass capacitor placed close to the device
+- 0.1 µF
+- Unused inputs tied to GND
+- Unused input tied to V~CC~
+- Unused output left floating
+- Avoid 90° corners for signal lines
 
 ## Package
 
@@ -261,17 +271,14 @@ corners.
 ## Ordering information
 
 ```ordering
-SN74LV11AD | Obsolete | -40 to 85 | LV11A
+SN74LV11AD | | -40 to 85 | LV11A | Obsolete
 SN74LV11ADBR | Reel of 2000 | -40 to 85 | LV11A
 SN74LV11ADGVR | Reel of 2000 | -40 to 85 | LV11A
 SN74LV11ADR | Reel of 2500 | -40 to 85 | LV11A
 SN74LV11ANSR | Reel of 2000 | -40 to 85 | 74LV11A
-SN74LV11APW | Obsolete | -40 to 85 | LV11A
+SN74LV11APW | | -40 to 85 | LV11A | Obsolete
 SN74LV11APWR | Reel of 2000 | -40 to 85 | LV11A
 ```
-
-Status in the package option addendum: SN74LV11AD and SN74LV11APW are
-Obsolete.
 
 ## Conversion notes
 
@@ -282,9 +289,10 @@ Obsolete.
   information table, simplified schematic and logic diagram (three
   3-input AND gates), related links table, support pages, revision
   history.
-- The layout example (Figure 7-1) is described in text.
+- The layout example (Figure 7-1) is given as a list of its labels.
 - From images: R~L~ = 1 kΩ and the 50 % V~CC~ measurement levels
-  (Figure 5-1, p.7, an image).
+  (Figure 5-1, p.7, an image); µF (0.1 µF in Figure 7-1, p.9; the text
+  layer has "0.1 F").
 - Source issues:
   - Source error: the Overview (p.8) gives the Boolean function as
     "Y = A • B • C or Y = !{A + B + C}" with a single overline (a NOR);

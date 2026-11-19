@@ -24,12 +24,12 @@
 ## Description
 
 The SN74ACT08 is a quadruple 2-input positive-AND gate. This device
-performs the Boolean function Y = A · B in positive logic. It operates
-from a V~CC~ of 4.5 V to 5.5 V; inputs are TTL-voltage compatible and
-accept voltages to 5.5 V. It is specified from –40 °C to 85 °C.
-Enhanced product: controlled baseline (one assembly/test site, one
-fabrication site), enhanced diminishing manufacturing sources (DMS)
-support and enhanced product-change notification.
+performs the Boolean function Y = A · B in positive logic.
+
+4.5-V to 5.5-V V~CC~ operation. Inputs accept voltages to 5.5 V. Inputs
+are TTL-voltage compatible. Controlled baseline. One assembly/test
+site, one fabrication site. Enhanced diminishing manufacturing sources
+(DMS) support. Enhanced product-change notification.
 
 ## Pinout
 
@@ -48,8 +48,8 @@ VCC: Supply voltage
 
 ## Functional description
 
-Logic diagram, each gate (positive logic): one 2-input AND gate, inputs
-A and B, output Y.
+Conversion note: the logic diagram, each gate (positive logic), shows one
+2-input AND gate, inputs A and B, output Y.
 
 ## Function tables
 
@@ -102,27 +102,27 @@ A and B, output Y.
 ## Electrical characteristics
 
 ```table id=ec caption="Electrical characteristics" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
-| Symbol | Parameter | Test conditions | V~CC~ | T~A~ = 25 °C | < | < | Full range [3] | < | Unit |
+| Symbol | Parameter | Test conditions | V~CC~ | T~A~ = 25 °C | < | < | [3] | < | Unit |
 | ^ | ^ | ^ | ^ | Min | Typ | Max | Min | Max | ^ |
 |---|---|---|---|--:|--:|--:|--:|--:|---|
-| V~OH~ | High-level output voltage | I~OH~ = -50 µA | 4.5 V | 4.4 | 4.49 | | 4.4 | | V |
+| V~OH~ | | I~OH~ = -50 µA | 4.5 V | 4.4 | 4.49 | | 4.4 | | V |
 | ^ | ^ | ^ | 5.5 V | 5.4 | 5.49 | | 5.4 | | V |
 | ^ | ^ | I~OH~ = -24 mA | 4.5 V | 3.86 | | | 3.76 | | V |
 | ^ | ^ | ^ | 5.5 V | 4.86 | | | 4.76 | | V |
 | ^ | ^ | I~OH~ = -75 mA [1] | 5.5 V | | | | 3.85 | | V |
-| V~OL~ | Low-level output voltage | I~OL~ = 50 µA | 4.5 V | | 0.001 | 0.1 | | 0.1 | V |
+| V~OL~ | | I~OL~ = 50 µA | 4.5 V | | 0.001 | 0.1 | | 0.1 | V |
 | ^ | ^ | ^ | 5.5 V | | 0.001 | 0.1 | | 0.1 | V |
 | ^ | ^ | I~OL~ = 24 mA | 4.5 V | | | 0.36 | | 0.44 | V |
 | ^ | ^ | ^ | 5.5 V | | | 0.36 | | 0.44 | V |
 | ^ | ^ | I~OL~ = 75 mA [1] | 5.5 V | | | | | 1.65 | V |
-| I~I~ | Input current | V~I~ = V~CC~ or GND | 5.5 V | | | ±0.1 | | ±1 | µA |
-| I~CC~ | Supply current | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | | 2 | | 20 | µA |
-| ΔI~CC~ | Supply-current change [2] | One input at 3.4 V, other inputs at GND or V~CC~ | 5.5 V | | 0.6 | | | 1.5 | mA |
-| C~i~ | Input capacitance | V~I~ = V~CC~ or GND | 5 V | | 4.5 | | | | pF |
+| I~I~ | | V~I~ = V~CC~ or GND | 5.5 V | | | ±0.1 | | ±1 | µA |
+| I~CC~ | | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | | 2 | | 20 | µA |
+| ΔI~CC~ [2] | | One input at 3.4 V, other inputs at GND or V~CC~ | 5.5 V | | 0.6 | | | 1.5 | mA |
+| C~i~ | | V~I~ = V~CC~ or GND | 5 V | | 4.5 | | | | pF |
 
 [1] Not more than one output should be tested at a time, and the duration of the test should not exceed 2 ms.
 [2] This is the increase in supply current for each input that is at one of the specified TTL voltage levels, rather than 0 V or V~CC~.
-[3] The source leaves this column group without a temperature heading; the table applies over the recommended operating free-air temperature range (T~A~ –40 °C to 85 °C).
+[3] Conversion note: the source prints no temperature heading over this Min and Max column group.
 ```
 
 ```table id=opchar caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25 °C"
@@ -136,13 +136,13 @@ A and B, output Y.
 See [parameter measurement information](#parameter-measurement).
 
 ```table id=sw caption="Switching characteristics" conditions="Over recommended operating free-air temperature range, V~CC~ = 5 V ± 0.5 V (unless otherwise noted)"
-| Symbol | From (input) | To (output) | T~A~ = 25 °C | < | < | Full range [1] | < | Unit |
+| Symbol | From (input) | To (output) | T~A~ = 25 °C | < | < | [1] | < | Unit |
 | ^ | ^ | ^ | Min | Typ | Max | Min | Max | ^ |
 |---|---|---|--:|--:|--:|--:|--:|---|
 | t~PLH~ | A or B | Y | 1 | 6.5 | 9 | 1 | 10 | ns |
 | t~PHL~ | A or B | Y | 1 | 6.5 | 9 | 1 | 10 | ns |
 
-[1] No temperature heading in the source (see the electrical characteristics).
+[1] Conversion note: the source prints no temperature heading over this Min and Max column group.
 ```
 
 ## Parameter measurement information
@@ -150,12 +150,13 @@ See [parameter measurement information](#parameter-measurement).
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 2.5 ns, t~f~ ≤ 2.5 ns. The outputs are measured one
-at a time with one input transition per measurement.
+at a time, with one input transition per measurement.
 
-The load circuit also has a 500 Ω resistor from the output to switch S1
-(2 × V~CC~ or open); S1 is open for t~PLH~ and t~PHL~, which leaves the
-load below. The input swings 0 V to 3 V and is measured at 1.5 V; the
-outputs are measured at 50 % V~CC~.
+Conversion note: the load circuit also has a 500 Ω resistor from the output
+to switch S1 (2 × V~CC~ or open), and S1 is open for t~PLH~/t~PHL~, which
+leaves the load below. Conversion note: in the voltage waveforms the input
+swings 0 V to 3 V and is measured at 1.5 V, and the outputs are measured at
+50 % V~CC~.
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: 500 Ω
@@ -174,14 +175,20 @@ VM: 1.5 V (input), 50 % V~CC~ (outputs)
 ## Ordering information
 
 ```ordering
-SN74ACT08IDREP | Tape and reel | -40 to 85 | SACT08IEP
+SN74ACT08IDREP | Reel of 2500 | -40 to 85 | SACT08IEP
+V62/04759-01XE | Reel of 2500 | -40 to 85 | SACT08IEP
 ```
 
 ## Conversion notes
 
 - Source pages 1–4 converted; the package option addendum, tape and
   reel and mechanical pages (5–12) dropped, replaced by the generated
-  Package and Ordering sections.
+  Package and Ordering sections. The ordering lines are the parts' rows
+  of the package option addendum (p.5).
+- The electrical characteristics table of the source gives only symbols
+  in its Parameter column; no parameter names are added.
+- From images: ΔI~CC~ (electrical characteristics, p.3; the text layer
+  prints "DICC").
 - Dropped: features list (the enhanced-product points and electrical
   points are kept in the Description), the qualification-pedigree
   footnote; the logic diagram is described in text. The description's

@@ -26,8 +26,8 @@
 The SN74AHC1G08 is a single 2-input positive-AND gate. The device
 performs the Boolean function Y = A • B in positive logic.
 
-Qualified for automotive applications. Operating range of 2 V to 5.5 V;
-±8 mA output drive at 5 V; Schmitt-trigger action at all inputs makes the
+Qualified for automotive applications. Operating range of 2V to 5.5V.
+±8mA output drive at 5V. Schmitt-trigger action at all inputs makes the
 circuit tolerant for slower input rise and fall time.
 
 ## Pinout
@@ -57,14 +57,15 @@ given in the Electrical Characteristics table, using Ohm's law
 (R = V ÷ I).
 
 The Schmitt-trigger input architecture provides hysteresis as defined by
-ΔV~T~ in the Electrical Characteristics table [1], which makes this device
+ΔV~T~ in the Electrical Characteristics table, which makes this device
 extremely tolerant to slow or noisy inputs. While the inputs can be
 driven much slower than standard CMOS inputs, it is still recommended to
 properly terminate unused inputs. Driving the inputs with slow
 transitioning signals will increase dynamic current consumption of the
 device.
 
-[1] Source conflict: the Electrical Characteristics table (p.5) has no ΔV~T~ row; the source gives no hysteresis value.
+Source conflict: the Electrical Characteristics table (p.5) has no
+ΔV~T~ row; the source gives no hysteresis value.
 
 ## Function tables
 
@@ -91,44 +92,51 @@ device.
 | I~O~ | Continuous output current | V~O~ = 0 to V~CC~ | | ±25 | mA |
 | | Continuous current through V~CC~ or GND | | | ±50 | mA |
 | T~stg~ | Storage temperature range | | -65 | 150 | °C |
-| V~(ESD)~ | Electrostatic discharge, human body model (HBM), per AEC Q100-002 [3] | | | ±2000 | V |
-| ^ | Electrostatic discharge, charged device model (CDM), per AEC Q100-011 | | | ±1000 | V |
 
 [1] Stresses beyond those listed under "absolute maximum ratings" may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under "recommended operating conditions" is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
-[3] AEC Q100-002 indicates that HBM stressing must be in accordance with the ANSI/ESDA/JEDEC JS-001 specification.
+```
+
+```table id=esd caption="ESD ratings"
+| Symbol | Parameter | Conditions | Value | Unit |
+|---|---|---|--:|---|
+| V~(ESD)~ | Electrostatic discharge | Human body model (HBM), per AEC Q100-002 [1] | ±2000 | V |
+| ^ | ^ | Charged device model (CDM), per AEC Q100-011 | ±1000 | V |
+
+[1] AEC Q100-002 indicates that HBM stressing must be in accordance with the ANSI/ESDA/JEDEC JS-001 specification.
 ```
 
 ## Recommended operating conditions
 
 ```table id=roc caption="Recommended operating conditions [1]" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
-| Symbol | Parameter | Conditions | Min | Max | Unit |
-|---|---|---|--:|--:|---|
-| V~CC~ | Supply voltage | | 2 | 5.5 | V |
-| V~IH~ | High-level input voltage | V~CC~ = 2 V | 1.5 | | V |
-| ^ | ^ | V~CC~ = 3 V | 2.1 | | V |
-| ^ | ^ | V~CC~ = 5.5 V | 3.85 | | V |
-| V~IL~ | Low-level input voltage | V~CC~ = 2 V | | 0.5 | V |
-| ^ | ^ | V~CC~ = 3 V | | 0.9 | V |
-| ^ | ^ | V~CC~ = 5.5 V | | 1.65 | V |
-| V~I~ | Input voltage | | 0 | 5.5 | V |
-| V~O~ | Output voltage | | 0 | V~CC~ | V |
-| I~OH~ | High-level output current | V~CC~ = 2 V | | -50 | µA |
-| ^ | ^ | V~CC~ = 3.3 V ± 0.3 V | | -4 | mA |
-| ^ | ^ | V~CC~ = 5 V ± 0.5 V | | -8 | mA |
-| I~OL~ | Low-level output current | V~CC~ = 2 V | | 50 | µA |
-| ^ | ^ | V~CC~ = 3.3 V ± 0.3 V | | 4 | mA |
-| ^ | ^ | V~CC~ = 5 V ± 0.5 V | | 8 | mA |
-| Δt/Δv | Input transition rise or fall rate | V~CC~ = 3.3 V ± 0.3 V | | 100 | ns/V |
-| ^ | ^ | V~CC~ = 5 V ± 0.5 V | | 20 | ns/V |
-| T~A~ | Operating free-air temperature | I Suffix | -40 | 85 | °C |
-| ^ | ^ | Q Suffix | -40 | 125 | °C |
+| Symbol | Parameter | Conditions | Min | Max | Min | Max | Unit |
+|---|---|---|--:|--:|--:|--:|---|
+| V~CC~ | Supply voltage |  | 2 | 5.5 | 2 | 5.5 | V |
+| V~IH~ | High-level input voltage | V~CC~ = 2 V | 1.5 |  | 1.5 |  | V |
+| ^ | ^ | V~CC~ = 3 V | 2.1 |  | 2.1 |  | V |
+| ^ | ^ | V~CC~ = 5.5 V | 3.85 |  | 3.85 |  | V |
+| V~IL~ | Low-level input voltage | V~CC~ = 2 V |  | 0.5 |  | 0.5 | V |
+| ^ | ^ | V~CC~ = 3 V |  | 0.9 |  | 0.9 | V |
+| ^ | ^ | V~CC~ = 5.5 V |  | 1.65 |  | 1.65 | V |
+| V~I~ | Input voltage |  | 0 | 5.5 | 0 | 5.5 | V |
+| V~O~ | Output voltage |  | 0 | V~CC~ | 0 | V~CC~ | V |
+| I~OH~ | High-level output current | V~CC~ = 2 V |  | -50 |  | -50 | µA |
+| ^ | ^ | V~CC~ = 3.3 V ± 0.3 V |  | -4 |  | -4 | mA |
+| ^ | ^ | V~CC~ = 5 V ± 0.5 V |  | -8 |  | -8 | mA |
+| I~OL~ | Low-level output current | V~CC~ = 2 V |  | 50 |  | 50 | µA |
+| ^ | ^ | V~CC~ = 3.3 V ± 0.3 V |  | 4 |  | 4 | mA |
+| ^ | ^ | V~CC~ = 5 V ± 0.5 V |  | 8 |  | 8 | mA |
+| Δt/Δv | Input transition rise or fall rate | V~CC~ = 3.3 V ± 0.3 V |  | 100 |  | 100 | ns/V |
+| ^ | ^ | V~CC~ = 5 V ± 0.5 V |  | 20 |  | 20 | ns/V |
+| T~A~ | Operating free-air temperature | I Suffix | -40 | 85 |  |  | °C |
+| ^ | ^ | Q Suffix |  |  | -40 | 125 | °C |
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004. Source error: the table title carries marker 3; this is its only note.
 ```
 
-The source prints the limits in two identical Min/Max column pairs, one
-per suffix; they differ only in T~A~.
+Conversion note: the source prints two Min/Max column pairs without a
+heading over either; the I Suffix T~A~ limits are in the first pair and
+the Q Suffix limits in the second.
 
 ## Thermal information
 
@@ -137,28 +145,28 @@ per suffix; they differ only in T~A~.
 |---|---|--:|--:|--:|---|
 | R~θJA~ | Junction-to-ambient thermal resistance | 278 | 289.2 | 184.7 | °C/W |
 
-[1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report (SPRA953). All packages 5 pins.
+[1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report (SPRA953). Conversion note: all packages are 5 pins.
 ```
 
 ## Electrical characteristics
 
 ```table id=ec caption="Electrical characteristics" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
-| Symbol | Parameter | Test conditions | V~CC~ | T~A~ = 25 °C | < | < | –40 °C to 85 °C | < | –40 °C to 125 °C | < | Unit |
-| ^ | ^ | ^ | ^ | Min | Typ | Max | Min | Max | Min | Max | ^ |
-|---|---|---|---|--:|--:|--:|--:|--:|--:|--:|---|
-| V~OH~ | High-level output voltage | I~OH~ = -50 mA [1] | 2 V | 1.9 | 2 | | 1.9 | | 1.9 | | V |
-| ^ | ^ | ^ | 3 V | 2.9 | 3 | | 2.9 | | 2.9 | | V |
-| ^ | ^ | ^ | 4.5 V | 4.4 | 4.5 | | 4.4 | | 4.4 | | V |
-| ^ | ^ | I~OH~ = -4 mA | 3 V | 2.58 | | | 2.48 | | 2.4 | | V |
-| ^ | ^ | I~OH~ = -8 mA | 4.5 V | 3.94 | | | 3.8 | | 3.7 | | V |
-| V~OL~ | Low-level output voltage | I~OL~ = 50 mA [1] | 2 V | | | 0.1 | | 0.1 | | 0.1 | V |
-| ^ | ^ | ^ | 3 V | | | 0.1 | | 0.1 | | 0.1 | V |
-| ^ | ^ | ^ | 4.5 V | | | 0.1 | | 0.1 | | 0.1 | V |
-| ^ | ^ | I~OL~ = 4 mA | 3 V | | | 0.36 | | 0.44 | | 0.52 | V |
-| ^ | ^ | I~OL~ = 8 mA | 4.5 V | | | 0.36 | | 0.44 | | 0.52 | V |
-| I~I~ | Input current | V~I~ = 5.5 V or GND | 0 V to 5.5 V | | | ±0.1 | | ±1 | | ±1 | µA |
-| I~CC~ | Supply current | V~I~ = V or GND, I~O~ = 0 [2] | 5.5 V | | | 1 | | 10 | | 20 | µA |
-| C~i~ | Input capacitance | V~I~ = V~CC~ or GND | 5 V | | 4 | 10 | | 10 | | 10 | pF |
+| Parameter | Test conditions | V~CC~ | T~A~ = 25 °C | < | < | –40 °C to 85 °C | < | –40 °C to 125 °C | < | Unit |
+| ^ | ^ | ^ | Min | Typ | Max | Min | Max | Min | Max | ^ |
+| --- | --- | --- | --: | --: | --: | --: | --: | --: | --: | --- |
+| V~OH~ | I~OH~ = -50 mA [1] | 2 V | 1.9 | 2 | | 1.9 | | 1.9 | | V |
+| ^ | ^ | 3 V | 2.9 | 3 | | 2.9 | | 2.9 | | V |
+| ^ | ^ | 4.5 V | 4.4 | 4.5 | | 4.4 | | 4.4 | | V |
+| ^ | I~OH~ = -4 mA | 3 V | 2.58 | | | 2.48 | | 2.4 | | V |
+| ^ | I~OH~ = -8 mA | 4.5 V | 3.94 | | | 3.8 | | 3.7 | | V |
+| V~OL~ | I~OL~ = 50 mA [1] | 2 V | | | 0.1 | | 0.1 | | 0.1 | V |
+| ^ | ^ | 3 V | | | 0.1 | | 0.1 | | 0.1 | V |
+| ^ | ^ | 4.5 V | | | 0.1 | | 0.1 | | 0.1 | V |
+| ^ | I~OL~ = 4 mA | 3 V | | | 0.36 | | 0.44 | | 0.52 | V |
+| ^ | I~OL~ = 8 mA | 4.5 V | | | 0.36 | | 0.44 | | 0.52 | V |
+| I~I~ | V~I~ = 5.5 V or GND | 0 V to 5.5 V | | | ±0.1 | | ±1 | | ±1 | µA |
+| I~CC~ | V~I~ = V or GND, I~O~ = 0 [2] | 5.5 V | | | 1 | | 10 | | 20 | µA |
+| C~i~ | V~I~ = V~CC~ or GND | 5 V | | 4 | 10 | | 10 | | 10 | pF |
 
 [1] Source conflict: printed as mA here; the recommended operating conditions give I~OH~ = –50 µA and I~OL~ = 50 µA at V~CC~ = 2 V, and the absolute maximum continuous output current is ±25 mA.
 [2] Unconfirmed: the source prints "V~I~ = V or GND" with no subscript on V.
@@ -199,8 +207,9 @@ See [parameter measurement information](#parameter-measurement).
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
-time, with one input transition per measurement. C~L~ is 15 pF or 50 pF,
-as given in the [switching characteristics](#switching-characteristics).
+time, with one input transition per measurement. Conversion note: C~L~
+is 15 pF or 50 pF, as given in the
+[switching characteristics](#switching-characteristics).
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 15 pF or 50 pF
@@ -210,9 +219,10 @@ CL: 15 pF or 50 pF
 VM: 50 % VCC
 ```
 
-The source figure also shows the 3-state and open-drain load circuit,
-pulse-duration, setup-and-hold and enable/disable waveforms; all
-parameters and waveforms are not applicable to all devices.
+Conversion note: the source figure also shows the 3-state and open-drain
+load circuit, pulse-duration, setup-and-hold and enable/disable
+waveforms. All parameters and waveforms are not applicable to all
+devices.
 
 ## Application information
 
@@ -220,27 +230,34 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness.
 
-Typical application (Figure 8-1): one gate ANDs !{OC} (over current
-detection) with PG (power supply), a second ANDs ON/!{OFF} (on/off
-switch) with !{OT} (over temp detection), and a third ANDs the two
-results into the !{RESET} input of a motor controller.
+Conversion note: in the typical application (Figure 8-1) one AND gate
+combines !{OC} (over current detection) with PG (power supply), a second
+combines ON/!{OFF} (on/off switch) with !{OT} (over temp detection), and
+a third combines the two results into the !{RESET} input of a motor
+controller.
 
-Power supply: any voltage between the minimum and maximum supply voltage
-rating located in the
+### Power supply recommendations
+
+The power supply can be any voltage between the minimum and maximum
+supply voltage rating located in the
 [recommended operating conditions](#recommended-operating-conditions).
 Each V~CC~ terminal should have a good bypass capacitor to prevent power
-disturbance. A 0.1-µF capacitor is recommended for this device. The
-0.1-µF and 1-µF capacitors are commonly used in parallel. The bypass
+disturbance. A 0.1-µF capacitor is recommended for this device. It is
+acceptable to parallel multiple bypass capacitors to reject different
+frequencies of noise. The 0.1-µF and 1-µF capacitors are commonly used in parallel. The bypass
 capacitor should be installed as close to the power terminal as possible
 for best results.
 
-Layout: when using multiple-input and multiple-channel logic devices,
+### Layout guidelines
+
+When using multiple-input and multiple-channel logic devices,
 inputs must never be left floating. All unused inputs of digital logic
 devices must be connected to a logic high or logic low voltage, as
 defined by the input voltage specifications, to prevent them from
 floating. Generally, the inputs are tied to GND or V~CC~, whichever makes
-more sense for the logic function or is more convenient. The layout
-example recommends a GND flood fill, a 0.1 µF bypass capacitor placed
+more sense for the logic function or is more convenient.
+
+Conversion note: the layout example recommends a GND flood fill, a 0.1 µF bypass capacitor placed
 close to the device, and no 90° corners on signal lines.
 
 ## Package
@@ -262,8 +279,6 @@ SN74AHC1G08QDCKRQ1 | Reel of 3000 | -40 to 125 | AEU
 SN74AHC1G08WDTXRQ1 | Reel of 3000 | -40 to 125 | 2
 ```
 
-Where several markings are listed, only one appears on a part.
-
 ## Conversion notes
 
 - Source pages 1–10 converted; support pages, revision history, the
@@ -272,11 +287,10 @@ Where several markings are listed, only one appears on a part.
 - Dropped: features and applications lists (kept as one sentence),
   package information table, logic diagram (one AND gate), the layout
   example drawing (summarized in one sentence).
-- The ESD ratings table is merged into Absolute maximum ratings.
 - The typical application block diagram (Figure 8-1) is described in
   text.
 - From images: OC, PG, ON/OFF, OT, RESET signal names and the gate
-  arrangement (Figure 8-1, p.9).
+  arrangement (Figure 8-1, p.9); 50 % V~CC~ (V~M~, Figure 6-1, p.7).
 - Source issues:
   - Source conflict: ΔV~T~ hysteresis referenced but not in the
     Electrical Characteristics table (Functional description note).

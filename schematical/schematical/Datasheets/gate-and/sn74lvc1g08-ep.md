@@ -27,15 +27,16 @@
 ## Description
 
 The SN74LVC1G08 performs the Boolean function Y = A · B or
-Y = !{!{A} + !{B}} in positive logic. It operates from 1.65 V to 5.5 V
-V~CC~ and its inputs accept voltages to 5.5 V.
+Y = !{!{A} + !{B}} in positive logic. Supports 5-V
+V~CC~ operation. Inputs accept voltages to 5.5 V.
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
 current backflow through the device when it is powered down.
 
-This enhanced-product (EP) version is ordered in two temperature grades:
-I temperature (–40 °C to 85 °C) and M temperature (–55 °C to 125 °C).
+Conversion note: the ordering information (p.1) and the recommended
+operating conditions give two temperature ranges, –40 °C to 85 °C
+(I temperature) and –55 °C to 125 °C (M temperature).
 
 ## Pinout
 
@@ -130,23 +131,23 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 ```table id=ec caption="Electrical characteristics" conditions="Over recommended operating free-air temperature range for both I temp = –40 °C to 85 °C and M temp = –55 °C to 125 °C (unless otherwise noted)"
 | Symbol | Parameter | Test conditions | V~CC~ | Min | Typ [1] | Max | Unit |
 |---|---|---|---|--:|--:|--:|---|
-| V~OH~ | High-level output voltage | I~OH~ = -100 µA | 1.65 V to 5.5 V | V~CC~ - 0.1 | | | V |
+| V~OH~ | | I~OH~ = -100 µA | 1.65 V to 5.5 V | V~CC~ - 0.1 | | | V |
 | ^ | ^ | I~OH~ = -4 mA | 1.65 V | 1.2 | | | V |
 | ^ | ^ | I~OH~ = -8 mA | 2.3 V | 1.9 | | | V |
 | ^ | ^ | I~OH~ = -16 mA | 3 V | 2.4 | | | V |
 | ^ | ^ | I~OH~ = -24 mA | ^ | 2.3 | | | V |
 | ^ | ^ | I~OH~ = -32 mA | 4.5 V | 3.8 | | | V |
-| V~OL~ | Low-level output voltage | I~OL~ = 100 µA | 1.65 V to 5.5 V | | | 0.1 | V |
+| V~OL~ | | I~OL~ = 100 µA | 1.65 V to 5.5 V | | | 0.1 | V |
 | ^ | ^ | I~OL~ = 4 mA | 1.65 V | | | 0.45 | V |
 | ^ | ^ | I~OL~ = 8 mA | 2.3 V | | | 0.3 | V |
 | ^ | ^ | I~OL~ = 16 mA | 3 V | | | 0.4 | V |
 | ^ | ^ | I~OL~ = 24 mA | ^ | | | 0.55 | V |
 | ^ | ^ | I~OL~ = 32 mA | 4.5 V | | | 0.55 | V |
 | I~I~ | A or B inputs | V~I~ = 5.5 V or GND | 0 to 5.5 V | | | ±5 | µA |
-| I~off~ | Partial-power-down leakage | V~I~ or V~O~ = 5.5 V | 0 | | | ±10 | µA |
-| I~CC~ | Supply current | V~I~ = 5.5 V or GND, I~O~ = 0 | 1.65 V to 5.5 V | | | 10 | µA |
-| ΔI~CC~ | Supply-current change | One input at V~CC~ - 0.6 V, other inputs at V~CC~ or GND | 3 V to 5.5 V | | | 500 | µA |
-| C~i~ | Input capacitance | V~I~ = V~CC~ or GND | 3.3 V | | 4 | | pF |
+| I~off~ | | V~I~ or V~O~ = 5.5 V | 0 | | | ±10 | µA |
+| I~CC~ | | V~I~ = 5.5 V or GND, I~O~ = 0 | 1.65 V to 5.5 V | | | 10 | µA |
+| ΔI~CC~ | | One input at V~CC~ - 0.6 V, other inputs at V~CC~ or GND | 3 V to 5.5 V | | | 500 | µA |
+| C~i~ | | V~I~ = V~CC~ or GND | 3.3 V | | 4 | | pF |
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25 °C.
 ```
@@ -194,11 +195,21 @@ generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. t~PLH~ and t~PHL~ are the same as t~pd~.
 
-The load circuit also has an R~L~ from the output to switch S1 (V~LOAD~,
-open or GND). S1 is open for t~PLH~/t~PHL~, which leaves the load below.
-The source figures also show pulse-duration, setup/hold and
-enable/disable waveforms; all parameters and waveforms are not
-applicable to all devices.
+All parameters and waveforms are not applicable to all devices.
+
+Conversion note: the load circuit also has a second R~L~, from the output
+to switch S1, which goes to V~LOAD~, open or GND; the figure below draws
+the load with S1 open.
+Conversion note: the source figures also show pulse-duration,
+setup-and-hold and enable/disable waveforms, which are not drawn here.
+
+```table id=s1 caption="Load circuit switch S1"
+| Test | S1 |
+|---|---|
+| t~PLH~/t~PHL~ | Open |
+| t~PLZ~/t~PZL~ | V~LOAD~ |
+| t~PHZ~/t~PZH~ | GND |
+```
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: see table
@@ -206,7 +217,8 @@ CL: see table
 ```
 
 ```table id=test-conditions caption="Test conditions (Figure 1 and Figure 2)"
-| V~CC~ | Figure | V~I~ | t~r~/t~f~ | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
+| V~CC~ | Figure | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
+| ^ | ^ | V~I~ | t~r~/t~f~ | ^ | ^ | ^ | ^ | ^ |
 |---|---|---|---|---|---|---|---|---|
 | 1.8 V ± 0.15 V | 1 | V~CC~ | ≤2 ns | V~CC~/2 | 2 × V~CC~ | 15 pF | 1 MΩ | 0.15 V |
 | 2.5 V ± 0.2 V | 1 | V~CC~ | ≤2 ns | V~CC~/2 | 2 × V~CC~ | 15 pF | 1 MΩ | 0.15 V |
@@ -233,23 +245,26 @@ VM: see table
 ## Ordering information
 
 ```ordering
+1P1G08MDBVREPG4 | Reel of 3000 | -55 to 125 | C08O
 SN74LVC1G08IDCKREP | Reel of 3000 | -40 to 85 | CEO
 SN74LVC1G08MDBVREP | Reel of 3000 | -55 to 125 | C08O
 SN74LVC1G08MDCKREP | Reel of 3000 | -55 to 125 | BUB
+V62/04733-01XE | Reel of 3000 | -40 to 85 | CEO
+V62/04733-02XE | Reel of 3000 | -55 to 125 | BUB
+V62/04733-02YE | Reel of 3000 | -55 to 125 | C08O
 ```
 
 ## Conversion notes
 
-- Source pages 1–7 converted; the package option addendum, tape and reel
-  and mechanical pages (8–18) dropped, replaced by the generated Package
-  and Ordering sections. Ordering rows are from the ordering information
-  table on p.1.
+- Source pages 1–7 converted. The ordering lines are from the package
+  option addendum (pp.8–9). The tape and reel and mechanical pages
+  (10–18) are left out; the generated Package section replaces them.
 - Dropped: features list (the ESD, latch-up and temperature facts are
   kept in text), the qualification-pedigree footnote, the logic diagram
   (one AND gate).
 - The pin descriptions are added; the source has no pin function table.
-  Parameter names in the electrical characteristics table are added
-  (the source gives symbols only).
+  The electrical characteristics table of the source gives symbols only,
+  so its Parameter cells are empty except for I~I~.
 - The load circuit is drawn with the shared R~L~ ∥ C~L~ figure; the
   second R~L~ and S1 are described in text. Figures 1 and 2 are the same
   circuit with different values, joined in one table.

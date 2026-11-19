@@ -24,11 +24,12 @@
 ## Description
 
 The SN74ACT08-Q1 contains four independent 2-input AND gates. Each gate
-performs the Boolean function Y = A · B in positive logic. It is AEC-Q100
-qualified for automotive applications (device temperature grade 1:
-–40 °C to +125 °C), operates from 4.5 V to 5.5 V, has TTL-compatible
-inputs, and drives ±24 mA continuous, or up to ±75 mA in short bursts,
-at 5 V.
+performs the Boolean function Y = A · B in positive logic.
+
+AEC-Q100 qualified for automotive applications. Device temperature
+grade 1: –40 °C to +125 °C. Operating voltage range of 4.5 V to 5.5 V.
+TTL-compatible inputs. Continuous ±24 mA output drive at 5 V. Supports
+up to ±75 mA output drive at 5 V in short bursts.
 
 ## Pinout
 
@@ -45,13 +46,13 @@ GND: Ground
 VCC: Positive Supply
 ```
 
-Thermal pad (BQA package only): the thermal pad can be connected to GND
-or left floating. Do not connect to any other signal or supply.
+The thermal pad can be connected to GND or left floating. Do not
+connect to any other signal or supply. BQA package only.
 
 ## Functional description
 
-Functional block diagram: one 2-input AND gate per channel, inputs xA
-and xB, output xY.
+Conversion note: the functional block diagram shows one 2-input AND gate
+per channel, inputs xA and xB, output xY.
 
 ### Balanced CMOS push-pull outputs
 
@@ -87,7 +88,8 @@ consumption and could cause oscillations. Do not leave TTL-compatible
 CMOS inputs floating at any time during operation. Unused inputs must
 be terminated at V~CC~ or GND. If a system will not be actively driving
 an input at all times, a pull-up or pull-down resistor can be added to
-provide a valid input voltage during these times; a 10kΩ resistor is
+provide a valid input voltage during these times. The resistor value
+will depend on multiple factors; however, a 10kΩ resistor is
 recommended and typically will meet all requirements.
 
 ### Clamp diode structure
@@ -160,16 +162,16 @@ clamp-current ratings are observed.
 ## Thermal information
 
 ```table id=thermal caption="Thermal information, SN74ACT08-Q1 [1]"
-| Symbol | Parameter | BQA (WQFN) | PW (TSSOP) | Unit |
+| Symbol | Parameter | BQA (WQFN) 14 pins | PW (TSSOP) 14 pins | Unit |
 |---|---|--:|--:|---|
 | R~θJA~ | Junction-to-ambient thermal resistance | 91.3 | 145.7 | °C/W |
 | R~θJC(top)~ | Junction-to-case (top) thermal resistance | 99.4 | 76.5 | °C/W |
 | R~θJB~ | Junction-to-board thermal resistance | 61.0 | 102.0 | °C/W |
 | Ψ~JT~ | Junction-to-top characterization parameter | 14.5 | 18.8 | °C/W |
 | Ψ~JB~ | Junction-to-board characterization parameter | 60.8 | 100.7 | °C/W |
-| R~θJC(bot)~ | Junction-to-case (bottom) thermal resistance | 37.0 | | °C/W |
+| R~θJC(bot)~ | Junction-to-case (bottom) thermal resistance | 37.0 | N/A | °C/W |
 
-[1] Both packages 14 pins; R~θJC(bot)~ is N/A for PW. For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
+[1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 ```
 
 ## Electrical characteristics
@@ -178,27 +180,27 @@ clamp-current ratings are observed.
 | Symbol | Parameter | Test conditions | V~CC~ | T~A~ = 25 °C | < | < | –40 °C to 125 °C | < | < | Unit |
 | ^ | ^ | ^ | ^ | Min | Typ | Max | Min | Typ | Max | ^ |
 |---|---|---|---|--:|--:|--:|--:|--:|--:|---|
-| V~OH~ | High-level output voltage | I~OH~ = -50 µA | 4.5 V | 4.4 | 4.49 | | 4.4 | | | V |
+| V~OH~ | | I~OH~ = -50 µA | 4.5 V | 4.4 | 4.49 | | 4.4 | | | V |
 | ^ | ^ | ^ | 5.5 V | 5.4 | 5.49 | | 5.4 | | | V |
 | ^ | ^ | I~OH~ = -24 mA | 4.5 V | 3.94 | | | 3.7 | | | V |
 | ^ | ^ | I~OH~ = -24 mA | 5.5 V | 4.86 | | | 4.7 | | | V |
 | ^ | ^ | I~OH~ = -50 mA | 5.5 V | | | | 3.85 | | | V |
 | ^ | ^ | I~OH~ = -75 mA | 5.5 V | | | | 3.85 | | | V |
-| V~OL~ | Low-level output voltage [3] | I~OL~ = 50 µA | 4.5 V | | 0.001 | 0.1 | | | 0.1 | V |
+| V~OL~ | | I~OL~ = 50 µA [3] | 4.5 V | | 0.001 | 0.1 | | | 0.1 | V |
 | ^ | ^ | ^ | 5.5 V | | 0.001 | 0.1 | | | 0.1 | V |
-| ^ | ^ | I~OL~ = 24 mA | 4.5 V | | | 0.36 | | | 0.5 | V |
-| ^ | ^ | I~OL~ = 24 mA | 5.5 V | | | 0.36 | | | 0.5 | V |
-| ^ | ^ | I~OL~ = 50 mA | 5.5 V | | | | | | 1.65 | V |
-| ^ | ^ | I~OL~ = 75 mA | 5.5 V | | | | | | 1.65 | V |
-| I~I~ | Input leakage current | V~I~ = 5.5 V or GND | 0 V to 5.5 V | | | ±0.1 | | | ±1 | µA |
-| I~CC~ | Supply current | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | | 2 | | | 80 | µA |
-| ΔI~CC~ | Supply-current change | V~I~ = V~CC~ – 2.1 V; any input | 4.5 V to 5.5 V | | 0.6 | 1.2 | | | 1.5 | mA |
-| C~I~ | Input capacitance | V~I~ = V~CC~ or GND | 5 V | | 8 | | | | | pF |
-| C~PD~ | Power dissipation capacitance [1] [2] | C~L~ = 50 pF, F = 1 MHz | 5 V | | 14 | | | | | pF |
+| ^ | ^ | I~OL~ = 24 mA [3] | 4.5 V | | | 0.36 | | | 0.5 | V |
+| ^ | ^ | I~OL~ = 24 mA [3] | 5.5 V | | | 0.36 | | | 0.5 | V |
+| ^ | ^ | I~OL~ = 50 mA [3] | 5.5 V | | | | | | 1.65 | V |
+| ^ | ^ | I~OL~ = 75 mA [3] | 5.5 V | | | | | | 1.65 | V |
+| I~I~ | | V~I~ = 5.5 V or GND | 0 V to 5.5 V | | | ±0.1 | | | ±1 | µA |
+| I~CC~ | | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | | 2 | | | 80 | µA |
+| ΔI~CC~ | | V~I~ = V~CC~ – 2.1 V; any input | 4.5 V to 5.5 V | | 0.6 | 1.2 | | | 1.5 | mA |
+| C~I~ | | V~I~ = V~CC~ or GND | 5 V | | 8 | | | | | pF |
+| C~PD~ [1] [2] | | C~L~ = 50 pF, F = 1 MHz | 5 V | | 14 | | | | | pF |
 
 [1] C~PD~ is used to determine the dynamic power consumption, per channel.
 [2] P~D~ = V~CC~^2^ × F~I~ × (C~PD~ + C~L~) where F~I~ = input frequency, C~L~ = output load capacitance, V~CC~ = supply voltage.
-[3] Source error: the source labels the V~OL~ test currents I~OH~ (I~OH~ = 50 µA, 24 mA, 50 mA, 75 mA). The V~OH~ rows of the same table give I~OH~ as negative (sourcing) currents, and the recommended operating conditions give the 24 mA sink current as I~OL~; written I~OL~.
+[3] Source error: the source labels the V~OL~ test currents I~OH~ (I~OH~ = 50 µA, 24 mA, 50 mA, 75 mA), while the V~OH~ rows of the same table give I~OH~ as negative (sourcing) currents and the recommended operating conditions give the 24 mA sink current as I~OL~, so they are written I~OL~ here.
 ```
 
 ## Switching characteristics
@@ -213,6 +215,40 @@ clamp-current ratings are observed.
 | t~f~ | | Y | 5 V | 2.3 | | 3.4 | 2.6 | | 4.1 | ns |
 ```
 
+## Typical characteristics
+
+T~A~ = 25°C (unless otherwise noted)
+
+```curve id=icc-vcc caption="Supply current across supply voltage"
+{"x": {"label": "V_CC", "unit": "V", "range": [0.5, 5.5]},
+ "y": {"label": "I_CC", "unit": "nA", "range": [0, 100]},
+ "series": [
+   {"label": "25 °C", "points": [[0.5, 11], [1, 14.5], [1.5, 18.5], [2, 21.5], [2.5, 24], [3, 26.5], [3.5, 28.5], [4, 30], [4.25, 31], [4.5, 29.5], [5, 28], [5.25, 29], [5.5, 32]]},
+   {"label": "125 °C", "points": [[0.5, 28], [0.7, 31.5], [1, 32], [1.5, 39], [2, 37], [2.1, 41], [2.5, 38.5], [3, 42], [3.3, 36], [3.5, 42.5], [4, 39], [4.25, 36], [4.5, 41], [5, 38], [5.1, 42.5], [5.2, 55.5], [5.3, 54], [5.5, 73]]},
+   {"label": "-40 °C", "points": [[0.5, 18], [1, 26.5], [1.5, 35], [2, 42.5], [2.5, 49.5], [3, 56], [3.5, 62.5], [4, 69], [4.5, 72.5], [5, 77], [5.1, 74], [5.5, 86]]}
+ ]}
+```
+
+```curve id=voh-ioh caption="Output voltage vs current in HIGH state; 5V supply"
+{"x": {"label": "I_OH", "unit": "mA", "range": [-50, 0]},
+ "y": {"label": "V_OH", "unit": "V", "range": [4.24, 5.04]},
+ "series": [
+   {"label": "25 °C", "points": [[-50, 4.43], [-25, 4.71], [0, 4.99]]},
+   {"label": "125 °C", "points": [[-50, 4.33], [-25, 4.66], [0, 4.99]]},
+   {"label": "-40 °C", "points": [[-50, 4.52], [-25, 4.76], [0, 4.99]]}
+ ]}
+```
+
+```curve id=vol-iol caption="Output voltage vs current in LOW state; 5V supply"
+{"x": {"label": "I_OL", "unit": "mA", "range": [0, 50]},
+ "y": {"label": "V_OL", "unit": "V", "range": [0, 0.4]},
+ "series": [
+   {"label": "25 °C", "points": [[0, 0], [25, 0.145], [50, 0.29]]},
+   {"label": "125 °C", "points": [[0, 0], [25, 0.18], [50, 0.36]]},
+   {"label": "-40 °C", "points": [[0, 0], [25, 0.12], [50, 0.24]]}
+ ]}
+```
+
 ## Parameter measurement information
 
 Phase relationships between waveforms were chosen arbitrarily. All
@@ -221,7 +257,7 @@ characteristics: PRR ≤ 1MHz, Z~O~ = 50Ω, t~t~ < 2.5ns, V~t~ = 1.5V. For
 push-pull outputs, R~L~ = 500Ω. The outputs are measured individually
 with one input transition per measurement. C~L~ includes probe and
 test-fixture capacitance. The greater between t~PLH~ and t~PHL~ is the
-same as t~pd~; the greater between t~r~ and t~f~ is the same as t~t~.
+same as t~pd~. The greater between t~r~ and t~f~ is the same as t~t~.
 
 ```figure ref=load-rl-cl caption="Load circuit for push-pull outputs"
 RL: 500 Ω
@@ -234,8 +270,8 @@ VM: V~t~ = 1.5 V (input), 50 % (outputs)
 
 ## Application information
 
-Information in this section is not part of the TI component
-specification.
+Information in the following applications sections is not part of the
+TI component specification.
 
 ### Typical application
 
@@ -246,10 +282,12 @@ device is used to directly control the RESET pin of a motor controller.
 The controller requires four input signals to all be HIGH before being
 enabled, and should be disabled in the event that any one signal goes
 LOW. The 4-input AND gate function combines the four individual reset
-signals into a single active-low reset signal. Typical application
-schematic: the power supply's PG, the over-current detection's !{OC},
-the on/off switch and the over-temperature detection's !{OT} drive the
-gates; the result drives the motor controller's !{RESET}.
+signals into a single active-low reset signal.
+
+Conversion note: in the typical application schematic the power supply's
+PG, the over-current detection's !{OC}, the on/off switch and the
+over-temperature detection's !{OT} drive the gates, and the result drives
+the motor controller's !{RESET}.
 
 ```wavedrom id=app-timing caption="Typical application timing diagram"
 {"signal": [
@@ -261,19 +299,24 @@ gates; the result drives the motor controller's !{RESET}.
 ]}
 ```
 
-Power considerations: ensure the desired supply voltage is within the
+### Power considerations
+
+Ensure the desired supply voltage is within the
 range specified in the
 [recommended operating conditions](#recommended-operating-conditions).
 The positive voltage supply must be capable of sourcing current equal
 to the total current to be sourced by all outputs of the SN74ACT08-Q1
 plus the maximum static supply current, I~CC~, listed in the
 [electrical characteristics](#electrical-characteristics), and any
-transient current required for switching. The ground must be capable
-of sinking current equal to the total current to be sunk by all
-outputs plus the maximum supply current, I~CC~, and any transient
-current required for switching. Ensure the maximum total current
-through V~CC~ and GND listed in the
+transient current required for switching. Ensure the maximum total
+current through V~CC~ listed in the
 [absolute maximum ratings](#absolute-maximum-ratings) is not exceeded.
+The ground must be capable of sinking current equal to the total
+current to be sunk by all outputs of the SN74ACT08-Q1 plus the maximum
+supply current, I~CC~, listed in the Electrical Characteristics, and
+any transient current required for switching. Ensure the maximum total
+current through GND listed in the Absolute Maximum Ratings is not
+exceeded.
 The SN74ACT08-Q1 can drive a load with a total capacitance less than or
 equal to 50pF while still meeting all of the data sheet specifications.
 Larger capacitive loads can be applied; however, it is not recommended
@@ -287,7 +330,9 @@ T~J(max)~ listed in the Absolute Maximum Ratings, is an additional
 limitation to prevent damage to the device. Do not violate any values
 listed in the Absolute Maximum Ratings.
 
-Input considerations: input signals must cross V~IL(max)~ to be
+### Input considerations
+
+Input signals must cross V~IL(max)~ to be
 considered a logic LOW, and V~IH(min)~ to be considered a logic HIGH.
 Do not exceed the maximum input voltage range found in the Absolute
 Maximum Ratings. Unused inputs must be terminated to either V~CC~ or
@@ -302,10 +347,12 @@ correctly, as defined in the Recommended Operating Conditions table.
 Slow input transitions can cause oscillations, additional power
 consumption, and reduction in device reliability.
 
-Output considerations: drawing current from the output will decrease
-the output voltage as specified by the V~OH~ specification; sinking
-current into the output will increase the output voltage as specified
-by the V~OL~ specification. Push-pull outputs that could be in opposite
+### Output considerations
+
+Drawing current from the output will decrease the output voltage as
+specified by the V~OH~ specification in the Electrical Characteristics.
+Sinking current into the output will increase the output voltage as
+specified by the V~OL~ specification in the Electrical Characteristics. Push-pull outputs that could be in opposite
 states, even for a very short time period, should never be connected
 directly together. This can cause excessive current and damage to the
 device. Two channels within the same device with the same input signals
@@ -313,7 +360,7 @@ can be connected in parallel for additional output drive strength.
 Unused outputs can be left floating. Do not connect outputs directly to
 V~CC~ or ground.
 
-Detailed design procedure:
+### Detailed design procedure
 
 1. Add a decoupling capacitor from V~CC~ to GND. The capacitor needs to
    be placed physically close to the device and electrically close to
@@ -328,7 +375,9 @@ Detailed design procedure:
    the steps provided in the application report, CMOS Power Consumption
    and C~pd~ Calculation.
 
-Power supply: the power supply can be any voltage between the minimum
+### Power supply recommendations
+
+The power supply can be any voltage between the minimum
 and maximum supply voltage rating located in the Recommended Operating
 Conditions. Each V~CC~ terminal should have a good bypass capacitor to
 prevent power disturbance. A 0.1µF capacitor is recommended for this
@@ -337,7 +386,9 @@ reject different frequencies of noise. The 0.1µF and 1µF capacitors are
 commonly used in parallel. The bypass capacitor should be installed as
 close to the power terminal as possible for best results.
 
-Layout: when using multiple-input and multiple-channel logic devices,
+### Layout guidelines
+
+When using multiple-input and multiple-channel logic devices,
 inputs must never be left floating. Such unused input pins must not be
 left unconnected because the undefined voltages at the outside
 connections result in undefined operational states. All unused inputs
@@ -359,6 +410,8 @@ sense for the logic function or is more convenient.
 ## Ordering information
 
 ```ordering
+SN74ACT08PWRQ1 | Reel of 3000 | -40 to 125 | ACT08Q
+SN74ACT08WBQARQ1 | Reel of 3000 | -40 to 125 | AD08Q
 ```
 
 ## Conversion notes
@@ -366,11 +419,16 @@ sense for the logic function or is more convenient.
 - Source pages 1–14 converted; support pages, revision history, tape
   and reel and mechanical pages, and the package option addendum
   (15–30) dropped, replaced by the generated Package and Ordering
-  sections.
+  sections. The ordering lines are the parts' rows of the package option
+  addendum (p.21).
+- The electrical characteristics table of the source gives only symbols
+  in its Parameter column; no parameter names are added.
 - Dropped: features and applications lists, package information table,
-  the layout example figure, cross-references to other sections, and
-  the typical characteristics (Figure 5-1, supply current vs V~CC~;
-  Figure 5-2, V~OH~ vs I~OH~; Figure 5-3, V~OL~ vs I~OL~, all at 5 V).
+  the layout example figure, and cross-references to other sections.
+- The typical characteristics curves are digitized from Figures 5-1,
+  5-2 and 5-3 (p.6) to about 2 % of full scale.
+- In the application timing diagram the source overlines only OFF in
+  ON/OFF; the WaveDrom name `ON/OFF#` overlines the whole name.
 - The functional block diagram and the typical application schematic
   (Figure 8-1) are described in text; the application timing diagram is
   redrawn from Figure 8-2.

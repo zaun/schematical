@@ -27,10 +27,12 @@ This quadruple 2-input positive-AND gate is designed for 2 V to 5.5 V
 V~CC~ operation. The SN74LV08A device performs the Boolean function
 Y = A • B or Y = !{!{A} + !{B}} in positive logic.
 
-This device is fully specified for partial-power-down applications using
+This device is fully specified for partial-power-down application using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the devices when they are powered down. Inputs
-accept voltages to 5.5 V, which allows down voltage translation.
+current backflow through the devices when they are powered down.
+
+- Allows down voltage translation: Inputs accept voltages to 5.5V
+- I~off~ feature: Allows voltages on the input or output when V~CC~ is 0V
 
 ## Pinout
 
@@ -40,9 +42,9 @@ accept voltages to 5.5 V, which allows down voltage translation.
 ## Pin functions
 
 ```pins
-1A, 2A, 3A, 4A: Input A
-1B, 2B, 3B, 4B: Input B
-1Y, 2Y, 3Y, 4Y: Output Y
+1A, 2A, 3A, 4A: Input
+1B, 2B, 3B, 4B: Input
+1Y, 2Y, 3Y, 4Y: Output
 GND: Ground pin
 VCC: Power pin
 ```
@@ -128,7 +130,7 @@ VCC: Power pin
 ## Thermal information
 
 ```table id=thermal caption="Thermal information [1]"
-| Symbol | Parameter | D | DB | DGV | N | NS | PW | RGY | Unit |
+| Symbol | Parameter | D, 14 pins | DB, 14 pins | DGV, 14 pins | N, 14 pins | NS, 14 pins | PW, 14 pins | RGY, 14 pins | Unit |
 |---|---|--:|--:|--:|--:|--:|--:|--:|---|
 | R~θJA~ | Junction-to-ambient thermal resistance | 90.6 | 107.1 | 129.0 | 57.4 | 90.7 | 122.6 | 57.5 | °C/W |
 | R~θJC(top)~ | Junction-to-case (top) thermal resistance | 50.9 | 59.6 | 52.1 | 44.9 | 48.3 | 51.4 | 70.8 | °C/W |
@@ -137,7 +139,7 @@ VCC: Power pin
 | ψ~JB~ | Junction-to-board characterization parameter | 44.5 | 53.8 | 61.3 | 37.1 | 49.1 | 63.8 | 33.7 | °C/W |
 | R~θJC(bot)~ | Junction-to-case (bottom) thermal resistance | | | | | | | 13.9 | °C/W |
 
-[1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report (SPRA953). All packages 14 pins.
+[1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report (SPRA953).
 ```
 
 ## Electrical characteristics
@@ -183,31 +185,31 @@ VCC: Power pin
 See [parameter measurement information](#parameter-measurement).
 
 ```table id=sw-2v5 caption="Switching characteristics, V~CC~ = 2.5 V ± 0.2 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
-| Symbol | Parameter | From | To | Load capacitance | T~A~ = 25 °C | < | < | –40 °C to 85 °C | < | –40 °C to 125 °C | < | Unit |
-| ^ | ^ | ^ | ^ | ^ | Min | Typ | Max | Min | Max | Min | Max | ^ |
-|---|---|---|---|---|--:|--:|--:|--:|--:|--:|--:|---|
-| t~pd~ | Propagation delay | A or B | Y | C~L~ = 15 pF | | 7.9 [1] | 13.8 [1] | 1 | 16 | 1 | 17 | ns |
-| ^ | ^ | ^ | ^ | C~L~ = 50 pF | | 10.5 | 17.3 | 1 | 20 | 1 | 21 | ns |
+| Symbol | From | To | Load capacitance | T~A~ = 25 °C | < | < | –40 °C to 85 °C | < | –40 °C to 125 °C | < | Unit |
+| ^ | ^ | ^ | ^ | Min | Typ | Max | Min | Max | Min | Max | ^ |
+|---|---|---|---|--:|--:|--:|--:|--:|--:|--:|---|
+| t~pd~ | A or B | Y | C~L~ = 15 pF | | 7.9 [1] | 13.8 [1] | 1 | 16 | 1 | 17 | ns |
+| ^ | ^ | ^ | C~L~ = 50 pF | | 10.5 | 17.3 | 1 | 20 | 1 | 21 | ns |
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
 
 ```table id=sw-3v3 caption="Switching characteristics, V~CC~ = 3.3 V ± 0.3 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
-| Symbol | Parameter | From | To | Load capacitance | T~A~ = 25 °C | < | < | –40 °C to 85 °C | < | –40 °C to 125 °C | < | Unit |
-| ^ | ^ | ^ | ^ | ^ | Min | Typ | Max | Min | Max | Min | Max | ^ |
-|---|---|---|---|---|--:|--:|--:|--:|--:|--:|--:|---|
-| t~pd~ | Propagation delay | A or B | Y | C~L~ = 15 pF | | 5.6 [1] | 8.8 [1] | 1 | 10.5 | 1 | 11.5 | ns |
-| ^ | ^ | ^ | ^ | C~L~ = 50 pF | | 7.5 | 12.3 | 1 | 14 | 1 | 15 | ns |
+| Symbol | From | To | Load capacitance | T~A~ = 25 °C | < | < | –40 °C to 85 °C | < | –40 °C to 125 °C | < | Unit |
+| ^ | ^ | ^ | ^ | Min | Typ | Max | Min | Max | Min | Max | ^ |
+|---|---|---|---|--:|--:|--:|--:|--:|--:|--:|---|
+| t~pd~ | A or B | Y | C~L~ = 15 pF | | 5.6 [1] | 8.8 [1] | 1 | 10.5 | 1 | 11.5 | ns |
+| ^ | ^ | ^ | C~L~ = 50 pF | | 7.5 | 12.3 | 1 | 14 | 1 | 15 | ns |
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
-| Symbol | Parameter | From | To | Load capacitance | T~A~ = 25 °C | < | < | –40 °C to 85 °C | < | –40 °C to 125 °C | < | Unit |
-| ^ | ^ | ^ | ^ | ^ | Min | Typ | Max | Min | Max | Min | Max | ^ |
-|---|---|---|---|---|--:|--:|--:|--:|--:|--:|--:|---|
-| t~pd~ | Propagation delay | A or B | Y | C~L~ = 15 pF | | 4.1 [1] | 5.9 [1] | 1 | 7 | 1 | 8 | ns |
-| ^ | ^ | ^ | ^ | C~L~ = 50 pF | | 5.5 | 7.9 | 1 | 9 | 1 | 10 | ns |
+| Symbol | From | To | Load capacitance | T~A~ = 25 °C | < | < | –40 °C to 85 °C | < | –40 °C to 125 °C | < | Unit |
+| ^ | ^ | ^ | ^ | Min | Typ | Max | Min | Max | Min | Max | ^ |
+|---|---|---|---|--:|--:|--:|--:|--:|--:|--:|---|
+| t~pd~ | A or B | Y | C~L~ = 15 pF | | 4.1 [1] | 5.9 [1] | 1 | 7 | 1 | 8 | ns |
+| ^ | ^ | ^ | C~L~ = 50 pF | | 5.5 | 7.9 | 1 | 9 | 1 | 10 | ns |
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
@@ -232,12 +234,15 @@ See [parameter measurement information](#parameter-measurement).
 
 ## Parameter measurement information
 
-C~L~ includes probe and jig capacitance; it is 15 pF or 50 pF as given
-in the [switching characteristics](#switching-characteristics). All input pulses are supplied
+C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time, with one input transition per measurement. t~PHL~ and t~PLH~ are
-the same as t~pd~.
+the same as t~pd~. All parameters and waveforms are not applicable to
+all devices.
+
+Conversion note: C~L~ is 15 pF or 50 pF as given in the
+[switching characteristics](#switching-characteristics).
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 15 pF or 50 pF
@@ -247,10 +252,9 @@ CL: 15 pF or 50 pF
 VM: 50 % V~CC~
 ```
 
-Figure 6-1 also shows the load circuit for 3-state and open-drain
-outputs (R~L~ = 1 kΩ) and the voltage waveforms for pulse duration, setup
-and hold times, and enable and disable times. All parameters and
-waveforms are not applicable to all devices.
+Conversion note: Figure 6-1 also shows the load circuit for 3-state and
+open-drain outputs (R~L~ = 1 kΩ) and the voltage waveforms for pulse
+duration, setup and hold times, and enable and disable times.
 
 ## Application information
 
@@ -258,40 +262,66 @@ The SN74LV08A is a low-drive CMOS device that can be used for a multitude
 of bus interface type applications where output ringing is a concern.
 The low drive and slow edge rates will minimize overshoot and undershoot
 on the outputs. The inputs can accept voltages up to 5.5 V at any valid
-V~CC~, making it ideal for down translation.
+V~CC~, thus making it ideal for down translation.
 
-Typical application: a 5 V µC or system logic drives the 1A…4A inputs
+Conversion note: in the source's application diagram a 5 V µC or system logic drives the 1A…4A inputs
 (the B inputs are not shown); the 1Y…4Y outputs drive µC/system logic or
 LEDs, with V~CC~ at 5 V.
 
-Design requirements: this device uses CMOS technology and has balanced
-output drive. Care should be taken to avoid bus contention because it can
-drive currents that would exceed maximum limits. The high drive will also
-create fast edges into light loads, so routing and load conditions should
-be considered to prevent ringing.
+### Design requirements
 
-- Inputs: for specified high and low levels, see V~IH~ and V~IL~ in the
-  [recommended operating conditions](#recommended-operating-conditions).
-  Inputs are overvoltage tolerant, allowing them to go as high as 5.5 V at
-  any valid V~CC~.
-- Outputs: load currents should not exceed 25 mA per output and 50 mA
-  total for the part. Outputs should not be pulled above V~CC~.
+This device uses CMOS technology and has balanced output drive. Care
+should be taken to avoid bus contention because it can drive currents
+that would exceed maximum limits. The high drive will also create fast
+edges into light loads so routing and load conditions should be
+considered to prevent ringing.
 
-Power supply: any voltage between the minimum and maximum supply voltage
-in the recommended operating conditions. Each V~CC~ terminal should have
-a good bypass capacitor to prevent power disturbance; for devices with a
-single supply, a 0.1 µF capacitor is recommended. It is ok to parallel
-multiple bypass capacitors to reject different frequencies of noise;
-0.1 µF and 1.0 µF capacitors are commonly used in parallel. The bypass
-capacitor should be installed as close to the power terminal as possible.
+### Detailed design procedure
 
-Layout: inputs should not float. Unused input pins should not be left
-unconnected, because the undefined voltages at the outside connections
-result in undefined operational states. All unused inputs of digital
-logic devices must be connected to a high or low bias to prevent them
-from floating; generally they will be tied to GND or V~CC~, whichever
-makes more sense or is more convenient. It is acceptable to float outputs
-unless the part is a transceiver.
+1. Recommended Input Conditions:
+   - For specified high and low levels, see V~IH~ and V~IL~ in
+     [Section 5.3](#recommended-operating-conditions) table.
+   - Inputs are overvoltage tolerant allowing them to go as high as
+     5.5V at any valid V~CC~.
+2. Recommend Output Conditions:
+   - Load currents should not exceed 25mA per output and 50mA total
+     for the part.
+   - Outputs should not be pulled above V~CC~.
+
+### Power supply recommendations
+
+The power supply can be any voltage between the MIN and MAX supply
+voltage rating located in the
+[Section 5.3](#recommended-operating-conditions) table.
+
+Each V~CC~ terminal should have a good bypass capacitor to prevent
+power disturbance. For devices with a single supply, a 0.1μF capacitor
+is recommended. If there are multiple V~CC~ terminals then 0.01μF or
+0.022μF capacitors are recommended for each power terminal. It is ok to
+parallel multiple bypass capacitors to reject different frequencies of
+noise. 0.1μF and 1.0μF capacitors are commonly used in parallel. The
+bypass capacitor should be installed as close to the power terminal as
+possible for the best results.
+
+### Layout guidelines
+
+When using multiple bit logic devices, inputs should not float. In many
+cases, functions or parts of functions of digital logic devices are
+unused. Some examples are when only two inputs of a triple-input AND
+gate are used, or when only 3 of the 4-buffer gates are used. Such
+input pins should not be left unconnected because the undefined
+voltages at the outside connections result in undefined operational
+states.
+
+All unused inputs of digital logic devices must be connected to a high
+or low bias to prevent them from floating. The logic level that should
+be applied to any particular unused input depends on the function of
+the device. Generally they will be tied to GND or V~CC~, whichever
+makes more sense or is more convenient. It is acceptable to float
+outputs unless the part is a transceiver.
+
+Conversion note: the source's layout diagram shows a gate with its
+unused inputs tied to V~CC~ and to ground.
 
 ## Package
 
@@ -316,23 +346,19 @@ unless the part is a transceiver.
 ## Ordering information
 
 ```ordering
-SN74LV08AD | Obsolete | -40 to 125 | LV08A
+SN74LV08AD | | -40 to 125 | LV08A | Obsolete
 SN74LV08ADBR | Reel of 2000 | -40 to 125 | LV08A
 SN74LV08ADGVR | Reel of 2000 | -40 to 125 | LV08A
 SN74LV08ADR | Reel of 2500 | -40 to 125 | LV08A
 SN74LV08ANSR | Reel of 2000 | -40 to 125 | 74LV08A
-SN74LV08APW | Obsolete | -40 to 125 | LV08A
+SN74LV08APW | | -40 to 125 | LV08A | Obsolete
 SN74LV08APWR | Reel of 2000 | -40 to 125 | LV08A
 SN74LV08APWRG3 | Reel of 2000 | -40 to 125 | LV08A
 SN74LV08APWRG4 | Reel of 2000 | -40 to 125 | LV08A
-SN74LV08APWT | Obsolete | -40 to 125 | LV08A
+SN74LV08APWT | | -40 to 125 | LV08A | Obsolete
 SN74LV08ARGYR | Reel of 3000 | -40 to 125 | LV08A
 SN74LV08ARGYRG4 | Reel of 3000 | -40 to 125 | LV08A
 ```
-
-Status in the package option addendum: SN74LV08AD, SN74LV08APW and
-SN74LV08APWT are Obsolete. The thermal table also gives the N package,
-which has no orderable part.
 
 ## Conversion notes
 
@@ -341,11 +367,13 @@ which has no orderable part.
   and Ordering sections.
 - Dropped: features and applications lists, device information table,
   simplified schematic and logic diagram (four 2-input AND gates),
-  Feature Description bullets (folded into Description), the empty
+  the first Feature Description bullet (the other two are in Description), the empty
   application curves figure (Figure 8-2), layout example figure, support
   pages, revision history.
 - Curves digitized from Figures 5-1 and 5-2 to about 2 % of full scale.
 - The typical application (Figure 8-1) is described in text.
+- The thermal table also gives the N package, which has no orderable
+  part in the package option addendum.
 - C~i~ typical values sit across the Min and Typ columns in the source;
   they are placed under Typ.
 - Source issues:
@@ -353,6 +381,9 @@ which has no orderable part.
     title and every other page say SN74LV08A. Corrected.
   - Unconfirmed: V~IL~ at V~CC~ = 4.5 V to 5.5 V is printed "VCC × 0.3 5"
     (p.5); kept as V~CC~ × 0.3 with a table note.
+  - Conversion note: "Section 5.3" in the source's text is its
+    Recommended Operating Conditions section; the words are kept and
+    linked to that section.
   - Source conflict: Application Information (p.10) calls the part a
     "low-drive CMOS device" with "slow edge rates", while Design
     Requirements (p.10) says "The high drive will also create fast

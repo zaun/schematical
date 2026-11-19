@@ -31,7 +31,7 @@ fabrication site), extended temperature performance of –55 °C to 125 °C,
 operating range 2-V to 5.5-V V~CC~, EPIC (Enhanced-Performance Implanted
 CMOS) process. Component qualification in accordance with JEDEC and
 industry standards to ensure reliable operation over an extended
-temperature range; such qualification testing should not be viewed as
+temperature range. Such qualification testing should not be viewed as
 justifying use of this component beyond specified performance and
 environmental limits.
 
@@ -115,22 +115,22 @@ exceeds 250 mA per JESD 17.
 ## Electrical characteristics
 
 ```table id=ec caption="Electrical characteristics" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
-| Symbol | Parameter | Test conditions | V~CC~ | T~A~ = 25 °C | < | < | –55 °C to 125 °C | < | Unit |
-| ^ | ^ | ^ | ^ | Min | Typ | Max | Min | Max | ^ |
+| Parameter | < | Test conditions | V~CC~ | T~A~ = 25°C | < | < | Min | Max | Unit |
+| ^ | ^ | ^ | ^ | Min | Typ | Max | ^ | ^ | ^ |
 |---|---|---|---|--:|--:|--:|--:|--:|---|
-| V~OH~ | High-level output voltage | I~OH~ = -50 µA | 2 V | 1.9 | 2 | | 1.9 | | V |
+| V~OH~ | | I~OH~ = -50 µA | 2 V | 1.9 | 2 | | 1.9 | | V |
 | ^ | ^ | ^ | 3 V | 2.9 | 3 | | 2.9 | | V |
 | ^ | ^ | ^ | 4.5 V | 4.4 | 4.5 | | 4.4 | | V |
 | ^ | ^ | I~OH~ = -4 mA | 3 V | 2.58 | | | 2.48 | | V |
 | ^ | ^ | I~OH~ = -8 mA | 4.5 V | 3.94 | | | 3.8 | | V |
-| V~OL~ | Low-level output voltage | I~OL~ = 50 µA | 2 V | | | 0.1 | | 0.1 | V |
+| V~OL~ | | I~OL~ = 50 µA | 2 V | | | 0.1 | | 0.1 | V |
 | ^ | ^ | ^ | 3 V | | | 0.1 | | 0.1 | V |
 | ^ | ^ | ^ | 4.5 V | | | 0.1 | | 0.1 | V |
 | ^ | ^ | I~OL~ = 4 mA | 3 V | | | 0.36 | | 0.5 | V |
 | ^ | ^ | I~OL~ = 8 mA | 4.5 V | | | 0.36 | | 0.5 | V |
-| I~I~ | Input current, A or B inputs | V~I~ = 5.5 V or GND | 0 V to 5.5 V | | | ±0.1 | | ±1 | µA |
-| I~CC~ | Supply current | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | | 2 | | 20 | µA |
-| C~i~ | Input capacitance | V~I~ = V~CC~ or GND | 5 V | | 4 | 10 | | | pF |
+| I~I~ | A or B inputs | V~I~ = 5.5 V or GND | 0 V to 5.5 V | | | ±0.1 | | ±1 | µA |
+| I~CC~ | | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | | 2 | | 20 | µA |
+| C~i~ | | V~I~ = V~CC~ or GND | 5 V | | 4 | 10 | | | pF |
 ```
 
 ```table id=noise caption="Noise characteristics [1]" conditions="V~CC~ = 5 V, C~L~ = 50 pF, T~A~ = 25 °C"
@@ -155,8 +155,8 @@ exceeds 250 mA per JESD 17.
 See [parameter measurement information](#parameter-measurement).
 
 ```table id=sw-3v3 caption="Switching characteristics, V~CC~ = 3.3 V ± 0.3 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
-| Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25 °C | < | < | –55 °C to 125 °C | < | Unit |
-| ^ | ^ | ^ | ^ | Min | Typ | Max | Min | Max | ^ |
+| Parameter | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | < | Min | Max | Unit |
+| ^ | ^ | ^ | ^ | Min | Typ | Max | ^ | ^ | ^ |
 |---|---|---|---|--:|--:|--:|--:|--:|---|
 | t~PLH~ | A or B | Y | C~L~ = 15 pF | | 6.2 | 8.8 | 1 | 10.5 | ns |
 | t~PHL~ | ^ | ^ | ^ | | 6.2 | 8.8 | 1 | 10.5 | ns |
@@ -165,8 +165,8 @@ See [parameter measurement information](#parameter-measurement).
 ```
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
-| Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25 °C | < | < | –55 °C to 125 °C | < | Unit |
-| ^ | ^ | ^ | ^ | Min | Typ | Max | Min | Max | ^ |
+| Parameter | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | < | Min | Max | Unit |
+| ^ | ^ | ^ | ^ | Min | Typ | Max | ^ | ^ | ^ |
 |---|---|---|---|--:|--:|--:|--:|--:|---|
 | t~PLH~ | A or B | Y | C~L~ = 15 pF | | 4.3 | 5.9 | 1 | 7 | ns |
 | t~PHL~ | ^ | ^ | ^ | | 4.3 | 5.9 | 1 | 7 | ns |
@@ -179,8 +179,9 @@ See [parameter measurement information](#parameter-measurement).
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
-time with one input transition per measurement. C~L~ is 15 pF or 50 pF,
-as given in the [switching characteristics](#switching-characteristics).
+time with one input transition per measurement. Conversion note: C~L~ is
+15 pF or 50 pF, as given in the
+[switching characteristics](#switching-characteristics).
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 15 pF or 50 pF
@@ -190,7 +191,7 @@ CL: 15 pF or 50 pF
 VM: 50 % VCC
 ```
 
-The source figure also shows the 3-state and open-drain load circuit,
+Conversion note: the source figure also shows the 3-state and open-drain load circuit,
 pulse-duration, setup-and-hold and enable/disable waveforms, which do
 not apply to this part.
 
@@ -205,13 +206,10 @@ not apply to this part.
 ## Ordering information
 
 ```ordering
-SN74AHC08MDREP | Reel of 2500 | -55 to 125 | AHC08MEP
-SN74AHC08MPWREP | Tape and reel | -55 to 125 | AHC08EP
-V62/03647-01YE | Reel of 2500 | -55 to 125 | AHC08MEP
+SN74AHC08MDREP | Reel of 2500 | -55 to 125 | AHC08MEP | NRND
+SN74AHC08MPWREP | | -55 to 125 | AHC08EP | Obsolete
+V62/03647-01YE | Reel of 2500 | -55 to 125 | AHC08MEP | NRND
 ```
-
-The package option addendum lists SN74AHC08MPWREP as obsolete and the
-other two as NRND.
 
 ## Conversion notes
 
@@ -220,7 +218,9 @@ other two as NRND.
   Ordering sections.
 - Dropped: the feature list (its ESD and latch-up ratings are kept as a
   sentence under Absolute maximum ratings), logic symbol and logic
-  diagram, the vendor ordering table (its data is in the Ordering block).
+  diagram, the vendor ordering table on p.1 (it gives "Tape and reel" for both
+  packages; the Ordering block follows the package option addendum,
+  p.6).
 - From images: the µA units of the I~OH~/I~OL~ (V~CC~ = 2 V), V~OH~/V~OL~
   (50 µA), I~I~ and I~CC~ rows, p.3 (the text layer prints them as mA);
   the overlines of Y = !{!{A} + !{B}}, p.1.

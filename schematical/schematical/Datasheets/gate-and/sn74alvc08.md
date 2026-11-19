@@ -25,7 +25,9 @@
 
 This quadruple 2-input positive-AND gate is designed for 1.65-V to 3.6-V
 V~CC~ operation. The device performs the Boolean function Y = A · B or
-Y = !{!{A} + !{B}} in positive logic. Outputs drive ±24 mA at 3.3 V.
+Y = !{!{A} + !{B}} in positive logic.
+
+±24-mA Output Drive at 3.3 V.
 
 ## Pinout
 
@@ -44,7 +46,7 @@ VCC: Positive supply
 
 ## Function tables
 
-Logic diagram: four 2-input AND gates.
+Conversion note: the logic diagram shows each gate as a 2-input AND gate (positive logic).
 
 ```table id=function caption="Function table (each gate)"
 | A | B | Y |
@@ -156,13 +158,14 @@ Latch-up performance exceeds 250 mA per JESD 17.
 
 ## Parameter measurement information
 
-Figure 1, load circuit and voltage waveforms. S1: open for t~pd~; R~L~
-and C~L~ load the output to ground. C~L~
+C~L~
 includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. All parameters
 and waveforms are not applicable to all devices.
+
+Conversion note: in the load circuit of Figure 1, S1 is open for t~pd~, so R~L~ and C~L~ load the output to ground.
 
 ```table id=pmi caption="Load circuit and input conditions"
 | V~CC~ | V~I~ | t~r~/t~f~ | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |

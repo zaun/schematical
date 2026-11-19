@@ -25,11 +25,12 @@
 
 This dual 2-input positive-AND gate is designed for 1.65-V to 5.5-V
 V~CC~ operation. The SN74LVC2G08-Q1 performs the Boolean function
-Y = A • B or Y = !{!{A} + !{B}} in positive logic. It is AEC-Q100
-qualified: device temperature grade 1 (–40 °C to +125 °C) in the DCU
-package and grade 3 (–40 °C to +85 °C) in the DCT package. It can be
-used as a down translator to translate input from a maximum of 5.5 V
-down to the V~CC~ level.
+Y = A • B or Y = !{!{A} + !{B}} in positive logic. AEC-Q100
+qualified with the following results: device temperature grade 1:
+–40°C to +125°C ambient operating temperature range (DCU package);
+device temperature grade 3: –40°C to +85°C ambient operating temperature
+range (DCT package). Can be used as a down translator to translate input
+from a maximum of 5.5 V down to the V~CC~ level.
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
@@ -144,23 +145,23 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 ```table id=ec caption="Electrical characteristics" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | Parameter | Test conditions | V~CC~ | Min | Typ [1] | Max | Unit |
 |---|---|---|---|--:|--:|--:|---|
-| V~OH~ | High-level output voltage | I~OH~ = -100 µA | 1.65 V to 5.5 V | V~CC~ - 0.1 | | | V |
+| V~OH~ | | I~OH~ = -100 µA | 1.65 V to 5.5 V | V~CC~ - 0.1 | | | V |
 | ^ | ^ | I~OH~ = -4 mA | 1.65 V | 1.2 | | | V |
 | ^ | ^ | I~OH~ = -8 mA | 2.3 V | 1.9 | | | V |
 | ^ | ^ | I~OH~ = -16 mA | 3 V | 2.4 | | | V |
 | ^ | ^ | I~OH~ = -24 mA | ^ | 2.3 | | | V |
 | ^ | ^ | I~OH~ = -32 mA | 4.5 V | 3.8 | | | V |
-| V~OL~ | Low-level output voltage | I~OL~ = 100 µA | 1.65 V to 5.5 V | | | 0.1 | V |
+| V~OL~ | | I~OL~ = 100 µA | 1.65 V to 5.5 V | | | 0.1 | V |
 | ^ | ^ | I~OL~ = 4 mA | 1.65 V | | | 0.45 | V |
 | ^ | ^ | I~OL~ = 8 mA | 2.3 V | | | 0.3 | V |
 | ^ | ^ | I~OL~ = 16 mA | 3 V | | | 0.4 | V |
 | ^ | ^ | I~OL~ = 24 mA | ^ | | | 0.55 | V |
 | ^ | ^ | I~OL~ = 32 mA | 4.5 V | | | 0.55 | V |
 | I~I~ | A or B inputs | V~I~ = 5.5 V or GND | 0 to 5.5 V | | | ±5 | µA |
-| I~off~ | Partial-power-down leakage | V~I~ or V~O~ = 5.5 V | 0 | | | ±10 | µA |
-| I~CC~ | Supply current | V~I~ = 5.5 V or GND, I~O~ = 0 | 1.65 V to 5.5 V | | | 10 | µA |
-| ΔI~CC~ | Supply-current change | One input at V~CC~ - 0.6 V, other inputs at V~CC~ or GND, T~A~ = –40 °C to 85 °C | 3 V to 5.5 V | | | 500 | µA |
-| C~i~ | Input capacitance | V~I~ = V~CC~ or GND, T~A~ = –40 °C to 85 °C | 3.3 V | | 5 | | pF |
+| I~off~ | | V~I~ or V~O~ = 5.5 V | 0 | | | ±10 | µA |
+| I~CC~ | | V~I~ = 5.5 V or GND, I~O~ = 0 | 1.65 V to 5.5 V | | | 10 | µA |
+| ΔI~CC~ | | One input at V~CC~ - 0.6 V, other inputs at V~CC~ or GND, T~A~ = –40 °C to 85 °C | 3 V to 5.5 V | | | 500 | µA |
+| C~i~ | | V~I~ = V~CC~ or GND, T~A~ = –40 °C to 85 °C | 3.3 V | | 5 | | pF |
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25 °C.
 ```
@@ -227,10 +228,19 @@ generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement.
 
-The load circuit also has an R~L~ from the output to switch S1 (V~LOAD~,
-open or GND). S1 is open for t~PLH~/t~PHL~, which leaves the load below.
-The source figure also shows pulse-duration, setup/hold and
-enable/disable waveforms.
+Conversion note: the load circuit also has a second R~L~, from the output
+to switch S1, which goes to V~LOAD~, open or GND; the figure below draws
+the load with S1 open.
+Conversion note: the source figure also shows pulse-duration,
+setup-and-hold and enable/disable waveforms, which are not drawn here.
+
+```table id=s1 caption="Load circuit switch S1"
+| Test | S1 |
+|---|---|
+| t~PLH~/t~PHL~ | Open |
+| t~PLZ~/t~PZL~ | V~LOAD~ |
+| t~PHZ~/t~PZH~ | GND |
+```
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: see table
@@ -238,7 +248,8 @@ CL: see table
 ```
 
 ```table id=test-conditions caption="Test conditions (Figure 8-1)"
-| V~CC~ | V~I~ | t~r~/t~f~ | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
+| V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
+| ^ | V~I~ | t~r~/t~f~ | ^ | ^ | ^ | ^ | ^ |
 |---|---|---|---|---|---|---|---|
 | 1.8 V ± 0.15 V | V~CC~ | ≤ 2 ns | V~CC~/2 | 2 × V~CC~ | 30 pF | 1 kΩ | 0.15 V |
 | 2.5 V ± 0.2 V | V~CC~ | ≤ 2 ns | V~CC~/2 | 2 × V~CC~ | 30 pF | 500 Ω | 0.15 V |
@@ -257,57 +268,78 @@ implementing AND logic with a high output drive, such as an LED
 application. It can produce 24 mA of drive current at 3.3 V, making it
 ideal for driving multiple outputs and good for high-speed applications
 up to 100 MHz. The inputs are 5.5-V tolerant allowing it to translate
-down to V~CC~. The source's examples (Figure 10-1) show a gate between
+down to V~CC~. Conversion note: the source's examples (Figure 10-1) show a gate between
 microcontroller or logic signals, and a basic LED driver with the LED
 and a resistor from Y to ground.
 
-Outputs: balanced CMOS push-pull; the device can sink and source similar
-currents. The drive capability may create fast edges into light loads so
-routing and load conditions should be considered to prevent ringing. The
-outputs are capable of driving larger currents than the device can
-sustain without being damaged. It is important for the output power of
-the device to be limited to avoid damage due to overcurrent. The electrical and thermal
+This device uses CMOS technology and has balanced output drive. Take
+care to avoid bus contention because it can drive currents that would
+exceed maximum limits. The high drive will also create fast edges into
+light loads so routing and load conditions must be considered to prevent
+ringing.
+
+This device includes balanced CMOS push-pull outputs. The term
+"balanced" indicates that the device can sink and source similar
+currents. The drive capability of this device may create fast edges into
+light loads so routing and load conditions should be considered to
+prevent ringing. Additionally, the outputs of this device are capable of
+driving larger currents than the device can sustain without being
+damaged. It is important for the output power of the device to be
+limited to avoid damage due to overcurrent. The electrical and thermal
 limits defined in the
 [absolute maximum ratings](#absolute-maximum-ratings) must be followed
-at all times. Take care to avoid bus contention because it can drive
-currents that would exceed maximum limits. Unused push-pull CMOS outputs
-should be left disconnected.
+at all times. Unused push-pull CMOS outputs should be left disconnected.
 
-Inputs: standard CMOS, high impedance, typically modeled as a resistor
-in parallel with the input capacitance; the worst case resistance is the
-maximum input voltage divided by the maximum input leakage current
-(R = V ÷ I). Standard CMOS inputs require that input signals transition
-between valid logic states quickly, as defined by the input transition rate in the
-[recommended operating conditions](#recommended-operating-conditions);
-failing to meet this will result in excessive power consumption and
-could cause oscillations. Do not leave standard CMOS inputs floating at
-any time during operation. Unused inputs must be terminated at V~CC~ or
-GND; an input that is not actively driven at all times can have a
-pull-up or pull-down resistor; a 10-kΩ resistor is recommended and will
-typically meet all requirements.
+This device includes standard CMOS inputs. Standard CMOS inputs are high
+impedance and are typically modeled as a resistor in parallel with the
+input capacitance given in the Electrical Characteristics. The worst
+case resistance is calculated with the maximum input voltage, given in
+the Absolute Maximum Ratings, and the maximum input leakage current,
+given in the Electrical Characteristics, using Ohm's law (R = V ÷ I).
+Standard CMOS inputs require that input signals transition between valid
+logic states quickly, as defined by the input transition time or rate in
+the [recommended operating conditions](#recommended-operating-conditions)
+table. Failing to meet this specification will result in excessive power
+consumption and could cause oscillations. Do not leave standard CMOS
+inputs floating at any time during operation. Unused inputs must be
+terminated at V~CC~ or GND. If a system will not be actively driving an
+input at all times, a pull-up or pull-down resistor can be added to
+provide a valid input voltage during these times. The resistor value
+will depend on multiple factors, however a 10-kΩ resistor is recommended
+and will typically meet all requirements.
 
 ```figure ref=clamp-diodes caption="Electrical placement of clamping diodes for each input and output"
 ```
 
-The inputs and outputs have negative clamping diodes only. The input and
+The inputs and outputs to this device have negative clamping diodes
+only. The input and
 output voltage ratings may be exceeded if the input and output
 clamp-current ratings are observed.
 
-Partial power down (I~off~): circuitry disables all outputs when the
-supply pin is held at 0 V; the outputs will then neither source nor
-sink current, regardless of the input voltages applied.
+This device includes circuitry to disable all outputs when the supply
+pin is held at 0 V. When disabled, the outputs will neither source nor
+sink current, regardless of the input voltages applied. The amount of
+leakage current at each output is defined by the I~off~ specification in
+the Electrical Characteristics table.
 
-Design procedure:
+Detailed design procedure:
 
-1. Inputs: rise and fall times per Δt/Δv, and high and low levels per
-   V~IH~ and V~IL~, in the recommended operating conditions. Inputs are
-   overvoltage tolerant allowing them to go as high as V~I~ maximum at
-   any valid V~CC~.
-2. Outputs: load currents must not exceed I~O~ maximum per output and
-   must not exceed total current (continuous current through V~CC~ or
-   GND) for the part; these limits are in the absolute maximum ratings.
-   Outputs must not be pulled above V~CC~ in normal operating
-   conditions.
+1. Recommended input conditions:
+   - Rise time and fall time specs. See Δt/ΔV in the
+     [recommended operating conditions](#recommended-operating-conditions)
+     table.
+   - Specified high and low levels. See V~IH~ and V~IL~ in the recommended
+     operating conditions table.
+   - Inputs are overvoltage tolerant allowing them to go as high as
+     V~I~ maximum in the recommended operating conditions table at any valid
+     V~CC~.
+2. Recommended output conditions:
+   - Load currents must not exceed I~O~ maximum per output and must not exceed
+     total current (continuous current through V~CC~ or GND) for the
+     part. Source error: the source says these limits are located in the
+     Recommended Operating Conditions table; they are in the
+     [absolute maximum ratings](#absolute-maximum-ratings) table (p.4).
+   - Outputs must not be pulled above V~CC~ in normal operating conditions.
 
 Power: the power supply can be any voltage between the minimum and
 maximum supply voltage rating in the recommended operating conditions.
@@ -317,12 +349,15 @@ recommended. 0.1-µF and 1-µF capacitors are commonly used in parallel.
 The bypass capacitor must be installed as close to the power pin as
 possible for best results.
 
-Layout: inputs must not ever float. Unused input pins must not be left
-unconnected because the undefined voltages at the outside connections
-result in undefined operational states. All unused inputs of digital
-logic devices must be connected to a high or low bias to prevent them
-from floating; generally they will be tied to GND or V~CC~, whichever
-makes more sense or is more convenient.
+When using multiple bit logic devices inputs must not ever float. In many
+cases, functions or parts of functions of digital logic devices are
+unused; for example, when only two inputs of a triple-input AND gate are
+used or only 3 of the 4 buffer gates are used. Such input pins must not
+be left unconnected because the undefined voltages at the outside
+connections result in undefined operational states. All unused inputs of
+digital logic devices must be connected to a high or low bias to prevent
+them from floating. Generally they will be tied to GND or V~CC~ whichever
+make more sense or is more convenient.
 
 ## Package
 
@@ -335,14 +370,16 @@ makes more sense or is more convenient.
 ## Ordering information
 
 ```ordering
+SN74LVC2G08IDCTRQ1 | Reel of 3000 | -40 to 85 | C08 Z
+SN74LVC2G08QDCURQ1 | Reel of 3000 | -40 to 125 | 1HLRQ
 ```
 
 ## Conversion notes
 
-- Source pages 1 and 3–12 converted; revision history (p.2), support
-  pages, the package option addendum, tape and reel and mechanical pages
-  (13–24) dropped, replaced by the generated Package and Ordering
-  sections.
+- Source pages 1 and 3–12 converted. The ordering lines are from the
+  package option addendum (pp.14–15). Revision history (p.2), support
+  pages, tape and reel and mechanical pages (13, 16–24) are left out;
+  the generated Package section replaces them.
 - Dropped: features and applications lists, device information table,
   logic diagram (two AND gates), the layout example (Figure 13-1: an
   unused input tied to V~CC~ or GND), the multi-V~CC~-pin bypass advice
@@ -357,8 +394,8 @@ makes more sense or is more convenient.
 - The text layer prints "£2 ns", "1 kW", "500 W" and the Boolean
   function as "Y + A • B or Y + A ) B"; the page images show ≤ 2 ns,
   1 kΩ, 500 Ω and Y = A • B or Y = !{!{A} + !{B}} (pp.1, 8, 9).
-- Parameter names in the electrical characteristics table are added
-  (the source gives symbols only).
+- The electrical characteristics table of the source gives symbols only,
+  so its Parameter cells are empty except for I~I~.
 - Source issues:
   - Source error: § 10.2.1.1 says the I~O~ and continuous-current limits
     "are located in the Recommended Operating Conditions table"; they are

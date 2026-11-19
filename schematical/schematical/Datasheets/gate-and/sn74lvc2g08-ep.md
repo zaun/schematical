@@ -25,7 +25,7 @@
 
 This dual 2-input positive-AND gate is designed for 1.65-V to 5.5-V
 V~CC~ operation. The SN74LVC2G08 performs the Boolean function
-Y = A • B or Y = !{!{A} + !{B}} in positive logic. Its inputs accept
+Y = A • B or Y = !{!{A} + !{B}} in positive logic. Inputs accept
 voltages to 5.5 V.
 
 This device is fully specified for partial-power-down applications using
@@ -121,32 +121,33 @@ per JESD 78, Class II.
 ```table id=ec caption="Electrical characteristics" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | Parameter | Test conditions | V~CC~ | Min | Typ [1] | Max | Unit |
 |---|---|---|---|--:|--:|--:|---|
-| V~OH~ | High-level output voltage | I~OH~ = -100 µA | 1.65 V to 5.5 V | V~CC~ - 0.1 | | | V |
+| V~OH~ | | I~OH~ = -100 µA | 1.65 V to 5.5 V | V~CC~ - 0.1 | | | V |
 | ^ | ^ | I~OH~ = -4 mA | 1.65 V | 1.2 | | | V |
 | ^ | ^ | I~OH~ = -8 mA | 2.3 V | 1.9 | | | V |
 | ^ | ^ | I~OH~ = -16 mA | 3 V | 2.4 | | | V |
 | ^ | ^ | I~OH~ = -24 mA | ^ | 2.3 | | | V |
-| V~OL~ | Low-level output voltage | I~OL~ = 100 µA | 1.65 V to 5.5 V | | | 0.1 | V |
+| V~OL~ | | I~OL~ = 100 µA | 1.65 V to 5.5 V | | | 0.1 | V |
 | ^ | ^ | I~OL~ = 4 mA | 1.65 V | | | 0.45 | V |
 | ^ | ^ | I~OL~ = 8 mA | 2.3 V | | | 0.3 | V |
 | ^ | ^ | I~OL~ = 16 mA | 3 V | | | 0.4 | V |
 | ^ | ^ | I~OL~ = 24 mA | ^ | | | 0.55 | V |
 | I~I~ | A or B inputs | V~I~ = 5.5 V or GND | 0 to 5.5 V | | | ±5 | µA |
-| I~off~ | Partial-power-down leakage | V~I~ or V~O~ = 5.5 V | 0 | | | ±10 | µA |
-| I~CC~ | Supply current | V~I~ = 5.5 V or GND, I~O~ = 0 | 1.65 V to 5.5 V | | | 10 | µA |
-| ΔI~CC~ | Supply-current change | One input at V~CC~ - 0.6 V, other inputs at V~CC~ or GND | 3 V to 5.5 V | | | 500 | µA |
-| C~i~ | Input capacitance | V~I~ = V~CC~ or GND | 3.3 V | | 5 | | pF |
+| I~off~ | | V~I~ or V~O~ = 5.5 V | 0 | | | ±10 | µA |
+| I~CC~ | | V~I~ = 5.5 V or GND, I~O~ = 0 | 1.65 V to 5.5 V | | | 10 | µA |
+| ΔI~CC~ | | One input at V~CC~ - 0.6 V, other inputs at V~CC~ or GND | 3 V to 5.5 V | | | 500 | µA |
+| C~i~ | | V~I~ = V~CC~ or GND | 3.3 V | | 5 | | pF |
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25 °C.
 ```
 
-Typical V~OLP~ (output ground bounce) < 0.8 V and typical V~OHV~ (output
-V~OH~ undershoot) > 2 V at V~CC~ = 3.3 V, T~A~ = 25 °C.
+Typical V~OLP~ (output ground bounce) <0.8 V at V~CC~ = 3.3 V,
+T~A~ = 25°C. Typical V~OHV~ (output V~OH~ undershoot) >2 V at
+V~CC~ = 3.3 V, T~A~ = 25°C.
 
 ## Switching characteristics
 
-See [parameter measurement information](#parameter-measurement). The
-source specifies switching at V~CC~ = 3.3 V and 5 V only.
+See [parameter measurement information](#parameter-measurement). Conversion
+note: the source specifies switching at V~CC~ = 3.3 V and 5 V only.
 
 ```table id=sw caption="Switching characteristics" conditions="Over recommended operating free-air temperature range (unless otherwise noted) (see Figure 1)"
 | Symbol | From (input) | To (output) | V~CC~ = 3.3 V ± 0.3 V | < | V~CC~ = 5 V ± 0.5 V | < | Unit |
@@ -171,11 +172,21 @@ generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. t~PLH~ and t~PHL~ are the same as t~pd~.
 
-The load circuit also has an R~L~ from the output to switch S1 (V~LOAD~,
-open or GND). S1 is open for t~PLH~/t~PHL~, which leaves the load below.
-The source figure also shows pulse-duration, setup/hold and
-enable/disable waveforms; all parameters and waveforms are not
-applicable to all devices.
+All parameters and waveforms are not applicable to all devices.
+
+Conversion note: the load circuit also has a second R~L~, from the output
+to switch S1, which goes to V~LOAD~, open or GND; the figure below draws
+the load with S1 open.
+Conversion note: the source figure also shows pulse-duration,
+setup-and-hold and enable/disable waveforms, which are not drawn here.
+
+```table id=s1 caption="Load circuit switch S1"
+| Test | S1 |
+|---|---|
+| t~PLH~/t~PHL~ | Open |
+| t~PLZ~/t~PZL~ | V~LOAD~ |
+| t~PHZ~/t~PZH~ | GND |
+```
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: 500 Ω
@@ -183,7 +194,8 @@ CL: 50 pF
 ```
 
 ```table id=test-conditions caption="Test conditions (Figure 1)"
-| V~CC~ | V~I~ | t~r~/t~f~ | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
+| V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
+| ^ | V~I~ | t~r~/t~f~ | ^ | ^ | ^ | ^ | ^ |
 |---|---|---|---|---|---|---|---|
 | 3.3 V ± 0.3 V | 3 V | ≤ 2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 5 V ± 0.5 V | V~CC~ | ≤ 2.5 ns | V~CC~/2 | 2 × V~CC~ | 50 pF | 500 Ω | 0.3 V |
@@ -202,20 +214,20 @@ VM: see table
 
 ```ordering
 SN74LVC2G08MDCUREP | Reel of 3000 | -55 to 125 | SBNM
+V62/07631-01XE | Reel of 3000 | -55 to 125 | SBNM
 ```
 
 ## Conversion notes
 
-- Source pages 1–5 converted; the package option addendum, tape and reel
-  and mechanical pages (6–13) dropped, replaced by the generated Package
-  and Ordering sections. The ordering row is from the ordering
-  information table on p.1.
+- Source pages 1–5 converted. The ordering lines are from the package
+  option addendum (pp.6–7). The tape and reel and mechanical pages
+  (8–13) are left out; the generated Package section replaces them.
 - Dropped: features list (the ESD, latch-up, ground-bounce and
   undershoot facts are kept in text), the qualification-pedigree
   footnote, the logic diagram (two AND gates).
 - The pin descriptions are added; the source has no pin function table.
-  Parameter names in the electrical characteristics table are added
-  (the source gives symbols only).
+  The electrical characteristics table of the source gives symbols only,
+  so its Parameter cells are empty except for I~I~.
 - The load circuit is drawn with the shared R~L~ ∥ C~L~ figure; the
   second R~L~ and S1 are described in text.
 - The text layer prints "£2.5 ns", "500 W" and the Boolean function as

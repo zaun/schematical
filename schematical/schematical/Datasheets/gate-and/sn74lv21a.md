@@ -132,11 +132,11 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 ## Thermal information
 
 ```table id=thermal caption="Thermal information [1]"
-| Symbol | Parameter | D | DB | DGV | NS | PW | Unit |
+| Symbol | Parameter | D (14 pins) | DB (14 pins) | DGV (14 pins) | NS (14 pins) | PW (14 pins) | Unit |
 |---|---|--:|--:|--:|--:|--:|---|
 | R~θJA~ | Junction-to-ambient thermal resistance | 86 | 96 | 127 | 76 | 113 | °C/W |
 
-[1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report (SPRA953). All packages 14 pins.
+[1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report (SPRA953).
 ```
 
 ## Electrical characteristics
@@ -179,8 +179,8 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 
 ## Switching characteristics
 
-See [parameter measurement information](#parameter-measurement). The
-SN74LV21A columns are over the recommended operating free-air
+See [parameter measurement information](#parameter-measurement).
+Conversion note: the SN74LV21A columns are over the recommended operating free-air
 temperature range.
 
 ```table id=sw-2v5 caption="Switching characteristics, V~CC~ = 2.5 V ± 0.2 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
@@ -209,12 +209,15 @@ temperature range.
 
 ## Parameter measurement information
 
-C~L~ includes probe and jig capacitance; it is 15 pF or 50 pF as given
-in the [switching characteristics](#switching-characteristics). All
+C~L~ includes probe and jig capacitance. All
 input pulses are supplied by generators having the following
 characteristics: PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The
 outputs are measured one at a time, with one input transition per
-measurement. t~PHL~ and t~PLH~ are the same as t~pd~.
+measurement. t~PHL~ and t~PLH~ are the same as t~pd~. All parameters
+and waveforms are not applicable to all devices.
+
+Conversion note: C~L~ is 15 pF or 50 pF as given in the
+[switching characteristics](#switching-characteristics).
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 15 pF or 50 pF
@@ -224,10 +227,9 @@ CL: 15 pF or 50 pF
 VM: 50 % V~CC~
 ```
 
-Figure 6-1 also shows the load circuit for 3-state and open-drain
-outputs and the voltage waveforms for pulse duration, setup and hold
-times, and enable and disable times. All parameters and waveforms are
-not applicable to all devices.
+Conversion note: Figure 6-1 also shows the load circuit for 3-state and
+open-drain outputs and the voltage waveforms for pulse duration, setup
+and hold times, and enable and disable times.
 
 ## Package
 
@@ -249,18 +251,15 @@ not applicable to all devices.
 ## Ordering information
 
 ```ordering
-SN74LV21AD | Obsolete | -40 to 85 | LV21A
+SN74LV21AD | | -40 to 85 | LV21A | Obsolete
 SN74LV21ADBR | Reel of 2000 | -40 to 85 | LV21A
-SN74LV21ADGVR | Reel of 2000 | -40 to 85 | LV21A
+SN74LV21ADGVR | Reel of 2000 | -40 to 85 | LV21A | NRND
 SN74LV21ADR | Reel of 2500 | -40 to 85 | LV21A
-SN74LV21ANSR | Reel of 2000 | -40 to 85 | 74LV21A
-SN74LV21APW | Obsolete | -40 to 85 | LV21A
+SN74LV21ANSR | Reel of 2000 | -40 to 85 | 74LV21A | Last Time Buy
+SN74LV21APW | | -40 to 85 | LV21A | Obsolete
 SN74LV21APWR | Reel of 2000 | -40 to 85 | LV21A
 SN74LV21APWRG4 | 2000 | -40 to 85 | LV21A
 ```
-
-Status in the package option addendum: SN74LV21AD and SN74LV21APW are
-Obsolete, SN74LV21ADGVR is NRND, SN74LV21ANSR is Last.
 
 ## Conversion notes
 

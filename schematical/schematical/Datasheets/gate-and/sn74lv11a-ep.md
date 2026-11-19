@@ -31,7 +31,7 @@ This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
 current backflow through the device when it is powered down.
 
-Enhanced product, extended temperature performance of –40 °C to 105 °C.
+Extended temperature performance of −40 °C to 105 °C.
 
 ## Pinout
 
@@ -193,7 +193,7 @@ CL: 50 pF
 VM: 50 % V~CC~
 ```
 
-Figure 1 also shows the load circuit for 3-state and open-drain outputs
+Conversion note: Figure 1 also shows the load circuit for 3-state and open-drain outputs
 (R~L~ = 1 kΩ) and the voltage waveforms for pulse duration, setup and
 hold times, and enable and disable times.
 

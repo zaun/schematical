@@ -100,15 +100,17 @@ VCC: Positive supply
 ## Thermal information
 
 ```table id=thermal caption="Thermal information (CD74HCT08) [1]"
-| Symbol | Parameter | N (PDIP) | D (SOIC) | Unit |
+| Symbol | Parameter | N (PDIP) 14 pins | D (SOIC) 14 pins | Unit |
 |---|---|--:|--:|---|
 | R~θJA~ | Junction-to-ambient thermal resistance | 103.8 | 138.7 | °C/W |
 | R~θJC(top)~ | Junction-to-case (top) thermal resistance | 91.6 | 93.8 | °C/W |
 | R~θJB~ | Junction-to-board thermal resistance | 83.5 | 94.7 | °C/W |
 | Ψ~JT~ | Junction-to-top characterization parameter | 71.1 | 49.1 | °C/W |
 | Ψ~JB~ | Junction-to-board characterization parameter | 83.4 | 94.3 | °C/W |
+| R~θJC(bot)~ | Junction-to-case (bottom) thermal resistance [2] | | | °C/W |
 
-[1] All packages 14 pins. R~θJC(bot)~ (junction-to-case (bottom) thermal resistance) is N/A for these packages. For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
+[1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
+[2] Conversion note: the source prints N/A in both columns of this row.
 ```
 
 ## Electrical characteristics
@@ -170,8 +172,10 @@ VM: 50 %
 Outputs: a balanced output allows the device to sink and source similar
 currents. The drive capability of this device may create fast edges into
 light loads so routing and load conditions should be considered to
-prevent ringing. The outputs are capable of driving larger currents than
-the device can sustain without being damaged; the electrical and thermal
+prevent ringing. Additionally, the outputs of this device are capable of
+driving larger currents than the device can sustain without being
+damaged. It is important for the output power of the device to be
+limited to avoid damage due to over-current. The electrical and thermal
 limits defined in the
 [absolute maximum ratings](#absolute-maximum-ratings) must be followed
 at all times. The CD74HCT08 can drive a load with a total capacitance less
@@ -206,11 +210,14 @@ if the input and output clamp-current ratings are observed.
 Typical application: three 2-input AND gates are combined to produce a
 4-input AND gate function. The fourth gate can be used for another
 application in the system, or the inputs can be grounded and the channel
-left unused. In the source's example the device directly controls the
-RESET pin of a motor controller: the controller requires four input
-signals (over current OC, power good PG, ON/OFF, over temperature OT) to
-all be HIGH before being enabled, and should be disabled in the event
-that any one signal goes LOW.
+left unused. This device is used to directly control the RESET pin of a
+motor controller. The controller requires four input signals to all be
+HIGH before being enabled, and should be disabled in the event that any
+one signal goes LOW. The 4-input AND gate function combines the four
+individual reset signals into a single active-low reset signal.
+Conversion note: the schematic (Figure 8-1) names the four signals OC
+(over current detection), PG (power supply), ON/OFF (on/off switch) and
+OT (over temp detection).
 
 Power: the supply must be capable of sourcing current equal to the total
 current to be sourced by all outputs plus the maximum supply current,
@@ -222,18 +229,17 @@ parallel. The bypass capacitor should be installed as close to the power
 terminal as possible.
 
 Inputs: unused inputs must be terminated to either V~CC~ or ground.
-They can be directly terminated if the input is completely unused, or
-connected with a pull-up or pull-down resistor if the input is to be
-used sometimes, but not always. A 10-kΩ resistor value is often used.
-Slow input edge rates can cause oscillations and damaging shoot-through
-current.
+These can be directly terminated if the input is completely unused, or
+they can be connected with a pull-up or pull-down resistor if the input
+is to be used sometimes, but not always. A 10-kΩ resistor value is
+often used.
 
 Outputs: unused outputs can be left floating. Do not connect outputs
 directly to V~CC~ or ground.
 
-Detailed design procedure: add a decoupling capacitor from V~CC~ to GND,
-placed physically close to the device and electrically close to both the
-V~CC~ and GND pins. Ensure the capacitive load at the output is ≤ 70 pF;
+Detailed design procedure: add a decoupling capacitor from V~CC~ to GND.
+The capacitor needs to be placed physically close to the device and
+electrically close to both the V~CC~ and GND pins. Ensure the capacitive load at the output is ≤ 70 pF;
 this is not a hard limit, however it will ensure optimal performance.
 Ensure the resistive load at the output is larger than (V~CC~ /
 I~O(max)~) Ω. This will ensure that the maximum output current from the
@@ -259,8 +265,11 @@ makes more sense for the logic function or is more convenient.
 ## Ordering information
 
 ```ordering
+5962-8688301CA | Tube of 25 | -55 to 125 | 5962-8688301CA CD54HCT08F3A
 CD54HCT08F | Tube of 25 | -55 to 125 | CD54HCT08F
+CD54HCT08F3A | Tube of 25 | -55 to 125 | 5962-8688301CA CD54HCT08F3A
 CD74HCT08E | Tube of 25 | -55 to 125 | CD74HCT08E
+CD74HCT08M | | -55 to 125 | HCT08M | Obsolete
 CD74HCT08M96 | Reel of 2500 | -55 to 125 | HCT08M
 ```
 
@@ -276,8 +285,7 @@ CD74HCT08M96 | Reel of 2500 | -55 to 125 | HCT08M
   converted.
 - The switching tables' Min columns and the empty Min/Typ columns at
   –40 °C to 85 °C and –55 °C to 125 °C hold no values and are left out.
-- Ordering vendor columns are left out for parts with no packing
-  quantity or a marking that spans several lines in the addendum.
+- Ordering vendor columns are from the package option addendum (p. 14).
 - Source issues:
   - Unconfirmed: input transition rise and fall rate given in ns (ROC note 1).
   - Unconfirmed: I~O~ condition "V~O~ > –0.5 V or V~O~ < V~CC~ + 0.5 V" (absolute maximum ratings note 4).

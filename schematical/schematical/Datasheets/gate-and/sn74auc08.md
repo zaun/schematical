@@ -25,9 +25,9 @@
 
 This quadruple 2-input positive-AND gate is operational at 0.8-V to
 2.7-V V~CC~, but is designed specifically for 1.65-V to 1.95-V V~CC~
-operation. The SN74AUC08 device performs the Boolean function Y = A · B
-or Y = !{!{A} + !{B}} in positive logic. Inputs and outputs are 3.6-V
-tolerant to support mixed-mode signal operation.
+operation. The SN74AUC08 device performs the Boolean function Y = A • B
+or Y = !{!{A} + !{B}} in positive logic. Optimized for 1.8-V operation
+and is 3.6-V I/O tolerant to support mixed-mode signal operation.
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
@@ -50,7 +50,7 @@ VCC: Positive supply
 
 ## Function tables
 
-Logic diagram: four 2-input AND gates.
+Conversion note: the source's logic diagram (each gate, positive logic) draws one 2-input AND gate with inputs A and B and output Y.
 
 ```table id=function caption="Function table (each gate)"
 | A | B | Y |
@@ -169,9 +169,10 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 
 ## Parameter measurement information
 
-Figure 1, load circuit and voltage waveforms. S1: open for
-t~PLH~/t~PHL~; R~L~ and C~L~ load the output to ground. Inputs swing
-0 V to V~CC~ and are measured at V~CC~/2. C~L~ includes probe and jig
+Figure 1, load circuit and voltage waveforms. Conversion note: the
+source's test table sets S1 open for t~PLH~/t~PHL~, which leaves R~L~
+and C~L~ from the output to GND, and its waveforms draw the input from
+0 V to V~CC~ with the delays measured at V~CC~/2. C~L~ includes probe and jig
 capacitance. All input pulses are supplied by generators having the
 following characteristics: PRR ≤ 10 MHz, Z~O~ = 50 Ω, slew rate ≥
 1 V/ns. The outputs are measured one at a time, with one transition per
@@ -186,8 +187,10 @@ waveforms are not applicable to all devices.
 | 1.5 V ± 0.1 V | 15 pF | 2 kΩ | 0.1 V |
 | 1.8 V ± 0.15 V | 15 pF | 2 kΩ | 0.15 V |
 | 2.5 V ± 0.2 V | 15 pF | 2 kΩ | 0.15 V |
-| 1.8 V ± 0.15 V | 30 pF | 1 kΩ | 0.15 V |
+| 1.8 V ± 0.15 V | 30 pF | 1 kΩ [1] | 0.15 V |
 | 2.5 V ± 0.2 V | 30 pF | 500 Ω | 0.15 V |
+
+[1] Source conflict: Figure 1 (p.4) gives R~L~ = 1 kΩ for V~CC~ = 1.8 V ± 0.15 V at C~L~ = 30 pF; note 3 of the recommended operating conditions (p.2) says the V~CC~ = 1.65 V to 1.95 V data was taken at C~L~ = 30 pF, R~L~ = 500 Ω.
 ```
 
 ```figure ref=load-rl-cl caption="Load circuit for t~pd~ (S1 open)"
@@ -220,6 +223,6 @@ SN74AUC08RGYRG4 | Reel of 3000 | -40 to 85 | MS08
 - Dropped: features list (ESD and latch-up kept as a sentence), the
   pulse-duration, setup/hold and enable/disable waveforms of the generic
   measurement figure (they do not apply to this part).
-- The Boolean function is garbled in the PDF text layer
-  ("Y  A • B or Y  A  B"); written as Y = A · B or Y = !{!{A} + !{B}}.
-- Source issues: none found.
+- From images: Y = A • B or Y = !{!{A} + !{B}}, the equals signs and
+  overbars (p.1; the text layer reads "Y  A • B or Y  A  B").
+- Source issues: Source conflict: R~L~ at C~L~ = 30 pF and V~CC~ = 1.8 V ± 0.15 V is 1 kΩ in Figure 1 (p.4) and 500 Ω in note 3 of the recommended operating conditions (p.2); both kept.

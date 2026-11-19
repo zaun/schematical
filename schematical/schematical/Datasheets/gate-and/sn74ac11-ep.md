@@ -24,11 +24,11 @@
 ## Description
 
 The SN74AC11 device contains three independent 3-input AND gates. This
-device performs the Boolean function Y = A · B · C in positive logic. It
-operates from a V~CC~ of 2 V to 6 V, inputs accept voltages to 6 V, and
-it is specified from –40 °C to 85 °C. Enhanced product: controlled
-baseline (one assembly/test site, one fabrication site), enhanced
-diminishing manufacturing sources (DMS) support and enhanced
+device performs the Boolean function Y = A · B · C in positive logic.
+
+2-V to 6-V V~CC~ operation. Inputs accept voltages to 6 V. Controlled
+baseline. One assembly/test site, one fabrication site. Enhanced
+diminishing manufacturing sources (DMS) support. Enhanced
 product-change notification.
 
 ## Pinout
@@ -49,9 +49,10 @@ VCC: Supply voltage
 
 ## Functional description
 
-Logic diagram (positive logic): three 3-input AND gates; 1A, 1B, 1C
-(pins 1, 2, 13) drive 1Y (pin 12), 2A, 2B, 2C (pins 3, 4, 5) drive 2Y
-(pin 6), and 3A, 3B, 3C (pins 11, 10, 9) drive 3Y (pin 8).
+Conversion note: the logic diagram, each gate (positive logic), shows three
+3-input AND gates, where 1A, 1B, 1C (pins 1, 2, 13) drive 1Y (pin 12), 2A,
+2B, 2C (pins 3, 4, 5) drive 2Y (pin 6), and 3A, 3B, 3C (pins 11, 10, 9)
+drive 3Y (pin 8).
 
 ## Function tables
 
@@ -114,29 +115,29 @@ Logic diagram (positive logic): three 3-input AND gates; 1A, 1B, 1C
 ## Electrical characteristics
 
 ```table id=ec caption="Electrical characteristics" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
-| Symbol | Parameter | Test conditions | V~CC~ | T~A~ = 25 °C | < | < | Full range [2] | < | Unit |
+| Symbol | Parameter | Test conditions | V~CC~ | T~A~ = 25 °C | < | < | [2] | < | Unit |
 | ^ | ^ | ^ | ^ | Min | Typ | Max | Min | Max | ^ |
 |---|---|---|---|--:|--:|--:|--:|--:|---|
-| V~OH~ | High-level output voltage | I~OH~ = -50 µA | 3 V | 2.9 | 2.99 | | 2.9 | | V |
+| V~OH~ | | I~OH~ = -50 µA | 3 V | 2.9 | 2.99 | | 2.9 | | V |
 | ^ | ^ | ^ | 4.5 V | 4.4 | 4.49 | | 4.4 | | V |
 | ^ | ^ | ^ | 5.5 V | 5.4 | 5.49 | | 5.4 | | V |
 | ^ | ^ | I~OH~ = -12 mA | 3 V | 2.56 | | | 2.46 | | V |
 | ^ | ^ | I~OH~ = -24 mA | 4.5 V | 3.86 | | | 3.76 | | V |
 | ^ | ^ | ^ | 5.5 V | 4.86 | | | 4.76 | | V |
 | ^ | ^ | I~OH~ = -75 mA [1] | 5.5 V | | | | 3.85 | | V |
-| V~OL~ | Low-level output voltage | I~OL~ = 50 µA | 3 V | | 0.002 | 0.1 | | 0.1 | V |
+| V~OL~ | | I~OL~ = 50 µA | 3 V | | 0.002 | 0.1 | | 0.1 | V |
 | ^ | ^ | ^ | 4.5 V | | 0.001 | 0.1 | | 0.1 | V |
 | ^ | ^ | ^ | 5.5 V | | 0.001 | 0.1 | | 0.1 | V |
 | ^ | ^ | I~OL~ = 12 mA | 3 V | | | 0.36 | | 0.44 | V |
 | ^ | ^ | I~OL~ = 24 mA | 4.5 V | | | 0.36 | | 0.44 | V |
 | ^ | ^ | ^ | 5.5 V | | | 0.36 | | 0.44 | V |
 | ^ | ^ | I~OL~ = 75 mA [1] | 5.5 V | | | | | 1.65 | V |
-| I~I~ | Input current | V~I~ = V~CC~ or GND | 5.5 V | | | ±0.1 | | ±1 | µA |
-| I~CC~ | Supply current | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | | 2 | | 20 | µA |
-| C~i~ | Input capacitance | V~I~ = V~CC~ or GND | 5 V | | 2.6 | | | | pF |
+| I~I~ | | V~I~ = V~CC~ or GND | 5.5 V | | | ±0.1 | | ±1 | µA |
+| I~CC~ | | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | | 2 | | 20 | µA |
+| C~i~ | | V~I~ = V~CC~ or GND | 5 V | | 2.6 | | | | pF |
 
 [1] Not more than one output should be tested at a time, and the duration of the test should not exceed 10 ms.
-[2] The source leaves this column group without a temperature heading; the table applies over the recommended operating free-air temperature range (T~A~ –40 °C to 85 °C).
+[2] Conversion note: the source prints no temperature heading over this Min and Max column group.
 ```
 
 ```table id=opchar caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25 °C"
@@ -150,23 +151,23 @@ Logic diagram (positive logic): three 3-input AND gates; 1A, 1B, 1C
 See [parameter measurement information](#parameter-measurement).
 
 ```table id=sw-3v3 caption="Switching characteristics, V~CC~ = 3.3 V ± 0.3 V" conditions="Over recommended operating free-air temperature range, V~CC~ = 3.3 V ± 0.3 V (unless otherwise noted)"
-| Symbol | From (input) | To (output) | T~A~ = 25 °C | < | < | Full range [1] | < | Unit |
+| Symbol | From (input) | To (output) | T~A~ = 25 °C | < | < | [1] | < | Unit |
 | ^ | ^ | ^ | Min | Typ | Max | Min | Max | ^ |
 |---|---|---|--:|--:|--:|--:|--:|---|
 | t~PLH~ | A, B, or C | Y | 1.5 | 5.5 | 9.5 | 1 | 10 | ns |
 | t~PHL~ | A, B, or C | Y | 1.5 | 5.5 | 8.5 | 1 | 9.5 | ns |
 
-[1] No temperature heading in the source (see the electrical characteristics).
+[1] Conversion note: the source prints no temperature heading over this Min and Max column group.
 ```
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range, V~CC~ = 5 V ± 0.5 V (unless otherwise noted)"
-| Symbol | From (input) | To (output) | T~A~ = 25 °C | < | < | Full range [1] | < | Unit |
+| Symbol | From (input) | To (output) | T~A~ = 25 °C | < | < | [1] | < | Unit |
 | ^ | ^ | ^ | Min | Typ | Max | Min | Max | ^ |
 |---|---|---|--:|--:|--:|--:|--:|---|
 | t~PLH~ | A, B, or C | Y | 1.5 | 4 | 8 | 1 | 8.5 | ns |
 | t~PHL~ | A, B, or C | Y | 1.5 | 4 | 7 | 1 | 7.5 | ns |
 
-[1] No temperature heading in the source (see the electrical characteristics).
+[1] Conversion note: the source prints no temperature heading over this Min and Max column group.
 ```
 
 ## Parameter measurement information
@@ -176,9 +177,9 @@ generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 2.5 ns, t~f~ ≤ 2.5 ns. The outputs are measured one
 at a time with one input transition per measurement.
 
-The load circuit also has a 500 Ω resistor from the output to switch S1
-(2 × V~CC~ or open); S1 is open for t~PLH~ and t~PHL~, which leaves the
-load below.
+Conversion note: the load circuit also has a 500 Ω resistor from the output
+to switch S1 (2 × V~CC~ or open), and S1 is open for t~PLH~/t~PHL~, which
+leaves the load below.
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: 500 Ω
@@ -197,14 +198,18 @@ VM: 50 % V~CC~
 ## Ordering information
 
 ```ordering
-SN74AC11IPWREP | Tape and reel | -40 to 85 | SAC11EP
+SN74AC11IPWREP | Reel of 2000 | -40 to 85 | SAC11EP
+V62/04701-01XE | Reel of 2000 | -40 to 85 | SAC11EP
 ```
 
 ## Conversion notes
 
 - Source pages 1–4 converted; the package option addendum, tape and
   reel and mechanical pages (5–12) dropped, replaced by the generated
-  Package and Ordering sections.
+  Package and Ordering sections. The ordering lines are the parts' rows
+  of the package option addendum (p.5).
+- The electrical characteristics table of the source gives only symbols
+  in its Parameter column; no parameter names are added.
 - Dropped: features list (the enhanced-product points and electrical
   points are kept in the Description), the qualification-pedigree
   footnote; the logic diagram is described in text. The description's

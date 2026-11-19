@@ -25,7 +25,9 @@
 
 The SN74ALVC08 quadruple 2-input positive-AND gate is designed for 1.65-V to 3.6-V
 V~CC~ operation. The device performs the Boolean function Y = A · B or
-Y = !{!{A} + !{B}} in positive logic. Outputs drive ±24 mA at 3.3 V. Qualified for automotive applications.
+Y = !{!{A} + !{B}} in positive logic.
+
+Qualified for Automotive Applications. ±24-mA Output Drive at 3.3 V.
 
 ## Pinout
 
@@ -44,7 +46,7 @@ VCC: Positive supply
 
 ## Function tables
 
-Logic diagram: four 2-input AND gates.
+Conversion note: the logic diagram shows each gate as a 2-input AND gate (positive logic).
 
 ```table id=function caption="Function table (each gate)"
 | A | B | Y |
@@ -71,7 +73,7 @@ Logic diagram: four 2-input AND gates.
 | T~stg~ | Storage temperature range | | -65 | 150 | °C |
 
 [1] Stresses beyond those listed under "absolute maximum ratings" may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under "recommended operating conditions" is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
-[2] The input negative-voltage and output voltage ratings may be exceeded if the input and output current ratings are observed.
+[2] The input and output negative-voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] This value is limited to 4.6 V maximum.
 [4] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
@@ -152,19 +154,20 @@ exceeds 250 mA per JESD 17.
 
 ## Parameter measurement information
 
-Figure 1, load circuit and voltage waveforms. S1: open for t~pd~; R~L~
-and C~L~ load the output to ground. C~L~
+C~L~
 includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. All parameters
 and waveforms are not applicable to all devices.
 
+Conversion note: in the load circuit of Figure 1, S1 is open for t~pd~, so R~L~ and C~L~ load the output to ground.
+
 ```table id=pmi caption="Load circuit and input conditions"
 | V~CC~ | V~I~ | t~r~/t~f~ | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
 |---|---|---|---|---|---|---|---|
 | 1.8 V ± 0.15 V | V~CC~ | ≤2 ns | V~CC~/2 | 2 × V~CC~ | 30 pF | 1 kΩ | 0.15 V |
-| 2.5 V ± 0.2 V | V~CC~ | ≤2 ns | V~CC~/2 | 2 × V~CC~ | 30 pF | 500 Ω | 0.15 V |
+| 2.5 ± 0.2 V | V~CC~ | ≤2 ns | V~CC~/2 | 2 × V~CC~ | 30 pF | 500 Ω | 0.15 V |
 | 2.7 V | 2.7 V | ≤2.5 ns | 1.5 V | 6V | 50 pF | 500 Ω | 0.3 V |
 | 3.3 V ± 0.3 V | 2.7 V | ≤2.5 ns | 1.5 V | 6V | 50 pF | 500 Ω | 0.3 V |
 ```
@@ -190,9 +193,6 @@ SN74ALVC08IPWRQ1 | Reel of 2000 | -40 to 85 | VA08I
 SN74ALVC08IPWRG4Q1 | Reel of 2000 | -40 to 85 | VA08I
 ```
 
-The source also lists SN74ALVC08IDRQ1 (SOIC), which the catalog doesn't
-carry.
-
 ## Conversion notes
 
 - Source pages 1–4 converted; the package option addendum, tape and
@@ -203,5 +203,7 @@ carry.
   measurement figure (they do not apply to this part).
 - The Boolean function is garbled in the PDF text layer
   ("Y + A • B or Y + A ) B"); written as Y = A · B or Y = !{!{A} + !{B}}.
-- Packing of the parts comes from the package option addendum.
+- Packing of the parts comes from the package option addendum (page 5).
+- The ordering table on page 1 also lists SN74ALVC08IDRQ1 (SOIC), which
+  the catalog doesn't carry.
 - Source issues: none found.

@@ -24,14 +24,14 @@
 ## Description
 
 The SN74LVC1G11-Q1 performs the Boolean function Y = A • B • C or
-Y = !{!{A} + !{B} + !{C}} in positive logic. It supports 5-V V~CC~
-operation and its inputs accept voltages to 5.5 V.
+Y = !{!{A} + !{B} + !{C}} in positive logic. Supports 5-V V~CC~
+operation. Inputs accept voltages to 5.5 V.
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
 current backflow through the device when it is powered down.
 
-It is qualified for automotive applications.
+Qualified for automotive applications.
 
 ## Pinout
 
@@ -122,23 +122,23 @@ Y: Output
 ```table id=ec caption="Electrical characteristics" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | Parameter | Test conditions | V~CC~ | Min | Typ [1] | Max | Unit |
 |---|---|---|---|--:|--:|--:|---|
-| V~OH~ | High-level output voltage | I~OH~ = -100 µA | 1.65 V to 5.5 V | V~CC~ - 0.1 | | | V |
+| V~OH~ | | I~OH~ = -100 µA | 1.65 V to 5.5 V | V~CC~ - 0.1 | | | V |
 | ^ | ^ | I~OH~ = -4 mA | 1.65 V | 1.2 | | | V |
 | ^ | ^ | I~OH~ = -8 mA | 2.3 V | 1.9 | | | V |
 | ^ | ^ | I~OH~ = -16 mA | 3 V | 2.4 | | | V |
 | ^ | ^ | I~OH~ = -24 mA | ^ | 2.3 | | | V |
 | ^ | ^ | I~OH~ = -32 mA | 4.5 V | 3.8 | | | V |
-| V~OL~ | Low-level output voltage | I~OL~ = 100 µA | 1.65 V to 5.5 V | | | 0.1 | V |
+| V~OL~ | | I~OL~ = 100 µA | 1.65 V to 5.5 V | | | 0.1 | V |
 | ^ | ^ | I~OL~ = 4 mA | 1.65 V | | | 0.45 | V |
 | ^ | ^ | I~OL~ = 8 mA | 2.3 V | | | 0.3 | V |
 | ^ | ^ | I~OL~ = 16 mA | 3 V | | | 0.4 | V |
 | ^ | ^ | I~OL~ = 24 mA | ^ | | | 0.55 | V |
 | ^ | ^ | I~OL~ = 32 mA | 4.5 V | | | 0.55 | V |
 | I~I~ | All inputs | V~I~ = 5.5 V or GND | 0 to 5.5 V | | | ±5 | µA |
-| I~off~ | Partial-power-down leakage | V~I~ or V~O~ = 5.5 V | 0 | | | ±10 | µA |
-| I~CC~ | Supply current | V~I~ = 5.5 V or GND, I~O~ = 0 | 1.65 V to 5.5 V | | | 10 | µA |
-| ΔI~CC~ | Supply-current change | One input at V~CC~ - 0.6 V, other inputs at V~CC~ or GND | 3 V to 5.5 V | | | 500 | µA |
-| C~i~ | Input capacitance | V~I~ = V~CC~ or GND | 3.3 V | | 3.5 | | pF |
+| I~off~ | | V~I~ or V~O~ = 5.5 V | 0 | | | ±10 | µA |
+| I~CC~ | | V~I~ = 5.5 V or GND, I~O~ = 0 | 1.65 V to 5.5 V | | | 10 | µA |
+| ΔI~CC~ | | One input at V~CC~ - 0.6 V, other inputs at V~CC~ or GND | 3 V to 5.5 V | | | 500 | µA |
+| C~i~ | | V~I~ = V~CC~ or GND | 3.3 V | | 3.5 | | pF |
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25 °C.
 ```
@@ -147,11 +147,13 @@ Y: Output
 
 See [parameter measurement information](#parameter-measurement).
 
-```table id=sw caption="Switching characteristics" conditions="Over recommended operating free-air temperature range, C~L~ = 30 pF or 50 pF (unless otherwise noted) (see Figure 1)"
+```table id=sw caption="Switching characteristics [1]" conditions="Over recommended operating free-air temperature range, C~L~ = 30 pF or 50 pF (unless otherwise noted) (see Figure 1)"
 | Symbol | From (input) | To (output) | V~CC~ = 1.8 V ± 0.15 V | < | V~CC~ = 2.5 V ± 0.2 V | < | V~CC~ = 3.3 V ± 0.3 V | < | V~CC~ = 5 V ± 0.5 V | < | Unit |
 | ^ | ^ | ^ | Min | Max | Min | Max | Min | Max | Min | Max | ^ |
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A, B, or C | Y | 2.9 | 17.2 | 1.4 | 6.2 | 1.3 | 4.9 | 1 | 3.5 | ns |
+
+[1] Source conflict: this table gives a maximum t~pd~ of 4.9 ns at V~CC~ = 3.3 V ± 0.3 V; the features list (p.1) says "Max tpd of 4.1 ns at 3.3 V".
 ```
 
 ### Operating characteristics
@@ -170,11 +172,21 @@ generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. t~PLH~ and t~PHL~ are the same as t~pd~.
 
-The load circuit also has an R~L~ from the output to switch S1 (V~LOAD~,
-open or GND). S1 is open for t~PLH~/t~PHL~, which leaves the load below.
-The source figure also shows pulse-duration, setup/hold and
-enable/disable waveforms; all parameters and waveforms are not
-applicable to all devices.
+All parameters and waveforms are not applicable to all devices.
+
+Conversion note: the load circuit also has a second R~L~, from the output
+to switch S1, which goes to V~LOAD~, open or GND; the figure below draws
+the load with S1 open.
+Conversion note: the source figure also shows pulse-duration,
+setup-and-hold and enable/disable waveforms, which are not drawn here.
+
+```table id=s1 caption="Load circuit switch S1"
+| Test | S1 |
+|---|---|
+| t~PLH~/t~PHL~ | Open |
+| t~PLZ~/t~PZL~ | V~LOAD~ |
+| t~PHZ~/t~PZH~ | GND |
+```
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: see table
@@ -182,7 +194,8 @@ CL: see table
 ```
 
 ```table id=test-conditions caption="Test conditions (Figure 1)"
-| V~CC~ | V~I~ | t~r~/t~f~ | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
+| V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
+| ^ | V~I~ | t~r~/t~f~ | ^ | ^ | ^ | ^ | ^ |
 |---|---|---|---|---|---|---|---|
 | 1.8 V ± 0.15 V | V~CC~ | ≤ 2 ns | V~CC~/2 | 2 × V~CC~ | 30 pF | 1 kΩ | 0.15 V |
 | 2.5 V ± 0.2 V | V~CC~ | ≤ 2 ns | V~CC~/2 | 2 × V~CC~ | 30 pF | 500 Ω | 0.15 V |
@@ -207,17 +220,19 @@ SN74LVC1G11IDCKRQ1 | Reel of 3000 | -40 to 85 | 7LR
 
 ## Conversion notes
 
-- Source pages 1–5 converted; the package option addendum, tape and reel
-  and mechanical pages (6–13) dropped, replaced by the generated Package
-  and Ordering sections. The ordering row is from the ordering
-  information table on p.1.
+- Source pages 1–5 converted. The ordering line is from the package
+  option addendum (pp.6–7). The tape and reel and mechanical pages
+  (8–13) are left out; the generated Package section replaces them.
 - Dropped: features list, the logic diagram (one 3-input AND gate).
 - The pin descriptions are added; the source has no pin function table.
-  Parameter names in the electrical characteristics table are added
-  (the source gives symbols only).
+  The electrical characteristics table of the source gives symbols only,
+  so its Parameter cells are empty except for I~I~.
 - The load circuit is drawn with the shared R~L~ ∥ C~L~ figure; the
   second R~L~ and S1 are described in text.
 - The text layer prints "£2 ns", "1 kW", "500 W" and the Boolean function
   as "Y + A • B • C or Y + A ) B ) C"; the page images show ≤ 2 ns,
   1 kΩ, 500 Ω and Y = A • B • C or Y = !{!{A} + !{B} + !{C}} (pp.1, 5).
-- Source issues: none found.
+- Source issues:
+  - Source conflict: the features list says "Max tpd of 4.1 ns at 3.3 V"
+    (p.1); the switching characteristics give a maximum t~pd~ of 4.9 ns
+    at V~CC~ = 3.3 V ± 0.3 V (p.4).

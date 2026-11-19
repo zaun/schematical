@@ -27,10 +27,6 @@ This device contains two independent 4-input AND gates with
 Schmitt-trigger inputs. Each gate performs the Boolean function
 Y = A · B · C · D in positive logic.
 
-The Schmitt-trigger inputs have no input transition rate requirements,
-so slow or noisy input signals are allowed. Outputs are balanced CMOS
-push-pull outputs.
-
 ## Pinout
 
 ```pinout pinout=p14
@@ -51,8 +47,9 @@ NC: Not internally connected
 
 ## Functional description
 
-Logic diagram (one of two channels): a 4-input AND gate, inputs xA, xB,
-xC and xD, output xY.
+Conversion note: the functional block diagram shows one of two
+channels, a 4-input AND gate with inputs xA, xB, xC and xD and output
+xY.
 
 ### Balanced CMOS push-pull outputs
 
@@ -72,22 +69,24 @@ at all times.
 Standard CMOS inputs are high impedance and are typically modeled as a
 resistor in parallel with the input capacitance given in the
 [electrical characteristics](#electrical-characteristics). The worst
-case resistance is calculated with the maximum input voltage (absolute
-maximum ratings) and the maximum input leakage current (electrical
-characteristics), using ohm's law (R = V ÷ I). The Schmitt-trigger
-input architecture provides hysteresis as defined by ΔV~T~, which makes
-this device extremely tolerant to slow or noisy inputs. While the inputs
-can be driven much slower than standard CMOS inputs, it is still
-recommended to properly terminate unused inputs. Driving the inputs
-slowly will also increase dynamic current consumption of the device.
+case resistance is calculated with the maximum input voltage, given in
+the absolute maximum ratings, and the maximum input leakage current,
+given in the electrical characteristics, using ohm's law (R = V ÷ I).
+
+The Schmitt-trigger input architecture provides hysteresis as defined
+by ΔV~T~ in the electrical characteristics, which makes this device
+extremely tolerant to slow or noisy inputs. While the inputs can be
+driven much slower than standard CMOS inputs, it is still recommended
+to properly terminate unused inputs. Driving the inputs slowly will
+also increase dynamic current consumption of the device.
 
 ### Clamp diode structure
 
-The inputs and outputs have both positive and negative clamping diodes.
-Voltages beyond the values specified in the absolute maximum ratings
-table can cause damage to the device. The input negative-voltage and
-output voltage ratings may be exceeded if the input and output
-clamp-current ratings are observed.
+The inputs and outputs to this device have both positive and negative
+clamping diodes. Voltages beyond the values specified in the
+[Section 5.1](#absolute-maximum-ratings) table can cause damage to the
+device. The input negative-voltage and output voltage ratings may be
+exceeded if the input and output clamp-current ratings are observed.
 
 ```figure ref=clamp-diodes caption="Electrical placement of clamping diodes for each input and output"
 ```
@@ -156,10 +155,9 @@ clamp-current ratings are observed.
 | R~θJB~ | Junction-to-board thermal resistance | 94.7 | 89.5 | °C/W |
 | Ψ~JT~ | Junction-to-top characterization parameter | 25.2 | 45.5 | °C/W |
 | Ψ~JB~ | Junction-to-board characterization parameter | 94.1 | 89.1 | °C/W |
-| R~θJC(bot)~ | Junction-to-case (bottom) thermal resistance [2] | | | °C/W |
+| R~θJC(bot)~ | Junction-to-case (bottom) thermal resistance | N/A | N/A | °C/W |
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application note.
-[2] N/A for both packages.
 ```
 
 ## Electrical characteristics
@@ -228,8 +226,8 @@ See [parameter measurement information](#parameter-measurement).
  ]}
 ```
 
-The source also plots typical supply current against input voltage
-(V~CC~ = 2 V to 6 V).
+Conversion note: the source also plots typical supply current against
+input voltage (V~CC~ = 2 V to 6 V).
 
 ## Parameter measurement information
 
@@ -255,12 +253,110 @@ additional channel can be used individually or the inputs can be
 grounded and the channel left unused. The SN74HCS21 is used to drive
 the !{RESET} pin of the system controller. When any of the inputs to the
 gates become LOW, the controller will be disabled. The controller will
-only operate when all inputs are HIGH, indicating normal operation. In
-the source's block diagram the inputs are over current detection
-(!{OC}), power good (PG), an on/off switch (ON/!{OFF}) and a case tamper
-switch (CASE). All signals in the system operate at 5 V. All inputs
-must be HIGH for normal operation. Any input switching to LOW will
-force the output LOW.
+only operate when all inputs are HIGH, indicating normal operation.
+
+Conversion note: in the source's block diagram the inputs are over
+current detection (!{OC}), power good (PG), an on/off switch
+(ON/!{OFF}) and a case tamper switch (CASE).
+
+- All signals in the system operate at 5V
+- All inputs must be HIGH for normal operation
+- Any input switching to LOW will force the output LOW
+
+### Power considerations
+
+Ensure the desired supply voltage is within the range specified in the
+[recommended operating conditions](#recommended-operating-conditions).
+The supply voltage sets the device's electrical characteristics as
+described in the [electrical characteristics](#electrical-characteristics).
+
+The supply must be capable of sourcing current equal to the total
+current to be sourced by all outputs of the SN74HCS21 plus the maximum
+supply current, I~CC~, listed in the electrical characteristics. The
+logic device can only source or sink as much current as it is provided
+at the supply and ground pins, respectively. Be sure not to exceed the
+maximum total current through GND or V~CC~ listed in the absolute
+maximum ratings.
+
+The SN74HCS21 can drive a load with a total capacitance less than or
+equal to 50pF connected to a high-impedance CMOS input while still
+meeting all of the datasheet specifications. Larger capacitive loads
+can be applied, however it is not recommended to exceed 70pF.
+
+The maximum junction temperature, T~J(max)~ listed in the
+[Section 5.1](#absolute-maximum-ratings), is an additional limitation
+to prevent damage to the device. Do not violate any values listed in
+the Section 5.1. These limits are provided to prevent damage to the
+device.
+
+### Input considerations
+
+Input signals must cross V~t-(min)~ to be considered a logic LOW, and
+V~t+(max)~ to be considered a logic HIGH. Do not exceed the maximum
+input voltage range found in the absolute maximum ratings.
+
+Unused inputs must be terminated to either V~CC~ or ground. These can
+be directly terminated if the input is completely unused, or they can
+be connected with a pull-up or pull-down resistor if the input is to be
+used sometimes, but not always. A pull-up resistor is used for a
+default state of HIGH, and a pull-down resistor is used for a default
+state of LOW. The resistor size is limited by drive current of the
+controller, leakage current into the SN74HCS21, as specified in the
+electrical characteristics, and the desired input transition rate. A
+10kΩ resistor value is often used due to these factors.
+
+The SN74HCS21 has no input signal transition rate requirements because
+it has Schmitt-trigger inputs.
+
+Another benefit to having Schmitt-trigger inputs is the ability to
+reject noise. Noise with a large enough amplitude can still cause
+issues. To know how much noise is too much, please refer to the
+ΔV~T(min)~ in the electrical characteristics. This hysteresis value
+will provide the peak-to-peak limit.
+
+Unlike what happens with standard CMOS inputs, Schmitt-trigger inputs
+can be held at any valid value without causing huge increases in power
+consumption. The typical additional current caused by holding an input
+at a value other than V~CC~ or ground is plotted in the typical
+characteristics.
+
+### Output considerations
+
+The positive supply voltage is used to produce the output HIGH voltage.
+Drawing current from the output will decrease the output voltage as
+specified by the V~OH~ specification in the electrical characteristics.
+Similarly, the ground voltage is used to produce the output LOW
+voltage. Sinking current into the output will increase the output
+voltage as specified by the V~OL~ specification in the electrical
+characteristics.
+
+Source error: the source continues "The plots in and provide a typical
+relationship between output voltage and current for this device"; the
+figure references are missing, and the sentence is kept out.
+
+Unused outputs can be left floating.
+
+### Detailed design procedure
+
+1. Add a decoupling capacitor from V~CC~ to GND. The capacitor needs to
+   be placed physically close to the device and electrically close to
+   both the V~CC~ and GND pins.
+2. Ensure the capacitive load at the output is ≤ 70pF. This is not a
+   hard limit, however it will ensure optimal performance. This can be
+   accomplished by providing short, appropriately sized traces from the
+   SN74HCS21 to the receiving device.
+3. Ensure the resistive load at the output is larger than
+   (V~CC~ / 25mA) Ω. This will ensure that the maximum output current
+   from the [Section 5.1](#absolute-maximum-ratings) is not violated.
+   Most CMOS inputs have a resistive load measured in megaohms; much
+   larger than the minimum calculated above.
+4. Thermal issues are rarely a concern for logic gates.
+
+Source conflict: the procedure sizes the resistive load with 25mA; the
+absolute maximum ratings give a continuous output current I~O~ of
+±35 mA.
+
+### Application curves
 
 ```wavedrom id=app-timing caption="Application timing diagram"
 {"signal": [
@@ -275,54 +371,37 @@ force the output LOW.
 Source conflict: the timing diagram's fourth input is !{OT}; the block
 diagram's fourth input is CASE.
 
-Power: ensure the desired supply voltage is within the range specified
-in the [recommended operating conditions](#recommended-operating-conditions).
-The supply must be capable of sourcing current equal to the total
-current to be sourced by all outputs plus the maximum supply current
-I~CC~. The logic device can only source or sink as much current as it is
-provided at the supply and ground pins, respectively. Be sure not to
-exceed the maximum total current through GND or V~CC~ listed in the
-absolute maximum ratings. The maximum junction temperature T~J(max)~ is
-an additional limitation to prevent damage to the device. Each V~CC~
-terminal must have a good bypass capacitor to prevent power
-disturbance; a 0.1 µF capacitor is recommended. The 0.1 µF and 1 µF
-capacitors are commonly used in parallel. The bypass capacitor must be
-installed as close to the power terminal as possible.
+### Power supply recommendations
 
-Loads: the device can drive a load with a total capacitance less than
-or equal to 50 pF connected to a high-impedance CMOS input while still
-meeting all of the datasheet specifications. Larger capacitive loads
-can be applied, however it is not recommended to exceed 70 pF. Ensure
-the capacitive load at the output is ≤ 70 pF; this is not a hard limit,
-however it will ensure optimal performance. Ensure the resistive load
-at the output is larger than (V~CC~ / 25 mA) Ω. This will ensure that
-the maximum output current from the absolute maximum ratings is not
-violated.
+The power supply can be any voltage between the minimum and maximum
+supply voltage rating located in the
+[recommended operating conditions](#recommended-operating-conditions).
+Each V~CC~ terminal must have a good bypass capacitor to prevent power
+disturbance. A 0.1μF capacitor is recommended for this device. It is
+acceptable to parallel multiple bypass caps to reject different
+frequencies of noise. The 0.1μF and 1μF capacitors are commonly used in
+parallel. The bypass capacitor must be installed as close to the power
+terminal as possible for best results.
 
-Inputs: input signals must cross V~T-~(min) to be considered a logic
-LOW, and V~T+~(max) to be considered a logic HIGH. Do not exceed the
-maximum input voltage range found in the absolute maximum ratings.
-Unused inputs must be terminated to either V~CC~ or ground. These can be
-directly terminated if the input is completely unused, or they can be
-connected with a pull-up or pull-down resistor if the input is to be
-used sometimes, but not always. A 10 kΩ resistor value is often used.
-Noise with a large enough amplitude can still cause issues; ΔV~T~(min)
-will provide the peak-to-peak limit. Schmitt-trigger inputs can be held
-at any valid value without causing huge increases in power
-consumption.
+### Layout guidelines
 
-Outputs: drawing current from the output will decrease the output
-voltage as specified by V~OH~; sinking current into the output will
-increase the output voltage as specified by V~OL~. Unused outputs can
-be left floating.
+When using multiple-input and multiple-channel logic devices inputs
+must not ever be left floating. In many cases, functions or parts of
+functions of digital logic devices are unused; for example, when only
+two inputs of a triple-input AND gate are used or only 3 of the 4
+buffer gates are used. Such unused input pins must not be left
+unconnected because the undefined voltages at the outside connections
+result in undefined operational states. All unused inputs of digital
+logic devices must be connected to a logic high or logic low voltage,
+as defined by the input voltage specifications, to prevent them from
+floating. The logic level that must be applied to any particular unused
+input depends on the function of the device. Generally, the inputs are
+tied to GND or V~CC~, whichever makes more sense for the logic function
+or is more convenient.
 
-Layout: inputs must not ever be left floating. All unused inputs must
-be connected to a logic high or logic low voltage, as defined by the
-input voltage specifications. Generally, the inputs are tied to GND or
-V~CC~, whichever makes more sense for the logic function or is more
-convenient. The source's layout example uses a GND flood fill, places
-the bypass capacitor close to the device, ties unused inputs to V~CC~,
-and avoids 90° corners for signal lines.
+Conversion note: the source's layout example uses a GND flood fill,
+places the bypass capacitor close to the device, ties unused inputs to
+V~CC~, and avoids 90° corners for signal lines.
 
 ## Package
 
@@ -367,6 +446,9 @@ SN74HCS21PWR | Reel of 2000 | -40 to 125 | HCS21
     load as larger than (V~CC~ / 25mA) Ω to keep within the maximum
     output current of the absolute maximum ratings, which give I~O~
     ±35 mA.
+  - Conversion note: "Section 5.1" in the source's text is its
+    Absolute Maximum Ratings section; the words are kept and linked to
+    that section.
   - Source error: the output considerations say "The plots in and
     provide a typical relationship between output voltage and current";
     the figure references are missing in the source, and the sentence

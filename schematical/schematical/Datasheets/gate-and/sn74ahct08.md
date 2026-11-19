@@ -28,11 +28,12 @@ devices perform the Boolean function Y = A × B or Y = !{!{A} + !{B}} in
 positive logic.
 
 Inputs are TTL-voltage compatible; the TTL inputs allow up translation
-from 3.3 V to 5 V. SN74AHCT08 is specified from –40 °C to 125 °C,
-SN54AHCT08 from –55 °C to 125 °C. On products compliant to
-MIL-PRF-38535, all parameters are tested unless otherwise noted. On all
-other products, production processing does not necessarily include
-testing of all parameters.
+from 3.3 V to 5 V. On products compliant to MIL-PRF-38535, all
+parameters are tested unless otherwise noted. On all other products,
+production processing does not necessarily include testing of all
+parameters. Conversion note: SN74AHCT08 is specified from –40 °C to
+125 °C and SN54AHCT08 from –55 °C to 125 °C (recommended operating
+conditions).
 
 ## Pinout
 
@@ -56,12 +57,15 @@ NC: No internal connection
 ## Functional description
 
 The SNx4AHCT08 devices are quadruple 2-input positive-AND gates with low
-drive that will produce slow rise and fall times [1]. This slow transition
+drive that will produce slow rise and fall times. This slow transition
 reduces ringing on the output signal. The device has TTL inputs that
 allow up translation from 3.3 V to 5 V. The inputs are high impedance
 when V~CC~ = 0 V.
 
-[1] Source conflict: Overview (p.9) says low drive with slow rise and fall times; Design Requirements (p.10) says balanced output drive whose high drive will create fast edges into light loads. Both kept.
+Source conflict: the Overview (p.9) says low drive with slow rise and
+fall times, while the Design Requirements (p.10) say balanced output
+drive whose high drive will create fast edges into light loads; both
+are kept.
 
 ## Function tables
 
@@ -87,13 +91,19 @@ when V~CC~ = 0 V.
 | | Continuous current through V~CC~ or GND | | | ±50 | mA |
 | T~stg~ | Storage temperature range | | -65 | 150 | °C |
 | T~J~ | Junction temperature | | | 150 | °C |
-| V~(ESD)~ | Electrostatic discharge, human-body model (HBM) [3] | ANSI/ESDA/JEDEC JS-001 | | ±2000 | V |
-| ^ | Electrostatic discharge, charged-device model (CDM) [4] | JEDEC JESD22-C101 | | ±1000 | V |
 
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, which do not imply functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
-[3] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process. Manufacturing with less than 500-V HBM is possible with the necessary precautions.
-[4] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process. Manufacturing with less than 250-V CDM is possible with the necessary precautions.
+```
+
+```table id=esd caption="ESD ratings"
+| Symbol | Parameter | Conditions | Value | Unit |
+|---|---|---|--:|---|
+| V~(ESD)~ | Electrostatic discharge | Human-body model (HBM), per ANSI/ESDA/JEDEC JS-001 [1] | ±2000 | V |
+| ^ | ^ | Charged-device model (CDM), per JEDEC specification JESD22-C101 [2] | ±1000 | V |
+
+[1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process. Manufacturing with less than 500-V HBM is possible with the necessary precautions.
+[2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process. Manufacturing with less than 250-V CDM is possible with the necessary precautions.
 ```
 
 ## Recommended operating conditions
@@ -125,8 +135,9 @@ when V~CC~ = 0 V.
 | R~θJB~ | Junction-to-board thermal resistance | 81 | 56.9 | 66.3 | 39.5 | 56.8 | °C/W |
 | ψ~JT~ | Junction-to-top characterization parameter | 37 | 22.6 | 7.8 | 32.4 | 9.9 | °C/W |
 | ψ~JB~ | Junction-to-board characterization parameter | 80.6 | 56.3 | 56.6 | 39.4 | 56.7 | °C/W |
+| R~θJC(bot)~ | Junction-to-case (bottom) thermal resistance | | | | | | °C/W |
 
-[1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report, (SPRA953). All packages 14 pins. R~θJC(bot)~ (junction-to-case, bottom) is N/A for all of them.
+[1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report, (SPRA953). Conversion note: all packages are 14 pins, and the source prints N/A in every column of the R~θJC(bot)~ row.
 ```
 
 ## Electrical characteristics
@@ -197,9 +208,10 @@ See [parameter measurement information](#parameter-measurement).
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
-time with one input transition per measurement. C~L~ is 15 pF or 50 pF,
-as given in the [switching characteristics](#sw). Inputs swing 0 V to
-3 V and are measured at 1.5 V; outputs are measured at 50 % V~CC~.
+time with one input transition per measurement. Conversion note: C~L~ is
+15 pF or 50 pF, as given in the [switching characteristics](#sw), and
+in the source figure inputs swing 0 V to 3 V and are measured at 1.5 V,
+outputs at 50 % V~CC~.
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 15 pF or 50 pF
@@ -209,9 +221,10 @@ CL: 15 pF or 50 pF
 VM: 1.5 V (input), 50 % VCC (output)
 ```
 
-The source figure also shows the 3-state and open-drain load circuit,
-pulse-duration, setup-and-hold and enable/disable waveforms; all
-parameters and waveforms are not applicable to all devices.
+Conversion note: the source figure also shows the 3-state and open-drain
+load circuit, pulse-duration, setup-and-hold and enable/disable
+waveforms. All parameters and waveforms are not applicable to all
+devices.
 
 ## Application information
 
@@ -223,8 +236,8 @@ The SNx4AHCT08 devices are low-drive CMOS devices that can be used for a
 multitude of bus-interface type applications where output ringing is a
 concern. The low drive and slow edge rates will minimize overshoot and
 undershoot on the outputs. The TTL inputs can except [sic] voltages down
-to 3.3 V and translate up to 5 V. Typical application (Figure 9-1): a
-3.3-V bus driver drives the gate inputs; the gate runs from a 5 V
+to 3.3 V and translate up to 5 V. Conversion note: in the typical
+application (Figure 9-1) a 3.3-V bus driver drives the gate inputs; the gate runs from a 5 V
 regulated V~CC~ bypassed with 0.1 µF, and its output drives a 5-V
 accessory.
 
@@ -297,11 +310,13 @@ the part is a transceiver.
 
 ```ordering
 SN74AHCT08BQAR | Reel of 3000 | -40 to 125 | AHCT08
+SN74AHCT08D | | -40 to 125 | AHCT08 | Obsolete
 SN74AHCT08DBR | Reel of 2000 | -40 to 125 | HB08
 SN74AHCT08DGVR | Reel of 2000 | -40 to 125 | HB08
 SN74AHCT08DR | Reel of 2500 | -40 to 125 | AHCT08
-SN74AHCT08N | Tube of 25 | -40 to 125 | SN74AHCT08N
-SN74AHCT08NSR | Reel of 2000 | -40 to 125 | AHCT08
+SN74AHCT08N | Tube of 25 | -40 to 125 | SN74AHCT08N | NRND
+SN74AHCT08NSR | Reel of 2000 | -40 to 125 | AHCT08 | NRND
+SN74AHCT08PW | | -40 to 125 | HB08 | Obsolete
 SN74AHCT08PWR | Reel of 2000 | -40 to 125 | HB08
 SN74AHCT08PWRG4 | Reel of 2000 | -40 to 125 | HB08
 SN74AHCT08RGYR | Reel of 3000 | -40 to 125 | HB08
@@ -313,9 +328,6 @@ SNJ54AHCT08W | Tube of 25 | -55 to 125 | 5962-9682101QDA SNJ54AHCT08W
 5962-9682101Q2A | Tube of 55 | -55 to 125 | 5962-9682101Q2A SNJ54AHCT08FK
 SNJ54AHCT08FK | Tube of 55 | -55 to 125 | 5962-9682101Q2A SNJ54AHCT08FK
 ```
-
-The package option addendum lists SN74AHCT08D and SN74AHCT08PW as
-obsolete, and SN74AHCT08N and SN74AHCT08NSR as NRND.
 
 ## Conversion notes
 
@@ -329,7 +341,7 @@ obsolete, and SN74AHCT08N and SN74AHCT08NSR as NRND.
   oscilloscope-style plot of V~I~ and the ACT08, HCT08 and AHCT08 outputs
   at V~CC~ = 5 V, load 50 Ω/50 pF); it is not a characteristic of this
   part alone.
-- The ESD ratings table is merged into Absolute maximum ratings.
+- The ordering block follows the package option addendum (pp.13–14).
 - The TPD curve is digitized from Figure 6-1 to about 2 % of full scale;
   the source states no load or V~CC~ for it.
 - The typical application circuit (Figure 9-1) is described in text.

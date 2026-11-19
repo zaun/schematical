@@ -24,16 +24,19 @@
 ## Description
 
 This single 2-input positive-AND gate performs the Boolean function
-Y = A • B or Y = !{!{A} + !{B}} in positive logic. It is AEC-Q100
-qualified (device temperature grade 1: –40 °C to 125 °C ambient
-operating temperature range).
+Y = A • B or Y = !{!{A} + !{B}} in positive logic. AEC-Q100
+qualified with the following results: device temperature grade 1: –40°C
+to 125°C ambient operating temperature range.
 
 The AUP family is TI's solution to the low-power needs of the industry
 in battery-powered portable applications. This family ensures a very low
 static- and dynamic-power consumption across the entire V~CC~ range of
-0.8 V to 3.6 V. Inputs and outputs are 3.6-V tolerant, and the inputs
-have Schmitt-trigger action, which allows slow input transition and
-better switching noise immunity at the input.
+0.8 V to 3.6 V.
+
+3.6-V input/output (I/O) tolerant to support mixed-mode
+signal operation. Schmitt-trigger action allows slow input transition
+and better switching noise immunity at the input (V~hys~ = 250 mV, Typ
+at 3.3 V).
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
@@ -105,7 +108,7 @@ VCC: Supply voltage
 | I~OH~ | High-level output current | V~CC~ = 0.8 V | | -20 | µA |
 | ^ | ^ | V~CC~ = 1.1 V | | -1.1 | mA |
 | ^ | ^ | V~CC~ = 1.4 V | | -1.7 | mA |
-| ^ | ^ | V~CC~ = 1.65 V | | -1.9 | mA |
+| ^ | ^ | V~CC~ = 1.65 | | -1.9 | mA |
 | ^ | ^ | V~CC~ = 2.3 V | | -3.1 | mA |
 | ^ | ^ | V~CC~ = 3 V | | -4 | mA |
 | I~OL~ | Low-level output current | V~CC~ = 0.8 V | | 20 | µA |
@@ -130,10 +133,9 @@ VCC: Supply voltage
 | θ~JB~ | Junction-to-board thermal resistance | 80.3 | °C/W |
 | ψ~JT~ | Junction-to-top characterization parameter | 3.5 | °C/W |
 | ψ~JB~ | Junction-to-board characterization parameter | 79.4 | °C/W |
-| θ~JCbot~ | Junction-to-case (bottom) thermal resistance [2] | | °C/W |
+| θ~JCbot~ | Junction-to-case (bottom) thermal resistance | N/A | °C/W |
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report, SPRA953.
-[2] The source gives N/A for this metric.
 ```
 
 ## Electrical characteristics
@@ -142,7 +144,7 @@ VCC: Supply voltage
 | Symbol | Parameter | Test conditions | V~CC~ | T~A~ = 25 °C | < | < | T~A~ = –40 °C to 85 °C | < | T~A~ = 125 °C | < | Unit |
 | ^ | ^ | ^ | ^ | Min | Typ | Max | Min | Max | Min | Max | ^ |
 |---|---|---|---|--:|--:|--:|--:|--:|--:|--:|---|
-| V~OH~ | High-level output voltage | I~OH~ = -20 μA | 0.8 V to 3.6 V | V~CC~ - 0.1 | | | V~CC~ - 0.1 | | V~CC~ - 0.1 | | V |
+| V~OH~ | | I~OH~ = -20 μA | 0.8 V to 3.6 V | V~CC~ - 0.1 | | | V~CC~ - 0.1 | | V~CC~ - 0.1 | | V |
 | ^ | ^ | I~OH~ = -1.1 mA | 1.1 V | 0.75 × V~CC~ | | | 0.7 × V~CC~ | | 0.7 × V~CC~ | | V |
 | ^ | ^ | I~OH~ = -1.7 mA | 1.4 V | 1.11 | | | 1.03 | | 1.03 | | V |
 | ^ | ^ | I~OH~ = -1.9 mA | 1.65 V | 1.32 | | | 1.3 | | 1.3 | | V |
@@ -150,7 +152,7 @@ VCC: Supply voltage
 | ^ | ^ | I~OH~ = -3.1 mA | 2.3 V | 1.9 | | | 1.85 | | 1.85 | | V |
 | ^ | ^ | I~OH~ = -2.7 mA | 3 V | 2.72 | | | 2.67 | | 2.67 | | V |
 | ^ | ^ | I~OH~ = -4 mA | 3 V | 2.6 | | | 2.55 | | 2.55 | | V |
-| V~OL~ | Low-level output voltage | I~OL~ = 20 μA | 0.8 V to 3.6 V | | | 0.1 | | 0.1 | | 0.1 | V |
+| V~OL~ | | I~OL~ = 20 μA | 0.8 V to 3.6 V | | | 0.1 | | 0.1 | | 0.1 | V |
 | ^ | ^ | I~OL~ = 1.1 mA | 1.1 V | | | 0.3 × V~CC~ | | 0.3 × V~CC~ | | 0.3 × V~CC~ | V |
 | ^ | ^ | I~OL~ = 1.7 mA | 1.4 V | | | 0.31 | | 0.37 | | 0.37 | V |
 | ^ | ^ | I~OL~ = 1.9 mA | 1.65 V | | | 0.31 | | 0.35 | | 0.35 | V |
@@ -223,7 +225,7 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 1.5 | 4.7 | 6.2 | 1 | 7.5 | 1 | 8.7 | ns |
 ```
 
-The source gives 125 °C switching limits only for C~L~ = 30 pF.
+Conversion note: the source gives 125 °C switching limits only for C~L~ = 30 pF.
 
 ```table id=op caption="Operating characteristics" conditions="T~A~ = 25 °C"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
@@ -242,9 +244,17 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω, slew rate ≥ 1 V/ns. The outputs are measured one at a time,
 with one transition per measurement. t~PLH~ and t~PHL~ are the same as
-t~pd~. V~I~ = V~CC~ and V~M~ = V~CC~/2 at every V~CC~ (0.8 V to
-3.3 V ± 0.3 V). The source heads the test-condition table
-"T~A~ = -25°C to 85°C" (see [Conversion notes](#conversion-notes)).
+t~pd~.
+
+```table id=pmi-conditions caption="Load circuit test conditions, T~A~ = -25°C to 85°C [1]"
+| | V~CC~ = 0.8 V | V~CC~ = 1.2 V ± 0.1 V | V~CC~ = 1.5 V ± 0.1 V | V~CC~ = 1.8 V ± 0.15 V | V~CC~ = 2.5 V ± 0.2 V | V~CC~ = 3.3 V ± 0.3 V |
+|---|---|---|---|---|---|---|
+| C~L~ | 5, 10, 15, 30 pF | 5, 10, 15, 30 pF | 5, 10, 15, 30 pF | 5, 10, 15, 30 pF | 5, 10, 15, 30 pF | 5, 10, 15, 30 pF |
+| V~M~ | V~CC~/2 | V~CC~/2 | V~CC~/2 | V~CC~/2 | V~CC~/2 | V~CC~/2 |
+| V~I~ | V~CC~ | V~CC~ | V~CC~ | V~CC~ | V~CC~ | V~CC~ |
+
+[1] Unconfirmed: the source heads this table T~A~ = -25°C to 85°C, while the device is specified from –40°C to 125°C.
+```
 
 ```figure ref=load-rl-cl caption="Load circuit"
 RL: 1 MΩ
@@ -266,9 +276,8 @@ VM: VCC/2
 SN74AUP1G08QDCKRQ1 | Reel of 3000 | -40 to 125 | SIJ, SIT
 ```
 
-The source's ordering information table gives top-side marking SIT; the package option
-addendum lists (SIJ, SIT). The catalog version, SN74AUP1G08, has its own
-datasheet.
+Source conflict: the ordering information table on p.2 gives top-side marking SIT, and the package option
+addendum on p.9 gives (SIJ, SIT). Conversion note: the package option addendum (p.9) names the catalog version of this device, SN74AUP1G08.
 
 ## Conversion notes
 
@@ -291,3 +300,5 @@ datasheet.
   - Unconfirmed: the parameter-measurement test-condition tables in
     Figures 3 and 4 are headed "T~A~ = -25°C to 85°C", while the device
     is specified from –40 °C to 125 °C (p.7–8).
+  - Source conflict: top-side marking SIT in the ordering information
+    table (p.2), (SIJ, SIT) in the package option addendum (p.9).

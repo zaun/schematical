@@ -24,8 +24,8 @@
 ## Description
 
 This device contains three independent 3-input AND gates. Each gate
-performs the Boolean function Y = A × B × C in positive logic. It
-operates from 1.1V to 3.6V, and its input pins are 5.5V tolerant.
+performs the Boolean function Y = A × B × C in positive logic. Operating
+range from 1.1V to 3.6V. 5.5V tolerant input pins.
 
 ## Pinout
 
@@ -43,12 +43,12 @@ GND: Ground
 VCC: Positive supply
 ```
 
-BQA package only: the thermal pad can be connected to GND or left
-floating. Do not connect to any other signal or supply.
+The thermal pad can be connected to GND or left floating. Do not connect
+to any other signal or supply. BQA package only.
 
 ## Functional description
 
-Logic diagram: inputs xA, xB and xC of each gate drive output xY.
+Conversion note: the functional block diagram shows inputs xA, xB and xC of each gate driving output xY.
 
 Standard CMOS inputs are high impedance and are typically modeled as a
 resistor from the input to ground in parallel with the input capacitance
@@ -172,6 +172,7 @@ clamp-current ratings are observed.
 
 ```table id=thermal caption="Thermal information [1]"
 | Symbol | Parameter | PW (TSSOP) | D (SOIC) | BQA (WQFN) | Unit |
+| ^ | ^ | 14 pins | 14 pins | 14 pins | ^ |
 |---|---|--:|--:|--:|---|
 | R~θJA~ | Junction-to-ambient thermal resistance | 150.8 | 127.8 | 102.3 | °C/W |
 | R~θJC(top)~ | Junction-to-case (top) thermal resistance | 78.3 | 81.9 | 96.8 | °C/W |
@@ -180,7 +181,7 @@ clamp-current ratings are observed.
 | Ψ~JB~ | Junction-to-board characterization parameter | 93.2 | 83.9 | 70.9 | °C/W |
 | R~θJC(bot)~ | Junction-to-case (bottom) thermal resistance | | | 50.1 | °C/W |
 
-[1] All packages 14 pins. For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
+[1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 ```
 
 ## Electrical characteristics
@@ -247,8 +248,11 @@ pulses are supplied by generators having the following characteristics:
 PRR ≤ 1MHz, Z~O~ = 50Ω, t~t~ ≤ 2.5ns. The outputs are measured
 individually with one input transition per measurement. C~L~ includes
 probe and test-fixture capacitance. The greater between t~PLH~ and
-t~PHL~ is the same as t~pd~; the greater between t~r~ and t~f~ is the
-same as t~t~. Inputs are measured at V~t~, outputs at 50 %.
+t~PHL~ is the same as t~pd~. The greater between t~r~ and t~f~ is the
+same as t~t~.
+
+Conversion note: the waveforms measure the input at V~t~ and the outputs
+at 50%; the transition times are measured between 10% and 90%.
 
 ```table id=pmi caption="Test conditions"
 | V~CC~ | V~t~ | R~L~ | C~L~ | ΔV |
@@ -277,11 +281,15 @@ component specification, and TI does not warrant its accuracy or
 completeness.
 
 In this application, this device is used to directly control the RESET
-pin of a motor controller. The controller requires three input signals
-(power good PG, ON/OFF and over-current detection OC) to all be HIGH
+pin of a motor controller. The controller requires three input signals to all be HIGH
 before being enabled, and should be disabled in the event that any one
 signal goes LOW. The 3-input AND gate function combines the three
 individual reset signals into a single active-low reset signal.
+
+Conversion note: the typical application schematic (Figure 8-1) names
+the three input signals PG (from the power supply), ON/OFF (from the
+on/off switch) and OC (from the over current detection); the gate output
+drives RESET of the motor controller.
 
 Power considerations: ensure the desired supply voltage is within the
 range specified in the
@@ -321,10 +329,13 @@ reliability.
 ```figure ref=clamp-diodes caption="Electrical placement of clamping diodes for each input and output (negative clamps only)"
 ```
 
-Output considerations: drawing current from the output will decrease the
-output voltage as specified by the V~OH~ specification; sinking current
-into the output will increase the output voltage as specified by the
-V~OL~ specification. Push-pull outputs that could be in opposite states,
+Output considerations: The positive supply voltage is used to produce
+the output HIGH voltage. Drawing current from the output will decrease
+the output voltage as specified by the V~OH~ specification in the
+Electrical Characteristics. The ground voltage is used to produce the
+output LOW voltage. Sinking current into the output will increase the
+output voltage as specified by the V~OL~ specification in the Electrical
+Characteristics. Push-pull outputs that could be in opposite states,
 even for a very short time period, should never be connected directly
 together. This can cause excessive current and damage to the device. Two
 channels within the same device with the same input signals can be
@@ -360,10 +371,13 @@ inputs must not ever be left floating. All unused inputs of digital logic
 devices must be connected to a logic high or logic low voltage, as
 defined by the input voltage specifications, to prevent them from
 floating. Generally, the inputs are tied to GND or V~CC~, whichever makes
-more sense for the logic function or is more convenient. Example layout:
-unused inputs tied to GND or V~CC~; unused output left floating; bypass
-capacitor placed close to the device; avoid 90° corners for signal
-lines.
+more sense for the logic function or is more convenient.
+
+Conversion note: the example layout (Figure 8-3) carries these labels:
+unused inputs tied to GND, unused input tied to V~CC~, unused output
+left floating, bypass capacitor (0.1 μF) placed close to the device,
+avoid 90° corners for signal lines, and recommend GND flood fill for
+improved signal isolation, noise reduction, and thermal dissipation.
 
 ## Package
 
@@ -380,7 +394,7 @@ lines.
 
 ```ordering
 SN74LVC11ABQAR | Reel of 3000 | -40 to 125 | LVC11A
-SN74LVC11ADR | Reel of 3000 | -40 to 125 | (LVC11A, LVC11AQ)
+SN74LVC11ADR | Reel of 3000 | -40 to 125 | LVC11A, LVC11AQ
 SN74LVC11APWR | Reel of 3000 | -40 to 125 | LVC11A
 ```
 
@@ -395,8 +409,8 @@ SN74LVC11APWR | Reel of 3000 | -40 to 125 | LVC11A
   the example layout (Figure 8-3) are described in text.
 - Not converted: typical characteristics (Figures 5-1 to 5-13, supply
   current vs input and supply voltage, output voltage vs output current).
-- The PDF text layer prints Ψ~JB~ as "YJB" (symbol font); the page
-  image shows Ψ~JB~.
+- From images: Ψ~JB~ (thermal information table, p.5; the text layer
+  prints "YJB").
 - Source issues:
   - Source error: the V~OL~ rows of the electrical characteristics give
     their test currents as I~OH~ (p.5); the recommended operating

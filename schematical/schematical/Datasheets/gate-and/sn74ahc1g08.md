@@ -24,17 +24,19 @@
 ## Description
 
 The SN74AHC1G08 device is a single 2-input positive-AND gate. The device
-performs the Boolean function Y = A ● B in positive logic [1].
+performs the Boolean function Y = A ● B in positive logic.
 
 The SN74AHC1G08 device has a wide operating V~CC~ range of 2 V to 5.5 V,
 which allows it to be used in a broad range of systems. The low
 propagation delay allows fast switching and higher operation speeds. In
 addition, the low-power consumption makes this device a good choice for
-portable and battery power-sensitive applications. The source lists
-Schmitt-trigger action at all inputs, which makes the circuit tolerant
-for slower input rise and fall time.
+portable and battery power-sensitive applications. Schmitt-trigger
+action at all inputs makes the circuit tolerant for slower input rise
+and fall time.
 
-[1] Source error: the Description (p.1) and Overview (p.8) print the second form as Y = !{A + B} (a NOR); the function table (Table 7-1) gives Y = H only when A and B are both H. Kept out.
+Source error: the Description (p.1) and Overview (p.8) print a second
+form, Y = !{A + B} (a NOR), while the function table (Table 7-1) gives
+Y = H only when A and B are both H; the second form is kept out.
 
 ## Pinout
 
@@ -77,13 +79,19 @@ VCC: Power
 | | Continuous current through V~CC~ or GND | | | ±50 | mA |
 | T~J~ | Junction temperature | | | 150 | °C |
 | T~stg~ | Storage temperature | | -65 | 150 | °C |
-| V~(ESD)~ | Electrostatic discharge, human body model (HBM), all pins [3] | ANSI/ESDA/JEDEC JS-001 | | ±2000 | V |
-| ^ | Electrostatic discharge, charged-device model (CDM), all pins [4] | JEDEC JESD22-C101 | | ±1000 | V |
 
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
-[3] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
-[4] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
+```
+
+```table id=esd caption="ESD ratings"
+| Symbol | Parameter | Conditions | Value | Unit |
+|---|---|---|--:|---|
+| V~(ESD)~ | Electrostatic discharge | Human body model (HBM), per ANSI/ESDA/JEDEC JS-001, all pins [1] | ±2000 | V |
+| ^ | ^ | Charged-device model (CDM), per JEDEC specification JESD22-C101, all pins [2] | ±1000 | V |
+
+[1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
+[2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
 
 ## Recommended operating conditions
@@ -120,7 +128,7 @@ VCC: Power
 |---|---|--:|--:|--:|---|
 | R~θJA~ | Junction-to-ambient thermal resistance | 278 | 289.2 | 142 | °C/W |
 
-[1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report, SPRA953. All packages 5 pins.
+[1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report, SPRA953. Conversion note: all packages are 5 pins.
 ```
 
 ## Electrical characteristics
@@ -194,8 +202,8 @@ See [parameter measurement information](#parameter-measurement).
  ]}
 ```
 
-Figure 5-1 (response time vs output voltage, T~A~ = 25 °C, V~A~ = 5 V) is
-not converted: it shows two output edges rising from 0 V to 5 V near
+Conversion note: Figure 5-1 (response time vs output voltage,
+T~A~ = 25 °C, V~A~ = 5 V) is not converted; it shows two output edges rising from 0 V to 5 V near
 20 ns and 26 ns on a 0–50 ns axis, with no labels for the traces.
 
 ## Parameter measurement information
@@ -203,8 +211,9 @@ not converted: it shows two output edges rising from 0 V to 5 V near
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
-time with one input transition per measurement. C~L~ is 15 pF or 50 pF,
-as given in the [switching characteristics](#switching-characteristics).
+time with one input transition per measurement. Conversion note: C~L~ is
+15 pF or 50 pF, as given in the
+[switching characteristics](#switching-characteristics).
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 15 pF or 50 pF
@@ -214,9 +223,10 @@ CL: 15 pF or 50 pF
 VM: 50 % VCC
 ```
 
-The source figure also shows the 3-state and open-drain load circuit,
-pulse-duration, setup-and-hold and enable/disable waveforms; all
-parameters and waveforms are not applicable to all devices.
+Conversion note: the source figure also shows the 3-state and open-drain
+load circuit, pulse-duration, setup-and-hold and enable/disable
+waveforms. All parameters and waveforms are not applicable to all
+devices.
 
 ## Application information
 
@@ -226,8 +236,8 @@ completeness.
 
 A common application for AND gates is their use in power sequencing.
 Using the SN74AHC1G08 to verify that the processor has turned on can
-protect it from any harmful signals. Power sequencing application
-(Figure 8-1): input A is tied to V~CC~ = 5 V, the MCU (MSP43x) drives
+protect it from any harmful signals. Conversion note: in the power
+sequencing application (Figure 8-1) input A is tied to V~CC~ = 5 V, the MCU (MSP43x) drives
 input B, Y drives the EN input of a temperature sensor, and the sensor's
 V~O~ returns to the MCU.
 
@@ -241,15 +251,17 @@ operation.
   [recommended operating conditions](#recommended-operating-conditions).
 - High and low levels: see V~IH~ and V~IL~ in the same table.
 - Inputs and outputs are overvoltage tolerant and can therefore go as
-  high as 5.5 V at any valid V~CC~ [1].
-- Load currents should not exceed ±50 mA [2].
+  high as 5.5 V at any valid V~CC~. Source conflict: the absolute
+  maximum ratings limit V~O~ to V~CC~ + 0.5 V and the recommended
+  operating conditions limit V~O~ to V~CC~; only the inputs are rated to
+  5.5 V.
+- Load currents should not exceed ±50 mA. Source conflict: the absolute
+  maximum continuous output current is ±25 mA; ±50 mA is the rating for
+  the current through V~CC~ or GND.
 - The effects of frequency upon the device's power consumption should be
   studied in CMOS Power Consumption and CPD Calculation, SCAA035.
 - Added trace resistance and capacitance can reduce maximum frequency
   capability.
-
-[1] Source conflict: the absolute maximum ratings limit V~O~ to V~CC~ + 0.5 V and the recommended operating conditions limit V~O~ to V~CC~; only the inputs are rated to 5.5 V.
-[2] Source conflict: the absolute maximum continuous output current is ±25 mA; ±50 mA is the rating for the current through V~CC~ or GND.
 
 Power supply: any voltage between the minimum and maximum supply voltage
 rating listed in the
@@ -281,22 +293,24 @@ trace width and minimize reflections.
 ## Ordering information
 
 ```ordering
+SN74AHC1G08DBV3 | | -55 to 125 | A08Y | Obsolete
 SN74AHC1G08DBVR | Reel of 3000 | -55 to 125 | 38EH, 3BVF, A083, A08G, A08J, A08L, A08S
 SN74AHC1G08DBVRE4 | Reel of 3000 | -55 to 125 | A08G
 SN74AHC1G08DBVRG4 | Reel of 3000 | -55 to 125 | A08G
+SN74AHC1G08DBVT | | -55 to 125 | A083, A08G, A08J, A08S | Obsolete
 SN74AHC1G08DBVTG4 | Reel of 250 | -55 to 125 | A08G
 SN74AHC1G08DCKR | Reel of 3000 | -55 to 125 | 1B9, AE3, AEG, AEJ, AEL, AES
 SN74AHC1G08DCKRE4 | Reel of 3000 | -55 to 125 | AE3
 SN74AHC1G08DCKRG4 | Reel of 3000 | -55 to 125 | AE3
+SN74AHC1G08DCKT | | -55 to 125 | AE3, AEG, AEJ, AES | Obsolete
 SN74AHC1G08DCKTE4 | Reel of 250 | -55 to 125 | AE3
 SN74AHC1G08DCKTG4 | Reel of 250 | -55 to 125 | AE3
 SN74AHC1G08DRLR | Reel of 4000 | -55 to 125 | AEB, AES
 SN74AHC1G08DRLRG4 | Reel of 4000 | -55 to 125 | AEB, AES
 ```
 
-The package option addendum lists SN74AHC1G08DBV3, SN74AHC1G08DBVT and
-SN74AHC1G08DCKT as obsolete. Where several markings are listed, only one
-appears on a part.
+Multiple part markings will be inside parentheses. Only one part marking
+contained in parentheses will appear on a part.
 
 ## Conversion notes
 
@@ -307,7 +321,7 @@ appears on a part.
   as one sentence), package information table, logic diagram (one AND
   gate), the trace example drawing (Figure 8-4, summarized in one
   sentence), the generic multiple-V~CC~ and dual-supply bypass advice.
-- The ESD ratings table is merged into Absolute maximum ratings.
+- The ordering block follows the package option addendum (p.12).
 - Curves digitized from Figures 8-2 and 8-3 to about 2 % of full scale.
 - From images: MCU (MSP43x), EN, V~O~ (Figure 8-1, p.9); 20, 26 (edge
   times read from Figure 5-1, p.6).

@@ -23,21 +23,27 @@
 
 ## Description
 
-This dual 2-input positive-AND gate is designed for 0.8-V to 3.6-V V~CC~
+This dual 2-input positive-AND gate is designed for 0.8V to 3.6V V~CC~
 operation and performs the Boolean function Y = A ● B in positive logic.
-The AUP family ensures a very low static- and dynamic-power consumption
-across the entire V~CC~ range of 0.8 V to 3.6 V. Inputs have
-Schmitt-trigger action; inputs and outputs are 3.6-V tolerant.
+
+The AUP family is TI's solution to the industry's low-power needs in
+battery-powered portable applications. This family ensures a very low
+static- and dynamic-power consumption across the entire V~CC~ range of
+0.8V to 3.6V. Schmitt-trigger action allows slow input transition and
+better switching noise immunity at the input (V~hys~ = 250mV Typ at
+3.3V).
+
+3.6V I/O tolerant to support mixed-mode signal operation.
 
 This device is fully specified for partial-power-down applications using
-I~off~. The I~off~ circuitry disables the outputs when V~CC~ = 0 V,
+I~off~. The I~off~ circuitry disables the outputs when V~CC~ = 0V,
 preventing damaging current backflow through the device when it is
 powered down.
 
 ## Pinout
 
-DCU and DQE share one pin order; the RSE (UQFN) package has its own
-(1Y on pin 1, 1A on pin 7). YFP and YZP share one ball map.
+Conversion note: DCU and DQE share one pin order, and the RSE (UQFN) package has its own
+(1Y on pin 1, 1A on pin 7). Conversion note: YFP and YZP share one ball map.
 
 ```pinout pinout=p8
 ```
@@ -150,7 +156,7 @@ VCC: Power supply
 | Symbol | Parameter | Test conditions | V~CC~ | T~A~ = 25 °C | < | < | T~A~ = –40 °C to 125 °C | < | Unit |
 | ^ | ^ | ^ | ^ | Min | Typ | Max | Min | Max | ^ |
 |---|---|---|---|--:|--:|--:|--:|--:|---|
-| V~OH~ | High-level output voltage | I~OH~ = -20 μA | 0.8 V to 3.6 V | V~CC~ - 0.1 | | | V~CC~ - 0.1 | | V |
+| V~OH~ | | I~OH~ = -20 μA | 0.8 V to 3.6 V | V~CC~ - 0.1 | | | V~CC~ - 0.1 | | V |
 | ^ | ^ | I~OH~ = -1.1 mA | 1.1 V | 0.75 × V~CC~ | | | 0.7 × V~CC~ | | V |
 | ^ | ^ | I~OH~ = -1.7 mA | 1.4 V | 1.11 | | | 1.03 | | V |
 | ^ | ^ | I~OH~ = -1.9 mA | 1.65 V | 1.32 | | | 1.3 | | V |
@@ -158,7 +164,7 @@ VCC: Power supply
 | ^ | ^ | I~OH~ = -3.1 mA | 2.3 V | 1.9 | | | 1.85 | | V |
 | ^ | ^ | I~OH~ = -2.7 mA | 3 V | 2.72 | | | 2.67 | | V |
 | ^ | ^ | I~OH~ = -4 mA | 3 V | 2.6 | | | 2.55 | | V |
-| V~OL~ | Low-level output voltage | I~OL~ = 20 μA | 0.8 V to 3.6 V | | | 0.1 | | 0.1 | V |
+| V~OL~ | | I~OL~ = 20 μA | 0.8 V to 3.6 V | | | 0.1 | | 0.1 | V |
 | ^ | ^ | I~OL~ = 1.1 mA | 1.1 V | | | 0.3 × V~CC~ | | 0.3 × V~CC~ | V |
 | ^ | ^ | I~OL~ = 1.7 mA | 1.4 V | | | 0.31 | | 0.37 | V |
 | ^ | ^ | I~OL~ = 1.9 mA | 1.65 V | | | 0.31 | | 0.35 | V |
@@ -267,8 +273,15 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω, slew rate ≥ 1 V/ns. The outputs are measured one at a time,
 with one transition per measurement. t~PLH~ and t~PHL~ are the same as
-t~pd~. V~I~ = V~CC~ and V~M~ = V~CC~/2 at every V~CC~ (0.8 V to
-3.3 V ± 0.3 V).
+t~pd~.
+
+```table id=pmi-conditions caption="Load circuit test conditions"
+| | V~CC~ = 0.8 V | V~CC~ = 1.2 V ± 0.1 V | V~CC~ = 1.5 V ± 0.1 V | V~CC~ = 1.8 V ± 0.15 V | V~CC~ = 2.5 V ± 0.2 V | V~CC~ = 3.3 V ± 0.3 V |
+|---|---|---|---|---|---|---|
+| C~L~ | 5, 10, 15, 30 pF | 5, 10, 15, 30 pF | 5, 10, 15, 30 pF | 5, 10, 15, 30 pF | 5, 10, 15, 30 pF | 5, 10, 15, 30 pF |
+| V~M~ | V~CC~/2 | V~CC~/2 | V~CC~/2 | V~CC~/2 | V~CC~/2 | V~CC~/2 |
+| V~I~ | V~CC~ | V~CC~ | V~CC~ | V~CC~ | V~CC~ | V~CC~ |
+```
 
 ```figure ref=load-rl-cl caption="Load circuit"
 RL: 1 MΩ
@@ -281,107 +294,206 @@ VM: VCC/2
 
 ## Application information
 
-### Inputs and outputs
+### Balanced CMOS push-pull outputs
 
-Balanced CMOS push-pull outputs: the device can sink and source similar
-currents. The drive capability of this device may create fast edges into
-light loads, so routing and load conditions should be considered to
-prevent ringing. The outputs are capable of driving larger currents than
-the device can sustain without being damaged; the electrical and
-thermal limits defined in the Absolute Maximum Ratings must be followed
-at all times. Unused push-pull CMOS outputs must be left disconnected.
+This device includes balanced CMOS push-pull outputs. The term balanced
+indicates that the device can sink and source similar currents. The
+drive capability of this device may create fast edges into light loads,
+so routing and load conditions should be considered to prevent ringing.
+Additionally, the outputs of this device are capable of driving larger
+currents than the device can sustain without being damaged. It is
+important to limit the output power of the device to avoid damage due to
+overcurrent. The electrical and thermal limits defined in the Absolute
+Maximum Ratings must be followed at all times.
 
-The source describes the inputs both as Schmitt-trigger inputs and as
-standard CMOS inputs (see [Conversion notes](#conversion-notes)).
-Schmitt-trigger inputs: high impedance, typically modeled as a resistor
-in parallel with the input capacitance; the hysteresis makes this
-device extremely tolerant to slow or noisy inputs. It is still
-recommended to properly terminate unused inputs; driving the inputs with
-slow transitioning signals will increase dynamic current consumption.
-Standard CMOS inputs require that input signals transition between valid
-logic states quickly, as defined by the input transition rate in the
-[recommended operating conditions](#recommended-operating-conditions);
-failing to meet this specification will result in excessive power
-consumption and could cause oscillations. Do not leave standard CMOS
-inputs floating at any time during operation. Unused inputs must be
-terminated at V~CC~ or GND. If a system will not be actively driving an
-input at all times, then a pull-up or pull-down resistor can be added to
-provide a valid input voltage during these times; a 10kΩ resistor is
-recommended.
+Unused push-pull CMOS outputs must be left disconnected.
 
-Partial power down (I~off~): circuitry disables all outputs when the
-supply pin is held at 0 V; the outputs will neither source nor sink
-current, regardless of the input voltages applied.
+### CMOS Schmitt-trigger inputs
 
-Clamp diodes (source Figure 7-1): the inputs and outputs have negative
-clamping diodes only, from GND to each input and each output.
+Source conflict: the source describes the inputs both as Schmitt-trigger
+inputs (§7.3.2) and as standard CMOS inputs (§7.3.4), see
+[Conversion notes](#conversion-notes).
+
+This device includes inputs with the Schmitt-trigger architecture. These
+inputs are high impedance and are typically modeled as a resistor in
+parallel with the input capacitance given in the Electrical
+Characteristics table from the input to ground. The worst case
+resistance is calculated with the maximum input voltage, given in the
+Absolute Maximum Ratings table, and the maximum input leakage current,
+given in the Electrical Characteristics table, using Ohm's law
+(R = V ÷ I).
+
+The Schmitt-trigger input architecture provides hysteresis as defined by
+ΔV~T~ in the Electrical Characteristics table, which makes this device
+extremely tolerant to slow or noisy inputs. While the inputs can be
+driven much slower than standard CMOS inputs, it is still recommended to
+properly terminate unused inputs. Driving the inputs with slow
+transitioning signals will increase dynamic current consumption of the
+device.
+
+### Partial power down (I~off~)
+
+This device includes circuitry to disable all outputs when the supply
+pin is held at 0V. When disabled, the outputs will neither source nor
+sink current, regardless of the input voltages applied. The amount of
+leakage current at each output is defined by the I~off~ specification in
+the Electrical Characteristics table.
+
+### Standard CMOS inputs
+
+This device includes standard CMOS inputs. Standard CMOS inputs require
+that input signals transition between valid logic states quickly, as
+defined by the input transition time or rate in the
+[Recommended Operating Conditions](#recommended-operating-conditions)
+table. Failing to meet this specification will result in excessive power
+consumption and could cause oscillations.
+
+Do not leave standard CMOS inputs floating at any time during operation.
+Unused inputs must be terminated at V~CC~ or GND. If a system will not
+be actively driving an input at all times, then a pull-up or pull-down
+resistor can be added to provide a valid input voltage during these
+times. The resistor value will depend on multiple factors; a 10kΩ
+resistor, however, is recommended and will typically meet all
+requirements.
+
+### Clamp diode structure
+
+Figure 7-1 shows the inputs and outputs to this device have negative
+clamping diodes only. Conversion note: Figure 7-1 draws one diode from
+GND to the input, carrying -I~IK~, and one from GND to the output,
+carrying -I~OK~.
+
 Voltages beyond the values specified in the Absolute Maximum Ratings
-table can cause damage to the device.
+table can cause damage to the device. The input and output voltage
+ratings may be exceeded if the input and output clamp-current ratings
+are observed.
 
 ### Typical application
 
-Three 2-input AND gates are combined to produce a 4-input AND gate
-function that directly controls the RESET pin of a motor controller. The
-controller requires four input signals (!{OC}, PG, ON/!{OFF}, !{OT}) to
-all be HIGH before being enabled, and should be disabled in the event
-that any one signal goes LOW; the 4-input AND combines the four
-individual reset signals into a single active-low reset signal.
+In this application, three 2-input AND gates are combined to produce a
+4-input AND gate function as shown in Figure 8-1. Multiple SN74AUP2G08
+are used to directly control the !{RESET} pin of a motor controller. The
+controller requires four input signals to all be HIGH before being
+enabled, and should be disabled in the event that any one signal goes
+LOW. The 4-input AND gate function combines the four individual reset
+signals into a single active-low reset signal.
+
+Conversion note: Figure 8-1 (block diagram) draws two 2-input AND gates
+taking !{OC} and PG, and ON/!{OFF} and !{OT}, and a third AND gate that
+combines their outputs and drives the motor controller's !{RESET} input.
 
 ```wavedrom id=app-timing caption="Application timing diagram"
 {"signal": [
   {"name": "OC#", "wave": "10101010"},
-  {"name": "PG", "wave": "1.0.1..."},
+  {"name": "PG", "wave": "1.0.1.0."},
   {"name": "ON/OFF#", "wave": "1..0.1.."},
   {"name": "OT#", "wave": "1...0..."},
   {"name": "RESET#", "wave": "10......"}
 ]}
 ```
 
-Design requirements:
+### Power considerations
 
-- The positive supply must be capable of sourcing current equal to the
-  total current sourced by all outputs plus the maximum static supply
-  current I~CC~ and any transient current required for switching; the
-  ground must sink the matching total. Ensure the maximum total current
-  through V~CC~ or GND in the Absolute Maximum Ratings is not exceeded.
-- The device can drive a load with a total capacitance less than or
-  equal to 50pF while still meeting all of the data sheet
-  specifications. Larger capacitive loads can be applied; however, it
-  is not recommended to exceed 50pF.
-- Resistive load: R~L~ ≥ V~O~ / I~O~, with V~O~ and I~O~ from V~OH~ and
-  V~OL~ in the Electrical Characteristics; in the HIGH state, V~O~ is
-  the difference between the output voltage and V~CC~.
-- Input signals must cross V~IL~(max) to be considered a logic LOW, and
-  V~IH~(min) to be considered a logic HIGH. Do not exceed the maximum
-  input voltage range found in the Absolute Maximum Ratings.
-- Push-pull outputs that could be in opposite states, even for a very
-  short time period, should never be connected directly together. Two
-  channels with the same input signals can be connected in parallel for
-  additional output drive strength. Unused outputs can be left
-  floating. Do not connect outputs directly to V~CC~ or ground.
-- The maximum junction temperature, T~J~(max), is an additional
-  limitation to prevent damage to the device.
+Ensure the desired supply voltage is within the range specified in the
+Recommended Operating Conditions.
 
-Design procedure: add a decoupling capacitor from V~CC~ to GND, placed
-physically close to the device and electrically close to both the
-V~CC~ and GND pins. Ensure the capacitive load at the output is
-≤ 50pF. This is not a hard limit; by design, however, it will optimize
-performance. Ensure the resistive load at the
-output is larger than (V~CC~ / I~O(max)~) Ω.
+The positive voltage supply must be capable of sourcing current equal to
+the total current to be sourced by all outputs of the SN74AUP2G08 plus
+the maximum static supply current, I~CC~, listed in the Electrical
+Characteristics, and any transient current required for switching. The
+logic device can only source as much current that is provided by the
+positive supply source. Ensure the maximum total current through V~CC~
+listed in the Absolute Maximum Ratings is not exceeded.
 
-### Power and layout
+The ground must be capable of sinking current equal to the total current
+to be sunk by all outputs of the SN74AUP2G08 plus the maximum supply
+current, I~CC~, listed in the Electrical Characteristics, and any
+transient current required for switching. The logic device can only sink
+as much current that can be sunk into its ground connection. Ensure the
+maximum total current through GND listed in the Absolute Maximum Ratings
+is not exceeded.
+
+The SN74AUP2G08 can drive a load with a total capacitance less than or
+equal to 50pF while still meeting all of the data sheet specifications.
+Larger capacitive loads can be applied; however, it is not recommended
+to exceed 50pF.
+
+The SN74AUP2G08 can drive a load with total resistance described by
+R~L~ ≥ V~O~ / I~O~, with the output voltage and current defined in the
+Electrical Characteristics table with V~OH~ and V~OL~. When outputting
+in the HIGH state, the output voltage in the equation is defined as the
+difference between the measured output voltage and the supply voltage at
+the V~CC~ pin.
+
+The maximum junction temperature, T~J(max)~ listed in the Absolute
+Maximum Ratings, is an additional limitation to prevent damage to the
+device. Do not violate any values listed in the Absolute Maximum
+Ratings.
+
+### Input considerations
+
+Input signals must cross V~IL(max)~ to be considered a logic LOW, and
+V~IH(min)~ to be considered a logic HIGH. Do not exceed the maximum input
+voltage range found in the Absolute Maximum Ratings.
+
+Unused inputs must be terminated to either V~CC~ or ground. The unused
+inputs can be directly terminated if the input is completely unused, or
+they can be connected with a pull-up or pull-down resistor if the input
+will be used sometimes, but not always. A pull-up resistor is used for a
+default state of HIGH, and a pull-down resistor is used for a default
+state of LOW. A 10kΩ resistor value is often used due to these factors.
+
+### Output considerations
+
+The positive supply voltage is used to produce the output HIGH voltage.
+Drawing current from the output will decrease the output voltage as
+specified by the V~OH~ specification in the Electrical Characteristics.
+The ground voltage is used to produce the output LOW voltage. Sinking
+current into the output will increase the output voltage as specified by
+the V~OL~ specification in the Electrical Characteristics.
+
+Push-pull outputs that could be in opposite states, even for a very
+short time period, should never be connected directly together. This can
+cause excessive current and damage to the device.
+
+Two channels within the same device with the same input signals can be
+connected in parallel for additional output drive strength.
+
+Unused outputs can be left floating. Do not connect outputs directly to
+V~CC~ or ground.
+
+### Detailed design procedure
+
+1. Add a decoupling capacitor from V~CC~ to GND. The capacitor needs to be placed physically close to the device and electrically close to both the V~CC~ and GND pins.
+2. Ensure the capacitive load at the output is ≤ 50pF. This is not a hard limit; by design, however, it will optimize performance. This can be accomplished by providing short, appropriately sized traces from the SN74AUP2G08 to one or more of the receiving devices.
+3. Ensure the resistive load at the output is larger than (V~CC~ / I~O(max)~)Ω. Doing this will prevent the maximum output current from the Absolute Maximum Ratings from being violated.
+
+### Power supply recommendations
 
 The power supply can be any voltage between the minimum and maximum
-supply voltage rating in the recommended operating conditions. Each
-V~CC~ terminal should have a good bypass capacitor to prevent power
-disturbance; a 0.1μF capacitor is recommended. The 0.1μF and 1μF
-capacitors are commonly used in parallel. The bypass capacitor should
-be installed as close to the power terminal as possible.
+supply voltage rating located in the Recommended Operating Conditions.
+Each V~CC~ terminal should have a good bypass capacitor to prevent power
+disturbance. A 0.1μF capacitor is recommended for this device. It is
+acceptable to parallel multiple bypass capacitors to reject different
+frequencies of noise. The 0.1μF and 1μF capacitors are commonly used in
+parallel. The bypass capacitor should be installed as close to the power
+terminal as possible for best results.
 
-Inputs must never be left floating. All unused inputs of digital logic
-devices must be connected to a logic high or logic low voltage, as
-defined by the input voltage specifications, to prevent them from
-floating; generally, the inputs are tied to GND or V~CC~.
+### Layout guidelines
+
+When using multiple-input and multiple-channel logic devices, inputs
+must never be left floating. In many cases, functions or parts of
+functions of digital logic devices are unused (for example, when only
+two inputs of a triple-input AND gate are used or only 3 of the 4 buffer
+gates are used). Such unused input pins must not be left unconnected
+because the undefined voltages at the outside connections result in
+undefined operational states. All unused inputs of digital logic devices
+must be connected to a logic high or logic low voltage, as defined by
+the input voltage specifications, to prevent them from floating. The
+logic level that must be applied to any particular unused input depends
+on the function of the device. Generally, the inputs are tied to GND or
+V~CC~, whichever makes more sense for the logic function or is more
+convenient.
 
 ## Package
 
@@ -413,7 +525,7 @@ SN74AUP2G08YZPR | Reel of 3000 | -40 to 125 | HEN
 
 ## Conversion notes
 
-- Source pages 1–17 converted; device and documentation support,
+- Source pages 1–16 converted; the example layout (17), device and documentation support,
   revision history, package option addendum, tape and reel and
   mechanical pages (18–38) dropped, replaced by the generated Package
   and Ordering sections.
@@ -425,6 +537,8 @@ SN74AUP2G08YZPR | Reel of 3000 | -40 to 125 | HEN
 - The application block diagram (Figure 8-1) is described in text; the
   application timing diagram is redrawn from Figure 8-2.
 - Curves digitized from Figures 5-1 and 5-2 to about 2 % of full scale.
+- From images: R~θJA~ (thermal table, p.5; the text layer reads
+  "R θJA").
 - From images: curve points 24, 10, 7.2, 5.8, 4.3, 3.4, 5.2, 5.6, 5.8,
   6.0, 6.6, 125 (Figures 5-1 and 5-2, p.8); the overbars on !{OC},
   ON/!{OFF}, !{OT} and !{RESET} (Figure 8-2, p.16).

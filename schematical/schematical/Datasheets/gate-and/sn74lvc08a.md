@@ -58,7 +58,9 @@ floating. Do not connect to any other signal or supply.
 
 ## Functional description
 
-Each gate performs Y = A · B. Logic diagram: four 2-input AND gates.
+The SN74LVC08 device contains four 2-input positive AND gate device and
+performs the Boolean function Y = A × B. Conversion note: the logic
+diagram, each gate (positive logic), is one 2-input AND gate.
 
 Balanced high-drive CMOS push-pull outputs: a balanced output allows the
 device to sink and source similar currents. The high drive capability
@@ -190,17 +192,18 @@ value specified in the absolute maximum ratings.
 ## Thermal information
 
 ```table id=thermal caption="Thermal information, SN74LVC08A [1]"
-| Symbol | Parameter | BQA (WQFN) | D (SOIC) | DB (SSOP) | NS (SO) | PW (TSSOP) | RGY (VQFN) [2] | Unit |
+| Symbol | Parameter | BQA (WQFN), 14 pins | D (SOIC), 14 pins | DB (SSOP), 14 pins | NS (SO), 14 pins | PW (TSSOP), 14 pins | RGY (VQFN) [2], 14 pins | Unit |
 |---|---|--:|--:|--:|--:|--:|--:|---|
 | R~θJA~ | Junction-to-ambient thermal resistance | 102.3 | 127.8 | 140.4 | 123.8 | 150.8 | 92.1 | °C/W |
 | R~θJC(top)~ | Junction-to-case (top) thermal resistance | 96.8 | 81.9 | 65.3 | 52.7 | 56.0 | 56.6 | °C/W |
 | R~θJB~ | Junction-to-board thermal resistance | 70.9 | 84.4 | 60.2 | 53.9 | 69.5 | 27.5 | °C/W |
 | ψ~JT~ | Junction-to-top characterization parameter | 16.6 | 39.6 | 25.3 | 17.9 | 8.9 | 4.5 | °C/W |
 | ψ~JB~ | Junction-to-board characterization parameter | 70.9 | 83.9 | 59.6 | 53.6 | 68.9 | 27.7 | °C/W |
-| R~θJC(bot)~ | Junction-to-case (bottom) thermal resistance | 50.1 | | | | | 19.1 | °C/W |
+| R~θJC(bot)~ | Junction-to-case (bottom) thermal resistance [3] | 50.1 | | | | | 19.1 | °C/W |
 
-[1] All packages 14 pins. For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report. R~θJC(bot)~ is N/A for the D, DB, NS and PW packages.
+[1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 [2] Source error: the thermal table labels the RGY package "LCCC"; the device information table and pin configuration give RGY as VQFN.
+[3] Conversion note: the source gives N/A for the D, DB, NS and PW packages.
 ```
 
 ## Electrical characteristics
@@ -279,12 +282,14 @@ load circuit and voltage waveforms.
 
 ## Parameter measurement information
 
-For t~PLH~/t~PHL~ the switch S1 is open, which leaves R~L~ and C~L~ from
-the output to ground. C~L~ includes probe and jig capacitance. All input
+C~L~ includes probe and jig capacitance. All input
 pulses are supplied by generators having the following characteristics:
 PRR ≤ 10 MHz, Z~O~ = 50 Ω. The outputs are measured one at a time, with
 one transition per measurement. t~PLH~ and t~PHL~ are the same as
 t~pd~. All parameters and waveforms are not applicable to all devices.
+
+Conversion note: for t~PLH~/t~PHL~ the switch S1 of the load circuit is
+open, which leaves R~L~ and C~L~ from the output to ground.
 
 ```table id=pmi caption="Load circuit and input conditions"
 | V~CC~ | V~I~ | t~r~/t~f~ | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~D~ |
@@ -339,13 +344,29 @@ disturbance. TI recommends to use a 0.1-µF capacitor. 0.1-µF and 1-µF
 capacitors are commonly used in parallel. The bypass capacitor should be
 installed as close to the power pin as possible.
 
-Layout: inputs should not float. All unused inputs of digital logic
-devices must be connected to a high or low bias to prevent them from
-floating; generally they will be tied to GND or V~CC~. Unused outputs
-are left floating. Avoid 90° corners for signal lines: at the apex of the
-turn the trace width increases to 1.414 times the width, which upsets the
-transmission-line characteristics and results in a reflection. Rounded
-corners that maintain constant trace width minimize reflections.
+Layout: when using multiple bit logic devices, inputs should not float.
+Such input pins should not be left unconnected because the undefined
+voltages at the outside connections result in undefined operational
+states. All unused inputs of digital logic devices must be connected to
+a high or low bias to prevent them from floating. Generally they will be
+tied to GND or V~CC~, whichever makes more sense or is more convenient.
+
+When a PCB trace turns a corner at a 90° angle, a reflection can occur.
+A reflection occurs primarily because of the change of width of the
+trace. At the apex of the turn, the trace width increases to 1.414 times
+the width. This increase upsets the transmission-line characteristics,
+especially the distributed capacitance and self–inductance of the trace
+which results in the reflection. Figure 8-5 shows progressively better
+techniques of rounding corners. Only the last example (BEST) maintains
+constant trace width and minimizes reflections.
+
+Conversion note: the example layout (Figure 8-4) is given here by its labels.
+
+- Recommend GND flood fill for improved signal isolation, noise reduction, and thermal dissipation
+- Bypass capacitor placed close to the device (0.1 µF)
+- Unused inputs tied to V~CC~
+- Unused output left floating
+- Avoid 90° corners for signal lines
 
 ## Package
 
@@ -416,14 +437,16 @@ SNJ54LVC08AW | Tube of 25 | -55 to 125 | 5962-9753401QDA SNJ54LVC08AW
   reel and mechanical pages dropped, replaced by the generated Package
   and Ordering sections.
 - Dropped: features and applications lists, device information table,
-  revision history, support pages, the layout example drawing and the
-  trace-corner drawing (described in text), the enable/disable and
+  revision history, support pages, the layout example drawing (given as a
+  list of its labels) and the trace-corner drawing, the enable/disable and
   setup/hold waveforms of the generic measurement page (they do not
   apply to this part).
 - Not converted: typical characteristics (Figures 5-1 and 5-2, t~pd~ vs
   C~L~) and application curves (Figures 8-2 and 8-3, I~OL~ vs V~OL~ and
   I~OH~ vs V~OH~).
 - The application circuit (Figure 8-1) is described in text.
+- From images: µF (0.1 µF in Figure 8-4, p.15; the text layer has
+  "0.1 F").
 - The Boolean function in the description is garbled in the PDF text
   layer ("Y + A • B or Y + A ) B"); written from the overview (Y = A × B).
 - Source issues:

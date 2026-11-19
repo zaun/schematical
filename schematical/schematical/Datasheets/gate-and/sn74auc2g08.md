@@ -26,8 +26,8 @@
 This dual 2-input positive-AND gate is operational at 0.8-V to 2.7-V
 V~CC~, but is designed specifically for 1.65-V to 1.95-V V~CC~
 operation. The SN74AUC2G08 performs the Boolean function A • B or
-Y = !{!{A} + !{B}} in positive logic. It is 3.6-V I/O tolerant to support
-mixed-mode signal operation.
+Y = !{!{A} + !{B}} in positive logic. Optimized for 1.8-V operation and
+is 3.6-V I/O tolerant to support mixed-mode signal operation.
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
@@ -39,8 +39,9 @@ Logic Devices, literature number SCEA027.
 
 ## Pinout
 
-DCT and DCU share one pin order. The source draws the YZP package in
-bottom view; the drawing here is generated from the catalog.
+Conversion note: DCT and DCU share one pin order. Conversion note: the
+source draws the YZP package in bottom view, and the drawing here is
+generated from the catalog.
 
 ```pinout pinout=p8
 ```
@@ -60,8 +61,8 @@ VCC: Supply voltage
 
 ## Function tables
 
-```table id=function caption="Function table (each gate) [1]"
-| A | B | Y |
+```table id=function caption="Function table (each gate)"
+| A [1] | B [1] | Y |
 |:-:|:-:|:-:|
 | H | H | H |
 | L | X | L |
@@ -132,13 +133,13 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 ```table id=ec caption="Electrical characteristics" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | Parameter | Test conditions | < | V~CC~ | Min | Typ [1] | Max | Unit |
 |---|---|---|---|---|--:|--:|--:|---|
-| V~OH~ | High-level output voltage | I~OH~ = -100 µA | < | 0.8 V to 2.7 V | V~CC~ - 0.1 | | | V |
+| V~OH~ | | I~OH~ = -100 µA | < | 0.8 V to 2.7 V | V~CC~ - 0.1 | | | V |
 | ^ | ^ | I~OH~ = -0.7 mA | < | 0.8 V | | 0.55 | | V |
 | ^ | ^ | I~OH~ = -3 mA | < | 1.1 V | 0.8 | | | V |
 | ^ | ^ | I~OH~ = -5 mA | < | 1.4 V | 1 | | | V |
 | ^ | ^ | I~OH~ = -8 mA | < | 1.65 V | 1.2 | | | V |
 | ^ | ^ | I~OH~ = -9 mA | < | 2.3 V | 1.8 | | | V |
-| V~OL~ | Low-level output voltage | I~OL~ = 100 µA | < | 0.8 V to 2.7 V | | | 0.2 | V |
+| V~OL~ | | I~OL~ = 100 µA | < | 0.8 V to 2.7 V | | | 0.2 | V |
 | ^ | ^ | I~OL~ = 0.7 mA | < | 0.8 V | | 0.25 | | V |
 | ^ | ^ | I~OL~ = 3 mA | < | 1.1 V | | | 0.3 | V |
 | ^ | ^ | I~OL~ = 5 mA | < | 1.4 V | | | 0.4 | V |
@@ -180,11 +181,12 @@ See [parameter measurement information](#parameter-measurement).
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied
-by generators having the following characteristics: PRR ≤ 10 MHz,
+by generators have the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω, slew rate ≥ 1 V/ns. The outputs are measured one at a time,
 with one transition per measurement. t~PLH~ and t~PHL~ are the same as
-t~pd~. For t~PLH~/t~PHL~, switch S1 is open, so the output sees C~L~ and
-R~L~ to GND. Inputs switch between 0 V and V~CC~; timing is measured at
+t~pd~. Conversion note: the source's test table sets S1 open for
+t~PLH~/t~PHL~, which leaves R~L~ and C~L~ from the output to GND, and its
+waveforms draw the input from 0 V to V~CC~ with the delays measured at
 V~CC~/2.
 
 ```table id=pmi-load caption="Load values"
@@ -222,28 +224,38 @@ VM: VCC/2
 ## Ordering information
 
 ```ordering
-SN74AUC2G08DCTR | Reel of 3000 | -40 to 85 | U08 (R, Z)
+SN74AUC2G08DCTR | Reel of 3000 | -40 to 85 | U08R, U08Z
 SN74AUC2G08DCUR | Reel of 3000 | -40 to 85 | U08Q, U08R
 SN74AUC2G08DCURG4 | Reel of 3000 | -40 to 85 | U08R
 SN74AUC2G08YZPR | Reel of 3000 | -40 to 85 | UEN
 ```
 
-Markings are from the package option addendum. The source's ordering
-table gives the top-side markings U08_ _ _ (DCT), U08_ (DCU) and
-_ _ _UE_ (YZP), where the underscores stand for date, sequence and
-assembly/test-site characters.
+Conversion note: the markings above are from the package option addendum, and the table below is the source's ordering information table (p.1).
+
+```table id=ordering-table caption="Ordering information"
+| T~A~ | Package | < | Orderable part number | Top-side marking [1] |
+|---|---|---|---|---|
+| –40°C to 85°C | NanoFree – WCSP (DSBGA) 0.23-mm Large Bump – YZP (Pb-free) | Reel of 3000 | SN74AUC2G08YZPR | _ _ _UE_ |
+| ^ | SSOP – DCT | Reel of 3000 | SN74AUC2G08DCTR | U08_ _ _ |
+| ^ | VSSOP – DCU | Reel of 3000 | SN74AUC2G08DCUR | U08_ |
+
+[1] DCT: The actual top-side marking has three additional characters that designate the year, month, and assembly/test site. DCU: The actual top-side marking has one additional character that designates the assembly/test site. YZP: The actual top-side marking has three preceding characters to denote year, month, and sequence code, and one following character to designate the assembly/test site. Pin 1 identifier indicates solder-bump composition (1 = SnPb, • = Pb-free).
+```
 
 ## Conversion notes
 
 - Source pages 1–5 converted; the package option addendum, tape and
   reel and mechanical pages (6–19) dropped, replaced by the generated
   Package and Ordering sections.
-- Dropped: the NanoFree package text, the ordering-table package
-  descriptions, and the enable/disable-time, pulse-duration and
+- Dropped: the NanoFree package text, and the enable/disable-time, pulse-duration and
   setup/hold parts of Figure 1 (the source notes that not all
   parameters and waveforms apply to all devices; this gate has no
   output enable), and the S1 positions for t~PLZ~/t~PZL~ (2 × V~CC~)
   and t~PHZ~/t~PZH~ (GND).
+- The package option addendum (p.6) prints the SN74AUC2G08DCTR marking
+  as "U08" with "(R, Z)" on a continuation line; the two lines combined
+  are one marking with two alternatives for its last character, written
+  U08R, U08Z in the ordering block.
 - The ESD and latch-up ratings come from the source's features list
   (the source has no ESD ratings table).
 - From images: Y = !{!{A} + !{B}} overbars (p.1; the text layer reads

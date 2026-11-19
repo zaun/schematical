@@ -49,8 +49,8 @@ VCC: Positive supply
 
 ## Functional description
 
-Logic diagram (one of three channels): a 3-input AND gate, inputs xA,
-xB and xC, output xY.
+Conversion note: logic diagram (one of three channels): a 3-input AND
+gate, inputs xA, xB and xC, output xY.
 
 ### Balanced CMOS push-pull outputs
 
@@ -153,7 +153,7 @@ observed.
 | R~θJC(bot)~ | Junction-to-case (bottom) thermal resistance [2] | | | °C/W |
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application note.
-[2] N/A for both packages.
+[2] N/A
 ```
 
 ## Electrical characteristics
@@ -223,8 +223,8 @@ See [parameter measurement information](#parameter-measurement).
  ]}
 ```
 
-The source also plots typical supply current against input voltage
-(V~CC~ = 2 V to 6 V).
+Conversion note: the source also plots typical supply current against
+input voltage (V~CC~ = 2 V to 6 V).
 
 ## Parameter measurement information
 
@@ -250,8 +250,8 @@ get up to a 7-input AND gate. Use the device with all three inputs
 active, or disable one input by directly connecting it to V~CC~ to turn
 the device into a 2-input AND gate.
 
-In the source's typical application the SN74HCS11 controls the RESET
-pin of a motor controller. This system requires three input signals to
+The SN74HCS11-Q1 is used to control the RESET pin of a motor
+controller. This system requires three input signals to
 all be HIGH before the controller is enabled, and must be disabled in
 the event that any one signal goes LOW. All signals in the system
 operate at 5 V. The motor controller must be disabled if any of these
@@ -319,7 +319,7 @@ Layout: inputs must not ever be left floating. All unused inputs must
 be connected to a logic high or logic low voltage, as defined by the
 input voltage specifications. Generally, the inputs are tied to GND or
 V~CC~, whichever makes more sense for the logic function or is more
-convenient. The source's layout example uses a GND flood fill, places
+convenient. Conversion note: the source's layout example uses a GND flood fill, places
 the bypass capacitor close to the device, ties unused inputs to V~CC~,
 leaves the unused output floating, and avoids 90° corners for signal
 lines.

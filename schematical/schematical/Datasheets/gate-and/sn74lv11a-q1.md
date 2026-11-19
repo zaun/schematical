@@ -171,8 +171,8 @@ VCC: Power pin
 
 ## Switching characteristics
 
-See [parameter measurement information](#parameter-measurement). The
-SN74LV11A-Q1 columns are over the recommended operating free-air
+See [parameter measurement information](#parameter-measurement).
+Conversion note: the SN74LV11A-Q1 columns are over the recommended operating free-air
 temperature range.
 
 ```table id=sw-2v5 caption="Switching characteristics, V~CC~ = 2.5 V ± 0.2 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
@@ -202,7 +202,8 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time, with one input transition per measurement. t~PHL~ and t~PLH~ are
-the same as t~pd~.
+the same as t~pd~. All parameters and waveforms are not applicable to
+all devices.
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 50 pF
@@ -212,10 +213,9 @@ CL: 50 pF
 VM: 50 % V~CC~
 ```
 
-Figure 6-1 also shows the load circuit for 3-state and open-drain
-outputs and the voltage waveforms for pulse duration, setup and hold
-times, and enable and disable times. All parameters and waveforms are
-not applicable to all devices.
+Conversion note: Figure 6-1 also shows the load circuit for 3-state and
+open-drain outputs and the voltage waveforms for pulse duration, setup
+and hold times, and enable and disable times.
 
 ## Package
 

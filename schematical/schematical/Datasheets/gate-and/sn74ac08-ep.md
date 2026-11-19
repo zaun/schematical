@@ -24,11 +24,12 @@
 ## Description
 
 The SN74AC08 is a quadruple 2-input positive-AND gate. This device
-performs the Boolean function Y = A · B in positive logic. It operates
-from a V~CC~ of 2 V to 6 V, inputs accept voltages to 6 V, and it is
-specified from –55 °C to 125 °C. Enhanced product: controlled baseline
-(one assembly/test site, one fabrication site), enhanced diminishing
-manufacturing sources (DMS) support and enhanced product-change
+performs the Boolean function Y = A · B in positive logic.
+
+2-V to 6-V V~CC~ operation. Inputs accept voltages to 6 V. Extended
+temperature performance of –55 °C to 125 °C. Controlled baseline: one
+assembly/test site, one fabrication site. Enhanced diminishing
+manufacturing sources (DMS) support. Enhanced product-change
 notification.
 
 ## Pinout
@@ -48,8 +49,8 @@ VCC: Positive Supply
 
 ## Functional description
 
-Logic diagram, each gate (positive logic): one 2-input AND gate, inputs
-A and B, output Y.
+Conversion note: the logic diagram, each gate (positive logic), shows one
+2-input AND gate, inputs A and B, output Y.
 
 ## Function tables
 
@@ -77,7 +78,7 @@ A and B, output Y.
 
 [1] Stresses beyond those listed under absolute maximum ratings may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under recommended operating conditions is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
-[3] Source error: the source marks V~I~ and V~O~ with note 1 (stress ratings); note 2, on the input and output voltage ratings, has no marker. Marked here with note 2.
+[3] Source error: the source marks V~I~ and V~O~ with note 1 (stress ratings) and leaves note 2, on the input and output voltage ratings, without a marker, so they are marked here with note 2.
 ```
 
 ## Recommended operating conditions
@@ -109,36 +110,36 @@ A and B, output Y.
 ## Thermal information
 
 ```table id=thermal caption="Thermal information, SN74AC08-EP [1]"
-| Symbol | Parameter | D (SOIC) | Unit |
+| Symbol | Parameter | D (SOIC) 14 pins | Unit |
 |---|---|--:|---|
 | R~θJA~ | Junction-to-ambient thermal resistance | 86 | °C/W |
 
-[1] 14 pins. For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report.
+[1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics
 ```
 
 ## Electrical characteristics
 
 ```table id=ec caption="Electrical characteristics" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
-| Symbol | Parameter | Test conditions | V~CC~ | T~A~ = 25 °C | < | < | Full range [1] | < | Unit |
+| Symbol | Parameter | Test conditions | V~CC~ | T~A~ = 25 °C | < | < | [1] | < | Unit |
 | ^ | ^ | ^ | ^ | Min | Typ | Max | Min | Max | ^ |
 |---|---|---|---|--:|--:|--:|--:|--:|---|
-| V~OH~ | High-level output voltage | I~OH~ = -50 µA | 3 V | 2.9 | | | 2.9 | | V |
+| V~OH~ | | I~OH~ = -50 µA | 3 V | 2.9 | | | 2.9 | | V |
 | ^ | ^ | ^ | 4.5 V | 4.4 | | | 4.4 | | V |
 | ^ | ^ | ^ | 5.5 V | 5.4 | | | 5.4 | | V |
 | ^ | ^ | I~OH~ = -12 mA | 3 V | 2.56 | | | 2.4 | | V |
 | ^ | ^ | I~OH~ = -24 mA | 4.5 V | 3.86 | | | 3.7 | | V |
 | ^ | ^ | ^ | 5.5 V | 4.86 | | | 4.7 | | V |
-| V~OL~ | Low-level output voltage | I~OL~ = 50 µA | 3 V | | 0.002 | 0.1 | | 0.1 | V |
+| V~OL~ | | I~OL~ = 50 µA | 3 V | | 0.002 | 0.1 | | 0.1 | V |
 | ^ | ^ | ^ | 4.5 V | | 0.001 | 0.1 | | 0.1 | V |
 | ^ | ^ | ^ | 5.5 V | | 0.001 | 0.1 | | 0.1 | V |
 | ^ | ^ | I~OL~ = 12 mA | 3 V | | | 0.36 | | 0.5 | V |
 | ^ | ^ | I~OL~ = 24 mA | 4.5 V | | | 0.36 | | 0.5 | V |
 | ^ | ^ | ^ | 5.5 V | | | 0.36 | | 0.5 | V |
-| I~I~ | Input current, A or B ports | V~I~ = V~CC~ or GND | 5.5 V | | | ±0.1 | | ±1 | µA |
-| I~CC~ | Supply current | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | | 2 | | 40 | µA |
-| C~i~ | Input capacitance | V~I~ = V~CC~ or GND | 5 V | | 4.5 | | | | pF |
+| I~I~ | A or B ports | V~I~ = V~CC~ or GND | 5.5 V | | | ±0.1 | | ±1 | µA |
+| I~CC~ | | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | | 2 | | 40 | µA |
+| C~i~ | | V~I~ = V~CC~ or GND | 5 V | | 4.5 | | | | pF |
 
-[1] The source leaves this column group without a temperature heading; the table applies over the recommended operating free-air temperature range (T~A~ –55 °C to 125 °C).
+[1] Conversion note: the source prints no temperature heading over this Min and Max column group.
 ```
 
 ```table id=opchar caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25 °C"
@@ -152,23 +153,23 @@ A and B, output Y.
 See [parameter measurement information](#parameter-measurement).
 
 ```table id=sw-3v3 caption="Switching characteristics, V~CC~ = 3.3 V ± 0.3 V" conditions="Over recommended operating free-air temperature range, V~CC~ = 3.3 V ± 0.3 V (unless otherwise noted)"
-| Symbol | From (input) | To (output) | T~A~ = 25 °C | < | < | Full range [1] | < | Unit |
+| Symbol | From (input) | To (output) | T~A~ = 25 °C | < | < | [1] | < | Unit |
 | ^ | ^ | ^ | Min | Typ | Max | Min | Max | ^ |
 |---|---|---|--:|--:|--:|--:|--:|---|
 | t~PLH~ | A or B | Y | 1.5 | 7.5 | 9.5 | 1 | 12.5 | ns |
 | t~PHL~ | A or B | Y | 1.5 | 7 | 8.5 | 1 | 11.5 | ns |
 
-[1] No temperature heading in the source (see the electrical characteristics).
+[1] Conversion note: the source prints no temperature heading over this Min and Max column group.
 ```
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range, V~CC~ = 5 V ± 0.5 V (unless otherwise noted)"
-| Symbol | From (input) | To (output) | T~A~ = 25 °C | < | < | Full range [1] | < | Unit |
+| Symbol | From (input) | To (output) | T~A~ = 25 °C | < | < | [1] | < | Unit |
 | ^ | ^ | ^ | Min | Typ | Max | Min | Max | ^ |
 |---|---|---|--:|--:|--:|--:|--:|---|
 | t~PLH~ | A or B | Y | 1.5 | 5.5 | 7.5 | 1 | 9 | ns |
 | t~PHL~ | A or B | Y | 1.5 | 5.5 | 7 | 1 | 8.5 | ns |
 
-[1] No temperature heading in the source (see the electrical characteristics).
+[1] Conversion note: the source prints no temperature heading over this Min and Max column group.
 ```
 
 ## Parameter measurement information
@@ -178,9 +179,9 @@ generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 2.5 ns, t~f~ ≤ 2.5 ns. The outputs are measured one
 at a time with one input transition per measurement.
 
-The load circuit also has a 500 Ω resistor from the output to switch S1
-(2 × V~CC~ or open); S1 is open for t~PLH~ and t~PHL~, which leaves the
-load below.
+Conversion note: the load circuit also has a 500 Ω resistor from the output
+to switch S1 (2 × V~CC~ or open), and S1 is open for t~PLH~/t~PHL~, which
+leaves the load below.
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: 500 Ω
@@ -199,13 +200,19 @@ VM: 50 % V~CC~
 ## Ordering information
 
 ```ordering
+SN74AC08MDREP | | -55 to 125 | SAC08MEP | Obsolete
 ```
 
 ## Conversion notes
 
-- Source pages 1–7 converted; revision history, support pages, the
-  package option addendum, tape and reel and mechanical pages (8–12)
-  dropped, replaced by the generated Package and Ordering sections.
+- Source pages 1–7 converted. The ordering line is the part's row of the
+  package option addendum (p.10). Dropped: revision history (p.2), the
+  support page (p.8), the Mechanical, Packaging, and Orderable
+  Information paragraph (p.9), the addendum's notes (p.10–11) and the
+  important notice (p.12).
+- The electrical characteristics table of the source gives only symbols
+  in its Parameter column (and "A or B ports" for I~I~); no parameter
+  names are added.
 - Dropped: features list (the enhanced-product points and electrical
   points are kept in the Description), the qualification-pedigree
   footnote, package information table; the logic diagram is described in
