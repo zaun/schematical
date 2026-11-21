@@ -316,7 +316,7 @@ row `out`, reason `stock check`, and sets `stock_checked`.
 
 Acceptance: the planning pick reproduces.
   Check: `python3 -I planning/plan-42-data/census/select.py /tmp/p42/raw /tmp/p42/cand.tsv && cmp /tmp/p42/cand.tsv planning/plan-42-data/candidates.tsv && echo reproducible` → `reproducible` (est. < 1 min).
-Commit: —
+Commit: f63497f9
 
 ### Phase 2 — The part-by-part stock check (one quota day)
 
@@ -332,7 +332,7 @@ Commit: —
 
 Acceptance: every download-set row is in stock, Active or Last Time Buy.
   Check: `awk -F'\t' 'NR>1 && $2!=1' planning/plan-42-data/stock-check.tsv \| wc -l` → the `found` = 0 count recorded above, and `python3 -I planning/plan-42-data/census/download-set.py planning/plan-42-data/candidates.tsv \| cut -f1 \| tail -n +2 \| grep -vxFf <(cut -f1 planning/plan-42-data/stock-check.tsv) \| wc -l` → 0 (est. < 1 min; the run itself is the quota day).
-Commit: —
+Commit: f63497f9
 
 ### Phase 3 — Download, place and scan the datasheets
 
@@ -360,7 +360,7 @@ Commit: —
 
 Acceptance: every download-set row either has a PDF or a reason it has none.
   Check: `awk -F'\t' 'NR==FNR{s[$1]=1; next} ($1 in s) && $32==""' planning/plan-42-data/download-set.tsv planning/plan-42-data/candidates.tsv \| wc -l` → the rows B will `skip` for no maker datasheet (recorded here); `find datasheets/regulator -iname '*.pdf' \| wc -l` = `tail -n +2 datasheets/regulator/datasheets.tsv \| cut -f1 \| sort -u \| wc -l` (est. 25 min: 541 downloads, four at a time).
-Commit: —
+Commit: f63497f9
 
 ## Validation Plan
 
