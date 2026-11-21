@@ -5,7 +5,8 @@
 //  The Bill of Materials: every part on one schematic that goes on the
 //  board, one line per orderable part (same part number, package and LED
 //  color; pull resistors by value and package), with its quantity and
-//  references. Opened from Window > Bill of
+//  references. Each line has a checkmark; only checked lines are exported
+//  or copied. Opened from Window > Bill of
 //  Materials; it follows the schematic as it is edited.
 //
 
@@ -161,9 +162,13 @@ struct BillOfMaterialsWindowView: View {
 struct BillOfMaterialsTable: View {
     let document: SchematicDocument
     @State private var selection: Set<BillOfMaterialsLine.ID> = []
+    /// Lines whose checkmark is cleared. Kept as the unchecked set so a part
+    /// newly placed on the schematic starts checked.
+    @State private var unchecked: Set<BillOfMaterialsLine.ID> = []
 
     var body: some View {
         let lines = BillOfMaterials.lines(for: document.chips)
+        let checked = lines.filter { !unchecked.contains($0.id) }
         let hasColor = lines.contains { !$0.color.isEmpty }
         let hasValue = lines.contains { !$0.value.isEmpty }
         Group {
@@ -175,6 +180,12 @@ struct BillOfMaterialsTable: View {
                 )
             } else {
                 Table(lines, selection: $selection) {
+                    TableColumn("") { line in
+                        Toggle("Export", isOn: checkBinding(line.id))
+                            .labelsHidden()
+                            .help("Include this line in the export")
+                    }
+                    .width(24)
                     TableColumn("Qty") { Text("\($0.quantity)").monospacedDigit() }
                         .width(min: 32, ideal: 36, max: 60)
                     TableColumn("References", value: \.referenceText)
@@ -196,29 +207,45 @@ struct BillOfMaterialsTable: View {
                 }
                 .onCopyCommand {
                     let chosen = lines.filter { selection.contains($0.id) }
-                    return [NSItemProvider(object: BillOfMaterials.csv(chosen.isEmpty ? lines : chosen) as NSString)]
+                    return [NSItemProvider(object: BillOfMaterials.csv(chosen.isEmpty ? checked : chosen) as NSString)]
                 }
             }
         }
         .frame(minWidth: 520, minHeight: 240)
         .navigationTitle("Bill of Materials")
-        .navigationSubtitle(summary(lines))
+        .navigationSubtitle(summary(lines, checked: checked))
         .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Toggle("Select All", isOn: Binding(
+                    get: { !lines.isEmpty && checked.count == lines.count },
+                    set: { unchecked = $0 ? [] : Set(lines.map(\.id)) }
+                ))
+                .help("Check or clear every line")
+                .disabled(lines.isEmpty)
+            }
             ToolbarItem(placement: .primaryAction) {
                 Button {
-                    export(lines)
+                    export(checked)
                 } label: {
                     Label("Export CSV…", systemImage: "square.and.arrow.up")
                 }
-                .help("Save the Bill of Materials as a CSV file")
-                .disabled(lines.isEmpty)
+                .help("Save the checked lines of the Bill of Materials as a CSV file")
+                .disabled(checked.isEmpty)
             }
         }
     }
 
-    private func summary(_ lines: [BillOfMaterialsLine]) -> String {
+    private func checkBinding(_ id: BillOfMaterialsLine.ID) -> Binding<Bool> {
+        Binding(
+            get: { !unchecked.contains(id) },
+            set: { if $0 { unchecked.remove(id) } else { unchecked.insert(id) } }
+        )
+    }
+
+    private func summary(_ lines: [BillOfMaterialsLine], checked: [BillOfMaterialsLine]) -> String {
         let parts = lines.reduce(0) { $0 + $1.quantity }
-        return "\(parts) part\(parts == 1 ? "" : "s"), \(lines.count) line\(lines.count == 1 ? "" : "s")"
+        let text = "\(parts) part\(parts == 1 ? "" : "s"), \(lines.count) line\(lines.count == 1 ? "" : "s")"
+        return checked.count == lines.count ? text : text + ", \(checked.count) checked"
     }
 
     private func export(_ lines: [BillOfMaterialsLine]) {
