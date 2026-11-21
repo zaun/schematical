@@ -51,7 +51,8 @@ VCC: Power pin
 ## Function tables
 
 ```table id=function caption="Function table (each gate)"
-| A [1] | B [1] | C [1] | Y [2] |
+| Inputs [1] | < | < | Output [2] |
+| A | B | C | Y |
 |:-:|:-:|:-:|:-:|
 | H | H | H | H |
 | L | X | X | L |
@@ -217,6 +218,12 @@ duration, setup and hold times, and enable and disable times.
 
 ## Application information
 
+Information in the following applications sections is not part of the TI
+component specification, and TI does not warrant its accuracy or
+completeness. TI’s customers are responsible for determining suitability
+of components for their purposes, as well as validating and testing
+their design implementation to confirm system functionality.
+
 ### Power supply recommendations
 
 The power supply can be any voltage between the minimum
@@ -244,9 +251,9 @@ or is more convenient.
 Conversion note: the example layout for the SN74LV11A (Figure 7-1) is given here by its labels.
 
 - Recommend GND flood fill for improved signal isolation, noise reduction, and thermal dissipation
+- Unused inputs tied to GND
 - Bypass capacitor placed close to the device
 - 0.1 µF
-- Unused inputs tied to GND
 - Unused input tied to V~CC~
 - Unused output left floating
 - Avoid 90° corners for signal lines

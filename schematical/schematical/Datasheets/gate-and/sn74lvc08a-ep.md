@@ -55,6 +55,7 @@ VCC: Positive supply
 Conversion note: the logic diagram, each gate (positive logic), is one 2-input AND gate.
 
 ```table id=function caption="Function table (each gate)"
+| Inputs | < | Output |
 | A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
@@ -157,7 +158,8 @@ Conversion note: for t~PLH~/t~PHL~ the switch S1 of the load circuit
 (Figure 1) is open, which leaves R~L~ and C~L~ from the output to ground.
 
 ```table id=pmi caption="Load circuit and input conditions"
-| V~CC~ | V~I~ | t~r~/t~f~ | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
+| V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
+| ^ | V~I~ | t~r~/t~f~ | ^ | ^ | ^ | ^ | ^ |
 |---|---|---|---|---|---|---|---|
 | 2.7 V | 2.7 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 3.3 V ± 0.3 V | 2.7 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
@@ -203,7 +205,7 @@ V62/04655-02YE | Reel of 2000 | -55 to 125 | LVC08AM
   temperature ranges and the ESD protection), the enable/disable and
   setup/hold waveforms of the generic measurement figure (they do not
   apply to this part).
-- From images: the Boolean function Y = A • B or
+- From images: the Boolean function Y = A • B and the overbars of
   Y = !{!{A} + !{B}} (p.1; the text layer has "Y + A • B or Y + A ) B").
   The source sets it after "function in"; it is written before "in
   positive logic".

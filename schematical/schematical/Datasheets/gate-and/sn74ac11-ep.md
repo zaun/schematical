@@ -57,6 +57,7 @@ drive 3Y (pin 8).
 ## Function tables
 
 ```table id=function caption="Function table (each gate)"
+| Inputs | < | < | Output |
 | A | B | C | Y |
 |:-:|:-:|:-:|:-:|
 | H | H | H | H |

@@ -47,6 +47,7 @@ VCC: Positive supply
 ## Function tables
 
 ```table id=function caption="Function table (each gate) [1]"
+| Inputs | < | Output |
 | A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
@@ -75,7 +76,7 @@ VCC: Positive supply
 
 ## Recommended operating conditions
 
-```table id=roc caption="Recommended operating conditions [1]" conditions="Over operating free-air temperature range (unless otherwise noted)"
+```table id=roc caption="Recommended operating conditions (SN74HCT08) [1]" conditions="Over operating free-air temperature range (unless otherwise noted)"
 | Symbol | Parameter | Conditions | Min | Nom | Max | Unit |
 |---|---|---|--:|--:|--:|---|
 | V~CC~ | Supply voltage | | 4.5 | 5 | 5.5 | V |
@@ -164,6 +165,12 @@ VM: 1.3 V (input), 50 % (output)
 ```
 
 ## Application information
+
+Information in the following applications sections is not part of the TI
+component specification, and TI does not warrant its accuracy or
+completeness. TI’s customers are responsible for determining suitability
+of components for their purposes, as well as validating and testing
+their design implementation to confirm system functionality.
 
 ### Power supply recommendations
 

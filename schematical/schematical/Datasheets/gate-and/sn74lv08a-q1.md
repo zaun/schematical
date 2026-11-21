@@ -49,7 +49,8 @@ VCC: Supply voltage
 ## Function tables
 
 ```table id=function caption="Function table"
-| A [1] | B [1] | Y [2] |
+| Inputs [1] | < | Output [2] |
+| A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
 | L | X | L |

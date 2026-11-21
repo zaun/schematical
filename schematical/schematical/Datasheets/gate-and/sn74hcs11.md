@@ -27,9 +27,7 @@ This device contains three independent 3-input AND gates with
 Schmitt-trigger inputs. Each gate performs the Boolean function
 Y = A · B · C in positive logic.
 
-The Schmitt-trigger inputs have no input transition rate requirements,
-so slow or noisy input signals are allowed. Outputs are balanced CMOS
-push-pull outputs.
+Schmitt-trigger inputs allow for slow or noisy input signals.
 
 ## Pinout
 
@@ -57,9 +55,9 @@ gate, inputs xA, xB and xC, output xY.
 A balanced output allows the device to
 sink and source similar currents. The drive capability of this device
 can create fast edges into light loads so routing and load conditions
-must be considered to prevent ringing. The outputs are capable of
+must be considered to prevent ringing. The outputs of this device are capable of
 driving larger currents than the device can sustain without being
-damaged; limit the output power of the device to avoid damage due to
+damaged. Limit the output power of the device to avoid damage due to
 over-current. The electrical and thermal limits defined in the
 [absolute maximum ratings](#absolute-maximum-ratings) must be followed
 at all times.
@@ -82,7 +80,9 @@ dynamic current consumption of the device.
 ### Clamp diode structure
 
 The inputs and outputs have both positive and negative
-clamping diodes. The input negative-voltage and output voltage ratings
+clamping diodes. Voltages beyond the values specified in the
+[absolute maximum ratings](#absolute-maximum-ratings) table can cause
+damage to the device. The input negative-voltage and output voltage ratings
 can be exceeded if the input and output clamp-current ratings are
 observed.
 
@@ -92,6 +92,7 @@ observed.
 ## Function tables
 
 ```table id=function caption="Function table (each gate)"
+| Inputs | < | < | Output |
 | A | B | C | Y |
 |:-:|:-:|:-:|:-:|
 | H | H | H | H |
@@ -246,6 +247,12 @@ VM: 50 %
 
 ## Application information
 
+Information in the following applications sections is not part of the TI
+component specification, and TI does not warrant its accuracy or
+completeness. TI’s customers are responsible for determining suitability
+of components for their purposes, as well as validating and testing
+their design implementation to confirm system functionality.
+
 The three 3-input AND gates work independently, but can be combined to
 get up to a 7-input AND gate. Use the device with all three inputs
 active, or disable one input by directly connecting it to V~CC~ to turn
@@ -253,8 +260,7 @@ the device into a 2-input AND gate.
 
 The SN74HCS11 is used to control the RESET pin of a motor
 controller. This system requires three input signals
-(power good PG, over current detection !{OC} and an on/off switch
-ON/!{OFF}) to all be HIGH before the controller is enabled, and must be
+to all be HIGH before the controller is enabled, and must be
 disabled in the event that any one signal goes LOW. Many power good
 signals use open-drain outputs which can produce slow input transition
 rates during transition from LOW to Hi-Z mode. This device has
@@ -279,7 +285,8 @@ that the maximum total current through V~CC~ and GND listed in the
 absolute maximum ratings is not exceeded. The maximum junction
 temperature T~J(max)~ is an additional limitation to prevent damage to
 the device. Each V~CC~ terminal must have a good bypass capacitor to
-prevent power disturbance; a 0.1 µF capacitor is recommended. The
+prevent power disturbance. A 0.1 µF capacitor is recommended for this
+device. The
 0.1 µF and 1 µF capacitors are commonly used in parallel. The bypass
 capacitor must be installed as close to the power terminal as
 possible.
@@ -302,9 +309,9 @@ maximum input voltage range found in the absolute maximum ratings.
 Unused inputs must be terminated to either V~CC~ or ground. The unused
 inputs can be directly terminated if the input is completely unused, or
 connected with a pullup or pulldown resistor if the input is used
-sometimes, but not always. A 10 kΩ resistor value is often used. Noise
-with a large enough amplitude can still cause issues; ΔV~T~(min)
-provides the peak-to-peak limit. Schmitt-trigger inputs can be held at
+sometimes, but not always. A 10 kΩ resistor value is often used. Noise with a large enough amplitude can still cause issues. To know how
+much noise is too much, see the ΔV~T~(min) in the electrical
+characteristics. This hysteresis value provides the peak-to-peak limit. Schmitt-trigger inputs can be held at
 any valid value without causing huge increases in power consumption.
 
 Outputs: push-pull outputs that can be in opposite states, even for a
@@ -314,7 +321,9 @@ connected in parallel for additional output drive strength. Unused
 outputs can be left floating. Do not connect outputs directly to
 V~CC~ or ground.
 
-Layout: inputs must not ever be left floating. All unused inputs must
+Layout: inputs must not ever be left floating. Such unused input pins
+must not be left unconnected because the undefined voltages at the
+outside connections result in undefined operational states. All unused inputs must
 be connected to a logic high or logic low voltage, as defined by the
 input voltage specifications. Generally, the inputs are tied to GND or
 V~CC~, whichever makes more sense for the logic function or is more

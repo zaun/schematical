@@ -68,6 +68,7 @@ DNU: Do not use
 ## Function tables
 
 ```table id=function caption="Function table"
+| Inputs | < | Output |
 | A | B | Y |
 |:-:|:-:|:-:|
 | L | L | L |
@@ -188,6 +189,17 @@ DNU: Do not use
 [1] One input at V~CC~ – 0.6 V, other input at V~CC~ or GND.
 ```
 
+```table id=op caption="Operating characteristics" conditions="T~A~ = 25 °C"
+| Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
+|---|---|---|---|--:|---|
+| C~pd~ | Power dissipation capacitance | f = 10 MHz | 0.8 V | 4 | pF |
+| ^ | ^ | ^ | 1.2 V ± 0.1 V | 4 | pF |
+| ^ | ^ | ^ | 1.5 V ± 0.1 V | 4 | pF |
+| ^ | ^ | ^ | 1.8 V ± 0.15 V | 4 | pF |
+| ^ | ^ | ^ | 2.5 V ± 0.2 V | 4.1 | pF |
+| ^ | ^ | ^ | 3.3 V ± 0.3 V | 4.3 | pF |
+```
+
 ## Switching characteristics
 
 See [parameter measurement information](#parameter-measurement).
@@ -240,17 +252,6 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 1.5 | 4.7 | 6.2 | 1 | 7.5 | ns |
 ```
 
-```table id=op caption="Operating characteristics" conditions="T~A~ = 25 °C"
-| Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
-|---|---|---|---|--:|---|
-| C~pd~ | Power dissipation capacitance | f = 10 MHz | 0.8 V | 4 | pF |
-| ^ | ^ | ^ | 1.2 V ± 0.1 V | 4 | pF |
-| ^ | ^ | ^ | 1.5 V ± 0.1 V | 4 | pF |
-| ^ | ^ | ^ | 1.8 V ± 0.15 V | 4 | pF |
-| ^ | ^ | ^ | 2.5 V ± 0.2 V | 4.1 | pF |
-| ^ | ^ | ^ | 3.3 V ± 0.3 V | 4.3 | pF |
-```
-
 ## Typical characteristics
 
 ```curve id=tpd-vcc caption="t~pd~ vs V~CC~, 15 pF load"
@@ -295,6 +296,12 @@ VM: VCC/2
 ```
 
 ## Application information
+
+Information in the following applications sections is not part of the TI
+component specification, and TI does not warrant its accuracy or
+completeness. TI’s customers are responsible for determining suitability
+of components for their purposes, as well as validating and testing
+their design implementation to confirm system functionality.
 
 The AUP family is TI's solution to the industry's low-power needs in
 battery-powered portable applications. It has a small amount of
@@ -344,7 +351,11 @@ In many cases, functions or parts of functions of digital logic devices
 are unused, for example, when only two inputs of a triple-input AND gate
 are used or only 3 of the 4 buffer gates are used. Such input pins
 should not be left unconnected because the undefined voltages at the
-outside connections result in undefined operational states. All unused
+outside connections result in undefined operational states. Specified
+in Figure 10-1 are the rules that must be observed under all
+circumstances. Conversion note: Figure 10-1 (layout diagram, p.14) shows
+two gates, one with its unused input tied to V~CC~ and one with its
+unused input tied to ground. All unused
 inputs of digital logic devices must be connected to a high or low bias
 to prevent them from floating. The logic level that should be applied to
 any particular unused input depends on the function of the device.
@@ -410,8 +421,8 @@ Conversion note: the package option addendum also lists SN74AUP1G08DBVRG4.B and 
   Figure 6-1, which the source notes are not applicable to all devices;
   this gate has no output enable, no clock and no pulse-width limit.
   Also dropped: Figure 8-2 (family power comparison), Figure 8-3
-  (25 MHz switching waveform), the layout example and the DPW package
-  marketing text.
+  (25 MHz switching waveform) and the DPW package marketing text. The
+  layout diagram (Figure 10-1) is described in text.
 - Curves digitized from Figures 5-1 and 5-2 to about 2 % of full scale.
 - The DCKR and DCKRE4 marking cells wrap in the package option addendum
   ("HE" + "R" is HER, p.17).

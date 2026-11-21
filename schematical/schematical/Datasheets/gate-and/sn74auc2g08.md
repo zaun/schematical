@@ -62,7 +62,8 @@ VCC: Supply voltage
 ## Function tables
 
 ```table id=function caption="Function table (each gate)"
-| A [1] | B [1] | Y |
+| Inputs [1] | < | Output |
+| A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
 | L | X | L |
@@ -153,6 +154,13 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 [1] All typical values are at T~A~ = 25°C.
 ```
 
+```table id=op caption="Operating characteristics" conditions="T~A~ = 25 °C"
+| Symbol | Parameter | Test conditions | V~CC~ = 0.8 V | V~CC~ = 1.2 V | V~CC~ = 1.5 V | V~CC~ = 1.8 V | V~CC~ = 2.5 V | Unit |
+| ^ | ^ | ^ | Typ | Typ | Typ | Typ | Typ | ^ |
+|---|---|---|--:|--:|--:|--:|--:|---|
+| C~pd~ | Power dissipation capacitance | f = 10 MHz | 12 | 13 | 13 | 13 | 15 | pF |
+```
+
 ## Switching characteristics
 
 See [parameter measurement information](#parameter-measurement).
@@ -169,13 +177,6 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | Min | Typ | Max | Min | Max | ^ |
 |---|---|---|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | 1.2 | 1.5 | 2.1 | 1 | 1.6 | ns |
-```
-
-```table id=op caption="Operating characteristics" conditions="T~A~ = 25 °C"
-| Symbol | Parameter | Test conditions | V~CC~ = 0.8 V | V~CC~ = 1.2 V | V~CC~ = 1.5 V | V~CC~ = 1.8 V | V~CC~ = 2.5 V | Unit |
-| ^ | ^ | ^ | Typ | Typ | Typ | Typ | Typ | ^ |
-|---|---|---|--:|--:|--:|--:|--:|---|
-| C~pd~ | Power dissipation capacitance | f = 10 MHz | 12 | 13 | 13 | 13 | 15 | pF |
 ```
 
 ## Parameter measurement information

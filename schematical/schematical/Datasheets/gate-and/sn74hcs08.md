@@ -35,8 +35,8 @@ device includes balanced CMOS push-pull outputs.
 ```pinout pinout=p14
 ```
 
-Thermal Pad, BQA Package only. The thermal pad can be connected to GND
-or left floating. Do not connect to any other signal or supply.
+The thermal pad can be connected to GND or left floating. Do not connect
+to any other signal or supply. BQA Package only.
 
 ## Pin functions
 
@@ -86,7 +86,8 @@ ratings are observed.
 
 ## Function tables
 
-```table id=function caption="Function table (each gate) [1]"
+```table id=function caption="Function table (each gate)"
+| Inputs [1] | < | Output |
 | A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
@@ -233,6 +234,7 @@ t~PLH~ and t~PHL~ is the same as t~pd~. The greater between t~r~ and
 t~f~ is the same as t~t~.
 
 ```figure ref=load-cmos-50pf caption="Load circuit for push-pull outputs"
+CL: not given
 ```
 
 ```figure ref=waveforms-cmos-tpd-tt caption="Propagation delays and input and output transition times"
@@ -240,6 +242,12 @@ VM: 50 %
 ```
 
 ## Application information
+
+Information in the following applications sections is not part of the TI
+component specification, and TI does not warrant its accuracy or
+completeness. TI’s customers are responsible for determining suitability
+of components for their purposes, as well as validating and testing
+their design implementation to confirm system functionality.
 
 In this application, three 2-input AND gates are combined to produce a
 4-input AND gate function. The fourth gate can be used for another
@@ -322,7 +330,9 @@ connected in parallel for additional output drive strength. Unused
 outputs can be left floating. Do not connect outputs directly to
 V~CC~ or ground.
 
-Layout: inputs must never be left floating. All unused inputs must be
+Layout: inputs must never be left floating. Such unused input pins must
+not be left unconnected because the undefined voltages at the outside
+connections result in undefined operational states. All unused inputs must be
 connected to a logic high or logic low voltage, as defined by the input
 voltage specifications. Generally, the inputs are tied to GND or V~CC~,
 whichever makes more sense for the logic function or is more
@@ -365,8 +375,8 @@ SN74HCS08PWRG4 | Reel of 2000 | -40 to 125 | HCS08
   (Figure 8-2) is redrawn as WaveDrom.
 - Curves digitized from Figures 5-1 and 5-2 to about 2 % of full scale.
   The supply current curves (Figures 5-3 and 5-4) are not digitized.
-- The source's load circuit (Figure 6-1) gives no value for C~L~, so
-  the load figure carries no C~L~ parameter.
+- The source's load circuit (Figure 6-1, p.7) gives no value for C~L~,
+  so the load figure says "CL: not given".
 - From images: the curve points in Figures 5-1 and 5-2 (p.6).
 - The source's package option addendum also lists SN74HCS08DYYR
   (SOT-23-THIN, DYY), which the catalog doesn't carry.

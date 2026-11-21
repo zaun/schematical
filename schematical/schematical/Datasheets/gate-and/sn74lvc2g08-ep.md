@@ -32,6 +32,15 @@ This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
 current backflow through the device when it is powered down.
 
+Qualification pedigree. Component qualification in accordance with
+JEDEC and industry standards to ensure reliable operation over an
+extended temperature range. This includes, but is not limited to,
+Highly Accelerated Stress Test (HAST) or biased 85/85, temperature
+cycle, autoclave or unbiased HAST, electromigration, bond intermetallic
+life, and mold compound life. Such qualification testing should not be
+viewed as justifying use of this component beyond specified performance
+and environmental limits.
+
 ## Pinout
 
 ```pinout pinout=p8
@@ -50,6 +59,7 @@ VCC: Supply voltage
 ## Function tables
 
 ```table id=function caption="Function table (each gate)"
+| Inputs | < | Output |
 | A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
@@ -144,6 +154,15 @@ Typical V~OLP~ (output ground bounce) <0.8 V at V~CC~ = 3.3 V,
 T~A~ = 25°C. Typical V~OHV~ (output V~OH~ undershoot) >2 V at
 V~CC~ = 3.3 V, T~A~ = 25°C.
 
+### Operating characteristics
+
+```table id=opchar caption="Operating characteristics" conditions="T~A~ = 25 °C"
+| Symbol | Parameter | Test conditions | V~CC~ = 3.3 V | V~CC~ = 5 V | Unit |
+| ^ | ^ | ^ | Typ | Typ | ^ |
+|---|---|---|--:|--:|---|
+| C~pd~ | Power dissipation capacitance | f = 10 MHz | 17 | 20 | pF |
+```
+
 ## Switching characteristics
 
 See [parameter measurement information](#parameter-measurement). Conversion
@@ -154,15 +173,6 @@ note: the source specifies switching at V~CC~ = 3.3 V and 5 V only.
 | ^ | ^ | ^ | Min | Max | Min | Max | ^ |
 |---|---|---|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | 1 | 5.7 | 1 | 4.8 | ns |
-```
-
-### Operating characteristics
-
-```table id=opchar caption="Operating characteristics" conditions="T~A~ = 25 °C"
-| Symbol | Parameter | Test conditions | V~CC~ = 3.3 V | V~CC~ = 5 V | Unit |
-| ^ | ^ | ^ | Typ | Typ | ^ |
-|---|---|---|--:|--:|---|
-| C~pd~ | Power dissipation capacitance | f = 10 MHz | 17 | 20 | pF |
 ```
 
 ## Parameter measurement information
@@ -223,8 +233,8 @@ V62/07631-01XE | Reel of 3000 | -55 to 125 | SBNM
   option addendum (pp.6–7). The tape and reel and mechanical pages
   (8–13) are left out; the generated Package section replaces them.
 - Dropped: features list (the ESD, latch-up, ground-bounce and
-  undershoot facts are kept in text), the qualification-pedigree
-  footnote, the logic diagram (two AND gates).
+  undershoot facts and the qualification-pedigree footnote are kept in
+  text), the logic diagram (two AND gates).
 - The pin descriptions are added; the source has no pin function table.
   The electrical characteristics table of the source gives symbols only,
   so its Parameter cells are empty except for I~I~.
@@ -233,4 +243,5 @@ V62/07631-01XE | Reel of 3000 | -55 to 125 | SBNM
 - The text layer prints "£2.5 ns", "500 W" and the Boolean function as
   "Y + A • B or Y + A ) B"; the page images show ≤ 2.5 ns, 500 Ω and
   Y = A • B or Y = !{!{A} + !{B}} (pp.1, 5).
+- From images: overbars of Y = !{!{A} + !{B}} (p.1).
 - Source issues: none found.

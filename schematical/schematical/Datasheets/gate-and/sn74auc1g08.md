@@ -25,10 +25,11 @@
 
 This single 2-input positive-AND gate is operational at 0.8-V to 2.7-V
 V~CC~, but is designed specifically for 1.65-V to 1.95-V V~CC~
-operation. The SN74AUC1G08 device performs the Boolean function
-Y = A • B or Y = !{!{A} + !{B}} in positive logic. Optimized for 1.8-V
-operation and is 3.6-V I/O tolerant to support mixed-mode signal
-operation.
+operation. Optimized for 1.8-V operation and is 3.6-V I/O tolerant to
+support mixed-mode signal operation.
+
+The SN74AUC1G08 device performs the Boolean function
+Y = A • B or Y = !{!{A} + !{B}} in positive logic.
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
@@ -58,6 +59,7 @@ VCC: Positive supply
 ## Function tables
 
 ```table id=function caption="Function table"
+| Inputs | < | Output |
 | A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
@@ -159,6 +161,13 @@ VCC: Positive supply
 [1] All typical values are at T~A~ = 25°C.
 ```
 
+```table id=op caption="Operating characteristics" conditions="T~A~ = 25 °C"
+| Symbol | Parameter | Test conditions | V~CC~ = 0.8 V | V~CC~ = 1.2 V | V~CC~ = 1.5 V | V~CC~ = 1.8 V | V~CC~ = 2.5 V | Unit |
+| ^ | ^ | ^ | Typ | Typ | Typ | Typ | Typ | ^ |
+|---|---|---|--:|--:|--:|--:|--:|---|
+| C~pd~ | Power dissipation capacitance | f = 10 MHz | 15 | 15 | 15 | 15 | 19 | pF |
+```
+
 ## Switching characteristics
 
 See [parameter measurement information](#parameter-measurement).
@@ -175,13 +184,6 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | Min | Typ | Max | Min | Max | ^ |
 |---|---|---|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | 0.7 | 1.3 | 2.4 | 0.5 | 2 | ns |
-```
-
-```table id=op caption="Operating characteristics" conditions="T~A~ = 25 °C"
-| Symbol | Parameter | Test conditions | V~CC~ = 0.8 V | V~CC~ = 1.2 V | V~CC~ = 1.5 V | V~CC~ = 1.8 V | V~CC~ = 2.5 V | Unit |
-| ^ | ^ | ^ | Typ | Typ | Typ | Typ | Typ | ^ |
-|---|---|---|--:|--:|--:|--:|--:|---|
-| C~pd~ | Power dissipation capacitance | f = 10 MHz | 15 | 15 | 15 | 15 | 19 | pF |
 ```
 
 ## Parameter measurement information

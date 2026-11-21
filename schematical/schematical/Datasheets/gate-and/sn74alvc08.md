@@ -49,6 +49,7 @@ VCC: Positive supply
 Conversion note: the logic diagram shows each gate as a 2-input AND gate (positive logic).
 
 ```table id=function caption="Function table (each gate)"
+| Inputs | < | Output |
 | A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
@@ -226,7 +227,6 @@ SN74ALVC08DGVR | Reel of 2000 | -40 to 85 | VA08
 - Dropped: features list (ESD and latch-up kept as a sentence), the
   pulse-duration, setup/hold and enable/disable waveforms of the generic
   measurement figure (they do not apply to this part).
-- The second form of the Boolean function loses its overbars in the PDF
-  text layer ("Y = A + B"); written as Y = !{!{A} + !{B}} from the page
-  image.
+- From images: overbars of Y = !{!{A} + !{B}} (p.1; the text layer
+  prints "Y = A + B").
 - Source issues: none found.

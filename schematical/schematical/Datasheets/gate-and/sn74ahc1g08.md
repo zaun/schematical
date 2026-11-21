@@ -55,7 +55,8 @@ VCC: Power
 ## Function tables
 
 ```table id=function caption="Function table"
-| A [1] | B [1] | Y [2] |
+| Inputs [1] | < | Output [2] |
+| A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
 | L | X | L |
@@ -272,12 +273,13 @@ single supply. Capacitors with values of 0.1 µF and 1 µF are commonly
 used in parallel. The bypass capacitor should be installed as close to
 the power terminal as possible for best results.
 
-Layout: when a PCB trace turns a corner at a 90° angle, a reflection can
-occur, primarily because of the change of width of the trace; at the
-apex of the turn, the trace width increases to 1.414 times the width.
-Not all PCB traces can be straight and therefore some traces must turn
-corners. Only rounded corners (BEST in Figure 8-4) maintain constant
-trace width and minimize reflections.
+When a PCB trace turns a corner at a 90° angle, a reflection can occur.
+A reflection occurs primarily because of the change of width of the
+trace. At the apex of the turn, the trace width increases to 1.414 times
+the width. Not all PCB traces can be straight and therefore some traces
+must turn corners. Figure 8-4 shows progressively better techniques of
+rounding corners. Only the last example (BEST) maintains constant trace
+width and minimizes reflections.
 
 ## Package
 
@@ -309,9 +311,6 @@ SN74AHC1G08DRLR | Reel of 4000 | -55 to 125 | AEB, AES
 SN74AHC1G08DRLRG4 | Reel of 4000 | -55 to 125 | AEB, AES
 ```
 
-Multiple part markings will be inside parentheses. Only one part marking
-contained in parentheses will appear on a part.
-
 ## Conversion notes
 
 - Source pages 1–11 converted; support pages, revision history, the
@@ -321,10 +320,11 @@ contained in parentheses will appear on a part.
   as one sentence), package information table, logic diagram (one AND
   gate), the trace example drawing (Figure 8-4, summarized in one
   sentence), the generic multiple-V~CC~ and dual-supply bypass advice.
-- The ordering block follows the package option addendum (p.12).
+- The ordering block follows the package option addendum (p.13).
 - Curves digitized from Figures 8-2 and 8-3 to about 2 % of full scale.
 - From images: MCU (MSP43x), EN, V~O~ (Figure 8-1, p.9); 20, 26 (edge
-  times read from Figure 5-1, p.6).
+  times read from Figure 5-1, p.6); overbars of Y = !{A + B} (p.1 and
+  p.8: one overbar drawn over the whole of A + B).
 - Source issues:
   - Source error: Description and Overview print Y = !{A + B} as the
     second form (Description note).

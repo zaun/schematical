@@ -31,8 +31,8 @@ This device is fully specified for partial-power-down application using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
 current backflow through the devices when they are powered down.
 
-- Allows down voltage translation: Inputs accept voltages to 5.5V
-- I~off~ feature: Allows voltages on the input or output when V~CC~ is 0V
+Allows down voltage translation. Inputs accept voltages to 5.5V. I~off~
+feature. Allows voltages on the input or output when V~CC~ is 0V.
 
 ## Pinout
 
@@ -52,7 +52,8 @@ VCC: Power pin
 ## Function tables
 
 ```table id=function caption="Function table (each gate)"
-| A [1] | B [1] | Y [2] |
+| Inputs [1] | < | Output [2] |
+| A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
 | L | X | L |
@@ -96,7 +97,7 @@ VCC: Power pin
 
 ## Recommended operating conditions
 
-```table id=roc caption="Recommended operating conditions [1]" conditions="Over operating free-air temperature range (unless otherwise noted)"
+```table id=roc caption="Recommended operating conditions (SN74LV08A) [1]" conditions="Over operating free-air temperature range (unless otherwise noted)"
 | Symbol | Parameter | Conditions | Min | Max | Unit |
 |---|---|---|--:|--:|---|
 | V~CC~ | Supply voltage | | 2 | 5.5 | V |
@@ -163,7 +164,7 @@ VCC: Power pin
 | ^ | ^ | ^ | 5 V | | 3.3 | | | 3.3 | | pF |
 ```
 
-```table id=noise caption="Noise characteristics" conditions="V~CC~ = 3.3 V, C~L~ = 50 pF, T~A~ = 25 °C"
+```table id=noise caption="Noise characteristics (SN74LV08A)" conditions="V~CC~ = 3.3 V, C~L~ = 50 pF, T~A~ = 25 °C"
 | Symbol | Parameter | Min | Typ | Max | Unit |
 |---|---|--:|--:|--:|---|
 | V~OL(P)~ | Quiet output, maximum dynamic V~OL~ | | 0.2 | 0.8 | V |
@@ -258,6 +259,12 @@ duration, setup and hold times, and enable and disable times.
 
 ## Application information
 
+Information in the following applications sections is not part of the TI
+component specification, and TI does not warrant its accuracy or
+completeness. TI’s customers are responsible for determining suitability
+of components for their purposes, as well as validating and testing
+their design implementation to confirm system functionality.
+
 The SN74LV08A is a low-drive CMOS device that can be used for a multitude
 of bus interface type applications where output ringing is a concern.
 The low drive and slow edge rates will minimize overshoot and undershoot
@@ -313,7 +320,8 @@ input pins should not be left unconnected because the undefined
 voltages at the outside connections result in undefined operational
 states.
 
-All unused inputs of digital logic devices must be connected to a high
+Specified in Figure 8-3 are rules that must be observed under all
+circumstances. All unused inputs of digital logic devices must be connected to a high
 or low bias to prevent them from floating. The logic level that should
 be applied to any particular unused input depends on the function of
 the device. Generally they will be tied to GND or V~CC~, whichever
@@ -371,6 +379,7 @@ SN74LV08ARGYRG4 | Reel of 3000 | -40 to 125 | LV08A
   application curves figure (Figure 8-2), layout example figure, support
   pages, revision history.
 - Curves digitized from Figures 5-1 and 5-2 to about 2 % of full scale.
+- From images: overbars of Y = !{!{A} + !{B}} (p.1 and p.9).
 - The typical application (Figure 8-1) is described in text.
 - The thermal table also gives the N package, which has no orderable
   part in the package option addendum.

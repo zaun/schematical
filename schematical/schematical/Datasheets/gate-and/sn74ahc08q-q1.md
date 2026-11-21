@@ -58,6 +58,7 @@ Information".
 ## Function tables
 
 ```table id=function caption="Function table (each gate)"
+| Inputs | < | Output |
 | A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
@@ -240,9 +241,10 @@ SN74AHC08QWBQARQ1 | Reel of 3000 | -40 to 125 | AHC08Q
   replaced by the generated Package and Ordering sections.
 - Dropped: features list (kept as one sentence), package information
   table, logic diagram (one AND gate).
-- From images: 50 % V~CC~ (V~M~, Figure 5-1, p.7); the bar over A + B
-  (Description, p.1).
-- The ordering block follows the package option addendum (p.10), which
+- From images: 50 % V~CC~ (V~M~, Figure 5-1, p.7); the overbar of !{A + B}
+  (Description, p.1; the bar starts over A at the end of one line and
+  runs over + B on the next).
+- The ordering block follows the package option addendum (p.11), which
   prints no operating temperature for SN74AHC08QDRG4Q1.
 - Source issues:
   - Source error: Description formula "Y + A • B or Y = !{A + B}"

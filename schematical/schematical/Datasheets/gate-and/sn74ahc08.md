@@ -66,6 +66,7 @@ are kept.
 ## Function tables
 
 ```table id=function caption="Function table (each gate)"
+| Inputs | < | Output |
 | A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
@@ -231,14 +232,14 @@ See [parameter measurement information](#parameter-measurement).
 ```table id=sw-3v3 caption="Switching characteristics, V~CC~ = 3.3 V ± 0.3 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ | Min | Typ | Max | Unit |
 |---|---|---|---|---|--:|--:|--:|---|
-| t~PLH~, t~PHL~ | A or B | Y | C~L~ = 15 pF | 25 °C [1] |  | 6.2 | 8.8 | ns |
-| ^ | ^ | ^ | ^ | -55 °C to 125 °C, SN54AHC08 [1] [2] |  | 1 | 10.5 | ns |
-| ^ | ^ | ^ | ^ | -40 °C to 85 °C, SN74AHC08 [2] |  | 1 | 10.5 | ns |
-| ^ | ^ | ^ | ^ | -40 °C to 125 °C Recommended, SN74AHC08 [2] |  | 1 | 10.5 | ns |
+| t~PLH~, t~PHL~ | A or B | Y | C~L~ = 15 pF | 25 °C |  | 6.2 [1] | 8.8 [1] | ns |
+| ^ | ^ | ^ | ^ | -55 °C to 125 °C, SN54AHC08 |  | 1 [1] [2] | 10.5 [1] | ns |
+| ^ | ^ | ^ | ^ | -40 °C to 85 °C, SN74AHC08 |  | 1 [2] | 10.5 | ns |
+| ^ | ^ | ^ | ^ | -40 °C to 125 °C Recommended, SN74AHC08 |  | 1 [2] | 10.5 | ns |
 | ^ | ^ | ^ | C~L~ = 50 pF | 25 °C |  | 8.7 | 12.3 | ns |
-| ^ | ^ | ^ | ^ | -55 °C to 125 °C, SN54AHC08 [2] |  | 1 | 14 | ns |
-| ^ | ^ | ^ | ^ | -40 °C to 85 °C, SN74AHC08 [2] |  | 1 | 14 | ns |
-| ^ | ^ | ^ | ^ | -40 °C to 125 °C Recommended, SN74AHC08 [2] |  | 1 | 14 | ns |
+| ^ | ^ | ^ | ^ | -55 °C to 125 °C, SN54AHC08 |  | 1 [2] | 14 | ns |
+| ^ | ^ | ^ | ^ | -40 °C to 85 °C, SN74AHC08 |  | 1 [2] | 14 | ns |
+| ^ | ^ | ^ | ^ | -40 °C to 125 °C Recommended, SN74AHC08 |  | 1 [2] | 14 | ns |
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 [2] Unconfirmed: the source prints this 1 under TYP and leaves MIN empty.
@@ -247,14 +248,14 @@ See [parameter measurement information](#parameter-measurement).
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ | Min | Typ | Max | Unit |
 |---|---|---|---|---|--:|--:|--:|---|
-| t~PLH~, t~PHL~ | A or B | Y | C~L~ = 15 pF | 25 °C [1] |  | 4.3 | 5.9 | ns |
-| ^ | ^ | ^ | ^ | -55 °C to 125 °C, SN54AHC08 [1] [2] |  | 1 | 7 | ns |
-| ^ | ^ | ^ | ^ | -40 °C to 85 °C, SN74AHC08 [2] |  | 1 | 7 | ns |
-| ^ | ^ | ^ | ^ | -40 °C to 125 °C Recommended, SN74AHC08 [2] |  | 1 | 7 | ns |
+| t~PLH~, t~PHL~ | A or B | Y | C~L~ = 15 pF | 25 °C |  | 4.3 [1] | 5.9 [1] | ns |
+| ^ | ^ | ^ | ^ | -55 °C to 125 °C, SN54AHC08 |  | 1 [1] [2] | 7 [1] | ns |
+| ^ | ^ | ^ | ^ | -40 °C to 85 °C, SN74AHC08 |  | 1 [2] | 7 | ns |
+| ^ | ^ | ^ | ^ | -40 °C to 125 °C Recommended, SN74AHC08 |  | 1 [2] | 7 | ns |
 | ^ | ^ | ^ | C~L~ = 50 pF | 25 °C |  | 5.8 | 7.9 | ns |
-| ^ | ^ | ^ | ^ | -55 °C to 125 °C, SN54AHC08 [2] |  | 1 | 9 | ns |
-| ^ | ^ | ^ | ^ | -40 °C to 85 °C, SN74AHC08 [2] |  | 1 | 9 | ns |
-| ^ | ^ | ^ | ^ | -40 °C to 125 °C Recommended, SN74AHC08 [2] |  | 1 | 9 | ns |
+| ^ | ^ | ^ | ^ | -55 °C to 125 °C, SN54AHC08 |  | 1 [2] | 9 | ns |
+| ^ | ^ | ^ | ^ | -40 °C to 85 °C, SN74AHC08 |  | 1 [2] | 9 | ns |
+| ^ | ^ | ^ | ^ | -40 °C to 125 °C Recommended, SN74AHC08 |  | 1 [2] | 9 | ns |
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 [2] Unconfirmed: the source prints this 1 under TYP and leaves MIN empty.
@@ -353,15 +354,23 @@ pin as possible for best results.
 
 ### Layout guidelines
 
-When using multiple bit logic devices inputs should not ever float. All
-unused inputs of digital logic devices must be connected to a high or
-low bias to prevent them from floating. Generally they will be tied to
-GND or V~CC~; whichever makes more sense or is more convenient. It is generally acceptable to float outputs unless
-the part is a transceiver. Conversion note: the layout example
-recommends a GND flood
-fill, a 0.1 µF bypass capacitor placed close to the device, unused inputs
-tied to V~CC~, unused outputs left floating, and no 90° corners on signal
-lines.
+When using multiple bit logic devices inputs should not ever float.
+
+In many cases, functions or parts of functions of digital logic devices
+are unused, for example, when only two inputs of a triple-input AND gate
+are used or only 3 of the 4 buffer gates are used. Such input pins
+should not be left unconnected because the undefined voltages at the
+outside connections result in undefined operational states. Specified in
+Figure 8-3 are the rules that must be observed under all circumstances.
+All unused inputs of digital logic devices must be connected to a high
+or low bias to prevent them from floating. The logic level that must be
+applied to any particular unused input depends on the function of the
+device. Generally they will be tied to GND or V~CC~; whichever makes
+more sense or is more convenient. It is generally acceptable to float
+outputs unless the part is a transceiver. Conversion note: Figure 8-3,
+the layout example (p.15), recommends a GND flood fill, a 0.1 µF bypass
+capacitor placed close to the device, unused inputs tied to V~CC~, an
+unused output left floating, and no 90° corners for signal lines.
 
 ## Package
 
@@ -418,7 +427,7 @@ SNJ54AHC08FK | Tube of 55 | -55 to 125 | 5962-9682001Q2A SNJ54AHC08FK
   replaced by the generated Package and Ordering sections.
 - Dropped: features and applications lists, device information table,
   simplified schematic and functional block diagram (one AND gate), the
-  layout example drawing (summarized in one sentence).
+  layout example drawing (Figure 8-3, summarized in one sentence).
 - The pin configuration also names a W package, for which the source
   lists no orderable part.
 - Curves digitized from Figures 5-1 and 8-2 to about 2 % of full scale.
@@ -427,7 +436,8 @@ SNJ54AHC08FK | Tube of 55 | -55 to 125 | 5962-9682001Q2A SNJ54AHC08FK
 - From images: MCU (MSP43x), EN, V~O~ (Figure 8-1, p.13); 50 % V~CC~
   (V~M~, Figure 6-1, p.11); "T~A~ = 25°C, V~CC~ = 5.5 V, All Outputs
   Switching" and the AHC and AHCT curve labels (Figures 5-1 and 8-2,
-  pp.10 and 14).
+  pp.10 and 14); the overbar of Y = !{A + B}, one bar over
+  the whole sum (Description, p.1).
 - The ordering block follows the package option addendum (pp.18–19).
 - Source issues:
   - Source error: the Description prints the second form of the Boolean

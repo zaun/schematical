@@ -24,10 +24,11 @@
 ## Description
 
 This device contains three independent 3-input AND gates. Each gate
-performs the Boolean function Y = A · B · C in positive logic. Inputs
-are buffered and LSTTL input logic compatible (V~IL(max)~ = 0.8 V,
-V~IH(min)~ = 2 V); outputs support fanout up to 10 LSTTL loads. 4.5 V to
-5.5 V operation; wide operating temperature range: -55°C to +125°C.
+performs the Boolean function Y = A · B · C in positive logic.
+
+LSTTL input logic compatible. V~IL(max)~ = 0.8 V, V~IH(min)~ = 2 V.
+Buffered inputs. 4.5 V to 5.5 V operation. Wide operating temperature
+range: -55°C to +125°C. Supports fanout up to 10 LSTTL loads.
 
 ## Pinout
 
@@ -45,9 +46,50 @@ GND: Ground
 VCC: Positive supply
 ```
 
+## Functional description
+
+Outputs: a balanced output allows the device to sink and source similar
+currents. The drive capability of this device may create fast edges into
+light loads so routing and load conditions should be considered to
+prevent ringing. Additionally, the outputs of this device are capable of
+driving larger currents than the device can sustain without being
+damaged. It is important for the output power of the device to be
+limited to avoid damage due to over-current. The electrical and thermal
+limits defined in the
+[absolute maximum ratings](#absolute-maximum-ratings) must be followed
+at all times. The CD74HCT11 can drive a load with a total capacitance less
+than or equal to the maximum load listed in the
+[switching characteristics](#switching-characteristics) connected to a
+high-impedance CMOS input while still meeting all of the datasheet
+specifications. Larger capacitive loads can be applied, however it is
+not recommended to exceed the provided load value. If larger capacitive
+loads are required, it is recommended to add a series resistor between
+the output and the capacitor to limit output current.
+
+Inputs: TTL-compatible CMOS inputs are high impedance and are typically
+modeled as a resistor from the input to ground in parallel with the
+input capacitance. Signals applied to the inputs need to have fast edge
+rates, as defined in the
+[recommended operating conditions](#recommended-operating-conditions),
+to avoid excessive current consumption and oscillations. If a slow or
+noisy input signal is required, a device with a Schmitt-trigger input
+should be used to condition the input signal prior to the
+TTL-compatible CMOS input. TTL-compatible CMOS inputs have a lower
+threshold voltage than standard CMOS inputs to allow for compatibility
+with older bipolar logic devices.
+
+The inputs and outputs have both positive and negative clamping diodes.
+CAUTION: Voltages beyond the values specified in the absolute maximum
+ratings table can cause damage to the device. The recommended input and output voltage ratings may be exceeded
+if the input and output clamp-current ratings are observed.
+
+```figure ref=clamp-diodes caption="Electrical placement of clamping diodes for each input and output"
+```
+
 ## Function tables
 
 ```table id=function caption="Function table (each gate)"
+| Inputs | < | < | Output |
 | A | B | C | Y |
 |:-:|:-:|:-:|:-:|
 | H | H | H | H |
@@ -102,10 +144,9 @@ VCC: Positive supply
 | R~θJB~ | Junction-to-board thermal resistance | 43.5 | 56.0 | °C/W |
 | Ψ~JT~ | Junction-to-top characterization parameter | 31.1 | 18.2 | °C/W |
 | Ψ~JB~ | Junction-to-board characterization parameter | 43.2 | 55.6 | °C/W |
-| R~θJC(bot)~ | Junction-to-case (bottom) thermal resistance [2] | | | °C/W |
+| R~θJC(bot)~ | Junction-to-case (bottom) thermal resistance | N/A | N/A | °C/W |
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
-[2] Conversion note: the source prints N/A in both columns of this row.
 ```
 
 ## Electrical characteristics
@@ -164,43 +205,11 @@ VM: 50 %
 
 ## Application information
 
-Outputs: a balanced output allows the device to sink and source similar
-currents. The drive capability of this device may create fast edges into
-light loads so routing and load conditions should be considered to
-prevent ringing. Additionally, the outputs of this device are capable of
-driving larger currents than the device can sustain without being
-damaged. It is important for the output power of the device to be
-limited to avoid damage due to over-current. The electrical and thermal
-limits defined in the
-[absolute maximum ratings](#absolute-maximum-ratings) must be followed
-at all times. The CD74HCT11 can drive a load with a total capacitance less
-than or equal to the maximum load listed in the
-[switching characteristics](#switching-characteristics) connected to a
-high-impedance CMOS input while still meeting all of the datasheet
-specifications. Larger capacitive loads can be applied, however it is
-not recommended to exceed the provided load value. If larger capacitive
-loads are required, it is recommended to add a series resistor between
-the output and the capacitor to limit output current.
-
-Inputs: TTL-compatible CMOS inputs are high impedance and are typically
-modeled as a resistor from the input to ground in parallel with the
-input capacitance. Signals applied to the inputs need to have fast edge
-rates, as defined in the
-[recommended operating conditions](#recommended-operating-conditions),
-to avoid excessive current consumption and oscillations. If a slow or
-noisy input signal is required, a device with a Schmitt-trigger input
-should be used to condition the input signal prior to the
-TTL-compatible CMOS input. TTL-compatible CMOS inputs have a lower
-threshold voltage than standard CMOS inputs to allow for compatibility
-with older bipolar logic devices.
-
-The inputs and outputs have both positive and negative clamping diodes.
-Voltages beyond the absolute maximum ratings can cause damage to the
-device. The recommended input and output voltage ratings may be exceeded
-if the input and output clamp-current ratings are observed.
-
-```figure ref=clamp-diodes caption="Electrical placement of clamping diodes for each input and output"
-```
+Information in the following applications sections is not part of the TI
+component specification, and TI does not warrant its accuracy or
+completeness. TI’s customers are responsible for determining suitability
+of components for their purposes, as well as validating and testing
+their design implementation to confirm system functionality.
 
 Typical application: this device is used to directly control the RESET
 pin of a motor controller. The controller requires three input signals
@@ -214,8 +223,8 @@ Power: the supply must be capable of sourcing current equal to the total
 current to be sourced by all outputs plus the maximum supply current,
 I~CC~. Be sure not to exceed the maximum total current through GND or
 V~CC~ listed in the absolute maximum ratings. Each V~CC~ terminal should
-have a bypass capacitor to prevent power disturbance; a 0.1-µF capacitor
-is recommended. The 0.1-µF and 1-µF capacitors are commonly used in
+have a bypass capacitor to prevent power disturbance. A 0.1-µF capacitor
+is recommended for this device. The 0.1-µF and 1-µF capacitors are commonly used in
 parallel. The bypass capacitor should be installed as close to the power
 terminal as possible.
 
@@ -230,16 +239,19 @@ directly to V~CC~ or ground.
 
 Detailed design procedure: add a decoupling capacitor from V~CC~ to GND.
 The capacitor needs to be placed physically close to the device and
-electrically close to both the V~CC~ and GND pins. Ensure the capacitive load at the output is ≤ 70 pF;
-this is not a hard limit, however it will ensure optimal performance.
+electrically close to both the V~CC~ and GND pins. Ensure the capacitive load at the output is ≤ 70 pF.
+This is not a hard limit, however it will ensure optimal performance.
 Ensure the resistive load at the output is larger than (V~CC~ /
 I~O(max)~) Ω. This will ensure that the maximum output current from the
 absolute maximum ratings is not violated.
 
-Layout: inputs must not ever be left floating. All unused inputs of
+Layout: inputs must not ever be left floating. Such unused input pins must not be left unconnected because the
+undefined voltages at the outside connections result in undefined
+operational states. All unused inputs of
 digital logic devices must be connected to a logic high or logic low
 voltage, as defined by the input voltage specifications, to prevent them
-from floating. Generally, the inputs are tied to GND or V~CC~, whichever
+from floating. The logic level that must be applied to any particular
+unused input depends on the function of the device. Generally, the inputs are tied to GND or V~CC~, whichever
 makes more sense for the logic function or is more convenient.
 
 ## Package

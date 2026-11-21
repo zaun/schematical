@@ -23,15 +23,15 @@
 
 ## Description
 
+Qualified for automotive applications. Supports 5-V V~CC~ operation.
+Inputs accept voltages to 5.5 V.
+
 The SN74LVC1G11-Q1 performs the Boolean function Y = A • B • C or
-Y = !{!{A} + !{B} + !{C}} in positive logic. Supports 5-V V~CC~
-operation. Inputs accept voltages to 5.5 V.
+Y = !{!{A} + !{B} + !{C}} in positive logic.
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
 current backflow through the device when it is powered down.
-
-Qualified for automotive applications.
 
 ## Pinout
 
@@ -52,6 +52,7 @@ Y: Output
 ## Function tables
 
 ```table id=function caption="Function table"
+| Inputs | < | < | Output |
 | A | B | C | Y |
 |:-:|:-:|:-:|:-:|
 | H | H | H | H |
@@ -143,6 +144,15 @@ Y: Output
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25 °C.
 ```
 
+### Operating characteristics
+
+```table id=opchar caption="Operating characteristics" conditions="T~A~ = 25 °C"
+| Symbol | Parameter | Test conditions | V~CC~ = 1.8 V | V~CC~ = 2.5 V | V~CC~ = 3.3 V | V~CC~ = 5 V | Unit |
+| ^ | ^ | ^ | Typ | Typ | Typ | Typ | ^ |
+|---|---|---|--:|--:|--:|--:|---|
+| C~pd~ | Power dissipation capacitance | f = 10 MHz | 18 | 19 | 20 | 23 | pF |
+```
+
 ## Switching characteristics
 
 See [parameter measurement information](#parameter-measurement).
@@ -154,15 +164,6 @@ See [parameter measurement information](#parameter-measurement).
 | t~pd~ | A, B, or C | Y | 2.9 | 17.2 | 1.4 | 6.2 | 1.3 | 4.9 | 1 | 3.5 | ns |
 
 [1] Source conflict: this table gives a maximum t~pd~ of 4.9 ns at V~CC~ = 3.3 V ± 0.3 V; the features list (p.1) says "Max tpd of 4.1 ns at 3.3 V".
-```
-
-### Operating characteristics
-
-```table id=opchar caption="Operating characteristics" conditions="T~A~ = 25 °C"
-| Symbol | Parameter | Test conditions | V~CC~ = 1.8 V | V~CC~ = 2.5 V | V~CC~ = 3.3 V | V~CC~ = 5 V | Unit |
-| ^ | ^ | ^ | Typ | Typ | Typ | Typ | ^ |
-|---|---|---|--:|--:|--:|--:|---|
-| C~pd~ | Power dissipation capacitance | f = 10 MHz | 18 | 19 | 20 | 23 | pF |
 ```
 
 ## Parameter measurement information
@@ -229,9 +230,10 @@ SN74LVC1G11IDCKRQ1 | Reel of 3000 | -40 to 85 | 7LR
   so its Parameter cells are empty except for I~I~.
 - The load circuit is drawn with the shared R~L~ ∥ C~L~ figure; the
   second R~L~ and S1 are described in text.
-- The text layer prints "£2 ns", "1 kW", "500 W" and the Boolean function
-  as "Y + A • B • C or Y + A ) B ) C"; the page images show ≤ 2 ns,
-  1 kΩ, 500 Ω and Y = A • B • C or Y = !{!{A} + !{B} + !{C}} (pp.1, 5).
+- From images: overbars of Y = !{!{A} + !{B} + !{C}} (p.1; the text
+  layer prints "Y + A • B • C or Y + A ) B ) C"); ≤ 2 ns, ≤ 2.5 ns,
+  ≤ 10 MHz, 1 kΩ, 500 Ω, 50 Ω and V~Δ~ (Figure 1, p.5; the text layer
+  prints "£2 ns", "1 kW", "500 W" and "VD").
 - Source issues:
   - Source conflict: the features list says "Max tpd of 4.1 ns at 3.3 V"
     (p.1); the switching characteristics give a maximum t~pd~ of 4.9 ns

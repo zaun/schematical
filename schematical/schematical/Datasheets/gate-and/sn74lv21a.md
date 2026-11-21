@@ -53,7 +53,8 @@ NC: Not internally connected
 ## Function tables
 
 ```table id=function caption="Function table (each gate)"
-| A [1] | B [1] | C [1] | D [1] | Y [2] |
+| Inputs [1] | < | < | < | Output [2] |
+| A | B | C | D | Y |
 |:-:|:-:|:-:|:-:|:-:|
 | H | H | H | H | H |
 | L | X | X | X | L |

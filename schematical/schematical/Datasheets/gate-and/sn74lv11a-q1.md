@@ -23,9 +23,11 @@
 
 ## Description
 
+Qualified for automotive applications.
+
 These triple 3-input positive-AND gates are designed for 2-V to 5.5-V
 V~CC~ operation. The SN74LV11A-Q1 devices perform the Boolean function
-Y = A • B • C in positive logic. Qualified for automotive applications.
+Y = A • B • C in positive logic.
 
 These devices are fully specified for partial-power-down applications
 using I~off~. The I~off~ circuitry disables the outputs, preventing
@@ -50,7 +52,8 @@ VCC: Power pin
 ## Function tables
 
 ```table id=function caption="Function table (each gate)"
-| A [1] | B [1] | C [1] | Y [2] |
+| Inputs [1] | < | < | Output [2] |
+| A | B | C | Y |
 |:-:|:-:|:-:|:-:|
 | H | H | H | H |
 | L | X | X | L |

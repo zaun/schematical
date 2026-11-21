@@ -35,8 +35,8 @@ device includes balanced CMOS push-pull outputs.
 ```pinout pinout=p14
 ```
 
-Thermal Pad, BQA Package only. The thermal pad can be connected to GND
-or left floating. Do not connect to any other signal or supply.
+The thermal pad can be connected to GND or left floating. Do not
+connect to any other signal or supply. Thermal Pad, BQA Package only.
 
 ## Pin functions
 
@@ -86,7 +86,8 @@ ratings are observed.
 
 ## Function tables
 
-```table id=function caption="Function table (each gate) [1]"
+```table id=function caption="Function table"
+| Inputs [1] | < | Output |
 | A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
@@ -231,6 +232,7 @@ t~PLH~ and t~PHL~ is the same as t~pd~. The greater between t~r~ and
 t~f~ is the same as t~t~.
 
 ```figure ref=load-cmos-50pf caption="Load circuit for push-pull outputs"
+CL: not given
 ```
 
 ```figure ref=waveforms-cmos-tpd-tt caption="Propagation delays and input and output transition times"
@@ -238,6 +240,10 @@ VM: 50 %
 ```
 
 ## Application information
+
+Information in the following applications sections is not part of the TI
+component specification, and TI does not warrant its accuracy or
+completeness.
 
 In this application, three 2-input AND gates are combined to produce a
 4-input AND gate function. The fourth gate can be used for another
@@ -278,7 +284,8 @@ Electrical Characteristics, and any transient current required for
 switching. Verify that the maximum total current through GND listed in
 the Absolute Maximum Ratings is not exceeded. The maximum junction
 temperature, T~J~(max) listed in the Absolute Maximum Ratings, is an
-additional limitation to prevent damage to the device. Each V~CC~
+additional limitation to prevent damage to the device. Do not violate
+any values listed in the Absolute Maximum Ratings. Each V~CC~
 terminal must have a good bypass capacitor to prevent power disturbance.
 A 0.1 µF capacitor is recommended for this device. The
 0.1 µF and 1 µF capacitors are commonly used in parallel. The bypass
@@ -320,9 +327,13 @@ connected in parallel for additional output drive strength. Unused
 outputs can be left floating. Do not connect outputs directly to
 V~CC~ or ground.
 
-Layout: inputs must never be left floating. All unused inputs must be
-connected to a logic high or logic low voltage, as defined by the input
-voltage specifications. Generally, the inputs are tied to GND or V~CC~,
+Layout: inputs must never be left floating. Such unused input pins must
+not be left unconnected because the undefined voltages at the outside
+connections result in undefined operational states. All unused inputs
+must be connected to a logic high or logic low voltage, as defined by
+the input voltage specifications, to prevent them from floating. The
+logic level that must be applied to any particular unused input depends
+on the function of the device. Generally, the inputs are tied to GND or V~CC~,
 whichever makes more sense for the logic function or is more
 convenient. Conversion note: the source's layout example uses a GND flood fill, places
 the bypass capacitor close to the device, ties unused inputs to V~CC~,
@@ -362,7 +373,7 @@ SN74HCS08QPWRQ1 | Reel of 2000 | -40 to 125 | HCS08Q
 - Curves digitized from Figures 5-1 and 5-2 to about 2 % of full scale.
   The supply current curves (Figures 5-3 and 5-4) are not digitized.
 - The source's load circuit (Figure 6-1) gives no value for C~L~, so
-  the load figure carries no C~L~ parameter.
+  the load figure says "CL: not given".
 - From images: the curve points in Figures 5-1 and 5-2 (p.6).
 - The source's package option addendum also lists SN74HCS08QDYYRQ1
   (SOT-23-THIN, DYY), which the catalog doesn't carry.

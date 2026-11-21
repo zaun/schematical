@@ -62,10 +62,73 @@ VCC: Power pin
 NC: Not connected
 ```
 
+## Functional description
+
+### Balanced CMOS push-pull outputs
+
+This device includes balanced CMOS push-pull outputs. The term balanced
+indicates that the device can sink and source similar currents. The
+drive capability of this device can create fast edges into light loads,
+so routing and load conditions must be considered to prevent ringing.
+Additionally, the outputs of this device are capable of driving larger
+currents than the device can sustain without being damaged. Limit the
+output power of the device to avoid damage due to overcurrent. The
+electrical and thermal limits defined in the
+[absolute maximum ratings](#absolute-maximum-ratings) must be followed at
+all times. Unused push-pull CMOS outputs must be left disconnected.
+
+### Partial power down (I~off~)
+
+This device includes circuitry to disable all outputs when the supply
+pin is held at 0V. When disabled, the outputs neither source nor sink
+current, regardless of the input voltages. The amount of leakage current
+at each output is defined by the I~off~ specification in the electrical
+characteristics table.
+
+### Standard CMOS inputs
+
+This device includes standard CMOS inputs. Standard CMOS inputs are high
+impedance and are typically modeled as a resistor in parallel with the
+input capacitance given in the electrical characteristics. The worst
+case resistance is calculated with the maximum input voltage, given in
+the absolute maximum ratings, and the maximum input leakage current,
+given in the electrical characteristics, using Ohm's law (R = V ÷ I).
+Standard CMOS inputs require that input signals transition between valid
+logic states quickly, as defined by the input transition time or rate in
+the [recommended operating conditions](#recommended-operating-conditions)
+table. Failing to meet this specification results in excessive power
+consumption and can cause oscillations. Do not leave standard CMOS
+inputs floating at any time during operation. Terminate unused inputs at
+V~CC~ or GND. If a system does not always drive an input, consider adding
+a pull-up or pull-down resistor to provide a valid input voltage. The
+resistor value depends on multiple factors; a 10kΩ resistor, however, is
+recommended and typically meets all requirements.
+
+### Clamp diode structure
+
+The inputs and outputs to this device have negative clamping diodes
+only. Voltages beyond the values specified in the Absolute Maximum
+Ratings table can cause damage to the device. The input and output
+voltage ratings may be exceeded if the input and output clamp-current
+ratings are observed.
+
+```figure ref=clamp-diodes caption="Electrical placement of clamping diodes for each input and output"
+```
+
+### Over-voltage tolerant inputs
+
+The SN74LVC1G08 includes over-voltage tolerant inputs. The input pins
+support high-state input voltages larger than the supply voltage by
+utilizing an input protection circuit that does not include a standard
+positive clamp diode. Do not exceed the maximum input voltage range
+provided in absolute maximum ratings. Exceeding the maximum input voltage
+range rating can cause immediate and permanent damage to the device.
+
 ## Function tables
 
 ```table id=function caption="Function table"
-| A [1] | B [1] | Y [2] |
+| Inputs [1] | < | Output [2] |
+| A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
 | L | X | L |
@@ -183,6 +246,15 @@ Conversion note: the source gives no thermal data for the DSF package.
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25 °C.
 ```
 
+### Operating characteristics
+
+```table id=opchar caption="Operating characteristics" conditions="T~A~ = 25 °C"
+| Symbol | Parameter | Test conditions | V~CC~ = 1.8 V | V~CC~ = 2.5 V | V~CC~ = 3.3 V | V~CC~ = 5 V | Unit |
+| ^ | ^ | ^ | Typ | Typ | Typ | Typ | ^ |
+|---|---|---|--:|--:|--:|--:|---|
+| C~pd~ | Power dissipation capacitance | f = 10 MHz | 21 | 24 | 26 | 31 | pF |
+```
+
 ## Switching characteristics
 
 See [parameter measurement information](#parameter-measurement).
@@ -209,15 +281,6 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | Min | Max | Min | Max | Min | Max | Min | Max | ^ |
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | 1 | 4.5 | 1 | 6 | 1 | 4 | 1 | 5 | ns |
-```
-
-### Operating characteristics
-
-```table id=opchar caption="Operating characteristics" conditions="T~A~ = 25 °C"
-| Symbol | Parameter | Test conditions | V~CC~ = 1.8 V | V~CC~ = 2.5 V | V~CC~ = 3.3 V | V~CC~ = 5 V | Unit |
-| ^ | ^ | ^ | Typ | Typ | Typ | Typ | ^ |
-|---|---|---|--:|--:|--:|--:|---|
-| C~pd~ | Power dissipation capacitance | f = 10 MHz | 21 | 24 | 26 | 31 | pF |
 ```
 
 ## Typical characteristics
@@ -286,6 +349,12 @@ VM: see table
 
 ## Application information
 
+Information in the following applications sections is not part of the TI
+component specification, and TI does not warrant its accuracy or
+completeness. TI’s customers are responsible for determining suitability
+of components for their purposes, as well as validating and testing
+their design implementation to confirm system functionality.
+
 A common application for AND gates is their use in power sequencing.
 Power sequencing is often employed in applications that require a
 processor or other delicate device with specific voltage timing
@@ -295,66 +364,24 @@ from any harmful signals.
 
 Conversion note: in the power sequencing application (Figure 8-1), A is tied to V~CC~ = 5 V, an MCU (MSP43x) drives B, Y drives the EN input of a temperature sensor, and the sensor's V~O~ returns to the MCU.
 
-This device includes balanced CMOS push-pull outputs. The term balanced
-indicates that the device can sink and source similar currents. The
-drive capability of this device can create fast edges into light loads,
-so routing and load conditions must be considered to prevent ringing.
-Additionally, the outputs of this device are capable of driving larger
-currents than the device can sustain without being damaged. Limit the
-output power of the device to avoid damage due to overcurrent. The
-electrical and thermal limits defined in the
-[absolute maximum ratings](#absolute-maximum-ratings) must be followed at
-all times. Unused push-pull CMOS outputs must be left disconnected.
+### Design requirements
 
 The SN74LVC1G08 device uses CMOS technology and has balanced output
 drive. Take care to avoid bus contention because it can drive currents
-that can exceed maximum limits. Push-pull outputs that can be in opposite
-states, even for a very short time period, must never be connected
-directly together. This can cause excessive current and damage to the
-device. Two channels within the same device with the same input signals
-can be connected in parallel for additional output drive strength.
-Unused outputs can be left floating. Do not connect outputs directly to
-V~CC~ or ground.
+that can exceed maximum limits. All input signals must remain as close
+as possible to either 0V or V~CC~ for peak operation.
 
-This device includes circuitry to disable all outputs when the supply
-pin is held at 0V. When disabled, the outputs neither source nor sink
-current, regardless of the input voltages. The amount of leakage current
-at each output is defined by the I~off~ specification in the electrical
-characteristics table.
-
-This device includes standard CMOS inputs. Standard CMOS inputs are high
-impedance and are typically modeled as a resistor in parallel with the
-input capacitance given in the electrical characteristics. The worst
-case resistance is calculated with the maximum input voltage, given in
-the absolute maximum ratings, and the maximum input leakage current,
-given in the electrical characteristics, using Ohm's law (R = V ÷ I).
-Standard CMOS inputs require that input signals transition between valid
-logic states quickly, as defined by the input transition time or rate in
-the [recommended operating conditions](#recommended-operating-conditions)
-table. Failing to meet this specification results in excessive power
-consumption and can cause oscillations. Do not leave standard CMOS
-inputs floating at any time during operation. Terminate unused inputs at
-V~CC~ or GND. If a system does not always drive an input, consider adding
-a pull-up or pull-down resistor to provide a valid input voltage. The
-resistor value depends on multiple factors; a 10kΩ resistor, however, is
-recommended and typically meets all requirements.
-
-The SN74LVC1G08 includes over-voltage tolerant inputs. The input pins
-support high-state input voltages larger than the supply voltage by
-utilizing an input protection circuit that does not include a standard
-positive clamp diode. Do not exceed the maximum input voltage range
-provided in absolute maximum ratings. Exceeding the maximum input voltage
-range rating can cause immediate and permanent damage to the device.
-Input signals must cross V~IL(max)~ to be considered a logic LOW, and
-V~IH(min)~ to be considered a logic HIGH. All input signals must remain
-as close as possible to either 0V or V~CC~ for peak operation.
-
-```figure ref=clamp-diodes caption="Electrical placement of clamping diodes for each input and output"
-```
-
-The inputs and outputs have negative clamping diodes only. The input and
-output voltage ratings may be exceeded if the input and output
-clamp-current ratings are observed.
+The positive voltage supply must be capable of sourcing current equal to
+the total current to be sourced by all outputs of the SN74LVC1G08 plus
+the maximum static supply current, I~CC~, listed in the Electrical
+Characteristics, and any transient current required for switching.
+Verify that the maximum total current through V~CC~ listed in the
+Absolute Maximum Ratings is not exceeded. The ground must be capable of
+sinking current equal to the total current to be sunk by all outputs of
+the SN74LVC1G08 plus the maximum supply current, I~CC~, listed in the
+Electrical Characteristics, and any transient current required for
+switching. Verify that the maximum total current through GND listed in
+the Absolute Maximum Ratings is not exceeded.
 
 The SN74LVC1G08 can drive a load with a total capacitance less than or
 equal to 50pF while still meeting all of the data sheet specifications.
@@ -367,22 +394,23 @@ the HIGH state, the output voltage in the equation is defined as the
 difference between the measured output voltage and the supply voltage at
 the V~CC~ pin.
 
-The positive voltage supply must be capable of sourcing current equal to
-the total current to be sourced by all outputs of the SN74LVC1G08 plus
-the maximum static supply current, I~CC~, listed in the Electrical
-Characteristics, and any transient current required for switching.
-Verify that the maximum total current through V~CC~ listed in the
-Absolute Maximum Ratings is not exceeded. The ground must be capable of
-sinking current equal to the total current to be sunk by all outputs of
-the SN74LVC1G08 plus the maximum supply current, I~CC~, listed in the
-Electrical Characteristics, and any transient current required for
-switching. Verify that the maximum total current through GND listed in
-the Absolute Maximum Ratings is not exceeded. The maximum junction
-temperature, T~J(max)~ listed in the Absolute Maximum Ratings, is an
-additional limitation to prevent damage to the device. Do not violate
-any values listed in the Absolute Maximum Ratings.
+The maximum junction temperature, T~J(max)~ listed in the Absolute
+Maximum Ratings, is an additional limitation to prevent damage to the
+device. Do not violate any values listed in the Absolute Maximum Ratings.
 
-Detailed design procedure:
+Input signals must cross V~IL(max)~ to be considered a logic LOW, and
+V~IH(min)~ to be considered a logic HIGH. Do not exceed the maximum input
+voltage range found in the Absolute Maximum Ratings. Unused inputs must
+be terminated to either V~CC~ or ground.
+
+Push-pull outputs that can be in opposite states, even for a very short
+time period, must never be connected directly together. This can cause
+excessive current and damage to the device. Two channels within the same
+device with the same input signals can be connected in parallel for
+additional output drive strength. Unused outputs can be left floating.
+Do not connect outputs directly to V~CC~ or ground.
+
+### Detailed design procedure
 
 1. Recommended input conditions:
    - For rise time and fall time specifications, see Δt/Δv in the
@@ -397,6 +425,8 @@ Detailed design procedure:
 2. Recommended output conditions:
    - Load currents not exceeding ±50mA.
 
+### Power supply recommendations
+
 The power supply can be any voltage between the minimum and maximum
 supply voltage rating listed in the Recommended Operating Conditions.
 Verify that each V~CC~ terminal has a good bypass capacitor to prevent
@@ -405,7 +435,7 @@ recommended. To reject different frequencies of noise, use multiple
 bypass capacitors in parallel. Capacitors with values of 0.1μF and 1μF
 are commonly used in parallel.
 
-Layout guidelines:
+### Layout guidelines
 
 - Bypass capacitor placement
   - Place near the positive supply terminal of the device
@@ -489,7 +519,8 @@ SN74LVC1G08YZPR | Reel of 3000 | -40 to 85 | CE, CE7
   timing diagram (Figure 8-2, V~CC~, GPO, V~O~ and EN steps); the power
   sequencing circuit (Figure 8-1) is described in text.
 - From images: MCU, MSP43x, Temp. Sensor, EN, V~O~, V~CC~ = 5 V (labels of
-  the power sequencing circuit, Figure 8-1, p.12).
+  the power sequencing circuit, Figure 8-1, p.12); the overbars of
+  Y = !{!{A} + !{B}} (p.1).
 - The load circuit is drawn with the shared R~L~ ∥ C~L~ figure; the
   second R~L~ and S1 are described in text. Figures 6-1 and 6-2 are the
   same circuit with different values, joined in one table.

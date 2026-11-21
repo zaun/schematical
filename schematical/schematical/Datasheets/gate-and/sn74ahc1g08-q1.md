@@ -70,7 +70,8 @@ Source conflict: the Electrical Characteristics table (p.5) has no
 ## Function tables
 
 ```table id=function caption="Function table"
-| A [1] | B [1] | Y |
+| Inputs [1] | < | Output |
+| A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
 | L | X | L |
@@ -251,10 +252,13 @@ for best results.
 ### Layout guidelines
 
 When using multiple-input and multiple-channel logic devices,
-inputs must never be left floating. All unused inputs of digital logic
+inputs must never be left floating. Such unused input pins must not be
+left unconnected because the undefined voltages at the outside
+connections result in undefined operational states. All unused inputs of digital logic
 devices must be connected to a logic high or logic low voltage, as
 defined by the input voltage specifications, to prevent them from
-floating. Generally, the inputs are tied to GND or V~CC~, whichever makes
+floating. The logic level that must be applied to any particular unused
+input depends on the function of the device. Generally, the inputs are tied to GND or V~CC~, whichever makes
 more sense for the logic function or is more convenient.
 
 Conversion note: the layout example recommends a GND flood fill, a 0.1 µF bypass capacitor placed
@@ -289,8 +293,9 @@ SN74AHC1G08WDTXRQ1 | Reel of 3000 | -40 to 125 | 2
   example drawing (summarized in one sentence).
 - The typical application block diagram (Figure 8-1) is described in
   text.
-- From images: OC, PG, ON/OFF, OT, RESET signal names and the gate
-  arrangement (Figure 8-1, p.9); 50 % V~CC~ (V~M~, Figure 6-1, p.7).
+- From images: OC, PG, ON/OFF, OT, RESET signal names, their overbars
+  (over OC, OFF, OT and RESET) and the gate arrangement (Figure 8-1,
+  p.9); 50 % V~CC~ (V~M~, Figure 6-1, p.7).
 - Source issues:
   - Source conflict: ΔV~T~ hysteresis referenced but not in the
     Electrical Characteristics table (Functional description note).

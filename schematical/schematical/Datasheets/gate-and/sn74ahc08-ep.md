@@ -53,6 +53,7 @@ VCC: Supply voltage
 ## Function tables
 
 ```table id=function caption="Function table (each gate)"
+| Inputs | < | Output |
 | A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
@@ -223,5 +224,5 @@ V62/03647-01YE | Reel of 2500 | -55 to 125 | AHC08MEP | NRND
   p.6).
 - From images: the µA units of the I~OH~/I~OL~ (V~CC~ = 2 V), V~OH~/V~OL~
   (50 µA), I~I~ and I~CC~ rows, p.3 (the text layer prints them as mA);
-  the overlines of Y = !{!{A} + !{B}}, p.1.
+  the overbars of Y = !{!{A} + !{B}} (p.1).
 - Source issues: none found.

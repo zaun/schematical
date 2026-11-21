@@ -28,17 +28,15 @@
 ## Description
 
 This dual 2-input positive-AND gate is designed for 1.65-V to 5.5-V
-V~CC~ operation. The SN74LVC2G08 device performs the Boolean function
+V~CC~ operation. Inputs accept voltages to 5.5 V. The SN74LVC2G08 device performs the Boolean function
 Y = A × B or Y = !{!{A} + !{B}} in positive logic.
 
-The inputs accept voltages to 5.5 V, so the device can be used as a down
-translator: while operating at V~CC~ of 3.3 V, the device will still
-recognize 5.5 V as a valid high input; however, the resulting output
-will be 3.3 V. This device is fully specified for partial-power-down
-applications using I~off~. The I~off~ circuitry disables the outputs,
-preventing damaging current backflow through the device when it is
-powered down. The YZP package is a NanoFree (DSBGA) package, using the
-die as the package.
+NanoFree package technology is a major breakthrough in IC packaging
+concepts, using the die as the package.
+
+This device is fully specified for partial-power-down applications using
+I~off~. The I~off~ circuitry disables the outputs, preventing damaging
+current backflow through the device when it is powered down.
 
 ## Pinout
 
@@ -58,9 +56,22 @@ GND: Ground
 VCC: Power Supply
 ```
 
+## Functional description
+
+The SN74LVC2G08 device contains two positive-AND gates with a maximum
+sink current of 24 mA. Source error: the source names the device
+SN74LVC1G06 in this sentence. A very low t~pd~ of 4.7 ns at 3.3 V makes the
+device ideal for high speed applications.
+
+### Down voltage translation
+
+While operating at V~CC~ of 3.3 V, the device will still recognize 5.5 V
+as a valid high input, however, the resulting output will be 3.3 V.
+
 ## Function tables
 
 ```table id=function caption="Function table (each gate)"
+| Inputs | < | Output |
 | A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
@@ -154,24 +165,24 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 ```table id=ec caption="Electrical characteristics" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | Parameter | Test conditions | V~CC~ | Min | Typ [1] | Max | Unit |
 |---|---|---|---|--:|--:|--:|---|
-| V~OH~ | High-level output voltage | I~OH~ = -100 µA | 1.65 V to 5.5 V | V~CC~ - 0.1 | | | V |
+| V~OH~ | | I~OH~ = -100 µA | 1.65 V to 5.5 V | V~CC~ - 0.1 | | | V |
 | ^ | ^ | I~OH~ = -4 mA | 1.65 V | 1.2 | | | V |
 | ^ | ^ | I~OH~ = -8 mA | 2.3 V | 1.9 | | | V |
 | ^ | ^ | I~OH~ = -16 mA | 3 V | 2.4 | | | V |
 | ^ | ^ | I~OH~ = -24 mA | ^ | 2.3 | | | V |
 | ^ | ^ | I~OH~ = -32 mA | 4.5 V | 3.8 | | | V |
-| V~OL~ | Low-level output voltage | I~OL~ = 100 µA | 1.65 V to 5.5 V | | | 0.1 | V |
+| V~OL~ | | I~OL~ = 100 µA | 1.65 V to 5.5 V | | | 0.1 | V |
 | ^ | ^ | I~OL~ = 4 mA | 1.65 V | | | 0.45 | V |
 | ^ | ^ | I~OL~ = 8 mA | 2.3 V | | | 0.3 | V |
 | ^ | ^ | I~OL~ = 16 mA | 3 V | | | 0.4 | V |
 | ^ | ^ | I~OL~ = 24 mA | ^ | | | 0.55 | V |
 | ^ | ^ | I~OL~ = 32 mA | 4.5 V | | | 0.55 | V |
 | I~I~ | A or B inputs | V~I~ = 5.5 V or GND | 0 to 5.5 V | | | ±5 | µA |
-| I~off~ | Partial-power-down leakage | V~I~ or V~O~ = 5.5 V | 0 | | | ±10 | µA |
-| I~CC~ | Supply current | V~I~ = 5.5 V or GND, I~O~ = 0 | 1.65 V to 5.5 V | | | 10 | µA |
-| ΔI~CC~ | Supply-current change | One input at V~CC~ - 0.6 V, other inputs at V~CC~ or GND, T~A~ = –40 °C to 85 °C | 3 V to 5.5 V | | | 500 | µA |
-| C~i~ | Input capacitance | V~I~ = V~CC~ or GND, T~A~ = –40 °C to 85 °C | 3.3 V | | 5 | | pF |
-| C~pd~ | Power dissipation capacitance | f = 10 MHz, T~A~ = –40 °C to 85 °C | 1.8 V to 3.3 V | | 17 | | pF |
+| I~off~ | | V~I~ or V~O~ = 5.5 V | 0 | | | ±10 | µA |
+| I~CC~ | | V~I~ = 5.5 V or GND, I~O~ = 0 | 1.65 V to 5.5 V | | | 10 | µA |
+| ΔI~CC~ | | One input at V~CC~ - 0.6 V, other inputs at V~CC~ or GND, T~A~ = –40 °C to 85 °C | 3 V to 5.5 V | | | 500 | µA |
+| C~i~ | | V~I~ = V~CC~ or GND, T~A~ = –40 °C to 85 °C | 3.3 V | | 5 | | pF |
+| C~pd~ | | f = 10 MHz, T~A~ = –40 °C to 85 °C | 1.8 V to 3.3 V | | 17 | | pF |
 | ^ | ^ | ^ | 5 V | | 20 | | pF |
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25 °C.
@@ -269,9 +280,13 @@ VM: see table
 
 ## Application information
 
-The SN74LVC2G08 device contains two positive-AND gates with a maximum
-sink current of 24 mA. A very low t~pd~ of 4.7 ns at 3.3 V makes the
-device ideal for high speed applications. It is a high-drive CMOS device
+Information in the following applications sections is not part of the TI
+component specification, and TI does not warrant its accuracy or
+completeness. TI’s customers are responsible for determining suitability
+of components for their purposes. Customers should validate and test
+their design implementation to confirm system functionality.
+
+The SN74LVC2G08 is a high-drive CMOS device
 that can be used for implementing AND logic with a high output drive,
 such as an LED application. It can produce 24 mA of drive current at
 3.3 V, making it ideal for driving multiple outputs and good for
@@ -299,7 +314,8 @@ Detailed design procedure:
 2. Recommended output conditions:
    - Load currents must not exceed I~O~ maximum per output and must not exceed
      total current (continuous current through V~CC~ or GND) for the
-     part. These limits are located in the
+     part. These limits are located in the recommended operating
+     conditions table. Source error: these limits are in the
      [absolute maximum ratings](#absolute-maximum-ratings) table.
    - Outputs must not be pulled above V~CC~ in normal operating conditions.
 
@@ -316,9 +332,11 @@ cases, functions or parts of functions of digital logic devices are
 unused; for example, when only two inputs of a triple-input AND gate are
 used or only 3 of the 4 buffer gates are used. Such input pins must not
 be left unconnected because the undefined voltages at the outside
-connections result in undefined operational states. All unused inputs of
+connections result in undefined operational states. Specified below are
+the rules that must be observed under all circumstances. All unused inputs of
 digital logic devices must be connected to a high or low bias to prevent
-them from floating. Generally they will be tied to GND or V~CC~ whichever
+them from floating. The logic level that must be applied to any
+particular unused input depends on the function of the device. Generally they will be tied to GND or V~CC~ whichever
 make more sense or is more convenient.
 
 ## Package
@@ -335,13 +353,13 @@ make more sense or is more convenient.
 ## Ordering information
 
 ```ordering
-SN74LVC2G08DCTR | Reel of 3000 | -40 to 125 | (2WJ5, C08) (R, Z)
-SN74LVC2G08DCTRE4 | 3000 | -40 to 125 | C08 (R, Z)
-SN74LVC2G08DCTRG4 | Reel of 3000 | -40 to 125 | C08 (R, Z)
-SN74LVC2G08DCUR | Reel of 3000 | -40 to 125 | (08, C08J, C08Q, C08R) (CR, CZ)
+SN74LVC2G08DCTR | Reel of 3000 | -40 to 125 | 2WJ5, C08, R, Z
+SN74LVC2G08DCTRE4 | 3000 | -40 to 125 | C08, R, Z
+SN74LVC2G08DCTRG4 | Reel of 3000 | -40 to 125 | C08, R, Z
+SN74LVC2G08DCUR | Reel of 3000 | -40 to 125 | 08, C08J, C08Q, C08R, CR, CZ
 SN74LVC2G08DCURE4 | Reel of 3000 | -40 to 125 | C08R
 SN74LVC2G08DCURG4 | Reel of 3000 | -40 to 125 | C08R
-SN74LVC2G08DCUT | Reel of 250 | -40 to 125 | (C08J, C08Q, C08R) CR
+SN74LVC2G08DCUT | Reel of 250 | -40 to 125 | C08J, C08Q, C08R, CR
 SN74LVC2G08DCUTG4 | Reel of 250 | -40 to 125 | C08R
 SN74LVC2G08YZPR | Reel of 3000 | -40 to 85 | CE7, CEN
 ```
@@ -360,11 +378,9 @@ SN74LVC2G08YZPR | Reel of 3000 | -40 to 85 | CE7, CEN
 - Curves digitized from Figures 1, 2 and 5 to about 2 % of full scale.
 - The load circuit is drawn with the shared R~L~ ∥ C~L~ figure; the
   second R~L~ and S1 are described in text.
-- The text layer prints "£2 ns", "1 kW", "500 W" and the Boolean
-  function as "Y = A x B or Y = A + B"; the page images show ≤ 2 ns,
-  1 kΩ, 500 Ω and Y = A × B or Y = !{!{A} + !{B}} (pp.1, 8).
-- Parameter names in the electrical characteristics table are added
-  (the source gives symbols only).
+- From images: overbars of Y = !{!{A} + !{B}} (p.1; the text layer
+  prints "Y = A x B or Y = A + B"), and ≤ 2 ns, 1 kΩ, 500 Ω (p.8; the
+  text layer prints "£2 ns", "1 kW", "500 W").
 - Source issues:
   - Source error: the overview (§ 8.1, p.9) names the device
     "SN74LVC1G06"; the title and every other page say SN74LVC2G08.

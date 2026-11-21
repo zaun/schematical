@@ -52,6 +52,7 @@ VCC: Supply voltage
 ## Function tables
 
 ```table id=function caption="Function table (each gate)"
+| Inputs | < | < | Output |
 | A | B | C | Y |
 |:-:|:-:|:-:|:-:|
 | H | H | H | H |
@@ -223,4 +224,5 @@ V62/04692-01XE | Reel of 2000 | -40 to 105 | LV11AEP
   the table's condition line.
 - The text layer garbles the Boolean function ("Y + A • B • C or
   Y + A ) B ) C"); it is transcribed from the page image (p.1).
+- From images: overbars of Y = !{!{A} + !{B} + !{C}} (p.1).
 - Source issues: none found.

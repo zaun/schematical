@@ -23,11 +23,11 @@
 
 ## Description
 
+Qualified for automotive applications.
+
 The SN74LVC08A-Q1 quadruple 2-input positive-AND gate is designed for
 2.7V to 3.6V V~CC~ operation. The device performs the Boolean function
 Y = A • B or Y = !{!{A} + !{B}} in positive logic.
-
-Qualified for automotive applications.
 
 Inputs can be driven from either 3.3V or 5V devices. This feature allows
 the use of this device as a translator in a mixed 3.3V/5V system
@@ -58,6 +58,7 @@ Conversion note: the logic diagram, each gate (positive logic), is one 2-input A
 ## Function tables
 
 ```table id=function caption="Function table (each gate)"
+| Inputs | < | Output |
 | A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
@@ -186,7 +187,7 @@ VM: 1.5 V
 
 ## Application information
 
-Information in the applications sections is not part of the TI
+Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness.
 
@@ -210,7 +211,8 @@ left unconnected because the undefined voltages at the outside
 connections result in undefined operational states. All unused inputs of
 digital logic devices must be connected to a logic high or logic low
 voltage, as defined by the input voltage specifications, to prevent them
-from floating. Generally, the inputs are tied to GND or V~CC~, whichever
+from floating. The logic level that must be applied to any particular
+unused input depends on the function of the device. Generally, the inputs are tied to GND or V~CC~, whichever
 makes more sense for the logic function or is more convenient.
 
 Conversion note: the example layout for the SN74LVC08A-Q1 (Figure 7-1) is given here by its labels.
@@ -250,8 +252,8 @@ SN74LVC08AWBQARQ1 | Reel of 3000 | -40 to 125 | LVC08Q
   example layout (Figure 7-1) is given as a list of its labels.
 - From images: µF (0.1 µF in Figure 7-1, p.8; the text layer has
   "0.1 F").
-- From images: the Boolean function's second form
-  Y = !{!{A} + !{B}} (p.1, an image).
+- From images: overbars of Y = !{!{A} + !{B}} (p.1; the second form of
+  the Boolean function is set as an image).
 - Source issues:
   - Source conflict: the feature list says "Operates from 1.65V to
     3.6V" (p.1), the description says the device is designed for 2.7V
