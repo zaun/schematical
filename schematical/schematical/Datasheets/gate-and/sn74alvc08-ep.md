@@ -27,9 +27,11 @@ The SN74ALVC08 quadruple 2-input positive-AND gate is designed for 1.65-V to 3.6
 V~CC~ operation. The device performs the Boolean function Y = A · B or
 Y = !{!{A} + !{B}} in positive logic.
 
-±24-mA Output Drive at 3.3 V. Controlled Baseline: One Assembly/Test
-Site, One Fabrication Site. Enhanced Diminishing Manufacturing Sources
-(DMS) Support. Enhanced Product-Change Notification.
+Controlled Baseline: One Assembly/Test Site, One Fabrication Site.
+Enhanced Diminishing Manufacturing Sources (DMS) Support. Enhanced
+Product-Change Notification.
+
+±24-mA Output Drive at 3.3 V.
 
 ## Pinout
 
@@ -51,6 +53,7 @@ VCC: Positive supply
 Conversion note: the logic diagram shows each gate as a 2-input AND gate (positive logic).
 
 ```table id=function caption="Function table (each gate)"
+| Inputs | < | Output |
 | A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
@@ -166,7 +169,8 @@ and waveforms are not applicable to all devices.
 Conversion note: in the load circuit of Figure 1, S1 is open for t~pd~, so R~L~ and C~L~ load the output to ground.
 
 ```table id=pmi caption="Load circuit and input conditions"
-| V~CC~ | V~I~ | t~r~/t~f~ | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
+| V~CC~ | Input | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
+| ^ | V~I~ | t~r~/t~f~ | ^ | ^ | ^ | ^ | ^ |
 |---|---|---|---|---|---|---|---|
 | 1.8 V ± 0.15 V | V~CC~ | ≤2 ns | V~CC~/2 | 2 × V~CC~ | 30 pF | 1 kΩ | 0.15 V |
 | 2.5 ± 0.2 V | V~CC~ | ≤2 ns | V~CC~/2 | 2 × V~CC~ | 30 pF | 500 Ω | 0.15 V |
@@ -205,6 +209,7 @@ V62/04686-01XE | Reel of 2500 | -40 to 85 | ALVC08IEP
   measurement figure (they do not apply to this part).
 - The Boolean function is garbled in the PDF text layer
   ("Y + A • B or Y + A ) B"); written as Y = A · B or Y = !{!{A} + !{B}}.
+- From images: overbars of Y = !{!{A} + !{B}} (p.1).
 - Packing and marking of V62/04686-01XE come from the package option
   addendum (page 5).
 - The ordering table on page 1 also lists SN74ALVC08IPWREP (TSSOP,

@@ -127,6 +127,7 @@ clamp-current ratings are observed.
 ## Function tables
 
 ```table id=function caption="Function table (each gate)"
+| Inputs | < | < | Output |
 | A | B | C | Y |
 |:-:|:-:|:-:|:-:|
 | H | H | H | H |

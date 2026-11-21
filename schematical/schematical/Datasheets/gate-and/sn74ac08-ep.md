@@ -55,6 +55,7 @@ Conversion note: the logic diagram, each gate (positive logic), shows one
 ## Function tables
 
 ```table id=function caption="Function table (each gate)"
+| Inputs | < | Output |
 | A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |

@@ -33,10 +33,12 @@ in battery-powered portable applications. This family ensures a very low
 static- and dynamic-power consumption across the entire V~CC~ range of
 0.8 V to 3.6 V.
 
-3.6-V input/output (I/O) tolerant to support mixed-mode
-signal operation. Schmitt-trigger action allows slow input transition
+Schmitt-trigger action allows slow input transition
 and better switching noise immunity at the input (V~hys~ = 250 mV, Typ
 at 3.3 V).
+
+3.6-V input/output (I/O) tolerant to support mixed-mode
+signal operation.
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
@@ -60,6 +62,7 @@ VCC: Supply voltage
 ## Function tables
 
 ```table id=function caption="Function table"
+| Inputs | < | Output |
 | A | B | Y |
 |:-:|:-:|:-:|
 | L | L | L |
@@ -173,6 +176,17 @@ VCC: Supply voltage
 [2] Unconfirmed: the source gives 23 µA at 125 °C, below the 50 µA limit for –40 °C to 85 °C.
 ```
 
+```table id=op caption="Operating characteristics" conditions="T~A~ = 25 °C"
+| Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
+|---|---|---|---|--:|---|
+| C~pd~ | Power dissipation capacitance | f = 10 MHz | 0.8 V | 4 | pF |
+| ^ | ^ | ^ | 1.2 V ± 0.1 V | 4 | pF |
+| ^ | ^ | ^ | 1.5 V ± 0.1 V | 4 | pF |
+| ^ | ^ | ^ | 1.8 V ± 0.15 V | 4 | pF |
+| ^ | ^ | ^ | 2.5 V ± 0.2 V | 4.1 | pF |
+| ^ | ^ | ^ | 3.3 V ± 0.3 V | 4.3 | pF |
+```
+
 ## Switching characteristics
 
 See [parameter measurement information](#parameter-measurement).
@@ -226,17 +240,6 @@ See [parameter measurement information](#parameter-measurement).
 ```
 
 Conversion note: the source gives 125 °C switching limits only for C~L~ = 30 pF.
-
-```table id=op caption="Operating characteristics" conditions="T~A~ = 25 °C"
-| Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
-|---|---|---|---|--:|---|
-| C~pd~ | Power dissipation capacitance | f = 10 MHz | 0.8 V | 4 | pF |
-| ^ | ^ | ^ | 1.2 V ± 0.1 V | 4 | pF |
-| ^ | ^ | ^ | 1.5 V ± 0.1 V | 4 | pF |
-| ^ | ^ | ^ | 1.8 V ± 0.15 V | 4 | pF |
-| ^ | ^ | ^ | 2.5 V ± 0.2 V | 4.1 | pF |
-| ^ | ^ | ^ | 3.3 V ± 0.3 V | 4.3 | pF |
-```
 
 ## Parameter measurement information
 

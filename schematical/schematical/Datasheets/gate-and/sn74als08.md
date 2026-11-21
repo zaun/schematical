@@ -25,7 +25,10 @@
 
 These devices contain four independent 2-input positive-AND gates. They
 perform the Boolean functions Y = A • B or Y = !{!{A} + !{B}} in positive
-logic.
+logic. Source error: the source prints the bar over the whole sum
+shifted to the left and a line up, under "They perform", so that the
+formula reads Y = !{A} + !{B}; the bar is written over the sum, which
+is the function Y = A • B.
 
 The SN54ALS08 and SN54AS08 are characterized for operation over the
 full military temperature range of –55 °C to 125 °C. The SN74ALS08 and
@@ -53,6 +56,7 @@ NC: No internal connection
 ## Function tables
 
 ```table id=function caption="Function table (each gate)"
+| Inputs | < | Output |
 | A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
@@ -62,7 +66,7 @@ NC: No internal connection
 
 ## Absolute maximum ratings
 
-```table id=abs-max-als caption="Absolute maximum ratings, SN54ALS08 and SN74ALS08 [1]" parts=*ALS08* conditions="Over operating free-air temperature range (unless otherwise noted)"
+```table id=abs-max-als caption="Absolute maximum ratings, SN54ALS08 and SN74ALS08 [1]" parts="*ALS08*, 5962-86842*" conditions="Over operating free-air temperature range (unless otherwise noted)"
 | Symbol | Parameter | Conditions | Min | Max | Unit |
 |---|---|---|--:|--:|---|
 | V~CC~ | Supply voltage | | | 7 | V |
@@ -88,7 +92,7 @@ NC: No internal connection
 
 ## Recommended operating conditions
 
-```table id=roc-als caption="Recommended operating conditions, SN54ALS08 and SN74ALS08" parts=*ALS08*
+```table id=roc-als caption="Recommended operating conditions, SN54ALS08 and SN74ALS08" parts="*ALS08*, 5962-86842*"
 | Symbol | Parameter | SN54ALS08 | < | < | SN74ALS08 | < | < | Unit |
 | ^ | ^ | Min | Nom | Max | Min | Nom | Max | ^ |
 |---|---|--:|--:|--:|--:|--:|--:|---|
@@ -118,7 +122,7 @@ NC: No internal connection
 
 ## Electrical characteristics
 
-```table id=ec-als caption="Electrical characteristics, SN54ALS08 and SN74ALS08" parts=*ALS08* conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
+```table id=ec-als caption="Electrical characteristics, SN54ALS08 and SN74ALS08" parts="*ALS08*, 5962-86842*" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | Test conditions | < | SN54ALS08 | < | < | SN74ALS08 | < | < | Unit |
 | ^ | ^ | < | Min | Typ [1] | Max | Min | Typ [1] | Max | ^ |
 |---|---|---|--:|--:|--:|--:|--:|--:|---|
@@ -159,12 +163,22 @@ NC: No internal connection
 
 Conversion note: Figure 1 is in [parameter measurement information](#parameter-measurement).
 
-```table id=sw caption="Switching characteristics (see Figure 1)" conditions="V~CC~ = 4.5 V to 5.5 V, C~L~ = 50 pF, R~L~ = 500 Ω, T~A~ = MIN to MAX [1]"
-| Symbol | From (input) | To (output) | SN54ALS08 | < | SN74ALS08 | < | SN54AS08 | < | SN74AS08 | < | Unit |
-| ^ | ^ | ^ | Min | Max | Min | Max | Min | Max | Min | Max | ^ |
-|---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|---|
-| t~PLH~ | A or B | Y | 2 | 14 | 4 | 14 | 1 | 6.5 | 1 | 5.5 | ns |
-| t~PHL~ | A or B | Y | 2 | 12.5 | 3 | 10 | 1 | 6.5 | 1 | 5.5 | ns |
+```table id=sw-als caption="Switching characteristics, SN54ALS08 and SN74ALS08 (see Figure 1)" parts="*ALS08*, 5962-86842*" conditions="V~CC~ = 4.5 V to 5.5 V, C~L~ = 50 pF, R~L~ = 500 Ω, T~A~ = MIN to MAX [1]"
+| Symbol | From (input) | To (output) | SN54ALS08 | < | SN74ALS08 | < | Unit |
+| ^ | ^ | ^ | Min | Max | Min | Max | ^ |
+|---|---|---|--:|--:|--:|--:|---|
+| t~PLH~ | A or B | Y | 2 | 14 | 4 | 14 | ns |
+| t~PHL~ | A or B | Y | 2 | 12.5 | 3 | 10 | ns |
+
+[1] For conditions shown as MIN or MAX, use the appropriate value specified under recommended operating conditions.
+```
+
+```table id=sw-as caption="Switching characteristics, SN54AS08 and SN74AS08 (see Figure 1)" parts=*AS08* conditions="V~CC~ = 4.5 V to 5.5 V, C~L~ = 50 pF, R~L~ = 500 Ω, T~A~ = MIN to MAX [1]"
+| Symbol | From (input) | To (output) | SN54AS08 | < | SN74AS08 | < | Unit |
+| ^ | ^ | ^ | Min | Max | Min | Max | ^ |
+|---|---|---|--:|--:|--:|--:|---|
+| t~PLH~ | A or B | Y | 1 | 6.5 | 1 | 5.5 | ns |
+| t~PHL~ | A or B | Y | 1 | 6.5 | 1 | 5.5 | ns |
 
 [1] For conditions shown as MIN or MAX, use the appropriate value specified under recommended operating conditions.
 ```
@@ -246,8 +260,11 @@ SNJ54AS08FK | Tube of 55 | -55 to 125 | SNJ54AS08FK
   these totem-pole parts: the open-collector and 3-state load circuits,
   setup/hold, pulse-duration and enable/disable waveforms, and Notes B
   and C (3-state outputs).
-- The four switching tables (pages 3 and 4)
-  are joined into one with a column group per device.
 - The electrical characteristics tables of the source name their
   parameters by symbol only; no parameter names are added.
-- Source issues: none found.
+- From images: overbars of Y = !{!{A} + !{B}} (p.1).
+- Source issues:
+  - Source error: the bar over the whole sum of Y = !{!{A} + !{B}} is
+    printed out of place, under "They perform" on the line above (p.1),
+    which leaves Y = !{A} + !{B}, an OR function. Written with the bar
+    over the sum, as Y = A • B and the function table require.

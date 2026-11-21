@@ -25,14 +25,15 @@
 
 The SN54LVC08A quadruple 2-input positive-AND gate is designed for 2.7 V
 to 3.6 V V~CC~ operation, and the SN74LVC08A quadruple 2-input
-positive-AND gate is designed for 1.65 V to 3.6 V V~CC~ operation. The
+positive-AND gate is designed for 1.65 V to 3.6 V V~CC~ operation.
+SNx4LVC08A specified from –40 °C to +85 °C and –40 °C to +125 °C.
+SN54LVC08A specified from –55 °C to +125 °C. The
 devices perform the Boolean function Y = A · B or Y = !{!{A} + !{B}} in
 positive logic.
 
 Inputs can be driven from either 3.3 V or 5 V devices. This feature
 allows the use of these devices as translators in a mixed 3.3 V/5 V
-system environment. SNx4LVC08A is specified from –40 °C to +85 °C and
-–40 °C to +125 °C; SN54LVC08A from –55 °C to +125 °C.
+system environment.
 
 ## Pinout
 
@@ -53,8 +54,9 @@ VCC: Positive supply
 NC: No internal connection
 ```
 
-BQA package only: the thermal pad can be connected to GND or left
-floating. Do not connect to any other signal or supply.
+The thermal pad can be connected to GND or left
+floating. Do not connect to any other signal or supply. For BQA package
+only.
 
 ## Functional description
 
@@ -99,6 +101,7 @@ value specified in the absolute maximum ratings.
 ## Function tables
 
 ```table id=function caption="Truth table (each gate)"
+| Inputs | < | Output |
 | A | B | Y |
 |:-:|:-:|:-:|
 | L | L | L |
@@ -199,11 +202,10 @@ value specified in the absolute maximum ratings.
 | R~θJB~ | Junction-to-board thermal resistance | 70.9 | 84.4 | 60.2 | 53.9 | 69.5 | 27.5 | °C/W |
 | ψ~JT~ | Junction-to-top characterization parameter | 16.6 | 39.6 | 25.3 | 17.9 | 8.9 | 4.5 | °C/W |
 | ψ~JB~ | Junction-to-board characterization parameter | 70.9 | 83.9 | 59.6 | 53.6 | 68.9 | 27.7 | °C/W |
-| R~θJC(bot)~ | Junction-to-case (bottom) thermal resistance [3] | 50.1 | | | | | 19.1 | °C/W |
+| R~θJC(bot)~ | Junction-to-case (bottom) thermal resistance | 50.1 | N/A | N/A | N/A | N/A | 19.1 | °C/W |
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 [2] Source error: the thermal table labels the RGY package "LCCC"; the device information table and pin configuration give RGY as VQFN.
-[3] Conversion note: the source gives N/A for the D, DB, NS and PW packages.
 ```
 
 ## Electrical characteristics
@@ -320,21 +322,29 @@ logic. The LVC family can support current drive of about 24 mA at 3-V
 V~CC~. The inputs are 5.5-V tolerant, allowing it to translate down to
 V~CC~.
 
-Typical application: the four AND gates can be used for individual AND
-function or to implement complex Boolean logic. Figure 8-1 of the source
-shows an example of implementing a 3-input AND function, Z = A × B × C,
-driving an LED. The device uses CMOS technology and has balanced output drive. Take care
-to avoid bus contention because it can drive currents that would exceed
-maximum limits. The high drive will also create fast edges into light
-loads, so routing and load conditions should be considered to prevent
-ringing. TI recommends to use a series resistance to limit the LED
-current. With V~CC~ = 3 V, an LED current of 10 mA and an LED forward
-voltage of 2.5 V:
+Design requirements: this device uses CMOS technology and has balanced
+output drive. Take care to avoid bus contention because it can drive
+currents that would exceed maximum limits. The high drive will also
+create fast edges into light loads so routing and load conditions should
+be considered to prevent ringing.
+
+Detailed design procedure: SN74LVC08A contains four AND gates in one
+package which can be used for individual AND function or to implement
+complex Boolean logic. Figure 8-1 shows an example of implementing
+3-input AND function. AB are inputs for AND gate which are connected to
+another AND gate. Z = A × B × C. TI recommends to use a series
+resistance to limit the current. If V~CC~ is 3 V, and LED current should
+be 10 mA, and the forward-voltage of LED is 2.5 V, then R as shown in
+Figure 8-1 is calculated using Equation 1:
 
 ```equation
 R = (V~CC~ – V~LED~) / I
 R = (3 – 2.5) / 0.01 = 50 Ω
 ```
+
+Conversion note: Figure 8-1 draws two AND gates in series: A and B are
+the inputs of the first gate, its output Y and C are the inputs of the
+second, whose output drives an LED and the resistor R to ground.
 
 Power supply: the power supply can be any voltage between the minimum
 and maximum supply voltage rating in the
@@ -347,7 +357,8 @@ installed as close to the power pin as possible.
 Layout: when using multiple bit logic devices, inputs should not float.
 Such input pins should not be left unconnected because the undefined
 voltages at the outside connections result in undefined operational
-states. All unused inputs of digital logic devices must be connected to
+states. Specified in Figure 8-4 are rules that must be observed under
+all circumstances. All unused inputs of digital logic devices must be connected to
 a high or low bias to prevent them from floating. Generally they will be
 tied to GND or V~CC~, whichever makes more sense or is more convenient.
 
@@ -356,7 +367,8 @@ A reflection occurs primarily because of the change of width of the
 trace. At the apex of the turn, the trace width increases to 1.414 times
 the width. This increase upsets the transmission-line characteristics,
 especially the distributed capacitance and self–inductance of the trace
-which results in the reflection. Figure 8-5 shows progressively better
+which results in the reflection. Not all PCB traces can be straight and
+therefore some traces must turn corners. Figure 8-5 shows progressively better
 techniques of rounding corners. Only the last example (BEST) maintains
 constant trace width and minimizes reflections.
 
@@ -444,11 +456,12 @@ SNJ54LVC08AW | Tube of 25 | -55 to 125 | 5962-9753401QDA SNJ54LVC08AW
 - Not converted: typical characteristics (Figures 5-1 and 5-2, t~pd~ vs
   C~L~) and application curves (Figures 8-2 and 8-3, I~OL~ vs V~OL~ and
   I~OH~ vs V~OH~).
-- The application circuit (Figure 8-1) is described in text.
+- The application circuit (Figure 8-1, p.13) is described in text.
 - From images: µF (0.1 µF in Figure 8-4, p.15; the text layer has
-  "0.1 F").
-- The Boolean function in the description is garbled in the PDF text
-  layer ("Y + A • B or Y + A ) B"); written from the overview (Y = A × B).
+  "0.1 F"); "Bypass capacitor placed close to the device", "Unused
+  inputs tied to V~CC~" (labels of Figure 8-4, p.15); the Boolean
+  function Y = A · B or Y = !{!{A} + !{B}} with its overbars (p.1; the
+  text layer has "Y + A • B or Y + A ) B").
 - Source issues:
   - Source conflict: the description says SN54LVC08A is designed for
     2.7 V to 3.6 V V~CC~ operation (p.1), while the feature list

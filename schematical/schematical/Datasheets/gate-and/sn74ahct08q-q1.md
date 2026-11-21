@@ -62,6 +62,7 @@ Source conflict: Overview (p.8) says low drive with slow rise and fall times, wh
 ## Function tables
 
 ```table id=function caption="Function table (each gate)"
+| Inputs | < | Output |
 | A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
@@ -121,7 +122,7 @@ Source conflict: Overview (p.8) says low drive with slow rise and fall times, wh
 |---|---|--:|--:|--:|---|
 | R~θJA~ | Junction-to-ambient thermal resistance | 124.6 | 113 | 88.3 | °C/W |
 
-[1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report.
+[1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics.
 ```
 
 ## Electrical characteristics
@@ -195,7 +196,7 @@ waveforms are not applicable to all devices.
 Conversion note: C~L~ is 15 pF or 50 pF, as given in the [switching characteristics](#sw); in the figure the inputs swing 0 V to 3 V and are measured at 1.5 V, and the outputs are measured at 50 % V~CC~.
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
-CL: 15 pF or 50 pF
+CL: see table
 ```
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
@@ -213,7 +214,7 @@ completeness.
 The SN74AHCT08Q-Q1 devices are low-drive CMOS devices that can be used for a
 multitude of bus-interface type applications where output ringing is a
 concern. The low drive and slow edge rates will minimize overshoot and
-undershoot on the outputs. The TTL inputs can except [sic] voltages down
+undershoot on the outputs. The TTL inputs can except voltages down
 to 3.3 V and translate up to 5 V.
 
 Conversion note: the typical application diagram (Figure 8-1) shows a 3.3-V bus driver driving the gate inputs; the gate runs from a 5 V regulated V~CC~ bypassed with 0.1 µF, and its output drives a 5-V accessory.
@@ -225,6 +226,8 @@ output drive. Care should be taken to avoid bus contention because it
 can drive currents that would exceed maximum limits. The high drive will
 also create fast edges into light loads, so routing and load conditions
 should be considered to prevent ringing.
+
+### Detailed design procedure
 
 - Rise time and fall time specs: See Δt/ΔV in the
   [Recommended Operating Conditions](#recommended-operating-conditions) table.
@@ -249,7 +252,11 @@ best results.
 
 ### Layout guidelines
 
-When using multiple bit logic devices, inputs should never float. All
+When using multiple bit logic devices, inputs should never float.
+Such input pins should not be left unconnected because the undefined
+voltages at the outside connections result in undefined operational
+states. Figure 8-3 shows the rules that must be observed under all
+circumstances. All
 unused inputs of digital logic devices must be connected to a high or low
 bias to prevent them from floating. Generally they will be tied to GND or
 V~CC~; whichever makes more sense or is more convenient. It is generally acceptable to float outputs unless
@@ -283,8 +290,8 @@ SN74AHCT08QWBQARQ1 | Reel of 3000 | -40 to 125 | AHT08Q
 - Source pages 1–11 converted; support pages, revision history, the
   package option addendum, tape and reel and mechanical pages dropped,
   replaced by the generated Package and Ordering sections.
-- Dropped: features and applications lists (features kept as one
-  sentence), package information table, simplified schematic and
+- Dropped: features and applications lists (features kept as
+  sentences in Description), package information table, simplified schematic and
   functional block diagram (one AND gate), the layout example drawing
   (summarized in one sentence).
 - Dropped: Figure 8-2 (switching characteristics comparison, an
@@ -297,10 +304,12 @@ SN74AHCT08QWBQARQ1 | Reel of 3000 | -40 to 125 | AHT08Q
 - The typical application circuit (Figure 8-1) is described in text.
 - The Electrical characteristics table of the source names its
   parameters by symbol only; no parameter names are added.
-- From images: 25, 75 (temperature points read from Figure 5-1); 0.1 µF,
+- From images: overbars of Y = !{!{A} + !{B}} (p.1); 25, 75 (temperature points read from Figure 5-1); 0.1 µF,
   5 V, 3.3-V, 5-V (Figure 8-1, p.9); 50 Ω, 50 pF, ACT08, HCT08 (Figure
   8-2, p.10); 0 V, 3 V input levels (Figure 6-1, p.7).
 - Source issues:
   - Source conflict: Overview "low drive ... slow rise and fall times" vs
     Design Requirements "high drive ... fast edges" (Functional
     description note).
+  - Source error: Application information (p.9) prints "The TTL inputs
+    can except voltages"; "accept" is meant. Kept as printed.

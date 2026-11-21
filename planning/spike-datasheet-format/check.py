@@ -8,6 +8,7 @@ schematical/schematical/Parts/, then prints errors, warnings and a size
 report. Exit status 1 if any file has an error.
 """
 
+import collections
 import fnmatch
 import json
 import os
@@ -62,7 +63,7 @@ FRONT_KEYS = {"format", "version", "id", "title", "class", "source", "devices", 
               "pending"}
 SOURCE_KEYS = {"pdf", "vendor", "document", "date", "pages"}
 VALUE_COLS = {"min", "typ", "nom", "max", "value"}
-NAMED_COLS = {"symbol", "parameter", "conditions", "test conditions", "from", "to", "unit"} | VALUE_COLS
+NAMED_COLS = {"symbol", "parameter", "thermal metric", "conditions", "test conditions", "from", "to", "unit"} | VALUE_COLS
 HOLD_TO_CATALOG = False     # mutate.py sets this: its copies of app files live in a temporary folder
 ORDER_STATUS = ("Obsolete", "NRND", "Last Time Buy", "Preview")
 SIZE_WARN = 30 * 1024
@@ -266,7 +267,7 @@ def check_table(rep, start, body, attrs, section):
                     continue
                 if EXPR_RE.match(v) and ("~" in v or "×" in v):
                     continue
-                if v in RAILS or v == "N/A":
+                if v in RAILS or v in ("N/A", "Unlimited"):
                     continue          # N/A: the source prints "N/A" for this cell
                 rep.err(ln, 'value cell "%s" (column %s) is not a number, ratio or symbol expression'
                         % (cells[c], names[c] or c + 1))
@@ -589,6 +590,54 @@ def check_file(path, cat, claims):
                 r"\b(obsolete|NRND|last[- ]time[- ]buy|not recommended for new)", line, re.I):
             rep.err(k, "Ordering information: part status goes in the ordering line's fifth field, not in a sentence")
 
+    # ---- prose that has a fixed place
+    paras, cur = [], None          # (section, first line, text) of each paragraph outside a block
+    section_of = None
+    for k, line in enumerate(lines[body_start:], body_start + 1):
+        if line.startswith("#"):
+            if line.startswith("## "):
+                section_of = line[3:].strip()
+            cur = None
+        elif k in in_block or not line.strip():
+            cur = None
+        elif cur is None or re.match(r"^\s*([-*]|\d+\.)\s", line):
+            cur = [section_of, k, line.strip()]
+            paras.append(cur)
+        else:
+            cur[2] += " " + line.strip()
+    for sec, k, text in paras:
+        if "[sic]" in text and sec != "Conversion notes":
+            rep.err(k, 'no "[sic]" in the text: keep the source\'s word and list it under Source issues as a "Source error:"')
+        if sec == "Description" and re.match(r"^([-*]|\d+\.)\s", text):
+            rep.err(k, "Description: no feature bullets; a feature that matters is a sentence where it applies")
+        if sec == "Ordering information" and re.search(r"parenthes|separated by a", text, re.I):
+            rep.err(k, "Ordering information: the source table's footnote on its own notation (parentheses, ~) is not "
+                    "copied: the ordering block writes markings without them")
+    # an overbar is a drawn line: the text layer of a PDF never has it, so a person read it from the page image
+    notes_text = "\n".join(lines[notes_from:]) if notes_from <= len(lines) else ""
+    pin_text = "\n".join("\n".join(b[3]) for b in blocks if b[0] in ("pins", "wavedrom"))
+    pin_bars = set(re.findall(r"!\{([^{}]+)\}", pin_text)) | set(re.findall(r"([\w/]+)#", pin_text))   # pin names: the catalog holds their bars
+    if not pending and not re.search(r"From images:[^\n]*(\n  [^\n]*)*overbar", notes_text):
+        for sec, k, text in paras:
+            barred = set(re.findall(r"!\{([^{}]+)\}", text)) - pin_bars
+            if barred and sec not in ("Conversion notes", "Pin functions") and not all(
+                    re.fullmatch(r"[A-Z0-9~/]{1,6}", x) and x in pin_text for x in barred):
+                rep.err(k, 'an overbar (!{…}) in the text is read from the page image: Conversion notes needs a '
+                        '"From images:" bullet that names the overbars and their page')
+                break
+    # tables for some of the parts: every part has its table
+    by_section = collections.defaultdict(list)
+    for kind, attrs, start, body, section in blocks:
+        if kind == "table":
+            by_section[section].append([g.strip() for g in attrs.get("parts", "").split(",") if g.strip()])
+    for section, tables in by_section.items():
+        if tables and all(tables):
+            globs = [g for t in tables for g in t]
+            for part in sorted(claimed):
+                if not any(fnmatch.fnmatchcase(part, g) for g in globs):
+                    rep.err(0, '%s: every table has parts=, and none matches the claimed part %s (name it in the '
+                            "parts= of the table that applies to it)" % (section, part))
+
     # ---- blocks
     pins_seen = set()
     pinout_blocks = 0
@@ -605,6 +654,14 @@ def check_file(path, cat, claims):
             rep.err(start - 1, '%s block belongs in "%s", not "%s"' % (kind, home, section))
         if kind == "table":
             check_table(rep, start, body, attrs, section)
+            rows = [split_row(b) for b in body if b.lstrip().startswith("|")]
+            delim = next((n for n, r in enumerate(rows) if r and all(re.fullmatch(r":?-+:?", c.strip()) for c in r)), None)
+            if delim and section == "Switching characteristics":
+                head = [c.strip().lower() for c in rows[0]]
+                if "unit" in head:
+                    units = {r[head.index("unit")].strip() for r in rows[delim + 1:] if len(r) == len(head)} - {"^", ""}
+                    if units == {"pF"}:
+                        rep.err(start - 1, "a table of capacitances (every unit pF) goes in Electrical characteristics")
             globs = [g.strip() for g in attrs.get("parts", "").split(",") if g.strip()]
             for g in globs:
                 if not any(fnmatch.fnmatchcase(p, g) for p in claimed):
@@ -679,6 +736,16 @@ def check_file(path, cat, claims):
             if "ref" in attrs:
                 if attrs["ref"] not in FIGURE_LIBRARY:
                     rep.err(start - 1, 'figure ref "%s" is not in the shared library' % attrs["ref"])
+                svg = os.path.join(FIGURES_DIR, attrs["ref"] + ".svg")
+                if os.path.exists(svg):
+                    with open(svg, encoding="utf-8") as fh:
+                        wanted = set(re.findall(r"\{(\w+)\}", fh.read()))
+                    given = {b.split(":", 1)[0].strip() for b in body if ":" in b}
+                    for key in sorted(wanted - given):
+                        rep.err(start - 1, 'figure %s draws {%s}: give it a "%s: value" line (the source\'s words '
+                                "when it prints no value)" % (attrs["ref"], key, key))
+                    for key in sorted(given - wanted):
+                        rep.err(start - 1, 'figure %s has no {%s} to draw "%s:" at' % (attrs["ref"], key, key))
             elif "src" in attrs:
                 sp = os.path.join(os.path.dirname(path), attrs["src"])
                 if not attrs["src"].startswith(base + ".figures/"):

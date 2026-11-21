@@ -152,9 +152,24 @@ R = required, O = optional, – = not allowed for that class.
 What goes where:
 
 - **Description**: what the part does, in one to three short paragraphs.
-  No feature bullets; a feature that matters (5 V tolerant inputs,
-  Schmitt trigger) is stated once where it applies.
-- **Electrical characteristics** holds DC characteristics, capacitances,
+  No feature bullets, and no list of any kind; a feature that matters
+  (5 V tolerant inputs, Schmitt trigger) is stated once where it
+  applies, as a sentence in the source's own words (a feature line of
+  the source may stand as it is: "Buffered inputs.").
+- **Functional description** holds what the source's *Detailed
+  Description* chapter says (overview, feature description, device
+  functional modes); **Application information** holds what its
+  *Application and Implementation* chapter says (application, design
+  procedure, power supply, layout). A TI application chapter opens with
+  "not part of the TI component specification", so text moved from one
+  chapter to the other changes its standing. `validate.py` reports a
+  sentence that is in the other chapter in the source.
+- **Function tables** keep the header row the source prints over the
+  columns (`| Inputs | < | Output |` above `| A | B | Y |`), with the
+  note markers it carries.
+- **Electrical characteristics** holds DC characteristics, capacitances
+  (a source's "operating characteristics" table of C~pd~ goes here, not
+  under Switching characteristics),
   supply currents, and for displays the optical characteristics.
   Connector ratings (current, voltage, contact resistance, mating
   cycles) go here too.
@@ -436,7 +451,10 @@ mechanical drawings of connectors and displays. Two forms:
   holds the SVGs in `schematical/schematical/Datasheets/figures/`
   (`load-cmos-50pf`, `load-rl-cl`, `load-ttl`, `waveforms-tpd`,
   `waveforms-cmos-tpd-tt`, `clamp-diodes`; see converting.md for their
-  parameters). A parameter is drawn where the SVG has `{KEY}`.
+  parameters). A parameter is drawn where the SVG has `{KEY}`: every
+  `{KEY}` of the SVG gets a line, and a line names a `{KEY}` the SVG
+  has. When the source prints no value, the line says what it prints
+  (`CL: see table`, `CL: not given`).
 - `src=`: a sidecar SVG in `<id>.figures/`, for a figure only this part
   has. Sidecars are counted in the file's size.
 
@@ -477,7 +495,7 @@ that orderable (not of its `.A` or `.B` variant):
 |---|---|
 | packing | `Reel of N` (the table's `N | LARGE T&R` or `SMALL T&R`), `Tube of N`, `Tray of N`; `N` alone when the table gives a quantity and no carrier; empty when it gives neither (`-`). Nothing else: no "Tape and reel", no status word. |
 | temp range | `<min> to <max>` as printed; empty when the table has `-`. |
-| marking | as printed, without the table's parentheses. Alternatives are separated by commas; a marking the table breaks over two lines is one marking (a space or nothing between the pieces: `5962-9682001Q2A SNJ54AHC08FK`). The list is complete: never `…`. Empty when the table has none. |
+| marking | as printed, without the table's parentheses. Alternatives are separated by commas; a marking the table breaks over two lines is one marking (a space or nothing between the pieces: `5962-9682001Q2A SNJ54AHC08FK`). A marking printed with a varying last part, `U08(R, Z)`, is written out as each whole marking: `U08R, U08Z`. The list is complete: never `…`. Empty when the table has none. |
 | status | `Obsolete`, `NRND`, `Last Time Buy` or `Preview`, as the table prints it; left out for an active part. |
 
 Part status lives in this field only; the Ordering section has no
@@ -525,7 +543,27 @@ rules below are written to keep conversions checkable.
   table note needs 60 % of its words (weighted by how rare they are) in
   one passage of the PDF, 80 % of its words in that passage's order,
   and its numbers in that passage. A sentence that is read from a
-  picture is quoted under `From images:`.
+  picture is quoted under `From images:`. A range the source prints
+  in one cell under a single VALUE header ("–0.5 to 7") is written under a
+  `Value | <` header spanning two columns: the lower limit, then the
+  upper limit. A source sentence that
+  states a requirement (*must*, *do not*, *ensure*, *never*) and sits
+  between two sentences the file keeps is kept too. A word the source
+  misprints stays as printed, with a `Source error:` entry under Source
+  issues; never `[sic]`.
+- **A table note is kept whole,** and as often as the source prints
+  it: a legend that ends ", Z = high impedance" keeps that, and a note
+  printed under two tables is under both in the file. (The lettered
+  notes of a figure, A. B. C., are kept only for the waveforms kept.)
+- **Overbars are read from the page image.** The text layer never has
+  them, so a file that writes a formula, or a name that is not one of
+  the part's pins, with `!{…}` lists it:
+  `- From images: overbars of Y = !{!{A} + !{B}} (p.1).` A bar the
+  source draws in the wrong place is a `Source error:`.
+- **Page numbers** in Conversion notes count from the PDF's first page
+  (`p.13` is the thirteenth page of the file, whatever is printed on
+  it). `validate.py` checks that a figure, table or the package option
+  addendum named with a page is on that page.
 - **The converter's own remarks are labelled.** A sentence that is not
   the source's (what a dropped figure showed, which parts the catalog
   doesn't carry, how a table was joined) goes in Conversion notes, or,
@@ -603,7 +641,11 @@ is its id, `packages` lists every pinout they use, and `datasheets.json`
 registers the file); section titles, order and the required set for the
 class; the `table` grid (cell counts, merges, notes ↔ markers, markers
 outside tables, spec-table columns and value cells, a `parts=` that
-marks nothing); WaveJSON (parses, `signal`/`reg`, data cells vs `data`,
+marks nothing, a claimed part that no `parts=` table of a section
+covers, a table of capacitances outside Electrical characteristics);
+no list in Description; no copied footnote on the ordering table's
+notation; a `From images:` bullet for the overbars of a formula or of a name that is not a pin; no `[sic]`; a shared
+figure's `{KEY}`s all given; WaveJSON (parses, `signal`/`reg`, data cells vs `data`,
 edge nodes exist, no node named twice); `curve` JSON; `figure` refs and
 sidecars; inline `!{…}` balance; and the size report. Exit status 1 on
 any error.
@@ -626,7 +668,7 @@ as **to check by eye**; there are no warnings.
 | numbers | Every number and hex value is in the PDF, or listed under `Derived:` / `From images:`. |
 | terms | Identifiers (names with digits or inner capitals) are in the PDF, are catalog pin names, or are listed under `From images:`. A `-Q1`/`-EP` datasheet doesn't name the device without its suffix. |
 | rows | A table row's values sit on the same PDF line (or within two lines) as the row's words. A function-table row (H, L, X) is a row of the PDF. |
-| cells | Each spec-table row is placed on the PDF line that holds its values, in the table's order, and compared there: every value is **under the header** it has in the file (Min, Typ, Nom, Max, Value), in the same left-to-right order, as often as it is printed, with the same **sign**; the row's **unit** is the one printed in the Unit column (or after the value); the line doesn't start with **another row's symbol**; the line has no **condition number** the file's row lacks; the **words of each cell** (parameter, symbol, conditions) are printed within ten lines of the row, and each header on the table's page; a value under a header on that line, or on a line between two rows, is in the file (**dropped value or row**). A row with no line of its own is compared with the source row between its neighbours, and otherwise must be the same row of several source tables (a joined row): pieces from one table are **rows made into one**. |
+| cells | Each spec-table row is placed on the PDF line that holds its values, in the table's order, and compared there: every value is **under the header** it has in the file (Min, Typ, Nom, Max, Value), in the same left-to-right order, as often as it is printed, with the same **sign**; the row's **unit** is the one printed in the Unit column (or after the value); the line doesn't start with **another row's symbol**; the line has no **condition number** the file's row lacks; the **words of each cell** (symbol, conditions) are printed within ten lines of the row, a parameter name within three lines above and eight below it, and each header on the table's page; each word the source's header lines print in capitals (a device or temperature group, INPUTS / OUTPUT over a function table) is in the file's headers, caption or conditions; a value under a header on that line, or on a line between two rows, is in the file (**dropped value or row**); a cell the source fills with `N/A` is `N/A`, not empty. A row with no line of its own is compared with the source row between its neighbours, and otherwise must be the same row of several source tables (a joined row): pieces from one table are **rows made into one**. |
 | coverage | Every row of a PDF table with Min/Typ/Max/Value headers on a converted page was used by a file row; a table with no row in the file is reported once. In a placed table, every source line that starts at the table's left edge starts a row the file's table has (a row of `N/A` values can't be dropped unseen). |
 | ordering | Each `ordering` line against its row of the PDF's ordering table (TI package option addendum, read by column position, wrapped cells joined): packing, temperature range, marking set, status; a claimed part the table lists and the block doesn't. |
 | catalog | For each claimed part in that table: an Obsolete part has the catalog `obsolete` flag; the pin count is the catalog pinout's. |
@@ -635,8 +677,8 @@ as **to check by eye**; there are no warnings.
 | figures | A shared figure's parameters (`CL: 50 pF`) are printed in the PDF with their unit. |
 | registers | In a register map with Bit 7–Bit 0 and Reset columns, fixed 0/1 bits agree with the reset value. |
 | waveforms | Edges join defined nodes; nodes sit on transitions; a bus is not driven while its active-low output enable has been high for two columns; edge labels are in the PDF. |
-| prose | Each sentence, list item and table note is matched to the closest PDF passage: under 60 % of its words there, or under 80 % of them in its order, is an error (see Source fidelity); so is a number that isn't in that passage, and negation or obligation that differs from the stretch it matches. A long table cell is matched by place instead (its words within five lines of one spot). Sentences labelled `Source conflict:`, `Source error:`, `Unconfirmed:` or `Conversion note:` are the converter's and are not matched. |
-| notes | Table notes in the PDF (`[1] …`, `(1) …`, `† …`, `Notes: 1. …`) on converted pages appear in the file. |
+| prose | Each sentence, list item and table note is matched to the closest PDF passage: under 60 % of its words there, or under 80 % of them in its order, is an error (see Source fidelity); so is a number that isn't in that passage, and negation or obligation that differs from the stretch it matches. A "Section 5.1" of the source may be written as that section's name. A sentence filed under Application information that the source has in its Detailed Description chapter (or the reverse) is an error, and so is a requirement of the source (*must*, *do not*, *ensure*) left out between two kept sentences. A page whose reading-order text is scrambled is matched by its layout lines instead. Two sentences that the source prints once, in one column of a page after the first (page 1 sets features and description side by side, and the text layer runs them together), keep its order; a semicolon the source doesn't have, joining two of its sentences, is an error; when the source's application chapter opens with "not part of the TI component specification", Application information opens with it. A long table cell is matched by place instead (its words within five lines of one spot). Sentences labelled `Source conflict:`, `Source error:`, `Unconfirmed:` or `Conversion note:` are the converter's and are not matched. |
+| notes | Table notes in the PDF (`[1] …`, `(1) …`, `† …`, `Notes: 1. …`) on converted pages appear in the file, whole (a note of up to 30 words keeps every word; a longer one 90 %), and once for each time the source prints them under a table. A page given in Conversion notes for a figure, a table or the package option addendum holds it. |
 | visual | *By eye.* Each waveform, curve and sidecar figure, with the PDF page it most likely came from. |
 | source | *By eye.* The converted pages that are pictures (scans, or a figure page). When most converted pages are scans, the numbers, terms, rows, prose and notes findings of that file are listed by eye too, marked `[scanned source]`: OCR text can't settle them. |
 

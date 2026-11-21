@@ -27,7 +27,7 @@ The SNx4AHCT08 devices are quadruple 2-input positive-AND gates. These
 devices perform the Boolean function Y = A × B or Y = !{!{A} + !{B}} in
 positive logic.
 
-Inputs are TTL-voltage compatible; the TTL inputs allow up translation
+Inputs are TTL-voltage compatible. TTL inputs allow up translation
 from 3.3 V to 5 V. On products compliant to MIL-PRF-38535, all
 parameters are tested unless otherwise noted. On all other products,
 production processing does not necessarily include testing of all
@@ -70,6 +70,7 @@ are kept.
 ## Function tables
 
 ```table id=function caption="Function table (each gate)"
+| Inputs | < | Output |
 | A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
@@ -135,9 +136,9 @@ are kept.
 | R~θJB~ | Junction-to-board thermal resistance | 81 | 56.9 | 66.3 | 39.5 | 56.8 | °C/W |
 | ψ~JT~ | Junction-to-top characterization parameter | 37 | 22.6 | 7.8 | 32.4 | 9.9 | °C/W |
 | ψ~JB~ | Junction-to-board characterization parameter | 80.6 | 56.3 | 56.6 | 39.4 | 56.7 | °C/W |
-| R~θJC(bot)~ | Junction-to-case (bottom) thermal resistance | | | | | | °C/W |
+| R~θJC(bot)~ | Junction-to-case (bottom) thermal resistance | N/A | N/A | N/A | N/A | N/A | °C/W |
 
-[1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report, (SPRA953). Conversion note: all packages are 14 pins, and the source prints N/A in every column of the R~θJC(bot)~ row.
+[1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report, (SPRA953). Conversion note: all packages are 14 pins.
 ```
 
 ## Electrical characteristics
@@ -146,14 +147,14 @@ are kept.
 | Symbol | Parameter | Test conditions | V~CC~ | T~A~ = 25 °C | < | < | SN54AHCT08 | < | SN74AHCT08 | < | Unit |
 | ^ | ^ | ^ | ^ | Min | Typ | Max | Min | Max | Min | Max | ^ |
 |---|---|---|---|--:|--:|--:|--:|--:|--:|--:|---|
-| V~OH~ | High-level output voltage | I~OH~ = -50 µA | 4.5 V | 4.4 | 4.5 | | 4.4 | | 4.4 | | V |
+| V~OH~ | | I~OH~ = -50 µA | 4.5 V | 4.4 | 4.5 | | 4.4 | | 4.4 | | V |
 | ^ | ^ | I~OH~ = -8 mA | 4.5 V | 3.94 | | | 3.8 | | 3.8 | | V |
-| V~OL~ | Low-level output voltage | I~OL~ = 50 µA | 4.5 V | | | 0.1 | | 0.1 | | 0.1 | V |
+| V~OL~ | | I~OL~ = 50 µA | 4.5 V | | | 0.1 | | 0.1 | | 0.1 | V |
 | ^ | ^ | I~OL~ = 8 mA | 4.5 V | | | 0.36 | | 0.44 | | 0.44 | V |
-| I~I~ | Input current | V~I~ = 5.5 V or GND | 0 V to 5.5 V | | | ±0.1 | | ±1 [1] | | ±1 | µA |
-| I~CC~ | Supply current | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | | 2 | | 20 | | 20 | µA |
-| ΔI~CC~ | Supply current change [2] | One input at 3.4 V, other inputs at V~CC~ or GND | 5.5 V | | | 1.35 | | 1.5 | | 1.5 | mA |
-| C~i~ | Input capacitance | V~I~ = V~CC~ or GND | 5 V | | 4 | 10 | | | | 10 | pF |
+| I~I~ | | V~I~ = 5.5 V or GND | 0 V to 5.5 V | | | ±0.1 | | ±1 [1] | | ±1 | µA |
+| I~CC~ | | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | | 2 | | 20 | | 20 | µA |
+| ΔI~CC~ [2] | | One input at 3.4 V, Other inputs at V~CC~ or GND | 5.5 V | | | 1.35 | | 1.5 | | 1.5 | mA |
+| C~i~ | | V~I~ = V~CC~ or GND | 5 V | | 4 | 10 | | | | 10 | pF |
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested at V~CC~ = 0 V.
 [2] This is the increase in supply current for each input at one of the specified TTL voltage levels, rather than 0 V or V~CC~.
@@ -235,8 +236,9 @@ completeness.
 The SNx4AHCT08 devices are low-drive CMOS devices that can be used for a
 multitude of bus-interface type applications where output ringing is a
 concern. The low drive and slow edge rates will minimize overshoot and
-undershoot on the outputs. The TTL inputs can except [sic] voltages down
-to 3.3 V and translate up to 5 V. Conversion note: in the typical
+undershoot on the outputs. The TTL inputs can except voltages down
+to 3.3 V and translate up to 5 V. Conversion note: "except" is the
+source's word. Conversion note: in the typical
 application (Figure 9-1) a 3.3-V bus driver drives the gate inputs; the gate runs from a 5 V
 regulated V~CC~ bypassed with 0.1 µF, and its output drives a 5-V
 accessory.
@@ -247,17 +249,17 @@ can drive currents that would exceed maximum limits. The high drive will
 also create fast edges into light loads, so routing and load conditions
 should be considered to prevent ringing.
 
-- Rise time and fall time: see Δt/Δv in the
-  [recommended operating conditions](#recommended-operating-conditions).
-- High and low levels: see V~IH~ and V~IL~ in the same table.
-- Inputs are overvoltage tolerant allowing them to go as high as 5.5 V at
-  any valid V~CC~.
-- Load currents should not exceed 25 mA per output and 50 mA total for
-  the part.
-- Outputs should not be pulled above V~CC~.
+1. Recommended input conditions
+   - Rise time and fall time specs: See (Δt/ΔV) in the [Recommended Operating Conditions](#recommended-operating-conditions) table.
+   - Specified High and low levels: See (V~IH~ and V~IL~) in the Recommended Operating Conditions table.
+   - Inputs are overvoltage tolerant allowing them to go as high as 5.5 V at any valid V~CC~
+2. Recommend output conditions
+   - Load currents should not exceed 25 mA per output and 50 mA total for the part
+   - Outputs should not be pulled above V~CC~
 
-Power supply: any voltage between the MIN and MAX supply voltage rating
-located in the Recommended Operating Conditions table. Each V~CC~ pin
+The power supply can be any voltage between the MIN and MAX supply
+voltage rating located in the Recommended Operating Conditions table.
+Each V~CC~ pin
 should have a good bypass capacitor to prevent power disturbance. For
 devices with a single supply, 0.1 µF is recommended. If there are
 multiple V~CC~ pins, 0.01 µF or 0.022 µF is recommended for each power
@@ -265,11 +267,23 @@ pin. A 0.1 µF and 1 µF are commonly used in parallel. The bypass
 capacitor should be installed as close to the power pin as possible for
 best results.
 
-Layout: when using multiple bit logic devices inputs should not ever
-float. All unused inputs of digital logic devices must be connected to a
-high or low bias to prevent them from floating; generally they will be
-tied to GND or V~CC~. It is generally acceptable to float outputs unless
-the part is a transceiver.
+When using multiple bit logic devices inputs should not ever float.
+
+In many cases, functions or parts of functions of digital logic devices
+are unused, for example, when only two inputs of a triple-input AND gate
+are used or only 3 of the 4 buffer gates are used. Such input pins
+should not be left unconnected because the undefined voltages at the
+outside connections result in undefined operational states. Specified in
+Figure 9-3 are the rules that must be observed under all circumstances.
+All unused inputs of digital logic devices must be connected to a high
+or low bias to prevent them from floating. The logic level that should
+be applied to any particular unused input depends on the function of the
+device. Generally they will be tied to GND or V~CC~; whichever makes
+more sense or is more convenient. It is generally acceptable to float
+outputs unless the part is a transceiver. Conversion note: Figure 9-3,
+the example layout (p.12), recommends a GND flood fill, a 0.1 µF bypass
+capacitor placed close to the device, unused inputs tied to V~CC~, an
+unused output left floating, and no 90° corners for signal lines.
 
 ## Package
 
@@ -335,8 +349,8 @@ SNJ54AHCT08FK | Tube of 55 | -55 to 125 | 5962-9682101Q2A SNJ54AHCT08FK
   package option addendum, tape and reel and mechanical pages dropped,
   replaced by the generated Package and Ordering sections.
 - Dropped: features and applications lists, package information table,
-  simplified schematic and functional block diagram (one AND gate), the
-  layout example drawing.
+  simplified schematic and functional block diagram (one AND gate). The
+  layout example (Figure 9-3) is described in text.
 - Dropped: Figure 9-2 (switching characteristics comparison, an
   oscilloscope-style plot of V~I~ and the ACT08, HCT08 and AHCT08 outputs
   at V~CC~ = 5 V, load 50 Ω/50 pF); it is not a characteristic of this
@@ -347,7 +361,8 @@ SNJ54AHCT08FK | Tube of 55 | -55 to 125 | 5962-9682101Q2A SNJ54AHCT08FK
 - The typical application circuit (Figure 9-1) is described in text.
 - From images: 25, 75 (temperature points read from Figure 6-1); 0.1 µF,
   5 V, 3.3-V, 5-V (Figure 9-1, p.10); 50 Ω, 50 pF, ACT08, HCT08 (Figure
-  9-2, p.11); 0 V, 3 V input levels (Figure 7-1, p.8).
+  9-2, p.11); 0 V, 3 V input levels (Figure 7-1, p.8); overbars of
+  Y = !{!{A} + !{B}} (p.1).
 - Source issues:
   - Source conflict: Overview "low drive ... slow rise and fall times" vs
     Design Requirements "high drive ... fast edges" (Functional

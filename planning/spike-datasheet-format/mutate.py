@@ -325,12 +325,48 @@ def m_note_drop(f):
     return out
 
 
+def in_remark(f, ln):
+    """Whether a line is part of a paragraph the converter labelled as its own
+    (Conversion note:, Source error:, …): nothing in the source says it."""
+    k = ln
+    while k >= 0 and f.lines[k].strip():
+        if validate.ISSUE_RE.search(f.lines[k]):
+            return True
+        k -= 1
+    return False
+
+
+def m_note_cut(f):
+    """A table note loses its last clause."""
+    out = []
+    for t in f.tables:
+        for ln in t.notes:
+            line = f.lines[ln]
+            if validate.ISSUE_RE.search(line):
+                continue
+            m = re.search(r"^(\[\d+\] .{20,}?)(?:,| and) [^,]{12,}$", line.rstrip("."))
+            if m:
+                out.append(("note cut short: %s" % validate.clip(line, 70), {ln: m.group(1) + "."}))
+    return out
+
+
+def m_head_drop(f):
+    """A table loses its first header row (a group row over the columns)."""
+    out = []
+    for t in f.tables:
+        if len(t.header) >= 2:
+            ln, cells = t.header[0]
+            if any(c.strip() == "<" for c in cells):
+                out.append(("header row dropped: %s" % validate.clip(f.lines[ln], 70), {ln: None}))
+    return out
+
+
 def m_negation(f):
     out = []
     notes = [ln for t in f.tables for ln in t.notes]
     for ln in notes + [ln for ln, _ in f.prose]:
         m = re.search(r"\b(is|are|does|do|may|must|should|can|will) not\b", f.lines[ln])
-        if m and "Source" not in f.lines[ln] and "Unconfirmed" not in f.lines[ln]:
+        if m and not validate.ISSUE_RE.search(f.lines[ln]) and not in_remark(f, ln):
             new = f.lines[ln][:m.start()] + m.group(1) + f.lines[ln][m.end():]
             out.append(("'not' removed: %s" % validate.clip(f.lines[ln][max(0, m.start() - 30):], 70), {ln: new}))
     return out
@@ -340,7 +376,7 @@ def m_prose_num(f):
     out = []
     for ln, section in f.prose:
         line = f.lines[ln]
-        if section == "Ordering information" or line.startswith("|"):
+        if section == "Ordering information" or line.startswith("|") or in_remark(f, ln):
             continue
         for m in re.finditer(r"(?<![\w.~{/-])\d+(?:\.\d+)?(?= (?:V|mA|µA|ns|pF|°C|Ω|kΩ|MHz|%)\b)", line):
             new = line[:m.start()] + bump(m.group(0)) + line[m.end():]
@@ -455,7 +491,7 @@ def m_claim_drop(f):
 KINDS = collections.OrderedDict([
     ("value", m_value), ("value-swap", m_value_swap), ("sign", m_sign), ("column", m_column), ("unit", m_unit),
     ("row-drop", m_row_drop), ("cond", m_cond), ("symbol", m_symbol), ("ftable", m_ftable),
-    ("note-drop", m_note_drop), ("negation", m_negation), ("prose-num", m_prose_num), ("fig", m_fig),
+    ("note-drop", m_note_drop), ("note-cut", m_note_cut), ("head-drop", m_head_drop), ("negation", m_negation), ("prose-num", m_prose_num), ("fig", m_fig),
     ("ord-qty", m_ord_qty), ("ord-temp", m_ord_temp), ("ord-mark", m_ord_mark), ("ord-part", m_ord_part),
     ("fm-pages", m_fm_pages), ("fm-doc", m_fm_doc), ("fm-date", m_fm_date), ("claim-drop", m_claim_drop),
 ])

@@ -274,6 +274,12 @@ VM: 50 %
 
 ## Application information
 
+Information in the following applications sections is not part of the
+TI component specification, and TI does not warrant its accuracy or
+completeness. TI's customers are responsible for determining
+suitability of components for their purposes, as well as validating and
+testing their design implementation to confirm system functionality.
+
 In this application, one channel of the SN74HCS21-Q1 is used. The
 additional channel can be used individually or the inputs can be
 grounded and the channel left unused. The SN74HCS21-Q1 is used to drive

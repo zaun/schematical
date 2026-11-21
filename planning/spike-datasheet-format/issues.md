@@ -193,3 +193,129 @@ Main ones:
   be listed under `From images:`.
 - **Figures.** Waveform shape and curve points can't be checked from text;
   `--info` lists each with its likely PDF page for a person to compare.
+
+## Validator limits after the AND-gate review (2026-11-21)
+
+The 83 `gate-and` files were reviewed by hand against their PDFs in
+several rounds; every kind of mistake a round found became a check in
+`check.py` or `validate.py`, the files were corrected, and the round was
+repeated. The list above describes the validator before that work; much
+of it no longer holds (there are no warnings; a row's values are
+compared by their position on the page, column by column; prose is held
+to the source's words and order). What a person still finds that the
+scripts do not report, from the last rounds:
+
+- **Words added inside a kept sentence.** A sentence passes with up to a
+  fifth of its words not in the source's order, so "It is" in front of a
+  feature line, or two words added to the end of a note, pass.
+- **Conditions.** A condition cell is checked for its numbers and for
+  its words being near the row; a condition the row doesn't print whose
+  words are near (`I~O~ = 0` beside an `I~CC~` row) passes.
+- **Note markers.** That a note exists, whole, is checked; which cell
+  carries its marker is not (a marker on the caption that the source
+  prints on INPUTS, or on a condition that the source prints on a value).
+- **Tables without Min/Typ/Max columns** (load-condition tables, pin
+  tables): their headers are not compared with the source's, so a
+  dropped group header there passes. Function tables are covered.
+- **Scanned sources** (cd4081b, sn74ls08, sn74ls11, sn74ls21 here): the
+  position checks need a text layer. Their findings are listed to check
+  by eye; table count, joined tables and repeated notes are not checked.
+- **A figure's values.** A shared figure's parameter must be printed
+  somewhere in the PDF with its unit, not necessarily on the figure's
+  page.
+- **The converter's own statements.** `Conversion note:`, `Source
+  error:` and the Conversion notes list are not checked, except page
+  numbers given for a figure, a table or the addendum. A stale note
+  ("four tables joined into one" after they were split) passes.
+- **Pin descriptions** when the PDF has no pin table are the
+  converter's words and are not compared.
+- **Meaning.** A source typo kept without a `Source error:` ("SMOS"),
+  a value that looks wrong in the source, and a bar the source draws in
+  the wrong place need a person. Waveform and curve shapes are by eye.
+- **The other samples.** `samples/sn74hc00.md` was brought to 0 errors
+  under the strict validator; the other samples in `samples/` predate it
+  and still report errors there (they pass `check.py`).
+
+`mutate.py` measures the rest: it plants one mistake at a time and
+counts how many the scripts report as errors. Weakest kinds: a dropped
+table note when a near-identical note remains, and a changed number in
+prose when the same number appears elsewhere in the passage.
+
+## Logic gate conversion (2026-11-21)
+
+The remaining gate groups were converted with the procedure in
+converting.md: gate-nand 88, gate-nor 53, gate-not 158, gate-or 52,
+gate-xnor 4, gate-xor 38 (393 files; with gate-and, 476). All pass
+`check.py` and are registered in `datasheets.json`.
+
+**Not converted: no catalog part names these PDFs.** gate-nor
+cd54hc4002; gate-not cd4069ub-mil, cd54act05, sn54act14, sn54als04b,
+sn54hc04-sp, sn54hct04-sp, sn54hcu04, sn54ls05, sn74s04, sn74s05;
+gate-xor sn74ls86.
+
+**Validator errors left: 80, in 23 files.** Each was compared with the
+page image by the converter and judged a limit of `validate.py`, not a
+mistake in the file. They are open work on the script:
+
+- Old Harris sheets that set two dot-leader lists side by side, with
+  the sign touching the leader dots and the degree sign as a raised o
+  (gate-not/cd74hcu04, gate-xor/cd4070b).
+- A power of ten in a cell, "±10^-5 µA" (gate-nand/cd4093b-q1,
+  gate-not/cd4069ub, cd40106b): `check.py` has no cell form for it.
+- A superscript note mark the text layer glues to the value, "3.8¹"
+  read as 3.81 (gate-not/sn54ahc04, sn74ahc04).
+- A TYP header set 2 pt above MIN and MAX (gate-not/sn74als1004,
+  sn74als1005); "VCC= MAX" in a condition taken for a header
+  (sn74ls06).
+- A row placed on a line of another page that holds the same values:
+  the revision history (gate-nand/cd74hc00), the same row of another
+  device's table (gate-not/sn74as04).
+- A value top-aligned in a cell that the text layer puts a line up
+  (gate-nand/sn74hct00); a symbol or condition printed once for a block
+  of rows taller than the script looks (gate-not/sn74aup1g06,
+  sn74lvc04a, cd40106b).
+- A source table that misprints its symbols or a value, corrected in
+  the file under a `Source error:` note that the symbol and value
+  checks don't honour (gate-not/sn74lvc14a, sn74lv04a ".3.5").
+- A pin count inside a package name counted as a value
+  (gate-not/sn74lvc1g06-q1); figure labels run into a note
+  (sn74lv6t06-q1); a symbol printed over its condition
+  (sn74aup3g06); a scanned document number OCR misreads
+  (gate-nor/sn74ls27); a sentence broken over a line so that its "no"
+  or "must" is lost (gate-nand/sn74ls00); a note whose subscripts the
+  text layer sets apart (gate-or/sn74lv32a).
+
+**Scanned sources.** 19 of the files come from scans (old CD4000 and
+LS/S TTL sheets); their tables are in the by-eye list, 1,571 items over
+all 476 files.
+
+**Catalog doubts the converters reported** (nothing in the catalog was
+changed):
+
+- gate-xnor/sn74ls226.pdf is the SN54LS266/SN74LS266 sheet; the id
+  looks like a typo for ls266.
+- gate-nor/sn74ac02.pdf and sn74act02.pdf are the -Q1 sheets under ids
+  without the suffix (the claimed parts are the Q1 parts).
+- 74_14 has no lccc20 pinout and its note says "No FK/LCCC part in this
+  group", but sn54ahc14 and sn54ahct14-sp draw an FK package and list
+  FK orderables (none claimed).
+- 74_10: sn74ac10's J/W, BQA and FK drawings and its pin table name
+  pins 9/11 (and 13/16 on FK) 3C/3A where the catalog has 3A/3C; the
+  D/DB/N/NS/PW drawing agrees with the catalog. 74_00: sn74ls00 swaps
+  A/B of gates 3 and 4 against the catalog p14 pinout. Inputs of one
+  gate are interchangeable.
+- 1G332: the catalog description says "6-pin SON (DRY, DSF)" while the
+  PDF and the claimed parts also cover DBV, DCK and YZP.
+- sn74lvc1g32 DPW: Figure 4-2 draws A=1, B=2; the catalog has B=1, A=2
+  (the catalog note already records the conflict).
+- Parts the addenda list as Active that the catalog doesn't carry:
+  SN74AC04WBQARQ1, SN74AHCT14PWR, SN74AHCT14BQAR, SN74LVC2GU04DCKR,
+  CLVC2GU04QDCKRQ1, SN74LS19ANSR, SN74HCS86DYYR (in sn74hc86.pdf).
+- JM38510/17401BCA (cd4069ub) is NRND in the addendum; the catalog has
+  no flag for it. Several SN54HC4002 military parts are Last Time Buy.
+- cd74hc4002: catalog part 8404401CA has no addendum row of its own
+  (it is printed only as a marking of CD54HC4002F3A).
+- sn74as04: the PDF doesn't say which device JM38510/37006B2A/BCA are;
+  filed with the SN54ALS04B tables. sn74ls05: JM38510/07004BCA filed
+  with the SN54S05 tables on the catalog's family alone.
+

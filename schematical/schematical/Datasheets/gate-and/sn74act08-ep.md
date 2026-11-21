@@ -26,10 +26,11 @@
 The SN74ACT08 is a quadruple 2-input positive-AND gate. This device
 performs the Boolean function Y = A · B in positive logic.
 
-4.5-V to 5.5-V V~CC~ operation. Inputs accept voltages to 5.5 V. Inputs
-are TTL-voltage compatible. Controlled baseline. One assembly/test
-site, one fabrication site. Enhanced diminishing manufacturing sources
-(DMS) support. Enhanced product-change notification.
+Controlled baseline. One assembly/test site, one fabrication site.
+Enhanced diminishing manufacturing sources (DMS) support. Enhanced
+product-change notification. 4.5-V to 5.5-V V~CC~ operation.
+
+Inputs accept voltages to 5.5 V. Inputs are TTL-voltage compatible.
 
 ## Pinout
 
@@ -54,6 +55,7 @@ Conversion note: the logic diagram, each gate (positive logic), shows one
 ## Function tables
 
 ```table id=function caption="Function table (each gate)"
+| Inputs | < | Output |
 | A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |

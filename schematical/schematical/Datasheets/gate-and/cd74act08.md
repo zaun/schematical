@@ -51,7 +51,8 @@ shows one 2-input AND gate, inputs A and B, output Y.
 ## Function tables
 
 ```table id=function caption="Function table (each gate)"
-| A | B | Y |
+| Inputs | < | Output Y |
+| A | B | ^ |
 |:-:|:-:|:-:|
 | H | H | H |
 | L | X | L |

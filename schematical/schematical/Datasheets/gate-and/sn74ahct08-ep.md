@@ -27,10 +27,9 @@ The SN74AHCT08 is a quadruple 2-input positive-AND gate. This device
 performs the Boolean function Y = A • B or Y = !{!{A} + !{B}} in positive
 logic. Inputs are TTL-voltage compatible.
 
-Enhanced product: controlled baseline (one assembly/test site, one
-fabrication site), extended temperature performance of –55 °C to 125 °C,
-EPIC (Enhanced-Performance Implanted
-CMOS) process. Component qualification in accordance with JEDEC and
+Controlled baseline – one assembly/test site, one fabrication site.
+Extended temperature performance of –55 °C to 125 °C.
+EPIC (Enhanced-Performance Implanted CMOS) process. Component qualification in accordance with JEDEC and
 industry standards to ensure reliable operation over an extended
 temperature range. Such qualification testing should not be viewed as
 justifying use of this component beyond specified performance and
@@ -54,6 +53,7 @@ VCC: Supply voltage
 ## Function tables
 
 ```table id=function caption="Function table (each gate)"
+| Inputs | < | Output |
 | A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
@@ -107,17 +107,17 @@ exceeds 250 mA per JESD 17.
 ## Electrical characteristics
 
 ```table id=ec caption="Electrical characteristics" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
-| Symbol | Parameter | Test conditions | V~CC~ | T~A~ = 25 °C | < | < | –55 °C to 125 °C | < | Unit |
-| ^ | ^ | ^ | ^ | Min | Typ | Max | Min | Max | ^ |
-|---|---|---|---|--:|--:|--:|--:|--:|---|
-| V~OH~ | High-level output voltage | I~OH~ = -50 µA | 4.5 V | 4.4 | 4.5 | | 4.4 | | V |
-| ^ | ^ | I~OH~ = -8 mA | 4.5 V | 3.94 | | | 3.8 | | V |
-| V~OL~ | Low-level output voltage | I~OL~ = 50 µA | 4.5 V | | | 0.1 | | 0.1 | V |
-| ^ | ^ | I~OL~ = 8 mA | 4.5 V | | | 0.36 | | 0.44 | V |
-| I~I~ | Input current | V~I~ = 5.5 V or GND | 0 V to 5.5 V | | | ±0.1 | | ±1 | µA |
-| I~CC~ | Supply current | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | | 2 | | 20 | µA |
-| ΔI~CC~ | Supply current change [1] | One input at 3.4 V, other inputs at V~CC~ or GND | 5.5 V | | | 1.35 | | 1.5 | mA |
-| C~i~ | Input capacitance | V~I~ = V~CC~ or GND | 5 V | | 4 | 10 | | | pF |
+| Symbol | Test conditions | V~CC~ | T~A~ = 25 °C | < | < | Min | Max | Unit |
+| ^ | ^ | ^ | Min | Typ | Max | ^ | ^ | ^ |
+|---|---|---|--:|--:|--:|--:|--:|---|
+| V~OH~ | I~OH~ = -50 µA | 4.5 V | 4.4 | 4.5 | | 4.4 | | V |
+| ^ | I~OH~ = -8 mA | 4.5 V | 3.94 | | | 3.8 | | V |
+| V~OL~ | I~OL~ = 50 µA | 4.5 V | | | 0.1 | | 0.1 | V |
+| ^ | I~OL~ = 8 mA | 4.5 V | | | 0.36 | | 0.44 | V |
+| I~I~ | V~I~ = 5.5 V or GND | 0 V to 5.5 V | | | ±0.1 | | ±1 | µA |
+| I~CC~ | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | | 2 | | 20 | µA |
+| ΔI~CC~ [1] | One input at 3.4 V, other inputs at V~CC~ or GND | 5.5 V | | | 1.35 | | 1.5 | mA |
+| C~i~ | V~I~ = V~CC~ or GND | 5 V | | 4 | 10 | | | pF |
 
 [1] This is the increase in supply current for each input at one of the specified TTL voltage levels rather than 0 V or V~CC~.
 ```
@@ -145,8 +145,8 @@ exceeds 250 mA per JESD 17.
 See [parameter measurement information](#parameter-measurement).
 
 ```table id=sw caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
-| Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25 °C | < | < | –55 °C to 125 °C | < | Unit |
-| ^ | ^ | ^ | ^ | Min | Typ | Max | Min | Max | ^ |
+| Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25 °C | < | < | Min | Max | Unit |
+| ^ | ^ | ^ | ^ | Min | Typ | Max | ^ | ^ | ^ |
 |---|---|---|---|--:|--:|--:|--:|--:|---|
 | t~PLH~ | A or B | Y | C~L~ = 15 pF | | 5 | 6.9 | 1 | 8 | ns |
 | t~PHL~ | ^ | ^ | ^ | | 5 | 6.9 | 1 | 8 | ns |
@@ -203,6 +203,9 @@ V62/03654-01YE | Reel of 2500 | -55 to 125 | AHCT08MEP | NRND
   packages; the Ordering block follows the package option addendum,
   p.5).
 - From images: the µA units of the V~OH~/V~OL~ (50 µA), I~I~ and I~CC~
-  rows, p.3 (the text layer prints them as mA); the overlines of
-  Y = !{!{A} + !{B}}, p.1.
+  rows, p.3 (the text layer prints them as mA); overbars of
+  Y = !{!{A} + !{B}} (p.1).
+- The electrical characteristics table of the source names its
+  parameters by symbol only, and heads its last two value columns MIN
+  and MAX with no temperature; neither is added.
 - Source issues: none found.

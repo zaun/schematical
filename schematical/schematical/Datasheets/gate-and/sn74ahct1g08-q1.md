@@ -99,7 +99,8 @@ Conversion note: Figure 7-1 draws the output clamps to V~CC~ (+I~OK~) and GND (-
 ## Function tables
 
 ```table id=function caption="Function table"
-| A [1] | B [1] | Y |
+| Inputs [1] | < | Output |
+| A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
 | L | X | L |
@@ -232,7 +233,7 @@ test-fixture capacitance. The greater between t~PLH~ and t~PHL~ is the
 same as t~pd~. The greater between t~r~ and t~f~ is the same as t~t~.
 
 ```figure ref=load-cmos-50pf caption="Load circuit for push-pull outputs"
-CL: 15 pF or 50 pF
+CL: see table
 ```
 
 ```figure ref=waveforms-cmos-tpd-tt caption="Voltage waveforms, propagation delays and transition times"
@@ -305,7 +306,9 @@ maximum input voltage range found in the Absolute Maximum Ratings.
 Unused inputs must be terminated to either V~CC~ or ground. The unused
 inputs can be directly terminated if the input is completely unused, or
 they can be connected with a pull-up or pull-down resistor if the input
-will be used sometimes, but not always. A 10-kΩ resistor value is often used. Slow input transitions
+will be used sometimes, but not always. A 10-kΩ resistor value is often used. The SN74AHCT1G08-Q1 has CMOS inputs and thus requires fast input
+transitions to operate correctly, as defined in the Recommended
+Operating Conditions table. Slow input transitions
 can cause oscillations, additional power consumption, and reduction in
 device reliability.
 
@@ -331,7 +334,9 @@ for best results.
 ### Layout guidelines
 
 When using multiple-input and multiple-channel logic devices,
-inputs must never be left floating. All unused inputs of digital logic
+inputs must never be left floating. Such unused input pins must not be left unconnected because the
+undefined voltages at the outside connections result in undefined
+operational states. All unused inputs of digital logic
 devices must be connected to a logic high or logic low voltage, as
 defined by the input voltage specifications, to prevent them from
 floating.
@@ -358,7 +363,8 @@ CAHCT1G08QDCKRQ1 | Reel of 3000 | -40 to 125 | 1PI
 - Source pages 1–13 converted; support pages, revision history, the
   package option addendum, tape and reel and mechanical pages dropped,
   replaced by the generated Package and Ordering sections.
-- Dropped: features and applications lists (kept as one sentence),
+- Dropped: features and applications lists (features kept as sentences in
+  Description),
   package information table, simplified logic diagram and functional
   block diagram (one AND gate), the clamp-diode figure (Figure 7-1,
   described in text: the shared clamp-diodes figure also draws an input

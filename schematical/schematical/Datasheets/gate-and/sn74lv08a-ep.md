@@ -52,6 +52,7 @@ VCC: Supply voltage
 ## Function tables
 
 ```table id=function caption="Function table (each gate)"
+| Inputs | < | Output |
 | A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
@@ -227,4 +228,6 @@ V62/03660-02XE | Reel of 2000 | -55 to 125 | LV08AEP
 - The source gives no switching characteristics at V~CC~ = 2.5 V.
 - C~i~ typical values sit across the Min and Typ columns in the source;
   they are placed under Typ.
+- From images: overbars of Y = !{!{A} + !{B}} (p.1; the text layer
+  prints "Y = A + B").
 - Source issues: none found.

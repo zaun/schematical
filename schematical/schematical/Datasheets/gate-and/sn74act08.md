@@ -58,6 +58,7 @@ Conversion note: the logic diagram, each gate (positive logic), shows one
 ## Function tables
 
 ```table id=function caption="Function table (each gate)"
+| Inputs | < | Output |
 | A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
@@ -227,7 +228,8 @@ possible for best results.
 When using multiple bit logic devices, inputs should not float.
 Such input pins should not be left unconnected because the undefined
 voltages at the outside connections result in undefined operational
-states. All unused inputs of digital logic devices must be connected to
+states. Specified in the Layout Example are rules that must be observed
+under all circumstances. All unused inputs of digital logic devices must be connected to
 a high or low bias to prevent them from floating. The logic level that
 should be applied to any particular unused input depends on the
 function of the device. Generally they will be tied to GND or V~CC~,

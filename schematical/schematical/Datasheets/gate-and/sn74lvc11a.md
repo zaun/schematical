@@ -89,9 +89,13 @@ the absolute maximum ratings table can cause damage to the device. The
 input and output voltage ratings may be exceeded if the input and output
 clamp-current ratings are observed.
 
+```figure ref=clamp-diodes caption="Electrical placement of clamping diodes for each input and output (negative clamps only)"
+```
+
 ## Function tables
 
 ```table id=function caption="Function table [1]"
+| Inputs | < | < | Output |
 | A | B | C | Y |
 |:-:|:-:|:-:|:-:|
 | H | H | H | H |
@@ -326,9 +330,6 @@ input transitions to operate correctly. Slow input transitions can cause
 oscillations, additional power consumption, and reduction in device
 reliability.
 
-```figure ref=clamp-diodes caption="Electrical placement of clamping diodes for each input and output (negative clamps only)"
-```
-
 Output considerations: The positive supply voltage is used to produce
 the output HIGH voltage. Drawing current from the output will decrease
 the output voltage as specified by the V~OH~ specification in the
@@ -367,10 +368,16 @@ capacitor should be installed as close to the power terminal as possible
 for best results.
 
 Layout: when using multiple-input and multiple-channel logic devices
-inputs must not ever be left floating. All unused inputs of digital logic
+inputs must not ever be left floating. In many cases, functions or parts
+of functions of digital logic devices are unused; for example, when only
+two inputs of a triple-input AND gate are used. Such unused input pins
+must not be left unconnected because the undefined voltages at the
+outside connections result in undefined operational states. All unused
+inputs of digital logic
 devices must be connected to a logic high or logic low voltage, as
 defined by the input voltage specifications, to prevent them from
-floating. Generally, the inputs are tied to GND or V~CC~, whichever makes
+floating. The logic level that must be applied to any particular unused
+input depends on the function of the device. Generally, the inputs are tied to GND or V~CC~, whichever makes
 more sense for the logic function or is more convenient.
 
 Conversion note: the example layout (Figure 8-3) carries these labels:

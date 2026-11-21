@@ -27,9 +27,9 @@
 ## Description
 
 This single 2-input positive-AND gate is designed for 1.65 V to 5.5 V
-V~CC~ operation. The SN74LVC1G08-Q1 device performs the Boolean function
-Y = A · B or Y = !{!{A} + !{B}} in positive logic. It is AEC-Q100 qualified for automotive
-applications.
+V~CC~ operation. AEC-Q100 qualified for automotive applications. The
+SN74LVC1G08-Q1 device performs the Boolean function
+Y = A · B or Y = !{!{A} + !{B}} in positive logic.
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
@@ -60,6 +60,7 @@ Y: Output Y
 ## Function tables
 
 ```table id=function caption="Function table"
+| Inputs | < | Output |
 | A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
@@ -175,6 +176,15 @@ Y: Output Y
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25 °C.
 ```
 
+### Operating characteristics
+
+```table id=opchar caption="Operating characteristics" conditions="T~A~ = 25 °C"
+| Symbol | Parameter | Test conditions | V~CC~ = 1.8 V | V~CC~ = 2.5 V | V~CC~ = 3.3 V | V~CC~ = 5 V | Unit |
+| ^ | ^ | ^ | Typ | Typ | Typ | Typ | ^ |
+|---|---|---|--:|--:|--:|--:|---|
+| C~pd~ | Power dissipation capacitance | f = 10 MHz | 21 | 24 | 26 | 31 | pF |
+```
+
 ## Switching characteristics
 
 See [parameter measurement information](#parameter-measurement).
@@ -195,15 +205,6 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | Min | Max | Min | Max | Min | Max | Min | Max | ^ |
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | 2.4 | 8 | 1.1 | 5.5 | 1 | 4.5 | 1 | 4 | ns |
-```
-
-### Operating characteristics
-
-```table id=opchar caption="Operating characteristics" conditions="T~A~ = 25 °C"
-| Symbol | Parameter | Test conditions | V~CC~ = 1.8 V | V~CC~ = 2.5 V | V~CC~ = 3.3 V | V~CC~ = 5 V | Unit |
-| ^ | ^ | ^ | Typ | Typ | Typ | Typ | ^ |
-|---|---|---|--:|--:|--:|--:|---|
-| C~pd~ | Power dissipation capacitance | f = 10 MHz | 21 | 24 | 26 | 31 | pF |
 ```
 
 ## Typical characteristics
@@ -283,6 +284,12 @@ VM: see table
 
 ## Application information
 
+Information in the following applications sections is not part of the TI
+component specification, and TI does not warrant its accuracy or
+completeness. TI’s customers are responsible for determining suitability
+of components for their purposes, as well as validating and testing
+their design implementation to confirm system functionality.
+
 The SN74LVC1G08-Q1 is a high-drive CMOS device used for implementing AND
 logic with a high output drive, such as LED applications. The device
 produces 24 mA of drive current at 3.3 V, for driving multiple outputs
@@ -327,7 +334,8 @@ float. In many cases, functions or parts of functions of digital logic
 devices are unused; for example, when only two inputs of a triple-input
 AND gate are used or only 3 of the 4 buffer gates are used. Do not leave
 such input pins unconnected because the undefined voltages at the outside
-connections result in undefined operational states. All unused inputs of
+connections result in undefined operational states. Specified below are
+the rules that must be observed under all circumstances. All unused inputs of
 digital logic devices must be connected to a high or low bias to prevent
 them from floating. Generally the level is tied to GND or V~CC~,
 whichever make more sense or is more convenient.
@@ -372,6 +380,7 @@ SN74LVC1G08QDRYRQ1 | Reel of 5000 | -40 to 125 | EM
   scale.
 - The text layer prints "£2 ns", "1 MW", "1 kW" and "500 W"; the page
   image shows ≤ 2 ns, 1 MΩ, 1 kΩ and 500 Ω.
+- From images: overbars of Y = !{!{A} + !{B}} (p.1).
 - The electrical characteristics table of the source gives symbols only,
   so its Parameter cells are empty except for I~I~.
 - The multi-V~CC~-pin bypass advice (0.01 µF or 0.022 µF per pin) is

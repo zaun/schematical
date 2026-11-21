@@ -1,0 +1,219 @@
+---
+{
+  "format": "schematical-datasheet",
+  "version": 1,
+  "id": "cd74act10",
+  "title": "CD74ACT10 triple 3-input positive-NAND gates",
+  "class": "logic",
+  "source": {
+    "pdf": "gate-nand/cd74act10.pdf",
+    "vendor": "Texas Instruments",
+    "document": "SCHS316",
+    "date": "2002-11",
+    "pages": 13
+  },
+  "devices": ["gate:74_10"],
+  "parts": ["CD74ACT10E", "CD74ACT10M", "CD74ACT10M96"],
+  "packages": {"p14": "D, N"},
+  "converted": "2026-11-21"
+}
+---
+
+# CD74ACT10 triple 3-input positive-NAND gates
+
+## Description
+
+The CD74ACT10 contains three independent 3-input NAND gates. The device
+performs the Boolean functions Y = !{A • B • C} or
+Y = !{A} + !{B} + !{C} in positive logic.
+
+Inputs are TTL-voltage compatible. Speed of bipolar F, AS, and S, with
+significantly reduced power consumption. Balanced propagation delays.
+±24-mA output drive current. Fanout to 15 F devices.
+SCR latchup-resistant CMOS process and circuit design. Exceeds 2-kV ESD
+protection per MIL-STD-883, Method 3015.
+
+## Pinout
+
+```pinout pinout=p14
+```
+
+## Pin functions
+
+```pins
+1A, 2A, 3A: Gate input A
+1B, 2B, 3B: Gate input B
+1C, 2C, 3C: Gate input C
+1Y, 2Y, 3Y: Gate output Y
+GND: Ground
+VCC: Positive supply
+```
+
+## Functional description
+
+Conversion note: the logic diagram, each gate (positive logic), shows
+one 3-input NAND gate with inputs A, B and C and output Y.
+
+## Function tables
+
+```table id=function caption="Function table (each gate)"
+| Inputs | < | < | Output |
+| A | B | C | Y |
+|:-:|:-:|:-:|:-:|
+| H | H | H | L |
+| L | X | X | H |
+| X | L | X | H |
+| X | X | L | H |
+```
+
+## Absolute maximum ratings
+
+```table id=abs-max caption="Absolute maximum ratings [1]" conditions="Over operating free-air temperature range (unless otherwise noted)"
+| Symbol | Parameter | Conditions | Min | Max | Unit |
+|---|---|---|--:|--:|---|
+| V~CC~ | Supply voltage range | | -0.5 | 6 | V |
+| I~IK~ | Input clamp current | (V~I~ < 0 or V~I~ > V~CC~) (see Note 1) [2] | | ±20 | mA |
+| I~OK~ | Output clamp current | (V~O~ < 0 or V~O~ > V~CC~) (see Note 1) [2] | | ±50 | mA |
+| I~O~ | Continuous output current | (V~O~ = 0 to V~CC~) | | ±50 | mA |
+| | Continuous current through V~CC~ or GND | | | ±100 | mA |
+| θ~JA~ | Package thermal impedance (see Note 2) [3] | E package | | 80 | °C/W |
+| ^ | ^ | M package | | 86 | °C/W |
+| T~stg~ | Storage temperature range | | -65 | 150 | °C |
+
+[1] Stresses beyond those listed under "absolute maximum ratings" may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under "recommended operating conditions" is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
+[2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
+[3] The package thermal impedance is calculated in accordance with JESD 51-7.
+```
+
+## Recommended operating conditions
+
+```table id=roc caption="Recommended operating conditions (see Note 3) [1]"
+| Symbol | Parameter | T~A~ = 25°C | < | -55°C to 125°C | < | -40°C to 85°C | < | Unit |
+| ^ | ^ | Min | Max | Min | Max | Min | Max | ^ |
+|---|---|--:|--:|--:|--:|--:|--:|---|
+| V~CC~ | Supply voltage | 4.5 | 5.5 | 4.5 | 5.5 | 4.5 | 5.5 | V |
+| V~IH~ | High-level input voltage | 2 | | 2 | | 2 | | V |
+| V~IL~ | Low-level input voltage | | 0.8 | | 0.8 | | 0.8 | V |
+| V~I~ | Input voltage | 0 | V~CC~ | 0 | V~CC~ | 0 | V~CC~ | V |
+| V~O~ | Output voltage | 0 | V~CC~ | 0 | V~CC~ | 0 | V~CC~ | V |
+| I~OH~ | High-level output current | | -24 | | -24 | | -24 | mA |
+| I~OL~ | Low-level output current | | 24 | | 24 | | 24 | mA |
+| Δt/Δv | Input transition rise or fall rate | | 10 | | 10 | | 10 | ns/V |
+
+[1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
+```
+
+## Electrical characteristics
+
+```table id=ec caption="Electrical characteristics" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
+| Parameter | Test conditions | < | V~CC~ | T~A~ = 25°C | < | -55°C to 125°C | < | -40°C to 85°C | < | Unit |
+| ^ | ^ | < | ^ | Min | Max | Min | Max | Min | Max | ^ |
+|---|---|---|---|--:|--:|--:|--:|--:|--:|---|
+| V~OH~ | V~I~ = V~IH~ or V~IL~ | I~OH~ = -50 µA | 4.5 V | 4.4 | | 4.4 | | 4.4 | | V |
+| ^ | ^ | I~OH~ = -24 mA | 4.5 V | 3.94 | | 3.7 | | 3.8 | | V |
+| ^ | ^ | I~OH~ = -50 mA [1] | 5.5 V | | | 3.85 | | | | V |
+| ^ | ^ | I~OH~ = -75 mA [1] | 5.5 V | | | | | 3.85 | | V |
+| V~OL~ | V~I~ = V~IH~ or V~IL~ | I~OL~ = 50 µA | 4.5 V | | 0.1 | | 0.1 | | 0.1 | V |
+| ^ | ^ | I~OL~ = 24 mA | 4.5 V | | 0.36 | | 0.5 | | 0.44 | V |
+| ^ | ^ | I~OL~ = 50 mA [1] | 5.5 V | | | | 1.65 | | | V |
+| ^ | ^ | I~OL~ = 75 mA [1] | 5.5 V | | | | | | 1.65 | V |
+| I~I~ | V~I~ = V~CC~ or GND | < | 5.5 V | | ±0.1 | | ±1 | | ±1 | µA |
+| I~CC~ | V~I~ = V~CC~ or GND, | I~O~ = 0 | 5.5 V | | 4 | | 80 | | 40 | µA |
+| ΔI~CC~ [2] | V~I~ = V~CC~ - 2.1 V | < | 4.5 V to 5.5 V | | 2.4 | | 3 | | 2.8 | mA |
+| C~i~ | | < | | | 10 | | 10 | | 10 | pF |
+
+[1] Test one output at a time, not exceeding 1-second duration. Measurement is made by forcing indicated current and measuring voltage to minimize power dissipation. Test verifies a minimum 50-Ω transmission-line drive capability at 85°C and 75-Ω transmission-line drive capability at 125°C.
+[2] Additional quiescent supply current per input pin, TTL inputs high, 1 unit load
+```
+
+```table id=input-load caption="ACT input load table [1]" values=Value
+| Input | Unit load | Unit |
+|---|--:|---|
+| A, B, or C | 0.19 | |
+
+[1] Unit load is ΔI~CC~ limit specified in electrical characteristics table (e.g., 2.4 mA at 25°C).
+```
+
+```table id=opchar caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
+| Symbol | Parameter | Typ | Unit |
+|---|---|--:|---|
+| C~pd~ | Power dissipation capacitance | 50 | pF |
+```
+
+## Switching characteristics
+
+```table id=sw caption="Switching characteristics" conditions="Over recommended operating free-air temperature range, V~CC~ = 5 V ± 0.5 V, C~L~ = 50 pF (unless otherwise noted) (see Figure 1)"
+| Parameter | From (input) | To (output) | -55°C to 125°C | < | -40°C to 85°C | < | Unit |
+| ^ | ^ | ^ | Min | Max | Min | Max | ^ |
+|---|---|---|--:|--:|--:|--:|---|
+| t~PLH~ | A, B, or C | Y | 3.4 | 13.5 | 3.5 | 12.3 | ns |
+| t~PHL~ | A, B, or C | Y | 3.4 | 13.5 | 3.5 | 12.3 | ns |
+```
+
+## Parameter measurement information
+
+C~L~ includes probe and test-fixture capacitance. All input pulses are
+supplied by generators having the following characteristics:
+PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~r~ = 3 ns, t~f~ = 3 ns. Phase relationships
+between waveforms are arbitrary. The outputs are measured one at a time
+with one input transition per measurement. t~PLH~ and t~PHL~ are the
+same as t~pd~.
+
+Conversion note: the load circuit of Figure 1 also has R1 = 500 Ω
+from the output to switch S1 (2 × V~CC~, Open or GND), and S1 is Open
+for t~PLH~/t~PHL~, which leaves R2 and C~L~ below. Conversion note: in
+the voltage waveforms the input swings 0 V to 3 V and is measured at
+1.5 V, and the outputs are measured at 50% V~CC~ (transition times at
+10% and 90%).
+
+```figure ref=load-rl-cl caption="Load circuit (S1 open)"
+RL: 500 Ω (R2)
+CL: 50 pF
+```
+
+```figure ref=waveforms-cmos-tpd-tt caption="Voltage waveforms, propagation delay and output transition times"
+VM: 1.5 V (input), 50% V~CC~ (outputs)
+```
+
+## Package
+
+```package footprint=PDIP-14
+```
+
+```package footprint=SOIC-14
+```
+
+## Ordering information
+
+```ordering
+CD74ACT10E | Tube of 25 | -55 to 125 | CD74ACT10E
+CD74ACT10M | | -55 to 125 | ACT10M | Obsolete
+CD74ACT10M96 | Reel of 2500 | -55 to 125 | ACT10M
+```
+
+## Conversion notes
+
+- Source pages 1–4 converted (the 2002 data sheet); the package option
+  addendum, tape and reel, tube and mechanical pages (5–12) and the
+  notice page (13) dropped, replaced by the generated Package and
+  Ordering sections.
+- Dropped: the vendor's pinout drawing and the 2002 ordering
+  information table (p.1), which the package option addendum replaces;
+  the logic diagram is described in text. The pin descriptions are the
+  converter's: the source has no pin table.
+- The data sheet names the packages E (PDIP) and M (SOIC); the package
+  option addendum names them N and D.
+- Figure 1 is TI's generic load circuit and waveform set. Only the
+  propagation-delay parts apply to this gate; the pulse-duration,
+  recovery-time, setup/hold and output-enable/disable waveforms, the
+  other rows of the S1 table (p.4) and their notes (B, D, G, H) are
+  dropped.
+- The load circuit is drawn with the shared R~L~ ∥ C~L~ figure; R1 and
+  S1 are described in text.
+- From images: overbars of Y = !{A • B • C} and Y = !{A} + !{B} + !{C}
+  (p.1).
+- From images: ΔI~CC~ and Δt/Δv (recommended operating conditions,
+  p.2; electrical characteristics and input load table, p.3), θ~JA~
+  (absolute maximum ratings, p.2).
+- Ordering vendor columns are from the package option addendum (p.5).
+- Source issues: none found.

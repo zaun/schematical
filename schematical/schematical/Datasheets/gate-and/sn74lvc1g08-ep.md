@@ -56,6 +56,7 @@ VCC: Supply voltage
 ## Function tables
 
 ```table id=function caption="Function table"
+| Inputs | < | Output |
 | A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
@@ -152,6 +153,15 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25 °C.
 ```
 
+### Operating characteristics
+
+```table id=opchar caption="Operating characteristics" conditions="T~A~ = 25 °C"
+| Symbol | Parameter | Test conditions | V~CC~ = 1.8 V | V~CC~ = 2.5 V | V~CC~ = 3.3 V | V~CC~ = 5 V | Unit |
+| ^ | ^ | ^ | Typ | Typ | Typ | Typ | ^ |
+|---|---|---|--:|--:|--:|--:|---|
+| C~pd~ | Power dissipation capacitance | f = 10 MHz | 21 | 24 | 26 | 31 | pF |
+```
+
 ## Switching characteristics
 
 See [parameter measurement information](#parameter-measurement).
@@ -177,15 +187,6 @@ See [parameter measurement information](#parameter-measurement).
 | t~pd~ | A or B | Y | 2.4 | 11 | 1.1 | 7.5 | 1 | 6.5 | 1 | 5 | ns |
 
 [1] Source conflict: this table's heading says C~L~ = 50 pF, but Figure 2, which it refers to, uses C~L~ = 30 pF at V~CC~ = 1.8 V and 2.5 V.
-```
-
-### Operating characteristics
-
-```table id=opchar caption="Operating characteristics" conditions="T~A~ = 25 °C"
-| Symbol | Parameter | Test conditions | V~CC~ = 1.8 V | V~CC~ = 2.5 V | V~CC~ = 3.3 V | V~CC~ = 5 V | Unit |
-| ^ | ^ | ^ | Typ | Typ | Typ | Typ | ^ |
-|---|---|---|--:|--:|--:|--:|---|
-| C~pd~ | Power dissipation capacitance | f = 10 MHz | 21 | 24 | 26 | 31 | pF |
 ```
 
 ## Parameter measurement information
@@ -270,6 +271,7 @@ V62/04733-02YE | Reel of 3000 | -55 to 125 | C08O
   circuit with different values, joined in one table.
 - The text layer prints the Boolean function as "Y + A • B or Y + A ) B";
   the page image shows Y = A • B or Y = !{!{A} + !{B}} (p.1).
+- From images: overbars of Y = !{!{A} + !{B}} (p.1).
 - Source issues:
   - Source conflict: the M-temperature switching table says
     C~L~ = 50 pF and refers to Figure 2, which uses C~L~ = 30 pF at

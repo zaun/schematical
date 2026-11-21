@@ -23,11 +23,13 @@
 
 ## Description
 
+Optimized for 1.8-V operation
+and is 3.6-V I/O tolerant to support mixed-mode signal operation.
+
 This quadruple 2-input positive-AND gate is operational at 0.8-V to
 2.7-V V~CC~, but is designed specifically for 1.65-V to 1.95-V V~CC~
 operation. The SN74AUC08 device performs the Boolean function Y = A • B
-or Y = !{!{A} + !{B}} in positive logic. Optimized for 1.8-V operation
-and is 3.6-V I/O tolerant to support mixed-mode signal operation.
+or Y = !{!{A} + !{B}} in positive logic.
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
@@ -53,6 +55,7 @@ VCC: Positive supply
 Conversion note: the source's logic diagram (each gate, positive logic) draws one 2-input AND gate with inputs A and B and output Y.
 
 ```table id=function caption="Function table (each gate)"
+| Inputs | < | Output |
 | A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
@@ -169,15 +172,16 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 
 ## Parameter measurement information
 
-Figure 1, load circuit and voltage waveforms. Conversion note: the
-source's test table sets S1 open for t~PLH~/t~PHL~, which leaves R~L~
-and C~L~ from the output to GND, and its waveforms draw the input from
-0 V to V~CC~ with the delays measured at V~CC~/2. C~L~ includes probe and jig
+C~L~ includes probe and jig
 capacitance. All input pulses are supplied by generators having the
 following characteristics: PRR ≤ 10 MHz, Z~O~ = 50 Ω, slew rate ≥
 1 V/ns. The outputs are measured one at a time, with one transition per
 measurement. t~PLH~ and t~PHL~ are the same as t~pd~. All parameters and
-waveforms are not applicable to all devices.
+waveforms are not applicable to all devices. Figure 1, load circuit and
+voltage waveforms. Conversion note: the
+source's test table sets S1 open for t~PLH~/t~PHL~, which leaves R~L~
+and C~L~ from the output to GND, and its waveforms draw the input from
+0 V to V~CC~ with the delays measured at V~CC~/2.
 
 ```table id=pmi caption="Load circuit values"
 | V~CC~ | C~L~ | R~L~ | V~Δ~ |

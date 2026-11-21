@@ -23,16 +23,16 @@
 
 ## Description
 
+Supports 5-V V~CC~ operation. Inputs accept voltages to 5.5 V.
+Supports defense, aerospace, and medical applications. Available in
+military (–55°C/125°C) temperature range.
+
 The SN74LVC1G11 performs the Boolean function Y = A • B • C or
-Y = !{!{A} + !{B} + !{C}} in positive logic. Supports 5-V V~CC~
-operation. Inputs accept voltages to 5.5 V.
+Y = !{!{A} + !{B} + !{C}} in positive logic.
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
 current backflow through the device when it is powered down.
-
-Supports defense, aerospace, and medical applications. Available in
-military (–55°C/125°C) temperature range.
 
 ## Pinout
 
@@ -53,6 +53,7 @@ Y: Output
 ## Function tables
 
 ```table id=function caption="Function table"
+| Inputs | < | < | Output |
 | A | B | C | Y |
 |:-:|:-:|:-:|:-:|
 | H | H | H | H |
@@ -83,9 +84,9 @@ Y: Output
 [4] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
 
+Latch-up performance exceeds 100 mA per JESD 78, Class II.
 ESD protection exceeds JESD 22: 2000-V Human-Body Model (A114-A),
 200-V Machine Model (A115-A), 1000-V Charged-Device Model (C101).
-Latch-up performance exceeds 100 mA per JESD 78, Class II.
 
 ## Recommended operating conditions
 
@@ -148,6 +149,15 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25 °C.
 ```
 
+### Operating characteristics
+
+```table id=opchar caption="Operating characteristics" conditions="T~A~ = 25 °C"
+| Symbol | Parameter | Test conditions | V~CC~ = 1.8 V | V~CC~ = 2.5 V | V~CC~ = 3.3 V | V~CC~ = 5 V | Unit |
+| ^ | ^ | ^ | Typ | Typ | Typ | Typ | ^ |
+|---|---|---|--:|--:|--:|--:|---|
+| C~pd~ | Power dissipation capacitance | f = 10 MHz | 18 | 19 | 20 | 23 | pF |
+```
+
 ## Switching characteristics
 
 See [parameter measurement information](#parameter-measurement).
@@ -160,15 +170,6 @@ See [parameter measurement information](#parameter-measurement).
 
 [1] Source error: the source refers to "Figure 2"; the data sheet has only Figure 1, whose load values (30 pF and 50 pF) match this table. Corrected.
 [2] Source error: the source prints the supply tolerances in this table's heading as "= 0.15 V", "= 0.2 V", "= 0.3 V" and "= 0.5 V"; the recommended operating conditions and the Figure 1 table give ± 0.15 V, ± 0.2 V, ± 0.3 V and ± 0.5 V. Corrected.
-```
-
-### Operating characteristics
-
-```table id=opchar caption="Operating characteristics" conditions="T~A~ = 25 °C"
-| Symbol | Parameter | Test conditions | V~CC~ = 1.8 V | V~CC~ = 2.5 V | V~CC~ = 3.3 V | V~CC~ = 5 V | Unit |
-| ^ | ^ | ^ | Typ | Typ | Typ | Typ | ^ |
-|---|---|---|--:|--:|--:|--:|---|
-| C~pd~ | Power dissipation capacitance | f = 10 MHz | 18 | 19 | 20 | 23 | pF |
 ```
 
 ## Parameter measurement information
@@ -237,10 +238,11 @@ V62/09621-01XE | Reel of 3000 | -55 to 125 | OBF
   so its Parameter cells are empty except for I~I~.
 - The load circuit is drawn with the shared R~L~ ∥ C~L~ figure; the
   second R~L~ and S1 are described in text.
-- The text layer prints "£2 ns", "1 kW", "500 W" and the Boolean
-  function as "Y + A • B • C or Y + A ) B ) C"; the page images show
-  ≤ 2 ns, 1 kΩ, 500 Ω and Y = A • B • C or
-  Y = !{!{A} + !{B} + !{C}} (pp.1, 5).
+- From images: overbars of Y = !{!{A} + !{B} + !{C}} (p.1; the text
+  layer prints the Boolean function as "Y + A • B • C or
+  Y + A ) B ) C"); ≤ 2 ns, ≤ 2.5 ns, ≤ 10 MHz, 1 kΩ, 500 Ω, 50 Ω and
+  V~Δ~ (Figure 1, p.5; the text layer prints "£2 ns", "1 kW", "500 W"
+  and "VD").
 - The ordering row uses the package option addendum's part number and
   marking (see Source issues).
 - Source issues:

@@ -32,11 +32,12 @@ Y = !{!{A} + !{B} + !{C}} in positive logic. This 3-input AND gate is
 designed for 1.65 V to 5.5 V V~CC~ operation. The 5.5 V I/Os allow down
 translation and also allow voltages at the inputs when V~CC~ = 0 V.
 
+NanoFree package technology is a major breakthrough in IC packaging
+concepts, using the die as the package.
+
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when it is powered down. NanoFree
-package technology is a major breakthrough in IC packaging concepts,
-using the die as the package.
+current backflow through the device when it is powered down.
 
 ## Pinout
 
@@ -60,6 +61,7 @@ Y: Y Output
 ## Function tables
 
 ```table id=function caption="Function table"
+| Inputs | < | < | Output |
 | A | B | C | Y |
 |:-:|:-:|:-:|:-:|
 | H | H | H | H |
@@ -176,6 +178,17 @@ Latch-up performance exceeds 100 mA per JESD 78, class II.
 | C~i~ | | V~I~ = V~CC~ or GND | 3.3 V | | 3.5 | | pF |
 ```
 
+### Operating characteristics
+
+```table id=opchar caption="Operating characteristics" conditions="T~A~ = 25 °C"
+| Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
+|---|---|---|---|--:|---|
+| C~pd~ | Power dissipation capacitance | f = 10 MHz | V~CC~ = 1.8 V | 18 | pF |
+| ^ | ^ | ^ | V~CC~ = 2.5 V | 19 | pF |
+| ^ | ^ | ^ | V~CC~ = 3.3 V | 20 | pF |
+| ^ | ^ | ^ | V~CC~ = 5 V | 23 | pF |
+```
+
 ## Switching characteristics
 
 See [parameter measurement information](#parameter-measurement).
@@ -207,17 +220,6 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | V~CC~ = 2.5 V ± 0.2 V | 1.4 | 7.8 | ns |
 | ^ | ^ | ^ | V~CC~ = 3.3 V ± 0.3 V | 1.3 | 6.2 | ns |
 | ^ | ^ | ^ | V~CC~ = 5 V ± 0.5 V | 1 | 4.6 | ns |
-```
-
-### Operating characteristics
-
-```table id=opchar caption="Operating characteristics" conditions="T~A~ = 25 °C"
-| Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
-|---|---|---|---|--:|---|
-| C~pd~ | Power dissipation capacitance | f = 10 MHz | V~CC~ = 1.8 V | 18 | pF |
-| ^ | ^ | ^ | V~CC~ = 2.5 V | 19 | pF |
-| ^ | ^ | ^ | V~CC~ = 3.3 V | 20 | pF |
-| ^ | ^ | ^ | V~CC~ = 5 V | 23 | pF |
 ```
 
 ## Typical characteristics
@@ -274,6 +276,12 @@ VM: see table
 
 ## Application information
 
+Information in the following applications sections is not part of the
+TI component specification, and TI does not warrant its accuracy or
+completeness. TI's customers are responsible for determining
+suitability of components for their purposes, as well as validating and
+testing their design implementation to confirm system functionality.
+
 The SN74LVC1G11 device offers logical AND configuration for many design
 applications. This example describes basic power sequencing using the AND
 gate configuration. Power sequencing is often used in applications that require a processor or
@@ -324,9 +332,11 @@ cases, functions (or parts of functions) of digital logic devices are
 unused, for example, when only two inputs of a triple-input AND gate are
 used or when only 3 of the 4 buffer gates are used. Such input pins must
 not be left unconnected, because the undefined voltages at the outside
-connections result in undefined operational states. All unused inputs of
+connections result in undefined operational states. Figure 8-3 specifies
+the rules that must be observed under all circumstances. All unused inputs of
 digital logic devices must be connected to a high or low bias to prevent
-them from floating. Generally they are tied to GND or V~CC~, whichever
+them from floating. The logic level that must be applied to any
+particular unused input depends on the function of the device. Generally they are tied to GND or V~CC~, whichever
 makes more sense or is more convenient. It is generally acceptable to
 float outputs.
 
@@ -376,9 +386,9 @@ SN74LVC1G11YZPR | Reel of 3000 | -40 to 85 | C3N
   application circuit (Figure 8-1) and the simulated response
   (Figure 8-2) are described in text.
 - Curve digitized from Figure 5-1 to about 2 % of full scale.
-- The text layer prints "£2 ns" and "1 MW"; the page image shows ≤ 2 ns
-  and 1 MΩ. The text layer drops the overbars of the second Boolean form;
-  the page image shows Y = !{!{A} + !{B} + !{C}} (p.1).
+- From images: overbars of Y = !{!{A} + !{B} + !{C}} (p.1); ≤ 2 ns,
+  ≤ 2.5 ns, ≤ 10 MHz, 1 MΩ, 50 Ω and V~Δ~ (Figure 6-1, p.8; the text
+  layer prints "£2 ns", "1 MW" and "VD").
 - The electrical characteristics table of the source gives symbols only,
   so its Parameter cells are empty except for I~I~.
 - Source issues:

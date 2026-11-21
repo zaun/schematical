@@ -64,9 +64,86 @@ GND: Ground
 VCC: Power supply
 ```
 
+## Functional description
+
+### Balanced CMOS push-pull outputs
+
+This device includes balanced CMOS push-pull outputs. The term balanced
+indicates that the device can sink and source similar currents. The
+drive capability of this device may create fast edges into light loads,
+so routing and load conditions should be considered to prevent ringing.
+Additionally, the outputs of this device are capable of driving larger
+currents than the device can sustain without being damaged. It is
+important to limit the output power of the device to avoid damage due to
+overcurrent. The electrical and thermal limits defined in the Absolute
+Maximum Ratings must be followed at all times.
+
+Unused push-pull CMOS outputs must be left disconnected.
+
+### CMOS Schmitt-trigger inputs
+
+Source conflict: the source describes the inputs both as Schmitt-trigger
+inputs (§7.3.2) and as standard CMOS inputs (§7.3.4), see
+[Conversion notes](#conversion-notes).
+
+This device includes inputs with the Schmitt-trigger architecture. These
+inputs are high impedance and are typically modeled as a resistor in
+parallel with the input capacitance given in the Electrical
+Characteristics table from the input to ground. The worst case
+resistance is calculated with the maximum input voltage, given in the
+Absolute Maximum Ratings table, and the maximum input leakage current,
+given in the Electrical Characteristics table, using Ohm's law
+(R = V ÷ I).
+
+The Schmitt-trigger input architecture provides hysteresis as defined by
+ΔV~T~ in the Electrical Characteristics table, which makes this device
+extremely tolerant to slow or noisy inputs. While the inputs can be
+driven much slower than standard CMOS inputs, it is still recommended to
+properly terminate unused inputs. Driving the inputs with slow
+transitioning signals will increase dynamic current consumption of the
+device.
+
+### Partial power down (I~off~)
+
+This device includes circuitry to disable all outputs when the supply
+pin is held at 0V. When disabled, the outputs will neither source nor
+sink current, regardless of the input voltages applied. The amount of
+leakage current at each output is defined by the I~off~ specification in
+the Electrical Characteristics table.
+
+### Standard CMOS inputs
+
+This device includes standard CMOS inputs. Standard CMOS inputs require
+that input signals transition between valid logic states quickly, as
+defined by the input transition time or rate in the
+[Recommended Operating Conditions](#recommended-operating-conditions)
+table. Failing to meet this specification will result in excessive power
+consumption and could cause oscillations.
+
+Do not leave standard CMOS inputs floating at any time during operation.
+Unused inputs must be terminated at V~CC~ or GND. If a system will not
+be actively driving an input at all times, then a pull-up or pull-down
+resistor can be added to provide a valid input voltage during these
+times. The resistor value will depend on multiple factors; a 10kΩ
+resistor, however, is recommended and will typically meet all
+requirements.
+
+### Clamp diode structure
+
+Figure 7-1 shows the inputs and outputs to this device have negative
+clamping diodes only. Conversion note: Figure 7-1 draws one diode from
+GND to the input, carrying -I~IK~, and one from GND to the output,
+carrying -I~OK~.
+
+Voltages beyond the values specified in the Absolute Maximum Ratings
+table can cause damage to the device. The input and output voltage
+ratings may be exceeded if the input and output clamp-current ratings
+are observed.
+
 ## Function tables
 
 ```table id=function caption="Function table (each gate)"
+| Inputs | < | Output |
 | A | B | Y |
 |:-:|:-:|:-:|
 | L | L | L |
@@ -184,6 +261,17 @@ VCC: Power supply
 [1] Source error: the source prints a broken note marker ("#none#") here and gives no note text; kept out.
 ```
 
+```table id=op caption="Operating characteristics" conditions="T~A~ = 25 °C"
+| Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
+|---|---|---|---|--:|---|
+| C~pd~ | Power dissipation capacitance | f = 10 MHz | 0.8 V | 4 | pF |
+| ^ | ^ | ^ | 1.2 V ± 0.1 V | 4 | pF |
+| ^ | ^ | ^ | 1.5 V ± 0.1 V | 4 | pF |
+| ^ | ^ | ^ | 1.8 V ± 0.15 V | 4 | pF |
+| ^ | ^ | ^ | 2.5 V ± 0.2 V | 4.1 | pF |
+| ^ | ^ | ^ | 3.3 V ± 0.3 V | 4.3 | pF |
+```
+
 ## Switching characteristics
 
 See [parameter measurement information](#parameter-measurement).
@@ -238,17 +326,6 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 1.5 | 4.5 | 7 | 1 | 9.5 | ns |
 ```
 
-```table id=op caption="Operating characteristics" conditions="T~A~ = 25 °C"
-| Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
-|---|---|---|---|--:|---|
-| C~pd~ | Power dissipation capacitance | f = 10 MHz | 0.8 V | 4 | pF |
-| ^ | ^ | ^ | 1.2 V ± 0.1 V | 4 | pF |
-| ^ | ^ | ^ | 1.5 V ± 0.1 V | 4 | pF |
-| ^ | ^ | ^ | 1.8 V ± 0.15 V | 4 | pF |
-| ^ | ^ | ^ | 2.5 V ± 0.2 V | 4.1 | pF |
-| ^ | ^ | ^ | 3.3 V ± 0.3 V | 4.3 | pF |
-```
-
 ## Typical characteristics
 
 ```curve id=tpd-vcc caption="t~PD~ vs V~CC~, 15 pF load"
@@ -294,79 +371,11 @@ VM: VCC/2
 
 ## Application information
 
-### Balanced CMOS push-pull outputs
-
-This device includes balanced CMOS push-pull outputs. The term balanced
-indicates that the device can sink and source similar currents. The
-drive capability of this device may create fast edges into light loads,
-so routing and load conditions should be considered to prevent ringing.
-Additionally, the outputs of this device are capable of driving larger
-currents than the device can sustain without being damaged. It is
-important to limit the output power of the device to avoid damage due to
-overcurrent. The electrical and thermal limits defined in the Absolute
-Maximum Ratings must be followed at all times.
-
-Unused push-pull CMOS outputs must be left disconnected.
-
-### CMOS Schmitt-trigger inputs
-
-Source conflict: the source describes the inputs both as Schmitt-trigger
-inputs (§7.3.2) and as standard CMOS inputs (§7.3.4), see
-[Conversion notes](#conversion-notes).
-
-This device includes inputs with the Schmitt-trigger architecture. These
-inputs are high impedance and are typically modeled as a resistor in
-parallel with the input capacitance given in the Electrical
-Characteristics table from the input to ground. The worst case
-resistance is calculated with the maximum input voltage, given in the
-Absolute Maximum Ratings table, and the maximum input leakage current,
-given in the Electrical Characteristics table, using Ohm's law
-(R = V ÷ I).
-
-The Schmitt-trigger input architecture provides hysteresis as defined by
-ΔV~T~ in the Electrical Characteristics table, which makes this device
-extremely tolerant to slow or noisy inputs. While the inputs can be
-driven much slower than standard CMOS inputs, it is still recommended to
-properly terminate unused inputs. Driving the inputs with slow
-transitioning signals will increase dynamic current consumption of the
-device.
-
-### Partial power down (I~off~)
-
-This device includes circuitry to disable all outputs when the supply
-pin is held at 0V. When disabled, the outputs will neither source nor
-sink current, regardless of the input voltages applied. The amount of
-leakage current at each output is defined by the I~off~ specification in
-the Electrical Characteristics table.
-
-### Standard CMOS inputs
-
-This device includes standard CMOS inputs. Standard CMOS inputs require
-that input signals transition between valid logic states quickly, as
-defined by the input transition time or rate in the
-[Recommended Operating Conditions](#recommended-operating-conditions)
-table. Failing to meet this specification will result in excessive power
-consumption and could cause oscillations.
-
-Do not leave standard CMOS inputs floating at any time during operation.
-Unused inputs must be terminated at V~CC~ or GND. If a system will not
-be actively driving an input at all times, then a pull-up or pull-down
-resistor can be added to provide a valid input voltage during these
-times. The resistor value will depend on multiple factors; a 10kΩ
-resistor, however, is recommended and will typically meet all
-requirements.
-
-### Clamp diode structure
-
-Figure 7-1 shows the inputs and outputs to this device have negative
-clamping diodes only. Conversion note: Figure 7-1 draws one diode from
-GND to the input, carrying -I~IK~, and one from GND to the output,
-carrying -I~OK~.
-
-Voltages beyond the values specified in the Absolute Maximum Ratings
-table can cause damage to the device. The input and output voltage
-ratings may be exceeded if the input and output clamp-current ratings
-are observed.
+Information in the following applications sections is not part of the TI
+component specification, and TI does not warrant its accuracy or
+completeness. TI’s customers are responsible for determining suitability
+of components for their purposes, as well as validating and testing
+their design implementation to confirm system functionality.
 
 ### Typical application
 

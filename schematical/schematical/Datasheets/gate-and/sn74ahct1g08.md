@@ -58,7 +58,8 @@ Source conflict: the switching characteristics (p.6) give t~PLH~ and t~PHL~ of a
 ## Function tables
 
 ```table id=function caption="Function table"
-| A [1] | B [1] | Y [2] |
+| Inputs [1] | < | Output [2] |
+| A | B | Y |
 |:-:|:-:|:-:|
 | H | H | H |
 | L | X | L |
@@ -254,10 +255,19 @@ installed as close to the power pin as possible for best results.
 
 ### Layout guidelines
 
-When using multiple bit logic devices inputs must not ever float. All
-unused inputs of digital logic devices must be connected to a high or low
-bias to prevent them from floating. Generally they will be tied to GND or
-V~CC~, whichever make more sense or is more convenient.
+When using multiple bit logic devices inputs must not ever float. In many
+cases, functions or parts of functions of digital logic devices are
+unused; for example, when only two inputs of a triple-input AND gate are
+used or only 3 of the 4 buffer gates are used. Such input pins must not
+be left unconnected because the undefined voltages at the outside
+connections result in undefined operational states. Observe the
+following rules under all circumstances.
+
+All unused inputs of digital logic devices must be connected to a high or
+low bias to prevent them from floating. The logic level that must be
+applied to any particular unused input depends on the function of the
+device. Generally they will be tied to GND or V~CC~, whichever make more
+sense or is more convenient.
 
 Conversion note: the layout example (Figure 8-3) recommends a GND flood fill, a 0.1 µF bypass capacitor placed close to the device, and avoiding 90° corners for signal lines.
 
@@ -306,7 +316,8 @@ SN74AHCT1G08DRLR | Reel of 4000 | -40 to 125 | BEB, BES
 - The typical application diagram (Figure 8-1) is described in text.
 - From images: 5.89, 6.07, 6.36, 6.67, 6.96, 7.21, 7.38, 7.51 (T~pd~
   points, Figure 5-1, p.6); µC, LED (Figure 8-1, p.9); 0 V, 3 V, 1.5 V
-  input levels and 50 % V~CC~ (Figure 6-1, p.7, image only).
+  input levels and 50 % V~CC~ (Figure 6-1, p.7, image only); overbars of
+  Y = !{A + B} (p.1 and p.8: one overbar drawn over the whole of A + B).
 - Source issues:
   - Source error: Description and Overview print Y = !{A + B} as the
     second form (Description note).
