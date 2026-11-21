@@ -73,7 +73,7 @@ extension AutomationTools {
             run: { context, args in Out.text(try moveItems(context!, args)) }),
         AutomationTool(
             name: "set_net_label",
-            summary: "Change an existing net label: rename it (up to 4 characters, no spaces; same name = same net), "
+            summary: "Change an existing net label: rename it (up to 8 characters, no spaces; same name = same net), "
                 + "set its type, or flip which way it runs. Move it with move.",
             properties: [
                 "label": Schema.string("label:NAME or label:ID (an id is exact; a name picks the first match)"),
@@ -127,7 +127,7 @@ extension AutomationTools {
         AutomationTool(
             name: "add_net_label",
             summary: "Add a net label at x,y. Labels with the same name are one net. Connect a pin to it with "
-                + "connect(\"U1.3\", \"label:CLK\"). Names are up to 4 characters.",
+                + "connect(\"U1.3\", \"label:CLK\"). Names are up to 8 characters.",
             properties: [
                 "name": Schema.string("Net name, e.g. CLK"), "x": Schema.number("x"), "y": Schema.number("y"),
                 "style": Schema.string("input (default), output, inout, passive, noConnect",
@@ -148,7 +148,7 @@ extension AutomationTools {
         AutomationTool(
             name: "add_bus",
             summary: "Draw a straight bus from (x1,y1) to (x2,y2) (horizontal or vertical). Give it a name "
-                + "(up to 4 characters) and a number of wires (2–999, default 8). Wires are named B0, B1, B2… (rename or add some with set_bus); "
+                + "(up to 8 characters) and a number of wires (2–999, default 8). Wires are named B0, B1, B2… (rename or add some with set_bus); "
                 + "add ports with add_bus_port, then connect pins to \"bus:NAME:WIRE\".",
             properties: [
                 "x1": Schema.number("Start x"), "y1": Schema.number("Start y"),
@@ -171,11 +171,11 @@ extension AutomationTools {
         AutomationTool(
             name: "set_bus",
             summary: "Change an existing bus: rename it, set its number of wires, name its wires, rename single "
-                + "wires, or move a wire to another place. Wire names are up to 4 characters, no spaces; two wires may share a "
+                + "wires, or move a wire to another place. Wire names are up to 8 characters, no spaces; two wires may share a "
                 + "name (each is still its own net, but \"bus:NAME:WIRE\" and rename then pick the first). Refused when the bus type sets the wires, or when a port still uses a wire the "
                 + "change would drop. A new wire has no pin yet: give it one with set_bus_port.",
             properties: [
-                "bus": Schema.string("Bus name"), "name": Schema.string("New bus name (up to 4 characters)"),
+                "bus": Schema.string("Bus name"), "name": Schema.string("New bus name (up to 8 characters)"),
                 "wires": Schema.integer("Number of wires (2–999). New wires are added, or dropped, at the end"),
                 "wire_names": Schema.strings("Names for all wires in order, e.g. [\"D0\",\"D1\",\"WR\"]; "
                     + "this also sets the number of wires"),

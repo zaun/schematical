@@ -390,6 +390,16 @@ final class BusTypeTests: XCTestCase {
         }
     }
 
+    func testWireNamesAreUpToEightCharacters() throws {
+        let doc = TestSupport.newDocument()
+        let id = try XCTUnwrap(doc.addBus(from: p(100, 100), to: p(300, 100)))
+        let wire = try XCTUnwrap(doc.bus(id)?.wires.first)
+        XCTAssertNil(doc.renameBusWire(bus: id, wire: wire.id, to: "ABCDEFGH"))
+        XCTAssertEqual(doc.bus(id)?.wires.first?.name, "ABCDEFGH")
+        XCTAssertEqual(doc.renameBusWire(bus: id, wire: wire.id, to: "ABCDEFGHI"), "A wire name is at most 8 characters.")
+        XCTAssertEqual(doc.bus(id)?.wires.first?.name, "ABCDEFGH")
+    }
+
     /// A bus wire joins the net labels of its exact name; two
     /// buses' wires of one name meet only through such a label.
     func testBusWiresJoinNetLabelsOfTheirName() throws {

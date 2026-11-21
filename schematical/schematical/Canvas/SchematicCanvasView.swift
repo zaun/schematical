@@ -1358,7 +1358,9 @@ struct PortLayer: View {
                     stub.addLine(to: tip)
                     painter.stroke(stub, with: outline, lineWidth: 1.5)
 
-                    let text = PaintedText(wire.name, size: 10, weight: .medium, monospaced: true)
+                    // The port keeps its depth: a long name gets smaller text.
+                    let size = PaintedText.monospacedSize(10, characters: wire.name.count, fitting: BusPort.depth - 6)
+                    let text = PaintedText(wire.name, size: size, weight: .medium, monospaced: true)
                     if line.isHorizontal {
                         var turned = painter
                         turned.translateBy(x: label.x, y: label.y)

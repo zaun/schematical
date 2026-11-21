@@ -72,6 +72,15 @@ nonisolated struct PaintedText {
         self.overlines = overlines
     }
 
+    /// `size`, or smaller when `count` monospaced characters wouldn't fit
+    /// `width` at it: for names drawn in a box whose size is fixed, which
+    /// shrink their text rather than grow the box.
+    static func monospacedSize(_ size: CGFloat, characters count: Int, fitting width: CGFloat) -> CGFloat {
+        guard count > 0 else { return size }
+        // A monospaced face is about 0.62 em wide per character.
+        return min(size, width / (CGFloat(count) * 0.62))
+    }
+
     /// The characters of `range`.
     func substring(_ range: Range<Int>) -> String {
         let start = string.index(string.startIndex, offsetBy: range.lowerBound)

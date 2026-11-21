@@ -47,8 +47,8 @@
 - [x] Add a KiCad export for the schematic. (Save As ▸ Format ▸ KiCad Project: schematic and board)
 - [x] Add a Gerber export for the PCB
 - [ ] Add top 3 power management IC like (MAX803L, etc.)
-- [ ] Two BUSes with the same name should be able to connect.
-- [ ] BUS wire name and netlabels should be up to 8.
+- [x] Two BUSes with the same name should be able to connect.
+- [x] BUS wire name and netlabels should be up to 8.
 - [ ] Toggle a BUS name label in schematic view
 - [ ] After paste select all that was pasted (including wire ends) so it can be dragged
 - [ ] Bus ports are not selectable?

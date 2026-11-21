@@ -430,7 +430,7 @@ the schematic and connects to nothing by itself.
 | `type`  | string | Optional. What the bus carries: missing for Custom (free wires), or one of the board `type` values for a card (`"isa8"`, `"pcie"`, `"nes"`, …; see [Board](#board)), whose pin names are the bus's `wires`, in the board's `pinOrder` (see [boards-format.md](boards-format.md); natural order when it has none: A1, A2, … A10, B1, numbers before letters). The app locks them until the type is Custom again. A type whose pins don't match `wires` is dropped. The board's `edgeBus` is what ties a bus to the card. |
 | `card`, `cardOptions` | object | Optional. The type's settings, as the board's `card` (a custom card: only `pads` and `bothSides` change its pins) and `cardOptions` (only the options that change the pins, `onBus` in `boards.json`: PCI Express `lanes`, M.2 `key`, `memory`, a Pmod's `pins`). Written only for the types that have them. |
 | `lines` | array | The bus's straight lines, at least one. Each has an `id` (UUID) and two ends `a` and `b` (canvas units, on the 10-unit grid). A line is horizontal or vertical, with length > 0. |
-| `wires` | array | The bus's wires in list order, 2 to 999. Each has an `id` (UUID; ports refer to it) and a `name`: 1 to 4 characters with no spaces. Two wires of a bus may have the same name (case sensitive: `D0` and `d0` are two names); each is still its own wire and net, though a net label of that name joins them all. |
+| `wires` | array | The bus's wires in list order, 2 to 999. Each has an `id` (UUID; ports refer to it) and a `name`: 1 to 8 characters with no spaces. Two wires of a bus may have the same name (case sensitive: `D0` and `d0` are two names); each is still its own wire and net, though a net label of that name joins them all. |
 | `ports` | array | The bus's ports ([Ports](#ports)). Always written, empty when there are none; missing means none. |
 
 **Joints.** Lines of one bus meet only at right angles, in one of two ways:
@@ -507,7 +507,7 @@ label of that name. A label is never simulated itself.
 | Field      | Type    | Meaning                                                              |
 |------------|---------|----------------------------------------------------------------------|
 | `id`       | UUID    | Unique within the file, across every other ID.                       |
-| `name`     | string  | The net's name: 1 to 4 characters, no spaces.                        |
+| `name`     | string  | The net's name: 1 to 8 characters, no spaces.                        |
 | `x`, `y`   | number  | Canvas units: the label's point, where a wire ends. Snapped to the grid on open. |
 | `type`     | string  | `"input"` (default; the end at the wire points in at it), `"output"` (the far end points away from the wire), `"inout"` (both ends point), `"passive"` (a plain box) or `"noConnect"` (see below). |
 | `flipped`  | boolean | The flag runs left of its point instead of right. Default `false`; written only when `true`. |
@@ -569,7 +569,7 @@ Opening fails, and the canvas is left unchanged, if:
 - an ID is used more than once across parts, junctions, wires, buses, bus
   lines, bus wires, ports, board texts, traces, notes and net labels;
 - a note's `text` is empty, or its `size` is not 6 to 72;
-- a net label's `name` is not 1 to 4 characters with no spaces, or its
+- a net label's `name` is not 1 to 8 characters with no spaces, or its
   `type` is not `input`, `output`, `inout`, `passive` or `noConnect` ("The net label is not valid:
   net label <id> …");
 - a `partNumber` is not in the catalog (the error lists every missing one);
@@ -654,7 +654,7 @@ Opening fails, and the canvas is left unchanged, if:
   - `bus <id> is not one piece`;
   - `buses <id> and <id> touch at (<x>, <y>)`;
   - `bus <id> has <n> wires; it must have 2 to 999`;
-  - `bus <id> wire name "<name>" must be 1 to 4 characters with no spaces`;
+  - `bus <id> wire name "<name>" must be 1 to 8 characters with no spaces`;
   - `bus <id> type "eisa" must be custom, customCard, isa8, …` (the board types; likewise `card lanes`, `card length`, `card key` and `card memory` for its settings);
   - `the bus name "<name>" is used twice`;
   - `port <id> line <id> is not on bus <id>`;

@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// The selected net label: its net name (1 to 4 characters, no spaces;
+/// The selected net label: its net name (1 to 8 characters, no spaces;
 /// labels with the same name are one net) and its type. The name applies
 /// as it is typed; emptied, or refused for voltage, the label keeps its
 /// last name. A No Connect has no name to edit.
@@ -62,7 +62,7 @@ struct NetLabelPanel: View {
             .focused($isEditing)
             .accessibilityHint("Up to \(NetLabel.maxNameLength) characters. Labels with the same name are connected.")
             .onChange(of: name) { _, value in
-                // At most four characters, no spaces, as typed (uppercased
+                // At most eight characters, no spaces, as typed (uppercased
                 // while Settings says uppercase only).
                 let cleaned = NetLabel.cleanName(NamePreferences.typed(value)) ?? ""
                 if cleaned != value { name = cleaned; return }

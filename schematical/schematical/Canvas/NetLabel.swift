@@ -57,7 +57,7 @@ nonisolated struct NetLabel: Identifiable, Hashable, Sendable {
     /// The flag runs to the left of `origin` instead of the right.
     var isFlipped = false
 
-    static let maxNameLength = 4
+    static let maxNameLength = 8
     /// The flag: six grid steps long, two high, its points one step deep.
     static let length: CGFloat = 60
     static let halfHeight: CGFloat = 10
@@ -89,6 +89,13 @@ nonisolated struct NetLabel: Identifiable, Hashable, Sendable {
         }
         let minX = isFlipped ? origin.x - Self.length : origin.x
         return CGRect(x: minX, y: origin.y - Self.halfHeight, width: Self.length, height: 2 * Self.halfHeight)
+    }
+
+    /// The name's font size: `fontSize`, shrunk for a long name so it stays
+    /// inside the flag, which keeps its length whatever the name.
+    var nameSize: CGFloat {
+        PaintedText.monospacedSize(Self.fontSize, characters: name.count,
+                                   fitting: Self.length - 2 * Self.pointDepth - 4)
     }
 
     /// The middle of the flag, where the name is drawn.
@@ -170,7 +177,7 @@ struct NetLabelLayer: View {
             }
             painter.fill(path, with: .paper)
             painter.stroke(path, with: isSelected ? .accent : .primary, lineWidth: isSelected ? 2 : 1.25)
-            painter.draw(PaintedText(label.name, size: NetLabel.fontSize, weight: .semibold, monospaced: true),
+            painter.draw(PaintedText(label.name, size: label.nameSize, weight: .semibold, monospaced: true),
                          at: label.nameCentre, anchor: .center)
         }
     }

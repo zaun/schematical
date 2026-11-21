@@ -19,7 +19,7 @@ final class BusWireListTests: XCTestCase {
 
     func testRefusals() {
         XCTAssertEqual((try? BusWireList.names(in: "A\n").get()), nil)
-        XCTAssertEqual((try? BusWireList.names(in: "A\nTOOLONG\n").get()), nil)
+        XCTAssertEqual((try? BusWireList.names(in: "A\nTOOLONGNAME\n").get()), nil)
         XCTAssertEqual((try? BusWireList.names(in: "A\nB C\n").get()), nil)
         XCTAssertEqual((try? BusWireList.names(in: "A\n0,\n").get()), nil)
     }

@@ -1685,7 +1685,7 @@ extension SchematicFile {
         for wire in bus.wires {
             guard SchematicModelBus.nameLengthRange.contains(wire.name.count),
                   !wire.name.contains(where: \.isWhitespace) else {
-                throw SchematicFileError.badBus("bus \(id) wire name \"\(wire.name)\" must be 1 to 4 characters with no spaces")
+                throw SchematicFileError.badBus("bus \(id) wire name \"\(wire.name)\" must be 1 to \(SchematicModelBus.nameLengthRange.upperBound) characters with no spaces")
             }
         }
 

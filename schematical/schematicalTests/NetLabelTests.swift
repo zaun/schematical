@@ -63,16 +63,31 @@ final class NetLabelTests: XCTestCase {
         XCTAssertEqual(doc.nextNetLabelName(), "N1")
     }
 
-    func testNamesAreUpToFourCharactersWithNoSpaces() throws {
-        XCTAssertEqual(NetLabel.cleanName(" a b cdef "), "abcd")
+    func testNamesAreUpToEightCharactersWithNoSpaces() throws {
+        XCTAssertEqual(NetLabel.cleanName(" a b cdefghijk "), "abcdefgh")
         XCTAssertEqual(NetLabel.cleanName("CLK"), "CLK")
         XCTAssertNil(NetLabel.cleanName("   "))
         let doc = newDocument()
         let id = doc.addNetLabel(at: .zero)
-        XCTAssertTrue(doc.setNetLabelName(id, "RESET"))
-        XCTAssertEqual(try label(doc, id).name, "RESE")
+        XCTAssertTrue(doc.setNetLabelName(id, "RESETLINE9"))
+        XCTAssertEqual(try label(doc, id).name, "RESETLIN")
         XCTAssertFalse(doc.setNetLabelName(id, ""))
-        XCTAssertEqual(try label(doc, id).name, "RESE")
+        XCTAssertEqual(try label(doc, id).name, "RESETLIN")
+    }
+
+    /// The flag keeps its length whatever the name: up to the size a name of
+    /// five characters needs the text is as before, and a longer name gets
+    /// smaller text instead of a longer flag.
+    func testLongNamesShrinkTheirTextNotTheFlag() throws {
+        func size(_ name: String) -> CGFloat {
+            NetLabel(id: UUID(), name: name, origin: .zero).nameSize
+        }
+        XCTAssertEqual(size("A"), NetLabel.fontSize)
+        XCTAssertEqual(size("ABCD"), NetLabel.fontSize)
+        XCTAssertEqual(size("ABCDE"), NetLabel.fontSize)
+        XCTAssertLessThan(size("ABCDEFGH"), size("ABCDEF"))
+        XCTAssertGreaterThan(size("ABCDEFGH"), 6)
+        XCTAssertEqual(NetLabel(id: UUID(), name: "ABCDEFGH", origin: .zero).rect.width, NetLabel.length)
     }
 
     func testLabelsOfOneNameAreOneNet() throws {
@@ -265,7 +280,7 @@ final class NetLabelTests: XCTestCase {
         XCTAssertThrowsError(try open(labels: #"{ "id": "\#(id)", "name": "", "x": 0, "y": 0 }"#)) { error in
             guard case SchematicFileError.badLabel = error else { return XCTFail("\(error)") }
         }
-        XCTAssertThrowsError(try open(labels: #"{ "id": "\#(id)", "name": "TOOLONG", "x": 0, "y": 0 }"#)) { error in
+        XCTAssertThrowsError(try open(labels: #"{ "id": "\#(id)", "name": "TOOLONGNAME", "x": 0, "y": 0 }"#)) { error in
             guard case SchematicFileError.badLabel = error else { return XCTFail("\(error)") }
         }
         XCTAssertThrowsError(try open(labels: #"{ "id": "\#(id)", "name": "A", "x": 0, "y": 0, "type": "x" }"#)) { error in
