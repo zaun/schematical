@@ -39,6 +39,28 @@ final class BillOfMaterialsTests: XCTestCase {
         XCTAssertEqual(lines.map(\.color), [colors[0], colors[1]])
     }
 
+    /// plan-42-I: a regulator is a U line with its part number, package and
+    /// description; the generic's footprint choice changes its package.
+    func testRegulatorsAreULines() throws {
+        let doc = TestSupport.newDocument()
+        let first = try TestSupport.place(doc, "LM1117MPX-3.3/NOPB", at: CGPoint(x: 100, y: 100))
+        try TestSupport.place(doc, "LM1117MPX-3.3/NOPB", at: CGPoint(x: 300, y: 100))
+        let generic = try TestSupport.place(doc, "GENERIC-REG-3V3", at: CGPoint(x: 500, y: 100))
+        XCTAssertEqual(generic.reference, "U3")
+        doc.setPartFootprint(generic.id, "DPAK-3")
+
+        let lines = BillOfMaterials.lines(for: doc.chips)
+        XCTAssertEqual(lines.count, 2)
+        let fixed = try XCTUnwrap(lines.first { $0.partNumber == "LM1117MPX-3.3/NOPB" })
+        XCTAssertEqual(fixed.quantity, 2)
+        XCTAssertEqual(fixed.references, ["U1", "U2"])
+        XCTAssertEqual(fixed.package, "SOT-223")
+        XCTAssertEqual(fixed.description, first.part.description)
+        let other = try XCTUnwrap(lines.first { $0.partNumber == "GENERIC-REG-3V3" })
+        XCTAssertEqual(other.references, ["U3"])
+        XCTAssertEqual(other.package, "DPAK")
+    }
+
     func testCSVQuotesFieldsWithCommas() {
         let line = BillOfMaterialsLine(partNumber: "X", package: "DIP-14", value: "", color: "",
                                        description: "Quad \"NAND\", 2-input", references: ["U1", "U2"])
