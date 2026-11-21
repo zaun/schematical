@@ -67,8 +67,9 @@ final class CustomFootprintDraftTests: XCTestCase {
         // 564 since the plans after it added theirs (plan-46-J § Measured populations);
         // 571 with the seven nixie tube footprints; 572 with the serial
         // memory kind's one ball-grid footprint (WLCSP-8-ST-M95P32); 582
-        // with ten more tube footprints (VFD, numitron, more nixies).
-        XCTAssertEqual(ids.count, 582)
+        // with ten more tube footprints (VFD, numitron, more nixies); 613
+        // with the 31 explicit footprints of the regulator packages (plan-42-D / E / F).
+        XCTAssertEqual(ids.count, 613)
         XCTAssertEqual(mismatched, [])
         XCTAssertEqual(rejected, [:])
     }

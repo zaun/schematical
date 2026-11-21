@@ -119,6 +119,7 @@ extension PartKinds {
         case PART_TRANSISTOR: "transistor"
         case PART_GENERIC: "generic"
         case PART_NIXIE: "nixie"
+        case PART_REGULATOR: "regulator"
         default: nil
         }
     }

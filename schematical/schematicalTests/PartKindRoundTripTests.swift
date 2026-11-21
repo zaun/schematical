@@ -19,6 +19,7 @@ final class PartKindRoundTripTests: XCTestCase {
         "resistor": 1975, "capacitor": 1032, "transistor": 1256, "mcu": 1424,
         "nixie": 22,
         "serialmem": 92,
+        "regulator": 603,
     ]
 
     private func check(_ kind: String) {
@@ -64,4 +65,5 @@ final class PartKindRoundTripTests: XCTestCase {
     func testMcu() { check("mcu") }
     func testNixie() { check("nixie") }
     func testSerialmem() { check("serialmem") }
+    func testRegulator() { check("regulator") }
 }

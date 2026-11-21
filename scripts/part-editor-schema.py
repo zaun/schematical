@@ -31,6 +31,7 @@ KIND_FILES = {
     "mcu": ["mcu.c"],
     "nixie": ["nixie.c"],
     "serialmem": ["serialmem.c"],
+    "regulator": ["regulator.c"],
 }
 
 NAMES = {
