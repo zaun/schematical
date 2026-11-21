@@ -421,7 +421,7 @@ static int regulator_load_part(KindContext *ctx, const void *raw, const void *bo
                                "\"vref\" as arrays");
     }
     if (kind_member(ctx, json, "voutMax", 0) != NULL &&
-        (volts_value(ctx, kind_member(ctx, json, "voutMax", 0), "voutMax", 100, 0, &vout_max) != 0)) {
+        (volts_value(ctx, kind_member(ctx, json, "voutMax", 0), "voutMax", 1000, 0, &vout_max) != 0)) {
         return -1;
     }
     if (kind_member(ctx, json, "vinMin", 0) != NULL &&
@@ -429,7 +429,7 @@ static int regulator_load_part(KindContext *ctx, const void *raw, const void *bo
         return -1;
     }
     if (kind_member(ctx, json, "vinMax", 0) != NULL &&
-        (volts_value(ctx, kind_member(ctx, json, "vinMax", 0), "vinMax", 100, 0, &vin_max) != 0)) {
+        (volts_value(ctx, kind_member(ctx, json, "vinMax", 0), "vinMax", 1000, 0, &vin_max) != 0)) {
         return -1;
     }
     if (kind_member(ctx, json, "dropout", 0) != NULL) {

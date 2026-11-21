@@ -1145,9 +1145,9 @@ part, an array has one value per regulator in `"regulators"` order, with
 |---|---|
 | `"vout"` | the fixed output voltage, above 0 and at most 100; required for a regulator without `"adjust"`, refused for one with it |
 | `"vref"` | the reference voltage of an adjustable regulator, above 0 and at most 10; required with `"adjust"`, refused without |
-| `"voutMax"` | optional: the highest output an adjustable part can be set to (a fact) |
+| `"voutMax"` | optional, above 0 and at most 1000: the highest output an adjustable part can be set to (a fact) |
 | `"vinMin"` | optional: the lowest input at which a regulator works (a switching regulator's minimum input; a linear one's when its datasheet gives one) |
-| `"vinMax"` | optional, above 0 and at most 100: the input maximum; the voltage check refuses an input or enable pin above it |
+| `"vinMax"` | optional, above 0 and at most 1000 (high-voltage regulators take 450 V): the input maximum; the voltage check refuses an input or enable pin above it |
 | `"dropout"` | optional, linear only, at least 0 and at most 10: the dropout at full load (`"dropout" is only for a linear regulator`) |
 | `"iout"` | optional, above 0 and at most 100: the output current per regulator |
 | `"iq"` | optional, above 0 and at most 1: the quiescent current |
