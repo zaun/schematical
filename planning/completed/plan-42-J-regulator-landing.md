@@ -1,6 +1,6 @@
 # plan-42-J: Landing tier
 
-Last updated: 2026-11-15
+Last updated: 2026-11-21
 Effort: small (< 1h)
 Depends on: plan-42-I
 
@@ -93,7 +93,7 @@ Acceptance: every gate's observed value matches.
   Check: the table's commands (est. 45 min: the fresh backend build, the app
   tests and the harness; this is the plan's one landing run, and nothing
   smaller covers the backend, the part files and the app together).
-Commit: —
+Commit: 97a1aa36 (the todo tick: 811b5901)
 
 ## Validation Plan
 
