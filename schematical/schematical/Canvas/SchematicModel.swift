@@ -2303,7 +2303,10 @@ final class SchematicDocument {
     /// "BUS n". Loose ends that land on a pin connect. Refused, with nothing
     /// changed, when a pasted bus would touch another bus, or when it would
     /// put a voltage out of range on a part (`editorMessage` says why).
-    /// Returns whether anything was pasted.
+    /// Everything pasted is selected, wire ends (junctions) included, so the
+    /// whole paste drags as one; a loose end that joins a pin is no longer a
+    /// junction and drops out of the selection. Returns whether anything was
+    /// pasted.
     @discardableResult
     func pasteSchematic(_ copy: SchematicCopy, offset: CGSize) -> Bool {
         guard !copy.isEmpty else { return false }
@@ -2407,6 +2410,7 @@ final class SchematicDocument {
 
             var selection = Set<SchematicItem>()
             selection.formUnion(pastedChips.map { .chip($0.id) })
+            selection.formUnion(pastedJunctions.map { .junction($0.id) })
             selection.formUnion(pastedLabels.map { .label($0.id) })
             selection.formUnion(pastedNotes.map { .note($0.id) })
             selection.formUnion(pastedWires.map { .wire($0.id) })
@@ -5097,7 +5101,7 @@ final class SchematicDocument {
             if !buses[index].card.isCustom { return Self.typeSetsWires }
             let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
             if trimmed.isEmpty { return "A wire name can't be empty." }
-            if trimmed.count > Bus.nameLengthRange.upperBound { return "A wire name is at most 4 characters." }
+            if trimmed.count > Bus.nameLengthRange.upperBound { return "A wire name is at most \(Bus.nameLengthRange.upperBound) characters." }
             if trimmed.contains(where: \.isWhitespace) { return "A wire name can't contain spaces." }
             buses[index].wires[w].name = trimmed
             syncLinked(index)
@@ -5122,7 +5126,7 @@ final class SchematicDocument {
                 return "A bus carries \(Bus.wireCountRange.lowerBound)–\(Bus.wireCountRange.upperBound) wires."
             }
             if names.contains(where: { $0.isEmpty }) { return "A wire name can't be empty." }
-            if names.contains(where: { $0.count > Bus.nameLengthRange.upperBound }) { return "A wire name is at most 4 characters." }
+            if names.contains(where: { $0.count > Bus.nameLengthRange.upperBound }) { return "A wire name is at most \(Bus.nameLengthRange.upperBound) characters." }
             if names.contains(where: { $0.contains(where: \.isWhitespace) }) { return "A wire name can't contain spaces." }
             let group = linkGroup(index)
             if names.count != bus.wires.count {

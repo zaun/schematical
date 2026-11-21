@@ -98,6 +98,10 @@ final class SchematicClipboardTests: XCTestCase {
         XCTAssertTrue(doc.pasteSchematic(copy, offset: CGSize(width: 0, height: 400)))
         let pasted = try XCTUnwrap(doc.wires.last)
         XCTAssertTrue(doc.hasLooseEnd(pasted))
+        // The pasted wire's loose end is selected with it, so the paste drags whole.
+        let pastedEnd = try XCTUnwrap(doc.junctions.last)
+        XCTAssertTrue(doc.isSelected(.junction(pastedEnd.id)))
+        XCTAssertTrue(doc.isSelected(.wire(pasted.id)))
         // The original is untouched.
         XCTAssertEqual(doc.wires.first, wire)
     }
