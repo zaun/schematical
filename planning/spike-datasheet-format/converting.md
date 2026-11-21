@@ -61,7 +61,9 @@ is [format.md](format.md); this page is the procedure.
      `Conversion note:`.
    - Then compare the **to check by eye** items the validator lists
      (waveforms, curves, picture pages, a scanned datasheet's tables)
-     with the page images. They are the only part a person still does.
+     with the page images, and read the file once against the points
+     in issues.md § "Validator limits after the AND-gate review": those
+     are what the scripts don't check.
 6. **Register** the file: add `"md"` to the id's entry in
    `datasheets.json`.
 

@@ -193,3 +193,50 @@ Main ones:
   be listed under `From images:`.
 - **Figures.** Waveform shape and curve points can't be checked from text;
   `--info` lists each with its likely PDF page for a person to compare.
+
+## Validator limits after the AND-gate review (2026-11-21)
+
+The 83 `gate-and` files were reviewed by hand against their PDFs in
+several rounds; every kind of mistake a round found became a check in
+`check.py` or `validate.py`, the files were corrected, and the round was
+repeated. The list above describes the validator before that work; much
+of it no longer holds (there are no warnings; a row's values are
+compared by their position on the page, column by column; prose is held
+to the source's words and order). What a person still finds that the
+scripts do not report, from the last rounds:
+
+- **Words added inside a kept sentence.** A sentence passes with up to a
+  fifth of its words not in the source's order, so "It is" in front of a
+  feature line, or two words added to the end of a note, pass.
+- **Conditions.** A condition cell is checked for its numbers and for
+  its words being near the row; a condition the row doesn't print whose
+  words are near (`I~O~ = 0` beside an `I~CC~` row) passes.
+- **Note markers.** That a note exists, whole, is checked; which cell
+  carries its marker is not (a marker on the caption that the source
+  prints on INPUTS, or on a condition that the source prints on a value).
+- **Tables without Min/Typ/Max columns** (load-condition tables, pin
+  tables): their headers are not compared with the source's, so a
+  dropped group header there passes. Function tables are covered.
+- **Scanned sources** (cd4081b, sn74ls08, sn74ls11, sn74ls21 here): the
+  position checks need a text layer. Their findings are listed to check
+  by eye; table count, joined tables and repeated notes are not checked.
+- **A figure's values.** A shared figure's parameter must be printed
+  somewhere in the PDF with its unit, not necessarily on the figure's
+  page.
+- **The converter's own statements.** `Conversion note:`, `Source
+  error:` and the Conversion notes list are not checked, except page
+  numbers given for a figure, a table or the addendum. A stale note
+  ("four tables joined into one" after they were split) passes.
+- **Pin descriptions** when the PDF has no pin table are the
+  converter's words and are not compared.
+- **Meaning.** A source typo kept without a `Source error:` ("SMOS"),
+  a value that looks wrong in the source, and a bar the source draws in
+  the wrong place need a person. Waveform and curve shapes are by eye.
+- **The other samples.** `samples/sn74hc00.md` was brought to 0 errors
+  under the strict validator; the other samples in `samples/` predate it
+  and still report errors there (they pass `check.py`).
+
+`mutate.py` measures the rest: it plants one mistake at a time and
+counts how many the scripts report as errors. Weakest kinds: a dropped
+table note when a near-identical note remains, and a changed number in
+prose when the same number appears elsewhere in the passage.

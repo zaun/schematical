@@ -61,6 +61,8 @@ PROSE_MIN = 0.6        # weighted share of a sentence's words found in one PDF p
 PROSE_ORDER = 0.8      # share of a sentence's words that follow the order of that passage
 PROSE_LOW = 0.35       # below this a sentence is "not found", above it "reworded"
 ROW_TEXT_MIN = 0.5     # share of a row's words found next to its values
+PARAM_REACH = (3, 8)   # lines above and below a row within which its parameter name is printed
+NOTE_FULL = 0.9        # share of a source note's words a file note has when it is kept whole
 NOTE_MIN = 0.5         # share of a PDF note's words found in one place in the file
 PAGE_MIN = 0.4         # share of a page's numbers found in the file
 SKIP_SECTIONS = {"conversion notes"}
@@ -171,7 +173,7 @@ ABBREV_RE = re.compile(r"(?:^|[\s(])(e\.g|i\.e|vs|fig|no|typ|min|max|approx|etc)
 def md_sentences(text):
     """The sentences of a paragraph: split after . ! ? before a letter, not after an abbreviation."""
     out = []
-    for piece in re.split(r"(?<=[.!?])\s+(?=[A-Za-z(!])", text):
+    for piece in re.split(r"(?<=[.!?])\s+(?=[A-Za-z(!])|(?:(?<=[A-Za-z]{2}\.)|(?<=[)%]\.)|(?<= [VA]\.))\s+(?=[±\d])", text):
         if out and ABBREV_RE.search(out[-1]):
             out[-1] += " " + piece
         else:
@@ -292,6 +294,13 @@ class Source:
             for m in re.finditer(r"(?<![\w.])([0-9A-Fa-f]{1,8})[hH]?(?![\w.])", lay):
                 self.hexes.add(canon_hex(m.group(1).lower()))
         self.nsent = max(1, len(self.sents))
+        # "5.1 Absolute Maximum Ratings": a numbered heading, so that "see Section 5.1" can be
+        # read as the name the section has
+        self.sections = {}
+        for _, text, _ in self.lines:
+            m = re.match(r"^\s*(\d+(?:\.\d+)+)\s+([A-Z][A-Za-z][A-Za-z ,/()\-]{2,60}?)\s*(?:\.{3,}.*|\s\d+)?$", text)
+            if m and m.group(1) not in self.sections:
+                self.sections[m.group(1)] = content(tokens(norm(m.group(2))))
         self.micro = any("µ" in raw or "μ" in raw for raw, _, _ in pages)
         self.page_toks = [set() for _ in pages]
         for page, _, toks in self.lines:
@@ -336,6 +345,32 @@ class Source:
             best = (best[0], max((k for k in (sid - 1, sid, sid + 1) if 0 <= k < len(self.sents)),
                                  key=lambda k: sum(weight.get(t, 0) for t in toks & self.sents[k][2])))
         return best
+
+    def rivals(self, toks, sid):
+        """Other places that hold as many of these words as the closest one:
+        a sentence the source prints twice with one word changed (HBM, CDM)."""
+        toks = set(toks)
+        weight = {t: self.idf(t) for t in toks}
+        total = sum(weight.values()) or 1.0
+        known = sorted((t for t in toks if t in self.sent_post), key=lambda t: len(self.sent_post[t]))
+        cand = set()
+        for t in known[:4]:
+            cand.update(self.sent_post[t][:600])
+        scored = sorted(((sum(weight[t] for t in toks & self.sents[k][2]) / total, k) for k in cand), reverse=True)
+        return [sid] + [k for sc, k in scored[:8] if sc >= PROSE_MIN / 2 and k != sid]
+
+    def run(self, sid):
+        """The words, in order, of a sentence and its two neighbours on the page,
+        a "Section 5.1" followed by the words of that section's heading."""
+        out = []
+        for k in (sid - 1, sid, sid + 1):
+            if 0 <= k < len(self.sents) and self.sents[k][0] == self.sents[sid][0]:
+                seq = self.sents[k][3]
+                for i, t in enumerate(seq):
+                    out.append(t)
+                    if t in self.sections and i and seq[i - 1].startswith("section"):
+                        out += self.sections[t]
+        return out
 
     def best_lines(self, toks):
         """Share of these words found within five layout lines of one place, and that line's id."""
@@ -733,6 +768,22 @@ def lcs(a, b):
     return prev[-1]
 
 
+def same_joins(a, b):
+    """Two token lists with "power down" and "powerdown" written one way:
+    a word broken at a line end, or hyphenated in one text only."""
+    def join(x, other):
+        have, out, i = set(other), [], 0
+        while i < len(x):
+            if i + 1 < len(x) and x[i] not in have and x[i] + x[i + 1] in have:
+                out.append(x[i] + x[i + 1])
+                i += 2
+            else:
+                out.append(x[i])
+                i += 1
+        return out
+    return join(a, b), join(b, a)
+
+
 def matched_stretch(mine, theirs):
     """The stretch of a source sentence (a token list) that a file sentence
     matches: the window, a half longer than the file's sentence, that holds
@@ -753,8 +804,30 @@ def matched_stretch(mine, theirs):
     return best
 
 
+def in_layout(src, toks):
+    """Whether a sentence is printed, in order, on a few lines of the page as
+    laid out: for a page whose reading-order text is scrambled (justified
+    type set one word to a line, columns run together)."""
+    score, lid = src.best_lines(toks)
+    if lid is None or score < PROSE_MIN:
+        return False
+    page, seq = src.lines[lid][0], []
+    for k in range(lid - 4, lid + 5):
+        if 0 <= k < len(src.lines) and src.lines[k][0] == page:
+            seq += content(src.lines[k][2])
+    return lcs(*same_joins(toks, seq)) / len(toks) >= PROSE_ORDER
+
+
 def check_prose(doc, src, rep):
     total = ok = 0
+    kept = {}            # source sentence -> line of the file sentence that matched it
+    before = None        # (line, source sentence, printed once, layout line) of the last sentence matched
+    indent = lambda t: len(t) - len(t.lstrip())
+    # where the source's "Detailed Description" and "Application and Implementation" chapters start
+    last = lambda pat: max((k for k, x in enumerate(src.sents) if re.search(pat, x[1])), default=None)
+    detail, app = last(r"\b\d+ Detailed Description\b"), last(r"\b\d+ Application and Implementation\b")
+    heads = [(k + 1, m.group(1)) for k, x in enumerate(doc.text.split("\n")) for m in [re.match(r"^## (.+)$", x)] if m]
+    section = lambda ln: next((t for k, t in reversed(heads) if k <= ln), "")
     for line, text in doc.units:
         if ISSUE_RE.search(text):
             continue          # the converter's own note on a source problem
@@ -782,6 +855,9 @@ def check_prose(doc, src, rep):
         near = ""
         if sid is not None:
             near = " Closest: p.%d \"%s\"" % (src.sents[sid][0], clip(src.sents[sid][1], 140))
+        if score < PROSE_MIN and in_layout(src, toks):
+            ok += 1
+            continue
         if score < PROSE_MIN:
             what = "not found in" if score < PROSE_LOW else "reworded from"
             rep.add("soft", "prose", line, "%s the source (%.0f%% of its words are in the closest passage): use the "
@@ -789,18 +865,66 @@ def check_prose(doc, src, rep):
                     % (what, 100 * score, near, clip(text, 90)))
             continue
         ok += 1
+        kept[sid] = line
+        if (line, text) not in doc.row_text and (line, text) not in doc.pin_units and len(toks) >= 3:
+            # the sentence before it in the file comes before it in the source: both printed once, in one
+            # column of one page (two columns run together in the text, so the layout has to agree)
+            good = [k for k in src.rivals(toks, sid) if k == sid or lcs(*same_joins(toks, src.run(k))) / len(toks) >= PROSE_ORDER]
+            once = len(good) == 1
+            lid = src.best_lines(toks)[1]
+            if before and once and before[2] and 0 <= line - before[0] <= 3 and src.sents[before[1]][0] == src.sents[sid][0] \
+                    and 0 < before[1] - sid <= 12 and section(line) == section(before[0]) \
+                    and lid is not None and before[3] is not None and 0 < before[3] - lid <= 10 \
+                    and abs(indent(src.lines[lid][1]) - indent(src.lines[before[3]][1])) <= 8:
+                rep.add("soft", "prose", line, "in the source this sentence comes before the one above it (p.%d): sentences "
+                        "keep the source's order. Text: \"%s\"" % (src.sents[sid][0], clip(text, 80)))
+            before = (line, sid, once, lid)
+            # a semicolon where the source ends a sentence joins two sentences
+            if ";" in text:
+                a, b = text.split(";", 1)
+                ta, tb = content(tokens(norm(a))), content(tokens(norm(b)))
+                run = " ".join(src.sents[k][1] for k in (sid - 1, sid, sid + 1) if 0 <= k < len(src.sents))
+                if len(ta) >= 4 and len(tb) >= 4 and ";" not in run and ":" not in a[-3:]:
+                    rep.add("soft", "prose", line, "two source sentences are joined with a semicolon the source doesn't have: "
+                            "keep them apart. Text: \"%s\"" % clip(text, 100))
         window, ordered = set(), []
         for k in (sid - 1, sid, sid + 1):
             if 0 <= k < len(src.sents) and src.sents[k][0] == src.sents[sid][0]:
                 window |= src.sents[k][2]
                 ordered += src.sents[k][3]
         if (line, text) not in doc.pin_units:
-            seq = lcs(toks, ordered) / len(toks)
+            seq = 0
+            for k in src.rivals(toks, sid):
+                theirs = src.run(k)
+                got = lcs(*same_joins(toks, theirs)) / len(toks)
+                if got > seq:
+                    seq, best_sid = got, k
+                if seq >= PROSE_ORDER:
+                    break
+            if seq >= PROSE_ORDER and best_sid != sid:
+                sid = best_sid
+                near = " Closest: p.%d \"%s\"" % (src.sents[sid][0], clip(src.sents[sid][1], 140))
+                window = set(src.run(sid))
+            if seq < PROSE_ORDER and in_layout(src, toks):
+                continue
             if seq < PROSE_ORDER:
                 rep.add("soft", "prose", line, "reworded: only %.0f%% of its words follow the order of the source passage "
                         "(joined, reordered or added words): write the source's sentences, shortened only by deleting.%s "
                         "Text: \"%s\"" % (100 * seq, near, clip(text, 90)))
                 continue
+        if detail is not None and app is not None and detail < app and (line, text) not in doc.row_text:
+            sec = section(line)
+            inside = lambda k: detail < k < app
+            if sec in ("Application information", "Functional description") and len(toks) >= 6:
+                wrong = inside(sid) if sec == "Application information" else sid > app
+                if wrong and not any((inside(k) if sec == "Functional description" else k > app)
+                                     and lcs(*same_joins(toks, src.run(k))) / len(toks) >= PROSE_ORDER
+                                     for k in src.rivals(toks, sid)[1:]):
+                    rep.add("soft", "prose", line, "this sentence is in %s, and the source has it in its %s chapter (p.%d): "
+                            "the source's Detailed Description (overview, feature description, functional modes) goes in "
+                            "Functional description, its Application and Implementation chapter in Application information. "
+                            "Text: \"%s\"" % (sec, "Detailed Description" if sec == "Application information"
+                                              else "Application and Implementation", src.sents[sid][0], clip(text, 80)))
         lost = [t for t in toks if is_num(t) and t not in window and t not in doc.derived
                 and not (t.isdigit() and int(t) < 10)]
         if lost:
@@ -830,6 +954,27 @@ def check_prose(doc, src, rep):
             which = "the source makes it a requirement" if set(theirs) & OBLIGE else "the source doesn't say must"
             rep.add("soft", "prose", line, "obligation differs: %s.%s" % (which, near))
     rep.stats["prose supported"] = (ok, total)
+    standing = "not part of the TI component specification"
+    app_line = next((k for k, t in heads if t == "Application information"), None)
+    if app_line and any(standing in re.sub(r"\s+", " ", x[1]) for x in src.sents) \
+            and standing not in re.sub(r"\s+", " ", doc.text):
+        rep.add("error", "prose", app_line, "the source's application chapter opens with the note that it is \"%s\": "
+                "Application information opens with that sentence" % standing)
+    # a requirement of the source that sits between two sentences the file keeps
+    mine = [set(content(tokens(norm(t)))) for _, t in doc.units] + [set(content(tokens(norm(t)))) for _, t in doc.terms]
+    req = re.compile(r"\b(do not|must|shall|never|ensure|cannot|should not|required|can cause damage|may cause damage)\b", re.I)
+    order = sorted(kept)
+    for a, b in zip(order, order[1:]):
+        if b - a < 2 or b - a > 8 or src.sents[a][0] != src.sents[b][0] or abs(kept[b] - kept[a]) > 12:
+            continue
+        for k in range(a + 1, b):
+            page, text, toks, seq = src.sents[k]
+            if len(toks) < 5 or len(seq) > 60 or not req.search(text) or re.match(r"^\s*\d+(\.\d+)+\s", text):
+                continue
+            if max((len(toks & u) / len(toks) for u in mine), default=0) >= PROSE_MIN:
+                continue
+            rep.add("soft", "prose", kept[a], "the source has a requirement between this sentence and the next that the file "
+                    "leaves out (p.%d): \"%s\"" % (page, clip(text, 200)))
 
 
 def source_notes(src, pages):
@@ -840,6 +985,7 @@ def source_notes(src, pages):
             continue
         s = text.strip()
         m = (re.match(r"^\[(\d+)\]\s+(\S.{8,})", s)                                # [1] text
+             or re.match(r"^\((\d+)\)\s+([A-Z] = \S.{8,})", s)                          # (1) H = high level, under a centred table
              or (text.startswith(s) or len(text) - len(text.lstrip()) < 12) and (
                  re.match(r"^\((\d+)\)\s+([A-Z].{12,})", s)                               # (1) Text, at the left margin
                  or re.match(r"^()[†‡§¶]\s*([A-Z].{12,})", s))                               # † Text
@@ -872,6 +1018,8 @@ def check_notes(doc, src, rep):
     md_units = [set(content(tokens(norm(t)))) for _, t in doc.terms]
     idf = src.idf
     total = ok = 0
+    taken = set()
+    raw_lines = doc.text.split("\n")
     for page, text in source_notes(src, doc.converted_pages):
         if re.match(r"^\s*(see|refer to)\b", text, re.I) and len(text) < 120:
             continue          # a cross-reference, not a fact
@@ -887,10 +1035,34 @@ def check_notes(doc, src, rep):
         total += 1
         weight = {t: idf(t) for t in toks}
         tot = sum(weight.values())
-        best = max((sum(weight[t] for t in toks & u) / tot for u in md_units), default=0)
+        # each note of the source has a sentence of its own in the file: a note printed under two
+        # tables is under both in the file
+        scored = sorted(((sum(weight[t] for t in toks & u) / tot, -k) for k, u in enumerate(md_units)), reverse=True)
+        best, k = scored[0] if scored else (0, 0)
+        free = next(((sc, -n) for sc, n in scored if -n not in taken and sc >= NOTE_FULL), None)
+        lettered = re.match(r"^[A-H]\.\s", text)          # the lettered notes of a figure: those of a dropped waveform go
+        in_table = lambda n: re.match(r"^\[\d+\]\s", raw_lines[doc.terms[n][0] - 1].strip()) if doc.terms[n][0] else None
+        there = lambda n: norm(md_plain(raw_lines[doc.terms[n][0] - 1])).lower().replace(" ", "") if doc.terms[n][0] else ""
+        missing = lambda n: sorted((t for t in toks - md_units[n] if t not in there(n) and not is_num(t)
+                                    and len(src.sent_post.get(t, ())) > 1),
+                                   key=lambda t: -weight[t])
+        if best >= NOTE_FULL and free is None and not in_table(-k):
+            free = (best, -k)                               # a sentence of the text stands for each printing
         if best < NOTE_MIN:
             rep.add("soft", "notes", 0, "source note on p.%d is not in the file: \"%s\"" % (page, clip(text, 120)))
+        elif lettered and best < NOTE_FULL:
+            ok += 1
+        elif not lettered and missing(-k) and (best < NOTE_FULL or len(toks) <= 30):
+            lost = missing(-k)
+            rep.add("soft", "notes", doc.terms[-k][0], "the source note on p.%d says more than this (%s): a note is "
+                    "kept whole. Source: \"%s\"" % (page, ", ".join(lost[:6]), clip(text, 160)))
+        elif best < NOTE_FULL:
+            ok += 1
+        elif free is None:
+            rep.add("soft", "notes", doc.terms[-k][0], "the source prints this note again on p.%d (under another table) "
+                    "and the file has it once fewer: \"%s\"" % (page, clip(text, 100)))
         else:
+            taken.add(free[1])
             ok += 1
     rep.stats["source notes carried"] = (ok, total)
 
@@ -1280,6 +1452,8 @@ class Positions:
             if up.page != line.page:
                 break
             found = self.heads_of(up)
+            if heads is None and not found and SECTION_START_RE.match(up.text.strip()):
+                break             # another table's headers are above this heading or note
             for x0, x1, text in up.words:
                 if re.sub(r"[^A-Za-z]", "", text).lower() in ("unit", "units") and unit is None:
                     unit = (x0, x1, up.y)
@@ -1309,6 +1483,9 @@ class Positions:
         return best if dist <= tol else None
 
 
+SECTION_START_RE = re.compile(r"(absolute maximum ratings|recommended operating conditions|electrical characteristics|"
+                              r"switching characteristics|timing requirements|operating characteristics|thermal information)\b"
+                              r"|[†‡§¶]\s*[A-Z].{40,}", re.I)
 VALUE_CELL_RE = re.compile(r"^[<>≤≥]?\s?([±+-]?)\s?(\d+(?:\.\d+)?)$")
 
 
@@ -1582,9 +1759,25 @@ def check_function_tables(doc, src, rep):
                     for b in range(a + 2, len(run) + 1):
                         runs.add(tuple(run[a:b]))
                 run = []
+    # INPUTS / OUTPUT printed over the columns of the source's function table
+    groups = set()
+    for lid, (_, text, _) in enumerate(src.lines):
+        if re.search(r"\bINPUTS?\b", text):
+            top = " ".join(x[1] for x in src.lines[lid:lid + 3])
+            below = " ".join(x[1] for x in src.lines[lid + 1:lid + 8])
+            if re.search(r"\bOUTPUTS?\b", top) and re.search(r"(?<!\w)[HL]\s+[HLX]\s", below):
+                groups = {"input", "output"}
     for t in doc.tables:
         if t["section"] != "Function tables":
             continue
+        head = {w.rstrip("s") for cells in t["header"] for c in cells for w in re.findall(r"[a-z]+", md_plain(c).lower())}
+        if groups and t["rows"] and all(md_plain(c).strip().lower() in letters for c in t["rows"][0][1]) \
+                and not groups <= head:
+            rep.add("soft", "cells", t["line"] + 1, "the source's function table has the header row INPUTS / OUTPUT over "
+                    "its columns: keep it (| Inputs | < | Output |), with the note markers it carries")
+        elif not groups and rep.scanned and len(t["header"]) < 2:
+            rep.add("manual", "cells", t["line"] + 1, "function table: if the scan prints INPUTS / OUTPUT over the columns, "
+                    "the file keeps that header row")
         for ln, cells in t["rows"]:
             row = tuple(md_plain(c).strip().lower() for c in cells)
             if len(row) >= 2 and all(c in letters for c in row) and row not in runs:
@@ -1863,11 +2056,42 @@ def check_header_words(rep, t, chain, pos, doc):
     for p in pages:
         for x in pos.page_lines[p - 1]:
             on_pages |= x.toks
+            row = [w.lower() for _, _, w in x.words]
+            on_pages.update(a + b for a, b in zip(row, row[1:]))      # "CAPACITAN CE": a word the page breaks
+    # the other way round: a word of the source's header lines is in the file's headers, caption or conditions
+    mine = set()
+    for text in [t["attrs"].get("caption", ""), t["attrs"].get("conditions", "")] + [c for cells in t["header"] for c in cells]:
+        mine.update(tokens(norm(md_plain(MARK_RE.sub("", text)))))
+    mine |= {a + b for a in list(mine) for b in list(mine) if len(a) + len(b) <= 14}
+    allowed = mine | {"unit", "units", "parameter", "test", "conditions", "condition", "symbol", "metric", "thermal", "description"}
+    seen = set()
+    for li in sorted(chain.values()):
+        hy = pos.header(li)[2]
+        line = pos.lines[li]
+        if hy is None or (line.page, hy) in seen:
+            continue
+        seen.add((line.page, hy))
+        for x in pos.page_lines[line.page - 1]:
+            if not (hy - 14 <= x.y <= hy + 9) or x.y >= line.y or SECTION_START_RE.match(x.text.strip()):
+                continue
+            for x0, x1, word in x.words:
+                bare = re.sub(r"\(\d+\)|[†‡§¶]", "", word).strip("()")
+                if not re.fullmatch(r"[A-Z][A-Z\d]{3,}", bare) or HEAD_RE.match(bare):
+                    continue          # header words are set in capitals; anything else is a row's text
+                w = bare.lower()
+                if (w in STOP or w in UNITS or w in mine or w.rstrip("s") in mine or any(k.startswith(w) for k in allowed)
+                        or (w in ("input", "output") and {"from", "to"} & mine)):
+                    continue
+                rep.add("soft", "cells", t["line"] + 1, "the source's header has \"%s\" (p.%d \"%s\"), which no header, "
+                        "caption or conditions of this table has: a header row or group the source prints is kept"
+                        % (word, x.page, clip(x.text, 80)))
     for cells in t["header"]:
         for c in cells:
             w = words(c)
             if not w or md_plain(MARK_RE.sub("", c)).strip().lower() in NAMED_COLS or ISSUE_RE.search(c):
                 continue
+            if set(MARK_RE.findall(c)) & t["own_notes"]:
+                continue          # the converter's own note says how the header differs from the source's
             if sum(x in on_pages or x in doc.known for x in w) / len(w) < 0.6:
                 rep.add("soft", "cells", t["line"] + 1, "header \"%s\" is not printed on the source page of this table (p.%s): "
                         "a heading of the converter's own is not written as the source's"
@@ -1913,6 +2137,11 @@ def check_line(rep, t, r, pos, li, band, ctx, labels):
         if sign is not None and n[3] is not None and sign != n[3] and not any(x[3] == sign for x in after):
             rep.add("error", "cells", r["line"], "sign differs: the source has %s%s, the file %s%s. %s"
                     % (n[3], v, sign, v, where))
+    theirs_na = sum(1 for x0, x1, w in line.words if w.strip("()") in ("N/A", "NA"))
+    mine_na = sum(1 for c in r["raw"] if md_plain(MARK_RE.sub("", c)).strip() == "N/A")
+    if theirs_na > mine_na:
+        rep.add("error", "cells", r["line"], "the source prints N/A %d time(s) on this row and the file has %d: a cell the "
+                "source fills with N/A is N/A in the file, not empty. %s" % (theirs_na, mine_na, where))
     if band is None:
         return
     symbols, (common, heading), ucol, scol, prev, nxt, left, reach = ctx
@@ -1924,7 +2153,11 @@ def check_line(rep, t, r, pos, li, band, ctx, labels):
             continue
         w = [fix(x) for x in tokens(norm(md_plain(MARK_RE.sub("", cell))))
              if not is_num(x) and len(x) > 1 and x not in STOP and x not in UNITS]
-        if w and sum(x in near or x in doc_known for x in w) / len(w) < 0.6:
+        close = near
+        if cols[c] == "parameter":
+            # a name is printed beside its row, or lower when it is centred on the rows it spans
+            close = set().union(*(x.toks for x in pos.window(li, PARAM_REACH[1]) if x.index >= li - PARAM_REACH[0]))
+        if w and sum(x in close or x in doc_known for x in w) / len(w) < 0.6:
             rep.add("error", "cells", r["line"], "cell \"%s\" (%s) is not printed on this row in the source: a name or "
                     "condition the source doesn't give is left out, or labelled. %s"
                     % (md_plain(cell), cols[c] or "column %d" % (c + 1), where))
@@ -2104,6 +2337,8 @@ def addendum(pos):
 def marks(text):
     """The set of markings in a marking cell: alternatives are separated by
     commas (or ~, or parentheses); spaces inside one are line breaks on the part."""
+    # "U08(R, Z)": one marking with a last character that varies, U08R and U08Z
+    text = re.sub(r"(\w+)\(([^()]*)\)", lambda m: ", ".join(m.group(1) + x.strip() for x in m.group(2).split(",")), text)
     return {m for m in (re.sub(r"\s+", "", x) for x in re.split(r"[(),~]", text)) if m and m != "-"}
 
 
@@ -2224,6 +2459,29 @@ def check_frontmatter(doc, src, pos, rep):
                     % (fm["date"], latest))
 
 
+def check_note_pages(doc, src, rep):
+    """A page a Conversion note gives for a figure, a table or the addendum holds that thing."""
+    lines = doc.text.split("\n")
+    start = next((k for k, x in enumerate(lines) if x.strip() == "## Conversion notes"), None)
+    if start is None:
+        return
+    text_of = lambda p: " ".join(x[1] for x in src.lines if x[0] == p)
+    for k in range(start + 1, len(lines)):
+        for m in re.finditer(r"(Figures? (\d+(?:-\d+)?)|Table (\d+(?:-\d+)?)|package option addendum)[^.;()]{0,30}\(?,? ?p\.\s?(\d+)\)?",
+                             lines[k], re.I):
+            page = int(m.group(4))
+            if page > len(src.pages):
+                rep.add("error", "notes", k + 1, "Conversion notes: p.%d is past the end of the PDF (%d pages)" % (page, len(src.pages)))
+                continue
+            there = text_of(page)
+            what = m.group(1)
+            found = (re.search(r"package option addendum", there, re.I) if what.lower().startswith("package")
+                     else re.search(r"(Figure|Table)\s+%s\b" % re.escape(m.group(2) or m.group(3)), there, re.I))
+            if not found and page not in src.ocr_pages:
+                rep.add("soft", "notes", k + 1, "Conversion notes: \"%s\" is not on p.%d of the PDF (pages are counted "
+                        "from the PDF's first page)" % (what, page))
+
+
 def check_page_ranges(doc, src, rep):
     """The Conversion notes' "pages A–B converted" and "(C–D) dropped" against the PDF."""
     n = len(src.pages)
@@ -2338,6 +2596,7 @@ def validate(path, ocr, cache):
     check_ordering(doc, pos, rep)
     check_frontmatter(doc, src, pos, rep)
     check_page_ranges(doc, src, rep)
+    check_note_pages(doc, src, rep)
     check_figures(doc, src, rep)
     check_variant(doc, src, rep)
     check_prose(doc, src, rep)
