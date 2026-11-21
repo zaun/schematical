@@ -103,4 +103,19 @@ final class BoardVisibilityTests: XCTestCase {
         XCTAssertNil(doc.footprint(at: onPad,
                                    visible: hiding(.copper(.top), .copper(.bottom), .copper(.inner(2)), .copper(.inner(3)))))
     }
+
+    /// A part with no polarity (a resistor, a pull resistor, a ceramic
+    /// capacitor) is placed with no pin-1 mark; polarized ones and ICs keep it.
+    func testUnpolarizedPartsStartWithoutAPinOneMark() throws {
+        let doc = doc()
+        func pin1(_ name: String, _ x: CGFloat) throws -> MarkLayer {
+            let chip = try TestSupport.place(doc, name, at: CGPoint(x: x, y: 100))
+            return try XCTUnwrap(chip.board, name).pin1
+        }
+        XCTAssertEqual(try pin1("GENERIC-RESISTOR", 100), .hidden)
+        XCTAssertEqual(try pin1("PULLUP-5V", 300), .hidden)
+        XCTAssertEqual(try pin1("C0805C152K5RACTU", 500), .hidden, "a ceramic capacitor")
+        XCTAssertEqual(try pin1("AEA1616102M035R", 700), .silkscreen, "an electrolytic")
+        XCTAssertEqual(try pin1("SN74HC00N", 900), .silkscreen)
+    }
 }

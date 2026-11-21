@@ -1945,7 +1945,8 @@ final class SchematicDocument {
                 farads: farads
             )
             placed.board = placed.footprint.map {
-                BoardLayout.nextSpot(for: $0, among: chips, pad1: placed.part.firstPinDesignator, grid: self.board.grid)
+                BoardLayout.nextSpot(for: $0, among: chips, pad1: placed.part.firstPinDesignator,
+                                     hasPinOneMark: placed.part.hasPinOneMark, grid: self.board.grid)
             }
             chips.append(placed)
             adoptLooseEnds(chips: [placed.id])
@@ -2335,7 +2336,7 @@ final class SchematicDocument {
                 placed.showsReference = chip.showsReference
                 placed.board = placed.footprint.map {
                     BoardLayout.nextSpot(for: $0, among: chips + pastedChips, pad1: placed.part.firstPinDesignator,
-                                         grid: self.board.grid)
+                                         hasPinOneMark: placed.part.hasPinOneMark, grid: self.board.grid)
                 }
                 pastedChips.append(placed)
             }

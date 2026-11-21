@@ -323,17 +323,20 @@ nonisolated enum BoardLayout {
     /// Where a newly placed footprint goes: the first at (0, 0); later ones to
     /// the right of everything already placed, 2.54 mm apart, top edges
     /// aligned. Origin the centre of pad 1 (`pad1`, the part's first pin),
-    /// snapped to the grid; default marks.
+    /// snapped to the grid; default marks, except that a part with no
+    /// polarity (`hasPinOneMark` false) starts with its pin-1 mark hidden.
     static func nextSpot(for footprint: Footprint, among chips: [PlacedChip], pad1: String,
-                         grid: CGFloat = BoardGrid.spacing) -> BoardPlacement {
+                         hasPinOneMark: Bool = true, grid: CGFloat = BoardGrid.spacing) -> BoardPlacement {
+        var start = BoardPlacement(centre: .zero, rotation: 0)
+        if !hasPinOneMark { start.pin1 = .hidden }
         let placed = chips.compactMap(\.boardBounds)
         guard let first = placed.first else {
-            return snapped(BoardPlacement(centre: .zero, rotation: 0), footprint: footprint, pad1: pad1, grid: grid)
+            return snapped(start, footprint: footprint, pad1: pad1, grid: grid)
         }
         let union = placed.dropFirst().reduce(first) { $0.union($1) }
         let local = localBounds(of: footprint)
-        let centre = CGPoint(x: union.maxX + 2.54 - local.minX, y: union.minY - local.minY)
-        return snapped(BoardPlacement(centre: centre, rotation: 0), footprint: footprint, pad1: pad1, grid: grid)
+        start.centre = CGPoint(x: union.maxX + 2.54 - local.minX, y: union.minY - local.minY)
+        return snapped(start, footprint: footprint, pad1: pad1, grid: grid)
     }
 }
 

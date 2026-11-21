@@ -615,6 +615,19 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         return false
     }
 
+    /// Whether the part has an orientation its pin-1 mark on the silkscreen
+    /// shows. A single resistor (and a pull resistor) and a capacitor that
+    /// isn't polarized have none: either way round is the same part, so a
+    /// new placement starts with that mark hidden (`BoardLayout.nextSpot`).
+    var hasPinOneMark: Bool {
+        switch details {
+        case let .resistor(_, _, _, resistors) where resistors == 1: return false
+        case .supply(_, _, pull: true): return false
+        case .capacitor(_, polarized: false, _, _, _, _): return false
+        default: return true
+        }
+    }
+
     /// `GENERIC-CAPACITOR` (plan-33): a capacitor of no one maker, with a
     /// capacitance per placed part (`PlacedChip.farads`) and footprint choices.
     var isGenericCapacitor: Bool { kind == PART_CAPACITOR && manufacturer == "Generic" }

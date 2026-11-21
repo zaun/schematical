@@ -1018,6 +1018,7 @@ extension SchematicFile {
         }
 
         var placedJunctions: [SchematicModelJunction] = []
+                                                          hasPinOneMark: chips[index].part.hasPinOneMark,
         for junction in junctions {
             try claim(junction.id)
             placedJunctions.append(SchematicModelJunction(id: junction.id, point: CGPoint(x: junction.x, y: junction.y),
