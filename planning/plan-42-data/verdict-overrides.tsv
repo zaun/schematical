@@ -18,4 +18,5 @@ MAX77675HEWE+T	out	digital-interface
 MAX77827DEFD+T	skip	output not set by a feedback divider
 MAX77839BEFQ+T	skip	output not set by a feedback divider
 MIC2141BM5	skip	output not set by a feedback divider
+TL2575-ADJIKV	skip	no package drawing in the datasheet (it names the package and gives no outline or land pattern): TO-220-5 formed leads KV0005A, tl2575-12.pdf draws only KTT
 TPS71219DRCR	skip	outputs of one part are fixed and adjustable (the kind describes a part as fixed or adjustable)

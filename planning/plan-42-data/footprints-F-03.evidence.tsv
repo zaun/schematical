@@ -1,0 +1,13 @@
+footprint	pdf	page	note
+DFN-6-ADI-DC6	analog-devices/ltc3025-1-3025-2-3025-3-3025-4.pdf	12	DC6 recommended solder pad: pad 0.25 x 0.70, 0.50 BSC, outer 2.55, exposed pad 1.37 x 0.60, body 2.00; pin 1 lower right in the bottom view, counter-clockwise from the top
+DFN-6-ADI-DC6	analog-devices/3542fa.pdf	14	LTC3542 DC6 recommended solder pad: pad 0.25 x 0.675, outer 2.50 (span 1.825), exposed 1.42 x 0.61, body 2.00; vs DC6 Rev C above: centres 0.0125, pad length 0.025, exposed pad 0.05 -> same footprint (reuse of the line's one footprint)
+DFN-6-ADI-DCB6	analog-devices/3549f.pdf	15	DCB6 recommended solder pad: pad 0.25 x 0.70, 0.50 BSC, outer 3.55, row gap 2.15, exposed 1.35 x 1.65, body 2.00 x 3.00; pin 1 lower right in the bottom view
+DFN-8-ADI-DC8	analog-devices/lt3060.pdf	23	DC8 recommended solder pad: pad 0.25 x 0.70, 0.45 BSC, outer 2.55, row gap 1.15, exposed 1.37 x 0.64, body 2.00 (4 sides); pin 1 lower right in the bottom view
+DFN-8-ADI-DCB8	analog-devices/3663fc.pdf	13	DCB8 recommended solder pad: pad 0.25 x 0.70, 0.45 BSC, outer 3.50, row gap 2.10, exposed 1.35 x 1.65, body 2.00 x 3.00; pin 1 lower right in the bottom view
+DFN-8-ADI-DDB8	analog-devices/3494fb.pdf	11	DDB8 recommended solder pad: pad 0.25 x 0.70, 0.50 BSC, outer 2.55, row gap 1.15, exposed 2.20 x 0.61, body 3.00 x 2.00; pin 1 lower right in the bottom view
+DFN-8-ADI-DD8	analog-devices/1965fb.pdf	17	DD8 recommended solder pad: pad 0.25 x 0.70, 0.50 BSC, outer 3.50, row gap 2.10, exposed 2.38 x 1.65, body 3.00 (4 sides); pin 1 lower right in the bottom view
+DFN-8-ADI-DD8	analog-devices/3473f.pdf	11	LT3473 DD8 recommended solder pad: pad 0.25 x 0.675, outer 3.5 (span 2.825), row gap 2.15, exposed 2.38 x 1.65; vs 1965fb: centres 0.0125, pad length 0.025 -> same footprint
+LFCSP-8-ADI-CP-8-10	analog-devices/ADP222_223_224_225.pdf	23	CP-8-10 outline: L 0.275-0.425, b 0.20-0.30, 0.50 BSC, 2.00 SQ (1.90-2.10), EP 1.60 (1.50-1.70) x 1.00 (0.90-1.10); R4 pad 0.65 x 0.30, span 1.95; same drawing in ADP124_125.pdf p.17
+TDFN-8-ADI-T833	analog-devices/max8559.pdf	12	21-0137 T833-1/-2/-3: L 0.20-0.40, b 0.30+-0.05, e 0.65 BSC, D/E 2.90-3.10, D2 1.50+-0.10, E2 2.30+-0.10; R4 pad 0.60 x 0.35, span 3.00; pin 1 top-left in the top view (top-right in the bottom view)
+LFCSP-8-ADI-CP-8-21	analog-devices/ADM7172.pdf	23	CP-8-21 outline: L 0.30-0.50, b 0.20-0.30, 0.50 BSC, 3.00 SQ (2.90-3.10), EP 2.44 (2.34-2.54) x 1.60 (1.50-1.70); R4 pad 0.70 x 0.30, span 2.90; same drawing in ADM7170.pdf, ADM7171.pdf
+WLCSP-6-ADI-CB-6-15	analog-devices/ADP7112.pdf	21	CB-6-15: ball 0.22-0.30 (mid 0.26), 0.40 BSC, 2 x 3 balls, body 0.910-0.990 x 1.120-1.200; R6 pad 0.20; A1 top-left in the top view (ball side down), p.5 pin configuration

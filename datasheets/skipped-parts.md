@@ -893,4 +893,5 @@ for their family and maker) but that were skipped for their datasheet. Written b
 | LP2985AIM5X-3.0/NOPB, LP2985AITPX-3.0/NOPB | Texas Instruments linear fixed-output regulator | `regulator` / Power → Regulators → Linear | not in the datasheet's ordering table |
 | TPS71219DRCR | Texas Instruments multi-output linear regulator | `regulator` / Power → Regulators → Linear | outputs of one part are fixed and adjustable (the kind describes a part as fixed or adjustable) |
 | LM2590HVS-ADJ, LM2788MM-2.0, LM3204TLX/NOPB | Texas Instruments switching regulator | `regulator` / Power → Regulators → Switching | no datasheet on the maker's site (rocelec.widen.net) |
+| TL2575-ADJIKV | Texas Instruments switching regulator | `regulator` / Power → Regulators → Switching | no package drawing in the datasheet (it names the package and gives no outline or land pattern): TO-220-5 formed leads KV0005A, tl2575-12.pdf draws only KTT |
 | LM2734YQMKX/NOPB, TPS61045ADRBR | Texas Instruments switching regulator | `regulator` / Power → Regulators → Switching | not in the datasheet's ordering table |

@@ -1,0 +1,15 @@
+footprint	pdf	page	note
+MSOP-8-EP-ADI-MS8E	analog-devices/lt3010-3010-5.pdf	16	MS8E recommended solder pad layout: pad 0.42 x 0.889, pitch 0.65, 5.10 min overall, 3.20-3.45 row gap, EP 1.68 x 1.88; same drawing ltc3621-3621-2.pdf p.18; ADP124/125 RH-8-1 outline adp124_125.pdf p.17 has no land pattern
+MSOP-8-EP-MCHP-MME	microchip/mic47100.pdf	13	8-Pin e-MSOP (MME) outline only: L 0.53, b 0.33 (+0.03/-0.10), tip to tip 4.90 BSC, EP 1.70 x 1.73 REF, body 3.00; R2 -> pad 1.33 x 0.345, span 4.57
+TSOT-5-ADI-UJ	analog-devices/ADP150.pdf	18	UJ-5 outline: L 0.30-0.60, b 0.30-0.50, tip to tip 2.55-3.05, body 1.45-1.75 x 2.75-3.05, e 0.95; R2 -> 1.25 x 0.45, span 2.55
+SOT23-6-ADI-RJ6	analog-devices/ADP3331.pdf	9	RJ-6 outline: L 0.35-0.55, b 0.30-0.50, tip to tip 2.60-3.00, body 1.50-1.70 x 2.80-3.00, e 0.95; R2 -> 1.25 x 0.45, span 2.55; compared Maxim 21-0058 (max8880-max8881.pdf p.9): 1.275 x 0.475, span 2.525
+SOT23-5-MCHP-5LD-PL-1	microchip/MIC5219-500mA-Peak-Output-LDO-Regulator-DS20006021A.pdf	20	SOT23-5LD-PL-1 land pattern: pad 0.66 x 1.00, pitch 0.95, span 2.60 (overall 3.63), body 1.6 x 2.8; same numbers MIC5205 DS20005785C p.14
+SOT23-6-MCHP-CH	microchip/MCP16251-MCP16252-Data-Sheet-DS20005173.pdf	25	C04-2028-CH land pattern: pad 0.60 x 1.10, pitch 0.95, spacing 2.80; body 1.60 x 2.90 (p.24); same in MCP16301 p.32, MCP16331 p.38
+SOT23-THIN-5-DDC	ti/slvs491e.pdf	28	DDC0005A board layout: 5X (1.1) x (0.6), 4X (0.95), (2.7) span; body from outline p.27: 1.45-1.75 x 2.75-3.05
+VSSOP-8-DGK	microchip/MIC49150-Data-Sheet-DS20006585.pdf	18	reused for Microchip 8-MSOP: C04-2111-MS pads 0.45 x 1.45, spacing 4.40, pitch 0.65 vs VSSOP-8-DGK 0.45 x 1.40, 4.4 (also MCP1252 DS20001752 p.16)
+VSSOP-8-DGK	ti/lp3982.pdf	27	reused for TI 8-VSSOP: DGK0008A board layout 8X (1.4) x (0.45), 6X 0.65, (4.4); also tps740.pdf p.23, lm2623.pdf p.20
+TSOT-5-ADI-UJ	analog-devices/MAX1615-MAX1616.pdf	8	reused for ADI SC-74A: Maxim 21-0057 outline L 0.35-0.60, b 0.35-0.50, E 2.60-3.00 -> R2 1.275 x 0.475, span 2.525 vs 1.25 x 0.45, 2.55
+SOT23-5	ti/tps62200.pdf	28	reused for TI SC-74A: DBV0005A 5X (1.1) x (0.6), 0.95, (2.6) span; also tlv713p.pdf p.33, tlv702.pdf p.32
+SOT23-5-MCHP-5LD-PL-1	microchip/MIC2288-Data-Sheet-DS20006034C.pdf	16	reused for Microchip TSOT-23-5: TSOT-5LD-PL-1 pads 0.66 x 1.00, 0.95, 2.60 span, body 1.6 x 2.9 BSC
+SOT23-6	ti/tps793.pdf	38	reused for TI SOT-23-6: DBV0006A 6X (1.1) x (0.6), 0.95, (2.6) span
+SOT23-THIN-6	ti/tps564208.pdf	27	reused for TI TSOT-23-6: DDC0006A 6X (1.1) x (0.6), 0.95, (2.7) span; also tlv62568.pdf p.29, tlv62569.pdf p.25, tps561201.pdf p.26

@@ -1,0 +1,2 @@
+pdf	package	series	page	note
+datasheets/regulator/ti/slvs076c.pdf	"10-PowerTFSOP, 10-MSOP (0.118"", 3.00mm Width)"	-	3	hand-filled (refill): the DGQ package pin table is shared by the fixed TPS62026 and the adjustable TPS62020 (FB = feedback; the DRC variant of the same PDF is Vref 0.5 V, ground-referenced)

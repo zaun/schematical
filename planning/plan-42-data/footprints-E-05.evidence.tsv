@@ -1,0 +1,7 @@
+footprint	pdf	page	note
+WSON-8-NGN	datasheets/regulator/ti/lm1117.pdf	39	NGN0008A board layout: 8X 0.5 x 0.3, pitch 0.8, outer extent 3.3 -> span 2.8, thermal 2.2 x 3; outline p.38 body 3.9-4.1 square (mid 4.0); pin 1 top left of the layout
+WSON-9-DSG	datasheets/regulator/ti/tps61021a.pdf	32	DSG0008A board layout: 8X 0.5 x 0.25, pitch 0.5, span 1.9, pad 9 0.9 x 1.6 (numbered 9 as the TPS61021A pinout has PGND on pin 9); outline p.31 body 1.9-2.1 (mid 2.0)
+DFN-8-MCHP-LX7167	datasheets/regulator/microchip/LX7167_Rev1.1.pdf	11	land pattern Fig 9: pads 0.28 x 0.5, pitch 0.5, outer 2.4 / inner 1.4 -> span 1.9, thermal 1.7 x 0.9; outline p.10 D = E = 2.00 BSC; pin 1 top left on p.2 top view
+TDFN-8-MCHP-MNY	datasheets/regulator/microchip/MCP16311-Family-Data-Sheet-DS20005255C.pdf	33	C04-129-MNY Rev B land pattern: pitch 0.50, C 2.90, X1 0.25, Y1 0.85, optional centre 1.60 x 1.50; outline p.32 body 2.00 x 3.00; pin 1 bottom left rotated to top left; also MCP16251 p.28 and MCP16331 p.41 (same numbers)
+DSBGA-9-YFF	datasheets/regulator/ti/tps61258.pdf	31	YFF0009 board layout: 9X dia 0.23, pitch 0.4, A1 top left; body from Table 6 p.29: E 1.276-1.336 (mid 1.306), D 1.176-1.236 (mid 1.206)
+WSON-8-DSG	datasheets/regulator/ti/tps62081.pdf	28	reuse: DSG0008A board layout 0.5 x 0.25, pitch 0.5, span 1.9, thermal 0.9 x 1.6 (pad 9 unnumbered), body 2.0 mid of 1.9-2.1 (outline p.27); identical to existing WSON-8-DSG; same drawing in tps62067.pdf p.27 and tps61021a.pdf p.32

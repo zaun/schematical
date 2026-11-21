@@ -589,7 +589,7 @@ LM8801TMX-2.9/NOPB	add		datasheets/regulator/ti/lm8801.pdf
 TPS53311RGTT	add		datasheets/regulator/ti/tps53311.pdf
 LM3671TLX-1.2/NOPB	add		datasheets/regulator/ti/lm3671.pdf
 TPS62321DRCR	add		datasheets/regulator/ti/slvs528e.pdf
-TL2575-ADJIKV	add		datasheets/regulator/ti/tl2575-12.pdf
+TL2575-ADJIKV	skip	no package drawing in the datasheet (it names the package and gives no outline or land pattern): TO-220-5 formed leads KV0005A, tl2575-12.pdf draws only KTT	datasheets/regulator/ti/tl2575-12.pdf
 TPS62202DBVR	add		datasheets/regulator/ti/tps62200.pdf
 TPS622315DRYR	add		datasheets/regulator/ti/tps62230.pdf
 TPS62020DRCR	add		datasheets/regulator/ti/slvs076c.pdf

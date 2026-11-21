@@ -11,6 +11,9 @@ EXCLUDED below, and blanks the pinout columns of those spec rows in specs.tsv
   no pin numbers      the datasheet's 8-pin drawing is a photograph without pin
                       numbers and Microchip's later revisions number it in
                       opposite orders (LR12, plan-42-C Corrections)
+  no package drawing  a single part whose package has no outline or land
+                      pattern in its datasheet nor on the maker's package
+                      pages (plan-42-D / E / F); no footprint can be drawn
   mixed outputs       a dual regulator with one fixed and one adjustable output
                       (TPS71219: OUT1 1.8 V, OUT2 set by FB2): `vout` / `vref`
                       are one value per element only for a part whose elements
@@ -35,6 +38,7 @@ import specs  # noqa: E402
 
 DIGITAL = "digital-interface"
 SETPIN = "output not set by a feedback divider"
+NODRAW = "no package drawing in the datasheet (it names the package and gives no outline or land pattern)"
 MIXED = "outputs of one part are fixed and adjustable (the kind describes a part as fixed or adjustable)"
 NOPINS = "no pin numbers in the datasheet (its pin drawing is a photo; later revisions number it both ways)"
 # (maker, pdf file name, package or None for every package) -> (verdict, reason)
@@ -55,6 +59,11 @@ EXCLUDED = [
     ("Microchip Technology", "20005384A.pdf", None, SETPIN),
     ("Microchip Technology", "LR12-C080113.pdf", "8-SOIC (0.154\", 3.90mm Width)", NOPINS),
 ]
+# Single parts whose package has no drawing in the datasheet nor on the maker's package pages
+# (plan-42-D / E / F): no footprint can be drawn. mpn -> reason.
+EXCLUDED_MPN = {
+    "TL2575-ADJIKV": NODRAW + ": TO-220-5 formed leads KV0005A, tl2575-12.pdf draws only KTT",
+}
 BLANK = specs.COLS[8:]
 
 
@@ -70,9 +79,12 @@ def main():
             if r["maker"] == maker and os.path.basename(r["pdf"]) == name and package in (None, r["package"]):
                 out.append((r["mpn"], "out" if reason == DIGITAL else "skip", reason))
                 keys.add(specs.key(r))
+    for r in rows:
+        if r["mpn"] in EXCLUDED_MPN and common.eligible(r):
+            out.append((r["mpn"], "skip", EXCLUDED_MPN[r["mpn"]]))
     with open(os.path.join(common.DATA, "verdict-overrides.tsv"), "w") as f:
         f.write("mpn\tverdict\treason\n")
-        for line in sorted(out):
+        for line in sorted(set(out)):
             f.write("\t".join(line) + "\n")
     table = list(csv.DictReader(open(specs.SPECS), delimiter="\t"))
     for s in table:

@@ -1,0 +1,186 @@
+letter	maker	package	supplier	pins	footprint	label	note	pdf
+D	Analog Devices	"10-TFSOP, 10-MSOP (0.118"", 3.00mm Width)"	10-MSOP	10	MSOP-10-ADI-MS	MSOP-10	new	
+D	Analog Devices	"10-TFSOP, 10-MSOP (0.118"", 3.00mm Width) Exposed Pad"	10-MSOP-EP	10	MSOP-10-EP-ADI-MSE	MSOP-10 EP	new	
+D	Analog Devices	"16-SSOP (0.154"", 3.90mm Width)"	16-SSOP	16	SSOP-16-ADI-GN	SSOP-16 narrow	new	
+D	Analog Devices	"16-TFSOP (0.118"", 3.00mm Width) Exposed Pad"	16-MSOP-EP	16	MSOP-16-EP-ADI-MSE	MSOP-16 EP	new	
+D	Analog Devices	"16-TFSOP (0.118"", 3.00mm Width), 12 Leads, Exposed Pad"	16-MSOP-EP	16	MSOP-16-EP-ADI-MSE	MSOP-16(12) EP	new (shared with the MSE16 line; LTC DWG 05-08-1871 MSE16(12) has the same pads, pins 2, 4, 13, 15 absent and not drawn)	
+D	Analog Devices	"16-TSSOP (0.173"", 4.40mm Width) Exposed Pad"	16-TSSOP-EP	16	TSSOP-16-EP-ADI-FE	TSSOP-16 EP	new	
+D	Analog Devices	"20-TSSOP (0.173"", 4.40mm Width) Exposed Pad"	20-TSSOP-EP	20	TSSOP-20-EP-ADI-FE20	TSSOP-20 EP	new	
+D	Analog Devices	5-TSSOP, SC-70-5, SOT-353	SC-70-5	5	SC70-5	SC70-5	reuse: SC70-5 (judgement, no drawing in the tree: max8510-max8512.pdf p.9 only names Maxim package code X5+1, outline 21-0076, land pattern 90-0188 and has no drawing; no Maxim SC70-5 drawing in any PDF of datasheets/. Same JEDEC MO-203 SC70-5 outline (body 1.25 x 2.0) as the TI DCK0005A land pattern 0.95 x 0.4, 0.65 pitch, span 2.2 that SC70-5 holds; Maxim's own land numbers not checked)	
+D	Analog Devices	5-TSSOP, SC-70-5, SOT-353	SC-70-5	5	SC70-5-ADI-X5	SC70-5	new (Maxim land pattern 90-0188: pads 1.15 x 0.35, span 2.05; the TI-based SC70-5 has 0.95 x 0.4, span 2.2, so not reused; MAX8510 only)	max8510-max8512.pdf
+D	Analog Devices	6-TSSOP, SC-88, SOT-363	SC-70-6	6	SC70-6-ADI-SC6	SC70-6	new	
+D	Analog Devices	"8-SOIC (0.154"", 3.90mm Width)"	8-SO	8	SOIC-8-ADI-S8	SOIC-8	new	
+D	Analog Devices	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	8	SOIC-8-MAXIM-S8	SOIC-8	reuse: SOIC-8-MAXIM-S8 (max5033.pdf p.17 names S8+5, outline 21-0041, land pattern 90-0096 = the drawing SOIC-8-MAXIM-S8 is made from: 1.98 x 0.53, 1.27, span 4.93; no drawing page in max5033.pdf itself). MAX5023/24 (max5023-max5024.pdf p.14) are S8E+14 = SO-EP, outline 21-0111, land pattern 90-0151, no drawing in the tree: their exposed pad is not drawn	
+D	Analog Devices	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	8	SOIC-8-EP-ADI-S8E	SOIC-8-EP	new (Maxim S8E+14 exposed-pad SO, land pattern 90-0151: pads 1.6 x 0.533, span 5.309, exposed pad 2.413 x 3.099; MAX5023 / MAX5024 only)	max5023-max5024.pdf
+D	Analog Devices	"8-SOIC (0.154"", 3.90mm Width) Exposed Pad"	8-SOIC-EP	8	SOIC-8	SOIC-8	reuse: SOIC-8 (judgement, no drawing in the tree: ADP7142.pdf p.22 names RD-8-4 (SOIC_N_EP) and refers to the Package Index; no ADI RD-8 outline, land pattern or exposed-pad size in any PDF of datasheets/ (ADP7157.pdf p.22 likewise only lists RD-8-1). The 3.9 x 4.9 mm 1.27 mm SOIC land pattern of TI D0008A (1.55 x 0.6, span 5.4) is used and the exposed pad is not drawn)	
+D	Analog Devices	"8-SOIC (0.154"", 3.90mm Width) Exposed Pad"	8-SOIC-EP	8	SOIC-8-EP-ADI-RD-8-4	SOIC-8-EP	new (RD-8-4 outline from analog.com, R2; replaces the SOIC-8 judgement of D-02)	ADP7142.pdf
+D	Analog Devices	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)"	8-MSOP	8	MSOP-8-ADI-MS8	MSOP-8	new	
+D	Analog Devices	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-MSOP-EP	8	MSOP-8-EP-ADI-MS8E	MSOP-8 EP	new	
+D	Analog Devices	SC-74A, SOT-753	SOT-23-5	5	TSOT-5-ADI-UJ	SOT-23-5	reuse: TSOT-5-ADI-UJ (Maxim 21-0057 SOT-23 5L outline, max1615-max1616.pdf p.8, no land pattern: R2 gives pad 1.275 x 0.475, span 2.525, body 1.625 x 2.90; TSOT-5-ADI-UJ is 1.25 x 0.45, span 2.55, 1.6 x 2.9: within 0.05)	
+D	Analog Devices	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	5	TSOT-5-ADI-UJ	TSOT-23-5	new	
+D	Analog Devices	SOT-23-6	SOT-23-6	6	SOT23-6-ADI-RJ6	SOT-23-6	new	
+D	Analog Devices	SOT-23-6 Thin, TSOT-23-6	TSOT-23-6	6	TSOT-6-ADI-S6	TSOT-23-6	new	
+D	Analog Devices	SOT-23-6 Thin, TSOT-23-6	TSOT-6	6	TSOT-6-ADI-UJ	TSOT-6	new	
+D	Analog Devices	SOT-23-8 Thin, TSOT-23-8	TSOT-23-8	8	TSOT-8-ADI-TS8	TSOT-23-8	new	
+D	Analog Devices	TO-261-4, TO-261AA	SOT-223-3	3	SOT223-3-ADI-ST	SOT-223-3	new	
+D	Microchip Technology	"10-TFSOP, 10-MSOP (0.118"", 3.00mm Width)"	10-MSOP	10	VSSOP-10	MSOP-10	reuse: VSSOP-10 (Microchip UN land pattern C04-2021A, MCP1641X p.36: pads 0.30 x 1.40, pitch 0.50, pad spacing C 4.40; VSSOP-10 has 0.3 x 1.45, pitch 0.5, span 4.4: pad length differs by 0.05; body 3.00 x 3.00 from C04-021C p.35 = 3.0 x 3.0)	
+D	Microchip Technology	"20-SOIC (0.295"", 7.50mm Width)"	20-SOIC	20	SOIC-20W-MCHP-WM	SOIC-20W	new	
+D	Microchip Technology	5-TSSOP, SC-70-5, SOT-353	SC-70-5	5	SC70-5-MCHP-D3A	SC70-5	new	
+D	Microchip Technology	"8-DIP (0.300"", 7.62mm)"	8-PDIP	8	PDIP-8	PDIP-8	reuse: PDIP-8 (Micrel 8-Pin DIP (N) in MIC4574.pdf p.7, inches: pitch 0.100, row spacing 0.300 (7.62), body 0.245-0.255 x 0.370-0.380 in = 6.35 x 9.53 mid, lead width 0.018 in = 0.46 (the printed 0.57 mm does not convert from 0.018 in; inches control) -> drill 0.71 -> 0.75, pad 1.5; PDIP-8 is 2.54 / 7.62 / drill 0.75 / pad 1.5 round, body 6.35 x 9.59 (0.06 apart))	
+D	Microchip Technology	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	8	SOIC-8-MCHP-SOICN-8LD	SOIC-8	new	
+D	Microchip Technology	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)"	8-MSOP	8	VSSOP-8-DGK	MSOP-8	reuse: VSSOP-8-DGK (Microchip C04-2111-MS recommended land pattern, MIC49150 DS20006585 p.18 / MCP1252 DS20001752 p.16 UA: pads 0.45 x 1.45 max, pitch 0.65, spacing 4.40, body 3.00 x 3.00; VSSOP-8-DGK is 0.45 x 1.40, 4.4, 3.0 x 3.0: pad length differs by 0.05)	
+D	Microchip Technology	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-MSOP-EP	8	MSOP-8-EP-MCHP-MME	MSOP-8 EP	new	
+D	Microchip Technology	SC-74A, SOT-753	SOT-23-5	5	SOT23-5-MCHP-5LD-PL-1	SOT-23-5	new	
+D	Microchip Technology	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	5	SOT23-5-MCHP-5LD-PL-1	TSOT-23-5	reuse: SOT23-5-MCHP-5LD-PL-1 (Micrel TSOT-5LD-PL-1 land pattern, MIC2288 DS20006034C p.16: pads 0.66 x 1.00, 0.95 pitch, span 2.60, body 1.6 x 2.9 BSC = same as the SOT23-5LD-PL-1 numbers; body 2.9 vs 2.8 within 0.1)	
+D	Microchip Technology	SOT-23-6	SOT-23-6	6	SOT23-6-MCHP-CH	SOT-23-6	new	
+D	Microchip Technology	SOT-23-6 Thin, TSOT-23-6	TSOT-23-6	6	TSOT-6-MCHP-YD6	TSOT-6	new	
+D	Microchip Technology	SPAK-3 (3 Leads + Tab)	S-PAK-3	3	SPAK-3-MCHP-3LD-PL-1	S-Pak-3	new	
+D	Microchip Technology	SPAK-5 (5 Leads + Tab)	S-PAK-5	5	SPAK-5-MCHP-5LD-PL-1	S-Pak-5	new	
+D	Microchip Technology	SPAK-7 (7 Leads + Tab)	7-SPAK	7	SPAK-7-MCHP-R	S-Pak-7	new	
+D	Microchip Technology	TO-236-3, SC-59, SOT-23-3	SOT-23-3	3	SOT23-3-MCHP-TT	SOT-23-3	new	
+D	Microchip Technology	TO-236-3, SC-59, SOT-23-3	SOT-23A-3	3	SOT23-3-MCHP-CB	SOT-23A-3	new	
+D	Microchip Technology	TO-243AA	SOT-89-3	3	SOT89-3-MCHP-MB	SOT-89-3	new	
+D	Microchip Technology	TO-243AA	TO-243AA (SOT-89)	3	SOT89-3-MCHP-MB	SOT-89-3	reuse: SOT89-3-MCHP-MB (this packet; the LR8 N8 outline, 20005399B p.12, has no land pattern; it is the same JEDEC TO-243AA outline as MB: body D 4.40-4.60 / E 2.29-2.60 vs 4.50 BSC / 2.50 BSC, e 1.50, e1 3.00, H 3.94-4.25 both, b1 0.36-0.48 both, L 0.73-1.20 vs 0.79-1.20, A 1.40-1.60 both, so Microchips MB land pattern is used)	
+D	Microchip Technology	TO-252-3, DPAK (2 Leads + Tab), SC-63	TO-252 (DPAK)	3	DPAK-3-MCHP-K4	TO-252 (DPAK)	new	
+D	Microchip Technology	TO-252-3, DPAK (2 Leads + Tab), SC-63	TO-252 (DPAK)	4	DPAK-4-MCHP-K4	TO-252 (DPAK)	new	
+D	Microchip Technology	TO-252-6, DPAK (5 Leads + Tab)	TO-252-5	5	TO-252-5-MCHP-WD	TO-252-5	new	
+D	Microchip Technology	TO-261-4, TO-261AA	SOT-223-3	3	SOT223-3-MCHP-DB	SOT-223-3	new	
+D	Microchip Technology	TO-261-4, TO-261AA	SOT-223-3	4	SOT223-4-DCY	SOT-223-4	reuse: SOT223-4-DCY (this packet; Microchip DB land pattern C04-2032 Rev D, MCP1703 p.28: leads 0.95 x 2.15, tab 3.25 x 2.15, pitch 2.30, row spacing 5.90 vs TI DCY 0.95 x 2.15, 3.25 x 2.15, 2.30, 5.80: every pad centre is 0.05 from the DCY one (+-2.95 vs +-2.90 about the centre), sizes equal, body 3.50 x 6.50 both; the 4-pin parts number the tab 4)	
+D	Microchip Technology	TO-263-6, D2PAK (5 Leads + Tab), TO-263BA	TO-263-5	5	TO-263-5-MCHP-ET	TO-263-5	new	
+D	Texas Instruments	"10-PowerTFSOP, 10-MSOP (0.118"", 3.00mm Width)"	10-HVSSOP	10	HVSSOP-10-DGQ	HVSSOP-10 PowerPAD	new	
+D	Texas Instruments	"10-TFSOP, 10-MSOP (0.118"", 3.00mm Width)"	10-VSSOP	10	VSSOP-10	VSSOP-10	reuse: VSSOP-10 (TI DGS0010A board layout, tps62006.pdf p.30 and slvs314f.pdf p.35: 10X 1.45 x 0.3, pitch 0.5, span 4.4; body 3.0 x 3.0 from outline p.29; identical to VSSOP-10)	
+D	Texas Instruments	"14-PowerTSSOP (0.173"", 4.40mm Width)"	14-HTSSOP	14	HTSSOP-14-PWP	HTSSOP-14 PowerPAD	new	
+D	Texas Instruments	"16-DIP (0.300"", 7.62mm)"	16-PDIP	16	PDIP-16	PDIP-16	reuse: PDIP-16 (TI N R-PDIP-T16 outline 4040049/E, tl2575-12.pdf p.30: pitch 0.100 = 2.54, row spacing 0.300 = 7.62, body 0.240-0.260 x 18.92-19.69 = 6.35 x 19.3 mid, lead 0.015-0.021; same drawing as the library footprint's source scls119e.pdf p.30)	
+D	Texas Instruments	"16-PowerTSSOP (0.173"", 4.40mm Width)"	16-HTSSOP	16	HTSSOP-16-PWP	HTSSOP-16 PowerPAD	reuse: HTSSOP-16-PWP (TI PWP0016A board layout lm2854.pdf p.34: 16X 1.5 x 0.45, pitch 0.65, span 5.8, thermal (3.3) x (3.3), identical to the library footprint; body 4.4 x 5.0 from p.33. The line's other part TPS54495 uses PWP0016J (tps54495.pdf p.30) with the same signal pads but thermal land (2.46) x (3.55); one footprint per line)	
+D	Texas Instruments	"20-PowerTSSOP (0.173"", 4.40mm Width)"	20-HTSSOP	20	HTSSOP-20-PWP	HTSSOP-20 PowerPAD	new	
+D	Texas Instruments	5-TSSOP, SC-70-5, SOT-353	SC-70-5	5	SC70-5	SC70-5	reuse: SC70-5 (TI DCK0005A example board layout 4214834/G in tps715.pdf p.31 and tps717.pdf p.45: 5X (0.95) x 5X (0.4), 2X (0.65) pitch, (2.2) span; SC70-5 is 0.95 x 0.4, 0.65, 2.2; body 1.25 x 2.0 vs outline 1.1-1.4 x 1.8-2.4 mid 1.25 x 2.1)	
+D	Texas Instruments	"8-DIP (0.300"", 7.62mm)"	8-PDIP	8	PDIP-8	PDIP-8	reuse: PDIP-8 (TI P (R-PDIP-T8) 4040082/E in tl499a.pdf p.18: 0.100 pitch, 0.300-0.325 row spacing (7.62), lead 0.015-0.021 in mid 0.46 -> drill 0.75, body 6.35 x 9.59 mid = PDIP-8's own source drawing; tps71.pdf (TPS7101QP) has no P drawing, it lists the same P package)	
+D	Texas Instruments	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	8	SOIC-8	SOIC-8	reuse: SOIC-8 (TI D0008A example board layout 4214825/C in lm317l.pdf p.31, slvs237c.pdf p.43, lp2954.pdf p.31, ua78l.pdf p.42: 8X (.061) = 1.55 x 8X (.024) = 0.6, 6X (.050) = 1.27 pitch, (.213) = 5.4 span; body .150-.157 x .189-.197 in = 3.9 x 4.9; identical to SOIC-8)	
+D	Texas Instruments	"8-SOIC (0.209"", 5.30mm Width)"	8-SO	8	SOP-8-PS	SOP-8	new	
+D	Texas Instruments	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)"	8-VSSOP	8	VSSOP-8-DGK	VSSOP-8	reuse: VSSOP-8-DGK (TI DGK0008A 4214862/A board layout in lp3982.pdf p.27, tps740.pdf p.23, lm2623.pdf p.20: 8X (1.4) x (0.45), 0.65 pitch, (4.4) span = same numbers; reg711-5.pdf has no drawing, its DGK code is the same package)	
+D	Texas Instruments	SC-74A, SOT-753	SOT-23-5	5	SOT23-5	SOT-23-5	reuse: SOT23-5 (TI DBV0005A 4214839/K board layout, tps62200.pdf p.28 / tlv713p.pdf p.33 / tlv702.pdf p.32: 5X (1.1) x (0.6), 0.95 pitch, (2.6) span = same numbers)	
+D	Texas Instruments	SOT-23-5 Thin, TSOT-23-5	SOT-23-THIN	5	SOT23-THIN-5-DDC	TSOT-23-5	new	
+D	Texas Instruments	SOT-23-6	SOT-23-6	6	SOT23-6	SOT-23-6	reuse: SOT23-6 (TI DBV0006A 4214840/G board layout, tps793.pdf p.38: 6X (1.1) x (0.6), 0.95 pitch, (2.6) span = same numbers)	
+D	Texas Instruments	SOT-23-6 Thin, TSOT-23-6	SOT-23-THIN	6	SOT23-THIN-6	TSOT-23-6	reuse: SOT23-THIN-6 (TI DDC0006A 4214841/E board layout, tps564208.pdf p.27 / tlv62568.pdf p.29 / tlv62569.pdf p.25 / tps561201.pdf p.26: 6X (1.1) x (0.6), 0.95 pitch, (2.7) span = same numbers)	
+D	Texas Instruments	SOT-563, SOT-666	SOT-563	6	SOT563-6-DRL	SOT-563-6	new	
+D	Texas Instruments	SOT-583	SOT-583	8	SOT583-8-DRL	SOT-583-8	new	
+D	Texas Instruments	TO-220-3	TO-220-3	3	TO-220-3-NDE	TO-220-3	new	
+D	Texas Instruments	TO-220-5	TO-220-5	5	TO-220-5-KC	TO-220-5	new	
+D	Texas Instruments	TO-220-5 Formed Leads	TO-220-5	5	TO-220-5-NDH	TO-220-5 staggered	new	
+D	Texas Instruments	TO-220-5 Formed Leads	TO-220-5	5	TO-220-5-NEB	TO-220-5 formed	new (NEB0005B lm2576.pdf p.40, leads bent into the board; TL2575-ADJIKV KV0005A has no drawing found, stays on the line's `*` row)	lm2576.pdf
+D	Texas Instruments	TO-226-3, TO-92-3 (TO-226AA)	TO-92-3	3	TO-92-3-LP	TO-92-3	new	
+D	Texas Instruments	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	TO-92-3	3	TO-92-3-LP-FORMED	TO-92-3 formed	new	
+D	Texas Instruments	TO-243AA	SOT-89-3	3	SOT89-3	SOT-89-3	reuse: SOT89-3 (TI PK land pattern 4208221/A, lm317l.pdf p.29, vs the onsemi 419AU-based SOT89-3: pads 1 and 3 1.0 x 1.5 at +-1.5 both; tab 2.2 wide, 3.7 from tab top to the taper end, neck 1.0 wide, 5.5 overall both = tab 2.2 x 3.1 + neck 1.0 x 2.4; body 4.40-4.60 x 2.40-2.60 mid 4.50 x 2.50 = 4.5 x 2.5)	
+D	Texas Instruments	TO-261-4, TO-261AA	SOT-223	4	SOT223-4-DCY	SOT-223	new	
+D	Texas Instruments	TO-261-4, TO-261AA	SOT-223-4	4	SOT223-4-DCY	SOT-223-4	reuse: SOT223-4-DCY (this packet; same TI DCY0004A drawing as the SOT-223 line)	
+D	Texas Instruments	TO-263-4, D2PAK (3 Leads + Tab), TO-263AA	TO-263 (DDPAK-3)	3	TO-263-3-KTT	TO-263-3	new	
+D	Texas Instruments	TO-263-6, D2PAK (5 Leads + Tab), TO-263BA	TO-263 (DDPAK-5)	5	TO-263-5-KTT	TO-263-5	new	
+E	Microchip Technology	10-UFDFN Exposed Pad, 10-TMLF®	10-TMLF® (2.5x2.5)	10	TDFN-10-2.5X2.5-MCHP-MT	TDFN-10 2.5x2.5	new	
+E	Microchip Technology	10-UFDFN, 10-TMLF®	10-TMLF® (2x2)	10	UDFN-10-2X2-MCHP-MT	UDFN-10 2x2	new	
+E	Microchip Technology	10-VFDFN Exposed Pad, 10-MLF®	10-MLF® (3x3)	10	MLF-10-3X3-MCHP-ML	MLF-10 3x3	new	
+E	Microchip Technology	10-VFQFN Exposed Pad	10-VQFN (2x2)	10	VQFN-10-2X2-MCHP-MRA	VQFN-10 2x2	new	
+E	Microchip Technology	10-VFQFN Exposed Pad, 10-MLF®	10-MLF® (3x3)	10	MLF-10-3X3-MCHP-ML	MLF-10 3x3	new	
+E	Microchip Technology	12-UFDFN Exposed Pad, 12-TMLF®	12-TMLF® (2.5x2.5)	12	UDFN-12-2.5X2.5-MCHP-MT	UDFN-12 2.5x2.5	new	
+E	Microchip Technology	12-VFDFN Exposed Pad	12-DFN (3x3)	12	MLF-12-3X3-MCHP-ML	DFN-12 3x3	new	
+E	Microchip Technology	12-VFDFN Exposed Pad, 12-MLF®	12-MLF™ (3x3)	12	MLF-12-3X3-MCHP-ML	MLF-12 3x3	new	
+E	Microchip Technology	12-VFDFN Exposed Pad, 12-MLF®	12-MLF™ (4x4)	12	MLF-12-3X3-MCHP-ML	MLF-12 3x3	new	
+E	Microchip Technology	20-VFQFN Exposed Pad, 20-MLF®	20-MLF® (3x4)	20	QFN-20-MCHP-ML	QFN-20 3x4 (MLF)	new: Microchip QFN34-20LD-PL-1 land pattern, MIC22400 p.21 = MIC22405 p.30	
+E	Microchip Technology	24-VFQFN Exposed Pad, 24-MLF®	24-MLF® (4x4)	24	QFN-24-MCHP-ML	QFN-24 4x4 (MLF)	new: Microchip QFN44-24LD-PL-1 land pattern, identical in MIC22600/22700/22705	
+E	Microchip Technology	26-VFQFN Exposed Pad	26-QFN (4x4)	26	FQFN-26-MCHP-FL	FQFN-26 4x4	new: Microchip FQFN44-26LD-PL-1 outline (R4), two unnumbered exposed pads	
+E	Microchip Technology	28-PowerVQFN	28-QFN (5x6)	28	VQFN-28-MCHP-JL	VQFN-28 5x6 (MLF)	new: Microchip MIC28510 land pattern, MIC27600 C04-3120 same contacts, three unnumbered centre pads	
+E	Microchip Technology	4-UFDFN Exposed Pad	4-TDFN (1.2x1.6)	4	TDFN-4-MCHP-MT	TDFN-4 1.2x1.6	new: Microchip TDFN1216-4LD-PL-1 land pattern (MIC94310 p.13)	
+E	Microchip Technology	4-UFDFN Exposed Pad, 4-TMLF®	4-TMLF® (1.2x1.6)	4	TDFN-4-MCHP-MT	TDFN-4 1.2x1.6 (TMLF)	new: same land pattern as the MIC94310 4-TDFN; MIC5302 p.8 has only the outline, with the same numbers	
+E	Microchip Technology	6-UDFN Exposed Pad, 6-TMLF®	6-TMLF® (2x2)	6	DFN-6-MCHP-2X2-ML	TDFN-6 2x2	reuse: DFN-6-MCHP-2X2-ML (new in this packet; MIC5219 TDFN22-6LD-PL-1 land pattern p.24: pads 0.26 x 0.40, span 1.80, pitch 0.65, land 1.30 x 0.80 equals DFN22-6LD-PL-1 turned 90 deg; MIC5305 MT p.11 has outline only and the same terminals 0.35 x 0.25, EP 1.40 x 0.80)	
+E	Microchip Technology	6-UFDFN Exposed Pad	6-TDFN (1.2x1.2)	6	TDFN-6-MCHP-1.2X1.2-MT	TDFN-6 1.2x1.2	new (Microchip TDFN1212-6LD-PL-1 land pattern, MIC5528 DS20005982B p.16)	
+E	Microchip Technology	6-UFDFN Exposed Pad	6-TDFN (1.6x1.6)	6	TDFN-6-MCHP-1.6X1.6-MT	TDFN-6 1.6x1.6	new (Microchip TDFN1616-6LD-PL-1 land pattern, MIC94325.pdf p.15)	
+E	Microchip Technology	6-UFDFN Exposed Pad, 6-TMLF®	6-TMLF® (1.6x1.6)	6	TDFN-6-MCHP-1.6X1.6-MT	TDFN-6 1.6x1.6	reuse: TDFN-6-MCHP-1.6X1.6-MT (new in this packet; MIC23030 DS20006488A p.17 TDFN1616-6LD-PL-1 land pattern is the same numbers: pads 0.25 x 0.40, 0.50 pitch, gap 0.20, land 1.40 x 0.50; MIC5301 / MIC5309 MT p.10 outline only, same terminals 0.35 x 0.25, EP 1.26 x 0.50)	
+E	Microchip Technology	6-VDFN Exposed Pad	6-DFN (2x2)	6	DFN-6-MCHP-2X2-MAY	DFN-6 2x2 (MA)	new (Microchip C04-120C MA[Y] 6-lead DFN outline only, R4, MCP1700 DS20001826F p.25-26)	
+E	Microchip Technology	6-VDFN Exposed Pad, 6-MLF®	6-DFN (2x2)	6	DFN-6-MCHP-2X2-ML	DFN-6 2x2 (ML)	reuse: DFN-6-MCHP-2X2-ML (new in this packet; MIC47050 DS20006050C p.17-18 DFN22-6LD-PL-1 is the ML land pattern; MIC5247 p.11, MIC5252 p.9, MIC5305 p.11 ML outlines only, same terminals 0.35 x 0.25, EP 1.40 x 0.80, body 2.00)	
+E	Microchip Technology	6-VDFN Exposed Pad, 6-TMLF®	6-TMLF® (2x2)	6	DFN-6-MCHP-2X2-ML	DFN-6 2x2 (ML)	reuse: DFN-6-MCHP-2X2-ML (new in this packet; MIC5319 DS20005876B p.15-16 DFN22-6LD-PL-1 land pattern, pads 0.40 x 0.26, span 1.80, pitch 0.65, land 0.80 x 1.30)	
+E	Microchip Technology	6-WFDFN Exposed Pad, 6-MLF®	6-MLF® (1.6x1.6)	6	MLF-6-MCHP-ML	MLF-6 1.6x1.6	new	
+E	Microchip Technology	8-UFDFN	8-TDFN (2x2)	8	TDFN-8-MCHP-MM	TDFN-8 2x2	new	
+E	Microchip Technology	8-UFDFN Exposed Pad	8-TDFN (2x2)	8	UDFN-8-MCHP-C04-3158-HZA	UDFN-8 2x2 EP	new	
+E	Microchip Technology	8-UQFN	8-FTQFN (2x2)	8	FTQFN-8-MCHP-FTQFN22-8LD	FTQFN-8 2x2	new	
+E	Microchip Technology	8-VFDFN Exposed Pad	8-DFN (2x3)	8	DFN-8-MCHP-MC	DFN-8 2x3 EP	new	
+E	Microchip Technology	8-VFDFN Exposed Pad, 8-MLF®	8-MLF® (2x2)	8	TDFN-8-MCHP-TDFN22-8LD	TDFN-8 2x2 EP	new	
+E	Microchip Technology	8-WFDFN Exposed Pad	8-DFN-EP (2x2)	8	DFN-8-MCHP-LX7167	DFN-8 2x2 EP	new	
+E	Microchip Technology	8-WFDFN Exposed Pad	8-TDFN (2x3)	8	TDFN-8-MCHP-MNY	TDFN-8 2x3	new	
+E	Texas Instruments	10-VFDFN Exposed Pad	10-VSON (3x3)	10	VSON-10-DRC-J	VSON-10 3x3	reuse: VSON-10-DRC-J (TI DRC0010J board layout 4218878/B in slvs076c.pdf p.29: 10X 0.6 x 0.24, pitch 0.5, span 2.8, thermal 1.65 x 2.4 plus four 0.25 tabs, body 3.0; same numbers as the existing footprint; slvs528e.pdf has no DRC drawing, tps62040.pdf DRC0010R p.30 differs only by 0.25 pad width)	
+E	Texas Instruments	10-WFDFN Exposed Pad	10-WSON (3x3)	10	VSON-10-DRC-J	WSON-10 3x3	reuse: VSON-10-DRC-J (TI DSC0010J board layout 4221826/E in tps61202.pdf p.33: 10X 0.6 x 0.24, pitch 0.5, span 2.8, thermal 1.65 x 2.4 plus four 0.25 tabs, body 3.0 (2.9-3.1); identical numbers to DRC0010J, not to the existing WSON-10-DSC which is a different TI drawing)	
+E	Texas Instruments	12-WFDFN Exposed Pad	12-WSON (4x4)	12	WSON-12-DNT	WSON-12 4x4	new	
+E	Texas Instruments	16-VFQFN Exposed Pad	16-VQFN (3x3)	16	VQFN-16-RGT	VQFN-16 3x3	reuse: VQFN-16-RGT (TI RGT0016F board layout 4230572/A in tps53311.pdf p.27: 16X 0.6 x 0.24, pitch 0.5, span 2.8, thermal 1.65, body 3.0 (2.85-3.15); existing RGT0016C has thermal 1.68, 0.03 apart)	
+E	Texas Instruments	20-UFBGA, DSBGA	20-DSBGA	20	DSBGA-20-YFF	DSBGA-20	new (YFF R-XBGA-N20 outline tps63024.pdf p.27, R6)	tps63024.pdf
+E	Texas Instruments	20-VQFN Exposed Pad	20-VQFN (5x5)	20	VQFN-20-RGW	VQFN-20 (RGW)	reuse: VQFN-20-RGW (TI RGW0020A board layout tps74401.pdf p.40 and tps74901.pdf p.38: 20 pads 0.75 x 0.31, 0.65 pitch, (4.65) centre rows, (3.15) thermal pad; body 5.1/4.9 -> 5.0: all equal to the existing footprint)	
+E	Texas Instruments	4-UFBGA, DSBGA	4-DSBGA	4	DSBGA-4-YFF	DSBGA-4 (YFF)	new: TI YFF0004 board layout (tps727.pdf p.26); existing DSBGA-4-YFP differs (body 0.76 x 0.76 vs 1.16 x 0.79)	
+E	Texas Instruments	4-UFBGA, DSBGA	4-DSBGA (1x1)	4	DSBGA-4-YFF	DSBGA-4 (YFF)	new: TI YFF0004 board layout (tps727.pdf p.26), same as the 4-DSBGA line	
+E	Texas Instruments	4-WFBGA, DSBGA	4-DSBGA (1.01x1.29)	4	DSBGA-4-YZR	DSBGA-4 (YZR)	new: TI YZR0004 land pattern (lp5900.pdf p.26)	
+E	Texas Instruments	4-WFBGA, DSBGA	4-DSBGA (1x1)	4	DSBGA-4-YZR	DSBGA-4 (YZR)	new: TI YZR0004 land pattern (lp5900.pdf p.26)	
+E	Texas Instruments	4-XDFN Exposed Pad	4-X2SON (1x1)	4	X2SON-4-DQN	X2SON-4 (DQN)	new: TI DQN0004A board layout (tlv713p.pdf p.37; same in tlv707/tlv717p/tlv733p)	
+E	Texas Instruments	4-XFBGA, DSBGA	4-DSBGA	4	DSBGA-4-YFP	DSBGA-4 (YFP)	reuse: DSBGA-4-YFP (TI YFP0004 board layout tlv705.pdf p.30: round pad 0.23, pitch 0.4, body 0.746-0.806 -> 0.776 vs 0.76: equal). MIXED LINE: the 3 TLV705 parts are YFP; LP5900XRX is YPF0004 (= DSBGA-4-YZR, pad 0.2625, pitch 0.5) and LP5907UVX is YKE0004 (= DSBGA-4-YKE, pad 0.18, pitch 0.35)	
+E	Texas Instruments	4-XFBGA, DSBGA	4-DSBGA	4	DSBGA-4-YZR	DSBGA-4 (YZR)	reuse: LP5900XRX, YPF0004 land pattern = YZR (pitch 0.5, pad 0.2625; packet E-02 judgement call 1)	lp5900.pdf
+E	Texas Instruments	4-XFBGA, DSBGA	4-DSBGA	4	DSBGA-4-YKE	DSBGA-4 (YKE)	new: LP5907UVX, YKE0004 land pattern (footprints-E-02.json DSBGA-4-YKE; pitch 0.35, pad 0.18); pdf-specific row because the line holds three land patterns (packet E-02 judgement call 1)	lp5907.pdf
+E	Texas Instruments	4-XFBGA, WLCSP	4-WCSP (0.63x0.63)	4	DSBGA-4-YWD	DSBGA-4 (YWD)	new: TI YWD0004A-C01 board layout (tps7a21.pdf p.27)	
+E	Texas Instruments	5-UFBGA, DSBGA	5-DSBGA	5	DSBGA-5-YZU	DSBGA-5 (YZU)	new (TI YZU0005 board layout, tps799.pdf p.47; tps728.pdf p.31 is the same drawing, body 0.96 x 1.33 vs 0.97 x 1.34)	
+E	Texas Instruments	5-WFBGA, DSBGA	5-DSBGA (1.41x1.08)	5	DSBGA-5-YZR	DSBGA-5 (YZR)	new (TI YZR0005 / TLA05 land pattern recommendation, lp3983.pdf p.13)	
+E	Texas Instruments	5-WFBGA, DSBGA	5-DSBGA (1.5x1.2)	5	DSBGA-5-YZR	DSBGA-5 (YZR)	reuse: DSBGA-5-YZR (new in this packet; lm3671.pdf p.36 YZR0005 is the same land pattern: pads 0.275/0.250, 0.433 / 0.5 stagger; body 1.38 x 1.05 vs 1.47 x 1.01, within 0.1)	
+E	Texas Instruments	5-XFBGA, DSBGA	5-DSBGA	5	DSBGA-5-YZU	DSBGA-5 (YZY)	reuse: DSBGA-5-YZU (new in this packet; tps799l.pdf p.17 YZY0005 drawing: 5 balls dia 0.21-0.25 mid 0.23, 0.25 / 0.433 stagger identical to YZU; R6 pad 0.8 x 0.23 = 0.20 vs YZU board layout 0.25, within 0.05; body 0.962 x 1.326 vs 0.97 x 1.34; no land pattern given in the PDF)	
+E	Texas Instruments	6-UFBGA, DSBGA	5-DSBGA (0.96x1.33)	5	DSBGA-5-YZU	DSBGA-5 (YZU)	reuse: DSBGA-5-YZU (new in this packet; tps720.pdf p.37 YZU0005 board layout: 5X dia 0.25, (0.5) / (0.433); body D 1.332 x E 0.964 vs 0.97 x 1.34)	
+E	Texas Instruments	6-UFBGA, DSBGA	6-DSBGA	6	DSBGA-6-YFF	DSBGA-6 (YFF)	new (TI YFF0006 board layout, tps62620.pdf p.27)	
+E	Texas Instruments	6-UFDFN	6-SON (1.45x1)	6	SON-6-DRY	USON-6 (DRY)	reuse: SON-6-DRY (TI DRY0006A board layout tps62230.pdf p.40: pin 1 pad 0.35 x 0.2, others 5X 0.3 x 0.2, pitch 0.5, span (0.6); body 0.95-1.05 x 1.4-1.5 mid 1.0 x 1.45; all equal to the existing footprint)	
+E	Texas Instruments	6-WDFN Exposed Pad	6-WSON (2.92x3.29)	6	WSON-6-NGD	WSON-6 2.92x3.29	new	
+E	Texas Instruments	6-WDFN Exposed Pad	6-WSON (2x2)	6	WSON-6-DRV	WSON-6 2x2	new	
+E	Texas Instruments	6-WFBGA, DSBGA	6-DSBGA (1.44x1.16)	6	DSBGA-6-YFQ	DSBGA-6 3x2	new	
+E	Texas Instruments	6-WFDFN	6-WSON (1.5x1.5)	6	WSON-6-DSE	WSON-6 1.5x1.5	new	
+E	Texas Instruments	6-XFBGA, DSBGA	6-DSBGA	6	DSBGA-6-YFD	DSBGA-6 3x2	new	
+E	Texas Instruments	6-XFDFN Exposed Pad	6-X2SON (1.2x1.2)	6	X2SON-6-DPQ	X2SON-6 1.2x1.2	new	
+E	Texas Instruments	8-VDFN Exposed Pad	8-SON (3x3)	8	SON-8-DRB	SON-8 3x3 DRB	reuse: SON-8-DRB (TI DRB0008A 4218875/A board layout, tps735.pdf p.37, compared with the existing footprint: 8 pads 0.6 x 0.31 at pitch 0.65, span 2.8, thermal land 1.5 x 1.75 with four 0.23-wide tabs 0.825 long at 0.65 centres, body 3.0 mid (2.9-3.1); all equal)	
+E	Texas Instruments	8-WDFN Exposed Pad	8-SON (4x4)	8	WSON-8-DRJ	WSON-8 4x4	new	
+E	Texas Instruments	8-WDFN Exposed Pad	8-WSON (4x4)	8	WSON-8-NGN	WSON-8 4x4	new	
+E	Texas Instruments	8-WFDFN Exposed Pad	8-WSON (2x2)	8	WSON-8-DSG	WSON-8 2x2	reuse: WSON-8-DSG (TI DSG0008A board layout in tps62081.pdf p.28, tps62067.pdf p.27, tps61021a.pdf p.32 vs existing: pad 0.5 x 0.25, pitch 0.5, span 1.9, thermal 0.9 x 1.6, body 2.0; all equal)	
+E	Texas Instruments	8-WFDFN Exposed Pad	8-WSON (2x2)	9	WSON-9-DSG	WSON-9 2x2	new	
+E	Texas Instruments	9-UFBGA, DSBGA	9-DSBGA	9	DSBGA-9-YFF	DSBGA-9	new	
+F	Analog Devices	10-VFDFN Exposed Pad, CSP	10-LFCSP-WD (3x3)	10	LFCSP-10-ADI-CP-10-9	LFCSP-10	new	
+F	Analog Devices	10-WFDFN Exposed Pad	10-DFN (3x3)	10	DFN-10-ADI-DD	DFN-10	new	
+F	Analog Devices	10-WFDFN Exposed Pad	10-TDFN (2.5x2)	10	TDFN-10-ADI-T102A2	TDFN-10	new	
+F	Analog Devices	10-WFDFN Exposed Pad	10-TDFN (3x2)	10	TDFN-10-ADI-T1032N	TDFN-10	new	
+F	Analog Devices	12-PowerUFQFN	12-FC2QFN (2.5x2.5)	12	FC2QFN-12-ADI-F122A2F	FC2QFN-12	new	
+F	Analog Devices	12-WFDFN Exposed Pad	12-DFN (4x3)	12	DFN-12-ADI-DE	DFN-12	new	
+F	Analog Devices	12-WFDFN Exposed Pad	12-TDFN (3x3)	12	TDFN-12-ADI-TD1233	TDFN-12	new	
+F	Analog Devices	14-WFDFN Exposed Pad	14-DFN (4x3)	14	DFN-14-ADI-DE	DFN-14	new	
+F	Analog Devices	14-WFDFN Exposed Pad	14-TDFN (3x3)	14	TDFN-14-ADI-T1433-2	TDFN-14	new	
+F	Analog Devices	16-WFDFN Exposed Pad	16-DFN (4x3)	16	DFN-16-ADI-DE	DFN-16	new	
+F	Analog Devices	16-WFQFN Exposed Pad	16-QFN (3x3)	16	QFN-16-ADI-UD	QFN-16	new	
+F	Analog Devices	16-WFQFN Exposed Pad	16-TQFN (3x3)	16	TQFN-16-ADI-T1633	TQFN-16	new	
+F	Analog Devices	16-WFQFN Exposed Pad, CSP	16-LFCSP (3x3)	16	LFCSP-16-ADI-CP-16-22	LFCSP-16	new	
+F	Analog Devices	16-WFQFN Exposed Pad, CSP	16-LFCSP-WQ (3x3)	16	LFCSP-16-ADI-CP-16-22	LFCSP-16	reuse: LFCSP-16-ADI-CP-16-22 (same CP-16-22 drawing, ADP322_323.pdf p.23: L 0.30-0.50, b 0.18-0.30, EP 1.45-1.75 square, body 3.00 SQ; same numbers as ADP1762.pdf p.18)	
+F	Analog Devices	16-WQFN Exposed Pad, CSP	16-LFCSP (4x4)	16	LFCSP-16-ADI-CP-16-23	LFCSP-16	new (CP-16-23 outline ADP1754_1755.pdf p.19 and ADP1740_1741.pdf p.19; the ADP2164 part's drawing CP-16-17 is only named in ADP2164.PDF p.20, no drawing in the tree: the same 4 x 4 mm 16-lead 0.65 pitch MO-220 LFCSP assumed, not verified)	
+F	Analog Devices	16-WQFN Exposed Pad, CSP	16-LFCSP (4x4)	16	LFCSP-16-ADI-CP-16-17	LFCSP-16	new (CP-16-17 outline from analog.com: L 0.40, exposed pad 2.60 vs CP-16-23 0.60 / 2.10; replaces the CP-16-23 assumption for ADP2164)	ADP2164.PDF
+F	Analog Devices	20-WFQFN Exposed Pad	20-QFN (3x4)	20	QFN-20-ADI-UDC	QFN-20	new	
+F	Analog Devices	20-WFQFN Exposed Pad	20-TQFN (4x4)	20	TQFN-20-ADI-T2044	TQFN-20	new (Maxim land pattern 90-0409, T2044+4, MAX17543)	*
+F	Analog Devices	20-WQFN Exposed Pad	20-TQFN (5x5)	20	TQFN-20-ADI-T2055	TQFN-20	new (Maxim land pattern 90-0009, T2055+4, MAX17546)	*
+F	Analog Devices	24-TFQFN Exposed Pad	24-LQFN (4x4)	24	LQFN-24-ADI-05-08-1511	LQFN-24	new	
+F	Analog Devices	24-WFQFN Exposed Pad, CSP	24-LFCSP (4x4)	24	LFCSP-24-ADI-CP-24-12	LFCSP-24	new	
+F	Analog Devices	28-VFQFN Exposed Pad	28-LQFN (5x4)	28	LQFN-28-ADI-05-08-1603	LQFN-28	new	
+F	Analog Devices	28-WFQFN Exposed Pad	28-QFN (3x6)	28	QFN-28-ADI-UDE	QFN-28	new	
+F	Analog Devices	28-WFQFN Exposed Pad	28-TQFN (5x5)	28	TQFN-28-ADI-T2855	TQFN-28	new (Maxim land pattern 90-0026, T2855+6, MAX15021)	*
+F	Analog Devices	32-TFQFN Exposed Pad	32-LQFN (6x4)	32	LQFN-32-ADI-05-08-1512	LQFN-32	new	
+F	Analog Devices	4-UFBGA, WLCSP	4-WLCSP (0.95x1.03)	4	WLCSP-4-ADI-CB-4-4	WLCSP-4	new	
+F	Analog Devices	4-WFBGA, WLCSP	4-WLCSP (0.76x0.76)	4	DSBGA-4-YFP	WLCSP-4	reuse: DSBGA-4-YFP (ADI CB-4-3 outline, ADP150.pdf p.18 and ADP151.pdf p.21: body 0.76 SQ mid (0.72-0.80) vs 0.76, pitch 0.40 REF vs 0.4, ball 0.26 mid (0.24-0.28) x 0.8 = 0.208 -> pad 0.20 vs 0.23 (diff 0.03 within 0.05); same ball names A1 A2 B1 B2)	
+F	Analog Devices	4-WFBGA, WLCSP	4-WLCSP (0.82x0.82)	4	DSBGA-4-YFP	WLCSP-4	reuse: DSBGA-4-YFP (ADI CB-4-2 outline, ADP121.pdf p.18: body 0.82 SQ mid (0.78-0.86) vs 0.76 (diff 0.06 within 0.1), pitch 0.40 REF vs 0.4, ball 0.26 mid (0.24-0.28) x 0.8 = 0.208 -> pad 0.20 vs 0.23 (diff 0.03 within 0.05); same ball names)	
+F	Analog Devices	6-UDFN Exposed Pad, CSP	6-LFCSP-UD (2x2)	6	LFCSP-6-ADI-CP-6-3	LFCSP-6	new (CP-6-3 outline ADP122_123.pdf p.20; same numbers in ADP165_166.pdf p.22 and ADP1607.pdf p.15)	
+F	Analog Devices	6-UFBGA, WLCSP	6-WLCSP (1.03x1.50)	6	WLCSP-6-ADI-CB-6-12	WLCSP-6	new (CB-6-12 outline from analog.com, R6)	ADP2138_2139.pdf
+F	Analog Devices	6-WFDFN Exposed Pad	6-DFN (2x2)	6	DFN-6-ADI-DC6	DFN-6	new	
+F	Analog Devices	6-WFDFN Exposed Pad	6-DFN (2x3)	6	DFN-6-ADI-DCB6	DFN-6	new	
+F	Analog Devices	6-XFBGA, WLBGA	6-WLP (1.22x0.82)	6	WLP-6-ADI-N60G1	WLP-6	new (outline 21-100183 N60G1+1, pad 0.25 from AN1891, MAX38902C)	*
+F	Analog Devices	6-XFBGA, WLBGA	6-WLP (1.27x0.87)	6	WLP-6-ADI-N60N1	WLP-6	new (outline 21-100577 N60N1+1S, pad 0.25 from AN1891, MAX17291B)	*
+F	Analog Devices	6-XFBGA, WLCSP	6-WLCSP (0.95x1.16)	6	WLCSP-6-ADI-CB-6-15	WLCSP-6	new	
+F	Analog Devices	8-UFDFN Exposed Pad, CSP	8-LFCSP-UD (2x2)	8	LFCSP-8-ADI-CP-8-10	LFCSP-8	new	
+F	Analog Devices	8-WDFN Exposed Pad	8-TDFN (3x3)	8	TDFN-8-ADI-T833	TDFN-8	new	
+F	Analog Devices	8-WFDFN	8-TDFN (2x2)	8	TDFN-8-ADI-T822C	TDFN-8	new (Maxim land pattern 90-0349, T822CN+1 / T822C+6C: MAX15062, MAX15462, MAX17640, MAX17645)	*
+F	Analog Devices	8-WFDFN Exposed Pad	8-DFN (2x2)	8	DFN-8-ADI-DC8	DFN-8	new	
+F	Analog Devices	8-WFDFN Exposed Pad	8-DFN (2x3)	8	DFN-8-ADI-DCB8	DFN-8	new	
+F	Analog Devices	8-WFDFN Exposed Pad	8-DFN (3x2)	8	DFN-8-ADI-DDB8	DFN-8	new	
+F	Analog Devices	8-WFDFN Exposed Pad	8-DFN (3x3)	8	DFN-8-ADI-DD8	DFN-8	new	
+F	Analog Devices	8-WFDFN Exposed Pad	8-TDFN-EP (2x2)	8	TDFN-8-EP-ADI-T822	TDFN-8-EP	new (Maxim land pattern 90-0064, T822+1, MAX8902B)	*
+F	Analog Devices	8-WFDFN Exposed Pad, CSP	8-LFCSP-WD (3x3)	8	LFCSP-8-ADI-CP-8-21	LFCSP-8	new	
+F	Analog Devices	8-WFDFN Exposed Pad, CSP	8-LFCSP-WD (3x3)	8	LFCSP-8-ADI-CP-8-11	LFCSP-8	new (CP-8-11 outline from analog.com: exposed pad 2.34 vs CP-8-21 2.44; replaces the CP-8-21 assumption for ADP7104)	ADP7104.pdf
