@@ -400,7 +400,7 @@ supplies):
 
 Acceptance: the kind loads, refuses bad keys and switches its output.
   Check: `cmake --build /tmp/logic-p42 -j8 && ctest --test-dir /tmp/logic-p42 -R 'regulator_test|listing_check|trace_check|library_check' --output-on-failure` → 4 of 4 passed, goldens unchanged (est. 3 min). Observed 2026-11-21: `cmake --build /tmp/logic-p42 -j8 && ctest --test-dir /tmp/logic-p42 -R 'regulator_test|listing_check|trace_check|library_check'` → `100% tests passed, 0 tests failed out of 4`; `git diff --stat backend/tests/golden` → empty (goldens unchanged; 57 PASS lines of `regulator_test` at that point incl. cases a–i and the later ones).
-Commit: —
+Commit: 73d139ee
 
 ### Phase 2 — The voltage check and the circuit API
 
@@ -420,7 +420,7 @@ Commit: —
 Acceptance: the regulated level, the divider and the VIN rating behave as
 § 6, and nothing else moved.
   Check: `ctest --test-dir /tmp/logic-p42 -R 'regulator_test|voltage_test|circuit_check' --output-on-failure` → 3 of 3 (est. 2 min); `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p42-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 4 min; the Swift call sites changed). Observed 2026-11-21: `ctest -R 'regulator_test|voltage_test|circuit_check'` → `100% tests passed, 0 tests failed out of 3`; `xcodebuild … build` → `** BUILD SUCCEEDED **` (the Swift call sites pass `nil`).
-Commit: —
+Commit: 73d139ee
 
 ### Phase 3 — Docs
 
@@ -429,7 +429,7 @@ Commit: —
 
 Acceptance: the docs name every key, error and rule.
   Check: `grep -c 'adjustTo\|enableActive\|vinMax\|REGULATOR_INPUT_OVER\|circuit_set_resistance' docs/parts-format.md docs/backend.md` → at least 1 per file for its names (est. < 1 min). Observed 2026-11-21: `grep -c …` → `docs/backend.md:5`, `docs/parts-format.md:10`.
-Commit: —
+Commit: 5211e03f
 
 ## Validation Plan
 
