@@ -39,7 +39,7 @@ enum SimulationAvailability {
         !document.chips.contains { !$0.part.isSimulated }
     }
 
-    /// Run / Stop, as the menu and ⇧⌘R do it: Stop always; Run only when
+    /// Run / Stop, as the menu and ⌘P do it: Stop always; Run only when
     /// `canStart`.
     static func toggle(_ simulation: SimulationController, document: SchematicDocument) {
         if !simulation.isRunning && !canStart(document) { return }

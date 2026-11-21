@@ -173,8 +173,7 @@ struct ContentView: View {
 
     /// The editing keys, in this window only and never while a text field
     /// is being typed in: ⌘R presses Rotate on the PCB (when it is enabled)
-    /// and ⇧⌘R turns the other way (on the Schematic ⇧⌘R runs or stops the
-    /// simulation); A steps the Trace tool's angle while
+    /// and ⇧⌘R turns the other way; A steps the Trace tool's angle while
     /// Trace is the PCB tool; ⌘F flips the selected part or net label on the
     /// Schematic; ⌘⌫ deletes the selection (on the PCB only its texts, traces, vias and holes);
     /// ⌘C copies the selected traces on the PCB and ⌘V pastes them centred
@@ -194,12 +193,6 @@ struct ContentView: View {
             case .rotate:
                 guard rotateSelection() else { return event }
             case .rotateBack:
-                // ⇧⌘R is both Edit › Rotate Counterclockwise and Simulation ›
-                // Run; each menu item only works on its own page.
-                if page == .schematic {
-                    toggleSimulation()
-                    return nil
-                }
                 guard rotateSelection(counterclockwise: true) else { return event }
             case .flip:
                 guard flipSelection() else { return event }
@@ -287,8 +280,8 @@ struct ContentView: View {
     /// Simulation › Run / Stop. Play mode starts with the Pointer (and PCB
     /// Select) tool and nothing selected. The simulation is the Schematic
     /// page's: nothing happens on the PCB. Run does nothing while a part
-    /// that isn't simulated is placed (plan-36: ⇧⌘R reaches here without
-    /// the menu's check).
+    /// that isn't simulated is placed (plan-36: the menu disables Run
+    /// itself; this is the check for any other way here).
     private func toggleSimulation() {
         guard page == .schematic else { return }
         if !simulation.isRunning {

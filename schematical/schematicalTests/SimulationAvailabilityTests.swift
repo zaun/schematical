@@ -4,7 +4,7 @@ import XCTest
 @testable import schematical
 
 /// plan-36-H: Simulation › Run is off while a part that isn't simulated (a
-/// microcontroller) is placed, with the reason under it; ⇧⌘R's path does
+/// microcontroller) is placed, with the reason under it; ⌘P's path does
 /// not start the simulation either.
 @MainActor
 final class SimulationAvailabilityTests: XCTestCase {
