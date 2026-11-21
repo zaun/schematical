@@ -75,20 +75,31 @@ enum VoltageCheck {
         }
         let closed = netlist.switchesOn.map { VoltageContact(part: $0.part, position: UInt32($0.position)) }
 
+        // A placed GENERIC-RESISTOR's value, in milliohms (0 = the part's own):
+        // an adjustable regulator's feedback divider (plan-42-I).
+        let milliohms: [UInt64] = netlist.ohms.map { ohms in
+            guard let ohms, ohms > 0, ohms <= 1e9 else { return 0 }
+            return UInt64((ohms * 1000).rounded())
+        }
+
         let problems: [VoltageProblem] = parts.withUnsafeBufferPointer { partList in
             connections.withUnsafeBufferPointer { connectionList in
                 closed.withUnsafeBufferPointer { closedList in
-                    let count = voltage_check(partList.baseAddress, partList.count, netlist.netCount,
-                                              connectionList.baseAddress, connectionList.count,
-                                              closedList.baseAddress, closedList.count, nil, nil, 0)
-                    guard count > 0 else { return [] }
-                    var out = [VoltageProblem](repeating: VoltageProblem(), count: count)
-                    let filled = out.withUnsafeMutableBufferPointer { buffer in
-                        voltage_check(partList.baseAddress, partList.count, netlist.netCount,
-                                      connectionList.baseAddress, connectionList.count,
-                                      closedList.baseAddress, closedList.count, nil, buffer.baseAddress, count)
+                    milliohms.withUnsafeBufferPointer { ohmsList in
+                        let count = voltage_check(partList.baseAddress, partList.count, netlist.netCount,
+                                                  connectionList.baseAddress, connectionList.count,
+                                                  closedList.baseAddress, closedList.count,
+                                                  ohmsList.baseAddress, nil, 0)
+                        guard count > 0 else { return [] }
+                        var out = [VoltageProblem](repeating: VoltageProblem(), count: count)
+                        let filled = out.withUnsafeMutableBufferPointer { buffer in
+                            voltage_check(partList.baseAddress, partList.count, netlist.netCount,
+                                          connectionList.baseAddress, connectionList.count,
+                                          closedList.baseAddress, closedList.count,
+                                          ohmsList.baseAddress, buffer.baseAddress, count)
+                        }
+                        return Array(out.prefix(min(filled, count)))
                     }
-                    return Array(out.prefix(min(filled, count)))
                 }
             }
         }
@@ -143,6 +154,9 @@ enum VoltageCheck {
         case VOLTAGE_INPUT_OVER:
             return "\(edit.verb): \(chip.reference) \(pinText) gets \(volts(issue.mv)) V; "
                 + "\(part) inputs take at most \(volts(issue.maxMV)) V."
+        case VOLTAGE_REGULATOR_INPUT_OVER:
+            return "\(edit.verb): \(chip.reference) \(pinText) gets \(volts(issue.mv)) V; "
+                + "\(part) takes at most \(volts(issue.maxMV)) V in."
         default:
             return "\(edit.verb): \(chip.reference) \(pinText) gets \(volts(issue.mv)) V; "
                 + "\(part) is rated \(volts(issue.maxMV)) V."

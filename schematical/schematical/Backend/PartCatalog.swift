@@ -141,6 +141,37 @@ nonisolated struct TransistorInfo: Hashable, Sendable {
     var pType: Bool { type == "pnp" || type == "pmos" }
 }
 
+/// A voltage regulator part's facts (plan-42-I), from the backend's
+/// `PartRegulator`. Every value is 0 when not given.
+nonisolated struct RegulatorInfo: Hashable, Sendable {
+    /// The first element's type: "linear", "buck", "boost", "buck-boost",
+    /// "charge-pump" or "sepic".
+    let type: String
+    /// The regulators in the package (more than 1: a dual, triple or quad).
+    let regulators: Int
+    /// The elements' types differ.
+    let mixed: Bool
+    /// Some element has an adjust pin.
+    let adjustable: Bool
+    /// One output voltage per element, in millivolts (0 = not fixed).
+    let voutMV: [UInt32]
+    /// One reference voltage per element, in millivolts (0 = none).
+    let vrefMV: [UInt32]
+    /// The highest output an adjustable part can be set to, in millivolts.
+    let voutMaxMV: UInt32
+    /// The input range's ends, in millivolts.
+    let vinMinMV: UInt32
+    let vinMaxMV: UInt32
+    /// A linear element's dropout, in millivolts.
+    let dropoutMV: UInt32
+    /// The output current per element, in milliamps.
+    let ioutMA: UInt32
+    /// The quiescent current, in microamps.
+    let iqUA: UInt32
+    /// A switching element's frequency, in hertz.
+    let fswHz: UInt64
+}
+
 nonisolated struct DisplayInfo: Hashable, Sendable {
     /// One LED: a segment of a digit (1 = leftmost), or a colon or dot LED
     /// (digit 0; segment "L1", "L2" or "L3").
@@ -449,6 +480,10 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// A transistor (plan-40): one or more BJT or MOSFET elements
         /// (more than 1: an array), its ratings (`TransistorInfo`).
         case transistor(TransistorInfo)
+        /// A voltage regulator (plan-42): one to four linear or switching
+        /// regulators (more than 1: a dual, triple or quad), its facts
+        /// (`RegulatorInfo`).
+        case regulator(RegulatorInfo)
     }
 
     let name: String
@@ -604,6 +639,12 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         return nil
     }
 
+    /// A voltage regulator part's facts (plan-42-I); nil for every other kind.
+    var regulator: RegulatorInfo? {
+        if case let .regulator(info) = details { return info }
+        return nil
+    }
+
     /// The capacitance of a capacitor part; nil for every other kind.
     var capacitorFarads: Double? {
         if case let .capacitor(_, _, farads, _, _, _) = details { return farads }
@@ -746,6 +787,13 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
             // The maximum rating pair, as the diode's: Vceo / Vds, Ic / Id.
             return (info.vmaxMV > 0 ? ["\(PartFacts.milli(info.vmaxMV)) V"] : [])
                 + (info.imaxMA > 0 ? ["\(PartFacts.milli(info.imaxMA)) A"] : [])
+        case let .regulator(info):
+            // The output and the output current: "3.3 V", "1.8/3.3 V" for a
+            // dual, "ADJ" for an adjustable part (plan-42-I).
+            let outputs = info.voutMV.filter { $0 > 0 }
+            let output = outputs.isEmpty ? (info.adjustable ? ["ADJ"] : [])
+                : ["\(outputs.map { PartFacts.milli($0) }.joined(separator: "/")) V"]
+            return output + (info.ioutMA > 0 ? ["\(PartFacts.milli(info.ioutMA)) A"] : [])
         }
     }
 }
@@ -970,6 +1018,18 @@ extension CatalogPart {
                 hfe: transistor.hfe, vgsthMV: transistor.vgsth_mv, vgsMV: transistor.vgs_mv,
                 r1Milliohm: transistor.r1_mohm, r2Milliohm: transistor.r2_mohm,
                 rdsonMilliohm: transistor.rdson_mohm))
+        } else if let regulator = part.regulator?.pointee {
+            let count = Int(regulator.regulator_count)
+            func values(_ pointer: UnsafePointer<UInt32>?) -> [UInt32] {
+                pointer.map { Array(UnsafeBufferPointer(start: $0, count: count)) } ?? []
+            }
+            details = .regulator(RegulatorInfo(
+                type: string(regulator.type), regulators: count, mixed: regulator.mixed != 0,
+                adjustable: regulator.adjustable != 0, voutMV: values(regulator.vout_mv),
+                vrefMV: values(regulator.vref_mv), voutMaxMV: regulator.vout_max_mv,
+                vinMinMV: regulator.vin_min_mv, vinMaxMV: regulator.vin_max_mv,
+                dropoutMV: regulator.dropout_mv, ioutMA: regulator.iout_ma,
+                iqUA: regulator.iq_ua, fswHz: regulator.fsw_hz))
         } else {
             details = .supply(level: 0, mv: 0, pull: false)
         }
@@ -1253,6 +1313,9 @@ func symbol(for part: CatalogPart) -> PartSymbol {
         guard case let .transistor(info) = part.details, info.elements == 1 else { return .block }
         let names = Set(part.pins.filter { !$0.isHidden }.map(\.name))
         return names == ["B", "C", "E"] || names == ["G", "D", "S"] ? .transistor : .block
+    case PART_REGULATOR:
+        // A regulator draws as a block, its pins named (plan-42-I).
+        return .block
     default: return .block
     }
 }

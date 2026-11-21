@@ -30,6 +30,12 @@ struct SchematicNetlist {
     /// tactile switch's joined pairs are numbered after them and are the
     /// backend's own, never sent.
     var positionCounts: [Int] = []
+    /// A placed `GENERIC-RESISTOR`'s own value in ohms, per part index (nil
+    /// for every other part, and for a generic resistor still at its part
+    /// value). The voltage check reads them for an adjustable regulator's
+    /// feedback divider (plan-42-I); a pull resistor's is not sent (a pull is
+    /// a supply, not a resistor link).
+    var ohms: [Double?] = []
     /// Chip for each part index.
     let chipIDs: [UUID]
     /// Net index for each wire.
@@ -203,6 +209,7 @@ enum NetlistBuilder {
             connections: connections,
             switchesOn: switchesOn,
             positionCounts: positionCounts,
+            ohms: chips.map { $0.part.isGenericResistor ? $0.ohms : nil },
             chipIDs: chips.map(\.id),
             netOfWire: netOfWire,
             lcdParts: chips.indices.filter { chips[$0].part.kind == PART_CHARLCD }
@@ -392,6 +399,12 @@ final class SimulationController {
         // backend's default state; sending a closed one again is harmless.
         for item in netlist.switchesOn where item.position <= netlist.positionCounts[item.part] {
             if circuit_set_switch(circuit, item.part, UInt32(item.position), 1) != 0 { return false }
+        }
+        // Placed resistor values, for the voltage check's feedback divider
+        // (plan-42-I). A value the backend refuses (outside 0–1e9 Ω) leaves
+        // the part's own.
+        for (part, ohms) in netlist.ohms.enumerated() {
+            if let ohms { _ = circuit_set_resistance(circuit, part, ohms) }
         }
         for load in loads {
             let result = load.values.withUnsafeBufferPointer {

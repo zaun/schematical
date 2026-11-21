@@ -202,6 +202,31 @@ nonisolated enum PartFacts {
                 if info.r1Milliohm > 0 { add("R1", milliohmsText(info.r1Milliohm)) }
                 if info.r2Milliohm > 0 { add("R2", milliohmsText(info.r2Milliohm)) }
             }
+        case let .regulator(info):
+            add("Type", regulatorType(info))
+            if info.regulators > 1 { add("Regulators", String(info.regulators)) }
+            let outputs = info.voutMV.filter { $0 > 0 }
+            if !outputs.isEmpty {
+                add("Output", outputs.map { "\(milli($0)) V" }.joined(separator: " / "))
+            } else if info.adjustable {
+                let refs = info.vrefMV.filter { $0 > 0 }
+                var text = "Adjustable"
+                if let ref = refs.first { text += ", Vref \(milli(ref)) V" }
+                if info.voutMaxMV > 0 { text += " (to \(milli(info.voutMaxMV)) V)" }
+                add("Output", text)
+            }
+            if info.vinMaxMV > 0 {
+                add("Input", info.vinMinMV > 0 ? "\(milli(info.vinMinMV))–\(milli(info.vinMaxMV)) V"
+                                               : "up to \(milli(info.vinMaxMV)) V")
+            } else if info.vinMinMV > 0 {
+                add("Input", "from \(milli(info.vinMinMV)) V")
+            }
+            if info.type == "linear", info.dropoutMV > 0 { add("Dropout", "\(milli(info.dropoutMV)) V") }
+            if info.ioutMA > 0 { add("Current", "\(milli(info.ioutMA)) A") }
+            if info.iqUA > 0 {
+                add("Quiescent", info.iqUA >= 1000 ? "\(milli(info.iqUA)) mA" : "\(info.iqUA) µA")
+            }
+            if info.fswHz > 0 { add("Switching", hertz(info.fswHz)) }
         }
         if !part.isSimulated { add("Simulation", "Not simulated") }
 
@@ -255,6 +280,7 @@ nonisolated enum PartFacts {
         case PART_TRANSISTOR: return "Transistor"
         case PART_GENERIC: return "Part"
         case PART_NIXIE: return "Nixie tube"
+        case PART_REGULATOR: return "Voltage regulator"
         default: return ""
         }
     }
@@ -266,6 +292,14 @@ nonisolated enum PartFacts {
         if part.isTactileSwitch { return "Tactile switch" }
         if case let .resistor(_, _, _, resistors) = part.details, resistors > 1 { return "Resistor array" }
         if let info = part.transistor, info.elements > 1 { return "Transistor array" }
+        if let info = part.regulator {
+            switch info.regulators {
+            case 2: return "Dual voltage regulator"
+            case 3: return "Triple voltage regulator"
+            case 4: return "Quad voltage regulator"
+            default: break
+            }
+        }
         if case .connector(_, _, _, _, _?) = part.details { return "USB connector" }
         if case let .converter(type, _, _) = part.details {
             switch type {
@@ -374,6 +408,23 @@ nonisolated enum PartFacts {
         if info.darlington { return polarity + " Darlington" }
         if info.preBiased { return polarity + " pre-biased" }
         return polarity
+    }
+
+    /// A regulator's type as shown (plan-42-I): "Linear", "Buck", "Boost",
+    /// "Buck-boost", "Charge pump", "SEPIC"; a part whose elements differ
+    /// "<first> + other".
+    static func regulatorType(_ info: RegulatorInfo) -> String {
+        let name: String
+        switch info.type {
+        case "linear": name = "Linear"
+        case "buck": name = "Buck"
+        case "boost": name = "Boost"
+        case "buck-boost": name = "Buck-boost"
+        case "charge-pump": name = "Charge pump"
+        case "sepic": name = "SEPIC"
+        default: name = info.type.prefix(1).uppercased() + info.type.dropFirst()
+        }
+        return info.mixed ? name + " + other" : name
     }
 
     /// A resistance in milliohms as shown (plan-40-H): 8 → "8 mΩ",
