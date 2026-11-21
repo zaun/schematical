@@ -69,8 +69,9 @@
 
 - [x] Add BJTs (2N3904, 2N3906, BC547…) and MOSFETs (2N7000, logic-level
       N-channel), top 3 manufacturers.
-- [ ] Add voltage regulators: 78xx, AMS1117, LM317, LDOs, and common buck
-      modules.
+- [x] Add voltage regulators: 78xx, AMS1117, LM317, LDOs, and common buck
+      modules. (plan-42: TI, ADI, Microchip; AMS1117 and buck modules out of
+      scope)
 - [x] Add hobby microcontrollers: ATmega328P, ATtiny, RP2040, ESP32
       modules. The bus-CPU kind only covers 6502/65816/Z80. These 
       microcontrollers need a `simulated` property set to false. When any
