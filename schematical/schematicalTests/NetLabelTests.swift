@@ -305,6 +305,32 @@ final class NetLabelTests: XCTestCase {
         XCTAssertTrue(svg.contains(">\(SVGPainter.escaped("A&B"))</text>"))
     }
 
+    /// A label named like a supply is on that rail: a pin wired to a GND
+    /// label shares the net of a pin wired to a GND symbol, a label named
+    /// for another voltage or a pull resistor does not.
+    func testLabelNamedLikeASupplyJoinsTheRail() throws {
+        let doc = newDocument()
+        let ground = try TestSupport.place(doc, "GND", at: CGPoint(x: 100, y: 400))
+        let supply = try TestSupport.place(doc, "5V", at: CGPoint(x: 100, y: 100))
+        let one = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 400, y: 100))
+        let two = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 700, y: 300))
+        let three = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 1000, y: 300))
+        XCTAssertNil(doc.connect(.pin(PinRef(chipID: ground.id, index: 0)), .pin(try TestSupport.pin(one, "K"))))
+        XCTAssertNil(doc.connect(.pin(PinRef(chipID: supply.id, index: 0)), .pin(try TestSupport.pin(one, "A"))))
+        let gndLabel = doc.addNetLabel(at: CGPoint(x: 850, y: 300))
+        XCTAssertTrue(doc.setNetLabelName(gndLabel, "GND"))
+        XCTAssertNil(doc.connect(.pin(try TestSupport.pin(two, "K")), .label(gndLabel)))
+        let otherLabel = doc.addNetLabel(at: CGPoint(x: 1150, y: 300))
+        XCTAssertTrue(doc.setNetLabelName(otherLabel, "3V3"))
+        XCTAssertNil(doc.connect(.pin(try TestSupport.pin(three, "K")), .label(otherLabel)))
+
+        let rail = try XCTUnwrap(net(doc, PinRef(chipID: ground.id, index: 0)))
+        XCTAssertEqual(net(doc, try TestSupport.pin(one, "K")), rail)
+        XCTAssertEqual(net(doc, try TestSupport.pin(two, "K")), rail, "the GND label is on the GND rail")
+        XCTAssertNotEqual(net(doc, try TestSupport.pin(three, "K")), rail, "no 3V3 symbol, nothing to join")
+        XCTAssertNotEqual(net(doc, PinRef(chipID: supply.id, index: 0)), rail)
+    }
+
     /// Settings ▸ General Defaults: uppercase only, on until turned off.
     func testUppercaseOnlySetting() throws {
         let defaults = try XCTUnwrap(UserDefaults(suiteName: "NetLabelTests.uppercase"))

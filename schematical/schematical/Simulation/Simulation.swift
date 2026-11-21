@@ -117,6 +117,30 @@ enum NetlistBuilder {
             }
         }
 
+        // A net label named like a supply (GND, 5V, 3V3, …: a power symbol's
+        // part number, case sensitive) is on that rail: it joins every wired
+        // pin of the supply symbols of that name. Pull-up and pull-down
+        // symbols are not supplies here. A bus wire of the name reaches the
+        // rail through the label, so it does too.
+        var supplyOfChip: [UUID: String] = [:]
+        for chip in chips {
+            if case .supply(_, _, false) = chip.part.details { supplyOfChip[chip.id] = chip.partNumber }
+        }
+        if !supplyOfChip.isEmpty {
+            var supplyPins: [String: [WireEnd]] = [:]
+            for wire in wires {
+                for end in [wire.start, wire.end] {
+                    if case let .pin(ref) = end, let name = supplyOfChip[ref.chipID] {
+                        supplyPins[name, default: []].append(end)
+                    }
+                }
+            }
+            for (name, pins) in supplyPins {
+                guard let label = labelGroups[name]?.first else { continue }
+                for pin in pins { union(label, pin) }
+            }
+        }
+
         // A bus wire is on the net of the labels of its name (case and all):
         // its wired port pins join them.
         var busWireName: [UUID: String] = [:]

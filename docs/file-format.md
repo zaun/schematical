@@ -497,7 +497,12 @@ being drawn to each other (in the simulation, the voltage check and the
 PCB's unrouted lines). A bus wire of that exact name is on the
 same net: the wires on its port pins, on any bus, join the labels' net. So
 bus wires of one name on different (unlinked) buses meet only through a
-label of that name. A label is never simulated itself.
+label of that name. A label named like a supply part (`5V`, `3V3`, `2V5`,
+`1V8`, `1V2`, `12V` or `GND`, case sensitive) is on that rail: it joins the
+wired pins of every supply symbol of that name, so `GND` on a label and a GND
+symbol are one net (a label named for a rail with no such symbol on the
+schematic joins nothing but its own name). A pull-up or pull-down is not a
+supply here. A label is never simulated itself.
 
 ```json
 "labels": [ { "id": "...", "name": "CLK", "x": 250, "y": 100, "type": "input" },
