@@ -307,11 +307,15 @@ struct ChipDrawerView: View, Equatable {
         .padding(.leading, CGFloat(item.depth) * DrawerRowItem.indent)
     }
 
-    /// Opens or closes a group. Opening a category closes the open one.
+    /// Opens or closes a group. Opening a category closes the open one. A
+    /// category that closes takes its open sub-groups with it, so it opens
+    /// again showing only its own groups.
     private func toggle(_ item: DrawerRowItem) {
         switch item.kind {
         case let .category(name):
+            let before = openCategory
             openCategory[drawerOpenCategory: name] = !item.isOpen
+            if let before, before != openCategory { toggled.closeGroups(inCategory: before) }
         case .subcategory, .function, .bits:
             toggled[drawerOpen: item.id, defaultOpen: false] = !item.isOpen
         case .part:
@@ -690,6 +694,16 @@ private extension Optional where Wrapped == String {
                 self = nil
             }
         }
+    }
+}
+
+extension Set where Element == String {
+    /// Forgets every open drawer group below `category`: their keys are
+    /// "subcategory:<category>/…" and "function:<category>/…", the bits
+    /// groups' keys extending a function's.
+    mutating func closeGroups(inCategory category: String) {
+        let prefixes = ["subcategory:\(category)/", "function:\(category)/"]
+        self = filter { key in !prefixes.contains { key.hasPrefix($0) } }
     }
 }
 
