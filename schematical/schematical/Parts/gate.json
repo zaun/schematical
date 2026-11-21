@@ -357,7 +357,7 @@
       "function": "NOR",
       "description": "Quad 2-input NOR gate",
       "drawer": ["Logic", "Gates"],
-      "note": "SN74AC02PWRQ1, SN74AC02WBQARQ1: VCC 1.5-6 V (sn74ac02 p.4) | 5962-9760401QCA, 5962-9760401QDA, SNJ54LVC02AJ, SNJ54LVC02AW, 5962-9760401Q2A, SNJ54LVC02AFK: VCC 2-3.6 V, inputs to 5.5 V (sn74lvc02a p.4) | SN74LVC02AMPWREP, V62/06660-01XE: VCC 2-3.6 V, inputs to 5.5 V (sn74lvc02a-ep p.2) | SN74LVC02AQDRG4Q1, SN74LVC02AQDRQ1, SN74LVC02AQPWRG4Q1, SN74LVC02AQPWRQ1, SN74LVC02AWBQARQ1: VCC 2-3.6 V, inputs to 5.5 V (sn74lvc02a-q1 p.4) | SN54LS02J, SNJ54LS02J, SNJ54LS02W, SNJ54LS02FK: VCC 4.5-5.5 V (sn74ls02 p.4) | SN74S02D, SN74S02N: VCC 4.75-5.25 V (sn74ls02 p.5)",
+      "note": "SN74AC02PWRQ1, SN74AC02WBQARQ1: VCC 1.5-6 V (sn74ac02-q1 p.4) | 5962-9760401QCA, 5962-9760401QDA, SNJ54LVC02AJ, SNJ54LVC02AW, 5962-9760401Q2A, SNJ54LVC02AFK: VCC 2-3.6 V, inputs to 5.5 V (sn74lvc02a p.4) | SN74LVC02AMPWREP, V62/06660-01XE: VCC 2-3.6 V, inputs to 5.5 V (sn74lvc02a-ep p.2) | SN74LVC02AQDRG4Q1, SN74LVC02AQDRQ1, SN74LVC02AQPWRG4Q1, SN74LVC02AQPWRQ1, SN74LVC02AWBQARQ1: VCC 2-3.6 V, inputs to 5.5 V (sn74lvc02a-q1 p.4) | SN54LS02J, SNJ54LS02J, SNJ54LS02W, SNJ54LS02FK: VCC 4.5-5.5 V (sn74ls02 p.4) | SN74S02D, SN74S02N: VCC 4.75-5.25 V (sn74ls02 p.5)",
       "pinouts": {
         "p14": [
           {"number":1,"name":"1Y","role":"output"},
@@ -487,8 +487,8 @@
         {"name":"CD74AC02M","manufacturer":"Texas Instruments","datasheet":"cd74ac02","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"AC","flags":["obsolete"]},
         {"name":"CD74AC02M96","manufacturer":"Texas Instruments","datasheet":"cd74ac02","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"AC"},
         {"name":"CD74AC02PWR","manufacturer":"Texas Instruments","datasheet":"cd74ac02","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"AC"},
-        {"name":"SN74AC02PWRQ1","manufacturer":"Texas Instruments","datasheet":"sn74ac02","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"AC","flags":["automotive"],"vcc":[1.5,6]},
-        {"name":"SN74AC02WBQARQ1","manufacturer":"Texas Instruments","datasheet":"sn74ac02","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"AC","flags":["automotive"],"vcc":[1.5,6]},
+        {"name":"SN74AC02PWRQ1","manufacturer":"Texas Instruments","datasheet":"sn74ac02-q1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"AC","flags":["automotive"],"vcc":[1.5,6]},
+        {"name":"SN74AC02WBQARQ1","manufacturer":"Texas Instruments","datasheet":"sn74ac02-q1","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"AC","flags":["automotive"],"vcc":[1.5,6]},
         {"name":"CD54ACT02F3A","manufacturer":"Texas Instruments","datasheet":"cd74act02","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"ACT","flags":["military","ceramic"]},
         {"name":"CD74ACT02BQAR","manufacturer":"Texas Instruments","datasheet":"cd74act02","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"ACT"},
         {"name":"CD74ACT02E","manufacturer":"Texas Instruments","datasheet":"cd74act02","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"ACT"},
@@ -496,8 +496,8 @@
         {"name":"CD74ACT02M","manufacturer":"Texas Instruments","datasheet":"cd74act02","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"ACT","flags":["obsolete"]},
         {"name":"CD74ACT02M96","manufacturer":"Texas Instruments","datasheet":"cd74act02","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"ACT"},
         {"name":"CD74ACT02PWR","manufacturer":"Texas Instruments","datasheet":"cd74act02","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"ACT"},
-        {"name":"SN74ACT02PWRQ1","manufacturer":"Texas Instruments","datasheet":"sn74act02","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"ACT","flags":["automotive"]},
-        {"name":"SN74ACT02WBQARQ1","manufacturer":"Texas Instruments","datasheet":"sn74act02","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"ACT","flags":["automotive"]},
+        {"name":"SN74ACT02PWRQ1","manufacturer":"Texas Instruments","datasheet":"sn74act02-q1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"ACT","flags":["automotive"]},
+        {"name":"SN74ACT02WBQARQ1","manufacturer":"Texas Instruments","datasheet":"sn74act02-q1","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"ACT","flags":["automotive"]},
         {"name":"5962-9752801QCA","manufacturer":"Texas Instruments","datasheet":"sn74ahc02","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"AHC","flags":["military","ceramic"]},
         {"name":"5962-9752801QDA","manufacturer":"Texas Instruments","datasheet":"sn74ahc02","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"AHC","flags":["military","ceramic"]},
         {"name":"SN74AHC02BQAR","manufacturer":"Texas Instruments","datasheet":"sn74ahc02","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"AHC"},
@@ -1381,6 +1381,7 @@
         {"op":"xor","inputs":["4A","4B"],"output":"4Y"}
       ],
       "timing": {
+        "TTL": {"otherLow":{"rise":15,"fall":11},"otherHigh":{"rise":18,"fall":13},"vcc":[4.75,5.25],"note": "Typical at 5 V and 25 C (15 pF, RL 400 Ohm), SN7486. VCC 4.75-5.25 V (sn74ls86 p.3)"},
         "HC": {"rise":12,"fall":12,"vcc":[2,6],"note": "Typical at 4.5 V and 25 C (50 pF load). Same for both states. VCC 2-6 V (sn74hc86 p.4)"},
         "HCT": {"rise":32,"fall":32,"vcc":[4.5,5.5],"note": "Max at 4.5 V and 25 C (50 pF load); CD74HCT86 gives no typical there. Same for both states. VCC 4.5-5.5 V (cd74hct86 p.4)"},
         "HCS": {"rise":7,"fall":7,"vcc":[2,6],"note": "Typical at 4.5 V and 25 C (50 pF load), SN74HCS86. Same for both states. VCC 2-6 V (sn74hcs86 p.4)"},
@@ -1390,7 +1391,7 @@
         "AHCT": {"rise":5.5,"fall":5.5,"vcc":[4.5,5.5],"note": "Typical at 5 V and 25 C (50 pF load). Same for both states. VCC 4.5-5.5 V (sn74ahct86 p.5)"},
         "LV": {"rise":7.4,"fall":7.4,"vcc":[2,5.5],"note": "Typical at 3.3 V and 25 C (50 pF load), SN74LV86A. Same for both states. VCC 2-5.5 V (sn74lv86a p.5)"},
         "LVC": {"rise":2.5,"fall":2.5,"vcc":[1.65,3.6],"inputMax":5.5,"note": "Typical at 3.3 V and 25 C (50 pF load), SN74LVC86A. Same for both states. VCC 1.65-3.6 V, inputs to 5.5 V (sn74lvc86a p.5)"},
-        "LS": {"otherLow":{"rise":15,"fall":11},"otherHigh":{"rise":18,"fall":13},"vcc":[4.75,5.25],"note": "Typical at 5 V and 25 C (15 pF load). VCC 4.75-5.25 V (sn74ls86a p.4)"},
+        "LS": {"otherLow":{"rise":12,"fall":10},"otherHigh":{"rise":20,"fall":13},"vcc":[4.75,5.25],"note": "Typical at 5 V and 25 C (15 pF, RL 2 kOhm), SN74LS86A. VCC 4.75-5.25 V (sn74ls86a p.4)"},
         "ALS": {"otherLow":{"rise":17,"fall":12},"otherHigh":{"rise":17,"fall":10},"vcc":[4.5,5.5],"note": "Maximum at 5 V over the recommended temperature range. VCC 4.5-5.5 V (sn74als86 p.3)"},
         "AS": {"otherLow":{"rise":7.5,"fall":6.5},"otherHigh":{"rise":6.5,"fall":7},"vcc":[4.5,5.5],"note": "Maximum at 5 V over the recommended temperature range. VCC 4.5-5.5 V (sn74als86 p.4)"},
         "S": {"rise":7,"fall":6.5,"vcc":[4.5,5.5],"note": "Typical at 5 V and 25 C (15 pF load), SN74S86. VCC 4.5-5.5 V (sn74ls86a p.5)"},
@@ -1584,7 +1585,34 @@
         {"name":"SNJ54AHCT86FK","manufacturer":"Texas Instruments","datasheet":"sn74ahct86","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"AHCT","flags":["military","ceramic"]},
         {"name":"5962-9761901Q2A","manufacturer":"Texas Instruments","datasheet":"sn74lvc86a","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"LVC","flags":["military","ceramic"],"vcc":[2,3.6]},
         {"name":"SNJ54LVC86AFK","manufacturer":"Texas Instruments","datasheet":"sn74lvc86a","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"LVC","flags":["military","ceramic"],"vcc":[2,3.6]},
-        {"name":"SNJ54LS86AFK","manufacturer":"Texas Instruments","datasheet":"sn74ls86a","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
+        {"name":"SNJ54LS86AFK","manufacturer":"Texas Instruments","datasheet":"sn74ls86a","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/07501BCA","manufacturer":"Texas Instruments","datasheet":"sn74ls86","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"S","flags":["military","ceramic"]},
+        {"name":"JM38510/07501BDA","manufacturer":"Texas Instruments","datasheet":"sn74ls86","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"S","flags":["military","ceramic"]},
+        {"name":"JM38510/30502B2A","manufacturer":"Texas Instruments","datasheet":"sn74ls86","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/30502BCA","manufacturer":"Texas Instruments","datasheet":"sn74ls86","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/30502BDA","manufacturer":"Texas Instruments","datasheet":"sn74ls86","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN5486J","manufacturer":"Texas Instruments","datasheet":"sn74ls86","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"TTL","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN7486N","manufacturer":"Texas Instruments","datasheet":"sn74ls86","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"TTL","flags":["obsolete"]},
+        {"name":"SN7486N3","manufacturer":"Texas Instruments","datasheet":"sn74ls86","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"TTL","flags":["obsolete"]},
+        {"name":"SN74LS86ADE4","manufacturer":"Texas Instruments","datasheet":"sn74ls86","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS"},
+        {"name":"SN74LS86ADG4","manufacturer":"Texas Instruments","datasheet":"sn74ls86","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS"},
+        {"name":"SN74LS86ADRG4","manufacturer":"Texas Instruments","datasheet":"sn74ls86","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS"},
+        {"name":"SN74LS86AN3","manufacturer":"Texas Instruments","datasheet":"sn74ls86","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"LS","flags":["obsolete"]},
+        {"name":"SN74LS86ANSRE4","manufacturer":"Texas Instruments","datasheet":"sn74ls86","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"LS"},
+        {"name":"SN74LS86ANSRG4","manufacturer":"Texas Instruments","datasheet":"sn74ls86","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"LS"},
+        {"name":"SN74S86D","manufacturer":"Texas Instruments","datasheet":"sn74ls86","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"S"},
+        {"name":"SN74S86DE4","manufacturer":"Texas Instruments","datasheet":"sn74ls86","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"S"},
+        {"name":"SN74S86DG4","manufacturer":"Texas Instruments","datasheet":"sn74ls86","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"S"},
+        {"name":"SN74S86N","manufacturer":"Texas Instruments","datasheet":"sn74ls86","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"S"},
+        {"name":"SN74S86N3","manufacturer":"Texas Instruments","datasheet":"sn74ls86","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"S","flags":["obsolete"]},
+        {"name":"SN74S86NE4","manufacturer":"Texas Instruments","datasheet":"sn74ls86","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"S"},
+        {"name":"SN74S86NSR","manufacturer":"Texas Instruments","datasheet":"sn74ls86","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"S"},
+        {"name":"SN74S86NSRE4","manufacturer":"Texas Instruments","datasheet":"sn74ls86","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"S"},
+        {"name":"SN74S86NSRG4","manufacturer":"Texas Instruments","datasheet":"sn74ls86","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"S"},
+        {"name":"SNJ5486J","manufacturer":"Texas Instruments","datasheet":"sn74ls86","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"TTL","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ5486W","manufacturer":"Texas Instruments","datasheet":"sn74ls86","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"TTL","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54S86FK","manufacturer":"Texas Instruments","datasheet":"sn74ls86","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"S","flags":["military","ceramic"]},
+        {"name":"SNJ54S86W","manufacturer":"Texas Instruments","datasheet":"sn74ls86","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"S","flags":["military","ceramic"]}
       ]
     },
     {
@@ -1592,7 +1620,7 @@
       "function": "XNOR",
       "description": "Quad 2-input XNOR gate, open-drain outputs",
       "drawer": ["Logic", "Gates"],
-      "note": "SN54LS266J, SNJ54LS266J, SNJ54LS266W: VCC 4.5-5.5 V (sn74ls226 p.2)",
+      "note": "SN54LS266J, SNJ54LS266J, SNJ54LS266W: VCC 4.5-5.5 V (sn74ls266 p.2)",
       "pinouts": {
         "p14": [
           {"number":1,"name":"1A","role":"input","group":"gate-1"},
@@ -1621,7 +1649,7 @@
       "timing": {
         "HC": {"rise":13,"fall":13,"vcc":[2,6],"note": "Typical at 4.5 V and 25 C (50 pF load). VCC 2-6 V (sn74hc266 p.4)"},
         "HCS": {"rise":6,"fall":6,"vcc":[2,6],"note": "Typical at 4.5 V and 25 C (50 pF load), SN74HCS266. VCC 2-6 V (sn74hcs266 p.4)"},
-        "LS": {"rise":18,"fall":18,"vcc":[4.75,5.25],"note": "Typical at 5 V and 25 C (15 pF load). VCC 4.75-5.25 V (sn74ls226 p.2)"}
+        "LS": {"rise":18,"fall":18,"vcc":[4.75,5.25],"note": "Typical at 5 V and 25 C (15 pF load). VCC 4.75-5.25 V (sn74ls266 p.2)"}
       },
       "parts": [
         {"name":"SN74HC266D","manufacturer":"Texas Instruments","datasheet":"sn74hc266","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HC","flags":["obsolete"]},
@@ -1633,12 +1661,12 @@
         {"name":"SN74HCS266PWR","manufacturer":"Texas Instruments","datasheet":"sn74hcs266","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"HCS"},
         {"name":"SN74HCS266QDRQ1","manufacturer":"Texas Instruments","datasheet":"sn74hcs266-q1","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HCS","flags":["automotive"]},
         {"name":"SN74HCS266QPWRQ1","manufacturer":"Texas Instruments","datasheet":"sn74hcs266-q1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"HCS","flags":["automotive"]},
-        {"name":"SN54LS266J","manufacturer":"Texas Instruments","datasheet":"sn74ls226","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
-        {"name":"SN74LS266D","manufacturer":"Texas Instruments","datasheet":"sn74ls226","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS"},
-        {"name":"SN74LS266DG4","manufacturer":"Texas Instruments","datasheet":"sn74ls226","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS"},
-        {"name":"SN74LS266N","manufacturer":"Texas Instruments","datasheet":"sn74ls226","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"LS"},
-        {"name":"SNJ54LS266J","manufacturer":"Texas Instruments","datasheet":"sn74ls226","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
-        {"name":"SNJ54LS266W","manufacturer":"Texas Instruments","datasheet":"sn74ls226","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
+        {"name":"SN54LS266J","manufacturer":"Texas Instruments","datasheet":"sn74ls266","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN74LS266D","manufacturer":"Texas Instruments","datasheet":"sn74ls266","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS"},
+        {"name":"SN74LS266DG4","manufacturer":"Texas Instruments","datasheet":"sn74ls266","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS"},
+        {"name":"SN74LS266N","manufacturer":"Texas Instruments","datasheet":"sn74ls266","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"LS"},
+        {"name":"SNJ54LS266J","manufacturer":"Texas Instruments","datasheet":"sn74ls266","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS266W","manufacturer":"Texas Instruments","datasheet":"sn74ls266","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
     },
     {
@@ -3093,7 +3121,7 @@
       ],
       "timing": {"HC":{"rise":12,"fall":12,"vcc":[2,6],"note": "sn54hc4002 typ at 4.5 V, 50 pF. VCC 2-6 V (sn54hc4002 p.2)"}},
       "parts": [
-        {"name":"8404401CA","manufacturer":"Texas Instruments","datasheet":"cd74hc4002","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military","ceramic"]},
+        {"name":"8404401CA","manufacturer":"Texas Instruments","datasheet":"sn54hc4002","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military","ceramic"]},
         {"name":"CD54HC4002F3A","manufacturer":"Texas Instruments","datasheet":"cd74hc4002","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military","ceramic"]},
         {"name":"CD74HC4002E","manufacturer":"Texas Instruments","datasheet":"cd74hc4002","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"HC"},
         {"name":"CD74HC4002M","manufacturer":"Texas Instruments","datasheet":"cd74hc4002","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HC","flags":["obsolete"]},
@@ -4291,7 +4319,7 @@
     {
       "id": "1G10",
       "function": "NAND",
-      "description": "Single 3-input NAND gate, 6-pin SON (DRY, DSF)",
+      "description": "Single 3-input NAND gate",
       "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g10 p.1; packages DBV, DCK, DRY, DSF. DSBGA balls: sn74lvc1g10 p.1.",
       "pinouts": {
@@ -4327,7 +4355,7 @@
     {
       "id": "1G11",
       "function": "AND",
-      "description": "Single 3-input AND gate, 6-pin SON (DRY, DSF)",
+      "description": "Single 3-input AND gate",
       "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g11 p.3; packages DBV, DCK, DRY, DSF. DSBGA balls: sn74lvc1g11 p.3.",
       "pinouts": {
@@ -4370,7 +4398,7 @@
     {
       "id": "1G27",
       "function": "NOR",
-      "description": "Single 3-input NOR gate, 6-pin SON (DRY, DSF)",
+      "description": "Single 3-input NOR gate",
       "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g27 p.1; packages DBV, DCK, DRY, DSF. DSBGA balls: sn74lvc1g27 p.1.",
       "pinouts": {
@@ -4407,7 +4435,7 @@
     {
       "id": "1G332",
       "function": "OR",
-      "description": "Single 3-input OR gate, 6-pin SON (DRY, DSF)",
+      "description": "Single 3-input OR gate",
       "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g332 p.1; packages DBV, DCK, DRY, DSF. DSBGA balls: sn74lvc1g332 p.1.",
       "pinouts": {
@@ -4448,7 +4476,7 @@
     {
       "id": "1G386",
       "function": "XOR",
-      "description": "Single 3-input XOR (odd parity) gate, 6-pin SON (DRY, DSF)",
+      "description": "Single 3-input XOR (odd parity) gate",
       "drawer": ["Logic", "Gates"],
       "note": "Pinout from sn74lvc1g386 p.1; packages DBV, DCK, DRY, DSF. DSBGA balls: sn74lvc1g386 p.1.",
       "pinouts": {
@@ -5124,10 +5152,20 @@
         "LVC": {"rise":2.5,"fall":2.5,"vcc":[1.65,3.6],"inputMax":5.5,"note": "Typical at 3.3 V and 25 C (50 pF load), SN74LVC04A. VCC 1.65-3.6 V, inputs to 5.5 V (sn74lvc04a p.5, p.8)"}
       },
       "parts": [
+        {"name":"5962-8409801VCA","manufacturer":"Texas Instruments","datasheet":"sn54hc04-sp","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military","ceramic"]},
+        {"name":"5962-8409801VDA","manufacturer":"Texas Instruments","datasheet":"sn54hc04-sp","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"HC","flags":["military","ceramic"]},
+        {"name":"5962-86843012A","manufacturer":"Texas Instruments","datasheet":"sn54als04b","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"ALS","flags":["military","ceramic"]},
+        {"name":"5962-8684301DA","manufacturer":"Texas Instruments","datasheet":"sn54als04b","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"ALS","flags":["military","ceramic"]},
         {"name":"5962-89747012A","manufacturer":"Texas Instruments","datasheet":"sn74hct04","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"HCT","flags":["military","ceramic"]},
+        {"name":"5962-8974701CA","manufacturer":"Texas Instruments","datasheet":"sn54hct04-sp","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HCT","flags":["military","ceramic"]},
+        {"name":"5962-8974701VCA","manufacturer":"Texas Instruments","datasheet":"sn54hct04-sp","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HCT","flags":["military","ceramic"]},
+        {"name":"5962-8974701VDA","manufacturer":"Texas Instruments","datasheet":"sn54hct04-sp","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"HCT","flags":["military","ceramic"]},
         {"name":"5962-9680401Q2A","manufacturer":"Texas Instruments","datasheet":"sn54ahct04","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"AHCT","flags":["military","ceramic"]},
         {"name":"5962-9680401QCA","manufacturer":"Texas Instruments","datasheet":"sn54ahct04","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"AHCT","flags":["military","ceramic"]},
         {"name":"5962-9680501QCA","manufacturer":"Texas Instruments","datasheet":"sn54ahc04","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"AHC","flags":["military","ceramic"]},
+        {"name":"84098012A","manufacturer":"Texas Instruments","datasheet":"sn54hc04-sp","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]},
+        {"name":"8409801CA","manufacturer":"Texas Instruments","datasheet":"sn54hc04-sp","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military","ceramic"]},
+        {"name":"8409801DA","manufacturer":"Texas Instruments","datasheet":"sn54hc04-sp","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"HC","flags":["military","ceramic"]},
         {"name":"CD54ACT04F3A","manufacturer":"Texas Instruments","datasheet":"cd54act04","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"ACT","flags":["military","ceramic"]},
         {"name":"CD74AC04E","manufacturer":"Texas Instruments","datasheet":"cd74ac04","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"AC","vcc":[1.5,5.5]},
         {"name":"CD74AC04M96","manufacturer":"Texas Instruments","datasheet":"cd74ac04","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"AC","vcc":[1.5,5.5]},
@@ -5140,16 +5178,43 @@
         {"name":"CD74HCT04M","manufacturer":"Texas Instruments","datasheet":"cd74hct04","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HCT","flags":["obsolete"]},
         {"name":"CD74HCT04MT","manufacturer":"Texas Instruments","datasheet":"cd74hct04","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HCT","flags":["obsolete"]},
         {"name":"CD74HCT04PWR","manufacturer":"Texas Instruments","datasheet":"cd74hct04","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"HCT"},
+        {"name":"JM38510/00105BCA","manufacturer":"Texas Instruments","datasheet":"sn74s04","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"TTL","flags":["military","ceramic"],"vcc":[4.5,5.5]},
         {"name":"JM38510/00105BDA","manufacturer":"Texas Instruments","datasheet":"sn5404","package":"CFP","pinout":"w14_5404","footprint":"CFP-14","family":"TTL","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/07003BCA","manufacturer":"Texas Instruments","datasheet":"sn74s04","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/07003BDA","manufacturer":"Texas Instruments","datasheet":"sn74s04","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]},
         {"name":"JM38510/30003B2A","manufacturer":"Texas Instruments","datasheet":"sn5404","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/30003BCA","manufacturer":"Texas Instruments","datasheet":"sn74s04","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
         {"name":"JM38510/30003BDA","manufacturer":"Texas Instruments","datasheet":"sn5404","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
         {"name":"JM38510/30003SCA","manufacturer":"Texas Instruments","datasheet":"sn5404","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
         {"name":"JM38510/37006B2A","manufacturer":"Texas Instruments","datasheet":"sn74as04","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"ALS","flags":["military","ceramic"]},
         {"name":"JM38510/37006BCA","manufacturer":"Texas Instruments","datasheet":"sn74as04","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"ALS","flags":["military","ceramic"]},
         {"name":"JM38510/65701B2A","manufacturer":"Texas Instruments","datasheet":"sn74hc04","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]},
+        {"name":"JM38510/65701BCA","manufacturer":"Texas Instruments","datasheet":"sn54hc04-sp","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military","ceramic"]},
+        {"name":"JM38510/65751BCA","manufacturer":"Texas Instruments","datasheet":"sn54hct04-sp","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HCT","flags":["military","ceramic"]},
+        {"name":"M38510/00105BCA","manufacturer":"Texas Instruments","datasheet":"sn74s04","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"TTL","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/00105BDA","manufacturer":"Texas Instruments","datasheet":"sn74s04","package":"CFP","pinout":"w14_5404","footprint":"CFP-14","family":"TTL","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/07003BCA","manufacturer":"Texas Instruments","datasheet":"sn74s04","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/07003BDA","manufacturer":"Texas Instruments","datasheet":"sn74s04","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/30003B2A","manufacturer":"Texas Instruments","datasheet":"sn74s04","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/30003BCA","manufacturer":"Texas Instruments","datasheet":"sn74s04","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/30003BDA","manufacturer":"Texas Instruments","datasheet":"sn74s04","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/30003SCA","manufacturer":"Texas Instruments","datasheet":"sn74s04","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/37006B2A","manufacturer":"Texas Instruments","datasheet":"sn54als04b","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"ALS","flags":["military","ceramic"]},
+        {"name":"M38510/37006BCA","manufacturer":"Texas Instruments","datasheet":"sn54als04b","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"ALS","flags":["military","ceramic"]},
+        {"name":"M38510/65701B2A","manufacturer":"Texas Instruments","datasheet":"sn54hc04-sp","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]},
+        {"name":"M38510/65701BCA","manufacturer":"Texas Instruments","datasheet":"sn54hc04-sp","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military","ceramic"]},
+        {"name":"M38510/65751BCA","manufacturer":"Texas Instruments","datasheet":"sn54hct04-sp","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HCT","flags":["military","ceramic"]},
+        {"name":"SN5404J","manufacturer":"Texas Instruments","datasheet":"sn74s04","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"TTL","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN54ALS04BJ","manufacturer":"Texas Instruments","datasheet":"sn54als04b","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"ALS","flags":["military","ceramic"]},
+        {"name":"SN54AS04J","manufacturer":"Texas Instruments","datasheet":"sn54als04b","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"AS","flags":["military","ceramic"]},
+        {"name":"SN54HC04J","manufacturer":"Texas Instruments","datasheet":"sn54hc04-sp","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military","ceramic"]},
+        {"name":"SN54HCT04J","manufacturer":"Texas Instruments","datasheet":"sn54hct04-sp","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HCT","flags":["military","ceramic"]},
+        {"name":"SN54LS04J","manufacturer":"Texas Instruments","datasheet":"sn74s04","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN54S04J","manufacturer":"Texas Instruments","datasheet":"sn74s04","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]},
         {"name":"SN7404D","manufacturer":"Texas Instruments","datasheet":"sn74ls04","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"TTL","flags":["obsolete"]},
         {"name":"SN7404DR","manufacturer":"Texas Instruments","datasheet":"sn74ls04","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"TTL"},
         {"name":"SN7404N","manufacturer":"Texas Instruments","datasheet":"sn74ls04","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"TTL"},
+        {"name":"SN7404NE4","manufacturer":"Texas Instruments","datasheet":"sn74s04","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"TTL"},
         {"name":"SN74AC04D","manufacturer":"Texas Instruments","datasheet":"sn74ac04","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"AC","flags":["obsolete"]},
         {"name":"SN74AC04DBR","manufacturer":"Texas Instruments","datasheet":"sn74ac04","package":"SSOP","pinout":"p14","footprint":"SSOP-14","family":"AC"},
         {"name":"SN74AC04DR","manufacturer":"Texas Instruments","datasheet":"sn74ac04","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"AC"},
@@ -5198,8 +5263,10 @@
         {"name":"SN74ALS04BD","manufacturer":"Texas Instruments","datasheet":"sn74as04","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"ALS","flags":["obsolete"]},
         {"name":"SN74ALS04BDBR","manufacturer":"Texas Instruments","datasheet":"sn74as04","package":"SSOP","pinout":"p14","footprint":"SSOP-14","family":"ALS"},
         {"name":"SN74ALS04BDR","manufacturer":"Texas Instruments","datasheet":"sn74as04","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"ALS"},
+        {"name":"SN74ALS04BDRG4","manufacturer":"Texas Instruments","datasheet":"sn54als04b","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"ALS"},
         {"name":"SN74ALS04BN","manufacturer":"Texas Instruments","datasheet":"sn74as04","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"ALS"},
         {"name":"SN74ALS04BNSR","manufacturer":"Texas Instruments","datasheet":"sn74as04","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"ALS"},
+        {"name":"SN74ALS04BNSRE4","manufacturer":"Texas Instruments","datasheet":"sn54als04b","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"ALS"},
         {"name":"SN74ALVC04D","manufacturer":"Texas Instruments","datasheet":"sn74alvc04","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"ALVC"},
         {"name":"SN74ALVC04DGVR","manufacturer":"Texas Instruments","datasheet":"sn74alvc04","package":"TVSOP","pinout":"p14","footprint":"TVSOP-14","family":"ALVC"},
         {"name":"SN74ALVC04DR","manufacturer":"Texas Instruments","datasheet":"sn74alvc04","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"ALVC"},
@@ -5218,10 +5285,16 @@
         {"name":"SN74F04NSR","manufacturer":"Texas Instruments","datasheet":"sn74f04","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"F"},
         {"name":"SN74HC04D","manufacturer":"Texas Instruments","datasheet":"sn74hc04","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HC","flags":["obsolete"]},
         {"name":"SN74HC04DBR","manufacturer":"Texas Instruments","datasheet":"sn74hc04","package":"SSOP","pinout":"p14","footprint":"SSOP-14","family":"HC"},
+        {"name":"SN74HC04DBRE4","manufacturer":"Texas Instruments","datasheet":"sn54hc04-sp","package":"SSOP","pinout":"p14","footprint":"SSOP-14","family":"HC"},
+        {"name":"SN74HC04DBRG4","manufacturer":"Texas Instruments","datasheet":"sn54hc04-sp","package":"SSOP","pinout":"p14","footprint":"SSOP-14","family":"HC"},
+        {"name":"SN74HC04DR","manufacturer":"Texas Instruments","datasheet":"sn54hc04-sp","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HC"},
         {"name":"SN74HC04DRG3","manufacturer":"Texas Instruments","datasheet":"sn74hc04","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HC"},
+        {"name":"SN74HC04DRG4","manufacturer":"Texas Instruments","datasheet":"sn54hc04-sp","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HC"},
         {"name":"SN74HC04DT","manufacturer":"Texas Instruments","datasheet":"sn74hc04","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HC","flags":["obsolete"]},
         {"name":"SN74HC04N","manufacturer":"Texas Instruments","datasheet":"sn74hc04","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"HC"},
+        {"name":"SN74HC04NE4","manufacturer":"Texas Instruments","datasheet":"sn54hc04-sp","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"HC"},
         {"name":"SN74HC04NSR","manufacturer":"Texas Instruments","datasheet":"sn74hc04","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"HC"},
+        {"name":"SN74HC04NSRG4","manufacturer":"Texas Instruments","datasheet":"sn54hc04-sp","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"HC"},
         {"name":"SN74HC04PW","manufacturer":"Texas Instruments","datasheet":"sn74hc04","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"HC","flags":["obsolete"]},
         {"name":"SN74HC04PWR","manufacturer":"Texas Instruments","datasheet":"sn74hc04","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"HC"},
         {"name":"SN74HC04PWRG4","manufacturer":"Texas Instruments","datasheet":"sn74hc04","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"HC"},
@@ -5234,8 +5307,11 @@
         {"name":"SN74HCS04QPWRQ1","manufacturer":"Texas Instruments","datasheet":"sn74hcs04-q1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"HCS","flags":["automotive"]},
         {"name":"SN74HCT04D","manufacturer":"Texas Instruments","datasheet":"sn74hct04","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HCT","flags":["obsolete"]},
         {"name":"SN74HCT04DR","manufacturer":"Texas Instruments","datasheet":"sn74hct04","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HCT"},
+        {"name":"SN74HCT04DRE4","manufacturer":"Texas Instruments","datasheet":"sn54hct04-sp","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HCT"},
+        {"name":"SN74HCT04DRG4","manufacturer":"Texas Instruments","datasheet":"sn54hct04-sp","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HCT"},
         {"name":"SN74HCT04DT","manufacturer":"Texas Instruments","datasheet":"sn74hct04","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HCT","flags":["obsolete"]},
         {"name":"SN74HCT04N","manufacturer":"Texas Instruments","datasheet":"sn74hct04","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"HCT"},
+        {"name":"SN74HCT04NE4","manufacturer":"Texas Instruments","datasheet":"sn54hct04-sp","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"HCT"},
         {"name":"SN74HCT04NSR","manufacturer":"Texas Instruments","datasheet":"sn74hct04","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"HCT"},
         {"name":"SN74HCT04PW","manufacturer":"Texas Instruments","datasheet":"sn74hct04","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"HCT","flags":["obsolete"]},
         {"name":"SN74HCT04PWR","manufacturer":"Texas Instruments","datasheet":"sn74hct04","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"HCT"},
@@ -5244,7 +5320,9 @@
         {"name":"SN74LS04DBR","manufacturer":"Texas Instruments","datasheet":"sn74ls04","package":"SSOP","pinout":"p14","footprint":"SSOP-14","family":"LS"},
         {"name":"SN74LS04DG4","manufacturer":"Texas Instruments","datasheet":"sn74ls04","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS"},
         {"name":"SN74LS04DR","manufacturer":"Texas Instruments","datasheet":"sn74ls04","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS"},
+        {"name":"SN74LS04DRG4","manufacturer":"Texas Instruments","datasheet":"sn74s04","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS"},
         {"name":"SN74LS04N","manufacturer":"Texas Instruments","datasheet":"sn74ls04","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"LS"},
+        {"name":"SN74LS04NE4","manufacturer":"Texas Instruments","datasheet":"sn74s04","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"LS"},
         {"name":"SN74LS04NSR","manufacturer":"Texas Instruments","datasheet":"sn74ls04","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"LS"},
         {"name":"SN74LV04AD","manufacturer":"Texas Instruments","datasheet":"sn74lv04a","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LV","flags":["obsolete"]},
         {"name":"SN74LV04ADBR","manufacturer":"Texas Instruments","datasheet":"sn74lv04a","package":"SSOP","pinout":"p14","footprint":"SSOP-14","family":"LV"},
@@ -5273,8 +5351,27 @@
         {"name":"SN74LVC04AQPWRQ1","manufacturer":"Texas Instruments","datasheet":"sn74lvc04a-q1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC","flags":["automotive"],"vcc":[2,3.6]},
         {"name":"SN74LVC04ARGYR","manufacturer":"Texas Instruments","datasheet":"sn74lvc04a","package":"VQFN","pinout":"p14","footprint":"VQFN-14","family":"LVC"},
         {"name":"SN74S04D","manufacturer":"Texas Instruments","datasheet":"sn74ls04","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"S","flags":["obsolete"]},
+        {"name":"SN74S04DR","manufacturer":"Texas Instruments","datasheet":"sn74s04","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"S"},
         {"name":"SN74S04N","manufacturer":"Texas Instruments","datasheet":"sn74ls04","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"S"},
-        {"name":"SN74S04NSR","manufacturer":"Texas Instruments","datasheet":"sn74ls04","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"S"}
+        {"name":"SN74S04NE4","manufacturer":"Texas Instruments","datasheet":"sn74s04","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"S"},
+        {"name":"SN74S04NSR","manufacturer":"Texas Instruments","datasheet":"sn74ls04","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"S"},
+        {"name":"SNJ5404J","manufacturer":"Texas Instruments","datasheet":"sn74s04","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"TTL","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ5404W","manufacturer":"Texas Instruments","datasheet":"sn74s04","package":"CFP","pinout":"w14_5404","footprint":"CFP-14","family":"TTL","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54ALS04BFK","manufacturer":"Texas Instruments","datasheet":"sn54als04b","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"ALS","flags":["military","ceramic"]},
+        {"name":"SNJ54ALS04BJ","manufacturer":"Texas Instruments","datasheet":"sn54als04b","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"ALS","flags":["military","ceramic"]},
+        {"name":"SNJ54ALS04BW","manufacturer":"Texas Instruments","datasheet":"sn54als04b","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"ALS","flags":["military","ceramic"]},
+        {"name":"SNJ54AS04FK","manufacturer":"Texas Instruments","datasheet":"sn54als04b","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"AS","flags":["military","ceramic"]},
+        {"name":"SNJ54AS04J","manufacturer":"Texas Instruments","datasheet":"sn54als04b","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"AS","flags":["military","ceramic"]},
+        {"name":"SNJ54HC04FK","manufacturer":"Texas Instruments","datasheet":"sn54hc04-sp","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]},
+        {"name":"SNJ54HC04J","manufacturer":"Texas Instruments","datasheet":"sn54hc04-sp","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military","ceramic"]},
+        {"name":"SNJ54HC04W","manufacturer":"Texas Instruments","datasheet":"sn54hc04-sp","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"HC","flags":["military","ceramic"]},
+        {"name":"SNJ54HCT04FK","manufacturer":"Texas Instruments","datasheet":"sn54hct04-sp","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"HCT","flags":["military","ceramic"]},
+        {"name":"SNJ54HCT04J","manufacturer":"Texas Instruments","datasheet":"sn54hct04-sp","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HCT","flags":["military","ceramic"]},
+        {"name":"SNJ54LS04FK","manufacturer":"Texas Instruments","datasheet":"sn74s04","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS04J","manufacturer":"Texas Instruments","datasheet":"sn74s04","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS04W","manufacturer":"Texas Instruments","datasheet":"sn74s04","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54S04FK","manufacturer":"Texas Instruments","datasheet":"sn74s04","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54S04W","manufacturer":"Texas Instruments","datasheet":"sn74s04","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
     },
     {
@@ -5282,7 +5379,7 @@
       "function": "NOT",
       "description": "Hex Schmitt-trigger inverter",
       "drawer": ["Logic", "Gates"],
-      "note": "Standard hex-inverter pinout, identical in every 74_14 datasheet of this group (e.g. sn74hc14 p.3, sn74ac14 p.3-4, sn74auc14 p.1). WQFN (BQA) and VQFN (RGY) use the same pin numbers 1-14 plus a thermal pad (GND or floating, sn74ac14 p.4). No FK/LCCC part in this group, so no lccc20.",
+      "note": "Standard hex-inverter pinout, identical in every 74_14 datasheet of this group (e.g. sn74hc14 p.3, sn74ac14 p.3-4, sn74auc14 p.1). WQFN (BQA) and VQFN (RGY) use the same pin numbers 1-14 plus a thermal pad (GND or floating, sn74ac14 p.4). lccc20 (FK) from sn54act14 p.3 (Figure 4-3): the hex-inverter FK numbering of 74_04.",
       "pinouts": {
         "p14": [
           {"number":1,"name":"1A","role":"input"},
@@ -5299,6 +5396,28 @@
           {"number":12,"name":"6Y","role":"output"},
           {"number":13,"name":"6A","role":"input"},
           {"number":14,"name":"VCC","role":"power"}
+        ],
+        "lccc20": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"1A","role":"input"},
+          {"number":3,"name":"1Y","role":"output"},
+          {"number":4,"name":"2A","role":"input"},
+          {"number":5,"name":"NC","role":"nc"},
+          {"number":6,"name":"2Y","role":"output"},
+          {"number":7,"name":"NC","role":"nc"},
+          {"number":8,"name":"3A","role":"input"},
+          {"number":9,"name":"3Y","role":"output"},
+          {"number":10,"name":"GND","role":"ground"},
+          {"number":11,"name":"NC","role":"nc"},
+          {"number":12,"name":"4Y","role":"output"},
+          {"number":13,"name":"4A","role":"input"},
+          {"number":14,"name":"5Y","role":"output"},
+          {"number":15,"name":"NC","role":"nc"},
+          {"number":16,"name":"5A","role":"input"},
+          {"number":17,"name":"NC","role":"nc"},
+          {"number":18,"name":"6Y","role":"output"},
+          {"number":19,"name":"6A","role":"input"},
+          {"number":20,"name":"VCC","role":"power"}
         ]
       },
       "gates": [
@@ -5325,6 +5444,9 @@
         "LS": {"rise":15,"fall":15,"vcc":[4.75,5.25],"note": "Typical at 5 V and 25 C (15 pF, 2 kohm load), SN74LS14 (sn7414 p.5, same table as SN7414). VCC 4.75-5.25 V (sn7414 p.4)"}
       },
       "parts": [
+        {"name":"5962-9218301M2A","manufacturer":"Texas Instruments","datasheet":"sn54act14","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"ACT","flags":["military","ceramic"]},
+        {"name":"5962-9218301MCA","manufacturer":"Texas Instruments","datasheet":"sn54act14","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"ACT","flags":["military","ceramic"]},
+        {"name":"5962-9218301MDA","manufacturer":"Texas Instruments","datasheet":"sn54act14","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"ACT","flags":["military","ceramic"]},
         {"name":"5962-9680101QCA","manufacturer":"Texas Instruments","datasheet":"sn54ahct14-sp","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"AHCT","flags":["military","ceramic"]},
         {"name":"5962-9680201QCA","manufacturer":"Texas Instruments","datasheet":"sn54ahc14","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"AHC","flags":["military","ceramic"]},
         {"name":"CD74AC14E","manufacturer":"Texas Instruments","datasheet":"cd74ac14","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"AC","vcc":[1.5,5.5]},
@@ -5354,12 +5476,15 @@
         {"name":"SN74AC14QPWRQ1","manufacturer":"Texas Instruments","datasheet":"sn74ac14-q1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"AC","flags":["automotive"]},
         {"name":"SN74AC14WBQARQ1","manufacturer":"Texas Instruments","datasheet":"sn74ac14-q1","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"AC","flags":["automotive"]},
         {"name":"SN74ACT14BQAR","manufacturer":"Texas Instruments","datasheet":"sn74act14","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"ACT"},
+        {"name":"SN74ACT14D","manufacturer":"Texas Instruments","datasheet":"sn54act14","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"ACT","flags":["obsolete"]},
         {"name":"SN74ACT14DBR","manufacturer":"Texas Instruments","datasheet":"sn74act14","package":"SSOP","pinout":"p14","footprint":"SSOP-14","family":"ACT"},
         {"name":"SN74ACT14DR","manufacturer":"Texas Instruments","datasheet":"sn74act14","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"ACT"},
         {"name":"SN74ACT14N","manufacturer":"Texas Instruments","datasheet":"sn74act14","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"ACT"},
         {"name":"SN74ACT14NSR","manufacturer":"Texas Instruments","datasheet":"sn74act14","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"ACT"},
+        {"name":"SN74ACT14NSRG4","manufacturer":"Texas Instruments","datasheet":"sn54act14","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"ACT"},
         {"name":"SN74ACT14PW","manufacturer":"Texas Instruments","datasheet":"sn74act14","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"ACT","flags":["obsolete"]},
         {"name":"SN74ACT14PWR","manufacturer":"Texas Instruments","datasheet":"sn74act14","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"ACT"},
+        {"name":"SN74ACT14PWR1G4","manufacturer":"Texas Instruments","datasheet":"sn54act14","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"ACT"},
         {"name":"SN74AHC14BQAR","manufacturer":"Texas Instruments","datasheet":"sn74ahc14","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"AHC"},
         {"name":"SN74AHC14D","manufacturer":"Texas Instruments","datasheet":"sn74ahc14","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"AHC","flags":["obsolete"]},
         {"name":"SN74AHC14DBR","manufacturer":"Texas Instruments","datasheet":"sn74ahc14","package":"SSOP","pinout":"p14","footprint":"SSOP-14","family":"AHC"},
@@ -5454,7 +5579,10 @@
         {"name":"SN74LVC14AQDRQ1","manufacturer":"Texas Instruments","datasheet":"sn74lvc14a-q1","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LVC","flags":["automotive"],"vcc":[2,3.6]},
         {"name":"SN74LVC14AQPWREP","manufacturer":"Texas Instruments","datasheet":"sn74lvc14a-ep","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC","flags":["enhanced"],"vcc":[2,3.6]},
         {"name":"SN74LVC14AQPWRG4Q1","manufacturer":"Texas Instruments","datasheet":"sn74lvc14a-q1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LVC","flags":["automotive"],"vcc":[2,3.6]},
-        {"name":"SN74LVC14ARGYR","manufacturer":"Texas Instruments","datasheet":"sn74lvc14a","package":"VQFN","pinout":"p14","footprint":"VQFN-14","family":"LVC"}
+        {"name":"SN74LVC14ARGYR","manufacturer":"Texas Instruments","datasheet":"sn74lvc14a","package":"VQFN","pinout":"p14","footprint":"VQFN-14","family":"LVC"},
+        {"name":"SNJ54ACT14FK","manufacturer":"Texas Instruments","datasheet":"sn54act14","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"ACT","flags":["military","ceramic"]},
+        {"name":"SNJ54ACT14J","manufacturer":"Texas Instruments","datasheet":"sn54act14","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"ACT","flags":["military","ceramic"]},
+        {"name":"SNJ54ACT14W","manufacturer":"Texas Instruments","datasheet":"sn54act14","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"ACT","flags":["military","ceramic"]}
       ]
     },
     {
@@ -5462,7 +5590,7 @@
       "function": "NOT",
       "description": "Hex unbuffered inverter",
       "drawer": ["Logic", "Gates"],
-      "note": "Pinout from sn74hcu04 p.1 (D, DB, N, NS, PW, J); same in cd74hcu04 p.1, sn74ahcu04 p.1, sn74lvcu04a p.1, sn74lvu04a p.1, sn74aucu04 p.1 (RGY: same numbering 1-14)",
+      "note": "Pinout from sn74hcu04 p.1 (D, DB, N, NS, PW, J); same in cd74hcu04 p.1, sn74ahcu04 p.1, sn74lvcu04a p.1, sn74lvu04a p.1, sn74aucu04 p.1 (RGY: same numbering 1-14) | lccc20 (FK) from sn54hcu04 p.1",
       "pinouts": {
         "p14": [
           {"number":1,"name":"1A","role":"input"},
@@ -5479,6 +5607,28 @@
           {"number":12,"name":"6Y","role":"output"},
           {"number":13,"name":"6A","role":"input"},
           {"number":14,"name":"VCC","role":"power"}
+        ],
+        "lccc20": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"1A","role":"input"},
+          {"number":3,"name":"1Y","role":"output"},
+          {"number":4,"name":"2A","role":"input"},
+          {"number":5,"name":"NC","role":"nc"},
+          {"number":6,"name":"2Y","role":"output"},
+          {"number":7,"name":"NC","role":"nc"},
+          {"number":8,"name":"3A","role":"input"},
+          {"number":9,"name":"3Y","role":"output"},
+          {"number":10,"name":"GND","role":"ground"},
+          {"number":11,"name":"NC","role":"nc"},
+          {"number":12,"name":"4Y","role":"output"},
+          {"number":13,"name":"4A","role":"input"},
+          {"number":14,"name":"5Y","role":"output"},
+          {"number":15,"name":"NC","role":"nc"},
+          {"number":16,"name":"5A","role":"input"},
+          {"number":17,"name":"NC","role":"nc"},
+          {"number":18,"name":"6Y","role":"output"},
+          {"number":19,"name":"6A","role":"input"},
+          {"number":20,"name":"VCC","role":"power"}
         ]
       },
       "gates": [
@@ -5497,11 +5647,13 @@
         "AUC": {"rise":0.9,"fall":0.9,"vcc":[0.8,2.7],"inputMax":3.6,"note": "Typical at 1.8 V and 25 C (15 pF load), SN74AUCU04. VCC 0.8-2.7 V, inputs to 3.6 V (sn74aucu04 p.2, p.3)"}
       },
       "parts": [
+        {"name":"86010012A","manufacturer":"Texas Instruments","datasheet":"sn54hcu04","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]},
         {"name":"8601001CA","manufacturer":"Texas Instruments","datasheet":"sn74hcu04","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military","ceramic"]},
         {"name":"CD74HCU04E","manufacturer":"Texas Instruments","datasheet":"cd74hcu04","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"HC"},
         {"name":"CD74HCU04M","manufacturer":"Texas Instruments","datasheet":"cd74hcu04","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HC","flags":["obsolete"]},
         {"name":"CD74HCU04M96","manufacturer":"Texas Instruments","datasheet":"cd74hcu04","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HC"},
         {"name":"CD74HCU04PWR","manufacturer":"Texas Instruments","datasheet":"cd74hcu04","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"HC"},
+        {"name":"SN54HCU04J","manufacturer":"Texas Instruments","datasheet":"sn54hcu04","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military","ceramic"]},
         {"name":"SN74AHCU04D","manufacturer":"Texas Instruments","datasheet":"sn74ahcu04","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"AHC","flags":["obsolete"]},
         {"name":"SN74AHCU04DBR","manufacturer":"Texas Instruments","datasheet":"sn74ahcu04","package":"SSOP","pinout":"p14","footprint":"SSOP-14","family":"AHC"},
         {"name":"SN74AHCU04DR","manufacturer":"Texas Instruments","datasheet":"sn74ahcu04","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"AHC"},
@@ -5516,9 +5668,11 @@
         {"name":"SN74HCU04DR","manufacturer":"Texas Instruments","datasheet":"sn74hcu04","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HC"},
         {"name":"SN74HCU04DT","manufacturer":"Texas Instruments","datasheet":"sn74hcu04","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HC","flags":["obsolete"]},
         {"name":"SN74HCU04N","manufacturer":"Texas Instruments","datasheet":"sn74hcu04","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"HC"},
+        {"name":"SN74HCU04NE4","manufacturer":"Texas Instruments","datasheet":"sn54hcu04","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"HC"},
         {"name":"SN74HCU04NSR","manufacturer":"Texas Instruments","datasheet":"sn74hcu04","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"HC"},
         {"name":"SN74HCU04PW","manufacturer":"Texas Instruments","datasheet":"sn74hcu04","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"HC","flags":["obsolete"]},
         {"name":"SN74HCU04PWR","manufacturer":"Texas Instruments","datasheet":"sn74hcu04","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"HC"},
+        {"name":"SN74HCU04PWRG4","manufacturer":"Texas Instruments","datasheet":"sn54hcu04","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"HC"},
         {"name":"SN74HCU04PWT","manufacturer":"Texas Instruments","datasheet":"sn74hcu04","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"HC","flags":["obsolete"]},
         {"name":"SN74LVCU04AD","manufacturer":"Texas Instruments","datasheet":"sn74lvcu04a","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LVC"},
         {"name":"SN74LVCU04ADBR","manufacturer":"Texas Instruments","datasheet":"sn74lvcu04a","package":"SSOP","pinout":"p14","footprint":"SSOP-14","family":"LVC"},
@@ -5534,7 +5688,9 @@
         {"name":"SN74LVU04APW","manufacturer":"Texas Instruments","datasheet":"sn74lvu04a","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LV","flags":["obsolete"]},
         {"name":"SN74LVU04APWR","manufacturer":"Texas Instruments","datasheet":"sn74lvu04a","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LV"},
         {"name":"SN74LVU04APWT","manufacturer":"Texas Instruments","datasheet":"sn74lvu04a","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LV","flags":["obsolete"]},
-        {"name":"SN74LVU04AQPWRG4Q1","manufacturer":"Texas Instruments","datasheet":"sn74lvu04a-q1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LV","flags":["automotive"]}
+        {"name":"SN74LVU04AQPWRG4Q1","manufacturer":"Texas Instruments","datasheet":"sn74lvu04a-q1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LV","flags":["automotive"]},
+        {"name":"SNJ54HCU04FK","manufacturer":"Texas Instruments","datasheet":"sn54hcu04","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]},
+        {"name":"SNJ54HCU04J","manufacturer":"Texas Instruments","datasheet":"sn54hcu04","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"HC","flags":["military","ceramic"]}
       ]
     },
     {
@@ -5542,7 +5698,7 @@
       "function": "NOT",
       "description": "Hex inverter, open-drain outputs",
       "drawer": ["Logic", "Gates"],
-      "note": "Pinout from sn74hc05 p.3 (D, N, NS, PW, J); same in sn74ls05 p.1, cd74ac05 p.3 / sn74ac05-q1 p.3 / cd74act05 p.3 / sn74act05-q1 p.3 (BQA: same numbering 1-14 plus thermal pad), sn74hcs05 p.3 (DYY same), sn74ahc05 p.1, sn74als05a p.1, sn74lv05a p.1 | JM38510/07004BCA: SN54S05: VCC 4.5-5.5 V (sn74ls05 p.6)",
+      "note": "Pinout from sn74hc05 p.3 (D, N, NS, PW, J); same in sn74ls05 p.1, cd74ac05 p.3 / sn74ac05-q1 p.3 / cd74act05 p.3 / sn74act05-q1 p.3 (BQA: same numbering 1-14 plus thermal pad), sn74hcs05 p.3 (DYY same), sn74ahc05 p.1, sn74als05a p.1, sn74lv05a p.1 | JM38510/07004BCA: SN54S05: VCC 4.5-5.5 V (sn74ls05 p.6) | lccc20 (FK) and w14_5405 from sn54ls05 p.1: w14_5405 is the SN54LS05/SN54S05 W (CFP) pinout, VCC on pin 4 and GND on pin 11",
       "pinouts": {
         "p14": [
           {"number":1,"name":"1A","role":"input"},
@@ -5559,6 +5715,44 @@
           {"number":12,"name":"6Y","role":"output"},
           {"number":13,"name":"6A","role":"input"},
           {"number":14,"name":"VCC","role":"power"}
+        ],
+        "lccc20": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"1A","role":"input"},
+          {"number":3,"name":"1Y","role":"output"},
+          {"number":4,"name":"2A","role":"input"},
+          {"number":5,"name":"NC","role":"nc"},
+          {"number":6,"name":"2Y","role":"output"},
+          {"number":7,"name":"NC","role":"nc"},
+          {"number":8,"name":"3A","role":"input"},
+          {"number":9,"name":"3Y","role":"output"},
+          {"number":10,"name":"GND","role":"ground"},
+          {"number":11,"name":"NC","role":"nc"},
+          {"number":12,"name":"4Y","role":"output"},
+          {"number":13,"name":"4A","role":"input"},
+          {"number":14,"name":"5Y","role":"output"},
+          {"number":15,"name":"NC","role":"nc"},
+          {"number":16,"name":"5A","role":"input"},
+          {"number":17,"name":"NC","role":"nc"},
+          {"number":18,"name":"6Y","role":"output"},
+          {"number":19,"name":"6A","role":"input"},
+          {"number":20,"name":"VCC","role":"power"}
+        ],
+        "w14_5405": [
+          {"number":1,"name":"1A","role":"input"},
+          {"number":2,"name":"2Y","role":"output"},
+          {"number":3,"name":"2A","role":"input"},
+          {"number":4,"name":"VCC","role":"power"},
+          {"number":5,"name":"3A","role":"input"},
+          {"number":6,"name":"3Y","role":"output"},
+          {"number":7,"name":"4A","role":"input"},
+          {"number":8,"name":"4Y","role":"output"},
+          {"number":9,"name":"5A","role":"input"},
+          {"number":10,"name":"5Y","role":"output"},
+          {"number":11,"name":"GND","role":"ground"},
+          {"number":12,"name":"6Y","role":"output"},
+          {"number":13,"name":"6A","role":"input"},
+          {"number":14,"name":"1Y","role":"output"}
         ]
       },
       "gates": [
@@ -5584,6 +5778,7 @@
       },
       "parts": [
         {"name":"5962-9068601QCA","manufacturer":"Texas Instruments","datasheet":"cd74act05","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"ACT","flags":["military","ceramic"]},
+        {"name":"CD54ACT05F3A","manufacturer":"Texas Instruments","datasheet":"cd54act05","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"ACT","flags":["military","ceramic"]},
         {"name":"CD74AC05BQAR","manufacturer":"Texas Instruments","datasheet":"cd74ac05","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"AC","vcc":[1.5,5.5]},
         {"name":"CD74AC05E","manufacturer":"Texas Instruments","datasheet":"cd74ac05","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"AC","vcc":[1.5,5.5]},
         {"name":"CD74AC05M","manufacturer":"Texas Instruments","datasheet":"cd74ac05","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"AC","flags":["obsolete"],"vcc":[1.5,5.5]},
@@ -5591,10 +5786,15 @@
         {"name":"CD74AC05PWR","manufacturer":"Texas Instruments","datasheet":"cd74ac05","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"AC","vcc":[1.5,5.5]},
         {"name":"CD74ACT05BQAR","manufacturer":"Texas Instruments","datasheet":"cd74act05","package":"WQFN","pinout":"p14","footprint":"WQFN-14","family":"ACT"},
         {"name":"CD74ACT05E","manufacturer":"Texas Instruments","datasheet":"cd74act05","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"ACT"},
+        {"name":"CD74ACT05EE4","manufacturer":"Texas Instruments","datasheet":"cd54act05","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"ACT"},
         {"name":"CD74ACT05M","manufacturer":"Texas Instruments","datasheet":"cd74act05","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"ACT","flags":["obsolete"]},
         {"name":"CD74ACT05M96","manufacturer":"Texas Instruments","datasheet":"cd74act05","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"ACT"},
+        {"name":"CD74ACT05M96G4","manufacturer":"Texas Instruments","datasheet":"cd54act05","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"ACT"},
         {"name":"CD74ACT05PWR","manufacturer":"Texas Instruments","datasheet":"cd74act05","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"ACT"},
         {"name":"JM38510/07004BCA","manufacturer":"Texas Instruments","datasheet":"sn74ls05","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"M38510/07004BCA","manufacturer":"Texas Instruments","datasheet":"sn74s05","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN54LS05J","manufacturer":"Texas Instruments","datasheet":"sn54ls05","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN54S05J","manufacturer":"Texas Instruments","datasheet":"sn74s05","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]},
         {"name":"SN7405N","manufacturer":"Texas Instruments","datasheet":"sn74ls05","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"TTL"},
         {"name":"SN7405NE4","manufacturer":"Texas Instruments","datasheet":"sn74ls05","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"TTL"},
         {"name":"SN74AC05PWRQ1","manufacturer":"Texas Instruments","datasheet":"sn74ac05-q1","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"AC","flags":["automotive"]},
@@ -5628,6 +5828,7 @@
         {"name":"SN74LS05DBR","manufacturer":"Texas Instruments","datasheet":"sn74ls05","package":"SSOP","pinout":"p14","footprint":"SSOP-14","family":"LS"},
         {"name":"SN74LS05DR","manufacturer":"Texas Instruments","datasheet":"sn74ls05","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LS"},
         {"name":"SN74LS05N","manufacturer":"Texas Instruments","datasheet":"sn74ls05","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"LS"},
+        {"name":"SN74LS05NE4","manufacturer":"Texas Instruments","datasheet":"sn54ls05","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"LS"},
         {"name":"SN74LS05NSR","manufacturer":"Texas Instruments","datasheet":"sn74ls05","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"LS"},
         {"name":"SN74LV05AD","manufacturer":"Texas Instruments","datasheet":"sn74lv05a","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"LV","flags":["obsolete"]},
         {"name":"SN74LV05ADGVR","manufacturer":"Texas Instruments","datasheet":"sn74lv05a","package":"TVSOP","pinout":"p14","footprint":"TVSOP-14","family":"LV"},
@@ -5638,7 +5839,12 @@
         {"name":"SN74LV05APWT","manufacturer":"Texas Instruments","datasheet":"sn74lv05a","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"LV","flags":["obsolete"]},
         {"name":"SN74S05D","manufacturer":"Texas Instruments","datasheet":"sn74ls05","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"S"},
         {"name":"SN74S05N","manufacturer":"Texas Instruments","datasheet":"sn74ls05","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"S"},
-        {"name":"SN74S05NSR","manufacturer":"Texas Instruments","datasheet":"sn74ls05","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"S"}
+        {"name":"SN74S05NSR","manufacturer":"Texas Instruments","datasheet":"sn74ls05","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"S"},
+        {"name":"SNJ54LS05FK","manufacturer":"Texas Instruments","datasheet":"sn54ls05","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS05J","manufacturer":"Texas Instruments","datasheet":"sn54ls05","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS05W","manufacturer":"Texas Instruments","datasheet":"sn54ls05","package":"CFP","pinout":"w14_5405","footprint":"CFP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54S05FK","manufacturer":"Texas Instruments","datasheet":"sn74s05","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54S05W","manufacturer":"Texas Instruments","datasheet":"sn74s05","package":"CFP","pinout":"w14_5405","footprint":"CFP-14","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
     },
     {
@@ -6890,12 +7096,15 @@
       "parts": [
         {"name":"CD4069UBE","manufacturer":"Texas Instruments","datasheet":"cd4069ub","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"C"},
         {"name":"CD4069UBEE4","manufacturer":"Texas Instruments","datasheet":"cd4069ub","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"C"},
+        {"name":"CD4069UBF3A","manufacturer":"Texas Instruments","datasheet":"cd4069ub-mil","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"C","flags":["military","ceramic"]},
         {"name":"CD4069UBM","manufacturer":"Texas Instruments","datasheet":"cd4069ub","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"C"},
+        {"name":"CD4069UBM96","manufacturer":"Texas Instruments","datasheet":"cd4069ub-mil","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"C"},
         {"name":"CD4069UBMT","manufacturer":"Texas Instruments","datasheet":"cd4069ub","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"C","flags":["obsolete"]},
         {"name":"CD4069UBNSR","manufacturer":"Texas Instruments","datasheet":"cd4069ub","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"C"},
         {"name":"CD4069UBPW","manufacturer":"Texas Instruments","datasheet":"cd4069ub","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"C","flags":["obsolete"]},
         {"name":"CD4069UBPWR","manufacturer":"Texas Instruments","datasheet":"cd4069ub","package":"TSSOP","pinout":"p14","footprint":"TSSOP-14","family":"C"},
-        {"name":"JM38510/17401BCA","manufacturer":"Texas Instruments","datasheet":"cd4069ub","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"C","flags":["military","ceramic"]}
+        {"name":"JM38510/17401BCA","manufacturer":"Texas Instruments","datasheet":"cd4069ub","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"C","flags":["military","ceramic"]},
+        {"name":"M38510/17401BCA","manufacturer":"Texas Instruments","datasheet":"cd4069ub-mil","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"C","flags":["military","ceramic"]}
       ]
     },
     {

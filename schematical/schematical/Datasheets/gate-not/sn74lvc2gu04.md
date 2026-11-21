@@ -122,9 +122,10 @@ Machine Model (A115-A), 1000-V Charged-Device Model (C101).
 | ^ | ^ | V~CC~ = 3 V | | 16 | ^ |
 | ^ | ^ | ^ | | 24 | ^ |
 | ^ | ^ | V~CC~ = 4.5 V | | 32 | ^ |
-| T~A~ | Operating free-air temperature | | -40 | 125 | °C |
+| T~A~ | Operating free-air temperature [2] | | -40 | 125 | °C |
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
+[2] Source conflict: this table (p.3) gives –40 to 125 °C with no package named; the package option addendum (p.7) lists SN74LVC2GU04YZPR at -40 to 85 and the DBV and DCK orderables at -40 to 125.
 ```
 
 ## Electrical characteristics
@@ -264,3 +265,7 @@ SN74LVC2GU04YZPR | Reel of 3000 | -40 to 85 | CDN
   - Unconfirmed: the features list (p.1) says I~off~ supports live
     insertion, partial-power-down mode and back-drive protection; the
     electrical characteristics (p.3) have no I~off~ row.
+  - Source conflict: the recommended operating conditions (p.3) give
+    T~A~ –40 to 125 °C for every package; the package option addendum
+    (p.7) lists SN74LVC2GU04YZPR at -40 to 85 (see the recommended
+    operating conditions).

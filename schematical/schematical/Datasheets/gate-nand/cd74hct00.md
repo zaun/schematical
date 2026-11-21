@@ -141,7 +141,7 @@ are observed.
 | I~O~ | Continuous output current | V~O~ > -0.5 V or V~O~ < V~CC~ + 0.5 V [4] | | ±25 | mA |
 | | Continuous current through V~CC~ or GND | | | ±50 | mA |
 | T~J~ | Junction temperature [3] | Plastic package | | 150 | °C |
-| T~J~ | Junction temperature [3] | Hermetic package or die | | 175 | °C |
+| ^ | ^ | Hermetic package or die | | 175 | °C |
 | | Maximum lead temperature (soldering 10s) | SOIC - lead tips only | | 300 | °C |
 | T~stg~ | Storage temperature | | -65 | 150 | °C |
 

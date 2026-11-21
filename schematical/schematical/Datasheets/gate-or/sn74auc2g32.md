@@ -248,8 +248,8 @@ Conversion note: the markings above are from the package option addendum, and th
 
 ## Conversion notes
 
-- Source pages 1–5 converted; the package option addendum (p.6), tape
-  and reel and mechanical pages (6–16) dropped, replaced by the
+- Source pages 1–5 converted; the package option addendum (p.6–7), tape
+  and reel and mechanical pages (8–16) dropped, replaced by the
   generated Package and Ordering sections.
 - Dropped: the features list except the lines quoted, the NanoFree
   package text, the enable/disable-time, pulse-duration and setup/hold

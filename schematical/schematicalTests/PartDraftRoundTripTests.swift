@@ -54,12 +54,12 @@ enum PartKindRoundTrip {
 
 @MainActor
 final class PartDraftRoundTripTests: XCTestCase {
-    /// Every gate part (3438) round-trips through the draft, and the backend
+    /// Every gate part (3564) round-trips through the draft, and the backend
     /// accepts each encoded file.
     func testEveryGatePartRoundTrips() {
         let count = PartKindRoundTrip.check(kind: "gate")
         print(count.line)
-        XCTAssertEqual(count.checked, 3438)
+        XCTAssertEqual(count.checked, 3564)
         XCTAssertEqual(count.mismatched.count, 0, PartKindRoundTrip.report(count, kind: "gate"))
         XCTAssertEqual(count.rejected.count, 0, PartKindRoundTrip.report(count, kind: "gate"))
         XCTAssertEqual(count.withExtras.count, 0, PartKindRoundTrip.report(count, kind: "gate"))
