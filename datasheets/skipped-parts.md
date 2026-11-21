@@ -878,12 +878,17 @@ for their family and maker) but that were skipped for their datasheet. Written b
 
 | Part(s) | Device | Would have gone into | Why skipped |
 |---|---|---|---|
+| LT3080EMS8E#TRPBF, LT3080EST#TRPBF, MAX38902AATA+T | Analog Devices linear adjustable regulator | `regulator` / Power → Regulators → Linear | output not set by a feedback divider |
 | LT8622SAV#PBF | Analog Devices switching regulator | `regulator` / Power → Regulators → Switching | not in the datasheet's ordering table |
+| LT8627SPJV#TRMPBF, MAX17222ELT+T, MAX17225ELT+T, MAX17227AATA+T, MAX17227JANT+T, MAX77827DEFD+T, MAX77839BEFQ+T | Analog Devices switching regulator | `regulator` / Power → Regulators → Switching | output not set by a feedback divider |
+| LR12LG-G | Microchip Technology linear adjustable regulator | `regulator` / Power → Regulators → Linear | no pin numbers in the datasheet (its pin drawing is a photo; later revisions number it both ways) |
 | MIC29203BU, MIC37102BMTR | Microchip Technology linear adjustable regulator | `regulator` / Power → Regulators → Linear | not in the datasheet's ordering table |
+| LR645LG-G | Microchip Technology linear adjustable regulator | `regulator` / Power → Regulators → Linear | output not set by a feedback divider |
 | MIC5246-2.6BM5, MIC5246-2.7BM5, MIC5246-3.0BM5, MIC5246-3.0BM5TR | Microchip Technology linear fixed-output regulator | `regulator` / Power → Regulators → Linear | no datasheet on the maker's site (rocelec.widen.net) |
 | MIC5303-1.8YMT-TR | Microchip Technology linear fixed-output regulator | `regulator` / Power → Regulators → Linear | no datasheet on the maker's site (ww1.microchip.com) |
 | MIC5205-1.88BM5TR, MIC5205-2.85BM5, MIC5205-2.85BM5 TR, MIC5205-3.1BM5 TR, MIC5207-3.1BM5, MIC5207-3.6BM5, MIC5209-2.5BU TR, MIC5209-4.2BS TR, MIC5233-3.0BM5, MIC5238-1.2YD5 TR, MIC5255-3.1YM5, TC1185-3.3VCT713, TC1185-5.0VCT713 | Microchip Technology linear fixed-output regulator | `regulator` / Power → Regulators → Linear | not in the datasheet's ordering table |
 | LM2574-3.3BWM, LM2574BWM, LX7167ACLD-TR, MCP1257T-E/UN, MCP16415T-I/MN, MCP16415T-I/UN, MIC2177-5.0YWM, MIC2205-1.5YML, MIC2285AYMT, MIC2571-2YMM, MIC4575-5.0BWM | Microchip Technology switching regulator | `regulator` / Power → Regulators → Switching | not in the datasheet's ordering table |
+| MIC2141BM5 | Microchip Technology switching regulator | `regulator` / Power → Regulators → Switching | output not set by a feedback divider |
 | LM317MDCYR, LM317MKVURG3, LM317T/LF01, LP3874EMPX-ADJ | Texas Instruments linear adjustable regulator | `regulator` / Power → Regulators → Linear | not in the datasheet's ordering table |
 | LP2985AIM5X-3.0/NOPB, LP2985AITPX-3.0/NOPB | Texas Instruments linear fixed-output regulator | `regulator` / Power → Regulators → Linear | not in the datasheet's ordering table |
 | LM2590HVS-ADJ, LM2788MM-2.0, LM3204TLX/NOPB | Texas Instruments switching regulator | `regulator` / Power → Regulators → Switching | no datasheet on the maker's site (rocelec.widen.net) |
