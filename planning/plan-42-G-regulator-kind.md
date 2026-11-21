@@ -40,8 +40,8 @@ plan-42-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-42-A § Prerequisites MET | plan-42-A's table | NOT MET (2026-11-15: plan-42 not started) |
-| plan-42-F complete | `ls planning/completed/plan-42-F-*.md` → exists | NOT MET (2026-11-15: not started) |
+| plan-42-A § Prerequisites MET | plan-42-A's table | MET (2026-11-21: plan-42-A § Prerequisites re-run and met; see plan-42-A) |
+| plan-42-F complete | `ls planning/completed/plan-42-F-*.md` → exists | MET (2026-11-21: `planning/completed/plan-42-F-regulator-footprints-leadless-adi.md`) |
 | No `regulator` kind yet | `grep -c 'PART_REGULATOR' backend/include/parts.h` → 0 | MET (2026-11-15 at 40ccd5fc: 0) |
 | `voltage_check` has the planning-time signature (3 call sites outside the tests) | `grep -rn 'voltage_check(' backend/src schematical/schematical \| grep -v '^backend/src/voltage.c' \| wc -l` → 3 | MET (2026-11-15 at 40ccd5fc: 3 — `circuit.c:261`, `VoltageCheck.swift:81`, `:87`) |
 
@@ -381,17 +381,17 @@ supplies):
 
 ### Phase 1 — The kind, its facts and the model
 
-- [ ] `parts.h`: `PART_REGULATOR` after the last `PartKind` (`grep -n 'PART_'
+- [x] `parts.h`: `PART_REGULATOR` after the last `PartKind` (`grep -n 'PART_'
       backend/include/parts.h`), `PartRegulator`,
       `Part.regulator` — only if absent (`grep -c 'PART_REGULATOR'
       backend/include/parts.h` → 0 first; a hit from another plan marks
       this step moot with that output).
-- [ ] `models/regulator.c`: `REGULATOR_KIND` (§ 3.1 keys, roles, errors),
+- [x] `models/regulator.c`: `REGULATOR_KIND` (§ 3.1 keys, roles, errors),
       `pin_open_drain` (the `pg` pins), `pin_analog` (the `"analog"` list),
       `REGULATOR_MODEL` (§ 3.2); `model_pins.h` helpers; one line in
       `KINDS[]` (`kinds.c`); the file in `backend/CMakeLists.txt`'s library
       sources.
-- [ ] Tests: `tests/support/listing.c` (the kind name and its facts line:
+- [x] Tests: `tests/support/listing.c` (the kind name and its facts line:
       type, count, mixed, adjustable, vout/vref lists, the scalars),
       `TRACE_LAST_KIND` → `PART_REGULATOR` (`trace_check.c:22`), the two
       arrays of `listing_check.c:50–51` → `PART_REGULATOR + 1`;
@@ -399,36 +399,36 @@ supplies):
       cases (a)–(i); `logic_test(regulator_test)` in `CMakeLists.txt`.
 
 Acceptance: the kind loads, refuses bad keys and switches its output.
-  Check: `cmake --build /tmp/logic-p42 -j8 && ctest --test-dir /tmp/logic-p42 -R 'regulator_test|listing_check|trace_check|library_check' --output-on-failure` → 4 of 4 passed, goldens unchanged (est. 3 min).
+  Check: `cmake --build /tmp/logic-p42 -j8 && ctest --test-dir /tmp/logic-p42 -R 'regulator_test|listing_check|trace_check|library_check' --output-on-failure` → 4 of 4 passed, goldens unchanged (est. 3 min). Observed 2026-11-21: `cmake --build /tmp/logic-p42 -j8 && ctest --test-dir /tmp/logic-p42 -R 'regulator_test|listing_check|trace_check|library_check'` → `100% tests passed, 0 tests failed out of 4`; `git diff --stat backend/tests/golden` → empty (goldens unchanged; 57 PASS lines of `regulator_test` at that point incl. cases a–i and the later ones).
 Commit: —
 
 ### Phase 2 — The voltage check and the circuit API
 
-- [ ] `voltage.h` / `voltage.c`: the `milliohms` argument, `regulated[]`,
+- [x] `voltage.h` / `voltage.c`: the `milliohms` argument, `regulated[]`,
       `effective()` with R, the fixed-point branch, `divider_mv`, the
       clashes, `VOLTAGE_REGULATOR_INPUT_OVER` and its `voltage_describe`
       text (§ 3.3).
-- [ ] `circuit.h` / `circuit.c`: `circuit_set_resistance`, the `milliohms`
+- [x] `circuit.h` / `circuit.c`: `circuit_set_resistance`, the `milliohms`
       array, `voltage_failed` passes it (§ 3.4).
-- [ ] The four test call sites of `voltage_check` pass `NULL`
+- [x] The four test call sites of `voltage_check` pass `NULL`
       (`voltage_test.c:92, 496`, `charlcd_test.c:1639, 1659`);
       `VoltageCheck.swift:81, 87` pass `nil`.
-- [ ] Tests: `regulator_test.c` cases (j)–(v); `voltage_test.c` one case:
+- [x] Tests: `regulator_test.c` cases (j)–(v); `voltage_test.c` one case:
       no regulator, the new argument NULL and an all-zero array give the same
       problems as before for its existing fixture circuits.
 
 Acceptance: the regulated level, the divider and the VIN rating behave as
 § 6, and nothing else moved.
-  Check: `ctest --test-dir /tmp/logic-p42 -R 'regulator_test|voltage_test|circuit_check' --output-on-failure` → 3 of 3 (est. 2 min); `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p42-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 4 min; the Swift call sites changed).
+  Check: `ctest --test-dir /tmp/logic-p42 -R 'regulator_test|voltage_test|circuit_check' --output-on-failure` → 3 of 3 (est. 2 min); `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p42-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 4 min; the Swift call sites changed). Observed 2026-11-21: `ctest -R 'regulator_test|voltage_test|circuit_check'` → `100% tests passed, 0 tests failed out of 3`; `xcodebuild … build` → `** BUILD SUCCEEDED **` (the Swift call sites pass `nil`).
 Commit: —
 
 ### Phase 3 — Docs
 
-- [ ] `docs/parts-format.md` § `regulator`, `docs/backend.md` (Regulators,
+- [x] `docs/parts-format.md` § `regulator`, `docs/backend.md` (Regulators,
       Voltages, the circuit call), `docs/file-format.md:133` (§ 5).
 
 Acceptance: the docs name every key, error and rule.
-  Check: `grep -c 'adjustTo\|enableActive\|vinMax\|REGULATOR_INPUT_OVER\|circuit_set_resistance' docs/parts-format.md docs/backend.md` → at least 1 per file for its names (est. < 1 min).
+  Check: `grep -c 'adjustTo\|enableActive\|vinMax\|REGULATOR_INPUT_OVER\|circuit_set_resistance' docs/parts-format.md docs/backend.md` → at least 1 per file for its names (est. < 1 min). Observed 2026-11-21: `grep -c …` → `docs/backend.md:5`, `docs/parts-format.md:10`.
 Commit: —
 
 ## Validation Plan
@@ -464,6 +464,11 @@ Author decisions:
 - **One clash per group** (§ Verified properties).
 
 ## Corrections
+
+1. **Numbers moved** (2026-11-21): T0 = 39 programs at cd9ca2a8 (36 in the plan), 40 now with `regulator_test`; goldens P0 = R0 = 33042, F0 = 1685 (plan-42-A § Prerequisites); `PartKind` ended with `PART_GENERIC, PART_SERIALMEM, PART_NIXIE` (not `PART_GENERIC`): `PART_REGULATOR` is appended after `PART_NIXIE`, `TRACE_LAST_KIND` is now `PART_REGULATOR` (`trace_check.c:22`) and the two arrays of `listing_check.c:50–51` are sized by `PART_REGULATOR + 1`; `VoltageProblemKind` ended with `VOLTAGE_NIXIE_UNDER` (the new kind is appended after it); `voltage_check` had **5** test call sites (`voltage_test.c:92, 496`, `charlcd_test.c:1639, 1659` and `nixie_test.c:327`), all pass `NULL`, plus the 3 outside callers.
+2. **API shape.** The new argument is `const uint64_t *milliohms`, placed after `closed_count` and before `out` (`voltage_check(…, closed, closed_count, milliohms, out, cap)`). `regulator_pin_out` joins the `model_pins.h` helpers (the voltage check raises the level on every pin of the output name). Loader details the plan left open: `"analog"` is optional; `vout` / `vref` arrays take `null` entries (a regulator the key does not apply to) so a part may mix fixed and adjustable regulators; `vinMin` is optional for every part (the generator writes it for every switching maker part).
+3. **Case wording.** The plan's cases (j)–(v) observe a level through the refusals it causes and through a clash with a 1.2 V supply on the same net (the problem carries both voltages); `regulator_test` does so (`level_through_clash`). The `1.2–2.7 V` part of (j) / (k) / (t) is `SN74AUC00RGYR` (0.8–2.7 V). The fixture adds `SFX-0V5` (a 0.5 V supply: the library's lowest is 1.2 V). Maker resistor parts for (n) / (o): `CRCW020110K0FKED` (10 kΩ), `CRCW02014K70FNED` (4.7 kΩ), `CR-02JL6----1K` (1 kΩ); case (o) uses R1 1 kΩ and R2 4.7 kΩ (7125 mV), because the library has no 720 Ω part. `regulator_test` has 57 PASS lines: facts (a), every refusal of (b) (16), engine (c–i), voltage (j–v) incl. `circuit_set_resistance`'s refusals and the enable's VIN rating.
+4. `voltage_describe` for `VOLTAGE_SUPPLY_CLASH`: the order of the two parts is now by voltage for a supply part and "the regulator is the lower one" when the first part has no supply (two regulators on one net), so `voltage: 3.3 V and 5 V supplies on one net (RFX-LDO33, RFX-LDO5)`.
 
 ## Summary
 

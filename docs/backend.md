@@ -183,6 +183,28 @@ Notes:
   The voltage check does not carry a level through a channel; it refuses a
   channel pin above `vceo` / `vds` and a MOSFET gate above `vgs`
   (`transistor_pin_limit_mv` in `model_pins.h`).
+- **Regulators** (plan-42-G). A regulator part is one to four elements,
+  each a regulated supply: `regulator.c` schedules a timer 1 ns
+  (`REGULATOR_DELAY_PS`) after any change of an element's input or enable
+  pin, and the timer re-reads them and drives the element's output pins
+  (`sim_schedule_drive`, strong) and its open-drain power-good pins. What it
+  gives:
+
+  | Input | Enable (active level, or no enable pin) | `out` | `pg` |
+  |---|---|---|---|
+  | 1 | active, or no pin | strong 1 | Z |
+  | 1 | inactive, Z | Z | strong 0 |
+  | 1 | X | strong X | strong X |
+  | X | any | strong X | Z |
+  | 0, Z, not connected | any | Z | Z |
+
+  Several pins of the input name count as one input (any 1 and no X reads
+  1). A 0.5 ns pulse on the enable never moves the output; the output on a
+  net a strong 0 holds is `smoke:`. The output voltage is for the voltage
+  check only (below). The kind has no `vcc`; `pin_open_drain` is the `pg`
+  pins and `pin_analog` the `"analog"` names (`regulator_element`,
+  `regulator_pin_in`, `regulator_pin_out`, `regulator_input_max_mv` in
+  `model_pins.h`).
 - **Voltages** (`voltage.h`, plan-07). The simulation is logic-only; a
   separate static check, `voltage_check`, works out each net's voltage from
   its supplies (`PartSupply.mv`), the outputs of powered parts and what an
@@ -191,11 +213,32 @@ Notes:
   its part's `vcc` range, input above its part's input max, switch contact
   above its rating, capacitor pin above its rated voltage, transistor
   rating (a channel pin above `vceo` / `vds`, a MOSFET gate above `vgs`),
-  and two different non-zero supplies on one net.
+  a regulator's input above its maximum, and two different non-zero
+  supplies on one net (a regulator's regulated level counts as one).
   `voltage_describe` gives the text, e.g. `voltage: 5 V on pin 14 (VCC) of
   SN74AUC00PWR; it needs 0.8-2.7 V`. It takes plain arrays (parts,
   pin→net connections, closed contacts), so the app runs it on a candidate
   netlist to refuse an edit.
+  - **Regulated level** (plan-42-G). A regulator element whose input level
+    has the headroom (output plus dropout for a linear one, `vinMin`) and
+    whose enable is not inactive raises a regulated level R on its output
+    nets: the order of levels is S, then R, then the driven D, the pulled P,
+    the carried C. For an adjustable element R is Vref × (Rtop + Rbottom) /
+    Rbottom (`adjustTo` ground) or / Rtop (`adjustTo` output), from the
+    resistors of its feedback divider (`divider_mv`): the `PART_RESISTOR`
+    links with an end on the adjust net, the other end on the output net
+    (top, parallel links combine) or on a net a supply holds at 0 V
+    (bottom); anything else or a 0 Ω link leaves the level unknown. R
+    different from a supply level on the net, or two different R, is a
+    `VOLTAGE_SUPPLY_CLASH`; an input or enable pin above `vinMax` is
+    `VOLTAGE_REGULATOR_INPUT_OVER`. `voltage_check` takes an optional
+    `milliohms` array (one entry per part, 0 = the part's own value): a
+    placed `GENERIC-RESISTOR`'s value for the divider.
+  - `circuit_set_resistance(circuit, part, ohms)` sets that value for a
+    resistor part whose manufacturer is `Generic` (more than 0 and at most
+    1e9; `part N is not a generic resistor`, `the resistance is out of
+    range`); it changes only the voltage check, the engine's resistor stays
+    a weak link.
   - `circuit_start` runs it first and refuses a circuit with a problem
     (-1, `circuit_error` = the text; building calls stay usable).
   - A switch that closes during a run and makes the circuit fail stops the
@@ -318,6 +361,8 @@ backend/
                            transistor.c (the transistor kind: loader, the
                            contact switch model, the rating limits,
                            plan-40-F);
+                           regulator.c (the regulator kind: loader, the
+                           regulated-supply model, plan-42-G);
                            cpu.c + cpu.h (the cpu kind: loader, the model
                            that forwards to a core adapter, input sampling,
                            the instruction tracker), cpu6502.c (the
@@ -566,6 +611,15 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   scripted driver); an SN74HC04N lighting a GENERIC-LED through an NPN;
   and the rating test (`VOLTAGE_TRANSISTOR_OVER`: a drain above `vds`, a
   gate above `vgs`; a BJT base and a part with no rating never refused).
+- `regulator_test` — the regulator kind (plan-42-G): the fixture parts of
+  `tests/support/regulator_fixture.h` load and their `PartRegulator` facts
+  read back; the loader's rejections; the engine cases of the Regulators
+  table above; and the voltage rules: an LDO's regulated level seen
+  through the parts it powers and through a clash with a 1.2 V supply, a
+  VIN above the maximum, a clash with a rail, the feedback divider from
+  maker resistors and from `GENERIC-RESISTOR` values
+  (`circuit_set_resistance`), a boost converter's `vinMin`, an enable at
+  its inactive level, a chain of two regulators.
 - `capacitor_test` — the capacitor kind (plan-33-E): the fixture
   capacitors (`tests/support/capacitor_fixture.h`, one tantalum and one
   ceramic device) load and their `PartCapacitor` facts read back; a

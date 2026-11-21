@@ -1094,6 +1094,109 @@ onsemi ones.
             "pinout": "p3-e-b-c", "footprint": "TO-92", "vceo": 40, "ic": 0.2, "pd": 0.625, "hfe": 100}]}
 ```
 
+### `regulator`
+
+Voltage regulators (plan-42): positive linear regulators and LDOs, fixed or
+adjustable, dual and multi-output ones, and switching regulators with an
+internal switch (buck, boost, buck-boost, charge pump, SEPIC),
+`"kind": "regulator"`, run by `backend/src/models/regulator.c`. A part is
+one to four **regulators** (elements). Each is a **regulated supply** for a
+logic simulator: while its input pin reads 1 and its enable pin (when it
+has one) is active, its output pin is driven strong 1; there is no analog
+behaviour (no ramp, load, current limit, ripple, thermal shutdown or
+inductor). A change at the input or the enable reaches the output **1 ns**
+later, read again when that time comes, so a pulse shorter than 1 ns never
+moves it. A floating enable is inactive, for both polarities. An input
+reading X gives an X output; an input that reads 0, Z or is not connected
+leaves the output Z. A regulator has no `vcc`.
+
+Device keys:
+
+| Key | Value |
+|---|---|
+| `"regulators"` | array of 1 to 4 objects (`"regulators" must have 1 to 4 entries`), one per regulator in the datasheet's numbering |
+| `"analog"` | optional array of pin names (each names a pin of every pinout) the voltage check skips: feedback, bypass, soft-start, bias supply, strap, reset and flag pins, a switch pin that is not the output; may be `[]` |
+
+Each `"regulators"` entry (the keys `"type"`, `"in"` and `"out"` are
+required, no other key is allowed):
+
+| Key | Value |
+|---|---|
+| `"type"` | `"linear"`, `"buck"`, `"boost"`, `"buck-boost"`, `"charge-pump"` or `"sepic"` (`unknown regulator type`) |
+| `"in"` | the input pin name: every pin of the name (a VIN pair) is the input; role `power` |
+| `"out"` | the output pin name: the VOUT / OUT pin when the part has one, else the switch pin (SW, LX); role `output`; the model drives every pin of the name |
+| `"enable"` | optional: the enable pin name (EN, SHDN, ON/OFF); role `input` |
+| `"enableActive"` | optional, with `"enable"`: `"high"` (default) or `"low"`, the level that turns the regulator on |
+| `"pg"` | optional: a power-good output pin name, open drain (the voltage check never counts it as driving 1); role `output`; pulled low while the input is there and the regulator is disabled, else Z |
+| `"adjust"` | optional: the feedback / adjust pin name; present means the regulator is adjustable; role `input` or `inout`, and it must be in `"analog"` |
+| `"adjustTo"` | optional, with `"adjust"`: `"ground"` (default: the pin sits at Vref above ground, Vout = Vref × (1 + Rtop / Rbottom) with Rtop from OUT to the pin) or `"output"` (the LM317 and LM1117-ADJ style: Vref is held between OUT and the pin, Vout = Vref × (1 + R2 / R1) with R1 from OUT to the pin and R2 from the pin to ground) |
+
+Every other pin of a pinout is `ground`, `nc`, `absent`, or named in
+`"analog"` (`pin "X" is in no regulator and not analog`); a name used by an
+entry names at least one pin of every pinout, and its pins have the roles
+above (`regulator pin "X" (in) must be power`). An exposed pad or a tab with
+no number is not a pin.
+
+Part keys (volts, amps, hertz; a number holds for every regulator of the
+part, an array has one value per regulator in `"regulators"` order, with
+`null` for a regulator the key does not apply to):
+
+| Key | Value |
+|---|---|
+| `"vout"` | the fixed output voltage, above 0 and at most 100; required for a regulator without `"adjust"`, refused for one with it |
+| `"vref"` | the reference voltage of an adjustable regulator, above 0 and at most 10; required with `"adjust"`, refused without |
+| `"voutMax"` | optional: the highest output an adjustable part can be set to (a fact) |
+| `"vinMin"` | optional: the lowest input at which a regulator works (a switching regulator's minimum input; a linear one's when its datasheet gives one) |
+| `"vinMax"` | optional, above 0 and at most 100: the input maximum; the voltage check refuses an input or enable pin above it |
+| `"dropout"` | optional, linear only, at least 0 and at most 10: the dropout at full load (`"dropout" is only for a linear regulator`) |
+| `"iout"` | optional, above 0 and at most 100: the output current per regulator |
+| `"iq"` | optional, above 0 and at most 1: the quiescent current |
+| `"fsw"` | optional, switching only, above 0 and at most 1e8: the switching frequency (`"fsw" is only for a switching regulator`) |
+
+The values are facts for the app (`PartRegulator`: millivolts, milliamps,
+microamps; 0 = not given). **The voltage check** (`voltage.c`, step 3b):
+each regulator whose input pin has a known level of at least its output
+voltage plus its dropout (a linear one) and at least `vinMin`, and whose
+enable pin is not at an inactive level (an unknown level counts as active),
+raises a **regulated level** on its output pins' nets: the part's `vout`, or
+for an adjustable regulator Vref worked out from the two resistors of the
+feedback divider: every `PART_RESISTOR` link with an end on the adjust net
+whose other end is on the output net (Rtop, links in parallel combine) or on a
+net that a supply holds at 0 V (Rbottom); a link to anything else, or of 0
+Ω, leaves the level unknown, and both sides need a link. A placed
+`GENERIC-RESISTOR`'s value (`circuit_set_resistance`) replaces the part's
+own 1 kΩ. A regulated level is a supply level for the checks of the parts
+it powers; it clashes (`VOLTAGE_SUPPLY_CLASH`) with a different supply
+level on the same net and with another regulator's different level
+(`voltage: 3.3 V and 5 V supplies on one net (RFX-LDO33, 5V)`); an input or
+enable pin above `vinMax` is refused (`VOLTAGE_REGULATOR_INPUT_OVER`,
+`voltage: 12 V on pin 1 (IN) of … ; its input max is 6 V`). A regulator
+whose input has no headroom is simply unpowered (no level, no problem).
+
+```json
+{"id": "reg-ti-lm1117-sot223", "function": "Fixed", "description": "LDO regulator, fixed output, 0.8 A",
+ "drawer": ["Power", "Regulators", "Linear", "Fixed"],
+ "pinouts": {"p4": [{"number":1,"name":"GND","role":"ground"},{"number":2,"name":"VOUT","role":"output"},
+                    {"number":3,"name":"VIN","role":"power"},{"number":4,"name":"VOUT","role":"output"}]},
+ "regulators": [{"type": "linear", "in": "VIN", "out": "VOUT"}], "analog": [],
+ "parts": [{"name": "LM1117MPX-3.3/NOPB", "manufacturer": "Texas Instruments", "package": "SOT-223",
+            "pinout": "p4", "footprint": "SOT223-4-DCY", "vout": 3.3, "dropout": 1.2, "vinMax": 15}]}
+```
+
+The library's `regulator.json` (plan-42) holds linear and switching
+regulators of Texas Instruments (with National Semiconductor and Burr
+Brown), Analog Devices (with Linear Technology and Maxim Integrated) and
+Microchip Technology (with Micrel) — one device per (series, package, fixed
+or adjustable) — under **Power → Regulators → Linear → `Fixed` /
+`Adjustable` / `Multi-output`** and **Power → Regulators → Switching →
+`Buck` / `Boost` / `Buck-boost` / `Charge pump` / `SEPIC` /
+`Multi-output`**, and three generic parts under **Power → Regulators →
+Linear → Generic** (plan-42-H): `GENERIC-REG-5V` and `GENERIC-REG-3V3` (pins
+1 IN, 2 GND, 3 OUT, the 78xx order; `vout` 5 and 3.3, dropout 2 V, no
+`vinMax`) and `GENERIC-REG-ADJ` (pins 1 ADJ, 2 OUT, 3 IN, the LM317 order,
+`adjustTo` `"output"`, `vref` 1.25, dropout 2 V), each `TO-220` by default
+with the footprint choices `TO-220` and `DPAK`.
+
 ### `oscillator`
 
 A clock source; the primary output toggles every half period. Device keys:
