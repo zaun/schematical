@@ -162,7 +162,7 @@ automated clients at microchip.com, A § 2).
 
 Acceptance: every TI download-set row has a scheme or is a skip.
   Check: `python3 -I planning/plan-42-data/census/scheme-check.py --maker "Texas Instruments"` → `0 download-set rows without a scheme` (est. 1 min; the reading is the work). Observed 2026-11-21: `Texas Instruments: 297 rows with a PDF; 289 verbatim, 0 by scheme, 8 in neither, 0 not read (n/r)` / `0 download-set rows without a scheme`.
-Commit: —
+Commit: 44c18a29
 
 ### Phase 2 — Analog Devices (with Maxim)
 
@@ -171,7 +171,7 @@ Commit: —
 
 Acceptance: as Phase 1.
   Check: `scheme-check.py --maker "Analog Devices"` → `0 download-set rows without a scheme` (est. 1 min). Observed: `Analog Devices: 300 rows with a PDF; 224 verbatim, 74 by scheme, 2 in neither, 0 not read (n/r)` / `0 download-set rows without a scheme`.
-Commit: —
+Commit: 44c18a29
 
 ### Phase 3 — Microchip (with Micrel)
 
@@ -180,7 +180,7 @@ Commit: —
 
 Acceptance: as Phase 1.
   Check: `scheme-check.py --maker "Microchip Technology"` → `0 download-set rows without a scheme` (est. 1 min). Observed: `Microchip Technology: 294 rows with a PDF; 171 verbatim, 92 by scheme, 31 in neither, 0 not read (n/r)` / `0 download-set rows without a scheme`.
-Commit: —
+Commit: 44c18a29
 
 ### Phase 4 — Datasheet status, verdicts, the final pick
 
@@ -197,7 +197,7 @@ Commit: —
 Acceptance: the verdicts and the pick hold, and the named parts are in.
   Observed 2026-11-21: `add` N = **600**; the named bases: LM1117 6, TLV1117 6, LM317 3, LM340 6, LM7805 2, UA7805 2, LM2576 6, LM2596 6, MCP1700 6, MCP1702 6 (each ≥ 1).
   Check: `awk -F'\t' '$29=="add"' planning/plan-42-data/candidates.tsv \| wc -l` → N (recorded here; at most 600); `python3 -I planning/plan-42-data/census/select.py /tmp/p42/raw /tmp/p42/cand.tsv --stock planning/plan-42-data/stock-check.tsv --verdicts planning/plan-42-data/verdicts.tsv --report` → exits 0 with the `add` per (family, maker) lines; `for n in LM1117 TLV1117 LM317 LM340 LM7805 UA7805 LM2576 LM2596 MCP1700 MCP1702; do echo $n $(awk -F'\t' -v n=$n '$29=="add" && toupper($8)==n' planning/plan-42-data/candidates.tsv \| wc -l); done` → each at least 1, a 0 written in § Corrections with its rows' verdicts (est. 3 min).
-Commit: —
+Commit: 44c18a29
 
 ### Phase 5 — Skips, obsolete PDFs, footprint lines, prune
 
@@ -222,7 +222,7 @@ Commit: —
 Acceptance: the tree holds exactly the datasheets the parts will cite.
   Observed: `du -sh datasheets/regulator` → `480M` (357 PDFs).
   Check: `python3 -I planning/plan-42-data/census/place.py --verify` → `0 missing, 0 unused`; `grep -c '^| ' datasheets/skipped-parts.md` grew by the recorded row count; `du -sh datasheets/regulator` recorded here (est. 2 min).
-Commit: —
+Commit: 78ffc1bc
 
 ## Validation Plan
 
