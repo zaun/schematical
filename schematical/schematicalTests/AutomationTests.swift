@@ -616,7 +616,7 @@ final class AutomationTests: XCTestCase {
         AutomationFolder.shared.load()
         try XCTSkipIf(AutomationFolder.shared.url != nil, "a folder is shared on this machine; the test won't clear it")
         for (tool, args) in [("save", ["path": "x.schematical"]), ("open", ["path": "x.schematical"]),
-                             ("export_gerber", ["path": "x.zip"])] {
+                             ("export_gerber", ["path": "x.zip"]), ("export_pdf", ["path": "x.pdf"])] {
             let result = await call(tool, id, args)
             XCTAssertTrue(result.isError, tool)
             XCTAssertTrue(result.text.contains("Settings"), result.text.replacingOccurrences(of: "\n", with: " | "))

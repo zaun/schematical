@@ -71,7 +71,7 @@
       holes, slots), zipped in the layout fabs expect.
 - [ ] Add a pick-and-place (CPL) export, and a BOM export in the JLCPCB /
       PCBWay assembly format (see planning/jlcpcb.md).
-- [ ] Print / PDF the schematic, and each PCB layer at 1:1 (for checking
+- [x] Print / PDF the schematic, and each PCB layer at 1:1 (for checking
       footprints against real parts and for home etching).
 - [ ] Later: an "Order this board" flow (JLCPCB / PCBWay API).
 

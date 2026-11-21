@@ -51,6 +51,7 @@ nonisolated enum KeyboardHelp {
         entry("⌘N", "New Project"),
         entry("⌘O", "Open a schematic"),
         entry("⌘S / ⇧⌘S", "Save / Save As"),
+        entry("⌘P", "Print: the schematic and each PCB layer at 1:1 (File › Export › PDF… saves the same pages)"),
         entry("⌘Z / ⇧⌘Z", "Undo / Redo on the page shown"),
         entry("⌘= / ⌘-", "Zoom in / out"),
         entry("⌘0", "Actual size (100 %)"),
@@ -97,7 +98,7 @@ nonisolated enum KeyboardHelp {
             entry("GND, Pull-down, VCC, Pull-up", "Click to place; the menu picks the supply voltage"),
         ]),
         HelpSection(title: "Simulation", entries: [
-            entry("⌘P", "Run or stop the simulation (Simulation menu, with Speed). Not available while a part that isn't simulated, such as a microcontroller, is on the schematic"),
+            entry("⌥⌘P", "Run or stop the simulation (Simulation menu, with Speed). Not available while a part that isn't simulated, such as a microcontroller, is on the schematic"),
         ]),
         HelpSection(title: "Custom parts", entries: [
             entry("⇧⌘N", "New Part…: the Part Wizard walks you through a new part (kind, part number, datasheet, pins, the kind's settings, footprint, review)"),

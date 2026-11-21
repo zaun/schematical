@@ -110,6 +110,53 @@ extension AutomationTools {
                 return Out.text("wrote \(url.path)")
             }),
         AutomationTool(
+            name: "export_pdf",
+            summary: "Write a PDF of the schematic and each PCB layer at exactly 1:1 (for checking footprints against "
+                + "real parts and home etching) to path inside the shared folder. A board bigger than the paper is "
+                + "tiled. Pages: schematic, copper (one per layer), parts (pads and silkscreen per side), silkscreen, "
+                + "board (outline and drills).",
+            properties: [
+                "path": Schema.string("File name or path inside the shared folder, ending .pdf"),
+                "paper": Schema.string("letter, legal, tabloid, a4 or a3 (default: the user's last choice)",
+                                       options: PrintPaper.allCases.map(\.rawValue)),
+                "pages": Schema.strings("Which pages: any of schematic, copper, parts, silkscreen, board "
+                                        + "(default: all but silkscreen)"),
+                "mirror": Schema.boolean("Flip copper pages left to right (toner transfer)"),
+                "negative": Schema.boolean("Invert copper pages (positive-resist boards)"),
+                "marks": Schema.boolean("Registration crosses round each copper page's board (default true)"),
+            ],
+            required: ["path"], readOnly: true,
+            run: { context, args in
+                let url = try AutomationFolder.shared.resolve(try args.string("path"))
+                guard let file = context?.file else { throw AutomationFailure("no file controller for this window") }
+                var options = PrintOptions.saved()
+                if let paper = args.optString("paper") {
+                    guard let chosen = PrintPaper(rawValue: paper) else { throw AutomationFailure("unknown paper \(paper)") }
+                    options.paper = chosen
+                }
+                if let pages = try? args.strings("pages") {
+                    let groups: [String: (PrintPageKind) -> Bool] = [
+                        "schematic": { $0 == .schematic },
+                        "copper": { if case .copper = $0 { true } else { false } },
+                        "parts": { if case .parts = $0 { true } else { false } },
+                        "silkscreen": { if case .silkscreen = $0 { true } else { false } },
+                        "board": { $0 == .board },
+                    ]
+                    for page in pages where groups[page] == nil {
+                        throw AutomationFailure("unknown page \(page): use schematic, copper, parts, silkscreen or board")
+                    }
+                    let wanted = pages.compactMap { groups[$0] }
+                    options.hidden = Set(PrintExport.kinds(of: context!.document).filter { kind in !wanted.contains { $0(kind) } })
+                }
+                options.mirror = args.optBool("mirror") ?? options.mirror
+                options.negative = args.optBool("negative") ?? options.negative
+                options.marks = args.optBool("marks") ?? options.marks
+                do { try file.writePDF(options, to: url) }
+                catch { throw AutomationFailure("couldn't write \(url.lastPathComponent): \(error.localizedDescription)") }
+                let count = PrintExport.pages(for: context!.document, options).count
+                return Out.text("wrote \(url.path) (\(count) page\(count == 1 ? "" : "s"))")
+            }),
+        AutomationTool(
             name: "undo",
             summary: "Undo the last edit on a page (schematic or pcb), exactly as the user's Undo would.",
             properties: ["page": Schema.string("schematic (default) or pcb", options: ["schematic", "pcb"])],

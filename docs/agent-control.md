@@ -26,7 +26,7 @@ Other clients: a Streamable HTTP MCP server at `http://127.0.0.1:47800/mcp`
 with the header `Authorization: Bearer <key>`. **New Key** replaces the key
 (agents using the old one are refused).
 
-Files: the app is sandboxed, so `open`, `save` and `export_gerber` work only
+Files: the app is sandboxed, so `open`, `save`, `export_gerber` and `export_pdf` work only
 inside one folder the user shares under Settings ▸ AI Agents ▸ Files
 (`AutomationFolder`, a security-scoped bookmark). With none chosen those
 tools say so; nothing else depends on it.
@@ -82,7 +82,7 @@ pad), `add_trace`, `set_trace`, `add_via`, `add_hole`, `add_board_text`,
 `read_memory`.
 
 **Session** — `list_windows`*(no window)*, `focus_window`, `new_window`,
-`open`, `save`, `export_gerber`, `list_files`*(no window)*, `undo`, `redo`,
+`open`, `save`, `export_gerber`, `export_pdf`, `list_files`*(no window)*, `undo`, `redo`,
 `batch`.
 
 `batch` runs a list of tool calls as **one undo step** (it wraps them in the

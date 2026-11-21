@@ -1,6 +1,7 @@
 import AppKit
 import Foundation
 import Observation
+import PDFKit
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -304,13 +305,22 @@ final class SchematicFileController {
         try data.write(to: url, options: .atomic)
     }
 
-    /// The options sheet on this window; nil when cancelled.
+    /// The image options sheet on this window; nil when cancelled.
     private func runImageOptions(_ options: ImageExportOptions) async -> ImageExportOptions? {
+        await runSheet { finish in
+            ImageExportDialog(document: document, options: options, onCancel: { finish(nil) }, onExport: { finish($0) })
+        }
+    }
+
+    /// `content` as a sheet on this window (a modal window when it has none), until it calls `finish`.
+    private func runSheet<Content: View, Result>(
+        _ content: (@escaping (Result?) -> Void) -> Content
+    ) async -> Result? {
         await withCheckedContinuation { continuation in
             let sheet = NSWindow(contentRect: .zero, styleMask: [.titled], backing: .buffered, defer: true)
             let parent = window ?? NSApp.keyWindow
             var finished = false
-            let finish: (ImageExportOptions?) -> Void = { result in
+            let finish: (Result?) -> Void = { result in
                 guard !finished else { return }
                 finished = true
                 if let parent = sheet.sheetParent {
@@ -321,9 +331,7 @@ final class SchematicFileController {
                 }
                 continuation.resume(returning: result)
             }
-            let host = NSHostingController(rootView: ImageExportDialog(
-                document: document, options: options, onCancel: { finish(nil) }, onExport: { finish($0) }
-            ))
+            let host = NSHostingController(rootView: content(finish))
             host.sizingOptions = .preferredContentSize
             sheet.contentViewController = host
             if let parent {
@@ -331,6 +339,62 @@ final class SchematicFileController {
             } else {
                 NSApp.runModal(for: sheet)
             }
+        }
+    }
+
+    /// File > Print…: the pages sheet (`PrintDialog`), then the system print panel for the PDF of those pages.
+    /// Pages are laid out for the sheet's paper and printed at their own size.
+    func printPages() async {
+        guard let options = await runPrintOptions(PrintOptions.saved(), action: .print) else { return }
+        options.save()
+        guard let data = PrintExport.pdf(for: document, name: displayName, options),
+              let pdf = PDFDocument(data: data) else {
+            present(ExportError.nothingToPrint, title: "Couldn't print “\(displayName)”")
+            return
+        }
+        guard let operation = PrintExport.printOperation(for: pdf, paper: options.paper) else {
+            present(ExportError.nothingToPrint, title: "Couldn't print “\(displayName)”")
+            return
+        }
+        operation.jobTitle = displayName
+        if let window {
+            operation.runModal(for: window, delegate: nil, didRun: nil, contextInfo: nil)
+        } else {
+            operation.run()
+        }
+    }
+
+    /// File > Export > PDF…: the pages sheet, then where to save, then the file.
+    func exportPDF() async {
+        guard let options = await runPrintOptions(PrintOptions.saved(), action: .savePDF) else { return }
+        options.save()
+        let panel = NSSavePanel()
+        panel.allowedContentTypes = [.pdf]
+        panel.canCreateDirectories = true
+        panel.nameFieldStringValue = "\(displayName).pdf"
+        if let fileURL {
+            panel.directoryURL = fileURL.deletingLastPathComponent()
+        }
+        guard await run(panel) == .OK, let url = panel.url else { return }
+        do {
+            try writePDF(options, to: url)
+        } catch {
+            present(error, title: "Couldn't export “\(displayName)”")
+        }
+    }
+
+    /// Writes the PDF `options` describe to `url`. Throws when no page is chosen or the write fails.
+    func writePDF(_ options: PrintOptions, to url: URL) throws {
+        guard let data = PrintExport.pdf(for: document, name: displayName, options) else {
+            throw ExportError.nothingToPrint
+        }
+        try data.write(to: url, options: .atomic)
+    }
+
+    private func runPrintOptions(_ options: PrintOptions, action: PrintAction) async -> PrintOptions? {
+        await runSheet { finish in
+            PrintDialog(document: document, name: displayName, action: action, options: options,
+                        onCancel: { finish(nil) }, onDone: { finish($0) })
         }
     }
 
@@ -368,9 +432,13 @@ final class SchematicFileController {
 
     enum ExportError: LocalizedError {
         case nothingToExport
+        case nothingToPrint
 
         var errorDescription: String? {
-            "The schematic has no parts, wires or buses."
+            switch self {
+            case .nothingToExport: "The schematic has no parts, wires or buses."
+            case .nothingToPrint: "No pages are chosen, or none has anything to draw."
+            }
         }
     }
 
@@ -595,6 +663,13 @@ struct SchematicFileCommands: Commands {
             .disabled(file == nil)
 
             Divider()
+
+            // The app's own Print: the system's is removed (`SimulationCommands`).
+            Button("Print…") {
+                Task { await file?.printPages() }
+            }
+            .keyboardShortcut("p", modifiers: .command)
+            .disabled(file == nil)
 
             SchematicExportMenu(file: file)
         }

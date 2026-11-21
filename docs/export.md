@@ -4,7 +4,8 @@
 menu: Schematical, **KiCad Project** ([KiCad](#kicad)) or **EasyEDA Pro
 Project** ([EasyEDA Pro](#easyeda-pro)). **File > Export** (after Save As…) has two items: **Image…** (⇧⌘E), a
 picture of the focused window's schematic, PCB page or made board, and
-**Gerber PCB…**, its board as Gerber files (see Gerber below).
+**PDF…**, the schematic and each PCB layer at 1:1 (see [PDF and print](#pdf-and-print)), and
+**Gerber PCB…**, its board as Gerber files (see Gerber below). **File > Print…** (⌘P) prints the same pages.
 
 ## Image
 
@@ -131,6 +132,44 @@ component, mechanical.
 | `DesignRules` | `Outer` (and `Inner` above 2 layers): the board's min clearance as `PadToPad`, `PadToTrack`, `TrackToTrack`, `TrackToRegion`, `RegionToRegion`; `MinLineWidth` (min trace width), `MinRing` (min annular ring), `MinClearanceToProfile` (min copper to edge) |
 | `FilesAttributes` | every other file in the zip: `Path`, and its `FileFunction` (the string in the file's own `.FileFunction`) and `FilePolarity` |
 | `MaterialStackup` | top to bottom: silkscreen, paste, solder mask (with the board colour), then each copper layer and the dielectric below it (`FR4`, thickness, `DielectricConstant`), then the bottom mask, paste and silkscreen |
+
+## PDF and print
+
+**File > Print…** (⌘P) and **File > Export > PDF…** open one options sheet over the window, with a live
+preview of the PDF; its button is **Print…** (the system print panel, for the same PDF) or **Save PDF…** (the save
+panel, `<window name>.pdf`). Simulation's Run / Stop is ⌥⌘P. The paper, Mirror, Negative and Registration marks
+are remembered between prints (`PrintOptions.saved`); the page choices are not (a board's layers differ).
+
+**Paper** is Letter, Legal, Tabloid, A4 or A3 (Letter where the system measures in inches, else A4). Every page is
+laid out for it, turned to the orientation that needs fewer sheets, with a 10 mm margin and a 9 mm footer
+(`PrintExport.margin`, `footer`). Pages the print panel is asked to print are not scaled (`.pageScaleNone`): pick
+the same paper there.
+
+| Page | What is on it | On by default |
+|---|---|---|
+| Schematic | the schematic as the black line-art image (vector), scaled down to fit one sheet, never up past 1×; the footer says the scale | yes |
+| `<Layer>` copper, one per layer | the layer's artwork as in its Gerber file: planes with their clearances, traces, pads, vias, black on white, seen from the layer's own side (a Bottom page is mirrored against the PCB page). A dot of at most 0.4 mm (`drillDot`) at each hole's centre, in the paper colour, for the bit | yes |
+| `<Side>` parts (footprint check) | pads (light gray, outlined), each drill hole at its true size outlined, and that side's silkscreen: lay a real part on it | yes |
+| `<Side>` silkscreen | the side's silkscreen alone | no |
+| Board outline and drills | the outline (0.2 mm) and every hole at its true size with a centre cross | yes |
+
+- **1:1**: a board page is in mm (72 / 25.4 points per mm), not scaled to fit. Its footer says "1:1, print at 100 %
+  (Actual Size)" and draws a 50 mm ruler with ticks every 10 mm (`rulerLength`) to check the printer's scale.
+- **Tiles**: a board that does not fit one sheet (with 2 mm round it, or the marks' room) is cut into evenly spaced
+  tiles that overlap by at least 10 mm (`overlap`), in rows from the top left; the footer says "tile 2 × 1 of 3 × 2".
+  The orientation with fewer tiles wins; a tie goes to the one that suits the board's shape.
+- **Mirror** flips the copper pages left to right, for toner transfer or film laid face down. The other pages do not
+  flip. **Negative** paints the board (grown 1.5 mm, `inkMargin`) black and draws the copper paper-white, for
+  positive-resist boards. **Registration marks** are four 3 mm crosses 4 mm outside the board's corners
+  (`markOffset`), the same on every copper page.
+- The artwork is `GerberExport.drawCopper` / `drawSilkscreen`, recorded by `GerberWriter` (`records`, `Mark`), so a
+  printout is what the fab gets. Clear polarity (plane clearances, letter counters) is drawn in the paper colour.
+- A board with no part, trace or via still has its outline page and copper pages; a schematic page appears only when
+  the schematic has something.
+- An export is not a save: the window's file and its unsaved-changes state do not change.
+
+**Agents**: `export_pdf` (path in the shared folder, `paper`, `pages` of schematic / copper / parts / silkscreen /
+board, `mirror`, `negative`, `marks`), see [agent-control.md](agent-control.md).
 
 ## KiCad
 
@@ -323,8 +362,10 @@ PNG puts them; the padding keeps a wider font from clipping. A turned label
 | `SchematicExport` (`svg`, `png`, `jpg`, padding, pixel scale) | `schematical/schematical/Document/SchematicExport.swift` |
 | `ImageExportView`, `ImageExportFormat`, `ImageExportBackground`, `ImageExportOptions`, `ImageExport` (every image, its size, PNG/JPG encoding) | `schematical/schematical/Document/ImageExport.swift` |
 | `ImageExportDialog` (the options sheet) | `schematical/schematical/Document/ImageExportDialog.swift` |
-| `SchematicExportMenu` (the submenu; `SchematicFileCommands` adds it to File) | `schematical/schematical/Document/SchematicExportCommands.swift` |
-| `exportImage()`, `writeImage(_:to:)`, `exportGerber()`, `writeGerber(to:)`, `saveAs()`, `exportKiCad(to:)`, `writeKiCad(to:)` | `schematical/schematical/Document/SchematicFileController.swift` |
+| `PrintPaper`, `PrintPageKind`, `PrintOptions`, `PrintPage`, `BoardArtwork`, `PrintExport` (pages, tiles, the PDF, the print operation) | `schematical/schematical/Document/PrintExport.swift` |
+| `PrintDialog` (the options sheet with its PDF preview) | `schematical/schematical/Document/PrintDialog.swift` |
+| `SchematicExportMenu` (the submenu; `SchematicFileCommands` adds it to File, with Print…) | `schematical/schematical/Document/SchematicExportCommands.swift` |
+| `exportImage()`, `writeImage(_:to:)`, `printPages()`, `exportPDF()`, `writePDF(_:to:)`, `exportGerber()`, `writeGerber(to:)`, `saveAs()`, `exportKiCad(to:)`, `writeKiCad(to:)` | `schematical/schematical/Document/SchematicFileController.swift` |
 | `SaveFormat`, `SaveFormatPicker` (Save As's Format menu) | `schematical/schematical/Document/SaveFormatPicker.swift` |
 | `KiCadExport` (the three files, project file, shared names), `KiCad` (number, string, uuid formats) | `schematical/schematical/Document/KiCadExport.swift` |
 | `KiCadSchematicWriter` | `schematical/schematical/Document/KiCadSchematicWriter.swift` |

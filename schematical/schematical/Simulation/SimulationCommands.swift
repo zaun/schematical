@@ -1,6 +1,6 @@
 import SwiftUI
 
-// The Simulation menu: Run / Stop (⌘P) and the Speed submenu. The
+// The Simulation menu: Run / Stop (⌥⌘P) and the Speed submenu. The
 // simulation is the Schematic page's, so the menu is disabled on the PCB.
 // Run is also off while a part that isn't simulated is placed (plan-36),
 // with a disabled line under it naming the part.
@@ -47,8 +47,8 @@ struct SimulationCommands: Commands {
         CommandGroup(replacing: .printItem) {}
         CommandMenu("Simulation") {
             Button(target?.isRunning == true ? "Stop" : "Run") { target?.toggle() }
-                // Replaces the File menu's Print (⌘P): the app has none.
-                .keyboardShortcut("p", modifiers: .command)
+                // ⌘P is File › Print… (`SchematicFileCommands`).
+                .keyboardShortcut("p", modifiers: [.command, .option])
                 .disabled(target?.isAvailable != true && target?.isRunning != true)
 
             if let reason = target?.blockedReason {
