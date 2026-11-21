@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """plan-42 census: the pick, candidates.tsv.
 
-usage: python3 -I select.py <raw dir> <out.tsv> [--stock <stock-check.tsv>] [--report]
+usage: python3 -I select.py <raw dir> <out.tsv> [--stock <stock-check.tsv>]
+                            [--verdicts <verdicts.tsv>] [--carry <candidates.tsv>] [--report]
 
 Reads every <category>-<maker id>[-re].jsonl of top.js in <raw dir> (a `-re`
 file is a deeper re-listing of the same piece and is read first) and writes
@@ -22,6 +23,17 @@ out (plan-42-A section 3):
                      find it in stock, Active or Last Time Buy
   below quota        the (family, maker) share of the family's quota is full of parts
                      with more stock
+
+With --verdicts (plan-42-B section 3.2) the reasons become final: a row out
+for a rule above is `out:<reason>`; a download-set row takes its verdict
+(`skip:<why>`, `out:datasheet status`, `out:below the pick (not read)`); a row
+outside the download set is `out:below the pick (not read)`; the duplicate
+rule and the quota then run again over the rows whose verdict is `add` only,
+so a skipped winner's slot goes to its duplicate or to the next row of its
+(family, maker): `add`, `out:duplicate`, `out:below quota`. `pdf` comes from
+the verdicts file; --carry copies `pdf`, `hit` and `dead` by part number from
+an earlier candidates.tsv (plan-42-A Phase 3's columns, which the raw listing
+lacks).
 
 `cut` is 1 for a part listed by a piece DigiKey cut at 300 (its 300
 most-stocked parts only). `--report` prints the counts behind every number the
@@ -180,6 +192,14 @@ def main():
         if os.path.exists(path):
             for r in csv.DictReader(open(path), delimiter='\t'):
                 checked[r['mpn']] = r['found'] == '1'
+    verdicts = {}
+    if '--verdicts' in sys.argv:
+        for r in csv.DictReader(open(sys.argv[sys.argv.index('--verdicts') + 1]), delimiter='\t'):
+            verdicts[r['mpn']] = r
+    carry = {}
+    if '--carry' in sys.argv:
+        for r in csv.DictReader(open(sys.argv[sys.argv.index('--carry') + 1]), delimiter='\t'):
+            carry[r['mpn']] = r
     rows = {}
     for stem in stems(raw):
         for line in open(os.path.join(raw, stem + '.jsonl')):
@@ -217,13 +237,32 @@ def main():
             if not r['reason'] and not checked[r['mpn']]:
                 r['reason'] = 'stock check'
 
+    for r in rows:
+        if r['mpn'] in carry:
+            for c in ('pdf', 'hit', 'dead'):
+                r[c] = carry[r['mpn']][c]
+    if verdicts:
+        for r in rows:
+            if r['reason']:
+                r['reason'] = 'out:' + r['reason']
+                continue
+            v = verdicts.get(r['mpn'])
+            if v is None:
+                r['reason'] = 'out:below the pick (not read)'
+                continue
+            r['pdf'] = v['pdf']
+            if v['verdict'] == 'skip':
+                r['reason'] = 'skip:' + v['reason']
+            elif v['verdict'] == 'out':
+                r['reason'] = 'out:' + v['reason']
+
     # Duplicates: one part per (family, base, package, supplier package, output voltage):
     # the most-stocked (packings of one part; a fixed regulator's voltages are different parts).
     best = {}
     for r in sorted((r for r in rows if not r['reason']), key=lambda r: (-r['stock'], r['mpn'])):
         key = (r['family'], r['base'].upper(), r['package'], r['supplier_package'], r['vout_v'])
         if key in best:
-            r['reason'] = 'duplicate'
+            r['reason'] = 'out:duplicate' if verdicts else 'duplicate'
         else:
             best[key] = r
 
@@ -240,9 +279,9 @@ def main():
         share = -(-QUOTA[r['family']] // 3)
         if count[(r['family'], r['maker'])] < share or r.get('_named'):
             count[(r['family'], r['maker'])] += 1
-            r['reason'] = 'candidate'
+            r['reason'] = 'add' if verdicts else 'candidate'
         else:
-            r['reason'] = 'below quota'
+            r['reason'] = 'out:below quota' if verdicts else 'below quota'
 
     rows.sort(key=lambda r: (r['family'], -r['stock'], r['mpn']))
     with open(out, 'w', newline='') as fh:
@@ -255,8 +294,12 @@ def main():
         print(f'{listed} parts listed')
         print('reason:', dict(sorted(collections.Counter(r['reason'] for r in rows).items())))
         floor = {}
+        pick_label = 'add' if verdicts else 'candidate'
+        print('reason:', dict(sorted(collections.Counter(
+            (r['reason'].split(':')[0] if r['reason'].startswith(('out:', 'skip:')) else r['reason'])
+            for r in rows).items())))
         for fam in QUOTA:
-            sel = [r for r in rows if r['family'] == fam and r['reason'] == 'candidate']
+            sel = [r for r in rows if r['family'] == fam and r['reason'] == pick_label]
             print(f'{fam}: {len(sel)} picked; per maker', dict(sorted(collections.Counter(r['maker'] for r in sel).items())))
             for mk in sorted({r['maker'] for r in sel}):
                 quota_picks = [r['stock'] for r in sel if r['maker'] == mk and not r.get('_named')]
@@ -273,13 +316,20 @@ def main():
             for line in open(os.path.join(raw, stem + '.err')):
                 if ': failed' in line:
                     print(f'failed piece {stem}: {line.strip()[:90]}')
-        picked = [r for r in rows if r['reason'] == 'candidate']
+        picked = [r for r in rows if r['reason'] == pick_label]
         print('candidates from a cut piece:', sum(1 for r in picked if r['cut']), 'of', len(picked))
         print('picked per maker:', dict(sorted(collections.Counter(r['maker'] for r in picked).items())))
         print('named bases picked:', sorted({r['base'].upper() for r in picked if r['base'].upper() in NAMED}))
         print('named bases listed but not picked:', sorted({r['base'].upper() for r in rows if r['base'].upper() in NAMED} -
                                                          {r['base'].upper() for r in picked}))
         print('picked per status:', dict(sorted(collections.Counter(r['status'] for r in picked).items())))
+        if verdicts:
+            got = collections.Counter((r['family'], r['maker']) for r in picked)
+            for fam in QUOTA:
+                for mk in sorted({'Texas Instruments', 'Analog Devices', 'Microchip Technology'}):
+                    share = -(-QUOTA[fam] // 3)
+                    print(f'add {fam} {mk}: {got[(fam, mk)]} of {share}' + ('  SHORT' if got[(fam, mk)] < share else ''))
+            print('add total:', len(picked))
 
 
 main()

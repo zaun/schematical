@@ -1,0 +1,47 @@
+pdf	package	series	scheme	note
+datasheets/regulator/analog-devices/adpl44002.pdf	SOT-23-5 Thin, TSOT-23-5	-	ADPL44002AUJZ-?(?:1\.8|2\.5|3\.3|5\.0)-R7	Ordering Guide table 6: ADPL44002AUJZ{1.8,2.5,3.3,5.0}-R7 (DigiKey adds a hyphen before the voltage)
+datasheets/regulator/analog-devices/lt8622s-8624s.pdf	20-TFQFN Exposed Pad	Silent Switcher®3	-	only the 2-page first-page extract; no ordering information
+datasheets/regulator/analog-devices/max5023-max5024.pdf	8-SOIC (0.154", 3.90mm Width)	-	MAX502[34][LMST]ASA\+T?	Ordering Information p.1: MAX502{3,4}_ASA with selector-guide suffix L/M/S/T; + = RoHS, T = tape and reel
+datasheets/regulator/analog-devices/max8510-max8512.pdf	5-TSSOP, SC-70-5, SOT-353	-	MAX851[01]EXK(?:1[5-9]|2\d|3\d|4[0-5]|89)\+T|MAX8512EXK\+T	Ordering Information: MAX851{0,1}EXKxy+T, xy = 1.5V..4.5V in 100mV steps (+ selector guide 29=2.85, 89=2.9)
+datasheets/regulator/analog-devices/max8867-max8868.pdf	SC-74A, SOT-753	-	MAX886[78]E[UZ]K(?:2[5-9]|3\d|4\d|50)[+-]T	Ordering Information: MAX886{7,8}E{U,Z}Kxy-T, xy 2.5V..5.0V in 100mV steps; DigiKey +T = lead-free
+datasheets/regulator/microchip/1A-Low-Voltage-Low-Quiescent-Current-LDO-Regulator-DS20001936E.pdf	8-VDFN Exposed Pad	-	MCP1726T?-(?:0802|1202|1802|2502|3002|3302|5002|ADJ)E/(?:MF|SN)(?:VAO)?	Product Identification System p.29 (voltages 0.8/1.2/1.8/2.5/3.0/3.3/5.0/ADJ, E, MF/SN, VAO)
+datasheets/regulator/microchip/20005253A.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	-	MCP1642[BD]T?-(?:18|30|33|50|ADJ)I/(?:MC|MS)	Product Identification System p.28 (18/30/33/50/ADJ, I, MC/MS)
+datasheets/regulator/microchip/20005661A.pdf	SC-74A, SOT-753	-	MIC5255-(?:2\.5|2\.8|3\.0|3\.2|3\.3)Y(?:M5|D5|ML)(?:-T[RX])?	Product Identification p.19: only 2.5/2.8/3.0/3.2/3.3V listed; 3.1V is not
+datasheets/regulator/microchip/22008E.pdf	TO-236-3, SC-59, SOT-23-3	-	MCP1702T?-(?:12|15|18|25|28|30|33|40|50)0[12]E/(?:CB|MB|TO)	Product Identification p.24: 12/15/18/25/28/30/33/40/50, E, CB/MB/TO
+datasheets/regulator/microchip/22026b.pdf	8-VFDFN Exposed Pad	-	MCP1725T?-(?:(?:08|12|18|25|30|33|50)02|ADJ)E/MC	Product Identification (22026b): 8LD DFN = MC; voltages 08..50, ADJ
+datasheets/regulator/microchip/22056b.pdf	SOT-223-6	-	MCP1825T?-(?:(?:08|12|18|25|30|33|50)02|ADJ)E/DC	Product Identification p.35: 5LD SOT-223 = DC; ADJ only in 5-lead
+datasheets/regulator/microchip/22056b.pdf	TO-261-4, TO-261AA	-	MCP1825ST?-(?:08|12|18|25|30|33|50)02E/DB	Product Identification p.35: S variant, 3LD SOT-223 = DB
+datasheets/regulator/microchip/22057B.pdf	TO-261-4, TO-261AA	-	MCP1826ST?-(?:08|10|12|18|25|30|33|50)02E/DB	Product Identification (22057B): S variant, 3LD SOT-223 = DB
+datasheets/regulator/microchip/50001894.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	-	-	PDF is the Microchip development-tools catalog (50001894); no MCP1257 ordering table
+datasheets/regulator/microchip/50001894.pdf	SC-74A, SOT-753	-	-	PDF is the Microchip development-tools catalog (50001894); no TC1185 ordering table
+datasheets/regulator/microchip/LM2574.pdf	14-SOIC (0.295", 7.50mm Width)	-	-	Micrel LM2574 ordering table lists only 8-pin DIP (BN/YN); no SOIC, no 12V
+datasheets/regulator/microchip/LX7167_Rev1.1.pdf	8-WFDFN Exposed Pad	-	LX7167CLD(?:-TR)?	Ordering Information p.2: LX7167CLD, LX7167CLD-TR only; ACLD not listed
+datasheets/regulator/microchip/MCP16331-Data-Sheet-20005308.pdf	8-WFDFN Exposed Pad	-	MCP16331T?-E/(?:CH|MNY)(?:VAO)?	Product Identification p.45: T, E, CH/MNY, optional VAO
+datasheets/regulator/microchip/MCP16411-Low-IQ-Boost-with-Programmable-UVLO-Evaluation-Board-Users-Guide-DS50003000A.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	-	-	PDF is the MCP16411 eval-board users guide; only MCP16411T-I/UN appears in its BOM
+datasheets/regulator/microchip/MCP16411-Low-IQ-Boost-with-Programmable-UVLO-Evaluation-Board-Users-Guide-DS50003000A.pdf	10-WFDFN Exposed Pad	-	-	PDF is the MCP16411 eval-board users guide; only MCP16411T-I/UN appears in its BOM
+datasheets/regulator/microchip/MCP1703-250-mA-16V-Low-Quiescent-Current-LDO-20002049.pdf	TO-236-3, SC-59, SOT-23-3	-	MCP1703T?-(?:12|15|18|24|25|28|30|33|35|36|40|45|50)0[12]E/CB(?:VAO)?	Product Identification p.30: voltages 12..50, tol 1/2, E, CB; VAO option
+datasheets/regulator/microchip/MCP1703-250-mA-16V-Low-Quiescent-Current-LDO-20002049.pdf	TO-261-4, TO-261AA	-	MCP1703T?-(?:12|15|18|24|25|28|30|33|35|36|40|45|50)0[12]E/DB(?:VAO)?	Product Identification p.30: voltages 12..50, tol 1/2, E, DB; VAO option
+datasheets/regulator/microchip/MIC2177.pdf	20-SOIC (0.295", 7.50mm Width)	-	MIC2177(?:-3\.3BWM|-5\.0BWM|BWM|-3\.3YWM)	Ordering Information p.1: -3.3BWM, -5.0BWM, BWM, -3.3YWM; -5.0YWM not listed
+datasheets/regulator/microchip/MIC2205.pdf	10-VFDFN Exposed Pad	-	MIC2205(?:-1\.58)?YML	Ordering Information p.1: MIC2205YML (Adj) and MIC2205-1.58YML only
+datasheets/regulator/microchip/MIC2285.pdf	10-UFDFN, 10-TMLF®	-	MIC2285YML	Ordering Information p.1: MIC2285YML only; AYMT not listed
+datasheets/regulator/microchip/MIC2571.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	-	MIC2571-[12]BMM	Ordering Information p.1: MIC2571-1BMM, -2BMM (MSOP); YMM Pb-free not listed
+datasheets/regulator/microchip/MIC37150-1-2-3-1.5A-Low-Voltage-Microcap-LDO-Regulators-DS20006491A.pdf	SPAK-3 (3 Leads + Tab)	-	MIC37150-(?:1\.5|1\.65|1\.8|2\.5|3\.3)WR(?:-TR)?	Product Identification p.21: -1.5/1.65/1.8/2.5/3.3, WR (3-lead S-Pak), -TR
+datasheets/regulator/microchip/MIC37150-1-2-3-1.5A-Low-Voltage-Microcap-LDO-Regulators-DS20006491A.pdf	SPAK-5 (5 Leads + Tab)	-	MIC37151-(?:1\.5|1\.65|1\.8|2\.5|3\.3)WR(?:-TR)?	Product Identification p.21: MIC37151 5-lead S-Pak, -1.5/1.65/1.8/2.5/3.3, WR, -TR
+datasheets/regulator/microchip/MIC4574.pdf	14-SOIC (0.154", 3.90mm Width)	-	-	Micrel MIC4574 ordering table lists only 8-pin DIP (BN/YN)
+datasheets/regulator/microchip/MIC4575.pdf	24-SOIC (0.295", 7.50mm Width)	-	-	Micrel MIC4575 ordering table lists only TO-220 (T) and TO-263 (U)
+datasheets/regulator/microchip/MIC49150-Data-Sheet-DS20006585.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	-	MIC49150(?:-(?:0\.9|1\.2|1\.5|1\.8))?YMM(?:-TR)?	Product Identification: Adj or -0.9/1.2/1.5/1.8, Y, MM (8-lead Power MSOP), -TR
+datasheets/regulator/microchip/MIC5205-150mA-Low-Noise-LDO-Regulator-DS20005785C.pdf	SC-74A, SOT-753	-	MIC5205(?:-(?:2\.5|2\.7|2\.8|2\.85|2\.9|3\.0|3\.1|3\.2|3\.3|3\.6|3\.8|4\.0|5\.0))?YM5(?:-T[RX])?	Product Identification p.17: Y grade only, voltages 2.5..5.0 list, M5, TR/TX; B grade (BM5) not listed
+datasheets/regulator/microchip/MIC5207-180mA-Low-Noise-LDO-Regulator-DS20005719C.pdf	SC-74A, SOT-753	-	MIC5207(?:-(?:1\.8|2\.5|2\.8|2\.9|3\.0|3\.1|3\.2|3\.3|4\.0|5\.0))?Y(?:M5|D5)(?:-T[RX])?	Product Identification: Y grade only; 3.6V and B grade not listed
+datasheets/regulator/microchip/MIC5209-500mA-Low-Noise-LDO-Regulator-DS20005720B.pdf	TO-261-4, TO-261AA	-	MIC5209(?:-(?:1\.8|2\.5|3\.0|3\.3|3\.6|4\.2|5\.0))?YS(?:-TR)?	Product Identification: Y grade, S = SOT-223, voltages 1.8..5.0, TR; B grade not listed
+datasheets/regulator/microchip/MIC5209-500mA-Low-Noise-LDO-Regulator-DS20005720B.pdf	TO-263-6, D2PAK (5 Leads + Tab), TO-263BA	-	MIC5209(?:-(?:1\.8|2\.5|3\.0|3\.3|3\.6|4\.2|5\.0))?YU(?:-TR)?	Product Identification: Y grade, U = 5-lead DDPAK, TR; B grade not listed
+datasheets/regulator/microchip/MIC5233-Data-Sheet-DS20006033.pdf	SC-74A, SOT-753	-	MIC5233(?:-(?:1\.8|2\.5|3\.0|3\.3|5\.0))?YM5(?:-TR)?(?:VAO)?	Product Identification: Y grade, M5, 1.8/2.5/3.0/3.3/5.0/Adj; B grade not listed
+datasheets/regulator/microchip/MIC5238.pdf	SOT-23-5 Thin, TSOT-23-5	-	MIC5238-(?:1\.0|1\.1|1\.3)[BY](?:M5|D5)(?:[ -]TR)?	Ordering Information p.2: only 1.0/1.1/1.3V in M5 and D5; 1.2V not listed
+datasheets/regulator/microchip/MIC5501-02-03-04-300mA-Single-Output-LDO-in-Small-Packages-DS20006006B.pdf	SC-74A, SOT-753	-	MIC5501-(?:1\.8|3\.0)YM5(?:-TR)?|MIC5502-(?:1\.8|2\.8|3\.0)YM5(?:-TR)?|MIC5503-(?:1\.2|1\.8)YM5(?:-TR)?|MIC5504-(?:1\.2|1\.8|2\.5|2\.8|3\.0|3\.3)YM5(?:-TR)?	Product Identification p.19: per-device voltage lists; 1.0/2.2/3.1V are MT (TDFN) only
+datasheets/regulator/microchip/MIC94310-Data-Sheet-20006105B.pdf	4-UFDFN Exposed Pad	Ripple Blocker™	MIC94310-[4FGDJLMNPS][YE]MT-T[R5]	Product Identification: voltage letter (4,F,G,D,J,L,M,N,P,S), Y/E, MT, TR/T5
+datasheets/regulator/microchip/TC1262-Data-Sheet-DS200013732.pdf	TO-261-4, TO-261AA	-	TC1262-(?:2\.5|2\.8|3\.0|3\.3|5\.0)VDB(?:TR)?	Product Identification: 2.5/2.8/3.0/3.3/5.0, V, DB (SOT-223), TR
+datasheets/regulator/ti/lm2734.pdf	SOT-23-6 Thin, TSOT-23-6	-	LM2734[XY]MKX?/NOPB	Orderable addendum: LM2734{X,Y}MK and MKX /NOPB only; no Q (automotive) version
+datasheets/regulator/ti/lm317.pdf	TO-220-3	-	-	lm317.pdf orderable addendum lists KCS/KTT/DCY only; LM317T/LF01 not listed
+datasheets/regulator/ti/lm317.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	-	-	lm317.pdf is LM317 only (no LM317M / KVU)
+datasheets/regulator/ti/lm317.pdf	TO-261-4, TO-261AA	-	-	lm317.pdf is LM317 only (LM317DCYR listed, LM317M not)
+datasheets/regulator/ti/lp3874.pdf	TO-261-5, TO-261AB	-	LP3874EMPX?-(?:1\.8|2\.5|3\.3|5\.0)/NOPB	Orderable addendum: fixed 1.8/2.5/3.3/5.0 only; no ADJ version
+datasheets/regulator/ti/tps61045.pdf	8-VDFN Exposed Pad	-	TPS61045DRB[RT](?:G4)?	Orderable addendum: TPS61045DRBR/DRBT only; the A variant is not listed

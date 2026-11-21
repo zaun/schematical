@@ -1,0 +1,5 @@
+pdf	package	series	scheme	note
+datasheets/regulator/microchip/MIC37100-01-02-1A-Low-Voltage-Cap-LDO-Regulator-DS20006104A.pdf	8-SOIC (0.154", 3.90mm Width)	-	-	Product Identification System (DS20006104A): junction temperature W / Y only, so MIC37102BMTR (B grade) is not orderable per the doc
+datasheets/regulator/microchip/MIC2920.pdf	TO-263-6, D2PAK (5 Leads + Tab), TO-263BA	-	-	MIC2920.pdf (MIC29202 / MIC29204) prints no MIC29203 at all
+datasheets/regulator/ti/lp2985.pdf	SC-74A, SOT-753	-	-	lp2985.pdf (SLVS522S, May 2025) Orderable Information lists only the 5-pin SOT-23 DBV package; the legacy LP2985AIM5X-3.0/NOPB is not listed
+datasheets/regulator/ti/lp2985.pdf	5-UFBGA, DSBGA	-	-	lp2985.pdf (SLVS522S, May 2025) Orderable Information lists no DSBGA package; LP2985AITPX-3.0/NOPB is not listed

@@ -1,0 +1,6 @@
+mpn	dead	page	words
+MIC4724YMME	1	page 1 (MIC4724-Data-Sheet-Obsolete-Device-EOL.pdf)	"Note: The MIC4724 device is obsolete. Microchip recommends the MIC2207 instead."
+MIC5245-3.1BM5	1	page 1 (MIC5245.pdf)	"Not recommended for new designs, see MIC5255."
+MIC5245-3.3BM5	1	page 1 (MIC5245.pdf)	"Not recommended for new designs, see MIC5255."
+MIC2951-03YM-TR	0	page 1 (mic2950.pdf)	only the TO-92 package is discontinued ("TO-92 Package discontinuance notification issued September 2007"); the row is 8-SOIC
+MIC2954-08YM-TR	0	page 1 (mic2954.pdf)	only the TO-92 package is discontinued; the row is 8-SOIC

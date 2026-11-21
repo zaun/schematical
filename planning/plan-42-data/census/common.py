@@ -32,8 +32,15 @@ def load(path):
 
 
 def init(rows):
-    """Compute the download set of <rows> (download-set.py's rule) once."""
+    """The download set: the part numbers of `download-set.tsv` (plan-42-A's
+    final set; it stays fixed after A, so a later `reason` such as `add` does
+    not change it), else computed from <rows> by download-set.py's rule."""
     import collections
+    path = os.path.join(DATA, "download-set.tsv")
+    if os.path.exists(path):
+        _SET.clear()
+        _SET.update(r["mpn"] for r in load(path))
+        return len(_SET)
     pool = [r for r in rows if r["reason"] in ("candidate", "below quota")]
     pool.sort(key=lambda r: (r["reason"] != "candidate", -int(r["stock"]), r["mpn"]))
     taken = collections.Counter()
@@ -68,9 +75,21 @@ def device_runs(base):
     `/` on, lowercased; then its leading letters-and-digits run."""
     name = base.split("/")[0]
     out = [name]
+
+    def add(x):
+        if x and x not in out:
+            out.append(x)
+    add(name.split("-")[0])
     m = re.match(r"[A-Za-z0-9]+", name)
-    if m and m.group(0) != name:
-        out.append(m.group(0))
+    if m:
+        add(m.group(0))
+    m = re.match(r"([A-Za-z]+)([0-9]+)", name)   # the family: LP8340, TPS793 (digits dropped to 3)
+    if m:
+        add(m.group(0))
+        digits = m.group(2)
+        while len(digits) > 3:
+            digits = digits[:-1]
+            add(m.group(1) + digits)
     return out
 
 
