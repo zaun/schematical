@@ -33,8 +33,8 @@ plan-42-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-42-A complete | `ls planning/completed/plan-42-A-*.md` → exists | NOT MET (2026-11-15: not started) |
-| A's outputs exist | `ls planning/plan-42-data/stock-check.tsv planning/plan-42-data/specs.tsv datasheets/regulator/datasheets.tsv` → three files | NOT MET (2026-11-15: none) |
+| plan-42-A complete | `ls planning/completed/plan-42-A-*.md` → exists | MET (2026-11-21: `planning/completed/plan-42-A-regulator-data.md`) |
+| A's outputs exist | `ls planning/plan-42-data/stock-check.tsv planning/plan-42-data/specs.tsv datasheets/regulator/datasheets.tsv` → three files | MET (2026-11-21: all three exist) |
 
 Everything below is written against the world where these hold.
 
@@ -151,74 +151,76 @@ automated clients at microchip.com, A § 2).
 
 ### Phase 1 — Texas Instruments (with National and Burr Brown)
 
-- [ ] `census/specs.py`, `scheme-check.py`, `specs-fill.py`,
-      `need-groups.py`, `mark-unread.py` (plan-40's, adapted: the regulator
+- [x] `census/specs.py`, `scheme-check.py`, `specs-fill.py`,
+      ~~`need-groups.py`, `mark-unread.py`~~ (plan-40's, adapted: the regulator
       columns, the three makers). Smoke run on the skeleton:
-      `scheme-check.py --maker "Texas Instruments"` prints its count line.
-- [ ] Read each TI PDF's Package Option Addendum (`pdftotext -layout`); fill
+      `scheme-check.py --maker "Texas Instruments"` prints its count line. Observed: `Texas Instruments: 291 rows with a PDF; 285 verbatim, 0 by scheme, 0 in neither, 0 not read (n/r)` / `65 download-set rows without a scheme` (all makers, before the reading). `need-groups.py` and `mark-unread.py` are moot: every non-verbatim spec group (151) was read, so no spec row is `n/r` (`scheme-check.py` → `0 not read (n/r)` for every maker); `census/auto-scheme.py` (new) proposes the schemes and the labels, see Corrections 2.
+- [x] Read each TI PDF's Package Option Addendum (`pdftotext -layout`); fill
       `scheme` (only where a row is not verbatim) and `label` for every TI
       spec row the pick can reach (`need-groups.py`: rows at or above the
-      floor, or in a short share); `specs-ti.tsv`, merged by `specs-fill.py`.
+      floor, or in a short share); `specs-ti.tsv`, merged by `specs-fill.py`. Done for every TI spec row (not only the reachable ones): 6 TI groups were not verbatim; `auto-scheme.py` + the manual files `specs-b-manual.tsv` / `specs-b-manual2.tsv` filled them; `specs-fill.py` → `0 errors`.
 
 Acceptance: every TI download-set row has a scheme or is a skip.
-  Check: `python3 -I planning/plan-42-data/census/scheme-check.py --maker "Texas Instruments"` → `0 download-set rows without a scheme` (est. 1 min; the reading is the work).
+  Check: `python3 -I planning/plan-42-data/census/scheme-check.py --maker "Texas Instruments"` → `0 download-set rows without a scheme` (est. 1 min; the reading is the work). Observed 2026-11-21: `Texas Instruments: 297 rows with a PDF; 289 verbatim, 0 by scheme, 8 in neither, 0 not read (n/r)` / `0 download-set rows without a scheme`.
 Commit: —
 
 ### Phase 2 — Analog Devices (with Maxim)
 
-- [ ] As Phase 1 for the ADI PDFs (Ordering Guide; Maxim-origin
-      "Ordering Information" with `+`/`+T` suffixes); `specs-adi.tsv`.
+- [x] As Phase 1 for the ADI PDFs (Ordering Guide; Maxim-origin
+      "Ordering Information" with `+`/`+T` suffixes); `specs-adi.tsv`. Done (the ADI rows are in `specs-auto.tsv` and `specs-b-manual.tsv`).
 
 Acceptance: as Phase 1.
-  Check: `scheme-check.py --maker "Analog Devices"` → `0 download-set rows without a scheme` (est. 1 min).
+  Check: `scheme-check.py --maker "Analog Devices"` → `0 download-set rows without a scheme` (est. 1 min). Observed: `Analog Devices: 300 rows with a PDF; 224 verbatim, 74 by scheme, 2 in neither, 0 not read (n/r)` / `0 download-set rows without a scheme`.
 Commit: —
 
 ### Phase 3 — Microchip (with Micrel)
 
-- [ ] As Phase 1 for the Microchip PDFs (Product Identification System
-      schemes; Micrel-origin "Ordering Information" tables); `specs-microchip.tsv`.
+- [x] As Phase 1 for the Microchip PDFs (Product Identification System
+      schemes; Micrel-origin "Ordering Information" tables); `specs-microchip.tsv`. Done (the Microchip rows are in `specs-auto.tsv`, `specs-b-manual.tsv`, `specs-b-manual2.tsv`).
 
 Acceptance: as Phase 1.
-  Check: `scheme-check.py --maker "Microchip Technology"` → `0 download-set rows without a scheme` (est. 1 min).
+  Check: `scheme-check.py --maker "Microchip Technology"` → `0 download-set rows without a scheme` (est. 1 min). Observed: `Microchip Technology: 294 rows with a PDF; 171 verbatim, 92 by scheme, 31 in neither, 0 not read (n/r)` / `0 download-set rows without a scheme`.
 Commit: —
 
 ### Phase 4 — Datasheet status, verdicts, the final pick
 
-- [ ] Read every download-set row with `dead` = 1 in its PDF (the text scan's
+- [x] Read every download-set row with `dead` = 1 in its PDF (the text scan's
       flag) and confirm or clear it by hand (`dead-<maker>.tsv`: `mpn`,
       `dead`, `page`, `words`; merged by `dead-merge.py`); record each PDF
-      whose download-set rows are all dead.
-- [ ] `census/verdicts.py` (§ 3.2): `verdicts.tsv`; `select.py --verdicts`
+      whose download-set rows are all dead. Done: `dead-merge.py` → `7` rows `dead` = 1 (TPS7101QDR, TPS72501KTTR, SM72238TDX-5.0/NOPB, TPS61032PWPR, MIC4724YMME, MIC5245-3.1BM5, MIC5245-3.3BM5); PDFs whose download-set rows are all dead: `MIC4724-Data-Sheet-Obsolete-Device-EOL.pdf`, `MIC5245.pdf` (listed in `obsolete-not-included.md`), and three TI family PDFs with one NRND package row each (Corrections 4).
+- [x] `census/verdicts.py` (§ 3.2): `verdicts.tsv`; `select.py --verdicts`
       (plan-40's option, adapted); re-run the pick to the final
-      `candidates.tsv`.
-- [ ] Hand-check one `add` row per distinct `scheme` against its PDF's
-      ordering table (row, page, result) in § Corrections.
+      `candidates.tsv`. Done: `verdicts.py` → `843 add`, `7 out datasheet status`, `8 + 1 skip no datasheet on the maker's site`, `41 skip not in the datasheet's ordering table` (900 rows); `select.py … --verdicts … --report` → `add total: 600`, every (family, maker) share full.
+- [x] Hand-check one `add` row per distinct `scheme` against its PDF's
+      ordering table (row, page, result) in § Corrections. Done: `scheme-handcheck.py` → `scheme-handcheck.txt`: 99 distinct (maker, scheme), 126 add rows by scheme; 71 with the page and line that print the row's name after an ordering heading; the other 28 read by hand (Corrections 5).
 
 Acceptance: the verdicts and the pick hold, and the named parts are in.
+  Observed 2026-11-21: `add` N = **600**; the named bases: LM1117 6, TLV1117 6, LM317 3, LM340 6, LM7805 2, UA7805 2, LM2576 6, LM2596 6, MCP1700 6, MCP1702 6 (each ≥ 1).
   Check: `awk -F'\t' '$29=="add"' planning/plan-42-data/candidates.tsv \| wc -l` → N (recorded here; at most 600); `python3 -I planning/plan-42-data/census/select.py /tmp/p42/raw /tmp/p42/cand.tsv --stock planning/plan-42-data/stock-check.tsv --verdicts planning/plan-42-data/verdicts.tsv --report` → exits 0 with the `add` per (family, maker) lines; `for n in LM1117 TLV1117 LM317 LM340 LM7805 UA7805 LM2576 LM2596 MCP1700 MCP1702; do echo $n $(awk -F'\t' -v n=$n '$29=="add" && toupper($8)==n' planning/plan-42-data/candidates.tsv \| wc -l); done` → each at least 1, a 0 written in § Corrections with its rows' verdicts (est. 3 min).
 Commit: —
 
 ### Phase 5 — Skips, obsolete PDFs, footprint lines, prune
 
-- [ ] `datasheets/skipped-parts.md`: a `## Voltage regulators (plan-42)`
+- [x] `datasheets/skipped-parts.md`: a `## Voltage regulators (plan-42)`
       section, one table row per (device or series, reason) group of the
       `skip` rows at or above their (family, maker)'s floor, in the file's
       four-column format (`Part(s) | Device | Would have gone into | Why
       skipped`; "Would have gone into" `regulator` / `Power → Regulators →
       Linear` or `… → Switching`); `verdicts.py --write-skipped` prints the
       counts, recorded here, and `verdicts.py --verify-skipped` → `0 skip
-      rows missing from skipped-parts.md` (plan-42-J re-runs it).
-- [ ] `datasheets/obsolete-not-included.md`: one row per all-dead PDF (`PDF |
+      rows missing from skipped-parts.md` (plan-42-J re-runs it). Observed: `--write-skipped` → `43 skip rows in 10 table rows`; `--verify-skipped` → `0 skip rows missing from skipped-parts.md`; `grep -c '^| ' datasheets/skipped-parts.md` 692 → 703 (+11: 10 rows and the table header).
+- [x] `datasheets/obsolete-not-included.md`: one row per all-dead PDF (`PDF |
       Family | Category / group | Notes`: `regulator`, the drawer path, the
-      datasheet's wording and page, the URL); delete those PDFs.
-- [ ] `census/footprint-lines.py planning/plan-42-data/candidates.tsv >
+      datasheet's wording and page, the URL); delete those PDFs. Two rows: `MIC4724-Data-Sheet-Obsolete-Device-EOL.pdf`, `MIC5245.pdf`; the PDFs are not in the tree after the prune.
+- [x] `census/footprint-lines.py planning/plan-42-data/candidates.tsv >
       planning/plan-42-data/footprints-needed.txt` from the `add` rows;
-      record the per-letter line counts (planning: D 69, E 63, F 48).
-- [ ] `census/prune.py`: delete every placed PDF no `add` row cites, rewrite
+      record the per-letter line counts (planning: D 69, E 63, F 48). Observed: D 68 lines (320 parts, 25 with no existing footprint of the same outline), E 64 (179 parts; 64 new), F 47 (101 parts; 47 new): 179 lines.
+- [x] `census/prune.py`: delete every placed PDF no `add` row cites, rewrite
       `datasheets.tsv`; `place.py --verify` → `0 missing, 0 unused`; commit
-      `datasheets/regulator/`.
+      `datasheets/regulator/`. Observed: `prune.py` → `487 files; 357 used by add rows; keep 357, delete 130`, `datasheets.tsv: 387 lines`; `place.py --verify-add` (`--verify` checks the download set, Corrections 6) → `0 missing, 0 unused`.
 
 Acceptance: the tree holds exactly the datasheets the parts will cite.
+  Observed: `du -sh datasheets/regulator` → `480M` (357 PDFs).
   Check: `python3 -I planning/plan-42-data/census/place.py --verify` → `0 missing, 0 unused`; `grep -c '^| ' datasheets/skipped-parts.md` grew by the recorded row count; `du -sh datasheets/regulator` recorded here (est. 2 min).
 Commit: —
 
@@ -247,6 +249,15 @@ Commit: —
   this plan leaves out every obsolete, discontinued or NRND part.
 
 ## Corrections
+
+1. **A's final data differed slightly from the plan text** (2026-11-21): the download set is 900 rows (two refills after the stock check, plan-42-A Corrections 3); `download-set.tsv` is now the fixed definition of the set (`common.init()` reads it; the `reason` column changes to `add` / `skip:` / `out:` and no longer defines it). The part-number scan counts: 881 download-set rows with a PDF at A; after the extra TI / Microchip rewrites of Corrections 3 below: 890 (683 verbatim), 10 without.
+2. **`census/auto-scheme.py` replaces the by-hand pass for most groups** (new script): 593 spec rows (583 at A + 10 new groups after the rewrites); 151 had a row not printed verbatim. The script removes the maker's packing suffix (ADI / Linear `#TRPBF`, `#PBF`, `-R7`; Maxim `+T`, `+`; Microchip `-TR`, ` TR`, `T`; TI `/NOPB`, reel letter) and looks the shorter name up in the PDF text (token boundaries); 106 groups got `(?:<cores>)<suffix class>?` as scheme, the other 50 were read by a subagent (`specs-b-manual.tsv`, 46 groups: 35 regex from the datasheet's Product Identification System, 11 `-` = no ordering table supports the rows) and by me (`specs-b-manual2.tsv`, 4 groups, `-`). `label` = DigiKey's base part number when it is a clean device name, else the leading letters-and-digits run of the part number (every spec row has one; the generator in plan-42-H may refine a drawer name, not the label's key).
+3. **The TI / Microchip rewrite of plan-42-A § 4 rule 3 / 4 was too narrow**: it tried the full device name and the leading letters-and-digits run (`lp8340ildx`), not the family (`lp8340`): `common.device_runs()` now also tries the name up to the first `-`, the letters + digits, and the digits cut to 3 (`tps79301` → `tps793`). After that 13 more PDFs downloaded (`urls.py` → 965 URLs, `fetch.js` → `965 urls; 567 are PDFs`) and 10 download-set rows have no PDF (TI Rochester copies whose product page answers 404: `LM3204TLX/NOPB`, `LM2788MM-2.0`, …; Micrel `MIC5303-1.8YMT-TR`). Rule 5 evidence for the TI ones: `curl -L https://www.ti.com/product/LM3204` and `…/LM2788` → HTTP 404 (3385 bytes, "Error 404"), and no `lit/ds/symlink/lm3204.pdf` / `lm2788.pdf` PDF (404 text/html).
+4. **Datasheet status.** `dead-<maker>.tsv` (16 rows read): 7 confirmed dead (TI Package Option Addendum "NRND": `TPS7101QDR`, `TPS72501KTTR`, `SM72238TDX-5.0/NOPB`, `TPS61032PWPR`; Microchip: `MIC4724YMME` p.1 "The MIC4724 device is obsolete", `MIC5245-3.1BM5` and `-3.3BM5` p.1 "Not recommended for new designs, see MIC5255"), 9 cleared (the NRND / Obsolete word in a TI addendum belongs to a neighbouring orderable such as `REG102NA-A/250G4`; MIC2951 / MIC2954 only the TO-92 is discontinued; LT1129 "OBSOLETE PACKAGE" labels the TSSOP). The text scan only looked at the first occurrence of a part number; `TPS72501KTTR` was found by an all-occurrences scan (`part number` then `NRND|Obsolete|…` in the TI addendum), and a page 1–2 sweep of every placed PDF for family-wide wording (`not recommended for new`, `obsolete`, …) found only MIC4724 and MIC5245. `obsolete-not-included.md` lists the two PDFs whose every part is obsolete (`MIC4724-…-Obsolete-Device-EOL.pdf`, `MIC5245.pdf`); `slvs341e.pdf` (TPS725xx), `sm72238.pdf` and `tps61030.pdf` have all their *download-set* rows dead, but each is a family datasheet with other packages / parts that are not NRND, so they are not listed as all-obsolete and are simply pruned (no `add` row uses them).
+5. **Hand checks** (`scheme-handcheck.txt`; 99 distinct (maker, scheme), 126 add rows by scheme). 71: the page and line of the PDF that prints the name after an ordering heading (e.g. `MAX38902CANT+T` → `MAX38902CANT+` p.16; `MIC5235-5.0YM5-TR` → `MIC5235-5.0YM5` p.2; `ADP1710AUJZ-2.5-R7` → p.14). 28 read by hand: LT / LTC old datasheets print "PACKAGE/ORDER INFORMATION" with the extraction garbled (`ORDER I FOR ATIO`) and the name in the "ORDER PART NUMBER" column, "Order Options Tape and Reel: Add #TR Lead Free: Add #PBF" (LT1615ES5-1, LT3027IDD, LT1930AES5, LT3464ETS8, LT1935ES5, LT1618EDD, LT1956EGN-5, LTC1844ES5-BYP: confirmed lines 84–104 of their text); pattern documents: `MCP1702T-1802E/CB` (22008E.pdf, Product Identification System p.23: voltage codes 12 … 50, tolerance 2, `E`, `CB` / `MB` / `TO`, examples `MCP1702T-1202E/CB`), `MCP1703T-3302E/DB` and `-5002E/CB` (p.30: `CB` SOT-23A, `DB` SOT-223, `VAO`), `MCP1825ST-3302E/DB`, `MCP1826ST-3302E/DB` (Product Identification, `S` variant, `DB`), `TC1262-3.3VDBTR` (`TC1262-xxVDB`, p.1 ordering table), `MIC94310-PYMT-TR` (voltage letters `4 F G D J L M N P S`, `YMT`, `TR` / `T5`), `MIC49150YMM-TR` (`MIC49150-0.9YMM`, `MM` = 8-lead power MSOP, `-TR`), `MIC5209-5.0YS-TR` (`MIC5209-x.xYS`), `MIC5205-5.0YM5-TR` (p.17: Y grade, `M5`, `TR` / `TX`, 2.5 … 5.0), `MIC5504-1.8YM5-TR` (p.19: per-device voltage list, `YM5`, `TR`), `MAX8559ETAAA+T` (`MAX8559ETAxy*+T`), `MAX77597ETBB+T` (`MAX77597ETBB+`, fixed 3.3 V), `ADP1713AUJZ-3.0-R7`, `ADPL44002AUJZ-5.0-R7`, `MAX8510EXK45+T` (`EXKxy+T`), `MAX5023LASA+T`, `MIC37150-1.8WR`, `MIC37151-1.8WR`, `MCP16331T-E/MNYVAO`, `MIC5205`. All confirmed. The B-grade (Micrel, non-RoHS) rows `MIC5205-…BM5`, `MIC5207`, `MIC5209…B…`, `MIC5233-3.0BM5`, `MIC37102BMTR` are not in the new Microchip PDFs (Y / W grade only): skipped, not in the ordering table.
+6. **Commands corrected.** `place.py --verify` reads the download set, so after the prune the check is `place.py --verify-add` (the `add` rows' PDFs against the tree): `0 missing, 0 unused`. The plan-40 `need-groups.py` / `mark-unread.py` steps and the `pinout` check of `verdicts.py` are not part of B (pinouts are C's).
+7. **Wrong-product PDFs found by the reading** (skipped as not in the ordering table, no change to the pick): `50001894.pdf` is Microchip's development-tools catalog (`MCP1257T-E/UN`, `TC1185-…`), `MCP16411-…-Evaluation-Board-Users-Guide-DS50003000A.pdf` is an evaluation-board guide (MCP16413 / 14 / 15 / 18), `lm317.pdf` does not list LM317M parts, `lp2985.pdf` (2025) lists only the SOT-23 DBV package.
+8. **Shares.** Every (family, maker) share is full (`add linear-fixed … 80 of 80`, `linear-adjustable 30 of 30`, `linear-multi 10 of 10`, `switching 80 of 80`, for each of the three makers): 600 `add`, 597 Active + 3 Last Time Buy; `candidates from a cut piece: 164 of 600` (A's pick had 158). `LM317` has 3 add rows, not 6: DigiKey's base `LM317` lumps LM317, LM317L, LM317M and LM317A; the 6 most-stocked of the base were mostly LM317M / LM317T-LF01 parts that are not in `lm317.pdf`'s ordering table (3 skips) or in the download set's outside (`out:below the pick (not read)`), and the 3 added are LM317L parts (`LM317LIDR`, `LM317LIPK`, `LM317LCLP`); the classic TO-220 `LM317KCSE3` is outside the download set (stock below the share's floor) and stays out. `LM7805` has 2 and `UA7805` 2 as in the planning pick.
 
 ## Summary
 

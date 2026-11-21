@@ -867,3 +867,24 @@ lookup also failed to download 20 datasheets (result `download failed` in
 | 2N7002PW | Diotec Semiconductor | `transistor` / Discrete → Transistors → MOSFET → N-channel | no land pattern in the datasheet (2n7002pw.pdf p.3 prints the SOT-323 outline without the lead length, so no pad can be derived; Diotec's solder-pad document 5_solder-pads.pdf has no SOT-323) |
 | SI2371EDS-T1-BE3 | Vishay Siliconix | `transistor` / Discrete → Transistors → MOSFET → P-channel logic-level | not in the datasheet's ordering table (si2371eds.pdf p.1 Ordering Information: Si2371EDS-T1-GE3 only) |
 | MCP47A1T-A0E/LTY | Microchip Technology | `converter` / Interface → DAC | not in the datasheet's ordering table (jp559281.pdf, DS25154A, p.67 Product Identification System: package code LT only, MCP47A1T-A0E/LT) |
+
+## Voltage regulators (plan-42)
+
+In-stock Active / Last Time Buy positive voltage regulators of the makers of plan-42
+(Texas Instruments, Analog Devices, Microchip Technology, with the makers they bought)
+that the pick would have taken (stock at or above the stock of the last part picked
+for their family and maker) but that were skipped for their datasheet. Written by
+`planning/plan-42-data/census/verdicts.py --write-skipped`.
+
+| Part(s) | Device | Would have gone into | Why skipped |
+|---|---|---|---|
+| LT8622SAV#PBF | Analog Devices switching regulator | `regulator` / Power → Regulators → Switching | not in the datasheet's ordering table |
+| MIC29203BU, MIC37102BMTR | Microchip Technology linear adjustable regulator | `regulator` / Power → Regulators → Linear | not in the datasheet's ordering table |
+| MIC5246-2.6BM5, MIC5246-2.7BM5, MIC5246-3.0BM5, MIC5246-3.0BM5TR | Microchip Technology linear fixed-output regulator | `regulator` / Power → Regulators → Linear | no datasheet on the maker's site (rocelec.widen.net) |
+| MIC5303-1.8YMT-TR | Microchip Technology linear fixed-output regulator | `regulator` / Power → Regulators → Linear | no datasheet on the maker's site (ww1.microchip.com) |
+| MIC5205-1.88BM5TR, MIC5205-2.85BM5, MIC5205-2.85BM5 TR, MIC5205-3.1BM5 TR, MIC5207-3.1BM5, MIC5207-3.6BM5, MIC5209-2.5BU TR, MIC5209-4.2BS TR, MIC5233-3.0BM5, MIC5238-1.2YD5 TR, MIC5255-3.1YM5, TC1185-3.3VCT713, TC1185-5.0VCT713 | Microchip Technology linear fixed-output regulator | `regulator` / Power → Regulators → Linear | not in the datasheet's ordering table |
+| LM2574-3.3BWM, LM2574BWM, LX7167ACLD-TR, MCP1257T-E/UN, MCP16415T-I/MN, MCP16415T-I/UN, MIC2177-5.0YWM, MIC2205-1.5YML, MIC2285AYMT, MIC2571-2YMM, MIC4575-5.0BWM | Microchip Technology switching regulator | `regulator` / Power → Regulators → Switching | not in the datasheet's ordering table |
+| LM317MDCYR, LM317MKVURG3, LM317T/LF01, LP3874EMPX-ADJ | Texas Instruments linear adjustable regulator | `regulator` / Power → Regulators → Linear | not in the datasheet's ordering table |
+| LP2985AIM5X-3.0/NOPB, LP2985AITPX-3.0/NOPB | Texas Instruments linear fixed-output regulator | `regulator` / Power → Regulators → Linear | not in the datasheet's ordering table |
+| LM2590HVS-ADJ, LM2788MM-2.0, LM3204TLX/NOPB | Texas Instruments switching regulator | `regulator` / Power → Regulators → Switching | no datasheet on the maker's site (rocelec.widen.net) |
+| LM2734YQMKX/NOPB, TPS61045ADRBR | Texas Instruments switching regulator | `regulator` / Power → Regulators → Switching | not in the datasheet's ordering table |
