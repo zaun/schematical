@@ -1,0 +1,584 @@
+maker	series	pdf	package	rows	example	scheme	label	pinout	pinout_adj	regulators	analog	vref	vin_min	dropout	adjust_to
+Analog Devices	-	datasheets/regulator/analog-devices/1117fd.pdf	TO-261-4, TO-261AA	1	LT1117CST-3.3#PBF										
+Analog Devices	-	datasheets/regulator/analog-devices/1121fg.pdf	TO-261-4, TO-261AA	1	LT1121IST-5#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/112935ff.pdf	TO-261-4, TO-261AA	1	LT1129IST-3.3#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/1521335fb.pdf	TO-261-4, TO-261AA	1	LT1521CST-5#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/1613fs.pdf	SOT-23-5 Thin, TSOT-23-5	1	LT1613CS5#TRMPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/16151fas.pdf	SOT-23-5 Thin, TSOT-23-5	1	LT1615ES5-1#TRMPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/1618fas.pdf	10-WFDFN Exposed Pad	1	LT1618EDD#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/1761sff.pdf	SOT-23-5 Thin, TSOT-23-5	3	LT1761ES5-SD#TRMPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/1763fh.pdf	12-WFDFN Exposed Pad	2	LT1763CDE#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/1763fh.pdf	8-SOIC (0.154", 3.90mm Width)	3	LT1763CS8#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/1764afb.pdf	16-TSSOP (0.173", 4.40mm Width) Exposed Pad	1	LT1764AEFE#PBF										
+Analog Devices	-	datasheets/regulator/analog-devices/1765fd.pdf	16-TSSOP (0.173", 4.40mm Width) Exposed Pad	1	LT1765EFE-3.3#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/1766fc.pdf	16-SSOP (0.154", 3.90mm Width)	1	LT1766IGN#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/1844fa.pdf	SOT-23-5 Thin, TSOT-23-5	4	LTC1844ES5-BYP#TRMPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/1930f.pdf	SOT-23-5 Thin, TSOT-23-5	1	LT1930AES5#TRMPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/1933fe.pdf	SOT-23-6 Thin, TSOT-23-6	1	LT1933ES6#TRMPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/1935f.pdf	SOT-23-5 Thin, TSOT-23-5	1	LT1935ES5#TRMPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/1956f.pdf	16-SSOP (0.154", 3.90mm Width)	1	LT1956EGN-5#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/1962fb.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	2	LT1962EMS8-3.3#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/1965fb.pdf	8-WFDFN Exposed Pad	2	LT1965IDD#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3012fd.pdf	12-WFDFN Exposed Pad	1	LT3012EDE#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3014fd.pdf	SOT-23-5 Thin, TSOT-23-5	1	LT3014ES5#TRMPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3021fc.pdf	8-SOIC (0.154", 3.90mm Width)	1	LT3021ES8-1.2#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3023fa.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width) Exposed Pad	1	LT3023EMSE#PBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3023fa.pdf	10-WFDFN Exposed Pad	1	LT3023IDD#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3024fa.pdf	12-WFDFN Exposed Pad	1	LT3024EDE#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3027fa.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width) Exposed Pad	1	LT3027EMSE#PBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3027fa.pdf	10-WFDFN Exposed Pad	1	LT3027IDD#PBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3029fb.pdf	16-TFSOP (0.118", 3.00mm Width) Exposed Pad	1	LT3029EMSE#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3029fb.pdf	16-WFDFN Exposed Pad	1	LT3029IDE#PBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3030fa.pdf	20-TSSOP (0.173", 4.40mm Width) Exposed Pad	1	LT3030EFE#PBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3082f.pdf	8-WFDFN Exposed Pad	1	LT3082EDD#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3112fd.pdf	16-WFDFN Exposed Pad	1	LTC3112EDHD#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3121fa.pdf	12-WFDFN Exposed Pad	1	LTC3121EDE#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3129fc.pdf	16-WFQFN Exposed Pad	1	LTC3129IUD#PBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3130f.pdf	20-WFQFN Exposed Pad	1	LTC3130EUDC#PBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3401fb.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	1	LTC3401EMS#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3404fb.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	1	LTC3404EMS8#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3422fa.pdf	10-WFDFN Exposed Pad	1	LTC3422EDD#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3428fb.pdf	10-WFDFN Exposed Pad	1	LTC3428EDD#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3440fd.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	1	LTC3440EMS#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3441fc.pdf	12-WFDFN Exposed Pad	1	LTC3441EDE#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3461afa.pdf	SOT-23-6 Thin, TSOT-23-6	1	LT3461AES6#TRMPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3464f.pdf	SOT-23-8 Thin, TSOT-23-8	1	LT3464ETS8#TRMPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3473f.pdf	8-WFDFN Exposed Pad	1	LT3473EDD#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3481fc.pdf	10-WFDFN Exposed Pad	1	LT3481EDD#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3493fb.pdf	6-WFDFN Exposed Pad	1	LT3493EDCB#TRMPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3494fb.pdf	8-WFDFN Exposed Pad	1	LT3494EDDB#TRMPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3495b1b1fa.pdf	10-WFDFN Exposed Pad	1	LT3495BEDDB-1#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3502fd.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	1	LT3502AEMS#PBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3508fd.pdf	16-TSSOP (0.173", 4.40mm Width) Exposed Pad	1	LT3508IFE#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3525fc.pdf	6-TSSOP, SC-88, SOT-363	1	LTC3525ESC6-5#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3531fb.pdf	SOT-23-6 Thin, TSOT-23-6	1	LTC3531ES6-3.3#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3533fc.pdf	14-WFDFN Exposed Pad	1	LTC3533EDE#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3542fa.pdf	6-WFDFN Exposed Pad	1	LTC3542IDC#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/35451fb.pdf	16-WFQFN Exposed Pad	1	LTC3545EUD-1#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3549f.pdf	6-WFDFN Exposed Pad	1	LTC3549EDCB#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3601fc.pdf	16-WFQFN Exposed Pad	1	LTC3601EUD#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3603fc.pdf	16-TFSOP (0.118", 3.00mm Width) Exposed Pad	1	LTC3603EMSE#PBF										
+Analog Devices	-	datasheets/regulator/analog-devices/36242fd.pdf	8-WFDFN Exposed Pad	1	LTC3624EDD-2#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3639fd.pdf	16-TFSOP (0.118", 3.00mm Width), 12 Leads, Exposed Pad	1	LTC3639EMSE#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3663fc.pdf	8-WFDFN Exposed Pad	1	LT3663EDCB#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3991fa.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width) Exposed Pad	1	LT3991EMSE-3.3#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3991fa.pdf	10-WFDFN Exposed Pad	1	LT3991EDD#PBF										
+Analog Devices	-	datasheets/regulator/analog-devices/3995f.pdf	16-TFSOP (0.118", 3.00mm Width) Exposed Pad	1	LT3995EMSE#PBF										
+Analog Devices	-	datasheets/regulator/analog-devices/8610fa.pdf	16-TFSOP (0.118", 3.00mm Width) Exposed Pad	1	LT8610EMSE#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/8616fa.pdf	28-WFQFN Exposed Pad	1	LT8616EUDE#PBF										
+Analog Devices	-	datasheets/regulator/analog-devices/8620fa.pdf	16-TFSOP (0.118", 3.00mm Width) Exposed Pad	1	LT8620IMSE#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/ADM7154.pdf	8-WFDFN Exposed Pad, CSP	3	ADM7154ACPZ-3.3-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADM7160.pdf	SOT-23-5 Thin, TSOT-23-5	1	ADM7160AUJZ-1.8-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADM7170.pdf	8-WFDFN Exposed Pad, CSP	4	ADM7170ACPZ-3.3-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADM7171.pdf	8-WFDFN Exposed Pad, CSP	2	ADM7171ACPZ-3.3-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADM7172.pdf	8-WFDFN Exposed Pad, CSP	5	ADM7172ACPZ-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP121.pdf	4-WFBGA, WLCSP	2	ADP121-ACBZ33R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP121.pdf	SOT-23-5 Thin, TSOT-23-5	3	ADP121-AUJZ33R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP122_123.pdf	6-UDFN Exposed Pad, CSP	1	ADP123ACPZ-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP122_123.pdf	SOT-23-5 Thin, TSOT-23-5	4	ADP123AUJZ-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP124_125.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	2	ADP125ARHZ-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP124_125.pdf	8-UFDFN Exposed Pad, CSP	1	ADP124ACPZ-3.3-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP130.pdf	SOT-23-5 Thin, TSOT-23-5	1	ADP130AUJZ-1.2-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP150.pdf	4-WFBGA, WLCSP	2	ADP150ACBZ-1.8-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP150.pdf	SOT-23-5 Thin, TSOT-23-5	6	ADP150AUJZ-3.3-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP151.pdf	4-WFBGA, WLCSP	1	ADP151ACBZ-1.5-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP151.pdf	6-UDFN Exposed Pad, CSP	1	ADP151ACPZ-3.0-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP151.pdf	SOT-23-5 Thin, TSOT-23-5	5	ADP151AUJZ-3.3-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP1607.pdf	6-UDFN Exposed Pad, CSP	1	ADP1607ACPZN001-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP160_161_162_163.pdf	4-WFBGA, WLCSP	2	ADP160ACBZ-2.5-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP160_161_162_163.pdf	SOT-23-5 Thin, TSOT-23-5	6	ADP161AUJZ-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP1612_1613.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	1	ADP1612ARMZ-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP165_166.pdf	4-WFBGA, WLCSP	1	ADP165ACBZ-3.3-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP165_166.pdf	6-UDFN Exposed Pad, CSP	1	ADP165ACPZN-3.0-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP165_166.pdf	SOT-23-5 Thin, TSOT-23-5	2	ADP166AUJZ-3.3-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP1706_1707_1708.pdf	8-WFDFN Exposed Pad, CSP	2	ADP1708ACPZ-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP170_171.pdf	SOT-23-5 Thin, TSOT-23-5	1	ADP170AUJZ-1.8-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP1710_1711.pdf	SOT-23-5 Thin, TSOT-23-5	2	ADP1710AUJZ-2.5-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP1712_1713_1714.pdf	SOT-23-5 Thin, TSOT-23-5	5	ADP1713AUJZ-3.0-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP1715_1716.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	1	ADP1715ARMZ-3.3-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP1720.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	2	ADP1720ARMZ-5-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP1740_1741.pdf	16-WQFN Exposed Pad, CSP	1	ADP1741ACPZ-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP1754_1755.pdf	16-WQFN Exposed Pad, CSP	1	ADP1755ACPZ-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP1762.pdf	16-WFQFN Exposed Pad, CSP	2	ADP1762ACPZ-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP2108.pdf	SOT-23-5 Thin, TSOT-23-5	1	ADP2108AUJZ-3.3-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP2118.pdf	16-WQFN Exposed Pad, CSP	1	ADP2118ACPZ-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP2119_2120.pdf	10-VFDFN Exposed Pad, CSP	2	ADP2119ACPZ-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP2138_2139.pdf	6-UFBGA, WLCSP	1	ADP2138ACBZ-1.0-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP2164.PDF	16-WQFN Exposed Pad, CSP	1	ADP2164ACPZ-3.3-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP222_223_224_225.pdf	8-UFDFN Exposed Pad, CSP	4	ADP222ACPZ-3325-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP2300_2301.pdf	SOT-23-6 Thin, TSOT-23-6	1	ADP2300AUJZ-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP2370_2371.pdf	8-WFDFN Exposed Pad, CSP	1	ADP2370ACPZ-3.3-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP2386.pdf	24-WFQFN Exposed Pad, CSP	1	ADP2386ACPZN-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP322_323.pdf	16-WFQFN Exposed Pad, CSP	1	ADP323ACPZ-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP7102.pdf	8-WFDFN Exposed Pad, CSP	1	ADP7102ACPZ-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP7104.pdf	8-WFDFN Exposed Pad, CSP	2	ADP7104ACPZ-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP7105.pdf	8-WFDFN Exposed Pad, CSP	1	ADP7105ACPZ-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP7112.pdf	6-XFBGA, WLCSP	1	ADP7112ACBZ-1.2-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP7142.pdf	6-UDFN Exposed Pad, CSP	2	ADP7142ACPZN1.8-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP7142.pdf	8-SOIC (0.154", 3.90mm Width) Exposed Pad	1	ADP7142ARDZ-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP7142.pdf	SOT-23-5 Thin, TSOT-23-5	3	ADP7142AUJZ-3.3-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP7156.pdf	10-VFDFN Exposed Pad, CSP	2	ADP7156ACPZ-1.8-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP7157.pdf	10-VFDFN Exposed Pad, CSP	1	ADP7157ACPZ-04-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP7158.pdf	10-VFDFN Exposed Pad, CSP	1	ADP7158ACPZ-3.3-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/ADP7159.pdf	10-VFDFN Exposed Pad, CSP	1	ADP7159ACPZ-04-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/LT1762.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	3	LT1762EMS8-3.3#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/LT3045.pdf	12-TSSOP (0.118", 3.00mm Width) Exposed Pad	1	LT3045EMSE#PBF										
+Analog Devices	-	datasheets/regulator/analog-devices/LT3065.pdf	10-WFDFN Exposed Pad	1	LT3065EDD#PBF										
+Analog Devices	-	datasheets/regulator/analog-devices/LT3065.pdf	12-TSSOP (0.118", 3.00mm Width) Exposed Pad	1	LT3065EMSE#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/LT8609-8609A-8609B.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width) Exposed Pad	1	LT8609EMSE#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/LTC3115-1.pdf	20-TSSOP (0.173", 4.40mm Width) Exposed Pad	1	LTC3115EFE-1#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/LTC3622-3622-2-3622-23-5.pdf	14-WFDFN Exposed Pad	1	LTC3622IDE-23/5#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/MAX15021.pdf	28-WFQFN Exposed Pad	1	MAX15021ATI+T										
+Analog Devices	-	datasheets/regulator/analog-devices/MAX1615-MAX1616.pdf	SC-74A, SOT-753	2	MAX1615EUK+T										
+Analog Devices	-	datasheets/regulator/analog-devices/MAX17220-MAX17225.pdf	6-WDFN	2	MAX17225ELT+T										
+Analog Devices	-	datasheets/regulator/analog-devices/MAX17227A.pdf	8-WFDFN Exposed Pad	1	MAX17227AATA+T										
+Analog Devices	-	datasheets/regulator/analog-devices/MAX17291B.pdf	6-XFBGA, WLBGA	1	MAX17291BANT+T										
+Analog Devices	-	datasheets/regulator/analog-devices/MAX17632.pdf	16-WFQFN Exposed Pad	1	MAX17632CATE+T										
+Analog Devices	-	datasheets/regulator/analog-devices/MAX38902A-MAX38902D.pdf	6-XFBGA, WLBGA	1	MAX38902CANT+T										
+Analog Devices	-	datasheets/regulator/analog-devices/MAX38902A-MAX38902D.pdf	8-WFDFN Exposed Pad	1	MAX38902AATA+T										
+Analog Devices	-	datasheets/regulator/analog-devices/MAX38911-MAX38912.pdf	8-WFDFN Exposed Pad	1	MAX38912ATA+T										
+Analog Devices	-	datasheets/regulator/analog-devices/MAX5025-MAX5028.pdf	SOT-23-6	1	MAX5026EUT+T										
+Analog Devices	-	datasheets/regulator/analog-devices/MAX77504.pdf	12-PowerUFQFN	1	MAX77504AAFC+T										
+Analog Devices	-	datasheets/regulator/analog-devices/MAX77597.pdf	10-WFDFN Exposed Pad	1	MAX77597ETBB+T										
+Analog Devices	-	datasheets/regulator/analog-devices/MAX77827.pdf	14-PowerUFQFN	1	MAX77827DEFD+T										
+Analog Devices	-	datasheets/regulator/analog-devices/MAX77839.pdf	11-UFQFN	1	MAX77839BEFQ+T										
+Analog Devices	-	datasheets/regulator/analog-devices/MAX8627.pdf	14-WFDFN Exposed Pad	1	MAX8627ETD+T										
+Analog Devices	-	datasheets/regulator/analog-devices/MAX8882-MAX8883.pdf	SOT-23-6	1	MAX8882EUTA5+T										
+Analog Devices	-	datasheets/regulator/analog-devices/adp1763.pdf	16-WFQFN Exposed Pad, CSP	2	ADP1763WACPZ1.25-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/adp7118.pdf	SOT-23-5 Thin, TSOT-23-5	1	ADP7118WAUJZ-5.0-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/adpl40502.pdf	SOT-23-5 Thin, TSOT-23-5	1	ADPL40502AUJZ-3.3-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/adpl44002.pdf	SOT-23-5 Thin, TSOT-23-5	1	ADPL44002AUJZ-5.0-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/datasheet.pdf	4-UFBGA, WLCSP	4	ADP172ACBZ-1.8-R7										
+Analog Devices	-	datasheets/regulator/analog-devices/lt1086.pdf	TO-263-4, D2PAK (3 Leads + Tab), TO-263AA	1	LT1086IM-3.3#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/lt1963a.pdf	8-SOIC (0.154", 3.90mm Width)	2	LT1963AES8-1.8#PBF										
+Analog Devices	-	datasheets/regulator/analog-devices/lt1963a.pdf	TO-261-4, TO-261AA	2	LT1963AEST-3.3#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/lt3010-3010-5.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	2	LT3010EMS8E#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/lt3060.pdf	8-WFDFN Exposed Pad	3	LT3060EDC-3.3#TRMPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/lt3080.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	1	LT3080EMS8E#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/lt3080.pdf	TO-261-4, TO-261AA	1	LT3080EST#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/lt3120.pdf	28-VFQFN Exposed Pad	1	LT3120JV#PBF										
+Analog Devices	-	datasheets/regulator/analog-devices/lt3467-lt3467a.pdf	SOT-23-6 Thin, TSOT-23-6	1	LT3467ES6#TRMPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/lt3470.pdf	SOT-23-8 Thin, TSOT-23-8	1	LT3470HTS8#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/lt3990.pdf	16-TFSOP (0.118", 3.00mm Width) Exposed Pad	1	LT3990EMSE#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/lt8607-8607b.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width) Exposed Pad	1	LT8607EMSE#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/lt8608.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width) Exposed Pad	1	LT8608IMSE#PBF										
+Analog Devices	-	datasheets/regulator/analog-devices/lt8610a-8610ab.pdf	16-TFSOP (0.118", 3.00mm Width) Exposed Pad	1	LT8610AEMSE-5#PBF										
+Analog Devices	-	datasheets/regulator/analog-devices/lt8611.pdf	24-WFQFN Exposed Pad	1	LT8611EUDD#PBF										
+Analog Devices	-	datasheets/regulator/analog-devices/lt8612.pdf	28-WFQFN Exposed Pad	1	LT8612EUDE#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/ltc3025-1-3025-2-3025-3-3025-4.pdf	6-WFDFN Exposed Pad	1	LTC3025EDC-1#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/ltc3621-3621-2.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	1	LTC3621IMS8E#TRPBF										
+Analog Devices	-	datasheets/regulator/analog-devices/max15027-max15028.pdf	10-WFDFN Exposed Pad	1	MAX15027ATB+T										
+Analog Devices	-	datasheets/regulator/analog-devices/max1595.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	1	MAX1595EUA33+T										
+Analog Devices	-	datasheets/regulator/analog-devices/max1684-max1685.pdf	16-SSOP (0.154", 3.90mm Width)	1	MAX1685EEE+T										
+Analog Devices	-	datasheets/regulator/analog-devices/max1722-max1724.pdf	SOT-23-5 Thin, TSOT-23-5	1	MAX1724EZK50+T										
+Analog Devices	-	datasheets/regulator/analog-devices/max1725-max1726.pdf	SC-74A, SOT-753	1	MAX1726EUK25+T										
+Analog Devices	-	datasheets/regulator/analog-devices/max17571.pdf	12-WFDFN Exposed Pad	1	MAX17571ATC+										
+Analog Devices	-	datasheets/regulator/analog-devices/max17645.pdf	8-WFDFN	1	MAX17645BATA+T										
+Analog Devices	-	datasheets/regulator/analog-devices/max17651.pdf	SOT-23-6 Thin, TSOT-23-6	1	MAX17651AZT+T										
+Analog Devices	-	datasheets/regulator/analog-devices/max1818.pdf	SOT-23-6	1	MAX1818EUT33+T										
+Analog Devices	-	datasheets/regulator/analog-devices/max1836-max1837.pdf	SOT-23-6	1	MAX1837EUT33+T										
+Analog Devices	-	datasheets/regulator/analog-devices/max5023-max5024.pdf	8-SOIC (0.154", 3.90mm Width)	2	MAX5024LASA+										
+Analog Devices	-	datasheets/regulator/analog-devices/max5033.pdf	8-SOIC (0.154", 3.90mm Width)	2	MAX5033DASA+T										
+Analog Devices	-	datasheets/regulator/analog-devices/max77675.pdf	16-WFBGA, WLBGA	2	MAX77675HEWE+T										
+Analog Devices	-	datasheets/regulator/analog-devices/max8510-max8512.pdf	5-TSSOP, SC-70-5, SOT-353	2	MAX8510EXK18+T										
+Analog Devices	-	datasheets/regulator/analog-devices/max8559.pdf	8-WDFN Exposed Pad	1	MAX8559ETAAA+T										
+Analog Devices	-	datasheets/regulator/analog-devices/max8840-max8842.pdf	6-WFDFN	1	MAX8840ELT18+T										
+Analog Devices	-	datasheets/regulator/analog-devices/max8867-max8868.pdf	SC-74A, SOT-753	1	MAX8867EUK30+T										
+Analog Devices	-	datasheets/regulator/analog-devices/max8875.pdf	SC-74A, SOT-753	1	MAX8875EUK33+T										
+Analog Devices	-	datasheets/regulator/analog-devices/max8880-max8881.pdf	SOT-23-6	1	MAX8881EUT33+T										
+Analog Devices	-	datasheets/regulator/analog-devices/max8887-max8888.pdf	SOT-23-5 Thin, TSOT-23-5	1	MAX8887EZK33+T										
+Analog Devices	-	datasheets/regulator/analog-devices/max8902-max8902b.pdf	8-WFDFN Exposed Pad	1	MAX8902BATA+T										
+Analog Devices	Himalaya	datasheets/regulator/analog-devices/MAX15062.pdf	8-WFDFN	2	MAX15062BATA+T										
+Analog Devices	Himalaya	datasheets/regulator/analog-devices/MAX15462.pdf	8-WFDFN	1	MAX15462CATA+T										
+Analog Devices	Himalaya	datasheets/regulator/analog-devices/MAX17504.pdf	20-WQFN Exposed Pad	1	MAX17504ATP+										
+Analog Devices	Himalaya	datasheets/regulator/analog-devices/MAX17506.pdf	20-WQFN Exposed Pad	1	MAX17506ATP+T										
+Analog Devices	Himalaya	datasheets/regulator/analog-devices/MAX17532.pdf	10-WFDFN Exposed Pad	1	MAX17532ATB+T										
+Analog Devices	Himalaya	datasheets/regulator/analog-devices/MAX17543.pdf	20-WFQFN Exposed Pad	1	MAX17543ATP+T										
+Analog Devices	Himalaya	datasheets/regulator/analog-devices/MAX17544.pdf	20-WQFN Exposed Pad	1	MAX17544ATP+T										
+Analog Devices	Himalaya	datasheets/regulator/analog-devices/MAX17546.pdf	20-WQFN Exposed Pad	1	MAX17546ATP+T										
+Analog Devices	Himalaya	datasheets/regulator/analog-devices/MAX17552-MAX17552B.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	1	MAX17552AUB+T										
+Analog Devices	Himalaya	datasheets/regulator/analog-devices/MAX17623-MAX17624.pdf	8-WFDFN Exposed Pad	1	MAX17624ATA+T										
+Analog Devices	Himalaya	datasheets/regulator/analog-devices/MAX17640.pdf	8-WFDFN	1	MAX17640CATA+T										
+Analog Devices	Himalaya	datasheets/regulator/analog-devices/MAX17760.pdf	12-WFDFN Exposed Pad	1	MAX17760ATC+										
+Analog Devices	Himalaya	datasheets/regulator/analog-devices/max17501.pdf	10-WFDFN Exposed Pad	2	MAX17501EATB+T										
+Analog Devices	Himalaya	datasheets/regulator/analog-devices/max17502.pdf	10-WFDFN Exposed Pad	3	MAX17502FATB+T										
+Analog Devices	Himalaya	datasheets/regulator/analog-devices/max17502.pdf	14-TSSOP (0.173", 4.40mm Width) Exposed Pad	1	MAX17502HAUD+T										
+Analog Devices	Himalaya	datasheets/regulator/analog-devices/max17503.pdf	20-WFQFN Exposed Pad	1	MAX17503ATP+										
+Analog Devices	Himalaya	datasheets/regulator/analog-devices/max17644.pdf	16-WFQFN Exposed Pad	1	MAX17644BATE+										
+Analog Devices	Silent Switcher®1	datasheets/regulator/analog-devices/lt8642s.pdf	24-TFQFN Exposed Pad	1	LT8642SEV#PBF										
+Analog Devices	Silent Switcher®2	datasheets/regulator/analog-devices/lt8640s-8643s.pdf	24-TFQFN Exposed Pad	1	LT8640SEV#PBF										
+Analog Devices	Silent Switcher®2	datasheets/regulator/analog-devices/lt8645s-8646s.pdf	32-TFQFN Exposed Pad	1	LT8645SEV#PBF										
+Analog Devices	Silent Switcher®3	datasheets/regulator/analog-devices/datasheet-e9e355.pdf	24-TFQFN Exposed Pad	2	LT8627SPJV#TRMPBF										
+Analog Devices	Silent Switcher®3	datasheets/regulator/analog-devices/lt8622s-8624s.pdf	20-TFQFN Exposed Pad	2	LT8622SAV#PBF										
+Analog Devices	anyCAP®	datasheets/regulator/analog-devices/ADP3300.pdf	SOT-23-6	1	ADP3300ARTZ-3.3RL7										
+Analog Devices	anyCAP®	datasheets/regulator/analog-devices/ADP3330.pdf	SOT-23-6	1	ADP3330ARTZ-2.5-R7										
+Analog Devices	anyCAP®	datasheets/regulator/analog-devices/ADP3331.pdf	SOT-23-6	1	ADP3331ARTZ-REEL7										
+Analog Devices	anyCAP®	datasheets/regulator/analog-devices/ADP3335.pdf	8-WFDFN Exposed Pad, CSP	1	ADP3335ACPZ-3.3-R7										
+Analog Devices	nanoPower	datasheets/regulator/analog-devices/MAX17227J.pdf	6-XFBGA, WLBGA	1	MAX17227JANT+T										
+Microchip Technology	-	datasheets/regulator/microchip/0.5A-1.2-MHz-2-MHz-Wide-Input-Range-Boost-Regulators-Each-with-Integrated-Switch-and-Schottky-Diode-20006620A.pdf	8-VFDFN Exposed Pad, 8-MLF®	2	MIC2606YML-TR										
+Microchip Technology	-	datasheets/regulator/microchip/1A-Low-Voltage-Low-Quiescent-Current-LDO-Regulator-DS20001936E.pdf	8-VDFN Exposed Pad	1	MCP1726T-ADJE/MF										
+Microchip Technology	-	datasheets/regulator/microchip/20002200D.pdf	SC-74A, SOT-753	2	MCP1804T-C002I/OT										
+Microchip Technology	-	datasheets/regulator/microchip/20005253A.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	1	MCP1642BT-30I/MS										
+Microchip Technology	-	datasheets/regulator/microchip/20005253A.pdf	8-VFDFN Exposed Pad	1	MCP1642DT-ADJI/MC										
+Microchip Technology	-	datasheets/regulator/microchip/20005315B.pdf	SC-74A, SOT-753	1	MCP1661T-E/OT										
+Microchip Technology	-	datasheets/regulator/microchip/20005384A.pdf	8-SOIC (0.154", 3.90mm Width)	1	LR645LG-G										
+Microchip Technology	-	datasheets/regulator/microchip/20005399B.pdf	TO-243AA	1	LR8N8-G										
+Microchip Technology	-	datasheets/regulator/microchip/20005399B.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	LR8K4-G										
+Microchip Technology	-	datasheets/regulator/microchip/20005406A.pdf	8-WFDFN Exposed Pad	1	MCP1663T-E/MNY										
+Microchip Technology	-	datasheets/regulator/microchip/20005406A.pdf	SC-74A, SOT-753	1	MCP1663T-E/OT										
+Microchip Technology	-	datasheets/regulator/microchip/20005415D.pdf	SC-74A, SOT-753	2	MCP1711T-33I/OT										
+Microchip Technology	-	datasheets/regulator/microchip/20005661A.pdf	6-VDFN Exposed Pad, 6-MLF®	1	MIC5255-2.8YML										
+Microchip Technology	-	datasheets/regulator/microchip/20005661A.pdf	SC-74A, SOT-753	1	MIC5255-3.1YM5										
+Microchip Technology	-	datasheets/regulator/microchip/20005834A.pdf	8-SOIC (0.154", 3.90mm Width)	1	MIC39102YM										
+Microchip Technology	-	datasheets/regulator/microchip/20005834A.pdf	TO-261-4, TO-261AA	1	MIC39100-3.3WS										
+Microchip Technology	-	datasheets/regulator/microchip/20005872A.pdf	10-VFQFN Exposed Pad	1	MCP1665T-E/MRA										
+Microchip Technology	-	datasheets/regulator/microchip/20005873A.pdf	8-UQFN	3	MIC2877-5.0YFT-TR										
+Microchip Technology	-	datasheets/regulator/microchip/20006158A.pdf	TO-263-6, D2PAK (5 Leads + Tab), TO-263BA	1	MIC4576WU-TR										
+Microchip Technology	-	datasheets/regulator/microchip/21921C.pdf	8-VDFN Exposed Pad	1	MCP1612T-ADJI/MF										
+Microchip Technology	-	datasheets/regulator/microchip/21991c.pdf	TO-236-3, SC-59, SOT-23-3	1	MCP1701AT-3302I/CB										
+Microchip Technology	-	datasheets/regulator/microchip/22008E.pdf	TO-236-3, SC-59, SOT-23-3	4	MCP1702T-1802E/CB										
+Microchip Technology	-	datasheets/regulator/microchip/22008E.pdf	TO-243AA	2	MCP1702T-5002E/MB										
+Microchip Technology	-	datasheets/regulator/microchip/22026b.pdf	8-SOIC (0.154", 3.90mm Width)	1	MCP1725T-ADJE/SN										
+Microchip Technology	-	datasheets/regulator/microchip/22026b.pdf	8-VFDFN Exposed Pad	2	MCP1725T-3302E/MC										
+Microchip Technology	-	datasheets/regulator/microchip/22042B.pdf	8-VFDFN Exposed Pad	1	MCP1603T-ADJI/MC										
+Microchip Technology	-	datasheets/regulator/microchip/22042B.pdf	SOT-23-5 Thin, TSOT-23-5	3	MCP1603T-180I/OS										
+Microchip Technology	-	datasheets/regulator/microchip/22056b.pdf	SOT-223-6	1	MCP1825T-ADJE/DC										
+Microchip Technology	-	datasheets/regulator/microchip/22056b.pdf	TO-261-4, TO-261AA	1	MCP1825ST-3302E/DB										
+Microchip Technology	-	datasheets/regulator/microchip/22057B.pdf	TO-261-4, TO-261AA	1	MCP1826ST-3302E/DB										
+Microchip Technology	-	datasheets/regulator/microchip/22070a.pdf	SC-74A, SOT-753	2	MCP1824T-3302E/OT										
+Microchip Technology	-	datasheets/regulator/microchip/500-mA-ULDO-with-Low-Input-and-Low-Output-Voltage-DS20006050C.pdf	6-VDFN Exposed Pad, 6-MLF®	2	MIC47050-1.2YML-TR										
+Microchip Technology	-	datasheets/regulator/microchip/50001894.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	1	MCP1257T-E/UN										
+Microchip Technology	-	datasheets/regulator/microchip/50001894.pdf	SC-74A, SOT-753	2	TC1185-5.0VCT713										
+Microchip Technology	-	datasheets/regulator/microchip/500mA-uCap-Ultra-Low-Dropout-Regulator-with-High-PSRR-DS20005876B.pdf	6-VDFN Exposed Pad, 6-TMLF®	2	MIC5319-2.7YML										
+Microchip Technology	-	datasheets/regulator/microchip/LM2574.pdf	14-SOIC (0.295", 7.50mm Width)	3	LM2574-3.3BWM										
+Microchip Technology	-	datasheets/regulator/microchip/LM2574.pdf	8-DIP (0.300", 7.62mm)	1	LM2574-5.0YN										
+Microchip Technology	-	datasheets/regulator/microchip/LR12-C080113.pdf	8-SOIC (0.154", 3.90mm Width)	1	LR12LG-G										
+Microchip Technology	-	datasheets/regulator/microchip/LR12-C080113.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	LR12K4-G										
+Microchip Technology	-	datasheets/regulator/microchip/LX7167_Rev1.1.pdf	8-WFDFN Exposed Pad	2	LX7167ACLD-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MCP1252-3-Low-Noise-Positive-Regulated-Charge-Pump-Data-Sheet-DS20001752.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	1	MCP1253T-ADJI/MS										
+Microchip Technology	-	datasheets/regulator/microchip/MCP16251-MCP16252-Data-Sheet-DS20005173.pdf	8-WFDFN Exposed Pad	1	MCP16252T-I/MNY										
+Microchip Technology	-	datasheets/regulator/microchip/MCP16251-MCP16252-Data-Sheet-DS20005173.pdf	SOT-23-6	2	MCP16251T-I/CH										
+Microchip Technology	-	datasheets/regulator/microchip/MCP16301-Family-Data-Sheet-DS20005004E.pdf	SOT-23-6	1	MCP16301T-I/CHY										
+Microchip Technology	-	datasheets/regulator/microchip/MCP16311-Family-Data-Sheet-DS20005255C.pdf	8-WFDFN Exposed Pad	2	MCP16312T-E/MNY										
+Microchip Technology	-	datasheets/regulator/microchip/MCP16311_2-30V_Input-1A-Output-High-Efficiency-Integrated-Synchronous-Switch-Step-Down-Regulator-DS20005255D.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	2	MCP16312-E/MS										
+Microchip Technology	-	datasheets/regulator/microchip/MCP16331-Data-Sheet-20005308.pdf	8-WFDFN Exposed Pad	1	MCP16331T-E/MNYVAO										
+Microchip Technology	-	datasheets/regulator/microchip/MCP16331-Data-Sheet-20005308.pdf	SOT-23-6	1	MCP16331T-E/CH										
+Microchip Technology	-	datasheets/regulator/microchip/MCP1640-Family-Data-Sheet-DS20002234E.pdf	8-VFDFN Exposed Pad	1	MCP1640T-I/MC										
+Microchip Technology	-	datasheets/regulator/microchip/MCP1640-Family-Data-Sheet-DS20002234E.pdf	SOT-23-6	1	MCP1640CT-I/CHY										
+Microchip Technology	-	datasheets/regulator/microchip/MCP16411-Low-IQ-Boost-with-Programmable-UVLO-Evaluation-Board-Users-Guide-DS50003000A.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	3	MCP16415T-I/UN										
+Microchip Technology	-	datasheets/regulator/microchip/MCP16411-Low-IQ-Boost-with-Programmable-UVLO-Evaluation-Board-Users-Guide-DS50003000A.pdf	10-WFDFN Exposed Pad	3	MCP16415T-I/MN										
+Microchip Technology	-	datasheets/regulator/microchip/MCP1641X-Family-Data-Sheet-DS20006394D.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	1	MCP16414T-I/UN										
+Microchip Technology	-	datasheets/regulator/microchip/MCP1700-Data-Sheet-20001826F.pdf	6-VDFN Exposed Pad	1	MCP1700T-3302E/MAY										
+Microchip Technology	-	datasheets/regulator/microchip/MCP1700-Data-Sheet-20001826F.pdf	TO-236-3, SC-59, SOT-23-3	4	MCP1700T-3002E/TT										
+Microchip Technology	-	datasheets/regulator/microchip/MCP1700-Data-Sheet-20001826F.pdf	TO-243AA	1	MCP1700T-3302E/MB										
+Microchip Technology	-	datasheets/regulator/microchip/MCP1703-250-mA-16V-Low-Quiescent-Current-LDO-20002049.pdf	TO-236-3, SC-59, SOT-23-3	1	MCP1703T-5002E/CB										
+Microchip Technology	-	datasheets/regulator/microchip/MCP1703-250-mA-16V-Low-Quiescent-Current-LDO-20002049.pdf	TO-261-4, TO-261AA	1	MCP1703T-3302E/DB										
+Microchip Technology	-	datasheets/regulator/microchip/MCP1754-and-MCP1754S-Data-Sheet-DS20002276.pdf	TO-236-3, SC-59, SOT-23-3	1	MCP1754ST-5002E/CB										
+Microchip Technology	-	datasheets/regulator/microchip/MCP1755-MCP1755S-Data-Sheet-DS20005160B.pdf	SC-74A, SOT-753	1	MCP1755T-5002E/OT										
+Microchip Technology	-	datasheets/regulator/microchip/MCP1799-Data-Sheet-20006248B.pdf	TO-236-3, SC-59, SOT-23-3	1	MCP1799T-5002H/TT										
+Microchip Technology	-	datasheets/regulator/microchip/MIC2141.pdf	SC-74A, SOT-753	1	MIC2141BM5										
+Microchip Technology	-	datasheets/regulator/microchip/MIC2142.pdf	SC-74A, SOT-753	1	MIC2142BM5TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC2145.pdf	10-VFDFN Exposed Pad, 10-MLF®	1	MIC2145YML TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC2145.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	1	MIC2145BMMTR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC2177.pdf	20-SOIC (0.295", 7.50mm Width)	2	MIC2177-3.3YWM										
+Microchip Technology	-	datasheets/regulator/microchip/MIC2178.pdf	20-SOIC (0.295", 7.50mm Width)	2	MIC2178YWMTR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC2179.pdf	20-SSOP (0.209", 5.30mm Width)	1	MIC2179-3.3YSM										
+Microchip Technology	-	datasheets/regulator/microchip/MIC2203.pdf	10-VFDFN Exposed Pad, 10-MLF®	1	MIC2203YML										
+Microchip Technology	-	datasheets/regulator/microchip/MIC2205.pdf	10-VFDFN Exposed Pad	1	MIC2205-1.5YML										
+Microchip Technology	-	datasheets/regulator/microchip/MIC2207-2MHz-3A-PWM-Buck-Regulator-DS20006470A.pdf	12-VFDFN Exposed Pad, 12-MLF®	1	MIC2207YML-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC2208.pdf	12-VFDFN Exposed Pad, 12-MLF®	1	MIC2208YML										
+Microchip Technology	-	datasheets/regulator/microchip/MIC2211.pdf	10-VFDFN Exposed Pad, 10-MLF®	7	MIC2211-OOYML										
+Microchip Technology	-	datasheets/regulator/microchip/MIC2214.pdf	10-VFDFN Exposed Pad, 10-MLF®	2	MIC2214-KNYML										
+Microchip Technology	-	datasheets/regulator/microchip/MIC22200-4MHz-2A-Synchronous-Buck-Regulator-with-Programmable-Frequency-DS20006324A.pdf	12-VFDFN Exposed Pad, 12-MLF®	1	MIC22200YML-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC2230-Dual-Synchronous-800mA-800mA-Step-Down-DC-DC-Regulator-DS20005748B.pdf	12-VFDFN Exposed Pad, 12-MLF®	1	MIC2230-AAYML-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC2238.pdf	12-VFDFN Exposed Pad, 12-MLF®	3	MIC2238-AAYML-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC22400-4A-Integrated-Switch-Synch-Buck-Regulator-with-Prog-Freq-to-4MHz-DS20006243A.pdf	20-VFQFN Exposed Pad, 20-MLF®	1	MIC22400YML-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC2251-High-Efficiency-Low-EMI-Boost-Regulator-DS20006487.pdf	SOT-23-5 Thin, TSOT-23-5	1	MIC2251-1YD5-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC2253-High-Current-1MHz-High-Efficiency-Boost-Regulator-with-OVP-and-Soft-Start-DS20006070A.pdf	12-VFDFN Exposed Pad, 12-MLF®	1	MIC2253-06YML-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC22600-1MHz-6A-Integrated-Switch-Synchronous-Buck-Regulator-DS20006288A.pdf	24-VFQFN Exposed Pad, 24-MLF®	1	MIC22600YML-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC22602-1MHz-6A-Integrated-Switch-High-Efficiency-Synchronous-Buck-Regulator-DS20006300A.pdf	24-VFQFN Exposed Pad, 24-MLF®	1	MIC22602YML-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC22700-1MHz-7A-Integrated-Switch-High-Efficiency-Synchronous-Buck-Regulator-DS20006297A.pdf	24-VFQFN Exposed Pad, 24-MLF®	1	MIC22700YML-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC22705-1MHz-7A-Integrated-Switch-High-Efficiency-Synch-Buck-Regulator-DS20006307A.pdf	24-VFQFN Exposed Pad, 24-MLF®	1	MIC22705YML-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC2285.pdf	10-UFDFN, 10-TMLF®	1	MIC2285AYMT										
+Microchip Technology	-	datasheets/regulator/microchip/MIC2285.pdf	10-VFDFN Exposed Pad, 10-MLF®	1	MIC2285YML-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC2288-Data-Sheet-DS20006034C.pdf	SOT-23-5 Thin, TSOT-23-5	1	MIC2288YD5-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC2296.pdf	8-VFDFN Exposed Pad, 8-MLF®	1	MIC2296YML										
+Microchip Technology	-	datasheets/regulator/microchip/MIC2296.pdf	SOT-23-5 Thin, TSOT-23-5	1	MIC2296YD5-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC2571.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	1	MIC2571-2YMM										
+Microchip Technology	-	datasheets/regulator/microchip/MIC2876-4.8A-ISW-Synchronous-Boost-Regulator-with-Bi-Directional-Load-Disconnect-DS20005572.pdf	8-UFDFN Exposed Pad	3	MIC2876-AYMT-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC2915x-30x-50x-75x-High-Current-Low-Dropout-Regulators-DS20005685B.pdf	TO-252-6, DPAK (5 Leads + Tab)	1	MIC29152WD-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC37150-1-2-3-1.5A-Low-Voltage-Microcap-LDO-Regulators-DS20006491A.pdf	8-SOIC (0.154", 3.90mm Width)	1	MIC37152YM-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC37150-1-2-3-1.5A-Low-Voltage-Microcap-LDO-Regulators-DS20006491A.pdf	SPAK-3 (3 Leads + Tab)	1	MIC37150-1.8WR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC37150-1-2-3-1.5A-Low-Voltage-Microcap-LDO-Regulators-DS20006491A.pdf	SPAK-5 (5 Leads + Tab)	1	MIC37151-1.8WR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC39300-01-02-3A-Low-Voltage-Low-Dropout-Regulator-DS20006017B.pdf	TO-263-6, D2PAK (5 Leads + Tab), TO-263BA	1	MIC39302WU-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC4574.pdf	14-SOIC (0.154", 3.90mm Width)	1	MIC4574-3.3BWM										
+Microchip Technology	-	datasheets/regulator/microchip/MIC4574.pdf	8-DIP (0.300", 7.62mm)	2	MIC4574YN										
+Microchip Technology	-	datasheets/regulator/microchip/MIC4575.pdf	24-SOIC (0.295", 7.50mm Width)	1	MIC4575-5.0BWM										
+Microchip Technology	-	datasheets/regulator/microchip/MIC4722.pdf	12-VFDFN Exposed Pad, 12-MLF®	1	MIC4722YML										
+Microchip Technology	-	datasheets/regulator/microchip/MIC4724-Data-Sheet-Obsolete-Device-EOL.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width) Exposed Pad	1	MIC4724YMME										
+Microchip Technology	-	datasheets/regulator/microchip/MIC4742.pdf	16-TSSOP (0.173", 4.40mm Width)	1	MIC4742YTSE										
+Microchip Technology	-	datasheets/regulator/microchip/MIC49150-Data-Sheet-DS20006585.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	1	MIC49150YMM-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5203.pdf	SC-74A, SOT-753	8	MIC5203-3.0BM5 TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5203.pdf	TO-253-4, TO-253AA	1	MIC5203-2.8BM4 TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5205-150mA-Low-Noise-LDO-Regulator-DS20005785C.pdf	SC-74A, SOT-753	6	MIC5205-2.85BM5										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5206.pdf	SC-74A, SOT-753	1	MIC5206-3.0BM5 TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5207-180mA-Low-Noise-LDO-Regulator-DS20005719C.pdf	SC-74A, SOT-753	2	MIC5207-3.1BM5										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5209-500mA-Low-Noise-LDO-Regulator-DS20005720B.pdf	8-SOIC (0.154", 3.90mm Width)	1	MIC5209YM-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5209-500mA-Low-Noise-LDO-Regulator-DS20005720B.pdf	TO-261-4, TO-261AA	2	MIC5209-4.2BS TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5209-500mA-Low-Noise-LDO-Regulator-DS20005720B.pdf	TO-263-6, D2PAK (5 Leads + Tab), TO-263BA	1	MIC5209-2.5BU TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5219-500mA-Peak-Output-LDO-Regulator-DS20006021A.pdf	6-UDFN Exposed Pad, 6-TMLF®	1	MIC5219YMT-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5219-500mA-Peak-Output-LDO-Regulator-DS20006021A.pdf	SC-74A, SOT-753	2	MIC5219-3.3YM5-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5219.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	1	MIC5219-2.5BMMTR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5219.pdf	SC-74A, SOT-753	5	MIC5219-3.1BM5										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5233-Data-Sheet-DS20006033.pdf	SC-74A, SOT-753	1	MIC5233-3.0BM5										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5233-Data-Sheet-DS20006033D.pdf	SC-74A, SOT-753	2	MIC5233-2.5YM5-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5235.pdf	SC-74A, SOT-753	5	MIC5235BM5										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5238.pdf	SOT-23-5 Thin, TSOT-23-5	1	MIC5238-1.2YD5 TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5245.pdf	SC-74A, SOT-753	2	MIC5245-3.1BM5										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5247.pdf	6-VDFN Exposed Pad, 6-MLF®	2	MIC5247-1.8YML										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5247.pdf	SC-74A, SOT-753	1	MIC5247-1.8BM5TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5247.pdf	SOT-23-5 Thin, TSOT-23-5	1	MIC5247-2.0YD5										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5248.pdf	6-VDFN Exposed Pad, 6-MLF®	1	MIC5248-1.2YML										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5252.pdf	6-VDFN Exposed Pad, 6-MLF®	1	MIC5252-2.85YML										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5252.pdf	SC-74A, SOT-753	1	MIC5252-2.85YM5 TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5256.pdf	SC-74A, SOT-753	2	MIC5256-2.5YM5										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5259.pdf	6-VDFN Exposed Pad, 6-MLF®	2	MIC5259-2.85YML										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5259.pdf	SOT-23-5 Thin, TSOT-23-5	1	MIC5259-2.8YD5										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5301.pdf	6-UFDFN Exposed Pad, 6-TMLF®	2	MIC5301-2.1YMT										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5301.pdf	SOT-23-5 Thin, TSOT-23-5	1	MIC5301YD5-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5302.pdf	4-UFDFN Exposed Pad, 4-TMLF®	2	MIC5302-1.8YMT										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5305.pdf	6-UDFN Exposed Pad, 6-TMLF®	1	MIC5305-4.6YMT										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5305.pdf	6-VDFN Exposed Pad, 6-MLF®	5	MIC5305-1.8YML										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5305.pdf	SOT-23-5 Thin, TSOT-23-5	2	MIC5305-2.85YD5										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5310.pdf	8-VFDFN Exposed Pad, 8-MLF®	2	MIC5310-SKYML										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5317-High-Performance-Single-150mA-LDO-DS20006195B.pdf	SC-74A, SOT-753	1	MIC5317-3.3YM5-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5317-High-Performance-Single-150mA-LDO-DS20006195B.pdf	SOT-23-5 Thin, TSOT-23-5	1	MIC5317-3.3YD5-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5320.pdf	6-WFDFN Exposed Pad, 6-MLF®	1	MIC5320-MFYML										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5330.pdf	8-VFDFN Exposed Pad, 8-MLF®	3	MIC5330-SKYML										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5353-500mA-LDO-in-1.6mmx1.6mm-Package-DS20006507.pdf	6-UFDFN Exposed Pad, 6-TMLF®	1	MIC5353YMT-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5365-6-High-Performance-Single-150mA-LDO-DS20006605.pdf	5-TSSOP, SC-70-5, SOT-353	5	MIC5365-1.8YC5-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5365-6-High-Performance-Single-150mA-LDO-DS20006605.pdf	SOT-23-5 Thin, TSOT-23-5	1	MIC5365-3.3YD5-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5376-7-8-High-Performance-Low-Dropout-150mA-LDO-DS20006080A.pdf	5-TSSOP, SC-70-5, SOT-353	1	MIC5377YC5-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5501-02-03-04-300mA-Single-Output-LDO-in-Small-Packages-DS20006006B.pdf	SC-74A, SOT-753	4	MIC5501-3.0YM5-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5524-High-Performance-500mA-LDO-DS20006732.pdf	4-UDFN Exposed Pad	1	MIC5524-3.3YMT-TZ										
+Microchip Technology	-	datasheets/regulator/microchip/MIC5528-High-Performance-500mA-LDO-in-Thin-and-Extra-Thin-DFN-Packages-DS20005982B.pdf	6-UFDFN Exposed Pad	1	MIC5528-3.3YMT-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC69101-103-Single-Supply-VIN-LOW-VIN-LOW-VOUT-1A-LDO-DS20006018A.pdf	10-VFDFN Exposed Pad, 10-MLF®	1	MIC69103YML-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC69153-Single-Supply-VIN-LOW-VIN-LOW-VOUT-1.5A-LDO-DS20006019A.pdf	10-VFDFN Exposed Pad, 10-MLF®	1	MIC69153YML-TR										
+Microchip Technology	-	datasheets/regulator/microchip/MIC69153-Single-Supply-VIN-LOW-VIN-LOW-VOUT-1.5A-LDO-DS20006019A.pdf	8-SOIC (0.154", 3.90mm Width) Exposed Pad	1	MIC69153YME-TR										
+Microchip Technology	-	datasheets/regulator/microchip/Microsemi_LX7219_Datasheet_V2.pdf	14-PowerVFQFN	1	LX7219-02ILQ-TR										
+Microchip Technology	-	datasheets/regulator/microchip/TC1262-Data-Sheet-DS200013732.pdf	TO-261-4, TO-261AA	1	TC1262-3.3VDBTR										
+Microchip Technology	-	datasheets/regulator/microchip/TC1264-Data-Sheet-DS20001375.pdf	TO-261-4, TO-261AA	1	TC1264-3.3VDBTR										
+Microchip Technology	-	datasheets/regulator/microchip/lm2576.pdf	TO-263-6, D2PAK (5 Leads + Tab), TO-263BA	2	LM2576-5.0WU-TR										
+Microchip Technology	-	datasheets/regulator/microchip/mic22405.pdf	20-VFQFN Exposed Pad, 20-MLF®	1	MIC22405YML-TR										
+Microchip Technology	-	datasheets/regulator/microchip/mic2250.pdf	8-VFDFN Exposed Pad, 8-MLF®	1	MIC2250YML-TR										
+Microchip Technology	-	datasheets/regulator/microchip/mic2250.pdf	SOT-23-5 Thin, TSOT-23-5	1	MIC2250-2YD5-TR										
+Microchip Technology	-	datasheets/regulator/microchip/mic2295.pdf	8-VFDFN Exposed Pad, 8-MLF®	1	MIC2295YML-TR										
+Microchip Technology	-	datasheets/regulator/microchip/mic2295.pdf	SOT-23-5 Thin, TSOT-23-5	1	MIC2295YD5-TR										
+Microchip Technology	-	datasheets/regulator/microchip/mic2601.pdf	8-VFDFN Exposed Pad, 8-MLF®	1	MIC2601YML-TR										
+Microchip Technology	-	datasheets/regulator/microchip/mic2619.pdf	SOT-23-6 Thin, TSOT-23-6	1	MIC2619YD6-TR										
+Microchip Technology	-	datasheets/regulator/microchip/mic2920.pdf	8-SOIC (0.154", 3.90mm Width)	1	MIC29204YM-TR										
+Microchip Technology	-	datasheets/regulator/microchip/mic2950.pdf	8-SOIC (0.154", 3.90mm Width)	1	MIC2951-03YM-TR										
+Microchip Technology	-	datasheets/regulator/microchip/mic2954.pdf	8-SOIC (0.154", 3.90mm Width)	1	MIC2954-08YM-TR										
+Microchip Technology	-	datasheets/regulator/microchip/mic47100.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	1	MIC47100YMME-TR										
+Microchip Technology	-	datasheets/regulator/microchip/mic47100.pdf	8-VFDFN Exposed Pad, 8-MLF®	1	MIC47100YML-TR										
+Microchip Technology	-	datasheets/regulator/microchip/mic4720.pdf	12-VFDFN Exposed Pad, 12-MLF®	1	MIC4720YML-TR										
+Microchip Technology	-	datasheets/regulator/microchip/mic5216.pdf	SC-74A, SOT-753	1	MIC5216-3.3YM5-TR										
+Microchip Technology	-	datasheets/regulator/microchip/mic5225.pdf	SC-74A, SOT-753	2	MIC5225-1.8YM5-TR										
+Microchip Technology	-	datasheets/regulator/microchip/mic5309.pdf	6-UFDFN Exposed Pad, 6-TMLF®	1	MIC5309YMT-TR										
+Microchip Technology	-	datasheets/regulator/microchip/mic61150.pdf	10-VFDFN Exposed Pad, 10-MLF®	1	MIC61150YML-TR										
+Microchip Technology	-	datasheets/regulator/microchip/mic68200.pdf	10-VFDFN Exposed Pad, 10-MLF®	1	MIC68200YML-TR										
+Microchip Technology	Hyper Speed Control®	datasheets/regulator/microchip/MIC23201.pdf	10-VFQFN Exposed Pad, 10-MLF®	1	MIC23201YML-TR										
+Microchip Technology	Hyper Speed Control®, SuperSwitcher II™	datasheets/regulator/microchip/MIC27600-36V-7A-Hyper-Speed-Control-Synchronous-DC-DC-Buck-Regulator-DS20006878.pdf	28-PowerVQFN	1	MIC27600YJL-TR										
+Microchip Technology	Hyper Speed Control®, SuperSwitcher II™	datasheets/regulator/microchip/MIC28510.pdf	28-PowerVQFN	1	MIC28510YJL-TR										
+Microchip Technology	HyperLight Load®	datasheets/regulator/microchip/MIC23030-8MHz-PWM-400mA-Buck-Regulator-with-HyperLightLoad-C2-AE-DS20006488A.pdf	6-UFDFN Exposed Pad, 6-TMLF®	2	MIC23030-GYMT-TR										
+Microchip Technology	HyperLight Load®	datasheets/regulator/microchip/MIC23031-4MHz-PWM-400mA-Buck-Regulator-with-HyperLight-Load-DS20006538A.pdf	6-UFDFN Exposed Pad, 6-TMLF®	1	MIC23031-CYMT-TR										
+Microchip Technology	HyperLight Load®	datasheets/regulator/microchip/MIC23050.pdf	8-VFDFN Exposed Pad, 8-MLF®	3	MIC23050-SYML-TR										
+Microchip Technology	HyperLight Load®	datasheets/regulator/microchip/MIC23051.pdf	8-VFDFN Exposed Pad, 8-MLF®	3	MIC23051-CGYML										
+Microchip Technology	HyperLight Load®	datasheets/regulator/microchip/MIC23153-4-MHz-PWM-2A-Buck-Regulator-with-HyperLight-Load-and-Power-Good-DS20006489B.pdf	10-UFDFN Exposed Pad, 10-TMLF®	1	MIC23153YMT-TR										
+Microchip Technology	HyperLight Load®	datasheets/regulator/microchip/MIC23250-4-MHz-Dual-400-mA-Synchronous-Buck-Regulator-with-HyperLight-Load-DS20006787.pdf	12-UFDFN Exposed Pad, 12-TMLF®	1	MIC23250-AAYMT-TR										
+Microchip Technology	HyperLight Load®	datasheets/regulator/microchip/MIC23250.pdf	10-UFDFN, 10-TMLF®	1	MIC23250-GFHYMT										
+Microchip Technology	HyperLight Load®	datasheets/regulator/microchip/MIC23303.pdf	12-VFDFN Exposed Pad	1	MIC23303YML-TR										
+Microchip Technology	HyperLight Load®	datasheets/regulator/microchip/MIC23451-3MHz-2A-Triple-Synchronous-Buck-Regulator-with-HyperLight-Load-and-Power-Good-DS20006662A.pdf	26-VFQFN Exposed Pad	1	MIC23451-AAAYFL-TR										
+Microchip Technology	HyperLight Load®	datasheets/regulator/microchip/mic23150.pdf	8-UFDFN	3	MIC23150-SYMT-TR										
+Microchip Technology	Ripple Blocker™	datasheets/regulator/microchip/MIC94310-Data-Sheet-20006105B.pdf	4-UFDFN Exposed Pad	1	MIC94310-PYMT-TR										
+Microchip Technology	Ripple Blocker™	datasheets/regulator/microchip/MIC94325.pdf	6-UFDFN Exposed Pad	2	MIC94345-SYMT-TR										
+Microchip Technology	SuperSwitcher™	datasheets/regulator/microchip/MIC4680-1A-200kHz-Superswitcher-Buck-Regulator-DS20006623A.pdf	8-SOIC (0.154", 3.90mm Width)	2	MIC4680YM-TR										
+Microchip Technology	SuperSwitcher™	datasheets/regulator/microchip/mic4690.pdf	8-SOIC (0.154", 3.90mm Width)	1	MIC4690YM-TR										
+Microchip Technology	Teeny™	datasheets/regulator/microchip/MIC5213.pdf	5-TSSOP, SC-70-5, SOT-353	2	MIC5213-2.8YC5										
+Texas Instruments	-	datasheets/regulator/ti/lm1117.pdf	8-WDFN Exposed Pad	1	LM1117LD-2.5/NOPB										
+Texas Instruments	-	datasheets/regulator/ti/lm1117.pdf	TO-220-3	1	LM1117T-ADJ/NOPB										
+Texas Instruments	-	datasheets/regulator/ti/lm1117.pdf	TO-261-4, TO-261AA	2	LM1117MPX-5.0/NOPB										
+Texas Instruments	-	datasheets/regulator/ti/lm2623.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	1	LM2623AMMX/NOPB										
+Texas Instruments	-	datasheets/regulator/ti/lm2734.pdf	SOT-23-6 Thin, TSOT-23-6	1	LM2734YQMKX/NOPB										
+Texas Instruments	-	datasheets/regulator/ti/lm317.pdf	TO-220-3	1	LM317T/LF01										
+Texas Instruments	-	datasheets/regulator/ti/lm317.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	LM317MKVURG3										
+Texas Instruments	-	datasheets/regulator/ti/lm317.pdf	TO-261-4, TO-261AA	1	LM317MDCYR										
+Texas Instruments	-	datasheets/regulator/ti/lm317l.pdf	8-SOIC (0.154", 3.90mm Width)	1	LM317LIDR										
+Texas Instruments	-	datasheets/regulator/ti/lm317l.pdf	TO-226-3, TO-92-3 (TO-226AA)	1	LM317LCLP										
+Texas Instruments	-	datasheets/regulator/ti/lm317l.pdf	TO-243AA	1	LM317LIPK										
+Texas Instruments	-	datasheets/regulator/ti/lm3370.pdf	20-UFBGA	1	LM3370TLX-3022/NOPB										
+Texas Instruments	-	datasheets/regulator/ti/lm3370.pdf	20-WFBGA	1	LM3370TLX-3006/NOPB										
+Texas Instruments	-	datasheets/regulator/ti/lm340l.pdf	TO-226-3, TO-92-3 (TO-226AA)	1	LM340LAZ-5.0/LFT4										
+Texas Instruments	-	datasheets/regulator/ti/lm3671.pdf	5-WFBGA, DSBGA	1	LM3671TLX-1.2/NOPB										
+Texas Instruments	-	datasheets/regulator/ti/lm7800.pdf	TO-220-3	4	LM7812CT/NOPB										
+Texas Instruments	-	datasheets/regulator/ti/lm7800.pdf	TO-261-4, TO-261AA	2	LM7805MPX/NOPB										
+Texas Instruments	-	datasheets/regulator/ti/lm7800.pdf	TO-263-4, D2PAK (3 Leads + Tab), TO-263AA	3	LM7805SX/NOPB										
+Texas Instruments	-	datasheets/regulator/ti/lm8801.pdf	6-WFBGA, DSBGA	1	LM8801TMX-2.9/NOPB										
+Texas Instruments	-	datasheets/regulator/ti/lmr54406.pdf	SOT-23-6	1	LMR54406DBVR										
+Texas Instruments	-	datasheets/regulator/ti/lms8117a.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	LMS8117ADT-ADJ/NOPB										
+Texas Instruments	-	datasheets/regulator/ti/lp2950-n.pdf	8-SOIC (0.154", 3.90mm Width)	1	LP2951ACMX/NOPB										
+Texas Instruments	-	datasheets/regulator/ti/lp2980-adj.pdf	SC-74A, SOT-753	1	LP2980IM5X-ADJ/NOPB										
+Texas Instruments	-	datasheets/regulator/ti/lp3874.pdf	TO-261-5, TO-261AB	1	LP3874EMPX-ADJ										
+Texas Instruments	-	datasheets/regulator/ti/lp38798.pdf	12-WFDFN Exposed Pad	1	LP38798SD-ADJ/NOPB										
+Texas Instruments	-	datasheets/regulator/ti/lp3983.pdf	5-WFBGA, DSBGA	1	LP3983ITL-2.5/NOPB										
+Texas Instruments	-	datasheets/regulator/ti/lp5900.pdf	4-WFBGA, DSBGA	2	LP5900TLX-2.7/NOPB										
+Texas Instruments	-	datasheets/regulator/ti/lp5900.pdf	4-XFBGA, DSBGA	1	LP5900XRX-2.8/NOPB										
+Texas Instruments	-	datasheets/regulator/ti/lp5907.pdf	4-XDFN Exposed Pad	2	LP5907SNX-2.8/NOPB										
+Texas Instruments	-	datasheets/regulator/ti/lp5907.pdf	4-XFBGA, DSBGA	1	LP5907UVX-2.85/NOPB										
+Texas Instruments	-	datasheets/regulator/ti/lp5907.pdf	SC-74A, SOT-753	1	LP5907MFX-3.3/NOPB										
+Texas Instruments	-	datasheets/regulator/ti/lp5951.pdf	5-TSSOP, SC-70-5, SOT-353	1	LP5951MGX-2.8/NOPB										
+Texas Instruments	-	datasheets/regulator/ti/lp5951.pdf	SC-74A, SOT-753	1	LP5951MF-3.3										
+Texas Instruments	-	datasheets/regulator/ti/reg102.pdf	SC-74A, SOT-753	1	REG102NA-A/3K										
+Texas Instruments	-	datasheets/regulator/ti/reg1117.pdf	TO-261-4, TO-261AA	1	REG1117A/2K5										
+Texas Instruments	-	datasheets/regulator/ti/reg71050.pdf	SOT-23-6	1	REG710NA-3/3K										
+Texas Instruments	-	datasheets/regulator/ti/reg711-5.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	1	REG711EA-5/2K5										
+Texas Instruments	-	datasheets/regulator/ti/sbvs034n.pdf	SC-74A, SOT-753	1	TPS731125DBVR										
+Texas Instruments	-	datasheets/regulator/ti/sbvs038x.pdf	SC-74A, SOT-753	3	TPS73632DBVR										
+Texas Instruments	-	datasheets/regulator/ti/sbvs088c.pdf	6-WDFN Exposed Pad	1	TPS71918-12DRVR										
+Texas Instruments	-	datasheets/regulator/ti/slus215b.pdf	TO-263-4, D2PAK (3 Leads + Tab), TO-263AA	1	UCC383TDTR-ADJ										
+Texas Instruments	-	datasheets/regulator/ti/slvs004i.pdf	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	2	TL317CLPR										
+Texas Instruments	-	datasheets/regulator/ti/slvs021n.pdf	TO-220-3	1	TL750M12CKCSE3										
+Texas Instruments	-	datasheets/regulator/ti/slvs056p.pdf	TO-220-3	3	UA7812CKCS										
+Texas Instruments	-	datasheets/regulator/ti/slvs056p.pdf	TO-263-4, D2PAK (3 Leads + Tab), TO-263AA	2	UA7805CKTTR										
+Texas Instruments	-	datasheets/regulator/ti/slvs076c.pdf	10-PowerTFSOP, 10-MSOP (0.118", 3.00mm Width)	2	TPS62026DGQR										
+Texas Instruments	-	datasheets/regulator/ti/slvs076c.pdf	10-VFDFN Exposed Pad	2	TPS62020DRCR										
+Texas Instruments	-	datasheets/regulator/ti/slvs127a.pdf	8-SOIC (0.154", 3.90mm Width)	1	TPS6734ID										
+Texas Instruments	-	datasheets/regulator/ti/slvs232j.pdf	20-PowerTSSOP (0.173", 4.40mm Width)	1	TPS77601PWPR										
+Texas Instruments	-	datasheets/regulator/ti/slvs237c.pdf	8-SOIC (0.154", 3.90mm Width)	1	TPS76601DR										
+Texas Instruments	-	datasheets/regulator/ti/slvs242c.pdf	20-PowerTSSOP (0.173", 4.40mm Width)	1	TPS75401QPWPR										
+Texas Instruments	-	datasheets/regulator/ti/slvs257b.pdf	20-PowerTSSOP (0.173", 4.40mm Width)	1	TPS60124PWP										
+Texas Instruments	-	datasheets/regulator/ti/slvs283d.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	1	TPS77901DGKR										
+Texas Instruments	-	datasheets/regulator/ti/slvs293d.pdf	TO-263-6, D2PAK (5 Leads + Tab), TO-263BA	1	TPS75501KTTR										
+Texas Instruments	-	datasheets/regulator/ti/slvs314f.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	5	TPS61016DGSR										
+Texas Instruments	-	datasheets/regulator/ti/slvs341e.pdf	TO-263-6, D2PAK (5 Leads + Tab), TO-263BA	1	TPS72501KTTR										
+Texas Instruments	-	datasheets/regulator/ti/slvs390b.pdf	SC-74A, SOT-753	1	TPS72201DBVR										
+Texas Instruments	-	datasheets/regulator/ti/slvs491e.pdf	SOT-23-5 Thin, TSOT-23-5	5	TPS62222DDCR										
+Texas Instruments	-	datasheets/regulator/ti/slvs528e.pdf	10-VFDFN Exposed Pad	5	TPS62300DRCR										
+Texas Instruments	-	datasheets/regulator/ti/sn105125.pdf	SC-74A, SOT-753	1	SN105125DBVR										
+Texas Instruments	-	datasheets/regulator/ti/tl2575-12.pdf	16-DIP (0.300", 7.62mm)	1	TL2575-05IN										
+Texas Instruments	-	datasheets/regulator/ti/tl2575-12.pdf	TO-220-5 Formed Leads	1	TL2575-ADJIKV										
+Texas Instruments	-	datasheets/regulator/ti/tl499a.pdf	8-DIP (0.300", 7.62mm)	1	TL499ACP										
+Texas Instruments	-	datasheets/regulator/ti/tl499a.pdf	8-SOIC (0.209", 5.30mm Width)	1	TL499ACPSR										
+Texas Instruments	-	datasheets/regulator/ti/tlv1117.pdf	8-WDFN Exposed Pad	1	TLV1117-18CDRJR										
+Texas Instruments	-	datasheets/regulator/ti/tlv1117.pdf	TO-220-3	1	TLV1117IKCS										
+Texas Instruments	-	datasheets/regulator/ti/tlv1117.pdf	TO-261-4, TO-261AA	4	TLV1117-18CDCYR										
+Texas Instruments	-	datasheets/regulator/ti/tlv62568.pdf	SOT-23-6 Thin, TSOT-23-6	1	TLV62568PDDCT										
+Texas Instruments	-	datasheets/regulator/ti/tlv62569.pdf	SC-74A, SOT-753	1	TLV62569DBVR										
+Texas Instruments	-	datasheets/regulator/ti/tlv62569.pdf	SOT-23-6 Thin, TSOT-23-6	1	TLV62569PDDCR										
+Texas Instruments	-	datasheets/regulator/ti/tlv700.pdf	5-TSSOP, SC-70-5, SOT-353	1	TLV70018DCKR										
+Texas Instruments	-	datasheets/regulator/ti/tlv700.pdf	6-WFDFN	1	TLV70015DSER										
+Texas Instruments	-	datasheets/regulator/ti/tlv700.pdf	SOT-23-5 Thin, TSOT-23-5	1	TLV70013DDCR										
+Texas Instruments	-	datasheets/regulator/ti/tlv702.pdf	6-WFDFN	1	TLV70242PDSER										
+Texas Instruments	-	datasheets/regulator/ti/tlv702.pdf	SC-74A, SOT-753	3	TLV70237DBVR										
+Texas Instruments	-	datasheets/regulator/ti/tlv705.pdf	4-UFBGA, DSBGA	1	TLV70533YFFR										
+Texas Instruments	-	datasheets/regulator/ti/tlv705.pdf	4-XFBGA, DSBGA	3	TLV70528YFPR										
+Texas Instruments	-	datasheets/regulator/ti/tlv707.pdf	4-XDFN Exposed Pad	5	TLV70731DQNR										
+Texas Instruments	-	datasheets/regulator/ti/tlv710.pdf	6-WFDFN	11	TLV7111930DSER										
+Texas Instruments	-	datasheets/regulator/ti/tlv712.pdf	6-WFDFN	1	TLV71211DSER										
+Texas Instruments	-	datasheets/regulator/ti/tlv712.pdf	SC-74A, SOT-753	2	TLV71211DBVR										
+Texas Instruments	-	datasheets/regulator/ti/tlv713p.pdf	4-XDFN Exposed Pad	6	TLV71310PDQNT										
+Texas Instruments	-	datasheets/regulator/ti/tlv713p.pdf	SC-74A, SOT-753	5	TLV713185PDBVT										
+Texas Instruments	-	datasheets/regulator/ti/tlv716p.pdf	6-XFDFN Exposed Pad	2	TLV7162818PDPQR										
+Texas Instruments	-	datasheets/regulator/ti/tlv717p.pdf	4-XDFN Exposed Pad	2	TLV71728PDQNR										
+Texas Instruments	-	datasheets/regulator/ti/tlv733p.pdf	4-XDFN Exposed Pad	3	TLV73311PDQNT										
+Texas Instruments	-	datasheets/regulator/ti/tlv733p.pdf	SC-74A, SOT-753	3	TLV73311PDBVT										
+Texas Instruments	-	datasheets/regulator/ti/tlv758p.pdf	6-WDFN Exposed Pad	1	TLV75801PDRVR										
+Texas Instruments	-	datasheets/regulator/ti/tps40222.pdf	6-VDFN Exposed Pad	1	TPS40222DRPT										
+Texas Instruments	-	datasheets/regulator/ti/tps54283.pdf	14-PowerTSSOP (0.173", 4.40mm Width)	1	TPS54283PWPR										
+Texas Instruments	-	datasheets/regulator/ti/tps54290.pdf	16-PowerTSSOP (0.173", 4.40mm Width)	1	TPS54292PWPR										
+Texas Instruments	-	datasheets/regulator/ti/tps5432.pdf	8-PowerSOIC (0.154", 3.90mm Width)	1	TPS5432DDA										
+Texas Instruments	-	datasheets/regulator/ti/tps548a28.pdf	21-PowerVFQFN	1	TPS548A28RWWR										
+Texas Instruments	-	datasheets/regulator/ti/tps564208.pdf	SOT-23-6 Thin, TSOT-23-6	1	TPS564208DDCT										
+Texas Instruments	-	datasheets/regulator/ti/tps60130.pdf	20-PowerTSSOP (0.173", 4.40mm Width)	1	TPS60133PWPR										
+Texas Instruments	-	datasheets/regulator/ti/tps60210.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	1	TPS60213DGS										
+Texas Instruments	-	datasheets/regulator/ti/tps61021a.pdf	8-WFDFN Exposed Pad	1	TPS61021ADSGR										
+Texas Instruments	-	datasheets/regulator/ti/tps61030.pdf	16-PowerTSSOP (0.173", 4.40mm Width)	1	TPS61032PWPR										
+Texas Instruments	-	datasheets/regulator/ti/tps61045.pdf	8-VDFN Exposed Pad	1	TPS61045ADRBR										
+Texas Instruments	-	datasheets/regulator/ti/tps61202.pdf	10-WFDFN Exposed Pad	1	TPS61202DSCR										
+Texas Instruments	-	datasheets/regulator/ti/tps61258.pdf	9-UFBGA, DSBGA	2	TPS61259YFFR										
+Texas Instruments	-	datasheets/regulator/ti/tps61322.pdf	SC-74A, SOT-753	1	TPS613222ADBVT										
+Texas Instruments	-	datasheets/regulator/ti/tps62006.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	5	TPS62004DGSR										
+Texas Instruments	-	datasheets/regulator/ti/tps62040.pdf	10-PowerTFSOP, 10-MSOP (0.118", 3.00mm Width)	2	TPS62043DGQR										
+Texas Instruments	-	datasheets/regulator/ti/tps62040.pdf	10-VFDFN Exposed Pad	1	TPS62044DRCR										
+Texas Instruments	-	datasheets/regulator/ti/tps62067.pdf	8-WFDFN Exposed Pad	1	TPS62067DSGR										
+Texas Instruments	-	datasheets/regulator/ti/tps62200.pdf	SC-74A, SOT-753	5	TPS62207DBVR										
+Texas Instruments	-	datasheets/regulator/ti/tps62230.pdf	6-UFDFN	9	TPS622310DRYR										
+Texas Instruments	-	datasheets/regulator/ti/tps62263.pdf	6-WDFN Exposed Pad	1	TPS62263DRVT										
+Texas Instruments	-	datasheets/regulator/ti/tps62612.pdf	6-XFBGA, DSBGA	2	TPS62619YFDR										
+Texas Instruments	-	datasheets/regulator/ti/tps62620.pdf	6-UFBGA, DSBGA	5	TPS62624YFFR										
+Texas Instruments	-	datasheets/regulator/ti/tps62660.pdf	6-UFBGA, DSBGA	2	TPS62665YFFR										
+Texas Instruments	-	datasheets/regulator/ti/tps62671.pdf	6-XFBGA, DSBGA	2	TPS62674YFDR										
+Texas Instruments	-	datasheets/regulator/ti/tps62671.pdf	6-XFLGA, DSLGA	1	TPS62679ZYFMT										
+Texas Instruments	-	datasheets/regulator/ti/tps62690.pdf	6-UFBGA, DSBGA	1	TPS62690YFFR										
+Texas Instruments	-	datasheets/regulator/ti/tps62698.pdf	6-XFBGA, DSBGA	1	TPS62698YFDR										
+Texas Instruments	-	datasheets/regulator/ti/tps62932.pdf	SOT-583	2	TPS62933DRLR										
+Texas Instruments	-	datasheets/regulator/ti/tps62a01.pdf	SOT-563, SOT-666	1	TPS62A01DRLR										
+Texas Instruments	-	datasheets/regulator/ti/tps63024.pdf	20-UFBGA, DSBGA	1	TPS630241YFFR										
+Texas Instruments	-	datasheets/regulator/ti/tps630250.pdf	20-UFBGA, DSBGA	1	TPS630251YFFR										
+Texas Instruments	-	datasheets/regulator/ti/tps65288.pdf	40-VFQFN Exposed Pad	1	TPS65288RHAR										
+Texas Instruments	-	datasheets/regulator/ti/tps709.pdf	6-WDFN Exposed Pad	2	TPS70915DRVR										
+Texas Instruments	-	datasheets/regulator/ti/tps71.pdf	8-DIP (0.300", 7.62mm)	1	TPS7101QP										
+Texas Instruments	-	datasheets/regulator/ti/tps71.pdf	8-SOIC (0.154", 3.90mm Width)	1	TPS7101QDR										
+Texas Instruments	-	datasheets/regulator/ti/tps712.pdf	10-VFDFN Exposed Pad	1	TPS71219DRCR										
+Texas Instruments	-	datasheets/regulator/ti/tps715.pdf	5-TSSOP, SC-70-5, SOT-353	1	TPS71533DCKR										
+Texas Instruments	-	datasheets/regulator/ti/tps717.pdf	5-TSSOP, SC-70-5, SOT-353	2	TPS71721DCKR										
+Texas Instruments	-	datasheets/regulator/ti/tps717.pdf	6-WFDFN	1	TPS71727DSER										
+Texas Instruments	-	datasheets/regulator/ti/tps71h01.pdf	20-PowerTSSOP (0.173", 4.40mm Width)	1	TPS71H01QPWPR										
+Texas Instruments	-	datasheets/regulator/ti/tps720.pdf	6-UFBGA, DSBGA	3	TPS720105YZUR										
+Texas Instruments	-	datasheets/regulator/ti/tps721.pdf	SC-74A, SOT-753	2	TPS72115DBVR										
+Texas Instruments	-	datasheets/regulator/ti/tps727.pdf	4-UFBGA, DSBGA	5	TPS72748YFFR										
+Texas Instruments	-	datasheets/regulator/ti/tps728.pdf	5-UFBGA, DSBGA	2	TPS728175295YZUR										
+Texas Instruments	-	datasheets/regulator/ti/tps728.pdf	6-WDFN Exposed Pad	1	TPS728330185DRVR										
+Texas Instruments	-	datasheets/regulator/ti/tps735.pdf	6-WDFN Exposed Pad	1	TPS73527DRVR										
+Texas Instruments	-	datasheets/regulator/ti/tps735.pdf	8-VDFN Exposed Pad	1	TPS73515DRBR										
+Texas Instruments	-	datasheets/regulator/ti/tps73801.pdf	SOT-223-6	1	TPS73801DCQR										
+Texas Instruments	-	datasheets/regulator/ti/tps740.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	1	TPS74001DGKT										
+Texas Instruments	-	datasheets/regulator/ti/tps74401.pdf	20-VQFN Exposed Pad	1	TPS74401RGWR										
+Texas Instruments	-	datasheets/regulator/ti/tps74901.pdf	20-VQFN Exposed Pad	1	TPS74901RGWR										
+Texas Instruments	-	datasheets/regulator/ti/tps751.pdf	20-PowerTSSOP (0.173", 4.40mm Width)	1	TPS75133QPWPR										
+Texas Instruments	-	datasheets/regulator/ti/tps757.pdf	TO-263-6, D2PAK (5 Leads + Tab), TO-263BA	1	TPS75701KTTR										
+Texas Instruments	-	datasheets/regulator/ti/tps758.pdf	TO-263-6, D2PAK (5 Leads + Tab), TO-263BA	1	TPS758A01KTTR										
+Texas Instruments	-	datasheets/regulator/ti/tps760.pdf	SC-74A, SOT-753	1	TPS76050DBVR										
+Texas Instruments	-	datasheets/regulator/ti/tps761.pdf	SC-74A, SOT-753	1	TPS76138DBVR										
+Texas Instruments	-	datasheets/regulator/ti/tps763.pdf	SC-74A, SOT-753	1	TPS76338DBVR										
+Texas Instruments	-	datasheets/regulator/ti/tps769.pdf	SC-74A, SOT-753	2	TPS76928DBVR										
+Texas Instruments	-	datasheets/regulator/ti/tps770.pdf	SC-74A, SOT-753	1	TPS77028DBVR										
+Texas Instruments	-	datasheets/regulator/ti/tps780.pdf	6-WDFN Exposed Pad	1	TPS78001DRVT										
+Texas Instruments	-	datasheets/regulator/ti/tps799.pdf	5-UFBGA, DSBGA	6	TPS79930YZUR										
+Texas Instruments	-	datasheets/regulator/ti/tps799l.pdf	5-XFBGA, DSBGA	1	TPS799L57YZYR										
+Texas Instruments	-	datasheets/regulator/ti/tps7a05.pdf	TO-236-3, SC-59, SOT-23-3	1	TPS7A0530PDBZR										
+Texas Instruments	-	datasheets/regulator/ti/tps7a21.pdf	4-XFBGA, WLCSP	1	TPS7A21345PYWDJ										
+Texas Instruments	-	datasheets/regulator/ti/tps7a24.pdf	SC-74A, SOT-753	1	TPS7A2401DBVR										
+Texas Instruments	-	datasheets/regulator/ti/ua78l.pdf	8-SOIC (0.154", 3.90mm Width)	1	UA78L12ACDR										
+Texas Instruments	-	datasheets/regulator/ti/ua78l.pdf	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	1	UA78L05CLPR										
+Texas Instruments	-	datasheets/regulator/ti/ua78l.pdf	TO-243AA	2	UA78L12ACPK										
+Texas Instruments	-	datasheets/regulator/ti/uc282.pdf	TO-220-5	1	UC382T-ADJ										
+Texas Instruments	D-CAP2™, Eco-Mode™	datasheets/regulator/ti/tps54495.pdf	16-PowerTSSOP (0.173", 4.40mm Width)	1	TPS54495PWP										
+Texas Instruments	DCS-Control™	datasheets/regulator/ti/tps62081.pdf	8-WFDFN Exposed Pad	1	TPS62081DSGR										
+Texas Instruments	DCS-Control™	datasheets/regulator/ti/tps62092.pdf	16-VFQFN Exposed Pad	1	TPS62092RGTR										
+Texas Instruments	DCS-Control™	datasheets/regulator/ti/tps62140.pdf	16-VFQFN Exposed Pad	1	TPS62141RGTR										
+Texas Instruments	DCS-Control™	datasheets/regulator/ti/tps62147.pdf	11-VFQFN	1	TPS62148RGXR										
+Texas Instruments	Eco-Mode™	datasheets/regulator/ti/tps54231.pdf	8-SOIC (0.154", 3.90mm Width)	1	TPS54231DR										
+Texas Instruments	LM1117-3.3	datasheets/regulator/ti/lm1117.pdf	TO-220-3	1	LM1117T-3.3/NOPB										
+Texas Instruments	LM1117-3.3	datasheets/regulator/ti/lm1117.pdf	TO-261-4, TO-261AA	1	LM1117MPX-3.3/NOPB										
+Texas Instruments	PowerWise™, SIMPLE SWITCHER®	datasheets/regulator/ti/lm2854.pdf	16-PowerTSSOP (0.173", 4.40mm Width)	1	LM2854MHX-1000/NOPB										
+Texas Instruments	SIMPLE SWITCHER®	datasheets/regulator/ti/lm2576.pdf	TO-220-5	1	LM2576T-5.0/NOPB										
+Texas Instruments	SIMPLE SWITCHER®	datasheets/regulator/ti/lm2576.pdf	TO-220-5 Formed Leads	1	LM2576T-5.0/LF02										
+Texas Instruments	SIMPLE SWITCHER®	datasheets/regulator/ti/lm2576.pdf	TO-263-6, D2PAK (5 Leads + Tab), TO-263BA	2	LM2576S-5.0/NOPB										
+Texas Instruments	SIMPLE SWITCHER®	datasheets/regulator/ti/lm2596.pdf	TO-220-5 Formed Leads	2	LM2596T-5.0										
+Texas Instruments	SIMPLE SWITCHER®	datasheets/regulator/ti/lm2596.pdf	TO-263-6, D2PAK (5 Leads + Tab), TO-263BA	4	LM2596SX-5.0										
+Texas Instruments	SWIFT™	datasheets/regulator/ti/slvs519a.pdf	16-PowerTSSOP (0.173", 4.40mm Width)	1	TPS54353PWPR										
+Texas Instruments	SWIFT™	datasheets/regulator/ti/tps54719.pdf	16-WFQFN Exposed Pad	1	TPS54719RTER										
+Texas Instruments	SWIFT™	datasheets/regulator/ti/tps561201.pdf	SOT-23-6 Thin, TSOT-23-6	1	TPS561201DDCR										
+Texas Instruments	SmoothPWM™, Eco-Mode™	datasheets/regulator/ti/tps53311.pdf	16-VFQFN Exposed Pad	1	TPS53311RGTT										
+Texas Instruments	SolarMagic™	datasheets/regulator/ti/sm72238.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	SM72238TDX-5.0/NOPB										

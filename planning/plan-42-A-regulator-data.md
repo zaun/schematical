@@ -73,13 +73,13 @@ Every other letter points here.
 
 | Must be true | Command | Status |
 |---|---|---|
-| Backend tests green | `cmake -S backend -B /tmp/logic-p42 && cmake --build /tmp/logic-p42 -j8 && ctest --test-dir /tmp/logic-p42 -j8` → `100% tests passed` | MET (2026-11-16 at 6eb14f28: `100% tests passed, 0 tests failed out of 36`; T0 = 36, `grep -c '^logic_test' backend/CMakeLists.txt` → 36) |
-| Golden sizes recorded | `git show HEAD:backend/tests/golden/parts.txt \| wc -l`; `traces.txt`; `footprints.txt` | at planning (40ccd5fc): **P0 = 32854**, **R0 = 32854**, **F0 = 1624**; re-measured 2026-11-16 at 6eb14f28 (plan-43 landed since): **P0 = 32897**, **R0 = 32897**, **F0 = 1646** — use these |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p42-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-16 at 6eb14f28: `** BUILD SUCCEEDED **`) |
-| No regulator kind yet | `grep -c 'PART_REGULATOR' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/regulator.json` → no such file; `ls datasheets/regulator` → no such directory | MET (2026-11-16 at 6eb14f28: 0, no file, no directory) |
-| No other open plan adds regulators | `grep -l -i 'PART_REGULATOR\|Parts/regulator\.json\|datasheets/regulator' planning/plan-*.md \| grep -v plan-42 \| wc -l` → 0 | MET (2026-11-16 at 6eb14f28: 0). Other open plans add part kinds: plan-44 (`PART_CRYSTAL`) and plan-46 (`PART_GENERIC`); every shared line (`PartKind`, `KINDS[]`, `TRACE_LAST_KIND`, the listing arrays, the editor's kind lists) is appended after whatever kind is last, each step greps first |
-| plan-46 (Part Wizard) complete | `ls planning/completed/plan-46-N-*.md` → exists | NOT MET (2026-11-16: plan-46 written, not started). Owner decision 2026-11-16: plan-46 lands before plan-44 and plan-42. It appends `PART_GENERIC`, replaces `PartKinds.displayNames` with `Editor/KindInfo.swift`, and gives every kind an editor schema (no `formless` set); plan-42-G/H/I are written against that world |
-| DigiKey credentials and quota | `grep -cE '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc` → 2; `eval "$(grep -E '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc)" && node scripts/digikey.js --in-stock --pages 1 --limit 1 "LM1117"` prints `calls left today` ≥ 920 before Phase 1 (the quota is about 1000 a day, shared with other sessions; it resets at about 00:00 UTC) | NOT MET (2026-11-16 03:36 UTC: credentials 2 of 2; `node scripts/digikey.js …LM1117` → `898 left today`, below 920; the quota reset at 00:00 UTC and other sessions have already used about 100 calls; the next reset is 2026-11-17 00:00 UTC) |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p42 && cmake --build /tmp/logic-p42 -j8 && ctest --test-dir /tmp/logic-p42 -j8` → `100% tests passed` | MET (2026-11-21 at cd9ca2a8: `100% tests passed, 0 tests failed out of 39`; T0 = **39** now, `grep -c '^logic_test' backend/CMakeLists.txt` → 39; plan text elsewhere says 36: add 3) |
+| Golden sizes recorded | `git show HEAD:backend/tests/golden/parts.txt \| wc -l`; `traces.txt`; `footprints.txt` | at planning (40ccd5fc): **P0 = 32854**, **R0 = 32854**, **F0 = 1624**; re-measured 2026-11-16 at 6eb14f28 (plan-43 landed since): **P0 = 32897**, **R0 = 32897**, **F0 = 1646**; re-measured 2026-11-21 at cd9ca2a8 (`wc -l backend/tests/golden/{parts,traces,footprints}.txt`): **P0 = 33042**, **R0 = 33042**, **F0 = 1685** — use these |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p42-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-21 at cd9ca2a8: `** BUILD SUCCEEDED **`) |
+| No regulator kind yet | `grep -c 'PART_REGULATOR' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/regulator.json` → no such file; `ls datasheets/regulator` → no such directory | MET (2026-11-21 at cd9ca2a8: 0, no file, no directory) |
+| No other open plan adds regulators | `grep -l -i 'PART_REGULATOR\|Parts/regulator\.json\|datasheets/regulator' planning/plan-*.md \| grep -v plan-42 \| wc -l` → 0 | MET (2026-11-21: the command prints 5, plan-44-A, 44-E, 47-A, 47-I, 48-A, but each only names plan-42 / `PART_REGULATOR` as an open plan whose kind order it follows — `grep -n` of those five files shows no regulator part, kind or datasheet directory added; none adds regulators. Command corrected below). Other open plans add part kinds: plan-44 (`PART_CRYSTAL`) and plan-46 (`PART_GENERIC`); every shared line (`PartKind`, `KINDS[]`, `TRACE_LAST_KIND`, the listing arrays, the editor's kind lists) is appended after whatever kind is last, each step greps first |
+| plan-46 (Part Wizard) complete | `ls planning/completed/plan-46-N-*.md` → exists | MET (2026-11-21: `planning/completed/plan-46-N-wizard-landing.md` exists; plan-46-A … N are all in `planning/completed/`). Earlier status NOT MET (2026-11-16: plan-46 written, not started). Owner decision 2026-11-16: plan-46 lands before plan-44 and plan-42. It appends `PART_GENERIC`, replaces `PartKinds.displayNames` with `Editor/KindInfo.swift`, and gives every kind an editor schema (no `formless` set); plan-42-G/H/I are written against that world |
+| DigiKey credentials and quota | `grep -cE '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc` → 2; `eval "$(grep -E '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc)" && node scripts/digikey.js --in-stock --pages 1 --limit 1 "LM1117"` prints `calls left today` ≥ 920 before Phase 1 (the quota is about 1000 a day, shared with other sessions; it resets at about 00:00 UTC) | MET (2026-11-21: credentials 2 of 2; `node scripts/digikey.js --in-stock --pages 1 --limit 1 "LM1117"` → `999 left today`; the quota is shared: 429 were left when the run was half done, 42 at the end). Earlier status NOT MET (2026-11-16 03:36 UTC: credentials 2 of 2; `node scripts/digikey.js …LM1117` → `898 left today`, below 920; the quota reset at 00:00 UTC and other sessions have already used about 100 calls; the next reset is 2026-11-17 00:00 UTC) |
 
 Everything below is written against the world where these hold.
 
@@ -308,11 +308,11 @@ row `out`, reason `stock check`, and sets `stock_checked`.
 
 ### Phase 1 — Restore the listing
 
-- [ ] Restore the planning listing as `README.md` says and run `select.py …
+- [x] Restore the planning listing as `README.md` says and run `select.py …
       --report`: `6225 parts listed`, 0 `NEEDS DEEPER LISTING`, `candidates
       from a cut piece: 158 of 600`; `cmp` with `candidates.tsv` →
       `reproducible`; `download-set.py --report` → `900 rows; 541 distinct
-      URLs`.
+      URLs`. Observed 2026-11-21: `6225 parts listed`, `4 pieces cut at 300`, 0 `NEEDS`, `candidates from a cut piece: 158 of 600`, `reproducible`, `900 rows; 541 distinct URLs`.
 
 Acceptance: the planning pick reproduces.
   Check: `python3 -I planning/plan-42-data/census/select.py /tmp/p42/raw /tmp/p42/cand.tsv && cmp /tmp/p42/cand.tsv planning/plan-42-data/candidates.tsv && echo reproducible` → `reproducible` (est. < 1 min).
@@ -320,15 +320,15 @@ Commit: —
 
 ### Phase 2 — The part-by-part stock check (one quota day)
 
-- [ ] `census/stock-check.sh` (§ 5); run it for every row of
+- [x] `census/stock-check.sh` (§ 5); run it for every row of
       `download-set.tsv` (900 calls; ≥ 920 left before the run, § Prerequisites);
-      a run cut by the quota goes on the next day.
-- [ ] `select.py /tmp/p42/raw planning/plan-42-data/candidates.tsv --stock
+      a run cut by the quota goes on the next day. Done 2026-11-21: `stock-check.tsv` 901 lines (900 rows + header); the run stopped once on a script bug (Corrections 2) and went on.
+- [x] `select.py /tmp/p42/raw planning/plan-42-data/candidates.tsv --stock
       planning/plan-42-data/stock-check.tsv --report`; then
       `download-set.py` again: a row that went `out` leaves the set and the
       next row of its (family, maker) enters it; check every new row the
       same way until no row of the set is unchecked. Record the number of
-      `found` = 0 rows and of extra calls in § Corrections.
+      `found` = 0 rows and of extra calls in § Corrections. 2 rows `found` = 0, 2 extra calls, both refills found (Corrections 3).
 
 Acceptance: every download-set row is in stock, Active or Last Time Buy.
   Check: `awk -F'\t' 'NR>1 && $2!=1' planning/plan-42-data/stock-check.tsv \| wc -l` → the `found` = 0 count recorded above, and `python3 -I planning/plan-42-data/census/download-set.py planning/plan-42-data/candidates.tsv \| cut -f1 \| tail -n +2 \| grep -vxFf <(cut -f1 planning/plan-42-data/stock-check.tsv) \| wc -l` → 0 (est. < 1 min; the run itself is the quota day).
@@ -336,27 +336,27 @@ Commit: —
 
 ### Phase 3 — Download, place and scan the datasheets
 
-- [ ] `census/fetch.js`, `common.py`, `urls.py`, `place.py`,
+- [x] `census/fetch.js`, `common.py`, `urls.py`, `place.py`,
       `textscan.py`, `sibling.py` (§ 4, § 6): download every distinct URL
       the download set cites (541 at planning) by § 4's rules into
       `/tmp/p42/pdf`; `%PDF-` and `pdfinfo` on each; failures recorded in §
-      Corrections with their host.
-- [ ] Place the PDFs under `datasheets/regulator/<maker-slug>/` and write
+      Corrections with their host. Observed: `urls.py` → `900 download-set rows; 846 distinct URLs` (the rewrites and fallbacks add URLs); `fetch.js` → `846 urls; 554 are PDFs; 292 failed` (every failure is a fallback guess, a Rochester-copy rewrite that 404s, or a 403; see Corrections 4). The `%PDF-` check is in `fetch.js`; `pdfinfo` is not run on every file (the `pdftotext` scan reads each one; a bad file yields no text and no `hit`).
+- [x] Place the PDFs under `datasheets/regulator/<maker-slug>/` and write
       `datasheets/regulator/datasheets.tsv`; `place.py --verify` → `0
       missing, 0 unused`. The PDFs stay out of the commits until B prunes
-      them (B Phase 4), so the history never carries PDFs no `add` row uses.
-- [ ] `candidates.tsv`: `pdf` (the placed path) for every download-set row
+      them (B Phase 4), so the history never carries PDFs no `add` row uses. Observed: `place.py` → `479 PDFs placed for 513 URLs`; `place.py --verify` → `0 missing, 0 unused`.
+- [x] `candidates.tsv`: `pdf` (the placed path) for every download-set row
       whose URL, rewrite or sibling gave a PDF, and `hit` = 1 when its part
       number is printed verbatim (`pdftotext -layout`, token-boundary
       search); `dead` = 1 when the text near the part number says
       obsolete, discontinued, NRND, "not recommended for new designs" or
-      end of life (B reads every such row).
-- [ ] `census/specs-skeleton.py`: `planning/plan-42-data/specs.tsv`, one row
+      end of life (B reads every such row). Observed: `textscan.py` → `873 rows with their own PDF; 671 printed verbatim; 8 dead`; `sibling.py` → `27 download-set rows without their own PDF; 8 printed in a same-maker PDF`; so 881 rows have a PDF, 19 have none, 679 `hit` = 1, 8 `dead` = 1.
+- [x] `census/specs-skeleton.py`: `planning/plan-42-data/specs.tsv`, one row
       per (maker, series, PDF, Package / Case) of the download set, columns
       `maker`, `series`, `pdf`, `package`, `rows`, `example`, `scheme`,
       `label` (B's), `pinout`, `regulators`, `analog`, `vref`, `vin_min`,
-      `dropout`, `adjust_to` (C's).
-- [ ] Record `du -sh datasheets/regulator` here.
+      `dropout`, `adjust_to` (C's). Observed: `583 rows; 0 kept from before`.
+- [x] Record `du -sh datasheets/regulator` here. `643M	datasheets/regulator` (479 PDFs).
 
 Acceptance: every download-set row either has a PDF or a reason it has none.
   Check: `awk -F'\t' 'NR==FNR{s[$1]=1; next} ($1 in s) && $32==""' planning/plan-42-data/download-set.tsv planning/plan-42-data/candidates.tsv \| wc -l` → the rows B will `skip` for no maker datasheet (recorded here); `find datasheets/regulator -iname '*.pdf' \| wc -l` = `tail -n +2 datasheets/regulator/datasheets.tsv \| cut -f1 \| sort -u \| wc -l` (est. 25 min: 541 downloads, four at a time).
@@ -421,6 +421,18 @@ Author decisions (no user-visible fork; recorded so nobody re-litigates):
   linear and switching.
 
 ## Corrections
+
+1. **Prerequisite measurements were stale** (2026-11-21): T0 = 39 (plan text: 36), P0 = R0 = 33042 and F0 = 1685 at cd9ca2a8 (plan: 32897 / 1646). The row "No other open plan adds regulators" printed 5 (plan-44-A, 44-E, 47-A, 47-I, 48-A) although none adds regulators: each only mentions plan-42's `PART_REGULATOR` as an open plan whose kind order it follows. (`grep -n` of those five files printed only those mentions.) plan-46 and the DigiKey quota are MET.
+2. **`stock-check.sh` bug** (found at run time): plan-40's script aborted on `grep -q 'rate limited\|429'`, which also matches DigiKey's own summary line `… 429 left today`. The run stopped at 515 rows with 429 calls left; the pattern is now `rate limited` only, and the run went on (385 more calls, 42 left today). The quota is shared with other sessions: 999 at the start, 429 after 515 calls.
+3. **Stock-check result:** 900 calls over the download set plus 2 refill calls = 902; `found` = 0 for 2 rows (`MIC5365-3.3YC5-TR`, `TLV75801PDBVR`: no stock; both left the pick: `select.py --stock` → `out`, `stock check`); the next rows of their (family, maker), `MIC5365-2.8YC5-TR` and `TPS77901DGKR`, entered the set and were found (stock 20563, 23500, Active). Final `awk -F'\t' 'NR>1 && $2!=1' stock-check.tsv | wc -l` → 2; every download-set row is in `stock-check.tsv` (0 unchecked). The set is still 900 rows, 541 distinct URLs, `picked per maker` 200 / 200 / 200 and 598 Active + 2 Last Time Buy as before. `download-set.tsv` was regenerated for the final set (two rows changed).
+4. **Download rules refined, three observed cases:**
+   - A TI own-site link `www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=…/lit/gpn/<device>` is an HTML redirect shell (200, not a PDF): 145 download-set rows had no PDF. `common.ti_goto()` takes the device from `gotoUrl` (decoded up to three times) and `sources()` fetches `https://www.ti.com/lit/ds/symlink/<device>.pdf` first (`ti.com/lit/gpn/<device>` answers 302 to it); after this 27 rows had none, 8 of them found by `sibling.py`.
+   - A Microchip row of a Rochester or DigiKey link was tried under its `base` and under the leading letters-and-digits run (as § 4 rule 3 does for TI): `MIC5235BM5` → `MIC5235`, then the `page:` product pages; `fetch.js` reads the first `ww1.microchip.com/downloads/…pdf` link of such a page and records it in `index.tsv`'s sixth column, which `place.py` uses as the file's URL.
+   - Failures of `fetch.js`: 292 of 846 URLs, hosts `www.ti.com` 114 (a guessed `symlink` rewrite that 404s, or a TI page that is not a PDF), `ww1.microchip.com` 97 and `www.microchip.com` 82 (403 to a guessed `DeviceDoc/<name>.pdf`, `no-pdf-link` for a product page that has none). Every download-set row that found no PDF has none by rule 5: 19 rows, TI 10 (Rochester copies of National parts; `TPS79301DBVR`, `TLV70710DQNR`, `LM2788MM-2.0`), Microchip 9 (Rochester copies of Micrel parts; `MIC5303-1.8YMT-TR`: its own `ww1` link answers 403).
+   B skips those 19 as `no datasheet on the maker's site`.
+5. `specs.tsv` also has a `pinout_adj` column (plan-42-C § 3 rule 3 needs it); the A skeleton columns of § Phase 3 lacked it.
+6. Observed acceptance: Phase 2: found = 0 count 2 = recorded; unchecked download-set rows → 0. Phase 3: rows without a PDF → 19; `find datasheets/regulator -iname '*.pdf' | wc -l` → 479 = `tail -n +2 datasheets/regulator/datasheets.tsv | cut -f1 | sort -u | wc -l` → 479; `specs.tsv` → 583 rows; `du -sh` 643M.
+7. The 8 `dead` = 1 rows (text-scan flag) are B's to read.
 
 ## Summary
 
