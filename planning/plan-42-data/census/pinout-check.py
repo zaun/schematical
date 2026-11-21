@@ -200,9 +200,9 @@ def main(argv):
         if s is None:
             errs.append(f"{tag}: no spec row")
             continue
-        # `Adjustable (Fixed)` (5 add rows) is a fixed-voltage orderable of a part that also comes adjustable.
-        has_fixed = any(r["output_type"] != "Adjustable" for r in used[k])
-        has_adj = any(r["output_type"] == "Adjustable" for r in used[k])
+        # `Adjustable (Fixed)` is a fixed-voltage orderable unless variant-overrides.tsv says adj.
+        has_fixed = any(specs.variant_of(r) == "fixed" for r in used[k])
+        has_adj = any(specs.variant_of(r) == "adj" for r in used[k])
         mixed = has_fixed and has_adj
         expect = over.get((k[2], k[3]), specs.pin_count(k[3]))
         variants = []

@@ -1,0 +1,2 @@
+pdf	package	series	pinout	pinout_adj	regulators	regulators_adj	analog	analog_adj	vref	vin_min	dropout	adjust_to
+datasheets/regulator/ti/tps712.pdf	10-VFDFN Exposed Pad	-	"[[1,""IN"",""power""],[2,""NC"",""nc""],[3,""OUT1"",""output""],[4,""OUT2"",""output""],[5,""GND"",""ground""],[6,""NR"",""input""],[7,""FB2/NC"",""input""],[8,""EN2"",""input""],[9,""FB1/NC"",""nc""],[10,""EN1"",""input""]]"		"[{""type"":""linear"",""in"":""IN"",""out"":""OUT1"",""enable"":""EN1""},{""type"":""linear"",""in"":""IN"",""out"":""OUT2"",""enable"":""EN2""}]"		"[""NR"",""FB2/NC""]"			2.7		

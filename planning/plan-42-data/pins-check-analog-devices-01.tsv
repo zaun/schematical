@@ -1,0 +1,29 @@
+pdf	package	series	variant	page	result	note
+datasheets/regulator/analog-devices/1121fg.pdf	TO-261-4, TO-261AA	-	fixed	PDF p.2	ok	ST pkg: 1 VIN, 2 GND, 3 OUTPUT, tab GND unnumbered (omitted)
+datasheets/regulator/analog-devices/1613fs.pdf	SOT-23-5 Thin, TSOT-23-5	-	adj	PDF p.2	ok	S5: 1 SW, 2 GND, 3 FB, 4 SHDN, 5 VIN; Vref 1.23; SHDN high=on
+datasheets/regulator/analog-devices/1618fas.pdf	10-WFDFN Exposed Pad	-	adj	PDF p.2	ok	DD10: 1 FB,2 ISN,3 ISP,4 IADJ,5 GND,6 SW,7 SW,8 VIN,9 SHDN,10 VC; pad GND; Vref 1.263
+datasheets/regulator/analog-devices/1761sff.pdf	SOT-23-5 Thin, TSOT-23-5	-	fixed	PDF p.2	ok	LT1761-X S5: 1 IN, 2 GND, 3 SHDN, 4 BYP, 5 OUT
+datasheets/regulator/analog-devices/1761sff.pdf	SOT-23-5 Thin, TSOT-23-5	-	adj	PDF p.2	ok	LT1761-SD S5: 1 IN, 2 GND, 3 SHDN, 4 ADJ, 5 OUT; ADJ 1.22V to ground
+datasheets/regulator/analog-devices/1763fh.pdf	12-WFDFN Exposed Pad	-	adj	PDF p.2	ok	DE12: NC 1/4/9/12, OUT 2,3, ADJ 5, BYP 6, GND 7 (+pad 13), SHDN 8, IN 10,11; ADJ 1.22V ref to ground
+datasheets/regulator/analog-devices/1763fh.pdf	"8-SOIC (0.154"", 3.90mm Width)"	-	fixed	PDF p.2	ok	S8 fixed: 1 OUT, 2 SENSE, 3 GND, 4 BYP, 5 SHDN, 6 GND, 7 GND, 8 IN
+datasheets/regulator/analog-devices/1763fh.pdf	"8-SOIC (0.154"", 3.90mm Width)"	-	adj	PDF p.2	ok	S8 adj: pin 2 ADJ (rest as fixed); ADJ 1.22V to ground
+datasheets/regulator/analog-devices/1765fd.pdf	"16-TSSOP (0.173"", 4.40mm Width) Exposed Pad"	-	fixed	PDF p.2	ok	FE16: 1 GND,2 BOOST,3,4 VIN,5,6 SW,7 NC,8,9 GND,10 NC,11 SHDN,12 FB,13 VC,14 SYNC,15 NC,16 GND; pad 17 omitted
+datasheets/regulator/analog-devices/1844fa.pdf	SOT-23-5 Thin, TSOT-23-5	-	adj	PDF p.2	ok	LTC1844-BYP S5: 1 IN, 2 GND, 3 BYP, 4 ADJ, 5 OUT, no SHDN; ADJ 1.25V ref to ground
+datasheets/regulator/analog-devices/1933fe.pdf	SOT-23-6 Thin, TSOT-23-6	-	adj	PDF p.2	ok	S6: 1 BOOST, 2 GND, 3 FB, 4 SHDN, 5 VIN, 6 SW; FB 1.245
+datasheets/regulator/analog-devices/1956f.pdf	"16-SSOP (0.154"", 3.90mm Width)"	-	fixed	PDF p.2	ok	GN16 (-5 variant): 1 GND,2 SW,3 NC,4 VIN,5 NC,6 BOOST,7 NC,8,9 GND,10 BIAS,11 VC,12 FB/SENSE,13 NC,14 SYNC,15 SHDN,16 GND
+datasheets/regulator/analog-devices/1962fb.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)"	-	fixed	PDF p.2	ok	MS8: 1 OUT, 2 SENSE/ADJ(SENSE fixed), 3 BYP, 4 GND, 5 SHDN, 6 NC, 7 NC, 8 IN
+datasheets/regulator/analog-devices/1965fb.pdf	8-WFDFN Exposed Pad	-	fixed	PDF p.2	ok	DD8: 1,2 OUT, 3 SENSE/ADJ(SENSE fixed), 4,5 GND, 6 SHDN, 7,8 IN; pad 9 GND omitted
+datasheets/regulator/analog-devices/1965fb.pdf	8-WFDFN Exposed Pad	-	adj	PDF p.2	ok	DD8 pin 3 = ADJ for LT1965; ADJ 1.20V ref to ground
+datasheets/regulator/analog-devices/3012fd.pdf	12-WFDFN Exposed Pad	-	adj	PDF p.2	ok	DE12: 1 NC,2,3 OUT,4 ADJ,5 GND,6,7 NC,8 SHDN,9 NC,10,11 IN,12 NC; ADJ 1.24V
+datasheets/regulator/analog-devices/3021fc.pdf	"8-SOIC (0.154"", 3.90mm Width)"	-	fixed	PDF p.2	ok	S8 FIXED: 1 NC,2 OUT,3 SENSE,4 AGND,5 SHDN,6 PGND,7 NC,8 IN
+datasheets/regulator/analog-devices/3023fa.pdf	10-WFDFN Exposed Pad	-	adj	PDF p.2	ok	DD10: 1 BYP2,2 ADJ2,3 GND,4 ADJ1,5 BYP1,6 OUT1,7 SHDN1,8 IN(common),9 SHDN2,10 OUT2; ADJ 1.22V
+datasheets/regulator/analog-devices/3027fa.pdf	10-WFDFN Exposed Pad	-	adj	PDF p.2	ok	DD10: 1 BYP2,2 ADJ2,3 SHDN2,4 ADJ1,5 BYP1,6 OUT1,7 SHDN1,8 IN1,9 IN2,10 OUT2; ADJ 1.22V
+datasheets/regulator/analog-devices/3029fb.pdf	"16-TFSOP (0.118"", 3.00mm Width) Exposed Pad"	-	adj	PDF p.2	ok	MSE16: 1 BYP1,2 NC,3,4 OUT1,5 GND,6,7 OUT2,8 BYP2,9 ADJ2,10 SHDN2,11,12 IN2,13,14 IN1,15 SHDN1,16 ADJ1; ADJ 1.215V
+datasheets/regulator/analog-devices/3121fa.pdf	12-WFDFN Exposed Pad	-	adj	PDF p.2	ok	DE12: 1 SW,2 PGND,3 VIN,4 PWM/SYNC,5 VCC,6 RT,7 VC,8 FB,9 SD,10 SGND,11 VOUT,12 CAP; VOUT=1.202(1+R1/R2); SD high=on
+datasheets/regulator/analog-devices/3130f.pdf	20-WFQFN Exposed Pad	-	adj	PDF p.2	ok	UDC20: 1 BST1,2 PVIN,3 VIN,4 RUN,5 VCC,6 MPPC,7,8 GND,9 FB,10 ILIM,11 MODE,12 EXTVCC,13 PGOOD(open-drain),14 VOUT,15 SW2,16 BST2,17 NC,18,19 PGND,20 SW1; Vref 1.00
+datasheets/regulator/analog-devices/3401fb.pdf	"10-TFSOP, 10-MSOP (0.118"", 3.00mm Width)"	-	adj	PDF p.2	ok	MS10: 1 Rt,2 MODE/SYNC,3 VIN,4 SW,5 GND,6 PGOOD(open-drain),7 VOUT,8 FB,9 VC,10 SHDN; FB 1.25
+datasheets/regulator/analog-devices/3440fd.pdf	"10-TFSOP, 10-MSOP (0.118"", 3.00mm Width)"	-	adj	PDF p.2	ok	MS10: 1 RT,2 MODE/SYNC,3 SW1,4 SW2,5 GND,6 VOUT,7 VIN,8 SHDN/SS,9 FB,10 VC; FB 1.22
+datasheets/regulator/analog-devices/3461afa.pdf	SOT-23-6 Thin, TSOT-23-6	-	adj	PDF p.2	ok	S6: 1 SW,2 GND,3 FB,4 SHDN,5 VOUT,6 VIN; FB 1.255
+datasheets/regulator/analog-devices/3464f.pdf	SOT-23-8 Thin, TSOT-23-8	-	adj	PDF p.2	ok	TS8: 1 CTRL,2 FB,3 OUT,4 GND,5 CAP,6 SW,7 VIN,8 SHDN; FB 1.25; SHDN high=on
+datasheets/regulator/analog-devices/3473f.pdf	8-WFDFN Exposed Pad	-	adj	PDF p.2	ok	DD8: 1 CAP,2 OUT,3 CTRL,4 FB,5 PGOOD(open collector),6 SHDN,7 VIN,8 SW; FB 1.25
+datasheets/regulator/analog-devices/3494fb.pdf	8-WFDFN Exposed Pad	-	adj	PDF p.2	ok	DDB8: 1 SW,2 GND,3 VCC,4 CTRL,5 SHDN,6 FB,7 VOUT,8 CAP; FB 1.225; VCC is input

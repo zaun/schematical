@@ -294,6 +294,7 @@ datasheets/regulator/ti/reg102.pdf	https://www.ti.com/lit/ds/symlink/reg102.pdf	
 datasheets/regulator/ti/reg711-5.pdf	https://www.ti.com/lit/ds/symlink/reg711-5.pdf	260811	babde230a15d9c7ce2434513a5ae4c1263516bc4ed91d89661d0cbe9d7080464
 datasheets/regulator/ti/sbvs038x.pdf	https://www.ti.com/lit/ds/sbvs038x/sbvs038x.pdf?ts=1788770463960	2682303	e1d7de72670ed11746ab4812d58696b1f5e930998060a7a6ad0655cb92052d0d
 datasheets/regulator/ti/sbvs038x.pdf	https://www.ti.com/lit/ds/symlink/tps736.pdf	2682303	e1d7de72670ed11746ab4812d58696b1f5e930998060a7a6ad0655cb92052d0d
+datasheets/regulator/ti/sbvs088c.pdf	https://www.ti.com/lit/ds/sbvs088c/sbvs088c.pdf	1480008	ddbb7c59e9288e1b9284a20a073746433a6abb83db359aa001ab9d80f29164da
 datasheets/regulator/ti/slvs004i.pdf	https://www.ti.com/lit/ds/slvs004i/slvs004i.pdf	1186629	017981b70046abe13348ea886aa4b2f83d37aa9fe1a3038d4e33905fc9b6e091
 datasheets/regulator/ti/slvs004i.pdf	https://www.ti.com/lit/ds/symlink/tl317.pdf	1186629	017981b70046abe13348ea886aa4b2f83d37aa9fe1a3038d4e33905fc9b6e091
 datasheets/regulator/ti/slvs021n.pdf	https://www.ti.com/lit/ds/slvs021n/slvs021n.pdf	720854	ef44d1598650e0521e2dc1e33a1bac84ce9230d2ca1ef78ade340e700640eba3
@@ -362,7 +363,6 @@ datasheets/regulator/ti/tps62a01.pdf	https://www.ti.com/lit/ds/symlink/tps62a01.
 datasheets/regulator/ti/tps63024.pdf	https://www.ti.com/lit/gpn/tps63024	1743358	eb6968a362d852683d26f8f9524d29662ca3ab0dd03a850cccbbbc99001da586
 datasheets/regulator/ti/tps709.pdf	https://www.ti.com/lit/ds/symlink/tps709.pdf	2270426	8ac3e060d3902febc8f87c9bdd4ce8948f3d18d9d0a9ef723b343802cce67163
 datasheets/regulator/ti/tps71.pdf	https://www.ti.com/lit/ds/symlink/tps71.pdf	1087984	6da6cbc880c8f13021db3243992e13946d9dac8063388f785153aaa6768e9f35
-datasheets/regulator/ti/tps712.pdf	https://www.ti.com/lit/ds/symlink/tps712.pdf	1035986	3e1df07158877fe458c79e79670b9aa9ce43c3eb95d4c724e63e2543c813ff74
 datasheets/regulator/ti/tps715.pdf	https://www.ti.com/lit/ds/symlink/tps715.pdf	3999737	179b3410bd152cee23e8cce0d530fb60f66f6c7d9e46a3b50015a173671e89fd
 datasheets/regulator/ti/tps717.pdf	https://www.ti.com/lit/ds/symlink/tps717.pdf	2045998	097c06c992eab88dbbb2befdc005fae9f3a3463ce8c46d5a1e4884fa48a0e51e
 datasheets/regulator/ti/tps71h01.pdf	https://www.ti.com/lit/ds/symlink/tps71h01.pdf	1492345	d0036d79d3978ee974c8b2249ccc7ba157f70684e4963fc03c43556ca37ab88b

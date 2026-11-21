@@ -1,0 +1,7 @@
+mpn	variant	vout	evidence
+ADP7112ACBZ-1.2-R7	fixed	1.2	ADP7112.pdf Ordering Guide: the -1.2 option is the fixed 1.2 V output (DigiKey "Adjustable (Fixed)" lists 1.2 V as its output)
+MAX1818EUT33+T	fixed	3.3	max1818.pdf p.6: "MAX1818EUT33 has a preset 3.3V output voltage" (DigiKey's 1.25 V is the SET-pin adjustable minimum)
+MAX5024LASA+	fixed	5.0	max5023-max5024.pdf p.1: MAX5024L / MAX5024M select a preset +5 V output (S / T: +3.3 V); DigiKey's 2.5 V is the adjustable minimum
+MIC2951-03YM-TR	fixed	5.0	mic2950.pdf p.2 Ordering Information: MIC2951-03YM is the 5.0 V, 1.0 % part (DigiKey's 1.24 V is the adjustable minimum)
+MIC2954-08YM-TR	adj		mic2954.pdf p.1: "The MIC2954-07/08BM is an adjustable version" (1.24 V to 29 V with two resistors, pin-strapped for 5 V); reference voltage 1.235 V typ (VOUT = VREF (1 + R1/R2))
+MIC29204YM-TR	adj		MIC2920.pdf p.2 ordering table: MIC29204YM "5V and Adj"; ADJUST pin 7, VREF 1.235 V (p.8 Fig. 3), DigiKey 1.24 V to 26 V

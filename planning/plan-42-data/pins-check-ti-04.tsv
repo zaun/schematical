@@ -1,0 +1,6 @@
+pdf	package	series	variant	page	result	note
+datasheets/regulator/ti/tps793.pdf	SOT-23-6	-	adj	3 (printed)	ok	Fig 4-2/Table 4-1: DBV 1 IN, 2 GND, 3 EN, 4 NC/NR, 5 FB, 6 OUT; EN high on; VREF 1.225 typ (p.5), FB to ground, VIN min 2.7
+datasheets/regulator/ti/tps799.pdf	5-UFBGA, DSBGA	-	fixed	3 (printed)	ok	Fig 5-3/Table 5-1 YZU: A1 EN, A3 NR, B2 GND, C1 OUT, C3 IN; EN high on; VIN min 2.7
+datasheets/regulator/ti/tps799.pdf	5-UFBGA, DSBGA	-	adj	3 (printed)	ok	Fig 5-4/Table 5-1 YZU: A1 EN, A3 FB, B2 GND, C1 OUT, C3 IN; VFB 1.193 typ (TPS79901), FB to ground
+datasheets/regulator/ti/ua78l.pdf	8-SOIC (0.154", 3.90mm Width)	-	fixed	3 (printed)	ok	Fig 5-1/Table: D 1 OUTPUT, 2,3,6,7 COMMON, 4,5 NC, 8 INPUT
+datasheets/regulator/ti/ua78l.pdf	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	-	fixed	3 (printed)	ok	Fig 5-2 LP TO-92: 1 OUTPUT, 2 COMMON, 3 INPUT

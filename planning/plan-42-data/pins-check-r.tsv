@@ -1,0 +1,4 @@
+pdf	package	series	variant	page	result	note
+datasheets/regulator/ti/sbvs088c.pdf	6-WDFN Exposed Pad	-	fixed	3-4	ok	hand-read (refill after the verdict overrides): DRV package Pin Descriptions: 1 OUT1, 2 IN, 3 OUT2, 4 EN2, 5 GND, 6 EN1; ENx high = on; thermal pad omitted
+datasheets/regulator/microchip/mic2954.pdf	8-SOIC (0.154", 3.90mm Width)	-	adj	1-2	ok	hand-read after variant-overrides.tsv made MIC2954-08 adjustable: p.1 "MIC2954-07/08BM is an adjustable version"; pin table pins 1 OUT, 2 SNS, 3 SHDN (low = on, p.2), 4 GND, 5 ERR (open collector), 6 TAP, 7 FB, 8 IN; VREF 1.235 V typ (p.3), VOUT = VREF(1 + R1/R2)
+datasheets/regulator/microchip/MIC2920.pdf	8-SOIC (0.154", 3.90mm Width)	-	adj	2,8	ok	hand-read after variant-overrides.tsv made MIC29204 adjustable: ordering table p.2 "MIC29204YM 5V and Adj"; pins 1 OUTPUT, 2 SENSE, 3 SHUTDOWN (low = on), 4 GROUND, 5 ERROR (open collector), 6 5V TAP, 7 ADJUST, 8 INPUT; VREF 1.235 V typ (p.8 Fig. 3)

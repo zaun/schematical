@@ -11,6 +11,10 @@ EXCLUDED below, and blanks the pinout columns of those spec rows in specs.tsv
   no pin numbers      the datasheet's 8-pin drawing is a photograph without pin
                       numbers and Microchip's later revisions number it in
                       opposite orders (LR12, plan-42-C Corrections)
+  mixed outputs       a dual regulator with one fixed and one adjustable output
+                      (TPS71219: OUT1 1.8 V, OUT2 set by FB2): `vout` / `vref`
+                      are one value per element only for a part whose elements
+                      are all fixed or all adjustable
   digital-interface   the output is set or the part is controlled over a serial
                       interface (I2C); plan-42-A section 3 rule 2 leaves such
                       parts out
@@ -31,6 +35,7 @@ import specs  # noqa: E402
 
 DIGITAL = "digital-interface"
 SETPIN = "output not set by a feedback divider"
+MIXED = "outputs of one part are fixed and adjustable (the kind describes a part as fixed or adjustable)"
 NOPINS = "no pin numbers in the datasheet (its pin drawing is a photo; later revisions number it both ways)"
 # (maker, pdf file name, package or None for every package) -> (verdict, reason)
 EXCLUDED = [
@@ -44,6 +49,7 @@ EXCLUDED = [
     ("Analog Devices", "MAX17227A.pdf", None, SETPIN),
     ("Analog Devices", "MAX17227J.pdf", None, SETPIN),
     ("Texas Instruments", "lm3370.pdf", None, DIGITAL),
+    ("Texas Instruments", "tps712.pdf", None, MIXED),
     ("Microchip Technology", "Microsemi_LX7219_Datasheet_V2.pdf", None, DIGITAL),
     ("Microchip Technology", "MIC2141.pdf", None, SETPIN),
     ("Microchip Technology", "20005384A.pdf", None, SETPIN),

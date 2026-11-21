@@ -506,7 +506,7 @@ TLV7103318DSER	add		datasheets/regulator/ti/tlv710.pdf
 TLV7103318DSET	add		datasheets/regulator/ti/tlv710.pdf
 MIC2214-KNYML	add		datasheets/regulator/microchip/MIC2214.pdf
 MIC5330-SKYML	add		datasheets/regulator/microchip/MIC5330.pdf
-TPS71219DRCR	add		datasheets/regulator/ti/tps712.pdf
+TPS71219DRCR	skip	outputs of one part are fixed and adjustable (the kind describes a part as fixed or adjustable)	datasheets/regulator/ti/tps712.pdf
 MIC5320-MFYML	add		datasheets/regulator/microchip/MIC5320.pdf
 TPS71918-12DRVR	add		datasheets/regulator/ti/sbvs088c.pdf
 MIC2211-SMYML	add		datasheets/regulator/microchip/MIC2211.pdf

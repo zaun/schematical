@@ -1,0 +1,29 @@
+pdf	package	series	variant	page	result	note
+datasheets/regulator/ti/slvs021n.pdf	TO-220-3	-	fixed	p.1	ok	KCS fig p.1 (pins unnumbered; mech drawing KCS0003B pins 1-3; top lead OUTPUT, bottom INPUT => 1 INPUT, 2 COMMON, 3 OUTPUT); vin_min 13 for TL750M12 p.4
+datasheets/regulator/ti/slvs076c.pdf	10-PowerTFSOP, 10-MSOP (0.118", 3.00mm Width)	-	fixed	p.4	ok	DGQ Terminal Functions p.4: 1 EN, 2-3 VIN, 4 GND, 5 FB, 6 MODE, 7-8 SW, 9-10 PGND; EN high=on; TPS62026 fixed 3.3V; PowerPAD omitted
+datasheets/regulator/ti/slvs076c.pdf	10-VFDFN Exposed Pad	-	adj	p.4	ok	DRC same pin list p.4; TPS62020/21 adjustable Vref 0.5 V (EC table) FB to ground; MODE analog
+datasheets/regulator/ti/slvs127a.pdf	8-SOIC (0.154", 3.90mm Width)	-	fixed	p.3	ok	D/P pkg p.3: 1 EN, 2 REF, 3 SS, 4 COMP, 5 GND, 6 OUT (MOSFET drain/switch), 7 FB, 8 VCC; EN>=2V on; OUT=switch pin, FB senses real output (judgement ok)
+datasheets/regulator/ti/slvs232j.pdf	20-PowerTSSOP (0.173", 4.40mm Width)	-	adj	p.5	ok	Table 1 PWP: GND 1,2,3,9-12,19,20; NC 4,8,17,18; EN 5 (negative polarity); IN 6,7; OUT 13,14; FB 15; PG 16 open-drain (TPS776xx); Vref 1.183 (formula 1.1834)
+datasheets/regulator/ti/slvs237c.pdf	8-SOIC (0.154", 3.90mm Width)	-	adj	p.4	ok	Fig 4-1/Pin Functions p.4: 1 NC/FB, 2 PG (open-drain), 3 GND, 4 EN (low enables), 5-6 IN, 7-8 OUT; VREF 1.224
+datasheets/regulator/ti/slvs242c.pdf	20-PowerTSSOP (0.173", 4.40mm Width)	-	adj	p.6	ok	Table 1 PWP: 1,10,11,20 GND/HEATSINK; 17 GND; 3-4 IN; 5 EN (negative polarity); 6 PG (TPS754xxQ open-drain); 7 FB; 8-9 OUTPUT; rest NC; Vref 1.1834
+datasheets/regulator/ti/slvs293d.pdf	TO-263-6, D2PAK (5 Leads + Tab), TO-263BA	-	adj	p.3	ok	KTT fig/Terminal Functions p.3: 1 EN, 2 IN, 3 GND, 4 OUTPUT, 5 FB/PG; tab GND; EN low=on (p.1/p.4 text); 5 leads confirmed (DDPAK/TO-263 | 5); Vref 1.22 fig, 1.224 formula
+datasheets/regulator/ti/slvs314f.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	-	fixed	p.3	ok	DGS Pin Functions p.3: 1 EN, 2 COMP, 3 FB, 4 GND, 5 VOUT, 6 VBAT, 7 SW, 8 ADEN, 9 LBI, 10 LBO (open-drain low-battery out, kept analog); EN high=on; VI min 0.8
+datasheets/regulator/ti/slvs314f.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	-	adj	p.3	ok	Same DGS pinout; TPS61010 adjustable via FB, V(FB) typ 500 mV
+datasheets/regulator/ti/slvs390b.pdf	SC-74A, SOT-753	-	adj	p.4	ok	DBV Terminal Functions p.4: 1 IN, 2 GND, 3 EN, 4 NC/FB (FB on TPS72201), 5 OUT; EN high=on; Vref 1.225
+datasheets/regulator/ti/slvs491e.pdf	SOT-23-5 Thin, TSOT-23-5	-	fixed	p.4	ok	DDC Pin Functions p.4: 1 VI, 2 GND, 3 EN, 4 FB, 5 SW; EN high=on; VI 2.5-6V
+datasheets/regulator/ti/slvs528e.pdf	10-VFDFN Exposed Pad	-	fixed	p.6	ok	QFN-10 fixed Terminal Functions p.6: 1 VIN, 2 AVIN, 3 EN, 4 NC, 5 NC, 6 VOUT, 7 AGND, 8 MODE/SYNC, 9 PGND, 10 SW; VIN 2.7-6V
+datasheets/regulator/ti/slvs528e.pdf	10-VFDFN Exposed Pad	-	adj	p.6	ok	QFN-10 adj: 4 ADJ, 5 FB; Vref typ 0.4 V with 1.5x gain (VO=1.5*Vref*(1+R1/R2)) => effective 0.6 stored, fine (min VO 0.6 V); ADJ tied to FB divider node (Fig 32 p.18)
+datasheets/regulator/ti/sn105125.pdf	SC-74A, SOT-753	-	fixed	p.2	ok	DBV Terminal Functions p.2 (printed 3): 1 VI, 2 GND, 3 EN (active high), 4 POK (open-drain), 5 VO
+datasheets/regulator/ti/tl2575-12.pdf	16-DIP (0.300", 7.62mm)	-	fixed	p.3	ok	Table 5-1 N PDIP p.3: 3 OUTPUT, 5/12/13 GND, 7 FEEDBACK, 9 ON/OFF (low=on), 16 VIN, others NC
+datasheets/regulator/ti/tl2575-12.pdf	TO-220-5 Formed Leads	-	adj	p.3	ok	KV TO-220: 1 VIN, 2 OUTPUT, 3 GND, 4 FEEDBACK, 5 ON/OFF (low=on per 8.3.2); Vref 1.23 (1.23-37V adj)
+datasheets/regulator/ti/tl499a.pdf	8-DIP (0.300", 7.62mm)	-	adj	p.3	ok	P/PS Pin Functions p.3: 1 SERIES IN1, 2 REF, 3 SW REG IN2, 4 SW CURRENT CTRL, 5 GND, 6 SW IN, 7 GND (PWR), 8 OUTPUT; Vref 1.26 typ; boost in=SW REG IN2 (judgement: part also has series regulator from IN1)
+datasheets/regulator/ti/tlv1117.pdf	TO-261-4, TO-261AA	-	adj	p.3	ok	Fig 4-1 DCY/Table 4-1 p.3: 1 ADJ/GND, 2 OUTPUT, 3 INPUT, tab 4 OUTPUT; VREF 1.25 between OUTPUT and ADJ => adjustTo output
+datasheets/regulator/ti/tlv62568.pdf	SOT-23-6 Thin, TSOT-23-6	-	adj	p.3	ok	Pin Functions p.3 SOT23-6 (DDC, P version): 1 EN, 2 GND, 3 SW, 4 VIN, 5 PG (open-drain), 6 FB; VFB 0.6
+datasheets/regulator/ti/tlv62569.pdf	SC-74A, SOT-753	-	adj	p.3	ok	Pin Functions p.3 SOT23-5 (DBV): 1 EN, 2 GND, 3 SW, 4 VIN, 5 FB; VFB 0.6; EN high=on
+datasheets/regulator/ti/tlv700.pdf	6-WFDFN	-	fixed	p.4	ok	DSE Pin Functions p.4: 1 IN, 2 GND, 3 OUT, 4-5 NC, 6 EN; EN high=on; VIN 2-5.5
+datasheets/regulator/ti/tlv700.pdf	SOT-23-5 Thin, TSOT-23-5	-	fixed	p.4	ok	DDC SOT: 1 IN, 2 GND, 3 EN, 4 NC, 5 OUT
+datasheets/regulator/ti/tlv705.pdf	4-XFBGA, DSBGA	-	fixed	p.4	ok	YFP DSBGA p.4: A1 GND, A2 EN, B1 VOUT, B2 VIN
+datasheets/regulator/ti/tlv707.pdf	4-XDFN Exposed Pad	-	fixed	p.3	ok	DQN Table 5-1 p.3: 1 OUT, 2 GND, 3 EN, 4 IN; thermal pad omitted
+datasheets/regulator/ti/tlv710.pdf	6-WFDFN	-	fixed	p.5	ok	DSE p.5 (printed): 1 EN1, 2 IN, 3 EN2, 4 GND, 5 OUT2, 6 OUT1; dropout max 285 mV at 200 mA
+datasheets/regulator/ti/tlv716p.pdf	6-XFDFN Exposed Pad	-	fixed	p.3	ok	DPQ Pin Functions p.3: 1 OUT1, 2 OUT2, 3 GND, 4 EN2, 5 IN, 6 EN1; pad omitted
+datasheets/regulator/ti/tlv758p.pdf	6-WDFN Exposed Pad	-	adj	p.3	ok	DRV Table 4-1 p.3: 1 OUT, 2 FB, 3 GND, 4 EN, 5 DNC, 6 IN; VFB 0.55

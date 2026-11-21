@@ -1,0 +1,29 @@
+pdf	package	series	variant	page	result	note
+datasheets/regulator/ti/lm1117.pdf	8-WDFN Exposed Pad	-	fixed	printed p.3	ok	Table 6-1 p.3 / Fig 6-5: 1 ADJ/GND, 2-4 VIN, 5-7 VOUT, 8 NC; fixed so pin1 GND
+datasheets/regulator/ti/lm1117.pdf	TO-220-3	-	adj	printed p.3	ok	Table 6-1 p.3: 1 ADJ, 2 VOUT(+tab), 3 VIN; Vref 1.25 between OUT and ADJ
+datasheets/regulator/ti/lm1117.pdf	TO-220-3	LM1117-3.3	fixed	printed p.3	ok	Table 6-1 p.3: 1 GND, 2 VOUT, 3 VIN
+datasheets/regulator/ti/lm1117.pdf	TO-261-4, TO-261AA	-	fixed	printed p.3	ok	Table 6-1 p.3 SOT-223: 1 GND, 2 VOUT, 3 VIN, 4 VOUT(tab)
+datasheets/regulator/ti/lm2576.pdf	TO-220-5	SIMPLE SWITCHER®	fixed	printed p.3	ok	Table 5-1 p.3: 1 VIN, 2 OUTPUT(switch), 3 GROUND, 4 FEEDBACK, 5 ON/OFF high=OFF low=ON
+datasheets/regulator/ti/lm2596.pdf	TO-220-5 Formed Leads	SIMPLE SWITCHER®	fixed	printed p.4	ok	Table 6-1 p.4: 1 VIN, 2 Output, 3 Ground, 4 Feedback, 5 ON/OFF low=on
+datasheets/regulator/ti/lm2596.pdf	TO-220-5 Formed Leads	SIMPLE SWITCHER®	adj	printed p.4	ok	Table 6-1 p.4 same pins; FB to ground, VREF 1.23
+datasheets/regulator/ti/lm2623.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)"	-	adj	printed p.3	ok	Pin Functions p.3 VSSOP col: 1 PGND,2 EN (high=on),3 FREQ,4 FB,5 SGND,6 VDD,7 BOOT,8 SW; VFB 1.24
+datasheets/regulator/ti/lm2854.pdf	"16-PowerTSSOP (0.173"", 4.40mm Width)"	PowerWise™, SIMPLE SWITCHER®	adj	printed p.3	ok	Pin Functions p.3: 1 NC,2-4 PGND,5-7 PVIN,8-9 NC,10 AVIN,11 EN(active high),12-13 SW,14 SS,15 AGND,16 FB; VREF 0.8
+datasheets/regulator/ti/lm317l.pdf	"8-SOIC (0.154"", 3.90mm Width)"	-	adj	printed p.3	ok	Table 4-1 D pkg p.3: 1 INPUT,2,3,6,7 OUTPUT,4 ADJUSTMENT,5,8 NC; Vref 1.25 OUT-ADJ
+datasheets/regulator/ti/lm317l.pdf	TO-226-3, TO-92-3 (TO-226AA)	-	adj	printed p.3	ok	Table 4-1 LP p.3: 1 INPUT, 2 OUTPUT, 3 ADJUSTMENT
+datasheets/regulator/ti/lm317l.pdf	TO-243AA	-	adj	printed p.3	ok	Table 4-1 PK p.3: 1 ADJUSTMENT, 2 OUTPUT, 3 INPUT
+datasheets/regulator/ti/lm340l.pdf	TO-226-3, TO-92-3 (TO-226AA)	-	fixed	printed p.1	ok	Fig 2 bottom view p.1: OUTPUT, GND, INPUT = pins 1,2,3 left to right
+datasheets/regulator/ti/lm3671.pdf	5-WFBGA, DSBGA	-	fixed	printed p.3	ok	Pin Functions p.3 DSBGA col: A1 VIN, A3 GND, B2 SW, C1 EN (high=on), C3 FB
+datasheets/regulator/ti/lm7800.pdf	TO-220-3	-	fixed	printed p.3	ok	Pin Functions p.3: 1 INPUT, 2 GND, 3 OUTPUT
+datasheets/regulator/ti/lm7800.pdf	TO-261-4, TO-261AA	-	fixed	printed p.3	ok	Fig DCY SOT-223 p.3: IN, GND, OUT leads + GND tab (tab unnumbered in drawing, 4-pin package; stored tab as pin 4 GND is harmless)
+datasheets/regulator/ti/lm8801.pdf	6-WFBGA, DSBGA	-	fixed	printed p.2	ok	Pin Descriptions p.2: A1 Mode, A2 VIN, B1 SW, B2 EN (high=on), C1 FB, C2 GND
+datasheets/regulator/ti/lp2954.pdf	"8-SOIC (0.154"", 3.90mm Width)"	-	adj	printed p.3	ok	Pin Functions p.3 D col: 1 OUT,2 SENSE,3 SHUTDOWN (low=off),4 GND,5 ERROR (open-collector),6 5V TAP,7 FEEDBACK,8 IN; Vref 1.23
+datasheets/regulator/ti/lp38798.pdf	12-WFDFN Exposed Pad	-	adj	printed p.3	ok	Pin Functions p.3: 1,2 IN,3 IN(CP),4 CP,5 EN (low=off),6 GND(CP),7 GND,8 FB,9 SET,10 OUT(FB),11,12 OUT; VFB 1.2
+datasheets/regulator/ti/lp3982.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)"	-	adj	printed p.3	ok	DGK p.3: 1 OUT,2 IN,3 GND,4 OUT,5 SET,6 CC,7 SHDN (high=on),8 FAULT open-drain; 1.25 V ref
+datasheets/regulator/ti/lp3983.pdf	5-WFBGA, DSBGA	-	fixed	printed p.2	ok	Pin Descriptions p.2: A1 VEN (>=1.2V on),A3 N/C,B2 GND,C1 VOUT,C3 VIN
+datasheets/regulator/ti/lp5900.pdf	4-WFBGA, DSBGA	-	fixed	printed p.3	ok	Pin Functions p.3: A1 EN,A2 IN,B1 GND,B2 OUT
+datasheets/regulator/ti/lp5907.pdf	4-XFBGA, DSBGA	-	fixed	printed p.3	ok	Table 4-1 p.3: A1 IN,A2 OUT,B1 EN (high=on),B2 GND
+datasheets/regulator/ti/lp5907.pdf	SC-74A, SOT-753	-	fixed	printed p.3	ok	Table 4-2 p.3 DBV: 1 IN,2 GND,3 EN,4 N/C,5 OUT
+datasheets/regulator/ti/lp8340.pdf	6-WDFN Exposed Pad	-	adj	printed p.2	ok	Fig 4 p.2 adj WSON: 1 VIN,2 GND,3 N/C,4 ADJ,5 VOUT,6 VIN; ADJ=OUT gives 1.25V so FB-to-ground
+datasheets/regulator/ti/reg102.pdf	SC-74A, SOT-753	-	adj	printed p.2	ok	Pin Configurations p.2 N pkg: 1 VIN,2 GND,3 Enable (high=on),4 NR/Adjust (resistor pin for -A),5 VOUT; VREF 1.26
+datasheets/regulator/ti/reg711-5.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)"	-	fixed	printed p.2	ok	Pin Configuration p.2 MSOP: 1 NC,2 Enable (high=on),3 VIN,4 GND,5 PGND,6 CPUMP-,7 CPUMP+,8 VOUT
+datasheets/regulator/ti/sbvs038x.pdf	SC-74A, SOT-753	-	fixed	printed p.3	ok	Table 4-1 p.3 SOT-23: 1 IN,2 GND,3 EN (high=on),4 NR (fixed versions),5 OUT

@@ -34,8 +34,8 @@ def main(out, size):
     items = []
     for k in sorted(used, key=lambda k: (k[0], k[2], k[3], k[1])):
         s = table[k]
-        has_fixed = any(r["output_type"] != "Adjustable" for r in used[k])
-        has_adj = any(r["output_type"] == "Adjustable" for r in used[k])
+        has_fixed = any(specs.variant_of(r) == "fixed" for r in used[k])
+        has_adj = any(specs.variant_of(r) == "adj" for r in used[k])
         mixed = has_fixed and has_adj
         variants = []
         if has_fixed:
@@ -49,7 +49,7 @@ def main(out, size):
             if sig in seen:
                 continue
             seen[sig] = k
-            rs = [r for r in used[k] if (r["output_type"] == "Adjustable") == (name == "adj")]
+            rs = [r for r in used[k] if (specs.variant_of(r) == "adj") == (name == "adj")]
             items.append((k, name, pin, reg, ana, s, rs))
     os.makedirs(out, exist_ok=True)
     by_maker = collections.defaultdict(list)

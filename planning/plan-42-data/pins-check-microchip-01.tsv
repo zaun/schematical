@@ -1,0 +1,29 @@
+pdf	package	series	variant	page	result	note
+datasheets/regulator/microchip/0.5A-1.2-MHz-2-MHz-Wide-Input-Range-Boost-Regulators-Each-with-Integrated-Switch-and-Schottky-Diode-20006620A.pdf	8-VFDFN Exposed Pad, 8-MLF®	-	adj	p.9	ok	Table 3-1: 1 VOUT, 2 VIN, 3 VDD, 4 EN (high on), 5 SS, 6 FB, 7 SW, 8 PGND, EP; VFB 1.25 V
+datasheets/regulator/microchip/20005253A.pdf	8-VFDFN Exposed Pad	-	adj	p.11	ok	Table 3-1 ADJ col: 1 EN, 2 VFB, 3 PG (open-drain), 4 VOUT, 5 SW, 6 PGND, 7 SGND, 8 VIN, 9 EP; VFB 1.21 V
+datasheets/regulator/microchip/20005315B.pdf	SC-74A, SOT-753	-	adj	p.9	ok	Table 3-1 SOT-23 col: 1 SW, 2 GND, 3 VFB, 4 EN, 5 VIN; VFB 1.227 V
+datasheets/regulator/microchip/20005399B.pdf	TO-243AA	-	adj	p.2 and p.5	ok	Fig p.2 SOT-89 pins unnumbered (left to right VIN, VOUT, ADJ, tab VOUT); Table 2-1 p.5; Vref 1.2 V between VOUT and ADJ; stored order 1 VIN 2 VOUT 3 ADJ is the standard SOT-89 order, not numbered by the PDF
+datasheets/regulator/microchip/20005415D.pdf	SC-74A, SOT-753	-	fixed	p.19	ok	Table 3-1 SOT-23 col: 1 VIN, 2 GND, 3 SHDN (high on), 4 NC, 5 VOUT
+datasheets/regulator/microchip/20005661A.pdf	6-VDFN Exposed Pad, 6-MLF®	-	fixed	p.10	ok	Table 3-1 VDFN-6: 1 EN, 2 GND, 3 IN, 4 OUT, 5 NC, 6 BYP, EP GND
+datasheets/regulator/microchip/20005834A.pdf	TO-261-4, TO-261AA	-	fixed	p.11	ok	Table 3-1 MIC39100 col: 1 IN, 2 GND, 3 OUT, TAB GND unnumbered; stored adds tab as pin 4 GND to match 4-lead package name (judgement, other catalog rows do either)
+datasheets/regulator/microchip/20005872A.pdf	10-VFQFN Exposed Pad	-	adj	p.11	ok	Table 3-1: 1 PGND, 2 PGND, 3 SGND, 4 VFB, 5 MODE, 6 VIN, 7 EN, 8 SW, 9 SW, 10 PGND, EP; VFB 1.2 V
+datasheets/regulator/microchip/20005873A.pdf	8-UQFN	-	fixed	p.11	ok	Table 3-1: 1 VIN, 2 AGND, 3 PGND, 4 SW, 5 VOUT, 6 EN (low = shutdown), 7 VOUTS (fixed), 8 PG open-drain
+datasheets/regulator/microchip/20005873A.pdf	8-UQFN	-	adj	p.11	ok	Table 3-1: same as fixed with pin 7 FB (adjustable only); VFB 0.9 V typ (0.8865-0.9135)
+datasheets/regulator/microchip/22008E.pdf	TO-236-3, SC-59, SOT-23-3	-	fixed	p.11	ok	Table 3-1 SOT-23A col: 1 GND, 2 VOUT, 3 VIN
+datasheets/regulator/microchip/22008E.pdf	TO-243AA	-	fixed	p.11	ok	Table 3-1 SOT-89 col: 1 GND, 2 VIN (+Tab), 3 VOUT; tab unnumbered omitted
+datasheets/regulator/microchip/22026b.pdf	8-VFDFN Exposed Pad	-	adj	p.14	ok	Table 3-1 Adjustable: 1 VIN, 2 VIN, 3 SHDN (high on), 4 GND, 5 PWRGD open-drain, 6 CDELAY, 7 ADJ, 8 VOUT, EP; VADJ 0.41 V
+datasheets/regulator/microchip/22042B.pdf	SOT-23-5 Thin, TSOT-23-5	-	fixed	p.13	ok	Table 3-1 MCP1603/B TSOT col: 1 VIN, 2 GND, 3 SHDN, 4 VFB/VOUT, 5 LX
+datasheets/regulator/microchip/22042B.pdf	SOT-23-5 Thin, TSOT-23-5	-	adj	p.13	ok	Table 3-1 MCP1603/B TSOT col: 1 VIN, 2 GND, 3 SHDN, 4 VFB/VOUT, 5 LX; VFB 0.8 V
+datasheets/regulator/microchip/22056b.pdf	TO-261-4, TO-261AA	-	fixed	p.16	ok	Table 3-1 3-pin fixed: 1 VIN, 2 GND, 3 VOUT, EP GND tab; stored adds tab as pin 4 GND to match 4-lead name (judgement)
+datasheets/regulator/microchip/22070a.pdf	SC-74A, SOT-753	-	fixed	p.17	ok	Table 3-1 SOT-23 5-pin fixed: 1 VIN, 2 GND, 3 SHDN, 4 PWRGD, 5 VOUT; PWRGD open-drain for fixed
+datasheets/regulator/microchip/500-mA-ULDO-with-Low-Input-and-Low-Output-Voltage-DS20006050C.pdf	6-VDFN Exposed Pad, 6-MLF®	-	adj	p.12	ok	Table 3-1 adj: 1 BIAS, 2 GND, 3 IN, 4 OUT, 5 ADJ, 6 EN, ePAD GND; VREF 0.4 V
+datasheets/regulator/microchip/500mA-uCap-Ultra-Low-Dropout-Regulator-with-High-PSRR-DS20005876B.pdf	6-VDFN Exposed Pad, 6-TMLF®	-	fixed	p.10	ok	Table 3-1 DFN-6 fixed: 1 EN, 2 GND, 3 VIN, 4 VOUT, 5 NC, 6 BYP, EP
+datasheets/regulator/microchip/500mA-uCap-Ultra-Low-Dropout-Regulator-with-High-PSRR-DS20005876B.pdf	6-VDFN Exposed Pad, 6-TMLF®	-	adj	p.10	ok	Table 3-1 DFN-6 Adj: 1 EN, 2 GND, 3 VIN, 4 VOUT, 5 ADJ, 6 BYP, EP; VREF 1.25 V
+datasheets/regulator/microchip/LR12-C080113.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	-	adj	p.2 and p.8	ok	p.2 photo: VIN left, ADJ right, VOUT tab; p.8 outline: leads 1,3 (2 removed), tab numbered 4; Vref 1.20 V between VOUT and ADJ
+datasheets/regulator/microchip/LX7167_Rev1.1.pdf	8-WFDFN Exposed Pad	-	adj	p.2	ok	Fig 2 and Pin Description: 1 PGND, 2 SW, 3 GND, 4 FB, 5 EN, 6 PG open-drain, 7 VCC, 8 PVIN; VREF 0.6 V
+datasheets/regulator/microchip/MCP1252-3-Low-Noise-Positive-Regulated-Charge-Pump-Data-Sheet-DS20001752.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)"	-	adj	p.8	ok	Table 3-1: 1 PGOOD open-drain, 2 VOUT, 3 VIN, 4 GND, 5 C-, 6 C+, 7 SHDN (high on), 8 FB (ADJ); VFB 1.21 V
+datasheets/regulator/microchip/MCP16251-MCP16252-Data-Sheet-DS20005173.pdf	8-WFDFN Exposed Pad	-	adj	p.10	ok	Table 3-1 TDFN: 1 VFB, 2 SGND, 3 PGND, 4 EN, 5 SW, 6 VOUTP, 7 VOUTS, 8 VIN, EP; VFB 1.23 V
+datasheets/regulator/microchip/MCP16251-MCP16252-Data-Sheet-DS20005173.pdf	SOT-23-6	-	adj	p.10	ok	Table 3-1 SOT-23: 1 SW, 2 GND, 3 EN, 4 VFB, 5 VOUT, 6 VIN; VFB 1.23 V
+datasheets/regulator/microchip/MCP16301-Family-Data-Sheet-DS20005004E.pdf	SOT-23-6	-	adj	pdf p.9 (printed 11)	ok	Table 3-1: 1 BOOST, 2 GND, 3 VFB, 4 EN, 5 VIN, 6 SW; VFB 0.8 V
+datasheets/regulator/microchip/MCP16311-Family-Data-Sheet-DS20005255C.pdf	8-WFDFN Exposed Pad	-	adj	p.11	ok	Table 3-1 TDFN: 1 VFB, 2 VCC, 3 EN, 4 VIN, 5 PGND, 6 SW, 7 BOOST, 8 AGND, 9 EP; VFB 0.8 V
+datasheets/regulator/microchip/MCP16331-Data-Sheet-20005308.pdf	8-WFDFN Exposed Pad	-	adj	p.11	ok	Table 3-1 TDFN: 1 SW, 2 EN (high on, internal pull-up), 3 NC, 4 NC, 5 GND, 6 VFB, 7 BOOST, 8 VIN, 9 EP; VFB 0.8 V

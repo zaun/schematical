@@ -99,7 +99,7 @@ E	Microchip Technology	Surface Mount	8-VFDFN Exposed Pad	8-DFN (2x3)	linear-adju
 E	Microchip Technology	Surface Mount	8-VFDFN Exposed Pad, 8-MLF®	8-MLF® (2x2)	linear-adjustable,linear-multi,switching	14	MIC5330-SKYML	https://rocelec.widen.net/view/pdf/qz3kxaisqm/MCRLS02320-1.pdf?t.download=true&u=5oefqw	
 E	Microchip Technology	Surface Mount	8-WFDFN Exposed Pad	8-DFN-EP (2x2)	switching	1	LX7167CLD-TR	https://ww1.microchip.com/downloads/en/DeviceDoc/LX7167_Rev1.1.pdf	
 E	Microchip Technology	Surface Mount	8-WFDFN Exposed Pad	8-TDFN (2x3)	switching	4	MCP16312T-E/MNY	https://ww1.microchip.com/downloads/en/DeviceDoc/MCP16311-Family-Data-Sheet-DS20005255C.pdf	
-E	Texas Instruments	Surface Mount	10-VFDFN Exposed Pad	10-VSON (3x3)	linear-multi,switching	9	TPS62300DRCR	https://www.ti.com/lit/ds/slvs528e/slvs528e.pdf	
+E	Texas Instruments	Surface Mount	10-VFDFN Exposed Pad	10-VSON (3x3)	switching	8	TPS62300DRCR	https://www.ti.com/lit/ds/slvs528e/slvs528e.pdf	
 E	Texas Instruments	Surface Mount	10-WFDFN Exposed Pad	10-WSON (3x3)	switching	1	TPS61202DSCR	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps61202	
 E	Texas Instruments	Surface Mount	12-WFDFN Exposed Pad	12-WSON (4x4)	linear-adjustable	1	LP38798SD-ADJ/NOPB	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Flp38798	
 E	Texas Instruments	Surface Mount	16-VFQFN Exposed Pad	16-VQFN (3x3)	switching	1	TPS53311RGTT	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps53311	
@@ -120,7 +120,7 @@ E	Texas Instruments	Surface Mount	6-UFBGA, DSBGA	5-DSBGA (0.96x1.33)	linear-fixe
 E	Texas Instruments	Surface Mount	6-UFBGA, DSBGA	6-DSBGA	switching	5	TPS62690YFFR	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62690	
 E	Texas Instruments	Surface Mount	6-UFDFN	6-SON (1.45x1)	switching	3	TPS622310DRYR	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62230	
 E	Texas Instruments	Surface Mount	6-WDFN Exposed Pad	6-WSON (2.92x3.29)	linear-adjustable	1	LP8340ILDX-ADJ/NOPB	https://rocelec.widen.net/view/pdf/ykr3g9fvjm/NATLS25693-1.pdf?t.download=true&u=5oefqw	
-E	Texas Instruments	Surface Mount	6-WDFN Exposed Pad	6-WSON (2x2)	linear-adjustable,linear-fixed,switching	3	TPS70915DRVR	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps709	
+E	Texas Instruments	Surface Mount	6-WDFN Exposed Pad	6-WSON (2x2)	linear-adjustable,linear-fixed,linear-multi,switching	4	TPS70915DRVR	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps709	
 E	Texas Instruments	Surface Mount	6-WFBGA, DSBGA	6-DSBGA (1.44x1.16)	switching	1	LM8801TMX-2.9/NOPB	https://rocelec.widen.net/view/pdf/qqqxdfbagf/NATLS14596-1.pdf?t.download=true&u=5oefqw	
 E	Texas Instruments	Surface Mount	6-WFDFN	6-WSON (1.5x1.5)	linear-fixed,linear-multi	11	TLV7111930DSER	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv711	
 E	Texas Instruments	Surface Mount	6-XFBGA, DSBGA	6-DSBGA	switching	4	TPS62698YFDR	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62698	

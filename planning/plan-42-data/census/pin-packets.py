@@ -25,8 +25,8 @@ FACTS = ["mpn", "family", "output_type", "outputs", "supplier_package", "vout_v"
 
 
 def missing(s, rs):
-    has_fixed = any(r["output_type"] != "Adjustable" for r in rs)
-    has_adj = any(r["output_type"] == "Adjustable" for r in rs)
+    has_fixed = any(specs.variant_of(r) == "fixed" for r in rs)
+    has_adj = any(specs.variant_of(r) == "adj" for r in rs)
     mixed = has_fixed and has_adj
     if has_fixed and not s["pinout"]:
         return True

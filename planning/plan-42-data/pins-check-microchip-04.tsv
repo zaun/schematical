@@ -1,0 +1,27 @@
+pdf	package	series	variant	page	result	note
+datasheets/regulator/microchip/MIC5248.pdf	6-VDFN Exposed Pad, 6-MLF®	-	fixed	p.2 (printed)	ok	Pin Description p.2: MLF-6 1 EN,2 GND,3 IN,4 OUT,5 NC,6 PG (open-drain per app info)
+datasheets/regulator/microchip/MIC5256.pdf	SC-74A, SOT-753	-	fixed	p.3 (printed)	ok	Pin Description p.3: 1 IN,2 GND,3 EN,4 FLG (open-drain),5 OUT
+datasheets/regulator/microchip/MIC5301.pdf	6-UFDFN Exposed Pad, 6-TMLF®	-	fixed	p.3 (printed)	ok	Pin Description p.3 Thin MLF-6 Fixed: 1 EN,2 GND,3 VIN,4 OUT,5 NC,6 BYP; EN active high
+datasheets/regulator/microchip/MIC5301.pdf	SOT-23-5 Thin, TSOT-23-5	-	adj	p.3 (printed)	ok	Pin Description p.3 TSOT-23-5 Adj: 1 VIN,2 GND,3 EN,4 ADJ,5 OUT; VREF 1.25V, VOUT=VREF(1+R1/R2)
+datasheets/regulator/microchip/MIC5302.pdf	4-UFDFN Exposed Pad, 4-TMLF®	-	fixed	p.3 (printed)	ok	Pin Description p.3: 1 EN,2 GND,3 VIN,4 VOUT, EPAD omitted
+datasheets/regulator/microchip/MIC5305.pdf	SOT-23-5 Thin, TSOT-23-5	-	fixed	p.3 (printed)	ok	Pin Description p.3 TSOT23-5 Fixed: 1 VIN,2 GND,3 EN,4 BYP,5 VOUT
+datasheets/regulator/microchip/MIC5310.pdf	8-VFDFN Exposed Pad, 8-MLF®	-	fixed	p.4 (printed)	ok	Pin Description p.4: 1 VIN,2 GND,3 BYP,4 EN2,5 EN1,6 NC,7 VOUT2,8 VOUT1; active-high enables
+datasheets/regulator/microchip/MIC5317-High-Performance-Single-150mA-LDO-DS20006195B.pdf	SOT-23-5 Thin, TSOT-23-5	-	fixed	p.9 (printed)	ok	Table 3-1 p.9 TSOT23-5: 1 VIN,2 GND,3 EN,4 NC,5 VOUT
+datasheets/regulator/microchip/MIC5320.pdf	6-WFDFN Exposed Pad, 6-MLF®	-	fixed	p.4 (printed)	ok	Pin Description p.4 MLF-6: 1 VIN,2 GND,3 EN2,4 EN1,5 VOUT2,6 VOUT1
+datasheets/regulator/microchip/MIC5376-7-8-High-Performance-Low-Dropout-150mA-LDO-DS20006080A.pdf	5-TSSOP, SC-70-5, SOT-353	-	adj	p.9 (printed)	ok	Table 3-1 p.9 MIC5377/8 SC-70-5: 1 VIN,2 GND,3 EN,4 ADJ,5 VOUT; VREF 1.0V
+datasheets/regulator/microchip/MIC5528-High-Performance-500mA-LDO-in-Thin-and-Extra-Thin-DFN-Packages-DS20005982B.pdf	6-UFDFN Exposed Pad	-	fixed	p.12 (printed)	ok	Table 3-1 p.12 (diagram p.1): 1,2 VOUT,3 GND,4 EN,5 NC,6 VIN
+datasheets/regulator/microchip/MIC69101-103-Single-Supply-VIN-LOW-VIN-LOW-VOUT-1A-LDO-DS20006018A.pdf	10-VFDFN Exposed Pad, 10-MLF®	-	adj	p.9 (printed)	ok	Table 3-1 p.9 (diagram p.1): 1 FLG open-collector,2/4/5/8 NC,3 GND,6 EN,7 VIN,9 VOUT,10 ADJ; Vref 0.5V
+datasheets/regulator/microchip/MIC94310-Data-Sheet-20006105B.pdf	4-UFDFN Exposed Pad	Ripple Blocker™	fixed	p.9 (printed)	ok	Table 3-1 p.9 TDFN: 1 VOUT,2 GND,3 EN,4 VIN
+datasheets/regulator/microchip/MIC94325.pdf	6-UFDFN Exposed Pad	Ripple Blocker™	fixed	p.3 (printed)	ok	Pin Description p.3 Thin DFN Fixed: 1,2 VOUT,3 GND,4 EN,5,6 VIN
+datasheets/regulator/microchip/MIC94325.pdf	6-UFDFN Exposed Pad	Ripple Blocker™	adj	p.3 (printed)	ok	Pin Description p.3 Thin DFN Adj: 1 VOUT,2 ADJ,3 GND,4 EN,5,6 VIN; Adjust ref 1.1V (p.5)
+datasheets/regulator/microchip/lm2576.pdf	TO-263-6, D2PAK (5 Leads + Tab), TO-263BA	-	fixed	p.2 (printed)	ok	Pin Configurations p.2 TO-263 (U): 1 VIN,2 OUTPUT,3 GROUND,4 FEEDBACK,5 ON/OFF; ON/OFF=0V is ON
+datasheets/regulator/microchip/mic22405.pdf	20-VFQFN Exposed Pad, 20-MLF®	-	adj	p.2 (printed)	ok	Pin diagram+table p.2-3 (image checked): 1 PG,2 CF,3 NC,4 COMP,5 NC,6 FB,7 SGND,8 SVIN,9 NC,10/17 PVIN,11/16 PGND,12-15 SW,18 EN/DLY,19 NC,20 RC; FB 0.7V
+datasheets/regulator/microchip/mic2250.pdf	8-VFDFN Exposed Pad, 8-MLF®	-	adj	p.2 (printed)	ok	Pin Description p.2 MIC2250YML: 1 FB,2 AGND,3 PGND,4 SW,5 NC,6 VIN,7 DITH,8 EN; VFB 1.24V
+datasheets/regulator/microchip/mic23150.pdf	8-UFDFN	HyperLight Load®	fixed	p.2 (printed)	ok	Pin Description p.2: 1,2 SW,3 EN,4 SNS,5 AGND,6,7 VIN,8 PGND
+datasheets/regulator/microchip/mic2601.pdf	8-VFDFN Exposed Pad, 8-MLF®	-	adj	p.2 (printed)	ok	Pin Description p.2: 1 VIN,2 VDD,3 EN,4 AGND,5 SS,6 FB,7 SW,8 PGND; FB 1.25V
+datasheets/regulator/microchip/mic2619.pdf	SOT-23-6 Thin, TSOT-23-6	-	adj	p.2 (printed)	ok	Pin Description p.2: 1 SW,2 GND,3 FB,4 EN,5 OVP,6 VIN; FB 1.265V
+datasheets/regulator/microchip/mic2950.pdf	"8-SOIC (0.154"", 3.90mm Width)"	-	fixed	p.3 (printed)	ok	Pin Description p.3 MIC2951: 1 OUT,2 SNS,3 SHDN (high=shutdown so low=on),4 GND,5 ERR open-collector,6 TAP,7 FB,8 IN
+datasheets/regulator/microchip/mic37501-502.pdf	SPAK-7 (7 Leads + Tab)	-	adj	p.2 (printed)	ok	Pin Description p.2 S-PAK-7: 1 EN,2,3 VIN,4 GND,5,6 VOUT,7 FLG(37501)/ADJ(37502); ref 1.24V
+datasheets/regulator/microchip/mic47100.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	-	adj	p.3 (printed)	ok	Pin Description p.3 MSOP: 1,2 IN,3 GND,4 BIAS,5 EN,6 ADJ,7,8 OUT; ref 0.7V; VIN 1.0-3.6V
+datasheets/regulator/microchip/mic5309.pdf	6-UFDFN Exposed Pad, 6-TMLF®	-	adj	p.2 (printed)	ok	Pin Description p.2 Thin MLF-6: 1 BIAS,2 GND,3 VIN,4 VOUT,5 EN,6 BYP/ADJ; ref 0.775V
+datasheets/regulator/microchip/mic61150.pdf	10-VFDFN Exposed Pad, 10-MLF®	-	adj	p.2 (printed)	ok	Pin Description p.2: 1,2 IN,3 GND,4 EN,5,6 NC,7 CP,8 FB,9,10 OUT; FB 0.5V

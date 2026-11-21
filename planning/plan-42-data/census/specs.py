@@ -18,6 +18,28 @@ C_COLS = COLS[8:]
 NOT_REGEX = ("-", "n/r")
 
 
+OVERRIDES = os.path.join(common.DATA, "variant-overrides.tsv")
+
+
+def variant_overrides():
+    if not os.path.exists(OVERRIDES):
+        return {}
+    return {r["mpn"]: r for r in csv.DictReader(open(OVERRIDES), delimiter="\t")}
+
+
+_VARIANTS = variant_overrides()
+
+
+def variant_of(row):
+    """`adj` or `fixed`: DigiKey's Output Type `Adjustable` is adj; `Fixed` and
+    `Adjustable (Fixed)` are fixed, except where variant-overrides.tsv (mpn,
+    variant, vout, evidence; read from the datasheet) says otherwise."""
+    o = _VARIANTS.get(row["mpn"])
+    if o:
+        return o["variant"]
+    return "adj" if row["output_type"] == "Adjustable" else "fixed"
+
+
 def key(r):
     return (r["maker"], r["series"], r["pdf"], r["package"])
 

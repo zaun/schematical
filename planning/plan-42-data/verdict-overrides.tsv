@@ -18,3 +18,4 @@ MAX77675HEWE+T	out	digital-interface
 MAX77827DEFD+T	skip	output not set by a feedback divider
 MAX77839BEFQ+T	skip	output not set by a feedback divider
 MIC2141BM5	skip	output not set by a feedback divider
+TPS71219DRCR	skip	outputs of one part are fixed and adjustable (the kind describes a part as fixed or adjustable)

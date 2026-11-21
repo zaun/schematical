@@ -1,0 +1,2 @@
+pdf	package	series	pinout	pinout_adj	regulators	regulators_adj	analog	analog_adj	vref	vin_min	dropout	adjust_to
+datasheets/regulator/analog-devices/max5023-max5024.pdf	"8-SOIC (0.154"", 3.90mm Width)"	-	"[[1,""IN"",""power""],[2,""EN"",""input""],[3,""GND"",""ground""],[4,""RESET"",""output""],[5,""HOLD"",""input""],[6,""N.C."",""nc""],[7,""WDI/SET"",""input""],[8,""OUT"",""output""]]"		"[{""type"":""linear"",""in"":""IN"",""out"":""OUT"",""enable"":""EN""}]"		"[""HOLD"",""RESET"",""WDI/SET""]"			6.5		

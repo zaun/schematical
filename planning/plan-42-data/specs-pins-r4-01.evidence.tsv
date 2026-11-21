@@ -1,0 +1,2 @@
+pdf	package	series	page	note
+datasheets/regulator/ti/sbvs088c.pdf	6-WDFN Exposed Pad	-	3-4	Pin Descriptions (DRV column): 1 OUT1, 2 IN, 3 OUT2, 4 EN2, 5 GND, 6 EN1; EN high = on; VIN 2.7 to 6.5 V; dropout 400 mV max at 200 mA; hand-read, not by a packet agent

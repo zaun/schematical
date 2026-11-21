@@ -1,0 +1,29 @@
+pdf	package	series	variant	page	result	note
+datasheets/regulator/ti/tps53311.pdf	16-VFQFN Exposed Pad	SmoothPWM™, Eco-Mode™	adj	p.3 printed	ok	RGT pin functions: 1 EN, 2 SYNC, 3 PGD (open drain), 4 VBST, 5-7 SW, 8 PS, 9 COMP, 10 FB, 11 AGND, 12 VDD, 13-14 VIN, 15-16 PGND; Vref 0.6
+datasheets/regulator/ti/tps54283.pdf	14-PowerTSSOP (0.173", 4.40mm Width)	-	adj	p.9 printed	ok	PWP: 1 PVDD1, 2 BOOT1, 3 SW1, 4 GND, 5 EN1, 6 EN2, 7 FB1, 8 FB2, 9 ILIM2, 10 SEQ, 11 BP, 12 SW2, 13 BOOT2, 14 PVDD2; ENx active low (<0.9 V on); Vref 0.8
+datasheets/regulator/ti/tps54495.pdf	16-PowerTSSOP (0.173", 4.40mm Width)	D-CAP2™, Eco-Mode™	adj	p.5 printed	ok	PWP column: 1 VIN1, 2 VBST1, 3 SW1, 4 PGND1, 5 EN1, 6 SS1, 7 VFB1, 8 GND, 9 VREG5, 10 VFB2, 11 SS2, 12 EN2, 13 PGND2, 14 SW2, 15 VBST2, 16 VIN2; VFB 0.765 typ
+datasheets/regulator/ti/tps561201.pdf	SOT-23-6 Thin, TSOT-23-6	SWIFT™	adj	p.3 printed	ok	DDC: 1 GND, 2 SW, 3 VIN, 4 VFB, 5 EN (active high), 6 VBST; Vref 0.768 (equation)
+datasheets/regulator/ti/tps61021a.pdf	8-WFDFN Exposed Pad	-	adj	p.3 printed	ok	DSG: 1 AGND, 2 FB, 3-4 VOUT, 5 EN, 6-7 SW, 8 VIN, PGND pad numbered 9 in table; VREF 795 mV typ PWM
+datasheets/regulator/ti/tps61202.pdf	10-WFDFN Exposed Pad	-	fixed	p.4 printed	ok	DSC: 1 VAUX, 2 VOUT, 3 L, 4 PGND, 5 VIN, 6 EN, 7 UVLO, 8 PS, 9 GND, 10 FB (to VOUT on fixed); TPS61202 = 5 V fixed
+datasheets/regulator/ti/tps61258.pdf	9-UFBGA, DSBGA	-	fixed	p.4 printed	ok	YFF table: VOUT A1,A2; VIN A3; SW B1,B2; EN B3; GND C1,C2; BP C3; TPS61259 = 5.1 V fixed
+datasheets/regulator/ti/tps61322.pdf	SC-74A, SOT-753	-	fixed	p.3 printed	ok	DBV: 1 SW, 2 GND, 3 NC, 4 VOUT, 5 NC; no VIN pin (input via inductor on SW, so in=SW is the only input option)
+datasheets/regulator/ti/tps62006.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	-	fixed	p.3 printed	ok	DGS: 1 VIN, 2 FC, 3 GND, 4 PG (open drain), 5 FB, 6 ILIM, 7 SYNC, 8 EN (high on), 9 L, 10 PGND
+datasheets/regulator/ti/tps62067.pdf	8-WFDFN Exposed Pad	-	adj	p.3 printed	ok	Table 6-1: 1 PGND, 2 SW, 3 AGND, 4 FB, 5 EN, 6 MODE (TPS62065) / PG open drain (TPS62067), 7 AVIN, 8 PVIN; Vref 600 mV
+datasheets/regulator/ti/tps62081.pdf	8-WFDFN Exposed Pad	DCS-Control™	fixed	p.4 printed	ok	DSG: 1 EN, 2 GND, 3 MODE, 4 FB, 5 VOS, 6 PG (open drain), 7 SW, 8 VIN; VOS is the output sense pin (judgement: out=VOS, SW analog-ish inout)
+datasheets/regulator/ti/tps62230.pdf	6-UFDFN	-	fixed	p.4 printed	ok	DRY: 1 MODE, 2 SW, 3 VIN, 4 GND, 5 EN, 6 FB
+datasheets/regulator/ti/tps62263.pdf	6-WDFN Exposed Pad	-	fixed	p.3 printed	ok	DRV WSON column: 1 SW, 2 MODE, 3 FB, 4 EN, 5 VIN, 6 GND
+datasheets/regulator/ti/tps62932.pdf	SOT-583	-	adj	p.3 printed	ok	DRL: 1 RT, 2 EN, 3 VIN, 4 GND, 5 SW, 6 BST, 7 SS (SS/PG; SS on 62932/62933), 8 FB; Vref 0.8
+datasheets/regulator/ti/tps62a01.pdf	SOT-563, SOT-666	-	adj	p.3 printed	ok	DRL SOT563-6 TPS62A01: 1 GND, 2 SW, 3 VIN, 4 EN, 5 FB, 6 PG (open drain); VFB 600 mV
+datasheets/regulator/ti/tps63024.pdf	20-UFBGA, DSBGA	-	fixed	p.3 printed	ok	YFF: VOUT A1-A3, FB A4, L2 B1-B3, PFM/PWM B4, PGND C1-C3, GND C4, L1 D1-D3, EN D4, VIN E1-E3, VINA E4
+datasheets/regulator/ti/tps709.pdf	6-WDFN Exposed Pad	-	fixed	p.3 printed	ok	DRV TPS709 column: 1 OUT, 2 NC, 3 GND, 4 EN, 5 NC, 6 IN; max VDO 1.4 V at 150 mA (TPS70933)
+datasheets/regulator/ti/tps71.pdf	8-DIP (0.300", 7.62mm)	-	adj	p.1 printed	ok	D/P: 1 GND, 2 EN (high = sleep, so active low), 3-4 IN, 5-6 OUT, 7 FB, 8 PG (open drain); Vref 1.178
+datasheets/regulator/ti/tps712.pdf	10-VFDFN Exposed Pad	-	fixed	p.1 and p.4 printed	fixed	DRC: 1 IN 2 NC 3 OUT1 4 OUT2 5 GND 6 NR 7 FB2/NC 8 EN2 9 FB1/NC 10 EN1 all numbers/IN/OUT right; but TPS71219 = 1.8 V fixed OUT1 + ADJUSTABLE OUT2 (ordering table), so pin 7 FB2 is a live feedback input (role nc -> input, added to analog). Model has no adjust in a fixed variant, so OUT2 stays unmodelled
+datasheets/regulator/ti/tps715.pdf	5-TSSOP, SC-70-5, SOT-353	-	fixed	p.4 printed	ok	DCK fixed column: 1 NC, 2 GND, 3 NC, 4 IN, 5 OUT
+datasheets/regulator/ti/tps71h01.pdf	20-PowerTSSOP (0.173", 4.40mm Width)	-	adj	p.1 printed	ok	PWP: 1,2,9-12,19,20 GND/HEATSINK, 3 GND, 4 NC, 5 EN (high shuts down, active low), 6-7 IN, 8 NC, 13-14 OUT, 15 FB, 16 PG, 17-18 NC; Vref 1.178
+datasheets/regulator/ti/tps720.pdf	6-UFBGA, DSBGA	-	fixed	p.3 printed	ok	YZU 5-ball: OUT A3, IN A1, EN C3, BIAS C1, GND B2
+datasheets/regulator/ti/tps728.pdf	5-UFBGA, DSBGA	-	fixed	p.5 printed	ok	YZU: OUT C1, VSET A3, EN A1, GND B2, IN C3
+datasheets/regulator/ti/tps735.pdf	8-VDFN Exposed Pad	-	fixed	p.4 printed	ok	DRB: 1 OUT, 2 NC, 3 NR (fixed) / FB (adj), 4 GND, 5 EN, 6-7 NC, 8 IN
+datasheets/regulator/ti/tps740.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	-	adj	p.6 printed	ok	DGK: 1 EN (fixed) / FB (adj, TPS74001 has no enable), 2 BIAS, 3 IN, 4 OUT, 5-8 GND; VREF 0.9
+datasheets/regulator/ti/tps74401.pdf	20-VQFN Exposed Pad	-	adj	p.3 printed	ok	RGW: OUT 1,18-20; NC 2-4,13,14,17; IN 5-8; PG 9 (open drain); BIAS 10; EN 11; GND 12; SS 15; FB 16
+datasheets/regulator/ti/tps758.pdf	TO-263-6, D2PAK (5 Leads + Tab), TO-263BA	-	adj	p.4 printed	ok	KTT: 1 EN, 2 IN, 3 GND, 4 OUTPUT, 5 FB/NC (FB for adjustable); VREF 1.24 for TPS758A01 (electrical table); 5 leads, count override should exist
+datasheets/regulator/ti/tps769.pdf	SC-74A, SOT-753	-	fixed	p.3 printed	ok	DBV Table 4-1: 1 IN, 2 GND, 3 EN (low enables), 4 FB/NC (NC on fixed), 5 OUT

@@ -1,0 +1,2 @@
+pdf	package	series	pinout	pinout_adj	regulators	regulators_adj	analog	analog_adj	vref	vin_min	dropout	adjust_to
+datasheets/regulator/ti/sbvs088c.pdf	6-WDFN Exposed Pad	-	"[[1,""OUT1"",""output""],[2,""IN"",""power""],[3,""OUT2"",""output""],[4,""EN2"",""input""],[5,""GND"",""ground""],[6,""EN1"",""input""]]"		"[{""type"":""linear"",""in"":""IN"",""out"":""OUT1"",""enable"":""EN1""},{""type"":""linear"",""in"":""IN"",""out"":""OUT2"",""enable"":""EN2""}]"		[]			2.7	0.4	
