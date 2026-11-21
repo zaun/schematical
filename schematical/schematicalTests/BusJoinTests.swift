@@ -116,6 +116,34 @@ final class BusJoinTests: XCTestCase {
         XCTAssertEqual(ref, BusPinRef(portID: port.id, wireID: firstB0))
     }
 
+    /// Two buses of one name carry the same wires, so joining them is just
+    /// joining the lines: both keep their ports, the wires keep their order,
+    /// and a wire on the absorbed bus's pin moves to the same place's wire.
+    func testJoiningTwoLinkedBusesWithPortsKeepsTheWires() throws {
+        let doc = TestSupport.newDocument()
+        let first = try XCTUnwrap(doc.addBus(from: p(100, 100), to: p(300, 100)))
+        let second = try XCTUnwrap(doc.addBus(from: p(400, 100), to: p(600, 100)))
+        XCTAssertNil(doc.setBusName(second, "BUS 1", link: true))
+        XCTAssertNil(doc.addPort(at: p(200, 100)))
+        XCTAssertNil(doc.addPort(at: p(500, 100)))
+        let near = try XCTUnwrap(doc.bus(first)?.ports.first)
+        let far = try XCTUnwrap(doc.bus(second)?.ports.first)
+        let names = try XCTUnwrap(doc.bus(first)).wires.map(\.name)
+        let nearWire = try XCTUnwrap(doc.bus(first)?.wires[5])
+        let farWire = try XCTUnwrap(doc.bus(second)?.wires[2])
+        XCTAssertNil(doc.setPortWires(near.id, [nearWire.id]))
+        XCTAssertNil(doc.setPortWires(far.id, [farWire.id]))
+
+        XCTAssertEqual(doc.addBus(from: p(300, 100), to: p(400, 100)), first)
+        XCTAssertEqual(doc.buses.count, 1)
+        let bus = try XCTUnwrap(doc.bus(first))
+        XCTAssertEqual(bus.wires.map(\.name), names, "order untouched")
+        XCTAssertEqual(bus.ports.count, 2)
+        XCTAssertEqual(bus.port(far.id)?.wireIDs, [bus.wires[2].id], "same place, same wire")
+        XCTAssertEqual(bus.port(near.id)?.wireIDs, [nearWire.id])
+        XCTAssertTrue(bus.isValid)
+    }
+
     // MARK: plan-25-A: routes with more than one bend
 
     private func hasLine(_ bus: Bus, _ a: CGPoint, _ b: CGPoint) -> Bool {

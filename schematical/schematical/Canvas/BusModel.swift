@@ -7,7 +7,7 @@ import Foundation
 /// schematic shows `name`.
 nonisolated struct BusWire: Identifiable, Hashable {
     let id: UUID
-    /// Display name, 1–4 characters. Two wires of a bus may share one (the
+    /// Display name, 1–8 characters. Two wires of a bus may share one (the
     /// wire list warns); each is still its own net. Case sensitive: "D0"
     /// and "d0" are two names.
     var name: String
@@ -202,7 +202,7 @@ nonisolated struct Bus: Identifiable, Hashable {
 
     static let wireCountRange = 2...999
     static let defaultWireCount = 8
-    static let nameLengthRange = 1...4
+    static let nameLengthRange = 1...8
     /// Wider than a wire's 1.5, so a bus stands out.
     static let lineWidth: CGFloat = 4
 
@@ -781,7 +781,8 @@ enum BusJoin {
 
     /// `first` with `second`'s lines and ports added.
     ///
-    /// When only one of them has ports, the joined bus carries that one's
+    /// Buses of one name (`Bus.isLinked`) join with `first`'s wires as they
+    /// are, wire for wire by place. Otherwise, when only one of them has ports, the joined bus carries that one's
     /// wires as they are (`first`'s when neither has). When both do, a wire
     /// of `second` becomes `first`'s wire of the same name (case sensitive)
     /// and the rest are added; wires a port uses come first and unused ones
@@ -789,6 +790,21 @@ enum BusJoin {
     static func merge(_ first: Bus, absorbing second: Bus) -> (bus: Bus, wireMap: [UUID: UUID])? {
         let lines = first.lines + second.lines
         let ports = first.ports + second.ports
+        // Two buses of one name already carry the same wires, wire i of each
+        // one net, so joining them changes nothing about the wires: `first`'s
+        // stay as they are, and a pin of `second`'s wire i becomes `first`'s.
+        if first.isLinked(with: second), first.wires.count == second.wires.count {
+            var wireMap: [UUID: UUID] = [:]
+            for (mine, theirs) in zip(first.wires, second.wires) where mine.id != theirs.id {
+                wireMap[theirs.id] = mine.id
+            }
+            let moved = second.ports.map { port in
+                BusPort(id: port.id, line: port.line, start: port.start, side: port.side,
+                        wireIDs: Set(port.wireIDs.map { wireMap[$0] ?? $0 }))
+            }
+            return (Bus(id: first.id, name: first.name, card: first.card, lines: lines, wires: first.wires,
+                        ports: first.ports + moved), wireMap)
+        }
         if first.ports.isEmpty || second.ports.isEmpty {
             // The wires (and the type that set them) of the one with ports.
             let keep = first.ports.isEmpty && !second.ports.isEmpty ? second : first
