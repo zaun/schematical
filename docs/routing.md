@@ -93,7 +93,10 @@ Every option is `RoutingOptions` (`Routing/RoutingOptions.swift`); all but
   routes each net at its class's width and keeps its class's clearance
   from every other net's copper (the larger of the two nets' clearances).
   The Trace tool and the Via tool use the same class values for what you
-  draw, and a class you add starts as the Default class. Net Classes ▸
+  draw, and a class you add starts as the Default class. A new schematic
+  starts with five classes: Power 5V, 3V3, 12V and 24V (20 mil, a 0.4 / 0.8 mm
+  via, each holding that supply rail) and Logic (the Default class's copper, no
+  nets: signal nets have no voltage of their own, so you put them in); a file opened keeps only its own. Net Classes ▸
   Add Power Class makes a 20 mil class with a 0.4 / 0.8 mm via holding the
   supply and ground nets. Copper already on the board keeps the sizes it
   was made with, whatever the rules become.

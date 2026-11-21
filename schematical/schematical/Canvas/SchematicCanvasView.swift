@@ -268,20 +268,11 @@ struct SchematicCanvasView: View {
                 area: gridRect
             )
 
-            WireLayer(
-                routes: document.wires.map { wire in
-                    RoutedWire(
-                        id: wire.id,
-                        points: document.path(forWire: wire.id),
-                        style: WireLayer.style(simulated: simulation.wireStyle(wire.id),
-                                               loose: document.hasLooseEnd(wire))
-                    )
-                },
-                junctions: document.junctions.compactMap { junction in
-                    let isSelected = document.isSelected(.junction(junction.id))
-                    guard isSelected || document.showsDot(junction) else { return nil }
-                    return JunctionDot(point: junction.point, isSelected: isSelected, isLoose: junction.isLoose)
-                },
+            // Their own views, which read the wires, junctions and parts:
+            // an edit to a label, bus or note leaves their drawing alone.
+            SchematicWiresLayer(
+                document: document,
+                simulation: simulation,
                 selectedWireIDs: selectedWireIDs,
                 hoveredWireID: hoveredWireID,
                 preview: connectionPreview,
@@ -295,121 +286,7 @@ struct SchematicCanvasView: View {
                 area: gridRect
             )
 
-            let connectedPins = document.connectedPins
-            ForEach(document.chips) { chip in
-                Group {
-                    switch chip.symbol {
-                    case .block, .oscillator:
-                        ChipBlockView(
-                            chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
-                            connectedPins: connectedPins[chip.id] ?? []
-                        )
-                    case .barrelJack:
-                        BarrelJackSymbolView(
-                            chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID
-                        )
-                    case .header:
-                        HeaderSymbolView(
-                            chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID
-                        )
-                    case .diode:
-                        DiodeSymbolView(
-                            chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
-                            level: simulation.lights[chip.id]?.first ?? 0
-                        )
-                    case .plainDiode:
-                        DiodeSymbolView(
-                            chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
-                            mark: DiodeMark(part: chip.part)
-                        )
-                    case .capacitor:
-                        CapacitorSymbolView(
-                            chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID
-                        )
-                    case .resistor:
-                        ResistorSymbolView(
-                            chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID
-                        )
-                    case .transistor:
-                        TransistorSymbolView(
-                            chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID
-                        )
-                    case .vcc, .ground, .pullUp, .pullDown:
-                        SupplySymbolView(
-                            chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID
-                        )
-                    case .dipSwitch:
-                        DipSwitchSymbolView(
-                            chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
-                            connectedPins: connectedPins[chip.id] ?? []
-                        )
-                    case .tactileSwitch:
-                        TactileSwitchSymbolView(
-                            chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
-                            connectedPins: connectedPins[chip.id] ?? []
-                        )
-                    case .sevenSegment:
-                        SevenSegmentSymbolView(
-                            chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
-                            connectedPins: connectedPins[chip.id] ?? [],
-                            levels: simulation.lights[chip.id] ?? []
-                        )
-                    case .nixie:
-                        NixieSymbolView(
-                            chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
-                            connectedPins: connectedPins[chip.id] ?? [],
-                            levels: simulation.lights[chip.id] ?? []
-                        )
-                    case .characterLCD:
-                        CharacterLCDSymbolView(
-                            chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
-                            connectedPins: connectedPins[chip.id] ?? [],
-                            frame: simulation.lcdFrames[chip.id],
-                            backlights: simulation.lights[chip.id] ?? []
-                        )
-                    }
-                }
-                .offset(x: chip.viewOrigin.x, y: chip.viewOrigin.y)
-            }
-
-            // Every part's reference above it (Display Reference).
-            ForEach(document.chips) { chip in
-                if let top = ReferenceLabelView.offsetY(for: chip) {
-                    ReferenceLabelView(
-                        chip: chip,
-                        isHighlighted: document.isSelected(.chip(chip.id)) || chip.id == hoveredChipID
-                    )
-                    .offset(x: chip.viewOrigin.x, y: chip.viewOrigin.y + top)
-                }
-            }
+            SchematicPartsLayer(document: document, simulation: simulation, hoveredChipID: hoveredChipID)
 
             PinMarkerLayer(
                 tips: tool == .line ? document.pinTips : [],
@@ -1109,6 +986,170 @@ struct JunctionDot {
     /// A loose end where wires branch: gray on screen. Exports leave it false.
     var isLoose = false
 }
+
+/// The wires and junction dots, in their own view so that only a change to
+/// the wires, junctions, parts (their pins move wires) or the simulation's
+/// wire styles draws them again: the layers around it can change without
+/// every route being worked out again.
+private struct SchematicWiresLayer: View {
+    let document: SchematicDocument
+    let simulation: SimulationController
+    let selectedWireIDs: Set<UUID>
+    let hoveredWireID: UUID?
+    let preview: ConnectionPreview?
+    let area: CGRect
+
+    var body: some View {
+        WireLayer(
+            routes: document.wires.map { wire in
+                RoutedWire(
+                    id: wire.id,
+                    points: document.path(for: wire),
+                    style: WireLayer.style(simulated: simulation.wireStyle(wire.id),
+                                           loose: document.hasLooseEnd(wire))
+                )
+            },
+            junctions: document.junctions.compactMap { junction in
+                let isSelected = document.isSelected(.junction(junction.id))
+                guard isSelected || document.showsDot(junction) else { return nil }
+                return JunctionDot(point: junction.point, isSelected: isSelected, isLoose: junction.isLoose)
+            },
+            selectedWireIDs: selectedWireIDs,
+            hoveredWireID: hoveredWireID,
+            preview: preview,
+            area: area
+        )
+    }
+}
+
+/// Every part and its reference, in their own view for the same reason as
+/// `SchematicWiresLayer`: a label or wire edit leaves them alone.
+private struct SchematicPartsLayer: View {
+    let document: SchematicDocument
+    let simulation: SimulationController
+    let hoveredChipID: UUID?
+
+    var body: some View {
+        Group {
+            let connectedPins = document.connectedPins
+            ForEach(document.chips) { chip in
+                Group {
+                    switch chip.symbol {
+                    case .block, .oscillator:
+                        ChipBlockView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID,
+                            connectedPins: connectedPins[chip.id] ?? []
+                        )
+                    case .barrelJack:
+                        BarrelJackSymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID
+                        )
+                    case .header:
+                        HeaderSymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID
+                        )
+                    case .diode:
+                        DiodeSymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID,
+                            level: simulation.lights[chip.id]?.first ?? 0
+                        )
+                    case .plainDiode:
+                        DiodeSymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID,
+                            mark: DiodeMark(part: chip.part)
+                        )
+                    case .capacitor:
+                        CapacitorSymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID
+                        )
+                    case .resistor:
+                        ResistorSymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID
+                        )
+                    case .transistor:
+                        TransistorSymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID
+                        )
+                    case .vcc, .ground, .pullUp, .pullDown:
+                        SupplySymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID
+                        )
+                    case .dipSwitch:
+                        DipSwitchSymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID,
+                            connectedPins: connectedPins[chip.id] ?? []
+                        )
+                    case .tactileSwitch:
+                        TactileSwitchSymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID,
+                            connectedPins: connectedPins[chip.id] ?? []
+                        )
+                    case .sevenSegment:
+                        SevenSegmentSymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID,
+                            connectedPins: connectedPins[chip.id] ?? [],
+                            levels: simulation.lights[chip.id] ?? []
+                        )
+                    case .nixie:
+                        NixieSymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID,
+                            connectedPins: connectedPins[chip.id] ?? [],
+                            levels: simulation.lights[chip.id] ?? []
+                        )
+                    case .characterLCD:
+                        CharacterLCDSymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID,
+                            connectedPins: connectedPins[chip.id] ?? [],
+                            frame: simulation.lcdFrames[chip.id],
+                            backlights: simulation.lights[chip.id] ?? []
+                        )
+                    }
+                }
+                .offset(x: chip.viewOrigin.x, y: chip.viewOrigin.y)
+            }
+
+            // Every part's reference above it (Display Reference).
+            ForEach(document.chips) { chip in
+                if let top = ReferenceLabelView.offsetY(for: chip) {
+                    ReferenceLabelView(
+                        chip: chip,
+                        isHighlighted: document.isSelected(.chip(chip.id)) || chip.id == hoveredChipID
+                    )
+                    .offset(x: chip.viewOrigin.x, y: chip.viewOrigin.y + top)
+                }
+            }
+        }
+    }
+}
+
 
 /// Draws wires as orthogonal polylines, plus the route being drawn from a pin.
 /// The hovered wire gets a soft accent underlay; selected wires are drawn in

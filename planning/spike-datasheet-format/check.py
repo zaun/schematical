@@ -269,6 +269,8 @@ def check_table(rep, start, body, attrs, section):
                     continue
                 if v in RAILS or v in ("N/A", "Unlimited"):
                     continue          # N/A: the source prints "N/A" for this cell
+                if re.fullmatch(r"[±+-]?\d+(\.\d+)?\^[-−–]?\d+\^", v):
+                    continue          # ±10^-5^: a power of ten, as printed
                 rep.err(ln, 'value cell "%s" (column %s) is not a number, ratio or symbol expression'
                         % (cells[c], names[c] or c + 1))
 

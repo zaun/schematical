@@ -481,6 +481,7 @@ class Doc:
         self.units = []      # (line, text) prose to match
         self.tables = []     # dicts: line, attrs, header, rows [(line, cells)], spec
         self.blocks = []     # (line, kind, attrs, body)
+        self.row_pending, self.placed = [], set()
         self.terms = []      # (line, plain text) every text that carries facts
         self.converted_pages = None
         self.fences = []     # (line, kind, attrs, body, section) every fenced block
@@ -747,8 +748,8 @@ def check_rows(doc, src, rep):
             if lid is not None:
                 near = " Closest: p.%d \"%s\"" % (src.lines[lid][0], clip(src.lines[lid][1]))
             if missing:
-                rep.add("soft", "rows", line, "values %s are not next to this row's text in the source.%s"
-                        % (", ".join(missing), near))
+                doc.row_pending.append((line, "values %s are not next to this row's text in the source.%s"
+                                        % (", ".join(missing), near)))
             elif w_share < ROW_TEXT_MIN and len([x for x in toks if not is_num(x)]) >= 2:
                 rep.add("info", "rows", line, "row text not found with its values (%.0f%%).%s"
                         % (100 * w_share, near))
@@ -811,14 +812,18 @@ def in_layout(src, toks):
     """Whether a sentence is printed, in order, on a few lines of the page as
     laid out: for a page whose reading-order text is scrambled (justified
     type set one word to a line, columns run together)."""
-    score, lid = src.best_lines(toks)
-    if lid is None or score < PROSE_MIN:
-        return False
-    page, seq = src.lines[lid][0], []
-    for k in range(lid - 4, lid + 5):
-        if 0 <= k < len(src.lines) and src.lines[k][0] == page:
-            seq += content(src.lines[k][2])
-    return lcs(*same_joins(toks, seq)) / len(toks) >= PROSE_ORDER
+    split = [t[1:] if re.fullmatch(r"t[a-z]{2,3}", t) else t for t in toks]      # "t PHL" for tPHL
+    for words in ([toks] if split == toks else [toks, split]):
+        score, lid = src.best_lines(words)
+        if lid is None or score < PROSE_MIN:
+            continue
+        page, seq = src.lines[lid][0], []
+        for k in range(lid - 4, lid + 5):
+            if 0 <= k < len(src.lines) and src.lines[k][0] == page:
+                seq += content(src.lines[k][2])
+        if lcs(*same_joins(words, seq)) / len(words) >= PROSE_ORDER:
+            return True
+    return False
 
 
 def across_pages(src, toks):
@@ -978,11 +983,17 @@ def check_prose(doc, src, rep):
         if score < 0.75 or not tc or len(mc & tc) / len(tc) < 0.5:
             continue
         count = lambda words, toks: sum(t in words for t in toks)
-        tight = matched_stretch(mine_list, theirs, 0)      # list items printed without full stops run together
-        if count(NEG, mine_list) != count(NEG, theirs) and count(NEG, mine_list) != count(NEG, tight):
+        tight = matched_stretch(mine_list, theirs, 2)      # list items printed without full stops run together
+        # a sentence the page layout breaks in two: its stretch in the run of three sentences
+        run3 = [t for k in (sid - 1, sid, sid + 1) if 0 <= k < len(src.sents) for t in tokens(norm(src.sents[k][1]))]
+        broken = sid > 0 and src.sents[sid - 1][0] == src.sents[sid][0] and not re.search(r"[.!?:;)]\s*$", src.sents[sid - 1][1])
+        wide = matched_stretch(mine_list, run3, 2) if broken or len(theirs) < 0.8 * len(mine_list) else tight
+        if count(NEG, mine_list) != count(NEG, theirs) and count(NEG, mine_list) != count(NEG, tight) \
+                and count(NEG, mine_list) != count(NEG, wide):
             rep.add("soft", "prose", line, "negation differs: the source passage has %d of not/no/never, this sentence %d.%s"
                     % (count(NEG, theirs), count(NEG, mine_list), near))
-        elif bool(mine & OBLIGE) != bool(set(theirs) & OBLIGE):
+        elif bool(mine & OBLIGE) != bool(set(theirs) & OBLIGE) and bool(mine & OBLIGE) != bool(set(tight) & OBLIGE) \
+                and bool(mine & OBLIGE) != bool(set(wide) & OBLIGE):
             which = "the source makes it a requirement" if set(theirs) & OBLIGE else "the source doesn't say must"
             rep.add("soft", "prose", line, "obligation differs: %s.%s" % (which, near))
     rep.stats["prose supported"] = (ok, total)
@@ -1060,6 +1071,7 @@ def check_notes(doc, src, rep):
         text = re.split(r"\s+(?:Figure|Table) \d", text)[0]
         text = re.sub(r"(\s\(\d+\)){2,}\s.*$", "", text)       # "(1) (1) tPHL tPLH": labels of the figure below it
         text = re.split(r"\s+(?:Input|Output)\s+\d+\s?%|\s+LOAD CIRCUIT\b|\s+VOLTAGE WAVEFORMS\b", text)[0]
+        text = re.sub(r"(\s+t[A-Z]{2,3}\s*\(\d+\))+\s*$", "", text)          # "tPZL (2) tPLZ (1)": arrow labels
         if re.search(r"page numbers for previous revisions|this symbol is in accordance with|"
                      r"for more information about traditional and new thermal metrics|"
                      r"\bI ?= ?Input\b|^Signal Types|package option addendum|www\.ti\.com|"
@@ -1331,6 +1343,7 @@ class PLine:
                 continue
             t = re.sub(r"\(\d{1,2}\)", "", t)
             t = re.sub(r"(\d),(\d{3})(?!\d)", r"\1\2", t)
+            t = re.sub(r"^\.+(?=[±+\-]\d)|^\.{2,}(?=\d)", "", t)     # ". . .±20mA": leader dots run into the value
             first = True
             for m in PNUM_RE.finditer(t):
                 s = m.group(1)
@@ -1455,6 +1468,8 @@ class Positions:
             line = self.lines[li]
             if pages and line.page not in pages:
                 continue
+            if line.words and line.words[0][2] in ("•", "–", "-"):
+                continue          # a bullet of a list (the revision history quotes table values)
             have = collections.Counter(n[2] for n in line.nums)
             if all(have[v] >= c for v, c in want.items()):
                 out.append(li)
@@ -1469,7 +1484,7 @@ class Positions:
                 m = HEAD_RE.match("MAX")          # "MA" over "X": a header wrapped in a narrow column
             prev = line.words[wi - 1][2] if wi else ""
             nxt = line.words[wi + 1][2] if wi + 1 < len(line.words) else ""
-            if m and prev not in ("=", "to") and nxt != "to":
+            if m and prev not in ("to",) and not prev.endswith("=") and nxt != "to":
                 found.append((m.group(1).lower(), x0, x1))
         if len(line.words) > 16:
             return []
@@ -1506,8 +1521,11 @@ class Positions:
                 # "MA" over "X", set half a line above MIN and TYP: a MAX header wrapped in a narrow column
                 for k in (j - 1, j - 2):
                     if 0 <= k and self.lines[k].page == line.page and 0 < up.y - self.lines[k].y < 8:
-                        found = sorted(found + [("max", x0, x1) for x0, x1, text in self.lines[k].words if text == "MA"],
-                                       key=lambda h: h[1])
+                        more = [("max", x0, x1) for x0, x1, text in self.lines[k].words if text == "MA"]
+                        if len(self.lines[k].words) <= 6:       # "TYP‡" set two points above MIN and MAX
+                            more += [(HEAD_RE.match(text).group(1).lower(), x0, x1) for x0, x1, text in self.lines[k].words
+                                     if HEAD_RE.match(text) and text.isupper() is not False and text != "MA"]
+                        found = sorted(found + more, key=lambda h: h[1])
                 heads = (found, up.y)
                 if unit and unit[2] - up.y > 30:
                     unit = None          # a Unit header of an earlier table
@@ -1541,6 +1559,8 @@ VALUE_CELL_RE = re.compile(r"^[<>≤≥]?\s?([±+-]?)\s?(\d+(?:\.\d+)?)$")
 
 def cell_numbers(cell, value):
     """(number, sign) for each number in a table cell. The sign is None where it can't be told."""
+    if value:
+        cell = re.sub(r"(\d)\^[-−–]?\d+\^", r"\1", cell)       # ±10^-5^: compared by its mantissa, as the text layer prints it
     plain = md_plain(MARK_RE.sub("", cell)).translate(DASHES).strip()
     m = VALUE_CELL_RE.match(plain) if value else None
     if m:
@@ -1581,8 +1601,19 @@ def check_cells(doc, pos, rep):
             for c in vcols:
                 if c < len(full):
                     vals += [(c, v, s) for v, s in cell_numbers(full[c], True)]
+            # "3.8¹": a note mark the text layer glues to its value, 3.81
+            glued = []
+            for c in vcols:
+                m = re.fullmatch(r"\s*([±+-]?)(\d+(?:\.\d+)?)\s*\[(\d)\]\s*", full[c]) if c < len(full) else None
+                glued += [(c, canon_num(m.group(2) + m.group(3)), "" if m.group(1) == "+" else m.group(1))] if m else \
+                    [(c, v, sg) for cc, v, sg in vals if cc == c]
+            if glued != vals and vals and not pos.candidates([v for _, v, _ in vals]) \
+                    and pos.candidates([v for _, v, _ in glued]):
+                vals = glued
             other = [full[c] for c in range(len(full)) if c not in vcols]
             words = [x for x in tokens(norm(md_plain(" ".join(other)))) if x not in STOP]
+            if set(MARK_RE.findall(" ".join(cells))) & t["own_notes"]:
+                doc.placed.add(ln)        # a cell corrected or doubted under the converter's note: read by a person
             rows.append({"line": ln, "raw": cells, "full": full, "vals": vals, "words": words,
                          "nums": {v for c in full for v, _ in cell_numbers(c, False)}})
         for x in banners:
@@ -1697,6 +1728,7 @@ def check_cells(doc, pos, rep):
             band = [x for x in pos.page_lines[line.page - 1]
                     if x is line or (lo < x.y <= hi and not FOOTER_RE.search(x.text))]
             # how many rows below share this row's merged cells (a name centred on a tall group)
+            doc.placed.add(r["line"])
             r["span"] = 0
             for later in rows[i + 1:]:
                 if "^" not in later["raw"]:
@@ -1728,7 +1760,7 @@ def check_cells(doc, pos, rep):
 
 
 FOOTER_RE = re.compile(r"Copyright|Submit Document Feedback|POST OFFICE BOX|www\.ti\.com", re.I)
-TABLE_END_RE = re.compile(r"^(\(\d+\)|\[\d+\]|[†‡§¶*•]|notes?\b|caution\b|\d+(\.\d+)+ [A-Z]|absolute maximum|recommended operating|"
+TABLE_END_RE = re.compile(r"^(\(\d+\)|\[\d+\]|[†‡§¶*•]|notes?\b|caution\b|(?:static|dynamic) electrical|typical performance|\d+(\.\d+)+ [A-Z]|absolute maximum|recommended operating|"
                           r"electrical characteristics|switching characteristics|operating characteristics|timing requirements|"
                           r"noise characteristics|thermal information|esd ratings|parameter measurement)|Copyright|Submit Document Feedback|"
                           r"POST OFFICE BOX|www\.ti\.com", re.I)
@@ -1891,6 +1923,8 @@ def between(rep, t, rows, i, chain, pos, labels, half):
             return False
         if all(elsewhere(v) for v in (mine - theirs)):
             return False
+    if set(MARK_RE.findall(" ".join(r["raw"]))) & t["own_notes"]:
+        return False          # a cell corrected under a Source error note: the note says what the source prints
     rep.add("error", "cells", r["line"], "this row has %s where the source row has %s. p.%d \"%s\""
             % (", ".join(sorted((mine - theirs).elements())) or "nothing",
                ", ".join("%s%s" % (n[3] or "", n[2]) for n in vals if (theirs - mine)[n[2]]) or "nothing",
@@ -2200,7 +2234,8 @@ def check_line(rep, t, r, pos, li, band, ctx, labels):
         used.add(n[5])
         chosen.append(n)
         last_x = n[0]
-        if sign is not None and n[3] is not None and sign != n[3] and not any(x[3] == sign for x in after):
+        if sign is not None and n[3] is not None and sign != n[3] and not any(x[3] == sign for x in after) \
+                and not set(MARK_RE.findall(" ".join(r["raw"]))) & t["own_notes"]:
             rep.add("error", "cells", r["line"], "sign differs: the source has %s%s, the file %s%s. %s"
                     % (n[3], v, sign, v, where))
     theirs_na = sum(1 for x0, x1, w in line.words if w.strip("()") in ("N/A", "NA"))
@@ -2237,8 +2272,10 @@ def check_line(rep, t, r, pos, li, band, ctx, labels):
         # parameter name, and not the first word of this row's own symbol ("VCC or GND")
         seen = {k for k in symbols for x in band for w in x.words[:1]
                 if w[0] <= left + 45 and not w[2].startswith("(") and not w[2].endswith(")")
+                and not (len(x.words) > 1 and x.words[1][2].startswith("="))
                 and "".join(tokens(norm(w[2]))) == k}
-        if seen and r["symbol"] not in seen and not any(r["symbol"].startswith(k) for k in seen):
+        if seen and r["symbol"] not in seen and not (" " in md_plain(r["full"][scol]).strip() and any(r["symbol"].startswith(k) for k in seen)) \
+                and not set(MARK_RE.findall(" ".join(r["raw"]))) & t["own_notes"]:
             rep.add("error", "cells", r["line"], "the source row with these values is %s, not %s. %s"
                     % (", ".join(md_plain(symbols[k]) for k in sorted(seen)), md_plain(r["full"][scol]), where))
     # unit
@@ -2264,7 +2301,9 @@ def check_line(rep, t, r, pos, li, band, ctx, labels):
                  and re.search(r"[^\W\d_]|[%°]", u)
                  and (unit_norm(u) in UNIT_NORMS or re.fullmatch(r"[a-zA-Zµμ°Ω%/]{1,6}", u) and not u.islower() or len(u) <= 2)]
         theirs = {unit_norm(u) for u in found}
-        if line.page not in pos.micro_pages:         # a page without µ in its text prints it as m
+        # a text layer without µ prints it as m; so does one page of it, when the file says the µ was
+        # read from the image (From images: µA)
+        if not pos.micro or (line.page not in pos.micro_pages and any(k[:1] in "µμ" for k in doc_known)):
             theirs |= {"u" + u[1:] for u in theirs if u.startswith("m") and len(u) > 1}
         if found and mine not in theirs and not any(
                 u.startswith(mine) or mine.startswith(u) for u in theirs if len(u) > 1):
@@ -2279,6 +2318,8 @@ def check_line(rep, t, r, pos, li, band, ctx, labels):
         row_marks = set(MARK_RE.findall(" ".join(r["raw"])))
         for n in x.nums:
             if n[5] in refs or (unit and n[0] > unit[1] + 12):
+                continue
+            if x.words[n[5]][2].endswith(")") and "(" not in x.words[n[5]][2]:
                 continue
             head = under(x, n)
             if n[5] == 0 and len(x.words) > 1 and re.match(r"^\d+(\.\d+)+$", x.words[0][2]) and x.words[1][2][:1].isupper():
@@ -2440,7 +2481,7 @@ def check_ordering(doc, pos, rep):
     rep.stats["ordering rows checked"] = (0, 0)
     if not add:
         if lines:
-            rep.add("error", "ordering", lines[0][0], "the source has no ordering table this script can read "
+            rep.add("manual", "ordering", lines[0][0], "the source has no ordering table this script can read "
                     "(TI package option addendum); the ordering lines must be checked by a person")
         return
     cat = catalog()
@@ -2517,6 +2558,8 @@ def check_frontmatter(doc, src, pos, rep):
         return
     flat = lambda t: re.sub(r"[\s\-–—]", "", t).upper()
     hits = [(pi, text) for pi, (_, lay, _) in enumerate(src.pages) for text in lay.split("\n") if flat(docno) in flat(text)]
+    if not hits and 1 in src.ocr_pages and re.search(r"(?<![A-Z0-9])%s(?![A-Z0-9])" % re.escape(flat(docno)), flat(pdf_info(doc))):
+        return            # a scan: the number is in the PDF's own metadata
     if not hits:
         base = re.sub(r"[A-Z]$", "", flat(docno))
         seen = sorted({m for _, lay, _ in src.pages for m in re.findall(re.escape(base) + r"[A-Z]?\b", flat(lay))})
@@ -2557,6 +2600,15 @@ def check_note_pages(doc, src, rep):
             if not found and page not in src.ocr_pages:
                 rep.add("soft", "notes", k + 1, "Conversion notes: \"%s\" is not on p.%d of the PDF (pages are counted "
                         "from the PDF's first page)" % (what, page))
+
+
+def pdf_info(doc):
+    """The PDF's metadata (title, subject, keywords), as pdfinfo prints it."""
+    path = os.path.join(DATASHEETS_DIR, doc.fm["source"]["pdf"])
+    try:
+        return subprocess.run(["pdfinfo", path], capture_output=True, text=True, timeout=30).stdout if path else ""
+    except (OSError, subprocess.SubprocessError):
+        return ""
 
 
 def check_page_ranges(doc, src, rep):
@@ -2668,6 +2720,9 @@ def validate(path, ocr, cache):
     check_numbers_terms(doc, src, rep)
     check_rows(doc, src, rep)
     check_cells(doc, pos, rep)
+    for line, msg in doc.row_pending:
+        if line not in doc.placed:        # the cells check put the row on the line that holds its values
+            rep.add("soft", "rows", line, msg)
     check_coverage(doc, pos, rep)
     check_function_tables(doc, src, rep)
     check_ordering(doc, pos, rep)

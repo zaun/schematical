@@ -2,11 +2,11 @@
 {
   "format": "schematical-datasheet",
   "version": 1,
-  "id": "sn74act02",
+  "id": "sn74act02-q1",
   "title": "SN74ACT02-Q1 automotive quad 2-input NOR gates with TTL-compatible inputs",
   "class": "logic",
   "source": {
-    "pdf": "gate-nor/sn74act02.pdf",
+    "pdf": "gate-nor/sn74act02-q1.pdf",
     "vendor": "Texas Instruments",
     "document": "SLVSIQ7",
     "date": "2025-05",
@@ -499,7 +499,7 @@ SN74ACT02WBQARQ1 | Reel of 3000 | -40 to 125 | AD02Q
   (18–29) dropped, replaced by the generated Package and Ordering
   sections. The ordering lines are the parts' rows of the package option
   addendum (p.19).
-- The PDF `sn74act02.pdf` is the SN74ACT02-Q1 data sheet.
+- The PDF `sn74act02-q1.pdf` is the SN74ACT02-Q1 data sheet.
 - Dropped: applications list, device information table, the logic
   diagram of page 1, the wettable flank cutaway drawing (Figure 7-1),
   the sentence pointing to the Features section for the packages with

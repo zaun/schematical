@@ -228,7 +228,7 @@ SN74AUC32RGYR | Reel of 3000 | -40 to 85 | MS32
 ## Conversion notes
 
 - Source pages 1–4 converted; the package option addendum (p.5), tape
-  and reel and mechanical pages (5–9) dropped, replaced by the generated
+  and reel and mechanical pages (6–9) dropped, replaced by the generated
   Package and Ordering sections.
 - Dropped: the features list except the lines quoted, the source's
   ordering information table on p.1 (–40°C to 85°C, QFN – RGY, Tape and

@@ -86,4 +86,13 @@ final class DrawerPerformanceTests: XCTestCase {
         print("PERF open Zener group, first layout (incl. 0.2 s run loop): \(seconds) s")
         XCTAssertLessThan(seconds, 2.0)
     }
+
+    /// Closing a category forgets its open sub-groups and no other category's.
+    func testClosingACategoryClosesItsGroups() {
+        var open: Set<String> = ["subcategory:Discrete/Diodes", "function:Discrete/Diodes/Zener",
+                                 "function:Discrete/Diodes/Zener/8-bit", "subcategory:Memory/SRAM",
+                                 "function:Logic/Gates", "subcategory:DiscreteX/Other"]
+        open.closeGroups(inCategory: "Discrete")
+        XCTAssertEqual(open, ["subcategory:Memory/SRAM", "function:Logic/Gates", "subcategory:DiscreteX/Other"])
+    }
 }

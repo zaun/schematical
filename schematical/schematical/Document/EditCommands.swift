@@ -80,8 +80,6 @@ struct EditCommands: Commands {
                 .keyboardShortcut("r", modifiers: .command)
                 .disabled(target?.canRotate != true)
             Button("Rotate Counterclockwise") { _ = target?.rotate(true) }
-                // Also Simulation › Run's: the window's key monitor sends
-                // ⇧⌘R to Rotate on the PCB and to Run on the Schematic.
                 .keyboardShortcut("r", modifiers: [.command, .shift])
                 .disabled(target?.canRotate != true)
             Divider()

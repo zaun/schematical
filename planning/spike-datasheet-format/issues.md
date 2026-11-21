@@ -243,79 +243,84 @@ prose when the same number appears elsewhere in the passage.
 
 ## Logic gate conversion (2026-11-21)
 
-The remaining gate groups were converted with the procedure in
-converting.md: gate-nand 88, gate-nor 53, gate-not 158, gate-or 52,
-gate-xnor 4, gate-xor 38 (393 files; with gate-and, 476). All pass
-`check.py` and are registered in `datasheets.json`.
+All seven gate groups are converted with the procedure in
+converting.md: gate-and 83, gate-nand 88, gate-nor 53, gate-not 168,
+gate-or 52, gate-xnor 4, gate-xor 39 (487 files). All pass `check.py` and are registered in
+`datasheets.json`.
 
-**Not converted: no catalog part names these PDFs.** gate-nor
-cd54hc4002; gate-not cd4069ub-mil, cd54act05, sn54act14, sn54als04b,
-sn54hc04-sp, sn54hct04-sp, sn54hcu04, sn54ls05, sn74s04, sn74s05;
-gate-xor sn74ls86.
+**Not converted.** gate-nor/cd54hc4002.pdf: every part it lists is in
+the catalog under cd74hc4002 or sn54hc4002, so no part names it.
 
-**Validator errors left: 80, in 23 files.** Each was compared with the
-page image by the converter and judged a limit of `validate.py`, not a
-mistake in the file. They are open work on the script:
+**Parts added for the conversion.** 126 orderables that eleven PDFs
+list and the catalog had left out (military numbers and G4/E4
+variants), with an FK pinout for 74_05, 74_14 and 74_U04, the
+SN54LS05/SN54S05 flat-pack pinout `w14_5405`, and a TTL timing entry
+for 74_86. They were added without a stock check.
 
-- Old Harris sheets that set two dot-leader lists side by side, with
-  the sign touching the leader dots and the degree sign as a raised o
-  (gate-not/cd74hcu04, gate-xor/cd4070b).
-- A power of ten in a cell, "±10^-5 µA" (gate-nand/cd4093b-q1,
-  gate-not/cd4069ub, cd40106b): `check.py` has no cell form for it.
-- A superscript note mark the text layer glues to the value, "3.8¹"
-  read as 3.81 (gate-not/sn54ahc04, sn74ahc04).
-- A TYP header set 2 pt above MIN and MAX (gate-not/sn74als1004,
-  sn74als1005); "VCC= MAX" in a condition taken for a header
-  (sn74ls06).
-- A row placed on a line of another page that holds the same values:
-  the revision history (gate-nand/cd74hc00), the same row of another
-  device's table (gate-not/sn74as04).
-- A value top-aligned in a cell that the text layer puts a line up
-  (gate-nand/sn74hct00); a symbol or condition printed once for a block
-  of rows taller than the script looks (gate-not/sn74aup1g06,
-  sn74lvc04a, cd40106b).
-- A source table that misprints its symbols or a value, corrected in
-  the file under a `Source error:` note that the symbol and value
-  checks don't honour (gate-not/sn74lvc14a, sn74lv04a ".3.5").
-- A pin count inside a package name counted as a value
-  (gate-not/sn74lvc1g06-q1); figure labels run into a note
-  (sn74lv6t06-q1); a symbol printed over its condition
-  (sn74aup3g06); a scanned document number OCR misreads
-  (gate-nor/sn74ls27); a sentence broken over a line so that its "no"
-  or "must" is lost (gate-nand/sn74ls00); a note whose subscripts the
-  text layer sets apart (gate-or/sn74lv32a).
+**Validator errors left: 27, in 7 files.** A second reviewer compared
+every remaining error with the page image; in each the file is right
+and the script is wrong. What is left after the fixes that followed:
 
-**Scanned sources.** 19 of the files come from scans (old CD4000 and
-LS/S TTL sheets); their tables are in the by-eye list, 1,571 items over
-all 476 files.
+- Old Harris sheets that set two dot-leader lists side by side
+  (gate-not/cd74hcu04, gate-xor/cd4070b): a row of the left list and a
+  row of the right list share a line, so each gets the other's values.
+- The same row printed in two tables on two pages, placed on the wrong
+  one (gate-not/sn74as04 and sn54als04b: the V~IK~ row of the ALS04B
+  and AS04 tables).
+- A value top-aligned in a tall cell, which the text layer puts a line
+  above its row (gate-nand/sn74hct00).
+- A symbol printed over its condition, "VICi=" (gate-not/sn74aup3g06).
+- A figure note whose subscripts the text layer sets apart, "t PHL",
+  matched to a table cell instead (gate-or/sn74lv32a).
 
-**Catalog doubts the converters reported** (nothing in the catalog was
-changed):
+Also open: a feature bullet that wraps from the foot of one column to
+the head of the next ("Latch-up performance exceeds 250mA / per JESD
+17", gate-xor/sn74lv1t86, gate-or/sn74lv1t32) fails the order check, so
+those files leave the sentence out; an old-format package addendum
+(quantity only, gate-xor/sn74ls86) can't be read by the script and its
+ordering lines are a by-eye item.
 
-- gate-xnor/sn74ls226.pdf is the SN54LS266/SN74LS266 sheet; the id
-  looks like a typo for ls266.
-- gate-nor/sn74ac02.pdf and sn74act02.pdf are the -Q1 sheets under ids
-  without the suffix (the claimed parts are the Q1 parts).
-- 74_14 has no lccc20 pinout and its note says "No FK/LCCC part in this
-  group", but sn54ahc14 and sn54ahct14-sp draw an FK package and list
-  FK orderables (none claimed).
+**Scanned sources.** About 20 files come from scans (old CD4000 and
+LS/S TTL sheets); their tables are in the by-eye list, about 1,680
+items over all files.
+
+**The other samples.** `samples/sn74hc00.md` passes the strict
+validator. The other ten samples predate it and report 25 to 1,463
+errors each (the three AVR samples over 900); the validator's position
+checks were built on TI logic sheets and have not been tried on those
+layouts, so those counts mix real rewordings with script limits.
+
+**Catalog facts checked against the PDFs and corrected.**
+
+- Datasheet ids renamed to the documents they are: sn74ls226 →
+  sn74ls266, sn74ac02 → sn74ac02-q1, sn74act02 → sn74act02-q1 (the old
+  URLs return 404 at ti.com, the new ones the PDF).
+- 74_86 "LS" timing was the SN7486's (15/11, 18/13 ns); it is now the
+  SN74LS86A's (12/10, 20/13 ns, sn74ls86a p.4).
+- 8404401CA is an orderable of the SN54HC4002 sheet, not of
+  cd74hc4002 (where it is only a marking).
+- 1G10, 1G11, 1G27, 1G332, 1G386: "6-pin SON (DRY, DSF)" removed from
+  the description; their parts also come in DBV, DCK and YZP.
+- 74_14: the note said the group has no FK part; it now has the FK
+  pinout and the SN54ACT14 FK parts.
+
+**Catalog doubts left as they are.**
+
 - 74_10: sn74ac10's J/W, BQA and FK drawings and its pin table name
-  pins 9/11 (and 13/16 on FK) 3C/3A where the catalog has 3A/3C; the
+  pins 9/11 (13/16 on FK) 3C/3A where the catalog has 3A/3C; its
   D/DB/N/NS/PW drawing agrees with the catalog. 74_00: sn74ls00 swaps
   A/B of gates 3 and 4 against the catalog p14 pinout. Inputs of one
-  gate are interchangeable.
-- 1G332: the catalog description says "6-pin SON (DRY, DSF)" while the
-  PDF and the claimed parts also cover DBV, DCK and YZP.
+  gate are interchangeable, so nothing behaves differently.
 - sn74lvc1g32 DPW: Figure 4-2 draws A=1, B=2; the catalog has B=1, A=2
   (the catalog note already records the conflict).
-- Parts the addenda list as Active that the catalog doesn't carry:
-  SN74AC04WBQARQ1, SN74AHCT14PWR, SN74AHCT14BQAR, SN74LVC2GU04DCKR,
-  CLVC2GU04QDCKRQ1, SN74LS19ANSR, SN74HCS86DYYR (in sn74hc86.pdf).
-- JM38510/17401BCA (cd4069ub) is NRND in the addendum; the catalog has
-  no flag for it. Several SN54HC4002 military parts are Last Time Buy.
-- cd74hc4002: catalog part 8404401CA has no addendum row of its own
-  (it is printed only as a marking of CD54HC4002F3A).
-- sn74as04: the PDF doesn't say which device JM38510/37006B2A/BCA are;
-  filed with the SN54ALS04B tables. sn74ls05: JM38510/07004BCA filed
-  with the SN54S05 tables on the catalog's family alone.
-
+- Parts the addenda list as Active that the catalog doesn't carry
+  (never stock-checked): SN74AC04WBQARQ1, SN74AHCT14PWR,
+  SN74AHCT14BQAR, SN74LVC2GU04DCKR, CLVC2GU04QDCKRQ1, SN74LS19ANSR,
+  SN74HCS86DYYR, and the FK orderables of sn54ahc14 and sn54ahct14-sp.
+- The catalog has no flag for NRND or Last Time Buy; such parts
+  (JM38510/17401BCA, several SN54HC4002 and SN54ACT14 military parts)
+  carry the status only in the ordering block.
+- Military drawing numbers whose device the PDF never names
+  (JM38510/37006, /07003, /07004, /00105, /30003, /07501, /30502) are
+  filed by the MIL-M-38510 slash-sheet family (001xx TTL, 070xx/075xx
+  S, 300xx/305xx LS, 370xx ALS).

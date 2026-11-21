@@ -46,14 +46,24 @@
 - [x] Add 20x4 and 40x2 and 40x4 character LCD modules
 - [x] Add a KiCad export for the schematic. (Save As ▸ Format ▸ KiCad Project: schematic and board)
 - [x] Add a Gerber export for the PCB
+- [ ] Add top 3 power management IC like (MAX803L, etc.)
 - [ ] Two BUSes with the same name should be able to connect.
 - [ ] BUS wire name and netlabels should be up to 8.
 - [ ] Toggle a BUS name label in schematic view
 - [ ] After paste select all that was pasted (including wire ends) so it can be dragged
 - [ ] Bus ports are not selectable?
 - [ ] Add hex, bcd, etc. decoders
-- [ ] Flipped LED doesnt look correct
+- [ ] Flipped LED doesnt look correct, the "light" arrows look wrong.
+- [ ] I would like Rotation to work in the Schematic view for LEDs, Diodes, Resistors, and Capasitors only.
 - [ ] Two finger scroll in all tool modes
+- [ ] The schematic view can get slow when a lot ot items are selected
+- [x] The input can get sluggish/laggy when editing netlabels and or bus wire names when there are a lot already. Same with changing a netlable Type, or adding wires, etc. Dragging the canvas around (scrolling) is fine.
+- [x] Change simulation to cmd-P and shift-cmd-R to rotate left
+- [x] When a picker category closed, it should auto-close any sub-groups
+- [x] Add default power net classes for common voltages (5V and 3V3)
+- [x] Add default logic net classes for common voltages (5V and 3V3)
+- [ ] For DIP and PLCC chips have a toggle to use a socket footprint. This means each of these needs a secondary part picker, when in socket mode then need a button to show a small dialog listing compatible sockets to choose from. A prereq for this is adding the socket parts to the part picker database.
+- [ ] Add card edge sockets
 
 ## Manufacturing (a board can't be ordered without these)
 
@@ -83,6 +93,7 @@
       existing connectors already cover first).
 - [ ] Allow parts with a symbol, footprint and BOM data but no simulation
       model, so passives and analog parts don't each need a backend model.
+- [ ] Add IO Extenders
 
 ## PCB
 

@@ -1279,6 +1279,34 @@ final class SchematicDocument {
     @ObservationIgnored var keptConnectivity: (revision: Int, copper: BoardConnectivity)?
     @ObservationIgnored var keptRatsnest: (revision: Int, lines: [(CGPoint, CGPoint)])?
     @ObservationIgnored private var keptChipPads: (revision: Int, pads: [[PlacedPad]])?
+    @ObservationIgnored private var keptVoltageIssues: (revision: Int, issues: Set<VoltageIssue>)?
+    @ObservationIgnored private var keptChipIndex: (revision: Int, index: [UUID: Int])?
+    /// Every wire's last route, with the wire and the two tips it was worked
+    /// out from (see `path(for:)`): a wire is routed again only when it or
+    /// the place of one of its ends changes.
+    @ObservationIgnored private var keptPaths: [UUID: (wire: Wire, start: CGPoint, end: CGPoint, path: [CGPoint])] = [:]
+
+    /// The voltage problems the drawing has now, kept until anything in it
+    /// changes: an edit's check only needs to build the netlist of the
+    /// drawing it would make.
+    func currentVoltageIssues(_ library: PartLibraryHandle) -> Set<VoltageIssue> {
+        let revision = copperRevision
+        if let kept = keptVoltageIssues, kept.revision == revision { return kept.issues }
+        let found = VoltageCheck.issues(chips: chips, wires: wires, buses: buses, labels: netLabels, library: library)
+        keptVoltageIssues = (revision, found)
+        return found
+    }
+
+    /// Each part's place in `chips`, by id, built once per change to the
+    /// parts: a wire's end finds its part here, not by searching `chips`.
+    private var chipIndex: [UUID: Int] {
+        if let kept = keptChipIndex, kept.revision == chipsRevision { return kept.index }
+        var index: [UUID: Int] = [:]
+        index.reserveCapacity(chips.count)
+        for (position, chip) in chips.enumerated() where index[chip.id] == nil { index[chip.id] = position }
+        keptChipIndex = (chipsRevision, index)
+        return index
+    }
 
     /// Each part's pads on the board (`PlacedChip.boardPads`), in `chips`
     /// order, built once per change to the parts.
@@ -1512,7 +1540,7 @@ final class SchematicDocument {
             items.insert(.label(label.id))
         }
         for wire in wires {
-            let path = path(forWire: wire.id)
+            let path = path(for: wire)
             if zip(path, path.dropFirst()).contains(where: { Self.segment($0, $1, touches: rect) }) {
                 items.insert(.wire(wire.id))
             }
@@ -1671,6 +1699,14 @@ final class SchematicDocument {
         // rules are its own, saved in its file.
         board.rules = DesignRules.appDefaults()
         board.rulesManufacturer = DRCManufacturer.appDefault()
+    }
+
+    /// Gives a new, blank schematic the standard net classes
+    /// (`NetClass.standardClasses`), outside the undo history. Does nothing
+    /// once the board has any class.
+    func addStandardNetClasses() {
+        guard board.netClasses.isEmpty else { return }
+        board.netClasses = NetClass.standardClasses(rules: board.rules)
     }
 
     /// Replaces everything on the canvas, for example with a file that was
@@ -2151,7 +2187,7 @@ final class SchematicDocument {
         }
         for wire in wires where base.wires[wire.id] != nil || moves(wire.start, in: base) || moves(wire.end, in: base) {
             base.affectedWires.insert(wire.id)
-            let route = path(forWire: wire.id)
+            let route = path(for: wire)
             if OrthogonalRoute.isOrthogonal(route) {
                 base.orthogonalWires.insert(wire.id)
                 if base.wires[wire.id] == nil { base.paths[wire.id] = route }
@@ -2423,10 +2459,14 @@ final class SchematicDocument {
             guard netLabels[index].name != name else { return true }
             var renamed = netLabels
             renamed[index].name = name
-            // Joining two nets can put a voltage out of range on a part.
-            if let library,
+            // Joining two nets can put a voltage out of range on a part; a name
+            // no other label has joins nothing (and leaving a net only
+            // removes connections), so there is nothing to check.
+            let joins = netLabels.contains { $0.id != id && $0.isNet && $0.netKey == renamed[index].netKey }
+            if joins, let library,
                let issue = VoltageCheck.firstNew(before: chips, wires, after: chips, wires, buses: buses,
-                                                 labels: netLabels, afterLabels: renamed, library: library) {
+                                                 labels: netLabels, afterLabels: renamed,
+                                                 known: currentVoltageIssues(library), library: library) {
                 editorMessage = VoltageCheck.message(issue, chips: chips, edit: .connect)
                 return false
             }
@@ -2444,9 +2484,11 @@ final class SchematicDocument {
                   netLabels[index].style != style else { return }
             var changed = netLabels
             changed[index].style = style
-            if let library,
+            // Only becoming or leaving No Connect changes what joins what.
+            if netLabels[index].isNet != style.isNet, let library,
                let issue = VoltageCheck.firstNew(before: chips, wires, after: chips, wires, buses: buses,
-                                                 labels: netLabels, afterLabels: changed, library: library) {
+                                                 labels: netLabels, afterLabels: changed,
+                                                 known: currentVoltageIssues(library), library: library) {
                 editorMessage = VoltageCheck.message(issue, chips: chips, edit: .connect)
                 return
             }
@@ -4282,7 +4324,8 @@ final class SchematicDocument {
             var candidate = chips
             candidate[index].switchesOn[0] = true
             if let issue = VoltageCheck.firstNew(before: chips, wires, after: candidate, wires,
-                                                 buses: buses, labels: netLabels, library: library) {
+                                                 buses: buses, labels: netLabels,
+                                                 known: currentVoltageIssues(library), library: library) {
                 editorMessage = VoltageCheck.message(issue, chips: chips, edit: .turnOn)
                 return nil
             }
@@ -4326,7 +4369,8 @@ final class SchematicDocument {
                 var candidate = chips
                 candidate[index].switchesOn[position - 1] = true
                 if let issue = VoltageCheck.firstNew(before: chips, wires, after: candidate, wires,
-                                                     buses: buses, labels: netLabels, library: library) {
+                                                     buses: buses, labels: netLabels,
+                                                 known: currentVoltageIssues(library), library: library) {
                     editorMessage = VoltageCheck.message(issue, chips: chips, edit: .turnOn)
                     return nil
                 }
@@ -4341,10 +4385,9 @@ final class SchematicDocument {
 
     /// Where a wire leaves or enters a pin: the end of its pin stub.
     func pinTip(_ ref: PinRef) -> CGPoint? {
-        guard let chip = chips.first(where: { $0.id == ref.chipID }),
-              let slot = chip.layout.slots.first(where: { $0.pin.index == ref.index }) else {
-            return nil
-        }
+        guard let position = chipIndex[ref.chipID] else { return nil }
+        let chip = chips[position]
+        guard let slot = chip.layout.slots.first(where: { $0.pin.index == ref.index }) else { return nil }
         return chip.tip(of: slot)
     }
 
@@ -4481,19 +4524,30 @@ final class SchematicDocument {
 
     /// Full route of a wire, from one end's tip to the other.
     func path(forWire id: UUID) -> [CGPoint] {
-        guard let wire = wires.first(where: { $0.id == id }),
-              let start = endTip(wire.start),
+        guard let wire = wires.first(where: { $0.id == id }) else { return [] }
+        return path(for: wire)
+    }
+
+    /// `path(forWire:)` for a wire already in hand: no search of `wires`, so
+    /// a loop over every wire stays linear.
+    func path(for wire: Wire) -> [CGPoint] {
+        guard let start = endTip(wire.start),
               let end = endTip(wire.end) else {
             return []
         }
+        if let kept = keptPaths[wire.id], kept.start == start, kept.end == end, kept.wire == wire { return kept.path }
         // Same rules as settleWires, applied on the fly, so the wire looks the
         // same while dragging as it does after the drop.
         let interior = OrthogonalRoute.settled(start: start, interior: wire.interior, end: end)
-        return [start] + interior + [end]
+        let path = [start] + interior + [end]
+        // Routes of wires that are gone would pile up.
+        if keptPaths.count > 2 * wires.count + 16 { keptPaths.removeAll(keepingCapacity: true) }
+        keptPaths[wire.id] = (wire, start, end, path)
+        return path
     }
 
     var wirePaths: [[CGPoint]] {
-        wires.map { path(forWire: $0.id) }
+        wires.map { path(for: $0) }
     }
 
     /// Connects two anchors with an orthogonal route. A grid point on an existing
@@ -4515,7 +4569,8 @@ final class SchematicDocument {
             if let library, let standInStart = standIn(for: start), let standInEnd = standIn(for: end) {
                 let candidate = wires + [Wire(start: standInStart, end: standInEnd, interior: [])]
                 if let issue = VoltageCheck.firstNew(before: chips, wires, after: chips, candidate,
-                                                     buses: buses, labels: netLabels, library: library) {
+                                                     buses: buses, labels: netLabels,
+                                                 known: currentVoltageIssues(library), library: library) {
                     editorMessage = VoltageCheck.message(issue, chips: chips, edit: .connect)
                     return editorMessage
                 }
@@ -4667,10 +4722,18 @@ final class SchematicDocument {
         var changed = true
         while changed {
             changed = false
+            // The wires on each junction, found in one pass over the wires
+            // (not one pass per junction).
+            var wiresOn: [UUID: [Int]] = [:]
+            for index in wires.indices {
+                if case let .junction(id) = wires[index].start { wiresOn[id, default: []].append(index) }
+                if case let .junction(id) = wires[index].end, wires[index].start != wires[index].end {
+                    wiresOn[id, default: []].append(index)
+                }
+            }
             for junction in junctions where !junction.isLoose {
                 let here = WireEnd.junction(junction.id)
-                let on = wires.indices.filter { wires[$0].start == here || wires[$0].end == here }
-                guard on.count == 2 else { continue }
+                guard let on = wiresOn[junction.id], on.count == 2 else { continue }
                 // The first wire runs into the junction, the second out of it.
                 var first = wires[on[0]], second = wires[on[1]]
                 if first.start == here { first = Self.reversed(first) }
@@ -4830,7 +4893,8 @@ final class SchematicDocument {
                 }
                 if let library,
                    let issue = VoltageCheck.firstNew(before: chips, wires, after: chips, candidate,
-                                                     buses: buses, labels: netLabels, library: library) {
+                                                     buses: buses, labels: netLabels,
+                                                 known: currentVoltageIssues(library), library: library) {
                     editorMessage = VoltageCheck.message(issue, chips: chips, edit: .connect)
                     continue
                 }
@@ -4872,7 +4936,7 @@ final class SchematicDocument {
     /// A bend point on a wire, if `point` is on one.
     func nodeHit(at point: CGPoint, tolerance: CGFloat = 6) -> (wire: UUID, index: Int)? {
         for wire in wires.reversed() {
-            let path = path(forWire: wire.id)
+            let path = path(for: wire)
             guard path.count > 2 else { continue }
             for index in 1..<(path.count - 1)
                 where Self.distance(from: point, to: path[index]) <= tolerance {
@@ -4886,7 +4950,7 @@ final class SchematicDocument {
     /// start point within the wire's path.
     func segmentHit(at point: CGPoint, tolerance: CGFloat = 6) -> (wire: UUID, index: Int)? {
         for wire in wires.reversed() {
-            let path = path(forWire: wire.id)
+            let path = path(for: wire)
             for index in 0..<max(path.count - 1, 0)
                 where Self.distance(from: point, toSegment: path[index], path[index + 1]) <= tolerance {
                 return (wire.id, index)
