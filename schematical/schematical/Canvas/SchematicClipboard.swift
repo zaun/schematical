@@ -149,7 +149,7 @@ extension SchematicDocument {
             }
         }
         for wire in copy.wires {
-            for point in path(forWire: wire.id) { bounds = bounds.union(CGRect(origin: point, size: .zero)) }
+            for point in path(for: wire) { bounds = bounds.union(CGRect(origin: point, size: .zero)) }
         }
         copy.bounds = bounds
         return copy.isEmpty ? nil : copy

@@ -146,7 +146,7 @@ extension AutomationTools {
         }
         out.append("WIRES")
         for wire in document.wires {
-            let route = document.path(forWire: wire.id).map { "(\(num($0.x)),\(num($0.y)))" }.joined(separator: " ")
+            let route = document.path(for: wire).map { "(\(num($0.x)),\(num($0.y)))" }.joined(separator: " ")
             out.append("\(context.short(wire.id))  \(context.endName(wire.start)) -> \(context.endName(wire.end))"
                        + (route.isEmpty ? "" : "  via \(route)"))
         }
@@ -259,7 +259,7 @@ extension AutomationTools {
             "parts": parts,
             "wires": document.wires.map { wire in
                 ["id": context.short(wire.id), "from": context.endName(wire.start), "to": context.endName(wire.end),
-                 "route": document.path(forWire: wire.id).map { [$0.x, $0.y] }] as [String: Any]
+                 "route": document.path(for: wire).map { [$0.x, $0.y] }] as [String: Any]
             },
             "junctions": document.junctions.map {
                 ["id": context.short($0.id), "x": $0.point.x, "y": $0.point.y, "loose": $0.isLoose] as [String: Any]

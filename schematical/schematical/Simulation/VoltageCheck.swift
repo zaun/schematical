@@ -108,12 +108,16 @@ enum VoltageCheck {
 
     /// The first problem in `after` that is not in `before`, in net, part,
     /// pin order; nil when the edit adds none. `labels` are the net labels
-    /// before; `afterLabels` after, when the edit changes them.
+    /// before; `afterLabels` after, when the edit changes them. `known` is
+    /// the problems already in the "before" drawing, when the caller has
+    /// them kept (`SchematicDocument.currentVoltageIssues`); without it they
+    /// are worked out here, which costs as much as checking "after".
     static func firstNew(before: [PlacedChip], _ beforeWires: [Wire],
                          after: [PlacedChip], _ afterWires: [Wire],
                          buses: [Bus], labels: [NetLabel] = [], afterLabels: [NetLabel]? = nil,
+                         known: Set<VoltageIssue>? = nil,
                          library: PartLibraryHandle) -> VoltageIssue? {
-        let old = issues(chips: before, wires: beforeWires, buses: buses, labels: labels, library: library)
+        let old = known ?? issues(chips: before, wires: beforeWires, buses: buses, labels: labels, library: library)
         return sortedIssues(chips: after, wires: afterWires, buses: buses, labels: afterLabels ?? labels,
                             library: library).first { !old.contains($0) }
     }
