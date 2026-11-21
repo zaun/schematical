@@ -126,7 +126,7 @@ enum GerberExport {
     /// then traces on the layer, the surface-mount pads and card fingers of
     /// its side, and every plated through-hole pad and via. Every object has
     /// its `.AperFunction`, net and (a part's pad) pin, see `padAttributes`.
-    private static func drawCopper(on layer: CopperLayer, board: BoardSettings, document: SchematicDocument,
+    static func drawCopper(on layer: CopperLayer, board: BoardSettings, document: SchematicDocument,
                                    copper: BoardConnectivity, nets: ExportNets, rules: DesignRules,
                                    into file: inout GerberWriter) {
         let style = board.style(of: layer)
@@ -233,7 +233,7 @@ enum GerberExport {
     /// marks: body outline (and a diode's cathode band) and pin-1 dot. As
     /// on the PCB page, everything is seen from the top, so bottom text
     /// reads mirrored.
-    private static func drawSilkscreen(on side: BoardSide, document: SchematicDocument,
+    static func drawSilkscreen(on side: BoardSide, document: SchematicDocument,
                                        into file: inout GerberWriter) {
         let chips = document.chips.filter { $0.board?.side == side }
         for text in document.texts where text.side == side && text.layer == .silkscreen {

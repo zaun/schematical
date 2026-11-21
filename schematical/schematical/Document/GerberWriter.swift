@@ -62,9 +62,31 @@ nonisolated struct GerberWriter {
     private var object: Object?
     private var written: Object?
 
-    init(attributes: [String], top: Double) {
+    /// One drawn object as the page printout replays it (`records`): board mm,
+    /// the polarity and `.AperFunction` it had when drawn.
+    struct Mark: Equatable {
+        enum Kind: Equatable {
+            case circle(centre: CGPoint, diameter: Double)
+            case rect(CGRect)
+            /// A pen `width` mm wide, round ends and joins; `closed` draws back to the first point.
+            case stroke([CGPoint], width: Double, closed: Bool)
+            case region([CGPoint])
+        }
+
+        var kind: Kind
+        var dark: Bool
+        var function: String?
+    }
+
+    /// Whether the writer keeps what it draws in `marks`. Off for the Gerber files: only File > Print / PDF
+    /// replays them.
+    let records: Bool
+    private(set) var marks: [Mark] = []
+
+    init(attributes: [String], top: Double, records: Bool = false) {
         self.attributes = attributes
         self.top = top
+        self.records = records
     }
 
     /// Whether anything has been drawn.
@@ -134,6 +156,14 @@ nonisolated struct GerberWriter {
         select(aperture)
         writeObjectAttributes()
         body.append("\(xy(point))D03*")
+        guard records else { return }
+        switch aperture {
+        case let .circle(d): marks.append(Mark(kind: .circle(centre: point, diameter: Double(d) / 1e6), dark: dark, function: function))
+        case let .rect(w, h):
+            let (w, h) = (Double(w) / 1e6, Double(h) / 1e6)
+            marks.append(Mark(kind: .rect(CGRect(x: point.x - w / 2, y: point.y - h / 2, width: w, height: h)),
+                              dark: dark, function: function))
+        }
     }
 
     /// A polyline stroked with a round pen `width` mm wide (round ends and
@@ -150,6 +180,7 @@ nonisolated struct GerberWriter {
         body.append("\(xy(first))D02*")
         for point in points.dropFirst() { body.append("\(xy(point))D01*") }
         if closed, let last = points.last, !TraceRoute.same(last, first) { body.append("\(xy(first))D01*") }
+        if records { marks.append(Mark(kind: .stroke(points, width: width, closed: closed), dark: dark, function: function)) }
     }
 
     /// A filled outline (G36/G37). Fewer than 3 points draws nothing.
@@ -163,6 +194,7 @@ nonisolated struct GerberWriter {
         if !TraceRoute.same(contour[contour.count - 1], contour[0]) { body.append("\(xy(contour[0]))D01*") }
         body.append("G37*")
         if function != nil { body.append("%TD.AperFunction*%") }
+        if records { marks.append(Mark(kind: .region(contour), dark: dark, function: function)) }
     }
 
     /// `shape`, grown by `grow` mm all round (its outline stroked with a
