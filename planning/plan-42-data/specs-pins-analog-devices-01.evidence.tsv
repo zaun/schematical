@@ -1,0 +1,22 @@
+pdf	package	series	page	note
+datasheets/regulator/analog-devices/1121fg.pdf	TO-261-4, TO-261AA	-	2 (pin functions p.8)	ST package 3-lead SOT-223 front view: 1 VIN, 2 GND, 3 OUTPUT; tab is GND, unnumbered (count override 3); no SHDN on ST
+datasheets/regulator/analog-devices/1521335fb.pdf	TO-261-4, TO-261AA	-	2 (pin functions p.8-9)	ST package 3-lead SOT-223: 1 IN, 2 GND, 3 OUT; tab GND unnumbered (count override 3); no SHDN/SENSE on ST
+datasheets/regulator/analog-devices/1613fs.pdf	SOT-23-5 Thin, TSOT-23-5	-	2 (pin functions p.4)	S5: 1 SW, 2 GND, 3 FB, 4 SHDN, 5 VIN; FB 1.23V; SHDN high=on; boost, SW is out
+datasheets/regulator/analog-devices/16151fas.pdf	SOT-23-5 Thin, TSOT-23-5	-	2 (pin functions p.3)	S5: 1 SW, 2 GND, 3 FB, 4 SHDN, 5 VIN; FB 1.23V; SHDN high=on; min input 1.0V (LT1615-1)
+datasheets/regulator/analog-devices/1618fas.pdf	10-WFDFN Exposed Pad	-	2 (pin functions p.4)	DD: 1 FB, 2 ISN, 3 ISP, 4 IADJ, 5 GND, 6 SW, 7 SW, 8 VIN, 9 SHDN, 10 VC; EP 11 GND omitted; FB 1.263V; input 1.6V-18V
+datasheets/regulator/analog-devices/1761sff.pdf	SOT-23-5 Thin, TSOT-23-5	-	2 (pin functions p.14)	-X fixed: 1 IN, 2 GND, 3 SHDN, 4 BYP, 5 OUT; -SD adjustable: 4 ADJ (1.22V to ground), 3 SHDN; input 1.8V-20V
+datasheets/regulator/analog-devices/1763fh.pdf	12-WFDFN Exposed Pad	-	2 (pin functions p.13)	DE: 1 NC, 2-3 OUT, 4 NC, 5 SENSE/ADJ (ADJ for LT1763), 6 BYP, 7 GND, 8 SHDN, 9 NC, 10-11 IN, 12 NC; EP 13 GND omitted; ADJ 1.22V
+datasheets/regulator/analog-devices/1763fh.pdf	8-SOIC (0.154", 3.90mm Width)	-	2 (pin functions p.13)	S8: 1 OUT, 2 SENSE/ADJ (SENSE fixed, ADJ adjustable), 3 GND, 4 BYP, 5 SHDN, 6 GND, 7 GND, 8 IN; ADJ 1.22V
+datasheets/regulator/analog-devices/1765fd.pdf	16-TSSOP (0.173", 4.40mm Width) Exposed Pad	-	2 (pin functions p.6)	FE: 1 GND, 2 BOOST, 3-4 VIN, 5-6 SW, 7 NC, 8-9 GND, 10 NC, 11 SHDN, 12 FB, 13 VC, 14 SYNC, 15 NC, 16 GND; EP 17 GND omitted; fixed 3.3V buck, SW is out
+datasheets/regulator/analog-devices/1844fa.pdf	SOT-23-5 Thin, TSOT-23-5	-	2 (pin functions p.6)	fixed: 1 IN, 2 GND, 3 SHDN (active-high on), 4 BYP, 5 OUT; -BYP adjustable: 3 BYP, 4 ADJ (1.25V), no SHDN pin; input 1.6V-6.5V
+datasheets/regulator/analog-devices/1930f.pdf	SOT-23-5 Thin, TSOT-23-5	-	2 (pin functions p.3)	S5: 1 SW, 2 GND, 3 FB (1.255V), 4 SHDN, 5 VIN; min operating 2.45V
+datasheets/regulator/analog-devices/1933fe.pdf	SOT-23-6 Thin, TSOT-23-6	-	2 (pin functions p.6)	S6: 1 BOOST, 2 GND, 3 FB (1.245V), 4 SHDN, 5 VIN, 6 SW; input 3.6V-36V; buck
+datasheets/regulator/analog-devices/1935f.pdf	SOT-23-5 Thin, TSOT-23-5	-	2 (pin functions p.4)	S5: 1 SW, 2 GND, 3 FB (1.265V), 4 SHDN, 5 VIN; input 2.3V-16V
+datasheets/regulator/analog-devices/1956f.pdf	16-SSOP (0.154", 3.90mm Width)	-	2 (pin functions p.6)	GN16: 1 GND, 2 SW, 3 NC, 4 VIN, 5 NC, 6 BOOST, 7 NC, 8-9 GND, 10 BIAS, 11 VC, 12 FB/SENSE, 13 NC, 14 SYNC, 15 SHDN, 16 GND; LT1956-5 fixed 5V buck; SW is out
+datasheets/regulator/analog-devices/1962fb.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	-	2 (pin functions p.11)	MS8: 1 OUT, 2 SENSE/ADJ (SENSE for fixed), 3 BYP, 4 GND, 5 SHDN, 6 NC, 7 NC, 8 IN; input 1.8V-20V
+datasheets/regulator/analog-devices/1965fb.pdf	8-WFDFN Exposed Pad	-	2 (pin functions p.11)	DD: 1-2 OUT, 3 SENSE/ADJ (ADJ 1.20V), 4-5 GND, 6 SHDN, 7-8 IN; EP 9 GND omitted; input 1.8V-20V
+datasheets/regulator/analog-devices/3012fd.pdf	12-WFDFN Exposed Pad	-	2 (pin functions p.8)	DE: 1 NC, 2-3 OUT, 4 ADJ (1.24V), 5 GND, 6-7 NC, 8 SHDN, 9 NC, 10-11 IN, 12 NC; EP 13 GND omitted; input 4V-80V
+datasheets/regulator/analog-devices/3014fd.pdf	SOT-23-5 Thin, TSOT-23-5	-	2 (pin functions p.7)	S5: 1 IN, 2 GND, 3 SHDN, 4 ADJ (1.22V), 5 OUT; input 3V-80V
+datasheets/regulator/analog-devices/3021fc.pdf	8-SOIC (0.154", 3.90mm Width)	-	2 (pin functions p.9)	S8 LT3021-FIXED: 1 NC, 2 OUT, 3 SENSE, 4 AGND, 5 SHDN, 6 PGND, 7 NC, 8 IN; VIN 0.9V-10V
+datasheets/regulator/analog-devices/3023fa.pdf	10-WFDFN Exposed Pad	-	2 (pin functions p.8)	DD: 1 BYP2, 2 ADJ2, 3 GND, 4 ADJ1, 5 BYP1, 6 OUT1, 7 SHDN1, 8 IN (shared), 9 SHDN2, 10 OUT2; EP 11 GND omitted; dual, ADJ 1.22V
+datasheets/regulator/analog-devices/3027fa.pdf	10-WFDFN Exposed Pad	-	2 (pin functions p.8)	DD: 1 BYP2, 2 ADJ2, 3 SHDN2, 4 ADJ1, 5 BYP1, 6 OUT1, 7 SHDN1, 8 IN1, 9 IN2, 10 OUT2; no GND pin, only EP 11 = GND (omitted); dual independent inputs, ADJ 1.22V

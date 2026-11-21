@@ -1,0 +1,3 @@
+pdf	package	count	evidence
+datasheets/regulator/analog-devices/1121fg.pdf	TO-261-4, TO-261AA	3	p.2 ST PACKAGE 3-lead plastic SOT-223: pins 1 VIN, 2 GND, 3 OUTPUT; tab is GND but unnumbered
+datasheets/regulator/analog-devices/1521335fb.pdf	TO-261-4, TO-261AA	3	p.2 ST PACKAGE 3-lead plastic SOT-223: pins 1 IN, 2 GND, 3 OUT; tab is GND but unnumbered

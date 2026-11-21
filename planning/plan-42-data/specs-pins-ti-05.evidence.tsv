@@ -1,0 +1,23 @@
+pdf	package	series	page	note
+datasheets/regulator/ti/tps62081.pdf	8-WFDFN Exposed Pad	DCS-Control™	4	DSG 8-pin WSON Pin Functions: 1 EN, 2 GND, 3 MODE, 4 FB, 5 VOS, 6 PG (open drain), 7 SW, 8 VIN; thermal pad omitted; out=VOS sense
+datasheets/regulator/ti/tps62200.pdf	SC-74A, SOT-753	-	3	DBV 5-pin SOT-23: 1 VI, 2 GND, 3 EN, 4 FB, 5 SW (no VOUT pin; FB tied to output on fixed parts); out=SW
+datasheets/regulator/ti/tps62230.pdf	6-UFDFN	-	5	DRY 6-pin USON: 1 MODE, 2 SW, 3 VIN, 4 GND, 5 EN, 6 FB; out=SW
+datasheets/regulator/ti/tps62263.pdf	6-WDFN Exposed Pad	-	3	DRV 6-pin WSON column: 1 SW, 2 MODE, 3 FB, 4 EN, 5 VIN, 6 GND; thermal pad omitted
+datasheets/regulator/ti/tps62612.pdf	6-XFBGA, DSBGA	-	4	Pin assignments CSP-6 top view / Terminal Functions: A1 MODE, A2 VIN, B1 SW, B2 EN, C1 FB, C2 GND
+datasheets/regulator/ti/tps62620.pdf	6-UFBGA, DSBGA	-	3	YFF/YFD 6-pin DSBGA Pin Functions: A1 MODE, A2 VIN, B1 SW, B2 EN, C1 FB, C2 GND
+datasheets/regulator/ti/tps62660.pdf	6-UFBGA, DSBGA	-	3	YFF 6-pin DSBGA Pin Functions: A1 MODE, A2 VIN, B1 SW, B2 EN, C1 FB, C2 GND
+datasheets/regulator/ti/tps62671.pdf	6-XFBGA, DSBGA	-	4	CSP-6 Pin Functions: A1 MODE, A2 VIN, B1 SW, B2 EN, C1 FB, C2 GND
+datasheets/regulator/ti/tps62690.pdf	6-UFBGA, DSBGA	-	5	CSP-6 PIN FUNCTIONS: A1 MODE, A2 VIN, B1 SW, B2 EN, C1 FB, C2 GND
+datasheets/regulator/ti/tps62698.pdf	6-XFBGA, DSBGA	-	5	CSP-6 PIN FUNCTIONS: A1 MODE, A2 VIN, B1 SW, B2 EN, C1 FB, C2 GND
+datasheets/regulator/ti/tps62932.pdf	SOT-583	-	3	Fig 7-1 8-pin SOT583 DRL (TPS62932/62933/62933F) Table 7-1: 1 RT, 2 EN, 3 VIN, 4 GND, 5 SW, 6 BST, 7 SS, 8 FB; out=SW; Vref 0.8 V
+datasheets/regulator/ti/tps62a01.pdf	SOT-563, SOT-666	-	3	Fig 5-1 DRL SOT563-6 (TPS62A01) Table 5-1: 1 GND, 2 SW, 3 VIN, 4 EN, 5 FB, 6 PG (open drain); Vref 0.6 V; out=SW
+datasheets/regulator/ti/tps63024.pdf	20-UFBGA, DSBGA	-	3	YFF WCSP-20 Pin Functions: VOUT A1-A3, FB A4, L2 B1-B3, PFM/PWM B4, PGND C1-C3, GND C4, L1 D1-D3, EN D4, VIN E1-E3, VINA E4
+datasheets/regulator/ti/tps709.pdf	6-WDFN Exposed Pad	-	3	Fig 5-4 DRV 6-pin WSON, Table 5-1 DRV column: 1 OUT, 2 NC, 3 GND, 4 EN, 5 NC, 6 IN; dropout max 1.4 V (TPS70933, 150 mA)
+datasheets/regulator/ti/tps71.pdf	"8-DIP (0.300"", 7.62mm)"	-	1	D or P package top view (front page, no pin table): 1 GND, 2 EN, 3 IN, 4 IN, 5 OUT, 6 OUT, 7 SENSE/FB (FB on TPS7101), 8 PG; EN active low (high=sleep); PG open drain per application text; Vref 1.178 V
+datasheets/regulator/ti/tps712.pdf	10-VFDFN Exposed Pad	-	4	DRC 10-pin SON fixed version / Terminal Functions: 1 IN, 2 NC, 3 OUT1, 4 OUT2, 5 GND, 6 NR, 7 FB2/NC, 8 EN2, 9 FB1/NC, 10 EN1; FBx/NC are NC on fixed parts
+datasheets/regulator/ti/tps715.pdf	5-TSSOP, SC-70-5, SOT-353	-	3	Fig 5-1 DCK 5-pin SC70 fixed, Table 5-1: 1 NC, 2 GND, 3 NC, 4 IN, 5 OUT (no enable)
+datasheets/regulator/ti/tps717.pdf	5-TSSOP, SC-70-5, SOT-353	-	3	DCK 5-pin SC70 Pin Functions: 1 IN, 2 GND, 3 EN, 4 NR/FB (NR on fixed), 5 OUT
+datasheets/regulator/ti/tps71h01.pdf	"20-PowerTSSOP (0.173"", 4.40mm Width)"	-	1	PWP 20-pin top view (front page): 1,2,9-12,19,20 GND/HEATSINK, 3 GND, 4,8,17,18 NC, 5 EN (overbar, active low), 6-7 IN, 13-14 OUT, 15 FB (SENSE/FB), 16 PG; thermal pad omitted
+datasheets/regulator/ti/tps720.pdf	6-UFBGA, DSBGA	-	3	YZU 5-pin DSBGA Pin Functions: A1 IN, A3 OUT, B2 GND, C1 BIAS, C3 EN (5 balls, not 6)
+datasheets/regulator/ti/tps721.pdf	SC-74A, SOT-753	-	4	Terminal Functions: 1 IN, 2 GND, 3 EN, 4 NC/FB (FB on adjustable TPS72101), 5 OUT; Vref 1.225 V
+datasheets/regulator/ti/tps727.pdf	4-UFBGA, DSBGA	-	4	YFF DSBGA-4 Pin Functions: A1 EN, A2 IN, B1 GND, B2 OUT (same for all voltage versions, only the dot mark differs)

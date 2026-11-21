@@ -1,0 +1,23 @@
+pdf	package	series	page	note
+datasheets/regulator/microchip/MIC5305.pdf	6-UDFN Exposed Pad, 6-TMLF®	-	3	Pin Description p.3 Thin MLF-6 Fixed: 1 EN, 2 GND, 3 VIN, 4 VOUT, 5 NC, 6 BYP (EPAD not a pin)
+datasheets/regulator/microchip/MIC5305.pdf	6-VDFN Exposed Pad, 6-MLF®	-	3	Pin Description p.3 MLF-6: fixed 5=NC, adjustable 5=ADJ; 1 EN, 2 GND, 3 VIN, 4 VOUT, 6 BYP; VOUT=1.25(1+R1/R2) p.8; dropout max 110mV at 150mA (VOUT<=2.8V)
+datasheets/regulator/microchip/MIC5305.pdf	SOT-23-5 Thin, TSOT-23-5	-	3	Pin Description p.3 TSOT23-5 Fixed: 1 VIN, 2 GND, 3 EN, 4 BYP, 5 VOUT (diagram agrees)
+datasheets/regulator/microchip/MIC5310.pdf	8-VFDFN Exposed Pad, 8-MLF®	-	4	Pin Description p.4 (diagram agrees): 1 VIN, 2 GND, 3 BYP, 4 EN2, 5 EN1, 6 NC, 7 VOUT2, 8 VOUT1
+datasheets/regulator/microchip/MIC5330.pdf	8-VFDFN Exposed Pad, 8-MLF®	-	4	Pin Description p.4: 1 VIN, 2 GND, 3 BYP, 4 EN2, 5 EN1, 6 NC, 7 VOUT2, 8 VOUT1
+datasheets/regulator/microchip/MIC5320.pdf	6-WFDFN Exposed Pad, 6-MLF®	-	4	Pin Description p.4 Thin MLF-6/MLF-6: 1 VIN, 2 GND, 3 EN2, 4 EN1, 5 VOUT2, 6 VOUT1
+datasheets/regulator/microchip/MIC5317-High-Performance-Single-150mA-LDO-DS20006195B.pdf	SOT-23-5 Thin, TSOT-23-5	-	9	Table 3-1 TSOT23-5: 1 VIN, 2 GND, 3 EN, 4 NC, 5 VOUT
+datasheets/regulator/microchip/MIC5365-6-High-Performance-Single-150mA-LDO-DS20006605.pdf	5-TSSOP, SC-70-5, SOT-353	-	8	Table 3-1 SC70-5: 1 VIN, 2 GND, 3 EN, 4 NC, 5 VOUT
+datasheets/regulator/microchip/MIC5365-6-High-Performance-Single-150mA-LDO-DS20006605.pdf	SOT-23-5 Thin, TSOT-23-5	-	8	Table 3-1 TSOT23-5: 1 VIN, 2 GND, 3 EN, 4 NC, 5 VOUT
+datasheets/regulator/microchip/MIC5376-7-8-High-Performance-Low-Dropout-150mA-LDO-DS20006080A.pdf	5-TSSOP, SC-70-5, SOT-353	-	9	Table 3-1 MIC5377/8 SC-70-5: 1 VIN, 2 GND, 3 EN, 4 ADJ, 5 VOUT; VREF 1.0V
+datasheets/regulator/microchip/MIC5501-02-03-04-300mA-Single-Output-LDO-in-Small-Packages-DS20006006B.pdf	SC-74A, SOT-753	-	9	Table 3-1 SOT23-5: 1 VIN, 2 GND, 3 EN, 4 NC, 5 VOUT
+datasheets/regulator/microchip/MIC5528-High-Performance-500mA-LDO-in-Thin-and-Extra-Thin-DFN-Packages-DS20005982B.pdf	6-UFDFN Exposed Pad	-	12	Table 3-1: 1,2 VOUT, 3 GND, 4 EN, 5 NC, 6 VIN
+datasheets/regulator/microchip/MIC69101-103-Single-Supply-VIN-LOW-VIN-LOW-VOUT-1A-LDO-DS20006018A.pdf	10-VFDFN Exposed Pad, 10-MLF®	-	9	Table 3-1 + diagram p.1: 1 FLG (open collector), 2 NC, 3 GND, 4 NC, 5 NC, 6 EN, 7 VIN, 8 NC, 9 VOUT, 10 ADJ (SNS on fixed); VOUT=0.5(R2/R1+1)
+datasheets/regulator/microchip/MIC94310-Data-Sheet-20006105B.pdf	4-UFDFN Exposed Pad	Ripple Blocker™	9	Table 3-1 TDFN: 1 VOUT, 2 GND, 3 EN, 4 VIN
+datasheets/regulator/microchip/MIC94325.pdf	6-UFDFN Exposed Pad	Ripple Blocker™	3	Pin Description p.3 Thin DFN: fixed 1,2 VOUT, 3 GND, 4 EN, 5,6 VIN; adjustable 1 VOUT, 2 ADJ; Adjust Reference 1.1V typ
+datasheets/regulator/microchip/Microsemi_LX7219_Datasheet_V2.pdf	14-PowerVFQFN	-	7 (printed p.4-5)	Fig.2 pinout + Table 2: 1 PGOOD, 2 SDA, 3 GND, 4 SW, 5-8 VIN, 9 SW, 10 EN, 11 AGND, 12 VOUT (sense/FB divider tap), 13 SCL, 14 AVIN; VOUT=VREF(1+RTOP/RBOTTOM), VREF 0.9V for -02
+datasheets/regulator/microchip/TC1262-Data-Sheet-DS200013732.pdf	TO-261-4, TO-261AA	-	4 (Table 2-1)	Table 2-1 / p.1 SOT-223: 1 VIN, 2 GND, 3 VOUT; tab is GND, unnumbered -> omitted (3 pins)
+datasheets/regulator/microchip/lm2576.pdf	TO-263-6, D2PAK (5 Leads + Tab), TO-263BA	-	2	Pin Configurations 5-LEAD TO-263 (U): 1 VIN, 2 OUTPUT, 3 GROUND, 4 FEEDBACK, 5 ON/OFF (low = on, IIL ON/OFF=0V (ON)); tab GND unnumbered
+datasheets/regulator/microchip/mic22405.pdf	20-VFQFN Exposed Pad, 20-MLF®	-	2-3	Pin Configuration figure p.2 + Pin Description p.2-3: 1 PG, 2 CF, 3 NC, 4 COMP, 5 NC, 6 FB, 7 SGND, 8 SVIN, 9 NC, 10 PVIN, 11 PGND, 12-15 SW, 16 PGND, 17 PVIN, 18 EN/DLY, 19 NC, 20 RC
+datasheets/regulator/microchip/mic2250.pdf	8-VFDFN Exposed Pad, 8-MLF®	-	2	Pin Config + Pin Description p.2 MIC2250YML: 1 FB, 2 AGND, 3 PGND, 4 SW, 5 NC, 6 VIN, 7 DITH, 8 EN
+datasheets/regulator/microchip/mic2250.pdf	SOT-23-5 Thin, TSOT-23-5	-	2	Pin Config + Pin Description p.2 MIC2250-2YD5: 1 SW, 2 PGND (GND in figure), 3 FB, 4 EN (shared EN/DITH lead), 5 VIN
+datasheets/regulator/microchip/mic2295.pdf	SOT-23-5 Thin, TSOT-23-5	-	2	Pin Config + Pin Description p.2 BD5/YD5: 1 SW, 2 GND, 3 FB, 4 EN, 5 VIN

@@ -1,0 +1,23 @@
+pdf	package	series	page	note
+datasheets/regulator/ti/tlv707.pdf	4-XDFN Exposed Pad	-	3	Table 5-1 Pin Functions / Fig 5-1 DQN X2SON-4: 1 OUT, 2 GND, 3 EN, 4 IN; thermal pad omitted; VIN 2.0-5.5 V
+datasheets/regulator/ti/tlv710.pdf	6-WFDFN	-	5	PIN CONFIGURATION DSE SON-6 + PIN DESCRIPTIONS: 1 EN1, 2 IN, 3 EN2, 4 GND, 5 OUT2, 6 OUT1; dual LDO shared IN; max dropout 285 mV at 200 mA (Electrical Characteristics p.3, 2.0<=VOUT<2.4 V); VIN 2.0-5.5 V
+datasheets/regulator/ti/tlv712.pdf	6-WFDFN	-	5	PIN CONFIGURATIONS DSE SON-6 + PIN DESCRIPTIONS: 1 IN, 2 GND, 3 OUT, 4 N/C, 5 N/C, 6 EN; no dropout spec (datasheet: not relevant, VOUT<=1.2 V and VIN>=2.0 V); VIN 2.0-5.5 V
+datasheets/regulator/ti/tlv713p.pdf	4-XDFN Exposed Pad	-	5	Pin Functions DQN X2SON-4: 1 OUT, 2 GND, 3 EN, 4 IN; thermal pad omitted; VIN 1.4-5.5 V
+datasheets/regulator/ti/tlv713p.pdf	SC-74A, SOT-753	-	5	Pin Functions DBV SOT-23-5: 1 IN, 2 GND, 3 EN, 4 NC, 5 OUT; VIN 1.4-5.5 V
+datasheets/regulator/ti/tlv716p.pdf	6-XFDFN Exposed Pad	-	3	Pin Functions DPQ X2SON-6: 1 OUT1, 2 OUT2, 3 GND, 4 EN2, 5 IN, 6 EN1; dual LDO shared IN; PAD omitted; VIN 1.4-5.5 V
+datasheets/regulator/ti/tlv717p.pdf	4-XDFN Exposed Pad	-	3	Pin Functions DQN X2SON-4: 1 OUT, 2 GND, 3 EN, 4 IN; thermal pad omitted; VIN 1.7-5.5 V
+datasheets/regulator/ti/tlv733p.pdf	4-XDFN Exposed Pad	-	4	Pin Functions DQN X2SON-4: 1 OUT, 2 GND, 3 EN, 4 IN; thermal pad omitted; VIN 1.4-5.5 V
+datasheets/regulator/ti/tlv758p.pdf	6-WDFN Exposed Pad	-	3	Table 4-1 / Fig 4-1 DRV WSON-6 (adjustable): 1 OUT, 2 FB, 3 GND, 4 EN, 5 DNC, 6 IN; thermal pad omitted; VFB 0.55 V, VOUT = VFB x (1+R1/R2); VIN 1.5-6.0 V
+datasheets/regulator/ti/tps53311.pdf	16-VFQFN Exposed Pad	SmoothPWM™, Eco-Mode™	3	Pin Functions RGT VQFN-16: 1 EN, 2 SYNC, 3 PGD (open drain), 4 VBST, 5-7 SW, 8 PS, 9 COMP, 10 FB, 11 AGND, 12 VDD, 13-14 VIN, 15-16 PGND; no VOUT pin so out=SW; VREF 0.6 V; VIN 2.9-6 V
+datasheets/regulator/ti/tps54283.pdf	"14-PowerTSSOP (0.173"", 4.40mm Width)"	-	9	PIN CONNECTIONS HTSSOP (PWP) + TERMINAL FUNCTIONS: 1 PVDD1, 2 BOOT1, 3 SW1, 4 GND, 5 EN1, 6 EN2, 7 FB1, 8 FB2, 9 ILIM2, 10 SEQ, 11 BP, 12 SW2, 13 BOOT2, 14 PVDD2; EN1/EN2 active low (<0.9 V enables, >1.55 V disables); VFB ref 0.8 V; PVDD2 4.5-28 V; thermal pad omitted
+datasheets/regulator/ti/tps54495.pdf	"16-PowerTSSOP (0.173"", 4.40mm Width)"	D-CAP2™, Eco-Mode™	5	PIN FUNCTIONS PWP column: 1 VIN1, 2 VBST1, 3 SW1, 4 PGND1, 5 EN1, 6 SS1, 7 VFB1, 8 GND, 9 VREG5, 10 VFB2, 11 SS2, 12 EN2, 13 PGND2, 14 SW2, 15 VBST2, 16 VIN2; VFB 0.765 V; VIN 4.5-18 V; exposed pad omitted
+datasheets/regulator/ti/tps561201.pdf	SOT-23-6 Thin, TSOT-23-6	SWIFT™	3	Fig 5-1 DDC SOT-6 / Pin Functions: 1 GND, 2 SW, 3 VIN, 4 VFB, 5 EN, 6 VBST; VFBTH 768 mV typ; VIN 4.5-17 V
+datasheets/regulator/ti/tps564208.pdf	SOT-23-6 Thin, TSOT-23-6	-	3	DDC 6-pin SOT / Pin Functions: 1 GND, 2 SW, 3 VIN, 4 VFB, 5 EN, 6 VBST; VFBTH 760 mV typ; VIN 4.5-17 V
+datasheets/regulator/ti/tps61021a.pdf	8-WFDFN Exposed Pad	-	3	Pin Functions DSG WSON-8: 1 AGND, 2 FB, 3-4 VOUT, 5 EN, 6-7 SW, 8 VIN, 9 PGND (the thermal pad, numbered 9 in the table: power ground); VREF 795 mV typ PWM; VIN 0.5-4.4 V
+datasheets/regulator/ti/tps61202.pdf	10-WFDFN Exposed Pad	-	4	Pin Functions DSC/DRC 10-pin: 1 VAUX, 2 VOUT, 3 L, 4 PGND, 5 VIN, 6 EN, 7 UVLO, 8 PS, 9 GND, 10 FB (to VOUT on fixed parts); exposed pad omitted; VIN 0.3-5.5 V
+datasheets/regulator/ti/tps61258.pdf	9-UFBGA, DSBGA	-	4	Pin Functions (DSBGA balls): A1/A2 VOUT, A3 VIN, B1/B2 SW, B3 EN, C1/C2 GND, C3 BP (mode select, standby bias); TPS61259 VIN 2.65-4.85 V (7.3)
+datasheets/regulator/ti/tps61322.pdf	SC-74A, SOT-753	-	3	Pin Functions TPS61322xA DBV SOT-23-5: 1 SW, 2 GND, 3 NC, 4 VOUT, 5 NC; no VIN or EN pin (input supplies via inductor to SW, always enabled), so in=SW; VIN 0.9-5.5 V
+datasheets/regulator/ti/tps62006.pdf	"10-TFSOP, 10-MSOP (0.118"", 3.00mm Width)"	-	3	Pin Functions DGS VSSOP-10: 1 VIN, 2 FC, 3 GND, 4 PG (open drain), 5 FB, 6 ILIM, 7 SYNC, 8 EN, 9 L (switch), 10 PGND; VIN 2-5.5 V
+datasheets/regulator/ti/tps62040.pdf	"10-PowerTFSOP, 10-MSOP (0.118"", 3.00mm Width)"	-	4	PIN ASSIGNMENTS / Terminal Functions DGQ HVSSOP-10: 1 EN, 2-3 VIN, 4 GND, 5 FB (to output on fixed), 6 MODE, 7-8 SW, 9-10 PGND; PowerPAD omitted; VIN 2.5-6 V
+datasheets/regulator/ti/tps62040.pdf	10-VFDFN Exposed Pad	-	4	PIN ASSIGNMENTS / Terminal Functions DRC VSON-10: 1 EN, 2-3 VIN, 4 GND, 5 FB (to output on fixed), 6 MODE, 7-8 SW, 9-10 PGND; PowerPAD omitted; VIN 2.5-6 V
+datasheets/regulator/ti/tps62067.pdf	8-WFDFN Exposed Pad	-	3	Table 6-1 / Fig 6-1 DSG WSON-8: 1 PGND, 2 SW, 3 AGND, 4 FB, 5 EN, 6 PG (TPS62067: open drain; pin 6 is MODE on TPS62065), 7 AVIN, 8 PVIN; PowerPAD omitted; Vref 0.6 V; VIN 2.9-6 V

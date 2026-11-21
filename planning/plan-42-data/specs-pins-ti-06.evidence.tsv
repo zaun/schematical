@@ -1,0 +1,19 @@
+pdf	package	series	page	note
+datasheets/regulator/ti/tps728.pdf	5-UFBGA, DSBGA	-	5	Pin Descriptions p.5, YZU WCSP-5: C1 OUT, C3 IN, A1 EN, A3 VSET, B2 GND
+datasheets/regulator/ti/tps735.pdf	8-VDFN Exposed Pad	-	4	Pin Functions p.4, DRB 8-pin SON: 1 OUT, 2 NC, 3 FB/NR (NR on fixed), 4 GND, 5 EN, 6 NC, 7 NC, 8 IN; thermal pad omitted
+datasheets/regulator/ti/tps740.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)"	-	6	Table 1 Terminal Functions p.6, DGK MSOP-8: 1 EN/FB (FB on adjustable, no enable), 2 BIAS, 3 IN, 4 OUT, 5-8 GND
+datasheets/regulator/ti/tps74401.pdf	20-VQFN Exposed Pad	-	3	Table 4-1 Pin Functions p.3, RGW VQFN-20: IN 5-8, OUT 1/18-20, NC 2-4/13/14/17, PG 9 open-drain, BIAS 10, EN 11, GND 12, SS 15, FB 16; pad omitted
+datasheets/regulator/ti/tps74901.pdf	20-VQFN Exposed Pad	-	3	Table 4-1 Pin Functions p.3, RGW VQFN-20: IN 5-8, OUT 1/18-20, NC 2-4/13/14/17, PG 9 open-drain, BIAS 10, EN 11, GND 12, SS 15, FB 16
+datasheets/regulator/ti/tps757.pdf	TO-263-6, D2PAK (5 Leads + Tab), TO-263BA	-	3	Terminal Functions p.3, KTT TO-263: 1 EN (low = on), 2 IN, 3 GND, 4 OUTPUT, 5 FB/PG (FB on adjustable); tab unnumbered
+datasheets/regulator/ti/tps758.pdf	TO-263-6, D2PAK (5 Leads + Tab), TO-263BA	-	4	Table 1 Terminal Functions p.4: 1 EN (high = on), 2 IN, 3 GND, 4 OUT, 5 FB/NC (FB on adjustable); TPS758A01 Vref 1.24 V; tab unnumbered
+datasheets/regulator/ti/tps760.pdf	SC-74A, SOT-753	-	2	Terminal Functions p.2, DBV SOT-23-5: 1 IN, 2 GND, 3 EN (high = on), 4 NC, 5 OUT
+datasheets/regulator/ti/tps761.pdf	SC-74A, SOT-753	-	2	Terminal Functions p.2, DBV SOT-23-5: 1 IN, 2 GND, 3 EN (high = on), 4 NC, 5 OUT
+datasheets/regulator/ti/tps769.pdf	SC-74A, SOT-753	-	3	Table 4-1 p.3, DBV SOT-23-5: 1 IN, 2 GND, 3 EN (low enables), 4 FB/NC (NC on fixed), 5 OUT
+datasheets/regulator/ti/tps770.pdf	SC-74A, SOT-753	-	3	Table 4-1 p.3, DBV SOT-23-5: 1 IN, 2 GND, 3 EN (low enables), 4 FB/NC (NC on fixed), 5 OUT
+datasheets/regulator/ti/tps793.pdf	SOT-23-6	-	3	Table 4-1 p.3, DBV 6-pin adjustable: 1 IN, 2 GND, 3 EN, 4 NR/NC, 5 FB, 6 OUT
+datasheets/regulator/ti/tps799.pdf	5-UFBGA, DSBGA	-	3	Table 5-1 + Fig 5-3/5-4 p.3, YZU DSBGA-5: C3 IN, C1 OUT, A1 EN, B2 GND, A3 NR (fixed) / FB (adjustable)
+datasheets/regulator/ti/tps799l.pdf	5-XFBGA, DSBGA	-	3	Pin Functions p.3, YZY DSBGA-5: A1 EN, A3 NR, B2 GND, C1 OUT, C3 IN
+datasheets/regulator/ti/tps7a21.pdf	4-XFBGA, WLCSP	-	3	Table 5-1 p.3, YWD DSBGA-4 top view: A1 IN, A2 OUT, B1 EN (high = on), B2 GND
+datasheets/regulator/ti/tps7a24.pdf	SC-74A, SOT-753	-	3	Table 5-1 p.3, DBV adjustable SOT-23-5: 1 IN, 2 GND, 3 EN (high = on), 4 FB, 5 OUT
+datasheets/regulator/ti/ua78l.pdf	"8-SOIC (0.154"", 3.90mm Width)"	-	3	Fig 5-1 + pin table p.3, D SOIC-8: 1 OUTPUT, 2/3/6/7 COMMON, 4/5 NC, 8 INPUT
+datasheets/regulator/ti/ua78l.pdf	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	-	3	Fig 5-2 + pin table p.3, LP TO-92: 1 OUTPUT, 2 COMMON, 3 INPUT

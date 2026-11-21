@@ -1,0 +1,22 @@
+pdf	package	series	page	note
+datasheets/regulator/microchip/0.5A-1.2-MHz-2-MHz-Wide-Input-Range-Boost-Regulators-Each-with-Integrated-Switch-and-Schottky-Diode-20006620A.pdf	8-VFDFN Exposed Pad, 8-MLF®	-	9	Table 3-1 p.9: 1 VOUT, 2 VIN, 3 VDD, 4 EN, 5 SS, 6 FB, 7 SW, 8 PGND, EP omitted; VFB 1.25 V p.4
+datasheets/regulator/microchip/20005253A.pdf	8-VFDFN Exposed Pad	-	11	Table 3-1 p.11 ADJ column (2x3 DFN): 1 EN, 2 VFB, 3 PG (open-drain), 4 VOUT, 5 SW, 6 PGND, 7 SGND, 8 VIN, EP omitted; VFB 1.21 V p.4
+datasheets/regulator/microchip/20005315B.pdf	SC-74A, SOT-753	-	9	Table 3-1 p.9 SOT-23 column: 1 SW, 2 GND, 3 VFB, 4 EN, 5 VIN; no VOUT pin so SW is out; VFB 1.227 V
+datasheets/regulator/microchip/20005384A.pdf	"8-SOIC (0.154"", 3.90mm Width)"	-	2,4	p.2 8-lead SOIC drawing (photo, no numbers; pin 1 dot at +VIN end, read counter-clockwise: +VIN, NC, GND, VOUT, TRIM, NC, GATE, NC) and Table 2-1 p.4 names; Vref ~2.5 V estimated from Fig 3-3 p.6 (12 V at R2/R1=3.75, 10 V at 3.0)
+datasheets/regulator/microchip/20005399B.pdf	TO-243AA	-	2	p.2 TO-243AA (SOT-89) drawing: left to right VIN, VOUT, ADJ; tab is VOUT (same as pin 2); Table 2-1 p.5; Vref 1.20 V between VOUT and ADJ p.1/p.4
+datasheets/regulator/microchip/20005399B.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	-	2	p.2 TO-252 drawing: leads VIN (left) and ADJ (right), middle position is the VOUT tab (unnumbered; entered as pin 2 so the output exists and the count is 3); Vref 1.20 V
+datasheets/regulator/microchip/20005406A.pdf	SC-74A, SOT-753	-	9	Table 3-1 p.9 SOT-23 column: 1 SW, 2 GND, 3 VFB, 4 EN, 5 VIN; no VOUT pin so SW is out; VFB 1.227 V
+datasheets/regulator/microchip/20005415D.pdf	SC-74A, SOT-753	-	19	Table 3-1 p.19 SOT-23 column: 1 VIN, 2 GND, 3 SHDN (high = on), 4 NC, 5 VOUT
+datasheets/regulator/microchip/20005661A.pdf	6-VDFN Exposed Pad, 6-MLF®	-	10	Table 3-1 p.10 VDFN-6 column: 1 EN, 2 GND, 3 IN, 4 OUT, 5 NC, 6 BYP, EP (GND) omitted
+datasheets/regulator/microchip/20005834A.pdf	TO-261-4, TO-261AA	-	1,11	p.1 SOT-223 drawing and Table 3-1 p.11 (MIC39100 column): 1 IN, 2 GND (and TAB), 3 OUT; tab unnumbered GND entered as pin 4 to match the 4-lead package name
+datasheets/regulator/microchip/20005872A.pdf	10-VFQFN Exposed Pad	-	11	Table 3-1 p.11: 1,2 PGND, 3 SGND, 4 VFB, 5 MODE, 6 VIN, 7 EN, 8,9 SW, 10 PGND, EP omitted; no VOUT pin so SW is out; VFB 1.2 V
+datasheets/regulator/microchip/20005873A.pdf	8-UQFN	-	11	Table 3-1 p.11: 1 VIN, 2 AGND, 3 PGND, 4 SW, 5 VOUT, 6 EN, 7 VOUTS (fixed) / FB (adjustable), 8 PG (open drain); VFB 0.9 V p.5
+datasheets/regulator/microchip/22008E.pdf	TO-236-3, SC-59, SOT-23-3	-	11	Table 3-1 p.11 SOT-23A column: 1 GND, 2 VOUT, 3 VIN; max dropout 1.1 V (IL=250 mA, 2.5V<=VR<2.8V) p.4
+datasheets/regulator/microchip/22008E.pdf	TO-243AA	-	11	Table 3-1 p.11 SOT-89 column: 1 GND, 2 (and Tab) VIN, 3 VOUT
+datasheets/regulator/microchip/22026b.pdf	8-VFDFN Exposed Pad	-	14	Table 3-1 p.14 adjustable column: 1,2 VIN, 3 SHDN (high = on), 4 GND, 5 PWRGD (open-drain), 6 CDELAY, 7 ADJ, 8 VOUT, EP omitted; VADJ 0.41 V p.4
+datasheets/regulator/microchip/22042B.pdf	SOT-23-5 Thin, TSOT-23-5	-	13	Table 3-1 p.13 MCP1603/B TSOT-23 column: 1 VIN, 2 GND, 3 SHDN, 4 VFB/VOUT, 5 LX; VFB 0.8 V p.6; SHDN high = on
+datasheets/regulator/microchip/22056b.pdf	TO-261-4, TO-261AA	-	2,16	p.2 SOT-223-3 (MCP1825S) drawing and table: 1 VIN, 2 GND (TAB), 3 VOUT, 4 GND (TAB)
+datasheets/regulator/microchip/22057B.pdf	TO-261-4, TO-261AA	-	2,15	p.2 SOT-223-3 (MCP1826S) drawing and table: 1 VIN, 2 GND (TAB), 3 VOUT, 4 GND (TAB)
+datasheets/regulator/microchip/22070a.pdf	SC-74A, SOT-753	-	17	Table 3-1 p.17 SOT-23 5-pin fixed column: 1 VIN, 2 GND, 3 SHDN (high = on), 4 PWRGD (open-drain), 5 VOUT
+datasheets/regulator/microchip/500-mA-ULDO-with-Low-Input-and-Low-Output-Voltage-DS20006050C.pdf	6-VDFN Exposed Pad, 6-MLF®	-	12	Table 3-1 p.12 adjustable column: 1 BIAS, 2 GND, 3 IN, 4 OUT, 5 ADJ, 6 EN, ePAD GND omitted; VFB 0.4 V p.5
+datasheets/regulator/microchip/500mA-uCap-Ultra-Low-Dropout-Regulator-with-High-PSRR-DS20005876B.pdf	6-VDFN Exposed Pad, 6-TMLF®	-	10	Table 3-1 p.10 DFN-6 columns: 1 EN, 2 GND, 3 VIN, 4 VOUT, 5 NC (fixed) / ADJ (adjustable), 6 BYP, EP omitted; VREF 1.25 V

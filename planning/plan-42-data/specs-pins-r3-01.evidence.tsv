@@ -1,0 +1,2 @@
+pdf	package	series	page	note
+datasheets/regulator/microchip/MIC2915x-30x-50x-75x-High-Current-Low-Dropout-Regulators-DS20005685B.pdf	TO-252-6, DPAK (5 Leads + Tab)	-	22-23	Table 3-2 Pin Function Table: adjustable TO-252: 1 ENABLE (high = enable), 2 INPUT, 3 GND (tab also GND), 4 OUTPUT, 5 ADJUST (divider from OUTPUT to GND); VREF 1.240 V typ; 2.3 V <= VIN <= 26 V (note 8)

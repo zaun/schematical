@@ -1,0 +1,20 @@
+mpn	verdict	reason
+LM3370TLX-3006/NOPB	out	digital-interface
+LM3370TLX-3022/NOPB	out	digital-interface
+LR12LG-G	skip	no pin numbers in the datasheet (its pin drawing is a photo; later revisions number it both ways)
+LR645LG-G	skip	output not set by a feedback divider
+LT3080EMS8E#TRPBF	skip	output not set by a feedback divider
+LT3080EST#TRPBF	skip	output not set by a feedback divider
+LT8627SPJV#TRMPBF	skip	output not set by a feedback divider
+LT8627SPJV#TRPBF	skip	output not set by a feedback divider
+LX7219-02ILQ-TR	out	digital-interface
+MAX17222ELT+T	skip	output not set by a feedback divider
+MAX17225ELT+T	skip	output not set by a feedback divider
+MAX17227AATA+T	skip	output not set by a feedback divider
+MAX17227JANT+T	skip	output not set by a feedback divider
+MAX38902AATA+T	skip	output not set by a feedback divider
+MAX77675GEWE+T	out	digital-interface
+MAX77675HEWE+T	out	digital-interface
+MAX77827DEFD+T	skip	output not set by a feedback divider
+MAX77839BEFQ+T	skip	output not set by a feedback divider
+MIC2141BM5	skip	output not set by a feedback divider

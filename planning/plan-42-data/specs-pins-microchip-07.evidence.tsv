@@ -1,0 +1,15 @@
+pdf	package	series	page	note
+datasheets/regulator/microchip/mic23150.pdf	8-UFDFN	HyperLight Load®	2	Pin Description p.2 + 8-pin 2x2 TDFN diagram: 1,2 SW, 3 EN, 4 SNS, 5 AGND, 6,7 VIN, 8 PGND; no VOUT pin so SW is out; SNS analog
+datasheets/regulator/microchip/mic2601.pdf	8-VFDFN Exposed Pad, 8-MLF®	-	2	Pin Description p.2: 1 VIN, 2 VDD, 3 EN, 4 AGND, 5 SS, 6 FB, 7 SW, 8 PGND, EP omitted; FB 1.25V, VOUT=1.25(1+R1/R2)
+datasheets/regulator/microchip/mic2619.pdf	SOT-23-6 Thin, TSOT-23-6	-	2	Pin Description p.2 + 6-pin TSOT-23 diagram: 1 SW, 2 GND, 3 FB, 4 EN, 5 OVP, 6 VIN; nominal FB 1.265V
+datasheets/regulator/microchip/mic2950.pdf	"8-SOIC (0.154"", 3.90mm Width)"	-	3	Pin Description p.3 (SOIC-8 column): 1 OUT, 2 SNS, 3 SHDN (low=enable), 4 GND, 5 ERR (/ERR) open-collector active-low error flag, 6 TAP, 7 FB, 8 IN; fixed-output part (Adjustable (Fixed) treated as fixed)
+datasheets/regulator/microchip/mic2954.pdf	"8-SOIC (0.154"", 3.90mm Width)"	-	3	Pin Description p.3 (SOIC-8 column): 1 OUT, 2 SNS, 3 SHDN (low=enable), 4 GND, 5 ERR (/ERR) open-collector active-low error flag, 6 TAP, 7 FB, 8 IN; fixed-output part (Adjustable (Fixed) treated as fixed)
+datasheets/regulator/microchip/mic37501-502.pdf	SPAK-7 (7 Leads + Tab)	-	2	Pin Description p.2 S-PAK-7 column: 1 EN, 2,3 VIN, 4 GND, 5,6 VOUT, 7 FLG/ADJ (ADJ on MIC37502); unnumbered tab = ground, omitted; Vref 1.240 typ
+datasheets/regulator/microchip/mic4690.pdf	"8-SOIC (0.154"", 3.90mm Width)"	SuperSwitcher™	2	Pin Description p.2 SOP-8: 1 SHDN (low=enable), 2 VIN, 3 SW, 4 FB, 5-8 GND; FB 1.230V typ
+datasheets/regulator/microchip/mic47100.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	-	3	Pin Description p.3 MSOP column + 8-pin ePad MSOP diagram: 1,2 IN, 3 GND, 4 BIAS, 5 EN, 6 FB/ADJ (ADJ for adjustable), 7,8 OUT; reference 0.7V typ; R2 from ADJ to ground
+datasheets/regulator/microchip/mic47100.pdf	8-VFDFN Exposed Pad, 8-MLF®	-	3	Pin Description p.3 MLF column + 8-pin 2x2 MLF diagram: 1,2 IN, 3 GND, 4 BIAS, 5 EN, 6 FB/ADJ (ADJ for adjustable), 7,8 OUT; EP omitted; reference 0.7V typ
+datasheets/regulator/microchip/mic4720.pdf	12-VFDFN Exposed Pad, 12-MLF®	-	3	Pin Description p.3 MLF column + 12-pin 3x3 MLF diagram: 1,12 SW, 2,11 VIN, 3,10 PGND, 4 SGND, 5 BIAS, 6 FB, 7 NC, 8 EN, 9 PGOOD open drain; EP omitted; VREF 1.0V
+datasheets/regulator/microchip/mic5216.pdf	SC-74A, SOT-753	-	3	Pin Description p.3 SOT-23-5 column: 1 IN, 2 GND, 3 EN, 4 FLG open-collector error flag, 5 OUT
+datasheets/regulator/microchip/mic5225.pdf	SC-74A, SOT-753	-	2	Pin Description p.2 SOT23-5: 1 IN, 2 GND, 3 EN, 4 NC (fixed) / ADJ (adjustable), 5 OUT; reference 1.24V typ; VOUT=VREF(1+R1/R2)
+datasheets/regulator/microchip/mic5309.pdf	6-UFDFN Exposed Pad, 6-TMLF®	-	2	Pin Description p.2 Thin MLF-6 column: 1 BIAS, 2 GND, 3 VIN, 4 VOUT, 5 EN, 6 BYP/ADJ (ADJ on adjustable); EPAD omitted; ADJ ref 0.775V typ
+datasheets/regulator/microchip/mic61150.pdf	10-VFDFN Exposed Pad, 10-MLF®	-	2	Pin Description p.2 + 10-pin 3x3 MLF diagram: 1,2 IN, 3 GND, 4 EN, 5,6 NC, 7 CP, 8 FB/SENSE (FB adjustable), 9,10 OUT; EP omitted; FB 0.500V

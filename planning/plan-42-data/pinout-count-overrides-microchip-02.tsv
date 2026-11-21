@@ -1,0 +1,3 @@
+pdf	package	count	evidence
+datasheets/regulator/microchip/LR12-C080113.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	4	p.8 outline: leads 1,2(removed),3 and tab numbered 4; 4 pinout entries
+datasheets/regulator/microchip/MCP1703-250-mA-16V-Low-Quiescent-Current-LDO-20002049.pdf	TO-261-4, TO-261AA	3	p.1 / Table 3-1 p.12: SOT-223-3 pins 1-3, tab unnumbered (GND)

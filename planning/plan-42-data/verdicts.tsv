@@ -38,7 +38,7 @@ LT1761ES5-SD#TRMPBF	add		datasheets/regulator/analog-devices/1761sff.pdf
 TPS72501KTTR	out	datasheet status	datasheets/regulator/ti/slvs341e.pdf
 REG102NA-A/3K	add		datasheets/regulator/ti/reg102.pdf
 LP38798SD-ADJ/NOPB	add		datasheets/regulator/ti/lp38798.pdf
-LT3080EMS8E#TRPBF	add		datasheets/regulator/analog-devices/lt3080.pdf
+LT3080EMS8E#TRPBF	skip	output not set by a feedback divider	datasheets/regulator/analog-devices/lt3080.pdf
 TPS75401QPWPR	add		datasheets/regulator/ti/slvs242c.pdf
 TPS74401RGWR	add		datasheets/regulator/ti/tps74401.pdf
 MAX8902BATA+T	add		datasheets/regulator/analog-devices/max8902-max8902b.pdf
@@ -47,7 +47,7 @@ TL317LP	add		datasheets/regulator/ti/slvs004i.pdf
 TPS73801DCQR	add		datasheets/regulator/ti/tps73801.pdf
 LT3010EMS8E#TRPBF	add		datasheets/regulator/analog-devices/lt3010-3010-5.pdf
 MIC5319YML-TR	add		datasheets/regulator/microchip/500mA-uCap-Ultra-Low-Dropout-Regulator-with-High-PSRR-DS20005876B.pdf
-MAX38902AATA+T	add		datasheets/regulator/analog-devices/MAX38902A-MAX38902D.pdf
+MAX38902AATA+T	skip	output not set by a feedback divider	datasheets/regulator/analog-devices/MAX38902A-MAX38902D.pdf
 UCC383TDTR-ADJ	add		datasheets/regulator/ti/slus215b.pdf
 LP2980IM5X-ADJ/NOPB	add		datasheets/regulator/ti/lp2980-adj.pdf
 TPS78001DRVT	add		datasheets/regulator/ti/tps780.pdf
@@ -65,7 +65,7 @@ LT3014ES5#TRMPBF	add		datasheets/regulator/analog-devices/3014fd.pdf
 MIC5219YM5-TR	add		datasheets/regulator/microchip/MIC5219-500mA-Peak-Output-LDO-Regulator-DS20006021A.pdf
 ADP125ARHZ-R7	add		datasheets/regulator/analog-devices/ADP124_125.pdf
 MIC5219YMT-TR	add		datasheets/regulator/microchip/MIC5219-500mA-Peak-Output-LDO-Regulator-DS20006021A.pdf
-LT3080EST#TRPBF	add		datasheets/regulator/analog-devices/lt3080.pdf
+LT3080EST#TRPBF	skip	output not set by a feedback divider	datasheets/regulator/analog-devices/lt3080.pdf
 LM317MKVURG3	skip	not in the datasheet's ordering table	datasheets/regulator/ti/lm317.pdf
 MCP1725T-ADJE/MC	add		datasheets/regulator/microchip/22026b.pdf
 ADP3331ARTZ-REEL7	add		datasheets/regulator/analog-devices/ADP3331.pdf
@@ -115,12 +115,12 @@ MIC2954-08YM-TR	add		datasheets/regulator/microchip/mic2954.pdf
 MIC5377YC5-TR	add		datasheets/regulator/microchip/MIC5376-7-8-High-Performance-Low-Dropout-150mA-LDO-DS20006080A.pdf
 MIC37152YM-TR	add		datasheets/regulator/microchip/MIC37150-1-2-3-1.5A-Low-Voltage-Microcap-LDO-Regulators-DS20006491A.pdf
 MIC5301YD5-TR	add		datasheets/regulator/microchip/MIC5301.pdf
-LR12LG-G	add		datasheets/regulator/microchip/LR12-C080113.pdf
+LR12LG-G	skip	no pin numbers in the datasheet (its pin drawing is a photo; later revisions number it both ways)	datasheets/regulator/microchip/LR12-C080113.pdf
 MIC5209YM-TR	add		datasheets/regulator/microchip/MIC5209-500mA-Low-Noise-LDO-Regulator-DS20005720B.pdf
 MIC5309YMT-TR	add		datasheets/regulator/microchip/mic5309.pdf
 MIC49150YMM-TR	add		datasheets/regulator/microchip/MIC49150-Data-Sheet-DS20006585.pdf
 MIC47100YMME-TR	add		datasheets/regulator/microchip/mic47100.pdf
-LR645LG-G	add		datasheets/regulator/microchip/20005384A.pdf
+LR645LG-G	skip	output not set by a feedback divider	datasheets/regulator/microchip/20005384A.pdf
 MIC29204YM-TR	add		datasheets/regulator/microchip/MIC2920.pdf
 MIC29152WD-TR	add		datasheets/regulator/microchip/MIC2915x-30x-50x-75x-High-Current-Low-Dropout-Regulators-DS20005685B.pdf
 MIC69153YML-TR	add		datasheets/regulator/microchip/MIC69153-Single-Supply-VIN-LOW-VIN-LOW-VOUT-1.5A-LDO-DS20006019A.pdf
@@ -572,7 +572,7 @@ TPS62008DGSR	add		datasheets/regulator/ti/tps62006.pdf
 TPS6734ID	add		datasheets/regulator/ti/slvs127a.pdf
 TPS62301DRCR	add		datasheets/regulator/ti/slvs528e.pdf
 TPS62204DBVT	add		datasheets/regulator/ti/tps62200.pdf
-LM3370TLX-3022/NOPB	add		datasheets/regulator/ti/lm3370.pdf
+LM3370TLX-3022/NOPB	out	digital-interface	datasheets/regulator/ti/lm3370.pdf
 TPS54495PWP	add		datasheets/regulator/ti/tps54495.pdf
 TPS62044DGQR	add		datasheets/regulator/ti/tps62040.pdf
 TPS62622YFFR	add		datasheets/regulator/ti/tps62620.pdf
@@ -596,7 +596,7 @@ TPS62020DRCR	add		datasheets/regulator/ti/slvs076c.pdf
 TPS613222ADBVT	add		datasheets/regulator/ti/tps61322.pdf
 TPS62201DBVR	add		datasheets/regulator/ti/tps62200.pdf
 TPS62067DSGR	add		datasheets/regulator/ti/tps62067.pdf
-LM3370TLX-3006/NOPB	add		datasheets/regulator/ti/lm3370.pdf
+LM3370TLX-3006/NOPB	out	digital-interface	datasheets/regulator/ti/lm3370.pdf
 LM2854MHX-1000/NOPB	add		datasheets/regulator/ti/lm2854.pdf
 TPS62021DRCR	add		datasheets/regulator/ti/slvs076c.pdf
 TPS62003DGSR	add		datasheets/regulator/ti/tps62006.pdf
@@ -612,7 +612,7 @@ TL2575-05IN	add		datasheets/regulator/ti/tl2575-12.pdf
 TPS561201DDCR	add		datasheets/regulator/ti/tps561201.pdf
 LM3204TLX/NOPB	skip	no datasheet on the maker's site (rocelec.widen.net)	
 TPS61021ADSGR	add		datasheets/regulator/ti/tps61021a.pdf
-MIC2141BM5	add		datasheets/regulator/microchip/MIC2141.pdf
+MIC2141BM5	skip	output not set by a feedback divider	datasheets/regulator/microchip/MIC2141.pdf
 TLV62569PDDCR	add		datasheets/regulator/ti/tlv62569.pdf
 TPS62223DDCR	add		datasheets/regulator/ti/slvs491e.pdf
 TPS62932DRLR	add		datasheets/regulator/ti/tps62932.pdf
@@ -701,22 +701,22 @@ MIC2571-2YMM	skip	not in the datasheet's ordering table	datasheets/regulator/mic
 LT8612EUDE#TRPBF	add		datasheets/regulator/analog-devices/lt8612.pdf
 LM2576-5.0WU-TR	add		datasheets/regulator/microchip/lm2576.pdf
 LT8609EMSE#TRPBF	add		datasheets/regulator/analog-devices/LT8609-8609A-8609B.pdf
-MAX17225ELT+T	add		datasheets/regulator/analog-devices/MAX17220-MAX17225.pdf
+MAX17225ELT+T	skip	output not set by a feedback divider	datasheets/regulator/analog-devices/MAX17220-MAX17225.pdf
 MAX17543ATP+T	add		datasheets/regulator/analog-devices/MAX17543.pdf
 LT1933ES6#TRMPBF	add		datasheets/regulator/analog-devices/1933fe.pdf
-MAX77839BEFQ+T	add		datasheets/regulator/analog-devices/MAX77839.pdf
+MAX77839BEFQ+T	skip	output not set by a feedback divider	datasheets/regulator/analog-devices/MAX77839.pdf
 MIC4575-5.0BWM	skip	not in the datasheet's ordering table	datasheets/regulator/microchip/MIC4575.pdf
 MIC2601YML-TR	add		datasheets/regulator/microchip/mic2601.pdf
 LT8620IMSE#TRPBF	add		datasheets/regulator/analog-devices/8620fa.pdf
 LTC3542IDC#TRPBF	add		datasheets/regulator/analog-devices/3542fa.pdf
-MAX17222ELT+T	add		datasheets/regulator/analog-devices/MAX17220-MAX17225.pdf
+MAX17222ELT+T	skip	output not set by a feedback divider	datasheets/regulator/analog-devices/MAX17220-MAX17225.pdf
 MCP1253T-ADJI/MS	add		datasheets/regulator/microchip/MCP1252-3-Low-Noise-Positive-Regulated-Charge-Pump-Data-Sheet-DS20001752.pdf
 LTC3545EUD-1#TRPBF	add		datasheets/regulator/analog-devices/35451fb.pdf
 MCP1640T-I/MC	add		datasheets/regulator/microchip/MCP1640-Family-Data-Sheet-DS20002234E.pdf
 LTC3121EDE#TRPBF	add		datasheets/regulator/analog-devices/3121fa.pdf
 MIC23030-GYMT-TR	add		datasheets/regulator/microchip/MIC23030-8MHz-PWM-400mA-Buck-Regulator-with-HyperLightLoad-C2-AE-DS20006488A.pdf
 LTC3440EMS#TRPBF	add		datasheets/regulator/analog-devices/3440fd.pdf
-MAX17227AATA+T	add		datasheets/regulator/analog-devices/MAX17227A.pdf
+MAX17227AATA+T	skip	output not set by a feedback divider	datasheets/regulator/analog-devices/MAX17227A.pdf
 ADP2108AUJZ-3.3-R7	add		datasheets/regulator/analog-devices/ADP2108.pdf
 LTC3621IMS8E#TRPBF	add		datasheets/regulator/analog-devices/ltc3621-3621-2.pdf
 MAX77597ETBB+T	add		datasheets/regulator/analog-devices/MAX77597.pdf
@@ -737,7 +737,7 @@ LM2596T-5.0	add		datasheets/regulator/ti/lm2596.pdf
 MAX5033AASA+T	add		datasheets/regulator/analog-devices/max5033.pdf
 MIC23250-GFHYMT	add		datasheets/regulator/microchip/MIC23250.pdf
 MAX15021ATI+T	add		datasheets/regulator/analog-devices/MAX15021.pdf
-LT8627SPJV#TRMPBF	add		datasheets/regulator/analog-devices/datasheet-e9e355.pdf
+LT8627SPJV#TRMPBF	skip	output not set by a feedback divider	datasheets/regulator/analog-devices/datasheet-e9e355.pdf
 LTC3533EDE#TRPBF	add		datasheets/regulator/analog-devices/3533fc.pdf
 MIC2177-3.3YWM	add		datasheets/regulator/microchip/MIC2177.pdf
 LT3464ETS8#TRMPBF	add		datasheets/regulator/analog-devices/3464f.pdf
@@ -758,10 +758,10 @@ ADP2138ACBZ-1.0-R7	add		datasheets/regulator/analog-devices/ADP2138_2139.pdf
 LT1935ES5#TRMPBF	add		datasheets/regulator/analog-devices/1935f.pdf
 LT8616EUDE#PBF	add		datasheets/regulator/analog-devices/8616fa.pdf
 LM2576-12BU TR	add		datasheets/regulator/microchip/lm2576.pdf
-MAX77675GEWE+T	add		datasheets/regulator/analog-devices/max77675.pdf
-MAX77675HEWE+T	add		datasheets/regulator/analog-devices/max77675.pdf
+MAX77675GEWE+T	out	digital-interface	datasheets/regulator/analog-devices/max77675.pdf
+MAX77675HEWE+T	out	digital-interface	datasheets/regulator/analog-devices/max77675.pdf
 LTC3115EFE-1#TRPBF	add		datasheets/regulator/analog-devices/LTC3115-1.pdf
-MAX77827DEFD+T	add		datasheets/regulator/analog-devices/MAX77827.pdf
+MAX77827DEFD+T	skip	output not set by a feedback divider	datasheets/regulator/analog-devices/MAX77827.pdf
 MIC2253-06YML-TR	add		datasheets/regulator/microchip/MIC2253-High-Current-1MHz-High-Efficiency-Boost-Regulator-with-OVP-and-Soft-Start-DS20006070A.pdf
 LTC3130EUDC#PBF	add		datasheets/regulator/analog-devices/3130f.pdf
 LT1618EDD#TRPBF	add		datasheets/regulator/analog-devices/1618fas.pdf
@@ -770,7 +770,7 @@ LT3990EMSE#TRPBF	add		datasheets/regulator/analog-devices/lt3990.pdf
 MAX17632CATE+T	add		datasheets/regulator/analog-devices/MAX17632.pdf
 ADP2164ACPZ-3.3-R7	add		datasheets/regulator/analog-devices/ADP2164.PDF
 LT1956EGN-5#TRPBF	add		datasheets/regulator/analog-devices/1956f.pdf
-MAX17227JANT+T	add		datasheets/regulator/analog-devices/MAX17227J.pdf
+MAX17227JANT+T	skip	output not set by a feedback divider	datasheets/regulator/analog-devices/MAX17227J.pdf
 LT3995EMSE#PBF	add		datasheets/regulator/analog-devices/3995f.pdf
 MAX15462CATA+T	add		datasheets/regulator/analog-devices/MAX15462.pdf
 ADP2300AUJZ-R7	add		datasheets/regulator/analog-devices/ADP2300_2301.pdf
@@ -807,7 +807,7 @@ LTC3428EDD#TRPBF	add		datasheets/regulator/analog-devices/3428fb.pdf
 MCP16415T-I/MN	skip	not in the datasheet's ordering table	datasheets/regulator/microchip/MCP16411-Low-IQ-Boost-with-Programmable-UVLO-Evaluation-Board-Users-Guide-DS50003000A.pdf
 MAX17552AUB+T	add		datasheets/regulator/analog-devices/MAX17552-MAX17552B.pdf
 LT1766IGN#TRPBF	add		datasheets/regulator/analog-devices/1766fc.pdf
-LT8627SPJV#TRPBF	add		datasheets/regulator/analog-devices/datasheet-e9e355.pdf
+LT8627SPJV#TRPBF	skip	output not set by a feedback divider	datasheets/regulator/analog-devices/datasheet-e9e355.pdf
 MIC23051-16YML	add		datasheets/regulator/microchip/MIC23051.pdf
 MIC4690YM-TR	add		datasheets/regulator/microchip/mic4690.pdf
 LT8608IMSE#PBF	add		datasheets/regulator/analog-devices/lt8608.pdf
@@ -858,7 +858,7 @@ MCP1257T-E/UN	skip	not in the datasheet's ordering table	datasheets/regulator/mi
 MCP16331T-E/MNYVAO	add		datasheets/regulator/microchip/MCP16331-Data-Sheet-20005308.pdf
 MIC2605YML-TR	add		datasheets/regulator/microchip/0.5A-1.2-MHz-2-MHz-Wide-Input-Range-Boost-Regulators-Each-with-Integrated-Switch-and-Schottky-Diode-20006620A.pdf
 MIC2877-5.25YFT-TR	add		datasheets/regulator/microchip/20005873A.pdf
-LX7219-02ILQ-TR	add		datasheets/regulator/microchip/Microsemi_LX7219_Datasheet_V2.pdf
+LX7219-02ILQ-TR	out	digital-interface	datasheets/regulator/microchip/Microsemi_LX7219_Datasheet_V2.pdf
 LX7167CLD-TR	add		datasheets/regulator/microchip/LX7167_Rev1.1.pdf
 MIC2207YML-TR	add		datasheets/regulator/microchip/MIC2207-2MHz-3A-PWM-Buck-Regulator-DS20006470A.pdf
 MIC2238-S4YML-TR	add		datasheets/regulator/microchip/MIC2238.pdf

@@ -1,0 +1,22 @@
+pdf	package	series	page	note
+datasheets/regulator/microchip/MIC5209-500mA-Low-Noise-LDO-Regulator-DS20005720B.pdf	"8-SOIC (0.154"", 3.90mm Width)"	-	2, 11	Package Types p.2 + Table 3-1 p.11 SOIC-8 adj: 1 EN, 2 IN, 3 OUT, 4 ADJ, 5-8 GND; Vout=1.242(1+R2/R1) with R1 OUT-ADJ (bandgap relative to output)
+datasheets/regulator/microchip/MIC5209-500mA-Low-Noise-LDO-Regulator-DS20005720B.pdf	TO-261-4, TO-261AA	-	2, 11	SOT-223 (S) fixed: 1 IN, 2 GND, 3 OUT; TAB = GND unnumbered (no enable on SOT-223); count 3 override
+datasheets/regulator/microchip/MIC5213.pdf	5-TSSOP, SC-70-5, SOT-353	Teeny™	2	Pin Configuration/Description SC-70-5: 1 EN, 2 NC, 3 GND, 4 OUT, 5 IN; EN high=on
+datasheets/regulator/microchip/MIC5219-500mA-Peak-Output-LDO-Regulator-DS20006021A.pdf	6-UDFN Exposed Pad, 6-TMLF®	-	2, 12	MIC5219YMT TDFN-6 adj: 1 EN, 2 GND, 3 IN, 4 OUT, 5 ADJ, 6 NC; Eq 4-14 Vout=1.242(1+R2/R1), bandgap relative to output
+datasheets/regulator/microchip/MIC5219-500mA-Peak-Output-LDO-Regulator-DS20006021A.pdf	SC-74A, SOT-753	-	2, 12	SOT23-5: 1 IN, 2 GND, 3 EN, 4 BYP (fixed)/ADJ (adj), 5 OUT; Eq 4-14 reference relative to output
+datasheets/regulator/microchip/MIC5219.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)"	-	2-3	MSOP-8 fixed: 1 EN, 2 IN, 3 OUT, 4 BYP, 5-8 GND
+datasheets/regulator/microchip/MIC5219.pdf	SC-74A, SOT-753	-	2-3	SOT-23-5 fixed: 1 IN, 2 GND, 3 EN, 4 BYP, 5 OUT
+datasheets/regulator/microchip/MIC5233-Data-Sheet-DS20006033D.pdf	SC-74A, SOT-753	-	2, 9	SOT23-5 fixed: 1 IN, 2 GND, 3 EN, 4 NC (ADJ on adj version), 5 OUT
+datasheets/regulator/microchip/MIC5235.pdf	SC-74A, SOT-753	-	2	SOT-23-5: 1 IN, 2 GND, 3 EN, 4 NC (fixed)/ADJ (adj), 5 OUT; Vout=Vref(1+R1/R2) R1 OUT-ADJ top, Vref 1.24 to ground
+datasheets/regulator/microchip/MIC5247.pdf	6-VDFN Exposed Pad, 6-MLF®	-	2	MLF-6: 1 EN, 2 GND, 3 IN, 4 OUT, 5 NC, 6 BYP
+datasheets/regulator/microchip/MIC5247.pdf	SC-74A, SOT-753	-	2	SOT-23-5/Thin SOT-23-5: 1 IN, 2 GND, 3 EN, 4 BYP, 5 OUT
+datasheets/regulator/microchip/MIC5247.pdf	SOT-23-5 Thin, TSOT-23-5	-	2	SOT-23-5/Thin SOT-23-5: 1 IN, 2 GND, 3 EN, 4 BYP, 5 OUT
+datasheets/regulator/microchip/MIC5248.pdf	6-VDFN Exposed Pad, 6-MLF®	-	2	MLF-6: 1 EN, 2 GND, 3 IN, 4 OUT, 5 NC, 6 PG (open-drain, p.7); no dropout spec in datasheet
+datasheets/regulator/microchip/MIC5252.pdf	6-VDFN Exposed Pad, 6-MLF®	-	2	MLF-6: 1 EN, 2 GND, 3 IN, 4 OUT, 5 NC, 6 BYP
+datasheets/regulator/microchip/MIC5252.pdf	SC-74A, SOT-753	-	2	SOT-23-5: 1 IN, 2 GND, 3 EN, 4 BYP, 5 OUT
+datasheets/regulator/microchip/MIC5256.pdf	SC-74A, SOT-753	-	3	Pin Description: 1 IN, 2 GND, 3 EN, 4 FLG open-drain error flag, 5 OUT
+datasheets/regulator/microchip/MIC5259.pdf	6-VDFN Exposed Pad, 6-MLF®	-	2	MLF-6: 1 EN, 2 GND, 3 IN, 4 OUT, 5 NC, 6 BYP
+datasheets/regulator/microchip/MIC5259.pdf	SOT-23-5 Thin, TSOT-23-5	-	2	TSOT-23-5: 1 IN, 2 GND, 3 EN, 4 BYP, 5 OUT
+datasheets/regulator/microchip/MIC5301.pdf	6-UFDFN Exposed Pad, 6-TMLF®	-	3	Thin MLF-6 fixed: 1 EN, 2 GND, 3 VIN, 4 OUT, 5 NC, 6 BYP
+datasheets/regulator/microchip/MIC5301.pdf	SOT-23-5 Thin, TSOT-23-5	-	3	TSOT-23-5 adj: 1 VIN, 2 GND, 3 EN, 4 ADJ, 5 OUT; Vout=Vref(1+R1/R2), Vref 1.25
+datasheets/regulator/microchip/MIC5302.pdf	4-UFDFN Exposed Pad, 4-TMLF®	-	3	Thin MLF-4: 1 EN, 2 GND, 3 VIN, 4 VOUT; EP = GND (not a pin)

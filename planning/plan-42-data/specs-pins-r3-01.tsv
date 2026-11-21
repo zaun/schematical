@@ -1,0 +1,2 @@
+pdf	package	series	pinout	pinout_adj	regulators	regulators_adj	analog	analog_adj	vref	vin_min	dropout	adjust_to
+datasheets/regulator/microchip/MIC2915x-30x-50x-75x-High-Current-Low-Dropout-Regulators-DS20005685B.pdf	TO-252-6, DPAK (5 Leads + Tab)	-	"[[1,""ENABLE"",""input""],[2,""INPUT"",""power""],[3,""GND"",""ground""],[4,""OUTPUT"",""output""],[5,""ADJUST"",""input""]]"		"[{""type"":""linear"",""in"":""INPUT"",""out"":""OUTPUT"",""enable"":""ENABLE"",""adjust"":""ADJUST""}]"		"[""ADJUST""]"		1.24	2.3		ground

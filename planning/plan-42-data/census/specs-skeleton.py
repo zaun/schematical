@@ -19,7 +19,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import common  # noqa: E402
 
 COLS = ["maker", "series", "pdf", "package", "rows", "example", "scheme", "label", "pinout", "pinout_adj",
-        "regulators", "analog", "vref", "vin_min", "dropout", "adjust_to"]
+        "regulators", "regulators_adj", "analog", "analog_adj", "vref", "vin_min", "dropout", "adjust_to"]
 KEEP = COLS[6:]
 
 

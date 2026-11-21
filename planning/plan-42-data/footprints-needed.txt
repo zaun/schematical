@@ -1,32 +1,32 @@
 # letter	maker	mounting	package	supplier package	families	parts	example part	example datasheet	existing footprints with the same outline
-D	Analog Devices	Surface Mount	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	10-MSOP	switching	2	LT3502AEMS#PBF	https://www.analog.com/media/en/technical-documentation/data-sheets/3502fd.pdf	
-D	Analog Devices	Surface Mount	10-TFSOP, 10-MSOP (0.118", 3.00mm Width) Exposed Pad	10-MSOP-EP	switching	2	LT8607EMSE#TRPBF	https://www.analog.com/media/en/technical-documentation/data-sheets/lt8607-8607b.pdf	
+D	Analog Devices	Surface Mount	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	10-MSOP	switching	3	LT3502AEMS#PBF	https://www.analog.com/media/en/technical-documentation/data-sheets/3502fd.pdf	
+D	Analog Devices	Surface Mount	10-TFSOP, 10-MSOP (0.118", 3.00mm Width) Exposed Pad	10-MSOP-EP	switching	3	LT8607EMSE#TRPBF	https://www.analog.com/media/en/technical-documentation/data-sheets/lt8607-8607b.pdf	
 D	Analog Devices	Surface Mount	16-SSOP (0.154", 3.90mm Width)	16-SSOP	switching	1	LT1956EGN-5#TRPBF	https://www.analog.com/media/en/technical-documentation/data-sheets/1956f.pdf	
-D	Analog Devices	Surface Mount	16-TFSOP (0.118", 3.00mm Width) Exposed Pad	16-MSOP-EP	linear-multi,switching	6	LT8610EMSE#TRPBF	https://www.analog.com/media/en/technical-documentation/data-sheets/8610fa.pdf	
+D	Analog Devices	Surface Mount	16-TFSOP (0.118", 3.00mm Width) Exposed Pad	16-MSOP-EP	linear-multi,switching	7	LT8610EMSE#TRPBF	https://www.analog.com/media/en/technical-documentation/data-sheets/8610fa.pdf	
 D	Analog Devices	Surface Mount	16-TFSOP (0.118", 3.00mm Width), 12 Leads, Exposed Pad	16-MSOP-EP	switching	1	LTC3639EMSE#TRPBF	https://www.analog.com/media/en/technical-documentation/data-sheets/3639fd.pdf	
 D	Analog Devices	Surface Mount	16-TSSOP (0.173", 4.40mm Width) Exposed Pad	16-TSSOP-EP	switching	2	LT1765EFE-3.3#TRPBF	https://www.analog.com/media/en/technical-documentation/data-sheets/1765fd.pdf	
 D	Analog Devices	Surface Mount	20-TSSOP (0.173", 4.40mm Width) Exposed Pad	20-TSSOP-EP	switching	1	LTC3115EFE-1#TRPBF	https://www.analog.com/media/en/technical-documentation/data-sheets/LTC3115-1.pdf	
 D	Analog Devices	Surface Mount	5-TSSOP, SC-70-5, SOT-353	SC-70-5	linear-fixed	2	MAX8510EXK18+T	https://www.analog.com/media/en/technical-documentation/data-sheets/max8510-max8512.pdf	SC70-5
 D	Analog Devices	Surface Mount	6-TSSOP, SC-88, SOT-363	SC-70-6	switching	1	LTC3525ESC6-5#TRPBF	https://www.analog.com/media/en/technical-documentation/data-sheets/3525fc.pdf	SC70-6
 D	Analog Devices	Surface Mount	8-SOIC (0.154", 3.90mm Width)	8-SO	linear-adjustable,linear-fixed	6	LT1763CS8#TRPBF	https://www.analog.com/media/en/technical-documentation/data-sheets/1763fh.pdf	SOIC-8
-D	Analog Devices	Surface Mount	8-SOIC (0.154", 3.90mm Width)	8-SOIC	linear-fixed,switching	3	MAX5033DASA+T	https://www.analog.com/media/en/technical-documentation/data-sheets/max5033.pdf	SOIC-8
+D	Analog Devices	Surface Mount	8-SOIC (0.154", 3.90mm Width)	8-SOIC	linear-adjustable,linear-fixed,switching	4	MAX5024LASA+	https://www.analog.com/media/en/technical-documentation/data-sheets/max5023-max5024.pdf	SOIC-8
 D	Analog Devices	Surface Mount	8-SOIC (0.154", 3.90mm Width) Exposed Pad	8-SOIC-EP	linear-adjustable	1	ADP7142ARDZ-R7	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP7142.pdf	SOIC-8
-D	Analog Devices	Surface Mount	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	linear-fixed	3	LT1962EMS8-3.3#TRPBF	https://www.analog.com/media/en/technical-documentation/data-sheets/1962fb.pdf	MSOP8-DIODES
-D	Analog Devices	Surface Mount	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-MSOP-EP	linear-adjustable,linear-fixed,switching	5	LT3080EMS8E#TRPBF	https://www.analog.com/media/en/technical-documentation/data-sheets/lt3080.pdf	MSOP8-DIODES
+D	Analog Devices	Surface Mount	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	linear-fixed,switching	4	LT1962EMS8-3.3#TRPBF	https://www.analog.com/media/en/technical-documentation/data-sheets/1962fb.pdf	MSOP8-DIODES
+D	Analog Devices	Surface Mount	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-MSOP-EP	linear-adjustable,linear-fixed,switching	4	LT3010EMS8E#TRPBF	https://www.analog.com/media/en/technical-documentation/data-sheets/lt3010-3010-5.pdf	MSOP8-DIODES
 D	Analog Devices	Surface Mount	SC-74A, SOT-753	SOT-23-5	linear-adjustable,linear-fixed	2	MAX1615EUK+T	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX1615-MAX1616.pdf	SOT23-5
-D	Analog Devices	Surface Mount	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	linear-adjustable,linear-fixed,switching	46	ADP123AUJZ-R7	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP122_123.pdf	SOT23-5
-D	Analog Devices	Surface Mount	SOT-23-6	SOT-23-6	linear-adjustable,linear-fixed	5	ADP3331ARTZ-REEL7	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP3331.pdf	SOT23-6
-D	Analog Devices	Surface Mount	SOT-23-6 Thin, TSOT-23-6	TSOT-23-6	linear-adjustable,switching	4	MAX17651AZT+T	https://www.analog.com/media/en/technical-documentation/data-sheets/max17651.pdf	SOT23-6
+D	Analog Devices	Surface Mount	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	linear-adjustable,linear-fixed,switching	47	ADP123AUJZ-R7	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP122_123.pdf	SOT23-5
+D	Analog Devices	Surface Mount	SOT-23-6	SOT-23-6	linear-adjustable,linear-fixed,switching	6	ADP3331ARTZ-REEL7	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP3331.pdf	SOT23-6
+D	Analog Devices	Surface Mount	SOT-23-6 Thin, TSOT-23-6	TSOT-23-6	linear-adjustable,switching	5	MAX17651AZT+T	https://www.analog.com/media/en/technical-documentation/data-sheets/max17651.pdf	SOT23-6
 D	Analog Devices	Surface Mount	SOT-23-6 Thin, TSOT-23-6	TSOT-6	switching	1	ADP2300AUJZ-R7	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP2300_2301.pdf	SOT23-6
 D	Analog Devices	Surface Mount	SOT-23-8 Thin, TSOT-23-8	TSOT-23-8	switching	1	LT3464ETS8#TRMPBF	https://www.analog.com/media/en/technical-documentation/data-sheets/3464f.pdf	SOT23-8-DCN
-D	Analog Devices	Surface Mount	TO-261-4, TO-261AA	SOT-223-3	linear-adjustable,linear-fixed	4	LT3080EST#TRPBF	https://www.analog.com/media/en/technical-documentation/data-sheets/lt3080.pdf	SOT223-4-NEXPERIA,SOT223-4-DIODES,SOT223-4-INFINEON-2L,SOT223-4-ONSEMI,SOT223-4-VISHAY,SOT223-3-INFINEON
+D	Analog Devices	Surface Mount	TO-261-4, TO-261AA	SOT-223-3	linear-fixed	3	LT1963AEST-3.3#TRPBF	https://www.analog.com/media/en/technical-documentation/data-sheets/lt1963a.pdf	SOT223-4-NEXPERIA,SOT223-4-DIODES,SOT223-4-INFINEON-2L,SOT223-4-ONSEMI,SOT223-4-VISHAY,SOT223-3-INFINEON
 D	Microchip Technology	Surface Mount	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	10-MSOP	switching	1	MCP16414T-I/UN	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP1641X-Family-Data-Sheet-DS20006394D.pdf	
 D	Microchip Technology	Surface Mount	20-SOIC (0.295", 7.50mm Width)	20-SOIC	switching	3	MIC2178YWMTR	https://rocelec.widen.net/view/pdf/zc1dzttj4i/MCRLS03433-1.pdf?t.download=true&u=5oefqw	
 D	Microchip Technology	Surface Mount	5-TSSOP, SC-70-5, SOT-353	SC-70-5	linear-adjustable,linear-fixed	7	MIC5213-2.8YC5	https://rocelec.widen.net/view/pdf/owm9x1bv8c/MCRLS05856-1.pdf?t.download=true&u=5oefqw	SC70-5
-D	Microchip Technology	Surface Mount	8-SOIC (0.154", 3.90mm Width)	8-SOIC	linear-adjustable,switching	9	MIC2951-03YM-TR	https://ww1.microchip.com/downloads/en/DeviceDoc/mic2950.pdf	SOIC-8
+D	Microchip Technology	Surface Mount	8-SOIC (0.154", 3.90mm Width)	8-SOIC	linear-adjustable,switching	8	MIC2951-03YM-TR	https://ww1.microchip.com/downloads/en/DeviceDoc/mic2950.pdf	SOIC-8
 D	Microchip Technology	Surface Mount	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	linear-adjustable,linear-fixed,switching	5	MIC5219-2.5BMMTR	https://rocelec.widen.net/view/pdf/wtkrm2wrsk/MCRLS03615-1.pdf?t.download=true&u=5oefqw	MSOP8-DIODES
 D	Microchip Technology	Surface Mount	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-MSOP-EP	linear-adjustable	1	MIC47100YMME-TR	https://ww1.microchip.com/downloads/en/DeviceDoc/mic47100.pdf	MSOP8-DIODES
-D	Microchip Technology	Surface Mount	SC-74A, SOT-753	SOT-23-5	linear-adjustable,linear-fixed,switching	37	MIC5235BM5	https://rocelec.widen.net/view/pdf/c2ixpvkl4l/MCRLS03658-1.pdf?t.download=true&u=5oefqw	SOT23-5
+D	Microchip Technology	Surface Mount	SC-74A, SOT-753	SOT-23-5	linear-adjustable,linear-fixed,switching	36	MIC5235BM5	https://rocelec.widen.net/view/pdf/c2ixpvkl4l/MCRLS03658-1.pdf?t.download=true&u=5oefqw	SOT23-5
 D	Microchip Technology	Surface Mount	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	linear-adjustable,linear-fixed,switching	13	MIC5259-2.8YD5	https://rocelec.widen.net/view/pdf/s3yvsconx1/MCRLS02369-1.pdf?t.download=true&u=5oefqw	SOT23-5
 D	Microchip Technology	Surface Mount	SOT-23-6	SOT-23-6	switching	4	MCP1640CT-I/CHY	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP1640-Family-Data-Sheet-DS20002234E.pdf	SOT23-6
 D	Microchip Technology	Surface Mount	SOT-23-6 Thin, TSOT-23-6	TSOT-23-6	switching	1	MIC2619YD6-TR	https://ww1.microchip.com/downloads/en/DeviceDoc/mic2619.pdf	SOT23-6
@@ -38,8 +38,10 @@ D	Microchip Technology	Surface Mount	TO-236-3, SC-59, SOT-23-3	SOT-23A-3	linear-
 D	Microchip Technology	Surface Mount	TO-243AA	SOT-89-3	linear-fixed	3	MCP1700T-3302E/MB	https://ww1.microchip.com/downloads/en/DeviceDoc/MCP1700-Data-Sheet-20001826F.pdf	SOT89-3
 D	Microchip Technology	Surface Mount	TO-243AA	TO-243AA (SOT-89)	linear-adjustable	1	LR8N8-G	https://ww1.microchip.com/downloads/en/DeviceDoc/20005399B.pdf	SOT89-3
 D	Microchip Technology	Surface Mount	TO-252-3, DPAK (2 Leads + Tab), SC-63	TO-252 (DPAK)	linear-adjustable	2	LR8K4-G	https://ww1.microchip.com/downloads/en/DeviceDoc/20005399B.pdf	DPAK-3
+D	Microchip Technology	Surface Mount	TO-252-6, DPAK (5 Leads + Tab)	TO-252-5	linear-adjustable	1	MIC29152WD-TR	http://ww1.microchip.com/downloads/en/DeviceDoc/MIC2915x-30x-50x-75x-High-Current-Low-Dropout-Regulators-DS20005685B.pdf	
 D	Microchip Technology	Surface Mount	TO-261-4, TO-261AA	SOT-223-3	linear-fixed	6	TC1262-3.3VDBTR	//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/8122/TC1262.pdf	SOT223-4-NEXPERIA,SOT223-4-DIODES,SOT223-4-INFINEON-2L,SOT223-4-ONSEMI,SOT223-4-VISHAY,SOT223-3-INFINEON
 D	Microchip Technology	Surface Mount	TO-263-6, D2PAK (5 Leads + Tab), TO-263BA	TO-263-5	switching	2	LM2576-5.0WU-TR	http://ww1.microchip.com/downloads/en/DeviceDoc/lm2576.pdf	
+D	Microchip Technology	Through Hole	8-DIP (0.300", 7.62mm)	8-PDIP	switching	1	MIC4574YN	https://rocelec.widen.net/view/pdf/momjwl24gv/MCRLS06029-1.pdf?t.download=true&u=5oefqw	
 D	Texas Instruments	Surface Mount	10-PowerTFSOP, 10-MSOP (0.118", 3.00mm Width)	10-HVSSOP	switching	3	TPS62043DGQR	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62040	
 D	Texas Instruments	Surface Mount	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	10-VSSOP	switching	10	TPS62004DGSR	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62006	
 D	Texas Instruments	Surface Mount	14-PowerTSSOP (0.173", 4.40mm Width)	14-HTSSOP	switching	1	TPS54283PWPR	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps54283	
@@ -50,11 +52,11 @@ D	Texas Instruments	Surface Mount	8-SOIC (0.154", 3.90mm Width)	8-SOIC	linear-ad
 D	Texas Instruments	Surface Mount	8-SOIC (0.209", 5.30mm Width)	8-SO	switching	1	TL499ACPSR	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftl499a	SOIC-8
 D	Texas Instruments	Surface Mount	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-VSSOP	linear-adjustable,switching	4	LM2623AMMX/NOPB	//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/7138/2156_lm2623.pdf	MSOP8-DIODES
 D	Texas Instruments	Surface Mount	SC-74A, SOT-753	SOT-23-5	linear-adjustable,linear-fixed,switching	23	TPS76928DBVR	https://www.ti.com/lit/ds/symlink/tps769.pdf?ts=1742902980986&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FTPS769	SOT23-5
-D	Texas Instruments	Surface Mount	SOT-23-5 Thin, TSOT-23-5	SOT-23-THIN	linear-fixed,switching	4	TPS62222DDCR	https://www.ti.com/lit/ds/slvs491e/slvs491e.pdf	SOT23-5
+D	Texas Instruments	Surface Mount	SOT-23-5 Thin, TSOT-23-5	SOT-23-THIN	linear-fixed,switching	5	TPS62222DDCR	https://www.ti.com/lit/ds/slvs491e/slvs491e.pdf	SOT23-5
 D	Texas Instruments	Surface Mount	SOT-23-6	SOT-23-6	linear-adjustable	1	TPS79301DBVR	//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/1134/TPS793_Rev2015.pdf	SOT23-6
 D	Texas Instruments	Surface Mount	SOT-23-6 Thin, TSOT-23-6	SOT-23-THIN	switching	4	TPS564208DDCT	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps564208	SOT23-6
 D	Texas Instruments	Surface Mount	SOT-563, SOT-666	SOT-563	switching	1	TPS62A01DRLR	https://www.ti.com/lit/ds/symlink/tps62a01.pdf?ts=1651767199227&ref_url=https%253A%252F%252Fwww.ti.com%252Fsitesearch%252Fen-us%252Fdocs%252Funiversalsearch.tsp%253FlangPref%253Den-US%2526searchTerm%253DTPS62A01DRLR%2526nr%253D7	SOT563-6
-D	Texas Instruments	Surface Mount	SOT-583	SOT-583	switching	1	TPS62933DRLR	https://www.ti.com/lit/ds/symlink/tps62933p.pdf?ts=1658586703977&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FTPS62933P%253Fjktype%253Dhomepageproduct	
+D	Texas Instruments	Surface Mount	SOT-583	SOT-583	switching	2	TPS62933DRLR	https://www.ti.com/lit/ds/symlink/tps62933p.pdf?ts=1658586703977&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FTPS62933P%253Fjktype%253Dhomepageproduct	
 D	Texas Instruments	Surface Mount	TO-243AA	SOT-89-3	linear-adjustable	1	LM317LIPK	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Flm317l	SOT89-3
 D	Texas Instruments	Surface Mount	TO-261-4, TO-261AA	SOT-223	linear-fixed	1	LM1117MP-1.8/NOPB	https://www.ti.com/lit/ds/symlink/lm1117.pdf?HQS=dis-dk-null-digikeymode-dsf-pf-null-wwe&ts=1721700739746	SOT223-4-NEXPERIA,SOT223-4-DIODES,SOT223-4-INFINEON-2L,SOT223-4-ONSEMI,SOT223-4-VISHAY,SOT223-3-INFINEON
 D	Texas Instruments	Surface Mount	TO-261-4, TO-261AA	SOT-223-4	linear-adjustable,linear-fixed	8	TLV1117-18CDCYR	https://www.ti.com/lit/ds/symlink/tlv1117.pdf?ts=1751350710342&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FTLV1150	SOT223-4-NEXPERIA,SOT223-4-DIODES,SOT223-4-INFINEON-2L,SOT223-4-ONSEMI,SOT223-4-VISHAY,SOT223-3-INFINEON
@@ -76,11 +78,10 @@ E	Microchip Technology	Surface Mount	12-UFDFN Exposed Pad, 12-TMLF®	12-TMLF® (
 E	Microchip Technology	Surface Mount	12-VFDFN Exposed Pad	12-DFN (3x3)	switching	1	MIC23303YML-TR	https://ww1.microchip.com/downloads/en/DeviceDoc/MIC23303.pdf	
 E	Microchip Technology	Surface Mount	12-VFDFN Exposed Pad, 12-MLF®	12-MLF™ (3x3)	switching	4	MIC2253-06YML-TR	https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/MIC2253-High-Current-1MHz-High-Efficiency-Boost-Regulator-with-OVP-and-Soft-Start-DS20006070A.pdf	
 E	Microchip Technology	Surface Mount	12-VFDFN Exposed Pad, 12-MLF®	12-MLF™ (4x4)	switching	6	MIC2238-AAYML-TR	https://www.microchip.com/content/dam/mchp/documents/OTH/ProductDocuments/DataSheets/mic2238.pdf	
-E	Microchip Technology	Surface Mount	14-PowerVFQFN	14-VQFN (2x3)	switching	1	LX7219-02ILQ-TR	https://ww1.microchip.com/downloads/aemDocuments/documents/PM/ProductDocuments/DataSheets/Microsemi_LX7219_Datasheet_V2.pdf	
 E	Microchip Technology	Surface Mount	20-VFQFN Exposed Pad, 20-MLF®	20-MLF® (3x4)	switching	2	MIC22400YML-TR	https://ww1.microchip.com/downloads/en/DeviceDoc/MIC22400-4A-Integrated-Switch-Synch-Buck-Regulator-with-Prog-Freq-to-4MHz-DS20006243A.pdf	
 E	Microchip Technology	Surface Mount	24-VFQFN Exposed Pad, 24-MLF®	24-MLF® (4x4)	switching	3	MIC22700YML-TR	https://ww1.microchip.com/downloads/en/DeviceDoc/MIC22700-1MHz-7A-Integrated-Switch-High-Efficiency-Synchronous-Buck-Regulator-DS20006297A.pdf	
 E	Microchip Technology	Surface Mount	26-VFQFN Exposed Pad	26-QFN (4x4)	switching	1	MIC23451-AAAYFL-TR	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC23451-3MHz-2A-Triple-Synchronous-Buck-Regulator-with-HyperLight-Load-and-Power-Good-DS20006662A.pdf	
-E	Microchip Technology	Surface Mount	28-PowerVQFN	28-QFN (5x6)	switching	1	MIC27600YJL-TR	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC27600-36V-7A-Hyper-Speed-Control-Synchronous-DC-DC-Buck-Regulator-DS20006878.pdf	
+E	Microchip Technology	Surface Mount	28-PowerVQFN	28-QFN (5x6)	switching	2	MIC27600YJL-TR	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC27600-36V-7A-Hyper-Speed-Control-Synchronous-DC-DC-Buck-Regulator-DS20006878.pdf	
 E	Microchip Technology	Surface Mount	4-UFDFN Exposed Pad	4-TDFN (1.2x1.6)	linear-fixed	1	MIC94310-PYMT-TR	https://ww1.microchip.com/downloads/en/DeviceDoc/MIC94310-Data-Sheet-20006105B.pdf	
 E	Microchip Technology	Surface Mount	4-UFDFN Exposed Pad, 4-TMLF®	4-TMLF® (1.2x1.6)	linear-fixed	2	MIC5302-1.8YMT	https://rocelec.widen.net/view/pdf/bpld9kujgp/MCRLS03850-1.pdf?t.download=true&u=5oefqw	
 E	Microchip Technology	Surface Mount	6-UDFN Exposed Pad, 6-TMLF®	6-TMLF® (2x2)	linear-adjustable,linear-fixed	2	MIC5305-4.6YMT	https://rocelec.widen.net/view/pdf/hr5hq33zr0/MCRLS02653-1.pdf?t.download=true&u=5oefqw	
@@ -102,10 +103,8 @@ E	Texas Instruments	Surface Mount	10-VFDFN Exposed Pad	10-VSON (3x3)	linear-mult
 E	Texas Instruments	Surface Mount	10-WFDFN Exposed Pad	10-WSON (3x3)	switching	1	TPS61202DSCR	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps61202	
 E	Texas Instruments	Surface Mount	12-WFDFN Exposed Pad	12-WSON (4x4)	linear-adjustable	1	LP38798SD-ADJ/NOPB	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Flp38798	
 E	Texas Instruments	Surface Mount	16-VFQFN Exposed Pad	16-VQFN (3x3)	switching	1	TPS53311RGTT	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps53311	
-E	Texas Instruments	Surface Mount	20-UFBGA	20-uSMD	switching	1	LM3370TLX-3022/NOPB	https://rocelec.widen.net/view/pdf/msc8zvy86x/NATLS12045-1.pdf?t.download=true&u=5oefqw	
 E	Texas Instruments	Surface Mount	20-UFBGA, DSBGA	20-DSBGA	switching	1	TPS630241YFFR	https://www.ti.com/lit/gpn/tps63024	
 E	Texas Instruments	Surface Mount	20-VQFN Exposed Pad	20-VQFN (5x5)	linear-adjustable	2	TPS74901RGWR	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps74901	
-E	Texas Instruments	Surface Mount	20-WFBGA	20-uSMD (2.05x3)	switching	1	LM3370TLX-3006/NOPB	https://rocelec.widen.net/view/pdf/msc8zvy86x/NATLS12045-1.pdf?t.download=true&u=5oefqw	
 E	Texas Instruments	Surface Mount	4-UFBGA, DSBGA	4-DSBGA	linear-fixed	1	TPS72748YFFR	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps727	
 E	Texas Instruments	Surface Mount	4-UFBGA, DSBGA	4-DSBGA (1x1)	linear-fixed	4	TPS72718YFFR	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps727	
 E	Texas Instruments	Surface Mount	4-WFBGA, DSBGA	4-DSBGA (1.01x1.29)	linear-fixed	1	LP5900TLX-2.7/NOPB	https://rocelec.widen.net/view/pdf/uycrpnwnek/NATLS11477-1.pdf?t.download=true&u=5oefqw	
@@ -131,18 +130,15 @@ E	Texas Instruments	Surface Mount	8-WDFN Exposed Pad	8-SON (4x4)	linear-fixed	1	
 E	Texas Instruments	Surface Mount	8-WDFN Exposed Pad	8-WSON (4x4)	linear-fixed	1	LM1117LD-2.5/NOPB	https://www.ti.com/lit/ds/symlink/lm1117.pdf?HQS=dis-dk-null-digikeymode-dsf-pf-null-wwe&ts=1721700739746	
 E	Texas Instruments	Surface Mount	8-WFDFN Exposed Pad	8-WSON (2x2)	switching	3	TPS62081DSGR	//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/7138/2156_tps62082.pdf	
 E	Texas Instruments	Surface Mount	9-UFBGA, DSBGA	9-DSBGA	switching	1	TPS61259YFFR	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps61259	
-F	Analog Devices	Surface Mount	10-VFDFN Exposed Pad, CSP	10-LFCSP-WD (3x3)	linear-adjustable,linear-fixed,switching	5	ADP2119ACPZ-R7	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP2119_2120.pdf	
+F	Analog Devices	Surface Mount	10-VFDFN Exposed Pad, CSP	10-LFCSP-WD (3x3)	linear-adjustable,linear-fixed,switching	6	ADP2119ACPZ-R7	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP2119_2120.pdf	
 F	Analog Devices	Surface Mount	10-WFDFN Exposed Pad	10-DFN (3x3)	linear-adjustable,linear-multi,switching	5	LT3065EDD#PBF	https://www.analog.com/media/en/technical-documentation/data-sheets/LT3065.pdf	
 F	Analog Devices	Surface Mount	10-WFDFN Exposed Pad	10-TDFN (2.5x2)	switching	1	MAX77597ETBB+T	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX77597.pdf	
 F	Analog Devices	Surface Mount	10-WFDFN Exposed Pad	10-TDFN (3x2)	switching	4	MAX17502FATB+T	https://www.analog.com/media/en/technical-documentation/data-sheets/max17502.pdf	
-F	Analog Devices	Surface Mount	11-UFQFN	11-FC2QFN (2.5x2)	switching	1	MAX77839BEFQ+T	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX77839.pdf	
 F	Analog Devices	Surface Mount	12-PowerUFQFN	12-FC2QFN (2.5x2.5)	switching	1	MAX77504AAFC+T	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX77504.pdf	
 F	Analog Devices	Surface Mount	12-WFDFN Exposed Pad	12-DFN (4x3)	linear-adjustable,switching	3	LT3012EDE#TRPBF	https://www.analog.com/media/en/technical-documentation/data-sheets/3012fd.pdf	
 F	Analog Devices	Surface Mount	12-WFDFN Exposed Pad	12-TDFN (3x3)	switching	1	MAX17760ATC+	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX17760.pdf	
-F	Analog Devices	Surface Mount	14-PowerUFQFN	14-FC2QFN (2.5x2.5)	switching	1	MAX77827DEFD+T	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX77827.pdf	
 F	Analog Devices	Surface Mount	14-WFDFN Exposed Pad	14-DFN (4x3)	switching	2	LTC3533EDE#TRPBF	https://www.analog.com/media/en/technical-documentation/data-sheets/3533fc.pdf	
 F	Analog Devices	Surface Mount	14-WFDFN Exposed Pad	14-TDFN (3x3)	switching	1	MAX8627ETD+T	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX8627.pdf	
-F	Analog Devices	Surface Mount	16-WFBGA, WLBGA	16-WLP (1.99x1.99)	switching	2	MAX77675GEWE+T	https://www.analog.com/media/en/technical-documentation/data-sheets/max77675.pdf	
 F	Analog Devices	Surface Mount	16-WFDFN Exposed Pad	16-DFN (4x3)	linear-multi	1	LT3029IDE#PBF	https://www.analog.com/media/en/technical-documentation/data-sheets/3029fb.pdf	
 F	Analog Devices	Surface Mount	16-WFQFN Exposed Pad	16-QFN (3x3)	switching	2	LTC3601EUD#TRPBF	https://www.analog.com/media/en/technical-documentation/data-sheets/3601fc.pdf	
 F	Analog Devices	Surface Mount	16-WFQFN Exposed Pad	16-TQFN (3x3)	switching	2	MAX17644BATE+	https://www.analog.com/media/en/technical-documentation/data-sheets/max17644.pdf	
@@ -152,7 +148,7 @@ F	Analog Devices	Surface Mount	16-WQFN Exposed Pad, CSP	16-LFCSP (4x4)	linear-ad
 F	Analog Devices	Surface Mount	20-WFQFN Exposed Pad	20-QFN (3x4)	switching	1	LTC3130EUDC#PBF	https://www.analog.com/media/en/technical-documentation/data-sheets/3130f.pdf	
 F	Analog Devices	Surface Mount	20-WFQFN Exposed Pad	20-TQFN (4x4)	switching	1	MAX17543ATP+T	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX17543.pdf	
 F	Analog Devices	Surface Mount	20-WQFN Exposed Pad	20-TQFN (5x5)	switching	1	MAX17546ATP+T	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX17546.pdf	
-F	Analog Devices	Surface Mount	24-TFQFN Exposed Pad	24-LQFN (4x4)	switching	3	LT8642SEV#PBF	https://www.analog.com/media/en/technical-documentation/data-sheets/lt8642s.pdf	
+F	Analog Devices	Surface Mount	24-TFQFN Exposed Pad	24-LQFN (4x4)	switching	2	LT8642SEV#PBF	https://www.analog.com/media/en/technical-documentation/data-sheets/lt8642s.pdf	
 F	Analog Devices	Surface Mount	24-WFQFN Exposed Pad, CSP	24-LFCSP (4x4)	switching	1	ADP2386ACPZN-R7	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP2386.pdf	
 F	Analog Devices	Surface Mount	28-VFQFN Exposed Pad	28-LQFN (5x4)	switching	1	LT3120JV#PBF	https://www.analog.com/media/en/technical-documentation/data-sheets/lt3120.pdf	
 F	Analog Devices	Surface Mount	28-WFQFN Exposed Pad	28-QFN (3x6)	switching	2	LT8612EUDE#TRPBF	https://www.analog.com/media/en/technical-documentation/data-sheets/lt8612.pdf	
@@ -163,18 +159,17 @@ F	Analog Devices	Surface Mount	4-WFBGA, WLCSP	4-WLCSP (0.76x0.76)	linear-fixed	3
 F	Analog Devices	Surface Mount	4-WFBGA, WLCSP	4-WLCSP (0.82x0.82)	linear-fixed	2	ADP121-ACBZ33R7	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP121.pdf	
 F	Analog Devices	Surface Mount	6-UDFN Exposed Pad, CSP	6-LFCSP-UD (2x2)	linear-adjustable,linear-fixed,switching	3	ADP123ACPZ-R7	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP122_123.pdf	
 F	Analog Devices	Surface Mount	6-UFBGA, WLCSP	6-WLCSP (1.03x1.50)	switching	1	ADP2138ACBZ-1.0-R7	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP2138_2139.pdf	
-F	Analog Devices	Surface Mount	6-WDFN	6-µDFN (2x2)	switching	2	MAX17225ELT+T	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX17220-MAX17225.pdf	
 F	Analog Devices	Surface Mount	6-WFDFN Exposed Pad	6-DFN (2x2)	linear-adjustable,switching	2	LTC3025EDC-1#TRPBF	https://www.analog.com/media/en/technical-documentation/data-sheets/ltc3025-1-3025-2-3025-3-3025-4.pdf	
 F	Analog Devices	Surface Mount	6-WFDFN Exposed Pad	6-DFN (2x3)	switching	1	LTC3549EDCB#TRPBF	https://www.analog.com/media/en/technical-documentation/data-sheets/3549f.pdf	
 F	Analog Devices	Surface Mount	6-XFBGA, WLBGA	6-WLP (1.22x0.82)	linear-adjustable	1	MAX38902CANT+T	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX38902A-MAX38902D.pdf	
 F	Analog Devices	Surface Mount	6-XFBGA, WLBGA	6-WLP (1.27x0.87)	switching	1	MAX17291BANT+T	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX17291B.pdf	
-F	Analog Devices	Surface Mount	6-XFBGA, WLBGA	6-WLP (1.58x.89)	switching	1	MAX17227JANT+T	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX17227J.pdf	
 F	Analog Devices	Surface Mount	6-XFBGA, WLCSP	6-WLCSP (0.95x1.16)	linear-adjustable	1	ADP7112ACBZ-1.2-R7	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP7112.pdf	
 F	Analog Devices	Surface Mount	8-UFDFN Exposed Pad, CSP	8-LFCSP-UD (2x2)	linear-fixed,linear-multi	5	ADP124ACPZ-3.3-R7	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP124_125.pdf	
 F	Analog Devices	Surface Mount	8-WDFN Exposed Pad	8-TDFN (3x3)	linear-multi	1	MAX8559ETAAA+T	https://www.analog.com/media/en/technical-documentation/data-sheets/max8559.pdf	
-F	Analog Devices	Surface Mount	8-WFDFN	8-TDFN (2x2)	switching	4	MAX15062BATA+T	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX15062.pdf	
+F	Analog Devices	Surface Mount	8-WFDFN	8-TDFN (2x2)	switching	5	MAX15062BATA+T	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX15062.pdf	
 F	Analog Devices	Surface Mount	8-WFDFN Exposed Pad	8-DFN (2x2)	linear-fixed	2	LT3060EDC-3.3#TRMPBF	https://www.analog.com/media/en/technical-documentation/data-sheets/lt3060.pdf	
+F	Analog Devices	Surface Mount	8-WFDFN Exposed Pad	8-DFN (2x3)	switching	1	LT3663EDCB#TRPBF	https://www.analog.com/media/en/technical-documentation/data-sheets/3663fc.pdf	
 F	Analog Devices	Surface Mount	8-WFDFN Exposed Pad	8-DFN (3x2)	switching	1	LT3494EDDB#TRMPBF	https://www.analog.com/media/en/technical-documentation/data-sheets/3494fb.pdf	
-F	Analog Devices	Surface Mount	8-WFDFN Exposed Pad	8-DFN (3x3)	linear-adjustable,linear-fixed	2	LT1965IDD#TRPBF	https://www.analog.com/media/en/technical-documentation/data-sheets/1965fb.pdf	
-F	Analog Devices	Surface Mount	8-WFDFN Exposed Pad	8-TDFN-EP (2x2)	linear-adjustable,switching	3	MAX8902BATA+T	https://www.analog.com/media/en/technical-documentation/data-sheets/max8902-max8902b.pdf	
+F	Analog Devices	Surface Mount	8-WFDFN Exposed Pad	8-DFN (3x3)	linear-adjustable,linear-fixed,switching	3	LT1965IDD#TRPBF	https://www.analog.com/media/en/technical-documentation/data-sheets/1965fb.pdf	
+F	Analog Devices	Surface Mount	8-WFDFN Exposed Pad	8-TDFN-EP (2x2)	linear-adjustable	1	MAX8902BATA+T	https://www.analog.com/media/en/technical-documentation/data-sheets/max8902-max8902b.pdf	
 F	Analog Devices	Surface Mount	8-WFDFN Exposed Pad, CSP	8-LFCSP-WD (3x3)	linear-adjustable,linear-fixed,switching	14	ADM7172ACPZ-R7	https://www.analog.com/media/en/technical-documentation/data-sheets/ADM7172.pdf	

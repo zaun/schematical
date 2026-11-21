@@ -10,7 +10,7 @@ import common
 SPECS = os.path.join(common.DATA, "specs.tsv")
 CANDIDATES = os.path.join(common.DATA, "candidates.tsv")
 COLS = ["maker", "series", "pdf", "package", "rows", "example", "scheme", "label", "pinout", "pinout_adj",
-        "regulators", "analog", "vref", "vin_min", "dropout", "adjust_to"]
+        "regulators", "regulators_adj", "analog", "analog_adj", "vref", "vin_min", "dropout", "adjust_to"]
 B_COLS = ["scheme", "label"]
 C_COLS = COLS[8:]
 # scheme values that are no regex: `-` the PDF has no ordering table (only a

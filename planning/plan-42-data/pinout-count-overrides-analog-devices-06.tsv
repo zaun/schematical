@@ -1,0 +1,3 @@
+pdf	package	count	evidence
+datasheets/regulator/analog-devices/lt1963a.pdf	TO-261-4, TO-261AA	3	p.2 ST package 3-lead SOT-223: leads 1 IN, 2 GND, 3 OUT; TAB IS GND is not numbered
+datasheets/regulator/analog-devices/lt3080.pdf	TO-261-4, TO-261AA	3	p.2 ST package 3-lead SOT-223: leads 1 SET, 2 OUT, 3 IN; TAB IS OUT is not numbered

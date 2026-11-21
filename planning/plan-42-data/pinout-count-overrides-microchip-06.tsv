@@ -1,0 +1,3 @@
+pdf	package	count	evidence
+datasheets/regulator/microchip/TC1262-Data-Sheet-DS200013732.pdf	TO-261-4, TO-261AA	3	p.1 package drawing and Table 2-1 p.4: 3-Pin SOT-223, pins 1 VIN, 2 GND, 3 VOUT; "Tab is GND" is not numbered
+datasheets/regulator/microchip/lm2576.pdf	TO-263-6, D2PAK (5 Leads + Tab), TO-263BA	5	p.2 Pin Configurations 5-LEAD TO-263 (U): pins 1-5 numbered (VIN, OUTPUT, GROUND, FEEDBACK, ON/OFF); tab unnumbered

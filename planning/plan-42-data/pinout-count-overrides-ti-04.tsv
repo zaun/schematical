@@ -1,0 +1,2 @@
+pdf	package	count	evidence
+datasheets/regulator/ti/tps61021a.pdf	8-WFDFN Exposed Pad	9	p.3 Table 6-1 Pin Functions DSG: the thermal pad is numbered 9 and is the only PGND (power ground) terminal; 8 leads + numbered pad 9
