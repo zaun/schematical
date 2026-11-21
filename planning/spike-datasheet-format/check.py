@@ -63,7 +63,7 @@ FRONT_KEYS = {"format", "version", "id", "title", "class", "source", "devices", 
               "pending"}
 SOURCE_KEYS = {"pdf", "vendor", "document", "date", "pages"}
 VALUE_COLS = {"min", "typ", "nom", "max", "value"}
-NAMED_COLS = {"symbol", "parameter", "conditions", "test conditions", "from", "to", "unit"} | VALUE_COLS
+NAMED_COLS = {"symbol", "parameter", "thermal metric", "conditions", "test conditions", "from", "to", "unit"} | VALUE_COLS
 HOLD_TO_CATALOG = False     # mutate.py sets this: its copies of app files live in a temporary folder
 ORDER_STATUS = ("Obsolete", "NRND", "Last Time Buy", "Preview")
 SIZE_WARN = 30 * 1024
@@ -267,7 +267,7 @@ def check_table(rep, start, body, attrs, section):
                     continue
                 if EXPR_RE.match(v) and ("~" in v or "×" in v):
                     continue
-                if v in RAILS or v == "N/A":
+                if v in RAILS or v in ("N/A", "Unlimited"):
                     continue          # N/A: the source prints "N/A" for this cell
                 rep.err(ln, 'value cell "%s" (column %s) is not a number, ratio or symbol expression'
                         % (cells[c], names[c] or c + 1))
