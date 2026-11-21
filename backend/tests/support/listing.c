@@ -40,6 +40,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_GENERIC: return "generic";
         case PART_SERIALMEM: return "serialmem";
         case PART_NIXIE: return "nixie";
+        case PART_REGULATOR: return "regulator";
     }
     return "?";
 }
@@ -204,6 +205,25 @@ static void print_details(FILE *out, const Part *part) {
             }
             fputs(" anodePins=", out);
             print_numbers(out, part->pins, n->anode_pins, n->anode_pin_count);
+            break;
+        }
+        case PART_REGULATOR: {
+            const PartRegulator *r = part->regulator;
+            size_t i;
+
+            fprintf(out, "regulators=%zu type=%s mixed=%u adjustable=%u vout=", r->regulator_count, r->type,
+                    (unsigned)r->mixed, (unsigned)r->adjustable);
+            for (i = 0; i < r->regulator_count; i++) {
+                fprintf(out, "%s%u", i > 0 ? "," : "", (unsigned)r->vout_mv[i]);
+            }
+            fputs(" vref=", out);
+            for (i = 0; i < r->regulator_count; i++) {
+                fprintf(out, "%s%u", i > 0 ? "," : "", (unsigned)r->vref_mv[i]);
+            }
+            fprintf(out, " voutMax=%u vinMin=%u vinMax=%u dropout=%u iout=%u iq=%u fsw=%llu",
+                    (unsigned)r->vout_max_mv, (unsigned)r->vin_min_mv, (unsigned)r->vin_max_mv,
+                    (unsigned)r->dropout_mv, (unsigned)r->iout_ma, (unsigned)r->iq_ua,
+                    (unsigned long long)r->fsw_hz);
             break;
         }
         case PART_TRANSISTOR:

@@ -8,8 +8,12 @@
  *
  * A net's voltage comes from, in order: the supplies on it (the highest),
  * else the outputs of powered parts on it (a part with a "vcc" range is
- * powered at the highest voltage on its power pins), else what a generic
- * LED or a nixie tube carries from its anode to its cathode. A net with none of these has
+ * powered at the highest voltage on its power pins), else the regulated
+ * level of a regulator's output (plan-42-G: the part's output voltage while
+ * its input has the headroom and its enable is active; for an adjustable
+ * regulator Vref worked out from the two resistors of its feedback divider),
+ * else what a generic LED or a nixie tube carries from its anode to its
+ * cathode. A net with none of these has
  * no known voltage and is not checked. Parts with no "vcc" data are neither
  * checked nor sources. A supply and GND on one net is a short, not a
  * voltage problem.
@@ -30,7 +34,8 @@ typedef enum {
     VOLTAGE_SWITCH_OVER,    /* switch contact pin above its rating */
     VOLTAGE_CAPACITOR_OVER, /* capacitor pin above its rated voltage (plan-33-E) */
     VOLTAGE_TRANSISTOR_OVER, /* transistor channel pin above Vceo / Vds, gate above Vgs (plan-40-F) */
-    VOLTAGE_NIXIE_UNDER     /* nixie anode below the tube's firing voltage (min_mv; max_mv = 0) */
+    VOLTAGE_NIXIE_UNDER,    /* nixie anode below the tube's firing voltage (min_mv; max_mv = 0) */
+    VOLTAGE_REGULATOR_INPUT_OVER /* regulator input or enable pin above the part's input maximum (plan-42-G; max_mv) */
 } VoltageProblemKind;
 
 typedef struct { size_t part; size_t pin; size_t net; } VoltageConnection;  /* pin: index into Part.pins */
@@ -46,11 +51,14 @@ typedef struct {
 } VoltageProblem;
 
 /* Returns the number of problems (all of them); writes up to cap into out,
-   ordered by net, then part, then pin. parts[i] is the part at index i. */
+   ordered by net, then part, then pin. parts[i] is the part at index i.
+   milliohms (part_count entries, or NULL): a non-zero entry replaces that
+   resistor part's PartResistor.milliohms in the feedback divider of an
+   adjustable regulator (a placed GENERIC-RESISTOR's value; plan-42-G). */
 size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_count,
                      const VoltageConnection *connections, size_t connection_count,
                      const VoltageContact *closed, size_t closed_count,
-                     VoltageProblem *out, size_t cap);
+                     const uint64_t *milliohms, VoltageProblem *out, size_t cap);
 
 /* "voltage: …" text, e.g.
      voltage: 5 V on pin 14 (VCC) of SN74AUC00PWR; it needs 0.8-2.7 V

@@ -12,6 +12,14 @@
  *      a group (open-drain outputs skipped); carried C = an LED's or a
  *      nixie's anode voltage on its cathode's group. Effective E = S, else D, else P,
  *      else C.
+ *   3b. A regulator (plan-42-G): each element whose input has the headroom
+ *      (a linear one needs its output voltage plus its dropout, a switching
+ *      one its minimum input) and whose enable is not inactive raises the
+ *      regulated level R of its output pins' groups to the part's output
+ *      voltage; for an adjustable element Vref is worked out from the two
+ *      resistors of its feedback divider (divider_mv). R is between S and D in
+ *      the order of levels: S, else R, else D, else P, else C. A group whose
+ *      R differs from its S, or that holds two different R, is a clash.
  *   3a. A part with supply domains (dual-supply translators, plan-20-F):
  *      each domain is powered at the highest known voltage on its own power
  *      pins, and the domain's outputs drive that level.
@@ -21,6 +29,7 @@
 
 #include "voltage.h"
 
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -95,11 +104,15 @@ static int domain_of(const Part *part, size_t pin, int *power) {
     return -1;
 }
 
-/* E: the supply level, else the driven one, else the pulled one, else the
-   carried one. */
-static Level effective(const Level *s, const Level *d, const Level *p, const Level *c, size_t g) {
+/* E: the supply level, else the regulated one, else the driven one, else the
+   pulled one, else the carried one. */
+static Level effective(const Level *s, const Level *r, const Level *d, const Level *p, const Level *c,
+                       size_t g) {
     if (s[g].known) {
         return s[g];
+    }
+    if (r[g].known) {
+        return r[g];
     }
     if (d[g].known) {
         return d[g];
@@ -110,15 +123,127 @@ static Level effective(const Level *s, const Level *d, const Level *p, const Lev
     return c[g];
 }
 
+/* The group a pin's connection puts it on; 0 when the pin is not connected
+   (found = 0). */
+static size_t pin_group(size_t *parent, size_t net_count, const VoltageConnection *connections,
+                        size_t connection_count, size_t part, size_t pin, int *found) {
+    size_t j;
+
+    for (j = 0; j < connection_count; j++) {
+        if (connections[j].part == part && connections[j].pin == pin && connections[j].net < net_count) {
+            *found = 1;
+            return find(parent, connections[j].net);
+        }
+    }
+    *found = 0;
+    return 0;
+}
+
+/* The output level of an adjustable regulator element, in millivolts, from
+   its feedback divider (plan-42-G section 3.3). O is the group of the
+   element's output pin and A the group of its adjust pin; ground groups are
+   those whose supply level is known and 0. Every resistor link with an end
+   on A is a side of the divider: its other end on O is Rtop, on a ground
+   group Rbottom (links in parallel combine); a link whose other end is
+   anywhere else, or of value 0, leaves the level unknown, and both sides
+   must have a link. A link whose other end is not connected is ignored. 0
+   when the level is unknown. adjust_output: Vref sits between OUT and ADJ
+   (LM317 style), v = Vref * (Rtop + Rbottom) / Rtop; else the adjust pin is
+   Vref above ground, v = Vref * (Rtop + Rbottom) / Rbottom. */
+static uint32_t divider_mv(const Part *const *parts, size_t part_count, size_t net_count,
+                           const VoltageConnection *connections, size_t connection_count,
+                           const uint64_t *milliohms, size_t *parent, const Level *supply, size_t o_group,
+                           size_t a_group, uint32_t vref_mv, int adjust_output) {
+    double g_top = 0, g_bottom = 0;
+    int top = 0, bottom = 0;
+    size_t i;
+    size_t k;
+
+    for (i = 0; i < part_count; i++) {
+        size_t a;
+        size_t b;
+
+        if (parts[i]->kind != PART_RESISTOR || parts[i]->resistor == NULL) {
+            continue;
+        }
+        for (k = 0; resistor_pair(parts[i], k, &a, &b); k++) {
+            int fa;
+            int fb;
+            size_t ga = pin_group(parent, net_count, connections, connection_count, i, a, &fa);
+            size_t gb = pin_group(parent, net_count, connections, connection_count, i, b, &fb);
+            size_t other;
+            int found_other;
+            uint64_t value;
+
+            if ((!fa || ga != a_group) && (!fb || gb != a_group)) {
+                continue;               /* neither end on the adjust net */
+            }
+            if (fa && fb && ga == a_group && gb == a_group) {
+                continue;               /* both ends on it: no divider side */
+            }
+            other = fa && ga == a_group ? gb : ga;
+            found_other = fa && ga == a_group ? fb : fa;
+            if (!found_other) {
+                continue;
+            }
+            value = milliohms != NULL && milliohms[i] != 0 ? milliohms[i] : parts[i]->resistor->milliohms;
+            if (value == 0) {
+                return 0;
+            }
+            if (other == o_group) {
+                g_top += 1.0 / (double)value;
+                top = 1;
+            } else if (supply[other].known && supply[other].mv == 0) {
+                g_bottom += 1.0 / (double)value;
+                bottom = 1;
+            } else {
+                return 0;
+            }
+        }
+    }
+    if (!top || !bottom) {
+        return 0;
+    }
+    {
+        double r_top = 1.0 / g_top;
+        double r_bottom = 1.0 / g_bottom;
+        double v = (double)vref_mv * (r_top + r_bottom) / (adjust_output ? r_top : r_bottom);
+
+        if (v < 1 || v > 4e9) {
+            return 0;
+        }
+        return (uint32_t)llround(v);
+    }
+}
+
+/* 1 when pin is an input or an enable pin of any element of a regulator. */
+static int regulator_vin_pin(const Part *part, size_t pin) {
+    size_t k;
+    size_t enable;
+
+    for (k = 0; regulator_element(part, k, NULL, NULL, NULL, &enable, NULL, NULL, NULL, NULL); k++) {
+        if (regulator_pin_in(part, k, pin) || (enable != SIZE_MAX && enable == pin)) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_count,
                      const VoltageConnection *connections, size_t connection_count,
                      const VoltageContact *closed, size_t closed_count,
-                     VoltageProblem *out, size_t cap) {
+                     const uint64_t *milliohms, VoltageProblem *out, size_t cap) {
     size_t *parent = malloc((net_count + 1) * sizeof(*parent));
     Level *supply = calloc(net_count + 1, sizeof(*supply));
     Level *driven = calloc(net_count + 1, sizeof(*driven));
     Level *carried = calloc(net_count + 1, sizeof(*carried));
     Level *pulled = calloc(net_count + 1, sizeof(*pulled));
+    Level *regulated = calloc(net_count + 1, sizeof(*regulated));
+    size_t *reg_low_part = malloc((net_count + 1) * sizeof(*reg_low_part));
+    size_t *reg_low_pin = malloc((net_count + 1) * sizeof(*reg_low_pin));
+    size_t *reg_low_net = malloc((net_count + 1) * sizeof(*reg_low_net));
+    size_t *reg_high_part = malloc((net_count + 1) * sizeof(*reg_high_part));
+    uint32_t *reg_low_mv = calloc(net_count + 1, sizeof(*reg_low_mv));
     size_t *clash_first = malloc((net_count + 1) * sizeof(*clash_first));
     size_t *clash_conn = malloc((net_count + 1) * sizeof(*clash_conn));
     unsigned char *clash_done = calloc(net_count + 1, 1);
@@ -130,8 +255,12 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
     int changed;
 
     if (parent == NULL || supply == NULL || driven == NULL || carried == NULL || pulled == NULL ||
+        regulated == NULL || reg_low_part == NULL || reg_low_pin == NULL || reg_low_net == NULL ||
+        reg_high_part == NULL || reg_low_mv == NULL ||
         clash_first == NULL || clash_conn == NULL || clash_done == NULL || found == NULL) {
         free(parent); free(supply); free(driven); free(carried); free(pulled);
+        free(regulated); free(reg_low_part); free(reg_low_pin); free(reg_low_net); free(reg_high_part);
+        free(reg_low_mv);
         free(clash_first); free(clash_conn); free(clash_done); free(found);
         return 0;
     }
@@ -264,7 +393,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
                     for (j = 0; j < connection_count; j++) {
                         if (connections[j].part == i && connections[j].pin == anode &&
                             connections[j].net < net_count) {
-                            Level e = effective(supply, driven, pulled, carried, find(parent, connections[j].net));
+                            Level e = effective(supply, regulated, driven, pulled, carried, find(parent, connections[j].net));
 
                             if (e.known) {
                                 level_raise(&from, e.mv);
@@ -297,7 +426,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
                     for (j = 0; j < connection_count; j++) {
                         if (connections[j].part == i && connections[j].pin == anode &&
                             connections[j].net < net_count) {
-                            Level e = effective(supply, driven, pulled, carried, find(parent, connections[j].net));
+                            Level e = effective(supply, regulated, driven, pulled, carried, find(parent, connections[j].net));
 
                             if (e.known) {
                                 level_raise(&from, e.mv);
@@ -329,7 +458,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
                     for (j = 0; j < connection_count; j++) {
                         if (connections[j].part == i && connections[j].pin == anode &&
                             connections[j].net < net_count) {
-                            Level e = effective(supply, driven, pulled, carried, find(parent, connections[j].net));
+                            Level e = effective(supply, regulated, driven, pulled, carried, find(parent, connections[j].net));
 
                             if (e.known) {
                                 level_raise(&from, e.mv);
@@ -365,7 +494,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
                         for (j = 0; j < connection_count; j++) {
                             if (connections[j].part == i && connections[j].pin == from_pin &&
                                 connections[j].net < net_count) {
-                                Level e = effective(supply, driven, pulled, carried,
+                                Level e = effective(supply, regulated, driven, pulled, carried,
                                                     find(parent, connections[j].net));
 
                                 if (e.known) {
@@ -387,6 +516,100 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
                 }
                 continue;
             }
+            /* A regulator (3b): see the header. */
+            if (part->kind == PART_REGULATOR && part->regulator != NULL) {
+                const PartRegulator *reg = part->regulator;
+                size_t k;
+                const char *type;
+                size_t in_pin, out_pin, en_pin, pg_pin, adj_pin;
+                int en_low, adj_out;
+
+                for (k = 0; regulator_element(part, k, &type, &in_pin, &out_pin, &en_pin, &en_low, &pg_pin,
+                                              &adj_pin, &adj_out);
+                     k++) {
+                    Level vin = {0, 0};
+                    uint32_t v;
+                    int linear = type[0] == 'l';
+                    int pin_found;
+
+                    (void)pg_pin;
+                    for (j = 0; j < connection_count; j++) {
+                        if (connections[j].part == i && connections[j].net < net_count &&
+                            regulator_pin_in(part, k, connections[j].pin)) {
+                            Level e = effective(supply, regulated, driven, pulled, carried,
+                                                find(parent, connections[j].net));
+
+                            if (e.known) {
+                                level_raise(&vin, e.mv);
+                            }
+                        }
+                    }
+                    if (!vin.known || vin.mv == 0) {
+                        continue;
+                    }
+                    if (en_pin != SIZE_MAX) {
+                        size_t eg = pin_group(parent, net_count, connections, connection_count, i, en_pin,
+                                              &pin_found);
+
+                        if (pin_found) {
+                            Level e = effective(supply, regulated, driven, pulled, carried, eg);
+
+                            if (e.known && (en_low ? e.mv > 0 : e.mv == 0)) {
+                                continue;    /* disabled */
+                            }
+                        }
+                    }
+                    if (adj_pin != SIZE_MAX) {
+                        int fo;
+                        int fa;
+                        size_t og = pin_group(parent, net_count, connections, connection_count, i, out_pin, &fo);
+                        size_t ag = pin_group(parent, net_count, connections, connection_count, i, adj_pin, &fa);
+
+                        if (!fo || !fa) {
+                            continue;
+                        }
+                        v = divider_mv(parts, part_count, net_count, connections, connection_count, milliohms,
+                                       parent, supply, og, ag, reg->vref_mv[k], adj_out);
+                    } else {
+                        v = reg->vout_mv[k];
+                    }
+                    if (v == 0) {
+                        continue;
+                    }
+                    if ((linear ? vin.mv < v + reg->dropout_mv : 0) ||
+                        (reg->vin_min_mv != 0 && vin.mv < reg->vin_min_mv)) {
+                        continue;            /* no headroom: unpowered */
+                    }
+                    for (j = 0; j < connection_count; j++) {
+                        const VoltageConnection *c = &connections[j];
+
+                        if (c->part == i && c->net < net_count && regulator_pin_out(part, k, c->pin)) {
+                            size_t g = find(parent, c->net);
+                            Level before = regulated[g];
+
+                            level_raise(&regulated[g], v);
+                            if (!before.known) {
+                                reg_low_part[g] = reg_high_part[g] = i;
+                                reg_low_mv[g] = v;
+                                reg_low_pin[g] = c->pin;
+                                reg_low_net[g] = c->net;
+                            } else {
+                                if (v < reg_low_mv[g]) {
+                                    reg_low_part[g] = i;
+                                    reg_low_mv[g] = v;
+                                    reg_low_pin[g] = c->pin;
+                                    reg_low_net[g] = c->net;
+                                }
+                                if (v > before.mv) {
+                                    reg_high_part[g] = i;
+                                }
+                            }
+                            changed |= before.known != regulated[g].known || before.mv != regulated[g].mv;
+                        }
+                    }
+                }
+                continue;
+            }
             if (part->vcc == NULL) {
                 continue;
             }
@@ -403,7 +626,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
 
                         if (c->part == i && c->net < net_count && c->pin < part->pin_count &&
                             domain_of(part, c->pin, &is_power) == (int)k && is_power) {
-                            Level e = effective(supply, driven, pulled, carried, find(parent, c->net));
+                            Level e = effective(supply, regulated, driven, pulled, carried, find(parent, c->net));
 
                             if (e.known) {
                                 level_raise(&dp, e.mv);
@@ -440,7 +663,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
 
                 if (c->part == i && c->net < net_count && c->pin < part->pin_count &&
                     part->pins[c->pin].role == PIN_POWER && !part_pin_analog(part, c->pin)) {
-                    Level e = effective(supply, driven, pulled, carried, find(parent, c->net));
+                    Level e = effective(supply, regulated, driven, pulled, carried, find(parent, c->net));
 
                     if (e.known) {
                         level_raise(&power, e.mv);
@@ -470,6 +693,40 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
         }
     }
 
+    /* 3c. A regulated level that differs from the supply level of its group,
+       or two regulators with different levels on one group: one clash per
+       group, a supply clash found in step 2 first. Ground (S = 0) on an
+       output is the engine's short, not a voltage problem. */
+    for (i = 0; i < net_count; i++) {
+        VoltageProblem *p;
+
+        if (find(parent, i) != i || !regulated[i].known || clash_done[i]) {
+            continue;
+        }
+        if (supply[i].known && supply[i].mv > 0 && clash_first[i] != SIZE_MAX &&
+            supply[i].mv != regulated[i].mv) {
+            const VoltageConnection *s = &connections[clash_first[i]];
+
+            p = &found[found_count++];
+            p->kind = VOLTAGE_SUPPLY_CLASH;
+            p->net = s->net;
+            p->part = s->part;
+            p->other_part = reg_high_part[i];
+            p->pin = s->pin;
+            p->mv = supply[i].mv > regulated[i].mv ? supply[i].mv : regulated[i].mv;
+            p->min_mv = p->max_mv = supply[i].mv < regulated[i].mv ? supply[i].mv : regulated[i].mv;
+        } else if (!supply[i].known && reg_low_mv[i] != regulated[i].mv) {
+            p = &found[found_count++];
+            p->kind = VOLTAGE_SUPPLY_CLASH;
+            p->net = reg_low_net[i];
+            p->part = reg_low_part[i];
+            p->other_part = reg_high_part[i];
+            p->pin = reg_low_pin[i];
+            p->mv = regulated[i].mv;
+            p->min_mv = p->max_mv = reg_low_mv[i];
+        }
+    }
+
     /* 4. Checks. */
     for (j = 0; j < connection_count; j++) {
         const VoltageConnection *c = &connections[j];
@@ -485,7 +742,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
         if (c->pin >= part->pin_count || part_pin_analog(part, c->pin)) {
             continue;
         }
-        e = effective(supply, driven, pulled, carried, find(parent, c->net));
+        e = effective(supply, regulated, driven, pulled, carried, find(parent, c->net));
         if (!e.known) {
             continue;
         }
@@ -549,6 +806,12 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
             p.kind = VOLTAGE_TRANSISTOR_OVER;
             p.min_mv = 0;
             p.max_mv = transistor_pin_limit_mv(part, c->pin);
+        } else if (part->kind == PART_REGULATOR && regulator_input_max_mv(part) > 0 &&
+                   regulator_vin_pin(part, c->pin) && e.mv > regulator_input_max_mv(part)) {
+            /* An input or enable pin above the part's input maximum (plan-42-G). */
+            p.kind = VOLTAGE_REGULATOR_INPUT_OVER;
+            p.min_mv = 0;
+            p.max_mv = regulator_input_max_mv(part);
         } else if (part->kind == PART_NIXIE && e.mv < nixie_anode_min_mv(part, c->pin)) {
             /* The anode supply must reach the firing voltage, or the tube
                never lights. */
@@ -566,6 +829,8 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
         out[i] = found[i];
     }
     free(parent); free(supply); free(driven); free(carried); free(pulled);
+    free(regulated); free(reg_low_part); free(reg_low_pin); free(reg_low_net); free(reg_high_part);
+    free(reg_low_mv);
     free(clash_first); free(clash_conn); free(clash_done); free(found);
     return found_count;
 }
@@ -586,7 +851,9 @@ int voltage_describe(const Part *const *parts, const VoltageProblem *problem,
     switch (problem->kind) {
         case VOLTAGE_SUPPLY_CLASH: {
             const Part *other = parts[problem->other_part];
-            const Part *low = part->supply != NULL && part->supply->mv <= problem->min_mv ? part : other;
+            /* A supply part is judged by its voltage; a regulator part (the
+               clash of two regulators) is the lower one (plan-42-G). */
+            const Part *low = part->supply != NULL ? (part->supply->mv <= problem->min_mv ? part : other) : part;
             const Part *high = low == part ? other : part;
 
             return snprintf(buffer, size, "voltage: %g V and %g V supplies on one net (%s, %s)",
@@ -605,6 +872,10 @@ int voltage_describe(const Part *const *parts, const VoltageProblem *problem,
         case VOLTAGE_CAPACITOR_OVER:
         case VOLTAGE_TRANSISTOR_OVER:
             return snprintf(buffer, size, "voltage: %g V on pin %s (%s) of %s; it is rated %g V", v,
+                            pin_designator(part, problem->pin), pin_name(part, problem->pin),
+                            part->name, problem->max_mv / 1000.0);
+        case VOLTAGE_REGULATOR_INPUT_OVER:
+            return snprintf(buffer, size, "voltage: %g V on pin %s (%s) of %s; its input max is %g V", v,
                             pin_designator(part, problem->pin), pin_name(part, problem->pin),
                             part->name, problem->max_mv / 1000.0);
         case VOLTAGE_NIXIE_UNDER:

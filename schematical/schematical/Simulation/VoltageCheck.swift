@@ -80,13 +80,13 @@ enum VoltageCheck {
                 closed.withUnsafeBufferPointer { closedList in
                     let count = voltage_check(partList.baseAddress, partList.count, netlist.netCount,
                                               connectionList.baseAddress, connectionList.count,
-                                              closedList.baseAddress, closedList.count, nil, 0)
+                                              closedList.baseAddress, closedList.count, nil, nil, 0)
                     guard count > 0 else { return [] }
                     var out = [VoltageProblem](repeating: VoltageProblem(), count: count)
                     let filled = out.withUnsafeMutableBufferPointer { buffer in
                         voltage_check(partList.baseAddress, partList.count, netlist.netCount,
                                       connectionList.baseAddress, connectionList.count,
-                                      closedList.baseAddress, closedList.count, buffer.baseAddress, count)
+                                      closedList.baseAddress, closedList.count, nil, buffer.baseAddress, count)
                     }
                     return Array(out.prefix(min(filled, count)))
                 }

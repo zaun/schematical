@@ -48,6 +48,23 @@ int transistor_element(const Part *part, size_t k, const char **type, size_t *co
    a rating the part does not give, and a part that is no transistor. */
 uint32_t transistor_pin_limit_mv(const Part *part, size_t pin);
 
+/* A regulator part's k-th element (0-based, plan-42-G): its type, and the
+   first pin (an index into Part.pins) of its input, output, enable,
+   power-good and adjust names (SIZE_MAX when it has none); enable_low: the
+   enable turns the element on at 0; adjust_to_output: Vref is held between
+   the output and the adjust pin (LM317 style), else the adjust pin is Vref
+   above ground. Any output may be NULL. 0 past the last element, and for a
+   part that is no regulator (regulator.c). */
+int regulator_element(const Part *part, size_t k, const char **type, size_t *in, size_t *out,
+                      size_t *enable, int *enable_low, size_t *pg, size_t *adjust,
+                      int *adjust_to_output);
+/* 1 when pin carries element k's input (every pin of the name) / output name. */
+int regulator_pin_in(const Part *part, size_t k, size_t pin);
+int regulator_pin_out(const Part *part, size_t k, size_t pin);
+/* The input maximum in millivolts: Part.regulator->vin_max_mv; 0 (never
+   refused) when not given and for a part that is no regulator. */
+uint32_t regulator_input_max_mv(const Part *part);
+
 /* A switch position's (1-based) two contact pins, as indices into Part.pins. */
 int switch_contact_pins(const Part *part, unsigned position, size_t *a, size_t *b);
 

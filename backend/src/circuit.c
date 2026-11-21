@@ -1,5 +1,6 @@
 #include "circuit.h"
 
+#include <math.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,6 +23,8 @@ struct Circuit {
     size_t part_count;
     size_t part_capacity;
     size_t instance_capacity;
+    uint64_t *milliohms;      /* per part: a placed resistor's value in milliohms, 0 = the part's own (plan-42-G) */
+    size_t milliohms_capacity;
     SimNet **nets;
     size_t net_count;
     size_t net_capacity;
@@ -102,6 +105,7 @@ void circuit_destroy(Circuit *circuit) {
     sim_destroy(circuit->sim);
     free(circuit->parts);
     free(circuit->instances);
+    free(circuit->milliohms);
     free(circuit->nets);
     free(circuit->connections);
     free(circuit->closed);
@@ -142,9 +146,12 @@ int circuit_add_part(Circuit *circuit, const char *part_name, size_t *index) {
     if (grow((void **)&circuit->parts, &circuit->part_capacity, circuit->part_count,
              sizeof(*circuit->parts)) != 0 ||
         grow((void **)&circuit->instances, &circuit->instance_capacity, circuit->part_count,
-             sizeof(*circuit->instances)) != 0) {
+             sizeof(*circuit->instances)) != 0 ||
+        grow((void **)&circuit->milliohms, &circuit->milliohms_capacity, circuit->part_count,
+             sizeof(*circuit->milliohms)) != 0) {
         return fail(circuit, "out of memory");
     }
+    circuit->milliohms[circuit->part_count] = 0;
     snprintf(name, sizeof name, "U%zu", circuit->part_count);
     instance = sim_add_instance(circuit->sim, kind_model(part), name, part);
     if (instance == NULL) {
@@ -261,7 +268,7 @@ static int voltage_failed(Circuit *circuit) {
     size_t count = voltage_check((const Part *const *)circuit->parts, circuit->part_count,
                                  circuit->net_count, circuit->connections,
                                  circuit->connection_count, circuit->closed,
-                                 circuit->closed_count, &first, 1);
+                                 circuit->closed_count, circuit->milliohms, &first, 1);
 
     if (count == 0) {
         return 0;
@@ -333,6 +340,23 @@ int circuit_set_switch(Circuit *circuit, size_t part, unsigned position, int on)
     if (circuit->started && on && !circuit->voltage_stopped && voltage_failed(circuit)) {
         circuit->voltage_stopped = 1;
     }
+    return 0;
+}
+
+int circuit_set_resistance(Circuit *circuit, size_t part, double ohms) {
+    const Part *info;
+
+    if (check_part(circuit, part) != 0) {
+        return -1;
+    }
+    info = circuit->parts[part];
+    if (info->kind != PART_RESISTOR || info->manufacturer == NULL || strcmp(info->manufacturer, "Generic") != 0) {
+        return fail(circuit, "part %zu is not a generic resistor", part);
+    }
+    if (!(ohms > 0) || ohms > 1e9) {
+        return fail(circuit, "the resistance is out of range");
+    }
+    circuit->milliohms[part] = (uint64_t)llround(ohms * 1000.0);
     return 0;
 }
 

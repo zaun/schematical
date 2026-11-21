@@ -325,7 +325,7 @@ static size_t supply(Netlist *n, const char *name) {
 
 static size_t check(Netlist *n) {
     n->problem_count = voltage_check(n->parts, n->part_count, n->net_count, n->connections,
-                                     n->connection_count, NULL, 0, n->problems,
+                                     n->connection_count, NULL, 0, NULL, n->problems,
                                      sizeof n->problems / sizeof n->problems[0]);
     return n->problem_count;
 }

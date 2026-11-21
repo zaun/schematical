@@ -27,7 +27,7 @@ typedef enum {
     PART_SHIFT, PART_CPU, PART_CHARLCD, PART_SERIAL, PART_CONNECTOR, PART_PIO, PART_DECODER,
     PART_BUFFER, PART_MUX, PART_HEADER, PART_ARITH, PART_CONVERTER, PART_RTC, PART_DIODE,
     PART_CAPACITOR, PART_REGISTER, PART_MCU, PART_RESISTOR, PART_TRANSISTOR,
-    PART_GENERIC, PART_SERIALMEM, PART_NIXIE
+    PART_GENERIC, PART_SERIALMEM, PART_NIXIE, PART_REGULATOR
 } PartKind;
 
 /* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */
@@ -184,6 +184,21 @@ typedef struct { const char *type; size_t element_count; uint8_t mixed; uint8_t 
                  uint8_t mosfet; uint8_t logic_level; uint32_t vmax_mv, imax_ma, power_mw, hfe,
                  vgsth_mv, vgs_mv; uint64_t r1_mohm, r2_mohm, rdson_mohm; } PartTransistor;
 
+/* A voltage regulator part (plan-42-G): one to four regulators (elements),
+   linear or switching. type: the first element's ("linear", "buck", "boost",
+   "buck-boost", "charge-pump", "sepic"); mixed: 1 when the types differ;
+   adjustable: 1 when any element has an adjust pin. vout_mv / vref_mv: one
+   per element, in element order (0 where not given: an adjustable element
+   has no fixed output, a fixed one no reference). vout_max_mv: the highest
+   output an adjustable part can be set to; vin_min_mv / vin_max_mv: the
+   input range's ends; dropout_mv: a linear element's dropout; iout_ma: the
+   output current per element; iq_ua: the quiescent current; fsw_hz: a
+   switching element's frequency. All other values: 0 = not given. */
+typedef struct { const char *type; size_t regulator_count; uint8_t mixed; uint8_t adjustable;
+                 const uint32_t *vout_mv; const uint32_t *vref_mv;
+                 uint32_t vout_max_mv, vin_min_mv, vin_max_mv, dropout_mv, iout_ma, iq_ua;
+                 uint64_t fsw_hz; } PartRegulator;
+
 /* A microcontroller (plan-36-F): facts only, no simulation model (its
    device says "simulated": false). core: "avr", "avrrc", "avrxt", "avrxm",
    "cortex-m0plus", "xtensa-lx6", "xtensa-lx7" or "riscv". max_hz: the
@@ -292,6 +307,7 @@ typedef struct Part {
     const PartTransistor *transistor;
     const PartNixie *nixie;
     const PartSerialmem *serialmem;
+    const PartRegulator *regulator;
     /* Dual-supply parts (plan-20-F): domain 0 is the A side (its vcc is
        Part.vcc), domain 1 the B side; NULL/0 for single-supply parts. */
     const PartSupplyDomain *domains; size_t domain_count;

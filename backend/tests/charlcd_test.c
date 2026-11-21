@@ -1636,7 +1636,7 @@ static void check_rgb_voltage(void) {
     conn[n++] = (VoltageConnection){1, pin_number(probe, 4), 1};   /* RS */
     conn[n++] = (VoltageConnection){1, pin_number(probe, 5), 2};   /* R/W */
     conn[n++] = (VoltageConnection){1, pin_number(probe, 6), 3};   /* E */
-    count = voltage_check(parts, 3, 4, conn, n, NULL, 0, problems, 8);
+    count = voltage_check(parts, 3, 4, conn, n, NULL, 0, NULL, problems, 8);
     ok = count == 3;
     for (i = 0; ok && i < count; i++) {
         ok = problems[i].kind == VOLTAGE_INPUT_OVER && problems[i].part == 1 &&
@@ -1656,7 +1656,7 @@ static void check_rgb_voltage(void) {
             const Part *more[4] = {rgb, probe, five, ground};
 
             conn[n] = (VoltageConnection){3, 0, 2};
-            count = voltage_check(more, 4, 4, conn, n + 1, NULL, 0, problems, 8);
+            count = voltage_check(more, 4, 4, conn, n + 1, NULL, 0, NULL, problems, 8);
             expect(count == 2 && problems[0].net == 1 && problems[1].net == 3,
                    "D9 RGB voltage: GND on K(G)'s net overrides the carried level (2 problems: K(R), K(B))");
         }

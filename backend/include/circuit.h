@@ -47,6 +47,15 @@ int circuit_connect(Circuit *circuit, size_t part, const char *pin, size_t net);
    circuit_error is the "voltage: …" text. */
 int circuit_set_switch(Circuit *circuit, size_t part, unsigned position, int on);
 
+/* The placed value of a resistor part whose manufacturer is "Generic"
+   (GENERIC-RESISTOR), in ohms, more than 0 and at most 1e9: -1 with
+   circuit_error "part N is not a generic resistor" / "the resistance is out
+   of range" otherwise. Works at any time after circuit_add_part and changes
+   only the voltage check, where it sets the feedback divider of an
+   adjustable regulator (plan-42-G); the engine's resistor stays a weak link
+   and a maker resistor keeps its own value. */
+int circuit_set_resistance(Circuit *circuit, size_t part, double ohms);
+
 /* Barrel connector plug state. A switched connector's normally-closed
    contact is closed while unplugged (inserted = 0) and open while a plug is
    inserted (inserted = 1). */

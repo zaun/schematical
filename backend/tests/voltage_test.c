@@ -90,7 +90,7 @@ static void close_contact(Netlist *n, size_t part, unsigned position) {
 
 static size_t check(Netlist *n) {
     n->problem_count = voltage_check(n->parts, n->part_count, n->net_count, n->connections,
-                                     n->connection_count, n->closed, n->closed_count, n->problems,
+                                     n->connection_count, n->closed, n->closed_count, NULL, n->problems,
                                      sizeof n->problems / sizeof n->problems[0]);
     return n->problem_count;
 }
@@ -494,9 +494,28 @@ static void check_order(void) {
                n.problems[4].net == 1 && n.problems[4].part == b,
            "problems are ordered by net, then part, then pin");
     expect(voltage_check(n.parts, n.part_count, n.net_count, n.connections, n.connection_count,
-                         NULL, 0, small, 1) == 5 &&
+                         NULL, 0, NULL, small, 1) == 5 &&
                small[0].net == 0 && small[0].part == a,
            "the count is every problem; out holds the first cap");
+    /* plan-42-G: the placed-resistance argument. NULL and an all-zero array
+       (no regulator in the circuit) give the same problems as before. */
+    {
+        uint64_t zeros[8] = {0};
+        VoltageProblem again[8];
+        size_t count = check(&n);
+        size_t i;
+        int same = n.part_count <= 8 && count <= 8 &&
+                   voltage_check(n.parts, n.part_count, n.net_count, n.connections, n.connection_count,
+                                 n.closed, n.closed_count, zeros, again, 8) == count;
+
+        for (i = 0; same && i < count; i++) {
+            same = again[i].kind == n.problems[i].kind && again[i].net == n.problems[i].net &&
+                   again[i].part == n.problems[i].part && again[i].pin == n.problems[i].pin &&
+                   again[i].other_part == n.problems[i].other_part && again[i].mv == n.problems[i].mv &&
+                   again[i].min_mv == n.problems[i].min_mv && again[i].max_mv == n.problems[i].max_mv;
+        }
+        expect(same, "an all-zero milliohms array gives the same problems as NULL (no regulator in the circuit)");
+    }
 }
 
 /* plan-20-F: a dual-supply translator (VFX-T45: A side 1.65-3.6 V, B side
