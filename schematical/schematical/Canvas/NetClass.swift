@@ -64,6 +64,25 @@ nonisolated struct NetClass: Identifiable, Hashable, Sendable {
     static let powerName = "Power"
     static let powerWidth = 20
 
+    /// The classes a new schematic starts with, in priority order: "Power 5V",
+    /// "Power 3V3", "Power 12V" and "Power 24V", 20 mil with the Power class's via and holding that
+    /// supply rail, then one "Logic", the Default class's copper under
+    /// `rules` with no nets (the model has no logic voltage on a signal net,
+    /// so the user puts them in; one class serves every voltage, as the
+    /// copper is the same). Fresh ids each call.
+    static func standardClasses(rules: DesignRules) -> [NetClass] {
+        let small = NetRules.defaults(for: rules)
+        return supplyVoltages.map { supply in
+            NetClass(id: UUID(), name: "Power \(supply.name)", width: powerWidth,
+                     viaDrill: BoardVia.defaultDrill, viaDiameter: BoardVia.defaultDiameter,
+                     members: [.rail(mv: supply.mv)])
+        } + [NetClass(id: UUID(), name: "Logic", width: small.width,
+                      viaDrill: small.viaDrill, viaDiameter: small.viaDiameter)]
+    }
+
+    /// The common supplies the standard classes cover.
+    static let supplyVoltages: [(name: String, mv: UInt32)] = [("5V", 5000), ("3V3", 3300), ("12V", 12000), ("24V", 24000)]
+
     /// The clearance the class keeps: its own, or the DRC's minimum.
     func clearance(rules: DesignRules) -> Double { clearance ?? rules.minClearance }
 

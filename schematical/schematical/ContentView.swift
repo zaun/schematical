@@ -98,6 +98,9 @@ struct ContentView: View {
     init() {
         let catalog = PartCatalogStore.shared
         let document = SchematicDocument(library: catalog.library)
+        // A new schematic starts with Power (5V, 3V3, 12V, 24V) and Logic classes
+        // (an opened file replaces them with its own).
+        document.addStandardNetClasses()
         let simulation = SimulationController(library: catalog.library)
         _document = State(initialValue: document)
         _simulation = State(initialValue: simulation)

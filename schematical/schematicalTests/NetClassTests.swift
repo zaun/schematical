@@ -11,6 +11,43 @@ final class NetClassTests: XCTestCase {
         try XCTUnwrap(doc.board.netClasses.first { $0.id == id })
     }
 
+    // MARK: The standard classes
+
+    /// A new schematic's five classes: Power 5V / 3V3 / 12V / 24V hold their rail, Logic is the Default copper.
+    func testStandardClasses() throws {
+        let rules = DesignRules.customDefault
+        let classes = NetClass.standardClasses(rules: rules)
+        XCTAssertEqual(classes.map(\.name), ["Power 5V", "Power 3V3", "Power 12V", "Power 24V", "Logic"])
+        XCTAssertEqual(Set(classes.map(\.id)).count, 5)
+        XCTAssertEqual(classes[0].members, [.rail(mv: 5000)])
+        XCTAssertEqual(classes[1].members, [.rail(mv: 3300)])
+        XCTAssertEqual(classes[2].members, [.rail(mv: 12000)])
+        XCTAssertEqual(classes[3].members, [.rail(mv: 24000)])
+        XCTAssertTrue(classes[4].members.isEmpty)
+        let small = NetRules.defaults(for: rules)
+        for netClass in classes[4...] {
+            XCTAssertEqual(netClass.width, small.width)
+            XCTAssertEqual(netClass.viaDrill, small.viaDrill)
+            XCTAssertEqual(netClass.viaDiameter, small.viaDiameter)
+        }
+        for netClass in classes {
+            XCTAssertNil(netClass.problem, netClass.name)
+            if netClass.name.hasPrefix("Power") { XCTAssertEqual(netClass.width, NetClass.powerWidth) }
+        }
+    }
+
+    /// Only a board with no class gets them, and it is not an undo step.
+    func testAddStandardNetClasses() {
+        let doc = TestSupport.newDocument()
+        XCTAssertTrue(doc.board.netClasses.isEmpty, "a document made in code has none")
+        doc.addStandardNetClasses()
+        XCTAssertEqual(doc.board.netClasses.count, 5)
+        XCTAssertNil(doc.undoName(on: .pcb))
+        let before = doc.board
+        doc.addStandardNetClasses()
+        XCTAssertEqual(doc.board, before)
+    }
+
     // MARK: The Default class
 
     /// The Default class is the smallest legal copper of every manufacturer's rules.

@@ -1701,6 +1701,14 @@ final class SchematicDocument {
         editingNoteID = nil
         clearAllSelections()
         editorMessage = nil
+    /// Gives a new, blank schematic the standard net classes
+    /// (`NetClass.standardClasses`), outside the undo history. Does nothing
+    /// once the board has any class.
+    func addStandardNetClasses() {
+        guard board.netClasses.isEmpty else { return }
+        board.netClasses = NetClass.standardClasses(rules: board.rules)
+    }
+
         history.clear()
         recordingDepth = 0
         recordingStart = nil
