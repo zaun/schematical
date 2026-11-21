@@ -120,6 +120,14 @@ Commit: 97a1aa36 (the todo tick: 811b5901)
 4. **The full app suite** was not a landing step: a full run takes over an hour in Debug because of
    the router fixture tests (721 passed, 0 failed when it was stopped); plan-42's five count
    assertions found by the earlier full run are in plan-42-H Corrections 2.
+5. **`main` advanced again** (another session's 6 commits: plan-51 plans, editing-lag work, net
+   classes) while the final merge waited on that session's uncommitted files. Merged into
+   `worktree-P-42` (conflicts only in `parts.txt` / `traces.txt`: both sides added lines); the two
+   goldens were regenerated from the merged tree (`listing_check --print`, `trace_check --print`) and
+   against `main` they add 603 / 603 lines and remove 0 (`footprints.txt` +138). Re-run on that
+   tree: backend `100% tests passed, 0 tests failed out of 40`; app tests (Regulator, PartEditorWindow,
+   BillOfMaterials, Resistor, Transistor, KindInfo, ParametricFootprintDraft, WizardSteps) 61 tests,
+   0 failures; the harness `all checks ok`. Merge commit 819c0fdc.
 
 ## Summary
 
