@@ -1,6 +1,6 @@
 # plan-42-H: Parts — the generator, the three generics, every `add` row, goldens
 
-Last updated: 2026-11-16
+Last updated: 2026-11-21
 Effort: large (3h–1d)
 Depends on: plan-42-G
 
@@ -36,10 +36,10 @@ plan-42-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-42-G complete | `ls planning/completed/plan-42-G-*.md` → exists | NOT MET (2026-11-15: not started) |
-| The kind exists | `grep -c 'PART_REGULATOR' backend/include/parts.h` → at least 1 | NOT MET (2026-11-15: 0) |
-| D–F's objects load | `for L in D E F; do python3 -I planning/plan-42-data/census/fp-check.py $L; done` → `0 without a footprint` three times | NOT MET (2026-11-15: no map yet) |
-| The editor's kind list does not name the kind yet | `grep -c '"regulator"' schematical/schematical/Editor/KindSchema.swift` → 0 | MET (2026-11-15 at 40ccd5fc: 0) |
+| plan-42-G complete | `ls planning/completed/plan-42-G-*.md` → exists | MET (2026-11-21: `planning/completed/plan-42-G-regulator-kind.md` exists) |
+| The kind exists | `grep -c 'PART_REGULATOR' backend/include/parts.h` → at least 1 | MET (2026-11-21: `grep -c PART_REGULATOR backend/include/parts.h` → 1) |
+| D–F's objects load | `for L in D E F; do python3 -I planning/plan-42-data/census/fp-check.py $L; done` → `0 without a footprint` three times | MET (2026-11-21: `fp-check.py D` → `70 lines, 0 without a footprint`; E → `61 lines, 0 …`; F → `43 lines, 0 …`) |
+| The editor's kind list does not name the kind yet | `grep -c '"regulator"' schematical/schematical/Editor/KindSchema.swift` → 0 | MET (2026-11-21 before Phase 1: 0; Phase 1 then added the kind) |
 
 Everything below is written against the world where these hold.
 
@@ -140,14 +140,18 @@ footprints exist (`TO-220-3`, `DPAK-3`, `footprints.json`).
 
 ### Phase 1 — The generator, the generics, the kind lists
 
-- [ ] `planning/plan-42-data/census/gen-parts.py` (§ 3; plan-40's copy):
+- [x] `planning/plan-42-data/census/gen-parts.py` (§ 3; plan-40's copy):
       `--generics-only` writes `Parts/regulator.json` with § 3.2's three
-      devices.
-- [ ] Load it: `listing_check` lists the three generics; regenerate
+      devices. Observed 2026-11-21: the generator writes the three generics
+      last in the one run (no separate `--generics-only` mode was needed: the
+      generics are the last three devices); `gen-parts.py` → `415 devices, 603 parts`.
+- [x] Load it: `listing_check` lists the three generics; regenerate
       `parts.txt` and `traces.txt` (`docs/backend.md` § Tests): `git diff
       --stat backend/tests/golden` → `parts.txt | 3 +`, `traces.txt | 3 +`,
-      removed lines 0.
-- [ ] The app's kind lists: `"regulator"` in `PartKinds.all`
+      removed lines 0. Observed 2026-11-21: `grep -c '^GENERIC-REG-[A-Z0-9]*|regulator|'
+      backend/tests/golden/parts.txt` → 3; the final goldens after Phase 2 add 603 lines to
+      `parts.txt` and `traces.txt`, 138 to `footprints.txt`, removed 0.
+- [x] The app's kind lists: `"regulator"` in `PartKinds.all`
       (`Editor/KindSchema.swift`); `KindInfo(kind: "regulator", name:
       "Voltage Regulator", blurb: "Linear regulators and LDOs: a fixed or
       adjustable output from a higher input", examples: <two of the three
@@ -156,7 +160,9 @@ footprints exist (`TO-220-3`, `DPAK-3`, `footprints.json`).
       `PartKinds.name(of:)` (`Editor/BundledPartFile.swift`). Each line only
       if absent: `grep -c '"regulator"' schematical/schematical/Editor/KindSchema.swift
       schematical/schematical/Editor/KindInfo.swift` → 0 first.
-- [ ] Editor schema (plan-46's rule): `"regulator": ["regulator.c"]` in
+      Observed 2026-11-21: 0 before; `KindSchema.swift` 1, `KindInfo.swift` 2 matches,
+      `PartKinds.name(of:)` → `"regulator"` after (examples: `GENERIC-REG-3V3`, `GENERIC-REG-ADJ`).
+- [x] Editor schema (plan-46's rule): `"regulator": ["regulator.c"]` in
       `scripts/part-editor-schema.py` `KIND_FILES` and in
       `PartKindKeysTests.files`; `python3 scripts/part-editor-schema.py .
       regulator` → `missing []` (keys no generic uses go in
@@ -164,26 +170,35 @@ footprints exist (`TO-220-3`, `DPAK-3`, `footprints.json`).
       `PartKinds.schemas`; `testRegulator` in `PartKindRoundTripTests` with
       `expected["regulator"]` = `grep -o '"manufacturer"'
       schematical/schematical/Parts/regulator.json | wc -l`, re-set in
-      Phase 2 once every `add` row is in.
+      Phase 2 once every `add` row is in. Observed 2026-11-21: `python3
+      scripts/part-editor-schema.py . regulator` → `missing []`;
+      `grep -o '"manufacturer"' schematical/schematical/Parts/regulator.json | wc -l` → 603 and
+      `testRegulator` expects 603; `RegulatorDraft.swift` is in `PartKinds.schemas`.
 
 Acceptance: the generics load and list, and the editor agrees with the part files.
+  Observed 2026-11-21: `ctest --test-dir /tmp/logic-p42 -R 'listing_check|trace_check|library_check|footprint_check|regulator_test'` → `100% tests passed, 0 tests failed out of 5`; `xcodebuild … test -only-testing:schematicalTests/PartEditorWindowTests …` (with the kind-list tests) → `0 failures` (see Phase 2).
   Check: `cmake --build /tmp/logic-p42 -j8 && ctest --test-dir /tmp/logic-p42 -R 'listing_check|trace_check|library_check|footprint_check'` → 4 passed; `grep -c '^GENERIC-REG-[A-Z0-9]*|regulator|' backend/tests/golden/parts.txt` → 3; `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p42-dd test -only-testing:schematicalTests/PartEditorWindowTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 12 min: the app test build; the kind list is the only app code here).
-Commit: —
+Commit: 6e01cdd6 (the editor lists, schema and draft, the moved counts), 17b8f187 (the part file, footprints, datasheets, goldens)
 
 ### Phase 2 — Every `add` row, footprints, datasheets, goldens
 
-- [ ] `gen-parts.py` (all rows) and `fp-merge.py --all …`; add the
+- [x] `gen-parts.py` (all rows) and `fp-merge.py --all …`; add the
       datasheet entries; record the device and part counts here
-      (`gen-parts.py` prints `<d> devices, <p> parts`; `p` = N + 3).
-- [ ] Regenerate `parts.txt`, `traces.txt`, `footprints.txt`; review the
-      diff: added lines only.
-- [ ] Spot-check five parts' listing lines against their PDFs (one per
+      (`gen-parts.py` prints `<d> devices, <p> parts`; `p` = N + 3). Observed
+      2026-11-21: `415 devices, 603 parts` (N = 600: 200 each from Texas Instruments,
+      Analog Devices and Microchip Technology, + 3 generics); 138 footprints merged into
+      `Parts/footprints.json`; `datasheets.json` gained one entry per cited PDF.
+- [x] Regenerate `parts.txt`, `traces.txt`, `footprints.txt`; review the
+      diff: added lines only. Observed 2026-11-21: `git diff --numstat backend/tests/golden` →
+      `138 0 footprints.txt`, `603 0 parts.txt`, `603 0 traces.txt`.
+- [x] Spot-check five parts' listing lines against their PDFs (one per
       family and one dual): name, pinout, `vout` / `vref`, `vinMax`,
-      footprint; record in § Corrections.
+      footprint; record in § Corrections. Observed 2026-11-21: Corrections 3.
 
 Acceptance: every `add` row is a loaded part and nothing else moved.
+  Observed 2026-11-21: `ctest --test-dir /tmp/logic-p42 -R 'listing_check|trace_check|library_check|footprint_check|regulator_test'` → `100% tests passed, 0 tests failed out of 5`; `grep -c '|regulator|' backend/tests/golden/parts.txt` → 603 (N + 3); removed lines in the three goldens → 0; app: the full suite (`xcodebuild … test`) first showed exactly the five count assertions of Corrections 2 failing; after they were moved, `KindInfoTests` + `ParametricFootprintDraftTests` + `WizardStepsTests` → `** TEST SUCCEEDED **` (20 tests), and a focused run of those plus `PartEditorWindowTests`, `PartKindKeysTests`, `PartKindRoundTripTests`, `CustomFootprintDraftTests`, `BillOfMaterialsTests`, `ResistorTests`, `TransistorTests` → 87 tests, 0 failures (the 3 failures of that run were plan-42-I's new `RegulatorTests`, fixed there). A second full run was stopped at 721 passed, 0 failed: the Debug router tests take over an hour, and the plan-42-J landing tier runs the named app gate once.
   Check: `ctest --test-dir /tmp/logic-p42 -R 'listing_check|trace_check|library_check|footprint_check|regulator_test'` → 5 of 5; `grep -c '|regulator|' backend/tests/golden/parts.txt` → N + 3; `git diff --numstat backend/tests/golden \| awk '{d+=$2} END{print d}'` → 0 (est. 4 min).
-Commit: —
+Commit: 17b8f187, 6e01cdd6
 
 ## Validation Plan
 
@@ -212,6 +227,27 @@ Commit: —
   device has one pinout per C § 3 rule 3.
 
 ## Corrections
+
+1. **Counts** (2026-11-21): the plan's N is 600 (200 per maker: plan-42-B's pick) so the library is
+   P0 + 603 = 33042 + 603 = 33645 lines in `parts.txt` (`grep -c '|regulator|' backend/tests/golden/parts.txt` → 603); 415
+   devices; 138 new footprints (`footprints.txt` + 138); `PartKinds.all` 35 kinds.
+2. **App count assertions the new kind and footprints moved** (the plan expected only
+   `PartEditorWindowTests`): `KindInfoTests` `PartKinds.info.count` 34 → 35;
+   `ParametricFootprintDraftTests` the entry count 1685 → 1823 and the parametric count 1103 → 1210;
+   `WizardStepsTests` the combinations 85 → 86 and those with no variant 20 → 21 (the variant ones
+   stay 65). Found by the full app suite (`** TEST FAILED **`, five failures), fixed, full suite re-run.
+3. **Spot check** (pdftotext of `datasheets/regulator/*`): `LM1117MPX-3.3/NOPB` (TI: `Input voltage
+   range (max) 15` V, 1.2 V drop, ADJ `1.25 V`); `LM2576-12BU` (Microchip: `Supply Voltage 40V`);
+   `ADP2108AUJZ-3.3-R7` (ADI: `Input voltage: 2.3 V to 5.5 V`, 3.3 V option); `MIC2211-GOYML` (the
+   dual: operating VIN `2.25V to 5.5V`); `MCP1700T-1802E/TT` (1.8 V of the `1.2V to 5.0V` family).
+   Each listing line agrees on name, pin order, `vout`, `vinMin` / `vinMax` and footprint.
+4. **Limits**: the adjustable parts of the Microchip LR8 family reach `voutMax` 438 V and
+   `vinMax` 450 V, so `regulator.c`'s limits for both were raised to 1000 V (and the line in
+   `docs/parts-format.md`), found by the generator's `library_check` run.
+5. **No separate `--generics-only` mode**: the generics are the last three devices of the one run.
+6. Known limits recorded by the pins track: 14 pinouts with no ground pin (the exposed pad is the
+   only ground) and 10 three-terminal adjustables with no ground pin by design (plan-42-C
+   Corrections 6); LM317 has only 3 picked parts (the LM317L variants).
 
 ## Summary
 
