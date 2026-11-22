@@ -276,7 +276,7 @@ Commit: b8902216
 
 Acceptance: open documents show the new version at once, wires on vanished pins are loose, and unrelated documents are untouched. **MET** (`xcodebuild test … UserLibraryUpdateTests LooseEndTests SchematicUndoTests ReferencePositionTests` → `Executed 91 tests, with 0 failures`, `** TEST SUCCEEDED **`)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/UserLibraryUpdateTests -only-testing:schematicalTests/LooseEndTests -only-testing:schematicalTests/SchematicUndoTests -only-testing:schematicalTests/ReferencePositionTests` → `** TEST SUCCEEDED **` (est. 8–15 min; the last three are the tests that call `setHeaderSize` — `grep -rln setHeaderSize schematical/schematicalTests` → `ReferencePositionTests`, `SchematicUndoTests`, `LooseEndTests` — and cover the helper it now shares).
-Commit: (this commit)
+Commit: c50c25de
 
 ## Validation Plan
 
@@ -304,7 +304,11 @@ Commit: (this commit)
 
 ## Corrections
 
-(Filled in during execution.)
+- **`SchematicFileController.updateOpenDocuments` takes the catalog** (`updateOpenDocuments(uuid:to:catalog:)`, not `(uuid:to:)`): it only touches controllers of that catalog, so a test catalog's update never reaches another catalog's windows. Each controller's `init` sets `catalog.partUpdated` (the plan said "at first use").
+- **`PlacedChip.resized(to:symbol:)` gained an optional symbol** and keeps a flip only where the symbol can flip: a part updated in place may draw differently (`symbol(for:)`), which `resized` (written for header sizes) did not need. `setHeaderSize` passes none, so its behavior is unchanged (`LooseEndTests`, `SchematicUndoTests`, `ReferencePositionTests` all pass).
+- **`part_library_retire_part` compacts the arrays in place** after building the new name tables on the side (no allocation after the point of no return), rather than rebuilding the arrays: the Phase 1 test (l) checks old `Part*` and `PartFootprint*` pointers stay readable.
+- **Update order:** the library file is written first, then the backend swap; a failed load puts the old text back in the backend and in the file (tested with a rejected text and with an unwritable folder).
+- **Final gate (run once after Phase 3), 2026-11-21:** `ctest --test-dir /tmp/logic-build-p53 -R 'part_file_test|library_check'` → `100% tests passed, 0 tests failed out of 2`; `xcodebuild test … UserLibraryUpdateTests UserLibraryCatalogTests PartRegistrationTests SchematicFileV5Tests` → `Executed 41 tests, with 0 failures`, `** TEST SUCCEEDED **` (`/tmp/p53-xc16.log`).
 
 ## Summary
 
