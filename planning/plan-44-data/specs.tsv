@@ -1,0 +1,197 @@
+maker	series	pdf	package	rows	example	scheme	label	pinout	terminals	capacitors
+Abracon	AB	datasheets/crystal/abracon/ab.pdf	HC-49/U	3	AB-11.0592MHZ					
+Abracon	AB26T	datasheets/crystal/abracon/AB26T.pdf	Cylindrical Can, Radial	4	AB26T-32.768KHZ					
+Abracon	AB26TRB	datasheets/crystal/abracon/AB26TRB.pdf	Cylindrical Can, Radial	1	AB26TRB-32.768KHZ-T					
+Abracon	AB26TRQ	datasheets/crystal/abracon/AB26TRQ.pdf	Cylindrical Can, Radial	1	AB26TRQ-32.768KHZ-T					
+Abracon	AB308	datasheets/crystal/abracon/ab308.pdf	Cylindrical Can, Radial	3	AB308-29.4912MHZ					
+Abracon	AB38T	datasheets/crystal/abracon/AB38T.pdf	Cylindrical Can, Radial	2	AB38T-32.768KHZ					
+Abracon	ABC2	datasheets/crystal/abracon/ABC2.pdf	4-SMD, No Lead	3	ABC2-14.7456MHZ-4-T					
+Abracon	ABL	datasheets/crystal/abracon/ABL.pdf	HC-49/US	3	ABL-27.000MHZ-B4Y-T					
+Abracon	ABLS	datasheets/crystal/abracon/ABLS.pdf	HC-49/US	3	ABLS-4.9152MHZ-B4-T					
+Abracon	ABLS(RF)	datasheets/crystal/abracon/ABLS.pdf	HC-49/US	3	ABLS-13.560MHZ-10-R20-D-T					
+Abracon	ABLS-LR	datasheets/crystal/abracon/ABLS-LR.pdf	HC-49/US	3	ABLS-LR-3.072MHZ-T					
+Abracon	ABLS2	datasheets/crystal/abracon/ABLS2.pdf	HC-49/US	3	ABLS2-10.000MHZ-D4Y-T					
+Abracon	ABLS3	datasheets/crystal/abracon/ABLS3.pdf	HC-49/US	3	ABLS3-16.000MHZ-D4Y-T					
+Abracon	ABLS7M	datasheets/crystal/abracon/ABLS7M.pdf	2-SMD, Flat Lead	3	ABLS7M-16.000MHZ-B-2-T					
+Abracon	ABLS7M2	datasheets/crystal/abracon/ABLS7M2.pdf	2-SMD, Flat Lead	3	ABLS7M2-16.000MHZ-D2Y-T					
+Abracon	ABLSG	datasheets/crystal/abracon/ABLSG.pdf	HC-49/US - 3 Lead	3	ABLSG-3.579545MHZ-D2Y-T					
+Abracon	ABM10	datasheets/crystal/abracon/ABM10.pdf	4-SMD, No Lead	3	ABM10-24.000MHZ-E20-T					
+Abracon	ABM10-165	datasheets/crystal/abracon/ABM10-165.pdf	4-SMD, No Lead	1	ABM10-165-38.400MHZ-T3					
+Abracon	ABM10A	datasheets/crystal/abracon/ABM10A.pdf	2-SMD, No Lead	3	ABM10A-40.000MHZ-D2Y-T3					
+Abracon	ABM10AAIG	datasheets/crystal/abracon/ABM10AAIG.pdf	2-SMD, No Lead	3	ABM10AAIG-24.000MHZ-12-2Z-T3					
+Abracon	ABM10AIG	datasheets/crystal/abracon/ABM10AIG.pdf	4-SMD, No Lead	3	ABM10AIG-30.000MHZ-4Z-T					
+Abracon	ABM10N	datasheets/crystal/abracon/ABM10N.pdf	4-SMD, No Lead	3	ABM10N-24.0000MHZ-8-B1U-T3					
+Abracon	ABM10W	datasheets/crystal/abracon/ABM10W.pdf	4-SMD, No Lead	3	ABM10W-20.0000MHZ-8-B1U-T3					
+Abracon	ABM11	datasheets/crystal/abracon/ABM11.pdf	4-SMD, No Lead	3	ABM11-32.000MHZ-D2X-T3					
+Abracon	ABM11A	datasheets/crystal/abracon/ABM11A.pdf	2-SMD, No Lead	3	ABM11A-40.000MHZ-D2Y-T3					
+Abracon	ABM11AAIG	datasheets/crystal/abracon/ABM11AAIG.pdf	2-SMD, No Lead	3	ABM11AAIG-32.000MHZ-12-2Z-T3					
+Abracon	ABM11AIG	datasheets/crystal/abracon/ABM11AIG.pdf	4-SMD, No Lead	3	ABM11AIG-27.120MHZ-4Z-T3					
+Abracon	ABM11N	datasheets/crystal/abracon/ABM11N.pdf	4-SMD, No Lead	3	ABM11N-20.0000MHZ-10-B1U-T3					
+Abracon	ABM11W	datasheets/crystal/abracon/ABM11W.pdf	4-SMD, No Lead	3	ABM11W-32.0000MHZ-8-B1U-T3					
+Abracon	ABM12	datasheets/crystal/abracon/ABM12.pdf	4-SMD, No Lead	3	ABM12-112-48.000MHZ-					
+Abracon	ABM12AIG	datasheets/crystal/abracon/ABM12AIG.pdf	4-SMD, No Lead	3	ABM12AIG-50.000MHZ-1Z-T					
+Abracon	ABM12N	datasheets/crystal/abracon/ABM12N.pdf	4-SMD, No Lead	3	ABM12N-32.0000MHZ-8-B1U-T3					
+Abracon	ABM12W	datasheets/crystal/abracon/ABM12W.pdf	4-SMD, No Lead	3	ABM12W-24.0000MHZ-8-D1X-T3					
+Abracon	ABM13N	datasheets/crystal/abracon/ABM13N.pdf	4-SMD, No Lead	1	ABM13N-32.0000MHZ-8-BH7U-T5					
+Abracon	ABM13W	datasheets/crystal/abracon/ABM13W.pdf	4-SMD, No Lead	3	ABM13W-32.0000MHZ-8-NH7U-T5					
+Abracon	ABM14	datasheets/crystal/abracon/ABM14.pdf	4-SMD, No Lead	3	ABM14-59.9700MHZ-8-N1U-T5					
+Abracon	ABM14N	datasheets/crystal/abracon/ABM14N.pdf	4-SMD, No Lead	3	ABM14N-76.8000MHZ-8-N1V					
+Abracon	ABM2	datasheets/crystal/abracon/abm2.pdf	2-SMD, No Lead	3	ABM2-16.000MHZ-D4Y-T					
+Abracon	ABM3	datasheets/crystal/abracon/ABM3.pdf	2-SMD, No Lead	3	ABM3-8.000MHZ-B4Y-T					
+Abracon	ABM3B	datasheets/crystal/abracon/abm3b.pdf	4-SMD, No Lead	3	ABM3B-8.000MHZ-B2-T					
+Abracon	ABM3BAIG	datasheets/crystal/abracon/ABM3BAIG.pdf	4-SMD, No Lead	3	ABM3BAIG-10.000MHZ-4-T					
+Abracon	ABM3BN	datasheets/crystal/abracon/ABM3BN.pdf	4-SMD, No Lead	3	ABM3BN-26.000MHZ-18-D2Y-T					
+Abracon	ABM3C	datasheets/crystal/abracon/ABM3C.pdf	4-SMD, No Lead	3	ABM3C-25.000MHZ-D4Y-T					
+Abracon	ABM3X	datasheets/crystal/abracon/ABM3X.pdf	4-SMD, No Lead	1	ABM3X-101-24.000MHZ-T					
+Abracon	ABM7	datasheets/crystal/abracon/ABM7.pdf	2-SMD, No Lead	3	ABM7-8.000MHZ-D2Y-T					
+Abracon	ABM8	datasheets/crystal/abracon/abm8.pdf	4-SMD, No Lead	3	ABM8-16.000MHZ-10-1-U-T					
+Abracon	ABM8A	datasheets/crystal/abracon/ABM8A.pdf	2-SMD, No Lead	3	ABM8A-40.000MHZ-D2Y-T3					
+Abracon	ABM8AAIG	datasheets/crystal/abracon/ABM8AAIG.pdf	2-SMD, No Lead	3	ABM8AAIG-8.000MHZ-V2R-T3					
+Abracon	ABM8AIG	datasheets/crystal/abracon/ABM8AIG.pdf	4-SMD, No Lead	3	ABM8AIG-20.000MHZ-12-2Z-T3					
+Abracon	ABM8G	datasheets/crystal/abracon/ABM8G.pdf	4-SMD, No Lead	3	ABM8G-24.576MHZ-18-D2Y-T					
+Abracon	ABM8GAIG	datasheets/crystal/abracon/ABM8GAIG.pdf	4-SMD, No Lead	1	ABM8GAIG-20.000MHZ-8-7Z-T3					
+Abracon	ABM8N	datasheets/crystal/abracon/ABM8N.pdf	4-SMD, No Lead	3	ABM8N-16.0000MHZ-8-D2Y-T3					
+Abracon	ABM8W	datasheets/crystal/abracon/ABM8W.pdf	4-SMD, No Lead	3	ABM8W-38.4000MHZ-8-D2Y-T3					
+Abracon	ABM8X	datasheets/crystal/abracon/ABM8X.pdf	4-SMD, No Lead	2	ABM8X-102-32.000MHZ-T					
+Abracon	ABMM	datasheets/crystal/abracon/ABMM.pdf	4-SMD, No Lead	3	ABMM-7.3728MHZ-B2-T					
+Abracon	ABMM2	datasheets/crystal/abracon/ABMM2.pdf	4-SMD, No Lead	3	ABMM2-10.000MHZ-E2-T					
+Abracon	ABS04W	datasheets/crystal/abracon/ABS04W.pdf	4-SMD, No Lead	5	ABS04W-32.768KHZ-6-D2-T5					
+Abracon	ABS05	datasheets/crystal/abracon/ABS05.pdf	2-SMD, No Lead	5	ABS05-32.768KHZ-9-T					
+Abracon	ABS05N	datasheets/crystal/abracon/ABS05N.pdf	2-SMD, No Lead	1	ABS05N-32.768KHZ-9-T5					
+Abracon	ABS05W	datasheets/crystal/abracon/ABS05W.pdf	2-SMD, No Lead	3	ABS05W-32.768KHZ-K-2-T					
+Abracon	ABS06	datasheets/crystal/abracon/ABS06-107-32.768kHz-T.pdf	2-SMD, No Lead	1	ABS06-107-32.768KHZ-T					
+Abracon	ABS06	datasheets/crystal/abracon/ABS06.pdf	2-SMD, No Lead	4	ABS06-32.768KHZ-1-T					
+Abracon	ABS06N	datasheets/crystal/abracon/ABS06N.pdf	2-SMD, No Lead	2	ABS06N-32.768KHZ-T					
+Abracon	ABS07	datasheets/crystal/abracon/ABS07-120-32.768kHz-T.pdf	2-SMD, No Lead	1	ABS07-120-32.768KHZ-T					
+Abracon	ABS07	datasheets/crystal/abracon/ABS07.pdf	2-SMD, No Lead	4	ABS07-32.768KHZ-T					
+Abracon	ABS07-LR	datasheets/crystal/abracon/ABS07-LR.pdf	2-SMD, No Lead	2	ABS07-LR-32.768KHZ-6-T					
+Abracon	ABS07AIG	datasheets/crystal/abracon/ABS07AIG.pdf	2-SMD, No Lead	5	ABS07AIG-32.768KHZ-D-T					
+Abracon	ABS07L	datasheets/crystal/abracon/ABS07L.pdf	2-SMD, No Lead	1	ABS07L-32.768KHZ-T					
+Abracon	ABS07N	datasheets/crystal/abracon/ABS07N.pdf	2-SMD, No Lead	2	ABS07N-32.768KHZ-7-T					
+Abracon	ABS13	datasheets/crystal/abracon/ABS13.pdf	4-SMD, Flat Lead, 3 Leads	1	ABS13-32.768KHZ-T					
+Abracon	ABS25	datasheets/crystal/abracon/abs25.pdf	4-SOJ, 5.50mm pitch	5	ABS25-32.768KHZ-T					
+Abracon	ABSM3A	datasheets/crystal/abracon/ABSM3A.pdf	HC-49/US	2	ABSM3A-6.000MHZ-20-B4Z-T					
+Abracon	AWSCR-CELA	datasheets/crystal/abracon/AWSCR-CELA.pdf	3-SMD, Non-Standard	2	AWSCR-8.00CELA-C10-T3					
+Abracon	AWSCR-CELB	datasheets/crystal/abracon/AWSCR-CELB.pdf	3-SMD, Non-Standard	3	AWSCR-8.00CELB-C10-T3					
+Abracon	AWSCR-CPLA	datasheets/crystal/abracon/AWSCR-CPLA.pdf	3-SMD, Non-Standard	11	AWSCR-8.00CPLA-C15-T4					
+Abracon	AWSCR-CPLB	datasheets/crystal/abracon/AWSCR-CPLB.pdf	3-SMD, Non-Standard	5	AWSCR-4.00CPLB-C30-T4					
+Abracon	AWSCR-CRLA	datasheets/crystal/abracon/AWSCR-CRLA.pdf	3-SMD, Non-Standard	4	AWSCR-4.00CRLA-C15-T3					
+Abracon	AWSCR-CV	datasheets/crystal/abracon/AWSCR_CV.pdf	3-SMD, Non-Standard	10	AWSCR-11.00CV-T					
+Abracon	AWSCR-CW	datasheets/crystal/abracon/AWSCR_CW.pdf	3-SMD, Non-Standard	5	AWSCR-48.00CW-T					
+Abracon	AWSCR-MTD	datasheets/crystal/abracon/N_AWSCR-MT.pdf	3-SMD, Non-Standard	3	AWSCR-16.00MTD-T					
+Abracon	AWSZT-CV	datasheets/crystal/abracon/AWSZT-CV.pdf	1512 (3731 Metric)	7	AWSZT-8.00CV-T					
+Abracon	FC1BS	datasheets/crystal/abracon/FC1BS.pdf	4-SMD, No Lead	1	FC1BSCBEM27.12-T3					
+ECS	-	datasheets/crystal/ecs/ECS-271.2-CDX-2616.pdf	4-SMD, No Lead	1	ECS-271.2-CDX-2616					
+ECS	CR2	datasheets/crystal/ecs/ecs_cr2_a.pdf	1512 (3731 Metric)	2	ECS-CR2-20.00-A-TR					
+ECS	CR2	datasheets/crystal/ecs/ecs_cr2_b.pdf	3-SMD, No Lead	1	ECS-CR2-16.00-B-TR					
+ECS	CR2	datasheets/crystal/ecs/ecs_cr2_b.pdf	3-SMD, Non-Standard	2	ECS-CR2-10.00-B-TR					
+ECS	CSM-12	datasheets/crystal/ecs/csm-12r.pdf	4-SMD, No Lead	3	ECS-147.4-18-18-TR					
+ECS	CSM-3X	datasheets/crystal/ecs/CSM-3X.pdf	HC-49/US	3	ECS-120-20-3X-EN-TR					
+ECS	CSM-4A	datasheets/crystal/ecs/csm-4a.pdf	HC-49/US - 4 Lead	1	ECS-60-32-28A-TR					
+ECS	CSM-4AX	datasheets/crystal/ecs/csm-4ax.pdf	HC-49/US - 4 Lead	3	ECS-120-18-28AX-TR					
+ECS	CSM-7	datasheets/crystal/ecs/csm_7.pdf	HC-49/US	3	ECS-135.600-CDX-0374					
+ECS	CSM-7SSX	datasheets/crystal/ecs/CSM-7SSX.pdf	HC-49/US	3	ECS-100-20-5PVX					
+ECS	CSM-7X	datasheets/crystal/ecs/csm-7x.pdf	HC-49/US	3	ECS-110.5-20-5PX-TR					
+ECS	CSM-7X-3L	datasheets/crystal/ecs/csm_7x_3l.pdf	HC-49/US - 3 Lead	3	ECS-80-20-5G3XDS-TR					
+ECS	CSM-7X-DN	datasheets/crystal/ecs/csm-7x-dn.pdf	HC-49/US	3	ECS-40-20-5PXDN-TR					
+ECS	CSM-7X-DU	datasheets/crystal/ecs/CSM_7X_DU.pdf	HC-49/US	3	ECS-80-20-5PXDU-TR					
+ECS	CSM-8A	datasheets/crystal/ecs/csm-8r.pdf	2-SMD, No Lead	3	ECS-80-20-20A-TR					
+ECS	CSM-8M	datasheets/crystal/ecs/csm-8mr.pdf	4-SMD, No Lead	3	ECS-073-18-20BM-JEN-TR					
+ECS	CSM-8Q	datasheets/crystal/ecs/CSM-8Q.pdf	4-SMD, No Lead	3	ECS-80-18-20BQ-DS					
+ECS	ECS-1x5X	datasheets/crystal/ecs/ECS-3x8X-2x6X-1X5X.pdf	Cylindrical Can, Radial	1	ECS-.327-8-14X					
+ECS	ECS-23G	datasheets/crystal/ecs/ECS-23G.pdf	2-SMD, No Lead	3	ECS-080-18-23G-JGN-TR					
+ECS	ECS-2X6X	datasheets/crystal/ecs/CDX-1038.pdf	Cylindrical Can, Radial	1	ECS-.327-CDX-1038					
+ECS	ECS-2X6X	datasheets/crystal/ecs/ECS-3x8X-2x6X-1X5X.pdf	Cylindrical Can, Radial	1	ECS-.327-6-13X					
+ECS	ECS-31X	datasheets/crystal/ecs/ecs-31x.pdf	Cylindrical Can, Radial	2	ECS-.320-12.5-13X					
+ECS	ECS-33B	datasheets/crystal/ecs/ECS-33B.pdf	4-SMD, No Lead	3	ECS-270-10-33B-CKM-TR3					
+ECS	ECS-33B2	datasheets/crystal/ecs/ECS-33B2.pdf	4-SMD, No Lead	3	ECS-120-7-33B2-CTN-TR3					
+ECS	ECS-3X10X	datasheets/crystal/ecs/ECS-3x10X-3x9X.pdf	Cylindrical Can, Radial	3	ECS-36-18-10X					
+ECS	ECS-3X8X	datasheets/crystal/ecs/ECS-.327-12.5-8X-C.pdf	Cylindrical Can, Radial	1	ECS-.327-12.5-8X-C					
+ECS	ECS-3X8X	datasheets/crystal/ecs/ECS-3x8X-2x6X-1X5X.pdf	Cylindrical Can, Radial	1	ECS-.327-12.5-8X					
+ECS	ECS-3X9X	datasheets/crystal/ecs/ECS-3x10X-3x9X.pdf	Cylindrical Can, Radial	3	ECS-160-18-9X					
+ECS	ECS-3x10	datasheets/crystal/ecs/partnumber4.pdf	Cylindrical Can, Radial	1	ECS-60-18-10					
+ECS	ECS-3x9	datasheets/crystal/ecs/ECS-3x10.pdf	Cylindrical Can, Radial	1	ECS-240-18-9					
+ECS	ECS-CDX	datasheets/crystal/ecs/CDX-1128.pdf	2-SMD, No Lead	1	ECS-.327-CDX-1128					
+ECS	ECS-CDX	datasheets/crystal/ecs/ECS-122.8-CDX-0921.pdf	4-SMD, No Lead	1	ECS-122.8-CDX-0921					
+ECS	ECS-CDX	datasheets/crystal/ecs/ECS-320-CDX-2094.pdf	4-SMD, No Lead	1	ECS-320-CDX-2094					
+ECS	ECS-CDX	datasheets/crystal/ecs/ECS-390-CDX-1932.pdf	4-SMD, No Lead	1	ECS-390-CDX-1932					
+ECS	ECS-CDX	datasheets/crystal/ecs/ECX-.327-CDX-1293.pdf	2-SMD, No Lead	1	ECX-.327-CDX-1293					
+ECS	ECS-CTA	datasheets/crystal/ecs/ECS-CTA.pdf	2-SMD, No Lead	7	ECS-CTA-4.00-TR					
+ECS	ECS-CTE	datasheets/crystal/ecs/ECS-CTE.pdf	3-SMD, No Lead	4	ECS-CTE-12.00-33-TR					
+ECS	ECS-CTP	datasheets/crystal/ecs/ECS-CTP.pdf	3-SMD, No Lead	7	ECS-CTP-4.00-30-TR					
+ECS	ECS-HFR-B	datasheets/crystal/ecs/ecs_HFR_B.pdf	3-SMD, Non-Standard	3	ECS-HFR-30.00-B-TR					
+ECS	ECX-1048	datasheets/crystal/ecs/ECX-1048.pdf	4-SMD, No Lead	3	ECS-320-10-48-CKY-TR					
+ECS	ECX-1048B	datasheets/crystal/ecs/ECS-320-CDX-2374.pdf	4-SMD, No Lead	1	ECS-320-CDX-2374					
+ECS	ECX-1048B	datasheets/crystal/ecs/ECX-1048B.pdf	4-SMD, No Lead	2	ECS-320-7-48B-JTM-TR5					
+ECS	ECX-12	datasheets/crystal/ecs/CDX-1082.pdf	2-SMD, No Lead	1	ECS-.327-CDX-1082					
+ECS	ECX-12	datasheets/crystal/ecs/ECX_12.pdf	2-SMD, No Lead	2	ECS-.327-12.5-12-TR					
+ECS	ECX-1210	datasheets/crystal/ecs/ECX-1210.pdf	2-SMD, No Lead	3	ECS-.327-12.5-1210-TR					
+ECS	ECX-1210B	datasheets/crystal/ecs/ECX-1210B.pdf	4-SMD, No Lead	2	ECS-.327-6-1210B-N-TR					
+ECS	ECX-1210B2	datasheets/crystal/ecs/ECX-1210B2.pdf	4-SMD, No Lead	2	ECS-.327-7-1210B2-N-TR					
+ECS	ECX-1247	datasheets/crystal/ecs/ECS-320-CDX-2152.pdf	4-SMD, No Lead	1	ECS-320-CDX-2152					
+ECS	ECX-1247	datasheets/crystal/ecs/ECX-1247.pdf	4-SMD, No Lead	1	ECS-320-8-47-CKM-TR3					
+ECS	ECX-1247	datasheets/crystal/ecs/ECX_1247.pdf	4-SMD, No Lead	1	ECS-240-8-47-JTN-TR					
+ECS	ECX-1247B	datasheets/crystal/ecs/ECX_1247B.pdf	4-SMD, No Lead	3	ECS-320-8-47B-7KM-TR					
+ECS	ECX-1247B2	datasheets/crystal/ecs/ECX-1247B2.pdf	4-SMD, No Lead	3	ECS-480-8-47B2-CKM-TR					
+ECS	ECX-1247Q	datasheets/crystal/ecs/ECX-1247Q.pdf	4-SMD, No Lead	3	ECS-500-8-47Q-CES-TR					
+ECS	ECX-12Q	datasheets/crystal/ecs/ECX-12Q.pdf	2-SMD, No Lead	2	ECS-.327-12.5-12QS-TR					
+ECS	ECX-12R	datasheets/crystal/ecs/ECX-12R.pdf	2-SMD, No Lead	2	ECS-.327-7-12R-TR					
+ECS	ECX-12RR	datasheets/crystal/ecs/ECX-12RR.pdf	2-SMD, No Lead	2	ECS-.327-6-12RR-TR					
+ECS	ECX-16	datasheets/crystal/ecs/ECS-.327-CDX-2217.pdf	2-SMD, No Lead	1	ECS-.327-CDX-2217					
+ECS	ECX-16	datasheets/crystal/ecs/ECX-16.pdf	2-SMD, No Lead	2	ECS-.327-12.5-16-TR					
+ECS	ECX-1637	datasheets/crystal/ecs/ecx-1637.pdf	4-SMD, No Lead	3	ECS-320-8-37CKM					
+ECS	ECX-1637B	datasheets/crystal/ecs/ECX-1637B.pdf	4-SMD, No Lead	3	ECS-250-10-37B-CTN-TR					
+ECS	ECX-1637B2	datasheets/crystal/ecs/ECX-1637B2.pdf	4-SMD, No Lead	3	ECS-320-8-37B2-CTN-TR					
+ECS	ECX-1637BQ	datasheets/crystal/ecs/ECX-1637BQ.pdf	4-SMD, No Lead	3	ECS-160-12-37BQ-CTN-TR					
+ECS	ECX-1637Q	datasheets/crystal/ecs/ECX-1637Q.pdf	4-SMD, No Lead	3	ECS-300-10-37Q-ES-TR					
+ECS	ECX-1637QZ	datasheets/crystal/ecs/ECX-1637QZ.pdf	4-SMD, No Lead	3	ECS-400-10-37QZ-RES-TR					
+ECS	ECX-16Q	datasheets/crystal/ecs/ECX-16Q.pdf	2-SMD, No Lead	2	ECS-.327-12.5-16Q-S-TR					
+ECS	ECX-16R	datasheets/crystal/ecs/ECX-16R.pdf	2-SMD, No Lead	2	ECS-.327-6-16R-TR					
+ECS	ECX-2236	datasheets/crystal/ecs/ECX-2236.pdf	4-SMD, No Lead	3	ECS-240-8-36CKM-TR					
+ECS	ECX-2236B	datasheets/crystal/ecs/ECX-2236B.pdf	4-SMD, No Lead	3	ECS-320-8-36B-CKY-TR					
+ECS	ECX-2236B2	datasheets/crystal/ecs/ECX-2236B2.pdf	4-SMD, No Lead	3	ECS-245.7-10-36B2-CTM-TR					
+ECS	ECX-2236Q	datasheets/crystal/ecs/ECX-2236Q.pdf	4-SMD, No Lead	3	ECS-160-10-36Q-ES-TR					
+ECS	ECX-306X	datasheets/crystal/ecs/ecx-306x.pdf	4-SOJ, 5.50mm pitch	3	ECS-.327-6-17X-TR					
+ECS	ECX-31B	datasheets/crystal/ecs/ecx-31b.pdf	2-SMD, No Lead	3	ECS-.327-12.5-34B-TR					
+ECS	ECX-32	datasheets/crystal/ecs/ecx-32.pdf	4-SMD, No Lead	3	ECS-120-8-33-JGN-TR					
+ECS	ECX-33AQ	datasheets/crystal/ecs/ECX-33AQ.pdf	2-SMD, No Lead	3	ECS-100-8-33AQ-VY-TR3					
+ECS	ECX-33B2Q	datasheets/crystal/ecs/ECX-33B2Q.pdf	4-SMD, No Lead	3	ECS-120-12-33B2Q-JES-TR3					
+ECS	ECX-33Q	datasheets/crystal/ecs/ECX-33Q.pdf	4-SMD, No Lead	3	ECS-200-12-33Q-JES-TR					
+ECS	ECX-33QZ	datasheets/crystal/ecs/ECX-33QZ.pdf	4-SMD, No Lead	3	ECS-160-12-33QZ-ADS-TR					
+ECS	ECX-34G	datasheets/crystal/ecs/ECX-34G.pdf	3-SMD, No Lead	2	ECS-.327-6-34G-TR					
+ECS	ECX-34Q	datasheets/crystal/ecs/ECX-34Q.pdf	2-SMD, No Lead	2	ECS-.327-9-34QCS-TR					
+ECS	ECX-34R	datasheets/crystal/ecs/ECX_34R.pdf	2-SMD, No Lead	2	ECS-.327-12.5-34R-C-TR					
+ECS	ECX-34RR	datasheets/crystal/ecs/ECX-34RR.pdf	2-SMD, No Lead	2	ECS-.327-6-34RR-TR					
+ECS	ECX-34S	datasheets/crystal/ecs/ECX_34S.pdf	2-SMD, No Lead	2	ECS-.327-12.5-34S-TR9					
+ECS	ECX-3SX	datasheets/crystal/ecs/ecx-3sx.pdf	-	1	ECS-196.6-S-7SX-TR					
+ECS	ECX-3SX	datasheets/crystal/ecs/ecx-3sx.pdf	4-SOJ, 9.40mm pitch	2	ECS-80-20-7SX-TR					
+ECS	ECX-42	datasheets/crystal/ecs/ECX_42.pdf	4-SMD, No Lead	3	ECS-160-9-42-CKM-TR					
+ECS	ECX-53	datasheets/crystal/ecs/ecx-53r.pdf	2-SMD, No Lead	3	ECS-80-18-30-JGN-TR					
+ECS	ECX-53B	datasheets/crystal/ecs/ecx_53b.pdf	4-SMD, No Lead	3	ECS-80-10-30B-CWN-TR					
+ECS	ECX-53B-DU	datasheets/crystal/ecs/ecx_53b_du.pdf	4-SMD, No Lead	3	ECS-200-20-30B-DU					
+ECS	ECX-53BQ	datasheets/crystal/ecs/ECX-53BQ.pdf	4-SMD, No Lead	3	ECS-120-18-30BQ-DS					
+ECS	ECX-53BQZ	datasheets/crystal/ecs/ECX-53BQZ.pdf	4-SMD, No Lead	2	ECS-196.875-10-30BQZ-TR					
+ECS	ECX-53Q	datasheets/crystal/ecs/ECX-53Q.pdf	2-SMD, No Lead	3	ECS-80-8-30Q-VS-TR					
+ECS	ECX-64	datasheets/crystal/ecs/ecx_64r.pdf	4-SMD, No Lead	3	ECS-160-18-23B-JTM-TR					
+ECS	ECX-64A	datasheets/crystal/ecs/ecx-64a_ecx-64cr.pdf	2-SMD, No Lead	3	ECS-160-18-23A-EN-TR					
+ECS	ECX-71	datasheets/crystal/ecs/ecx-71.pdf	4-SMD, Flat Lead, 3 Leads	2	ECS-.327-12.5-38-TR					
+ECS	HC-46X	datasheets/crystal/ecs/HC-46X.pdf	HC-46/X	3	ECS-400-20-46X					
+ECS	HC-49U	datasheets/crystal/ecs/hc49u.pdf	HC-49/U	1	ECS-102.4-S-1					
+ECS	HC-49US	datasheets/crystal/ecs/hc_49us.pdf	HC-49/US	1	ECS-65-20-4					
+ECS	HC-49USSX	datasheets/crystal/ecs/HC-49USS.pdf	HC-49/US	3	ECS-184-20-4VX					
+ECS	HC-49USX	datasheets/crystal/ecs/hc-49usx.pdf	HC-49/US	3	ECS-40-20-4X					
+ECS	HC-49USX-DN	datasheets/crystal/ecs/hc-49usx-dn.pdf	HC-49/US	3	ECS-40-20-4XDN					
+ECS	HC-49UX	datasheets/crystal/ecs/HC-49UX.pdf	HC-49/U	3	ECS-18-13-1X					
+ECS	HC-49UX(H)	datasheets/crystal/ecs/ECS-10-13-1XH.pdf	HC-49/U	1	ECS-10-13-1XH					
+Suntsu	SAW212	datasheets/crystal/suntsu/SAW212-Series.pdf	2-SMD, No Lead	15	SAW2127D5B-32.768K					
+Suntsu	SAW312	datasheets/crystal/suntsu/SAW312-Series.pdf	2-SMD, No Lead	30	SAW3129F5B-32.768K					
+Suntsu	SAX214	datasheets/crystal/suntsu/SAX214-Series.pdf	4-SMD, No Lead	25	SAX21410EA4A-27.120M					
+Suntsu	SAX324	datasheets/crystal/suntsu/SAX324-Series.pdf	4-SMD, No Lead	25	SAX32410CX4A-30.000M					
+Suntsu	SWS102	datasheets/crystal/suntsu/SWS102-Series.pdf	2-SMD, No Lead	1	SWS10212D48-32.768K					
+Suntsu	SWS834	datasheets/crystal/suntsu/SWS834-Series.pdf	4-SOJ, 5.50mm pitch	4	SWS8349D48-32.768KT					
+Suntsu	SXT114	datasheets/crystal/suntsu/SXT114-Series-3.pdf	4-SMD, No Lead	25	SXT11411CB07-24.000M					
+Suntsu	SXT214	datasheets/crystal/suntsu/SXT214-Series-1.pdf	4-SMD, No Lead	25	SXT2149BB48-16.000M					
+Suntsu	SXT224	datasheets/crystal/suntsu/SXT224-Series-1.pdf	4-SMD, No Lead	25	SXT22411CB07-16.000M					
+Suntsu	SXT324	datasheets/crystal/suntsu/SXT324-Series-1.pdf	4-SMD, No Lead	25	SXT32411AA48-27.120M					
+Suntsu	SXT834	datasheets/crystal/suntsu/SXT834-Series.pdf	4-SOJ, 5.50mm pitch	25	SXT83418CB07-20.000M					
+Suntsu	SXTHM2	datasheets/crystal/suntsu/SXTHM2-Series.pdf	HC-49/US	25	SXTHM218AA074-12.000M					

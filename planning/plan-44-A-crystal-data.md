@@ -345,32 +345,44 @@ Commit: a3b45155
 
 Acceptance: every download-set row is in stock, Active or Last Time Buy.
   Check: `awk -F'\t' 'NR>1 && $2!=1' planning/plan-44-data/stock-check.tsv \| wc -l` → the `found` = 0 count recorded above, and `awk -F'\t' '$25!="out" && NR>1 && $31==""' planning/plan-44-data/candidates.tsv \| wc -l` → 0 (est. < 1 min; the run itself is the quota day, about 35 min at 23 calls a minute). Output 2026-11-22: `1` and `0`.
-Commit: —
+Commit: b757909b
 
 ### Phase 3 — Download, place and scan the datasheets
 
-- [ ] `census/fetch.js`, `place.py`, `textscan.py`, `sibling.py` (§ 4, § 6):
+- [x] `census/fetch.js`, `place.py`, `textscan.py`, `sibling.py` (§ 4, § 6):
       download every distinct URL the download set cites (191 at planning)
       by § 4's rules into `/tmp/p44/pdf`; `%PDF-` and `pdfinfo` on each;
-      failures recorded in § Corrections with their host.
-- [ ] Place the PDFs under `datasheets/crystal/<maker-slug>/` and write
+      failures recorded in § Corrections with their host. Output
+      2026-11-22: `191 urls; 191 are PDFs; 0 failed` (179 direct, 12 Suntsu
+      from the Internet Archive); `textscan.py`: `744 rows with their own PDF;
+      46 printed verbatim; 2 dead`; `sibling.py`: `0 eligible rows without
+      their own PDF`.
+- [x] Place the PDFs under `datasheets/crystal/<maker-slug>/` and write
       `datasheets/crystal/datasheets.tsv`; `place.py --verify` → `0
       missing, 0 unused`. The PDFs stay out of the commits until B prunes
       them (B Phase 4), so the history never carries PDFs no `add` row uses.
-- [ ] `candidates.tsv`: `pdf` (the placed path) for every download-set row
+      Output: `190 PDFs placed for 191 URLs` (two URLs are one file by
+      SHA-256), `0 missing, 0 unused`. `datasheets/crystal/` (the PDFs and
+      `datasheets.tsv`) is untracked in the worktree until B Phase 4.
+- [x] `candidates.tsv`: `pdf` (the placed path) for every download-set row
       whose URL, rewrite or sibling gave a PDF, and `hit` = 1 when its part
       number is printed verbatim (`pdftotext -layout`, token-boundary
       search); `dead` = 1 when the text near the part number says obsolete,
       discontinued, NRND, "not recommended for new designs" or end of life (B
-      reads every such row).
-- [ ] `census/specs-skeleton.py`: `planning/plan-44-data/specs.tsv`, one row
+      reads every such row). `hit` = 1 on 46 rows (Abracon 8, ECS 38,
+      Suntsu 0: Suntsu's PDFs print part-numbering guides, not part
+      numbers), `dead` = 1 on 2 rows (`ABS05-32.768KHZ-X-T5`,
+      `ABS05-32.768KHZ-X-3-T3`: `ABS05.pdf`).
+- [x] `census/specs-skeleton.py`: `planning/plan-44-data/specs.tsv`, one row
       per (maker, series, PDF, Package / Case) of the download set, columns
       `maker`, `series`, `pdf`, `package`, `rows`, `example`, `scheme`,
-      `label` (B's), `pinout`, `terminals`, `capacitors` (B's).
-- [ ] Record `du -sh datasheets/crystal` here.
+      `label` (B's), `pinout`, `terminals`, `capacitors` (B's). Output:
+      `196 rows; 0 kept from before`.
+- [x] Record `du -sh datasheets/crystal` here. `133M datasheets/crystal`
+      (2026-11-22, 190 PDFs, before B's prune).
 
 Acceptance: every download-set row either has a PDF or a reason it has none.
-  Check: `awk -F'\t' '$25!="out" && NR>1 && $28==""' planning/plan-44-data/candidates.tsv \| wc -l` → the rows B will `skip` for no maker datasheet (recorded here); `find datasheets/crystal -iname '*.pdf' \| wc -l` = `tail -n +2 datasheets/crystal/datasheets.tsv \| cut -f1 \| sort -u \| wc -l` (est. 15 min: 191 downloads, 12 of them one at a time from the archive).
+  Check: `awk -F'\t' '$25!="out" && NR>1 && $28==""' planning/plan-44-data/candidates.tsv \| wc -l` → the rows B will `skip` for no maker datasheet (recorded here); `find datasheets/crystal -iname '*.pdf' \| wc -l` = `tail -n +2 datasheets/crystal/datasheets.tsv \| cut -f1 \| sort -u \| wc -l` (est. 15 min: 191 downloads, 12 of them one at a time from the archive). Output 2026-11-22: `0` rows without a PDF (so B has no `no datasheet on the maker's site` skip from A's side); `190` = `190`.
 Commit: —
 
 ## Validation Plan
