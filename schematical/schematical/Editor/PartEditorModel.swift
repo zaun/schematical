@@ -515,8 +515,8 @@ final class PartEditorModel {
         status = url.map { "Opened \($0.lastPathComponent)" }
     }
 
-    /// Registers the draft's part in the app's library (plan-32-A), for the
-    /// rest of the session.
+    /// Adds the draft's part to the User Library (plan-53-C): registered in
+    /// the catalog, listed under User Library and kept in the library folder.
     @discardableResult
     func addToLibrary() throws -> CatalogPart {
         if case let .failure(failure) = validateNow() {
@@ -527,8 +527,8 @@ final class PartEditorModel {
         if catalog.uuidConflicts(try draft.encoded().text()) {
             draft = try draft.freshened()
         }
-        let part = try catalog.register(fileText: draft.encoded().text(), source: "\(draft.name).schpart")
-        status = "Added \(part.name) to the parts drawer"
+        let part = try catalog.addToUserLibrary(fileText: draft.encoded().text(), source: "\(draft.name).schpart")
+        status = "Added \(part.name) to your User Library"
         return part
     }
 

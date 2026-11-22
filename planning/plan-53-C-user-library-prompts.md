@@ -230,17 +230,17 @@ Commit: 55e870c1
 
 Acceptance: the alert texts and buttons are as in § 3, and the drawer menu items call the catalog (covered by Phase 3's runtime check). **MET** (`xcodebuild test … UserLibraryPromptsTests KeyboardHelpTests` → `Executed 14 tests, with 0 failures`, `** TEST SUCCEEDED **`; the drawer menu items and sheets are exercised in plan-53-F's real-app run)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/UserLibraryPromptsTests -only-testing:schematicalTests/KeyboardHelpTests` → `** TEST SUCCEEDED **` (est. 6–12 min).
-Commit: —
+Commit: 99fe8329
 
 ### Phase 3 — Part Editor and docs
 
-- [ ] `PartEditorModel.swift`: `addToLibrary()` per § 4.4. `Editor/PartEditorSections.swift:17` and `Editor/Wizard/IdentityStepPage.swift:15` keep their text ("Add to Library adds this one as …").
-- [ ] `schematicalTests/PartFileSaveOpenTests.swift`: `testAddToLibrary` also asserts the part's listing is `user` and that its file is in the library folder; add: Add to Library of a draft the library already holds (same content) is a no-op that returns the same part.
-- [ ] `docs/file-format.md` § Custom parts: a bullet "On open, the app offers to add the embedded parts that are not in the User Library; the answer does not change the file." `docs/parts-format.md` § Single part files, "The User Library" paragraph (plan-53-B): how parts get in: Load Part…, the open offer, the Part Editor's Add to Library, the drawer's Add to User Library.
+- [x] `PartEditorModel.swift`: `addToLibrary()` per § 4.4. `Editor/PartEditorSections.swift:17` and `Editor/Wizard/IdentityStepPage.swift:15` keep their text ("Add to Library adds this one as …").
+- [x] `schematicalTests/PartFileSaveOpenTests.swift`: `testAddToLibrary` also asserts the part's listing is `user` and that its file is in the library folder; add: Add to Library of a draft the library already holds (same content) is a no-op that returns the same part.
+- [x] `docs/file-format.md` § Custom parts: a bullet "On open, the app offers to add the embedded parts that are not in the User Library; the answer does not change the file." `docs/parts-format.md` § Single part files, "The User Library" paragraph (plan-53-B): how parts get in: Load Part…, the open offer, the Part Editor's Add to Library, the drawer's Add to User Library.
 
-Acceptance: the editor's Add to Library persists.
+Acceptance: the editor's Add to Library persists. **MET** (`xcodebuild test … PartFileSaveOpenTests PartEditorWindowTests` → `Executed 19 tests, with 0 failures`, `** TEST SUCCEEDED **`)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/PartFileSaveOpenTests -only-testing:schematicalTests/PartEditorWindowTests` → `** TEST SUCCEEDED **` (est. 6–12 min).
-Commit: —
+Commit: (this commit)
 
 ## Validation Plan
 

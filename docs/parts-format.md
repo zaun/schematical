@@ -408,6 +408,12 @@ lists as User Library → Gates):
 - **File Library**: every other registered custom part: one a schematic
   embedded, or one loaded for this session only. Nothing is written for it.
 
+A part gets into the User Library four ways: **File › Load Part…** (asks
+Add to Library, Use Once or Cancel; Use Once lists it in the File Library), the
+offer when a schematic that embeds custom parts is opened, the Part Editor's
+**Add to Library**, and **Add to User Library** on a File Library part's
+right-click menu.
+
 Removing a part from the User Library deletes its file and takes it out of
 the drawer at once. The backend cannot unload an arbitrary part, so it stays
 registered for the session: schematics that hold it still resolve it, and

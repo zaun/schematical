@@ -610,6 +610,10 @@ opens on a Mac where the part was never loaded:
   one; one the part loader refuses fails the open with the loader's message. A name already
   taken gets the lowest free suffix (`.2`, `.3`, …). Loaded parts stay for the
   rest of the session, even if the open fails later.
+- After a successful open, the app offers to add the embedded parts that are
+  not in the User Library ([`docs/parts-format.md`](parts-format.md) § The User
+  Library) to it. The answer does not change the file: the schematic embeds
+  its custom parts either way, and "Not Now" is asked again at the next open.
 - A placed part with a `partUUID` resolves to the custom part with that uuid;
   one with no matching entry is an unknown part.
 

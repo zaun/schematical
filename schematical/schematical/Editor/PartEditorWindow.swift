@@ -3,7 +3,7 @@ import SwiftUI
 
 /// The Part Editor window (plan-32-C): a form for one custom part, checked by
 /// the backend's own loader as it is edited, saved as a `.schpart` file or
-/// added to the parts drawer.
+/// added to the User Library.
 struct PartEditorWindowView: View {
     let target: PartEditorTarget
     @State private var model: PartEditorModel
