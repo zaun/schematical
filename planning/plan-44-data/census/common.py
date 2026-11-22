@@ -7,11 +7,18 @@ Imported by select.py, urls.py and footprint-lines.py as
 import collections
 import glob
 import gzip
+import hashlib
 import json
 import os
 import re
 from urllib.parse import urlparse
 
+HERE = os.path.dirname(os.path.abspath(__file__))
+DATA = os.path.dirname(HERE)
+ROOT = os.path.dirname(os.path.dirname(DATA))
+TREE = os.path.join(ROOT, 'datasheets', 'crystal')
+PLACED = os.path.join(TREE, 'datasheets.tsv')
+SLUG = {'Abracon': 'abracon', 'ECS': 'ecs', 'Suntsu': 'suntsu'}
 MAKERS = {'535': 'Abracon', '50': 'ECS', '2388': 'Suntsu'}
 MAX_HZ = 100_000_000
 # Hosts that are the maker's own site.
@@ -134,3 +141,35 @@ def resolve_urls(rows):
 def fix(url):
     url = url.replace('suntsucompany.wpengine.com', 'suntsu.com')
     return re.sub(r'^https?://www\.(abracon|suntsu)\.com', r'https://\1.com', url).replace('http://', 'https://')
+
+
+# ---- plan-44-A Phase 3: the downloaded PDFs and the download set ----
+
+def eligible(row):
+    """A download-set row of candidates.tsv: candidate or reserve (`state` is not `out`)."""
+    return row['state'] != 'out'
+
+
+def md5(url):
+    return hashlib.md5(url.encode()).hexdigest()
+
+
+def pdf_path(directory, url):
+    return os.path.join(directory, md5(url) + '.pdf')
+
+
+def is_pdf(path):
+    if not os.path.exists(path):
+        return False
+    with open(path, 'rb') as f:
+        return f.read(5) == b'%PDF-'
+
+
+def norm(s):
+    """Every run of non-alphanumerics becomes one space (textscan's token rule)."""
+    return ' ' + re.sub(r'[^0-9A-Z]+', ' ', (s or '').upper()).strip() + ' '
+
+
+def source(row):
+    """The URL a row's own datasheet is downloaded from (candidates.tsv `url`)."""
+    return row['url']
