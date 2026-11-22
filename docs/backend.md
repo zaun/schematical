@@ -334,7 +334,7 @@ backend/
                            interface), footprints.c + footprint.h (parse,
                            check and expand footprints.json)
     models/                one file per kind: gate.c dff.c jkff.c sram.c
-                           eeprom.c switch.c led.c display7.c nixie.c oscillator.c
+                           eeprom.c switch.c led.c display7.c nixie.c oscillator.c crystal.c
                            supply.c latch.c, decoder.c (decoders,
                            priority encoders, 7-segment decoders),
                            mux.c + mux.h (multiplexers: the kind and
@@ -363,6 +363,8 @@ backend/
                            plan-40-F);
                            regulator.c (the regulator kind: loader, the
                            regulated-supply model, plan-42-G);
+                           crystal.c (the crystal kind: loader, the weak
+                           clock-on-both-terminals model, plan-44-E);
                            cpu.c + cpu.h (the cpu kind: loader, the model
                            that forwards to a core adapter, input sampling,
                            the instruction tracker), cpu6502.c (the
@@ -620,6 +622,18 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   maker resistors and from `GENERIC-RESISTOR` values
   (`circuit_set_resistance`), a boost converter's `vinMin`, an enable at
   its inactive level, a chain of two regulators.
+- `crystal_test` — the crystal kind (plan-44-E): the fixture parts of
+  `tests/support/crystal_fixture.h` (a two-pin and a four-pad crystal, a
+  100 MHz one, a three-pad resonator with built-in capacitors) load and
+  their `PartCrystal` facts read back; the loader's rejections (a missing or
+  out-of-range `hz`, an unknown type, wrong terminals, a terminal that is not
+  `inout`, a non-terminal that is not `nc`, 5 pins, a fact out of range,
+  `capacitors` on a crystal, an unlisted key, a footprint with the wrong pad
+  count); and the clock: X1 at the level and X2 at the complement from
+  time 0 (1 MHz, and 32768 Hz with its 15258789 ps half period), a strong
+  GND on a terminal overriding it, a terminal wired to an SN74HC04N input
+  (the output is the complement, 20 ± 1 changes in 10 us), 100 MHz for 1 us
+  without an error, and an unwired crystal.
 - `capacitor_test` — the capacitor kind (plan-33-E): the fixture
   capacitors (`tests/support/capacitor_fixture.h`, one tantalum and one
   ceramic device) load and their `PartCapacitor` facts read back; a

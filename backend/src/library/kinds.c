@@ -38,6 +38,7 @@ extern const PartKindOps GENERIC_KIND;
 extern const PartKindOps SERIALMEM_KIND;
 extern const PartKindOps NIXIE_KIND;
 extern const PartKindOps REGULATOR_KIND;
+extern const PartKindOps CRYSTAL_KIND;
 
 /* One line per kind. Adding a kind: docs/backend.md, "Adding a kind". */
 const PartKindOps *const KINDS[] = {
@@ -76,6 +77,7 @@ const PartKindOps *const KINDS[] = {
     &SERIALMEM_KIND,
     &NIXIE_KIND,
     &REGULATOR_KIND,
+    &CRYSTAL_KIND,
     NULL
 };
 

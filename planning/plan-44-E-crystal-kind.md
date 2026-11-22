@@ -37,9 +37,9 @@ plan-44-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-44-D complete | `ls planning/completed/plan-44-D-*.md` → exists | NOT MET (2026-11-16: not started) |
-| No `crystal` kind yet | `grep -c 'PART_CRYSTAL' backend/include/parts.h` → 0; `ls backend/src/models/crystal.c` → no such file | MET (2026-11-16 at 7108a13e: 0, no file) |
-| Golden sizes re-measured | `git show HEAD:backend/tests/golden/parts.txt \| wc -l` (and `traces.txt`, `footprints.txt`) | record P0 / R0 / F0 at E's start, as of 7108a13e: 32897 / 32897 / 1646 (C's and D's footprints are not in `footprints.json` yet, F adds them) |
+| plan-44-D complete | `ls planning/completed/plan-44-D-*.md` → exists | MET (2026-11-22: `planning/completed/plan-44-D-crystal-footprints-leaded-resonators.md`) |
+| No `crystal` kind yet | `grep -c 'PART_CRYSTAL' backend/include/parts.h` → 0; `ls backend/src/models/crystal.c` → no such file | MET (2026-11-22 at f442d31a: `0`, no such file) |
+| Golden sizes re-measured | `git show HEAD:backend/tests/golden/parts.txt \| wc -l` (and `traces.txt`, `footprints.txt`) | record P0 / R0 / F0 at E's start, as of 7108a13e: 32897 / 32897 / 1646 (C's and D's footprints are not in `footprints.json` yet, F adds them). At E's start (f442d31a, 2026-11-22): **33771 / 33771 / 1823** (`git show HEAD:backend/tests/golden/{parts,traces,footprints}.txt \| wc -l`) |
 
 Everything below is written against the world where these hold.
 
@@ -224,47 +224,49 @@ the `crystal_test` line.
 
 ### Phase 1 — The kind: loader, facts, tests of the loader
 
-- [ ] `backend/include/parts.h`: `PART_CRYSTAL` after the current last
+- [x] `backend/include/parts.h`: `PART_CRYSTAL` after the current last
       `PartKind` (`grep -n 'PART_' backend/include/parts.h`: `PART_GENERIC`
       since plan-46-B; if plan-42 landed, after `PART_REGULATOR`), `PartCrystal`, `const PartCrystal *crystal;` on
-      `Part`.
-- [ ] `backend/src/models/crystal.c`: `CRYSTAL_KIND` with `load_device`,
+      `Part`. `PART_CRYSTAL` follows `PART_REGULATOR` (plan-42 landed first).
+- [x] `backend/src/models/crystal.c`: `CRYSTAL_KIND` with `load_device`,
       `bind_pinout` (the two terminal indices as `size_t[2]`, the pin rules of
       § 3.1), `load_part` (`out->crystal`), no model yet (the passive shape of
       `capacitor.c`: `.name`, `.pin_count`, `.create` returning the `Part`'s
       `crystal`).
-- [ ] `backend/src/library/kinds.c`: `extern const PartKindOps CRYSTAL_KIND;`
+- [x] `backend/src/library/kinds.c`: `extern const PartKindOps CRYSTAL_KIND;`
       and `&CRYSTAL_KIND` in `KINDS[]` (`grep -c 'CRYSTAL_KIND'
       backend/src/library/kinds.c` → 0 before, 2 after); `backend/CMakeLists.txt`:
       `src/models/crystal.c` in `logic` and `logic_test(crystal_test)`.
-- [ ] `backend/tests/support/listing.c`: `case PART_CRYSTAL: return "crystal"`
+      `grep -c 'CRYSTAL_KIND' backend/src/library/kinds.c` → 2.
+- [x] `backend/tests/support/listing.c`: `case PART_CRYSTAL: return "crystal"`
       and the facts line `type=%s hz=%llu load=%llu tol=%u stab=%u esr=%llu
       cap=%d`; `tests/trace_check.c` `TRACE_LAST_KIND` and
       `tests/listing_check.c` the two array sizes → `PART_CRYSTAL` (the last
       kind at that time; moot if already past it — `grep -c 'PART_CRYSTAL'
       backend/tests/trace_check.c backend/tests/listing_check.c` → 1 each).
-- [ ] `backend/tests/support/crystal_fixture.h` and `backend/tests/crystal_test.c`
+      `TRACE_LAST_KIND` and the two array sizes moved from `PART_REGULATOR` to `PART_CRYSTAL`.
+- [x] `backend/tests/support/crystal_fixture.h` and `backend/tests/crystal_test.c`
       fact cases and rejection cases (§ 6 a–j).
 
 Acceptance: the kind loads and reads back; goldens unchanged.
-  Check: `cmake -S backend -B /tmp/logic-p44-e && cmake --build /tmp/logic-p44-e -j8 && /tmp/logic-p44-e/crystal_test` → every line `PASS`, and `/tmp/logic-p44-e/listing_check` and `/tmp/logic-p44-e/trace_check` → exit 0 (est. 4 min: a build from scratch).
+  Check: `cmake -S backend -B /tmp/logic-p44-e && cmake --build /tmp/logic-p44-e -j8 && /tmp/logic-p44-e/crystal_test` → every line `PASS`, and `/tmp/logic-p44-e/listing_check` and `/tmp/logic-p44-e/trace_check` → exit 0 (est. 4 min: a build from scratch). Output 2026-11-22: build exit 0 with no warning; `crystal_test` 22 `PASS`, 0 `FAIL`, `crystal_test: all passed`; `listing_check` exit 0; `trace_check` exit 0.
 Commit: —
 
 ### Phase 2 — The clock model
 
-- [ ] `crystal.c`: `CRYSTAL_MODEL` per § 3.2; the clock cases of § 6 k–p in
+- [x] `crystal.c`: `CRYSTAL_MODEL` per § 3.2; the clock cases of § 6 k–p in
       `crystal_test.c`.
 
 Acceptance: the clock cases pass; goldens unchanged.
-  Check: `cmake --build /tmp/logic-p44-e -j8 && /tmp/logic-p44-e/crystal_test` → every line `PASS`; `/tmp/logic-p44-e/listing_check` and `/tmp/logic-p44-e/trace_check` → exit 0 (est. 2 min).
+  Check: `cmake --build /tmp/logic-p44-e -j8 && /tmp/logic-p44-e/crystal_test` → every line `PASS`; `/tmp/logic-p44-e/listing_check` and `/tmp/logic-p44-e/trace_check` → exit 0 (est. 2 min). Output 2026-11-22: the clock cases k–p are the last 6 of the 22 `PASS` lines; `ctest --test-dir /tmp/logic-p44-e -j8` → `100% tests passed, 0 tests failed out of 41` (T0 = 40, `grep -c '^logic_test' backend/CMakeLists.txt` → 41); no golden file is modified (`git status` shows none under `backend/tests/golden/`).
 Commit: —
 
 ### Phase 3 — Docs
 
-- [ ] `docs/parts-format.md` and `docs/backend.md` per § 4.
+- [x] `docs/parts-format.md` and `docs/backend.md` per § 4.
 
 Acceptance: the docs name the kind.
-  Check: `grep -c 'crystal' docs/parts-format.md docs/backend.md` → both above 0, and `grep -n '^### `crystal`' docs/parts-format.md` → 1 line (est. < 1 min).
+  Check: `grep -c 'crystal' docs/parts-format.md docs/backend.md` → both above 0, and `grep -n '^### `crystal`' docs/parts-format.md` → 1 line (est. < 1 min). Output 2026-11-22: `docs/backend.md:6`, `docs/parts-format.md:20`; `1220:### `crystal``.
 Commit: —
 
 ## 6. `crystal_test` cases
@@ -360,6 +362,19 @@ Author decisions (no user-visible fork; recorded so nobody re-litigates):
   them without floats.
 
 ## Corrections
+
+1. **T0 = 40, not 36** (main moved on; `git show HEAD:backend/CMakeLists.txt \| grep -c '^logic_test'` → 40), so the
+   suite is 41 programs; the last kind before E was `PART_REGULATOR` (plan-42
+   landed), so `PART_CRYSTAL` is appended after it and `TRACE_LAST_KIND`
+   and the `listing_check.c` array sizes were `PART_REGULATOR`.
+2. **`bind_pinout` also rejects a device whose two `"terminals"` name the same
+   pin** (`"terminals" must name 2 different pins`): `kind_pin` finds each name
+   once but two names may be one pin's; not in § 3.1's list, no case needs it.
+3. **Case (j)'s wrong-pad-count rejection needs the real footprints loaded:**
+   `crystal_test`'s `refused_in(…, footprints = 1)` loads the Parts directory first (a
+   bare library has no `RES-0402`: `unknown footprint "RES-0402"`).
+4. **`docs/parts-format.md`'s kind table** had no `regulator.json` row (plan-42);
+   E adds only `crystal.json`.
 
 ## Summary
 

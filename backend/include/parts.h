@@ -27,7 +27,7 @@ typedef enum {
     PART_SHIFT, PART_CPU, PART_CHARLCD, PART_SERIAL, PART_CONNECTOR, PART_PIO, PART_DECODER,
     PART_BUFFER, PART_MUX, PART_HEADER, PART_ARITH, PART_CONVERTER, PART_RTC, PART_DIODE,
     PART_CAPACITOR, PART_REGISTER, PART_MCU, PART_RESISTOR, PART_TRANSISTOR,
-    PART_GENERIC, PART_SERIALMEM, PART_NIXIE, PART_REGULATOR
+    PART_GENERIC, PART_SERIALMEM, PART_NIXIE, PART_REGULATOR, PART_CRYSTAL
 } PartKind;
 
 /* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */
@@ -199,6 +199,20 @@ typedef struct { const char *type; size_t regulator_count; uint8_t mixed; uint8_
                  uint32_t vout_max_mv, vin_min_mv, vin_max_mv, dropout_mv, iout_ma, iq_ua;
                  uint64_t fsw_hz; } PartRegulator;
 
+/* A crystal or ceramic resonator (plan-44-E): a two-terminal frequency
+   reference and, in the simulation, a clock source on its own two terminals
+   (X1 at the level, X2 at the complement, both weak). type: "crystal" or
+   "resonator". hz: the frequency, 1 to 1000000000. load_ff: the load
+   capacitance in femtofarads (18 pF = 18000), 0 = not given (series
+   resonant, or a resonator with built-in capacitors). tolerance_ppm and
+   stability_ppm: parts per million, 0 = not given. esr_mohm: the ESR (a
+   resonator's impedance) in milliohms, 0 = not given. capacitors: 1 for a
+   resonator with built-in load capacitors (its third pad is the common pin).
+   The facts are for the app; the simulation reads only hz. */
+typedef struct { const char *type; uint64_t hz; uint64_t load_ff;
+                 uint32_t tolerance_ppm, stability_ppm; uint64_t esr_mohm;
+                 int capacitors; } PartCrystal;
+
 /* A microcontroller (plan-36-F): facts only, no simulation model (its
    device says "simulated": false). core: "avr", "avrrc", "avrxt", "avrxm",
    "cortex-m0plus", "xtensa-lx6", "xtensa-lx7" or "riscv". max_hz: the
@@ -308,6 +322,7 @@ typedef struct Part {
     const PartNixie *nixie;
     const PartSerialmem *serialmem;
     const PartRegulator *regulator;
+    const PartCrystal *crystal;
     /* Dual-supply parts (plan-20-F): domain 0 is the A side (its vcc is
        Part.vcc), domain 1 the B side; NULL/0 for single-supply parts. */
     const PartSupplyDomain *domains; size_t domain_count;

@@ -41,6 +41,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_SERIALMEM: return "serialmem";
         case PART_NIXIE: return "nixie";
         case PART_REGULATOR: return "regulator";
+        case PART_CRYSTAL: return "crystal";
     }
     return "?";
 }
@@ -226,6 +227,13 @@ static void print_details(FILE *out, const Part *part) {
                     (unsigned long long)r->fsw_hz);
             break;
         }
+        case PART_CRYSTAL:
+            fprintf(out, "type=%s hz=%llu load=%llu tol=%u stab=%u esr=%llu cap=%d",
+                    part->crystal->type, (unsigned long long)part->crystal->hz,
+                    (unsigned long long)part->crystal->load_ff,
+                    (unsigned)part->crystal->tolerance_ppm, (unsigned)part->crystal->stability_ppm,
+                    (unsigned long long)part->crystal->esr_mohm, part->crystal->capacitors);
+            break;
         case PART_TRANSISTOR:
             fprintf(out,
                     "elements=%zu type=%s mixed=%u vmax=%u imax=%u power=%u hfe=%u rdson=%llu "

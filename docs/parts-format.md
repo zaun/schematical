@@ -1,7 +1,7 @@
 # Part file format
 
 Every orderable part (gate, flip-flop, latch, decoder, counter, shift register, SRAM, EEPROM, switch, LED,
-diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character LCD module, oscillator, supply, microprocessor, microcontroller, serial controller, serial memory) is described in a JSON part file in
+diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character LCD module, oscillator, crystal, supply, microprocessor, microcontroller, serial controller, serial memory) is described in a JSON part file in
 `schematical/schematical/Parts/`, one file per kind:
 
 | File | Kind |
@@ -15,6 +15,7 @@ diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character
 | `led.json` | `led` |
 | `7seg.json` | `7seg` |
 | `oscillator.json` | `oscillator` |
+| `crystal.json` | `crystal` |
 | `supply.json` | `supply` |
 | `latch.json` | `latch` |
 | `decoder.json` | `decoder` |
@@ -1215,6 +1216,58 @@ Part keys:
 | `"defaultHz"` | the part's frequency, from `minHz` to `maxHz` |
 | `"vcc"`, `"inputMax"` | optional: the part's own range, for a supply option picked by a letter in the part number (LMK6 1.8 V parts) |
 | `"enablePin"` | optional; the **designator** (in the part's pinout) of the output-enable / standby pin: a number for numbered pinouts (`2`), a ball name string for ball pinouts (`"A2"`). A LOW there puts every output in high impedance; HIGH or not connected keeps the clock running. A designator, not a name, because the LMK6D/H/P function pins 1 and 2 share the name `OE/ST/NC`. `PartOscillator.enable_pin` points at that pin's `PartPin.designator` (NULL = none). |
+
+### `crystal`
+
+Quartz crystals and ceramic resonators (plan-44): a two-terminal frequency
+reference. `"kind": "crystal"`, run by `backend/src/models/crystal.c`. A
+**crystal** has two pins, a **resonator** with built-in load capacitors a
+third, the common pin. In the simulation a crystal is a **clock source on its
+own two terminals**: from time 0 it drives the first terminal (`X1`) at the
+level, starting at 0 and toggling every half period, and the second (`X2`) at
+the complement, both **weakly**. A clock input wired to either terminal (a
+chip's `XTAL1`, a counter's `CLK`) counts it, and any strong driver on a
+terminal overrides it (the terminal then reads the strong level); two
+crystals on one net read X where they disagree, like two pull parts. The
+clock is exactly `hz` (the half period is `(10^12 + hz) / (2 hz)` picoseconds,
+the oscillator's rounding); the facts below are for the app and change
+nothing in the simulation: no motional model, no load-capacitance matching,
+no start-up time, no drive level, no pulling or tolerance.
+
+Limit: a crystal across an inverter's input and output (a Pierce oscillator
+with a feedback resistor) does not oscillate as it does on silicon: the
+resistor passes the inverter's weak level into the crystal's net, where it
+fights the crystal's own weak clock. The supported circuit is a clock input
+wired to a terminal.
+
+Device keys:
+
+| Key | Value |
+|---|---|
+| `"type"` | `"crystal"` or `"resonator"` (`unknown crystal type "X"`) |
+| `"terminals"` | the two terminal pin names, `["X1", "X2"]`: the first carries the clock level, the second the complement (`"terminals" must name 2 pins`) |
+
+Every pinout of a crystal device has 2 to 4 pins (`a crystal has 2 to 4
+pins`), names each terminal once, and gives both terminals the role `inout`
+(`crystal pin "X1" must be inout`); every other pin has the role `nc`
+(`crystal pin "X" must be nc`). A four-pad surface-mount crystal's other two
+pads are `NC` (the datasheet may say "GND or lid": the schematic symbol draws
+two terminals and the footprint keeps all four pads); a three-pad resonator's
+middle pad is a pin named `GND` with the role `nc`, and a three-lead HC-49/US
+the same. A crystal has no `vcc`.
+
+Part keys (`"hz"` is required):
+
+| Key | Value |
+|---|---|
+| `"hz"` | the frequency in whole hertz, 1 to 1000000000 (`"hz" must be a whole number from 0 to 1000000000`, `"hz" must be at least 1`) |
+| `"loadPf"` | optional: the load capacitance in picofarads, above 0 and at most 1000; absent for series-resonant parts (`PartCrystal.load_ff`, femtofarads) |
+| `"tolerancePpm"`, `"stabilityPpm"` | optional: the frequency tolerance and stability in ppm, above 0 and at most 100000 (a ceramic resonator's 0.5 % is 5000) |
+| `"esrOhms"` | optional: the ESR in ohms (a resonator's impedance), above 0 and at most 1000000 (`PartCrystal.esr_mohm`, milliohms) |
+| `"capacitors"` | optional: `true` for a resonator with built-in load capacitors (`"capacitors" is only for a resonator` on a crystal) |
+
+The facts are integers in the part library (hertz, femtofarads, ppm,
+milliohms) so the app reads them without floats.
 
 ### `gate`
 
