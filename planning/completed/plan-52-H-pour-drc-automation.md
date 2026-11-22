@@ -164,3 +164,4 @@ Commit: the landing commit (`plan-52-H: landing …`)
 ## Summary
 
 The risk is the DRC changing for boards that have no pours, held by the four goldens, and calling connected copper unconnected, held by (a) and (b). Untouched: the router, the fill, the exports, the file format.
+- The full unit bundle (`-only-testing:schematicalTests`, run once in the background before the merge): `Executed 1351 tests, with 5 tests skipped and 1 failure`, in 1147 s. The one failure is `MarkdownDatasheetTests.testConvertedPartHasMarkdownDatasheet` (`XCTAssertNil failed: "gate-nand/sn74hc00.md"`): `Parts/datasheets.json` already maps `SN74HC00N` to a Markdown datasheet while the test still expects none. It is not plan-52's: `git diff main HEAD --stat -- schematical/schematical/Parts schematical/schematicalTests/MarkdownDatasheetTests.swift` is empty, so the same test fails on `main`. Left as it is.
