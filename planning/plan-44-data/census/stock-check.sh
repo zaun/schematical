@@ -19,7 +19,7 @@ python3 -I $here/unchecked.py $raw $cand $out | while IFS=$'\t' read -r id mpn; 
     print -r -- "stock-check: stopped with $left calls left today (reserve ${STOCK_CHECK_RESERVE:-20}); run again tomorrow"
     stop=1
   fi
-  if grep -q 'rate limited\|429' $last; then
+  if grep -q 'rate limited' $last; then
     cat $last; exit 1
   fi
   if [[ -z $json ]] && ! grep -q '^digikey:' $last; then

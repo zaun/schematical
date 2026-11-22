@@ -324,22 +324,27 @@ from the next rows.
       → `reproducible`. Output 2026-11-22: `7019 parts listed`, `candidates: 600; from a cut piece: 160`, `download set: 744 rows; 191 distinct URLs`, `reproducible`.
 
 Acceptance: the planning pick reproduces.
-  Check: `python3 -I planning/plan-44-data/census/select.py planning/plan-44-data/raw /tmp/p44-cand.tsv --urls planning/plan-44-data/url-check.tsv && cmp /tmp/p44-cand.tsv planning/plan-44-data/candidates.tsv && echo reproducible` → `reproducible` (est. < 1 min).
-Commit: —
+  Check: `python3 -I planning/plan-44-data/census/select.py planning/plan-44-data/raw /tmp/p44-cand.tsv --urls planning/plan-44-data/url-check.tsv && cmp /tmp/p44-cand.tsv planning/plan-44-data/candidates.tsv && echo reproducible` → `reproducible` (est. < 1 min). Output 2026-11-22: `reproducible`.
+Commit: a3b45155
 
 ### Phase 2 — The part-by-part stock check (one quota day)
 
-- [ ] `census/stock-check.sh` (§ 5); run it for every row of the download
+- [x] `census/stock-check.sh` (§ 5); run it for every row of the download
       set (744 calls; ≥ 800 left before the run, § Prerequisites); a run cut
-      by the quota goes on the next day.
-- [ ] `select.py … --stock planning/plan-44-data/stock-check.tsv --report` writes
+      by the quota goes on the next day. Done 2026-11-22 (local date 11-21 in
+      `stock-check.tsv`): 998 calls left before, 252 after; `stock-check.tsv`
+      has 745 rows, `found` = 1 for 744, all `Active`.
+- [x] `select.py … --stock planning/plan-44-data/stock-check.tsv --report` writes
       `candidates.tsv`; a row that went `out` leaves the set and the next row
       of its (maker, class) enters it; check every new row the same way until
       no row of the set is unchecked. Record the number of `found` = 0 rows
-      and of extra calls in § Corrections.
+      and of extra calls in § Corrections. Result: 1 `found` = 0 row
+      (`ECS-240-12-37BQ-CKY-TR`), 1 refill row checked (`ECS-320-10-37BQ-CKY-TR`,
+      `found` 1); `unchecked.py` → `unchecked: 744 download-set rows, 0 unchecked`;
+      the set is still 744 rows, 191 distinct URLs.
 
 Acceptance: every download-set row is in stock, Active or Last Time Buy.
-  Check: `awk -F'\t' 'NR>1 && $2!=1' planning/plan-44-data/stock-check.tsv \| wc -l` → the `found` = 0 count recorded above, and `awk -F'\t' '$25!="out" && NR>1 && $31==""' planning/plan-44-data/candidates.tsv \| wc -l` → 0 (est. < 1 min; the run itself is the quota day, about 35 min at 23 calls a minute).
+  Check: `awk -F'\t' 'NR>1 && $2!=1' planning/plan-44-data/stock-check.tsv \| wc -l` → the `found` = 0 count recorded above, and `awk -F'\t' '$25!="out" && NR>1 && $31==""' planning/plan-44-data/candidates.tsv \| wc -l` → 0 (est. < 1 min; the run itself is the quota day, about 35 min at 23 calls a minute). Output 2026-11-22: `1` and `0`.
 Commit: —
 
 ### Phase 3 — Download, place and scan the datasheets
@@ -438,6 +443,20 @@ Author decisions (no user-visible fork; recorded so nobody re-litigates):
   `census/unchecked.py` (every row whose `state` is not `out`, skipping part
   numbers already in `stock-check.tsv`, reading `*.jsonl*`) and
   `stock-check.sh` calls it.
+
+- **2026-11-22, Phase 2 result:** `found` = 0 rows: **1** (`ECS-240-12-37BQ-CKY-TR`,
+  not in stock); extra calls for the refill: **1** (`ECS-320-10-37BQ-CKY-TR`,
+  in stock, Active). The planning snapshot (7019 parts, 2026-11-16) was nearly
+  exact for the pick: 743 of 744 rows still in stock six days later. Calls
+  spent: 746 (744 rows + 1 refill + 1 repeated), 998 → 252 left.
+- **2026-11-22, `stock-check.sh` bug (inherited from plan-40's copy):** its
+  rate-limit test was `grep -q 'rate limited\|429' $last`; `$last` ends with
+  `… N API calls, 429 left today`, so the run stopped with exit 1 when the
+  quota count reached 429 (after 569 rows). `scripts/digikey.js` throws
+  `rate limited by DigiKey; …` on a real 429, so the test is now
+  `grep -q 'rate limited'`. The failed run lost nothing but one repeated
+  call (the row being checked was not yet written); the rerun went on from
+  `stock-check.tsv`.
 
 ## Summary
 
