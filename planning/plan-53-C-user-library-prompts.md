@@ -15,7 +15,7 @@ of it from the places the user already works:
 - A drawer part's context menu: **Add to User Library** on a File Library part,
   **Remove from User Library…** on a User Library part.
 
-The window that lists the library is plan-53-D.
+The window that lists the library is plan-53-F.
 
 References:
 
@@ -60,7 +60,7 @@ Stated in plan-53-A; this sub-plan additionally needs plan-53-B complete.
 - **No remembered "declined" state.** Nothing about a file is stored.
 - **The `.schematical` file does not change**: it embeds its custom parts as
   before, whatever the answer.
-- **No new window.** The library window is plan-53-D.
+- **No new window.** The library window is plan-53-F.
 - **Load Part… keeps its menu title and place.**
 
 ## 2. Current State
@@ -137,7 +137,7 @@ enum LoadPartOutcome { case added(CatalogPart), usedOnce(CatalogPart), alreadyIn
 The one subtle point is the file-open path, which must not run the offer when
 the open itself failed, and must not block the open.
 
-**Gate class.** New behavior; tests plus a runtime run in plan-53-D.
+**Gate class.** New behavior; tests plus a runtime run in plan-53-F.
 
 Rejected alternatives:
 
@@ -248,8 +248,8 @@ Commit: —
   unwritable folder, cancel).
 - Coverage check: every changed function is called by `UserLibraryPromptsTests`
   or `PartFileSaveOpenTests`; the sheet presentation and the drawer menu are
-  covered by the runtime proof in plan-53-D (they cannot run headless).
-- Runtime proof: plan-53-D runs the app and exercises Load Part…, the open
+  covered by the runtime proof in plan-53-F (they cannot run headless).
+- Runtime proof: plan-53-F runs the app and exercises Load Part…, the open
   offer, Add/Remove from the drawer menu, and a relaunch.
 - Doc sync: `docs/file-format.md`, `docs/parts-format.md`, `Help/KeyboardHelp.swift`.
 - Final gate (run ONCE, after Phase 3): the five test classes named in Phases

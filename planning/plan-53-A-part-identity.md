@@ -1,7 +1,7 @@
-# plan-53-A: Part identity: every version gets a new uuid
+# plan-53-A: Part identity: a new part gets a new uuid
 
 Last updated: 2026-11-21
-Overall Effort: large (3h–1d) — plan-53 is the persistent User Library (A–D)
+Overall Effort: large (3h–1d) — plan-53 is the persistent User Library (A–F)
 Effort: medium (1h–2h)
 Depends on: nothing
 
@@ -17,8 +17,10 @@ share a uuid**, because whoever would collide is given a new one:
   a fresh uuid instead of refusing it;
 - a schematic that embeds such a part opens, with its placed parts remapped to
   the fresh uuid;
-- the Part Editor gives a part a new uuid each time it is opened from a file or
-  copied from a library part, and when Add to Library would collide;
+- the Part Editor keeps a part's uuid when it is saved (Save updates the part),
+  and gives a new uuid to a part it makes new: Save As… of a part that was
+  opened or saved before, Copy to Editor…, and an Add to Library that would
+  collide;
 - each fresh uuid carries `originId`, the uuid the part started from, in the
   part file. Nothing reads `originId` yet; it is kept for later update logic.
 
@@ -60,8 +62,10 @@ Everything below is written against the world where these hold.
   renamed to match, and its `originId` set.
 - Opening a version 5 schematic whose embedded part collides this way succeeds,
   and its placed parts resolve to the fresh-uuid part.
-- The Part Editor opens a file or copies a library part under a new uuid with
-  `originId` set, and Add to Library freshens the draft when its uuid collides.
+- The Part Editor's Save keeps the uuid. Save As… of a part that was opened or
+  saved before writes a new file under a new uuid with `originId` set; Copy to
+  Editor… makes a draft under a new uuid with `originId` set; Add to Library
+  freshens the draft when its uuid collides.
 - The part file format accepts an optional `originId` (an uppercase UUID) and
   ignores it.
 
@@ -76,6 +80,8 @@ Everything below is written against the world where these hold.
 - **Bundled parts have no uuid and no `originId`.**
 - **`originId` is never read** by the app or the backend beyond checking its
   shape. No update, merge or lineage feature.
+- **Save never changes a uuid.** Updating a part in place is the Part Editor's
+  Save (a file) and plan-53-D/E (a library part).
 - **The name-clash rule is unchanged**: a taken name gets the lowest free
   `.2`, `.3`, … suffix.
 
@@ -114,7 +120,7 @@ Everything below is written against the world where these hold.
 | App call sites of `register(fileText:` | 3 | `grep -rn 'register(fileText' schematical/schematical --include='*.swift' \| wc -l` → 3 (`SchematicFileController.swift:591`, `SchematicFile.swift:966`, `PartEditorModel.swift:520`) |
 | Test call sites of `register(fileText:` | 11 | `grep -rn 'register(fileText' schematical/schematicalTests \| wc -l` → 11 |
 | Places that name `uuidInUse` / `customPartConflict` | 9 lines | `grep -rn 'uuidInUse\|customPartConflict' schematical --include='*.swift' \| wc -l` → 9 (2 in tests: `PartRegistrationTests.swift:90`, `SchematicFileV5Tests.swift:216`) |
-| Test cases this changes | 4 | `PartRegistrationTests.testSameUUIDOtherContentIsRefused`, `SchematicFileV5Tests.testConflictingUUIDLeavesTheDocument`, `PartFileSaveOpenTests.testSaveOpenSaveIsStable`, `PartFileSaveOpenTests.testCopyHasANewUUIDAndRefusesABadSave` (read: each asserts the old identity rule) |
+| Test cases this changes | 3 | `PartRegistrationTests.testSameUUIDOtherContentIsRefused`, `SchematicFileV5Tests.testConflictingUUIDLeavesTheDocument`, `PartFileSaveOpenTests.testCopyHasANewUUIDAndRefusesABadSave` (read: each asserts the old identity rule) |
 
 ### Verified properties
 
@@ -164,7 +170,7 @@ Phase 2.
 **Gate class.** Behavior changes on purpose, so byte-identity is not the gate:
 tests are. Files that do not collide and parts that are not edited are
 unchanged; `SchematicFileV5Tests.testPlainSchematicIsVersion4AsBefore` and
-`testSaveOpenSaveIsStable` (rewritten in Phase 3) pin that.
+`PartFileSaveOpenTests.testSaveOpenSaveIsStable` (unchanged) pin that.
 
 Rejected alternatives:
 
@@ -217,9 +223,14 @@ from the entry's own `uuid`, record `old → new`. Resolve each placed part with
   `PartFileObject`, `freshenIdentity()`, build the draft; for a bundled part
   keep today's behaviour (new uuid, no `originId`: a bundled part has no
   identity to record).
-- `.file` target and `load(text:from:)`: build the draft from the text, then
-  `freshened()`; `savedText` is the freshened draft's text, so the window is not
-  dirty.
+- The `.file` target, `load(text:from:)` and `write(to:)` are unchanged: a part
+  opened from a file keeps its uuid, and Save writes it back under that uuid.
+- `PartEditorModel.saveAsNewVersion(to url: URL) throws` (new): when the draft
+  has a `fileURL` (it was opened or saved before) it first does
+  `draft = draft.freshened()`; then `write(to: url)`. `saveAs()` calls it after
+  its panel returns a URL, so a cancelled panel changes nothing. A draft that
+  was never saved keeps its uuid on its first Save As…. The old file is left as
+  it was.
 - `addToLibrary()`: when `catalog.uuidConflicts(draft text)`, set
   `draft = draft.freshened()` before registering.
 
@@ -266,14 +277,14 @@ Acceptance: the catalog registers a clashing part under a fresh uuid with rename
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/PartRegistrationTests -only-testing:schematicalTests/SchematicFileV5Tests` → `** TEST SUCCEEDED **` (est. 5–10 min; the app builds first).
 Commit: —
 
-### Phase 3 — The Part Editor
+### Phase 3 — The Part Editor: Save As…, copies and Add to Library
 
 - [ ] `PartDraft.swift`: `freshened()` (§ 4.5).
-- [ ] `PartEditorModel.swift`: `copy(named:)`, the `.file` target, `load(text:from:)` and `addToLibrary()` per § 4.5.
-- [ ] `schematicalTests/PartFileSaveOpenTests.swift`: `testSaveOpenSaveIsStable` now expects the reopened draft to equal the saved one except `uuid`, with `originId` = the saved uuid and a second save writing the reopened draft's text; `testCopyHasANewUUIDAndRefusesABadSave` also asserts a copy of a registered custom part with an inline footprint renames the footprint id and sets `originId`; add: Add to Library of a draft whose uuid is registered with other content adopts a fresh uuid, registers, and a second Add of the unchanged draft returns the same part.
-- [ ] `docs/parts-format.md` § Single part files: the sentences on the uuid ("the app goes by the uuid") gain: a clash gets a new uuid and the old one becomes `originId`; the Part Editor makes a new uuid when it opens a file or copies a part.
+- [ ] `PartEditorModel.swift`: `copy(named:)`, `saveAsNewVersion(to:)` (called by `saveAs()` after its panel) and `addToLibrary()` per § 4.5.
+- [ ] `schematicalTests/PartFileSaveOpenTests.swift`: `testSaveOpenSaveIsStable` is unchanged and still passes (Save keeps the uuid); `testCopyHasANewUUIDAndRefusesABadSave` also asserts a copy of a registered custom part with an inline footprint renames the footprint id and sets `originId`; add: `saveAsNewVersion` of an opened file writes a new file whose uuid differs, whose `originId` is the opened file's uuid, with the inline footprint id renamed, and leaves the opened file's bytes unchanged; `saveAsNewVersion` of a never-saved draft keeps its uuid and sets no `originId`; Add to Library of a draft whose uuid is registered with other content adopts a fresh uuid, registers, and a second Add of the unchanged draft returns the same part.
+- [ ] `docs/parts-format.md` § Single part files: the sentences on the uuid ("the app goes by the uuid") gain: a clash gets a new uuid and the old one becomes `originId`; the Part Editor keeps the uuid on Save and makes a new one for Save As… of a saved part and for a copy.
 
-Acceptance: the editor tests pass.
+Acceptance: Save keeps a part's uuid; Save As…, a copy and a colliding Add to Library make a new one.
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/PartFileSaveOpenTests -only-testing:schematicalTests/PartDraftRoundTripTests` → `** TEST SUCCEEDED **` (est. 4–8 min).
 Commit: —
 
@@ -285,7 +296,7 @@ Commit: —
   the editor paths) is exercised by the named test files; the Phase 2 and 3 checks
   run those files.
 - Runtime proof: none beyond tests in this sub-plan; the end-to-end run is
-  plan-53-D.
+  plan-53-F.
 - Doc sync: `docs/parts-format.md`, `docs/backend.md`, `docs/file-format.md`
   (done in Phases 1–3).
 - Final gate (run ONCE, after Phase 3): `ctest --test-dir /tmp/logic-build -R 'part_file_test|library_check'` and
@@ -295,8 +306,8 @@ Commit: —
 ## Decisions
 
 - Every version of a part gets a new uuid so nothing collides — decided by the owner, 2026-11-21. Settles the clash rule (§ 3, § 4.3, § 4.4).
+- Editing a part: Save updates the existing part (same uuid), Save As… makes a new one (new uuid) — decided by the owner, 2026-11-21. Settles § 4.5 and replaces the earlier assumption that every opened file got a new uuid.
 - The original id is kept in the file as `originId` for later update logic, and unused for now — decided by the owner, 2026-11-21. Settles § 4.1 and the "never read" non-goal.
-- Saving an edited part in the Part Editor gives it a new uuid, the old one kept as `originId` — assumed in the design discussion and accepted by the owner, 2026-11-21. Settles § 4.5: a new uuid is made when a file is opened or a part copied (the edited version is the one saved), not on every Save press.
 - The root origin is kept as `originId` across a chain of versions — author's call, no user-visible consequence. A lineage then shares one origin.
 
 ## Corrections

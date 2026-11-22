@@ -10,7 +10,7 @@ catalog at every launch. Every registered custom part is now listed in the
 parts picker in one of two categories: **User Library** (kept on disk) or
 **File Library** (this session only: from a file that embedded it, or loaded
 "once"). This sub-plan builds the model and the disk side, with no new windows
-or prompts (those are plan-53-C and plan-53-D).
+or prompts (those are plan-53-C and plan-53-F).
 
 References:
 
@@ -196,7 +196,7 @@ is a problem.
   `removed`.
 - `func listing(of part: CatalogPart) -> PartListing?`: nil for a bundled part.
 - `var userLibraryItems: [UserLibraryItem]` (`part`, `added`, `url`), in name
-  order, for plan-53-D's window.
+  order, for plan-53-F's window.
 - `private func setListing(_:for:)`: replaces the part's copy in `entries`,
   `partsByName` and `partsByUUID` (for `removed`: drops it from `entries` only),
   and sets `derivedCache = nil`.
@@ -263,7 +263,7 @@ Commit: —
   (`schematicalApp.init`); `UserPartLibraryTests` asserts
   `UserPartLibrary.defaultDirectory` is under `NSTemporaryDirectory()` when run
   under XCTest, so a run can never touch the owner's library.
-- Runtime proof: none in this sub-plan (no UI to add a part); plan-53-D runs
+- Runtime proof: none in this sub-plan (no UI to add a part); plan-53-F runs
   the app.
 - Doc sync: `docs/parts-format.md` (Phase 3).
 - Final gate (run ONCE, after Phase 3): the three test files above plus
