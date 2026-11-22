@@ -2114,6 +2114,18 @@ final class PartCatalogStore {
         if listings[uuid] != nil { setListing(.removed, for: uuid) }
     }
 
+    /// Deletes a library file that could not be loaded and drops it from
+    /// `userLibraryProblems` (plan-53-F).
+    func removeUserLibraryProblem(_ problem: UserPartLibraryProblem) throws {
+        guard let userLibrary else { throw PartRegistrationError.noUserLibrary }
+        do {
+            try userLibrary.removeFile(at: problem.url)
+        } catch {
+            throw PartRegistrationError.libraryWrite(error.localizedDescription)
+        }
+        userLibraryProblems.removeAll { $0 == problem }
+    }
+
     /// Where a registered custom part is listed; nil for a bundled part.
     func listing(of part: CatalogPart) -> PartListing? {
         part.uuid.flatMap { listings[$0] }

@@ -606,8 +606,9 @@ enum PartFileType {
 /// rest of the session. A failure shows the reason; nothing changes.
 @MainActor
 enum PartFileLoading {
-    static func loadPart(catalog: PartCatalogStore? = nil) async {
-        let catalog = catalog ?? PartCatalogStore.shared
+    /// The open panel for a part file, as a sheet on the key window; nil when
+    /// cancelled.
+    private static func choosePartFile() async -> URL? {
         let panel = NSOpenPanel()
         panel.allowedContentTypes = PartFileType.openableTypes
         panel.allowsMultipleSelection = false
@@ -619,7 +620,34 @@ enum PartFileLoading {
         } else {
             response = panel.runModal()
         }
-        guard response == .OK, let url = panel.url else { return }
+        guard response == .OK else { return nil }
+        return panel.url
+    }
+
+    private static func showLoadFailure(_ url: URL, _ error: Error, verb: String) async {
+        let alert = NSAlert()
+        alert.alertStyle = .warning
+        alert.messageText = "Couldn't \(verb) “\(url.lastPathComponent)”"
+        alert.informativeText = error.localizedDescription
+        _ = await UserLibraryPrompts.run(alert)
+    }
+
+    /// The User Library window's Add Part…: chooses a part file and adds it
+    /// to the User Library with no question (plan-53-F).
+    static func addToLibrary(catalog: PartCatalogStore? = nil) async {
+        let catalog = catalog ?? PartCatalogStore.shared
+        guard let url = await choosePartFile() else { return }
+        do {
+            let text = try PartFileReader.read(url: url)
+            try catalog.addToUserLibrary(fileText: text, source: url.lastPathComponent)
+        } catch {
+            await showLoadFailure(url, error, verb: "add")
+        }
+    }
+
+    static func loadPart(catalog: PartCatalogStore? = nil) async {
+        let catalog = catalog ?? PartCatalogStore.shared
+        guard let url = await choosePartFile() else { return }
         do {
             let text = try PartFileReader.read(url: url)
             let outcome = try await load(text: text, source: url.lastPathComponent, catalog: catalog) { name in
@@ -633,24 +661,21 @@ enum PartFileLoading {
                 _ = await UserLibraryPrompts.run(UserLibraryPrompts.alreadyInLibraryAlert(name: part.name))
             }
         } catch {
-            let alert = NSAlert()
-            alert.alertStyle = .warning
-            alert.messageText = "Couldn't load “\(url.lastPathComponent)”"
-            alert.informativeText = error.localizedDescription
-            if let window = NSApp.keyWindow {
-                _ = await alert.beginSheetModal(for: window)
-            } else {
-                alert.runModal()
-            }
+            await showLoadFailure(url, error, verb: "load")
         }
     }
 }
 
 /// The File menu's part file items, after Open….
 struct PartFileMenuItems: View {
+    @Environment(\.openWindow) private var openWindow
+
     var body: some View {
         Button("Load Part…") {
             Task { await PartFileLoading.loadPart() }
+        }
+        Button("User Library…") {
+            openWindow(id: UserLibraryScene.id)
         }
     }
 }

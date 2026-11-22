@@ -143,6 +143,13 @@ struct schematicalApp: App {
         .defaultSize(width: 1040, height: 1000)
         .restorationBehavior(.disabled)
 
+        // The User Library (plan-53-F): one window, File › User Library….
+        Window("User Library", id: UserLibraryScene.id) {
+            UserLibraryWindowView(catalog: .shared)
+        }
+        .defaultSize(width: 760, height: 420)
+        .restorationBehavior(.disabled)
+
         // One Part Editor per part being made (plan-32-C). File › New Part…
         // opens one on the Part Wizard's first step (plan-46-F).
         WindowGroup("Part Editor", id: PartEditorScene.id, for: PartEditorTarget.self) { $target in

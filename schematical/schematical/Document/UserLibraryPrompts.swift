@@ -80,6 +80,16 @@ extension UserLibraryPrompts {
         return alert
     }
 
+    /// Removing several parts at once (plan-53-F).
+    static func removeAlert(count: Int) -> NSAlert {
+        let alert = NSAlert()
+        alert.messageText = "Remove \(count) parts from your User Library?"
+        alert.informativeText = "Schematics that use them keep their own copy."
+        alert.addButton(withTitle: "Remove")
+        alert.addButton(withTitle: "Cancel")
+        return alert
+    }
+
     /// One alert for the failures of an add or remove: a `NAME: reason` line each.
     static func failuresAlert(title: String, failures: [(name: String, error: Error)]) -> NSAlert {
         let alert = NSAlert()

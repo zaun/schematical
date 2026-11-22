@@ -31,8 +31,8 @@ Stated in plan-53-A; this sub-plan additionally needs plan-53-E complete.
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-53-E is complete and archived | `ls planning/completed/plan-53-E-*.md` → one file | NOT MET at writing (unbuilt) |
-| The catalog lists library items and problems | `grep -c 'userLibraryItems\|userLibraryProblems' schematical/schematical/Backend/PartCatalog.swift` → at least `2` | NOT MET at writing |
+| plan-53-E is complete and archived | `ls planning/completed/plan-53-E-*.md` → one file | MET (run 2026-11-21) |
+| The catalog lists library items and problems | `grep -c 'userLibraryItems\|userLibraryProblems' schematical/schematical/Backend/PartCatalog.swift` → at least `2` | MET (run 2026-11-21: `4`) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command before you continue, and report all of them if you stop.
@@ -188,14 +188,14 @@ None to any file format. A new window and one File menu item.
 
 ### Phase 1 — The window
 
-- [ ] `Backend/PartCatalog.swift`: `removeUserLibraryProblem` (§ 4.1).
-- [ ] `Document/SchematicFileController.swift`: `PartFileLoading.addToLibrary(catalog:)` sharing `loadPart`'s open panel (§ 4.2); `PartFileMenuItems` gets **User Library…** (`@Environment(\.openWindow)`, `openWindow(id: "user-library")`).
-- [ ] `Document/UserLibraryPrompts.swift`: `removeAlert(count:)` (§ 4.2).
-- [ ] `Drawer/UserLibraryWindow.swift` (new): `UserLibraryRow`, `UserLibraryWindowView` (§ 3, § 4.2), including Edit… and the row double-click. Mirror `BillOfMaterialsWindow.swift`'s `Table` and `ContentUnavailableView`.
-- [ ] `schematicalApp.swift`: the `Window("User Library", id: "user-library")` scene (§ 3), next to the Part Editor's scene.
-- [ ] `schematicalTests/UserLibraryWindowTests.swift` (new, temp-folder library): `UserLibraryRow.rows` for three parts gives three rows in name order with the part's manufacturer, kind name, package and the file's added date; after `removeFromUserLibrary` it gives two; `removeUserLibraryProblem` deletes a corrupt file and empties `userLibraryProblems`; `removeAlert(count: 3)` message is `Remove 3 parts from your User Library?` with buttons Remove, Cancel.
+- [x] `Backend/PartCatalog.swift`: `removeUserLibraryProblem` (§ 4.1).
+- [x] `Document/SchematicFileController.swift`: `PartFileLoading.addToLibrary(catalog:)` sharing `loadPart`'s open panel (§ 4.2); `PartFileMenuItems` gets **User Library…** (`@Environment(\.openWindow)`, `openWindow(id: "user-library")`).
+- [x] `Document/UserLibraryPrompts.swift`: `removeAlert(count:)` (§ 4.2).
+- [x] `Drawer/UserLibraryWindow.swift` (new): `UserLibraryRow`, `UserLibraryWindowView` (§ 3, § 4.2), including Edit… and the row double-click. Mirror `BillOfMaterialsWindow.swift`'s `Table` and `ContentUnavailableView`.
+- [x] `schematicalApp.swift`: the `Window("User Library", id: "user-library")` scene (§ 3), next to the Part Editor's scene.
+- [x] `schematicalTests/UserLibraryWindowTests.swift` (new, temp-folder library): `UserLibraryRow.rows` for three parts gives three rows in name order with the part's manufacturer, kind name, package and the file's added date; after `removeFromUserLibrary` it gives two; `removeUserLibraryProblem` deletes a corrupt file and empties `userLibraryProblems`; `removeAlert(count: 3)` message is `Remove 3 parts from your User Library?` with buttons Remove, Cancel.
 
-Acceptance: the row builder and the new catalog call behave as listed, and the app builds with the new scene.
+Acceptance: the row builder and the new catalog call behave as listed, and the app builds with the new scene. **MET** (`xcodebuild test … UserLibraryWindowTests UserLibraryPromptsTests` → `Executed 13 tests, with 0 failures`, `** TEST SUCCEEDED **`; the app builds with the new scene)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/UserLibraryWindowTests -only-testing:schematicalTests/UserLibraryPromptsTests` → `** TEST SUCCEEDED **` (est. 6–12 min).
 Commit: —
 
