@@ -169,6 +169,13 @@ final class PartEditorLibraryTests: XCTestCase {
         }
     }
 
+    /// Windows are restored by value, so the target round-trips through Codable.
+    func testTheLibraryTargetRoundTrips() throws {
+        let target = PartEditorTarget(source: .libraryPart(uuid: "F7000000-0000-4000-8000-000000000001"))
+        let data = try JSONEncoder().encode(target)
+        XCTAssertEqual(try JSONDecoder().decode(PartEditorTarget.self, from: data), target)
+    }
+
     func testOpeningAFileLeavesTheLibrary() throws {
         let store = makeStore()
         let uuid = "F6000000-0000-4000-8000-000000000001"

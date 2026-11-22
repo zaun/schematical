@@ -194,18 +194,18 @@ Safe alone: nothing opens a `.libraryPart` window yet.
 
 Acceptance: Save updates in place and Save As… adds a new part, at the model level. **MET** (`xcodebuild test … -only-testing:schematicalTests/PartEditorLibraryTests` → `Executed 7 tests, with 0 failures`, `** TEST SUCCEEDED **`)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/PartEditorLibraryTests` → `** TEST SUCCEEDED **` (est. 5–10 min).
-Commit: —
+Commit: b6ae9573
 
 ### Phase 2 — Entry point, menus, help
 
-- [ ] `ChipDrawerView.swift`: the Edit… item (§ 3).
-- [ ] `PartEditorCommands.swift`, `PartEditorWindow.swift`, `Wizard/ReviewStepPage.swift`: hide Add to Library when `libraryUUID != nil` (§ 4.2).
-- [ ] `Help/KeyboardHelp.swift`, `docs/parts-format.md`: § 4.4.
-- [ ] `schematicalTests/PartEditorLibraryTests.swift`: a `PartEditorTarget(source: .libraryPart(uuid:))` round-trips through `JSONEncoder`/`JSONDecoder` equal (windows are restored by value); `KeyboardHelpTests` still passes.
+- [x] `ChipDrawerView.swift`: the Edit… item (§ 3).
+- [x] `PartEditorCommands.swift`, `PartEditorWindow.swift`, `Wizard/ReviewStepPage.swift`: hide Add to Library when `libraryUUID != nil` (§ 4.2).
+- [x] `Help/KeyboardHelp.swift`, `docs/parts-format.md`: § 4.4.
+- [x] `schematicalTests/PartEditorLibraryTests.swift`: a `PartEditorTarget(source: .libraryPart(uuid:))` round-trips through `JSONEncoder`/`JSONDecoder` equal (windows are restored by value); `KeyboardHelpTests` still passes.
 
-Acceptance: the drawer opens the editor on a library part; the menus match the model.
+Acceptance: the drawer opens the editor on a library part; the menus match the model. **MET** (`xcodebuild test … PartEditorLibraryTests KeyboardHelpTests PartEditorWindowTests` → `Executed 21 tests, with 0 failures`, `** TEST SUCCEEDED **`; menus and sheets are exercised in plan-53-F's real-app run)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/PartEditorLibraryTests -only-testing:schematicalTests/KeyboardHelpTests -only-testing:schematicalTests/PartEditorWindowTests` → `** TEST SUCCEEDED **` (est. 6–12 min). The menu and sheet behavior is exercised in plan-53-F's real-app run.
-Commit: —
+Commit: (this commit)
 
 ## Validation Plan
 

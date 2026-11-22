@@ -43,8 +43,10 @@ struct ReviewStepPage: View {
             HStack {
                 Button("Save Part…") { Task { await model.save() } }
                     .disabled(!model.isValid)
-                Button("Add to Library") { Task { await model.addToLibraryFromMenu() } }
-                    .disabled(!model.isValid)
+                if model.libraryUUID == nil {
+                    Button("Add to Library") { Task { await model.addToLibraryFromMenu() } }
+                        .disabled(!model.isValid)
+                }
                 if !model.isValid {
                     Text("Both are available once the part loads.").font(.caption).foregroundStyle(.secondary)
                 }

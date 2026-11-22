@@ -31,8 +31,10 @@ struct PartEditorWindowView: View {
                     Button("Open Part…") { Task { await model.open() } }
                     Button("Save Part…") { Task { await model.save() } }
                         .disabled(!model.isValid)
-                    Button("Add to Library") { Task { await model.addToLibraryFromMenu() } }
-                        .disabled(!model.isValid)
+                    if model.libraryUUID == nil {
+                        Button("Add to Library") { Task { await model.addToLibraryFromMenu() } }
+                            .disabled(!model.isValid)
+                    }
                 }
             }
     }

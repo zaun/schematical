@@ -109,7 +109,7 @@ nonisolated enum KeyboardHelp {
             entry("Right-click a drawer part", "Copy to Editor…: edit a copy of a library part"),
             entry("File › Load Part…", "Add a .schpart file's part to your User Library, or use it until you quit"),
             entry("Right-click a File Library part", "Add to User Library: keep a part that came with a schematic"),
-            entry("Right-click a User Library part", "Remove from User Library…"),
+            entry("Right-click a User Library part", "Edit…: change it everywhere at once (Save updates it, Save As… adds a new one); Remove from User Library…"),
         ]),
         window,
     ]

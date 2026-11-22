@@ -370,6 +370,14 @@ struct ChipDrawerView: View, Equatable {
                         Task { await UserLibraryPrompts.addShowingFailures([part], catalog: catalog) }
                     }
                 case .user:
+                    // plan-53-E: edit the library part itself; Save updates it.
+                    if let uuid = part.uuid, let kind = PartKinds.name(of: part.kind),
+                       PartDraft.enabledKinds.contains(kind) {
+                        Button("Edit…") {
+                            openWindow(id: PartEditorScene.id,
+                                       value: PartEditorTarget(source: .libraryPart(uuid: uuid)))
+                        }
+                    }
                     Button("Remove from User Library…") {
                         Task { await removeFromUserLibrary(part) }
                     }

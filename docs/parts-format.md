@@ -414,6 +414,15 @@ offer when a schematic that embeds custom parts is opened, the Part Editor's
 **Add to Library**, and **Add to User Library** on a File Library part's
 right-click menu.
 
+**Edit…** on a User Library part (drawer right-click) opens it in the Part
+Editor (plan-53-E). There **Save updates the part in place** under its
+uuid, at once: the library file, the drawer and every placed chip in every
+open schematic switch to the new version (wires on pins the new version lacks
+become loose ends, and the undo history of a schematic that changed ends
+there). The part's uuid and kind cannot change. **Save As… adds a new library
+part** (a new uuid, with `"originId"` set; a taken name gets `.2`, …) and the
+window then edits that new part. Add to Library is not offered there.
+
 Removing a part from the User Library deletes its file and takes it out of
 the drawer at once. The backend cannot unload an arbitrary part, so it stays
 registered for the session: schematics that hold it still resolve it, and
