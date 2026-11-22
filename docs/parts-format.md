@@ -224,7 +224,7 @@ Flags:
 - `obsolete`: the datasheet's ordering table lists the part as Obsolete.
 - `military`: SN54/SNJ54/SNV54/CD54 names, 5962- and (J)M38510/ numbers, SMD
   drawing numbers, CD4000 …F3A parts.
-- `automotive`: AEC-Q100 qualified (-Q1) parts.
+- `automotive`: AEC-Q100 qualified (-Q1) parts, and AEC-Q200 qualified crystals.
 - `enhanced`: Enhanced Product (-EP) parts, V62/ numbers.
 - `ceramic`: a ceramic package body (CDIP, CFP, LCCC, CPGA, ceramic SMD
   oscillators). Ceramic and plastic DIPs share the package name `"DIP"`, so
@@ -415,6 +415,14 @@ A custom part carries its own datasheet in its file: a single part file's
 `node scripts/check-datasheets.js` fetches every URL and reports the ones
 that do not answer with a PDF (run it with `--help`). Run it now and then:
 manufacturers move their files.
+
+Suntsu's site (`suntsu.com`) refuses every automated fetch (Cloudflare answers
+HTTP 403 to a script), so `node scripts/check-datasheets.js --host suntsu.com`
+reports `HTTP 403` for most Suntsu crystal entries even though the URLs are the
+maker's own and open in a browser; the local PDFs under
+`datasheets/crystal/suntsu/` are the Internet Archive's copies of those URLs.
+Treat those failures as expected (plan-44-F: 9 of the 11 `suntsu.com` entries
+403, the other two answer).
 
 A part whose maker no longer hosts its datasheet has a `"manufacturer"`
 but no `"datasheet"`; `listing_check` prints how many there are. They are:
@@ -1268,6 +1276,27 @@ Part keys (`"hz"` is required):
 
 The facts are integers in the part library (hertz, femtofarads, ppm,
 milliohms) so the app reads them without floats.
+
+The library (`crystal.json`, plan-44): 604 parts from Abracon, ECS and Suntsu
+(200 each) and four generics, in 13 devices. Drawer: **Crystal → kHz** (one
+leaf per frequency: `32.768 kHz`, `32 kHz`; 120 parts, `type` `crystal`),
+**Crystal → MHz** (`Under 4 MHz`, `4 MHz to 8 MHz`, `8 MHz to 16 MHz`, `16 MHz
+to 32 MHz`, `32 MHz and over`; 414 parts) and **Crystal → Ceramic resonator**
+(`Under 4 MHz`, `4 MHz to 8 MHz`, `8 MHz to 16 MHz`, `16 MHz and over`; 66
+parts, `type` `resonator`, those with built-in capacitors have `"capacitors":
+true` and the pinout `X1`, `GND`, `X2`). The package family is `SMD`,
+`HC-49/US`, `HC-49/U`, `HC-46/X`, `SOJ` or `Cylinder`; the size and pad count
+come from the footprint (`XTAL-…` / `CRES-…`, one per maker drawing). The
+133 AEC-Q200 parts carry `"flags": ["automotive"]`. The generics, under
+**Crystal** with function `Generic` (the frequency is fixed in the part, as
+`GENERIC-RESISTOR`'s ohms are): `GENERIC-CRYSTAL-32768`, `GENERIC-CRYSTAL-8M`,
+`GENERIC-CRYSTAL-16M` and `GENERIC-RESONATOR-8M`, each with
+`"footprintChoices"`: the 32.768 kHz crystal defaults to a 3.2 × 1.5 mm SMD
+footprint with 2.0 × 1.2 and 1.6 × 1.0 mm SMD and a 2 × 6 mm cylinder as the
+other choices; the 8 and 16 MHz crystals default to the HC-49 through-hole
+can with 3.2 × 2.5, 5.0 × 3.2 and 6.0 × 3.5 mm SMD choices; the resonator
+defaults to a 3.7 × 3.1 mm three-pad SMD part with 6.0 × 3.0, 3.2 × 1.3 and
+2.5 × 2.0 mm choices.
 
 ### `gate`
 

@@ -150,6 +150,9 @@ extension PartKinds {
             KindInfo(kind: "oscillator", name: "Oscillator",
                      blurb: "Clock oscillators that put out a square wave at a fixed frequency.",
                      examples: ["ECS-2100AX-160"], group: .power),
+            KindInfo(kind: "crystal", name: "Crystal",
+                     blurb: "Quartz crystals and ceramic resonators: the clock reference for a chip's oscillator pins.",
+                     examples: ["GENERIC-CRYSTAL-8M", "GENERIC-CRYSTAL-32768"], group: .power),
             KindInfo(kind: "regulator", name: "Voltage Regulator",
                      blurb: "Linear regulators and LDOs, fixed or adjustable, and switching regulators: a regulated output from a higher input.",
                      examples: ["GENERIC-REG-5V", "GENERIC-REG-ADJ"], group: .power),
@@ -176,7 +179,7 @@ extension PartKinds {
         "led", "7seg", "charlcd", "nixie",
         "resistor", "capacitor", "diode", "transistor",
         "connector", "header", "switch",
-        "supply", "oscillator", "regulator",
+        "supply", "oscillator", "crystal", "regulator",
         "generic",
     ]
 }

@@ -32,11 +32,11 @@ plan-44-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-44-E complete | `ls planning/completed/plan-44-E-*.md` → exists | NOT MET (2026-11-16: not started) |
-| plan-44-B, C, D complete | `ls planning/completed/plan-44-B-*.md planning/completed/plan-44-C-*.md planning/completed/plan-44-D-*.md` → three files | NOT MET (2026-11-16: not started) |
-| The kind loads | `grep -c 'CRYSTAL_KIND' backend/src/library/kinds.c` → 2 | NOT MET (2026-11-16: 0) |
-| Every `add` row has a footprint | `python3 -I planning/plan-44-data/census/fp-check.py C` and `… D` → `0 without a footprint` | NOT MET (2026-11-16: C and D not started) |
-| Golden sizes recorded | `git show HEAD:backend/tests/golden/parts.txt \| wc -l` (and `traces.txt`, `footprints.txt`) | record P1 / R1 / F1 at F's start (at 7108a13e: 32897 / 32897 / 1646) |
+| plan-44-E complete | `ls planning/completed/plan-44-E-*.md` → exists | MET (2026-11-22: `planning/completed/plan-44-E-crystal-kind.md`) |
+| plan-44-B, C, D complete | `ls planning/completed/plan-44-B-*.md planning/completed/plan-44-C-*.md planning/completed/plan-44-D-*.md` → three files | MET (2026-11-22: B, C, D in `planning/completed/`) |
+| The kind loads | `grep -c 'CRYSTAL_KIND' backend/src/library/kinds.c` → 2 | MET (2026-11-22: 2) |
+| Every `add` row has a footprint | `python3 -I planning/plan-44-data/census/fp-check.py C` and `… D` → `0 without a footprint` | MET (2026-11-22: `65 lines, 0 without a footprint` and `29 lines, 0 without a footprint`) |
+| Golden sizes recorded | `git show HEAD:backend/tests/golden/parts.txt \| wc -l` (and `traces.txt`, `footprints.txt`) | record P1 / R1 / F1 at F's start (at 7108a13e: 32897 / 32897 / 1646). At F's start (2026-11-22, f442d31a): **33771 / 33771 / 1823** |
 
 Everything below is written against the world where these hold.
 
@@ -180,12 +180,12 @@ value input and `GENERIC-RESISTOR` is the precedent).
 
 ### Phase 1 — The generics, the footprints they choose, the editor's kind lists
 
-- [ ] `census/gen-parts.py --generics` writes `Parts/crystal.json` with the
+- [x] `census/gen-parts.py --generics` writes `Parts/crystal.json` with the
       four generics; `planning/plan-44-data/census/fp-load.sh`'s helper
       `fp-merge.py --only <the 12 ids of § 3.2> schematical/schematical/Parts/footprints.json
       planning/plan-44-data/footprints-C.json planning/plan-44-data/footprints-D.json`
-      appends exactly those footprints.
-- [ ] Editor lists (each only if absent: `grep -c '"crystal"'
+      appends exactly those footprints. Output: `gen-parts: …crystal.json: 2 devices, 4 parts (the generics); footprints 12`; `fp-merge.py --only …` → `12 footprints appended`.
+- [x] Editor lists (each only if absent: `grep -c '"crystal"'
       schematical/schematical/Editor/KindSchema.swift
       schematical/schematical/Editor/KindInfo.swift` → 0 before):
       `PartKinds.all` gains `"crystal"`; `Editor/KindInfo.swift` gains
@@ -193,8 +193,8 @@ value input and `GENERIC-RESISTOR` is the precedent).
       ceramic resonators: the clock reference for an oscillator pin pair",
       examples: <two of the four generics' names>, group: .power,
       simulated: true)`; `Editor/BundledPartFile.swift`
-      `PartKinds.name(of:)` gains `case PART_CRYSTAL: "crystal"`.
-- [ ] Editor schema (plan-46's rule): `"crystal": ["crystal.c"]` in
+      `PartKinds.name(of:)` gains `case PART_CRYSTAL: "crystal"`. Done (after Phase 3's data, Corrections 3): `PartKinds.all` has `"crystal"` after `"cpu"`, `infoOrder` after `"oscillator"`.
+- [x] Editor schema (plan-46's rule): `"crystal": ["crystal.c"]` in
       `scripts/part-editor-schema.py` `KIND_FILES` and in
       `schematicalTests/PartKindKeysTests.swift` `files`; `python3
       scripts/part-editor-schema.py . crystal` → `missing []` (a key no
@@ -202,45 +202,46 @@ value input and `GENERIC-RESISTOR` is the precedent).
       edit) → `Editor/CrystalDraft.swift`, added to `PartKinds.schemas`;
       `testCrystal` in `PartKindRoundTripTests` with `expected["crystal"]`
       = `grep -o '"manufacturer"' schematical/schematical/Parts/crystal.json
-      | wc -l`, re-set in F's last phase once every `add` row is in.
-- [ ] Regenerate the goldens (`listing_check --print > backend/tests/golden/parts.txt`,
+      | wc -l`, re-set in F's last phase once every `add` row is in. Done:
+      `python3 scripts/part-editor-schema.py . crystal` → `crystal: 13 devices, 604 parts, variant type, 8 source keys, missing []`; `CrystalDraft.swift` in `PartKinds.schemas`; `testCrystal` with `"crystal": 604`.
+- [x] Regenerate the goldens (`listing_check --print > backend/tests/golden/parts.txt`,
       `trace_check --print > …/traces.txt`, `footprint_check --print >
       …/footprints.txt`) and review `git diff --stat`.
 
 Acceptance: the four generics load with their choices; goldens grow by 4, 4
 and 12 lines.
-  Check: `cmake -S backend -B /tmp/logic-p44-f && cmake --build /tmp/logic-p44-f -j8 && ctest --test-dir /tmp/logic-p44-f -j8` → `100% tests passed`, then `git diff --stat backend/tests/golden` → `+4 +4 +12` lines and `git diff backend/tests/golden | grep -c '^-[^-]'` → 0 (est. 6 min).
-Commit: —
+  Check: `cmake -S backend -B /tmp/logic-p44-f && cmake --build /tmp/logic-p44-f -j8 && ctest --test-dir /tmp/logic-p44-f -j8` → `100% tests passed`, then `git diff --stat backend/tests/golden` → `+4 +4 +12` lines and `git diff backend/tests/golden | grep -c '^-[^-]'` → 0 (est. 6 min). Output 2026-11-22: `100% tests passed, 0 tests failed out of 41`; `backend/tests/golden/footprints.txt | 12 ++++`, `parts.txt | 4 ++++`, `traces.txt | 4 ++++`; removed lines `0`; the app: `PartKindKeysTests`, `PartKindRoundTripTests` (`checked 604 parts of crystal, 0 mismatched, 0 with extras, 0 rejected`), `PartEditorWindowTests` → `TEST SUCCEEDED`.
+Commit: 5e2347cc (data); the editor lists in the Phase 3 commit
 
 ### Phase 2 — kHz crystals and ceramic resonators
 
-- [ ] `census/gen-parts.py --class khz --class resonator` (the `add` rows of
+- [x] `census/gen-parts.py --class khz --class resonator` (the `add` rows of
       those classes; 186 at planning time) and `datasheets.json` entries for
       their datasheets; `fp-merge.py --only` the footprints they use (the map
-      ids of those rows); regenerate the goldens.
+      ids of those rows); regenerate the goldens. Output: `8 devices, 190 parts; 62 datasheets used, 62 added to datasheets.json; footprints used 33`; `21 footprints appended`.
 
 Acceptance: the parts load and the goldens grow by exactly them.
-  Check: `ctest --test-dir /tmp/logic-p44-f -j8` after a rebuild → `100% tests passed`; `grep -c '|crystal|' backend/tests/golden/parts.txt` → 4 + the kHz and resonator `add` rows; `git diff backend/tests/golden | grep -c '^-[^-]'` → 0 (est. 6 min).
-Commit: —
+  Check: `ctest --test-dir /tmp/logic-p44-f -j8` after a rebuild → `100% tests passed`; `grep -c '|crystal|' backend/tests/golden/parts.txt` → 4 + the kHz and resonator `add` rows; `git diff backend/tests/golden | grep -c '^-[^-]'` → 0 (est. 6 min). Output 2026-11-22: `100% tests passed, 0 tests failed out of 41`; `190` (4 + 186); removed lines `0`; goldens 33961 / 33961 / 1856 (+186 +186 +21).
+Commit: 9dd5decc
 
 ### Phase 3 — MHz crystals and the docs
 
-- [ ] `census/gen-parts.py` for the MHz class (414 at planning time); the
-      remaining footprints; `datasheets.json` entries; regenerate the goldens.
-- [ ] `node scripts/check-datasheets.js --host abracon.com` and `--host
+- [x] `census/gen-parts.py` for the MHz class (414 at planning time); the
+      remaining footprints; `datasheets.json` entries; regenerate the goldens. Output: `13 devices, 604 parts; 179 datasheets used, 117 added to datasheets.json; footprints used 72`; `39 footprints appended`.
+- [x] `node scripts/check-datasheets.js --host abracon.com` and `--host
       ecsxtal.com` → no failure for the new entries; `--host suntsu.com` →
       HTTP 403 for every Suntsu entry (the maker's site refuses automated
-      fetches; A § 2): record the counts in § Corrections.
-- [ ] Docs: `docs/parts-format.md` § Datasheets: one paragraph naming the
+      fetches; A § 2): record the counts in § Corrections. Output: `abracon.com` `83 of 83 URLs serve a PDF; 0 failed`; `ecsxtal.com` `158 of 158 … 0 failed` and `www.ecsxtal.com` `1 of 1`; `suntsu.com` `2 of 11 URLs serve a PDF; 9 failed` (all `HTTP 403`).
+- [x] Docs: `docs/parts-format.md` § Datasheets: one paragraph naming the
       Suntsu 403 behavior of `check-datasheets.js`; § Parts, Flags:
       `automotive` also covers AEC-Q200 crystals; the `### crystal` section's
       library paragraph (counts, drawer paths, the four generics, the
-      footprint choices).
-- [ ] `datasheets/skipped-parts.md` and `obsolete-not-included.md` are B's;
-      here only run `place.py --verify` → `0 missing, 0 unused`.
+      footprint choices). Done in `docs/parts-format.md`.
+- [x] `datasheets/skipped-parts.md` and `obsolete-not-included.md` are B's;
+      here only run `place.py --verify` → `0 missing, 0 unused` (2026-11-22: `0 missing, 0 unused`).
 
 Acceptance: the whole pick loads; goldens grow by exactly it; docs name it.
-  Check: `ctest --test-dir /tmp/logic-p44-f -j8` after a rebuild → `100% tests passed`; `grep -c '|crystal|' backend/tests/golden/parts.txt` → the `add` rows + 4; `git diff <F's first commit>^ -- backend/tests/golden | grep -c '^-[^-]'` → 0; `xcodebuild … test -only-testing:schematicalTests/PartEditorWindowTests -only-testing:schematicalTests/DatasheetCatalogTests` → `** TEST SUCCEEDED **` (est. 12 min: backend build 4, app tests 8).
+  Check: `ctest --test-dir /tmp/logic-p44-f -j8` after a rebuild → `100% tests passed`; `grep -c '|crystal|' backend/tests/golden/parts.txt` → the `add` rows + 4; `git diff <F's first commit>^ -- backend/tests/golden | grep -c '^-[^-]'` → 0; `xcodebuild … test -only-testing:schematicalTests/PartEditorWindowTests -only-testing:schematicalTests/DatasheetCatalogTests` → `** TEST SUCCEEDED **` (est. 12 min: backend build 4, app tests 8). Output 2026-11-22: `100% tests passed, 0 tests failed out of 41`; `604`; goldens 34375 / 34375 / 1895 (+604 +604 +72 over 33771 / 33771 / 1823), removed lines `0` (`git diff 5e2347cc^ -- backend/tests/golden | grep -c '^-[^-]'`); `xcodebuild … test -only-testing:schematicalTests/PartEditorWindowTests -only-testing:schematicalTests/DatasheetCatalogTests` → `Executed 12 tests, with 0 failures`, `** TEST SUCCEEDED **`.
 Commit: —
 
 ## Validation Plan
@@ -272,6 +273,33 @@ Commit: —
   from the archive (A § Decisions).
 
 ## Corrections
+
+1. **Counts at F's start:** P1 / R1 / F1 = 33771 / 33771 / 1823; at the end
+   34375 / 34375 / 1895: **+604 +604 +72**, no line removed. The pick is 604 parts
+   (Abracon 200, ECS 200, Suntsu 200, Generic 4) in 13 devices: kHz 120 (2 devices:
+   32.768 kHz 118, 32 kHz 2), MHz 414 (5 bands), resonators 66 (4 bands), the two
+   generic devices; **133** AEC-Q200 parts carry `automotive` (131 at planning, B
+   changed the pick). `datasheets.json` 8379 → 8558 entries (**179** new, one per
+   PDF; no id clashed, so no `<maker>-` prefix was needed for the ids that exist);
+   72 footprints appended to `footprints.json`, none unused.
+2. **`gen-parts.py`:** `--class` repeats; `--footprints` prints the ids a run needs
+   (the generics' 12 included) for `fp-merge.py --only`; the datasheet id is
+   the lower-case kebab stem of the placed PDF; entries are appended to
+   `datasheets.json` without touching existing ones (plan-40's generator re-sorted
+   the whole file). The four generics are two devices: `crystal-generic`
+   (three parts, `x1-x2`) and `resonator-generic` (`x1-gnd-x2`, `capacitors`).
+3. **Order of Phase 1's editor bullets:** the generated schema needs every part key
+   used by a shipped part (`hz`, `loadPf`, `tolerancePpm`, `stabilityPpm`,
+   `esrOhms`, `capacitors`, `flags`) or `missing [...]`; the four generics use only
+   `hz` and `capacitors`, so the editor lists, `scripts/part-editor-schema.py`,
+   `CrystalDraft.swift` and the tests were done after Phase 3's data, in its commit,
+   instead of adding `EXTRA` lines that the shipped parts make redundant.
+4. **`PartEditorWindowTests.testEnabledKinds`** hard-codes the kind count: 35 → 36.
+5. **`check-datasheets.js` counts:** `abracon.com` 83 of 83, `ecsxtal.com` 158 of
+   158 and `www.ecsxtal.com` 1 of 1 serve a PDF (the counts include other kinds'
+   entries on those hosts); `suntsu.com` 2 of 11 serve a PDF, 9 fail with `HTTP
+   403` (the Cloudflare block of A § 2), recorded in `docs/parts-format.md`
+   § Datasheets.
 
 ## Summary
 

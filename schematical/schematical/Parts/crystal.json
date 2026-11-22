@@ -1729,6 +1729,6105 @@
    ]
   },
   {
+   "id": "crystal-mhz-16-mhz-to-32-mhz",
+   "function": "16 MHz to 32 MHz",
+   "description": "Quartz crystal, 16 MHz to 32 MHz",
+   "drawer": [
+    "Crystal",
+    "MHz"
+   ],
+   "note": "Facts, pinouts and ordering codes from the maker datasheets: - ECS-271.2-CDX-2616.pdf p.3,5; AB308 ab308.pdf p.1,2; ABL ABL.pdf p.1,2,3; ABLS ABLS.pdf p.1,2; ABLS2 ABLS2.pdf p.1,2; ABLS3 ABLS3.pdf p.1,2; ABLS7M ABLS7M.pdf p.1,2; ABLS7M2 ABLS7M2.pdf p.1,2; ABLSG ABLSG.pdf p.1; ABM10 ABM10.pdf p.1; ABM10AAIG ABM10AAIG.pdf p.1,2; ABM10AIG ABM10AIG.pdf p.1,2; ABM10N ABM10N.pdf p.1,2; ABM10W ABM10W.pdf p.1,2; ABM11 ABM11.pdf p.1; ABM11A ABM11A.pdf p.1,2; ABM11AAIG ABM11AAIG.pdf p.1,2; ABM11AIG ABM11AIG.pdf p.1,2; ABM11N ABM11N.pdf p.1,2; ABM12N ABM12N.pdf p.1,2; ABM12W ABM12W.pdf p.1,2; ABM2 abm2.pdf p.1,2; ABM3 ABM3.pdf p.1,2; ABM3B abm3b.pdf p.1,2; ABM3BN ABM3BN.pdf p.1,2; ABM3C ABM3C.pdf p.1; ABM3X ABM3X.pdf p.1; ABM7 ABM7.pdf p.1,2; ABM8 abm8.pdf p.1,2; ABM8AAIG ABM8AAIG.pdf p.1,2; ABM8AIG ABM8AIG.pdf p.1,2; ABM8G ABM8G.pdf p.1; ABM8GAIG ABM8GAIG.pdf p.1,2; ABM8N ABM8N.pdf p.1,2; ABM8X ABM8X.pdf p.1; ABMM2 ABMM2.pdf p.1,2; CSM-3X CSM-3X.pdf p.1; CSM-4AX csm-4ax.pdf p.1; CSM-7SSX CSM-7SSX.pdf p.1; CSM-7X csm-7x.pdf p.1; CSM-7X-3L csm_7x_3l.pdf p.1; CSM-7X-DN csm-7x-dn.pdf p.1; CSM-8M csm-8mr.pdf p.1; CSM-8Q CSM-8Q.pdf p.1; ECS-23G ECS-23G.pdf p.1; ECS-33B ECS-33B.pdf p.1; ECS-3X9X ECS-3x10X-3x9X.pdf p.1; ECS-3x9 ECS-3x10.pdf p.1; ECX-1247B2 ECX-1247B2.pdf p.1,2; ECX-1247Q ECX-1247Q.pdf p.1; ECX-1637 ecx-1637.pdf p.1,2; ECX-1637B ECX-1637B.pdf p.1; ECX-1637B2 ECX-1637B2.pdf p.1; ECX-1637BQ ECX-1637BQ.pdf p.1; ECX-2236 ECX-2236.pdf p.1,2; ECX-2236B ECX-2236B.pdf p.1; ECX-2236B2 ECX-2236B2.pdf p.1; ECX-2236Q ECX-2236Q.pdf p.1,2; ECX-32 ecx-32.pdf p.1,2; ECX-33AQ ECX-33AQ.pdf p.1,2; ECX-33B2Q ECX-33B2Q.pdf p.1,2; ECX-33Q ECX-33Q.pdf p.1,2; ECX-33QZ ECX-33QZ.pdf p.1,2; ECX-42 ECX_42.pdf p.1,2; ECX-53 ecx-53r.pdf p.1,2; ECX-53B ecx_53b.pdf p.1,2; ECX-53B-DU ecx_53b_du.pdf p.1,2; ECX-53BQ ECX-53BQ.pdf p.1,2; ECX-53BQZ ECX-53BQZ.pdf p.1,2; ECX-64 ecx_64r.pdf p.1,2; ECX-64A ecx-64a_ecx-64cr.pdf p.1,2; HC-49USSX HC-49USS.pdf p.1,2; HC-49USX hc-49usx.pdf p.1,2; HC-49USX-DN hc-49usx-dn.pdf p.1,2; SAX214 SAX214-Series.pdf p.1; SAX324 SAX324-Series.pdf p.1; SXT114 SXT114-Series-3.pdf p.1; SXT214 SXT214-Series-1.pdf p.1; SXT224 SXT224-Series-1.pdf p.1; SXT324 SXT324-Series-1.pdf p.1; SXT834 SXT834-Series.pdf p.1,2. Pads that are not the two terminals are NC (case or lid); the middle pad of a three-pad resonator is GND.",
+   "pinouts": {
+    "x1-nc-x2-nc": [
+     {
+      "number": 1,
+      "name": "X1",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 3,
+      "name": "X2",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "NC",
+      "role": "nc"
+     }
+    ],
+    "x1-x2": [
+     {
+      "number": 1,
+      "name": "X1",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "X2",
+      "role": "inout"
+     }
+    ],
+    "x1-gnd-x2": [
+     {
+      "number": 1,
+      "name": "X1",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "nc"
+     },
+     {
+      "number": 3,
+      "name": "X2",
+      "role": "inout"
+     }
+    ],
+    "x1-x2-gnd": [
+     {
+      "number": 1,
+      "name": "X1",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "X2",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "GND",
+      "role": "nc"
+     }
+    ],
+    "x1-nc-nc-x2": [
+     {
+      "number": 1,
+      "name": "X1",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 3,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 4,
+      "name": "X2",
+      "role": "inout"
+     }
+    ]
+   },
+   "type": "crystal",
+   "terminals": [
+    "X1",
+    "X2"
+   ],
+   "parts": [
+    {
+     "name": "AB308-29.4912MHZ",
+     "manufacturer": "Abracon",
+     "datasheet": "ab308",
+     "package": "Cylinder",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-CYL-3X8-2-ABRACON",
+     "hz": 29491200,
+     "loadPf": 16,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 40
+    },
+    {
+     "name": "ABL-16.000MHZ-B2",
+     "manufacturer": "Abracon",
+     "datasheet": "abl",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49U-2-ABRACON",
+     "hz": 16000000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 50,
+     "esrOhms": 40
+    },
+    {
+     "name": "ABL-27.000MHZ-B4Y-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abl",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49U-2-ABRACON",
+     "hz": 27000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 100
+    },
+    {
+     "name": "ABLS-20.000MHZ-B2-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abls",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ABRACON",
+     "hz": 20000000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 50,
+     "esrOhms": 40
+    },
+    {
+     "name": "ABLS2-27.000MHZ-D4YF-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abls2",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ABRACON",
+     "hz": 27000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 40
+    },
+    {
+     "name": "ABLS3-16.000MHZ-D4Y-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abls3",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ABRACON",
+     "hz": 16000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 40
+    },
+    {
+     "name": "ABLS7M-16.000MHZ-B-2-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abls7m",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-7041-2-ABRACON",
+     "hz": 16000000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "ABLS7M-25.000MHZ-20-B4-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abls7m",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-7041-2-ABRACON",
+     "hz": 25000000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 40
+    },
+    {
+     "name": "ABLS7M2-16.000MHZ-D2Y-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abls7m2",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-7041-2-ABRACON",
+     "hz": 16000000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 30,
+     "esrOhms": 60
+    },
+    {
+     "name": "ABLS7M2-18.432MHZ-D2Y-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abls7m2",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-7041-2-ABRACON",
+     "hz": 18432000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 30,
+     "esrOhms": 60
+    },
+    {
+     "name": "ABLSG-24.000MHZ-D2Y-T",
+     "manufacturer": "Abracon",
+     "datasheet": "ablsg",
+     "package": "HC-49/US",
+     "pinout": "x1-gnd-x2",
+     "footprint": "XTAL-HC49US-SMD-3-ABRACON",
+     "hz": 24000000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 30,
+     "esrOhms": 40
+    },
+    {
+     "name": "ABM10-16.000MHZ-D30-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm10",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-ABRACON",
+     "hz": 16000000,
+     "loadPf": 10,
+     "tolerancePpm": 20,
+     "stabilityPpm": 30,
+     "esrOhms": 150
+    },
+    {
+     "name": "ABM10-19.200MHZ-D30-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm10",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-ABRACON",
+     "hz": 19200000,
+     "loadPf": 10,
+     "tolerancePpm": 20,
+     "stabilityPpm": 30,
+     "esrOhms": 150
+    },
+    {
+     "name": "ABM10-24.000MHZ-E20-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm10",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-ABRACON",
+     "hz": 24000000,
+     "loadPf": 10,
+     "tolerancePpm": 20,
+     "stabilityPpm": 20,
+     "esrOhms": 100
+    },
+    {
+     "name": "ABM10AAIG-24.000MHZ-12-2Z-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm10aaig",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-2520-2-ABRACON",
+     "hz": 24000000,
+     "loadPf": 12,
+     "tolerancePpm": 15,
+     "stabilityPpm": 50,
+     "esrOhms": 50,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ABM10AIG-16.000MHZ-4Z-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm10aig",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2620-4-ABRACON",
+     "hz": 16000000,
+     "loadPf": 10,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 80,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ABM10AIG-25.000MHZ-4Z-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm10aig",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2620-4-ABRACON",
+     "hz": 25000000,
+     "loadPf": 10,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ABM10AIG-30.000MHZ-4Z-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm10aig",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2620-4-ABRACON",
+     "hz": 30000000,
+     "loadPf": 10,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 50,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ABM10N-16.0000MHZ-10-D1X-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm10n",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2620-4-ABRACON",
+     "hz": 16000000,
+     "loadPf": 10,
+     "tolerancePpm": 10,
+     "stabilityPpm": 20,
+     "esrOhms": 70
+    },
+    {
+     "name": "ABM10N-24.0000MHZ-10-D1X-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm10n",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2620-4-ABRACON",
+     "hz": 24000000,
+     "loadPf": 10,
+     "tolerancePpm": 10,
+     "stabilityPpm": 20,
+     "esrOhms": 50
+    },
+    {
+     "name": "ABM10W-20.0000MHZ-8-B1U-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm10w",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-ABRACON",
+     "hz": 20000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 50
+    },
+    {
+     "name": "ABM11-20.000MHZ-D2X-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm11",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ABRACON",
+     "hz": 20000000,
+     "loadPf": 10,
+     "tolerancePpm": 20,
+     "stabilityPpm": 20,
+     "esrOhms": 120
+    },
+    {
+     "name": "ABM11-25.000MHZ-B7G-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm11",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ABRACON",
+     "hz": 25000000,
+     "loadPf": 10,
+     "tolerancePpm": 15,
+     "stabilityPpm": 15,
+     "esrOhms": 100
+    },
+    {
+     "name": "ABM11A-24.000MHZ-D2Y-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm11a",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-2016-2-ABRACON",
+     "hz": 24000000,
+     "loadPf": 8,
+     "tolerancePpm": 15,
+     "stabilityPpm": 30,
+     "esrOhms": 100
+    },
+    {
+     "name": "ABM11AAIG-24.000MHZ-12-2Z-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm11aaig",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-2016-2-ABRACON",
+     "hz": 24000000,
+     "loadPf": 12,
+     "tolerancePpm": 15,
+     "stabilityPpm": 50,
+     "esrOhms": 100,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ABM11AIG-24.000MHZ-4Z-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm11aig",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ABRACON",
+     "hz": 24000000,
+     "loadPf": 10,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 100,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ABM11AIG-27.120MHZ-4Z-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm11aig",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ABRACON",
+     "hz": 27120000,
+     "loadPf": 10,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 100,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ABM11N-16.0000MHZ-10-D1X-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm11n",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ABRACON",
+     "hz": 16000000,
+     "loadPf": 10,
+     "tolerancePpm": 10,
+     "stabilityPpm": 20,
+     "esrOhms": 150
+    },
+    {
+     "name": "ABM11N-16.0000MHZ-8-B1U-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm11n",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ABRACON",
+     "hz": 16000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 150
+    },
+    {
+     "name": "ABM12N-24.0000MHZ-8-B1U-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm12n",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-ABRACON",
+     "hz": 24000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 100
+    },
+    {
+     "name": "ABM12W-24.0000MHZ-8-D1X-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm12w",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-ABRACON-B",
+     "hz": 24000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 20,
+     "esrOhms": 100
+    },
+    {
+     "name": "ABM12W-25.0000MHZ-6-K2Z-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm12w",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-ABRACON-B",
+     "hz": 25000000,
+     "loadPf": 6,
+     "tolerancePpm": 20,
+     "stabilityPpm": 50,
+     "esrOhms": 100
+    },
+    {
+     "name": "ABM2-16.000MHZ-D4Y-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm2",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-8045-2-ABRACON",
+     "hz": 16000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 50
+    },
+    {
+     "name": "ABM2-18.432MHZ-D4Y-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm2",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-8045-2-ABRACON",
+     "hz": 18432000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 50
+    },
+    {
+     "name": "ABM3-24.000MHZ-B2-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm3",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-5032-2-ABRACON",
+     "hz": 24000000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 50,
+     "esrOhms": 30
+    },
+    {
+     "name": "ABM3B-16.000MHZ-10-1-U-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm3b",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-5032-4-ABRACON-B",
+     "hz": 16000000,
+     "loadPf": 10,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 50
+    },
+    {
+     "name": "ABM3B-24.000MHZ-R60-D-1-W-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm3b",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-5032-4-ABRACON-B",
+     "hz": 24000000,
+     "loadPf": 18,
+     "tolerancePpm": 10,
+     "stabilityPpm": 25,
+     "esrOhms": 60
+    },
+    {
+     "name": "ABM3BN-16.000MHZ-18-D2Y-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm3bn",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-5032-4-ABRACON-B",
+     "hz": 16000000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 30,
+     "esrOhms": 50
+    },
+    {
+     "name": "ABM3BN-26.000MHZ-18-D2Y-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm3bn",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-5032-4-ABRACON-B",
+     "hz": 26000000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 30,
+     "esrOhms": 50
+    },
+    {
+     "name": "ABM3C-16.000MHZ-D4Y-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm3c",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-5032-4-ABRACON",
+     "hz": 16000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 50
+    },
+    {
+     "name": "ABM3C-20.000MHZ-D4Y-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm3c",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-5032-4-ABRACON",
+     "hz": 20000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 50
+    },
+    {
+     "name": "ABM3C-25.000MHZ-D4Y-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm3c",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-5032-4-ABRACON",
+     "hz": 25000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 50
+    },
+    {
+     "name": "ABM3X-101-24.000MHZ-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm3x",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-5032-4-ABRACON-B",
+     "hz": 24000000,
+     "loadPf": 10,
+     "tolerancePpm": 10,
+     "stabilityPpm": 25,
+     "esrOhms": 30
+    },
+    {
+     "name": "ABM7-25.000MHZ-D2Y-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm7",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-6035-2-ABRACON",
+     "hz": 25000000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 30,
+     "esrOhms": 50
+    },
+    {
+     "name": "ABM8-16.000MHZ-10-1-U-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm8",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ABRACON",
+     "hz": 16000000,
+     "loadPf": 10,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 70
+    },
+    {
+     "name": "ABM8-24.000MHZ-D2Y-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm8",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ABRACON",
+     "hz": 24000000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 30,
+     "esrOhms": 50
+    },
+    {
+     "name": "ABM8-27.120MHZ-10-D1G-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm8",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ABRACON",
+     "hz": 27120000,
+     "loadPf": 10,
+     "tolerancePpm": 10,
+     "stabilityPpm": 15,
+     "esrOhms": 50
+    },
+    {
+     "name": "ABM8AAIG-20.000MHZ-V2R-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm8aaig",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-3225-2-ABRACON",
+     "hz": 20000000,
+     "loadPf": 8,
+     "tolerancePpm": 15,
+     "stabilityPpm": 150,
+     "esrOhms": 50,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ABM8AIG-20.000MHZ-12-2Z-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm8aig",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ABRACON",
+     "hz": 20000000,
+     "loadPf": 12,
+     "tolerancePpm": 20,
+     "stabilityPpm": 50,
+     "esrOhms": 50,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ABM8G-16.000MHZ-4Y-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm8g",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ABRACON",
+     "hz": 16000000,
+     "loadPf": 10,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 80
+    },
+    {
+     "name": "ABM8G-24.576MHZ-18-D2Y-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm8g",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ABRACON",
+     "hz": 24576000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 30,
+     "esrOhms": 60
+    },
+    {
+     "name": "ABM8GAIG-20.000MHZ-8-7Z-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm8gaig",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ABRACON",
+     "hz": 20000000,
+     "loadPf": 8,
+     "tolerancePpm": 15,
+     "stabilityPpm": 50,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ABM8N-16.0000MHZ-10-B1U-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm8n",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ABRACON",
+     "hz": 16000000,
+     "loadPf": 10,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 70
+    },
+    {
+     "name": "ABM8X-101-24.000MHZ-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm8x",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ABRACON",
+     "hz": 24000000,
+     "loadPf": 10,
+     "tolerancePpm": 10,
+     "stabilityPpm": 25,
+     "esrOhms": 60
+    },
+    {
+     "name": "ABMM2-25.000MHZ-E2-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abmm2",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-6036-4-ABRACON",
+     "hz": 25000000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 20,
+     "esrOhms": 50
+    },
+    {
+     "name": "ECS-160-10-30B-CKL-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-53b",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-5032-4-ECS",
+     "hz": 16000000,
+     "loadPf": 10,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 50
+    },
+    {
+     "name": "ECS-160-10-33B-CKM-TR3",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecs-33b",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ECS",
+     "hz": 16000000,
+     "loadPf": 10,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 60
+    },
+    {
+     "name": "ECS-160-12-33B2Q-JES-TR3",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-33b2q",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ECS",
+     "hz": 16000000,
+     "loadPf": 12,
+     "tolerancePpm": 20,
+     "stabilityPpm": 50,
+     "esrOhms": 70,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ECS-160-12-33QZ-ADS-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-33qz",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ECS",
+     "hz": 16000000,
+     "loadPf": 12,
+     "tolerancePpm": 25,
+     "stabilityPpm": 100,
+     "esrOhms": 120,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ECS-160-18-23A-EN-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-64a-ecx-64cr",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-6035-2-ECS",
+     "hz": 16000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "ECS-160-18-23B-JTM-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-64r",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-6035-4-ECS",
+     "hz": 16000000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 20,
+     "esrOhms": 40
+    },
+    {
+     "name": "ECS-160-18-23G-JGN-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecs-23g",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-6035-2-ECS",
+     "hz": 16000000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 30,
+     "esrOhms": 50
+    },
+    {
+     "name": "ECS-160-18-9X",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecs-3x10x-3x9x",
+     "package": "Cylinder",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-CYL-3X10-2-ECS",
+     "hz": 16000000,
+     "loadPf": 18,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "ECS-160-20-3X-EN-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "csm-3x",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS",
+     "hz": 16000000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "ECS-160-20-3X-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "csm-3x",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS",
+     "hz": 16000000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "ECS-160-20-5G3XDS-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "csm-7x-3l",
+     "package": "HC-49/US",
+     "pinout": "x1-x2-gnd",
+     "footprint": "XTAL-HC49US-SMD-3-ECS",
+     "hz": 16000000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 100,
+     "esrOhms": 40
+    },
+    {
+     "name": "ECS-160-20-5PVX",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "csm-7ssx",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 16000000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "ECS-160-8-33AQ-VY-TR3",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-33aq",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-3225-2-ABRACON",
+     "hz": 16000000,
+     "loadPf": 8,
+     "tolerancePpm": 30,
+     "stabilityPpm": 150,
+     "esrOhms": 70,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ECS-160-8-36B-CKY-TR3",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-2236b",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-ECS",
+     "hz": 16000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 70
+    },
+    {
+     "name": "ECS-160-8-36CKM-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-2236",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-ECS",
+     "hz": 16000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 80
+    },
+    {
+     "name": "ECS-160-8-36Q-AES-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-2236q",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-ECS",
+     "hz": 16000000,
+     "loadPf": 8,
+     "tolerancePpm": 25,
+     "stabilityPpm": 50,
+     "esrOhms": 80,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ECS-180.8-10-30BQZ-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-53bqz",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-5032-4-ECS",
+     "hz": 18080000,
+     "loadPf": 10,
+     "tolerancePpm": 15,
+     "stabilityPpm": 50,
+     "esrOhms": 100,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ECS-184-18-23A-EN-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-64a-ecx-64cr",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-6035-2-ECS",
+     "hz": 18432000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "ECS-184-20-4VX",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "hc-49uss",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49U-2-ECS",
+     "hz": 18432000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "ECS-184-20-4XDN",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "hc-49usx-dn",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49U-2-ECS",
+     "hz": 18432000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 100,
+     "esrOhms": 40
+    },
+    {
+     "name": "ECS-196.875-10-30BQZ-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-53bqz",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-5032-4-ECS",
+     "hz": 19687500,
+     "loadPf": 10,
+     "tolerancePpm": 15,
+     "stabilityPpm": 50,
+     "esrOhms": 100,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ECS-200-12-33Q-JES-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-33q",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ECS",
+     "hz": 20000000,
+     "loadPf": 12,
+     "tolerancePpm": 20,
+     "stabilityPpm": 50,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ECS-200-18-20BQ-DS",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "csm-8q",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-7050-4-ECS",
+     "hz": 20000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 100,
+     "esrOhms": 40,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ECS-200-18-30BQ-DS",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-53bq",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-5032-4-ECS",
+     "hz": 20000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 100,
+     "esrOhms": 40,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ECS-200-18-4X",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "hc-49usx",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49U-2-ECS",
+     "hz": 20000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 30
+    },
+    {
+     "name": "ECS-200-20-20BM-DP",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "csm-8mr",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-7050-4-ECS",
+     "hz": 20000000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 100,
+     "esrOhms": 40
+    },
+    {
+     "name": "ECS-200-20-30B-DU",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-53b-du",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-5032-4-ECS",
+     "hz": 20000000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 100,
+     "esrOhms": 40
+    },
+    {
+     "name": "ECS-200-20-4VX",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "hc-49uss",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49U-2-ECS",
+     "hz": 20000000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 40
+    },
+    {
+     "name": "ECS-200-20-5PXDN-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "csm-7x-dn",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 20000000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 100,
+     "esrOhms": 30
+    },
+    {
+     "name": "ECS-240-12-28AX-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "csm-4ax",
+     "package": "HC-49/US",
+     "pinout": "x1-nc-nc-x2",
+     "footprint": "XTAL-HC49US-SMD-4-ECS",
+     "hz": 24000000,
+     "loadPf": 12,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 30
+    },
+    {
+     "name": "ECS-240-18-23B-JTM-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-64r",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-6035-4-ECS",
+     "hz": 24000000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 20,
+     "esrOhms": 30
+    },
+    {
+     "name": "ECS-240-18-30-JGN-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-53r",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-5032-2-ABRACON",
+     "hz": 24000000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 30,
+     "esrOhms": 30
+    },
+    {
+     "name": "ECS-240-18-9",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecs-3x10",
+     "package": "Cylinder",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-CYL-3X10-2-ECS",
+     "hz": 24000000,
+     "loadPf": 18,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "ECS-240-20-5PX-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "csm-7x",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 24000000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 30
+    },
+    {
+     "name": "ECS-240-8-36CKM-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-2236",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-ECS",
+     "hz": 24000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 60
+    },
+    {
+     "name": "ECS-240-8-37B-CKY-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-1637b",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 24000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 50
+    },
+    {
+     "name": "ECS-240-8-47B2-CTN-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-1247b2",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-ECS",
+     "hz": 24000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 20,
+     "esrOhms": 100
+    },
+    {
+     "name": "ECS-245.7-10-36B2-CTM-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-2236b2",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-ECS",
+     "hz": 24576000,
+     "loadPf": 10,
+     "tolerancePpm": 10,
+     "stabilityPpm": 20,
+     "esrOhms": 50
+    },
+    {
+     "name": "ECS-245.7-20-5PX-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "csm-7x",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 24576000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 30
+    },
+    {
+     "name": "ECS-250-10-33B-CWN-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecs-33b",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ECS",
+     "hz": 25000000,
+     "loadPf": 10,
+     "tolerancePpm": 10,
+     "stabilityPpm": 15,
+     "esrOhms": 40
+    },
+    {
+     "name": "ECS-250-10-37B-CTN-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-1637b",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 25000000,
+     "loadPf": 10,
+     "tolerancePpm": 10,
+     "stabilityPpm": 20,
+     "esrOhms": 50
+    },
+    {
+     "name": "ECS-250-10-37BQ-CTN-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-1637bq",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 25000000,
+     "loadPf": 10,
+     "tolerancePpm": 10,
+     "stabilityPpm": 20,
+     "esrOhms": 50,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ECS-250-12-30BQ-AEN-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-53bq",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-5032-4-ECS",
+     "hz": 25000000,
+     "loadPf": 12,
+     "tolerancePpm": 25,
+     "stabilityPpm": 50,
+     "esrOhms": 30,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ECS-250-12-33B2Q-JES-TR3",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-33b2q",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ECS",
+     "hz": 25000000,
+     "loadPf": 12,
+     "tolerancePpm": 20,
+     "stabilityPpm": 50,
+     "esrOhms": 50,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ECS-250-12-33Q-JES-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-33q",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ECS",
+     "hz": 25000000,
+     "loadPf": 12,
+     "tolerancePpm": 20,
+     "stabilityPpm": 50,
+     "esrOhms": 40,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ECS-250-12-33QZ-ADS-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-33qz",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ECS",
+     "hz": 25000000,
+     "loadPf": 12,
+     "tolerancePpm": 25,
+     "stabilityPpm": 100,
+     "esrOhms": 80,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ECS-250-18-23A-EN-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-64a-ecx-64cr",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-6035-2-ECS",
+     "hz": 25000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 30
+    },
+    {
+     "name": "ECS-250-18-33-JGN-TR3",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-32",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ECS",
+     "hz": 25000000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 30,
+     "esrOhms": 40
+    },
+    {
+     "name": "ECS-250-18-33Q-DS",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-33q",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ECS",
+     "hz": 25000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 100,
+     "esrOhms": 40,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ECS-250-18-5G3X-JGN-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "csm-7x-3l",
+     "package": "HC-49/US",
+     "pinout": "x1-x2-gnd",
+     "footprint": "XTAL-HC49US-SMD-3-ECS",
+     "hz": 25000000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 30,
+     "esrOhms": 30
+    },
+    {
+     "name": "ECS-250-20-30B-DU",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-53b-du",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-5032-4-ECS",
+     "hz": 25000000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 100,
+     "esrOhms": 30
+    },
+    {
+     "name": "ECS-250-8-30B-CKM",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-53b",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-5032-4-ECS",
+     "hz": 25000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 30
+    },
+    {
+     "name": "ECS-250-8-37B2-CTN-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-1637b2",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 25000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 20,
+     "esrOhms": 50
+    },
+    {
+     "name": "ECS-250-8-37B2-RWY-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-1637b2",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 25000000,
+     "loadPf": 8,
+     "tolerancePpm": 15,
+     "stabilityPpm": 15,
+     "esrOhms": 50
+    },
+    {
+     "name": "ECS-260-13-42-CKM-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-42",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-4025-4-ECS",
+     "hz": 26000000,
+     "loadPf": 13,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 40
+    },
+    {
+     "name": "ECS-260-8-47Q-CES-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-1247q",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-ECS",
+     "hz": 26000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 50,
+     "esrOhms": 150,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ECS-270-10-33B-CKM-TR3",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecs-33b",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ECS",
+     "hz": 27000000,
+     "loadPf": 10,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 40
+    },
+    {
+     "name": "ECS-271.2-10-37-CKM-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-1637",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 27120000,
+     "loadPf": 10,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 60
+    },
+    {
+     "name": "ECS-271.2-CDX-2616",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecs-271-2-cdx-2616",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1210-4-ECS",
+     "hz": 27120000,
+     "loadPf": 6,
+     "tolerancePpm": 10,
+     "stabilityPpm": 30,
+     "esrOhms": 100
+    },
+    {
+     "name": "SAX21410AA4A-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax214-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 27120000,
+     "loadPf": 10,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX21410AA4B-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax214-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 27120000,
+     "loadPf": 10,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX21410AX4A-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax214-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 27120000,
+     "loadPf": 10,
+     "tolerancePpm": 50,
+     "stabilityPpm": 150,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX21410AX4B-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax214-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 27120000,
+     "loadPf": 10,
+     "tolerancePpm": 50,
+     "stabilityPpm": 150,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX21410AY4A-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax214-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 27120000,
+     "loadPf": 10,
+     "tolerancePpm": 50,
+     "stabilityPpm": 100,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX21410AY4B-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax214-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 27120000,
+     "loadPf": 10,
+     "tolerancePpm": 50,
+     "stabilityPpm": 100,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX21410BA4A-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax214-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 27120000,
+     "loadPf": 10,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX21410BA4B-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax214-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 27120000,
+     "loadPf": 10,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX21410BX4A-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax214-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 27120000,
+     "loadPf": 10,
+     "tolerancePpm": 30,
+     "stabilityPpm": 150,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX21410BX4B-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax214-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 27120000,
+     "loadPf": 10,
+     "tolerancePpm": 30,
+     "stabilityPpm": 150,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX21410BY4A-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax214-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 27120000,
+     "loadPf": 10,
+     "tolerancePpm": 30,
+     "stabilityPpm": 100,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX21410BY4B-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax214-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 27120000,
+     "loadPf": 10,
+     "tolerancePpm": 30,
+     "stabilityPpm": 100,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX21410CA4A-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax214-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 27120000,
+     "loadPf": 10,
+     "tolerancePpm": 25,
+     "stabilityPpm": 50,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX21410CA4B-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax214-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 27120000,
+     "loadPf": 10,
+     "tolerancePpm": 25,
+     "stabilityPpm": 50,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX21410CX4A-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax214-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 27120000,
+     "loadPf": 10,
+     "tolerancePpm": 25,
+     "stabilityPpm": 150,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX21410CX4B-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax214-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 27120000,
+     "loadPf": 10,
+     "tolerancePpm": 25,
+     "stabilityPpm": 150,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX21410CY4A-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax214-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 27120000,
+     "loadPf": 10,
+     "tolerancePpm": 25,
+     "stabilityPpm": 100,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX21410CY4B-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax214-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 27120000,
+     "loadPf": 10,
+     "tolerancePpm": 25,
+     "stabilityPpm": 100,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX21410DA4A-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax214-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 27120000,
+     "loadPf": 10,
+     "tolerancePpm": 20,
+     "stabilityPpm": 50,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX21410DA4B-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax214-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 27120000,
+     "loadPf": 10,
+     "tolerancePpm": 20,
+     "stabilityPpm": 50,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX32410AA4A-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax324-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 10,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 80,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX32410AX4A-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax324-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 10,
+     "tolerancePpm": 50,
+     "stabilityPpm": 150,
+     "esrOhms": 80,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX32410AX4A-26.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax324-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 26000000,
+     "loadPf": 10,
+     "tolerancePpm": 50,
+     "stabilityPpm": 150,
+     "esrOhms": 80,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX32410AX4A-30.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax324-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 30000000,
+     "loadPf": 10,
+     "tolerancePpm": 50,
+     "stabilityPpm": 150,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX32410AX4B-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax324-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 10,
+     "tolerancePpm": 50,
+     "stabilityPpm": 150,
+     "esrOhms": 80,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX32410AY4A-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax324-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 10,
+     "tolerancePpm": 50,
+     "stabilityPpm": 100,
+     "esrOhms": 80,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX32410AY4A-26.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax324-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 26000000,
+     "loadPf": 10,
+     "tolerancePpm": 50,
+     "stabilityPpm": 100,
+     "esrOhms": 80,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX32410AY4A-30.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax324-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 30000000,
+     "loadPf": 10,
+     "tolerancePpm": 50,
+     "stabilityPpm": 100,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX32410BA4A-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax324-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 10,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 80,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX32410BX4A-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax324-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 10,
+     "tolerancePpm": 30,
+     "stabilityPpm": 150,
+     "esrOhms": 80,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX32410BX4A-26.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax324-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 26000000,
+     "loadPf": 10,
+     "tolerancePpm": 30,
+     "stabilityPpm": 150,
+     "esrOhms": 80,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX32410BX4A-30.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax324-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 30000000,
+     "loadPf": 10,
+     "tolerancePpm": 30,
+     "stabilityPpm": 150,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX32410BX4B-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax324-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 10,
+     "tolerancePpm": 30,
+     "stabilityPpm": 150,
+     "esrOhms": 80,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX32410BY4A-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax324-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 10,
+     "tolerancePpm": 30,
+     "stabilityPpm": 100,
+     "esrOhms": 80,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX32410BY4A-26.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax324-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 26000000,
+     "loadPf": 10,
+     "tolerancePpm": 30,
+     "stabilityPpm": 100,
+     "esrOhms": 80,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX32410BY4A-30.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax324-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 30000000,
+     "loadPf": 10,
+     "tolerancePpm": 30,
+     "stabilityPpm": 100,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SXT11411AA07-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt114-series-3",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 11,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 150
+    },
+    {
+     "name": "SXT11411AA16-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt114-series-3",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 11,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 150
+    },
+    {
+     "name": "SXT11411AA17-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt114-series-3",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 11,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 150
+    },
+    {
+     "name": "SXT11411AA27-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt114-series-3",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 11,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 150
+    },
+    {
+     "name": "SXT11411AA38-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt114-series-3",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 11,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 150
+    },
+    {
+     "name": "SXT11411AA48-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt114-series-3",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 11,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 150
+    },
+    {
+     "name": "SXT11411BA07-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt114-series-3",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 11,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 150
+    },
+    {
+     "name": "SXT11411BA16-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt114-series-3",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 11,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 150
+    },
+    {
+     "name": "SXT11411BA17-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt114-series-3",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 11,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 150
+    },
+    {
+     "name": "SXT11411BA27-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt114-series-3",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 11,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 150
+    },
+    {
+     "name": "SXT11411BA38-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt114-series-3",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 11,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 150
+    },
+    {
+     "name": "SXT11411BA48-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt114-series-3",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 11,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 150
+    },
+    {
+     "name": "SXT11411BB07-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt114-series-3",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 11,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 150
+    },
+    {
+     "name": "SXT11411BB16-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt114-series-3",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 11,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 150
+    },
+    {
+     "name": "SXT11411BB17-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt114-series-3",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 11,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 150
+    },
+    {
+     "name": "SXT11411BB27-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt114-series-3",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 11,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 150
+    },
+    {
+     "name": "SXT11411BB38-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt114-series-3",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 11,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 150
+    },
+    {
+     "name": "SXT11411BB48-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt114-series-3",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 11,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 150
+    },
+    {
+     "name": "SXT11411CA07-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt114-series-3",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 11,
+     "tolerancePpm": 25,
+     "stabilityPpm": 50,
+     "esrOhms": 150
+    },
+    {
+     "name": "SXT11411CA16-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt114-series-3",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 11,
+     "tolerancePpm": 25,
+     "stabilityPpm": 50,
+     "esrOhms": 150
+    },
+    {
+     "name": "SXT2149AA07-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt214-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 16000000,
+     "loadPf": 9,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 200
+    },
+    {
+     "name": "SXT2149AA07-26.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt214-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 26000000,
+     "loadPf": 9,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 100
+    },
+    {
+     "name": "SXT2149AA16-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt214-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 16000000,
+     "loadPf": 9,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 200
+    },
+    {
+     "name": "SXT2149AA16-26.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt214-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 26000000,
+     "loadPf": 9,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 100
+    },
+    {
+     "name": "SXT2149AA17-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt214-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 16000000,
+     "loadPf": 9,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 200
+    },
+    {
+     "name": "SXT2149AA27-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt214-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 16000000,
+     "loadPf": 9,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 200
+    },
+    {
+     "name": "SXT2149AA38-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt214-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 16000000,
+     "loadPf": 9,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 200
+    },
+    {
+     "name": "SXT2149AA48-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt214-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 16000000,
+     "loadPf": 9,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 200
+    },
+    {
+     "name": "SXT2149BA07-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt214-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 16000000,
+     "loadPf": 9,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 200
+    },
+    {
+     "name": "SXT2149BA16-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt214-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 16000000,
+     "loadPf": 9,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 200
+    },
+    {
+     "name": "SXT2149BA17-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt214-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 16000000,
+     "loadPf": 9,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 200
+    },
+    {
+     "name": "SXT2149BA27-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt214-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 16000000,
+     "loadPf": 9,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 200
+    },
+    {
+     "name": "SXT2149BA38-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt214-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 16000000,
+     "loadPf": 9,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 200
+    },
+    {
+     "name": "SXT2149BA48-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt214-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 16000000,
+     "loadPf": 9,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 200
+    },
+    {
+     "name": "SXT2149BB07-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt214-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 16000000,
+     "loadPf": 9,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 200
+    },
+    {
+     "name": "SXT2149BB16-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt214-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 16000000,
+     "loadPf": 9,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 200
+    },
+    {
+     "name": "SXT2149BB17-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt214-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 16000000,
+     "loadPf": 9,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 200
+    },
+    {
+     "name": "SXT2149BB27-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt214-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 16000000,
+     "loadPf": 9,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 200
+    },
+    {
+     "name": "SXT2149BB38-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt214-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 16000000,
+     "loadPf": 9,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 200
+    },
+    {
+     "name": "SXT2149BB48-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt214-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 16000000,
+     "loadPf": 9,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 200
+    },
+    {
+     "name": "SXT22411AA07-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt224-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-SUNTSU",
+     "hz": 16000000,
+     "loadPf": 11,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 100
+    },
+    {
+     "name": "SXT22411AA16-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt224-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-SUNTSU",
+     "hz": 16000000,
+     "loadPf": 11,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 100
+    },
+    {
+     "name": "SXT22411AA17-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt224-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-SUNTSU",
+     "hz": 16000000,
+     "loadPf": 11,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 100
+    },
+    {
+     "name": "SXT22411AA27-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt224-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-SUNTSU",
+     "hz": 16000000,
+     "loadPf": 11,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 100
+    },
+    {
+     "name": "SXT22411AA38-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt224-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-SUNTSU",
+     "hz": 16000000,
+     "loadPf": 11,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 100
+    },
+    {
+     "name": "SXT22411AA48-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt224-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-SUNTSU",
+     "hz": 16000000,
+     "loadPf": 11,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 100
+    },
+    {
+     "name": "SXT22411BA07-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt224-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-SUNTSU",
+     "hz": 16000000,
+     "loadPf": 11,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 100
+    },
+    {
+     "name": "SXT22411BA16-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt224-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-SUNTSU",
+     "hz": 16000000,
+     "loadPf": 11,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 100
+    },
+    {
+     "name": "SXT22411BA17-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt224-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-SUNTSU",
+     "hz": 16000000,
+     "loadPf": 11,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 100
+    },
+    {
+     "name": "SXT22411BA27-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt224-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-SUNTSU",
+     "hz": 16000000,
+     "loadPf": 11,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 100
+    },
+    {
+     "name": "SXT22411BA38-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt224-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-SUNTSU",
+     "hz": 16000000,
+     "loadPf": 11,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 100
+    },
+    {
+     "name": "SXT22411BA48-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt224-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-SUNTSU",
+     "hz": 16000000,
+     "loadPf": 11,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 100
+    },
+    {
+     "name": "SXT22411BB07-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt224-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-SUNTSU",
+     "hz": 16000000,
+     "loadPf": 11,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 100
+    },
+    {
+     "name": "SXT22411BB16-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt224-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-SUNTSU",
+     "hz": 16000000,
+     "loadPf": 11,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 100
+    },
+    {
+     "name": "SXT22411BB17-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt224-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-SUNTSU",
+     "hz": 16000000,
+     "loadPf": 11,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 100
+    },
+    {
+     "name": "SXT22411BB27-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt224-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-SUNTSU",
+     "hz": 16000000,
+     "loadPf": 11,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 100
+    },
+    {
+     "name": "SXT22411BB38-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt224-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-SUNTSU",
+     "hz": 16000000,
+     "loadPf": 11,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 100
+    },
+    {
+     "name": "SXT22411BB48-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt224-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-SUNTSU",
+     "hz": 16000000,
+     "loadPf": 11,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 100
+    },
+    {
+     "name": "SXT22411CA07-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt224-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-SUNTSU",
+     "hz": 16000000,
+     "loadPf": 11,
+     "tolerancePpm": 25,
+     "stabilityPpm": 50,
+     "esrOhms": 100
+    },
+    {
+     "name": "SXT22411CA16-16.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt224-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-SUNTSU",
+     "hz": 16000000,
+     "loadPf": 11,
+     "tolerancePpm": 25,
+     "stabilityPpm": 50,
+     "esrOhms": 100
+    },
+    {
+     "name": "SXT32411AA07-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt324-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 27120000,
+     "loadPf": 11,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "SXT32411AA16-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt324-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 27120000,
+     "loadPf": 11,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "SXT32411AA17-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt324-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 27120000,
+     "loadPf": 11,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "SXT32411AA27-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt324-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 27120000,
+     "loadPf": 11,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "SXT32411AA38-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt324-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 27120000,
+     "loadPf": 11,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "SXT32411AA48-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt324-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 27120000,
+     "loadPf": 11,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "SXT32414AA07-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt324-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 14,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "SXT32414AA16-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt324-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 14,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "SXT32414AA17-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt324-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 14,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "SXT32414AA27-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt324-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 14,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "SXT32414AA38-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt324-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 14,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "SXT32414AA48-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt324-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 14,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "SXT32415AA07-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt324-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 15,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "SXT32415AA16-24.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt324-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 24000000,
+     "loadPf": 15,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "SXT3249AA07-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt324-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 27120000,
+     "loadPf": 9,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "SXT3249AA16-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt324-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 27120000,
+     "loadPf": 9,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "SXT3249AA17-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt324-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 27120000,
+     "loadPf": 9,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "SXT3249AA27-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt324-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 27120000,
+     "loadPf": 9,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "SXT3249AA38-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt324-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 27120000,
+     "loadPf": 9,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "SXT3249AA48-27.120M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt324-series-1",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 27120000,
+     "loadPf": 9,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "SXT83418AA07-20.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt834-series",
+     "package": "SOJ",
+     "pinout": "x1-nc-nc-x2",
+     "footprint": "XTAL-SOJ-5.5-4-SUNTSU",
+     "hz": 20000000,
+     "loadPf": 18,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXT83418AA16-20.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt834-series",
+     "package": "SOJ",
+     "pinout": "x1-nc-nc-x2",
+     "footprint": "XTAL-SOJ-5.5-4-SUNTSU",
+     "hz": 20000000,
+     "loadPf": 18,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXT83418AA17-20.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt834-series",
+     "package": "SOJ",
+     "pinout": "x1-nc-nc-x2",
+     "footprint": "XTAL-SOJ-5.5-4-SUNTSU",
+     "hz": 20000000,
+     "loadPf": 18,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXT83418AA27-20.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt834-series",
+     "package": "SOJ",
+     "pinout": "x1-nc-nc-x2",
+     "footprint": "XTAL-SOJ-5.5-4-SUNTSU",
+     "hz": 20000000,
+     "loadPf": 18,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXT83418AA38-20.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt834-series",
+     "package": "SOJ",
+     "pinout": "x1-nc-nc-x2",
+     "footprint": "XTAL-SOJ-5.5-4-SUNTSU",
+     "hz": 20000000,
+     "loadPf": 18,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXT83418AA48-20.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt834-series",
+     "package": "SOJ",
+     "pinout": "x1-nc-nc-x2",
+     "footprint": "XTAL-SOJ-5.5-4-SUNTSU",
+     "hz": 20000000,
+     "loadPf": 18,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXT83418BA07-20.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt834-series",
+     "package": "SOJ",
+     "pinout": "x1-nc-nc-x2",
+     "footprint": "XTAL-SOJ-5.5-4-SUNTSU",
+     "hz": 20000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXT83418BA16-20.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt834-series",
+     "package": "SOJ",
+     "pinout": "x1-nc-nc-x2",
+     "footprint": "XTAL-SOJ-5.5-4-SUNTSU",
+     "hz": 20000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXT83418BA17-20.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt834-series",
+     "package": "SOJ",
+     "pinout": "x1-nc-nc-x2",
+     "footprint": "XTAL-SOJ-5.5-4-SUNTSU",
+     "hz": 20000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXT83418BA27-20.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt834-series",
+     "package": "SOJ",
+     "pinout": "x1-nc-nc-x2",
+     "footprint": "XTAL-SOJ-5.5-4-SUNTSU",
+     "hz": 20000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXT83418BA38-20.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt834-series",
+     "package": "SOJ",
+     "pinout": "x1-nc-nc-x2",
+     "footprint": "XTAL-SOJ-5.5-4-SUNTSU",
+     "hz": 20000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXT83418BA48-20.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt834-series",
+     "package": "SOJ",
+     "pinout": "x1-nc-nc-x2",
+     "footprint": "XTAL-SOJ-5.5-4-SUNTSU",
+     "hz": 20000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXT83418BB07-20.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt834-series",
+     "package": "SOJ",
+     "pinout": "x1-nc-nc-x2",
+     "footprint": "XTAL-SOJ-5.5-4-SUNTSU",
+     "hz": 20000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXT83418BB16-20.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt834-series",
+     "package": "SOJ",
+     "pinout": "x1-nc-nc-x2",
+     "footprint": "XTAL-SOJ-5.5-4-SUNTSU",
+     "hz": 20000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXT83418BB17-20.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt834-series",
+     "package": "SOJ",
+     "pinout": "x1-nc-nc-x2",
+     "footprint": "XTAL-SOJ-5.5-4-SUNTSU",
+     "hz": 20000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXT83418BB27-20.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt834-series",
+     "package": "SOJ",
+     "pinout": "x1-nc-nc-x2",
+     "footprint": "XTAL-SOJ-5.5-4-SUNTSU",
+     "hz": 20000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXT83418BB38-20.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt834-series",
+     "package": "SOJ",
+     "pinout": "x1-nc-nc-x2",
+     "footprint": "XTAL-SOJ-5.5-4-SUNTSU",
+     "hz": 20000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXT83418BB48-20.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt834-series",
+     "package": "SOJ",
+     "pinout": "x1-nc-nc-x2",
+     "footprint": "XTAL-SOJ-5.5-4-SUNTSU",
+     "hz": 20000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXT83418CA07-20.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt834-series",
+     "package": "SOJ",
+     "pinout": "x1-nc-nc-x2",
+     "footprint": "XTAL-SOJ-5.5-4-SUNTSU",
+     "hz": 20000000,
+     "loadPf": 18,
+     "tolerancePpm": 25,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXT83418CA16-20.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxt834-series",
+     "package": "SOJ",
+     "pinout": "x1-nc-nc-x2",
+     "footprint": "XTAL-SOJ-5.5-4-SUNTSU",
+     "hz": 20000000,
+     "loadPf": 18,
+     "tolerancePpm": 25,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    }
+   ]
+  },
+  {
+   "id": "crystal-mhz-32-mhz-and-over",
+   "function": "32 MHz and over",
+   "description": "Quartz crystal, 32 MHz and over",
+   "drawer": [
+    "Crystal",
+    "MHz"
+   ],
+   "note": "Facts, pinouts and ordering codes from the maker datasheets: ABM10-165 ABM10-165.pdf p.1,2; ABM10A ABM10A.pdf p.1,2; ABM10AAIG ABM10AAIG.pdf p.1,2; ABM10W ABM10W.pdf p.1,2; ABM11 ABM11.pdf p.1; ABM11A ABM11A.pdf p.1,2; ABM11AAIG ABM11AAIG.pdf p.1,2; ABM11W ABM11W.pdf p.1,2; ABM12 ABM12.pdf p.1,2; ABM12AIG ABM12AIG.pdf p.1,2; ABM12N ABM12N.pdf p.1,2; ABM13N ABM13N.pdf p.1,2; ABM13W ABM13W.pdf p.1,2; ABM14 ABM14.pdf p.1,2; ABM14N ABM14N.pdf p.1,2; ABM8A ABM8A.pdf p.1,2; ABM8G ABM8G.pdf p.1; ABM8W ABM8W.pdf p.1,2; ABM8X ABM8X.pdf p.1; ECS-CDX ECS-320-CDX-2094.pdf p.3,4,5; ECS-CDX ECS-390-CDX-1932.pdf p.3,4,5; ECX-1048 ECX-1048.pdf p.1,2; ECX-1048B ECS-320-CDX-2374.pdf p.3,4,5; ECX-1048B ECX-1048B.pdf p.1,2; ECX-1247 ECS-320-CDX-2152.pdf p.3,4,5; ECX-1247 ECX-1247.pdf p.1,2; ECX-1247B ECX_1247B.pdf p.1,2; ECX-1247B2 ECX-1247B2.pdf p.1,2; ECX-1247Q ECX-1247Q.pdf p.1; ECX-1637 ecx-1637.pdf p.1,2; ECX-1637B ECX-1637B.pdf p.1; ECX-1637B2 ECX-1637B2.pdf p.1; ECX-1637BQ ECX-1637BQ.pdf p.1; ECX-2236 ECX-2236.pdf p.1,2; ECX-2236B ECX-2236B.pdf p.1; ECX-2236B2 ECX-2236B2.pdf p.1; ECX-42 ECX_42.pdf p.1,2; HC-46X HC-46X.pdf p.1,2; SAX324 SAX324-Series.pdf p.1. Pads that are not the two terminals are NC (case or lid); the middle pad of a three-pad resonator is GND.",
+   "pinouts": {
+    "x1-nc-x2-nc": [
+     {
+      "number": 1,
+      "name": "X1",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 3,
+      "name": "X2",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "NC",
+      "role": "nc"
+     }
+    ],
+    "x1-x2": [
+     {
+      "number": 1,
+      "name": "X1",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "X2",
+      "role": "inout"
+     }
+    ]
+   },
+   "type": "crystal",
+   "terminals": [
+    "X1",
+    "X2"
+   ],
+   "parts": [
+    {
+     "name": "ABM10-165-38.400MHZ-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm10-165",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-ABRACON",
+     "hz": 38400000,
+     "loadPf": 10,
+     "tolerancePpm": 20,
+     "stabilityPpm": 15,
+     "esrOhms": 40
+    },
+    {
+     "name": "ABM10A-32.000MHZ-D2Y-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm10a",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-2520-2-ABRACON",
+     "hz": 32000000,
+     "loadPf": 8,
+     "tolerancePpm": 15,
+     "stabilityPpm": 30,
+     "esrOhms": 50
+    },
+    {
+     "name": "ABM10A-40.000MHZ-D2Y-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm10a",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-2520-2-ABRACON",
+     "hz": 40000000,
+     "loadPf": 8,
+     "tolerancePpm": 15,
+     "stabilityPpm": 30,
+     "esrOhms": 50
+    },
+    {
+     "name": "ABM10AAIG-40.000MHZ-12-2Z-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm10aaig",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-2520-2-ABRACON",
+     "hz": 40000000,
+     "loadPf": 12,
+     "tolerancePpm": 15,
+     "stabilityPpm": 50,
+     "esrOhms": 50,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ABM10W-38.4000MHZ-8-D1X-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm10w",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-ABRACON",
+     "hz": 38400000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 20,
+     "esrOhms": 40
+    },
+    {
+     "name": "ABM10W-40.0000MHZ-8-B1U-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm10w",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-ABRACON",
+     "hz": 40000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 40
+    },
+    {
+     "name": "ABM11-32.000MHZ-D2X-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm11",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ABRACON",
+     "hz": 32000000,
+     "loadPf": 10,
+     "tolerancePpm": 20,
+     "stabilityPpm": 20,
+     "esrOhms": 80
+    },
+    {
+     "name": "ABM11A-40.000MHZ-D2Y-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm11a",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-2016-2-ABRACON",
+     "hz": 40000000,
+     "loadPf": 8,
+     "tolerancePpm": 15,
+     "stabilityPpm": 30,
+     "esrOhms": 60
+    },
+    {
+     "name": "ABM11AAIG-32.000MHZ-12-2Z-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm11aaig",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-2016-2-ABRACON",
+     "hz": 32000000,
+     "loadPf": 12,
+     "tolerancePpm": 15,
+     "stabilityPpm": 50,
+     "esrOhms": 100,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ABM11W-32.0000MHZ-7-D1X-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm11w",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ABRACON",
+     "hz": 32000000,
+     "loadPf": 7,
+     "tolerancePpm": 10,
+     "stabilityPpm": 20,
+     "esrOhms": 50
+    },
+    {
+     "name": "ABM11W-32.0000MHZ-8-B1U-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm11w",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ABRACON",
+     "hz": 32000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 50
+    },
+    {
+     "name": "ABM11W-38.4000MHZ-8-D1X-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm11w",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ABRACON",
+     "hz": 38400000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 20,
+     "esrOhms": 40
+    },
+    {
+     "name": "ABM12-32.000MHZ-B2X-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm12",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-ABRACON-B",
+     "hz": 32000000,
+     "loadPf": 8,
+     "tolerancePpm": 20,
+     "stabilityPpm": 20,
+     "esrOhms": 200
+    },
+    {
+     "name": "ABM12AIG-32.000MHZ-6-D1X-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm12aig",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-ABRACON-B",
+     "hz": 32000000,
+     "loadPf": 6,
+     "tolerancePpm": 10,
+     "stabilityPpm": 20,
+     "esrOhms": 150,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ABM12AIG-50.000MHZ-1Z-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm12aig",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-ABRACON-B",
+     "hz": 50000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 50,
+     "esrOhms": 100,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ABM12N-32.0000MHZ-8-B1U-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm12n",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-ABRACON",
+     "hz": 32000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 80
+    },
+    {
+     "name": "ABM13N-32.0000MHZ-8-BH7U-T5",
+     "manufacturer": "Abracon",
+     "datasheet": "abm13n",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1210-4-ABRACON",
+     "hz": 32000000,
+     "loadPf": 8,
+     "tolerancePpm": 7,
+     "stabilityPpm": 10,
+     "esrOhms": 100
+    },
+    {
+     "name": "ABM13W-32.0000MHZ-7-B2X-T5",
+     "manufacturer": "Abracon",
+     "datasheet": "abm13w",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1210-4-ABRACON",
+     "hz": 32000000,
+     "loadPf": 7,
+     "tolerancePpm": 20,
+     "stabilityPpm": 20,
+     "esrOhms": 100
+    },
+    {
+     "name": "ABM13W-32.0000MHZ-8-NH7U-T5",
+     "manufacturer": "Abracon",
+     "datasheet": "abm13w",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1210-4-ABRACON",
+     "hz": 32000000,
+     "loadPf": 8,
+     "tolerancePpm": 7,
+     "stabilityPpm": 10,
+     "esrOhms": 100
+    },
+    {
+     "name": "ABM14-59.9700MHZ-8-N1U-T5",
+     "manufacturer": "Abracon",
+     "datasheet": "abm14",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1008-4-ABRACON",
+     "hz": 59970000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 60
+    },
+    {
+     "name": "ABM14-76.8000MHZ-8-N1V-T5",
+     "manufacturer": "Abracon",
+     "datasheet": "abm14",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1008-4-ABRACON",
+     "hz": 76800000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 12,
+     "esrOhms": 30
+    },
+    {
+     "name": "ABM14N-48.0000MHZ-8-N1U",
+     "manufacturer": "Abracon",
+     "datasheet": "abm14n",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1008-4-ABRACON",
+     "hz": 48000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 60
+    },
+    {
+     "name": "ABM14N-76.8000MHZ-8-N1V",
+     "manufacturer": "Abracon",
+     "datasheet": "abm14n",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1008-4-ABRACON",
+     "hz": 76800000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 30
+    },
+    {
+     "name": "ABM8A-32.000MHZ-D2Y-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm8a",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-3225-2-ABRACON",
+     "hz": 32000000,
+     "loadPf": 8,
+     "tolerancePpm": 15,
+     "stabilityPpm": 30,
+     "esrOhms": 50
+    },
+    {
+     "name": "ABM8A-40.000MHZ-D2Y-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm8a",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-3225-2-ABRACON",
+     "hz": 40000000,
+     "loadPf": 8,
+     "tolerancePpm": 15,
+     "stabilityPpm": 30,
+     "esrOhms": 50
+    },
+    {
+     "name": "ABM8G-32.000MHZ-B4Y-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm8g",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ABRACON",
+     "hz": 32000000,
+     "loadPf": 10,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 50
+    },
+    {
+     "name": "ABM8W-32.0000MHZ-8-B1U-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm8w",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ABRACON",
+     "hz": 32000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 40
+    },
+    {
+     "name": "ABM8W-32.0000MHZ-8-K1Z-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm8w",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ABRACON",
+     "hz": 32000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 50,
+     "esrOhms": 40
+    },
+    {
+     "name": "ABM8W-38.4000MHZ-8-D2Y-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm8w",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ABRACON",
+     "hz": 38400000,
+     "loadPf": 8,
+     "tolerancePpm": 20,
+     "stabilityPpm": 30,
+     "esrOhms": 40
+    },
+    {
+     "name": "ABM8X-102-32.000MHZ-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm8x",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ABRACON",
+     "hz": 32000000,
+     "loadPf": 10,
+     "tolerancePpm": 10,
+     "stabilityPpm": 25,
+     "esrOhms": 60
+    },
+    {
+     "name": "ECS-320-10-36B2-CKM-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-2236b2",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-ECS",
+     "hz": 32000000,
+     "loadPf": 10,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 40
+    },
+    {
+     "name": "ECS-320-10-37-CKM-TR3",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-1637",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 32000000,
+     "loadPf": 10,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 60
+    },
+    {
+     "name": "ECS-320-10-37BQ-CKY-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-1637bq",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 32000000,
+     "loadPf": 10,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 50,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ECS-320-10-48-CKY-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-1048",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1210-4-ECS",
+     "hz": 32000000,
+     "loadPf": 10,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 100
+    },
+    {
+     "name": "ECS-320-13-42-CKM-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-42",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-4025-4-ECS",
+     "hz": 32000000,
+     "loadPf": 13,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 40
+    },
+    {
+     "name": "ECS-320-7-48B-JTM-TR5",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-1048b",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1210-4-ECS",
+     "hz": 32000000,
+     "loadPf": 7,
+     "tolerancePpm": 20,
+     "stabilityPpm": 20,
+     "esrOhms": 100
+    },
+    {
+     "name": "ECS-320-8-36B-CKY-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-2236b",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-ECS",
+     "hz": 32000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 40
+    },
+    {
+     "name": "ECS-320-8-36CKM-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-2236",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-ECS",
+     "hz": 32000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 50
+    },
+    {
+     "name": "ECS-320-8-37B-CKY-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-1637b",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 32000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 50
+    },
+    {
+     "name": "ECS-320-8-37B2-CTN-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-1637b2",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 32000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 20,
+     "esrOhms": 50
+    },
+    {
+     "name": "ECS-320-8-47-CKM-TR3",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-1247",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-ECS",
+     "hz": 32000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 80
+    },
+    {
+     "name": "ECS-320-8-47B-7KM-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-1247b",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-ECS",
+     "hz": 32000000,
+     "loadPf": 8,
+     "tolerancePpm": 7,
+     "stabilityPpm": 10,
+     "esrOhms": 80
+    },
+    {
+     "name": "ECS-320-8-47B-CKY-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-1247b",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-ECS",
+     "hz": 32000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 80
+    },
+    {
+     "name": "ECS-320-8-48B-CKY-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-1048b",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1210-4-ECS",
+     "hz": 32000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 100
+    },
+    {
+     "name": "ECS-320-CDX-2094",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecs-320-cdx-2094",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 32000000,
+     "loadPf": 10,
+     "tolerancePpm": 10,
+     "stabilityPpm": 20,
+     "esrOhms": 40
+    },
+    {
+     "name": "ECS-320-CDX-2152",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecs-320-cdx-2152",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-ECS",
+     "hz": 32000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 50
+    },
+    {
+     "name": "ECS-320-CDX-2374",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecs-320-cdx-2374",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1210-4-ECS",
+     "hz": 32000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 80
+    },
+    {
+     "name": "ECS-384-8-48-CKY-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-1048",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1210-4-ECS",
+     "hz": 38400000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 100
+    },
+    {
+     "name": "ECS-390-CDX-1932",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecs-390-cdx-1932",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2016-4-ECS",
+     "hz": 39000000,
+     "loadPf": 10,
+     "tolerancePpm": 8,
+     "stabilityPpm": 13,
+     "esrOhms": 35
+    },
+    {
+     "name": "ECS-400-10-36B2-CKM-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-2236b2",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-ECS",
+     "hz": 40000000,
+     "loadPf": 10,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 30
+    },
+    {
+     "name": "ECS-400-20-46X",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "hc-46x",
+     "package": "HC-46/X",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC46X-2-ECS",
+     "hz": 40000000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 40
+    },
+    {
+     "name": "ECS-400-8-47B2-CKM-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-1247b2",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-ECS",
+     "hz": 40000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 60
+    },
+    {
+     "name": "ECS-480-10-48-CKY-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-1048",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1210-4-ECS",
+     "hz": 48000000,
+     "loadPf": 10,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 100
+    },
+    {
+     "name": "ECS-480-8-47B2-CKM-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-1247b2",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-ECS",
+     "hz": 48000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 60
+    },
+    {
+     "name": "ECS-500-8-47Q-CES-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-1247q",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-1612-4-ECS",
+     "hz": 50000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 50,
+     "esrOhms": 100,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX32410AX4A-32.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax324-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 32000000,
+     "loadPf": 10,
+     "tolerancePpm": 50,
+     "stabilityPpm": 150,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX32410AY4A-32.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax324-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 32000000,
+     "loadPf": 10,
+     "tolerancePpm": 50,
+     "stabilityPpm": 100,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX32410BX4A-32.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax324-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 32000000,
+     "loadPf": 10,
+     "tolerancePpm": 30,
+     "stabilityPpm": 150,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SAX32410BY4A-32.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sax324-series",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-SUNTSU",
+     "hz": 32000000,
+     "loadPf": 10,
+     "tolerancePpm": 30,
+     "stabilityPpm": 100,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "crystal-mhz-4-mhz-to-8-mhz",
+   "function": "4 MHz to 8 MHz",
+   "description": "Quartz crystal, 4 MHz to 8 MHz",
+   "drawer": [
+    "Crystal",
+    "MHz"
+   ],
+   "note": "Facts, pinouts and ordering codes from the maker datasheets: AB308 ab308.pdf p.1,2; ABC2 ABC2.pdf p.1,2,3; ABLS ABLS.pdf p.1,2; ABLS(RF) ABLS.pdf p.1,2; ABLSG ABLSG.pdf p.1; ABMM ABMM.pdf p.1; ABSM3A ABSM3A.pdf p.1,2; CSM-7SSX CSM-7SSX.pdf p.1; CSM-7X-DN csm-7x-dn.pdf p.1; CSM-7X-DU CSM_7X_DU.pdf p.1; CSM-8M csm-8mr.pdf p.1; ECS-3X10X ECS-3x10X-3x9X.pdf p.1; ECS-3x10 partnumber4.pdf p.1; ECX-64 ecx_64r.pdf p.1,2; HC-49US hc_49us.pdf p.1; HC-49USX hc-49usx.pdf p.1,2; HC-49USX-DN hc-49usx-dn.pdf p.1,2; HC-49UX HC-49UX.pdf p.1,2. Pads that are not the two terminals are NC (case or lid); the middle pad of a three-pad resonator is GND.",
+   "pinouts": {
+    "x1-x2": [
+     {
+      "number": 1,
+      "name": "X1",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "X2",
+      "role": "inout"
+     }
+    ],
+    "x1-nc-x2-nc": [
+     {
+      "number": 1,
+      "name": "X1",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 3,
+      "name": "X2",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "NC",
+      "role": "nc"
+     }
+    ],
+    "x1-nc-nc-x2": [
+     {
+      "number": 1,
+      "name": "X1",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 3,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 4,
+      "name": "X2",
+      "role": "inout"
+     }
+    ],
+    "x1-x2-nc-nc": [
+     {
+      "number": 1,
+      "name": "X1",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "X2",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 4,
+      "name": "NC",
+      "role": "nc"
+     }
+    ],
+    "x1-gnd-x2": [
+     {
+      "number": 1,
+      "name": "X1",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "nc"
+     },
+     {
+      "number": 3,
+      "name": "X2",
+      "role": "inout"
+     }
+    ]
+   },
+   "type": "crystal",
+   "terminals": [
+    "X1",
+    "X2"
+   ],
+   "parts": [
+    {
+     "name": "AB308-6.000MHZ",
+     "manufacturer": "Abracon",
+     "datasheet": "ab308",
+     "package": "Cylinder",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-CYL-3X8-2-ABRACON",
+     "hz": 6000000,
+     "loadPf": 16,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 80
+    },
+    {
+     "name": "ABC2-7.3728MHZ-4-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abc2",
+     "package": "SMD",
+     "pinout": "x1-x2-nc-nc",
+     "footprint": "XTAL-118X55-4-ABRACON",
+     "hz": 7372800,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 50
+    },
+    {
+     "name": "ABLS-4.897MHZ-20-R70-D-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abls",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ABRACON",
+     "hz": 4897000,
+     "loadPf": 20,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 70
+    },
+    {
+     "name": "ABLS-4.9152MHZ-B4-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abls",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ABRACON",
+     "hz": 4915200,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 180
+    },
+    {
+     "name": "ABLS-7.3728MHZ-B2-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abls",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ABRACON",
+     "hz": 7372800,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 50,
+     "esrOhms": 100
+    },
+    {
+     "name": "ABLSG-4.9152MHZ-D2Y-T",
+     "manufacturer": "Abracon",
+     "datasheet": "ablsg",
+     "package": "HC-49/US",
+     "pinout": "x1-gnd-x2",
+     "footprint": "XTAL-HC49US-SMD-3-ABRACON",
+     "hz": 4915200,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 30,
+     "esrOhms": 180
+    },
+    {
+     "name": "ABMM-7.3728MHZ-B2-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abmm",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-7050-4-ABRACON",
+     "hz": 7372800,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 50,
+     "esrOhms": 70
+    },
+    {
+     "name": "ABSM3A-6.000MHZ-20-B4Z-T",
+     "manufacturer": "Abracon",
+     "datasheet": "absm3a",
+     "package": "HC-49/US",
+     "pinout": "x1-nc-nc-x2",
+     "footprint": "XTAL-HC49US-SMD-4-ABRACON",
+     "hz": 6000000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 90
+    },
+    {
+     "name": "ECS-073-18-20BM-JEM-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "csm-8mr",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-7050-4-ECS",
+     "hz": 7372800,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 50,
+     "esrOhms": 70
+    },
+    {
+     "name": "ECS-073-18-20BM-JEN-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "csm-8mr",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-7050-4-ECS",
+     "hz": 7372800,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 50,
+     "esrOhms": 70
+    },
+    {
+     "name": "ECS-40-20-4X",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "hc-49usx",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49U-2-ECS",
+     "hz": 4000000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 150
+    },
+    {
+     "name": "ECS-40-20-4XDN",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "hc-49usx-dn",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49U-2-ECS",
+     "hz": 4000000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 100,
+     "esrOhms": 150
+    },
+    {
+     "name": "ECS-40-20-5PVX",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "csm-7ssx",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 4000000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 150
+    },
+    {
+     "name": "ECS-40-20-5PXDN-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "csm-7x-dn",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 4000000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 100,
+     "esrOhms": 150
+    },
+    {
+     "name": "ECS-40-20-5PXDU-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "csm-7x-du",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 4000000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 100,
+     "esrOhms": 150
+    },
+    {
+     "name": "ECS-49-18-10X",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecs-3x10x-3x9x",
+     "package": "Cylinder",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-CYL-3X10-2-ECS",
+     "hz": 4915200,
+     "loadPf": 18,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 150
+    },
+    {
+     "name": "ECS-60-18-10",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "partnumber4",
+     "package": "Cylinder",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-CYL-3X10-2-ECS",
+     "hz": 6000000,
+     "loadPf": 18,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 100
+    },
+    {
+     "name": "ECS-65-20-4",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "hc-49us",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49U-2-ECS",
+     "hz": 6500000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 100
+    },
+    {
+     "name": "ECS-73-18-10X",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecs-3x10x-3x9x",
+     "package": "Cylinder",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-CYL-3X10-2-ECS",
+     "hz": 7372800,
+     "loadPf": 18,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 100
+    },
+    {
+     "name": "ECS-73-18-23B-JTM-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-64r",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-6035-4-ECS",
+     "hz": 7372800,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 20,
+     "esrOhms": 100
+    },
+    {
+     "name": "ECS-73-20-1X",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "hc-49ux",
+     "package": "HC-49/U",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49U-2-ECS",
+     "hz": 7372800,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 40
+    }
+   ]
+  },
+  {
+   "id": "crystal-mhz-8-mhz-to-16-mhz",
+   "function": "8 MHz to 16 MHz",
+   "description": "Quartz crystal, 8 MHz to 16 MHz",
+   "drawer": [
+    "Crystal",
+    "MHz"
+   ],
+   "note": "Facts, pinouts and ordering codes from the maker datasheets: AB ab.pdf p.1,2; ABC2 ABC2.pdf p.1,2,3; ABLS(RF) ABLS.pdf p.1,2; ABLS-LR ABLS-LR.pdf p.1; ABLS2 ABLS2.pdf p.1,2; ABLS3 ABLS3.pdf p.1,2; ABM3 ABM3.pdf p.1,2; ABM3B abm3b.pdf p.1,2; ABM3BAIG ABM3BAIG.pdf p.1,2; ABM7 ABM7.pdf p.1,2; ABM8AAIG ABM8AAIG.pdf p.1,2; ABM8AIG ABM8AIG.pdf p.1,2; ABM8N ABM8N.pdf p.1,2; ABMM ABMM.pdf p.1; ABMM2 ABMM2.pdf p.1,2; CSM-3X CSM-3X.pdf p.1; CSM-4AX csm-4ax.pdf p.1; CSM-7SSX CSM-7SSX.pdf p.1; CSM-7X csm-7x.pdf p.1; CSM-7X-3L csm_7x_3l.pdf p.1; CSM-7X-DN csm-7x-dn.pdf p.1; CSM-7X-DU CSM_7X_DU.pdf p.1; CSM-8Q CSM-8Q.pdf p.1; ECS-23G ECS-23G.pdf p.1; ECS-33B2 ECS-33B2.pdf p.1; ECS-3X9X ECS-3x10X-3x9X.pdf p.1; ECS-CDX ECS-122.8-CDX-0921.pdf p.1; ECX-2236B ECX-2236B.pdf p.1; ECX-32 ecx-32.pdf p.1,2; ECX-33AQ ECX-33AQ.pdf p.1,2; ECX-33B2Q ECX-33B2Q.pdf p.1,2; ECX-53 ecx-53r.pdf p.1,2; ECX-53B ecx_53b.pdf p.1,2; ECX-53B-DU ecx_53b_du.pdf p.1,2; ECX-53BQ ECX-53BQ.pdf p.1,2; ECX-53Q ECX-53Q.pdf p.1; HC-46X HC-46X.pdf p.1,2; HC-49U hc49u.pdf p.1; HC-49USX hc-49usx.pdf p.1,2; HC-49UX HC-49UX.pdf p.1,2; SXTHM2 SXTHM2-Series.pdf p.1,2. Pads that are not the two terminals are NC (case or lid); the middle pad of a three-pad resonator is GND.",
+   "pinouts": {
+    "x1-x2": [
+     {
+      "number": 1,
+      "name": "X1",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "X2",
+      "role": "inout"
+     }
+    ],
+    "x1-nc-x2-nc": [
+     {
+      "number": 1,
+      "name": "X1",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 3,
+      "name": "X2",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "NC",
+      "role": "nc"
+     }
+    ],
+    "x1-x2-nc-nc": [
+     {
+      "number": 1,
+      "name": "X1",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "X2",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 4,
+      "name": "NC",
+      "role": "nc"
+     }
+    ],
+    "x1-x2-gnd": [
+     {
+      "number": 1,
+      "name": "X1",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "X2",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "GND",
+      "role": "nc"
+     }
+    ],
+    "x1-nc-nc-x2": [
+     {
+      "number": 1,
+      "name": "X1",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 3,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 4,
+      "name": "X2",
+      "role": "inout"
+     }
+    ]
+   },
+   "type": "crystal",
+   "terminals": [
+    "X1",
+    "X2"
+   ],
+   "parts": [
+    {
+     "name": "AB-11.0592MHZ",
+     "manufacturer": "Abracon",
+     "datasheet": "ab",
+     "package": "HC-49/U",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49U-2-ABRACON",
+     "hz": 11059200,
+     "loadPf": 18,
+     "tolerancePpm": 50,
+     "stabilityPpm": 100,
+     "esrOhms": 30
+    },
+    {
+     "name": "AB-8.000MHZ-B2",
+     "manufacturer": "Abracon",
+     "datasheet": "ab",
+     "package": "HC-49/U",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49U-2-ABRACON",
+     "hz": 8000000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 100,
+     "esrOhms": 35
+    },
+    {
+     "name": "ABC2-14.7456MHZ-4-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abc2",
+     "package": "SMD",
+     "pinout": "x1-x2-nc-nc",
+     "footprint": "XTAL-118X55-4-ABRACON",
+     "hz": 14745600,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 35
+    },
+    {
+     "name": "ABLS-13.560MHZ-10-R20-D-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abls",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ABRACON",
+     "hz": 13560000,
+     "loadPf": 10,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 20
+    },
+    {
+     "name": "ABLS-LR-12.000MHZ-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abls-lr",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ABRACON",
+     "hz": 12000000,
+     "loadPf": 18,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 15
+    },
+    {
+     "name": "ABLS2-10.000MHZ-D4Y-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abls2",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ABRACON",
+     "hz": 10000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 50
+    },
+    {
+     "name": "ABLS2-14.7456MHZ-D4Y-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abls2",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ABRACON",
+     "hz": 14745600,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 50
+    },
+    {
+     "name": "ABLS3-12.000MHZ-D4Y-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abls3",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ABRACON",
+     "hz": 12000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 50
+    },
+    {
+     "name": "ABLS3-8.000MHZ-D4Y-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abls3",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ABRACON",
+     "hz": 8000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 80
+    },
+    {
+     "name": "ABM3-8.000MHZ-B4Y-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm3",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-5032-2-ABRACON",
+     "hz": 8000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 140
+    },
+    {
+     "name": "ABM3-8.000MHZ-D2Y-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm3",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-5032-2-ABRACON",
+     "hz": 8000000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 30,
+     "esrOhms": 140
+    },
+    {
+     "name": "ABM3B-8.000MHZ-B2-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm3b",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-5032-4-ABRACON-B",
+     "hz": 8000000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 50,
+     "esrOhms": 200
+    },
+    {
+     "name": "ABM3BAIG-10.000MHZ-4-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm3baig",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-5032-4-ABRACON-B",
+     "hz": 10000000,
+     "loadPf": 18,
+     "tolerancePpm": 50,
+     "stabilityPpm": 100,
+     "esrOhms": 80,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ABM3BAIG-12.000MHZ-4-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm3baig",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-5032-4-ABRACON-B",
+     "hz": 12000000,
+     "loadPf": 18,
+     "tolerancePpm": 50,
+     "stabilityPpm": 100,
+     "esrOhms": 70,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ABM7-10.000MHZ-D2Y-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm7",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-6035-2-ABRACON",
+     "hz": 10000000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 30,
+     "esrOhms": 60
+    },
+    {
+     "name": "ABM7-8.000MHZ-D2Y-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abm7",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-6035-2-ABRACON",
+     "hz": 8000000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 30,
+     "esrOhms": 100
+    },
+    {
+     "name": "ABM8AAIG-8.000MHZ-V2R-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm8aaig",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-3225-2-ABRACON",
+     "hz": 8000000,
+     "loadPf": 8,
+     "tolerancePpm": 15,
+     "stabilityPpm": 150,
+     "esrOhms": 500,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ABM8AIG-12.000MHZ-12-2Z-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm8aig",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ABRACON",
+     "hz": 12000000,
+     "loadPf": 12,
+     "tolerancePpm": 20,
+     "stabilityPpm": 50,
+     "esrOhms": 100,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ABM8AIG-12.288MHZ-12-2Z-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm8aig",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ABRACON",
+     "hz": 12288000,
+     "loadPf": 12,
+     "tolerancePpm": 20,
+     "stabilityPpm": 50,
+     "esrOhms": 100,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ABM8N-12.0000MHZ-8-B1U-T3",
+     "manufacturer": "Abracon",
+     "datasheet": "abm8n",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ABRACON",
+     "hz": 12000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 100
+    },
+    {
+     "name": "ABMM-12.000MHZ-B2-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abmm",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-7050-4-ABRACON",
+     "hz": 12000000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "ABMM-14.7456MHZ-B2-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abmm",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-7050-4-ABRACON",
+     "hz": 14745600,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "ABMM2-10.000MHZ-E2-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abmm2",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-6036-4-ABRACON",
+     "hz": 10000000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 20,
+     "esrOhms": 50
+    },
+    {
+     "name": "ABMM2-8.000MHZ-E2-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abmm2",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-6036-4-ABRACON",
+     "hz": 8000000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 20,
+     "esrOhms": 72
+    },
+    {
+     "name": "ECS-080-18-23G-JGN-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecs-23g",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-6035-2-ECS",
+     "hz": 8000000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 30,
+     "esrOhms": 100
+    },
+    {
+     "name": "ECS-100-20-30B-DU",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-53b-du",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-5032-4-ECS",
+     "hz": 10000000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 100,
+     "esrOhms": 80
+    },
+    {
+     "name": "ECS-100-20-5PVX",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "csm-7ssx",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 10000000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "ECS-100-8-33AQ-VY-TR3",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-33aq",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-3225-2-ABRACON",
+     "hz": 10000000,
+     "loadPf": 8,
+     "tolerancePpm": 30,
+     "stabilityPpm": 150,
+     "esrOhms": 100,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ECS-102.4-S-1",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "hc49u",
+     "package": "HC-49/U",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49U-2-ECS",
+     "hz": 10240000,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 30
+    },
+    {
+     "name": "ECS-110.5-20-1X",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "hc-49ux",
+     "package": "HC-49/U",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49U-2-ECS",
+     "hz": 11059200,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 30
+    },
+    {
+     "name": "ECS-110.5-20-5PX-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "csm-7x",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 11059200,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "ECS-120-12-33B2Q-JES-TR3",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-33b2q",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ECS",
+     "hz": 12000000,
+     "loadPf": 12,
+     "tolerancePpm": 20,
+     "stabilityPpm": 50,
+     "esrOhms": 100,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ECS-120-18-20BQ-DS",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "csm-8q",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-7050-4-ECS",
+     "hz": 12000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 100,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ECS-120-18-23G-JGN-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecs-23g",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-6035-2-ECS",
+     "hz": 12000000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 30,
+     "esrOhms": 60
+    },
+    {
+     "name": "ECS-120-18-28AX-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "csm-4ax",
+     "package": "HC-49/US",
+     "pinout": "x1-nc-nc-x2",
+     "footprint": "XTAL-HC49US-SMD-4-ECS",
+     "hz": 12000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "ECS-120-18-30BQ-DS",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-53bq",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-5032-4-ECS",
+     "hz": 12000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 100,
+     "esrOhms": 80,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ECS-120-18-9X",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecs-3x10x-3x9x",
+     "package": "Cylinder",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-CYL-3X10-2-ECS",
+     "hz": 12000000,
+     "loadPf": 18,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "ECS-120-20-3X-EN-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "csm-3x",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS",
+     "hz": 12000000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "ECS-120-20-5PXDN-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "csm-7x-dn",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 12000000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 100,
+     "esrOhms": 50
+    },
+    {
+     "name": "ECS-120-8-33-JGN-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-32",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ECS",
+     "hz": 12000000,
+     "loadPf": 8,
+     "tolerancePpm": 20,
+     "stabilityPpm": 30,
+     "esrOhms": 100
+    },
+    {
+     "name": "ECS-120-8-33AQ-VY-TR3",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-33aq",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-3225-2-ABRACON",
+     "hz": 12000000,
+     "loadPf": 8,
+     "tolerancePpm": 30,
+     "stabilityPpm": 150,
+     "esrOhms": 100,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ECS-120-8-36B-CWY-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-2236b",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-2520-4-ECS",
+     "hz": 12000000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 15,
+     "esrOhms": 130
+    },
+    {
+     "name": "ECS-122.8-20-46X",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "hc-46x",
+     "package": "HC-46/X",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC46X-2-ECS",
+     "hz": 12288000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "ECS-122.8-CDX-0921",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecs-122-8-cdx-0921",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ECS",
+     "hz": 12288000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 30,
+     "esrOhms": 80
+    },
+    {
+     "name": "ECS-130-20-46X",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "hc-46x",
+     "package": "HC-46/X",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC46X-2-ECS",
+     "hz": 13000000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "ECS-135.6-8-33B2-CKM-TR3",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecs-33b2",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-3225-4-ECS",
+     "hz": 13560000,
+     "loadPf": 8,
+     "tolerancePpm": 10,
+     "stabilityPpm": 10,
+     "esrOhms": 100
+    },
+    {
+     "name": "ECS-143-20-4X",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "hc-49usx",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49U-2-ECS",
+     "hz": 14318180,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 40
+    },
+    {
+     "name": "ECS-147.4-18-9X",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecs-3x10x-3x9x",
+     "package": "Cylinder",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-CYL-3X10-2-ECS",
+     "hz": 14745600,
+     "loadPf": 18,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 50
+    },
+    {
+     "name": "ECS-80-10-30B-CWN-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-53b",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-5032-4-ECS",
+     "hz": 8000000,
+     "loadPf": 10,
+     "tolerancePpm": 10,
+     "stabilityPpm": 15,
+     "esrOhms": 100
+    },
+    {
+     "name": "ECS-80-16-28AX-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "csm-4ax",
+     "package": "HC-49/US",
+     "pinout": "x1-nc-nc-x2",
+     "footprint": "XTAL-HC49US-SMD-4-ECS",
+     "hz": 8000000,
+     "loadPf": 16,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 80
+    },
+    {
+     "name": "ECS-80-18-20BQ-DS",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "csm-8q",
+     "package": "SMD",
+     "pinout": "x1-nc-x2-nc",
+     "footprint": "XTAL-7050-4-ECS",
+     "hz": 8000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 100,
+     "esrOhms": 60,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ECS-80-18-30-JGN-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-53r",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-5032-2-ABRACON",
+     "hz": 8000000,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 30,
+     "esrOhms": 100
+    },
+    {
+     "name": "ECS-80-18-30Q-VY-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-53q",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-5032-2-ABRACON",
+     "hz": 8000000,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 150,
+     "esrOhms": 100,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ECS-80-20-5G3XDS-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "csm-7x-3l",
+     "package": "HC-49/US",
+     "pinout": "x1-x2-gnd",
+     "footprint": "XTAL-HC49US-SMD-3-ECS",
+     "hz": 8000000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 100,
+     "esrOhms": 60
+    },
+    {
+     "name": "ECS-80-20-5PXDU-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "csm-7x-du",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 8000000,
+     "loadPf": 20,
+     "tolerancePpm": 30,
+     "stabilityPpm": 100,
+     "esrOhms": 60
+    },
+    {
+     "name": "ECS-80-8-30Q-VS-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-53q",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-5032-2-ABRACON",
+     "hz": 8000000,
+     "loadPf": 8,
+     "tolerancePpm": 30,
+     "stabilityPpm": 150,
+     "esrOhms": 100,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "ECS-81.92-12-30Q-EN-TR",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecx-53q",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-5032-2-ABRACON",
+     "hz": 8192000,
+     "loadPf": 12,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 100,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "SXTHM216AA074-12.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxthm2-series",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 12000000,
+     "loadPf": 16,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXTHM216AA164-12.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxthm2-series",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 12000000,
+     "loadPf": 16,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXTHM216AA174-12.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxthm2-series",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 12000000,
+     "loadPf": 16,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXTHM216AA274-12.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxthm2-series",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 12000000,
+     "loadPf": 16,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXTHM216AA384-12.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxthm2-series",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 12000000,
+     "loadPf": 16,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXTHM216AA484-12.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxthm2-series",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 12000000,
+     "loadPf": 16,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXTHM217AA074-12.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxthm2-series",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 12000000,
+     "loadPf": 17,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXTHM217AA164-12.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxthm2-series",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 12000000,
+     "loadPf": 17,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXTHM217AA174-12.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxthm2-series",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 12000000,
+     "loadPf": 17,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXTHM217AA274-12.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxthm2-series",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 12000000,
+     "loadPf": 17,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXTHM217AA384-12.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxthm2-series",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 12000000,
+     "loadPf": 17,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXTHM217AA484-12.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxthm2-series",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 12000000,
+     "loadPf": 17,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXTHM217BA074-12.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxthm2-series",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 12000000,
+     "loadPf": 17,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXTHM217BA164-12.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxthm2-series",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 12000000,
+     "loadPf": 17,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXTHM217BA174-12.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxthm2-series",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 12000000,
+     "loadPf": 17,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXTHM217BA274-12.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxthm2-series",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 12000000,
+     "loadPf": 17,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXTHM217BA384-12.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxthm2-series",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 12000000,
+     "loadPf": 17,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXTHM217BA484-12.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxthm2-series",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 12000000,
+     "loadPf": 17,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXTHM217BB074-12.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxthm2-series",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 12000000,
+     "loadPf": 17,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 60
+    },
+    {
+     "name": "SXTHM217BB164-12.000M",
+     "manufacturer": "Suntsu Electronics",
+     "datasheet": "sxthm2-series",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ECS-B",
+     "hz": 12000000,
+     "loadPf": 17,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 60
+    }
+   ]
+  },
+  {
+   "id": "crystal-mhz-under-4-mhz",
+   "function": "Under 4 MHz",
+   "description": "Quartz crystal, Under 4 MHz",
+   "drawer": [
+    "Crystal",
+    "MHz"
+   ],
+   "note": "Facts, pinouts and ordering codes from the maker datasheets: ABLS-LR ABLS-LR.pdf p.1; ABLSG ABLSG.pdf p.1; ABSM3A ABSM3A.pdf p.1,2; ECS-3X10X ECS-3x10X-3x9X.pdf p.1; HC-49USX-DN hc-49usx-dn.pdf p.1,2; HC-49UX HC-49UX.pdf p.1,2; HC-49UX(H) ECS-10-13-1XH.pdf p.1. Pads that are not the two terminals are NC (case or lid); the middle pad of a three-pad resonator is GND.",
+   "pinouts": {
+    "x1-gnd-x2": [
+     {
+      "number": 1,
+      "name": "X1",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "nc"
+     },
+     {
+      "number": 3,
+      "name": "X2",
+      "role": "inout"
+     }
+    ],
+    "x1-x2": [
+     {
+      "number": 1,
+      "name": "X1",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "X2",
+      "role": "inout"
+     }
+    ],
+    "x1-nc-nc-x2": [
+     {
+      "number": 1,
+      "name": "X1",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 3,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 4,
+      "name": "X2",
+      "role": "inout"
+     }
+    ]
+   },
+   "type": "crystal",
+   "terminals": [
+    "X1",
+    "X2"
+   ],
+   "parts": [
+    {
+     "name": "ABLS-LR-3.072MHZ-T",
+     "manufacturer": "Abracon",
+     "datasheet": "abls-lr",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49US-SMD-2-ABRACON",
+     "hz": 3072000,
+     "loadPf": 18,
+     "tolerancePpm": 50,
+     "stabilityPpm": 100,
+     "esrOhms": 100
+    },
+    {
+     "name": "ABLSG-3.579545MHZ-D2Y-T",
+     "manufacturer": "Abracon",
+     "datasheet": "ablsg",
+     "package": "HC-49/US",
+     "pinout": "x1-gnd-x2",
+     "footprint": "XTAL-HC49US-SMD-3-ABRACON",
+     "hz": 3579545,
+     "loadPf": 18,
+     "tolerancePpm": 20,
+     "stabilityPpm": 30,
+     "esrOhms": 180
+    },
+    {
+     "name": "ABSM33A-3.6864MHZ-B4Y-T",
+     "manufacturer": "Abracon",
+     "datasheet": "absm3a",
+     "package": "HC-49/US",
+     "pinout": "x1-nc-nc-x2",
+     "footprint": "XTAL-HC49US-SMD-4-ABRACON",
+     "hz": 3686400,
+     "loadPf": 18,
+     "tolerancePpm": 30,
+     "stabilityPpm": 30,
+     "esrOhms": 150
+    },
+    {
+     "name": "ECS-10-13-1XH",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecs-10-13-1xh",
+     "package": "HC-49/U",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49U-2-ECS",
+     "hz": 1000000,
+     "loadPf": 13,
+     "tolerancePpm": 100,
+     "stabilityPpm": 100,
+     "esrOhms": 3000
+    },
+    {
+     "name": "ECS-18-13-1X",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "hc-49ux",
+     "package": "HC-49/U",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49U-2-ECS",
+     "hz": 1843200,
+     "loadPf": 13,
+     "tolerancePpm": 30,
+     "stabilityPpm": 50,
+     "esrOhms": 750
+    },
+    {
+     "name": "ECS-35-17-4XDN",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "hc-49usx-dn",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49U-2-ECS",
+     "hz": 3579545,
+     "loadPf": 17,
+     "tolerancePpm": 30,
+     "stabilityPpm": 100,
+     "esrOhms": 200
+    },
+    {
+     "name": "ECS-36-18-10X",
+     "manufacturer": "ECS Inc.",
+     "datasheet": "ecs-3x10x-3x9x",
+     "package": "Cylinder",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-CYL-3X10-2-ECS",
+     "hz": 3686400,
+     "loadPf": 18,
+     "tolerancePpm": 50,
+     "stabilityPpm": 50,
+     "esrOhms": 200
+    }
+   ]
+  },
+  {
    "id": "resonator-16-mhz-and-over",
    "function": "16 MHz and over",
    "description": "Ceramic resonator, 16 MHz and over",

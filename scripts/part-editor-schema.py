@@ -32,6 +32,7 @@ KIND_FILES = {
     "nixie": ["nixie.c"],
     "serialmem": ["serialmem.c"],
     "regulator": ["regulator.c"],
+    "crystal": ["crystal.c"],
 }
 
 NAMES = {
