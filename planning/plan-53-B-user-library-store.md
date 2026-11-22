@@ -252,7 +252,7 @@ Commit: 26b90f2a
 
 Acceptance: a part added to the library is back after a relaunch of the catalog, and removing it deletes it. **MET** (`xcodebuild test … UserLibraryCatalogTests PartRegistrationTests UserPartLibraryTests` → `Executed 28 tests, with 0 failures`, `** TEST SUCCEEDED **`)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/UserLibraryCatalogTests -only-testing:schematicalTests/PartRegistrationTests -only-testing:schematicalTests/UserPartLibraryTests` → `** TEST SUCCEEDED **` (est. 6–12 min).
-Commit: (this commit)
+Commit: 48258817
 
 ## Validation Plan
 
@@ -281,7 +281,10 @@ Commit: (this commit)
 
 ## Corrections
 
-(Filled in during execution.)
+- **`UserPartLibrary` is `nonisolated … Sendable`** (as § 4.2 sketched `final class`): as a main-actor class its deinit aborted the test host on the first test that freed one (`pointer being freed was not allocated`, `/tmp/p53-xc6.log`). `PartFileType.fileExtension` became `nonisolated static let` so the type can read it.
+- **`setListing` is internal, not private**, so `PartRegistrationTests` can drive the `removed` listing before Phase 3's `removeFromUserLibrary` exists.
+- **Tests keep their stores** in a static array (`UserLibraryCatalogTests.kept`): a `PartCatalogStore` freed inside a test aborts the host, as plan-53-A found.
+- **Final gate (run once after Phase 3), 2026-11-21:** `xcodebuild test … UserLibraryCatalogTests PartRegistrationTests UserPartLibraryTests DrawerPerformanceTests AutomationTests` → `Executed 64 tests, with 1 test skipped and 0 failures`, `** TEST SUCCEEDED **` (`/tmp/p53-xc9.log`). The skipped test is pre-existing (not one of this plan's).
 
 ## Summary
 
