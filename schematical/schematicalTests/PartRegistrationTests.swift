@@ -64,11 +64,65 @@ final class PartRegistrationTests: XCTestCase {
         XCTAssertEqual(part.uuid, uuid)
         XCTAssertEqual(store.part(named: "REG-A"), part)
         XCTAssertEqual(store.part(uuid: uuid), part)
-        XCTAssertTrue(store.categories.contains("Custom A"))
+        // plan-53-B: every registered custom part lists under File Library,
+        // below it the file's own sub-group.
+        XCTAssertFalse(store.categories.contains("Custom A"))
+        XCTAssertTrue(store.categories.contains("File Library"))
+        XCTAssertEqual(part.drawer, ["File Library", "Gates"])
+        XCTAssertEqual(store.listing(of: part), .file)
         XCTAssertEqual(part.footprint?.id, "CUSTOM-A0000000")
         XCTAssertEqual(part.footprint?.pads.count, 5)
-        let listed = store.groups(matching: DrawerFilter()).first { $0.category == "Custom A" }
-        XCTAssertNotNil(listed)
+        let listed = try XCTUnwrap(store.groups(matching: DrawerFilter()).first { $0.category == "File Library" })
+        XCTAssertTrue(listed.allParts.contains(part))
+        XCTAssertEqual(listed.subcategories.first { $0.subcategory == "Gates" }?.allParts.contains(part), true)
+    }
+
+    /// (a2) A one-level drawer lists directly under File Library; a bundled
+    /// part has no listing.
+    func testOneLevelDrawerListsDirectlyUnderFileLibrary() throws {
+        let uuid = "A0000000-0000-4000-8000-000000000002"
+        let part = try store.register(fileText: Self.fileText(uuid: uuid, name: "REG-A2", drawer: ["Custom"]),
+                                      source: "a2.schpart")
+        XCTAssertEqual(part.drawer, ["File Library"])
+        let category = try XCTUnwrap(store.groups(matching: DrawerFilter()).first { $0.category == "File Library" })
+        XCTAssertTrue(category.functions.flatMap(\.parts).contains(part))
+        XCTAssertNil(store.listing(of: try XCTUnwrap(store.part(named: "SN74HC00N"))))
+    }
+
+    /// (a3) A removed part is out of the drawer but still resolves; the same
+    /// content registered again lists it as a File Library part.
+    func testRemovedPartIsHiddenButResolvesAndRelists() throws {
+        let uuid = "A0000000-0000-4000-8000-000000000003"
+        let text = Self.fileText(uuid: uuid, name: "REG-A3")
+        let part = try store.register(fileText: text, source: "a3.schpart")
+        store.setListing(.removed, for: uuid)
+        XCTAssertFalse(store.allParts.contains(part))
+        XCTAssertFalse(store.groups(matching: DrawerFilter()).flatMap(\.allParts).contains(part))
+        XCTAssertEqual(store.part(named: "REG-A3"), part)
+        XCTAssertEqual(store.part(uuid: uuid), part)
+        XCTAssertEqual(store.listing(of: part), .removed)
+        let again = try store.register(fileText: text, source: "a3.schpart")
+        XCTAssertEqual(again, part)
+        XCTAssertEqual(store.listing(of: again), .file)
+        XCTAssertTrue(store.allParts.contains(again))
+        XCTAssertEqual(again.drawer, ["File Library", "Gates"])
+    }
+
+    /// (a4) `.user` listings: registering as `.user` lists under User Library;
+    /// registering a `file` part as `.user` moves it.
+    func testUserListingAndMoveFromFileLibrary() throws {
+        let uuid = "A0000000-0000-4000-8000-000000000004"
+        let text = Self.fileText(uuid: uuid, name: "REG-A4")
+        let file = try store.register(fileText: text, source: "a4.schpart")
+        XCTAssertEqual(file.drawer, ["File Library", "Gates"])
+        let user = try store.register(fileText: text, source: "a4.schpart", listing: .user)
+        XCTAssertEqual(user, file)
+        XCTAssertEqual(user.drawer, ["User Library", "Gates"])
+        XCTAssertEqual(store.listing(of: user), .user)
+        XCTAssertEqual(store.allParts.filter { $0.uuid == uuid }.count, 1)
+        // A user part registered as a file part again stays in the User Library.
+        XCTAssertEqual(try store.register(fileText: text, source: "a4.schpart").drawer, ["User Library", "Gates"])
+        XCTAssertTrue(store.kinds(inCategory: "User Library").contains(PART_GATE.rawValue))
     }
 
     /// (b) The same file twice returns the registered part, once.

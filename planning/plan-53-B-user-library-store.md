@@ -236,11 +236,11 @@ Commit: —
 
 ### Phase 2 — Listings and categories in the catalog
 
-- [ ] `PartCatalog.swift`: `drawer` becomes `private(set) var`; `listed(in:)` (§ 4.1).
-- [ ] `PartCatalog.swift`: `PartListing`, `listings`, `setListing`, `register(…listing:)`, `listing(of:)`, `PartRegistrationError.libraryWrite` and `.noUserLibrary` with descriptions (§ 4.3). Every custom part registered without an argument is listed `file`.
-- [ ] `schematicalTests/PartRegistrationTests.swift`: `testValidFileRegisters` expects the category `File Library` and the sub-group from the file (`["File Library", "Gates"]`); add: a one-level drawer lists directly under `File Library`; a `removed` part is not in `groups(matching:)` but `part(named:)` and `part(uuid:)` still return it; registering the same content again relists a `removed` part as `file`.
+- [x] `PartCatalog.swift`: `drawer` becomes `private(set) var`; `listed(in:)` (§ 4.1).
+- [x] `PartCatalog.swift`: `PartListing`, `listings`, `setListing`, `register(…listing:)`, `listing(of:)`, `PartRegistrationError.libraryWrite` and `.noUserLibrary` with descriptions (§ 4.3). Every custom part registered without an argument is listed `file`.
+- [x] `schematicalTests/PartRegistrationTests.swift`: `testValidFileRegisters` expects the category `File Library` and the sub-group from the file (`["File Library", "Gates"]`); add: a one-level drawer lists directly under `File Library`; a `removed` part is not in `groups(matching:)` but `part(named:)` and `part(uuid:)` still return it; registering the same content again relists a `removed` part as `file`.
 
-Acceptance: a registered custom part lists under `File Library` with its sub-group, and `removed` hides it from the picker only.
+Acceptance: a registered custom part lists under `File Library` with its sub-group, and `removed` hides it from the picker only. **MET** (`xcodebuild test … -only-testing:schematicalTests/PartRegistrationTests` → `Executed 12 tests, with 0 failures`, `** TEST SUCCEEDED **`)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/PartRegistrationTests` → `** TEST SUCCEEDED **` (est. 5–10 min).
 Commit: —
 
