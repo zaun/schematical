@@ -15,6 +15,31 @@ nonisolated final class PartLibraryHandle: @unchecked Sendable {
     deinit {
         part_library_destroy(pointer)
     }
+
+    /// Takes one single-part-file part out of the library (plan-53-D): its
+    /// name, uuid and the inline footprint and datasheet ids named. The
+    /// memory stays, so parts already read stay valid. False when no part
+    /// has the uuid.
+    func retire(uuid: String, footprintIDs: [String], datasheetIDs: [String]) -> Bool {
+        func withCStrings<R>(_ strings: [String], _ body: ([UnsafePointer<CChar>?]) -> R) -> R {
+            var pointers: [UnsafePointer<CChar>?] = []
+            var duplicates: [UnsafeMutablePointer<CChar>] = []
+            for string in strings {
+                if let copy = strdup(string) {
+                    duplicates.append(copy)
+                    pointers.append(UnsafePointer(copy))
+                }
+            }
+            defer { duplicates.forEach { free($0) } }
+            return body(pointers)
+        }
+        return withCStrings(footprintIDs) { footprints in
+            withCStrings(datasheetIDs) { datasheets in
+                part_library_retire_part(pointer, uuid, footprints, footprints.count,
+                                         datasheets, datasheets.count) == 0
+            }
+        }
+    }
 }
 
 // MARK: - Parts as Swift values
@@ -1216,6 +1241,10 @@ nonisolated enum PartRegistrationError: LocalizedError, Equatable {
     case backend(String)
     /// The file is not a part file at all (not UTF-8 text, or not a JSON object).
     case notAPartFile(String)
+    /// The part is not in the User Library (it was removed, or never added).
+    case notInUserLibrary(name: String)
+    /// An in-place update that would change the part's uuid or kind.
+    case identityChanged(detail: String)
     /// The User Library's file could not be written (plan-53-B).
     case libraryWrite(String)
     /// There is no User Library to add to (a catalog made without one).
@@ -1227,6 +1256,10 @@ nonisolated enum PartRegistrationError: LocalizedError, Equatable {
             return message
         case .notAPartFile(let detail):
             return "This is not a part file (\(detail))."
+        case .notInUserLibrary(let name):
+            return "“\(name)” is no longer in your User Library. Use Save As… to keep it."
+        case .identityChanged(let detail):
+            return detail
         case .libraryWrite(let reason):
             return "The part could not be saved in your User Library: \(reason)"
         case .noUserLibrary:
@@ -1988,6 +2021,83 @@ final class PartCatalogStore {
             if previous != .user { setListing(previous == .removed ? .file : previous, for: uuid) }
             throw PartRegistrationError.libraryWrite(error.localizedDescription)
         }
+    }
+
+    /// Called after a User Library part is replaced in place (plan-53-D), with
+    /// its uuid and the new part, so open schematics can follow. Set by
+    /// `SchematicFileController`.
+    @ObservationIgnored var partUpdated: ((String, CatalogPart) -> Void)?
+
+    /// Replaces a User Library part's content under the same uuid, now
+    /// (plan-53-D): the library file, the backend's part (retired and loaded
+    /// again) and the catalog's records. The kind and the uuid cannot change;
+    /// a new name that another part has gets the usual suffix. On any failure
+    /// the old version is still the part, and the old text is the file's.
+    @discardableResult
+    func updateUserLibraryPart(uuid: String, fileText: String) throws -> CatalogPart {
+        guard let userLibrary else { throw PartRegistrationError.noUserLibrary }
+        guard let old = partsByUUID[uuid], listings[uuid] == .user, let oldText = registeredTexts[uuid] else {
+            throw PartRegistrationError.notInUserLibrary(name: partsByUUID[uuid]?.name ?? uuid)
+        }
+        var file = try PartFileObject(text: fileText)
+        guard file.uuid == uuid else {
+            throw PartRegistrationError.identityChanged(detail: "An update cannot change the part's identity.")
+        }
+        let oldFile = try PartFileObject(text: oldText)
+        guard file.object["kind"] as? String == oldFile.object["kind"] as? String else {
+            throw PartRegistrationError.identityChanged(detail: "An update cannot change the part's kind.")
+        }
+        // A name another part has is suffixed; the part's own old name is free.
+        if let name = file.name, let other = partsByName[name], other.uuid != uuid {
+            var n = 2
+            while let taken = partsByName["\(name).\(n)"], taken.uuid != uuid { n += 1 }
+            file.name = "\(name).\(n)"
+        }
+        let text = file.canonicalText
+        if text == oldText { return old }
+
+        func ids(_ key: String, of file: PartFileObject) -> [String] {
+            (file.object[key] as? [[String: Any]] ?? []).compactMap { $0["id"] as? String }
+        }
+        do {
+            try userLibrary.write(uuid: uuid, text: text)
+        } catch {
+            throw PartRegistrationError.libraryWrite(error.localizedDescription)
+        }
+        let source = "\(file.name ?? uuid).schpart"
+        guard library.retire(uuid: uuid, footprintIDs: ids("footprints", of: oldFile),
+                             datasheetIDs: ids("datasheets", of: oldFile)) else {
+            try? userLibrary.write(uuid: uuid, text: oldText)
+            throw PartRegistrationError.backend("\(source): the part could not be replaced")
+        }
+        var error: UnsafeMutablePointer<CChar>?
+        if load_part_file(library.pointer, text, source, &error) != 0 {
+            let message = error.map { String(cString: $0) } ?? source
+            free(error)
+            // Put the old version back.
+            var restoreError: UnsafeMutablePointer<CChar>?
+            _ = load_part_file(library.pointer, oldText, "\(old.name).schpart", &restoreError)
+            free(restoreError)
+            try? userLibrary.write(uuid: uuid, text: oldText)
+            throw PartRegistrationError.backend(message)
+        }
+        guard let loaded = part_library_find_uuid(library.pointer, uuid) else {
+            throw PartRegistrationError.backend("\(source): the part did not load")
+        }
+        let part = BackendCatalog.catalogPart(loaded.pointee) { Footprint($0.pointee) }
+            .listed(in: PartCategory.userLibrary)
+        if old.name != part.name { partsByName[old.name] = nil }
+        partsByName[part.name] = part
+        partsByUUID[uuid] = part
+        registeredTexts[uuid] = text
+        if let index = entries.firstIndex(where: { $0.uuid == uuid }) {
+            entries[index] = part
+        } else if !part.drawer.isEmpty {
+            entries.append(part)
+        }
+        derivedCache = nil
+        partUpdated?(uuid, part)
+        return part
     }
 
     /// Removes a part from the User Library: deletes its file and takes it out
