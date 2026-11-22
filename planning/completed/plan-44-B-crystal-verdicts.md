@@ -255,7 +255,7 @@ Commit: 0b7746de
 
 Acceptance: every specs row has a pinout the kind will accept.
   Check: `python3 -I planning/plan-44-data/census/pinout-check.py` → `<n> rows, 0 bad` with `<n>` = the `specs.tsv` rows (est. 5 min). Output 2026-11-22: `192 rows, 0 bad` (`awk 'END{print NR-1}' planning/plan-44-data/specs.tsv` → 192).
-Commit: —
+Commit: 75e68ccf
 
 ### Phase 4 — The final pick, the skips, the prune
 
@@ -296,7 +296,7 @@ Commit: —
 
 Acceptance: the pick is final, consistent and pruned.
   Check: `awk -F'\t' '$25=="add"' planning/plan-44-data/candidates.tsv \| wc -l` → the final pick (≤ 600, shortfall recorded); `python3 -I planning/plan-44-data/census/place.py --verify` → `0 missing, 0 unused`; `python3 -I planning/plan-44-data/census/final.py --verify-skipped` → `0 missing from skipped-parts.md`; `awk -F'\t' '!/^#/' planning/plan-44-data/footprints-needed.txt \| awk -F'\t' '{s+=$8} END{print s}'` → the same number (est. 5 min). Output 2026-11-22: `600`; `0 missing, 0 unused` (with the candidates path); `34 skip rows, 0 missing from skipped-parts.md`; `600`.
-Commit: —
+Commit: 75e68ccf
 
 ## Validation Plan
 

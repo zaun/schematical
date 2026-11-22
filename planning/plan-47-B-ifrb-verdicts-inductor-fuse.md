@@ -22,7 +22,7 @@ References:
   `flags`).
 - `planning/completed/plan-40-B-transistor-verdicts.md` and
   `planning/plan-40-data/census/` (`scheme-check.py`, `verdicts.py`,
-  `pinout-check.py`: the scripts B adapts); `planning/plan-44-B-crystal-verdicts.md`
+  `pinout-check.py`: the scripts B adapts); `planning/completed/plan-44-B-crystal-verdicts.md`
   (the same method on two-terminal parts).
 - plan-47-I § 3.1 (the `inductor` and `fuse` kinds' keys: the facts B must
   deliver).
