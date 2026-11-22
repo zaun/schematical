@@ -323,10 +323,36 @@ extension SchematicDocument {
         }
         var pinOfPad: [Int: String] = [:]
         for (key, list) in padsOfPin { for p in list { pinOfPad[p] = key } }
-        return BoardConnectivity(pads: pads, traces: copper, vias: vias,
-                                 root: parent.indices.map(find), netOfPad: netOfPad, planeNets: planeNets,
-                                 railNets: names.railNets, pinNets: names.pinNets, netNames: names.netNames,
-                                 netKeys: names.netKeys, pinOfPad: pinOfPad)
+        var result = BoardConnectivity(pads: pads, traces: copper, vias: vias,
+                                       root: parent.indices.map(find), netOfPad: netOfPad, planeNets: planeNets,
+                                       railNets: names.railNets, pinNets: names.pinNets, netNames: names.netNames,
+                                       netKeys: names.netKeys, pinOfPad: pinOfPad)
+        // A pour joins every node of its net that its fill touches (plan-52-D).
+        // The fill reads the nets as they are before it joins anything; a pour
+        // only joins nodes of one net, so it cannot change a net.
+        if !self.pours.isEmpty {
+            let plain = drawing == nil && excludingTraces.isEmpty && excludingVias.isEmpty
+            let fills = pourFills(for: result, plain: plain)
+            var traceNode: [UUID: Int] = [:], viaNode: [UUID: Int] = [:]
+            for (t, trace) in copper.enumerated() { traceNode[trace.id] = pads.count + t }
+            for (v, via) in vias.enumerated() { viaNode[via.id] = viaBase + v }
+            for pour in self.pours {
+                guard let fill = fills[pour.id] else { continue }
+                for group in fill.joined {
+                    let nodes: [Int] = group.compactMap { node in
+                        switch node {
+                        case let .pad(index): index < pads.count ? index : nil
+                        case let .trace(id): traceNode[id]
+                        case let .via(id): viaNode[id]
+                        }
+                    }
+                    for other in nodes.dropFirst() { union(nodes[0], other) }
+                }
+            }
+            result.root = parent.indices.map(find)
+            result.pourFills = fills
+        }
+        return result
     }
 
     /// A name for each of `nets`, by this priority: a supply symbol's part
@@ -560,12 +586,14 @@ nonisolated struct BoardConnectivity {
     let traces: [BoardTrace]
     let vias: [BoardVia]
     /// Each node's group: the node index of its root.
-    let root: [Int]
+    var root: [Int]
     /// The schematic net of each pad on one (pad index → net).
     let netOfPad: [Int: Int]
     /// The net each Plane layer carries, for the Planes that have one the
     /// schematic still has.
     var planeNets: [CopperLayer: Int] = [:]
+    /// The fill of each pour that has a net (plan-52), by the pour's id.
+    var pourFills: [UUID: PourFill] = [:]
     /// Each supply rail's net, by voltage in mV (0 is ground).
     var railNets: [UInt32: Int] = [:]
     /// The net of each part pin on one, by "<chip UUID>/<designator>": the

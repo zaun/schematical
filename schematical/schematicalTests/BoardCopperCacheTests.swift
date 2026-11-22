@@ -19,6 +19,8 @@ final class BoardCopperCacheTests: XCTestCase {
         XCTAssertEqual(kept.traces.map(\.id), fresh.traces.map(\.id), step, file: file, line: line)
         XCTAssertEqual(kept.vias.map(\.id), fresh.vias.map(\.id), step, file: file, line: line)
         XCTAssertEqual(kept.pads.map(\.pad), fresh.pads.map(\.pad), step, file: file, line: line)
+        XCTAssertEqual(kept.pourFills.mapValues(\.pieces.count), fresh.pourFills.mapValues(\.pieces.count), step,
+                       file: file, line: line)
         let lines = doc.ratsnest(), freshLines = doc.ratsnest(in: fresh)
         XCTAssertEqual(lines.map(\.0), freshLines.map(\.0), step, file: file, line: line)
         XCTAssertEqual(lines.map(\.1), freshLines.map(\.1), step, file: file, line: line)
@@ -29,6 +31,10 @@ final class BoardCopperCacheTests: XCTestCase {
         let doc = try Fixture.open("AFU")
         assertFresh(doc, "opened")
         let before = doc.ratsnest().count
+
+        // A pour over the whole board, so every later edit is checked with it present.
+        XCTAssertNotNil(doc.addPour(rect: CGRect(x: 0, y: 0, width: doc.board.width, height: doc.board.height), layer: .top))
+        assertFresh(doc, "pour added")
 
         // A footprint moved well away: its pads move, its traces let go.
         let chip = try XCTUnwrap(doc.chips.first { $0.board != nil && !$0.boardPads.isEmpty })

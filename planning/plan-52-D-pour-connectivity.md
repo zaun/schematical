@@ -28,7 +28,7 @@ The shared gate is in plan-52-A. This sub-plan adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-52-C is complete | `ls planning/completed \| grep -c '^plan-52-C'` → 1 | NOT MET (2026-11-21: 0; A–C are not started) |
+| plan-52-C is complete | `ls planning/completed \| grep -c '^plan-52-C'` → 1 | MET (2026-11-21: plan-52-C landed as 9d09816b) |
 
 Everything below is written against the world where this holds.
 
@@ -131,48 +131,48 @@ connectivity used; *refilling on every gesture frame*: 24–275 ms per frame on 
 
 ### Phase 1 — The adapter and the join in a plain build
 
-- [ ] `Canvas/PourConnectivity.swift`: `pourCopper(for:)` and `pourFills(for:plain:)` as § 4 (plain rows of the table only).
-- [ ] `Ratsnest.swift`: `pourFills`, `pourNet(of:)`, `root` rebuilt after the join; after the plane join (`:323`), if `!pours.isEmpty`: provisional
+- [x] `Canvas/PourConnectivity.swift`: `pourCopper(for:)` and `pourFills(for:plain:)` as § 4 (plain rows of the table only).
+- [x] `Ratsnest.swift`: `pourFills`, `pourNet(of:)`, `root` rebuilt after the join; after the plane join (`:323`), if `!pours.isEmpty`: provisional
       `BoardConnectivity`, fills, `union` of each `joined` list (map `PourNode` → node index; skip unknown), final struct with `pourFills`.
-- [ ] Tests: new `schematicalTests/PourConnectivityTests.swift`, using `PlaneNetTests`' two-LED board (copy its private `board()` helper): (a) a
+- [x] Tests: new `schematicalTests/PourConnectivityTests.swift`, using `PlaneNetTests`' two-LED board (copy its private `board()` helper): (a) a
       ground pour over the whole 4-layer board on Top: `ratsnest().count` drops from 2 to 1 (the anodes stay) and the two cathode pads share a
       `root`; (b) the same pour on net `5V` joins no pad; (c) a pour with no net joins nothing; (d) a keep-out over one LED's cathode pad
       (on Top) leaves that pad unjoined: `ratsnest().count` is 2; (e) a pour on Bottom joins through-hole pads (they are on every layer);
       (f) undo of `addPour` restores `ratsnest().count == 2`; (g) a pour never changes `netOfPad`.
 
 Acceptance: (a)–(g) hold.
-  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/PourConnectivityTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/PourConnectivityTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min). Observed (all three phases' suites, one run): `Executed 54 tests, with 0 failures`, `** TEST SUCCEEDED **`.
+Commit: COMMIT_D
 
 ### Phase 2 — Kept fills, gestures and the other builds
 
-- [ ] `Ratsnest.swift`/`SchematicModel.swift`: `keptPourFills: (revision: Int, pours: [BoardPour], keepouts: [BoardKeepout], fills: [UUID: PourFill])?`;
+- [x] `Ratsnest.swift`/`SchematicModel.swift`: `keptPourFills: (revision: Int, pours: [BoardPour], keepouts: [BoardKeepout], fills: [UUID: PourFill])?`;
       the full table of § 3 in `pourFills(for:plain:)`; `endGesture()` bumps `copperRevision` when `!pours.isEmpty`.
-- [ ] Tests (`PourConnectivityTests`): (h) inside `beginGesture`, moving a footprint (a frame) does not call the filler (count the calls with a
+- [x] Tests (`PourConnectivityTests`): (h) inside `beginGesture`, moving a footprint (a frame) does not call the filler (count the calls with a
       static counter on `PourFiller`, reset per test) and `endGesture()` then the next `connectivity()` calls it once; (i) inside a gesture,
       `setPourRect` makes the next `connectivity()` call it; (j) `connectivity(excludingTraces: [UUID()])` equals `connectivity()` field by field
       with a pour present (extend `BoardCopperCacheTests.assertFresh` to compare `pourFills.mapValues(\.pieces.count)` too); (k) a no-pour document:
       the filler is never called.
-- [ ] Extend `BoardCopperCacheTests.testKeptResultsFollowEveryEdit` with a pour added before the footprint move and checked with `assertFresh`.
+- [x] Extend `BoardCopperCacheTests.testKeptResultsFollowEveryEdit` with a pour added before the footprint move and checked with `assertFresh`.
 
 Acceptance: (h)–(k) hold and the extended cache test passes.
-  Check: `xcodebuild … test -only-testing:schematicalTests/PourConnectivityTests -only-testing:schematicalTests/BoardCopperCacheTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min).
-Commit: —
+  Check: `xcodebuild … test -only-testing:schematicalTests/PourConnectivityTests -only-testing:schematicalTests/BoardCopperCacheTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min). Observed: as Phase 1.
+Commit: COMMIT_D
 
 ### Phase 3 — The router and the rest see it
 
-- [ ] Test `PourConnectivityTests` (l): on the two-LED board with a Top ground pour, `RoutingProblemBuilder`'s problem for the ground net has
+- [x] Test `PourConnectivityTests` (l): on the two-LED board with a Top ground pour, `RoutingProblemBuilder`'s problem for the ground net has
       one component (build it as `RoutingProblemTests.testNetsScopeGivesThatNet` does) and no problem net for ground is routable; without the pour it has two.
-- [ ] Test (m): `designRuleCheck` of the same board reports no `.unrouted` issue for ground with the pour, one without it (`DesignRuleCheckTests` style).
-- [ ] If either fails because a reader of `root` ignores `pourFills`, fix the reader; record it under Corrections.
+- [x] Test (m): `designRuleCheck` of the same board reports no `.unrouted` issue for ground with the pour, one without it (`DesignRuleCheckTests` style).
+- [x] If either fails because a reader of `root` ignores `pourFills`, fix the reader; record it under Corrections.
 
 Acceptance: (l) and (m) hold.
-  Check: `xcodebuild … test -only-testing:schematicalTests/PourConnectivityTests -only-testing:schematicalTests/RoutingProblemTests -only-testing:schematicalTests/DesignRuleCheckTests -only-testing:schematicalTests/PlaneNetTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 9 min).
-Commit: —
+  Check: `xcodebuild … test -only-testing:schematicalTests/PourConnectivityTests -only-testing:schematicalTests/RoutingProblemTests -only-testing:schematicalTests/DesignRuleCheckTests -only-testing:schematicalTests/PlaneNetTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 9 min). Observed: as Phase 1 (`PourConnectivityTests` 11 cases, `BoardCopperCacheTests`, `PlaneNetTests`, `RoutingProblemTests`, `DesignRuleCheckTests`, `NetListTests`).
+Commit: COMMIT_D
 
 ## Validation Plan
 
-- Tests: `PourConnectivityTests` (new, 13 cases), `BoardCopperCacheTests` (extended), `PlaneNetTests`, `RoutingProblemTests`, `DesignRuleCheckTests` (unchanged, must pass).
+- Tests: `PourConnectivityTests` (new, 11 cases), `BoardCopperCacheTests` (extended), `PlaneNetTests`, `RoutingProblemTests`, `DesignRuleCheckTests` (unchanged, must pass).
 - Coverage check: `grep -c "pourFills" schematical/schematical/Canvas/Ratsnest.swift` → at least 4, all exercised by `PourConnectivityTests`.
 - Runtime proof: plan-52-E (the first screen).
 - Doc sync: `docs/routing.md` § (the fan-out to Planes row, line 70) gets one sentence: a net a pour joins needs no route there.
@@ -186,7 +186,10 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- The suite has 11 cases, not 13: (a)–(g) of Phase 1 became five tests (`testGroundPourOnTopJoinsTheGroundPads` holds (a) and (g); `testAPourOnAnotherNetJoinsNoPad` holds (b) and (c)), and (h)–(k) four. `grep -c "func test" schematical/schematicalTests/PourConnectivityTests.swift` → 11.
+- The two-LED board of `PlaneNetTests` leaves the footprints where the app puts them, which is off a 100 × 80 mm board; the pour tests move them to (30, 40) and (60, 40) first, as `RoutingProblemTests.wiredPair` does. Without that the pour's fill touched no pad and every case failed.
+- Test (m)'s "no `.unrouted` line" is asserted as one fewer `.unrouted` issue (the anodes stay unrouted), and (l) as the ground net being absent from `routingProblem(…).nets` (a net with one component has nothing to route).
+- Phase 3's "fix the reader if it ignores `pourFills`" did not trigger: the router, the DRC and `netGroups` read `root`, which carries the join.
 
 ## Summary
 

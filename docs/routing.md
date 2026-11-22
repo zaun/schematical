@@ -67,7 +67,7 @@ Every option is `RoutingOptions` (`Routing/RoutingOptions.swift`); all but
 | Grid (`grid`) | 0.05, 0.1, 0.127, 0.254 mm | 0.127 mm (5 mil) | The search grid; 0.127 divides the 0.635 mm component grid. Pad centres are mostly *not* on it all the same (a pad's centre is where its footprint puts it: 121 of AFU's 168, 245 of LFU's 247 and all 32 of RegFile's are off), so a trace's last leg to a pad is made straight afterwards (cleanup, below). |
 | Width (`widthOverride`) | mil, or off | off | Every net this width instead of its class's. |
 | Clearance (`clearanceOverride`) | mm, or off | off | Every net this clearance instead of its class's (never under the DRC's). |
-| Fan out to Planes (`fanoutPlanes`) | on/off | on | A pad of a net that a Plane layer carries gets a short trace and a via to the plane instead of a route. |
+| Fan out to Planes (`fanoutPlanes`) | on/off | on | A pad of a net that a Plane layer carries gets a short trace and a via to the plane instead of a route. A pad a copper pour joins (its net, touched by the pour's fill) is already connected and needs no route either. |
 | Tune length groups (`tuneGroups`) | on/off | on | Length-match groups are tuned after routing. |
 | Route pairs side by side (`routePairs`) | on/off | on | Differential pairs are routed coupled. |
 | — (`seed`) | integer, not in the sheet | 1 | Kept in saved options; it no longer changes the result (the runs of Balanced and Thorough differ by what a via costs the first routing, not by seed). Same board and options, same copper. |

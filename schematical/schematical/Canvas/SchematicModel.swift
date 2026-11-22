@@ -1348,6 +1348,9 @@ final class SchematicDocument {
     /// The last `connectivity()` and `ratsnest()`, and the `copperRevision`
     /// they were built at (see Ratsnest.swift).
     @ObservationIgnored var keptConnectivity: (revision: Int, copper: BoardConnectivity)?
+    /// The last pour fills, with the pours and keep-outs they were made for (plan-52-D).
+    @ObservationIgnored var keptPourFills: (revision: Int, pours: [BoardPour], keepouts: [BoardKeepout],
+                                            fills: [UUID: PourFill])?
     @ObservationIgnored var keptRatsnest: (revision: Int, lines: [(CGPoint, CGPoint)])?
     @ObservationIgnored private var keptChipPads: (revision: Int, pads: [[PlacedPad]])?
     @ObservationIgnored private var keptVoltageIssues: (revision: Int, issues: Set<VoltageIssue>)?
@@ -1947,6 +1950,8 @@ final class SchematicDocument {
     func endGesture() {
         guard isGestureOpen else { return }
         isGestureOpen = false
+        // The pours were not refilled while the drag moved what they read.
+        if !pours.isEmpty { copperRevision &+= 1 }
         recordingDepth -= 1
         if recordingDepth == 0 { finishRecording() }
     }

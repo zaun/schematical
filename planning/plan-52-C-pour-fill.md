@@ -150,7 +150,7 @@ round caps and joins. Pad metal: `PCBCanvasView.outline(of:)`. Via metal: its ci
 
 Acceptance: each of (a)–(g) asserts the copper present and absent at the points named.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/PourFillTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min). Observed (Phases 1–3 in one run): `Executed 16 tests, with 0 failures`, `** TEST SUCCEEDED **`.
-Commit: COMMIT_C
+Commit: 9d09816b
 
 ### Phase 2 — Thermal reliefs, same-net merge, islands, minimum width, joins
 
@@ -166,7 +166,7 @@ Commit: COMMIT_C
 
 Acceptance: (a)–(g) hold, in particular the spoke and gap points of (a).
   Check: `xcodebuild … test -only-testing:schematicalTests/PourFillTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min). Observed: as Phase 1.
-Commit: COMMIT_C
+Commit: 9d09816b
 
 ### Phase 3 — Real board, time budget
 
@@ -179,7 +179,7 @@ Commit: COMMIT_C
 
 Acceptance: elapsed < 2 s and no other-net sample point inside any piece.
   Check: `xcodebuild … test -only-testing:schematicalTests/PourFillTests/testFillOfARealRoutedBoard CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 5 min). Observed: the 0.043 s fill of `examples/slow PCB.schematical` (a ground pour over the whole board on Top and on Bottom, Debug build) was printed by the test: `PourFillTests: real board fill took 0.04277 s, pieces [1, 1]`.
-Commit: COMMIT_C (measured time: 0.043 s)
+Commit: 9d09816b (measured time: 0.043 s)
 
 ## Validation Plan
 
