@@ -30,9 +30,9 @@ plan-44-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-44-A complete | `ls planning/completed/plan-44-A-*.md` → exists | NOT MET (2026-11-16: not started) |
-| Every download-set row is stock-checked | `awk -F'\t' '$25!="out" && NR>1 && $31==""' planning/plan-44-data/candidates.tsv \| wc -l` → 0 | NOT MET (2026-11-16: 744, no row checked yet) |
-| The PDFs are placed | `python3 -I planning/plan-44-data/census/place.py --verify` → `0 missing, 0 unused` | NOT MET (2026-11-16: no PDF placed yet) |
+| plan-44-A complete | `ls planning/completed/plan-44-A-*.md` → exists | MET (2026-11-22: `planning/completed/plan-44-A-crystal-data.md`) |
+| Every download-set row is stock-checked | `awk -F'\t' '$25!="out" && NR>1 && $31==""' planning/plan-44-data/candidates.tsv \| wc -l` → 0 | MET (2026-11-22: `0`) |
+| The PDFs are placed | `python3 -I planning/plan-44-data/census/place.py --verify planning/plan-44-data/candidates.tsv` → `0 missing, 0 unused` | MET (2026-11-22: `0 missing, 0 unused`; the command needs the candidates path as its argument, Corrections 1) |
 
 Everything below is written against the world where these hold.
 
@@ -181,17 +181,31 @@ a hand check) and the DigiKey part number itself.
 
 ### Phase 1 — Ordering-code schemes and facts
 
-- [ ] Write `scheme` (and `hzmap`, `page`, `hz_range`, `loads`, `tols`,
+- [x] Write `scheme` (and `hzmap`, `page`, `hz_range`, `loads`, `tols`,
       `stabs`, `esr_max`) on every `specs.tsv` row from the placed PDF
       (`pdftotext -layout`); adapt `census/scheme-check.py` from
       `planning/plan-40-data/census/scheme-check.py` to the columns of
-      `candidates.tsv` (§ 3.1, § 3.4).
-- [ ] Run `scheme-check.py`; every row that fails is `skip` (`reason` as
+      `candidates.tsv` (§ 3.1, § 3.4). Done 2026-11-22: `census/specs.py`,
+      `scheme-check.py`, `spec-rows.py`, `assign.py`; six parallel readers
+      (`specs-parts/README.md` is their brief; fragments `abracon-1`,
+      `abracon-2`, `ecs-1`, `ecs-2`, `ecs-3`, `suntsu`) filled columns 7–17 of all
+      196 rows, merged by `assign.py --merge` (`merged 196 fragment rows, 196
+      with a scheme`); the pinout columns of Phase 3 were filled in the same
+      reading (Phase 3 checks them).
+- [x] Run `scheme-check.py`; every row that fails is `skip` (`reason` as
       § 3.1 / § 3.4). Print the `--sample` and compare 20 rows per maker with
-      their PDF by hand.
+      their PDF by hand. Output: `744 rows: 709 ok, 0 unchecked`; 35 skip
+      rows (34 `not in the datasheet's ordering table`, 1 `fact not in
+      datasheet`), written to `verdicts.tsv` (`--write`); hand check against
+      the PDFs: `SXT214-Series-1.pdf` (guide `SXT 21 4 18 A A 48 - 25.000M`
+      against the regex), `AWSCR-CPLB.pdf` (1.84–12.00 MHz, 0.5 % / 0.4 % /
+      0.2 %, impedance 100 Ω, options `C` capacitance, `T4`), `SAW212-Series.pdf`
+      (load code `12` is 12.5 pF), `ABS07.pdf` (options in the order height,
+      load, temperature, tolerance, packaging); the readers each checked the
+      20 sample rows of their fragment against the PDFs.
 
 Acceptance: every download-set row has a verdict on the ordering table and the facts.
-  Check: `python3 -I planning/plan-44-data/census/scheme-check.py` → `<n> rows: <k> ok, 0 unchecked`, then `python3 -I planning/plan-44-data/census/scheme-check.py --sample \| wc -l` → 60 (est. 5 min).
+  Check: `python3 -I planning/plan-44-data/census/scheme-check.py` → `<n> rows: <k> ok, 0 unchecked`, then `python3 -I planning/plan-44-data/census/scheme-check.py --sample \| wc -l` → 60 (est. 5 min). Output 2026-11-22: `744 rows: 709 ok, 0 unchecked`, `60`.
 Commit: —
 
 ### Phase 2 — Datasheet status
@@ -278,6 +292,55 @@ Commit: —
   `skip`, reason `no datasheet on the maker's site`.
 
 ## Corrections
+
+1. **`place.py --verify` takes the candidates path** (plan-44-A's script:
+   `place.py --verify planning/plan-44-data/candidates.tsv`); the Prerequisites
+   and Phase 4 commands name it without the path. After Phase 4 sets `add`
+   rows, `--verify` checks against those (below).
+2. **ESR units (A's data bug):** `common.read_raw` read DigiKey's `70 kOhms`
+   as 70, so 257 kHz-crystal rows carried `esr_ohm` in kΩ. Fixed in
+   `census/common.py` (`ohms()`) and in `candidates.tsv`
+   (`esr changed on 257 rows`); `esr_max` in `specs.tsv` is ohms.
+3. **Percent tolerances (A's data bug):** DigiKey spells a ceramic resonator's
+   tolerance and stability as `±0.5%` / `±0.3%`; `read_raw` stored 0.5 in a
+   column named `tol_ppm`. Fixed in `common.py` (`ppm()`: % × 10000; a `±75kHz`
+   tolerance is blank) and `candidates.tsv` (198 cells: 97 + 97 percent
+   cells and 4 kHz cells). `tols` / `stabs` of the resonator spec rows are
+   ppm (5000, 2000, 3000, 4000). The readers' extra raw percent numbers
+   (0.5, 0.3) were converted by script.
+4. **DigiKey rounds 12.5 pF to 12 on Suntsu's SAW212 / SAW312 / SWS102 /
+   SWS834 parts:** the part number's load code `12` is 12.5 pF
+   (`SAW212-Series.pdf` Part Numbering Guide, electrical table "6 … 12.5
+   pF"); 16 rows had `load_pf` 12.0 and would have been skipped for a
+   rounding. `candidates.tsv` `load_pf` is 12.5 on those 16 rows (the
+   datasheet is the authority).
+5. **FC1BS:** the part `FC1BSCBEM27.12-T3` is 27.12 MHz in its part number,
+   DigiKey lists 27,000,000 Hz; the scheme has a group `mhz` (new in
+   `specs.py`: a bare number in MHz / kHz in the part number is compared with
+   the row's `hz`; AWSCR / AWSZT use it too) so the row is `skip`
+   (`not in the datasheet's ordering table`) rather than carrying a wrong
+   frequency.
+6. **A datasheet's pad count beats the package text for ABSM3A:** the SMD
+   `HC-49/US` of `ABSM3A.pdf` has four pads (land pattern #1–#4), DigiKey's
+   Package / Case names none; `pinout-check.py` has a `DATASHEET_PADS`
+   exception. `footprint-lines.py` `label()` reads the pad count from the
+   package text only (`XTAL-HC49US-2` for these rows): C must take ABSM3A's
+   pad count from its `pinout` (Phase 4 note for C).
+7. **Looseness of the Abracon ABM / AB / ABLS regexes:** the options of those
+   families are written as a repeated group of the characters the table allows
+   (`(?:-(?:\d+(?:\.\d+)?|S|R\d+|…)){0,6}`), accepting the options in any
+   order and number, because the part numbers mix hyphenated and joined option
+   codes (`B2`, `B-2`, `D4Y`, `D4YF`). They still demand the series, the `hz`
+   group and the packing suffix, and the load, tolerance and stability of every
+   row are checked against the datasheet's sets (`loads`, `tols`, `stabs`), so
+   a part of another series, another frequency or an option the table does not
+   have is skipped.
+8. **Spec cells with a conservative reading:** `loads` is `*` for resonators
+   whose DigiKey load is blank and for series whose table says "specify CL"
+   with no range; 4-pad crystals whose pad table is an image were read from the
+   drawing (readers flagged ABC2 11.8x5.5, ABLSG, CSM-12, CSM-4A / 4AX,
+   ECX-3SX / 306X / 71, SAX324, SXTHM2: pads `1=X1,2=NC,3=X2,4=NC` or
+   `1=X1,2=NC,3=NC,4=X2` as drawn).
 
 ## Summary
 

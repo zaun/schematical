@@ -12,6 +12,8 @@ specs.tsv columns (one row per (maker, series, pdf, package) of the download set
               row's `hz`. A part number that spells its frequency as a code
               (`AWSCR-800CV`) names the group `hzc` and appends a map after
               `;`: `<regex>;800=8000000,455=455000` (the regex has no `;`).
+              A bare number in MHz (`AWSCR-8.00CV`) or kHz is a group named
+              `mhz` / `khz` (`(?P<mhz>[0-9]+[.][0-9]+)`), compared with the row's `hz`.
               `-` = the PDF has no ordering table (only a verbatim `hit` counts).
   label       the part's "package" family: SMD, HC-49/US, HC-49/U, HC-46/X,
               SOJ, Cylinder (docs/parts-format.md forbids sizes and pin counts)
@@ -96,6 +98,10 @@ def matches(spec, row):
     if groups.get('hzc') is not None:
         hz = table.get(groups['hzc'])
         return hz is not None and (want is None or same_hz(hz, want))
+    for name, factor in (('mhz', 1e6), ('khz', 1e3)):
+        if groups.get(name) is not None:     # a bare number in MHz / kHz (`AWSCR-8.00CV`)
+            hz = float(groups[name]) * factor
+            return want is None or same_hz(hz, want)
     return True
 
 

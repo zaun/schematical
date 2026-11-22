@@ -36,6 +36,18 @@ def num(text):
     return float(m.group(1)) if m else None
 
 
+def ppm(text):
+    """`±20ppm` -> 20.0, `±0.5%` -> 5000.0 (a ceramic resonator's tolerance is a percentage);
+    `±75kHz` and `-` -> None (an absolute frequency has no ppm without the frequency)."""
+    text = text or ''
+    if re.search(r'kHz', text, re.I):
+        return None
+    v = num(text)
+    if v is not None and '%' in text:
+        v = round(v * 10000, 6)
+    return v
+
+
 def ohms(text):
     """`70 kOhms` -> 70000.0, `60 Ohms` -> 60.0 (DigiKey spells a kHz crystal's ESR in kOhms)."""
     v = num(text)
@@ -75,8 +87,8 @@ def read_raw(raw):
                 'mpn': d['mpn'], 'maker': MAKERS[d['makerId']], 'class': cls, 'series': d['series'],
                 'stock': d['stock'], 'status': d['status'], 'hz': hz_of(p.get('Frequency')),
                 'load_pf': num(p.get('Load Capacitance', '')) if 'pF' in p.get('Load Capacitance', '') else '',
-                'tol_ppm': num(p.get('Frequency Tolerance', '')),
-                'stab_ppm': num(p.get('Frequency Stability', '')),
+                'tol_ppm': ppm(p.get('Frequency Tolerance', '')),
+                'stab_ppm': ppm(p.get('Frequency Stability', '')),
                 'esr_ohm': ohms(p.get('ESR (Equivalent Series Resistance)', p.get('Impedance', ''))),
                 'temp': p.get('Operating Temperature', ''), 'mounting': p.get('Mounting Type', ''),
                 'package': p.get('Package / Case', ''),

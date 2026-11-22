@@ -21,6 +21,13 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import specs  # noqa: E402
 
 
+# The datasheet shows a pad count the DigiKey Package / Case text does not name
+# (plan-44-B Corrections): (maker, series, DigiKey package) -> pad counts.
+DATASHEET_PADS = {
+    ('Abracon', 'ABSM3A', 'HC-49/US'): {4},   # an SMD HC-49/US with four pads (ABSM3A.pdf, land pattern #1-#4)
+}
+
+
 def check(s):
     errors = []
     if s['label'] not in specs.LABELS:
@@ -47,7 +54,7 @@ def check(s):
         errors.append('more than one GND pin')
     if s['capacitors'] == '1' and 'GND' not in names:
         errors.append('built-in capacitors but no GND pad')
-    counts = specs.pad_counts(s['package'])
+    counts = DATASHEET_PADS.get((s['maker'], s['series'], s['package'])) or specs.pad_counts(s['package'])
     if counts and len(names) not in counts:
         errors.append(f"{len(names)} pins, the package names {sorted(counts)}")
     return errors
