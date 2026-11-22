@@ -407,6 +407,8 @@ extension AutomationTools {
             case let .trace(id): return "trace:\(context.short(id))"
             case let .via(id): return "via:\(context.short(id))"
             case let .hole(id): return "hole:\(context.short(id))"
+            case let .pour(id): return "pour:\(context.short(id))"
+            case let .keepout(id): return "keepout:\(context.short(id))"
             }
         }
         let schematic = document.schematicSelection.items.map(name).sorted()

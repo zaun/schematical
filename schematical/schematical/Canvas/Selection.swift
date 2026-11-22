@@ -24,6 +24,9 @@ nonisolated enum BoardItem: Hashable, Sendable {
     case trace(UUID)
     case via(UUID)
     case hole(UUID)
+    /// A copper pour or a keep-out (plan-52).
+    case pour(UUID)
+    case keepout(UUID)
 }
 
 // MARK: - Selection set
@@ -172,12 +175,17 @@ nonisolated struct BoardGroupBase: Equatable {
     var vias: [UUID: CGPoint] = [:]
     /// Selected holes' centres.
     var holes: [UUID: CGPoint] = [:]
+    /// Selected pours' and keep-outs' rectangles.
+    var pours: [UUID: CGRect] = [:]
+    var keepouts: [UUID: CGRect] = [:]
     /// Where the drag took hold (board mm), if known. A lone trace snaps
     /// the end nearest it to the trace grid.
     var grab: CGPoint?
 
     var isEmpty: Bool { count == 0 }
-    var count: Int { footprints.count + texts.count + traces.count + vias.count + holes.count }
+    var count: Int {
+        footprints.count + texts.count + traces.count + vias.count + holes.count + pours.count + keepouts.count
+    }
 }
 
 extension OrthogonalRoute {

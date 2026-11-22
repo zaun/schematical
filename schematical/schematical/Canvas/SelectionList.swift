@@ -72,6 +72,14 @@ enum SelectionRows {
             rows.append(SelectionRow(item: .hole(hole.id), title: "Hole",
                                      detail: size + (hole.plated ? ", plated" : "")))
         }
+        for pour in document.pours where selection.contains(.pour(pour.id)) {
+            let net = pour.net.flatMap { net in document.planeNetChoices().first { $0.net == net }?.title } ?? "no net"
+            rows.append(SelectionRow(item: .pour(pour.id), title: "Pour", detail: "\(net) on \(pour.layer.title)"))
+        }
+        for keepout in document.keepouts where selection.contains(.keepout(keepout.id)) {
+            rows.append(SelectionRow(item: .keepout(keepout.id), title: "Keep-out",
+                                     detail: keepout.layers == nil ? "All layers" : "Some layers"))
+        }
         return rows
     }
 

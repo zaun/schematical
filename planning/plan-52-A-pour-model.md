@@ -49,7 +49,7 @@ These are a precondition on the whole of plan-52, stated once here.
 | plan-50 is complete (its `board.stackup` is already in the file; plan-52 adds keys beside it) | `ls planning/completed \| grep -c '^plan-50-[A-F]'` → 6 | MET (2026-11-21: 6) |
 | Xcode builds and tests the app | `xcodebuild -version` → `Xcode 26.3` or later; `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD build CODE_SIGNING_ALLOWED=NO` → `** BUILD SUCCEEDED **` | MET (2026-11-21: `Xcode 26.3`; the build succeeded with the other session's uncommitted edits in the tree) |
 | KiCad 10's CLI and python are installed (plan G checks against them) | `ls ~/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli` → the path | MET (2026-11-21) |
-| the files plan-52 edits have no uncommitted changes of another session | `git status --porcelain -- schematical/schematical/Canvas/SchematicModel.swift schematical/schematical/Document/SchematicFile.swift schematical/schematical/Automation/AutomationRead.swift docs/file-format.md docs/export.md docs/agent-control.md` → no output | NOT MET (2026-11-21, re-run when `/follow-plan 52` was invoked: all six still show ` M`; they are another session's work, to be committed or finished before this plan edits the same files) |
+| the files plan-52 edits have no uncommitted changes of another session | `git status --porcelain -- schematical/schematical/Canvas/SchematicModel.swift schematical/schematical/Document/SchematicFile.swift schematical/schematical/Automation/AutomationRead.swift docs/file-format.md docs/export.md docs/agent-control.md` → no output | MET (2026-11-21: the other session's work was committed as 3ce1582f; the tree is clean) |
 
 Everything below is written against the world where these hold. `$DD` in the checks is a scratch derived-data folder (any empty
 directory).
@@ -185,55 +185,55 @@ when `planeNetChoices()` offers it, else none.
 
 ### Phase 1 — The value types
 
-- [ ] Add `Canvas/BoardPour.swift` with `PourConnection`, `BoardPour`, `BoardKeepout` exactly as § 4, plus static ranges, `normalized(_ rect:)`
+- [x] Add `Canvas/BoardPour.swift` with `PourConnection`, `BoardPour`, `BoardKeepout` exactly as § 4, plus static ranges, `normalized(_ rect:)`
       (positive size, each side at least `minimumSide`), and `static func problem(rect:…)` returning a sentence for a value outside
       its range (the file's validator uses it in plan-52-B).
-- [ ] Tests: new `schematicalTests/PourModelTests.swift`: defaults, ranges, `normalized` of a reversed and a too-small rect,
+- [x] Tests: new `schematicalTests/PourModelTests.swift`: defaults, ranges, `normalized` of a reversed and a too-small rect,
       `applies(to:)` with nil and a set.
 
 Acceptance: the types compile with the defaults and ranges of § 4 and the tests assert each.
-  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/PourModelTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/PourModelTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min). Observed: `Executed 4 tests, with 0 failures`, 62 s on a cold `$DD` in the worktree.
+Commit: see Phase 3's (landed together)
 
 ### Phase 2 — Document state, undo and the selection item
 
-- [ ] `SchematicModel.swift`: add `private(set) var pours: [BoardPour] = [] { didSet { copperRevision &+= 1 } }` and the same for
+- [x] `SchematicModel.swift`: add `private(set) var pours: [BoardPour] = [] { didSet { copperRevision &+= 1 } }` and the same for
       `keepouts` beside `holes` (`:1753`); add both to the designated init (`:1787`), `state` (`:1846`) and `setState` (`:1863`).
-- [ ] `UndoHistory.swift`: `DocumentState.pours`/`keepouts`; `UndoKey.pour(UUID)`, `.keepout(UUID)` (pages `[.pcb]`);
+- [x] `UndoHistory.swift`: `DocumentState.pours`/`keepouts`; `UndoKey.pour(UUID)`, `.keepout(UUID)` (pages `[.pcb]`);
       `UndoValue.pour(BoardPour, index:)`, `.keepout(BoardKeepout, index:)`; one `diff(…)` line each in `UndoDiff.changes` and one
       `place(…)` line each in `apply`, as for holes.
-- [ ] `Selection.swift`: `BoardItem.pour(UUID)`, `.keepout(UUID)`; `BoardGroupBase` gets `pours: [UUID: CGRect]` and
+- [x] `Selection.swift`: `BoardItem.pour(UUID)`, `.keepout(UUID)`; `BoardGroupBase` gets `pours: [UUID: CGRect]` and
       `keepouts: [UUID: CGRect]` (rects at drag start) and counts them.
-- [ ] Make every switch the compiler flags handle the two cases (the measured grep finds 8 files with `.hole` cases; some are not `BoardItem` switches): `isLocked`/`setLocked`, `boardGroupBase`,
+- [x] Make every switch the compiler flags handle the two cases (the measured grep finds 8 files with `.hole` cases; some are not `BoardItem` switches): `isLocked`/`setLocked`, `boardGroupBase`,
       `moveBoardGroup` (each rect moves by the snapped delta; a locked one stays), `deleteBoardSelection`, `pruneSelection`,
       `SelectionList.swift` rows (titles "Pour" with detail "GND on Top" style text from the net and layer, and "Keep-out"),
       `AutomationRead.swift` and `AutomationSchematic.swift` item names `pour:ID` / `keepout:ID` (`:813`, `:851`), `DesignRuleCheck.swift`
       (no issue yet), and `PCBCanvasView.swift` (the selection ring draws the rect). `PCBSidebarView.swift` needs no case: its `Content` is its
       own enum, and a selected pour or keep-out falls into `.selection`, the Selection list, until plan-52-F (nothing can select one before plan-52-E).
-- [ ] Tests: in `PourModelTests`: a pour added then undone and redone leaves `pours` equal each time; a keep-out likewise; a step that
+- [x] Tests: in `PourModelTests`: a pour added then undone and redone leaves `pours` equal each time; a keep-out likewise; a step that
       changes a pour and a hole undoes both on the PCB page.
 
 Acceptance: the app builds with both cases handled everywhere the compiler flags, and undo/redo restores the arrays.
-  Check: `xcodebuild … test -only-testing:schematicalTests/PourModelTests -only-testing:schematicalTests/PCBUndoTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min; `PCBUndoTests` proves the hole undo path still works beside the new keys).
-Commit: —
+  Check: `xcodebuild … test -only-testing:schematicalTests/PourModelTests -only-testing:schematicalTests/PCBUndoTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min; `PCBUndoTests` proves the hole undo path still works beside the new keys). Observed with Phase 3's suites in one run: `Executed 61 tests, with 0 failures`, `** TEST SUCCEEDED **`.
+Commit: see Phase 3's (landed together)
 
 ### Phase 3 — The edit API and the layer guards
 
-- [ ] `SchematicModel.swift`, a `// MARK: Pours and keep-outs (PCB)` section after Holes: `addPour(rect:layer:)` (rect snapped
+- [x] `SchematicModel.swift`, a `// MARK: Pours and keep-outs (PCB)` section after Holes: `addPour(rect:layer:)` (rect snapped
       and normalized, takes the last pour's settings and the net rule in § 4, selects it, undo name "Add Pour"), `movePour`,
       `setPourRect` ("Move" / "Resize"), `setPourLayer` (only a layer in `board.traceLayers`), `setPourNet`
       ("Change Pour Net"), `setPourClearance` (clamped, nil clears), `setPourConnection`, `setPourThermalGap`, `setPourSpokeWidth`,
       `setPourMinWidth` (each clamped to its range, "Change Pour"), `deletePour`; `addKeepout(rect:layers:)`, `setKeepoutRect`,
       `setKeepoutLayers`, `deleteKeepout`. Each guards a missing id, a locked item for moves, and an unchanged value (no step).
-- [ ] `canSetLayerType`: `"Move or delete this layer's pours first."` when `type == .plane` and a pour is on it; `canSetLayerCount`:
+- [x] `canSetLayerType`: `"Move or delete this layer's pours first."` when `type == .plane` and a pour is on it; `canSetLayerCount`:
       `"Delete or move the pours on \(layer.title) first."` for a dropped layer that holds a pour. A keep-out's `layers` may name a
       dropped layer; it is kept and ignored.
-- [ ] Tests: `PourModelTests` for each setter (clamping, unchanged = no step, locked), the net rule for a new pour, and
+- [x] Tests: `PourModelTests` for each setter (clamping, unchanged = no step, locked), the net rule for a new pour, and
       `BoardLayersTests` for both refusals.
 
 Acceptance: each setter's undo name and result are asserted; both refusals return their sentence.
-  Check: `xcodebuild … test -only-testing:schematicalTests/PourModelTests -only-testing:schematicalTests/BoardLayersTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min).
-Commit: —
+  Check: `xcodebuild … test -only-testing:schematicalTests/PourModelTests -only-testing:schematicalTests/BoardLayersTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min). Observed: `Executed 61 tests, with 0 failures`, `** TEST SUCCEEDED **`.
+Commit: COMMIT_A
 
 ## Validation Plan
 
@@ -241,7 +241,7 @@ Commit: —
 - Coverage check: `grep -c "pour" schematical/schematical/Canvas/UndoHistory.swift` → at least 8 (the keys, values, diff and place lines are in the suite's reach).
 - Runtime proof: none; nothing user-visible until plan-52-E.
 - Doc sync: none here; the file format is plan-52-B's.
-- Final gate (once, after Phase 3): `xcodebuild … test -only-testing:schematicalTests/PourModelTests -only-testing:schematicalTests/BoardLayersTests -only-testing:schematicalTests/PCBUndoTests -only-testing:schematicalTests/BoardCopperCacheTests -only-testing:schematicalTests/HoleTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 9 min).
+- Final gate (once, after Phase 3): `xcodebuild … test -only-testing:schematicalTests/PourModelTests -only-testing:schematicalTests/BoardLayersTests -only-testing:schematicalTests/PCBUndoTests -only-testing:schematicalTests/BoardCopperCacheTests -only-testing:schematicalTests/HoleTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 9 min). Observed: `Executed 70 tests, with 0 failures`, `** TEST SUCCEEDED **`.
 
 ## Decisions
 
@@ -255,7 +255,10 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- § 2 / Phase 2 named "the designated init (`:1787`)": the document has no such init for these arrays; the place that takes them is `replaceContents(…)`, which now has `pours:` and `keepouts:` parameters (plan-52-B's open path passes them). Evidence: `grep -n "func replaceContents" schematical/schematical/Canvas/SchematicModel.swift`.
+- Phase 2 named `PCBSidebarView.swift` among the switches to extend; its `Content` is its own enum and nothing there switches over `BoardItem`, so no change was needed (already corrected in the plan text).
+- A rectangle added or resized is snapped by both its edges to the trace grid, so its size is the dragged size to within one grid step (`PourModelTests.testPourRectMoveAndResize`: 20 × 15 mm became 20.0025 × 15.24 mm on the 0.3175 mm grid). § 4 said only "moved and sized on the trace grid"; plan-52-E's "snapped to the trace grid" is the same behavior.
+- A group drag moves a pour by the board-grid-snapped delta from where it was, so its origin stays on the trace grid it was snapped to at the start (`testGroupDragMovesRectsByTheSnappedDelta`).
 
 ## Summary
 

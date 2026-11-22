@@ -1728,6 +1728,7 @@ final class SchematicDocument {
         }
         let footprints = Set(chips.filter { $0.board != nil }.map(\.id))
         let traceIDs = Set(traces.map(\.id)), viaIDs = Set(vias.map(\.id)), holeIDs = Set(holes.map(\.id))
+        let pourIDs = Set(pours.map(\.id)), keepoutIDs = Set(keepouts.map(\.id))
         boardSelection.filter { item in
             switch item {
             case let .footprint(id): footprints.contains(id)
@@ -1735,6 +1736,8 @@ final class SchematicDocument {
             case let .trace(id): traceIDs.contains(id)
             case let .via(id): viaIDs.contains(id)
             case let .hole(id): holeIDs.contains(id)
+            case let .pour(id): pourIDs.contains(id)
+            case let .keepout(id): keepoutIDs.contains(id)
             }
         }
     }
@@ -1751,6 +1754,11 @@ final class SchematicDocument {
     /// Drilled holes on the PCB (mounting holes and others), in drawing
     /// order.
     private(set) var holes: [BoardHole] = [] { didSet { copperRevision &+= 1 } }
+    /// Copper pours (plan-52), in drawing order: a pour fills before the
+    /// ones after it, and gives way to the ones before it.
+    private(set) var pours: [BoardPour] = [] { didSet { copperRevision &+= 1 } }
+    /// Keep-outs (plan-52): rectangles the pours stay out of.
+    private(set) var keepouts: [BoardKeepout] = [] { didSet { copperRevision &+= 1 } }
 
     /// Lowest number tried for the next part's reference ("U" plus a number).
     private(set) var nextReference = 1
@@ -1785,6 +1793,7 @@ final class SchematicDocument {
     func replaceContents(chips: [PlacedChip], wires: [Wire], junctions: [Junction], buses: [Bus],
                          nextReference: Int, board: BoardSettings, texts: [BoardText],
                          traces: [BoardTrace], vias: [BoardVia] = [], holes: [BoardHole] = [],
+                         pours: [BoardPour] = [], keepouts: [BoardKeepout] = [],
                          notes: [SchematicNote] = [], netLabels: [NetLabel] = []) {
         self.chips = chips
         self.notes = notes
@@ -1805,6 +1814,8 @@ final class SchematicDocument {
         self.traces = traces
         self.vias = vias
         self.holes = holes
+        self.pours = pours
+        self.keepouts = keepouts
         editingNoteID = nil
         clearAllSelections()
         editorMessage = nil
@@ -1843,7 +1854,8 @@ final class SchematicDocument {
     /// The saved part of the document, as a value.
     var state: DocumentState {
         DocumentState(chips: chips, wires: wires, junctions: junctions, buses: buses, notes: notes,
-                      netLabels: netLabels, nextReference: nextReference, board: board, texts: texts, traces: traces, vias: vias, holes: holes)
+                      netLabels: netLabels, nextReference: nextReference, board: board, texts: texts, traces: traces, vias: vias, holes: holes,
+                      pours: pours, keepouts: keepouts)
     }
 
     /// Writes a state back (undo, redo), then drops selections and editor
@@ -1861,6 +1873,8 @@ final class SchematicDocument {
         if traces != s.traces { traces = s.traces }
         if vias != s.vias { vias = s.vias }
         if holes != s.holes { holes = s.holes }
+        if pours != s.pours { pours = s.pours }
+        if keepouts != s.keepouts { keepouts = s.keepouts }
         pruneSelection()
         if let id = editingNoteID, !notes.contains(where: { $0.id == id }) { editingNoteID = nil }
         if let id = selectedBusID, bus(id) == nil { selectedBusID = nil }
@@ -2933,6 +2947,11 @@ final class SchematicDocument {
         }) {
             return "Delete or move the traces on \(layer.title) first."
         }
+        if let layer = board.copperLayers.first(where: { layer in
+            dropped.contains(layer) && pours.contains { $0.layer == layer }
+        }) {
+            return "Delete or move the pours on \(layer.title) first."
+        }
         if count == 1, !vias.isEmpty {
             return "Delete the vias first."
         }
@@ -3022,6 +3041,9 @@ final class SchematicDocument {
         guard type != .component else { return "Inner layers are planes or wires." }
         if type == .plane, traces.contains(where: { $0.layer == layer }) {
             return "Move or delete this layer's traces first."
+        }
+        if type == .plane, pours.contains(where: { $0.layer == layer }) {
+            return "Move or delete this layer's pours first."
         }
         return nil
     }
@@ -3552,21 +3574,27 @@ final class SchematicDocument {
     @discardableResult
     func deleteBoardSelection() -> Bool {
         var textIDs: Set<UUID> = [], traceIDs: Set<UUID> = [], viaIDs: Set<UUID> = [], holeIDs: Set<UUID> = []
+        var pourIDs: Set<UUID> = [], keepoutIDs: Set<UUID> = []
         for item in boardSelection.items {
             switch item {
             case let .text(id): textIDs.insert(id)
             case let .trace(id): traceIDs.insert(id)
             case let .via(id): viaIDs.insert(id)
             case let .hole(id): holeIDs.insert(id)
+            case let .pour(id): pourIDs.insert(id)
+            case let .keepout(id): keepoutIDs.insert(id)
             case .footprint: break
             }
         }
-        guard !textIDs.isEmpty || !traceIDs.isEmpty || !viaIDs.isEmpty || !holeIDs.isEmpty else { return false }
+        guard !textIDs.isEmpty || !traceIDs.isEmpty || !viaIDs.isEmpty || !holeIDs.isEmpty || !pourIDs.isEmpty
+                || !keepoutIDs.isEmpty else { return false }
         recordEdit(.pcb, "Delete") {
             texts.removeAll { textIDs.contains($0.id) }
             traces.removeAll { traceIDs.contains($0.id) }
             vias.removeAll { viaIDs.contains($0.id) }
             holes.removeAll { holeIDs.contains($0.id) }
+            pours.removeAll { pourIDs.contains($0.id) }
+            keepouts.removeAll { keepoutIDs.contains($0.id) }
             pruneSelection()
         }
         return true
@@ -4060,6 +4088,170 @@ final class SchematicDocument {
         }
     }
 
+    // MARK: Pours and keep-outs (PCB)
+
+    /// `rect` snapped to the trace grid, at least `BoardPour.minimumSide` wide and tall.
+    private func snappedRect(_ rect: CGRect) -> CGRect {
+        let grid = board.traceGrid
+        let r = rect.standardized
+        let minX = BoardGrid.snap(r.minX, spacing: grid), minY = BoardGrid.snap(r.minY, spacing: grid)
+        let maxX = BoardGrid.snap(r.maxX, spacing: grid), maxY = BoardGrid.snap(r.maxY, spacing: grid)
+        return BoardPour.normalized(CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY))
+    }
+
+    /// Adds a pour over `rect` (snapped to the trace grid) on `layer`, and
+    /// selects it. It takes the settings of the last pour added; its net is
+    /// the last pour's, else ground when the schematic has it, else none.
+    /// Nil when `layer` is not a trace layer of the board.
+    @discardableResult
+    func addPour(rect: CGRect, layer: CopperLayer) -> UUID? {
+        guard board.traceLayers.contains(layer) else { return nil }
+        return recordEdit(.pcb, "Add Pour") { () -> UUID in
+            var pour = BoardPour(id: UUID(), rect: snappedRect(rect), layer: layer)
+            if let like = pours.last {
+                pour.net = like.net
+                pour.clearance = like.clearance
+                pour.connection = like.connection
+                pour.thermalGap = like.thermalGap
+                pour.spokeWidth = like.spokeWidth
+                pour.minWidth = like.minWidth
+            } else if planeNetChoices().contains(where: { $0.net == .ground }) {
+                pour.net = .ground
+            }
+            pours.append(pour)
+            boardSelection.replace(with: .pour(pour.id))
+            return pour.id
+        }
+    }
+
+    /// Moves a pour so its top-left corner is at `origin`, snapped to the trace grid.
+    func movePour(_ id: UUID, to origin: CGPoint) {
+        recordEdit(.pcb, "Move") {
+            guard let index = pours.firstIndex(where: { $0.id == id }), !pours[index].locked else { return }
+            let target = CGRect(origin: BoardGrid.snap(origin, spacing: board.traceGrid), size: pours[index].rect.size)
+            if pours[index].rect != target { pours[index].rect = target }
+        }
+    }
+
+    /// Sets a pour's rectangle (the sidebar's X, Y, width and height, a
+    /// resize), snapped to the trace grid.
+    func setPourRect(_ id: UUID, _ rect: CGRect, name: String = "Resize") {
+        recordEdit(.pcb, name) {
+            guard let index = pours.firstIndex(where: { $0.id == id }), !pours[index].locked else { return }
+            let target = snappedRect(rect)
+            if pours[index].rect != target { pours[index].rect = target }
+        }
+    }
+
+    /// Puts a pour on `layer`, a trace layer of the board.
+    func setPourLayer(_ id: UUID, _ layer: CopperLayer) {
+        recordEdit(.pcb, "Change Pour Layer") {
+            guard board.traceLayers.contains(layer), let index = pours.firstIndex(where: { $0.id == id }),
+                  pours[index].layer != layer else { return }
+            pours[index].layer = layer
+        }
+    }
+
+    /// Sets a pour's net (`planeNetChoices`), or none.
+    func setPourNet(_ id: UUID, _ net: PlaneNet?) {
+        recordEdit(.pcb, "Change Pour Net") {
+            guard let index = pours.firstIndex(where: { $0.id == id }), pours[index].net != net else { return }
+            pours[index].net = net
+        }
+    }
+
+    /// Sets a pour's clearance (mm), clamped to `LayerStyle.clearanceRange`;
+    /// nil is the DRC's minimum.
+    func setPourClearance(_ id: UUID, _ mm: Double?) {
+        recordEdit(.pcb, "Change Pour") {
+            guard let index = pours.firstIndex(where: { $0.id == id }) else { return }
+            let value = mm.map { min(max($0, LayerStyle.clearanceRange.lowerBound), LayerStyle.clearanceRange.upperBound) }
+            if pours[index].clearance != value { pours[index].clearance = value }
+        }
+    }
+
+    func setPourConnection(_ id: UUID, _ connection: PourConnection) {
+        recordEdit(.pcb, "Change Pour") {
+            guard let index = pours.firstIndex(where: { $0.id == id }), pours[index].connection != connection else { return }
+            pours[index].connection = connection
+        }
+    }
+
+    func setPourThermalGap(_ id: UUID, _ mm: Double) {
+        recordEdit(.pcb, "Change Pour") {
+            guard let index = pours.firstIndex(where: { $0.id == id }) else { return }
+            let value = min(max(mm, BoardPour.gapRange.lowerBound), BoardPour.gapRange.upperBound)
+            if pours[index].thermalGap != value { pours[index].thermalGap = value }
+        }
+    }
+
+    func setPourSpokeWidth(_ id: UUID, _ mm: Double) {
+        recordEdit(.pcb, "Change Pour") {
+            guard let index = pours.firstIndex(where: { $0.id == id }) else { return }
+            let value = min(max(mm, BoardPour.spokeRange.lowerBound), BoardPour.spokeRange.upperBound)
+            if pours[index].spokeWidth != value { pours[index].spokeWidth = value }
+        }
+    }
+
+    func setPourMinWidth(_ id: UUID, _ mm: Double) {
+        recordEdit(.pcb, "Change Pour") {
+            guard let index = pours.firstIndex(where: { $0.id == id }) else { return }
+            let value = min(max(mm, BoardPour.minWidthRange.lowerBound), BoardPour.minWidthRange.upperBound)
+            if pours[index].minWidth != value { pours[index].minWidth = value }
+        }
+    }
+
+    func deletePour(_ id: UUID) {
+        recordEdit(.pcb, "Delete") {
+            pours.removeAll { $0.id == id }
+            pruneSelection()
+        }
+    }
+
+    /// Adds a keep-out over `rect` (snapped to the trace grid) on `layers`
+    /// (nil: every layer), and selects it.
+    @discardableResult
+    func addKeepout(rect: CGRect, layers: Set<CopperLayer>? = nil) -> UUID {
+        recordEdit(.pcb, "Add Keep-out") { () -> UUID in
+            let keepout = BoardKeepout(id: UUID(), rect: snappedRect(rect), layers: layers)
+            keepouts.append(keepout)
+            boardSelection.replace(with: .keepout(keepout.id))
+            return keepout.id
+        }
+    }
+
+    /// Moves a keep-out so its top-left corner is at `origin`, snapped to the trace grid.
+    func moveKeepout(_ id: UUID, to origin: CGPoint) {
+        recordEdit(.pcb, "Move") {
+            guard let index = keepouts.firstIndex(where: { $0.id == id }), !keepouts[index].locked else { return }
+            let target = CGRect(origin: BoardGrid.snap(origin, spacing: board.traceGrid), size: keepouts[index].rect.size)
+            if keepouts[index].rect != target { keepouts[index].rect = target }
+        }
+    }
+
+    func setKeepoutRect(_ id: UUID, _ rect: CGRect, name: String = "Resize") {
+        recordEdit(.pcb, name) {
+            guard let index = keepouts.firstIndex(where: { $0.id == id }), !keepouts[index].locked else { return }
+            let target = snappedRect(rect)
+            if keepouts[index].rect != target { keepouts[index].rect = target }
+        }
+    }
+
+    /// Sets the layers a keep-out applies to; nil is every layer.
+    func setKeepoutLayers(_ id: UUID, _ layers: Set<CopperLayer>?) {
+        recordEdit(.pcb, "Change Keep-out") {
+            guard let index = keepouts.firstIndex(where: { $0.id == id }), keepouts[index].layers != layers else { return }
+            keepouts[index].layers = layers
+        }
+    }
+
+    func deleteKeepout(_ id: UUID) {
+        recordEdit(.pcb, "Delete") {
+            keepouts.removeAll { $0.id == id }
+            pruneSelection()
+        }
+    }
+
     // MARK: Holes (PCB)
 
     /// The hole under `point` (mm): the last one drawn there, within its
@@ -4255,6 +4447,8 @@ final class SchematicDocument {
         case let .trace(id): traces.first { $0.id == id }?.locked ?? false
         case let .via(id): vias.first { $0.id == id }?.locked ?? false
         case let .hole(id): holes.first { $0.id == id }?.locked ?? false
+        case let .pour(id): pours.first { $0.id == id }?.locked ?? false
+        case let .keepout(id): keepouts.first { $0.id == id }?.locked ?? false
         }
     }
 
@@ -4275,6 +4469,10 @@ final class SchematicDocument {
                 if let index = vias.firstIndex(where: { $0.id == id }) { vias[index].locked = locked }
             case let .hole(id):
                 if let index = holes.firstIndex(where: { $0.id == id }) { holes[index].locked = locked }
+            case let .pour(id):
+                if let index = pours.firstIndex(where: { $0.id == id }) { pours[index].locked = locked }
+            case let .keepout(id):
+                if let index = keepouts.firstIndex(where: { $0.id == id }) { keepouts[index].locked = locked }
             }
         }
     }
@@ -4298,6 +4496,10 @@ final class SchematicDocument {
                 if let centre = vias.first(where: { $0.id == id })?.centre { base.vias[id] = centre }
             case let .hole(id):
                 if let centre = holes.first(where: { $0.id == id })?.centre { base.holes[id] = centre }
+            case let .pour(id):
+                if let rect = pours.first(where: { $0.id == id })?.rect { base.pours[id] = rect }
+            case let .keepout(id):
+                if let rect = keepouts.first(where: { $0.id == id })?.rect { base.keepouts[id] = rect }
             }
         }
         return base
@@ -4339,7 +4541,19 @@ final class SchematicDocument {
                 // A via placed on a trace stays there until the pointer moves.
                 if let (id, centre) = base.vias.first, delta != .zero { moveVia(id, to: moved(centre, by: delta)) }
                 if let (id, centre) = base.holes.first { moveHole(id, to: moved(centre, by: delta)) }
+                if let (id, rect) = base.pours.first { movePour(id, to: moved(rect.origin, by: delta)) }
+                if let (id, rect) = base.keepouts.first { moveKeepout(id, to: moved(rect.origin, by: delta)) }
                 return
+            }
+            for index in pours.indices {
+                guard let rect = base.pours[pours[index].id] else { continue }
+                let target = CGRect(origin: moved(rect.origin, by: offset), size: rect.size)
+                if pours[index].rect != target { pours[index].rect = target }
+            }
+            for index in keepouts.indices {
+                guard let rect = base.keepouts[keepouts[index].id] else { continue }
+                let target = CGRect(origin: moved(rect.origin, by: offset), size: rect.size)
+                if keepouts[index].rect != target { keepouts[index].rect = target }
             }
             for index in holes.indices {
                 guard let centre = base.holes[holes[index].id] else { continue }

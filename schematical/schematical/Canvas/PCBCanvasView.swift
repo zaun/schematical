@@ -406,6 +406,10 @@ struct PCBCanvasView: View {
                                    with: .color(.accentColor), lineWidth: 2 / scale)
                 }
                 selected = nil
+            case let .pour(id):
+                selected = document.pours.first(where: { $0.id == id && visible.shows(.copper($0.layer)) })?.rect
+            case let .keepout(id):
+                selected = document.keepouts.first(where: { $0.id == id })?.rect
             }
             if let selected {
                 context.stroke(Path(selected.insetBy(dx: -margin, dy: -margin)),
