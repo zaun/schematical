@@ -554,7 +554,7 @@ final class SchematicFileController {
 
 /// The single part file type (`.schpart`), declared in the app's Info.plist.
 enum PartFileType {
-    static let fileExtension = "schpart"
+    nonisolated static let fileExtension = "schpart"
     static let contentType = UTType(exportedAs: "jgz.schematical.part", conformingTo: .json)
 
     /// The declared type, plus whatever type the system gives a `.schpart`

@@ -28,8 +28,8 @@ Stated in plan-53-A; this sub-plan additionally needs plan-53-A complete.
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-53-A is complete and archived | `ls planning/completed/plan-53-A-*.md` → one file | NOT MET at writing (the plan is unbuilt) |
-| `PartCatalogStore.register` no longer throws for a uuid clash | `grep -c 'uuidInUse' schematical/schematical/Backend/PartCatalog.swift` → `0` | NOT MET at writing |
+| plan-53-A is complete and archived | `ls planning/completed/plan-53-A-*.md` → one file | MET (run 2026-11-21: one file) |
+| `PartCatalogStore.register` no longer throws for a uuid clash | `grep -c 'uuidInUse' schematical/schematical/Backend/PartCatalog.swift` → `0` | MET (run 2026-11-21: `0`) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command before you continue, and report all of them if you stop.
@@ -227,10 +227,10 @@ rule applies and the file is left as it is.
 
 Safe alone: a new type nothing calls yet.
 
-- [ ] `Backend/UserPartLibrary.swift`: the type of § 4.2, `defaultDirectory` per § 3.
-- [ ] `schematicalTests/UserPartLibraryTests.swift` (new files under `schematical/` and `schematicalTests/` need no project edit: the project uses file-system-synchronized groups, `grep -c PBXFileSystemSynchronizedRootGroup schematical/schematical.xcodeproj/project.pbxproj` → 5, and `PartCatalog.swift` has no line of its own in it): `UserPartLibrary.defaultDirectory` is under `NSTemporaryDirectory()` when run under XCTest; then, in a temp folder — `write` then `files()` returns the file with the text and a date; `remove` deletes it and a second `remove` does not throw; a non-`.schpart` file is ignored; a file with no uuid and a non-UTF-8 file are problems; a missing folder gives no files and no problems; `write` creates a missing folder.
+- [x] `Backend/UserPartLibrary.swift`: the type of § 4.2, `defaultDirectory` per § 3.
+- [x] `schematicalTests/UserPartLibraryTests.swift` (new files under `schematical/` and `schematicalTests/` need no project edit: the project uses file-system-synchronized groups, `grep -c PBXFileSystemSynchronizedRootGroup schematical/schematical.xcodeproj/project.pbxproj` → 5, and `PartCatalog.swift` has no line of its own in it): `UserPartLibrary.defaultDirectory` is under `NSTemporaryDirectory()` when run under XCTest; then, in a temp folder — `write` then `files()` returns the file with the text and a date; `remove` deletes it and a second `remove` does not throw; a non-`.schpart` file is ignored; a file with no uuid and a non-UTF-8 file are problems; a missing folder gives no files and no problems; `write` creates a missing folder.
 
-Acceptance: the folder type behaves as listed.
+Acceptance: the folder type behaves as listed. **MET** (`xcodebuild test … -only-testing:schematicalTests/UserPartLibraryTests` → `Executed 7 tests, with 0 failures`, `** TEST SUCCEEDED **`)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/UserPartLibraryTests` → `** TEST SUCCEEDED **` (est. 4–8 min).
 Commit: —
 
