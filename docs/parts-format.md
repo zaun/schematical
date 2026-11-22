@@ -363,6 +363,7 @@ optionally the custom footprints that part uses and the part's own datasheet.
 | `"format"` | exactly `"schematical-part"` |
 | `"version"` | exactly `1` |
 | `"uuid"` | required; the part's identity: 36 characters, uppercase hexadecimal digits and hyphens in the 8-4-4-4-12 layout (Foundation's `UUID.uuidString`). Bundled parts have none |
+| `"originId"` | optional (plan-53-A); the `uuid` the part's first version had, in the same layout. The app writes it when it gives a part a new uuid (a clash, a copy, Save As…). The loader checks only its shape and nothing reads it yet; it is kept for later update logic |
 | `"kind"` | one of the kinds below, as in a part file |
 | `"footprints"` | optional array; each entry is a `footprints.json` entry (§ Footprints). Its ids must be new to the library |
 | `"datasheets"` | optional array (plan-46-A); each entry is a `datasheets.json` entry (§ Datasheets) with `"id"` and `"url"` only: no `"md"` (that names a file bundled with the app). Its ids must be new to the library, and the part's `"datasheet"` must name every entry (`datasheet "X" is not used` otherwise). The Part Editor writes one entry, `CUSTOM-<first 8 of the uuid>` |

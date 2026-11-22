@@ -1379,7 +1379,7 @@ int load_parts(PartLibrary *library, const char *json, const char *source, char 
 /* ---- Single part files (format "schematical-part") ------------------------ */
 
 static const char *const PART_FILE_KEYS[] = {
-    "format", "version", "uuid", "kind", "footprints", "datasheets", "devices", NULL
+    "format", "version", "uuid", "originId", "kind", "footprints", "datasheets", "devices", NULL
 };
 
 /* 8-4-4-4-12 uppercase hexadecimal digits: Foundation's UUID.uuidString. */
@@ -1478,6 +1478,19 @@ static int read_part_file(KindContext *ctx, PartLibrary *library, const cJSON *r
     }
     if (name_set_contains(&library->uuids, *uuid)) {
         return kind_error(ctx, "uuid \"%s\" is already loaded", *uuid);
+    }
+    /* "originId": the uuid the part's first version had (plan-53-A). Only its
+       shape is checked; nothing reads it. */
+    if (cJSON_GetObjectItemCaseSensitive(root, "originId") != NULL) {
+        const char *origin = NULL;
+
+        if (kind_string(ctx, root, "originId", &origin) != 0) {
+            return -1;
+        }
+        if (!valid_uuid(origin)) {
+            return kind_error(ctx, "\"originId\" must be an uppercase UUID "
+                              "(XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX), not \"%s\"", origin);
+        }
     }
     if (kind_string(ctx, root, "kind", &kind_name) != 0) {
         return -1;

@@ -351,6 +351,36 @@ int main(void) {
               "(ds) a rejected file's datasheet stayed");
     }
 
+    /* (k) "originId" (plan-53-A): a valid one loads and changes nothing; a
+       malformed or lower-case one is refused. */
+    {
+        static const char OK[] =
+            "{\"format\":\"schematical-part\",\"version\":1,"
+            "\"uuid\":\"7A1B2C3D-4E5F-4061-8273-94A5B6C7D8E9\","
+            "\"originId\":\"" UUID_A "\",\"kind\":\"gate\","
+            "\"devices\":[" DEVICE("ORIGIN-NAND", "SOT23-5") "]}";
+
+        CHECK(load_part_file(library, OK, "k.schpart", &error) == 0, "(k) %s",
+              error != NULL ? error : "");
+        free(error);
+        error = NULL;
+        part = part_library_find_uuid(library, "7A1B2C3D-4E5F-4061-8273-94A5B6C7D8E9");
+        CHECK(part != NULL && strcmp(part->name, "ORIGIN-NAND") == 0, "(k) part with originId");
+        puts("ok (k) a valid originId loads");
+        expect_error(library, "(k) bad originId",
+                     "{\"format\":\"schematical-part\",\"version\":1,"
+                     "\"uuid\":\"8A1B2C3D-4E5F-4061-8273-94A5B6C7D8E9\","
+                     "\"originId\":\"not-a-uuid\",\"kind\":\"gate\","
+                     "\"devices\":[" DEVICE("ORIGIN-BAD", "SOT23-5") "]}",
+                     "originId");
+        expect_error(library, "(k) lower-case originId",
+                     "{\"format\":\"schematical-part\",\"version\":1,"
+                     "\"uuid\":\"9A1B2C3D-4E5F-4061-8273-94A5B6C7D8E9\","
+                     "\"originId\":\"6f1c2e8a-3b7d-4c55-9a61-0e2b4d7f9c10\",\"kind\":\"gate\","
+                     "\"devices\":[" DEVICE("ORIGIN-LOW", "SOT23-5") "]}",
+                     "originId");
+    }
+
     /* load_parts still rejects the single part format, and keeps its rules. */
     {
         if (load_parts(library, HEAD("66666666-2222-4333-8444-555555555555") "\"devices\":[]}",
@@ -366,6 +396,6 @@ int main(void) {
         fprintf(stderr, "%d failure(s)\n", failures);
         return 1;
     }
-    puts("PASS: load_part_file (plan-32-A cases a-h, plan-32-C unload case i, plan-39-A case j)");
+    puts("PASS: load_part_file (plan-32-A cases a-h, plan-32-C unload case i, plan-39-A case j, plan-53-A case k)");
     return 0;
 }

@@ -85,7 +85,9 @@ Notes:
   `part_library_unload_last_part_file` takes back the latest
   `load_part_file` (its part, name, uuid, inline footprints and arena
   memory) while nothing else was loaded since; the Part Editor's validator
-  (plan-32-C) loads each draft into one scratch library this way.
+  (plan-32-C) loads each draft into one scratch library this way. A file
+  may carry an `originId` (plan-53-A), the uuid its part's first version
+  had; the loader checks that it is an uppercase UUID and ignores it.
 - Building calls (`circuit_add_part`, `_add_net`, `_connect`) work only
   before `circuit_start`; `circuit_set_switch` works before and after.
 - `circuit_set_switch(…, position, on)`: ON = contact closed, for every

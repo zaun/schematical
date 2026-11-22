@@ -254,12 +254,12 @@ from the entry's own `uuid`, record `old → new`. Resolve each placed part with
 
 Safe alone: a new optional key nothing else uses yet.
 
-- [ ] `backend/src/library/library.c`: `"originId"` in `PART_FILE_KEYS`; read and validate it in `read_part_file` (§ 4.1).
-- [ ] `backend/tests/part_file_test.c`: add cases after the last lettered one: a file with a valid `originId` loads and `part_library_find_uuid` still returns the part; a file with `"originId":"not-a-uuid"` is refused with a message containing `originId`; a lowercase UUID is refused.
-- [ ] `docs/parts-format.md` § Single part files: an `"originId"` row in the key table (optional; an uppercase UUID in the `uuid` layout; the uuid the part's first version had; ignored by the app and the loader beyond its shape) and the sentence "No other top-level key is allowed" still true. `docs/backend.md` Notes: one sentence.
+- [x] `backend/src/library/library.c`: `"originId"` in `PART_FILE_KEYS`; read and validate it in `read_part_file` (§ 4.1).
+- [x] `backend/tests/part_file_test.c`: add cases after the last lettered one: a file with a valid `originId` loads and `part_library_find_uuid` still returns the part; a file with `"originId":"not-a-uuid"` is refused with a message containing `originId`; a lowercase UUID is refused. (case (k), three checks)
+- [x] `docs/parts-format.md` § Single part files: an `"originId"` row in the key table (optional; an uppercase UUID in the `uuid` layout; the uuid the part's first version had; ignored by the app and the loader beyond its shape) and the sentence "No other top-level key is allowed" still true. `docs/backend.md` Notes: one sentence.
 
-Acceptance: the three new cases pass and the existing `part_file_test` cases still pass.
-  Check: `cmake -S backend -B /tmp/logic-build && cmake --build /tmp/logic-build --target part_file_test && ctest --test-dir /tmp/logic-build -R part_file_test --output-on-failure` → `100% tests passed` (est. 2–4 min; builds one target).
+Acceptance: the three new cases pass and the existing `part_file_test` cases still pass. **MET**
+  Check: `cmake -S backend -B /tmp/logic-build && cmake --build /tmp/logic-build --target part_file_test && ctest --test-dir /tmp/logic-build -R part_file_test --output-on-failure` → `100% tests passed, 0 tests failed out of 1` (run in the worktree against a build dir of its own, `/tmp/logic-build-p53`, so other sessions' `/tmp/logic-build` is not shared; est. 2–4 min).
 Commit: —
 
 ### Phase 2 — `freshenIdentity()`, the catalog and the schematic open
