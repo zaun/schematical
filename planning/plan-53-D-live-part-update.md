@@ -36,8 +36,8 @@ Stated in plan-53-A; this sub-plan additionally needs plan-53-C complete.
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-53-C is complete and archived | `ls planning/completed/plan-53-C-*.md` → one file | NOT MET at writing (unbuilt) |
-| The catalog has `removeFromUserLibrary` and `userLibrary` | `grep -c 'func removeFromUserLibrary' schematical/schematical/Backend/PartCatalog.swift` → `1` | NOT MET at writing |
+| plan-53-C is complete and archived | `ls planning/completed/plan-53-C-*.md` → one file | MET (run 2026-11-21) |
+| The catalog has `removeFromUserLibrary` and `userLibrary` | `grep -c 'func removeFromUserLibrary' schematical/schematical/Backend/PartCatalog.swift` → `1` | MET (run 2026-11-21: `1`) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command before you continue, and report all of them if you stop.
@@ -250,11 +250,11 @@ private helper both use, so the header's behavior (its tests) does not change.
 
 Safe alone: a new function nothing calls yet.
 
-- [ ] `backend/include/parts.h` and `backend/src/library/library.c`: § 4.1.
-- [ ] `backend/tests/part_file_test.c`, cases after the last lettered one: load a part with an inline footprint and datasheet; retire it with its ids: `part_library_find` and `_find_uuid` return NULL, `part_library_find_footprint` NULL, counts back to the bundled counts, bundled parts unchanged; the old `Part*` read before the retire still has its name afterwards; load a changed version with the same uuid, name and ids: it loads and `_find_uuid` returns it; retiring an unknown uuid returns -1 and changes no count; retire then `part_library_unload_last_part_file` returns -1 (no latest file to take back).
-- [ ] `docs/backend.md` Notes, "Single part files": `part_library_retire_part` — what it removes, that memory stays, that it is how an app replaces a loaded part.
+- [x] `backend/include/parts.h` and `backend/src/library/library.c`: § 4.1.
+- [x] `backend/tests/part_file_test.c`, cases after the last lettered one: load a part with an inline footprint and datasheet; retire it with its ids: `part_library_find` and `_find_uuid` return NULL, `part_library_find_footprint` NULL, counts back to the bundled counts, bundled parts unchanged; the old `Part*` read before the retire still has its name afterwards; load a changed version with the same uuid, name and ids: it loads and `_find_uuid` returns it; retiring an unknown uuid returns -1 and changes no count; retire then `part_library_unload_last_part_file` returns -1 (no latest file to take back).
+- [x] `docs/backend.md` Notes, "Single part files": `part_library_retire_part` — what it removes, that memory stays, that it is how an app replaces a loaded part.
 
-Acceptance: a retired part's name, uuid and ids load again and old pointers stay valid.
+Acceptance: a retired part's name, uuid and ids load again and old pointers stay valid. **MET** (`cmake --build /tmp/logic-build-p53 --target part_file_test && ctest --test-dir /tmp/logic-build-p53 -R part_file_test` → `100% tests passed, 0 tests failed out of 1`; cases (l) and (l2))
   Check: `cmake -S backend -B /tmp/logic-build && cmake --build /tmp/logic-build --target part_file_test && ctest --test-dir /tmp/logic-build -R part_file_test --output-on-failure` → `100% tests passed` (est. 2–4 min).
 Commit: —
 
