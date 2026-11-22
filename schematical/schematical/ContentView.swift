@@ -125,10 +125,12 @@ struct ContentView: View {
     /// The layers the Trace tool can draw on: the board's, less its planes.
     private var traceLayers: [CopperLayer] { document.board.traceLayers }
 
-    /// Exactly one footprint or board text selected, which Rotate turns
-    /// (plan-15: never a group). A trace doesn't turn. Rotate is only on
-    /// the PCB page, where the simulation never runs. Not when it is locked.
+    /// What Rotate would turn. On the PCB: exactly one footprint or board
+    /// text selected (plan-15: never a group), not when it is locked; a trace
+    /// doesn't turn. On the Schematic: the sole selected LED, diode, resistor
+    /// or capacitor, while the simulation isn't running.
     private var canRotate: Bool {
+        if page == .schematic { return rotatableChipID != nil }
         if let id = document.selectedTextID { return !document.isLocked(.text(id)) }
         guard let id = document.selectedFootprintID,
               let board = document.chips.first(where: { $0.id == id })?.board else { return false }
@@ -140,8 +142,10 @@ struct ContentView: View {
     /// Returns whether it turned anything.
     @discardableResult
     private func rotateSelection(counterclockwise: Bool = false) -> Bool {
-        guard page == .pcb, canRotate else { return false }
-        if let id = document.selectedTextID {
+        guard canRotate else { return false }
+        if page == .schematic, let id = rotatableChipID {
+            document.rotateChip(id, counterclockwise: counterclockwise)
+        } else if let id = document.selectedTextID {
             document.rotateText(id, counterclockwise: counterclockwise)
         } else if let id = document.selectedFootprintID {
             document.rotateFootprint(id, counterclockwise: counterclockwise)
@@ -166,6 +170,14 @@ struct ContentView: View {
         (page == .schematic && !simulation.isRunning && document.selectedNetLabelID != nil) || flippableChipID != nil
     }
 
+    /// The part Rotate would turn on the Schematic: the sole selected part,
+    /// when it can rotate and the simulation isn't running.
+    private var rotatableChipID: UUID? {
+        guard page == .schematic, !simulation.isRunning, let id = document.selectedChipID,
+              document.chips.first(where: { $0.id == id })?.symbol.canRotate == true else { return nil }
+        return id
+    }
+
     /// The part Flip would turn: the sole selected part on the Schematic,
     /// when it can flip and the simulation isn't running.
     private var flippableChipID: UUID? {
@@ -175,7 +187,8 @@ struct ContentView: View {
     }
 
     /// The editing keys, in this window only and never while a text field
-    /// is being typed in: ⌘R presses Rotate on the PCB (when it is enabled)
+    /// is being typed in: ⌘R presses Rotate (when it is enabled: on the PCB,
+    /// or on the Schematic for an LED, diode, resistor or capacitor)
     /// and ⇧⌘R turns the other way; A steps the Trace tool's angle while
     /// Trace is the PCB tool; ⌘F flips the selected part or net label on the
     /// Schematic; ⌘⌫ deletes the selection (on the PCB only its texts, traces, vias and holes);
@@ -308,7 +321,7 @@ struct ContentView: View {
         EditActions(cut: cutSelection, copy: copySelection, paste: pasteClipboard,
                     delete: deleteSelection, selectAll: selectAll,
                     flip: flipSelection, canFlip: canFlip,
-                    rotate: { rotateSelection(counterclockwise: $0) }, canRotate: page == .pcb && canRotate,
+                    rotate: { rotateSelection(counterclockwise: $0) }, canRotate: canRotate,
                     resetReferences: { isConfirmingResetReferences = true },
                     canResetReferences: !document.chips.isEmpty && !simulation.isRunning)
     }

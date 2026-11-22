@@ -100,6 +100,7 @@ extension AutomationTools {
         if let gender = chip.gender { parts.append("gender=\(gender)") }
         if let footprint = chip.footprint { parts.append("footprint=\(footprint.id)") }
         if chip.isFlipped { parts.append("flipped") }
+        if chip.rotation != 0 { parts.append("rotation=\(chip.rotation)") }
         if !chip.switchesOn.isEmpty {
             parts.append("switches=" + chip.switchesOn.map { $0 ? "on" : "off" }.joined(separator: ","))
         }
@@ -228,7 +229,7 @@ extension AutomationTools {
                 "reference": chip.reference, "part": chip.part.name,
                 "x": centre.x, "y": centre.y,
                 "width": chip.layout.size.width, "height": chip.layout.size.height,
-                "flipped": chip.isFlipped,
+                "flipped": chip.isFlipped, "rotation": chip.rotation,
                 "bounds": rectJSON(bounds(of: chip)),
                 "pins": chip.part.pins.filter { !$0.isHidden }.map { pin -> [String: Any] in
                     var entry: [String: Any] = ["designator": pin.designator, "name": pin.name,

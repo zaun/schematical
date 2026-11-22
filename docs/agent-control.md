@@ -67,7 +67,7 @@ the text form is unchanged. `get_part` prints it after a pin's role and
 group: ` low`, or ` low=CS` (alternatives `;` separated).
 
 **Schematic** — `place_part`, `connect` (pin, net label, bus pin or point on
-a wire; `via` waypoints), `disconnect`, `move_part`, `move`, `flip_part`, `set_part`
+a wire; `via` waypoints), `disconnect`, `move_part`, `move`, `flip_part`, `rotate_part` (LEDs, diodes, resistors, capacitors), `set_part`
 (rename, color, ohms, farads, footprint, gender), `add_net_label`,
 `add_note`, `set_net_label`, `set_note`, `set_wire_route`, `add_bus`, `set_bus`, `add_bus_port`, `set_bus_port`, `delete`, `select`.
 

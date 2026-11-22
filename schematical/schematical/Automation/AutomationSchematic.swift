@@ -111,6 +111,22 @@ extension AutomationTools {
                 return Out.text("flipped \(chip.reference)")
             }),
         AutomationTool(
+            name: "rotate_part",
+            summary: "Turn an LED, diode, resistor or capacitor a quarter turn on the schematic (its pins go to "
+                + "the top and bottom). Clockwise unless counterclockwise is true.",
+            properties: ["reference": Schema.string("e.g. D1"),
+                         "counterclockwise": Schema.boolean("Turn it the other way")],
+            required: ["reference"], edits: true,
+            run: { context, args in
+                let chip = try context!.chip(try args.string("reference"))
+                guard chip.symbol.canRotate else {
+                    throw AutomationFailure("\(chip.reference) can't be rotated: only LEDs, diodes, resistors and capacitors turn")
+                }
+                context!.document.rotateChip(chip.id, counterclockwise: args.optBool("counterclockwise") == true)
+                let turned = context!.document.chips.first { $0.id == chip.id }?.rotation ?? 0
+                return Out.text("rotated \(chip.reference) to \(turned)°")
+            }),
+        AutomationTool(
             name: "set_part",
             summary: "Change a placed part: new_reference (\"U5\"), color, ohms, farads, footprint, gender, "
                 + "show_reference.",

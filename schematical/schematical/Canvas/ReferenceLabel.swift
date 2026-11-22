@@ -16,6 +16,7 @@ enum ReferenceLabel {
     static func anchor(for chip: PlacedChip) -> CGPoint? {
         guard chip.showsReference, !chip.reference.isEmpty else { return nil }
         let x = ChipLayout.labelMargin + chip.layout.size.width / 2
+        if chip.symbol.canRotate, chip.rotation != 0 { return turnedAnchor(for: chip, x: x) }
         switch chip.symbol {
         case .diode, .plainDiode:
             // Above the LED's light arrows (their tips at y = 4); diodes use
@@ -47,10 +48,39 @@ enum ReferenceLabel {
         }
     }
 
+    /// The row of the unturned symbol the part's value text is on: a
+    /// resistor's above the zig-zag, the others' below the symbol.
+    private static func valueY(of chip: PlacedChip) -> CGFloat {
+        chip.symbol == .resistor ? ChipLayout.diodeCentreY - 14 : chip.unturnedSize.height - 8
+    }
+
+    /// Where the label of a turned LED, diode, resistor or capacitor goes. On
+    /// its side the pins are on the top and bottom, so the label sits over the
+    /// part's value, on the value's side of the symbol (the symbol's own
+    /// marks, the LED's arrows and the capacitor's +, are on the other
+    /// side). Upside down the value is on the other side of the symbol, so
+    /// a diode's or capacitor's label goes above the frame, and a resistor's
+    /// stays where it is.
+    private static func turnedAnchor(for chip: PlacedChip, x: CGFloat) -> CGPoint {
+        let valueY = valueY(of: chip)
+        if chip.rotation == 180 {
+            return CGPoint(x: x, y: chip.symbol == .resistor ? -1 : -4)
+        }
+        let value = chip.symbolLabel(y: valueY).point
+        return CGPoint(x: value.x, y: value.y - 7)
+    }
+
     /// Which point of the text sits on `anchor`: its bottom centre, or for
     /// a pull resistor its bottom left, over the resistance.
     static func textAnchor(for chip: PlacedChip) -> UnitPoint {
-        chip.symbol == .pullUp || chip.symbol == .pullDown ? .bottomLeading : .bottom
+        if chip.symbol.canRotate, chip.rotation == 90 || chip.rotation == 270 {
+            // Over the value, on its side of the symbol.
+            switch chip.symbolLabel(y: valueY(of: chip)).anchor {
+            case .trailing: return .bottomTrailing
+            default: return .bottomLeading
+            }
+        }
+        return chip.symbol == .pullUp || chip.symbol == .pullDown ? .bottomLeading : .bottom
     }
 
     /// Draws the label, the chip view's frame top-left at (0, 0).

@@ -75,6 +75,9 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         var x: Double
         var y: Double
         var flipped: Bool
+        /// LEDs, diodes, resistors and capacitors only: how far the part is
+        /// turned clockwise on the Schematic, 0, 90, 180 or 270. Left out when 0.
+        var rotation: Int? = nil
         /// DIP switches only: whether each position is ON, position 1 first.
         /// Left out for other parts.
         var switches: [Bool]? = nil
@@ -721,6 +724,7 @@ extension SchematicFile {
                 x: chip.origin.x,
                 y: chip.origin.y,
                 flipped: chip.isFlipped,
+                rotation: chip.rotation == 0 ? nil : chip.rotation,
                 switches: chip.switchesOn.isEmpty || chip.part.isTactileSwitch ? nil : chip.switchesOn,
                 pcb: chip.board.map {
                     Placement(x: $0.centre.x, y: $0.centre.y, rotation: $0.rotation,
@@ -967,6 +971,7 @@ extension SchematicFile {
                 symbol: partSymbol,
                 origin: SchematicGrid.snap(CGPoint(x: part.x, y: part.y)),
                 isFlipped: part.flipped && partSymbol.canFlip,
+                rotation: PlacedChip.normalized(part.rotation ?? 0),
                 switchesOn: part.switches ?? [],
                 memoryFile: memoryFile,
                 color: color,
@@ -1013,12 +1018,12 @@ extension SchematicFile {
             if let footprint = chips[index].footprint {
                 chips[index].board = BoardLayout.nextSpot(for: footprint, among: chips,
                                                           pad1: chips[index].part.firstPinDesignator,
+                                                          hasPinOneMark: chips[index].part.hasPinOneMark,
                                                           grid: settings.grid)
             }
         }
 
         var placedJunctions: [SchematicModelJunction] = []
-                                                          hasPinOneMark: chips[index].part.hasPinOneMark,
         for junction in junctions {
             try claim(junction.id)
             placedJunctions.append(SchematicModelJunction(id: junction.id, point: CGPoint(x: junction.x, y: junction.y),

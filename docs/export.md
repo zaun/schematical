@@ -185,7 +185,7 @@ the app's 10-unit grid is KiCad's 1.27 mm grid and every wire end lands on a pin
 end.
 
 - Each part is a generated symbol in the file's own `Schematical` library: a
-  rectangle with the pins on the sides the app draws them (a flipped part is its
+  rectangle with the pins on the sides the app draws them (a flipped or turned part is its
   own symbol; a two-terminal part's rectangle is just its pins' span). Pin names
   keep their active-low bars (`~{CE}`), pin types follow the roles, and power and
   ground pins are power inputs. Value is the part number (a resistor's or generic

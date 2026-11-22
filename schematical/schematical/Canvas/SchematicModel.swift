@@ -196,6 +196,16 @@ nonisolated enum PartSymbol: Hashable {
     var canFlip: Bool {
         !hasVerticalPins
     }
+
+    /// Rotate turns LEDs, diodes, resistors and capacitors in quarter turns
+    /// (`PlacedChip.rotation`), which puts their pins on the top and bottom.
+    /// Nothing else on the Schematic rotates.
+    var canRotate: Bool {
+        switch self {
+        case .diode, .plainDiode, .capacitor, .resistor: true
+        default: false
+        }
+    }
 }
 
 /// Schematic block geometry, derived from the backend's pin roles.
@@ -564,6 +574,45 @@ nonisolated struct ChipLayout: Hashable {
         )
     }
 
+    /// The same body turned clockwise by `degrees` (0, 90, 180 or 270): the
+    /// size swaps for a quarter turn and every pin moves to the side and
+    /// position its point on the body edge turns to.
+    func rotated(by degrees: Int) -> ChipLayout {
+        let turns = ((degrees / 90) % 4 + 4) % 4
+        guard turns != 0 else { return self }
+        let width = size.width, height = size.height
+        let newSize = turns == 2 ? size : CGSize(width: height, height: width)
+        return ChipLayout(
+            size: newSize,
+            slots: slots.map { slot in
+                // The pin's point on the body edge, then where it turns to.
+                let edge: CGPoint
+                switch slot.side {
+                case .left: edge = CGPoint(x: 0, y: slot.centerY)
+                case .right: edge = CGPoint(x: width, y: slot.centerY)
+                case .top: edge = CGPoint(x: slot.centerX, y: 0)
+                case .bottom: edge = CGPoint(x: slot.centerX, y: height)
+                }
+                var side = slot.side
+                var point = edge
+                var w = width, h = height
+                for _ in 0..<turns {
+                    point = CGPoint(x: h - point.y, y: point.x)
+                    swap(&w, &h)
+                    switch side {
+                    case .left: side = .top
+                    case .top: side = .right
+                    case .right: side = .bottom
+                    case .bottom: side = .left
+                    }
+                }
+                return PinSlot(pin: slot.pin, side: side,
+                               centerY: side == .left || side == .right ? point.y : 0,
+                               centerX: side == .top || side == .bottom ? point.x : 0)
+            }
+        )
+    }
+
     /// Anode (pin 2, "A") on the left and cathode (pin 1, "K") on the right.
     /// Other pins, such as no-connects on a 4-DIP, are not drawn. Falls back to
     /// the block layout if either terminal is missing.
@@ -734,6 +783,10 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     /// Flipped parts have their pins on the opposite sides. For an LED the
     /// whole symbol is also mirrored; see `DiodeSymbolView`.
     var isFlipped = false
+    /// How far an LED, diode, resistor or capacitor is turned clockwise on
+    /// the Schematic: 0, 90, 180 or 270 (`PartSymbol.canRotate`; 0 for every
+    /// other part). The flip is applied first, then the turn.
+    var rotation = 0
     /// For a DIP switch, whether each position is ON, position 1 first. Empty
     /// for every other part.
     var switchesOn: [Bool] = []
@@ -771,6 +824,7 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         symbol: PartSymbol,
         origin: CGPoint,
         isFlipped: Bool = false,
+        rotation: Int = 0,
         switchesOn: [Bool] = [],
         board: BoardPlacement? = nil,
         memoryFile: MemoryFile? = nil,
@@ -787,6 +841,7 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         self.baseLayout = ChipLayout(part: part, symbol: symbol)
         self.origin = origin
         self.isFlipped = isFlipped
+        self.rotation = symbol.canRotate ? PlacedChip.normalized(rotation) : 0
         self.board = part.footprint == nil ? nil : board
         self.memoryFile = part.kind == PART_EEPROM ? memoryFile : nil
         // A nil or unknown option is the part's default; parts without the
@@ -843,7 +898,7 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         let package = footprintChoice?.package
         let footprint = newPart.footprintChoices.first { $0.package == package }?.footprint.id
         var chip = PlacedChip(id: id, reference: reference, part: newPart, symbol: symbol, origin: origin,
-                              isFlipped: isFlipped, switchesOn: switchesOn, board: board,
+                              isFlipped: isFlipped, rotation: rotation, switchesOn: switchesOn, board: board,
                               memoryFile: memoryFile, color: color, footprintID: footprint, gender: gender,
                               ohms: ohms, farads: farads)
         chip.showsReference = showsReference
@@ -891,8 +946,24 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     }
 
     var layout: ChipLayout {
-        isFlipped ? baseLayout.flipped() : baseLayout
+        let flipped = isFlipped ? baseLayout.flipped() : baseLayout
+        return rotation == 0 ? flipped : flipped.rotated(by: rotation)
     }
+
+    /// 0, 90, 180 or 270 for any whole number of degrees.
+    static func normalized(_ degrees: Int) -> Int {
+        ((degrees % 360) + 360) % 360 / 90 * 90
+    }
+
+    /// Whether the pins are on the top and bottom: a supply, or a part
+    /// turned a quarter turn. Such a part's view has room for the stubs above
+    /// and below its body.
+    var hasVerticalPins: Bool {
+        symbol.hasVerticalPins || rotation == 90 || rotation == 270
+    }
+
+    /// The size of the part before it is flipped or turned.
+    var unturnedSize: CGSize { baseLayout.size }
 
     /// Where a pin's wire leaves the body: the end of its stub.
     func tip(of slot: ChipLayout.PinSlot) -> CGPoint {
@@ -915,7 +986,7 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     var viewOrigin: CGPoint {
         CGPoint(
             x: origin.x - ChipLayout.labelMargin,
-            y: origin.y - (symbol.hasVerticalPins ? ChipLayout.stubLength : 0)
+            y: origin.y - (hasVerticalPins ? ChipLayout.stubLength : 0)
         )
     }
 
@@ -928,7 +999,7 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     /// supplies also have stubs above and below, so those are included too.
     var hitRect: CGRect {
         let stub = ChipLayout.stubLength
-        let verticalStub = symbol.hasVerticalPins ? stub : 0
+        let verticalStub = hasVerticalPins ? stub : 0
         return bodyRect.insetBy(dx: -stub, dy: -verticalStub)
     }
 }
@@ -2153,6 +2224,18 @@ final class SchematicDocument {
         }
     }
 
+    /// Turns an LED, diode, resistor or capacitor a quarter turn, clockwise
+    /// or not, and re-fits the wires attached to it.
+    func rotateChip(_ id: UUID, counterclockwise: Bool = false) {
+        recordEdit(.schematic, "Rotate") {
+            guard let index = chips.firstIndex(where: { $0.id == id }),
+                  chips[index].symbol.canRotate else { return }
+            chips[index].rotation = PlacedChip.normalized(chips[index].rotation + (counterclockwise ? 270 : 90))
+            settleWires(attachedTo: id)
+            adoptLooseEnds(chips: [id])
+        }
+    }
+
     func chip(at point: CGPoint) -> PlacedChip? {
         chips.last { $0.hitRect.contains(point) }
     }
@@ -2330,7 +2413,7 @@ final class SchematicDocument {
                                                                    alsoUsed: pastedChips.map(\.reference)),
                     part: chip.part,
                     symbol: chip.symbol, origin: shifted(chip.origin), isFlipped: chip.isFlipped,
-                    switchesOn: chip.switchesOn, memoryFile: chip.memoryFile, color: chip.color,
+                    rotation: chip.rotation, switchesOn: chip.switchesOn, memoryFile: chip.memoryFile, color: chip.color,
                     footprintID: chip.footprintID, gender: chip.gender, ohms: chip.ohms, farads: chip.farads
                 )
                 placed.showsReference = chip.showsReference

@@ -112,6 +112,11 @@ nonisolated final class EasyEDAProSchematicWriter {
         let size = chip.layout.size
         switch chip.symbol {
         case .diode, .plainDiode, .capacitor, .resistor:
+            if chip.rotation == 90 || chip.rotation == 270 {
+                let columns = chip.layout.slots.map(\.centerX)
+                guard let low = columns.min(), let high = columns.max() else { return CGRect(origin: .zero, size: size) }
+                return CGRect(x: low - 10, y: 0, width: high - low + 20, height: size.height)
+            }
             let rows = chip.layout.slots.map(\.centerY)
             guard let low = rows.min(), let high = rows.max() else { return CGRect(origin: .zero, size: size) }
             return CGRect(x: 0, y: low - 10, width: size.width, height: high - low + 20)
@@ -128,6 +133,7 @@ nonisolated final class EasyEDAProSchematicWriter {
         }
         var key = chip.partNumber + (chip.part.uuid.map { "|" + $0 } ?? "")
         if chip.isFlipped { key += "|flipped" }
+        if chip.rotation != 0 { key += "|r\(chip.rotation)" }
         return build.symbol(key, title: chip.partNumber, type: 2) {
             EasyEDAProSchematicWriter(build).partSymbolFile(chip)
         }

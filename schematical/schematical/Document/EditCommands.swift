@@ -17,8 +17,9 @@ struct EditActions {
     /// The Schematic's Flip; `canFlip` when something there can flip.
     var flip: () -> Bool
     var canFlip: Bool
-    /// The PCB's Rotate, counterclockwise when passed true; `canRotate`
-    /// on the PCB with a rotatable selection.
+    /// Rotate, counterclockwise when passed true; `canRotate` with a
+    /// rotatable selection (on the PCB a footprint or text; on the Schematic
+    /// an LED, diode, resistor or capacitor).
     var rotate: (_ counterclockwise: Bool) -> Bool
     var canRotate: Bool
     /// Asks first; see `SchematicDocument.resetReferences`.
@@ -72,7 +73,8 @@ struct EditCommands: Commands {
             Button("Select All") { perform(.selectAll) }
                 .keyboardShortcut("a", modifiers: .command)
             Divider()
-            // Flip is the Schematic's, Rotate the PCB's.
+            // Flip is the Schematic's; Rotate is the PCB's, and the Schematic's
+            // for LEDs, diodes, resistors and capacitors.
             Button("Flip") { _ = target?.flip() }
                 .keyboardShortcut("f", modifiers: .command)
                 .disabled(target?.canFlip != true)

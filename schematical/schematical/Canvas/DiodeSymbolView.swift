@@ -68,23 +68,20 @@ struct DiodeSymbolView: View {
     }
 
     var body: some View {
-        let layout = chip.layout
-        let margin = ChipLayout.labelMargin
+        let frame = chip.symbolFrameSize
 
         Canvas { context, _ in
             var painter = ScreenPainter(context)
             Self.paint(&painter, chip: chip, isSelected: isSelected, isHovered: isHovered, level: level,
                        mark: mark)
         }
-        .frame(width: layout.size.width + 2 * margin, height: layout.size.height)
+        .frame(width: frame.width, height: frame.height)
     }
 
     /// Draws the LED, its frame's top-left corner at (0, 0).
     static func paint<P: SchematicPainter>(_ painter: inout P, chip: PlacedChip, isSelected: Bool, isHovered: Bool,
                                            level: Double, mark: DiodeMark = .led) {
         let level = mark == .led ? level : 0
-        let layout = chip.layout
-        let margin = ChipLayout.labelMargin
         let stub = ChipLayout.stubLength
         let highlighted = isSelected || isHovered
         let outline: Ink = highlighted ? .accent : .primary
@@ -92,15 +89,13 @@ struct DiodeSymbolView: View {
         let lineWidth: CGFloat = highlighted ? 2 : 1.5
         let mid = ChipLayout.diodeCentreY
 
-        let width = layout.size.width
-        let flipped = chip.isFlipped
+        let width = chip.unturnedSize.width
+        let height = chip.unturnedSize.height
 
-        // Body coordinates, mirrored left to right when flipped, then shifted
-        // by the label margin. Mirroring every point keeps the arrowheads
-        // and leads consistent.
-        func point(_ x: CGFloat, _ y: CGFloat) -> CGPoint {
-            CGPoint(x: (flipped ? width - x : x) + margin, y: y)
-        }
+        // Body coordinates, mirrored left to right when flipped and then
+        // turned, then shifted into the frame. Mapping every point keeps the
+        // arrowheads and leads consistent.
+        func point(_ x: CGFloat, _ y: CGFloat) -> CGPoint { chip.symbolPoint(x, y) }
 
         // Leads: from each pin tip into the symbol.
         var leads = Path()
@@ -149,38 +144,43 @@ struct DiodeSymbolView: View {
         painter.stroke(cathodeBar, with: outline, lineWidth: lineWidth)
 
         guard mark == .led else {
+            let label = chip.symbolLabel(y: height - 8)
             painter.draw(
                 PaintedText(chip.part.function, size: 10, weight: .medium, ink: .secondary),
-                at: point(width / 2, layout.size.height - 8),
-                anchor: .center
+                at: label.point,
+                anchor: label.anchor
             )
             return
         }
 
         // Light emitted up and to the right, with open arrowheads.
         var arrows = Path()
-        addArrow(to: &arrows, from: point(22, mid - 8), to: point(30, mid - 16))
-        addArrow(to: &arrows, from: point(28, mid - 4), to: point(36, mid - 12))
+        addArrow(to: &arrows, from: (22, mid - 8), to: (30, mid - 16), through: point)
+        addArrow(to: &arrows, from: (28, mid - 4), to: (36, mid - 12), through: point)
         painter.stroke(arrows, with: outline, lineWidth: 1.25)
         if level > 0 {
             painter.stroke(arrows, with: light.opacity(level), lineWidth: 1.25)
         }
 
+        let label = chip.symbolLabel(y: height - 8)
         painter.draw(
             PaintedText(chip.part.function, size: 10, weight: .medium, ink: .secondary),
-            at: point(width / 2, layout.size.height - 8),
-            anchor: .center
+            at: label.point,
+            anchor: label.anchor
         )
     }
 
-    /// A line with an open arrowhead at `end`. The arms run back along the
-    /// line's direction, which here is up and to the right.
-    private static func addArrow(to path: inout Path, from start: CGPoint, to end: CGPoint) {
-        path.move(to: start)
-        path.addLine(to: end)
-        path.move(to: end)
-        path.addLine(to: CGPoint(x: end.x - 4, y: end.y))
-        path.move(to: end)
-        path.addLine(to: CGPoint(x: end.x, y: end.y + 4))
+    /// A line with an open arrowhead at `end`, in the unturned symbol's
+    /// coordinates, where it runs up and to the right: the arms run back from
+    /// `end` to its left and below it. `point` carries each point to the
+    /// frame, so a flipped or turned arrow keeps its head on its tip.
+    private static func addArrow(to path: inout Path, from start: (CGFloat, CGFloat), to end: (CGFloat, CGFloat),
+                                 through point: (CGFloat, CGFloat) -> CGPoint) {
+        path.move(to: point(start.0, start.1))
+        path.addLine(to: point(end.0, end.1))
+        path.move(to: point(end.0, end.1))
+        path.addLine(to: point(end.0 - 4, end.1))
+        path.move(to: point(end.0, end.1))
+        path.addLine(to: point(end.0, end.1 + 4))
     }
 }

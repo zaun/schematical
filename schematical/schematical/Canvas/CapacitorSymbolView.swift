@@ -15,14 +15,13 @@ struct CapacitorSymbolView: View {
     let isHovered: Bool
 
     var body: some View {
-        let layout = chip.layout
-        let margin = ChipLayout.labelMargin
+        let frame = chip.symbolFrameSize
 
         Canvas { context, _ in
             var painter = ScreenPainter(context)
             Self.paint(&painter, chip: chip, isSelected: isSelected, isHovered: isHovered)
         }
-        .frame(width: layout.size.width + 2 * margin, height: layout.size.height)
+        .frame(width: frame.width, height: frame.height)
     }
 
     /// The text under the symbol.
@@ -39,21 +38,18 @@ struct CapacitorSymbolView: View {
 
     /// Draws the capacitor, its frame's top-left corner at (0, 0).
     static func paint<P: SchematicPainter>(_ painter: inout P, chip: PlacedChip, isSelected: Bool, isHovered: Bool) {
-        let layout = chip.layout
-        let margin = ChipLayout.labelMargin
         let stub = ChipLayout.stubLength
         let highlighted = isSelected || isHovered
         let outline: Ink = highlighted ? .accent : .primary
         let lineWidth: CGFloat = highlighted ? 2 : 1.5
         let mid = ChipLayout.diodeCentreY
-        let width = layout.size.width
-        let flipped = chip.isFlipped
+        let width = chip.unturnedSize.width
+        let height = chip.unturnedSize.height
         let left = width / 2 - 2
         let right = width / 2 + 2
 
-        func point(_ x: CGFloat, _ y: CGFloat) -> CGPoint {
-            CGPoint(x: (flipped ? width - x : x) + margin, y: y)
-        }
+        // The symbol's own coordinates, flipped and turned with the part.
+        func point(_ x: CGFloat, _ y: CGFloat) -> CGPoint { chip.symbolPoint(x, y) }
 
         var leads = Path()
         leads.move(to: point(-stub, mid))
@@ -84,10 +80,11 @@ struct CapacitorSymbolView: View {
             painter.stroke(plus, with: outline, lineWidth: 1.25)
         }
 
+        let value = chip.symbolLabel(y: height - 8)
         painter.draw(
             PaintedText(label(for: chip), size: 10, weight: .medium, ink: .secondary),
-            at: point(width / 2, layout.size.height - 8),
-            anchor: .center
+            at: value.point,
+            anchor: value.anchor
         )
     }
 }

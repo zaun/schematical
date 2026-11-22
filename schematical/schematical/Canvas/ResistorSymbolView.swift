@@ -14,14 +14,13 @@ struct ResistorSymbolView: View {
     let isHovered: Bool
 
     var body: some View {
-        let layout = chip.layout
-        let margin = ChipLayout.labelMargin
+        let frame = chip.symbolFrameSize
 
         Canvas { context, _ in
             var painter = ScreenPainter(context)
             Self.paint(&painter, chip: chip, isSelected: isSelected, isHovered: isHovered)
         }
-        .frame(width: layout.size.width + 2 * margin, height: layout.size.height)
+        .frame(width: frame.width, height: frame.height)
     }
 
     /// The text above the symbol: "1kΩ", "4.7kΩ", "0Ω".
@@ -32,20 +31,16 @@ struct ResistorSymbolView: View {
 
     /// Draws the resistor, its frame's top-left corner at (0, 0).
     static func paint<P: SchematicPainter>(_ painter: inout P, chip: PlacedChip, isSelected: Bool, isHovered: Bool) {
-        let layout = chip.layout
-        let margin = ChipLayout.labelMargin
         let stub = ChipLayout.stubLength
         let highlighted = isSelected || isHovered
         let outline: Ink = highlighted ? .accent : .primary
         let lineWidth: CGFloat = highlighted ? 2 : 1.5
         let mid = ChipLayout.diodeCentreY
-        let width = layout.size.width
-        let flipped = chip.isFlipped
+        let width = chip.unturnedSize.width
         let lead: CGFloat = 2
 
-        func point(_ x: CGFloat, _ y: CGFloat) -> CGPoint {
-            CGPoint(x: (flipped ? width - x : x) + margin, y: y)
-        }
+        // The symbol's own coordinates, flipped and turned with the part.
+        func point(_ x: CGFloat, _ y: CGFloat) -> CGPoint { chip.symbolPoint(x, y) }
 
         // Leads from each pin tip to the body edge, then the zig-zag across
         // the body: a lead-in, six half-waves, a lead-out.
@@ -61,10 +56,11 @@ struct ResistorSymbolView: View {
         strokes.addLine(to: point(width + stub, mid))
         painter.stroke(strokes, with: outline, lineWidth: lineWidth)
 
+        let value = chip.symbolLabel(y: mid - 14)
         painter.draw(
             PaintedText(label(for: chip), size: 10, weight: .medium, ink: .secondary),
-            at: point(width / 2, mid - 14),
-            anchor: .center
+            at: value.point,
+            anchor: value.anchor
         )
     }
 }

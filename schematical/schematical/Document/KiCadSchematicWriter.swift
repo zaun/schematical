@@ -260,6 +260,7 @@ struct KiCadSchematicWriter {
         var name = KiCad.libraryName(chip.partNumber)
         if chip.part.uuid != nil { name += "_" + String((chip.part.uuid ?? "").prefix(8)) }
         if chip.isFlipped { name += "_flipped" }
+        if chip.rotation != 0 { name += "_r\(chip.rotation)" }
         return name
     }
 
@@ -351,6 +352,11 @@ struct KiCadSchematicWriter {
         let size = chip.layout.size
         switch chip.symbol {
         case .diode, .plainDiode, .capacitor, .resistor:
+            if chip.rotation == 90 || chip.rotation == 270 {
+                let columns = chip.layout.slots.map(\.centerX)
+                guard let low = columns.min(), let high = columns.max() else { return CGRect(origin: .zero, size: size) }
+                return CGRect(x: low - 10, y: 0, width: high - low + 20, height: size.height)
+            }
             let rows = chip.layout.slots.map(\.centerY)
             guard let low = rows.min(), let high = rows.max() else { return CGRect(origin: .zero, size: size) }
             return CGRect(x: 0, y: low - 10, width: size.width, height: high - low + 20)
