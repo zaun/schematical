@@ -266,13 +266,27 @@ final class SchematicFileController {
     private func load(_ file: SchematicFile, from url: URL) {
         do {
             willReplaceDocument()
-            try file.apply(to: document, catalog: catalog, fileURL: url)
+            let embedded = try file.apply(to: document, catalog: catalog, fileURL: url)
             fileURL = url
             // Taken after apply, so a refreshed bookmark is not a change.
             savedSnapshot = SchematicFile(document: document, fileURL: url)
+            // Custom parts that came with the file and are not in the User
+            // Library: offer to add them (plan-53-C). The open is already done.
+            let offered = UserLibraryPrompts.offerable(embedded, catalog: catalog)
+            if !offered.isEmpty {
+                Task { await offerToAdd(offered) }
+            }
         } catch {
             present(error, title: "Couldn't open “\(url.lastPathComponent)”")
         }
+    }
+
+    /// The offer to add a just-opened schematic's custom parts to the User
+    /// Library (plan-53-C). Asked at every open; "Not Now" changes nothing.
+    private func offerToAdd(_ parts: [CatalogPart]) async {
+        let alert = UserLibraryPrompts.fileOpenAlert(names: parts.map(\.name))
+        guard await run(alert) == .alertFirstButtonReturn else { return }
+        await UserLibraryPrompts.addShowingFailures(parts, catalog: catalog, on: window)
     }
 
     /// File > Export > Image…: the options sheet (`ImageExportDialog`),
@@ -578,7 +592,7 @@ enum PartFileLoading {
         panel.allowedContentTypes = PartFileType.openableTypes
         panel.allowsMultipleSelection = false
         panel.canChooseDirectories = false
-        panel.message = "Choose a part file to add to the parts drawer"
+        panel.message = "Choose a part file to add to your User Library"
         let response: NSApplication.ModalResponse
         if let window = NSApp.keyWindow {
             response = await panel.beginSheetModal(for: window)
@@ -588,7 +602,16 @@ enum PartFileLoading {
         guard response == .OK, let url = panel.url else { return }
         do {
             let text = try PartFileReader.read(url: url)
-            try catalog.register(fileText: text, source: url.lastPathComponent)
+            let outcome = try await load(text: text, source: url.lastPathComponent, catalog: catalog) { name in
+                switch await UserLibraryPrompts.run(UserLibraryPrompts.loadPartAlert(name: name)) {
+                case .alertFirstButtonReturn: .add
+                case .alertSecondButtonReturn: .useOnce
+                default: .cancel
+                }
+            }
+            if case let .alreadyInLibrary(part) = outcome {
+                _ = await UserLibraryPrompts.run(UserLibraryPrompts.alreadyInLibraryAlert(name: part.name))
+            }
         } catch {
             let alert = NSAlert()
             alert.alertStyle = .warning

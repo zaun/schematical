@@ -361,6 +361,22 @@ struct ChipDrawerView: View, Equatable {
         .contentShape(Rectangle())
         .draggable(ChipPartDragItem(partNumber: part.name))
         .contextMenu {
+            // plan-53-C: a part that came with a schematic can be kept; a
+            // kept one can be taken out again.
+            if part.uuid != nil {
+                switch catalog.listing(of: part) {
+                case .file:
+                    Button("Add to User Library") {
+                        Task { await UserLibraryPrompts.addShowingFailures([part], catalog: catalog) }
+                    }
+                case .user:
+                    Button("Remove from User Library…") {
+                        Task { await removeFromUserLibrary(part) }
+                    }
+                default:
+                    EmptyView()
+                }
+            }
             // plan-32-C: a copy with a new uuid; the library part is never edited.
             if let kind = PartKinds.name(of: part.kind), PartDraft.enabledKinds.contains(kind) {
                 Button("Copy to Editor…") {
@@ -369,6 +385,20 @@ struct ChipDrawerView: View, Equatable {
             }
         }
         .padding(.leading, CGFloat(depth) * DrawerRowItem.indent)
+    }
+
+    /// Right-click › Remove from User Library…: after the confirmation, deletes
+    /// the part's library file and takes it out of the drawer.
+    private func removeFromUserLibrary(_ part: CatalogPart) async {
+        guard let uuid = part.uuid,
+              await UserLibraryPrompts.run(UserLibraryPrompts.removeAlert(name: part.name)) == .alertFirstButtonReturn
+        else { return }
+        do {
+            try catalog.removeFromUserLibrary(uuid: uuid)
+        } catch {
+            _ = await UserLibraryPrompts.run(UserLibraryPrompts.failuresAlert(
+                title: "Couldn't remove from your User Library", failures: [(part.name, error)]))
+        }
     }
 
     /// Package, then the kind's facts: family, speed grade, actuator or color;

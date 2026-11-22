@@ -39,6 +39,74 @@ enum UserLibraryPrompts {
     }
 }
 
+/// The alerts (plan-53-C § 3): built here as plain `NSAlert`s so a test can
+/// read their text and buttons; the first button is the default.
+extension UserLibraryPrompts {
+    static func loadPartAlert(name: String) -> NSAlert {
+        let alert = NSAlert()
+        alert.messageText = "Add “\(name)” to your User Library?"
+        alert.informativeText = "Adding keeps it for every schematic. Using it once keeps it until you quit."
+        alert.addButton(withTitle: "Add to Library")
+        alert.addButton(withTitle: "Use Once")
+        alert.addButton(withTitle: "Cancel")
+        return alert
+    }
+
+    static func alreadyInLibraryAlert(name: String) -> NSAlert {
+        let alert = NSAlert()
+        alert.messageText = "“\(name)” is already in your User Library."
+        alert.addButton(withTitle: "OK")
+        return alert
+    }
+
+    /// Up to 8 names, one per line, then `and N more`.
+    static func fileOpenAlert(names: [String]) -> NSAlert {
+        let alert = NSAlert()
+        alert.messageText = "This schematic has custom parts that are not in your User Library"
+        var lines = names.prefix(8).map { "• \($0)" }
+        if names.count > 8 { lines.append("and \(names.count - 8) more") }
+        alert.informativeText = lines.joined(separator: "\n") + "\n\nThey are saved in the schematic either way."
+        alert.addButton(withTitle: "Add to Library")
+        alert.addButton(withTitle: "Not Now")
+        return alert
+    }
+
+    static func removeAlert(name: String) -> NSAlert {
+        let alert = NSAlert()
+        alert.messageText = "Remove “\(name)” from your User Library?"
+        alert.informativeText = "Schematics that use it keep their own copy."
+        alert.addButton(withTitle: "Remove")
+        alert.addButton(withTitle: "Cancel")
+        return alert
+    }
+
+    /// One alert for the failures of an add or remove: a `NAME: reason` line each.
+    static func failuresAlert(title: String, failures: [(name: String, error: Error)]) -> NSAlert {
+        let alert = NSAlert()
+        alert.alertStyle = .warning
+        alert.messageText = title
+        alert.informativeText = failures.map { "\($0.name): \($0.error.localizedDescription)" }.joined(separator: "\n")
+        alert.addButton(withTitle: "OK")
+        return alert
+    }
+
+    /// Shows `alert` as a sheet on the key window, or on its own.
+    static func run(_ alert: NSAlert, on window: NSWindow? = nil) async -> NSApplication.ModalResponse {
+        if let window = window ?? NSApp.keyWindow {
+            return await alert.beginSheetModal(for: window)
+        }
+        return alert.runModal()
+    }
+
+    /// Adds `parts`, showing the failures alert when any could not be added.
+    static func addShowingFailures(_ parts: [CatalogPart], catalog: PartCatalogStore, on window: NSWindow? = nil) async {
+        let failures = add(parts, catalog: catalog)
+        if !failures.isEmpty {
+            _ = await run(failuresAlert(title: "Couldn't add to your User Library", failures: failures), on: window)
+        }
+    }
+}
+
 extension PartFileLoading {
     /// File › Load Part… after its panel: reads the file's identity, asks
     /// (`ask`, with the part's name) unless the part is already in the User

@@ -218,17 +218,17 @@ Safe alone: pure functions and one new return value, no alert shown yet.
 
 Acceptance: the cores do what § 3 says on stub answers. **MET** (`xcodebuild test … UserLibraryPromptsTests SchematicFileV5Tests` → `Executed 18 tests, with 0 failures`, `** TEST SUCCEEDED **`; `PartFileLoading.load` lives in `UserLibraryPrompts.swift` as an extension of `PartFileLoading`, not in `SchematicFileController.swift`)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/UserLibraryPromptsTests -only-testing:schematicalTests/SchematicFileV5Tests` → `** TEST SUCCEEDED **` (est. 6–12 min).
-Commit: —
+Commit: 55e870c1
 
 ### Phase 2 — The alerts and the drawer menu
 
-- [ ] `UserLibraryPrompts.swift`: the alert builders of § 3 as pure functions returning an `NSAlert` (message, text, buttons) so a test can read them: `loadPartAlert(name:)`, `alreadyInLibraryAlert(name:)`, `fileOpenAlert(names:)`, `removeAlert(name:)`, `failuresAlert(title:failures:)`.
-- [ ] `SchematicFileController.swift`: `loadPart` asks with `loadPartAlert` (sheet on the key window, as the open panel is) and shows `alreadyInLibraryAlert`; `load(_:from:)` runs § 4.2.
-- [ ] `ChipDrawerView.swift`: the two context-menu items (§ 4.5).
-- [ ] `Help/KeyboardHelp.swift`: the three entries (§ 4.6).
-- [ ] `schematicalTests/UserLibraryPromptsTests.swift`: each alert builder's message, button titles in order and default button (first); `fileOpenAlert` with 10 names lists 8 and says `and 2 more`.
+- [x] `UserLibraryPrompts.swift`: the alert builders of § 3 as pure functions returning an `NSAlert` (message, text, buttons) so a test can read them: `loadPartAlert(name:)`, `alreadyInLibraryAlert(name:)`, `fileOpenAlert(names:)`, `removeAlert(name:)`, `failuresAlert(title:failures:)`.
+- [x] `SchematicFileController.swift`: `loadPart` asks with `loadPartAlert` (sheet on the key window, as the open panel is) and shows `alreadyInLibraryAlert`; `load(_:from:)` runs § 4.2.
+- [x] `ChipDrawerView.swift`: the two context-menu items (§ 4.5).
+- [x] `Help/KeyboardHelp.swift`: the three entries (§ 4.6).
+- [x] `schematicalTests/UserLibraryPromptsTests.swift`: each alert builder's message, button titles in order and default button (first); `fileOpenAlert` with 10 names lists 8 and says `and 2 more`.
 
-Acceptance: the alert texts and buttons are as in § 3, and the drawer menu items call the catalog (covered by Phase 3's runtime check).
+Acceptance: the alert texts and buttons are as in § 3, and the drawer menu items call the catalog (covered by Phase 3's runtime check). **MET** (`xcodebuild test … UserLibraryPromptsTests KeyboardHelpTests` → `Executed 14 tests, with 0 failures`, `** TEST SUCCEEDED **`; the drawer menu items and sheets are exercised in plan-53-F's real-app run)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/UserLibraryPromptsTests -only-testing:schematicalTests/KeyboardHelpTests` → `** TEST SUCCEEDED **` (est. 6–12 min).
 Commit: —
 

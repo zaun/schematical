@@ -154,6 +154,45 @@ final class UserLibraryPromptsTests: XCTestCase {
         XCTAssertEqual(UserLibraryPrompts.offerable(parts, catalog: store).map(\.name), ["PR-G2"])
     }
 
+    private func buttons(_ alert: NSAlert) -> [String] { alert.buttons.map(\.title) }
+
+    /// The alerts' texts and buttons (plan-53-C § 3); the first button is the default.
+    func testAlertTextsAndButtons() {
+        let load = UserLibraryPrompts.loadPartAlert(name: "X")
+        XCTAssertEqual(load.messageText, "Add “X” to your User Library?")
+        XCTAssertEqual(buttons(load), ["Add to Library", "Use Once", "Cancel"])
+        XCTAssertEqual(load.buttons.first?.keyEquivalent, "\r")
+
+        let already = UserLibraryPrompts.alreadyInLibraryAlert(name: "X")
+        XCTAssertEqual(already.messageText, "“X” is already in your User Library.")
+        XCTAssertEqual(buttons(already), ["OK"])
+
+        let open = UserLibraryPrompts.fileOpenAlert(names: ["A", "B"])
+        XCTAssertEqual(open.messageText, "This schematic has custom parts that are not in your User Library")
+        XCTAssertEqual(open.informativeText, "• A\n• B\n\nThey are saved in the schematic either way.")
+        XCTAssertEqual(buttons(open), ["Add to Library", "Not Now"])
+
+        let remove = UserLibraryPrompts.removeAlert(name: "X")
+        XCTAssertEqual(remove.messageText, "Remove “X” from your User Library?")
+        XCTAssertEqual(remove.informativeText, "Schematics that use it keep their own copy.")
+        XCTAssertEqual(buttons(remove), ["Remove", "Cancel"])
+
+        struct Boom: LocalizedError { var errorDescription: String? { "no" } }
+        let failed = UserLibraryPrompts.failuresAlert(
+            title: "Couldn't add to your User Library", failures: [("A", Boom()), ("B", Boom())])
+        XCTAssertEqual(failed.messageText, "Couldn't add to your User Library")
+        XCTAssertEqual(failed.informativeText, "A: no\nB: no")
+    }
+
+    /// Ten names list eight and say how many more.
+    func testFileOpenAlertListsEightNames() {
+        let names = (1...10).map { "P\($0)" }
+        let text = UserLibraryPrompts.fileOpenAlert(names: names).informativeText
+        XCTAssertTrue(text.contains("• P8"))
+        XCTAssertFalse(text.contains("• P9"))
+        XCTAssertTrue(text.contains("and 2 more"))
+    }
+
     /// `add` returns a failure for a part it cannot add and still adds the
     /// others; with an unwritable folder every part fails.
     func testAddCollectsFailuresAndAddsTheRest() throws {
