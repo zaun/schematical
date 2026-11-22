@@ -187,7 +187,7 @@ would hide that the part is a resonator).
 
 Acceptance: the facts, names and reference are right on the real catalog.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p44-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/CrystalTests` → `** TEST SUCCEEDED **` (est. 8 min: build + one test class). Output 2026-11-22: `Executed 7 tests, with 0 failures`, `** TEST SUCCEEDED **` (`testPlacingTheGenericCrystal`, `testReferences`, `testTheGenericResonator`, `testCatalogFacts`, `testLayout`, `testRendering`, `testDrawerOrder`).
-Commit: —
+Commit: 7aa4897d
 
 ### Phase 2 — The symbol
 
@@ -203,7 +203,7 @@ Commit: —
 
 Acceptance: crystals draw as crystals.
   Check: `xcodebuild … test -only-testing:schematicalTests/CrystalTests` → `** TEST SUCCEEDED **` (est. 8 min). Output 2026-11-22: as Phase 1 (the layout test runs over the 471 drawer-visible crystal-kind parts: X1 left, X2 right, no `NC`, `GND` at the bottom centre where there is one; the render test: the export scene's bounds are over 40 × 14 pt for the generic crystal, the resonator and a four-pad part).
-Commit: —
+Commit: 7aa4897d
 
 ### Phase 3 — Drawer order, the harness
 
@@ -223,7 +223,7 @@ Commit: —
 
 Acceptance: the drawer, the sidebar and the play-mode outcome work end to end.
   Check: `rm -rf /tmp/p44-harness && APP=/tmp/p44-dd/Build/Products/Debug/schematical.app scripts/harness/build.sh scripts/harness/crystal-app.swift /tmp/p44-harness && /tmp/p44-harness/H.app/Contents/MacOS/harness` → every line `ok`, exit 0; and `xcodebuild … test -only-testing:schematicalTests/CrystalTests -only-testing:schematicalTests/DrawerPerformanceTests -only-testing:schematicalTests/PartEditorWindowTests` → `** TEST SUCCEEDED **` (est. 15 min: app build, harness, three test classes). Output 2026-11-22: harness: `ok   1 drawer: Crystal → kHz ["32 kHz", "32.768 kHz"]; MHz ["Under 4 MHz", "4 MHz to 8 MHz", "8 MHz to 16 MHz", "16 MHz to 32 MHz", "32 MHz and over"]; Ceramic resonator ["Under 4 MHz", "4 MHz to 8 MHz", "8 MHz to 16 MHz", "16 MHz and over"]; Generic ["Generic"]`, `crystal parts in the drawer: 471`, `ok   1 each leaf's parts are in frequency order`, three `ok   2 …` lines (GENERIC-CRYSTAL-8M "Crystal", GENERIC-RESONATOR-8M "Ceramic resonator" with `Built-in capacitors: Yes`, ABS07-32.768KHZ-T with `Load capacitance: 12.5 pF`, `Tolerance: ±20 ppm`, `ESR: 70 kΩ`), `ok   3 GENERIC-CRYSTAL-8M placed: Y1 on HC-49/US`, `GENERIC-CRYSTAL-32768 → SN74HC04N → R → LED: light 0.49989590194328093` / `ok   4 … the LED lights`, `PULLUP-5V → … light 0.0` / `ok   4 … the LED stays dark`, `ok   5 images written`, `all checks ok`, exit 0; xcodebuild: `Executed 22 tests, with 0 failures`, `** TEST SUCCEEDED **`.
-Commit: —
+Commit: 7aa4897d
 
 ## Validation Plan
 
