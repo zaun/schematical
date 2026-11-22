@@ -25,7 +25,7 @@ The shared gate is in plan-52-A. This sub-plan adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-52-G is complete | `ls planning/completed \| grep -c '^plan-52-G'` → 1 | NOT MET (2026-11-21: 0; A–G are not started) |
+| plan-52-G is complete | `ls planning/completed \| grep -c '^plan-52-G'` → 1 | MET (2026-11-21: plan-52-G landed as ec7e263a) |
 | the app builds (Phase 3 launches it; the build row is in plan-52-A) | see plan-52-A's Xcode row | MET (2026-11-21: `** BUILD SUCCEEDED **`) |
 
 Everything below is written against the world where these hold.
@@ -98,29 +98,29 @@ no-pour boards); a diff there is a bug to root-cause, not a stop. For pours, the
 
 ### Phase 1 — The design rule check
 
-- [ ] `DesignRuleCheck.swift`: `Kind.pour` (last); `BoardConnectivity.pourContains` (in `PourConnectivity.swift`); `endIsConnected` and `touchingCount` as § 4; `checkPours()` with the five issues of § 1, called from `run()`;
+- [x] `DesignRuleCheck.swift`: `Kind.pour` (last); `BoardConnectivity.pourContains` (in `PourConnectivity.swift`); `endIsConnected` and `touchingCount` as § 4; `checkPours()` with the five issues of § 1, called from `run()`;
       extend whatever the compiler flags for the new kind (`DesignRuleCheckWindow` grouping/titles).
-- [ ] Tests: new `schematicalTests/PourDesignRuleTests.swift`, on the two-LED board (as `PlaneNetTests`): (a) a trace from a ground pad into a Top ground pour ends inside it: no "End … is not connected"; the same trace with no pour: reported;
+- [x] Tests: new `schematicalTests/PourDesignRuleTests.swift`, on the two-LED board (as `PlaneNetTests`): (a) a trace from a ground pad into a Top ground pour ends inside it: no "End … is not connected"; the same trace with no pour: reported;
       (b) a via inside the pour with one trace: no "Goes nowhere"; (c) each of the five `.pour` issues appears with its sentence and selects the pour; (d) a clean pour (thermal, net, copper, no overlap) gives none; (e) with a pour present
       `designRuleCheck` of the ground net has no `.unrouted` line (D's join) and no `.short`.
-- [ ] Run the four DRC goldens unchanged.
+- [x] Run the four DRC goldens unchanged.
 
 Acceptance: (a)–(e) hold and the four goldens pass without regeneration.
-  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/PourDesignRuleTests -only-testing:schematicalTests/DesignRuleCheckTests -only-testing:schematicalTests/DesignRuleGoldenTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 8 min; the golden suite runs the router fixtures, so it is the slow part).
-Commit: —
+  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/PourDesignRuleTests -only-testing:schematicalTests/DesignRuleCheckTests -only-testing:schematicalTests/DesignRuleGoldenTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 8 min; the golden suite runs the router fixtures, so it is the slow part). Observed (with `AutomationTests`): `Executed 53 tests, with 0 failures`, `** TEST SUCCEEDED **`; the four DRC goldens passed without regeneration.
+Commit: COMMIT_H
 
 ### Phase 2 — Automation
 
-- [ ] `AutomationBoard.swift`: the four tools of § 4 in `boardTools` (summaries in the file's style; `edits: true`); share the net parser with `set_layer` (`planeNet(_:_:)`).
-- [ ] `AutomationRead.swift` `boardText`: `POURS` (`  <id> <layer> net=<fileValue or none> (x,y) WxH clearance=… connection=… gap=… spoke=… minwidth=… [locked]`) and `KEEPOUTS` (`  <id> (x,y) WxH layers=<names or all> [locked]`) after `VIAS`.
-- [ ] `AutomationSchematic.swift`: `lock` and `delete` accept `pour:ID`/`keepout:ID` (plan-52-A added the names; check the two paths run).
-- [ ] `docs/agent-control.md`: the four tools in the board list (`:75`), `POURS`/`KEEPOUTS` in `get_board`, and the item names.
-- [ ] Tests: `AutomationTests` (f) `add_pour` with `whole_board` on top, net ground: `doc.pours.count == 1`, rect equals the board bounds, `get_board` lists it; (g) `set_pour` to a Plane layer errors; `add_pour` with net `9V` errors; (h) `add_keepout` with `layers: ["top"]` sets `layers == [.top]`;
+- [x] `AutomationBoard.swift`: the four tools of § 4 in `boardTools` (summaries in the file's style; `edits: true`); share the net parser with `set_layer` (`planeNet(_:_:)`).
+- [x] `AutomationRead.swift` `boardText`: `POURS` (`  <id> <layer> net=<fileValue or none> (x,y) WxH clearance=… connection=… gap=… spoke=… minwidth=… [locked]`) and `KEEPOUTS` (`  <id> (x,y) WxH layers=<names or all> [locked]`) after `VIAS`.
+- [x] `AutomationSchematic.swift`: `lock` and `delete` accept `pour:ID`/`keepout:ID` (plan-52-A added the names; check the two paths run).
+- [x] `docs/agent-control.md`: the four tools in the board list (`:75`), `POURS`/`KEEPOUTS` in `get_board`, and the item names.
+- [x] Tests: `AutomationTests` (f) `add_pour` with `whole_board` on top, net ground: `doc.pours.count == 1`, rect equals the board bounds, `get_board` lists it; (g) `set_pour` to a Plane layer errors; `add_pour` with net `9V` errors; (h) `add_keepout` with `layers: ["top"]` sets `layers == [.top]`;
       (i) `delete` of `pour:ID` removes it, undo restores it; (j) `lock` of `pour:ID` locks it.
 
 Acceptance: (f)–(j) hold.
-  Check: `xcodebuild … test -only-testing:schematicalTests/AutomationTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min).
-Commit: —
+  Check: `xcodebuild … test -only-testing:schematicalTests/AutomationTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min). Observed: `Executed 30 tests, with 0 failures`, `** TEST SUCCEEDED **`.
+Commit: COMMIT_H
 
 ### Phase 3 — Landing
 
@@ -137,7 +137,7 @@ Commit: —
 
 ## Validation Plan
 
-- Tests: `PourDesignRuleTests` (new), `AutomationTests` (extended), `DesignRuleCheckTests`, `DesignRuleGoldenTests` (unchanged).
+- Tests: `PourDesignRuleTests` (new, 5 cases), `AutomationTests` (extended, one case), `DesignRuleCheckTests`, `DesignRuleGoldenTests` (unchanged).
 - Coverage check: `grep -c "pour" schematical/schematical/DesignRuleCheck/DesignRuleCheck.swift` → at least 6, every one reached by (a)–(e).
 - Runtime proof: Phase 3's walk in the real app.
 - Doc sync: `docs/agent-control.md`, `docs/routing.md`, `planning/todo.md`; (`docs/file-format.md` in B, `docs/export.md` in G).

@@ -114,6 +114,43 @@ extension AutomationTools {
             required: ["x", "y"], edits: true,
             run: { context, args in Out.text(try addHole(context!, args)) }),
         AutomationTool(
+            name: "add_pour",
+            summary: "PCB: flood a rectangle with copper on one net (a copper pour). x, y, width, height in mm, or "
+                + "whole_board. It keeps its clearance from other nets' copper and from keep-outs, and joins the pads "
+                + "of its net (thermal reliefs by default). layer is a trace layer (top by default, not a plane).",
+            properties: pourProperties(needsPlace: true),
+            edits: true,
+            run: { context, args in Out.text(try addPour(context!, args)) }),
+        AutomationTool(
+            name: "set_pour",
+            summary: "PCB: change a pour: id (from get_board, or pour:ID), then any of layer, net, x, y, width, height, "
+                + "whole_board, clearance, connection, thermal_gap, spoke_width, min_width, locked.",
+            properties: pourProperties(needsPlace: false).merging(["id": Schema.string("pour:ID or the id")]) { a, _ in a },
+            required: ["id"], edits: true,
+            run: { context, args in Out.text(try setPour(context!, args)) }),
+        AutomationTool(
+            name: "add_keepout",
+            summary: "PCB: add a keep-out that pours stay out of (it blocks copper pours only). x, y, width, height "
+                + "in mm, or whole_board. layers is a list of layer names, or all (the default).",
+            properties: [
+                "x": Schema.number("mm"), "y": Schema.number("mm"), "width": Schema.number("mm"),
+                "height": Schema.number("mm"), "whole_board": Schema.boolean("Cover the board"),
+                "layers": Schema.strings("Layer names, or [\"all\"]"),
+            ],
+            edits: true,
+            run: { context, args in Out.text(try addKeepout(context!, args)) }),
+        AutomationTool(
+            name: "set_keepout",
+            summary: "PCB: change a keep-out: id (from get_board, or keepout:ID), then any of x, y, width, height, "
+                + "whole_board, layers, locked.",
+            properties: [
+                "id": Schema.string("keepout:ID or the id"), "x": Schema.number("mm"), "y": Schema.number("mm"),
+                "width": Schema.number("mm"), "height": Schema.number("mm"), "whole_board": Schema.boolean("Cover the board"),
+                "layers": Schema.strings("Layer names, or [\"all\"]"), "locked": Schema.boolean("Lock position"),
+            ],
+            required: ["id"], edits: true,
+            run: { context, args in Out.text(try setKeepout(context!, args)) }),
+        AutomationTool(
             name: "add_board_text",
             summary: "PCB: add text at x,y mm (its top-left), on the silkscreen (default) or document layer.",
             properties: [
@@ -128,7 +165,7 @@ extension AutomationTools {
         AutomationTool(
             name: "lock",
             summary: "Lock or unlock the position of PCB items so dragging and moves leave them: \"fp:U1\", "
-                + "\"trace:ID\", \"via:ID\", \"hole:ID\", \"text:ID\".",
+                + "\"trace:ID\", \"via:ID\", \"hole:ID\", \"pour:ID\", \"keepout:ID\", \"text:ID\".",
             properties: ["items": Schema.strings("Items"), "locked": Schema.boolean("true (default) or false")],
             required: ["items"], edits: true,
             run: { context, args in
@@ -400,6 +437,157 @@ extension AutomationTools {
         document.clearAllSelections()
         guard let id, let hole = document.holes.first(where: { $0.id == id }) else { throw AutomationFailure("no hole added") }
         return "hole \(context.short(id)) at (\(num(hole.centre.x)),\(num(hole.centre.y))) drill \(num(hole.drill)) plated=\(hole.plated)"
+    }
+
+    // MARK: Pours and keep-outs
+
+    private static func pourProperties(needsPlace: Bool) -> [String: Any] {
+        [
+            "layer": Schema.string("top (default), bottom, inner2… (a trace layer, not a plane)"),
+            "net": Schema.string("ground, 5V, 3.3V, pin:U1.3 or none"),
+            "x": Schema.number("mm"), "y": Schema.number("mm"), "width": Schema.number("mm"), "height": Schema.number("mm"),
+            "whole_board": Schema.boolean("Cover the board"),
+            "clearance": Schema.number("Gap to other nets, mm (default the DRC minimum)"),
+            "connection": Schema.string("thermal (default) or solid", options: PourConnection.allCases.map(\.rawValue)),
+            "thermal_gap": Schema.number("Ring cut round each pad, mm"), "spoke_width": Schema.number("mm"),
+            "min_width": Schema.number("Narrowest piece kept, mm"), "locked": Schema.boolean("Lock position"),
+        ]
+    }
+
+    /// The rectangle the arguments name: whole_board, or x, y, width and height (each optional against `current`).
+    private static func rect(_ args: AutomationArgs, _ document: SchematicDocument, current: CGRect?) throws -> CGRect? {
+        if args.optBool("whole_board") == true {
+            guard let bounds = document.boardOutlineBounds else { throw AutomationFailure("the board has no outline") }
+            return bounds
+        }
+        let values = [args.optDouble("x"), args.optDouble("y"), args.optDouble("width"), args.optDouble("height")]
+        if values.allSatisfy({ $0 == nil }) {
+            if current == nil { throw AutomationFailure("give x, y, width and height (mm), or whole_board") }
+            return nil
+        }
+        guard let base = current ?? ((values.allSatisfy { $0 != nil }) ? CGRect.zero : nil) else {
+            throw AutomationFailure("give x, y, width and height (mm), or whole_board")
+        }
+        let rect = CGRect(x: args.optDouble("x") ?? base.minX, y: args.optDouble("y") ?? base.minY,
+                          width: args.optDouble("width") ?? base.width, height: args.optDouble("height") ?? base.height)
+        guard rect.width >= BoardPour.minimumSide, rect.height >= BoardPour.minimumSide else {
+            throw AutomationFailure("width and height must be at least \(num(BoardPour.minimumSide)) mm")
+        }
+        return rect
+    }
+
+    private static func pourID(_ context: AutomationContext, _ args: AutomationArgs) throws -> UUID {
+        var spec = try args.string("id")
+        if spec.lowercased().hasPrefix("pour:") { spec = String(spec.dropFirst(5)) }
+        return try context.find(context.document.pours, spec, kind: "pour").id
+    }
+
+    private static func describe(_ pour: BoardPour, _ context: AutomationContext) -> String {
+        let copper = context.document.connectivity()
+        return "pour \(context.short(pour.id)) on \(pour.layer.rawValue) net \(pour.net?.fileValue ?? "none") at "
+            + "(\(num(pour.rect.minX)),\(num(pour.rect.minY))) \(num(pour.rect.width))x\(num(pour.rect.height)); "
+            + PourSection.fillSummary(pour, copper: copper).lowercased()
+    }
+
+    private static func applyPour(_ id: UUID, _ context: AutomationContext, _ args: AutomationArgs, rect: CGRect?) throws {
+        let document = context.document
+        if let name = args.optString("layer") {
+            let layer = try self.layer(name, document)
+            guard document.board.traceLayers.contains(layer) else { throw AutomationFailure("\(name) is a plane; a pour goes on a trace layer") }
+            document.setPourLayer(id, layer)
+        }
+        if let net = try args.optString("net").map({ try planeNet($0, context) }) { document.setPourNet(id, net) }
+        if let rect { document.setPourRect(id, rect) }
+        if let clearance = args.optDouble("clearance") { document.setPourClearance(id, clearance) }
+        if let name = args.optString("connection") {
+            guard let connection = PourConnection(rawValue: name) else { throw AutomationFailure("connection must be thermal or solid") }
+            document.setPourConnection(id, connection)
+        }
+        func ranged(_ key: String, _ range: ClosedRange<Double>) throws -> Double? {
+            guard let value = args.optDouble(key) else { return nil }
+            guard range.contains(value) else { throw AutomationFailure("\(key) must be \(num(range.lowerBound)) to \(num(range.upperBound)) mm") }
+            return value
+        }
+        if let gap = try ranged("thermal_gap", BoardPour.gapRange) { document.setPourThermalGap(id, gap) }
+        if let width = try ranged("spoke_width", BoardPour.spokeRange) { document.setPourSpokeWidth(id, width) }
+        if let width = try ranged("min_width", BoardPour.minWidthRange) { document.setPourMinWidth(id, width) }
+        if let locked = args.optBool("locked") { document.setLocked(.pour(id), locked) }
+    }
+
+    private static func addPour(_ context: AutomationContext, _ args: AutomationArgs) throws -> String {
+        let document = context.document
+        let layer = try args.optString("layer").map { try self.layer($0, document) } ?? .top
+        guard document.board.traceLayers.contains(layer) else { throw AutomationFailure("\(layer.rawValue) is a plane; a pour goes on a trace layer") }
+        // Everything is checked before anything changes.
+        let rect = try rect(args, document, current: nil)!
+        if let name = args.optString("net") { _ = try planeNet(name, context) }
+        var id: UUID?
+        var failure: Error?
+        document.recordEdit(.pcb, "Add Pour") {
+            id = document.addPour(rect: rect, layer: layer)
+            guard let id else { return }
+            do { try applyPour(id, context, args, rect: nil) } catch { failure = error }
+        }
+        document.clearAllSelections()
+        if let failure { throw failure }
+        guard let id, let pour = document.pours.first(where: { $0.id == id }) else { throw AutomationFailure("no pour added") }
+        return describe(pour, context)
+    }
+
+    private static func setPour(_ context: AutomationContext, _ args: AutomationArgs) throws -> String {
+        let document = context.document
+        let id = try pourID(context, args)
+        guard let before = document.pours.first(where: { $0.id == id }) else { throw AutomationFailure("no such pour") }
+        let rect = try rect(args, document, current: before.rect)
+        var failure: Error?
+        document.recordEdit(.pcb, "Change Pour") {
+            do { try applyPour(id, context, args, rect: rect) } catch { failure = error }
+        }
+        if let failure { throw failure }
+        guard let pour = document.pours.first(where: { $0.id == id }) else { throw AutomationFailure("no such pour") }
+        return describe(pour, context)
+    }
+
+    private static func keepoutLayers(_ args: AutomationArgs, _ document: SchematicDocument) throws -> Set<CopperLayer>?? {
+        guard args.raw["layers"] != nil else { return .none }
+        let names = try args.strings("layers")
+        if names.contains(where: { $0.lowercased() == "all" }) { return .some(nil) }
+        var layers = Set<CopperLayer>()
+        for name in names { layers.insert(try layer(name, document)) }
+        return .some(layers)
+    }
+
+    private static func describe(_ keepout: BoardKeepout, _ context: AutomationContext) -> String {
+        "keepout \(context.short(keepout.id)) at (\(num(keepout.rect.minX)),\(num(keepout.rect.minY))) "
+            + "\(num(keepout.rect.width))x\(num(keepout.rect.height)) layers "
+            + (keepout.layers.map { $0.map(\.rawValue).sorted().joined(separator: ",") } ?? "all")
+    }
+
+    private static func addKeepout(_ context: AutomationContext, _ args: AutomationArgs) throws -> String {
+        let document = context.document
+        let rect = try rect(args, document, current: nil)!
+        let layers = try keepoutLayers(args, document) ?? nil
+        let id = document.addKeepout(rect: rect, layers: layers)
+        document.clearAllSelections()
+        guard let keepout = document.keepouts.first(where: { $0.id == id }) else { throw AutomationFailure("no keep-out added") }
+        return describe(keepout, context)
+    }
+
+    private static func setKeepout(_ context: AutomationContext, _ args: AutomationArgs) throws -> String {
+        let document = context.document
+        var spec = try args.string("id")
+        if spec.lowercased().hasPrefix("keepout:") { spec = String(spec.dropFirst(8)) }
+        let id = try context.find(document.keepouts, spec, kind: "keep-out").id
+        guard let before = document.keepouts.first(where: { $0.id == id }) else { throw AutomationFailure("no such keep-out") }
+        let rect = try rect(args, document, current: before.rect)
+        let layers = try keepoutLayers(args, document)
+        document.recordEdit(.pcb, "Change Keep-out") {
+            if let rect { document.setKeepoutRect(id, rect) }
+            if let layers { document.setKeepoutLayers(id, layers) }
+            if let locked = args.optBool("locked") { document.setLocked(.keepout(id), locked) }
+        }
+        guard let keepout = document.keepouts.first(where: { $0.id == id }) else { throw AutomationFailure("no such keep-out") }
+        return describe(keepout, context)
     }
 
     private static func addBoardText(_ context: AutomationContext, _ args: AutomationArgs) throws -> String {

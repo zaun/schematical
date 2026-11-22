@@ -624,4 +624,70 @@ final class AutomationTests: XCTestCase {
         let files = await call("list_files", id)
         XCTAssertTrue(files.isError)
     }
+
+    // MARK: Pours and keep-outs (plan-52-H)
+
+    func testPoursAndKeepouts() async {
+        let (id, doc) = newWindow()
+        _ = await call("place_part", id, ["part": "GND", "x": 100, "y": 100])
+        var result = await call("add_pour", id, ["whole_board": true, "net": "ground"])
+        XCTAssertFalse(result.isError, result.text)
+        guard doc.pours.count == 1 else { return XCTFail("no pour: \(result.text)") }
+        XCTAssertEqual(doc.pours.first?.net, .ground)
+        XCTAssertEqual(doc.pours.first?.layer, .top)
+        let bounds = doc.boardOutlineBounds
+        XCTAssertEqual(doc.pours.first?.rect.width ?? 0, bounds?.width ?? -1, accuracy: doc.board.traceGrid)
+        XCTAssertEqual(doc.undoName(on: .pcb), "Add Pour")
+        let board = await call("get_board", id)
+        XCTAssertTrue(board.text.contains("POURS"), board.text)
+        XCTAssertTrue(board.text.contains("net=ground"), board.text)
+        XCTAssertTrue(board.text.contains("connection=thermal"), board.text)
+        // Settings.
+        let pour = AutomationTestsPourID.short(try! XCTUnwrap(doc.pours.first).id)
+        result = await call("set_pour", id, ["id": "pour:" + pour, "connection": "solid", "thermal_gap": 0.8, "layer": "bottom",
+                                              "clearance": 0.4, "locked": true])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(doc.pours.first?.connection, .solid)
+        XCTAssertEqual(doc.pours.first?.thermalGap, 0.8)
+        XCTAssertEqual(doc.pours.first?.layer, .bottom)
+        XCTAssertEqual(doc.pours.first?.clearance, 0.4)
+        XCTAssertEqual(doc.pours.first?.locked, true)
+        // Errors name the problem and change nothing.
+        result = await call("add_pour", id, ["whole_board": true, "net": "9V"])
+        XCTAssertTrue(result.isError)
+        XCTAssertEqual(doc.pours.count, 1)
+        result = await call("add_pour", id, ["x": 1, "y": 1, "width": 5])
+        XCTAssertTrue(result.isError, "width and height are both needed")
+        result = await call("set_pour", id, ["id": pour, "thermal_gap": 99])
+        XCTAssertTrue(result.isError)
+        _ = await call("set_layer", id, ["layer": "inner2"])
+        result = await call("add_pour", id, ["whole_board": true, "layer": "inner2"])
+        XCTAssertTrue(result.isError)
+        // Keep-outs.
+        result = await call("add_keepout", id, ["x": 10, "y": 10, "width": 8, "height": 6, "layers": ["top"]])
+        XCTAssertFalse(result.isError, result.text)
+        guard doc.keepouts.count == 1 else { return XCTFail("no keep-out: \(result.text)") }
+        XCTAssertEqual(doc.keepouts.first?.layers, [.top])
+        let keepout = AutomationTestsPourID.short(try! XCTUnwrap(doc.keepouts.first).id)
+        result = await call("set_keepout", id, ["id": "keepout:" + keepout, "layers": ["all"], "width": 12])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertNil(doc.keepouts.first?.layers)
+        XCTAssertEqual(doc.keepouts.first?.rect.width ?? 0, 12, accuracy: doc.board.traceGrid)
+        result = await call("get_board", id)
+        XCTAssertTrue(result.text.contains("KEEPOUTS"))
+        // Lock and delete take the new item names.
+        result = await call("lock", id, ["items": ["keepout:" + keepout]])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(doc.keepouts.first?.locked, true)
+        result = await call("delete", id, ["items": ["pour:" + pour, "keepout:" + keepout]])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertTrue(doc.pours.isEmpty && doc.keepouts.isEmpty)
+        XCTAssertTrue(doc.undo(on: .schematic) || doc.undo(on: .pcb))
+        XCTAssertEqual(doc.pours.count + doc.keepouts.count, 2, "undo of the delete restores both")
+    }
+}
+
+/// The 8-hex-digit id the tools print for an item (`AutomationContext.short`).
+private enum AutomationTestsPourID {
+    static func short(_ id: UUID) -> String { String(id.uuidString.prefix(8)).lowercased() }
 }

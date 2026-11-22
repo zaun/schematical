@@ -18,7 +18,7 @@ nonisolated struct DesignRuleIssue: Identifiable, Hashable, Sendable {
     /// What kind of problem: the order the list groups them in.
     enum Kind: Int, Comparable, Sendable {
         case short, unrouted, unconnected, placement, layer, layerRule, clearance, edge,
-             drill, annularRing, holeToHole, via, traceWidth, silkscreen, solderMask, lengthMatch, diffPair
+             drill, annularRing, holeToHole, via, traceWidth, silkscreen, solderMask, lengthMatch, diffPair, pour
 
         static func < (a: Kind, b: Kind) -> Bool { a.rawValue < b.rawValue }
     }
@@ -53,6 +53,7 @@ private struct DesignRuleChecker {
     let chips: [PlacedChip]
     let board: BoardSettings
     let texts: [BoardText]
+    let pours: [BoardPour]
     let copper: BoardConnectivity
     let layers: [CopperLayer]
     let outline: [(CGPoint, CGPoint)]
@@ -76,6 +77,7 @@ private struct DesignRuleChecker {
         chips = document.chips
         board = document.board
         texts = document.texts
+        pours = document.pours
         let copper = document.connectivity()
         self.copper = copper
         layers = board.copperLayers
@@ -105,6 +107,7 @@ private struct DesignRuleChecker {
         checkSolderMask()
         checkLengthMatch()
         checkDiffPairs()
+        checkPours()
         // Stable: within a kind, the order each check found them in.
         var sorted = issues.enumerated().sorted { a, b in
             a.element.kind != b.element.kind ? a.element.kind < b.element.kind : a.offset < b.offset
@@ -253,7 +256,14 @@ private struct DesignRuleChecker {
                 return true
             }
         }
-        return false
+        return pourContains(point, on: trace.layer)
+    }
+
+    /// Whether a kept piece of a pour on `layer` holds `point`.
+    private func pourContains(_ point: CGPoint, on layer: CopperLayer) -> Bool {
+        pours.contains { pour in
+            pour.layer == layer && (copper.pourFills[pour.id]?.pieces.contains { $0.contains(point, using: .winding) } ?? false)
+        }
     }
 
     /// How many traces and pads touch a via's metal.
@@ -265,7 +275,9 @@ private struct DesignRuleChecker {
             }
         }.count
         let pads = copper.pads.filter { SchematicDocument.circle(via.centre, via.diameter / 2, meets: $0.pad.rect) }.count
-        return traces + pads
+        // A pour that joins it counts as one more thing touching it.
+        let poured = copper.pourFills.values.contains { $0.joined.contains { $0.contains(.via(via.id)) } } ? 1 : 0
+        return traces + pads + poured
     }
 
     /// Prim's tree over groups of points, as the ratsnest draws it: each
@@ -641,6 +653,34 @@ private struct DesignRuleChecker {
     /// Each differential pair with both nets routed whose traces run apart
     /// (not at its gap, or on different layers) for more than its
     /// `maxUncoupled` (`PairGeometry.uncoupledLength`).
+    /// A pour that can't do its job: no net, a net the schematic lacks, no copper left, spokes
+    /// under the minimum trace width, or one that overlaps a pour of another net (plan-52-H).
+    private mutating func checkPours() {
+        for (n, pour) in pours.enumerated() {
+            let name = "Pour \(n + 1)"
+            let items: Set<BoardItem> = [.pour(pour.id)]
+            let on = "Pour on \(pour.layer.title)"
+            guard let netName = pour.net else {
+                add(.pour, name, "\(on) has no net; it fills nothing", items)
+                continue
+            }
+            guard let net = copper.net(of: netName) else {
+                add(.pour, name, "\(on): its net is not in the schematic", items)
+                continue
+            }
+            if copper.pourFills[pour.id]?.isEmpty ?? true {
+                add(.pour, name, "\(on) keeps no copper: it reaches no pin of its net", items)
+            }
+            if pour.connection == .thermal, pour.spokeWidth < rules.minTraceWidth - Self.tolerance {
+                add(.pour, name, "\(on): thermal spokes \(mm(pour.spokeWidth)) are narrower than the minimum trace width \(mm(rules.minTraceWidth))", items)
+            }
+            for other in pours[..<n] where other.layer == pour.layer && other.rect.intersects(pour.rect) {
+                guard let otherName = other.net, let otherNet = copper.net(of: otherName), otherNet != net else { continue }
+                add(.pour, name, "\(on) overlaps the pour of \(copper.netNames[otherNet] ?? "Net \(otherNet + 1)"); the later one gives way", items)
+            }
+        }
+    }
+
     private mutating func checkDiffPairs() {
         let netOfRoot = copper.netOfRoot()
         func traces(of net: Int) -> [RoutedTrace] {

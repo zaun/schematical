@@ -74,8 +74,9 @@ a wire; `via` waypoints), `disconnect`, `move_part`, `move`, `flip_part`, `rotat
 **PCB** — `set_board` (size, type, layers, grid, units, color), `set_layer`
 (plane or wire layers, plane net, clearance), `move_footprint` (position,
 rotation, side), `route` (pad to pad, with warnings when it crosses another
-pad), `add_trace`, `set_trace`, `add_via`, `add_hole`, `add_board_text`,
-`lock`.
+pad), `add_trace`, `set_trace`, `add_via`, `add_hole`, `add_pour` (flood a rectangle with
+copper on one net, thermal reliefs or solid), `set_pour`, `add_keepout` (a rectangle the pours stay
+out of), `set_keepout`, `add_board_text`, `lock`. `get_board` lists `POURS` and `KEEPOUTS`.
 
 **Simulation** — `simulation_start`, `simulation_stop`, `simulation_status`,
 `wait`*(no window)*, `set_switch`, `read_pins` (levels and LED brightness),
@@ -97,7 +98,7 @@ The server sends these as MCP `instructions` on connect
 (`AutomationGuide.text`); keep the two in step.
 
 - Parts by reference (`U1`), pins by designator or name (`U1.14`, `D1.K`).
-  Wires, labels, notes, traces, vias, holes, texts by the 8-hex-digit id the
+  Wires, labels, notes, traces, vias, holes, pours (`pour:ID`), keep-outs (`keepout:ID`), texts by the 8-hex-digit id the
   read tools print.
 - Schematic: canvas units, y down, 10-unit grid, parts placed by centre.
   Wires take the shortest right-angle route and do not avoid parts: pass

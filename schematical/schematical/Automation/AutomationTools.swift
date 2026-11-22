@@ -340,7 +340,7 @@ enum AutomationGuide {
     Look at your work with render often; it returns a picture.
 
     Addressing: parts by reference ("U1", "R2"); pins by designator or name ("U1.14", "D1.K", "U1.VCC"). \
-    Everything else (wires, labels, notes, traces, vias, holes, board texts) by the short id get_design / \
+    Everything else (wires, labels, notes, traces, vias, holes, pours, keep-outs, board texts) by the short id get_design / \
     get_board prints. Net labels connect by name: "label:CLK". A point on an existing wire is "@x,y".
 
     Power symbols are parts too, placed by name: GND, 5V, 3V3, 2V5, 1V8, 1V2, 12V, or a rail of any voltage up to 300 V named like 170V or 3V6 (pin "VCC"/"GND"), and \
@@ -355,7 +355,9 @@ enum AutomationGuide {
 
     PCB coordinates: millimetres, y grows down, origin at the board's top-left. Footprints snap to the board \
     grid (0.635 mm by default). Every part starts with a footprint auto-placed in a row; use move_footprint \
-    to lay them out inside the board (get_board shows its size). Route copper with route(from, to) between \
+    to lay them out inside the board (get_board shows its size). Flood a rectangle with copper on one net \
+    with add_pour (thermal reliefs by default; it keeps clear of other nets) and keep pours out of an area with \
+    add_keepout. Route copper with route(from, to) between \
     pads ("U1.3" → "R1.1"); it uses 45°/90° legs. Through-hole pads reach every layer; surface-mount pads \
     only their side. The ratsnest (unrouted nets) shows in run_drc as "unrouted".
 

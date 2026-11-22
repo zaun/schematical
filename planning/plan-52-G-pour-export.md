@@ -116,7 +116,7 @@ Gerber: new regions in copper files only where a pour is. KiCad: new `(zone …)
 Acceptance: (a)–(d) hold and gerbonara reads the pour's region objects with `.N` = the pour's net.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/PourExportTests -only-testing:schematicalTests/GerberExportTests -only-testing:schematicalTests/GerberAttributeTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min). Observed (all three phases' suites, one run, with `GerberJobTests`): `Executed 75 tests, with 0 failures`, `** TEST SUCCEEDED **`.
   And: `probe_gerber_attributes.py` fails on a `Region` (`TypeError: argument of type 'Field' is not a container`: gerbonara 1.6.3 does not expose a region's attributes), so `planning/plan-52-data/probe_gerber_regions.py` was written: on the app's `pours.GTL` → `objects by kind: {'Region': 29, 'Line': 2, 'Flash': 28}`, `region dark=True x1`, `region dark=False x28`; the net is in the file text: `%TO.N,GND*%`, `%TA.AperFunction,Conductor*%`, `G36*`, and `%LPC*%` before each hole (est. 3 min).
-Commit: COMMIT_G
+Commit: ec7e263a
 
 ### Phase 2 — KiCad
 
@@ -130,7 +130,7 @@ Commit: COMMIT_G
 Acceptance: (e)–(h) hold; `probe_kicad_zones.py` prints the app's values for each zone and rule area; `kicad-cli pcb drc` loads the file.
   Check: `xcodebuild … test -only-testing:schematicalTests/PourExportTests -only-testing:schematicalTests/KiCadExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min). Observed: as Phase 1.
   And: `~/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb drc --output $OUT/pours.rpt --format report $OUT/pours.kicad_pcb` → `Found N violations` with `Found 0 unconnected items` for the ground pads the pour joins, and the probe's lines as above (est. 4 min). Observed on the decoded `pours.kicad_pcb` (KiCad 10.0.8): `kicad-cli pcb drc` → `Found 8 violations`, `Found 0 unconnected items` (the 8: two `shorting_items` and four `solder_mask_bridge` from the sample's own trace running over unwired pads of the gates, and two missing-library warnings; none names a ground or 5 V pad); `probe_kicad_zones.py` → `zone GND ZONE_CONNECTION_THERMAL gap 0.6 spoke 0.4 minwidth 0.25 clearance 0.3`, `zone 5V ZONE_CONNECTION_FULL …`, `rule area layers ['F.Cu'] pour blocked True tracks False vias False pads False footprints False`; after `ZONE_FILLER.Fill`: `zone GND F.Cu outlines 1`, `point inside the keep-out is in fill: False`.
-Commit: COMMIT_G
+Commit: ec7e263a
 
 ### Phase 3 — EasyEDA Pro
 
@@ -140,11 +140,11 @@ Commit: COMMIT_G
 
 Acceptance: (i) and (j) hold.
   Check: `xcodebuild … test -only-testing:schematicalTests/EasyEDAProExportTests -only-testing:schematicalTests/PourExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min). Observed: as Phase 1.
-Commit: COMMIT_G
+Commit: ec7e263a
 
 ## Validation Plan
 
-- Tests: `PourExportTests` (new, 8 cases), `GerberExportTests`, `GerberAttributeTests`, `KiCadExportTests`, `EasyEDAProExportTests` (existing, must pass unchanged).
+- Tests: `PourExportTests` (new, 9 cases), `GerberExportTests`, `GerberAttributeTests`, `KiCadExportTests`, `EasyEDAProExportTests` (existing, must pass unchanged).
 - Coverage check: `grep -c "pour" schematical/schematical/Document/GerberExport.swift schematical/schematical/Document/KiCadBoardWriter.swift schematical/schematical/Document/EasyEDAProBoardWriter.swift` → each at least 1, all reached by (a), (e), (i).
 - Runtime proof: gerbonara and KiCad 10 as in Phases 1 and 2; the app itself in plan-52-H.
 - Doc sync: `docs/export.md` (Gerber layer table and attributes, KiCad, EasyEDA Pro), checked by `grep -c "pour" docs/export.md` → at least 6.
@@ -159,7 +159,7 @@ Commit: COMMIT_G
 
 ## Corrections
 
-- The suite has 8 cases, not 10: `testGerberTopCopperHasTheFillAsRegionsWithItsHolesCleared` holds (a) and the `.GBL` region check, `testAPourOnTopLeavesBottomCopperAlone` is (b), `testAKeepoutRemovesItsAreaFromTheFill` (c), `testExistingBoardsExportTheSameBytesAfterAPourComesAndGoes` (d, all three formats), the four KiCad cases (e)–(h), and one EasyEDA case holds (i) and (j) (a board with no pour is the fixture's own export). `grep -c "func test" schematical/schematicalTests/PourExportTests.swift` → 8.
+- The suite has 9 cases, not 10: `testGerberTopCopperHasTheFillAsRegionsWithItsHolesCleared` holds (a) and the `.GBL` region check, `testAPourOnTopLeavesBottomCopperAlone` is (b), `testAKeepoutRemovesItsAreaFromTheFill` (c), `testExistingBoardsExportTheSameBytesAfterAPourComesAndGoes` (d, all three formats), the four KiCad cases (e)–(h), and one EasyEDA case holds (i) and (j) (a board with no pour is the fixture's own export). `grep -c "func test" schematical/schematicalTests/PourExportTests.swift` → 9 (four Gerber cases, four KiCad, one EasyEDA).
 - gerbonara 1.6.3 cannot read a region's net (see Phase 1's observed output), so "gerbonara reads the pour's region objects with `.N` = the pour's net" became: gerbonara reads the regions with the right polarity, and the net is checked in the file text.
 - The first sample board (`vias()` plus pours) had its footprints off the 100 × 80 mm board, so the fill touched no pad and was empty; `ExportSamples.pours()` builds its own board with the gates moved onto it.
 - `GerberWriter.area` already returns the true area (`sum / 2`), so the keep-out area test does not halve it again.

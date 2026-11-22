@@ -454,6 +454,21 @@ extension AutomationTools {
         for hole in document.holes {
             out.append("  \(context.short(hole.id)) (\(num(hole.centre.x)),\(num(hole.centre.y))) drill=\(num(hole.drill)) diameter=\(num(hole.diameter)) plated=\(hole.plated)")
         }
+        out.append("POURS")
+        for pour in document.pours {
+            out.append("  \(context.short(pour.id)) \(pour.layer.rawValue) net=\(pour.net?.fileValue ?? "none") "
+                       + "(\(num(pour.rect.minX)),\(num(pour.rect.minY))) \(num(pour.rect.width))x\(num(pour.rect.height)) "
+                       + "clearance=\(num(pour.clearance(rules: document.board.rules))) connection=\(pour.connection.rawValue) "
+                       + "gap=\(num(pour.thermalGap)) spoke=\(num(pour.spokeWidth)) minwidth=\(num(pour.minWidth))"
+                       + (pour.locked ? " locked" : ""))
+        }
+        out.append("KEEPOUTS")
+        for keepout in document.keepouts {
+            out.append("  \(context.short(keepout.id)) (\(num(keepout.rect.minX)),\(num(keepout.rect.minY))) "
+                       + "\(num(keepout.rect.width))x\(num(keepout.rect.height)) layers="
+                       + (keepout.layers.map { $0.map(\.rawValue).sorted().joined(separator: ",") } ?? "all")
+                       + (keepout.locked ? " locked" : ""))
+        }
         out.append("TEXTS")
         for text in document.texts {
             out.append("  \(context.short(text.id)) (\(num(text.anchor.x)),\(num(text.anchor.y))) \(text.layer.rawValue) \(text.side.rawValue) \(text.size)mil: \(text.text)")
