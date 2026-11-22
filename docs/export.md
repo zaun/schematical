@@ -60,9 +60,15 @@ schematic, with anything but letters, digits, `-` and `_` turned into `_`
 
 | File | Layer | What is on it |
 |---|---|---|
-| `.GTL` | Top copper | traces on Top, Top surface-mount pads and card fingers, every plated through-hole pad, via and plated hole land |
-| `.G1`…`.G4` | inner copper, in stack order | as above for the layer; a Plane is the board pulled back by the min copper-to-edge, less its clearances, as the PCB page draws it |
+| `.GTL` | Top copper | the copper pours on Top, traces on Top, Top surface-mount pads and card fingers, every plated through-hole pad, via and plated hole land |
+| `.G1`…`.G4` | inner copper, in stack order | as above for the layer; a Plane is the board pulled back by the min copper-to-edge, less its clearances, as the PCB page draws it; a pour on a Wire layer as on Top |
 | `.GBL` | Bottom copper | as Top, for Bottom |
+
+  A **copper pour** (plan-52) is its fill as the PCB page computes it (`PourFiller`: the pour's rectangle, less the other nets' copper and the keep-outs
+  grown by the clearance, the thermal rings less their spokes): one dark region (`G36`) per kept piece of the fill, then each hole of the piece as a
+  clear-polarity region, drawn before the layer's traces, pads and vias so these sit on it. A pour on no net is not drawn. Keep-outs are not drawn: they
+  are already cut out of the fill.
+
 | `.GTS` / `.GBS` | solder mask (`FilePolarity,Negative`: drawn = opening) | the side's surface-mount pads and fingers, every plated through-hole pad, every bare hole, each grown by the Mask expansion design rule. Vias are tented unless opened (Via ▸ Tented on Top / Bottom): an open side gets an opening the via's metal grown by the Mask expansion |
 | `.GTP` / `.GBP` | paste | the side's surface-mount part pads (not fingers) |
 | `.GTO` / `.GBO` | silkscreen | silkscreen texts, references (1 mm, centred on the body, or where the part's reference was moved to), pin-1 dots (0.4 mm), body outlines and cathode bands (0.15 mm pen), each only when its layer is Silkscreen |
@@ -84,8 +90,8 @@ schematic, with anything but letters, digits, `-` and `_` turned into `_`
   | card edge finger | `ConnectorPad` | its net | `EDGE1,<finger name>` |
   | land of a plated board hole | `OtherPad,PlatedHole` | its net, else none | — |
   | via | `ViaPad` | its net | — |
-  | trace, a Plane's copper | `Conductor` | its net (a Plane's net) | — |
-  | a Plane's clearances (clear polarity) | none | none | — |
+  | trace, a Plane's copper, a pour's fill | `Conductor` | its net (a Plane's or pour's net) | — |
+  | a Plane's clearances, a pour's holes (clear polarity) | none | none | — |
 
   A net with no pad, or none, is `%TO.N,*%` (the spec's "no net"). Net names are the KiCad export's
   (`Net-(U1-A0)`, `unconnected-(U1-A0-Pad1)`, a rail's name, `/LABEL`), and `,`, `*`, `%` and `\` in one are
@@ -209,13 +215,21 @@ the page. Footprints are written with the part's reference, value, body outline,
 pin-1 dot and diode band on the layers the part's marks name, pads in the footprint's
 own frame (a turn of `r` degrees clockwise is KiCad's angle `-r`, a Bottom footprint
 has its x mirrored and its pads on `B.*`), traces, vias (each with its two tenting flags, `(tenting (front yes) (back no))`; `front` is Top), Plane layers as unfilled
-zones (press B in KiCad to fill), the outline on `Edge.Cuts`, board texts, the card's
+zones (press B in KiCad to fill), each copper pour on a net as an unfilled zone over its rectangle (`connect_pads` with no keyword is thermal relief,
+`connect_pads yes` solid; `thermal_gap`, `thermal_bridge_width` and `min_thickness` are the pour's gap, spoke width and minimum width; KiCad fills it with Fill All Zones (B),
+so its fill differs from the app's in detail), each keep-out as a rule area on its layers that blocks only copper pour (`(keepout (tracks allowed) (vias allowed) (pads allowed)
+(copperpour not_allowed) (footprints allowed))`; a keep-out on no layer is not written), the outline on `Edge.Cuts`, board texts, the card's
 fingers or header pads, and holes. A 1-layer board has the two copper layers KiCad
 needs. Pads carry the net of their pin, named as KiCad names it: a rail's name, a net
 label as `/NAME` (a `/` in it as `{slash}`), else `Net-(U1-A0)` after the
 alphabetically first pin, `unconnected-(U1-A0-Pad1)` for a pin on nothing. So the
 board and the schematic agree (KiCad's Update PCB from Schematic finds no difference),
 and each footprint's path is its part's uuid.
+
+**Pours** were checked with KiCad 10.0.8: the app's own `pours.kicad_pcb` (two pours and a keep-out, `ExportSamples.pours()`) loads in `kicad-cli pcb drc` (`Found 0 unconnected items`), `pcbnew` reads
+back the first pour as thermal relief with gap 0.6, spoke 0.4, minimum width 0.25 and clearance 0.3 mm, the second as solid, the rule area on `F.Cu` blocking only copper pour, and after
+`ZONE_FILLER.Fill` the Top fill has no copper inside the keep-out (`planning/plan-52-data/probe_kicad_zones.py`). The Gerber's regions read back in gerbonara 1.6.3 as one dark region and the
+pad rings as clear regions (`planning/plan-52-data/probe_gerber_regions.py`).
 
 **Stackup.** The board's stackup is written to `(setup (stackup …))` as KiCad lays it out: silkscreen, paste and
 mask (with the board colour) around each copper layer and its dielectric (`core` or `prepreg`, `FR4`, thickness,
@@ -281,7 +295,7 @@ symbol beside the drawing with a named stub or a net flag on each pin.
 
 **Board** (`EasyEDAProBoardWriter`): `LAYER`s (a 1-layer board gets Top and Bottom, EasyEDA's
 minimum), the design rules' track width, a `NET` for every net a pad carries, the outline
-(`POLY` on the outline layer), a `POUR` for each inner Plane on a net, a `LINE` per trace
+(`POLY` on the outline layer), a `POUR` for each inner Plane on a net and for each copper pour on a net (over its rectangle; keep-outs are not exported, the format's keep-out record can't be checked here), a `LINE` per trace
 segment, `VIA`s, a `PAD` for each card finger and hole, `STRING` for board texts, and each
 part as a `COMPONENT` with `Designator`, `Device` and `Footprint` attributes and a
 `PAD_NET` per pad on a net. A net of one pin is left without a net.

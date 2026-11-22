@@ -582,6 +582,80 @@ struct KiCadBoardWriter {
             \t)
             """)
         }
+        out += pourZones()
+        return out
+    }
+
+    /// Each pour with a net as a zone over its rectangle, and each keep-out as a rule area
+    /// that blocks only copper pour, on the layers it names (plan-52-G). The zone is not
+    /// filled: KiCad fills it with Fill All Zones (B). Thermal pads are KiCad's default
+    /// (`connect_pads` with no keyword); solid is `connect_pads yes`.
+    private func pourZones() -> [String] {
+        let board = document.board
+        func corners(_ rect: CGRect) -> String {
+            [CGPoint(x: rect.minX, y: rect.minY), CGPoint(x: rect.maxX, y: rect.minY),
+             CGPoint(x: rect.maxX, y: rect.maxY), CGPoint(x: rect.minX, y: rect.maxY)]
+                .map { "(xy \(xy($0)))" }.joined(separator: " ")
+        }
+        var out: [String] = []
+        for pour in document.pours {
+            guard board.copperLayers.contains(pour.layer), let net = pour.net.flatMap({ copper.net(of: $0) }),
+                  let code = codes[net] else { continue }
+            out.append("""
+            \t(zone
+            \t\t(net \(code))
+            \t\t(net_name \(KiCad.q(names[net] ?? "")))
+            \t\t(layer \(KiCad.q(layerName(pour.layer))))
+            \t\t(uuid \(KiCad.q(id("pour/\(pour.id)"))))
+            \t\t(hatch edge 0.5)
+            \t\t(connect_pads\(pour.connection == .solid ? " yes" : "")
+            \t\t\t(clearance \(KiCad.n(pour.clearance(rules: board.rules))))
+            \t\t)
+            \t\t(min_thickness \(KiCad.n(pour.minWidth)))
+            \t\t(filled_areas_thickness no)
+            \t\t(fill yes
+            \t\t\t(thermal_gap \(KiCad.n(pour.thermalGap)))
+            \t\t\t(thermal_bridge_width \(KiCad.n(pour.spokeWidth)))
+            \t\t)
+            \t\t(polygon
+            \t\t\t(pts \(corners(pour.rect)))
+            \t\t)
+            \t)
+            """)
+        }
+        for (n, keepout) in document.keepouts.enumerated() {
+            let layers = board.copperLayers.filter { keepout.applies(to: $0) }.map { KiCad.q(layerName($0)) }
+            guard !layers.isEmpty else { continue }
+            out.append("""
+            \t(zone
+            \t\t(net 0)
+            \t\t(net_name "")
+            \t\t(layers \(layers.joined(separator: " ")))
+            \t\t(uuid \(KiCad.q(id("keepout/\(keepout.id)"))))
+            \t\t(name \(KiCad.q("keepout\(n + 1)")))
+            \t\t(hatch edge 0.5)
+            \t\t(connect_pads
+            \t\t\t(clearance 0)
+            \t\t)
+            \t\t(min_thickness 0.2)
+            \t\t(filled_areas_thickness no)
+            \t\t(keepout
+            \t\t\t(tracks allowed)
+            \t\t\t(vias allowed)
+            \t\t\t(pads allowed)
+            \t\t\t(copperpour not_allowed)
+            \t\t\t(footprints allowed)
+            \t\t)
+            \t\t(fill
+            \t\t\t(thermal_gap 0.5)
+            \t\t\t(thermal_bridge_width 0.5)
+            \t\t)
+            \t\t(polygon
+            \t\t\t(pts \(corners(keepout.rect)))
+            \t\t)
+            \t)
+            """)
+        }
         return out
     }
 }

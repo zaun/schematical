@@ -24,7 +24,8 @@ nonisolated final class EasyEDAProBoardWriter {
         document = build.document
         copper = build.context.copper
         var used: [String: Int] = [:]
-        for net in Set(copper.netOfPad.values).union(copper.planeNets.values).sorted() {
+        let pourNets = build.document.pours.compactMap { pour in pour.net.flatMap { copper.net(of: $0) } }
+        for net in Set(copper.netOfPad.values).union(copper.planeNets.values).union(pourNets).sorted() {
             guard let base = build.netName(net) else { continue }
             let count = (used[base] ?? 0) + 1
             used[base] = count
@@ -227,6 +228,18 @@ nonisolated final class EasyEDAProBoardWriter {
             for p in outline.dropFirst() + [outline[0]] { points += xy(p) }
             out += EProJSON.line("POUR", .string(ids.id()), 0, .string(net(planeNet)), .int(layerID(layer)), 10,
                                  .string("\(layer.title) \(net(planeNet))"), 1, .array([.array(points)]),
+                                 .array(["SOLID", 0]), 0, 0)
+        }
+
+        // Pours on a net, over their rectangles (keep-outs are not exported: docs/export.md).
+        for pour in document.pours {
+            guard board.copperLayers.contains(pour.layer), let pourNet = pour.net.flatMap({ copper.net(of: $0) }) else { continue }
+            let r = pour.rect
+            var points: [EProJSON] = xy(CGPoint(x: r.minX, y: r.minY)) + ["L"]
+            for corner in [CGPoint(x: r.maxX, y: r.minY), CGPoint(x: r.maxX, y: r.maxY), CGPoint(x: r.minX, y: r.maxY),
+                           CGPoint(x: r.minX, y: r.minY)] { points += xy(corner) }
+            out += EProJSON.line("POUR", .string(ids.id()), 0, .string(net(pourNet)), .int(layerID(pour.layer)), 10,
+                                 .string("\(pour.layer.title) \(net(pourNet))"), 1, .array([.array(points)]),
                                  .array(["SOLID", 0]), 0, 0)
         }
 

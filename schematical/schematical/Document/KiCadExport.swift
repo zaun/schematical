@@ -399,6 +399,9 @@ enum ExportNetNames {
         }
         var nets = Set(result.padNets.values)
         nets.formUnion(copper.planeNets.values)
+        for pour in document.pours {
+            if let net = pour.net.flatMap({ copper.net(of: $0) }) { nets.insert(net) }
+        }
         var used: [String: Int] = [:]
         for net in nets.sorted() {
             let base = pinNames[net] ?? baseName(ofNet: net, context: context) {

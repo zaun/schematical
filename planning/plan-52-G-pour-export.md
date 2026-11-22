@@ -28,8 +28,8 @@ The shared gate is in plan-52-A. This sub-plan adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-52-F is complete | `ls planning/completed \| grep -c '^plan-52-F'` → 1 | NOT MET (2026-11-21: 0; A–F are not started) |
-| a Python venv with `gerbonara==1.6.3` | `$VENV/bin/python -c "import gerbonara"` → no error (create: `python3 -m venv $VENV && $VENV/bin/pip install gerbonara==1.6.3`; needs the network once) | NOT MET (2026-11-21: no venv in this session) |
+| plan-52-F is complete | `ls planning/completed \| grep -c '^plan-52-F'` → 1 | MET (2026-11-21: plan-52-F landed as fb39b960) |
+| a Python venv with `gerbonara==1.6.3` | `$VENV/bin/python -c "import gerbonara"` → no error (create: `python3 -m venv $VENV && $VENV/bin/pip install gerbonara==1.6.3`; needs the network once) | MET (2026-11-21: created in the session scratchpad, `import gerbonara` → no error) |
 
 Everything below is written against the world where these hold.
 
@@ -105,46 +105,46 @@ Gerber: new regions in copper files only where a pour is. KiCad: new `(zone …)
 
 ### Phase 1 — Gerber
 
-- [ ] `GerberExport.swift`: `drawPours` as § 4, called in `drawCopper` after the Plane block and before the traces.
-- [ ] `docs/export.md`: the `.GTL` / `.G1`…`.G4` / `.GBL` rows and the attributes table (a pour's copper is `Conductor` with its net; its holes clear polarity) updated.
-- [ ] Tests: new `schematicalTests/PourExportTests.swift`: a two-LED board (as `PlaneNetTests`) with a Top ground pour: (a) the `.GTL` has a region carrying `%TO.N,GND*%` (the net name the export uses) and a `%LPC*%` hole region after
+- [x] `GerberExport.swift`: `drawPours` as § 4, called in `drawCopper` after the Plane block and before the traces.
+- [x] `docs/export.md`: the `.GTL` / `.G1`…`.G4` / `.GBL` rows and the attributes table (a pour's copper is `Conductor` with its net; its holes clear polarity) updated.
+- [x] Tests: new `schematicalTests/PourExportTests.swift`: a two-LED board (as `PlaneNetTests`) with a Top ground pour: (a) the `.GTL` has a region carrying `%TO.N,GND*%` (the net name the export uses) and a `%LPC*%` hole region after
       it and before the first trace or pad; (b) the `.GBL` has none; (c) a keep-out over the pour removes the region area under it: compare the flattened outer area of the piece with and without the keep-out (smaller by about the keep-out's area);
       (d) every existing fixture's Gerber files are byte-equal with a pour added then deleted.
-- [ ] Gerber cross-check with gerbonara: export the board of (a) with `TEST_RUNNER_KICAD_OUT=1` (the existing `testPrintSamplesWhenAsked` path; add the pour board to `ExportSamples` as `pours()`), decode the `GERBER_FILE …GTL` line,
+- [x] Gerber cross-check with gerbonara: export the board of (a) with `TEST_RUNNER_KICAD_OUT=1` (the existing `testPrintSamplesWhenAsked` path; add the pour board to `ExportSamples` as `pours()`), decode the `GERBER_FILE …GTL` line,
       run `$VENV/bin/python planning/plan-50-data/probe_gerber_attributes.py <file>`; record its output under this phase.
 
 Acceptance: (a)–(d) hold and gerbonara reads the pour's region objects with `.N` = the pour's net.
-  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/PourExportTests -only-testing:schematicalTests/GerberExportTests -only-testing:schematicalTests/GerberAttributeTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min).
-  And: the probe command above → a `Region` row with `Conductor` and `distinct .N values` including the pour's net (est. 3 min).
-Commit: —
+  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/PourExportTests -only-testing:schematicalTests/GerberExportTests -only-testing:schematicalTests/GerberAttributeTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min). Observed (all three phases' suites, one run, with `GerberJobTests`): `Executed 75 tests, with 0 failures`, `** TEST SUCCEEDED **`.
+  And: `probe_gerber_attributes.py` fails on a `Region` (`TypeError: argument of type 'Field' is not a container`: gerbonara 1.6.3 does not expose a region's attributes), so `planning/plan-52-data/probe_gerber_regions.py` was written: on the app's `pours.GTL` → `objects by kind: {'Region': 29, 'Line': 2, 'Flash': 28}`, `region dark=True x1`, `region dark=False x28`; the net is in the file text: `%TO.N,GND*%`, `%TA.AperFunction,Conductor*%`, `G36*`, and `%LPC*%` before each hole (est. 3 min).
+Commit: COMMIT_G
 
 ### Phase 2 — KiCad
 
-- [ ] `KiCadBoardWriter.swift` `zones()`: pours then keep-outs as § 1 and § 4 (skip a pour with no resolved net).
-- [ ] `docs/export.md` § KiCad: the pour zone, the thermal/solid mapping (`connect_pads` with and without `yes`), the rule area, and "KiCad fills it with Fill All Zones (B)".
-- [ ] Tests: `PourExportTests` (e) the `.kicad_pcb` text has one `(zone` per net-carrying pour and one rule area per keep-out; a solid pour has `(connect_pads yes`, a thermal one `(connect_pads (clearance`; (f) a pour with no net writes no zone;
+- [x] `KiCadBoardWriter.swift` `zones()`: pours then keep-outs as § 1 and § 4 (skip a pour with no resolved net).
+- [x] `docs/export.md` § KiCad: the pour zone, the thermal/solid mapping (`connect_pads` with and without `yes`), the rule area, and "KiCad fills it with Fill All Zones (B)".
+- [x] Tests: `PourExportTests` (e) the `.kicad_pcb` text has one `(zone` per net-carrying pour and one rule area per keep-out; a solid pour has `(connect_pads yes`, a thermal one `(connect_pads (clearance`; (f) a pour with no net writes no zone;
       (g) the output of a board with no pour is byte-equal to `KiCadExportTests`' existing determinism check (`testSameDocumentGivesSameBytes`); (h) two exports of one board are byte-equal.
-- [ ] KiCad cross-check: print the pours sample (`TEST_RUNNER_KICAD_OUT=1`), decode `KICAD_FILE pours/…kicad_pcb` into `$OUT`, run `kicad-cli pcb drc` (loads; record `Found N violations`), then
+- [x] KiCad cross-check: print the pours sample (`TEST_RUNNER_KICAD_OUT=1`), decode `KICAD_FILE pours/…kicad_pcb` into `$OUT`, run `kicad-cli pcb drc` (loads; record `Found N violations`), then
       `PYTHONPATH=… python3 -I planning/plan-52-data/probe_kicad_zones.py $OUT/pours.kicad_pcb` and compare each zone's connection (thermal/solid), gap, spoke, minimum width and clearance, and each rule area's layers, with the app's values.
 
 Acceptance: (e)–(h) hold; `probe_kicad_zones.py` prints the app's values for each zone and rule area; `kicad-cli pcb drc` loads the file.
-  Check: `xcodebuild … test -only-testing:schematicalTests/PourExportTests -only-testing:schematicalTests/KiCadExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min).
-  And: `~/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb drc --output $OUT/pours.rpt --format report $OUT/pours.kicad_pcb` → `Found N violations` with `Found 0 unconnected items` for the ground pads the pour joins, and the probe's lines as above (est. 4 min).
-Commit: —
+  Check: `xcodebuild … test -only-testing:schematicalTests/PourExportTests -only-testing:schematicalTests/KiCadExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min). Observed: as Phase 1.
+  And: `~/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb drc --output $OUT/pours.rpt --format report $OUT/pours.kicad_pcb` → `Found N violations` with `Found 0 unconnected items` for the ground pads the pour joins, and the probe's lines as above (est. 4 min). Observed on the decoded `pours.kicad_pcb` (KiCad 10.0.8): `kicad-cli pcb drc` → `Found 8 violations`, `Found 0 unconnected items` (the 8: two `shorting_items` and four `solder_mask_bridge` from the sample's own trace running over unwired pads of the gates, and two missing-library warnings; none names a ground or 5 V pad); `probe_kicad_zones.py` → `zone GND ZONE_CONNECTION_THERMAL gap 0.6 spoke 0.4 minwidth 0.25 clearance 0.3`, `zone 5V ZONE_CONNECTION_FULL …`, `rule area layers ['F.Cu'] pour blocked True tracks False vias False pads False footprints False`; after `ZONE_FILLER.Fill`: `zone GND F.Cu outlines 1`, `point inside the keep-out is in fill: False`.
+Commit: COMMIT_G
 
 ### Phase 3 — EasyEDA Pro
 
-- [ ] `EasyEDAProBoardWriter.swift`: a `POUR` per net-carrying pour after the Plane pours (`:223`), four corner points, layer id, net, name `"<layer> <net>"`; keep-outs not written.
-- [ ] `docs/export.md` § EasyEDA Pro: pours exported as `POUR`; keep-outs not exported, and why (the keep-out record cannot be checked here).
-- [ ] Tests: `EasyEDAProExportTests` (i) the board with a pour has one more `POUR` line than without, with the pour's net and four points; (j) a board with no pour is byte-equal to a fresh export of the same document.
+- [x] `EasyEDAProBoardWriter.swift`: a `POUR` per net-carrying pour after the Plane pours (`:223`), four corner points, layer id, net, name `"<layer> <net>"`; keep-outs not written.
+- [x] `docs/export.md` § EasyEDA Pro: pours exported as `POUR`; keep-outs not exported, and why (the keep-out record cannot be checked here).
+- [x] Tests: `EasyEDAProExportTests` (i) the board with a pour has one more `POUR` line than without, with the pour's net and four points; (j) a board with no pour is byte-equal to a fresh export of the same document.
 
 Acceptance: (i) and (j) hold.
-  Check: `xcodebuild … test -only-testing:schematicalTests/EasyEDAProExportTests -only-testing:schematicalTests/PourExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+  Check: `xcodebuild … test -only-testing:schematicalTests/EasyEDAProExportTests -only-testing:schematicalTests/PourExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min). Observed: as Phase 1.
+Commit: COMMIT_G
 
 ## Validation Plan
 
-- Tests: `PourExportTests` (new, 10 cases), `GerberExportTests`, `GerberAttributeTests`, `KiCadExportTests`, `EasyEDAProExportTests` (existing, must pass unchanged).
+- Tests: `PourExportTests` (new, 8 cases), `GerberExportTests`, `GerberAttributeTests`, `KiCadExportTests`, `EasyEDAProExportTests` (existing, must pass unchanged).
 - Coverage check: `grep -c "pour" schematical/schematical/Document/GerberExport.swift schematical/schematical/Document/KiCadBoardWriter.swift schematical/schematical/Document/EasyEDAProBoardWriter.swift` → each at least 1, all reached by (a), (e), (i).
 - Runtime proof: gerbonara and KiCad 10 as in Phases 1 and 2; the app itself in plan-52-H.
 - Doc sync: `docs/export.md` (Gerber layer table and attributes, KiCad, EasyEDA Pro), checked by `grep -c "pour" docs/export.md` → at least 6.
@@ -159,7 +159,12 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- The suite has 8 cases, not 10: `testGerberTopCopperHasTheFillAsRegionsWithItsHolesCleared` holds (a) and the `.GBL` region check, `testAPourOnTopLeavesBottomCopperAlone` is (b), `testAKeepoutRemovesItsAreaFromTheFill` (c), `testExistingBoardsExportTheSameBytesAfterAPourComesAndGoes` (d, all three formats), the four KiCad cases (e)–(h), and one EasyEDA case holds (i) and (j) (a board with no pour is the fixture's own export). `grep -c "func test" schematical/schematicalTests/PourExportTests.swift` → 8.
+- gerbonara 1.6.3 cannot read a region's net (see Phase 1's observed output), so "gerbonara reads the pour's region objects with `.N` = the pour's net" became: gerbonara reads the regions with the right polarity, and the net is checked in the file text.
+- The first sample board (`vias()` plus pours) had its footprints off the 100 × 80 mm board, so the fill touched no pad and was empty; `ExportSamples.pours()` builds its own board with the gates moved onto it.
+- `GerberWriter.area` already returns the true area (`sum / 2`), so the keep-out area test does not halve it again.
+- `ExportNetNames.assign` (KiCadExport.swift) and the EasyEDA writer's net list needed the pours' nets added (a pour on a rail no pad carries has no KiCad code otherwise); the plan did not name them.
+- The KiCad DRC of the pours sample reports 8 violations that come from the sample's trace, not the pours; the plan expected only "loads, 0 unconnected" and that holds.
 
 ## Summary
 

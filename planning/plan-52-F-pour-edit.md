@@ -108,7 +108,7 @@ Rejected alternatives: *edge-only resize (4 handles)* (corners are what people r
 
 Acceptance: (q)–(t) hold.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/PourCanvasTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min). Observed (all three phases' suites in one run, with `SelectionSidebarTests`, `ViaTests`, `TraceToolTests`, `PourConnectivityTests`, `PourModelTests`): `Executed 96 tests, with 0 failures`, `** TEST SUCCEEDED **`.
-Commit: COMMIT_F
+Commit: fb39b960
 
 ### Phase 2 — The panels
 
@@ -123,7 +123,7 @@ Commit: COMMIT_F
 
 Acceptance: (u)–(y) hold.
   Check: `xcodebuild … test -only-testing:schematicalTests/PourPanelTests -only-testing:schematicalTests/SelectionSidebarTests -only-testing:schematicalTests/ViaTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 8 min). Observed: as Phase 1.
-Commit: COMMIT_F
+Commit: fb39b960
 
 ### Phase 3 — Board Preview
 
@@ -133,7 +133,7 @@ Commit: COMMIT_F
 
 Acceptance: (z) and (aa) hold.
   Check: `xcodebuild … test -only-testing:schematicalTests/BoardPreviewTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min). Observed: as Phase 1.
-Commit: COMMIT_F
+Commit: fb39b960
 
 ## Validation Plan
 

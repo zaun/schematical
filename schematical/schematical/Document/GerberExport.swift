@@ -154,6 +154,7 @@ enum GerberExport {
             }
             file.setDark(true)
         }
+        drawPours(on: layer, document: document, copper: copper, nets: nets, into: &file)
         file.setFunction("Conductor")
         for (t, trace) in document.traces.enumerated() where trace.layer == layer {
             let net = t < copper.traces.count ? netOfRoot[copper.root[copper.traceNode(t)]] : nil
@@ -174,6 +175,30 @@ enum GerberExport {
             let net = v < copper.vias.count ? netOfRoot[copper.root[copper.viaNode(v)]] : nil
             file.setObject(GerberWriter.Object(net: name(ofNet: net)))
             file.fill(.circle(centre: via.centre, diameter: via.diameter))
+        }
+        file.setFunction(nil)
+        file.setObject(nil)
+    }
+
+    /// The pours on `layer` (plan-52-G): each kept piece of a pour's fill as a dark
+    /// region (`Conductor`, the pour's net), its holes as clear regions. Drawn before
+    /// the layer's traces and pads, so they sit on the pour.
+    static func drawPours(on layer: CopperLayer, document: SchematicDocument, copper: BoardConnectivity,
+                          nets: ExportNets, into file: inout GerberWriter) {
+        for pour in document.pours where pour.layer == layer {
+            guard let fill = copper.pourFills[pour.id], !fill.isEmpty else { continue }
+            let net = pour.net.flatMap { copper.net(of: $0) }.flatMap { nets.names[$0] } ?? ""
+            for piece in fill.pieces {
+                let loops = GerberOutline.contours(of: piece).sorted { abs(GerberWriter.area($0)) > abs(GerberWriter.area($1)) }
+                guard let outer = loops.first else { continue }
+                file.setFunction("Conductor")
+                file.setObject(GerberWriter.Object(net: net))
+                file.region(outer)
+                guard loops.count > 1 else { continue }
+                file.setDark(false)
+                for hole in loops.dropFirst() { file.region(hole) }
+                file.setDark(true)
+            }
         }
         file.setFunction(nil)
         file.setObject(nil)

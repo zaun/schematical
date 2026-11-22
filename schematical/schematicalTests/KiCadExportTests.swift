@@ -381,6 +381,13 @@ final class KiCadExportTests: XCTestCase {
         for file in GerberExport.files(for: viaBoard, base: "vias") {
             print("GERBER_FILE vias/\(file.name) \(file.data.base64EncodedString())")
         }
+        let poursBoard = try ExportSamples.pours()
+        for file in KiCadExport.files(for: poursBoard, base: "pours") where file.name.hasSuffix("kicad_pcb") {
+            print("KICAD_FILE pours/\(file.name) \(file.data.base64EncodedString())")
+        }
+        for file in GerberExport.files(for: poursBoard, base: "pours") {
+            print("GERBER_FILE pours/\(file.name) \(file.data.base64EncodedString())")
+        }
         let fourLayerBoard = try ExportSamples.fourLayer()
         for file in KiCadExport.files(for: fourLayerBoard, base: "fourLayer") where file.name.hasSuffix("kicad_pcb") {
             print("KICAD_FILE fourLayer/\(file.name) \(file.data.base64EncodedString())")
@@ -460,6 +467,44 @@ enum ExportSamples {
         doc.setLayerType(.inner(3), .plane)
         doc.setLayerNet(.inner(3), .rail(mv: 5000))
         _ = try TestSupport.place(doc, "SN74ABT125RGYR", at: CGPoint(x: 100, y: 500))
+        return doc
+    }
+
+    /// Two gates on the board wired together by a trace, the first on ground and 5 V, a ground pour over the whole Top (thermal, gap 0.6,
+    /// spokes 0.4, minimum width 0.25, clearance 0.3), a solid 5 V pour on Bottom, and a keep-out on Top only.
+    static func pours() throws -> SchematicDocument {
+        let doc = TestSupport.newDocument()
+        let a = try TestSupport.place(doc, "SN74HC00N", at: CGPoint(x: 100, y: 100))
+        let b = try TestSupport.place(doc, "SN74HC00N", at: CGPoint(x: 400, y: 100))
+        let vcc = try TestSupport.place(doc, "5V", at: CGPoint(x: 100, y: 300))
+        let gnd = try TestSupport.place(doc, "GND", at: CGPoint(x: 200, y: 300))
+        doc.moveFootprint(a.id, to: CGPoint(x: 25, y: 30))
+        doc.moveFootprint(b.id, to: CGPoint(x: 65, y: 30))
+        func pin(_ chip: PlacedChip, _ designator: String) throws -> LineAnchor {
+            let index = try XCTUnwrap(chip.part.pins.firstIndex { $0.designator == designator })
+            return .pin(PinRef(chipID: chip.id, index: index))
+        }
+        XCTAssertNil(doc.connect(try pin(a, "3"), try pin(b, "1")))
+        XCTAssertNil(doc.connect(try pin(a, "14"), try pin(vcc, "1")))
+        XCTAssertNil(doc.connect(try pin(a, "7"), try pin(gnd, "1")))
+        let chipA = try XCTUnwrap(doc.chips.first { $0.id == a.id }), chipB = try XCTUnwrap(doc.chips.first { $0.id == b.id })
+        func centre(_ chip: PlacedChip, _ designator: String) throws -> CGPoint {
+            let pad = try XCTUnwrap(chip.boardPads.first { $0.designator == designator })
+            return CGPoint(x: pad.rect.midX, y: pad.rect.midY)
+        }
+        let from = try centre(chipA, "3"), to = try centre(chipB, "1")
+        _ = try XCTUnwrap(doc.addTrace(points: [from, CGPoint(x: to.x, y: from.y), to], layer: .top, width: 12))
+        let board = CGRect(x: 0, y: 0, width: doc.board.width, height: doc.board.height)
+        let top = try XCTUnwrap(doc.addPour(rect: board, layer: .top))
+        doc.setPourNet(top, .ground)
+        doc.setPourClearance(top, 0.3)
+        doc.setPourThermalGap(top, 0.6)
+        doc.setPourSpokeWidth(top, 0.4)
+        doc.setPourMinWidth(top, 0.25)
+        let bottom = try XCTUnwrap(doc.addPour(rect: board, layer: .bottom))
+        doc.setPourNet(bottom, .rail(mv: 5000))
+        doc.setPourConnection(bottom, .solid)
+        doc.addKeepout(rect: CGRect(x: 60, y: 10, width: 12, height: 8), layers: [.top])
         return doc
     }
 
