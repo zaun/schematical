@@ -95,6 +95,9 @@
       model, so passives and analog parts don't each need a backend model.
       (`"simulated": false`, plan-36; docs/parts-format.md)
 - [ ] Add IO Extenders
+- [ ] (plan-53 written, not built) A persistent User Library of custom parts: Load Part… and opening a
+      schematic offer to add a part to it, a User Library category and a File Library category in the
+      picker, every version of a part gets a new uuid, and a window lists and removes the library's parts.
 
 ## PCB
 
