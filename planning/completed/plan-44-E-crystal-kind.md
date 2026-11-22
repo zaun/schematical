@@ -250,7 +250,7 @@ the `crystal_test` line.
 
 Acceptance: the kind loads and reads back; goldens unchanged.
   Check: `cmake -S backend -B /tmp/logic-p44-e && cmake --build /tmp/logic-p44-e -j8 && /tmp/logic-p44-e/crystal_test` → every line `PASS`, and `/tmp/logic-p44-e/listing_check` and `/tmp/logic-p44-e/trace_check` → exit 0 (est. 4 min: a build from scratch). Output 2026-11-22: build exit 0 with no warning; `crystal_test` 22 `PASS`, 0 `FAIL`, `crystal_test: all passed`; `listing_check` exit 0; `trace_check` exit 0.
-Commit: —
+Commit: 070876da
 
 ### Phase 2 — The clock model
 
@@ -259,7 +259,7 @@ Commit: —
 
 Acceptance: the clock cases pass; goldens unchanged.
   Check: `cmake --build /tmp/logic-p44-e -j8 && /tmp/logic-p44-e/crystal_test` → every line `PASS`; `/tmp/logic-p44-e/listing_check` and `/tmp/logic-p44-e/trace_check` → exit 0 (est. 2 min). Output 2026-11-22: the clock cases k–p are the last 6 of the 22 `PASS` lines; `ctest --test-dir /tmp/logic-p44-e -j8` → `100% tests passed, 0 tests failed out of 41` (T0 = 40, `grep -c '^logic_test' backend/CMakeLists.txt` → 41); no golden file is modified (`git status` shows none under `backend/tests/golden/`).
-Commit: —
+Commit: 070876da
 
 ### Phase 3 — Docs
 
@@ -267,7 +267,7 @@ Commit: —
 
 Acceptance: the docs name the kind.
   Check: `grep -c 'crystal' docs/parts-format.md docs/backend.md` → both above 0, and `grep -n '^### `crystal`' docs/parts-format.md` → 1 line (est. < 1 min). Output 2026-11-22: `docs/backend.md:6`, `docs/parts-format.md:20`; `1220:### `crystal``.
-Commit: —
+Commit: 070876da
 
 ## 6. `crystal_test` cases
 
