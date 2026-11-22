@@ -946,8 +946,11 @@ extension SchematicFile {
     /// Throws without touching the document if anything doesn't resolve.
     /// `fileURL` is where the file was read from; EEPROM load-file paths are
     /// resolved against its folder. A missing load file never fails here.
+    /// Returns the custom parts the file embeds, as registered (after any
+    /// new uuid, plan-53-A), each once, in the file's order.
     @MainActor
-    func apply(to document: SchematicDocument, catalog: PartCatalogStore, fileURL: URL?) throws {
+    @discardableResult
+    func apply(to document: SchematicDocument, catalog: PartCatalogStore, fileURL: URL?) throws -> [CatalogPart] {
         var seen = Set<UUID>()
         func claim(_ id: UUID) throws {
             guard seen.insert(id).inserted else { throw SchematicFileError.duplicateID(id) }
@@ -960,10 +963,12 @@ extension SchematicFile {
         // A part whose uuid is loaded with other content is registered under a
         // new uuid (plan-53-A); the placed parts that name the old one use it.
         var remapped: [String: String] = [:]
+        var embedded: [CatalogPart] = []
         for (index, entry) in (customParts ?? []).enumerated() {
             do {
                 let text = try entry.text()
                 let part = try catalog.register(fileText: text, source: "customParts[\(index)]")
+                if !embedded.contains(part) { embedded.append(part) }
                 if let own = try? PartFileObject(text: text).uuid, let registered = part.uuid, own != registered {
                     remapped[own] = registered
                 }
@@ -1272,6 +1277,7 @@ extension SchematicFile {
             notes: placedNotes,
             netLabels: placedLabels
         )
+        return embedded
     }
 
     /// A stored net label, with defaults for missing keys. Its point is

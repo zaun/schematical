@@ -35,8 +35,8 @@ Stated in plan-53-A; this sub-plan additionally needs plan-53-B complete.
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-53-B is complete and archived | `ls planning/completed/plan-53-B-*.md` → one file | NOT MET at writing (unbuilt) |
-| The catalog has the library API | `grep -c 'func addToUserLibrary' schematical/schematical/Backend/PartCatalog.swift` → `2` | NOT MET at writing |
+| plan-53-B is complete and archived | `ls planning/completed/plan-53-B-*.md` → one file | MET (run 2026-11-21)|
+| The catalog has the library API | `grep -c 'func addToUserLibrary' schematical/schematical/Backend/PartCatalog.swift` → `2` | MET (run 2026-11-21)|
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command before you continue, and report all of them if you stop.
@@ -211,12 +211,12 @@ unlisted custom parts now shows an alert; Part Editor Add to Library persists.
 
 Safe alone: pure functions and one new return value, no alert shown yet.
 
-- [ ] `SchematicFile.swift`: `apply` returns `[CatalogPart]`, `@discardableResult` (§ 4.1).
-- [ ] `Document/UserLibraryPrompts.swift` (new): `LibraryChoice`, `LoadPartOutcome`, `UserLibraryPrompts.offerable`, `UserLibraryPrompts.add` (§ 3).
-- [ ] `SchematicFileController.swift`: `PartFileLoading.load(text:source:catalog:ask:)` (§ 3), not yet called by `loadPart` (Phase 2 wires it; until then Load Part… behaves as before).
-- [ ] `schematicalTests/UserLibraryPromptsTests.swift` (new, temp-folder library as in plan-53-B's tests): `load` with `.add` lists the part `user` and writes the file; `.useOnce` lists `file` and writes nothing; `.cancel` registers nothing; a part already `user` with the same content returns `.alreadyInLibrary` and `ask` is not called; the same uuid with other content asks, and the result has a fresh uuid; a bad file throws the backend's message; `apply` of a v5 file with two embedded parts returns both, once each, and `offerable` drops the one already `user`; `add` returns a failure for a part when the library folder is unwritable and still adds the others.
+- [x] `SchematicFile.swift`: `apply` returns `[CatalogPart]`, `@discardableResult` (§ 4.1).
+- [x] `Document/UserLibraryPrompts.swift` (new): `LibraryChoice`, `LoadPartOutcome`, `UserLibraryPrompts.offerable`, `UserLibraryPrompts.add` (§ 3).
+- [x] `SchematicFileController.swift`: `PartFileLoading.load(text:source:catalog:ask:)` (§ 3), not yet called by `loadPart` (Phase 2 wires it; until then Load Part… behaves as before).
+- [x] `schematicalTests/UserLibraryPromptsTests.swift` (new, temp-folder library as in plan-53-B's tests): `load` with `.add` lists the part `user` and writes the file; `.useOnce` lists `file` and writes nothing; `.cancel` registers nothing; a part already `user` with the same content returns `.alreadyInLibrary` and `ask` is not called; the same uuid with other content asks, and the result has a fresh uuid; a bad file throws the backend's message; `apply` of a v5 file with two embedded parts returns both, once each, and `offerable` drops the one already `user`; `add` returns a failure for a part when the library folder is unwritable and still adds the others.
 
-Acceptance: the cores do what § 3 says on stub answers.
+Acceptance: the cores do what § 3 says on stub answers. **MET** (`xcodebuild test … UserLibraryPromptsTests SchematicFileV5Tests` → `Executed 18 tests, with 0 failures`, `** TEST SUCCEEDED **`; `PartFileLoading.load` lives in `UserLibraryPrompts.swift` as an extension of `PartFileLoading`, not in `SchematicFileController.swift`)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/UserLibraryPromptsTests -only-testing:schematicalTests/SchematicFileV5Tests` → `** TEST SUCCEEDED **` (est. 6–12 min).
 Commit: —
 
