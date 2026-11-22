@@ -217,7 +217,7 @@ extension SchematicDocument {
             }
             for t in Set(touched).sorted() { union(node, pads.count + t) }
             for p in padGrid.near(centre, within: via.diameter / 2 + 1e-3) {
-                if Self.circle(via.centre, via.diameter / 2, meets: pads[p].pad.rect) { union(node, p) }
+                if Self.circle(via.centre, via.diameter / 2, meets: pads[p].pad) { union(node, p) }
             }
         }
 
@@ -423,20 +423,29 @@ extension SchematicDocument {
         return result
     }
 
-    /// Whether a circle meets a rectangle.
-    /// Whether a trace's centre line a-b reaches a pad's copper: its box, or
-    /// for a round pad its ellipse (a line past the corner of a round pad's
-    /// box does not touch the pad).
+    /// Whether a trace's centre line a-b reaches a pad's copper, as
+    /// `CopperGeometry.shape(of:)` measures it: a round pad's circle or
+    /// oval, a rounded rectangle's rounded corners (a line past the corner
+    /// of the pad's box does not touch the pad). Chamfers are left square.
     static func segment(_ a: CGPoint, _ b: CGPoint, touches pad: PlacedPad) -> Bool {
         guard segment(a, b, touches: pad.rect) else { return false }
-        guard pad.shape == .round, pad.rect.width > 0, pad.rect.height > 0 else { return true }
-        // Scaled so the ellipse is the unit circle.
-        func unit(_ p: CGPoint) -> CGPoint {
-            CGPoint(x: (p.x - pad.rect.midX) / (pad.rect.width / 2), y: (p.y - pad.rect.midY) / (pad.rect.height / 2))
-        }
-        return distance(from: .zero, toSegment: unit(a), unit(b)) <= 1
+        return CopperShape(core: .segment(a, b), radius: 0, layers: nil, node: -1)
+            .gap(to: CopperGeometry.shape(of: pad, layers: nil, node: -1)) <= 0
     }
 
+    /// Whether `point` is on a pad's copper (`segment(_:_:touches:)` of a point).
+    static func point(_ point: CGPoint, touches pad: PlacedPad) -> Bool {
+        segment(point, point, touches: pad)
+    }
+
+    /// Whether a circle meets a pad's copper, measured as `segment(_:_:touches:)` does.
+    static func circle(_ centre: CGPoint, _ radius: CGFloat, meets pad: PlacedPad) -> Bool {
+        guard circle(centre, radius, meets: pad.rect) else { return false }
+        return CopperShape(core: .segment(centre, centre), radius: radius, layers: nil, node: -1)
+            .gap(to: CopperGeometry.shape(of: pad, layers: nil, node: -1)) <= 0
+    }
+
+    /// Whether a circle meets a rectangle.
     static func circle(_ centre: CGPoint, _ radius: CGFloat, meets rect: CGRect) -> Bool {
         let x = min(max(centre.x, rect.minX), rect.maxX), y = min(max(centre.y, rect.minY), rect.maxY)
         return hypot(centre.x - x, centre.y - y) <= radius

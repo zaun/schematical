@@ -88,6 +88,19 @@ nonisolated enum RoutingVerifier {
                                         detail: String(format: "%.4f mm from the edge", gap)))
         }
 
+        // Copper to a non-plated hole: the copper-to-edge distance, as the DRC holds it.
+        for obstacle in problem.obstacles where obstacle.kind == .hole {
+            for shape in shapes.prefix(newCount) {
+                let gap = shape.gap(to: obstacle.shape)
+                guard gap < rules.minCopperToEdge - tolerance else { continue }
+                let owner = owners[shape.node]
+                violations.append(Violation(kind: .clearance, traces: owner.trace.map { [$0] } ?? [],
+                                            vias: owner.via.map { [$0] } ?? [],
+                                            detail: String(format: "gap %.4f mm to a non-plated hole; min %.4f mm", gap,
+                                                           rules.minCopperToEdge)))
+            }
+        }
+
         for (t, trace) in traces.enumerated() where trace.width < rules.minTraceWidth - tolerance {
             violations.append(Violation(kind: .traceWidth, traces: [t], detail: "width \(trace.width) mm"))
         }

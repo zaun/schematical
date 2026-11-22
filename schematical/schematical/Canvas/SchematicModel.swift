@@ -3269,10 +3269,7 @@ final class SchematicDocument {
     func padLabel(at point: CGPoint, visible: BoardVisibility = BoardVisibility()) -> (pad: PlacedPad, label: String)? {
         func hits(_ pad: PlacedPad) -> Bool {
             guard pad.rect.contains(point) else { return false }
-            guard pad.shape == .round else { return true }
-            let dx = (point.x - pad.rect.midX) / (pad.rect.width / 2)
-            let dy = (point.y - pad.rect.midY) / (pad.rect.height / 2)
-            return dx * dx + dy * dy <= 1
+            return Self.point(point, touches: pad)
         }
         for side in [BoardSide.top, .bottom] {
             for (chip, pads) in zip(chips, chipPads).reversed() where chip.board?.side == side {
@@ -3446,7 +3443,7 @@ final class SchematicDocument {
         var found: [(reference: String, designator: String)] = []
         for (chip, pad) in pads(on: layer) {
             let touched = members.contains { trace in
-                trace.segments.contains { Self.segment($0.0, $0.1, touches: pad.rect) }
+                trace.segments.contains { Self.segment($0.0, $0.1, touches: pad) }
             }
             if touched { found.append((chip.reference, pad.designator ?? "EP")) }
         }

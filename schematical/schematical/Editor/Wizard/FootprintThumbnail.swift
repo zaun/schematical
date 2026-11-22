@@ -46,7 +46,9 @@ struct FootprintThumbnail: View {
         for (index, pad) in footprint.pads.enumerated() {
             let rect = CGRect(x: pad.centre.x - pad.size.width / 2, y: pad.centre.y - pad.size.height / 2,
                               width: pad.size.width, height: pad.size.height)
-            let shape = pad.shape == .round ? Path(ellipseIn: rect)
+            let shape = pad.shape == .round
+                ? (abs(rect.width - rect.height) < 1e-9 ? Path(ellipseIn: rect)
+                    : Path(roundedRect: rect, cornerRadius: min(rect.width, rect.height) / 2))
                 : Path(roundedRect: rect, cornerRadius: pad.radius)
             if pad.plated {
                 context.fill(shape, with: .color(index == first ? Color.accentColor : PCBCanvasView.copper))

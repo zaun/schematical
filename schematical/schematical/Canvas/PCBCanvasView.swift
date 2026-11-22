@@ -133,11 +133,17 @@ struct PCBCanvasView: View {
     static let background = Color(white: 0.13)
     static let copper = Color(red: 0.80, green: 0.62, blue: 0.30)
 
-    /// A pad's copper: an ellipse, a rectangle, a rectangle with rounded
-    /// corners, or one with some corners cut at 45°.
+    /// A pad's copper: a circle, an oval (a stadium: the short side's
+    /// semicircle at each end of the long side, as KiCad's and EasyEDA's
+    /// ovals are, and as `CopperGeometry.shape(of:)` checks it), a
+    /// rectangle, a rectangle with rounded corners, or one with some corners
+    /// cut at 45°.
     static func outline(of pad: PlacedPad) -> Path {
         let r = pad.rect
-        if pad.shape == .round { return Path(ellipseIn: r) }
+        if pad.shape == .round {
+            guard abs(r.width - r.height) > 1e-9 else { return Path(ellipseIn: r) }
+            return Path(roundedRect: r, cornerRadius: min(r.width, r.height) / 2)
+        }
         if pad.radius > 0 { return Path(roundedRect: r, cornerRadius: pad.radius) }
         guard pad.chamfer > 0, !pad.corners.isEmpty else { return Path(r) }
         let c = pad.chamfer

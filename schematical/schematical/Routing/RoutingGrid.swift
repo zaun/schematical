@@ -92,7 +92,9 @@ nonisolated struct RoutingGrid: Sendable {
         // Fixed copper and holes. The outline is the edge keep-out, below.
         for obstacle in problem.obstacles where obstacle.shape.node != -1 {
             let owner = obstacle.net.map { Int32($0) } ?? Self.blocked
-            let clearance = obstacle.net.flatMap { clearanceOfNet[$0] } ?? rules.minClearance
+            // A non-plated hole keeps the copper-to-edge distance, as the DRC holds it.
+            let clearance = obstacle.kind == .hole ? rules.minCopperToEdge
+                : obstacle.net.flatMap { clearanceOfNet[$0] } ?? rules.minClearance
             stamp(obstacle.shape.core, radius: obstacle.shape.radius, clearance: clearance, owner: owner,
                   layers: layerIndices(obstacle.shape.layers))
             if let drill = obstacle.drill { stampHole(drill.core, radius: drill.radius) }

@@ -461,7 +461,7 @@ but no `"datasheet"`; `listing_check` prints how many there are. They are:
 
 `Parts/footprints.json` holds every land pattern, by name; a part names
 one with `"footprint": "<id>"`. The loader expands each footprint into a
-flat list of pads, so the app only draws rectangles and ellipses.
+flat list of pads, so the app only draws rectangles and ovals.
 
 ```json
 {
@@ -500,7 +500,7 @@ left side. Pads are axis-aligned.
 | `"style"` | `"dual"`, `"quad"`, `"grid"` or `"explicit"` |
 | `"pins"` | number of designated pads (1–1000). `dual`, `quad` and `explicit` pads are `"1"`…`"<pins>"`; `grid` pads, and `explicit` pads given by `"ball"`, are ball names |
 | `"body"` | `{"width", "height"}` > 0, optional `"round": true` (drawn as an ellipse) |
-| `"pad"` | `{"width", "height", "shape"}`, sizes > 0, shape `"rect"` or `"round"` (an ellipse; a circle when width = height), plus optional corner keys (below). Not on `explicit` |
+| `"pad"` | `{"width", "height", "shape"}`, sizes > 0, shape `"rect"` or `"round"` (an oval, a stadium: a semicircle of the short side at each end of the long side; a circle when width = height), plus optional corner keys (below). Not on `explicit` |
 | `"drill"` | optional, default 0 (surface mount); a through-hole diameter, smaller than both pad sides. Not on `explicit` |
 | `"pin1Shape"` | optional, `dual`/`quad` only: pin 1's pad shape (through-hole parts use `"rect"` to mark pin 1); pin 1 then has square corners |
 | `"centre"` | optional, `dual`/`quad` only: one pad at the origin, `{"width", "height", "shape"}` plus optional corner keys — an exposed pad, or the middle terminal of an X2SON-5 |

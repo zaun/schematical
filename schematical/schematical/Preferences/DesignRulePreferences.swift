@@ -35,7 +35,7 @@ nonisolated struct DesignRules: Codable, Hashable, Sendable {
             Rule(title: "Min clearance", field: \.minClearance,
                  help: "The smallest gap between copper on different nets"),
             Rule(title: "Min copper to edge", field: \.minCopperToEdge,
-                 help: "The smallest gap between copper and the board outline"),
+                 help: "The smallest gap between copper and the board outline or a non-plated hole"),
         ]),
         ("Holes", [
             Rule(title: "Min drill", field: \.minDrill, help: "The smallest plated hole"),

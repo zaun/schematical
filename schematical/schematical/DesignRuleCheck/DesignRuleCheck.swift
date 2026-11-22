@@ -60,6 +60,10 @@ private struct DesignRuleChecker {
     let outlinePoints: [CGPoint]
     /// The layers each net with an Only layer rule may use, by net.
     let onlyLayers: [Int: EffectiveLayers]
+    /// The clearance each net's class asks for, by net; a net in no class
+    /// (or one with no clearance of its own) is not here and keeps the
+    /// board's minimum.
+    let classClearance: [Int: Double]
     var issues: [DesignRuleIssue] = []
 
     /// mm: differences smaller than this are rounding, not a problem.
@@ -91,6 +95,23 @@ private struct DesignRuleChecker {
             }
         }
         self.onlyLayers = onlyLayers
+        var classClearance: [Int: Double] = [:]
+        if board.netClasses.contains(where: { $0.clearance != nil }) {
+            for net in Set(copper.netOfPad.values) {
+                if let clearance = document.netClass(ofNet: net, in: copper)?.clearance, clearance > rules.minClearance {
+                    classClearance[net] = clearance
+                }
+            }
+        }
+        self.classClearance = classClearance
+    }
+
+    /// The gap two copper groups must keep: the larger of their nets'
+    /// class clearances, never under the board's minimum (as the router and
+    /// `RoutingVerifier` hold it).
+    private func requiredClearance(_ rootA: Int, _ rootB: Int, netOfRoot: [Int: Int]) -> Double {
+        max(rules.minClearance, netOfRoot[rootA].flatMap { classClearance[$0] } ?? 0,
+            netOfRoot[rootB].flatMap { classClearance[$0] } ?? 0)
     }
 
     mutating func run() -> [DesignRuleIssue] {
@@ -100,6 +121,7 @@ private struct DesignRuleChecker {
         checkLayerRules()
         checkClearance()
         checkEdge()
+        checkNonPlatedHoles()
         checkHoles()
         checkVias()
         checkTraceWidths()
@@ -246,7 +268,7 @@ private struct DesignRuleChecker {
         let trace = copper.traces[index]
         let reach = trace.widthMM / 2
         for pad in copper.pads where pad.pad.plated && (pad.pad.drill > 0 || pad.side.copperLayer == trace.layer) {
-            if pad.pad.rect.insetBy(dx: -Self.tolerance, dy: -Self.tolerance).contains(point) { return true }
+            if SchematicDocument.point(point, touches: pad.pad) { return true }
         }
         for via in copper.vias where SchematicDocument.distance(from: point, to: via.centre) <= via.diameter / 2 + reach {
             return true
@@ -274,7 +296,7 @@ private struct DesignRuleChecker {
                 SchematicDocument.distance(from: via.centre, toSegment: $0.0, $0.1) <= via.diameter / 2 + trace.widthMM / 2
             }
         }.count
-        let pads = copper.pads.filter { SchematicDocument.circle(via.centre, via.diameter / 2, meets: $0.pad.rect) }.count
+        let pads = copper.pads.filter { SchematicDocument.circle(via.centre, via.diameter / 2, meets: $0.pad) }.count
         // A pour that joins it counts as one more thing touching it.
         let poured = copper.pourFills.values.contains { $0.joined.contains { $0.contains(.via(via.id)) } } ? 1 : 0
         return traces + pads + poured
@@ -448,8 +470,9 @@ private struct DesignRuleChecker {
         let netOfRoot = copper.netOfRoot()
         // The closest gap per pair of items (two chips' pads count once).
         struct Key: Hashable { let a: String; let b: String }
-        var worst: [Key: (gap: Double, a: Int, b: Int)] = [:]
-        CopperGeometry.nearPairs(shapes, margin: rules.minClearance) { a, b in
+        var worst: [Key: (gap: Double, need: Double, a: Int, b: Int)] = [:]
+        let margin = max(rules.minClearance, classClearance.values.max() ?? 0)
+        CopperGeometry.nearPairs(shapes, margin: margin) { a, b in
             guard a.shares(b) else { return }
             let ra = copper.root[a.node], rb = copper.root[b.node]
             // Joined copper is one conductor; two groups of one net are
@@ -457,10 +480,11 @@ private struct DesignRuleChecker {
             guard ra != rb else { return }
             if let na = netOfRoot[ra], let nb = netOfRoot[rb], na == nb { return }
             let gap = a.gap(to: b)
-            guard gap < rules.minClearance - Self.tolerance else { return }
+            let need = requiredClearance(ra, rb, netOfRoot: netOfRoot)
+            guard gap < need - Self.tolerance else { return }
             let (first, second) = a.node < b.node ? (a.node, b.node) : (b.node, a.node)
             let key = Key(a: owner(first), b: owner(second))
-            if gap < worst[key]?.gap ?? .infinity { worst[key] = (gap, first, second) }
+            if gap < worst[key]?.gap ?? .infinity { worst[key] = (gap, need, first, second) }
         }
         for (key, found) in worst.sorted(by: { ($0.value.a, $0.value.b) < ($1.value.a, $1.value.b) }) {
             let one = describe(node: found.a), two = describe(node: found.b)
@@ -468,12 +492,12 @@ private struct DesignRuleChecker {
             if key.a == key.b {
                 add(.clearance, key.a,
                     "Pads \(Self.padName(one.name)) and \(Self.padName(two.name)) are \(gapText(found.gap)) apart; "
-                        + "min clearance \(mm(rules.minClearance))", items)
+                        + "min clearance \(mm(found.need))", items)
             } else if found.gap <= Self.tolerance {
                 add(.clearance, "\(one.name), \(two.name)", "Copper touches copper of another net", items)
             } else {
                 add(.clearance, "\(one.name), \(two.name)",
-                    "Clearance \(mm(found.gap)); min \(mm(rules.minClearance))", items)
+                    "Clearance \(mm(found.gap)); min \(mm(found.need))", items)
             }
         }
     }
@@ -529,6 +553,44 @@ private struct DesignRuleChecker {
                 add(.edge, name, "Copper \(mm(max(0, found.gap))) from the board edge; min \(mm(rules.minCopperToEdge))",
                     items)
             }
+        }
+    }
+
+    // MARK: Non-plated holes
+
+    /// Copper over, or too near, a non-plated hole: the drill goes through
+    /// it. Held to the copper-to-edge distance, as the planes and pours
+    /// keep it round such a hole (`planeClearances`, `PourCopper.hole`) and
+    /// the router does. One line per hole and owner of the copper.
+    private mutating func checkNonPlatedHoles() {
+        let drilled = copper.pads.indices.filter { !copper.pads[$0].pad.plated && copper.pads[$0].pad.holeSegment != nil }
+        guard !drilled.isEmpty else { return }
+        let drilledSet = Set(drilled)
+        var shapes = copperShapes()
+        for p in drilled {
+            guard let hole = copper.pads[p].pad.holeSegment else { continue }
+            shapes.append(CopperShape(core: .segment(hole.a, hole.b), radius: hole.radius, layers: nil, node: p))
+        }
+        // Copper shapes never have a non-plated pad's node (`copperShapes`).
+        struct Key: Hashable { let copper: String; let hole: Int }
+        var worst: [Key: (gap: Double, copper: Int, hole: Int)] = [:]
+        CopperGeometry.nearPairs(shapes, margin: rules.minCopperToEdge) { a, b in
+            let aHole = drilledSet.contains(a.node), bHole = drilledSet.contains(b.node)
+            guard aHole != bHole else { return }
+            let (hole, metal) = aHole ? (a, b) : (b, a)
+            let gap = hole.gap(to: metal)
+            guard gap < rules.minCopperToEdge - Self.tolerance else { return }
+            let key = Key(copper: owner(metal.node), hole: hole.node)
+            if gap < worst[key]?.gap ?? .infinity { worst[key] = (gap, metal.node, hole.node) }
+        }
+        for (key, found) in worst.sorted(by: { ($0.value.hole, $0.value.copper) < ($1.value.hole, $1.value.copper) }) {
+            let metal = describe(node: found.copper), hole = describe(node: found.hole)
+            let what = found.copper < copper.pads.count ? "Pad \(Self.padName(metal.name))" : "Copper"
+            let issue = found.gap <= Self.tolerance
+                ? "\(what) runs over the non-plated hole of \(hole.name)"
+                : "\(what) is \(mm(found.gap)) from the non-plated hole of \(hole.name); min \(mm(rules.minCopperToEdge))"
+            add(.clearance, key.copper == hole.name ? key.copper : "\(metal.name), \(hole.name)", issue,
+                metal.items.union(hole.items))
         }
     }
 

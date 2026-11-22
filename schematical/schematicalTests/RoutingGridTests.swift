@@ -112,8 +112,10 @@ final class RoutingGridTests: XCTestCase {
         let grid = RoutingGrid(problem: board.problem())
         let p2 = grid.profile(of: 2)
         for layer in 0..<2 {
-            XCTAssertFalse(grid.isPassable(cell(grid, 5.7, 5), layer: layer, net: 2, profile: p2))
-            XCTAssertTrue(grid.isPassable(cell(grid, 5.8, 5), layer: layer, net: 2, profile: p2))
+            // A hole keeps the copper-to-edge distance (0.25 mm, as the DRC holds a
+            // non-plated hole), not the nets' clearance: 0.5 + 0.25 + 0.125 = 0.875.
+            XCTAssertFalse(grid.isPassable(cell(grid, 5.8, 5), layer: layer, net: 2, profile: p2))
+            XCTAssertTrue(grid.isPassable(cell(grid, 5.9, 5), layer: layer, net: 2, profile: p2))
         }
     }
 }
