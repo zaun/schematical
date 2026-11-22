@@ -260,7 +260,7 @@ Safe alone: a new optional key nothing else uses yet.
 
 Acceptance: the three new cases pass and the existing `part_file_test` cases still pass. **MET**
   Check: `cmake -S backend -B /tmp/logic-build && cmake --build /tmp/logic-build --target part_file_test && ctest --test-dir /tmp/logic-build -R part_file_test --output-on-failure` → `100% tests passed, 0 tests failed out of 1` (run in the worktree against a build dir of its own, `/tmp/logic-build-p53`, so other sessions' `/tmp/logic-build` is not shared; est. 2–4 min).
-Commit: —
+Commit: 2d4e7d4d
 
 ### Phase 2 — `freshenIdentity()`, the catalog and the schematic open
 
@@ -275,7 +275,7 @@ One commit: removing `uuidInUse` breaks `SchematicFile.apply`, so the catalog an
 
 Acceptance: the catalog registers a clashing part under a fresh uuid with renamed inline ids, and a schematic opens through a clash with its placed parts on the fresh part. **MET**
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/PartRegistrationTests -only-testing:schematicalTests/SchematicFileV5Tests` → `** TEST SUCCEEDED **` (est. 5–10 min; the app builds first).
-Commit: —
+Commit: ad8eaf29
 
 ### Phase 3 — The Part Editor: Save As…, copies and Add to Library
 
@@ -286,7 +286,7 @@ Commit: —
 
 Acceptance: Save keeps a part's uuid; Save As…, a copy and a colliding Add to Library make a new one. **MET**
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/PartFileSaveOpenTests -only-testing:schematicalTests/PartDraftRoundTripTests` → `** TEST SUCCEEDED **` (est. 4–8 min).
-Commit: —
+Commit: ad8eaf29
 
 ## Validation Plan
 
@@ -314,6 +314,7 @@ Commit: —
 
 - **The name is not part of the same-content test.** `register` and `uuidConflicts` compare the file under the *registered* name (so a suffixed copy is the same part), so a draft whose only change is its name is not a new version: Add to Library returns the registered part. The plan's Phase 3 test changed the name; it now changes the description (`PartFileSaveOpenTests.testAddToLibraryOfANewVersionGetsANewUUID`).
 - **A `PartCatalogStore` freed inside a test aborts the host** (`pointer being freed was not allocated`, as `TestSupport.newDocument()` notes). The first Phase 2 run (`/tmp/p53-xc2.log`, `** TEST FAILED **`) had a local store in the new V5 test; it is now a kept static (`SchematicFileV5Tests.otherStore`).
+- **Final gate (run once after Phase 3), 2026-11-21:** `ctest --test-dir /tmp/logic-build-p53 -R 'part_file_test|library_check'` → `100% tests passed, 0 tests failed out of 2`; `xcodebuild test … PartRegistrationTests SchematicFileV5Tests PartFileSaveOpenTests PartDraftRoundTripTests PartEditorWindowTests` → `Executed 40 tests, with 0 failures`, `** TEST SUCCEEDED **` (`/tmp/p53-xc5.log`).
 - **Check commands ran in the worktree with their own build directories** (`/tmp/logic-build-p53`, `-derivedDataPath /tmp/p53-dd`) so other sessions' builds are not shared. Phase 2 and 3 were run together: `xcodebuild test … -only-testing:…PartRegistrationTests -only-testing:…SchematicFileV5Tests -only-testing:…PartFileSaveOpenTests -only-testing:…PartDraftRoundTripTests` → `Executed 31 tests, with 0 failures`, `** TEST SUCCEEDED **` (`/tmp/p53-xc4.log`).
 
 ## Summary
