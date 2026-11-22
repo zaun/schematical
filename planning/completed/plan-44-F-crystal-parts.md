@@ -242,7 +242,7 @@ Commit: 9dd5decc
 
 Acceptance: the whole pick loads; goldens grow by exactly it; docs name it.
   Check: `ctest --test-dir /tmp/logic-p44-f -j8` after a rebuild → `100% tests passed`; `grep -c '|crystal|' backend/tests/golden/parts.txt` → the `add` rows + 4; `git diff <F's first commit>^ -- backend/tests/golden | grep -c '^-[^-]'` → 0; `xcodebuild … test -only-testing:schematicalTests/PartEditorWindowTests -only-testing:schematicalTests/DatasheetCatalogTests` → `** TEST SUCCEEDED **` (est. 12 min: backend build 4, app tests 8). Output 2026-11-22: `100% tests passed, 0 tests failed out of 41`; `604`; goldens 34375 / 34375 / 1895 (+604 +604 +72 over 33771 / 33771 / 1823), removed lines `0` (`git diff 5e2347cc^ -- backend/tests/golden | grep -c '^-[^-]'`); `xcodebuild … test -only-testing:schematicalTests/PartEditorWindowTests -only-testing:schematicalTests/DatasheetCatalogTests` → `Executed 12 tests, with 0 failures`, `** TEST SUCCEEDED **`.
-Commit: —
+Commit: bd67372b
 
 ## Validation Plan
 
