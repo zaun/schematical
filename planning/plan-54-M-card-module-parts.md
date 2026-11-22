@@ -1,21 +1,21 @@
-# plan-54-J: Parts — memory / SIM card sockets and module sockets, the datasheets, the goldens
+# plan-54-M: Parts — memory / SIM card sockets and module sockets, the datasheets, the goldens
 
 Last updated: 2026-11-22
 Effort: large (3h–1d)
-Depends on: plan-54-I
+Depends on: plan-54-L
 
-J adds the parts of the first two families: one `connector` part per `add` row of
+M adds the parts of the first two families: one `connector` part per `add` row of
 the **memory / SIM card sockets** (134 candidates at planning time, before B's
-skips) and the **module sockets** (122), the footprints they name (from E's
-`footprints-E.json`), the datasheet entries, the regenerated goldens and the
+skips) and the **module sockets** (122), the footprints they name (from H's
+`footprints-H.json`), the datasheet entries, the regenerated goldens and the
 real-library tests. There is **no generic part**. The behavioral outcome: the library
 loads with P0 plus these parts, every new part has a manufacturer, a datasheet and a
 footprint, `ctest` passes, and the goldens only gain lines.
 
 References:
 
-- plan-54-B § 3 (the pins and facts), plan-54-I § 3.2 (the naming conventions: pins,
-  drawer, function, package, device id, part fields), plan-54-E § 3.1 (footprint ids);
+- plan-54-B § 3 (the pins and facts), plan-54-L § 3.2 (the naming conventions: pins,
+  drawer, function, package, device id, part fields), plan-54-H § 3.1 (footprint ids);
   `docs/parts-format.md` § Parts, § Datasheets, § Footprints, § `connector`;
   `docs/backend.md` § Tests (golden regeneration).
 - `scripts/gen-headers.js` (the idempotent generator precedent) and
@@ -28,10 +28,10 @@ plan-54-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-54-I complete | `ls planning/completed/plan-54-I-*.md` → exists | NOT MET (2026-11-22: not started) |
+| plan-54-L complete | `ls planning/completed/plan-54-L-*.md` → exists | NOT MET (2026-11-22: not started) |
 | The pick is final | `awk -F'\t' '($4=="card"\|\|$4=="module") && $20=="add"' planning/plan-54-data/candidates.tsv \| wc -l` → the `add` rows (at most 256; 0 at planning, all `candidate`) | NOT MET (2026-11-22: B Phase 4) |
-| The footprint table is done | `python3 -I planning/plan-54-data/census/fp-check.py E` → `0 without a footprint` | NOT MET (2026-11-22: E) |
-| The goldens are P0 / R0 / F0 | `wc -l < backend/tests/golden/parts.txt` etc. re-measured at the start; J uses its own | MET (2026-11-22 at 7b449718: 34375 / 34375 / 1895) |
+| The footprint table is done | `python3 -I planning/plan-54-data/census/fp-check.py H` → `0 without a footprint` | NOT MET (2026-11-22: H) |
+| The goldens are P0 / R0 / F0 | `wc -l < backend/tests/golden/parts.txt` etc. re-measured at the start; M uses its own | MET (2026-11-22 at 7b449718: 34375 / 34375 / 1895) |
 
 Everything below is written against the world where these hold.
 
@@ -51,17 +51,17 @@ Everything below is written against the world where these hold.
 
 ### Non-goals (explicit constraints)
 
-- No backend change (I did it); no app change (L); no change to the 224 existing connector
+- No backend change (L did it); no app change (O); no change to the 224 existing connector
   devices (their text stays byte for byte).
 - No part outside the `add` rows; **no generic part** (owner).
-- No card-edge part (K).
+- No card-edge part (N).
 
 ## 2. Current State
 
 `connector.json` is 2894 lines: 7 barrel and 217 USB devices, each a block of lines under
 `"devices": [` indented four spaces (`    {` … `    },`), pinouts and parts on single lines.
 `datasheets.json` is sorted by id, one entry a line (8558 entries). `footprints.json` has 1895
-footprints one per line. The loader checks every device (I § 3.1 for the new keys) and
+footprints one per line. The loader checks every device (L § 3.1 for the new keys) and
 `listing_check`, `trace_check`, `footprint_check` compare against the goldens.
 
 ### Measured populations
@@ -85,7 +85,7 @@ footprints one per line. The loader checks every device (I § 3.1 for the new ke
   hosts, so the docs gain the same note as Suntsu's (Phase 3).
 - `fp-merge.py --expect` fails unless the printed footprints beyond the golden are exactly the new
   ids and none has overlapping pads (`planning/plan-44-data/census/fp-merge.py` docstring), so the
-  merge itself checks the pad overlap of E's footprints.
+  merge itself checks the pad overlap of H's footprints.
 
 ## 3. Design
 
@@ -98,12 +98,12 @@ blocks by their four-space braces, drops the blocks whose `id` starts with `card
 plan's blocks, and the pairs not selected, survive), and appends the generated blocks;
 inserts the generated `datasheets.json` lines in id order and removes none. `--family socket|module`
 and `--maker <slug>` select what is generated; running with none generates everything of the
-two families. `fp-merge.py --only <ids>` then appends the named footprints of `footprints-E.json`
+two families. `fp-merge.py --only <ids>` then appends the named footprints of `footprints-H.json`
 to `footprints.json`.
 
 ### 3.2 Devices, parts, names
 
-plan-54-I § 3.2 is the rule for the device `id`, `drawer`, `function`, `package`, the pins and
+plan-54-L § 3.2 is the rule for the device `id`, `drawer`, `function`, `package`, the pins and
 the part fields; in addition:
 
 | Field | Rule |
@@ -132,7 +132,7 @@ is a wrong pinout or footprint on a part; both surface as a load error, a `footp
 
 - [ ] Re-measure P0, R0, F0 and `grep -c '"id": "card-' schematical/schematical/Parts/connector.json`
       (0 expected; another plan may have added devices: the generator leaves them). Families
-      `socket` (memory / SIM) and `module` are J's.
+      `socket` (memory / SIM) and `module` are M's.
 - [ ] `census/gen-parts.py` (§ 3.1, § 3.2) from `planning/plan-44-data/census/gen-parts.py`;
       generate `--family socket --maker same-sky`, then `fp-merge.py --only` the footprints those
       parts name, then regenerate the goldens (`docs/backend.md` § Tests) and review: only added lines.
@@ -155,10 +155,10 @@ Commit: —
 ### Phase 3 — The examples, the real-part test, the datasheet note
 
 - [ ] `planning/plan-54-data/examples.tsv`: the most-stocked `add` row of each family (`mpn`, `family`,
-      `positions`, `drawer`, `footprint`), written by `census/gen-parts.py --examples`; K adds the
+      `positions`, `drawer`, `footprint`), written by `census/gen-parts.py --examples`; N adds the
       card-edge row.
 - [ ] `backend/tests/connector_test.c`: for each example (a memory / SIM socket and a module socket
-      now; K adds the third) a placed part with pins 1 and 2 on two nets driven from `5V` and `GND`:
+      now; N adds the third) a placed part with pins 1 and 2 on two nets driven from `5V` and `GND`:
       after `circuit_start` and `circuit_advance(circuit, 1)` neither net is shorted.
 - [ ] `docs/parts-format.md` § Datasheets: the Suntsu paragraph gains the Amphenol ICC sentence (its
       `cdn.amphenol-cs.com` entries answer 403 or 429 to a script; the local PDFs are Amphenol's own
@@ -176,7 +176,7 @@ Commit: —
   (`logic_test_support`), so a load error fails all of them.
 - Runtime proof: `connector_test`'s examples.
 - Doc sync: `docs/parts-format.md` § Datasheets.
-- Final gate: none; the landing tier is M's.
+- Final gate: none; the landing tier is P's.
 
 ## Decisions
 
@@ -190,6 +190,6 @@ Commit: —
 
 ## Summary
 
-J is a generator over B's pick: devices, pinouts, parts, datasheet entries and E's footprints, with the
+M is a generator over B's pick: devices, pinouts, parts, datasheet entries and H's footprints, with the
 goldens only gaining lines. The risk is a pinout whose count differs from the footprint's pads; the load
 and the example parts' test catch it.

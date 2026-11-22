@@ -11,7 +11,7 @@ part numbers, 228 distinct downloads), series `Standard Edge II`, `Standard Edge
 and others. It writes each specs row's scheme, reads its status, writes its pin
 designators and facts, fills the final pick, records the skips and the obsolete
 PDFs, deletes the PDFs no `add` row uses and adds TE's lines to
-`footprints-needed.txt` for G. The behavioral outcome: `candidates.tsv` has one
+`footprints-needed.txt` for J. The behavioral outcome: `candidates.tsv` has one
 `add` row per TE card-edge socket the library will get, every other TE card-edge
 row is `skip` or `out` with a reason, and `specs.tsv` has every column filled on
 TE's 230 card-edge rows.
@@ -47,7 +47,7 @@ Everything below is written against the world where these hold.
 - `specs.tsv` has `scheme`, `label`, `card`, `pinout`, `positions`, `pitch` and
   `status` filled on every TE card-edge row (230 at planning time).
 - `candidates.tsv` has `state` `add` on every such row that passes the rules of
-  plan-54-A § 3; `footprints-needed.txt` has TE's lines (letter `G`).
+  plan-54-A § 3; `footprints-needed.txt` has TE's lines (letter `J`).
 - `datasheets/skipped-parts.md` § `Card slots (plan-54)` lists TE's skips; every
   PDF whose rows are all out for datasheet status is deleted and listed in
   `obsolete-not-included.md`; every PDF under `datasheets/connector-card-edge/te/`
@@ -128,8 +128,12 @@ specifications that make a row unprovable; both are bounded by the skip rule.
       `assign.py --merge`.
 - [ ] Run `scheme-check.py`; every failing row is `skip`. Print the `--sample` and
       compare 20 rows by hand.
-- [ ] Apply plan-54-A § 3 rule 9 as C Phase 1 does; record the number of TE rows
-      skipped for pads on the bottom layer in § Corrections.
+- [ ] Apply plan-54-A § 3 rule 9 to the drawings: a row whose land pattern needs a
+      rotated slot or a keyhole shell slot is `skip` (`footprint not expressible: <feature>`).
+      The `Board Edge, Straddle Mount` rows (TE Connectivity 32 candidates) are **not** skipped for
+      their bottom-layer pads: mark each in `specs.tsv` `status` as `edge-mount` so the
+      footprint readers (H to K) draw it with `opposite` pads and `edgeMount` (plan-54-E);
+      record the skip count in § Corrections.
 
 Acceptance: every TE card-edge row has a verdict on the ordering table and the facts.
   Check: `python3 -I planning/plan-54-data/census/scheme-check.py --family edge --maker "TE Connectivity"` → `<n> rows: <k> ok, 0 unchecked`; `… --sample \| wc -l` → 20 (est. 10 min of scripts).
@@ -158,7 +162,7 @@ Commit: —
 
 - [ ] `census/final.py` for TE's rows; `--write-skipped`; `place.py --prune` on
       `datasheets/connector-card-edge/te/`; `final.py --verify-skipped`.
-- [ ] `census/footprint-lines.py`: TE's lines, letter `G`, id stem `EDGE-TE-<series
+- [ ] `census/footprint-lines.py`: TE's lines, letter `J`, id stem `EDGE-TE-<series
       slug>`.
 
 Acceptance: the pick is final, consistent and pruned.
@@ -172,7 +176,7 @@ Commit: —
   (`awk -F'\t' '$4=="edge" && $2=="TE Connectivity" && $20=="candidate"' planning/plan-54-data/candidates.tsv | wc -l` → 0).
 - Runtime proof: not applicable (data only).
 - Doc sync: `datasheets/skipped-parts.md`, `datasheets/obsolete-not-included.md`.
-- Final gate: none; the landing tier is M's.
+- Final gate: none; the landing tier is P's.
 
 ## Decisions
 

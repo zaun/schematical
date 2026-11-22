@@ -12,7 +12,7 @@ row, which parts are added. It writes the ordering-code scheme of every
 each row's pin names and facts, checks each part's facts against the
 datasheet, fills the final pick (`add`), records the skips and the obsolete
 PDFs, deletes the PDFs no `add` row uses, and writes `footprints-needed.txt`
-for E. The behavioral outcome: `candidates.tsv` has one `add` row per card or
+for H. The behavioral outcome: `candidates.tsv` has one `add` row per card or
 module socket the library will get, every other row of those two families is
 `skip` or `out` with a reason, and `specs.tsv` has every column filled on
 their 194 rows.
@@ -55,7 +55,7 @@ Everything below is written against the world where these hold.
   row that passes the rules of A § 3 (no quota: owner, plan-54-A § Decisions).
 - `footprints-needed.txt` has the lines of the `add` rows of these two
   families (`python3 -I planning/plan-54-data/census/footprint-lines.py planning/plan-54-data/candidates.tsv`);
-  E draws from it.
+  H draws from it.
 - `datasheets/skipped-parts.md` has a `## Card slots (plan-54)` section for the
   skips; every PDF whose rows are all out for datasheet status is deleted and
   listed in `datasheets/obsolete-not-included.md`; every PDF under
@@ -144,7 +144,7 @@ datasheet's pin table or drawing shows, in the datasheet's numbering:
 
 Pins of a pinout with more than 40 pins carry `"side": "in"` on the first
 half (rounded up), so the block symbol has two columns (the default puts every
-`inout` pin on the right); the pinout column stores the plain list and J adds
+`inout` pin on the right); the pinout column stores the plain list and M adds
 the key.
 
 ### 3.4 Facts
@@ -190,8 +190,8 @@ Rejected alternative: naming card-socket pins `1 … N` like the module sockets
       § 3.4). Print the `--sample` and compare 20 rows per maker with their PDF by
       hand.
 - [ ] Apply plan-54-A § 3 rule 9 to the drawings: a row whose land pattern needs a
-      pad on the bottom layer, a rotated slot or a keyhole shell slot is `skip`
-      (`footprint not expressible: <feature>`); record the number in § Corrections.
+      rotated slot or a keyhole shell slot is `skip` (`footprint not expressible:
+      <feature>`); record the number in § Corrections.
 
 Acceptance: every card and module row has a verdict on the ordering table and the facts.
   Check: `python3 -I planning/plan-54-data/census/scheme-check.py --family card --family module` → `<n> rows: <k> ok, 0 unchecked`, then `python3 -I planning/plan-54-data/census/scheme-check.py --family card --family module --sample \| wc -l` → 60 (est. 10 min of scripts; the reading is the work).
@@ -243,7 +243,7 @@ Commit: —
 - [ ] `census/final.py --verify-skipped` prints `<n> skip rows, 0 missing from
       skipped-parts.md`.
 - [ ] Write `census/footprint-lines.py` (plan-44's, the two families) and
-      `footprints-needed.txt`: one line per variant — letter `E`, family, maker,
+      `footprints-needed.txt`: one line per variant — letter `H`, family, maker,
       series, mounting, card, pitch, the position counts, parts, example, datasheet,
       the existing footprints of the same pad count (none at planning), the id stem
       (`SOCK-<MAKER>-<series slug>` or `DIMM-<MAKER>-<series slug>`).
@@ -260,7 +260,7 @@ Commit: —
   `awk -F'\t' '($4=="card"||$4=="module") && $20=="candidate"' planning/plan-54-data/candidates.tsv | wc -l` → 0.
 - Runtime proof: not applicable (data only).
 - Doc sync: `datasheets/skipped-parts.md`, `datasheets/obsolete-not-included.md`.
-- Final gate: none; the landing tier is M's.
+- Final gate: none; the landing tier is P's.
 
 ## Decisions
 

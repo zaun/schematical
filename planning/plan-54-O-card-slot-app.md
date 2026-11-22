@@ -1,10 +1,10 @@
-# plan-54-L: The app — card slots in the drawer, the sidebar, the Part Editor and the Board Preview
+# plan-54-O: The app — card slots in the drawer, the sidebar, the Part Editor and the Board Preview
 
 Last updated: 2026-11-22
 Effort: large (3h–1d)
-Depends on: plan-54-K
+Depends on: plan-54-N
 
-L makes the app show the card slots: a **Connector → Card slot → <leaf>** branch in the parts
+O makes the app show the card slots: a **Connector → Card slot → <leaf>** branch in the parts
 drawer (`SD`, `microSD`, `SIM`, `Smart card`, `Memory module`, `Card edge`) with the parts of a
 function group in position order; the sidebar facts (card, pitch, pins); the kind name in the
 inspector ("Card slot"); the schematic symbol (a plain block of pins, as USB connectors have, two
@@ -17,8 +17,8 @@ housing over the pads.
 
 References:
 
-- plan-54-I § 3 (the keys, `PartConnector.card`, the drawer / function / package conventions),
-  plan-54-J and K (the parts); `docs/parts-format.md` § `connector`.
+- plan-54-L § 3 (the keys, `PartConnector.card`, the drawer / function / package conventions),
+  plan-54-M and N (the parts); `docs/parts-format.md` § `connector`.
 - `planning/completed/plan-44-G-crystal-app.md` and `planning/completed/plan-40-H-transistor-app.md`
   (the precedents for a kind's app letter, the harness and the tests).
 - `schematical/schematical/Backend/PartCatalog.swift` (`PartDetails`, `CatalogPart`,
@@ -32,10 +32,10 @@ plan-54-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-54-K complete | `ls planning/completed/plan-54-K-*.md` → exists | NOT MET (2026-11-22: not started) |
-| The library has the parts | `grep -c '|connector|' backend/tests/golden/parts.txt` → 376 + J's + K's parts; `wc -l < planning/plan-54-data/examples.tsv` → 4 (header and three examples) | NOT MET (2026-11-22: 376 parts, J and K add them) |
+| plan-54-N complete | `ls planning/completed/plan-54-N-*.md` → exists | NOT MET (2026-11-22: not started) |
+| The library has the parts | `grep -c '|connector|' backend/tests/golden/parts.txt` → 376 + M's + N's parts; `wc -l < planning/plan-54-data/examples.tsv` → 5 (header and four examples) | NOT MET (2026-11-22: 376 parts, M and N add them) |
 | No `cardSlot` case yet | `grep -c 'cardSlot' schematical/schematical/Backend/PartCatalog.swift` → 0 | MET (2026-11-22 at 7b449718: 0) |
-| `PartConnector` has the new fields | `grep -c 'card_pitch_um' backend/include/parts.h` → 1 | NOT MET (2026-11-22: I adds it) |
+| `PartConnector` has the new fields | `grep -c 'card_pitch_um' backend/include/parts.h` → 1 | NOT MET (2026-11-22: L adds it) |
 
 Everything below is written against the world where these hold.
 
@@ -59,7 +59,7 @@ Everything below is written against the world where these hold.
 ### Non-goals (explicit constraints)
 
 - No change to barrel or USB connectors' details, symbol, facts or look; no change to the reference
-  prefix (`J`, `ReferenceCategory.of(PART_CONNECTOR)` stays `.femaleConnector`); no change to the
+  prefix (`M`, `ReferenceCategory.of(PART_CONNECTOR)` stays `.femaleConnector`); no change to the
   file format; no simulation change (the parts are passive).
 - No new Settings entry; no new schematic symbol (a compact card-edge symbol is rejected, § 3).
 
@@ -93,7 +93,7 @@ function group's parts in natural name order. `ConnectorDraft.swift` is generate
 - A new `PartDetails` case needs no change to the 9 existing matches: they match `.connector(…)`,
   which stays; the compiler lists any exhaustive switch that needs the new case.
 - `ChipLayout` has no pin-count limit (the default init stacks rows); a block of 428 or 694 pins is
-  tall but valid, and the pinout's `"side": "in"` on its first half (plan-54-I § 3.2) gives two columns.
+  tall but valid, and the pinout's `"side": "in"` on its first half (plan-54-L § 3.2) gives two columns.
 - The drawer sorts group names with `localizedStandardCompare` (`PartCatalog.swift:1887`,
   `1906`, `1966`; `functionGroups(_:rank:)` is at `1945`), which orders `0.50 mm`, `0.60 mm`, `1.00 mm` numerically inside a function
   name's text.
@@ -137,7 +137,7 @@ function group's parts in natural name order. `ConnectorDraft.swift` is generate
       the chip-label `switch`; the symbol `switch` (`.block`); `functionGroups`' group order.
 - [ ] `Backend/PartFacts.swift`: the facts of § 1 and `kindName`; fix every exhaustive `switch` the build
       lists (record the number under § Corrections).
-- [ ] `schematicalTests/CardSlotTests.swift`: for the three parts of `examples.tsv`: details, `kindName`,
+- [ ] `schematicalTests/CardSlotTests.swift`: for the four parts of `examples.tsv`: details, `kindName`,
       facts rows, chip labels, symbol `.block`, drawer path and function group (`Connector › Card slot ›
       microSD › microSD`), the group's parts in pin-count order, a barrel jack and a USB connector
       unchanged; every `add` part of the library has `details` `.cardSlot` and a footprint with at least its
@@ -164,7 +164,9 @@ Commit: —
 - [ ] `scripts/harness/card-slot-app.swift` (from `generic-header.swift`): on the app's real catalog and
       document: the drawer branch and its six leaves exist; placing each example gives reference `J1`
       and PCB pads at its footprint's positions; the sidebar facts of § 1; a 0.6 s play run with pins 1
-      and 2 of the card-edge example on two driven nets shows neither shorted; renders a placed
+      and 2 of the card-edge example on two driven nets shows neither shorted; placing the straddle-mount
+      example on a 2-layer board puts one pad on Top and one on Bottom (`connectivity()`) and the design-rule
+      check has no placement issue although its housing hangs over the board edge; renders a placed
       socket, a module socket and a card-edge socket to `/tmp`.
 - [ ] `DrawerPerformanceTests`: the drawer builds in the same time class with the new parts
       (the test's existing bound).
@@ -178,11 +180,11 @@ Commit: —
 - Tests: `CardSlotTests`, `BoardPreviewTests`, `PartEditorWindowTests`, `DrawerPerformanceTests`,
   `HeaderBoardTests` (existing, must stay green), the harness.
 - Coverage check: `CardSlotTests`' "every `add` part" test makes the new parts part of the suite's
-  denominator, not only three examples.
+  denominator, not only four examples.
 - Runtime proof: the harness drives the real app: placement, the sidebar, a play run, the renders.
-- Doc sync: `docs/parts-format.md` § `connector` (I) already describes the keys; the Part Editor's help text
+- Doc sync: `docs/parts-format.md` § `connector` (L) already describes the keys; the Part Editor's help text
   is generated from the schema.
-- Final gate: none; the landing tier is M's.
+- Final gate: none; the landing tier is P's.
 
 ## Decisions
 
@@ -197,6 +199,6 @@ Commit: —
 
 ## Summary
 
-L is a new `PartDetails` case with its facts, order and look, the editor fields and a harness; the only
+O is a new `PartDetails` case with its facts, order and look, the editor fields and a harness; the only
 edits to existing code are new `switch` cases and one conditional in `functionGroups`. The risk is the
 drawer's size with a thousand more parts, which `DrawerPerformanceTests` bounds.

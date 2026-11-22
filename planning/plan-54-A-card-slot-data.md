@@ -1,7 +1,7 @@
 # plan-54-A: Card slots — stock re-check, datasheet downloads, text scan, specs skeleton
 
 Last updated: 2026-11-22
-Overall Effort: huge (> 3d) — plan-54 is A → B → C → D → E → F → G → H → I → J → K → L → M
+Overall Effort: huge (> 3d) — plan-54 is A → B → C → D → E → F → G → H → I → J → K → L → M → N → O → P
 Effort: large (3h–1d; plus 162 DigiKey calls)
 Depends on: nothing (§ Prerequisites)
 
@@ -19,18 +19,23 @@ makers of each family, **Active parts only**, and **no generic part**:
   **TE Connectivity** and **Amphenol ICC**.
 
 They sit in the parts drawer under **Connector → Card slot → …**, in the
-library's existing `connector` kind (plan-54-I adds two device keys), as
+library's existing `connector` kind (plan-54-L adds two device keys), as
 passive terminals like the USB connectors; the sidebar shows card, pitch and
-positions; the Board Preview window draws a card slot.
+positions; the Board Preview window draws a card slot. The straddle-mount edge
+sockets (contacts on both faces of the board: 99 of the candidates) need the
+footprint format to gain pads on the other face of the board and housings that
+straddle the board edge; E, F and G add that (backend, app, exports) before any
+footprint is drawn, so those parts are added, not skipped (owner, § Decisions).
 
 The single behavioral outcome of plan-54: loading the part files gives the
 baseline P0 parts (§ Prerequisites) plus one `connector` part per `add` row of
 `planning/plan-54-data/candidates.tsv` (1270 candidates at planning time:
 memory / SIM sockets 134, module sockets 122, card-edge sockets 1014, before B
-to D's skips); the app lists them under the drawer paths of J; a placed
-part of each family (J and K record the most-stocked `add` row of each in
-`examples.tsv`) has the pins and pads of its datasheet; two pins of one slot on one net join nothing in play mode; `ctest` passes
-T0 programs (the extended `connector_test` and `library_check`).
+to D's skips); the app lists them under the drawer paths of M; a placed
+part of each family (M and N record the most-stocked `add` row of each in
+`examples.tsv`) has the pins and pads of its datasheet, a straddle-mount one
+with pads on Top and on Bottom; two pins of one slot on one net join nothing in
+play mode; `ctest` passes T0 programs (the extended `connector_test` and `library_check`).
 
 | Letter | Content | Effort |
 |---|---|---|
@@ -38,15 +43,18 @@ T0 programs (the extended `connector_test` and `library_check`).
 | B | memory / SIM and module sockets: ordering tables, datasheet status, pin names, facts, verdicts, final pick | large |
 | C | card-edge, Samtec and Amphenol ICC: the same | large |
 | D | card-edge, TE Connectivity: the same | large |
-| E | footprints: memory / SIM card sockets and module sockets | large |
-| F | footprints: card-edge, Samtec | large |
-| G | footprints: card-edge, TE Connectivity | large |
-| H | footprints: card-edge, Amphenol ICC | large |
-| I | backend: `card` and `cardPitch` on the `connector` kind, tests, docs | medium |
-| J | parts: generator, memory / SIM and module sockets, datasheets, goldens | large |
-| K | parts: card-edge sockets, datasheets, goldens | large |
-| L | app: drawer, sidebar facts, `kindName`, Board Preview look, the Part Editor's connector fields, the harness | large |
-| M | landing tier | small |
+| E | footprint format: opposite-side pads and edge-mounted footprints (backend), for the straddle-mount sockets | medium |
+| F | app: opposite-side pads and edge-mounted footprints in the board model, canvas, routing and checks | large |
+| G | app: opposite-side pads in the exports and the 3D preview | medium |
+| H | footprints: memory / SIM card sockets and module sockets | large |
+| I | footprints: card-edge, Samtec | large |
+| J | footprints: card-edge, TE Connectivity | large |
+| K | footprints: card-edge, Amphenol ICC | large |
+| L | backend: `card` and `cardPitch` on the `connector` kind, tests, docs | medium |
+| M | parts: generator, memory / SIM and module sockets, datasheets, goldens | large |
+| N | parts: card-edge sockets, datasheets, goldens | large |
+| O | app: drawer, sidebar facts, `kindName`, Board Preview look, the Part Editor's connector fields, the harness | large |
+| P | landing tier | small |
 
 Outcome of A: `planning/plan-54-data/stock-check.tsv` re-checks every
 candidate row in stock and Active (no listing piece hit DigiKey's 300-result
@@ -80,10 +88,10 @@ Every other letter points here.
 | Must be true | Command | Status |
 |---|---|---|
 | Backend tests green | `cmake -S backend -B /tmp/logic-p54 && cmake --build /tmp/logic-p54 -j8 && ctest --test-dir /tmp/logic-p54 -j8` → `100% tests passed` | MET (2026-11-22 at 7b449718: the plan-44-H landing run, `100% tests passed, 0 tests failed out of 41`; T0 = 41, `grep -c '^logic_test' backend/CMakeLists.txt` → 41) |
-| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `traces.txt`; `footprints.txt` | at planning (7b449718): **P0 = 34375**, **R0 = 34375**, **F0 = 1895**; E, F, G, H, J and K re-measure them at their start and use their own |
+| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `traces.txt`; `footprints.txt` | at planning (7b449718): **P0 = 34375**, **R0 = 34375**, **F0 = 1895**; H, I, J, K, M and N re-measure them at their start and use their own |
 | The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p54-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-22: `** BUILD SUCCEEDED **` in plan-44-H's landing run on the tree HEAD 7b449718 holds) |
 | No card-slot parts yet | `grep -c '"card"\|"cardPitch"' schematical/schematical/Parts/connector.json backend/src/models/connector.c` → `0` and `0`; `ls datasheets \| grep -c 'card\|memory-module'` → 0 | MET (2026-11-22 at 7b449718: 0, 0, 0) |
-| No other open plan adds them | `grep -l -i 'datasheets/connector-card\|card slot\|card edge\|card-edge\|memory card' planning/plan-*.md \| grep -v plan-54 \| wc -l` → 0 | MET (2026-11-22: 0). plan-45 (terminal blocks and JST) and plan-53 are open and also edit the `connector` kind, `PartCatalog.swift` / `PartFacts.swift` `switch` statements, `footprints.json`, `datasheets.json` and the goldens; those lines are edited by hunk; each plan-54 step that adds a line another plan also adds greps first (I Phase 1, J Phase 1, L Phase 1) |
+| No other open plan adds them | `grep -l -i 'datasheets/connector-card\|card slot\|card edge\|card-edge\|memory card' planning/plan-*.md \| grep -v plan-54 \| wc -l` → 0 | MET (2026-11-22: 0). plan-45 (terminal blocks and JST) and plan-53 are open and also edit the `connector` kind, `PartCatalog.swift` / `PartFacts.swift` `switch` statements, `footprints.json`, `datasheets.json` and the goldens; those lines are edited by hunk; each plan-54 step that adds a line another plan also adds greps first (E Phase 1, F Phase 1, L Phase 1, M Phase 1, O Phase 1) |
 | DigiKey credentials and quota | `grep -cE '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc` → 2; `eval "$(grep -E '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc)" && node planning/plan-54-data/census/stocked.js 414:2223` prints `left` ≥ 220 before Phase 2 (about 1000 a day, shared with other sessions; it resets at about 00:00 UTC) | NOT MET (2026-11-22: credentials 2 of 2; `left 48` after planning's calls and other sessions'; the quota resets at about 00:00 UTC). Phases 1 and 3 need no quota |
 | The download sources answer | `awk -F'\t' 'NR>1{n[$4]++} END{for(k in n) print k, n[k]}' planning/plan-54-data/url-check.tsv` → `1 506`, `0 11` (the 2026-11-22 result: Phase 3 fetches each source again) | MET (2026-11-22: `1 506`, `0 11`; the 11 are 6 te.com links answering 500, 3 molex.com links answering HTML, 1 cuidevices.com 404, 1 Amphenol S3 key answering 403) |
 
@@ -227,12 +235,13 @@ outcome is `out` or `skip` with the reason in the `reason` column.
    row is out for datasheet status is deleted and listed in
    `obsolete-not-included.md`.
 9. **A land pattern the footprint format can express** (B, C, D read the
-   drawing; E to H confirm): the format has no pad on the bottom layer, no rotated
-   slot and no keyhole shell slot (`docs/parts-format.md` § `connector`, the USB
-   connectors' limit); a part whose drawing needs one is `skip`, reason `footprint
-   not expressible: <feature>`. DigiKey's mounting type `Board Edge, Straddle
-   Mount` (contacts on both faces of the board) is the expected case: 99
-   candidate rows.
+   drawing; H to K confirm): the format has no rotated slot and no keyhole shell
+   slot (`docs/parts-format.md` § `connector`, the USB connectors' limit); a part
+   whose drawing needs one is `skip`, reason `footprint not expressible:
+   <feature>`. Pads on the other face of the board and a housing that straddles
+   the board edge are **not** a limit: E adds them to the format
+   (`"opposite"`, `"edgeMount"`), so DigiKey's mounting type `Board Edge, Straddle
+   Mount` (99 candidate rows) is in scope (owner, § Decisions).
 
 `variant` (the footprint family, `select.py` `variant()`): card-edge — maker,
 series, mounting type, pitch, termination, rows; module — maker, series,
@@ -379,7 +388,7 @@ Commit: —
 - Coverage check: not applicable (data only).
 - Runtime proof: not applicable.
 - Doc sync: none; `datasheets/connector-*/datasheets.tsv` are the record.
-- Final gate: none; the landing tier is M's.
+- Final gate: none; the landing tier is P's.
 
 ## Decisions
 
@@ -396,6 +405,10 @@ Commit: —
 - Owner (2026-11-22): **everything the three makers list** in the card-edge
   family (1014 parts), not a subset by pitch or position count. It settles
   § 3 rule 4.
+- Owner (2026-11-22): **straddle-mount parts are in scope, and the footprint format gains
+  support for them** (pads on the other face of the board, edge-mounted housings) as part
+  of this plan: letters E, F and G. It settles § 3 rule 9 and the 99 `Board Edge, Straddle
+  Mount` rows.
 - Owner (2026-11-22): **Active only**. A part DigiKey lists as Last Time Buy, NRND
   or Obsolete is never a candidate (§ 3 rule 2), and a part its datasheet marks
   obsolete is `skip`, not added with an `obsolete` flag (§ 3 rule 8).

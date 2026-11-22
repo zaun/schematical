@@ -1,15 +1,15 @@
-# plan-54-I: Backend — card slots in the `connector` kind
+# plan-54-L: Backend — card slots in the `connector` kind
 
 Last updated: 2026-11-22
 Effort: medium (1h–2h)
-Depends on: plan-54-H
+Depends on: plan-54-K
 
-I teaches the `connector` kind a third kind of device: a **card slot** (`"card"`:
+L teaches the `connector` kind a third kind of device: a **card slot** (`"card"`:
 what the slot takes, `"cardPitch"`: the contact pitch). It is a passive terminal
 like the USB connectors: no model change, the same simulation component
-(`CONNECTOR_MODEL`), nothing driven. I changes the loader, the part facts the
+(`CONNECTOR_MODEL`), nothing driven. L changes the loader, the part facts the
 listing prints, the tests and `docs/parts-format.md` (including the naming
-conventions J and K follow); it adds no part (J and K do). The behavioral outcome:
+conventions M and N follow); it adds no part (M and N do). The behavioral outcome:
 a connector device with `"card"` (and optionally `"cardPitch"`) loads and
 exposes `card` and `card_pitch_um` in `PartConnector`; every malformed one is
 rejected with a message that names the key; the 224 existing connector devices
@@ -31,7 +31,7 @@ plan-54-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-54-H complete | `ls planning/completed/plan-54-H-*.md` → exists | NOT MET (2026-11-22: not started) |
+| plan-54-K complete | `ls planning/completed/plan-54-K-*.md` → exists | NOT MET (2026-11-22: not started) |
 | The connector kind has no card key | `grep -c '"card"\|"cardPitch"' backend/src/models/connector.c` → 0 | MET (2026-11-22 at 7b449718: 0) |
 | `PartConnector` has no `card` member | `grep -c 'const char \*card;' backend/include/parts.h` → 0 | MET (2026-11-22 at 7b449718: 0; the struct is the five-field `{center_diameter_um, rated_mv, rated_ma, contacts, usb}`, `parts.h:132`) |
 
@@ -56,8 +56,8 @@ Everything below is written against the world where these hold.
 
 - No new kind, no new `PART_*`, no new test program (T0 stays), no change to the
   engine model, to `circuit.c` or to the barrel and USB devices.
-- No part is added; the parts are J's and K's.
-- The app's `PartDetails` is L's: this letter does not touch Swift, and the app still
+- No part is added; the parts are M's and N's.
+- The app's `PartDetails` is O's: this letter does not touch Swift, and the app still
   builds because it reads only the fields it knew.
 
 ## 2. Current State
@@ -116,12 +116,12 @@ absent) before the barrel line; barrel and USB lines are unchanged.
 
 **Correctness risk** is small and concentrated in the one rule that touches existing
 devices: a barrel jack must still require `centerPin`. The existing negative test
-(`barrel: still needs its centre pin`) covers it; I adds the new keys' cases beside it.
+(`barrel: still needs its centre pin`) covers it; L adds the new keys' cases beside it.
 
 **Byte-identity.** The goldens (`parts.txt`, `traces.txt`, `footprints.txt`) are the gate for
 the existing parts: they do not change. The expected diff is empty.
 
-### 3.2 The naming conventions (J and K write the parts by them)
+### 3.2 The naming conventions (M and N write the parts by them)
 
 - **Pins.** Passive `inout` terminals (`nc` for a pad the datasheet marks not
   connected), named as plan-54-B § 3.3 and plan-54-C § 3.3: card sockets by function
@@ -141,14 +141,14 @@ the existing parts: they do not change. The expected diff is empty.
   Right Angle` → `SMD right angle`; `Surface Mount` → `SMD vertical`; `Through Hole` →
   `Through hole vertical`; `Through Hole, Right Angle` → `Through hole right angle`;
   `Surface Mount, Through Hole` → `Hybrid vertical`; `Surface Mount, Right Angle; Through
-  Hole` → `Hybrid right angle`; a part DigiKey gives `-` takes its datasheet's mounting.
+  Hole` → `Hybrid right angle`; `Board Edge, Straddle Mount` → `Board edge straddle`; a part DigiKey gives `-` takes its datasheet's mounting.
 - **Device `id`.** `card-<family>-<maker slug>-<variant slug>` in lower case, `<family>` `socket`
   (memory / SIM), `module` or `edge` (`card-socket-gct-sim8055-nano-sim`),
   one device per variant of `candidates.tsv` (the `variant` column), its pinouts `p<NN>` for
   the position counts its parts use.
 - **Part** `name` the DigiKey manufacturer part number; `manufacturer` `Same Sky`,
   `Amphenol`, `GCT`, `TE Connectivity`, `Molex` or `Samtec`; `datasheet` the id of the part's
-  PDF; `footprint` `<stem>-<positions>` (E to H § 3.1).
+  PDF; `footprint` `<stem>-<positions>` (H to K § 3.1).
 
 Rejected alternative: a new `cardslot` kind (rejected: it would copy `connector.c` and the
 app's switches; the USB connectors are the precedent for a passive connector family inside
@@ -203,7 +203,7 @@ Commit: —
 - [ ] `docs/parts-format.md` § `connector`: a subsection "Card slots": the keys and rules of § 3.1;
       no `centerPin`, `contacts`, `usb`, ratings; every pin a passive `inout` terminal named by
       § 3.2; the drawer, function, package and device-id conventions of § 3.2; footprints
-      `SOCK-…`, `DIMM-…`, `EDGE-…` (plan-54-E to H); Active parts only; no generic. The intro
+      `SOCK-…`, `DIMM-…`, `EDGE-…` (plan-54-H to K); Active parts only; no generic. The intro
       sentence names card slots beside "Barrel power connectors" and the USB paragraph.
 
 Acceptance: the doc names every key and the drawers.
@@ -218,7 +218,7 @@ Commit: —
   `logic_test_support` (`add_library(logic STATIC` in `backend/CMakeLists.txt`).
 - Runtime proof: `connector_test`'s fixture card slot joins nothing.
 - Doc sync: `docs/parts-format.md` § `connector`.
-- Final gate: none; the landing tier is M's.
+- Final gate: none; the landing tier is P's.
 
 ## Decisions
 
@@ -234,6 +234,6 @@ Commit: —
 
 ## Summary
 
-I is a small loader change with two device keys, the tests that pin them and the doc with the
+L is a small loader change with two device keys, the tests that pin them and the doc with the
 naming conventions. Its one hazard is the existing barrel rule, which the existing negative
 test guards; the goldens must not move.
