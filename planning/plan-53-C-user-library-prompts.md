@@ -240,7 +240,7 @@ Commit: 99fe8329
 
 Acceptance: the editor's Add to Library persists. **MET** (`xcodebuild test … PartFileSaveOpenTests PartEditorWindowTests` → `Executed 19 tests, with 0 failures`, `** TEST SUCCEEDED **`)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/PartFileSaveOpenTests -only-testing:schematicalTests/PartEditorWindowTests` → `** TEST SUCCEEDED **` (est. 6–12 min).
-Commit: (this commit)
+Commit: bd01dbf8
 
 ## Validation Plan
 
@@ -265,7 +265,9 @@ Commit: (this commit)
 
 ## Corrections
 
-(Filled in during execution.)
+- **`PartFileLoading.load(text:source:catalog:ask:)` is in `Document/UserLibraryPrompts.swift`** (an extension of `PartFileLoading`), not in `SchematicFileController.swift` as the Phase 1 task said: it needs no controller state, and the file keeps the offers' logic together. The alert builders and the `run`/`addShowingFailures` helpers live there too.
+- **The controller's `run(_ alert:)` stayed private**: the shared sheet helper is `UserLibraryPrompts.run(_:on:)` (key window or the given window), which Load Part…, the drawer menu and later the library window use.
+- **Final gate (run once after Phase 3), 2026-11-21:** `xcodebuild test … UserLibraryPromptsTests SchematicFileV5Tests KeyboardHelpTests PartFileSaveOpenTests PartEditorWindowTests` → `Executed 43 tests, with 0 failures`, `** TEST SUCCEEDED **` (`/tmp/p53-xc13.log`).
 
 ## Summary
 
