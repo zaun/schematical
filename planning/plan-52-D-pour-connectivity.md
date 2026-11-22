@@ -142,7 +142,7 @@ connectivity used; *refilling on every gesture frame*: 24–275 ms per frame on 
 
 Acceptance: (a)–(g) hold.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/PourConnectivityTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min). Observed (all three phases' suites, one run): `Executed 54 tests, with 0 failures`, `** TEST SUCCEEDED **`.
-Commit: COMMIT_D
+Commit: 49ed351c
 
 ### Phase 2 — Kept fills, gestures and the other builds
 
@@ -157,7 +157,7 @@ Commit: COMMIT_D
 
 Acceptance: (h)–(k) hold and the extended cache test passes.
   Check: `xcodebuild … test -only-testing:schematicalTests/PourConnectivityTests -only-testing:schematicalTests/BoardCopperCacheTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min). Observed: as Phase 1.
-Commit: COMMIT_D
+Commit: 49ed351c
 
 ### Phase 3 — The router and the rest see it
 
@@ -168,7 +168,7 @@ Commit: COMMIT_D
 
 Acceptance: (l) and (m) hold.
   Check: `xcodebuild … test -only-testing:schematicalTests/PourConnectivityTests -only-testing:schematicalTests/RoutingProblemTests -only-testing:schematicalTests/DesignRuleCheckTests -only-testing:schematicalTests/PlaneNetTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 9 min). Observed: as Phase 1 (`PourConnectivityTests` 11 cases, `BoardCopperCacheTests`, `PlaneNetTests`, `RoutingProblemTests`, `DesignRuleCheckTests`, `NetListTests`).
-Commit: COMMIT_D
+Commit: 49ed351c
 
 ## Validation Plan
 

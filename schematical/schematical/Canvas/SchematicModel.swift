@@ -1644,6 +1644,13 @@ final class SchematicDocument {
             for via in vias where via.rect.intersects(rect) { items.insert(.via(via.id)) }
             for hole in holes where hole.rect.intersects(rect) { items.insert(.hole(hole.id)) }
         }
+        // A pour or keep-out is taken whole: its rectangle inside the box.
+        for pour in pours where visible.shows(.copper(pour.layer)) && rect.contains(pour.rect) {
+            items.insert(.pour(pour.id))
+        }
+        for keepout in keepouts where keepoutIsShown(keepout, visible) && rect.contains(keepout.rect) {
+            items.insert(.keepout(keepout.id))
+        }
         return items
     }
 
@@ -1693,6 +1700,8 @@ final class SchematicDocument {
             items.formUnion(vias.map { .via($0.id) })
             items.formUnion(holes.map { .hole($0.id) })
         }
+        for pour in pours where visible.shows(.copper(pour.layer)) { items.insert(.pour(pour.id)) }
+        for keepout in keepouts where keepoutIsShown(keepout, visible) { items.insert(.keepout(keepout.id)) }
         if items != boardSelection.items { boardSelection.set(items) }
     }
 
@@ -3536,7 +3545,16 @@ final class SchematicDocument {
             deleteTrace(hit.id)
             return true
         }
-        return false
+        switch pourItem(at: point, tolerance: tolerance, visible: visible) {
+        case let .pour(id)?:
+            deletePour(id)
+            return true
+        case let .keepout(id)?:
+            deleteKeepout(id)
+            return true
+        default:
+            return false
+        }
     }
 
     /// The selected traces, in drawing order, for ⌘C.
@@ -4257,6 +4275,34 @@ final class SchematicDocument {
         }
     }
 
+    /// Whether a keep-out is drawn with `visible`: any layer it applies to shows.
+    func keepoutIsShown(_ keepout: BoardKeepout, _ visible: BoardVisibility) -> Bool {
+        guard let layers = keepout.layers else { return visible.showsAnyCopper }
+        return layers.contains { visible.shows(.copper($0)) && board.copperLayers.contains($0) }
+    }
+
+    /// The pour or keep-out whose edge is within `tolerance` of `point` (mm):
+    /// the last pour, else the last keep-out. Pressing inside one does not
+    /// hit it (it is as big as a board), only its edge does.
+    func pourItem(at point: CGPoint, tolerance: CGFloat, visible: BoardVisibility = BoardVisibility()) -> BoardItem? {
+        if let pour = pours.last(where: {
+            visible.shows(.copper($0.layer)) && board.copperLayers.contains($0.layer)
+                && Self.distance(from: point, toBoundaryOf: $0.rect) <= tolerance
+        }) { return .pour(pour.id) }
+        if let keepout = keepouts.last(where: {
+            keepoutIsShown($0, visible) && Self.distance(from: point, toBoundaryOf: $0.rect) <= tolerance
+        }) { return .keepout(keepout.id) }
+        return nil
+    }
+
+    /// How far `point` is from the boundary of `rect`, inside or out.
+    static func distance(from point: CGPoint, toBoundaryOf rect: CGRect) -> CGFloat {
+        let dx = max(rect.minX - point.x, 0, point.x - rect.maxX)
+        let dy = max(rect.minY - point.y, 0, point.y - rect.maxY)
+        if dx > 0 || dy > 0 { return hypot(dx, dy) }
+        return min(point.x - rect.minX, rect.maxX - point.x, point.y - rect.minY, rect.maxY - point.y)
+    }
+
     // MARK: Holes (PCB)
 
     /// The hole under `point` (mm): the last one drawn there, within its
@@ -4601,7 +4647,7 @@ final class SchematicDocument {
         if let hole = hole(at: point, visible: visible) { return .hole(hole.id) }
         if let trace = trace(at: point, tolerance: tolerance, visible: visible) { return .trace(trace.id) }
         if let chip = footprint(at: point, visible: visible), chip.board != nil { return .footprint(chip.id) }
-        return nil
+        return pourItem(at: point, tolerance: tolerance, visible: visible)
     }
 
     /// Sets or clears an EEPROM's load file. Does nothing for other parts.

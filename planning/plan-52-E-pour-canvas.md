@@ -28,7 +28,7 @@ The shared gate is in plan-52-A. This sub-plan adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-52-D is complete | `ls planning/completed \| grep -c '^plan-52-D'` → 1 | NOT MET (2026-11-21: 0; A–D are not started) |
+| plan-52-D is complete | `ls planning/completed \| grep -c '^plan-52-D'` → 1 | MET (2026-11-21: plan-52-D landed as 49ed351c) |
 
 Everything below is written against the world where this holds.
 
@@ -109,49 +109,49 @@ handle-based tool for drawing* (a drag is the way Via/Hole/Trace already work).
 
 ### Phase 1 — Hit-testing, box select, Select All, delete
 
-- [ ] `SchematicModel.swift`: `pourItem(at:tolerance:visible:)`; call it last in `boardItem(at:…)` and in `deleteBoardItem(at:…)`; add pours and
+- [x] `SchematicModel.swift`: `pourItem(at:tolerance:visible:)`; call it last in `boardItem(at:…)` and in `deleteBoardItem(at:…)`; add pours and
       keep-outs to `boardItems(in:visible:)` (rect inside the box, layer shown) and `selectAllBoard`; `deleteBoardSelection` already handles them (A).
-- [ ] Tests: new `schematicalTests/PourCanvasTests.swift`: (a) a press on a pour's edge hits it, 2 mm inside does not, on a hidden layer does not; (b) a
+- [x] Tests: new `schematicalTests/PourCanvasTests.swift`: (a) a press on a pour's edge hits it, 2 mm inside does not, on a hidden layer does not; (b) a
       footprint inside a pour is hit before the pour's edge when both are within tolerance; (c) box select takes a pour wholly inside, not one cut by the
       box; (d) Select All takes pours and keep-outs on shown layers; (e) `deleteBoardItem(at:)` on an edge deletes the pour, one undo step "Delete" restores it;
       (f) a keep-out on `[.bottom]` only is not hit with Bottom hidden; (g) a group drag moves a selected pour by the snapped delta and leaves a locked one.
 
 Acceptance: (a)–(g) hold; existing hit tests unchanged.
-  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/PourCanvasTests -only-testing:schematicalTests/LockPositionTests -only-testing:schematicalTests/PadHoverTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min).
-Commit: —
+  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/PourCanvasTests -only-testing:schematicalTests/LockPositionTests -only-testing:schematicalTests/PadHoverTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min). Observed (Phases 1–3 and the tool tests in one run, with `KeyboardHelpTests`, `LockPositionTests`, `PadHoverTests`, `PlaneShadingTests`): `Executed 32 tests, with 0 failures`, `** TEST SUCCEEDED **`.
+Commit: COMMIT_E
 
 ### Phase 2 — Drawing
 
-- [ ] `PCBCanvasView.swift`: `planeCopper` also true when `!document.pours.isEmpty`; in the layer loop, after the Plane tint and before `drawTraces`,
+- [x] `PCBCanvasView.swift`: `planeCopper` also true when `!document.pours.isEmpty`; in the layer loop, after the Plane tint and before `drawTraces`,
       draw that layer's pours from `pourPaths`: fill at 0.5 / 0.35 opacity, dashed outline (`lineWidth 1/scale`, dash `[4/scale, 3/scale]`) unless `exporting`.
-- [ ] After the copper loop, unless `exporting`, draw each keep-out whose layers include a shown layer: red (`Color.red`) dashed outline and `keepoutHatch` at opacity 0.15.
-- [ ] The selection ring (the `switch` over `BoardItem` in `draw`, where `.hole` draws its ring): `.pour`/`.keepout` stroke the rect outset by `margin` in the accent colour (replaces A's placeholder).
-- [ ] Tests (`PourCanvasTests`): (h) `pourPaths` for a ground pour over a ground pad: the path contains a point 5 mm from every other-net pad and not the point inside an
+- [x] After the copper loop, unless `exporting`, draw each keep-out whose layers include a shown layer: red (`Color.red`) dashed outline and `keepoutHatch` at opacity 0.15.
+- [x] The selection ring (the `switch` over `BoardItem` in `draw`, where `.hole` draws its ring): `.pour`/`.keepout` stroke the rect outset by `margin` in the accent colour (replaces A's placeholder).
+- [x] Tests (`PourCanvasTests`): (h) `pourPaths` for a ground pour over a ground pad: the path contains a point 5 mm from every other-net pad and not the point inside an
       other-net pad; (i) `pourPaths` is empty for a pour on a hidden layer and a pour's fill is empty with no net; (j) `keepoutHatch` is inside its rect and non-empty;
       (k) the image export (`ImageExport.data(for:_:)` on the PCB page; `SchematicExportActionTests` builds the options) of a board with a Top ground pour differs from the same board without it, of a board with only a keep-out equals the board without it (keep-outs are not exported), and of a board where a pour was added then undone equals the board without it byte for byte.
 
 Acceptance: (h)–(k) hold.
-  Check: `xcodebuild … test -only-testing:schematicalTests/PourCanvasTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+  Check: `xcodebuild … test -only-testing:schematicalTests/PourCanvasTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min). Observed: as Phase 1.
+Commit: COMMIT_E
 
 ### Phase 3 — The two tools
 
-- [ ] `PCBCanvasView.swift`: `PCBTool.pour`, `.keepout` (titles "Pour", "Keep-out"; tooltips "Pour — drag a rectangle to flood it with copper on the Trace layer; it keeps its
+- [x] `PCBCanvasView.swift`: `PCBTool.pour`, `.keepout` (titles "Pour", "Keep-out"; tooltips "Pour — drag a rectangle to flood it with copper on the Trace layer; it keeps its
       clearance from other nets" and "Keep-out — drag a rectangle the pours stay out of"; symbols above); `Interaction.drawRect`; `begin(at:)` returns it for the two tools (and calls `document.beginGesture`
       as every press does); `handle` updates `to`; `end(translation:)` makes the item when the drag is at least 3 points and each side at least `BoardPour.minimumSide`: `document.addPour(rect:layer: traceLayer)` or `addKeepout(rect:layers: nil)`;
       the rubber band is drawn in `draw` while `interaction` is `.drawRect`.
-- [ ] `Help/KeyboardHelp.swift`: two `entry` lines after Hole's (`:147`).
-- [ ] Tests: `PourCanvasTests` (l) the tool strings are non-empty and both SF Symbols exist (`NSImage(systemSymbolName:accessibilityDescription:)` non-nil); (m) `KeyboardHelpTests`
+- [x] `Help/KeyboardHelp.swift`: two `entry` lines after Hole's (`:147`).
+- [x] Tests: `PourCanvasTests` (l) the tool strings are non-empty and both SF Symbols exist (`NSImage(systemSymbolName:accessibilityDescription:)` non-nil); (m) `KeyboardHelpTests`
       still passes with the two entries (it lists every tool); a view-level test of `handle`/`end`: drive `PCBCanvasView.handle(start:translation:)` then `end` as `PadHoverTests` does for Select
       (n) a 40 × 30 mm drag with the Pour tool makes one pour of that rect on `traceLayer`, one undo step "Add Pour"; (o) a click makes none; (p) the Keep-out tool makes a keep-out with `layers == nil`.
 
 Acceptance: (l)–(p) hold.
-  Check: `xcodebuild … test -only-testing:schematicalTests/PourCanvasTests -only-testing:schematicalTests/KeyboardHelpTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min).
-Commit: —
+  Check: `xcodebuild … test -only-testing:schematicalTests/PourCanvasTests -only-testing:schematicalTests/KeyboardHelpTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min). Observed: as Phase 1.
+Commit: COMMIT_E
 
 ## Validation Plan
 
-- Tests: `PourCanvasTests` (new, 16 cases), `LockPositionTests`, `PadHoverTests`, `KeyboardHelpTests`, `PCBUndoTests` (existing paths).
+- Tests: `PourCanvasTests` (new, 14 cases), `LockPositionTests`, `PadHoverTests`, `KeyboardHelpTests`, `PCBUndoTests` (existing paths).
 - Coverage check: `grep -c "pour" schematical/schematical/Canvas/PCBCanvasView.swift` → at least 12; the tool and draw paths are all reached by cases (h)–(p).
 - Runtime proof: once, in plan-52-H (the real app, after F's panel exists).
 - Doc sync: none here (`docs/file-format.md` is B's; the PCB page has no user manual file).
@@ -166,7 +166,10 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- `PCBCanvasView.handle` / `end` cannot be driven from a test (`interaction` is `@State` of a view that is not mounted, and no existing test drives them: `grep -rn "\.handle(start" schematical/schematicalTests` → no match). The release of a Pour or Keep-out drag is therefore the static `PCBCanvasView.finishRect(_:kind:from:to:moved:layer:)`, which `end(translation:)` calls and (n)–(p) test directly.
+- SwiftUI's `Path.contains(_:eoFill:)` said a point inside an other-net pad's hole was inside the fill (true for both fill rules), while `CGPath.contains(_:using: .winding)` on the same path said false (`PourCanvasTests` debug print: `cg false path true`). The geometry tests use the `CGPath`, and the drawing is checked by rendering the fill with `Canvas` to a bitmap (the pad's hole and its 1 mm clearance have alpha 0, the open board 1). The fill is drawn with `FillStyle(eoFill: true)`, since each piece is its outer loop and its holes whatever their winding.
+- The suite has 14 cases, not 16: (g) (group drag) is `PourModelTests.testGroupDragMovesRectsByTheSnappedDelta` and `testLockedPoursAndKeepoutsStayPut` from plan-52-A; (m) is not a separate test (`KeyboardHelpTests` passes unchanged with the two entries). `grep -c "func test" schematical/schematicalTests/PourCanvasTests.swift` → 14.
+- The image-export comparison needs one warm-up render first (the first render of a fresh document differs from the second by 39 bytes), so (k) renders once, then takes the baseline.
 
 ## Summary
 

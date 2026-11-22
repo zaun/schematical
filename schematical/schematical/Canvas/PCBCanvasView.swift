@@ -120,6 +120,9 @@ struct PCBCanvasView: View {
         /// A trace being drawn: its draft (start already anchored, plus any
         /// locked legs) and the pointer at `cursor` (board mm).
         case drawTrace(draft: TraceDraft, cursor: CGPoint)
+        /// A Pour or Keep-out being dragged out: from where it was pressed to
+        /// the pointer (board mm).
+        case drawRect(kind: PCBTool, from: CGPoint, to: CGPoint)
         /// The rest of a press that does nothing more: a Delete click, or a
         /// trace dropped with Esc.
         case idle
@@ -310,13 +313,27 @@ struct PCBCanvasView: View {
 
         // The copper's nets, read only when a Plane is drawn.
         let planeCopper = board.copperLayers.contains { visible.showsPlane($0, style: board.style(of: $0)) }
-            ? document.connectivity() : nil
+            || !document.pours.isEmpty ? document.connectivity() : nil
+        let pourDraws = planeCopper.map {
+            Self.pourPaths(pours: document.pours, visible: visible, board: board, copper: $0)
+        } ?? []
         let rules = board.rules
         // Copper from Bottom up to Top: each layer's plane tint, then the
         // surface-mount pads of the side it is on. Bottom's marks and texts
         // go straight after Bottom's copper, under everything else.
         for layer in board.copperLayers.reversed() {
             let style = board.style(of: layer)
+            for (pour, fill) in pourDraws where pour.layer == layer {
+                if !fill.isEmpty {
+                    // Even-odd: each piece is its outer loop and its holes, whatever their winding.
+                    context.fill(fill, with: .color(style.color.color.opacity(visible.shows(.board) ? 0.35 : 0.5)),
+                                 style: FillStyle(eoFill: true))
+                }
+                if !exporting {
+                    context.stroke(Path(pour.rect), with: .color(style.color.color),
+                                   style: StrokeStyle(lineWidth: 1 / scale, dash: [4 / scale, 3 / scale]))
+                }
+            }
             if visible.showsPlane(layer, style: style), let planeCopper {
                 drawPlane(on: layer, colour: style.color.color, shape: boardShape, copper: planeCopper,
                           clearance: style.clearance(rules: rules), edge: rules.minCopperToEdge,
@@ -342,6 +359,21 @@ struct PCBCanvasView: View {
             }
         }
         // A 1-layer board has no Bottom layer, and nothing on its bottom.
+
+        // Keep-outs: design marks, not copper, so not in an image export.
+        if !exporting {
+            for keepout in document.keepouts where document.keepoutIsShown(keepout, visible) {
+                context.stroke(Self.keepoutHatch(keepout.rect, spacing: 1), with: .color(.red.opacity(0.15)),
+                               lineWidth: 1 / scale)
+                context.stroke(Path(keepout.rect), with: .color(.red),
+                               style: StrokeStyle(lineWidth: 1 / scale, dash: [4 / scale, 3 / scale]))
+            }
+        }
+        if case let .drawRect(_, from, to) = interaction {
+            let band = CGRect(x: min(from.x, to.x), y: min(from.y, to.y), width: abs(from.x - to.x), height: abs(from.y - to.y))
+            context.stroke(Path(band), with: .color(.accentColor),
+                           style: StrokeStyle(lineWidth: 1 / scale, dash: [4 / scale, 3 / scale]))
+        }
 
         // Through-hole pads and vias go through every layer: copper, with
         // the canvas showing through the drill.
@@ -416,6 +448,51 @@ struct PCBCanvasView: View {
                                with: .color(.accentColor), lineWidth: 2 / scale)
             }
         }
+    }
+
+    /// Each pour on a shown layer of the board with the path of its fill
+    /// (empty with no net or no copper), for drawing.
+    static func pourPaths(pours: [BoardPour], visible: BoardVisibility, board: BoardSettings,
+                          copper: BoardConnectivity) -> [(pour: BoardPour, fill: Path)] {
+        pours.compactMap { pour in
+            guard board.copperLayers.contains(pour.layer), visible.shows(.copper(pour.layer)) else { return nil }
+            return (pour, copper.pourFills[pour.id].map { Path($0.path) } ?? Path())
+        }
+    }
+
+    /// The release of a Pour or Keep-out drag from `from` to `to` (board mm), the
+    /// pointer having moved `moved` screen points: makes the item when it was
+    /// a drag (3 points or more) and each side is at least `BoardPour.minimumSide`.
+    @discardableResult
+    static func finishRect(_ document: SchematicDocument, kind: PCBTool, from: CGPoint, to: CGPoint, moved: CGFloat,
+                           layer: CopperLayer) -> Bool {
+        guard moved >= 3 else { return false }
+        let rect = CGRect(x: min(from.x, to.x), y: min(from.y, to.y), width: abs(from.x - to.x), height: abs(from.y - to.y))
+        guard rect.width >= BoardPour.minimumSide, rect.height >= BoardPour.minimumSide else { return false }
+        switch kind {
+        case .pour: return document.addPour(rect: rect, layer: layer) != nil
+        case .keepout:
+            document.addKeepout(rect: rect)
+            return true
+        default: return false
+        }
+    }
+
+    /// The 45° lines of a keep-out's hatch, `spacing` mm apart, inside `rect`.
+    static func keepoutHatch(_ rect: CGRect, spacing: CGFloat) -> Path {
+        var path = Path()
+        var offset = -rect.height
+        while offset < rect.width {
+            // A line from (offset, height) up to (offset + height, 0), clipped to the rect.
+            let a = CGPoint(x: rect.minX + offset, y: rect.maxY), b = CGPoint(x: rect.minX + offset + rect.height, y: rect.minY)
+            let t0 = max(0, (rect.minX - a.x) / (b.x - a.x)), t1 = min(1, (rect.maxX - a.x) / (b.x - a.x))
+            if t1 > t0 {
+                path.move(to: CGPoint(x: a.x + (b.x - a.x) * t0, y: a.y + (b.y - a.y) * t0))
+                path.addLine(to: CGPoint(x: a.x + (b.x - a.x) * t1, y: a.y + (b.y - a.y) * t1))
+            }
+            offset += spacing
+        }
+        return path
     }
 
     /// What a Plane on `layer` leaves out, by the rule each part keeps:
@@ -795,6 +872,10 @@ struct PCBCanvasView: View {
             let cursor = board(CGPoint(x: pressLocation.x + translation.width, y: pressLocation.y + translation.height))
             interaction = .drawTrace(draft: draft, cursor: cursor)
             return .drawTrace(draft: draft, cursor: cursor)
+        case let .drawRect(kind, from, _):
+            let cursor = board(CGPoint(x: pressLocation.x + translation.width, y: pressLocation.y + translation.height))
+            interaction = .drawRect(kind: kind, from: from, to: cursor)
+            return .drawRect(kind: kind, from: from, to: cursor)
         case .idle:
             break
         }
@@ -822,6 +903,9 @@ struct PCBCanvasView: View {
             // A press places a hole on the trace grid, and the drag moves it.
             document.addHole(at: point)
             return .moveGroup(base: document.boardGroupBase())
+        case .pour, .keepout:
+            // The drag is the rectangle; a release without one makes nothing.
+            return .drawRect(kind: tool, from: point, to: point)
         case .route:
             // A click routes the net of the pad, or the one connection of
             // the unrouted line, under it.
@@ -863,6 +947,10 @@ struct PCBCanvasView: View {
         if case let .drawTrace(draft, cursor) = interaction {
             TraceDrawing.finish(document, draft: draft, to: cursor, layer: activeLayer, scale: scale,
                                 angle: traceAngle, visible: shown, assist: assist, onShowLayer: onShowLayer)
+        }
+        if case let .drawRect(kind, from, to) = interaction {
+            Self.finishRect(document, kind: kind, from: from, to: to,
+                            moved: hypot(translation.width, translation.height), layer: traceLayer)
         }
         assist = nil
         drawingLayer = nil
@@ -1110,6 +1198,10 @@ enum PCBTool: String, CaseIterable, Identifiable {
     case trace
     case via
     case hole
+    /// Drag a rectangle to flood it with copper (plan-52).
+    case pour
+    /// Drag a rectangle the pours stay out of (plan-52).
+    case keepout
     case delete
     /// Click a pad to route its net, a ratsnest line to route that one
     /// connection, with the last Autoroute options (plan-38-K).
@@ -1124,6 +1216,8 @@ enum PCBTool: String, CaseIterable, Identifiable {
         case .trace: "Trace"
         case .via: "Via"
         case .hole: "Hole"
+        case .pour: "Pour"
+        case .keepout: "Keep-out"
         case .delete: "Delete"
         case .route: "Route"
         }
@@ -1135,6 +1229,8 @@ enum PCBTool: String, CaseIterable, Identifiable {
         case .trace: "Trace — Space: lock a corner · /: flip the bend · A: change the angle · Esc: undo a corner"
         case .via: "Via — click to place a via, drag to move it (2 or more layers)"
         case .hole: "Hole — click to place a mounting or drilled hole, drag to move it"
+        case .pour: "Pour — drag a rectangle to flood it with copper on the Trace layer; it keeps its clearance from other nets"
+        case .keepout: "Keep-out — drag a rectangle the pours stay out of"
         case .delete: "Delete — click a trace, via, hole or text to delete it (footprints stay)"
         case .route: "Route — click a pad to route its net, a ratsnest line to route that one connection"
         default: title
@@ -1148,6 +1244,8 @@ enum PCBTool: String, CaseIterable, Identifiable {
         case .trace: "line.diagonal"
         case .via: "circle.circle"
         case .hole: "smallcircle.circle"
+        case .pour: "rectangle.fill"
+        case .keepout: "rectangle.badge.xmark"
         case .delete: "eraser"
         case .route: "point.topleft.down.curvedto.point.bottomright.up"
         }

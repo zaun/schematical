@@ -1,0 +1,232 @@
+import AppKit
+import CoreGraphics
+import Foundation
+import SwiftUI
+import XCTest
+@testable import schematical
+
+/// Pours and keep-outs on the PCB page (plan-52-E): hit-testing, selection,
+/// drawing and the two tools.
+@MainActor
+final class PourCanvasTests: XCTestCase {
+    private func r(_ x: CGFloat, _ y: CGFloat, _ w: CGFloat, _ h: CGFloat) -> CGRect { CGRect(x: x, y: y, width: w, height: h) }
+    private func p(_ x: CGFloat, _ y: CGFloat) -> CGPoint { CGPoint(x: x, y: y) }
+
+    /// Two LEDs on a 4-layer board, cathodes on ground, anodes together; the
+    /// footprints are on the board.
+    private func board() throws -> (doc: SchematicDocument, one: PlacedChip) {
+        let doc = TestSupport.newDocument()
+        doc.setLayerCount(4)
+        var leds: [PlacedChip] = []
+        for n in 0..<2 {
+            let led = try TestSupport.place(doc, "GENERIC-LED", at: p(100 + 300 * CGFloat(n), 100))
+            let ground = try TestSupport.place(doc, "GND", at: p(100 + 300 * CGFloat(n), 400))
+            XCTAssertNil(doc.connect(.pin(try TestSupport.pin(led, "K")), .pin(PinRef(chipID: ground.id, index: 0))))
+            doc.moveFootprint(led.id, to: p(30 + 30 * CGFloat(n), 40))
+            leds.append(led)
+        }
+        XCTAssertNil(doc.connect(.pin(try TestSupport.pin(leds[0], "A")), .pin(try TestSupport.pin(leds[1], "A"))))
+        return (doc, leds[0])
+    }
+
+    // MARK: Phase 1 — hit-testing, selection
+
+    func testPressOnAPoursEdgeHitsIt() throws {
+        let doc = TestSupport.newDocument()
+        let id = try XCTUnwrap(doc.addPour(rect: r(10, 10, 40, 30), layer: .top))
+        let edge = doc.pours[0].rect
+        XCTAssertEqual(doc.pourItem(at: p(edge.minX + 0.1, 25), tolerance: 0.5), .pour(id))
+        XCTAssertEqual(doc.pourItem(at: p(30, edge.maxY - 0.2), tolerance: 0.5), .pour(id))
+        XCTAssertNil(doc.pourItem(at: p(edge.minX + 2, 25), tolerance: 0.5), "2 mm inside is not the edge")
+        XCTAssertNil(doc.pourItem(at: p(edge.minX - 2, 25), tolerance: 0.5))
+        var hidden = BoardVisibility()
+        hidden.hidden = [.copper(.top)]
+        XCTAssertNil(doc.pourItem(at: p(edge.minX, 25), tolerance: 0.5, visible: hidden), "a hidden layer has no hit")
+        XCTAssertEqual(doc.boardItem(at: p(edge.minX, 25), tolerance: 0.5), .pour(id))
+    }
+
+    func testAFootprintIsHitBeforeAPoursEdge() throws {
+        let (doc, one) = try board()
+        let chip = try XCTUnwrap(doc.chips.first { $0.id == one.id })
+        let bounds = try XCTUnwrap(chip.boardBounds)
+        let pad = try XCTUnwrap(chip.boardPads.first)
+        let at = p(pad.rect.midX, pad.rect.midY)
+        _ = doc.addPour(rect: r(at.x, at.y - 10, 20, 20), layer: .top)
+        XCTAssertNotNil(doc.pourItem(at: at, tolerance: 0.6))
+        XCTAssertEqual(doc.boardItem(at: at, tolerance: 0.6), .footprint(one.id))
+        _ = bounds
+    }
+
+    func testBoxSelectTakesAPourWhollyInsideTheBox() throws {
+        let doc = TestSupport.newDocument()
+        let id = try XCTUnwrap(doc.addPour(rect: r(10, 10, 20, 20), layer: .top))
+        let keepout = doc.addKeepout(rect: r(50, 10, 5, 5))
+        doc.clearBoardSelection()
+        doc.boxSelectBoard(r(5, 5, 30, 30), base: [])
+        XCTAssertEqual(doc.boardSelection.items, [.pour(id)])
+        doc.boxSelectBoard(r(15, 5, 30, 30), base: [])
+        XCTAssertTrue(doc.boardSelection.items.isEmpty, "a box that cuts the pour does not take it")
+        doc.boxSelectBoard(r(0, 0, 100, 100), base: [])
+        XCTAssertEqual(doc.boardSelection.items, [.pour(id), .keepout(keepout)])
+    }
+
+    func testSelectAllTakesShownPoursAndKeepouts() throws {
+        let doc = TestSupport.newDocument()
+        let top = try XCTUnwrap(doc.addPour(rect: r(10, 10, 20, 20), layer: .top))
+        let bottom = try XCTUnwrap(doc.addPour(rect: r(40, 10, 20, 20), layer: .bottom))
+        let keepout = doc.addKeepout(rect: r(70, 10, 5, 5), layers: [.bottom])
+        doc.selectAllBoard()
+        XCTAssertEqual(doc.boardSelection.items, [.pour(top), .pour(bottom), .keepout(keepout)])
+        var visible = BoardVisibility()
+        visible.hidden = [.copper(.bottom)]
+        doc.selectAllBoard(visible: visible)
+        XCTAssertEqual(doc.boardSelection.items, [.pour(top)])
+    }
+
+    func testDeleteToolOnAnEdgeDeletesItAsOneStep() throws {
+        let doc = TestSupport.newDocument()
+        let id = try XCTUnwrap(doc.addPour(rect: r(10, 10, 40, 30), layer: .top))
+        let edge = doc.pours[0].rect
+        XCTAssertTrue(doc.deleteBoardItem(at: p(edge.minX, 25), tolerance: 0.5))
+        XCTAssertTrue(doc.pours.isEmpty)
+        XCTAssertEqual(doc.undoName(on: .pcb), "Delete")
+        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertEqual(doc.pours.map(\.id), [id])
+        let keepout = doc.addKeepout(rect: r(60, 10, 5, 5))
+        XCTAssertTrue(doc.deleteBoardItem(at: p(60, 12), tolerance: 0.5))
+        XCTAssertTrue(doc.keepouts.isEmpty)
+        _ = keepout
+    }
+
+    func testAKeepoutOnBottomIsNotHitWithBottomHidden() throws {
+        let doc = TestSupport.newDocument()
+        let id = doc.addKeepout(rect: r(10, 10, 20, 20), layers: [.bottom])
+        XCTAssertEqual(doc.pourItem(at: p(10, 20), tolerance: 0.5), .keepout(id))
+        var visible = BoardVisibility()
+        visible.hidden = [.copper(.bottom)]
+        XCTAssertNil(doc.pourItem(at: p(10, 20), tolerance: 0.5, visible: visible))
+        XCTAssertEqual(doc.pourItem(at: p(10, 20), tolerance: 0.5), .keepout(id))
+    }
+
+    // MARK: Phase 2 — drawing
+
+    func testPourPathsCoverOtherNetsClearancesOnly() throws {
+        let (doc, one) = try board()
+        guard doc.chips.first?.boardPads.allSatisfy({ $0.drill > 0 }) == true else {
+            throw XCTSkip("the LED footprint is not through-hole")
+        }
+        let pourID = try XCTUnwrap(doc.addPour(rect: r(0, 0, doc.board.width, doc.board.height), layer: .top))
+        doc.setPourClearance(pourID, 1)
+        let copper = doc.connectivity()
+        let draws = PCBCanvasView.pourPaths(pours: doc.pours, visible: BoardVisibility(), board: doc.board, copper: copper)
+        let fill = try XCTUnwrap(draws.first?.fill)
+        let ground = try XCTUnwrap(copper.net(of: .ground))
+        let anode = try XCTUnwrap(copper.pads.indices.first { copper.netOfPad[$0] != nil && copper.netOfPad[$0] != ground })
+        let pad = copper.pads[anode].pad.rect
+        XCTAssertFalse(fill.cgPath.contains(p(pad.midX, pad.midY), using: .winding), "inside an other-net pad")
+        XCTAssertFalse(fill.cgPath.contains(p(pad.maxX + 0.05, pad.midY), using: .winding), "within the clearance")
+        XCTAssertTrue(fill.cgPath.contains(p(5, 5), using: .winding), "open board")
+        // Drawn: the pad's hole and its clearance stay empty, the open board is filled.
+        let scale: CGFloat = 4
+        let view = Canvas { context, _ in
+            context.scaleBy(x: scale, y: scale)
+            context.fill(fill, with: .color(.red), style: FillStyle(eoFill: true))
+        }.frame(width: 100 * scale, height: 80 * scale)
+        let renderer = ImageRenderer(content: view)
+        renderer.scale = 1
+        let image = try XCTUnwrap(renderer.cgImage)
+        let rep = NSBitmapImageRep(cgImage: image)
+        func alpha(_ point: CGPoint) -> CGFloat { rep.colorAt(x: Int(point.x * scale), y: Int(point.y * scale))?.alphaComponent ?? -1 }
+        XCTAssertEqual(alpha(p(pad.midX, pad.midY)), 0, "the hole is not drawn")
+        XCTAssertEqual(alpha(p(pad.maxX + 0.5, pad.midY)), 0, "nor the clearance round it")
+        XCTAssertEqual(alpha(p(pad.maxX + 1.6, pad.midY)), 1, accuracy: 0.01, "beyond it the pour is back")
+        XCTAssertEqual(alpha(p(5, 5)), 1, accuracy: 0.01, "the open board is")
+        _ = one
+    }
+
+    func testPourPathsAreEmptyForAHiddenLayerAndForNoNet() throws {
+        let (doc, _) = try board()
+        let id = try XCTUnwrap(doc.addPour(rect: r(0, 0, doc.board.width, doc.board.height), layer: .top))
+        var hidden = BoardVisibility()
+        hidden.hidden = [.copper(.top)]
+        XCTAssertTrue(PCBCanvasView.pourPaths(pours: doc.pours, visible: hidden, board: doc.board, copper: doc.connectivity()).isEmpty)
+        doc.setPourNet(id, nil)
+        let draws = PCBCanvasView.pourPaths(pours: doc.pours, visible: BoardVisibility(), board: doc.board, copper: doc.connectivity())
+        XCTAssertEqual(draws.count, 1)
+        XCTAssertTrue(try XCTUnwrap(draws.first).fill.isEmpty, "no net: only its outline is drawn")
+    }
+
+    func testKeepoutHatch() {
+        let rect = r(10, 10, 8, 5)
+        let hatch = PCBCanvasView.keepoutHatch(rect, spacing: 1)
+        XCTAssertFalse(hatch.isEmpty)
+        let box = hatch.boundingRect
+        XCTAssertGreaterThanOrEqual(box.minX, rect.minX - 1e-6)
+        XCTAssertGreaterThanOrEqual(box.minY, rect.minY - 1e-6)
+        XCTAssertLessThanOrEqual(box.maxX, rect.maxX + 1e-6)
+        XCTAssertLessThanOrEqual(box.maxY, rect.maxY + 1e-6)
+    }
+
+    func testImageExportShowsPoursButNotKeepouts() throws {
+        let (doc, _) = try board()
+        func image() throws -> Data {
+            var options = ImageExportOptions()
+            options.view = .pcb
+            options.format = .png
+            options.scale = 1
+            return try XCTUnwrap(ImageExport.data(for: doc, options))
+        }
+        _ = try image()
+        let bare = try image()
+        XCTAssertEqual(try image(), bare, "rendering is deterministic")
+        let keepout = doc.addKeepout(rect: r(5, 5, 20, 20))
+        XCTAssertEqual(try image(), bare, "keep-outs are design marks, not exported")
+        doc.deleteKeepout(keepout)
+        let id = try XCTUnwrap(doc.addPour(rect: r(0, 0, doc.board.width, doc.board.height), layer: .top))
+        XCTAssertNotEqual(try image(), bare, "a pour is copper")
+        doc.deletePour(id)
+        XCTAssertEqual(try image(), bare, "added then deleted: nothing left behind")
+    }
+
+    // MARK: Phase 3 — the tools
+
+    func testToolStringsAndSymbols() {
+        for tool in [PCBTool.pour, .keepout] {
+            XCTAssertFalse(tool.title.isEmpty)
+            XCTAssertFalse(tool.tooltip.isEmpty)
+            XCTAssertNotNil(NSImage(systemSymbolName: tool.symbol, accessibilityDescription: nil), tool.symbol)
+        }
+        XCTAssertEqual(PCBTool.pour.title, "Pour")
+        XCTAssertEqual(PCBTool.keepout.title, "Keep-out")
+        XCTAssertTrue(PCBTool.allCases.contains(.pour) && PCBTool.allCases.contains(.keepout))
+    }
+
+    func testAPourDragMakesAPourOnTheTraceLayer() throws {
+        let doc = TestSupport.newDocument()
+        XCTAssertTrue(PCBCanvasView.finishRect(doc, kind: .pour, from: p(10, 10), to: p(50, 40), moved: 800, layer: .bottom))
+        XCTAssertEqual(doc.pours.count, 1)
+        XCTAssertEqual(doc.pours[0].layer, .bottom)
+        XCTAssertEqual(doc.pours[0].rect.width, 40, accuracy: doc.board.traceGrid)
+        XCTAssertEqual(doc.pours[0].rect.height, 30, accuracy: doc.board.traceGrid)
+        XCTAssertEqual(doc.undoName(on: .pcb), "Add Pour")
+        // Dragged up and to the left: the same rectangle.
+        XCTAssertTrue(PCBCanvasView.finishRect(doc, kind: .pour, from: p(50, 40), to: p(10, 10), moved: 800, layer: .top))
+        XCTAssertEqual(doc.pours[1].rect.origin.x, doc.pours[0].rect.origin.x, accuracy: 1e-9)
+    }
+
+    func testAClickOrATinyDragMakesNothing() {
+        let doc = TestSupport.newDocument()
+        XCTAssertFalse(PCBCanvasView.finishRect(doc, kind: .pour, from: p(10, 10), to: p(10, 10), moved: 1, layer: .top))
+        XCTAssertFalse(PCBCanvasView.finishRect(doc, kind: .pour, from: p(10, 10), to: p(10.2, 30), moved: 40, layer: .top))
+        XCTAssertFalse(PCBCanvasView.finishRect(doc, kind: .keepout, from: p(10, 10), to: p(30, 10.1), moved: 40, layer: .top))
+        XCTAssertTrue(doc.pours.isEmpty && doc.keepouts.isEmpty)
+    }
+
+    func testAKeepoutDragMakesAKeepoutOnEveryLayer() {
+        let doc = TestSupport.newDocument()
+        XCTAssertTrue(PCBCanvasView.finishRect(doc, kind: .keepout, from: p(10, 10), to: p(30, 25), moved: 500, layer: .top))
+        XCTAssertEqual(doc.keepouts.count, 1)
+        XCTAssertNil(doc.keepouts[0].layers)
+        XCTAssertEqual(doc.undoName(on: .pcb), "Add Keep-out")
+    }
+}
