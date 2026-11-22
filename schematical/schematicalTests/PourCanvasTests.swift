@@ -292,4 +292,31 @@ final class PourCanvasTests: XCTestCase {
         doc.resizePourItem(.keepout(keepout), handle: .bottom, to: p(75, 30))
         XCTAssertEqual(doc.keepouts[0].rect.maxY, BoardGrid.snap(30, spacing: doc.board.traceGrid), accuracy: 1e-9)
     }
+
+    /// With `POUR_OUT` set, prints `POUR_IMAGE <name> <base64 PNG>` for the PCB page and the front render of
+    /// `examples/slow PCB.schematical` with a ground pour on each side and a keep-out, for looking at
+    /// (the test host is sandboxed, so the lines are the way out; `TEST_RUNNER_POUR_OUT=1` passes the variable).
+    func testPrintImagesWhenAsked() throws {
+        guard ProcessInfo.processInfo.environment["POUR_OUT"] != nil else { return }
+        let url = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent()
+            .deletingLastPathComponent().appendingPathComponent("examples/slow PCB.schematical")
+        let doc = TestSupport.newDocument()
+        try SchematicFile.decode(Data(contentsOf: url)).apply(to: doc, catalog: TestSupport.catalog, fileURL: nil)
+        let board = CGRect(x: 0, y: 0, width: doc.board.width, height: doc.board.height)
+        for layer in [CopperLayer.top, .bottom] {
+            let id = try XCTUnwrap(doc.addPour(rect: board, layer: layer))
+            doc.setPourNet(id, .ground)
+        }
+        doc.addKeepout(rect: CGRect(x: 40, y: 30, width: 25, height: 15), layers: [.top])
+        doc.clearBoardSelection()
+        print("POUR_INFO pieces \(doc.connectivity().pourFills.values.map(\.pieces.count)) ratsnest \(doc.ratsnest().count)")
+        for view in [ImageExportView.pcb, .front] {
+            var options = ImageExportOptions()
+            options.view = view
+            options.format = .png
+            options.scale = view == .pcb ? 1 : 2
+            let data = try XCTUnwrap(ImageExport.data(for: doc, options))
+            print("POUR_IMAGE \(view.rawValue) \(data.base64EncodedString())")
+        }
+    }
 }

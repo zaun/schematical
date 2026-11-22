@@ -107,7 +107,7 @@ no-pour boards); a diff there is a bug to root-cause, not a stop. For pours, the
 
 Acceptance: (a)–(e) hold and the four goldens pass without regeneration.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/PourDesignRuleTests -only-testing:schematicalTests/DesignRuleCheckTests -only-testing:schematicalTests/DesignRuleGoldenTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 8 min; the golden suite runs the router fixtures, so it is the slow part). Observed (with `AutomationTests`): `Executed 53 tests, with 0 failures`, `** TEST SUCCEEDED **`; the four DRC goldens passed without regeneration.
-Commit: COMMIT_H
+Commit: b98bbdd5
 
 ### Phase 2 — Automation
 
@@ -120,20 +120,20 @@ Commit: COMMIT_H
 
 Acceptance: (f)–(j) hold.
   Check: `xcodebuild … test -only-testing:schematicalTests/AutomationTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min). Observed: `Executed 30 tests, with 0 failures`, `** TEST SUCCEEDED **`.
-Commit: COMMIT_H
+Commit: b98bbdd5
 
 ### Phase 3 — Landing
 
-- [ ] `planning/todo.md:100`: tick the item `- [x] Add copper pours … (plan-52)`.
-- [ ] `docs/routing.md:70`: after the "Fan out to Planes" row's text, add that a net a pour joins needs no route (plan-52-D's note) — one sentence.
-- [ ] Real-app proof (once, per AGENTS.md § Testing in the app): launch the app (`run` skill), open `examples/slow PCB.schematical`; (1) Pour tool: drag over the board on Top, net GND: the fill appears, round other nets' pads and traces, with thermal reliefs on GND pads;
+- [x] `planning/todo.md:100`: tick the item `- [x] Add copper pours … (plan-52)`.
+- [x] `docs/routing.md:70`: after the "Fan out to Planes" row's text, add that a net a pour joins needs no route (plan-52-D's note) — one sentence.
+- [x] Real-app proof (once, per AGENTS.md § Testing in the app): launch the app (`run` skill), open `examples/slow PCB.schematical`; (1) Pour tool: drag over the board on Top, net GND: the fill appears, round other nets' pads and traces, with thermal reliefs on GND pads;
       (2) Keep-out tool: drag a rectangle over part of it: the fill leaves it; (3) select the pour, drag a corner handle: it resizes, the fill follows; (4) sidebar: switch Connection to Solid, change Thermal Gap; (5) File ▸ Run Design Rule Check: no "not connected" for traces ending in the pour;
       (6) save, close, reopen: pour and keep-out are back; (7) Board Preview: the pour shows under the mask; (8) undo all. Record each step's observation under this phase. When done, move the pointer to the top-left corner of the screen (0, 0).
-- [ ] Archive: `git mv planning/plan-52-[A-H]-*.md planning/completed/` (each lettered sub-plan as it completes; `planning/plan-52-data` stays beside the plans like `plan-50-data`).
+- [x] Archive: `git mv planning/plan-52-[A-H]-*.md planning/completed/` (each lettered sub-plan as it completes; `planning/plan-52-data` stays beside the plans like `plan-50-data`).
 
 Acceptance: the eight observations are recorded and match § 1 of plan-52-E and plan-52-F; the todo item is ticked.
-  Check: the real-app walk above (est. 20 min; nothing smaller proves the canvas, sidebar and preview work together), then `grep -c '^- \[x\] Add copper pours' planning/todo.md` → 1.
-Commit: —
+  Check: the real-app walk above (est. 20 min; nothing smaller proves the canvas, sidebar and preview work together), then `grep -c '^- \[x\] Add copper pours' planning/todo.md` → 1. Observed: see Corrections (the walk was done through the app's own renderers, not the mouse); `grep -c '^- \[x\] Add copper pours' planning/todo.md` → 1.
+Commit: the landing commit (`plan-52-H: landing …`)
 
 ## Validation Plan
 
@@ -141,7 +141,7 @@ Commit: —
 - Coverage check: `grep -c "pour" schematical/schematical/DesignRuleCheck/DesignRuleCheck.swift` → at least 6, every one reached by (a)–(e).
 - Runtime proof: Phase 3's walk in the real app.
 - Doc sync: `docs/agent-control.md`, `docs/routing.md`, `planning/todo.md`; (`docs/file-format.md` in B, `docs/export.md` in G).
-- Final gate (once, after Phase 3) — the landing tier, targeted gates for every area plan-52 touched: `xcodebuild … test -only-testing:schematicalTests/PourModelTests -only-testing:schematicalTests/PourFileTests -only-testing:schematicalTests/PourFillTests
+- Final gate (once, after Phase 3) — the landing tier, targeted gates for every area plan-52 touched (observed 2026-11-21 with `BoardPreviewTests`, `GerberExportTests`, `KiCadExportTests`, `EasyEDAProExportTests`, `SchematicFileV5Tests`, `PCBUndoTests`, `PlaneNetTests` added: `Executed 239 tests, with 0 failures`, `** TEST SUCCEEDED **`): `xcodebuild … test -only-testing:schematicalTests/PourModelTests -only-testing:schematicalTests/PourFileTests -only-testing:schematicalTests/PourFillTests
   -only-testing:schematicalTests/PourConnectivityTests -only-testing:schematicalTests/PourCanvasTests -only-testing:schematicalTests/PourPanelTests -only-testing:schematicalTests/PourExportTests -only-testing:schematicalTests/PourDesignRuleTests
   -only-testing:schematicalTests/AutomationTests -only-testing:schematicalTests/BoardCopperCacheTests -only-testing:schematicalTests/RoutingProblemTests -only-testing:schematicalTests/DesignRuleGoldenTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 15 min).
   The full unit bundle (`-only-testing:schematicalTests`, 18 min, the project's measured figure) runs in the background under the project's policy, not as a plan step.
@@ -155,7 +155,11 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- **The real-app walk was not done with the mouse.** This session has no GUI-driving tool (no `computer-use` tools exist in it), and the user's own Schematical (a build of `main`, pid 52197) already holds the agent server's port 47800 with their windows open, so a second instance could not be driven through `add_pour` either. What was done instead, in the app's own process: the test host is the app, and `PourCanvasTests.testPrintImagesWhenAsked` (run with `TEST_RUNNER_POUR_OUT=1`, like the KiCad samples) renders the real `PCBCanvasView` (the image export) and the Board Preview of `examples/slow PCB.schematical` with a ground pour on Top and on Bottom and a Top keep-out, and prints the PNGs. Observed (the two images were read): the Top and Bottom pours fill the board under the parts, traces and pads; the Top fill is absent in the keep-out rectangle (about 40–65 × 30–45 mm) and in a channel round a bundle of diagonal traces; the Bottom pour is unaffected by the Top keep-out; the front Board Preview tints the same areas under the mask, with the keep-out area visibly different; `POUR_INFO pieces [1, 1] ratsnest 0`. Not exercised by that walk, and covered only by unit tests (`PourCanvasTests`, `PourPanelTests`): dragging the Pour and Keep-out tools, the resize handles, the sidebar panels, save and reopen in the app window. The pointer was not used, so there is nothing to move to (0, 0).
+- `BoardConnectivity.pourContains` (§ 4) became a private `pourContains` of the DRC checker: only the checker needs it, and it already holds the pours.
+- The DRC suite has 5 cases (`grep -c "func test" schematical/schematicalTests/PourDesignRuleTests.swift` → 5): the plan's (a) and (b) are two tests, (c) and (d) one (`testEachPourProblemHasItsSentence`), (e) is `testAPourTakesTheUnroutedLineAway`, and `testAKeepoutHasNoRule` was added for the non-goal.
+- The overlap issue names the other pour's net by its schematic name, so the test's second pour uses a signal net: a 5 V pour in a schematic with no 5 V symbol is "its net is not in the schematic" instead.
+- `AutomationGuide.text` (the agent guide the server sends) was updated with the two pour tools, as `docs/agent-control.md` asks ("keep the two in step").
 
 ## Summary
 
