@@ -65,7 +65,7 @@ References:
 - `planning/completed/plan-40-A-transistor-data.md` and
   `planning/plan-40-data/census/` (`stock-check.sh`, `fetch.js`, `textscan.py`,
   `place.py`, `specs-skeleton.py`: the scripts A adapts, `fetch.js` as `fetch.py`);
-  `planning/plan-44-A-crystal-data.md` (the same method, the same layout).
+  `planning/completed/plan-44-A-crystal-data.md` (the same method, the same layout).
 - `planning/plan-43-data/candidates.tsv` (family `connector`): seven of its
   22 pending parts are JST headers that plan-45 adds (§ 2).
 

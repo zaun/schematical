@@ -383,7 +383,7 @@ Commit: b757909b
 
 Acceptance: every download-set row either has a PDF or a reason it has none.
   Check: `awk -F'\t' '$25!="out" && NR>1 && $28==""' planning/plan-44-data/candidates.tsv \| wc -l` → the rows B will `skip` for no maker datasheet (recorded here); `find datasheets/crystal -iname '*.pdf' \| wc -l` = `tail -n +2 datasheets/crystal/datasheets.tsv \| cut -f1 \| sort -u \| wc -l` (est. 15 min: 191 downloads, 12 of them one at a time from the archive). Output 2026-11-22: `0` rows without a PDF (so B has no `no datasheet on the maker's site` skip from A's side); `190` = `190`.
-Commit: —
+Commit: 97bcb142
 
 ## Validation Plan
 

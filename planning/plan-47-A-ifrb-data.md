@@ -75,7 +75,7 @@ References:
 - `planning/completed/plan-40-A-transistor-data.md` and
   `planning/plan-40-data/census/` (`stock-check.sh`, `fetch.js`,
   `textscan.py`, `sibling.py`, `place.py`, `specs-skeleton.py`: the scripts A
-  adapts); `planning/plan-44-A-crystal-data.md` (the same method, the same
+  adapts); `planning/completed/plan-44-A-crystal-data.md` (the same method, the same
   layout of `datasheets/<family>/<maker>/`).
 
 ## Prerequisites
