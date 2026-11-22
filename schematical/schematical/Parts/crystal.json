@@ -1,0 +1,175 @@
+{
+ "format": "schematical-parts",
+ "version": 1,
+ "kind": "crystal",
+ "devices": [
+  {
+   "id": "crystal-generic",
+   "function": "Generic",
+   "description": "Generic quartz crystal",
+   "drawer": [
+    "Crystal"
+   ],
+   "pinouts": {
+    "x1-x2": [
+     {
+      "number": 1,
+      "name": "X1",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "X2",
+      "role": "inout"
+     }
+    ]
+   },
+   "type": "crystal",
+   "terminals": [
+    "X1",
+    "X2"
+   ],
+   "parts": [
+    {
+     "name": "GENERIC-CRYSTAL-32768",
+     "manufacturer": "Generic",
+     "package": "SMD",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-3215-2-ABRACON",
+     "footprintChoices": [
+      {
+       "package": "SMD",
+       "footprint": "XTAL-3215-2-ABRACON"
+      },
+      {
+       "package": "SMD",
+       "footprint": "XTAL-2012-2-ABRACON"
+      },
+      {
+       "package": "SMD",
+       "footprint": "XTAL-1610-2-ABRACON"
+      },
+      {
+       "package": "Cylinder",
+       "footprint": "XTAL-CYL-2X6-2-ABRACON"
+      }
+     ],
+     "hz": 32768
+    },
+    {
+     "name": "GENERIC-CRYSTAL-8M",
+     "manufacturer": "Generic",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49U-2-ABRACON",
+     "footprintChoices": [
+      {
+       "package": "HC-49/US",
+       "footprint": "XTAL-HC49U-2-ABRACON"
+      },
+      {
+       "package": "SMD",
+       "footprint": "XTAL-3225-2-ABRACON"
+      },
+      {
+       "package": "SMD",
+       "footprint": "XTAL-5032-2-ABRACON"
+      },
+      {
+       "package": "SMD",
+       "footprint": "XTAL-6035-2-ABRACON"
+      }
+     ],
+     "hz": 8000000
+    },
+    {
+     "name": "GENERIC-CRYSTAL-16M",
+     "manufacturer": "Generic",
+     "package": "HC-49/US",
+     "pinout": "x1-x2",
+     "footprint": "XTAL-HC49U-2-ABRACON",
+     "footprintChoices": [
+      {
+       "package": "HC-49/US",
+       "footprint": "XTAL-HC49U-2-ABRACON"
+      },
+      {
+       "package": "SMD",
+       "footprint": "XTAL-3225-2-ABRACON"
+      },
+      {
+       "package": "SMD",
+       "footprint": "XTAL-5032-2-ABRACON"
+      },
+      {
+       "package": "SMD",
+       "footprint": "XTAL-6035-2-ABRACON"
+      }
+     ],
+     "hz": 16000000
+    }
+   ]
+  },
+  {
+   "id": "resonator-generic",
+   "function": "Generic",
+   "description": "Generic ceramic resonator",
+   "drawer": [
+    "Crystal"
+   ],
+   "pinouts": {
+    "x1-gnd-x2": [
+     {
+      "number": 1,
+      "name": "X1",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "nc"
+     },
+     {
+      "number": 3,
+      "name": "X2",
+      "role": "inout"
+     }
+    ]
+   },
+   "type": "resonator",
+   "terminals": [
+    "X1",
+    "X2"
+   ],
+   "parts": [
+    {
+     "name": "GENERIC-RESONATOR-8M",
+     "manufacturer": "Generic",
+     "package": "SMD",
+     "pinout": "x1-gnd-x2",
+     "footprint": "CRES-3731-3-ABRACON",
+     "footprintChoices": [
+      {
+       "package": "SMD",
+       "footprint": "CRES-3731-3-ABRACON"
+      },
+      {
+       "package": "SMD",
+       "footprint": "CRES-6030-3-ABRACON"
+      },
+      {
+       "package": "SMD",
+       "footprint": "CRES-3213-3-ABRACON"
+      },
+      {
+       "package": "SMD",
+       "footprint": "CRES-2520-3-ABRACON"
+      }
+     ],
+     "hz": 8000000,
+     "capacitors": true
+    }
+   ]
+  }
+ ]
+}
