@@ -114,4 +114,25 @@ final class BoardPreviewTests: XCTestCase {
         let angled = RenderProjection.fitting(outline, face: .front, angle: .angled, size: size, height: 10, below: 2)
         XCTAssertLessThan(angled.point(CGPoint(x: 50, y: 25), 5).y, angled.point(CGPoint(x: 50, y: 25)).y)
     }
+
+    /// plan-52-F: a pour on Top shows in the front render, under the mask, and not in the back one.
+    func testAPourShowsInTheFrontRenderOnly() throws {
+        let doc = TestSupport.newDocument()
+        doc.setBoardSize(width: 30, height: 20)
+        let led = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 100))
+        let ground = try TestSupport.place(doc, "GND", at: CGPoint(x: 100, y: 300))
+        XCTAssertNil(doc.connect(.pin(try TestSupport.pin(led, "K")), .pin(PinRef(chipID: ground.id, index: 0))))
+        doc.moveFootprint(led.id, to: CGPoint(x: 15, y: 10))
+        func back() throws -> Data {
+            let view = BoardPreviewView.canvas(document: doc, face: .back, angle: .top).frame(width: 300, height: 220)
+            return try XCTUnwrap(ImageRenderer(content: view).cgImage?.dataProvider?.data as Data?)
+        }
+        let before = try pixels(doc), backBefore = try back()
+        let id = try XCTUnwrap(doc.addPour(rect: CGRect(x: 0, y: 0, width: 30, height: 20), layer: .top))
+        let change = differing(before, try pixels(doc))
+        XCTAssertGreaterThan(change, 1000, "the pour shows on the front")
+        XCTAssertLessThan(differing(backBefore, try back()), change / 10, "and not on the back")
+        doc.deletePour(id)
+        XCTAssertLessThan(differing(try pixels(doc), before), change / 10, "deleted: as before")
+    }
 }

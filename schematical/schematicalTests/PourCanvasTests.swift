@@ -229,4 +229,67 @@ final class PourCanvasTests: XCTestCase {
         XCTAssertNil(doc.keepouts[0].layers)
         XCTAssertEqual(doc.undoName(on: .pcb), "Add Keep-out")
     }
+
+    // MARK: plan-52-F: resize handles
+
+    func testEachHandleMovesOnlyItsEdges() {
+        let rect = r(10, 10, 40, 30)
+        let cases: [(PourHandle, CGPoint, CGRect)] = [
+            (.topLeft, p(5, 6), r(5, 6, 45, 34)),
+            (.top, p(99, 6), r(10, 6, 40, 34)),
+            (.topRight, p(55, 6), r(10, 6, 45, 34)),
+            (.right, p(55, 99), r(10, 10, 45, 30)),
+            (.bottomRight, p(55, 45), r(10, 10, 45, 35)),
+            (.bottom, p(99, 45), r(10, 10, 40, 35)),
+            (.bottomLeft, p(5, 45), r(5, 10, 45, 35)),
+            (.left, p(5, 99), r(5, 10, 45, 30)),
+        ]
+        for (handle, point, expected) in cases {
+            XCTAssertEqual(handle.resized(rect, to: point), expected, "\(handle)")
+        }
+        XCTAssertEqual(PourHandle.topLeft.position(in: rect), p(10, 10))
+        XCTAssertEqual(PourHandle.right.position(in: rect), p(50, 25))
+        XCTAssertEqual(PourHandle.bottom.position(in: rect), p(30, 40))
+    }
+
+    func testADragPastTheOppositeEdgeClampsAtTheMinimumSide() {
+        let rect = r(10, 10, 40, 30)
+        XCTAssertEqual(PourHandle.bottomRight.resized(rect, to: p(0, 0)), r(10, 10, 0.5, 0.5))
+        let flipped = PourHandle.left.resized(rect, to: p(80, 25))
+        XCTAssertEqual(flipped.width, 0.5, accuracy: 1e-9)
+        XCTAssertEqual(flipped.maxX, 50, accuracy: 1e-9)
+    }
+
+    func testHandlesOnlyForOneUnlockedItem() throws {
+        let doc = TestSupport.newDocument()
+        let id = try XCTUnwrap(doc.addPour(rect: r(10, 10, 40, 30), layer: .top))
+        let rect = doc.pours[0].rect
+        let corner = PourHandle.bottomRight.position(in: rect)
+        XCTAssertEqual(doc.pourHandle(at: corner, tolerance: 0.5)?.handle, .bottomRight)
+        XCTAssertNil(doc.pourHandle(at: p(corner.x + 5, corner.y), tolerance: 0.5))
+        doc.setLocked(.pour(id), true)
+        XCTAssertNil(doc.pourHandle(at: corner, tolerance: 0.5), "a locked item has no handles")
+        doc.setLocked(.pour(id), false)
+        let keepout = doc.addKeepout(rect: r(60, 10, 10, 10))
+        doc.selectBoardItems([.pour(id), .keepout(keepout)])
+        XCTAssertNil(doc.pourHandle(at: corner, tolerance: 0.5), "two selected: none")
+    }
+
+    func testAResizeDragIsOneUndoStep() throws {
+        let doc = TestSupport.newDocument()
+        let id = try XCTUnwrap(doc.addPour(rect: r(10, 10, 40, 30), layer: .top))
+        let original = doc.pours[0].rect
+        let item = BoardItem.pour(id)
+        doc.beginGesture(.pcb)
+        for x in [52, 55, 58, 60] as [CGFloat] { doc.resizePourItem(item, handle: .right, to: p(x, 25)) }
+        doc.endGesture()
+        XCTAssertEqual(doc.undoName(on: .pcb), "Resize")
+        XCTAssertEqual(doc.pours[0].rect.maxX, BoardGrid.snap(60, spacing: doc.board.traceGrid), accuracy: 1e-9)
+        XCTAssertEqual(doc.pours[0].rect.minX, original.minX)
+        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertEqual(doc.pours[0].rect, original)
+        let keepout = doc.addKeepout(rect: r(70, 10, 10, 10))
+        doc.resizePourItem(.keepout(keepout), handle: .bottom, to: p(75, 30))
+        XCTAssertEqual(doc.keepouts[0].rect.maxY, BoardGrid.snap(30, spacing: doc.board.traceGrid), accuracy: 1e-9)
+    }
 }

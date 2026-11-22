@@ -120,6 +120,8 @@ struct PCBCanvasView: View {
         /// A trace being drawn: its draft (start already anchored, plus any
         /// locked legs) and the pointer at `cursor` (board mm).
         case drawTrace(draft: TraceDraft, cursor: CGPoint)
+        /// A handle of the selected pour or keep-out being dragged (plan-52-F).
+        case resize(item: BoardItem, handle: PourHandle)
         /// A Pour or Keep-out being dragged out: from where it was pressed to
         /// the pointer (board mm).
         case drawRect(kind: PCBTool, from: CGPoint, to: CGPoint)
@@ -367,6 +369,16 @@ struct PCBCanvasView: View {
                                lineWidth: 1 / scale)
                 context.stroke(Path(keepout.rect), with: .color(.red),
                                style: StrokeStyle(lineWidth: 1 / scale, dash: [4 / scale, 3 / scale]))
+            }
+        }
+        // The handles of the one selected pour or keep-out.
+        if !exporting, let rect = document.resizableRect {
+            let side = 8 / scale
+            for handle in PourHandle.allCases {
+                let at = handle.position(in: rect)
+                let box = Path(CGRect(x: at.x - side / 2, y: at.y - side / 2, width: side, height: side))
+                context.fill(box, with: .color(.white))
+                context.stroke(box, with: .color(.accentColor), lineWidth: 1.5 / scale)
             }
         }
         if case let .drawRect(_, from, to) = interaction {
@@ -872,6 +884,10 @@ struct PCBCanvasView: View {
             let cursor = board(CGPoint(x: pressLocation.x + translation.width, y: pressLocation.y + translation.height))
             interaction = .drawTrace(draft: draft, cursor: cursor)
             return .drawTrace(draft: draft, cursor: cursor)
+        case let .resize(item, handle):
+            document.resizePourItem(item, handle: handle,
+                                    to: board(CGPoint(x: pressLocation.x + translation.width,
+                                                      y: pressLocation.y + translation.height)))
         case let .drawRect(kind, from, _):
             let cursor = board(CGPoint(x: pressLocation.x + translation.width, y: pressLocation.y + translation.height))
             interaction = .drawRect(kind: kind, from: from, to: cursor)
@@ -928,6 +944,9 @@ struct PCBCanvasView: View {
             if NSEvent.modifierFlags.contains(.command),
                let press = ReferenceDragging.press(document, at: point, scale: scale, visible: shown) {
                 return .moveReference(id: press.id, from: press.from)
+            }
+            if let hit = document.pourHandle(at: point, tolerance: 6 / scale) {
+                return .resize(item: hit.item, handle: hit.handle)
             }
             if let item = document.boardItem(at: point, tolerance: TraceDrawing.tolerance / scale, visible: shown) {
                 selectionPress = document.pressSelection(item, shift: shift)

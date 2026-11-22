@@ -28,7 +28,7 @@ The shared gate is in plan-52-A. This sub-plan adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-52-E is complete | `ls planning/completed \| grep -c '^plan-52-E'` → 1 | NOT MET (2026-11-21: 0; A–E are not started) |
+| plan-52-E is complete | `ls planning/completed \| grep -c '^plan-52-E'` → 1 | MET (2026-11-21: plan-52-E landed as cc4d5278) |
 
 Everything below is written against the world where this holds.
 
@@ -100,40 +100,40 @@ Rejected alternatives: *edge-only resize (4 handles)* (corners are what people r
 
 ### Phase 1 — Resize handles
 
-- [ ] `Canvas/PourSection.swift` (new): `PourHandle` as § 4. `SchematicModel.swift`: `pourHandle(at:tolerance:)` and `resizePourItem(_:handle:to:)`; `PCBCanvasView.swift`: `Interaction.resize`, `begin(at:)`
+- [x] `Canvas/PourSection.swift` (new): `PourHandle` as § 4. `SchematicModel.swift`: `pourHandle(at:tolerance:)` and `resizePourItem(_:handle:to:)`; `PCBCanvasView.swift`: `Interaction.resize`, `begin(at:)`
       (Select tool: a handle first), `handle(start:translation:)` calls `resizePourItem` with the pointer's board point, the handles drawn in `draw` for the sole selected unlocked item
       (white fill, accent stroke, 8 pt / scale).
-- [ ] Tests: `PourCanvasTests` (q) for each of the 8 handles, `resized` moves exactly the edges it names and keeps the others; (r) a drag past the opposite edge clamps at 0.5 mm; (s) `pourHandle(at:)`
+- [x] Tests: `PourCanvasTests` (q) for each of the 8 handles, `resized` moves exactly the edges it names and keeps the others; (r) a drag past the opposite edge clamps at 0.5 mm; (s) `pourHandle(at:)`
       is nil for a locked or multiply selected item; (t) one resize drag (begin gesture, several `resizePourItem` calls, end) is one undo step named "Resize" and undo restores the rect.
 
 Acceptance: (q)–(t) hold.
-  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/PourCanvasTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/PourCanvasTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min). Observed (all three phases' suites in one run, with `SelectionSidebarTests`, `ViaTests`, `TraceToolTests`, `PourConnectivityTests`, `PourModelTests`): `Executed 96 tests, with 0 failures`, `** TEST SUCCEEDED **`.
+Commit: COMMIT_F
 
 ### Phase 2 — The panels
 
-- [ ] `SchematicModel.swift`: `selectedPourID`, `selectedKeepoutID`, `fitPourToBoard(_:)`, `fitKeepoutToBoard(_:)` ("Fit to Board" undo names).
-- [ ] `PCBSidebarView.swift`: `Content.pour(UUID)`, `.keepout(UUID)`, chosen in `content(for:)` after the hole; `body` cases show `PourPanel`/`KeepoutPanel` with `.id(…)`.
-- [ ] `PourSection.swift`: `PourPanel` (fields of § 1; Thermal Gap and Spoke Width only while `connection == .thermal`; Clearance blank means nil; a net the schematic no longer has is "Missing net"
+- [x] `SchematicModel.swift`: `selectedPourID`, `selectedKeepoutID`, `fitPourToBoard(_:)`, `fitKeepoutToBoard(_:)` ("Fit to Board" undo names).
+- [x] `PCBSidebarView.swift`: `Content.pour(UUID)`, `.keepout(UUID)`, chosen in `content(for:)` after the hole; `body` cases show `PourPanel`/`KeepoutPanel` with `.id(…)`.
+- [x] `PourSection.swift`: `PourPanel` (fields of § 1; Thermal Gap and Spoke Width only while `connection == .thermal`; Clearance blank means nil; a net the schematic no longer has is "Missing net"
       as `HolePanel`'s) and `KeepoutPanel` ("All layers" switch sets `layers = nil`; a layer switch with "All" on first turns it into the explicit set minus that layer); `fillSummary`.
-- [ ] `BoardDetailsSheet`/NetsSidebar: no change.
-- [ ] Tests: new `schematicalTests/PourPanelTests.swift`: (u) `content(for:)` is `.pour(id)` / `.keepout(id)` for a sole selection and `.selection` for two; (v) `layerChoices` is the trace layers (no Plane layer);
+- [x] `BoardDetailsSheet`/NetsSidebar: no change.
+- [x] Tests: new `schematicalTests/PourPanelTests.swift`: (u) `content(for:)` is `.pour(id)` / `.keepout(id)` for a sole selection and `.selection` for two; (v) `layerChoices` is the trace layers (no Plane layer);
       (w) `fillSummary` for a ground pour over two ground pads is exactly "Fill: 1 piece, 2 pins joined" (plural: "2 pieces", "1 pin") and "No fill: choose a net" without a net; (x) the Fit to Board result equals the outline bounds and is one undo step;
       (y) the keep-out layer-switch logic: All on → switch Top off gives `[bottom]` on a 2-layer board; all switches on again gives `nil`.
 
 Acceptance: (u)–(y) hold.
-  Check: `xcodebuild … test -only-testing:schematicalTests/PourPanelTests -only-testing:schematicalTests/SelectionSidebarTests -only-testing:schematicalTests/ViaTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 8 min).
-Commit: —
+  Check: `xcodebuild … test -only-testing:schematicalTests/PourPanelTests -only-testing:schematicalTests/SelectionSidebarTests -only-testing:schematicalTests/ViaTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 8 min). Observed: as Phase 1.
+Commit: COMMIT_F
 
 ### Phase 3 — Board Preview
 
-- [ ] `BoardRenderer.swift` `drawSurface` (`:348`): after the Plane tint and before the traces, draw each pour on the side's layer from `document.connectivity().pourFills` in `underMask` (fill only; no outline).
-- [ ] Tests: `BoardPreviewTests` (z) a Top ground pour over a ground pad changes the front render (`differing(before, after) > 1000`, as the open-via test does) and leaves the back render within `change / 10`;
+- [x] `BoardRenderer.swift` `drawSurface` (`:348`): after the Plane tint and before the traces, draw each pour on the side's layer from `document.connectivity().pourFills` in `underMask` (fill only; no outline).
+- [x] Tests: `BoardPreviewTests` (z) a Top ground pour over a ground pad changes the front render (`differing(before, after) > 1000`, as the open-via test does) and leaves the back render within `change / 10`;
       (aa) a document with no pour renders byte-equal before and after a pour is added and deleted.
 
 Acceptance: (z) and (aa) hold.
-  Check: `xcodebuild … test -only-testing:schematicalTests/BoardPreviewTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+  Check: `xcodebuild … test -only-testing:schematicalTests/BoardPreviewTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min). Observed: as Phase 1.
+Commit: COMMIT_F
 
 ## Validation Plan
 
@@ -151,7 +151,10 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- (aa) (a board with no pour renders as before) is the last assertion of `BoardPreviewTests.testAPourShowsInTheFrontRenderOnly` (added then deleted: within a tenth of the change), not a separate test; the preview suite compares amounts, not bytes, because two renders of one picture can differ by antialiasing (`BoardPreviewTests.differing`).
+- The resize handles were first drawn in an image export too and changed its bytes; they are drawn only when `!exporting`, like the keep-out marks (`PourCanvasTests.testImageExportShowsPoursButNotKeepouts` caught it).
+- `LockToggle` was `private` to `PCBSidebarView.swift`; the panels live in `PourSection.swift`, so it is now internal (no other change).
+- `PourCanvasTests` now has 18 cases (14 from plan-52-E and four resize cases); `PourPanelTests` has 5 (`grep -c "func test"` → 18, 5).
 
 ## Summary
 

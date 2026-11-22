@@ -26,6 +26,8 @@ struct PCBSidebarView: View {
         case trace(UUID)
         case via(UUID)
         case hole(UUID)
+        case pour(UUID)
+        case keepout(UUID)
         case selection
     }
 
@@ -44,6 +46,12 @@ struct PCBSidebarView: View {
         }
         if let id = document.selectedHoleID, document.holes.contains(where: { $0.id == id }) {
             return .hole(id)
+        }
+        if let id = document.selectedPourID, document.pours.contains(where: { $0.id == id }) {
+            return .pour(id)
+        }
+        if let id = document.selectedKeepoutID, document.keepouts.contains(where: { $0.id == id }) {
+            return .keepout(id)
         }
         return document.boardSelection.isEmpty ? .board : .selection
     }
@@ -86,6 +94,16 @@ struct PCBSidebarView: View {
                     HolePanel(document: document, hole: hole)
                         .id(hole.id)
                 }
+            case let .pour(id):
+                if let pour = document.pours.first(where: { $0.id == id }) {
+                    PourPanel(document: document, pour: pour)
+                        .id(pour.id)
+                }
+            case let .keepout(id):
+                if let keepout = document.keepouts.first(where: { $0.id == id }) {
+                    KeepoutPanel(document: document, keepout: keepout)
+                        .id(keepout.id)
+                }
             case .selection:
                 SelectionListSection(
                     rows: SelectionRows.board(document),
@@ -116,7 +134,7 @@ struct PCBSidebarView: View {
 
 /// The Lock Position switch of a selected PCB item. A locked item can't be
 /// dragged, and its X, Y and rotation can't be changed. Off by default.
-private struct LockToggle: View {
+struct LockToggle: View {
     let document: SchematicDocument
     let item: BoardItem
 

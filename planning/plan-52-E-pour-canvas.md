@@ -118,7 +118,7 @@ handle-based tool for drawing* (a drag is the way Via/Hole/Trace already work).
 
 Acceptance: (a)–(g) hold; existing hit tests unchanged.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/PourCanvasTests -only-testing:schematicalTests/LockPositionTests -only-testing:schematicalTests/PadHoverTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min). Observed (Phases 1–3 and the tool tests in one run, with `KeyboardHelpTests`, `LockPositionTests`, `PadHoverTests`, `PlaneShadingTests`): `Executed 32 tests, with 0 failures`, `** TEST SUCCEEDED **`.
-Commit: COMMIT_E
+Commit: cc4d5278
 
 ### Phase 2 — Drawing
 
@@ -132,7 +132,7 @@ Commit: COMMIT_E
 
 Acceptance: (h)–(k) hold.
   Check: `xcodebuild … test -only-testing:schematicalTests/PourCanvasTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min). Observed: as Phase 1.
-Commit: COMMIT_E
+Commit: cc4d5278
 
 ### Phase 3 — The two tools
 
@@ -147,7 +147,7 @@ Commit: COMMIT_E
 
 Acceptance: (l)–(p) hold.
   Check: `xcodebuild … test -only-testing:schematicalTests/PourCanvasTests -only-testing:schematicalTests/KeyboardHelpTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min). Observed: as Phase 1.
-Commit: COMMIT_E
+Commit: cc4d5278
 
 ## Validation Plan
 

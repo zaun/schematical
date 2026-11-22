@@ -360,6 +360,13 @@ struct BoardRenderer {
             if board.style(of: layer).type == .plane {
                 drawPlane(on: layer, colour: underMask, shape: shape, in: &context)
             }
+            if !document.pours.isEmpty {
+                let copper = document.connectivity()
+                for pour in document.pours where pour.layer == layer {
+                    guard let fill = copper.pourFills[pour.id], !fill.isEmpty else { continue }
+                    context.fill(Path(fill.path), with: .color(underMask), style: FillStyle(eoFill: true))
+                }
+            }
             for trace in document.traces where trace.layer == layer {
                 context.stroke(PCBCanvasView.path(trace.points), with: .color(underMask),
                                style: PCBCanvasView.traceStyle(width: trace.widthMM))
