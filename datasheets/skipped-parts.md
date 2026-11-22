@@ -895,3 +895,34 @@ for their family and maker) but that were skipped for their datasheet. Written b
 | LM2590HVS-ADJ, LM2788MM-2.0, LM3204TLX/NOPB | Texas Instruments switching regulator | `regulator` / Power → Regulators → Switching | no datasheet on the maker's site (rocelec.widen.net) |
 | TL2575-ADJIKV | Texas Instruments switching regulator | `regulator` / Power → Regulators → Switching | no package drawing in the datasheet (it names the package and gives no outline or land pattern): TO-220-5 formed leads KV0005A, tl2575-12.pdf draws only KTT |
 | LM2734YQMKX/NOPB, TPS61045ADRBR | Texas Instruments switching regulator | `regulator` / Power → Regulators → Switching | not in the datasheet's ordering table |
+
+## Crystals and resonators (plan-44)
+
+Download-set parts (in stock, Active or Last Time Buy at DigiKey, plan-44-A) whose maker datasheet
+does not list them, so no part is added. They are still made; a later plan may add them with the
+datasheet's other options. Their PDFs may be in the tree for the parts that were added.
+
+| Part(s) | Device | Would have gone into | Why skipped |
+|---|---|---|---|
+| ABM12-112-48.000MHZ-, ABM12-115-26.000MHZ-T3 | Abracon ABM12, 4-SMD, No Lead, `ABM12.pdf` | `crystal` / Crystal → MHz | not in the datasheet's ordering table |
+| FC1BSCBEM27.12-T3 | Abracon FC1BS, 4-SMD, No Lead, `FC1BS.pdf` | `crystal` / Crystal → MHz | not in the datasheet's ordering table |
+| AWSCR-14.75CV-T | Abracon AWSCR-CV, 3-SMD, Non-Standard, `AWSCR_CV.pdf` | `crystal` / Crystal → Ceramic resonator | not in the datasheet's ordering table |
+| ECS-.327-6-13X | ECS ECS-2X6X, Cylindrical Can, Radial, `ECS-3x8X-2x6X-1X5X.pdf` | `crystal` / Crystal → kHz | not in the datasheet's ordering table |
+| ECS-60-32-28A-TR | ECS CSM-4A, HC-49/US - 4 Lead, `csm-4a.pdf` | `crystal` / Crystal → MHz | not in the datasheet's ordering table |
+| ECS-135.600-CDX-0374, ECS-235.122-CDX-0378, ECS-271.344-CD-0383TR | ECS CSM-7, HC-49/US, `csm_7.pdf` | `crystal` / Crystal → MHz | not in the datasheet's ordering table |
+| ECS-250-20-5PXDU-F-TR | ECS CSM-7X-DU, HC-49/US, `CSM_7X_DU.pdf` | `crystal` / Crystal → MHz | not in the datasheet's ordering table |
+| ECS-120-7-33B2-CTN-TR3, ECS-135.6-7-33B2-CKM-TR3 | ECS ECS-33B2, 4-SMD, No Lead, `ECS-33B2.pdf` | `crystal` / Crystal → MHz | not in the datasheet's ordering table |
+| ECS-240-8-47-JTN-TR | ECS ECX-1247, 4-SMD, No Lead, `ECX_1247.pdf` | `crystal` / Crystal → MHz | fact not in datasheet [ECS-240-8-47-JTN-TR (esr 150.0 above 100)] |
+| ECS-320-6-47B-CKY-TR | ECS ECX-1247B, 4-SMD, No Lead, `ECX_1247B.pdf` | `crystal` / Crystal → MHz | not in the datasheet's ordering table |
+| ECS-240-10-47Q-CES-TR | ECS ECX-1247Q, 4-SMD, No Lead, `ECX-1247Q.pdf` | `crystal` / Crystal → MHz | not in the datasheet's ordering table |
+| ECS-320-8-37CKM | ECS ECX-1637, 4-SMD, No Lead, `ecx-1637.pdf` | `crystal` / Crystal → MHz | not in the datasheet's ordering table |
+| ECS-160-12-37BQ-CTN-TR | ECS ECX-1637BQ, 4-SMD, No Lead, `ECX-1637BQ.pdf` | `crystal` / Crystal → MHz | not in the datasheet's ordering table |
+| ECS-240-10-37Q-ES-TR, ECS-250-10-37Q-ES-TR, ECS-300-10-37Q-ES-TR | ECS ECX-1637Q, 4-SMD, No Lead, `ECX-1637Q.pdf` | `crystal` / Crystal → MHz | not in the datasheet's ordering table |
+| ECS-240-6-37QZ-RES-TR, ECS-250-8-37QZ-AES-TR, ECS-400-10-37QZ-RES-TR | ECS ECX-1637QZ, 4-SMD, No Lead, `ECX-1637QZ.pdf` | `crystal` / Crystal → MHz | not in the datasheet's ordering table |
+| ECS-120-10-36Q-AES-TR, ECS-160-10-36Q-ES-TR | ECS ECX-2236Q, 4-SMD, No Lead, `ECX-2236Q.pdf` | `crystal` / Crystal → MHz | not in the datasheet's ordering table |
+| ECS-163.84-18-33-JGN-TR | ECS ECX-32, 4-SMD, No Lead, `ecx-32.pdf` | `crystal` / Crystal → MHz | not in the datasheet's ordering table |
+| ECS-250-18-33QZ-ADS-TR | ECS ECX-33QZ, 4-SMD, No Lead, `ECX-33QZ.pdf` | `crystal` / Crystal → MHz | not in the datasheet's ordering table |
+| ECS-160-9-42-CKM-TR | ECS ECX-42, 4-SMD, No Lead, `ECX_42.pdf` | `crystal` / Crystal → MHz | not in the datasheet's ordering table |
+| ECS-110.5-18-30-JGN-TR | ECS ECX-53, 2-SMD, No Lead, `ecx-53r.pdf` | `crystal` / Crystal → MHz | not in the datasheet's ordering table |
+| ECS-120-32-4VX | ECS HC-49USSX, HC-49/US, `HC-49USS.pdf` | `crystal` / Crystal → MHz | not in the datasheet's ordering table |
+| SWS8347D16-32.768KT, SWS8347D48-32.768KT, SWS8349D16-32.768KT, SWS8349D48-32.768KT | Suntsu SWS834, 4-SOJ, 5.50mm pitch, `SWS834-Series.pdf` | `crystal` / Crystal → kHz | not in the datasheet's ordering table |

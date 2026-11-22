@@ -26,6 +26,8 @@ import os
 import re
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 FOOTPRINTS = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..',
                           'schematical', 'schematical', 'Parts', 'footprints.json')
 IDS = [f['id'] for f in json.load(open(FOOTPRINTS))['footprints']]
@@ -46,7 +48,7 @@ def code(size):
     return f'{a}X{b}' if a >= 100 else f'{a:02d}{b:02d}'
 
 
-def label(r):
+def label(r, pads=None):
     """The footprint label of a row: `<XTAL|CRES>-<body>-<pads>`, the id of a
     footprint without its maker (and variant) suffix. C and D name the ids
     `<label>-<MAKER>`; plan-44-F's generic parts and plan-44-B's pick refer to
@@ -54,8 +56,11 @@ def label(r):
     prefix = 'CRES' if r['class'] == 'resonator' else 'XTAL'
     package, size = r['package'], r['size']
     m = re.match(r'(\d)-', package)
-    pads = m.group(1) if m else {'HC-49/US - 3 Lead': '3', 'HC-49/US - 4 Lead': '4',
-                                 '1512 (3731 Metric)': '3'}.get(package, '2')
+    named = m.group(1) if m else {'HC-49/US - 3 Lead': '3', 'HC-49/US - 4 Lead': '4',
+                                  '1512 (3731 Metric)': '3'}.get(package, '2')
+    # `pads`: the pad count of the datasheet's pinout (specs.tsv), which beats the package text
+    # (ABSM3A's HC-49/US has four pads) and the three-pad `1512 (3731 Metric)` resonators.
+    pads = str(pads) if pads else named
     if package.startswith('HC-49/US'):
         body = 'HC49US'
     elif package == 'HC-49/U':
@@ -75,14 +80,25 @@ def label(r):
     return f'{prefix}-{body}-{pads}'
 
 
+def pads_of(table):
+    """row -> pad count of its spec row's pinout (None when the row has no spec row)."""
+    import specs
+    def pads(r):
+        s = table.get(specs.key(r))
+        return len(specs.pinout_items(s['pinout'])) if s and s['pinout'] else None
+    return pads
+
+
 def main():
+    import specs
     every = list(csv.DictReader(open(sys.argv[1]), delimiter='\t'))
+    pads = pads_of(specs.load())
     # After plan-44-B the rows that were added are `add`; before it, the download set.
     wanted = ('add',) if any(r['state'] == 'add' for r in every) else ('candidate', 'reserve')
     rows = [r for r in every if r['state'] in wanted]
     groups = collections.defaultdict(list)
     for r in rows:
-        groups[(letter(r), r['maker'], r['mounting'], r['package'], r['supplier_package'], r['size'])].append(r)
+        groups[(letter(r), r['maker'], r['mounting'], r['package'], r['supplier_package'], r['size'], pads(r))].append(r)
     print('# letter\tmaker\tmounting\tpackage\tsupplier package\tsize\tclasses\tparts\texample part\t'
           'example datasheet\texisting footprints with the same body size code\tlabel')
     for key in sorted(groups):
@@ -92,7 +108,8 @@ def main():
         same = [i for i in IDS if c and re.search(r'(?<!\d)' + c + r'(?!\d)', i)]
         print('\t'.join([key[0], key[1], key[2], key[3], key[4], key[5],
                          ','.join(sorted({r['class'] for r in g})), str(len(g)), ex['mpn'],
-                         ex['datasheet'], ' '.join(same), label(ex)]))
+                         ex['datasheet'], ' '.join(same), label(ex, key[6])]))
 
 
-main()
+if __name__ == '__main__':
+    main()

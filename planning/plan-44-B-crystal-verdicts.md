@@ -237,41 +237,65 @@ Commit: f87e3205
 
 Acceptance: no `add`-eligible row is obsolete; the obsolete PDFs are deleted.
   Check: `awk -F'\t' '$30==1 && $25!="out"' planning/plan-44-data/candidates.tsv \| wc -l` → 0 once each `dead` row has its verdict (a `dead` row the datasheet clears gets `dead` 0 after B has read it), and `grep -c 'plan-44' datasheets/obsolete-not-included.md` → the PDFs deleted (est. 20 min). Output 2026-11-22: `0` and `3`; `place.py --verify planning/plan-44-data/candidates.tsv` → `0 missing, 0 unused`; `scheme-check.py` → `734 rows: 700 ok, 0 unchecked`.
-Commit: —
+Commit: 0b7746de
 
 ### Phase 3 — Pinouts and terminals
 
-- [ ] Write `pinout`, `terminals`, `capacitors` on every `specs.tsv` row (§
+- [x] Write `pinout`, `terminals`, `capacitors` on every `specs.tsv` row (§
       3.3) from the PDF's pin table; adapt `census/pinout-check.py` from
-      plan-40's.
-- [ ] Run `pinout-check.py`.
+      plan-40's. Written by the readers in the same reading as Phase 1 (a
+      `label` too); the readers' unconfirmed pinouts are in Corrections 8.
+      The mix: `1=X1,2=X2` 88 rows (SMD 51, HC-49/US 17, Cylinder 15, HC-49/U 4,
+      HC-46/X 1), `1=X1,2=NC,3=X2,4=NC` 78, `1=X1,2=NC,3=NC,4=X2` 9 (SOJ 4,
+      HC-49/US 3, SMD 2), `1=X1,2=GND,3=X2` 14 (13 SMD resonators with `capacitors`
+      1, the HC-49/US ABLSG with 0), `1=X1,2=X2,3=GND` 1 (CSM-7X-3L: pad 3 is
+      case ground), one each of `1=X1,2=X2,3=NC,4=NC` (ABC2 11.8 x 5.5) and
+      `1=X1,2=NC,3=X2` (ECX-34G).
+- [x] Run `pinout-check.py`. Output: `192 rows, 0 bad`.
 
 Acceptance: every specs row has a pinout the kind will accept.
-  Check: `python3 -I planning/plan-44-data/census/pinout-check.py` → `<n> rows, 0 bad` with `<n>` = the `specs.tsv` rows (est. 5 min).
+  Check: `python3 -I planning/plan-44-data/census/pinout-check.py` → `<n> rows, 0 bad` with `<n>` = the `specs.tsv` rows (est. 5 min). Output 2026-11-22: `192 rows, 0 bad` (`awk 'END{print NR-1}' planning/plan-44-data/specs.tsv` → 192).
 Commit: —
 
 ### Phase 4 — The final pick, the skips, the prune
 
-- [ ] `census/final.py`: per (maker, class), the passing rows in rank order,
+- [x] `census/final.py`: per (maker, class), the passing rows in rank order,
       candidate rows then reserve rows, become `add` up to the quota; the rest
       stay `out` (reason `below quota`). The footprints of plan-44-F's generic
       parts (§ Decisions) are pinned: before the quota is applied, the
       most-stocked passing row of each pinned label (`footprint-lines.py`
       `label()`) is `add`, and counts against its (maker, class) quota. Print
       the shortfall per (maker, class) and record it in § Corrections.
-- [ ] Write `datasheets/skipped-parts.md` § `Crystals and resonators (plan-44)`:
+      Output: `add 600, skip 34, out (below quota) 100`; every (maker, class)
+      has its full quota (Abracon 40 / 120 / 40, ECS 40 / 134 / 26, Suntsu 40
+      / 160 / 0): **no shortfall**; the 12 pinned labels all had a passing row
+      (`XTAL-3215-2=ABS07-32.768KHZ-T`, `XTAL-2012-2=ABS06-32.768KHZ-1-T`,
+      `XTAL-1610-2=ECS-.327-12.5-16-TR`, `XTAL-CYL-2X6-2=ECS-.327-CDX-1038`,
+      `XTAL-HC49US-2=ECS-40-20-4XDN`, `XTAL-3225-2=ABM8A-40.000MHZ-D2Y-T3`,
+      `XTAL-5032-2=ABM3-8.000MHZ-B4Y-T`, `XTAL-6035-2=ABM7-8.000MHZ-D2Y-T`,
+      `CRES-3731-3=AWSCR-11.00CV-T`, `CRES-6030-3=AWSCR-8.00CPLA-C15-T4`,
+      `CRES-3213-3=ECS-CTE-12.00-33-TR`, `CRES-2520-3=AWSCR-48.00CW-T`);
+      `quota.tsv` holds A's per-class quotas.
+- [x] Write `datasheets/skipped-parts.md` § `Crystals and resonators (plan-44)`:
       one row per `skip` row group (part numbers, device, "would have gone
       into" `crystal` / Crystal → kHz | MHz | Ceramic resonator, reason: `no
       datasheet on the maker's site` with the host, `not in the datasheet's
-      ordering table`, `fact not in datasheet`).
-- [ ] Delete every PDF no `add` row uses (`place.py --prune`); rewrite
-      `datasheets/crystal/datasheets.tsv`.
-- [ ] `census/final.py --verify-skipped` (prints `<n> skip rows, 0 missing
+      ordering table`, `fact not in datasheet`). `final.py --write-skipped`:
+      `34 skip rows in 22 groups written`.
+- [x] Delete every PDF no `add` row uses (`place.py --prune`); rewrite
+      `datasheets/crystal/datasheets.tsv`. 8 PDFs deleted (ABS06-107, FC1BS,
+      ECX-1637Q, ECX-1637QZ, ECX_1247, csm-4a, csm_7, SWS834); 179 remain
+      (190 placed − 3 obsolete − 8), `127M datasheets/crystal`.
+- [x] `census/final.py --verify-skipped` (prints `<n> skip rows, 0 missing
       from skipped-parts.md`) is the check that every `skip` row is listed.
-- [ ] Regenerate `footprints-needed.txt` from the `add` rows.
+      Output: `34 skip rows, 0 missing from skipped-parts.md`.
+- [x] Regenerate `footprints-needed.txt` from the `add` rows. 94 lines (C 65
+      lines / 493 parts / 27 with no existing footprint of the body size code;
+      D 29 / 107 / 27); 50 distinct labels; `footprint-lines.py` now takes the
+      pad count from the spec row's pinout (Corrections 10).
 
 Acceptance: the pick is final, consistent and pruned.
-  Check: `awk -F'\t' '$25=="add"' planning/plan-44-data/candidates.tsv \| wc -l` → the final pick (≤ 600, shortfall recorded); `python3 -I planning/plan-44-data/census/place.py --verify` → `0 missing, 0 unused`; `python3 -I planning/plan-44-data/census/final.py --verify-skipped` → `0 missing from skipped-parts.md`; `awk -F'\t' '!/^#/' planning/plan-44-data/footprints-needed.txt \| awk -F'\t' '{s+=$8} END{print s}'` → the same number (est. 5 min).
+  Check: `awk -F'\t' '$25=="add"' planning/plan-44-data/candidates.tsv \| wc -l` → the final pick (≤ 600, shortfall recorded); `python3 -I planning/plan-44-data/census/place.py --verify` → `0 missing, 0 unused`; `python3 -I planning/plan-44-data/census/final.py --verify-skipped` → `0 missing from skipped-parts.md`; `awk -F'\t' '!/^#/' planning/plan-44-data/footprints-needed.txt \| awk -F'\t' '{s+=$8} END{print s}'` → the same number (est. 5 min). Output 2026-11-22: `600`; `0 missing, 0 unused` (with the candidates path); `34 skip rows, 0 missing from skipped-parts.md`; `600`.
 Commit: —
 
 ## Validation Plan
@@ -365,6 +389,19 @@ Commit: —
    `ABS05-32.768KHZ-X-3-T3` for its own "(NRND)" line. The rows of
    `AWSCR-MTD` stay: the ECN in `N_AWSCR-MT.pdf` retires the MT series and
    names AWSCR-MTD as its alternate; the rows are the alternate's part numbers.
+
+10. **`footprint-lines.py` takes pads from the datasheet:** `label(r, pads)`
+    and the line key use the pad count of the spec row's `pinout` (a three-pad
+    resonator, ABSM3A's four-pad HC-49/US), which beats the package text;
+    `main()` is guarded so `final.py` imports `label()`. `place.py`'s `--prune`
+    keeps `state` = `add` rows and `--verify` checks them once any exist.
+11. **No shortfall:** the reserve rows (A § 3 rule 5) refilled every skipped
+    slot; no (maker, class) is below its quota. `quota.tsv` records the quotas
+    (A's `candidate` counts per class).
+12. **The pick is 600 parts:** Abracon 200, ECS 200, Suntsu 200; by class: kHz
+    120, MHz 414, ceramic resonator 66 — the numbers of the plan's behavioral
+    outcome. 100 passing rows beyond the quota are `out` (`below quota`);
+    34 rows are `skip`; 10 rows are `out` (`obsolete`).
 
 ## Summary
 

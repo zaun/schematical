@@ -16,7 +16,7 @@ of the same name gets `-<first 6 hex of the md5 of its URL>`.
 datasheets.tsv: path, url, bytes, sha256, via (direct | archive), snapshot (the archive
 timestamp or empty), one line per URL. The copy rewrites
 `pdf` in <candidates.tsv> from the URL to the path; --verify and --prune read
-paths. `decision` (plan-44-B) is read by --prune.
+paths. plan-44-B's `state` = add rows are the ones --prune keeps (and --verify checks once any exist).
 """
 import collections
 import csv
@@ -133,7 +133,7 @@ def verify(tsv, keep):
 
 
 def decided(r):
-    return r.get("decision") == "add"
+    return r.get("state") == "add"
 
 
 def prune(tsv, keep_extra=()):
@@ -149,7 +149,9 @@ def prune(tsv, keep_extra=()):
 
 def main():
     if sys.argv[1] == "--verify":
-        sys.exit(verify(sys.argv[2], common.eligible))
+        # once plan-44-B has set `add` rows the pick is what the tree must hold
+        picked = any(r["state"] == "add" for r in read(sys.argv[2]))
+        sys.exit(verify(sys.argv[2], decided if picked else common.eligible))
     if sys.argv[1] == "--verify-add":
         sys.exit(verify(sys.argv[2], decided))
     if sys.argv[1] == "--prune":
