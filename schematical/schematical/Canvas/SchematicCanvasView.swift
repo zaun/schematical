@@ -1074,6 +1074,12 @@ private struct SchematicPartsLayer: View {
                             isSelected: document.isSelected(.chip(chip.id)),
                             isHovered: chip.id == hoveredChipID
                         )
+                    case .crystal:
+                        CrystalSymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID
+                        )
                     case .resistor:
                         ResistorSymbolView(
                             chip: chip,

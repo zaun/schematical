@@ -58,6 +58,8 @@ struct SchematicScene {
                                       mark: DiodeMark(part: chip.part))
             case .capacitor:
                 CapacitorSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
+            case .crystal:
+                CrystalSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
             case .resistor:
                 ResistorSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
             case .transistor:

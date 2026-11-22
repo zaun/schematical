@@ -172,6 +172,28 @@ nonisolated struct RegulatorInfo: Hashable, Sendable {
     let fswHz: UInt64
 }
 
+/// A crystal or ceramic resonator part's facts (plan-44-G), from the
+/// backend's `PartCrystal`. A value is 0 when not given.
+nonisolated struct CrystalInfo: Hashable, Sendable {
+    /// "crystal" or "resonator" (a ceramic resonator).
+    let type: String
+    /// The frequency in hertz.
+    let hz: UInt64
+    /// The load capacitance in femtofarads (18 pF = 18 000); 0 = series
+    /// resonant, or a resonator with built-in capacitors.
+    let loadFF: UInt64
+    /// The frequency tolerance and stability in parts per million.
+    let tolerancePPM: UInt32
+    let stabilityPPM: UInt32
+    /// The ESR (a resonator's impedance) in milliohms.
+    let esrMOhm: UInt64
+    /// A resonator with built-in load capacitors (a third, common pin).
+    let capacitors: Bool
+
+    /// "±20 ppm"; empty when not given.
+    static func ppmText(_ ppm: UInt32) -> String { ppm > 0 ? "±\(ppm) ppm" : "" }
+}
+
 nonisolated struct DisplayInfo: Hashable, Sendable {
     /// One LED: a segment of a digit (1 = leftmost), or a colon or dot LED
     /// (digit 0; segment "L1", "L2" or "L3").
@@ -484,6 +506,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// regulators (more than 1: a dual, triple or quad), its facts
         /// (`RegulatorInfo`).
         case regulator(RegulatorInfo)
+        /// A crystal or ceramic resonator (plan-44): a two-terminal
+        /// frequency reference, its facts (`CrystalInfo`).
+        case crystal(CrystalInfo)
     }
 
     let name: String
@@ -658,6 +683,15 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         return nil
     }
 
+    /// A crystal or ceramic resonator part's facts (plan-44-G); nil for every other kind.
+    var crystal: CrystalInfo? {
+        if case let .crystal(info) = details { return info }
+        return nil
+    }
+
+    /// The frequency of a crystal part, in hertz; nil for every other kind.
+    var crystalHz: UInt64? { crystal?.hz }
+
     /// The capacitance of a capacitor part; nil for every other kind.
     var capacitorFarads: Double? {
         if case let .capacitor(_, _, farads, _, _, _) = details { return farads }
@@ -746,6 +780,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
             return PartFacts.hertz(defaultHz)
         }
         if case let .characterLCD(info) = details { return "\(info.columns)×\(info.rows)" }
+        if let hz = crystalHz { return PartFacts.hertz(hz) }
         if let count, count > 0 { return "(\(count))" }
         return nil
     }
@@ -807,6 +842,10 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
             let output = outputs.isEmpty ? (info.adjustable ? ["ADJ"] : [])
                 : ["\(outputs.map { PartFacts.milli($0) }.joined(separator: "/")) V"]
             return output + (info.ioutMA > 0 ? ["\(PartFacts.milli(info.ioutMA)) A"] : [])
+        case let .crystal(info):
+            // The load capacitance and the tolerance, when the part gives them.
+            return (info.loadFF > 0 ? [CapacitorValue.text(Double(info.loadFF) / 1e15)] : [])
+                + (info.tolerancePPM > 0 ? [CrystalInfo.ppmText(info.tolerancePPM)] : [])
         }
     }
 }
@@ -1043,6 +1082,11 @@ extension CatalogPart {
                 vinMinMV: regulator.vin_min_mv, vinMaxMV: regulator.vin_max_mv,
                 dropoutMV: regulator.dropout_mv, ioutMA: regulator.iout_ma,
                 iqUA: regulator.iq_ua, fswHz: regulator.fsw_hz))
+        } else if let crystal = part.crystal?.pointee {
+            details = .crystal(CrystalInfo(
+                type: string(crystal.type), hz: crystal.hz, loadFF: crystal.load_ff,
+                tolerancePPM: crystal.tolerance_ppm, stabilityPPM: crystal.stability_ppm,
+                esrMOhm: crystal.esr_mohm, capacitors: crystal.capacitors != 0))
         } else {
             details = .supply(level: 0, mv: 0, pull: false)
         }
@@ -1329,6 +1373,11 @@ func symbol(for part: CatalogPart) -> PartSymbol {
     case PART_REGULATOR:
         // A regulator draws as a block, its pins named (plan-42-I).
         return .block
+    case PART_CRYSTAL:
+        // A crystal or resonator with its two terminals draws as the
+        // plate-rectangle-plate symbol (plan-44-G); anything else as a block.
+        return part.pins.contains(where: { $0.name == "X1" }) && part.pins.contains(where: { $0.name == "X2" })
+            ? .crystal : .block
     default: return .block
     }
 }
@@ -1840,7 +1889,7 @@ final class PartCatalogStore {
                 CategoryGroup(
                     category: category,
                     subcategories: Self.subgroups(parts, below: [category], rank: rank),
-                    functions: Self.functionGroups(parts.filter { $0.drawer.count == 1 })
+                    functions: Self.functionGroups(parts.filter { $0.drawer.count == 1 }, rank: rank)
                 )
             }
     }
@@ -1863,7 +1912,7 @@ final class PartCatalogStore {
                     ? SubcategoryGroup(subcategory: name, path: groupPath, subgroups: subgroups,
                                        functions: [], parts: byCountThenName(own, rank: rank))
                     : SubcategoryGroup(subcategory: name, path: groupPath, subgroups: subgroups,
-                                       functions: functionGroups(own))
+                                       functions: functionGroups(own, rank: rank))
             }
     }
 
@@ -1893,12 +1942,17 @@ final class PartCatalogStore {
     /// Capacitor leaves ("10 pF" … "4700 µF") go by capacitance instead
     /// (plan-33-H): the smallest `farads` of each group, ties by name; and
     /// resistor leaves ("< 1 kΩ" … "≥ 1 MΩ") by resistance (plan-34-G).
-    private static func functionGroups(_ parts: [CatalogPart]) -> [FunctionGroup] {
+    private static func functionGroups(_ parts: [CatalogPart], rank: [String: Int] = [:]) -> [FunctionGroup] {
         let groups = Dictionary(grouping: parts, by: \.drawerLeaf)
         let value: (CatalogPart) -> Double? =
             !parts.isEmpty && parts.allSatisfy({ $0.capacitorFarads != nil }) ? { $0.capacitorFarads }
             : !parts.isEmpty && parts.allSatisfy({ $0.resistorOhms != nil }) ? { $0.resistorOhms }
+            : !parts.isEmpty && parts.allSatisfy({ $0.crystalHz != nil }) ? { $0.crystalHz.map(Double.init) }
             : { _ in nil }
+        // Crystal leaves ("Under 4 MHz" … "32 MHz and over", "32 kHz" …) go
+        // by the frequency of their lowest part (plan-44-G), the parts in a
+        // leaf by frequency then name.
+        let crystals = !parts.isEmpty && parts.allSatisfy { $0.crystalHz != nil }
         let byValue = !parts.isEmpty && parts.allSatisfy { value($0) != nil }
         func smallest(_ parts: [CatalogPart]) -> Double {
             parts.compactMap(value).min() ?? 0
@@ -1912,7 +1966,14 @@ final class PartCatalogStore {
                 return $0.key.localizedStandardCompare($1.key) == .orderedAscending
             }
             .map { function, parts in
-                return FunctionGroup(function: function, parts: parts, bitGroups: bitGroups(parts))
+                let ordered = crystals
+                    ? parts.sorted {
+                        ($0.crystalHz ?? 0) != ($1.crystalHz ?? 0)
+                            ? ($0.crystalHz ?? 0) < ($1.crystalHz ?? 0)
+                            : rank[$0.name, default: 0] < rank[$1.name, default: 0]
+                    }
+                    : parts
+                return FunctionGroup(function: function, parts: ordered, bitGroups: bitGroups(parts))
             }
     }
 

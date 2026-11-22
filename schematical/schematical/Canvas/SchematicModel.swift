@@ -158,6 +158,10 @@ nonisolated enum PartSymbol: Hashable {
     /// A capacitor (plan-33): two plates; a polarized one has a curved
     /// negative plate and a `+` by its positive pin (`CapacitorSymbolView`).
     case capacitor
+    /// A crystal or ceramic resonator (plan-44): two plates with a rectangle
+    /// between them, `X1` on the left and `X2` on the right, a three-pin
+    /// resonator's `GND` pin at the bottom centre (`CrystalSymbolView`).
+    case crystal
     /// A two-terminal resistor (plan-34): a horizontal zig-zag between pin 1
     /// (left) and pin 2 (right), its value above (`ResistorSymbolView`).
     /// Resistor arrays are blocks.
@@ -298,6 +302,8 @@ nonisolated struct ChipLayout: Hashable {
             self = Self.diode(pins)
         case .capacitor, .resistor:
             self = Self.capacitor(pins)
+        case .crystal:
+            self = Self.crystal(pins)
         case .transistor:
             self = Self.transistor(pins)
         case .vcc:
@@ -633,6 +639,26 @@ nonisolated struct ChipLayout: Hashable {
         )
     }
 
+    /// A crystal or resonator (plan-44-G): `X1` on the left, `X2` on the
+    /// right, the diode's box; a pin named `GND` (a three-pin resonator's
+    /// common pin) at the bottom centre. Every other pin (the `NC` pads of a
+    /// four-pad part) is not drawn. Falls back to the block layout if a
+    /// terminal is missing.
+    private static func crystal(_ pins: [ChipPin]) -> ChipLayout {
+        guard let first = pins.first(where: { $0.name == "X1" }),
+              let second = pins.first(where: { $0.name == "X2" }) else {
+            return ChipLayout(pins: pins)
+        }
+        var slots = [
+            PinSlot(pin: first, side: .left, centerY: diodeCentreY),
+            PinSlot(pin: second, side: .right, centerY: diodeCentreY),
+        ]
+        if let ground = pins.first(where: { $0.name == "GND" }) {
+            slots.append(PinSlot(pin: ground, side: .bottom, centerY: 0, centerX: diodeSize.width / 2))
+        }
+        return ChipLayout(size: diodeSize, slots: slots)
+    }
+
     /// A transistor (plan-40-H): the base (`B`) or gate (`G`) on the left
     /// at the middle, the collector (`C`) or drain (`D`) at the top right,
     /// the emitter (`E`) or source (`S`) at the bottom right. As the diode,
@@ -960,6 +986,7 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     /// and below its body.
     var hasVerticalPins: Bool {
         symbol.hasVerticalPins || rotation == 90 || rotation == 270
+            || (symbol == .crystal && baseLayout.slots.contains { $0.side == .bottom })
     }
 
     /// The size of the part before it is flipped or turned.

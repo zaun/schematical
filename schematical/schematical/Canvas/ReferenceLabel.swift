@@ -25,6 +25,9 @@ enum ReferenceLabel {
         case .capacitor:
             // Above the polarized "+" (its top at y = 9) and the plates.
             return CGPoint(x: x, y: 6)
+        case .crystal:
+            // Above the plates (their top at y = 13), under the GND stub room.
+            return CGPoint(x: x, y: 6 + (chip.hasVerticalPins ? ChipLayout.stubLength : 0))
         case .resistor:
             // Above the value (`ResistorSymbolView`: 10 pt, centred on y = 6).
             return CGPoint(x: x, y: -1)

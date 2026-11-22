@@ -82,6 +82,7 @@ nonisolated enum ReferenceCategory: String, CaseIterable, Identifiable, Sendable
         case PART_LED: return .led
         case PART_7SEG, PART_CHARLCD, PART_NIXIE: return .display
         case PART_OSCILLATOR: return .oscillator
+        case PART_CRYSTAL: return .crystal
         case PART_SWITCH: return .switchPart
         case PART_CONNECTOR: return .femaleConnector
         case PART_HEADER:

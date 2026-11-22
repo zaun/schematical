@@ -202,6 +202,14 @@ nonisolated enum PartFacts {
                 if info.r1Milliohm > 0 { add("R1", milliohmsText(info.r1Milliohm)) }
                 if info.r2Milliohm > 0 { add("R2", milliohmsText(info.r2Milliohm)) }
             }
+        case let .crystal(info):
+            add("Type", info.type == "resonator" ? "Ceramic resonator" : "Crystal")
+            add("Frequency", hertz(info.hz))
+            if info.loadFF > 0 { add("Load capacitance", CapacitorValue.text(Double(info.loadFF) / 1e15)) }
+            add("Tolerance", CrystalInfo.ppmText(info.tolerancePPM))
+            add("Stability", CrystalInfo.ppmText(info.stabilityPPM))
+            if info.esrMOhm > 0 { add("ESR", milliohmsText(info.esrMOhm)) }
+            if info.capacitors { add("Built-in capacitors", "Yes") }
         case let .regulator(info):
             add("Type", regulatorType(info))
             if info.regulators > 1 { add("Regulators", String(info.regulators)) }
@@ -281,6 +289,7 @@ nonisolated enum PartFacts {
         case PART_GENERIC: return "Part"
         case PART_NIXIE: return "Nixie tube"
         case PART_REGULATOR: return "Voltage regulator"
+        case PART_CRYSTAL: return "Crystal"
         default: return ""
         }
     }
@@ -300,6 +309,7 @@ nonisolated enum PartFacts {
             default: break
             }
         }
+        if let info = part.crystal, info.type == "resonator" { return "Ceramic resonator" }
         if case .connector(_, _, _, _, _?) = part.details { return "USB connector" }
         if case let .converter(type, _, _) = part.details {
             switch type {

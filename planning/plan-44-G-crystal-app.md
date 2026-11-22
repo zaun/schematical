@@ -49,10 +49,10 @@ plan-44-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-44-F complete | `ls planning/completed/plan-44-F-*.md` → exists | NOT MET (2026-11-16: not started) |
-| The parts are loaded | `grep -c '^GENERIC-CRYSTAL-8M|crystal|' backend/tests/golden/parts.txt` → 1; `grep -c '|crystal|' backend/tests/golden/parts.txt` → `<add rows> + 4` | NOT MET (2026-11-16: 0) |
-| The editor's kind lists name the kind (F Phase 1) | `grep -c '"crystal"' schematical/schematical/Editor/KindSchema.swift` → at least 1 (`PartKinds.all`); `grep -c 'kind: "crystal"' schematical/schematical/Editor/KindInfo.swift` → 1; `ls schematical/schematical/Editor/CrystalDraft.swift` → exists | NOT MET (2026-11-16: 0, plan-46 not landed) |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p44-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-16 at 7108a13e: `** BUILD SUCCEEDED **`) |
+| plan-44-F complete | `ls planning/completed/plan-44-F-*.md` → exists | MET (2026-11-22: `planning/completed/plan-44-F-crystal-parts.md`) |
+| The parts are loaded | `grep -c '^GENERIC-CRYSTAL-8M|crystal|' backend/tests/golden/parts.txt` → 1; `grep -c '|crystal|' backend/tests/golden/parts.txt` → `<add rows> + 4` | MET (2026-11-22: `1` and `604`; golden line `GENERIC-CRYSTAL-8M|crystal|HC-49/US|Crystal|Generic|…|type=crystal hz=8000000 …`) |
+| The editor's kind lists name the kind (F Phase 1) | `grep -c '"crystal"' schematical/schematical/Editor/KindSchema.swift` → at least 1 (`PartKinds.all`); `grep -c 'kind: "crystal"' schematical/schematical/Editor/KindInfo.swift` → 1; `ls schematical/schematical/Editor/CrystalDraft.swift` → exists | MET (2026-11-22: `1`, `1`, `CrystalDraft.swift` exists) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p44-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-22: `** BUILD SUCCEEDED **`) |
 
 Everything below is written against the world where these hold.
 
@@ -175,54 +175,54 @@ would hide that the part is a resonator).
 
 ### Phase 1 — Details, facts, kind names, reference
 
-- [ ] `Backend/PartCatalog.swift`: `CrystalInfo`, `Details.crystal`, the
+- [x] `Backend/PartCatalog.swift`: `CrystalInfo`, `Details.crystal`, the
       builder branch, `crystal` / `crystalHz`, `detailLabels`, `trailingLabel`.
-- [ ] `Backend/PartFacts.swift`: the facts rows, `kindName(_ kind:)` and
+- [x] `Backend/PartFacts.swift`: the facts rows, `kindName(_ kind:)` and
       `kindName(_ part:)`.
-- [ ] `Preferences/ReferencePrefixes.swift`: `of(_:)` (if absent).
-- [ ] Tests: `schematicalTests/CrystalTests.swift` (from `ResistorTests`):
+- [x] `Preferences/ReferencePrefixes.swift`: `of(_:)` (if absent).
+- [x] Tests: `schematicalTests/CrystalTests.swift` (from `ResistorTests`):
       `GENERIC-CRYSTAL-8M` kind name, facts and trailing label; the resonator's
       name and its Built-in capacitors row; `ReferenceCategory.of` → `.crystal`
       and the lowest free `Y<n>`.
 
 Acceptance: the facts, names and reference are right on the real catalog.
-  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p44-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/CrystalTests` → `** TEST SUCCEEDED **` (est. 8 min: build + one test class).
+  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p44-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/CrystalTests` → `** TEST SUCCEEDED **` (est. 8 min: build + one test class). Output 2026-11-22: `Executed 7 tests, with 0 failures`, `** TEST SUCCEEDED **` (`testPlacingTheGenericCrystal`, `testReferences`, `testTheGenericResonator`, `testCatalogFacts`, `testLayout`, `testRendering`, `testDrawerOrder`).
 Commit: —
 
 ### Phase 2 — The symbol
 
-- [ ] `Canvas/SchematicModel.swift`: `PartSymbol.crystal` and
+- [x] `Canvas/SchematicModel.swift`: `PartSymbol.crystal` and
       `ChipLayout.crystal(_:)` (§ 3); `Backend/PartCatalog.swift`
       `symbol(for:)`.
-- [ ] `Canvas/CrystalSymbolView.swift` (§ 3); the three switch sites
+- [x] `Canvas/CrystalSymbolView.swift` (§ 3); the three switch sites
       (`SchematicCanvasView`, `SchematicExportScene`, `ReferenceLabel`).
-- [ ] Tests (`CrystalTests`): `symbol(for:)` `.crystal` for both generics and
+- [x] Tests (`CrystalTests`): `symbol(for:)` `.crystal` for both generics and
       for a catalog crystal; the layout puts `X1` left, `X2` right, `GND` at
       the bottom centre of the resonator and draws no `NC` pin of a four-pad
       part; a placed part renders (an image of the export scene is not empty).
 
 Acceptance: crystals draw as crystals.
-  Check: `xcodebuild … test -only-testing:schematicalTests/CrystalTests` → `** TEST SUCCEEDED **` (est. 8 min).
+  Check: `xcodebuild … test -only-testing:schematicalTests/CrystalTests` → `** TEST SUCCEEDED **` (est. 8 min). Output 2026-11-22: as Phase 1 (the layout test runs over the 471 drawer-visible crystal-kind parts: X1 left, X2 right, no `NC`, `GND` at the bottom centre where there is one; the render test: the export scene's bounds are over 40 × 14 pt for the generic crystal, the resonator and a four-pad part).
 Commit: —
 
 ### Phase 3 — Drawer order, the harness
 
-- [ ] `Backend/PartCatalog.swift` `functionGroups`: the `crystalHz` value
+- [x] `Backend/PartCatalog.swift` `functionGroups`: the `crystalHz` value
       order and the within-leaf order (§ 3).
-- [ ] `scripts/harness/crystal-app.swift` (from `transistor-app.swift`): the
+- [x] `scripts/harness/crystal-app.swift` (from `transistor-app.swift`): the
       checks of § 1 on the app's real catalog, document and
       `SimulationController`; two 0.6 s runs: `GENERIC-CRYSTAL-32768` terminal 1
       → `SN74HC04N` 1A (VCC on 14, GND on 7) → 1Y → `GENERIC-RESISTOR` →
       `GENERIC-LED` → GND: the LED is lit; the same circuit with 1A on
       `PULLUP-5V` instead of the crystal (constant 1, output 0): the LED is
       dark. Renders a placed crystal, a resonator and a four-pad part to
-      `/tmp`.
-- [ ] Tests: `DrawerPerformanceTests` and `PartEditorWindowTests` stay green;
+      `/tmp`. Output: `all checks ok` (below).
+- [x] Tests: `DrawerPerformanceTests` and `PartEditorWindowTests` stay green;
       `CrystalTests` gains the drawer order (the `MHz` leaves in band order,
       a leaf's parts in frequency order).
 
 Acceptance: the drawer, the sidebar and the play-mode outcome work end to end.
-  Check: `rm -rf /tmp/p44-harness && APP=/tmp/p44-dd/Build/Products/Debug/schematical.app scripts/harness/build.sh scripts/harness/crystal-app.swift /tmp/p44-harness && /tmp/p44-harness/H.app/Contents/MacOS/harness` → every line `ok`, exit 0; and `xcodebuild … test -only-testing:schematicalTests/CrystalTests -only-testing:schematicalTests/DrawerPerformanceTests -only-testing:schematicalTests/PartEditorWindowTests` → `** TEST SUCCEEDED **` (est. 15 min: app build, harness, three test classes).
+  Check: `rm -rf /tmp/p44-harness && APP=/tmp/p44-dd/Build/Products/Debug/schematical.app scripts/harness/build.sh scripts/harness/crystal-app.swift /tmp/p44-harness && /tmp/p44-harness/H.app/Contents/MacOS/harness` → every line `ok`, exit 0; and `xcodebuild … test -only-testing:schematicalTests/CrystalTests -only-testing:schematicalTests/DrawerPerformanceTests -only-testing:schematicalTests/PartEditorWindowTests` → `** TEST SUCCEEDED **` (est. 15 min: app build, harness, three test classes). Output 2026-11-22: harness: `ok   1 drawer: Crystal → kHz ["32 kHz", "32.768 kHz"]; MHz ["Under 4 MHz", "4 MHz to 8 MHz", "8 MHz to 16 MHz", "16 MHz to 32 MHz", "32 MHz and over"]; Ceramic resonator ["Under 4 MHz", "4 MHz to 8 MHz", "8 MHz to 16 MHz", "16 MHz and over"]; Generic ["Generic"]`, `crystal parts in the drawer: 471`, `ok   1 each leaf's parts are in frequency order`, three `ok   2 …` lines (GENERIC-CRYSTAL-8M "Crystal", GENERIC-RESONATOR-8M "Ceramic resonator" with `Built-in capacitors: Yes`, ABS07-32.768KHZ-T with `Load capacitance: 12.5 pF`, `Tolerance: ±20 ppm`, `ESR: 70 kΩ`), `ok   3 GENERIC-CRYSTAL-8M placed: Y1 on HC-49/US`, `GENERIC-CRYSTAL-32768 → SN74HC04N → R → LED: light 0.49989590194328093` / `ok   4 … the LED lights`, `PULLUP-5V → … light 0.0` / `ok   4 … the LED stays dark`, `ok   5 images written`, `all checks ok`, exit 0; xcodebuild: `Executed 22 tests, with 0 failures`, `** TEST SUCCEEDED **`.
 Commit: —
 
 ## Validation Plan
@@ -250,6 +250,24 @@ Commit: —
   and resonators; the sidebar's kind name, not the symbol, says which it is.
 
 ## Corrections
+
+1. **A resonator's `GND` pin needs stub room:** `PlacedChip.hasVerticalPins` is
+   now also true for a crystal whose layout has a bottom pin, so its frame has
+   the stub room above and below that supplies and turned parts get
+   (`symbolFrameSize`, `symbolPoint`'s inset); `ReferenceLabel.anchor` adds the
+   stub for it. A crystal does not rotate (`canRotate` is unchanged).
+2. **`functionGroups(_:rank:)`** takes the drawer's name rank (default empty) to
+   order a crystal leaf's parts by frequency then name; the two call sites pass it.
+3. **`DrawerPerformanceTests.testPartsAreInNaturalOrder`** expects a leaf whose parts
+   are all crystals by (frequency, name) instead of by name: the plan's drawer order.
+4. **`TestSupport.allParts` follows the drawer's default filter**, which hides the
+   133 AEC-Q200 (`automotive`) parts: `CrystalTests.testLayout` covers 471 of the 604.
+5. **The tolerance text is ppm for every part:** a ceramic resonator's 0.5 % reads
+   `±5000 ppm` (plan-44-B Corrections 3 converted DigiKey's percentages).
+6. **The symbol:** two plates 16 pt apart with an 8 × 14 pt rectangle between them,
+   a 5 pt gap from the plate to the rectangle; the GND lead from the rectangle to the
+   body's bottom edge and the frequency beside it (read from the rendered
+   `/tmp/p44-symbols.png`).
 
 ## Summary
 
