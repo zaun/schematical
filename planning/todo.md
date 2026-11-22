@@ -87,7 +87,8 @@
       microcontrollers need a `simulated` property set to false. When any
       are added to a schematic the "play" button should be disabled. (plan-36)
 - [ ] Add the 555 timer and common op-amps (LM358, TL07x…). (plan-48 written, not built)
-- [ ] Add crystals and resonators (oscillators exist, crystals don't). (plan-44 written, not built)
+- [x] Add crystals and resonators (oscillators exist, crystals don't). (plan-44:
+      Abracon, ECS, Suntsu; SAW, overtone and thermistor parts out of scope)
 - [ ] Add inductors, fuses / polyfuses, relays and buzzers. (plan-47 written, not built)
 - [ ] Add screw terminals and JST-XH/PH connectors (check what the 222
       existing connectors already cover first). (plan-45 written, not built)
@@ -178,7 +179,7 @@ added. One item per family; 248 parts in all.
 - [ ] amplifier: 13 parts.
 - [ ] transceiver: 12 parts.
 - [ ] sensor: 10 parts.
-- [ ] crystal: 8 parts.
+- [ ] crystal: 7 parts.
 - [ ] driver: 8 parts.
 - [ ] electromechanical: 6 parts.
 - [ ] rf-passive: 5 parts.
