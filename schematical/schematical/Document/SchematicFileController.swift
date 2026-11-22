@@ -74,6 +74,26 @@ final class SchematicFileController {
         self.willReplaceDocument = willReplaceDocument
         self.savedSnapshot = SchematicFile(document: document, fileURL: nil)
         Self.all.add(self)
+        // A User Library part edited in place reaches every open window
+        // (plan-53-D).
+        catalog.partUpdated = { uuid, part in
+            Self.updateOpenDocuments(uuid: uuid, to: part, catalog: catalog)
+        }
+    }
+
+    /// Every open window whose schematic places the custom part `uuid` (of
+    /// `catalog`) switches to `newPart`: its simulation is stopped first, then
+    /// `SchematicDocument.updatePart` swaps the chips. Returns how many
+    /// windows changed.
+    @discardableResult
+    static func updateOpenDocuments(uuid: String, to newPart: CatalogPart, catalog: PartCatalogStore) -> Int {
+        var changed = 0
+        for controller in all.allObjects where controller.catalog === catalog {
+            guard controller.document.chips.contains(where: { $0.part.uuid == uuid }) else { continue }
+            controller.willReplaceDocument()
+            if controller.document.updatePart(uuid: uuid, to: newPart) { changed += 1 }
+        }
+        return changed
     }
 
     /// Asks about each open window with unsaved changes, one at a time.

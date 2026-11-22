@@ -920,11 +920,14 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     /// symbol, origin, flip, board placement, gender, memory file and
     /// Display Reference are kept. The footprint is the new part's choice with the same package as
     /// the current one (`Straight` stays `Straight`), else its default.
-    func resized(to newPart: CatalogPart) -> PlacedChip {
+    /// `symbol` replaces the chip's symbol (a part updated in place may draw
+    /// differently, plan-53-D); a flip is kept only where the symbol can flip.
+    func resized(to newPart: CatalogPart, symbol newSymbol: PartSymbol? = nil) -> PlacedChip {
         let package = footprintChoice?.package
         let footprint = newPart.footprintChoices.first { $0.package == package }?.footprint.id
+        let symbol = newSymbol ?? self.symbol
         var chip = PlacedChip(id: id, reference: reference, part: newPart, symbol: symbol, origin: origin,
-                              isFlipped: isFlipped, rotation: rotation, switchesOn: switchesOn, board: board,
+                              isFlipped: isFlipped && symbol.canFlip, rotation: rotation, switchesOn: switchesOn, board: board,
                               memoryFile: memoryFile, color: color, footprintID: footprint, gender: gender,
                               ohms: ohms, farads: farads)
         chip.showsReference = showsReference
@@ -2142,28 +2145,55 @@ final class SchematicDocument {
             guard let index = chips.firstIndex(where: { $0.id == id }),
                   chips[index].part.kind == PART_HEADER, newPart.kind == PART_HEADER,
                   chips[index].part != newPart else { return }
-            let old = chips[index]
-            let pad1 = old.part.firstPinDesignator
-            let anchor = old.board.flatMap { board in
-                old.footprint?.pads.first { $0.designator == pad1 }.map { board.board($0.centre) }
-            }
-            let pinCount = newPart.pins.count
-            loosen { end in
-                if case let .pin(ref) = end { return ref.chipID == id && ref.index >= pinCount }
-                return false
-            }
-            chips[index] = old.resized(to: newPart)
-            // The reference was placed for the old body.
-            chips[index].board?.referenceOffset = .zero
-            if let anchor, var board = chips[index].board,
-               let pad = chips[index].footprint?.pads.first(where: { $0.designator == pad1 }) {
-                let landed = board.board(pad.centre)
-                board.centre.x += anchor.x - landed.x
-                board.centre.y += anchor.y - landed.y
-                chips[index].board = board
-            }
-            settleWires(attachedTo: id)
+            swapPart(of: id, to: newPart)
         }
+    }
+
+    /// Puts chip `id` on `newPart` (a header's new size, or a library part
+    /// updated in place): wires on pins the new part lacks stay with loose
+    /// ends at those pins' old tips, the chip keeps its reference, origin,
+    /// flip, options and board placement, on the PCB pad 1 keeps its board
+    /// point, and the rest of the wires are re-fitted. Not recorded: callers
+    /// wrap it in `recordEdit` or clear the history.
+    private func swapPart(of id: UUID, to newPart: CatalogPart, symbol newSymbol: PartSymbol? = nil) {
+        guard let index = chips.firstIndex(where: { $0.id == id }) else { return }
+        let old = chips[index]
+        let pad1 = old.part.firstPinDesignator
+        let anchor = old.board.flatMap { board in
+            old.footprint?.pads.first { $0.designator == pad1 }.map { board.board($0.centre) }
+        }
+        let pinCount = newPart.pins.count
+        loosen { end in
+            if case let .pin(ref) = end { return ref.chipID == id && ref.index >= pinCount }
+            return false
+        }
+        chips[index] = old.resized(to: newPart, symbol: newSymbol)
+        // The reference was placed for the old body.
+        chips[index].board?.referenceOffset = .zero
+        if let anchor, var board = chips[index].board,
+           let pad = chips[index].footprint?.pads.first(where: { $0.designator == pad1 }) {
+            let landed = board.board(pad.centre)
+            board.centre.x += anchor.x - landed.x
+            board.centre.y += anchor.y - landed.y
+            chips[index].board = board
+        }
+        settleWires(attachedTo: id)
+    }
+
+    /// Every chip of the custom part `uuid` becomes `newPart` (plan-53-D: a
+    /// User Library part edited in place). Wires on pins the new version lacks
+    /// become loose ends. Not undoable, and the undo history ends here: its
+    /// older steps hold chips of the old version, while the simulation and the
+    /// voltage check find a chip's part by name, which now is the new one.
+    /// Returns whether any chip was on the part.
+    @discardableResult
+    func updatePart(uuid: String, to newPart: CatalogPart) -> Bool {
+        let ids = chips.filter { $0.part.uuid == uuid }.map(\.id)
+        guard !ids.isEmpty else { return false }
+        let symbol = schematical.symbol(for: newPart)
+        for id in ids { swapPart(of: id, to: newPart, symbol: symbol) }
+        history.clear()
+        return true
     }
 
     /// Sets the resistance of a pull resistor or `GENERIC-RESISTOR`

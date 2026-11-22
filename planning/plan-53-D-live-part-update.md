@@ -266,17 +266,17 @@ Commit: ef375f61
 
 Acceptance: an update takes effect in the catalog and on disk at once, and every failure leaves the old version. **MET** (`xcodebuild test … -only-testing:schematicalTests/UserLibraryUpdateTests` → `Executed 8 tests, with 0 failures`, `** TEST SUCCEEDED **`; the `partUpdated` closure is set by `SchematicFileController` in Phase 3)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/UserLibraryUpdateTests` → `** TEST SUCCEEDED **` (est. 5–10 min; the app and backend build first).
-Commit: —
+Commit: b8902216
 
 ### Phase 3 — Open schematics follow
 
-- [ ] `SchematicModel.swift`: the shared helper lifted out of `setHeaderSize`; `updatePart(uuid:to:)` (§ 3). `setHeaderSize` calls the helper and is otherwise unchanged.
-- [ ] `SchematicFileController.swift`: `static func updateOpenDocuments(uuid:to:)` (§ 3), and the store's `partUpdated` closure set to it.
-- [ ] `schematicalTests/UserLibraryUpdateTests.swift`: with two documents and their controllers (as `KiCadExportTests` builds one), each placing the part, one with a wire on pin 1 and a wire on pin 3: after an update to a version with 2 pins both documents' chips are the new `CatalogPart`, the pin-1 wire is still on the chip, the pin-3 wire's end is a loose junction at its old point, `canUndo` is false in both, and the `willReplaceDocument` closure ran once for each; a third document without the part is untouched (same chips, undo history kept); the chip's id, reference, origin and board placement are kept; after an update to a version whose footprint has other pads the chip's pad 1 sits where it did; `setHeaderSize` behavior is unchanged (the three header test classes above).
+- [x] `SchematicModel.swift`: the shared helper lifted out of `setHeaderSize`; `updatePart(uuid:to:)` (§ 3). `setHeaderSize` calls the helper and is otherwise unchanged.
+- [x] `SchematicFileController.swift`: `static func updateOpenDocuments(uuid:to:)` (§ 3), and the store's `partUpdated` closure set to it.
+- [x] `schematicalTests/UserLibraryUpdateTests.swift`: with two documents and their controllers (as `KiCadExportTests` builds one), each placing the part, one with a wire on pin 1 and a wire on pin 3: after an update to a version with 2 pins both documents' chips are the new `CatalogPart`, the pin-1 wire is still on the chip, the pin-3 wire's end is a loose junction at its old point, `canUndo` is false in both, and the `willReplaceDocument` closure ran once for each; a third document without the part is untouched (same chips, undo history kept); the chip's id, reference, origin and board placement are kept; after an update to a version whose footprint has other pads the chip's pad 1 sits where it did; `setHeaderSize` behavior is unchanged (the three header test classes above).
 
-Acceptance: open documents show the new version at once, wires on vanished pins are loose, and unrelated documents are untouched.
+Acceptance: open documents show the new version at once, wires on vanished pins are loose, and unrelated documents are untouched. **MET** (`xcodebuild test … UserLibraryUpdateTests LooseEndTests SchematicUndoTests ReferencePositionTests` → `Executed 91 tests, with 0 failures`, `** TEST SUCCEEDED **`)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/UserLibraryUpdateTests -only-testing:schematicalTests/LooseEndTests -only-testing:schematicalTests/SchematicUndoTests -only-testing:schematicalTests/ReferencePositionTests` → `** TEST SUCCEEDED **` (est. 8–15 min; the last three are the tests that call `setHeaderSize` — `grep -rln setHeaderSize schematical/schematicalTests` → `ReferencePositionTests`, `SchematicUndoTests`, `LooseEndTests` — and cover the helper it now shares).
-Commit: —
+Commit: (this commit)
 
 ## Validation Plan
 

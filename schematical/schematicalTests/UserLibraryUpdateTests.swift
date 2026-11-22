@@ -190,4 +190,114 @@ final class UserLibraryUpdateTests: XCTestCase {
         XCTAssertEqual(calls.first?.0, uuid)
         XCTAssertEqual(calls.first?.1, "Changed")
     }
+
+    // MARK: Phase 3 — open schematics follow
+
+    /// A generic part file with `pins` pins on a bundled footprint with as many
+    /// pads (two versions of one part differ in pin count).
+    private func genericText(_ uuid: String, _ name: String, pins: Int) throws -> String {
+        var draft = PartDraft(newOf: "generic")
+        draft.uuid = uuid
+        draft.name = name
+        draft.function = "Sensor"
+        draft.description = "A \(pins)-pin part"
+        draft.package = "SOT-23"
+        draft.pinouts[0].pins = (1...pins).map { PinDraft(designator: "\($0)", name: "P\($0)", role: "inout") }
+        draft.footprint = try XCTUnwrap(PartValidator.shared.footprints.first { $0.pads.count == pins }).id
+        return try PartFileObject(text: draft.fileText()).canonicalText
+    }
+
+    private final class StopCounter { var count = 0 }
+
+    private static var keptControllers: [SchematicFileController] = []
+
+    private func controller(_ doc: SchematicDocument, _ store: PartCatalogStore,
+                            stops: StopCounter) -> SchematicFileController {
+        let controller = SchematicFileController(document: doc, catalog: store, willReplaceDocument: { stops.count += 1 })
+        Self.keptControllers.append(controller)
+        return controller
+    }
+
+    private func place(_ doc: SchematicDocument, _ part: CatalogPart, at point: CGPoint) throws -> PlacedChip {
+        doc.placeChip(part: part, symbol: symbol(for: part), centeredAt: point)
+        return try XCTUnwrap(doc.chips.last)
+    }
+
+    func testOpenDocumentsFollowAnUpdate() throws {
+        let store = makeStore()
+        let uuid = "E1000000-0000-4000-8000-000000000001"
+        let v1 = try store.addToUserLibrary(fileText: try genericText(uuid, "UP-GEN", pins: 5), source: "g")
+        XCTAssertEqual(v1.pins.count, 5)
+
+        // Two documents place the part; one has wires on its pins 1 and 5.
+        let stopsA = StopCounter(), stopsB = StopCounter(), stopsC = StopCounter()
+        let docA = TestSupport.newDocument(), docB = TestSupport.newDocument(), docC = TestSupport.newDocument()
+        _ = controller(docA, store, stops: stopsA)
+        _ = controller(docB, store, stops: stopsB)
+        _ = controller(docC, store, stops: stopsC)
+        let chipA = try place(docA, v1, at: CGPoint(x: 200, y: 200))
+        let other = try TestSupport.place(docA, "SN74HC00N", at: CGPoint(x: 500, y: 200))
+        let pin1 = PinRef(chipID: chipA.id, index: 0), pin5 = PinRef(chipID: chipA.id, index: 4)
+        XCTAssertNil(docA.connect(.pin(pin1), .pin(try TestSupport.pin(other, "1A"))))
+        let wire1 = try XCTUnwrap(docA.wires.last?.id)
+        XCTAssertNil(docA.connect(.pin(pin5), .pin(try TestSupport.pin(other, "1B"))))
+        let wire5 = try XCTUnwrap(docA.wires.last?.id)
+        let tip5 = try XCTUnwrap(docA.pinTip(pin5))
+        let chipB = try place(docB, v1, at: CGPoint(x: 300, y: 300))
+        _ = try TestSupport.place(docC, "SN74HC00N", at: CGPoint(x: 100, y: 100))
+        let chipsC = docC.chips.map(\.id)
+        XCTAssertNotNil(docA.undoName(on: .schematic))
+
+        let v2 = try store.updateUserLibraryPart(uuid: uuid, fileText: try genericText(uuid, "UP-GEN", pins: 3))
+        XCTAssertEqual(v2.pins.count, 3)
+
+        // Both documents that place the part now hold the new version.
+        let newA = try XCTUnwrap(docA.chips.first { $0.id == chipA.id })
+        XCTAssertEqual(newA.part.pins.count, 3)
+        XCTAssertEqual(newA.part.description, "A 3-pin part")
+        XCTAssertEqual(docB.chips.first { $0.id == chipB.id }?.part.pins.count, 3)
+        // The chip keeps its identity and place.
+        XCTAssertEqual(newA.reference, chipA.reference)
+        XCTAssertEqual(newA.origin, chipA.origin)
+        // The wire on pin 1 is still on the chip; the one on pin 5 ends loose at its old tip.
+        let w1 = try XCTUnwrap(docA.wires.first { $0.id == wire1 })
+        XCTAssertTrue([w1.start, w1.end].contains(.pin(pin1)))
+        let w5 = try XCTUnwrap(docA.wires.first { $0.id == wire5 })
+        let loose = [w5.start, w5.end].compactMap { end -> Junction? in
+            if case let .junction(id) = end { return docA.junctions.first { $0.id == id } }
+            return nil
+        }
+        XCTAssertEqual(loose.count, 1)
+        XCTAssertEqual(loose.first?.isLoose, true)
+        XCTAssertEqual(loose.first?.point, tip5)
+        // The undo history ends at the update; each affected window's simulation was stopped once.
+        XCTAssertNil(docA.undoName(on: .schematic))
+        XCTAssertNil(docB.undoName(on: .schematic))
+        XCTAssertEqual(stopsA.count, 1)
+        XCTAssertEqual(stopsB.count, 1)
+        // A document without the part is untouched.
+        XCTAssertEqual(stopsC.count, 0)
+        XCTAssertEqual(docC.chips.map(\.id), chipsC)
+        XCTAssertNotNil(docC.undoName(on: .schematic))
+    }
+
+    func testTheUpdatedChipKeepsItsBoardPad1() throws {
+        let store = makeStore()
+        let uuid = "E2000000-0000-4000-8000-000000000001"
+        let v1 = try store.addToUserLibrary(fileText: try genericText(uuid, "UP-GEN2", pins: 5), source: "g")
+        let doc = TestSupport.newDocument()
+        _ = controller(doc, store, stops: StopCounter())
+        let chip = try place(doc, v1, at: CGPoint(x: 200, y: 200))
+        let board = try XCTUnwrap(chip.board, "a placed part has a board placement")
+        let pad1 = try XCTUnwrap(chip.footprint?.pads.first { $0.designator == chip.part.firstPinDesignator })
+        let before = board.board(pad1.centre)
+
+        try store.updateUserLibraryPart(uuid: uuid, fileText: try genericText(uuid, "UP-GEN2", pins: 3))
+        let after = try XCTUnwrap(doc.chips.first { $0.id == chip.id })
+        XCTAssertNotEqual(after.footprint?.id, chip.footprint?.id)
+        let newPad1 = try XCTUnwrap(after.footprint?.pads.first { $0.designator == after.part.firstPinDesignator })
+        let landed = try XCTUnwrap(after.board).board(newPad1.centre)
+        XCTAssertEqual(landed.x, before.x, accuracy: 0.001)
+        XCTAssertEqual(landed.y, before.y, accuracy: 0.001)
+    }
 }
