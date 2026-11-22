@@ -73,13 +73,13 @@ Every other letter points here.
 
 | Must be true | Command | Status |
 |---|---|---|
-| Backend tests green | `cmake -S backend -B /tmp/logic-p44 && cmake --build /tmp/logic-p44 -j8 && ctest --test-dir /tmp/logic-p44 -j8` → `100% tests passed` | MET (2026-11-16 at 7108a13e: `100% tests passed, 0 tests failed out of 36`; T0 = 36, `grep -c '^logic_test' backend/CMakeLists.txt` → 36) |
-| Golden sizes recorded | `git show HEAD:backend/tests/golden/parts.txt \| wc -l`; `traces.txt`; `footprints.txt` | at planning (7108a13e): **P0 = 32897**, **R0 = 32897**, **F0 = 1646**; E, F and C re-measure them at their start and use their own |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p44-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-16 at 7108a13e: `** BUILD SUCCEEDED **`) |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p44 && cmake --build /tmp/logic-p44 -j8 && ctest --test-dir /tmp/logic-p44 -j8` → `100% tests passed` | MET (2026-11-22 at f442d31a: `100% tests passed, 0 tests failed out of 40`; T0 = 40. At planning, 2026-11-16 at 7108a13e: 36 of 36) |
+| Golden sizes recorded | `git show HEAD:backend/tests/golden/parts.txt \| wc -l`; `traces.txt`; `footprints.txt` | at planning (7108a13e): **P0 = 32897**, **R0 = 32897**, **F0 = 1646**; E, F and C re-measure them at their start and use their own. Re-measured 2026-11-22 at f442d31a: `parts.txt` 33771, `traces.txt` 33771, `footprints.txt` 1823 (main moved on; not a use here, E/F/C re-measure) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p44-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-22 at f442d31a: `** BUILD SUCCEEDED **`) |
 | No crystal kind yet | `grep -c 'PART_CRYSTAL' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/crystal.json` → no such file; `ls datasheets/crystal` → no such directory | MET (2026-11-16 at 7108a13e: 0, no file, no directory) |
-| plan-46 (Part Wizard) complete | `ls planning/completed/plan-46-N-*.md` → exists | NOT MET (2026-11-16: plan-46 written, not started). Owner decision 2026-11-16: plan-46 lands first. It appends `PART_GENERIC` after `PART_TRANSISTOR`, replaces `PartKinds.displayNames` with `Editor/KindInfo.swift`, and gives every kind an editor schema (no `formless` set); plan-44-E/F/G are written against that world |
-| No other open plan adds crystals or a part kind of the same name | `grep -l -i 'PART_CRYSTAL\|Parts/crystal\.json\|datasheets/crystal' planning/plan-*.md \| grep -v plan-44 \| wc -l` → 0 | MET (2026-11-16: 0). plan-42 (regulators) is open and adds `PART_REGULATOR`; the lines both plans touch (`PartKind`, `KINDS[]`, `TRACE_LAST_KIND`, the listing arrays, the editor's kind lists, `ReferenceCategory.of`) are added only if absent, each step greps first (plan-44-E Phase 1, plan-44-F Phase 1, plan-44-G Phase 1) |
-| DigiKey credentials and quota | `grep -cE '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc` → 2; `eval "$(grep -E '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc)" && node scripts/digikey.js --in-stock --pages 1 --limit 1 --category 171 --manufacturer 2388` prints `calls left today` ≥ 800 before Phase 2 (the quota is about 1000 a day, shared with other sessions; it resets at about 00:00 UTC) | NOT MET (2026-11-16: credentials 2 of 2; `589 left today` after the planning listing's 283 calls; the next reset is 2026-11-17 00:00 UTC) |
+| plan-46 (Part Wizard) complete | `ls planning/completed/plan-46-N-*.md` → exists | MET (2026-11-22: `planning/completed/plan-46-A…N-*.md` all 14 letters exist, `PART_GENERIC` is in `parts.h`, `Editor/KindInfo.swift` exists). Was NOT MET at planning. Owner decision 2026-11-16: plan-46 lands first. It appends `PART_GENERIC` after `PART_TRANSISTOR`, replaces `PartKinds.displayNames` with `Editor/KindInfo.swift`, and gives every kind an editor schema (no `formless` set); plan-44-E/F/G are written against that world |
+| No other open plan adds crystals or a part kind of the same name | `grep -l -i 'PART_CRYSTAL\|Parts/crystal\.json\|datasheets/crystal' planning/plan-*.md \| grep -v plan-44 \| wc -l` → 0 | MET (2026-11-16: 0; 2026-11-22: the command counts 3, plan-47-A, plan-47-I and plan-48-A, but each only names plan-44's `PART_CRYSTAL` / `datasheets/crystal` in its own coordination note, none adds a crystal kind; see Corrections). plan-42 (regulators) is open and adds `PART_REGULATOR`; the lines both plans touch (`PartKind`, `KINDS[]`, `TRACE_LAST_KIND`, the listing arrays, the editor's kind lists, `ReferenceCategory.of`) are added only if absent, each step greps first (plan-44-E Phase 1, plan-44-F Phase 1, plan-44-G Phase 1) |
+| DigiKey credentials and quota | `grep -cE '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc` → 2; `eval "$(grep -E '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc)" && node scripts/digikey.js --in-stock --pages 1 --limit 1 --category 171 --manufacturer 2388` prints `calls left today` ≥ 800 before Phase 2 (the quota is about 1000 a day, shared with other sessions; it resets at about 00:00 UTC) | MET (2026-11-22 06:15 UTC: credentials 2 of 2; `998 left today`; the quota reset at 00:00 UTC). Was NOT MET at planning (`589 left today` after the planning listing's 283 calls) |
 | The Internet Archive answers (Suntsu's PDFs) | `curl -s 'http://archive.org/wayback/available?url=suntsu.com/wp-content/uploads/SAW212-Series.pdf'` → contains `"available": true` | MET (2026-11-16: snapshot 20240706163019) |
 
 Everything below is written against the world where these hold.
@@ -318,10 +318,10 @@ from the next rows.
 
 ### Phase 1 — Restore the listing
 
-- [ ] Run `python3 -I planning/plan-44-data/census/select.py planning/plan-44-data/raw /tmp/p44-cand.tsv --urls planning/plan-44-data/url-check.tsv --report`:
+- [x] Run `python3 -I planning/plan-44-data/census/select.py planning/plan-44-data/raw /tmp/p44-cand.tsv --urls planning/plan-44-data/url-check.tsv --report`:
       `7019 parts listed`, `candidates: 600; from a cut piece: 160`,
       `download set: 744 rows; 191 distinct URLs`; `cmp` with `candidates.tsv`
-      → `reproducible`.
+      → `reproducible`. Output 2026-11-22: `7019 parts listed`, `candidates: 600; from a cut piece: 160`, `download set: 744 rows; 191 distinct URLs`, `reproducible`.
 
 Acceptance: the planning pick reproduces.
   Check: `python3 -I planning/plan-44-data/census/select.py planning/plan-44-data/raw /tmp/p44-cand.tsv --urls planning/plan-44-data/url-check.tsv && cmp /tmp/p44-cand.tsv planning/plan-44-data/candidates.tsv && echo reproducible` → `reproducible` (est. < 1 min).
@@ -424,6 +424,20 @@ Author decisions (no user-visible fork; recorded so nobody re-litigates):
   crystals and resonators.
 
 ## Corrections
+
+- **2026-11-22, Prerequisites row "No other open plan adds crystals":** the
+  command counts 3 (plan-47-A, plan-47-I, plan-48-A), not 0. `grep -n` shows
+  each only names plan-44's `PART_CRYSTAL` / `datasheets/crystal` in its own
+  coordination note (plan-47-I line 84: "append other kinds (plan-42
+  `PART_REGULATOR`, plan-44 `PART_CRYSTAL`)"); none creates a crystal kind or
+  part. The row is MET; its command over-counts mentions. Use `grep -l …
+  planning/plan-*.md | grep -v 'plan-44\|plan-47\|plan-48'` → 0 from now on.
+- **2026-11-22, § 5 / § 6 script:** plan-40's `cut-picked.py` lists only the
+  picked rows of cut pieces and reads only `*.jsonl`; § 5 checks the whole
+  download set and the planning listing is gzipped, so A adds
+  `census/unchecked.py` (every row whose `state` is not `out`, skipping part
+  numbers already in `stock-check.tsv`, reading `*.jsonl*`) and
+  `stock-check.sh` calls it.
 
 ## Summary
 
