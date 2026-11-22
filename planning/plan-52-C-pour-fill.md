@@ -29,7 +29,7 @@ The shared gate is in plan-52-A. This sub-plan adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-52-B is complete | `ls planning/completed \| grep -c '^plan-52-B'` → 1 | NOT MET (2026-11-21: 0; A and B are not started) |
+| plan-52-B is complete | `ls planning/completed \| grep -c '^plan-52-B'` → 1 | MET (2026-11-21: plan-52-B landed as 991b7920) |
 
 Everything below is written against the world where this holds.
 
@@ -137,11 +137,11 @@ round caps and joins. Pad metal: `PCBCanvasView.outline(of:)`. Via metal: its ci
 
 ### Phase 1 — Region, clearances, keep-outs, edge
 
-- [ ] `Canvas/PourFill.swift`: the three types of § 4 and `PourFiller.fill` steps 1–3 for `solid` pours and for other-net items:
+- [x] `Canvas/PourFill.swift`: the three types of § 4 and `PourFiller.fill` steps 1–3 for `solid` pours and for other-net items:
       region, cuts (other-net items grown, holes by `edge`, keep-outs, earlier other-net pour rects), the subtraction,
       `componentsSeparated`; step 4 keeps every piece (no island rule yet).
-- [ ] `PourFiller` also has `nonisolated(unsafe) static var fillCount = 0`, incremented once per `fill(…)` call; plan-52-D's tests read it to prove when a refill happens.
-- [ ] Tests: new `schematicalTests/PourFillTests.swift` with a helper that builds `PourCopper` for a rect pad, a round via and a trace;
+- [x] `PourFiller` also has `nonisolated(unsafe) static var fillCount = 0`, incremented once per `fill(…)` call; plan-52-D's tests read it to prove when a refill happens.
+- [x] Tests: new `schematicalTests/PourFillTests.swift` with a helper that builds `PourCopper` for a rect pad, a round via and a trace;
       a 100 × 80 board, a pour `(10,10,40,30)`: (a) with no copper the fill's bounding box is the rect; (b) another-net pad at the
       middle: no copper within the clearance, copper at clearance + 0.05 (use `CGPath.contains`); (c) a trace across the pour: two
       pieces; (d) a keep-out: no copper inside it, copper just outside; (e) a pour touching the board edge: no copper within `edge` of
@@ -149,41 +149,41 @@ round caps and joins. Pad metal: `PCBCanvasView.outline(of:)`. Via metal: its ci
       inside the earlier's rect grown by the clearance.
 
 Acceptance: each of (a)–(g) asserts the copper present and absent at the points named.
-  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/PourFillTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/PourFillTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min). Observed (Phases 1–3 in one run): `Executed 16 tests, with 0 failures`, `** TEST SUCCEEDED **`.
+Commit: COMMIT_C
 
 ### Phase 2 — Thermal reliefs, same-net merge, islands, minimum width, joins
 
-- [ ] Same-net pads: `thermal` → ring (pad grown by `thermalGap`) less the two spoke rectangles, added to the cuts before the
+- [x] Same-net pads: `thermal` → ring (pad grown by `thermalGap`) less the two spoke rectangles, added to the cuts before the
       subtraction; `solid` → nothing. Same-net traces and vias: never cut.
-- [ ] Step 4: drop a piece whose bounding box is narrower than `minWidth`; keep a piece only if some same-net `PourCopper` has a sample
+- [x] Step 4: drop a piece whose bounding box is narrower than `minWidth`; keep a piece only if some same-net `PourCopper` has a sample
       point inside it (bounding-box prefilter, then `piece.contains(point, using: .winding)`); fill `joined`.
-- [ ] Tests (`PourFillTests`): (a) a same-net pad in `thermal`: copper in each of the four spokes, none in the four corner gaps, `joined`
+- [x] Tests (`PourFillTests`): (a) a same-net pad in `thermal`: copper in each of the four spokes, none in the four corner gaps, `joined`
       lists the pad; (b) the same in `solid`: copper at the pad's edge, no ring; (c) a same-net pad enclosed by other-net traces: its
       piece is dropped (island) and `joined` is empty; (d) a sliver narrower than `minWidth`, not enclosed: dropped; (e) a same-net
       trace inside the pour: not cut, and `joined` lists it; (f) a pour with no resolved net: no entry with pieces; (g) two same-net
       pads whose spokes meet one piece: one `joined` entry holding both.
 
 Acceptance: (a)–(g) hold, in particular the spoke and gap points of (a).
-  Check: `xcodebuild … test -only-testing:schematicalTests/PourFillTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+  Check: `xcodebuild … test -only-testing:schematicalTests/PourFillTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min). Observed: as Phase 1.
+Commit: COMMIT_C
 
 ### Phase 3 — Real board, time budget
 
-- [ ] Test `PourFillTests.testFillOfARealRoutedBoard`: open `examples/slow PCB.schematical` (4 layers; via `URL(fileURLWithPath: #filePath)`
+- [x] Test `PourFillTests.testFillOfARealRoutedBoard`: open `examples/slow PCB.schematical` (4 layers; via `URL(fileURLWithPath: #filePath)`
       up to the repo root, `SchematicFile.decode(…).apply(to:…)` as `Fixture.open` does), build `PourCopper` for every pad, via and trace
       of `document.connectivity()` with the net from its root (the adapter plan-52-D adds does this properly; here a local helper),
       fill one ground pour over the whole board on Top and one on Bottom, assert the elapsed time is under 2 s and that no piece
       contains a sample point of an other-net pad (`PourFill.pieces` vs those samples).
-- [ ] Record the measured time in this phase's `Commit:` line.
+- [x] Record the measured time in this phase's `Commit:` line.
 
 Acceptance: elapsed < 2 s and no other-net sample point inside any piece.
-  Check: `xcodebuild … test -only-testing:schematicalTests/PourFillTests/testFillOfARealRoutedBoard CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 5 min).
-Commit: —
+  Check: `xcodebuild … test -only-testing:schematicalTests/PourFillTests/testFillOfARealRoutedBoard CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 5 min). Observed: the 0.043 s fill of `examples/slow PCB.schematical` (a ground pour over the whole board on Top and on Bottom, Debug build) was printed by the test: `PourFillTests: real board fill took 0.04277 s, pieces [1, 1]`.
+Commit: COMMIT_C (measured time: 0.043 s)
 
 ## Validation Plan
 
-- Tests: `PourFillTests` (new), 15 cases above.
+- Tests: `PourFillTests` (new), 16 cases (the 15 above and `testOnlyItemsOnThePoursLayerCount`).
 - Coverage check: the file is in the app target, under the tests' `@testable import schematical`; `grep -c "PourFiller" schematical/schematicalTests/PourFillTests.swift` → at least 10.
 - Runtime proof: none yet; the fill is first drawn in plan-52-E.
 - Doc sync: none (internal); behavior is documented in `docs/export.md` by plan-52-G.
@@ -199,7 +199,9 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- The suite has 16 cases, not 15: `testOnlyItemsOnThePoursLayerCount` (a Bottom-only pad leaves a Top pour alone) was added with the layer filter. `grep -c "func test" schematical/schematicalTests/PourFillTests.swift` → 16.
+- Phase 1 said step 4 keeps every piece "(no island rule yet)"; the island rule and the width rule were written in the same pass as the rest of `fill`, and both phases' tests run against that one function, so the Phase 1 / Phase 2 split is in the tests only.
+- The real-board time is 0.043 s in a Debug build, against the plan's 2 s budget and the probe's 24–275 ms at 300–1500 obstacles: the example's ground net has few pads, so most of the board is one piece.
 
 ## Summary
 

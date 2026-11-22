@@ -137,7 +137,7 @@ with pours and shows no pour (it ignores them) and saves it back without them.
 Acceptance: round trip equal; every error asserted; a document with no pours saves byte-identical to the golden saved text the
 existing suites keep.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/PourFileTests -only-testing:schematicalTests/SchematicFileV5Tests -only-testing:schematicalTests/FileDesignRulesTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min; the two existing suites hold the byte goldens of files with no pours). Observed: `Executed 31 tests, with 0 failures`, `** TEST SUCCEEDED **`; `grep -c '^### Pours\|^### Keep-outs' docs/file-format.md` → 2.
-Commit: COMMIT_B
+Commit: 991b7920
 
 ## Validation Plan
 
