@@ -1,5 +1,290 @@
 {
   "format": "schematical-footprints",
   "version": 1,
-  "footprints": []
+  "footprints": [
+    {
+      "id": "CRES-2520-3-ABRACON",
+      "description": "3-terminal ceramic resonator, 2.5 x 2.0 mm body: three 0.5 x 0.8 pads at each end of the terminals, 1.0 mm pitch, pins 1-3 left to right (a pad at the top and the bottom of each)",
+      "note": "Abracon AWSCR-CW 'Recommended Land Pattern' (datasheets/crystal/abracon/AWSCR_CW.pdf p.2): pad width 0.5, pitch 1.0, pad centre lines 2.0+-0.2 apart; that drawing gives no pad length, 0.8 taken from the identical ECS-HFR-B Figure 2 land pattern (datasheets/crystal/ecs/ecs_HFR_B.pdf p.1: 0.5 wide, 0.8 long, centres 2.0 apart, 1.0 pitch). Hand check: x = -1.0, 0, +1.0 (pitch 1.0); y = +-2.0/2 = +-1.0; each pad 0.5 x 0.8 spans y 0.6..1.4 (body edge at 1.0, pad runs 0.4 past it and 0.4 under it); pad gap in x = 1.0-0.5 = 0.5 (matches the drawing's 0.5 gaps, overall 3x0.5+2x0.5 = 2.5). Each pin has two pads (top and bottom), the terminal runs under the body between them. Pin numbering 1-2-3 left to right as the datasheet's pin table (1 X1/In, 2 GND, 3 X2/Out). Body 2.5 x 2.0.",
+      "style": "explicit",
+      "pins": 3,
+      "body": {
+        "width": 2.5,
+        "height": 2.0
+      },
+      "pads": [
+        {
+          "pin": 1,
+          "x": -1.0,
+          "y": -1.0,
+          "width": 0.5,
+          "height": 0.8,
+          "shape": "rect"
+        },
+        {
+          "pin": 1,
+          "x": -1.0,
+          "y": 1.0,
+          "width": 0.5,
+          "height": 0.8,
+          "shape": "rect"
+        },
+        {
+          "pin": 2,
+          "x": 0.0,
+          "y": -1.0,
+          "width": 0.5,
+          "height": 0.8,
+          "shape": "rect"
+        },
+        {
+          "pin": 2,
+          "x": 0.0,
+          "y": 1.0,
+          "width": 0.5,
+          "height": 0.8,
+          "shape": "rect"
+        },
+        {
+          "pin": 3,
+          "x": 1.0,
+          "y": -1.0,
+          "width": 0.5,
+          "height": 0.8,
+          "shape": "rect"
+        },
+        {
+          "pin": 3,
+          "x": 1.0,
+          "y": 1.0,
+          "width": 0.5,
+          "height": 0.8,
+          "shape": "rect"
+        }
+      ]
+    },
+    {
+      "id": "CRES-3213-3-ABRACON",
+      "description": "3-terminal ceramic resonator, 3.2 x 1.3 mm body: three 0.4 x 2.0 pads, 1.2 mm pitch",
+      "note": "Abracon AWSCR-CELA 'Recommended Land Pattern' (datasheets/crystal/abracon/AWSCR-CELA.pdf p.4; AWSCR-CELB.pdf p.4 is the same drawing); equal to ECS-CTE Figure 2 Suggested Land Pattern (datasheets/crystal/ecs/ECS-CTE.pdf p.1). Hand check: pads 0.4 wide x 2.0 (+-0.2) long, centres 1.2 apart -> x = -1.2, 0, +1.2; gap = 1.2-0.4 = 0.8; outer edge = 1.2+0.2 = 1.4 < body half 1.6 (terminals 0.4 wide at 1.2 pitch with 0.4 from the end, outline: 1.2+0.2+0.2 = 1.6 ok). Pad length 2.0 vs body height 1.3: 0.35 past the body each side. Pins 1 Input, 2 Ground, 3 Output left to right.",
+      "style": "explicit",
+      "pins": 3,
+      "body": {
+        "width": 3.2,
+        "height": 1.3
+      },
+      "pads": [
+        {
+          "pin": 1,
+          "x": -1.2,
+          "y": 0.0,
+          "width": 0.4,
+          "height": 2.0,
+          "shape": "rect"
+        },
+        {
+          "pin": 2,
+          "x": 0.0,
+          "y": 0.0,
+          "width": 0.4,
+          "height": 2.0,
+          "shape": "rect"
+        },
+        {
+          "pin": 3,
+          "x": 1.2,
+          "y": 0.0,
+          "width": 0.4,
+          "height": 2.0,
+          "shape": "rect"
+        }
+      ]
+    },
+    {
+      "id": "CRES-3731-2-ABRACON",
+      "description": "2-terminal ceramic resonator, 3.7 x 3.1 mm body: two 0.7 x 4.1 pads, centres 3.0 mm apart",
+      "note": "Abracon AWSZT-CV 'Recommended Land Pattern' (datasheets/crystal/abracon/AWSZT-CV.pdf p.2): 0.7 wide, 4.1 long, 3.0 between the pad centre lines; equal to ECS-CR2-A Figure 2 / table T1 3.0, T2 0.7, W1 4.1 (datasheets/crystal/ecs/ecs_cr2_a.pdf p.1). Hand check: span 3.0 centre to centre -> x = -1.5, +1.5; pad 0.7 x 4.1 spans x 1.15..1.85, i.e. exactly the 0.7 terminal at the end of the 3.7 body (3.7/2 = 1.85; 1.85-0.7 = 1.15); inner gap 3.0-0.7 = 2.3. Pad 1 left, pad 2 right.",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "pitch": 1,
+      "span": 3.0,
+      "body": {
+        "width": 3.7,
+        "height": 3.1
+      },
+      "pad": {
+        "width": 0.7,
+        "height": 4.1,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "CRES-3731-3-ABRACON",
+      "description": "3-terminal ceramic resonator, 3.7 x 3.1 mm body: 0.7 x 4.1 outer pads, 1.0 x 4.1 middle pad, 1.5 mm pitch",
+      "note": "Abracon AWSCR-CV 'Recommended Land Pattern' (datasheets/crystal/abracon/AWSCR_CV.pdf p.2: 0.7 outer, 1.0 middle, 1.5 centre to centre, 4.1 long); equal to ECS-CR2-B Figure 3 / table T1 1.0 (middle width), T2 0.7 (outer width), T3 1.5 (pitch), W1 4.1 (datasheets/crystal/ecs/ecs_cr2_b.pdf p.1). Hand check: outer pads x = +-1.5, 0.7 wide -> span 1.15..1.85 = body edge 3.7/2 = 1.85 minus the 0.7 terminal; middle pad 1.0 wide -> -0.5..0.5; gap between pads = 1.15-0.5 = 0.65. Pins 1, 2 (ground), 3 left to right. The drawings are not to scale (the Abracon outer pads are drawn wider); the printed dimensions are used.",
+      "style": "explicit",
+      "pins": 3,
+      "body": {
+        "width": 3.7,
+        "height": 3.1
+      },
+      "pads": [
+        {
+          "pin": 1,
+          "x": -1.5,
+          "y": 0.0,
+          "width": 0.7,
+          "height": 4.1,
+          "shape": "rect"
+        },
+        {
+          "pin": 2,
+          "x": 0.0,
+          "y": 0.0,
+          "width": 1.0,
+          "height": 4.1,
+          "shape": "rect"
+        },
+        {
+          "pin": 3,
+          "x": 1.5,
+          "y": 0.0,
+          "width": 0.7,
+          "height": 4.1,
+          "shape": "rect"
+        }
+      ]
+    },
+    {
+      "id": "CRES-4520-3-ABRACON",
+      "description": "3-terminal ceramic resonator, 4.5 x 2.0 mm body: three 0.8 x 2.6 pads, 1.5 mm pitch",
+      "note": "Abracon AWSCR-CRLA 'Recommended Land Pattern' (datasheets/crystal/abracon/AWSCR-CRLA.pdf p.4): 0.8 wide, 2.6 (+-0.2) long, 1.5 pitch. Terminals per the outline (p.3): 0.8 wide, 1.5 pitch, 0.75 from the end (terminal centre 1.5 + 0.75 = 2.25 = 4.5/2 body edge, so the terminal runs 1.1..1.9 from the centre). Pad length 2.6 vs body height 2.0: 0.3 past the body each side. Pins 1 Input, 2 Ground, 3 Output left to right.",
+      "style": "explicit",
+      "pins": 3,
+      "body": {
+        "width": 4.5,
+        "height": 2.0
+      },
+      "pads": [
+        {
+          "pin": 1,
+          "x": -1.5,
+          "y": 0.0,
+          "width": 0.8,
+          "height": 2.6,
+          "shape": "rect"
+        },
+        {
+          "pin": 2,
+          "x": 0.0,
+          "y": 0.0,
+          "width": 0.8,
+          "height": 2.6,
+          "shape": "rect"
+        },
+        {
+          "pin": 3,
+          "x": 1.5,
+          "y": 0.0,
+          "width": 0.8,
+          "height": 2.6,
+          "shape": "rect"
+        }
+      ]
+    },
+    {
+      "id": "CRES-4741-3-ABRACON",
+      "description": "3-terminal ceramic resonator, 4.7 x 4.1 mm body: 0.8 x 5.1 outer pads, 1.3 x 5.1 middle pad, 1.95 mm pitch",
+      "note": "Abracon AWSCR-MT 'Recommended Land Pattern' (datasheets/crystal/abracon/N_AWSCR-MT.pdf p.3; the datasheet is stamped EOL): outer pads 0.8, middle pad 1.3, 5.1 long, 1.95 between the middle pad centre and each outer pad centre (the outline's 1.95 is the same pitch: 1.95 + 0.8/2 = 2.35 = 4.7/2). The drawing is not to scale; the printed dimensions are used (1.3 read as the middle pad width, the arrow spans the middle pad). Hand check: x = -1.95, 0, +1.95; outer pads span 1.55..2.35, middle -0.65..0.65, gap 1.55-0.65 = 0.9. Pins 1 Input, 2 Ground, 3 Output left to right.",
+      "style": "explicit",
+      "pins": 3,
+      "body": {
+        "width": 4.7,
+        "height": 4.1
+      },
+      "pads": [
+        {
+          "pin": 1,
+          "x": -1.95,
+          "y": 0.0,
+          "width": 0.8,
+          "height": 5.1,
+          "shape": "rect"
+        },
+        {
+          "pin": 2,
+          "x": 0.0,
+          "y": 0.0,
+          "width": 1.3,
+          "height": 5.1,
+          "shape": "rect"
+        },
+        {
+          "pin": 3,
+          "x": 1.95,
+          "y": 0.0,
+          "width": 0.8,
+          "height": 5.1,
+          "shape": "rect"
+        }
+      ]
+    },
+    {
+      "id": "CRES-6030-2-ECS",
+      "description": "2-terminal ceramic resonator, 6.0 x 3.0 mm body: two 1.7 x 4.0 pads, centres 5.0 mm apart",
+      "note": "ECS-CTA Figure 2 Suggested Land Pattern (datasheets/crystal/ecs/ECS-CTA.pdf p.1): pads 1.7 (+-0.3) wide, 4.0 (+-0.3) long, 5.0 (+-0.6) between the pad centre lines (the dimension arrow runs between the dash-dot centre lines). Hand check: x = +-5.0/2 = +-2.5; pad spans 1.65..3.35: the 1.2 terminal at the body end is 1.8..3.0, so the pad is 0.15 longer than the terminal on the inside and 0.35 on the outside. Pad 1 left, pad 2 right.",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "pitch": 1,
+      "span": 5.0,
+      "body": {
+        "width": 6.0,
+        "height": 3.0
+      },
+      "pad": {
+        "width": 1.7,
+        "height": 4.0,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "CRES-6030-3-ABRACON",
+      "description": "3-terminal ceramic resonator, 6.0 x 3.0 mm body: 1.7 x 4.0 outer pads, 1.5 x 4.0 middle pad, 2.5 mm pitch",
+      "note": "Abracon AWSCR-CPLA 'Recommended Land Pattern' (datasheets/crystal/abracon/AWSCR-CPLA.pdf p.3; AWSCR-CPLB.pdf p.4 is the same drawing): outer pads 1.7, middle pad 1.5, 4.0 long, 2.5 pitch; equal to ECS-CTP Figure 2 (datasheets/crystal/ecs/ECS-CTP.pdf p.1). Hand check: x = -2.5, 0, +2.5; outer pads span 1.65..3.35 (the 1.2 terminal at the body end is 1.8..3.0), middle -0.75..0.75, gap 1.65-0.75 = 0.9. Pins 1 Input, 2 Ground, 3 Output left to right.",
+      "style": "explicit",
+      "pins": 3,
+      "body": {
+        "width": 6.0,
+        "height": 3.0
+      },
+      "pads": [
+        {
+          "pin": 1,
+          "x": -2.5,
+          "y": 0.0,
+          "width": 1.7,
+          "height": 4.0,
+          "shape": "rect"
+        },
+        {
+          "pin": 2,
+          "x": 0.0,
+          "y": 0.0,
+          "width": 1.5,
+          "height": 4.0,
+          "shape": "rect"
+        },
+        {
+          "pin": 3,
+          "x": 2.5,
+          "y": 0.0,
+          "width": 1.7,
+          "height": 4.0,
+          "shape": "rect"
+        }
+      ]
+    }
+  ]
 }

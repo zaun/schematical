@@ -9,8 +9,7 @@ datasheet, existing, label) with the footprint map (columns letter, maker,
 package, supplier, size, label, footprint, pinouts, note; one row per land
 pattern: `supplier` and `size` are the line's values, or `*` for any; `label` is
 the line's last column).
-Without --map the maps are footprint-map.tsv and footprint-map-C.tsv /
-footprint-map-D.tsv; without --json the known ids are Parts/footprints.json,
+Without --map the map is footprint-map.tsv; without --json the known ids are Parts/footprints.json,
 footprints-C.json and footprints-D.json (the reader worksheets in fp-parts/
 name their own --map / --json; with --map only the lines that have a row in
 it are counted).
@@ -73,7 +72,7 @@ def main(argv):
             needed = argv[i + 1]
         i += 2
     scoped = bool(maps)     # with --map only the lines that have a row in it (a reader's worksheet) are counted
-    maps = maps or [os.path.join(DATA, 'footprint-map.tsv')] + [os.path.join(DATA, f'footprint-map-{L}.tsv') for L in 'CD']
+    maps = maps or [os.path.join(DATA, 'footprint-map.tsv')]
     objs = objects([LIBRARY] + (jsons or [os.path.join(DATA, 'footprints-C.json'), os.path.join(DATA, 'footprints-D.json')]))
     fmap = load_map(maps)
     n = missing = 0

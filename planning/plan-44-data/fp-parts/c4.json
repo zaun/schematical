@@ -1,5 +1,391 @@
 {
   "format": "schematical-footprints",
   "version": 1,
-  "footprints": []
+  "footprints": [
+    {
+      "id": "XTAL-CYL-1X5-SMD-2-ABRACON",
+      "description": "Abracon AB26TRQ 32.768 kHz cylindrical crystal, 5.2 x 1.45 mm can with two formed leads, plus a body pad",
+      "note": "AB26TRQ.pdf p.2 Recommended Land Pattern (mm). Origin = centre of the 5.2 x 1.45 can; can's left end = left edge of the body pad. Body pad 2.4 x 1.5 (unnumbered, pin 0, not a terminal), gap 3.8, lead pads 1.1 x 0.6 (0.6 + 0.3 gap + 0.6 = 1.5 tall). Arithmetic (land x from the left edge of the body pad; origin at 2.6): body pad centre 2.4/2 = 1.2 -> x -1.4; lead pads start 2.4 + 3.8 = 6.2, end 6.2 + 1.1 = 7.3, centre 6.75 -> x 4.15 (lead tip 5.2 + 1.5 = 6.7 sits at the pad centre); lead pad y centres +-(0.3/2 + 0.6/2) = +-0.45. Pad 1 top, pad 2 bottom (datasheet does not number them; crystal has no polarity).",
+      "style": "explicit",
+      "pins": 2,
+      "body": {
+        "width": 5.2,
+        "height": 1.45
+      },
+      "pads": [
+        {
+          "pin": 1,
+          "x": 4.15,
+          "y": -0.45,
+          "width": 1.1,
+          "height": 0.6,
+          "shape": "rect"
+        },
+        {
+          "pin": 2,
+          "x": 4.15,
+          "y": 0.45,
+          "width": 1.1,
+          "height": 0.6,
+          "shape": "rect"
+        },
+        {
+          "pin": 0,
+          "x": -1.4,
+          "y": 0,
+          "width": 2.4,
+          "height": 1.5,
+          "shape": "rect"
+        }
+      ]
+    },
+    {
+      "id": "XTAL-CYL-2X6-SMD-2-ABRACON",
+      "description": "Abracon AB26TRB 32.768 kHz cylindrical crystal, 6.0 x 1.9 mm can with two formed leads, plus a body pad",
+      "note": "AB26TRB.pdf p.2 Outline Dimensions table F G H J K M (mm; the can is not to be soldered, glue it down). Body pad F x G = 2.5 x 2.5 (unnumbered, pin 0), H = 5.25 from its right edge to the lead pads, lead pads J x K = 2.5 x 1.0, gap between lead pads M = 1.5 (c-c 1.5 + 1.0 = 2.5, matches lead spacing D 2.54). Arithmetic (land x from the body pad's left edge): lead pads start 2.5 + 5.25 = 7.75, end 10.25, centre 9.0; body pad centre 1.25. Body (6.0 long) placed so the lead tip (body end + 2.0) is at the lead pad centre: body x 1.0..7.0, centre 4.0 -> body pad x -2.75, lead pads x 5.0; lead pad y centres +-(1.5/2 + 1.0/2) = +-1.25. Pad 1 top, pad 2 bottom (unnumbered in the datasheet).",
+      "style": "explicit",
+      "pins": 2,
+      "body": {
+        "width": 6.0,
+        "height": 1.9
+      },
+      "pads": [
+        {
+          "pin": 1,
+          "x": 5.0,
+          "y": -1.25,
+          "width": 2.5,
+          "height": 1.0,
+          "shape": "rect"
+        },
+        {
+          "pin": 2,
+          "x": 5.0,
+          "y": 1.25,
+          "width": 2.5,
+          "height": 1.0,
+          "shape": "rect"
+        },
+        {
+          "pin": 0,
+          "x": -2.75,
+          "y": 0,
+          "width": 2.5,
+          "height": 2.5,
+          "shape": "rect"
+        }
+      ]
+    },
+    {
+      "id": "XTAL-HC49US-SMD-2-ABRACON",
+      "description": "HC-49/US surface-mount crystal, 11.4 x 4.7 mm, 2 tab pads, Abracon land pattern 5.6 x 2.1 at 9.5",
+      "note": "Abracon ABLS3.pdf p.3 Recommended land pattern (also ABLS2.pdf p.3, ABLS.pdf p.3, ABLS-LR.pdf p.2: same drawing): pad 0.22 in (5.6) x 0.083 in (2.1), centre distance 0.374 in (9.5). Hand check: span 9.5 -> pad centres +-4.75; inner pad edges 4.75 - 2.8 = +-1.95 (gap 3.9), outer edges +-7.55 (overall 15.1).",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "body": {
+        "width": 11.4,
+        "height": 4.7
+      },
+      "pitch": 1,
+      "span": 9.5,
+      "pad": {
+        "width": 5.6,
+        "height": 2.1,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-HC49US-SMD-2-ECS",
+      "description": "ECS CSM-3X miniature HC-49/US surface-mount crystal, 7.0 x 4.1 mm, 2 tab pads 3.5 x 1.2 at 5.5",
+      "note": "ECS CSM-3X.pdf p.1 Figure 2 Suggested land: overall 9.0, left pad width 3.5, gap 2.0, right pad 3.5, height 1.2 (the 2.0 dimension sits between the pads, the 3.5 under the right pad). Hand check: 3.5 + 2.0 + 3.5 = 9.0; centres +-(2.0/2 + 3.5/2) = +-2.75 -> span 5.5.",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "body": {
+        "width": 7.0,
+        "height": 4.1
+      },
+      "pitch": 1,
+      "span": 5.5,
+      "pad": {
+        "width": 3.5,
+        "height": 1.2,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-HC49US-SMD-2-ECS-B",
+      "description": "ECS CSM-7X / 7SSX / 7XDU / 7XDN HC-49/US surface-mount crystal, 11.4 x 4.8 mm, 2 tab pads 5.5 x 2.0 at 9.5",
+      "note": "ECS csm-7x-dn.pdf p.1 Figure 2 Suggested land (CSM-7X, CSM-7SSX, CSM_7X_DU, csm-7x-dn: same figure): overall 15.0, gap 4.0, pad 5.5, height 2.0. Also the Suntsu SXTHM2 land pattern (pad 5.5 x 2.0, c-c 9.5). Hand check: 5.5 + 4.0 + 5.5 = 15.0; centres +-(4.0/2 + 5.5/2) = +-4.75 -> span 9.5.",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "body": {
+        "width": 11.4,
+        "height": 4.8
+      },
+      "pitch": 1,
+      "span": 9.5,
+      "pad": {
+        "width": 5.5,
+        "height": 2.0,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-HC49US-SMD-3-ABRACON",
+      "description": "HC-49/US surface-mount crystal, 11.4 x 4.7 mm, 3 pads (case-grounded third lead), Abracon ABLSG land pattern",
+      "note": "Abracon ABLSG.pdf p.2 Recommended land pattern: outer pads 5.6 x 2.1 at 9.5 c-c, middle (GND) pad 2.1 wide x 4.0 tall, its top level with the outer pads' tops. Hand check: outer pad centres x +-4.75, y 0 (tabs leave the case at mid height); outer pad y -1.05..1.05; middle pad y -1.05..2.95 (top -1.05 + 4.0 = 2.95), centre y 0.95, centre x 0, width 2.1 -> gap to outer pads (9.5 - 5.6 - 2.1)/2 = 0.9. Datasheet does not number the leads (Input/Output left, GND bottom): 1 left, 2 GND bottom, 3 right as in the pinout.",
+      "style": "explicit",
+      "pins": 3,
+      "body": {
+        "width": 11.4,
+        "height": 4.7
+      },
+      "pads": [
+        {
+          "pin": 1,
+          "x": -4.75,
+          "y": 0,
+          "width": 5.6,
+          "height": 2.1,
+          "shape": "rect"
+        },
+        {
+          "pin": 2,
+          "x": 0,
+          "y": 0.95,
+          "width": 2.1,
+          "height": 4.0,
+          "shape": "rect"
+        },
+        {
+          "pin": 3,
+          "x": 4.75,
+          "y": 0,
+          "width": 5.6,
+          "height": 2.1,
+          "shape": "rect"
+        }
+      ]
+    },
+    {
+      "id": "XTAL-HC49US-SMD-3-ECS",
+      "description": "ECS CSM-7X-3L HC-49/US surface-mount crystal, 11.4 x 4.7 mm, 3 pads (case-grounded third lead)",
+      "note": "ECS csm_7x_3l.pdf p.1 Figure 2 Suggested land: outer pads 5.0 x 1.5, gap between them 4.0, middle pad 4.0 tall (top level with the outer pads), middle pad width not printed (1.8 scaled from the drawing, 0.46 of the 4.0 gap). Pad numbers from the Top View (#1 left, #2 right, #3 bottom/Gnd). Hand check: outer centres x +-(4.0/2 + 5.0/2) = +-4.5, y 0, overall 5.0 + 4.0 + 5.0 = 14.0; middle pad y -0.75..3.25 (top -0.75 + 4.0), centre y 1.25, x 0.",
+      "style": "explicit",
+      "pins": 3,
+      "body": {
+        "width": 11.4,
+        "height": 4.7
+      },
+      "pads": [
+        {
+          "pin": 1,
+          "x": -4.5,
+          "y": 0,
+          "width": 5.0,
+          "height": 1.5,
+          "shape": "rect"
+        },
+        {
+          "pin": 2,
+          "x": 4.5,
+          "y": 0,
+          "width": 5.0,
+          "height": 1.5,
+          "shape": "rect"
+        },
+        {
+          "pin": 3,
+          "x": 0,
+          "y": 1.25,
+          "width": 1.8,
+          "height": 4.0,
+          "shape": "rect"
+        }
+      ]
+    },
+    {
+      "id": "XTAL-HC49US-SMD-4-ABRACON",
+      "description": "HC-49/US surface-mount crystal, 12.5 x 4.95 mm, 4 pads 3.0 x 2.5, Abracon ABSM3A land pattern",
+      "note": "Abracon ABSM3A.pdf p.3 Recommended land pattern: pads 0.12 in (3.0) wide x 0.10 in (2.5) tall, 0.36 in (9.0) apart in x and 0.13 in (3.2) apart in y (both dimensions run between pad centre lines; outline lead spacing 9.0 +-0.1). Pad numbers #1 BL, #2 BR, #3 TR, #4 TL (top view). Hand check: x +-9.0/2 = +-4.5; y +-3.2/2 = +-1.6 (pad y edges +-0.35..+-2.85, 0.375 past the 4.95 body edge).",
+      "style": "explicit",
+      "pins": 4,
+      "body": {
+        "width": 12.5,
+        "height": 4.95
+      },
+      "pads": [
+        {
+          "pin": 1,
+          "x": -4.5,
+          "y": 1.6,
+          "width": 3.0,
+          "height": 2.5,
+          "shape": "rect"
+        },
+        {
+          "pin": 2,
+          "x": 4.5,
+          "y": 1.6,
+          "width": 3.0,
+          "height": 2.5,
+          "shape": "rect"
+        },
+        {
+          "pin": 3,
+          "x": 4.5,
+          "y": -1.6,
+          "width": 3.0,
+          "height": 2.5,
+          "shape": "rect"
+        },
+        {
+          "pin": 4,
+          "x": -4.5,
+          "y": -1.6,
+          "width": 3.0,
+          "height": 2.5,
+          "shape": "rect"
+        }
+      ]
+    },
+    {
+      "id": "XTAL-HC49US-SMD-4-ECS",
+      "description": "ECS CSM-4AX HC-49/US surface-mount crystal, 12.5 x 4.85 mm, 4 pads 2.3 x 2.2",
+      "note": "ECS csm-4ax.pdf p.1 Figure 2 Suggested land: pads 2.3 wide x 2.2 tall, 9.0 apart in x and 3.5 apart in y (between pad centre lines, as the 9.0 lead spacing in Figure 1). Numbers from Figure 1 top view: 1 BL, 2 BR, 3 TR, 4 TL. Hand check: x +-9.0/2 = +-4.5; y +-3.5/2 = +-1.75 (pad y edges +-0.65..+-2.85).",
+      "style": "explicit",
+      "pins": 4,
+      "body": {
+        "width": 12.5,
+        "height": 4.85
+      },
+      "pads": [
+        {
+          "pin": 1,
+          "x": -4.5,
+          "y": 1.75,
+          "width": 2.3,
+          "height": 2.2,
+          "shape": "rect"
+        },
+        {
+          "pin": 2,
+          "x": 4.5,
+          "y": 1.75,
+          "width": 2.3,
+          "height": 2.2,
+          "shape": "rect"
+        },
+        {
+          "pin": 3,
+          "x": 4.5,
+          "y": -1.75,
+          "width": 2.3,
+          "height": 2.2,
+          "shape": "rect"
+        },
+        {
+          "pin": 4,
+          "x": -4.5,
+          "y": -1.75,
+          "width": 2.3,
+          "height": 2.2,
+          "shape": "rect"
+        }
+      ]
+    },
+    {
+      "id": "XTAL-SOJ-5.5-4-ABRACON",
+      "description": "4-pad SOJ-style 32.768 kHz crystal, 8.0 x 3.8 mm, pads 1.3 x 1.9 on a 5.5 x 3.2 rectangle",
+      "note": "Abracon abs25.pdf p.2 Recommended Land Pattern (also ECS ecx-306x.pdf p.1 Figure 2, same pads and numbering): pad 0.05 in (1.3) wide x 0.075 in (1.9) tall; x chain 1.3 | 4.2 | 1.3, y chain 1.9 | 1.3 | 1.9 (edge to edge). Numbers #1 BL, #2 BR, #3 TR, #4 TL (top view). Hand check: x centres +-(4.2/2 + 1.3/2) = +-2.75 (5.5 = dimension C, lead pitch); y centres +-(1.3/2 + 1.9/2) = +-1.6; y edges +-0.65..+-2.55.",
+      "style": "explicit",
+      "pins": 4,
+      "body": {
+        "width": 8.0,
+        "height": 3.8
+      },
+      "pads": [
+        {
+          "pin": 1,
+          "x": -2.75,
+          "y": 1.6,
+          "width": 1.3,
+          "height": 1.9,
+          "shape": "rect"
+        },
+        {
+          "pin": 2,
+          "x": 2.75,
+          "y": 1.6,
+          "width": 1.3,
+          "height": 1.9,
+          "shape": "rect"
+        },
+        {
+          "pin": 3,
+          "x": 2.75,
+          "y": -1.6,
+          "width": 1.3,
+          "height": 1.9,
+          "shape": "rect"
+        },
+        {
+          "pin": 4,
+          "x": -2.75,
+          "y": -1.6,
+          "width": 1.3,
+          "height": 1.9,
+          "shape": "rect"
+        }
+      ]
+    },
+    {
+      "id": "XTAL-SOJ-5.5-4-SUNTSU",
+      "description": "Suntsu SXT834 4-pad SMD crystal, 8.0 x 3.8 mm, pads 1.3 x 1.9 on a 5.5 x 3.2 rectangle",
+      "note": "Suntsu SXT834-Series.pdf p.2 Outline Drawing & Recommended Land Pattern (drawn portrait): along the length pad 1.3 | gap 4.2 | pad 1.3, across the body pad 1.9 | gap 1.3 | pad 1.9 (same pad geometry as XTAL-SOJ-5.5-4-ABRACON). Numbering from the ELECTRODE ARRANGEMENT (BOTTOM VIEW): 1 TL, 4 TR, 2 BL, 3 BR; mirrored to the top view and turned 90 deg counter-clockwise: 1 top left, 2 top right, 3 bottom right, 4 bottom left (clockwise numbering, so it cannot share the Abracon / ECS id). Hand check: x +-(4.2/2 + 1.3/2) = +-2.75; y +-(1.3/2 + 1.9/2) = +-1.6.",
+      "style": "explicit",
+      "pins": 4,
+      "body": {
+        "width": 8.0,
+        "height": 3.8
+      },
+      "pads": [
+        {
+          "pin": 1,
+          "x": -2.75,
+          "y": -1.6,
+          "width": 1.3,
+          "height": 1.9,
+          "shape": "rect"
+        },
+        {
+          "pin": 2,
+          "x": 2.75,
+          "y": -1.6,
+          "width": 1.3,
+          "height": 1.9,
+          "shape": "rect"
+        },
+        {
+          "pin": 3,
+          "x": 2.75,
+          "y": 1.6,
+          "width": 1.3,
+          "height": 1.9,
+          "shape": "rect"
+        },
+        {
+          "pin": 4,
+          "x": -2.75,
+          "y": 1.6,
+          "width": 1.3,
+          "height": 1.9,
+          "shape": "rect"
+        }
+      ]
+    }
+  ]
 }

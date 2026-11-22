@@ -1,5 +1,347 @@
 {
   "format": "schematical-footprints",
   "version": 1,
-  "footprints": []
+  "footprints": [
+    {
+      "id": "XTAL-1210-2-ECS",
+      "description": "2-pad SMD crystal, 1.2 x 1.0 mm body, ECS ECX-1210",
+      "note": "ECS ECX-1210 Figure 2 suggested land pattern (datasheets/crystal/ecs/ECX-1210.pdf p.1): pad 0.575 x 1.14, centre-to-centre 0.825 (the 0.825 dimension is drawn centre line to centre line). Body 1.2 x 1.0 (Figure 1). Pad numbers are not on the land pattern; pad 1 left, pad 2 right (symmetric crystal).",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "body": {
+        "width": 1.2,
+        "height": 1.0
+      },
+      "pitch": 1,
+      "span": 0.825,
+      "pad": {
+        "width": 0.575,
+        "height": 1.14,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-1310-2-SUNTSU",
+      "description": "2-pad SMD crystal, 1.27 x 1.05 mm body, Suntsu SWS102",
+      "note": "Suntsu SWS102 outline and recommended land pattern (datasheets/crystal/suntsu/SWS102-Series.pdf p.1). Drawing is portrait (pads top and bottom): pad 1.00 x 0.40, gap 0.30 -> centre distance 0.30 + 0.40 = 0.70. Turned 90 degrees so the pads are left and right: pad 0.40 wide x 1.00 high, span 0.70. Body 1.27 +-0.03 x 1.05 +-0.05, turned to 1.27 wide x 1.05 high. No pad numbers in the drawing; pad 1 left.",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "body": {
+        "width": 1.27,
+        "height": 1.05
+      },
+      "pitch": 1,
+      "span": 0.7,
+      "pad": {
+        "width": 0.4,
+        "height": 1.0,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-1610-2-ABRACON",
+      "description": "2-pad SMD crystal, 1.6 x 1.0 mm body, Abracon ABS05 land pattern",
+      "note": "Abracon ABS05 recommended land pattern (datasheets/crystal/abracon/ABS05.pdf p.2 and p.3, both mechanical drawings give the same pattern; ABS05N p.3 and ABS05W p.3 agree): pad 0.5 x 1.0, gap 0.6 -> span 0.5 + 0.6 = 1.1. ECS ECX-16 / ECX-16R / ECX-16Q Figure 2 (ecx-16.pdf p.1) give the same pads (1.1 centre to centre). Body 1.6 x 1.0. Drawing marks #1 on the chamfered terminal of the bottom view; pad 1 left.",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "body": {
+        "width": 1.6,
+        "height": 1.0
+      },
+      "pitch": 1,
+      "span": 1.1,
+      "pad": {
+        "width": 0.5,
+        "height": 1.0,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-2012-2-ABRACON",
+      "description": "2-pad SMD crystal, 2.0 x 1.2 mm body, Abracon ABS06 land pattern",
+      "note": "Abracon ABS06 recommended land pattern (datasheets/crystal/abracon/ABS06.pdf p.2): pad 0.030 in = 0.75 wide x 0.055 in = 1.4 high, gap 0.028 in = 0.7 -> span 0.75 + 0.7 = 1.45. Body 2.0 x 1.2. ABS06N (ABS06N.pdf p.3) prints pad 0.6 x 1.1, gap 0.8 (span 1.4) instead.",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "body": {
+        "width": 2.0,
+        "height": 1.2
+      },
+      "pitch": 1,
+      "span": 1.45,
+      "pad": {
+        "width": 0.75,
+        "height": 1.4,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-2012-2-ECS",
+      "description": "2-pad SMD crystal, 2.0 x 1.2 mm body, ECS ECX-12 land pattern",
+      "note": "ECS ECX-12 Figure 2 suggested land pattern (datasheets/crystal/ecs/ECX_12.pdf p.1): pad 0.6 wide x 1.1 high, gap 0.8 -> span 0.6 + 0.8 = 1.4. CDX-1082.pdf p.1 gives the same pattern. Body 2.0 x 1.2. ECX-12Q / ECX-12R / ECX-12RR (ECX-12Q.pdf, ECX-12R.pdf, ECX-12RR.pdf p.1) print pad 0.8 x 1.3, centre to centre 1.4 instead.",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "body": {
+        "width": 2.0,
+        "height": 1.2
+      },
+      "pitch": 1,
+      "span": 1.4,
+      "pad": {
+        "width": 0.6,
+        "height": 1.1,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-2012-2-SUNTSU",
+      "description": "2-pad SMD crystal, 2.0 x 1.2 mm body, Suntsu SAW212",
+      "note": "Suntsu SAW212 recommended land pattern (datasheets/crystal/suntsu/SAW212-Series.pdf p.1). Drawing is portrait: pad 1.40 x 0.70, gap 0.80 -> centre distance 0.70 + 0.80 = 1.50. Turned 90 degrees: pad 0.70 wide x 1.40 high, span 1.50. Body 1.20 x 2.00 turned to 2.0 x 1.2. No pad numbers in the drawing; pad 1 left.",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "body": {
+        "width": 2.0,
+        "height": 1.2
+      },
+      "pitch": 1,
+      "span": 1.5,
+      "pad": {
+        "width": 0.7,
+        "height": 1.4,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-2016-2-ABRACON",
+      "description": "2-pad SMD crystal, 2.0 x 1.6 mm body, Abracon ABM11A",
+      "note": "Abracon ABM11A recommended land pattern (datasheets/crystal/abracon/ABM11A.pdf p.3; ABM11AAIG.pdf p.3 is the same): pad 0.035 in = 0.90 wide x 0.071 in = 1.80 high; the 1.35 dimension runs from pad centre line to pad centre line -> span 1.35 (gap 1.35 - 0.90 = 0.45). Body 2.00 x 1.60. No pad numbers in the drawing; pad 1 left.",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "body": {
+        "width": 2.0,
+        "height": 1.6
+      },
+      "pitch": 1,
+      "span": 1.35,
+      "pad": {
+        "width": 0.9,
+        "height": 1.8,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-2520-2-ABRACON",
+      "description": "2-pad SMD crystal, 2.5 x 2.0 mm body, Abracon ABM10A",
+      "note": "Abracon ABM10A recommended land pattern (datasheets/crystal/abracon/ABM10A.pdf p.3; ABM10AAIG.pdf p.3 is the same): pad height 2.20, gap 0.40, and the 1.35 dimension runs from the centre line to the outer edge of a pad -> pad width 1.35 - 0.40 / 2 = 1.15, span 1.15 + 0.40 = 1.55 (check: 2 x 1.35 = 2.70 = 2 x 1.15 + 0.40). Body 2.50 x 2.00. No pad numbers in the drawing; pad 1 left.",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "body": {
+        "width": 2.5,
+        "height": 2.0
+      },
+      "pitch": 1,
+      "span": 1.55,
+      "pad": {
+        "width": 1.15,
+        "height": 2.2,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-3215-2-ABRACON",
+      "description": "2-pad SMD crystal, 3.2 x 1.5 mm body, Abracon ABS07 land pattern",
+      "note": "Abracon ABS07 recommended land pattern (datasheets/crystal/abracon/ABS07.pdf p.4): pad 0.043 in = 1.1 wide x 0.075 in = 1.9 high, gap 0.055 in = 1.4 -> span 1.1 + 1.4 = 2.5. ECS ECX-31B / ECX-34x / CDX-1128 / CDX-1293 Figure 2 (1.1 / 1.4 / 1.1 x 1.9) are the same. ABS07N p.3 and ABS07L p.2 print pad 1.0 x 1.8, gap 1.5 (span 2.5); ABS07AIG p.3 pad 1.0 x 1.8, gap 1.55. Body 3.2 x 1.5. Pad 1 left (ABS07 drawing marks the chamfered terminal).",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "body": {
+        "width": 3.2,
+        "height": 1.5
+      },
+      "pitch": 1,
+      "span": 2.5,
+      "pad": {
+        "width": 1.1,
+        "height": 1.9,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-3215-2-SUNTSU",
+      "description": "2-pad SMD crystal, 3.2 x 1.5 mm body, Suntsu SAW312",
+      "note": "Suntsu SAW312 recommended land pattern (datasheets/crystal/suntsu/SAW312-Series.pdf p.1). Drawing is portrait: pad 1.80 x 1.00, gap 1.50 -> centre distance 1.00 + 1.50 = 2.50. Turned 90 degrees: pad 1.00 wide x 1.80 high, span 2.5. Body 1.50 x 3.20 turned to 3.2 x 1.5. No pad numbers in the drawing; pad 1 left.",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "body": {
+        "width": 3.2,
+        "height": 1.5
+      },
+      "pitch": 1,
+      "span": 2.5,
+      "pad": {
+        "width": 1.0,
+        "height": 1.8,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-3215-3-ECS",
+      "description": "3-pad SMD crystal, 3.2 x 1.5 mm body, ECS ECX-34G (case ground pad 2)",
+      "note": "ECS ECX-34G Figure 2 suggested land (datasheets/crystal/ecs/ECX-34G.pdf p.1): two pads 1.3 x 0.75 with 0.4 between them, one pad 1.3 x 1.9 (0.75 + 0.4 + 0.75), gap 1.0 between the columns -> column centres +-(1.0 + 1.3) / 2 = +-1.15, small pad centres +-(0.4 + 0.75) / 2 = +-0.575. Pad connections: 1 In/Out, 2 Gnd or NC (the large pad), 3 Out/In. The land pattern carries no numbers; the bottom view has #1 top left, #3 bottom left, #2 right, so the top view mirrors it (#1 top right, #3 bottom right, #2 left) and turned 180 degrees gives the small pads on the left as drawn, #1 bottom left, #3 top left, #2 the large pad on the right (1 and 3 are interchangeable). Body 3.2 x 1.5.",
+      "style": "explicit",
+      "pins": 3,
+      "body": {
+        "width": 3.2,
+        "height": 1.5
+      },
+      "pads": [
+        {
+          "pin": 1,
+          "x": -1.15,
+          "y": 0.575,
+          "width": 1.3,
+          "height": 0.75,
+          "shape": "rect"
+        },
+        {
+          "pin": 2,
+          "x": 1.15,
+          "y": 0.0,
+          "width": 1.3,
+          "height": 1.9,
+          "shape": "rect"
+        },
+        {
+          "pin": 3,
+          "x": -1.15,
+          "y": -0.575,
+          "width": 1.3,
+          "height": 0.75,
+          "shape": "rect"
+        }
+      ]
+    },
+    {
+      "id": "XTAL-3225-2-ABRACON",
+      "description": "2-pad SMD crystal, 3.2 x 2.5 mm body, Abracon ABM8A",
+      "note": "Abracon ABM8A recommended land pattern (datasheets/crystal/abracon/ABM8A.pdf p.3; ABM8AAIG.pdf p.3 is the same): pad 0.059 in = 1.50 wide x 0.106 in = 2.70 high; 1.90 is drawn between the pad centre lines -> span 1.90 (gap 0.40). ECS ECX-33AQ Figure 2 (ECX-33AQ.pdf p.1: 1.5 x 2.7, 1.9 centre to centre) is the same. Body 3.20 x 2.50. Pad 1 left.",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "body": {
+        "width": 3.2,
+        "height": 2.5
+      },
+      "pitch": 1,
+      "span": 1.9,
+      "pad": {
+        "width": 1.5,
+        "height": 2.7,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-5032-2-ABRACON",
+      "description": "2-pad SMD crystal, 5.0 x 3.2 mm body, Abracon ABM3",
+      "note": "Abracon ABM3 recommended land pattern (datasheets/crystal/abracon/ABM3.pdf p.3; the drawing is not to scale, the printed numbers are used): overall 6.0, gap between the pads 2.2, pad height 2.4 -> pad width (6.0 - 2.2) / 2 = 1.9, span 1.9 + 2.2 = 4.1. ECS ECX-53 / ECX-53Q Figure 2 (ecx-53r.pdf, ECX-53Q.pdf p.1: 1.9 / 2.2 / 1.9 x 2.4) is the same. Body 5.0 x 3.2. Pad 1 left.",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "body": {
+        "width": 5.0,
+        "height": 3.2
+      },
+      "pitch": 1,
+      "span": 4.1,
+      "pad": {
+        "width": 1.9,
+        "height": 2.4,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-6035-2-ABRACON",
+      "description": "2-pad SMD crystal, 6.0 x 3.5 mm body, Abracon ABM7",
+      "note": "Abracon ABM7 recommended land pattern (datasheets/crystal/abracon/ABM7.pdf p.3): 0.075 in = 1.90, 0.094 in = 2.40, 0.075 in = 1.90 across, 0.102 in = 2.60 high -> pad 1.9 x 2.6, span 1.9 + 2.4 = 4.3. Body 6.00 x 3.50. Pad 1 left (the bottom view puts PIN 1 on the right, the top view on the left).",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "body": {
+        "width": 6.0,
+        "height": 3.5
+      },
+      "pitch": 1,
+      "span": 4.3,
+      "pad": {
+        "width": 1.9,
+        "height": 2.6,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-6035-2-ECS",
+      "description": "2-pad SMD crystal, 6.0 x 3.5 mm body, ECS ECX-64A / ECS-23G",
+      "note": "ECS ECX-64A and ECS-23G Figure 2 suggested land (datasheets/crystal/ecs/ecx-64a_ecx-64cr.pdf p.1, ECS-23G.pdf p.1): 1.9 / 2.6 / 1.9 across, 2.4 high -> pad 1.9 x 2.4, span 1.9 + 2.6 = 4.5. Body 6.0 x 3.5. Pads 1 and 2 are interchangeable (datasheet note); pad 1 left.",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "body": {
+        "width": 6.0,
+        "height": 3.5
+      },
+      "pitch": 1,
+      "span": 4.5,
+      "pad": {
+        "width": 1.9,
+        "height": 2.4,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-7041-2-ABRACON",
+      "description": "2-pad SMD flat-lead crystal, 7.0 x 4.1 mm body, Abracon ABLS7M / ABLS7M2",
+      "note": "Abracon ABLS7M2 recommended land pattern (datasheets/crystal/abracon/ABLS7M2.pdf p.3; ABLS7M.pdf p.3 is the same): pad 3.50 long (TYPE) x 1.20 high (0.047 in), 2.00 MIN between the pads -> span 3.50 + 2.00 = 5.5 (the 2.00 is a minimum, used as printed). Body 7.00 x 4.10 (0.161 in max). Pad 1 left.",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "body": {
+        "width": 7.0,
+        "height": 4.1
+      },
+      "pitch": 1,
+      "span": 5.5,
+      "pad": {
+        "width": 3.5,
+        "height": 1.2,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-8045-2-ABRACON",
+      "description": "2-pad SMD crystal, 8.0 x 4.5 mm body, Abracon ABM2",
+      "note": "Abracon ABM2 recommended land pattern (datasheets/crystal/abracon/abm2.pdf p.3; drawing not to scale, printed numbers used): overall 9.0, gap between the pads 4.0, pad height 3.0 -> pad width (9.0 - 4.0) / 2 = 2.5, span 2.5 + 4.0 = 6.5. Body 8.0 x 4.5. Pad 1 left (the bottom view puts the chamfered #1 pad on the left).",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "body": {
+        "width": 8.0,
+        "height": 4.5
+      },
+      "pitch": 1,
+      "span": 6.5,
+      "pad": {
+        "width": 2.5,
+        "height": 3.0,
+        "shape": "rect"
+      }
+    }
+  ]
 }

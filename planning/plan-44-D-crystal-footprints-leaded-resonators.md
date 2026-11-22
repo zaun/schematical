@@ -30,9 +30,9 @@ plan-44-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-44-C complete | `ls planning/completed/plan-44-C-*.md` → exists | NOT MET (2026-11-16: not started) |
-| The shared tools exist | `ls planning/plan-44-data/census/fp-load.sh planning/plan-44-data/census/fp-check.py planning/plan-44-data/census/fp-compare.py` → all exist | NOT MET (2026-11-16: C Phase 1 writes them) |
-| `footprints-needed.txt` is final | `awk -F'\t' '!/^#/ && $1=="D"' planning/plan-44-data/footprints-needed.txt \| wc -l` → the D lines (29 at planning time, before B's pick) | NOT MET (2026-11-16: 29 from the 744-row download set) |
+| plan-44-C complete | `ls planning/completed/plan-44-C-*.md` → exists | MET (2026-11-22: archived with this letter) |
+| The shared tools exist | `ls planning/plan-44-data/census/fp-load.sh planning/plan-44-data/census/fp-check.py planning/plan-44-data/census/fp-compare.py` → all exist | MET (2026-11-22: C Phase 1 wrote them) |
+| `footprints-needed.txt` is final | `awk -F'\t' '!/^#/ && $1=="D"' planning/plan-44-data/footprints-needed.txt \| wc -l` → the D lines (29 at planning time, before B's pick) | MET (2026-11-22: 29 lines from B's 600 `add` rows (107 parts; 124 before the pick), 27 with no existing footprint) |
 
 Everything below is written against the world where these hold.
 
@@ -106,23 +106,23 @@ compares one object per package family.
 
 ### Phase 1 — Through-hole crystals
 
-- [ ] Draw the HC-49/U, HC-49/US, HC-46/X and radial-cylinder lines (15 at
+- [x] Draw the HC-49/U, HC-49/US, HC-46/X and radial-cylinder lines (15 at
       planning time) into `footprints-D.json`, or map them to an existing
       footprint by plan-44-C § 3.1; fill the map rows; hand-check one object
       per package against the drawing.
 
 Acceptance: those lines have footprints that load.
-  Check: `planning/plan-44-data/census/fp-load.sh planning/plan-44-data/footprints-C.json planning/plan-44-data/footprints-D.json` → `<k> new footprints: load ok` (est. 3 min).
+  Check: `planning/plan-44-data/census/fp-load.sh planning/plan-44-data/footprints-C.json planning/plan-44-data/footprints-D.json` → `<k> new footprints: load ok` (est. 3 min). Output 2026-11-22 (reader d1, 15 lines): `15 lines, 0 without a footprint`, `9 new footprints: load ok`.
 Commit: —
 
 ### Phase 2 — Ceramic resonator packages
 
-- [ ] Draw the 3-SMD (non-standard and no-lead), 1512 (3731 metric) and 2-SMD
+- [x] Draw the 3-SMD (non-standard and no-lead), 1512 (3731 metric) and 2-SMD
       ceramic-resonator lines (14 at planning time) as Phase 1; hand-check one
       object per package family.
 
 Acceptance: every D line has a footprint that loads.
-  Check: `python3 -I planning/plan-44-data/census/fp-check.py D` → `<n> lines, 0 without a footprint`, and `planning/plan-44-data/census/fp-load.sh planning/plan-44-data/footprints-C.json planning/plan-44-data/footprints-D.json` → `<k> new footprints: load ok` (est. 3 min).
+  Check: `python3 -I planning/plan-44-data/census/fp-check.py D` → `<n> lines, 0 without a footprint`, and `planning/plan-44-data/census/fp-load.sh planning/plan-44-data/footprints-C.json planning/plan-44-data/footprints-D.json` → `<k> new footprints: load ok` (est. 3 min). Output 2026-11-22 (reader d2, 14 lines, then everything): `14 lines, 0 without a footprint`, `8 new footprints: load ok`; after `fp-skeleton.py --assemble`: `fp-check.py D` → `29 lines, 0 without a footprint`; `fp-load.sh footprints-C.json footprints-D.json` → `72 new footprints: load ok` (55 of C, 17 of D).
 Commit: —
 
 ## Validation Plan
@@ -141,6 +141,27 @@ Commit: —
   0.3 mm (R7).
 
 ## Corrections
+
+1. **Shared tools and the worksheets are plan-44-C's** (Corrections 2 there):
+   readers `d1` (through-hole crystals, 15 lines) and `d2` (ceramic resonators,
+   14 lines) wrote `fp-parts/d1`, `d2` (`.tsv` + `.json`); `fp-skeleton.py
+   --assemble` made `footprints-D.json` (17 footprints, none reused) and the D
+   rows of `footprint-map.tsv`.
+2. **No datasheet of the through-hole crystals prints a PCB land pattern**, so d1
+   drew every one by R8 from the lead spacing and lead diameter; for the radial
+   cylinders (lead spacings 0.45–1.1 mm) R8's pad (hole + 0.6 mm) overlaps, so the
+   round pad is `span − 0.1` and the drill `min(lead + 0.3, pad − 0.2)`, never
+   below lead + 0.05 (`XTAL-CYL-2X5-2-ECS`: drill 0.25, ring 0.05 mm: the leads
+   are bent apart in practice). The body of a can is round (diameter).
+3. **Shared ids and merged lines:** `XTAL-CYL-3X10-2-ECS` serves 3X9 too (same pad
+   data), `XTAL-CYL-3X8-2-ABRACON` serves AB308 and AB38T, `XTAL-HC49U-2-ABRACON`
+   serves the `HC49US` label, `XTAL-HC49U-2-ECS` the U, US and USS lines.
+4. **Resonator land patterns** (`d2`): three-pad resonators are `explicit`,
+   pins numbered left to right (`1=X1,2=GND,3=X2`); `CRES-2520-3` has two pads per
+   terminal (six pads for three pins, allowed by § `explicit`); `CRES-3731-2`
+   is the two-pad 1512 (3731) part (label `-2`: the pad count comes from the
+   pinout); `CRES-4741-3-ABRACON` is drawn from `N_AWSCR-MT.pdf` (the AWSCR-MTD
+   rows; plan-44-B Corrections 9).
 
 ## Summary
 

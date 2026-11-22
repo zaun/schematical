@@ -1,0 +1,95 @@
+letter	maker	package	supplier	size	label	footprint	pinouts	note
+C	ECS	2-SMD, No Lead	2-SMD (1.2x1)	"0.047"" L x 0.039"" W (1.20mm x 1.00mm)"	XTAL-1210-2	XTAL-1210-2-ECS	1=X1,2=X2	ECX-1210.pdf p.1 Figure 2
+C	Suntsu	2-SMD, No Lead	2-SMD (1.27x1.05)	"0.050"" L x 0.041"" W (1.27mm x 1.05mm)"	XTAL-1310-2	XTAL-1310-2-SUNTSU	1=X1,2=X2	SWS102-Series.pdf p.1 land pattern, turned 90 degrees
+C	Abracon	2-SMD, No Lead	2-SMD (1.6x1)	"0.063"" L x 0.039"" W (1.60mm x 1.00mm)"	XTAL-1610-2	XTAL-1610-2-ABRACON	1=X1,2=X2	ABS05.pdf p.2 recommended land pattern (ABS05N, ABS05W the same)
+C	ECS	2-SMD, No Lead	-	"0.063"" L x 0.039"" W (1.60mm x 1.00mm)"	XTAL-1610-2	XTAL-1610-2-ABRACON	1=X1,2=X2	shared with XTAL-1610-2-ABRACON (ECX-16Q.pdf p.1 Figure 2: 0.5 x 1.0, 1.1 centre to centre, equal)
+C	ECS	2-SMD, No Lead	2-SMD (1.6x1)	"0.063"" L x 0.039"" W (1.60mm x 1.00mm)"	XTAL-1610-2	XTAL-1610-2-ABRACON	1=X1,2=X2	shared with XTAL-1610-2-ABRACON (ECX-16.pdf, ECX-16R.pdf p.1 Figure 2 equal); CDX-2217 pdf prints pad 0.7 x 1.2, 1.1 centre to centre instead
+C	Abracon	2-SMD, No Lead	2-SMD (2x1.2)	"0.079"" L x 0.047"" W (2.00mm x 1.20mm)"	XTAL-2012-2	XTAL-2012-2-ABRACON	1=X1,2=X2	ABS06.pdf p.2 recommended land pattern (ABS06N.pdf p.3 prints 0.6 x 1.1, span 1.4)
+C	ECS	2-SMD, No Lead	2-SMD (2x1.2)	"0.079"" L x 0.047"" W (2.00mm x 1.20mm)"	XTAL-2012-2	XTAL-2012-2-ECS	1=X1,2=X2	ECX_12.pdf p.1 Figure 2 (CDX-1082 same; ECX-12Q/12R/12RR print 0.8 x 1.3, span 1.4)
+C	Suntsu	2-SMD, No Lead	2-SMD (2x1.2)	"0.079"" L x 0.047"" W (2.00mm x 1.20mm)"	XTAL-2012-2	XTAL-2012-2-SUNTSU	1=X1,2=X2	SAW212-Series.pdf p.1 land pattern, turned 90 degrees
+C	Abracon	2-SMD, No Lead	2-SMD (2x1.6)	"0.079"" L x 0.063"" W (2.00mm x 1.60mm)"	XTAL-2016-2	XTAL-2016-2-ABRACON	1=X1,2=X2	ABM11A.pdf p.3 recommended land pattern (ABM11AAIG same)
+C	Abracon	2-SMD, No Lead	2-SMD (2.5x2)	"0.098"" L x 0.079"" W (2.50mm x 2.00mm)"	XTAL-2520-2	XTAL-2520-2-ABRACON	1=X1,2=X2	ABM10A.pdf p.3 recommended land pattern (ABM10AAIG same)
+C	Abracon	2-SMD, No Lead	2-SMD (3.2x1.5)	"0.126"" L x 0.059"" W (3.20mm x 1.50mm)"	XTAL-3215-2	XTAL-3215-2-ABRACON	1=X1,2=X2	ABS07.pdf p.4 recommended land pattern (ABS07N/ABS07L/ABS07AIG print 1.0 x 1.8)
+C	ECS	2-SMD, No Lead	2-SMD (3.2x1.5)	"0.126"" L x 0.059"" W (3.20mm x 1.50mm)"	XTAL-3215-2	XTAL-3215-2-ABRACON	1=X1,2=X2	shared with XTAL-3215-2-ABRACON (ECX-31B, ECX-34Q/R/RR/S, CDX-1128, CDX-1293 Figure 2: 1.1 / 1.4 / 1.1 x 1.9, equal)
+C	Suntsu	2-SMD, No Lead	2-SMD (3.2x1.5)	"0.126"" L x 0.059"" W (3.20mm x 1.50mm)"	XTAL-3215-2	XTAL-3215-2-SUNTSU	1=X1,2=X2	SAW312-Series.pdf p.1 land pattern, turned 90 degrees
+C	ECS	3-SMD, No Lead	3-SMD (3.2x1.5)	"0.126"" L x 0.059"" W (3.20mm x 1.50mm)"	XTAL-3215-3	XTAL-3215-3-ECS	1=X1,2=NC,3=X2	ECX-34G.pdf p.1 Figure 2, explicit 3 pads
+C	Abracon	2-SMD, No Lead	2-SMD (3.2x2.5)	"0.126"" L x 0.098"" W (3.20mm x 2.50mm)"	XTAL-3225-2	XTAL-3225-2-ABRACON	1=X1,2=X2	ABM8A.pdf p.3 recommended land pattern (ABM8AAIG same)
+C	ECS	2-SMD, No Lead	2-SMD (3.2x2.5)	"0.126"" L x 0.098"" W (3.20mm x 2.50mm)"	XTAL-3225-2	XTAL-3225-2-ABRACON	1=X1,2=X2	shared with XTAL-3225-2-ABRACON (ECX-33AQ.pdf p.1 Figure 2: 1.5 x 2.7, 1.9 centre to centre, equal)
+C	Abracon	2-SMD, No Lead	2-SMD (5x3.2)	"0.197"" L x 0.126"" W (5.00mm x 3.20mm)"	XTAL-5032-2	XTAL-5032-2-ABRACON	1=X1,2=X2	ABM3.pdf p.3 recommended land pattern
+C	ECS	2-SMD, No Lead	2-SMD (5x3.2)	"0.197"" L x 0.126"" W (5.00mm x 3.20mm)"	XTAL-5032-2	XTAL-5032-2-ABRACON	1=X1,2=X2	shared with XTAL-5032-2-ABRACON (ecx-53r.pdf, ECX-53Q.pdf p.1 Figure 2: 1.9 / 2.2 / 1.9 x 2.4, equal)
+C	Abracon	2-SMD, No Lead	2-SMD (6x3.5)	"0.236"" L x 0.138"" W (6.00mm x 3.50mm)"	XTAL-6035-2	XTAL-6035-2-ABRACON	1=X1,2=X2	ABM7.pdf p.3 recommended land pattern
+C	ECS	2-SMD, No Lead	2-SMD (6x3.5)	"0.236"" L x 0.138"" W (6.00mm x 3.50mm)"	XTAL-6035-2	XTAL-6035-2-ECS	1=X1,2=X2	ecx-64a_ecx-64cr.pdf p.1 Figure 2 (ECS-23G same)
+C	Abracon	2-SMD, Flat Lead	2-SMDFL (7x4.1)	"0.276"" L x 0.161"" W (7.00mm x 4.10mm)"	XTAL-7041-2	XTAL-7041-2-ABRACON	1=X1,2=X2	ABLS7M2.pdf p.3 recommended land pattern (ABLS7M same)
+C	Abracon	2-SMD, No Lead	2-SMD (8x4.5)	"0.315"" L x 0.177"" W (8.00mm x 4.50mm)"	XTAL-8045-2	XTAL-8045-2-ABRACON	1=X1,2=X2	abm2.pdf p.3 recommended land pattern
+C	Abracon	4-SMD, No Lead	4-SMD (1x.80)	"0.039"" L x 0.031"" W (1.00mm x 0.80mm)"	XTAL-1008-4	XTAL-1008-4-ABRACON	1=X1,2=NC,3=X2,4=NC	ABM14 drawing (ABM14.pdf p.3); ABM14N parts of this line draw 0.42 x 0.33 pads (ABM14N.pdf p.3)
+C	Abracon	4-SMD, No Lead	4-SMD (11.8x5.5)	"0.465"" L x 0.217"" W (11.80mm x 5.50mm)"	XTAL-118X55-4	XTAL-118X55-4-ABRACON	1=X1,2=X2,3=NC,4=NC	ABC2.pdf p.5 recommended land pattern
+C	Abracon	4-SMD, No Lead	4-SMD (1.2x1)	"0.047"" L x 0.039"" W (1.20mm x 1.00mm)"	XTAL-1210-4	XTAL-1210-4-ABRACON	1=X1,2=NC,3=X2,4=NC	ABM13W / ABM13N land pattern (ABM13W.pdf p.6, ABM13N.pdf p.3, equal); ABS04W parts of this line draw 0.52 x 0.47 pads (ABS04W.pdf p.7)
+C	ECS	4-SMD, No Lead	-	"0.047"" L x 0.039"" W (1.20mm x 1.00mm)"	XTAL-1210-4	XTAL-1210-4-ECS-B	1=X1,2=NC,3=X2,4=NC	ECX-1210B2 suggested land pattern (ECX-1210B2.pdf p.1); differs from ECX-1210B so -B
+C	ECS	4-SMD, No Lead	4-CSMD (1.2x1)	"0.047"" L x 0.039"" W (1.20mm x 1.00mm)"	XTAL-1210-4	XTAL-1210-4-ECS	1=X1,2=NC,3=X2,4=NC	ECX-1210B / ECX-1048 suggested land pattern (ECX-1210B.pdf p.1, ECX-1048.pdf p.1); ECX-1048B and customer-spec parts of this line draw other patterns
+C	Abracon	4-SMD, No Lead	4-SMD (1.65x1.25)	"0.065"" L x 0.049"" W (1.65mm x 1.25mm)"	XTAL-1612-4	XTAL-1612-4-ABRACON	1=X1,2=NC,3=X2,4=NC	ABM12N recommended land pattern (ABM12N.pdf p.3)
+C	Abracon	4-SMD, No Lead	4-SMD (1.6x1.2)	"0.063"" L x 0.047"" W (1.60mm x 1.20mm)"	XTAL-1612-4	XTAL-1612-4-ABRACON-B	1=X1,2=NC,3=X2,4=NC	ABM12W recommended landing pattern (ABM12W.pdf p.5); ABM12 and ABM12AIG parts of this line draw other patterns; differs from the 1.65x1.25 drawing so -B
+C	ECS	4-SMD, No Lead	4-SMD (1.6x1.2)	"0.063"" L x 0.047"" W (1.60mm x 1.20mm)"	XTAL-1612-4	XTAL-1612-4-ECS	1=X1,2=NC,3=X2,4=NC	ECX-1247 family suggested land (ECX-1247.pdf p.1); all five PDFs of this line draw the same pads
+C	Suntsu	4-SMD, No Lead	4-SMD (1.6x1.2)	"0.063"" L x 0.047"" W (1.60mm x 1.20mm)"	XTAL-1612-4	XTAL-1612-4-SUNTSU	1=X1,2=NC,3=X2,4=NC	SXT114 recommended landed pattern (SXT114-Series-3.pdf p.1)
+C	Abracon	4-SMD, No Lead	4-SMD (2x1.6)	"0.079"" L x 0.063"" W (2.00mm x 1.60mm)"	XTAL-2016-4	XTAL-2016-4-ABRACON	1=X1,2=NC,3=X2,4=NC	ABM11 recommended land pattern (ABM11.pdf p.2); ABM11N, ABM11AIG, ABM11W parts of this line draw other patterns
+C	ECS	4-SMD, No Lead	4-SMD (2x1.6)	"0.079"" L x 0.063"" W (2.00mm x 1.60mm)"	XTAL-2016-4	XTAL-2016-4-ECS	1=X1,2=NC,3=X2,4=NC	ECX-1637 family suggested land (ECX-1637B.pdf p.1); all six PDFs of this line draw the same pads
+C	Suntsu	4-SMD, No Lead	4-SMD (2x1.6)	"0.079"" L x 0.063"" W (2.00mm x 1.60mm)"	XTAL-2016-4	XTAL-2016-4-ECS	1=X1,2=NC,3=X2,4=NC	shared with XTAL-2016-4-ECS (SXT214 / SAX214 land pattern equals ECX-1637: SXT214-Series-1.pdf p.1, SAX214-Series.pdf p.1)
+C	Abracon	4-SMD, No Lead	4-SMD (2.5x2)	"0.098"" L x 0.079"" W (2.50mm x 2.00mm)"	XTAL-2520-4	XTAL-2520-4-ABRACON	1=X1,2=NC,3=X2,4=NC	ABM10 recommended land pattern (ABM10.pdf p.2); ABM10-165 and ABM10W parts of this line draw other patterns
+C	ECS	4-SMD, No Lead	4-SMD (2.5x2)	"0.098"" L x 0.079"" W (2.50mm x 2.00mm)"	XTAL-2520-4	XTAL-2520-4-ECS	1=X1,2=NC,3=X2,4=NC	ECX-2236 family suggested land (ECX-2236.pdf p.1); all four PDFs of this line draw the same pads
+C	Suntsu	4-SMD, No Lead	4-SMD (2.5x2)	"0.098"" L x 0.079"" W (2.50mm x 2.00mm)"	XTAL-2520-4	XTAL-2520-4-SUNTSU	1=X1,2=NC,3=X2,4=NC	SXT224 recommended landed pattern (SXT224-Series-1.pdf p.1)
+C	Abracon	4-SMD, No Lead	4-SMD (2.55x2.05)	"0.100"" L x 0.081"" W (2.55mm x 2.05mm)"	XTAL-2620-4	XTAL-2620-4-ABRACON	1=X1,2=NC,3=X2,4=NC	drawn from ABM10AIG.pdf p.3 (3 of 5 parts); ABM10N.pdf p.3 (2 parts) draws different pads
+C	Abracon	4-SMD, No Lead	4-SMD (3.2x2.5)	"0.126"" L x 0.098"" W (3.20mm x 2.50mm)"	XTAL-3225-4	XTAL-3225-4-ABRACON	1=X1,2=NC,3=X2,4=NC	drawn from ABM8G.pdf p.2 (= ABM8N.pdf p.3, 5 of 17 parts); ABM8AIG/ABM8GAIG, ABM8W, abm8, ABM8X draw other pads
+C	ECS	4-SMD, No Lead	4-SMD (3.2x2.5)	"0.126"" L x 0.098"" W (3.20mm x 2.50mm)"	XTAL-3225-4	XTAL-3225-4-ECS	1=X1,2=NC,3=X2,4=NC	drawn from ecx-32.pdf p.1 (= ECX-33Q, ECX-33B2Q, 9 of 15 parts incl. ECS-122.8-CDX-0921 which names package ECX-32); ECS-33B, ECS-33B2, ECX-33QZ draw 1.9 vertical centre
+C	Suntsu	4-SMD, No Lead	4-SMD (3.2x2.5)	"0.126"" L x 0.098"" W (3.20mm x 2.50mm)"	XTAL-3225-4	XTAL-3225-4-SUNTSU	1=X1,2=NC,3=X2,4=NC	drawn from SXT324-Series-1.pdf p.1 (20 of 40 parts); SAX324-Series.pdf p.1 draws other pads
+C	ECS	4-SMD, No Lead	4-SMD (4x2.5)	"0.157"" L x 0.098"" W (4.00mm x 2.50mm)"	XTAL-4025-4	XTAL-4025-4-ECS	1=X1,2=NC,3=X2,4=NC	drawn from ECX_42.pdf p.1 Figure 2
+C	Abracon	4-SMD, No Lead	4-CSMD (5x3.2)	"0.197"" L x 0.126"" W (5.00mm x 3.20mm)"	XTAL-5032-4	XTAL-5032-4-ABRACON	1=X1,2=NC,3=X2,4=NC	drawn from ABM3C.pdf p.2
+C	Abracon	4-SMD, No Lead	4-SMD (5x3.2)	"0.197"" L x 0.126"" W (5.00mm x 3.20mm)"	XTAL-5032-4	XTAL-5032-4-ABRACON-B	1=X1,2=NC,3=X2,4=NC	drawn from abm3b.pdf p.3 (= ABM3BN.pdf, 5 of 8 parts); differs from the 4-CSMD line (ABM3C) and from ABM3BAIG / ABM3X drawings
+C	ECS	4-SMD, No Lead	4-SMD (5x3.2)	"0.197"" L x 0.126"" W (5.00mm x 3.20mm)"	XTAL-5032-4	XTAL-5032-4-ECS	1=X1,2=NC,3=X2,4=NC	drawn from ecx_53b.pdf p.1 Figure 2 (= ecx_53b_du, ECX-53BQ, 9 of 11 parts); ECX-53BQZ draws other pads
+C	ECS	4-SMD, No Lead	4-SMD (6x3.5)	"0.236"" L x 0.138"" W (6.00mm x 3.50mm)"	XTAL-6035-4	XTAL-6035-4-ECS	1=X1,2=NC,3=X2,4=NC	drawn from ecx_64r.pdf p.1 Figure 2
+C	Abracon	4-SMD, No Lead	4-SMD (6x3.6)	"0.236"" L x 0.142"" W (6.00mm x 3.60mm)"	XTAL-6036-4	XTAL-6036-4-ABRACON	1=X1,2=NC,3=X2,4=NC	drawn from ABMM2.pdf p.3
+C	Abracon	4-SMD, Flat Lead, 3 Leads	4-SMD (6.7x1.4)	"0.264"" L x 0.055"" W (6.70mm x 1.40mm)"	XTAL-6714-4	XTAL-6714-4-ABRACON	1=X1,2=NC,3=NC,4=X2	drawn from ABS13.pdf p.2
+C	ECS	4-SMD, Flat Lead, 3 Leads	4-SMD (7x1.5)	"0.264"" L x 0.059"" W (6.70mm x 1.50mm)"	XTAL-6715-4	XTAL-6714-4-ABRACON	1=X1,2=NC,3=NC,4=X2	shared with XTAL-6714-4-ABRACON (ecx-71.pdf p.1 Figure 2: same pads 1.2 x 0.6, 5.1, 0.3; same numbering; body 7.0 x 1.5 max vs 6.9 x 1.4)
+C	Abracon	4-SMD, No Lead	4-SMD (7x5)	"0.276"" L x 0.197"" W (7.00mm x 5.00mm)"	XTAL-7050-4	XTAL-7050-4-ABRACON	1=X1,2=NC,3=X2,4=NC	drawn from ABMM.pdf p.2 (explicit: clockwise numbering, one longer pad)
+C	ECS	4-SMD, No Lead	4-SMD (7x5)	"0.276"" L x 0.197"" W (7.00mm x 5.00mm)"	XTAL-7050-4	XTAL-7050-4-ECS	1=X1,2=NC,3=X2,4=NC	drawn from CSM-8Q.pdf p.1 Figure 2 (= csm-8mr.pdf p.1)
+C	Abracon	Cylindrical Can, Radial		"0.055"" Dia x 0.205"" L (1.40mm x 5.00mm)"	XTAL-CYL-1X5-SMD-2	XTAL-CYL-1X5-SMD-2-ABRACON	1=X1,2=X2	AB26TRQ.pdf p.2 recommended land pattern (body pad 2.4 x 1.5 as unnumbered pad 0, lead pads 1.1 x 0.6)
+C	Abracon	Cylindrical Can, Radial		"0.075"" Dia x 0.236"" L (1.90mm x 6.00mm)"	XTAL-CYL-2X6-SMD-2	XTAL-CYL-2X6-SMD-2-ABRACON	1=X1,2=X2	AB26TRB.pdf p.2 dimension table F-M (body pad 2.5 x 2.5 as unnumbered pad 0, lead pads 2.5 x 1.0); body position relative to pads assumed
+C	Abracon	HC-49/US		"0.449"" L x 0.185"" W (11.40mm x 4.70mm)"	XTAL-HC49US-SMD-2	XTAL-HC49US-SMD-2-ABRACON	1=X1,2=X2	ABLS3.pdf p.3 recommended land pattern: 5.6 x 2.1, span 9.5
+C	Abracon	HC-49/US	HC-49/US	"0.449"" L x 0.185"" W (11.40mm x 4.70mm)"	XTAL-HC49US-SMD-2	XTAL-HC49US-SMD-2-ABRACON	1=X1,2=X2	shared with XTAL-HC49US-SMD-2-ABRACON (ABLS2 / ABLS / ABLS-LR: same land pattern 5.6 x 2.1, span 9.5)
+C	ECS	HC-49/US		"0.276"" L x 0.161"" W (7.00mm x 4.10mm)"	XTAL-HC49US-SMD-2	XTAL-HC49US-SMD-2-ECS	1=X1,2=X2	ECS CSM-3X.pdf p.1 Figure 2 suggested land: 3.5 x 1.2, span 5.5
+C	ECS	HC-49/US		"0.449"" L x 0.189"" W (11.40mm x 4.80mm)"	XTAL-HC49US-SMD-2	XTAL-HC49US-SMD-2-ECS-B	1=X1,2=X2	csm-7x-dn.pdf p.1 Figure 2 suggested land: 5.5 x 2.0, span 9.5 (CSM-7SSX, 7X_DU, 7x same figure); -B: differs from the ECS CSM-3X drawing
+C	Suntsu	HC-49/US	HC-49/US SMT	"0.524"" L x 0.197"" W (13.30mm x 5.00mm)"	XTAL-HC49US-SMD-2	XTAL-HC49US-SMD-2-ECS-B	1=X1,2=X2	shared with XTAL-HC49US-SMD-2-ECS-B (Suntsu SXTHM2-Series.pdf p.2 land pattern 5.5 x 2.0, c-c 9.5 equals the ECS CSM-7X pads)
+C	Abracon	HC-49/US - 3 Lead	HC-49/US	"0.449"" L x 0.185"" W (11.40mm x 4.70mm)"	XTAL-HC49US-SMD-3	XTAL-HC49US-SMD-3-ABRACON	1=X1,2=GND,3=X2	ABLSG.pdf p.2 recommended land pattern: 5.6 x 2.1 at 9.5 and a 2.1 x 4.0 middle (GND) pad; pad numbers assigned by the pinout (datasheet unnumbered)
+C	ECS	HC-49/US - 3 Lead		"0.449"" L x 0.185"" W (11.40mm x 4.70mm)"	XTAL-HC49US-SMD-3	XTAL-HC49US-SMD-3-ECS	1=X1,2=X2,3=GND	csm_7x_3l.pdf p.1 Figure 2 suggested land: 5.0 x 1.5 at 9.0 and a 4.0 tall middle pad (width 1.8 scaled from the drawing)
+C	Abracon	HC-49/US		"0.492"" L x 0.195"" W (12.50mm x 4.95mm)"	XTAL-HC49US-SMD-4	XTAL-HC49US-SMD-4-ABRACON	1=X1,2=NC,3=NC,4=X2	ABSM3A.pdf p.3 recommended land pattern: four 3.0 x 2.5 pads, 9.0 x 3.2 centres
+C	ECS	HC-49/US - 4 Lead		"0.492"" L x 0.191"" W (12.50mm x 4.85mm)"	XTAL-HC49US-SMD-4	XTAL-HC49US-SMD-4-ECS	1=X1,2=NC,3=NC,4=X2	csm-4ax.pdf p.1 Figure 2 suggested land: four 2.3 x 2.2 pads, 9.0 x 3.5 centres
+C	Abracon	4-SOJ, 5.50mm pitch		"0.315"" L x 0.150"" W (8.00mm x 3.80mm)"	XTAL-SOJ-5.5-4	XTAL-SOJ-5.5-4-ABRACON	1=X1,2=NC,3=NC,4=X2	abs25.pdf p.2 recommended land pattern: four 1.3 x 1.9 pads, 5.5 x 3.2 centres
+C	ECS	4-SOJ, 5.50mm pitch		"0.315"" L x 0.150"" W (8.00mm x 3.80mm)"	XTAL-SOJ-5.5-4	XTAL-SOJ-5.5-4-ABRACON	1=X1,2=NC,3=NC,4=X2	shared with XTAL-SOJ-5.5-4-ABRACON (ecx-306x.pdf p.1 Figure 2: same pads and numbering)
+C	Suntsu	4-SOJ, 5.50mm pitch	4-SMD (8x3.8)	"0.315"" L x 0.150"" W (8.00mm x 3.80mm)"	XTAL-SOJ-5.5-4	XTAL-SOJ-5.5-4-SUNTSU	1=X1,2=NC,3=NC,4=X2	SXT834-Series.pdf p.2 recommended land pattern (same pad geometry as the Abracon one; numbering from the bottom view mirrored, so a separate id)
+D	ECS	Cylindrical Can, Radial		"0.059"" Dia x 0.201"" L (1.50mm x 5.10mm)"	XTAL-CYL-2X5-2	XTAL-CYL-2X5-2-ECS	1=X1,2=X2	drawn: ECS-3x8X-2x6X-1X5X.pdf p.1 Fig 3 (R8, lead spacing 0.45, pads shrunk to fit)
+D	Abracon	Cylindrical Can, Radial		"0.083"" Dia x 0.244"" L (2.10mm x 6.20mm)"	XTAL-CYL-2X6-2	XTAL-CYL-2X6-2-ABRACON	1=X1,2=X2	drawn: AB26T.pdf p.1 outline (R8, lead spacing 0.8, pads shrunk to fit)
+D	ECS	Cylindrical Can, Radial		"0.083"" Dia x 0.244"" L (2.10mm x 6.20mm)"	XTAL-CYL-2X6-2	XTAL-CYL-2X6-2-ECS	1=X1,2=X2	drawn: ECS-3x8X-2x6X-1X5X.pdf p.1 Fig 2 / CDX-1038.pdf p.1 (R8, lead spacing 0.7, pads shrunk to fit)
+D	ECS	Cylindrical Can, Radial		"0.126"" Dia x 0.413"" L (3.20mm x 10.50mm)"	XTAL-CYL-3X10-2	XTAL-CYL-3X10-2-ECS	1=X1,2=X2	drawn: ECS-3x10X-3x9X.pdf p.1 Fig 1 (R8, lead spacing 1.1, pads shrunk to fit)
+D	Abracon	Cylindrical Can, Radial		"0.118"" Dia x 0.315"" L (3.00mm x 8.00mm)"	XTAL-CYL-3X8-2	XTAL-CYL-3X8-2-ABRACON	1=X1,2=X2	drawn: ab308.pdf p.2 outline (R8, lead spacing 0.8, pads shrunk to fit; AB38T.pdf p.2 same pads)
+D	Abracon	Cylindrical Can, Radial		"0.126"" Dia x 0.327"" L (3.20mm x 8.30mm)"	XTAL-CYL-3X8-2	XTAL-CYL-3X8-2-ABRACON	1=X1,2=X2	shared with XTAL-CYL-3X8-2-ABRACON
+D	Abracon	Cylindrical Can, Radial		"0.126"" Dia x 0.330"" L (3.20mm x 8.30mm)"	XTAL-CYL-3X8-2	XTAL-CYL-3X8-2-ABRACON	1=X1,2=X2	shared with XTAL-CYL-3X8-2-ABRACON
+D	ECS	Cylindrical Can, Radial		"0.122"" Dia x 0.323"" L (3.10mm x 8.20mm)"	XTAL-CYL-3X8-2	XTAL-CYL-3X8-2-ECS	1=X1,2=X2	drawn: ECS-3x8X-2x6X-1X5X.pdf p.1 Fig 1 (R8, lead spacing 1.1, pads shrunk to fit)
+D	ECS	Cylindrical Can, Radial		"0.126"" Dia x 0.354"" L (3.20mm x 9.00mm)"	XTAL-CYL-3X9-2	XTAL-CYL-3X10-2-ECS	1=X1,2=X2	shared with XTAL-CYL-3X10-2-ECS
+D	ECS	HC-46/X		"0.260"" L x 0.157"" W (6.60mm x 4.00mm)"	XTAL-HC46X-2	XTAL-HC46X-2-ECS	1=X1,2=X2	drawn: HC-46X.pdf p.1 (R8: lead 0.34, spacing 2.5, hole 0.64, pad 1.24; no land pattern printed)
+D	Abracon	HC-49/U	HC-49/U	"0.453"" L x 0.197"" W (11.50mm x 5.00mm)"	XTAL-HC49U-2	XTAL-HC49U-2-ABRACON	1=X1,2=X2	drawn: ab.pdf p.3 outline (R8: lead 0.457, spacing 4.88, hole 0.76, pad 1.36; no land pattern printed)
+D	ECS	HC-49/U		"0.447"" L x 0.183"" W (11.35mm x 4.65mm)"	XTAL-HC49U-2	XTAL-HC49U-2-ECS	1=X1,2=X2	drawn: HC-49UX.pdf p.1 (R8: lead 0.43, spacing 4.88, hole 0.73, pad 1.33; no land pattern printed)
+D	Abracon	HC-49/US	HC-49/US	"0.453"" L x 0.197"" W (11.50mm x 5.00mm)"	XTAL-HC49US-2	XTAL-HC49U-2-ABRACON	1=X1,2=X2	shared with XTAL-HC49U-2-ABRACON
+D	ECS	HC-49/US		"0.447"" L x 0.183"" W (11.35mm x 4.65mm)"	XTAL-HC49US-2	XTAL-HC49U-2-ECS	1=X1,2=X2	shared with XTAL-HC49U-2-ECS
+D	ECS	HC-49/US		"0.447"" L x 0.197"" W (11.35mm x 5.00mm)"	XTAL-HC49US-2	XTAL-HC49U-2-ECS	1=X1,2=X2	shared with XTAL-HC49U-2-ECS
+D	Abracon	3-SMD, Non-Standard		"0.098"" L x 0.079"" W (2.50mm x 2.00mm)"	CRES-2520-3	CRES-2520-3-ABRACON	1=X1,2=GND,3=X2	drawn: AWSCR_CW.pdf p.2 land pattern (pad length from ECS-HFR-B p.1)
+D	ECS	3-SMD, Non-Standard		"0.098"" L x 0.079"" W (2.50mm x 2.00mm)"	CRES-2520-3	CRES-2520-3-ABRACON	1=X1,2=GND,3=X2	shared with CRES-2520-3-ABRACON (equal drawing: ECS-HFR-B.pdf p.1 Figure 2)
+D	Abracon	3-SMD, Non-Standard		"0.126"" L x 0.051"" W (3.20mm x 1.30mm)"	CRES-3213-3	CRES-3213-3-ABRACON	1=X1,2=GND,3=X2	drawn: AWSCR-CELA.pdf p.4 land pattern
+D	ECS	3-SMD, No Lead		"0.126"" L x 0.051"" W (3.20mm x 1.30mm)"	CRES-3213-3	CRES-3213-3-ABRACON	1=X1,2=GND,3=X2	shared with CRES-3213-3-ABRACON (equal drawing: ECS-CTE.pdf p.1 Figure 2)
+D	Abracon	1512 (3731 Metric)		"0.146"" L x 0.122"" W (3.70mm x 3.10mm)"	CRES-3731-2	CRES-3731-2-ABRACON	1=X1,2=X2	drawn: AWSZT-CV.pdf p.2 land pattern
+D	ECS	1512 (3731 Metric)		"0.146"" L x 0.122"" W (3.70mm x 3.10mm)"	CRES-3731-2	CRES-3731-2-ABRACON	1=X1,2=X2	shared with CRES-3731-2-ABRACON (equal drawing: ecs_cr2_a.pdf p.1 Figure 2 + table)
+D	Abracon	3-SMD, Non-Standard		"0.146"" L x 0.122"" W (3.70mm x 3.10mm)"	CRES-3731-3	CRES-3731-3-ABRACON	1=X1,2=GND,3=X2	drawn: AWSCR_CV.pdf p.2 land pattern
+D	ECS	3-SMD, No Lead		"0.146"" L x 0.122"" W (3.70mm x 3.10mm)"	CRES-3731-3	CRES-3731-3-ABRACON	1=X1,2=GND,3=X2	shared with CRES-3731-3-ABRACON (equal drawing: ecs_cr2_b.pdf p.1 Figure 3 + table)
+D	ECS	3-SMD, Non-Standard		"0.146"" L x 0.122"" W (3.70mm x 3.10mm)"	CRES-3731-3	CRES-3731-3-ABRACON	1=X1,2=GND,3=X2	shared with CRES-3731-3-ABRACON (equal drawing: ecs_cr2_b.pdf p.1 Figure 3 + table)
+D	Abracon	3-SMD, Non-Standard		"0.177"" L x 0.079"" W (4.50mm x 2.00mm)"	CRES-4520-3	CRES-4520-3-ABRACON	1=X1,2=GND,3=X2	drawn: AWSCR-CRLA.pdf p.4 land pattern
+D	Abracon	3-SMD, Non-Standard		"0.185"" L x 0.161"" W (4.70mm x 4.10mm)"	CRES-4741-3	CRES-4741-3-ABRACON	1=X1,2=GND,3=X2	drawn: N_AWSCR-MT.pdf p.3 land pattern
+D	ECS	2-SMD, No Lead		"0.236"" L x 0.118"" W (6.00mm x 3.00mm)"	CRES-6030-2	CRES-6030-2-ECS	1=X1,2=X2	drawn: ECS-CTA.pdf p.1 Figure 2 land pattern
+D	Abracon	3-SMD, Non-Standard		"0.236"" L x 0.118"" W (6.00mm x 3.00mm)"	CRES-6030-3	CRES-6030-3-ABRACON	1=X1,2=GND,3=X2	drawn: AWSCR-CPLA.pdf p.3 land pattern
+D	ECS	3-SMD, No Lead		"0.236"" L x 0.118"" W (6.00mm x 3.00mm)"	CRES-6030-3	CRES-6030-3-ABRACON	1=X1,2=GND,3=X2	shared with CRES-6030-3-ABRACON (equal drawing: ECS-CTP.pdf p.1 Figure 2)

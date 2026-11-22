@@ -4,7 +4,7 @@
 usage: python3 -I fp-skeleton.py              write planning/plan-44-data/fp-parts/<name>.tsv and <name>.json
                                               (never overwrites a worksheet that exists)
        python3 -I fp-skeleton.py --assemble   merge the worksheets: footprints-C.json, footprints-D.json,
-                                              footprint-map-C.tsv, footprint-map-D.tsv
+                                              footprint-map.tsv (the C rows then the D rows)
 
 Worksheet columns: the map's (letter, maker, package, supplier, size, label,
 footprint, pinouts, note) and, for the reader, parts, example, datasheet and
@@ -106,6 +106,7 @@ def make():
 
 
 def assemble():
+    every = []
     for letter in 'CD':
         objs, rows = [], []
         for name, l, _ in READERS:
@@ -121,8 +122,9 @@ def assemble():
             f.write('{\n  "format": "schematical-footprints",\n  "version": 1,\n  "footprints": [\n')
             f.write(',\n'.join('    ' + json.dumps(o, ensure_ascii=False, separators=(',', ':')) for o in objs))
             f.write('\n  ]\n}\n')
-        write(os.path.join(common.DATA, f'footprint-map-{letter}.tsv'), MAPCOLS, rows)
+        every += rows
         print(f'letter {letter}: {len(objs)} footprints, {len(rows)} map rows')
+    write(os.path.join(common.DATA, 'footprint-map.tsv'), MAPCOLS, every)
 
 
 if __name__ == '__main__':

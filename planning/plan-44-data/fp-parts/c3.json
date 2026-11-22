@@ -1,5 +1,267 @@
 {
   "format": "schematical-footprints",
   "version": 1,
-  "footprints": []
+  "footprints": [
+    {
+      "id": "XTAL-2620-4-ABRACON",
+      "description": "4-pad SMD crystal, 2.55 x 2.05 mm ceramic (Abracon ABM10AIG)",
+      "note": "datasheets/crystal/abracon/ABM10AIG.pdf p.3 Recommended Land Pattern: pads 1.1 x 1.0 (width x height), pad-centre distance 1.65 horizontally, 1.25 vertically (gap 0.55 / 0.25); body 2.55 x 2.05 (+/-0.1) from Top View; drawn upright: turned 90 deg clockwise so pin 1 (bottom-left in the top view) sits at the top of the left column (datasheet pad width/height become height/width, the horizontal centre distance becomes the pitch, the vertical one the span). ABM10N.pdf p.3 draws a different pattern (1.0 x 0.9 pads, gaps 0.85 / 0.65 -> centres 1.85 x 1.55), not used",
+      "style": "dual",
+      "pins": 4,
+      "body": {
+        "width": 2.05,
+        "height": 2.55
+      },
+      "pitch": 1.65,
+      "span": 1.25,
+      "pad": {
+        "width": 1.0,
+        "height": 1.1,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-3225-4-ABRACON",
+      "description": "4-pad SMD crystal, 3.2 x 2.5 mm ceramic (Abracon ABM8G, ABM8N)",
+      "note": "datasheets/crystal/abracon/ABM8G.pdf p.2 Recommended land pattern: pads 1.4 x 1.2 (width x height), centres 2.2 horizontally, 1.7 vertically (1.2 pad + 0.5 gap); same pattern in ABM8N.pdf p.3 (1.4 / 0.8 gap = 2.2; 1.2 / 0.5 gap = 1.7); body 3.2 x 2.5 (+/-0.1); drawn upright: turned 90 deg clockwise so pin 1 (bottom-left in the top view) sits at the top of the left column (datasheet pad width/height become height/width, the horizontal centre distance becomes the pitch, the vertical one the span). Other Abracon 3.2 x 2.5 series draw other patterns (ABM8AIG, ABM8GAIG 1.4 x 1.2 at 2.2 x 1.6; ABM8W 1.4 x 1.15 at 2.2 x 1.6; abm8 1.3 x 1.05 at 2.3 x 1.75; ABM8X 1.2 x 1.1 at 2.1 x 1.5), not used",
+      "style": "dual",
+      "pins": 4,
+      "body": {
+        "width": 2.5,
+        "height": 3.2
+      },
+      "pitch": 2.2,
+      "span": 1.7,
+      "pad": {
+        "width": 1.2,
+        "height": 1.4,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-3225-4-ECS",
+      "description": "4-pad SMD crystal, 3.2 x 2.5 mm ceramic (ECS ECX-32, ECX-33Q, ECX-33B2Q)",
+      "note": "datasheets/crystal/ecs/ecx-32.pdf p.1 Figure 2 Suggested land: pads 1.3 x 1.1 (width x height) with 1.0 / 0.7 gaps, so centres 1.0 + 1.3 = 2.3 horizontally (printed 2.3) and 0.7 + 1.1 = 1.8 vertically (printed 1.8); same in ECX-33Q.pdf and ECX-33B2Q.pdf p.1; body 3.2 x 2.5 (+/-0.1) from Figure 1; drawn upright: turned 90 deg clockwise so pin 1 (bottom-left in the top view) sits at the top of the left column (datasheet pad width/height become height/width, the horizontal centre distance becomes the pitch, the vertical one the span). ECS-33B.pdf, ECS-33B2.pdf, ECX-33QZ.pdf p.1 draw 1.3 x 1.1 pads at 2.3 x 1.9 (vertical centre 1.9), not used; ECS-122.8-CDX-0921.pdf prints no land pattern (package type ECX-32)",
+      "style": "dual",
+      "pins": 4,
+      "body": {
+        "width": 2.5,
+        "height": 3.2
+      },
+      "pitch": 2.3,
+      "span": 1.8,
+      "pad": {
+        "width": 1.1,
+        "height": 1.3,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-3225-4-SUNTSU",
+      "description": "4-pad SMD crystal, 3.2 x 2.5 mm ceramic (Suntsu SXT324)",
+      "note": "datasheets/crystal/suntsu/SXT324-Series-1.pdf p.1 Outline Drawing & Recommended Landed Pattern: pads 1.0 wide x 1.3 high, pad-centre distance 1.55 horizontally and 2.25 vertically; body 2.5 x 3.2 (+/-0.2) drawn upright; the Electrode Arrangement is a BOTTOM view (4 top-left, 1 top-right, 3 bottom-left, 2 bottom-right), mirrored to the top view it is 1 top-left, 2 bottom-left, 3 bottom-right, 4 top-right = dual order, so no turn (pad width 1.0, height 1.3, pitch 2.25, span 1.55). SAX324-Series.pdf p.1 draws 1.05 x 1.3 pads at 1.85 x 2.30, not used",
+      "style": "dual",
+      "pins": 4,
+      "body": {
+        "width": 2.5,
+        "height": 3.2
+      },
+      "pitch": 2.25,
+      "span": 1.55,
+      "pad": {
+        "width": 1.0,
+        "height": 1.3,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-4025-4-ECS",
+      "description": "4-pad SMD crystal, 4.0 x 2.5 mm ceramic (ECS ECX-42)",
+      "note": "datasheets/crystal/ecs/ECX_42.pdf p.1 Figure 2 Suggested land: pads 1.4 x 1.15 (width x height), gaps 1.6 / 0.45 so centres 1.6 + 1.4 = 3.0 horizontally (printed 3.0) and 0.45 + 1.15 = 1.6 vertically (printed 1.6); body 4.0 x 2.5 (+/-0.2) from Figure 1; drawn upright: turned 90 deg clockwise so pin 1 (bottom-left in the top view) sits at the top of the left column (datasheet pad width/height become height/width, the horizontal centre distance becomes the pitch, the vertical one the span)",
+      "style": "dual",
+      "pins": 4,
+      "body": {
+        "width": 2.5,
+        "height": 4.0
+      },
+      "pitch": 3.0,
+      "span": 1.6,
+      "pad": {
+        "width": 1.15,
+        "height": 1.4,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-5032-4-ABRACON",
+      "description": "4-pad SMD crystal, 5.0 x 3.2 mm ceramic, 4-CSMD (Abracon ABM3C)",
+      "note": "datasheets/crystal/abracon/ABM3C.pdf p.2 Recommended land pattern: pads 1.6 x 1.3 (width x height), centres 3.8 horizontally (0.15 in) and 2.3 vertically (0.091 in; read as centre-to-centre, as in the identical pattern of ABM3BAIG.pdf p.3); body 5.0 x 3.2 (+/-0.15); drawn upright: turned 90 deg clockwise so pin 1 (bottom-left in the top view) sits at the top of the left column (datasheet pad width/height become height/width, the horizontal centre distance becomes the pitch, the vertical one the span)",
+      "style": "dual",
+      "pins": 4,
+      "body": {
+        "width": 3.2,
+        "height": 5.0
+      },
+      "pitch": 3.8,
+      "span": 2.3,
+      "pad": {
+        "width": 1.3,
+        "height": 1.6,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-5032-4-ABRACON-B",
+      "description": "4-pad SMD crystal, 5.0 x 3.2 mm ceramic (Abracon ABM3B, ABM3BN)",
+      "note": "datasheets/crystal/abracon/abm3b.pdf p.3 Recommended Land Pattern: pads 1.80 x 1.20 (width x height), centres 4.00 horizontally and 2.40 vertically; same in ABM3BN.pdf p.3; body 5.00 x 3.20 (+/-0.10); drawn upright: turned 90 deg clockwise so pin 1 (bottom-left in the top view) sits at the top of the left column (datasheet pad width/height become height/width, the horizontal centre distance becomes the pitch, the vertical one the span). ABM3BAIG.pdf p.3 draws 1.6 x 1.3 at 3.8 x 2.3 (= XTAL-5032-4-ABRACON) and ABM3X.pdf p.2 draws 1.5 x 1.2 at 3.8 x 2.2, not used",
+      "style": "dual",
+      "pins": 4,
+      "body": {
+        "width": 3.2,
+        "height": 5.0
+      },
+      "pitch": 4.0,
+      "span": 2.4,
+      "pad": {
+        "width": 1.2,
+        "height": 1.8,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-5032-4-ECS",
+      "description": "4-pad SMD crystal, 5.0 x 3.2 mm ceramic (ECS ECX-53B, ECX-53B-DU, ECX-53BQ)",
+      "note": "datasheets/crystal/ecs/ecx_53b.pdf p.1 Figure 2 Suggested land: pads 1.6 x 1.25 (width x height), gaps 2.1 / 0.95 so centres 2.1 + 1.6 = 3.7 horizontally (printed 3.7) and 0.95 + 1.25 = 2.2 vertically (printed 2.2); same in ecx_53b_du.pdf and ECX-53BQ.pdf; body 5.0 x 3.2 (+/-0.2) from Figure 1; drawn upright: turned 90 deg clockwise so pin 1 (bottom-left in the top view) sits at the top of the left column (datasheet pad width/height become height/width, the horizontal centre distance becomes the pitch, the vertical one the span). ECX-53BQZ.pdf p.1 draws 1.6 x 1.3 at 3.8 x 2.3, not used",
+      "style": "dual",
+      "pins": 4,
+      "body": {
+        "width": 3.2,
+        "height": 5.0
+      },
+      "pitch": 3.7,
+      "span": 2.2,
+      "pad": {
+        "width": 1.25,
+        "height": 1.6,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-6035-4-ECS",
+      "description": "4-pad SMD crystal, 6.0 x 3.5 mm ceramic (ECS ECX-64)",
+      "note": "datasheets/crystal/ecs/ecx_64r.pdf p.1 Figure 2 Suggested land: pads 2.0 x 1.4 (width x height), pad-centre distance 4.4 horizontally and 2.4 vertically (dimension lines on the pad centre lines), pads numbered #4 #3 / #1 #2 in the top view; body 6.0 x 3.5 (+/-0.2) from Figure 1; drawn upright: turned 90 deg clockwise so pin 1 (bottom-left in the top view) sits at the top of the left column (datasheet pad width/height become height/width, the horizontal centre distance becomes the pitch, the vertical one the span)",
+      "style": "dual",
+      "pins": 4,
+      "body": {
+        "width": 3.5,
+        "height": 6.0
+      },
+      "pitch": 4.4,
+      "span": 2.4,
+      "pad": {
+        "width": 1.4,
+        "height": 2.0,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-6036-4-ABRACON",
+      "description": "4-pad SMD crystal, 6.0 x 3.5 mm ceramic (Abracon ABMM2)",
+      "note": "datasheets/crystal/abracon/ABMM2.pdf p.3 Recommended Land Pattern: pads 1.95 x 1.40 (width x height; 4X 1.95, 4X 1.40), gaps 2.40 horizontally and 1.10 vertically between pad edges, so centres 2.40 + 1.95 = 4.35 and 1.10 + 1.40 = 2.50; body 6.00 x 3.50 (+/-0.20) from Top View (DigiKey calls it 6x3.6); pads numbered 4 3 / 1 2 in the Circuit (top) view; drawn upright: turned 90 deg clockwise so pin 1 (bottom-left in the top view) sits at the top of the left column (datasheet pad width/height become height/width, the horizontal centre distance becomes the pitch, the vertical one the span)",
+      "style": "dual",
+      "pins": 4,
+      "body": {
+        "width": 3.5,
+        "height": 6.0
+      },
+      "pitch": 4.35,
+      "span": 2.5,
+      "pad": {
+        "width": 1.4,
+        "height": 1.95,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-6714-4-ABRACON",
+      "description": "4-pad SMD crystal, 6.9 x 1.4 mm plastic flat-lead package (Abracon ABS13, ECS ECX-71)",
+      "note": "datasheets/crystal/abracon/ABS13.pdf p.2 Recommended Land Pattern: four pads 1.2 x 0.6 (width x height), 5.1 between the end pads so centres 5.1 + 1.2 = 6.3 horizontally, 0.3 gap between the stacked pads so centres 0.3 + 0.6 = 0.9 vertically; body 6.9 x 1.4 (D, E of the Dimension Table); the land pattern is not numbered: pads taken as the outline's 4# 3# / 1# 2# top-view numbering (1, 4 the crystal terminals at the left end); drawn upright: turned 90 deg clockwise so pin 1 (bottom-left in the top view) sits at the top of the left column (datasheet pad width/height become height/width, the horizontal centre distance becomes the pitch, the vertical one the span); ecs/ecx-71.pdf p.1 Figure 2 draws the same pads (1.2 x 0.6, 5.1, 0.3) with body 7.0 x 1.5 max, so ECX-71 shares this id",
+      "style": "dual",
+      "pins": 4,
+      "body": {
+        "width": 1.4,
+        "height": 6.9
+      },
+      "pitch": 6.3,
+      "span": 0.9,
+      "pad": {
+        "width": 0.6,
+        "height": 1.2,
+        "shape": "rect"
+      }
+    },
+    {
+      "id": "XTAL-7050-4-ABRACON",
+      "description": "4-pad SMD crystal, 7.2 x 5.2 mm max ceramic (Abracon ABMM)",
+      "note": "datasheets/crystal/abracon/ABMM.pdf p.2 Recommended Land Pattern: pad-centre distance 6.3 horizontally, 2.54 vertically; pads 2.2 x 1.4 (width x height) and one longer pad 2.4 x 1.4 on the bottom-right (top view = pad 4, the 1.5 mm terminal of the bottom view) whose outer edge lines up with the others (centre 3.15 - 0.1 = 3.05, width 2.4); body 7.2 x 5.2 (printed max). Top view numbers 1 bottom-left, 2 top-left, 3 top-right, 4 bottom-right (clockwise, unlike the other crystals), so explicit pads; drawn upright: turned 90 deg clockwise (x, y) -> (-y, x): pad 1 (-3.15, 1.27) -> (-1.27, -3.15), 2 (-3.15, -1.27) -> (1.27, -3.15), 3 (3.15, -1.27) -> (1.27, 3.15), 4 (outer-edge-aligned 2.4 pad, centre (3.05, 1.27)) -> (-1.27, 3.05). Note 1 says the long pad may be on pad 2, 3 or 4 of the part; the drawn pattern is used as printed",
+      "style": "explicit",
+      "pins": 4,
+      "body": {
+        "width": 5.2,
+        "height": 7.2
+      },
+      "pads": [
+        {
+          "pin": 1,
+          "x": -1.27,
+          "y": -3.15,
+          "width": 1.4,
+          "height": 2.2,
+          "shape": "rect"
+        },
+        {
+          "pin": 2,
+          "x": 1.27,
+          "y": -3.15,
+          "width": 1.4,
+          "height": 2.2,
+          "shape": "rect"
+        },
+        {
+          "pin": 3,
+          "x": 1.27,
+          "y": 3.15,
+          "width": 1.4,
+          "height": 2.2,
+          "shape": "rect"
+        },
+        {
+          "pin": 4,
+          "x": -1.27,
+          "y": 3.05,
+          "width": 1.4,
+          "height": 2.4,
+          "shape": "rect"
+        }
+      ]
+    },
+    {
+      "id": "XTAL-7050-4-ECS",
+      "description": "4-pad SMD crystal, 7.0 x 5.0 mm ceramic (ECS CSM-8Q, CSM-8M)",
+      "note": "datasheets/crystal/ecs/CSM-8Q.pdf p.1 Figure 2 Suggested land: pads 2.0 x 1.4 (width x height), pad-centre distance 6.0 horizontally and 2.54 vertically; same in csm-8mr.pdf p.1; body 7.0 x 5.0 (+/-0.5 / +/-0.2) from Figure 1; top-view numbering #4 #3 / #1 #2; drawn upright: turned 90 deg clockwise so pin 1 (bottom-left in the top view) sits at the top of the left column (datasheet pad width/height become height/width, the horizontal centre distance becomes the pitch, the vertical one the span)",
+      "style": "dual",
+      "pins": 4,
+      "body": {
+        "width": 5.0,
+        "height": 7.0
+      },
+      "pitch": 6.0,
+      "span": 2.54,
+      "pad": {
+        "width": 1.4,
+        "height": 2.0,
+        "shape": "rect"
+      }
+    }
+  ]
 }

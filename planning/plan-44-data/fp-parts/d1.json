@@ -1,5 +1,192 @@
 {
   "format": "schematical-footprints",
   "version": 1,
-  "footprints": []
+  "footprints": [
+    {
+      "id": "XTAL-CYL-2X5-2-ECS",
+      "description": "ECS 1.5 x 5.1 mm cylinder crystal (ECS-1X5X), 2 leads, 0.45 mm lead spacing",
+      "note": "ECS-3X8X/2X6X/1X5X dimensions, Fig 3 ECS-1X5X (ECS-3x8X-2x6X-1X5X.pdf p.1): body dia 1.5 max, lead dia 0.2, lead spacing 0.45. Datasheet gives lead spacing and lead diameter, no PCB land pattern: R8 radial, span = lead spacing. R8 pad (hole + 0.6) would overlap at this spacing, so pad = span - 0.1 (round, 0.1 mm copper gap), drill = min(lead + 0.3, pad - 0.2), at least lead + 0.05. Body = round can seen from above (upright mount). Arithmetic: pad 0.45 - 0.1 = 0.35; drill min(0.2 + 0.3 = 0.5, 0.35 - 0.2 = 0.15) = 0.15 < lead + 0.05 -> 0.25 (ring 0.05). Leads must be bent apart to use standard holes.",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "body": {
+        "width": 1.5,
+        "height": 1.5,
+        "round": true
+      },
+      "pitch": 1,
+      "span": 0.45,
+      "pad": {
+        "width": 0.35,
+        "height": 0.35,
+        "shape": "round"
+      },
+      "drill": 0.25
+    },
+    {
+      "id": "XTAL-CYL-2X6-2-ABRACON",
+      "description": "Abracon AB26T 2.1 x 6.2 mm cylinder crystal, 2 leads, 0.8 mm lead spacing",
+      "note": "Abracon AB26T outline drawing (AB26T.pdf p.1): body dia 2.1 max (0.083 in), lead dia 0.26 (0.010 in), lead spacing 0.8 (0.031 in). Datasheet gives lead spacing and lead diameter, no PCB land pattern: R8 radial, span = lead spacing. R8 pad (hole + 0.6) would overlap at this spacing, so pad = span - 0.1 (round, 0.1 mm copper gap), drill = min(lead + 0.3, pad - 0.2), at least lead + 0.05. Body = round can seen from above (upright mount). Arithmetic: pad 0.8 - 0.1 = 0.7; drill min(0.26 + 0.3 = 0.56, 0.7 - 0.2 = 0.5) = 0.5.",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "body": {
+        "width": 2.1,
+        "height": 2.1,
+        "round": true
+      },
+      "pitch": 1,
+      "span": 0.8,
+      "pad": {
+        "width": 0.7,
+        "height": 0.7,
+        "shape": "round"
+      },
+      "drill": 0.5
+    },
+    {
+      "id": "XTAL-CYL-2X6-2-ECS",
+      "description": "ECS 2.1 x 6.2 mm cylinder crystal (ECS-2X6X, CDX-1038), 2 leads, 0.7 mm lead spacing",
+      "note": "ECS-3X8X/2X6X/1X5X dimensions, Fig 2 ECS-2X6X (ECS-3x8X-2x6X-1X5X.pdf p.1; same drawing in CDX-1038.pdf p.1 and ecs-31x.pdf p.1): body dia 2.1 max, lead dia 0.26, lead spacing 0.7. Datasheet gives lead spacing and lead diameter, no PCB land pattern: R8 radial, span = lead spacing. R8 pad (hole + 0.6) would overlap at this spacing, so pad = span - 0.1 (round, 0.1 mm copper gap), drill = min(lead + 0.3, pad - 0.2), at least lead + 0.05. Body = round can seen from above (upright mount). Arithmetic: pad 0.7 - 0.1 = 0.6; drill min(0.26 + 0.3 = 0.56, 0.6 - 0.2 = 0.4) = 0.4.",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "body": {
+        "width": 2.1,
+        "height": 2.1,
+        "round": true
+      },
+      "pitch": 1,
+      "span": 0.7,
+      "pad": {
+        "width": 0.6,
+        "height": 0.6,
+        "shape": "round"
+      },
+      "drill": 0.4
+    },
+    {
+      "id": "XTAL-CYL-3X10-2-ECS",
+      "description": "ECS 3.2 x 10.5 / 3.2 x 9 mm cylinder crystal (ECS-3X10X, 3X9X), 2 leads, 1.1 mm lead spacing",
+      "note": "ECS-3X10X / 3X9X Fig 1 and 2 (ECS-3x10X-3x9X.pdf p.1): body dia 3.2 max, lead dia 0.32, lead spacing 1.1; both figures identical in the pad data, so shared by the 3X9 line. Datasheet gives lead spacing and lead diameter, no PCB land pattern: R8 radial, span = lead spacing. R8 pad (hole + 0.6) would overlap at this spacing, so pad = span - 0.1 (round, 0.1 mm copper gap), drill = min(lead + 0.3, pad - 0.2), at least lead + 0.05. Body = round can seen from above (upright mount). Arithmetic (hand check): pad 1.1 - 0.1 = 1.0; drill min(0.32 + 0.3 = 0.62, 1.0 - 0.2 = 0.8) = 0.62; pad centres +-0.55 -> span 1.1; ring (1.0 - 0.62)/2 = 0.19.",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "body": {
+        "width": 3.2,
+        "height": 3.2,
+        "round": true
+      },
+      "pitch": 1,
+      "span": 1.1,
+      "pad": {
+        "width": 1.0,
+        "height": 1.0,
+        "shape": "round"
+      },
+      "drill": 0.62
+    },
+    {
+      "id": "XTAL-CYL-3X8-2-ABRACON",
+      "description": "Abracon AB308 / AB38T 3.0-3.2 x 8-8.3 mm cylinder crystal, 2 leads, 0.8 mm lead spacing",
+      "note": "AB308 outline (ab308.pdf p.2): body dia 3.0 +-0.1, lead dia 0.32 +-0.05, lead spacing 0.8 +-0.2. AB38T outline (AB38T.pdf p.2): body dia 3.2 max, lead dia 0.34 +-0.2 (mid 0.34), lead spacing D 0.8 +-0.3. Same nominal pads -> one footprint for both; body = the larger (3.2). Datasheet gives lead spacing and lead diameter, no PCB land pattern: R8 radial, span = lead spacing. R8 pad (hole + 0.6) would overlap at this spacing, so pad = span - 0.1 (round, 0.1 mm copper gap), drill = min(lead + 0.3, pad - 0.2), at least lead + 0.05. Body = round can seen from above (upright mount). Arithmetic: pad 0.8 - 0.1 = 0.7; drill min(0.32 + 0.3 = 0.62 / 0.34 + 0.3 = 0.64, 0.7 - 0.2 = 0.5) = 0.5. (AB38T lead max 0.54 would not enter a 0.5 hole: bend or trim.)",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "body": {
+        "width": 3.2,
+        "height": 3.2,
+        "round": true
+      },
+      "pitch": 1,
+      "span": 0.8,
+      "pad": {
+        "width": 0.7,
+        "height": 0.7,
+        "shape": "round"
+      },
+      "drill": 0.5
+    },
+    {
+      "id": "XTAL-CYL-3X8-2-ECS",
+      "description": "ECS 3.1 x 8.2 mm cylinder crystal (ECS-3X8X), 2 leads, 1.1 mm lead spacing",
+      "note": "ECS-3X8X Fig 1 (ECS-3x8X-2x6X-1X5X.pdf p.1; also ECS-.327-12.5-8X-C.pdf p.1): body dia 3.1 max, lead dia 0.35, lead spacing 1.1. Datasheet gives lead spacing and lead diameter, no PCB land pattern: R8 radial, span = lead spacing. R8 pad (hole + 0.6) would overlap at this spacing, so pad = span - 0.1 (round, 0.1 mm copper gap), drill = min(lead + 0.3, pad - 0.2), at least lead + 0.05. Body = round can seen from above (upright mount). Arithmetic: pad 1.1 - 0.1 = 1.0; drill min(0.35 + 0.3 = 0.65, 1.0 - 0.2 = 0.8) = 0.65; ring 0.175.",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "body": {
+        "width": 3.1,
+        "height": 3.1,
+        "round": true
+      },
+      "pitch": 1,
+      "span": 1.1,
+      "pad": {
+        "width": 1.0,
+        "height": 1.0,
+        "shape": "round"
+      },
+      "drill": 0.65
+    },
+    {
+      "id": "XTAL-HC46X-2-ECS",
+      "description": "ECS HC-46/X crystal, 6.6 x 4.0 mm can, 2 leads, 2.5 mm lead spacing",
+      "note": "ECS HC-46X dimensions (HC-46X.pdf p.1): bottom view body 6.6 typ x 4.0 max, lead spacing 2.5 +-0.2 (mid 2.5), lead dia 0.34 +-0.02 (mid 0.34). No land pattern printed: R8 hole = lead + 0.3 = 0.64, pad = hole + 0.6 = 1.24 (round); 2.5 - 1.24 = 1.26 mm between pads.",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "body": {
+        "width": 6.6,
+        "height": 4.0
+      },
+      "pitch": 1,
+      "span": 2.5,
+      "pad": {
+        "width": 1.24,
+        "height": 1.24,
+        "shape": "round"
+      },
+      "drill": 0.64
+    },
+    {
+      "id": "XTAL-HC49U-2-ABRACON",
+      "description": "Abracon HC-49/U and HC-49/US crystal, 11.5 x 5.0 mm can, 2 leads, 4.88 mm lead spacing",
+      "note": "Abracon HC49/U outline (ab.pdf p.3) and ABL HC49/US mechanical dimensions (ABL.pdf p.4; identical lead data): body 0.453 in (11.5) x 0.20 in (5.0) max, lead dia 0.018 in (0.457), lead spacing 0.192 +-0.008 in (4.88 +-0.20, mid 4.88). No land pattern printed: R8 hole = 0.457 + 0.3 = 0.757 -> 0.76, pad = 0.76 + 0.6 = 1.36 (round); 4.88 - 1.36 = 3.52 mm between pads. Shared by the HC-49/US line (same pads).",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "body": {
+        "width": 11.5,
+        "height": 5.0
+      },
+      "pitch": 1,
+      "span": 4.88,
+      "pad": {
+        "width": 1.36,
+        "height": 1.36,
+        "shape": "round"
+      },
+      "drill": 0.76
+    },
+    {
+      "id": "XTAL-HC49U-2-ECS",
+      "description": "ECS HC-49/U, HC-49/US and HC-49/USS crystal, 11.35 x 4.65-5.0 mm can, 2 leads, 4.88 mm lead spacing",
+      "note": "ECS HC-49UX (HC-49UX.pdf p.1; hc49u.pdf p.1; ECS-10-13-1XH.pdf p.1), HC-49USX(-DN) (hc-49usx-dn.pdf p.1, hc-49usx.pdf p.1, hc_49us.pdf p.1), HC-49USSX (HC-49USS.pdf p.1): lead spacing 4.88, lead dia 0.43, body 11.35 max x 4.65 max (U, US) or x 5.0 max (USS). All the same pads -> one footprint; body = the largest, 11.35 x 5.0. No land pattern printed: R8 hole = 0.43 + 0.3 = 0.73, pad = 0.73 + 0.6 = 1.33 (round); 4.88 - 1.33 = 3.55 mm between pads. Pad 2 of a 3rd-in-line-lead option is not drawn (pinouts have 2 pins).",
+      "style": "dual",
+      "pins": 2,
+      "perSide": 1,
+      "body": {
+        "width": 11.35,
+        "height": 5.0
+      },
+      "pitch": 1,
+      "span": 4.88,
+      "pad": {
+        "width": 1.33,
+        "height": 1.33,
+        "shape": "round"
+      },
+      "drill": 0.73
+    }
+  ]
 }

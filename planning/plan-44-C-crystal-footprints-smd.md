@@ -34,9 +34,9 @@ plan-44-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-44-B complete | `ls planning/completed/plan-44-B-*.md` → exists | NOT MET (2026-11-16: not started) |
-| `footprints-needed.txt` is final | `awk -F'\t' '!/^#/ && $1=="C"' planning/plan-44-data/footprints-needed.txt \| wc -l` → the C lines (70 at planning time, before B's pick) | NOT MET (2026-11-16: 70 from the 744-row download set) |
-| The plan-40 tools exist | `ls planning/plan-40-data/census/fp-load.sh planning/plan-40-data/census/fp-merge.py planning/plan-40-data/census/fp-check.py` → all three exist | MET (2026-11-16) |
+| plan-44-B complete | `ls planning/completed/plan-44-B-*.md` → exists | MET (2026-11-22: `planning/completed/plan-44-B-crystal-verdicts.md`) |
+| `footprints-needed.txt` is final | `awk -F'\t' '!/^#/ && $1=="C"' planning/plan-44-data/footprints-needed.txt \| wc -l` → the C lines (70 at planning time, before B's pick) | MET (2026-11-22: 65 lines, 493 parts, from B's 600 `add` rows; 27 with no existing footprint of the body size code) |
+| The plan-40 tools exist | `ls planning/plan-40-data/census/fp-load.sh planning/plan-40-data/census/fp-merge.py planning/plan-40-data/census/fp-check.py` → all three exist | MET (2026-11-22) |
 
 Everything below is written against the world where these hold.
 
@@ -148,53 +148,53 @@ merges the equal ones).
 
 ### Phase 1 — Tools and the map skeleton
 
-- [ ] Copy `planning/plan-40-data/census/fp-load.sh`, `fp-merge.py` to
+- [x] Copy `planning/plan-40-data/census/fp-load.sh`, `fp-merge.py` to
       `planning/plan-44-data/census/` with `p40` → `p44`; adapt
       `fp-check.py` to the columns of this plan's `footprints-needed.txt`
       (letter, maker, mounting, package, supplier package, size, classes,
       parts, example, datasheet, existing, label): the map's key is (letter, maker,
       package, supplier, size), `*` matching any supplier or size; known ids
       from `footprints-C.json`, `footprints-D.json` and `footprints.json`.
-- [ ] Write `census/fp-compare.py <id> <pad table>` (§ 3.1).
-- [ ] `footprint-map.tsv` skeleton: one row per C line, the footprint column
+- [x] Write `census/fp-compare.py <id> <pad table>` (§ 3.1).
+- [x] `footprint-map.tsv` skeleton: one row per C line, the footprint column
       empty.
 
 Acceptance: the tools run.
-  Check: `python3 -I planning/plan-44-data/census/fp-check.py C` → `<n> lines, <n> without a footprint` (est. 1 min).
-Commit: —
+  Check: `python3 -I planning/plan-44-data/census/fp-check.py C` → `<n> lines, <n> without a footprint` (est. 1 min). Output 2026-11-22: `65 lines, 65 without a footprint` (D: `29 lines, 29 without a footprint`); `fp-compare.py --pads OSC-3215-4` prints the four pads.
+Commit: ef91152a
 
 ### Phase 2 — Two- and three-pad packages
 
-- [ ] Draw the 2-SMD and 3-SMD lines (23 at planning time) into
+- [x] Draw the 2-SMD and 3-SMD lines (23 at planning time) into
       `footprints-C.json` from the PDFs of `datasheets/crystal/`, or map them
       to an existing footprint by § 3.1; fill the map rows.
-- [ ] Hand-check one footprint per body code against the drawing.
+- [x] Hand-check one footprint per body code against the drawing.
 
 Acceptance: those lines have footprints that load.
-  Check: `planning/plan-44-data/census/fp-load.sh planning/plan-44-data/footprints-C.json` → `<k> new footprints: load ok` (est. 3 min: it builds `footprint_check` in a copy).
+  Check: `planning/plan-44-data/census/fp-load.sh planning/plan-44-data/footprints-C.json` → `<k> new footprints: load ok` (est. 3 min: it builds `footprint_check` in a copy). Output 2026-11-22 (reader c1, 22 lines): `fp-check.py C --map fp-parts/c1.tsv --json fp-parts/c1.json` → `22 lines, 0 without a footprint`; `fp-load.sh fp-parts/c1.json` → `17 new footprints: load ok`.
 Commit: —
 
 ### Phase 3 — Four-pad packages
 
-- [ ] Draw the 4-SMD lines (31 at planning time; two are flat-lead three-lead
+- [x] Draw the 4-SMD lines (31 at planning time; two are flat-lead three-lead
       parts) as Phase 2.
-- [ ] Hand-check one footprint per body code; the ones compared with
+- [x] Hand-check one footprint per body code; the ones compared with
       `OSC-…-4` footprints print their `fp-compare.py` difference in the map
       `note` (`reuse` or the largest difference in mm).
 
 Acceptance: those lines have footprints that load.
-  Check: `planning/plan-44-data/census/fp-load.sh planning/plan-44-data/footprints-C.json` → `<k> new footprints: load ok` (est. 3 min).
+  Check: `planning/plan-44-data/census/fp-load.sh planning/plan-44-data/footprints-C.json` → `<k> new footprints: load ok` (est. 3 min). Output 2026-11-22 (readers c2, c3, 29 lines): `15 lines, 0 without a footprint` + `14 new footprints: load ok`; `14 lines, 0 without a footprint` + `13 new footprints: load ok`.
 Commit: —
 
 ### Phase 4 — HC-49/US, SOJ, cylinder and the rest
 
-- [ ] Draw the HC-49/US (surface-mount tabs), HC-49/US 3- and 4-lead, 4-SOJ
+- [x] Draw the HC-49/US (surface-mount tabs), HC-49/US 3- and 4-lead, 4-SOJ
       (5.50 and 9.40 mm pitch), cylindrical-can and `-` lines (16 at
       planning time) as Phase 2, `explicit` style.
-- [ ] Hand-check one footprint per family.
+- [x] Hand-check one footprint per family.
 
 Acceptance: every C line has a footprint that loads.
-  Check: `python3 -I planning/plan-44-data/census/fp-check.py C` → `<n> lines, 0 without a footprint`, and `planning/plan-44-data/census/fp-load.sh planning/plan-44-data/footprints-C.json` → `<k> new footprints: load ok` (est. 4 min).
+  Check: `python3 -I planning/plan-44-data/census/fp-check.py C` → `<n> lines, 0 without a footprint`, and `planning/plan-44-data/census/fp-load.sh planning/plan-44-data/footprints-C.json` → `<k> new footprints: load ok` (est. 4 min). Output 2026-11-22 (reader c4, 14 lines, then everything): `14 lines, 0 without a footprint` + `11 new footprints: load ok`; after `fp-skeleton.py --assemble`: `fp-check.py C` → `65 lines, 0 without a footprint`; `fp-load.sh footprints-C.json footprints-D.json` → `72 new footprints: load ok` (55 of C, 17 of D).
 Commit: —
 
 ## Validation Plan
@@ -220,6 +220,51 @@ Commit: —
   pad 1; the four-pad parts' pads 2 and 4 are the case pads.
 
 ## Corrections
+
+1. **Counts after B's pick:** 65 C lines (493 parts; 70 / 620 before the pick),
+   27 of them with no existing footprint of the body size code. `footprints-needed.txt`
+   now splits a line by its **pad count** (taken from the part's `pinout`, so
+   ABSM3A's four-pad `HC-49/US` is its own line `XTAL-HC49US-SMD-4`) and its labels
+   carry that count.
+2. **The tools differ from § Phase 1's text:** `fp-check.py` joins a line to a map
+   row by (letter, maker, package, supplier, size, **label**) (`*` for any supplier
+   or size) and checks that the footprint's `pins` equals the pin count of every
+   pinout of the row (`pinouts` column, `;`-separated); the map's columns are letter,
+   maker, package, supplier, size, label, footprint, pinouts, note. `fp-skeleton.py`
+   writes one worksheet per reader (`fp-parts/c1`–`c4`, `d1`, `d2`, each `.tsv` + `.json`,
+   with `fp-parts/README.md` as the reader's brief) and `--assemble` merges them into
+   `footprints-C.json`, `footprints-D.json` and one `footprint-map.tsv` (C rows then D
+   rows, not per-letter map files). The six readers ran in parallel.
+3. **Result:** 55 new footprints (c1 17, c2 14, c3 13, c4 11), **none reused**:
+   `fp-compare.py` against every same-size library footprint found a difference each
+   time (the `OSC-…-4` oscillators number and size their pads differently; no crystal
+   footprint existed). Shared ids (one footprint for several makers or lines):
+   `XTAL-1610-2-ABRACON` (+ECS), `XTAL-3215-2-ABRACON` (+ECS), `XTAL-3225-2-ABRACON`
+   (+ECS), `XTAL-5032-2-ABRACON` (+ECS), `XTAL-2016-4-ECS` (+Suntsu),
+   `XTAL-6714-4-ABRACON` (+ECS), `XTAL-HC49US-SMD-2-ECS-B` (+Suntsu),
+   `XTAL-HC49US-SMD-2-ABRACON` (ABLS, ABLS2, ABLS-LR), `XTAL-SOJ-5.5-4-ABRACON` (+ECS).
+4. **Lines whose parts draw different land patterns share one footprint** (the
+   drawing of the line's example part, the others in the object's `note`): c2 —
+   Abracon 1008 (ABM14N), 1210 (ABS04W), 1612 (ABM12, ABM12AIG), 2016
+   (ABM11N, ABM11AIG, ABM11W), 2520 (ABM10-165, ABM10W), ECS 1210 (ECX-1048B,
+   CDX-2374 / -2616); c3 — Abracon 3225 (17 parts, 6 drawings: ABM8AIG, ABM8W, abm8,
+   ABM8X differ from ABM8G), Abracon 2620 (ABM10N), Abracon 5032 4-SMD (ABM3BAIG,
+   ABM3X), ECS 3225 (ECS-33B, ECS-33B2, ECX-33QZ 1.9 mm centre vs 1.8), ECS 5032
+   (ECX-53BQZ), Suntsu 3225 (SAX324 vs SXT324); c1 — ECS 1610 (CDX-2217), ECS 2012
+   (ECX-12Q/12R/12RR 0.8 x 1.3 vs ECX-12 0.6 x 1.1), Abracon 3215 (ABS07N/L/AIG).
+   Splitting those lines into more footprints would be a map change (a line is a
+   (maker, package, supplier, size) group); not done: the pad differences are
+   0.05–0.2 mm and every part still lands on a footprint whose pads cover the
+   terminals.
+5. **Guesses recorded in the notes:** no land pattern printed (ECS-122.8-CDX-0921
+   follows ecx-32; ABS07-LR), non-scale drawings read by their printed numbers
+   (ABM3, ABM2, ABC2, ABM12, ABM12AIG), unnumbered land patterns read as top views
+   (ABM12W, ABM10, ABC2, ECX-1210B2, ABS13, ECX-71), `XTAL-7050-4-ABRACON` (ABMM)
+   numbers its pads clockwise so it is `explicit`, the ABMM longer pad 4, the
+   `XTAL-CYL-*-SMD-2` body pad as an unnumbered `pin 0` pad, `XTAL-HC49US-SMD-3` pad
+   numbering from the pinout order (no numbers on the drawing),
+   `XTAL-SOJ-5.5-4-SUNTSU` mirrored from a bottom view (clockwise), ECX-34G's
+   unnumbered pads (`XTAL-3215-3-ECS`).
 
 ## Summary
 
