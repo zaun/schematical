@@ -37,7 +37,7 @@
 - [x] On the Board Layer config, when Pane is slected add an option fo select the net/power/gound to use.
 - [x] Panes should have proper clearence around unlined pins.
 - [x] Schematic and PCB should use the same sidebar open/close flag
-- [ ] Add a Generic Resitor. Axial default, 1k default
+- [x] Add a Generic Resitor. Axial default, 1k default (GENERIC-RESISTOR)
 - [x] Add top 3 Resitor manufactuerers and their active resistors
 - [ ] Add top 3 Potentiometer Resitor manufactuerers and their active resistors
 - [x] Add a Generic Capacitor. Axial (ceramic) default, 0.1pf default (plan-33)
@@ -50,11 +50,11 @@
 - [x] Two BUSes with the same name should be able to connect.
 - [x] BUS wire name and netlabels should be up to 8.
 - [ ] Toggle a BUS name label in schematic view
-- [ ] After paste select all that was pasted (including wire ends) so it can be dragged
+- [x] After paste select all that was pasted (including wire ends) so it can be dragged
 - [ ] Bus ports are not selectable?
-- [ ] Add hex, bcd, etc. decoders
+- [x] Add hex, bcd, etc. decoders (74_42, 74_45, 74_145, 74_154, 4028B, 4514B, …)
 - [ ] Flipped LED doesnt look correct, the "light" arrows look wrong.
-- [ ] I would like Rotation to work in the Schematic view for LEDs, Diodes, Resistors, and Capasitors only.
+- [x] I would like Rotation to work in the Schematic view for LEDs, Diodes, Resistors, and Capasitors only.
 - [ ] Two finger scroll in all tool modes
 - [ ] The schematic view can get slow when a lot ot items are selected
 - [x] The input can get sluggish/laggy when editing netlabels and or bus wire names when there are a lot already. Same with changing a netlable Type, or adding wires, etc. Dragging the canvas around (scrolling) is fine.
@@ -62,7 +62,7 @@
 - [x] When a picker category closed, it should auto-close any sub-groups
 - [x] Add default power net classes for common voltages (5V and 3V3)
 - [x] Add default logic net classes for common voltages (5V and 3V3)
-- [ ] For DIP and PLCC chips have a toggle to use a socket footprint. This means each of these needs a secondary part picker, when in socket mode then need a button to show a small dialog listing compatible sockets to choose from. A prereq for this is adding the socket parts to the part picker database.
+- [ ] (plan-51 written, not built) For DIP and PLCC chips have a toggle to use a socket footprint. This means each of these needs a secondary part picker, when in socket mode then need a button to show a small dialog listing compatible sockets to choose from. A prereq for this is adding the socket parts to the part picker database.
 - [ ] Add card edge sockets
 
 ## Manufacturing (a board can't be ordered without these)
@@ -86,13 +86,14 @@
       modules. The bus-CPU kind only covers 6502/65816/Z80. These 
       microcontrollers need a `simulated` property set to false. When any
       are added to a schematic the "play" button should be disabled. (plan-36)
-- [ ] Add the 555 timer and common op-amps (LM358, TL07x…).
-- [ ] Add crystals and resonators (oscillators exist, crystals don't).
-- [ ] Add inductors, fuses / polyfuses, relays and buzzers.
+- [ ] Add the 555 timer and common op-amps (LM358, TL07x…). (plan-48 written, not built)
+- [ ] Add crystals and resonators (oscillators exist, crystals don't). (plan-44 written, not built)
+- [ ] Add inductors, fuses / polyfuses, relays and buzzers. (plan-47 written, not built)
 - [ ] Add screw terminals and JST-XH/PH connectors (check what the 222
-      existing connectors already cover first).
-- [ ] Allow parts with a symbol, footprint and BOM data but no simulation
+      existing connectors already cover first). (plan-45 written, not built)
+- [x] Allow parts with a symbol, footprint and BOM data but no simulation
       model, so passives and analog parts don't each need a backend model.
+      (`"simulated": false`, plan-36; docs/parts-format.md)
 - [ ] Add IO Extenders
 
 ## PCB
@@ -138,19 +139,21 @@
 - [ ] New 0603 passives fail the design rule check by default: the reference
       is placed over a pad and the pin-1 mark is too close to a pad. Place
       the reference off the pads (or hide it) for small footprints.
-- [ ] Unpolarized parts (ceramic caps, resistors) get a pin-1 mark on the
+- [x] Unpolarized parts (ceramic caps, resistors) get a pin-1 mark on the
       silkscreen by default. They shouldn't have one.
-- [ ] Check whether a net label named `GND` or `5V` joins the supply rail
+- [x] Check whether a net label named `GND` or `5V` joins the supply rail
       (not only bus wires of that name); docs/file-format.md doesn't say.
       If it doesn't, either make it or say so in the docs.
 
 ## Datasheets
 
-- [ ] Create a datasheet format (Markdown or JSON), based on Markdown,
+- [x] Create a datasheet format (Markdown or JSON), based on Markdown,
       WaveDrom and simple tables. It should include the sections engineers
       need, and can skip marketing sections. Aim for 20–30k documents per
       IC for ICs that aren't microprocessors or microcontrollers. The app
-      should render and print it.
+      should render and print it. (Format in `planning/spike-datasheet-format`;
+      the app renders and prints Markdown datasheets; gate and transistor
+      datasheets converted.)
 
 ## Reference-board parts still missing
 
