@@ -75,6 +75,7 @@ schematic, with anything but letters, digits, `-` and `_` turned into `_`
 | `.GKO` | outline (`Profile,NP`) | the board outline, 0.1 mm pen |
 | `-PTH.drl` | plated drill (Excellon) | through-hole pads, vias, plated holes, header pads |
 | `-NPTH.drl` | non-plated drill (Excellon), only when the board has any | bare holes, a standard's mounting holes, non-plated footprint holes |
+| `-CPL.csv` | pick and place (CSV), only when the board has surface-mount parts | see [Pick and place](#pick-and-place) |
 | `-job.gbrjob` | job file (JSON) | the layer stack, thickness, finish, design rules and each file's role: see [Job file](#job-file) |
 
 - **Attributes on copper** (Gerber X2, spec § 5.6): every aperture and region of a copper file has an
@@ -108,7 +109,7 @@ schematic, with anything but letters, digits, `-` and `_` turned into `_`
 - Text is real glyph outlines, from the same fonts the canvas uses. Each
   glyph's counters (the hole in an O) are drawn in clear polarity, so a
   silkscreen file draws its text before its lines and dots.
-- Not included yet: pick-and-place, and the Document layer (never printed).
+- Not included yet: the Document layer (never printed).
 
 ### Drill files
 
@@ -126,6 +127,23 @@ Each tool is preceded by its function, `; #@! TA.AperFunction,Plated,PTH,ViaDril
 (spec § 5.6.10: a fab compensates each function's tools separately); tools are ordered by diameter, then via,
 component, mechanical.
 
+### Pick and place
+
+`<name>-CPL.csv` (`PickAndPlaceExport`) is the placement list JLCPCB and PCBWay assembly take, in the zip before the job file
+(which does not list it: it is not a Gerber file). It is written only when the board has surface-mount parts.
+
+`Designator,Mid X,Mid Y,Layer,Rotation`, CRLF line ends, one row per surface-mount part placed on the board (a part with a
+footprint whose pads are all undrilled; through-hole parts, card fingers and holes are left out, as fabs' machines place
+SMD only), in natural reference order.
+
+- **Mid X / Mid Y**: the footprint's centre (the body centre) in mm, in the Gerber files' frame: x as on the board, y up
+  from the board's bottom edge, so it lines up with the copper and the drill files.
+- **Layer**: `Top` or `Bottom`.
+- **Rotation**: whole degrees **counter-clockwise** seen from the top, the footprint's angle in the KiCad export
+  (the Schematical turn is clockwise, so `(360 − turn) % 360`). A fab's own library has its own zero direction per
+  package, and JLCPCB treats bottom-side parts differently from KiCad, so some parts need a correction there:
+  check the placement preview on the fab's order page. Nothing is corrected here, the numbers are the board's.
+
 ### Job file
 
 `<name>-job.gbrjob` is JSON in Ucamco's Gerber job-file layout (valid against its published schema, revision
@@ -138,6 +156,23 @@ component, mechanical.
 | `DesignRules` | `Outer` (and `Inner` above 2 layers): the board's min clearance as `PadToPad`, `PadToTrack`, `TrackToTrack`, `TrackToRegion`, `RegionToRegion`; `MinLineWidth` (min trace width), `MinRing` (min annular ring), `MinClearanceToProfile` (min copper to edge) |
 | `FilesAttributes` | every other file in the zip: `Path`, and its `FileFunction` (the string in the file's own `.FileFunction`) and `FilePolarity` |
 | `MaterialStackup` | top to bottom: silkscreen, paste, solder mask (with the board colour), then each copper layer and the dielectric below it (`FR4`, thickness, `DielectricConstant`), then the bottom mask, paste and silkscreen |
+
+## Bill of materials
+
+The Bill of Materials window (⇧⌘B) has two exports for its checked lines: **Export CSV…** (the whole list: Quantity,
+References, Part Number, Package, Value, Color, Description) and **Export JLCPCB / PCBWay BOM…**
+(`BillOfMaterials.jlcpcbCSV`), the assembly layout:
+
+`"Comment","Designator","Footprint","Quantity","Manufacturer","Manufacturer Part Number","LCSC Part #"`
+
+- Every field is quoted; designators are joined with `,` and no space (`"R1,R2,R3"`); a line of more than 200
+  designators is split, JLCPCB's limit per row.
+- Only **surface-mount** lines are written, the same parts as the [pick-and-place file](#pick-and-place), so the two
+  files name the same designators (JLCPCB reports any that differ). The button is off when no checked line is surface
+  mount.
+- `Comment` is a resistor's or capacitor's value (`4.7kΩ`, `100 nF`), else the part number (an LED's color after it).
+  `Footprint` is the package. Manufacturer and its part number are empty for Generic parts.
+- `LCSC Part #` is empty: the catalog has no LCSC numbers, so match the parts on the fab's site.
 
 ## PDF and print
 

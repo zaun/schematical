@@ -31,6 +31,10 @@ nonisolated struct BillOfMaterialsLine: Identifiable, Hashable, Sendable {
     let description: String
     /// In natural order: R2 before R10.
     let references: [String]
+    /// The part's maker; empty for a Generic part (no orderable part number).
+    var manufacturer = ""
+    /// Whether a fab's machines place the part: surface mount, on the board (`PlacedChip.isSurfaceMount`).
+    var isSurfaceMount = false
 
     var id: String { "\(partNumber)\u{1F}\(package)\u{1F}\(value)\u{1F}\(color)" }
     var quantity: Int { references.count }
@@ -71,7 +75,8 @@ nonisolated enum BillOfMaterials {
                 value: ResistorValue.text(chip.ohms ?? ResistorValue.defaultOhms),
                 color: "",
                 description: resistorDescription,
-                references: references
+                references: references,
+                isSurfaceMount: chip.isSurfaceMount
             )
         }
         if chip.part.isGenericCapacitor {
@@ -81,7 +86,8 @@ nonisolated enum BillOfMaterials {
                 value: CapacitorValue.text(chip.farads ?? CapacitorValue.defaultFarads),
                 color: "",
                 description: capacitorDescription,
-                references: references
+                references: references,
+                isSurfaceMount: chip.isSurfaceMount
             )
         }
         return BillOfMaterialsLine(
@@ -91,7 +97,9 @@ nonisolated enum BillOfMaterials {
                 ?? chip.part.resistorOhms.map(ResistorValue.text) ?? "",
             color: chip.color ?? "",
             description: chip.part.description,
-            references: references
+            references: references,
+            manufacturer: chip.part.manufacturer == "Generic" ? "" : chip.part.manufacturer,
+            isSurfaceMount: chip.isSurfaceMount
         )
     }
 
@@ -111,9 +119,37 @@ nonisolated enum BillOfMaterials {
             .joined(separator: "\r\n") + "\r\n"
     }
 
-    private static func csvField(_ text: String) -> String {
-        guard text.contains(where: { $0 == "," || $0 == "\"" || $0.isNewline }) else { return text }
-        return "\"" + text.replacingOccurrences(of: "\"", with: "\"\"") + "\""
+    private static func csvField(_ text: String) -> String { CSV.field(text) }
+
+    /// The most designators JLCPCB takes on one BOM row.
+    static let jlcpcbMaxDesignators = 200
+
+    /// The lines as the BOM JLCPCB and PCBWay assembly take (`docs/export.md` § JLCPCB / PCBWay BOM):
+    /// `Comment,Designator,Footprint,Quantity,Manufacturer,Manufacturer Part Number,LCSC Part #`, every field quoted, designators
+    /// joined with `,` and no space. Only surface-mount lines are written, the parts the pick-and-place file
+    /// (`PickAndPlaceExport`) lists, so the two files name the same designators. `Comment` is the part's value
+    /// (a resistor's or capacitor's), else its part number (and an LED's color). `LCSC Part #` is left empty: the
+    /// catalog has no LCSC numbers, so it is filled in on the fab's site. A line of more than 200 designators is
+    /// split, as JLCPCB's limit is 200 per row.
+    static func jlcpcbCSV(_ lines: [BillOfMaterialsLine]) -> String {
+        let header = ["Comment", "Designator", "Footprint", "Quantity", "Manufacturer", "Manufacturer Part Number",
+                      "LCSC Part #"]
+        var rows: [[String]] = []
+        for line in lines where line.isSurfaceMount {
+            let comment = line.value.isEmpty ? ([line.partNumber] + (line.color.isEmpty ? [] : [line.color])).joined(separator: " ")
+                : line.value
+            let number = line.manufacturer.isEmpty ? "" : line.partNumber
+            var rest = line.references[...]
+            while !rest.isEmpty {
+                let chunk = rest.prefix(jlcpcbMaxDesignators)
+                rest = rest.dropFirst(chunk.count)
+                rows.append([comment, chunk.joined(separator: ","), line.package, String(chunk.count),
+                             line.manufacturer, number, ""])
+            }
+        }
+        return ([header] + rows)
+            .map { $0.map { "\"" + $0.replacingOccurrences(of: "\"", with: "\"\"") + "\"" }.joined(separator: ",") }
+            .joined(separator: "\r\n") + "\r\n"
     }
 }
 
@@ -232,6 +268,15 @@ struct BillOfMaterialsTable: View {
                 .help("Save the checked lines of the Bill of Materials as a CSV file")
                 .disabled(checked.isEmpty)
             }
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    exportJLCPCB(checked)
+                } label: {
+                    Label("Export JLCPCB / PCBWay BOM…", systemImage: "square.and.arrow.up.on.square")
+                }
+                .help("Save the checked surface-mount lines in the assembly BOM layout JLCPCB and PCBWay take (pair it with the pick-and-place file in the Gerber export)")
+                .disabled(!checked.contains { $0.isSurfaceMount })
+            }
         }
     }
 
@@ -249,12 +294,20 @@ struct BillOfMaterialsTable: View {
     }
 
     private func export(_ lines: [BillOfMaterialsLine]) {
+        save(BillOfMaterials.csv(lines), as: "Bill of Materials.csv")
+    }
+
+    private func exportJLCPCB(_ lines: [BillOfMaterialsLine]) {
+        save(BillOfMaterials.jlcpcbCSV(lines), as: "Bill of Materials JLCPCB.csv")
+    }
+
+    private func save(_ text: String, as name: String) {
         let panel = NSSavePanel()
         panel.allowedContentTypes = [.commaSeparatedText]
-        panel.nameFieldStringValue = "Bill of Materials.csv"
+        panel.nameFieldStringValue = name
         guard panel.runModal() == .OK, let url = panel.url else { return }
         do {
-            try BillOfMaterials.csv(lines).write(to: url, atomically: true, encoding: .utf8)
+            try text.write(to: url, atomically: true, encoding: .utf8)
         } catch {
             NSAlert(error: error).runModal()
         }

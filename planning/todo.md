@@ -69,7 +69,7 @@
 
 - [x] Add an Excellon drill export with the Gerbers (plated and non-plated
       holes, slots), zipped in the layout fabs expect.
-- [ ] Add a pick-and-place (CPL) export, and a BOM export in the JLCPCB /
+- [x] Add a pick-and-place (CPL) export, and a BOM export in the JLCPCB /
       PCBWay assembly format (see planning/jlcpcb.md).
 - [x] Print / PDF the schematic, and each PCB layer at 1:1 (for checking
       footprints against real parts and for home etching).

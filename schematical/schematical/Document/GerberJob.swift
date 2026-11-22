@@ -27,7 +27,7 @@ enum GerberJob {
             ])
         }
 
-        let attributes: [[String: Any]] = files.map { file in
+        let attributes: [[String: Any]] = files.filter { $0.function != nil }.map { file in
             var entry: [String: Any] = ["Path": file.name]
             if let function = file.function { entry["FileFunction"] = function }
             if let polarity = file.polarity { entry["FilePolarity"] = polarity }

@@ -35,7 +35,8 @@ enum GerberExport {
     /// Every layer file of the board, names starting `base`. Copper Top,
     /// inner layers and Bottom first, then solder mask, paste, silkscreen
     /// and the outline, then the drill files: plated holes, and non-plated
-    /// ones when the board has any. A 1-layer board has no bottom files.
+    /// ones when the board has any, then the pick-and-place CSV when the board has surface-mount
+    /// parts (`PickAndPlaceExport`). A 1-layer board has no bottom files.
     static func files(for document: SchematicDocument, base: String,
                       rules: DesignRules? = nil) -> [File] {
         let board = document.board
@@ -110,6 +111,7 @@ enum GerberExport {
                                                      software: software),
                               function: "NonPlated,1,\(layers.count),NPTH"))
         }
+        if let positions = PickAndPlaceExport.file(for: document, base: base, top: top) { files.append(positions) }
         files.append(File(name: "\(base)-job.gbrjob",
                           data: GerberJob.data(for: document, base: base, rules: rules, version: version, files: files)))
         return files
