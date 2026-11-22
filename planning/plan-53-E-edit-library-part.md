@@ -205,7 +205,7 @@ Commit: b6ae9573
 
 Acceptance: the drawer opens the editor on a library part; the menus match the model. **MET** (`xcodebuild test … PartEditorLibraryTests KeyboardHelpTests PartEditorWindowTests` → `Executed 21 tests, with 0 failures`, `** TEST SUCCEEDED **`; menus and sheets are exercised in plan-53-F's real-app run)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/PartEditorLibraryTests -only-testing:schematicalTests/KeyboardHelpTests -only-testing:schematicalTests/PartEditorWindowTests` → `** TEST SUCCEEDED **` (est. 6–12 min). The menu and sheet behavior is exercised in plan-53-F's real-app run.
-Commit: (this commit)
+Commit: 7c8e23c8
 
 ## Validation Plan
 
@@ -229,7 +229,9 @@ Commit: (this commit)
 
 ## Corrections
 
-(Filled in during execution.)
+- **The library window's init also requires the part to be listed `user`**: `PartEditorModel`'s `.libraryPart` branch sets `openError` for an unknown uuid *and* for a part that was removed (listed `removed`) or is a File Library part, not only for an unknown uuid as § 3 said.
+- **Tests use generic parts** (`PartDraft(newOf: "generic")`, 5 pins on a bundled footprint with 5 pads) so a pin can be renamed in the editor; the gate fixture's pins are tied to its gate definition.
+- **Final gate (run once after Phase 2), 2026-11-21:** `xcodebuild test … PartEditorLibraryTests KeyboardHelpTests PartEditorWindowTests UserLibraryUpdateTests PartFileSaveOpenTests` → `Executed 41 tests, with 0 failures`, `** TEST SUCCEEDED **` (`/tmp/p53-xc19.log`).
 
 ## Summary
 
