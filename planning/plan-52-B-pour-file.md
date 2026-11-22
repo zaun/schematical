@@ -25,7 +25,7 @@ The shared gate is in plan-52-A. This sub-plan adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-52-A is complete | `ls planning/completed \| grep -c '^plan-52-A'` → 1 | NOT MET (2026-11-21: 0; A is not started) |
+| plan-52-A is complete | `ls planning/completed \| grep -c '^plan-52-A'` → 1 | MET (2026-11-21: plan-52-A landed as 319d14c3; the letters are archived together when the whole plan lands) |
 
 Everything below is written against the world where this holds.
 
@@ -120,24 +120,24 @@ with pours and shows no pour (it ignores them) and saves it back without them.
 
 ### Phase 1 — Entries, encode, decode, validate
 
-- [ ] `SchematicFile.swift`: `Board.PourEntry` and `Board.KeepoutEntry` (`Codable, Equatable, Sendable`, fields per § 4, `locked`
+- [x] `SchematicFile.swift`: `Board.PourEntry` and `Board.KeepoutEntry` (`Codable, Equatable, Sendable`, fields per § 4, `locked`
       optional written only when true); `Board.pours`/`keepouts` optional arrays after `holes` (`:198`).
-- [ ] Encode (`:820`): `pours: document.pours.isEmpty ? nil : …`, `keepouts` likewise; `net` via `PlaneNet.fileValue`; `layers` as
+- [x] Encode (`:820`): `pours: document.pours.isEmpty ? nil : …`, `keepouts` likewise; `net` via `PlaneNet.fileValue`; `layers` as
       sorted raw names, `nil` when `layers == nil`.
-- [ ] Decode (`:1158`): build `BoardPour`/`BoardKeepout` with the defaults; run the checks of § 4 in that order using
+- [x] Decode (`:1158`): build `BoardPour`/`BoardKeepout` with the defaults; run the checks of § 4 in that order using
       `BoardPour.problem(…)` from plan-52-A; include the ids in the cross-file uniqueness check; pass both arrays to the document
       init (`:1204`).
-- [ ] `docs/file-format.md`: a `### Pours` and a `### Keep-outs` section after Holes (`:229`) with the field tables of § 4, the
+- [x] `docs/file-format.md`: a `### Pours` and a `### Keep-outs` section after Holes (`:229`) with the field tables of § 4, the
       `board` table rows, and the new errors in § Validation on open. Sentences about behavior (the fill) point to `docs/export.md`.
-- [ ] Tests: new `schematicalTests/PourFileTests.swift`: round trip with two pours (one every field set, one defaults) and two
+- [x] Tests: new `schematicalTests/PourFileTests.swift`: round trip with two pours (one every field set, one defaults) and two
       keep-outs (`layers` nil, `layers` set); each error of § 4 fails with its sentence and leaves the document unchanged; a saved
       document with none has neither key (`XCTAssertFalse(text.contains("\"pours\""))`); a file with a duplicate id between a pour
       and a trace fails.
 
 Acceptance: round trip equal; every error asserted; a document with no pours saves byte-identical to the golden saved text the
 existing suites keep.
-  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/PourFileTests -only-testing:schematicalTests/SchematicFileV5Tests -only-testing:schematicalTests/FileDesignRulesTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min; the two existing suites hold the byte goldens of files with no pours).
-Commit: —
+  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/PourFileTests -only-testing:schematicalTests/SchematicFileV5Tests -only-testing:schematicalTests/FileDesignRulesTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min; the two existing suites hold the byte goldens of files with no pours). Observed: `Executed 31 tests, with 0 failures`, `** TEST SUCCEEDED **`; `grep -c '^### Pours\|^### Keep-outs' docs/file-format.md` → 2.
+Commit: COMMIT_B
 
 ## Validation Plan
 
@@ -154,7 +154,8 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- `ls planning/completed | grep -c '^plan-52-A'` is 0 while plan-52 runs: a split plan's letters are archived together when the whole plan lands (plan-52-H's last task), so this row is read as "A's commit is on the integration branch" (`319d14c3`). Later letters' rows are read the same way.
+- The cross-file id check needed no new code beyond `claim(…)` calls for pours and keep-outs, which `apply` already uses for every other id.
 
 ## Summary
 

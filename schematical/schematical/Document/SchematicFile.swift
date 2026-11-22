@@ -196,6 +196,12 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         /// Drilled holes, in drawing order. Written only when there are
         /// some; missing means none.
         var holes: [HoleEntry]? = nil
+        /// Copper pours, in drawing order (plan-52). Written only when there
+        /// are some; missing means none.
+        var pours: [PourEntry]? = nil
+        /// Keep-outs the pours stay out of. Written only when there are
+        /// some; missing means none.
+        var keepouts: [KeepoutEntry]? = nil
         /// Net classes, in priority order. Written only when there are
         /// some; missing means none (every net in the Default class).
         var netClasses: [NetClassEntry]? = nil
@@ -323,6 +329,38 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
             var plated: Bool? = nil
             var net: String? = nil
             /// True when its position is locked; left out otherwise.
+            var locked: Bool? = nil
+        }
+
+        /// A copper pour: its rectangle (mm), layer, net (`PlaneNet.fileValue`),
+        /// clearance (missing is the DRC's minimum), connection (`thermal` or
+        /// `solid`), thermal gap, spoke width and minimum width in mm.
+        struct PourEntry: Codable, Equatable, Sendable {
+            var id: UUID
+            var x: Double
+            var y: Double
+            var width: Double
+            var height: Double
+            var layer: String
+            var net: String? = nil
+            var clearance: Double? = nil
+            var connection: String? = nil
+            var thermalGap: Double? = nil
+            var spokeWidth: Double? = nil
+            var minWidth: Double? = nil
+            /// True when its position is locked; left out otherwise.
+            var locked: Bool? = nil
+        }
+
+        /// A keep-out: its rectangle (mm) and the layers it applies to
+        /// (missing is every layer).
+        struct KeepoutEntry: Codable, Equatable, Sendable {
+            var id: UUID
+            var x: Double
+            var y: Double
+            var width: Double
+            var height: Double
+            var layers: [String]? = nil
             var locked: Bool? = nil
         }
 
@@ -822,6 +860,19 @@ extension SchematicFile {
                                 drill: hole.drill, diameter: hole.diameter, plated: hole.plated ? true : nil,
                                 net: hole.net?.fileValue, locked: hole.locked ? true : nil)
             },
+            pours: document.pours.isEmpty ? nil : document.pours.map { pour in
+                Board.PourEntry(id: pour.id, x: pour.rect.minX, y: pour.rect.minY, width: pour.rect.width,
+                                height: pour.rect.height, layer: pour.layer.rawValue, net: pour.net?.fileValue,
+                                clearance: pour.clearance, connection: pour.connection.rawValue,
+                                thermalGap: pour.thermalGap, spokeWidth: pour.spokeWidth, minWidth: pour.minWidth,
+                                locked: pour.locked ? true : nil)
+            },
+            keepouts: document.keepouts.isEmpty ? nil : document.keepouts.map { keepout in
+                Board.KeepoutEntry(id: keepout.id, x: keepout.rect.minX, y: keepout.rect.minY,
+                                   width: keepout.rect.width, height: keepout.rect.height,
+                                   layers: keepout.layers.map { $0.map(\.rawValue).sorted() },
+                                   locked: keepout.locked ? true : nil)
+            },
             netClasses: settings.netClasses.isEmpty ? nil : settings.netClasses.map { netClass in
                 Board.NetClassEntry(id: netClass.id, name: netClass.name, width: netClass.width,
                                     clearance: netClass.clearance, viaDrill: netClass.viaDrill,
@@ -1178,6 +1229,18 @@ extension SchematicFile {
             holes.append(hole)
         }
 
+        var pours: [BoardPour] = []
+        for entry in board?.pours ?? [] {
+            try claim(entry.id)
+            pours.append(try Self.boardPour(entry, settings: settings))
+        }
+
+        var keepouts: [BoardKeepout] = []
+        for entry in board?.keepouts ?? [] {
+            try claim(entry.id)
+            keepouts.append(try Self.boardKeepout(entry))
+        }
+
         var placedNotes: [SchematicNote] = []
         for entry in notes ?? [] {
             try claim(entry.id)
@@ -1203,6 +1266,8 @@ extension SchematicFile {
             traces: traces,
             vias: vias,
             holes: holes,
+            pours: pours,
+            keepouts: keepouts,
             notes: placedNotes,
             netLabels: placedLabels
         )
@@ -1524,6 +1589,60 @@ extension SchematicFile {
         }
         return BoardTrace(id: entry.id, layer: layer, width: width, points: points, locked: entry.locked ?? false,
                           auto: entry.auto ?? false)
+    }
+
+    /// A stored pour, checked against the board's layers and ranges.
+    private static func boardPour(_ entry: Board.PourEntry, settings: BoardSettings) throws -> BoardPour {
+        let name = "pour \(entry.id.uuidString)"
+        guard let layer = CopperLayer(rawValue: entry.layer) else {
+            throw SchematicFileError.badPCB("\(name) layer \"\(entry.layer)\" must be top, inner2 to inner5, or bottom")
+        }
+        guard settings.copperLayers.contains(layer) else {
+            throw SchematicFileError.badPCB("\(name) layer \"\(entry.layer)\" is not on a \(settings.layers)-layer board")
+        }
+        guard settings.style(of: layer).type != .plane else {
+            throw SchematicFileError.badPCB("\(name) layer \(layer.rawValue) is a plane")
+        }
+        var pour = BoardPour(id: entry.id, rect: CGRect(x: entry.x, y: entry.y, width: entry.width, height: entry.height),
+                             layer: layer)
+        if let raw = entry.net {
+            guard let net = PlaneNet(fileValue: raw) else {
+                throw SchematicFileError.badPCB("\(name) net \"\(raw)\" must be ground, power:<mV> or pin:<part id>/<pin>")
+            }
+            pour.net = net
+        }
+        pour.clearance = entry.clearance
+        pour.connection = try Self.value(entry.connection, of: PourConnection.self, "\(name) connection", default: .thermal)
+        pour.thermalGap = entry.thermalGap ?? pour.thermalGap
+        pour.spokeWidth = entry.spokeWidth ?? pour.spokeWidth
+        pour.minWidth = entry.minWidth ?? pour.minWidth
+        pour.locked = entry.locked ?? false
+        if let problem = BoardPour.problem(rect: pour.rect, clearance: pour.clearance, thermalGap: pour.thermalGap,
+                                           spokeWidth: pour.spokeWidth, minWidth: pour.minWidth) {
+            throw SchematicFileError.badPCB("\(name) \(problem)")
+        }
+        return pour
+    }
+
+    /// A stored keep-out. A layer the board doesn't have is kept and ignored.
+    private static func boardKeepout(_ entry: Board.KeepoutEntry) throws -> BoardKeepout {
+        let name = "keepout \(entry.id.uuidString)"
+        var keepout = BoardKeepout(id: entry.id, rect: CGRect(x: entry.x, y: entry.y, width: entry.width, height: entry.height))
+        if let names = entry.layers {
+            var layers = Set<CopperLayer>()
+            for raw in names {
+                guard let layer = CopperLayer(rawValue: raw) else {
+                    throw SchematicFileError.badPCB("\(name) layer \"\(raw)\" must be top, inner2 to inner5, or bottom")
+                }
+                layers.insert(layer)
+            }
+            keepout.layers = layers
+        }
+        keepout.locked = entry.locked ?? false
+        if let problem = BoardKeepout.problem(rect: keepout.rect) {
+            throw SchematicFileError.badPCB("\(name) \(problem)")
+        }
+        return keepout
     }
 
     /// A stored footprint placement, with defaults for missing keys.

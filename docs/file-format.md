@@ -167,6 +167,8 @@ An EEPROM can name the file loaded into it when the simulation starts:
 | `traces` | array   | Copper traces, in drawing order ([Traces](#traces)). Always written, `[]` when there are none; missing means none. Older builds ignore it. |
 | `vias`   | array   | Vias, in drawing order ([Vias](#vias)). Written only when there are some; missing means none. Older builds ignore it. |
 | `holes`  | array   | Drilled holes (mounting holes and others), in drawing order ([Holes](#holes)). Written only when there are some; missing means none. Older builds ignore it. |
+| `pours`  | array   | Copper pours, in drawing order ([Pours](#pours)). Written only when there are some; missing means none. Older builds ignore it. |
+| `keepouts` | array | Keep-outs the pours stay out of ([Keep-outs](#keep-outs)). Written only when there are some; missing means none. Older builds ignore it. |
 | `netClasses` | array | Net classes, in priority order ([Net classes](#net-classes)). Written only when there are some; missing means none, every net in the Default class. Older builds ignore it. |
 | `netLayerRules` | array | Layer rules set on single nets ([Net layer rules](#net-layer-rules)). Written only when there are some. Older builds ignore it. |
 | `netGroups` | array | Equal-length groups and differential pairs ([Net groups](#net-groups)). Written only when there are some. Older builds ignore it. |
@@ -252,6 +254,51 @@ of and above the hole. In lists it is `H1`, `H2`, … in drawing order.
 | `plated`   | boolean | A plated hole, with its land. Default `false`. Written only when `true`. |
 | `net`      | string  | The plated hole's net, as a Plane layer's (`"ground"`, `"power:<mV>"` or `"pin:<part UUID>/<designator>"`). Missing is none. Kept while not plated. |
 | `locked`   | boolean | Lock Position: a locked hole can't be dragged or moved by X and Y. Default `false`. Written only when `true`. |
+
+### Pours
+
+```json
+"pours": [ { "id": "...", "x": 10, "y": 5, "width": 40, "height": 30, "layer": "top", "net": "ground",
+             "clearance": 0.3, "connection": "solid", "thermalGap": 0.6, "spokeWidth": 0.4, "minWidth": 0.25 } ]
+```
+
+A copper pour: a rectangle on one trace layer that is flooded with copper on one net. The app computes the fill
+(it is not stored): the rectangle, pulled back from the board's edge by the DRC's min copper to edge, less every pad,
+via and trace on that layer that is not on the pour's net, grown by the pour's clearance; less every non-plated
+hole, grown by the min copper to edge; less every [keep-out](#keep-outs) that applies to the layer; less the
+rectangle (grown by the clearance) of an earlier pour of another net on the layer. Each pad of the pour's net gets
+a ring cut round it (thermal) with four spokes left across it, or none (solid). A piece of the fill that no pad, via
+or trace of the net touches, or whose bounding box is narrower than `minWidth`, is left out. A pour joins every pad,
+via and trace of its net that touches the fill, so the PCB draws no unrouted line between them. A pour on no net
+fills nothing. Pours fill in drawing order; a later pour of another net gives way to an earlier one.
+
+| Field      | Type    | Meaning |
+|------------|---------|---------|
+| `id`       | UUID    | Unique within the file, across every other ID. |
+| `x`, `y`, `width`, `height` | number | The rectangle in mm, `x`, `y` its top-left corner; `width` and `height` each at least 0.5. |
+| `layer`    | string  | The copper layer: `"top"`, `"inner2"` to `"inner5"` or `"bottom"`. It must be on the board and not a Plane. |
+| `net`      | string  | The pour's net, as a Plane layer's (`"ground"`, `"power:<mV>"` or `"pin:<part UUID>/<designator>"`). Missing is none. A net the schematic no longer has joins nothing. |
+| `clearance` | number | The gap to copper on other nets, in mm, 0.05 to 10. Missing is the DRC's min clearance. |
+| `connection` | string | `"thermal"` (default) or `"solid"`: how the pour joins the pads of its net. Vias of its net always join solid. |
+| `thermalGap` | number | The ring cut round a pad in thermal mode, in mm, 0.1 to 5. Default 0.5. |
+| `spokeWidth` | number | The width of the four spokes, in mm, 0.1 to 5. Default 0.5. |
+| `minWidth` | number  | In mm, 0.05 to 2. Default 0.2. |
+| `locked`   | boolean | Lock Position. Default `false`. Written only when `true`. |
+
+### Keep-outs
+
+```json
+"keepouts": [ { "id": "...", "x": 20, "y": 10, "width": 8, "height": 6, "layers": ["top", "bottom"] } ]
+```
+
+A rectangle that pours stay out of. It blocks copper pours only: traces, vias and parts may still go there.
+
+| Field      | Type    | Meaning |
+|------------|---------|---------|
+| `id`       | UUID    | Unique within the file, across every other ID. |
+| `x`, `y`, `width`, `height` | number | The rectangle in mm, as a pour's. |
+| `layers`   | array   | The layers it applies to, named as a pour's `layer`. A layer the board doesn't have is kept and ignored. Missing means every layer; an empty array means none (it blocks nothing). |
+| `locked`   | boolean | Lock Position. Default `false`. Written only when `true`. |
 
 ### Net classes
 
@@ -573,7 +620,7 @@ Opening fails, and the canvas is left unchanged, if:
 - a `customParts` entry can't be loaded ([Custom parts](#custom-parts));
 - the JSON doesn't match this structure;
 - an ID is used more than once across parts, junctions, wires, buses, bus
-  lines, bus wires, ports, board texts, traces, notes and net labels;
+  lines, bus wires, ports, board texts, traces, pours, keep-outs, notes and net labels;
 - a note's `text` is empty, or its `size` is not 6 to 72;
 - a net label's `name` is not 1 to 8 characters with no spaces, or its
   `type` is not `input`, `output`, `inout`, `passive` or `noConnect` ("The net label is not valid:
@@ -646,6 +693,16 @@ Opening fails, and the canvas is left unchanged, if:
   - `hole <id> drill 0.2 must be 0.3 to 10 mm`;
   - `hole <id> diameter 3.1 must be at least 0.2 mm more than its drill 3`;
   - `hole <id> net "vcc" must be ground, power:<mV> or pin:<part id>/<pin>`;
+  - `pour <id> layer "middle" must be top, inner2 to inner5, or bottom`;
+  - `pour <id> layer "inner4" is not on a 4-layer board`;
+  - `pour <id> layer inner2 is a plane`;
+  - `pour <id> net "vcc" must be ground, power:<mV> or pin:<part id>/<pin>`;
+  - `pour <id> width 0.1 must be at least 0.5 mm` (same for `height`);
+  - `pour <id> clearance 20 must be 0.05 to 10 mm`;
+  - `pour <id> connection "x" must be thermal or solid`;
+  - `pour <id> thermalGap 9 must be 0.1 to 5 mm` (same for `spokeWidth`; `minWidth` 0.05 to 2);
+  - `keepout <id> layer "middle" must be top, inner2 to inner5, or bottom`;
+  - `keepout <id> width 0.1 must be at least 0.5 mm` (same for `height`);
   - `board stackup copper has 2 entries; a 4-layer board needs 4` (likewise `dielectrics`);
   - `board stackup copper thickness 0.001 must be 0.005 to 0.2 mm`, `dielectric thickness … must be 0.02 to 5 mm`,
     `dielectric er … must be 1 to 20`, `temperatureRise … must be 1 to 100 °C`;

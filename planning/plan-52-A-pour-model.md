@@ -193,7 +193,7 @@ when `planeNetChoices()` offers it, else none.
 
 Acceptance: the types compile with the defaults and ranges of § 4 and the tests assert each.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/PourModelTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min). Observed: `Executed 4 tests, with 0 failures`, 62 s on a cold `$DD` in the worktree.
-Commit: see Phase 3's (landed together)
+Commit: 319d14c3 (Phases 1–3 landed together)
 
 ### Phase 2 — Document state, undo and the selection item
 
@@ -215,7 +215,7 @@ Commit: see Phase 3's (landed together)
 
 Acceptance: the app builds with both cases handled everywhere the compiler flags, and undo/redo restores the arrays.
   Check: `xcodebuild … test -only-testing:schematicalTests/PourModelTests -only-testing:schematicalTests/PCBUndoTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min; `PCBUndoTests` proves the hole undo path still works beside the new keys). Observed with Phase 3's suites in one run: `Executed 61 tests, with 0 failures`, `** TEST SUCCEEDED **`.
-Commit: see Phase 3's (landed together)
+Commit: 319d14c3 (Phases 1–3 landed together)
 
 ### Phase 3 — The edit API and the layer guards
 
@@ -233,7 +233,7 @@ Commit: see Phase 3's (landed together)
 
 Acceptance: each setter's undo name and result are asserted; both refusals return their sentence.
   Check: `xcodebuild … test -only-testing:schematicalTests/PourModelTests -only-testing:schematicalTests/BoardLayersTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min). Observed: `Executed 61 tests, with 0 failures`, `** TEST SUCCEEDED **`.
-Commit: COMMIT_A
+Commit: 319d14c3
 
 ## Validation Plan
 
