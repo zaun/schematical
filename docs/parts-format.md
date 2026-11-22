@@ -392,6 +392,29 @@ Copy to Editor… of a library part, and an Add to Library that would collide
 each make a new uuid. A failed load adds nothing: no footprint, no
 datasheet, no part.
 
+### The User Library
+
+A custom part is listed in the parts drawer under one of two categories
+(plan-53-B), below it the part file's own sub-group (`["Custom", "Gates"]`
+lists as User Library → Gates):
+
+- **User Library**: parts the user keeps. Each is a file
+  `<uuid>.schpart` in `UserLibrary` inside the app's Application Support
+  folder (in the app's container, as the app is sandboxed), holding the part
+  as it was registered (its name with any suffix, sorted keys). Every file in
+  the folder is registered at launch, in file-name order. A file the loader
+  refuses, or whose uuid another library file holds, is listed as a problem
+  and skipped; nothing else is lost.
+- **File Library**: every other registered custom part: one a schematic
+  embedded, or one loaded for this session only. Nothing is written for it.
+
+Removing a part from the User Library deletes its file and takes it out of
+the drawer at once. The backend cannot unload an arbitrary part, so it stays
+registered for the session: schematics that hold it still resolve it, and
+registering the same part again lists it in the File Library. Only the app's
+shared catalog reads the folder; under XCTest the folder is a fresh one in
+the temporary directory.
+
 ## Datasheets
 
 `datasheets.json` lists the datasheet PDFs parts name with `"datasheet"`:

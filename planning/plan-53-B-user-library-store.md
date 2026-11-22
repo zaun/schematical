@@ -232,7 +232,7 @@ Safe alone: a new type nothing calls yet.
 
 Acceptance: the folder type behaves as listed. **MET** (`xcodebuild test … -only-testing:schematicalTests/UserPartLibraryTests` → `Executed 7 tests, with 0 failures`, `** TEST SUCCEEDED **`)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/UserPartLibraryTests` → `** TEST SUCCEEDED **` (est. 4–8 min).
-Commit: —
+Commit: 565bab0f
 
 ### Phase 2 — Listings and categories in the catalog
 
@@ -242,17 +242,17 @@ Commit: —
 
 Acceptance: a registered custom part lists under `File Library` with its sub-group, and `removed` hides it from the picker only. **MET** (`xcodebuild test … -only-testing:schematicalTests/PartRegistrationTests` → `Executed 12 tests, with 0 failures`, `** TEST SUCCEEDED **`)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/PartRegistrationTests` → `** TEST SUCCEEDED **` (est. 5–10 min).
-Commit: —
+Commit: 26b90f2a
 
 ### Phase 3 — Adding, removing, and loading at launch
 
-- [ ] `PartCatalog.swift`: `userLibrary`, `userLibraryProblems`, `attachUserLibrary`, both `addToUserLibrary`, `removeFromUserLibrary`, `userLibraryItems` (§ 4.3); `shared` attaches `UserPartLibrary.defaultDirectory`.
-- [ ] `schematicalTests/UserLibraryCatalogTests.swift` (new): with a temp folder and a fresh `PartCatalogStore()` + `load()` + `attachUserLibrary` — (a) `addToUserLibrary` lists the part under `User Library` with its sub-group, writes `<uuid>.schpart` holding `registeredText`; (b) a second store attached to the same folder lists the same part (relaunch), with the same name and uuid; (c) `removeFromUserLibrary` deletes the file and hides the part, and a third store attached to the folder lacks it; (d) a `file` part passed to `addToUserLibrary(_:)` becomes `user`; (e) a name clash with a bundled part is suffixed once and the suffixed name is what the file holds; (f) a corrupt file and a duplicate-uuid file are in `userLibraryProblems` and do not stop the others; (g) with no library attached, `addToUserLibrary` throws `noUserLibrary`; (h) a failed write (a library folder that is a regular file) throws `libraryWrite` and the part stays `file`; (i) the `User Library` category has its kinds in `kinds(inCategory:)`.
-- [ ] Docs: `docs/parts-format.md` § Single part files: a paragraph "The User Library" (the folder, one file per part named by uuid, the text as registered, the two picker categories, removal hides until the next launch). `docs/backend.md` needs no change.
+- [x] `PartCatalog.swift`: `userLibrary`, `userLibraryProblems`, `attachUserLibrary`, both `addToUserLibrary`, `removeFromUserLibrary`, `userLibraryItems` (§ 4.3); `shared` attaches `UserPartLibrary.defaultDirectory`.
+- [x] `schematicalTests/UserLibraryCatalogTests.swift` (new): with a temp folder and a fresh `PartCatalogStore()` + `load()` + `attachUserLibrary` — (a) `addToUserLibrary` lists the part under `User Library` with its sub-group, writes `<uuid>.schpart` holding `registeredText`; (b) a second store attached to the same folder lists the same part (relaunch), with the same name and uuid; (c) `removeFromUserLibrary` deletes the file and hides the part, and a third store attached to the folder lacks it; (d) a `file` part passed to `addToUserLibrary(_:)` becomes `user`; (e) a name clash with a bundled part is suffixed once and the suffixed name is what the file holds; (f) a corrupt file and a duplicate-uuid file are in `userLibraryProblems` and do not stop the others; (g) with no library attached, `addToUserLibrary` throws `noUserLibrary`; (h) a failed write (a library folder that is a regular file) throws `libraryWrite` and the part stays `file`; (i) the `User Library` category has its kinds in `kinds(inCategory:)`.
+- [x] Docs: `docs/parts-format.md` § Single part files: a paragraph "The User Library" (the folder, one file per part named by uuid, the text as registered, the two picker categories, removal hides until the next launch). `docs/backend.md` needs no change.
 
-Acceptance: a part added to the library is back after a relaunch of the catalog, and removing it deletes it.
+Acceptance: a part added to the library is back after a relaunch of the catalog, and removing it deletes it. **MET** (`xcodebuild test … UserLibraryCatalogTests PartRegistrationTests UserPartLibraryTests` → `Executed 28 tests, with 0 failures`, `** TEST SUCCEEDED **`)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/UserLibraryCatalogTests -only-testing:schematicalTests/PartRegistrationTests -only-testing:schematicalTests/UserPartLibraryTests` → `** TEST SUCCEEDED **` (est. 6–12 min).
-Commit: —
+Commit: (this commit)
 
 ## Validation Plan
 

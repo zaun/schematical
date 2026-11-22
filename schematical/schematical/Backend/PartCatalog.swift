@@ -1518,6 +1518,8 @@ final class PartCatalogStore {
     static let shared: PartCatalogStore = {
         let store = PartCatalogStore()
         store.load()
+        // The user's parts (plan-53-B); only this catalog reads the folder.
+        store.attachUserLibrary(UserPartLibrary(directory: UserPartLibrary.defaultDirectory))
         return store
     }()
 
@@ -1534,6 +1536,13 @@ final class PartCatalogStore {
     private var registeredTexts: [String: String] = [:]
     /// Where each registered custom part is listed (plan-53-B), by uuid.
     private var listings: [String: PartListing] = [:]
+    /// The User Library's folder, once attached (`attachUserLibrary`); nil for
+    /// a catalog made without one (tests).
+    private(set) var userLibrary: UserPartLibrary?
+    /// Library files that could not be loaded, for the library window.
+    private(set) var userLibraryProblems: [UserPartLibraryProblem] = []
+    /// When each User Library part was added (its file's creation date).
+    private var userLibraryAdded: [String: Date] = [:]
 
     /// What the drawer's headers and menus show, built from `entries` in one
     /// pass the first time it is asked for (plan-43 follow-up: each header
@@ -1890,6 +1899,109 @@ final class PartCatalogStore {
             derivedCache = nil
         }
         return part
+    }
+
+    /// A part of the User Library with its file, for the library window.
+    struct UserLibraryItem: Identifiable {
+        let part: CatalogPart
+        let added: Date
+        let url: URL
+
+        var id: String { part.uuid ?? part.name }
+    }
+
+    /// The User Library's parts, in natural name order.
+    var userLibraryItems: [UserLibraryItem] {
+        guard let userLibrary else { return [] }
+        return listings.compactMap { uuid, listing -> UserLibraryItem? in
+            guard listing == .user, let part = partsByUUID[uuid] else { return nil }
+            return UserLibraryItem(part: part, added: userLibraryAdded[uuid] ?? Date(),
+                                   url: userLibrary.url(forUUID: uuid))
+        }
+        .sorted { $0.part.name.localizedStandardCompare($1.part.name) == .orderedAscending }
+    }
+
+    /// Attaches the User Library's folder and registers every part in it,
+    /// listed `user` (plan-53-B). A file the loader refuses, or whose uuid an
+    /// earlier library file or an already registered part holds with other
+    /// content, is recorded in `userLibraryProblems` and skipped.
+    func attachUserLibrary(_ library: UserPartLibrary) {
+        userLibrary = library
+        let found = library.files()
+        var problems = found.problems
+        var claimed: [String: String] = [:]
+        for file in found.files {
+            if let earlier = claimed[file.uuid] {
+                problems.append(UserPartLibraryProblem(
+                    url: file.url, reason: "It has the same identity as \(earlier), which is already loaded."))
+                continue
+            }
+            claimed[file.uuid] = file.url.lastPathComponent
+            if partsByUUID[file.uuid] != nil, uuidConflicts(file.text) {
+                problems.append(UserPartLibraryProblem(
+                    url: file.url, reason: "Another part with this identity is already loaded."))
+                continue
+            }
+            do {
+                try register(fileText: file.text, source: file.url.lastPathComponent, listing: .user)
+                userLibraryAdded[file.uuid] = file.added
+            } catch {
+                problems.append(UserPartLibraryProblem(url: file.url, reason: error.localizedDescription))
+            }
+        }
+        userLibraryProblems = problems
+    }
+
+    /// Registers a part file and keeps it in the User Library: listed under
+    /// User Library and written to the library folder (plan-53-B). A
+    /// failed write leaves the part listed in the File Library and throws
+    /// `libraryWrite`.
+    @discardableResult
+    func addToUserLibrary(fileText: String, source: String) throws -> CatalogPart {
+        guard userLibrary != nil else { throw PartRegistrationError.noUserLibrary }
+        let before = (try? PartFileObject(text: fileText))?.uuid.flatMap { listings[$0] }
+        let part = try register(fileText: fileText, source: source, listing: .user)
+        try persistToUserLibrary(part, previous: before ?? .file)
+        return part
+    }
+
+    /// Keeps a part that is already registered (a File Library part) in the
+    /// User Library.
+    func addToUserLibrary(_ part: CatalogPart) throws {
+        guard userLibrary != nil else { throw PartRegistrationError.noUserLibrary }
+        guard let uuid = part.uuid, partsByUUID[uuid] != nil else {
+            throw PartRegistrationError.notAPartFile("\(part.name) is not a custom part")
+        }
+        let previous = listings[uuid] ?? .file
+        setListing(.user, for: uuid)
+        try persistToUserLibrary(partsByUUID[uuid] ?? part, previous: previous)
+    }
+
+    private func persistToUserLibrary(_ part: CatalogPart, previous: PartListing) throws {
+        guard let userLibrary, let uuid = part.uuid, let text = registeredTexts[uuid] else {
+            throw PartRegistrationError.noUserLibrary
+        }
+        do {
+            try userLibrary.write(uuid: uuid, text: text)
+            userLibraryAdded[uuid] = userLibraryAdded[uuid] ?? Date()
+        } catch {
+            if previous != .user { setListing(previous == .removed ? .file : previous, for: uuid) }
+            throw PartRegistrationError.libraryWrite(error.localizedDescription)
+        }
+    }
+
+    /// Removes a part from the User Library: deletes its file and takes it out
+    /// of the drawer. It stays registered for the rest of the session, so
+    /// documents that hold it still resolve it; the backend cannot unload it.
+    func removeFromUserLibrary(uuid: String) throws {
+        guard let userLibrary else { throw PartRegistrationError.noUserLibrary }
+        do {
+            try userLibrary.remove(uuid: uuid)
+        } catch {
+            throw PartRegistrationError.libraryWrite(error.localizedDescription)
+        }
+        userLibraryAdded[uuid] = nil
+        if listings[uuid] != nil { setListing(.removed, for: uuid) }
     }
 
     /// Where a registered custom part is listed; nil for a bundled part.
