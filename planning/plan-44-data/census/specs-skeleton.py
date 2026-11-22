@@ -7,7 +7,8 @@ One row per distinct (maker, series, pdf, DigiKey Package / Case) of the
 download-set rows with a PDF (`pdf`, the path place.py wrote): `rows` the
 number of download-set rows in the group, `example` its most-stocked part
 number. The scheme columns `scheme`, `label`, `pinout`, `terminals`,
-`capacitors` are empty (plan-44-B fills them). Run again over an existing specs.tsv it merges: a
+`capacitors`, `page`, `hz_range`, `loads`, `tols`, `stabs`, `esr_max` are empty
+(plan-44-B fills them; specs.py describes each). Run again over an existing specs.tsv it merges: a
 group's existing scheme columns are kept, a new group gets empty ones, and a
 row whose group is gone is dropped and named.
 """
@@ -19,8 +20,9 @@ import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import common  # noqa: E402
 
-COLS = ["maker", "series", "pdf", "package", "rows", "example", "scheme", "label", "pinout", "terminals", "capacitors"]
-KEEP = ["scheme", "label", "pinout", "terminals", "capacitors"]
+COLS = ["maker", "series", "pdf", "package", "rows", "example", "scheme", "label", "pinout", "terminals", "capacitors",
+        "page", "hz_range", "loads", "tols", "stabs", "esr_max"]   # the columns of specs.py
+KEEP = COLS[6:]
 
 
 def main(src, dst):
@@ -37,7 +39,7 @@ def main(src, dst):
         for g in sorted(groups):
             rs = groups[g]
             example = max(rs, key=lambda r: (int(r["stock"] or 0), r["mpn"]))["mpn"]
-            keep = [old[g][c] for c in KEEP] if g in old else [""] * len(KEEP)
+            keep = [old[g].get(c, "") for c in KEEP] if g in old else [""] * len(KEEP)
             out.write("\t".join(list(g) + [str(len(rs)), example] + keep) + "\n")
     for g in sorted(set(old) - set(groups)):
         print("dropped", "|".join(g))

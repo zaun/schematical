@@ -36,6 +36,14 @@ def num(text):
     return float(m.group(1)) if m else None
 
 
+def ohms(text):
+    """`70 kOhms` -> 70000.0, `60 Ohms` -> 60.0 (DigiKey spells a kHz crystal's ESR in kOhms)."""
+    v = num(text)
+    if v is not None and re.search(r'\bk\s*Ohm', text or '', re.I):
+        v *= 1000
+    return v
+
+
 def hz_of(text):
     m = re.match(r'\s*([\d.]+)\s*(k|M|G)?Hz', text or '')
     if not m:
@@ -69,7 +77,7 @@ def read_raw(raw):
                 'load_pf': num(p.get('Load Capacitance', '')) if 'pF' in p.get('Load Capacitance', '') else '',
                 'tol_ppm': num(p.get('Frequency Tolerance', '')),
                 'stab_ppm': num(p.get('Frequency Stability', '')),
-                'esr_ohm': num(p.get('ESR (Equivalent Series Resistance)', p.get('Impedance', ''))),
+                'esr_ohm': ohms(p.get('ESR (Equivalent Series Resistance)', p.get('Impedance', ''))),
                 'temp': p.get('Operating Temperature', ''), 'mounting': p.get('Mounting Type', ''),
                 'package': p.get('Package / Case', ''),
                 'supplier_package': p.get('Supplier Device Package', ''),
