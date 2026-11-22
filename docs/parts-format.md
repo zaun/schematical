@@ -414,7 +414,13 @@ offer when a schematic that embeds custom parts is opened, the Part Editor's
 **Add to Library**, and **Add to User Library** on a File Library part's
 right-click menu.
 
-**Edit…** on a User Library part (drawer right-click) opens it in the Part
+**File › User Library…** opens the User Library window (plan-53-F): a table
+of the library's parts (name, manufacturer, kind, package, date added) with
+Add Part… (a part file, with no question), Edit…, Show in Finder and Remove…
+(after a confirmation); a library file that could not be loaded is listed
+above the table with the reason and can be removed or shown in Finder.
+
+**Edit…** on a User Library part (drawer right-click, or the window) opens it in the Part
 Editor (plan-53-E). There **Save updates the part in place** under its
 uuid, at once: the library file, the drawer and every placed chip in every
 open schematic switch to the new version (wires on pins the new version lacks

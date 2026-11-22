@@ -177,6 +177,25 @@ final class PartRegistrationTests: XCTestCase {
             fileText: Self.fileText(uuid: uuid, name: "REG-C", inlineFootprint: true), source: "c.schpart"), first)
     }
 
+    /// (c1) The same clashing file again (a schematic opened twice) is the
+    /// part it became the first time, not another copy.
+    func testTheSameClashingFileTwiceIsOnePart() throws {
+        let uuid = "C3000000-0000-4000-8000-000000000001"
+        try store.register(fileText: Self.fileText(uuid: uuid, name: "REG-C5"), source: "first")
+        let clashing = Self.fileText(uuid: uuid, name: "REG-C5", description: "Other version")
+        let one = try store.register(fileText: clashing, source: "open 1")
+        let count = store.partCount
+        let two = try store.register(fileText: clashing, source: "open 2")
+        XCTAssertEqual(two.uuid, one.uuid)
+        XCTAssertEqual(two.name, one.name)
+        XCTAssertEqual(store.partCount, count)
+        XCTAssertNotEqual(one.uuid, uuid)
+        // A different clashing text is another version.
+        let other = try store.register(
+            fileText: Self.fileText(uuid: uuid, name: "REG-C5", description: "Third version"), source: "open 3")
+        XCTAssertNotEqual(other.uuid, one.uuid)
+    }
+
     /// (c2) A chain of versions keeps the first version's uuid as `originId`.
     func testOriginIdIsTheFirstVersion() throws {
         let uuid = "C1000000-0000-4000-8000-000000000001"

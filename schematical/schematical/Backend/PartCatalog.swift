@@ -1569,6 +1569,10 @@ final class PartCatalogStore {
     private var registeredTexts: [String: String] = [:]
     /// Where each registered custom part is listed (plan-53-B), by uuid.
     private var listings: [String: PartListing] = [:]
+    /// A part file's text that clashed with another part's uuid, and the new
+    /// uuid it was registered under (plan-53-A): the same text again is that
+    /// part.
+    private var freshenedTexts: [String: String] = [:]
     /// The User Library's folder, once attached (`attachUserLibrary`); nil for
     /// a catalog made without one (tests).
     private(set) var userLibrary: UserPartLibrary?
@@ -1889,19 +1893,21 @@ final class PartCatalogStore {
     @discardableResult
     func register(fileText: String, source: String, listing: PartListing = .file) throws -> CatalogPart {
         var file = try PartFileObject(text: fileText)
+        var clashingText: String?
         if let uuid = file.uuid, let registered = partsByUUID[uuid] {
             // The registered text carries the name as registered (maybe
             // suffixed); compare with the new file under that name.
             var compared = file
             compared.name = registered.name
             if compared.canonicalText == registeredTexts[uuid] {
-                let current = listings[uuid]
-                let wanted: PartListing = listing == .removed ? .file : listing
-                if current == .removed || (wanted == .user && current == .file) {
-                    setListing(wanted, for: uuid)
-                }
-                return partsByUUID[uuid] ?? registered
+                return relisted(uuid, as: listing) ?? registered
             }
+            // The same clashing text again (a schematic opened twice) is the
+            // part it became the first time, not another copy.
+            if let fresh = freshenedTexts[file.canonicalText], partsByUUID[fresh] != nil {
+                return relisted(fresh, as: listing) ?? registered
+            }
+            clashingText = file.canonicalText
             file.freshenIdentity()
         }
         if let name = file.name, partsByName[name] != nil {
@@ -1927,11 +1933,24 @@ final class PartCatalogStore {
         partsByUUID[uuid] = part
         registeredTexts[uuid] = text
         listings[uuid] = listing
+        if let clashingText { freshenedTexts[clashingText] = uuid }
         if !part.drawer.isEmpty {
             entries.append(part)
             derivedCache = nil
         }
         return part
+    }
+
+    /// A part that is already registered, found again by `register`: listed
+    /// again if it had been removed, and moved to the User Library when that
+    /// is what is asked for. Returns the registered part.
+    private func relisted(_ uuid: String, as listing: PartListing) -> CatalogPart? {
+        let current = listings[uuid]
+        let wanted: PartListing = listing == .removed ? .file : listing
+        if current == .removed || (wanted == .user && current == .file) {
+            setListing(wanted, for: uuid)
+        }
+        return partsByUUID[uuid]
     }
 
     /// A part of the User Library with its file, for the library window.

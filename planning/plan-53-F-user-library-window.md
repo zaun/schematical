@@ -33,6 +33,7 @@ Stated in plan-53-A; this sub-plan additionally needs plan-53-E complete.
 |---|---|---|
 | plan-53-E is complete and archived | `ls planning/completed/plan-53-E-*.md` → one file | MET (run 2026-11-21) |
 | The catalog lists library items and problems | `grep -c 'userLibraryItems\|userLibraryProblems' schematical/schematical/Backend/PartCatalog.swift` → at least `2` | MET (run 2026-11-21: `4`) |
+| The screen is unlocked, so the real app can be driven for § 4.3 (clicks and typing reach it) | `ioreg -n Root -d1 \| grep -o '"CGSSessionScreenIsLocked"=[A-Za-z]*'` → `=No` | **NOT MET** (run 2026-11-21: `=Yes`; `loginwindow` is frontmost, so a click or a typed path would land on the lock screen). Needed only for Phase 2's real-app run; everything else in plan-53 is done |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command before you continue, and report all of them if you stop.
@@ -197,12 +198,13 @@ None to any file format. A new window and one File menu item.
 
 Acceptance: the row builder and the new catalog call behave as listed, and the app builds with the new scene. **MET** (`xcodebuild test … UserLibraryWindowTests UserLibraryPromptsTests` → `Executed 13 tests, with 0 failures`, `** TEST SUCCEEDED **`; the app builds with the new scene)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/UserLibraryWindowTests -only-testing:schematicalTests/UserLibraryPromptsTests` → `** TEST SUCCEEDED **` (est. 6–12 min).
-Commit: —
+Commit: 8db6b793
 
 ### Phase 2 — Help, docs and the end-to-end run
 
-- [ ] `Help/KeyboardHelp.swift`: an entry "File › User Library…" → "List the parts in your User Library; remove them, add a part file, or show a part's file in Finder".
-- [ ] `docs/parts-format.md` § Single part files, "The User Library" paragraph: the window and where the folder is (`Application Support/UserLibrary` in the app's container).
+- [x] `Help/KeyboardHelp.swift`: an entry "File › User Library…" → "List the parts in your User Library; remove them, add a part file, or show a part's file in Finder".
+- [x] `docs/parts-format.md` § Single part files, "The User Library" paragraph: the window and where the folder is (`Application Support/UserLibrary` in the app's container).
+- [x] `schematicalTests/UserLibraryEndToEndTests.swift` (new; added during execution, see Corrections): § 4.3's ten steps walked through the code the menus, sheets and windows call, in the test host (`xcodebuild test … -only-testing:schematicalTests/UserLibraryEndToEndTests` → `Executed 1 test, with 0 failures`). It is the fallback evidence while the screen is locked and does not replace the real-app run below.
 - [ ] The run of § 4.3, steps 1–10, each noted in the Corrections section with what was seen (or "as expected").
 - [ ] After the run: the library folder's `ls` equals the one recorded before step 1; `/tmp/plan53` is gone; the pointer is at (0, 0).
 
@@ -233,7 +235,10 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution, including what each step of § 4.3 showed.)
+- **The end-to-end test found a defect in plan-53-A's design, fixed here:** opening a schematic whose embedded part clashed with a different part under the same uuid registered a *new copy every time* (`PROOF-NAND.3`, then `.4`, …), because each open gave the same text a new random uuid. `PartCatalogStore.register` now remembers the clashing text and the uuid it became (`freshenedTexts`), so the same text again is the same part (`PartRegistrationTests.testTheSameClashingFileTwiceIsOnePart`, and step 9 of the end-to-end test). Plan-53-A's tests passed because none opened one file twice.
+- **A `SchematicFileController` freed inside a test aborts the host** (the same `pointer being freed was not allocated` as stores and models): the end-to-end test keeps its controllers in a static array.
+- **Real-app run (§ 4.3): NOT DONE — the screen is locked.** `ioreg -n Root -d1 | grep -o '"CGSSessionScreenIsLocked"=[A-Za-z]*'` → `=Yes` and `lsappinfo front` → `loginwindow`'s ASN, checked 2026-11-21 before and after every attempt. What was done instead: (a) the end-to-end test above (step 1–10 code paths, all assertions pass); (b) Accessibility by pid on my own build (`open -n` of `/tmp/p53-dd/Build/Products/Debug/schematical.app`, pid 76454; the owner's Xcode-run instance, pid 52197, was not touched): `AXIsProcessTrusted` → `true`, the File menu lists `Load Part…` and `User Library…`, and after `AXPress` on **File › User Library…** (`press result: 0`) the Window menu lists a `User Library` window item. That instance was quit afterwards. Not seen yet: the sheets, the drawer context menus (File Library / User Library items, Edit…), the library window's table, and a relaunch against the real container, all of which need clicks and typed paths. The library folder in the real container was never written (no step ran).
+- **Check commands:** Phase 1 `xcodebuild test … UserLibraryWindowTests UserLibraryPromptsTests` → `Executed 13 tests, with 0 failures`. **Landing gate for the plan's code (run 2026-11-21 after the fix):** `ctest --test-dir /tmp/logic-build-p53 -R 'part_file_test|library_check|listing_check'` → `100% tests passed, 0 tests failed out of 3`; `xcodebuild test … PartRegistrationTests SchematicFileV5Tests PartFileSaveOpenTests UserLibraryUpdateTests PartEditorLibraryTests UserPartLibraryTests UserLibraryCatalogTests UserLibraryPromptsTests UserLibraryWindowTests UserLibraryEndToEndTests KeyboardHelpTests AutomationTests` → `Executed 115 tests, with 1 test skipped and 0 failures`, `** TEST SUCCEEDED **` (`/tmp/p53-xc23.log`; the skipped test is `AutomationTests.testFileToolsAreOffWithoutASharedFolder`, pre-existing).
 
 ## Summary
 
