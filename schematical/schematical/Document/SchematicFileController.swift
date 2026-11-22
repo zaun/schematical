@@ -401,6 +401,7 @@ final class SchematicFileController {
     /// Asks where to save the board's Gerber files, then writes them there
     /// as one zip (`GerberExport`). Like any export, not a save.
     func exportGerber() async {
+        guard await confirmExportDespiteProblems() else { return }
         let panel = NSSavePanel()
         panel.allowedContentTypes = [.zip]
         panel.canCreateDirectories = true
@@ -414,6 +415,37 @@ final class SchematicFileController {
         } catch {
             present(error, title: "Couldn't export “\(displayName)”")
         }
+    }
+
+    /// Runs the design rule check, under the board's own rules, before a
+    /// Gerber export. A board with problems is made as drawn, so a short or
+    /// an unrouted net would ship: the user is told what the check found and
+    /// chooses. True when the board is clean or they export anyway.
+    private func confirmExportDespiteProblems() async -> Bool {
+        let issues = document.designRuleCheck(rules: document.board.rules)
+        guard !issues.isEmpty else { return true }
+        let alert = NSAlert()
+        alert.alertStyle = .warning
+        alert.messageText = "The board has \(issues.count) design rule \(issues.count == 1 ? "problem" : "problems")"
+        alert.informativeText = Self.problemSummary(issues)
+            + " A fab makes the board as drawn. Fix them first (Window ▸ Design Rule Check lists each), or export anyway."
+        alert.addButton(withTitle: "Cancel")
+        alert.addButton(withTitle: "Export Anyway")
+        return await run(alert) == .alertSecondButtonReturn
+    }
+
+    /// "1 short circuit, 2 unrouted connections and 3 others." The serious
+    /// kinds first; every problem is counted.
+    static func problemSummary(_ issues: [DesignRuleIssue]) -> String {
+        func count(_ kind: DesignRuleIssue.Kind) -> Int { issues.filter { $0.kind == kind }.count }
+        let shorts = count(.short), unrouted = count(.unrouted)
+        var parts: [String] = []
+        if shorts > 0 { parts.append("\(shorts) short \(shorts == 1 ? "circuit" : "circuits")") }
+        if unrouted > 0 { parts.append("\(unrouted) unrouted \(unrouted == 1 ? "connection" : "connections")") }
+        let others = issues.count - shorts - unrouted
+        if others > 0 { parts.append("\(others) other \(others == 1 ? "problem" : "problems")") }
+        let text = parts.count > 1 ? parts.dropLast().joined(separator: ", ") + " and " + parts.last! : parts.joined()
+        return "The check found " + text + "."
     }
 
     /// Writes the board's Gerber zip to `url`; its files are named after the

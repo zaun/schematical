@@ -54,7 +54,9 @@ the PCB layers.
 
 **File > Export > Gerber PCB** writes the board as Gerber X2 (RS-274X, mm,
 `%FSLAX46Y46*%`) files, one per layer, and its Excellon drill files, in one zip (stored, not compressed),
-named `<schematic> Gerbers.zip`. The files inside are named after the
+named `<schematic> Gerbers.zip`. Before the save panel the export runs the Design Rule Check under the board's own
+rules; a board with any problem gets a warning ("1 short circuit, 2 unrouted connections and 3 other problems") with
+**Cancel** and **Export Anyway**, and a clean board goes straight to the panel. The files inside are named after the
 schematic, with anything but letters, digits, `-` and `_` turned into `_`
 (`gerberBaseName`), and use the Protel extensions fabs expect:
 
@@ -101,8 +103,8 @@ schematic, with anything but letters, digits, `-` and `_` turned into `_`
   reads mirrored. Board y grows down; Gerber y grows up, so a file's y is
   the board's top edge minus the board y, and the board sits at y ≥ 0.
 - A 1-layer board has only the Top files and the outline.
-- Circles and plain rectangles are aperture flashes; ellipses, rounded and
-  chamfered rectangles are regions of the same outline the canvas fills
+- Circles and plain rectangles are aperture flashes; ovals (stadiums),
+  rounded and chamfered rectangles are regions of the same outline the canvas fills
   (`PCBCanvasView.outline(of:)`), curves cut into steps of at most 0.05 mm.
   A grown shape (mask expansion, Plane clearance) is the shape plus its
   outline stroked with a round pen twice the growth wide.
