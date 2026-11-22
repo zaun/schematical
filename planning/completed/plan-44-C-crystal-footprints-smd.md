@@ -172,7 +172,7 @@ Commit: ef91152a
 
 Acceptance: those lines have footprints that load.
   Check: `planning/plan-44-data/census/fp-load.sh planning/plan-44-data/footprints-C.json` → `<k> new footprints: load ok` (est. 3 min: it builds `footprint_check` in a copy). Output 2026-11-22 (reader c1, 22 lines): `fp-check.py C --map fp-parts/c1.tsv --json fp-parts/c1.json` → `22 lines, 0 without a footprint`; `fp-load.sh fp-parts/c1.json` → `17 new footprints: load ok`.
-Commit: —
+Commit: 6a117361
 
 ### Phase 3 — Four-pad packages
 
@@ -184,7 +184,7 @@ Commit: —
 
 Acceptance: those lines have footprints that load.
   Check: `planning/plan-44-data/census/fp-load.sh planning/plan-44-data/footprints-C.json` → `<k> new footprints: load ok` (est. 3 min). Output 2026-11-22 (readers c2, c3, 29 lines): `15 lines, 0 without a footprint` + `14 new footprints: load ok`; `14 lines, 0 without a footprint` + `13 new footprints: load ok`.
-Commit: —
+Commit: 6a117361
 
 ### Phase 4 — HC-49/US, SOJ, cylinder and the rest
 
@@ -195,7 +195,7 @@ Commit: —
 
 Acceptance: every C line has a footprint that loads.
   Check: `python3 -I planning/plan-44-data/census/fp-check.py C` → `<n> lines, 0 without a footprint`, and `planning/plan-44-data/census/fp-load.sh planning/plan-44-data/footprints-C.json` → `<k> new footprints: load ok` (est. 4 min). Output 2026-11-22 (reader c4, 14 lines, then everything): `14 lines, 0 without a footprint` + `11 new footprints: load ok`; after `fp-skeleton.py --assemble`: `fp-check.py C` → `65 lines, 0 without a footprint`; `fp-load.sh footprints-C.json footprints-D.json` → `72 new footprints: load ok` (55 of C, 17 of D).
-Commit: —
+Commit: 6a117361
 
 ## Validation Plan
 

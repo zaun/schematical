@@ -113,7 +113,7 @@ compares one object per package family.
 
 Acceptance: those lines have footprints that load.
   Check: `planning/plan-44-data/census/fp-load.sh planning/plan-44-data/footprints-C.json planning/plan-44-data/footprints-D.json` → `<k> new footprints: load ok` (est. 3 min). Output 2026-11-22 (reader d1, 15 lines): `15 lines, 0 without a footprint`, `9 new footprints: load ok`.
-Commit: —
+Commit: 6a117361
 
 ### Phase 2 — Ceramic resonator packages
 
@@ -123,7 +123,7 @@ Commit: —
 
 Acceptance: every D line has a footprint that loads.
   Check: `python3 -I planning/plan-44-data/census/fp-check.py D` → `<n> lines, 0 without a footprint`, and `planning/plan-44-data/census/fp-load.sh planning/plan-44-data/footprints-C.json planning/plan-44-data/footprints-D.json` → `<k> new footprints: load ok` (est. 3 min). Output 2026-11-22 (reader d2, 14 lines, then everything): `14 lines, 0 without a footprint`, `8 new footprints: load ok`; after `fp-skeleton.py --assemble`: `fp-check.py D` → `29 lines, 0 without a footprint`; `fp-load.sh footprints-C.json footprints-D.json` → `72 new footprints: load ok` (55 of C, 17 of D).
-Commit: —
+Commit: 6a117361
 
 ## Validation Plan
 
