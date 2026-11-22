@@ -45,7 +45,6 @@ ABS04W-32.768KHZ-6-B2-T5	ok
 AB26T-32.000KHZ	ok	
 ABS07-32.768KHZ-9-H-T	ok	
 ABS06-107-32.768KHZ-T	ok	
-ABS05-32.768KHZ-X-3-T3	ok	
 ABS25-32.768KHZ-1-T	ok	
 ABS07AIG-32.768KHZ-6-1-T	ok	
 ABS04W-32.768KHZ-4-D2-T5	ok	
@@ -316,7 +315,6 @@ ECS-80-20-5PXDU-TR	ok
 ECS-160-10-36Q-ES-TR	skip	not in the datasheet's ordering table
 ECS-80-10-30B-CWN-TR	ok	
 ECS-160-9-42-CKM-TR	skip	not in the datasheet's ordering table
-ECS-80-20-20A-TR	ok	
 ECS-80-18-20BQ-DS	ok	
 ECS-80-18-30-JGN-TR	ok	
 ECS-320-8-37B2-CTN-TR	ok	
@@ -326,7 +324,6 @@ ECS-390-CDX-1932	ok
 ECS-80-8-30Q-VS-TR	ok	
 ECS-40-20-4XDN	ok	
 ECS-320-CDX-2374	ok	
-ECS-147.4-18-18-TR	ok	
 ECS-245.7-10-36B2-CTM-TR	ok	
 ECS-160-18-9X	ok	
 ECS-073-18-20BM-JEN-TR	ok	
@@ -347,7 +344,6 @@ ECS-120-12-33B2Q-JES-TR3	ok
 ECS-120-7-33B2-CTN-TR3	skip	not in the datasheet's ordering table
 ECS-271.2-CDX-2616	ok	
 ECS-135.600-CDX-0374	skip	not in the datasheet's ordering table
-ECS-196.6-S-7SX-TR	ok	
 ECS-400-20-46X	ok	
 ECS-160-12-33QZ-ADS-TR	ok	
 ECS-100-8-33AQ-VY-TR3	ok	
@@ -377,7 +373,6 @@ ECS-40-20-5PXDU-TR	ok
 ECS-120-10-36Q-AES-TR	skip	not in the datasheet's ordering table
 ECS-160-10-30B-CKL-TR	ok	
 ECS-260-13-42-CKM-TR	ok	
-ECS-240-12-20A-TR	ok	
 ECS-120-18-20BQ-DS	ok	
 ECS-110.5-18-30-JGN-TR	skip	not in the datasheet's ordering table
 ECS-250-8-37B2-RWY-TR	ok	
@@ -387,7 +382,6 @@ ECS-320-CDX-2094	ok
 ECS-81.92-12-30Q-EN-TR	ok	
 ECS-184-20-4XDN	ok	
 ECS-320-7-48B-JTM-TR5	ok	
-ECS-80-18-18-TR	ok	
 ECS-400-10-36B2-CKM-TR	ok	
 ECS-120-18-9X	ok	
 ECS-200-20-20BM-DP	ok	
@@ -407,7 +401,6 @@ ECS-250-10-37BQ-CTN-TR	ok
 ECS-160-12-33B2Q-JES-TR3	ok	
 ECS-135.6-7-33B2-CKM-TR3	skip	not in the datasheet's ordering table
 ECS-271.344-CD-0383TR	skip	not in the datasheet's ordering table
-ECS-80-20-7SX-TR	ok	
 ECS-130-20-46X	ok	
 ECS-250-18-33QZ-ADS-TR	skip	not in the datasheet's ordering table
 ECS-160-8-33AQ-VY-TR3	ok	
@@ -431,7 +424,6 @@ ECS-250-20-5PXDU-F-TR	skip	not in the datasheet's ordering table
 ECS-160-8-36Q-AES-TR	ok	
 ECS-250-8-30B-CKM	ok	
 ECS-320-13-42-CKM-TR	ok	
-ECS-120-20-20A-TR	ok	
 ECS-200-18-20BQ-DS	ok	
 ECS-240-18-30-JGN-TR	ok	
 ECS-250-8-37B2-CTN-TR	ok	
@@ -441,7 +433,6 @@ ECS-122.8-CDX-0921	ok
 ECS-80-18-30Q-VY-TR	ok	
 ECS-35-17-4XDN	ok	
 ECS-320-8-48B-CKY-TR	ok	
-ECS-73-18-18-TR	ok	
 ECS-320-10-36B2-CKM-TR	ok	
 ECS-147.4-18-9X	ok	
 ECS-073-18-20BM-JEM-TR	ok	
@@ -461,7 +452,6 @@ ECS-320-10-37BQ-CKY-TR	ok
 ECS-250-12-33B2Q-JES-TR3	ok	
 ECS-135.6-8-33B2-CKM-TR3	ok	
 ECS-235.122-CDX-0378	skip	not in the datasheet's ordering table
-ECS-51.2-18-7SX-TR	skip	not in the datasheet's ordering table
 ECS-122.8-20-46X	ok	
 ECS-250-12-33QZ-ADS-TR	ok	
 ECS-120-8-33AQ-VY-TR3	ok	

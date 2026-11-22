@@ -206,19 +206,37 @@ a hand check) and the DigiKey part number itself.
 
 Acceptance: every download-set row has a verdict on the ordering table and the facts.
   Check: `python3 -I planning/plan-44-data/census/scheme-check.py` → `<n> rows: <k> ok, 0 unchecked`, then `python3 -I planning/plan-44-data/census/scheme-check.py --sample \| wc -l` → 60 (est. 5 min). Output 2026-11-22: `744 rows: 709 ok, 0 unchecked`, `60`.
-Commit: —
+Commit: f87e3205
 
 ### Phase 2 — Datasheet status
 
-- [ ] Read every `dead` = 1 row of `candidates.tsv` in its PDF (§ 3.2); set
-      `out` / `obsolete` rows.
-- [ ] Delete each PDF whose every download-set row is `out`, remove it from
+- [x] Read every `dead` = 1 row of `candidates.tsv` in its PDF (§ 3.2); set
+      `out` / `obsolete` rows. The two `dead` rows are `ABS05-32.768KHZ-X-T5` and
+      `ABS05-32.768KHZ-X-3-T3`; `ABS05.pdf` p.1 marks only `ABS05-32.768kHz-X-3-T3`
+      "(NRND)" (the `-X-T5` line three rows above it has no mark): `-X-3-T3` →
+      `out`/`obsolete`, `-X-T5` → `dead` 0. `dead` only looks 300 characters
+      around a part number, so every placed PDF was also scanned whole for
+      obsolete / discontinued / NRND / "not recommended for new" / end of life /
+      EOL / last time buy wording (`pdftotext`, context printed): `csm-12r.pdf`
+      (CSM-12), `csm-8r.pdf` (CSM-8A), `ecx-3sx.pdf` (ECX-3SX) carry "Not
+      Recommended for New Designs" at the top of page 1, so their 9 rows are
+      `out`/`obsolete` (10 rows out in all). Read and kept: `AB26TRQ.pdf` (the
+      Pd housing plating is EOL, replaced by Au, "no electrical change": the
+      part is not), `N_AWSCR-MT.pdf` (an ECN: AWSCR-MT Rev D EOL, "Alternate
+      Part Number / Part Series: AWSCR-MTD"; the 3 rows are AWSCR-xx.xxMTD,
+      the alternate, and the datasheet below the ECN is the table of
+      `AWSCR-XX.XXMTD`), `partnumber4.pdf` ("* Discontinued": ECX-205, ECX-206
+      and ECX-3TA package codes; the one row on it is code `10`).
+- [x] Delete each PDF whose every download-set row is `out`, remove it from
       `datasheets/crystal/datasheets.tsv`, add it to
       `datasheets/obsolete-not-included.md` (PDF name, `Crystal` or `Ceramic
-      resonator`, group `MHz` / `kHz` / `Ceramic`).
+      resonator`, group `MHz` / `kHz` / `Ceramic`). Deleted and listed (3 rows
+      added, family `crystal`, group `Crystal → MHz`): `ecs/csm-12r.pdf`,
+      `ecs/csm-8r.pdf`, `ecs/ecx-3sx.pdf`. `specs.tsv` dropped their 4 spec rows
+      (`192 rows`).
 
 Acceptance: no `add`-eligible row is obsolete; the obsolete PDFs are deleted.
-  Check: `awk -F'\t' '$30==1 && $25!="out"' planning/plan-44-data/candidates.tsv \| wc -l` → 0 once each `dead` row has its verdict (a `dead` row the datasheet clears gets `dead` 0 after B has read it), and `grep -c 'plan-44' datasheets/obsolete-not-included.md` → the PDFs deleted (est. 20 min).
+  Check: `awk -F'\t' '$30==1 && $25!="out"' planning/plan-44-data/candidates.tsv \| wc -l` → 0 once each `dead` row has its verdict (a `dead` row the datasheet clears gets `dead` 0 after B has read it), and `grep -c 'plan-44' datasheets/obsolete-not-included.md` → the PDFs deleted (est. 20 min). Output 2026-11-22: `0` and `3`; `place.py --verify planning/plan-44-data/candidates.tsv` → `0 missing, 0 unused`; `scheme-check.py` → `734 rows: 700 ok, 0 unchecked`.
 Commit: —
 
 ### Phase 3 — Pinouts and terminals
@@ -341,6 +359,12 @@ Commit: —
    drawing (readers flagged ABC2 11.8x5.5, ABLSG, CSM-12, CSM-4A / 4AX,
    ECX-3SX / 306X / 71, SAX324, SXTHM2: pads `1=X1,2=NC,3=X2,4=NC` or
    `1=X1,2=NC,3=NC,4=X2` as drawn).
+
+9. **NRND is "obsolete" for the pick (§ 3.2):** the 9 rows of CSM-12, CSM-8A
+   and ECX-3SX are `out`/`obsolete` although DigiKey lists them Active, and
+   `ABS05-32.768KHZ-X-3-T3` for its own "(NRND)" line. The rows of
+   `AWSCR-MTD` stay: the ECN in `N_AWSCR-MT.pdf` retires the MT series and
+   names AWSCR-MTD as its alternate; the rows are the alternate's part numbers.
 
 ## Summary
 
