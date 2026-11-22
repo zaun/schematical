@@ -1201,8 +1201,6 @@ nonisolated enum BackendCatalog {
 
 /// Why a single part file (`.schpart`) could not be added to the catalog.
 nonisolated enum PartRegistrationError: LocalizedError, Equatable {
-    /// A different part file with this uuid is already loaded.
-    case uuidInUse(uuid: String, name: String)
     /// The backend's loader refused the file; its message names the place.
     case backend(String)
     /// The file is not a part file at all (not UTF-8 text, or not a JSON object).
@@ -1210,8 +1208,6 @@ nonisolated enum PartRegistrationError: LocalizedError, Equatable {
 
     var errorDescription: String? {
         switch self {
-        case .uuidInUse(let uuid, let name):
-            return "A different part with this identity (\(uuid)) is already loaded as \(name)."
         case .backend(let message):
             return message
         case .notAPartFile(let detail):
@@ -1267,6 +1263,27 @@ nonisolated struct PartFileObject {
             devices[0] = device
             object["devices"] = devices
         }
+    }
+
+    /// Gives the part a new identity (plan-53-A § 3): a new `uuid`; `originId`
+    /// is the file's own `originId` if it has one, else the uuid it had (the
+    /// first version's uuid is kept down a chain of versions); and every
+    /// string value equal to the old `CUSTOM-<first 8 of uuid>` (the inline
+    /// footprint and datasheet ids and what names them) becomes the new
+    /// uuid's. Keys are never renamed.
+    mutating func freshenIdentity(newUUID: String = UUID().uuidString) {
+        guard let old = uuid else { return }
+        if object["originId"] == nil { object["originId"] = old }
+        object["uuid"] = newUUID
+        let oldID = "CUSTOM-" + old.prefix(8).uppercased()
+        let newID = "CUSTOM-" + newUUID.prefix(8).uppercased()
+        func renamed(_ value: Any) -> Any {
+            if let text = value as? String { return text == oldID ? newID : text }
+            if let dictionary = value as? [String: Any] { return dictionary.mapValues(renamed) }
+            if let array = value as? [Any] { return array.map(renamed) }
+            return value
+        }
+        object = object.mapValues(renamed)
     }
 
     /// Sorted keys, so equal content is equal text.
@@ -1765,22 +1782,34 @@ final class PartCatalogStore {
         registeredTexts[uuid]
     }
 
+    /// Whether the file's uuid is registered with other content (the
+    /// comparison `register` makes, with the name as registered).
+    func uuidConflicts(_ fileText: String) -> Bool {
+        guard var file = try? PartFileObject(text: fileText), let uuid = file.uuid,
+              let registered = partsByUUID[uuid] else { return false }
+        file.name = registered.name
+        return file.canonicalText != registeredTexts[uuid]
+    }
+
     /// Adds a single part file's part to the catalog for the rest of the
     /// session (plan-32-A § 4.3). The same uuid with the same content returns
-    /// the registered part; with other content it is refused. A name that is
-    /// taken gets the lowest free suffix `.2`, `.3`, …. The backend checks the
-    /// file; a failure changes nothing.
+    /// the registered part; with other content the file is registered under a
+    /// new uuid (plan-53-A: `PartFileObject.freshenIdentity`), so no two
+    /// different parts share one. A name that is taken gets the lowest free
+    /// suffix `.2`, `.3`, …. The backend checks the file; a failure changes
+    /// nothing.
     @discardableResult
     func register(fileText: String, source: String) throws -> CatalogPart {
         var file = try PartFileObject(text: fileText)
         if let uuid = file.uuid, let registered = partsByUUID[uuid] {
             // The registered text carries the name as registered (maybe
             // suffixed); compare with the new file under that name.
-            file.name = registered.name
-            if file.canonicalText == registeredTexts[uuid] {
+            var compared = file
+            compared.name = registered.name
+            if compared.canonicalText == registeredTexts[uuid] {
                 return registered
             }
-            throw PartRegistrationError.uuidInUse(uuid: uuid, name: registered.name)
+            file.freshenIdentity()
         }
         if let name = file.name, partsByName[name] != nil {
             var n = 2

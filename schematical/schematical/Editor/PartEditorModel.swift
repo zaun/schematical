@@ -415,6 +415,11 @@ final class PartEditorModel {
             file = BundledPartFile.copy(of: part)
         }
         guard let file, var draft = try? PartDraft(file: file) else { return nil }
+        if part.uuid != nil {
+            // A registered custom part: a new identity that remembers its
+            // origin, with its inline ids renamed (plan-53-A).
+            return try? draft.freshened()
+        }
         draft.uuid = UUID().uuidString
         return draft
     }
@@ -517,6 +522,11 @@ final class PartEditorModel {
         if case let .failure(failure) = validateNow() {
             throw PartRegistrationError.backend(failure.message)
         }
+        // A uuid the catalog holds with other content: this is a new version,
+        // so the draft takes a new identity first (plan-53-A).
+        if catalog.uuidConflicts(try draft.encoded().text()) {
+            draft = try draft.freshened()
+        }
         let part = try catalog.register(fileText: draft.encoded().text(), source: "\(draft.name).schpart")
         status = "Added \(part.name) to the parts drawer"
         return part
@@ -535,7 +545,24 @@ final class PartEditorModel {
         panel.allowedContentTypes = [PartFileType.contentType]
         panel.nameFieldStringValue = (draft.name.isEmpty ? "Untitled" : draft.name) + "." + PartFileType.fileExtension
         guard await run(panel) == .OK, let url = panel.url else { return }
-        do { try write(to: url) } catch { await present(error, title: "Couldn't save the part") }
+        do { try saveAsNewVersion(to: url) } catch { await present(error, title: "Couldn't save the part") }
+    }
+
+    /// Save As… after its panel (plan-53-A): a part that was opened or saved
+    /// before becomes a new part (a new uuid, `originId` set) in the new
+    /// file; the old file is untouched. A part never saved keeps its uuid.
+    /// Save, by contrast, keeps the uuid.
+    func saveAsNewVersion(to url: URL) throws {
+        let before = draft
+        if fileURL != nil {
+            draft = try draft.freshened()
+        }
+        do {
+            try write(to: url)
+        } catch {
+            draft = before
+            throw error
+        }
     }
 
     func open() async {

@@ -266,25 +266,25 @@ Commit: —
 
 One commit: removing `uuidInUse` breaks `SchematicFile.apply`, so the catalog and the open path change together.
 
-- [ ] `PartCatalog.swift`: `PartFileObject.freshenIdentity()` (§ 4.2).
-- [ ] `PartCatalog.swift`: `register` freshens on a uuid clash and `uuidConflicts(_:)` (§ 4.3); delete `PartRegistrationError.uuidInUse` and its description.
-- [ ] `SchematicFile.swift` `apply`: the remap and the resolve change (§ 4.4); delete `SchematicFileError.customPartConflict` (case at `:672`, description at `:716`).
-- [ ] `schematicalTests/PartRegistrationTests.swift`: replace `testSameUUIDOtherContentIsRefused` with a test that registers the same uuid with other content and gets a part whose `uuid` differs, whose name is the file's own (suffixed only if taken), whose `registeredText` holds `originId` equal to the first uuid, and, with an inline-footprint file (`inlineFootprint: true`), whose footprint id is `CUSTOM-` + the new uuid's first 8 characters; the first part is unchanged. Add: a lineage (v1, v2 freshened from v1, v3 freshened from v2) keeps `originId` = v1's uuid; `uuidConflicts` is false for the same content and true for different.
-- [ ] `schematicalTests/SchematicFileV5Tests.swift`: replace `testConflictingUUIDLeavesTheDocument` with: register uuid U with content X, open a v5 file whose embedded U has content Y; the open succeeds, the placed part is the fresh-uuid part (its `uuid` ≠ U, its `registeredText` has `originId` U and the file's pins), a second placed part with the same `partUUID` resolves to the same part, and saving then reopening in a fresh catalog gives one embedded part under the fresh uuid.
-- [ ] `docs/file-format.md` § Custom parts: the On-open bullet's "one whose uuid is loaded with other content fails the open" becomes "is loaded under a new uuid, and the placed parts that name the old uuid use it; the part's file records the old uuid as `originId`"; the failure list in § Validation on open (`docs/file-format.md:620` area) drops the uuid conflict.
+- [x] `PartCatalog.swift`: `PartFileObject.freshenIdentity()` (§ 4.2).
+- [x] `PartCatalog.swift`: `register` freshens on a uuid clash and `uuidConflicts(_:)` (§ 4.3); delete `PartRegistrationError.uuidInUse` and its description.
+- [x] `SchematicFile.swift` `apply`: the remap and the resolve change (§ 4.4); delete `SchematicFileError.customPartConflict` (case at `:672`, description at `:716`).
+- [x] `schematicalTests/PartRegistrationTests.swift`: replace `testSameUUIDOtherContentIsRefused` with a test that registers the same uuid with other content and gets a part whose `uuid` differs, whose name is the file's own (suffixed only if taken), whose `registeredText` holds `originId` equal to the first uuid, and, with an inline-footprint file (`inlineFootprint: true`), whose footprint id is `CUSTOM-` + the new uuid's first 8 characters; the first part is unchanged. Add: a lineage (v1, v2 freshened from v1, v3 freshened from v2) keeps `originId` = v1's uuid; `uuidConflicts` is false for the same content and true for different.
+- [x] `schematicalTests/SchematicFileV5Tests.swift`: replace `testConflictingUUIDLeavesTheDocument` with: register uuid U with content X, open a v5 file whose embedded U has content Y; the open succeeds, the placed part is the fresh-uuid part (its `uuid` ≠ U, its `registeredText` has `originId` U and the file's pins), a second placed part with the same `partUUID` resolves to the same part, and saving then reopening in a fresh catalog gives one embedded part under the fresh uuid.
+- [x] `docs/file-format.md` § Custom parts: the On-open bullet's "one whose uuid is loaded with other content fails the open" becomes "is loaded under a new uuid, and the placed parts that name the old uuid use it; the part's file records the old uuid as `originId`"; the failure list in § Validation on open (`docs/file-format.md:620` area) drops the uuid conflict.
 
-Acceptance: the catalog registers a clashing part under a fresh uuid with renamed inline ids, and a schematic opens through a clash with its placed parts on the fresh part.
+Acceptance: the catalog registers a clashing part under a fresh uuid with renamed inline ids, and a schematic opens through a clash with its placed parts on the fresh part. **MET**
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/PartRegistrationTests -only-testing:schematicalTests/SchematicFileV5Tests` → `** TEST SUCCEEDED **` (est. 5–10 min; the app builds first).
 Commit: —
 
 ### Phase 3 — The Part Editor: Save As…, copies and Add to Library
 
-- [ ] `PartDraft.swift`: `freshened()` (§ 4.5).
-- [ ] `PartEditorModel.swift`: `copy(named:)`, `saveAsNewVersion(to:)` (called by `saveAs()` after its panel) and `addToLibrary()` per § 4.5.
-- [ ] `schematicalTests/PartFileSaveOpenTests.swift`: `testSaveOpenSaveIsStable` is unchanged and still passes (Save keeps the uuid); `testCopyHasANewUUIDAndRefusesABadSave` also asserts a copy of a registered custom part with an inline footprint renames the footprint id and sets `originId`; add: `saveAsNewVersion` of an opened file writes a new file whose uuid differs, whose `originId` is the opened file's uuid, with the inline footprint id renamed, and leaves the opened file's bytes unchanged; `saveAsNewVersion` of a never-saved draft keeps its uuid and sets no `originId`; Add to Library of a draft whose uuid is registered with other content adopts a fresh uuid, registers, and a second Add of the unchanged draft returns the same part.
-- [ ] `docs/parts-format.md` § Single part files: the sentences on the uuid ("the app goes by the uuid") gain: a clash gets a new uuid and the old one becomes `originId`; the Part Editor keeps the uuid on Save and makes a new one for Save As… of a saved part and for a copy.
+- [x] `PartDraft.swift`: `freshened()` (§ 4.5).
+- [x] `PartEditorModel.swift`: `copy(named:)`, `saveAsNewVersion(to:)` (called by `saveAs()` after its panel) and `addToLibrary()` per § 4.5.
+- [x] `schematicalTests/PartFileSaveOpenTests.swift`: `testSaveOpenSaveIsStable` is unchanged and still passes (Save keeps the uuid); `testCopyHasANewUUIDAndRefusesABadSave` also asserts a copy of a registered custom part with an inline footprint renames the footprint id and sets `originId`; add: `saveAsNewVersion` of an opened file writes a new file whose uuid differs, whose `originId` is the opened file's uuid, with the inline footprint id renamed, and leaves the opened file's bytes unchanged; `saveAsNewVersion` of a never-saved draft keeps its uuid and sets no `originId`; Add to Library of a draft whose uuid is registered with other content adopts a fresh uuid, registers, and a second Add of the unchanged draft returns the same part.
+- [x] `docs/parts-format.md` § Single part files: the sentences on the uuid ("the app goes by the uuid") gain: a clash gets a new uuid and the old one becomes `originId`; the Part Editor keeps the uuid on Save and makes a new one for Save As… of a saved part and for a copy.
 
-Acceptance: Save keeps a part's uuid; Save As…, a copy and a colliding Add to Library make a new one.
+Acceptance: Save keeps a part's uuid; Save As…, a copy and a colliding Add to Library make a new one. **MET**
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/PartFileSaveOpenTests -only-testing:schematicalTests/PartDraftRoundTripTests` → `** TEST SUCCEEDED **` (est. 4–8 min).
 Commit: —
 
@@ -312,7 +312,9 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- **The name is not part of the same-content test.** `register` and `uuidConflicts` compare the file under the *registered* name (so a suffixed copy is the same part), so a draft whose only change is its name is not a new version: Add to Library returns the registered part. The plan's Phase 3 test changed the name; it now changes the description (`PartFileSaveOpenTests.testAddToLibraryOfANewVersionGetsANewUUID`).
+- **A `PartCatalogStore` freed inside a test aborts the host** (`pointer being freed was not allocated`, as `TestSupport.newDocument()` notes). The first Phase 2 run (`/tmp/p53-xc2.log`, `** TEST FAILED **`) had a local store in the new V5 test; it is now a kept static (`SchematicFileV5Tests.otherStore`).
+- **Check commands ran in the worktree with their own build directories** (`/tmp/logic-build-p53`, `-derivedDataPath /tmp/p53-dd`) so other sessions' builds are not shared. Phase 2 and 3 were run together: `xcodebuild test … -only-testing:…PartRegistrationTests -only-testing:…SchematicFileV5Tests -only-testing:…PartFileSaveOpenTests -only-testing:…PartDraftRoundTripTests` → `Executed 31 tests, with 0 failures`, `** TEST SUCCEEDED **` (`/tmp/p53-xc4.log`).
 
 ## Summary
 

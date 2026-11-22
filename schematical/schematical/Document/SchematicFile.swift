@@ -668,8 +668,6 @@ nonisolated enum SchematicFileError: LocalizedError {
     case badPartOption(reference: String, detail: String)
     /// A pull resistor's resistance that isn't more than 0 and at most 1 GΩ.
     case badOhms(reference: String, ohms: Double)
-    /// An embedded custom part's uuid is loaded with other content.
-    case customPartConflict(uuid: String, name: String)
     /// An embedded custom part the part loader refused.
     case badCustomPart(String)
     /// The generic capacitor's capacitance that isn't at least 0.1 pF and at most 1 F.
@@ -713,8 +711,6 @@ nonisolated enum SchematicFileError: LocalizedError {
             "\(reference): \(detail)"
         case let .badOhms(reference, ohms):
             "\(reference) has resistance \(Self.number(ohms)) Ω; it must be more than 0 and at most 1 GΩ."
-        case let .customPartConflict(uuid, name):
-            "This schematic's part \(name) has the identity \(uuid), which a different loaded part already has."
         case let .badCustomPart(detail):
             "One of this schematic's custom parts could not be loaded: \(detail)"
         case let .badFarads(reference, farads):
@@ -961,11 +957,16 @@ extension SchematicFile {
 
         // Custom parts first (plan-32-B), so placed parts can resolve to them.
         // Registering one is for the session, like File › Load Part….
+        // A part whose uuid is loaded with other content is registered under a
+        // new uuid (plan-53-A); the placed parts that name the old one use it.
+        var remapped: [String: String] = [:]
         for (index, entry) in (customParts ?? []).enumerated() {
             do {
-                try catalog.register(fileText: try entry.text(), source: "customParts[\(index)]")
-            } catch let PartRegistrationError.uuidInUse(uuid, name) {
-                throw SchematicFileError.customPartConflict(uuid: uuid, name: name)
+                let text = try entry.text()
+                let part = try catalog.register(fileText: text, source: "customParts[\(index)]")
+                if let own = try? PartFileObject(text: text).uuid, let registered = part.uuid, own != registered {
+                    remapped[own] = registered
+                }
             } catch let error as PartRegistrationError {
                 throw SchematicFileError.badCustomPart(error.localizedDescription)
             }
@@ -977,7 +978,7 @@ extension SchematicFile {
             try claim(part.id)
             let legacy = Self.legacyLEDs[part.partNumber]
             let name = legacy != nil ? Self.genericLED : Self.renamedParts[part.partNumber] ?? part.partNumber
-            let found = part.partUUID.map { catalog.part(uuid: $0) } ?? catalog.part(named: name)
+            let found = part.partUUID.map { catalog.part(uuid: remapped[$0] ?? $0) } ?? catalog.part(named: name)
             guard let catalogPart = found else {
                 unknown.append(part.partNumber)
                 continue

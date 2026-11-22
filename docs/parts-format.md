@@ -381,8 +381,15 @@ renames a clash), and so must the uuid.
 
 The uuid is what the app goes by. Loading a file whose uuid is already loaded
 returns the loaded part when the content is the same (compared with the name
-as it was registered, so a suffixed copy counts as the same), and is refused
-when the content differs. A failed load adds nothing: no footprint, no
+as it was registered, so a suffixed copy counts as the same). When the content
+differs (plan-53-A) the file is loaded under a new uuid, so no two different
+parts share one: the old uuid becomes `"originId"` (kept if the file already
+has one, so a chain of versions points at the first), and every `CUSTOM-` id
+made from the old uuid (the inline footprint and datasheet and what names
+them) is renamed to the new uuid's. The Part Editor works the same way: Save
+keeps a part's uuid; Save As… of a part that was opened or saved before,
+Copy to Editor… of a library part, and an Add to Library that would collide
+each make a new uuid. A failed load adds nothing: no footprint, no
 datasheet, no part.
 
 ## Datasheets

@@ -81,14 +81,74 @@ final class PartRegistrationTests: XCTestCase {
         XCTAssertEqual(store.partCount, count)
     }
 
-    /// (c) A different file with a registered uuid is refused.
-    func testSameUUIDOtherContentIsRefused() throws {
+    /// A registered file's text with the device description replaced.
+    private func described(_ text: String, _ description: String) throws -> String {
+        var file = try PartFileObject(text: text)
+        var devices = try XCTUnwrap(file.object["devices"] as? [[String: Any]])
+        devices[0]["description"] = description
+        file.object["devices"] = devices
+        return file.canonicalText
+    }
+
+    private func footprintIDs(_ text: String) throws -> [String] {
+        let file = try PartFileObject(text: text)
+        return (file.object["footprints"] as? [[String: Any]] ?? []).compactMap { $0["id"] as? String }
+    }
+
+    /// (c) A different file with a registered uuid is registered under a new
+    /// uuid (plan-53-A): the first part is unchanged, the second keeps the
+    /// file's own name, records the first's uuid as `originId`, and has its
+    /// inline footprint renamed to the new uuid's.
+    func testSameUUIDOtherContentGetsANewUUID() throws {
         let uuid = "C0000000-0000-4000-8000-000000000001"
-        try store.register(fileText: Self.fileText(uuid: uuid, name: "REG-C"), source: "c.schpart")
-        XCTAssertThrowsError(try store.register(
-            fileText: Self.fileText(uuid: uuid, name: "REG-C", description: "Changed"), source: "c2.schpart")) {
-            XCTAssertEqual($0 as? PartRegistrationError, .uuidInUse(uuid: uuid, name: "REG-C"))
-        }
+        let first = try store.register(
+            fileText: Self.fileText(uuid: uuid, name: "REG-C", inlineFootprint: true), source: "c.schpart")
+        let second = try store.register(
+            fileText: Self.fileText(uuid: uuid, name: "REG-C2", description: "Changed", inlineFootprint: true),
+            source: "c2.schpart")
+        XCTAssertEqual(first.uuid, uuid)
+        XCTAssertEqual(store.part(uuid: uuid), first)
+        XCTAssertEqual(first.description, "Single 2-input NAND gate")
+        let fresh = try XCTUnwrap(second.uuid)
+        XCTAssertNotEqual(fresh, uuid)
+        XCTAssertEqual(second.name, "REG-C2")
+        XCTAssertEqual(second.description, "Changed")
+        let text = try XCTUnwrap(store.registeredText(uuid: fresh))
+        XCTAssertEqual(try PartFileObject(text: text).object["originId"] as? String, uuid)
+        XCTAssertEqual(try footprintIDs(text), ["CUSTOM-" + fresh.prefix(8)])
+        XCTAssertEqual(second.footprint?.id, "CUSTOM-" + fresh.prefix(8))
+        XCTAssertEqual(try footprintIDs(try XCTUnwrap(store.registeredText(uuid: uuid))), ["CUSTOM-C0000000"])
+        // The first file again is still the first part.
+        XCTAssertEqual(try store.register(
+            fileText: Self.fileText(uuid: uuid, name: "REG-C", inlineFootprint: true), source: "c.schpart"), first)
+    }
+
+    /// (c2) A chain of versions keeps the first version's uuid as `originId`.
+    func testOriginIdIsTheFirstVersion() throws {
+        let uuid = "C1000000-0000-4000-8000-000000000001"
+        try store.register(fileText: Self.fileText(uuid: uuid, name: "REG-C3"), source: "v1")
+        let v2 = try store.register(
+            fileText: Self.fileText(uuid: uuid, name: "REG-C3", description: "Second"), source: "v2")
+        let v2uuid = try XCTUnwrap(v2.uuid)
+        let v3text = try described(try XCTUnwrap(store.registeredText(uuid: v2uuid)), "Third")
+        let v3 = try store.register(fileText: v3text, source: "v3")
+        let v3uuid = try XCTUnwrap(v3.uuid)
+        XCTAssertNotEqual(v3uuid, v2uuid)
+        XCTAssertNotEqual(v3uuid, uuid)
+        let stored = try PartFileObject(text: try XCTUnwrap(store.registeredText(uuid: v3uuid)))
+        XCTAssertEqual(stored.object["originId"] as? String, uuid)
+        XCTAssertEqual(v3.description, "Third")
+    }
+
+    /// (c3) `uuidConflicts` is false for an unknown uuid and for the same
+    /// content, true for other content under a registered uuid.
+    func testUUIDConflicts() throws {
+        let uuid = "C2000000-0000-4000-8000-000000000001"
+        let text = Self.fileText(uuid: uuid, name: "REG-C4")
+        XCTAssertFalse(store.uuidConflicts(text))
+        try store.register(fileText: text, source: "c4")
+        XCTAssertFalse(store.uuidConflicts(text))
+        XCTAssertTrue(store.uuidConflicts(Self.fileText(uuid: uuid, name: "REG-C4", description: "Other")))
     }
 
     /// (d) A new uuid with a bundled name gets `.2`, the next `.3`; and the
