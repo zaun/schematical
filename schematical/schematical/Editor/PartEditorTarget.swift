@@ -18,6 +18,9 @@ nonisolated struct PartEditorTarget: Hashable, Codable, Sendable {
         case copy(name: String)
         /// A `.schpart` file.
         case file(URL)
+        /// A User Library part, edited in place (plan-53-E): Save updates it,
+        /// Save As… adds a new library part.
+        case libraryPart(uuid: String)
     }
 
     let id: UUID

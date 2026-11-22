@@ -32,8 +32,8 @@ Stated in plan-53-A; this sub-plan additionally needs plan-53-D complete.
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-53-D is complete and archived | `ls planning/completed/plan-53-D-*.md` → one file | NOT MET at writing (unbuilt) |
-| The catalog has `updateUserLibraryPart` | `grep -c 'func updateUserLibraryPart' schematical/schematical/Backend/PartCatalog.swift` → `1` | NOT MET at writing |
+| plan-53-D is complete and archived | `ls planning/completed/plan-53-D-*.md` → one file | MET (run 2026-11-21) |
+| The catalog has `updateUserLibraryPart` | `grep -c 'func updateUserLibraryPart' schematical/schematical/Backend/PartCatalog.swift` → `1` | MET (run 2026-11-21: `1`) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command before you continue, and report all of them if you stop.
@@ -188,11 +188,11 @@ library-bound windows only.
 
 Safe alone: nothing opens a `.libraryPart` window yet.
 
-- [ ] `PartEditorTarget.swift`: `case libraryPart(uuid: String)`.
-- [ ] `PartEditorModel.swift`: the init branch, `libraryUUID`, `saveToLibrary()`, `saveAsNewLibraryPart()`, `save()` / `saveAs()` routing, `load(text:from:)` clearing the binding (§ 3, § 4.1).
-- [ ] `schematicalTests/PartEditorLibraryTests.swift` (new, temp-folder library and a fresh catalog): the model for a library part has `libraryUUID`, `isNewPart == false`, a draft equal to the part's own (same uuid) and is not dirty; `saveToLibrary()` after changing a pin name returns the part with the same uuid, the catalog and file hold the new text, the picker has one part, and a placed chip in a document held by a controller shows the new pin name; `saveAsNewLibraryPart()` leaves the first part's text and file as they were, adds a second whose uuid differs, whose `originId` is the first's uuid, whose name is the suffixed one when the draft kept the old name, and rebinds: a following `saveToLibrary()` changes the second only; a bad draft (the backend rejects it) throws and changes nothing; `saveToLibrary()` after the part was removed throws `notInUserLibrary`; `load(text:from:)` clears `libraryUUID`; an unknown uuid sets `openError`.
+- [x] `PartEditorTarget.swift`: `case libraryPart(uuid: String)`.
+- [x] `PartEditorModel.swift`: the init branch, `libraryUUID`, `saveToLibrary()`, `saveAsNewLibraryPart()`, `save()` / `saveAs()` routing, `load(text:from:)` clearing the binding (§ 3, § 4.1).
+- [x] `schematicalTests/PartEditorLibraryTests.swift` (new, temp-folder library and a fresh catalog): the model for a library part has `libraryUUID`, `isNewPart == false`, a draft equal to the part's own (same uuid) and is not dirty; `saveToLibrary()` after changing a pin name returns the part with the same uuid, the catalog and file hold the new text, the picker has one part, and a placed chip in a document held by a controller shows the new pin name; `saveAsNewLibraryPart()` leaves the first part's text and file as they were, adds a second whose uuid differs, whose `originId` is the first's uuid, whose name is the suffixed one when the draft kept the old name, and rebinds: a following `saveToLibrary()` changes the second only; a bad draft (the backend rejects it) throws and changes nothing; `saveToLibrary()` after the part was removed throws `notInUserLibrary`; `load(text:from:)` clears `libraryUUID`; an unknown uuid sets `openError`.
 
-Acceptance: Save updates in place and Save As… adds a new part, at the model level.
+Acceptance: Save updates in place and Save As… adds a new part, at the model level. **MET** (`xcodebuild test … -only-testing:schematicalTests/PartEditorLibraryTests` → `Executed 7 tests, with 0 failures`, `** TEST SUCCEEDED **`)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/PartEditorLibraryTests` → `** TEST SUCCEEDED **` (est. 5–10 min).
 Commit: —
 

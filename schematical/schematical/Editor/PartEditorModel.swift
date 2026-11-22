@@ -151,6 +151,11 @@ final class PartEditorModel {
         Set(catalog.allParts.map(\.manufacturer)).subtracting(["", "Generic"]).sorted()
     }()
 
+    /// The uuid of the User Library part this window edits in place
+    /// (plan-53-E), nil for any other window. Save updates that part;
+    /// Save As… adds a new one and the window then edits it.
+    private(set) var libraryUUID: String?
+
     /// Whether the window makes a new part (File › New Part…), not a copy or
     /// a file: All fields then shows the kind with Change….
     private(set) var isNewPart = false
@@ -390,6 +395,17 @@ final class PartEditorModel {
             } catch {
                 openError = error.localizedDescription
             }
+        case let .libraryPart(uuid):
+            mode = .allFields
+            draft = PartDraft(newOf: "gate")
+            if let part = catalog.part(uuid: uuid), catalog.listing(of: part) == .user,
+               let text = catalog.registeredText(uuid: uuid), let loaded = try? PartDraft(fileText: text) {
+                draft = loaded
+                libraryUUID = uuid
+                savedText = loaded.fileText()
+            } else {
+                openError = "That part is not in your User Library."
+            }
         }
         if !autoKeys.isEmpty {
             derivingKeys = true
@@ -511,8 +527,42 @@ final class PartEditorModel {
         }
         draft = next
         fileURL = url
+        libraryUUID = nil
         savedText = next.fileText()
         status = url.map { "Opened \($0.lastPathComponent)" }
+    }
+
+    /// Save in a library window (plan-53-E): updates the library part in
+    /// place, under its uuid, now and in every open schematic.
+    @discardableResult
+    func saveToLibrary() throws -> CatalogPart {
+        guard let uuid = libraryUUID else { throw PartRegistrationError.noUserLibrary }
+        if case let .failure(failure) = validateNow() {
+            throw PartRegistrationError.backend(failure.message)
+        }
+        let part = try catalog.updateUserLibraryPart(uuid: uuid, fileText: draft.encoded().text())
+        savedText = draft.fileText()
+        status = "Updated \(part.name) in your User Library"
+        return part
+    }
+
+    /// Save As… in a library window (plan-53-E): adds the draft as a new
+    /// library part (a new uuid, `originId` set) and the window then edits
+    /// that part. The old part is unchanged.
+    @discardableResult
+    func saveAsNewLibraryPart() throws -> CatalogPart {
+        guard libraryUUID != nil else { throw PartRegistrationError.noUserLibrary }
+        if case let .failure(failure) = validateNow() {
+            throw PartRegistrationError.backend(failure.message)
+        }
+        let fresh = try draft.freshened()
+        let part = try catalog.addToUserLibrary(fileText: fresh.encoded().text(), source: "\(fresh.name).schpart")
+        draft = fresh
+        if draft.name != part.name { draft.name = part.name }
+        libraryUUID = part.uuid
+        savedText = draft.fileText()
+        status = "Added \(part.name) to your User Library"
+        return part
     }
 
     /// Adds the draft's part to the User Library (plan-53-C): registered in
@@ -533,6 +583,10 @@ final class PartEditorModel {
     }
 
     func save() async {
+        if libraryUUID != nil {
+            do { try saveToLibrary() } catch { await present(error, title: "Couldn't update the part") }
+            return
+        }
         if let fileURL {
             do { try write(to: fileURL) } catch { await present(error, title: "Couldn't save the part") }
         } else {
@@ -541,6 +595,10 @@ final class PartEditorModel {
     }
 
     func saveAs() async {
+        if libraryUUID != nil {
+            do { try saveAsNewLibraryPart() } catch { await present(error, title: "Couldn't add the part") }
+            return
+        }
         let panel = NSSavePanel()
         panel.allowedContentTypes = [PartFileType.contentType]
         panel.nameFieldStringValue = (draft.name.isEmpty ? "Untitled" : draft.name) + "." + PartFileType.fileExtension
