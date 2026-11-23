@@ -36,8 +36,8 @@ Stated in plan-53-A; this sub-plan additionally needs plan-53-C complete.
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-53-C is complete and archived | `ls planning/completed/plan-53-C-*.md` → one file | NOT MET at writing (unbuilt) |
-| The catalog has `removeFromUserLibrary` and `userLibrary` | `grep -c 'func removeFromUserLibrary' schematical/schematical/Backend/PartCatalog.swift` → `1` | NOT MET at writing |
+| plan-53-C is complete and archived | `ls planning/completed/plan-53-C-*.md` → one file | MET (run 2026-11-21) |
+| The catalog has `removeFromUserLibrary` and `userLibrary` | `grep -c 'func removeFromUserLibrary' schematical/schematical/Backend/PartCatalog.swift` → `1` | MET (run 2026-11-21: `1`) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command before you continue, and report all of them if you stop.
@@ -250,33 +250,33 @@ private helper both use, so the header's behavior (its tests) does not change.
 
 Safe alone: a new function nothing calls yet.
 
-- [ ] `backend/include/parts.h` and `backend/src/library/library.c`: § 4.1.
-- [ ] `backend/tests/part_file_test.c`, cases after the last lettered one: load a part with an inline footprint and datasheet; retire it with its ids: `part_library_find` and `_find_uuid` return NULL, `part_library_find_footprint` NULL, counts back to the bundled counts, bundled parts unchanged; the old `Part*` read before the retire still has its name afterwards; load a changed version with the same uuid, name and ids: it loads and `_find_uuid` returns it; retiring an unknown uuid returns -1 and changes no count; retire then `part_library_unload_last_part_file` returns -1 (no latest file to take back).
-- [ ] `docs/backend.md` Notes, "Single part files": `part_library_retire_part` — what it removes, that memory stays, that it is how an app replaces a loaded part.
+- [x] `backend/include/parts.h` and `backend/src/library/library.c`: § 4.1.
+- [x] `backend/tests/part_file_test.c`, cases after the last lettered one: load a part with an inline footprint and datasheet; retire it with its ids: `part_library_find` and `_find_uuid` return NULL, `part_library_find_footprint` NULL, counts back to the bundled counts, bundled parts unchanged; the old `Part*` read before the retire still has its name afterwards; load a changed version with the same uuid, name and ids: it loads and `_find_uuid` returns it; retiring an unknown uuid returns -1 and changes no count; retire then `part_library_unload_last_part_file` returns -1 (no latest file to take back).
+- [x] `docs/backend.md` Notes, "Single part files": `part_library_retire_part` — what it removes, that memory stays, that it is how an app replaces a loaded part.
 
-Acceptance: a retired part's name, uuid and ids load again and old pointers stay valid.
+Acceptance: a retired part's name, uuid and ids load again and old pointers stay valid. **MET** (`cmake --build /tmp/logic-build-p53 --target part_file_test && ctest --test-dir /tmp/logic-build-p53 -R part_file_test` → `100% tests passed, 0 tests failed out of 1`; cases (l) and (l2))
   Check: `cmake -S backend -B /tmp/logic-build && cmake --build /tmp/logic-build --target part_file_test && ctest --test-dir /tmp/logic-build -R part_file_test --output-on-failure` → `100% tests passed` (est. 2–4 min).
-Commit: —
+Commit: ef375f61
 
 ### Phase 2 — The catalog update
 
-- [ ] The C function reaches Swift through the bridging header like `load_part_file` (`PartLibraryHandle` wrapper in `Backend/`); a Swift wrapper `PartLibraryHandle.retire(uuid:footprintIDs:datasheetIDs:)`.
-- [ ] `PartCatalog.swift`: `updateUserLibraryPart`, the two new errors (§ 4.2); `SchematicFileController.updateOpenDocuments` is called through a closure the store holds (`var partUpdated: (String, CatalogPart) -> Void`, set by `SchematicFileController` at first use) so the catalog does not depend on the controller in tests.
-- [ ] `schematicalTests/UserLibraryUpdateTests.swift` (new, temp-folder library): update a library part (a gate with an inline footprint) with a changed pin name and description: `part(uuid:)` and `part(named:)` return the new one, `registeredText` and the library file hold the new text, the picker lists it once under `User Library`, `groups(matching:)` finds it by its new description; a renamed update frees the old name (`part(named: old)` nil) and holds the new; a rename to a name another part has gets the suffix; the old `CatalogPart` value is still readable; an update with a different `kind` or `uuid` throws `identityChanged` and nothing changes; an update of a `file` part throws `notInUserLibrary`; a text the backend rejects throws its message, the old version is still the library's part and the file still holds the old text; an unwritable library folder throws `libraryWrite` and changes nothing; a relaunch (a second store on the same folder) lists the new version.
+- [x] The C function reaches Swift through the bridging header like `load_part_file` (`PartLibraryHandle` wrapper in `Backend/`); a Swift wrapper `PartLibraryHandle.retire(uuid:footprintIDs:datasheetIDs:)`.
+- [x] `PartCatalog.swift`: `updateUserLibraryPart`, the two new errors (§ 4.2); `SchematicFileController.updateOpenDocuments` is called through a closure the store holds (`var partUpdated: (String, CatalogPart) -> Void`, set by `SchematicFileController` at first use) so the catalog does not depend on the controller in tests.
+- [x] `schematicalTests/UserLibraryUpdateTests.swift` (new, temp-folder library): update a library part (a gate with an inline footprint) with a changed pin name and description: `part(uuid:)` and `part(named:)` return the new one, `registeredText` and the library file hold the new text, the picker lists it once under `User Library`, `groups(matching:)` finds it by its new description; a renamed update frees the old name (`part(named: old)` nil) and holds the new; a rename to a name another part has gets the suffix; the old `CatalogPart` value is still readable; an update with a different `kind` or `uuid` throws `identityChanged` and nothing changes; an update of a `file` part throws `notInUserLibrary`; a text the backend rejects throws its message, the old version is still the library's part and the file still holds the old text; an unwritable library folder throws `libraryWrite` and changes nothing; a relaunch (a second store on the same folder) lists the new version.
 
-Acceptance: an update takes effect in the catalog and on disk at once, and every failure leaves the old version.
+Acceptance: an update takes effect in the catalog and on disk at once, and every failure leaves the old version. **MET** (`xcodebuild test … -only-testing:schematicalTests/UserLibraryUpdateTests` → `Executed 8 tests, with 0 failures`, `** TEST SUCCEEDED **`; the `partUpdated` closure is set by `SchematicFileController` in Phase 3)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/UserLibraryUpdateTests` → `** TEST SUCCEEDED **` (est. 5–10 min; the app and backend build first).
-Commit: —
+Commit: b8902216
 
 ### Phase 3 — Open schematics follow
 
-- [ ] `SchematicModel.swift`: the shared helper lifted out of `setHeaderSize`; `updatePart(uuid:to:)` (§ 3). `setHeaderSize` calls the helper and is otherwise unchanged.
-- [ ] `SchematicFileController.swift`: `static func updateOpenDocuments(uuid:to:)` (§ 3), and the store's `partUpdated` closure set to it.
-- [ ] `schematicalTests/UserLibraryUpdateTests.swift`: with two documents and their controllers (as `KiCadExportTests` builds one), each placing the part, one with a wire on pin 1 and a wire on pin 3: after an update to a version with 2 pins both documents' chips are the new `CatalogPart`, the pin-1 wire is still on the chip, the pin-3 wire's end is a loose junction at its old point, `canUndo` is false in both, and the `willReplaceDocument` closure ran once for each; a third document without the part is untouched (same chips, undo history kept); the chip's id, reference, origin and board placement are kept; after an update to a version whose footprint has other pads the chip's pad 1 sits where it did; `setHeaderSize` behavior is unchanged (the three header test classes above).
+- [x] `SchematicModel.swift`: the shared helper lifted out of `setHeaderSize`; `updatePart(uuid:to:)` (§ 3). `setHeaderSize` calls the helper and is otherwise unchanged.
+- [x] `SchematicFileController.swift`: `static func updateOpenDocuments(uuid:to:)` (§ 3), and the store's `partUpdated` closure set to it.
+- [x] `schematicalTests/UserLibraryUpdateTests.swift`: with two documents and their controllers (as `KiCadExportTests` builds one), each placing the part, one with a wire on pin 1 and a wire on pin 3: after an update to a version with 2 pins both documents' chips are the new `CatalogPart`, the pin-1 wire is still on the chip, the pin-3 wire's end is a loose junction at its old point, `canUndo` is false in both, and the `willReplaceDocument` closure ran once for each; a third document without the part is untouched (same chips, undo history kept); the chip's id, reference, origin and board placement are kept; after an update to a version whose footprint has other pads the chip's pad 1 sits where it did; `setHeaderSize` behavior is unchanged (the three header test classes above).
 
-Acceptance: open documents show the new version at once, wires on vanished pins are loose, and unrelated documents are untouched.
+Acceptance: open documents show the new version at once, wires on vanished pins are loose, and unrelated documents are untouched. **MET** (`xcodebuild test … UserLibraryUpdateTests LooseEndTests SchematicUndoTests ReferencePositionTests` → `Executed 91 tests, with 0 failures`, `** TEST SUCCEEDED **`)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/UserLibraryUpdateTests -only-testing:schematicalTests/LooseEndTests -only-testing:schematicalTests/SchematicUndoTests -only-testing:schematicalTests/ReferencePositionTests` → `** TEST SUCCEEDED **` (est. 8–15 min; the last three are the tests that call `setHeaderSize` — `grep -rln setHeaderSize schematical/schematicalTests` → `ReferencePositionTests`, `SchematicUndoTests`, `LooseEndTests` — and cover the helper it now shares).
-Commit: —
+Commit: c50c25de
 
 ## Validation Plan
 
@@ -304,7 +304,11 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- **`SchematicFileController.updateOpenDocuments` takes the catalog** (`updateOpenDocuments(uuid:to:catalog:)`, not `(uuid:to:)`): it only touches controllers of that catalog, so a test catalog's update never reaches another catalog's windows. Each controller's `init` sets `catalog.partUpdated` (the plan said "at first use").
+- **`PlacedChip.resized(to:symbol:)` gained an optional symbol** and keeps a flip only where the symbol can flip: a part updated in place may draw differently (`symbol(for:)`), which `resized` (written for header sizes) did not need. `setHeaderSize` passes none, so its behavior is unchanged (`LooseEndTests`, `SchematicUndoTests`, `ReferencePositionTests` all pass).
+- **`part_library_retire_part` compacts the arrays in place** after building the new name tables on the side (no allocation after the point of no return), rather than rebuilding the arrays: the Phase 1 test (l) checks old `Part*` and `PartFootprint*` pointers stay readable.
+- **Update order:** the library file is written first, then the backend swap; a failed load puts the old text back in the backend and in the file (tested with a rejected text and with an unwritable folder).
+- **Final gate (run once after Phase 3), 2026-11-21:** `ctest --test-dir /tmp/logic-build-p53 -R 'part_file_test|library_check'` → `100% tests passed, 0 tests failed out of 2`; `xcodebuild test … UserLibraryUpdateTests UserLibraryCatalogTests PartRegistrationTests SchematicFileV5Tests` → `Executed 41 tests, with 0 failures`, `** TEST SUCCEEDED **` (`/tmp/p53-xc16.log`).
 
 ## Summary
 

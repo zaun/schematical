@@ -361,6 +361,30 @@ struct ChipDrawerView: View, Equatable {
         .contentShape(Rectangle())
         .draggable(ChipPartDragItem(partNumber: part.name))
         .contextMenu {
+            // plan-53-C: a part that came with a schematic can be kept; a
+            // kept one can be taken out again.
+            if part.uuid != nil {
+                switch catalog.listing(of: part) {
+                case .file:
+                    Button("Add to User Library") {
+                        Task { await UserLibraryPrompts.addShowingFailures([part], catalog: catalog) }
+                    }
+                case .user:
+                    // plan-53-E: edit the library part itself; Save updates it.
+                    if let uuid = part.uuid, let kind = PartKinds.name(of: part.kind),
+                       PartDraft.enabledKinds.contains(kind) {
+                        Button("Edit…") {
+                            openWindow(id: PartEditorScene.id,
+                                       value: PartEditorTarget(source: .libraryPart(uuid: uuid)))
+                        }
+                    }
+                    Button("Remove from User Library…") {
+                        Task { await removeFromUserLibrary(part) }
+                    }
+                default:
+                    EmptyView()
+                }
+            }
             // plan-32-C: a copy with a new uuid; the library part is never edited.
             if let kind = PartKinds.name(of: part.kind), PartDraft.enabledKinds.contains(kind) {
                 Button("Copy to Editor…") {
@@ -369,6 +393,20 @@ struct ChipDrawerView: View, Equatable {
             }
         }
         .padding(.leading, CGFloat(depth) * DrawerRowItem.indent)
+    }
+
+    /// Right-click › Remove from User Library…: after the confirmation, deletes
+    /// the part's library file and takes it out of the drawer.
+    private func removeFromUserLibrary(_ part: CatalogPart) async {
+        guard let uuid = part.uuid,
+              await UserLibraryPrompts.run(UserLibraryPrompts.removeAlert(name: part.name)) == .alertFirstButtonReturn
+        else { return }
+        do {
+            try catalog.removeFromUserLibrary(uuid: uuid)
+        } catch {
+            _ = await UserLibraryPrompts.run(UserLibraryPrompts.failuresAlert(
+                title: "Couldn't remove from your User Library", failures: [(part.name, error)]))
+        }
     }
 
     /// Package, then the kind's facts: family, speed grade, actuator or color;
@@ -580,6 +618,7 @@ private final class DrawerMemo {
     private struct GroupsKey: Equatable {
         let filter: DrawerFilter
         let partCount: Int
+        let revision: Int
         let loadState: PartCatalogStore.LoadState
     }
 
@@ -596,7 +635,8 @@ private final class DrawerMemo {
     private var cachedLayout = DrawerLayout()
 
     func groups(for catalog: PartCatalogStore, filter: DrawerFilter) -> [PartCatalogStore.CategoryGroup] {
-        let key = GroupsKey(filter: filter, partCount: catalog.partCount, loadState: catalog.loadState)
+        let key = GroupsKey(filter: filter, partCount: catalog.partCount,
+                           revision: catalog.derivedRevision, loadState: catalog.loadState)
         if key != groupsKey {
             cachedGroups = catalog.groups(matching: filter)
             groupsKey = key

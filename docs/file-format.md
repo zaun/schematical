@@ -604,11 +604,16 @@ opens on a Mac where the part was never loaded:
   newer version of Schematical (file format 5)".
 - On open, every `customParts` entry is loaded first, with File › Load Part…'s
   rules: one whose uuid is already loaded with the same content is that part;
-  one whose uuid is loaded with other content fails the open ("… has the
-  identity …, which a different loaded part already has"); one the part
-  loader refuses fails the open with the loader's message. A name already
+  one whose uuid is loaded with other content is loaded under a new uuid
+  (plan-53-A: the placed parts that name the old uuid use it, and its part
+  file records the old uuid as `originId`), so no two different parts share
+  one; one the part loader refuses fails the open with the loader's message. A name already
   taken gets the lowest free suffix (`.2`, `.3`, …). Loaded parts stay for the
   rest of the session, even if the open fails later.
+- After a successful open, the app offers to add the embedded parts that are
+  not in the User Library ([`docs/parts-format.md`](parts-format.md) § The User
+  Library) to it. The answer does not change the file: the schematic embeds
+  its custom parts either way, and "Not Now" is asked again at the next open.
 - A placed part with a `partUUID` resolves to the custom part with that uuid;
   one with no matching entry is an unknown part.
 

@@ -35,8 +35,8 @@ Stated in plan-53-A; this sub-plan additionally needs plan-53-B complete.
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-53-B is complete and archived | `ls planning/completed/plan-53-B-*.md` → one file | NOT MET at writing (unbuilt) |
-| The catalog has the library API | `grep -c 'func addToUserLibrary' schematical/schematical/Backend/PartCatalog.swift` → `2` | NOT MET at writing |
+| plan-53-B is complete and archived | `ls planning/completed/plan-53-B-*.md` → one file | MET (run 2026-11-21)|
+| The catalog has the library API | `grep -c 'func addToUserLibrary' schematical/schematical/Backend/PartCatalog.swift` → `2` | MET (run 2026-11-21)|
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command before you continue, and report all of them if you stop.
@@ -211,36 +211,36 @@ unlisted custom parts now shows an alert; Part Editor Add to Library persists.
 
 Safe alone: pure functions and one new return value, no alert shown yet.
 
-- [ ] `SchematicFile.swift`: `apply` returns `[CatalogPart]`, `@discardableResult` (§ 4.1).
-- [ ] `Document/UserLibraryPrompts.swift` (new): `LibraryChoice`, `LoadPartOutcome`, `UserLibraryPrompts.offerable`, `UserLibraryPrompts.add` (§ 3).
-- [ ] `SchematicFileController.swift`: `PartFileLoading.load(text:source:catalog:ask:)` (§ 3), not yet called by `loadPart` (Phase 2 wires it; until then Load Part… behaves as before).
-- [ ] `schematicalTests/UserLibraryPromptsTests.swift` (new, temp-folder library as in plan-53-B's tests): `load` with `.add` lists the part `user` and writes the file; `.useOnce` lists `file` and writes nothing; `.cancel` registers nothing; a part already `user` with the same content returns `.alreadyInLibrary` and `ask` is not called; the same uuid with other content asks, and the result has a fresh uuid; a bad file throws the backend's message; `apply` of a v5 file with two embedded parts returns both, once each, and `offerable` drops the one already `user`; `add` returns a failure for a part when the library folder is unwritable and still adds the others.
+- [x] `SchematicFile.swift`: `apply` returns `[CatalogPart]`, `@discardableResult` (§ 4.1).
+- [x] `Document/UserLibraryPrompts.swift` (new): `LibraryChoice`, `LoadPartOutcome`, `UserLibraryPrompts.offerable`, `UserLibraryPrompts.add` (§ 3).
+- [x] `SchematicFileController.swift`: `PartFileLoading.load(text:source:catalog:ask:)` (§ 3), not yet called by `loadPart` (Phase 2 wires it; until then Load Part… behaves as before).
+- [x] `schematicalTests/UserLibraryPromptsTests.swift` (new, temp-folder library as in plan-53-B's tests): `load` with `.add` lists the part `user` and writes the file; `.useOnce` lists `file` and writes nothing; `.cancel` registers nothing; a part already `user` with the same content returns `.alreadyInLibrary` and `ask` is not called; the same uuid with other content asks, and the result has a fresh uuid; a bad file throws the backend's message; `apply` of a v5 file with two embedded parts returns both, once each, and `offerable` drops the one already `user`; `add` returns a failure for a part when the library folder is unwritable and still adds the others.
 
-Acceptance: the cores do what § 3 says on stub answers.
+Acceptance: the cores do what § 3 says on stub answers. **MET** (`xcodebuild test … UserLibraryPromptsTests SchematicFileV5Tests` → `Executed 18 tests, with 0 failures`, `** TEST SUCCEEDED **`; `PartFileLoading.load` lives in `UserLibraryPrompts.swift` as an extension of `PartFileLoading`, not in `SchematicFileController.swift`)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/UserLibraryPromptsTests -only-testing:schematicalTests/SchematicFileV5Tests` → `** TEST SUCCEEDED **` (est. 6–12 min).
-Commit: —
+Commit: 55e870c1
 
 ### Phase 2 — The alerts and the drawer menu
 
-- [ ] `UserLibraryPrompts.swift`: the alert builders of § 3 as pure functions returning an `NSAlert` (message, text, buttons) so a test can read them: `loadPartAlert(name:)`, `alreadyInLibraryAlert(name:)`, `fileOpenAlert(names:)`, `removeAlert(name:)`, `failuresAlert(title:failures:)`.
-- [ ] `SchematicFileController.swift`: `loadPart` asks with `loadPartAlert` (sheet on the key window, as the open panel is) and shows `alreadyInLibraryAlert`; `load(_:from:)` runs § 4.2.
-- [ ] `ChipDrawerView.swift`: the two context-menu items (§ 4.5).
-- [ ] `Help/KeyboardHelp.swift`: the three entries (§ 4.6).
-- [ ] `schematicalTests/UserLibraryPromptsTests.swift`: each alert builder's message, button titles in order and default button (first); `fileOpenAlert` with 10 names lists 8 and says `and 2 more`.
+- [x] `UserLibraryPrompts.swift`: the alert builders of § 3 as pure functions returning an `NSAlert` (message, text, buttons) so a test can read them: `loadPartAlert(name:)`, `alreadyInLibraryAlert(name:)`, `fileOpenAlert(names:)`, `removeAlert(name:)`, `failuresAlert(title:failures:)`.
+- [x] `SchematicFileController.swift`: `loadPart` asks with `loadPartAlert` (sheet on the key window, as the open panel is) and shows `alreadyInLibraryAlert`; `load(_:from:)` runs § 4.2.
+- [x] `ChipDrawerView.swift`: the two context-menu items (§ 4.5).
+- [x] `Help/KeyboardHelp.swift`: the three entries (§ 4.6).
+- [x] `schematicalTests/UserLibraryPromptsTests.swift`: each alert builder's message, button titles in order and default button (first); `fileOpenAlert` with 10 names lists 8 and says `and 2 more`.
 
-Acceptance: the alert texts and buttons are as in § 3, and the drawer menu items call the catalog (covered by Phase 3's runtime check).
+Acceptance: the alert texts and buttons are as in § 3, and the drawer menu items call the catalog (covered by Phase 3's runtime check). **MET** (`xcodebuild test … UserLibraryPromptsTests KeyboardHelpTests` → `Executed 14 tests, with 0 failures`, `** TEST SUCCEEDED **`; the drawer menu items and sheets are exercised in plan-53-F's real-app run)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/UserLibraryPromptsTests -only-testing:schematicalTests/KeyboardHelpTests` → `** TEST SUCCEEDED **` (est. 6–12 min).
-Commit: —
+Commit: 99fe8329
 
 ### Phase 3 — Part Editor and docs
 
-- [ ] `PartEditorModel.swift`: `addToLibrary()` per § 4.4. `Editor/PartEditorSections.swift:17` and `Editor/Wizard/IdentityStepPage.swift:15` keep their text ("Add to Library adds this one as …").
-- [ ] `schematicalTests/PartFileSaveOpenTests.swift`: `testAddToLibrary` also asserts the part's listing is `user` and that its file is in the library folder; add: Add to Library of a draft the library already holds (same content) is a no-op that returns the same part.
-- [ ] `docs/file-format.md` § Custom parts: a bullet "On open, the app offers to add the embedded parts that are not in the User Library; the answer does not change the file." `docs/parts-format.md` § Single part files, "The User Library" paragraph (plan-53-B): how parts get in: Load Part…, the open offer, the Part Editor's Add to Library, the drawer's Add to User Library.
+- [x] `PartEditorModel.swift`: `addToLibrary()` per § 4.4. `Editor/PartEditorSections.swift:17` and `Editor/Wizard/IdentityStepPage.swift:15` keep their text ("Add to Library adds this one as …").
+- [x] `schematicalTests/PartFileSaveOpenTests.swift`: `testAddToLibrary` also asserts the part's listing is `user` and that its file is in the library folder; add: Add to Library of a draft the library already holds (same content) is a no-op that returns the same part.
+- [x] `docs/file-format.md` § Custom parts: a bullet "On open, the app offers to add the embedded parts that are not in the User Library; the answer does not change the file." `docs/parts-format.md` § Single part files, "The User Library" paragraph (plan-53-B): how parts get in: Load Part…, the open offer, the Part Editor's Add to Library, the drawer's Add to User Library.
 
-Acceptance: the editor's Add to Library persists.
+Acceptance: the editor's Add to Library persists. **MET** (`xcodebuild test … PartFileSaveOpenTests PartEditorWindowTests` → `Executed 19 tests, with 0 failures`, `** TEST SUCCEEDED **`)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/PartFileSaveOpenTests -only-testing:schematicalTests/PartEditorWindowTests` → `** TEST SUCCEEDED **` (est. 6–12 min).
-Commit: —
+Commit: bd01dbf8
 
 ## Validation Plan
 
@@ -265,7 +265,9 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- **`PartFileLoading.load(text:source:catalog:ask:)` is in `Document/UserLibraryPrompts.swift`** (an extension of `PartFileLoading`), not in `SchematicFileController.swift` as the Phase 1 task said: it needs no controller state, and the file keeps the offers' logic together. The alert builders and the `run`/`addShowingFailures` helpers live there too.
+- **The controller's `run(_ alert:)` stayed private**: the shared sheet helper is `UserLibraryPrompts.run(_:on:)` (key window or the given window), which Load Part…, the drawer menu and later the library window use.
+- **Final gate (run once after Phase 3), 2026-11-21:** `xcodebuild test … UserLibraryPromptsTests SchematicFileV5Tests KeyboardHelpTests PartFileSaveOpenTests PartEditorWindowTests` → `Executed 43 tests, with 0 failures`, `** TEST SUCCEEDED **` (`/tmp/p53-xc13.log`).
 
 ## Summary
 

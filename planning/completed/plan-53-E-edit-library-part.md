@@ -32,8 +32,8 @@ Stated in plan-53-A; this sub-plan additionally needs plan-53-D complete.
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-53-D is complete and archived | `ls planning/completed/plan-53-D-*.md` → one file | NOT MET at writing (unbuilt) |
-| The catalog has `updateUserLibraryPart` | `grep -c 'func updateUserLibraryPart' schematical/schematical/Backend/PartCatalog.swift` → `1` | NOT MET at writing |
+| plan-53-D is complete and archived | `ls planning/completed/plan-53-D-*.md` → one file | MET (run 2026-11-21) |
+| The catalog has `updateUserLibraryPart` | `grep -c 'func updateUserLibraryPart' schematical/schematical/Backend/PartCatalog.swift` → `1` | MET (run 2026-11-21: `1`) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command before you continue, and report all of them if you stop.
@@ -188,24 +188,24 @@ library-bound windows only.
 
 Safe alone: nothing opens a `.libraryPart` window yet.
 
-- [ ] `PartEditorTarget.swift`: `case libraryPart(uuid: String)`.
-- [ ] `PartEditorModel.swift`: the init branch, `libraryUUID`, `saveToLibrary()`, `saveAsNewLibraryPart()`, `save()` / `saveAs()` routing, `load(text:from:)` clearing the binding (§ 3, § 4.1).
-- [ ] `schematicalTests/PartEditorLibraryTests.swift` (new, temp-folder library and a fresh catalog): the model for a library part has `libraryUUID`, `isNewPart == false`, a draft equal to the part's own (same uuid) and is not dirty; `saveToLibrary()` after changing a pin name returns the part with the same uuid, the catalog and file hold the new text, the picker has one part, and a placed chip in a document held by a controller shows the new pin name; `saveAsNewLibraryPart()` leaves the first part's text and file as they were, adds a second whose uuid differs, whose `originId` is the first's uuid, whose name is the suffixed one when the draft kept the old name, and rebinds: a following `saveToLibrary()` changes the second only; a bad draft (the backend rejects it) throws and changes nothing; `saveToLibrary()` after the part was removed throws `notInUserLibrary`; `load(text:from:)` clears `libraryUUID`; an unknown uuid sets `openError`.
+- [x] `PartEditorTarget.swift`: `case libraryPart(uuid: String)`.
+- [x] `PartEditorModel.swift`: the init branch, `libraryUUID`, `saveToLibrary()`, `saveAsNewLibraryPart()`, `save()` / `saveAs()` routing, `load(text:from:)` clearing the binding (§ 3, § 4.1).
+- [x] `schematicalTests/PartEditorLibraryTests.swift` (new, temp-folder library and a fresh catalog): the model for a library part has `libraryUUID`, `isNewPart == false`, a draft equal to the part's own (same uuid) and is not dirty; `saveToLibrary()` after changing a pin name returns the part with the same uuid, the catalog and file hold the new text, the picker has one part, and a placed chip in a document held by a controller shows the new pin name; `saveAsNewLibraryPart()` leaves the first part's text and file as they were, adds a second whose uuid differs, whose `originId` is the first's uuid, whose name is the suffixed one when the draft kept the old name, and rebinds: a following `saveToLibrary()` changes the second only; a bad draft (the backend rejects it) throws and changes nothing; `saveToLibrary()` after the part was removed throws `notInUserLibrary`; `load(text:from:)` clears `libraryUUID`; an unknown uuid sets `openError`.
 
-Acceptance: Save updates in place and Save As… adds a new part, at the model level.
+Acceptance: Save updates in place and Save As… adds a new part, at the model level. **MET** (`xcodebuild test … -only-testing:schematicalTests/PartEditorLibraryTests` → `Executed 7 tests, with 0 failures`, `** TEST SUCCEEDED **`)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/PartEditorLibraryTests` → `** TEST SUCCEEDED **` (est. 5–10 min).
-Commit: —
+Commit: b6ae9573
 
 ### Phase 2 — Entry point, menus, help
 
-- [ ] `ChipDrawerView.swift`: the Edit… item (§ 3).
-- [ ] `PartEditorCommands.swift`, `PartEditorWindow.swift`, `Wizard/ReviewStepPage.swift`: hide Add to Library when `libraryUUID != nil` (§ 4.2).
-- [ ] `Help/KeyboardHelp.swift`, `docs/parts-format.md`: § 4.4.
-- [ ] `schematicalTests/PartEditorLibraryTests.swift`: a `PartEditorTarget(source: .libraryPart(uuid:))` round-trips through `JSONEncoder`/`JSONDecoder` equal (windows are restored by value); `KeyboardHelpTests` still passes.
+- [x] `ChipDrawerView.swift`: the Edit… item (§ 3).
+- [x] `PartEditorCommands.swift`, `PartEditorWindow.swift`, `Wizard/ReviewStepPage.swift`: hide Add to Library when `libraryUUID != nil` (§ 4.2).
+- [x] `Help/KeyboardHelp.swift`, `docs/parts-format.md`: § 4.4.
+- [x] `schematicalTests/PartEditorLibraryTests.swift`: a `PartEditorTarget(source: .libraryPart(uuid:))` round-trips through `JSONEncoder`/`JSONDecoder` equal (windows are restored by value); `KeyboardHelpTests` still passes.
 
-Acceptance: the drawer opens the editor on a library part; the menus match the model.
+Acceptance: the drawer opens the editor on a library part; the menus match the model. **MET** (`xcodebuild test … PartEditorLibraryTests KeyboardHelpTests PartEditorWindowTests` → `Executed 21 tests, with 0 failures`, `** TEST SUCCEEDED **`; menus and sheets are exercised in plan-53-F's real-app run)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/PartEditorLibraryTests -only-testing:schematicalTests/KeyboardHelpTests -only-testing:schematicalTests/PartEditorWindowTests` → `** TEST SUCCEEDED **` (est. 6–12 min). The menu and sheet behavior is exercised in plan-53-F's real-app run.
-Commit: —
+Commit: 7c8e23c8
 
 ## Validation Plan
 
@@ -229,7 +229,9 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- **The library window's init also requires the part to be listed `user`**: `PartEditorModel`'s `.libraryPart` branch sets `openError` for an unknown uuid *and* for a part that was removed (listed `removed`) or is a File Library part, not only for an unknown uuid as § 3 said.
+- **Tests use generic parts** (`PartDraft(newOf: "generic")`, 5 pins on a bundled footprint with 5 pads) so a pin can be renamed in the editor; the gate fixture's pins are tied to its gate definition.
+- **Final gate (run once after Phase 2), 2026-11-21:** `xcodebuild test … PartEditorLibraryTests KeyboardHelpTests PartEditorWindowTests UserLibraryUpdateTests PartFileSaveOpenTests` → `Executed 41 tests, with 0 failures`, `** TEST SUCCEEDED **` (`/tmp/p53-xc19.log`).
 
 ## Summary
 

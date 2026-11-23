@@ -351,6 +351,107 @@ int main(void) {
               "(ds) a rejected file's datasheet stayed");
     }
 
+    /* (k) "originId" (plan-53-A): a valid one loads and changes nothing; a
+       malformed or lower-case one is refused. */
+    {
+        static const char OK[] =
+            "{\"format\":\"schematical-part\",\"version\":1,"
+            "\"uuid\":\"7A1B2C3D-4E5F-4061-8273-94A5B6C7D8E9\","
+            "\"originId\":\"" UUID_A "\",\"kind\":\"gate\","
+            "\"devices\":[" DEVICE("ORIGIN-NAND", "SOT23-5") "]}";
+
+        CHECK(load_part_file(library, OK, "k.schpart", &error) == 0, "(k) %s",
+              error != NULL ? error : "");
+        free(error);
+        error = NULL;
+        part = part_library_find_uuid(library, "7A1B2C3D-4E5F-4061-8273-94A5B6C7D8E9");
+        CHECK(part != NULL && strcmp(part->name, "ORIGIN-NAND") == 0, "(k) part with originId");
+        puts("ok (k) a valid originId loads");
+        expect_error(library, "(k) bad originId",
+                     "{\"format\":\"schematical-part\",\"version\":1,"
+                     "\"uuid\":\"8A1B2C3D-4E5F-4061-8273-94A5B6C7D8E9\","
+                     "\"originId\":\"not-a-uuid\",\"kind\":\"gate\","
+                     "\"devices\":[" DEVICE("ORIGIN-BAD", "SOT23-5") "]}",
+                     "originId");
+        expect_error(library, "(k) lower-case originId",
+                     "{\"format\":\"schematical-part\",\"version\":1,"
+                     "\"uuid\":\"9A1B2C3D-4E5F-4061-8273-94A5B6C7D8E9\","
+                     "\"originId\":\"6f1c2e8a-3b7d-4c55-9a61-0e2b4d7f9c10\",\"kind\":\"gate\","
+                     "\"devices\":[" DEVICE("ORIGIN-LOW", "SOT23-5") "]}",
+                     "originId");
+    }
+
+    /* (l) part_library_retire_part (plan-53-D): a part, its uuid and its listed
+       inline ids leave the library; the same uuid, name and ids load again;
+       Part pointers handed out before stay valid. */
+    {
+        static const char UUID_L[] = "BA000000-4E5F-4061-8273-94A5B6C7D8E9";
+        static const char V1[] = HEAD("BA000000-4E5F-4061-8273-94A5B6C7D8E9")
+            "\"footprints\":[" FOOTPRINT("CUSTOM-BA000000", PAD5) "],\"devices\":["
+            DEVICE("RETIRE-NAND", "CUSTOM-BA000000") "]}";
+        static const char V2[] = HEAD("BA000000-4E5F-4061-8273-94A5B6C7D8E9")
+            "\"devices\":[" DEVICE("RETIRE-NAND", "SOT23-5") "]}";
+        static const char *const fp_ids[] = {"CUSTOM-BA000000"};
+        size_t parts0 = part_library_count(library);
+        size_t footprints0 = part_library_footprint_count(library);
+        const Part *old;
+        const Part *fresh;
+
+        CHECK(load_part_file(library, V1, "l1.schpart", &error) == 0, "(l) v1 %s", error);
+        free(error);
+        error = NULL;
+        old = part_library_find(library, "RETIRE-NAND");
+        CHECK(old != NULL && part_library_count(library) == parts0 + 1, "(l) v1 loaded");
+        CHECK(part_library_retire_part(library, UUID_L, fp_ids, 1, NULL, 0) == 0, "(l) retire");
+        CHECK(part_library_find(library, "RETIRE-NAND") == NULL, "(l) name stayed");
+        CHECK(part_library_find_uuid(library, UUID_L) == NULL, "(l) uuid stayed");
+        CHECK(part_library_find_footprint(library, "CUSTOM-BA000000") == NULL, "(l) footprint stayed");
+        CHECK(part_library_count(library) == parts0, "(l) part count %zu != %zu",
+              part_library_count(library), parts0);
+        CHECK(part_library_footprint_count(library) == footprints0, "(l) footprint count");
+        CHECK(part_library_find(library, "SN74AHC1G00DBVR") != NULL, "(l) a bundled part was lost");
+        CHECK(strcmp(old->name, "RETIRE-NAND") == 0 && old->footprint != NULL &&
+                  strcmp(old->footprint->id, "CUSTOM-BA000000") == 0,
+              "(l) the old Part pointer is not valid");
+        CHECK(part_library_unload_last_part_file(library) == -1, "(l) unload after a retire");
+        CHECK(load_part_file(library, V2, "l2.schpart", &error) == 0, "(l) v2 %s", error);
+        free(error);
+        error = NULL;
+        fresh = part_library_find(library, "RETIRE-NAND");
+        CHECK(fresh != NULL && fresh != old && part_library_find_uuid(library, UUID_L) == fresh &&
+                  fresh->footprint != NULL && strcmp(fresh->footprint->id, "SOT23-5") == 0,
+              "(l) v2 not found by name and uuid");
+        CHECK(part_library_retire_part(library, "CA000000-4E5F-4061-8273-94A5B6C7D8E9", NULL, 0, NULL, 0) == -1,
+              "(l) an unknown uuid retired");
+        CHECK(part_library_count(library) == parts0 + 1, "(l) count after an unknown retire");
+        CHECK(part_library_retire_part(library, UUID_L, NULL, 0, NULL, 0) == 0, "(l) retire v2");
+        CHECK(part_library_count(library) == parts0, "(l) count after retiring v2");
+        puts("ok (l) retire frees the name, uuid and inline footprint for a new version");
+    }
+
+    /* (l2) The same for an inline datasheet. */
+    {
+        static const char UUID_M[] = "BB000000-4E5F-4061-8273-94A5B6C7D8E9";
+        static const char TEXT[] = HEAD("BB000000-4E5F-4061-8273-94A5B6C7D8E9")
+            "\"datasheets\":[{\"id\":\"CUSTOM-BB000000\",\"url\":\"https://example.com/m.pdf\"}],"
+            "\"devices\":[" SHEET_DEVICE("RETIRE-DS", "Texas Instruments", "CUSTOM-BB000000") "]}";
+        static const char *const ds_ids[] = {"CUSTOM-BB000000"};
+        size_t sheets0 = part_library_datasheet_count(library);
+
+        CHECK(load_part_file(library, TEXT, "m.schpart", &error) == 0, "(l2) %s", error);
+        free(error);
+        error = NULL;
+        CHECK(part_library_datasheet_count(library) == sheets0 + 1, "(l2) datasheet loaded");
+        CHECK(part_library_retire_part(library, UUID_M, NULL, 0, ds_ids, 1) == 0, "(l2) retire");
+        CHECK(part_library_datasheet_count(library) == sheets0, "(l2) datasheet count");
+        CHECK(part_library_find_datasheet(library, "CUSTOM-BB000000") == NULL, "(l2) datasheet stayed");
+        CHECK(part_library_find_datasheet(library, "sn74hc00") != NULL, "(l2) a bundled datasheet was lost");
+        CHECK(load_part_file(library, TEXT, "m2.schpart", &error) == 0, "(l2) reload %s", error);
+        free(error);
+        error = NULL;
+        puts("ok (l2) retire frees an inline datasheet id");
+    }
+
     /* load_parts still rejects the single part format, and keeps its rules. */
     {
         if (load_parts(library, HEAD("66666666-2222-4333-8444-555555555555") "\"devices\":[]}",
@@ -366,6 +467,6 @@ int main(void) {
         fprintf(stderr, "%d failure(s)\n", failures);
         return 1;
     }
-    puts("PASS: load_part_file (plan-32-A cases a-h, plan-32-C unload case i, plan-39-A case j)");
+    puts("PASS: load_part_file (plan-32-A cases a-h, plan-32-C unload case i, plan-39-A case j, plan-53-A case k)");
     return 0;
 }

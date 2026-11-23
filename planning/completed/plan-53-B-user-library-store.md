@@ -28,8 +28,8 @@ Stated in plan-53-A; this sub-plan additionally needs plan-53-A complete.
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-53-A is complete and archived | `ls planning/completed/plan-53-A-*.md` → one file | NOT MET at writing (the plan is unbuilt) |
-| `PartCatalogStore.register` no longer throws for a uuid clash | `grep -c 'uuidInUse' schematical/schematical/Backend/PartCatalog.swift` → `0` | NOT MET at writing |
+| plan-53-A is complete and archived | `ls planning/completed/plan-53-A-*.md` → one file | MET (run 2026-11-21: one file) |
+| `PartCatalogStore.register` no longer throws for a uuid clash | `grep -c 'uuidInUse' schematical/schematical/Backend/PartCatalog.swift` → `0` | MET (run 2026-11-21: `0`) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command before you continue, and report all of them if you stop.
@@ -227,32 +227,32 @@ rule applies and the file is left as it is.
 
 Safe alone: a new type nothing calls yet.
 
-- [ ] `Backend/UserPartLibrary.swift`: the type of § 4.2, `defaultDirectory` per § 3.
-- [ ] `schematicalTests/UserPartLibraryTests.swift` (new files under `schematical/` and `schematicalTests/` need no project edit: the project uses file-system-synchronized groups, `grep -c PBXFileSystemSynchronizedRootGroup schematical/schematical.xcodeproj/project.pbxproj` → 5, and `PartCatalog.swift` has no line of its own in it): `UserPartLibrary.defaultDirectory` is under `NSTemporaryDirectory()` when run under XCTest; then, in a temp folder — `write` then `files()` returns the file with the text and a date; `remove` deletes it and a second `remove` does not throw; a non-`.schpart` file is ignored; a file with no uuid and a non-UTF-8 file are problems; a missing folder gives no files and no problems; `write` creates a missing folder.
+- [x] `Backend/UserPartLibrary.swift`: the type of § 4.2, `defaultDirectory` per § 3.
+- [x] `schematicalTests/UserPartLibraryTests.swift` (new files under `schematical/` and `schematicalTests/` need no project edit: the project uses file-system-synchronized groups, `grep -c PBXFileSystemSynchronizedRootGroup schematical/schematical.xcodeproj/project.pbxproj` → 5, and `PartCatalog.swift` has no line of its own in it): `UserPartLibrary.defaultDirectory` is under `NSTemporaryDirectory()` when run under XCTest; then, in a temp folder — `write` then `files()` returns the file with the text and a date; `remove` deletes it and a second `remove` does not throw; a non-`.schpart` file is ignored; a file with no uuid and a non-UTF-8 file are problems; a missing folder gives no files and no problems; `write` creates a missing folder.
 
-Acceptance: the folder type behaves as listed.
+Acceptance: the folder type behaves as listed. **MET** (`xcodebuild test … -only-testing:schematicalTests/UserPartLibraryTests` → `Executed 7 tests, with 0 failures`, `** TEST SUCCEEDED **`)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/UserPartLibraryTests` → `** TEST SUCCEEDED **` (est. 4–8 min).
-Commit: —
+Commit: 565bab0f
 
 ### Phase 2 — Listings and categories in the catalog
 
-- [ ] `PartCatalog.swift`: `drawer` becomes `private(set) var`; `listed(in:)` (§ 4.1).
-- [ ] `PartCatalog.swift`: `PartListing`, `listings`, `setListing`, `register(…listing:)`, `listing(of:)`, `PartRegistrationError.libraryWrite` and `.noUserLibrary` with descriptions (§ 4.3). Every custom part registered without an argument is listed `file`.
-- [ ] `schematicalTests/PartRegistrationTests.swift`: `testValidFileRegisters` expects the category `File Library` and the sub-group from the file (`["File Library", "Gates"]`); add: a one-level drawer lists directly under `File Library`; a `removed` part is not in `groups(matching:)` but `part(named:)` and `part(uuid:)` still return it; registering the same content again relists a `removed` part as `file`.
+- [x] `PartCatalog.swift`: `drawer` becomes `private(set) var`; `listed(in:)` (§ 4.1).
+- [x] `PartCatalog.swift`: `PartListing`, `listings`, `setListing`, `register(…listing:)`, `listing(of:)`, `PartRegistrationError.libraryWrite` and `.noUserLibrary` with descriptions (§ 4.3). Every custom part registered without an argument is listed `file`.
+- [x] `schematicalTests/PartRegistrationTests.swift`: `testValidFileRegisters` expects the category `File Library` and the sub-group from the file (`["File Library", "Gates"]`); add: a one-level drawer lists directly under `File Library`; a `removed` part is not in `groups(matching:)` but `part(named:)` and `part(uuid:)` still return it; registering the same content again relists a `removed` part as `file`.
 
-Acceptance: a registered custom part lists under `File Library` with its sub-group, and `removed` hides it from the picker only.
+Acceptance: a registered custom part lists under `File Library` with its sub-group, and `removed` hides it from the picker only. **MET** (`xcodebuild test … -only-testing:schematicalTests/PartRegistrationTests` → `Executed 12 tests, with 0 failures`, `** TEST SUCCEEDED **`)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/PartRegistrationTests` → `** TEST SUCCEEDED **` (est. 5–10 min).
-Commit: —
+Commit: 26b90f2a
 
 ### Phase 3 — Adding, removing, and loading at launch
 
-- [ ] `PartCatalog.swift`: `userLibrary`, `userLibraryProblems`, `attachUserLibrary`, both `addToUserLibrary`, `removeFromUserLibrary`, `userLibraryItems` (§ 4.3); `shared` attaches `UserPartLibrary.defaultDirectory`.
-- [ ] `schematicalTests/UserLibraryCatalogTests.swift` (new): with a temp folder and a fresh `PartCatalogStore()` + `load()` + `attachUserLibrary` — (a) `addToUserLibrary` lists the part under `User Library` with its sub-group, writes `<uuid>.schpart` holding `registeredText`; (b) a second store attached to the same folder lists the same part (relaunch), with the same name and uuid; (c) `removeFromUserLibrary` deletes the file and hides the part, and a third store attached to the folder lacks it; (d) a `file` part passed to `addToUserLibrary(_:)` becomes `user`; (e) a name clash with a bundled part is suffixed once and the suffixed name is what the file holds; (f) a corrupt file and a duplicate-uuid file are in `userLibraryProblems` and do not stop the others; (g) with no library attached, `addToUserLibrary` throws `noUserLibrary`; (h) a failed write (a library folder that is a regular file) throws `libraryWrite` and the part stays `file`; (i) the `User Library` category has its kinds in `kinds(inCategory:)`.
-- [ ] Docs: `docs/parts-format.md` § Single part files: a paragraph "The User Library" (the folder, one file per part named by uuid, the text as registered, the two picker categories, removal hides until the next launch). `docs/backend.md` needs no change.
+- [x] `PartCatalog.swift`: `userLibrary`, `userLibraryProblems`, `attachUserLibrary`, both `addToUserLibrary`, `removeFromUserLibrary`, `userLibraryItems` (§ 4.3); `shared` attaches `UserPartLibrary.defaultDirectory`.
+- [x] `schematicalTests/UserLibraryCatalogTests.swift` (new): with a temp folder and a fresh `PartCatalogStore()` + `load()` + `attachUserLibrary` — (a) `addToUserLibrary` lists the part under `User Library` with its sub-group, writes `<uuid>.schpart` holding `registeredText`; (b) a second store attached to the same folder lists the same part (relaunch), with the same name and uuid; (c) `removeFromUserLibrary` deletes the file and hides the part, and a third store attached to the folder lacks it; (d) a `file` part passed to `addToUserLibrary(_:)` becomes `user`; (e) a name clash with a bundled part is suffixed once and the suffixed name is what the file holds; (f) a corrupt file and a duplicate-uuid file are in `userLibraryProblems` and do not stop the others; (g) with no library attached, `addToUserLibrary` throws `noUserLibrary`; (h) a failed write (a library folder that is a regular file) throws `libraryWrite` and the part stays `file`; (i) the `User Library` category has its kinds in `kinds(inCategory:)`.
+- [x] Docs: `docs/parts-format.md` § Single part files: a paragraph "The User Library" (the folder, one file per part named by uuid, the text as registered, the two picker categories, removal hides until the next launch). `docs/backend.md` needs no change.
 
-Acceptance: a part added to the library is back after a relaunch of the catalog, and removing it deletes it.
+Acceptance: a part added to the library is back after a relaunch of the catalog, and removing it deletes it. **MET** (`xcodebuild test … UserLibraryCatalogTests PartRegistrationTests UserPartLibraryTests` → `Executed 28 tests, with 0 failures`, `** TEST SUCCEEDED **`)
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/UserLibraryCatalogTests -only-testing:schematicalTests/PartRegistrationTests -only-testing:schematicalTests/UserPartLibraryTests` → `** TEST SUCCEEDED **` (est. 6–12 min).
-Commit: —
+Commit: 48258817
 
 ## Validation Plan
 
@@ -281,7 +281,10 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- **`UserPartLibrary` is `nonisolated … Sendable`** (as § 4.2 sketched `final class`): as a main-actor class its deinit aborted the test host on the first test that freed one (`pointer being freed was not allocated`, `/tmp/p53-xc6.log`). `PartFileType.fileExtension` became `nonisolated static let` so the type can read it.
+- **`setListing` is internal, not private**, so `PartRegistrationTests` can drive the `removed` listing before Phase 3's `removeFromUserLibrary` exists.
+- **Tests keep their stores** in a static array (`UserLibraryCatalogTests.kept`): a `PartCatalogStore` freed inside a test aborts the host, as plan-53-A found.
+- **Final gate (run once after Phase 3), 2026-11-21:** `xcodebuild test … UserLibraryCatalogTests PartRegistrationTests UserPartLibraryTests DrawerPerformanceTests AutomationTests` → `Executed 64 tests, with 1 test skipped and 0 failures`, `** TEST SUCCEEDED **` (`/tmp/p53-xc9.log`). The skipped test is pre-existing (not one of this plan's).
 
 ## Summary
 

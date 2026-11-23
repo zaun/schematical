@@ -363,6 +363,7 @@ optionally the custom footprints that part uses and the part's own datasheet.
 | `"format"` | exactly `"schematical-part"` |
 | `"version"` | exactly `1` |
 | `"uuid"` | required; the part's identity: 36 characters, uppercase hexadecimal digits and hyphens in the 8-4-4-4-12 layout (Foundation's `UUID.uuidString`). Bundled parts have none |
+| `"originId"` | optional (plan-53-A); the `uuid` the part's first version had, in the same layout. The app writes it when it gives a part a new uuid (a clash, a copy, Save As…). The loader checks only its shape and nothing reads it yet; it is kept for later update logic |
 | `"kind"` | one of the kinds below, as in a part file |
 | `"footprints"` | optional array; each entry is a `footprints.json` entry (§ Footprints). Its ids must be new to the library |
 | `"datasheets"` | optional array (plan-46-A); each entry is a `datasheets.json` entry (§ Datasheets) with `"id"` and `"url"` only: no `"md"` (that names a file bundled with the app). Its ids must be new to the library, and the part's `"datasheet"` must name every entry (`datasheet "X" is not used` otherwise). The Part Editor writes one entry, `CUSTOM-<first 8 of the uuid>` |
@@ -380,9 +381,60 @@ renames a clash), and so must the uuid.
 
 The uuid is what the app goes by. Loading a file whose uuid is already loaded
 returns the loaded part when the content is the same (compared with the name
-as it was registered, so a suffixed copy counts as the same), and is refused
-when the content differs. A failed load adds nothing: no footprint, no
+as it was registered, so a suffixed copy counts as the same). When the content
+differs (plan-53-A) the file is loaded under a new uuid, so no two different
+parts share one: the old uuid becomes `"originId"` (kept if the file already
+has one, so a chain of versions points at the first), and every `CUSTOM-` id
+made from the old uuid (the inline footprint and datasheet and what names
+them) is renamed to the new uuid's. The Part Editor works the same way: Save
+keeps a part's uuid; Save As… of a part that was opened or saved before,
+Copy to Editor… of a library part, and an Add to Library that would collide
+each make a new uuid. A failed load adds nothing: no footprint, no
 datasheet, no part.
+
+### The User Library
+
+A custom part is listed in the parts drawer under one of two categories
+(plan-53-B), below it the part file's own sub-group (`["Custom", "Gates"]`
+lists as User Library → Gates):
+
+- **User Library**: parts the user keeps. Each is a file
+  `<uuid>.schpart` in `UserLibrary` inside the app's Application Support
+  folder (in the app's container, as the app is sandboxed), holding the part
+  as it was registered (its name with any suffix, sorted keys). Every file in
+  the folder is registered at launch, in file-name order. A file the loader
+  refuses, or whose uuid another library file holds, is listed as a problem
+  and skipped; nothing else is lost.
+- **File Library**: every other registered custom part: one a schematic
+  embedded, or one loaded for this session only. Nothing is written for it.
+
+A part gets into the User Library four ways: **File › Load Part…** (asks
+Add to Library, Use Once or Cancel; Use Once lists it in the File Library), the
+offer when a schematic that embeds custom parts is opened, the Part Editor's
+**Add to Library**, and **Add to User Library** on a File Library part's
+right-click menu.
+
+**File › User Library…** opens the User Library window (plan-53-F): a table
+of the library's parts (name, manufacturer, kind, package, date added) with
+Add Part… (a part file, with no question), Edit…, Show in Finder and Remove…
+(after a confirmation); a library file that could not be loaded is listed
+above the table with the reason and can be removed or shown in Finder.
+
+**Edit…** on a User Library part (drawer right-click, or the window) opens it in the Part
+Editor (plan-53-E). There **Save updates the part in place** under its
+uuid, at once: the library file, the drawer and every placed chip in every
+open schematic switch to the new version (wires on pins the new version lacks
+become loose ends, and the undo history of a schematic that changed ends
+there). The part's uuid and kind cannot change. **Save As… adds a new library
+part** (a new uuid, with `"originId"` set; a taken name gets `.2`, …) and the
+window then edits that new part. Add to Library is not offered there.
+
+Removing a part from the User Library deletes its file and takes it out of
+the drawer at once. The backend cannot unload an arbitrary part, so it stays
+registered for the session: schematics that hold it still resolve it, and
+registering the same part again lists it in the File Library. Only the app's
+shared catalog reads the folder; under XCTest the folder is a fresh one in
+the temporary directory.
 
 ## Datasheets
 

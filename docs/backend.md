@@ -85,7 +85,17 @@ Notes:
   `part_library_unload_last_part_file` takes back the latest
   `load_part_file` (its part, name, uuid, inline footprints and arena
   memory) while nothing else was loaded since; the Part Editor's validator
-  (plan-32-C) loads each draft into one scratch library this way.
+  (plan-32-C) loads each draft into one scratch library this way. A file
+  may carry an `originId` (plan-53-A), the uuid its part's first version
+  had; the loader checks that it is an uppercase UUID and ignores it.
+  `part_library_retire_part(library, uuid, footprint_ids, n, datasheet_ids, n)`
+  (plan-53-D) takes any one single-part-file part out of the library: its
+  name, uuid and the inline footprint and datasheet ids the caller lists, so a
+  new version with the same uuid, name and ids can be loaded. It is how the app
+  replaces a loaded part. Unlike the unload above it frees no memory, so
+  every `Part`, `PartFootprint` and `PartDatasheet` pointer already handed out
+  stays valid until `part_library_destroy` (a retired part's memory is the cost
+  of one part per update).
 - Building calls (`circuit_add_part`, `_add_net`, `_connect`) work only
   before `circuit_start`; `circuit_set_switch` works before and after.
 - `circuit_set_switch(…, position, on)`: ON = contact closed, for every

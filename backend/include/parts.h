@@ -357,6 +357,21 @@ int load_part_file(PartLibrary *library, const char *json, const char *source, c
 int part_library_unload_last_part_file(PartLibrary *library);
 
 /*
+ * Takes one single-part-file part out of the library (plan-53-D): its name,
+ * its uuid, and the inline footprint and datasheet ids the caller lists (the
+ * library does not record which belong to which file), so a new file with the
+ * same uuid, name and ids can be loaded. Unlike the unload above this works
+ * for any such part, not only the latest. The memory is NOT freed, so every
+ * Part, PartFootprint and PartDatasheet pointer already handed out stays
+ * valid until part_library_destroy. Ids that are not in the library are
+ * ignored. Returns 0, or -1 (nothing changed) when no part has this uuid or
+ * on out-of-memory. After it the latest-file unload no longer applies.
+ */
+int part_library_retire_part(PartLibrary *library, const char *uuid,
+                             const char *const *footprint_ids, size_t footprint_count,
+                             const char *const *datasheet_ids, size_t datasheet_count);
+
+/*
  * Parses a footprints file (format "schematical-footprints"). Same contract
  * as load_parts. Load it before any part file that names its footprints;
  * ids are unique across calls.

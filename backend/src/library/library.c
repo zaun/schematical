@@ -1379,7 +1379,7 @@ int load_parts(PartLibrary *library, const char *json, const char *source, char 
 /* ---- Single part files (format "schematical-part") ------------------------ */
 
 static const char *const PART_FILE_KEYS[] = {
-    "format", "version", "uuid", "kind", "footprints", "datasheets", "devices", NULL
+    "format", "version", "uuid", "originId", "kind", "footprints", "datasheets", "devices", NULL
 };
 
 /* 8-4-4-4-12 uppercase hexadecimal digits: Foundation's UUID.uuidString. */
@@ -1478,6 +1478,19 @@ static int read_part_file(KindContext *ctx, PartLibrary *library, const cJSON *r
     }
     if (name_set_contains(&library->uuids, *uuid)) {
         return kind_error(ctx, "uuid \"%s\" is already loaded", *uuid);
+    }
+    /* "originId": the uuid the part's first version had (plan-53-A). Only its
+       shape is checked; nothing reads it. */
+    if (cJSON_GetObjectItemCaseSensitive(root, "originId") != NULL) {
+        const char *origin = NULL;
+
+        if (kind_string(ctx, root, "originId", &origin) != 0) {
+            return -1;
+        }
+        if (!valid_uuid(origin)) {
+            return kind_error(ctx, "\"originId\" must be an uppercase UUID "
+                              "(XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX), not \"%s\"", origin);
+        }
     }
     if (kind_string(ctx, root, "kind", &kind_name) != 0) {
         return -1;
@@ -1589,6 +1602,94 @@ int load_part_file(PartLibrary *library, const char *json, const char *source, c
     free_chunks(ctx.arena);
     report(&ctx, result, error);
     return result;
+}
+
+static int id_listed(const char *id, const char *const *list, size_t count) {
+    size_t i;
+
+    for (i = 0; i < count; i++) {
+        if (list[i] != NULL && strcmp(list[i], id) == 0) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int part_library_retire_part(PartLibrary *library, const char *uuid,
+                             const char *const *footprint_ids, size_t footprint_count,
+                             const char *const *datasheet_ids, size_t datasheet_count) {
+    const Part *target;
+    NameSet names = {0};
+    NameSet uuids = {0};
+    NameSet ids = {0};
+    NameSet sheet_ids = {0};
+    size_t i, kept;
+    int ok = 1;
+
+    if (library == NULL || uuid == NULL) {
+        return -1;
+    }
+    target = name_set_get(&library->uuids, uuid);
+    if (target == NULL) {
+        return -1;
+    }
+    /* The new tables are built on the side, so an out-of-memory failure
+       leaves the library as it was. */
+    for (i = 0; ok && i < library->count; i++) {
+        const Part *part = library->parts[i];
+
+        if (part == target) {
+            continue;
+        }
+        ok = name_set_add(&names, part->name, part) == 0 &&
+             (part->uuid == NULL || name_set_add(&uuids, part->uuid, part) == 0);
+    }
+    for (i = 0; ok && i < library->footprint_count; i++) {
+        if (!id_listed(library->footprints[i]->id, footprint_ids, footprint_count)) {
+            ok = name_set_add(&ids, library->footprints[i]->id, library->footprints[i]) == 0;
+        }
+    }
+    for (i = 0; ok && i < library->datasheet_count; i++) {
+        if (!id_listed(library->datasheets[i]->id, datasheet_ids, datasheet_count)) {
+            ok = name_set_add(&sheet_ids, library->datasheets[i]->id, library->datasheets[i]) == 0;
+        }
+    }
+    if (!ok) {
+        name_set_free(&names);
+        name_set_free(&uuids);
+        name_set_free(&ids);
+        name_set_free(&sheet_ids);
+        return -1;
+    }
+    name_set_free(&library->names);
+    name_set_free(&library->uuids);
+    name_set_free(&library->footprint_ids);
+    name_set_free(&library->datasheet_ids);
+    library->names = names;
+    library->uuids = uuids;
+    library->footprint_ids = ids;
+    library->datasheet_ids = sheet_ids;
+    /* Compact the arrays in place; the removed entries' memory stays in the arenas. */
+    for (i = 0, kept = 0; i < library->count; i++) {
+        if (library->parts[i] != target) {
+            library->parts[kept++] = library->parts[i];
+        }
+    }
+    library->count = kept;
+    for (i = 0, kept = 0; i < library->footprint_count; i++) {
+        if (!id_listed(library->footprints[i]->id, footprint_ids, footprint_count)) {
+            library->footprints[kept++] = library->footprints[i];
+        }
+    }
+    library->footprint_count = kept;
+    for (i = 0, kept = 0; i < library->datasheet_count; i++) {
+        if (!id_listed(library->datasheets[i]->id, datasheet_ids, datasheet_count)) {
+            library->datasheets[kept++] = library->datasheets[i];
+        }
+    }
+    library->datasheet_count = kept;
+    library->last_part_file = 0;
+    return 0;
 }
 
 int part_library_unload_last_part_file(PartLibrary *library) {

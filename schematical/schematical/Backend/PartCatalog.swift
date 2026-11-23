@@ -15,6 +15,31 @@ nonisolated final class PartLibraryHandle: @unchecked Sendable {
     deinit {
         part_library_destroy(pointer)
     }
+
+    /// Takes one single-part-file part out of the library (plan-53-D): its
+    /// name, uuid and the inline footprint and datasheet ids named. The
+    /// memory stays, so parts already read stay valid. False when no part
+    /// has the uuid.
+    func retire(uuid: String, footprintIDs: [String], datasheetIDs: [String]) -> Bool {
+        func withCStrings<R>(_ strings: [String], _ body: ([UnsafePointer<CChar>?]) -> R) -> R {
+            var pointers: [UnsafePointer<CChar>?] = []
+            var duplicates: [UnsafeMutablePointer<CChar>] = []
+            for string in strings {
+                if let copy = strdup(string) {
+                    duplicates.append(copy)
+                    pointers.append(UnsafePointer(copy))
+                }
+            }
+            defer { duplicates.forEach { free($0) } }
+            return body(pointers)
+        }
+        return withCStrings(footprintIDs) { footprints in
+            withCStrings(datasheetIDs) { datasheets in
+                part_library_retire_part(pointer, uuid, footprints, footprints.count,
+                                         datasheets, datasheets.count) == 0
+            }
+        }
+    }
 }
 
 // MARK: - Parts as Swift values
@@ -523,7 +548,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     /// The parts-drawer path above the function, 1–3 levels such as
     /// ["Memory", "SRAM"] or ["Discrete", "Resistors", "Chip"]. Empty for
     /// parts that are never listed (VCC, GND).
-    let drawer: [String]
+    private(set) var drawer: [String]
     let flags: Flags
     /// The company that makes the part; "Generic" for parts no one company
     /// makes (supplies, headers, the generic LED). Empty if not given.
@@ -556,6 +581,17 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     let supplyDomains: [(power: String, minMV: UInt32, maxMV: UInt32, inputMaxMV: UInt32)]
 
     var id: String { name }
+
+    /// A copy listed under another top-level drawer category, its deeper
+    /// levels kept (plan-53-B: `["Custom", "Gates"]` lists as
+    /// `["User Library", "Gates"]`). A part with no drawer path is never
+    /// listed and is returned as it is.
+    func listed(in category: String) -> CatalogPart {
+        guard !drawer.isEmpty else { return self }
+        var copy = self
+        copy.drawer = [category] + drawer.dropFirst()
+        return copy
+    }
 
     // Names are unique across the library, so a part is its name (and, for a
     // custom part, its uuid).
@@ -1201,23 +1237,57 @@ nonisolated enum BackendCatalog {
 
 /// Why a single part file (`.schpart`) could not be added to the catalog.
 nonisolated enum PartRegistrationError: LocalizedError, Equatable {
-    /// A different part file with this uuid is already loaded.
-    case uuidInUse(uuid: String, name: String)
     /// The backend's loader refused the file; its message names the place.
     case backend(String)
     /// The file is not a part file at all (not UTF-8 text, or not a JSON object).
     case notAPartFile(String)
+    /// The part is not in the User Library (it was removed, or never added).
+    case notInUserLibrary(name: String)
+    /// An in-place update that would change the part's uuid or kind.
+    case identityChanged(detail: String)
+    /// The User Library's file could not be written (plan-53-B).
+    case libraryWrite(String)
+    /// There is no User Library to add to (a catalog made without one).
+    case noUserLibrary
 
     var errorDescription: String? {
         switch self {
-        case .uuidInUse(let uuid, let name):
-            return "A different part with this identity (\(uuid)) is already loaded as \(name)."
         case .backend(let message):
             return message
         case .notAPartFile(let detail):
             return "This is not a part file (\(detail))."
+        case .notInUserLibrary(let name):
+            return "“\(name)” is no longer in your User Library. Use Save As… to keep it."
+        case .identityChanged(let detail):
+            return detail
+        case .libraryWrite(let reason):
+            return "The part could not be saved in your User Library: \(reason)"
+        case .noUserLibrary:
+            return "There is no User Library to add the part to."
         }
     }
+}
+
+/// Where a registered custom part is listed in the drawer (plan-53-B):
+/// `user` in the User Library (kept on disk), `file` in the File Library
+/// (this session only), `removed` not at all (it was taken out of the User
+/// Library; documents that hold it still resolve it).
+nonisolated enum PartListing: Equatable, Sendable {
+    case user, file, removed
+
+    /// The drawer's top-level category for a listed part.
+    var category: String? {
+        switch self {
+        case .user: PartCategory.userLibrary
+        case .file: PartCategory.fileLibrary
+        case .removed: nil
+        }
+    }
+}
+
+nonisolated enum PartCategory {
+    static let userLibrary = "User Library"
+    static let fileLibrary = "File Library"
 }
 
 /// Reads a `.schpart` file's text for `PartCatalogStore.register`.
@@ -1267,6 +1337,27 @@ nonisolated struct PartFileObject {
             devices[0] = device
             object["devices"] = devices
         }
+    }
+
+    /// Gives the part a new identity (plan-53-A § 3): a new `uuid`; `originId`
+    /// is the file's own `originId` if it has one, else the uuid it had (the
+    /// first version's uuid is kept down a chain of versions); and every
+    /// string value equal to the old `CUSTOM-<first 8 of uuid>` (the inline
+    /// footprint and datasheet ids and what names them) becomes the new
+    /// uuid's. Keys are never renamed.
+    mutating func freshenIdentity(newUUID: String = UUID().uuidString) {
+        guard let old = uuid else { return }
+        if object["originId"] == nil { object["originId"] = old }
+        object["uuid"] = newUUID
+        let oldID = "CUSTOM-" + old.prefix(8).uppercased()
+        let newID = "CUSTOM-" + newUUID.prefix(8).uppercased()
+        func renamed(_ value: Any) -> Any {
+            if let text = value as? String { return text == oldID ? newID : text }
+            if let dictionary = value as? [String: Any] { return dictionary.mapValues(renamed) }
+            if let array = value as? [Any] { return array.map(renamed) }
+            return value
+        }
+        object = object.mapValues(renamed)
     }
 
     /// Sorted keys, so equal content is equal text.
@@ -1460,6 +1551,8 @@ final class PartCatalogStore {
     static let shared: PartCatalogStore = {
         let store = PartCatalogStore()
         store.load()
+        // The user's parts (plan-53-B); only this catalog reads the folder.
+        store.attachUserLibrary(UserPartLibrary(directory: UserPartLibrary.defaultDirectory))
         return store
     }()
 
@@ -1474,12 +1567,33 @@ final class PartCatalogStore {
     /// registered with.
     private var partsByUUID: [String: CatalogPart] = [:]
     private var registeredTexts: [String: String] = [:]
+    /// Where each registered custom part is listed (plan-53-B), by uuid.
+    private var listings: [String: PartListing] = [:]
+    /// A part file's text that clashed with another part's uuid, and the new
+    /// uuid it was registered under (plan-53-A): the same text again is that
+    /// part.
+    private var freshenedTexts: [String: String] = [:]
+    /// The User Library's folder, once attached (`attachUserLibrary`); nil for
+    /// a catalog made without one (tests).
+    private(set) var userLibrary: UserPartLibrary?
+    /// Library files that could not be loaded, for the library window.
+    private(set) var userLibraryProblems: [UserPartLibraryProblem] = []
+    /// When each User Library part was added (its file's creation date).
+    private var userLibraryAdded: [String: Date] = [:]
 
     /// What the drawer's headers and menus show, built from `entries` in one
     /// pass the first time it is asked for (plan-43 follow-up: each header
     /// used to scan every part on every redraw). `entries` changes only in
     /// `load` and `register`, which drop it.
-    @ObservationIgnored private var derivedCache: Derived?
+    @ObservationIgnored private var derivedCache: Derived? {
+        didSet { if derivedCache == nil { derivedRevision += 1 } }
+    }
+
+    /// Counts the times `entries` changed in a way the drawer must rebuild for,
+    /// including a part moving between categories or being replaced, which
+    /// leave `partCount` as it was (plan-53: the drawer kept listing an added
+    /// part under File Library).
+    private(set) var derivedRevision = 0
 
     private var derived: Derived {
         if let derivedCache { return derivedCache }
@@ -1765,22 +1879,44 @@ final class PartCatalogStore {
         registeredTexts[uuid]
     }
 
+    /// Whether the file's uuid is registered with other content (the
+    /// comparison `register` makes, with the name as registered).
+    func uuidConflicts(_ fileText: String) -> Bool {
+        guard var file = try? PartFileObject(text: fileText), let uuid = file.uuid,
+              let registered = partsByUUID[uuid] else { return false }
+        file.name = registered.name
+        return file.canonicalText != registeredTexts[uuid]
+    }
+
     /// Adds a single part file's part to the catalog for the rest of the
     /// session (plan-32-A § 4.3). The same uuid with the same content returns
-    /// the registered part; with other content it is refused. A name that is
-    /// taken gets the lowest free suffix `.2`, `.3`, …. The backend checks the
-    /// file; a failure changes nothing.
+    /// the registered part; with other content the file is registered under a
+    /// new uuid (plan-53-A: `PartFileObject.freshenIdentity`), so no two
+    /// different parts share one. A name that is taken gets the lowest free
+    /// suffix `.2`, `.3`, …. The backend checks the file; a failure changes
+    /// nothing. The part is listed as `listing` says (the File Library by
+    /// default, plan-53-B); a part that is already registered and listed
+    /// `removed` is listed again (as `listing`, never `removed`), and one
+    /// listed `file` is moved to the User Library by `listing: .user`.
     @discardableResult
-    func register(fileText: String, source: String) throws -> CatalogPart {
+    func register(fileText: String, source: String, listing: PartListing = .file) throws -> CatalogPart {
         var file = try PartFileObject(text: fileText)
+        var clashingText: String?
         if let uuid = file.uuid, let registered = partsByUUID[uuid] {
             // The registered text carries the name as registered (maybe
             // suffixed); compare with the new file under that name.
-            file.name = registered.name
-            if file.canonicalText == registeredTexts[uuid] {
-                return registered
+            var compared = file
+            compared.name = registered.name
+            if compared.canonicalText == registeredTexts[uuid] {
+                return relisted(uuid, as: listing) ?? registered
             }
-            throw PartRegistrationError.uuidInUse(uuid: uuid, name: registered.name)
+            // The same clashing text again (a schematic opened twice) is the
+            // part it became the first time, not another copy.
+            if let fresh = freshenedTexts[file.canonicalText], partsByUUID[fresh] != nil {
+                return relisted(fresh, as: listing) ?? registered
+            }
+            clashingText = file.canonicalText
+            file.freshenIdentity()
         }
         if let name = file.name, partsByName[name] != nil {
             var n = 2
@@ -1799,15 +1935,248 @@ final class PartCatalogStore {
         guard let uuid = file.uuid, let loaded = part_library_find_uuid(library.pointer, uuid) else {
             throw PartRegistrationError.backend("\(source): the part did not load")
         }
-        let part = BackendCatalog.catalogPart(loaded.pointee) { Footprint($0.pointee) }
+        let backendPart = BackendCatalog.catalogPart(loaded.pointee) { Footprint($0.pointee) }
+        let part = backendPart.listed(in: listing.category ?? PartCategory.fileLibrary)
         partsByName[part.name] = part
         partsByUUID[uuid] = part
         registeredTexts[uuid] = text
+        listings[uuid] = listing
+        if let clashingText { freshenedTexts[clashingText] = uuid }
         if !part.drawer.isEmpty {
             entries.append(part)
             derivedCache = nil
         }
         return part
+    }
+
+    /// A part that is already registered, found again by `register`: listed
+    /// again if it had been removed, and moved to the User Library when that
+    /// is what is asked for. Returns the registered part.
+    private func relisted(_ uuid: String, as listing: PartListing) -> CatalogPart? {
+        let current = listings[uuid]
+        let wanted: PartListing = listing == .removed ? .file : listing
+        if current == .removed || (wanted == .user && current == .file) {
+            setListing(wanted, for: uuid)
+        }
+        return partsByUUID[uuid]
+    }
+
+    /// A part of the User Library with its file, for the library window.
+    struct UserLibraryItem: Identifiable {
+        let part: CatalogPart
+        let added: Date
+        let url: URL
+
+        var id: String { part.uuid ?? part.name }
+    }
+
+    /// The User Library's parts, in natural name order.
+    var userLibraryItems: [UserLibraryItem] {
+        guard let userLibrary else { return [] }
+        return listings.compactMap { uuid, listing -> UserLibraryItem? in
+            guard listing == .user, let part = partsByUUID[uuid] else { return nil }
+            return UserLibraryItem(part: part, added: userLibraryAdded[uuid] ?? Date(),
+                                   url: userLibrary.url(forUUID: uuid))
+        }
+        .sorted { $0.part.name.localizedStandardCompare($1.part.name) == .orderedAscending }
+    }
+
+    /// Attaches the User Library's folder and registers every part in it,
+    /// listed `user` (plan-53-B). A file the loader refuses, or whose uuid an
+    /// earlier library file or an already registered part holds with other
+    /// content, is recorded in `userLibraryProblems` and skipped.
+    func attachUserLibrary(_ library: UserPartLibrary) {
+        userLibrary = library
+        let found = library.files()
+        var problems = found.problems
+        var claimed: [String: String] = [:]
+        for file in found.files {
+            if let earlier = claimed[file.uuid] {
+                problems.append(UserPartLibraryProblem(
+                    url: file.url, reason: "It has the same identity as \(earlier), which is already loaded."))
+                continue
+            }
+            claimed[file.uuid] = file.url.lastPathComponent
+            if partsByUUID[file.uuid] != nil, uuidConflicts(file.text) {
+                problems.append(UserPartLibraryProblem(
+                    url: file.url, reason: "Another part with this identity is already loaded."))
+                continue
+            }
+            do {
+                try register(fileText: file.text, source: file.url.lastPathComponent, listing: .user)
+                userLibraryAdded[file.uuid] = file.added
+            } catch {
+                problems.append(UserPartLibraryProblem(url: file.url, reason: error.localizedDescription))
+            }
+        }
+        userLibraryProblems = problems
+    }
+
+    /// Registers a part file and keeps it in the User Library: listed under
+    /// User Library and written to the library folder (plan-53-B). A
+    /// failed write leaves the part listed in the File Library and throws
+    /// `libraryWrite`.
+    @discardableResult
+    func addToUserLibrary(fileText: String, source: String) throws -> CatalogPart {
+        guard userLibrary != nil else { throw PartRegistrationError.noUserLibrary }
+        let before = (try? PartFileObject(text: fileText))?.uuid.flatMap { listings[$0] }
+        let part = try register(fileText: fileText, source: source, listing: .user)
+        try persistToUserLibrary(part, previous: before ?? .file)
+        return part
+    }
+
+    /// Keeps a part that is already registered (a File Library part) in the
+    /// User Library.
+    func addToUserLibrary(_ part: CatalogPart) throws {
+        guard userLibrary != nil else { throw PartRegistrationError.noUserLibrary }
+        guard let uuid = part.uuid, partsByUUID[uuid] != nil else {
+            throw PartRegistrationError.notAPartFile("\(part.name) is not a custom part")
+        }
+        let previous = listings[uuid] ?? .file
+        setListing(.user, for: uuid)
+        try persistToUserLibrary(partsByUUID[uuid] ?? part, previous: previous)
+    }
+
+    private func persistToUserLibrary(_ part: CatalogPart, previous: PartListing) throws {
+        guard let userLibrary, let uuid = part.uuid, let text = registeredTexts[uuid] else {
+            throw PartRegistrationError.noUserLibrary
+        }
+        do {
+            try userLibrary.write(uuid: uuid, text: text)
+            userLibraryAdded[uuid] = userLibraryAdded[uuid] ?? Date()
+        } catch {
+            if previous != .user { setListing(previous == .removed ? .file : previous, for: uuid) }
+            throw PartRegistrationError.libraryWrite(error.localizedDescription)
+        }
+    }
+
+    /// Called after a User Library part is replaced in place (plan-53-D), with
+    /// its uuid and the new part, so open schematics can follow. Set by
+    /// `SchematicFileController`.
+    @ObservationIgnored var partUpdated: ((String, CatalogPart) -> Void)?
+
+    /// Replaces a User Library part's content under the same uuid, now
+    /// (plan-53-D): the library file, the backend's part (retired and loaded
+    /// again) and the catalog's records. The kind and the uuid cannot change;
+    /// a new name that another part has gets the usual suffix. On any failure
+    /// the old version is still the part, and the old text is the file's.
+    @discardableResult
+    func updateUserLibraryPart(uuid: String, fileText: String) throws -> CatalogPart {
+        guard let userLibrary else { throw PartRegistrationError.noUserLibrary }
+        guard let old = partsByUUID[uuid], listings[uuid] == .user, let oldText = registeredTexts[uuid] else {
+            throw PartRegistrationError.notInUserLibrary(name: partsByUUID[uuid]?.name ?? uuid)
+        }
+        var file = try PartFileObject(text: fileText)
+        guard file.uuid == uuid else {
+            throw PartRegistrationError.identityChanged(detail: "An update cannot change the part's identity.")
+        }
+        let oldFile = try PartFileObject(text: oldText)
+        guard file.object["kind"] as? String == oldFile.object["kind"] as? String else {
+            throw PartRegistrationError.identityChanged(detail: "An update cannot change the part's kind.")
+        }
+        // A name another part has is suffixed; the part's own old name is free.
+        if let name = file.name, let other = partsByName[name], other.uuid != uuid {
+            var n = 2
+            while let taken = partsByName["\(name).\(n)"], taken.uuid != uuid { n += 1 }
+            file.name = "\(name).\(n)"
+        }
+        let text = file.canonicalText
+        if text == oldText { return old }
+
+        func ids(_ key: String, of file: PartFileObject) -> [String] {
+            (file.object[key] as? [[String: Any]] ?? []).compactMap { $0["id"] as? String }
+        }
+        do {
+            try userLibrary.write(uuid: uuid, text: text)
+        } catch {
+            throw PartRegistrationError.libraryWrite(error.localizedDescription)
+        }
+        let source = "\(file.name ?? uuid).schpart"
+        guard library.retire(uuid: uuid, footprintIDs: ids("footprints", of: oldFile),
+                             datasheetIDs: ids("datasheets", of: oldFile)) else {
+            try? userLibrary.write(uuid: uuid, text: oldText)
+            throw PartRegistrationError.backend("\(source): the part could not be replaced")
+        }
+        var error: UnsafeMutablePointer<CChar>?
+        if load_part_file(library.pointer, text, source, &error) != 0 {
+            let message = error.map { String(cString: $0) } ?? source
+            free(error)
+            // Put the old version back.
+            var restoreError: UnsafeMutablePointer<CChar>?
+            _ = load_part_file(library.pointer, oldText, "\(old.name).schpart", &restoreError)
+            free(restoreError)
+            try? userLibrary.write(uuid: uuid, text: oldText)
+            throw PartRegistrationError.backend(message)
+        }
+        guard let loaded = part_library_find_uuid(library.pointer, uuid) else {
+            throw PartRegistrationError.backend("\(source): the part did not load")
+        }
+        let part = BackendCatalog.catalogPart(loaded.pointee) { Footprint($0.pointee) }
+            .listed(in: PartCategory.userLibrary)
+        if old.name != part.name { partsByName[old.name] = nil }
+        partsByName[part.name] = part
+        partsByUUID[uuid] = part
+        registeredTexts[uuid] = text
+        if let index = entries.firstIndex(where: { $0.uuid == uuid }) {
+            entries[index] = part
+        } else if !part.drawer.isEmpty {
+            entries.append(part)
+        }
+        derivedCache = nil
+        partUpdated?(uuid, part)
+        return part
+    }
+
+    /// Removes a part from the User Library: deletes its file and takes it out
+    /// of the drawer. It stays registered for the rest of the session, so
+    /// documents that hold it still resolve it; the backend cannot unload it.
+    func removeFromUserLibrary(uuid: String) throws {
+        guard let userLibrary else { throw PartRegistrationError.noUserLibrary }
+        do {
+            try userLibrary.remove(uuid: uuid)
+        } catch {
+            throw PartRegistrationError.libraryWrite(error.localizedDescription)
+        }
+        userLibraryAdded[uuid] = nil
+        if listings[uuid] != nil { setListing(.removed, for: uuid) }
+    }
+
+    /// Deletes a library file that could not be loaded and drops it from
+    /// `userLibraryProblems` (plan-53-F).
+    func removeUserLibraryProblem(_ problem: UserPartLibraryProblem) throws {
+        guard let userLibrary else { throw PartRegistrationError.noUserLibrary }
+        do {
+            try userLibrary.removeFile(at: problem.url)
+        } catch {
+            throw PartRegistrationError.libraryWrite(error.localizedDescription)
+        }
+        userLibraryProblems.removeAll { $0 == problem }
+    }
+
+    /// Where a registered custom part is listed; nil for a bundled part.
+    func listing(of part: CatalogPart) -> PartListing? {
+        part.uuid.flatMap { listings[$0] }
+    }
+
+    /// Changes where a registered custom part is listed, in `entries` and in
+    /// both lookups together (plan-53-B). `removed` takes it out of the drawer
+    /// only: it stays registered, so documents that hold it still resolve it.
+    func setListing(_ listing: PartListing, for uuid: String) {
+        guard let current = partsByUUID[uuid], listings[uuid] != nil else { return }
+        listings[uuid] = listing
+        if let category = listing.category {
+            let updated = current.listed(in: category)
+            partsByName[updated.name] = updated
+            partsByUUID[uuid] = updated
+            if let index = entries.firstIndex(where: { $0.uuid == uuid }) {
+                entries[index] = updated
+            } else if !updated.drawer.isEmpty {
+                entries.append(updated)
+            }
+        } else {
+            entries.removeAll { $0.uuid == uuid }
+        }
+        derivedCache = nil
     }
 
     /// Whether `part` passes the menu filters of `filter` (not the query or

@@ -13,6 +13,15 @@ final class SchematicFileV5Tests: XCTestCase {
         return store
     }()
 
+    /// A second catalog, to open a saved file where its part was never loaded.
+    /// Kept for the life of the process: freeing a store inside a test aborts
+    /// the host (see `TestSupport.newDocument()`).
+    private static let otherStore: PartCatalogStore = {
+        let store = PartCatalogStore()
+        store.load()
+        return store
+    }()
+
     private var store: PartCatalogStore { Self.store }
 
     /// A plain schematic (SN74HC00N, 5V, GENERIC-LED) as the build before
@@ -203,23 +212,43 @@ final class SchematicFileV5Tests: XCTestCase {
         XCTAssertEqual(store.partCount, count)
     }
 
-    /// (f) A uuid already loaded with other content refuses the file and
-    /// leaves the document alone.
-    func testConflictingUUIDLeavesTheDocument() throws {
+    /// (f) A uuid already loaded with other content opens (plan-53-A): the
+    /// embedded part is registered under a new uuid, every placed part that
+    /// named the old uuid is that part, and saving then opening in a fresh
+    /// catalog embeds it once under the new uuid.
+    func testConflictingUUIDOpensWithAFreshPart() throws {
         let uuid = "F5000000-0000-4000-8000-000000000001"
         try store.register(fileText: PartRegistrationTests.fileText(uuid: uuid, name: "V5-F"), source: "f")
-        let doc = TestSupport.newDocument()
-        let bundled = try XCTUnwrap(store.part(named: "SN74HC00N"))
-        doc.placeChip(part: bundled, symbol: symbol(for: bundled), centeredAt: CGPoint(x: 100, y: 100))
-        let before = doc.chips.map(\.id)
-        XCTAssertThrowsError(try open(try v5File(uuid: uuid, name: "V5-F", description: "Other"), into: doc)) {
-            guard case let .customPartConflict(conflictUUID, name)? = $0 as? SchematicFileError else {
-                return XCTFail("expected customPartConflict, got \($0)")
-            }
-            XCTAssertEqual(conflictUUID, uuid)
-            XCTAssertEqual(name, "V5-F")
-        }
-        XCTAssertEqual(doc.chips.map(\.id), before)
+        // A file placing the embedded part twice.
+        var file = try json(try v5File(uuid: uuid, name: "V5-F", description: "Other"))
+        var placed = try XCTUnwrap(file["parts"] as? [[String: Any]])
+        var second = placed[0]
+        second["id"] = "11111111-0000-4000-8000-000000000002"
+        second["reference"] = "U2"
+        placed.append(second)
+        file["parts"] = placed
+        let data = try JSONSerialization.data(withJSONObject: file, options: [.sortedKeys])
+
+        let doc = try open(data)
+        XCTAssertEqual(doc.chips.count, 2)
+        let fresh = try XCTUnwrap(doc.chips[0].part.uuid)
+        XCTAssertNotEqual(fresh, uuid)
+        XCTAssertEqual(doc.chips[1].part.uuid, fresh)
+        XCTAssertEqual(doc.chips[0].part.description, "Other")
+        XCTAssertEqual(store.part(uuid: uuid)?.description, "Single 2-input NAND gate")
+        let stored = try PartFileObject(text: try XCTUnwrap(store.registeredText(uuid: fresh)))
+        XCTAssertEqual(stored.object["originId"] as? String, uuid)
+
+        let saved = try json(try save(doc))
+        let embedded = try XCTUnwrap(saved["customParts"] as? [[String: Any]])
+        XCTAssertEqual(embedded.count, 1)
+        XCTAssertEqual(embedded[0]["uuid"] as? String, fresh)
+        let uuids = (saved["parts"] as? [[String: Any]] ?? []).compactMap { $0["partUUID"] as? String }
+        XCTAssertEqual(uuids, [fresh, fresh])
+
+        let reopened = TestSupport.newDocument()
+        try SchematicFile.decode(try save(doc)).apply(to: reopened, catalog: Self.otherStore, fileURL: nil)
+        XCTAssertEqual(reopened.chips.map(\.part.uuid), [fresh, fresh])
     }
 
     /// (g) A placed `partUUID` with no `customParts` entry is an unknown part.

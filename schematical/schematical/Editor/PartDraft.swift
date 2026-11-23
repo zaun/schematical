@@ -483,6 +483,15 @@ struct PartDraft: Equatable, Sendable {
         try self.init(file: value)
     }
 
+    /// The same part under a new identity (plan-53-A): a new uuid, `originId`
+    /// set, the inline `CUSTOM-<8 of uuid>` ids renamed
+    /// (`PartFileObject.freshenIdentity`).
+    func freshened() throws -> PartDraft {
+        var file = try PartFileObject(text: fileText())
+        file.freshenIdentity()
+        return try PartDraft(fileText: file.canonicalText)
+    }
+
     /// All keys left without a control (`extras`), as dotted paths, for the
     /// round-trip tests (plan-32-F … J require none for a kind with a form).
     var extraKeys: [String] {

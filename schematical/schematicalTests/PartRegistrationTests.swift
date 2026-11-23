@@ -64,11 +64,65 @@ final class PartRegistrationTests: XCTestCase {
         XCTAssertEqual(part.uuid, uuid)
         XCTAssertEqual(store.part(named: "REG-A"), part)
         XCTAssertEqual(store.part(uuid: uuid), part)
-        XCTAssertTrue(store.categories.contains("Custom A"))
+        // plan-53-B: every registered custom part lists under File Library,
+        // below it the file's own sub-group.
+        XCTAssertFalse(store.categories.contains("Custom A"))
+        XCTAssertTrue(store.categories.contains("File Library"))
+        XCTAssertEqual(part.drawer, ["File Library", "Gates"])
+        XCTAssertEqual(store.listing(of: part), .file)
         XCTAssertEqual(part.footprint?.id, "CUSTOM-A0000000")
         XCTAssertEqual(part.footprint?.pads.count, 5)
-        let listed = store.groups(matching: DrawerFilter()).first { $0.category == "Custom A" }
-        XCTAssertNotNil(listed)
+        let listed = try XCTUnwrap(store.groups(matching: DrawerFilter()).first { $0.category == "File Library" })
+        XCTAssertTrue(listed.allParts.contains(part))
+        XCTAssertEqual(listed.subcategories.first { $0.subcategory == "Gates" }?.allParts.contains(part), true)
+    }
+
+    /// (a2) A one-level drawer lists directly under File Library; a bundled
+    /// part has no listing.
+    func testOneLevelDrawerListsDirectlyUnderFileLibrary() throws {
+        let uuid = "A0000000-0000-4000-8000-000000000002"
+        let part = try store.register(fileText: Self.fileText(uuid: uuid, name: "REG-A2", drawer: ["Custom"]),
+                                      source: "a2.schpart")
+        XCTAssertEqual(part.drawer, ["File Library"])
+        let category = try XCTUnwrap(store.groups(matching: DrawerFilter()).first { $0.category == "File Library" })
+        XCTAssertTrue(category.functions.flatMap(\.parts).contains(part))
+        XCTAssertNil(store.listing(of: try XCTUnwrap(store.part(named: "SN74HC00N"))))
+    }
+
+    /// (a3) A removed part is out of the drawer but still resolves; the same
+    /// content registered again lists it as a File Library part.
+    func testRemovedPartIsHiddenButResolvesAndRelists() throws {
+        let uuid = "A0000000-0000-4000-8000-000000000003"
+        let text = Self.fileText(uuid: uuid, name: "REG-A3")
+        let part = try store.register(fileText: text, source: "a3.schpart")
+        store.setListing(.removed, for: uuid)
+        XCTAssertFalse(store.allParts.contains(part))
+        XCTAssertFalse(store.groups(matching: DrawerFilter()).flatMap(\.allParts).contains(part))
+        XCTAssertEqual(store.part(named: "REG-A3"), part)
+        XCTAssertEqual(store.part(uuid: uuid), part)
+        XCTAssertEqual(store.listing(of: part), .removed)
+        let again = try store.register(fileText: text, source: "a3.schpart")
+        XCTAssertEqual(again, part)
+        XCTAssertEqual(store.listing(of: again), .file)
+        XCTAssertTrue(store.allParts.contains(again))
+        XCTAssertEqual(again.drawer, ["File Library", "Gates"])
+    }
+
+    /// (a4) `.user` listings: registering as `.user` lists under User Library;
+    /// registering a `file` part as `.user` moves it.
+    func testUserListingAndMoveFromFileLibrary() throws {
+        let uuid = "A0000000-0000-4000-8000-000000000004"
+        let text = Self.fileText(uuid: uuid, name: "REG-A4")
+        let file = try store.register(fileText: text, source: "a4.schpart")
+        XCTAssertEqual(file.drawer, ["File Library", "Gates"])
+        let user = try store.register(fileText: text, source: "a4.schpart", listing: .user)
+        XCTAssertEqual(user, file)
+        XCTAssertEqual(user.drawer, ["User Library", "Gates"])
+        XCTAssertEqual(store.listing(of: user), .user)
+        XCTAssertEqual(store.allParts.filter { $0.uuid == uuid }.count, 1)
+        // A user part registered as a file part again stays in the User Library.
+        XCTAssertEqual(try store.register(fileText: text, source: "a4.schpart").drawer, ["User Library", "Gates"])
+        XCTAssertTrue(store.kinds(inCategory: "User Library").contains(PART_GATE.rawValue))
     }
 
     /// (b) The same file twice returns the registered part, once.
@@ -81,14 +135,93 @@ final class PartRegistrationTests: XCTestCase {
         XCTAssertEqual(store.partCount, count)
     }
 
-    /// (c) A different file with a registered uuid is refused.
-    func testSameUUIDOtherContentIsRefused() throws {
+    /// A registered file's text with the device description replaced.
+    private func described(_ text: String, _ description: String) throws -> String {
+        var file = try PartFileObject(text: text)
+        var devices = try XCTUnwrap(file.object["devices"] as? [[String: Any]])
+        devices[0]["description"] = description
+        file.object["devices"] = devices
+        return file.canonicalText
+    }
+
+    private func footprintIDs(_ text: String) throws -> [String] {
+        let file = try PartFileObject(text: text)
+        return (file.object["footprints"] as? [[String: Any]] ?? []).compactMap { $0["id"] as? String }
+    }
+
+    /// (c) A different file with a registered uuid is registered under a new
+    /// uuid (plan-53-A): the first part is unchanged, the second keeps the
+    /// file's own name, records the first's uuid as `originId`, and has its
+    /// inline footprint renamed to the new uuid's.
+    func testSameUUIDOtherContentGetsANewUUID() throws {
         let uuid = "C0000000-0000-4000-8000-000000000001"
-        try store.register(fileText: Self.fileText(uuid: uuid, name: "REG-C"), source: "c.schpart")
-        XCTAssertThrowsError(try store.register(
-            fileText: Self.fileText(uuid: uuid, name: "REG-C", description: "Changed"), source: "c2.schpart")) {
-            XCTAssertEqual($0 as? PartRegistrationError, .uuidInUse(uuid: uuid, name: "REG-C"))
-        }
+        let first = try store.register(
+            fileText: Self.fileText(uuid: uuid, name: "REG-C", inlineFootprint: true), source: "c.schpart")
+        let second = try store.register(
+            fileText: Self.fileText(uuid: uuid, name: "REG-C2", description: "Changed", inlineFootprint: true),
+            source: "c2.schpart")
+        XCTAssertEqual(first.uuid, uuid)
+        XCTAssertEqual(store.part(uuid: uuid), first)
+        XCTAssertEqual(first.description, "Single 2-input NAND gate")
+        let fresh = try XCTUnwrap(second.uuid)
+        XCTAssertNotEqual(fresh, uuid)
+        XCTAssertEqual(second.name, "REG-C2")
+        XCTAssertEqual(second.description, "Changed")
+        let text = try XCTUnwrap(store.registeredText(uuid: fresh))
+        XCTAssertEqual(try PartFileObject(text: text).object["originId"] as? String, uuid)
+        XCTAssertEqual(try footprintIDs(text), ["CUSTOM-" + fresh.prefix(8)])
+        XCTAssertEqual(second.footprint?.id, "CUSTOM-" + fresh.prefix(8))
+        XCTAssertEqual(try footprintIDs(try XCTUnwrap(store.registeredText(uuid: uuid))), ["CUSTOM-C0000000"])
+        // The first file again is still the first part.
+        XCTAssertEqual(try store.register(
+            fileText: Self.fileText(uuid: uuid, name: "REG-C", inlineFootprint: true), source: "c.schpart"), first)
+    }
+
+    /// (c1) The same clashing file again (a schematic opened twice) is the
+    /// part it became the first time, not another copy.
+    func testTheSameClashingFileTwiceIsOnePart() throws {
+        let uuid = "C3000000-0000-4000-8000-000000000001"
+        try store.register(fileText: Self.fileText(uuid: uuid, name: "REG-C5"), source: "first")
+        let clashing = Self.fileText(uuid: uuid, name: "REG-C5", description: "Other version")
+        let one = try store.register(fileText: clashing, source: "open 1")
+        let count = store.partCount
+        let two = try store.register(fileText: clashing, source: "open 2")
+        XCTAssertEqual(two.uuid, one.uuid)
+        XCTAssertEqual(two.name, one.name)
+        XCTAssertEqual(store.partCount, count)
+        XCTAssertNotEqual(one.uuid, uuid)
+        // A different clashing text is another version.
+        let other = try store.register(
+            fileText: Self.fileText(uuid: uuid, name: "REG-C5", description: "Third version"), source: "open 3")
+        XCTAssertNotEqual(other.uuid, one.uuid)
+    }
+
+    /// (c2) A chain of versions keeps the first version's uuid as `originId`.
+    func testOriginIdIsTheFirstVersion() throws {
+        let uuid = "C1000000-0000-4000-8000-000000000001"
+        try store.register(fileText: Self.fileText(uuid: uuid, name: "REG-C3"), source: "v1")
+        let v2 = try store.register(
+            fileText: Self.fileText(uuid: uuid, name: "REG-C3", description: "Second"), source: "v2")
+        let v2uuid = try XCTUnwrap(v2.uuid)
+        let v3text = try described(try XCTUnwrap(store.registeredText(uuid: v2uuid)), "Third")
+        let v3 = try store.register(fileText: v3text, source: "v3")
+        let v3uuid = try XCTUnwrap(v3.uuid)
+        XCTAssertNotEqual(v3uuid, v2uuid)
+        XCTAssertNotEqual(v3uuid, uuid)
+        let stored = try PartFileObject(text: try XCTUnwrap(store.registeredText(uuid: v3uuid)))
+        XCTAssertEqual(stored.object["originId"] as? String, uuid)
+        XCTAssertEqual(v3.description, "Third")
+    }
+
+    /// (c3) `uuidConflicts` is false for an unknown uuid and for the same
+    /// content, true for other content under a registered uuid.
+    func testUUIDConflicts() throws {
+        let uuid = "C2000000-0000-4000-8000-000000000001"
+        let text = Self.fileText(uuid: uuid, name: "REG-C4")
+        XCTAssertFalse(store.uuidConflicts(text))
+        try store.register(fileText: text, source: "c4")
+        XCTAssertFalse(store.uuidConflicts(text))
+        XCTAssertTrue(store.uuidConflicts(Self.fileText(uuid: uuid, name: "REG-C4", description: "Other")))
     }
 
     /// (d) A new uuid with a bundled name gets `.2`, the next `.3`; and the

@@ -151,6 +151,11 @@ final class PartEditorModel {
         Set(catalog.allParts.map(\.manufacturer)).subtracting(["", "Generic"]).sorted()
     }()
 
+    /// The uuid of the User Library part this window edits in place
+    /// (plan-53-E), nil for any other window. Save updates that part;
+    /// Save As… adds a new one and the window then edits it.
+    private(set) var libraryUUID: String?
+
     /// Whether the window makes a new part (File › New Part…), not a copy or
     /// a file: All fields then shows the kind with Change….
     private(set) var isNewPart = false
@@ -390,6 +395,17 @@ final class PartEditorModel {
             } catch {
                 openError = error.localizedDescription
             }
+        case let .libraryPart(uuid):
+            mode = .allFields
+            draft = PartDraft(newOf: "gate")
+            if let part = catalog.part(uuid: uuid), catalog.listing(of: part) == .user,
+               let text = catalog.registeredText(uuid: uuid), let loaded = try? PartDraft(fileText: text) {
+                draft = loaded
+                libraryUUID = uuid
+                savedText = loaded.fileText()
+            } else {
+                openError = "That part is not in your User Library."
+            }
         }
         if !autoKeys.isEmpty {
             derivingKeys = true
@@ -415,6 +431,11 @@ final class PartEditorModel {
             file = BundledPartFile.copy(of: part)
         }
         guard let file, var draft = try? PartDraft(file: file) else { return nil }
+        if part.uuid != nil {
+            // A registered custom part: a new identity that remembers its
+            // origin, with its inline ids renamed (plan-53-A).
+            return try? draft.freshened()
+        }
         draft.uuid = UUID().uuidString
         return draft
     }
@@ -506,23 +527,66 @@ final class PartEditorModel {
         }
         draft = next
         fileURL = url
+        libraryUUID = nil
         savedText = next.fileText()
         status = url.map { "Opened \($0.lastPathComponent)" }
     }
 
-    /// Registers the draft's part in the app's library (plan-32-A), for the
-    /// rest of the session.
+    /// Save in a library window (plan-53-E): updates the library part in
+    /// place, under its uuid, now and in every open schematic.
+    @discardableResult
+    func saveToLibrary() throws -> CatalogPart {
+        guard let uuid = libraryUUID else { throw PartRegistrationError.noUserLibrary }
+        if case let .failure(failure) = validateNow() {
+            throw PartRegistrationError.backend(failure.message)
+        }
+        let part = try catalog.updateUserLibraryPart(uuid: uuid, fileText: draft.encoded().text())
+        savedText = draft.fileText()
+        status = "Updated \(part.name) in your User Library"
+        return part
+    }
+
+    /// Save As… in a library window (plan-53-E): adds the draft as a new
+    /// library part (a new uuid, `originId` set) and the window then edits
+    /// that part. The old part is unchanged.
+    @discardableResult
+    func saveAsNewLibraryPart() throws -> CatalogPart {
+        guard libraryUUID != nil else { throw PartRegistrationError.noUserLibrary }
+        if case let .failure(failure) = validateNow() {
+            throw PartRegistrationError.backend(failure.message)
+        }
+        let fresh = try draft.freshened()
+        let part = try catalog.addToUserLibrary(fileText: fresh.encoded().text(), source: "\(fresh.name).schpart")
+        draft = fresh
+        if draft.name != part.name { draft.name = part.name }
+        libraryUUID = part.uuid
+        savedText = draft.fileText()
+        status = "Added \(part.name) to your User Library"
+        return part
+    }
+
+    /// Adds the draft's part to the User Library (plan-53-C): registered in
+    /// the catalog, listed under User Library and kept in the library folder.
     @discardableResult
     func addToLibrary() throws -> CatalogPart {
         if case let .failure(failure) = validateNow() {
             throw PartRegistrationError.backend(failure.message)
         }
-        let part = try catalog.register(fileText: draft.encoded().text(), source: "\(draft.name).schpart")
-        status = "Added \(part.name) to the parts drawer"
+        // A uuid the catalog holds with other content: this is a new version,
+        // so the draft takes a new identity first (plan-53-A).
+        if catalog.uuidConflicts(try draft.encoded().text()) {
+            draft = try draft.freshened()
+        }
+        let part = try catalog.addToUserLibrary(fileText: draft.encoded().text(), source: "\(draft.name).schpart")
+        status = "Added \(part.name) to your User Library"
         return part
     }
 
     func save() async {
+        if libraryUUID != nil {
+            do { try saveToLibrary() } catch { await present(error, title: "Couldn't update the part") }
+            return
+        }
         if let fileURL {
             do { try write(to: fileURL) } catch { await present(error, title: "Couldn't save the part") }
         } else {
@@ -531,11 +595,32 @@ final class PartEditorModel {
     }
 
     func saveAs() async {
+        if libraryUUID != nil {
+            do { try saveAsNewLibraryPart() } catch { await present(error, title: "Couldn't add the part") }
+            return
+        }
         let panel = NSSavePanel()
         panel.allowedContentTypes = [PartFileType.contentType]
         panel.nameFieldStringValue = (draft.name.isEmpty ? "Untitled" : draft.name) + "." + PartFileType.fileExtension
         guard await run(panel) == .OK, let url = panel.url else { return }
-        do { try write(to: url) } catch { await present(error, title: "Couldn't save the part") }
+        do { try saveAsNewVersion(to: url) } catch { await present(error, title: "Couldn't save the part") }
+    }
+
+    /// Save As… after its panel (plan-53-A): a part that was opened or saved
+    /// before becomes a new part (a new uuid, `originId` set) in the new
+    /// file; the old file is untouched. A part never saved keeps its uuid.
+    /// Save, by contrast, keeps the uuid.
+    func saveAsNewVersion(to url: URL) throws {
+        let before = draft
+        if fileURL != nil {
+            draft = try draft.freshened()
+        }
+        do {
+            try write(to: url)
+        } catch {
+            draft = before
+            throw error
+        }
     }
 
     func open() async {

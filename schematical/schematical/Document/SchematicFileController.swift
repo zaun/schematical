@@ -74,6 +74,26 @@ final class SchematicFileController {
         self.willReplaceDocument = willReplaceDocument
         self.savedSnapshot = SchematicFile(document: document, fileURL: nil)
         Self.all.add(self)
+        // A User Library part edited in place reaches every open window
+        // (plan-53-D).
+        catalog.partUpdated = { uuid, part in
+            Self.updateOpenDocuments(uuid: uuid, to: part, catalog: catalog)
+        }
+    }
+
+    /// Every open window whose schematic places the custom part `uuid` (of
+    /// `catalog`) switches to `newPart`: its simulation is stopped first, then
+    /// `SchematicDocument.updatePart` swaps the chips. Returns how many
+    /// windows changed.
+    @discardableResult
+    static func updateOpenDocuments(uuid: String, to newPart: CatalogPart, catalog: PartCatalogStore) -> Int {
+        var changed = 0
+        for controller in all.allObjects where controller.catalog === catalog {
+            guard controller.document.chips.contains(where: { $0.part.uuid == uuid }) else { continue }
+            controller.willReplaceDocument()
+            if controller.document.updatePart(uuid: uuid, to: newPart) { changed += 1 }
+        }
+        return changed
     }
 
     /// Asks about each open window with unsaved changes, one at a time.
@@ -266,13 +286,27 @@ final class SchematicFileController {
     private func load(_ file: SchematicFile, from url: URL) {
         do {
             willReplaceDocument()
-            try file.apply(to: document, catalog: catalog, fileURL: url)
+            let embedded = try file.apply(to: document, catalog: catalog, fileURL: url)
             fileURL = url
             // Taken after apply, so a refreshed bookmark is not a change.
             savedSnapshot = SchematicFile(document: document, fileURL: url)
+            // Custom parts that came with the file and are not in the User
+            // Library: offer to add them (plan-53-C). The open is already done.
+            let offered = UserLibraryPrompts.offerable(embedded, catalog: catalog)
+            if !offered.isEmpty {
+                Task { await offerToAdd(offered) }
+            }
         } catch {
             present(error, title: "Couldn't open “\(url.lastPathComponent)”")
         }
+    }
+
+    /// The offer to add a just-opened schematic's custom parts to the User
+    /// Library (plan-53-C). Asked at every open; "Not Now" changes nothing.
+    private func offerToAdd(_ parts: [CatalogPart]) async {
+        let alert = UserLibraryPrompts.fileOpenAlert(names: parts.map(\.name))
+        guard await run(alert) == .alertFirstButtonReturn else { return }
+        await UserLibraryPrompts.addShowingFailures(parts, catalog: catalog, on: window)
     }
 
     /// File > Export > Image…: the options sheet (`ImageExportDialog`),
@@ -554,7 +588,7 @@ final class SchematicFileController {
 
 /// The single part file type (`.schpart`), declared in the app's Info.plist.
 enum PartFileType {
-    static let fileExtension = "schpart"
+    nonisolated static let fileExtension = "schpart"
     static let contentType = UTType(exportedAs: "jgz.schematical.part", conformingTo: .json)
 
     /// The declared type, plus whatever type the system gives a `.schpart`
@@ -572,42 +606,76 @@ enum PartFileType {
 /// rest of the session. A failure shows the reason; nothing changes.
 @MainActor
 enum PartFileLoading {
-    static func loadPart(catalog: PartCatalogStore? = nil) async {
-        let catalog = catalog ?? PartCatalogStore.shared
+    /// The open panel for a part file, as a sheet on the key window; nil when
+    /// cancelled.
+    private static func choosePartFile(message: String) async -> URL? {
         let panel = NSOpenPanel()
         panel.allowedContentTypes = PartFileType.openableTypes
         panel.allowsMultipleSelection = false
         panel.canChooseDirectories = false
-        panel.message = "Choose a part file to add to the parts drawer"
+        panel.message = message
         let response: NSApplication.ModalResponse
         if let window = NSApp.keyWindow {
             response = await panel.beginSheetModal(for: window)
         } else {
             response = panel.runModal()
         }
-        guard response == .OK, let url = panel.url else { return }
+        guard response == .OK else { return nil }
+        return panel.url
+    }
+
+    private static func showLoadFailure(_ url: URL, _ error: Error, verb: String) async {
+        let alert = NSAlert()
+        alert.alertStyle = .warning
+        alert.messageText = "Couldn't \(verb) “\(url.lastPathComponent)”"
+        alert.informativeText = error.localizedDescription
+        _ = await UserLibraryPrompts.run(alert)
+    }
+
+    /// The User Library window's Add Part…: chooses a part file and adds it
+    /// to the User Library with no question (plan-53-F).
+    static func addToLibrary(catalog: PartCatalogStore? = nil) async {
+        let catalog = catalog ?? PartCatalogStore.shared
+        guard let url = await choosePartFile(message: "Choose a part file to add to your User Library") else { return }
         do {
             let text = try PartFileReader.read(url: url)
-            try catalog.register(fileText: text, source: url.lastPathComponent)
+            try catalog.addToUserLibrary(fileText: text, source: url.lastPathComponent)
         } catch {
-            let alert = NSAlert()
-            alert.alertStyle = .warning
-            alert.messageText = "Couldn't load “\(url.lastPathComponent)”"
-            alert.informativeText = error.localizedDescription
-            if let window = NSApp.keyWindow {
-                _ = await alert.beginSheetModal(for: window)
-            } else {
-                alert.runModal()
+            await showLoadFailure(url, error, verb: "add")
+        }
+    }
+
+    static func loadPart(catalog: PartCatalogStore? = nil) async {
+        let catalog = catalog ?? PartCatalogStore.shared
+        guard let url = await choosePartFile(message: "Choose a part file to load") else { return }
+        do {
+            let text = try PartFileReader.read(url: url)
+            let outcome = try await load(text: text, source: url.lastPathComponent, catalog: catalog) { name in
+                switch await UserLibraryPrompts.run(UserLibraryPrompts.loadPartAlert(name: name)) {
+                case .alertFirstButtonReturn: .add
+                case .alertSecondButtonReturn: .useOnce
+                default: .cancel
+                }
             }
+            if case let .alreadyInLibrary(part) = outcome {
+                _ = await UserLibraryPrompts.run(UserLibraryPrompts.alreadyInLibraryAlert(name: part.name))
+            }
+        } catch {
+            await showLoadFailure(url, error, verb: "load")
         }
     }
 }
 
 /// The File menu's part file items, after Open….
 struct PartFileMenuItems: View {
+    @Environment(\.openWindow) private var openWindow
+
     var body: some View {
         Button("Load Part…") {
             Task { await PartFileLoading.loadPart() }
+        }
+        Button("User Library…") {
+            openWindow(id: UserLibraryScene.id)
         }
     }
 }

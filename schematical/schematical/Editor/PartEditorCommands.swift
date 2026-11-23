@@ -22,8 +22,11 @@ struct PartEditorCommands: View {
         if let editor {
             Button("Save Part As…") { Task { await editor.saveAs() } }
                 .disabled(!editor.isValid)
-            Button("Add to Library") { Task { await editor.addToLibraryFromMenu() } }
-                .disabled(!editor.isValid)
+            // In a library window Save is the add (plan-53-E).
+            if editor.libraryUUID == nil {
+                Button("Add to Library") { Task { await editor.addToLibraryFromMenu() } }
+                    .disabled(!editor.isValid)
+            }
         }
     }
 }
