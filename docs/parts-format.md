@@ -1,7 +1,7 @@
 # Part file format
 
 Every orderable part (gate, flip-flop, latch, decoder, counter, shift register, SRAM, EEPROM, switch, LED,
-diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character LCD module, oscillator, crystal, supply, microprocessor, microcontroller, serial controller, serial memory) is described in a JSON part file in
+diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character LCD module, oscillator, crystal, inductor, fuse, supply, microprocessor, microcontroller, serial controller, serial memory) is described in a JSON part file in
 `schematical/schematical/Parts/`, one file per kind:
 
 | File | Kind |
@@ -16,6 +16,8 @@ diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character
 | `7seg.json` | `7seg` |
 | `oscillator.json` | `oscillator` |
 | `crystal.json` | `crystal` |
+| `inductor.json` | `inductor` |
+| `fuse.json` | `fuse` |
 | `supply.json` | `supply` |
 | `latch.json` | `latch` |
 | `decoder.json` | `decoder` |
@@ -1069,6 +1071,84 @@ the file's `ohms`).
             "pinout": "two-pin", "footprint": "RES-0603-YAGEO", "datasheet": "yageo-rc",
             "ohms": 4700, "tolerance": 1, "power": 0.1}]}
 ```
+
+### `inductor`
+
+Fixed two-terminal inductors (plan-47): `"kind": "inductor"`, run by
+`backend/src/models/inductor.c`. In the logic simulation an inductor
+**conducts like a wire**: its two terminals are joined by an engine contact
+(`sim_set_contact`) that is closed from the start and never opens, so the
+nets on both terminals act as one net, a gate driving one terminal drives
+the other, and 5 V and GND across it is `smoke:`. The facts below are for
+the app and change nothing in the simulation: no inductance, no current, no
+energy, no filter, no flyback. The voltage check treats the two terminals as
+one group (a 12 V supply on one terminal puts 12 V on whatever the other is
+wired to). An inductor has no `vcc` and no voltage rating.
+
+Device keys:
+
+| Key | Value |
+|---|---|
+| `"terminals"` | the two terminal pin names, e.g. `["1", "2"]` (`"terminals" must name 2 pins`, `"terminals" must name 2 different pins`) |
+
+Each terminal name names at least one pin of every pinout; a name that
+several pins carry (a four-pad inductor has two pads per terminal) makes
+those pins one node: the first pin of the name is the contact's end and
+every other pin of the name is tied to it by a contact closed in `start`.
+Every pin with a terminal name has the role `inout` (`inductor pin "1" must
+be inout`); every other pin (a shielded part's dummy pads) has the role `nc`
+(`inductor pin "3" must be nc`).
+
+Part keys (`"henries"` is required):
+
+| Key | Value |
+|---|---|
+| `"henries"` | the inductance in henries, above 0 and at most 100 (`"henries" must be above 0 and at most 100`); `PartInductor.ph`, picohenries, at least 1 |
+| `"tolerance"` | optional: a string as the datasheet prints it, `"+-20%"` |
+| `"amps"`, `"isat"` | optional: the rated (heating) current and the saturation current in amperes, above 0 and at most 1000 (`PartInductor.rated_ma`, `isat_ma`, milliamperes) |
+| `"dcr"` | optional: the maximum DC resistance in ohms, above 0 and at most 100000 (`PartInductor.dcr_uohm`, micro-ohms) |
+| `"shielding"` | optional: `"shielded"`, `"semi-shielded"` or `"unshielded"` (`unknown shielding "X"`) |
+
+### `fuse`
+
+Board-mount fuses and polymeric PTC resettable fuses (plan-47):
+`"kind": "fuse"`, run by `backend/src/models/fuse.c`. An intact fuse or PTC
+**conducts like a wire**, as an inductor does: its two terminals are joined
+by an engine contact. The contact is the part's **switch position 1**:
+`circuit_set_switch(circuit, part, 1, 0)` blows the fuse (the contact
+opens: the two terminals are separate nets and an LED behind it goes dark)
+and `circuit_set_switch(circuit, part, 1, 1)` restores it; a fuse blown
+before the run starts open. Any other position is `<name> has no position
+N`. A fuse never blows by itself (the logic simulation has no current) and a
+PTC never trips; the schematic file does not record a blown fuse (it is
+play-mode state). The ties between pins of one terminal's name stay closed
+whatever the fuse does. The voltage check counts a fuse as closed whether it
+is blown or not (it answers "may this board be powered"; a blown fuse is
+replaced) and adds one rating test: a terminal pin above the part's DC
+voltage rating (else its AC rating) is refused, `voltage: 12 V on pin 1 (1)
+of TESTPTC; it is rated 6 V` (`VOLTAGE_FUSE_OVER`).
+
+Device keys:
+
+| Key | Value |
+|---|---|
+| `"type"` | `"fuse"` or `"ptc"` (`unknown fuse type "X"`) |
+| `"terminals"` | the two terminal pin names (as for `inductor`) |
+
+The pin rules are the inductor's, with `fuse pin "X"` in the messages.
+
+Part keys, by type (a key of the other type is an error: `"hold" is only for
+a ptc`, `"amps" is not a ptc key`):
+
+| Key | Types | Value |
+|---|---|---|
+| `"amps"` | `fuse`, required | rated current in amperes, above 0 and at most 1000 (`PartFuse.rated_ma`) |
+| `"speed"` | `fuse`, required | `"fast"`, `"medium"` or `"slow"` (`unknown fuse speed "X"`) |
+| `"voltsAc"`, `"voltsDc"` | `fuse`, at least one (`a fuse needs "voltsAc" or "voltsDc"`) | volts, above 0 and at most 100000 (`ac_mv`, `dc_mv`) |
+| `"breaking"` | `fuse`, optional | breaking capacity in amperes, above 0 and at most 1000000 (`breaking_a`) |
+| `"hold"`, `"trip"` | `ptc`, required | hold and trip current in amperes, above 0 and at most 1000; `"trip"` above `"hold"` (`rated_ma`, `trip_ma`) |
+| `"volts"` | `ptc`, required | the maximum voltage, above 0 and at most 100000 (`dc_mv`) |
+| `"imax"` | `ptc`, optional | maximum fault current in amperes, above 0 and at most 1000000 (`breaking_a`) |
 
 ### `transistor`
 

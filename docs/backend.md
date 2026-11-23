@@ -193,6 +193,22 @@ Notes:
   The voltage check does not carry a level through a channel; it refuses a
   channel pin above `vceo` / `vds` and a MOSFET gate above `vgs`
   (`transistor_pin_limit_mv` in `model_pins.h`).
+- **Inductors and fuses** (plan-47-I). An inductor, a fuse and a PTC
+  resettable fuse conduct like a wire: the two terminals are joined by an
+  engine **contact** (`sim_set_contact`) closed in `start`, and every further
+  pin of a terminal's name (a four-pad inductor has two pads per terminal) is
+  tied to the terminal's first pin by a contact closed the same way. An
+  inductor's contact never opens. A fuse's is its **switch position 1**:
+  `circuit_set_switch(c, part, 1, 0)` blows it, `(c, part, 1, 1)` restores
+  it (a fuse blown before `circuit_start` starts open; position 2 and up
+  answer `<name> has no position N`; an inductor answers `part N is not a
+  switch`). A closed contact passes strong values both ways, so a gate output
+  through an inductor lights an LED, and 5V and GND across an intact fuse is
+  `smoke:`. The facts (inductance, currents, ratings) change nothing in the
+  run. The voltage check unions the nets of every part's **fixed contacts**
+  (`part_fixed_contact` in `model_pins.h`, `models/model_pins.c`) in step 1,
+  blown or not, and refuses a fuse or PTC pin above its DC rating, else its
+  AC one (`VOLTAGE_FUSE_OVER`).
 - **Regulators** (plan-42-G). A regulator part is one to four elements,
   each a regulated supply: `regulator.c` schedules a timer 1 ns
   (`REGULATOR_DELAY_PS`) after any change of an element's input or enable
@@ -223,7 +239,7 @@ Notes:
   its part's `vcc` range, input above its part's input max, switch contact
   above its rating, capacitor pin above its rated voltage, transistor
   rating (a channel pin above `vceo` / `vds`, a MOSFET gate above `vgs`),
-  a regulator's input above its maximum, and two different non-zero
+  a regulator's input above its maximum, a fuse or PTC pin above its voltage rating, and two different non-zero
   supplies on one net (a regulator's regulated level counts as one).
   `voltage_describe` gives the text, e.g. `voltage: 5 V on pin 14 (VCC) of
   SN74AUC00PWR; it needs 0.8-2.7 V`. It takes plain arrays (parts,
@@ -375,6 +391,11 @@ backend/
                            regulated-supply model, plan-42-G);
                            crystal.c (the crystal kind: loader, the weak
                            clock-on-both-terminals model, plan-44-E);
+                           inductor.c, fuse.c, terminals.c + terminals.h and
+                           model_pins.c (the inductor and fuse kinds: loaders,
+                           the closed-contact models, the blowable position, the
+                           shared two-terminal pin rules and the fixed-contact
+                           dispatch for the voltage check, plan-47-I);
                            cpu.c + cpu.h (the cpu kind: loader, the model
                            that forwards to a core adapter, input sampling,
                            the instruction tracker), cpu6502.c (the
@@ -644,6 +665,26 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   GND on a terminal overriding it, a terminal wired to an SN74HC04N input
   (the output is the complement, 20 ± 1 changes in 10 us), 100 MHz for 1 us
   without an error, and an unwired crystal.
+- `inductor_test` — the inductor kind (plan-47-I): the fixture parts of
+  `tests/support/inductor_fixture.h` (a 10 uH inductor with every fact, a 1 nH
+  one with none, a four-pad one) load and their `PartInductor` facts read
+  back; the loader's rejections (a missing or out-of-range `henries`, an
+  unknown shielding, an `amps` out of range, wrong terminals, a terminal that
+  is not `inout`, a non-terminal that is not `nc`, an unlisted key); and the
+  circuits: 5V or GND on pin 1 reads on pin 2, an SN74HC04N output through it
+  lights an LED, 5V and GND across it is `smoke:`, the four pads are one pair
+  of nodes, `circuit_set_switch` is refused, and 12 V through it onto a
+  74HC04's VCC is a `VOLTAGE_POWER_RANGE` problem on the 74HC04.
+- `fuse_test` — the fuse kind (plan-47-I): the fixture parts of
+  `tests/support/fuse_fixture.h` (a 1 A fast fuse and a 6 V PTC) load and
+  their `PartFuse` facts read back; the loader's rejections (an unknown type
+  or speed, a missing `amps`, no voltage key, a key of the other type, `trip`
+  not above `hold`, wrong terminals and pin roles, an unlisted key); and the
+  circuits, for both parts: conducting, an LED behind it blown and restored
+  during a run and blown before the start, position 2 refused, 5V and GND
+  across it (`smoke:` intact, quiet blown), the `VOLTAGE_FUSE_OVER` rating
+  (`voltage: 12 V on pin 1 (1) of TESTPTC; it is rated 6 V`) and the voltage
+  group of a fuse, blown or not.
 - `capacitor_test` — the capacitor kind (plan-33-E): the fixture
   capacitors (`tests/support/capacitor_fixture.h`, one tantalum and one
   ceramic device) load and their `PartCapacitor` facts read back; a
