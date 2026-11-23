@@ -21,6 +21,15 @@ int nixie_link(const Part *part, size_t k, size_t *anode, size_t *cathode);
    firing ("strike") voltage. 0 for a cathode, and a part that is no nixie. */
 uint32_t nixie_anode_min_mv(const Part *part, size_t pin);
 
+/* A dekatron's k-th link (dekatron.c): the anode pin and its k-th distinct
+   cathode pin, as indices into Part.pins. 0 past the last cathode pin, and
+   for a part that is no dekatron. */
+int dekatron_link(const Part *part, size_t k, size_t *anode, size_t *cathode);
+/* The least voltage a dekatron's anode needs, in millivolts: the tube's
+   minimum anode supply ("strike"). 0 for any other pin, and a part that is
+   no dekatron. */
+uint32_t dekatron_anode_min_mv(const Part *part, size_t pin);
+
 /* A character LCD's backlight LED `index` (0-based, in the device's
    "backlight" order): its anode and cathode, as indices into Part.pins
    (charlcd.c). 0 past the last LED, and for a module without a backlight. */

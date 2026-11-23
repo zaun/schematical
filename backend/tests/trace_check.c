@@ -19,7 +19,7 @@
 #include "trace_core.h"
 
 /* The last PartKind (plan-10 moves it as kinds are added). */
-#define TRACE_LAST_KIND PART_CRYSTAL
+#define TRACE_LAST_KIND PART_DEKATRON
 
 static int set_switch(Sim *sim, SimInstance *instance, size_t position, int on) {
     const SimComponentType *type = sim_instance_type(instance);
@@ -75,7 +75,8 @@ static uint64_t trace_part(const Part *part, FILE *verbose) {
         subject.set_switch = set_switch;
         subject.switch_positions = part->dip_switch->positions;
     }
-    if (part->kind == PART_7SEG || part->kind == PART_NIXIE) {
+    if (part->kind == PART_7SEG || part->kind == PART_NIXIE ||
+        part->kind == PART_DEKATRON) {
         subject.lights = lights;
     }
     return trace_run(&subject, verbose);

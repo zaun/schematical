@@ -229,6 +229,16 @@ static int regulator_vin_pin(const Part *part, size_t pin) {
     return 0;
 }
 
+/* A nixie's or a dekatron's anode links and firing voltage (nixie.c, dekatron.c). */
+static int tube_link(const Part *part, size_t k, size_t *anode, size_t *cathode) {
+    return part->kind == PART_DEKATRON ? dekatron_link(part, k, anode, cathode)
+                                       : nixie_link(part, k, anode, cathode);
+}
+
+static uint32_t tube_anode_min_mv(const Part *part, size_t pin) {
+    return part->kind == PART_DEKATRON ? dekatron_anode_min_mv(part, pin) : nixie_anode_min_mv(part, pin);
+}
+
 size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_count,
                      const VoltageConnection *connections, size_t connection_count,
                      const VoltageContact *closed, size_t closed_count,
@@ -415,12 +425,13 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
                     continue;
                 }
             }
-            /* A nixie: the anode's level is carried to every cathode net (an
-               unlit cathode floats up towards the anode). A nixie has no vcc. */
-            if (part->kind == PART_NIXIE) {
+            /* A nixie or a dekatron: the anode's level is carried to every
+               cathode net (an unlit cathode floats up towards the anode). They
+               have no vcc. */
+            if (part->kind == PART_NIXIE || part->kind == PART_DEKATRON) {
                 size_t k;
 
-                for (k = 0; nixie_link(part, k, &anode, &cathode); k++) {
+                for (k = 0; tube_link(part, k, &anode, &cathode); k++) {
                     Level from = {0, 0};
 
                     for (j = 0; j < connection_count; j++) {
@@ -812,11 +823,12 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
             p.kind = VOLTAGE_REGULATOR_INPUT_OVER;
             p.min_mv = 0;
             p.max_mv = regulator_input_max_mv(part);
-        } else if (part->kind == PART_NIXIE && e.mv < nixie_anode_min_mv(part, c->pin)) {
+        } else if ((part->kind == PART_NIXIE || part->kind == PART_DEKATRON) &&
+                   e.mv < tube_anode_min_mv(part, c->pin)) {
             /* The anode supply must reach the firing voltage, or the tube
                never lights. */
             p.kind = VOLTAGE_NIXIE_UNDER;
-            p.min_mv = nixie_anode_min_mv(part, c->pin);
+            p.min_mv = tube_anode_min_mv(part, c->pin);
             p.max_mv = 0;
         } else {
             continue;

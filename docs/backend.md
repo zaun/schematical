@@ -344,7 +344,7 @@ backend/
                            interface), footprints.c + footprint.h (parse,
                            check and expand footprints.json)
     models/                one file per kind: gate.c dff.c jkff.c sram.c
-                           eeprom.c switch.c led.c display7.c nixie.c oscillator.c crystal.c
+                           eeprom.c switch.c led.c display7.c nixie.c dekatron.c oscillator.c crystal.c
                            supply.c latch.c, decoder.c (decoders,
                            priority encoders, 7-segment decoders),
                            mux.c + mux.h (multiplexers: the kind and
@@ -560,6 +560,13 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   cathode 0; two anode pins of one name are joined), and the voltage check
   (the anode's level carried to the cathode nets, `VOLTAGE_NIXIE_UNDER` for
   an anode below the firing voltage).
+- `dekatron_test` — the `dekatron` kind: the loader's rules and rejections
+  (on fixture tubes), the model on the real GC10B and OG-8 (a glow that
+  steps one position for two overlapping guide pulses, counts backward for
+  the other order, ignores a single or a non-overlapping pulse, goes out with
+  the anode and strikes at cathode 0 again; a single-pulse tube counts one
+  per pulse), every shipped dekatron's ten positions, and the voltage check
+  (the anode's level carried to the cathodes, `VOLTAGE_NIXIE_UNDER`).
 - `latch_test` — the `latch` kind's five models, one case per function-table
   row of the devices that use them (inline fixture devices copied from the
   real ones), plus loader errors and the open-drain answer. Its bench,

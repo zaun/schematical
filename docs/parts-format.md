@@ -40,6 +40,7 @@ diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character
 | `transistor.json` | `transistor` |
 | `serialmem.json` | `serialmem` |
 | `nixie.json` | `nixie` |
+| `dekatron.json` | `dekatron` |
 
 Beside them, `datasheets.json` holds the datasheet URLs parts name with
 `"datasheet"` (see [Datasheets](#datasheets)), and `footprints.json` the land
@@ -128,7 +129,7 @@ parts) last.
 | Power | Regulators › Linear / Switching |
 | Processor | the bus CPUs (6502, 65816, Z80, …) |
 | Switches & Relays | DIP; Tactile; Relay (plan-47) |
-| Vintage | Display tubes › Nixie / Numitron / VFD / Neon; Support ICs |
+| Vintage | Display tubes › Nixie / Numitron / VFD / Neon / Dekatron; Support ICs |
 
 **Vintage** is old technology that is no longer made, kept as its own
 category (by era, not function). It is not where obsolete parts go: an
@@ -542,7 +543,11 @@ but no `"datasheet"`; `listing_check` prints how many there are. They are:
 | USSR (various makers) | `datasheets/nixie/k155id1` (reference sheet) | K155ID1 |
 | USSR (various makers) | `datasheets/nixie/` (passport scans and the reference books; each device's `note` names its files) | IN-1, IN-2, IN-3, IN-7, IN-7A, IN-7B, IN-8, IN-12A, IN-12B, IN-14, IN-15A, IN-15B, IN-16, IN-17, IN-18, IN-19A, IN-19B, IN-19V, INS-1 |
 | USSR (various makers) | `datasheets/nixie/k155ie2`, `k155tm7` (reference sheets) | K155IE2, K155TM7 |
-| USSR (various makers) | `datasheets/vfd/` (passport scans and reference pages) | IV-6, IV-9, IV-11, IV-12, IV-16, IV-18 |
+| USSR (various makers) | `datasheets/vfd/` (passport scans and reference pages) | IV-6, IV-8, IV-9, IV-11, IV-12, IV-16, IV-17, IV-18, IV-22, IV-25, IV-27 |
+| Ericsson Telephones (ETL) | `datasheets/dekatron/` (`gc10b_01`, `gc10d_01`, `gs10c_01`, `gs10d`) | GC10B, GC10D, GS10C, GS10D |
+| Philips / Mullard / Valvo | `datasheets/dekatron/` (`z303c_01`, `z502s`, `z504s_01`, `z505s`) | Z303C, Z502S, Z504S, Z505S |
+| Raytheon | `datasheets/dekatron/ck7978` | CK7978 |
+| USSR (various makers) | `datasheets/dekatron/` (passport scans: `og4_01`, `og7`, `og8`, `a102`; bases in `datasheets/nixie/russian_bases`) | OG-4, OG-7, OG-8, A-102 |
 | RFT (VEB Werk für Fernsehelektronik) | `datasheets/nixie/z573m_rft_book_05` | Z573M |
 | Burroughs | `datasheets/nixie/b-5870_burroughs_specifying_guide_1061k` | B-5870 |
 | Generic | `datasheets/nixie/ne-2_vcc_neon_indicator_lamps` | NE-2 |
@@ -890,7 +895,7 @@ Constant sources. Device key:
 
 | Key | Value |
 |---|---|
-| `"volts"` | the supply's voltage, 0 to 300. More than 0 drives its pin to 1, strong; 0 (ground) drives 0, strong. `PartSupply.mv` holds it in millivolts and `PartSupply.level` is `mv > 0`. |
+| `"volts"` | the supply's voltage, 0 to 500. More than 0 drives its pin to 1, strong; 0 (ground) drives 0, strong. `PartSupply.mv` holds it in millivolts and `PartSupply.level` is `mv > 0`. |
 | `"pull"` | optional, `true` or `false` (default `false`). `true` makes the device a pull part: a pull-up for `volts` > 0, a pull-down for 0. `PartSupply.pull` is 1. |
 
 The device has one pinout with one pin. Parts carry no kind keys. Each
@@ -946,7 +951,7 @@ sets that net, and a pull never clashes with a supply or another pull.
 `170V` and `200V` are the nixie tubes' anode supplies (§ `nixie`), and
 `PULLUP-170V` / `PULLUP-200V` the anode resistor to them (the app's supply
 menu lists the rails up to `12V`; these two, and a rail of any other voltage
-up to 300 V, come from its **Custom…** item, which loads a supply and its
+up to 500 V, come from its **Custom…** item, which loads a supply and its
 pull-up named by the voltage, the decimal point written as the `V`: `48V`,
 `3V6`, `PULLUP-48V`. A file that names such a rail gets it the same way): a nixie anode is never wired to the rail directly.
 
@@ -3526,16 +3531,16 @@ any time during the last step", so a multiplexed digit counts as lit.
 
 | Key | Value |
 |---|---|
-| `"digits"` | number of digits (1–8) |
+| `"digits"` | number of digits (1–14) |
 | `"commonAnode"` | `true` for common anode, `false` for common cathode |
 | `"colonAfter"`, `"dotAfter"` | the digit the colon (L1, L2) / raised dot (L3) sits after; 0 = none |
 | `"color"`, `"size"`, `"chip"` | shown as is (`"Red"`, `"0.56 in"`, LED chip) |
-| `"leds"` | every LED in display (and lights) order: `digit` (1…, or 0 = the colon/dot group) and `segment` (`A`–`G`, `DP`, `LDP`, `HJ`, `L1`–`L3`) |
+| `"leds"` | every LED in display (and lights) order: `digit` (1…, or 0 = the colon/dot group) and `segment` (`A`–`G`, `DP`, `LDP`, `HJ`, `L1`–`L3`; for a 16-segment character `A1`, `A2`, `D1`, `D2`, `G1`, `G2` (the halves of the top, bottom and middle bars) and `H` `J` `K` (upper left diagonal, upper centre bar, upper right diagonal), `N` `M` `L` (lower left diagonal, lower centre bar, lower right diagonal) with `B` `C` `E` `F` the four outer verticals; `P1`–`P7`: a row of dots, left to right) |
 | `"segmentPins"` | segment pin name → `digit` (0 = shared by every digit, multiplexed) and the `segments` it drives |
 | `"commonPins"` | common pin name → its digit, or `"extras"` for the colon/dot common. A name used by several pins means all of them. |
 | `"segmentSide"`, `"commonSide"` | drawing order of the symbol's two sides, by name; a shared name expands to its pins in pinout order. `PartDisplay.segment_pins`/`common_pins` hold these pins' indices into `Part.pins`. |
 | `"vf"` | `[min, max]` volts: the segment forward voltage (datasheet "Forward Voltage Per Segment"), 0 < min ≤ max ≤ 10; min is the datasheet minimum, or its typical value when no minimum is printed. `PartDisplay.vf_min_mv`/`vf_max_mv`. Shown, not checked. Required. For a tube (`type` below) the limit is 100 and it is the segment voltage (numitron: nominal, max) or the anode and grid voltage (VFD: nominal, static max) |
-| `"type"` | optional: `"led"` (default), `"numitron"` or `"vfd"`. `PartDisplay.type` |
+| `"type"` | optional: `"led"` (default), `"numitron"`, `"vfd"` or `"vfd-static"`. `PartDisplay.type` |
 
 **Tubes.** `"type": "numitron"` is an incandescent 7-segment tube (IV-9,
 IV-16): each segment is a filament between its lead and the common, so it
@@ -3547,7 +3552,12 @@ vacuum fluorescent tube (IV-6, IV-11, IV-12, IV-18): `commonAnode` must be
 its anode pin and its digit's grid both read 1. The filament leads are
 pins with role `input` that no map names: they do nothing in the
 simulation (the tube glows without them) and the app draws them under the
-commons. For a tube `"chip"` holds a rating shown as is: a numitron's
+commons. `"type": "vfd-static"` is a vacuum fluorescent tube with no grid
+(the IV-25): `commonAnode` is `false`, the one common is the filament cathode
+and a segment glows while its anode reads 1 and that cathode reads 0, as an
+LED does. VFD parts go to 14 digits (the IV-27 has two stems of leads, so
+its pinout runs 1–22 for the first and 23–33 for the second) and to
+16-segment characters (the IV-17). For a tube `"chip"` holds a rating shown as is: a numitron's
 segment current (`"19.5 mA per segment"`), a VFD's filament (`"1.5 V,
 100 mA filament"`). Drawers are Vintage › Display tubes › Numitron and Vintage › Display tubes › VFD;
 footprints are `explicit` lead circles like the nixies' (`TUBE-IV-…`).
@@ -3556,6 +3566,50 @@ An LED's segment pin is the first pin (in pin order) in `segmentPins` that
 drives its segment for its digit (or every digit); its commons are the
 first two pins of its digit in `commonPins`. Unused positions are pins with
 role `nc` (no connect) or `absent` (no lead). Parts carry no kind keys.
+
+### `dekatron`
+
+Dekatrons: cold-cathode decade counting tubes (GC10B, GS10C, OG-4, Z504S, …).
+One anode, ten cathode positions in a ring and the guides between them. The
+glow rests on one cathode and walks round the ring as the guides are pulsed
+low; the tube drives nothing, and its ten lights (one per cathode position,
+`0`–`9`) show where the glow is. The glow exists while the anode reads 1 and
+strikes at cathode 0; an anode that stops reading 1 puts it out, and that is
+how a counter is reset (there is no reset pulse). A guide counts as pulsed
+while its pin reads 0.
+
+```json
+"anode": "A",
+"cathodes": {"K0": [0], "K": [1, 2, 3, 4, 5, 6, 7, 8, 9]},
+"guides": ["G1", "G2"], "drive": "double",
+"color": "Orange", "size": "29.5 mm", "view": "end",
+"strike": 350, "sustain": 196, "current": [0.25, 0.55], "rate": 4000
+```
+
+| Key | Value |
+|---|---|
+| `"anode"` | the anode's pin name (exactly one pin) |
+| `"cathodes"` | non-empty object: cathode pin name → the positions it carries, an array of whole numbers 0–9. Every position 0–9 must be on exactly one pin, and a pin may carry several (a common cathode for 1–9). Each name is exactly one pin. `PartDekatron.position_pin[p]` is position p's pin and `cathode_pins` the distinct cathode pins in file order |
+| `"guides"` | pin names of the guides. `"drive": "double"`: exactly two; `"single"`: one to four, of which only the first is driven (the others are biased and do nothing here) |
+| `"drive"` | `"double"`: a two-guide tube. The ring is cathode, guide 1, guide 2, cathode, …; a guide pulled low pulls the glow onto its electrode when that is next to it, and when both guides are back high a glow on a guide settles on the cathode beside it (guide 1's is the one before it, guide 2's the one after). So two overlapping pulses, guide 1 low, guide 2 low, guide 1 high, guide 2 high, count one step forward and the same pulses guide 2 first count one step backward; a single pulse, or two pulses that do not overlap, count nothing. `"single"`: a single-pulse tube, the ring cathode, guide, cathode, …: the first guide falling pulls the glow onto the guide and its rising moves the glow on to the next cathode, one step forward per pulse |
+| `"color"`, `"size"` | the glow and the bulb, shown as is (`"Orange"`, `"29.5 mm"`) |
+| `"view"` | `"side"` or `"end"` (a dekatron is read through the dome of the bulb: `"end"`) |
+| `"strike"` | volts, 0 < … ≤ 800: the least anode supply (the datasheet's minimum supply, else its ignition voltage). **Checked** like a nixie's: an anode below it is `VOLTAGE_NIXIE_UNDER` |
+| `"sustain"` | volts, 0 < `sustain` ≤ `strike`: the running voltage across the tube (the datasheet's maximum). Shown |
+| `"current"` | `[min, max]` milliamps, 0 < min ≤ max ≤ 100: the anode current. Shown |
+| `"rate"` | the highest counting rate in pulses per second (1 – 10 000 000). Shown |
+
+`PartDekatron` holds them (`two_guide`, `strike_mv`, `sustain_mv`,
+`current_*_ua`, `rate_hz`, …). Every pin has role `input`, or `nc`. Parts carry
+no kind keys and have no `vcc`. The voltage check treats the anode as a
+nixie's: its level is carried to every cathode net, and an anode below
+`strike` is a problem. The usual circuit is a `PULLUP-450V` (the anode
+resistor to a 450 V rail, from the supply menu's Custom…; a rail goes up to
+500 V) on the anode, the guides biased a few tens of volts positive and pulsed low
+by transistors, and a resistor from each cathode (or the common) to ground; the
+carry output of a tube whose cathode 0 has its own pin is the voltage across that resistor.
+Drawer Vintage › Display tubes › Dekatron; footprints are `explicit` base
+pin patterns (`TUBE-RSH5-1`, `TUBE-RSH30`, `TUBE-13PIN`, `TUBE-B12A-CAP`).
 
 ### `nixie`
 

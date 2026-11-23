@@ -1,0 +1,406 @@
+{
+  "format": "schematical-parts",
+  "version": 1,
+  "kind": "dekatron",
+  "devices": [
+    {
+      "id": "GC10B",
+      "function": "Dekatron",
+      "description": "Dekatron, two-guide decade counting tube, K0 output cathode, octal base, 4 kHz",
+      "drawer": ["Vintage", "Display tubes", "Dekatron"],
+      "note": "GC10B / GC10B/S (CV2271) ratings and base, datasheets/dekatron/gc10b_01.pdf pp.2-3 and gc10b_02.pdf (octal base, underside view; cathode 0 is aligned with pin 6). Cathodes 1-9 are joined inside on pin 1, cathode 0 has pin 7 (the output); guides 1 and 2 are pins 3 and 5. The glow steps one cathode forward for two overlapping negative pulses on guide 1 then guide 2 (guide bias +18 V, pulses -80 V for 60 us); the other order steps backward. Minimum anode supply 350 V (475 V through 820 k is the usual), running voltage 191 +-5 V at 300 uA, anode current 250-550 uA, 4000 pulses per second. The model has no reset: cycle the anode supply to bring the glow back to cathode 0",
+      "pinouts": {
+        "base": [
+          {"number":1,"name":"K","role":"input"},
+          {"number":2,"name":"NC","role":"nc"},
+          {"number":3,"name":"G1","role":"input"},
+          {"number":4,"name":"A","role":"input"},
+          {"number":5,"name":"G2","role":"input"},
+          {"number":6,"name":"NC","role":"nc"},
+          {"number":7,"name":"K0","role":"input"},
+          {"number":8,"name":"NC","role":"nc"}
+        ]
+      },
+      "anode": "A",
+      "cathodes": {"K0": [0], "K": [1, 2, 3, 4, 5, 6, 7, 8, 9]},
+      "guides": ["G1", "G2"],
+      "drive": "double",
+      "color": "Orange", "size": "29.5 mm", "view": "end",
+      "strike": 350, "sustain": 196, "current": [0.25, 0.55], "rate": 4000,
+      "parts": [
+        {"name":"GC10B","manufacturer":"Ericsson Telephones (ETL)","package":"Tube","pinout":"base","footprint":"TUBE-RSH5-1"}
+      ]
+    },
+    {
+      "id": "Z303C",
+      "function": "Dekatron",
+      "description": "Dekatron, two-guide decade counting tube, K0 output cathode, octal base, 4 kHz",
+      "drawer": ["Vintage", "Display tubes", "Dekatron"],
+      "note": "Z303C Philips data sheet 5.5.1961, datasheets/dekatron/z303c_01.pdf and the Valvo sheet z303c_02.pdf (octal base, underside view; the base drawing puts cathode 0 on pin 7, the alignment note says pin 6). Cathodes 1-9 are joined on pin 1, cathode 0 is pin 7, guides A and B are pins 3 and 5. Minimum supply 350 V, running voltage 186-196 V at 300 uA, anode current 250-550 uA, up to 4 kHz. Guide A then guide B pulsed low, overlapping, steps forward. The model has no reset: cycle the anode supply",
+      "pinouts": {
+        "base": [
+          {"number":1,"name":"K","role":"input"},
+          {"number":2,"name":"NC","role":"nc"},
+          {"number":3,"name":"GA","role":"input"},
+          {"number":4,"name":"A","role":"input"},
+          {"number":5,"name":"GB","role":"input"},
+          {"number":6,"name":"NC","role":"nc"},
+          {"number":7,"name":"K0","role":"input"},
+          {"number":8,"name":"NC","role":"nc"}
+        ]
+      },
+      "anode": "A",
+      "cathodes": {"K0": [0], "K": [1, 2, 3, 4, 5, 6, 7, 8, 9]},
+      "guides": ["GA", "GB"],
+      "drive": "double",
+      "color": "Orange", "size": "29.5 mm", "view": "end",
+      "strike": 350, "sustain": 196, "current": [0.25, 0.55], "rate": 4000,
+      "parts": [
+        {"name":"Z303C","manufacturer":"Philips","package":"Tube","pinout":"base","footprint":"TUBE-RSH5-1"}
+      ]
+    },
+    {
+      "id": "GC10D",
+      "function": "Dekatron",
+      "description": "Dekatron, single-pulse decade counting tube, K0 output cathode, octal base, 20 kHz",
+      "drawer": ["Vintage", "Display tubes", "Dekatron"],
+      "note": "GC10D (CV5143) data sheet, datasheets/dekatron/gc10d_01.pdf pp.2-3 and gc10d_02.pdf (octal base, underside view). Single-pulse operation: one negative pulse (-144 V, at least 25 us) on the 1st guides (pin 3) steps the glow one cathode forward; the 2nd guides (pin 8) and 3rd guides (pin 2) are only biased (+72 V), as is the output 3rd guide (pin 7) of the zero position, which has its own pin. Cathodes 1-9 are joined on pin 1, cathode 0 (the output) is pin 6. Minimum supply 420 V, running voltage 215 V at 800 uA, anode current 0.7-1.2 mA, up to 20 kp/s. The model has no reset: cycle the anode supply",
+      "pinouts": {
+        "base": [
+          {"number":1,"name":"K","role":"input"},
+          {"number":2,"name":"G3","role":"input"},
+          {"number":3,"name":"G1","role":"input"},
+          {"number":4,"name":"A","role":"input"},
+          {"number":5,"name":"NC","role":"nc"},
+          {"number":6,"name":"K0","role":"input"},
+          {"number":7,"name":"G3-0","role":"input"},
+          {"number":8,"name":"G2","role":"input"}
+        ]
+      },
+      "anode": "A",
+      "cathodes": {"K0": [0], "K": [1, 2, 3, 4, 5, 6, 7, 8, 9]},
+      "guides": ["G1", "G2", "G3", "G3-0"],
+      "drive": "single",
+      "color": "Orange", "size": "29.5 mm", "view": "end",
+      "strike": 420, "sustain": 215, "current": [0.7, 1.2], "rate": 20000,
+      "parts": [
+        {"name":"GC10D","manufacturer":"Ericsson Telephones (ETL)","package":"Tube","pinout":"base","footprint":"TUBE-RSH5-1"}
+      ]
+    },
+    {
+      "id": "OG-4",
+      "function": "Dekatron",
+      "description": "Dekatron, two-guide decade counting tube, K0 output cathode, octal base, 2 kHz",
+      "drawer": ["Vintage", "Display tubes", "Dekatron"],
+      "note": "OG-4 (ОГ-4) passports, datasheets/dekatron/og4_01.pdf (electrode diagram: 1 zero cathode, 3 anode, 4 first guide, 6 second guide, 8 cathode, 2 5 7 not to be connected), og4_02.pdf and og4_03.pdf (RSh5-1 octal base). Cathodes 1-9 are joined on pin 8, cathode 0 (the output) is pin 1. Supply 425-475 V, ignition at most 375 V in the light (420 V in the dark), burning voltage 125 V, anode current 0.3-0.45 mA, counting rate 0.01-2000 Hz, drive pulses 150-200 V for 160-500 us, guide bias 30-40 V; orange-red glow. Two overlapping guide pulses count one step. The model has no reset: cycle the anode supply",
+      "pinouts": {
+        "base": [
+          {"number":1,"name":"K0","role":"input"},
+          {"number":2,"name":"NC","role":"nc"},
+          {"number":3,"name":"A","role":"input"},
+          {"number":4,"name":"G1","role":"input"},
+          {"number":5,"name":"NC","role":"nc"},
+          {"number":6,"name":"G2","role":"input"},
+          {"number":7,"name":"NC","role":"nc"},
+          {"number":8,"name":"K","role":"input"}
+        ]
+      },
+      "anode": "A",
+      "cathodes": {"K0": [0], "K": [1, 2, 3, 4, 5, 6, 7, 8, 9]},
+      "guides": ["G1", "G2"],
+      "drive": "double",
+      "color": "Orange", "size": "30 mm", "view": "end",
+      "strike": 425, "sustain": 125, "current": [0.3, 0.45], "rate": 2000,
+      "parts": [
+        {"name":"OG-4","manufacturer":"USSR (various makers)","package":"Tube","pinout":"base","footprint":"TUBE-RSH5-1"}
+      ]
+    },
+    {
+      "id": "OG-7",
+      "function": "Dekatron",
+      "description": "Dekatron, two-guide decade counting tube, K0 output cathode, octal base, 50 kHz, blue",
+      "drawer": ["Vintage", "Display tubes", "Dekatron"],
+      "note": "OG-7 (ОГ-7) data sheet, datasheets/dekatron/og7.pdf (same RSh5-1 pinout as the OG-4: 1 zero cathode, 3 anode, 4 first guide, 6 second guide, 8 cathode). Cathodes 1-9 are joined on pin 8, cathode 0 (the output) is pin 1. Supply at least 435 V (450 V typical), ignition at most 500 V in the dark and 430 V in the light, voltage across the tube 245 +-20 V, anode current 0.7-0.85 mA, counting rate 0.01-50 000 Hz, drive pulses 130-150 V for at least 7 us, guide bias 36-44 V; blue glow. The model has no reset: cycle the anode supply",
+      "pinouts": {
+        "base": [
+          {"number":1,"name":"K0","role":"input"},
+          {"number":2,"name":"NC","role":"nc"},
+          {"number":3,"name":"A","role":"input"},
+          {"number":4,"name":"G1","role":"input"},
+          {"number":5,"name":"NC","role":"nc"},
+          {"number":6,"name":"G2","role":"input"},
+          {"number":7,"name":"NC","role":"nc"},
+          {"number":8,"name":"K","role":"input"}
+        ]
+      },
+      "anode": "A",
+      "cathodes": {"K0": [0], "K": [1, 2, 3, 4, 5, 6, 7, 8, 9]},
+      "guides": ["G1", "G2"],
+      "drive": "double",
+      "color": "Blue", "size": "31 mm", "view": "end",
+      "strike": 435, "sustain": 265, "current": [0.7, 0.85], "rate": 50000,
+      "parts": [
+        {"name":"OG-7","manufacturer":"USSR (various makers)","package":"Tube","pinout":"base","footprint":"TUBE-RSH5-1"}
+      ]
+    },
+    {
+      "id": "OG-8",
+      "function": "Dekatron",
+      "description": "Dekatron, single-guide decade counting tube, outputs on cathodes 0 3 5 9, octal base, 100 kHz",
+      "drawer": ["Vintage", "Display tubes", "Dekatron"],
+      "note": "OG-8 (ОГ-8) passport, datasheets/dekatron/og8.pdf (electrode diagram: 1 zero cathode, 3 anode, 4 guide, 5 fifth cathode, 6 ninth cathode, 7 third cathode, 8 cathodes in common, 2 free; RSh5-1 octal base). Cathodes 1 2 4 6 7 8 are joined on pin 8. One guide: a negative pulse (80-110 V, at least 3 us, front 0.3-1 us, bias 30 V) steps the glow one cathode forward. Supply 500 V, ignition at most 480 V, burning voltage 255-295 V, anode current 1.1-1.3 mA, counting rate 0.01-100 000 Hz, bulb 30.5 mm. The model has no reset: cycle the anode supply",
+      "pinouts": {
+        "base": [
+          {"number":1,"name":"K0","role":"input"},
+          {"number":2,"name":"NC","role":"nc"},
+          {"number":3,"name":"A","role":"input"},
+          {"number":4,"name":"G","role":"input"},
+          {"number":5,"name":"K5","role":"input"},
+          {"number":6,"name":"K9","role":"input"},
+          {"number":7,"name":"K3","role":"input"},
+          {"number":8,"name":"K","role":"input"}
+        ]
+      },
+      "anode": "A",
+      "cathodes": {"K0": [0], "K3": [3], "K5": [5], "K9": [9], "K": [1, 2, 4, 6, 7, 8]},
+      "guides": ["G"],
+      "drive": "single",
+      "color": "Orange", "size": "30.5 mm", "view": "end",
+      "strike": 480, "sustain": 295, "current": [1.1, 1.3], "rate": 100000,
+      "parts": [
+        {"name":"OG-8","manufacturer":"USSR (various makers)","package":"Tube","pinout":"base","footprint":"TUBE-RSH5-1"}
+      ]
+    },
+    {
+      "id": "A-102",
+      "function": "Dekatron",
+      "description": "Dekatron, two-guide selector tube, ten cathodes, 13-pin base, 20 kHz",
+      "drawer": ["Vintage", "Display tubes", "Dekatron"],
+      "note": "A-102 (А-102) data sheet, datasheets/dekatron/a102.pdf (electrode diagram) and the RSh30 13-pin base drawing in datasheets/nixie/russian_bases.pdf p.4. Every cathode has a pin: pin 1 is cathode 0, pins 2-4 cathodes 9 8 7, 6 and 7 cathodes 6 5, 9 cathode 4, 11-13 cathodes 3 2 1, the anode is pin 8 and the guides pins 5 (1st) and 10 (2nd). Supply at least 450 V, ignition at most 430 V in the dark, voltage across the tube 190-230 V, anode current 1.1-1.5 mA, counting rate 0.01-20 000 Hz, drive 150-180 V for 20 us, guide bias 35-40 V; orange-red glow. The model has no reset: cycle the anode supply",
+      "pinouts": {
+        "base": [
+          {"number":1,"name":"K0","role":"input"},
+          {"number":2,"name":"K9","role":"input"},
+          {"number":3,"name":"K8","role":"input"},
+          {"number":4,"name":"K7","role":"input"},
+          {"number":5,"name":"G1","role":"input"},
+          {"number":6,"name":"K6","role":"input"},
+          {"number":7,"name":"K5","role":"input"},
+          {"number":8,"name":"A","role":"input"},
+          {"number":9,"name":"K4","role":"input"},
+          {"number":10,"name":"G2","role":"input"},
+          {"number":11,"name":"K3","role":"input"},
+          {"number":12,"name":"K2","role":"input"},
+          {"number":13,"name":"K1","role":"input"}
+        ]
+      },
+      "anode": "A",
+      "cathodes": {"K0": [0], "K1": [1], "K2": [2], "K3": [3], "K4": [4], "K5": [5], "K6": [6], "K7": [7], "K8": [8], "K9": [9]},
+      "guides": ["G1", "G2"],
+      "drive": "double",
+      "color": "Orange", "size": "31 mm", "view": "end",
+      "strike": 450, "sustain": 230, "current": [1.1, 1.5], "rate": 20000,
+      "parts": [
+        {"name":"A-102","manufacturer":"USSR (various makers)","package":"Tube","pinout":"base","footprint":"TUBE-RSH30"}
+      ]
+    },
+    {
+      "id": "CK7978",
+      "function": "Dekatron",
+      "description": "Dekatron, two-guide selector tube, ten cathodes, 13-pin base, 5 kHz",
+      "drawer": ["Vintage", "Display tubes", "Dekatron"],
+      "note": "Raytheon CK7978 technical information 15 January 1961, datasheets/dekatron/ck7978.pdf (13 pins on a 0.656 in circle, terminal connections: 1 anode, 2-3 cathodes 5 4, 4 guide 2, 5-7 cathodes 3 2 1, 8 cathode 0, 9 cathode 9, 10 guide 1, 11-13 cathodes 8 7 6). Every cathode has a pin. Supply at least 350 V (425 V on 0.68 M typical), tube drop 190 V, anode current 0.30-0.60 mA, 5 kc, guide bias at least 35 V, double pulse at least -75 V for 60 us with 10 us overlap, reset -120 V. The model has no reset: cycle the anode supply",
+      "pinouts": {
+        "base": [
+          {"number":1,"name":"A","role":"input"},
+          {"number":2,"name":"K5","role":"input"},
+          {"number":3,"name":"K4","role":"input"},
+          {"number":4,"name":"G2","role":"input"},
+          {"number":5,"name":"K3","role":"input"},
+          {"number":6,"name":"K2","role":"input"},
+          {"number":7,"name":"K1","role":"input"},
+          {"number":8,"name":"K0","role":"input"},
+          {"number":9,"name":"K9","role":"input"},
+          {"number":10,"name":"G1","role":"input"},
+          {"number":11,"name":"K8","role":"input"},
+          {"number":12,"name":"K7","role":"input"},
+          {"number":13,"name":"K6","role":"input"}
+        ]
+      },
+      "anode": "A",
+      "cathodes": {"K0": [0], "K1": [1], "K2": [2], "K3": [3], "K4": [4], "K5": [5], "K6": [6], "K7": [7], "K8": [8], "K9": [9]},
+      "guides": ["G1", "G2"],
+      "drive": "double",
+      "color": "Orange", "size": "29.5 mm", "view": "end",
+      "strike": 350, "sustain": 190, "current": [0.3, 0.6], "rate": 5000,
+      "parts": [
+        {"name":"CK7978","manufacturer":"Raytheon","package":"Tube","pinout":"base","footprint":"TUBE-13PIN"}
+      ]
+    },
+    {
+      "id": "Z504S",
+      "function": "Dekatron",
+      "description": "Dekatron, two-guide selector tube, ten cathodes, B13B base, 5 kHz",
+      "drawer": ["Vintage", "Display tubes", "Dekatron"],
+      "note": "Z504S Mullard / Philips data sheet March 1969, datasheets/dekatron/z504s_01.pdf (base B13B, underside view: 1 k5, 2 k4, 3 k3, 4 guide B, 5 k2, 6 k1, 7 k0, 8 guide A, 9 k9, 10 k8, 11 anode, 12 k7, 13 k6; k0 is aligned with pin 7) and the Valvo sheet z504s_02.pdf (ZM1070). Every cathode has a pin. Anode supply 375-1000 V to ignite, 475 V typical, maintaining voltage 185-205 V at 340 uA, cathode current 250-525 uA, up to 5 kHz, guide supply +25 to +60 V, negative guide pulse 45-140 V. Guide A then guide B pulsed low, overlapping, steps forward. The model has no reset: cycle the anode supply",
+      "pinouts": {
+        "base": [
+          {"number":1,"name":"K5","role":"input"},
+          {"number":2,"name":"K4","role":"input"},
+          {"number":3,"name":"K3","role":"input"},
+          {"number":4,"name":"GB","role":"input"},
+          {"number":5,"name":"K2","role":"input"},
+          {"number":6,"name":"K1","role":"input"},
+          {"number":7,"name":"K0","role":"input"},
+          {"number":8,"name":"GA","role":"input"},
+          {"number":9,"name":"K9","role":"input"},
+          {"number":10,"name":"K8","role":"input"},
+          {"number":11,"name":"A","role":"input"},
+          {"number":12,"name":"K7","role":"input"},
+          {"number":13,"name":"K6","role":"input"}
+        ]
+      },
+      "anode": "A",
+      "cathodes": {"K0": [0], "K1": [1], "K2": [2], "K3": [3], "K4": [4], "K5": [5], "K6": [6], "K7": [7], "K8": [8], "K9": [9]},
+      "guides": ["GA", "GB"],
+      "drive": "double",
+      "color": "Orange", "size": "30 mm", "view": "end",
+      "strike": 375, "sustain": 205, "current": [0.25, 0.525], "rate": 5000,
+      "parts": [
+        {"name":"Z504S","manufacturer":"Mullard / Philips","package":"Tube","pinout":"base","footprint":"TUBE-13PIN"}
+      ]
+    },
+    {
+      "id": "Z505S",
+      "function": "Dekatron",
+      "description": "Dekatron, two-guide selector tube, ten cathodes, B13B base, 50 kHz",
+      "drawer": ["Vintage", "Display tubes", "Dekatron"],
+      "note": "Z505S Philips data sheet March 1969, datasheets/dekatron/z505s.pdf (same B13B base and pins as the Z504S). Every cathode has a pin. Anode supply 400-1000 V to ignite, 500 V typical, maintaining voltage 240-275 V at 0.8 mA, cathode current 0.6-1.0 mA, up to 50 kHz, guide supply +40 to +65 V, negative guide pulse 30-80 V. The model has no reset: cycle the anode supply",
+      "pinouts": {
+        "base": [
+          {"number":1,"name":"K5","role":"input"},
+          {"number":2,"name":"K4","role":"input"},
+          {"number":3,"name":"K3","role":"input"},
+          {"number":4,"name":"GB","role":"input"},
+          {"number":5,"name":"K2","role":"input"},
+          {"number":6,"name":"K1","role":"input"},
+          {"number":7,"name":"K0","role":"input"},
+          {"number":8,"name":"GA","role":"input"},
+          {"number":9,"name":"K9","role":"input"},
+          {"number":10,"name":"K8","role":"input"},
+          {"number":11,"name":"A","role":"input"},
+          {"number":12,"name":"K7","role":"input"},
+          {"number":13,"name":"K6","role":"input"}
+        ]
+      },
+      "anode": "A",
+      "cathodes": {"K0": [0], "K1": [1], "K2": [2], "K3": [3], "K4": [4], "K5": [5], "K6": [6], "K7": [7], "K8": [8], "K9": [9]},
+      "guides": ["GA", "GB"],
+      "drive": "double",
+      "color": "Orange", "size": "30 mm", "view": "end",
+      "strike": 400, "sustain": 275, "current": [0.6, 1.0], "rate": 50000,
+      "parts": [
+        {"name":"Z505S","manufacturer":"Mullard / Philips","package":"Tube","pinout":"base","footprint":"TUBE-13PIN"}
+      ]
+    },
+    {
+      "id": "GS10C",
+      "function": "Dekatron",
+      "description": "Dekatron, two-guide selector tube, ten cathodes, duodecal base with a bottom cap, 4 kHz",
+      "drawer": ["Vintage", "Display tubes", "Dekatron"],
+      "note": "GS10C / GS10C/S (CV2325) data sheet, datasheets/dekatron/gs10c_01.pdf and gs10c_02.pdf (duodecal base with a bottom cap, underside view: pins 1-10 cathodes 0 9 8 7 6 5 4 3 2 1, 11 second guides, 12 first guides, the bottom cap the anode; cathode 1 is aligned with pin 11). Every cathode has a pin. Minimum supply 400 V (475 V on 680 k is the usual), running voltage 192 V at 325 uA, anode current 250-550 uA, 4 kpps, guide bias +36 V. The anode is the cap, here pin 13 at the centre of the base. The model has no reset: cycle the anode supply",
+      "pinouts": {
+        "base": [
+          {"number":1,"name":"K0","role":"input"},
+          {"number":2,"name":"K9","role":"input"},
+          {"number":3,"name":"K8","role":"input"},
+          {"number":4,"name":"K7","role":"input"},
+          {"number":5,"name":"K6","role":"input"},
+          {"number":6,"name":"K5","role":"input"},
+          {"number":7,"name":"K4","role":"input"},
+          {"number":8,"name":"K3","role":"input"},
+          {"number":9,"name":"K2","role":"input"},
+          {"number":10,"name":"K1","role":"input"},
+          {"number":11,"name":"G2","role":"input"},
+          {"number":12,"name":"G1","role":"input"},
+          {"number":13,"name":"A","role":"input"}
+        ]
+      },
+      "anode": "A",
+      "cathodes": {"K0": [0], "K1": [1], "K2": [2], "K3": [3], "K4": [4], "K5": [5], "K6": [6], "K7": [7], "K8": [8], "K9": [9]},
+      "guides": ["G1", "G2"],
+      "drive": "double",
+      "color": "Orange", "size": "33 mm", "view": "end",
+      "strike": 400, "sustain": 192, "current": [0.25, 0.55], "rate": 4000,
+      "parts": [
+        {"name":"GS10C","manufacturer":"Ericsson Telephones (ETL)","package":"Tube","pinout":"base","footprint":"TUBE-B12A-CAP"}
+      ]
+    },
+    {
+      "id": "GS10D",
+      "function": "Dekatron",
+      "description": "Dekatron, two-guide selector tube, ten cathodes, duodecal base with a bottom cap, 10 kHz",
+      "drawer": ["Vintage", "Display tubes", "Dekatron"],
+      "note": "GS10D data sheet, datasheets/dekatron/gs10d.pdf (the GS10C base and pins). Every cathode has a pin. Minimum supply 440 V (475 V on 300 k is the usual), running voltage about 208 V at 800 uA, anode current 0.7-0.9 mA, 10 kpps rectangular and 20 kpps sine drive, guide bias +50 V. The anode is the cap, here pin 13 at the centre of the base. The model has no reset: cycle the anode supply",
+      "pinouts": {
+        "base": [
+          {"number":1,"name":"K0","role":"input"},
+          {"number":2,"name":"K9","role":"input"},
+          {"number":3,"name":"K8","role":"input"},
+          {"number":4,"name":"K7","role":"input"},
+          {"number":5,"name":"K6","role":"input"},
+          {"number":6,"name":"K5","role":"input"},
+          {"number":7,"name":"K4","role":"input"},
+          {"number":8,"name":"K3","role":"input"},
+          {"number":9,"name":"K2","role":"input"},
+          {"number":10,"name":"K1","role":"input"},
+          {"number":11,"name":"G2","role":"input"},
+          {"number":12,"name":"G1","role":"input"},
+          {"number":13,"name":"A","role":"input"}
+        ]
+      },
+      "anode": "A",
+      "cathodes": {"K0": [0], "K1": [1], "K2": [2], "K3": [3], "K4": [4], "K5": [5], "K6": [6], "K7": [7], "K8": [8], "K9": [9]},
+      "guides": ["G1", "G2"],
+      "drive": "double",
+      "color": "Orange", "size": "33 mm", "view": "end",
+      "strike": 440, "sustain": 208, "current": [0.7, 0.9], "rate": 10000,
+      "parts": [
+        {"name":"GS10D","manufacturer":"Ericsson Telephones (ETL)","package":"Tube","pinout":"base","footprint":"TUBE-B12A-CAP"}
+      ]
+    },
+    {
+      "id": "Z502S",
+      "function": "Dekatron",
+      "description": "Dekatron, two-guide selector tube, ten cathodes, duodecal base with a bottom cap, 4 kHz",
+      "drawer": ["Vintage", "Display tubes", "Dekatron"],
+      "note": "Z502S Philips data sheet 5.5.1961, datasheets/dekatron/z502s.pdf (duodecal base with a bottom cap: pins 1-10 cathodes 0 9 8 7 6 5 4 3 2 1, 11 guide B, 12 guide A, the cap the anode; k1 is aligned with pin 11). Every cathode has a pin. Electrical data as the Z303C: minimum supply 350 V, running voltage 186-196 V at 300 uA, anode current 250-550 uA, up to 4 kHz. The anode is the cap, here pin 13 at the centre of the base. The model has no reset: cycle the anode supply",
+      "pinouts": {
+        "base": [
+          {"number":1,"name":"K0","role":"input"},
+          {"number":2,"name":"K9","role":"input"},
+          {"number":3,"name":"K8","role":"input"},
+          {"number":4,"name":"K7","role":"input"},
+          {"number":5,"name":"K6","role":"input"},
+          {"number":6,"name":"K5","role":"input"},
+          {"number":7,"name":"K4","role":"input"},
+          {"number":8,"name":"K3","role":"input"},
+          {"number":9,"name":"K2","role":"input"},
+          {"number":10,"name":"K1","role":"input"},
+          {"number":11,"name":"GB","role":"input"},
+          {"number":12,"name":"GA","role":"input"},
+          {"number":13,"name":"A","role":"input"}
+        ]
+      },
+      "anode": "A",
+      "cathodes": {"K0": [0], "K1": [1], "K2": [2], "K3": [3], "K4": [4], "K5": [5], "K6": [6], "K7": [7], "K8": [8], "K9": [9]},
+      "guides": ["GA", "GB"],
+      "drive": "double",
+      "color": "Orange", "size": "33 mm", "view": "end",
+      "strike": 350, "sustain": 196, "current": [0.25, 0.55], "rate": 4000,
+      "parts": [
+        {"name":"Z502S","manufacturer":"Philips","package":"Tube","pinout":"base","footprint":"TUBE-B12A-CAP"}
+      ]
+    }
+  ]
+}

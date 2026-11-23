@@ -42,6 +42,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_NIXIE: return "nixie";
         case PART_REGULATOR: return "regulator";
         case PART_CRYSTAL: return "crystal";
+        case PART_DEKATRON: return "dekatron";
     }
     return "?";
 }
@@ -225,6 +226,24 @@ static void print_details(FILE *out, const Part *part) {
                     (unsigned)r->vout_max_mv, (unsigned)r->vin_min_mv, (unsigned)r->vin_max_mv,
                     (unsigned)r->dropout_mv, (unsigned)r->iout_ma, (unsigned)r->iq_ua,
                     (unsigned long long)r->fsw_hz);
+            break;
+        }
+        case PART_DEKATRON: {
+            const PartDekatron *d = part->dekatron;
+            size_t i;
+
+            fprintf(out, "drive=%s color=%s size=%s view=%s strike=%u sustain=%u current=%u-%u rate=%u anode=%s cathodes=",
+                    d->two_guide ? "double" : "single", d->color, d->size, d->view,
+                    (unsigned)d->strike_mv, (unsigned)d->sustain_mv, (unsigned)d->current_min_ua,
+                    (unsigned)d->current_max_ua, (unsigned)d->rate_hz,
+                    part->pins[d->anode_pin].designator);
+            for (i = 0; i < 10; i++) {
+                fprintf(out, "%s%zu:%s", i > 0 ? "," : "", i, part->pins[d->position_pin[i]].designator);
+            }
+            fputs(" guides=", out);
+            for (i = 0; i < d->guide_count; i++) {
+                fprintf(out, "%s%s", i > 0 ? "," : "", part->pins[d->guide_pins[i]].designator);
+            }
             break;
         }
         case PART_CRYSTAL:

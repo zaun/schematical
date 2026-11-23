@@ -33,6 +33,7 @@ KIND_FILES = {
     "serialmem": ["serialmem.c"],
     "regulator": ["regulator.c"],
     "crystal": ["crystal.c"],
+    "dekatron": ["dekatron.c"],
 }
 
 NAMES = {

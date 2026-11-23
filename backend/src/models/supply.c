@@ -16,7 +16,7 @@ typedef struct {
 
 static void *supply_load_device(KindContext *ctx, const cJSON *json) {
     SupplyDevice *device = kind_alloc(ctx, sizeof(*device));
-    if (device == NULL || kind_volts(ctx, json, "volts", 300, &device->supply.mv) != 0) {
+    if (device == NULL || kind_volts(ctx, json, "volts", 500, &device->supply.mv) != 0) {
         return NULL;
     }
     device->supply.level = device->supply.mv > 0;

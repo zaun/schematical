@@ -27,7 +27,7 @@ typedef enum {
     PART_SHIFT, PART_CPU, PART_CHARLCD, PART_SERIAL, PART_CONNECTOR, PART_PIO, PART_DECODER,
     PART_BUFFER, PART_MUX, PART_HEADER, PART_ARITH, PART_CONVERTER, PART_RTC, PART_DIODE,
     PART_CAPACITOR, PART_REGISTER, PART_MCU, PART_RESISTOR, PART_TRANSISTOR,
-    PART_GENERIC, PART_SERIALMEM, PART_NIXIE, PART_REGULATOR, PART_CRYSTAL
+    PART_GENERIC, PART_SERIALMEM, PART_NIXIE, PART_REGULATOR, PART_CRYSTAL, PART_DEKATRON
 } PartKind;
 
 /* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */
@@ -92,6 +92,30 @@ typedef struct {
     uint32_t strike_mv, sustain_mv;
     uint32_t current_min_ua, current_max_ua;
 } PartNixie;
+/* A dekatron: a cold-cathode decade counting tube, one anode, ten cathode
+   positions in a ring (each on a pin of its own, or several on one common
+   pin) and guides between them. The glow rests on one cathode and steps
+   round the ring as the guides are pulsed low. position_pin[p] is the pin of
+   the cathode at position p (0-9; position 0 is the "zero" cathode, and a
+   tube whose zero cathode has a pin of its own gives it the carry output);
+   cathode_pins are the distinct cathode pins in pin-name order of the file.
+   two_guide: 1 for a two-guide tube (guide_pins[0] and [1], bidirectional,
+   two overlapping pulses per count), 0 for a single-pulse tube (guide_pins[0]
+   is the drive guide; any other guide is only biased; forward only).
+   strike_mv: the least anode supply (checked); sustain_mv: the running
+   voltage across the tube; current_*_ua: the anode current range;
+   rate_hz: the highest counting rate (shown). */
+typedef struct {
+    size_t anode_pin;                                    /* index into Part.pins */
+    size_t position_pin[10];                             /* indices into Part.pins */
+    const size_t *cathode_pins; size_t cathode_pin_count;
+    const size_t *guide_pins; size_t guide_count;        /* indices into Part.pins */
+    int two_guide;
+    const char *color, *size, *view;
+    uint32_t strike_mv, sustain_mv;
+    uint32_t current_min_ua, current_max_ua;
+    uint32_t rate_hz;
+} PartDekatron;
 typedef struct { const char *family; uint64_t min_hz, max_hz, default_hz;
                  const char *enable_pin; /* the pin's designator, NULL = none */ } PartOscillator;
 /* mv: the supply's voltage; level = mv > 0 (drives logic 1, else 0).
@@ -320,6 +344,7 @@ typedef struct Part {
     const PartResistor *resistor;
     const PartTransistor *transistor;
     const PartNixie *nixie;
+    const PartDekatron *dekatron;
     const PartSerialmem *serialmem;
     const PartRegulator *regulator;
     const PartCrystal *crystal;
