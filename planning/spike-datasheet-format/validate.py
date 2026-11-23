@@ -24,6 +24,9 @@ its position on the page (pdftotext -bbox-layout) and the list of pictures
   prose       Each sentence is matched to the closest PDF passage: its words,
               its numbers, its negation ("not") and obligation ("must").
   notes       Every table note of the PDF on a converted page is in the file.
+  cites       Each citation [[page::paragraph]] / [[page::Table 6-3]]: the page and
+              paragraph exist, the label is printed there, the paragraph's
+              sentences, a table's values, a pin block's names are there.
   registers   A register map's fixed bits agree with its reset value.
   waveforms   Edges join defined nodes on transitions; a bus is not driven
               while its output enable is off.
@@ -88,6 +91,7 @@ HEX_RE = re.compile(r"^0x([0-9a-f]+)$")
 HEX_H_RE = re.compile(r"^([0-9a-f]+)h$")
 BARE_HEX_RE = re.compile(r"^[0-9a-f]{1,8}$")
 MARK_RE = re.compile(r"(?<![\w\\])\[(\d+)\]")
+CITE_RE = re.compile(r"[ \t]*\[\[(\d+)::([^\[\]]+?)\]\]")
 ISSUE_RE = re.compile(r"\b(Source conflict|Source error|Unconfirmed|Conversion note)\b")
 DASHES = {ord(c): "-" for c in "‐‑‒–—−"}
 QUOTES = {ord(c): "'" for c in "‘’‛′"}
@@ -232,8 +236,89 @@ def load_pdf(pdf, ocr, cache):
     return pages
 
 
+def running_lines(page_lines):
+    """Lines printed on many pages (running headers and footers), digits blanked.
+    `page_lines`: per page, its lines of text."""
+    seen = collections.defaultdict(set)
+    for pi, lines in enumerate(page_lines):
+        for line in lines:
+            line = line.strip()
+            if line and len(line) <= 120:
+                seen[re.sub(r"\d+", "#", line.lower())].add(pi)
+    need = max(3, math.ceil(0.3 * len(page_lines)))
+    return {k for k, v in seen.items() if len(v) >= need}
+
+
+def is_prose(text):
+    """A block of page text that is running prose: five words of three letters or more (not in
+    capitals), and at least 30 % of its tokens are such words. A table cell, a pin list or a row of
+    symbols and numbers is not."""
+    tokens_ = text.split()
+    words = sum(bool(re.fullmatch(r"[A-Za-z][A-Za-z'’-]{2,}[.,;:)]*", t)) and not t.rstrip(".,;:)").isupper() for t in tokens_)
+    return words >= 5 and 10 * words >= 3 * len(tokens_)
+
+
+BLOCK_RE = re.compile(r'<block [^>]*>(.*?)</block>', re.S)
+LINE_RE = re.compile(r'<line [^>]*>(.*?)</line>', re.S)
+
+
+def load_blocks(pdf, cache):
+    """Per page, the paragraphs poppler's layout analysis finds, in reading
+    order: each a list of its lines' text."""
+    with open(pdf, "rb") as f:
+        digest = hashlib.sha1(f.read()).hexdigest()
+    path = os.path.join(cache, "%s-blocks.json" % digest)
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    out = run(["pdftotext", "-enc", "UTF-8", "-bbox-layout", pdf, "-"])
+    pages = []
+    for chunk in out.split("<page ")[1:]:
+        blocks = []
+        for blk in BLOCK_RE.findall(chunk):
+            lines = [" ".join(html.unescape(w) for w in re.findall(r">([^<]*)</word>", ln)) for ln in LINE_RE.findall(blk)]
+            if lines:
+                blocks.append(lines)
+        pages.append(blocks)
+    os.makedirs(cache, exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(pages, f)
+    return pages
+
+
+def numbered_blocks(pages, blocks, everything=False):
+    """Per page, its paragraphs as (number, text) in reading order: a layout
+    block (a page read by OCR: a blank-line separated block of its text) that
+    is prose once the running header and footer lines are out. A citation
+    [[page::n]] names one. With `everything`, every block is listed, the number
+    None for one that is not a paragraph."""
+    lines = []
+    for pi, (raw, _, ocr) in enumerate(pages):
+        if ocr or pi >= len(blocks):
+            lines.append([x for x in raw.split("\n")])
+        else:
+            lines.append([x for b in blocks[pi] for x in b])
+    running = running_lines(lines)
+    out = []
+    for pi, (raw, _, ocr) in enumerate(pages):
+        if ocr or pi >= len(blocks):
+            texts = [b.split("\n") for b in re.split(r"\n\s*\n", raw)]
+        else:
+            texts = blocks[pi]
+        found, n = [], 0
+        for b in texts:
+            kept = " ".join(x for x in b if re.sub(r"\d+", "#", x.strip().lower()) not in running)
+            if is_prose(kept):
+                n += 1
+                found.append((n, re.sub(r"\s+", " ", kept).strip()))
+            elif everything and kept.strip():
+                found.append((None, re.sub(r"\s+", " ", kept).strip()))
+        out.append(found)
+    return out
+
+
 class Source:
-    def __init__(self, pages):
+    def __init__(self, pages, blocks=None):
         self.pages = pages
         self.ocr_pages = [i + 1 for i, p in enumerate(pages) if p[2]]
         self.vocab = set()
@@ -262,7 +347,10 @@ class Source:
             self.page_nums.append(nums)
         # reading-order sentences, for prose
         self.sents = []          # (page, text, token set)
+        self.sent_para = []      # per sentence: its paragraph number on the page (numbered_blocks), or None
         self.sent_post = collections.defaultdict(list)
+        self.paras = numbered_blocks(pages, blocks or [])
+        para_toks = [[(n, self.block_tokens(t)) for n, t in page] for page in self.paras]
         for pi, (raw, _, _) in enumerate(pages):
             raw = self.fix(raw)
             raw = re.sub(r"([a-z])-\n\s*([a-z])", r"\1\2", raw)
@@ -276,6 +364,7 @@ class Source:
                         continue
                     sid = len(self.sents)
                     self.sents.append((pi + 1, s, toks, content(tokens(norm(s)))))
+                    self.sent_para.append(self.paragraph_of(para_toks[pi], toks))
                     for t in toks:
                         self.sent_post[t].append(sid)
                     self.vocab.update(toks)
@@ -305,6 +394,25 @@ class Source:
         self.page_toks = [set() for _ in pages]
         for page, _, toks in self.lines:
             self.page_toks[page - 1].update(toks)
+
+    @staticmethod
+    def block_tokens(text):
+        """A block's content words, and the joins of a one or two letter word with the next ("t PLH" is tPLH)."""
+        toks = tokens(norm(text))
+        both = set(content(toks))
+        both.update(a + b for a, b in zip(toks, toks[1:]) if len(a) <= 2 and a.isalpha() and b.isalnum())
+        return both
+
+    @staticmethod
+    def paragraph_of(page_paras, toks):
+        """The number of the page's paragraph that holds most of a sentence's words
+        (at least 70 %, the first when two hold as many), or None."""
+        best, top = None, 0.7 - 1e-9
+        for n, ptoks in page_paras:
+            share = len(toks & ptoks) / len(toks)
+            if share > top:
+                best, top = n, share
+        return best
 
     @staticmethod
     def fix(text):
@@ -493,13 +601,19 @@ class Doc:
         self.pin_units = set()   # the units that are pin descriptions (several source rows in one line)
         self.issue_nums = set()  # numbers quoted in a labelled remark (Source error, Unconfirmed, …)
         self.in_derived = False
+        self.cites = []          # (line, page, ref, owner): owner ("para", first line) or ("fence", fence line)
+        self.paras = []          # (first line, section) of every prose paragraph and list item
+        self.unit_para = {}      # (line, sentence) -> first line of its paragraph
+        self.where = {}          # (line, sentence) -> ("sent", source sentence id) | ("page", page) once matched
         section = ""
         para, para_line = [], 0
         i = end + 1
+        after_fence = None       # (line index after a block's closing fence, the block's line)
 
         def flush():
             if para and section.lower() not in SKIP_SECTIONS:
-                self.add_text(para_line, " ".join(para), [len(p) + 1 for p in para])
+                self.paras.append((para_line, section))
+                self.add_text(para_line, " ".join(para), [len(p) + 1 for p in para], owner=para_line)
             para.clear()
 
         while i < len(lines):
@@ -514,8 +628,17 @@ class Doc:
                 if section.lower() not in SKIP_SECTIONS:
                     self.add_block(i + 1, kind, attrs, lines[i + 1:j])
                 self.fences.append((i + 1, kind, attrs, lines[i + 1:j], section))
+                after_fence = (j + 1, i + 1)
                 i = j + 1
                 continue
+            found = [(int(a), b.strip()) for a, b in CITE_RE.findall(line)]
+            if found:
+                line = CITE_RE.sub("", line).rstrip()
+                if not line.strip() and after_fence and after_fence[0] == i:
+                    self.cites += [(i + 1, a, b, ("fence", after_fence[1])) for a, b in found]
+                    found = []
+                    i += 1
+                    continue
             if line.strip() and not line.startswith("#"):
                 self.prose.append((i + 1, section, line))
             if line.startswith("#"):
@@ -532,6 +655,7 @@ class Doc:
                 if not para:
                     para_line = i + 1
                 para.append(line.strip())
+            self.cites += [(i + 1, a, b, ("para", para_line)) for a, b in found]
             if section.lower() == "conversion notes":
                 if re.match(r"^\s*[-*]\s+(Derived|From images)\b", line) or (self.in_derived and line.startswith("  ")):
                     self.in_derived = True
@@ -550,7 +674,7 @@ class Doc:
             i += 1
         flush()
 
-    def add_text(self, line, text, widths=None):
+    def add_text(self, line, text, widths=None, owner=None):
         if ISSUE_RE.search(text):
             self.issue_nums.update(t for t in tokens(norm(md_plain(text))) if is_num(t))
         """`widths`: the length of each source line of `text` (joined with
@@ -571,6 +695,8 @@ class Doc:
                 continue          # a link to another section of the file
             if s.strip():
                 self.units.append((at, group(md_plain(s))))
+                if owner is not None:
+                    self.unit_para[(at, self.units[-1][1])] = owner
 
     def add_block(self, line, kind, attrs, body):
         if kind in SKIP_BLOCKS:
@@ -893,6 +1019,9 @@ def check_prose(doc, src, rep):
             near = " Closest: p.%d \"%s\"" % (src.sents[sid][0], clip(src.sents[sid][1], 140))
         if score < PROSE_MIN and (in_layout(src, toks) or across_pages(src, toks)):
             ok += 1
+            lid = src.best_lines(toks)[1]
+            if lid is not None:
+                doc.where[(line, text)] = ("page", src.lines[lid][0])
             continue
         if score < PROSE_MIN:
             what = "not found in" if score < PROSE_LOW else "reworded from"
@@ -942,12 +1071,15 @@ def check_prose(doc, src, rep):
                 near = " Closest: p.%d \"%s\"" % (src.sents[sid][0], clip(src.sents[sid][1], 140))
                 window = set(src.run(sid))
             if seq < PROSE_ORDER and (in_layout(src, toks) or across_pages(src, toks)):
+                doc.where[(line, text)] = ("page", src.sents[sid][0])
                 continue
             if seq < PROSE_ORDER:
                 rep.add("soft", "prose", line, "reworded: only %.0f%% of its words follow the order of the source passage "
                         "(joined, reordered or added words): write the source's sentences, shortened only by deleting.%s "
                         "Text: \"%s\"" % (100 * seq, near, clip(text, 90)))
                 continue
+        doc.where[(line, text)] = ("sent", [sid] + [k for k in src.rivals(toks, sid)[1:]
+                                                  if lcs(*same_joins(toks, src.run(k))) / len(toks) >= PROSE_ORDER])
         if detail is not None and app is not None and detail < app and (line, text) not in doc.row_text:
             sec = section(line)
             inside = lambda k: detail < k < app
@@ -2579,6 +2711,136 @@ def check_frontmatter(doc, src, pos, rep):
                     % (fm["date"], latest))
 
 
+def cite_label_on_page(src, page, label):
+    """Whether "Table 6-3" / "Figure 8-1" is printed on the page (a dash may be set as any dash)."""
+    want = re.escape(norm(label)).replace("\\ ", r"\s+")
+    pat = re.compile(r"(?<![\w])" + want + r"(?![\w]|-\d)")
+    return any(pat.search(norm(src.pages[page - 1][i])) for i in (0, 1))
+
+
+def table_numbers(doc, t):
+    """The distinct numbers of a table (single digits and derived values left out)."""
+    out = set()
+    for _, cells in t["rows"]:
+        for c in cells:
+            out.update(x for x in tokens(norm(md_plain(MARK_RE.sub("", c)))) if is_num(x)
+                       and not (x.isdigit() and int(x) < 10) and x not in doc.derived)
+    return out
+
+
+def check_cites(doc, src, rep):
+    """Citations [[page::n]], [[page::Table 6-3]]: the page exists and was converted, the paragraph
+    number is one the page has, a label is printed on the page, each sentence is in a paragraph its
+    own paragraph cites, and a table's values, a pin table's names or an ordering table's parts are on
+    the cited pages."""
+    n = len(src.pages)
+    conv = doc.converted_pages
+    owners = collections.defaultdict(list)
+    eye = set()
+    fence_kind = {("fence", f[0]): f[1] for f in doc.fences}
+    for line, page, ref, owner in doc.cites:
+        owners[owner].append((line, page, ref))
+        if page < 1 or page > n:
+            rep.add("error", "cites", line, "[[%d::%s]]: the PDF has %d pages" % (page, ref, n))
+            continue
+        if conv and page not in conv and fence_kind.get(owner) != "ordering":
+            rep.add("error", "cites", line, "[[%d::%s]]: page %d is not among the pages Conversion notes list as converted"
+                    % (page, ref, page))
+        scan = page in src.scans
+        if ref.isdigit():
+            if scan:
+                if page not in eye:
+                    eye.add(page)
+                    rep.add("manual", "cites", line, "page %d is a picture: its paragraph numbers are counted by a person" % page)
+            elif page in src.ocr_pages:
+                pass
+            elif int(ref) < 1 or int(ref) > len(src.paras[page - 1]):
+                rep.add("error", "cites", line, "[[%d::%s]]: page %d has %d paragraphs (python3 -I cite.py list <pdf> %d)"
+                        % (page, ref, page, len(src.paras[page - 1]), page))
+        elif re.fullmatch(r"(?:Table|Figure) \S+", ref):
+            if not scan and not cite_label_on_page(src, page, ref):
+                rep.add("error", "cites", line, "[[%d::%s]]: \"%s\" is not printed on page %d" % (page, ref, ref, page))
+        elif re.fullmatch(r"(?:table|figure) #\d+", ref):
+            rep.add("info", "cites", line, "[[%d::%s]]: the page's %s is counted by a person" % (page, ref, ref.split()[0]))
+    # prose: every sentence is in a paragraph its own paragraph cites, and every cited paragraph is used
+    units_of = collections.defaultdict(list)
+    for u, para in doc.unit_para.items():
+        units_of[para].append(u)
+    for para_line, section in doc.paras:
+        cites = owners.get(("para", para_line), [])
+        if not cites:
+            continue
+        num = {(page, int(ref)) for _, page, ref in cites if ref.isdigit() and 1 <= page <= n}
+        pages = {page for _, page, _ in cites}
+        used, bad = set(), []
+        for u in sorted(units_of.get(para_line, [])):
+            w = doc.where.get(u)
+            if not w or ISSUE_RE.search(u[1]):
+                continue
+            if w[0] == "page":
+                if not ({w[1] - 1, w[1], w[1] + 1} & pages):
+                    bad.append((u, "page %d" % w[1]))
+                used |= {x for x in num if x[0] == w[1]}      # found on the page, not in one paragraph
+                continue
+            locs = {(src.sents[k][0], src.sent_para[k]) for k in w[1]}
+            hit = locs & num
+            if hit:
+                used |= hit
+                continue
+            if any(pn is None or pg in src.ocr_pages or pg in src.scans for pg, pn in locs) and \
+                    {pg for pg, _ in locs} & pages:
+                used |= {x for x in num if x[0] in {pg for pg, _ in locs}}
+                continue          # printed outside a numbered paragraph, or on a page read by OCR
+            if any(pg - 1 in pages or pg + 1 in pages for pg, pn in locs) and num and \
+                    any(abs(pg - q) == 1 for pg, _ in locs for q, _ in num):
+                continue          # a sentence over a page break
+            if pages & src.scans:
+                continue          # it cites a picture page: the text found elsewhere may be a caption or an OCR match
+            bad.append((u, ", ".join("p.%d %s" % (pg, "¶%d" % pn if pn else "outside a numbered paragraph")
+                                     for pg, pn in sorted(locs, key=lambda x: (x[0], x[1] or 0)))))
+        if bad:
+            (ln, text), where = bad[0]
+            rep.add("error", "cites", cites[-1][0], "this paragraph cites %s, but the source has the sentence \"%s\" (line %d) at %s%s"
+                    % (" ".join("[[%d::%s]]" % (p_, r_) for _, p_, r_ in cites), clip(text, 70), ln, where,
+                       " (and %d more sentences)" % (len(bad) - 1) if len(bad) > 1 else ""))
+        for page, number in sorted(num - used):
+            if any(abs(page - q) == 1 for q, _ in used) or page in src.ocr_pages or page in src.scans:
+                continue
+            if not used and not any(doc.where.get(u) for u in units_of.get(para_line, [])):
+                continue
+            first = next((t for k, t in src.paras[page - 1] if k == number), "") if page <= len(src.paras) else ""
+            rep.add("error", "cites", cites[-1][0], "[[%d::%d]] is cited, and no sentence of this paragraph is in it (it begins \"%s\")"
+                    % (page, number, clip(first, 60)))
+    # blocks
+    tables = {t["line"]: t for t in doc.tables}
+    for line, kind, attrs, body, section in doc.fences:
+        if section.lower() in SKIP_SECTIONS:
+            continue
+        cites = owners.get(("fence", line), [])
+        pages = sorted({p for _, p, _ in cites if 1 <= p <= n})
+        if not cites or not pages or any(p in src.scans for p in pages):
+            continue
+        if kind == "table" and line in tables:
+            nums = table_numbers(doc, tables[line])
+            if len(nums) >= 6:
+                got = set().union(*(src.page_nums[p - 1] for p in pages))
+                share = len(nums & got) / len(nums)
+                if share < 0.5:
+                    best = max(range(1, n + 1), key=lambda p: len(nums & src.page_nums[p - 1]))
+                    rep.add("error", "cites", cites[-1][0], "this table's values are not on the cited page%s (%d%% of them): "
+                            "they are on page %d (%d%%)" % ("s" if len(pages) > 1 else "", 100 * share, best,
+                                                           100 * len(nums & src.page_nums[best - 1]) / len(nums)))
+        elif kind in ("pins", "ordering"):
+            names = set()
+            for b in body:
+                head = b.partition(":")[0] if kind == "pins" else b.split("|")[0]
+                names.update(x for x in tokens(norm(md_plain(head))) if not x.isdigit() or len(x) > 2)
+            have = set().union(*(src.page_toks[p - 1] for p in pages))
+            if len(names) >= 3 and len(names & have) / len(names) < 0.5:
+                rep.add("error", "cites", cites[-1][0], "this %s block's names are not on the cited page%s (%d%% of them)"
+                        % (kind, "s" if len(pages) > 1 else "", 100 * len(names & have) / len(names)))
+
+
 def check_note_pages(doc, src, rep):
     """A page a Conversion note gives for a figure, a table or the addendum holds that thing."""
     lines = doc.text.split("\n")
@@ -2687,7 +2949,7 @@ def sources(pdf, ocr, cache):
     """The PDF's text (Source) and word positions (Positions), read once per run."""
     key = (pdf, os.path.getmtime(pdf), ocr)
     if key not in _SOURCES:
-        src = Source(load_pdf(pdf, ocr, cache))
+        src = Source(load_pdf(pdf, ocr, cache), load_blocks(pdf, cache))
         src.scans = set(scan_pages(pdf, cache)) | set(src.ocr_pages)
         _SOURCES[key] = (src, Positions(load_words(pdf, cache)))
     return _SOURCES[key]
@@ -2732,6 +2994,7 @@ def validate(path, ocr, cache):
     check_figures(doc, src, rep)
     check_variant(doc, src, rep)
     check_prose(doc, src, rep)
+    check_cites(doc, src, rep)
     check_notes(doc, src, rep)
     check_pages(doc, src, rep)
     check_registers(doc, rep)

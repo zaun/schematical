@@ -34,6 +34,11 @@ Kinds of planted mistake:
   fm-doc       source.document's revision letter changed
   fm-date      source.date changed
   claim-drop   a claimed part removed from "parts"
+  cite-page    a citation's page number moved by one
+  cite-para    a citation's paragraph number moved by one
+  cite-label   a citation's table or figure label changed
+  cite-drop    a citation deleted (the last one of a paragraph or block)
+  cite-move    a citation moved from the end of its paragraph to the start of the line
 
 Usage: python3 -I mutate.py [--per N] [--seed N] [--kinds a,b,...]
                             [--missed] [--min PCT] files...
@@ -131,6 +136,8 @@ class File:
         with open(path, encoding="utf-8") as f:
             self.lines = f.read().split("\n")
         self.fm_end = self.lines.index("---", 1)
+        m = re.search(r'"pages":\s*(\d+)', "\n".join(self.lines[:self.fm_end]))
+        self.pages = int(m.group(1)) if m else 1
         self.tables, self.blocks, self.prose = [], [], []      # blocks: (kind, attrs, first body line, end line, section)
         section, i = "", self.fm_end + 1
         while i < len(self.lines):
@@ -488,12 +495,76 @@ def m_claim_drop(f):
     return []
 
 
+CITE = re.compile(r"\[\[(\d+)::([^\[\]]+)\]\]")
+
+
+def cite_lines(f):
+    """(line index, line) of every line outside the blocks that carries a citation."""
+    inside = {k for _, _, a, b, _ in f.blocks for k in range(a, b + 1)}
+    return [(k, line) for k, line in enumerate(f.lines) if k > f.fm_end and k not in inside and CITE.search(line)]
+
+
+def cite_edit(f, change, want):
+    """Every citation (that `want` accepts) changed by `change(page, ref)` -> text, as one candidate each."""
+    out = []
+    for k, line in cite_lines(f):
+        for m in CITE.finditer(line):
+            page, ref = int(m.group(1)), m.group(2)
+            if not want(page, ref):
+                continue
+            new = change(page, ref)
+            if new:
+                out.append(("citation [[%d::%s]] on line %d becomes %s" % (page, ref, k + 1, new),
+                            {k: line[:m.start()] + new + line[m.end():]}))
+    return out
+
+
+def m_cite_page(f):
+    n = f.pages
+    return cite_edit(f, lambda p, r: "[[%d::%s]]" % (p + 1 if p < n else p - 1, r), lambda p, r: "#" not in r)
+
+
+def m_cite_para(f):
+    return cite_edit(f, lambda p, r: "[[%d::%d]]" % (p, int(r) + 1), lambda p, r: r.isdigit())
+
+
+def m_cite_label(f):
+    def change(p, r):
+        label, _, last = r.rpartition("-")
+        return "[[%d::%s-%d]]" % (p, label, int(last) + 3) if last.isdigit() and label else "[[%d::%s]]" % (p, r[:-1] + "9")
+    return cite_edit(f, change, lambda p, r: re.match(r"(Table|Figure) \S+$", r))
+
+
+def m_cite_drop(f):
+    out = []
+    for k, line in cite_lines(f):
+        found = list(CITE.finditer(line))
+        if line.strip() == line.strip() and found:
+            m = found[-1]
+            rest = (line[:m.start()] + line[m.end():]).rstrip()
+            out.append(("the last citation on line %d is deleted" % (k + 1), {k: rest if rest else None}))
+    return out
+
+
+def m_cite_move(f):
+    """A citation moves from the end of its paragraph to the start of its line."""
+    out = []
+    for k, line in cite_lines(f):
+        m = CITE.search(line)
+        if m and line[:m.start()].strip():
+            out.append(("the citation on line %d moves to the start of the line" % (k + 1),
+                        {k: m.group(0) + " " + (line[:m.start()] + line[m.end():]).strip()}))
+    return out
+
+
 KINDS = collections.OrderedDict([
     ("value", m_value), ("value-swap", m_value_swap), ("sign", m_sign), ("column", m_column), ("unit", m_unit),
     ("row-drop", m_row_drop), ("cond", m_cond), ("symbol", m_symbol), ("ftable", m_ftable),
     ("note-drop", m_note_drop), ("note-cut", m_note_cut), ("head-drop", m_head_drop), ("negation", m_negation), ("prose-num", m_prose_num), ("fig", m_fig),
     ("ord-qty", m_ord_qty), ("ord-temp", m_ord_temp), ("ord-mark", m_ord_mark), ("ord-part", m_ord_part),
     ("fm-pages", m_fm_pages), ("fm-doc", m_fm_doc), ("fm-date", m_fm_date), ("claim-drop", m_claim_drop),
+    ("cite-page", m_cite_page), ("cite-para", m_cite_para), ("cite-label", m_cite_label), ("cite-drop", m_cite_drop),
+    ("cite-move", m_cite_move),
 ])
 
 

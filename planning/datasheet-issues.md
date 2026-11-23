@@ -1,8 +1,8 @@
 # Sample correction pass: issue list
 
 The samples were checked against their source PDFs with
-[validate.py](validate.py) and by reading the flagged pages, and
-corrected under [format.md § Source fidelity](format.md#source-fidelity).
+[validate.py](spike-datasheet-format/validate.py) and by reading the flagged pages, and
+corrected under [format.md § Source fidelity](spike-datasheet-format/format.md#source-fidelity).
 This list is the record of that pass. A sample may be used as a fixture
 or template only once its rows here are closed, and `validate.py` reports
 no errors for it, or only the known false positives listed at the end.
@@ -21,7 +21,7 @@ Kinds:
 
 ## Status
 
-`validate.py --quiet samples/*.md` after the pass:
+`validate.py --quiet samples/*.md` (in `spike-datasheet-format/`) after the pass:
 
 | Sample | Errors | Warnings | Numbers found | Rows matched | Source issues flagged |
 |---|--:|--:|--:|--:|--:|
@@ -232,8 +232,8 @@ scripts do not report, from the last rounds:
 - **Meaning.** A source typo kept without a `Source error:` ("SMOS"),
   a value that looks wrong in the source, and a bar the source draws in
   the wrong place need a person. Waveform and curve shapes are by eye.
-- **The other samples.** `samples/sn74hc00.md` was brought to 0 errors
-  under the strict validator; the other samples in `samples/` predate it
+- **The other samples.** `spike-datasheet-format/samples/sn74hc00.md` was brought to 0 errors
+  under the strict validator; the other samples in `spike-datasheet-format/samples/` predate it
   and still report errors there (they pass `check.py`).
 
 `mutate.py` measures the rest: it plants one mistake at a time and
@@ -284,7 +284,7 @@ ordering lines are a by-eye item.
 LS/S TTL sheets); their tables are in the by-eye list, about 1,680
 items over all files.
 
-**The other samples.** `samples/sn74hc00.md` passes the strict
+**The other samples.** `spike-datasheet-format/samples/sn74hc00.md` passes the strict
 validator. The other ten samples predate it and report 25 to 1,463
 errors each (the three AVR samples over 900); the validator's position
 checks were built on TI logic sheets and have not been tried on those
@@ -324,3 +324,45 @@ layouts, so those counts mix real rewordings with script limits.
   (JM38510/37006, /07003, /07004, /00105, /30003, /07501, /30502) are
   filed by the MIL-M-38510 slash-sheet family (001xx TTL, 070xx/075xx
   S, 300xx/305xx LS, 370xx ALS).
+
+## Citations (2026-11-22)
+
+Every prose paragraph and every table, pins, ordering, wavedrom, curve and
+figure block of the 487 gate files now ends with a citation to the page of
+its PDF (format.md § Citations; the renderer does not show them): 16,148
+in all, 9,315 paragraph numbers, 1,855 labels (`Table 6-3`, `Figure 8-1`),
+4,978 unlabelled-table or figure ordinals (`table #2`).
+
+Tools: `cite.py list` numbers a page's paragraphs, `cite.py fill` writes
+the citations of a file from where `validate.py` finds its words,
+`cite.py scans` lists the ones on picture pages. check.py requires them in
+the app's files, validate.py checks them, mutate.py plants five kinds of
+wrong citation (page, paragraph number, label, a deleted citation, a
+citation in the wrong place: 88–100 % caught on eight files).
+
+**How they were placed.** `fill` placed all but 179 of them in 48 files;
+those, and every citation on a picture page (416, in 46 files), were
+counted by eye from the page images by agents, which also corrected the
+script's citations on those pages (it had put tables on the wrong page, a
+pins block under a table, and off-by-one paragraph numbers wherever the
+page's text layer is partial).
+
+**What the tools can't check.**
+
+- A paragraph number on a picture page (a scan, or a figure page such as
+  the load-circuit page) and every `table #N` / `figure #N` ordinal. The
+  validator lists the pages for a person. Conventions the by-eye pass kept
+  to: the dot-leader absolute-maximum-ratings list of an old TI sheet
+  counts as a table; table ordinals count tables only and figure ordinals
+  drawings only, each in reading order; a pins block of an old sheet cites
+  its pin drawings as figures; the lettered notes under a load-circuit
+  figure are one paragraph, or cite the figure's label.
+- A paragraph number depends on poppler's layout analysis. A page whose
+  layout is messy (words set one to a block, a cover page over a picture)
+  has numbers that are not the visible paragraphs; `cite.py list` prints
+  the numbering the validator uses, and that is the reference. A change of
+  poppler version can renumber such a page.
+- A citation on a page read by OCR (tesseract) is checked for the page,
+  not the paragraph.
+- `fill` cannot be re-run on a file that has hand-placed citations: it
+  strips and redoes all of them.

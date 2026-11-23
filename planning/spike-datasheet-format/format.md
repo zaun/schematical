@@ -611,6 +611,49 @@ rules below are written to keep conversions checkable.
   the PDF doesn't settle it, it stays a `Source conflict:` or
   `Unconfirmed:`.
 
+## Citations
+
+A file points back to the page of its PDF each part comes from. The
+pointers are in the Markdown and are never shown: the renderer drops
+them. Pages are PDF pages, counted from the first page (as Conversion
+notes count them), and citations are relative to the source PDF.
+
+| Write | Names |
+|---|---|
+| `[[5::2]]` | paragraph 2 of page 5 |
+| `[[5::Table 6-3]]`, `[[7::Figure 8-1]]` | the table or figure the PDF labels so, on that page, copied as printed (any dash as `-`) |
+| `[[4::table #2]]`, `[[4::figure #1]]` | the 2nd table or 1st figure of page 4, when the PDF prints no label; counted in reading order |
+
+**Where they go.** A paragraph, and each item of a list, ends with its
+citations, one space apart, on its last line:
+`… supports fanout up to 10 LSTTL loads. [[1::1]] [[1::2]]`. A paragraph
+that joins source paragraphs cites each of them, in the source's order.
+A block (`table`, `pins`, `ordering`, `wavedrom`, `curve`, `figure`) has
+its citations alone on the line right after its closing fence; a table
+that runs over two pages cites both: `[[5::Table 6-3]] [[6::Table 6-3]]`.
+A paragraph that is a caption, or text read from a figure, may cite the
+label. No heading has a citation, and nor has a paragraph that is only
+the converter's remark (it begins `Conversion note:`, `Source error:`,
+`Source conflict:` or `Unconfirmed:`) or only a link to another section,
+and nor have the Conversion notes. `pinout`, `package` and `equation`
+blocks may have one and need none.
+
+**Paragraph numbers.** The paragraphs of a page are the blocks of text
+that poppler's layout analysis (`pdftotext -bbox-layout`) finds, numbered
+from 1 in reading order, counting only those that are running prose: five
+words of three letters or more that are not in capitals, at least 30 %
+of the block's tokens, once the header and footer lines that repeat on
+many pages are taken out. A heading, a table cell, a pin list and a
+figure label are not paragraphs; a bulleted list is one. `python3 -I
+planning/spike-datasheet-format/cite.py list <id> [page…]` prints a page's
+numbered paragraphs. On a page that is a picture (a scan, a figure page)
+the numbers are counted by eye from the page image, and the validator
+lists them for a person.
+
+`python3 -I planning/spike-datasheet-format/cite.py fill <file>…`
+writes the citations of a file from where `validate.py` finds its words;
+it leaves out what it can't place, and `check.py` says what is missing.
+
 ## Size
 
 The size of a file is its `.md` file's UTF-8 byte count plus any
@@ -647,7 +690,11 @@ no list in Description; no copied footnote on the ordering table's
 notation; a `From images:` bullet for the overbars of a formula or of a name that is not a pin; no `[sic]`; a shared
 figure's `{KEY}`s all given; WaveJSON (parses, `signal`/`reg`, data cells vs `data`,
 edge nodes exist, no node named twice); `curve` JSON; `figure` refs and
-sidecars; inline `!{…}` balance; and the size report. Exit status 1 on
+sidecars; inline `!{…}` balance; **citations** (well formed, in the source's
+order, at the end of the paragraph or after the block, none in a heading
+or in Conversion notes; in a file of the app's `Datasheets/` folder
+every prose paragraph and every table, pins, ordering, wavedrom, curve
+and figure block has one); and the size report. Exit status 1 on
 any error.
 
 ## Validator
@@ -657,7 +704,7 @@ the content is right. `python3 -I planning/spike-datasheet-format/validate.py
 <file.md>…` compares a file with its source PDF, without an agent. It
 reads the PDF three ways with poppler: the text (`pdftotext`, and
 `tesseract` OCR for pages with no text layer), **every word with its
-position on the page** (`pdftotext -bbox-layout`), and the pictures
+position on the page and the page's text blocks** (`pdftotext -bbox-layout`), and the pictures
 (`pdfimages -list`, to know which pages are scans). Results are cached.
 
 Everything it can decide is an **error**. What it can't decide it lists
@@ -679,6 +726,7 @@ as **to check by eye**; there are no warnings.
 | waveforms | Edges join defined nodes; nodes sit on transitions; a bus is not driven while its active-low output enable has been high for two columns; edge labels are in the PDF. |
 | prose | Each sentence, list item and table note is matched to the closest PDF passage: under 60 % of its words there, or under 80 % of them in its order, is an error (see Source fidelity); so is a number that isn't in that passage, and negation or obligation that differs from the stretch it matches. A "Section 5.1" of the source may be written as that section's name. A sentence filed under Application information that the source has in its Detailed Description chapter (or the reverse) is an error, and so is a requirement of the source (*must*, *do not*, *ensure*) left out between two kept sentences. A page whose reading-order text is scrambled is matched by its layout lines instead. Two sentences that the source prints once, in one column of a page after the first (page 1 sets features and description side by side, and the text layer runs them together), keep its order; a semicolon the source doesn't have, joining two of its sentences, is an error; when the source's application chapter opens with "not part of the TI component specification", Application information opens with it. A long table cell is matched by place instead (its words within five lines of one spot). Sentences labelled `Source conflict:`, `Source error:`, `Unconfirmed:` or `Conversion note:` are the converter's and are not matched. |
 | notes | Table notes in the PDF (`[1] …`, `(1) …`, `† …`, `Notes: 1. …`) on converted pages appear in the file, whole (a note of up to 30 words keeps every word; a longer one 90 %), and once for each time the source prints them under a table. A page given in Conversion notes for a figure, a table or the package option addendum holds it. |
+| cites | Each citation: the page exists and is a converted page (an `ordering` block may cite the package option addendum), a paragraph number is one the page has, a label (`Table 6-3`) is printed on the page. A paragraph's sentences are found in the paragraphs it cites, and each cited paragraph holds a sentence of it (a sentence the source prints twice may be in either; one over a page break in either page). A table's values (six or more numbers), a `pins` block's names and an `ordering` block's part names are on the cited pages. *By eye:* a number on a page that is a picture, and a `table #2` count. |
 | visual | *By eye.* Each waveform, curve and sidecar figure, with the PDF page it most likely came from. |
 | source | *By eye.* The converted pages that are pictures (scans, or a figure page). When most converted pages are scans, the numbers, terms, rows, prose and notes findings of that file are listed by eye too, marked `[scanned source]`: OCR text can't settle them. |
 

@@ -355,6 +355,139 @@ def check_curve(rep, start, text):
 
 # ---------------------------------------------------------------- file
 
+CITE_RE = re.compile(r"\[\[(\d+)::([^\[\]]*)\]\]")
+CITE_REF = re.compile(r"\d+|(?:Table|Figure) [A-Za-z0-9]+(?:[-.][A-Za-z0-9]+)*|(?:table|figure) #\d+")
+END_CITES = re.compile(r"^(.*?\S)((?: \[\[\d+::[^\[\]]*\]\])+)$")
+ONLY_CITES = re.compile(r"^\[\[\d+::[^\[\]]*\]\](?: \[\[\d+::[^\[\]]*\]\])*$")
+CITED_BLOCKS = {"table", "pins", "ordering", "wavedrom", "curve", "figure"}
+CITE_OPTIONAL = {"pinout", "package", "equation"}
+
+
+def check_citations(rep, lines, start, pages, require):
+    """Citations [[page::n]] (a paragraph), [[page::Table 6-3]] / [[page::Figure 8-1]] (as the PDF labels
+    it) and [[page::table #2]] (the page's 2nd table, when the PDF prints no label); a paragraph that is a
+    caption cites its label. A paragraph or list
+    item ends with its citations, one space apart; a block's citations are alone on the line right after
+    its closing fence. Every prose paragraph and every table, pins, ordering, wavedrom, curve and figure
+    block has one (when `require`); a heading, a paragraph that is only the converter's remark (Conversion note:, Source error:,
+    Source conflict:, Unconfirmed:) and the Conversion notes have none."""
+    section = ""
+    para = None                # {"line", "text", "cites", "last", "cite_line"}
+    fence = None               # (kind, line)
+    after = None               # (index of the line after a closing fence, kind, fence line, [cites])
+    blocks = []                # (kind, line, cites)
+    paras = []
+
+    def bad_cites(ln, cites, numeric):
+        last = (0, "")
+        for page, ref in cites:
+            if not CITE_REF.fullmatch(ref):
+                rep.err(ln, 'citation [[%d::%s]]: after "::" write a paragraph number, "Table 6-3" or "Figure 8-1" as '
+                        'the PDF prints it, or "table #2" / "figure #1"' % (page, ref))
+            elif ref.isdigit() and not numeric:
+                rep.err(ln, "citation [[%d::%s]]: a block cites its table or figure, [[page::Table 6-3]] or [[page::table #2]]"
+                        % (page, ref))
+            elif ref.isdigit() and int(ref) < 1:
+                rep.err(ln, "citation [[%d::%s]]: paragraphs are counted from 1" % (page, ref))
+            if page < 1 or (isinstance(pages, int) and page > pages):
+                rep.err(ln, "citation [[%d::%s]]: the PDF has %s pages" % (page, ref, pages))
+            if (page, ref) < last and page < last[0]:
+                rep.err(ln, "citations are in the source's order: page %d comes after page %d" % (page, last[0]))
+            last = (page, ref)
+        if len(set(cites)) != len(cites):
+            rep.err(ln, "a citation is written twice")
+
+    def finish():
+        nonlocal para
+        if para is None:
+            return
+        paras.append(para)
+        text = re.sub(r"^\s*([-*]|\d+\.)\s+", "", para["text"]).strip()
+        text = re.sub(r"^(See|Refer to) \[[^\]]+\]\(#[^)]+\)\.?\s*", "", text)      # a link to another section
+        exempt = not text or re.match(r"(Conversion note|Source error|Source conflict|Unconfirmed):", text)
+        if section == "Conversion notes":
+            if para["cites"]:
+                rep.err(para["cite_line"], "no citations in Conversion notes")
+        elif para["cites"]:
+            if para["cite_line"] != para["last"]:
+                rep.err(para["cite_line"], "citations go at the end of the paragraph, on its last line")
+            if exempt:
+                rep.err(para["cite_line"], "a paragraph that begins with Conversion note:, Source error:, Source conflict: or Unconfirmed:, or is a link to another section, has no citation")
+            else:
+                bad_cites(para["cite_line"], para["cites"], True)
+        elif require and not exempt:
+            rep.err(para["line"], "paragraph has no citation: end it with [[page::paragraph]] (python3 -I cite.py list <pdf>)")
+        para = None
+
+    def block_done():
+        pass
+
+    i = start
+    while i < len(lines):
+        line, ln = lines[i], i + 1
+        if fence is not None:
+            if line.strip() == "```":
+                after = (i + 1, fence[0], fence[1], [])
+                blocks.append([fence[0], fence[1], None])
+                fence = None
+            i += 1
+            continue
+        if line.startswith("```") and len(line.strip()) > 3:
+            finish()
+            fence = (parse_info(line[3:])[0], ln)
+            after = None
+            i += 1
+            continue
+        stripped = CITE_RE.sub("", line)
+        if re.search(r"\[\[[^\]]*\]\]", stripped):
+            rep.err(ln, "malformed citation: write [[page::n]], [[page::Table 6-3]] or [[page::table #2]]")
+        found = [(int(a), b.strip()) for a, b in CITE_RE.findall(line)]
+        if line.startswith("## "):
+            finish()
+            section = line[3:].strip()
+        elif line.startswith("#"):
+            finish()
+        if line.startswith("#"):
+            if found:
+                rep.err(ln, "no citation in a heading")
+            i += 1
+            continue
+        if not line.strip():
+            finish()
+            i += 1
+            continue
+        if found and not stripped.strip():
+            # a line of citations only: right after a block's closing fence, citations one space apart
+            if after and after[0] == i and ONLY_CITES.match(line.strip()):
+                blocks[-1][2] = found
+                bad_cites(ln, found, False)
+            else:
+                rep.err(ln, "a line with only citations must be right after the closing ``` of the block it cites, "
+                        "and the citations one space apart")
+            i += 1
+            continue
+        if re.match(r"^\s*([-*]|\d+\.)\s+", line):
+            finish()
+        if para is None:
+            para = {"line": ln, "text": "", "cites": [], "last": ln, "cite_line": 0}
+        para["text"] += " " + stripped.strip()
+        para["last"] = ln
+        if found:
+            if not END_CITES.match(line.rstrip()) or len(END_CITES.match(line.rstrip()).group(2).split("]] [[")) != len(found):
+                rep.err(ln, "citations come at the end of the paragraph, each one space after the text or the one before")
+            para["cites"] += found
+            para["cite_line"] = ln
+        i += 1
+    finish()
+    if fence is not None:
+        pass
+    for kind, ln, cites in blocks:
+        if cites is None and require and kind in CITED_BLOCKS:
+            rep.err(ln, "%s block has no citation: put [[page::%s]] (or [[page::%s #2]]) on the line after the closing fence"
+                    % (kind, "Table 6-3" if kind in ("table", "pins", "ordering") else "Figure 8-1",
+                       "table" if kind in ("table", "pins", "ordering") else "figure"))
+
+
 def check_file(path, cat, claims):
     rep = Report(path)
     with open(path, encoding="utf-8") as f:
@@ -789,6 +922,9 @@ def check_file(path, cat, claims):
                     % (size / 1024, SIZE_LIMIT[cls] // 1024, cls))
     elif size > SIZE_WARN:
         rep.warn(0, "size %.1f KB is over the 30 KB target" % (size / 1024))
+    if not pending:
+        n_pages = fm.get("source", {}).get("pages") if isinstance(fm.get("source"), dict) else None
+        check_citations(rep, lines, body_start, n_pages, in_app)
     info = {"size": size, "sections": sec_bytes, "claimed": len(claimed),
             "pinouts": sorted(used_pinouts)}
     return rep, size, info
