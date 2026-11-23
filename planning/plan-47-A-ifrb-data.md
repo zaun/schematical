@@ -28,7 +28,7 @@ baseline P0 parts (§ Prerequisites) plus one part per `add` row of
 `planning/plan-47-data/candidates.tsv` (2953 picked at planning time:
 inductor 600, fuse 600, PTC 600, relay 600, buzzer 553); the app lists them
 under **Discrete → Inductors**, **Discrete → Fuses**, **Discrete →
-Resettable fuses**, **Relay** and **Indicators → Buzzers**; in play mode a
+Resettable fuses**, **Switches & Relays → Relay** and **Displays & Indicators → Buzzers**; in play mode a
 gate's output driving a relay coil closes the relay's normally-open contact
 and lights an LED behind it, the same LED behind a fuse goes dark when the
 fuse is clicked, and a buzzer on the gate's output sounds; `ctest` passes T0
