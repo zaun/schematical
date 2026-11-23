@@ -17,7 +17,7 @@ n=0
 python3 -I $here/to-check.py $raw $clips $cand $out | while IFS=$'\t' read -r id mpn; do
   json=$(node $dk --manufacturer $id --in-stock --status 0 --status 4 --limit 5 --json "$mpn" 2> $last < /dev/null)
   left=$(sed -n 's/.* \([0-9][0-9]*\) left today.*/\1/p' $last | tail -1)
-  if grep -q 'rate limited\|429' $last; then
+  if grep -q 'rate limited\|429\|login failed' $last; then
     cat $last; exit 1
   fi
   if [[ -z $json ]] && ! grep -q '^digikey:' $last; then
