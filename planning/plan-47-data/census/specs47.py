@@ -44,7 +44,7 @@ FACT_COLS = ['pads', 'values', 'tols', 'amps_max', 'isat_max', 'dcr_max', 'shiel
              'break_max', 'vmax', 'imax']
 # plan-47-C: the relay and buzzer columns
 RELAY_COLS = ['rtype', 'coils', 'polarized', 'latching', 'contacts', 'coilv', 'coil_ohms', 'amps', 'op', 'rel', 'ron']
-BUZZER_COLS = ['driver', 'technology', 'hz', 'volts', 'vrange', 'ma_max', 'db']
+BUZZER_COLS = ['driver', 'technology', 'hz', 'volts', 'vrange', 'ma_max', 'db', 'renumber']   # renumber: plan-47-G
 ALL_COLS = FACT_COLS + RELAY_COLS + BUZZER_COLS
 LABELS = {'SMD', 'Radial', 'Axial', 'Cartridge'}
 RELAY_LABELS = {'THT', 'SMD', 'DIP', 'SOP', 'SSOP', 'VSSOP', 'SON', 'SIP'}

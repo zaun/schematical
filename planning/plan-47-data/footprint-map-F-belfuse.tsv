@@ -1,0 +1,77 @@
+letter	type	company	series	mounting	package	supplier_package	size	detail	footprint	label	note	series_split
+F	ptc	belfuse		Surface Mount	0603 (1608 Metric), Concave		0.063" L x 0.029" W (1.60mm x 0.73mm)		PTC-1608-BELFUSE	0603	ds-cp-0zcm-series.pdf p.3	
+F	ptc	belfuse		Surface Mount	0805 (2012 Metric), Concave		0.085" L x 0.053" W (2.15mm x 1.35mm)		PTC-2012-BELFUSE	0805	ds-cp-0zck-series.pdf p.3	
+F	ptc	belfuse		Surface Mount	0805 (2012 Metric), Concave		0.087" L x 0.053" W (2.20mm x 1.35mm)		PTC-2012-BELFUSE	0805	shared with PTC-2012-BELFUSE	
+F	ptc	belfuse		Surface Mount	1206 (3216 Metric), Concave		0.128" L x 0.065" W (3.25mm x 1.65mm)		PTC-3216-BELFUSE	1206	ds-cp-0zcj-series.pdf p.3	
+F	ptc	belfuse		Surface Mount	1210 (3225 Metric), Concave		0.127" L x 0.101" W (3.22mm x 2.58mm)		PTC-3225-BELFUSE	1210	ds-cp-0zch-series.pdf p.3	
+F	ptc	belfuse		Surface Mount	1210 (3225 Metric), Concave		0.127" L x 0.102" W (3.22mm x 2.58mm)		PTC-3225-BELFUSE	1210	shared with PTC-3225-BELFUSE	
+F	ptc	belfuse		Surface Mount	1812 (4532 Metric), Concave		0.179" L x 0.128" W (4.55mm x 3.24mm)		PTC-4532-BELFUSE	1812	ds-cp-0zcg-series.pdf p.3	
+F	ptc	belfuse		Surface Mount	2016 (5041 Metric), Concave		0.200" L x 0.160" W (5.08mm x 4.07mm)		PTC-5041-BELFUSE	2016	ds-cp-0zcn-series.pdf p.3	
+F	ptc	belfuse		Surface Mount	2920 (7351 Metric), Concave		0.290" L x 0.202" W (7.36mm x 5.12mm)		PTC-7351-BELFUSE	2920	ds-cp-0zcf-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.256" L x 0.181" W (6.50mm x 4.60mm)	0.197" (5.00mm)	PTC-RAD-65-50-BELFUSE	Radial	ds-cp-0zrf-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.272" Dia x 0.118" T (6.90mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-69-51-BELFUSE	Radial	ds-cp-0zrg-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.272" L x 0.118" W (6.90mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-69-51-BELFUSE	Radial	shared with PTC-RAD-69-51-BELFUSE	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.280" L x 0.118" W (7.10mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-89-51-BELFUSE-B	Radial	ds-cp-0zra-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.280" L x 0.142" W (7.10mm x 3.60mm)	0.201" (5.10mm)	PTC-RAD-71-51-BELFUSE	Radial	ds-cp-0zrp-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.288" L x 0.181" W (5.80mm x 4.60mm)	0.197" (5.00mm)	PTC-RAD-58-50-BELFUSE	Radial	ds-cp-0zrf-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.291" Dia x 0.118" T (7.40mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-74-51-BELFUSE	Radial	ds-cp-0zrn-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.291" Dia x 0.122" T (7.40mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-74-51-BELFUSE-B	Radial	ds-cp-0zrr-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.291" L x 0.118" W (7.40mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-74-51-BELFUSE	Radial	shared with PTC-RAD-74-51-BELFUSE	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.291" L x 0.122" W (7.40mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-74-51-BELFUSE-B	Radial	shared with PTC-RAD-74-51-BELFUSE-B	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.299" L x 0.142" W (7.60mm x 3.60mm)	0.201" (5.10mm)	PTC-RAD-76-51-BELFUSE	Radial	ds-cp-0zrp-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.310" L x 0.142" W (7.87mm x 3.60mm)	0.201" (5.10mm)	PTC-RAD-79-51-BELFUSE-B	Radial	ds-cp-0zrp-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.311" Dia x 0.122" T (7.90mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-79-51-BELFUSE	Radial	ds-cp-0zrr-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.311" Dia x 0.150" T (7.90mm x 3.80mm)	0.201" (5.10mm)	PTC-RAD-79-51-BELFUSE-C	Radial	ds-cp-0zrm-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.311" L x 0.122" W (7.90mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-79-51-BELFUSE	Radial	shared with PTC-RAD-79-51-BELFUSE	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.323" Dia x 0.150" T (8.20mm x 3.80mm)	0.201" (5.10mm)	PTC-RAD-82-51-BELFUSE	Radial	ds-cp-0zrm-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.327" L x 0.150" W (8.30mm x 3.80mm)	0.201" (5.10mm)	PTC-RAD-83-51-BELFUSE	Radial	ds-cp-0zre-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.346" L x 0.118" W (8.80mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-88-51-BELFUSE	Radial	ds-cp-0zrn-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.350" L x 0.118" W (8.90mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-89-51-BELFUSE	Radial	ds-cp-0zrg-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.362" Dia x 0.150" T (9.20mm x 3.80mm)	0.201" (5.10mm)	PTC-RAD-92-51-BELFUSE	Radial	ds-cp-0zrm-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.370" Dia x 0.118" T (9.40mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-94-51-BELFUSE	Radial	ds-cp-0zrn-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.378" L x 0.150" W (9.60mm x 3.80mm)	0.201" (5.10mm)	PTC-RAD-96-51-BELFUSE	Radial	ds-cp-0zre-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.382" Dia x 0.118" T (9.70mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-97-51-BELFUSE	Radial	ds-cp-0zrn-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.382" Dia x 0.150" T (9.70mm x 3.80mm)	0.201" (5.10mm)	PTC-RAD-97-51-BELFUSE-C	Radial	ds-cp-0zrm-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.382" L x 0.122" W (9.70mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-97-51-BELFUSE-B	Radial	ds-cp-0zrc-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.390" L x 0.150" W (9.90mm x 3.80mm)	0.201" (5.10mm)	PTC-RAD-99-51-BELFUSE	Radial	ds-cp-0zre-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.394" L x 0.118" W (10.00mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-100-51-BELFUSE	Radial	ds-cp-0zrn-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.402" L x 0.118" W (10.20mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-102-51-BELFUSE	Radial	ds-cp-0zrb-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.402" L x 0.142" W (10.20mm x 3.60mm)	0.201" (5.10mm)	PTC-RAD-102-51-BELFUSE-B	Radial	ds-cp-0zrp-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.409" Dia x 0.122" T (10.40mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-104-51-BELFUSE	Radial	ds-cp-0zrr-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.409" L x 0.122" W (10.40mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-104-51-BELFUSE	Radial	shared with PTC-RAD-104-51-BELFUSE	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.417" Dia x 0.150" T (10.60mm x 3.80mm)	0.201" (5.10mm)	PTC-RAD-106-51-BELFUSE	Radial	ds-cp-0zrm-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.421" L x 0.118" W (10.70mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-107-51-BELFUSE	Radial	ds-cp-0zra-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.429" Dia x 0.161" T (10.90mm x 4.10mm)	0.201" (5.10mm)	PTC-RAD-109-51-BELFUSE	Radial	ds-cp-0zrm-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.429" L x 0.181" W (10.90mm x 4.60mm)	0.197" (5.00mm)	PTC-RAD-109-50-BELFUSE	Radial	ds-cp-0zrf-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.449" L x 0.118" W (11.40mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-114-51-BELFUSE-B	Radial	ds-cp-0zrb-series.pdf p.3	0ZRB
+F	ptc	belfuse		Through Hole	Radial, Disc		0.449" L x 0.118" W (11.40mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-114-51-BELFUSE	Radial	ds-cp-0zrg-series.pdf p.3	0ZRG
+F	ptc	belfuse		Through Hole	Radial, Disc		0.449" L x 0.150" W (11.40mm x 3.80mm)	0.201" (5.10mm)	PTC-RAD-114-51-BELFUSE-C	Radial	ds-cp-0zre-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.453" Dia x 0.161" T (11.50mm x 4.10mm)	0.201" (5.10mm)	PTC-RAD-115-51-BELFUSE-B	Radial	ds-cp-0zrm-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.453" L x 0.150" W (11.50mm x 3.80mm)	0.201" (5.10mm)	PTC-RAD-115-51-BELFUSE	Radial	ds-cp-0zre-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.453" L x 0.189" W (11.50mm x 4.80mm)	0.201" (5.10mm)	PTC-RAD-115-51-BELFUSE-C	Radial	ds-cp-0zre-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.461" L x 0.122" W (11.70mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-117-51-BELFUSE	Radial	ds-cp-0zrc-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.469" Dia x 0.150" T (11.90mm x 3.80mm)	0.201" (5.10mm)	PTC-RAD-119-51-BELFUSE	Radial	ds-cp-0zrm-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.480" L x 0.142" W (12.20mm x 3.60mm)	0.201" (5.10mm)	PTC-RAD-122-51-BELFUSE	Radial	ds-cp-0zrp-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.512" L x 0.142" W (13.00mm x 3.60mm)	0.201" (5.10mm)	PTC-RAD-130-51-BELFUSE	Radial	ds-cp-0zrp-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.524" Dia x 0.161" T (13.30mm x 4.10mm)	0.201" (5.10mm)	PTC-RAD-133-51-BELFUSE	Radial	ds-cp-0zrm-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.551" L x 0.118" W (14.00mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-140-51-BELFUSE	Radial	ds-cp-0zrb-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.551" L x 0.118" W (14.00mm x 3.00mm)	0.402" (10.20mm)	PTC-RAD-140-102-BELFUSE	Radial	ds-cp-0zrb-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.551" L x 0.142" W (14.00mm x 3.60mm)	0.201" (5.10mm)	PTC-RAD-140-51-BELFUSE	Radial	shared with PTC-RAD-140-51-BELFUSE	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.551" L x 0.161" W (14.00mm x 4.10mm)	0.201" (5.10mm)	PTC-RAD-140-51-BELFUSE-B	Radial	ds-cp-0zre-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.571" Dia x 0.122" T (14.50mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-145-51-BELFUSE	Radial	ds-cp-0zrr-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.650" L x 0.118" W (16.50mm x 3.00mm)	0.402" (10.20mm)	PTC-RAD-165-102-BELFUSE	Radial	ds-cp-0zrb-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.650" L x 0.142" W (16.50mm x 3.60mm)	0.402" (10.20mm)	PTC-RAD-165-102-BELFUSE	Radial	shared with PTC-RAD-165-102-BELFUSE	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.689" L x 0.118" W (17.50mm x 3.00mm)	0.402" (10.20mm)	PTC-RAD-175-102-BELFUSE	Radial	ds-cp-0zrn-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.701" L x 0.122" W (17.80mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-178-51-BELFUSE	Radial	ds-cp-0zrc-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.736" Dia x 0.201" T (18.70mm x 5.10mm)	0.402" (10.20mm)	PTC-RAD-187-102-BELFUSE	Radial	ds-cp-0zre-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.752" L x 0.118" W (19.10mm x 3.00mm)	0.402" (10.20mm)	PTC-RAD-191-102-BELFUSE	Radial	ds-cp-0zrb-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.831" L x 0.150" W (21.10mm x 3.80mm)	0.402" (10.20mm)	PTC-RAD-211-102-BELFUSE	Radial	ds-cp-0zrs-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.839" Dia x 0.122" T (21.30mm x 3.10mm)	0.402" (10.20mm)	PTC-RAD-213-102-BELFUSE	Radial	ds-cp-0zrr-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.850" L x 0.118" W (21.60mm x 3.00mm)	0.402" (10.20mm)	PTC-RAD-216-102-BELFUSE	Radial	ds-cp-0zrb-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.921" Dia x 0.210" T (23.40mm x 5.30mm)	0.402" (10.20mm)	PTC-RAD-234-102-BELFUSE	Radial	ds-cp-0zre-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.925" L x 0.142" W (23.50mm x 3.60mm)	0.402" (10.20mm)	PTC-RAD-235-102-BELFUSE	Radial	ds-cp-0zrn-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.949" L x 0.118" W (24.10mm x 3.00mm)	0.402" (10.20mm)	PTC-RAD-241-102-BELFUSE	Radial	ds-cp-0zrb-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.949" L x 0.142" W (24.10mm x 3.60mm)	0.402" (10.20mm)	PTC-RAD-241-102-BELFUSE	Radial	shared with PTC-RAD-241-102-BELFUSE	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.980" Dia x 0.122" T (24.90mm x 3.10mm)	0.402" (10.20mm)	PTC-RAD-249-102-BELFUSE	Radial	ds-cp-0zrr-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.980" L x 0.240" W (24.90mm x 6.10mm)	0.402" (10.20mm)	PTC-RAD-249-102-BELFUSE-B	Radial	ds-cp-0zre-series.pdf p.3	
+F	ptc	belfuse		Through Hole	Radial, Disc		1.161" Dia x 0.161" T (29.50mm x 4.10mm)	0.402" (10.20mm)	PTC-RAD-295-102-BELFUSE	Radial	ds-cp-0zrm-series.pdf p.3	

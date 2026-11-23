@@ -20,7 +20,7 @@ import scancommon as sc  # noqa: E402
 
 FACTS = ['pads', 'values', 'tols', 'amps_max', 'isat_max', 'dcr_max', 'shield', 'speed', 'vac', 'vdc', 'break_max', 'vmax', 'imax',
          'rtype', 'coils', 'polarized', 'latching', 'contacts', 'coilv', 'coil_ohms', 'amps', 'op', 'rel', 'ron',
-         'driver', 'technology', 'hz', 'volts', 'vrange', 'ma_max', 'db']
+         'driver', 'technology', 'hz', 'volts', 'vrange', 'ma_max', 'db', 'renumber']
 COLS = ['type', 'maker', 'series', 'pdf', 'package', 'rows', 'example', 'scheme', 'label', 'page', 'pinout', 'terminals'] + FACTS
 KEEP = ['scheme', 'label', 'page', 'pinout', 'terminals'] + FACTS
 KEY = ['type', 'maker', 'series', 'pdf', 'package']

@@ -1,0 +1,106 @@
+letter	type	company	series	mounting	package	supplier_package	size	detail	footprint	label	note	series_split
+F	ptc	littelfuse		Surface Mount	0603 (1608 Metric), Concave		0.063" L x 0.031" W (1.60mm x 0.80mm)		PTC-1608-LITTELFUSE	0603	resettable-ptcs-0603l-datasheet.pdf p.4	
+F	ptc	littelfuse		Surface Mount	0603 (1608 Metric), Concave		0.063" L x 0.032" W (1.60mm x 0.80mm)		PTC-1608-LITTELFUSE	0603	shared with PTC-1608-LITTELFUSE	POLY-FUSE®, 0603L
+F	ptc	littelfuse		Surface Mount	0603 (1608 Metric), Concave		0.063" L x 0.032" W (1.60mm x 0.80mm)		PTC-1608-LITTELFUSE	0603	shared with PTC-1608-LITTELFUSE	POLY-FUSE®, LoRho
+F	ptc	littelfuse		Surface Mount	0603 (1608 Metric), Concave		0.063" L x 0.032" W (1.60mm x 0.80mm)		PTC-1608-LITTELFUSE-B	0603	littelfuse-ptc-femtosmdc-datasheet.pdf p.4	PolySwitch®, femtoSMDC
+F	ptc	littelfuse		Surface Mount	0805 (2012 Metric), Concave		0.083" L x 0.053" W (2.10mm x 1.35mm)		PTC-2114-LITTELFUSE	0805	resettable-ptcs-0805l-datasheet.pdf p.4	
+F	ptc	littelfuse		Surface Mount	0805 (2012 Metric), Concave		0.083" L x 0.055" W (2.10mm x 1.40mm)		PTC-2114-LITTELFUSE	0805	shared with PTC-2114-LITTELFUSE	
+F	ptc	littelfuse		Surface Mount	1206 (3216 Metric), Concave		-		PTC-3216-LITTELFUSE	SMD	littelfuse-ptc-nanosmdc-datasheet.pdf p.5	
+F	ptc	littelfuse		Surface Mount	1206 (3216 Metric), Concave		0.126" L x 0.062" W (3.20mm x 1.58mm)		PTC-3216-LITTELFUSE	1206	shared with PTC-3216-LITTELFUSE	
+F	ptc	littelfuse		Surface Mount	1206 (3216 Metric), Concave		0.126" L x 0.063" W (3.20mm x 1.59mm)		PTC-3216-LITTELFUSE	1206	shared with PTC-3216-LITTELFUSE	
+F	ptc	littelfuse		Surface Mount	1206 (3216 Metric), Concave		0.126" L x 0.063" W (3.20mm x 1.60mm)		PTC-3216-LITTELFUSE	1206	shared with PTC-3216-LITTELFUSE	
+F	ptc	littelfuse		Surface Mount	1206 (3216 Metric), Concave		0.126" L x 0.065" W (3.20mm x 1.65mm)		PTC-3217-LITTELFUSE	1206	resettable-ptcs-1206l-datasheet.pdf p.4	
+F	ptc	littelfuse		Surface Mount	1206 (3216 Metric), Concave		0.128" L x 0.065" W (3.25mm x 1.65mm)		PTC-3217-LITTELFUSE	2920	shared with PTC-3217-LITTELFUSE	
+F	ptc	littelfuse		Surface Mount	1210 (3225 Metric), Concave		0.127" L x 0.101" W (3.22mm x 2.58mm)		PTC-3226-LITTELFUSE	1210	1210l_datasheet_update.pdf p.4	
+F	ptc	littelfuse		Surface Mount	1210 (3225 Metric), Concave		0.127" L x 0.102" W (3.22mm x 2.58mm)		PTC-3226-LITTELFUSE	1210	shared with PTC-3226-LITTELFUSE	
+F	ptc	littelfuse		Surface Mount	1812 (4532 Metric), Concave		0.179" L x 0.128" W (4.55mm x 3.24mm)		PTC-4632-LITTELFUSE-B	1812	resettable-ptcs-1812l-datasheet.pdf p.6	POLY-FUSE®, 1812L
+F	ptc	littelfuse		Surface Mount	1812 (4532 Metric), Concave		0.179" L x 0.128" W (4.55mm x 3.24mm)		PTC-4632-LITTELFUSE	1812	littelfuse-ptc-minismdc-datasheet.pdf p.5	PolySwitch®, miniASMD
+F	ptc	littelfuse		Surface Mount	1812 (4532 Metric), Concave		0.179" L x 0.128" W (4.55mm x 3.24mm)		PTC-4632-LITTELFUSE	1812	shared with PTC-4632-LITTELFUSE	PolySwitch®, miniSMD
+F	ptc	littelfuse		Surface Mount	1812 (4532 Metric), Concave		0.181" L x 0.128" W (4.60mm x 3.24mm)		PTC-4632-LITTELFUSE	1812	shared with PTC-4632-LITTELFUSE	
+F	ptc	littelfuse		Surface Mount	2-SMD		0.200" L x 0.180" W (5.08mm x 4.58mm)		PTC-5141-LITTELFUSE	SMD	resettable-ptcs-2016l-datasheet.pdf p.4	
+F	ptc	littelfuse		Surface Mount	2-SMD		0.240" L x 0.272" W (6.10mm x 6.90mm)		PTC-6169-LITTELFUSE	SMD	littelfuse-pptc-ts-series-datasheet.pdf p.8	
+F	ptc	littelfuse		Surface Mount	2-SMD		0.290" L x 0.202" W (7.36mm x 5.12mm)		PTC-7451-LITTELFUSE	SMD	littelfuse-ptc-smd-datasheet.pdf p.8	
+F	ptc	littelfuse		Surface Mount	2-SMD		0.343" L x 0.250" W (8.70mm x 6.36mm)		PTC-8764-LITTELFUSE	SMD	littelfuse-ptc-smd-datasheet.pdf p.8	
+F	ptc	littelfuse		Surface Mount	2-SMD		0.352" L x 0.291" W (8.95mm x 7.40mm)		PTC-9074-LITTELFUSE	SMD	littelfuse-pptc-ts-series-datasheet.pdf p.8	
+F	ptc	littelfuse		Surface Mount	2-SMD		0.370" L x 0.291" W (9.40mm x 7.40mm)		PTC-9074-LITTELFUSE	SMD	shared with PTC-9074-LITTELFUSE	
+F	ptc	littelfuse		Surface Mount	2016 (5041 Metric), Concave		0.200" L x 0.160" W (5.08mm x 4.07mm)		PTC-5141-LITTELFUSE	2016	shared with PTC-5141-LITTELFUSE	
+F	ptc	littelfuse		Surface Mount	2920 (7351 Metric), Concave		0.289" L x 0.202" W (7.35mm x 5.12mm)		PTC-7451-LITTELFUSE-B	2920	resettable-ptcs-2920l-datasheet.pdf p.4	
+F	ptc	littelfuse		Surface Mount	2920 (7351 Metric), Concave		0.290" L x 0.202" W (7.36mm x 5.12mm)		PTC-7451-LITTELFUSE-B	2920	shared with PTC-7451-LITTELFUSE-B	
+F	ptc	littelfuse		Surface Mount	2920 (7351 Metric), Concave		0.295" L x 0.201" W (7.50mm x 5.10mm)		PTC-7451-LITTELFUSE-B	2920	shared with PTC-7451-LITTELFUSE-B	
+F	ptc	littelfuse		Surface Mount	Nonstandard SMD		0.217" L x 0.217" W (5.50mm x 5.50mm)		PTC-5555-LITTELFUSE	SMD	resettable-ptc-telenetwork-catalog-datasheet.pdf p.11	
+F	ptc	littelfuse		Surface Mount	Nonstandard SMD		0.341" L x 0.250" W (8.65mm x 6.35mm)		PTC-8764-LITTELFUSE-B	SMD	littelfuse-pptc-3425l-datasheet.pdf p.3	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.189" Dia x 0.150" T (4.80mm x 3.80mm)	0.197" (5.00mm)	PTC-RAD-48-50-LITTELFUSE	Radial	littelfuse-pptc-tr-datasheet.pdf p.6	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.228" Dia x 0.181" T (5.80mm x 4.60mm)	0.197" (5.00mm)	PTC-RAD-58-50-LITTELFUSE	Radial	littelfuse-pptc-tr-datasheet.pdf p.6	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.228" Dia x 0.181" T (5.80mm x 4.60mm)	0.201" (5.10mm)	PTC-RAD-58-51-LITTELFUSE	Radial	resettable-ptcs-250r-datasheet.pdf p.4	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.256" L x 0.181" W (6.50mm x 4.60mm)	0.197" (5.00mm)	PTC-RAD-65-50-LITTELFUSE	Radial	littelfuse-pptc-tr-datasheet.pdf p.6	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.256" L x 0.181" W (6.50mm x 4.60mm)	0.201" (5.10mm)	PTC-RAD-68-51-LITTELFUSE	Radial	resettable-ptcs-250r-datasheet.pdf p.4 [datasheet used: A 6.8, DigiKey 6.50]	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.260" L x 0.098" W (6.60mm x 2.50mm)	0.199" (5.05mm)	PTC-RAD-66-51-LITTELFUSE	Radial	littelfuse-ptc-radial-leaded-rgef-datasheet.pdf p.4	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.272" Dia x 0.118" T (6.90mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-69-51-LITTELFUSE	Radial	littelfuse_ptc_usbr_datasheet.pdf p.3	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.272" Dia x 0.122" T (6.90mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-69-51-LITTELFUSE-B	Radial	resettable-ptc-rusbf-datasheet.pdf p.4	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.272" Dia x 0.181" T (6.90mm x 4.60mm)	0.200" (5.08mm)	PTC-RAD-69-51-LITTELFUSE-C	Radial	ptc-line-voltage-rated-datasheet.pdf p.5 [datasheet used: spacing 5.05, DigiKey 5.08]	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.272" L x 0.118" W (6.90mm x 3.00mm)	0.199" (5.05mm)	PTC-RAD-69-51-LITTELFUSE-D	Radial	resettable-ptc-rhef-datasheet.pdf p.5	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.272" L x 0.122" W (6.90mm x 3.10mm)	0.200" (5.08mm)	PTC-RAD-69-51-LITTELFUSE-B	Radial	shared with PTC-RAD-69-51-LITTELFUSE-B [datasheet used: spacing 5.1, DigiKey 5.08]	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.280" L x 0.118" W (7.10mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-71-51-LITTELFUSE	Radial	resettable-ptcs-16r-datasheet.pdf p.3	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.283" Dia x 0.181" T (7.20mm x 4.60mm)	0.200" (5.08mm)	PTC-RAD-72-51-LITTELFUSE	Radial	ptc-line-voltage-rated-datasheet.pdf p.5 [datasheet used: spacing 5.05, DigiKey 5.08]	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.291" Dia x 0.118" T (7.40mm x 3.00mm)	0.199" (5.05mm)	PTC-RAD-74-51-LITTELFUSE	Radial	resettable-ptc-rxef-datasheet.pdf p.5	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.291" Dia x 0.122" T (7.40mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-74-51-LITTELFUSE-B	Radial	resettable-ptcs-60r-datasheet.pdf p.4	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.291" L x 0.118" W (7.40mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-74-51-LITTELFUSE-C	Radial	littelfuse-ptc-30r-datasheet.pdf p.4	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.291" L x 0.122" W (7.40mm x 3.10mm)	0.199" (5.05mm)	PTC-RAD-74-51-LITTELFUSE-D	Radial	resettable-ptc-rusbf-datasheet.pdf p.4	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.295" Dia x 0.161" T (7.50mm x 4.10mm)	0.197" (5.00mm)	PTC-RAD-75-50-LITTELFUSE	Radial	littelfuse-pptc-tr-datasheet.pdf p.6 [datasheet used: thickness 3.8, DigiKey 4.10]	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.299" Dia x 0.118" T (7.60mm x 3.00mm)	0.199" (5.05mm)	PTC-RAD-76-51-LITTELFUSE	Radial	resettable-ptc-rxef-datasheet.pdf p.5	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.299" Dia x 0.122" T (7.60mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-76-51-LITTELFUSE-B	Radial	resettable-ptcs-60r-datasheet.pdf p.4	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.299" L x 0.161" W (7.60mm x 4.10mm)	0.199" (5.05mm)	PTC-RAD-76-51-LITTELFUSE-C	Radial	resettable-ptc-rkef-datasheet.pdf p.4 [datasheet used: spacing 5.08, DigiKey 5.05]	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.311" Dia x 0.118" T (7.90mm x 3.00mm)	0.199" (5.05mm)	PTC-RAD-79-51-LITTELFUSE	Radial	resettable-ptc-rxef-datasheet.pdf p.5	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.311" Dia x 0.122" T (7.90mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-79-51-LITTELFUSE-B	Radial	resettable-ptcs-72r-datasheet.pdf p.4	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.315" Dia x 0.118" T (8.00mm x 3.00mm)	0.199" (5.05mm)	PTC-RAD-80-51-LITTELFUSE	Radial	resettable-ptc-rxef-datasheet.pdf p.5	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.331" L x 0.098" W (8.40mm x 2.50mm)	0.199" (5.05mm)	PTC-RAD-84-51-LITTELFUSE	Radial	littelfuse-ptc-radial-leaded-rgef-datasheet.pdf p.4	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.350" L x 0.118" W (8.90mm x 3.00mm)	0.199" (5.05mm)	PTC-RAD-89-51-LITTELFUSE	Radial	littelfuse-ptc-radial-leaded-agrf-datasheet.pdf p.4	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.350" L x 0.118" W (8.90mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-89-51-LITTELFUSE-B	Radial	resettable-ptcs-16r-datasheet.pdf p.3	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.354" L x 0.181" W (9.00mm x 4.60mm)	0.197" (5.00mm)	PTC-RAD-90-50-LITTELFUSE	Radial	littelfuse-pptc-tr-datasheet.pdf p.6	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.354" L x 0.181" W (9.00mm x 4.60mm)	0.201" (5.10mm)	PTC-RAD-90-51-LITTELFUSE	Radial	resettable-ptcs-600r-datasheet.pdf p.3	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.370" Dia x 0.118" T (9.40mm x 3.00mm)	0.200" (5.08mm)	PTC-RAD-94-51-LITTELFUSE	Radial	littelfuse-ptc-radial-leaded-ahrf-datasheet.pdf p.5 [datasheet used: spacing 5.05, DigiKey 5.08]	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.370" Dia x 0.122" T (9.40mm x 3.10mm)	0.199" (5.05mm)	PTC-RAD-94-51-LITTELFUSE-B	Radial	resettable-ptc-rhef-datasheet.pdf p.5	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.374" Dia x 0.181" T (9.50mm x 4.60mm)	0.201" (5.10mm)	PTC-RAD-95-51-LITTELFUSE	Radial	resettable-ptcs-250r-datasheet.pdf p.4	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.382" Dia x 0.118" T (9.70mm x 3.00mm)	0.199" (5.05mm)	PTC-RAD-97-51-LITTELFUSE	Radial	resettable-ptc-rhef-datasheet.pdf p.5	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.402" Dia x 0.118" T (10.20mm x 3.00mm)	0.199" (5.05mm)	PTC-RAD-102-51-LITTELFUSE	Radial	resettable-ptc-rxef-datasheet.pdf p.5	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.402" L x 0.118" W (10.20mm x 3.00mm)	0.199" (5.05mm)	PTC-RAD-79-51-LITTELFUSE-C	Radial	resettable-ptc-rkef-datasheet.pdf p.4 [datasheet used: datasheet row RKEF075 7.87 x 3.56; DigiKey 10.20 x 3.00 is the RXEF075 size]	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.402" L x 0.118" W (10.20mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-102-51-LITTELFUSE-B	Radial	littelfuse-ptc-30r-datasheet.pdf p.4	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.402" L x 0.150" W (10.20mm x 3.80mm)	0.200" (5.08mm)	PTC-RAD-102-51-LITTELFUSE-C	Radial	littelfuse-ptc-radial-leaded-ahef-datasheet.pdf p.4	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.409" Dia x 0.122" T (10.40mm x 3.10mm)	0.199" (5.05mm)	PTC-RAD-104-51-LITTELFUSE	Radial	littelfuse-ptc-radial-leaded-agrf-datasheet.pdf p.4 [datasheet used: thickness 3, DigiKey 3.10]	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.409" L x 0.118" W (10.40mm x 3.00mm)	0.199" (5.05mm)	PTC-RAD-104-51-LITTELFUSE	Radial	shared with PTC-RAD-104-51-LITTELFUSE	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.409" L x 0.118" W (10.40mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-104-51-LITTELFUSE-B	Radial	resettable-ptcs-16r-datasheet.pdf p.3	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.421" L x 0.098" W (10.70mm x 2.50mm)	0.199" (5.05mm)	PTC-RAD-107-51-LITTELFUSE	Radial	littelfuse-ptc-radial-leaded-rgef-datasheet.pdf p.4	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.441" Dia x 0.122" T (11.20mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-112-51-LITTELFUSE	Radial	resettable-ptcs-60r-datasheet.pdf p.4	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.441" L x 0.118" W (11.20mm x 3.00mm)	0.199" (5.05mm)	PTC-RAD-112-51-LITTELFUSE-B	Radial	littelfuse-ptc-radial-leaded-agrf-datasheet.pdf p.4	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.441" L x 0.118" W (11.20mm x 3.00mm)	0.200" (5.08mm)	PTC-RAD-112-51-LITTELFUSE-B	Radial	shared with PTC-RAD-112-51-LITTELFUSE-B [datasheet used: spacing 5.05, DigiKey 5.08]	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.441" L x 0.118" W (11.20mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-112-51-LITTELFUSE-C	Radial	resettable-ptcs-16r-datasheet.pdf p.3	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.449" L x 0.118" W (11.40mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-114-51-LITTELFUSE	Radial	littelfuse-ptc-30r-datasheet.pdf p.4	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.449" L x 0.150" W (11.40mm x 3.80mm)	0.200" (5.08mm)	PTC-RAD-114-51-LITTELFUSE-B	Radial	ptc-line-voltage-rated-datasheet.pdf p.6 [datasheet used: spacing 5.05, DigiKey 5.08]	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.450" L x 0.189" W (11.43mm x 4.80mm)	0.200" (5.08mm)	PTC-RAD-115-51-LITTELFUSE	Radial	ptc-line-voltage-rated-datasheet.pdf p.6 [datasheet used: A 11.5, DigiKey 11.43; spacing 5.1, DigiKey 5.08]	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.500" L x 0.118" W (12.70mm x 3.00mm)	0.199" (5.05mm)	PTC-RAD-127-51-LITTELFUSE	Radial	littelfuse-ptc-radial-leaded-agrf-datasheet.pdf p.4	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.504" Dia x 0.118" T (12.80mm x 3.00mm)	0.200" (5.08mm)	PTC-RAD-128-51-LITTELFUSE	Radial	resettable-ptc-rxef-datasheet.pdf p.6 [datasheet used: spacing 5.05, DigiKey 5.08]	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.512" Dia x 0.122" T (13.00mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-130-51-LITTELFUSE	Radial	resettable-ptcs-60r-datasheet.pdf p.4	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.512" L x 0.150" W (13.00mm x 3.81mm)	0.200" (5.08mm)	PTC-RAD-140-51-LITTELFUSE	Radial	resettable-ptc-rkef-datasheet.pdf p.4 [datasheet used: A 14, DigiKey 13.00; thickness 3, DigiKey 3.81]	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.531" L x 0.100" W (13.50mm x 2.50mm)	0.199" (5.05mm)	PTC-RAD-135-51-LITTELFUSE	Radial	littelfuse-ptc-radial-leaded-rgef-datasheet.pdf p.4	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.551" L x 0.118" W (14.00mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-140-51-LITTELFUSE-B	Radial	littelfuse-ptc-30r-datasheet.pdf p.4	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.551" L x 0.118" W (14.00mm x 3.00mm)	0.402" (10.20mm)	PTC-RAD-140-102-LITTELFUSE	Radial	littelfuse-ptc-30r-datasheet.pdf p.4	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.551" L x 0.150" W (14.00mm x 3.80mm)	0.199" (5.05mm)	PTC-RAD-140-51-LITTELFUSE-C	Radial	littelfuse-ptc-radial-leaded-ahef-datasheet.pdf p.4	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.600" Dia x 0.122" T (15.24mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-154-51-LITTELFUSE	Radial	resettable-ptcs-72r-datasheet.pdf p.4 [datasheet used: A 15.36, DigiKey 15.24]	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.630" L x 0.098" W (16.00mm x 2.50mm)	0.199" (5.05mm)	PTC-RAD-165-51-LITTELFUSE	Radial	littelfuse-ptc-radial-leaded-rgef-datasheet.pdf p.4 [datasheet used: A 16.5, DigiKey 16.00]	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.630" L x 0.236" W (16.00mm x 6.00mm)	0.197" (5.00mm)	PTC-RAD-160-50-LITTELFUSE	Radial	littelfuse-pptc-tr-datasheet.pdf p.7	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.630" L x 0.236" W (16.00mm x 6.00mm)	0.200" (5.08mm)	PTC-RAD-160-51-LITTELFUSE	Radial	littelfuse-pptc-tr-datasheet.pdf p.7	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.630" L x 0.236" W (16.00mm x 6.00mm)	0.201" (5.10mm)	PTC-RAD-160-51-LITTELFUSE-B	Radial	resettable-ptcs-600r-datasheet.pdf p.3	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.650" L x 0.098" W (16.50mm x 2.50mm)	0.199" (5.05mm)	PTC-RAD-165-51-LITTELFUSE	Radial	shared with PTC-RAD-165-51-LITTELFUSE	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.650" L x 0.118" W (16.50mm x 3.00mm)	0.199" (5.05mm)	PTC-RAD-165-51-LITTELFUSE-B	Radial	resettable-ptc-rhef-datasheet.pdf p.6	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.650" L x 0.118" W (16.50mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-165-51-LITTELFUSE-C	Radial	resettable-ptcs-16r-datasheet.pdf p.3	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.650" L x 0.118" W (16.50mm x 3.00mm)	0.402" (10.20mm)	PTC-RAD-165-102-LITTELFUSE	Radial	littelfuse-ptc-30r-datasheet.pdf p.4	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.819" Dia x 0.118" T (20.80mm x 3.00mm)	0.400" (10.15mm)	PTC-RAD-208-102-LITTELFUSE	Radial	resettable-ptc-rxef-datasheet.pdf p.6	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.830" L x 0.150" W (21.10mm x 3.80mm)	0.400" (10.15mm)	PTC-RAD-211-102-LITTELFUSE	Radial	littelfuse-ptc-radial-leaded-ahef-datasheet.pdf p.4	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.835" Dia x 0.209" T (21.20mm x 5.30mm)	0.400" (10.15mm)	PTC-RAD-212-102-LITTELFUSE	Radial	ptc-line-voltage-rated-datasheet.pdf p.6	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.910" Dia x 0.122" T (23.11mm x 3.10mm)	0.402" (10.20mm)	PTC-RAD-231-102-LITTELFUSE	Radial	resettable-ptcs-60r-datasheet.pdf p.4	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.925" L x 0.138" W (23.50mm x 3.50mm)	0.400" (10.15mm)	PTC-RAD-235-102-LITTELFUSE	Radial	littelfuse-ptc-radial-leaded-ahrf-datasheet.pdf p.6	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.925" L x 0.138" W (23.50mm x 3.50mm)	0.402" (10.20mm)	PTC-RAD-235-102-LITTELFUSE-B	Radial	resettable-ptcs-16r-datasheet.pdf p.3	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.925" L x 0.157" W (23.50mm x 4.00mm)	0.400" (10.15mm)	PTC-RAD-235-102-LITTELFUSE-C	Radial	littelfuse-ptc-radial-leaded-ahef-datasheet.pdf p.4	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.949" L x 0.118" W (24.10mm x 3.00mm)	0.400" (10.15mm)	PTC-RAD-241-102-LITTELFUSE	Radial	resettable-ptc-rkef-datasheet.pdf p.4	
+F	ptc	littelfuse		Through Hole	Radial, Disc		0.980" L x 0.240" W (24.90mm x 6.10mm)	0.400" (10.15mm)	PTC-RAD-249-102-LITTELFUSE	Radial	ptc-line-voltage-rated-datasheet.pdf p.6	
+F	ptc	littelfuse		Through Hole	Radial, Disc		1.035" Dia x 0.122" T (26.30mm x 3.10mm)	0.402" (10.20mm)	PTC-RAD-263-102-LITTELFUSE	Radial	resettable-ptcs-72r-datasheet.pdf p.4	

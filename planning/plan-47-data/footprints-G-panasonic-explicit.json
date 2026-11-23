@@ -1,0 +1,5906 @@
+{
+ "format": "schematical-footprints",
+ "version": 1,
+ "footprints": [
+  {
+   "id": "RELAY-CB-4-PANASONIC",
+   "description": "Panasonic CB automotive relay, PC board type, 1 Form A, 4 slots",
+   "note": "mech_eng_cb.pdf p.8 (printed 7) PC board pattern, BOTTOM VIEW mirrored left-right to top view; slots 2.6 x 1.4 (30, 85, 86 long side along x; 87 turned 90 deg), pin 30 at the origin of the drawing, 87 17.9 to the right, 86/85 at 8.4 right of 30 (17.9-8.4 = 9.5) and 8.4 above/below, body 26 x 22 from the dashed outline; designators are the terminal numbers 30 85 86 87 renumbered 1..4 in ascending order",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 26,
+    "height": 22
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 7.45,
+     "y": 0.0,
+     "width": 3.3,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4,
+     "slotLength": 2.6
+    },
+    {
+     "pin": 2,
+     "x": -2.05,
+     "y": 8.4,
+     "width": 3.3,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4,
+     "slotLength": 2.6
+    },
+    {
+     "pin": 3,
+     "x": -2.05,
+     "y": -8.4,
+     "width": 3.3,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4,
+     "slotLength": 2.6
+    },
+    {
+     "pin": 4,
+     "x": -10.45,
+     "y": 0.0,
+     "width": 2.1,
+     "height": 3.3,
+     "shape": "round",
+     "drill": 1.4,
+     "slotLength": 2.6
+    }
+   ]
+  },
+  {
+   "id": "RELAY-CB-5-PANASONIC",
+   "description": "Panasonic CB automotive relay, PC board type, 1 Form C, 5 slots",
+   "note": "mech_eng_cb.pdf p.8 (printed 7) PC board pattern, BOTTOM VIEW mirrored left-right to top view; as the 4-pad footprint plus 87a (1 Form C only) at 8 left of 87 (17.9-8 = 9.9) on the 30/87 line; terminals 30 85 86 87 87a renumbered 1..5 in ascending order",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 26,
+    "height": 22
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 7.45,
+     "y": 0.0,
+     "width": 3.3,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4,
+     "slotLength": 2.6
+    },
+    {
+     "pin": 2,
+     "x": -2.05,
+     "y": 8.4,
+     "width": 3.3,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4,
+     "slotLength": 2.6
+    },
+    {
+     "pin": 3,
+     "x": -2.05,
+     "y": -8.4,
+     "width": 3.3,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4,
+     "slotLength": 2.6
+    },
+    {
+     "pin": 4,
+     "x": -10.45,
+     "y": 0.0,
+     "width": 2.1,
+     "height": 3.3,
+     "shape": "round",
+     "drill": 1.4,
+     "slotLength": 2.6
+    },
+    {
+     "pin": 5,
+     "x": -2.45,
+     "y": 0.0,
+     "width": 2.1,
+     "height": 3.3,
+     "shape": "round",
+     "drill": 1.4,
+     "slotLength": 2.6
+    }
+   ]
+  },
+  {
+   "id": "RELAY-ACJ-8-PANASONIC",
+   "description": "Panasonic ACJ twin automotive relay, 8 PC pins",
+   "note": "mech_eng_cj.pdf p.6 PC board pattern (twin type, standard; the pin-in-paste type p.6 has the same pattern), BOTTOM VIEW mirrored to top view; holes 4 x 1.0 at x=4.0 (y 0, 4.5, 6.5, 11.0) and 4 x 1.5 at x=0 and 10.45 (y 2.25, 8.75, 6.5 apart); the datasheet numbers no terminal: pad numbers follow specs.tsv (1=A1 2=NC1 3=COM1 4=A2 5=A3 6=NO2 7=COM2 8=A4) placed by the bottom-view schematic (top relay N.C. left / COM right, bottom relay N.O. left / COM right, coils in the middle column); body 12.2 x 13.7",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 12.2,
+    "height": 13.7
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 1.4,
+     "y": -5.6,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 2,
+     "x": 5.4,
+     "y": -3.35,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 3,
+     "x": -5.05,
+     "y": -3.35,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 4,
+     "x": 1.4,
+     "y": -1.1,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 5,
+     "x": 1.4,
+     "y": 0.9,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 6,
+     "x": 5.4,
+     "y": 3.15,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 7,
+     "x": -5.05,
+     "y": 3.15,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 8,
+     "x": 1.4,
+     "y": 5.4,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    }
+   ]
+  },
+  {
+   "id": "RELAY-ACNH-5-PANASONIC",
+   "description": "Panasonic ACNH automotive relay, 1 Form A, 5 PC pins (2 COM)",
+   "note": "mech_eng_cnh.pdf p.6 PC board pattern, BOTTOM VIEW mirrored to top view; holes 2 x 1.6 left column (y +-2.8, COM x2), 2 x 1.6 middle (x 9.45, y +-3.2, coil), 1.7 right (x 14.95, y -3.0, N.O.), 14.95 across; no terminal numbers in the datasheet: pads follow specs.tsv 1=COM 2=A1 3=NO 4=COM 5=A2 placed by the bottom-view schematic; body 17.0 x 10.7 from the dashed outline",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 17.0,
+    "height": 10.7
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 7.5,
+     "y": -2.8,
+     "width": 2.3,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.6
+    },
+    {
+     "pin": 2,
+     "x": -1.95,
+     "y": -3.2,
+     "width": 2.3,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.6
+    },
+    {
+     "pin": 3,
+     "x": -7.45,
+     "y": -3.0,
+     "width": 2.4,
+     "height": 2.4,
+     "shape": "round",
+     "drill": 1.7
+    },
+    {
+     "pin": 4,
+     "x": 7.5,
+     "y": 2.8,
+     "width": 2.3,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.6
+    },
+    {
+     "pin": 5,
+     "x": -1.95,
+     "y": 3.2,
+     "width": 2.3,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.6
+    }
+   ]
+  },
+  {
+   "id": "RELAY-CNM-6-PANASONIC",
+   "description": "Panasonic CN-M relay, 1 Form C, 6 PC pins",
+   "note": "mech_eng_cnm.pdf p.5 PC board pattern 1 Form C, BOTTOM VIEW mirrored to top view; 6 x 1.5 holes, 10.95 x 8 grid, middle column 4.65 from the right; the datasheet numbers no terminal: pads follow specs.tsv 1=COM 2=A1 3=NC 4=COM 5=A2 6=NO placed by the bottom-view schematic (top row COM, COIL, N.C.; bottom row COM, COIL, N.O.); body 15.5 x 11",
+   "style": "explicit",
+   "pins": 6,
+   "body": {
+    "width": 15.5,
+    "height": 11
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 4.76,
+     "y": -4.0,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 2,
+     "x": -1.54,
+     "y": -4.0,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 3,
+     "x": -6.19,
+     "y": -4.0,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 4,
+     "x": 4.76,
+     "y": 4.0,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 5,
+     "x": -1.54,
+     "y": 4.0,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 6,
+     "x": -6.19,
+     "y": 4.0,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    }
+   ]
+  },
+  {
+   "id": "RELAY-CNM-5-SMD-PANASONIC",
+   "description": "Panasonic CN-M relay, 1 Form A, 5 gull-wing pads",
+   "note": "mech_eng_cnm.pdf p.6 Recommended mounting pad 1 Form A, TOP VIEW as drawn; 5 pads 1.7 x 4.6, top row COM (x 0), COIL (6.3), N.O. (10.95), bottom row (11.2 below) COM, COIL; no terminal numbers in the datasheet: pads follow specs.tsv 1=COM 2=A1 3=NO 4=COM 5=A2 placed by the top-view schematic; body 15.5 x 11",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 15.5,
+    "height": 11
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -4.8,
+     "y": -5.6,
+     "width": 1.7,
+     "height": 4.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 1.5,
+     "y": -5.6,
+     "width": 1.7,
+     "height": 4.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 6.15,
+     "y": -5.6,
+     "width": 1.7,
+     "height": 4.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -4.8,
+     "y": 5.6,
+     "width": 1.7,
+     "height": 4.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 1.5,
+     "y": 5.6,
+     "width": 1.7,
+     "height": 4.6,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "RELAY-CP-5-PANASONIC",
+   "description": "Panasonic CP relay, 1 Form C, PC board type, 5 holes and slots",
+   "note": "mech_eng_cp.pdf p.6 PC board pattern 1 Form C, BOTTOM VIEW mirrored to top view; 3 slots 0.9 x 2.0 (left COM, right N.O. vertical, N.C. horizontal 5.0 left of the right slot and 5.4 above it) and 2 holes 1.3 (6.0 apart, 2.0 from the right slot, 4.5 below the slot line), 10.7 left slot to right slot; the datasheet numbers no terminal: pads follow specs.tsv 1=NC 2=COM 3=NO 4=A1 5=A2 placed by the bottom-view schematic; body 14 x 13",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 14,
+    "height": 13
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -0.3,
+     "y": -4.9,
+     "width": 2.7,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 0.9,
+     "slotLength": 2.0
+    },
+    {
+     "pin": 2,
+     "x": 5.4,
+     "y": 0.5,
+     "width": 1.6,
+     "height": 2.7,
+     "shape": "round",
+     "drill": 0.9,
+     "slotLength": 2.0
+    },
+    {
+     "pin": 3,
+     "x": -5.3,
+     "y": 0.5,
+     "width": 1.6,
+     "height": 2.7,
+     "shape": "round",
+     "drill": 0.9,
+     "slotLength": 2.0
+    },
+    {
+     "pin": 4,
+     "x": 2.7,
+     "y": 5.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 5,
+     "x": -3.3,
+     "y": 5.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-CP-5-SMD-PANASONIC",
+   "description": "Panasonic CP relay, 1 Form C, surface mount, 5 pads",
+   "note": "mech_eng_cp.pdf p.6 Recommendable mounting pad (TOP VIEW) as drawn: pads 2.0 x 4.2 (two, 6.0 apart, 3.8+4.2 above the centre line), 4.8 x 2.5 (left and right, centres 7.1 left and 6.4 right of the centre line), 2.5 x 4.8 (one below, 4.4 below the centre line); assignment by shape against the bottom-view schematic (single bottom pad = N.C., side pads COM left / N.O. right with N.C. nearer N.O., the pair = coil); pads follow specs.tsv 1=NC 2=COM 3=NO 4=A1 5=A2; body 14 x 13",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 14,
+    "height": 13
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 0.35,
+     "y": 6.3,
+     "width": 2.5,
+     "height": 4.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -6.75,
+     "y": -0.5,
+     "width": 4.8,
+     "height": 2.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 6.75,
+     "y": -0.5,
+     "width": 4.8,
+     "height": 2.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -2.65,
+     "y": -6.4,
+     "width": 2.0,
+     "height": 4.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 3.35,
+     "y": -6.4,
+     "width": 2.0,
+     "height": 4.2,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "RELAY-CQ-5-PANASONIC",
+   "description": "Panasonic CQ relay, 1 Form C, 5 PC pins",
+   "note": "mech_eng_cq.pdf p.5 PC board pattern, BOTTOM VIEW mirrored to top view; 5 x 1.5 holes: 4 on a 10.2 x 10.0 rectangle and COM 2.5 left of it at mid height; no terminal numbers in the datasheet: pads follow specs.tsv 1=A1 2=NO 3=COM 4=A2 5=NC placed by the bottom-view schematic (coil left column, N.O. top right, N.C. bottom right); body 16.7 x 12.8 from the dashed outline",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 16.7,
+    "height": 12.8
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 4.2,
+     "y": -5.1,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 2,
+     "x": -6.0,
+     "y": -5.1,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 3,
+     "x": 6.7,
+     "y": -0.1,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 4,
+     "x": 4.2,
+     "y": 4.9,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 5,
+     "x": -6.0,
+     "y": 4.9,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    }
+   ]
+  },
+  {
+   "id": "RELAY-ACT-10-PANASONIC",
+   "description": "Panasonic ACT twin relay, 2 Form C, 10 PC pins",
+   "note": "mech_eng_ct.pdf p.6 PC board pattern, Twin type (10 pins), BOTTOM VIEW mirrored to top view; 6 x 1.4 holes (COM x2 at x 0 and 6.8 apart, N.O. x2 at x 6.0, N.C. x2 at x 9.5 and 0.65 below each COM) and 4 x 1.1 coil holes at x 15 (4.3, 2.5, 4.3 apart); no terminal numbers in the datasheet: pads follow specs.tsv 1=A1 2=NO1 3=COM1 4=A2 5=NC1 6=A3 7=NO2 8=COM2 9=NC2 10=A4 placed by the bottom-view schematic (relay 1 on top); body 17.4 x 14",
+   "style": "explicit",
+   "pins": 10,
+   "body": {
+    "width": 17.4,
+    "height": 14
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -7.55,
+     "y": -5.55,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 2,
+     "x": 1.45,
+     "y": -4.4,
+     "width": 2.1,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4
+    },
+    {
+     "pin": 3,
+     "x": 7.45,
+     "y": -1.25,
+     "width": 2.1,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4
+    },
+    {
+     "pin": 4,
+     "x": -7.55,
+     "y": -1.25,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 5,
+     "x": -2.05,
+     "y": -0.6,
+     "width": 2.1,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4
+    },
+    {
+     "pin": 6,
+     "x": -7.55,
+     "y": 1.25,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 7,
+     "x": 1.45,
+     "y": 2.4,
+     "width": 2.1,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4
+    },
+    {
+     "pin": 8,
+     "x": 7.45,
+     "y": 5.55,
+     "width": 2.1,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4
+    },
+    {
+     "pin": 9,
+     "x": -2.05,
+     "y": 6.2,
+     "width": 2.1,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4
+    },
+    {
+     "pin": 10,
+     "x": -7.55,
+     "y": 5.55,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    }
+   ]
+  },
+  {
+   "id": "RELAY-ACT-5-PANASONIC",
+   "description": "Panasonic ACT slim relay, 1 Form C, 5 PC pins",
+   "note": "mech_eng_ct.pdf p.6 PC board pattern, Slim 1 Form C type, BOTTOM VIEW mirrored to top view; 3 x 1.4 holes (COM, N.O. 6.0 right and 3.15 above, N.C. 9.5 right and 0.65 below) and 2 x 1.1 coil holes at x 15, 4.3 apart; pads follow specs.tsv 1=A1 2=NO 3=COM 4=A2 5=NC placed by the bottom-view schematic; body 17.4 x 7.2",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 17.4,
+    "height": 7.2
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -7.55,
+     "y": -2.15,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 2,
+     "x": 1.45,
+     "y": -1.0,
+     "width": 2.1,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4
+    },
+    {
+     "pin": 3,
+     "x": 7.45,
+     "y": 2.15,
+     "width": 2.1,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4
+    },
+    {
+     "pin": 4,
+     "x": -7.55,
+     "y": 2.15,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 5,
+     "x": -2.05,
+     "y": 2.8,
+     "width": 2.1,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4
+    }
+   ]
+  },
+  {
+   "id": "RELAY-ACTP-10-PANASONIC",
+   "description": "Panasonic ACTP twin relay, 2 Form C, 10 PC pins",
+   "note": "mech_eng_ctp.pdf p.6 PC board pattern, Twin type (10 pins), BOTTOM VIEW mirrored to top view; 6 x 1.4 holes (except coil terminals) and 4 x 1.1 coil holes, geometry as ACT (p.6 of mech_eng_ct.pdf); pads follow specs.tsv 1=A1 2=NO1 3=COM1 4=A2 5=NC1 6=A3 7=NO2 8=COM2 9=NC2 10=A4 placed by the bottom-view schematic; body 17.4 x 14",
+   "style": "explicit",
+   "pins": 10,
+   "body": {
+    "width": 17.4,
+    "height": 14
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -7.55,
+     "y": -5.55,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 2,
+     "x": 1.45,
+     "y": -4.4,
+     "width": 2.1,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4
+    },
+    {
+     "pin": 3,
+     "x": 7.45,
+     "y": -1.25,
+     "width": 2.1,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4
+    },
+    {
+     "pin": 4,
+     "x": -7.55,
+     "y": -1.25,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 5,
+     "x": -2.05,
+     "y": -0.6,
+     "width": 2.1,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4
+    },
+    {
+     "pin": 6,
+     "x": -7.55,
+     "y": 1.25,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 7,
+     "x": 1.45,
+     "y": 2.4,
+     "width": 2.1,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4
+    },
+    {
+     "pin": 8,
+     "x": 7.45,
+     "y": 5.55,
+     "width": 2.1,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4
+    },
+    {
+     "pin": 9,
+     "x": -2.05,
+     "y": 6.2,
+     "width": 2.1,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4
+    },
+    {
+     "pin": 10,
+     "x": -7.55,
+     "y": 5.55,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    }
+   ]
+  },
+  {
+   "id": "RELAY-DE-6-PANASONIC",
+   "description": "Panasonic DE relay, single side stable, 6 PC pins",
+   "note": "mech_eng_de.pdf p.5 Recommended PC board pattern (single side stable), BOTTOM VIEW mirrored to top view; 6 x 1.2 holes, columns at 0, 15.24 and 22.86, rows 7.62 apart; terminal numbers from the bottom-view schematic: top row 1 3 4, bottom row 8 6 5 (5 and 6 are dummy terminals of the 1 Form A types, drawn here as pads for the 2 Form A and 1A1B types); renumbered 1 3 4 5 6 8 -> 1..6; body 25 x 12.5, pin 1 1.15 from the body end",
+   "style": "explicit",
+   "pins": 6,
+   "body": {
+    "width": 25,
+    "height": 12.5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 11.35,
+     "y": -3.81,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 2,
+     "x": -3.89,
+     "y": -3.81,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 3,
+     "x": -11.51,
+     "y": -3.81,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 4,
+     "x": -11.51,
+     "y": 3.81,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 5,
+     "x": -3.89,
+     "y": 3.81,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 6,
+     "x": 11.35,
+     "y": 3.81,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    }
+   ]
+  },
+  {
+   "id": "RELAY-DE-8-PANASONIC",
+   "description": "Panasonic DE relay, 2 coil latching, 8 PC pins",
+   "note": "mech_eng_de.pdf p.6 Recommended PC board pattern (2 coil latching), BOTTOM VIEW mirrored to top view; 8 x 1.2 holes, columns at 0, 2.54, 15.24 and 22.86, rows 7.62 apart; top row 1 2 3 4, bottom row 8 7 6 5 (schematic); renumbered 1..8 in ascending order (identity); body 25 x 12.5",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 25,
+    "height": 12.5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 11.35,
+     "y": -3.81,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 2,
+     "x": 8.81,
+     "y": -3.81,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 3,
+     "x": -3.89,
+     "y": -3.81,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 4,
+     "x": -11.51,
+     "y": -3.81,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 5,
+     "x": -11.51,
+     "y": 3.81,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 6,
+     "x": -3.89,
+     "y": 3.81,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 7,
+     "x": 8.81,
+     "y": 3.81,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 8,
+     "x": 11.35,
+     "y": 3.81,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    }
+   ]
+  },
+  {
+   "id": "RELAY-ADJ-8-PANASONIC",
+   "description": "Panasonic ADJ relay, 2 Form C, 8 PC pins",
+   "note": "mech_eng_dj.pdf p.9 Recommended PC board pattern 2 Form C, BOTTOM VIEW mirrored to top view; 8 x 1.5 holes: top row 1 (0) 2 (15.24) 3 (20.32) 4 (25.4), bottom row 8 7 6 5 at the same x, rows 10.16 apart (5.08 x 2); the 2-coil latching pin 9 is not used by these parts; body 29 x 13",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 29,
+    "height": 13
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 12.7,
+     "y": -5.08,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 2,
+     "x": -2.54,
+     "y": -5.08,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 3,
+     "x": -7.62,
+     "y": -5.08,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 4,
+     "x": -12.7,
+     "y": -5.08,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 5,
+     "x": -12.7,
+     "y": 5.08,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 6,
+     "x": -7.62,
+     "y": 5.08,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 7,
+     "x": -2.54,
+     "y": 5.08,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 8,
+     "x": 12.7,
+     "y": 5.08,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    }
+   ]
+  },
+  {
+   "id": "RELAY-ADJ-6-PANASONIC",
+   "description": "Panasonic ADJ relay, 1 Form C 2 coil latching, 6 PC pins",
+   "note": "mech_eng_dj.pdf p.6 Recommended PC board pattern 1 Form C (2 coil latching: pin 9 present), BOTTOM VIEW mirrored to top view; 6 x 1.5 holes: top row 1 (0) 2 (15.24) 4 (25.4), pin 9 at (0, 5.08), bottom row 8 (0) and 6 (20.32); body 29 x 13",
+   "style": "explicit",
+   "pins": 6,
+   "body": {
+    "width": 29,
+    "height": 13
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 12.7,
+     "y": -5.08,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 2,
+     "x": -2.54,
+     "y": -5.08,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 3,
+     "x": -12.7,
+     "y": -5.08,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 4,
+     "x": -7.62,
+     "y": 5.08,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 5,
+     "x": 12.7,
+     "y": 5.08,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 6,
+     "x": 12.7,
+     "y": 0.0,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    }
+   ]
+  },
+  {
+   "id": "RELAY-ADJH-4-PANASONIC",
+   "description": "Panasonic ADJH relay, 1 Form A, 4 PC pins",
+   "note": "mech_eng_djh.pdf p.5 Recommended PC board pattern (standard type), BOTTOM VIEW mirrored to top view; coil holes 1.2 at x 0, y +-5 (pin 1 top, 2 bottom per the schematic), contact holes 2 x 2.8: pin 3 at x 27.5, pin 4 6.75 further right and 7.5 above it (symmetric about the centre line); body 39 x 15",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 39,
+    "height": 15
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 17.6,
+     "y": -5.0,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 2,
+     "x": 17.6,
+     "y": 5.0,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 3,
+     "x": -9.9,
+     "y": 3.75,
+     "width": 3.5,
+     "height": 3.5,
+     "shape": "round",
+     "drill": 2.8
+    },
+    {
+     "pin": 4,
+     "x": -16.65,
+     "y": -3.75,
+     "width": 3.5,
+     "height": 3.5,
+     "shape": "round",
+     "drill": 2.8
+    }
+   ]
+  },
+  {
+   "id": "RELAY-ADJH-5-PANASONIC",
+   "description": "Panasonic ADJH relay, 1 Form A 2 coil latching, 5 PC pins",
+   "note": "mech_eng_djh.pdf p.5 Recommended PC board pattern (standard type, 2 coil latching only: 3 x 1.2 holes), BOTTOM VIEW mirrored to top view; as the 4-pad footprint plus pin 5 (coil centre tap) at the middle of the coil column; body 39 x 15",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 39,
+    "height": 15
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 17.6,
+     "y": -5.0,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 2,
+     "x": 17.6,
+     "y": 5.0,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 3,
+     "x": -9.9,
+     "y": 3.75,
+     "width": 3.5,
+     "height": 3.5,
+     "shape": "round",
+     "drill": 2.8
+    },
+    {
+     "pin": 4,
+     "x": -16.65,
+     "y": -3.75,
+     "width": 3.5,
+     "height": 3.5,
+     "shape": "round",
+     "drill": 2.8
+    },
+    {
+     "pin": 5,
+     "x": 17.6,
+     "y": 0.0,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    }
+   ]
+  },
+  {
+   "id": "RELAY-DK-4-PANASONIC",
+   "description": "Panasonic DK relay, 1 Form A, 4 PC pins",
+   "note": "mech_eng_dk.pdf p.6 Recommended PC board pattern 1 Form A single side stable, BOTTOM VIEW mirrored to top view; holes 2 x 0.9 (coil 1 and 6, x 0, rows 10.16 apart) and 2 x 1.1 (3 at x 10.16, 4 at x 17.78); body 20 x 12.5",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 20,
+    "height": 12.5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 8.9,
+     "y": -5.08,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 0.9
+    },
+    {
+     "pin": 2,
+     "x": -1.26,
+     "y": -5.08,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 3,
+     "x": -8.88,
+     "y": -5.08,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 4,
+     "x": 8.9,
+     "y": 5.08,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 0.9
+    }
+   ]
+  },
+  {
+   "id": "RELAY-DK-6-PANASONIC",
+   "description": "Panasonic DK relay, 1 Form A 1 Form B, 6 PC pins",
+   "note": "mech_eng_dk.pdf p.6 Recommended PC board pattern 1 Form A 1 Form B single side stable, BOTTOM VIEW mirrored to top view; holes 2 x 0.9 (coil 1 and 8 at x 0) and 4 x 1.1 (3, 4, 6, 5 at x 10.16 and 17.78), rows 10.16 apart; renumbered 1 3 4 5 6 8 -> 1..6; body 20 x 15",
+   "style": "explicit",
+   "pins": 6,
+   "body": {
+    "width": 20,
+    "height": 15
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 8.9,
+     "y": -5.08,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 0.9
+    },
+    {
+     "pin": 2,
+     "x": -1.26,
+     "y": -5.08,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 3,
+     "x": -8.88,
+     "y": -5.08,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 4,
+     "x": -8.88,
+     "y": 5.08,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 5,
+     "x": -1.26,
+     "y": 5.08,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 6,
+     "x": 8.9,
+     "y": 5.08,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 0.9
+    }
+   ]
+  },
+  {
+   "id": "RELAY-DK-7-PANASONIC",
+   "description": "Panasonic DK relay, 1 Form A 1 Form B 2 coil latching, 7 PC pins",
+   "note": "mech_eng_dk.pdf p.7 Recommended PC board pattern 1 Form A 1 Form B 2 coil latching (3 x 0.9 and 4 x 1.1), BOTTOM VIEW mirrored to top view; as the 6-pad footprint plus pin 7 (coil) 2.54 right of pin 8; renumbered 1 3 4 5 6 7 8 -> 1..7; body 20 x 15",
+   "style": "explicit",
+   "pins": 7,
+   "body": {
+    "width": 20,
+    "height": 15
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 8.9,
+     "y": -5.08,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 0.9
+    },
+    {
+     "pin": 2,
+     "x": -1.26,
+     "y": -5.08,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 3,
+     "x": -8.88,
+     "y": -5.08,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 4,
+     "x": -8.88,
+     "y": 5.08,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 5,
+     "x": -1.26,
+     "y": 5.08,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 6,
+     "x": 6.36,
+     "y": 5.08,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 0.9
+    },
+    {
+     "pin": 7,
+     "x": 8.9,
+     "y": 5.08,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 0.9
+    }
+   ]
+  },
+  {
+   "id": "RELAY-DS-5-PANASONIC",
+   "description": "Panasonic DS relay, 1 Form C, 5 PC pins",
+   "note": "mech_eng_ds.pdf p.7 Suggested PC board pattern single side stable (5 x 0.9), BOTTOM VIEW mirrored to top view; top row 1 (0) and 6 (12.7), bottom row 12 (0) 10 (5.08) 7 (12.7), rows 7.62 apart (2.54 grid, 5.08 + 7.62 across); renumbered 1 6 7 10 12 -> 1..5; body 15 x 9.9, pin 1 1.15 from the body end",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 15,
+    "height": 9.9
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 6.35,
+     "y": -3.81,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 0.9
+    },
+    {
+     "pin": 2,
+     "x": -6.35,
+     "y": -3.81,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 0.9
+    },
+    {
+     "pin": 3,
+     "x": -6.35,
+     "y": 3.81,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 0.9
+    },
+    {
+     "pin": 4,
+     "x": 1.27,
+     "y": 3.81,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 0.9
+    },
+    {
+     "pin": 5,
+     "x": 6.35,
+     "y": 3.81,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 0.9
+    }
+   ]
+  },
+  {
+   "id": "RELAY-DS-6-PANASONIC",
+   "description": "Panasonic DS relay, 1 Form C 2 coil latching, 6 PC pins",
+   "note": "mech_eng_ds.pdf p.7 Suggested PC board pattern 2 coil latching (6 x 0.9), BOTTOM VIEW mirrored to top view; as the 5-pad footprint plus pin 3 (coil) at x 5.08 in the top row; renumbered 1 3 6 7 10 12 -> 1..6; body 15 x 9.9",
+   "style": "explicit",
+   "pins": 6,
+   "body": {
+    "width": 15,
+    "height": 9.9
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 6.35,
+     "y": -3.81,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 0.9
+    },
+    {
+     "pin": 2,
+     "x": 1.27,
+     "y": -3.81,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 0.9
+    },
+    {
+     "pin": 3,
+     "x": -6.35,
+     "y": -3.81,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 0.9
+    },
+    {
+     "pin": 4,
+     "x": -6.35,
+     "y": 3.81,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 0.9
+    },
+    {
+     "pin": 5,
+     "x": 1.27,
+     "y": 3.81,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 0.9
+    },
+    {
+     "pin": 6,
+     "x": 6.35,
+     "y": 3.81,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 0.9
+    }
+   ]
+  },
+  {
+   "id": "RELAY-DSP-6-PANASONIC",
+   "description": "Panasonic DSP relay, 2 poles, 6 PC pins",
+   "note": "mech_eng_dsp.pdf p.8 (1 Form A 1 Form B) and p.9 (2 Form A) Recommended PC board pattern, BOTTOM VIEW mirrored to top view; 6 x 1.2 holes, top row 9 (0) 12 (7.62) 16 (17.78), bottom row 8 5 1 at the same x, rows 7.62 apart; renumbered 1 5 8 9 12 16 -> 1..6; body 20.2 x 11, pin 1.21 from the body end",
+   "style": "explicit",
+   "pins": 6,
+   "body": {
+    "width": 20.2,
+    "height": 11
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -8.89,
+     "y": 3.81,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 2,
+     "x": 1.27,
+     "y": 3.81,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 3,
+     "x": 8.89,
+     "y": 3.81,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 4,
+     "x": 8.89,
+     "y": -3.81,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 5,
+     "x": 1.27,
+     "y": -3.81,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 6,
+     "x": -8.89,
+     "y": -3.81,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    }
+   ]
+  },
+  {
+   "id": "RELAY-DSP-8-PANASONIC",
+   "description": "Panasonic DSP relay, 1A1B 2 coil latching, 8 PC pins",
+   "note": "mech_eng_dsp.pdf p.8 Recommended PC board pattern 1 Form A 1 Form B 2 coil latching (8 x 1.2), BOTTOM VIEW mirrored to top view; as the 6-pad footprint plus 15 (15.24, top) and 2 (15.24, bottom) beside 16 and 1; renumbered 1 2 5 8 9 12 15 16 -> 1..8; body 20.2 x 11",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 20.2,
+    "height": 11
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -8.89,
+     "y": 3.81,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 2,
+     "x": -6.35,
+     "y": 3.81,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 3,
+     "x": 1.27,
+     "y": 3.81,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 4,
+     "x": 8.89,
+     "y": 3.81,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 5,
+     "x": 8.89,
+     "y": -3.81,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 6,
+     "x": 1.27,
+     "y": -3.81,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 7,
+     "x": -6.35,
+     "y": -3.81,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 8,
+     "x": -8.89,
+     "y": -3.81,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    }
+   ]
+  },
+  {
+   "id": "RELAY-DW-4-PANASONIC",
+   "description": "Panasonic DW relay, 1 Form A, 4 PC pins",
+   "note": "mech_eng_dw.pdf p.7 Recommended PC board pattern (4 or 5 x 1.2), BOTTOM VIEW mirrored to top view; coil 1 (top) and 6 (bottom) at x 0, rows 7.5 apart; 3 at x 21.0 (17.5 + 3.5) top and 5 at x 17.5 bottom; body 24 x 10, pin 1 1.5 from the body end",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 24,
+    "height": 10
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 10.5,
+     "y": -3.75,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 2,
+     "x": -10.5,
+     "y": -3.75,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 3,
+     "x": -7.0,
+     "y": 3.75,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 4,
+     "x": 10.5,
+     "y": 3.75,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    }
+   ]
+  },
+  {
+   "id": "RELAY-DW-5-PANASONIC",
+   "description": "Panasonic DW relay, 1 Form A 2 coil latching, 5 PC pins",
+   "note": "mech_eng_dw.pdf p.7 Recommended PC board pattern (2 coil latching type: 5 holes), BOTTOM VIEW mirrored to top view; as the 4-pad footprint plus pin 7 (coil centre tap) at the middle of the coil column; renumbered 1 3 5 6 7 -> 1..5; body 24 x 10",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 24,
+    "height": 10
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 10.5,
+     "y": -3.75,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 2,
+     "x": -10.5,
+     "y": -3.75,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 3,
+     "x": -7.0,
+     "y": 3.75,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 4,
+     "x": 10.5,
+     "y": 3.75,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 5,
+     "x": 10.5,
+     "y": 0.0,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    }
+   ]
+  },
+  {
+   "id": "RELAY-ADY-4-PANASONIC",
+   "description": "Panasonic DY relay, 1 Form A, 4 PC pins",
+   "note": "mech_eng_dy.pdf p.5 Recommended PC board pattern 1 Form A single side stable, BOTTOM VIEW mirrored to top view; holes 2 x 0.9 (coil 1 and 8 at x 0, 10.16 apart) and 2 x 1.1 (3 at x 10.16, 4 at x 17.78); renumbered 1 3 4 8 -> 1..4; body 20 x 15",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 20,
+    "height": 15
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 8.9,
+     "y": -5.08,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 0.9
+    },
+    {
+     "pin": 2,
+     "x": -1.26,
+     "y": -5.08,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 3,
+     "x": -8.88,
+     "y": -5.08,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 4,
+     "x": 8.9,
+     "y": 5.08,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 0.9
+    }
+   ]
+  },
+  {
+   "id": "RELAY-AGN-8-PANASONIC",
+   "description": "Panasonic AGN relay, 2 Form C, PC board terminal, 8 holes",
+   "note": "mech_eng_gn.pdf p.8 Recommended PC board pattern (PC board terminal), BOTTOM VIEW mirrored to top view; 8 x 0.85 holes, columns at x 0, 3.2, 5.4, 7.6, rows 3.2 apart; top row 1 2 3 4, bottom row 8 7 6 5 (schematic); body 10.6 x 5.7",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 10.6,
+    "height": 5.7
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 3.8,
+     "y": -1.6,
+     "width": 1.55,
+     "height": 1.55,
+     "shape": "round",
+     "drill": 0.85
+    },
+    {
+     "pin": 2,
+     "x": 0.6,
+     "y": -1.6,
+     "width": 1.55,
+     "height": 1.55,
+     "shape": "round",
+     "drill": 0.85
+    },
+    {
+     "pin": 3,
+     "x": -1.6,
+     "y": -1.6,
+     "width": 1.55,
+     "height": 1.55,
+     "shape": "round",
+     "drill": 0.85
+    },
+    {
+     "pin": 4,
+     "x": -3.8,
+     "y": -1.6,
+     "width": 1.55,
+     "height": 1.55,
+     "shape": "round",
+     "drill": 0.85
+    },
+    {
+     "pin": 5,
+     "x": -3.8,
+     "y": 1.6,
+     "width": 1.55,
+     "height": 1.55,
+     "shape": "round",
+     "drill": 0.85
+    },
+    {
+     "pin": 6,
+     "x": -1.6,
+     "y": 1.6,
+     "width": 1.55,
+     "height": 1.55,
+     "shape": "round",
+     "drill": 0.85
+    },
+    {
+     "pin": 7,
+     "x": 0.6,
+     "y": 1.6,
+     "width": 1.55,
+     "height": 1.55,
+     "shape": "round",
+     "drill": 0.85
+    },
+    {
+     "pin": 8,
+     "x": 3.8,
+     "y": 1.6,
+     "width": 1.55,
+     "height": 1.55,
+     "shape": "round",
+     "drill": 0.85
+    }
+   ]
+  },
+  {
+   "id": "RELAY-AGN-8-SMD-PANASONIC",
+   "description": "Panasonic AGN relay, 2 Form C, surface mount terminal type S, 8 pads",
+   "note": "mech_eng_gn.pdf p.8 Recommended PC board pattern (surface-mount terminal, type S: 0.8 x 2.25 pads, rows 4.45 apart; type A would be 0.8 x 3.1 pads, rows 5.3 apart), TOP VIEW as drawn; columns at x 0, 3.2, 5.4, 7.6; top row 8 7 6 5, bottom row 1 2 3 4 (top-view schematic); type S chosen: 2 of the 3 parts of the line (AGN200S12Z, AGN200S4HZ) are S, one (AGN200A03X) is A; body 10.6 x 5.7",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 10.6,
+    "height": 5.7
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -3.8,
+     "y": 2.225,
+     "width": 0.8,
+     "height": 2.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -0.6,
+     "y": 2.225,
+     "width": 0.8,
+     "height": 2.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 1.6,
+     "y": 2.225,
+     "width": 0.8,
+     "height": 2.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 3.8,
+     "y": 2.225,
+     "width": 0.8,
+     "height": 2.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 3.8,
+     "y": -2.225,
+     "width": 0.8,
+     "height": 2.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 1.6,
+     "y": -2.225,
+     "width": 0.8,
+     "height": 2.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -0.6,
+     "y": -2.225,
+     "width": 0.8,
+     "height": 2.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -3.8,
+     "y": -2.225,
+     "width": 0.8,
+     "height": 2.25,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "RELAY-AGQ-8-PANASONIC",
+   "description": "Panasonic AGQ relay, 2 Form C, PC board terminal, 8 holes",
+   "note": "mech_eng_gq.pdf p.7 Recommended PC board pattern (PC board terminal), BOTTOM VIEW mirrored to top view; 8 x 0.85 holes, columns at x 0, 3.2, 5.4, 7.6, rows 5.08 apart; top row 1 2 3 4, bottom row 8 7 6 5; body 10.6 x 7.2",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 10.6,
+    "height": 7.2
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 3.8,
+     "y": -2.54,
+     "width": 1.55,
+     "height": 1.55,
+     "shape": "round",
+     "drill": 0.85
+    },
+    {
+     "pin": 2,
+     "x": 0.6,
+     "y": -2.54,
+     "width": 1.55,
+     "height": 1.55,
+     "shape": "round",
+     "drill": 0.85
+    },
+    {
+     "pin": 3,
+     "x": -1.6,
+     "y": -2.54,
+     "width": 1.55,
+     "height": 1.55,
+     "shape": "round",
+     "drill": 0.85
+    },
+    {
+     "pin": 4,
+     "x": -3.8,
+     "y": -2.54,
+     "width": 1.55,
+     "height": 1.55,
+     "shape": "round",
+     "drill": 0.85
+    },
+    {
+     "pin": 5,
+     "x": -3.8,
+     "y": 2.54,
+     "width": 1.55,
+     "height": 1.55,
+     "shape": "round",
+     "drill": 0.85
+    },
+    {
+     "pin": 6,
+     "x": -1.6,
+     "y": 2.54,
+     "width": 1.55,
+     "height": 1.55,
+     "shape": "round",
+     "drill": 0.85
+    },
+    {
+     "pin": 7,
+     "x": 0.6,
+     "y": 2.54,
+     "width": 1.55,
+     "height": 1.55,
+     "shape": "round",
+     "drill": 0.85
+    },
+    {
+     "pin": 8,
+     "x": 3.8,
+     "y": 2.54,
+     "width": 1.55,
+     "height": 1.55,
+     "shape": "round",
+     "drill": 0.85
+    }
+   ]
+  },
+  {
+   "id": "RELAY-AGQ-8-SMD-A-PANASONIC",
+   "description": "Panasonic AGQ relay, 2 Form C, surface mount type A, 8 pads",
+   "note": "mech_eng_gq.pdf p.7 Recommended PC board pattern (surface-mount terminal, type A: 0.8 x 2.66 pads, rows 6.74 apart), TOP VIEW as drawn; columns at x 0, 3.2, 5.4, 7.6; top row 8 7 6 5, bottom row 1 2 3 4; type A for the non-latching line (AGQ200A24Z, AGQ200A12Z, AGQ200A4H are type A); body 10.6 x 7.2",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 10.6,
+    "height": 7.2
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -3.8,
+     "y": 3.37,
+     "width": 0.8,
+     "height": 2.66,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -0.6,
+     "y": 3.37,
+     "width": 0.8,
+     "height": 2.66,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 1.6,
+     "y": 3.37,
+     "width": 0.8,
+     "height": 2.66,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 3.8,
+     "y": 3.37,
+     "width": 0.8,
+     "height": 2.66,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 3.8,
+     "y": -3.37,
+     "width": 0.8,
+     "height": 2.66,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 1.6,
+     "y": -3.37,
+     "width": 0.8,
+     "height": 2.66,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -0.6,
+     "y": -3.37,
+     "width": 0.8,
+     "height": 2.66,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -3.8,
+     "y": -3.37,
+     "width": 0.8,
+     "height": 2.66,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "RELAY-AGQ-8-SMD-S-PANASONIC",
+   "description": "Panasonic AGQ relay, 2 Form C latching, surface mount type S, 8 pads",
+   "note": "mech_eng_gq.pdf p.7 Recommended PC board pattern (surface-mount terminal, type S: 0.8 x 2.06 pads, rows 6.14 apart), TOP VIEW as drawn; columns at x 0, 3.2, 5.4, 7.6; top row 8 7 6 5, bottom row 1 2 3 4; type S for the latching line (AGQ210S03Z, AGQ210S4HZ are type S); body 10.6 x 7.2",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 10.6,
+    "height": 7.2
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -3.8,
+     "y": 3.07,
+     "width": 0.8,
+     "height": 2.06,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -0.6,
+     "y": 3.07,
+     "width": 0.8,
+     "height": 2.06,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 1.6,
+     "y": 3.07,
+     "width": 0.8,
+     "height": 2.06,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 3.8,
+     "y": 3.07,
+     "width": 0.8,
+     "height": 2.06,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 3.8,
+     "y": -3.07,
+     "width": 0.8,
+     "height": 2.06,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 1.6,
+     "y": -3.07,
+     "width": 0.8,
+     "height": 2.06,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -0.6,
+     "y": -3.07,
+     "width": 0.8,
+     "height": 2.06,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -3.8,
+     "y": -3.07,
+     "width": 0.8,
+     "height": 2.06,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "RELAY-AGQTH-8-SMD-PANASONIC",
+   "description": "Panasonic AGQ-TH relay, 2 Form C, surface mount type S, 8 pads",
+   "note": "mech_eng_gqth.pdf p.6 Recommended PC board pattern (surface-mount terminal, type S: 0.8 x 2.06 pads, rows 6.14 apart; type A would be 0.8 x 2.66, rows 6.74), TOP VIEW as drawn; columns at x 0, 3.2, 5.4, 7.6; top row 8 7 6 5, bottom row 1 2 3 4; the parts of both lines (AGQ21TS2HX, AGQ20TS12X ...) are type S; body 10.6 x 7.2",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 10.6,
+    "height": 7.2
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -3.8,
+     "y": 3.07,
+     "width": 0.8,
+     "height": 2.06,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -0.6,
+     "y": 3.07,
+     "width": 0.8,
+     "height": 2.06,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 1.6,
+     "y": 3.07,
+     "width": 0.8,
+     "height": 2.06,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 3.8,
+     "y": 3.07,
+     "width": 0.8,
+     "height": 2.06,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 3.8,
+     "y": -3.07,
+     "width": 0.8,
+     "height": 2.06,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 1.6,
+     "y": -3.07,
+     "width": 0.8,
+     "height": 2.06,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -0.6,
+     "y": -3.07,
+     "width": 0.8,
+     "height": 2.06,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -3.8,
+     "y": -3.07,
+     "width": 0.8,
+     "height": 2.06,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "RELAY-HEA-4-PANASONIC",
+   "description": "Panasonic HE-A power relay, 1 Form A, 2 holes and 2 slots",
+   "note": "mech_eng_hea.pdf p.6 Recommended PC board pattern 1 Form A (1a), BOTTOM VIEW mirrored to top view; 2 holes 2.0 (32.0 apart) 23.5 above two slots 12.0 x 1.8 (centres 20.0 apart, R0.6); terminals 5 6 (coil, holes) and 4 1 (contacts, slots) from the bottom-view schematic; renumbered 1 4 5 6 -> 1..4; body 38 x 33 from the dashed outline",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 38,
+    "height": 33
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -10.0,
+     "y": 13.3,
+     "width": 12.7,
+     "height": 2.5,
+     "shape": "round",
+     "drill": 1.8,
+     "slotLength": 12.0
+    },
+    {
+     "pin": 2,
+     "x": 10.0,
+     "y": 13.3,
+     "width": 12.7,
+     "height": 2.5,
+     "shape": "round",
+     "drill": 1.8,
+     "slotLength": 12.0
+    },
+    {
+     "pin": 3,
+     "x": 16.0,
+     "y": -10.2,
+     "width": 2.7,
+     "height": 2.7,
+     "shape": "round",
+     "drill": 2.0
+    },
+    {
+     "pin": 4,
+     "x": -16.0,
+     "y": -10.2,
+     "width": 2.7,
+     "height": 2.7,
+     "shape": "round",
+     "drill": 2.0
+    }
+   ]
+  },
+  {
+   "id": "RELAY-HEA-6-PANASONIC",
+   "description": "Panasonic HE-A power relay, 1 Form A 1 Form B, 4 holes and 2 slots",
+   "note": "mech_eng_hea.pdf p.6 Recommended PC board pattern 1 Form A 1 Form B (1a1b), BOTTOM VIEW mirrored to top view; as the 1a footprint plus 2 holes 1.8 (25.4 apart, 17.9 above the slots) for terminals 3 and 2 (bottom-view schematic: 3 left, 2 right); body 38 x 33",
+   "style": "explicit",
+   "pins": 6,
+   "body": {
+    "width": 38,
+    "height": 33
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -10.0,
+     "y": 13.3,
+     "width": 12.7,
+     "height": 2.5,
+     "shape": "round",
+     "drill": 1.8,
+     "slotLength": 12.0
+    },
+    {
+     "pin": 2,
+     "x": -12.7,
+     "y": -4.6,
+     "width": 2.5,
+     "height": 2.5,
+     "shape": "round",
+     "drill": 1.8
+    },
+    {
+     "pin": 3,
+     "x": 12.7,
+     "y": -4.6,
+     "width": 2.5,
+     "height": 2.5,
+     "shape": "round",
+     "drill": 1.8
+    },
+    {
+     "pin": 4,
+     "x": 10.0,
+     "y": 13.3,
+     "width": 12.7,
+     "height": 2.5,
+     "shape": "round",
+     "drill": 1.8,
+     "slotLength": 12.0
+    },
+    {
+     "pin": 5,
+     "x": 16.0,
+     "y": -10.2,
+     "width": 2.7,
+     "height": 2.7,
+     "shape": "round",
+     "drill": 2.0
+    },
+    {
+     "pin": 6,
+     "x": -16.0,
+     "y": -10.2,
+     "width": 2.7,
+     "height": 2.7,
+     "shape": "round",
+     "drill": 2.0
+    }
+   ]
+  },
+  {
+   "id": "RELAY-HEN-4-PANASONIC",
+   "description": "Panasonic HE-N power relay, 1 Form A, 4 slots",
+   "note": "mech_eng_hen.pdf p.5 Recommended PC board pattern, BOTTOM VIEW mirrored to top view; contact slots 19.4 x 2.8 (R0.3) with centres 25.9 apart, coil slots 1.2 x 3.6 (32 apart, 18.75 below the contact slots); terminals 1 4 (contacts, top) and 6 5 (coil, bottom) from the bottom-view schematic; renumbered 1 4 5 6 -> 1..4; body 50 x 40, centre 6 below the contact slot line",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 50,
+    "height": 40
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 12.95,
+     "y": -6.0,
+     "width": 20.1,
+     "height": 3.5,
+     "shape": "round",
+     "drill": 2.8,
+     "slotLength": 19.4
+    },
+    {
+     "pin": 2,
+     "x": -12.95,
+     "y": -6.0,
+     "width": 20.1,
+     "height": 3.5,
+     "shape": "round",
+     "drill": 2.8,
+     "slotLength": 19.4
+    },
+    {
+     "pin": 3,
+     "x": -16.0,
+     "y": 12.75,
+     "width": 1.9,
+     "height": 4.3,
+     "shape": "round",
+     "drill": 1.2,
+     "slotLength": 3.6
+    },
+    {
+     "pin": 4,
+     "x": 16.0,
+     "y": 12.75,
+     "width": 1.9,
+     "height": 4.3,
+     "shape": "round",
+     "drill": 1.2,
+     "slotLength": 3.6
+    }
+   ]
+  },
+  {
+   "id": "RELAY-HE-6-PANASONIC",
+   "description": "Panasonic HE (35 A PV type) power relay, 6 holes",
+   "note": "mech_eng_hepv.pdf p.7 Recommended PC board pattern, 35 A type (6 x 2 mm holes), BOTTOM VIEW mirrored to top view; top row 4 holes in two pairs 4.7 apart centred 24 apart (1 2 | 3 4), bottom row 2 holes 32 apart, 18.6 below; terminals 1 4 (contacts) top and 6 5 (coil) bottom per the bottom-view schematic; body 38 x 33, centre on the line 8.4 below the top row",
+   "style": "explicit",
+   "pins": 6,
+   "body": {
+    "width": 38,
+    "height": 33
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 14.35,
+     "y": -8.4,
+     "width": 2.7,
+     "height": 2.7,
+     "shape": "round",
+     "drill": 2.0
+    },
+    {
+     "pin": 2,
+     "x": 9.65,
+     "y": -8.4,
+     "width": 2.7,
+     "height": 2.7,
+     "shape": "round",
+     "drill": 2.0
+    },
+    {
+     "pin": 3,
+     "x": -9.65,
+     "y": -8.4,
+     "width": 2.7,
+     "height": 2.7,
+     "shape": "round",
+     "drill": 2.0
+    },
+    {
+     "pin": 4,
+     "x": -14.35,
+     "y": -8.4,
+     "width": 2.7,
+     "height": 2.7,
+     "shape": "round",
+     "drill": 2.0
+    },
+    {
+     "pin": 5,
+     "x": -16.0,
+     "y": 10.2,
+     "width": 2.7,
+     "height": 2.7,
+     "shape": "round",
+     "drill": 2.0
+    },
+    {
+     "pin": 6,
+     "x": 16.0,
+     "y": 10.2,
+     "width": 2.7,
+     "height": 2.7,
+     "shape": "round",
+     "drill": 2.0
+    }
+   ]
+  },
+  {
+   "id": "RELAY-HEPV-4-PANASONIC",
+   "description": "Panasonic HE-PV 90 A power relay, 4 slots",
+   "note": "mech_eng_hepv.pdf p.7 Recommended PC board pattern, 90 A (wide blade) type (3rd drawing), BOTTOM VIEW mirrored to top view; contact slots 12.0 x 1.8 (centres 20 apart), coil slots 1.2 x 3.6 (32 apart, 23.5 below); terminals 1 4 top, 6 5 bottom per the bottom-view schematic; renumbered 1 4 5 6 -> 1..4; body 38 x 33, centre 13.3 below the contact slots; the line mixes 48 A parts (Y5: two 2 mm holes and two 6.5 x 1.3 slots, 24 apart) and 90 A parts (Y6): the 90 A pattern is used",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 38,
+    "height": 33
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 10.0,
+     "y": -13.3,
+     "width": 12.7,
+     "height": 2.5,
+     "shape": "round",
+     "drill": 1.8,
+     "slotLength": 12.0
+    },
+    {
+     "pin": 2,
+     "x": -10.0,
+     "y": -13.3,
+     "width": 12.7,
+     "height": 2.5,
+     "shape": "round",
+     "drill": 1.8,
+     "slotLength": 12.0
+    },
+    {
+     "pin": 3,
+     "x": -16.0,
+     "y": 10.2,
+     "width": 1.9,
+     "height": 4.3,
+     "shape": "round",
+     "drill": 1.2,
+     "slotLength": 3.6
+    },
+    {
+     "pin": 4,
+     "x": 16.0,
+     "y": 10.2,
+     "width": 1.9,
+     "height": 4.3,
+     "shape": "round",
+     "drill": 1.2,
+     "slotLength": 3.6
+    }
+   ]
+  },
+  {
+   "id": "RELAY-HER-6-PANASONIC",
+   "description": "Panasonic HE-R power relay, 2 Form A pattern, 6 slots",
+   "note": "mech_eng_her.pdf p.7 Recommended PC board pattern 2 Form A (2a), BOTTOM VIEW mirrored to top view; coil slots 1.0 x 2.5 at x 0 (28.8 apart), contact slots 1.8 x 11.0 (R0.8) at x 26.3 and 53.3 (21.0 apart, the top ones 3.9 below the top coil slot); terminals 8 5 (coil) and 10 3 | 12 1 (contacts) from the bottom-view schematic; the 1 Form A part (AHER1281) has the 2a terminals (6 pinout pins); renumbered 1 3 5 8 10 12 -> 1..6; body 60 x 37",
+   "style": "explicit",
+   "pins": 6,
+   "body": {
+    "width": 60,
+    "height": 37
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -26.3,
+     "y": 10.5,
+     "width": 2.5,
+     "height": 11.7,
+     "shape": "round",
+     "drill": 1.8,
+     "slotLength": 11.0
+    },
+    {
+     "pin": 2,
+     "x": 0.7,
+     "y": 10.5,
+     "width": 2.5,
+     "height": 11.7,
+     "shape": "round",
+     "drill": 1.8,
+     "slotLength": 11.0
+    },
+    {
+     "pin": 3,
+     "x": 27.0,
+     "y": 14.4,
+     "width": 1.7,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 1.0,
+     "slotLength": 2.5
+    },
+    {
+     "pin": 4,
+     "x": 27.0,
+     "y": -14.4,
+     "width": 1.7,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 1.0,
+     "slotLength": 2.5
+    },
+    {
+     "pin": 5,
+     "x": 0.7,
+     "y": -10.5,
+     "width": 2.5,
+     "height": 11.7,
+     "shape": "round",
+     "drill": 1.8,
+     "slotLength": 11.0
+    },
+    {
+     "pin": 6,
+     "x": -26.3,
+     "y": -10.5,
+     "width": 2.5,
+     "height": 11.7,
+     "shape": "round",
+     "drill": 1.8,
+     "slotLength": 11.0
+    }
+   ]
+  },
+  {
+   "id": "RELAY-HER-8-PANASONIC",
+   "description": "Panasonic HE-R power relay, 2a1b pattern, 8 slots",
+   "note": "mech_eng_her.pdf p.8 Recommended PC board pattern 2 Form A 1 Form B (2a1b), BOTTOM VIEW mirrored to top view; as the 2a footprint plus two coil-side slots 1.0 x 2.5 for terminals 7 and 6 (7.0 and 21.6 below the top coil slot, 14.6 apart); renumbered 1 3 5 6 7 8 10 12 -> 1..8; body 60 x 37",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 60,
+    "height": 37
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -26.3,
+     "y": 10.5,
+     "width": 2.5,
+     "height": 11.7,
+     "shape": "round",
+     "drill": 1.8,
+     "slotLength": 11.0
+    },
+    {
+     "pin": 2,
+     "x": 0.7,
+     "y": 10.5,
+     "width": 2.5,
+     "height": 11.7,
+     "shape": "round",
+     "drill": 1.8,
+     "slotLength": 11.0
+    },
+    {
+     "pin": 3,
+     "x": 27.0,
+     "y": 14.4,
+     "width": 1.7,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 1.0,
+     "slotLength": 2.5
+    },
+    {
+     "pin": 4,
+     "x": 27.0,
+     "y": 7.2,
+     "width": 1.7,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 1.0,
+     "slotLength": 2.5
+    },
+    {
+     "pin": 5,
+     "x": 27.0,
+     "y": -7.4,
+     "width": 1.7,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 1.0,
+     "slotLength": 2.5
+    },
+    {
+     "pin": 6,
+     "x": 27.0,
+     "y": -14.4,
+     "width": 1.7,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 1.0,
+     "slotLength": 2.5
+    },
+    {
+     "pin": 7,
+     "x": 0.7,
+     "y": -10.5,
+     "width": 2.5,
+     "height": 11.7,
+     "shape": "round",
+     "drill": 1.8,
+     "slotLength": 11.0
+    },
+    {
+     "pin": 8,
+     "x": -26.3,
+     "y": -10.5,
+     "width": 2.5,
+     "height": 11.7,
+     "shape": "round",
+     "drill": 1.8,
+     "slotLength": 11.0
+    }
+   ]
+  },
+  {
+   "id": "RELAY-HER-12-PANASONIC",
+   "description": "Panasonic HE-R power relay, 4a1b pattern, 12 slots",
+   "note": "mech_eng_her.pdf p.10 Recommended PC board pattern 4 Form A 1 Form B (4a1b), BOTTOM VIEW mirrored to top view; coil slots 1.0 x 2.5 for 8 7 6 5 at x 0 (y 0, 7.0, 21.6, 28.8), eight contact slots 1.8 x 11.0 at x 12.9, 26.4, 39.9, 53.4 (top 9 10 11 12, bottom 4 3 2 1); renumbered 1..12 (identity); body 58 x 35",
+   "style": "explicit",
+   "pins": 12,
+   "body": {
+    "width": 58,
+    "height": 35
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -26.5,
+     "y": 10.5,
+     "width": 2.5,
+     "height": 11.7,
+     "shape": "round",
+     "drill": 1.8,
+     "slotLength": 11.0
+    },
+    {
+     "pin": 2,
+     "x": -13.0,
+     "y": 10.5,
+     "width": 2.5,
+     "height": 11.7,
+     "shape": "round",
+     "drill": 1.8,
+     "slotLength": 11.0
+    },
+    {
+     "pin": 3,
+     "x": 0.5,
+     "y": 10.5,
+     "width": 2.5,
+     "height": 11.7,
+     "shape": "round",
+     "drill": 1.8,
+     "slotLength": 11.0
+    },
+    {
+     "pin": 4,
+     "x": 14.0,
+     "y": 10.5,
+     "width": 2.5,
+     "height": 11.7,
+     "shape": "round",
+     "drill": 1.8,
+     "slotLength": 11.0
+    },
+    {
+     "pin": 5,
+     "x": 26.9,
+     "y": 14.4,
+     "width": 1.7,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 1.0,
+     "slotLength": 2.5
+    },
+    {
+     "pin": 6,
+     "x": 26.9,
+     "y": 7.2,
+     "width": 1.7,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 1.0,
+     "slotLength": 2.5
+    },
+    {
+     "pin": 7,
+     "x": 26.9,
+     "y": -7.4,
+     "width": 1.7,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 1.0,
+     "slotLength": 2.5
+    },
+    {
+     "pin": 8,
+     "x": 26.9,
+     "y": -14.4,
+     "width": 1.7,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 1.0,
+     "slotLength": 2.5
+    },
+    {
+     "pin": 9,
+     "x": 14.0,
+     "y": -10.5,
+     "width": 2.5,
+     "height": 11.7,
+     "shape": "round",
+     "drill": 1.8,
+     "slotLength": 11.0
+    },
+    {
+     "pin": 10,
+     "x": 0.5,
+     "y": -10.5,
+     "width": 2.5,
+     "height": 11.7,
+     "shape": "round",
+     "drill": 1.8,
+     "slotLength": 11.0
+    },
+    {
+     "pin": 11,
+     "x": -13.0,
+     "y": -10.5,
+     "width": 2.5,
+     "height": 11.7,
+     "shape": "round",
+     "drill": 1.8,
+     "slotLength": 11.0
+    },
+    {
+     "pin": 12,
+     "x": -26.5,
+     "y": -10.5,
+     "width": 2.5,
+     "height": 11.7,
+     "shape": "round",
+     "drill": 1.8,
+     "slotLength": 11.0
+    }
+   ]
+  },
+  {
+   "id": "RELAY-HES-6-PANASONIC",
+   "description": "Panasonic HE-S power relay, 2 Form A, 2 holes and 4 slots",
+   "note": "mech_eng_hes.pdf p.6 Recommended PC board pattern 2 Form A (2a), BOTTOM VIEW mirrored to top view; coil holes 2 x 1.6 (7.6 apart), contact slots 4 x 1.6 (R0.8), columns 19 apart, rows 21.3 and 32.3 (21.3 + 11) below the coil holes; terminals 4 5 (coil), 2 7 (upper slots) and 1 8 (lower slots) from the bottom-view schematic; renumbered 1 2 4 5 7 8 -> 1..6; body 30 x 36, centre 15.4 below the coil holes",
+   "style": "explicit",
+   "pins": 6,
+   "body": {
+    "width": 30,
+    "height": 36
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 9.5,
+     "y": 16.9,
+     "width": 4.7,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.6,
+     "slotLength": 4.0
+    },
+    {
+     "pin": 2,
+     "x": 9.5,
+     "y": 5.9,
+     "width": 4.7,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.6,
+     "slotLength": 4.0
+    },
+    {
+     "pin": 3,
+     "x": 3.8,
+     "y": -15.4,
+     "width": 2.3,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.6
+    },
+    {
+     "pin": 4,
+     "x": -3.8,
+     "y": -15.4,
+     "width": 2.3,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.6
+    },
+    {
+     "pin": 5,
+     "x": -9.5,
+     "y": 5.9,
+     "width": 4.7,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.6,
+     "slotLength": 4.0
+    },
+    {
+     "pin": 6,
+     "x": -9.5,
+     "y": 16.9,
+     "width": 4.7,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.6,
+     "slotLength": 4.0
+    }
+   ]
+  },
+  {
+   "id": "RELAY-HES-8-PANASONIC",
+   "description": "Panasonic HE-S power relay, 2a1b, 4 holes and 4 slots",
+   "note": "mech_eng_hes.pdf p.6 Recommended PC board pattern 2 Form A 1 Form B (2a1b), BOTTOM VIEW mirrored to top view; top row 2 x 2.2 (22.9 apart: terminals 3 and 6) and 2 x 1.6 (7.6 apart: 4 and 5), slots 4 x 1.6 as the 2a footprint; terminals from the bottom-view schematic (top row 3 4 5 6); body 30 x 36",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 30,
+    "height": 36
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 9.5,
+     "y": 16.9,
+     "width": 4.7,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.6,
+     "slotLength": 4.0
+    },
+    {
+     "pin": 2,
+     "x": 9.5,
+     "y": 5.9,
+     "width": 4.7,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.6,
+     "slotLength": 4.0
+    },
+    {
+     "pin": 3,
+     "x": 11.45,
+     "y": -15.4,
+     "width": 2.9,
+     "height": 2.9,
+     "shape": "round",
+     "drill": 2.2
+    },
+    {
+     "pin": 4,
+     "x": 3.8,
+     "y": -15.4,
+     "width": 2.3,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.6
+    },
+    {
+     "pin": 5,
+     "x": -3.8,
+     "y": -15.4,
+     "width": 2.3,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.6
+    },
+    {
+     "pin": 6,
+     "x": -11.45,
+     "y": -15.4,
+     "width": 2.9,
+     "height": 2.9,
+     "shape": "round",
+     "drill": 2.2
+    },
+    {
+     "pin": 7,
+     "x": -9.5,
+     "y": 5.9,
+     "width": 4.7,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.6,
+     "slotLength": 4.0
+    },
+    {
+     "pin": 8,
+     "x": -9.5,
+     "y": 16.9,
+     "width": 4.7,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.6,
+     "slotLength": 4.0
+    }
+   ]
+  },
+  {
+   "id": "RELAY-HEV-10-PANASONIC",
+   "description": "Panasonic HE-V power relay, 2 Form A, 10 holes",
+   "note": "mech_eng_hev.pdf p.5 Recommended PC board pattern (10 x 2.1), BOTTOM VIEW mirrored to top view; 2 coil holes 40 apart 25.4 above the contact row (10.25 + 15.15 around the centre line), 8 contact holes in four pairs 4.4 apart at x -18.8, -6.6, 6.6, 18.8 (37.6 outer pair centres, 13.2 between the middle pairs); the datasheet numbers terminals 1-4 (contact blades, two pins each) and 5 6 (coil) and not the specs.tsv designators: pads follow specs.tsv 1=A1 (left) 2=A2 3,4=COM1 5,6=NO1 7,8=COM2 9,10=NO2, pairs left to right COM1 NO1 COM2 NO2 by the bottom-view schematic (same orientation as the pattern; the +/- marks of the schematic are the load polarity of this PV type); body 50 x 41",
+   "style": "explicit",
+   "pins": 10,
+   "body": {
+    "width": 50,
+    "height": 41
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 20.0,
+     "y": -14.15,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    },
+    {
+     "pin": 2,
+     "x": -20.0,
+     "y": -14.15,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    },
+    {
+     "pin": 3,
+     "x": 21.0,
+     "y": 11.25,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    },
+    {
+     "pin": 4,
+     "x": 16.6,
+     "y": 11.25,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    },
+    {
+     "pin": 5,
+     "x": 8.8,
+     "y": 11.25,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    },
+    {
+     "pin": 6,
+     "x": 4.4,
+     "y": 11.25,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    },
+    {
+     "pin": 7,
+     "x": -4.4,
+     "y": 11.25,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    },
+    {
+     "pin": 8,
+     "x": -8.8,
+     "y": 11.25,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    },
+    {
+     "pin": 9,
+     "x": -16.6,
+     "y": 11.25,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    },
+    {
+     "pin": 10,
+     "x": -21.0,
+     "y": 11.25,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    }
+   ]
+  },
+  {
+   "id": "RELAY-JW-4-PANASONIC",
+   "description": "Panasonic JW relay, 1 Form A, 4 PC pins",
+   "note": "mech_eng_jw.pdf p.7 Recommended PC board pattern (BOTTOM VIEW mirrored to top view): the 2026 datasheet prints no dimension on the pattern (\"For details please contact our sales representative\"); the hole positions are MEASURED from the vector drawing at 600 dpi, scaled by the body 28.6 mm (L) x 12.8 mm (W) given on p.1 (the dashed outline of the drawing is 28.6 x 12.8); rounded to 0.1 (hole 1.6 measured). 1 Form A: coil holes at the left (1 top, 3 bottom), N.O. top right, COM bottom (20.0 from the coil column); pads follow specs.tsv 1=A1 2=NO 3=A2 4=COM placed by the bottom-view schematic",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 28.6,
+    "height": 12.8
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 11.6,
+     "y": -3.8,
+     "width": 2.3,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.6
+    },
+    {
+     "pin": 2,
+     "x": -11.9,
+     "y": -3.8,
+     "width": 2.3,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.6
+    },
+    {
+     "pin": 3,
+     "x": 11.6,
+     "y": 3.8,
+     "width": 2.3,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.6
+    },
+    {
+     "pin": 4,
+     "x": -8.4,
+     "y": 3.8,
+     "width": 2.3,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.6
+    }
+   ]
+  },
+  {
+   "id": "RELAY-JW-5-PANASONIC",
+   "description": "Panasonic JW relay, 1 Form C, 5 PC pins",
+   "note": "mech_eng_jw.pdf p.7 Recommended PC board pattern (BOTTOM VIEW mirrored to top view): the 2026 datasheet prints no dimension on the pattern (\"For details please contact our sales representative\"); the hole positions are MEASURED from the vector drawing at 600 dpi, scaled by the body 28.6 mm (L) x 12.8 mm (W) given on p.1 (the dashed outline of the drawing is 28.6 x 12.8); rounded to 0.1 (hole 1.6 measured). 1 Form C: as 1 Form A plus a hole at 16.5 on the top row (N.C.); pads follow specs.tsv 1=A1 2=NC 3=NO 4=A2 5=COM placed by the bottom-view schematic (top row left to right: N.C. (dot), N.O. (arrow); bottom: COM)",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 28.6,
+    "height": 12.8
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 11.6,
+     "y": -3.8,
+     "width": 2.3,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.6
+    },
+    {
+     "pin": 2,
+     "x": -4.9,
+     "y": -3.8,
+     "width": 2.3,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.6
+    },
+    {
+     "pin": 3,
+     "x": -11.9,
+     "y": -3.8,
+     "width": 2.3,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.6
+    },
+    {
+     "pin": 4,
+     "x": 11.6,
+     "y": 3.8,
+     "width": 2.3,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.6
+    },
+    {
+     "pin": 5,
+     "x": -8.4,
+     "y": 3.8,
+     "width": 2.3,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.6
+    }
+   ]
+  },
+  {
+   "id": "RELAY-ALDP-4-PANASONIC",
+   "description": "Panasonic ALDP relay, 1 Form A, 4 PC pins",
+   "note": "mech_eng_ldp.pdf p.5 Recommended PC board pattern, BOTTOM VIEW mirrored to top view; 4 x 1.1 holes: top row at x 0 (coil), 11.5 (COM), 18.5 (N.O.), a second coil hole 4.7 below the first; no terminal numbers in the datasheet: pads follow specs.tsv 1=A1 2=COM 3=NO 4=A2 placed by the bottom-view schematic; body 20.2 x 6.9, 1.05 from the body end to the first hole",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 20.2,
+    "height": 6.9
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 9.05,
+     "y": -2.35,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 2,
+     "x": -2.45,
+     "y": -2.35,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 3,
+     "x": -9.45,
+     "y": -2.35,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 4,
+     "x": 9.05,
+     "y": 2.35,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    }
+   ]
+  },
+  {
+   "id": "RELAY-ALFG-4-PANASONIC",
+   "description": "Panasonic ALFG relay, 1 Form A, 4 PC pins",
+   "note": "mech_eng_lfg.pdf p.7 Recommended PC board pattern, BOTTOM VIEW mirrored to top view; contact row 2 x 2.0 holes (27.6 apart, 13.8 each side of the centre line), coil row 2 x 1.8 holes (12 left and 10 right of the centre line), rows 12 apart; the numbers 3 NO / COM 4 / 1 / 2 are read from the case marking drawing (p.7 lower left) and placed as drawn in the bottom-view schematic (contact terminal with the fixed N.O. contact on the left: 3 left, 4 right; coil 1 left, 2 right): left-right assignment is the least certain part; body 30.1 x 15.7",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 30.1,
+    "height": 15.7
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 12.0,
+     "y": 6.0,
+     "width": 2.5,
+     "height": 2.5,
+     "shape": "round",
+     "drill": 1.8
+    },
+    {
+     "pin": 2,
+     "x": -10.0,
+     "y": 6.0,
+     "width": 2.5,
+     "height": 2.5,
+     "shape": "round",
+     "drill": 1.8
+    },
+    {
+     "pin": 3,
+     "x": -13.8,
+     "y": -6.0,
+     "width": 2.7,
+     "height": 2.7,
+     "shape": "round",
+     "drill": 2.0
+    },
+    {
+     "pin": 4,
+     "x": 13.8,
+     "y": -6.0,
+     "width": 2.7,
+     "height": 2.7,
+     "shape": "round",
+     "drill": 2.0
+    }
+   ]
+  },
+  {
+   "id": "RELAY-ALQ-4-PANASONIC",
+   "description": "Panasonic ALQ relay, 1 Form A, 4 PC pins",
+   "note": "mech_eng_lq.pdf p.8 Recommended PC board pattern 1 Form A (standard type), BOTTOM VIEW mirrored to top view; 4 x 1.3 holes: top row x 0 (coil), 10.16 (COM), 17.78 (N.O.), bottom coil hole 7.62 below; no terminal numbers in the datasheet: pads follow specs.tsv 1=A1 2=COM 3=NO 4=A2 placed by the bottom-view schematic; body 20 x 10",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 20,
+    "height": 10
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 8.9,
+     "y": -3.8,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -1.26,
+     "y": -3.8,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": -8.88,
+     "y": -3.8,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": 8.9,
+     "y": 3.82,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-ALQ-5-PANASONIC",
+   "description": "Panasonic ALQ relay, 1 Form C, 5 PC pins",
+   "note": "mech_eng_lq.pdf p.8 Recommended PC board pattern 1 Form C (standard type, 5 x 1.3), BOTTOM VIEW mirrored to top view; as the 1 Form A footprint plus a hole at (15.24, 7.62) (10.16 + 5.08) for N.C. (the contact with the dot in the schematic); pads follow specs.tsv 1=A1 2=COM 3=NO 4=A2 5=NC; body 20 x 10",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 20,
+    "height": 10
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 8.9,
+     "y": -3.8,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -1.26,
+     "y": -3.8,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": -8.88,
+     "y": -3.8,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": 8.9,
+     "y": 3.82,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 5,
+     "x": -6.34,
+     "y": 3.82,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-ALZ-6-PANASONIC",
+   "description": "Panasonic ALZ relay, 1 Form A, 6 PC pins",
+   "note": "mech_eng_lz.pdf p.4 Recommended PC board pattern 1 Form A (6 x 1.3), BOTTOM VIEW mirrored to top view; coil holes at x 0, contact columns at x 20 (COM, two terminals tied) and 25 (N.O., two terminals tied), rows 7.5 apart; no terminal numbers in the datasheet: pads follow specs.tsv 1=A1 2=COM 3=NO 4=A2 5=COM 6=NO placed by the bottom-view schematic; body 28.8 x 12.5, 2.5 from the body end to the coil column",
+   "style": "explicit",
+   "pins": 6,
+   "body": {
+    "width": 28.8,
+    "height": 12.5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 11.9,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -8.1,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": -13.1,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": 11.9,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 5,
+     "x": -8.1,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 6,
+     "x": -13.1,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-ALZ-8-PANASONIC",
+   "description": "Panasonic ALZ relay, 1 Form C, 8 PC pins",
+   "note": "mech_eng_lz.pdf p.4 Recommended PC board pattern 1 Form C (8 x 1.3), BOTTOM VIEW mirrored to top view; coil holes at x 0, contact columns at x 15 (N.C., filled arrow), 20 (COM) and 25 (N.O.), two tied terminals each, rows 7.5 apart; pads follow specs.tsv 1=A1 2=NC 3=COM 4=NO 5=A2 6=NC 7=COM 8=NO placed by the bottom-view schematic; body 28.8 x 12.5",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 28.8,
+    "height": 12.5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 11.9,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -3.1,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": -8.1,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": -13.1,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 5,
+     "x": 11.9,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 6,
+     "x": -3.1,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 7,
+     "x": -8.1,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 8,
+     "x": -13.1,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-NC-8-PANASONIC",
+   "description": "Panasonic NC slim relay, 2 Form C, 8 PC pins",
+   "note": "mech_eng_nc.pdf p.8 PC board pattern, Dust cover Slim type PC board terminal 2 Form C, BOTTOM VIEW mirrored to top view; 8 lands 2.8 with 1.2 holes on a 2.54 grid, top row 11 12 13 14 at x 2.54 7.62 12.7 17.78, bottom row 7 5 4 2 at x 0 7.62 12.7 20.32, rows 2.54 x 3 = 7.62 apart; renumbered 2 4 5 7 11 12 13 14 -> 1..8; body 25.4 x 11.2 (slim type width 11.2); the line mixes slim (NC2D-P) and flat (NC2D-JP) parts: slim chosen (2 of 3)",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 25.4,
+    "height": 11.2
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -10.16,
+     "y": 3.81,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 2,
+     "x": -2.54,
+     "y": 3.81,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 3,
+     "x": 2.54,
+     "y": 3.81,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 4,
+     "x": 10.16,
+     "y": 3.81,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 5,
+     "x": 7.62,
+     "y": -3.81,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 6,
+     "x": 2.54,
+     "y": -3.81,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 7,
+     "x": -2.54,
+     "y": -3.81,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 8,
+     "x": -7.62,
+     "y": -3.81,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 1.2
+    }
+   ]
+  },
+  {
+   "id": "RELAY-NC-14-PANASONIC",
+   "description": "Panasonic NC flat relay, 4 Form C, 14 PC pins",
+   "note": "mech_eng_nc.pdf p.7 Recommended PC board pattern, Dust cover Flat type PC board terminal 4 Form C, BOTTOM VIEW mirrored to top view; 14 lands 2.8 with 1.2 holes on a 2.54 grid, top row 9..16 at pitch 5.08 (x -2.54 .. 33.02), bottom row 8 7 5 4 2 1 at x 0 5.08 12.7 17.78 25.4 30.48, rows 2.54 x 11 = 27.94 apart; renumbered 1 2 4 5 7 8 9 .. 16 -> 1..14; body 38.1 x 27.94",
+   "style": "explicit",
+   "pins": 14,
+   "body": {
+    "width": 38.1,
+    "height": 27.94
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -15.24,
+     "y": 13.97,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 2,
+     "x": -10.16,
+     "y": 13.97,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 3,
+     "x": -2.54,
+     "y": 13.97,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 4,
+     "x": 2.54,
+     "y": 13.97,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 5,
+     "x": 10.16,
+     "y": 13.97,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 6,
+     "x": 15.24,
+     "y": 13.97,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 7,
+     "x": 17.78,
+     "y": -13.97,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 8,
+     "x": 12.7,
+     "y": -13.97,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 9,
+     "x": 7.62,
+     "y": -13.97,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 10,
+     "x": 2.54,
+     "y": -13.97,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 11,
+     "x": -2.54,
+     "y": -13.97,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 12,
+     "x": -7.62,
+     "y": -13.97,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 13,
+     "x": -12.7,
+     "y": -13.97,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 14,
+     "x": -17.78,
+     "y": -13.97,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 1.2
+    }
+   ]
+  },
+  {
+   "id": "RELAY-PAN-4-PANASONIC",
+   "description": "Panasonic PA-N relay, 1 Form A, 4 PC pins in a row",
+   "note": "mech_eng_pan.pdf p.4 Recommended PC board pattern, BOTTOM VIEW mirrored to top view; single row of 4 holes: 2 x 1.0 (coil 1, 2; 2.54 apart) and 2 x 1.2 (5 N.O., 6 COM; 10.16 and 5.08 further); terminals 1 2 5 6 from the bottom-view schematic; renumbered 1 2 5 6 -> 1..4; body 20 x 5",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 20,
+    "height": 5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 8.88,
+     "y": 0.0,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 2,
+     "x": 6.34,
+     "y": 0.0,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 3,
+     "x": -3.82,
+     "y": 0.0,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 4,
+     "x": -8.9,
+     "y": 0.0,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    }
+   ]
+  },
+  {
+   "id": "RELAY-APF-5-PANASONIC",
+   "description": "Panasonic APF relay, 1 Form C, 5 PC pins in a row",
+   "note": "mech_eng_pf.pdf p.5 Recommended PC board pattern 1 Form C, BOTTOM VIEW mirrored to top view; single row: coil holes 2 x 1.0 (3.78 apart), then 3 x 1.3 contact holes at 5.04 pitch, the last 21.42 from the second coil hole; no terminal numbers in the datasheet: pads follow specs.tsv 1=A1 2=A2 3=NC 4=COM 5=NO placed by the bottom-view schematic (N.C. filled arrow left, COM middle, N.O. open arrow right); body max 28 x 5, row 1.2 above the body edge",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 28,
+    "height": 5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 13.1,
+     "y": 1.3,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 2,
+     "x": 9.32,
+     "y": 1.3,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 3,
+     "x": -2.02,
+     "y": 1.3,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": -7.06,
+     "y": 1.3,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 5,
+     "x": -12.1,
+     "y": 1.3,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-S-12-PANASONIC",
+   "description": "Panasonic S relay, 12 PC pins in two rows",
+   "note": "mech_eng_s.pdf p.6 Recommended PC board pattern (12 x 1.3), shown as a grid; the datasheet marks the view only on the schematic (BOTTOM VIEW): BOTTOM VIEW mirrored to top view; two rows of 6 holes at pitch 5.08 (2.54 grid, every second line), rows 7.62 apart (3 x 2.54); top row 1..6, bottom row 12..7 left to right (schematic and terminal view); renumbered identity; body 28 x 12",
+   "style": "explicit",
+   "pins": 12,
+   "body": {
+    "width": 28,
+    "height": 12
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 12.7,
+     "y": -3.81,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": 7.62,
+     "y": -3.81,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": 2.54,
+     "y": -3.81,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": -2.54,
+     "y": -3.81,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 5,
+     "x": -7.62,
+     "y": -3.81,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 6,
+     "x": -12.7,
+     "y": -3.81,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 7,
+     "x": -12.7,
+     "y": 3.81,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 8,
+     "x": -7.62,
+     "y": 3.81,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 9,
+     "x": -2.54,
+     "y": 3.81,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 10,
+     "x": 2.54,
+     "y": 3.81,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 11,
+     "x": 7.62,
+     "y": 3.81,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 12,
+     "x": 12.7,
+     "y": 3.81,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-SP-8-PANASONIC",
+   "description": "Panasonic SP relay, 2 Form C, 8 PC pins",
+   "note": "mech_eng_sp.pdf p.6 Recommended PC board pattern 2 Form C PC board terminal (10 x 2.5 holes for the latching types), BOTTOM VIEW mirrored to top view; columns at pitch 10.16, rows 15.24 apart; top row 1 5 6 7, bottom row 2 8 9 10 (single side stable schematic; 3 and 4 only on the latching types); renumbered 1 2 5 6 7 8 9 10 -> 1..8; body 50 x 25.6",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 50,
+    "height": 25.6
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 20.32,
+     "y": -7.62,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 2,
+     "x": 20.32,
+     "y": 7.62,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 3,
+     "x": 10.16,
+     "y": -7.62,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 4,
+     "x": 0.0,
+     "y": -7.62,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 5,
+     "x": -10.16,
+     "y": -7.62,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 6,
+     "x": 10.16,
+     "y": 7.62,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 7,
+     "x": 0.0,
+     "y": 7.62,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 8,
+     "x": -10.16,
+     "y": 7.62,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    }
+   ]
+  },
+  {
+   "id": "RELAY-SP-10-PANASONIC",
+   "description": "Panasonic SP relay, 2 Form C latching, 10 PC pins",
+   "note": "mech_eng_sp.pdf p.6 Recommended PC board pattern 2 Form C PC board terminal (10 x 2.5), BOTTOM VIEW mirrored to top view; columns at pitch 10.16, rows 15.24 apart; top row 1 5 6 7 3, bottom row 2 8 9 10 4 (2 coil latching schematic); renumbered 1 2 3 4 5 .. 10 (identity); body 50 x 25.6",
+   "style": "explicit",
+   "pins": 10,
+   "body": {
+    "width": 50,
+    "height": 25.6
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 20.32,
+     "y": -7.62,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 2,
+     "x": 20.32,
+     "y": 7.62,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 3,
+     "x": -20.32,
+     "y": -7.62,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 4,
+     "x": -20.32,
+     "y": 7.62,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 5,
+     "x": 10.16,
+     "y": -7.62,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 6,
+     "x": 0.0,
+     "y": -7.62,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 7,
+     "x": -10.16,
+     "y": -7.62,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 8,
+     "x": 10.16,
+     "y": 7.62,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 9,
+     "x": 0.0,
+     "y": 7.62,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 10,
+     "x": -10.16,
+     "y": 7.62,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    }
+   ]
+  },
+  {
+   "id": "RELAY-SP-14-PANASONIC",
+   "description": "Panasonic SP relay, 4 Form C, 14 PC pins",
+   "note": "mech_eng_sp.pdf p.6 Recommended PC board pattern 4 Form C PC board terminal (16 x 2.5 holes with the latching terminals 3 and 4), BOTTOM VIEW mirrored to top view; rows at y 0 (11 12 13), 7.62 (1 5 6 7), 22.86 (2 8 9 10), 30.48 (14 15 16) (7.62 + 15.24 + 7.62), columns at pitch 10.16; renumbered 1 2 5 6 7 8 9 10 11 12 13 14 15 16 -> 1..14; body 50 x 36.8",
+   "style": "explicit",
+   "pins": 14,
+   "body": {
+    "width": 50,
+    "height": 36.8
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 20.32,
+     "y": -7.62,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 2,
+     "x": 20.32,
+     "y": 7.62,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 3,
+     "x": 10.16,
+     "y": -7.62,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 4,
+     "x": 0.0,
+     "y": -7.62,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 5,
+     "x": -10.16,
+     "y": -7.62,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 6,
+     "x": 10.16,
+     "y": 7.62,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 7,
+     "x": 0.0,
+     "y": 7.62,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 8,
+     "x": -10.16,
+     "y": 7.62,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 9,
+     "x": 10.16,
+     "y": -15.24,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 10,
+     "x": 0.0,
+     "y": -15.24,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 11,
+     "x": -10.16,
+     "y": -15.24,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 12,
+     "x": 10.16,
+     "y": 15.24,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 13,
+     "x": 0.0,
+     "y": 15.24,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    },
+    {
+     "pin": 14,
+     "x": -10.16,
+     "y": 15.24,
+     "width": 3.2,
+     "height": 3.2,
+     "shape": "round",
+     "drill": 2.5
+    }
+   ]
+  },
+  {
+   "id": "RELAY-TE-8-PANASONIC",
+   "description": "Panasonic TE automotive twin relay, 8 PC pins",
+   "note": "mech_eng_te.pdf p.6 PC board pattern, Twin type (8 pins), BOTTOM VIEW mirrored to top view; 2 x 1.5 holes (N.C. top, N.O. bottom, 11.6 apart), 4 x 1.1 coil holes at x 4.8 (y 0, 6.4) and x 7.0 (y 5.2, 11.6), 2 x 1.6 COM holes at x 10.7 (y 2.1, 8.5); no terminal numbers in the datasheet: pads follow specs.tsv 1=NC1 2=A1 3=COM1 4=A2 5=A3 6=COM2 7=NO2 8=A4 placed by the bottom-view schematic (relay 1 N.C. on top, relay 2 N.O. at the bottom); body 12 x 13.6",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 12,
+    "height": 13.6
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 5.3,
+     "y": -5.8,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 2,
+     "x": 0.5,
+     "y": -5.8,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 3,
+     "x": -5.4,
+     "y": -3.7,
+     "width": 2.3,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.6
+    },
+    {
+     "pin": 4,
+     "x": -1.7,
+     "y": -0.6,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 5,
+     "x": 0.5,
+     "y": 0.6,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 6,
+     "x": -5.4,
+     "y": 2.7,
+     "width": 2.3,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.6
+    },
+    {
+     "pin": 7,
+     "x": 5.3,
+     "y": 5.8,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 8,
+     "x": -1.7,
+     "y": 5.8,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    }
+   ]
+  },
+  {
+   "id": "RELAY-TQ-10-PANASONIC",
+   "description": "Panasonic TQ relay, 2 Form C, 10 PC pins",
+   "note": "mech_eng_tq.pdf p.13 Recommended PC board pattern (10 x 1.0), BOTTOM VIEW mirrored to top view; 2 rows of 5 holes at pitch 2.54 (10.16 across), rows 7.62 apart; top row 1..5, bottom row 10..6 (schematic); renumbered identity; body 14 x 9",
+   "style": "explicit",
+   "pins": 10,
+   "body": {
+    "width": 14,
+    "height": 9
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 5.08,
+     "y": -3.81,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 2,
+     "x": 2.54,
+     "y": -3.81,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 3,
+     "x": 0.0,
+     "y": -3.81,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 4,
+     "x": -2.54,
+     "y": -3.81,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 5,
+     "x": -5.08,
+     "y": -3.81,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 6,
+     "x": -5.08,
+     "y": 3.81,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 7,
+     "x": -2.54,
+     "y": 3.81,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 8,
+     "x": 0.0,
+     "y": 3.81,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 9,
+     "x": 2.54,
+     "y": 3.81,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 10,
+     "x": 5.08,
+     "y": 3.81,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    }
+   ]
+  },
+  {
+   "id": "RELAY-TQ-10-SMD-PANASONIC",
+   "description": "Panasonic TQ-SMD relay, 2 Form C, 10 gull-wing pads",
+   "note": "mech_eng_tq.pdf p.14 Recommended PC board pattern, surface-mount terminal type SA (type SL has the same pattern drawing), TOP VIEW as drawn: pads 1.0 x 2.94 at pitch 2.54, row centres 9.56 apart; top row 10 9 8 7 6, bottom row 1 2 3 4 5 (top-view schematic); body 14 x 9",
+   "style": "explicit",
+   "pins": 10,
+   "body": {
+    "width": 14,
+    "height": 9
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -5.08,
+     "y": 4.78,
+     "width": 1.0,
+     "height": 2.94,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -2.54,
+     "y": 4.78,
+     "width": 1.0,
+     "height": 2.94,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 0.0,
+     "y": 4.78,
+     "width": 1.0,
+     "height": 2.94,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 2.54,
+     "y": 4.78,
+     "width": 1.0,
+     "height": 2.94,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 5.08,
+     "y": 4.78,
+     "width": 1.0,
+     "height": 2.94,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 5.08,
+     "y": -4.78,
+     "width": 1.0,
+     "height": 2.94,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 2.54,
+     "y": -4.78,
+     "width": 1.0,
+     "height": 2.94,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 0.0,
+     "y": -4.78,
+     "width": 1.0,
+     "height": 2.94,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -2.54,
+     "y": -4.78,
+     "width": 1.0,
+     "height": 2.94,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -5.08,
+     "y": -4.78,
+     "width": 1.0,
+     "height": 2.94,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "RELAY-TX-8-PANASONIC",
+   "description": "Panasonic TX relay, 2 Form C, 8 PC pins",
+   "note": "mech_eng_tx.pdf p.8 Recommended PC board pattern, BOTTOM VIEW mirrored to top view; holes 8 x 1.0 (single side stable): top row 1 3 4 5, bottom row 12 10 9 8 at x 0, 5.08, 7.62, 10.16, rows 5.08 apart (schematic); renumbered 1 3 4 5 8 9 10 12 -> 1..8; body 15 x 7.4",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 15,
+    "height": 7.4
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 6.35,
+     "y": -2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 2,
+     "x": 1.27,
+     "y": -2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 3,
+     "x": -1.27,
+     "y": -2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 4,
+     "x": -3.81,
+     "y": -2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 5,
+     "x": -3.81,
+     "y": 2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 6,
+     "x": -1.27,
+     "y": 2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 7,
+     "x": 1.27,
+     "y": 2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 8,
+     "x": 6.35,
+     "y": 2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    }
+   ]
+  },
+  {
+   "id": "RELAY-TX-10-PANASONIC",
+   "description": "Panasonic TX relay, 2 Form C latching, 10 PC pins",
+   "note": "mech_eng_tx.pdf p.8 Recommended PC board pattern, BOTTOM VIEW mirrored to top view; holes 10 x 1.0 (2 coil latching): top row 1 3 4 5 6, bottom row 12 10 9 8 7 at x 0, 5.08, 7.62, 10.16, 12.7, rows 5.08 apart (schematic); renumbered 1 3 4 5 6 7 8 9 10 12 -> 1..10; body 15 x 7.4",
+   "style": "explicit",
+   "pins": 10,
+   "body": {
+    "width": 15,
+    "height": 7.4
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 6.35,
+     "y": -2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 2,
+     "x": 1.27,
+     "y": -2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 3,
+     "x": -1.27,
+     "y": -2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 4,
+     "x": -3.81,
+     "y": -2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 5,
+     "x": -6.35,
+     "y": -2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 6,
+     "x": -6.35,
+     "y": 2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 7,
+     "x": -3.81,
+     "y": 2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 8,
+     "x": -1.27,
+     "y": 2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 9,
+     "x": 1.27,
+     "y": 2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 10,
+     "x": 6.35,
+     "y": 2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    }
+   ]
+  },
+  {
+   "id": "RELAY-TX-8-SMD-PANASONIC",
+   "description": "Panasonic TX relay, 2 Form C, 8 gull-wing pads",
+   "note": "mech_eng_tx.pdf p.9 Recommended PC board pattern surface-mount terminal, TOP VIEW as drawn; pads 1.0 x 3.16 (type SA), rows 7.24 apart, columns at x 0, 5.08, 7.62, 10.16: top row 12 10 9 8, bottom row 1 3 4 5 (top-view schematic); renumbered 1 3 4 5 8 9 10 12 -> 1..8; body 15 x 7.4",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 15,
+    "height": 7.4
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -6.35,
+     "y": 3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -1.27,
+     "y": 3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 1.27,
+     "y": 3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 3.81,
+     "y": 3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 3.81,
+     "y": -3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 1.27,
+     "y": -3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -1.27,
+     "y": -3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -6.35,
+     "y": -3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "RELAY-TXD-8-PANASONIC",
+   "description": "Panasonic TX-D relay, 2 Form C, 8 PC pins",
+   "note": "mech_eng_txd.pdf p.8 Recommended PC board pattern, BOTTOM VIEW mirrored to top view; holes 8 x 1.0 (single side stable): top row 1 3 4 5, bottom row 12 10 9 8 at x 0, 5.08, 7.62, 10.16, rows 5.08 apart (schematic); renumbered 1 3 4 5 8 9 10 12 -> 1..8; body 15 x 7.4",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 15,
+    "height": 7.4
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 6.35,
+     "y": -2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 2,
+     "x": 1.27,
+     "y": -2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 3,
+     "x": -1.27,
+     "y": -2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 4,
+     "x": -3.81,
+     "y": -2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 5,
+     "x": -3.81,
+     "y": 2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 6,
+     "x": -1.27,
+     "y": 2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 7,
+     "x": 1.27,
+     "y": 2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 8,
+     "x": 6.35,
+     "y": 2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    }
+   ]
+  },
+  {
+   "id": "RELAY-TXD-8-SMD-PANASONIC",
+   "description": "Panasonic TX-D relay, 2 Form C, 8 gull-wing pads",
+   "note": "mech_eng_txd.pdf p.9 Recommended PC board pattern surface-mount terminal type SA, TOP VIEW as drawn; pads 1.0 x 3.16 (type SA), rows 7.24 apart, columns at x 0, 5.08, 7.62, 10.16: top row 12 10 9 8, bottom row 1 3 4 5 (top-view schematic); renumbered 1 3 4 5 8 9 10 12 -> 1..8; body 15 x 7.4",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 15,
+    "height": 7.4
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -6.35,
+     "y": 3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -1.27,
+     "y": 3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 1.27,
+     "y": 3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 3.81,
+     "y": 3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 3.81,
+     "y": -3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 1.27,
+     "y": -3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -1.27,
+     "y": -3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -6.35,
+     "y": -3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "RELAY-TXS-8-PANASONIC",
+   "description": "Panasonic TX-S relay, 2 Form C, 8 PC pins",
+   "note": "mech_eng_txs-654268.pdf p.8 Recommended PC board pattern, BOTTOM VIEW mirrored to top view; holes 8 x 1.0 (single side stable): top row 1 3 4 5, bottom row 12 10 9 8 at x 0, 5.08, 7.62, 10.16, rows 5.08 apart (schematic); renumbered 1 3 4 5 8 9 10 12 -> 1..8; body 15 x 7.4",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 15,
+    "height": 7.4
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 6.35,
+     "y": -2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 2,
+     "x": 1.27,
+     "y": -2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 3,
+     "x": -1.27,
+     "y": -2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 4,
+     "x": -3.81,
+     "y": -2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 5,
+     "x": -3.81,
+     "y": 2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 6,
+     "x": -1.27,
+     "y": 2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 7,
+     "x": 1.27,
+     "y": 2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 8,
+     "x": 6.35,
+     "y": 2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    }
+   ]
+  },
+  {
+   "id": "RELAY-TXS-8-SMD-PANASONIC",
+   "description": "Panasonic TX-S relay, 2 Form C, 8 gull-wing pads",
+   "note": "mech_eng_txs-654268.pdf p.9 Recommended PC board pattern surface-mount terminal type SA, TOP VIEW as drawn; pads 1.0 x 3.16 (type SA), rows 7.24 apart, columns at x 0, 5.08, 7.62, 10.16: top row 12 10 9 8, bottom row 1 3 4 5 (top-view schematic); renumbered 1 3 4 5 8 9 10 12 -> 1..8; body 15 x 7.4",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 15,
+    "height": 7.4
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -6.35,
+     "y": 3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -1.27,
+     "y": 3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 1.27,
+     "y": 3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 3.81,
+     "y": 3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 3.81,
+     "y": -3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 1.27,
+     "y": -3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -1.27,
+     "y": -3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -6.35,
+     "y": -3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "RELAY-TXS-10-SMD-PANASONIC",
+   "description": "Panasonic TX-S relay, 2 Form C latching, 10 gull-wing pads",
+   "note": "mech_eng_txs-654268.pdf p.9 Recommended PC board pattern surface-mount terminal type SA, 2 coil latching, TOP VIEW as drawn; pads 1.0 x 3.16 (type SA), rows 7.24 apart, columns at x 0, 5.08, 7.62, 10.16, 12.7: top row 12 10 9 8 7, bottom row 1 3 4 5 6 (top-view schematic); renumbered 1 3 4 5 6 7 8 9 10 12 -> 1..10; body 15 x 7.4",
+   "style": "explicit",
+   "pins": 10,
+   "body": {
+    "width": 15,
+    "height": 7.4
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -6.35,
+     "y": 3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -1.27,
+     "y": 3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 1.27,
+     "y": 3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 3.81,
+     "y": 3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 6.35,
+     "y": 3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 6.35,
+     "y": -3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 3.81,
+     "y": -3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 1.27,
+     "y": -3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -1.27,
+     "y": -3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -6.35,
+     "y": -3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "RELAY-TXTH-8-PANASONIC",
+   "description": "Panasonic TX-TH relay, 2 Form C, 8 PC pins",
+   "note": "mech_eng_txth.pdf p.7 Recommended PC board pattern, BOTTOM VIEW mirrored to top view; holes 8 x 1.0 (single side stable): top row 1 3 4 5, bottom row 12 10 9 8 at x 0, 5.08, 7.62, 10.16, rows 5.08 apart (schematic); renumbered 1 3 4 5 8 9 10 12 -> 1..8; body 15 x 7.4",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 15,
+    "height": 7.4
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 6.35,
+     "y": -2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 2,
+     "x": 1.27,
+     "y": -2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 3,
+     "x": -1.27,
+     "y": -2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 4,
+     "x": -3.81,
+     "y": -2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 5,
+     "x": -3.81,
+     "y": 2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 6,
+     "x": -1.27,
+     "y": 2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 7,
+     "x": 1.27,
+     "y": 2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 8,
+     "x": 6.35,
+     "y": 2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    }
+   ]
+  },
+  {
+   "id": "RELAY-TXTH-10-PANASONIC",
+   "description": "Panasonic TX-TH relay, 2 Form C latching, 10 PC pins",
+   "note": "mech_eng_txth.pdf p.7 Recommended PC board pattern, BOTTOM VIEW mirrored to top view; holes 10 x 1.0 (2 coil latching): top row 1 3 4 5 6, bottom row 12 10 9 8 7 at x 0, 5.08, 7.62, 10.16, 12.7, rows 5.08 apart (schematic); renumbered 1 3 4 5 6 7 8 9 10 12 -> 1..10; body 15 x 7.4",
+   "style": "explicit",
+   "pins": 10,
+   "body": {
+    "width": 15,
+    "height": 7.4
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 6.35,
+     "y": -2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 2,
+     "x": 1.27,
+     "y": -2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 3,
+     "x": -1.27,
+     "y": -2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 4,
+     "x": -3.81,
+     "y": -2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 5,
+     "x": -6.35,
+     "y": -2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 6,
+     "x": -6.35,
+     "y": 2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 7,
+     "x": -3.81,
+     "y": 2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 8,
+     "x": -1.27,
+     "y": 2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 9,
+     "x": 1.27,
+     "y": 2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 10,
+     "x": 6.35,
+     "y": 2.54,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    }
+   ]
+  },
+  {
+   "id": "RELAY-TXTH-10-SMD-PANASONIC",
+   "description": "Panasonic TX-TH relay, 2 Form C latching, 10 gull-wing pads",
+   "note": "mech_eng_txth.pdf p.8 Recommended PC board pattern surface-mount terminal type SA, 2 coil latching, TOP VIEW as drawn; pads 1.0 x 3.16 (type SA), rows 7.24 apart, columns at x 0, 5.08, 7.62, 10.16, 12.7: top row 12 10 9 8 7, bottom row 1 3 4 5 6 (top-view schematic); renumbered 1 3 4 5 6 7 8 9 10 12 -> 1..10; body 15 x 7.4",
+   "style": "explicit",
+   "pins": 10,
+   "body": {
+    "width": 15,
+    "height": 7.4
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -6.35,
+     "y": 3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -1.27,
+     "y": 3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 1.27,
+     "y": 3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 3.81,
+     "y": 3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 6.35,
+     "y": 3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 6.35,
+     "y": -3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 3.81,
+     "y": -3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 1.27,
+     "y": -3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -1.27,
+     "y": -3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -6.35,
+     "y": -3.62,
+     "width": 1.0,
+     "height": 3.16,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "RELAY-DIP-6-PANASONIC",
+   "description": "Panasonic PhotoMOS 6-pin DIP (7.62 mm row spacing), 2.54 mm pitch",
+   "note": "semi_eng_gu1a_aqv21.pdf p.6 (and semi_eng_ge1a_aqv21_e.pdf p.5) PC board pattern, BOTTOM VIEW: 6 x 0.8 holes, pitch 2.54 (5.08 over 3 holes), rows 7.62 apart; round pad 1.5 (hole 0.8 + 0.7, at least 1.5, plan-03-B R5); pin 1 on the left column top, 1 2 3 down the left, 4 5 6 up the right as every DIP (the datasheet package drawing marks pin 1 at one corner of the 8.8 side); body 8.8 x 6.4. fp-compare against PDIP-8 does not apply (pin count), hole 0.8 differs from the library 0.75 anyway",
+   "style": "dual",
+   "pins": 6,
+   "body": {
+    "width": 6.4,
+    "height": 8.8
+   },
+   "pitch": 2.54,
+   "span": 7.62,
+   "pad": {
+    "width": 1.5,
+    "height": 1.5,
+    "shape": "round"
+   },
+   "drill": 0.8,
+   "pin1Shape": "rect"
+  },
+  {
+   "id": "RELAY-DIP-8-PANASONIC",
+   "description": "Panasonic PhotoMOS 8-pin DIP (7.62 mm row spacing), 2.54 mm pitch",
+   "note": "semi_eng_gu2a_aqw21.pdf p.6 (and semi_eng_ge2a_aqw21_e.pdf) PC board pattern, BOTTOM VIEW: 8 x 0.8 holes, pitch 2.54, rows 7.62 apart; round pad 1.5 (R5); pins 1..4 down the left, 5..8 up the right (schematic 1-4 left, 8-5 right); body 9.78 x 6.4. Same row spacing and pitch as PDIP-8 but hole 0.8 against 0.75 (fp-compare differs 0.05 > 0.02): new footprint",
+   "style": "dual",
+   "pins": 8,
+   "body": {
+    "width": 6.4,
+    "height": 9.78
+   },
+   "pitch": 2.54,
+   "span": 7.62,
+   "pad": {
+    "width": 1.5,
+    "height": 1.5,
+    "shape": "round"
+   },
+   "drill": 0.8,
+   "pin1Shape": "rect"
+  },
+  {
+   "id": "RELAY-SMD-6-PANASONIC",
+   "description": "Panasonic PhotoMOS 6-pin SMD (7.62 mm gull wing), 2.54 mm pitch",
+   "note": "semi_eng_ge1a_aqv21_e.pdf p.5 Recommended mounting pad TOP VIEW: pads 1.5 wide x 1.9 long, pitch 2.54, pad rows 8.3 apart (centre to centre); the drawing has the pad rows horizontal with pin 1 at the bottom left of the package top view, turned 90 deg clockwise here so that pin 1 is at the top left (dual). body 8.8 x 6.4",
+   "style": "dual",
+   "pins": 6,
+   "body": {
+    "width": 6.4,
+    "height": 8.8
+   },
+   "pitch": 2.54,
+   "span": 8.3,
+   "pad": {
+    "width": 1.9,
+    "height": 1.5,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "RELAY-SMD-8-PANASONIC",
+   "description": "Panasonic PhotoMOS 8-pin SMD (7.62 mm gull wing), 2.54 mm pitch",
+   "note": "semi_eng_gu2a_aqw21.pdf p.6 (same pad drawing in semi_eng_ge2a_aqw21_e.pdf and semi_eng_he2a_aqw25.pdf p.5) Recommended mounting pad TOP VIEW: pads 1.5 wide x 1.9 long, pitch 2.54, pad rows 8.3 apart (centre to centre); the drawing has the pad rows horizontal with pin 1 at the bottom left of the package top view, turned 90 deg clockwise here so that pin 1 is at the top left (dual). body 9.78 x 6.4",
+   "style": "dual",
+   "pins": 8,
+   "body": {
+    "width": 6.4,
+    "height": 9.78
+   },
+   "pitch": 2.54,
+   "span": 8.3,
+   "pad": {
+    "width": 1.9,
+    "height": 1.5,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "RELAY-SMD-4-PANASONIC",
+   "description": "Panasonic PhotoMOS 4-pin SMD (7.62 mm gull wing), 2.54 mm pitch",
+   "note": "semi_eng_ge1a_aqy21_e.pdf p.7 (same pad drawing in semi_eng_ge1b_aqy41_e.pdf p.6 and semi_eng_gu1a_aqy21_g.pdf p.5) Recommended mounting pad TOP VIEW: pads 1.5 wide x 1.9 long, pitch 2.54, pad rows 8.3 apart (centre to centre); the drawing has the pad rows horizontal with pin 1 at the bottom left of the package top view, turned 90 deg clockwise here so that pin 1 is at the top left (dual). body 4.78 x 6.4",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 6.4,
+    "height": 4.78
+   },
+   "pitch": 2.54,
+   "span": 8.3,
+   "pad": {
+    "width": 1.9,
+    "height": 1.5,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "RELAY-SOP-16-PANASONIC",
+   "description": "Panasonic PhotoMOS 16-SOP (4.4 mm), 1.27 mm pitch",
+   "note": "semi_eng_rf4a_aqs22_s.pdf p.5 (same in semi_eng_rf4a_aqs22_s_cr10.pdf) Recommended mounting pad TOP VIEW: pads 0.8 wide x 1.2 long, pad rows 6 apart (centre to centre); the drawing has the pad rows horizontal with pin 1 at the bottom left of the package top view, turned 90 deg clockwise so that pin 1 is at the top left (dual). pitch 1.27 (7 x 1.27 shown); the drawing is not to scale, the dimension labels are used; body 10.37 x 4.4. Library SOP-16/SOIC-16 have other spans (7 / 5.4) and pad sizes",
+   "style": "dual",
+   "pins": 16,
+   "body": {
+    "width": 4.4,
+    "height": 10.37
+   },
+   "pitch": 1.27,
+   "span": 6.0,
+   "pad": {
+    "width": 1.2,
+    "height": 0.8,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "RELAY-SOP-6-PANASONIC",
+   "description": "Panasonic PhotoMOS 6-SOP (4.4 mm), 2.54 mm pitch",
+   "note": "semi_eng_he_sop6_1a.pdf p.5 (same in semi_eng_rf1a_aqv22_s.pdf p.6) Recommended mounting pad TOP VIEW: pads 0.8 wide x 1.2 long, pad rows 6 apart (centre to centre); the drawing has the pad rows horizontal with pin 1 at the bottom left of the package top view, turned 90 deg clockwise so that pin 1 is at the top left (dual). pitch 2.54; body 6.3 x 4.4",
+   "style": "dual",
+   "pins": 6,
+   "body": {
+    "width": 4.4,
+    "height": 6.3
+   },
+   "pitch": 2.54,
+   "span": 6.0,
+   "pad": {
+    "width": 1.2,
+    "height": 0.8,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "RELAY-SOP-8-PANASONIC",
+   "description": "Panasonic PhotoMOS 8-SOP (4.4 mm), 2.54 mm pitch",
+   "note": "semi_eng_gu2a_aqw21_s.pdf p.6 Recommended mounting pad TOP VIEW: pads 0.8 wide x 1.2 long, pad rows 6 apart (centre to centre); the drawing has the pad rows horizontal with pin 1 at the bottom left of the package top view, turned 90 deg clockwise so that pin 1 is at the top left (dual). pitch 2.54; body 9.37 x 4.4",
+   "style": "dual",
+   "pins": 8,
+   "body": {
+    "width": 4.4,
+    "height": 9.37
+   },
+   "pitch": 2.54,
+   "span": 6.0,
+   "pad": {
+    "width": 1.2,
+    "height": 0.8,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "RELAY-SOP-4-PANASONIC",
+   "description": "Panasonic PhotoMOS 4-SOP (4.4 mm), 2.54 mm pitch",
+   "note": "semi_eng_gu1a_aqy21_gs.pdf p.5 (same in semi_eng_gu_sop4_1a.pdf p.11 and semi_eng_rf_sop4_1a_cr.pdf p.10) Recommended mounting pad TOP VIEW: pads 0.8 wide x 1.2 long, pad rows 6 apart (centre to centre); the drawing has the pad rows horizontal with pin 1 at the bottom left of the package top view, turned 90 deg clockwise so that pin 1 is at the top left (dual). pitch 2.54; body 4.3 x 4.4. Library SOIC-4 (span 6.5, pad 2.1 x 1.55) is another pattern",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 4.4,
+    "height": 4.3
+   },
+   "pitch": 2.54,
+   "span": 6.0,
+   "pad": {
+    "width": 1.2,
+    "height": 0.8,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "RELAY-VSSOP-4-PANASONIC",
+   "description": "Panasonic PhotoMOS AQY22 4-pin VSSOP-like (2.1 x 1.8 mm), 1.27 mm pitch",
+   "note": "semi_eng_rf1a_aqy22_t_cr10.pdf p.6 (same in semi_eng_rf1a_aqy22_t_cr3.pdf) Recommended mounting pad TOP VIEW: 4 pads 0.7 wide x 0.85 long, pitch 1.27, pad rows 1.75 apart (centre to centre); drawn with pad rows horizontal and pin 1 at the bottom left (package top view, pins 1 2 bottom, 3 4 top), turned 90 deg clockwise so that pin 1 is at the top left (dual); body 2.1 x 1.8",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 1.8,
+    "height": 2.1
+   },
+   "pitch": 1.27,
+   "span": 1.75,
+   "pad": {
+    "width": 0.85,
+    "height": 0.7,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "RELAY-TSON-4-PANASONIC",
+   "description": "Panasonic PhotoMOS AQY2C 4-pin TSON (1.95 x 1.8 mm), unequal pads",
+   "note": "semi_eng_cc1a_aqy2c_p.pdf p.10 Recommended mounting pad TOP VIEW (large pads 0.6 x 0.95 at x +-0.513, 0.575 off the centre line, small pads 0.4 x 0.6 at x +-0.75, 0.75 on the other side), pin numbers by the ext. dimension drawing (1 2 small, 3 4 large; mirrored to the land-pattern view and turned 180 deg as the drawing shows large pads on top); then the whole pattern turned 90 deg clockwise so that pin 1 is at the top left: pad sizes are exchanged; body 1.8 x 1.95",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 1.8,
+    "height": 1.95
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -0.75,
+     "y": -0.75,
+     "width": 0.6,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -0.75,
+     "y": 0.75,
+     "width": 0.6,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 0.575,
+     "y": 0.513,
+     "width": 0.95,
+     "height": 0.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 0.575,
+     "y": -0.513,
+     "width": 0.95,
+     "height": 0.6,
+     "shape": "rect"
+    }
+   ]
+  }
+ ]
+}

@@ -40,7 +40,8 @@ def load_map():
     rows = []
     for p in [os.path.join(DATA, 'footprint-map.tsv')] + sorted(glob.glob(os.path.join(DATA, 'footprint-map-*.tsv'))):
         if os.path.exists(p):
-            rows += list(csv.DictReader(open(p, encoding='utf-8'), delimiter='\t', quoting=csv.QUOTE_NONE))
+            rows += [r for r in csv.DictReader(open(p, encoding='utf-8'), delimiter='\t', quoting=csv.QUOTE_NONE)
+                     if r['footprint']]      # a skeleton row with no footprint serves nothing
     return rows
 
 

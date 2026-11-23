@@ -1,0 +1,99 @@
+letter	type	company	series	mounting	package	supplier_package	size	detail	footprint	label	note	series_split
+H	buzzer	samesky		Surface Mount			0.126" L x 0.126" W (3.20mm x 3.20mm)	Solder Pads	BUZZER-3232-2-SAMESKY	SMD	datasheets/buzzer/samesky/cmt-322-65-smt-tr.pdf p.2	
+H	buzzer	samesky		Surface Mount			0.157" L x 0.157" W (4.00mm x 4.00mm)	Solder Pads	BUZZER-4040-2-SAMESKY	SMD	datasheets/buzzer/samesky/cmt-4023s-smt-tr.pdf p.2	
+H	buzzer	samesky		Surface Mount			0.197" L x 0.197" W (5.00mm x 5.00mm)	Solder Pads	BUZZER-5050-3-SAMESKY-A	SMD	datasheets/buzzer/samesky/cmt-0502-75-smt-tr.pdf; series CMT draws 2 patterns (BUZZER-5050-3-SAMESKY-A, BUZZER-5050-3-SAMESKY-B): see footprint-parts-H-samesky.tsv	CMT
+H	buzzer	samesky		Surface Mount			0.197" L x 0.197" W (5.00mm x 5.00mm)	Solder Pads	BUZZER-5050-3-SAMESKY-C	SMD	datasheets/buzzer/samesky/css-0575a-smt-tr.pdf	CSS
+H	buzzer	samesky		Surface Mount			0.256" L x 0.256" W (6.50mm x 6.50mm)	Solder Pads	BUZZER-6569-2-SAMESKY	SMD	datasheets/buzzer/samesky/cmt-6504-85-smt-tr.pdf p.2	
+H	buzzer	samesky		Surface Mount			0.295" L x 0.295" W (7.50mm x 7.50mm)	Solder Pads	BUZZER-7575-4-SAMESKY-B	SMD	datasheets/buzzer/samesky/cmt-7525-03-smt-tr.pdf; series CMT draws 3 patterns (BUZZER-7575-4-SAMESKY-A, BUZZER-7575-4-SAMESKY-B, BUZZER-7575-4-SAMESKY-C): see footprint-parts-H-samesky.tsv	CMT
+H	buzzer	samesky		Surface Mount			0.295" L x 0.295" W (7.50mm x 7.50mm)	Solder Pads	BUZZER-7575-2-SAMESKY	SMD	datasheets/buzzer/samesky/cpt-7502-65-smt-tr.pdf	CPT
+H	buzzer	samesky		Surface Mount			0.335" L x 0.335" W (8.50mm x 8.50mm)	Solder Pads	BUZZER-8585-4-SAMESKY-B	SMD	datasheets/buzzer/samesky/cmt-8503-85b-smt-tr.pdf; series CMT draws 2 patterns (BUZZER-8585-4-SAMESKY-A, BUZZER-8585-4-SAMESKY-B): see footprint-parts-H-samesky.tsv	CMT
+H	buzzer	samesky		Surface Mount			0.335" L x 0.335" W (8.50mm x 8.50mm)	Solder Pads	BUZZER-8585-4-SAMESKY-C	SMD	datasheets/buzzer/samesky/cmt-85853-97-smt-tr.pdf	-
+H	buzzer	samesky		Surface Mount			0.335" L x 0.335" W (8.50mm x 8.50mm)	Solder Pads	BUZZER-8585-4-SAMESKY-D	SMD	datasheets/buzzer/samesky/css-73b16k-smt-tr.pdf	CSS
+H	buzzer	samesky		Surface Mount			0.354" Dia (9.00mm)	Solder Pads	BUZZER-9090-2-SAMESKY-A	SMD	datasheets/buzzer/samesky/cbt-09427-smt-tr.pdf p.2	
+H	buzzer	samesky		Surface Mount			0.354" L x 0.354" W (9.00mm x 9.00mm)	Solder Pads	BUZZER-9090-2-SAMESKY-B	SMD	datasheets/buzzer/samesky/cpt-9019a-smt-tr.pdf p.2; the datasheets of this line draw 2 patterns (BUZZER-9090-2-SAMESKY-B, BUZZER-9090-2-SAMESKY-C): see footprint-parts-H-samesky.tsv	
+H	buzzer	samesky		Surface Mount			0.378" L x 0.378" W (9.60mm x 9.60mm)	Solder Pads	BUZZER-9696-2-SAMESKY	SMD	datasheets/buzzer/samesky/cmi-9651s-smt-tr.pdf p.2	
+H	buzzer	samesky		Surface Mount			0.382" L x 0.382" W (9.70mm x 9.70mm)	Solder Pads	BUZZER-9797-2-SAMESKY	SMD	datasheets/buzzer/samesky/cmi-9705-0380-smt-tr.pdf p.2	
+H	buzzer	samesky		Surface Mount			0.394" Dia (10.00mm)	Solder Pads	BUZZER-100X100-2-SAMESKY	SMD	datasheets/buzzer/samesky/cmt-1075-smt-tr.pdf p.2	
+H	buzzer	samesky		Surface Mount			0.394" L x 0.335" W (10.00mm x 8.50mm)	Solder Pads	BUZZER-100X85-4-SAMESKY	SMD	datasheets/buzzer/samesky/cmt-1085-85-smt-tr.pdf p.2	
+H	buzzer	samesky		Surface Mount			0.394" L x 0.394" W (10.00mm x 10.00mm)	Solder Pads	BUZZER-100X100-4-SAMESKY	SMD	datasheets/buzzer/samesky/css-95b30-smt-tr.pdf p.2	
+H	buzzer	samesky		Surface Mount			0.433" L x 0.354" W (11.00mm x 9.00mm)	Solder Pads	BUZZER-110X90-2-SAMESKY	SMD	datasheets/buzzer/samesky/cmt-1102-smt-tr.pdf	CMT
+H	buzzer	samesky		Surface Mount			0.433" L x 0.354" W (11.00mm x 9.00mm)	Solder Pads	BUZZER-110X90-2-SAMESKY-B	SMD	datasheets/buzzer/samesky/cpt-1117-83-smt-tr.pdf	CPT
+H	buzzer	samesky		Surface Mount			0.472" Dia (12.00mm)	Solder Pads	BUZZER-110X90-2-SAMESKY	SMD	datasheets/buzzer/samesky/cd-1206-smt.pdf p.2	
+H	buzzer	samesky		Surface Mount			0.472" L x 0.472" W (12.00mm x 12.00mm)	Solder Pads	BUZZER-120X120-2-SAMESKY-A	SMD	datasheets/buzzer/samesky/cmt-1203-smt-tr.pdf p.2; the datasheets of this line draw 2 patterns (BUZZER-120X120-2-SAMESKY-A, BUZZER-120X120-2-SAMESKY-B): see footprint-parts-H-samesky.tsv	
+H	buzzer	samesky		Surface Mount			0.504" L x 0.504" W (12.80mm x 12.80mm)	Solder Pads	BUZZER-128X128-2-SAMESKY-B	SMD	datasheets/buzzer/samesky/cmi-1265-88-smt-tr.pdf	CMI
+H	buzzer	samesky		Surface Mount			0.504" L x 0.504" W (12.80mm x 12.80mm)	Solder Pads	BUZZER-128X128-2-SAMESKY-B	SMD	datasheets/buzzer/samesky/cmt-1271-88-smt-tr.pdf; series CMT draws 2 patterns (BUZZER-128X128-2-SAMESKY-B, BUZZER-128X128-2-SAMESKY-C): see footprint-parts-H-samesky.tsv	CMT
+H	buzzer	samesky		Surface Mount			0.504" L x 0.504" W (12.80mm x 12.80mm)	Solder Pads	BUZZER-128X128-2-SAMESKY-A	SMD	datasheets/buzzer/samesky/ct-1205-smt-tr.pdf	CT
+H	buzzer	samesky		Surface Mount			0.512" L x 0.512" W (13.00mm x 13.00mm)	Solder Pads	BUZZER-130X130-2-SAMESKY	SMD	datasheets/buzzer/samesky/cpt-1625-80-smt-tr.pdf p.2	
+H	buzzer	samesky		Surface Mount			0.551" L x 0.433" W (14.00mm x 11.00mm)	Solder Pads	BUZZER-140X110-4-SAMESKY	SMD	datasheets/buzzer/samesky/css-h5b43-smt-tr.pdf p.2	
+H	buzzer	samesky		Surface Mount			0.630" L x 0.630" W (16.00mm x 16.00mm)	Solder Pads	BUZZER-160X160-2-SAMESKY-A	SMD	datasheets/buzzer/samesky/cmt-1603-smt-tr.pdf; series CMT draws 2 patterns (BUZZER-160X160-2-SAMESKY-A, BUZZER-160X160-2-SAMESKY-B): see footprint-parts-H-samesky.tsv	CMT
+H	buzzer	samesky		Surface Mount			0.630" L x 0.630" W (16.00mm x 16.00mm)	Solder Pads	BUZZER-160X160-2-SAMESKY-C	SMD	datasheets/buzzer/samesky/cpt-16162-smt-tr.pdf; series CPT draws 3 patterns (BUZZER-160X160-2-SAMESKY-B, BUZZER-160X160-2-SAMESKY-C, BUZZER-160X160-2-SAMESKY-D): see footprint-parts-H-samesky.tsv	CPT
+H	buzzer	samesky		Surface Mount			0.665" L x 0.665" W (16.90mm x 16.90mm)	Solder Pads	BUZZER-169X169-2-SAMESKY	SMD	datasheets/buzzer/samesky/cmi-1240-smt.pdf p.2	
+H	buzzer	samesky		Surface Mount			0.669" Dia (17.00mm)	Solder Pads	BUZZER-170X170-2-SAMESKY	SMD	datasheets/buzzer/samesky/cpt-1762-90-smt-tr.pdf p.2	
+H	buzzer	samesky		Surface Mount			0.748" L x 0.748" W (19.00mm x 19.00mm)	Solder Pads	BUZZER-190X190-4-SAMESKY	SMD	datasheets/buzzer/samesky/cpt-191985-smt-tr.pdf p.2	
+H	buzzer	samesky		Surface Mount			0.870" Dia (22.10mm)	Solder Pads	BUZZER-221X221-2-SAMESKY	SMD	datasheets/buzzer/samesky/cpi-2207-95-smt-tr.pdf p.2	
+H	buzzer	samesky		Through Hole			0.260" Dia (6.60mm)	PC Pins	BUZZER-RAD-66-32-SAMESKY	THT	datasheets/buzzer/samesky/cc-0601.pdf p.2	
+H	buzzer	samesky		Through Hole			0.264" Dia (6.70mm)	PC Pins	BUZZER-RAD-67-30-SAMESKY	THT	datasheets/buzzer/samesky/cmt-6736-80t.pdf p.2	
+H	buzzer	samesky		Through Hole			0.354" Dia (9.00mm)	PC Pins	BUZZER-RAD-90-40-SAMESKY-B	THT	datasheets/buzzer/samesky/cmt-0904-83t.pdf	CMT
+H	buzzer	samesky		Through Hole			0.354" Dia (9.00mm)	PC Pins	BUZZER-RAD-90-50-SAMESKY	THT	datasheets/buzzer/samesky/cpe-171.pdf	CPE
+H	buzzer	samesky		Through Hole			0.354" Dia (9.00mm)	PC Pins	BUZZER-RAD-90-40-SAMESKY	THT	datasheets/buzzer/samesky/cst-911ap.pdf	CST
+H	buzzer	samesky		Through Hole			0.362" Dia (9.20mm)	PC Pins	BUZZER-RAD-92-50-SAMESKY	THT	datasheets/buzzer/samesky/cmi-0955-03th.pdf p.2	
+H	buzzer	samesky		Through Hole			0.378" Dia (9.60mm)	PC Pins	BUZZER-RAD-96-50-SAMESKY-B	THT	datasheets/buzzer/samesky/cmi-9605-0580t.pdf; series CMI draws 2 patterns (BUZZER-RAD-96-50-SAMESKY, BUZZER-RAD-96-50-SAMESKY-B): see footprint-parts-H-samesky.tsv	CMI
+H	buzzer	samesky		Through Hole			0.378" Dia (9.60mm)	PC Pins	BUZZER-RAD-96-40-SAMESKY	THT	datasheets/buzzer/samesky/cmt-9605-85t.pdf	CMT
+H	buzzer	samesky		Through Hole			0.378" Dia (9.60mm)	PC Pins	BUZZER-RAD-96-50-SAMESKY	THT	datasheets/buzzer/samesky/cx-0905c.pdf	CX
+H	buzzer	samesky		Through Hole			0.472" Dia (12.00mm)	PC Pins	BUZZER-RAD-120-65-SAMESKY	THT	datasheets/buzzer/samesky/ccg-1206.pdf	-
+H	buzzer	samesky		Through Hole			0.472" Dia (12.00mm)	PC Pins	BUZZER-RAD-120-65-SAMESKY	THT	datasheets/buzzer/samesky/cem-1201-42-.pdf; series CEM draws 2 patterns (BUZZER-RAD-120-65-SAMESKY, BUZZER-RAD-120-76-SAMESKY): see footprint-parts-H-samesky.tsv	CEM
+H	buzzer	samesky		Through Hole			0.472" Dia (12.00mm)	PC Pins	BUZZER-RAD-120-76-SAMESKY-C	THT	datasheets/buzzer/samesky/cmi-1210-5-95t.pdf; series CMI draws 3 patterns (BUZZER-RAD-120-76-SAMESKY, BUZZER-RAD-120-76-SAMESKY-B, BUZZER-RAD-120-76-SAMESKY-C): see footprint-parts-H-samesky.tsv	CMI
+H	buzzer	samesky		Through Hole			0.472" Dia (12.00mm)	PC Pins	BUZZER-RAD-120-50-SAMESKY-B	THT	datasheets/buzzer/samesky/cmt-1209-1290t.pdf; series CMT draws 2 patterns (BUZZER-RAD-120-50-SAMESKY-B, BUZZER-RAD-120-65-SAMESKY): see footprint-parts-H-samesky.tsv	CMT
+H	buzzer	samesky		Through Hole			0.472" Dia (12.00mm)	PC Pins	BUZZER-RAD-120-50-SAMESKY	THT	datasheets/buzzer/samesky/cpt-1255c-090.pdf	CPT
+H	buzzer	samesky		Through Hole			0.472" Dia (12.00mm)	PC Pins	BUZZER-RAD-120-65-SAMESKY	THT	datasheets/buzzer/samesky/csq-601bp.pdf; series CSQ draws 2 patterns (BUZZER-RAD-120-65-SAMESKY, BUZZER-RAD-120-65-SAMESKY-B): see footprint-parts-H-samesky.tsv	CSQ
+H	buzzer	samesky		Through Hole			0.488" Dia (12.40mm)	PC Pins	BUZZER-RAD-124-50-SAMESKY	THT	datasheets/buzzer/samesky/cpt-1206-3th-t.pdf p.2	
+H	buzzer	samesky		Through Hole			0.492" Dia (12.50mm)	PC Pins	BUZZER-RAD-125-50-SAMESKY-B	THT	datasheets/buzzer/samesky/cpt-1207-380th.pdf p.2; the datasheets of this line draw 3 patterns (BUZZER-RAD-125-50-SAMESKY, BUZZER-RAD-125-50-SAMESKY-B, BUZZER-RAD-125-50-SAMESKY-C): see footprint-parts-H-samesky.tsv	
+H	buzzer	samesky		Through Hole			0.539" Dia (13.70mm)	PC Pins	BUZZER-RAD-137-76-SAMESKY	THT	datasheets/buzzer/samesky/cpe-164.pdf p.2	
+H	buzzer	samesky		Through Hole			0.543" Dia (13.80mm)	PC Pins	BUZZER-RAD-138-76-SAMESKY	THT	datasheets/buzzer/samesky/cpi-1375-80t.pdf p.2	
+H	buzzer	samesky		Through Hole			0.547" Dia (13.90mm)	PC Pins	BUZZER-RAD-139-76-SAMESKY	THT	datasheets/buzzer/samesky/cpi-137-12t.pdf p.2	
+H	buzzer	samesky		Through Hole			0.551" Dia (14.00mm)	PC Pins	BUZZER-RAD-140-76-SAMESKY-C	THT	datasheets/buzzer/samesky/cep-1162.pdf	CEP
+H	buzzer	samesky		Through Hole			0.551" Dia (14.00mm)	PC Pins	BUZZER-RAD-140-76-SAMESKY	THT	datasheets/buzzer/samesky/cpe-244.pdf	CPE
+H	buzzer	samesky		Through Hole			0.551" Dia (14.00mm)	PC Pins	BUZZER-RAD-140-75-SAMESKY	THT	datasheets/buzzer/samesky/cpt-1404-85t.pdf; series CPT draws 2 patterns (BUZZER-RAD-140-75-SAMESKY, BUZZER-RAD-140-76-SAMESKY): see footprint-parts-H-samesky.tsv	CPT
+H	buzzer	samesky		Through Hole			0.551" Dia (14.00mm)	PC Pins	BUZZER-RAD-140-76-SAMESKY-B	THT	datasheets/buzzer/samesky/cpt-14146-80t.pdf	-
+H	buzzer	samesky		Through Hole			0.606" Dia (15.40mm)	PC Pins	BUZZER-RAD-154-76-SAMESKY	THT	datasheets/buzzer/samesky/cpi-1514-12-95t.pdf p.2	
+H	buzzer	samesky		Through Hole			0.630" Dia (16.00mm)	PC Pins	BUZZER-RAD-160-76-SAMESKY	THT	datasheets/buzzer/samesky/cem-1601.pdf	CEM
+H	buzzer	samesky		Through Hole			0.630" Dia (16.00mm)	PC Pins	BUZZER-RAD-160-76-SAMESKY-B	THT	datasheets/buzzer/samesky/cmi-1614-1285t.pdf; series CMI draws 2 patterns (BUZZER-RAD-160-76-SAMESKY, BUZZER-RAD-160-76-SAMESKY-B): see footprint-parts-H-samesky.tsv	CMI
+H	buzzer	samesky		Through Hole			0.630" Dia (16.00mm)	PC Pins	BUZZER-RAD-160-50-SAMESKY	THT	datasheets/buzzer/samesky/cmt-1612-1290t.pdf	CMT
+H	buzzer	samesky		Through Hole			0.630" Dia (16.00mm)	PC Pins	BUZZER-RAD-160-50-SAMESKY	THT	datasheets/buzzer/samesky/cmt-1612-590t.pdf	-
+H	buzzer	samesky		Through Hole			0.630" Dia (16.00mm)	PC Pins	BUZZER-RAD-160-75-SAMESKY	THT	datasheets/buzzer/samesky/cx-1606c.pdf	CX
+H	buzzer	samesky		Through Hole			0.650" Dia (16.50mm)	PC Pins	BUZZER-RAD-165-110-SAMESKY	THT	datasheets/buzzer/samesky/cpt-1667-85t.pdf p.2	
+H	buzzer	samesky		Through Hole			0.669" Dia (17.00mm)	PC Pins	BUZZER-RAD-170-100-SAMESKY	THT	datasheets/buzzer/samesky/cep-1153.pdf	CEP
+H	buzzer	samesky		Through Hole			0.669" Dia (17.00mm)	PC Pins	BUZZER-RAD-170-100-SAMESKY	THT	datasheets/buzzer/samesky/cpe-1785.pdf	CPE
+H	buzzer	samesky		Through Hole			0.669" Dia (17.00mm)	PC Pins	BUZZER-RAD-170-100-SAMESKY-B	THT	datasheets/buzzer/samesky/cpt-1796-3th.pdf	CPT
+H	buzzer	samesky		Through Hole			0.866" Dia (22.00mm)	PC Pins	BUZZER-RAD-220-100-SAMESKY-B	THT	datasheets/buzzer/samesky/cpt-2207-84t.pdf p.2; the datasheets of this line draw 3 patterns (BUZZER-RAD-220-100-SAMESKY, BUZZER-RAD-220-100-SAMESKY-B, BUZZER-RAD-220-100-SAMESKY-C): see footprint-parts-H-samesky.tsv	
+H	buzzer	samesky		Through Hole			0.870" Dia (22.10mm)	PC Pins	BUZZER-RAD-221-100-SAMESKY	THT	datasheets/buzzer/samesky/cpe-813.pdf p.2	
+H	buzzer	samesky		Through Hole			0.898" Dia (22.80mm)	PC Pins	BUZZER-RAD-228-100-SAMESKY	THT	datasheets/buzzer/samesky/cep-1106.pdf p.2	
+H	buzzer	samesky		Through Hole			0.906" Dia (23.00mm)	PC Pins	BUZZER-RAD-230-150-SAMESKY	THT	datasheets/buzzer/samesky/cpi-2316-85t.pdf	CPI
+H	buzzer	samesky		Through Hole			0.906" Dia (23.00mm)	PC Pins	BUZZER-RAD-230-100-SAMESKY	THT	datasheets/buzzer/samesky/cpt-2312-88t.pdf	CPT
+H	buzzer	samesky		Through Hole			0.917" Dia (23.30mm)	PC Pins	BUZZER-RAD-233-150-SAMESKY	THT	datasheets/buzzer/samesky/cpe-222h.pdf p.2	
+H	buzzer	samesky		Through Hole			0.921" Dia (23.40mm)	PC Pins	BUZZER-RAD-234-175-SAMESKY	THT	datasheets/buzzer/samesky/cpi-2397-85t.pdf p.2	
+H	buzzer	samesky		Through Hole			0.925" Dia (23.50mm)	PC Pins	BUZZER-RAD-235-3PIN-SAMESKY	THT	datasheets/buzzer/samesky/cep-1123.pdf	CEP
+H	buzzer	samesky		Through Hole			0.925" Dia (23.50mm)	PC Pins	BUZZER-RAD-235-150-SAMESKY	THT	datasheets/buzzer/samesky/cpi-2316-5-85t.pdf	CPI
+H	buzzer	samesky		Through Hole			0.937" Dia (23.80mm)	PC Pins	BUZZER-RAD-238-120-SAMESKY	THT	datasheets/buzzer/samesky/cpe-223.pdf	CPE
+H	buzzer	samesky		Through Hole			0.937" Dia (23.80mm)	PC Pins	BUZZER-RAD-238-150-SAMESKY	THT	datasheets/buzzer/samesky/cpt-2416-85t.pdf	CPT
+H	buzzer	samesky		Through Hole			0.945" Dia (24.00mm)	PC Pins	BUZZER-RAD-240-150-SAMESKY	THT	datasheets/buzzer/samesky/cep-2224.pdf	CEP
+H	buzzer	samesky		Through Hole			0.945" Dia (24.00mm)	PC Pins	BUZZER-RAD-240-100-SAMESKY	THT	datasheets/buzzer/samesky/cpe-122.pdf	CPE
+H	buzzer	samesky		Through Hole			0.945" L x 0.394" W (24.00mm x 10.00mm)	PC Pins	BUZZER-RAD-240X100-125-SAMESKY	THT	datasheets/buzzer/samesky/cpe-522.pdf p.2	
+H	buzzer	samesky		Through Hole			0.953" Dia (24.20mm)	PC Pins	BUZZER-RAD-242-150-SAMESKY	THT	datasheets/buzzer/samesky/cep-2202a.pdf p.2	
+H	buzzer	samesky		Through Hole			0.965" Dia (24.50mm)	PC Pins	BUZZER-RAD-245-120-SAMESKY	THT	datasheets/buzzer/samesky/cpe-203.pdf p.2	
+H	buzzer	samesky		Through Hole			0.992" Dia (25.20mm)	PC Pins	BUZZER-RAD-252-3PIN-SAMESKY	THT	datasheets/buzzer/samesky/cpt-2510-28-85t.pdf p.2	
+H	buzzer	samesky		Through Hole			1.028" Dia (26.10mm)	PC Pins	BUZZER-RAD-261-150-SAMESKY	THT	datasheets/buzzer/samesky/cpi-2622-12th.pdf p.2	
+H	buzzer	samesky		Through Hole			1.161" Dia (29.50mm)	PC Pins	BUZZER-RAD-295-3H-SAMESKY	THT	datasheets/buzzer/samesky/cpe-3085.pdf p.2	
+H	buzzer	samesky		Through Hole			1.181" Dia (30.00mm)	PC Pins	BUZZER-RAD-300-200-SAMESKY	THT	datasheets/buzzer/samesky/cep-1114.pdf; series CEP draws 3 patterns (BUZZER-RAD-300-152-SAMESKY, BUZZER-RAD-300-152-SAMESKY-B, BUZZER-RAD-300-200-SAMESKY): see footprint-parts-H-samesky.tsv	CEP
+H	buzzer	samesky		Through Hole			1.181" Dia (30.00mm)	PC Pins	BUZZER-RAD-300-150-SAMESKY	THT	datasheets/buzzer/samesky/cpi-3020-90t.pdf	CPI
+H	buzzer	samesky		Through Hole			1.181" Dia (30.00mm)	PC Pins	BUZZER-RAD-300-152-SAMESKY-C	THT	datasheets/buzzer/samesky/cpt-3075-90t.pdf; series CPT draws 2 patterns (BUZZER-RAD-300-152-SAMESKY-C, BUZZER-RAD-300-3PIN-SAMESKY): see footprint-parts-H-samesky.tsv	CPT
+H	buzzer	samesky		Through Hole			1.189" Dia (30.20mm)	PC Pins	BUZZER-RAD-302-175-SAMESKY	THT	datasheets/buzzer/samesky/cpi-3014-90t.pdf p.2	
+H	buzzer	samesky		Through Hole			1.205" Dia (30.60mm)	PC Pins	BUZZER-RAD-306-3PIN-SAMESKY-B	THT	datasheets/buzzer/samesky/cpt-3011c-120.pdf p.2; the datasheets of this line draw 2 patterns (BUZZER-RAD-306-3PIN-SAMESKY, BUZZER-RAD-306-3PIN-SAMESKY-B): see footprint-parts-H-samesky.tsv	
+H	buzzer	samesky		Through Hole			1.220" Dia (31.00mm)	PC Pins	BUZZER-RAD-310-110-SAMESKY	THT	datasheets/buzzer/samesky/cpi-3116-3-100t.pdf p.2	
+H	buzzer	samesky		Through Hole			1.232" Dia (31.30mm)	PC Pins	BUZZER-RAD-313-175-SAMESKY	THT	datasheets/buzzer/samesky/cep-2272a.pdf p.2	
+H	buzzer	samesky		Through Hole			1.496" Dia (38.00mm)	PC Pins	BUZZER-RAD-383-3PIN-SAMESKY	THT	datasheets/buzzer/samesky/cpi-3816-95t.pdf p.2	
+H	buzzer	samesky		Through Hole			1.575" Dia (40.00mm)	PC Pins	BUZZER-RAD-400-3PIN-SAMESKY-A	THT	datasheets/buzzer/samesky/cps-4013-110t.pdf	CPS
+H	buzzer	samesky		Through Hole			1.575" Dia (40.00mm)	PC Pins	BUZZER-RAD-400-2-SAMESKY	THT	datasheets/buzzer/samesky/cpt-4011c-600.pdf; series CPT draws 2 patterns (BUZZER-RAD-400-2-SAMESKY, BUZZER-RAD-400-3PIN-SAMESKY-B): see footprint-parts-H-samesky.tsv	CPT
+H	buzzer	samesky		Through Hole			1.654" Dia (42.00mm)	PC Pins	BUZZER-RAD-420-254-SAMESKY	THT	datasheets/buzzer/samesky/cpe-352.pdf p.2	
+H	buzzer	samesky		Through Hole			1.764" Dia (44.80mm)	PC Pins	BUZZER-RAD-448-2-SAMESKY	THT	datasheets/buzzer/samesky/cpe-4485.pdf p.2	
+H	buzzer	samesky		Through Hole			1.933" Dia (49.10mm)	PC Pins	BUZZER-RAD-491-206-SAMESKY	THT	datasheets/buzzer/samesky/cpi-4929c-120.pdf p.2	

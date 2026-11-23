@@ -1,0 +1,104 @@
+letter	type	company	series	mounting	package	supplier_package	size	detail	footprint	label	note	series_split
+D	inductor	wurth		Surface Mount	0201 (0603 Metric)	0201 (0603 Metric)	0.024" L x 0.012" W (0.60mm x 0.30mm)		RES-0201-VIKING	0201	reuse	
+D	inductor	wurth		Surface Mount	0402 (1005 Metric)	0402	0.039" L x 0.020" W (1.00mm x 0.50mm)		IND-1005-WURTH	0402	744901030.pdf p.1	WE-TCI
+D	inductor	wurth		Surface Mount	0402 (1005 Metric)	0402	0.039" L x 0.020" W (1.00mm x 0.50mm)		IND-1005-WURTH-B	0402	7847803100.pdf p.1	WE-MCI
+D	inductor	wurth		Surface Mount	0402 (1005 Metric)	0402	0.039" L x 0.022" W (1.00mm x 0.55mm)		IND-1006-WURTH	0402	7447650120.pdf p.1	
+D	inductor	wurth		Surface Mount	0402 (1005 Metric)	0402 (1005 Metric)	0.039" L x 0.020" W (1.00mm x 0.50mm)		IND-1005-WURTH	0402	shared with IND-1005-WURTH	WE-TCI
+D	inductor	wurth		Surface Mount	0402 (1005 Metric)	0402 (1005 Metric)	0.039" L x 0.020" W (1.00mm x 0.50mm)		IND-1005-WURTH-B	0402	shared with IND-1005-WURTH-B	WE-MK
+D	inductor	wurth		Surface Mount	0402 (1005 Metric)	0402 (1005 Metric)	0.039" L x 0.022" W (1.00mm x 0.55mm)		IND-1006-WURTH	0402	shared with IND-1006-WURTH	
+D	inductor	wurth		Surface Mount	0603 (1608 Metric)	0603 (1608 Metric)	0.063" L x 0.031" W (1.60mm x 0.80mm)		IND-1608-WURTH	0603	744786115A.pdf p.1	
+D	inductor	wurth		Surface Mount	0805 (2012 Metric)		0.079" L x 0.047" W (2.00mm x 1.20mm)		IND-2012-WURTH	0805	74479275210.pdf p.1	
+D	inductor	wurth		Surface Mount	0805 (2012 Metric)	0805	0.079" L x 0.047" W (2.00mm x 1.20mm)		IND-2012-WURTH-B	0805	74479775247.pdf p.1	
+D	inductor	wurth		Surface Mount	0805 (2012 Metric)	0805	0.079" L x 0.049" W (2.00mm x 1.25mm)		IND-2012-WURTH-B	0805	shared with IND-2012-WURTH-B	
+D	inductor	wurth		Surface Mount	0805 (2012 Metric)	0805 (2012 Metric)	0.079" L x 0.047" W (2.00mm x 1.20mm)		IND-2012-WURTH-B	0805	shared with IND-2012-WURTH-B	
+D	inductor	wurth		Surface Mount	0805 (2012 Metric)	0805 (2012 Metric)	0.079" L x 0.049" W (2.00mm x 1.25mm)		IND-2012-WURTH-B	0805	shared with IND-2012-WURTH-B	
+D	inductor	wurth		Surface Mount	0806 (2016 Metric)		0.079" L x 0.063" W (2.00mm x 1.60mm)		IND-2016-WURTH	0806	74479276147.pdf p.1	
+D	inductor	wurth		Surface Mount	0806 (2016 Metric)	0806	0.079" L x 0.063" W (2.00mm x 1.60mm)		IND-2016-WURTH-B	0806	74479320165210.pdf p.1	
+D	inductor	wurth		Surface Mount	1008 (2520 Metric)	1008 (2520 Metric)	0.098" L x 0.079" W (2.50mm x 2.00mm)		IND-2520-WURTH	1008	74479887222A.pdf p.1	
+D	inductor	wurth		Surface Mount	1008 (2520 Metric)	1008 (2520 Metric)	0.102" L x 0.083" W (2.60mm x 2.10mm)		IND-2621-WURTH	1008	744758327A.pdf p.1	
+D	inductor	wurth		Surface Mount	1008 (2520 Metric)	2512	0.098" L x 0.079" W (2.50mm x 2.00mm)		IND-2520-WURTH-B	1008	74438324010.pdf p.1	
+D	inductor	wurth		Surface Mount	1206 (3216 Metric)	1206	0.126" L x 0.063" W (3.20mm x 1.60mm)		IND-3216-WURTH	1206	7447918.pdf p.1	
+D	inductor	wurth		Surface Mount	1210 (3225 Metric)		0.126" L x 0.098" W (3.20mm x 2.50mm)		IND-3225-WURTH	1210	74479299147.pdf p.1	
+D	inductor	wurth		Surface Mount	1212 (3030 Metric)	3020	0.118" L x 0.118" W (3.00mm x 3.00mm)		IND-3030-WURTH	1212	74438336100.pdf p.1	
+D	inductor	wurth		Surface Mount	1616 (4040 Metric)	4020	0.161" L x 0.161" W (4.10mm x 4.10mm)		IND-4141-WURTH	1616	74438356010.pdf p.1	
+D	inductor	wurth		Surface Mount	1616 (4040 Metric)	4030	0.161" L x 0.161" W (4.10mm x 4.10mm)		IND-4141-WURTH	1616	shared with IND-4141-WURTH	
+D	inductor	wurth		Surface Mount	1919 (4848 Metric)	-	0.189" L x 0.189" W (4.80mm x 4.80mm)		IND-4848-WURTH	1919	744042001.pdf p.1	
+D	inductor	wurth		Surface Mount	2-SMD	-	0.175" L x 0.160" W (4.45mm x 4.06mm)		IND-4541-WURTH	SMD	74437324022.pdf p.1	
+D	inductor	wurth		Surface Mount	2-SMD	-	0.287" L x 0.260" W (7.30mm x 6.60mm)		IND-7366-WURTH	SMD	74437349033.pdf p.1	
+D	inductor	wurth		Surface Mount	2-SMD	5040	0.217" L x 0.209" W (5.50mm x 5.30mm)		IND-5553-WURTH	SMD	744316100.pdf p.1	
+D	inductor	wurth		Surface Mount	2-SMD	7050	0.299" L x 0.272" W (7.60mm x 6.90mm)		IND-7366-WURTH	SMD	shared with IND-7366-WURTH	
+D	inductor	wurth		Surface Mount	2323 (5858 Metric)	-	0.228" L x 0.228" W (5.80mm x 5.80mm)		IND-5858-WURTH	2323	744053100.pdf p.1	
+D	inductor	wurth		Surface Mount	Nonstandard		0.262" L x 0.254" W (6.65mm x 6.45mm)		IND-6765-WURTH	SMD	74439344022.pdf p.1	
+D	inductor	wurth		Surface Mount	Nonstandard	-	0.157" L x 0.157" W (4.00mm x 4.00mm)		IND-4040-WURTH	SMD	74404041047.pdf p.1	
+D	inductor	wurth		Surface Mount	Nonstandard	-	0.177" L x 0.157" W (4.50mm x 4.00mm)		IND-4540-WURTH	SMD	744773022.pdf p.1	
+D	inductor	wurth		Surface Mount	Nonstandard	-	0.189" L x 0.189" W (4.80mm x 4.80mm)		IND-4848-WURTH	SMD	shared with IND-4848-WURTH	
+D	inductor	wurth		Surface Mount	Nonstandard	-	0.219" L x 0.211" W (5.55mm x 5.35mm)		IND-5654-WURTH	SMD	744393305220.pdf p.1	
+D	inductor	wurth		Surface Mount	Nonstandard	-	0.244" L x 0.232" W (6.20mm x 5.90mm)		IND-6259-WURTH	SMD	7447785002.pdf p.1	
+D	inductor	wurth		Surface Mount	Nonstandard	-	0.260" L x 0.175" W (6.60mm x 4.45mm)		IND-6645-WURTH	SMD	74455068.pdf p.1	
+D	inductor	wurth		Surface Mount	Nonstandard	-	0.394" L x 0.394" W (10.00mm x 10.00mm)		IND-100X100-WURTH	SMD	7447713680.pdf p.1	
+D	inductor	wurth		Surface Mount	Nonstandard	-	0.429" L x 0.394" W (10.90mm x 10.00mm)		IND-109X100-WURTH	SMD	7443330330.pdf p.1	
+D	inductor	wurth		Surface Mount	Nonstandard	-	0.472" L x 0.472" W (12.00mm x 12.00mm)		IND-120X120-WURTH	SMD	7447709100.pdf p.1	
+D	inductor	wurth		Surface Mount	Nonstandard	1050	0.413" L x 0.402" W (10.50mm x 10.20mm)		IND-105X102-WURTH	SMD	7443251000.pdf p.1	
+D	inductor	wurth		Surface Mount	Nonstandard	1212	0.472" L x 0.472" W (12.00mm x 12.00mm)		IND-120X120-WURTH	SMD	shared with IND-120X120-WURTH	
+D	inductor	wurth		Surface Mount	Nonstandard	1365	0.512" L x 0.504" W (13.00mm x 12.80mm)		IND-130X128-WURTH	SMD	744355182.pdf p.1	
+D	inductor	wurth		Surface Mount	Nonstandard	2520	0.098" L x 0.079" W (2.50mm x 2.00mm)		IND-2520-WURTH-C	SMD	74404024022.pdf p.1	
+D	inductor	wurth		Surface Mount	Nonstandard	2813	0.110" L x 0.110" W (2.80mm x 2.80mm)		IND-2828-WURTH	SMD	744029001.pdf p.1	
+D	inductor	wurth		Surface Mount	Nonstandard	2818	1.122" L x 0.768" W (28.50mm x 19.50mm)		IND-285X195-3-WURTH	SMD	7443641000.pdf p.1	
+D	inductor	wurth		Surface Mount	Nonstandard	2828	0.110" L x 0.110" W (2.80mm x 2.80mm)		IND-2828-WURTH-B	SMD	744025002.pdf p.1	
+D	inductor	wurth		Surface Mount	Nonstandard	3015	0.118" L x 0.118" W (3.00mm x 3.00mm)		IND-3030-WURTH-B	SMD	74404032022.pdf p.1	
+D	inductor	wurth		Surface Mount	Nonstandard	3816	0.150" L x 0.150" W (3.80mm x 3.80mm)		IND-3838-WURTH	SMD	744031004.pdf p.1	
+D	inductor	wurth		Surface Mount	Nonstandard	4018	0.157" L x 0.157" W (4.00mm x 4.00mm)		IND-4040-WURTH	SMD	shared with IND-4040-WURTH	
+D	inductor	wurth		Surface Mount	Nonstandard	4030	0.161" L x 0.161" W (4.10mm x 4.10mm)		IND-4141-WURTH	SMD	shared with IND-4141-WURTH	
+D	inductor	wurth		Surface Mount	Nonstandard	5020	0.197" L x 0.197" W (5.00mm x 5.00mm)		IND-5050-WURTH	SMD	74404052100.pdf p.1	
+D	inductor	wurth		Surface Mount	Nonstandard	5040	0.197" L x 0.197" W (5.00mm x 5.00mm)		IND-5050-WURTH-B	SMD	74404054100.pdf p.1	
+D	inductor	wurth		Surface Mount	Nonstandard	6045	0.236" L x 0.236" W (6.00mm x 6.00mm)		IND-6060-WURTH	SMD	74404064101.pdf p.1	
+D	inductor	wurth		Surface Mount	Nonstandard	7040	0.276" L x 0.272" W (7.00mm x 6.90mm)		IND-7069-WURTH	SMD	744311330.pdf p.1	
+D	inductor	wurth		Surface Mount	Nonstandard	7050	0.276" L x 0.272" W (7.00mm x 6.90mm)		IND-7069-WURTH	SMD	shared with IND-7069-WURTH	
+D	inductor	wurth		Surface Mount	Nonstandard	7345	0.287" L x 0.287" W (7.30mm x 7.30mm)		IND-7373-WURTH	SMD	74477710.pdf p.1	WE-PD
+D	inductor	wurth		Surface Mount	Nonstandard	7345	0.287" L x 0.287" W (7.30mm x 7.30mm)		IND-7373-WURTH-B	SMD	744777920.pdf p.1	WE-PD Robust
+D	inductor	wurth		Surface Mount	Nonstandard	SMD	0.157" L x 0.157" W (4.00mm x 4.00mm)		IND-4040-WURTH-B	SMD	74404043022A.pdf p.1	
+D	inductor	wurth		Through Hole	Nonstandard	-	0.551" L x 0.315" W (14.00mm x 8.00mm)		IND-140X80-4-WURTH	Radial	7444011480100.pdf p.1	
+D	inductor	wurth		Through Hole	Nonstandard	-	0.689" L x 0.591" W (17.50mm x 15.00mm)		IND-175X150-4-WURTH	Radial	7444011715150.pdf p.1	
+D	inductor	wurth		Through Hole	Nonstandard	-	0.992" L x 0.866" W (25.20mm x 22.00mm)		IND-252X220-WURTH	Radial	7443762504068.pdf p.1	
+D	inductor	wurth		Through Hole	Nonstandard	-	1.417" L x 0.846" W (36.00mm x 21.50mm)		IND-360X215-4-WURTH	Radial	7443763521033.pdf p.1	
+D	inductor	wurth		Through Hole	Nonstandard	-	1.417" L x 1.358" W (36.00mm x 34.50mm)		IND-360X345-4-WURTH	Radial	7443783533470.pdf p.1	
+D	inductor	wurth		Through Hole	Nonstandard	-	1.614" L x 1.417" W (41.00mm x 36.00mm)		IND-410X360-4-WURTH	Radial	7443763540470.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Horizontal (Open)	-	2.657" Dia (67.50mm)		IND-675X399-WURTH	Radial	750343810.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Horizontal Cylinder (Open)	-	0.126" Dia x 0.484" L (3.20mm x 12.30mm)		IND-RADH-123-77-WURTH	Radial	744710203.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Horizontal Cylinder (Open)	-	0.205" Dia x 0.728" L (5.20mm x 18.50mm)		IND-RADH-185-135-WURTH	Radial	744711003.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Horizontal Cylinder (Open)	-	0.272" Dia x 0.886" L (6.90mm x 22.50mm)		IND-RADH-225-188-WURTH	Radial	744711005.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Horizontal Cylinder (Open)	-	0.339" Dia x 1.012" L (8.60mm x 25.70mm)		IND-RADH-257-180-WURTH	Radial	744710610.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Horizontal Cylinder (Open)	-	0.339" Dia x 1.217" L (8.60mm x 30.90mm)		IND-RADH-309-249-WURTH	Radial	744711010.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Horizontal Cylinder (Open)	-	0.394" Dia x 1.012" L (10.00mm x 25.70mm)		IND-RADH-257-175-WURTH	Radial	744710215.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Horizontal Cylinder (Open)	-	0.630" Dia x 1.213" L (16.00mm x 30.80mm)		IND-RADH-308-275-WURTH	Radial	744711015.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Horizontal Cylinder (Open)	Radial	0.126" Dia x 0.484" L (3.20mm x 12.30mm)		IND-RADH-123-77-WURTH	Radial	shared with IND-RADH-123-77-WURTH	
+D	inductor	wurth		Through Hole	Radial, Horizontal Cylinder (Open)	Radial	0.205" Dia x 0.728" L (5.20mm x 18.50mm)		IND-RADH-185-135-WURTH	Radial	shared with IND-RADH-185-135-WURTH	
+D	inductor	wurth		Through Hole	Radial, Horizontal Cylinder (Open)	Radial	0.272" Dia x 0.807" L (6.90mm x 20.50mm)		IND-RADH-205-148-WURTH	Radial	7847121060.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Horizontal Cylinder (Open)	Radial	0.272" Dia x 0.886" L (6.90mm x 22.50mm)		IND-RADH-225-188-WURTH	Radial	shared with IND-RADH-225-188-WURTH	
+D	inductor	wurth		Through Hole	Radial, Horizontal Cylinder (Open)	Radial	0.299" Dia x 0.606" L (7.60mm x 15.40mm)		IND-RADH-154-122-WURTH	Radial	7847121020.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Horizontal Cylinder (Open)	Radial	0.339" Dia x 1.217" L (8.60mm x 30.90mm)		IND-RADH-309-249-WURTH	Radial	shared with IND-RADH-309-249-WURTH	
+D	inductor	wurth		Through Hole	Radial, Horizontal Cylinder (Open)	Radial	0.551" Dia x 1.181" L (14.00mm x 30.00mm)		IND-RADH-300-249-WURTH	Radial	7847132060.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Vertical (Open)		0.827" Dia x 0.374" W (21.00mm x 9.50mm)		IND-RAD-210-85-WURTH	Radial	744132.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Vertical (Open)		1.122" Dia x 0.571" W (28.50mm x 14.50mm)		IND-RAD-285-115-WURTH	Radial	744150.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Vertical (Open)		1.181" Dia x 0.571" W (30.00mm x 14.50mm)		IND-RAD-300-125-WURTH	Radial	7441110.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Vertical (Open)	-	0.610" Dia x 0.315" W (15.50mm x 8.00mm)		IND-RAD-165-70-WURTH	Radial	7447021.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Vertical (Open)	-	0.689" Dia x 0.315" W (17.50mm x 8.00mm)		IND-RAD-175-70-WURTH	Radial	744106.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Vertical (Open)	-	0.709" Dia x 0.354" W (18.00mm x 9.00mm)		IND-RAD-180-75-WURTH	Radial	744115.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Vertical (Open)	-	0.728" Dia x 0.374" W (18.50mm x 9.50mm)		IND-RAD-185-90-WURTH	Radial	7447010.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Vertical (Open)	-	0.748" Dia x 0.413" W (19.00mm x 10.50mm)		IND-RAD-190-80-WURTH	Radial	7447016.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Vertical (Open)	-	0.827" Dia x 0.433" L (21.00mm x 11.00mm)		IND-RAD-210-90-WURTH	Radial	7447060.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Vertical (Open)	-	0.984" Dia x 0.433" W (25.00mm x 11.00mm)		IND-RAD-250-80-WURTH	Radial	7447070.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Vertical (Open)	-	1.083" Dia x 0.512" W (27.50mm x 13.00mm)		IND-RAD-275-115-WURTH	Radial	7447076.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Vertical (Open)	-	1.122" Dia x 0.591" W (28.50mm x 15.00mm)		IND-RAD-285-140-WURTH	Radial	7447075.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Vertical (Open)	-	1.654" Dia x 1.060" W (42.00mm x 27.00mm)		IND-420X270-WURTH	Radial	750343811.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Vertical Cylinder	-	0.307" Dia (7.80mm)		IND-RAD-95-50-WURTH	Radial	744732152.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Vertical Cylinder	-	0.335" Dia (8.50mm)		IND-RAD-85-50-WURTH	Radial	744741221.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Vertical Cylinder	-	0.374" Dia (9.50mm)		IND-RAD-95-50-WURTH-B	Radial	7447452101.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Vertical Cylinder	-	0.504" Dia (12.80mm)		IND-RAD-128-100-WURTH	Radial	744750460220.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Vertical Cylinder	1280	0.504" Dia (12.80mm)		IND-RAD-128-100-WURTH-B	Radial	744750420220.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Vertical Cylinder	8010	0.346" Dia (8.80mm)		IND-RAD-88-65-WURTH	Radial	744750230030.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Vertical Cylinder	Radial, Vertical Cylinder	0.307" Dia (7.80mm)		IND-RAD-78-50-WURTH	Radial	768772332.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Vertical Cylinder	Radial, Vertical Cylinder	0.413" Dia (10.50mm)		IND-RAD-105-50-WURTH	Radial	7687480102.pdf p.1	
+D	inductor	wurth		Through Hole	Radial, Vertical Cylinder (Open)	-	0.307" Dia (7.80mm)		IND-RAD-78-50-WURTH	Radial	shared with IND-RAD-78-50-WURTH	
+D	inductor	wurth		Through Hole	Radial, Vertical Cylinder (Open)	-	0.413" Dia (10.50mm)		IND-RAD-105-50-WURTH	Radial	shared with IND-RAD-105-50-WURTH	
+D	inductor	wurth		Through Hole	Vertical, No Base, 2 PC Pin	Vertical, No Base, 2 PC Pin	0.669" Dia (17.00mm)		IND-RAD-170-80-WURTH	Radial	744131.pdf p.1	

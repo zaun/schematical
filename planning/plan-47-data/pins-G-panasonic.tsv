@@ -1,0 +1,108 @@
+type	maker	series	pdf	package	footprint	renumber	pinout
+relay	panasonic	CB	datasheets/relay/panasonic/mech_eng_cb.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-CB-4-PANASONIC	30=1,85=2,86=3,87=4	3=A1,1=COM,4=NO,2=A2
+relay	panasonic	CB	datasheets/relay/panasonic/mech_eng_cb.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-CB-5-PANASONIC	30=1,85=2,86=3,87=4,87a=5	3=A1,1=COM,5=NC,4=NO,2=A2
+relay	panasonic	ACJ	datasheets/relay/panasonic/mech_eng_cj.pdf	 / SPDT (1 Form C) x 2 / Non Latching	RELAY-ACJ-8-PANASONIC	-	1=A1,2=NC1,3=COM1,4=A2,5=A3,6=NO2,7=COM2,8=A4
+relay	panasonic	ACNH	datasheets/relay/panasonic/mech_eng_cnh.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-ACNH-5-PANASONIC	-	1=COM,2=A1,3=NO,4=COM,5=A2
+relay	panasonic	CN-M	datasheets/relay/panasonic/mech_eng_cnm.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-CNM-6-PANASONIC	-	1=COM,2=A1,3=NC,4=COM,5=A2,6=NO
+relay	panasonic	CN-M	datasheets/relay/panasonic/mech_eng_cnm.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-CNM-5-SMD-PANASONIC	-	1=COM,2=A1,3=NO,4=COM,5=A2
+relay	panasonic	CP	datasheets/relay/panasonic/mech_eng_cp.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-CP-5-PANASONIC	-	1=NC,2=COM,3=NO,4=A1,5=A2
+relay	panasonic	CP	datasheets/relay/panasonic/mech_eng_cp.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-CP-5-SMD-PANASONIC	-	1=NC,2=COM,3=NO,4=A1,5=A2
+relay	panasonic	CQ	datasheets/relay/panasonic/mech_eng_cq.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-CQ-5-PANASONIC	-	1=A1,2=NO,3=COM,4=A2,5=NC
+relay	panasonic	ACT	datasheets/relay/panasonic/mech_eng_ct.pdf	 / SPDT (1 Form C) x 2 / Non Latching	RELAY-ACT-10-PANASONIC	-	1=A1,2=NO1,3=COM1,4=A2,5=NC1,6=A3,7=NO2,8=COM2,9=NC2,10=A4
+relay	panasonic	ACT	datasheets/relay/panasonic/mech_eng_ct.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-ACT-5-PANASONIC	-	1=A1,2=NO,3=COM,4=A2,5=NC
+relay	panasonic	ACTP	datasheets/relay/panasonic/mech_eng_ctp.pdf	 / SPDT (1 Form C) x 2 / Non Latching	RELAY-ACTP-10-PANASONIC	-	1=A1,2=NO1,3=COM1,4=A2,5=NC1,6=A3,7=NO2,8=COM2,9=NC2,10=A4
+relay	panasonic	DE	datasheets/relay/panasonic/mech_eng_de.pdf	 / DPST-NO (2 Form A) / Non Latching	RELAY-DE-6-PANASONIC	1=1,3=2,4=3,5=4,6=5,8=6	1=A1,2=COM1,3=NO1,6=A2,5=COM2,4=NO2
+relay	panasonic	DE	datasheets/relay/panasonic/mech_eng_de.pdf	 / DPST-NO/NC (1 Form A, 1 Form B) / Non Latching	RELAY-DE-6-PANASONIC	1=1,3=2,4=3,5=4,6=5,8=6	1=A1,2=COM1,3=NO1,6=A2,5=COM2,4=NC2
+relay	panasonic	DE	datasheets/relay/panasonic/mech_eng_de.pdf	 / DPST-NO (2 Form A) / Latching, Dual Coil	RELAY-DE-8-PANASONIC	-	1=S1,2=R1,3=COM1,4=NO1,8=S2,7=R2,6=COM2,5=NO2
+relay	panasonic	ADJ	datasheets/relay/panasonic/mech_eng_dj.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-ADJ-8-PANASONIC	-	1=A1,2=NC1,3=NO1,4=COM1,8=A2,7=NC2,6=NO2,5=COM2
+relay	panasonic	ADJ	datasheets/relay/panasonic/mech_eng_dj.pdf	 / SPDT (1 Form C) / Latching, Dual Coil	RELAY-ADJ-6-PANASONIC	1=1,2=2,4=3,6=4,8=5,9=6	1=C,2=NO,3=COM,6=R,5=S,4=NC
+relay	panasonic	ADJH	datasheets/relay/panasonic/mech_eng_djh.pdf	 / SPST-NO (1 Form A) / Latching, Single Coil	RELAY-ADJH-4-PANASONIC	-	1=A1,4=NO,3=COM,2=A2
+relay	panasonic	ADJH	datasheets/relay/panasonic/mech_eng_djh.pdf	 / SPST-NO (1 Form A) / Latching, Dual Coil	RELAY-ADJH-5-PANASONIC	-	1=R,4=NO,5=C,3=COM,2=S
+relay	panasonic	DK	datasheets/relay/panasonic/mech_eng_dk.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-DK-4-PANASONIC	1=1,3=2,4=3,6=4	1=A2,2=COM,3=NO,4=A1
+relay	panasonic	DK	datasheets/relay/panasonic/mech_eng_dk.pdf	 / DPST-NO/NC (1 Form A, 1 Form B) / Non Latching	RELAY-DK-6-PANASONIC	1=1,3=2,4=3,5=4,6=5,8=6	1=A2,2=COM1,3=NO1,6=A1,5=COM2,4=NC2
+relay	panasonic	DK	datasheets/relay/panasonic/mech_eng_dk.pdf	 / DPST-NO/NC (1 Form A, 1 Form B) / Latching, Dual Coil	RELAY-DK-7-PANASONIC	1=1,3=2,4=3,5=4,6=5,7=6,8=7	1=C,2=COM1,3=NO1,7=S,6=R,5=COM2,4=NC2
+relay	panasonic	DS	datasheets/relay/panasonic/mech_eng_ds.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-DS-5-PANASONIC	1=1,6=2,7=3,10=4,12=5	1=A1,2=A2,5=NC,4=NO,3=COM
+relay	panasonic	DS	datasheets/relay/panasonic/mech_eng_ds.pdf	 / SPDT (1 Form C) / Latching, Dual Coil	RELAY-DS-6-PANASONIC	1=1,3=2,6=3,7=4,10=5,12=6	1=S,2=C,3=R,6=NC,5=NO,4=COM
+relay	panasonic	DSP	datasheets/relay/panasonic/mech_eng_dsp.pdf	 / DPST-NO (2 Form A) / Non Latching	RELAY-DSP-6-PANASONIC	1=1,5=2,8=3,9=4,12=5,16=6	4=NO2,5=COM2,6=A2,3=NO1,2=COM1,1=A1
+relay	panasonic	DSP	datasheets/relay/panasonic/mech_eng_dsp.pdf	 / DPST-NO/NC (1 Form A, 1 Form B) / Non Latching	RELAY-DSP-6-PANASONIC	1=1,5=2,8=3,9=4,12=5,16=6	4=NC2,5=COM2,6=A2,3=NO1,2=COM1,1=A1
+relay	panasonic	DSP	datasheets/relay/panasonic/mech_eng_dsp.pdf	 / DPST-NO/NC (1 Form A, 1 Form B) / Latching, Dual Coil	RELAY-DSP-8-PANASONIC	1=1,2=2,5=3,8=4,9=5,12=6,15=7,16=8	5=NC2,6=COM2,7=R2,8=S2,4=NO1,3=COM1,2=R1,1=S1
+relay	panasonic	DW	datasheets/relay/panasonic/mech_eng_dw.pdf	 / SPST-NO (1 Form A) / Latching, Single Coil	RELAY-DW-4-PANASONIC	1=1,3=2,5=3,6=4	1=A1,2=NO,4=A2,3=COM
+relay	panasonic	DW	datasheets/relay/panasonic/mech_eng_dw.pdf	 / SPST-NO (1 Form A) / Latching, Dual Coil	RELAY-DW-5-PANASONIC	1=1,3=2,5=3,6=4,7=5	1=R,2=NO,5=C,4=S,3=COM
+relay	panasonic	ADY	datasheets/relay/panasonic/mech_eng_dy.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-ADY-4-PANASONIC	1=1,3=2,4=3,8=4	1=A2,2=COM,3=NO,4=A1
+relay	panasonic	AGN	datasheets/relay/panasonic/mech_eng_gn.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-AGN-8-PANASONIC	-	1=A1,2=NC1,3=COM1,4=NO1,8=A2,7=NC2,6=COM2,5=NO2
+relay	panasonic	AGN	datasheets/relay/panasonic/mech_eng_gn.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-AGN-8-SMD-PANASONIC	-	1=A1,2=NC1,3=COM1,4=NO1,8=A2,7=NC2,6=COM2,5=NO2
+relay	panasonic	AGQ	datasheets/relay/panasonic/mech_eng_gq.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-AGQ-8-PANASONIC	-	1=A1,2=NC1,3=COM1,4=NO1,8=A2,7=NC2,6=COM2,5=NO2
+relay	panasonic	AGQ	datasheets/relay/panasonic/mech_eng_gq.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-AGQ-8-SMD-A-PANASONIC	-	1=A1,2=NC1,3=COM1,4=NO1,8=A2,7=NC2,6=COM2,5=NO2
+relay	panasonic	AGQ	datasheets/relay/panasonic/mech_eng_gq.pdf	 / DPDT (2 Form C) / Latching, Single Coil	RELAY-AGQ-8-SMD-S-PANASONIC	-	1=A1,2=NC1,3=COM1,4=NO1,8=A2,7=NC2,6=COM2,5=NO2
+relay	panasonic	AGQ TH	datasheets/relay/panasonic/mech_eng_gqth.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-AGQTH-8-SMD-PANASONIC	-	1=A1,2=NC1,3=COM1,4=NO1,8=A2,7=NC2,6=COM2,5=NO2
+relay	panasonic	AGQ TH	datasheets/relay/panasonic/mech_eng_gqth.pdf	 / DPDT (2 Form C) / Latching, Single Coil	RELAY-AGQTH-8-SMD-PANASONIC	-	1=A1,2=NC1,3=COM1,4=NO1,8=A2,7=NC2,6=COM2,5=NO2
+relay	panasonic	HE-A	datasheets/relay/panasonic/mech_eng_hea.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-HEA-4-PANASONIC	1=1,4=2,5=3,6=4	3=A1,4=A2,2=COM,1=NO
+relay	panasonic	HE-A	datasheets/relay/panasonic/mech_eng_hea.pdf	 / DPST-NO/NC (1 Form A, 1 Form B) / Non Latching	RELAY-HEA-6-PANASONIC	-	5=A1,6=A2,3=COM2,2=NC2,4=COM1,1=NO1
+relay	panasonic	HE-N	datasheets/relay/panasonic/mech_eng_hen.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-HEN-4-PANASONIC	1=1,4=2,5=3,6=4	1=COM,2=NO,4=A1,3=A2
+relay	panasonic	HE	datasheets/relay/panasonic/mech_eng_hepv.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-HE-6-PANASONIC	-	1=COM,2=COM,3=NO,4=NO,5=A1,6=A2
+relay	panasonic	HE-PV	datasheets/relay/panasonic/mech_eng_hepv.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-HEPV-4-PANASONIC	1=1,4=2,5=3,6=4	1=COM,2=NO,4=A1,3=A2
+relay	panasonic	HE-R	datasheets/relay/panasonic/mech_eng_her.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-HER-6-PANASONIC	1=1,3=2,5=3,8=4,10=5,12=6	4=A1,5=NO1,6=NO2,3=A2,2=COM1,1=COM2
+relay	panasonic	HE-R	datasheets/relay/panasonic/mech_eng_her.pdf	 / 3PST-2NO/1NC (2 Form A, 1 Form B) / Non Latching	RELAY-HER-8-PANASONIC	1=1,3=2,5=3,6=4,7=5,8=6,10=7,12=8	6=A1,7=NO1,8=NO2,5=COM3,4=NC3,2=COM1,1=COM2,3=A2
+relay	panasonic	HE-R	datasheets/relay/panasonic/mech_eng_her.pdf	 / 5PST-4NO/1NC (4 Form A, 1 Form B) / Non Latching	RELAY-HER-12-PANASONIC	-	8=A1,9=NO1,10=NO2,11=NO3,12=NO4,7=COM5,6=NC5,5=A2,4=COM1,3=COM2,2=COM3,1=COM4
+relay	panasonic	HE-S	datasheets/relay/panasonic/mech_eng_hes.pdf	 / DPST-NO (2 Form A) / Non Latching	RELAY-HES-6-PANASONIC	1=1,2=2,4=3,5=4,7=5,8=6	3=A1,4=A2,2=COM1,5=NO1,1=COM2,6=NO2
+relay	panasonic	HE-S	datasheets/relay/panasonic/mech_eng_hes.pdf	 / 3PST-2NO/1NC (2 Form A, 1 Form B) / Non Latching	RELAY-HES-8-PANASONIC	-	3=COM3,4=A1,5=A2,6=NC3,2=COM1,7=NO1,1=COM2,8=NO2
+relay	panasonic	HE-V	datasheets/relay/panasonic/mech_eng_hev.pdf	 / DPST-NO (2 Form A) / Non Latching	RELAY-HEV-10-PANASONIC	-	1=A1,2=A2,3=COM1,4=COM1,5=NO1,6=NO1,7=COM2,8=COM2,9=NO2,10=NO2
+relay	panasonic	JW	datasheets/relay/panasonic/mech_eng_jw.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-JW-4-PANASONIC	-	1=A1,2=NO,3=A2,4=COM
+relay	panasonic	JW	datasheets/relay/panasonic/mech_eng_jw.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-JW-5-PANASONIC	-	1=A1,2=NC,3=NO,4=A2,5=COM
+relay	panasonic	ALDP	datasheets/relay/panasonic/mech_eng_ldp.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-ALDP-4-PANASONIC	-	1=A1,2=COM,3=NO,4=A2
+relay	panasonic	ALFG	datasheets/relay/panasonic/mech_eng_lfg.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-ALFG-4-PANASONIC	-	3=NO,4=COM,2=A2,1=A1
+relay	panasonic	ALQ	datasheets/relay/panasonic/mech_eng_lq.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-ALQ-4-PANASONIC	-	1=A1,2=COM,3=NO,4=A2
+relay	panasonic	ALQ	datasheets/relay/panasonic/mech_eng_lq.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-ALQ-5-PANASONIC	-	1=A1,2=COM,3=NO,4=A2,5=NC
+relay	panasonic	ALZ	datasheets/relay/panasonic/mech_eng_lz.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-ALZ-6-PANASONIC	-	1=A1,2=COM,3=NO,4=A2,5=COM,6=NO
+relay	panasonic	ALZ	datasheets/relay/panasonic/mech_eng_lz.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-ALZ-8-PANASONIC	-	1=A1,2=NC,3=COM,4=NO,5=A2,6=NC,7=COM,8=NO
+relay	panasonic	NC	datasheets/relay/panasonic/mech_eng_nc.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-NC-8-PANASONIC	2=1,4=2,5=3,7=4,11=5,12=6,13=7,14=8	5=NC1,6=NO1,7=NO2,8=NC2,4=COM1,3=A1,2=A2,1=COM2
+relay	panasonic	NC	datasheets/relay/panasonic/mech_eng_nc.pdf	 / 4PDT (4 Form C) / Non Latching	RELAY-NC-14-PANASONIC	1=1,2=2,4=3,5=4,7=5,8=6,9=7,10=8,11=9,12=10,13=11,14=12,15=13,16=14	7=NO1,8=NC1,9=NC2,10=NO2,11=NO3,12=NC3,13=NC4,14=NO4,6=COM1,5=COM2,4=A1,3=A2,2=COM3,1=COM4
+relay	panasonic	PA-N	datasheets/relay/panasonic/mech_eng_pan.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-PAN-4-PANASONIC	1=1,2=2,5=3,6=4	1=A1,2=A2,3=NO,4=COM
+relay	panasonic	APF	datasheets/relay/panasonic/mech_eng_pf.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-APF-5-PANASONIC	-	1=A1,2=A2,3=NC,4=COM,5=NO
+relay	panasonic	S	datasheets/relay/panasonic/mech_eng_s.pdf	 / 4PST-NO (4 Form A) / Non Latching	RELAY-S-12-PANASONIC	-	1=A1,2=NO1,3=COM1,4=COM2,5=NO2,6=NC,7=NC,8=NO3,9=COM3,10=COM4,11=NO4,12=A2
+relay	panasonic	S	datasheets/relay/panasonic/mech_eng_s.pdf	 / 4PST-2NO/2NC (2 Form A, 2 Form B) / Non Latching	RELAY-S-12-PANASONIC	-	1=A1,2=NC1,3=COM1,4=COM2,5=NO2,6=NC,7=NC,8=NC3,9=COM3,10=COM4,11=NO4,12=A2
+relay	panasonic	SP	datasheets/relay/panasonic/mech_eng_sp.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-SP-8-PANASONIC	1=1,2=2,5=3,6=4,7=5,8=6,9=7,10=8	1=A1,2=A2,3=NC1,4=COM1,5=NO1,6=NO2,7=COM2,8=NC2
+relay	panasonic	SP	datasheets/relay/panasonic/mech_eng_sp.pdf	 / DPDT (2 Form C) / Latching, Dual Coil	RELAY-SP-10-PANASONIC	-	1=S1,2=S2,3=R1,4=R2,5=NC1,6=COM1,7=NO1,8=NO2,9=COM2,10=NC2
+relay	panasonic	SP	datasheets/relay/panasonic/mech_eng_sp.pdf	 / 4PDT (4 Form C) / Non Latching	RELAY-SP-14-PANASONIC	1=1,2=2,5=3,6=4,7=5,8=6,9=7,10=8,11=9,12=10,13=11,14=12,15=13,16=14	1=A1,2=A2,3=NC2,4=COM2,5=NO2,6=NO3,7=COM3,8=NC3,9=NC1,10=COM1,11=NO1,12=NO4,13=COM4,14=NC4
+relay	panasonic	TE	datasheets/relay/panasonic/mech_eng_te.pdf	 / SPDT (1 Form C) x 2 / Non Latching	RELAY-TE-8-PANASONIC	-	1=NC1,2=A1,3=COM1,4=A2,5=A3,6=COM2,7=NO2,8=A4
+relay	panasonic	TQ	datasheets/relay/panasonic/mech_eng_tq.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-TQ-10-PANASONIC	-	1=A1,2=NC1,3=COM1,4=NO1,5=NC,6=NC,7=NO2,8=COM2,9=NC2,10=A2
+relay	panasonic	TQ	datasheets/relay/panasonic/mech_eng_tq.pdf	 / DPDT (2 Form C) / Latching, Dual Coil	RELAY-TQ-10-PANASONIC	-	1=S1,2=NC1,3=COM1,4=NO1,5=S2,6=R2,7=NO2,8=COM2,9=NC2,10=R1
+relay	panasonic	TQ-SMD	datasheets/relay/panasonic/mech_eng_tq.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-TQ-10-SMD-PANASONIC	-	1=A1,2=NC1,3=COM1,4=NO1,5=NC,6=NC,7=NO2,8=COM2,9=NC2,10=A2
+relay	panasonic	TQ-SMD	datasheets/relay/panasonic/mech_eng_tq.pdf	 / DPDT (2 Form C) / Latching, Dual Coil	RELAY-TQ-10-SMD-PANASONIC	-	1=S1,2=NC1,3=COM1,4=NO1,5=S2,6=R2,7=NO2,8=COM2,9=NC2,10=R1
+relay	panasonic	TX	datasheets/relay/panasonic/mech_eng_tx.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-TX-8-PANASONIC	1=1,3=2,4=3,5=4,8=5,9=6,10=7,12=8	1=A1,2=NC1,3=COM1,4=NO1,5=NO2,6=COM2,7=NC2,8=A2
+relay	panasonic	TX	datasheets/relay/panasonic/mech_eng_tx.pdf	 / DPDT (2 Form C) / Latching, Dual Coil	RELAY-TX-10-PANASONIC	1=1,3=2,4=3,5=4,6=5,7=6,8=7,9=8,10=9,12=10	1=S1,2=NC1,3=COM1,4=NO1,5=R1,6=R2,7=NO2,8=COM2,9=NC2,10=S2
+relay	panasonic	TX	datasheets/relay/panasonic/mech_eng_tx.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-TX-8-SMD-PANASONIC	1=1,3=2,4=3,5=4,8=5,9=6,10=7,12=8	1=A1,2=NC1,3=COM1,4=NO1,5=NO2,6=COM2,7=NC2,8=A2
+relay	panasonic	TX-D	datasheets/relay/panasonic/mech_eng_txd.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-TXD-8-PANASONIC	1=1,3=2,4=3,5=4,8=5,9=6,10=7,12=8	1=A1,2=NC1,3=COM1,4=NO1,5=NO2,6=COM2,7=NC2,8=A2
+relay	panasonic	TX-D	datasheets/relay/panasonic/mech_eng_txd.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-TXD-8-SMD-PANASONIC	1=1,3=2,4=3,5=4,8=5,9=6,10=7,12=8	1=A1,2=NC1,3=COM1,4=NO1,5=NO2,6=COM2,7=NC2,8=A2
+relay	panasonic	TX-S	datasheets/relay/panasonic/mech_eng_txs-654268.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-TXS-8-PANASONIC	1=1,3=2,4=3,5=4,8=5,9=6,10=7,12=8	1=A1,2=NC1,3=COM1,4=NO1,5=NO2,6=COM2,7=NC2,8=A2
+relay	panasonic	TX-S	datasheets/relay/panasonic/mech_eng_txs-654268.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-TXS-8-SMD-PANASONIC	1=1,3=2,4=3,5=4,8=5,9=6,10=7,12=8	1=A1,2=NC1,3=COM1,4=NO1,5=NO2,6=COM2,7=NC2,8=A2
+relay	panasonic	TX-S	datasheets/relay/panasonic/mech_eng_txs-654268.pdf	 / DPDT (2 Form C) / Latching, Dual Coil	RELAY-TXS-10-SMD-PANASONIC	1=1,3=2,4=3,5=4,6=5,7=6,8=7,9=8,10=9,12=10	1=S1,2=NC1,3=COM1,4=NO1,5=S2,6=R2,7=NO2,8=COM2,9=NC2,10=R1
+relay	panasonic	TX-TH	datasheets/relay/panasonic/mech_eng_txth.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-TXTH-8-PANASONIC	1=1,3=2,4=3,5=4,8=5,9=6,10=7,12=8	1=A1,2=NC1,3=COM1,4=NO1,5=NO2,6=COM2,7=NC2,8=A2
+relay	panasonic	TX-TH	datasheets/relay/panasonic/mech_eng_txth.pdf	 / DPDT (2 Form C) / Latching, Dual Coil	RELAY-TXTH-10-PANASONIC	1=1,3=2,4=3,5=4,6=5,7=6,8=7,9=8,10=9,12=10	1=S1,2=NC1,3=COM1,4=NO1,5=R1,6=R2,7=NO2,8=COM2,9=NC2,10=S2
+relay	panasonic	TX-TH	datasheets/relay/panasonic/mech_eng_txth.pdf	 / DPDT (2 Form C) / Latching, Dual Coil	RELAY-TXTH-10-SMD-PANASONIC	1=1,3=2,4=3,5=4,6=5,7=6,8=7,9=8,10=9,12=10	1=S1,2=NC1,3=COM1,4=NO1,5=R1,6=R2,7=NO2,8=COM2,9=NC2,10=S2
+relay	panasonic	PhotoMOS™ AQV	datasheets/relay/panasonic/semi_eng_ge1a_aqv21_e.pdf	6-DIP (0.300", 7.62mm) / SPST-NO (1 Form A) / PC Pin	RELAY-DIP-6-PANASONIC	-	1=A,2=K,3=NC,4=D1,5=NC,6=D2
+relay	panasonic	PhotoMOS™ AQV	datasheets/relay/panasonic/semi_eng_gu1a_aqv21.pdf	6-DIP (0.300", 7.62mm) / SPST-NO (1 Form A) / PC Pin	RELAY-DIP-6-PANASONIC	-	1=A,2=K,3=NC,4=D1,5=NC,6=D2
+relay	panasonic	PhotoMOS™ AQW	datasheets/relay/panasonic/semi_eng_ge2a_aqw21_e.pdf	8-DIP (0.300", 7.62mm) / SPST-NO (1 Form A) x 2 / PC Pin	RELAY-DIP-8-PANASONIC	-	1=A1,2=K1,3=A2,4=K2,5=D2A,6=D2B,7=D1A,8=D1B
+relay	panasonic	PhotoMOS™ AQW	datasheets/relay/panasonic/semi_eng_gu2a_aqw21.pdf	8-DIP (0.300", 7.62mm) / SPST-NO (1 Form A) x 2 / PC Pin	RELAY-DIP-8-PANASONIC	-	1=A1,2=K1,3=A2,4=K2,5=D2A,6=D2B,7=D1A,8=D1B
+relay	panasonic	PhotoMOS™ AQV	datasheets/relay/panasonic/semi_eng_ge1a_aqv21_e.pdf	6-SMD (0.300", 7.62mm) / SPST-NO (1 Form A) / Gull Wing	RELAY-SMD-6-PANASONIC	-	1=A,2=K,3=NC,4=D1,5=NC,6=D2
+relay	panasonic	PhotoMOS™ AQW	datasheets/relay/panasonic/semi_eng_ge2a_aqw21_e.pdf	8-SMD (0.300", 7.62mm) / SPST-NO (1 Form A) x 2 / Gull Wing	RELAY-SMD-8-PANASONIC	-	1=A1,2=K1,3=A2,4=K2,5=D2A,6=D2B,7=D1A,8=D1B
+relay	panasonic	PhotoMOS™ AQW	datasheets/relay/panasonic/semi_eng_gu2a_aqw21.pdf	8-SMD (0.300", 7.62mm) / SPST-NO (1 Form A) x 2 / Gull Wing	RELAY-SMD-8-PANASONIC	-	1=A1,2=K1,3=A2,4=K2,5=D2A,6=D2B,7=D1A,8=D1B
+relay	panasonic	PhotoMOS™ AQW	datasheets/relay/panasonic/semi_eng_he2a_aqw25.pdf	8-SMD (0.300", 7.62mm) / SPST-NO (1 Form A) x 2 / Gull Wing	RELAY-SMD-8-PANASONIC	-	1=A1,2=K1,3=A2,4=K2,5=D2A,6=D2B,7=D1A,8=D1B
+relay	panasonic	PhotoMOS™ AQY	datasheets/relay/panasonic/semi_eng_ge1a_aqy21_e.pdf	4-SMD (0.300", 7.62mm) / SPST-NO (1 Form A) / Gull Wing	RELAY-SMD-4-PANASONIC	-	1=A,2=K,3=D1,4=D2
+relay	panasonic	PhotoMOS™ AQY	datasheets/relay/panasonic/semi_eng_gu1a_aqy21_g.pdf	4-SMD (0.300", 7.62mm) / SPST-NO (1 Form A) / Gull Wing	RELAY-SMD-4-PANASONIC	-	1=A,2=K,3=D1,4=D2
+relay	panasonic	PhotoMOS™ AQY	datasheets/relay/panasonic/semi_eng_ge1b_aqy41_e.pdf	4-SMD (0.300", 7.62mm) / SPST-NC (1 Form B) / Gull Wing	RELAY-SMD-4-PANASONIC	-	1=A,2=K,3=D1,4=D2
+relay	panasonic	PhotoMOS™ AQS	datasheets/relay/panasonic/semi_eng_rf4a_aqs22_s.pdf	16-SOIC (0.173", 4.40mm Width) / SPST-NO (1 Form A) x 4 / Gull Wing	RELAY-SOP-16-PANASONIC	-	1=A1,2=K1,3=A2,4=K2,5=A3,6=K3,7=A4,8=K4,9=D4A,10=D4B,11=D3A,12=D3B,13=D2A,14=D2B,15=D1A,16=D1B
+relay	panasonic	PhotoMOS™ AQS	datasheets/relay/panasonic/semi_eng_rf4a_aqs22_s_cr10.pdf	16-SOIC (0.173", 4.40mm Width) / SPST-NO (1 Form A) x 4 / Gull Wing	RELAY-SOP-16-PANASONIC	-	1=A1,2=K1,3=A2,4=K2,5=A3,6=K3,7=A4,8=K4,9=D4A,10=D4B,11=D3A,12=D3B,13=D2A,14=D2B,15=D1A,16=D1B
+relay	panasonic	PhotoMOS™ AQV	datasheets/relay/panasonic/semi_eng_he_sop6_1a.pdf	6-SOP (0.173", 4.40mm) / SPST-NO (1 Form A) / Gull Wing	RELAY-SOP-6-PANASONIC	-	1=A,2=K,3=NC,4=D1,5=NC,6=D2
+relay	panasonic	PhotoMOS™ AQV	datasheets/relay/panasonic/semi_eng_rf1a_aqv22_s.pdf	6-SOP (0.173", 4.40mm) / SPST-NO (1 Form A) / Gull Wing	RELAY-SOP-6-PANASONIC	-	1=A,2=K,3=NC,4=D1,5=NC,6=D2
+relay	panasonic	PhotoMOS™ AQW	datasheets/relay/panasonic/semi_eng_gu2a_aqw21.pdf	8-SOP (0.173", 4.40mm Width) / SPST-NO (1 Form A) x 2 / Gull Wing	RELAY-SOP-8-PANASONIC	-	1=A1,2=K1,3=A2,4=K2,5=D2A,6=D2B,7=D1A,8=D1B
+relay	panasonic	PhotoMOS™ AQW	datasheets/relay/panasonic/semi_eng_gu2a_aqw21_s.pdf	8-SOP (0.173", 4.40mm Width) / SPST-NO (1 Form A) x 2 / Gull Wing	RELAY-SOP-8-PANASONIC	-	1=A1,2=K1,3=A2,4=K2,5=D2A,6=D2B,7=D1A,8=D1B
+relay	panasonic	PhotoMOS™ AQY	datasheets/relay/panasonic/semi_eng_ge1a_aqy21_e.pdf	4-SOP (0.173", 4.40mm) / SPST-NO (1 Form A) / Gull Wing	RELAY-SOP-4-PANASONIC	-	1=A,2=K,3=D1,4=D2
+relay	panasonic	PhotoMOS™ AQY	datasheets/relay/panasonic/semi_eng_gu1a_aqy21_gs.pdf	4-SOP (0.173", 4.40mm) / SPST-NO (1 Form A) / Gull Wing	RELAY-SOP-4-PANASONIC	-	1=A,2=K,3=D1,4=D2
+relay	panasonic	PhotoMOS™ AQY	datasheets/relay/panasonic/semi_eng_gu_sop4_1a.pdf	4-SOP (0.173", 4.40mm) / SPST-NO (1 Form A) / Gull Wing	RELAY-SOP-4-PANASONIC	-	1=A,2=K,3=D1,4=D2
+relay	panasonic	PhotoMOS™ AQY	datasheets/relay/panasonic/semi_eng_hs1a_aqy23_s.pdf	4-SOP (0.173", 4.40mm) / SPST-NO (1 Form A) / Gull Wing	RELAY-SOP-4-PANASONIC	-	1=A,2=K,3=D1,4=D2
+relay	panasonic	PhotoMOS™ AQY	datasheets/relay/panasonic/semi_eng_rf_sop4_1a_cr.pdf	4-SOP (0.173", 4.40mm) / SPST-NO (1 Form A) / Gull Wing	RELAY-SOP-4-PANASONIC	-	1=A,2=K,3=D1,4=D2
+relay	panasonic	PhotoMOS™ AQY2	datasheets/relay/panasonic/semi_eng_cc1a_aqy2c_p.pdf	4-SMD (0.071", 1.80mm) / SPST-NO (1 Form A) / SMD (SMT) Tab	RELAY-VSSOP-4-PANASONIC	-	1=A,2=K,3=D1,4=D2
+relay	panasonic	PhotoMOS™ AQY2	datasheets/relay/panasonic/semi_eng_rf1a_aqy22_t_cr10.pdf	4-SMD (0.071", 1.80mm) / SPST-NO (1 Form A) / SMD (SMT) Tab	RELAY-VSSOP-4-PANASONIC	-	1=A,2=K,3=D1,4=D2
+relay	panasonic	PhotoMOS™ AQY2	datasheets/relay/panasonic/semi_eng_rf1a_aqy22_t_cr3.pdf	4-SMD (0.071", 1.80mm) / SPST-NO (1 Form A) / SMD (SMT) Tab	RELAY-VSSOP-4-PANASONIC	-	1=A,2=K,3=D1,4=D2
+relay	panasonic	PhotoMOS™ AQY2	datasheets/relay/panasonic/semi_eng_cc1a_aqy2c_p.pdf	4-SMD (0.071", 1.80mm) / SPST-NO (1 Form A) / SMD (SMT) Tab	RELAY-TSON-4-PANASONIC	-	1=A,2=K,3=D1,4=D2
