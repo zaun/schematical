@@ -19,3 +19,7 @@ digikey.md
 
 # Reference boards for the autorouter (local only)
 routing-example/
+
+# Example schematic screenshots
+examples/**/*.jpg
+examples/**/*.jpeg
