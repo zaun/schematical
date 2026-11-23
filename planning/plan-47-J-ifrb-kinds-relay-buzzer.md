@@ -40,10 +40,10 @@ plan-47-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-47-I complete | `ls planning/completed/plan-47-I-*.md` → exists | NOT MET (2026-11-16: not started) |
-| `part_fixed_contact` exists | `grep -c 'part_fixed_contact' backend/src/models/model_pins.h` → 1 | NOT MET (2026-11-16: 0; plan-47-I Phase 1 adds it) |
-| No `relay` or `buzzer` kind yet | `grep -c 'PART_RELAY\|PART_BUZZER' backend/include/parts.h` → 0; `ls backend/src/models/relay.c backend/src/models/buzzer.c` → no such file | MET (2026-11-16 at 349f25b3: 0, no file) |
-| Golden sizes and test count re-measured | `git show HEAD:backend/tests/golden/parts.txt \| wc -l` (and `traces.txt`, `footprints.txt`); `git show HEAD:backend/CMakeLists.txt \| grep -c '^logic_test'` | record P0 / R0 / F0 / T0 at J's start (at 349f25b3: 32897 / 32897 / 1646 / 37, so 39 tests after I) |
+| plan-47-I complete | `ls planning/completed/plan-47-I-*.md` → exists | MET (2026-11-22: plan-47-I's phases are all ticked and committed (1c9f6088, f08a6bd6); the plan file moves to `planning/completed/` when plan-47 lands, § Corrections) |
+| `part_fixed_contact` exists | `grep -c 'part_fixed_contact' backend/src/models/model_pins.h` → 1 | MET (2026-11-22: 1) |
+| No `relay` or `buzzer` kind yet | `grep -c 'PART_RELAY\|PART_BUZZER' backend/include/parts.h` → 0; `ls backend/src/models/relay.c backend/src/models/buzzer.c` → no such file | MET (2026-11-22: 0, no file; `PartKind` ends `PART_INDUCTOR, PART_FUSE` after plan-47-I) |
+| Golden sizes and test count re-measured | `git show HEAD:backend/tests/golden/parts.txt \| wc -l` (and `traces.txt`, `footprints.txt`); `git show HEAD:backend/CMakeLists.txt \| grep -c '^logic_test'` | record P0 / R0 / F0 / T0 at J's start (at 349f25b3: 32897 / 32897 / 1646 / 37, so 39 tests after I); at 7c7b4d31 + plan-47-I (2026-11-22): **34375 / 34375 / 1895 / 43** |
 
 Everything below is written against the world where these hold.
 
@@ -295,55 +295,55 @@ gets the two test lines.
 
 ### Phase 1 — The relay kind: loader and facts
 
-- [ ] `backend/include/parts.h`: `PART_RELAY` after the current last
+- [x] (2026-11-22: `PART_RELAY, PART_BUZZER` after `PART_FUSE`) `backend/include/parts.h`: `PART_RELAY` after the current last
       `PartKind`, `PartRelay`, `const PartRelay *relay;` (only if absent:
       `grep -c 'PART_RELAY' backend/include/parts.h` → 0 before).
-- [ ] `backend/src/models/relay.c`: `RELAY_KIND` (`load_device`,
+- [x] (2026-11-22) `backend/src/models/relay.c`: `RELAY_KIND` (`load_device`,
       `bind_pinout`, `load_part`, § 3.1) with a passive model for now;
       `kinds.c`; `CMakeLists.txt` (`relay.c`, `logic_test(relay_test)`).
-- [ ] `backend/tests/support/listing.c`: `case PART_RELAY: return "relay"`
+- [x] (2026-11-22: `TRACE_LAST_KIND` is `PART_BUZZER`) `backend/tests/support/listing.c`: `case PART_RELAY: return "relay"`
       and the facts line `type=%s poles=%u coils=%u latch=%d ch=%u coil=%u
       ohms=%llu amps=%u volts=%u op=%u rel=%u on=%llu`; the last-kind lines
       of `tests/trace_check.c` and `tests/listing_check.c`.
-- [ ] `backend/tests/support/relay_fixture.h`, `backend/tests/relay_test.c`:
+- [x] (2026-11-22: § 6 a-d, the facts and every rejection) `backend/tests/support/relay_fixture.h`, `backend/tests/relay_test.c`:
       the fact and rejection cases (§ 6 a–d).
 
 Acceptance: relays load and read back; goldens unchanged.
   Check: `cmake -S backend -B /tmp/logic-p47-j && cmake --build /tmp/logic-p47-j -j8 && /tmp/logic-p47-j/relay_test` → every line `PASS`, and `/tmp/logic-p47-j/listing_check && /tmp/logic-p47-j/trace_check` → exit 0 (est. 4 min: a build from scratch).
-Commit: —
+Commit: df0bba59
 
 ### Phase 2 — The relay model and its fixed contacts
 
-- [ ] `relay.c`: `RELAY_MODEL` (§ 3.2), `relay_fixed_contact` and its
+- [x] (2026-11-22: `relay_test` all PASS, every § 6 e-q case; `voltage_test` all PASS) `relay.c`: `RELAY_MODEL` (§ 3.2), `relay_fixed_contact` and its
       dispatch in `model_pins.c` (§ 3.3); the cases § 6 e–q.
 
 Acceptance: the relay cases pass; goldens unchanged.
   Check: `cmake --build /tmp/logic-p47-j -j8 && /tmp/logic-p47-j/relay_test && /tmp/logic-p47-j/voltage_test` → every line `PASS`; `/tmp/logic-p47-j/listing_check && /tmp/logic-p47-j/trace_check` → exit 0 (est. 2 min).
-Commit: —
+Commit: df0bba59
 
 ### Phase 3 — The buzzer kind
 
-- [ ] `parts.h`: `PART_BUZZER`, `PartBuzzer`, `const PartBuzzer *buzzer;`
+- [x] (2026-11-22) `parts.h`: `PART_BUZZER`, `PartBuzzer`, `const PartBuzzer *buzzer;`
       (only if absent); `backend/src/models/buzzer.c` (`BUZZER_KIND`,
       `BUZZER_MODEL`, § 3.4); `kinds.c`; `CMakeLists.txt` (`buzzer.c`,
       `logic_test(buzzer_test)`).
-- [ ] `listing.c`: `case PART_BUZZER: return "buzzer"` and the facts line
+- [x] (2026-11-22) `listing.c`: `case PART_BUZZER: return "buzzer"` and the facts line
       `driver=%s tech=%s hz=%u volts=%u min=%u max=%u ua=%u spl=%u`; the
       last-kind lines.
-- [ ] `backend/tests/support/buzzer_fixture.h`, `backend/tests/buzzer_test.c`
+- [x] (2026-11-22: `buzzer_test` all PASS, § 6 r-w) `backend/tests/support/buzzer_fixture.h`, `backend/tests/buzzer_test.c`
       (§ 6 r–w).
 
 Acceptance: the buzzer cases pass; goldens unchanged.
   Check: `cmake --build /tmp/logic-p47-j -j8 && /tmp/logic-p47-j/buzzer_test` → every line `PASS`; `/tmp/logic-p47-j/listing_check && /tmp/logic-p47-j/trace_check` → exit 0 (est. 2 min).
-Commit: —
+Commit: df0bba59
 
 ### Phase 4 — Docs
 
-- [ ] `docs/parts-format.md` and `docs/backend.md` per § 4.
+- [x] (2026-11-22: `grep -c '^### `relay`\|^### `buzzer`' docs/parts-format.md` → 2, `grep -c 'relay_test\|buzzer_test' docs/backend.md` → 2) `docs/parts-format.md` and `docs/backend.md` per § 4.
 
 Acceptance: the docs name both kinds.
   Check: `grep -c '^### `relay`\|^### `buzzer`' docs/parts-format.md` → 2 and `grep -c 'relay_test\|buzzer_test' docs/backend.md` → 2 (est. < 1 min).
-Commit: —
+Commit: 177c4783
 
 ## 6. Test cases
 
@@ -488,6 +488,29 @@ Author decisions (no user-visible fork; recorded so nobody re-litigates):
   the facts are shown in the sidebar instead.
 
 ## Corrections
+
+- **2026-11-22, § 3.1 / § 3.2 ties: first pin plus ties is wrong.** The engine
+  leaves out a contact whose pin has no net (`sim.h`), so a chain through a
+  first pin of a name that the circuit did not wire drops every other pin of
+  the name. Measured with `TESTRLY-TIE` and only its second `COM` pin wired:
+  NC read Z (`dbg2`: `a 1 nc 3 no 3`). Both plan-47-I's and J's kinds
+  therefore join **every pin of a name to every pin of the other name** (the
+  terminal or pole contacts) and **every two pins of one name** (the ties):
+  `src/models/terminals.c` (`ContactSet`, `contacts_cross`, `contacts_within`).
+  Case (o) gained a second circuit (operated, only the second `COM` pin wired:
+  NO reads 1, NC Z) and plan-47-I's case (f) a four-pad case with only pads 2
+  and 4 wired.
+- **2026-11-22, order.** J was worked after I and before H and the data
+  letters (§ I Corrections); its code reads no census output.
+- **2026-11-22, timed cases.** Case (f) drives A1 at 2 ms, not 0: a rise at
+  0 and the start-time evaluation at 1 ms would be one event; the checks are
+  0.9 ms and 1.1 ms after the rise, as written. The self-interrupting relay
+  (p) toggles every 1 ms; `circuit_advance(10 ms)` returns 1 with COM
+  changing 10 ± 1 times. The low-side driver case (p) runs on `circuit_*` (the
+  fixture's `TFX-Q1` in a circuit) instead of the engine rig: the rig holds one
+  part, and the circuit gives the same 1 ms plus 1 ns timing.
+- **2026-11-22, goldens.** None changed: `ctest` 45 of 45 (T0 41 + 4),
+  `listing_check` and `trace_check` pass without a golden edit.
 
 ## Summary
 

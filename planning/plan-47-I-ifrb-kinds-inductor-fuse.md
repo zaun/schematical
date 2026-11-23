@@ -458,6 +458,15 @@ Author decisions (no user-visible fork; recorded so nobody re-litigates):
 - **2026-11-22, goldens.** None changed: `ctest` 43 of 43 (T0 41 + 2),
   `listing_check` and `trace_check` pass without a golden edit.
 
+- **2026-11-22, shared contacts (found while building plan-47-J).** § 3.1's
+  "first pin of each name is the contact's end, further pins tied to it" does
+  not join pads when the first pad of a name is unwired (the engine leaves out
+  a contact whose pin has no net). Inductors and fuses now have one contact
+  between every pin of one terminal and every pin of the other (the fuse opens
+  these) and one between every two pins of a name (always closed), in
+  `src/models/terminals.c`; `inductor_test` (f) gained a case with only pads 2
+  and 4 wired. `ctest` stays green (45 of 45 with J's two programs).
+
 ## Summary
 
 I's engine risk is nil (no engine file changes); its one wide change is the
