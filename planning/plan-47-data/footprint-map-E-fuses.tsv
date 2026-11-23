@@ -26,8 +26,7 @@ E	fuse	eaton		Surface Mount	2-SMD, Square End Block		0.520" L x 0.199" W x 0.199
 E	fuse	eaton		Surface Mount	2-SMD, Square End Block		1.268" L x 0.198" W x 0.198" H (32.20mm x 5.03mm x 5.03mm)		FUSE-322X50-EATON	SMD	eaton-3250hv-high-voltage-smd-brick-fuse-data-sheet-elx1439.pdf p.2	
 E	fuse	eaton		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.266" Dia x 1.292" L (6.76mm x 32.82mm)		FUSE-AX-328-381-EATON	Axial	eaton-agc-fast-acting-glass-tube-fuses-data-sheet.pdf p.3	
 E	fuse	eaton		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.268" Dia x 1.291" L (6.81mm x 32.79mm)		FUSE-AX-328-381-EATON-B	Axial	eaton-adc-3ab-high-voltage-fuse-data-sheet-elx1122-en.pdf p.2	
-E	fuse	eaton		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.275" Dia x 1.288" L (6.99mm x 32.72mm)		FUSE-AX-327-381-EATON	Cartridge	eaton-mdh-r-ferrule-and-axial-lead-i2t-ceramic-tube-fuses-data-sheet.pdf p.2	AHC
-E	fuse	eaton		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.275" Dia x 1.288" L (6.99mm x 32.72mm)		FUSE-AX-327-381-EATON	Axial	eaton-mdh-r-ferrule-and-axial-lead-i2t-ceramic-tube-fuses-data-sheet.pdf p.2	MDH-R
+E	fuse	eaton		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.275" Dia x 1.288" L (6.99mm x 32.72mm)		FUSE-AX-327-381-EATON	Cartridge	eaton-mdh-r-ferrule-and-axial-lead-i2t-ceramic-tube-fuses-data-sheet.pdf p.2	
 E	fuse	eaton		Through Hole	5mm x 20mm (Axial)		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		FUSE-AX-200-254-EATON	Axial	eaton-s505sc-time-delay-axial-lead-ceramic-tube-fuses-data-sheet.pdf p.2	
 E	fuse	eaton		Through Hole	5mm x 20mm (Axial)		0.205" Dia x 0.807" L (5.20mm x 20.50mm)		FUSE-AX-205-254-EATON	Axial	eaton-s505sch-time-delay-axial-lead-ceramic-tube-fuses-data-sheet.pdf p.2	
 E	fuse	eaton		Through Hole	5mm x 20mm (Axial)		0.218" Dia x 0.831" L (5.54mm x 21.10mm)		FUSE-AX-211-254-EATON	Axial	eaton-gma-time-delay-glass-tube-fuses-data-sheet.pdf p.2	
@@ -80,27 +79,27 @@ E	fuse	littelfuse		Surface Mount	2-SMD, Square End Block		0.480" L x 0.177" W x 
 E	fuse	littelfuse		Surface Mount	2-SMD, Square End Block		0.492" L x 0.175" W x 0.175" H (12.50mm x 4.45mm x 4.45mm)		FUSE-125X45-LITTELFUSE	SMD	shared with FUSE-125X45-LITTELFUSE	
 E	fuse	littelfuse		Surface Mount	2-SMD, Square End Block with Holder		0.383" L x 0.198" W x 0.150" H (9.73mm x 5.03mm x 3.81mm)		FUSE-9750-LITTELFUSE	SMD	littelfuse-fuse-154-series-data-sheet.pdf p.2	
 E	fuse	littelfuse		Surface Mount	Nonstandard SMD		0.413" L x 0.177" W x 0.177" H (10.50mm x 4.50mm x 4.50mm)		FUSE-105X45-LITTELFUSE	SMD	fuse-462-datasheet.pdf p.3	
-E	fuse	littelfuse		Through Hole	2AG, 5mm x 15mm (Axial)		0.177" Dia x 0.571" L (4.50mm x 14.50mm)		FUSE-AX-100-152-EATON	Axial	shared with FUSE-AX-100-152-EATON	
-E	fuse	littelfuse		Through Hole	2AG, 5mm x 15mm (Axial)		0.185" Dia x 0.570" L (4.70mm x 14.48mm)		FUSE-AX-100-152-EATON	Axial	shared with FUSE-AX-100-152-EATON	
-E	fuse	littelfuse		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.275" Dia x 1.288" L (6.99mm x 32.72mm)		FUSE-AX-100-152-EATON	Axial	shared with FUSE-AX-100-152-EATON	324
-E	fuse	littelfuse		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.275" Dia x 1.288" L (6.99mm x 32.72mm)		FUSE-AX-100-152-EATON	Cartridge	shared with FUSE-AX-100-152-EATON	325
-E	fuse	littelfuse		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.275" Dia x 1.288" L (6.99mm x 32.72mm)		FUSE-AX-100-152-EATON	Axial	shared with FUSE-AX-100-152-EATON	505
-E	fuse	littelfuse		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.275" Dia x 1.288" L (6.99mm x 32.72mm)		FUSE-AX-100-152-EATON	Axial	shared with FUSE-AX-100-152-EATON	508
-E	fuse	littelfuse		Through Hole	5mm x 20mm (Axial)		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		FUSE-AX-100-152-EATON	Axial	shared with FUSE-AX-100-152-EATON	
-E	fuse	littelfuse		Through Hole	5mm x 20mm (Axial)		0.217" Dia x 0.846" L (5.50mm x 21.50mm)		FUSE-AX-100-152-EATON	Axial	shared with FUSE-AX-100-152-EATON	
-E	fuse	littelfuse		Through Hole	5mm x 20mm (Axial)		0.228" Dia x 0.886" L (5.80mm x 22.50mm)		FUSE-AX-100-152-EATON	Axial	shared with FUSE-AX-100-152-EATON	
-E	fuse	littelfuse		Through Hole	5mm x 20mm (Axial)		0.236" Dia x 0.886" L (6.00mm x 22.50mm)		FUSE-AX-100-152-EATON	Axial	shared with FUSE-AX-100-152-EATON	
-E	fuse	littelfuse		Through Hole	Axial		0.110" Dia x 0.280" L (2.80mm x 7.11mm)		FUSE-AX-100-152-EATON	Axial	shared with FUSE-AX-100-152-EATON	
-E	fuse	littelfuse		Through Hole	Axial		0.133" Dia x 0.310" L (3.38mm x 7.87mm)		FUSE-AX-100-152-EATON	Axial	shared with FUSE-AX-100-152-EATON	
-E	fuse	littelfuse		Through Hole	Axial		0.135" Dia x 0.280" L (3.43mm x 7.11mm)		FUSE-AX-100-152-EATON	Axial	shared with FUSE-AX-100-152-EATON	
-E	fuse	littelfuse		Through Hole	Axial		0.135" Dia x 0.315" L (3.42mm x 8.00mm)		FUSE-AX-100-152-EATON	Axial	shared with FUSE-AX-100-152-EATON	
-E	fuse	littelfuse		Through Hole	Axial		0.155" Dia x 0.280" L (3.94mm x 7.11mm)		FUSE-AX-100-152-EATON	Axial	shared with FUSE-AX-100-152-EATON	
-E	fuse	littelfuse		Through Hole	Cartridge, Non-Standard (Axial)		0.142" Dia x 0.394" L (3.60mm x 10.00mm)		FUSE-AX-100-152-EATON	Axial	shared with FUSE-AX-100-152-EATON	
-E	fuse	littelfuse		Through Hole	Cartridge, Non-Standard (Axial)		0.177" Dia x 0.571" L (4.50mm x 14.50mm)		FUSE-AX-100-152-EATON	Axial	shared with FUSE-AX-100-152-EATON	
-E	fuse	littelfuse		Through Hole	Radial Bend Cylinder		0.482" Dia x 1.315" L (12.25mm x 33.40mm)		FUSE-AX-100-152-EATON	Radial	shared with FUSE-AX-100-152-EATON	
-E	fuse	littelfuse		Through Hole	Radial, Box		0.335" L x 0.157" W x 0.315" H (8.50mm x 4.00mm x 8.00mm)		FUSE-AX-100-152-EATON	Radial	shared with FUSE-AX-100-152-EATON	
-E	fuse	littelfuse		Through Hole	Radial, Can, Vertical		0.250" Dia x 0.350" H (6.35mm x 8.89mm)		FUSE-AX-100-152-EATON	Radial	shared with FUSE-AX-100-152-EATON	
-E	fuse	littelfuse		Through Hole	Radial, Can, Vertical		0.335" Dia x 0.315" H (8.50mm x 8.00mm)		FUSE-AX-100-152-EATON	Radial	shared with FUSE-AX-100-152-EATON	
+E	fuse	littelfuse		Through Hole	2AG, 5mm x 15mm (Axial)		0.177" Dia x 0.571" L (4.50mm x 14.50mm)		FUSE-AX-145-203-LITTELFUSE	Axial	littelfuse-fuse-220-datasheet.pdf p.3	
+E	fuse	littelfuse		Through Hole	2AG, 5mm x 15mm (Axial)		0.185" Dia x 0.570" L (4.70mm x 14.48mm)		FUSE-AX-145-203-LITTELFUSE	Axial	shared with FUSE-AX-145-203-LITTELFUSE	
+E	fuse	littelfuse		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.275" Dia x 1.288" L (6.99mm x 32.72mm)		FUSE-AX-327-381-LITTELFUSE	Axial	fuse-314-and-324-datasheet.pdf p.3	324
+E	fuse	littelfuse		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.275" Dia x 1.288" L (6.99mm x 32.72mm)		FUSE-AX-327-381-LITTELFUSE	Cartridge	fuse-314-and-324-datasheet.pdf p.3	325
+E	fuse	littelfuse		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.275" Dia x 1.288" L (6.99mm x 32.72mm)		FUSE-AX-327-381-LITTELFUSE	Axial	fuse-314-and-324-datasheet.pdf p.3	505
+E	fuse	littelfuse		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.275" Dia x 1.288" L (6.99mm x 32.72mm)		FUSE-AX-327-381-LITTELFUSE	Axial	fuse-314-and-324-datasheet.pdf p.3	508
+E	fuse	littelfuse		Through Hole	5mm x 20mm (Axial)		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		FUSE-AX-200-254-LITTELFUSE	Axial	fuse-215sp-datasheet.pdf p.3	
+E	fuse	littelfuse		Through Hole	5mm x 20mm (Axial)		0.217" Dia x 0.846" L (5.50mm x 21.50mm)		FUSE-AX-215-279-LITTELFUSE	Axial	fuse-477-datasheet.pdf p.3	
+E	fuse	littelfuse		Through Hole	5mm x 20mm (Axial)		0.228" Dia x 0.886" L (5.80mm x 22.50mm)		FUSE-AX-215-279-LITTELFUSE-B	Axial	fuse-215-datasheet.pdf p.4	
+E	fuse	littelfuse		Through Hole	5mm x 20mm (Axial)		0.236" Dia x 0.886" L (6.00mm x 22.50mm)		FUSE-AX-215-279-LITTELFUSE-C	Axial	fuse-216-lead-free-datasheet.pdf p.3	
+E	fuse	littelfuse		Through Hole	Axial		0.110" Dia x 0.280" L (2.80mm x 7.11mm)		FUSE-AX-71-102-LITTELFUSE	Axial	fuse-251-datasheet.pdf p.3	
+E	fuse	littelfuse		Through Hole	Axial		0.133" Dia x 0.310" L (3.38mm x 7.87mm)		FUSE-AX-79-127-LITTELFUSE	Axial	fuse-275-and-276-datasheet.pdf p.3	
+E	fuse	littelfuse		Through Hole	Axial		0.135" Dia x 0.280" L (3.43mm x 7.11mm)		FUSE-AX-71-102-LITTELFUSE	Axial	shared with FUSE-AX-71-102-LITTELFUSE	
+E	fuse	littelfuse		Through Hole	Axial		0.135" Dia x 0.315" L (3.42mm x 8.00mm)		FUSE-AX-80-127-LITTELFUSE	Axial	littelfuse-fuse-pico-521-datasheet.pdf p.3	
+E	fuse	littelfuse		Through Hole	Axial		0.155" Dia x 0.280" L (3.94mm x 7.11mm)		FUSE-AX-71-102-LITTELFUSE	Axial	shared with FUSE-AX-71-102-LITTELFUSE	
+E	fuse	littelfuse		Through Hole	Cartridge, Non-Standard (Axial)		0.142" Dia x 0.394" L (3.60mm x 10.00mm)		FUSE-AX-100-152-LITTELFUSE	Axial	fuse-875-datasheet.pdf p.3	
+E	fuse	littelfuse		Through Hole	Cartridge, Non-Standard (Axial)		0.177" Dia x 0.571" L (4.50mm x 14.50mm)		FUSE-AX-145-203-LITTELFUSE	Axial	shared with FUSE-AX-145-203-LITTELFUSE	
+E	fuse	littelfuse		Through Hole	Radial Bend Cylinder		0.482" Dia x 1.315" L (12.25mm x 33.40mm)		FUSE-334X123-4-LITTELFUSE	Radial	littelfuse-fuse-607-series-datasheet.pdf p.3	
+E	fuse	littelfuse		Through Hole	Radial, Box		0.335" L x 0.157" W x 0.315" H (8.50mm x 4.00mm x 8.00mm)		FUSE-RAD-85-51-LITTELFUSE	Radial	fuse-369-datasheet.pdf p.3	
+E	fuse	littelfuse		Through Hole	Radial, Can, Vertical		0.250" Dia x 0.350" H (6.35mm x 8.89mm)		FUSE-RAD-64-25-LITTELFUSE	Radial	fuse-272-and-279-datasheet.pdf p.3	
+E	fuse	littelfuse		Through Hole	Radial, Can, Vertical		0.335" Dia x 0.315" H (8.50mm x 8.00mm)		FUSE-RAD-85-51-LITTELFUSE-B	Radial	fuse-370-datasheet.pdf p.3	
 E	fuse	schurter		Requires Holder	3AB, 3AG, 1/4" x 1-1/4"		0.250" Dia x 1.252" L (6.35mm x 31.80mm)		FUSE-CLIP-6X32-SCHURTER	Cartridge	clip pair 0751.0056 (OG 5x20 / 6.3x32): typ_OG__Clip__5x20___6.3x32.pdf p.2	
 E	fuse	schurter		Requires Holder	5mm x 20mm		0.197" Dia x 0.787" L (5.00mm x 20.00mm)		FUSE-CLIP-5X20-SCHURTER	Cartridge	clip pair 0751.0052 (OG 5x20): typ_OG__Clip__5x20.pdf p.2	
 E	fuse	schurter		Requires Holder	5mm x 20mm		0.201" Dia x 0.787" L (5.10mm x 20.00mm)		FUSE-CLIP-5X20-SCHURTER	Cartridge	clip pair 0751.0052 (OG 5x20): typ_OG__Clip__5x20.pdf p.2	
