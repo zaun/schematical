@@ -33,9 +33,9 @@ plan-47-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-47-A complete | `ls planning/completed/plan-47-A-*.md` → exists | NOT MET (2026-11-16: not started) |
-| Every download-set row is stock-checked | `awk -F'\t' 'NR>1 && ($23=="candidate" \|\| $23=="reserve") && $29==""' planning/plan-47-data/candidates.tsv \| wc -l` → 0 | NOT MET (2026-11-16: 3522, no row checked yet) |
-| The PDFs are placed | `python3 -I planning/plan-47-data/census/place.py --verify` → `0 missing, 0 unused` | NOT MET (2026-11-16: no PDF placed yet) |
+| plan-47-A complete | `ls planning/completed/plan-47-A-*.md` → exists | NOT MET (2026-11-23: A's Phase 2 waits for DigiKey's quota; its Phase 3 re-run follows) |
+| Every download-set row is stock-checked | `awk -F'\t' 'NR>1 && ($23=="candidate" \|\| $23=="reserve") && $29==""' planning/plan-47-data/candidates.tsv \| wc -l` → 0 | NOT MET (2026-11-23: 2584 of 3522 rows unchecked; 938 checked) |
+| The PDFs are placed | `python3 -I planning/plan-47-data/census/place.py --verify` → `0 missing, 0 unused` | MET on the current set (2026-11-23: `0 missing, 0 unused`); A's Phase 3 re-run repeats it after Phase 2 |
 
 Everything below is written against the world where these hold.
 
@@ -189,7 +189,7 @@ group.
 
 ### Phase 1 — Tools, and the inductors
 
-- [ ] Adapt `census/scheme-check.py` and `census/pinout-check.py` from
+- [x] (2026-11-23, written early while A's Phase 2 waits for DigiKey's quota: `scheme-check.py inductor fuse ptc` → `2213 rows: 0 ok, 2213 unchecked`; `pinout-check.py inductor` → `417 specs rows`; a unit test of the value codes, the scheme groups and the verdict rules passed, § Corrections) Adapt `census/scheme-check.py` and `census/pinout-check.py` from
       `planning/plan-40-data/census/` to this plan's `candidates.tsv`
       columns and to `specs.tsv`'s (§ 3.1, § 3.3, § 3.4); both take type
       names.
@@ -247,6 +247,22 @@ Commit: —
   without coming back.
 
 ## Corrections
+
+- **2026-11-23, the tools were written before B's prerequisites held.** Their
+  first task needs no stock-check result, so `census/scheme-check.py`,
+  `pinout-check.py` and `specs47.py` (shared parsing, the specs columns) were
+  written while A's Phase 2 waits for DigiKey's quota. No verdict was written
+  and no other task of B is ticked. Choices the plan left open: the verdicts go
+  to two new `candidates.tsv` columns `verdict` (ok / skip / out) and `vreason`
+  (columns 30 and 31; `select.py` carries them through `--keep`); the specs
+  fact columns are `pads`, `values`, `tols`, `amps_max`, `isat_max`,
+  `dcr_max`, `shield`, `speed`, `vac`, `vdc`, `break_max`, `vmax`, `imax`
+  (formats in `specs47.py`; `specs-skeleton.py` creates them empty and keeps
+  them on a re-run); `pinout` is `-` (none in the PDF: skip) or `out` (more than
+  two terminals: out); `scheme-check.py --sample` prints only the sample lines
+  (the summary goes to stderr) so `| wc -l` is 3 makers × 20.
+- `specs.tsv` has 1547 rows over the four families (inductor 417; the plan's
+  418 predates the one Würth row the stock check replaced).
 
 ## Summary
 

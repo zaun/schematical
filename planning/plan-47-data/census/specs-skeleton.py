@@ -6,8 +6,8 @@ usage: python3 -I specs-skeleton.py <candidates.tsv> <specs.tsv>
 One row per distinct (type, maker, series, pdf, DigiKey Package / Case) of the
 download-set rows with a PDF (`pdf`, the path place.py wrote): `rows` the number
 of such rows in the group, `example` its most-stocked part number. The columns
-`scheme`, `label`, `page`, `pinout`, `terminals` are empty (plan-47-B and C fill
-them). Run again over an existing specs.tsv it merges: a group's existing
+`scheme`, `label`, `page`, `pinout`, `terminals` and plan-47-B's `pads` and fact columns
+(specs47.py) are empty (plan-47-B and C fill them). Run again over an existing specs.tsv it merges: a group's existing
 columns are kept, a new group gets empty ones, and a row whose group is gone is
 dropped and named.
 """
@@ -18,8 +18,9 @@ import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import scancommon as sc  # noqa: E402
 
-COLS = ['type', 'maker', 'series', 'pdf', 'package', 'rows', 'example', 'scheme', 'label', 'page', 'pinout', 'terminals']
-KEEP = ['scheme', 'label', 'page', 'pinout', 'terminals']
+FACTS = ['pads', 'values', 'tols', 'amps_max', 'isat_max', 'dcr_max', 'shield', 'speed', 'vac', 'vdc', 'break_max', 'vmax', 'imax']
+COLS = ['type', 'maker', 'series', 'pdf', 'package', 'rows', 'example', 'scheme', 'label', 'page', 'pinout', 'terminals'] + FACTS
+KEEP = ['scheme', 'label', 'page', 'pinout', 'terminals'] + FACTS
 KEY = ['type', 'maker', 'series', 'pdf', 'package']
 
 
@@ -39,7 +40,7 @@ def main(src, dst):
         row = dict(zip(KEY, g))
         row['rows'], row['example'] = str(len(rs)), example
         for c in KEEP:
-            row[c] = old[g][c] if g in old else ''
+            row[c] = old[g].get(c, '') if g in old else ''
         rows.append(row)
     sc.write(dst, rows, COLS)
     for g in sorted(set(old) - set(groups)):
