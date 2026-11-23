@@ -18,7 +18,7 @@ final class SerialMemoryTests: XCTestCase {
         XCTAssertEqual(PartFacts.kindName(part), "Serial memory")
         XCTAssertEqual(symbol(for: part), .block)
         XCTAssertEqual(ReferenceCategory.of(part), .memory)
-        XCTAssertEqual(part.drawer, ["Memory", "Serial EEPROM"])
+        XCTAssertEqual(part.drawer, ["Memory", "Serial", "EEPROM"])
         let rows = try facts(part.name)
         XCTAssertEqual(rows["Kind"], "Serial memory")
         XCTAssertEqual(rows["Type"], "Serial EEPROM")

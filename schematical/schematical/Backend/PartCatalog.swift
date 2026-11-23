@@ -1288,6 +1288,18 @@ nonisolated enum PartListing: Equatable, Sendable {
 nonisolated enum PartCategory {
     static let userLibrary = "User Library"
     static let fileLibrary = "File Library"
+
+    /// The drawer's category order: the built-in categories by name, then the
+    /// User Library, then the File Library, so a person's own parts sit at the
+    /// bottom of the drawer.
+    static func precedes(_ lhs: String, _ rhs: String) -> Bool {
+        func tier(_ name: String) -> Int {
+            name == userLibrary ? 1 : name == fileLibrary ? 2 : 0
+        }
+        let (a, b) = (tier(lhs), tier(rhs))
+        if a != b { return a < b }
+        return lhs.localizedStandardCompare(rhs) == .orderedAscending
+    }
 }
 
 /// Reads a `.schpart` file's text for `PartCatalogStore.register`.
@@ -1731,7 +1743,7 @@ final class PartCatalogStore {
     var allParts: [CatalogPart] { entries }
 
     var categories: [String] {
-        sortedNames(derived.kindsByGroup.keys.filter { !$0.contains("/") })
+        Array(Set(derived.kindsByGroup.keys.filter { !$0.contains("/") })).sorted(by: PartCategory.precedes)
     }
 
     var packages: [String] {
@@ -2253,7 +2265,7 @@ final class PartCatalogStore {
 
         let byCategory = Dictionary(grouping: matches, by: { $0.drawer[0] })
         return byCategory
-            .sorted { $0.key.localizedStandardCompare($1.key) == .orderedAscending }
+            .sorted { PartCategory.precedes($0.key, $1.key) }
             .map { category, parts in
                 CategoryGroup(
                     category: category,

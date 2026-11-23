@@ -26,20 +26,24 @@ MainActor.assumeIsolated { runTubes() }
     let groups = catalog.groups(matching: DrawerFilter())
     let vintage = groups.first { $0.category == "Vintage" }
     func names(_ sub: String) -> [String] {
-        vintage?.subcategories.first { $0.subcategory == sub }?.allParts.map(\.name).sorted() ?? []
+        let found = sub == "Support ICs"
+            ? vintage?.subcategories.first { $0.subcategory == sub }
+            : vintage?.subcategories.first { $0.subcategory == "Display tubes" }?
+                .subgroups.first { $0.subcategory == sub }
+        return found?.allParts.map(\.name).sorted() ?? []
     }
-    for sub in ["Nixie", "Numitron", "VFD", "Neon", "ICs"] { print("Vintage > \(sub): \(names(sub))") }
-    expect(names("Numitron") == ["IV-16", "IV-9"], "Vintage > Numitron lists IV-9 and IV-16")
-    expect(names("VFD") == ["IV-11", "IV-12", "IV-18", "IV-6"], "Vintage > VFD lists the four tubes")
-    expect(names("Neon") == ["IN-3", "INS-1", "NE-2"], "Vintage > Neon lists the three lamps")
-    expect(names("Nixie").count == 19, "Vintage > Nixie lists 19 tubes")
-    expect(Set(names("ICs")) == ["SN74141N", "DM74141N", "K155ID1", "SN7490AN", "K155IE2", "SN7475N", "K155TM7"],
-           "Vintage > ICs lists the driver, counter and latch")
+    for sub in ["Nixie", "Numitron", "VFD", "Neon", "Support ICs"] { print("Vintage > \(sub): \(names(sub))") }
+    expect(names("Numitron") == ["IV-16", "IV-9"], "Vintage > Display tubes > Numitron lists IV-9 and IV-16")
+    expect(names("VFD") == ["IV-11", "IV-12", "IV-18", "IV-6"], "Vintage > Display tubes > VFD lists the four tubes")
+    expect(names("Neon") == ["IN-3", "INS-1", "NE-2"], "Vintage > Display tubes > Neon lists the three lamps")
+    expect(names("Nixie").count == 19, "Vintage > Display tubes > Nixie lists 19 tubes")
+    expect(Set(names("Support ICs")) == ["SN74141N", "DM74141N", "K155ID1", "SN7490AN", "K155IE2", "SN7475N", "K155TM7"],
+           "Vintage > Support ICs lists the driver, counter and latch")
     let logic = groups.first { $0.category == "Logic" }?.subcategories.first { $0.subcategory == "Registers" }
     let registers = Set(logic?.allParts.map(\.name) ?? [])
     expect(["HV5122PJ-G", "HV5222PG-G", "HV5622PG-G", "HV5812P-G", "MAX6921AWI+"].allSatisfy(registers.contains),
            "the modern drivers are under Logic > Registers")
-    expect(!["HV5622PG-G", "MAX6921AWI+"].contains { n in names("ICs").contains(n) }, "and not under Vintage")
+    expect(!["HV5622PG-G", "MAX6921AWI+"].contains { n in names("Support ICs").contains(n) }, "and not under Vintage")
 
     // (2) Symbols, unlit and glowing.
     let doc = Harness.newDocument()

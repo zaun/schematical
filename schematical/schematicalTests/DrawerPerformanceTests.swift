@@ -73,7 +73,7 @@ final class DrawerPerformanceTests: XCTestCase {
                            Array(Set(parts.filter(\.isLogic).compactMap(\.count))).sorted(), category)
             XCTAssertEqual(Set(catalog.colors(in: category)), Set(parts.flatMap(\.colors)), category)
         }
-        XCTAssertTrue(catalog.isTactile(group: ["Switch", "Tactile"]))
+        XCTAssertTrue(catalog.isTactile(group: ["Switches & Relays", "Tactile"]))
         XCTAssertFalse(catalog.isTactile(group: ["Logic"]))
         XCTAssertEqual(Set(catalog.packages), Set(catalog.allParts.flatMap(\.allPackages)))
     }

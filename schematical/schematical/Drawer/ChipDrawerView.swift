@@ -190,11 +190,13 @@ struct ChipDrawerView: View, Equatable {
             Text(subcategory.subcategory)
                 .font(.body.weight(.semibold))
             Spacer()
-            let kinds = catalog.kinds(inGroup: subcategory.path)
+            // A group's kinds include its sub-groups', so a group with
+            // sub-groups leaves the menus to them (Vintage → Display tubes).
+            let kinds = subcategory.subgroups.isEmpty ? catalog.kinds(inGroup: subcategory.path) : []
             if kinds.contains(PART_7SEG.rawValue) {
                 countMenu(counts: catalog.displayDigitCounts, selection: $filter.displayDigits, unit: "digit")
                 textMenu(catalog.displaySizes, selection: $filter.displaySize, all: "All sizes")
-            } else if catalog.isTactile(group: subcategory.path) {
+            } else if subcategory.subgroups.isEmpty, catalog.isTactile(group: subcategory.path) {
                 textMenu(catalog.tactileActuators, selection: $filter.tactileActuator, all: "All actuators")
             }
         }

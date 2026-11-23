@@ -37,9 +37,9 @@ MainActor.assumeIsolated { runTactileSwitchChecks() }
     let started = Date()
     let groups = Harness.catalog.groups(matching: DrawerFilter())
     let seconds = Date().timeIntervalSince(started)
-    let tactile = groups.first { $0.category == "Switch" }?.subcategories.first { $0.subcategory == "Tactile" }
-    check(String(format: "1 drawer: Switch → Tactile is grouped by body size (groups(matching:) %.3f s)", seconds)) {
-        guard let tactile else { return "no Switch → Tactile" }
+    let tactile = groups.first { $0.category == "Switches & Relays" }?.subcategories.first { $0.subcategory == "Tactile" }
+    check(String(format: "1 drawer: Switches & Relays → Tactile is grouped by body size (groups(matching:) %.3f s)", seconds)) {
+        guard let tactile else { return "no Switches & Relays → Tactile" }
         let leaves = tactile.functions.map(\.function)
         return leaves.contains("6 × 6 mm") && leaves.allSatisfy { $0.hasSuffix(" mm") } ? nil : "leaves \(leaves)"
     }
