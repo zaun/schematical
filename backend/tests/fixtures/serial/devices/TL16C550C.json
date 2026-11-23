@@ -2,7 +2,7 @@
   "id": "TL16C550C",
   "function": "UART",
   "description": "Asynchronous communications element with autoflow control",
-  "drawer": ["Interface"],
+  "drawer": ["Interface", "Serial"],
   "note": "tl16c550c.pdf p.1-51; plan-12-data/specs/ti-a.md § TL16C550C",
   "pinouts": {
     "plcc44": [

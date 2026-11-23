@@ -3,7 +3,8 @@
  "function": "Bridge UART",
  "description": "Single UART with I2C-bus/SPI interface, 64 bytes of transmit and receive FIFOs, IrDA SIR built-in support",
  "drawer": [
-  "Interface"
+  "Interface",
+  "Serial"
  ],
  "note": "sc16is750.pdf p.1-51 (the SC16IS740: no GPIO or modem pins); plan-12-data/specs/bridges.md \u00a7 SC16IS750",
  "pinouts": {

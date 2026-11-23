@@ -3,7 +3,8 @@
  "function": "Bridge UART",
  "description": "SPI/I2C UART with 128-word FIFOs",
  "drawer": [
-  "Interface"
+  "Interface",
+  "Serial"
  ],
  "note": "max3107.pdf p.1-52; plan-12-data/specs/maxim.md § MAX3107",
  "pinouts": {

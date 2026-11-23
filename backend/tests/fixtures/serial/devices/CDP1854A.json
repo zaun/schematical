@@ -3,7 +3,8 @@
  "function": "UART",
  "description": "Programmable universal asynchronous receiver/transmitter (UART)",
  "drawer": [
-  "Interface"
+  "Interface",
+  "Serial"
  ],
  "note": "cdp1854a.pdf p1-17; plan-12-data/specs/classic-a.md § CDP1854A",
  "pinouts": {

@@ -2,7 +2,7 @@
   "id": "PC16550D",
   "function": "UART",
   "description": "Universal asynchronous receiver/transmitter with FIFOs",
-  "drawer": ["Interface"],
+  "drawer": ["Interface", "Serial"],
   "note": "pc16550d.pdf p.1-27; plan-12-data/specs/ti-a.md § PC16550D",
   "pinouts": {
     "plcc44": [

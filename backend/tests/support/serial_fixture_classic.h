@@ -26,7 +26,7 @@
 
 #define SFX_AY_5_1013A \
     "{\"id\":\"SFX-AY-5-1013A\",\"function\":\"UART\",\"description\":\"UAR/T: universal asynchronous receiver/t" \
-    "ransmitter\",\"drawer\":[\"Interface\"],\"note\":\"ay-5-1013.pdf p1-13; plan-12-data/specs/classic-a.md " \
+    "ransmitter\",\"drawer\":[\"Interface\",\"Serial\"],\"note\":\"ay-5-1013.pdf p1-13; plan-12-data/specs/classic-a.md " \
     "§ AY-5-1013A\",\"pinouts\":{\"dip40\":[{\"number\":1,\"name\":\"VCC\",\"role\":\"power\"},{\"number\":2,\"name\":\"V" \
     "GG\",\"role\":\"power\"},{\"number\":3,\"name\":\"GND\",\"role\":\"ground\"},{\"number\":4,\"name\":\"RDE\",\"role\":\"i" \
     "nput\"},{\"number\":5,\"name\":\"RD8\",\"role\":\"output\"},{\"number\":6,\"name\":\"RD7\",\"role\":\"output\"},{\"num" \
@@ -79,7 +79,7 @@
 
 #define SFX_COM2017 \
     "{\"id\":\"SFX-COM2017\",\"function\":\"UART\",\"description\":\"Universal asynchronous receiver/transmitter" \
-    "\",\"drawer\":[\"Interface\"],\"note\":\"com2017.pdf p1-8; plan-12-data/specs/classic-a.md § COM2017\",\"p" \
+    "\",\"drawer\":[\"Interface\",\"Serial\"],\"note\":\"com2017.pdf p1-8; plan-12-data/specs/classic-a.md § COM2017\",\"p" \
     "inouts\":{\"dip40\":[{\"number\":1,\"name\":\"VCC\",\"role\":\"power\"},{\"number\":2,\"name\":\"VDD\",\"role\":\"powe" \
     "r\"},{\"number\":3,\"name\":\"GND\",\"role\":\"ground\"},{\"number\":4,\"name\":\"RDE\",\"role\":\"input\"},{\"number\"" \
     ":5,\"name\":\"RD8\",\"role\":\"output\"},{\"number\":6,\"name\":\"RD7\",\"role\":\"output\"},{\"number\":7,\"name\":\"R" \
@@ -110,7 +110,7 @@
 
 #define SFX_COM1863 \
     "{\"id\":\"SFX-COM1863\",\"function\":\"UART\",\"description\":\"Universal asynchronous receiver/transmitter" \
-    "\",\"drawer\":[\"Interface\"],\"note\":\"com1863.pdf p1-8; plan-12-data/specs/classic-a.md § COM1863\",\"p" \
+    "\",\"drawer\":[\"Interface\",\"Serial\"],\"note\":\"com1863.pdf p1-8; plan-12-data/specs/classic-a.md § COM1863\",\"p" \
     "inouts\":{\"dip40\":[{\"number\":1,\"name\":\"VDD\",\"role\":\"power\"},{\"number\":2,\"name\":\"HIACC\",\"role\":\"in" \
     "put\"},{\"number\":3,\"name\":\"GND\",\"role\":\"ground\"},{\"number\":4,\"name\":\"RDE\",\"role\":\"input\"},{\"numbe" \
     "r\":5,\"name\":\"RD8\",\"role\":\"output\"},{\"number\":6,\"name\":\"RD7\",\"role\":\"output\"},{\"number\":7,\"name\":" \
@@ -141,7 +141,7 @@
 
 #define SFX_HD_6402 \
     "{\"id\":\"SFX-HD-6402\",\"function\":\"UART\",\"description\":\"CMOS universal asynchronous receiver transm" \
-    "itter (UART)\",\"drawer\":[\"Interface\"],\"note\":\"hd-6402.pdf p1-9; plan-12-data/specs/classic-a.md §" \
+    "itter (UART)\",\"drawer\":[\"Interface\",\"Serial\"],\"note\":\"hd-6402.pdf p1-9; plan-12-data/specs/classic-a.md §" \
     " HD-6402\",\"pinouts\":{\"dip40\":[{\"number\":1,\"name\":\"VCC\",\"role\":\"power\"},{\"number\":2,\"name\":\"NC\",\"" \
     "role\":\"nc\"},{\"number\":3,\"name\":\"GND\",\"role\":\"ground\"},{\"number\":4,\"name\":\"RRD\",\"role\":\"input\"},{" \
     "\"number\":5,\"name\":\"RBR8\",\"role\":\"output\"},{\"number\":6,\"name\":\"RBR7\",\"role\":\"output\"},{\"number\":7" \
@@ -172,7 +172,7 @@
 
 #define SFX_CDP1854A \
     "{\"id\":\"SFX-CDP1854A\",\"function\":\"UART\",\"description\":\"Programmable universal asynchronous receiv" \
-    "er/transmitter (UART)\",\"drawer\":[\"Interface\"],\"note\":\"cdp1854a.pdf p1-17; plan-12-data/specs/cla" \
+    "er/transmitter (UART)\",\"drawer\":[\"Interface\",\"Serial\"],\"note\":\"cdp1854a.pdf p1-17; plan-12-data/specs/cla" \
     "ssic-a.md § CDP1854A\",\"pinouts\":{\"dip40\":[{\"number\":1,\"name\":\"VDD\",\"role\":\"power\"},{\"number\":2,\"" \
     "name\":\"MODE\",\"role\":\"input\"},{\"number\":3,\"name\":\"VSS\",\"role\":\"ground\"},{\"number\":4,\"name\":\"RRD/C" \
     "S2\",\"role\":\"input\"},{\"number\":5,\"name\":\"RBUS7\",\"role\":\"output\"},{\"number\":6,\"name\":\"RBUS6\",\"role" \
@@ -208,7 +208,7 @@
 
 #define SFX_8251A \
     "{\"id\":\"SFX-8251A\",\"function\":\"UART\",\"description\":\"Programmable communication interface\",\"drawer" \
-    "\":[\"Interface\"],\"note\":\"8251a.pdf p2-26; plan-12-data/specs/classic-b.md § 8251A\",\"pinouts\":{\"di" \
+    "\":[\"Interface\",\"Serial\"],\"note\":\"8251a.pdf p2-26; plan-12-data/specs/classic-b.md § 8251A\",\"pinouts\":{\"di" \
     "p28\":[{\"number\":1,\"name\":\"D2\",\"role\":\"inout\"},{\"number\":2,\"name\":\"D3\",\"role\":\"inout\"},{\"number\":" \
     "3,\"name\":\"RXD\",\"role\":\"input\",\"group\":\"serial\",\"side\":\"out\"},{\"number\":4,\"name\":\"GND\",\"role\":\"gr" \
     "ound\"},{\"number\":5,\"name\":\"D4\",\"role\":\"inout\"},{\"number\":6,\"name\":\"D5\",\"role\":\"inout\"},{\"number\"" \
@@ -231,7 +231,7 @@
 
 #define SFX_82510 \
     "{\"id\":\"SFX-82510\",\"function\":\"UART\",\"description\":\"Asynchronous serial controller\",\"drawer\":[\"In" \
-    "terface\"],\"note\":\"82510.pdf p2-41; plan-12-data/specs/classic-b.md § 82510\",\"pinouts\":{\"plcc28\":" \
+    "terface\",\"Serial\"],\"note\":\"82510.pdf p2-41; plan-12-data/specs/classic-b.md § 82510\",\"pinouts\":{\"plcc28\":" \
     "[{\"number\":1,\"name\":\"D4\",\"role\":\"inout\"},{\"number\":2,\"name\":\"D5\",\"role\":\"inout\"},{\"number\":3,\"na" \
     "me\":\"D6\",\"role\":\"inout\"},{\"number\":4,\"name\":\"D7\",\"role\":\"inout\"},{\"number\":5,\"name\":\"INT\",\"role\"" \
     ":\"output\"},{\"number\":6,\"name\":\"TXD\",\"role\":\"output\",\"group\":\"serial\"},{\"number\":7,\"name\":\"VSS\",\"" \
@@ -256,7 +256,7 @@
 
 #define SFX_CDP65C51 \
     "{\"id\":\"SFX-CDP65C51\",\"function\":\"UART\",\"description\":\"CMOS asynchronous communications interface" \
-    " adapter (ACIA)\",\"drawer\":[\"Interface\"],\"note\":\"cdp65c51.pdf p1-18; plan-12-data/specs/classic-b" \
+    " adapter (ACIA)\",\"drawer\":[\"Interface\",\"Serial\"],\"note\":\"cdp65c51.pdf p1-18; plan-12-data/specs/classic-b" \
     ".md § CDP65C51\",\"pinouts\":{\"so28\":[{\"number\":1,\"name\":\"VSS\",\"role\":\"ground\"},{\"number\":2,\"name\":" \
     "\"CS0\",\"role\":\"input\"},{\"number\":3,\"name\":\"CS1\",\"role\":\"input\"},{\"number\":4,\"name\":\"RES\",\"role\":\"" \
     "input\"},{\"number\":5,\"name\":\"RXC\",\"role\":\"inout\"},{\"number\":6,\"name\":\"XTLI\",\"role\":\"input\",\"group" \
@@ -283,7 +283,7 @@
 
 #define SFX_82C52 \
     "{\"id\":\"SFX-82C52\",\"function\":\"UART\",\"description\":\"CMOS serial controller interface\",\"drawer\":[\"" \
-    "Interface\"],\"note\":\"82c52.pdf p1-21; plan-12-data/specs/classic-b.md § 82C52\",\"pinouts\":{\"dip28\"" \
+    "Interface\",\"Serial\"],\"note\":\"82c52.pdf p1-21; plan-12-data/specs/classic-b.md § 82C52\",\"pinouts\":{\"dip28\"" \
     ":[{\"number\":1,\"name\":\"RD\",\"role\":\"input\"},{\"number\":2,\"name\":\"WR\",\"role\":\"input\"},{\"number\":3,\"n" \
     "ame\":\"D0\",\"role\":\"inout\"},{\"number\":4,\"name\":\"D1\",\"role\":\"inout\"},{\"number\":5,\"name\":\"D2\",\"role\"" \
     ":\"inout\"},{\"number\":6,\"name\":\"D3\",\"role\":\"inout\"},{\"number\":7,\"name\":\"D4\",\"role\":\"inout\"},{\"numb" \
@@ -323,7 +323,7 @@
 
 #define SFX_HD_6406 \
     "{\"id\":\"SFX-HD-6406\",\"function\":\"UART\",\"description\":\"CMOS programmable asynchronous communicatio" \
-    "n interface\",\"drawer\":[\"Interface\"],\"note\":\"hd-6406.pdf p1-11; plan-12-data/specs/classic-b.md §" \
+    "n interface\",\"drawer\":[\"Interface\",\"Serial\"],\"note\":\"hd-6406.pdf p1-11; plan-12-data/specs/classic-b.md §" \
     " HD-6406\",\"pinouts\":{\"dip40\":[{\"number\":1,\"name\":\"CS0\",\"role\":\"input\"},{\"number\":2,\"name\":\"RD\",\"" \
     "role\":\"input\"},{\"number\":3,\"name\":\"WR\",\"role\":\"input\"},{\"number\":4,\"name\":\"D0\",\"role\":\"inout\"},{" \
     "\"number\":5,\"name\":\"D1\",\"role\":\"inout\"},{\"number\":6,\"name\":\"D2\",\"role\":\"inout\"},{\"number\":7,\"name" \
@@ -355,7 +355,7 @@
 
 #define SFX_COM78C804 \
     "{\"id\":\"SFX-COM78C804\",\"function\":\"UART\",\"description\":\"Four-channel universal asynchronous recei" \
-    "ver/transmitter\",\"drawer\":[\"Interface\"],\"note\":\"com78c804.pdf p1-14; plan-12-data/specs/classic-" \
+    "ver/transmitter\",\"drawer\":[\"Interface\",\"Serial\"],\"note\":\"com78c804.pdf p1-14; plan-12-data/specs/classic-" \
     "b.md § COM78C804\",\"pinouts\":{\"plcc44\":[{\"number\":1,\"name\":\"RXD2\",\"role\":\"input\",\"group\":\"serial " \
     "2\",\"side\":\"out\"},{\"number\":2,\"name\":\"DCD2\",\"role\":\"input\"},{\"number\":3,\"name\":\"DSR2\",\"role\":\"inp" \
     "ut\"},{\"number\":4,\"name\":\"TXD2\",\"role\":\"output\",\"group\":\"serial 2\"},{\"number\":5,\"name\":\"DL7\",\"rol" \
@@ -390,7 +390,7 @@
 
 #define SFX_COM78C802 \
     "{\"id\":\"SFX-COM78C802\",\"function\":\"UART\",\"description\":\"Two-channel universal asynchronous receiv" \
-    "er/transmitter\",\"drawer\":[\"Interface\"],\"note\":\"com78c802.pdf p1-14; plan-12-data/specs/classic-b" \
+    "er/transmitter\",\"drawer\":[\"Interface\",\"Serial\"],\"note\":\"com78c802.pdf p1-14; plan-12-data/specs/classic-b" \
     ".md § COM78C802\",\"pinouts\":{\"dip40\":[{\"number\":1,\"name\":\"DCD1\",\"role\":\"input\"},{\"number\":2,\"name" \
     "\":\"RXD1\",\"role\":\"input\",\"group\":\"serial 1\",\"side\":\"out\"},{\"number\":3,\"name\":\"NC\",\"role\":\"nc\"},{\"" \
     "number\":4,\"name\":\"DL7\",\"role\":\"inout\"},{\"number\":5,\"name\":\"DL6\",\"role\":\"inout\"},{\"number\":6,\"nam" \
@@ -420,7 +420,7 @@
 
 #define SFX_COM78804 \
     "{\"id\":\"SFX-COM78804\",\"function\":\"UART\",\"description\":\"Four-channel universal asynchronous receiv" \
-    "er/transmitter\",\"drawer\":[\"Interface\"],\"note\":\"com78804.pdf p1-15; plan-12-data/specs/classic-b." \
+    "er/transmitter\",\"drawer\":[\"Interface\",\"Serial\"],\"note\":\"com78804.pdf p1-15; plan-12-data/specs/classic-b." \
     "md § COM78804\",\"pinouts\":{\"dip48\":[{\"number\":1,\"name\":\"DCD2\",\"role\":\"input\"},{\"number\":2,\"name\":" \
     "\"DSR2\",\"role\":\"input\"},{\"number\":3,\"name\":\"TXD2\",\"role\":\"output\",\"group\":\"serial 2\"},{\"number\":4" \
     ",\"name\":\"VDD\",\"role\":\"power\"},{\"number\":5,\"name\":\"DL7\",\"role\":\"inout\"},{\"number\":6,\"name\":\"DL6\"," \

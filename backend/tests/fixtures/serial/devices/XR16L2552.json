@@ -2,7 +2,7 @@
   "id": "XR16L2552",
   "function": "UART",
   "description": "2.25V to 5.5V DUART with 16-byte FIFO",
-  "drawer": ["Interface"],
+  "drawer": ["Interface", "Serial"],
   "note": "xr16l2552.pdf p.1-45; plan-12-data/specs/exar-b.md § XR16L2552",
   "pinouts": {
     "plcc44": [

@@ -2,7 +2,7 @@
   "id": "XR16V798",
   "function": "UART",
   "description": "High performance 2.25V to 3.6V octal UART with fractional baud rate",
-  "drawer": ["Interface"],
+  "drawer": ["Interface", "Serial"],
   "note": "xr16v798.pdf p.1-56; plan-12-data/specs/exar-d.md \u00a7 XR16V798",
   "pinouts": {
     "qfp100": [

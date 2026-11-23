@@ -7,7 +7,7 @@
       "id": "sit1534-0",
       "function": "Under 1 MHz",
       "description": "SiT1534 oscillator, Under 1 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "VCC 1.2-3.63 V (SiT1534-datasheet p.1 (Operating Supply Voltage 1.2-3.63 V at TA -10..70 C; 1.5-3.63 V at -55..85 C))",
       "pinouts": {
         "2012": [
@@ -37,7 +37,7 @@
       "id": "lmk6c-1",
       "function": "1 MHz to 10 MHz",
       "description": "LMK6C oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "VCC 2.37-3.5 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(2) 2.37/3.5 V)) Supply option: Voltage/Temperature Rating letter = the character immediately before the package code 'DLE'/'DLF' (5th character from the end, name[-5]). LMK6C (Fig. 4-2): C = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), D = 1.8V +/-5% (ROC 1.7-1.9 V). LMK6D/LMK6H/LMK6P (Fig. 4-1): A = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), B = 1.8V +/-5% (ROC 1.7-1.9 V). lmk6c p.3-4 (part number guides), p.6 (ROC 6.4). | LMK6CE001000DDLER, LMK6CE001000DDLFR: VCC 1.7-1.9 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(1)); rating letter 'D' = 1.8V per p.4)",
       "pinouts": {
         "3225-vson": [
@@ -69,7 +69,7 @@
       "id": "lmk6c-2",
       "function": "10 MHz to 100 MHz",
       "description": "LMK6C oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "VCC 2.37-3.5 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(2) 2.37/3.5 V)) Supply option: Voltage/Temperature Rating letter = the character immediately before the package code 'DLE'/'DLF' (5th character from the end, name[-5]). LMK6C (Fig. 4-2): C = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), D = 1.8V +/-5% (ROC 1.7-1.9 V). LMK6D/LMK6H/LMK6P (Fig. 4-1): A = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), B = 1.8V +/-5% (ROC 1.7-1.9 V). lmk6c p.3-4 (part number guides), p.6 (ROC 6.4). | LMK6CA026214DDLFR, LMK6CA032768DDLFR, LMK6CE02500DDLER, LMK6CE02500DDLFR, LMK6CE033333DDLFR, LMK6CE04800DDLFR, LMK6CE050000DDLFR, LMK6CE05000DDLER, LMK6CE05000DDLFR, LMK6CE07425DDLFR: VCC 1.7-1.9 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(1)); rating letter 'D' = 1.8V per p.4)",
       "pinouts": {
         "2520-vson": [
@@ -132,7 +132,7 @@
       "id": "lmk6c-3",
       "function": "100 MHz and up",
       "description": "LMK6C oscillator, 100 MHz and up",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "VCC 2.37-3.5 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(2) 2.37/3.5 V)) Supply option: Voltage/Temperature Rating letter = the character immediately before the package code 'DLE'/'DLF' (5th character from the end, name[-5]). LMK6C (Fig. 4-2): C = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), D = 1.8V +/-5% (ROC 1.7-1.9 V). LMK6D/LMK6H/LMK6P (Fig. 4-1): A = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), B = 1.8V +/-5% (ROC 1.7-1.9 V). lmk6c p.3-4 (part number guides), p.6 (ROC 6.4). | LMK6CE10000DDLER, LMK6CE10000DDLFR, LMK6CE10800DDLFR, LMK6CE125000DDLER, LMK6CE15625DDLFR: VCC 1.7-1.9 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(1)); rating letter 'D' = 1.8V per p.4)",
       "pinouts": {
         "3225-vson": [
@@ -168,7 +168,7 @@
       "id": "lmk6d-2",
       "function": "10 MHz to 100 MHz",
       "description": "LMK6D oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "VCC 2.37-3.5 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(2) 2.37/3.5 V)) Supply option: Voltage/Temperature Rating letter = the character immediately before the package code 'DLE'/'DLF' (5th character from the end, name[-5]). LMK6C (Fig. 4-2): C = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), D = 1.8V +/-5% (ROC 1.7-1.9 V). LMK6D/LMK6H/LMK6P (Fig. 4-1): A = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), B = 1.8V +/-5% (ROC 1.7-1.9 V). lmk6c p.3-4 (part number guides), p.6 (ROC 6.4).",
       "pinouts": {
         "2520-vson": [
@@ -204,7 +204,7 @@
       "id": "lmk6d-3",
       "function": "100 MHz and up",
       "description": "LMK6D oscillator, 100 MHz and up",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "VCC 2.37-3.5 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(2) 2.37/3.5 V)) Supply option: Voltage/Temperature Rating letter = the character immediately before the package code 'DLE'/'DLF' (5th character from the end, name[-5]). LMK6C (Fig. 4-2): C = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), D = 1.8V +/-5% (ROC 1.7-1.9 V). LMK6D/LMK6H/LMK6P (Fig. 4-1): A = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), B = 1.8V +/-5% (ROC 1.7-1.9 V). lmk6c p.3-4 (part number guides), p.6 (ROC 6.4). | LMK6DE156250BDLER, LMK6DE400000BDLER: VCC 1.7-1.9 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(1)); rating letter 'B' = 1.8V per p.3)",
       "pinouts": {
         "3225-vson": [
@@ -256,7 +256,7 @@
       "id": "lmk6h-2",
       "function": "10 MHz to 100 MHz",
       "description": "LMK6H oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "VCC 2.37-3.5 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(2) 2.37/3.5 V)) Supply option: Voltage/Temperature Rating letter = the character immediately before the package code 'DLE'/'DLF' (5th character from the end, name[-5]). LMK6C (Fig. 4-2): C = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), D = 1.8V +/-5% (ROC 1.7-1.9 V). LMK6D/LMK6H/LMK6P (Fig. 4-1): A = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), B = 1.8V +/-5% (ROC 1.7-1.9 V). lmk6c p.3-4 (part number guides), p.6 (ROC 6.4).",
       "pinouts": {
         "3225-vson": [
@@ -281,7 +281,7 @@
       "id": "lmk6h-3",
       "function": "100 MHz and up",
       "description": "LMK6H oscillator, 100 MHz and up",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "VCC 2.37-3.5 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(2) 2.37/3.5 V)) Supply option: Voltage/Temperature Rating letter = the character immediately before the package code 'DLE'/'DLF' (5th character from the end, name[-5]). LMK6C (Fig. 4-2): C = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), D = 1.8V +/-5% (ROC 1.7-1.9 V). LMK6D/LMK6H/LMK6P (Fig. 4-1): A = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), B = 1.8V +/-5% (ROC 1.7-1.9 V). lmk6c p.3-4 (part number guides), p.6 (ROC 6.4). | LMK6HA10000BDLFR, LMK6HE156250BDLFR, LMK6HE400000BDLER: VCC 1.7-1.9 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(1)); rating letter 'B' = 1.8V per p.3)",
       "pinouts": {
         "3225-vson": [
@@ -323,7 +323,7 @@
       "id": "lmk6p-2",
       "function": "10 MHz to 100 MHz",
       "description": "LMK6P oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "VCC 2.37-3.5 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(2) 2.37/3.5 V)) Supply option: Voltage/Temperature Rating letter = the character immediately before the package code 'DLE'/'DLF' (5th character from the end, name[-5]). LMK6C (Fig. 4-2): C = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), D = 1.8V +/-5% (ROC 1.7-1.9 V). LMK6D/LMK6H/LMK6P (Fig. 4-1): A = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), B = 1.8V +/-5% (ROC 1.7-1.9 V). lmk6c p.3-4 (part number guides), p.6 (ROC 6.4). | LMK6PE025000BDLFR: VCC 1.7-1.9 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(1)); rating letter 'B' = 1.8V per p.3)",
       "pinouts": {
         "3225-vson": [
@@ -358,7 +358,7 @@
       "id": "lmk6p-3",
       "function": "100 MHz and up",
       "description": "LMK6P oscillator, 100 MHz and up",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "VCC 2.37-3.5 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(2) 2.37/3.5 V)) Supply option: Voltage/Temperature Rating letter = the character immediately before the package code 'DLE'/'DLF' (5th character from the end, name[-5]). LMK6C (Fig. 4-2): C = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), D = 1.8V +/-5% (ROC 1.7-1.9 V). LMK6D/LMK6H/LMK6P (Fig. 4-1): A = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), B = 1.8V +/-5% (ROC 1.7-1.9 V). lmk6c p.3-4 (part number guides), p.6 (ROC 6.4).",
       "pinouts": {
         "3225-vson": [
@@ -396,7 +396,7 @@
       "id": "om-7605-0",
       "function": "Under 1 MHz",
       "description": "OM-7605 oscillator, Under 1 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "Micro Crystal osc/OM-7605-C8.pdf, osc/OM-7605-C9.pdf; TA = -40..+85 C, TB = -40..+125 C. VCC 1.6-5.5 V (OM-7605-C8 p.2 / OM-7605-C9 p.2 (Supply voltage VDD 1.6 - 5.5 V))",
       "pinouts": {
         "c8": [
@@ -428,7 +428,7 @@
       "id": "om-0100-0",
       "function": "Under 1 MHz",
       "description": "OM-0100 oscillator, Under 1 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "Micro Crystal osc/OM-0100-C8.pdf. VCC 1.6-5.5 V (OM-0100-C8 p.2 (Supply voltage VDD 1.6 - 5.5 V))",
       "pinouts": {
         "c8": [
@@ -451,7 +451,7 @@
       "id": "ov-7604-0",
       "function": "Under 1 MHz",
       "description": "OV-7604 oscillator, Under 1 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "Micro Crystal osc/OV-7604-C7.pdf; TA = -40..+85 C, TB = -40..+125 C. VCC 1.2-5.5 V (OV-7604-C7 p.2 (Supply voltage VDD 1.2 - 5.5 V))",
       "pinouts": {
         "c7": [
@@ -475,7 +475,7 @@
       "id": "aszkdv-0",
       "function": "Under 1 MHz",
       "description": "ASZKDV oscillator, Under 1 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "Abracon osc/ASZKDV.pdf; L = -40..+85 C, H = -40..+125 C; -T = 1000/reel. VCC 1.6-5.5 V (ASZKDV p.1 (Supply Voltage Range Vdd +1.6 .. +5.5 V))",
       "pinouts": {
         "2012": [
@@ -499,7 +499,7 @@
       "id": "ash5kw-0",
       "function": "Under 1 MHz",
       "description": "ASH5KW oscillator, Under 1 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "Abracon osc/ASH5KW.pdf; L = -40..+85 C; -T = 1000/reel. VCC 1.6-5.5 V (ASH5KW p.1 (Supply Voltage VDD 1.6 .. 5.5 V))",
       "pinouts": {
         "1610": [
@@ -522,7 +522,7 @@
       "id": "kxo-v99-2",
       "function": "10 MHz to 100 MHz",
       "description": "KXO-V99 oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "Geyer osc/12.94761.pdf (KXO-V99 range 0.5 to 200 MHz; 12.94761 = 40.0 MHz, 1.8 V). VCC 1.2-3.6 V (12.94761 p.1 (KXO-V99 series supply range +1.2 V ~ +3.6 V)) | 12.94761: VCC 1.71-1.89 V (12.94761 p.1 (supply voltage VDD +1.8 V DC +/-5 %))",
       "pinouts": {
         "5032": [
@@ -545,7 +545,7 @@
       "id": "nju6366a-2",
       "function": "10 MHz to 100 MHz",
       "description": "NJU6366A crystal oscillator IC (f0/1), 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "Nisshinbo osc/NJU6366 Series.pdf; drives an external crystal on XT (f0 10 to 50 MHz per the Nisshinbo oscillator IC list); version A outputs f0/1; defaultHz assumes the datasheet test crystal f0 = 16 MHz; bare-chip NJU6366AC-C not listed (no package). VCC 2-5.5 V (NJU6366 Series p.3 (Operating Voltage VDD 2.0 .. 5.5 V))",
       "pinouts": {
         "sot23-6": [
@@ -570,7 +570,7 @@
       "id": "nju6366b-1",
       "function": "1 MHz to 10 MHz",
       "description": "NJU6366B crystal oscillator IC (f0/2), 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "Nisshinbo osc/NJU6366 Series.pdf; drives an external crystal on XT (f0 10 to 50 MHz per the Nisshinbo oscillator IC list); version B outputs f0/2; defaultHz assumes the datasheet test crystal f0 = 16 MHz; bare-chip NJU6366BC-C not listed (no package). VCC 2-5.5 V (NJU6366 Series p.3 (Operating Voltage VDD 2.0 .. 5.5 V))",
       "pinouts": {
         "sot23-6": [
@@ -595,7 +595,7 @@
       "id": "nju6366c-1",
       "function": "1 MHz to 10 MHz",
       "description": "NJU6366C crystal oscillator IC (f0/4), 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "Nisshinbo osc/NJU6366 Series.pdf; drives an external crystal on XT (f0 10 to 50 MHz per the Nisshinbo oscillator IC list); version C outputs f0/4; defaultHz assumes the datasheet test crystal f0 = 16 MHz; bare-chip NJU6366CC-C not listed (no package). VCC 2-5.5 V (NJU6366 Series p.3 (Operating Voltage VDD 2.0 .. 5.5 V))",
       "pinouts": {
         "sot23-6": [
@@ -620,7 +620,7 @@
       "id": "nju6366d-1",
       "function": "1 MHz to 10 MHz",
       "description": "NJU6366D crystal oscillator IC (f0/8), 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "Nisshinbo osc/NJU6366 Series.pdf; drives an external crystal on XT (f0 10 to 50 MHz per the Nisshinbo oscillator IC list); version D outputs f0/8; defaultHz assumes the datasheet test crystal f0 = 16 MHz; bare-chip NJU6366DC-C not listed (no package). VCC 2-5.5 V (NJU6366 Series p.3 (Operating Voltage VDD 2.0 .. 5.5 V))",
       "pinouts": {
         "sot23-6": [
@@ -645,7 +645,7 @@
       "id": "ecs-100-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-100 oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/esc-100.pdf (ECS-100 Series, ECS Catalog 2000 catalog p.32; 1.000-150.000 MHz, A = +/-100 PPM, B/C tighter grades not listed; part numbers from the ecsxtal.com ECS-100X ordering table (AX = RoHS version of A); pin 7 case ground, other DIP positions have no lead). VCC 4.75-5.25 V (esc-100 p.1 (Supply Voltage +5.0 +/-0.25 V DC)) Also osc/ecs-100x.pdf (ECS-100X Series, the ECS-100AX parts): same pinout, supply, frequency range and 20.86 x 13.2 mm can.",
       "pinouts": {
         "dip14": [
@@ -701,7 +701,7 @@
       "id": "ecs-100-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-100 oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/esc-100.pdf (ECS-100 Series, ECS Catalog 2000 catalog p.32; 1.000-150.000 MHz, A = +/-100 PPM, B/C tighter grades not listed; part numbers from the ecsxtal.com ECS-100X ordering table (AX = RoHS version of A); pin 7 case ground, other DIP positions have no lead). VCC 4.75-5.25 V (esc-100 p.1 (Supply Voltage +5.0 +/-0.25 V DC)) Also osc/ecs-100x.pdf (ECS-100X Series, the ECS-100AX parts): same pinout, supply, frequency range and 20.86 x 13.2 mm can.",
       "pinouts": {
         "dip14": [
@@ -763,7 +763,7 @@
       "id": "ecs-2100-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-2100 oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-2100.pdf (ECS-2100 Series, ECS Catalog 2000 catalog p.36; 1.000-150.000 MHz, A = +/-100 PPM, B/C tighter grades not listed; part numbers from the ecsxtal.com ECS-2100X ordering table (AX = RoHS version of A); pin 4 case ground, other DIP positions have no lead). VCC 4.75-5.25 V (ecs-2100 p.1 (Supply Voltage +5.0 +/-0.25 V DC)) Also osc/ecs-2100x.pdf (ECS-2100X Series, the ECS-2100AX parts): same pinout, supply, frequency range and 13.2 mm can.",
       "pinouts": {
         "dip8": [
@@ -810,7 +810,7 @@
       "id": "ecs-2100-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-2100 oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-2100.pdf (ECS-2100 Series, ECS Catalog 2000 catalog p.36; 1.000-150.000 MHz, A = +/-100 PPM, B/C tighter grades not listed; part numbers from the ecsxtal.com ECS-2100X ordering table (AX = RoHS version of A); pin 4 case ground, other DIP positions have no lead). VCC 4.75-5.25 V (ecs-2100 p.1 (Supply Voltage +5.0 +/-0.25 V DC)) Also osc/ecs-2100x.pdf (ECS-2100X Series, the ECS-2100AX parts): same pinout, supply, frequency range and 13.2 mm can.",
       "pinouts": {
         "dip8": [
@@ -863,7 +863,7 @@
       "id": "ecs-200-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-200 oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-200x.pdf (ECS-200X Series, marked Not Recommended for New Designs; HCMOS/LSTTL; 1.000-150.000 MHz; body 20.8 x 13.08 max (p.2); ecsxtal.com lists no ECS-200X part numbers; ECS-200AX-100 is the datasheet p.1 Part Numbering Guide example). VCC 4.75-5.25 V (ecs-200x p.1 (Supply Voltage +4.75/+5.0/+5.25 VDC))",
       "pinouts": {
         "dip14": [
@@ -896,7 +896,7 @@
       "id": "ecs-400-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-400 oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-400x.pdf (ECS-400X Series, marked Not Recommended for New Designs; HCMOS/TTL; 0.250-150.000 MHz; body 20.8 x 13.08 max (p.2); ecsxtal.com lists no ECS-400X part numbers; ECS-400AX-100 is the datasheet p.1 Part Numbering Guide example). VCC 4.75-5.25 V (ecs-400x p.1 (Supply Voltage +4.75/+5.0/+5.25 V))",
       "pinouts": {
         "dip14": [
@@ -929,7 +929,7 @@
       "id": "ecs-1000-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-1000 oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-1000x.pdf (ECS-1000X Series, marked Not Recommended for New Designs; HCMOS/TTL; 1.000-100.000 MHz; pin 1 tri-state (open or VIH >= 2.2 V = active, VIL <= 0.8 V = high Z, internal pull-up to pin 14, p.2); body 20.7 x 12.9 max (p.2); ecsxtal.com lists no ECS-1000X part numbers; ECS-1000AX-100 is the datasheet p.1 Part Numbering Guide example). VCC 4.75-5.25 V (ecs-1000x p.1 (Supply Voltage +4.75/+5.0/+5.25 V))",
       "pinouts": {
         "dip14": [
@@ -962,7 +962,7 @@
       "id": "ecs-2200-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-2200 oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-2200x.pdf (ECS-2200X Series, marked Not Recommended for New Designs; HCMOS/TTL; 1.000-150.000 MHz; pin 1 tri-state (open or VIH >= 2.2 V = active, VIL <= 0.8 V = high Z, internal pull-up to pin 8, p.2); body 13.2 x 13.2 max (p.2); part numbers from the ecsxtal.com ECS-2200X ordering table (all BX = +/-50 PPM)). VCC 4.75-5.25 V (ecs-2200x p.1 (Supply Voltage +4.75/+5.0/+5.25 VDC)) Also osc/ecs_2200.pdf (ECS-2200B Series): same pinout, supply, frequency range, tri-state pin 1 and 13.2 mm can.",
       "pinouts": {
         "dip8": [
@@ -997,7 +997,7 @@
       "id": "ecs-2200-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-2200 oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-2200x.pdf (ECS-2200X Series, marked Not Recommended for New Designs; HCMOS/TTL; 1.000-150.000 MHz; pin 1 tri-state (open or VIH >= 2.2 V = active, VIL <= 0.8 V = high Z, internal pull-up to pin 8, p.2); body 13.2 x 13.2 max (p.2); part numbers from the ecsxtal.com ECS-2200X ordering table (all BX = +/-50 PPM)). VCC 4.75-5.25 V (ecs-2200x p.1 (Supply Voltage +4.75/+5.0/+5.25 VDC)) Also osc/ecs_2200.pdf (ECS-2200B Series): same pinout, supply, frequency range, tri-state pin 1 and 13.2 mm can.",
       "pinouts": {
         "dip8": [
@@ -1046,7 +1046,7 @@
       "id": "ecs-2520mvlc-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-2520MVLC oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "datasheets/osc/ECS-2520MVLC.pdf p.1: Supply Voltage 1.6-3.6 V (MultiVolt, one range for every part; no voltage code in the part number); Frequency Range 1.000-75.000 MHz; Pad Connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd; low-current CMOS output, 15 pF; Standby Function table. p.2 Developed Frequencies (frequency codes). Ceramic 2.5 x 2.0 x 0.8 mm package (p.1). Output: HCMOS/CMOS, single-ended (pad 3). Pin 1 Tri-state (datasheet calls it Standby Function): HIGH (>=0.7 Vdd) or NC = output active, LOW (<=0.3 Vdd) = output high impedance (standby current 10 uA max).",
       "pinouts": {
         "smd2520": [
@@ -1090,7 +1090,7 @@
       "id": "ecs-2520mvlc-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-2520MVLC oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "datasheets/osc/ECS-2520MVLC.pdf p.1: Supply Voltage 1.6-3.6 V (MultiVolt, one range for every part; no voltage code in the part number); Frequency Range 1.000-75.000 MHz; Pad Connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd; low-current CMOS output, 15 pF; Standby Function table. p.2 Developed Frequencies (frequency codes). Ceramic 2.5 x 2.0 x 0.8 mm package (p.1). Output: HCMOS/CMOS, single-ended (pad 3). Pin 1 Tri-state (datasheet calls it Standby Function): HIGH (>=0.7 Vdd) or NC = output active, LOW (<=0.3 Vdd) = output high impedance (standby current 10 uA max).",
       "pinouts": {
         "smd2520": [
@@ -1165,7 +1165,7 @@
       "id": "ecs-2520mv-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-2520MV oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "datasheets/osc/ECS-2520MV.pdf p.1: Supply Voltage 1.6-3.6 V (MultiVolt, one range for every part; no voltage code in the part number); Frequency Range 0.750-160.000 MHz; Pad Connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd; HCMOS output, 15 pF; Tri State Function table. p.2 Developed Frequencies (frequency codes; 333.3 = 33.3333 MHz). Ceramic 2.5 x 2.0 x 0.8 mm package (p.1). Output: HCMOS/CMOS, single-ended (pad 3). Pin 1 Tri-state: HIGH (>=0.7 Vdd) or NC = output active, LOW (<=0.3 Vdd) = output high impedance (standby current 10 uA max).",
       "pinouts": {
         "smd2520": [
@@ -1192,7 +1192,7 @@
       "id": "ecs-2520mv-3",
       "function": "100 MHz and up",
       "description": "ECS-2520MV oscillator, 100 MHz and up",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "datasheets/osc/ECS-2520MV.pdf p.1: Supply Voltage 1.6-3.6 V (MultiVolt, one range for every part; no voltage code in the part number); Frequency Range 0.750-160.000 MHz; Pad Connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd; HCMOS output, 15 pF; Tri State Function table. p.2 Developed Frequencies (frequency codes; 333.3 = 33.3333 MHz). Ceramic 2.5 x 2.0 x 0.8 mm package (p.1). Output: HCMOS/CMOS, single-ended (pad 3). Pin 1 Tri-state: HIGH (>=0.7 Vdd) or NC = output active, LOW (<=0.3 Vdd) = output high impedance (standby current 10 uA max).",
       "pinouts": {
         "smd2520": [
@@ -1216,7 +1216,7 @@
       "id": "ecs-2520mv-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-2520MV oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "datasheets/osc/ECS-2520MV.pdf p.1: Supply Voltage 1.6-3.6 V (MultiVolt, one range for every part; no voltage code in the part number); Frequency Range 0.750-160.000 MHz; Pad Connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd; HCMOS output, 15 pF; Tri State Function table. p.2 Developed Frequencies (frequency codes; 333.3 = 33.3333 MHz). Ceramic 2.5 x 2.0 x 0.8 mm package (p.1). Output: HCMOS/CMOS, single-ended (pad 3). Pin 1 Tri-state: HIGH (>=0.7 Vdd) or NC = output active, LOW (<=0.3 Vdd) = output high impedance (standby current 10 uA max).",
       "pinouts": {
         "smd2520": [
@@ -1280,7 +1280,7 @@
       "id": "ecs-2520mvq-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-2520MVQ oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "datasheets/osc/ECS-2520MVQ.pdf p.1: Supply Voltage 1.6-3.6 V (MultiVolt, one range for every part; no voltage code in the part number); Frequency Range 1.000-160.000 MHz; Pad Connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd; HCMOS output, 15 pF; Tri State Function table; AEC-Q200 qualified. p.2 Developed Frequencies. Ceramic 2.5 x 2.0 x 0.8 mm package (p.1). Output: HCMOS/CMOS, single-ended (pad 3). Pin 1 Tri-state: HIGH (>=0.7 Vdd) or NC = output active, LOW (<=0.3 Vdd) = output high impedance (standby current 10 uA max). (DigiKey lists ECS-2520MVQ-1250-BS-TR / -500-BS-TR as Standby (Power Down); the datasheet gives the same pin 1 tri-state function for all.)",
       "pinouts": {
         "smd2520": [
@@ -1303,7 +1303,7 @@
       "id": "ecs-2520mvq-3",
       "function": "100 MHz and up",
       "description": "ECS-2520MVQ oscillator, 100 MHz and up",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "datasheets/osc/ECS-2520MVQ.pdf p.1: Supply Voltage 1.6-3.6 V (MultiVolt, one range for every part; no voltage code in the part number); Frequency Range 1.000-160.000 MHz; Pad Connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd; HCMOS output, 15 pF; Tri State Function table; AEC-Q200 qualified. p.2 Developed Frequencies. Ceramic 2.5 x 2.0 x 0.8 mm package (p.1). Output: HCMOS/CMOS, single-ended (pad 3). Pin 1 Tri-state: HIGH (>=0.7 Vdd) or NC = output active, LOW (<=0.3 Vdd) = output high impedance (standby current 10 uA max). (DigiKey lists ECS-2520MVQ-1250-BS-TR / -500-BS-TR as Standby (Power Down); the datasheet gives the same pin 1 tri-state function for all.)",
       "pinouts": {
         "smd2520": [
@@ -1328,7 +1328,7 @@
       "id": "ecs-2520mvq-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-2520MVQ oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "datasheets/osc/ECS-2520MVQ.pdf p.1: Supply Voltage 1.6-3.6 V (MultiVolt, one range for every part; no voltage code in the part number); Frequency Range 1.000-160.000 MHz; Pad Connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd; HCMOS output, 15 pF; Tri State Function table; AEC-Q200 qualified. p.2 Developed Frequencies. Ceramic 2.5 x 2.0 x 0.8 mm package (p.1). Output: HCMOS/CMOS, single-ended (pad 3). Pin 1 Tri-state: HIGH (>=0.7 Vdd) or NC = output active, LOW (<=0.3 Vdd) = output high impedance (standby current 10 uA max). (DigiKey lists ECS-2520MVQ-1250-BS-TR / -500-BS-TR as Standby (Power Down); the datasheet gives the same pin 1 tri-state function for all.)",
       "pinouts": {
         "smd2520": [
@@ -1365,7 +1365,7 @@
       "id": "ecs-2520s-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-2520S oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "datasheets/osc/ECS-2520S.pdf p.1: Power Supply +1.8/+2.5/+3.0/+3.3 V, Vdd +/-10%; Frequency Range 3.200-55.000 MHz; Pad Connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd; HCMOS output, 15 pF; Tri State Function table. p.2 Frequency Abbreviations. Ceramic 2.5 x 2.0 x 0.9 mm package (p.1). Supply option: the Voltage code right after the series in the part number (ECS-2520S<vv>-...; p.1 Part Numbering Guide): 18 = 1.8 V -> 1.62-1.98 V, 25 = 2.5 V -> 2.25-2.75 V, 30 = 3.0 V -> 2.7-3.3 V, 33 = 3.3 V -> 2.97-3.63 V (+/-10%); every part carries its own vcc; the device range is the span of all codes. Output: HCMOS/CMOS, single-ended (pad 3). Pin 1 Tri-state: HIGH (>=0.7 Vdd) or NC = output active, LOW (<=0.3 Vdd) = output high impedance (standby current 10 uA max).",
       "pinouts": {
         "smd2520": [
@@ -1408,7 +1408,7 @@
       "id": "ecs-2520smv-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-2520SMV oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "datasheets/osc/ECS-2520SMV.pdf p.1: Supply Voltage 1.62-3.63 V (Multi Volt, one range for every part; no voltage code in the part number); Frequency Range 8.000-60.000 MHz; Pad Connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd; HCMOS output, 15 pF; Tri State Function table. p.2 Developed Frequencies (333.3 = 33.333 MHz). Ceramic 2.5 x 2.0 x 1.0 mm package (p.1 text; the drawing shows 0.8 +/-0.1). Output: HCMOS/CMOS, single-ended (pad 3). Pin 1 Tri-state: HIGH (>=0.7 Vdd) or NC = output active, LOW (<=0.3 Vdd) = output high impedance (standby current 10 uA max).",
       "pinouts": {
         "smd2520": [
@@ -1431,7 +1431,7 @@
       "id": "ecs-2520smv-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-2520SMV oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "datasheets/osc/ECS-2520SMV.pdf p.1: Supply Voltage 1.62-3.63 V (Multi Volt, one range for every part; no voltage code in the part number); Frequency Range 8.000-60.000 MHz; Pad Connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd; HCMOS output, 15 pF; Tri State Function table. p.2 Developed Frequencies (333.3 = 33.333 MHz). Ceramic 2.5 x 2.0 x 1.0 mm package (p.1 text; the drawing shows 0.8 +/-0.1). Output: HCMOS/CMOS, single-ended (pad 3). Pin 1 Tri-state: HIGH (>=0.7 Vdd) or NC = output active, LOW (<=0.3 Vdd) = output high impedance (standby current 10 uA max).",
       "pinouts": {
         "smd2520": [
@@ -1466,7 +1466,7 @@
       "id": "ecs-2520smvq-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-2520SMVQ oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "datasheets/osc/ECS-2520SMVQ.pdf p.1: Supply Voltage 1.62-3.63 V (Multi Volt, one range for every part; no voltage code in the part number); Frequency Range 8.000-60.000 MHz; Pad Connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd; HCMOS output, 15 pF; Tri State Function table; AEC-Q200 qualified. p.2 Developed Frequencies (333.3 = 33.333 MHz). Ceramic 2.5 x 2.0 x 1.0 mm package (p.1 text). Output: HCMOS/CMOS, single-ended (pad 3). Pin 1 Tri-state: HIGH (>=0.7 Vdd) or NC = output active, LOW (<=0.3 Vdd) = output high impedance (standby current 10 uA max).",
       "pinouts": {
         "smd2520": [
@@ -1489,7 +1489,7 @@
       "id": "ecs-2520smvq-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-2520SMVQ oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "datasheets/osc/ECS-2520SMVQ.pdf p.1: Supply Voltage 1.62-3.63 V (Multi Volt, one range for every part; no voltage code in the part number); Frequency Range 8.000-60.000 MHz; Pad Connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd; HCMOS output, 15 pF; Tri State Function table; AEC-Q200 qualified. p.2 Developed Frequencies (333.3 = 33.333 MHz). Ceramic 2.5 x 2.0 x 1.0 mm package (p.1 text). Output: HCMOS/CMOS, single-ended (pad 3). Pin 1 Tri-state: HIGH (>=0.7 Vdd) or NC = output active, LOW (<=0.3 Vdd) = output high impedance (standby current 10 uA max).",
       "pinouts": {
         "smd2520": [
@@ -1519,7 +1519,7 @@
       "id": "ecs-2520q-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-2520Q oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "datasheets/osc/ECS-2520Q.pdf p.1: Power Supply +1.8/+2.5/+3.0/+3.3 V, Vdd +/-5%; Frequency Range 0.750-60.000 MHz; Pad Connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd; HCMOS output, 15 pF; Tri State Function table; AEC-Q200 qualified. p.2 Developed Frequencies. Ceramic 2.5 x 2.0 x 0.9 mm package (p.1). Supply option: the Voltage code after the series in the part number (ECS-2520Q-<vv>-...; p.1 Part Numbering Guide): 18 = 1.8 V -> 1.71-1.89 V, 25 = 2.5 V -> 2.375-2.625 V, 30 = 3.0 V -> 2.85-3.15 V, 33 = 3.3 V -> 3.135-3.465 V (+/-5%); every part carries its own vcc; the device range is the span of all codes. Output: HCMOS/CMOS, single-ended (pad 3). Pin 1 Tri-state: HIGH (>=0.7 Vdd) or NC = output active, LOW (<=0.3 Vdd) = output high impedance (standby current 10 uA max).",
       "pinouts": {
         "smd2520": [
@@ -1556,7 +1556,7 @@
       "id": "ecs-3225mv-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-3225MV oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS datasheets/osc/ECS-3225MV.pdf p.1: 3.2 x 2.5 x 1.2 mm ceramic package, HCMOS/CMOS single-ended output (15 pF), frequency range 1.8432-160.00 MHz, supply voltage 1.62-3.63 V (MultiVolt: one range for every part, no voltage code in the part number; DigiKey's 1.8-3.3 V on the -TR3 parts is the nominal 1.8/2.5/3.3 V compatibility), pad connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd (top view pin 1 bottom-left). Pin 1 Tri-state: 0.7*Vdd min or NC = output active, 0.3*Vdd max = output high impedance (standby current 10 uA max). Part number ECS-3225MV-<freq code>-<stability><temp>-TR/TR3, frequency codes p.2.",
       "pinouts": {
         "3225": [
@@ -1582,7 +1582,7 @@
       "id": "ecs-3225mv-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-3225MV oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS datasheets/osc/ECS-3225MV.pdf p.1: 3.2 x 2.5 x 1.2 mm ceramic package, HCMOS/CMOS single-ended output (15 pF), frequency range 1.8432-160.00 MHz, supply voltage 1.62-3.63 V (MultiVolt: one range for every part, no voltage code in the part number; DigiKey's 1.8-3.3 V on the -TR3 parts is the nominal 1.8/2.5/3.3 V compatibility), pad connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd (top view pin 1 bottom-left). Pin 1 Tri-state: 0.7*Vdd min or NC = output active, 0.3*Vdd max = output high impedance (standby current 10 uA max). Part number ECS-3225MV-<freq code>-<stability><temp>-TR/TR3, frequency codes p.2.",
       "pinouts": {
         "3225": [
@@ -1643,7 +1643,7 @@
       "id": "ecs-3225mv-3",
       "function": "100 MHz and up",
       "description": "ECS-3225MV oscillator, 100 MHz and up",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS datasheets/osc/ECS-3225MV.pdf p.1: 3.2 x 2.5 x 1.2 mm ceramic package, HCMOS/CMOS single-ended output (15 pF), frequency range 1.8432-160.00 MHz, supply voltage 1.62-3.63 V (MultiVolt: one range for every part, no voltage code in the part number; DigiKey's 1.8-3.3 V on the -TR3 parts is the nominal 1.8/2.5/3.3 V compatibility), pad connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd (top view pin 1 bottom-left). Pin 1 Tri-state: 0.7*Vdd min or NC = output active, 0.3*Vdd max = output high impedance (standby current 10 uA max). Part number ECS-3225MV-<freq code>-<stability><temp>-TR/TR3, frequency codes p.2.",
       "pinouts": {
         "3225": [
@@ -1667,7 +1667,7 @@
       "id": "ecs-3225mvlc-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-3225MVLC oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS datasheets/osc/ECS-3225MVLC.pdf p.1: 3.2 x 2.5 x 1.0 mm ceramic package, low-current CMOS single-ended output (15 pF), frequency range 1.000-75.000 MHz, supply voltage 1.6-3.6 V (MultiVolt: one range for every part, no voltage code), pad connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd (top view pin 1 bottom-left). Standby Function table: 0.7*Vdd min or NC = output active, 0.3*Vdd max = output high impedance (standby current 10 uA max); enable/disable time 150 us. Frequency codes p.2.",
       "pinouts": {
         "3225": [
@@ -1693,7 +1693,7 @@
       "id": "ecs-3225mvlc-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-3225MVLC oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS datasheets/osc/ECS-3225MVLC.pdf p.1: 3.2 x 2.5 x 1.0 mm ceramic package, low-current CMOS single-ended output (15 pF), frequency range 1.000-75.000 MHz, supply voltage 1.6-3.6 V (MultiVolt: one range for every part, no voltage code), pad connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd (top view pin 1 bottom-left). Standby Function table: 0.7*Vdd min or NC = output active, 0.3*Vdd max = output high impedance (standby current 10 uA max); enable/disable time 150 us. Frequency codes p.2.",
       "pinouts": {
         "3225": [
@@ -1738,7 +1738,7 @@
       "id": "ecs-3225mvq-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-3225MVQ oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS datasheets/osc/ECS-3225MVQ.pdf p.1: AEC-Q200 qualified, 3.2 x 2.5 x 1.2 mm ceramic package, HCMOS single-ended output (15 pF), frequency range 1.000-160.000 MHz, supply voltage 1.7-3.6 V (MultiVolt: one range for every part, no voltage code), pad connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd (top view pin 1 bottom-left). Pin 1 Tri-state: 0.7*Vdd min or NC = output active, 0.3*Vdd max = output high impedance (standby current 10 uA max). Frequency codes p.2. ECS-3225MVQ-400-BS-TR is listed by DigiKey under ECS-3225SMVQ.pdf (as 'Standby'), but its part number is an ECS-3225MVQ one (400 = 40 MHz, B = +/-50 ppm, S = -40~+125 C per the MVQ numbering guide), so it is here, decoded with ECS-3225MVQ.pdf.",
       "pinouts": {
         "3225": [
@@ -1777,7 +1777,7 @@
       "id": "ecs-3225mvq-3",
       "function": "100 MHz and up",
       "description": "ECS-3225MVQ oscillator, 100 MHz and up",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS datasheets/osc/ECS-3225MVQ.pdf p.1: AEC-Q200 qualified, 3.2 x 2.5 x 1.2 mm ceramic package, HCMOS single-ended output (15 pF), frequency range 1.000-160.000 MHz, supply voltage 1.7-3.6 V (MultiVolt: one range for every part, no voltage code), pad connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd (top view pin 1 bottom-left). Pin 1 Tri-state: 0.7*Vdd min or NC = output active, 0.3*Vdd max = output high impedance (standby current 10 uA max). Frequency codes p.2. ECS-3225MVQ-400-BS-TR is listed by DigiKey under ECS-3225SMVQ.pdf (as 'Standby'), but its part number is an ECS-3225MVQ one (400 = 40 MHz, B = +/-50 ppm, S = -40~+125 C per the MVQ numbering guide), so it is here, decoded with ECS-3225MVQ.pdf.",
       "pinouts": {
         "3225": [
@@ -1801,7 +1801,7 @@
       "id": "ecs-3225q-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-3225Q oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS datasheets/osc/ECS-3225Q.pdf p.1: AEC-Q200 qualified, 3.2 x 2.5 x 0.9 mm ceramic package, HCMOS single-ended output (15 pF), frequency range 0.750-50.000 MHz, power supply +1.8, +2.5 or +3.3 V, Vdd +/-5%, pad connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd (bottom view pin 1 top-left = top view bottom-left; the land pattern's chamfered pad marks it). Pin 1 tri-state: High or NC = output active, Low = high impedance. Supply option: the 2-digit voltage code after 'ECS-3225Q-' (p.1 numbering guide: 18 = +1.8 V, 25 = +2.5 V, 33 = +3.3 V), +/-5%: 18 -> vcc 1.71-1.89 V, 25 -> 2.375-2.625 V, 33 -> 3.135-3.465 V; every part carries its own vcc, the device vcc 1.71-3.465 V only spans the options.",
       "pinouts": {
         "3225": [
@@ -1829,7 +1829,7 @@
       "id": "ecs-3225smv-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-3225SMV oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS datasheets/osc/ECS-3225SMV.pdf p.1: tight-stability (F = +/-10 ppm, G = +/-5 ppm), 3.2 x 2.5 x 1.2 mm ceramic package, HCMOS/CMOS single-ended output (15 pF), frequency range 8.000-60.000 MHz, supply voltage 1.62-3.63 V (MultiVolt: one range for every part, no voltage code), pad connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd (top view pin 1 bottom-left). Pin 1 Tri-state: 0.7*Vdd min or NC = output active, 0.3*Vdd max = output high impedance (standby current 10 uA max). Frequency codes p.2 (ECS-3225SMV-184.32-FN-TR, 18.432 MHz, is not in that list; frequency from the part number / DigiKey).",
       "pinouts": {
         "3225": [
@@ -1853,7 +1853,7 @@
       "id": "ecs-3225smv-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-3225SMV oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS datasheets/osc/ECS-3225SMV.pdf p.1: tight-stability (F = +/-10 ppm, G = +/-5 ppm), 3.2 x 2.5 x 1.2 mm ceramic package, HCMOS/CMOS single-ended output (15 pF), frequency range 8.000-60.000 MHz, supply voltage 1.62-3.63 V (MultiVolt: one range for every part, no voltage code), pad connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd (top view pin 1 bottom-left). Pin 1 Tri-state: 0.7*Vdd min or NC = output active, 0.3*Vdd max = output high impedance (standby current 10 uA max). Frequency codes p.2 (ECS-3225SMV-184.32-FN-TR, 18.432 MHz, is not in that list; frequency from the part number / DigiKey).",
       "pinouts": {
         "3225": [
@@ -1888,7 +1888,7 @@
       "id": "ecs-3225smvq-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-3225SMVQ oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS datasheets/osc/ECS-3225SMVQ.pdf p.1: AEC-Q200, tight stability, 3.2 x 2.5 x 1.2 mm ceramic package, HCMOS single-ended output (15 pF), frequency range 8.000-60.000 MHz, supply voltage 1.62-3.63 V (MultiVolt: one range for every part, no voltage code), pad connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd (top view pin 1 bottom-left). Pin 1 Tri-state: 0.7*Vdd min or NC = output active, 0.3*Vdd max = output high impedance (standby current 10 uA max). Frequency codes p.2.",
       "pinouts": {
         "3225": [
@@ -1911,7 +1911,7 @@
       "id": "ecs-3225smvq-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-3225SMVQ oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS datasheets/osc/ECS-3225SMVQ.pdf p.1: AEC-Q200, tight stability, 3.2 x 2.5 x 1.2 mm ceramic package, HCMOS single-ended output (15 pF), frequency range 8.000-60.000 MHz, supply voltage 1.62-3.63 V (MultiVolt: one range for every part, no voltage code), pad connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd (top view pin 1 bottom-left). Pin 1 Tri-state: 0.7*Vdd min or NC = output active, 0.3*Vdd max = output high impedance (standby current 10 uA max). Frequency codes p.2.",
       "pinouts": {
         "3225": [
@@ -1939,7 +1939,7 @@
       "id": "ecs-5032mv-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-5032MV oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS datasheets/osc/ECS-5032MV.pdf p.1: 5.0 x 3.2 x 1.3 mm ceramic package, HCMOS/CMOS single-ended output (15 pF), frequency range 0.750-160.00 MHz, supply voltage 1.6-3.6 V (MultiVolt: one range for every part, no voltage code), pad connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd (top view pin 1 bottom-left). Pin 1 Tri-state: 0.7*Vdd min or NC = output active, 0.3*Vdd max = output high impedance (standby current 10 uA max). Frequency codes p.2: 122.8 = 12.288 MHz (DigiKey lists ECS-5032MV-122.8-BN-TR as 12.28 MHz; 12.288 MHz used).",
       "pinouts": {
         "5032": [
@@ -1964,7 +1964,7 @@
       "id": "ecs-5032mv-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-5032MV oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS datasheets/osc/ECS-5032MV.pdf p.1: 5.0 x 3.2 x 1.3 mm ceramic package, HCMOS/CMOS single-ended output (15 pF), frequency range 0.750-160.00 MHz, supply voltage 1.6-3.6 V (MultiVolt: one range for every part, no voltage code), pad connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd (top view pin 1 bottom-left). Pin 1 Tri-state: 0.7*Vdd min or NC = output active, 0.3*Vdd max = output high impedance (standby current 10 uA max). Frequency codes p.2: 122.8 = 12.288 MHz (DigiKey lists ECS-5032MV-122.8-BN-TR as 12.28 MHz; 12.288 MHz used).",
       "pinouts": {
         "5032": [
@@ -2007,7 +2007,7 @@
       "id": "ecs-5032mv-3",
       "function": "100 MHz and up",
       "description": "ECS-5032MV oscillator, 100 MHz and up",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS datasheets/osc/ECS-5032MV.pdf p.1: 5.0 x 3.2 x 1.3 mm ceramic package, HCMOS/CMOS single-ended output (15 pF), frequency range 0.750-160.00 MHz, supply voltage 1.6-3.6 V (MultiVolt: one range for every part, no voltage code), pad connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd (top view pin 1 bottom-left). Pin 1 Tri-state: 0.7*Vdd min or NC = output active, 0.3*Vdd max = output high impedance (standby current 10 uA max). Frequency codes p.2: 122.8 = 12.288 MHz (DigiKey lists ECS-5032MV-122.8-BN-TR as 12.28 MHz; 12.288 MHz used).",
       "pinouts": {
         "5032": [
@@ -2030,7 +2030,7 @@
       "id": "ecs-7050mv-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-7050MV oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS datasheets/osc/ECS-7050MV.pdf p.1: 7.0 x 5.0 mm ceramic package, HCMOS/CMOS single-ended output (15 pF), frequency range 1.000-160.00 MHz, supply voltage 1.6-3.6 V (MultiVolt: one range for every part, no voltage code), pad connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd (top view pin 1 bottom-left, dot). Pin 1 Tri-state: 0.7*Vdd min or NC = output active, 0.3*Vdd max = output high impedance (standby current 10 uA max) (DigiKey calls ECS-7050MV-200-BN-TR 'Standby'; the datasheet pin works the same for every part). Frequency codes p.2.",
       "pinouts": {
         "7050": [
@@ -2055,7 +2055,7 @@
       "id": "ecs-7050mv-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-7050MV oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS datasheets/osc/ECS-7050MV.pdf p.1: 7.0 x 5.0 mm ceramic package, HCMOS/CMOS single-ended output (15 pF), frequency range 1.000-160.00 MHz, supply voltage 1.6-3.6 V (MultiVolt: one range for every part, no voltage code), pad connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd (top view pin 1 bottom-left, dot). Pin 1 Tri-state: 0.7*Vdd min or NC = output active, 0.3*Vdd max = output high impedance (standby current 10 uA max) (DigiKey calls ECS-7050MV-200-BN-TR 'Standby'; the datasheet pin works the same for every part). Frequency codes p.2.",
       "pinouts": {
         "7050": [
@@ -2088,7 +2088,7 @@
       "id": "ecs-7050mv-3",
       "function": "100 MHz and up",
       "description": "ECS-7050MV oscillator, 100 MHz and up",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS datasheets/osc/ECS-7050MV.pdf p.1: 7.0 x 5.0 mm ceramic package, HCMOS/CMOS single-ended output (15 pF), frequency range 1.000-160.00 MHz, supply voltage 1.6-3.6 V (MultiVolt: one range for every part, no voltage code), pad connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd (top view pin 1 bottom-left, dot). Pin 1 Tri-state: 0.7*Vdd min or NC = output active, 0.3*Vdd max = output high impedance (standby current 10 uA max) (DigiKey calls ECS-7050MV-200-BN-TR 'Standby'; the datasheet pin works the same for every part). Frequency codes p.2.",
       "pinouts": {
         "7050": [
@@ -2113,7 +2113,7 @@
       "id": "ecs-2033-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-2033 oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-2025-2033.pdf (ECS-2025/2033 SMD Clock Oscillator). ECS-2033 = 3.3 V version: VDD 3.135-3.465 V (p.1 Supply Voltage); frequency range 0.750-75.000 MHz (p.1); CMOS output (p.1 Output Load CMOS, VOL 10% / VOH 90% VDD). Pinout p.2 Pin Connections: #1 Tri-State, #2 Ground, #3 Output, #4 VDD; Tri-State Control p.2: pin 1 open or VIH (70% VDD min) = oscillation, VIL (30% VDD max) = no oscillation (internal crystal oscillation halted, 10 uA standby). Package p.2 Package Data: ceramic base, metal lid. Frequency code: digits = MHz x 10 (200 = 20 MHz); 245.7 = 24.576 MHz.",
       "pinouts": {
         "2520-smd": [
@@ -2147,7 +2147,7 @@
       "id": "ecs-2033-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-2033 oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-2025-2033.pdf (ECS-2025/2033 SMD Clock Oscillator). ECS-2033 = 3.3 V version: VDD 3.135-3.465 V (p.1 Supply Voltage); frequency range 0.750-75.000 MHz (p.1); CMOS output (p.1 Output Load CMOS, VOL 10% / VOH 90% VDD). Pinout p.2 Pin Connections: #1 Tri-State, #2 Ground, #3 Output, #4 VDD; Tri-State Control p.2: pin 1 open or VIH (70% VDD min) = oscillation, VIL (30% VDD max) = no oscillation (internal crystal oscillation halted, 10 uA standby). Package p.2 Package Data: ceramic base, metal lid. Frequency code: digits = MHz x 10 (200 = 20 MHz); 245.7 = 24.576 MHz.",
       "pinouts": {
         "2520-smd": [
@@ -2203,7 +2203,7 @@
       "id": "ecs-2333-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-2333 oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-2325-2333.pdf (ECS-2325/2333 SMD Clock Oscillator). ECS-2333 = 3.3 V version: VDD 2.97-3.63 V (p.1 Supply Voltage); frequency range 1.000-95.000 MHz (p.1); HCMOS output (p.1). Pinout p.2 Pin Connections: #1 Tri-State, #2 Ground, #3 Output, #4 VDD; Tri-State Control p.2: pin 1 open or VIH (70% VDD min) = oscillation, VIL (30% VDD max) = no oscillation (crystal halted). The datasheet does not state the package material (no ceramic flag). Frequency code: MHz x 10; 122.8 = 12.288, 147.4 = 14.7456, 245.7 = 24.576, 333.3 = 33.333 MHz.",
       "pinouts": {
         "3225-smd": [
@@ -2228,7 +2228,7 @@
       "id": "ecs-2333-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-2333 oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-2325-2333.pdf (ECS-2325/2333 SMD Clock Oscillator). ECS-2333 = 3.3 V version: VDD 2.97-3.63 V (p.1 Supply Voltage); frequency range 1.000-95.000 MHz (p.1); HCMOS output (p.1). Pinout p.2 Pin Connections: #1 Tri-State, #2 Ground, #3 Output, #4 VDD; Tri-State Control p.2: pin 1 open or VIH (70% VDD min) = oscillation, VIL (30% VDD max) = no oscillation (crystal halted). The datasheet does not state the package material (no ceramic flag). Frequency code: MHz x 10; 122.8 = 12.288, 147.4 = 14.7456, 245.7 = 24.576, 333.3 = 33.333 MHz.",
       "pinouts": {
         "3225-smd": [
@@ -2266,7 +2266,7 @@
       "id": "ecs-2018-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-2018 oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS_2018.pdf (ECS-2018 1.8 V SMD Clock Oscillator). VDD 1.71-1.89 V (p.1 Input Voltage); frequency range 0.750-50.000 MHz (p.1); HCMOS output (p.1). Pinout p.2 Pin Connections: #1 Tri-State, #2 Ground, #3 Output, #4 VDD; Tri-State Control p.2: pin 1 open or VIH (70% VDD min) = oscillation, VIL (30% VDD max) = no oscillation (crystal halted). Package p.2 Package Data: ceramic base, metal lid.",
       "pinouts": {
         "2520-smd": [
@@ -2291,7 +2291,7 @@
       "id": "ecs-2018-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-2018 oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS_2018.pdf (ECS-2018 1.8 V SMD Clock Oscillator). VDD 1.71-1.89 V (p.1 Input Voltage); frequency range 0.750-50.000 MHz (p.1); HCMOS output (p.1). Pinout p.2 Pin Connections: #1 Tri-State, #2 Ground, #3 Output, #4 VDD; Tri-State Control p.2: pin 1 open or VIH (70% VDD min) = oscillation, VIL (30% VDD max) = no oscillation (crystal halted). Package p.2 Package Data: ceramic base, metal lid.",
       "pinouts": {
         "2520-smd": [
@@ -2329,7 +2329,7 @@
       "id": "ecs-2016mv-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-2016MV oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS-2016MV.pdf (ECS-2016MV MultiVolt SMD XO). Supply 1.6-3.6 V for every part (p.1 Supply Voltage; MultiVolt: no voltage code in the part number, so no part-level vcc); frequency range 1.500-54.000 MHz (p.1); HCMOS output (p.1). Pinout p.1 Pad Connections: 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd; Tri State Function p.1: pin 1 0.7 Vdd min or NC = output active, 0.3 Vdd max = high impedance. Package: 2.0 x 1.6 x 0.85 mm ceramic (p.1). Frequency codes from p.2 Developed Frequencies (333.3 = 33.3333 MHz; 122.8 = 12.288 MHz).",
       "pinouts": {
         "2016-smd": [
@@ -2353,7 +2353,7 @@
       "id": "ecs-2016mv-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-2016MV oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS-2016MV.pdf (ECS-2016MV MultiVolt SMD XO). Supply 1.6-3.6 V for every part (p.1 Supply Voltage; MultiVolt: no voltage code in the part number, so no part-level vcc); frequency range 1.500-54.000 MHz (p.1); HCMOS output (p.1). Pinout p.1 Pad Connections: 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd; Tri State Function p.1: pin 1 0.7 Vdd min or NC = output active, 0.3 Vdd max = high impedance. Package: 2.0 x 1.6 x 0.85 mm ceramic (p.1). Frequency codes from p.2 Developed Frequencies (333.3 = 33.3333 MHz; 122.8 = 12.288 MHz).",
       "pinouts": {
         "2016-smd": [
@@ -2399,7 +2399,7 @@
       "id": "ecs-2016mvq-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-2016MVQ oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS-2016MVQ.pdf (ECS-2016MVQ AEC-Q200 MultiVolt SMD XO). Supply 1.7-3.63 V for every part (p.1 Supply Voltage; MultiVolt: no voltage code in the part number); frequency range 1.500-54.000 MHz (p.1); HCMOS output (p.1). Pinout p.1 Pad Connections: 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd; Tri State Function p.1: pin 1 0.7 Vdd min or NC = output active, 0.3 Vdd max = high impedance. Package: 2.0 x 1.6 x 0.85 mm ceramic, AEC-Q200 qualified (p.1).",
       "pinouts": {
         "2016-smd": [
@@ -2428,7 +2428,7 @@
       "id": "ecs-1612mv-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-1612MV oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS-1612MV.pdf (ECS-1612MV MultiVolt SMD XO). Supply 1.6-3.63 V for every part (p.1 Supply Voltage table; the intro text says 1.6 ~ 3.6 V; no voltage code in the part number); frequency range 3.000-80.000 MHz (p.1); HCMOS output (p.1). Pinout p.1 Pad Connections: 1 Stand-by, 2 Gnd, 3 Output, 4 Vdd; p.1 Tri State Function: pin 1 open or 0.7 Vdd min = output active, 0.3 Vdd max = high-Z (10 uA standby). Package: 1.6 x 1.2 x 0.7 mm ceramic (p.1). Frequencies from the p.2 Developed Frequencies code table (036 = 3.6864, 041 = 4.096, 049 = 4.9152, 073 = 7.3728, 245.7 = 24.576 MHz; DigiKey rounds these).",
       "pinouts": {
         "1612-smd": [
@@ -2456,7 +2456,7 @@
       "id": "ecs-1612mv-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-1612MV oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS-1612MV.pdf (ECS-1612MV MultiVolt SMD XO). Supply 1.6-3.63 V for every part (p.1 Supply Voltage table; the intro text says 1.6 ~ 3.6 V; no voltage code in the part number); frequency range 3.000-80.000 MHz (p.1); HCMOS output (p.1). Pinout p.1 Pad Connections: 1 Stand-by, 2 Gnd, 3 Output, 4 Vdd; p.1 Tri State Function: pin 1 open or 0.7 Vdd min = output active, 0.3 Vdd max = high-Z (10 uA standby). Package: 1.6 x 1.2 x 0.7 mm ceramic (p.1). Frequencies from the p.2 Developed Frequencies code table (036 = 3.6864, 041 = 4.096, 049 = 4.9152, 073 = 7.3728, 245.7 = 24.576 MHz; DigiKey rounds these).",
       "pinouts": {
         "1612-smd": [
@@ -2490,7 +2490,7 @@
       "id": "ecs-1633-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-1633 oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS_1633.pdf (ECS-1633 3.3 V SMD Clock Oscillator, 2.0 x 1.6 mm). VDD 3.135-3.465 V (p.1 Input Voltage); frequency range 1.500-80.000 MHz (p.1); CMOS output (p.1). Pinout p.2 Pin Connections: #1 Tri-State, #2 Ground, #3 Output, #4 VDD; Tri-State Control p.2: pin 1 open or VIH (70% VDD min) = oscillation, VIL (30% VDD max) = no oscillation (crystal halted). The datasheet does not state the package material (no ceramic flag).",
       "pinouts": {
         "2016-smd": [
@@ -2513,7 +2513,7 @@
       "id": "ecs-1633-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-1633 oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS_1633.pdf (ECS-1633 3.3 V SMD Clock Oscillator, 2.0 x 1.6 mm). VDD 3.135-3.465 V (p.1 Input Voltage); frequency range 1.500-80.000 MHz (p.1); CMOS output (p.1). Pinout p.2 Pin Connections: #1 Tri-State, #2 Ground, #3 Output, #4 VDD; Tri-State Control p.2: pin 1 open or VIH (70% VDD min) = oscillation, VIL (30% VDD max) = no oscillation (crystal halted). The datasheet does not state the package material (no ceramic flag).",
       "pinouts": {
         "2016-smd": [
@@ -2544,7 +2544,7 @@
       "id": "ecs-1618-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-1618 oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS_1618.pdf (ECS-1618 1.8 V SMD Clock Oscillator, 2.0 x 1.6 mm). VDD 1.71-1.89 V (p.1 Input Voltage); frequency range 1.500-80.000 MHz (p.1); CMOS output (p.1). Pinout p.2 Pin Connections: #1 Tri-State, #2 Ground, #3 Output, #4 VDD; Tri-State Control p.2: pin 1 open or VIH (70% VDD min) = oscillation, VIL (30% VDD max) = no oscillation (crystal halted). The datasheet does not state the package material (no ceramic flag).",
       "pinouts": {
         "2016-smd": [
@@ -2567,7 +2567,7 @@
       "id": "ecs-1618-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-1618 oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS_1618.pdf (ECS-1618 1.8 V SMD Clock Oscillator, 2.0 x 1.6 mm). VDD 1.71-1.89 V (p.1 Input Voltage); frequency range 1.500-80.000 MHz (p.1); CMOS output (p.1). Pinout p.2 Pin Connections: #1 Tri-State, #2 Ground, #3 Output, #4 VDD; Tri-State Control p.2: pin 1 open or VIH (70% VDD min) = oscillation, VIL (30% VDD max) = no oscillation (crystal halted). The datasheet does not state the package material (no ceramic flag).",
       "pinouts": {
         "2016-smd": [
@@ -2594,7 +2594,7 @@
       "id": "ecs-2532hs-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-2532HS oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS_2532HS.pdf (ECS-2532HS High Stability SMD Clock Oscillator). Voltage code = the field after the frequency (ECS-2532HS-200-3-G): 2 = 2.8 V +/-5% (VDD 2.66-2.94 V), 3 = 3.3 V +/-5% (VDD 3.135-3.465 V) (p.1 Supply Voltage and Part Numbering Guide); every part here is a -3 part, so the device vcc is the 3.3 V range (a -2 part would need part-level vcc [2.66, 2.94]). Frequency range 1.000-55.000 MHz (p.1); CMOS output (p.1). Pinout p.2 Pin Connections: #1 Tri-State, #2 Ground, #3 Output, #4 VDD; Tri-State Control p.2: pin 1 open or VDD-0.5 V min = output, 0.5 V max = high impedance (crystal halted). Package p.3 Package Data: ceramic base, metal lid.",
       "pinouts": {
         "3225-smd": [
@@ -2624,7 +2624,7 @@
       "id": "ecs-3250ss-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-3250SS oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS_3250SS.pdf (ECS-3250SS Spread Spectrum Oscillator, 5.0 x 3.2 mm). VDD 3.135-3.465 V (p.1 Supply Voltage; part-number voltage code 3 = 3.3 V); frequency range 10.000-168.000 MHz (p.1); CMOS output with center spread spectrum (code after the voltage digit: A = +/-0.5%, B = +/-1.0%, C = +/-2.0%, p.1; simulated as a plain clock at the nominal frequency). Pinout p.2 Pin Connections: #1 Tri-State, #2 Ground, #3 Output, #4 VDD; Tri-State Control p.2: pin 1 open or VIH (90% VDD min) = oscillation, VIL (10% VDD max) = high impedance. Package p.3 Package Data: ceramic base, metal lid.",
       "pinouts": {
         "5032-smd": [
@@ -2648,7 +2648,7 @@
       "id": "ecs-3961-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-3961 oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-3961_3963.pdf p.1 (Frequency Range 1.544-125.000 MHz; Supply Voltage +4.5/+5.0/+5.5 VDC; HCMOS output; part number: 3961 = +5 V, then frequency code, stability A/B/C, temperature Blank/M/N/U, symmetry T, TR) and p.2 (Pin Connections, Figure 1 pin positions, Tri-State Control Voltage). Output HCMOS. Pin 1 Tri-State: open (internal pull-up to pin 4) or >= 70% VDD = oscillation, <= 30% VDD = no oscillation. -AU = +/-100 ppm, -55~+125 C (U is the temperature code, not AEC-Q). Datasheet calls the package seam welded with a metal lid; it does not say ceramic, so no ceramic flag.",
       "pinouts": {
         "5032": [
@@ -2674,7 +2674,7 @@
       "id": "ecs-3961-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-3961 oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-3961_3963.pdf p.1 (Frequency Range 1.544-125.000 MHz; Supply Voltage +4.5/+5.0/+5.5 VDC; HCMOS output; part number: 3961 = +5 V, then frequency code, stability A/B/C, temperature Blank/M/N/U, symmetry T, TR) and p.2 (Pin Connections, Figure 1 pin positions, Tri-State Control Voltage). Output HCMOS. Pin 1 Tri-State: open (internal pull-up to pin 4) or >= 70% VDD = oscillation, <= 30% VDD = no oscillation. -AU = +/-100 ppm, -55~+125 C (U is the temperature code, not AEC-Q). Datasheet calls the package seam welded with a metal lid; it does not say ceramic, so no ceramic flag.",
       "pinouts": {
         "5032": [
@@ -2704,7 +2704,7 @@
       "id": "ecs-3963-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-3963 oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-3961_3963.pdf p.1 (Frequency Range 1.000-125.000 MHz; Supply Voltage +2.7/+3.3/+3.6 VDC; HCMOS output; part number: 3963 = +3.3 V, then frequency code, stability A/B/C, temperature Blank/M/N/U, symmetry T, TR) and p.2 (Pin Connections, Figure 1 pin positions, Tri-State Control Voltage). Output HCMOS. Pin 1 Tri-State: open (internal pull-up to pin 4) or >= 70% VDD = oscillation, <= 30% VDD = no oscillation. -AU = +/-100 ppm, -55~+125 C; -BN = +/-50 ppm, -40~+85 C. Datasheet calls the package seam welded with a metal lid; it does not say ceramic, so no ceramic flag.",
       "pinouts": {
         "5032": [
@@ -2730,7 +2730,7 @@
       "id": "ecs-3963-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-3963 oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-3961_3963.pdf p.1 (Frequency Range 1.000-125.000 MHz; Supply Voltage +2.7/+3.3/+3.6 VDC; HCMOS output; part number: 3963 = +3.3 V, then frequency code, stability A/B/C, temperature Blank/M/N/U, symmetry T, TR) and p.2 (Pin Connections, Figure 1 pin positions, Tri-State Control Voltage). Output HCMOS. Pin 1 Tri-State: open (internal pull-up to pin 4) or >= 70% VDD = oscillation, <= 30% VDD = no oscillation. -AU = +/-100 ppm, -55~+125 C; -BN = +/-50 ppm, -40~+85 C. Datasheet calls the package seam welded with a metal lid; it does not say ceramic, so no ceramic flag.",
       "pinouts": {
         "5032": [
@@ -2778,7 +2778,7 @@
       "id": "ecs-3963-3",
       "function": "100 MHz and up",
       "description": "ECS-3963 oscillator, 100 MHz and up",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-3961_3963.pdf p.1 (Frequency Range 1.000-125.000 MHz; Supply Voltage +2.7/+3.3/+3.6 VDC; HCMOS output; part number: 3963 = +3.3 V, then frequency code, stability A/B/C, temperature Blank/M/N/U, symmetry T, TR) and p.2 (Pin Connections, Figure 1 pin positions, Tri-State Control Voltage). Output HCMOS. Pin 1 Tri-State: open (internal pull-up to pin 4) or >= 70% VDD = oscillation, <= 30% VDD = no oscillation. -AU = +/-100 ppm, -55~+125 C; -BN = +/-50 ppm, -40~+85 C. Datasheet calls the package seam welded with a metal lid; it does not say ceramic, so no ceramic flag.",
       "pinouts": {
         "5032": [
@@ -2803,7 +2803,7 @@
       "id": "ecs-3951m-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-3951M oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-3951m_3953m.pdf p.1 (Frequency Range 1.000-125.0 MHz; Supply Voltage +4.5/+5.0/+5.5 V DC; HCMOS output; ceramic SMD package, seam welded metal lid; part number: 3951M = +5 V, frequency code, stability A/B/C/D, temperature Blank/M/N/U, symmetry T, TR) and p.2 (Pin Connections, Figure 1 pin positions, Standby Control Voltage). Output HCMOS. Pin 1 Tri-State: open (internal pull-up to pin 4) or >= 2.2 V = oscillation, <= 0.8 V = output high impedance. The -BN-T-TR parts DigiKey files under this datasheet (N = -40~+85 C, T = 45/55 symmetry); their 018/036 codes are 1.8432/3.6864 MHz (DigiKey's description; its Frequency field rounds them to 1.8/3.6).",
       "pinouts": {
         "7050": [
@@ -2829,7 +2829,7 @@
       "id": "ecs-3951m-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-3951M oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-3951m_3953m.pdf p.1 (Frequency Range 1.000-125.0 MHz; Supply Voltage +4.5/+5.0/+5.5 V DC; HCMOS output; ceramic SMD package, seam welded metal lid; part number: 3951M = +5 V, frequency code, stability A/B/C/D, temperature Blank/M/N/U, symmetry T, TR) and p.2 (Pin Connections, Figure 1 pin positions, Standby Control Voltage). Output HCMOS. Pin 1 Tri-State: open (internal pull-up to pin 4) or >= 2.2 V = oscillation, <= 0.8 V = output high impedance. The -BN-T-TR parts DigiKey files under this datasheet (N = -40~+85 C, T = 45/55 symmetry); their 018/036 codes are 1.8432/3.6864 MHz (DigiKey's description; its Frequency field rounds them to 1.8/3.6).",
       "pinouts": {
         "7050": [
@@ -2860,7 +2860,7 @@
       "id": "ecs-3953m-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-3953M oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-3951m_3953m.pdf p.1 (Frequency Range 1.000-125.0 MHz; Supply Voltage +3.0/+3.3/+3.6 V DC, and footnote *: also compatible with +3.0 V DC +/-0.3 V, so vcc 2.7-3.6; HCMOS output; ceramic SMD package, seam welded metal lid; part number: 3953M = +3.3 V, frequency code, stability A/B/C/D, temperature Blank/M/N/U, symmetry T, TR) and p.2 (Pin Connections, Figure 1 pin positions, Standby Control Voltage). Output HCMOS. Pin 1 Tri-State: open (internal pull-up to pin 4) or >= 2.2 V = oscillation, <= 0.8 V = output high impedance. The -BN-T-TR parts DigiKey files under this datasheet (N = -40~+85 C, T = 45/55 symmetry); 018 = 1.8432 MHz (DigiKey's description; its Frequency field rounds it to 1.8). 245.7 = 24.576 MHz.",
       "pinouts": {
         "7050": [
@@ -2889,7 +2889,7 @@
       "id": "ecs-3953m-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-3953M oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-3951m_3953m.pdf p.1 (Frequency Range 1.000-125.0 MHz; Supply Voltage +3.0/+3.3/+3.6 V DC, and footnote *: also compatible with +3.0 V DC +/-0.3 V, so vcc 2.7-3.6; HCMOS output; ceramic SMD package, seam welded metal lid; part number: 3953M = +3.3 V, frequency code, stability A/B/C/D, temperature Blank/M/N/U, symmetry T, TR) and p.2 (Pin Connections, Figure 1 pin positions, Standby Control Voltage). Output HCMOS. Pin 1 Tri-State: open (internal pull-up to pin 4) or >= 2.2 V = oscillation, <= 0.8 V = output high impedance. The -BN-T-TR parts DigiKey files under this datasheet (N = -40~+85 C, T = 45/55 symmetry); 018 = 1.8432 MHz (DigiKey's description; its Frequency field rounds it to 1.8). 245.7 = 24.576 MHz.",
       "pinouts": {
         "7050": [
@@ -2931,7 +2931,7 @@
       "id": "ecs-3951m-bn-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-3951M-BN oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-3951m-bn-3953m-bn.pdf p.1 (Frequency Range 1.800-125.0 MHz; Supply Voltage +4.5/+5.0/+5.5 V DC; HCMOS output; industrial grade -40~+85 C, B = +/-50 ppm, N = -40~+85 C) and p.2 (Pin Connections, Figure 1 pin positions, Tri-State Control Voltage). Output HCMOS. Pin 1 Tri-State: open or >= 2.2 V = oscillation, <= 0.8 V = no oscillation (crystal oscillation halted). The datasheet does not say ceramic, so no ceramic flag (same package as ECS-3951M).",
       "pinouts": {
         "7050": [
@@ -2958,7 +2958,7 @@
       "id": "ecs-3951m-bn-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-3951M-BN oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-3951m-bn-3953m-bn.pdf p.1 (Frequency Range 1.800-125.0 MHz; Supply Voltage +4.5/+5.0/+5.5 V DC; HCMOS output; industrial grade -40~+85 C, B = +/-50 ppm, N = -40~+85 C) and p.2 (Pin Connections, Figure 1 pin positions, Tri-State Control Voltage). Output HCMOS. Pin 1 Tri-State: open or >= 2.2 V = oscillation, <= 0.8 V = no oscillation (crystal oscillation halted). The datasheet does not say ceramic, so no ceramic flag (same package as ECS-3951M).",
       "pinouts": {
         "7050": [
@@ -2992,7 +2992,7 @@
       "id": "ecs-3951m-bn-3",
       "function": "100 MHz and up",
       "description": "ECS-3951M-BN oscillator, 100 MHz and up",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-3951m-bn-3953m-bn.pdf p.1 (Frequency Range 1.800-125.0 MHz; Supply Voltage +4.5/+5.0/+5.5 V DC; HCMOS output; industrial grade -40~+85 C, B = +/-50 ppm, N = -40~+85 C) and p.2 (Pin Connections, Figure 1 pin positions, Tri-State Control Voltage). Output HCMOS. Pin 1 Tri-State: open or >= 2.2 V = oscillation, <= 0.8 V = no oscillation (crystal oscillation halted). The datasheet does not say ceramic, so no ceramic flag (same package as ECS-3951M).",
       "pinouts": {
         "7050": [
@@ -3015,7 +3015,7 @@
       "id": "ecs-3953m-bn-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-3953M-BN oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-3951m-bn-3953m-bn.pdf p.1 (Frequency Range 1.800-125.0 MHz; Supply Voltage +2.97/+3.3/+3.63 V DC, and footnote *: also compatible with +3.0 V DC +/-0.3 V, so vcc 2.7-3.63; HCMOS output; industrial grade, B = +/-50 ppm, N = -40~+85 C) and p.2 (Pin Connections, Figure 1 pin positions, Tri-State Control Voltage). Output HCMOS. Pin 1 Tri-State: open or >= 2.2 V = oscillation, <= 0.8 V = no oscillation (crystal oscillation halted). The datasheet does not say ceramic, so no ceramic flag (same package as ECS-3953M).",
       "pinouts": {
         "7050": [
@@ -3042,7 +3042,7 @@
       "id": "ecs-3953m-bn-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-3953M-BN oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-3951m-bn-3953m-bn.pdf p.1 (Frequency Range 1.800-125.0 MHz; Supply Voltage +2.97/+3.3/+3.63 V DC, and footnote *: also compatible with +3.0 V DC +/-0.3 V, so vcc 2.7-3.63; HCMOS output; industrial grade, B = +/-50 ppm, N = -40~+85 C) and p.2 (Pin Connections, Figure 1 pin positions, Tri-State Control Voltage). Output HCMOS. Pin 1 Tri-State: open or >= 2.2 V = oscillation, <= 0.8 V = no oscillation (crystal oscillation halted). The datasheet does not say ceramic, so no ceramic flag (same package as ECS-3953M).",
       "pinouts": {
         "7050": [
@@ -3075,7 +3075,7 @@
       "id": "ecs-3953m-bn-3",
       "function": "100 MHz and up",
       "description": "ECS-3953M-BN oscillator, 100 MHz and up",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-3951m-bn-3953m-bn.pdf p.1 (Frequency Range 1.800-125.0 MHz; Supply Voltage +2.97/+3.3/+3.63 V DC, and footnote *: also compatible with +3.0 V DC +/-0.3 V, so vcc 2.7-3.63; HCMOS output; industrial grade, B = +/-50 ppm, N = -40~+85 C) and p.2 (Pin Connections, Figure 1 pin positions, Tri-State Control Voltage). Output HCMOS. Pin 1 Tri-State: open or >= 2.2 V = oscillation, <= 0.8 V = no oscillation (crystal oscillation halted). The datasheet does not say ceramic, so no ceramic flag (same package as ECS-3953M).",
       "pinouts": {
         "7050": [
@@ -3099,7 +3099,7 @@
       "id": "ecs-3951m-au-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-3951M-AU oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS_3951_53m_AU.pdf p.1 (single page: Frequency Range 1.000-106.25 MHz; Supply Voltage +4.5/+5.0/+5.5 VDC; HCMOS output; Pin Connections; Figure 1 pin positions; Tri-State Control Voltage; A = +/-100 ppm, U = -55~+125 C). Output HCMOS. Pin 1 Tri-State: open or >= 70% VDD = oscillation, <= 30% VDD = no oscillation (crystal oscillation halted). The datasheet calls it 'Automotive Grade' (-55~+125 C) but claims no AEC-Q qualification, so no automotive flag; it does not say ceramic, so no ceramic flag.",
       "pinouts": {
         "7050": [
@@ -3124,7 +3124,7 @@
       "id": "ecs-3951m-au-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-3951M-AU oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS_3951_53m_AU.pdf p.1 (single page: Frequency Range 1.000-106.25 MHz; Supply Voltage +4.5/+5.0/+5.5 VDC; HCMOS output; Pin Connections; Figure 1 pin positions; Tri-State Control Voltage; A = +/-100 ppm, U = -55~+125 C). Output HCMOS. Pin 1 Tri-State: open or >= 70% VDD = oscillation, <= 30% VDD = no oscillation (crystal oscillation halted). The datasheet calls it 'Automotive Grade' (-55~+125 C) but claims no AEC-Q qualification, so no automotive flag; it does not say ceramic, so no ceramic flag.",
       "pinouts": {
         "7050": [
@@ -3150,7 +3150,7 @@
       "id": "ecs-3953m-au-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-3953M-AU oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS_3951_53m_AU.pdf p.1 (single page: Frequency Range 1.000-200.000 MHz; Supply Voltage +2.97/+3.3/+3.63 VDC; HCMOS output; Pin Connections; Figure 1 pin positions; Tri-State Control Voltage; A = +/-100 ppm, U = -55~+125 C). Output HCMOS. Pin 1 Tri-State: open or >= 70% VDD = oscillation, <= 30% VDD = no oscillation (crystal oscillation halted). The datasheet calls it 'Automotive Grade' (-55~+125 C) but claims no AEC-Q qualification, so no automotive flag; it does not say ceramic, so no ceramic flag.",
       "pinouts": {
         "7050": [
@@ -3175,7 +3175,7 @@
       "id": "ecs-3953m-au-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-3953M-AU oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS_3951_53m_AU.pdf p.1 (single page: Frequency Range 1.000-200.000 MHz; Supply Voltage +2.97/+3.3/+3.63 VDC; HCMOS output; Pin Connections; Figure 1 pin positions; Tri-State Control Voltage; A = +/-100 ppm, U = -55~+125 C). Output HCMOS. Pin 1 Tri-State: open or >= 70% VDD = oscillation, <= 30% VDD = no oscillation (crystal oscillation halted). The datasheet calls it 'Automotive Grade' (-55~+125 C) but claims no AEC-Q qualification, so no automotive flag; it does not say ceramic, so no ceramic flag.",
       "pinouts": {
         "7050": [
@@ -3208,7 +3208,7 @@
       "id": "ecs-3953m-au-3",
       "function": "100 MHz and up",
       "description": "ECS-3953M-AU oscillator, 100 MHz and up",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS_3951_53m_AU.pdf p.1 (single page: Frequency Range 1.000-200.000 MHz; Supply Voltage +2.97/+3.3/+3.63 VDC; HCMOS output; Pin Connections; Figure 1 pin positions; Tri-State Control Voltage; A = +/-100 ppm, U = -55~+125 C). Output HCMOS. Pin 1 Tri-State: open or >= 70% VDD = oscillation, <= 30% VDD = no oscillation (crystal oscillation halted). The datasheet calls it 'Automotive Grade' (-55~+125 C) but claims no AEC-Q qualification, so no automotive flag; it does not say ceramic, so no ceramic flag.",
       "pinouts": {
         "7050": [
@@ -3232,7 +3232,7 @@
       "id": "ecs-3518-3",
       "function": "100 MHz and up",
       "description": "ECS-3518 oscillator, 100 MHz and up",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-3518-3525r.pdf p.1 (Frequency Range 1.544-125.00 MHz; Supply Voltage +1.62/+1.8/+1.98 VDC; HCMOS output; 3518 = +1.8 V), p.2 (Pad Connections, Figure 1 pin positions, Tri-State Control Voltage; Figure 2 land pattern = OSC-5032-4: pads 1.6 x 1.5, gaps 0.9/0.8) and p.3 (Package Data: ceramic base, metal lid, seam weld). Output HCMOS. Pin 1 Tri-State: open or 1 level = oscillation, 0 level = output high impedance.",
       "pinouts": {
         "5032": [
@@ -3256,7 +3256,7 @@
       "id": "ecs-3518-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-3518 oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-3518-3525r.pdf p.1 (Frequency Range 1.544-125.00 MHz; Supply Voltage +1.62/+1.8/+1.98 VDC; HCMOS output; 3518 = +1.8 V), p.2 (Pad Connections, Figure 1 pin positions, Tri-State Control Voltage; Figure 2 land pattern = OSC-5032-4: pads 1.6 x 1.5, gaps 0.9/0.8) and p.3 (Package Data: ceramic base, metal lid, seam weld). Output HCMOS. Pin 1 Tri-State: open or 1 level = oscillation, 0 level = output high impedance.",
       "pinouts": {
         "5032": [
@@ -3286,7 +3286,7 @@
       "id": "ecs-3525-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-3525 oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-3518-3525r.pdf p.1 (Frequency Range 1.544-125.00 MHz; Supply Voltage +2.25/+2.5/+2.75 VDC; HCMOS output; 3525 = +2.5 V), p.2 (Pad Connections, Figure 1 pin positions, Tri-State Control Voltage; Figure 2 land pattern = OSC-5032-4: pads 1.6 x 1.5, gaps 0.9/0.8) and p.3 (Package Data: ceramic base, metal lid, seam weld). Output HCMOS. Pin 1 Tri-State: open or 1 level = oscillation, 0 level = output high impedance.",
       "pinouts": {
         "5032": [
@@ -3310,7 +3310,7 @@
       "id": "ecs-3525-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-3525 oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-3518-3525r.pdf p.1 (Frequency Range 1.544-125.00 MHz; Supply Voltage +2.25/+2.5/+2.75 VDC; HCMOS output; 3525 = +2.5 V), p.2 (Pad Connections, Figure 1 pin positions, Tri-State Control Voltage; Figure 2 land pattern = OSC-5032-4: pads 1.6 x 1.5, gaps 0.9/0.8) and p.3 (Package Data: ceramic base, metal lid, seam weld). Output HCMOS. Pin 1 Tri-State: open or 1 level = oscillation, 0 level = output high impedance.",
       "pinouts": {
         "5032": [
@@ -3341,7 +3341,7 @@
       "id": "ecs-3525-3",
       "function": "100 MHz and up",
       "description": "ECS-3525 oscillator, 100 MHz and up",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-3518-3525r.pdf p.1 (Frequency Range 1.544-125.00 MHz; Supply Voltage +2.25/+2.5/+2.75 VDC; HCMOS output; 3525 = +2.5 V), p.2 (Pad Connections, Figure 1 pin positions, Tri-State Control Voltage; Figure 2 land pattern = OSC-5032-4: pads 1.6 x 1.5, gaps 0.9/0.8) and p.3 (Package Data: ceramic base, metal lid, seam weld). Output HCMOS. Pin 1 Tri-State: open or 1 level = oscillation, 0 level = output high impedance.",
       "pinouts": {
         "5032": [
@@ -3364,7 +3364,7 @@
       "id": "ecs-8fx-1",
       "function": "1 MHz to 10 MHz",
       "description": "ECS-8FX oscillator, 1 MHz to 10 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-8fx.pdf (ECS-8FX SMD Clock Oscillator, marked Not Recommended for New Designs; J-leaded SMD, CMOS output (8FMX also 10 TTL)). Frequency 1.000-80.000 MHz and supply p.1 table; pinout p.2 Pin Connections (#1 Tri-State, #2 Ground, #3 Output, #4 VCC). Pin 1 tri-state p.2: open or >= 2 V (8FMX) / 2.4 V (8FA3X) = oscillation, <= 0.8 V / 0.6 V = output high impedance; internal pull-up from pin 1 to pin 4. Supply picked by the series code in the part number (p.1 Part Numbering Guide): ECS-8FMX = +5.0 V (4.5-5.5 V), ECS-8FA3X = +3.3 V (3.0-3.6 V); every part carries its own vcc.",
       "pinouts": {
         "1409-soj": [
@@ -3399,7 +3399,7 @@
       "id": "ecs-8fx-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-8FX oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-8fx.pdf (ECS-8FX SMD Clock Oscillator, marked Not Recommended for New Designs; J-leaded SMD, CMOS output (8FMX also 10 TTL)). Frequency 1.000-80.000 MHz and supply p.1 table; pinout p.2 Pin Connections (#1 Tri-State, #2 Ground, #3 Output, #4 VCC). Pin 1 tri-state p.2: open or >= 2 V (8FMX) / 2.4 V (8FA3X) = oscillation, <= 0.8 V / 0.6 V = output high impedance; internal pull-up from pin 1 to pin 4. Supply picked by the series code in the part number (p.1 Part Numbering Guide): ECS-8FMX = +5.0 V (4.5-5.5 V), ECS-8FA3X = +3.3 V (3.0-3.6 V); every part carries its own vcc.",
       "pinouts": {
         "1409-soj": [
@@ -3446,7 +3446,7 @@
       "id": "ecs-txo-3225mv-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-TXO-3225MV oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS-TXO-3225MV.pdf: MultiVolt HCMOS TCXO, 3.2 x 2.5 ceramic. p.1: frequency range 8.000-60.000 MHz, Input Voltage VDD 1.7-3.6 V (one range for all parts, no voltage code), HCMOS output (VOL 10% / VOH 90% Vdd). p.2: pin connections 1 Tri-State, 2 Ground, 3 Output, 4 VDD; Tri-state pin 1: high or not connected = output active, low = output disabled (high Z). Part number: frequency code, blank = +/-2.5 ppm, blank = -30~+85 C, N = -40~+85 C.",
       "pinouts": {
         "3225": [
@@ -3482,7 +3482,7 @@
       "id": "ecs-txo-2520mv-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-TXO-2520MV oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS-TXO-2520MV.pdf: MultiVolt CMOS TCXO, 2.5 x 2.0 ceramic. p.1: frequency range 10.000-60.000 MHz, Input Voltage VDD 1.7-3.6 V (one range for all parts), CMOS output (VOL 10% / VOH 90% Vdd). p.2: pin connections 1 Tri-State, 2 Ground, 3 Output, 4 VDD; Tri-state pin 1: high or not connected = output active, low = output disabled (high Z). Part number: frequency code, A = +/-2.5 ppm, temperature Y = -30~+85 C, N = -40~+85 C.",
       "pinouts": {
         "2520": [
@@ -3517,7 +3517,7 @@
       "id": "ecs-txo-2520-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-TXO-2520 oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS-TXO-2520.pdf: SMD HCMOS TCXO, 2.5 x 2.0 ceramic. p.1: frequency range 3.200-55.000 MHz; Supply Voltage specified in the part number, +2.5, +2.8 or +3.3 V +/-10% (device range 2.25-3.63 V); HCMOS output (VOL 10% / VOH 90% Vdd); pad connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd; Tri-state pin 1: high or not connected = output active, low = output disabled (high Z). Voltage code = the field after ECS-TXO-2520 (ECS-TXO-2520-33-160-AN-TR): 25 = 2.25-2.75 V, 28 = 2.52-3.08 V, 33 = 2.97-3.63 V; each part carries its own vcc. All parts here are 33.",
       "pinouts": {
         "2520": [
@@ -3548,7 +3548,7 @@
       "id": "ecs-txo-5032-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-TXO-5032 oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS-TXO-5032.pdf: HCMOS TCXO, 5.0 x 3.2 (the datasheet does not say ceramic). p.1: frequency range 6.400-38.400 MHz, Input Voltage VDD 3.135-3.465 V, HCMOS output (VOL 0.5 V, VOH 80% VDD). p.2: pin connections 1 N/C or VCONT (VCONT only on the ECS-VTXO-5032 VC-TCXO; N/C on these TCXOs), 2 Ground, 3 Output, 4 VDD. No enable/standby pin. Part number: frequency code, stability blank = +/-2.5 ppm, B = +/-1.5, C = +/-1.0 ppm; temperature blank = -30~+85 C, N = -40~+85 C.",
       "pinouts": {
         "5032": [
@@ -3579,7 +3579,7 @@
       "id": "ecs-txo-3225-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-TXO-3225 oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS-TXO-3225.pdf: HCMOS TCXO, 3.2 x 2.5 (the datasheet does not say ceramic). p.1: frequency range 8.192-40.000 MHz, Input Voltage VDD 3.135-3.465 V, HCMOS output (VOL 0.5 V, VOH 80% VDD). p.2: pin connections 1 N/C or VCONT (VCONT only on the ECS-VTXO-3225 VC-TCXO; N/C on these TCXOs), 2 Ground, 3 Output, 4 VDD. No enable/standby pin.",
       "pinouts": {
         "3225": [
@@ -3609,7 +3609,7 @@
       "id": "ecs-txo-2016-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-TXO-2016 oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS-TXO-2016.pdf: SMD HCMOS (CMOS) TCXO, 2.0 x 1.6 ceramic. p.1: frequency range 9.500-60.000 MHz; Supply Voltage specified in the part number, +1.8, +2.5, +2.8 or +3.3 V +/-10% (device range 1.62-3.63 V); CMOS output (VOL 10% / VOH 90% Vdd); pad connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd; Tri-state pin 1: high or not connected = output active, low = output disabled (high Z). Voltage code = the field after ECS-TXO-2016 (ECS-TXO-2016-33-160-TR): 18 = 1.62-1.98 V, 25 = 2.25-2.75 V, 28 = 2.52-3.08 V, 33 = 2.97-3.63 V; each part carries its own vcc. All parts here are 33.",
       "pinouts": {
         "2016": [
@@ -3638,7 +3638,7 @@
       "id": "ecs-txo-2016mv-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-TXO-2016MV oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS-TXO-2016MV.pdf: MultiVolt CMOS TCXO, 2.0 x 1.6 ceramic. p.1: frequency range 10.000-60.000 MHz, Supply Voltage 1.7-3.6 V (one range for all parts), CMOS output (VOL 10% / VOH 90% Vdd); pad connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd; Tri-state pin 1: high or not connected = output active, low = output disabled (high Z).",
       "pinouts": {
         "2016": [
@@ -3666,7 +3666,7 @@
       "id": "ecs-txo53-s3-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-TXO53-S3 oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS-TXO53-S3.pdf: Stratum 3 CMOS TCXO, 5.0 x 3.2 ceramic, 10 pads. p.1: frequency range 10.000-52.000 MHz, Input Voltage VDD (33 option) 3.14-3.47 V (the part number guide also lists 30 = 3.0 V and 50 = 5.0 V +/-5% codes, without ROC; all parts here are 33); CMOS output (VOL 0.33 V, VOH 2.97 V at 3.3 V). p.2: pin connections 1 Ground or NC, 2 No Connect, 3 Tri-State, 4 Ground, 5 No Connect, 6 Output, 7 No Connect, 8 No Connect, 9 VCC, 10 No Connect; tri-state pin 3: high or NC = output enabled, low = output disabled. DigiKey lists no enable function, the datasheet has one.",
       "pinouts": {
         "5032-10": [
@@ -3697,7 +3697,7 @@
       "id": "etxo-l-3",
       "function": "100 MHz and up",
       "description": "ETXO-L oscillator, 100 MHz and up",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ETXO-L.pdf: ECSpressCON ETXO-L LVDS TCXO, 3.2 x 2.5, ceramic base (p.2 Package Data). p.1: frequency range 10.000-1500.00 MHz; LVDS differential output; supply ETXO-L2 2.375-2.625 V, ETXO-L3 3.135-3.465 V; output enable pin 2 (>= 0.7 Vdd or open = active, internal pull-up; <= 0.3 Vdd = disabled). Voltage code = the digit after ETXO-L (ETXO-L33CL-156.250: 3 = 3.3 V, 2 = 2.5 V); each part carries its own vcc. p.3: pins 1 No Connect, 2 Output Enable, 3 Ground, 4 Differential Output, 5 Complementary Output, 6 Supply Voltage.",
       "pinouts": {
         "3225-6": [
@@ -3724,7 +3724,7 @@
       "id": "etxo-h-3",
       "function": "100 MHz and up",
       "description": "ETXO-H oscillator, 100 MHz and up",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ETXO-H.pdf: ECSpressCON ETXO-H HCMOS TCXO, 3.2 x 2.5, ceramic base (p.2 Package Data). p.1: frequency range 10.000-250.000 MHz; HCMOS output (VOL 10% / VOH 90% Vdd); supply ETXO-H2 2.375-2.625 V, ETXO-H3 2.97-3.63 V; output enable pin 2 (>= 0.7 Vdd or open = active, internal pull-up; <= 0.3 Vdd = disabled). Voltage code = the digit after ETXO-H (ETXO-H33CL-125.000: 3 = 3.3 V, 2 = 2.5 V); each part carries its own vcc. p.3: pins 1 No Connect, 2 Output Enable, 3 Ground, 4 Output, 5 No Connect, 6 Supply Voltage.",
       "pinouts": {
         "3225-6": [
@@ -3749,7 +3749,7 @@
       "id": "ecs-327txo-0",
       "function": "Under 1 MHz",
       "description": "ECS-327TXO oscillator, Under 1 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS-327TXO.pdf: 32.768 kHz CMOS TCXO, 3.28 x 2.5 ceramic. p.1: frequency 32.768 kHz; CMOS output (VOH VDD-0.4 V, VOL 0.4 V); supply picked by the voltage code after ECS-327TXO (ECS-327TXO-33-TR): 18 = 1.8 V, 25 = 2.5 V, 30 = 3.0 V, 33 = 3.3 V, each +/-5% (Power Supply Current table headings): 18 = 1.71-1.89 V, 30 = 2.85-3.15 V, 33 = 3.135-3.465 V; each part carries its own vcc. Pad connections 1 Output Enable, 2 Gnd, 3 Output, 4 Supply Voltage; enable pin 1: Vih >= 0.8 VDD = enabled, Vil <= 0.2 VDD = disabled (open not specified).",
       "pinouts": {
         "3225": [
@@ -3774,7 +3774,7 @@
       "id": "ecs-327txo-2012-0",
       "function": "Under 1 MHz",
       "description": "ECS-327TXO-2012 oscillator, Under 1 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS-327TXO-2012.pdf: 32.768 kHz CMOS TCXO, 2.0 x 1.2 ceramic. p.1: frequency 32.768 kHz; Supply Voltage (33 option) 3.135-3.465 V (25 and 30 codes exist without a ROC; the only part here is 33); CMOS output; pad connections 1 Output Enable, 2 Gnd, 3 Output, 4 Supply Voltage; enable pin 1: open or Vih >= 0.8 VDD = enabled, Vil <= 0.2 VDD = disabled.",
       "pinouts": {
         "2012": [
@@ -3797,7 +3797,7 @@
       "id": "ecx-l-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECX-L oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECX_L.pdf (ECSpressCON ECX-L): p.1 electrical table for frequency range 10-1500 MHz and supply (ECX-L2 (+2.5 V) 2.375-2.625 V, ECX-L3 (+3.3 V) 3.135-3.465 V); differential LVDS output, pin 4 true and pin 5 complement. p.3 Pin Connections: pin 1 O/E or No Connect, 2 No Connect, 3 Ground, 4 Differential Output, 5 Complementary Output, 6 Supply Voltage (named OUTPUT / C-OUTPUT here). Pin 1 enables the output: HIGH or open (internal pull-up) = running, LOW = output disabled (high impedance) (p.1 Output Enable/Disable rows and note **). Part number decoded from the p.1 Part Numbering Guide ECX-L<V><S><stab><temp>-<MHz>[-TR]: V (1st digit) 2 = +2.5 V, 3 = +3.3 V and sets the part's vcc; S (2nd digit) 2 = 2.5x2.0, 3 = 3.2x2.5, 5 = 5x3.2, 7 = 7x5 mm and picks pinout and footprint (p.3 Figures 1-4); stability letter A-D, temperature letter L/M/N/P; then the frequency in MHz. The device vcc is the +3.3 V option; +2.5 V parts carry their own vcc. Package: ceramic base, metal lid (p.2 Package Data).",
       "pinouts": {
         "7050": [
@@ -3833,7 +3833,7 @@
       "id": "ecx-l-3",
       "function": "100 MHz and up",
       "description": "ECX-L oscillator, 100 MHz and up",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECX_L.pdf (ECSpressCON ECX-L): p.1 electrical table for frequency range 10-1500 MHz and supply (ECX-L2 (+2.5 V) 2.375-2.625 V, ECX-L3 (+3.3 V) 3.135-3.465 V); differential LVDS output, pin 4 true and pin 5 complement. p.3 Pin Connections: pin 1 O/E or No Connect, 2 No Connect, 3 Ground, 4 Differential Output, 5 Complementary Output, 6 Supply Voltage (named OUTPUT / C-OUTPUT here). Pin 1 enables the output: HIGH or open (internal pull-up) = running, LOW = output disabled (high impedance) (p.1 Output Enable/Disable rows and note **). Part number decoded from the p.1 Part Numbering Guide ECX-L<V><S><stab><temp>-<MHz>[-TR]: V (1st digit) 2 = +2.5 V, 3 = +3.3 V and sets the part's vcc; S (2nd digit) 2 = 2.5x2.0, 3 = 3.2x2.5, 5 = 5x3.2, 7 = 7x5 mm and picks pinout and footprint (p.3 Figures 1-4); stability letter A-D, temperature letter L/M/N/P; then the frequency in MHz. The device vcc is the +3.3 V option; +2.5 V parts carry their own vcc. Package: ceramic base, metal lid (p.2 Package Data).",
       "pinouts": {
         "3225": [
@@ -3907,7 +3907,7 @@
       "id": "ecx-p-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECX-P oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECX_P.pdf (ECSpressCON ECX-P): p.1 electrical table for frequency range 10-1500 MHz and supply (ECX-P2 (+2.5 V) 2.375-2.625 V, ECX-P3 (+3.3 V) 3.135-3.465 V); differential LVPECL output, pin 4 true and pin 5 complement. p.3 Pin Connections: pin 1 O/E or No Connect, 2 No Connect, 3 Ground, 4 Differential Output, 5 Complementary Output, 6 Supply Voltage (named OUTPUT / C-OUTPUT here). Pin 1 enables the output: HIGH or open (internal pull-up) = running, LOW = output disabled (high impedance) (p.1 Output Enable/Disable rows and note **). Part number decoded from the p.1 Part Numbering Guide ECX-P<V><S><stab><temp>-<MHz>[-TR]: V (1st digit) 2 = +2.5 V, 3 = +3.3 V and sets the part's vcc; S (2nd digit) 2 = 2.5x2.0, 3 = 3.2x2.5, 5 = 5x3.2, 7 = 7x5 mm and picks pinout and footprint (p.3 Figures 1-4); stability letter A-D, temperature letter L/M/N/P; then the frequency in MHz. The device vcc is the +3.3 V option; +2.5 V parts carry their own vcc. Package: ceramic base, metal lid (p.2 Package Data).",
       "pinouts": {
         "2520": [
@@ -3932,7 +3932,7 @@
       "id": "ecx-p-3",
       "function": "100 MHz and up",
       "description": "ECX-P oscillator, 100 MHz and up",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECX_P.pdf (ECSpressCON ECX-P): p.1 electrical table for frequency range 10-1500 MHz and supply (ECX-P2 (+2.5 V) 2.375-2.625 V, ECX-P3 (+3.3 V) 3.135-3.465 V); differential LVPECL output, pin 4 true and pin 5 complement. p.3 Pin Connections: pin 1 O/E or No Connect, 2 No Connect, 3 Ground, 4 Differential Output, 5 Complementary Output, 6 Supply Voltage (named OUTPUT / C-OUTPUT here). Pin 1 enables the output: HIGH or open (internal pull-up) = running, LOW = output disabled (high impedance) (p.1 Output Enable/Disable rows and note **). Part number decoded from the p.1 Part Numbering Guide ECX-P<V><S><stab><temp>-<MHz>[-TR]: V (1st digit) 2 = +2.5 V, 3 = +3.3 V and sets the part's vcc; S (2nd digit) 2 = 2.5x2.0, 3 = 3.2x2.5, 5 = 5x3.2, 7 = 7x5 mm and picks pinout and footprint (p.3 Figures 1-4); stability letter A-D, temperature letter L/M/N/P; then the frequency in MHz. The device vcc is the +3.3 V option; +2.5 V parts carry their own vcc. Package: ceramic base, metal lid (p.2 Package Data).",
       "pinouts": {
         "7050": [
@@ -3968,7 +3968,7 @@
       "id": "ecx-h-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECX-H oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECX_H.pdf (ECSpressCON ECX-H): p.1 electrical table for frequency range 10-250 MHz and supply (ECX-H2 (+2.5 V) 2.375-2.625 V, ECX-H3 (+3.3 V) 2.97-3.63 V); single-ended HCMOS output (15 pF load). p.3 Pin Connections: pin 1 O/E or No Connect, 2 No Connect, 3 Ground, 4 Output, 5 No Connect, 6 Supply Voltage. Pin 1 enables the output: HIGH or open (internal pull-up) = running, LOW = output disabled (high impedance) (p.1 Output Enable/Disable rows and note **). Part number decoded from the p.1 Part Numbering Guide ECX-H<V><S><stab><temp>-<MHz>[-TR]: V (1st digit) 2 = +2.5 V, 3 = +3.3 V and sets the part's vcc; S (2nd digit) 2 = 2.5x2.0, 3 = 3.2x2.5, 5 = 5x3.2, 7 = 7x5 mm and picks pinout and footprint (p.3 Figures 1-4); stability letter A-D, temperature letter L/M/N/P; then the frequency in MHz. The device vcc is the +3.3 V option; +2.5 V parts carry their own vcc. Package: ceramic base, metal lid (p.2 Package Data).",
       "pinouts": {
         "7050": [
@@ -3993,7 +3993,7 @@
       "id": "ecx2-lmv-3",
       "function": "100 MHz and up",
       "description": "ECX2-LMV oscillator, 100 MHz and up",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECX2-LMV.pdf (SMD MultiVolt LVDS oscillator): p.1 electrical table for frequency range 100-320 MHz and supply 2.375-3.63 V (MultiVolt: one range for every part, no voltage code); differential LVDS output, pin 4 OUTPUT and pin 5 C-OUTPUT. p.3 Pin Connections: 1 'L' / 'OPEN or H', 2 NC, 3 Gnd, 4 OUTPUT, 5 C-OUTPUT, 6 VDD (pin 1 named OE here). Pin 1 LOW = standby, outputs high impedance (p.1 Stand-by Current 30 uA at pin 1 ViL); open or HIGH = running. Part number decoded from the p.1 Part Numbering Guide ECX2-LMV-<S><stab><temp>-<MHz>[-TR]: S 2 = 2.5x2.0, 3 = 3.2x2.5, 5 = 5x3.2, 7 = 7x5 mm picks pinout and footprint (p.3 Figures 1-4); stability letter A-D, temperature letter M/N; then the frequency in MHz. The datasheet does not state the package material, so no ceramic flag.",
       "pinouts": {
         "2520": [
@@ -4053,7 +4053,7 @@
       "id": "ecs-lvds25-3",
       "function": "100 MHz and up",
       "description": "ECS-LVDS25 oscillator, 100 MHz and up",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-LVDS25-LVDS33.pdf (ECS-LVDS25/LVDS33): p.1 electrical table for frequency range 80-300 MHz and supply (+2.5 V: 2.375-2.625 V; the LVDS25/LVDS33 series number is the supply); differential LVDS output, pin 4 OUTPUT and pin 5 C-OUTPUT, load 100 ohm between OUTPUT and C-OUTPUT. p.2 Pin Connections: 1 Tri-State, 2 N.C., 3 Ground, 4 Output, 5 C-Output, 6 VDD. p.2 Tri-State Control: pin 1 open or VIH = oscillation, VIL = no oscillation (crystal halted, 30 uA stand-by). Part number per the p.1 Part Numbering Guide ECS-LVDS<25|33>-<frequency code>-<stab>-<temp>[-TR]: the frequency code is MHz x 10 (1000 = 100 MHz, 1562.5 = 156.25 MHz; LVDS p.2 Frequency Abbreviations). 7 x 5 mm ceramic base, metal lid (Package Data).",
       "pinouts": {
         "7050": [
@@ -4079,7 +4079,7 @@
       "id": "ecs-lvds33-3",
       "function": "100 MHz and up",
       "description": "ECS-LVDS33 oscillator, 100 MHz and up",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-LVDS25-LVDS33.pdf (ECS-LVDS25/LVDS33): p.1 electrical table for frequency range 80-300 MHz and supply (+3.3 V: 3.135-3.465 V; the LVDS25/LVDS33 series number is the supply); differential LVDS output, pin 4 OUTPUT and pin 5 C-OUTPUT, load 100 ohm between OUTPUT and C-OUTPUT. p.2 Pin Connections: 1 Tri-State, 2 N.C., 3 Ground, 4 Output, 5 C-Output, 6 VDD. p.2 Tri-State Control: pin 1 open or VIH = oscillation, VIL = no oscillation (crystal halted, 30 uA stand-by). Part number per the p.1 Part Numbering Guide ECS-LVDS<25|33>-<frequency code>-<stab>-<temp>[-TR]: the frequency code is MHz x 10 (1000 = 100 MHz, 1562.5 = 156.25 MHz; LVDS p.2 Frequency Abbreviations). 7 x 5 mm ceramic base, metal lid (Package Data).",
       "pinouts": {
         "7050": [
@@ -4107,7 +4107,7 @@
       "id": "ecs-pec25-3",
       "function": "100 MHz and up",
       "description": "ECS-PEC25 oscillator, 100 MHz and up",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-pec25-pec33.pdf (ECS-PEC25/PEC33): p.1 electrical table for frequency range 40-300 MHz and supply (+2.5 V: 2.375-2.625 V; the PEC25/PEC33 series number is the supply); differential PECL (LVPECL) output, pin 4 OUTPUT and pin 5 C-OUTPUT, load 50 ohm into VDD-2 V. p.2 Pin Connections: 1 Tri-State, 2 N.C., 3 Ground, 4 Output, 5 C-Output, 6 VDD. p.2 Tri-State Control: pin 1 open or VIH = oscillation, VIL = no oscillation (crystal halted, 30 uA stand-by). Part number per the p.1 Part Numbering Guide ECS-PEC<25|33>-<frequency code>-<stab>-<temp>[-TR]: the frequency code is MHz x 10 (1000 = 100 MHz, 1562.5 = 156.25 MHz; LVDS p.2 Frequency Abbreviations). 7 x 5 mm ceramic base, metal lid (Package Data).",
       "pinouts": {
         "7050": [
@@ -4134,7 +4134,7 @@
       "id": "ecs-pec33-3",
       "function": "100 MHz and up",
       "description": "ECS-PEC33 oscillator, 100 MHz and up",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-pec25-pec33.pdf (ECS-PEC25/PEC33): p.1 electrical table for frequency range 40-300 MHz and supply (+3.3 V: 3.135-3.465 V; the PEC25/PEC33 series number is the supply); differential PECL (LVPECL) output, pin 4 OUTPUT and pin 5 C-OUTPUT, load 50 ohm into VDD-2 V. p.2 Pin Connections: 1 Tri-State, 2 N.C., 3 Ground, 4 Output, 5 C-Output, 6 VDD. p.2 Tri-State Control: pin 1 open or VIH = oscillation, VIL = no oscillation (crystal halted, 30 uA stand-by). Part number per the p.1 Part Numbering Guide ECS-PEC<25|33>-<frequency code>-<stab>-<temp>[-TR]: the frequency code is MHz x 10 (1000 = 100 MHz, 1562.5 = 156.25 MHz; LVDS p.2 Frequency Abbreviations). 7 x 5 mm ceramic base, metal lid (Package Data).",
       "pinouts": {
         "7050": [
@@ -4159,7 +4159,7 @@
       "id": "ecoc-9775-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECOC-9775 oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECOC-9775.pdf. p.1: LVCMOS OCXO, Frequency Range 10.000-48.000 MHz, Input Voltage +3.135/+3.3/+3.465 VDC; p.2: ECOC-9775 Pin Connections (1 NC, 2 DNC, 3 GND, 4 Output, 5 DNC, 6 Vcc), package Figure 1 and land pattern Figure 2. No enable/standby pin (the -VC variant's pin 1 voltage control is not used). DN = +/-20 ppb, -40 ~ +85 C.",
       "pinouts": {
         "9775-6": [
@@ -4189,7 +4189,7 @@
       "id": "ecoc-7050-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECOC-7050 oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECOC-7050.pdf. p.1: LVCMOS OCXO, Frequency Range 10.000-50.000 MHz, Input Voltage +3.135/+3.3/+3.465 VDC; p.2: ECOC-7050 Pin Connections (1,2,3 DNC, 4 GND, 5 Output, 6,7,8 DNC, 9 Vcc, 10 DNC), Figure 1 package, Figure 2 land pattern. No enable/standby pin. BN = +/-50 ppb, -40 ~ +85 C.",
       "pinouts": {
         "7050-10": [
@@ -4220,7 +4220,7 @@
       "id": "oecs-500-cdx-2514-2",
       "function": "10 MHz to 100 MHz",
       "description": "OECS-500-CDX-2514 oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/OECS-500-CDX-2514.pdf p.1 (single-part spec sheet, LVDS 5032): Frequency 50.000 MHz only; Power Supply Voltage 2.375 ~ 3.63 V; LVDS output, 100 ohm between output and complementary output; Pad Function 1 ENABLE CONTROL or NC, 2 NC, 3 GND, 4 OUT, 5 OUTN, 6 VDD; Tri-State Function: pin 1 High (open) = output enabled, Low = output disabled.",
       "pinouts": {
         "5032-6": [
@@ -4245,7 +4245,7 @@
       "id": "ecs-327mvatx-0",
       "function": "Under 1 MHz",
       "description": "ECS-327MVATX oscillator, Under 1 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS-327MVATX.pdf. p.1: 32.768 kHz CMOS MultiVolt oscillator, Supply Voltage 1.6-3.6 V (one range for every part; no voltage code); Tri-State Function: VIH >= 0.7 Vdd or NC = oscillation, VIL <= 0.3 Vdd = high impedance (internal pull-up on pin 1). Part number: ECS-327MVATX-<package size 1 = 2.0x1.6, 2 = 2.5x2.0, 3 = 3.2x2.5, 5 = 5.0x3.2, 7 = 7.0x5.0>-<stability><temp>-<TR/TR3 reel>. pp.2-3 Figures 1-5: same pads in every size (1 Tri-state, 2 Gnd, 3 Output, 4 Vdd), one pinout per size.",
       "pinouts": {
         "2016-4": [
@@ -4298,7 +4298,7 @@
       "id": "ecs-327atqmv-0",
       "function": "Under 1 MHz",
       "description": "ECS-327ATQMV oscillator, Under 1 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS-327ATQMV.pdf p.1: 32.768 kHz AEC-Q200 HCMOS MultiVolt oscillator, 3.2 x 2.5 mm ceramic; Supply Voltage 1.62-3.63 V (one range, no voltage code); Pad Connections 1 Tri-state or NC, 2 Gnd, 3 Output, 4 Vdd; Tri State Function: pin 1 >= 0.7 Vdd or NC = active, <= 0.3 Vdd = high impedance. Note: the ordering guide footnote says B/C stability only to +105 C, but DigiKey stocks ECS-327ATQMV-BS-TR (B, -40 ~ +125 C).",
       "pinouts": {
         "3225-4": [
@@ -4324,7 +4324,7 @@
       "id": "ecs-327mv-0",
       "function": "Under 1 MHz",
       "description": "ECS-327MV oscillator, Under 1 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS-327MV.pdf p.1: 32.768 kHz CMOS MultiVolt oscillator, 1.6 x 1.2 mm ceramic; Supply Voltage 1.6-3.63 V (table; one range, no voltage code); Pad Connections 1 Stand-by, 2 Gnd, 3 Output, 4 Vdd; Tri State Function: pin 1 open or >= 0.7 Vdd = active, <= 0.3 Vdd = High-Z.",
       "pinouts": {
         "1612-4": [
@@ -4349,7 +4349,7 @@
       "id": "ecs-2012mv-327ke-0",
       "function": "Under 1 MHz",
       "description": "ECS-2012MV-327KE oscillator, Under 1 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS-2012MV-327KE-TR.pdf p.1: 32.768 kHz low-current CMOS MultiVolt oscillator, 2.0 x 1.2 mm ceramic; Supply Voltage 1.2/3.3/5.5 V (one range, no voltage code); Pad Connections 1 Tri-state, 2 Gnd, 3 Output, 4 Vdd; Tri State Function: pin 1 >= Vdd-0.4 = active, <= 0.4 V = high impedance, open not allowed (pin 1 must be driven).",
       "pinouts": {
         "2012-4": [
@@ -4372,7 +4372,7 @@
       "id": "ecs-3215mv-327ke-0",
       "function": "Under 1 MHz",
       "description": "ECS-3215MV-327KE oscillator, Under 1 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS-3215MV-327KE.pdf p.1: 32.768 kHz low-current CMOS MultiVolt oscillator, 3.2 x 1.5 mm ceramic; Supply Voltage 1.62-3.63 V (one range, no voltage code); Pad Connections 1 Tri-state or NC, 2 Gnd, 3 Output, 4 Vdd; Tri State Function: pin 1 >= 0.8 Vdd or NC = active, <= 0.2 Vdd = high impedance.",
       "pinouts": {
         "3215-4": [
@@ -4395,7 +4395,7 @@
       "id": "ecs-327atq2016mv-0",
       "function": "Under 1 MHz",
       "description": "ECS-327ATQ2016MV oscillator, Under 1 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS-327ATQ2016MV.pdf p.1: 32.768 kHz AEC-Q200 HCMOS MultiVolt oscillator, 2.0 x 1.6 mm ceramic; Supply Voltage 1.62-3.63 V (one range, no voltage code); Pad Connections 1 Tri-state or NC, 2 Gnd, 3 Output, 4 Vdd; Tri State Function: pin 1 >= 0.7 Vdd or NC = active, <= 0.3 Vdd = high impedance.",
       "pinouts": {
         "2016-4": [
@@ -4418,7 +4418,7 @@
       "id": "ecs-327atq2520mv-0",
       "function": "Under 1 MHz",
       "description": "ECS-327ATQ2520MV oscillator, Under 1 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS-327ATQ2520MV.pdf p.1: 32.768 kHz AEC-Q200 HCMOS MultiVolt oscillator, 2.5 x 2.0 mm ceramic; Supply Voltage 1.62-3.63 V (one range, no voltage code); Pad Connections 1 Tri-state or NC, 2 Gnd, 3 Output, 4 Vdd; Tri State Function: pin 1 >= 0.7 Vdd or NC = active, <= 0.3 Vdd = high impedance.",
       "pinouts": {
         "2520-4": [
@@ -4441,7 +4441,7 @@
       "id": "ecs-327ke-0",
       "function": "Under 1 MHz",
       "description": "ECS-327KE oscillator, Under 1 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ECS_327KE.pdf. p.1: 32.768 kHz low-power CMOS oscillator, Input Voltage +1.425 to +5.5 VDC; p.2: Pin Connections 1 TRI-STATE, 2 GROUND, 3 OUTPUT, 4 VDD; Tri-State Control: pad 1 open or >= 90% VDD = oscillation, <= 10% VDD = high impedance (oscillation halted). Package material not stated, so no ceramic flag.",
       "pinouts": {
         "3225-4": [
@@ -4464,7 +4464,7 @@
       "id": "ecs-327smo-0",
       "function": "Under 1 MHz",
       "description": "ECS-327SMO oscillator, Under 1 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS osc/ecs-327smo.pdf. p.1: 32.768 kHz CMOS clock oscillator in an SMD ceramic package, Input Voltage Vcc +1.5/+3.3/+6.0 V DC; p.2: Pad Connections 1 tri-state (L = output Z, open or H = output), 2 Ground, 3 Output, 4 Vcc (pin 1 named TRI-STATE in the Figure 3 test circuit); Package Data: metal cover, ceramic base.",
       "pinouts": {
         "6540-4": [
@@ -4487,7 +4487,7 @@
       "id": "asem1-2",
       "function": "10 MHz to 100 MHz",
       "description": "ASEM1 oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "Abracon datasheets/osc/ASEM.pdf: plastic 3.2 x 2.5 x 0.85 mm MEMS clock oscillator, CMOS output (15 pF). p.1: frequency range 1.0-150 MHz. p.3 Options and Part Identification: ASEM1 = supply 3.3 +-0.3 V (codes 2-5 are the 3.0, 2.5, 1.8 and 2.8 V options, not in the library); -LC = -40 to +85 C, +-50 ppm; -T = reel. p.4: pins 1 Standby, 2 GND, 3 Output, 4 Vdd. p.2 Tri-state Function (Stand-by): pin 1 low (below 0.25 Vdd) = output Hi Z; high or open = output active.",
       "pinouts": {
         "3225": [
@@ -4510,7 +4510,7 @@
       "id": "ase-2",
       "function": "10 MHz to 100 MHz",
       "description": "ASE oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "Abracon datasheets/osc/ASEseries.pdf: 3.3 V CMOS compatible 3.2 x 2.5 x 1.2 mm SMD crystal oscillator. p.1: frequency range 0.625-200 MHz, supply voltage 3.135-3.465 V, CMOS output (15 pF). p.3 Options and Part Identification: -L = -40 to +85 C, -C = +-50 ppm, -T = 1000 pcs/reel. p.5: pins 1 Tri-State (STBY), 2 GND/Case, 3 Output, 4 Vdd. p.2 Tri-state function (Stand-by): pin 1 low = output high impedance; high or open = output active.",
       "pinouts": {
         "3225": [
@@ -4533,7 +4533,7 @@
       "id": "ecs-txo-32csmv-2",
       "function": "10 MHz to 100 MHz",
       "description": "ECS-TXO-32CSMV oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "ECS datasheets/osc/ECS-TXO-32CSMV.pdf: clipped sine wave TCXO, MultiVolt, 3.2 x 2.5 x 1.2 mm ceramic package. p.1: frequency range 10.000-52.000 MHz, input voltage VDD 1.7-3.465 V, output clipped sine wave 0.8 V p-p min into 10 kOhm // 10 pF (modelled as a toggling output, as the library's other ECS TCXOs). p.2: pin connections #1 Ground, #2 Ground, #3 Output, #4 VDD; no enable or standby pin. Part number ECS-TXO-32CSMV-<frequency code>-<stability><temperature>-TR; 260 = 26.000 MHz, A = +-0.5 ppm, N = -40 to +85 C.",
       "pinouts": {
         "3225": [
@@ -4556,7 +4556,7 @@
       "id": "sg-210stf-2",
       "function": "10 MHz to 100 MHz",
       "description": "SG-210STF oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "Epson datasheets/osc/SG-210STF_en.pdf: crystal oscillator (SPXO), CMOS output, 2.5 x 2.0 mm. p.1: output frequency 1.2-75 MHz (27 MHz is a standard frequency), supply voltage 1.60-3.63 V for 1.2-60 MHz (1.71-3.63 V above 60 MHz at +85 C), CMOS load 15 pF. p.2 Pin Map: 1 ST (HIGH or open = oscillation, output enabled; LOW = oscillation stop, output high impedance), 2 GND, 3 OUT, 4 VCC. The orderable name SG-210STF 27.0000ML5 is model SG-210STF, 27.0000 MHz, tolerance L (+-50 ppm, -40 to +85 C); the last digit is the packing.",
       "pinouts": {
         "2520": [
@@ -4579,7 +4579,7 @@
       "id": "mc2016z-2",
       "function": "10 MHz to 100 MHz",
       "description": "MC2016Z oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "Kyocera datasheets/osc/clock_mcz_x_e.pdf (Clock MC-Z series, X type): CMOS clock oscillator for automotive (AEC-Q100/200), 2.0 x 1.6 mm. p.2: output frequency range 0.5-170 MHz, supply voltage 1.71-3.63 V, CMOS load 15 pF; How to Order MC2016Z <frequency> C (CMOS) 1 (1.8/2.5/3.3 V) <tolerance code> X (45/55 %) SH; tolerance code 9 = +-30 ppm, -40 to +125 C. p.1 Pad Connections: #1 Stand-by Function, #2 Case GND, #3 Output, #4 Vcc; Stand-by Function: pad 1 open or H = active, L = High Z (no oscillation).",
       "pinouts": {
         "2016": [
@@ -4602,7 +4602,7 @@
       "id": "dsc1001-2",
       "function": "10 MHz to 100 MHz",
       "description": "DSC1001 oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "Microchip datasheets/osc/DSC1001-3-4-1-8V-3-3V-Low-Power-Precision-CMOS-Oscillator-DS20005529.pdf (DS20005529F): MEMS CMOS oscillator. p.1: frequency range 1-150 MHz; p.3 Recommended Operating Conditions: supply voltage 1.7-3.6 V, load 15 pF. p.7 Table 2-1: pins 1 STANDBY#, 2 GND, 3 OUT, 4 VDD. p.9 Standby Function: STANDBY# high (or open, internal pull-up) = output on, low = standby, output disabled. p.29 Product Identification System: DSC1001 B (4-lead 5.0 x 3.2 mm VDFN) I (-40 to +85 C) 1 (+-50 ppm) -050.0000 (50 MHz).",
       "pinouts": {
         "5032": [
@@ -4625,7 +4625,7 @@
       "id": "iqxo-791-2",
       "function": "10 MHz to 100 MHz",
       "description": "IQXO-791 oscillator, 10 MHz to 100 MHz",
-      "drawer": ["Oscillator"],
+      "drawer": ["Clocks", "Oscillator"],
       "note": "Würth Elektronik datasheets/osc/830208220401.pdf (IQXO-791, AKA LFSPXO082204): 2.5 x 2.0 mm oscillator in a ceramic package with a metal lid (p.1). The datasheet covers this one part: frequency 20.0 MHz, supply voltage 3.3 V +-10 %, CMOS output, 15 pF (p.2). p.1 pad connections: 1 Enable/Disable, 2 GND, 3 Output, 4 +Vs. p.2 Output Control: logic 1 (70 % Vs or more) or no connection on pad 1 enables the output; logic 0 (30 % Vs or less) disables it, output high impedance.",
       "pinouts": {
         "2520": [

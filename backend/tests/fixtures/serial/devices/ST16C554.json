@@ -2,7 +2,7 @@
   "id": "ST16C554",
   "function": "UART",
   "description": "2.97V to 5.5V quad UARTs with 16-byte FIFO",
-  "drawer": ["Interface"],
+  "drawer": ["Interface", "Serial"],
   "note": "st16c554.pdf p.1-39; plan-12-data/specs/exar-a.md § ST16C554 (and ST16C554D)",
   "pinouts": {
     "lqfp64": [

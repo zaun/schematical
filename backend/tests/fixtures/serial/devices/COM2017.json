@@ -3,7 +3,8 @@
  "function": "UART",
  "description": "Universal asynchronous receiver/transmitter",
  "drawer": [
-  "Interface"
+  "Interface",
+  "Serial"
  ],
  "note": "com2017.pdf p1-8; plan-12-data/specs/classic-a.md § COM2017",
  "pinouts": {

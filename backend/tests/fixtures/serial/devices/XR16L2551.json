@@ -2,7 +2,7 @@
   "id": "XR16L2551",
   "function": "UART",
   "description": "Low voltage DUART with PowerSave",
-  "drawer": ["Interface"],
+  "drawer": ["Interface", "Serial"],
   "note": "xr16l2551.pdf p.1-49; plan-12-data/specs/exar-b.md § XR16L2551",
   "pinouts": {
     "tqfp48": [

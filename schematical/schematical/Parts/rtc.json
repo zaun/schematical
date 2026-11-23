@@ -8,7 +8,7 @@
    "function": "RTC",
    "description": "I2C real-time clock with automatic battery backup switchover, oscillator-fail flag, calibration and trickle charger",
    "drawer": [
-    "Interface"
+    "Clocks"
    ],
    "note": "bq32000.pdf (SLUS900F) p.3 pinout and pin functions, p.4 recommended operating conditions, p.5 I2C timing (tvd(data) 1 us), p.7-8 IRQ function (Table 6-1) and SF keys, p.9 switchover, p.10 trickle charge, p.10-11 I2C (address 1101000, no general call), p.12 register map (Tables 7-1, 7-2), p.12-18 register descriptions, p.20 leap year",
    "pinouts": {
@@ -461,7 +461,7 @@
    "function": "RTC",
    "description": "I2C real-time clock with automatic battery backup switchover, oscillator-fail flag, calibration",
    "drawer": [
-    "Interface"
+    "Clocks"
    ],
    "note": "bq32002.pdf (SLUSA96B) p.3 pinout and pin functions, p.4 recommended operating conditions, p.6 I2C timing (tvd(data) 1 us), p.7-8 IRQ function (Table 1), p.10-11 I2C (address 1101000, no general call), p.12 register map (Tables 2, 3), p.12-18 register descriptions",
    "pinouts": {
@@ -864,7 +864,7 @@
    "function": "RTC",
    "description": "Real-time clock with 114 bytes of nonvolatile RAM, alarm, periodic interrupt and square-wave output, multiplexed Intel/Motorola bus (MC146818A/DS1285 compatible)",
    "drawer": [
-    "Interface"
+    "Clocks"
    ],
    "note": "bq3285.pdf (SLUS028A) p.1 pin connections, p.2-3 pin descriptions (MOT bus select Table 1, AS address latch), p.4 address map (Figure 1) and update period, p.5 formats (Table 2), p.6 square wave and periodic rates (Table 3), p.7 periodic, alarm, update interrupts, update access, oscillator control, p.8-10 control/status registers (Table 4), p.11 recommended DC operating conditions, p.14 read/write timing (tOD 50 ns, tDHR 25 ns, tBUC 244 us), p.18 interrupt timing; the AS falling edge latches the address (bus.ale)",
    "pinouts": {
@@ -1547,7 +1547,7 @@
    "function": "RTC",
    "description": "Parallel real-time clock with century, alarm, periodic interrupt, watchdog, CPU supervisor and external SRAM battery-backup control",
    "drawer": [
-    "Interface"
+    "Clocks"
    ],
    "note": "bq4802ly.pdf (SLUS464C) p.2 recommended operating conditions (bq4802Y 4.5-5.5 V, bq4802LY 2.7-3.6 V), p.3 read cycle timing (tAA/tACS/tOE 150 ns, tCHZ/tOHZ 60 ns at 3.3 V), p.5-6 pin assignments and terminal functions, p.12 operational truth table (Table 1) and register map (Table 2), p.13 bit descriptions (Table 3), read/write mode, reading/setting the clock (UTI), STOP, p.14 power-on reset, watchdog, p.15 watchdog rates (Table 4), interrupts, periodic rates (Table 5), alarm, p.16 alarm frequency (Table 6), power-fail interrupt, battery-low warning",
    "pinouts": {
@@ -2371,7 +2371,7 @@
    "function": "RTC",
    "description": "Parallel real-time clock with alarm, periodic interrupt, watchdog, CPU supervisor and external SRAM battery-backup control",
    "drawer": [
-    "Interface"
+    "Clocks"
    ],
    "note": "bq4845.pdf (Aug. 1995) p.1 pin connections and names, p.2 truth table, p.3 pin descriptions, p.4 register map (Table 1), p.5 register bits (Table 2), read/write mode, reading/setting the clock (UTI), STOP, p.6 power-on reset, p.7 watchdog (Figure 3), p.8 interrupts, alarm, power-fail, battery-low, watchdog rates (Table 3), p.9 periodic rates (Table 4), alarm frequency (Table 5), p.10 recommended DC operating conditions, p.12 read cycle (tAA 70 ns, tCHZ/tOHZ 25 ns)",
    "pinouts": {
@@ -3124,7 +3124,7 @@
    "function": "RTC",
    "description": "Timer clock peripheral: parallel real-time clock (1/100 s to years, day of year) with alarm compare, periodic interrupts, two 16-bit timers, power-fail logic and 44 bytes of RAM",
    "drawer": [
-    "Interface"
+    "Clocks"
    ],
    "note": "dp8570a.pdf (SNAS557, May 1993) p.2 operating conditions (VCC 4.5-5.5 V), p.3 AC characteristics (tCD 80 ns, tRD 70 ns, tDZ 60 ns), p.5 pin description and connection diagrams (DIP and PLCC same numbering), p.6-7 memory map, clock, validated/latched read, initialization, p.8-9 interrupts, alarm compare, periodic, p.11-12 power fail, oscillator fail, time save, p.12-15 timers, p.16 addressing (Table VII) and main status register, p.17-19 register descriptions, p.20 control and status register bit map, p.21 initialization procedure",
    "pinouts": {
@@ -4695,7 +4695,7 @@
    "function": "RTC",
    "description": "Parallel real-time clock (1/100 s to years) with alarm compare, periodic interrupts, power-fail logic, time save and RAM",
    "drawer": [
-    "Interface"
+    "Clocks"
    ],
    "note": "dp8573a.pdf (SNAS561, May 1993) p.2 operating conditions (VCC 4.5-5.5 V), p.3 AC characteristics (tCD 80 ns, tRD 70 ns, tDZ 60 ns), p.4 pin description, p.5 connection diagrams and memory map (Figure 2), clock, p.6 validated/latched read, initialization, p.7 interrupts, alarm compare, periodic, p.9 power fail, p.10 oscillator fail, time save, addressing (Table III), p.11-12 register descriptions, p.13 control and status register bit map, initialization procedure",
    "pinouts": {
@@ -5745,7 +5745,7 @@
    "function": "RTC",
    "description": "I2C real-time clock with MEMS resonator, two alarms and battery backup input",
    "drawer": [
-    "Interface"
+    "Clocks"
    ],
    "note": "DS3231M.pdf (Maxim 19-5312): p.1 ordering information (DS3231MZ+ 8 SO; +TRL is its tape and reel), p.2 recommended operating conditions (VCC 2.3-5.5 V), p.7-8 pin description (8 SO: 1 32KHZ, 2 VCC, 3 INT/SQW, 4 RST, 5 GND, 6 VBAT, 7 SDA, 8 SCL), p.11 Table 2 timekeeping registers, p.13-15 Control (0Eh: 1Ch at power-on, INTCN = 1) and Status (0Fh: OSF and EN32KHZ 1 at power-on), p.16-18 I2C (slave address 1101000, register pointer with auto-increment). Modelled: time and calendar in 24-hour mode, the century bit, both alarms on INT/SQW (open drain, date matching). Left out: 12-hour mode (bit 5 of the hours registers is both the 20-hour digit and AM/PM; the 12/24 bits are stored only), day-of-week alarm matching (DY/DT is stored only), the 1 Hz square wave (INTCN = 0), the 32 kHz output, RST, the temperature registers (read 0), the aging offset, and EOSC (it stops the oscillator only on VBAT; the model has no battery supply, so the clock always runs). Alarm 2 has no seconds register: it matches during second 00. The day-of-week register is user-defined; it starts at 7 for Saturday 2000-01-01 (1 = Sunday).",
    "pinouts": {
@@ -6419,7 +6419,7 @@
    "function": "RTC",
    "description": "I2C real-time clock and calendar with alarm, timer flag and clock output",
    "drawer": [
-    "Interface"
+    "Clocks"
    ],
    "note": "PCF8563.pdf (NXP): p.5 ordering information (PCF8563T/5, SO8, SOT96-1; ,518 is the reel), p.8 pinning (PCF8563T: 1 OSCI, 2 OSCO, 3 INT, 4 VSS, 5 SDA, 6 SCL, 7 CLKOUT, 8 VDD), register overview (00h-0Fh) and register descriptions, I2C slave address A2h write / A3h read (7-bit 51h) with an auto-incrementing register address, p.31 static characteristics (VDD 1.8-5.5 V with the interface active). Reset values: Control_status_1 08h (TESTC), VL = 1, CLKOUT_control 80h, Timer_control 03h; the datasheet leaves the alarm registers undefined, they start with their AE bits 1 (disabled). Modelled: time and calendar (weekday 0 = Sunday), the century bit, STOP, the alarm (minute, hour, day, weekday; an AE bit of 1 takes that entry out of the comparison) on INT (open drain). Left out: CLKOUT, the countdown timer's counting and its flag, the low-voltage detector (VL only reads its reset value). With all four AE bits 1 the chip raises no alarm, but the engine treats four masked entries as a match, so AF sets every second then (INT stays released while AIE = 0).",
    "pinouts": {

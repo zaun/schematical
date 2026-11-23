@@ -2,7 +2,7 @@
   "id": "TL16C2550",
   "function": "UART",
   "description": "1.8-V to 5-V dual UART with 16-byte FIFOs",
-  "drawer": ["Interface"],
+  "drawer": ["Interface", "Serial"],
   "note": "tl16c2550.pdf p.1-49; tl16c2550-q1.pdf p.1-40; plan-12-data/specs/ti-c.md § TL16C2550",
   "pinouts": {
     "tqfp48": [

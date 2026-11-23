@@ -2,7 +2,7 @@
   "id": "XR16V2550",
   "function": "UART",
   "description": "High performance DUART with 16-byte FIFO",
-  "drawer": ["Interface"],
+  "drawer": ["Interface", "Serial"],
   "note": "xr16v2550.pdf p.1-46; plan-12-data/specs/exar-c.md § XR16V2550 — High Performance DUART with 16-Byte FIFO; § A. Common UART core",
   "pinouts": {
     "qfn32": [

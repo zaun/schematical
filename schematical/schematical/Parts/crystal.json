@@ -8,6 +8,7 @@
    "function": "32 kHz",
    "description": "Quartz crystal, 32 kHz",
    "drawer": [
+    "Clocks",
     "Crystal",
     "kHz"
    ],
@@ -84,6 +85,7 @@
    "function": "32.768 kHz",
    "description": "Quartz crystal, 32.768 kHz",
    "drawer": [
+    "Clocks",
     "Crystal",
     "kHz"
    ],
@@ -1733,6 +1735,7 @@
    "function": "16 MHz to 32 MHz",
    "description": "Quartz crystal, 16 MHz to 32 MHz",
    "drawer": [
+    "Clocks",
     "Crystal",
     "MHz"
    ],
@@ -5278,6 +5281,7 @@
    "function": "32 MHz and over",
    "description": "Quartz crystal, 32 MHz and over",
    "drawer": [
+    "Clocks",
     "Crystal",
     "MHz"
    ],
@@ -6128,6 +6132,7 @@
    "function": "4 MHz to 8 MHz",
    "description": "Quartz crystal, 4 MHz to 8 MHz",
    "drawer": [
+    "Clocks",
     "Crystal",
     "MHz"
    ],
@@ -6515,6 +6520,7 @@
    "function": "8 MHz to 16 MHz",
    "description": "Quartz crystal, 8 MHz to 16 MHz",
    "drawer": [
+    "Clocks",
     "Crystal",
     "MHz"
    ],
@@ -7671,6 +7677,7 @@
    "function": "Under 4 MHz",
    "description": "Quartz crystal, Under 4 MHz",
    "drawer": [
+    "Clocks",
     "Crystal",
     "MHz"
    ],
@@ -7832,7 +7839,7 @@
    "function": "16 MHz and over",
    "description": "Ceramic resonator, 16 MHz and over",
    "drawer": [
-    "Crystal",
+    "Clocks",
     "Ceramic resonator"
    ],
    "note": "Facts, pinouts and ordering codes from the maker datasheets: AWSCR-CV AWSCR_CV.pdf p.1; AWSCR-CW AWSCR_CW.pdf p.1; AWSCR-MTD N_AWSCR-MT.pdf p.2; AWSZT-CV AWSZT-CV.pdf p.1; CR2 ecs_cr2_a.pdf p.1; CR2 ecs_cr2_b.pdf p.1; ECS-CTP ECS-CTP.pdf p.1,2; ECS-HFR-B ecs_HFR_B.pdf p.1. Pads that are not the two terminals are NC (case or lid); the middle pad of a three-pad resonator is GND.",
@@ -8167,7 +8174,7 @@
    "function": "4 MHz to 8 MHz",
    "description": "Ceramic resonator, 4 MHz to 8 MHz",
    "drawer": [
-    "Crystal",
+    "Clocks",
     "Ceramic resonator"
    ],
    "note": "Facts, pinouts and ordering codes from the maker datasheets: AWSCR-CPLA AWSCR-CPLA.pdf p.1,2; AWSCR-CPLB AWSCR-CPLB.pdf p.1,2; AWSCR-CRLA AWSCR-CRLA.pdf p.1,2; ECS-CTA ECS-CTA.pdf p.1,2; ECS-CTP ECS-CTP.pdf p.1,2. Pads that are not the two terminals are NC (case or lid); the middle pad of a three-pad resonator is GND.",
@@ -8393,7 +8400,7 @@
    "function": "8 MHz to 16 MHz",
    "description": "Ceramic resonator, 8 MHz to 16 MHz",
    "drawer": [
-    "Crystal",
+    "Clocks",
     "Ceramic resonator"
    ],
    "note": "Facts, pinouts and ordering codes from the maker datasheets: AWSCR-CELA AWSCR-CELA.pdf p.1,2; AWSCR-CELB AWSCR-CELB.pdf p.1,2; AWSCR-CPLA AWSCR-CPLA.pdf p.1,2; AWSCR-CPLB AWSCR-CPLB.pdf p.1,2; AWSCR-CV AWSCR_CV.pdf p.1; AWSZT-CV AWSZT-CV.pdf p.1; CR2 ecs_cr2_b.pdf p.1; ECS-CTA ECS-CTA.pdf p.1,2; ECS-CTE ECS-CTE.pdf p.1,2; ECS-CTP ECS-CTP.pdf p.1,2. Pads that are not the two terminals are NC (case or lid); the middle pad of a three-pad resonator is GND.",
@@ -8683,7 +8690,7 @@
    "function": "Under 4 MHz",
    "description": "Ceramic resonator, Under 4 MHz",
    "drawer": [
-    "Crystal",
+    "Clocks",
     "Ceramic resonator"
    ],
    "note": "Facts, pinouts and ordering codes from the maker datasheets: AWSCR-CPLA AWSCR-CPLA.pdf p.1,2; AWSCR-CPLB AWSCR-CPLB.pdf p.1,2; ECS-CTA ECS-CTA.pdf p.1,2; ECS-CTP ECS-CTP.pdf p.1,2. Pads that are not the two terminals are NC (case or lid); the middle pad of a three-pad resonator is GND.",
@@ -8859,6 +8866,7 @@
    "function": "Generic",
    "description": "Generic quartz crystal",
    "drawer": [
+    "Clocks",
     "Crystal"
    ],
    "pinouts": {
@@ -8966,7 +8974,8 @@
    "function": "Generic",
    "description": "Generic ceramic resonator",
    "drawer": [
-    "Crystal"
+    "Clocks",
+    "Ceramic resonator"
    ],
    "pinouts": {
     "x1-gnd-x2": [

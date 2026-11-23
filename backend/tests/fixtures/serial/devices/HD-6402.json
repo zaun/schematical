@@ -3,7 +3,8 @@
  "function": "UART",
  "description": "CMOS universal asynchronous receiver transmitter (UART)",
  "drawer": [
-  "Interface"
+  "Interface",
+  "Serial"
  ],
  "note": "hd-6402.pdf p1-9; plan-12-data/specs/classic-a.md § HD-6402",
  "pinouts": {

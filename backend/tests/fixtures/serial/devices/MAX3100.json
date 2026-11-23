@@ -3,7 +3,8 @@
  "function": "Bridge UART",
  "description": "SPI/MICROWIRE-compatible UART in QSOP-16",
  "drawer": [
-  "Interface"
+  "Interface",
+  "Serial"
  ],
  "note": "max3100.pdf p.1-24; plan-12-data/specs/maxim.md § MAX3100",
  "pinouts": {

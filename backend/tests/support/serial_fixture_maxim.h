@@ -21,7 +21,7 @@
 
 #define SFX_MAX3100 \
     "{\"id\":\"SFX-MAX3100\",\"function\":\"Bridge UART\",\"description\":\"SPI/MICROWIRE-compatible UART" \
-    " in QSOP-16\",\"drawer\":[\"Interface\"],\"note\":\"max3100.pdf p.1-24; plan-12-data/specs/maxim" \
+    " in QSOP-16\",\"drawer\":[\"Interface\",\"Serial\"],\"note\":\"max3100.pdf p.1-24; plan-12-data/specs/maxim" \
     ".md § MAX3100\",\"pinouts\":{\"dip14\":[{\"number\":1,\"name\":\"DIN\",\"role\":\"input\"},{\"nu" \
     "mber\":2,\"name\":\"DOUT\",\"role\":\"output\"},{\"number\":3,\"name\":\"SCLK\",\"role\":\"input" \
     "\"},{\"number\":4,\"name\":\"CS\",\"role\":\"input\"},{\"number\":5,\"name\":\"IRQ\",\"role\":\"" \
@@ -68,7 +68,7 @@
 
 #define SFX_MAX3140 \
     "{\"id\":\"SFX-MAX3140\",\"function\":\"Bridge UART\",\"description\":\"SPI/MICROWIRE-compatible UART" \
-    " with integrated true fail-safe RS-485/RS-422 transceivers\",\"drawer\":[\"Interface\"],\"note\"" \
+    " with integrated true fail-safe RS-485/RS-422 transceivers\",\"drawer\":[\"Interface\",\"Serial\"],\"note\"" \
     ":\"max3140.pdf p.1-36; plan-12-data/specs/maxim.md § MAX3140\",\"pinouts\":{\"qsop28\":[{\"numbe" \
     "r\":1,\"name\":\"X2\",\"role\":\"output\",\"group\":\"crystal\",\"side\":\"in\"},{\"number\":2," \
     "\"name\":\"X1\",\"role\":\"input\",\"group\":\"crystal\"},{\"number\":3,\"name\":\"CTS\",\"role" \
@@ -104,7 +104,7 @@
 
 #define SFX_MAX3107 \
     "{\"id\":\"SFX-MAX3107\",\"function\":\"Bridge UART\",\"description\":\"SPI/I2C UART with 128-word FI" \
-    "FOs\",\"drawer\":[\"Interface\"],\"note\":\"max3107.pdf p.1-52; plan-12-data/specs/maxim.md § MA" \
+    "FOs\",\"drawer\":[\"Interface\",\"Serial\"],\"note\":\"max3107.pdf p.1-52; plan-12-data/specs/maxim.md § MA" \
     "X3107\",\"pinouts\":{\"ssop24\":[{\"number\":1,\"name\":\"XIN\",\"role\":\"input\",\"group\":\"c" \
     "rystal\"},{\"number\":2,\"name\":\"AGND\",\"role\":\"ground\"},{\"number\":3,\"name\":\"VA\",\"r" \
     "ole\":\"power\"},{\"number\":4,\"name\":\"V18\",\"role\":\"power\"},{\"number\":5,\"name\":\"I2C" \
@@ -149,7 +149,7 @@
 
 #define SFX_MAX3108 \
     "{\"id\":\"SFX-MAX3108\",\"function\":\"Bridge UART\",\"description\":\"SPI/I2C UART with 128-word FI" \
-    "FOs in WLP\",\"drawer\":[\"Interface\"],\"note\":\"max3108.pdf p.1-56; plan-12-data/specs/maxim." \
+    "FOs in WLP\",\"drawer\":[\"Interface\",\"Serial\"],\"note\":\"max3108.pdf p.1-56; plan-12-data/specs/maxim." \
     "md § MAX3108\",\"pinouts\":{\"wlp25\":[{\"ball\":\"A1\",\"name\":\"VCC\",\"role\":\"power\"},{\"" \
     "ball\":\"A2\",\"name\":\"MISO/SDA\",\"role\":\"inout\"},{\"ball\":\"A3\",\"name\":\"CS/A0\",\"ro" \
     "le\":\"input\"},{\"ball\":\"A4\",\"name\":\"IRQ\",\"role\":\"output\"},{\"ball\":\"A5\",\"name\"" \
@@ -179,7 +179,7 @@
 
 #define SFX_MAX3109 \
     "{\"id\":\"SFX-MAX3109\",\"function\":\"Bridge UART\",\"description\":\"Dual serial UART with 128-wor" \
-    "d FIFOs\",\"drawer\":[\"Interface\"],\"note\":\"max3109.pdf p.1-66; plan-12-data/specs/maxim.md " \
+    "d FIFOs\",\"drawer\":[\"Interface\",\"Serial\"],\"note\":\"max3109.pdf p.1-66; plan-12-data/specs/maxim.md " \
     "§ MAX3109\",\"pinouts\":{\"tqfn32\":[{\"number\":1,\"name\":\"RST\",\"role\":\"input\"},{\"numbe" \
     "r\":2,\"name\":\"MISO/SDA\",\"role\":\"inout\"},{\"number\":3,\"name\":\"SCLK/SCL\",\"role\":\"i" \
     "nput\"},{\"number\":4,\"name\":\"GPIO7\",\"role\":\"inout\"},{\"number\":5,\"name\":\"CS/A0\",\"" \
@@ -215,7 +215,7 @@
 
 #define SFX_MAX14830 \
     "{\"id\":\"SFX-MAX14830\",\"function\":\"Bridge UART\",\"description\":\"Quad serial UART with 128-wo" \
-    "rd FIFOs\",\"drawer\":[\"Interface\"],\"note\":\"max14830.pdf p.1-68; plan-12-data/specs/maxim.m" \
+    "rd FIFOs\",\"drawer\":[\"Interface\",\"Serial\"],\"note\":\"max14830.pdf p.1-68; plan-12-data/specs/maxim.m" \
     "d § MAX14830\",\"pinouts\":{\"tqfn48\":[{\"number\":1,\"name\":\"SPI/I2C\",\"role\":\"input\"},{" \
     "\"number\":2,\"name\":\"LDOEN\",\"role\":\"input\"},{\"number\":3,\"name\":\"MISO/SDA\",\"role\"" \
     ":\"inout\"},{\"number\":4,\"name\":\"SCLK/SCL\",\"role\":\"input\"},{\"number\":5,\"name\":\"CS/" \

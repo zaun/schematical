@@ -2,7 +2,7 @@
   "id": "TL16C552A",
   "function": "UART",
   "description": "Dual asynchronous communications element with FIFO",
-  "drawer": ["Interface"],
+  "drawer": ["Interface", "Serial"],
   "note": "tl16c552a.pdf p.1-39; plan-12-data/specs/ti-b.md § TL16C552A",
   "pinouts": {
     "plcc68": [

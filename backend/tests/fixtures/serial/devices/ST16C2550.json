@@ -2,7 +2,7 @@
   "id": "ST16C2550",
   "function": "UART",
   "description": "2.97V to 5.5V DUART with 16-byte FIFO",
-  "drawer": ["Interface"],
+  "drawer": ["Interface", "Serial"],
   "note": "st16c2550.pdf p.1-37; plan-12-data/specs/exar-a.md § ST16C2550",
   "pinouts": {
     "tqfp48": [

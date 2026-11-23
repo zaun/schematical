@@ -3,7 +3,8 @@
  "function": "UART",
  "description": "Programmable communication interface",
  "drawer": [
-  "Interface"
+  "Interface",
+  "Serial"
  ],
  "note": "8251a.pdf p2-26; plan-12-data/specs/classic-b.md § 8251A",
  "pinouts": {

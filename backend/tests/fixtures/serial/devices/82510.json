@@ -3,7 +3,8 @@
  "function": "UART",
  "description": "Asynchronous serial controller",
  "drawer": [
-  "Interface"
+  "Interface",
+  "Serial"
  ],
  "note": "82510.pdf p2-41; plan-12-data/specs/classic-b.md § 82510",
  "pinouts": {

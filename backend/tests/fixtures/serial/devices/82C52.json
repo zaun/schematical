@@ -3,7 +3,8 @@
  "function": "UART",
  "description": "CMOS serial controller interface",
  "drawer": [
-  "Interface"
+  "Interface",
+  "Serial"
  ],
  "note": "82c52.pdf p1-21; plan-12-data/specs/classic-b.md § 82C52",
  "pinouts": {

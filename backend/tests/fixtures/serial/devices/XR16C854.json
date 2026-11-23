@@ -2,7 +2,7 @@
   "id": "XR16C854",
   "function": "UART",
   "description": "2.97V to 5.5V quad UART with 128-byte FIFO",
-  "drawer": ["Interface"],
+  "drawer": ["Interface", "Serial"],
   "note": "xr16c854.pdf p.1-53; plan-12-data/specs/exar-d.md \u00a7 XR16C854",
   "pinouts": {
     "lqfp64": [

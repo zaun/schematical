@@ -2,7 +2,7 @@
   "id": "COM92C451",
   "function": "UART",
   "description": "Combination UART/printer interface",
-  "drawer": ["Interface"],
+  "drawer": ["Interface", "Serial"],
   "note": "com92c451.pdf p.1-16; plan-12-data/specs/classic-b.md § COM92C451",
   "pinouts": {
     "dip48": [

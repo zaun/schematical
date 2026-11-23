@@ -3,7 +3,8 @@
  "function": "I2C controller",
  "description": "SPI to I2C-bus bridge",
  "drawer": [
-  "Interface"
+  "Interface",
+  "Serial"
  ],
  "note": "sc18is604.pdf p.1-19; plan-12-data/specs/bridges.md \u00a7 SC18IS604",
  "pinouts": {

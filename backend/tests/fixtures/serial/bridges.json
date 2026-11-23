@@ -8,7 +8,8 @@
    "function": "Bridge UART",
    "description": "I2C-bus/SPI to UART bridge controller with 64 bytes of TX/RX FIFOs",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "pi7c9x760.pdf p.1-47; plan-12-data/specs/bridges.md \u00a7 PI7C9X760",
    "pinouts": {
@@ -297,7 +298,8 @@
    "function": "Bridge UART",
    "description": "I2C-bus/SPI to dual UART bridge controller with 64 bytes of TX/RX FIFOs",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "pi7c9x762.pdf p.1-49; plan-12-data/specs/bridges.md \u00a7 PI7C9X762",
    "pinouts": {
@@ -639,7 +641,8 @@
    "function": "Bridge UART",
    "description": "Single UART with I2C-bus/SPI interface, 64 bytes of transmit and receive FIFOs, IrDA SIR built-in support",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "sc16is750.pdf p.1-51 (the SC16IS740: no GPIO or modem pins); plan-12-data/specs/bridges.md \u00a7 SC16IS750",
    "pinouts": {
@@ -859,7 +862,8 @@
    "function": "Bridge UART",
    "description": "Single UART with I2C-bus/SPI interface, 64 bytes of transmit and receive FIFOs, IrDA SIR built-in support",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "sc16is750.pdf p.1-51 (SC16IS750 and SC16IS760); plan-12-data/specs/bridges.md \u00a7 SC16IS750",
    "pinouts": {
@@ -1165,7 +1169,8 @@
    "function": "Bridge UART",
    "description": "Dual UART with I2C-bus/SPI interface, 64 bytes of transmit and receive FIFOs, IrDA SIR built-in support",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "sc16is752.pdf p.1-51 (SC16IS752 and SC16IS762); plan-12-data/specs/bridges.md \u00a7 SC16IS752",
    "pinouts": {
@@ -1689,7 +1694,8 @@
    "function": "I2C controller",
    "description": "SPI to I2C-bus bridge",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "sc18is604.pdf p.1-19; plan-12-data/specs/bridges.md \u00a7 SC18IS604",
    "pinouts": {
@@ -1833,7 +1839,8 @@
    "function": "Bridge UART",
    "description": "I2C/SPI UART with 64-byte FIFO",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "xr20m1170.pdf p.1-60; plan-12-data/specs/bridges.md \u00a7 XR20M1170",
    "pinouts": {
@@ -2369,7 +2376,8 @@
    "function": "Bridge UART",
    "description": "I2C/SPI UART with 128-byte FIFO and integrated level shifters",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "xr20m1280.pdf p.1-62; plan-12-data/specs/bridges.md \u00a7 XR20M1280",
    "pinouts": {

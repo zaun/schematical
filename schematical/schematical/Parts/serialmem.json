@@ -7,7 +7,7 @@
       "id": "AT25010B",
       "function": "1 Kbit",
       "description": "1-Kbit SPI serial EEPROM (128 x 8), 1.8-5.5 V, 20 MHz, 8-byte page; address A6-A0, A7 don't care",
-      "drawer": ["Memory","Serial EEPROM"],
+      "drawer": ["Memory","Serial","EEPROM"],
       "note": "AT25010B (datasheets/serial-memory/at25010b.pdf): pin configuration p.4 (Fig. 1) and Table 2-1 p.5; DC Table 4-2 p.8-9; AC Table 4-3 p.9-10 (fSCK, tWC 5 ms max on p.10); power-up Table 4-4 p.11; endurance/retention Table 4-6 p.11 (endurance specified in groups of four bytes, note 2); instruction set Table 6-1 p.16; STATUS register Tables 6-2..6-4 p.16-19; read p.20 (Table 7-1); write/page write p.21-22 (8-byte page); ordering p.34; packages SOIC p.24-26, TSSOP p.27-29, UDFN p.30-32. Address bits: AT25010B A6-A0 (A7 don't care), AT25020B A7-A0, AT25040B A8-A0 (Table 7-1/8-1).",
       "pinouts": {
         "soic8": [
@@ -71,7 +71,7 @@
       "id": "AT25020B",
       "function": "2 Kbit",
       "description": "2-Kbit SPI serial EEPROM (256 x 8), 1.8-5.5 V, 20 MHz, 8-byte page",
-      "drawer": ["Memory","Serial EEPROM"],
+      "drawer": ["Memory","Serial","EEPROM"],
       "note": "AT25020B (datasheets/serial-memory/at25010b.pdf): pin configuration p.4 (Fig. 1) and Table 2-1 p.5; DC Table 4-2 p.8-9; AC Table 4-3 p.9-10 (fSCK, tWC 5 ms max on p.10); power-up Table 4-4 p.11; endurance/retention Table 4-6 p.11 (endurance specified in groups of four bytes, note 2); instruction set Table 6-1 p.16; STATUS register Tables 6-2..6-4 p.16-19; read p.20 (Table 7-1); write/page write p.21-22 (8-byte page); ordering p.34; packages SOIC p.24-26, TSSOP p.27-29, UDFN p.30-32. Address bits: AT25010B A6-A0 (A7 don't care), AT25020B A7-A0, AT25040B A8-A0 (Table 7-1/8-1).",
       "pinouts": {
         "soic8": [
@@ -135,7 +135,7 @@
       "id": "AT25040B",
       "function": "4 Kbit",
       "description": "4-Kbit SPI serial EEPROM (512 x 8), 1.8-5.5 V, 20 MHz, 8-byte page; address bit 8 rides in opcode bit 3",
-      "drawer": ["Memory","Serial EEPROM"],
+      "drawer": ["Memory","Serial","EEPROM"],
       "note": "AT25040B (datasheets/serial-memory/at25010b.pdf): pin configuration p.4 (Fig. 1) and Table 2-1 p.5; DC Table 4-2 p.8-9; AC Table 4-3 p.9-10 (fSCK, tWC 5 ms max on p.10); power-up Table 4-4 p.11; endurance/retention Table 4-6 p.11 (endurance specified in groups of four bytes, note 2); instruction set Table 6-1 p.16; STATUS register Tables 6-2..6-4 p.16-19; read p.20 (Table 7-1); write/page write p.21-22 (8-byte page); ordering p.34; packages SOIC p.24-26, TSSOP p.27-29, UDFN p.30-32. Address bits: AT25010B A6-A0 (A7 don't care), AT25020B A7-A0, AT25040B A8-A0 (Table 7-1/8-1).",
       "pinouts": {
         "soic8": [
@@ -200,7 +200,7 @@
       "id": "AT25320B",
       "function": "32 Kbit",
       "description": "32-Kbit SPI serial EEPROM (4096 x 8), 1.8-5.5 V, 20 MHz, 32-byte page",
-      "drawer": ["Memory","Serial EEPROM"],
+      "drawer": ["Memory","Serial","EEPROM"],
       "note": "AT25320B (datasheets/serial-memory/at25320b.pdf): pin configurations p.2 (Table 1-1; the UDFN/XDFN/VFBGA figures are bottom views); DC Table 4-2 p.4; AC Table 4-3 p.5-6 (tWC 5 ms max p.6); instruction set Table 6-1 p.8; STATUS Tables 6-2/6-3 p.8; block protect Table 6-4 and WPEN Table 6-5 p.9; read/write sequence p.10 (32-byte page, Table 6-6 address key); ordering code detail p.14; ordering information p.16; packages 8S1 p.17, 8X p.18, 8MA2 p.19, 8ME1 p.20, 8U2-1 p.21.",
       "pinouts": {
         "soic8": [
@@ -275,7 +275,7 @@
       "id": "AT25640B",
       "function": "64 Kbit",
       "description": "64-Kbit SPI serial EEPROM (8192 x 8), 1.8-5.5 V, 20 MHz, 32-byte page",
-      "drawer": ["Memory","Serial EEPROM"],
+      "drawer": ["Memory","Serial","EEPROM"],
       "note": "AT25640B (datasheets/serial-memory/at25320b.pdf): pin configurations p.2 (Table 1-1; the UDFN/XDFN/VFBGA figures are bottom views); DC Table 4-2 p.4; AC Table 4-3 p.5-6 (tWC 5 ms max p.6); instruction set Table 6-1 p.8; STATUS Tables 6-2/6-3 p.8; block protect Table 6-4 and WPEN Table 6-5 p.9; read/write sequence p.10 (32-byte page, Table 6-6 address key); ordering code detail p.14; ordering information p.16; packages 8S1 p.17, 8X p.18, 8MA2 p.19, 8ME1 p.20, 8U2-1 p.21.",
       "pinouts": {
         "soic8": [
@@ -347,7 +347,7 @@
       "id": "M95320",
       "function": "32 Kbit",
       "description": "32-Kbit SPI serial EEPROM, 32-byte page, up to 20 MHz (-DF parts add a lockable 32-byte identification page)",
-      "drawer": ["Memory","Serial EEPROM"],
+      "drawer": ["Memory","Serial","EEPROM"],
       "note": "M95320 (datasheets/serial-memory/m95320.pdf): pin figure p.7 (Figure 2, same arrangement for SO8, TSSOP8 and UFDFPN8); signal names p.6 Table 1; instruction set p.16 Table 3; status register p.20 Table 5; protection p.15 Table 2 and p.22 Table 6; operating conditions p.33 Tables 8-10; DC p.35-37; AC p.38-39 Tables 18-19; endurance/retention p.34; package info p.41-44; ordering p.45 Table 23.",
       "pinouts": {
         "p8": [
@@ -392,7 +392,7 @@
       "id": "CAT25256",
       "function": "256 Kbit",
       "description": "256-Kbit SPI serial EEPROM, 64-byte page, up to 20 MHz, on-chip ECC, lockable 64-byte identification page",
-      "drawer": ["Memory","Serial EEPROM"],
+      "drawer": ["Memory","Serial","EEPROM"],
       "note": "CAT25256 (datasheets/serial-memory/cat25256-d.pdf): pin configuration and pin function table p.1 (same for SOIC, TSSOP and UDFN); absolute max/reliability p.2; DC p.2-3 Tables 3-4; AC p.4-5 Tables 6, 8; instruction set p.6 Table 10; status register p.7 Tables 11-13; write operations p.8-10; read p.11; ordering p.12; package outlines p.13-16.",
       "pinouts": {
         "p8": [
@@ -434,7 +434,7 @@
       "id": "AT25512",
       "function": "512 Kbit",
       "description": "512-Kbit SPI serial EEPROM, 1.8-5.5 V, 20 MHz, 128-byte page",
-      "drawer": ["Memory","Serial EEPROM"],
+      "drawer": ["Memory","Serial","EEPROM"],
       "note": "AT25512 (datasheets/serial-memory/at25512.pdf): pin configuration p.4 and Table 2-1 p.5; DC Table 4-2 p.9-10; AC Table 4-3 p.10-12 (fSCK steps at 2.7 V, not 2.5 V; tWC 5 ms p.12); power-up Table 4-4 p.13; endurance Table 4-6 p.14; instruction set Table 6-1 p.18; STATUS Tables 6-2/6-3 p.18-19; WRSR p.20-21; block protect Table 6-4 p.21; WPEN Table 6-5 p.22; read p.23; write/page write p.24-25 (128-byte page); Product Identification System p.37; packages SOIC p.27-29, TSSOP p.30-31, UDFN 5x6 p.32-34.",
       "pinouts": {
         "soic8": [
@@ -486,7 +486,7 @@
       "id": "FM25L16B",
       "function": "16 Kbit",
       "description": "16-Kbit (2K x 8) SPI F-RAM",
-      "drawer": ["Memory","Serial FRAM"],
+      "drawer": ["Memory","Serial","FRAM"],
       "note": "FM25L16B (datasheets/serial-memory/fm25l16b.pdf): PDF page = printed page + 1 (cover page). Pinouts Figures 1-2 and pin definitions PDF p.4; opcodes Table 1 PDF p.7; status register/protection PDF p.8; read/write PDF p.9-10; DC PDF p.12; retention/endurance/capacitance/thermal PDF p.13; AC PDF p.14; power cycle PDF p.16; ordering PDF p.17; packages PDF p.18-19.",
       "pinouts": {
         "soic8": [
@@ -534,7 +534,7 @@
       "id": "CY15B102Q",
       "function": "2 Mbit",
       "description": "2-Mbit (256K x 8) automotive SPI F-RAM",
-      "drawer": ["Memory","Serial FRAM"],
+      "drawer": ["Memory","Serial","FRAM"],
       "note": "CY15B102Q (datasheets/serial-memory/cy15b102q.pdf): pin configuration p.3 (Figure 1) and pin definitions p.3; opcodes Table 1 p.6; status register/write protection p.7; read/write/fast read p.8-9; sleep p.10; device ID Table 6 p.11; DC p.12; retention/endurance p.13; AC p.14; power cycle p.16; ordering p.17; package 001-85261 p.18 (PDF pages equal printed pages).",
       "pinouts": {
         "soic8": [
@@ -576,7 +576,7 @@
       "id": "AT25XE512C",
       "function": "512 Kbit",
       "description": "512-Kbit 1.65 V SPI serial flash with dual-output read",
-      "drawer": ["Memory","Serial Flash"],
+      "drawer": ["Memory","Serial","Flash"],
       "note": "AT25XE512C (datasheets/serial-memory/at25xe512c.pdf): PDF page = printed page. Pin descriptions p.2-3; pinouts Figures 2-1..2-3 p.4; memory array p.5; command list Table 6-1 p.6-7; read p.8-9; program p.9-10; page erase p.10-11; block erase p.11; chip erase p.12; write enable/disable p.12-13; block protection and WP p.13-15; OTP p.15-17; status register p.17-21; ID p.22-24; power-down p.24-27; hold p.27; reset p.28; DC p.30; clock frequencies p.31; AC p.31-32; program/erase Table 13.6 p.32; power-up p.33; ordering p.36; packages p.37-39.",
       "pinouts": {
         "soic8": [
@@ -643,7 +643,7 @@
       "id": "AT25DF021A",
       "function": "2 Mbit",
       "description": "2-Mbit SPI serial NOR flash with dual-output read, 1.65 V minimum",
-      "drawer": ["Memory","Serial Flash"],
+      "drawer": ["Memory","Serial","Flash"],
       "note": "AT25DF021A (datasheets/serial-memory/at25df021a.pdf): pin descriptions p.7-8 (Fig.1-4); memory array p.10; command listing Table 2 p.12-13; read p.14-15; program/erase p.16-22; protection p.23-28; status register Table 9/10 p.31-33; ID Table 13/14 p.37; reset p.43; DC p.44-45; AC Table 13.5-13.7 p.45-46; program/erase times 13.8-13.9 p.47; power-up Table 15 p.48; ordering p.52; packages p.53-57.",
       "pinouts": {
         "soic8": [
@@ -714,7 +714,7 @@
       "id": "AT25XE021A",
       "function": "2 Mbit",
       "description": "2-Mbit 1.65 V SPI serial flash with dual-I/O support (dual-output read, dual-input program)",
-      "drawer": ["Memory","Serial Flash"],
+      "drawer": ["Memory","Serial","Flash"],
       "note": "AT25XE021A (datasheets/serial-memory/at25xe021a.pdf): PDF page = printed page. Features p.1; pin descriptions p.7-8; pinouts Figures 1-4 p.8 (WLCSP bottom view); memory array p.10; command table Table 2 p.12-13; read p.14-15; program p.16-19 (dual-input p.17-18, sequential p.19-20); page erase p.20; block erase p.21; chip erase p.22; protect/unprotect/global/SPR/WP p.23-28; OTP p.29-31; status register p.32-38; ID p.39-40; power-down p.40-42; hold p.44; reset p.45; DC p.46-47; AC p.47-48; program/erase p.49; power-up p.50; ordering p.54; packages p.55-59.",
       "pinouts": {
         "soic8": [
@@ -784,7 +784,7 @@
       "id": "AT25XE041B",
       "function": "4 Mbit",
       "description": "4-Mbit SPI serial NOR flash with dual-output read, 1.65 V minimum",
-      "drawer": ["Memory","Serial Flash"],
+      "drawer": ["Memory","Serial","Flash"],
       "note": "AT25XE041B (datasheets/serial-memory/at25xe041b.pdf): pin descriptions p.7-8 (Fig.1-4); memory array p.10; command listing Table 2 p.12-13; status register Table 10/11 p.32-34; ID Table 14/15 p.38; DC Table 16/17 p.45-46; AC + program/erase Table 18/19 p.47-48; power-up Table 20 p.49; ordering Table 21 p.53; packages p.54-57.",
       "pinouts": {
         "soic8": [
@@ -855,7 +855,7 @@
       "id": "AT45DB161E",
       "function": "16 Mbit",
       "description": "16-Mbit DataFlash (with extra 512 kbit) SPI serial flash, 528/512-byte pages, two SRAM buffers",
-      "drawer": ["Memory","Serial Flash"],
+      "drawer": ["Memory","Serial","Flash"],
       "note": "AT45DB161E (datasheets/serial-memory/at45db161e.pdf): pinout Fig.1 p.7, pin table p.7-8; memory architecture p.10; addressing p.11; read p.12-14; program/erase p.15-21; sector protection p.22-27; security p.28-32; status register Table 20/21 p.34-35; page size config p.41; ID Table 23/24 p.42; software reset p.44; command tables 27-31 p.46-47; addressing Tables 32/33 p.48-49; power-up p.50; DC p.52; AC p.53; program/erase times p.54; ordering p.68-70; packages p.71-74 (8S1 p.71, 8S2 p.72, 8MA1 p.73, WLCSP p.74).",
       "pinouts": {
         "soic8": [
@@ -919,7 +919,7 @@
       "id": "M95P32",
       "function": "32 Mbit",
       "description": "32-Mbit SPI page EEPROM, 512-byte page, 4-Kbyte sector / 64-Kbyte block erase, dual and quad output read, up to 80 MHz",
-      "drawer": ["Memory","Serial EEPROM"],
+      "drawer": ["Memory","Serial","EEPROM"],
       "note": "M95P32 (datasheets/serial-memory/m95p32-i.pdf): pin configuration and Table 1 p.3 (SO8N and UFDFPN8 share the arrangement, Figure 1); WLCSP Figure 2 and Table 2 p.4 (bump side = bottom view); memory map p.6; protection Table 5 p.15; registers p.17-20; instruction set Table 12 p.21; operating conditions Table 19 p.50; DC Tables 24-26 p.52-54; programming times Table 27 p.54; AC Table 28 p.55; packages p.57-62; ordering p.63 Table 32. Not simulated: the model type pageeeprom is only a catalog entry.",
       "pinouts": {
         "p8": [

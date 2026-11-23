@@ -2,7 +2,7 @@
   "id": "XR16L784",
   "function": "UART",
   "description": "High performance 2.97V to 5.5V quad UART",
-  "drawer": ["Interface"],
+  "drawer": ["Interface", "Serial"],
   "note": "xr16l784.pdf p.1-51; plan-12-data/specs/exar-d.md \u00a7 XR16L784",
   "pinouts": {
     "lqfp64-784": [

@@ -2,7 +2,7 @@
   "id": "TL16C2552",
   "function": "UART",
   "description": "1.8-V to 5-V dual UART with 16-byte FIFOs",
-  "drawer": ["Interface"],
+  "drawer": ["Interface", "Serial"],
   "note": "tl16c2552.pdf p.1-40; plan-12-data/specs/ti-c.md § TL16C2552",
   "pinouts": {
     "plcc44": [

@@ -2,7 +2,7 @@
   "id": "TL16C752C",
   "function": "UART",
   "description": "Dual UART with 64-byte FIFO",
-  "drawer": ["Interface"],
+  "drawer": ["Interface", "Serial"],
   "note": "tl16c752c.pdf p.1-64; tl16c752ci-q1.pdf p.1-57; tl16c752d.pdf p.1-57; tl16c752d-q1.pdf p.1-57; plan-12-data/specs/ti-c.md § TL16C752C (covers TL16C752C, TL16C752CI-Q1, TL16C752D, TL16C752D-Q1)",
   "pinouts": {
     "tqfp48": [

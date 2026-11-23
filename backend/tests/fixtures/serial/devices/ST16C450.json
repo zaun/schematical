@@ -2,7 +2,7 @@
   "id": "ST16C450",
   "function": "UART",
   "description": "Universal asynchronous receiver/transmitter (UART)",
-  "drawer": ["Interface"],
+  "drawer": ["Interface", "Serial"],
   "note": "st16c450.pdf p.1-28; plan-12-data/specs/exar-a.md § ST16C450",
   "pinouts": {
     "tqfp48": [

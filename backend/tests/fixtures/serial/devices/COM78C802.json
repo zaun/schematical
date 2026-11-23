@@ -3,7 +3,8 @@
  "function": "UART",
  "description": "Two-channel universal asynchronous receiver/transmitter",
  "drawer": [
-  "Interface"
+  "Interface",
+  "Serial"
  ],
  "note": "com78c802.pdf p1-14; plan-12-data/specs/classic-b.md § COM78C802",
  "pinouts": {

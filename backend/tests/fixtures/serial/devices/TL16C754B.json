@@ -2,7 +2,7 @@
   "id": "TL16C754B",
   "function": "UART",
   "description": "Quad UART with 64-byte FIFO",
-  "drawer": ["Interface"],
+  "drawer": ["Interface", "Serial"],
   "note": "tl16c754b.pdf p.1-41; plan-12-data/specs/ti-b.md § TL16C754B",
   "pinouts": {
     "plcc68": [

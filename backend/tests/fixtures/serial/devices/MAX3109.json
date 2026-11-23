@@ -3,7 +3,8 @@
  "function": "Bridge UART",
  "description": "Dual serial UART with 128-word FIFOs",
  "drawer": [
-  "Interface"
+  "Interface",
+  "Serial"
  ],
  "note": "max3109.pdf p.1-66; plan-12-data/specs/maxim.md § MAX3109",
  "pinouts": {
