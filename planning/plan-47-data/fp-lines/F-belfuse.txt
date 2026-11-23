@@ -1,0 +1,76 @@
+# letter	type	company	series	mounting	package	supplier_package	size	detail	parts	example	datasheets	existing
+F	ptc	belfuse		Surface Mount	0603 (1608 Metric), Concave		0.063" L x 0.029" W (1.60mm x 0.73mm)		11	0ZCM0010FF2G	1	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
+F	ptc	belfuse		Surface Mount	0805 (2012 Metric), Concave		0.085" L x 0.053" W (2.15mm x 1.35mm)		7	0ZCK0020FF2G	2	CAP-0805,CAP-0805-AVX,CAP-0805-CALCHIP,CAP-0805-KEMET,DIODE-0805,LED-0805,RES-0805,RES-0805-VIKING
+F	ptc	belfuse		Surface Mount	0805 (2012 Metric), Concave		0.087" L x 0.053" W (2.20mm x 1.35mm)		1	0ZCK0050AF2E	1	CAP-0805,CAP-0805-AVX,CAP-0805-CALCHIP,CAP-0805-KEMET,DIODE-0805,LED-0805,RES-0805,RES-0805-VIKING
+F	ptc	belfuse		Surface Mount	1206 (3216 Metric), Concave		0.128" L x 0.065" W (3.25mm x 1.65mm)		20	0ZCJ0035AF2E	2	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
+F	ptc	belfuse		Surface Mount	1210 (3225 Metric), Concave		0.127" L x 0.101" W (3.22mm x 2.58mm)		2	0ZCH0110AF2E	2	RES-1210-YAGEO,XTAL-1210-2-ECS,XTAL-1210-4-ABRACON,XTAL-1210-4-ECS,XTAL-1210-4-ECS-B
+F	ptc	belfuse		Surface Mount	1210 (3225 Metric), Concave		0.127" L x 0.102" W (3.22mm x 2.58mm)		13	0ZCH0010FF2E	2	RES-1210-YAGEO,XTAL-1210-2-ECS,XTAL-1210-4-ABRACON,XTAL-1210-4-ECS,XTAL-1210-4-ECS-B
+F	ptc	belfuse		Surface Mount	1812 (4532 Metric), Concave		0.179" L x 0.128" W (4.55mm x 3.24mm)		24	0ZCG0010FF2C	1	
+F	ptc	belfuse		Surface Mount	2016 (5041 Metric), Concave		0.200" L x 0.160" W (5.08mm x 4.07mm)		6	0ZCN0075FF2A	1	
+F	ptc	belfuse		Surface Mount	2920 (7351 Metric), Concave		0.290" L x 0.202" W (7.36mm x 5.12mm)		26	0ZCF0050FF2C	3	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.256" L x 0.181" W (6.50mm x 4.60mm)	0.197" (5.00mm)	1	0ZRF0012FF2B	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.272" Dia x 0.118" T (6.90mm x 3.00mm)	0.201" (5.10mm)	3	0ZRG0075FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.272" L x 0.118" W (6.90mm x 3.00mm)	0.201" (5.10mm)	1	0ZRN0070FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.280" L x 0.118" W (7.10mm x 3.00mm)	0.201" (5.10mm)	2	0ZRA0300FF1C	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.280" L x 0.142" W (7.10mm x 3.60mm)	0.201" (5.10mm)	1	0ZRP0065FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.288" L x 0.181" W (5.80mm x 4.60mm)	0.197" (5.00mm)	1	0ZRF0008FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.291" Dia x 0.118" T (7.40mm x 3.00mm)	0.201" (5.10mm)	1	0ZRN0050FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.291" Dia x 0.122" T (7.40mm x 3.10mm)	0.201" (5.10mm)	6	0ZRR0005FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.291" L x 0.118" W (7.40mm x 3.00mm)	0.201" (5.10mm)	2	0ZRB0090FF1C	2	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.291" L x 0.122" W (7.40mm x 3.10mm)	0.201" (5.10mm)	6	0ZRC0030FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.299" L x 0.142" W (7.60mm x 3.60mm)	0.201" (5.10mm)	1	0ZRP0110FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.310" L x 0.142" W (7.87mm x 3.60mm)	0.201" (5.10mm)	2	0ZRP0090FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.311" Dia x 0.122" T (7.90mm x 3.10mm)	0.201" (5.10mm)	1	0ZRR0050FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.311" Dia x 0.150" T (7.90mm x 3.80mm)	0.201" (5.10mm)	1	0ZRM0030FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.311" L x 0.122" W (7.90mm x 3.10mm)	0.201" (5.10mm)	1	0ZRC0050FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.323" Dia x 0.150" T (8.20mm x 3.80mm)	0.201" (5.10mm)	1	0ZRM0040FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.327" L x 0.150" W (8.30mm x 3.80mm)	0.201" (5.10mm)	3	0ZRE0005FF1C	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.346" L x 0.118" W (8.80mm x 3.00mm)	0.201" (5.10mm)	1	0ZRN0300FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.350" L x 0.118" W (8.90mm x 3.00mm)	0.201" (5.10mm)	2	0ZRG0135FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.362" Dia x 0.150" T (9.20mm x 3.80mm)	0.201" (5.10mm)	1	0ZRM0050FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.370" Dia x 0.118" T (9.40mm x 3.00mm)	0.201" (5.10mm)	1	0ZRN0200FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.378" L x 0.150" W (9.60mm x 3.80mm)	0.201" (5.10mm)	1	0ZRE0025FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.382" Dia x 0.118" T (9.70mm x 3.00mm)	0.201" (5.10mm)	1	0ZRN0100FF2D	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.382" Dia x 0.150" T (9.70mm x 3.80mm)	0.201" (5.10mm)	1	0ZRM0065FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.382" L x 0.122" W (9.70mm x 3.10mm)	0.201" (5.10mm)	2	0ZRC0055FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.390" L x 0.150" W (9.90mm x 3.80mm)	0.201" (5.10mm)	1	0ZRE0016FF1C	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.394" L x 0.118" W (10.00mm x 3.00mm)	0.201" (5.10mm)	1	0ZRN0400FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.402" L x 0.118" W (10.20mm x 3.00mm)	0.201" (5.10mm)	1	0ZRB0185FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.402" L x 0.142" W (10.20mm x 3.60mm)	0.201" (5.10mm)	1	0ZRP0135FF1A	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.409" Dia x 0.122" T (10.40mm x 3.10mm)	0.201" (5.10mm)	1	0ZRR0075FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.409" L x 0.122" W (10.40mm x 3.10mm)	0.201" (5.10mm)	1	0ZRC0075FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.417" Dia x 0.150" T (10.60mm x 3.80mm)	0.201" (5.10mm)	1	0ZRM0075FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.421" L x 0.118" W (10.70mm x 3.00mm)	0.201" (5.10mm)	1	0ZRA0600FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.429" Dia x 0.161" T (10.90mm x 4.10mm)	0.201" (5.10mm)	1	0ZRM0075AF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.429" L x 0.181" W (10.90mm x 4.60mm)	0.197" (5.00mm)	1	0ZRF0018FF1A	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.449" L x 0.118" W (11.40mm x 3.00mm)	0.201" (5.10mm)	3	0ZRB0250FF2E	2	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.449" L x 0.150" W (11.40mm x 3.80mm)	0.201" (5.10mm)	1	0ZRE0033FF2B	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.453" Dia x 0.161" T (11.50mm x 4.10mm)	0.201" (5.10mm)	1	0ZRM0100FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.453" L x 0.150" W (11.50mm x 3.80mm)	0.201" (5.10mm)	1	0ZRE0040FF2B	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.453" L x 0.189" W (11.50mm x 4.80mm)	0.201" (5.10mm)	1	0ZRE0075FF1A	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.461" L x 0.122" W (11.70mm x 3.10mm)	0.201" (5.10mm)	1	0ZRC0090FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.469" Dia x 0.150" T (11.90mm x 3.80mm)	0.201" (5.10mm)	1	0ZRM0090FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.480" L x 0.142" W (12.20mm x 3.60mm)	0.201" (5.10mm)	1	0ZRP0160FF1A	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.512" L x 0.142" W (13.00mm x 3.60mm)	0.201" (5.10mm)	1	0ZRP0185FF1A	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.524" Dia x 0.161" T (13.30mm x 4.10mm)	0.201" (5.10mm)	1	0ZRM0110FF1E	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.551" L x 0.118" W (14.00mm x 3.00mm)	0.201" (5.10mm)	2	0ZRB0400FF1A	2	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.551" L x 0.118" W (14.00mm x 3.00mm)	0.402" (10.20mm)	1	0ZRB0500FF1A	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.551" L x 0.142" W (14.00mm x 3.60mm)	0.201" (5.10mm)	1	0ZRP0250FF1A	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.551" L x 0.161" W (14.00mm x 4.10mm)	0.201" (5.10mm)	2	0ZRE0055FF2A	2	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.571" Dia x 0.122" T (14.50mm x 3.10mm)	0.201" (5.10mm)	1	0ZRR0135FF1A	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.650" L x 0.118" W (16.50mm x 3.00mm)	0.402" (10.20mm)	1	0ZRB0600FF1A	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.650" L x 0.142" W (16.50mm x 3.60mm)	0.402" (10.20mm)	1	0ZRP0375FF1A	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.689" L x 0.118" W (17.50mm x 3.00mm)	0.402" (10.20mm)	1	0ZRN1000FF1A	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.701" L x 0.122" W (17.80mm x 3.10mm)	0.201" (5.10mm)	1	0ZRC0185FF1A	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.736" Dia x 0.201" T (18.70mm x 5.10mm)	0.402" (10.20mm)	1	0ZRE0100FF1A	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.752" L x 0.118" W (19.10mm x 3.00mm)	0.402" (10.20mm)	1	0ZRB0700FF1A	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.831" L x 0.150" W (21.10mm x 3.80mm)	0.402" (10.20mm)	1	0ZRS0750FF1A	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.839" Dia x 0.122" T (21.30mm x 3.10mm)	0.402" (10.20mm)	1	0ZRR0250FF2A	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.850" L x 0.118" W (21.60mm x 3.00mm)	0.402" (10.20mm)	1	0ZRB0800FF1A	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.921" Dia x 0.210" T (23.40mm x 5.30mm)	0.402" (10.20mm)	1	0ZRE0150FF1A	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.925" L x 0.142" W (23.50mm x 3.60mm)	0.402" (10.20mm)	1	0ZRN1500FF1A	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.949" L x 0.118" W (24.10mm x 3.00mm)	0.402" (10.20mm)	2	0ZRB0900FF1A	2	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.949" L x 0.142" W (24.10mm x 3.60mm)	0.402" (10.20mm)	1	0ZRP0500FF1A	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.980" Dia x 0.122" T (24.90mm x 3.10mm)	0.402" (10.20mm)	1	0ZRR0300FF1A	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.980" L x 0.240" W (24.90mm x 6.10mm)	0.402" (10.20mm)	1	0ZRE0200FF1A	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		1.161" Dia x 0.161" T (29.50mm x 4.10mm)	0.402" (10.20mm)	1	0ZRM0375FF1A	1	

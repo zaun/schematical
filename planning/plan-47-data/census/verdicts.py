@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """plan-47-C section 3.4: the final pick.
 
-usage: python3 -I verdicts.py [--apply]
+usage: python3 -I verdicts.py [--apply | --out <candidates-copy.tsv>]
 
 For every (type, maker, class) of the download set the rows (state `candidate`
 or `reserve`) go in rank order (the `rank` column, select.py's round robin over
@@ -12,7 +12,8 @@ whose verdict is `skip` or `out` keeps it. Prints the pick per (type, maker,
 class) with its quota and every shortfall. --apply writes `state` (`add`, `reserve`,
 `skip` or `out`) and `reason` (the verdict's reason for a skip or out) of the download-set
 rows of candidates.tsv; rows outside the download set are untouched. Rows without a
-verdict stop the run (B and C have not covered them).
+verdict stop the run (B and C have not covered them). --out <path> writes the same
+candidates file to <path> and leaves candidates.tsv alone (a provisional pick).
 """
 import collections
 import os
@@ -53,11 +54,12 @@ def main(argv):
         print(f"{k[0]} {k[1]} {k[2] or '-'}: quota {quota}, add {added}" + (f"  SHORT by {short}" if short else ''))
     for k in sorted(counts):
         print(f"{k[0]} {k[1]}: {counts[k]}")
-    if '--apply' in argv:
+    target = sp.CANDIDATES if '--apply' in argv else (argv[argv.index('--out') + 1] if '--out' in argv else None)
+    if target:
         for r in rows:
             if r['final']:
                 r['state'], r['reason'] = r['final'], r['why']
-        sp.write(sp.CANDIDATES, rows, cols)
+        sp.write(target, rows, cols)
     return 0
 
 
