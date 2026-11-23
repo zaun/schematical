@@ -34,6 +34,10 @@ add_library(logic STATIC
     src/models/nixie.c
     src/models/regulator.c
     src/models/crystal.c
+    src/models/terminals.c
+    src/models/inductor.c
+    src/models/fuse.c
+    src/models/model_pins.c
     src/models/oscillator.c
     src/models/eeprom.c
     src/models/seq.c
@@ -193,6 +197,8 @@ logic_test(serialmem_test)
 logic_test(nixie_test)
 logic_test(regulator_test)
 logic_test(crystal_test)
+logic_test(inductor_test)
+logic_test(fuse_test)
 
 # Engine speed bench (plan-05-A). Not a ctest: a wall-clock check would be
 # flaky. Build Release to get meaningful numbers.

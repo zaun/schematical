@@ -42,6 +42,8 @@ const char *listing_kind_name(PartKind kind) {
         case PART_NIXIE: return "nixie";
         case PART_REGULATOR: return "regulator";
         case PART_CRYSTAL: return "crystal";
+        case PART_INDUCTOR: return "inductor";
+        case PART_FUSE: return "fuse";
     }
     return "?";
 }
@@ -233,6 +235,21 @@ static void print_details(FILE *out, const Part *part) {
                     (unsigned long long)part->crystal->load_ff,
                     (unsigned)part->crystal->tolerance_ppm, (unsigned)part->crystal->stability_ppm,
                     (unsigned long long)part->crystal->esr_mohm, part->crystal->capacitors);
+            break;
+        case PART_INDUCTOR:
+            fprintf(out, "ph=%llu tol=%s amps=%u isat=%u dcr=%llu shield=%s",
+                    (unsigned long long)part->inductor->ph,
+                    part->inductor->tolerance != NULL ? part->inductor->tolerance : "-",
+                    (unsigned)part->inductor->rated_ma, (unsigned)part->inductor->isat_ma,
+                    (unsigned long long)part->inductor->dcr_uohm,
+                    part->inductor->shielding != NULL ? part->inductor->shielding : "-");
+            break;
+        case PART_FUSE:
+            fprintf(out, "type=%s amps=%u trip=%u ac=%u dc=%u speed=%s break=%u", part->fuse->type,
+                    (unsigned)part->fuse->rated_ma, (unsigned)part->fuse->trip_ma,
+                    (unsigned)part->fuse->ac_mv, (unsigned)part->fuse->dc_mv,
+                    part->fuse->speed != NULL ? part->fuse->speed : "-",
+                    (unsigned)part->fuse->breaking_a);
             break;
         case PART_TRANSISTOR:
             fprintf(out,

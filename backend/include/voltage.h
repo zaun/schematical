@@ -35,7 +35,8 @@ typedef enum {
     VOLTAGE_CAPACITOR_OVER, /* capacitor pin above its rated voltage (plan-33-E) */
     VOLTAGE_TRANSISTOR_OVER, /* transistor channel pin above Vceo / Vds, gate above Vgs (plan-40-F) */
     VOLTAGE_NIXIE_UNDER,    /* nixie anode below the tube's firing voltage (min_mv; max_mv = 0) */
-    VOLTAGE_REGULATOR_INPUT_OVER /* regulator input or enable pin above the part's input maximum (plan-42-G; max_mv) */
+    VOLTAGE_REGULATOR_INPUT_OVER, /* regulator input or enable pin above the part's input maximum (plan-42-G; max_mv) */
+    VOLTAGE_FUSE_OVER       /* fuse or PTC pin above its DC voltage rating, else its AC one (plan-47-I; max_mv) */
 } VoltageProblemKind;
 
 typedef struct { size_t part; size_t pin; size_t net; } VoltageConnection;  /* pin: index into Part.pins */

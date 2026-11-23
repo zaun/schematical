@@ -2,7 +2,8 @@
  * The voltage check (include/voltage.h, plan-07-B section 4.2). A pure
  * function over arrays: no Circuit, no Sim.
  *
- *   1. Groups: nets joined by closed switch contacts (union-find).
+ *   1. Groups: nets joined by closed switch contacts and by a part's fixed
+ *      contacts (an inductor's or a fuse's terminals) (union-find).
  *   2. Supply voltage S per group: the highest supply on it; two different
  *      non-zero supplies on one group are a clash. Pull parts (supply with
  *      "pull") are not supplies here: pull level P = the highest pull-up on
@@ -121,6 +122,33 @@ static Level effective(const Level *s, const Level *r, const Level *d, const Lev
         return p[g];
     }
     return c[g];
+}
+
+/* Joins the nets on pins a and b of part (every connection of each). */
+static void join_pins(size_t *parent, size_t net_count, const VoltageConnection *connections,
+                      size_t connection_count, size_t part, size_t a, size_t b) {
+    size_t j;
+    size_t k;
+
+    for (j = 0; j < connection_count; j++) {
+        if (connections[j].part != part || connections[j].pin != a || connections[j].net >= net_count) {
+            continue;
+        }
+        for (k = 0; k < connection_count; k++) {
+            if (connections[k].part == part && connections[k].pin == b && connections[k].net < net_count) {
+                join(parent, connections[j].net, connections[k].net);
+            }
+        }
+    }
+}
+
+/* A fuse's or PTC's DC voltage rating, else its AC one (a fuse rated only for
+   AC is held to the same number); 0 = none given (plan-47-I). */
+static uint32_t fuse_limit_mv(const Part *part) {
+    if (part->kind != PART_FUSE || part->fuse == NULL) {
+        return 0;
+    }
+    return part->fuse->dc_mv > 0 ? part->fuse->dc_mv : part->fuse->ac_mv;
 }
 
 /* The group a pin's connection puts it on; 0 when the pin is not connected
@@ -278,19 +306,17 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
             !switch_contact_pins(parts[closed[i].part], closed[i].position, &a, &b)) {
             continue;
         }
-        for (j = 0; j < connection_count; j++) {
-            size_t k;
+        join_pins(parent, net_count, connections, connection_count, closed[i].part, a, b);
+    }
+    /* A part's fixed contacts (an inductor's or a fuse's terminals, plan-47-I)
+       join their nets whatever the circuit does; a blown fuse still counts. */
+    for (i = 0; i < part_count; i++) {
+        size_t a;
+        size_t b;
+        size_t k;
 
-            if (connections[j].part != closed[i].part || connections[j].pin != a ||
-                connections[j].net >= net_count) {
-                continue;
-            }
-            for (k = 0; k < connection_count; k++) {
-                if (connections[k].part == closed[i].part && connections[k].pin == b &&
-                    connections[k].net < net_count) {
-                    join(parent, connections[j].net, connections[k].net);
-                }
-            }
+        for (k = 0; part_fixed_contact(parts[i], k, &a, &b); k++) {
+            join_pins(parent, net_count, connections, connection_count, i, a, b);
         }
     }
 
@@ -806,6 +832,11 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
             p.kind = VOLTAGE_TRANSISTOR_OVER;
             p.min_mv = 0;
             p.max_mv = transistor_pin_limit_mv(part, c->pin);
+        } else if (fuse_limit_mv(part) > 0 && e.mv > fuse_limit_mv(part)) {
+            /* Either terminal, by the capacitor's reasoning above (plan-47-I). */
+            p.kind = VOLTAGE_FUSE_OVER;
+            p.min_mv = 0;
+            p.max_mv = fuse_limit_mv(part);
         } else if (part->kind == PART_REGULATOR && regulator_input_max_mv(part) > 0 &&
                    regulator_vin_pin(part, c->pin) && e.mv > regulator_input_max_mv(part)) {
             /* An input or enable pin above the part's input maximum (plan-42-G). */
@@ -871,6 +902,7 @@ int voltage_describe(const Part *const *parts, const VoltageProblem *problem,
         case VOLTAGE_SWITCH_OVER:
         case VOLTAGE_CAPACITOR_OVER:
         case VOLTAGE_TRANSISTOR_OVER:
+        case VOLTAGE_FUSE_OVER:
             return snprintf(buffer, size, "voltage: %g V on pin %s (%s) of %s; it is rated %g V", v,
                             pin_designator(part, problem->pin), pin_name(part, problem->pin),
                             part->name, problem->max_mv / 1000.0);

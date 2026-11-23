@@ -27,7 +27,8 @@ typedef enum {
     PART_SHIFT, PART_CPU, PART_CHARLCD, PART_SERIAL, PART_CONNECTOR, PART_PIO, PART_DECODER,
     PART_BUFFER, PART_MUX, PART_HEADER, PART_ARITH, PART_CONVERTER, PART_RTC, PART_DIODE,
     PART_CAPACITOR, PART_REGISTER, PART_MCU, PART_RESISTOR, PART_TRANSISTOR,
-    PART_GENERIC, PART_SERIALMEM, PART_NIXIE, PART_REGULATOR, PART_CRYSTAL
+    PART_GENERIC, PART_SERIALMEM, PART_NIXIE, PART_REGULATOR, PART_CRYSTAL,
+    PART_INDUCTOR, PART_FUSE
 } PartKind;
 
 /* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */
@@ -213,6 +214,29 @@ typedef struct { const char *type; uint64_t hz; uint64_t load_ff;
                  uint32_t tolerance_ppm, stability_ppm; uint64_t esr_mohm;
                  int capacitors; } PartCrystal;
 
+/* An inductor part (plan-47-I): a two-terminal part that conducts like a
+   wire in the logic simulation (its terminals are joined by a contact that
+   is closed from the start). ph: the inductance in picohenries (100 pH to
+   100 H, at least 1). tolerance: as the datasheet prints it ("+-20%"), NULL =
+   not given. rated_ma: the rated (heating) current and isat_ma: the
+   saturation current, 0 = not given. dcr_uohm: the maximum DC resistance in
+   micro-ohms, 0 = not given. shielding: "shielded", "semi-shielded" or
+   "unshielded", NULL = not given. The facts are for the app; the simulation
+   reads none of them. */
+typedef struct { uint64_t ph; const char *tolerance; uint32_t rated_ma, isat_ma;
+                 uint64_t dcr_uohm; const char *shielding; } PartInductor;
+
+/* A fuse or a PTC resettable fuse (plan-47-I). type: "fuse" or "ptc". A
+   closed contact between the two terminals; a fuse blown with
+   circuit_set_switch(part, 1, 0) opens it and position 1 on closes it
+   again. rated_ma: a fuse's rated current, a PTC's hold current. trip_ma: a
+   PTC's trip current, 0 for a fuse. ac_mv, dc_mv: the voltage ratings (a
+   PTC's maximum voltage is dc_mv), 0 = not given. speed: a fuse's "fast",
+   "medium" or "slow", NULL for a PTC. breaking_a: a fuse's breaking capacity,
+   a PTC's maximum fault current, in amps, 0 = not given. */
+typedef struct { const char *type; uint32_t rated_ma, trip_ma, ac_mv, dc_mv;
+                 const char *speed; uint32_t breaking_a; } PartFuse;
+
 /* A microcontroller (plan-36-F): facts only, no simulation model (its
    device says "simulated": false). core: "avr", "avrrc", "avrxt", "avrxm",
    "cortex-m0plus", "xtensa-lx6", "xtensa-lx7" or "riscv". max_hz: the
@@ -323,6 +347,8 @@ typedef struct Part {
     const PartSerialmem *serialmem;
     const PartRegulator *regulator;
     const PartCrystal *crystal;
+    const PartInductor *inductor;
+    const PartFuse *fuse;
     /* Dual-supply parts (plan-20-F): domain 0 is the A side (its vcc is
        Part.vcc), domain 1 the B side; NULL/0 for single-supply parts. */
     const PartSupplyDomain *domains; size_t domain_count;
