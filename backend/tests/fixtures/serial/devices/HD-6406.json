@@ -3,7 +3,8 @@
  "function": "UART",
  "description": "CMOS programmable asynchronous communication interface",
  "drawer": [
-  "Interface"
+  "Interface",
+  "Serial"
  ],
  "note": "hd-6406.pdf p1-11; plan-12-data/specs/classic-b.md § HD-6406",
  "pinouts": {

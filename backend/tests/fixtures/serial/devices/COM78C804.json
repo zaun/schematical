@@ -3,7 +3,8 @@
  "function": "UART",
  "description": "Four-channel universal asynchronous receiver/transmitter",
  "drawer": [
-  "Interface"
+  "Interface",
+  "Serial"
  ],
  "note": "com78c804.pdf p1-14; plan-12-data/specs/classic-b.md § COM78C804",
  "pinouts": {

@@ -2,7 +2,7 @@
   "id": "ST16C1450",
   "function": "UART",
   "description": "2.97V to 5.5V UART",
-  "drawer": ["Interface"],
+  "drawer": ["Interface", "Serial"],
   "note": "st16c1450.pdf p.1-30; st16c1550.pdf p.26; plan-12-data/specs/exar-a.md § ST16C1450",
   "pinouts": {
     "tqfp48": [

@@ -2,7 +2,7 @@
   "id": "TL16C750",
   "function": "UART",
   "description": "Asynchronous communications element with 64-byte FIFOs and autoflow control",
-  "drawer": ["Interface"],
+  "drawer": ["Interface", "Serial"],
   "note": "tl16c750.pdf p.1-38; tl16c754c.pdf p.53-55; plan-12-data/specs/ti-b.md § TL16C750",
   "pinouts": {
     "lqfp64": [

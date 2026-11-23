@@ -3,7 +3,8 @@
  "function": "Bridge UART",
  "description": "SPI/MICROWIRE-compatible UART with integrated true fail-safe RS-485/RS-422 transceivers",
  "drawer": [
-  "Interface"
+  "Interface",
+  "Serial"
  ],
  "note": "max3140.pdf p.1-36; plan-12-data/specs/maxim.md § MAX3140",
  "pinouts": {

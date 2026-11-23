@@ -2,7 +2,7 @@
   "id": "TL16C554",
   "function": "UART",
   "description": "Asynchronous communications element",
-  "drawer": ["Interface"],
+  "drawer": ["Interface", "Serial"],
   "note": "tl16c554.pdf p.1-35; tl16c554a.pdf p.43-48; plan-12-data/specs/ti-b.md § TL16C554",
   "pinouts": {
     "plcc68": [

@@ -2,7 +2,7 @@
   "id": "NS16C2552",
   "function": "UART",
   "description": "Dual UART with 16-byte/64-byte FIFO's and up to 5 Mbit/s data rate",
-  "drawer": ["Interface"],
+  "drawer": ["Interface", "Serial"],
   "note": "ns16c2552.pdf p.1-56; plan-12-data/specs/ti-c.md § NS16C2552",
   "pinouts": {
     "tqfp48-ns": [

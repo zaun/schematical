@@ -2,7 +2,7 @@
   "id": "XR16M2651",
   "function": "UART",
   "description": "High performance DUART with 32-byte FIFO and PowerSave feature",
-  "drawer": ["Interface"],
+  "drawer": ["Interface", "Serial"],
   "note": "xr16m2651.pdf p.1-51; plan-12-data/specs/exar-b.md § XR16M2651; plan-12-data/specs/exar-b.md § XR16M2551",
   "pinouts": {
     "qfn32-2551": [

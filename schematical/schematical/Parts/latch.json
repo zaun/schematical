@@ -2451,7 +2451,7 @@
       "id": "74_75_TTL",
       "function": "4-bit latch",
       "description": "4-bit bistable latches, standard TTL: holds a nixie digit between the counter and the driver",
-      "drawer": ["Vintage", "ICs"],
+      "drawer": ["Vintage", "Support ICs"],
       "note": "SN7475: sn74ls75 (SDLS120, p.3); K155TM7 (analogue of SN7475N, same pins; 2.5 mm pitch package 238.16): datasheets/nixie/k155tm7.pdf. The same device as 74_75 (LS, HC, HCT) with the standard-TTL timing",
       "model": "transparent",
       "pinouts": {

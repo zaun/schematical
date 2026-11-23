@@ -7,7 +7,7 @@
       "id": "led-generic",
       "function": "LED",
       "description": "Generic LED",
-      "drawer": ["Indicators","LED"],
+      "drawer": ["Displays & Indicators","LED"],
       "pinouts": {
         "two-pin": [
           {"number":1,"name":"K","role":"input"},

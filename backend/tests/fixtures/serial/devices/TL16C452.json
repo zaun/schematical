@@ -2,7 +2,7 @@
   "id": "TL16C452",
   "function": "UART",
   "description": "Asynchronous communications element",
-  "drawer": ["Interface"],
+  "drawer": ["Interface", "Serial"],
   "note": "tl16c451.pdf p.1-26; plan-12-data/specs/ti-a.md § TL16C452",
   "pinouts": {
     "plcc68": [

@@ -2,7 +2,7 @@
   "id": "TL16C550B",
   "function": "UART",
   "description": "Asynchronous communications element",
-  "drawer": ["Interface"],
+  "drawer": ["Interface", "Serial"],
   "note": "tl16c550b.pdf p.1-35; plan-12-data/specs/ti-a.md § TL16C550B",
   "pinouts": {
     "plcc44": [

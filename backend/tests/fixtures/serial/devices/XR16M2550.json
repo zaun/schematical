@@ -2,7 +2,7 @@
   "id": "XR16M2550",
   "function": "UART",
   "description": "High performance low voltage DUART with 16-byte FIFO",
-  "drawer": ["Interface"],
+  "drawer": ["Interface", "Serial"],
   "note": "xr16m2550.pdf p.1-47; plan-12-data/specs/exar-b.md § XR16M2550",
   "pinouts": {
     "qfn32": [

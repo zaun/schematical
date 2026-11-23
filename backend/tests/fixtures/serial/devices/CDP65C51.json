@@ -3,7 +3,8 @@
  "function": "UART",
  "description": "CMOS asynchronous communications interface adapter (ACIA)",
  "drawer": [
-  "Interface"
+  "Interface",
+  "Serial"
  ],
  "note": "cdp65c51.pdf p1-18; plan-12-data/specs/classic-b.md § CDP65C51",
  "pinouts": {

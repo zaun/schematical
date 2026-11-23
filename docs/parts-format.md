@@ -110,6 +110,35 @@ parts that share them.
 **Every other key belongs to the kind** (see the kind sections below), and
 each kind rejects keys it does not know.
 
+### The drawer's categories
+
+A part is listed under the category that says what it is for, not who made it
+or when. Pick the path from this tree (a new group is fine; a new top-level
+category needs a reason this list does not give). The drawer sorts the
+categories by name, then the User Library and the File Library (a person's own
+parts) last.
+
+| Category | Groups (the sub-group, if any, after ›) |
+|---|---|
+| Analog | Data converters (ADC, DAC); Timers and Op-amps (plan-48) |
+| Clocks | Crystal › kHz / MHz; Ceramic resonator; Oscillator; the RTC leaf |
+| Connector | Barrel, Header, USB; later Terminal block, JST, Card slot, IC Socket |
+| Discrete | Capacitors › Ceramic / Electrolytic / Tantalum; Diodes; Resistors › Array / Chip / Through-hole; Transistors › BJT / MOSFET |
+| Displays & Indicators | LED; 7-Segment; Character LCD; Buzzers (plan-47) |
+| Interface | Serial (UART, Bridge UART, I2C controller); Parallel I/O (PIA, VIA) |
+| Logic | Arithmetic, Buffers, Counters, Decoders & muxes, Flip-flops & latches, Gates, Registers |
+| Memory | EEPROM; SRAM; Serial › EEPROM / FRAM / Flash |
+| Microcontroller | AVR › AT90 / ATmega / ATtiny / Dx / Ex / Lx/Sx / XMEGA / megaAVR 0 / tinyAVR 0/1/2; ESP32; RP2040 |
+| Power | Regulators › Linear / Switching |
+| Processor | the bus CPUs (6502, 65816, Z80, …) |
+| Switches & Relays | DIP; Tactile; Relay (plan-47) |
+| Vintage | Display tubes › Nixie / Numitron / VFD / Neon; Support ICs |
+
+**Vintage** is old technology that is no longer made, kept as its own
+category (by era, not function). It is not where obsolete parts go: an
+obsolete part (usually one with a newer replacement) keeps its functional
+path and gets `"flags": ["obsolete"]`.
+
 ## Pinouts and pins
 
 A pinout is an array of pins. Each pin has a **designator**, the package's
@@ -1552,10 +1581,10 @@ The facts are integers in the part library (hertz, femtofarads, ppm,
 milliohms) so the app reads them without floats.
 
 The library (`crystal.json`, plan-44): 604 parts from Abracon, ECS and Suntsu
-(200 each) and four generics, in 13 devices. Drawer: **Crystal → kHz** (one
+(200 each) and four generics, in 13 devices. Drawer: **Clocks → Crystal → kHz** (one
 leaf per frequency: `32.768 kHz`, `32 kHz`; 120 parts, `type` `crystal`),
-**Crystal → MHz** (`Under 4 MHz`, `4 MHz to 8 MHz`, `8 MHz to 16 MHz`, `16 MHz
-to 32 MHz`, `32 MHz and over`; 414 parts) and **Crystal → Ceramic resonator**
+**Clocks → Crystal → MHz** (`Under 4 MHz`, `4 MHz to 8 MHz`, `8 MHz to 16 MHz`, `16 MHz
+to 32 MHz`, `32 MHz and over`; 414 parts) and **Clocks → Ceramic resonator**
 (`Under 4 MHz`, `4 MHz to 8 MHz`, `8 MHz to 16 MHz`, `16 MHz and over`; 66
 parts, `type` `resonator`, those with built-in capacitors have `"capacitors":
 true` and the pinout `X1`, `GND`, `X2`). The package family is `SMD`,
@@ -1681,7 +1710,7 @@ closed).
 | `"momentary"` | optional, default `false`: the contact springs back (a tactile switch); the app presses it while the mouse is held. `PartSwitch.momentary` |
 | `"normallyClosed"` | optional, default `false`, needs `"momentary": true`: the contact is closed at rest and opens while pressed. The circuit starts it closed. `PartSwitch.normally_closed` |
 | `"joined"` | optional, a non-empty array of `[pin name, pin name]`: pins connected inside the part (a four-terminal tactile switch's two pins per side). Always closed; numbered after the positions, not addressable by `circuit_set_switch`. `PartSwitch.joined` is their count |
-| `"bodySize"` | optional, `[length, width]`: the nominal body size in mm, the larger side first, each above 0 and at most 100. The drawer lists a tactile switch under its size (Switch → Tactile → 6 × 6 mm) and the sidebar shows it as Body. `PartSwitch.body_um` |
+| `"bodySize"` | optional, `[length, width]`: the nominal body size in mm, the larger side first, each above 0 and at most 100. The drawer lists a tactile switch under its size (Switches & Relays → Tactile → 6 × 6 mm) and the sidebar shows it as Body. `PartSwitch.body_um` |
 
 ```json
 "actuator": "Standard",
@@ -1702,7 +1731,7 @@ from its first `tact_` device to the end: one device per (contact,
 terminals, rated volts, actuator, body size), id
 `tact_<no|nc>_<T>t_<V>v_<actuator>_<L>x<W>`, function `Normal Open` /
 `Normal Close`, `bodySize` DigiKey's "Size / Dimension" (the footprint's
-body when DigiKey gives none) rounded to whole mm (half up), drawer `["Switch","Tactile"]`, pins
+body when DigiKey gives none) rounded to whole mm (half up), drawer `["Switches & Relays","Tactile"]`, pins
 `A`, `B` (two terminals) or `A1`, `A2`, `B1`, `B2` with `joined`
 `[["A1","A2"],["B1","B2"]]` (four), packages `SMD`, `THT`, `THT right
 angle`, `SMD right angle`, `Edge mount`. Its inputs are
@@ -2009,7 +2038,7 @@ Three device types have a model; two are **facts only** (`"simulated": false`,
 like an `mcu`): the Renesas AT45DB DataFlash (`"dataflash"`) and the ST M95P32
 page EEPROM (`"pageeeprom"`). A device is one chip design (one density, one
 command set); a part is one orderable code. Drawer paths: `["Memory",
-"Serial EEPROM"]`, `["Memory", "Serial FRAM"]`, `["Memory", "Serial Flash"]`;
+"Serial", "EEPROM"]`, `["Memory", "Serial", "FRAM"]`, `["Memory", "Serial", "Flash"]`;
 the device `function` is the density (`"32 Kbit"`, `"2 Mbit"`).
 
 **The host port** is the SPI target of `serial_target.h`: SPI modes 0 and 3
@@ -3410,9 +3439,9 @@ part's supply.
 
 Common keys as in `docs/parts-format.md` § Devices: `id` (the TI base
 product, e.g. `ADS1115`), `function` (`"ADC"`, `"DAC"`, `"RTC"`),
-`description`, `drawer` (`["Interface", "ADC"]` / `["Interface", "DAC"]` /
-`["Interface", "RTC"]`, with `function` the leaf: use `["Interface"]` and
-function `"ADC"`), `note` (datasheet file and pages), `pinouts`.
+`description`, `drawer` (`["Analog", "Data converters"]` for an ADC or a DAC,
+`["Clocks"]` for an RTC, with `function` the leaf: `"ADC"`, `"DAC"`,
+`"RTC"`), `note` (datasheet file and pages), `pinouts`.
 
 Pin roles: digital pins as their direction (`input`, `output`, `inout`).
 Supplies (AVDD, DVDD, IOVDD, VDD, VCC, VBAT) and reference inputs (REFP,
@@ -3845,7 +3874,7 @@ pins with role `input` that no map names: they do nothing in the
 simulation (the tube glows without them) and the app draws them under the
 commons. For a tube `"chip"` holds a rating shown as is: a numitron's
 segment current (`"19.5 mA per segment"`), a VFD's filament (`"1.5 V,
-100 mA filament"`). Drawers are Vintage › Numitron and Vintage › VFD;
+100 mA filament"`). Drawers are Vintage › Display tubes › Numitron and Vintage › Display tubes › VFD;
 footprints are `explicit` lead circles like the nixies' (`TUBE-IV-…`).
 
 An LED's segment pin is the first pin (in pin order) in `segmentPins` that
@@ -3899,12 +3928,12 @@ The usual circuit is the `170V` supply (`200V` for a tube that fires at
 200 V; both from the supply menu's Custom…), a `PULLUP-170V` (the anode
 resistor) to the anode, and one high-voltage switch per cathode to ground:
 a transistor each, or a BCD-to-decimal nixie driver (`SN74141N`,
-`DM74141N`, `K155ID1`; `decoder` kind, drawer Vintage › ICs), whose
+`DM74141N`, `K155ID1`; `decoder` kind, drawer Vintage › Support ICs), whose
 open-collector outputs pull the selected cathode low and leave every
 output off for codes 10–15. The modern way is a 32-output high-voltage
 shift register (`HV5122`, `HV5222`, `HV5622`; `shift` kind, drawer
 Logic › Registers): three tubes' cathodes per chip, clocked in serially.
-A neon indicator (INS-1, IN-3, NE-2: drawer Vintage › Neon) is a nixie
+A neon indicator (INS-1, IN-3, NE-2: drawer Vintage › Display tubes › Neon) is a nixie
 with one cathode, glyph `"•"`.
 
 **Footprints** are `explicit`: the leads or pins on their circle (or, for
@@ -3918,7 +3947,7 @@ drawing, the circle and the angles.
 
 Character LCD modules: HD44780-compatible modules with the controller,
 character ROM, glass and backlight built in (plan-11). The parts drawer
-lists them under Displays → Character. The example is the
+lists them under Displays & Indicators → Character LCD. The example is the
 `NHD-0216K1Z-NSW` device (part NHD-0216K1Z-NSW-BBW-L):
 
 ```json

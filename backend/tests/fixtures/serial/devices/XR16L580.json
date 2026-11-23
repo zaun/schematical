@@ -2,7 +2,7 @@
   "id": "XR16L580",
   "function": "UART",
   "description": "Smallest 2.25V to 5.5V UART with 16-byte FIFO and powersave",
-  "drawer": ["Interface"],
+  "drawer": ["Interface", "Serial"],
   "note": "xr16l580.pdf p.1-49; plan-12-data/specs/exar-a.md § XR16L580",
   "pinouts": {
     "qfn32": [

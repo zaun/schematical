@@ -3187,7 +3187,7 @@
       "id": "74_90_TTL",
       "function": "Decade counter",
       "description": "Decade counter (divide by 2 and by 5), standard TTL: the nixie clock's counter",
-      "drawer": ["Vintage", "ICs"],
+      "drawer": ["Vintage", "Support ICs"],
       "note": "SN7490A: sn74ls90 (SDLS940A, pp.6-7: the '90A columns); K155IE2 (analogue of SN7490AN, same pins; 2.5 mm pitch package 201.14): datasheets/nixie/k155ie2.pdf. The same device as 74_90 (LS) with the standard-TTL timing",
       "model": "ripple",
       "pinouts": {

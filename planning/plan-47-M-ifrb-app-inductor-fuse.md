@@ -12,7 +12,7 @@ fuse blows it (its element draws broken and it stops conducting), a second
 click restores it, and every play starts with every fuse intact. Relays and
 buzzers draw as blocks until N. The behavioral outcome: the drawer lists
 **Discrete → Inductors**, **Discrete → Fuses**, **Discrete → Resettable
-fuses**, **Relay** and **Indicators → Buzzers** with value-ordered leaves; a
+fuses**, **Switches & Relays → Relay** and **Displays & Indicators → Buzzers** with value-ordered leaves; a
 placed inductor is `L1`, a fuse `F1`, a relay `K1`, a buzzer `LS1`; in play
 mode an LED fed from a gate through an inductor and a fuse lights, goes dark
 when the fuse is clicked and lights again on the second click.
@@ -101,7 +101,7 @@ Everything below is written against the world where these hold.
   position count, 1 for a tactile switch and 0 otherwise; the start loop
   sends only positions within it (`Simulation.swift:393`).
 - The drawer's top-level categories are sorted by name
-  (`PartCatalog.categories`), so `Relay` needs no order entry; leaves are
+  (`PartCatalog.categories`), so `Switches & Relays` (the drawer regrouping already created it) needs no order entry; leaves are
   sorted by `localizedStandardCompare` except where `functionGroups`'s
   `value` closure gives a number (capacitors, resistors).
 

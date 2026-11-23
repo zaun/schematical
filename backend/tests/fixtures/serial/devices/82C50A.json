@@ -2,7 +2,7 @@
   "id": "82C50A",
   "function": "UART",
   "description": "CMOS asynchronous communications element",
-  "drawer": ["Interface"],
+  "drawer": ["Interface", "Serial"],
   "note": "82c50a.pdf p.1-25; plan-12-data/specs/ti-a.md § 82C50A",
   "pinouts": {
     "plcc44": [

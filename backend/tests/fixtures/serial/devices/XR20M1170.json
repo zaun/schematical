@@ -3,7 +3,8 @@
  "function": "Bridge UART",
  "description": "I2C/SPI UART with 64-byte FIFO",
  "drawer": [
-  "Interface"
+  "Interface",
+  "Serial"
  ],
  "note": "xr20m1170.pdf p.1-60; plan-12-data/specs/bridges.md \u00a7 XR20M1170",
  "pinouts": {

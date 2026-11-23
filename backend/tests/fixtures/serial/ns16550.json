@@ -8,7 +8,8 @@
    "function": "UART",
    "description": "CMOS asynchronous communications element",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "82c50a.pdf p.1-25; plan-12-data/specs/ti-a.md \u00a7 82C50A",
    "pinouts": {
@@ -347,7 +348,8 @@
    "function": "UART",
    "description": "Combination UART/printer interface",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "com92c451.pdf p.1-16; plan-12-data/specs/classic-b.md \u00a7 COM92C451",
    "pinouts": {
@@ -711,7 +713,8 @@
    "function": "UART",
    "description": "Dual UART with 16-byte/64-byte FIFO's and up to 5 Mbit/s data rate",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "ns16c2552.pdf p.1-56; plan-12-data/specs/ti-c.md \u00a7 NS16C2552",
    "pinouts": {
@@ -1149,7 +1152,8 @@
    "function": "UART",
    "description": "Dual UART with 16-byte/64-byte FIFO's and up to 5 Mbit/s data rate",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "ns16c2552.pdf p.1-56; plan-12-data/specs/ti-c.md \u00a7 NS16C2752",
    "pinouts": {
@@ -1834,7 +1838,8 @@
    "function": "UART",
    "description": "Universal asynchronous receiver/transmitter with FIFOs",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "pc16550d.pdf p.1-27; plan-12-data/specs/ti-a.md \u00a7 PC16550D",
    "pinouts": {
@@ -2181,7 +2186,8 @@
    "function": "UART",
    "description": "5 V, 3.3 V and 2.5 V UART with 32-byte FIFOs and infrared (IrDA) encoder/decoder",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "sc16c650b.pdf p.1-48; plan-12-data/specs/exar-d.md \u00a7 SC16C650B",
    "pinouts": {
@@ -2515,7 +2521,8 @@
    "function": "UART",
    "description": "5 V, 3.3 V and 2.5 V dual UART, 5 Mbit/s (max.), with 64-byte FIFOs",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "sc16c752b.pdf p.1-45; plan-12-data/specs/exar-d.md \u00a7 SC16C752B",
    "pinouts": {
@@ -3103,7 +3110,8 @@
    "function": "UART",
    "description": "2.97V to 5.5V UART",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "st16c1450.pdf p.1-30; st16c1550.pdf p.26; plan-12-data/specs/exar-a.md \u00a7 ST16C1450",
    "pinouts": {
@@ -3447,7 +3455,8 @@
    "function": "UART",
    "description": "2.97V to 5.5V UART with 16-byte FIFO",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "st16c1550.pdf p.1-36; plan-12-data/specs/exar-a.md \u00a7 ST16C1550 (and ST16C1551)",
    "pinouts": {
@@ -3806,7 +3815,8 @@
    "function": "UART",
    "description": "2.97V to 5.5V DUART with 16-byte FIFO",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "st16c2550.pdf p.1-37; plan-12-data/specs/exar-a.md \u00a7 ST16C2550",
    "pinouts": {
@@ -4199,7 +4209,8 @@
    "function": "UART",
    "description": "Universal asynchronous receiver/transmitter (UART)",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "st16c450.pdf p.1-28; plan-12-data/specs/exar-a.md \u00a7 ST16C450",
    "pinouts": {
@@ -4571,7 +4582,8 @@
    "function": "UART",
    "description": "UART with 16-byte FIFOs",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "st16c550.pdf p.1-35; plan-12-data/specs/exar-a.md \u00a7 ST16C550",
    "pinouts": {
@@ -5191,7 +5203,8 @@
    "function": "UART",
    "description": "2.97V to 5.5V quad UARTs with 16-byte FIFO",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "st16c554.pdf p.1-39; plan-12-data/specs/exar-a.md \u00a7 ST16C554 (and ST16C554D)",
    "pinouts": {
@@ -5693,7 +5706,8 @@
    "function": "UART",
    "description": "1.8-V to 5-V dual UART with 16-byte FIFOs",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "tl16c2550.pdf p.1-49; tl16c2550-q1.pdf p.1-40; plan-12-data/specs/ti-c.md \u00a7 TL16C2550",
    "pinouts": {
@@ -6295,7 +6309,8 @@
    "function": "UART",
    "description": "1.8-V to 5-V dual UART with 16-byte FIFOs",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "tl16c2552.pdf p.1-40; plan-12-data/specs/ti-c.md \u00a7 TL16C2552",
    "pinouts": {
@@ -6651,7 +6666,8 @@
    "function": "UART",
    "description": "Asynchronous communications element",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "tl16c450.pdf p.1-31; plan-12-data/specs/ti-a.md \u00a7 TL16C450",
    "pinouts": {
@@ -6988,7 +7004,8 @@
    "function": "UART",
    "description": "Asynchronous communications element",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "tl16c451.pdf p.1-26; plan-12-data/specs/ti-a.md \u00a7 TL16C451",
    "pinouts": {
@@ -7452,7 +7469,8 @@
    "function": "UART",
    "description": "Asynchronous communications element",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "tl16c451.pdf p.1-26; plan-12-data/specs/ti-a.md \u00a7 TL16C452",
    "pinouts": {
@@ -7933,7 +7951,8 @@
    "function": "UART",
    "description": "Asynchronous communications element",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "tl16c550b.pdf p.1-35; plan-12-data/specs/ti-a.md \u00a7 TL16C550B",
    "pinouts": {
@@ -8755,7 +8774,8 @@
    "function": "UART",
    "description": "Asynchronous communications element with autoflow control",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "tl16c550c.pdf p.1-51; plan-12-data/specs/ti-a.md \u00a7 TL16C550C",
    "pinouts": {
@@ -9382,7 +9402,8 @@
    "function": "UART",
    "description": "Asynchronous communications element with autoflow control",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "tl16c550d.pdf p.1-60; plan-12-data/specs/ti-a.md \u00a7 TL16C550D",
    "pinouts": {
@@ -10109,7 +10130,8 @@
    "function": "UART",
    "description": "Dual asynchronous communications element with FIFO",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "tl16c552.pdf p.1-35; plan-12-data/specs/ti-b.md \u00a7 TL16C552",
    "pinouts": {
@@ -10605,7 +10627,8 @@
    "function": "UART",
    "description": "Dual asynchronous communications element with FIFO",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "tl16c552a.pdf p.1-39; plan-12-data/specs/ti-b.md \u00a7 TL16C552A",
    "pinouts": {
@@ -11519,7 +11542,8 @@
    "function": "UART",
    "description": "Asynchronous communications element",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "tl16c554.pdf p.1-35; tl16c554a.pdf p.43-48; plan-12-data/specs/ti-b.md \u00a7 TL16C554",
    "pinouts": {
@@ -12470,7 +12494,8 @@
    "function": "UART",
    "description": "Asynchronous-communications element",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "tl16c554a.pdf p.1-53; plan-12-data/specs/ti-b.md \u00a7 TL16C554A",
    "pinouts": {
@@ -13423,7 +13448,8 @@
    "function": "UART",
    "description": "Asynchronous communications element with 64-byte FIFOs and autoflow control",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "tl16c750.pdf p.1-38; tl16c754c.pdf p.53-55; plan-12-data/specs/ti-b.md \u00a7 TL16C750",
    "pinouts": {
@@ -13877,7 +13903,8 @@
    "function": "UART",
    "description": "UART with 128-byte FIFO",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "tl16c750e.pdf p.1-62; plan-12-data/specs/ti-b.md \u00a7 TL16C750E",
    "pinouts": {
@@ -14254,7 +14281,8 @@
    "function": "UART",
    "description": "Dual UART with 64-byte FIFO",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "tl16c752c.pdf p.1-64; tl16c752ci-q1.pdf p.1-57; tl16c752d.pdf p.1-57; tl16c752d-q1.pdf p.1-57; plan-12-data/specs/ti-c.md \u00a7 TL16C752C (covers TL16C752C, TL16C752CI-Q1, TL16C752D, TL16C752D-Q1)",
    "pinouts": {
@@ -14874,7 +14902,8 @@
    "function": "UART",
    "description": "Quad UART with 64-byte FIFO",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "tl16c754b.pdf p.1-41; plan-12-data/specs/ti-b.md \u00a7 TL16C754B",
    "pinouts": {
@@ -15398,7 +15427,8 @@
    "function": "UART",
    "description": "Quad UARTs with 64-byte FIFO",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "tl16c754c.pdf p.1-56; plan-12-data/specs/ti-b.md \u00a7 TL16C754C (orderable as TL16CP754C)",
    "pinouts": {
@@ -15917,7 +15947,8 @@
    "function": "UART",
    "description": "2.97V to 5.5V DUART with 16-byte FIFO",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "xr16c2550.pdf p.1-37; plan-12-data/specs/exar-a.md \u00a7 XR16C2550",
    "pinouts": {
@@ -16293,7 +16324,8 @@
    "function": "UART",
    "description": "2.97V to 5.5V quad UART with 128-byte FIFO",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "xr16c854.pdf p.1-53; plan-12-data/specs/exar-d.md \u00a7 XR16C854",
    "pinouts": {
@@ -17440,7 +17472,8 @@
    "function": "UART",
    "description": "2.97V to 5.5V quad UART with 128-byte FIFO",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "xr16c864.pdf p.1-51; plan-12-data/specs/exar-d.md \u00a7 XR16C864",
    "pinouts": {
@@ -18232,7 +18265,8 @@
    "function": "UART",
    "description": "Low voltage DUART with PowerSave",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "xr16l2551.pdf p.1-49; plan-12-data/specs/exar-b.md \u00a7 XR16L2551",
    "pinouts": {
@@ -18669,7 +18703,8 @@
    "function": "UART",
    "description": "2.25V to 5.5V DUART with 16-byte FIFO",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "xr16l2552.pdf p.1-45; plan-12-data/specs/exar-b.md \u00a7 XR16L2552",
    "pinouts": {
@@ -19348,7 +19383,8 @@
    "function": "UART",
    "description": "Smallest 2.25V to 5.5V UART with 16-byte FIFO and powersave",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "xr16l580.pdf p.1-49; plan-12-data/specs/exar-a.md \u00a7 XR16L580",
    "pinouts": {
@@ -19943,7 +19979,8 @@
    "function": "UART",
    "description": "High performance 2.97V to 5.5V quad UART",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "xr16l784.pdf p.1-51; plan-12-data/specs/exar-d.md \u00a7 XR16L784",
    "pinouts": {
@@ -20502,7 +20539,8 @@
    "function": "UART",
    "description": "High performance low voltage DUART with 16-byte FIFO",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "xr16m2550.pdf p.1-47; plan-12-data/specs/exar-b.md \u00a7 XR16M2550",
    "pinouts": {
@@ -21130,7 +21168,8 @@
    "function": "UART",
    "description": "High performance low voltage DUART with 16-byte FIFO and PowerSave feature",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "xr16m2551.pdf p.1-51; plan-12-data/specs/exar-b.md \u00a7 XR16M2551",
    "pinouts": {
@@ -21772,7 +21811,8 @@
    "function": "UART",
    "description": "High performance low voltage DUART with 32-byte FIFO",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "xr16m2650.pdf p.1-47; xr16m2550.pdf p.1-47; plan-12-data/specs/exar-b.md \u00a7 XR16M2650",
    "pinouts": {
@@ -22400,7 +22440,8 @@
    "function": "UART",
    "description": "High performance DUART with 32-byte FIFO and PowerSave feature",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "xr16m2651.pdf p.1-51; plan-12-data/specs/exar-b.md \u00a7 XR16M2651; plan-12-data/specs/exar-b.md \u00a7 XR16M2551",
    "pinouts": {
@@ -23042,7 +23083,8 @@
    "function": "UART",
    "description": "High performance DUART with 64-byte FIFO",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "xr16m752.pdf p.1-54; plan-12-data/specs/exar-b.md \u00a7 XR16M752",
    "pinouts": {
@@ -23716,7 +23758,8 @@
    "function": "UART",
    "description": "High performance DUART with 16-byte FIFO",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "xr16v2550.pdf p.1-46; plan-12-data/specs/exar-c.md \u00a7 XR16V2550 \u2014 High Performance DUART with 16-Byte FIFO; \u00a7 A. Common UART core",
    "pinouts": {
@@ -24082,7 +24125,8 @@
    "function": "UART",
    "description": "High performance DUART with 16-byte FIFO and PowerSave feature",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "xr16v2551.pdf p.1-49; plan-12-data/specs/exar-c.md \u00a7 XR16V2551 \u2014 High Performance DUART with 16-Byte FIFO and PowerSave Feature; \u00a7 A. Common UART core",
    "pinouts": {
@@ -24723,7 +24767,8 @@
    "function": "UART",
    "description": "High performance DUART with 16-byte FIFO",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "xr16v2552.pdf p.1-46; plan-12-data/specs/exar-c.md \u00a7 XR16V2552 \u2014 High Performance DUART with 16-Byte FIFO (ST16C2552 / XR16L2552 compatible); \u00a7 A. Common UART core",
    "pinouts": {
@@ -25158,7 +25203,8 @@
    "function": "UART",
    "description": "High performance DUART with 32-byte FIFO",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "xr16v2650.pdf p.1-47; plan-12-data/specs/exar-c.md \u00a7 XR16V2650 \u2014 High Performance DUART with 32-Byte FIFO; \u00a7 A. Common UART core",
    "pinouts": {
@@ -25787,7 +25833,8 @@
    "function": "UART",
    "description": "High performance DUART with 32-byte FIFO and PowerSave",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "xr16v2651.pdf p.1-51; plan-12-data/specs/exar-c.md \u00a7 XR16V2651 \u2014 High Performance DUART with 32-Byte FIFO and PowerSave Feature; \u00a7 A. Common UART core",
    "pinouts": {
@@ -26430,7 +26477,8 @@
    "function": "UART",
    "description": "High performance DUART with 32-byte FIFO",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "xr16v2652.pdf p.1-48; plan-12-data/specs/exar-c.md \u00a7 XR16V2652 \u2014 High Performance DUART with 32-Byte FIFO (2552 pin-out); \u00a7 A. Common UART core",
    "pinouts": {
@@ -27046,7 +27094,8 @@
    "function": "UART",
    "description": "2.25V to 3.6V quad UART with 16-byte FIFO",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "xr16v554.pdf p.1-43; plan-12-data/specs/exar-d.md \u00a7 XR16V554",
    "pinouts": {
@@ -28204,7 +28253,8 @@
    "function": "UART",
    "description": "2.25V to 3.6V quad UART with 32-byte FIFO",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "xr16v564.pdf p.1-54; plan-12-data/specs/exar-d.md \u00a7 XR16V564",
    "pinouts": {
@@ -29424,7 +29474,8 @@
    "function": "UART",
    "description": "2.25V to 3.6V quad UART with 64-byte FIFO",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "xr16v654.pdf p.1-58; plan-12-data/specs/exar-d.md \u00a7 XR16V654",
    "pinouts": {
@@ -30276,7 +30327,8 @@
    "function": "UART",
    "description": "High performance 2.25V to 3.6V octal UART with fractional baud rate",
    "drawer": [
-    "Interface"
+    "Interface",
+    "Serial"
    ],
    "note": "xr16v798.pdf p.1-56; plan-12-data/specs/exar-d.md \u00a7 XR16V798",
    "pinouts": {

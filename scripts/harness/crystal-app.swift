@@ -44,14 +44,19 @@ MainActor.assumeIsolated { runCrystalChecks() }
 
     // (1) The drawer: Crystal → kHz / MHz / Ceramic resonator, Generic beside them.
     let groups = Harness.catalog.groups(matching: DrawerFilter())
-    let crystal = groups.first { $0.category == "Crystal" }
+    let clocks = groups.first { $0.category == "Clocks" }
+    let crystal = clocks?.subcategories.first { $0.subcategory == "Crystal" }
+    let resonatorGroup = clocks?.subcategories.first { $0.subcategory == "Ceramic resonator" }
     func leaves(_ sub: String) -> [String] {
-        (crystal?.subcategories.first { $0.subcategory == sub }?.functions ?? []).map(\.function)
+        if sub == "Ceramic resonator" {
+            return (resonatorGroup?.functions ?? []).map(\.function).filter { $0 != "Generic" }
+        }
+        return (crystal?.subgroups.first { $0.subcategory == sub }?.functions ?? []).map(\.function)
     }
     let khz = leaves("kHz"), mhz = leaves("MHz"), resonator = leaves("Ceramic resonator")
     let generic = (crystal?.functions ?? []).map(\.function)
-    check("1 drawer: Crystal → kHz \(khz); MHz \(mhz); Ceramic resonator \(resonator); Generic \(generic)") {
-        if crystal == nil { return "no Crystal category" }
+    check("1 drawer: Clocks → Crystal → kHz \(khz); MHz \(mhz); Ceramic resonator \(resonator); Generic \(generic)") {
+        if crystal == nil { return "no Clocks → Crystal group" }
         if generic != ["Generic"] { return "Crystal leaves \(generic)" }
         if khz != ["32 kHz", "32.768 kHz"] { return "kHz leaves \(khz)" }
         let wantMHz = ["Under 4 MHz", "4 MHz to 8 MHz", "8 MHz to 16 MHz", "16 MHz to 32 MHz", "32 MHz and over"]

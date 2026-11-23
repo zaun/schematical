@@ -59,9 +59,11 @@ Everything below is written against the world where these hold.
 
 `Parts/` has 34 JSON files (32 part files, `datasheets.json`, `footprints.json`) and no `timer.json` or `opamp.json`. The drawer's
 categories come from the devices' `"drawer"` paths, sorted by name
-(`Backend/PartCatalog.swift`, `groups(matching:)`); no part uses an
-`"Analog"` category yet (`grep -l '"Analog"' schematical/schematical/Parts/*.json | wc -l`
-→ 0). None of the 330 datasheet ids G adds exists
+(`Backend/PartCatalog.swift`, `groups(matching:)`); the only `"Analog"` parts are the 767
+ADC and DAC converters of the drawer regrouping, listed at `["Analog", "Data converters"]`
+(`grep -l '"Analog"' schematical/schematical/Parts/*.json | wc -l` → 1, `converter.json`;
+`grep -c '"Analog"' …/converter.json` → 767); the timers and op-amps join that category as
+the groups Timers and Op-amps. None of the 330 datasheet ids G adds exists
 (`datasheets.json` ids ∩ the picked rows' PDF names → 0 at planning time).
 A part's flag for an AEC-Q100 grade is `"automotive"`
 (`docs/parts-format.md:224`).

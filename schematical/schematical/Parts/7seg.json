@@ -7,7 +7,7 @@
       "id": "LTC-4727JR",
       "function": "7-Segment",
       "description": "4-digit 0.4 in AlInGaP Super Red 7-segment display, common cathode, colon",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTC-4727JR: C4727JR.pdf. VF 2-2.6 V (C4727JR p.5)",
       "pinouts": {
         "p16": [
@@ -95,7 +95,7 @@
       "id": "LTC-4627JR",
       "function": "7-Segment",
       "description": "4-digit 0.4 in AlInGaP Super Red 7-segment display, common anode, colon",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTC-4627JR: LTC-4627JR.pdf. VF 2-2.6 V (LTC-4627JR p.6)",
       "pinouts": {
         "p16": [
@@ -183,7 +183,7 @@
       "id": "LTC-5723HR",
       "function": "7-Segment",
       "description": "4-digit 0.56 in Hi-Eff Red 7-segment display, common cathode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTC-5723HR: C5723HR.pdf. VF 2-2.6 V (C5723HR p.6)",
       "pinouts": {
         "p12": [
@@ -264,7 +264,7 @@
       "id": "LTC-5623G",
       "function": "7-Segment",
       "description": "4-digit 0.56 in Green 7-segment display, common anode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTC-5623G: LTC-5623G.pdf. VF 2.1-2.6 V (LTC-5623G p.5)",
       "pinouts": {
         "p12": [
@@ -345,7 +345,7 @@
       "id": "LTC-2623G",
       "function": "7-Segment",
       "description": "4-digit 0.28 in Green 7-segment display, common anode, colon",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTC-2623G: LTC-2623G.pdf. VF 2.1-2.6 V (LTC-2623G p.4 (scan))",
       "pinouts": {
         "p16": [
@@ -433,7 +433,7 @@
       "id": "LTC-4624JR",
       "function": "7-Segment",
       "description": "3-digit 0.4 in AlInGaP Super Red 7-segment display, common anode, colon",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTC-4624JR: LTC-4624JR.pdf. VF 2-2.6 V (LTC-4624JR p.4 (scan))",
       "pinouts": {
         "p15": [
@@ -512,7 +512,7 @@
       "id": "LTC-4724JR",
       "function": "7-Segment",
       "description": "3-digit 0.4 in AlInGaP Super Red 7-segment display, common cathode, colon",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTC-4724JR: LTC-4724JR.pdf. VF 2-2.6 V (LTC-4724JR p.4 (scan))",
       "pinouts": {
         "p15": [
@@ -591,7 +591,7 @@
       "id": "LTD-4608JF",
       "function": "7-Segment",
       "description": "2-digit 0.4 in AlInGaP Yellow Orange 7-segment display, common anode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-4608JF: D4608JF.pdf. VF 2.05-2.6 V (D4608JF p.5)",
       "pinouts": {
         "p10": [
@@ -654,7 +654,7 @@
       "id": "LTD-4608JR",
       "function": "7-Segment",
       "description": "2-digit 0.4 in AlInGaP Super Red 7-segment display, common anode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-4608JR: LTD-4608JR.pdf. VF 2-2.6 V (LTD-4608JR p.4 (scan))",
       "pinouts": {
         "p10": [
@@ -717,7 +717,7 @@
       "id": "LTD-4708JR",
       "function": "7-Segment",
       "description": "2-digit 0.4 in AlInGaP Super Red 7-segment display, common cathode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-4708JR: LTD-4708JR.pdf. VF 2-2.6 V (LTD-4708JR p.4 (scan; test condition printed IF=1mA))",
       "pinouts": {
         "p10": [
@@ -780,7 +780,7 @@
       "id": "LTD-2601WC",
       "function": "7-Segment",
       "description": "2-digit 0.28 in AlGaAs Red 7-segment display, common anode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-2601WC: LTD-2601WC.pdf. VF 1.7-2.4 V (LTD-2601WC p.5 (VF typ 1.7 max 2.4 at IF=5mA))",
       "pinouts": {
         "p10": [
@@ -843,7 +843,7 @@
       "id": "LTD-2701JD",
       "function": "7-Segment",
       "description": "2-digit 0.28 in AlInGaP Hyper Red 7-segment display, common cathode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-2701JD: LTD-2701JD.pdf. VF 2.1-2.6 V (LTD-2701JD p.4 (scan))",
       "pinouts": {
         "p10": [
@@ -906,7 +906,7 @@
       "id": "LSHD-5503",
       "function": "7-Segment",
       "description": "1-digit 0.56 in AlInGaP Red 7-segment display, common cathode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LSHD-5503: LSHD-5503.pdf. VF 2.1-2.6 V (LSHD-5503 p.4)",
       "pinouts": {
         "p10": [
@@ -961,7 +961,7 @@
       "id": "LSHD-5601",
       "function": "7-Segment",
       "description": "1-digit 0.56 in Green 7-segment display, common anode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LSHD-5601: LSHD-5601.pdf. VF 2.1-2.6 V (LSHD-5601 p.4 (scan))",
       "pinouts": {
         "p10": [
@@ -1016,7 +1016,7 @@
       "id": "LTS-6960HR",
       "function": "7-Segment",
       "description": "1-digit 0.56 in Hi-Eff Red 7-segment display, common anode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTS-6960HR: LTS-6960HR.pdf. VF 2-2.6 V (LTS-6960HR p.5)",
       "pinouts": {
         "p10": [
@@ -1071,7 +1071,7 @@
       "id": "LSHD-7501",
       "function": "7-Segment",
       "description": "1-digit 0.3 in AlInGaP Red 7-segment display, common anode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LSHD-7501: LSHD-7501.pdf. VF 2.1-2.6 V (LSHD-7501 p.5)",
       "pinouts": {
         "p10": [
@@ -1126,7 +1126,7 @@
       "id": "LSHD-7503",
       "function": "7-Segment",
       "description": "1-digit 0.3 in AlInGaP Red 7-segment display, common cathode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LSHD-7503: LSHD-7503.PDF. VF 2.1-2.6 V (LSHD-7503 p.6)",
       "pinouts": {
         "p10": [
@@ -1181,7 +1181,7 @@
       "id": "LSHD-7801",
       "function": "7-Segment",
       "description": "1-digit 0.3 in Green 7-segment display, common anode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LSHD-7801: LSHD-7801.pdf. VF 2.1-2.6 V (LSHD-7801 p.4 (scan))",
       "pinouts": {
         "p10": [
@@ -1236,7 +1236,7 @@
       "id": "LSHD-7803",
       "function": "7-Segment",
       "description": "1-digit 0.3 in Green 7-segment display, common cathode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LSHD-7803: LSHD-7803.pdf. VF 2.1-2.6 V (LSHD-7803 p.5)",
       "pinouts": {
         "p10": [
@@ -1291,7 +1291,7 @@
       "id": "LSHD-A101",
       "function": "7-Segment",
       "description": "1-digit 0.3 in AlInGaP Red 7-segment display, common anode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LSHD-A101: LSHD-A101.pdf. VF 2.1-2.6 V (LSHD-A101 p.4 (scan))",
       "pinouts": {
         "p10": [
@@ -1346,7 +1346,7 @@
       "id": "LSHD-A103",
       "function": "7-Segment",
       "description": "1-digit 0.3 in AlInGaP Red 7-segment display, common cathode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LSHD-A103: LSHD-A103.PDF; its circuit drawing shows common anode; the text and pin table say common cathode. VF 2.1-2.6 V (LSHD-A103 p.6 (Forward Voltage Per Chip))",
       "pinouts": {
         "p10": [
@@ -1401,7 +1401,7 @@
       "id": "LTS-4802BJR-H1",
       "function": "7-Segment",
       "description": "1-digit 0.4 in AlInGaP Super Red 7-segment display, common anode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTS-4802BJR-H1: LTS-4802BJR-H1.pdf; 0.39 in. VF 2-2.6 V (LTS-4802BJR-H1 p.4 (scan))",
       "pinouts": {
         "p10": [
@@ -1456,7 +1456,7 @@
       "id": "LTS-4301JR",
       "function": "7-Segment",
       "description": "1-digit 0.4 in AlInGaP Super Red 7-segment display, common cathode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTS-4301JR: LTS-4301JR.pdf. VF 2-2.6 V (LTS-4301JR p.5)",
       "pinouts": {
         "p10": [
@@ -1511,7 +1511,7 @@
       "id": "LTS-4801JR",
       "function": "7-Segment",
       "description": "1-digit 0.4 in AlInGaP Super Red 7-segment display, common anode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTS-4801JR: LTS-4801JR.pdf; 0.39 in. VF 2-2.6 V (LTS-4801JR p.5)",
       "pinouts": {
         "p10": [
@@ -1566,7 +1566,7 @@
       "id": "LTS-312AHR",
       "function": "7-Segment",
       "description": "1-digit 0.3 in Hi-Eff Red 7-segment display, common anode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTS-312AHR: LTS-312AHR.pdf. VF 2-2.6 V (LTS-312AHR p.5)",
       "pinouts": {
         "p14": [
@@ -1627,7 +1627,7 @@
       "id": "LTD-6910HR",
       "function": "7-Segment",
       "description": "2-digit 0.56 in Hi-Eff Red 7-segment display, common anode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-6910HR: LTD-6910HR.pdf. VF 2-2.6 V (LTD-6910HR p.5)",
       "pinouts": {
         "p18": [
@@ -1706,7 +1706,7 @@
       "id": "LTD-6710R",
       "function": "7-Segment",
       "description": "2-digit 0.56 in Red 7-segment display, common anode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-6710R: LTD-6000.pdf. VF 1.7-2 V (LTD-6000 p.4 (scan, LTD-6700R series))",
       "pinouts": {
         "p18": [
@@ -1785,7 +1785,7 @@
       "id": "LTD-6710P",
       "function": "7-Segment",
       "description": "2-digit 0.56 in Bright Red 7-segment display, common anode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-6710P: LTD-6000.pdf. VF 2.1-2.8 V (LTD-6000 p.5 (scan, LTD-6700P series))",
       "pinouts": {
         "p18": [
@@ -1864,7 +1864,7 @@
       "id": "LTD-6410G",
       "function": "7-Segment",
       "description": "2-digit 0.56 in Green 7-segment display, common anode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-6410G: LTD-6000.pdf. VF 2.1-2.8 V (LTD-6000 p.6 (scan, LTD-6400G series))",
       "pinouts": {
         "p18": [
@@ -1943,7 +1943,7 @@
       "id": "LTD-6810Y",
       "function": "7-Segment",
       "description": "2-digit 0.56 in Yellow 7-segment display, common anode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-6810Y: LTD-6000.pdf. VF 2.1-2.8 V (LTD-6000 p.7 (scan, LTD-6800Y series))",
       "pinouts": {
         "p18": [
@@ -2022,7 +2022,7 @@
       "id": "LTD-6610E",
       "function": "7-Segment",
       "description": "2-digit 0.56 in Orange 7-segment display, common anode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-6610E: LTD-6000.pdf. VF 2.1-2.8 V (LTD-6000 p.8 (scan, LTD-6600E series))",
       "pinouts": {
         "p18": [
@@ -2101,7 +2101,7 @@
       "id": "LTD-6730R",
       "function": "7-Segment",
       "description": "2-digit 0.56 in Red 7-segment display, common anode, +/-1 overflow",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-6730R: LTD-6000.pdf; plus/minus 1 overflow. VF 1.7-2 V (LTD-6000 p.4 (scan, LTD-6700R series))",
       "pinouts": {
         "p18": [
@@ -2174,7 +2174,7 @@
       "id": "LTD-6730P",
       "function": "7-Segment",
       "description": "2-digit 0.56 in Bright Red 7-segment display, common anode, +/-1 overflow",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-6730P: LTD-6000.pdf; plus/minus 1 overflow. VF 2.1-2.8 V (LTD-6000 p.5 (scan, LTD-6700P series))",
       "pinouts": {
         "p18": [
@@ -2247,7 +2247,7 @@
       "id": "LTD-6430G",
       "function": "7-Segment",
       "description": "2-digit 0.56 in Green 7-segment display, common anode, +/-1 overflow",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-6430G: LTD-6000.pdf; plus/minus 1 overflow. VF 2.1-2.8 V (LTD-6000 p.6 (scan, LTD-6400G series))",
       "pinouts": {
         "p18": [
@@ -2320,7 +2320,7 @@
       "id": "LTD-6830Y",
       "function": "7-Segment",
       "description": "2-digit 0.56 in Yellow 7-segment display, common anode, +/-1 overflow",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-6830Y: LTD-6000.pdf; plus/minus 1 overflow. VF 2.1-2.8 V (LTD-6000 p.7 (scan, LTD-6800Y series))",
       "pinouts": {
         "p18": [
@@ -2393,7 +2393,7 @@
       "id": "LTD-6630E",
       "function": "7-Segment",
       "description": "2-digit 0.56 in Orange 7-segment display, common anode, +/-1 overflow",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-6630E: LTD-6000.pdf; plus/minus 1 overflow. VF 2.1-2.8 V (LTD-6000 p.8 (scan, LTD-6600E series))",
       "pinouts": {
         "p18": [
@@ -2466,7 +2466,7 @@
       "id": "LTD-6930HR",
       "function": "7-Segment",
       "description": "2-digit 0.56 in Hi-Eff Red 7-segment display, common anode, +/-1 overflow",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-6930HR: LTD-6000.pdf; plus/minus 1 overflow. VF 2.1-2.8 V (LTD-6000 p.9 (scan, LTD-6900HR series))",
       "pinouts": {
         "p18": [
@@ -2539,7 +2539,7 @@
       "id": "LTD-6740R",
       "function": "7-Segment",
       "description": "2-digit 0.56 in Red 7-segment display, common cathode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-6740R: LTD-6000.pdf. VF 1.7-2 V (LTD-6000 p.4 (scan, LTD-6700R series))",
       "pinouts": {
         "p18": [
@@ -2618,7 +2618,7 @@
       "id": "LTD-6740P",
       "function": "7-Segment",
       "description": "2-digit 0.56 in Bright Red 7-segment display, common cathode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-6740P: LTD-6000.pdf. VF 2.1-2.8 V (LTD-6000 p.5 (scan, LTD-6700P series))",
       "pinouts": {
         "p18": [
@@ -2697,7 +2697,7 @@
       "id": "LTD-6440G",
       "function": "7-Segment",
       "description": "2-digit 0.56 in Green 7-segment display, common cathode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-6440G: LTD-6000.pdf. VF 2.1-2.8 V (LTD-6000 p.6 (scan, LTD-6400G series))",
       "pinouts": {
         "p18": [
@@ -2776,7 +2776,7 @@
       "id": "LTD-6840Y",
       "function": "7-Segment",
       "description": "2-digit 0.56 in Yellow 7-segment display, common cathode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-6840Y: LTD-6000.pdf. VF 2.1-2.8 V (LTD-6000 p.7 (scan, LTD-6800Y series))",
       "pinouts": {
         "p18": [
@@ -2855,7 +2855,7 @@
       "id": "LTD-6640E",
       "function": "7-Segment",
       "description": "2-digit 0.56 in Orange 7-segment display, common cathode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-6640E: LTD-6000.pdf. VF 2.1-2.8 V (LTD-6000 p.8 (scan, LTD-6600E series))",
       "pinouts": {
         "p18": [
@@ -2934,7 +2934,7 @@
       "id": "LTD-6940HR",
       "function": "7-Segment",
       "description": "2-digit 0.56 in Hi-Eff Red 7-segment display, common cathode",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-6940HR: LTD-6000.pdf. VF 2.1-2.8 V (LTD-6000 p.9 (scan, LTD-6900HR series))",
       "pinouts": {
         "p18": [
@@ -3013,7 +3013,7 @@
       "id": "LTD-6750R",
       "function": "7-Segment",
       "description": "2-digit 0.56 in Red 7-segment display, common cathode, +/-1 overflow",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-6750R: LTD-6000.pdf; plus/minus 1 overflow. VF 1.7-2 V (LTD-6000 p.4 (scan, LTD-6700R series))",
       "pinouts": {
         "p18": [
@@ -3086,7 +3086,7 @@
       "id": "LTD-6750P",
       "function": "7-Segment",
       "description": "2-digit 0.56 in Bright Red 7-segment display, common cathode, +/-1 overflow",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-6750P: LTD-6000.pdf; plus/minus 1 overflow. VF 2.1-2.8 V (LTD-6000 p.5 (scan, LTD-6700P series))",
       "pinouts": {
         "p18": [
@@ -3159,7 +3159,7 @@
       "id": "LTD-6450G",
       "function": "7-Segment",
       "description": "2-digit 0.56 in Green 7-segment display, common cathode, +/-1 overflow",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-6450G: LTD-6000.pdf; plus/minus 1 overflow. VF 2.1-2.8 V (LTD-6000 p.6 (scan, LTD-6400G series))",
       "pinouts": {
         "p18": [
@@ -3232,7 +3232,7 @@
       "id": "LTD-6850Y",
       "function": "7-Segment",
       "description": "2-digit 0.56 in Yellow 7-segment display, common cathode, +/-1 overflow",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-6850Y: LTD-6000.pdf; plus/minus 1 overflow. VF 2.1-2.8 V (LTD-6000 p.7 (scan, LTD-6800Y series))",
       "pinouts": {
         "p18": [
@@ -3305,7 +3305,7 @@
       "id": "LTD-6650E",
       "function": "7-Segment",
       "description": "2-digit 0.56 in Orange 7-segment display, common cathode, +/-1 overflow",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-6650E: LTD-6000.pdf; plus/minus 1 overflow. VF 2.1-2.8 V (LTD-6000 p.8 (scan, LTD-6600E series))",
       "pinouts": {
         "p18": [
@@ -3378,7 +3378,7 @@
       "id": "LTD-6950HR",
       "function": "7-Segment",
       "description": "2-digit 0.56 in Hi-Eff Red 7-segment display, common cathode, +/-1 overflow",
-      "drawer": ["Indicators","LED 7-Seg"],
+      "drawer": ["Displays & Indicators","7-Segment"],
       "note": "LTD-6950HR: LTD-6000.pdf; plus/minus 1 overflow. VF 2.1-2.8 V (LTD-6000 p.9 (scan, LTD-6900HR series))",
       "pinouts": {
         "p18": [
@@ -3451,7 +3451,7 @@
       "id": "IV-9",
       "function": "Numitron",
       "description": "Numitron tube, incandescent 7-segment numeral and decimal point, 10 mm, wire leads",
-      "drawer": ["Vintage", "Numitron"],
+      "drawer": ["Vintage", "Display tubes", "Numitron"],
       "note": "IV-9 passport, datasheets/vfd/iv-9.pdf (segments from its digit table; the same as the IV-16 figure). A segment is a filament between its lead and the common: it lights with either polarity. Simulated as a common-anode display (common to +, a 7447-style driver sinking the segments). Segment 3.15 V nominal, 4.5 V max, 19.5 mA (17-22). Numeral height 10 mm from tube-tester.com (the IV-16 passport gives 12 x 6 mm for the same construction)",
       "pinouts": {
         "base": [
@@ -3497,7 +3497,7 @@
       "id": "IV-16",
       "function": "Numitron",
       "description": "Numitron tube, incandescent 7-segment numeral, 12 mm, wire leads",
-      "drawer": ["Vintage", "Numitron"],
+      "drawer": ["Vintage", "Display tubes", "Numitron"],
       "note": "IV-16 passports, datasheets/vfd/iv-16.pdf and iv-16-sparktube.jpg (segment figure; lead 2 is free: no decimal point; numeral 12 x 6 mm). A segment is a filament between its lead and the common: it lights with either polarity. Simulated as a common-anode display (common to +, a 7447-style driver sinking the segments). Segment 3.15 V nominal, 4.5 V max, 19.5 mA (17-22)",
       "pinouts": {
         "base": [
@@ -3542,7 +3542,7 @@
       "id": "IV-6",
       "function": "VFD",
       "description": "VFD tube, 7-segment numeral and decimal point, 11.2 mm, side view, wire leads",
-      "drawer": ["Vintage", "VFD"],
+      "drawer": ["Vintage", "Display tubes", "VFD"],
       "note": "IV-6 passport, datasheets/vfd/iv-6.pdf (segment figure and digit table), and the reference page iv-6-sparktube.jpg (character 6.9 x 11.2 mm). A segment glows while its anode and the grid are both high (about 25 V) with the filament lit; the filament leads are not simulated. Leads 7 and 8 are the filament (8 also the conductive layer); anode and grid 25 V (30 V max; 50-70 V pulsed), filament 1.0 V 50 mA (the reference book says 1.2 V). The 12th lead is cut off",
       "pinouts": {
         "base": [
@@ -3590,7 +3590,7 @@
       "id": "IV-11",
       "function": "VFD",
       "description": "VFD tube, 7-segment numeral and decimal point, 21 mm, side view, wire leads",
-      "drawer": ["Vintage", "VFD"],
+      "drawer": ["Vintage", "Display tubes", "VFD"],
       "note": "IV-11 passport, datasheets/vfd/iv-11.pdf, and the reference book page iv-11_iv-12-refbook-p191.pdf (segments by lead number). A segment glows while its anode and the grid are both high (about 25 V) with the filament lit; the filament leads are not simulated. Leads 1 and 11 are the filament (1 also the conductive layer); anode and grid 25 V (30 V max; 50-70 V pulsed), filament 1.5 V 100 mA",
       "pinouts": {
         "base": [
@@ -3638,7 +3638,7 @@
       "id": "IV-12",
       "function": "VFD",
       "description": "VFD tube, 7-segment numeral, 21 mm, side view, 10 pins",
-      "drawer": ["Vintage", "VFD"],
+      "drawer": ["Vintage", "Display tubes", "VFD"],
       "note": "IV-12 passport, datasheets/vfd/iv-12.pdf (segment figure), and the reference book page iv-11_iv-12-refbook-p191.pdf. A segment glows while its anode and the grid are both high (about 25 V) with the filament lit; the filament leads are not simulated. Pins 2 and 3 are the filament (3 also the conductive layer); no decimal point; anode and grid 25 V (30 V max; 50-70 V pulsed), filament 1.5 V 100 mA",
       "pinouts": {
         "base": [
@@ -3684,7 +3684,7 @@
       "id": "IV-18",
       "function": "VFD",
       "description": "VFD tube, 8 digits with decimal points and a symbol position, 10.5 mm, side view, wire leads",
-      "drawer": ["Vintage", "VFD"],
+      "drawer": ["Vintage", "Display tubes", "VFD"],
       "note": "No factory passport found: the reference page datasheets/vfd/iv-18-sparktube.jpg (outline, segment letters, character 5.4 x 10.5 mm) and tube-tester.com's sheet datasheets/vfd/iv-18.pdf (leads, grids, 5 V 85 mA filament, 20-30 V anode and grid). A segment glows while its anode and the grid are both high (about 25 V) with the filament lit; the filament leads are not simulated. The digits are multiplexed: one grid per digit, the sheets' digit 1 (G1) at the lead end, shown here as the rightmost digit (G8 is display digit 1). G9 is the symbol position (a dot and a dash) beyond digit 8: not simulated. Leads 6-8 are that position's own anodes in the reference page and not connected in the other sheet (19-lead and 22-lead tubes exist): no connection here",
       "pinouts": {
         "base": [

@@ -72,7 +72,7 @@ final class CrystalTests: XCTestCase {
         XCTAssertEqual(value(chip, "ESR"), "70 kΩ")
         XCTAssertEqual(part.trailingLabel, "32.768 kHz")
         XCTAssertEqual(part.detailLabels, ["12.5 pF", "±20 ppm"])
-        XCTAssertEqual(part.drawer, ["Crystal", "kHz"])
+        XCTAssertEqual(part.drawer, ["Clocks", "Crystal", "kHz"])
         XCTAssertEqual(part.function, "32.768 kHz")
         XCTAssertEqual(part.manufacturer, "Abracon")
     }
@@ -119,17 +119,25 @@ final class CrystalTests: XCTestCase {
         }
     }
 
-    /// Crystal → kHz / MHz / Ceramic resonator, with Generic beside them; the
-    /// leaves in frequency order, and a leaf's parts by frequency.
+    /// Clocks → Crystal (kHz / MHz, with Generic beside them), Ceramic resonator
+    /// (with its Generic), Oscillator, and the RTC leaf; the leaves in
+    /// frequency order, and a leaf's parts by frequency.
     func testDrawerOrder() throws {
         let groups = TestSupport.catalog.groups(matching: DrawerFilter())
-        let crystal = try XCTUnwrap(groups.first { $0.category == "Crystal" })
-        XCTAssertEqual(Set(crystal.subcategories.map(\.subcategory)), ["kHz", "MHz", "Ceramic resonator"])
+        let clocks = try XCTUnwrap(groups.first { $0.category == "Clocks" })
+        XCTAssertEqual(Set(clocks.subcategories.map(\.subcategory)), ["Crystal", "Ceramic resonator", "Oscillator"])
+        XCTAssertEqual(clocks.functions.map(\.function), ["RTC"])
+        let crystal = try XCTUnwrap(clocks.subcategories.first { $0.subcategory == "Crystal" })
+        let resonator = try XCTUnwrap(clocks.subcategories.first { $0.subcategory == "Ceramic resonator" })
+        XCTAssertEqual(Set(crystal.subgroups.map(\.subcategory)), ["kHz", "MHz"])
         XCTAssertEqual(crystal.functions.map(\.function), ["Generic"])
         XCTAssertEqual(Set(crystal.functions[0].parts.map(\.name)),
-                       ["GENERIC-CRYSTAL-32768", "GENERIC-CRYSTAL-8M", "GENERIC-CRYSTAL-16M", "GENERIC-RESONATOR-8M"])
+                       ["GENERIC-CRYSTAL-32768", "GENERIC-CRYSTAL-8M", "GENERIC-CRYSTAL-16M"])
+        XCTAssertEqual(Set(resonator.functions.filter { $0.function == "Generic" }.flatMap(\.parts).map(\.name)),
+                       ["GENERIC-RESONATOR-8M"])
         func leaves(_ name: String) throws -> [PartCatalogStore.FunctionGroup] {
-            try XCTUnwrap(crystal.subcategories.first { $0.subcategory == name }).functions
+            if name == "Ceramic resonator" { return resonator.functions.filter { $0.function != "Generic" } }
+            return try XCTUnwrap(crystal.subgroups.first { $0.subcategory == name }).functions
         }
         XCTAssertEqual(try leaves("kHz").map(\.function), ["32 kHz", "32.768 kHz"])
         XCTAssertEqual(try leaves("MHz").map(\.function),

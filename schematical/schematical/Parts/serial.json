@@ -7,7 +7,7 @@
       "id": "82510",
       "function": "UART",
       "description": "Asynchronous serial controller",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "82510.pdf p2-41; plan-12-data/specs/classic-b.md § 82510",
       "pinouts": {
         "plcc28": [
@@ -77,7 +77,7 @@
       "id": "8251A",
       "function": "UART",
       "description": "Programmable communication interface",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "8251a.pdf p2-26; plan-12-data/specs/classic-b.md § 8251A",
       "pinouts": {
         "dip28": [
@@ -151,7 +151,7 @@
       "id": "82C50A",
       "function": "UART",
       "description": "CMOS asynchronous communications element",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "82c50a.pdf p.1-25; plan-12-data/specs/ti-a.md § 82C50A",
       "pinouts": {
         "plcc44": [
@@ -244,7 +244,7 @@
       "id": "82C52",
       "function": "UART",
       "description": "CMOS serial controller interface",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "82c52.pdf p1-21; plan-12-data/specs/classic-b.md § 82C52",
       "pinouts": {
         "dip28": [
@@ -350,7 +350,7 @@
       "id": "AY-5-1013A",
       "function": "UART",
       "description": "UAR/T: universal asynchronous receiver/transmitter",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "ay-5-1013.pdf p1-13; plan-12-data/specs/classic-a.md § AY-5-1013A",
       "pinouts": {
         "dip40": [
@@ -483,7 +483,7 @@
       "id": "CDP1854A",
       "function": "UART",
       "description": "Programmable universal asynchronous receiver/transmitter (UART)",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "cdp1854a.pdf p1-17; plan-12-data/specs/classic-a.md § CDP1854A",
       "pinouts": {
         "dip40": [
@@ -586,7 +586,7 @@
       "id": "CDP65C51",
       "function": "UART",
       "description": "CMOS asynchronous communications interface adapter (ACIA)",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "cdp65c51.pdf p1-18; plan-12-data/specs/classic-b.md § CDP65C51",
       "pinouts": {
         "so28": [
@@ -659,7 +659,7 @@
       "id": "W65C51N",
       "function": "UART",
       "description": "Asynchronous communications interface adapter (WDC W65C51N)",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "W65C51N (datasheets/controller-uart/w65c51n.pdf): pinouts p.6, registers p.9-14, CTSB p.17, AC Tables 3-4 p.20-21, outlines p.23 and p.25, ordering p.26; TDRE always 1 (p.10). The PLCC-28 is end of life (p.6: \"EOL use QFP\").",
       "model": "acia6551",
       "w65c51n": true,
@@ -766,7 +766,7 @@
       "id": "COM1863",
       "function": "UART",
       "description": "Universal asynchronous receiver/transmitter",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "com1863.pdf p1-8; plan-12-data/specs/classic-a.md § COM1863",
       "pinouts": {
         "dip40": [
@@ -855,7 +855,7 @@
       "id": "COM2017",
       "function": "UART",
       "description": "Universal asynchronous receiver/transmitter",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "com2017.pdf p1-8; plan-12-data/specs/classic-a.md § COM2017",
       "pinouts": {
         "dip40": [
@@ -943,7 +943,7 @@
       "id": "COM78804",
       "function": "UART",
       "description": "Four-channel universal asynchronous receiver/transmitter",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "com78804.pdf p1-15; plan-12-data/specs/classic-b.md § COM78804",
       "pinouts": {
         "dip48": [
@@ -1031,7 +1031,7 @@
       "id": "COM78C802",
       "function": "UART",
       "description": "Two-channel universal asynchronous receiver/transmitter",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "com78c802.pdf p1-14; plan-12-data/specs/classic-b.md § COM78C802",
       "pinouts": {
         "dip40": [
@@ -1109,7 +1109,7 @@
       "id": "COM78C804",
       "function": "UART",
       "description": "Four-channel universal asynchronous receiver/transmitter",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "com78c804.pdf p1-14; plan-12-data/specs/classic-b.md § COM78C804",
       "pinouts": {
         "plcc44": [
@@ -1193,7 +1193,7 @@
       "id": "COM92C451",
       "function": "UART",
       "description": "Combination UART/printer interface",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "com92c451.pdf p.1-16; plan-12-data/specs/classic-b.md § COM92C451",
       "pinouts": {
         "dip48": [
@@ -1294,7 +1294,7 @@
       "id": "HD-6402",
       "function": "UART",
       "description": "CMOS universal asynchronous receiver transmitter (UART)",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "hd-6402.pdf p1-9; plan-12-data/specs/classic-a.md § HD-6402",
       "pinouts": {
         "dip40": [
@@ -1382,7 +1382,7 @@
       "id": "HD-6406",
       "function": "UART",
       "description": "CMOS programmable asynchronous communication interface",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "hd-6406.pdf p1-11; plan-12-data/specs/classic-b.md § HD-6406",
       "pinouts": {
         "dip40": [
@@ -1478,7 +1478,7 @@
       "id": "MAX14830",
       "function": "Bridge UART",
       "description": "Quad serial UART with 128-word FIFOs",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "max14830.pdf p.1-68; plan-12-data/specs/maxim.md § MAX14830",
       "pinouts": {
         "tqfn48": [
@@ -1568,7 +1568,7 @@
       "id": "MAX3100",
       "function": "Bridge UART",
       "description": "SPI/MICROWIRE-compatible UART in QSOP-16",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "max3100.pdf p.1-24; plan-12-data/specs/maxim.md § MAX3100",
       "pinouts": {
         "dip14": [
@@ -1668,7 +1668,7 @@
       "id": "MAX3107",
       "function": "Bridge UART",
       "description": "SPI/I2C UART with 128-word FIFOs",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "max3107.pdf p.1-52; plan-12-data/specs/maxim.md § MAX3107",
       "pinouts": {
         "ssop24": [
@@ -1758,7 +1758,7 @@
       "id": "MAX3108",
       "function": "Bridge UART",
       "description": "SPI/I2C UART with 128-word FIFOs in WLP",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "max3108.pdf p.1-56; plan-12-data/specs/maxim.md § MAX3108",
       "pinouts": {
         "wlp25": [
@@ -1820,7 +1820,7 @@
       "id": "MAX3109",
       "function": "Bridge UART",
       "description": "Dual serial UART with 128-word FIFOs",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "max3109.pdf p.1-66; plan-12-data/specs/maxim.md § MAX3109",
       "pinouts": {
         "tqfn32": [
@@ -1892,7 +1892,7 @@
       "id": "MAX3140",
       "function": "Bridge UART",
       "description": "SPI/MICROWIRE-compatible UART with integrated true fail-safe RS-485/RS-422 transceivers",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "max3140.pdf p.1-36; plan-12-data/specs/maxim.md § MAX3140",
       "pinouts": {
         "qsop28": [
@@ -1971,7 +1971,7 @@
       "id": "NS16C2552",
       "function": "UART",
       "description": "Dual UART with 16-byte/64-byte FIFO's and up to 5 Mbit/s data rate",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "ns16c2552.pdf p.1-56; plan-12-data/specs/ti-c.md § NS16C2552",
       "pinouts": {
         "tqfp48-ns": [
@@ -2092,7 +2092,7 @@
       "id": "NS16C2752",
       "function": "UART",
       "description": "Dual UART with 16-byte/64-byte FIFO's and up to 5 Mbit/s data rate",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "ns16c2552.pdf p.1-56; plan-12-data/specs/ti-c.md § NS16C2752",
       "pinouts": {
         "tqfp48-ns": [
@@ -2261,7 +2261,7 @@
       "id": "PC16550D",
       "function": "UART",
       "description": "Universal asynchronous receiver/transmitter with FIFOs",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "pc16550d.pdf p.1-27; plan-12-data/specs/ti-a.md § PC16550D",
       "pinouts": {
         "plcc44": [
@@ -2354,7 +2354,7 @@
       "id": "PI7C9X760",
       "function": "Bridge UART",
       "description": "I2C-bus/SPI to UART bridge controller with 64 bytes of TX/RX FIFOs",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "pi7c9x760.pdf p.1-47; plan-12-data/specs/bridges.md § PI7C9X760",
       "pinouts": {
         "hvqfn24": [
@@ -2440,7 +2440,7 @@
       "id": "PI7C9X762",
       "function": "Bridge UART",
       "description": "I2C-bus/SPI to dual UART bridge controller with 64 bytes of TX/RX FIFOs",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "pi7c9x762.pdf p.1-49; plan-12-data/specs/bridges.md § PI7C9X762",
       "pinouts": {
         "hvqfn32": [
@@ -2535,7 +2535,7 @@
       "id": "SC16C650B",
       "function": "UART",
       "description": "5 V, 3.3 V and 2.5 V UART with 32-byte FIFOs and infrared (IrDA) encoder/decoder",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "sc16c650b.pdf p.1-48; plan-12-data/specs/exar-d.md § SC16C650B",
       "pinouts": {
         "hvqfn32": [
@@ -2637,7 +2637,7 @@
       "id": "SC16C752B",
       "function": "UART",
       "description": "5 V, 3.3 V and 2.5 V dual UART, 5 Mbit/s (max.), with 64-byte FIFOs",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "sc16c752b.pdf p.1-45; plan-12-data/specs/exar-d.md § SC16C752B",
       "pinouts": {
         "lqfp48": [
@@ -2775,7 +2775,7 @@
       "id": "SC16IS740",
       "function": "Bridge UART",
       "description": "Single UART with I2C-bus/SPI interface, 64 bytes of transmit and receive FIFOs, IrDA SIR built-in support",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "sc16is750.pdf p.1-51 (the SC16IS740: no GPIO or modem pins); plan-12-data/specs/bridges.md § SC16IS750",
       "pinouts": {
         "tssop16": [
@@ -2847,7 +2847,7 @@
       "id": "SC16IS750",
       "function": "Bridge UART",
       "description": "Single UART with I2C-bus/SPI interface, 64 bytes of transmit and receive FIFOs, IrDA SIR built-in support",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "sc16is750.pdf p.1-51 (SC16IS750 and SC16IS760); plan-12-data/specs/bridges.md § SC16IS750",
       "pinouts": {
         "hvqfn24": [
@@ -2934,7 +2934,7 @@
       "id": "SC16IS752",
       "function": "Bridge UART",
       "description": "Dual UART with I2C-bus/SPI interface, 64 bytes of transmit and receive FIFOs, IrDA SIR built-in support",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "sc16is752.pdf p.1-51 (SC16IS752 and SC16IS762); plan-12-data/specs/bridges.md § SC16IS752",
       "pinouts": {
         "hvqfn32": [
@@ -3064,7 +3064,7 @@
       "id": "SC18IS604",
       "function": "I2C controller",
       "description": "SPI to I2C-bus bridge",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "sc18is604.pdf p.1-19; plan-12-data/specs/bridges.md § SC18IS604",
       "pinouts": {
         "tssop16": [
@@ -3113,7 +3113,7 @@
       "id": "ST16C1450",
       "function": "UART",
       "description": "2.97V to 5.5V UART",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "st16c1450.pdf p.1-30; st16c1550.pdf p.26; plan-12-data/specs/exar-a.md § ST16C1450",
       "pinouts": {
         "tqfp48": [
@@ -3202,7 +3202,7 @@
       "id": "ST16C1550",
       "function": "UART",
       "description": "2.97V to 5.5V UART with 16-byte FIFO",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "st16c1550.pdf p.1-36; plan-12-data/specs/exar-a.md § ST16C1550 (and ST16C1551)",
       "pinouts": {
         "tqfp48": [
@@ -3296,7 +3296,7 @@
       "id": "ST16C2550",
       "function": "UART",
       "description": "2.97V to 5.5V DUART with 16-byte FIFO",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "st16c2550.pdf p.1-37; plan-12-data/specs/exar-a.md § ST16C2550",
       "pinouts": {
         "tqfp48": [
@@ -3390,7 +3390,7 @@
       "id": "ST16C450",
       "function": "UART",
       "description": "Universal asynchronous receiver/transmitter (UART)",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "st16c450.pdf p.1-28; plan-12-data/specs/exar-a.md § ST16C450",
       "pinouts": {
         "tqfp48": [
@@ -3487,7 +3487,7 @@
       "id": "ST16C550",
       "function": "UART",
       "description": "UART with 16-byte FIFOs",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "st16c550.pdf p.1-35; plan-12-data/specs/exar-a.md § ST16C550",
       "pinouts": {
         "plcc44": [
@@ -3635,7 +3635,7 @@
       "id": "ST16C554",
       "function": "UART",
       "description": "2.97V to 5.5V quad UARTs with 16-byte FIFO",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "st16c554.pdf p.1-39; plan-12-data/specs/exar-a.md § ST16C554 (and ST16C554D)",
       "pinouts": {
         "lqfp64": [
@@ -3746,7 +3746,7 @@
       "id": "TL16C2550",
       "function": "UART",
       "description": "1.8-V to 5-V dual UART with 16-byte FIFOs",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "tl16c2550.pdf p.1-49; tl16c2550-q1.pdf p.1-40; plan-12-data/specs/ti-c.md § TL16C2550",
       "pinouts": {
         "tqfp48": [
@@ -3877,7 +3877,7 @@
       "id": "TL16C2552",
       "function": "UART",
       "description": "1.8-V to 5-V dual UART with 16-byte FIFOs",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "tl16c2552.pdf p.1-40; plan-12-data/specs/ti-c.md § TL16C2552",
       "pinouts": {
         "plcc44": [
@@ -3971,7 +3971,7 @@
       "id": "TL16C450",
       "function": "UART",
       "description": "Asynchronous communications element",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "tl16c450.pdf p.1-31; plan-12-data/specs/ti-a.md § TL16C450",
       "pinouts": {
         "plcc44": [
@@ -4061,7 +4061,7 @@
       "id": "TL16C451",
       "function": "UART",
       "description": "Asynchronous communications element",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "tl16c451.pdf p.1-26; plan-12-data/specs/ti-a.md § TL16C451",
       "pinouts": {
         "plcc68": [
@@ -4183,7 +4183,7 @@
       "id": "TL16C452",
       "function": "UART",
       "description": "Asynchronous communications element",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "tl16c451.pdf p.1-26; plan-12-data/specs/ti-a.md § TL16C452",
       "pinouts": {
         "plcc68": [
@@ -4305,7 +4305,7 @@
       "id": "TL16C550B",
       "function": "UART",
       "description": "Asynchronous communications element",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "tl16c550b.pdf p.1-35; plan-12-data/specs/ti-a.md § TL16C550B",
       "pinouts": {
         "plcc44": [
@@ -4490,7 +4490,7 @@
       "id": "TL16C550C",
       "function": "UART",
       "description": "Asynchronous communications element with autoflow control",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "tl16c550c.pdf p.1-51; plan-12-data/specs/ti-a.md § TL16C550C",
       "pinouts": {
         "plcc44": [
@@ -4646,7 +4646,7 @@
       "id": "TL16C550D",
       "function": "UART",
       "description": "Asynchronous communications element with autoflow control",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "tl16c550d.pdf p.1-60; plan-12-data/specs/ti-a.md § TL16C550D",
       "pinouts": {
         "tqfp48": [
@@ -4826,7 +4826,7 @@
       "id": "TL16C552",
       "function": "UART",
       "description": "Dual asynchronous communications element with FIFO",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "tl16c552.pdf p.1-35; plan-12-data/specs/ti-b.md § TL16C552",
       "pinouts": {
         "plcc68": [
@@ -4953,7 +4953,7 @@
       "id": "TL16C552A",
       "function": "UART",
       "description": "Dual asynchronous communications element with FIFO",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "tl16c552a.pdf p.1-39; plan-12-data/specs/ti-b.md § TL16C552A",
       "pinouts": {
         "plcc68": [
@@ -5164,7 +5164,7 @@
       "id": "TL16C554",
       "function": "UART",
       "description": "Asynchronous communications element",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "tl16c554.pdf p.1-35; tl16c554a.pdf p.43-48; plan-12-data/specs/ti-b.md § TL16C554",
       "pinouts": {
         "plcc68": [
@@ -5368,7 +5368,7 @@
       "id": "TL16C554A",
       "function": "UART",
       "description": "Asynchronous-communications element",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "tl16c554a.pdf p.1-53; plan-12-data/specs/ti-b.md § TL16C554A",
       "pinouts": {
         "plcc68": [
@@ -5575,7 +5575,7 @@
       "id": "TL16C750",
       "function": "UART",
       "description": "Asynchronous communications element with 64-byte FIFOs and autoflow control",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "tl16c750.pdf p.1-38; tl16c754c.pdf p.53-55; plan-12-data/specs/ti-b.md § TL16C750",
       "pinouts": {
         "lqfp64": [
@@ -5690,7 +5690,7 @@
       "id": "TL16C750E",
       "function": "UART",
       "description": "UART with 128-byte FIFO",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "tl16c750e.pdf p.1-62; plan-12-data/specs/ti-b.md § TL16C750E",
       "pinouts": {
         "tqfp48": [
@@ -5795,7 +5795,7 @@
       "id": "TL16C752C",
       "function": "UART",
       "description": "Dual UART with 64-byte FIFO",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "tl16c752c.pdf p.1-64; tl16c752ci-q1.pdf p.1-57; tl16c752d.pdf p.1-57; tl16c752d-q1.pdf p.1-57; plan-12-data/specs/ti-c.md § TL16C752C (covers TL16C752C, TL16C752CI-Q1, TL16C752D, TL16C752D-Q1)",
       "pinouts": {
         "tqfp48": [
@@ -5945,7 +5945,7 @@
       "id": "TL16C754B",
       "function": "UART",
       "description": "Quad UART with 64-byte FIFO",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "tl16c754b.pdf p.1-41; plan-12-data/specs/ti-b.md § TL16C754B",
       "pinouts": {
         "plcc68": [
@@ -6074,7 +6074,7 @@
       "id": "TL16C754C",
       "function": "UART",
       "description": "Quad UARTs with 64-byte FIFO",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "tl16c754c.pdf p.1-56; plan-12-data/specs/ti-b.md § TL16C754C (orderable as TL16CP754C)",
       "pinouts": {
         "lqfp64": [
@@ -6199,7 +6199,7 @@
       "id": "XR16C2550",
       "function": "UART",
       "description": "2.97V to 5.5V DUART with 16-byte FIFO",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr16c2550.pdf p.1-37; plan-12-data/specs/exar-a.md § XR16C2550",
       "pinouts": {
         "tqfp48": [
@@ -6290,7 +6290,7 @@
       "id": "XR16C854",
       "function": "UART",
       "description": "2.97V to 5.5V quad UART with 128-byte FIFO",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr16c854.pdf p.1-53; plan-12-data/specs/exar-d.md § XR16C854",
       "pinouts": {
         "lqfp64": [
@@ -6555,7 +6555,7 @@
       "id": "XR16C864",
       "function": "UART",
       "description": "2.97V to 5.5V quad UART with 128-byte FIFO",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr16c864.pdf p.1-51; plan-12-data/specs/exar-d.md § XR16C864",
       "pinouts": {
         "qfp100-864": [
@@ -6751,7 +6751,7 @@
       "id": "XR16L2551",
       "function": "UART",
       "description": "Low voltage DUART with PowerSave",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr16l2551.pdf p.1-49; plan-12-data/specs/exar-b.md § XR16L2551",
       "pinouts": {
         "tqfp48": [
@@ -6877,7 +6877,7 @@
       "id": "XR16L2552",
       "function": "UART",
       "description": "2.25V to 5.5V DUART with 16-byte FIFO",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr16l2552.pdf p.1-45; plan-12-data/specs/exar-b.md § XR16L2552",
       "pinouts": {
         "plcc44": [
@@ -7050,7 +7050,7 @@
       "id": "XR16L580",
       "function": "UART",
       "description": "Smallest 2.25V to 5.5V UART with 16-byte FIFO and powersave",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr16l580.pdf p.1-49; plan-12-data/specs/exar-a.md § XR16L580",
       "pinouts": {
         "qfn32": [
@@ -7214,7 +7214,7 @@
       "id": "XR16L784",
       "function": "UART",
       "description": "High performance 2.97V to 5.5V quad UART",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr16l784.pdf p.1-51; plan-12-data/specs/exar-d.md § XR16L784",
       "pinouts": {
         "lqfp64-784": [
@@ -7361,7 +7361,7 @@
       "id": "XR16M2550",
       "function": "UART",
       "description": "High performance low voltage DUART with 16-byte FIFO",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr16m2550.pdf p.1-47; plan-12-data/specs/exar-b.md § XR16M2550",
       "pinouts": {
         "qfn32": [
@@ -7515,7 +7515,7 @@
       "id": "XR16M2551",
       "function": "UART",
       "description": "High performance low voltage DUART with 16-byte FIFO and PowerSave feature",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr16m2551.pdf p.1-51; plan-12-data/specs/exar-b.md § XR16M2551",
       "pinouts": {
         "qfn32-2551": [
@@ -7680,7 +7680,7 @@
       "id": "XR16M2650",
       "function": "UART",
       "description": "High performance low voltage DUART with 32-byte FIFO",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr16m2650.pdf p.1-47; xr16m2550.pdf p.1-47; plan-12-data/specs/exar-b.md § XR16M2650",
       "pinouts": {
         "qfn32": [
@@ -7834,7 +7834,7 @@
       "id": "XR16M2651",
       "function": "UART",
       "description": "High performance DUART with 32-byte FIFO and PowerSave feature",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr16m2651.pdf p.1-51; plan-12-data/specs/exar-b.md § XR16M2651; plan-12-data/specs/exar-b.md § XR16M2551",
       "pinouts": {
         "qfn32-2551": [
@@ -7999,7 +7999,7 @@
       "id": "XR16M752",
       "function": "UART",
       "description": "High performance DUART with 64-byte FIFO",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr16m752.pdf p.1-54; plan-12-data/specs/exar-b.md § XR16M752",
       "pinouts": {
         "tqfp48": [
@@ -8168,7 +8168,7 @@
       "id": "XR16V2550",
       "function": "UART",
       "description": "High performance DUART with 16-byte FIFO",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr16v2550.pdf p.1-46; plan-12-data/specs/exar-c.md § XR16V2550 — High Performance DUART with 16-Byte FIFO; § A. Common UART core",
       "pinouts": {
         "qfn32": [
@@ -8271,7 +8271,7 @@
       "id": "XR16V2551",
       "function": "UART",
       "description": "High performance DUART with 16-byte FIFO and PowerSave feature",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr16v2551.pdf p.1-49; plan-12-data/specs/exar-c.md § XR16V2551 — High Performance DUART with 16-Byte FIFO and PowerSave Feature; § A. Common UART core",
       "pinouts": {
         "qfn32-2551": [
@@ -8435,7 +8435,7 @@
       "id": "XR16V2552",
       "function": "UART",
       "description": "High performance DUART with 16-byte FIFO",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr16v2552.pdf p.1-46; plan-12-data/specs/exar-c.md § XR16V2552 — High Performance DUART with 16-Byte FIFO (ST16C2552 / XR16L2552 compatible); § A. Common UART core",
       "pinouts": {
         "plcc44": [
@@ -8556,7 +8556,7 @@
       "id": "XR16V2650",
       "function": "UART",
       "description": "High performance DUART with 32-byte FIFO",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr16v2650.pdf p.1-47; plan-12-data/specs/exar-c.md § XR16V2650 — High Performance DUART with 32-Byte FIFO; § A. Common UART core",
       "pinouts": {
         "qfn32": [
@@ -8710,7 +8710,7 @@
       "id": "XR16V2651",
       "function": "UART",
       "description": "High performance DUART with 32-byte FIFO and PowerSave",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr16v2651.pdf p.1-51; plan-12-data/specs/exar-c.md § XR16V2651 — High Performance DUART with 32-Byte FIFO and PowerSave Feature; § A. Common UART core",
       "pinouts": {
         "qfn32-2551": [
@@ -8875,7 +8875,7 @@
       "id": "XR16V2652",
       "function": "UART",
       "description": "High performance DUART with 32-byte FIFO",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr16v2652.pdf p.1-48; plan-12-data/specs/exar-c.md § XR16V2652 — High Performance DUART with 32-Byte FIFO (2552 pin-out); § A. Common UART core",
       "pinouts": {
         "plcc44": [
@@ -9031,7 +9031,7 @@
       "id": "XR16V554",
       "function": "UART",
       "description": "2.25V to 3.6V quad UART with 16-byte FIFO",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr16v554.pdf p.1-43; plan-12-data/specs/exar-d.md § XR16V554",
       "pinouts": {
         "plcc68": [
@@ -9280,7 +9280,7 @@
       "id": "XR16V564",
       "function": "UART",
       "description": "2.25V to 3.6V quad UART with 32-byte FIFO",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr16v564.pdf p.1-54; plan-12-data/specs/exar-d.md § XR16V564",
       "pinouts": {
         "lqfp64": [
@@ -9554,7 +9554,7 @@
       "id": "XR16V654",
       "function": "UART",
       "description": "2.25V to 3.6V quad UART with 64-byte FIFO",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr16v654.pdf p.1-58; plan-12-data/specs/exar-d.md § XR16V654",
       "pinouts": {
         "lqfp64": [
@@ -9758,7 +9758,7 @@
       "id": "XR16V798",
       "function": "UART",
       "description": "High performance 2.25V to 3.6V octal UART with fractional baud rate",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr16v798.pdf p.1-56; plan-12-data/specs/exar-d.md § XR16V798",
       "pinouts": {
         "qfp100": [
@@ -9944,7 +9944,7 @@
       "id": "XR20M1170",
       "function": "Bridge UART",
       "description": "I2C/SPI UART with 64-byte FIFO",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr20m1170.pdf p.1-60; plan-12-data/specs/bridges.md § XR20M1170",
       "pinouts": {
         "qfn24": [
@@ -10080,7 +10080,7 @@
       "id": "XR20M1280",
       "function": "Bridge UART",
       "description": "I2C/SPI UART with 128-byte FIFO and integrated level shifters",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr20m1280.pdf p.1-62; plan-12-data/specs/bridges.md § XR20M1280",
       "pinouts": {
         "qfn24": [
@@ -10206,7 +10206,7 @@
       "id": "CY7C64225",
       "function": "Bridge UART",
       "description": "USB-to-UART bridge controller",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "cy7c64225.pdf (001-76294 Rev. *G) p.4 (functional description: SUSPEND driven low in USB suspend, Tx_LED/Rx_LED active low), p.6 Table 2 pinout, p.15 Table 7 VDD 3.0-5.25 V, p.16 ordering, p.17 51-85079 SSOP outline. Pin 6 RESET is listed as 'No Connect (NC)' and left unmapped",
       "pinouts": {
         "ssop28": [
@@ -10257,7 +10257,7 @@
       "id": "CY7C65213",
       "function": "Bridge UART",
       "description": "USB-UART LP bridge controller",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "cy7c65213.pdf (001-81011 Rev. *O; covers CY7C65213 and CY7C65213A, which differ only in RS-485 support, Table 1 p.3) p.4-5 functional description, p.8 Table 2 factory GPIO defaults (GPIO0 TXLED#, GPIO1 RXLED#, GPIO4 SLEEP#), p.9 operating conditions, p.12 Table 11 SSOP-28 pinout, p.13-14 Table 12 QFN-32 pinout, p.22 ordering, p.23 001-30999 QFN and 51-85079 SSOP outlines. txLed/rxLed/suspendLow are the factory-default GPIO functions (reconfigurable in flash)",
       "pinouts": {
         "ssop28": [
@@ -10348,7 +10348,7 @@
       "id": "MCP2200",
       "function": "Bridge UART",
       "description": "USB 2.0 to UART protocol converter with GPIO",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "mcp2200.pdf (DS20002228E) p.1 package types, p.3 Table 1-1 pinout, p.7-8 GPIO alternate functions and RST, p.10 Table 2-1 configuration, p.27 DC characteristics (VDD 3.0-5.5 V), p.33-40 package drawings, p.42 ordering. GP0/SSPND, GP1/USBCFG, GP6/RxLED, GP7/TxLED are GPIO by default (alternate functions enabled in the configuration EEPROM), so they are not mapped",
       "pinouts": {
         "soic20": [
@@ -10443,7 +10443,7 @@
       "id": "XR21B1411",
       "function": "Bridge UART",
       "description": "Enhanced 1-channel full-speed USB UART",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr21b1411.pdf rev 1.2.3: pinout p.2, pin descriptions p.3-4, CDC-ACM register defaults (RTS/CTS flow control, GPIO3/DTR# output, RI/CD/DSR inputs) Table 1 p.5, DC characteristics p.27 (VIH max VIO_REF, so no inputMax), package POD-00000138 p.29-30. Exposed centre pad is GND (unnumbered pad of the footprint). LOWPOWER defaults to active low, asserted while suspended (p.4), so it is suspendLow.",
       "pinouts": {
         "qfn16": [
@@ -10482,7 +10482,7 @@
       "id": "XR21B1420",
       "function": "Bridge UART",
       "description": "Enhanced 1-channel full-speed USB UART",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr21b1420.pdf rev 2D: pin configuration p.3, pin assignments p.4-5, CDC-ACM register defaults Table 2 p.8 (RTS/CTS flow control, DTR output, RI/CD/DSR inputs, TXT/RXT enabled, GPIO7 = RS-485 enable), GPIO_MODE reset value p.24 (bits 9:8 = 1: GPIO9/GPIO8 are the RX/TX toggle outputs by default; the pin table's 'defaults to GPIO input' is overridden by this), TXT/RXT toggle at ~10 Hz while active p.16, USB_STAT1 default active high / USB_STAT2 default active low asserted in suspend p.4, electrical p.2, package POD-00000107 p.60-61. RESET# is an open-drain I/O (driven low at power-on reset), mapped as the reset input. Exposed pad E_PAD has no number (unnumbered centre pad).",
       "pinouts": {
         "qfn28": [
@@ -10535,7 +10535,7 @@
       "id": "XR21B1422",
       "function": "Bridge UART",
       "description": "Enhanced 2-channel full-speed USB UART",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr21b1422.pdf rev 1E: pin configuration p.4, pin assignments p.5-7, CDC-ACM register defaults Table 2 p.10 (RTS/CTS flow control, DTR output, RI/CD/DSR inputs, TXT/RXT enabled), GPIO_MODE reset value (bits 9:8 = 1, TX/RX toggle outputs by default), electrical p.2, package POD-00000040 p.60-61. Datasheet names RTSB#, CTSB# etc. (channel B, active low) become RTSBB, CTSBB. RESET# is an open-drain I/O, mapped as the reset input. Exposed pad E_PAD has no number (unnumbered centre pad).",
       "pinouts": {
         "qfn40": [
@@ -10601,7 +10601,7 @@
       "id": "XR21B1424",
       "function": "Bridge UART",
       "description": "Enhanced 4-channel full-speed USB UART",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr21b1424.pdf rev 1F: pin configuration p.4, pin assignments p.5-8 (p.4 prints pin 37 as GPIOB6/CLKB#, the table GPIOB6/CLKB: table used), CDC-ACM register defaults Table 2 p.11 (RTS/CTS flow control, DTR output, RI/CD/DSR inputs, TXT/RXT enabled), GPIO_MODE reset value (bits 9:8 = 1, TX/RX toggle outputs by default), electrical p.2, package POD-00000092 p.64 (same land as LQFP-64-10X10). Datasheet names RTSA#, CTSB# etc. (channel letter, active low) become RTSAB, CTSBB. RESET# is an open-drain I/O, mapped as the reset input. TEST# must be left open or pulled high.",
       "pinouts": {
         "lqfp64": [
@@ -10694,7 +10694,7 @@
       "id": "XR21V1410",
       "function": "Bridge UART",
       "description": "1-channel full-speed USB UART",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr21v1410.pdf (rev 1.4.1) p.2-4 pinout and pin descriptions (16-QFN; exposed centre pad = GND, unnumbered), p.5 Table 1 CDC-ACM register defaults (GPIO_MODE 0x01 RTS/CTS, GPIO3/DTR# output, GPIO0-2 RI/CD/DSR inputs), p.22 Table 14 GPIO modes, p.27 DC characteristics, p.29-30 package POD-00000138",
       "pinouts": {
         "qfn16": [
@@ -10731,7 +10731,7 @@
       "id": "XR21V1412",
       "function": "Bridge UART",
       "description": "2-channel full-speed USB UART",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr21v1412.pdf (rev 1.3.1) p.3-6 pinout and pin descriptions (32-QFN; exposed centre pad = GND, unnumbered), p.7 Table 1 CDC-ACM register defaults (GPIO_MODE 0x01 RTS/CTS, GPIOx3/DTR# output, GPIOx0-2 RI/CD/DSR inputs), p.24 GPIO modes, p.29 DC characteristics, p.31-32 package POD-00000037 rev B",
       "pinouts": {
         "qfn32": [
@@ -10785,7 +10785,7 @@
       "id": "XR21V1414",
       "function": "Bridge UART",
       "description": "4-channel full-speed USB UART",
-      "drawer": ["Interface"],
+      "drawer": ["Interface", "Serial"],
       "note": "xr21v1414.pdf (rev 1.3.0) p.3-8 pinout and pin descriptions (48-TQFP; the pin table's '48-QFN' heading is a typo, ordering table p.3 says 48-pin TQFP), p.9 Table 1 CDC-ACM register defaults (GPIO_MODE 0x01 RTS/CTS, GPIOx3/DTR# output, GPIOx0-2 RI/CD/DSR inputs), p.26 GPIO modes, p.31 DC characteristics, p.33 package POD-00000038",
       "pinouts": {
         "tqfp48": [

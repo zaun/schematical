@@ -3,7 +3,8 @@
  "function": "Bridge UART",
  "description": "Quad serial UART with 128-word FIFOs",
  "drawer": [
-  "Interface"
+  "Interface",
+  "Serial"
  ],
  "note": "max14830.pdf p.1-68; plan-12-data/specs/maxim.md § MAX14830",
  "pinouts": {

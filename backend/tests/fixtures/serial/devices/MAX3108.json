@@ -3,7 +3,8 @@
  "function": "Bridge UART",
  "description": "SPI/I2C UART with 128-word FIFOs in WLP",
  "drawer": [
-  "Interface"
+  "Interface",
+  "Serial"
  ],
  "note": "max3108.pdf p.1-56; plan-12-data/specs/maxim.md § MAX3108",
  "pinouts": {

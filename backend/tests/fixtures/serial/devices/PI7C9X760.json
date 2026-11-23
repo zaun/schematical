@@ -3,7 +3,8 @@
  "function": "Bridge UART",
  "description": "I2C-bus/SPI to UART bridge controller with 64 bytes of TX/RX FIFOs",
  "drawer": [
-  "Interface"
+  "Interface",
+  "Serial"
  ],
  "note": "pi7c9x760.pdf p.1-47; plan-12-data/specs/bridges.md \u00a7 PI7C9X760",
  "pinouts": {

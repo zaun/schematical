@@ -57,7 +57,7 @@ final class TactileSwitchTests: XCTestCase {
             XCTAssertEqual(symbol(for: part), .tactileSwitch, part.name)
             XCTAssertNil(part.count, part.name)
             XCTAssertEqual(PartFacts.kindName(part), "Tactile switch", part.name)
-            XCTAssertEqual(part.drawer, ["Switch", "Tactile"], part.name)
+            XCTAssertEqual(part.drawer, ["Switches & Relays", "Tactile"], part.name)
             XCTAssertEqual(part.function, part.isNormallyClosed ? "Normal Close" : "Normal Open", part.name)
             XCTAssertNotNil(part.voltageLabel, part.name)
             XCTAssertTrue([2, 4].contains(terminals(part)), part.name)
@@ -68,7 +68,7 @@ final class TactileSwitchTests: XCTestCase {
     /// first; Switch → DIP still lists its parts directly.
     func testDrawerLeaves() throws {
         let groups = TestSupport.catalog.groups(matching: DrawerFilter())
-        let switchGroup = try XCTUnwrap(groups.first { $0.category == "Switch" })
+        let switchGroup = try XCTUnwrap(groups.first { $0.category == "Switches & Relays" })
         let tactile = try XCTUnwrap(switchGroup.subcategories.first { $0.subcategory == "Tactile" })
         XCTAssertTrue(tactile.parts.isEmpty)
         XCTAssertGreaterThan(tactile.functions.count, 10)
@@ -92,13 +92,13 @@ final class TactileSwitchTests: XCTestCase {
     /// tactile switches with that actuator (DIP switches stay).
     func testActuatorFilter() throws {
         let catalog = TestSupport.catalog
-        XCTAssertTrue(catalog.isTactile(group: ["Switch", "Tactile"]))
-        XCTAssertFalse(catalog.isTactile(group: ["Switch", "DIP"]))
+        XCTAssertTrue(catalog.isTactile(group: ["Switches & Relays", "Tactile"]))
+        XCTAssertFalse(catalog.isTactile(group: ["Switches & Relays", "DIP"]))
         XCTAssertTrue(catalog.tactileActuators.contains("Standard"))
         XCTAssertTrue(catalog.tactileActuators.contains("Round Button"))
         var filter = DrawerFilter()
         filter.tactileActuator = "Round Button"
-        let switchGroup = try XCTUnwrap(catalog.groups(matching: filter).first { $0.category == "Switch" })
+        let switchGroup = try XCTUnwrap(catalog.groups(matching: filter).first { $0.category == "Switches & Relays" })
         let tactile = try XCTUnwrap(switchGroup.subcategories.first { $0.subcategory == "Tactile" })
         let parts = tactile.functions.flatMap(\.parts)
         XCTAssertFalse(parts.isEmpty)

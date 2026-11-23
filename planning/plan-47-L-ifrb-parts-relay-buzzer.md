@@ -83,7 +83,7 @@ the G and H footprints are in `planning/plan-47-data/`.
   arrangement, coil arrangement and pin numbering share a device; the
   generator groups by exactly those.
 - **The drawer has up to three levels and groups leaves by `function`**
-  (`Backend/PartCatalog.swift` `functionGroups`): Relay → Power → DPDT.
+  (`Backend/PartCatalog.swift` `functionGroups`): Switches & Relays → Relay → Power → DPDT.
 
 ## 3. Design
 
@@ -96,8 +96,9 @@ the G and H footprints are in `planning/plan-47-data/`.
   `"latching"`, `"contacts"` exactly as plan-47-J § 3.1 from the specs
   columns (`coils` `A1-A2` → `[{"a": "A1", "b": "A2"}]`, `polarized` on the
   entry; `contacts` `COM/NO/NC;…` → entries, `@n` → `"coil": n`);
-- `drawer`: `["Relay", "Signal"]`, `["Relay", "Power"]`, `["Relay",
-  "Reed"]`, `["Relay", "Solid state"]`, `["Relay", "Automotive"]` (the
+- `drawer`: `["Switches & Relays", "Relay", "Signal"]`, `["Switches & Relays",
+  "Relay", "Power"]`, `["Switches & Relays", "Relay", "Reed"]`, `["Switches & Relays", "Relay",
+  "Solid state"]`, `["Switches & Relays", "Relay", "Automotive"]` (the
   class); `function`: the contact arrangement from the device's contacts:
   `SPST-NO`, `SPST-NC`, `SPDT`, `DPST-NO`, `DPST-NC`, `DPDT`, `3PDT`,
   `4PDT`, `4PST-NO`; a mix as `1 NO + 1 NC`, `2 NO + 2 NC`; several
@@ -121,7 +122,7 @@ the G and H footprints are in `planning/plan-47-data/`.
 
 - one device per (`driver`, `technology`, pinout): `"kind": "buzzer"`,
   `"driver"`, `"technology"`, `"positive": "+"`, `"negative": "-"`;
-  `drawer` `["Indicators", "Buzzers"]`; `function` `Indicator (built-in
+  `drawer` `["Displays & Indicators", "Buzzers"]`; `function` `Indicator (built-in
   driver)` or `Transducer (external drive)`; `id`
   `buzzer_<driver>_<technology>_<pinout key>`; `description` "Piezo buzzer"
   or "Magnetic buzzer";
@@ -212,7 +213,7 @@ Commit: —
       result in § Corrections and in the § Datasheets paragraph.
 
 Acceptance: the docs describe the library's relays and buzzers.
-  Check: `grep -c 'Relay → \|Indicators → Buzzers' docs/parts-format.md` → at least 2; `grep -c 'www.te.com' docs/parts-format.md` → at least 1 (est. 10 min).
+  Check: `grep -c 'Relay → \|Displays & Indicators → Buzzers' docs/parts-format.md` → at least 2; `grep -c 'www.te.com' docs/parts-format.md` → at least 1 (est. 10 min).
 Commit: —
 
 ## Validation Plan
@@ -228,9 +229,10 @@ Commit: —
 
 ## Decisions
 
-- **Drawer paths**: Relay → Signal / Power / Reed / Solid state / Automotive
-  → the contact arrangement; Indicators → Buzzers → Indicator / Transducer
-  (§ 3.1, § 3.2). Relay is a new top-level category beside Switch.
+- **Drawer paths**: Switches & Relays → Relay → Signal / Power / Reed / Solid state /
+  Automotive → the contact arrangement; Displays & Indicators → Buzzers → Indicator /
+  Transducer (§ 3.1, § 3.2). Relay is a group of the existing Switches & Relays category
+  (the drawer regrouping renamed Switch and merged Indicators into Displays & Indicators).
 - **A latching relay is its own leaf** (`DPDT latching`): it is wired
   differently.
 - **`manufacturer` is `TE Connectivity`** for all four of TE's DigiKey maker

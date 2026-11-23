@@ -3,7 +3,8 @@
  "function": "UART",
  "description": "UAR/T: universal asynchronous receiver/transmitter",
  "drawer": [
-  "Interface"
+  "Interface",
+  "Serial"
  ],
  "note": "ay-5-1013.pdf p1-13; plan-12-data/specs/classic-a.md § AY-5-1013A",
  "pinouts": {

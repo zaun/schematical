@@ -3,7 +3,8 @@
  "function": "UART",
  "description": "5 V, 3.3 V and 2.5 V dual UART, 5 Mbit/s (max.), with 64-byte FIFOs",
  "drawer": [
-  "Interface"
+  "Interface",
+  "Serial"
  ],
  "note": "sc16c752b.pdf p.1-45; plan-12-data/specs/exar-d.md \u00a7 SC16C752B",
  "pinouts": {

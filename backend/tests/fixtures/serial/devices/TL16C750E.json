@@ -2,7 +2,7 @@
   "id": "TL16C750E",
   "function": "UART",
   "description": "UART with 128-byte FIFO",
-  "drawer": ["Interface"],
+  "drawer": ["Interface", "Serial"],
   "note": "tl16c750e.pdf p.1-62; plan-12-data/specs/ti-b.md § TL16C750E",
   "pinouts": {
     "tqfp48": [

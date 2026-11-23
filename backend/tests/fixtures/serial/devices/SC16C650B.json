@@ -3,7 +3,8 @@
  "function": "UART",
  "description": "5 V, 3.3 V and 2.5 V UART with 32-byte FIFOs and infrared (IrDA) encoder/decoder",
  "drawer": [
-  "Interface"
+  "Interface",
+  "Serial"
  ],
  "note": "sc16c650b.pdf p.1-48; plan-12-data/specs/exar-d.md \u00a7 SC16C650B",
  "pinouts": {

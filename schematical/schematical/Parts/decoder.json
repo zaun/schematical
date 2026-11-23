@@ -1602,7 +1602,7 @@
       "id": "74_141",
       "function": "Nixie driver",
       "description": "BCD-to-decimal decoder/driver for nixie tubes, 60 V open-collector outputs, off for codes 10-15",
-      "drawer": ["Vintage", "ICs"],
+      "drawer": ["Vintage", "Support ICs"],
       "note": "SN74141: TI TTL Data Book 2nd ed. (1976) pp.7-138, 7-139, datasheets/nixie/sn74141.pdf; DM74141: National TTL Data Book (1976) pp.2-1, 2-2, datasheets/nixie/dm74141.pdf; K155ID1 (analogue of SN74141N, same pins; 2.5 mm pitch package 238.16): datasheets/nixie/k155id1.pdf. Outputs: 2.5 V max at 7 mA on, 60 V min at 0.5 mA off, zener-clamped; codes 10-15 turn every output off",
       "model": "binary",
       "pinouts": {

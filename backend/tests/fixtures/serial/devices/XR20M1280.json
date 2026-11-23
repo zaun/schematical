@@ -3,7 +3,8 @@
  "function": "Bridge UART",
  "description": "I2C/SPI UART with 128-byte FIFO and integrated level shifters",
  "drawer": [
-  "Interface"
+  "Interface",
+  "Serial"
  ],
  "note": "xr20m1280.pdf p.1-62; plan-12-data/specs/bridges.md \u00a7 XR20M1280",
  "pinouts": {
