@@ -121,6 +121,16 @@
     state.pos = end + 1;
     return true;
   });
+  // Citations [[page::paragraph]], [[page::Table 6-3]] are the file's pointers into the source PDF:
+  // read, never shown. The space before one goes with it.
+  md.inline.ruler.after("text", "ds_cite", function (state, silent) {
+    if (state.src.charCodeAt(state.pos) !== 0x5B || state.src.charCodeAt(state.pos + 1) !== 0x5B) return false;
+    const m = /^\[\[\d+::[^\[\]]+\]\]/.exec(state.src.slice(state.pos));
+    if (!m) return false;
+    if (!silent) state.pending = state.pending.replace(/\s+$/, "");
+    state.pos += m[0].length;
+    return true;
+  });
   md.renderer.rules.ds_sub = (tokens, i) => "<sub>" + esc(tokens[i].content) + "</sub>";
   md.renderer.rules.ds_sup = (tokens, i) => "<sup>" + esc(tokens[i].content) + "</sup>";
   md.renderer.rules.ds_ov = (tokens, i) => '<span class="ov">' + md.renderInline(tokens[i].content) + "</span>";

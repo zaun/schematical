@@ -109,3 +109,6 @@ sup.note-ref a { text-decoration: none; }
   h2 { break-after: avoid; }
   .wave svg { filter: none; }
 }
+
+/* a line of citations after a block renders as an empty paragraph */
+p:empty { display: none; }
