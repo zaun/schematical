@@ -193,10 +193,10 @@ group.
       `planning/plan-40-data/census/` to this plan's `candidates.tsv`
       columns and to `specs.tsv`'s (§ 3.1, § 3.3, § 3.4); both take type
       names.
-- [ ] Write `scheme`, `page`, `label`, `pinout`, `terminals`, `pads` and the
+- [x] (2026-11-23: 417 inductor specs rows, Bourns and Murata by one agent, Würth by another, merged with `specs-merge.py`; Würth all `verbatim`; pinouts by the agents' reading of the drawings, 12 and about 45 drawings by eye) Write `scheme`, `page`, `label`, `pinout`, `terminals`, `pads` and the
       inductor fact columns on the 418 inductor rows of `specs.tsv` (Würth:
       `verbatim`) from the placed PDFs (`pdftotext -layout`).
-- [ ] Run `scheme-check.py inductor`, `--facts` and `pinout-check.py
+- [x] (2026-11-23: `scheme-check.py inductor --facts` → `750 rows: 718 ok, 0 unchecked` before the obsolete-series rule; `--sample | wc -l` → 60; two samples checked by hand against their PDFs (`CS160808-2R7K` in the Bourns CS160808 table, `BK/AGC-10-R` in the Eaton AGC table); no row has `dead` = 1, and nine Bourns inductor series are marked not recommended for new designs: `obsolete-series.tsv`) Run `scheme-check.py inductor`, `--facts` and `pinout-check.py
       inductor`; set `skip` / `out` rows with their reasons; print
       `--sample` and compare 20 rows per maker with their PDF by hand; read
       every `dead` = 1 inductor row (§ 3.2).
@@ -207,7 +207,7 @@ Commit: —
 
 ### Phase 2 — The fuses
 
-- [ ] The 237 fuse rows of `specs.tsv` as Phase 1 (§ 3.1, § 3.3, § 3.4),
+- [x] (2026-11-23: 227 fuse specs rows: Littelfuse by one agent, Eaton and SCHURTER by another) The 237 fuse rows of `specs.tsv` as Phase 1 (§ 3.1, § 3.3, § 3.4),
       then the three checks, the sample and the `dead` rows.
 
 Acceptance: every fuse row of the download set has its verdicts.
@@ -216,8 +216,10 @@ Commit: —
 
 ### Phase 3 — The PTCs
 
-- [ ] The 122 PTC rows of `specs.tsv` as Phase 1, then the three checks, the
+- [x] (2026-11-23: 117 PTC specs rows) The 122 PTC rows of `specs.tsv` as Phase 1, then the three checks, the
       sample and the `dead` rows.
+
+- [ ] After A's last refill (A Phase 2, then Phase 3's re-run): run `specs-skeleton.py`, fill the specs rows the refill added (`scheme-check.py --list` prints them as `unchecked`; `frag-check.py` checks a fragment), re-run `scheme-check.py inductor fuse ptc --facts --apply` and `pinout-check.py inductor fuse ptc`, and re-record the counts below.
 
 Acceptance: every PTC row of the download set has its verdicts.
   Check: `python3 -I planning/plan-47-data/census/scheme-check.py ptc` → `<n> rows: <k> ok, 0 unchecked`; `…/pinout-check.py ptc` → `0 errors`; and for the letter `python3 -I planning/plan-47-data/census/scheme-check.py inductor fuse ptc` → `<n> rows: <k> ok, 0 unchecked` with `<n>` the three types' download-set rows (est. 3 min).
@@ -263,6 +265,41 @@ Commit: —
   (the summary goes to stderr) so `| wc -l` is 3 makers × 20.
 - `specs.tsv` has 1547 rows over the four families (inductor 417; the plan's
   418 predates the one Würth row the stock check replaced).
+
+- **2026-11-23, the series-level data entry was done by five agents in
+  parallel** (Bourns + Murata inductors, Würth inductors, Littelfuse fuses,
+  Eaton + SCHURTER fuses, the PTCs), each writing one fragment
+  (`census/frag-check.py` judges a fragment against the download set with the
+  real rules and writes nothing; `census/specs-merge.py` overlays it on
+  `specs.tsv`). Current result, `scheme-check.py inductor fuse ptc --facts`:
+  `2213 rows: 2098 ok, 0 unchecked`; out: obsolete 17, more than two terminals 2
+  (Würth WE-HIDA 74441521150 and 74441521220, two windings); skip: not in the
+  datasheet's ordering table 44, fact not in datasheet 33, fact not given 16, no
+  pinout in the datasheet 3 (Littelfuse AGC `0311005.M`, `0311015.M` and PICO 277
+  `0277.250M`: catalog or cross-reference PDFs). `pinout-check.py inductor fuse ptc`
+  → `761 specs rows: 0 errors`.
+- **Obsolete.** `dead` is 0 on every row (the word is never near the part number),
+  but nine Bourns inductor PDFs say the whole series "is currently available but
+  not recommended for new designs" (6000, CE201210, SRN2010TA, SRN3015TA,
+  SRN4018TA, SRR0745A, RL822, SRP2510A, SRP2512A): rule 9 makes their 17 rows
+  `out`, reason `obsolete`, through `obsolete-series.tsv` (the PDF and the quoted
+  text; `scheme-check.py` reads it, so the verdict survives a re-run of
+  `textscan.py`). The four Bourns resettable-fuse PDFs (MF-MSMF, MF-NSMF, MF-SMDF,
+  MF-USMF) say "some models" are not recommended for new designs and mark them with
+  a symbol in the table image only: no row can be named, so none is changed. C
+  deletes a PDF all of whose rows are `out` (the nine inductor PDFs may qualify).
+- **Datasheet and DigiKey disagree** (the rows are skipped, not corrected): Würth
+  25 rows (DCR, tolerance, shielding: `74405020022` Semi-Shielded against
+  DigiKey's Shielded), Eaton 1025HC20-40 (250 V against 125 V), `TR/AHC-V-30-R`,
+  Schurter `3-124-969` (50 A against 0.05 A), Bourns `2000-470-V-RC` (±15 %
+  against ±20 %), Littelfuse `0402L035SLKR` and `TR600-150F-EX-2` (Imax).
+- **Labels.** Bourns / Murata LQP02 (package 01005, five digits) is `SMD`; the
+  Eaton SMD-pad 5 x 20 and 6.3 x 32 mm fuses (SMD-FST, SMD-SPT) are `Cartridge`
+  because DigiKey's class says cartridge (C may relabel them with the footprints).
+  `speed` is `-` for datasheets that give none (Littelfuse 220, 440, 441, 458, 881,
+  885, 607; Eaton CC12H, 2822HC, MDH-R).
+- `srp2512a.pdf` is the SRP2510A datasheet (identical text), so the three
+  `SRP2512A-*` parts are skipped; `6000-220K-TR-RC` has no `-TR` option.
 
 ## Summary
 

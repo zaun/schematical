@@ -9,8 +9,9 @@ the types, in the order the checks apply:
 
   1. no specs row, or its `scheme` empty: unchecked (not a verdict);
   2. no PDF: skip, `no datasheet on the maker's site`;
-  3. `dead` = 1: out, `obsolete` (B clears `dead` to 0 where the datasheet says the
-     part is alive);
+  3. `dead` = 1, or the PDF is in obsolete-series.tsv (the datasheet says the whole series is
+     obsolete or not recommended for new designs): out, `obsolete` (B clears `dead` to 0 where
+     the datasheet says the part is alive);
   4. the specs row's `pinout` is `-`: skip, `no pinout in the datasheet`; `out`
      (more than two terminals) is written as `pinout` = `out`;
   5. the part number is not printed verbatim (`hit` 0) and its specs row's scheme
@@ -75,11 +76,24 @@ def fact_problem(r, s, params):
     return ''
 
 
+_OBSOLETE = None
+
+
+def obsolete_pdfs():
+    """The PDFs whose datasheet marks the whole series obsolete or not recommended for new
+    designs (obsolete-series.tsv, with the quoted text): every row of such a PDF is out."""
+    global _OBSOLETE
+    if _OBSOLETE is None:
+        path = os.path.join(os.path.dirname(sp.CANDIDATES), 'obsolete-series.tsv')
+        _OBSOLETE = {r['pdf'] for r in sp.read(path)} if os.path.exists(path) else set()
+    return _OBSOLETE
+
+
 def verdict(r, s, facts, params):
     """(verdict, reason) of a row with a specs row: ok, skip or out."""
     if not r['pdf']:
         return 'skip', "no datasheet on the maker's site"
-    if r['dead'] == '1':
+    if r['dead'] == '1' or r['pdf'] in obsolete_pdfs():
         return 'out', 'obsolete'
     if s['pinout'] == 'out':
         return 'out', 'more than two terminals'
