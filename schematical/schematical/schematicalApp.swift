@@ -15,6 +15,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     /// The Edit menu ends at Reset References (`EditMenuTrimmer`).
     func applicationWillFinishLaunching(_ notification: Notification) {
         EditMenuTrimmer.install()
+        OptionOnlyMenuItems.install()
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
@@ -141,6 +142,14 @@ struct schematicalApp: App {
             }
         }
         .defaultSize(width: 1040, height: 1000)
+        .restorationBehavior(.disabled)
+
+        // Window › Verify Datasheet, shown only while Option is held: the
+        // converted datasheet beside the PDF, with its citations.
+        Window(VerifyDatasheetScene.title, id: VerifyDatasheetScene.id) {
+            VerifyDatasheetWindowView()
+        }
+        .defaultSize(width: 1500, height: 950)
         .restorationBehavior(.disabled)
 
         // The User Library (plan-53-F): one window, File › User Library….

@@ -115,3 +115,9 @@ sup.note-ref a { text-decoration: none; }
 
 /* a line of citations after a block renders as an empty paragraph */
 p:empty { display: none; }
+
+/* Verify Datasheet window only: the citations. */
+a.cite { display: inline-block; margin-left: 2px; padding: 0 5px; border-radius: 8px; background: var(--head);
+  color: var(--accent); font: 10px ui-monospace, Menlo, monospace; text-decoration: none; cursor: pointer;
+  white-space: nowrap; vertical-align: baseline; }
+a.cite:hover { background: var(--current); }

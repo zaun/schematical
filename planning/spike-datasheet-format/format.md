@@ -616,8 +616,10 @@ rules below are written to keep conversions checkable.
 ## Citations
 
 A file points back to the page of its PDF each part comes from. The
-pointers are in the Markdown and are never shown: the renderer drops
-them. Pages are PDF pages, counted from the first page (as Conversion
+pointers are in the Markdown and the renderer drops them, except in the
+app's Verify Datasheet window (Window menu, only while Option is held),
+which shows each as a chip beside the PDF; a click scrolls the PDF to the
+spot. Pages are PDF pages, counted from the first page (as Conversion
 notes count them), and citations are relative to the source PDF.
 
 | Write | Names |
