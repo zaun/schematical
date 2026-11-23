@@ -1,0 +1,1548 @@
+type	maker	series	pdf	package	rows	example	scheme	label	page	pinout	terminals
+buzzer	mallory	-	datasheets/buzzer/mallory/MSE14LCH2.pdf		1	MSE14LCH2					
+buzzer	mallory	-	datasheets/buzzer/mallory/MSE14LCM3.pdf		1	MSE14LCM3					
+buzzer	mallory	-	datasheets/buzzer/mallory/MSE14LDD7.pdf		1	MSE14LDD7					
+buzzer	mallory	-	datasheets/buzzer/mallory/MSE14LSN3.pdf		1	MSE14LSN3					
+buzzer	mallory	-	datasheets/buzzer/mallory/MSE14LSU2.pdf		1	MSE14LSU2					
+buzzer	mallory	-	datasheets/buzzer/mallory/MSE14LTT3.pdf		1	MSE14LTT3					
+buzzer	mallory	-	datasheets/buzzer/mallory/PL-21N31PQ.pdf		1	PL-21N31PQ					
+buzzer	mallory	-	datasheets/buzzer/mallory/SBS12M0PC.pdf		1	SBS12M0PC					
+buzzer	mallory	-	datasheets/buzzer/mallory/SBS12M1PC.pdf		1	SBS12M1PC					
+buzzer	mallory	-	datasheets/buzzer/mallory/SBS300PC.pdf		1	SBS300PC					
+buzzer	mallory	-	datasheets/buzzer/mallory/SBT12M1PC.pdf		1	SBT12M1PC					
+buzzer	mallory	-	datasheets/buzzer/mallory/SBT200PC.pdf		1	SBT200PC					
+buzzer	mallory	-	datasheets/buzzer/mallory/SBT5LM1PC.pdf		1	SBT5LM1PC					
+buzzer	mallory	AS	datasheets/buzzer/mallory/ASI09N27MFD-03TRQ.pdf		1	ASI09N27MFD-03TRQ					
+buzzer	mallory	AS	datasheets/buzzer/mallory/ASI09N27MFD-05TRQ.pdf		1	ASI09N27MFD-05TRQ					
+buzzer	mallory	AS	datasheets/buzzer/mallory/ASI09N40MTRQ.pdf		1	ASI09N40MTRQ					
+buzzer	mallory	ASI	datasheets/buzzer/mallory/ASI09N27M-05Q.pdf		1	ASI09N27M-05Q					
+buzzer	mallory	ASI	datasheets/buzzer/mallory/ASI12N35MQ.pdf		1	ASI12N35MTRQ					
+buzzer	mallory	ASI	datasheets/buzzer/mallory/ASI301Q.pdf		1	ASI301Q					
+buzzer	mallory	ASI	datasheets/buzzer/mallory/ASI401Q.pdf		1	ASI401Q					
+buzzer	mallory	AST	datasheets/buzzer/mallory/AST0440MFD-03TRQ.pdf		1	AST0440MFD-03TRQ					
+buzzer	mallory	AST	datasheets/buzzer/mallory/AST0540MW-03TRQ.pdf		1	AST0540MW-03TRQ					
+buzzer	mallory	AST	datasheets/buzzer/mallory/AST0540MW-3.6TRQ.pdf		1	AST0540MW-3.6TRQ					
+buzzer	mallory	AST	datasheets/buzzer/mallory/AST0760MCTRQ.pdf		1	AST0760MCTRQ					
+buzzer	mallory	AST	datasheets/buzzer/mallory/AST0827MW-03ATRQ.pdf		1	AST0827MW-03ATRQ					
+buzzer	mallory	AST	datasheets/buzzer/mallory/AST0827MW-03BTRQ.pdf		1	AST0827MW-03BTRQ					
+buzzer	mallory	AST	datasheets/buzzer/mallory/AST0827MW-03TRQ.pdf		1	AST0827MW-03TRQ					
+buzzer	mallory	AST	datasheets/buzzer/mallory/AST0840MFD-4.4TRQ.pdf		1	AST0840MFD-4.4TRQ					
+buzzer	mallory	AST	datasheets/buzzer/mallory/AST0927MW-03TRQ.pdf		1	AST0927MW-03TRQ					
+buzzer	mallory	AST	datasheets/buzzer/mallory/AST0927MW-3.6TRQ.pdf		1	AST0927MW-3.6TRQ					
+buzzer	mallory	AST	datasheets/buzzer/mallory/AST0940MCTRQ.pdf		1	AST0940MCTRQ					
+buzzer	mallory	AST	datasheets/buzzer/mallory/AST100Q.pdf		1	AST100Q					
+buzzer	mallory	AST	datasheets/buzzer/mallory/AST1027MW-03TRQ.pdf		1	AST1027MW-03TRQ					
+buzzer	mallory	AST	datasheets/buzzer/mallory/AST1109MLTRQ.pdf		1	AST1109MLTRQ					
+buzzer	mallory	AST	datasheets/buzzer/mallory/AST1240MLTRQ.pdf		1	AST1240MLTRQ					
+buzzer	mallory	AST	datasheets/buzzer/mallory/AST1341MCTRQ.pdf		1	AST1341MCTRQ					
+buzzer	mallory	AST	datasheets/buzzer/mallory/AST1427M-03TRQ.pdf		1	AST1427M-03TRQ					
+buzzer	mallory	AST	datasheets/buzzer/mallory/AST1427M-05TRQ.pdf		1	AST1427M-05TRQ					
+buzzer	mallory	AST	datasheets/buzzer/mallory/AST1440MATRQ.pdf		1	AST1440MATRQ					
+buzzer	mallory	AST	datasheets/buzzer/mallory/AST1575BMATRQ.pdf		1	AST1575BMATRQ					
+buzzer	mallory	AST	datasheets/buzzer/mallory/AST1628MATRQ.pdf		1	AST1628MATRQ					
+buzzer	mallory	AST	datasheets/buzzer/mallory/AST1640MACTRQ.pdf		1	AST1640MACTRQ					
+buzzer	mallory	AST	datasheets/buzzer/mallory/AST200Q.pdf		1	AST200Q					
+buzzer	mallory	AST	datasheets/buzzer/mallory/AST501Q.pdf		1	AST501Q					
+buzzer	mallory	AST	datasheets/buzzer/mallory/AST605Q.pdf		1	AST605Q					
+buzzer	mallory	AST	datasheets/buzzer/mallory/AST7525MATRQ.pdf		1	AST7525MATRQ					
+buzzer	mallory	MAS	datasheets/buzzer/mallory/MAS800Q.pdf		1	MAS800Q					
+buzzer	mallory	MAS	datasheets/buzzer/mallory/MAS806Q.pdf		1	MAS806Q					
+buzzer	mallory	MCP	datasheets/buzzer/mallory/MCP320B2Q.pdf		1	MCP320B2Q					
+buzzer	mallory	MCP	datasheets/buzzer/mallory/MCP320Q.pdf		1	MCP320Q					
+buzzer	mallory	MSE	datasheets/buzzer/mallory/MSE14LSN3S.pdf		1	MSE14LSN3S					
+buzzer	mallory	MSO	datasheets/buzzer/mallory/MSO206NR.pdf		1	MSO206NR					
+buzzer	mallory	MSO	datasheets/buzzer/mallory/MSO320R.pdf		1	MSO320R					
+buzzer	mallory	MSO	datasheets/buzzer/mallory/MSO320SR.pdf		1	MSO320SR					
+buzzer	mallory	MSR	datasheets/buzzer/mallory/MSR205NJR.pdf		1	MSR205NJR					
+buzzer	mallory	MSR	datasheets/buzzer/mallory/MSR205NPR.pdf		1	MSR205NPR					
+buzzer	mallory	MSR	datasheets/buzzer/mallory/MSR205NR.pdf		1	MSR205NR					
+buzzer	mallory	MSR	datasheets/buzzer/mallory/MSR205NSR.pdf		1	MSR205NSR					
+buzzer	mallory	MSR	datasheets/buzzer/mallory/MSR320R.pdf		1	MSR320R					
+buzzer	mallory	MSR	datasheets/buzzer/mallory/MSR320SR.pdf		1	MSR320SR					
+buzzer	mallory	MSR	datasheets/buzzer/mallory/MSR516NJR.pdf		1	MSR516NJR					
+buzzer	mallory	MSR	datasheets/buzzer/mallory/MSR516NR.pdf		1	MSR516NR					
+buzzer	mallory	MSR	datasheets/buzzer/mallory/MSR516NSR.pdf		1	MSR516NSR					
+buzzer	mallory	MSS	datasheets/buzzer/mallory/MSS5G.pdf		1	MSS5G					
+buzzer	mallory	MSS	datasheets/buzzer/mallory/MSS5GH.pdf		1	MSS5GH					
+buzzer	mallory	MSS	datasheets/buzzer/mallory/MSS5GL.pdf		1	MSS5GL					
+buzzer	mallory	MSS	datasheets/buzzer/mallory/MSS5GM.pdf		1	MSS5GM					
+buzzer	mallory	MSS	datasheets/buzzer/mallory/MSS5M0.pdf		1	MSS5M0					
+buzzer	mallory	MSS	datasheets/buzzer/mallory/MSS5MMG.pdf		1	MSS5MMG					
+buzzer	mallory	MSS	datasheets/buzzer/mallory/MSS5MMP.pdf		1	MSS5MMP					
+buzzer	mallory	MSS	datasheets/buzzer/mallory/MSS5V.pdf		1	MSS5V					
+buzzer	mallory	MSW	datasheets/buzzer/mallory/MSW5GH.pdf		1	MSW5GH					
+buzzer	mallory	MSW	datasheets/buzzer/mallory/MSW5GLMCT.pdf		1	MSW5GLMCT					
+buzzer	mallory	PB	datasheets/buzzer/mallory/PB-0927PD1AQ.pdf		1	PB-0927PD1AQ					
+buzzer	mallory	PB	datasheets/buzzer/mallory/PB-0927PQ.pdf		1	PB-0927PQ					
+buzzer	mallory	PB	datasheets/buzzer/mallory/PB-0940PW-03Q.pdf		1	PB-0940PW-03Q					
+buzzer	mallory	PB	datasheets/buzzer/mallory/PB-09N23P-03Q.pdf		1	PB-09N23P-03Q					
+buzzer	mallory	PB	datasheets/buzzer/mallory/PB-1220P-05Q.pdf		1	PB-1220P-05Q					
+buzzer	mallory	PB	datasheets/buzzer/mallory/PB-1220PQ.pdf		1	PB-1220PQ					
+buzzer	mallory	PB	datasheets/buzzer/mallory/PB-1221PQ.pdf		1	PB-1221PQ					
+buzzer	mallory	PB	datasheets/buzzer/mallory/PB-1226PEAQ.pdf		1	PB-1226PEAQ					
+buzzer	mallory	PB	datasheets/buzzer/mallory/PB-12N23MPW-03Q.pdf		1	PB-12N23MPW-03Q					
+buzzer	mallory	PB	datasheets/buzzer/mallory/PB-12N23MPW-05Q.pdf		1	PB-12N23MPW-05Q					
+buzzer	mallory	PB	datasheets/buzzer/mallory/PB-12N23P-03Q.pdf		1	PB-12N23P-03Q					
+buzzer	mallory	PB	datasheets/buzzer/mallory/PB-12N23P-05Q.pdf		1	PB-12N23P-05Q					
+buzzer	mallory	PB	datasheets/buzzer/mallory/PB-12N23P-12Q.pdf		1	PB-12N23P-12Q					
+buzzer	mallory	PB	datasheets/buzzer/mallory/PB-12N23PC-24Q.pdf		1	PB-12N23PC-24Q					
+buzzer	mallory	PB	datasheets/buzzer/mallory/PB-12N32MP-05AQ.pdf		1	PB-12N32MP-05AQ					
+buzzer	mallory	PB	datasheets/buzzer/mallory/PB-12N32MP-12Q.pdf		1	PB-12N32MP-12Q					
+buzzer	mallory	PB	datasheets/buzzer/mallory/PB-1621PQ.pdf		1	PB-1621PQ					
+buzzer	mallory	PF	datasheets/buzzer/mallory/PF-12N40PEDR-24VICQ.pdf		1	PF-12N40PEDR-24VICQ					
+buzzer	mallory	PF	datasheets/buzzer/mallory/PF-21A31PQ.pdf		1	PF-21A31PQ					
+buzzer	mallory	PF	datasheets/buzzer/mallory/PF-27A25PSQ.pdf		1	PF-27A25PSQ					
+buzzer	mallory	PK	datasheets/buzzer/mallory/PK-09N50PQ.pdf		1	PK-09N50PQ					
+buzzer	mallory	PK	datasheets/buzzer/mallory/PK-11N40PQ.pdf		1	PK-11N40PQ					
+buzzer	mallory	PK	datasheets/buzzer/mallory/PK-12N40PEDRQ.pdf		1	PK-12N40PEDRQ					
+buzzer	mallory	PK	datasheets/buzzer/mallory/PK-12N40PEQ.pdf		1	PK-12N40PEQ					
+buzzer	mallory	PK	datasheets/buzzer/mallory/PK-20A25PQ.pdf		1	PK-20A25PQ					
+buzzer	mallory	PK	datasheets/buzzer/mallory/PK-20A38PQ.pdf		1	PK-20A38PQ					
+buzzer	mallory	PK	datasheets/buzzer/mallory/PK-21A31PQ.pdf		1	PK-21A31PQ					
+buzzer	mallory	PK	datasheets/buzzer/mallory/PK-21N31PQ.pdf		1	PK-21N31PQ					
+buzzer	mallory	PK	datasheets/buzzer/mallory/PK-27A25PSQ.pdf		1	PK-27A25PSQ					
+buzzer	mallory	PK	datasheets/buzzer/mallory/PK-27H25PQ.pdf		1	PK-27H25PQ					
+buzzer	mallory	PK	datasheets/buzzer/mallory/PK-27H35P-24VQ.pdf		1	PK-27H35P-24VQ					
+buzzer	mallory	PK	datasheets/buzzer/mallory/PK-27H35PQ.pdf		1	PK-27H35PQ					
+buzzer	mallory	PK	datasheets/buzzer/mallory/PK-27H36EPSQ.pdf		1	PK-27H36EPSQ					
+buzzer	mallory	PK	datasheets/buzzer/mallory/PK-27N26PSQ.pdf		1	PK-27N26PSQ					
+buzzer	mallory	PK	datasheets/buzzer/mallory/PK-27N35PSQ.pdf		1	PK-27N35PSQ					
+buzzer	mallory	PK	datasheets/buzzer/mallory/PK-27N36PSQ.pdf		1	PK-27N36PSQ					
+buzzer	mallory	PK	datasheets/buzzer/mallory/PK-31H40PQ.pdf		1	PK-31H40PQ					
+buzzer	mallory	PL	datasheets/buzzer/mallory/PL-21A31PQ.pdf		1	PL-21A31PQ					
+buzzer	mallory	PLD	datasheets/buzzer/mallory/PLD-21N30PQ.pdf		1	PLD-21N30PQ					
+buzzer	mallory	PLD	datasheets/buzzer/mallory/PLD-27A35PQ.pdf		1	PLD-27A35PQ					
+buzzer	mallory	PS	datasheets/buzzer/mallory/PS-733PYQ.pdf		1	PS-733PYQ					
+buzzer	mallory	PS	datasheets/buzzer/mallory/PS-953Q.pdf		1	PS-953Q					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-0950PQ.pdf		1	PT-0950PQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-1140PEQ.pdf		1	PT-1140PEQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-1240FEQ.pdf		1	PT-1240FEQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-1240PQ.pdf		1	PT-1240PQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-1241PFQ.pdf		1	PT-1241PFQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-1245P-PQ.pdf		1	PT-1245P-PQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-1250PQ.pdf		1	PT-1250PQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-1340P-P10-PQ.pdf		1	PT-1340P-P10-PQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-1520PQ.pdf		1	PT-1520PQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-1540PQ.pdf		1	PT-1540PQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-1620PAQ.pdf		1	PT-1620PAQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-1640PAQ.pdf		1	PT-1640PAQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-2020PQ.pdf		1	PT-2020PQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-2038PQ.pdf		1	PT-2038PQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-2040PQ.pdf		1	PT-2040PQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-2060PQ.pdf		1	PT-2060PQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-2130FPQ.pdf		1	PT-2130FPQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-2130PQ.pdf		1	PT-2130PQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-2130PSQ.pdf		1	PT-2130PSQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-2725FPQ.pdf		1	PT-2725FPQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-2725PQ.pdf		1	PT-2725PQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-2726FPQ.pdf		1	PT-2726FPQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-2726PQ.pdf		1	PT-2726PQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-2728FPQ.pdf		1	PT-2728FPQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-2736FPQ.pdf		1	PT-2736FPQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-2736PQ.pdf		1	PT-2736PQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-3110P-05Q.pdf		1	PT-3110P-05Q					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-3529PQ.pdf		1	PT-3529PQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-3534FPQ.pdf		1	PT-3534FPQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-4175PQ.pdf		1	PT-4175PQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-4532PLQ.pdf		1	PT-4532PLQ					
+buzzer	mallory	PT	datasheets/buzzer/mallory/PT-593SQ.pdf		1	PT-593SQ					
+buzzer	mallory	SBM	datasheets/buzzer/mallory/SBM428R.pdf		1	SBM428R					
+buzzer	mallory	SBS	datasheets/buzzer/mallory/SBS12GMHCTPC.pdf		1	SBS12GMHCTPC					
+buzzer	mallory	SBT	datasheets/buzzer/mallory/SBT12GHPC.pdf		1	SBT12GHPC					
+buzzer	mallory	SBW	datasheets/buzzer/mallory/SBW12CPC.pdf		1	SBW12CPC					
+buzzer	mallory	SBW	datasheets/buzzer/mallory/SBW12GHPC.pdf		1	SBW12GHPC					
+buzzer	mallory	SBW	datasheets/buzzer/mallory/SBW12VPC.pdf		1	SBW12VPC					
+buzzer	pui	-	datasheets/buzzer/pui/specs-AMI-4440-TT-O.pdf		1	AMI-4440-TT-O					
+buzzer	pui	-	datasheets/buzzer/pui/specs-SMT-0927-S-13-R.pdf		1	SMT-0927-S-13-R					
+buzzer	pui	-	datasheets/buzzer/pui/specs-SMT-1028-S-2-R.pdf		1	SMT-1028-S-2-R					
+buzzer	pui	-	datasheets/buzzer/pui/specs-SMT-1028-T-2-R.pdf		1	SMT-1028-T-2-R					
+buzzer	pui	-	datasheets/buzzer/pui/specs-SMT-1035-S-2-R.pdf		1	SMT-1035-S-2-R					
+buzzer	pui	AI	datasheets/buzzer/pui/AI-1231-TWT-4.pdf		1	AI-1231-TWT-4					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-1027-TWT-3V-R.pdf		1	AI-1027-TWT-3V-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-1027-TWT-5V-2-R.pdf		1	AI-1027-TWT-5V-2-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-1027-TWT-5V-HT-R.pdf		1	AI-1027-TWT-5V-HT-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-1027-TWT-5V-R.pdf		1	AI-1027-TWT-5V-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-1223-TWT-12V-R.pdf		1	AI-1223-TWT-12V-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-1223-TWT-2-R.pdf		1	AI-1223-TWT-2-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-1223-TWT-3V-2-R.pdf		1	AI-1223-TWT-3V-2-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-1223-TWT-5V-2-R.pdf		1	AI-1223-TWT-5V-2-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-1223-TWT-5V-4-R.pdf		1	AI-1223-TWT-5V-4-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-1223-TWT-5V-5-R.pdf		1	AI-1223-TWT-5V-5-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-1223-TWT-5V-7.pdf		1	AI-1223-TWT-5V-7					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-1223-TWT-5V-R.pdf		1	AI-1223-TWT-5V-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-1224-TWT-12V-R.pdf		1	AI-1224-TWT-12V-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-1433-TWT-R.pdf		1	AI-1433-TWT-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-1440-TWT-12V-R.pdf		1	AI-1440-TWT-12V-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-1440-TWT-24V-2-R.pdf		1	AI-1440-TWT-24V-2-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-1440-TWT-24V-3-R.pdf		1	AI-1440-TWT-24V-3-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-1441-TWT-12V-R.pdf		1	AI-1441-TWT-12V-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-1450-T-WP-LW80-R.pdf		1	AI-1450-T-WP-LW80-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-1450-TWT-WP-R.pdf		1	AI-1450-TWT-WP-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-1622-TWT-12V-R.pdf		1	AI-1622-TWT-12V-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-1622-TWT-5V-R.pdf		1	AI-1622-TWT-5V-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-2304-TT-24V-2-R.pdf		1	AI-2304-TT-24V-2-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-2304-TT-24V-R.pdf		1	AI-2304-TT-24V-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-2331-TWT-2-R.pdf		1	AI-2331-TWT-2-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-2331-TWT-R.pdf		1	AI-2331-TWT-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-2335-TT.pdf		1	AI-2335-TT					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-2429-TT-12V-R.pdf		1	AI-2429-TT-12V-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-2429-TWT-12V-2-R.pdf		1	AI-2429-TWT-12V-2-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-2429-TWT-12V-3-R.pdf		1	AI-2429-TWT-12V-3-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-2429-TWT-2-R.pdf		1	AI-2429-TWT-2-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-2429-TWT-3P-R.pdf		1	AI-2429-TWT-3P-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-2429-TWT-5V-R.pdf		1	AI-2429-TWT-5V-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-2429-TWT-R.pdf		1	AI-2429-TWT-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-2437-TWT-2-R.pdf		1	AI-2437-TWT-2-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-2437-TWT-R.pdf		1	AI-2437-TWT-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-2438-TT-R.pdf		1	AI-2438-TT-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-2604-TT-R.pdf		1	AI-2604-TT-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-3018-TWT-R.pdf		1	AI-3018-TWT-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-3035-TT-12V-R.pdf		1	AI-3035-TT-12V-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-3035-TWT-3V-R.pdf		1	AI-3035-TWT-3V-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-3039-TWT-12V-R.pdf		1	AI-3039-TWT-12V-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-3239-TF-LW140-R.pdf		1	AI-3239-TF-LW140-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-4033-TWT-R.pdf		1	AI-4033-TWT-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-4228-TWT-R.pdf		1	AI-4228-TWT-R					
+buzzer	pui	AI	datasheets/buzzer/pui/specs-AI-5025-TWT-R.pdf		1	AI-5025-TWT-R					
+buzzer	pui	AT	datasheets/buzzer/pui/AT-0927-TT-5V.pdf		1	AT-0927-TT-5V					
+buzzer	pui	AT	datasheets/buzzer/pui/AT-1052-T.pdf		1	AT-1052-T					
+buzzer	pui	AT	datasheets/buzzer/pui/AT-2240-TT-4.pdf		1	AT-2240-TT-4					
+buzzer	pui	AT	datasheets/buzzer/pui/AT-2441-T-HT-LW95.pdf		1	AT-2441-T-HT-LW95					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-0731-TT.pdf		1	AT-0731-TT					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-0927-TT-2-R.pdf		1	AT-0927-TT-2-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-0927-TT-3-R.pdf		1	AT-0927-TT-3-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-0927-TT-6-R.pdf		1	AT-0927-TT-6-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1127-ST-2-R.pdf		1	AT-1127-ST-2-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1127-ST-HT-R.pdf		1	AT-1127-ST-HT-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1220-TT-10-R.pdf		1	AT-1220-TT-10-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1220-TT-11-R.pdf		1	AT-1220-TT-11-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1220-TT-2-R.pdf		1	AT-1220-TT-2-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1220-TT-3V-2-R.pdf		1	AT-1220-TT-3V-2-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1220-TT-3V-HT-R.pdf		1	AT-1220-TT-3V-HT-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1220-TT-5-R.pdf		1	AT-1220-TT-5-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1220-TT-8-R.pdf		1	AT-1220-TT-8-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1220-TT-9-R.pdf		1	AT-1220-TT-9-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1220-TT-R.pdf		1	AT-1220-TT-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1220-TWT-5V-R.pdf		1	AT-1220-TWT-5V-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1224-TWT-12V-R.pdf		1	AT-1224-TWT-12V-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1224-TWT-4-R.pdf		1	AT-1224-TWT-4-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1224-TWT-5V-2-R.pdf		1	AT-1224-TWT-5V-2-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1224-TWT-5V-R.pdf		1	AT-1224-TWT-5V-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1224-TWT-R.pdf		1	AT-1224-TWT-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1228-TT-R.pdf		1	AT-1228-TT-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1240-TT.pdf		1	AT-1240-TT					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1420-ST-R.pdf		1	AT-1420-ST-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1426-ST-R.pdf		1	AT-1426-ST-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1436-TWT-R.pdf		1	AT-1436-TWT-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1438-TWT-R.pdf		1	AT-1438-TWT-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1440-TT-R.pdf		1	AT-1440-TT-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1442-T-WP-LW80-R.pdf		1	AT-1442-T-WP-LW80-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1620-TWT-12V-R.pdf		1	AT-1620-TWT-12V-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1620-TWT-5-R.pdf		1	AT-1620-TWT-5-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1620-TWT-HT-R.pdf		1	AT-1620-TWT-HT-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1620-TWT-R.pdf		1	AT-1620-TWT-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1720-TT-R.pdf		1	AT-1720-TT-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1740-TT-3-R.pdf		1	AT-1740-TT-3-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1740-TT-R.pdf		1	AT-1740-TT-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-1820-TWT-6V-R.pdf		1	AT-1820-TWT-6V-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-2250-T-LW50-R.pdf		1	AT-2250-T-LW50-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-2336-TWT-R.pdf		1	AT-2336-TWT-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-2428-TWT-R.pdf		1	AT-2428-TWT-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-2429-TWT-R.pdf		1	AT-2429-TWT-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-2440-TWT-R.pdf		1	AT-2440-TWT-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-2460-TWT-R.pdf		1	AT-2460-TWT-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-2510-TWT-2-R.pdf		1	AT-2510-TWT-2-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-2720-TT-R.pdf		1	AT-2720-TT-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-2830-TWT-R.pdf		1	AT-2830-TWT-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-3045-TT-R.pdf		1	AT-3045-TT-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-3425-TWT-R.pdf		1	AT-3425-TWT-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-4034-TT-R.pdf		1	AT-4034-TT-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-4228-TWT-F-R.pdf		1	AT-4228-TWT-F-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-4534-TT-R.pdf		1	AT-4534-TT-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-4625-TT-HT-R.pdf		1	AT-4625-TT-HT-R					
+buzzer	pui	AT	datasheets/buzzer/pui/specs-AT-5210-TT-R.pdf		1	AT-5210-TT-R					
+buzzer	pui	LAI	datasheets/buzzer/pui/LAI-1441-TB-WP.pdf		1	LAI-1441-TB-WP					
+buzzer	pui	SMI	datasheets/buzzer/pui/specs-SMI-0927-S-3V.pdf		1	SMI-0927-S-3V					
+buzzer	pui	SMI	datasheets/buzzer/pui/specs-SMI-1027-T-5V-R.pdf		1	SMI-1027-T-5V-R					
+buzzer	pui	SMI	datasheets/buzzer/pui/specs-SMI-1027-TW-12V-R.pdf		1	SMI-1027-TW-12V-R					
+buzzer	pui	SMI	datasheets/buzzer/pui/specs-SMI-1027-TW-3V-R.pdf		1	SMI-1027-TW-3V-R					
+buzzer	pui	SMI	datasheets/buzzer/pui/specs-SMI-1027-TW-5V-R.pdf		1	SMI-1027-TW-5V-R					
+buzzer	pui	SMI	datasheets/buzzer/pui/specs-SMI-1324-TW-12V-R.pdf		1	SMI-1324-TW-12V-R					
+buzzer	pui	SMI	datasheets/buzzer/pui/specs-SMI-1324-TW-3V-R.pdf		1	SMI-1324-TW-3V-R					
+buzzer	pui	SMI	datasheets/buzzer/pui/specs-SMI-1324-TW-5V-2-R.pdf		1	SMI-1324-TW-5V-2-R					
+buzzer	pui	SMI	datasheets/buzzer/pui/specs-SMI-1324-TW-5V-3-R.pdf		1	SMI-1324-TW-5V-3-R					
+buzzer	pui	SMI	datasheets/buzzer/pui/specs-SMI-1324-TW-5V-HT-R.pdf		1	SMI-1324-TW-5V-HT-R					
+buzzer	pui	SMI	datasheets/buzzer/pui/specs-SMI-1324-TW-5V-R.pdf		1	SMI-1324-TW-5V-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/d2af6cae-fa3d-48c7-b262-b0cc502c99fe.pdf		1	SMT-1324-TW-5V-R-T/R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0340-T-R.pdf		1	SMT-0340-T-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0440-S-R.pdf		1	SMT-0440-S-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0440-T-2-R.pdf		1	SMT-0440-T-2-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0440-T-HT-R.pdf		1	SMT-0440-T-HT-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0540-S-2-R.pdf		1	SMT-0540-S-2-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0540-S-R.pdf		1	SMT-0540-S-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0540-T-10-R.pdf		1	SMT-0540-T-10-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0540-T-2-R.pdf		1	SMT-0540-T-2-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0540-T-7-R.pdf		1	SMT-0540-T-7-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0540-T-9-R.pdf		1	SMT-0540-T-9-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0727-S-R.pdf		1	SMT-0727-S-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0760-T-R.pdf		1	SMT-0760-T-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0820-S-R.pdf		1	SMT-0820-S-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0821-S-R.pdf		1	SMT-0821-S-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0821-T-R.pdf		1	SMT-0821-T-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0823-S-HT.pdf		1	SMT-0823-S-HT					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0823-S-R.pdf		1	SMT-0823-S-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0824-S-2-R.pdf		1	SMT-0824-S-2-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0824-TW-5V-R.pdf		1	SMT-0824-TW-5V-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0825-S-2-R.pdf		1	SMT-0825-S-2-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0825-S-4-R.pdf		1	SMT-0825-S-4-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0825-S-HT-R.pdf		1	SMT-0825-S-HT-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0825-T-2-R.pdf		1	SMT-0825-T-2-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0825-T-HT-R.pdf		1	SMT-0825-T-HT-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0825-T-R.pdf		1	SMT-0825-T-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0826-S-R.pdf		1	SMT-0826-S-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0827-S-10-R.pdf		1	SMT-0827-S-10-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0827-S-2-R.pdf		1	SMT-0827-S-2-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0827-S-9-R.pdf		1	SMT-0827-S-9-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0827-S-HT-R.pdf		1	SMT-0827-S-HT-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0827-SW-3V-R.pdf		1	SMT-0827-SW-3V-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0827-SW-5V-R.pdf		1	SMT-0827-SW-5V-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0827-T-HT-R.pdf		1	SMT-0827-T-HT-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0827-TW-3V-R.pdf		1	SMT-0827-TW-3V-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0827-TW-5V-R.pdf		1	SMT-0827-TW-5V-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0830-T-HT-R.pdf		1	SMT-0830-T-HT-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0830-T-R.pdf		1	SMT-0830-T-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0840-T.pdf		1	SMT-0840-T					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0927-S-11-R.pdf		1	SMT-0927-S-11-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0927-S-12-R.pdf		1	SMT-0927-S-12-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0927-S-14-R.pdf		1	SMT-0927-S-14-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0927-S-7-R.pdf		1	SMT-0927-S-7-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-0927-S-HT-R.pdf		1	SMT-0927-S-HT-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-1027-S-HT-2-R.pdf		1	SMT-1027-S-HT-2-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-1027-S-HT-R.pdf		1	SMT-1027-S-HT-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-1028-S-5V-2-R.pdf		1	SMT-1028-S-5V-2-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-1127-S-R.pdf		1	SMT-1127-S-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-1141-T-5-R.pdf		1	SMT-1141-T-5-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-1220-TW-R.pdf		1	SMT-1220-TW-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-1227-T.pdf		1	SMT-1227-T					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-1320-T-HT-R.pdf		1	SMT-1320-T-HT-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-1324-TW-5V-R.pdf		1	SMT-1324-TW-5V-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-1341-T-2-R.pdf		1	SMT-1341-T-2-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-1341-T-HT-2.pdf		1	SMT-1341-T-HT-2					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-1341-T-HT-R.pdf		1	SMT-1341-T-HT-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-1341-TW-HT-R.pdf		1	SMT-1341-TW-HT-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-1427-S-2-R.pdf		1	SMT-1427-S-2-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-1427-S-3-R.pdf		1	SMT-1427-S-3-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-1427-S-4-R.pdf		1	SMT-1427-S-4-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-1427-S-5V-HT-R.pdf		1	SMT-1427-S-5V-HT-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-1427-S-7-R.pdf		1	SMT-1427-S-7-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-1427-S-R.pdf		1	SMT-1427-S-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-1427-T-R.pdf		1	SMT-1427-T-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-1550-T-HT.pdf		1	SMT-1550-T-HT					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-1640-S-2-R.pdf		1	SMT-1640-S-2-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-1640-S-4-R.pdf		1	SMT-1640-S-4-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-1720-T-HT.pdf		1	SMT-1720-T-HT					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-1830-TW-2-R.pdf		1	SMT-1830-TW-2-R					
+buzzer	pui	SMT	datasheets/buzzer/pui/specs-SMT-2225-T-R.pdf		1	SMT-2225-T-R					
+buzzer	pui	SMT-09	datasheets/buzzer/pui/specs-SMT-0927-S-8-R.pdf		1	SMT-0927-S-8-R					
+buzzer	pui	SMT-09	datasheets/buzzer/pui/specs-SMT-0931-S-R.pdf		1	SMT-0931-S-R					
+buzzer	pui	SMT-09	datasheets/buzzer/pui/specs-SMT-0940-T-3V-R.pdf		1	SMT-0940-T-3V-R					
+buzzer	pui	SMT-09	datasheets/buzzer/pui/specs-SMT-0952-T-5V-R.pdf		1	SMT-0952-T-5V-R					
+buzzer	pui	SMTB	datasheets/buzzer/pui/specs-SMTB-0827-TW-R.pdf		1	SMTB-0827-TW-R					
+buzzer	pui	SMTB	datasheets/buzzer/pui/specs-SMTB-0927-TW-R.pdf		1	SMTB-0927-TW-R					
+buzzer	pui	SMTB	datasheets/buzzer/pui/specs-SMTB-0940-T-3V-R.pdf		1	SMTB-0940-T-3V-R					
+buzzer	pui	SMTB	datasheets/buzzer/pui/specs-SMTB-1240-S-R.pdf		1	SMTB-1240-S-R					
+buzzer	pui	X	datasheets/buzzer/pui/specs-X-2629-TWT-2-R.pdf		1	X-2629-TWT-2-R					
+buzzer	pui	X	datasheets/buzzer/pui/specs-X-2629-TWT-FP-R.pdf		1	X-2629-TWT-FP-R					
+buzzer	pui	X	datasheets/buzzer/pui/specs-X-2629-TWT-R.pdf		1	X-2629-TWT-R					
+buzzer	samesky	-	datasheets/buzzer/samesky/cbt-09427-smt-tr.pdf		1	CBT-09427-SMT-TR					
+buzzer	samesky	-	datasheets/buzzer/samesky/cc-0601.pdf		1	CC-0601					
+buzzer	samesky	-	datasheets/buzzer/samesky/ccg-1206.pdf		1	CCG-1206					
+buzzer	samesky	-	datasheets/buzzer/samesky/cd-1206-smt.pdf		1	CD-1206-SMT					
+buzzer	samesky	-	datasheets/buzzer/samesky/cmi-1240-smt.pdf		2	CMI-1240-SMT					
+buzzer	samesky	-	datasheets/buzzer/samesky/cmt-1612-590t.pdf		1	CMT-1612-590T					
+buzzer	samesky	-	datasheets/buzzer/samesky/cmt-322-65-smt-tr.pdf		1	CMT-322-65-SMT-TR					
+buzzer	samesky	-	datasheets/buzzer/samesky/cmt-85853-97-smt-tr.pdf		1	CMT-85853-97-SMT-TR					
+buzzer	samesky	-	datasheets/buzzer/samesky/cpt-12123-81-smt-tr.pdf		1	CPT-12123-81-SMT-TR					
+buzzer	samesky	-	datasheets/buzzer/samesky/cpt-14146-80t.pdf		1	CPT-14146-80T					
+buzzer	samesky	CEM	datasheets/buzzer/samesky/cem-1201-42-.pdf		1	CEM-1201(42)					
+buzzer	samesky	CEM	datasheets/buzzer/samesky/cem-1201-50-.pdf		1	CEM-1201(50)					
+buzzer	samesky	CEM	datasheets/buzzer/samesky/cem-1201s.pdf		1	CEM-1201S					
+buzzer	samesky	CEM	datasheets/buzzer/samesky/cem-1203-42-.pdf		1	CEM-1203(42)					
+buzzer	samesky	CEM	datasheets/buzzer/samesky/cem-1206s.pdf		1	CEM-1206S					
+buzzer	samesky	CEM	datasheets/buzzer/samesky/cem-1212c.pdf		1	CEM-1212C					
+buzzer	samesky	CEM	datasheets/buzzer/samesky/cem-1212s.pdf		1	CEM-1212S					
+buzzer	samesky	CEM	datasheets/buzzer/samesky/cem-1601.pdf		1	CEM-1601					
+buzzer	samesky	CEM	datasheets/buzzer/samesky/cem-1606.pdf		1	CEM-1606					
+buzzer	samesky	CEM	datasheets/buzzer/samesky/cem-1612.pdf		1	CEM-1612					
+buzzer	samesky	CEP	datasheets/buzzer/samesky/cep-1106.pdf		1	CEP-1106					
+buzzer	samesky	CEP	datasheets/buzzer/samesky/cep-1114.pdf		1	CEP-1114					
+buzzer	samesky	CEP	datasheets/buzzer/samesky/cep-1116.pdf		1	CEP-1116					
+buzzer	samesky	CEP	datasheets/buzzer/samesky/cep-1123.pdf		1	CEP-1123					
+buzzer	samesky	CEP	datasheets/buzzer/samesky/cep-1130.pdf		1	CEP-1130					
+buzzer	samesky	CEP	datasheets/buzzer/samesky/cep-1153.pdf		1	CEP-1153					
+buzzer	samesky	CEP	datasheets/buzzer/samesky/cep-1162.pdf		1	CEP-1162					
+buzzer	samesky	CEP	datasheets/buzzer/samesky/cep-2202a.pdf		1	CEP-2202A					
+buzzer	samesky	CEP	datasheets/buzzer/samesky/cep-2202as.pdf		1	CEP-2202AS					
+buzzer	samesky	CEP	datasheets/buzzer/samesky/cep-2224.pdf		1	CEP-2224					
+buzzer	samesky	CEP	datasheets/buzzer/samesky/cep-2242.pdf		1	CEP-2242					
+buzzer	samesky	CEP	datasheets/buzzer/samesky/cep-2272a.pdf		1	CEP-2272A					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-0955-03th.pdf		1	CMI-0955-03TH					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-0955-05th.pdf		1	CMI-0955-05TH					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-0955-12th.pdf		1	CMI-0955-12TH					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-1210-5-95t.pdf		1	CMI-1210-5-95T					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-1210-92t.pdf		1	CMI-1210-92T					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-1265-88-smt-tr.pdf		1	CMI-1265-88-SMT-TR					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-1275-03th.pdf		1	CMI-1275-03TH					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-1275-05th.pdf		1	CMI-1275-05TH					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-1275-12th.pdf		1	CMI-1275-12TH					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-1275-85t.pdf		1	CMI-1275-85T					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-1275c-050.pdf		1	CMI-1275C-050					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-1295-03th.pdf		1	CMI-1295-03TH					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-1295-0585t.pdf		1	CMI-1295-0585T					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-1295-05th.pdf		1	CMI-1295-05TH					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-1295-1285t.pdf		1	CMI-1295-1285T					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-1295-12th.pdf		1	CMI-1295-12TH					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-1295-24th.pdf		1	CMI-1295-24TH					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-1295ic-0385t.pdf		1	CMI-1295IC-0385T					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-1295ic-0585t.pdf		1	CMI-1295IC-0585T					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-1614-1285t.pdf		1	CMI-1614-1285T					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-1614c-120.pdf		1	CMI-1614C-120					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-8536-82-smt-tr.pdf		1	CMI-8536-82-SMT-TR					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-9605-0580t.pdf		1	CMI-9605-0580T					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-9605-1280t.pdf		1	CMI-9605-1280T					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-9605ic-0380t.pdf		1	CMI-9605IC-0380T					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-9605ic-0580t.pdf		1	CMI-9605IC-0580T					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-9650c-120.pdf		1	CMI-9650C-120					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-9651s-smt-tr.pdf		1	CMI-9651S-SMT-TR					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-9653s-smt-tr.pdf		1	CMI-9653S-SMT-TR					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-9705-0380-smt-tr.pdf		1	CMI-9705-0380-SMT-TR					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-9705-0580-smt-tr.pdf		1	CMI-9705-0580-SMT-TR					
+buzzer	samesky	CMI	datasheets/buzzer/samesky/cmi-9705-85-smt-tr.pdf		1	CMI-9705-85-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-0502-75-smt-tr.pdf		1	CMT-0502-75-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-0525-75-smt-tr.pdf		1	CMT-0525-75-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-0904-83t.pdf		1	CMT-0904-83T					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-0904-85t.pdf		1	CMT-0904-85T					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-0926-86-smt-tr.pdf		1	CMT-0926-86-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-1032-85-smt-tr.pdf		1	CMT-1032-85-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-1075-smt-tr.pdf		1	CMT-1075-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-1085-85-smt-tr.pdf		1	CMT-1085-85-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-1102-smt-tr.pdf		1	CMT-1102-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-1203-smt-tr.pdf		1	CMT-1203-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-1209-1290t.pdf		1	CMT-1209-1290T					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-1209-390t.pdf		1	CMT-1209-390T					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-1209-590t.pdf		1	CMT-1209-590T					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-1261-smt.pdf		1	CMT-1261-SMT					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-1271-88-smt-tr.pdf		1	CMT-1271-88-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-1285c-015.pdf		1	CMT-1285C-015					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-1295-85t.pdf		1	CMT-1295-85T					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-13031-smt-tr.pdf		1	CMT-13031-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-1603-smt-tr.pdf		1	CMT-1603-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-1604-smt-tr.pdf		1	CMT-1604-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-1612-1290t.pdf		1	CMT-1612-1290T					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-1614-85t.pdf		1	CMT-1614-85T					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-1614c-120.pdf		1	CMT-1614C-120					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-2412-95t.pdf		1	CMT-2412-95T					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-2412c-050.pdf		1	CMT-2412C-050					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-2512-1285t.pdf		1	CMT-2512-1285T					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-2512-585t.pdf		1	CMT-2512-585T					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-4023s-smt-tr.pdf		1	CMT-4023S-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-5023s-smt-tr.pdf		1	CMT-5023S-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-6504-85-smt-tr.pdf		1	CMT-6504-85-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-6736-80t.pdf		1	CMT-6736-80T					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-7525-03-smt-tr.pdf		1	CMT-7525-03-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-7525-80-smt-tr.pdf		1	CMT-7525-80-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-7525-85-smt-tr.pdf		1	CMT-7525-85-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-7525s-smt-tr.pdf		1	CMT-7525S-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-8503-85b-smt-tr.pdf		1	CMT-8503-85B-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-8503-90-smt-tr.pdf		1	CMT-8503-90-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-8504-03-smt-tr.pdf		1	CMT-8504-03-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-8504-100-smt-tr.pdf		1	CMT-8504-100-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-8504-99-smt-tr.pdf		1	CMT-8504-99-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-8504sp-smt-tr.pdf		1	CMT-8504SP-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-8504tp-smt-tr.pdf		1	CMT-8504TP-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-8530s-smt-tr.pdf		1	CMT-8530S-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-8540s-smt-tr.pdf		1	CMT-8540S-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-9504-87-smt-tr.pdf		1	CMT-9504-87-SMT-TR					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-9605-85t.pdf		1	CMT-9605-85T					
+buzzer	samesky	CMT	datasheets/buzzer/samesky/cmt-9648-85t.pdf		1	CMT-9648-85T					
+buzzer	samesky	CPE	datasheets/buzzer/samesky/cpe-122.pdf		1	CPE-122					
+buzzer	samesky	CPE	datasheets/buzzer/samesky/cpe-164.pdf		1	CPE-164					
+buzzer	samesky	CPE	datasheets/buzzer/samesky/cpe-171.pdf		1	CPE-171					
+buzzer	samesky	CPE	datasheets/buzzer/samesky/cpe-1785.pdf		1	CPE-1785					
+buzzer	samesky	CPE	datasheets/buzzer/samesky/cpe-203.pdf		1	CPE-203					
+buzzer	samesky	CPE	datasheets/buzzer/samesky/cpe-222h.pdf		1	CPE-222H					
+buzzer	samesky	CPE	datasheets/buzzer/samesky/cpe-223.pdf		1	CPE-223					
+buzzer	samesky	CPE	datasheets/buzzer/samesky/cpe-244.pdf		1	CPE-244					
+buzzer	samesky	CPE	datasheets/buzzer/samesky/cpe-3085.pdf		1	CPE-3085					
+buzzer	samesky	CPE	datasheets/buzzer/samesky/cpe-352.pdf		1	CPE-352					
+buzzer	samesky	CPE	datasheets/buzzer/samesky/cpe-4485.pdf		1	CPE-4485					
+buzzer	samesky	CPE	datasheets/buzzer/samesky/cpe-522.pdf		1	CPE-522					
+buzzer	samesky	CPE	datasheets/buzzer/samesky/cpe-813.pdf		1	CPE-813					
+buzzer	samesky	CPI	datasheets/buzzer/samesky/cpi-137-12t.pdf		1	CPI-137-12T					
+buzzer	samesky	CPI	datasheets/buzzer/samesky/cpi-137-83t.pdf		1	CPI-137-83T					
+buzzer	samesky	CPI	datasheets/buzzer/samesky/cpi-1375-80t.pdf		1	CPI-1375-80T					
+buzzer	samesky	CPI	datasheets/buzzer/samesky/cpi-1375ic-80t.pdf		1	CPI-1375IC-80T					
+buzzer	samesky	CPI	datasheets/buzzer/samesky/cpi-148-24-90t-67.pdf		1	CPI-148-24-90T-67					
+buzzer	samesky	CPI	datasheets/buzzer/samesky/cpi-1514-12-95t.pdf		1	CPI-1514-12-95T					
+buzzer	samesky	CPI	datasheets/buzzer/samesky/cpi-2207-95-smt-tr.pdf		1	CPI-2207-95-SMT-TR					
+buzzer	samesky	CPI	datasheets/buzzer/samesky/cpi-2316-5-85t.pdf		1	CPI-2316-5-85T					
+buzzer	samesky	CPI	datasheets/buzzer/samesky/cpi-2316-85t.pdf		1	CPI-2316-85T					
+buzzer	samesky	CPI	datasheets/buzzer/samesky/cpi-2397-85t.pdf		1	CPI-2397-85T					
+buzzer	samesky	CPI	datasheets/buzzer/samesky/cpi-2398-90t.pdf		1	CPI-2398-90T					
+buzzer	samesky	CPI	datasheets/buzzer/samesky/cpi-2622-12th.pdf		1	CPI-2622-12TH					
+buzzer	samesky	CPI	datasheets/buzzer/samesky/cpi-3014-90t.pdf		1	CPI-3014-90T					
+buzzer	samesky	CPI	datasheets/buzzer/samesky/cpi-3020-90t.pdf		1	CPI-3020-90T					
+buzzer	samesky	CPI	datasheets/buzzer/samesky/cpi-3116-3-100t.pdf		1	CPI-3116-3-100T					
+buzzer	samesky	CPI	datasheets/buzzer/samesky/cpi-3816-95t.pdf		1	CPI-3816-95T					
+buzzer	samesky	CPI	datasheets/buzzer/samesky/cpi-4929c-120.pdf		1	CPI-4929C-120					
+buzzer	samesky	CPI	datasheets/buzzer/samesky/cpi-5029-105t.pdf		1	CPI-5029-105T					
+buzzer	samesky	CPI	datasheets/buzzer/samesky/cpt-2416-85t.pdf		1	CPI-2416-100T					
+buzzer	samesky	CPIM	datasheets/buzzer/samesky/cpim-4410-80t.pdf		1	CPIM-4410-80T					
+buzzer	samesky	CPS	datasheets/buzzer/samesky/cps-4013-110t.pdf		1	CPS-4013-110T					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-1117-83-smt-tr.pdf		1	CPT-1117-83-SMT-TR					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-1203-03-smt-tr.pdf		1	CPT-1203-03-SMT-TR					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-1203-78-smt-tr.pdf		1	CPT-1203-78-SMT-TR					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-1206-3th-t.pdf		1	CPT-1206-3TH-T					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-1207-380th.pdf		1	CPT-1207-380TH					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-1207-3th.pdf		1	CPT-1207-3TH					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-1207-5lth-t.pdf		1	CPT-1207-5LTH-T					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-1255c-090.pdf		1	CPT-1255C-090					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-1368-80wt.pdf		1	CPT-1368-80WT					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-1404-85t.pdf		1	CPT-1404-85T					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-1407-5th.pdf		1	CPT-1407-5TH					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-1495ci-300.pdf		1	CPT-1495CI-300					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-16162-smt-tr.pdf		1	CPT-16162-SMT-TR					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-1625-80-smt-tr.pdf		1	CPT-1625-80-SMT-TR					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-1626-70-smt-tr.pdf		1	CPT-1626-70-SMT-TR					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-1626-90-smt-tr.pdf		1	CPT-1626-90-SMT-TR					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-1667-85t.pdf		1	CPT-1667-85T					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-1762-90-smt-tr.pdf		1	CPT-1762-90-SMT-TR					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-1796-3th.pdf		1	CPT-1796-3TH					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-191985-smt-tr.pdf		1	CPT-191985-SMT-TR					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-1985-88-smt-tr.pdf		1	CPT-1985-88-SMT-TR					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-2016-75-smt-tr.pdf		1	CPT-2016-75-SMT-TR					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-2207-84t.pdf		1	CPT-2207-84T					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-2207-90t.pdf		1	CPT-2207-90T					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-2207-95-smt-tr.pdf		1	CPT-2207-95-SMT-TR					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-2210-3th.pdf		1	CPT-2210-3TH					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-2212-3th.pdf		1	CPT-2212-3TH					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-2272c-200.pdf		1	CPT-2272C-200					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-2312-88t.pdf		1	CPT-2312-88T					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-2416-85t.pdf		1	CPT-2416-85T					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-2475-92t.pdf		1	CPT-2475-92T					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-2510-28-85t.pdf		1	CPT-2510-28-85T					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-3011c-120.pdf		1	CPT-3011C-120					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-3016-105t.pdf		1	CPT-3016-105T					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-3016c-120.pdf		1	CPT-3016C-120					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-3075-90t.pdf		1	CPT-3075-90T					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-308-28-85t.pdf		1	CPT-308-28-85T					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-357-105t.pdf		1	CPT-357-105T					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-4011c-600.pdf		1	CPT-4011C-600					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-4013-100t.pdf		1	CPT-4013-100T					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-7502-65-smt-tr.pdf		1	CPT-7502-65-SMT-TR					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-9019a-smt-tr.pdf		1	CPT-9019A-SMT-TR					
+buzzer	samesky	CPT	datasheets/buzzer/samesky/cpt-9019s-smt-tr.pdf		1	CPT-9019S-SMT-TR					
+buzzer	samesky	CSQ	datasheets/buzzer/samesky/csq-601bp.pdf		1	CSQ-601BP					
+buzzer	samesky	CSQ	datasheets/buzzer/samesky/csq-706bp.pdf		1	CSQ-706BP					
+buzzer	samesky	CSQ	datasheets/buzzer/samesky/csq-rp-e.pdf		1	CSQ-RP-E					
+buzzer	samesky	CSQ	datasheets/buzzer/samesky/csqg703bp.pdf		1	CSQG703BP					
+buzzer	samesky	CSS	datasheets/buzzer/samesky/css-0575a-smt-tr.pdf		1	CSS-0575A-SMT-TR					
+buzzer	samesky	CSS	datasheets/buzzer/samesky/css-0575b-smt-tr.pdf		1	CSS-0575B-SMT-TR					
+buzzer	samesky	CSS	datasheets/buzzer/samesky/css-0578-smt-tr.pdf		1	CSS-0578-SMT-TR					
+buzzer	samesky	CSS	datasheets/buzzer/samesky/css-73b16k-smt-tr.pdf		1	CSS-73B16K-SMT					
+buzzer	samesky	CSS	datasheets/buzzer/samesky/css-95b30-smt-tr.pdf		1	CSS-95B30-SMT-TR					
+buzzer	samesky	CSS	datasheets/buzzer/samesky/css-h5b43-smt-tr.pdf		1	CSS-H5B43-SMT-TR					
+buzzer	samesky	CSS	datasheets/buzzer/samesky/css-i4b20-smt-tr.pdf		1	CSS-I4B20-SMT-TR					
+buzzer	samesky	CSS	datasheets/buzzer/samesky/css-j4b20-smt-tr.pdf		1	CSS-J4B20-SMT-TR					
+buzzer	samesky	CSS	datasheets/buzzer/samesky/css-j4d20-smt-tr.pdf		1	CSS-J4D20-SMT-TR					
+buzzer	samesky	CST	datasheets/buzzer/samesky/cst-911ap.pdf		1	CST-911AP					
+buzzer	samesky	CST	datasheets/buzzer/samesky/cst-911rp-a.pdf		1	CST-911RP-A					
+buzzer	samesky	CST	datasheets/buzzer/samesky/cst-931ap.pdf		1	CST-931AP					
+buzzer	samesky	CST	datasheets/buzzer/samesky/cst-931rp-a.pdf		1	CST-931RP-A					
+buzzer	samesky	CST	datasheets/buzzer/samesky/cst-951ap.pdf		1	CST-951AP					
+buzzer	samesky	CST	datasheets/buzzer/samesky/cst-951rp-a.pdf		1	CST-951RP-A					
+buzzer	samesky	CT	datasheets/buzzer/samesky/ct-1205-smt-tr.pdf		1	CT-1205-SMT-TR					
+buzzer	samesky	CT	datasheets/buzzer/samesky/ct-1205c-smt-tr.pdf		1	CT-1205C-SMT-TR					
+buzzer	samesky	CT	datasheets/buzzer/samesky/ct-1205cl-smt-tr.pdf		1	CT-1205CL-SMT-TR					
+buzzer	samesky	CT	datasheets/buzzer/samesky/ct-1205h-smt-tr.pdf		1	CT-1205H-SMT-TR					
+buzzer	samesky	CT	datasheets/buzzer/samesky/ct-1212cl-smt-tr.pdf		1	CT-1212CL-SMT-TR					
+buzzer	samesky	CX	datasheets/buzzer/samesky/cx-0905c.pdf		1	CX-0905C					
+buzzer	samesky	CX	datasheets/buzzer/samesky/cx-1606c.pdf		1	CX-1606C					
+buzzer	samesky	CX	datasheets/buzzer/samesky/cx-1612c.pdf		1	CX-1612C					
+fuse	eaton	0603HV	datasheets/fuse/eaton/eaton-0603hv-fast-acting-chip-surface-mount-fuse-data-sheet.pdf	0603 (1608 Metric)	4	TR-0603HV1-25-R					
+fuse	eaton	1025FA	datasheets/fuse/eaton/eaton-1025fa-surface-mount-fuse-data-sheet.pdf	2-SMD, Square End Block	1	TR2/1025FA7-R					
+fuse	eaton	1025HC	datasheets/fuse/eaton/eaton-1025hc-fuse-product-aid.pdf	2-SMD, Square End Block	4	1025HC50-RTR					
+fuse	eaton	1145HV	datasheets/fuse/eaton/eaton-1145hv-high-voltage-fast-acting-brick-fuse-data-sheet-elx1039-en.pdf	2-SMD, Square End Block	4	TR-1145HV1-R					
+fuse	eaton	1145HVA	datasheets/fuse/eaton/eaton-1145hva-automotive-high-voltage-fast-acting-brick-fuse-elx1040-en.pdf	2-SMD, Square End Block	4	TR-1145HVA1-25-R					
+fuse	eaton	1245HC	datasheets/fuse/eaton/eaton-1245hc-fast-acting-brick-fuse-data-sheet.pdf	2-SMD, Square End Block	3	1245HC60-RTR					
+fuse	eaton	1245UMFF	datasheets/fuse/eaton/eaton-1245umff-universal-modular-fuse-fast-acting-smt-data-sheet-elx1120-en.pdf	2-SMD, Square End Block	4	TR-1245UMFF800-R					
+fuse	eaton	1350HV	datasheets/fuse/eaton/eaton-1350hv-high-voltage-fast-acting-brick-fuse-data-sheet-elx1041-en.pdf	2-SMD, Square End Block	4	TR-1350HV3-15-R					
+fuse	eaton	2410FA	datasheets/fuse/eaton/eaton-2410fa-high-current-fast-acting-smt-brick-fuse-data-sheet-elx1196-en.pdf	2-SMD, Square End Block	4	TR1-2410FA15-R					
+fuse	eaton	2410TD	datasheets/fuse/eaton/eaton-2410td-high-current-fast-acting-smt-brick-fuse-data-sheet-elx1195-en.pdf	2-SMD, Square End Block	4	TR1-2410TD1-5-R					
+fuse	eaton	2822HC	datasheets/fuse/eaton/eaton-2822hc-high-current-brick-fuse-data-sheet-elx1147-en.pdf	2-SMD, J-Lead	4	2822HC70-RTR					
+fuse	eaton	3250HV	datasheets/fuse/eaton/eaton-3250hv-high-voltage-smd-brick-fuse-data-sheet-elx1439.pdf	2-SMD, Square End Block	4	3250HV2-5-R					
+fuse	eaton	3250HVA	datasheets/fuse/eaton/eaton-3250hva-automotive-high-voltage-smd-brick-fuse-data-sheet-elx1440.pdf	2-SMD, Square End Block	4	TR-3250HVA800-R					
+fuse	eaton	ABC	datasheets/fuse/eaton/eaton-abc-fast-acting-ceramic-tube-fuses-data-sheet.pdf	3AB, 3AG, 1/4" x 1-1/4"	6	BK/ABC-10-R					
+fuse	eaton	ABC	datasheets/fuse/eaton/eaton-abc-fast-acting-ceramic-tube-fuses-data-sheet.pdf	3AB, 3AG, 1/4" x 1-1/4" (Axial)	3	BK/ABC-V-12-R					
+fuse	eaton	ADC	datasheets/fuse/eaton/eaton-adc-3ab-high-voltage-fuse-data-sheet-elx1122-en.pdf	3AB, 3AG, 1/4" x 1-1/4" (Axial)	2	BK-ADC-V2-12-R					
+fuse	eaton	AGC	datasheets/fuse/eaton/eaton-agc-fast-acting-glass-tube-fuses-data-sheet.pdf	3AB, 3AG, 1/4" x 1-1/4"	7	BK/AGC-2-R					
+fuse	eaton	AGC	datasheets/fuse/eaton/eaton-agc-fast-acting-glass-tube-fuses-data-sheet.pdf	3AB, 3AG, 1/4" x 1-1/4" (Axial)	3	BK/AGC-V-8-R					
+fuse	eaton	AGC-V	datasheets/fuse/eaton/eaton-agc-fast-acting-glass-tube-fuses-data-sheet.pdf	3AB, 3AG, 1/4" x 1-1/4" (Axial)	1	BK/AGC-V-3-1/2R					
+fuse	eaton	AHC	datasheets/fuse/eaton/eaton-ahc-3ab-high-voltage-fuse-data-sheet-elx1121-en.pdf	3AB, 3AG, 1/4" x 1-1/4" (Axial)	2	BK-AHC-V-1-6-R					
+fuse	eaton	AHC	datasheets/fuse/eaton/eaton-ahc-high-voltage-fuse-data-sheet-elx1123-en.pdf	3AB, 3AG, 1/4" x 1-1/4" (Axial)	1	TR/AHC-V-30-R					
+fuse	eaton	AHCA	datasheets/fuse/eaton/eaton-ahc-3ab-high-voltage-fuse-data-sheet-elx1121-en.pdf	3AB, 3AG, 1/4" x 1-1/4"	1	BK/AHCA-30-R					
+fuse	eaton	BRICK 1025FA	datasheets/fuse/eaton/eaton-1025fa-surface-mount-fuse-data-sheet.pdf	2-SMD, Square End Block	4	TR2/1025FA1.5-R					
+fuse	eaton	BRICK 1025TD	datasheets/fuse/eaton/eaton-1025td-time-delay-surface-mount-fuse-data-sheet.pdf	2-SMD, Square End Block	4	TR2/1025TD3.5-R					
+fuse	eaton	C310T-SC	datasheets/fuse/eaton/eaton-c310t-sc-time-delay-axial-lead-ceramic-tube-fuses-data-sheet.pdf	Cartridge, Non-Standard (Axial)	3	C310T-SC-2-5-R-TR1					
+fuse	eaton	CB61F	datasheets/fuse/eaton/eaton-cb61f-surface-mount-brick-fuses-data-sheet.pdf	2-SMD, Square End Block	4	CB61F5A-TR1					
+fuse	eaton	CC06FA	datasheets/fuse/eaton/eaton-cc06fa-automotive-fast-acting-chip-surface-mount-fuse-data-sheet.pdf	0603 (1608 Metric)	4	CC06FA500MA-TR					
+fuse	eaton	CC06H	datasheets/fuse/eaton/eaton-cc06h-high-i2t-chip-0603-size-fuses-data-sheet.pdf	0603 (1608 Metric)	4	CC06H3.5A-TR					
+fuse	eaton	CC12H	datasheets/fuse/eaton/eaton-cc12h-high-i2t-chip-fuses-data-sheet.pdf	1206 (3216 Metric)	4	CC12H5A-TR					
+fuse	eaton	CHIP 3216LV	datasheets/fuse/eaton/eaton-3216lv-surface-mount-fuse-data-sheet.pdf	1206 (3216 Metric)	4	TR/3216LV1-R					
+fuse	eaton	CHIP 3216TD	datasheets/fuse/eaton/eaton-3216td-time-delay-chip-surface-mount-fuse-data-sheet.pdf	1206 (3216 Metric)	4	TR/3216TD12-R					
+fuse	eaton	CHIP™ 0603FA	datasheets/fuse/eaton/eaton-0603fa-fast-acting-chip-surface-mount-fuse-data-sheet.pdf	0603 (1608 Metric)	4	TR/0603FA5-R					
+fuse	eaton	Chip 3216FF	datasheets/fuse/eaton/eaton-3216ff-surface-mount-fuse-data-sheet.pdf	1206 (3216 Metric)	4	TR/3216FF750-R					
+fuse	eaton	GBB	datasheets/fuse/eaton/eaton-gbb-ceramic-tube-fuses-data-sheet.pdf	3AB, 3AG, 1/4" x 1-1/4"	4	BK/GBB-12-R					
+fuse	eaton	GBB	datasheets/fuse/eaton/eaton-gbb-ceramic-tube-fuses-data-sheet.pdf	3AB, 3AG, 1/4" x 1-1/4" (Axial)	1	BK/GBB-V-30-R					
+fuse	eaton	GDB	datasheets/fuse/eaton/eaton-gdb-fast-acting-glass-tube-fuses-data-sheet.pdf	5mm x 20mm	3	BK/GDB-3.15A					
+fuse	eaton	GDB	datasheets/fuse/eaton/eaton-gdb-fast-acting-glass-tube-fuses-data-sheet.pdf	5mm x 20mm (Axial)	3	BK/GDB-V-1.25A					
+fuse	eaton	GDC	datasheets/fuse/eaton/eaton-gdc-time-delay-glass-tube-fuses-data-sheet.pdf	5mm x 20mm	5	BK/GDC-2A					
+fuse	eaton	GDC	datasheets/fuse/eaton/eaton-gdc-time-delay-glass-tube-fuses-data-sheet.pdf	5mm x 20mm (Axial)	1	BK/GDC-V-50MA					
+fuse	eaton	GMA	datasheets/fuse/eaton/eaton-gma-time-delay-glass-tube-fuses-data-sheet.pdf	5mm x 20mm	7	BK1/GMA-2-R					
+fuse	eaton	GMA	datasheets/fuse/eaton/eaton-gma-time-delay-glass-tube-fuses-data-sheet.pdf	5mm x 20mm (Axial)	3	BK/GMA-V-8-R					
+fuse	eaton	GMC	datasheets/fuse/eaton/eaton-gmc-medium-time-delay-glass-tube-fuses-data-sheet.pdf	5mm x 20mm	6	BK1/GMC-1.6-R					
+fuse	eaton	GMC	datasheets/fuse/eaton/eaton-gmc-medium-time-delay-glass-tube-fuses-data-sheet.pdf	5mm x 20mm (Axial)	3	BK/GMC-V-500-R					
+fuse	eaton	GMD	datasheets/fuse/eaton/eaton-gmd-time-delay-glass-tube-fuses-data-sheet.pdf	5mm x 20mm	6	BK/GMD-1.6-R					
+fuse	eaton	GMD	datasheets/fuse/eaton/eaton-gmd-time-delay-glass-tube-fuses-data-sheet.pdf	5mm x 20mm (Axial)	3	BK/GMD-V-500-R					
+fuse	eaton	MDA	datasheets/fuse/eaton/eaton-mda-time-delay-ceramic-tube-fuses-data-sheet.pdf	3AB, 3AG, 1/4" x 1-1/4"	7	BK/MDA-12-R					
+fuse	eaton	MDA	datasheets/fuse/eaton/eaton-mda-time-delay-ceramic-tube-fuses-data-sheet.pdf	3AB, 3AG, 1/4" x 1-1/4" (Axial)	3	BK/MDA-V-30BX-R					
+fuse	eaton	MDH-R	datasheets/fuse/eaton/eaton-mdh-r-ferrule-and-axial-lead-i2t-ceramic-tube-fuses-data-sheet.pdf	3AB, 3AG, 1/4" x 1-1/4" (Axial)	1	MDH-V-21-RTR					
+fuse	eaton	MDL	datasheets/fuse/eaton/eaton-fuse-accessory-selection-guide.pdf	3AB, 3AG, 1/4" x 1-1/4"	1	BK/MDL175/1000R					
+fuse	eaton	MDL	datasheets/fuse/eaton/eaton-mdl-time-delay-glass-tube-fuses-data-sheet.pdf	3AB, 3AG, 1/4" x 1-1/4"	5	BK/MDL-1-1/8-R					
+fuse	eaton	MDL	datasheets/fuse/eaton/eaton-mdl-time-delay-glass-tube-fuses-data-sheet.pdf	3AB, 3AG, 1/4" x 1-1/4" (Axial)	3	BK/MDL-V-1/2-R					
+fuse	eaton	MDP	datasheets/fuse/eaton/eaton-mdp-time-delay-ceramic-fuse-data-sheet-elx1401-en.pdf	3AB, 3AG, 1/4" x 1-1/4"	6	BK1-MDP-15-R					
+fuse	eaton	PC-Tron®	datasheets/fuse/eaton/eaton-pc-tron-subminiature-radial-leaded-fuses-data-sheet.pdf	Radial, Box	3	TR/PCB-1-R					
+fuse	eaton	S500	datasheets/fuse/eaton/eaton-s500-glass-tube-fuses-data-sheet.pdf	5mm x 20mm	6	BK/S500-2-R					
+fuse	eaton	S500	datasheets/fuse/eaton/eaton-s500-glass-tube-fuses-data-sheet.pdf	5mm x 20mm (Axial)	3	BK/S500-V-630-R					
+fuse	eaton	S501	datasheets/fuse/eaton/eaton-s501-ceramic-tube-fuses-data-sheet.pdf	5mm x 20mm	6	BK1/S501-80-R					
+fuse	eaton	S501	datasheets/fuse/eaton/eaton-s501-ceramic-tube-fuses-data-sheet.pdf	5mm x 20mm (Axial)	3	BK/S501-V-125-R					
+fuse	eaton	S505	datasheets/fuse/eaton/eaton-s505-ferrule-time-delay-ceramic-tube-fuses-data-sheet.pdf	5mm x 20mm	6	BK/S505-2.5-R					
+fuse	eaton	S505	datasheets/fuse/eaton/eaton-s505-ferrule-time-delay-ceramic-tube-fuses-data-sheet.pdf	5mm x 20mm (Axial)	1	TR2/S505SC-1.6-R					
+fuse	eaton	S505	datasheets/fuse/eaton/eaton-s505sc-time-delay-axial-lead-ceramic-tube-fuses-data-sheet.pdf	5mm x 20mm (Axial)	2	BK-S505SC-8-R					
+fuse	eaton	S505H	datasheets/fuse/eaton/eaton-s505h-vac-time-delay-fuses-data-sheet.pdf	5mm x 20mm	6	BK1-S505H-1-R					
+fuse	eaton	S505H	datasheets/fuse/eaton/eaton-s505h-vac-time-delay-fuses-data-sheet.pdf	5mm x 20mm (Axial)	3	TR2-S505H-V-2.5-R					
+fuse	eaton	S505SCH	datasheets/fuse/eaton/eaton-s505sch-time-delay-axial-lead-ceramic-tube-fuses-data-sheet.pdf	5mm x 20mm (Axial)	3	BK/S505SCH-5-R					
+fuse	eaton	S520	datasheets/fuse/eaton/eaton-s520-fast-acting-ceramic-tube-fuse-data-sheet.pdf	5mm x 20mm (Axial)	1	BK/S520-V-15-R					
+fuse	eaton	SR-5	datasheets/fuse/eaton/eaton-sr-5-subminiature-time-delay-fuses-data-sheet.pdf	Radial, Can, Vertical	3	SR-5-1A-AP					
+fuse	eaton	SR-5F	datasheets/fuse/eaton/eaton-sr-5f-subminiature-fast-acting-fuses-data-sheet.pdf	Radial, Can, Vertical	3	SR-5F-800MA-BK					
+fuse	eaton	SR-5H	datasheets/fuse/eaton/eaton-ss-5h-subminiature-radial-leaded-time-delay-fuses-data-sheet.pdf	Radial, Can, Vertical	3	SR-5H-3.15A-AP					
+fuse	eaton	SS-5	datasheets/fuse/eaton/eaton-ss-5-radial-leaded-time-delay-fuses-data-sheet.pdf	Radial, Box	3	SS-5-800MA-AP					
+fuse	eaton	SS-5F	datasheets/fuse/eaton/eaton-ss-5f-subminiature-fast-acting-fuse-data-sheet.pdf	Radial, Box	4	SS-5F-10A-AP					
+fuse	eaton	SS-5FH	datasheets/fuse/eaton/eaton-ss-5fh-subminiature-fast-acting-fuses-data-sheet.pdf	Radial, Box	1	SS-5FH-3.15A-AP					
+fuse	eaton	SS-5H	datasheets/fuse/eaton/eaton-ss-5h-subminiature-radial-leaded-time-delay-fuses-data-sheet.pdf	Radial, Box	3	SS-5H-3.15A-APH					
+fuse	littelfuse	-	datasheets/fuse/littelfuse/littelfuse-fuse-483-datasheet.pdf	1206 (3216 Metric)	2	0483005.DR					
+fuse	littelfuse	208	datasheets/fuse/littelfuse/fuse-208-datasheet.pdf	2AG, 5mm x 15mm (Axial)	1	0208.500MXEP					
+fuse	littelfuse	209	datasheets/fuse/littelfuse/fuse-209-datasheet.pdf	2AG, 5mm x 15mm (Axial)	1	0209007.MXEP					
+fuse	littelfuse	213	datasheets/fuse/littelfuse/fuse-213-datasheet.pdf	5mm x 20mm	4	0213001.MXP					
+fuse	littelfuse	213	datasheets/fuse/littelfuse/fuse-213-datasheet.pdf	5mm x 20mm (Axial)	1	0213001.MRET1P					
+fuse	littelfuse	215	datasheets/fuse/littelfuse/fuse-215-datasheet.pdf	5mm x 20mm	5	0215016.MXP					
+fuse	littelfuse	215	datasheets/fuse/littelfuse/fuse-215-datasheet.pdf	5mm x 20mm (Axial)	2	0215020.MXEP					
+fuse	littelfuse	215SP	datasheets/fuse/littelfuse/fuse-215sp-datasheet.pdf	5mm x 20mm (Axial)	2	0215001.MXESPP					
+fuse	littelfuse	216	datasheets/fuse/littelfuse/fuse-216-lead-free-datasheet.pdf	5mm x 20mm	4	021606.3MXP					
+fuse	littelfuse	216	datasheets/fuse/littelfuse/fuse-216-lead-free-datasheet.pdf	5mm x 20mm (Axial)	2	0216.050MXEP					
+fuse	littelfuse	216SP	datasheets/fuse/littelfuse/fuse-216sp-datasheet.pdf	5mm x 20mm (Axial)	2	0216010.MXESPP					
+fuse	littelfuse	217	datasheets/fuse/littelfuse/fuse-217-datasheet.pdf	5mm x 20mm	5	0217005.MXP					
+fuse	littelfuse	217	datasheets/fuse/littelfuse/fuse-217-datasheet.pdf	5mm x 20mm (Axial)	2	0217.630MXEP					
+fuse	littelfuse	218	datasheets/fuse/littelfuse/fuse-218-datasheet.pdf	5mm x 20mm	5	0218002.HXP					
+fuse	littelfuse	218	datasheets/fuse/littelfuse/fuse-218-datasheet.pdf	5mm x 20mm (Axial)	1	0218001.MRET1P					
+fuse	littelfuse	219XA	datasheets/fuse/littelfuse/fuse-219xa-datasheet.pdf	5mm x 20mm	5	0219004.MXAP					
+fuse	littelfuse	220	datasheets/fuse/littelfuse/littelfuse-fuse-220-datasheet.pdf	2AG, 5mm x 15mm (Axial)	1	02200007MXP					
+fuse	littelfuse	224	datasheets/fuse/littelfuse/fuse-224-and-225-datasheet.pdf	2AG, 5mm x 15mm (Axial)	2	0224001.HXP					
+fuse	littelfuse	230	datasheets/fuse/littelfuse/fuse-229-and-230-datasheet.pdf	Cartridge, Non-Standard (Axial)	2	0230003.HXP					
+fuse	littelfuse	232	datasheets/fuse/littelfuse/fuse-232-datasheet.pdf	5mm x 20mm	3	0232002.MXP					
+fuse	littelfuse	233	datasheets/fuse/littelfuse/fuse-233-datasheet.pdf	5mm x 20mm	4	0233004.MXP					
+fuse	littelfuse	234	datasheets/fuse/littelfuse/fuse-234-datasheet.pdf	5mm x 20mm	5	0234010.MXP					
+fuse	littelfuse	234	datasheets/fuse/littelfuse/fuse-234-datasheet.pdf	5mm x 20mm (Axial)	1	0234001.MXEP					
+fuse	littelfuse	235	datasheets/fuse/littelfuse/fuse-235p-lead-free-datasheet.pdf	5mm x 20mm	5	0235003.HXP					
+fuse	littelfuse	239	datasheets/fuse/littelfuse/fuse-239-datasheet.pdf	5mm x 20mm	5	0239003.HXP					
+fuse	littelfuse	312	datasheets/fuse/littelfuse/fuse-312-and-318-datasheet.pdf	3AB, 3AG, 1/4" x 1-1/4"	5	0312008.MXP					
+fuse	littelfuse	313	datasheets/fuse/littelfuse/fuse-313-and-315-datasheet.pdf	3AB, 3AG, 1/4" x 1-1/4"	5	0313010.MX250P					
+fuse	littelfuse	314	datasheets/fuse/littelfuse/fuse-314-and-324-datasheet.pdf	3AB, 3AG, 1/4" x 1-1/4"	5	0314015.MXP					
+fuse	littelfuse	324	datasheets/fuse/littelfuse/fuse-314-and-324-datasheet.pdf	3AB, 3AG, 1/4" x 1-1/4" (Axial)	2	0324040.MXP					
+fuse	littelfuse	325	datasheets/fuse/littelfuse/fuse-325-and-326-datasheet.pdf	3AB, 3AG, 1/4" x 1-1/4" (Axial)	2	0325015.MXP					
+fuse	littelfuse	326	datasheets/fuse/littelfuse/fuse-325-and-326-datasheet.pdf	3AB, 3AG, 1/4" x 1-1/4"	4	0326015.HXP					
+fuse	littelfuse	358	datasheets/fuse/littelfuse/fuse-358-datasheet.pdf	3AB, 3AG, 1/4" x 1-1/4"	2	35821000029					
+fuse	littelfuse	407	datasheets/fuse/littelfuse/littelfuse-fuse-407-datasheet.pdf	1206 (3216 Metric)	2	0407006.WR					
+fuse	littelfuse	407A	datasheets/fuse/littelfuse/littelfuse-fuse-407a-series-datasheet.pdf	1206 (3216 Metric)	2	040701.5WRA					
+fuse	littelfuse	435	datasheets/fuse/littelfuse/fuse-435-datasheet.pdf	0402 (1005 Metric)	3	0435.500KR					
+fuse	littelfuse	437	datasheets/fuse/littelfuse/fuse-437-datasheet.pdf	1206 (3216 Metric)	2	0437001.WR					
+fuse	littelfuse	437A	datasheets/fuse/littelfuse/littelfuse-fuse-437a-datasheet.pdf	1206 (3216 Metric)	2	0437.500WRA					
+fuse	littelfuse	438	datasheets/fuse/littelfuse/fuse-438-datasheet.pdf	0603 (1608 Metric)	2	0438.500WR					
+fuse	littelfuse	438A	datasheets/fuse/littelfuse/littelfuse-fuse-438a-datasheet.pdf	0603 (1608 Metric)	2	0438.500WRA					
+fuse	littelfuse	438GT	datasheets/fuse/littelfuse/fuse-438gt-datasheet.pdf	0603 (1608 Metric)	2	0438002.WRGT					
+fuse	littelfuse	440	datasheets/fuse/littelfuse/fuse-440-datasheet.pdf	1206 (3216 Metric)	3	0440001.WR					
+fuse	littelfuse	440A	datasheets/fuse/littelfuse/littelfuse-fuse-440a-datasheet.pdf	1206 (3216 Metric)	2	0440002.WRA					
+fuse	littelfuse	441	datasheets/fuse/littelfuse/fuse-441-datasheet.pdf	0603 (1608 Metric)	2	0441003.WR					
+fuse	littelfuse	441A	datasheets/fuse/littelfuse/littelfuse-fuse-441a-datasheet.pdf	0603 (1608 Metric)	2	0441005.WRA					
+fuse	littelfuse	463	datasheets/fuse/littelfuse/fuse-463-datasheet.pdf	2-SMD, Square End Block	2	0463015.ER					
+fuse	littelfuse	467	datasheets/fuse/littelfuse/fuse-467-datasheet.pdf	0603 (1608 Metric)	3	0467.250NR					
+fuse	littelfuse	477	datasheets/fuse/littelfuse/fuse-477-datasheet.pdf	5mm x 20mm	5	047706.3MXP					
+fuse	littelfuse	477	datasheets/fuse/littelfuse/fuse-477-datasheet.pdf	5mm x 20mm (Axial)	2	047706.3MXEP					
+fuse	littelfuse	483A	datasheets/fuse/littelfuse/littelfuse-fuse-483a-datasheet.pdf	1206 (3216 Metric)	2	0483002.DRA					
+fuse	littelfuse	487	datasheets/fuse/littelfuse/littelfuse-fuse-487-series-datasheet.pdf	5mm x 20mm (Axial)	1	0487010.MXEP					
+fuse	littelfuse	494	datasheets/fuse/littelfuse/fuse-494-datasheet.pdf	0603 (1608 Metric)	2	049403.5NRHF					
+fuse	littelfuse	501	datasheets/fuse/littelfuse/fuse-501-datasheet.pdf	1206 (3216 Metric)	3	0501010.WR					
+fuse	littelfuse	501A	datasheets/fuse/littelfuse/littelfuse-fuse-501a-datasheet.pdf	1206 (3216 Metric)	1	0501020.WRA					
+fuse	littelfuse	505	datasheets/fuse/littelfuse/fuse-505-datasheet.pdf	3AB, 3AG, 1/4" x 1-1/4"	4	0505016.MXP					
+fuse	littelfuse	505	datasheets/fuse/littelfuse/fuse-505-datasheet.pdf	3AB, 3AG, 1/4" x 1-1/4" (Axial)	2	0505030.MXEP					
+fuse	littelfuse	508	datasheets/fuse/littelfuse/fuse-508-datasheet.pdf	3AB, 3AG, 1/4" x 1-1/4"	3	0508001.MXP					
+fuse	littelfuse	508	datasheets/fuse/littelfuse/fuse-508-datasheet.pdf	3AB, 3AG, 1/4" x 1-1/4" (Axial)	1	0508001.MXEP					
+fuse	littelfuse	607	datasheets/fuse/littelfuse/littelfuse-fuse-607-series-datasheet.pdf	Radial Bend Cylinder	1	0607050.UXTH500P					
+fuse	littelfuse	875	datasheets/fuse/littelfuse/fuse-875-datasheet.pdf	Cartridge, Non-Standard (Axial)	2	0875010.MXEP					
+fuse	littelfuse	881	datasheets/fuse/littelfuse/littelfuse-fuse-881-datasheet.pdf	2-SMD, J-Lead	2	0881060.UR					
+fuse	littelfuse	977	datasheets/fuse/littelfuse/fuse-977-datasheet.pdf	5mm x 20mm	3	0977004.MXP					
+fuse	littelfuse	977	datasheets/fuse/littelfuse/fuse-977-datasheet.pdf	5mm x 20mm (Axial)	1	0977002.MXEP					
+fuse	littelfuse	AGC	datasheets/fuse/littelfuse/aftermarket-glass-fuse-data-sheet.pdf	3AB, 3AG, 1/4" x 1-1/4"	2	0311005.M					
+fuse	littelfuse	MICRO™ 273	datasheets/fuse/littelfuse/fuse-272-and-279-datasheet.pdf	Radial, Can, Vertical	2	0273.050H					
+fuse	littelfuse	NANO²® 443	datasheets/fuse/littelfuse/fuse-443-datasheet.pdf	2-SMD, Square End Block	3	0443.500DR					
+fuse	littelfuse	NANO²® 448	datasheets/fuse/littelfuse/fuse-448-datasheet.pdf	2-SMD, Square End Block	2	0448012.MR					
+fuse	littelfuse	NANO²® 449	datasheets/fuse/littelfuse/fuses-449-datasheet.pdf	2-SMD, Square End Block	2	0449003.MR					
+fuse	littelfuse	NANO²® 451	datasheets/fuse/littelfuse/fuse-451-and-453-datasheet.pdf	2-SMD, Square End Block	3	0451.250MRL					
+fuse	littelfuse	NANO²® 452	datasheets/fuse/littelfuse/fuse-452-and-454-datasheet.pdf	2-SMD, Square End Block	3	0452004.MRL					
+fuse	littelfuse	NANO²® 453	datasheets/fuse/littelfuse/fuse-451-and-453-datasheet.pdf	2-SMD, Square End Block	2	0453003.MR					
+fuse	littelfuse	NANO²® 454	datasheets/fuse/littelfuse/fuse-452-and-454-datasheet.pdf	2-SMD, Square End Block	2	0454012.MR					
+fuse	littelfuse	NANO²® 456	datasheets/fuse/littelfuse/fuse-456-datasheet.pdf	2-SMD, Square End Block	2	0456030.ER					
+fuse	littelfuse	NANO²® 456SDE	datasheets/fuse/littelfuse/littelfuse-nano2-fuse-456sde-series-datasheet.pdf	2-SMD, Square End Block	2	0456040.DRSDE					
+fuse	littelfuse	NANO²® 458	datasheets/fuse/littelfuse/fuse-458-nano2-datasheet.pdf	1206 (3216 Metric)	2	0458002.DR					
+fuse	littelfuse	NANO²® 462	datasheets/fuse/littelfuse/fuse-462-datasheet.pdf	Nonstandard SMD	1	46205000000					
+fuse	littelfuse	NANO²® 464	datasheets/fuse/littelfuse/fuse-464-datasheet.pdf	2-SMD, Square End Block	1	0464.500DR					
+fuse	littelfuse	NANO²® 465	datasheets/fuse/littelfuse/fuse-465-datasheet.pdf	2-SMD, Square End Block	2	0465005.DR					
+fuse	littelfuse	NANO²® 885	datasheets/fuse/littelfuse/littelfuse-fuse-885-datasheet.pdf	2-SMD, Square End Block	2	0885005.DR					
+fuse	littelfuse	NANO²®470	datasheets/fuse/littelfuse/littelfuse-fuse-470-datasheet.pdf	1206 (3216 Metric)	2	0470001.DRSNP					
+fuse	littelfuse	NANO²®476	datasheets/fuse/littelfuse/littelfuse-fuse-476-datasheet.pdf	2-SMD, Square End Block	2	0476015.MRSN					
+fuse	littelfuse	Nano²® 443LC	datasheets/fuse/littelfuse/fuse-443lc-datasheet.pdf	2-SMD, Square End Block	2	0443004.DRLC					
+fuse	littelfuse	OMNI-BLOK® 154	datasheets/fuse/littelfuse/littelfuse-fuse-154-series-data-sheet.pdf	2-SMD, Square End Block with Holder	1	0154001.DR					
+fuse	littelfuse	PICO® 275	datasheets/fuse/littelfuse/fuse-275-and-276-datasheet.pdf	Axial	1	0275025.MXL					
+fuse	littelfuse	PICO® 277	datasheets/fuse/littelfuse/military-components.pdf	Axial	1	0277.250M					
+fuse	littelfuse	PICO® 459	datasheets/fuse/littelfuse/fuse-459-pico-smf-datasheet.pdf	2-SMD, J-Lead	2	0459001.UR					
+fuse	littelfuse	PICO® 460	datasheets/fuse/littelfuse/fuse-460-pico-smf-datasheet.pdf	2-SMD, J-Lead	2	0460005.UR					
+fuse	littelfuse	PICO® II 251	datasheets/fuse/littelfuse/fuse-251-datasheet.pdf	Axial	3	0251.125MXL					
+fuse	littelfuse	PICO® II 263	datasheets/fuse/littelfuse/fuse-263-datasheet.pdf	Axial	2	0263005.WRT1L					
+fuse	littelfuse	PICO® II 471	datasheets/fuse/littelfuse/littelfuse_fuse_471_datasheet.pdf	Axial	2	0471005.NRT1L					
+fuse	littelfuse	PICO® II 473	datasheets/fuse/littelfuse/fuse-473-datasheet.pdf	Axial	2	0473005.MRT1L					
+fuse	littelfuse	PICO® II 521	datasheets/fuse/littelfuse/littelfuse-fuse-pico-521-datasheet.pdf	Axial	2	05213.15MAT1L					
+fuse	littelfuse	SlimLine™ 466	datasheets/fuse/littelfuse/fuse-466-datasheet.pdf	1206 (3216 Metric)	3	0466.125NRHF					
+fuse	littelfuse	SlimLine™ 468	datasheets/fuse/littelfuse/fuse-468-datasheet.pdf	1206 (3216 Metric)	2	0468002.NR					
+fuse	littelfuse	TE5® 369	datasheets/fuse/littelfuse/fuse-369-datasheet.pdf	Radial, Box	2	36911000000					
+fuse	littelfuse	TE5® 385	datasheets/fuse/littelfuse/fuse-385-datasheet.pdf	Radial, Box	2	38503500000					
+fuse	littelfuse	TE5® 391	datasheets/fuse/littelfuse/fuse-391-datasheet.pdf	Radial, Box	2	39113150000					
+fuse	littelfuse	TE5® 392	datasheets/fuse/littelfuse/fuse-392-datasheet.pdf	Radial, Box	2	39212000000					
+fuse	littelfuse	TE5® 395	datasheets/fuse/littelfuse/fuse-395-datasheet.pdf	Radial, Box	2	39512000440					
+fuse	littelfuse	TE5® 396	datasheets/fuse/littelfuse/fuse-396-datasheet.pdf	Radial, Box	2	39612500440					
+fuse	littelfuse	TE5® 400	datasheets/fuse/littelfuse/fuse-400-datasheet.pdf	Radial, Box	2	40012000440					
+fuse	littelfuse	TR5® 370	datasheets/fuse/littelfuse/fuse-370-datasheet.pdf	Radial, Can, Vertical	2	37014000410					
+fuse	littelfuse	TR5® 372	datasheets/fuse/littelfuse/fuse-372-datasheet.pdf	Radial, Can, Vertical	2	37211000411					
+fuse	littelfuse	TR5® 373	datasheets/fuse/littelfuse/fuse-373-datasheet.pdf	Radial, Can, Vertical	2	37315000410					
+fuse	littelfuse	TR5® 374	datasheets/fuse/littelfuse/fuse-374-datasheet.pdf	Radial, Can, Vertical	2	37416300410					
+fuse	littelfuse	TR5® 382	datasheets/fuse/littelfuse/fuse-382-datasheet.pdf	Radial, Can, Vertical	2	38211000000					
+fuse	littelfuse	TR5® 383	datasheets/fuse/littelfuse/fuse-383-datasheet.pdf	Radial, Can, Vertical	2	38311000000					
+fuse	schurter	-	datasheets/fuse/schurter/typ_USL_0603.pdf	0603 (1608 Metric)	2	3-124-964					
+fuse	schurter	2410	datasheets/fuse/schurter/typ_USE_2410.pdf	2410 (6125 Metric), Concave	4	3-148-703					
+fuse	schurter	A12FA	datasheets/fuse/schurter/typ_A12FA_250V.pdf	3AB, 3AG, 1/4" x 1-1/4"	3	7022.0470					
+fuse	schurter	A12FA	datasheets/fuse/schurter/typ_A12FA_500V.pdf	3AB, 3AG, 1/4" x 1-1/4"	1	7022.0560					
+fuse	schurter	A12FA	datasheets/fuse/schurter/typ_A12FA_660V.pdf	3AB, 3AG, 1/4" x 1-1/4"	1	7022.0750					
+fuse	schurter	D1	datasheets/fuse/schurter/typ_D1.pdf	5mm x 20mm	5	7010.3410					
+fuse	schurter	FRT 250F	datasheets/fuse/schurter/typ_FRT_250F.pdf	Radial, Box	9	7100.1167.96					
+fuse	schurter	FRT 250T	datasheets/fuse/schurter/typ_FRT_250T.pdf	Radial, Box	7	7100.1020.13					
+fuse	schurter	FSF 5x20	datasheets/fuse/schurter/typ_FSF_5x20.pdf	5mm x 20mm	6	0034.1524					
+fuse	schurter	FSM 5x20	datasheets/fuse/schurter/typ_FSM_5x20.pdf	5mm x 20mm	5	0034.2516					
+fuse	schurter	FST 5x20	datasheets/fuse/schurter/typ_FST_5x20.pdf	5mm x 20mm	6	0034.3130					
+fuse	schurter	FST 5x20	datasheets/fuse/schurter/typ_FST_5x20_Pigtail.pdf	5mm x 20mm (Axial)	9	0034.3126.TR					
+fuse	schurter	FTT 5x20	datasheets/fuse/schurter/typ_FTT_5x20.pdf	5mm x 20mm	5	0034.5049					
+fuse	schurter	MGA	datasheets/fuse/schurter/typ_MGA.pdf	2-SMD, Square End Block	4	3410.0033.03					
+fuse	schurter	MGA-A	datasheets/fuse/schurter/typ_MGA-A.pdf	2-SMD, Square End Block	4	3-103-127					
+fuse	schurter	OMF 125	datasheets/fuse/schurter/typ_OMF_125.pdf	2-SMD, J-Lead	4	3404.0021.22					
+fuse	schurter	OMF 250	datasheets/fuse/schurter/typ_OMF_250.pdf	2-SMD, J-Lead	4	3403.0022.24					
+fuse	schurter	OMF 63	datasheets/fuse/schurter/typ_OMF_63.pdf	2-SMD, J-Lead	4	3402.0040.24					
+fuse	schurter	OMT	datasheets/fuse/schurter/typ_OMT.pdf	2-SMD, J-Lead	4	3403.0123.24					
+fuse	schurter	OMT 125	datasheets/fuse/schurter/typ_OMT_125.pdf	2-SMD, J-Lead	5	3404.0117.22					
+fuse	schurter	SA 5x20	datasheets/fuse/schurter/typ_SA_5x20.pdf	5mm x 20mm	5	0034.0903					
+fuse	schurter	SHF 6.3x32	datasheets/fuse/schurter/typ_SHF_6.3x32.pdf	3AB, 3AG, 1/4" x 1-1/4"	6	8020.5079					
+fuse	schurter	SHF 6.3x32	datasheets/fuse/schurter/typ_SHF_6.3x32_Pigtail.pdf	3AB, 3AG, 1/4" x 1-1/4" (Axial)	7	8020.5070.PT					
+fuse	schurter	SHT 6.3X32	datasheets/fuse/schurter/typ_SHT_6.3x32.pdf	3AB, 3AG, 1/4" x 1-1/4"	1	8020.5020					
+fuse	schurter	SHT 6.3x32	datasheets/fuse/schurter/typ_SHT_6.3x32.pdf	3AB, 3AG, 1/4" x 1-1/4"	6	8020.5018					
+fuse	schurter	SHT 6.3x32	datasheets/fuse/schurter/typ_SHT_6.3x32_Pigtail.pdf	3AB, 3AG, 1/4" x 1-1/4" (Axial)	3	8020.5021.PT					
+fuse	schurter	SMD-FST	datasheets/fuse/schurter/typ_SMD-FST_5x20.pdf	5mm x 20mm	5	0034.5625.22					
+fuse	schurter	SMD-SPT	datasheets/fuse/schurter/typ_SMD-SPT_5x20.pdf	5mm x 20mm	6	0001.2711.11					
+fuse	schurter	SP 5x20	datasheets/fuse/schurter/typ_SP_5x20.pdf	5mm x 20mm	6	0001.1012					
+fuse	schurter	SP 5x20	datasheets/fuse/schurter/typ_SP_5x20_Pigtail.pdf	5mm x 20mm (Axial)	9	0001.1012.PT					
+fuse	schurter	SPT 3.6x10	datasheets/fuse/schurter/typ_SPT_3.6x10.pdf	Cartridge, Non-Standard (Axial)	9	8020.0514.PT					
+fuse	schurter	SPT 5x20	datasheets/fuse/schurter/typ_SPT_5x20.pdf	5mm x 20mm	6	0001.2513					
+fuse	schurter	SPT 5x20	datasheets/fuse/schurter/typ_SPT_5x20_Pigtail.pdf	5mm x 20mm (Axial)	9	0001.2513.TR					
+fuse	schurter	SPT 6.3x32	datasheets/fuse/schurter/typ_SPT_6.3x32.pdf	3AB, 3AG, 1/4" x 1-1/4"	5	0001.2533					
+fuse	schurter	SUT 6.3x32	datasheets/fuse/schurter/typ_SUT_6.3x32.pdf	3AB, 3AG, 1/4" x 1-1/4"	5	8020.0607.G					
+fuse	schurter	SUT 6.3x32	datasheets/fuse/schurter/typ_SUT_6.3x32_Pigtail.pdf	3AB, 3AG, 1/4" x 1-1/4" (Axial)	5	8020.0605.PT					
+fuse	schurter	SUT-H 6.3x32	datasheets/fuse/schurter/typ_SUT-H_6.3x32.pdf	3AB, 3AG, 1/4" x 1-1/4"	5	8020.0608.H					
+fuse	schurter	SUT-H 6.3x32	datasheets/fuse/schurter/typ_SUT-H_6.3x32_Pigtail.pdf	3AB, 3AG, 1/4" x 1-1/4" (Axial)	8	8020.0607.H.PT					
+fuse	schurter	UHS	datasheets/fuse/schurter/typ_UHS.pdf	2-SMD, J-Lead	2	3-140-178					
+fuse	schurter	UMF 250	datasheets/fuse/schurter/typ_UMF_250.pdf	2-SMD, Square End Block	5	3405.0166.24					
+fuse	schurter	UMK 250	datasheets/fuse/schurter/typ_UMK_250.pdf	2-SMD, Square End Block with Clip	4	3404.2472.22					
+fuse	schurter	UMT 250	datasheets/fuse/schurter/typ_UMT_250.pdf	2-SMD, Square End Block	5	3403.0160.11					
+fuse	schurter	UMT-H	datasheets/fuse/schurter/typ_UMT-H.pdf	2-SMD, Square End Block	5	3403.0266.23					
+fuse	schurter	UMT-W	datasheets/fuse/schurter/typ_UMT-W.pdf	2-SMD, Square End Block	2	3-122-719					
+fuse	schurter	USF 0402	datasheets/fuse/schurter/typ_USF_0402.pdf	0402 (1005 Metric)	5	3414.0123.26					
+fuse	schurter	USF 0603	datasheets/fuse/schurter/typ_USF_0603.pdf	0603 (1608 Metric)	5	3412.0121.22					
+fuse	schurter	USF 1206	datasheets/fuse/schurter/typ_USF_1206.pdf	1206 (3216 Metric)	5	3413.0113.22					
+fuse	schurter	USFF 1206	datasheets/fuse/schurter/typ_USFF_1206.pdf	1206 (3216 Metric)	5	3413.0002.11					
+fuse	schurter	USI 1206	datasheets/fuse/schurter/typ_USI_1206.pdf	1206 (3216 Metric)	5	3413.0222.22					
+fuse	schurter	UST 1206	datasheets/fuse/schurter/typ_UST_1206.pdf	1206 (3216 Metric)	5	3413.0328.22					
+inductor	bourns	1120	datasheets/inductor/bourns/1120_series.pdf	Radial, Vertical Cylinder	1	1120-120K-RC					
+inductor	bourns	1130	datasheets/inductor/bourns/1130_series.pdf	Radial, Vertical Cylinder	1	1130-101K-RC					
+inductor	bourns	1140	datasheets/inductor/bourns/1140_series.pdf	Radial, Vertical Cylinder	2	1140-471K-RC					
+inductor	bourns	2000	datasheets/inductor/bourns/2000_series.pdf	Radial, Vertical (Open)	1	2000-470-V-RC					
+inductor	bourns	2100	datasheets/inductor/bourns/2100_series.pdf	Radial, Horizontal (Open)	2	2124-H-RC					
+inductor	bourns	2100	datasheets/inductor/bourns/2100_series.pdf	Radial, Vertical (Open)	1	2116-V-RC					
+inductor	bourns	2100HT	datasheets/inductor/bourns/2100ht_series.pdf	Radial, Vertical (Open)	1	2100HT-470-V-RC					
+inductor	bourns	2100LL	datasheets/inductor/bourns/2100ll_series.pdf	Radial, Horizontal (Open)	2	2100LL-271-H-RC					
+inductor	bourns	2100LL	datasheets/inductor/bourns/2100ll_series.pdf	Radial, Vertical (Open)	1	2100LL-151-V-RC					
+inductor	bourns	2200	datasheets/inductor/bourns/2200_series.pdf	Radial, Horizontal (Open)	2	2212-H-RC					
+inductor	bourns	2200LL	datasheets/inductor/bourns/2200ll_series.pdf	Radial, Horizontal (Open)	1	2200LL-101-H-RC					
+inductor	bourns	2300	datasheets/inductor/bourns/2300_series.pdf	Radial, Vertical (Open)	3	2319-V-RC					
+inductor	bourns	2300HT	datasheets/inductor/bourns/2300ht_series.pdf	Radial, Horizontal (Open)	1	2300HT-221-H-RC					
+inductor	bourns	2300LL	datasheets/inductor/bourns/2300ll_series.pdf	Radial, Horizontal (Open)	1	2300LL-102-H-RC					
+inductor	bourns	4600	datasheets/inductor/bourns/4600_series.pdf	Axial	3	4604-RC					
+inductor	bourns	5200	datasheets/inductor/bourns/5200_series.pdf	Axial	3	5258-RC					
+inductor	bourns	5300	datasheets/inductor/bourns/5300_series.pdf	Axial	3	5300-08-RC					
+inductor	bourns	5800	datasheets/inductor/bourns/5800_series.pdf	Axial	3	5800-102-RC					
+inductor	bourns	5900	datasheets/inductor/bourns/5900_series.pdf	Axial	3	5900-100-RC					
+inductor	bourns	6000	datasheets/inductor/bourns/6000_series.pdf	Radial, Vertical Cylinder	1	6000-220K-TR-RC					
+inductor	bourns	6100	datasheets/inductor/bourns/6100_series.pdf	Radial, Vertical Cylinder	1	6100-152K-RC					
+inductor	bourns	70F	datasheets/inductor/bourns/70f_series.pdf	Axial	1	70F502AF-RC					
+inductor	bourns	77F	datasheets/inductor/bourns/77F_series.pdf	Axial	3	77F470J-TR-RC					
+inductor	bourns	78F	datasheets/inductor/bourns/78f_series.pdf	Axial	4	78F1R0K-TR-RC					
+inductor	bourns	8230	datasheets/inductor/bourns/8230_series.pdf	Axial	3	8230-56-RC					
+inductor	bourns	9230	datasheets/inductor/bourns/9230_series.pdf	Axial	3	9230-94-TR-RC					
+inductor	bourns	9250A	datasheets/inductor/bourns/9250a_series.pdf	Axial	3	9250A-105-RC					
+inductor	bourns	AC3630R	datasheets/inductor/bourns/AC3630R.pdf	Nonstandard	3	AC3630R-2N5K					
+inductor	bourns	AC4842R	datasheets/inductor/bourns/AC4842R.pdf	Nonstandard	1	AC4842R-27NK					
+inductor	bourns	AC6830R	datasheets/inductor/bourns/AC6830R.pdf	Nonstandard	2	AC6830R-43NG					
+inductor	bourns	CC453232	datasheets/inductor/bourns/CC453232.pdf	1812 (4532 Metric)	1	CC453232-121KL					
+inductor	bourns	CE0603G	datasheets/inductor/bourns/CE0603G.pdf	0201 (0603 Metric)	3	CE0603G-0N6P					
+inductor	bourns	CE0603M	datasheets/inductor/bourns/CE0603M.pdf	0201 (0603 Metric)	3	CE0603M-0N9P					
+inductor	bourns	CE201210	datasheets/inductor/bourns/CE201210.pdf	0805 (2012 Metric)	4	CE201210-3N3J					
+inductor	bourns	CM322522	datasheets/inductor/bourns/cm322522.pdf	Nonstandard	3	CM322522-120KL					
+inductor	bourns	CM45	datasheets/inductor/bourns/CM.pdf	1812 (4532 Metric)	4	CM453232-221KL					
+inductor	bourns	CS160808	datasheets/inductor/bourns/CS160808.pdf	0603 (1608 Metric)	3	CS160808-1R2K					
+inductor	bourns	CV201210	datasheets/inductor/bourns/CV201210.pdf	0805 (2012 Metric)	3	CV201210-1R0K					
+inductor	bourns	CVH252009	datasheets/inductor/bourns/CVH.pdf	1008 (2520 Metric)	2	CVH252009-2R2M					
+inductor	bourns	CW100505	datasheets/inductor/bourns/CW100505.pdf	0402 (1005 Metric)	4	CW100505-4N7J					
+inductor	bourns	CW160808	datasheets/inductor/bourns/cw160808.pdf	0603 (1608 Metric)	1	CW160808-8N2J					
+inductor	bourns	CW201212	datasheets/inductor/bourns/CW201212.pdf	0805 (2012 Metric)	1	CW201212-R47J					
+inductor	bourns	LPA	datasheets/inductor/bourns/lpa.pdf	Axial	1	LPA0618-102KL					
+inductor	bourns	PM1210	datasheets/inductor/bourns/pm1210_series.pdf	1210 (3225 Metric)	1	PM1210-100J-RC					
+inductor	bourns	PM1812	datasheets/inductor/bourns/pm1812_series.pdf	1812 (4532 Metric)	1	PM1812-101J-RC					
+inductor	bourns	PM3316	datasheets/inductor/bourns/pm3316_series.pdf	Nonstandard	1	PM3316-470M-RC					
+inductor	bourns	PM54	datasheets/inductor/bourns/pm54_series.pdf	Nonstandard	3	PM54-151K-RC					
+inductor	bourns	RL181S	datasheets/inductor/bourns/rl181s_series.pdf	Radial, Vertical Cylinder	3	RL181S-104J-RC					
+inductor	bourns	RL822	datasheets/inductor/bourns/rl822_series.pdf	Radial, Vertical Cylinder	3	RL822-3R3K-RC					
+inductor	bourns	RL824	datasheets/inductor/bourns/RL824_series.pdf	Radial, Vertical Cylinder	1	RL824-102K-RC					
+inductor	bourns	RL895	datasheets/inductor/bourns/rl895.pdf	Radial, Vertical Cylinder (Open)	2	RL895-271K-RC					
+inductor	bourns	RLB	datasheets/inductor/bourns/rlb.pdf	Radial, Vertical Cylinder	4	RLB0914-102KL					
+inductor	bourns	RLB0913	datasheets/inductor/bourns/rlb0913.pdf	Radial, Vertical Cylinder	3	RLB0913-100K					
+inductor	bourns	RLB9012	datasheets/inductor/bourns/RLB9012.pdf	Radial, Vertical Cylinder	4	RLB9012-102KL					
+inductor	bourns	SDR0302	datasheets/inductor/bourns/SDR0302.pdf	Nonstandard	1	SDR0302-820KL					
+inductor	bourns	SDR0403	datasheets/inductor/bourns/sdr0403.pdf	Nonstandard	4	SDR0403-3R3ML					
+inductor	bourns	SDR0503	datasheets/inductor/bourns/SDR0503.pdf	Nonstandard	2	SDR0503-153JL					
+inductor	bourns	SDR0603	datasheets/inductor/bourns/SDR0603.pdf	Nonstandard	1	SDR0603-471KL					
+inductor	bourns	SDR0604	datasheets/inductor/bourns/SDR0604.pdf	Nonstandard	1	SDR0604-680KL					
+inductor	bourns	SDR0805	datasheets/inductor/bourns/SDR0805.pdf	Nonstandard	3	SDR0805-102KL					
+inductor	bourns	SDR1005	datasheets/inductor/bourns/SDR1005.pdf	Nonstandard	2	SDR1005-470KL					
+inductor	bourns	SDR1006	datasheets/inductor/bourns/SDR1006.pdf	Nonstandard	4	SDR1006-221KL					
+inductor	bourns	SDR1030	datasheets/inductor/bourns/SDR1030.pdf	Nonstandard	1	SDR1030-4R7M					
+inductor	bourns	SRN1060	datasheets/inductor/bourns/SRN1060.pdf	Nonstandard	3	SRN1060-101M					
+inductor	bourns	SRN2010TA	datasheets/inductor/bourns/SRN2010TA.pdf	0806 (2016 Metric)	1	SRN2010TA-1R5Y					
+inductor	bourns	SRN2012T	datasheets/inductor/bourns/SRN2012T.pdf	0805 (2012 Metric)	1	SRN2012T-2R2K					
+inductor	bourns	SRN2512	datasheets/inductor/bourns/SRN2512.pdf	1008 (2520 Metric)	1	SRN2512-R47M					
+inductor	bourns	SRN3015	datasheets/inductor/bourns/SRN3015.pdf	Nonstandard	4	SRN3015-2R2M					
+inductor	bourns	SRN3015BTA	datasheets/inductor/bourns/SRN3015BTA.pdf	1212 (3030 Metric)	1	SRN3015BTA-100M					
+inductor	bourns	SRN3015C	datasheets/inductor/bourns/SRN3015C.pdf	Nonstandard	3	SRN3015C-2R2M					
+inductor	bourns	SRN3015TA	datasheets/inductor/bourns/SRN3015TA.pdf	1212 (3030 Metric)	2	SRN3015TA-4R7M					
+inductor	bourns	SRN4018	datasheets/inductor/bourns/SRN4018.pdf	Nonstandard	4	SRN4018-4R7M					
+inductor	bourns	SRN4018TA	datasheets/inductor/bourns/SRN4018TA.pdf	Nonstandard	1	SRN4018TA-6R8M					
+inductor	bourns	SRN4026	datasheets/inductor/bourns/SRN4026.pdf	Nonstandard	2	SRN4026-330M					
+inductor	bourns	SRN5040	datasheets/inductor/bourns/SRN5040.pdf	Nonstandard	2	SRN5040-4R7M					
+inductor	bourns	SRN5040TA	datasheets/inductor/bourns/SRN5040TA.pdf	Nonstandard	1	SRN5040TA-4R7M					
+inductor	bourns	SRN6045	datasheets/inductor/bourns/SRN6045.pdf	Nonstandard	4	SRN6045-3R3Y					
+inductor	bourns	SRN6045TA	datasheets/inductor/bourns/SRN6045TA.pdf	Nonstandard	4	SRN6045TA-151M					
+inductor	bourns	SRN8040	datasheets/inductor/bourns/SRN8040.pdf	Nonstandard	2	SRN8040-101M					
+inductor	bourns	SRN8040TA	datasheets/inductor/bourns/SRN8040TA.pdf	Nonstandard	3	SRN8040TA-4R7M					
+inductor	bourns	SRP1038A	datasheets/inductor/bourns/SRP1038A.pdf	Nonstandard	2	SRP1038A-220M					
+inductor	bourns	SRP1265A	datasheets/inductor/bourns/SRP1265A.pdf	Nonstandard	4	SRP1265A-470M					
+inductor	bourns	SRP2010	datasheets/inductor/bourns/SRP2010.pdf	0806 (2016 Metric)	2	SRP2010-2R2M					
+inductor	bourns	SRP2510A	datasheets/inductor/bourns/srp2510a.pdf	1008 (2520 Metric)	1	SRP2510A-R22M					
+inductor	bourns	SRP2512	datasheets/inductor/bourns/SRP2512.pdf	1008 (2520 Metric)	2	SRP2512-2R2M					
+inductor	bourns	SRP2512A	datasheets/inductor/bourns/srp2512a.pdf	1008 (2520 Metric)	3	SRP2512A-4R7M					
+inductor	bourns	SRP2512TMA	datasheets/inductor/bourns/srp2512tma.pdf	1008 (2520 Metric)	1	SRP2512TMA-2R2M					
+inductor	bourns	SRP3012TA	datasheets/inductor/bourns/SRP3012TA.pdf	2-SMD	1	SRP3012TA-R56M					
+inductor	bourns	SRP3212	datasheets/inductor/bourns/srp3212.pdf	1210 (3225 Metric)	4	SRP3212-4R7M					
+inductor	bourns	SRP3212A	datasheets/inductor/bourns/srp3212a.pdf	1210 (3225 Metric)	3	SRP3212A-1R0M					
+inductor	bourns	SRP4020TA	datasheets/inductor/bourns/SRP4020TA.pdf	2-SMD	4	SRP4020TA-3R3M					
+inductor	bourns	SRP5015TA	datasheets/inductor/bourns/SRP5015TA.pdf	Nonstandard	1	SRP5015TA-2R2M					
+inductor	bourns	SRP5030CA	datasheets/inductor/bourns/SRP5030CA.pdf	Nonstandard	1	SRP5030CA-2R2M					
+inductor	bourns	SRP6540	datasheets/inductor/bourns/SRP6540.pdf	Nonstandard	1	SRP6540-5R6M					
+inductor	bourns	SRP7028A	datasheets/inductor/bourns/SRP7028A.pdf	Nonstandard	2	SRP7028A-1R0M					
+inductor	bourns	SRP7050TA	datasheets/inductor/bourns/SRP7050TA.pdf	Nonstandard	1	SRP7050TA-470M					
+inductor	bourns	SRR0604	datasheets/inductor/bourns/SRR0604.pdf	Nonstandard, Corner Terminals	2	SRR0604-100ML					
+inductor	bourns	SRR0745A	datasheets/inductor/bourns/SRR0745A.pdf	Nonstandard	1	SRR0745A-102M					
+inductor	bourns	SRR1210	datasheets/inductor/bourns/SRR1210.pdf	Nonstandard	4	SRR1210-330M					
+inductor	bourns	SRR1240	datasheets/inductor/bourns/SRR1240.pdf	Nonstandard	1	SRR1240-100M					
+inductor	bourns	SRR1260	datasheets/inductor/bourns/SRR1260.pdf	Nonstandard	4	SRR1260-101M					
+inductor	bourns	SRR1260A	datasheets/inductor/bourns/SRR1260A.pdf	Nonstandard	1	SRR1260A-102K					
+inductor	bourns	SRR1280	datasheets/inductor/bourns/SRR1280.pdf	Nonstandard	3	SRR1280-100M					
+inductor	bourns	SRR4028	datasheets/inductor/bourns/SRR4028.pdf	1919 (4848 Metric)	3	SRR4028-2R7Y					
+inductor	bourns	SRR5018	datasheets/inductor/bourns/SRR5018.pdf	Nonstandard	1	SRR5018-101Y					
+inductor	bourns	SRR5028	datasheets/inductor/bourns/SRR5028.pdf	Nonstandard	2	SRR5028-150Y					
+inductor	bourns	SRR6028	datasheets/inductor/bourns/SRR6028.pdf	Nonstandard	1	SRR6028-3R3Y					
+inductor	bourns	SRR6038	datasheets/inductor/bourns/SRR6038.pdf	Nonstandard	1	SRR6038-180Y					
+inductor	bourns	SRR7032	datasheets/inductor/bourns/SRR7032.pdf	Nonstandard	2	SRR7032-471M					
+inductor	bourns	SRR7045	datasheets/inductor/bourns/SRR7045.pdf	Nonstandard	4	SRR7045-221M					
+inductor	bourns	SRU1028	datasheets/inductor/bourns/SRU1028.pdf	Nonstandard	1	SRU1028-1R0Y					
+inductor	bourns	SRU1038	datasheets/inductor/bourns/SRU1038.pdf	Nonstandard	3	SRU1038-151Y					
+inductor	bourns	SRU1048	datasheets/inductor/bourns/SRU1048.pdf	Nonstandard	3	SRU1048-331Y					
+inductor	bourns	SRU5016	datasheets/inductor/bourns/SRU5016.pdf	Nonstandard	1	SRU5016-100Y					
+inductor	bourns	SRU5028	datasheets/inductor/bourns/sru5028.pdf	Nonstandard	2	SRU5028-3R3Y					
+inductor	murata	-	datasheets/inductor/murata/J-E-TE243B-0040_DEM2818C_REFERENCE_PDF_INDUCTOR.pdf	Nonstandard	1	1227AS-H-1R0N=P2					
+inductor	murata	DFE201210U	datasheets/inductor/murata/J-E-TE243A-0029_PDF_INDUCTOR.pdf	0805 (2012 Metric)	1	DFE201210U-1R0M=P2					
+inductor	murata	DFE201610C	datasheets/inductor/murata/m_dfe201610c.ashx.pdf	0805 (2012 Metric)	2	1285AS-H-2R2M=P2					
+inductor	murata	DFE201610E	datasheets/inductor/murata/J-E-TE243A-0001_PDF_INDUCTOR.pdf	0806 (2016 Metric)	2	DFE201610E-R47M=P2					
+inductor	murata	DFE201610P	datasheets/inductor/murata/m_dfe201610p.ashx.pdf	0806 (2016 Metric)	2	DFE201610P-1R0M=P2					
+inductor	murata	DFE201612C	datasheets/inductor/murata/J-E-TE243A-0010_PDF_INDUCTOR.pdf	0806 (2016 Metric)	2	1286AS-H-R47M=P2					
+inductor	murata	DFE201612E	datasheets/inductor/murata/J-E-TE243A-0006_PDF_INDUCTOR.pdf	0806 (2016 Metric)	3	DFE201612E-R47M=P2					
+inductor	murata	DFE21CCN_EL	datasheets/inductor/murata/JETE243A-0052_PDF_INDUCTOR.pdf	0805 (2012 Metric)	1	DFE21CCN2R2MELL					
+inductor	murata	DFE252010C	datasheets/inductor/murata/J-E-TE243A-0004_PDF_INDUCTOR.pdf	1008 (2520 Metric)	1	1269AS-H-1R5M=P2					
+inductor	murata	DFE252010F	datasheets/inductor/murata/J-E-TE243A-0012_PDF_INDUCTOR.pdf	1008 (2520 Metric)	2	DFE252010F-R68M=P2					
+inductor	murata	DFE252010P	datasheets/inductor/murata/m_dfe252010p.ashx.pdf	1008 (2520 Metric)	1	DFE252010P-R47M=P2					
+inductor	murata	DFE252012C	datasheets/inductor/murata/m_dfe252012c.ashx.pdf	1008 (2520 Metric)	2	1239AS-H-100M=P2					
+inductor	murata	DFE252012F	datasheets/inductor/murata/m_dfe252012f.ashx.pdf	1008 (2520 Metric)	5	DFE252012F-1R0M=P2					
+inductor	murata	DFE252012P	datasheets/inductor/murata/m_dfe252012p.ashx.pdf	1008 (2520 Metric)	4	DFE252012P-1R0M=P2					
+inductor	murata	DFE252012PD	datasheets/inductor/murata/J-E-TE243A-9102_PDF_INDUCTOR.pdf	1008 (2520 Metric)	1	DFE252012PD-R47M=P2					
+inductor	murata	DFE322512C	datasheets/inductor/murata/m_dfe322512c.ashx.pdf	1210 (3225 Metric)	1	1277AS-H-1R0M=P2					
+inductor	murata	DFE322512F	datasheets/inductor/murata/J-E-TE243A-0019_PDF_INDUCTOR.pdf	1210 (3225 Metric)	1	DFE322512F-100M=P2					
+inductor	murata	LQG15	datasheets/inductor/murata/JELF243B-0009_PDF_INDUCTOR.pdf	0402 (1005 Metric)	16	LQG15HN18NJ02D					
+inductor	murata	LQG15	datasheets/inductor/murata/JELF243B-0010_PDF_INDUCTOR.pdf	0402 (1005 Metric)	35	LQG15HS2N2B02D					
+inductor	murata	LQG15	datasheets/inductor/murata/JELF243B-9117_PDF_INDUCTOR.pdf	0402 (1005 Metric)	1	LQG15WZ10NH02D					
+inductor	murata	LQG18	datasheets/inductor/murata/JELF243B-0002_PDF_INDUCTOR.pdf	0603 (1608 Metric)	7	LQG18HNR10J00D					
+inductor	murata	LQH2	datasheets/inductor/murata/JELF243A-0053_PDF_INDUCTOR.pdf	0806 (2016 Metric)	1	LQH2MCN100K02L					
+inductor	murata	LQM18	datasheets/inductor/murata/JELF243B-0033_PDF_INDUCTOR.pdf	0603 (1608 Metric)	2	LQM18PN2R2MFRL					
+inductor	murata	LQM18	datasheets/inductor/murata/JELF243B-0047_PDF_INDUCTOR.pdf	0603 (1608 Metric)	2	LQM18PN2R2MGHD					
+inductor	murata	LQM18	datasheets/inductor/murata/JELF243B-0086_PDF_INDUCTOR.pdf	0603 (1608 Metric)	1	LQM18DN100M70L					
+inductor	murata	LQM18	datasheets/inductor/murata/JELF243B-9122_PDF_INDUCTOR.pdf	0603 (1608 Metric)	1	LQM18PZ2R2MFHD					
+inductor	murata	LQM18	datasheets/inductor/murata/JELF243B-9127_PDF_INDUCTOR.pdf	0603 (1608 Metric)	1	LQM18DH100M70L					
+inductor	murata	LQM2	datasheets/inductor/murata/JELF243B-0019_PDF_INDUCTOR.pdf	1008 (2520 Metric)	3	LQM2HPN2R2MG0L					
+inductor	murata	LQM2	datasheets/inductor/murata/JELF243B-0022_PDF_INDUCTOR.pdf	0806 (2016 Metric)	2	LQM2MPN2R2MG0L					
+inductor	murata	LQM21	datasheets/inductor/murata/JELF243B-0014_PDF_INDUCTOR.pdf	0805 (2012 Metric)	2	LQM21PN1R0MC0D					
+inductor	murata	LQM21	datasheets/inductor/murata/JELF243B-0017_PDF_INDUCTOR.pdf	0805 (2012 Metric)	1	LQM21FN100M80L					
+inductor	murata	LQM21	datasheets/inductor/murata/JELF243B-0026_PDF_INDUCTOR.pdf	0805 (2012 Metric)	1	LQM21PN4R7NGRD					
+inductor	murata	LQM21	datasheets/inductor/murata/JELF243B-0028_PDF_INDUCTOR.pdf	0805 (2012 Metric)	1	LQM21PN2R2NGCD					
+inductor	murata	LQM31	datasheets/inductor/murata/JELF243B-0013_PDF_INDUCTOR.pdf	1206 (3216 Metric)	1	LQM31PN3R3M00L					
+inductor	murata	LQP02	datasheets/inductor/murata/JELF243C-0034_PDF_INDUCTOR.pdf	01005 (0402 Metric)	3	LQP02HV0N7B02L					
+inductor	murata	LQP03	datasheets/inductor/murata/JELF243C-0015_PDF_INDUCTOR.pdf	0201 (0603 Metric)	35	LQP03TN4N7H02D					
+inductor	murata	LQP03	datasheets/inductor/murata/JELF243C-0016_PDF_INDUCTOR.pdf	0201 (0603 Metric)	2	LQP03TG0N5B02D					
+inductor	murata	LQP03	datasheets/inductor/murata/JELF243C-0021_PDF_INDUCTOR.pdf	0201 (0603 Metric)	10	LQP03HQ3N5B02D					
+inductor	murata	LQP03	datasheets/inductor/murata/JELF243C-9101_PDF_INDUCTOR.pdf	0201 (0603 Metric)	4	LQP03TN22NHZ2D					
+inductor	murata	LQW15	datasheets/inductor/murata/JELF243A-0050_PDF_INDUCTOR.pdf	0402 (1005 Metric)	28	LQW15AN22NG00D					
+inductor	murata	LQW15	datasheets/inductor/murata/JELF243A-0051_PDF_INDUCTOR.pdf	0402 (1005 Metric)	1	LQW15AN2N2C10D					
+inductor	murata	LQW15	datasheets/inductor/murata/JELF243A-0096_PDF_INDUCTOR.pdf	0402 (1005 Metric)	1	LQW15CNR33J10D					
+inductor	murata	LQW15	datasheets/inductor/murata/JELF243A-0100_PDF_INDUCTOR.pdf	0402 (1005 Metric)	16	LQW15AN36NG80D					
+inductor	murata	LQW15	datasheets/inductor/murata/JELF243A-9138_PDF_INDUCTOR.pdf	0402 (1005 Metric)	6	LQW15AN18NG8ZD					
+inductor	murata	LQW18	datasheets/inductor/murata/JELF243A-0024_PDF_INDUCTOR.pdf	0603 (1608 Metric)	21	LQW18AN68NG00D					
+inductor	murata	LQW18	datasheets/inductor/murata/JELF243A-0026_PDF_INDUCTOR.pdf	0603 (1608 Metric)	1	LQW18AN33NJ10D					
+inductor	murata	LQW18	datasheets/inductor/murata/JELF243A-0082_PDF_INDUCTOR.pdf	0603 (1608 Metric)	1	LQW18CNR16J00D					
+inductor	murata	LQW18	datasheets/inductor/murata/JELF243A-0102_PDF_INDUCTOR.pdf	0603 (1608 Metric)	4	LQW18AN15NG80D					
+inductor	murata	LQW18	datasheets/inductor/murata/JELF243A-9133_PDF_INDUCTOR.pdf	0603 (1608 Metric)	1	LQW18ANR10G8ZD					
+inductor	murata	LQW18	datasheets/inductor/murata/JELF243A-9139_PDF_INDUCTOR.pdf	0603 (1608 Metric)	1	LQW18ASR10G0ZD					
+inductor	murata	LQW2	datasheets/inductor/murata/JELF243A-0084_PDF_INDUCTOR.pdf	0805 (2015 Metric)	3	LQW2BASR47J00L					
+inductor	murata	LQW2	datasheets/inductor/murata/JELF243A-0085_PDF_INDUCTOR.pdf	1008 (2520 Metric)	2	LQW2UASR15J00L					
+inductor	wurth	MID-FLT	datasheets/inductor/wurth/750343810.pdf	Radial, Horizontal (Open)	1	750343810					
+inductor	wurth	MID-FLT	datasheets/inductor/wurth/750343811.pdf	Radial, Vertical (Open)	1	750343811					
+inductor	wurth	WE-FAMI	datasheets/inductor/wurth/744750230030.pdf	Radial, Vertical Cylinder	1	744750230030					
+inductor	wurth	WE-FAMI	datasheets/inductor/wurth/744750230047.pdf	Radial, Vertical Cylinder	1	744750230047					
+inductor	wurth	WE-FAMI	datasheets/inductor/wurth/744750230068.pdf	Radial, Vertical Cylinder	1	744750230068					
+inductor	wurth	WE-FAMI	datasheets/inductor/wurth/744750230100.pdf	Radial, Vertical Cylinder	1	744750230100					
+inductor	wurth	WE-FAMI	datasheets/inductor/wurth/744750230150.pdf	Radial, Vertical Cylinder	1	744750230150					
+inductor	wurth	WE-FAMI	datasheets/inductor/wurth/744750420220.pdf	Radial, Vertical Cylinder	1	744750420220					
+inductor	wurth	WE-FAMI	datasheets/inductor/wurth/744750460220.pdf	Radial, Vertical Cylinder	1	744750460220					
+inductor	wurth	WE-FI	datasheets/inductor/wurth/7447010.pdf	Radial, Vertical (Open)	1	7447010					
+inductor	wurth	WE-FI	datasheets/inductor/wurth/7447016.pdf	Radial, Vertical (Open)	1	7447016					
+inductor	wurth	WE-FI	datasheets/inductor/wurth/7447021.pdf	Radial, Vertical (Open)	1	7447021					
+inductor	wurth	WE-FI	datasheets/inductor/wurth/7447060.pdf	Radial, Vertical (Open)	1	7447060					
+inductor	wurth	WE-FI	datasheets/inductor/wurth/7447070.pdf	Radial, Vertical (Open)	1	7447070					
+inductor	wurth	WE-FI	datasheets/inductor/wurth/7447071.pdf	Radial, Vertical (Open)	1	7447071					
+inductor	wurth	WE-FI	datasheets/inductor/wurth/7447075.pdf	Radial, Vertical (Open)	1	7447075					
+inductor	wurth	WE-FI	datasheets/inductor/wurth/7447076.pdf	Radial, Vertical (Open)	1	7447076					
+inductor	wurth	WE-HCC	datasheets/inductor/wurth/7443330330.pdf	Nonstandard	1	7443330330					
+inductor	wurth	WE-HCF	datasheets/inductor/wurth/7443641000.pdf	Nonstandard	1	7443641000					
+inductor	wurth	WE-HCF	datasheets/inductor/wurth/7443641500.pdf	Nonstandard	1	7443641500					
+inductor	wurth	WE-HCFAT	datasheets/inductor/wurth/78437613540068.pdf	Nonstandard	1	78437613540068					
+inductor	wurth	WE-HCFAT	datasheets/inductor/wurth/7843763540470.pdf	Nonstandard	1	7843763540470					
+inductor	wurth	WE-HCFT	datasheets/inductor/wurth/7443762504022.pdf	Nonstandard	1	7443762504022					
+inductor	wurth	WE-HCFT	datasheets/inductor/wurth/7443762504047.pdf	Nonstandard	1	7443762504047					
+inductor	wurth	WE-HCFT	datasheets/inductor/wurth/7443762504068.pdf	Nonstandard	1	7443762504068					
+inductor	wurth	WE-HCFT	datasheets/inductor/wurth/7443762504100.pdf	Nonstandard	1	7443762504100					
+inductor	wurth	WE-HCFT	datasheets/inductor/wurth/7443763521033.pdf	Nonstandard	1	7443763521033					
+inductor	wurth	WE-HCFT	datasheets/inductor/wurth/7443763540470.pdf	Nonstandard	1	7443763540470					
+inductor	wurth	WE-HCFT	datasheets/inductor/wurth/7443783533470.pdf	Nonstandard	1	7443783533470					
+inductor	wurth	WE-HCI	datasheets/inductor/wurth/744311330.pdf	Nonstandard	1	744311330					
+inductor	wurth	WE-HCI	datasheets/inductor/wurth/744311470.pdf	Nonstandard	1	744311470					
+inductor	wurth	WE-HCI	datasheets/inductor/wurth/744314024.pdf	Nonstandard	1	744314024					
+inductor	wurth	WE-HCI	datasheets/inductor/wurth/744314150.pdf	Nonstandard	1	744314150					
+inductor	wurth	WE-HCI	datasheets/inductor/wurth/744314330.pdf	Nonstandard	1	744314330					
+inductor	wurth	WE-HCI	datasheets/inductor/wurth/744314850.pdf	Nonstandard	1	744314850					
+inductor	wurth	WE-HCI	datasheets/inductor/wurth/744316100.pdf	2-SMD	1	744316100					
+inductor	wurth	WE-HCI	datasheets/inductor/wurth/744316220.pdf	2-SMD	1	744316220					
+inductor	wurth	WE-HCI	datasheets/inductor/wurth/7443251000.pdf	Nonstandard	1	7443251000					
+inductor	wurth	WE-HCI	datasheets/inductor/wurth/744325120.pdf	Nonstandard	1	744325120					
+inductor	wurth	WE-HCI	datasheets/inductor/wurth/7443251600.pdf	Nonstandard	1	7443251600					
+inductor	wurth	WE-HCI	datasheets/inductor/wurth/744325550.pdf	Nonstandard	1	744325550					
+inductor	wurth	WE-HCI	datasheets/inductor/wurth/744355147.pdf	Nonstandard	1	744355147					
+inductor	wurth	WE-HCI	datasheets/inductor/wurth/744355182.pdf	Nonstandard	1	744355182					
+inductor	wurth	WE-HCI	datasheets/inductor/wurth/7443552560.pdf	Nonstandard	1	7443552560					
+inductor	wurth	WE-HIDA	datasheets/inductor/wurth/7444011480100.pdf	Nonstandard	1	7444011480100					
+inductor	wurth	WE-HIDA	datasheets/inductor/wurth/7444011715150.pdf	Nonstandard	1	7444011715150					
+inductor	wurth	WE-HIDA	datasheets/inductor/wurth/74441521150.pdf	Nonstandard	1	74441521150					
+inductor	wurth	WE-HIDA	datasheets/inductor/wurth/74441521220.pdf	Nonstandard	1	74441521220					
+inductor	wurth	WE-KI	datasheets/inductor/wurth/744760147A.pdf	0805 (2012 Metric)	1	744760147A					
+inductor	wurth	WE-KI	datasheets/inductor/wurth/744761020A.pdf	0603 (1608 Metric)	1	744761020A					
+inductor	wurth	WE-KI	datasheets/inductor/wurth/744762210A.pdf	1008 (2520 Metric)	1	744762210A					
+inductor	wurth	WE-KI	datasheets/inductor/wurth/744765019A.pdf	0402 (1005 Metric)	1	744765019A					
+inductor	wurth	WE-KI	datasheets/inductor/wurth/744765047A.pdf	0402 (1005 Metric)	1	744765047A					
+inductor	wurth	WE-KI	datasheets/inductor/wurth/744765056A.pdf	0402 (1005 Metric)	1	744765056A					
+inductor	wurth	WE-KI	datasheets/inductor/wurth/744765075A.pdf	0402 (1005 Metric)	1	744765075A					
+inductor	wurth	WE-KI	datasheets/inductor/wurth/744765112A.pdf	0402 (1005 Metric)	1	744765112A					
+inductor	wurth	WE-LHMI	datasheets/inductor/wurth/74437324022.pdf	2-SMD	1	74437324022					
+inductor	wurth	WE-LHMI	datasheets/inductor/wurth/74437324047.pdf	2-SMD	1	74437324047					
+inductor	wurth	WE-LHMI	datasheets/inductor/wurth/74437324220.pdf	2-SMD	1	74437324220					
+inductor	wurth	WE-LHMI	datasheets/inductor/wurth/74437349033.pdf	2-SMD	1	74437349033					
+inductor	wurth	WE-LHMI	datasheets/inductor/wurth/74437349330.pdf	2-SMD	1	74437349330					
+inductor	wurth	WE-LHMI	datasheets/inductor/wurth/74437349680.pdf	2-SMD	1	74437349680					
+inductor	wurth	WE-LQ	datasheets/inductor/wurth/744032100.pdf	1210 (3225 Metric)	1	744032100					
+inductor	wurth	WE-LQ	datasheets/inductor/wurth/744045220.pdf	1812 (4532 Metric)	1	744045220					
+inductor	wurth	WE-LQS	datasheets/inductor/wurth/74404024022.pdf	Nonstandard	1	74404024022					
+inductor	wurth	WE-LQS	datasheets/inductor/wurth/74404032022.pdf	Nonstandard	1	74404032022					
+inductor	wurth	WE-LQS	datasheets/inductor/wurth/74404032220.pdf	Nonstandard	1	74404032220					
+inductor	wurth	WE-LQS	datasheets/inductor/wurth/74404041047.pdf	Nonstandard	1	74404041047					
+inductor	wurth	WE-LQS	datasheets/inductor/wurth/74404041330.pdf	Nonstandard	1	74404041330					
+inductor	wurth	WE-LQS	datasheets/inductor/wurth/74404042100.pdf	Nonstandard	1	74404042100					
+inductor	wurth	WE-LQS	datasheets/inductor/wurth/74404042101.pdf	Nonstandard	1	74404042101					
+inductor	wurth	WE-LQS	datasheets/inductor/wurth/74404043022A.pdf	Nonstandard	1	74404043022A					
+inductor	wurth	WE-LQS	datasheets/inductor/wurth/74404043100A.pdf	Nonstandard	1	74404043100A					
+inductor	wurth	WE-LQS	datasheets/inductor/wurth/74404052100.pdf	Nonstandard	1	74404052100					
+inductor	wurth	WE-LQS	datasheets/inductor/wurth/74404052101.pdf	Nonstandard	1	74404052101					
+inductor	wurth	WE-LQS	datasheets/inductor/wurth/74404054047.pdf	Nonstandard	1	74404054047					
+inductor	wurth	WE-LQS	datasheets/inductor/wurth/74404054100.pdf	Nonstandard	1	74404054100					
+inductor	wurth	WE-LQS	datasheets/inductor/wurth/74404064101.pdf	Nonstandard	1	74404064101					
+inductor	wurth	WE-LQS	datasheets/inductor/wurth/74404086331.pdf	Nonstandard	1	74404086331					
+inductor	wurth	WE-LQSH	datasheets/inductor/wurth/74405020022.pdf	Nonstandard	1	74405020022					
+inductor	wurth	WE-LQSH	datasheets/inductor/wurth/74405042033.pdf	Nonstandard	1	74405042033					
+inductor	wurth	WE-MAIA	datasheets/inductor/wurth/78438357068.pdf	Nonstandard	1	78438357068					
+inductor	wurth	WE-MAPI	datasheets/inductor/wurth/74438324010.pdf	1008 (2520 Metric)	1	74438324010					
+inductor	wurth	WE-MAPI	datasheets/inductor/wurth/74438324047.pdf	1008 (2520 Metric)	1	74438324047					
+inductor	wurth	WE-MAPI	datasheets/inductor/wurth/744383360047.pdf	1212 (3030 Metric)	1	744383360047					
+inductor	wurth	WE-MAPI	datasheets/inductor/wurth/74438336033.pdf	1212 (3030 Metric)	1	74438336033					
+inductor	wurth	WE-MAPI	datasheets/inductor/wurth/74438336100.pdf	1212 (3030 Metric)	1	74438336100					
+inductor	wurth	WE-MAPI	datasheets/inductor/wurth/74438356010.pdf	1616 (4040 Metric)	1	74438356010					
+inductor	wurth	WE-MAPI	datasheets/inductor/wurth/74438356012.pdf	1616 (4040 Metric)	1	74438356012					
+inductor	wurth	WE-MAPI	datasheets/inductor/wurth/74438356015.pdf	1616 (4040 Metric)	1	74438356015					
+inductor	wurth	WE-MAPI	datasheets/inductor/wurth/74438356047.pdf	1616 (4040 Metric)	1	74438356047					
+inductor	wurth	WE-MAPI	datasheets/inductor/wurth/74438356150.pdf	1616 (4040 Metric)	1	74438356150					
+inductor	wurth	WE-MAPI	datasheets/inductor/wurth/74438356220.pdf	1616 (4040 Metric)	1	74438356220					
+inductor	wurth	WE-MAPI	datasheets/inductor/wurth/74438357010.pdf	1616 (4040 Metric)	1	74438357010					
+inductor	wurth	WE-MAPI	datasheets/inductor/wurth/74438357047.pdf	1616 (4040 Metric)	1	74438357047					
+inductor	wurth	WE-MAPI	datasheets/inductor/wurth/74438357068.pdf	1616 (4040 Metric)	1	74438357068					
+inductor	wurth	WE-MAPI	datasheets/inductor/wurth/74438357100.pdf	1616 (4040 Metric)	1	74438357100					
+inductor	wurth	WE-MCI	datasheets/inductor/wurth/7847803100.pdf	0402 (1005 Metric)	1	7847803100					
+inductor	wurth	WE-MCI	datasheets/inductor/wurth/7847803270.pdf	0402 (1005 Metric)	1	7847803270					
+inductor	wurth	WE-MCI	datasheets/inductor/wurth/7847803560.pdf	0402 (1005 Metric)	1	7847803560					
+inductor	wurth	WE-MCI	datasheets/inductor/wurth/7847804150.pdf	0402 (1005 Metric)	1	7847804150					
+inductor	wurth	WE-MCI	datasheets/inductor/wurth/7847804271.pdf	0402 (1005 Metric)	1	7847804271					
+inductor	wurth	WE-MCI	datasheets/inductor/wurth/7847806271.pdf	0603 (1608 Metric)	1	7847806271					
+inductor	wurth	WE-MI	datasheets/inductor/wurth/7447918.pdf	1206 (3216 Metric)	1	7447918					
+inductor	wurth	WE-MK	datasheets/inductor/wurth/7447820133.pdf	0201 (0603 Metric)	1	7447820133					
+inductor	wurth	WE-MK	datasheets/inductor/wurth/744784015A.pdf	0402 (1005 Metric)	1	744784015A					
+inductor	wurth	WE-MK	datasheets/inductor/wurth/744784022A.pdf	0402 (1005 Metric)	1	744784022A					
+inductor	wurth	WE-MK	datasheets/inductor/wurth/744784068A.pdf	0402 (1005 Metric)	1	744784068A					
+inductor	wurth	WE-MK	datasheets/inductor/wurth/744784082A.pdf	0402 (1005 Metric)	1	744784082A					
+inductor	wurth	WE-MK	datasheets/inductor/wurth/744784110A.pdf	0402 (1005 Metric)	1	744784110A					
+inductor	wurth	WE-MK	datasheets/inductor/wurth/744784115A.pdf	0402 (1005 Metric)	1	744784115A					
+inductor	wurth	WE-MK	datasheets/inductor/wurth/744784147A.pdf	0402 (1005 Metric)	1	744784147A					
+inductor	wurth	WE-MK	datasheets/inductor/wurth/744784215A.pdf	0402 (1005 Metric)	1	744784215A					
+inductor	wurth	WE-MK	datasheets/inductor/wurth/744784227A.pdf	0402 (1005 Metric)	1	744784227A					
+inductor	wurth	WE-MK	datasheets/inductor/wurth/7447860110.pdf	0603 (1608 Metric)	1	7447860110					
+inductor	wurth	WE-MK	datasheets/inductor/wurth/7447860122.pdf	0603 (1608 Metric)	1	7447860122					
+inductor	wurth	WE-MK	datasheets/inductor/wurth/7447860127.pdf	0603 (1608 Metric)	1	7447860127					
+inductor	wurth	WE-MK	datasheets/inductor/wurth/7447860139.pdf	0603 (1608 Metric)	1	7447860139					
+inductor	wurth	WE-MK	datasheets/inductor/wurth/744786115A.pdf	0603 (1608 Metric)	1	744786115A					
+inductor	wurth	WE-PD	datasheets/inductor/wurth/7447709100.pdf	Nonstandard	1	7447709100					
+inductor	wurth	WE-PD	datasheets/inductor/wurth/7447709101.pdf	Nonstandard	1	7447709101					
+inductor	wurth	WE-PD	datasheets/inductor/wurth/7447709150.pdf	Nonstandard	1	7447709150					
+inductor	wurth	WE-PD	datasheets/inductor/wurth/7447709220.pdf	Nonstandard	1	7447709220					
+inductor	wurth	WE-PD	datasheets/inductor/wurth/7447709221.pdf	Nonstandard	1	7447709221					
+inductor	wurth	WE-PD	datasheets/inductor/wurth/7447709330.pdf	Nonstandard	1	7447709330					
+inductor	wurth	WE-PD	datasheets/inductor/wurth/7447709390.pdf	Nonstandard	1	7447709390					
+inductor	wurth	WE-PD	datasheets/inductor/wurth/7447709470.pdf	Nonstandard	1	7447709470					
+inductor	wurth	WE-PD	datasheets/inductor/wurth/7447709680.pdf	Nonstandard	1	7447709680					
+inductor	wurth	WE-PD	datasheets/inductor/wurth/74477110.pdf	Nonstandard	1	74477110					
+inductor	wurth	WE-PD	datasheets/inductor/wurth/744771122.pdf	Nonstandard	1	744771122					
+inductor	wurth	WE-PD	datasheets/inductor/wurth/744771133.pdf	Nonstandard	1	744771133					
+inductor	wurth	WE-PD	datasheets/inductor/wurth/744771147.pdf	Nonstandard	1	744771147					
+inductor	wurth	WE-PD	datasheets/inductor/wurth/74477710.pdf	Nonstandard	1	74477710					
+inductor	wurth	WE-PD Performance	datasheets/inductor/wurth/7447713680.pdf	Nonstandard	1	7447713680					
+inductor	wurth	WE-PD Performance	datasheets/inductor/wurth/7447714102.pdf	Nonstandard	1	7447714102					
+inductor	wurth	WE-PD Performance	datasheets/inductor/wurth/7447714330.pdf	Nonstandard	1	7447714330					
+inductor	wurth	WE-PD Performance	datasheets/inductor/wurth/7447714470.pdf	Nonstandard	1	7447714470					
+inductor	wurth	WE-PD Robust	datasheets/inductor/wurth/744777920.pdf	Nonstandard	1	744777920					
+inductor	wurth	WE-PD Robust	datasheets/inductor/wurth/7447785002.pdf	Nonstandard	1	7447785002					
+inductor	wurth	WE-PD Robust	datasheets/inductor/wurth/744778510.pdf	Nonstandard	1	744778510					
+inductor	wurth	WE-PD2	datasheets/inductor/wurth/744773022.pdf	Nonstandard	1	744773022					
+inductor	wurth	WE-PD2	datasheets/inductor/wurth/744773122.pdf	Nonstandard	1	744773122					
+inductor	wurth	WE-PD4	datasheets/inductor/wurth/74455068.pdf	Nonstandard	1	74455068					
+inductor	wurth	WE-PD4	datasheets/inductor/wurth/7445510.pdf	Nonstandard	1	7445510					
+inductor	wurth	WE-PMCI	datasheets/inductor/wurth/74479275210.pdf	0805 (2012 Metric)	1	74479275210					
+inductor	wurth	WE-PMCI	datasheets/inductor/wurth/74479275222.pdf	0805 (2012 Metric)	1	74479275222					
+inductor	wurth	WE-PMCI	datasheets/inductor/wurth/74479276147.pdf	0806 (2016 Metric)	1	74479276147					
+inductor	wurth	WE-PMCI	datasheets/inductor/wurth/74479299147.pdf	1210 (3225 Metric)	1	74479299147					
+inductor	wurth	WE-PMFI	datasheets/inductor/wurth/74479320165210.pdf	0806 (2016 Metric)	1	74479320165210					
+inductor	wurth	WE-PMFI	datasheets/inductor/wurth/74479320165247.pdf	0806 (2016 Metric)	1	74479320165247					
+inductor	wurth	WE-PMI	datasheets/inductor/wurth/74479773210.pdf	0805 (2012 Metric)	1	74479773210					
+inductor	wurth	WE-PMI	datasheets/inductor/wurth/74479775147A.pdf	0805 (2012 Metric)	1	74479775147A					
+inductor	wurth	WE-PMI	datasheets/inductor/wurth/74479775247.pdf	0805 (2012 Metric)	1	74479775247					
+inductor	wurth	WE-PMI	datasheets/inductor/wurth/74479777310A.pdf	0805 (2012 Metric)	1	74479777310A					
+inductor	wurth	WE-PMI	datasheets/inductor/wurth/74479887222A.pdf	1008 (2520 Metric)	1	74479887222A					
+inductor	wurth	WE-PMI	datasheets/inductor/wurth/74479887310A.pdf	1008 (2520 Metric)	1	74479887310A					
+inductor	wurth	WE-RCIT	datasheets/inductor/wurth/7847110020.pdf	Radial, Horizontal Cylinder (Open)	1	7847110020					
+inductor	wurth	WE-RCIT	datasheets/inductor/wurth/7847111100.pdf	Radial, Horizontal Cylinder (Open)	1	7847111100					
+inductor	wurth	WE-RCIT	datasheets/inductor/wurth/7847121020.pdf	Radial, Horizontal Cylinder (Open)	1	7847121020					
+inductor	wurth	WE-RCIT	datasheets/inductor/wurth/7847121060.pdf	Radial, Horizontal Cylinder (Open)	1	7847121060					
+inductor	wurth	WE-RCIT	datasheets/inductor/wurth/7847121100.pdf	Radial, Horizontal Cylinder (Open)	1	7847121100					
+inductor	wurth	WE-RCIT	datasheets/inductor/wurth/7847131100.pdf	Radial, Horizontal Cylinder (Open)	1	7847131100					
+inductor	wurth	WE-RCIT	datasheets/inductor/wurth/7847132060.pdf	Radial, Horizontal Cylinder (Open)	1	7847132060					
+inductor	wurth	WE-RFH	datasheets/inductor/wurth/744758327A.pdf	1008 (2520 Metric)	1	744758327A					
+inductor	wurth	WE-RFI	datasheets/inductor/wurth/7447650120.pdf	0402 (1005 Metric)	1	7447650120					
+inductor	wurth	WE-RFI	datasheets/inductor/wurth/7447650130.pdf	0402 (1005 Metric)	1	7447650130					
+inductor	wurth	WE-RFI	datasheets/inductor/wurth/7447650133.pdf	0402 (1005 Metric)	1	7447650133					
+inductor	wurth	WE-RFI	datasheets/inductor/wurth/7447650136.pdf	0402 (1005 Metric)	1	7447650136					
+inductor	wurth	WE-RFI	datasheets/inductor/wurth/7447650177.pdf	0402 (1005 Metric)	1	7447650177					
+inductor	wurth	WE-RFI	datasheets/inductor/wurth/7447650210.pdf	0402 (1005 Metric)	1	7447650210					
+inductor	wurth	WE-RFI	datasheets/inductor/wurth/7447650215.pdf	0402 (1005 Metric)	1	7447650215					
+inductor	wurth	WE-RFI	datasheets/inductor/wurth/7447650218.pdf	0402 (1005 Metric)	1	7447650218					
+inductor	wurth	WE-RFI	datasheets/inductor/wurth/7447650222.pdf	0402 (1005 Metric)	1	7447650222					
+inductor	wurth	WE-RFI	datasheets/inductor/wurth/7447650227.pdf	0402 (1005 Metric)	1	7447650227					
+inductor	wurth	WE-RFI	datasheets/inductor/wurth/7447650236.pdf	0402 (1005 Metric)	1	7447650236					
+inductor	wurth	WE-RFI	datasheets/inductor/wurth/7447650253.pdf	0402 (1005 Metric)	1	7447650253					
+inductor	wurth	WE-RFI	datasheets/inductor/wurth/7447650270.pdf	0402 (1005 Metric)	1	7447650270					
+inductor	wurth	WE-RFI	datasheets/inductor/wurth/7447650277.pdf	0402 (1005 Metric)	1	7447650277					
+inductor	wurth	WE-SD	datasheets/inductor/wurth/744710203.pdf	Radial, Horizontal Cylinder (Open)	1	744710203					
+inductor	wurth	WE-SD	datasheets/inductor/wurth/744710215.pdf	Radial, Horizontal Cylinder (Open)	1	744710215					
+inductor	wurth	WE-SD	datasheets/inductor/wurth/744710610.pdf	Radial, Horizontal Cylinder (Open)	1	744710610					
+inductor	wurth	WE-SD	datasheets/inductor/wurth/744710615.pdf	Radial, Horizontal Cylinder (Open)	1	744710615					
+inductor	wurth	WE-SD	datasheets/inductor/wurth/744711003.pdf	Radial, Horizontal Cylinder (Open)	1	744711003					
+inductor	wurth	WE-SD	datasheets/inductor/wurth/744711005.pdf	Radial, Horizontal Cylinder (Open)	1	744711005					
+inductor	wurth	WE-SD	datasheets/inductor/wurth/744711010.pdf	Radial, Horizontal Cylinder (Open)	1	744711010					
+inductor	wurth	WE-SD	datasheets/inductor/wurth/744711015.pdf	Radial, Horizontal Cylinder (Open)	1	744711015					
+inductor	wurth	WE-SI	datasheets/inductor/wurth/744106.pdf	Radial, Vertical (Open)	1	744106					
+inductor	wurth	WE-SI	datasheets/inductor/wurth/7441110.pdf	Radial, Vertical (Open)	1	7441110					
+inductor	wurth	WE-SI	datasheets/inductor/wurth/744115.pdf	Radial, Vertical (Open)	1	744115					
+inductor	wurth	WE-SI	datasheets/inductor/wurth/744131.pdf	Vertical, No Base, 2 PC Pin	1	744131					
+inductor	wurth	WE-SI	datasheets/inductor/wurth/744132.pdf	Radial, Vertical (Open)	1	744132					
+inductor	wurth	WE-SI	datasheets/inductor/wurth/744133.pdf	Radial, Vertical (Open)	1	744133					
+inductor	wurth	WE-SI	datasheets/inductor/wurth/744150.pdf	Radial, Vertical (Open)	1	744150					
+inductor	wurth	WE-SPC	datasheets/inductor/wurth/74408943047.pdf	Nonstandard	1	74408943047					
+inductor	wurth	WE-SPC	datasheets/inductor/wurth/74408943100.pdf	Nonstandard	1	74408943100					
+inductor	wurth	WE-SPC	datasheets/inductor/wurth/74408943101.pdf	Nonstandard	1	74408943101					
+inductor	wurth	WE-SPC	datasheets/inductor/wurth/74408943220.pdf	Nonstandard	1	74408943220					
+inductor	wurth	WE-TCI	datasheets/inductor/wurth/744900014.pdf	0201 (0603 Metric)	1	744900014					
+inductor	wurth	WE-TCI	datasheets/inductor/wurth/744900015.pdf	0201 (0603 Metric)	1	744900015					
+inductor	wurth	WE-TCI	datasheets/inductor/wurth/744900018.pdf	0201 (0603 Metric)	1	744900018					
+inductor	wurth	WE-TCI	datasheets/inductor/wurth/744900020.pdf	0201 (0603 Metric)	1	744900020					
+inductor	wurth	WE-TCI	datasheets/inductor/wurth/744900056.pdf	0201 (0603 Metric)	1	744900056					
+inductor	wurth	WE-TCI	datasheets/inductor/wurth/744901010.pdf	0402 (1005 Metric)	1	744901010					
+inductor	wurth	WE-TCI	datasheets/inductor/wurth/744901022.pdf	0402 (1005 Metric)	1	744901022					
+inductor	wurth	WE-TCI	datasheets/inductor/wurth/744901030.pdf	0402 (1005 Metric)	1	744901030					
+inductor	wurth	WE-TCI	datasheets/inductor/wurth/744901047.pdf	0402 (1005 Metric)	1	744901047					
+inductor	wurth	WE-TCI	datasheets/inductor/wurth/744901068.pdf	0402 (1005 Metric)	1	744901068					
+inductor	wurth	WE-TCI	datasheets/inductor/wurth/744901082.pdf	0402 (1005 Metric)	1	744901082					
+inductor	wurth	WE-TCI	datasheets/inductor/wurth/744901110.pdf	0402 (1005 Metric)	1	744901110					
+inductor	wurth	WE-TCI	datasheets/inductor/wurth/744901112.pdf	0402 (1005 Metric)	1	744901112					
+inductor	wurth	WE-TCI	datasheets/inductor/wurth/744901122.pdf	0402 (1005 Metric)	1	744901122					
+inductor	wurth	WE-TI	datasheets/inductor/wurth/744732152.pdf	Radial, Vertical Cylinder	1	744732152					
+inductor	wurth	WE-TI	datasheets/inductor/wurth/744741221.pdf	Radial, Vertical Cylinder	1	744741221					
+inductor	wurth	WE-TI	datasheets/inductor/wurth/7447452101.pdf	Radial, Vertical Cylinder	1	7447452101					
+inductor	wurth	WE-TI	datasheets/inductor/wurth/7447480151.pdf	Radial, Vertical Cylinder (Open)	1	7447480151					
+inductor	wurth	WE-TI	datasheets/inductor/wurth/7447480221.pdf	Radial, Vertical Cylinder (Open)	1	7447480221					
+inductor	wurth	WE-TI	datasheets/inductor/wurth/7447480331.pdf	Radial, Vertical Cylinder (Open)	1	7447480331					
+inductor	wurth	WE-TI	datasheets/inductor/wurth/7447480471.pdf	Radial, Vertical Cylinder (Open)	1	7447480471					
+inductor	wurth	WE-TI	datasheets/inductor/wurth/7447720220.pdf	Radial, Vertical Cylinder	1	7447720220					
+inductor	wurth	WE-TI HV	datasheets/inductor/wurth/7687480102.pdf	Radial, Vertical Cylinder	1	7687480102					
+inductor	wurth	WE-TI HV	datasheets/inductor/wurth/7687480182.pdf	Radial, Vertical Cylinder	1	7687480182					
+inductor	wurth	WE-TI HV	datasheets/inductor/wurth/7687480332.pdf	Radial, Vertical Cylinder	1	7687480332					
+inductor	wurth	WE-TI HV	datasheets/inductor/wurth/768772102.pdf	Radial, Vertical Cylinder (Open)	1	768772102					
+inductor	wurth	WE-TI HV	datasheets/inductor/wurth/768772122.pdf	Radial, Vertical Cylinder (Open)	1	768772122					
+inductor	wurth	WE-TI HV	datasheets/inductor/wurth/768772152.pdf	Radial, Vertical Cylinder (Open)	1	768772152					
+inductor	wurth	WE-TI HV	datasheets/inductor/wurth/768772332.pdf	Radial, Vertical Cylinder	1	768772332					
+inductor	wurth	WE-TI HV	datasheets/inductor/wurth/768772681.pdf	Radial, Vertical Cylinder (Open)	1	768772681					
+inductor	wurth	WE-TIS	datasheets/inductor/wurth/744731332.pdf	Radial, Vertical Cylinder	1	744731332					
+inductor	wurth	WE-TIS	datasheets/inductor/wurth/7447471100.pdf	Radial, Vertical Cylinder	1	7447471100					
+inductor	wurth	WE-TIS	datasheets/inductor/wurth/7447471101.pdf	Radial, Vertical Cylinder	1	7447471101					
+inductor	wurth	WE-TIS	datasheets/inductor/wurth/7447471102.pdf	Radial, Vertical Cylinder	1	7447471102					
+inductor	wurth	WE-TIS	datasheets/inductor/wurth/7447471220.pdf	Radial, Vertical Cylinder	1	7447471220					
+inductor	wurth	WE-TIS	datasheets/inductor/wurth/7447471331.pdf	Radial, Vertical Cylinder	1	7447471331					
+inductor	wurth	WE-TIS	datasheets/inductor/wurth/7447471470.pdf	Radial, Vertical Cylinder	1	7447471470					
+inductor	wurth	WE-TPC	datasheets/inductor/wurth/744025002.pdf	Nonstandard	1	744025002					
+inductor	wurth	WE-TPC	datasheets/inductor/wurth/744025003.pdf	Nonstandard	1	744025003					
+inductor	wurth	WE-TPC	datasheets/inductor/wurth/744025100.pdf	Nonstandard	1	744025100					
+inductor	wurth	WE-TPC	datasheets/inductor/wurth/744029001.pdf	Nonstandard	1	744029001					
+inductor	wurth	WE-TPC	datasheets/inductor/wurth/744029100.pdf	Nonstandard	1	744029100					
+inductor	wurth	WE-TPC	datasheets/inductor/wurth/744031004.pdf	Nonstandard	1	744031004					
+inductor	wurth	WE-TPC	datasheets/inductor/wurth/744031220.pdf	Nonstandard	1	744031220					
+inductor	wurth	WE-TPC	datasheets/inductor/wurth/744042001.pdf	1919 (4848 Metric)	1	744042001					
+inductor	wurth	WE-TPC	datasheets/inductor/wurth/744042003.pdf	1919 (4848 Metric)	1	744042003					
+inductor	wurth	WE-TPC	datasheets/inductor/wurth/7440430022.pdf	1919 (4848 Metric)	1	7440430022					
+inductor	wurth	WE-TPC	datasheets/inductor/wurth/744053100.pdf	2323 (5858 Metric)	1	744053100					
+inductor	wurth	WE-TPC	datasheets/inductor/wurth/744053470.pdf	2323 (5858 Metric)	1	744053470					
+inductor	wurth	WE-XHMI	datasheets/inductor/wurth/744393305220.pdf	Nonstandard	1	744393305220					
+inductor	wurth	WE-XHMI	datasheets/inductor/wurth/74439344022.pdf	Nonstandard	1	74439344022					
+inductor	wurth	WE-XHMI	datasheets/inductor/wurth/74439346047.pdf	Nonstandard	1	74439346047					
+inductor	wurth	WE-XHMI	datasheets/inductor/wurth/74439346100.pdf	Nonstandard	1	74439346100					
+ptc	belfuse	-	datasheets/fuse/belfuse/ds-CP-0ZAF-series.pdf	2920 (7351 Metric), Concave	5	0ZAF0005FF28					
+ptc	belfuse	0ZCF	datasheets/fuse/belfuse/ds-CP-0ZCF-low-rho-series.pdf	2920 (7351 Metric), Concave	2	0ZCF0600FF2C					
+ptc	belfuse	0ZCF	datasheets/fuse/belfuse/ds-cp-0zcf-series.pdf	2920 (7351 Metric), Concave	19	0ZCF0050FF2C					
+ptc	belfuse	0ZCG	datasheets/fuse/belfuse/ds-cp-0zcg-series.pdf	1812 (4532 Metric), Concave	31	0ZCG0010FF2C					
+ptc	belfuse	0ZCH	datasheets/fuse/belfuse/ds-cp-0zch-series.pdf	1210 (3225 Metric), Concave	12	0ZCH0010FF2E					
+ptc	belfuse	0ZCJ	datasheets/fuse/belfuse/ds-cp-0zcj-series.pdf	1206 (3216 Metric), Concave	16	0ZCJ0035AF2E					
+ptc	belfuse	0ZCK	datasheets/fuse/belfuse/ds-cp-0zck-series.pdf	0805 (2012 Metric), Concave	7	0ZCK0020FF2G					
+ptc	belfuse	0ZCM	datasheets/fuse/belfuse/ds-cp-0zcm-series.pdf	0603 (1608 Metric), Concave	11	0ZCM0010FF2G					
+ptc	belfuse	0ZCN	datasheets/fuse/belfuse/ds-cp-0zcn-series.pdf	2016 (5041 Metric), Concave	6	0ZCN0075FF2A					
+ptc	belfuse	0ZRA	datasheets/fuse/belfuse/ds-cp-0zra-series.pdf	Radial, Disc	3	0ZRA0300FF1C					
+ptc	belfuse	0ZRB	datasheets/fuse/belfuse/ds-cp-0zrb-series.pdf	Radial, Disc	10	0ZRB0250FF2E					
+ptc	belfuse	0ZRC	datasheets/fuse/belfuse/ds-cp-0zrc-series.pdf	Radial, Disc	20	0ZRC0050FF1E					
+ptc	belfuse	0ZRE	datasheets/fuse/belfuse/ds-cp-0zre-series.pdf	Radial, Disc	13	0ZRE0005FF1C					
+ptc	belfuse	0ZRF	datasheets/fuse/belfuse/ds-cp-0zrf-series.pdf	Radial, Disc	3	0ZRF0008FF1E					
+ptc	belfuse	0ZRG	datasheets/fuse/belfuse/ds-cp-0zrg-series.pdf	Radial, Disc	7	0ZRG0135FF1E					
+ptc	belfuse	0ZRM	datasheets/fuse/belfuse/ds-cp-0zrm-series.pdf	Radial, Disc	13	0ZRM0030FF1E					
+ptc	belfuse	0ZRN	datasheets/fuse/belfuse/ds-cp-0zrn-series.pdf	Radial, Disc	8	0ZRN0200FF1E					
+ptc	belfuse	0ZRP	datasheets/fuse/belfuse/ds-cp-0zrp-series.pdf	Radial, Disc	14	0ZRP0250FF1A					
+ptc	belfuse	0ZRR	datasheets/fuse/belfuse/ds-cp-0zrr-series.pdf	Radial, Disc	16	0ZRR0005FF1E					
+ptc	belfuse	0ZRS	datasheets/fuse/belfuse/ds-cp-0zrs-series.pdf	Radial, Disc	1	0ZRS0750FF1A					
+ptc	belfuse	0ZTH	datasheets/fuse/belfuse/ds-CP-0ZTH-series.pdf	1210 (3225 Metric), Concave	3	0ZTH0020FF2E					
+ptc	belfuse	0ZTJ	datasheets/fuse/belfuse/ds-CP-0ZTJ-series.pdf	1206 (3216 Metric), Concave	4	0ZTJ0010FF2E					
+ptc	belfuse	0ZTK	datasheets/fuse/belfuse/ds-CP-0ZTK-series.pdf	0805 (2012 Metric), Concave	1	0ZTK0010FF2G					
+ptc	bourns	Multifuse® MF-MSHT	datasheets/fuse/bourns/mf-msht.pdf	1812 (4532 Metric), Concave	7	MF-MSHT175KX-2					
+ptc	bourns	Multifuse® freeXpansionTM, MF-NSMF	datasheets/fuse/bourns/mf-nsmf.pdf	1206 (3216 Metric), Concave	8	MF-NSMF020X-2					
+ptc	bourns	Multifuse®, MF-ASMF	datasheets/fuse/bourns/mf-asmf.pdf	0402 (1005 Metric), Concave	3	MF-ASMF010X-2-BV					
+ptc	bourns	Multifuse®, MF-ASML/X	datasheets/fuse/bourns/mf-asml-x.pdf	0402 (1005 Metric), Concave	4	MF-ASML050/6-2					
+ptc	bourns	Multifuse®, MF-FSHT	datasheets/fuse/bourns/mf-fsht.pdf	0603 (1608 Metric), Concave	3	MF-FSHT016KX-2					
+ptc	bourns	Multifuse®, MF-FSMF	datasheets/fuse/bourns/mf-fsmf.pdf	0603 (1608 Metric), Concave	5	MF-FSMF020X-2					
+ptc	bourns	Multifuse®, MF-FSML	datasheets/fuse/bourns/mf-fsml-x.pdf	0603 (1608 Metric), Concave	8	MF-FSML100/8-2					
+ptc	bourns	Multifuse®, MF-GSMF	datasheets/fuse/bourns/MF-GSMF.pdf	Nonstandard SMD	1	MF-GSMF300/36X-2					
+ptc	bourns	Multifuse®, MF-LSMF	datasheets/fuse/bourns/mf-lsmf.pdf	2920 (7351 Metric), Concave	8	MF-LSMF300/24X-2					
+ptc	bourns	Multifuse®, MF-MSMF	datasheets/fuse/bourns/mf-msmf.pdf	1812 (4532 Metric), Concave	8	MF-MSMF250/16X-2					
+ptc	bourns	Multifuse®, MF-NSHT	datasheets/fuse/bourns/mf-nsht.pdf	1206 (3216 Metric), Concave	5	MF-NSHT050KX-2					
+ptc	bourns	Multifuse®, MF-NSMF	datasheets/fuse/bourns/mf-nsmf.pdf	1206 (3216 Metric), Concave	8	MF-NSMF020-2					
+ptc	bourns	Multifuse®, MF-NSML/X	datasheets/fuse/bourns/mf-nsml-x.pdf	1206 (3216 Metric), Concave	8	MF-NSML350/12-2					
+ptc	bourns	Multifuse®, MF-PSHT	datasheets/fuse/bourns/mf-psht.pdf	0805 (2012 Metric), Concave	6	MF-PSHT010KX-2					
+ptc	bourns	Multifuse®, MF-PSMF	datasheets/fuse/bourns/mfpsmf.pdf	0805 (2012 Metric), Concave	7	MF-PSMF110X-2					
+ptc	bourns	Multifuse®, MF-PSML/X	datasheets/fuse/bourns/MF-PSML-X.pdf	0805 (2012 Metric), Concave	8	MF-PSML300/12-2					
+ptc	bourns	Multifuse®, MF-R	datasheets/fuse/bourns/mf-r.pdf	Radial, Disc	31	MF-R300					
+ptc	bourns	Multifuse®, MF-RG	datasheets/fuse/bourns/mf-rg.pdf	Radial, Disc	12	MF-RG900-0					
+ptc	bourns	Multifuse®, MF-RHT	datasheets/fuse/bourns/mf-rht.pdf	Radial, Disc	20	MF-RHT200-0					
+ptc	bourns	Multifuse®, MF-RM	datasheets/fuse/bourns/MF-RM.pdf	Radial, Disc	9	MF-RM033/240-2					
+ptc	bourns	Multifuse®, MF-RX/250	datasheets/fuse/bourns/mfrx250.pdf	Radial, Disc	5	MF-RX014/250-0					
+ptc	bourns	Multifuse®, MF-RX/72	datasheets/fuse/bourns/mf-rx72.pdf	Radial, Disc	19	MF-RX110/72-2					
+ptc	bourns	Multifuse®, MF-S	datasheets/fuse/bourns/mf-smht.pdf	2-SMD	1	MF-SMHT300-2					
+ptc	bourns	Multifuse®, MF-SM	datasheets/fuse/bourns/mfsm.pdf	2-SMD	8	MF-SM050-2					
+ptc	bourns	Multifuse®, MF-SM/250	datasheets/fuse/bourns/mfsm013250.pdf	2-SMD	2	MF-SM013/250-2					
+ptc	bourns	Multifuse®, MF-SM/250V	datasheets/fuse/bourns/mfsm013250v.pdf	2-SMD	1	MF-SM013/250V-0					
+ptc	bourns	Multifuse®, MF-SMDF	datasheets/fuse/bourns/mfsmdf.pdf	2018 (5045 Metric), Concave	5	MF-SMDF150-2					
+ptc	bourns	Multifuse®, MF-USHT	datasheets/fuse/bourns/mf-usht.pdf	1210 (3225 Metric), Concave	8	MF-USHT035KX-2					
+ptc	bourns	Multifuse®, MF-USMF	datasheets/fuse/bourns/mfusmf.pdf	1210 (3225 Metric), Concave	8	MF-USMF010-2					
+ptc	bourns	Multifuse®, MF-USML/X	datasheets/fuse/bourns/mf-usml-x.pdf	1210 (3225 Metric), Concave	8	MF-USML300/12-2					
+ptc	littelfuse	3425L	datasheets/fuse/littelfuse/littelfuse-pptc-3425l-datasheet.pdf	Nonstandard SMD	2	3425L200/60MR					
+ptc	littelfuse	POLY-FUSE®, 0603L	datasheets/fuse/littelfuse/resettable-ptcs-0603l-datasheet.pdf	0603 (1608 Metric), Concave	7	0603L004YR					
+ptc	littelfuse	POLY-FUSE®, 0805L	datasheets/fuse/littelfuse/resettable-ptcs-0805l-datasheet.pdf	0805 (2012 Metric), Concave	6	0805L010/24YR					
+ptc	littelfuse	POLY-FUSE®, 1206L	datasheets/fuse/littelfuse/resettable-ptcs-1206l-datasheet.pdf	1206 (3216 Metric), Concave	6	1206L050/15YR					
+ptc	littelfuse	POLY-FUSE®, 1210L	datasheets/fuse/littelfuse/1210l_datasheet_update.pdf	1210 (3225 Metric), Concave	6	1210L020WR					
+ptc	littelfuse	POLY-FUSE®, 16R	datasheets/fuse/littelfuse/resettable-ptcs-16r-datasheet.pdf	Radial, Disc	6	16R300GU					
+ptc	littelfuse	POLY-FUSE®, 1812L	datasheets/fuse/littelfuse/resettable-ptcs-1812l-datasheet.pdf	1812 (4532 Metric), Concave	6	1812L110/33MR					
+ptc	littelfuse	POLY-FUSE®, 2016L	datasheets/fuse/littelfuse/resettable-ptcs-2016l-datasheet.pdf	2016 (5041 Metric), Concave	6	2016L260/24MR					
+ptc	littelfuse	POLY-FUSE®, 250R	datasheets/fuse/littelfuse/resettable-ptcs-250r-datasheet.pdf	Radial, Disc	4	250R120-RAZR					
+ptc	littelfuse	POLY-FUSE®, 250S	datasheets/fuse/littelfuse/resettable-ptcs-250s-datasheet.pdf	2-SMD	2	250S130DR					
+ptc	littelfuse	POLY-FUSE®, 2920L	datasheets/fuse/littelfuse/resettable-ptcs-2920l-datasheet.pdf	2920 (7351 Metric), Concave	6	2920L250DR					
+ptc	littelfuse	POLY-FUSE®, 30R	datasheets/fuse/littelfuse/littelfuse-ptc-30r-datasheet.pdf	Radial, Disc	8	30R400UMR					
+ptc	littelfuse	POLY-FUSE®, 600R	datasheets/fuse/littelfuse/resettable-ptcs-600r-datasheet.pdf	Radial, Disc	3	600R150ZR					
+ptc	littelfuse	POLY-FUSE®, 60R	datasheets/fuse/littelfuse/resettable-ptcs-60r-datasheet.pdf	Radial, Disc	9	60R110XMR					
+ptc	littelfuse	POLY-FUSE®, 72R	datasheets/fuse/littelfuse/resettable-ptcs-72r-datasheet.pdf	Radial, Disc	6	72R160XF					
+ptc	littelfuse	POLY-FUSE®, LoRho	datasheets/fuse/littelfuse/resettable-ptcs-low-rho-smd-ptc-datasheet.pdf	0402 (1005 Metric), Concave	1	0402L035SLKR					
+ptc	littelfuse	POLY-FUSE®, LoRho	datasheets/fuse/littelfuse/resettable-ptcs-low-rho-smd-ptc-datasheet.pdf	0603 (1608 Metric), Concave	2	0603L075SLYR					
+ptc	littelfuse	POLY-FUSE®, LoRho	datasheets/fuse/littelfuse/resettable-ptcs-low-rho-smd-ptc-datasheet.pdf	0805 (2012 Metric), Concave	1	0805L400SLWR					
+ptc	littelfuse	POLY-FUSE®, LoRho	datasheets/fuse/littelfuse/resettable-ptcs-low-rho-smd-ptc-datasheet.pdf	1206 (3216 Metric), Concave	1	1206L260SLTHYR					
+ptc	littelfuse	POLY-FUSE®, LoRho	datasheets/fuse/littelfuse/resettable-ptcs-low-rho-smd-ptc-datasheet.pdf	2920 (7351 Metric), Concave	1	2920L700/24SLER					
+ptc	littelfuse	POLY-FUSE®, USBR	datasheets/fuse/littelfuse/littelfuse_ptc_usbr_datasheet.pdf	Radial, Disc	1	06R155BPR					
+ptc	littelfuse	PolySwitch® 1210L	datasheets/fuse/littelfuse/1210l_datasheet_update.pdf	1210 (3225 Metric), Concave	1	1210L010/90WR					
+ptc	littelfuse	PolySwitch® AHS	datasheets/fuse/littelfuse/littelfuse-ptc-auto-hightemp-smd-datasheet.pdf	2-SMD	3	RF5105-000					
+ptc	littelfuse	PolySwitch® picoASMDC	datasheets/fuse/littelfuse/littelfuse-ptc-picoasmdc-datasheet.pdf	0805 (2012 Metric), Concave	1	PICOASMDC035S-2					
+ptc	littelfuse	PolySwitch®, AGRF	datasheets/fuse/littelfuse/littelfuse-ptc-radial-leaded-agrf-datasheet.pdf	Radial, Disc	5	AGRF800S-1					
+ptc	littelfuse	PolySwitch®, AHEF	datasheets/fuse/littelfuse/littelfuse-ptc-radial-leaded-ahef-datasheet.pdf	Radial, Disc	5	AHEF500					
+ptc	littelfuse	PolySwitch®, AHRF	datasheets/fuse/littelfuse/littelfuse-ptc-radial-leaded-ahrf-datasheet.pdf	Radial, Disc	3	AHRF200-2					
+ptc	littelfuse	PolySwitch®, AHS	datasheets/fuse/littelfuse/littelfuse-ptc-auto-hightemp-smd-datasheet.pdf	2-SMD	1	AHS080-2018-2					
+ptc	littelfuse	PolySwitch®, ASMD	datasheets/fuse/littelfuse/littelfuse-ptc-auto-hightemp-smd-datasheet.pdf	1206 (3216 Metric), Concave	3	NANOASMDCH050F/24-2					
+ptc	littelfuse	PolySwitch®, ASMD	datasheets/fuse/littelfuse/littelfuse-ptc-auto-hightemp-smd-datasheet.pdf	2-SMD	3	ASMDC185F/33-2					
+ptc	littelfuse	PolySwitch®, LVR	datasheets/fuse/littelfuse/ptc-line-voltage-rated-datasheet.pdf	Radial, Disc	8	LVR125S-240					
+ptc	littelfuse	PolySwitch®, LoRho	datasheets/fuse/littelfuse/resettable-ptcs-low-rho-smd-ptc-datasheet.pdf	0603 (1608 Metric), Concave	1	0603L175SLYRT					
+ptc	littelfuse	PolySwitch®, RGEF	datasheets/fuse/littelfuse/littelfuse-ptc-radial-leaded-rgef-datasheet.pdf	Radial, Disc	9	RGEF700-2					
+ptc	littelfuse	PolySwitch®, RHEF	datasheets/fuse/littelfuse/resettable-ptc-rhef-datasheet.pdf	Radial, Disc	8	RHEF100-2					
+ptc	littelfuse	PolySwitch®, RKEF	datasheets/fuse/littelfuse/resettable-ptc-rkef-datasheet.pdf	Radial, Disc	9	RKEF250					
+ptc	littelfuse	PolySwitch®, RUSBF	datasheets/fuse/littelfuse/resettable-ptc-rusbf-datasheet.pdf	Radial, Disc	8	RUSBF075					
+ptc	littelfuse	PolySwitch®, RXEF	datasheets/fuse/littelfuse/resettable-ptc-rxef-datasheet.pdf	Radial, Disc	9	RXEF250					
+ptc	littelfuse	PolySwitch®, SMD	datasheets/fuse/littelfuse/littelfuse-ptc-smd-datasheet.pdf	2-SMD	7	SMD100F-2					
+ptc	littelfuse	PolySwitch®, TCF250	datasheets/fuse/littelfuse/resettable-ptc-telenetwork-catalog-datasheet.pdf	Nonstandard SMD	1	TCF250-145-RB-B-0.5					
+ptc	littelfuse	PolySwitch®, TR600	datasheets/fuse/littelfuse/littelfuse-pptc-tr-datasheet.pdf	Radial, Disc	1	TR600-150F-EX-2					
+ptc	littelfuse	PolySwitch®, TRF250	datasheets/fuse/littelfuse/littelfuse-pptc-tr-datasheet.pdf	Radial, Disc	8	TRF250-080T					
+ptc	littelfuse	PolySwitch®, TRF600	datasheets/fuse/littelfuse/littelfuse-pptc-tr-datasheet.pdf	Radial, Disc	3	TRF600-150					
+ptc	littelfuse	PolySwitch®, TS250	datasheets/fuse/littelfuse/littelfuse-pptc-ts-series-datasheet.pdf	2-SMD	2	TS250-130F-2					
+ptc	littelfuse	PolySwitch®, femtoSMD	datasheets/fuse/littelfuse/littelfuse-ptc-femtoasmdc-datasheet.pdf	0603 (1608 Metric), Concave	2	FEMTOSMDC005F-2					
+ptc	littelfuse	PolySwitch®, femtoSMDC	datasheets/fuse/littelfuse/littelfuse-ptc-femtosmdc-datasheet.pdf	0603 (1608 Metric), Concave	3	FEMTOSMDC020F-2					
+ptc	littelfuse	PolySwitch®, microASMD	datasheets/fuse/littelfuse/littelfuse-ptc-auto-hightemp-smd-datasheet.pdf	1210 (3225 Metric), Concave	3	MICROASMD010F-2					
+ptc	littelfuse	PolySwitch®, microSMD	datasheets/fuse/littelfuse/littelfuse-ptc-microsmd-datasheet.pdf	1210 (3225 Metric), Concave	7	MICROSMD010F-2					
+ptc	littelfuse	PolySwitch®, miniASMD	datasheets/fuse/littelfuse/littelfuse-ptc-auto-hightemp-smd-datasheet.pdf	1812 (4532 Metric), Concave	5	MINIASMDC260F/16-2					
+ptc	littelfuse	PolySwitch®, miniASMD	datasheets/fuse/littelfuse/littelfuse-ptc-miniasmdc-datasheet.pdf	1812 (4532 Metric), Concave	1	MINIASMDC050F-2					
+ptc	littelfuse	PolySwitch®, miniSMD	datasheets/fuse/littelfuse/littelfuse-ptc-minismdc-datasheet.pdf	1812 (4532 Metric), Concave	6	MINISMDC020F-2					
+ptc	littelfuse	PolySwitch®, nanoASMD	datasheets/fuse/littelfuse/littelfuse-pptc-nanoasmdc-datasheet.pdf	1206 (3216 Metric), Concave	5	NANOASMDC010F-2					
+ptc	littelfuse	PolySwitch®, nanoASMDC	datasheets/fuse/littelfuse/littelfuse-ptc-auto-hightemp-smd-datasheet.pdf	1206 (3216 Metric), Concave	1	NANOASMDCH020F-2					
+ptc	littelfuse	PolySwitch®, nanoSMD	datasheets/fuse/littelfuse/littelfuse-ptc-nanosmdc-datasheet.pdf	1206 (3216 Metric)	1	NANOSMDCH030F/24-02					
+ptc	littelfuse	PolySwitch®, nanoSMD	datasheets/fuse/littelfuse/littelfuse-ptc-nanosmdc-datasheet.pdf	1206 (3216 Metric), Concave	5	NANOSMDC035F-2					
+ptc	littelfuse	PolySwitch®, nanoSMDC020F	datasheets/fuse/littelfuse/littelfuse-ptc-nanosmdc-datasheet.pdf	1206 (3216 Metric), Concave	1	NANOSMDC020F-2					
+ptc	littelfuse	PolySwitch®, picoASMD	datasheets/fuse/littelfuse/littelfuse-ptc-auto-hightemp-smd-datasheet.pdf	0805 (2012 Metric), Concave	2	PICOASMDCH010F-2					
+ptc	littelfuse	PolySwitch®, picoSMD	datasheets/fuse/littelfuse/littelfuse-ptc-picosmdc-datasheet.pdf	0805 (2012 Metric), Concave	5	PICOSMDC035S-2					
+ptc	littelfuse	SMD	datasheets/fuse/littelfuse/littelfuse-ptc-auto-hightemp-smd-datasheet.pdf	0603 (1608 Metric), Concave	1	FEMTOASMDCH005F-2					
+ptc	littelfuse	SMD	datasheets/fuse/littelfuse/littelfuse-ptc-auto-hightemp-smd-datasheet.pdf	1210 (3225 Metric), Concave	1	MICROASMDCH035F-2					
+ptc	littelfuse	SMD	datasheets/fuse/littelfuse/littelfuse-ptc-auto-hightemp-smd-datasheet.pdf	2-SMD	4	AHS050-2					
+ptc	littelfuse	SMDC	datasheets/fuse/littelfuse/littelfuse-ptc-smdc-datasheet.pdf	2920 (7351 Metric), Concave	5	SMDC185F/33-2					
+ptc	littelfuse	SMDC	datasheets/fuse/littelfuse/littelfuse-ptc-smdch125f-24-02-product-specification.pdf	2920 (7351 Metric), Concave	1	SMDCH125F/24-02					
+ptc	littelfuse	TS	datasheets/fuse/littelfuse/littelfuse-pptc-ts-series-datasheet.pdf	2-SMD	1	TS250-130F-B-0.5-2					
+ptc	littelfuse	nanoSMD	datasheets/fuse/littelfuse/littelfuse-ptc-nanosmdc-datasheet.pdf	1206 (3216 Metric), Concave	2	NANOSMDC010F-2					
+relay	franjobaim	F32F	datasheets/relay/franjobaim/Power-Relays-datasheets..pdf		17	F32F-SS-105DM					
+relay	franjobaim	F33F	datasheets/relay/franjobaim/Power-Relays-datasheets..pdf		1	F33F-H-1A-12D					
+relay	franjobaim	F3F	datasheets/relay/franjobaim/Power-Relays-datasheets..pdf		15	F3F-SS-124DMU					
+relay	franjobaim	F3U	datasheets/relay/franjobaim/Power-Relays-datasheets..pdf		12	F3U-SS-112L					
+relay	franjobaim	F90	datasheets/relay/franjobaim/Power-Relays-datasheets..pdf		20	F90-SH-112DM1(40A)					
+relay	franjobaim	FA	datasheets/relay/franjobaim/Automotive-Relays-FA-FAL-FAF.pdf		3	FA-SH-112LB					
+relay	franjobaim	FAE	datasheets/relay/franjobaim/FAE.pdf		2	FAE-SH-112L6					
+relay	franjobaim	FAF	datasheets/relay/franjobaim/Automotive-Relays-FA-FAL-FAF.pdf		3	FAF-SH-124DBF					
+relay	franjobaim	FAL	datasheets/relay/franjobaim/Automotive-Relays-FA-FAL-FAF.pdf		2	FAL-SH-124LMF					
+relay	franjobaim	FAM	datasheets/relay/franjobaim/FAM.pdf		2	FAM-SH-112LM					
+relay	franjobaim	FAR	datasheets/relay/franjobaim/FAR.pdf		3	FAR-SH-109LME					
+relay	franjobaim	FAW	datasheets/relay/franjobaim/FAW.pdf		2	FAW-SH-124DM					
+relay	franjobaim	FQK	datasheets/relay/franjobaim/FQK.pdf		2	FQK-SS-212H					
+relay	franjobaim	FR15F	datasheets/relay/franjobaim/FRJBM-catalogue-power-relays.pdf		20	FR15F-1Z-15VDC-40A					
+relay	franjobaim	FR16F	datasheets/relay/franjobaim/FRJBM-catalogue-power-relays.pdf		20	FR16F-1Z-70VDC-30A					
+relay	franjobaim	FR18F	datasheets/relay/franjobaim/FRJBM-catalogue-power-relays.pdf		20	FR18F-1Z-9VDC-40A					
+relay	franjobaim	FR32F	datasheets/relay/franjobaim/FRJBM-catalogue-power-relays.pdf		14	FR32F-1H-5VDC-10A					
+relay	franjobaim	FR3F	datasheets/relay/franjobaim/FRJBM-catalogue-power-relays.pdf		16	FR3F-1Z-5VDC-7A					
+relay	franjobaim	FSA	datasheets/relay/franjobaim/FSA.pdf		22	FSA-SH-124L					
+relay	franjobaim	FSK	datasheets/relay/franjobaim/FSK.pdf		34	FSK-SH-124L					
+relay	franjobaim	FSV	datasheets/relay/franjobaim/FSV.pdf		12	FSV-SH-203L					
+relay	panasonic	ACJ	datasheets/relay/panasonic/mech_eng_cj.pdf		3	ACJ2112					
+relay	panasonic	ACNH	datasheets/relay/panasonic/mech_eng_cnh.pdf		2	ACNH3212					
+relay	panasonic	ACT	datasheets/relay/panasonic/mech_eng_ct.pdf		2	ACT512					
+relay	panasonic	ACTP	datasheets/relay/panasonic/mech_eng_ctp.pdf		2	ACTP512					
+relay	panasonic	ADJ	datasheets/relay/panasonic/mech_eng_dj.pdf		4	ADJ14024					
+relay	panasonic	ADJH	datasheets/relay/panasonic/mech_eng_djh.pdf		4	ADJH23012					
+relay	panasonic	ADY	datasheets/relay/panasonic/mech_eng_dy.pdf		3	ADY10005					
+relay	panasonic	AGN	datasheets/relay/panasonic/mech_eng_gn.pdf		8	AGN20012					
+relay	panasonic	AGQ	datasheets/relay/panasonic/mech_eng_gq.pdf		8	AGQ210S03Z					
+relay	panasonic	AGQ TH	datasheets/relay/panasonic/mech_eng_gqth.pdf		7	AGQ20TS12X					
+relay	panasonic	ALDP	datasheets/relay/panasonic/mech_eng_ldp.pdf		5	ALDP105W					
+relay	panasonic	ALF	datasheets/relay/panasonic/mech_eng_lf.pdf		1	ALF1PF12					
+relay	panasonic	ALFG	datasheets/relay/panasonic/mech_eng_lfg.pdf		4	ALFG1PF24					
+relay	panasonic	ALQ	datasheets/relay/panasonic/mech_eng_lq.pdf		5	ALQ3F12					
+relay	panasonic	ALZ	datasheets/relay/panasonic/mech_eng_lz.pdf		5	ALZ12F12					
+relay	panasonic	APF	datasheets/relay/panasonic/mech_eng_pf.pdf		4	APF30212					
+relay	panasonic	CB	datasheets/relay/panasonic/mech_eng_cb.pdf		3	CB1F-P-12V					
+relay	panasonic	CN-M	datasheets/relay/panasonic/mech_eng_cnm.pdf		3	ACNM7112SAX					
+relay	panasonic	CP	datasheets/relay/panasonic/mech_eng_cp.pdf		2	CP1-12V					
+relay	panasonic	CQ	datasheets/relay/panasonic/mech_eng_cq.pdf		1	ACQ131					
+relay	panasonic	DE	datasheets/relay/panasonic/mech_eng_de.pdf		4	DE2A-12V					
+relay	panasonic	DK	datasheets/relay/panasonic/mech_eng_dk.pdf		4	DK1A1B-L2-3V					
+relay	panasonic	DS	datasheets/relay/panasonic/mech_eng_ds.pdf		11	DS1E-S-DC5V					
+relay	panasonic	DSP	datasheets/relay/panasonic/mech_eng_dsp.pdf		5	DSP2A-DC24V					
+relay	panasonic	DW	datasheets/relay/panasonic/mech_eng_dw.pdf		4	ADW1224HTW					
+relay	panasonic	GQ	datasheets/relay/panasonic/mech_eng_gqth.pdf		1	AGQ200A12Y					
+relay	panasonic	HE	datasheets/relay/panasonic/mech_eng_hepv.pdf		1	HE1AN-P-DC24V					
+relay	panasonic	HE-A	datasheets/relay/panasonic/mech_eng_hea.pdf		4	AHEA4191					
+relay	panasonic	HE-N	datasheets/relay/panasonic/mech_eng_hen.pdf		2	HE1AN-W-DC12V-Y7					
+relay	panasonic	HE-PV	datasheets/relay/panasonic/mech_eng_hepv.pdf		4	HE1AN-W-DC12V-Y6					
+relay	panasonic	HE-R	datasheets/relay/panasonic/mech_eng_her.pdf		4	AHER1281					
+relay	panasonic	HE-S	datasheets/relay/panasonic/mech_eng_hes.pdf		4	AHES3291					
+relay	panasonic	HE-V	datasheets/relay/panasonic/mech_eng_hev.pdf		3	HEV2AN-P-DC24V					
+relay	panasonic	JV-N	datasheets/relay/panasonic/mech_eng_jvn.pdf		4	JVN1A-6V-F					
+relay	panasonic	JW	datasheets/relay/panasonic/mech_eng_jw.pdf		5	JW1FSN-B-DC12V					
+relay	panasonic	NC	datasheets/relay/panasonic/mech_eng_nc.pdf		4	NC2D-P-DC5V					
+relay	panasonic	PA-N	datasheets/relay/panasonic/mech_eng_pan.pdf		4	APAN3105					
+relay	panasonic	PhotoMOS™ AQS	datasheets/relay/panasonic/semi_eng_rf4a_aqs22_s.pdf	16-SOIC (0.173", 4.40mm Width)	1	AQS225R2SX					
+relay	panasonic	PhotoMOS™ AQS	datasheets/relay/panasonic/semi_eng_rf4a_aqs22_s_cr10.pdf	16-SOIC (0.173", 4.40mm Width)	1	AQS221N2SX					
+relay	panasonic	PhotoMOS™ AQV	datasheets/relay/panasonic/semi_eng_ge1a_aqv21_e.pdf	6-DIP (0.300", 7.62mm)	2	AQV252					
+relay	panasonic	PhotoMOS™ AQV	datasheets/relay/panasonic/semi_eng_ge1a_aqv21_e.pdf	6-SMD (0.300", 7.62mm)	7	AQV210EHAX					
+relay	panasonic	PhotoMOS™ AQV	datasheets/relay/panasonic/semi_eng_gu1a_aqv21.pdf	6-DIP (0.300", 7.62mm)	1	AQV214					
+relay	panasonic	PhotoMOS™ AQV	datasheets/relay/panasonic/semi_eng_he_sop6_1a.pdf	6-SOP (0.173", 4.40mm)	2	AQV252G2S					
+relay	panasonic	PhotoMOS™ AQV	datasheets/relay/panasonic/semi_eng_rf1a_aqv22_s.pdf	6-SOP (0.173", 4.40mm)	1	AQV224NSZ					
+relay	panasonic	PhotoMOS™ AQW	datasheets/relay/panasonic/semi_eng_ge2a_aqw21_e.pdf	8-DIP (0.300", 7.62mm)	2	AQW214EH					
+relay	panasonic	PhotoMOS™ AQW	datasheets/relay/panasonic/semi_eng_ge2a_aqw21_e.pdf	8-SMD (0.300", 7.62mm)	3	AQW212EHAZ					
+relay	panasonic	PhotoMOS™ AQW	datasheets/relay/panasonic/semi_eng_gu2a_aqw21.pdf	8-DIP (0.300", 7.62mm)	1	AQW212					
+relay	panasonic	PhotoMOS™ AQW	datasheets/relay/panasonic/semi_eng_gu2a_aqw21.pdf	8-SMD (0.300", 7.62mm)	2	AQW214AZ					
+relay	panasonic	PhotoMOS™ AQW	datasheets/relay/panasonic/semi_eng_gu2a_aqw21.pdf	8-SOP (0.173", 4.40mm Width)	2	AQW282SX					
+relay	panasonic	PhotoMOS™ AQW	datasheets/relay/panasonic/semi_eng_gu2a_aqw21_s.pdf	8-SOP (0.173", 4.40mm Width)	2	AQW214SX					
+relay	panasonic	PhotoMOS™ AQW	datasheets/relay/panasonic/semi_eng_he2a_aqw25.pdf	8-SMD (0.300", 7.62mm)	1	AQW254AZ					
+relay	panasonic	PhotoMOS™ AQY	datasheets/relay/panasonic/semi_eng_ge1a_aqy21_e.pdf	4-SMD (0.300", 7.62mm)	2	AQY210EHAX					
+relay	panasonic	PhotoMOS™ AQY	datasheets/relay/panasonic/semi_eng_ge1a_aqy21_e.pdf	4-SOP (0.173", 4.40mm)	1	AQY280SX					
+relay	panasonic	PhotoMOS™ AQY	datasheets/relay/panasonic/semi_eng_ge1b_aqy41_e.pdf	4-SMD (0.300", 7.62mm)	1	AQY412EHAX					
+relay	panasonic	PhotoMOS™ AQY	datasheets/relay/panasonic/semi_eng_gu1a_aqy21_g.pdf	4-SMD (0.300", 7.62mm)	1	AQY212GHAX					
+relay	panasonic	PhotoMOS™ AQY	datasheets/relay/panasonic/semi_eng_gu1a_aqy21_gs.pdf	4-SOP (0.173", 4.40mm)	2	AQY212GSX					
+relay	panasonic	PhotoMOS™ AQY	datasheets/relay/panasonic/semi_eng_gu_sop4_1a.pdf	4-SOP (0.173", 4.40mm)	1	AQY212SX					
+relay	panasonic	PhotoMOS™ AQY	datasheets/relay/panasonic/semi_eng_hs1a_aqy23_s.pdf	4-SOP (0.173", 4.40mm)	1	AQY232SZ					
+relay	panasonic	PhotoMOS™ AQY	datasheets/relay/panasonic/semi_eng_rf_sop4_1a_cr.pdf	4-SMD, Gull Wing	1	AQY412S					
+relay	panasonic	PhotoMOS™ AQY	datasheets/relay/panasonic/semi_eng_rf_sop4_1a_cr.pdf	4-SOP (0.173", 4.40mm)	2	AQY221N2SX					
+relay	panasonic	PhotoMOS™ AQY	datasheets/relay/panasonic/semi_eng_rf_ssop_1a_cr.pdf	4-SMD (0.175", 4.45mm)	1	AQY221R4VW					
+relay	panasonic	PhotoMOS™ AQY2	datasheets/relay/panasonic/semi_eng_cc1a_aqy2c_p.pdf	4-SMD (0.071", 1.80mm)	7	AQY2C1R2PX					
+relay	panasonic	PhotoMOS™ AQY2	datasheets/relay/panasonic/semi_eng_rf1a_aqy22_t_cr10.pdf	4-SMD (0.071", 1.80mm)	1	AQY221N2TW					
+relay	panasonic	PhotoMOS™ AQY2	datasheets/relay/panasonic/semi_eng_rf1a_aqy22_t_cr3.pdf	4-SMD (0.071", 1.80mm)	1	AQY221N5TW					
+relay	panasonic	S	datasheets/relay/panasonic/mech_eng_s.pdf		4	S2EB-24V					
+relay	panasonic	SP	datasheets/relay/panasonic/mech_eng_sp.pdf		4	SP4-P-DC24V					
+relay	panasonic	ST	datasheets/relay/panasonic/mech_eng_st.pdf		4	ST2-DC24V-F					
+relay	panasonic	TE	datasheets/relay/panasonic/mech_eng_te.pdf		1	ACTE3CH2A05V					
+relay	panasonic	TQ	datasheets/relay/panasonic/mech_eng_tq.pdf		8	TQ2-4.5V					
+relay	panasonic	TQ-SMD	datasheets/relay/panasonic/mech_eng_tq.pdf		8	TQ2SS-5V-Z					
+relay	panasonic	TX	datasheets/relay/panasonic/mech_eng_tx-b4d881.pdf		1	TX2-L-3V					
+relay	panasonic	TX	datasheets/relay/panasonic/mech_eng_tx.pdf		7	TX2-12V					
+relay	panasonic	TX-D	datasheets/relay/panasonic/mech_eng_txd.pdf		6	TXD2SA-5V-Z					
+relay	panasonic	TX-S	datasheets/relay/panasonic/mech_eng_txs-654268.pdf		7	TXS2SA-4.5V					
+relay	panasonic	TX-S	datasheets/relay/panasonic/mech_eng_txs.pdf		1	TXS2-L-3V					
+relay	panasonic	TX-TH	datasheets/relay/panasonic/mech_eng_txth.pdf		6	TX2SA-LT-12V-TH					
+relay	te	-	datasheets/relay/te/5-1773450-5_sec1_MA.pdf		1	1617792-6					
+relay	te	-	datasheets/relay/te/Automotive_Relay_Applications.pdf		1	5-1393302-2					
+relay	te	-	datasheets/relay/te/V23134X0000A002.pdf		1	3-1415001-2					
+relay	te	1MA, CII	datasheets/relay/te/5-1773450-5_sec1_1MA.pdf		3	J1MAP-26XL					
+relay	te	1MAD, CII	datasheets/relay/te/5-1773450-5_sec1_1MA.pdf		2	1-1617118-9					
+relay	te	1MAP	datasheets/relay/te/5-1773450-5_sec1_MA.pdf		1	3-1617118-9					
+relay	te	1MS, CII	datasheets/relay/te/5-1773450-5_sec1_1MS.pdf		2	1617541-7					
+relay	te	1MSCDD	datasheets/relay/te/5-1773450-5_sec1_1MS.pdf		1	8-1617351-4					
+relay	te	3SBC, CII	datasheets/relay/te/3SBC1503A2.pdf		2	3SBC2017A2					
+relay	te	3SBC, CII	datasheets/relay/te/3SBC1542A2.pdf		1	3SBC1542A2					
+relay	te	3SBH, CII	datasheets/relay/te/3SBH1142A2.pdf		1	3SBH1142A2					
+relay	te	3SBH, CII	datasheets/relay/te/C-3SBH-SERIES.pdf		1	3SBH1130A2					
+relay	te	DS11, KILOVAC	datasheets/relay/te/C-DS11-SERIES.pdf	6-SIP	1	DS11-1000					
+relay	te	EW60	datasheets/relay/te/1-1773878-9_EW60Relay.pdf		1	EW60-1A3-BL12D04,00000					
+relay	te	F4	datasheets/relay/te/V23134X0000A001.pdf		1	2-1393302-3					
+relay	te	FW, CII	datasheets/relay/te/FW1201G03.pdf		1	1617020-4					
+relay	te	HF3, AXICOM	datasheets/relay/te/1-1773931-3-Axicom-AppNote2.pdf		1	1462051-4					
+relay	te	HFW, CII	datasheets/relay/te/5-1773450-5_sec1_HFW.pdf		1	5-1617032-8					
+relay	te	HFW, CII	datasheets/relay/te/HFW1201G01M.pdf		1	HFW1201G01M					
+relay	te	HFW, CII	datasheets/relay/te/HFW1201K46M.pdf		1	HFW1201K46M					
+relay	te	HM, CII	datasheets/relay/te/HM-26B.pdf		1	HM-26B					
+relay	te	HMS, CII	datasheets/relay/te/HMS1201S29.pdf		1	3-1617039-9					
+relay	te	HS, CII	datasheets/relay/te/HS-12B.pdf		1	HS-12B					
+relay	te	IM, AXICOM	datasheets/relay/te/1-1773734-7_IM_Relay_I_Type.pdf		4	IM02GR					
+relay	te	IM, AXICOM	datasheets/relay/te/108-98001.pdf		6	1-1462039-8					
+relay	te	JWD	datasheets/relay/te/1308242_JWD-JWS.pdf		3	JWD-172-1					
+relay	te	JWD	datasheets/relay/te/CVM_1-1393771-2.pdf		1	1-1393771-2					
+relay	te	MA, CII	datasheets/relay/te/5-1773450-5_sec1_MA.pdf		3	JMAC-26XM					
+relay	te	MAC	datasheets/relay/te/5-1773450-5_sec1_MA.pdf		3	MAC-9W					
+relay	te	MACDD	datasheets/relay/te/5-1773450-5_sec1_MA.pdf		1	1617163-9					
+relay	te	MAD, CII	datasheets/relay/te/5-1773450-5_sec1_MA.pdf		2	JMACD-5XP					
+relay	te	MAD, CII	datasheets/relay/te/JMAWD-26XP.pdf		1	JMAWD-26XP					
+relay	te	MAT, CII	datasheets/relay/te/5-1773450-5_sec1_MA.pdf		3	1617355-1					
+relay	te	MAWD	datasheets/relay/te/JMAWD-26XP.pdf		1	1617126-6					
+relay	te	MGA, CII	datasheets/relay/te/5-1773450-5_sec1_MGA.pdf		1	JMGACDD-26L					
+relay	te	MGA, CII	datasheets/relay/te/JMGACDD-26MW.pdf		1	JMGACDD-26MW					
+relay	te	MGA, CII	datasheets/relay/te/JMGAPD-26M.pdf		1	JMGAPD-26M					
+relay	te	MGACDG	datasheets/relay/te/5-1773450-5_sec1_MGA.pdf		1	3-1617146-4					
+relay	te	MGAD, CII	datasheets/relay/te/5-1773450-5_sec1_MGA.pdf		1	JMGACD-26MW					
+relay	te	MGAD, CII	datasheets/relay/te/JMGACDG-12LW.pdf		1	JMGACDG-12LW					
+relay	te	MGAP	datasheets/relay/te/5-1773450-5_sec1_MGA.pdf		2	4-1617352-4					
+relay	te	MGAT	datasheets/relay/te/5-1773450-5_sec1_MGAT.pdf		1	1617110-6					
+relay	te	MGS, CII	datasheets/relay/te/5-1773450-5_sec1_MGS.pdf		2	1617151-3					
+relay	te	MGS, CII	datasheets/relay/te/PRMGSC-18XW.pdf		1	PRMGSC-18XW					
+relay	te	MGSD, CII	datasheets/relay/te/5-1773450-5_sec1_MGS.pdf		2	1-1617543-0					
+relay	te	MGSD, CII	datasheets/relay/te/JMGSPD-26P.pdf		1	JMGSPD-26P					
+relay	te	MGSPD	datasheets/relay/te/5-1773450-5_sec1_MGS.pdf		1	1617152-7					
+relay	te	MS, CII	datasheets/relay/te/5-1773450-5_sec1_MS.pdf		2	1-1617128-4					
+relay	te	MS, CII	datasheets/relay/te/JMSC-12XL.pdf		1	JMSC-12XL					
+relay	te	MSC	datasheets/relay/te/5-1773450-5_sec1_MS.pdf		1	1617127-1					
+relay	te	MSD, CII	datasheets/relay/te/5-1773450-5_sec1_MS.pdf		2	JMSPD-12XP					
+relay	te	MSD, CII	datasheets/relay/te/JMSWD-5XM.pdf		1	JMSWD-5XM					
+relay	te	MSPD	datasheets/relay/te/5-1773450-5_sec1_MS.pdf		1	1617130-2					
+relay	te	MSR, SCHRACK	datasheets/relay/te/MSR.pdf		6	V23061B1005A301					
+relay	te	MST, CII	datasheets/relay/te/5-1773450-5_sec1_MS.pdf		2	5-1617543-9					
+relay	te	Micro Relay K	datasheets/relay/te/V23086X0000A001.pdf		3	V23086C2001A403					
+relay	te	Mini K HV	datasheets/relay/te/V23700-X0000-A001.pdf		1	2-1904058-5					
+relay	te	OJ, OEG	datasheets/relay/te/1721260.pdf		2	OJ-SS-124HM2					
+relay	te	OJ, OEG	datasheets/relay/te/OJ_OJE_series_relay_data_sheet_E.pdf		1	OJ-SH-105LM,000					
+relay	te	OJE, OEG	datasheets/relay/te/OJ_OJE_series_relay_data_sheet_E.pdf		6	5-1419128-0					
+relay	te	OJS, OEG	datasheets/relay/te/OJS_16A_0821.pdf		1	OJS-SH-112HMF, 00000					
+relay	te	OJT, OEG	datasheets/relay/te/1-1773983-2_OJT_TV-8_Rated_Relay_Flyer.pdf		1	OJT-SS-112HM,00000					
+relay	te	ORWH, OEG	datasheets/relay/te/ORWH_series_relay_data_sheet_E.pdf		3	ORWH-SH-112D1F,000					
+relay	te	P2	datasheets/relay/te/Axicom_AppNote_1.pdf		1	3-1393788-6					
+relay	te	PB, SCHRACK	datasheets/relay/te/PB.pdf		4	PB114005					
+relay	te	PBH, SCHRACK	datasheets/relay/te/PBH.pdf		1	6-1415356-1					
+relay	te	PCH, OEG	datasheets/relay/te/PCH_series_relay_data_sheet_E.pdf		2	1461352-2					
+relay	te	PCJ, OEG	datasheets/relay/te/1721547.pdf		1	1-1721547-4					
+relay	te	PCN, SCHRACK	datasheets/relay/te/PCNH_Relay.pdf		6	PCN-105D3MHZ,000					
+relay	te	PE, SCHRACK	datasheets/relay/te/PE.pdf		4	PE014005					
+relay	te	PE, SCHRACK	datasheets/relay/te/PE_bistable.pdf		2	5-1415390-1					
+relay	te	R10	datasheets/relay/te/CVM_1-1393767-5.pdf		1	1-1393767-5					
+relay	te	RE, SCHRACK	datasheets/relay/te/RE.pdf		3	2-1416010-6					
+relay	te	RP II/1, SCHRACK	datasheets/relay/te/PCB_Accessories_Industrial_Power_Relays.pdf		1	RP714012					
+relay	te	RP II/2, SCHRACK	datasheets/relay/te/RPII-2.pdf		1	RP821012					
+relay	te	RP3SL, SCHRACK	datasheets/relay/te/RP3SL.pdf		2	1393230-4					
+relay	te	RT, SCHRACK	datasheets/relay/te/RT1_Inrush_Power.pdf		1	1415898-4					
+relay	te	RT, SCHRACK	datasheets/relay/te/RT1_bistable.pdf		1	8-1393239-9					
+relay	te	RT, SCHRACK	datasheets/relay/te/RT1_sensitive.pdf		2	4-1393239-3					
+relay	te	RT, SCHRACK	datasheets/relay/te/RT1pb.pdf		1	3-1415009-1					
+relay	te	RT, SCHRACK	datasheets/relay/te/RT2.pdf		1	8-1393243-8					
+relay	te	RT1	datasheets/relay/te/RT1.pdf		3	RTB14012F					
+relay	te	RT1	datasheets/relay/te/RT1pb.pdf		3	RTD14024F					
+relay	te	RT1 Bistable, SCHRACK	datasheets/relay/te/RT1_bistable.pdf		6	RT314F24					
+relay	te	RT1, Inrush, SCHRACK	datasheets/relay/te/RT1_Inrush.pdf		4	1-1415540-1					
+relay	te	RT1, Inrush, SCHRACK	datasheets/relay/te/RT1_Inrush_Power.pdf		2	RTS3T024					
+relay	te	RT1, SCHRACK	datasheets/relay/te/RT1.pdf		6	RT314024					
+relay	te	RT2	datasheets/relay/te/RT2pb.pdf		6	RTE24005F					
+relay	te	RT2, SCHRACK	datasheets/relay/te/1-1773969-4.pdf		1	RT424012					
+relay	te	RT2, SCHRACK	datasheets/relay/te/RT2.pdf		3	RT424024					
+relay	te	RT2, SCHRACK	datasheets/relay/te/RT2_bistable.pdf		2	RT424F24					
+relay	te	RY, SCHRACK	datasheets/relay/te/CVM_1-1393224-3.pdf		1	1-1393224-3					
+relay	te	RY, SCHRACK	datasheets/relay/te/RYII.pdf		5	RY533012					
+relay	te	RZ, SCHRACK	datasheets/relay/te/1-1773891-3_RZ_Relay_Flyer.pdf		3	7-1415899-7					
+relay	te	RZ, SCHRACK	datasheets/relay/te/RZ.pdf		4	RZ03-1A3-D005-R					
+relay	te	RZH, SCHRACK	datasheets/relay/te/Definitions_Relays.pdf		1	2-1415899-5					
+relay	te	RZH, SCHRACK	datasheets/relay/te/RZH.pdf		1	2-1415899-8					
+relay	te	SNR, SCHRACK	datasheets/relay/te/SNR.pdf		6	V23092A1024A301					
+relay	te	SNRII, SCHRACK	datasheets/relay/te/SNRnG.pdf		4	1558940-2					
+relay	te	SSRA	datasheets/relay/te/SSRA.pdf	4-SIP	1	SSRA-240D2R					
+relay	te	SSRC	datasheets/relay/te/8-1773454-2_SSRC_Data_Sheet.pdf	4-SIP	1	SSRC-240D5					
+relay	te	SSRF	datasheets/relay/te/8-1773454-3_SSRF_Data_Sheet.pdf	4-SIP	1	SSRF-240D25					
+relay	te	T77	datasheets/relay/te/1308242_T77.pdf		4	T77V1D10-12					
+relay	te	T92	datasheets/relay/te/1308242_T92.pdf		4	T92S7D12-24					
+relay	te	T9A	datasheets/relay/te/RTX.pdf		1	T9AS1D14-5					
+relay	te	T9A	datasheets/relay/te/T9A.pdf		6	T9AS1D12-24					
+relay	te	T9E	datasheets/relay/te/T9E_series_relay_datasheet.pdf		1	T9ES5D14-12					
+relay	te	T9G	datasheets/relay/te/1-1773924-8_PB_30A_PCB_RelayT9G.pdf		6	T9GV1L14-15					
+relay	te	T9S	datasheets/relay/te/T9S_solar_relay_datasheet.pdf		2	2027395-3					
+relay	te	V23061, AXICOM	datasheets/relay/te/MSR.pdf		1	5-1416200-8					
+relay	te	V23076	datasheets/relay/te/Definitions_Relays.pdf		2	1-1393277-7					
+relay	te	V23076	datasheets/relay/te/V23076-X0000-A001.pdf		5	1-1393277-4					
+relay	te	V23079, AXICOM	datasheets/relay/te/1393788-4.pdf		2	V23079D2008B301					
+relay	te	V23079, AXICOM	datasheets/relay/te/P2_Relay.pdf		1	V23079D1005B301					
+relay	te	V23079, AXICOM	datasheets/relay/te/PT.pdf		1	1422002-8					
+relay	te	V23100-V6, AXICOM	datasheets/relay/te/CVM_1393803-6.pdf		1	1393803-6					
+relay	te	V23101, AXICOM	datasheets/relay/te/108-98010.pdf		1	V23101D 7A201					
+relay	te	V23101, AXICOM	datasheets/relay/te/1308242_T81.pdf		1	V23101D7A201					
+relay	te	V23101, AXICOM	datasheets/relay/te/ENG_SS_108-98010_K.pdf		1	V23101D 107A201					

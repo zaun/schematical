@@ -28,7 +28,8 @@ _spec = importlib.util.spec_from_file_location('urlcheck', os.path.join(HERE, 'u
 urlcheck = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(urlcheck)
 
-CLIPS = ['01110501Z', '01020071Z', 'BK/1A5018-10-R', 'BK/1A1907-06-R', '0751.0052', '0751.0056']
+sys.path.append(HERE)
+import scancommon as sc  # noqa: E402
 
 
 def urls_needed(cand, clips):
@@ -36,10 +37,8 @@ def urls_needed(cand, clips):
     for r in csv.DictReader(open(cand, encoding='utf-8'), delimiter='\t', quoting=csv.QUOTE_NONE):
         if r['state'] in ('candidate', 'reserve') and r['url']:
             urls.setdefault(r['url'], r['company'])
-    for line in open(clips, encoding='utf-8'):
-        d = json.loads(line)
-        if d['mpn'] in CLIPS and d.get('datasheet'):
-            urls.setdefault(d['datasheet'], 'clip')
+    for _, url, _ in sc.clips():
+        urls.setdefault(url, 'clip')
     return urls
 
 

@@ -418,27 +418,29 @@ Commit: —
 
 ### Phase 3 — Download, place and scan the datasheets
 
-- [ ] `census/fetch.py`, `place.py`, `textscan.py`, `sibling.py` (§ 4, § 7):
+- [x] (2026-11-22: `fetch: 1466 URLs, 1466 PDFs, 0 failed` (1461 distinct row URLs + 5 clip PDFs; cold cache 866 MB); re-run after Phase 2's last refill) `census/fetch.py`, `place.py`, `textscan.py`, `sibling.py` (§ 4, § 7):
       download every distinct URL the download set cites (1461 at planning)
       and the five clip PDFs into `/tmp/p47/pdf`; `%PDF-` and `pdfinfo` on
       each; failures recorded in § Corrections with their host.
-- [ ] Place the PDFs under `datasheets/<family>/<maker-slug>/` and write each
+- [x] (2026-11-22: `1448 PDFs placed for 1466 URLs`; `place.py --verify` → `0 missing, 0 unused`; the PDFs and `datasheets.tsv` files stay out of the commits until C prunes) Place the PDFs under `datasheets/<family>/<maker-slug>/` and write each
       family's `datasheets.tsv`; `place.py --verify` → `0 missing, 0
       unused`. The PDFs stay out of the commits until C prunes them (C Phase
       4), so the history never carries PDFs no `add` row uses.
-- [ ] `candidates.tsv`: `pdf` (the placed path) for every download-set row
+- [x] (2026-11-22: `3522 rows with their own PDF; 2348 printed verbatim; 0 dead`; `0 download-set rows without their own PDF`) `candidates.tsv`: `pdf` (the placed path) for every download-set row
       whose URL gave a PDF, and `hit` = 1 when its part number is printed
       verbatim (`pdftotext -layout`, token-boundary search); `dead` = 1 when
       the text near the part number says obsolete, discontinued, NRND, "not
       recommended for new designs" or end of life (B and C read every such
       row).
-- [ ] `census/specs-skeleton.py`: `planning/plan-47-data/specs.tsv`, one row
+- [x] (2026-11-22: `1547 rows; 0 kept from before`) `census/specs-skeleton.py`: `planning/plan-47-data/specs.tsv`, one row
       per (type, maker, series, PDF, package) of the download set, columns
       `type`, `maker`, `series`, `pdf`, `package`, `rows`, `example`,
       `scheme`, `label`, `page` (B's and C's), `pinout`, `terminals` (B's and
       C's).
-- [ ] Record `du -sh datasheets/inductor datasheets/fuse datasheets/relay
+- [x] (2026-11-22: inductor 249M (415 PDFs), fuse 168M (293), relay 247M (171), buzzer 192M (569)) Record `du -sh datasheets/inductor datasheets/fuse datasheets/relay
       datasheets/buzzer` here.
+
+- [ ] After Phase 2's last refill, re-run `fetch.py`, `textscan.py`, `sibling.py`, `place.py`, `place.py --verify` and `specs-skeleton.py` over the final download set (rows that entered need their PDF; PDFs of rows that left are removed by `--verify`'s `unused` list) and re-record the counts and `du` above.
 
 Acceptance: every download-set row either has a PDF or a reason it has none.
   Check: `awk -F'\t' 'NR>1 && ($23=="candidate" \|\| $23=="reserve") && $26==""' planning/plan-47-data/candidates.tsv \| wc -l` → the rows B and C will `skip` for no maker datasheet (recorded here); for each family `find datasheets/<family> -iname '*.pdf' \| wc -l` = `tail -n +2 datasheets/<family>/datasheets.tsv \| cut -f1 \| sort -u \| wc -l` (est. 30 min: the PDFs `urlcheck.py` already fetched are reused; a cold cache is 1466 downloads, about 45 min).
@@ -528,6 +530,19 @@ Author decisions (no user-visible fork; recorded so nobody re-litigates):
   `planning/plan-48-A-timer-opamp-data.md`, whose own prerequisite names
   plan-47's kinds as an open plan's. It adds none of them, so the command now
   also excludes `plan-48-A` (above).
+- **2026-11-22, the clip datasheets.** `clips/clips.jsonl` carries DigiKey's own
+  link for the Eaton clips (`//mm.digikey.com/…/Fuseholder%20Blocks%20%26%20Clips.pdf`,
+  not a PDF `urllib` could open: `ValueError`). `fetch.py` and `place.py` take the
+  five maker-site URLs of § 6's table (`scancommon.CLIP_URLS`) instead; 5 PDFs,
+  all fetched.
+- **2026-11-22, Phase 2, day 1.** 939 look-ups (a first run of the script
+  stopped at 559 rows without a message and was restarted; the file is
+  append-only and skips done rows); stopped by `STOCK_CHECK_RESERVE=50` at
+  `49 left today`. One miss: `768772331` (Würth WE-TI HV) — an exact-match
+  query with the maker id returns no product (`{"Products":[],"ExactMatches":[]}`,
+  one more call), so it sold out after the planning listing: `out`, reason
+  `stock check`; the next row of (wurth, inductor, tht) entered. The quota
+  resets at about 00:00 UTC (14:00 HST); the run goes on then.
 
 ## Summary
 
