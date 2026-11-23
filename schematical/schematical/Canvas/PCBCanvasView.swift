@@ -87,6 +87,12 @@ struct PCBCanvasView: View {
     var clearsHoles = false
 
     @State private var interaction: Interaction?
+    /// Zoom when the current pinch began, nil between pinches.
+    @State private var pinchStartZoom: CGFloat?
+    /// The press in progress as the system reported it, and how far the
+    /// canvas has scrolled under it since it began. Cleared when it ends.
+    @State private var rawPress: (start: CGPoint, translation: CGSize)?
+    @State private var pressShift: CGSize = .zero
     /// Where the pointer is, for the hovered pad and the Trace tool's
     /// landing ring. Only `PCBHoverLayer` reads it, so the pointer moving
     /// redraws that layer and not the board.
@@ -188,8 +194,25 @@ struct PCBCanvasView: View {
         }
         .gesture(
             DragGesture(minimumDistance: 0)
-                .onChanged { value in handle(start: value.startLocation, translation: value.translation) }
-                .onEnded { value in end(translation: value.translation) }
+                .onChanged { value in
+                    rawPress = (value.startLocation, value.translation)
+                    handle(start: value.startLocation, translation: shifted(value.translation))
+                }
+                .onEnded { value in
+                    end(translation: shifted(value.translation))
+                    rawPress = nil
+                    pressShift = .zero
+                }
+        )
+        .scrollPans(viewport) { scrolledMidPress(by: $0) }
+        .simultaneousGesture(
+            MagnifyGesture()
+                .onChanged { value in
+                    let start = pinchStartZoom ?? viewport.zoom
+                    pinchStartZoom = start
+                    viewport.setZoom(start * value.magnification, around: value.startLocation)
+                }
+                .onEnded { _ in pinchStartZoom = nil }
         )
         .onContinuousHover { phase in
             switch phase {
@@ -850,6 +873,28 @@ struct PCBCanvasView: View {
     }
 
     // MARK: Gestures
+
+    /// `translation` less the scroll since the press began: the drag as if the
+    /// canvas had stayed put.
+    private func shifted(_ translation: CGSize) -> CGSize {
+        CGSize(width: translation.width - pressShift.width, height: translation.height - pressShift.height)
+    }
+
+    /// The canvas scrolled by `shift` while a press is down: the press's start
+    /// moves with the content, and the drag's effect is worked out again for
+    /// the pointer's unchanged place.
+    private func scrolledMidPress(by shift: CGSize) {
+        guard let raw = rawPress, interaction != nil else { return }
+        if case let .pan(startOffset)? = interaction {
+            // A pan is the offset itself: its start moves with the scroll.
+            interaction = .pan(startOffset: CGSize(width: startOffset.width + shift.width,
+                                                   height: startOffset.height + shift.height))
+        } else {
+            pressShift = CGSize(width: pressShift.width + shift.width, height: pressShift.height + shift.height)
+            pressLocation = CGPoint(x: pressLocation.x + shift.width, y: pressLocation.y + shift.height)
+        }
+        handle(start: raw.start, translation: shifted(raw.translation))
+    }
 
     /// One step of a drag that started at `start` (screen points) and has
     /// moved by `translation`. On the first step it decides what the drag
