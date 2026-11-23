@@ -146,7 +146,7 @@ asked for clips).
 
 Acceptance: those lines have footprints that load.
   Check: `python3 -I planning/plan-47-data/census/fp-gen.py planning/plan-47-data/dims-E.tsv > planning/plan-47-data/footprints-E.json && planning/plan-47-data/census/fp-load.sh planning/plan-47-data/footprints-E.json` → `<k> new footprints: load ok` (est. 3 min).
-Commit: —
+Commit: 6a053e7a
 
 ### Phase 2 — Radial and axial fuses
 
@@ -155,7 +155,7 @@ Commit: —
 
 Acceptance: those lines have footprints that load.
   Check: the Phase 1 command → `<k> new footprints: load ok` (est. 3 min).
-Commit: —
+Commit: 6a053e7a
 
 ### Phase 3 — The six clip pairs
 
@@ -167,7 +167,7 @@ Commit: —
 - [ ] After A's last refill and C's final pick: regenerate `footprints-needed.txt` (`footprint-lines.py … --add`), `fp-check.py E` for lines new to the final pick (draw them), `fp-load.sh` over `footprints-*.json`, re-record the counts.
 Acceptance: every E line has a footprint that loads.
   Check: `python3 -I planning/plan-47-data/census/fp-check.py E` → `<n> lines, 0 without a footprint`; `planning/plan-47-data/census/fp-load.sh planning/plan-47-data/footprints-E.json planning/plan-47-data/footprints-E-explicit.json` → `<k> new footprints: load ok`; `python3 -I -c "import json;print(sum(f['id'].startswith('FUSE-CLIP-') for f in json.load(open('planning/plan-47-data/footprints-E-explicit.json'))['footprints']))"` → 6 (est. 4 min).
-Commit: —
+Commit: 6a053e7a
 
 ## Validation Plan
 

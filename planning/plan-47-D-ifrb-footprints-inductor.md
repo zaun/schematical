@@ -200,7 +200,7 @@ DigiKey's size text (rejected: the rule is the datasheet's drawing;
 
 Acceptance: the tools run.
   Check: `python3 -I planning/plan-47-data/census/fp-check.py D` → `<n> lines, <n> without a footprint`; `printf 'id\tfamily\tbody_w\tbody_h\tround\tspan\tpad_w\tpad_h\tshape\tdrill\tpdf\tpage\tarith\nIND-TEST\tchip\t1.6\t0.8\t0\t1.6\t0.8\t0.9\trect\t\tx.pdf\t1\ttest\n' > /tmp/p47-dims.tsv && python3 -I planning/plan-47-data/census/fp-gen.py /tmp/p47-dims.tsv > /tmp/p47-fp.json && planning/plan-47-data/census/fp-load.sh /tmp/p47-fp.json` → `1 new footprints: load ok` (est. 4 min: it builds `footprint_check` in a copy).
-Commit: —
+Commit: 8a0ba49f
 
 ### Phase 2 — Chip inductors
 
@@ -211,7 +211,7 @@ Commit: —
 
 Acceptance: those lines have footprints that load.
   Check: `python3 -I planning/plan-47-data/census/fp-gen.py planning/plan-47-data/dims-D.tsv > planning/plan-47-data/footprints-D.json && planning/plan-47-data/census/fp-load.sh planning/plan-47-data/footprints-D.json` → `<k> new footprints: load ok` (est. 3 min).
-Commit: —
+Commit: 95a174b4
 
 ### Phase 3 — Other surface-mount inductors
 
@@ -224,7 +224,7 @@ Commit: —
 
 Acceptance: those lines have footprints that load.
   Check: `planning/plan-47-data/census/fp-load.sh planning/plan-47-data/footprints-D.json planning/plan-47-data/footprints-D-explicit.json` → `<k> new footprints: load ok` (est. 3 min).
-Commit: —
+Commit: 95a174b4
 
 ### Phase 4 — Radial and axial inductors
 
@@ -236,7 +236,7 @@ Commit: —
 - [ ] After A's last refill and C's final pick: regenerate `footprints-needed.txt` (`footprint-lines.py … --add`), `fp-check.py D` for lines new to the final pick (draw them), `fp-load.sh` over `footprints-*.json`, re-record the counts.
 Acceptance: every D line has a footprint that loads.
   Check: `python3 -I planning/plan-47-data/census/fp-check.py D` → `<n> lines, 0 without a footprint`, and `planning/plan-47-data/census/fp-load.sh planning/plan-47-data/footprints-D.json planning/plan-47-data/footprints-D-explicit.json` → `<k> new footprints: load ok` (est. 4 min).
-Commit: —
+Commit: 6a053e7a
 
 ## Validation Plan
 

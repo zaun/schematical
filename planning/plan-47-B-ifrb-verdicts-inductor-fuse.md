@@ -203,7 +203,7 @@ group.
 
 Acceptance: every inductor row of the download set has its verdicts.
   Check: `python3 -I planning/plan-47-data/census/scheme-check.py inductor` → `<n> rows: <k> ok, 0 unchecked`; `python3 -I planning/plan-47-data/census/pinout-check.py inductor` → `<m> specs rows: 0 errors`; `python3 -I planning/plan-47-data/census/scheme-check.py inductor --sample \| wc -l` → 60 (est. 5 min).
-Commit: —
+Commit: 1804f8be
 
 ### Phase 2 — The fuses
 
@@ -212,7 +212,7 @@ Commit: —
 
 Acceptance: every fuse row of the download set has its verdicts.
   Check: `python3 -I planning/plan-47-data/census/scheme-check.py fuse` → `<n> rows: <k> ok, 0 unchecked`; `…/pinout-check.py fuse` → `0 errors` (est. 3 min).
-Commit: —
+Commit: 1804f8be
 
 ### Phase 3 — The PTCs
 
@@ -223,7 +223,7 @@ Commit: —
 
 Acceptance: every PTC row of the download set has its verdicts.
   Check: `python3 -I planning/plan-47-data/census/scheme-check.py ptc` → `<n> rows: <k> ok, 0 unchecked`; `…/pinout-check.py ptc` → `0 errors`; and for the letter `python3 -I planning/plan-47-data/census/scheme-check.py inductor fuse ptc` → `<n> rows: <k> ok, 0 unchecked` with `<n>` the three types' download-set rows (est. 3 min).
-Commit: —
+Commit: 1804f8be
 
 ## Validation Plan
 

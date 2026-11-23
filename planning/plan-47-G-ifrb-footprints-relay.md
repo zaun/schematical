@@ -166,7 +166,7 @@ pattern, and R1 prefers it).
 
 Acceptance: the solid-state lines have footprints that load and match their pinouts.
   Check: `planning/plan-47-data/census/fp-load.sh planning/plan-47-data/footprints-G.json` → `<k> new footprints: load ok`; `python3 -I planning/plan-47-data/census/fp-pins.py G` → `<m> map rows with a footprint: 0 errors` (est. 4 min).
-Commit: —
+Commit: 95a174b4
 
 ### Phase 2 — Panasonic and Franjobaim relays
 
@@ -177,7 +177,7 @@ Commit: —
 
 Acceptance: those lines have footprints that load and match their pinouts.
   Check: the Phase 1 commands → `load ok`, `0 errors`; `python3 -I planning/plan-47-data/census/fp-check.py G` → the lines without a footprint are TE's (est. 4 min).
-Commit: —
+Commit: 95a174b4
 
 ### Phase 3 — TE relays
 
@@ -187,7 +187,7 @@ Commit: —
 - [ ] After A's last refill and C's final pick: regenerate `footprints-needed.txt` (`footprint-lines.py … --add`), `fp-check.py G` for lines new to the final pick (draw them), `fp-load.sh` over `footprints-*.json`, re-record the counts.
 Acceptance: every G line has a footprint that loads and matches its pinout.
   Check: `python3 -I planning/plan-47-data/census/fp-check.py G` → `<n> lines, 0 without a footprint`; `planning/plan-47-data/census/fp-load.sh planning/plan-47-data/footprints-G.json` → `<k> new footprints: load ok`; `python3 -I planning/plan-47-data/census/fp-pins.py G` → `0 errors`; `python3 -I planning/plan-47-data/census/pinout-check.py relay` → `0 errors` (est. 5 min).
-Commit: —
+Commit: 6a053e7a
 
 ## Validation Plan
 

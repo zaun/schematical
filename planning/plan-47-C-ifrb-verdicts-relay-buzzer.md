@@ -215,7 +215,7 @@ plan-47-G draws each footprint from the same drawing.
 
 Acceptance: every relay row of the download set has its verdicts.
   Check: `python3 -I planning/plan-47-data/census/scheme-check.py relay` → `<n> rows: <k> ok, 0 unchecked`; `python3 -I planning/plan-47-data/census/pinout-check.py relay` → `<m> specs rows: 0 errors` (est. 3 min).
-Commit: —
+Commit: 041f158f
 
 ### Phase 2 — The buzzers
 
@@ -224,7 +224,7 @@ Commit: —
 
 Acceptance: every buzzer row of the download set has its verdicts.
   Check: `python3 -I planning/plan-47-data/census/scheme-check.py buzzer` → `<n> rows: <k> ok, 0 unchecked`; `…/pinout-check.py buzzer` → `0 errors` (est. 3 min).
-Commit: —
+Commit: 041f158f
 
 ### Phase 3 — The final pick and the skip list
 

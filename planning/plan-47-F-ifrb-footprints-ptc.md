@@ -129,7 +129,7 @@ layouts for 101 PDFs; the helper prints, a person transfers).
 
 Acceptance: those lines have footprints that load.
   Check: `python3 -I planning/plan-47-data/census/fp-gen.py planning/plan-47-data/dims-F.tsv > planning/plan-47-data/footprints-F.json && planning/plan-47-data/census/fp-load.sh planning/plan-47-data/footprints-F.json` → `<k> new footprints: load ok` (est. 3 min).
-Commit: —
+Commit: 95a174b4
 
 ### Phase 2 — Radial discs: Littelfuse
 
@@ -139,7 +139,7 @@ Commit: —
 
 Acceptance: those lines have footprints that load.
   Check: the Phase 1 command → `<k> new footprints: load ok`; `python3 -I planning/plan-47-data/census/fp-check.py F` → the lines without a footprint are Bourns' and Bel Fuse's radial ones (est. 3 min).
-Commit: —
+Commit: 95a174b4
 
 ### Phase 3 — Radial discs: Bourns and Bel Fuse
 
@@ -149,7 +149,7 @@ Commit: —
 - [ ] After A's last refill and C's final pick: regenerate `footprints-needed.txt` (`footprint-lines.py … --add`), `fp-check.py F` for lines new to the final pick (draw them), `fp-load.sh` over `footprints-*.json`, re-record the counts.
 Acceptance: every F line has a footprint that loads.
   Check: `python3 -I planning/plan-47-data/census/fp-check.py F` → `<n> lines, 0 without a footprint`; the Phase 1 command → `<k> new footprints: load ok` (est. 3 min).
-Commit: —
+Commit: 6a053e7a
 
 ## Validation Plan
 

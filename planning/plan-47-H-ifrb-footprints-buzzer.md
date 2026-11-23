@@ -132,7 +132,7 @@ text carries no pin spacing, and the footprint is the pins).
 
 Acceptance: those lines have footprints that load and match their pinouts.
   Check: `python3 -I planning/plan-47-data/census/fp-gen.py planning/plan-47-data/dims-H.tsv > planning/plan-47-data/footprints-H.json && planning/plan-47-data/census/fp-load.sh planning/plan-47-data/footprints-H.json planning/plan-47-data/footprints-H-explicit.json` → `<k> new footprints: load ok`; `python3 -I planning/plan-47-data/census/fp-pins.py H` → `0 errors` (est. 4 min).
-Commit: —
+Commit: 95a174b4
 
 ### Phase 2 — Surface-mount buzzers
 
@@ -142,7 +142,7 @@ Commit: —
 - [ ] After A's last refill and C's final pick: regenerate `footprints-needed.txt` (`footprint-lines.py … --add`), `fp-check.py H` for lines new to the final pick (draw them), `fp-load.sh` over `footprints-*.json`, re-record the counts.
 Acceptance: every H line, and every line of the plan, has a footprint that loads.
   Check: `python3 -I planning/plan-47-data/census/fp-check.py H` → `<n> lines, 0 without a footprint`; `python3 -I planning/plan-47-data/census/fp-check.py D E F G H` → `<N> lines, 0 without a footprint`; `planning/plan-47-data/census/fp-load.sh planning/plan-47-data/footprints-[D-H]*.json` → `<K> new footprints: load ok` (all of plan-47's objects in one copy: no id clash, no overlap); `python3 -I planning/plan-47-data/census/fp-pins.py H` → `0 errors` (est. 5 min).
-Commit: —
+Commit: 6a053e7a
 
 ## Validation Plan
 

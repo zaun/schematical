@@ -221,7 +221,7 @@ part (no generics, owner decision).
 Acceptance: the facts, names and references are right on the real catalog.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p47-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/InductorFuseTests` → `** TEST SUCCEEDED **` (est. 8 min: build + one test class).
   Observed (2026-11-22, `-derivedDataPath /tmp/p47-dd-m`): `Test Case '-[schematicalTests.InductorFuseTests testFuseAndPTCFacts]' passed` … `** TEST SUCCEEDED **`.
-Commit: —
+Commit: 15270503
 
 ### Phase 2 — The inductor and fuse symbols
 
@@ -238,7 +238,7 @@ Commit: —
 Acceptance: inductors and fuses draw as such.
   Check: `xcodebuild … test -only-testing:schematicalTests/InductorFuseTests` → `** TEST SUCCEEDED **` (est. 8 min).
   Observed (2026-11-22): `Executed 18 tests, with 0 failures` for `InductorFuseTests`, `** TEST SUCCEEDED **`.
-Commit: —
+Commit: 15270503
 
 ### Phase 3 — Drawer order, blowing a fuse, the harness
 
@@ -263,7 +263,7 @@ Commit: —
 Acceptance: the drawer, the sidebar and the play-mode outcome work end to end.
   Check: `rm -rf /tmp/p47-harness && APP=/tmp/p47-dd/Build/Products/Debug/schematical.app scripts/harness/build.sh scripts/harness/inductor-fuse-app.swift /tmp/p47-harness && /tmp/p47-harness/H.app/Contents/MacOS/harness` → every line `ok`, exit 0; and `xcodebuild … test -only-testing:schematicalTests/InductorFuseTests -only-testing:schematicalTests/DrawerPerformanceTests -only-testing:schematicalTests/PartEditorWindowTests -only-testing:schematicalTests/KeyboardHelpTests` → `** TEST SUCCEEDED **` (est. 15 min: app build, harness, four test classes).
   Observed (2026-11-22): the harness (built with `APP=/tmp/p47-dd-m/Build/Products/Debug/schematical.app`) printed 18 `ok` lines, `LED: ["lit", "dark", "lit"]; blown after the clicks: [true, false]`, `all checks ok`, exit 0; `xcodebuild … test` with the four classes (and CrystalTests, ResistorTests, CapacitorTests, TactileSwitchTests, PlaySwitchResetTests, AutomationTests) → `Executed 103 tests, with 0 failures`, `** TEST SUCCEEDED **`. A second run of KiCadExportTests, EasyEDAProExportTests, NetListTests, ReferencePrefixTests, ReferencePositionTests, DatasheetCatalogTests, BoardCatalogTests, DrawerConverterFilterTests, UserLibraryCatalogTests, SimulationAvailabilityTests, PartKindRoundTripTests, PartKindKeysTests: `Executed 117 tests, with 1 failure`: `UserLibraryCatalogTests.testAddListsUnderUserLibraryAndWritesTheFile` compares `/var/folders/…` with `/private/var/folders/…` (a temp-directory path, nothing M touched).
-Commit: —
+Commit: 15270503
 
 ## Validation Plan
 

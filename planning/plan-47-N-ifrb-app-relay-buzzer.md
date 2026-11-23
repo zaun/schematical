@@ -217,7 +217,7 @@ being loud).
 Acceptance: relays draw as relays.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p47-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/RelayBuzzerTests` → `** TEST SUCCEEDED **` (est. 8 min).
   Observed (2026-11-22, `-derivedDataPath /tmp/p47-dd-n`): the relay tests of `RelayBuzzerTests` pass; the class (22 tests) → `Executed 22 tests, with 0 failures`, `** TEST SUCCEEDED **`.
-Commit: —
+Commit: 68871ba5
 
 ### Phase 2 — The buzzer symbol and its voices
 
@@ -233,7 +233,7 @@ Commit: —
 Acceptance: buzzers draw as buzzers and their voices are computed.
   Check: `xcodebuild … test -only-testing:schematicalTests/RelayBuzzerTests` → `** TEST SUCCEEDED **` (est. 8 min).
   Observed (2026-11-22): `RelayBuzzerTests` → `Executed 22 tests, with 0 failures (0 unexpected)`, `** TEST SUCCEEDED **`.
-Commit: —
+Commit: 68871ba5
 
 ### Phase 3 — The sound, the setting, the harness
 
@@ -264,7 +264,7 @@ Commit: —
 Acceptance: relays and buzzers work in play mode, end to end.
   Check: `rm -rf /tmp/p47-harness && APP=/tmp/p47-dd/Build/Products/Debug/schematical.app scripts/harness/build.sh scripts/harness/relay-buzzer-app.swift /tmp/p47-harness && /tmp/p47-harness/H.app/Contents/MacOS/harness` → every line `ok`, exit 0; `xcodebuild … test -only-testing:schematicalTests/RelayBuzzerTests -only-testing:schematicalTests/DrawerPerformanceTests -only-testing:schematicalTests/KeyboardHelpTests` → `** TEST SUCCEEDED **` (est. 15 min, plus 5 min for the hand check).
   Observed (2026-11-22): the harness (built with `APP=/tmp/p47-dd-n/Build/Products/Debug/schematical.app`) printed 13 `ok` lines, `gate low in: relay light 1.0, LED 1.0, voices ["2700.0 Hz"], rated 2700.0 Hz`, `gate high in: relay light 0.0, LED 0.0, voices [:]`, `self-interrupting relay 1558940-2 with transducer AST0440MFD-03TRQ: voice 500.3657369165446 Hz`, `all checks ok`, exit 0; `xcodebuild … test` with RelayBuzzerTests, DrawerPerformanceTests, KeyboardHelpTests and InductorFuseTests → `Executed 52 tests, with 0 failures`, `** TEST SUCCEEDED **`. NOT met: the hand check (ear) above, so the phase's last box stays open. A run of the whole `schematicalTests` target was stopped at RouterFixtureTests (minutes of router work, untouched by N): 933 test cases had passed and none failed up to there.
-Commit: —
+Commit: 68871ba5
 
 ## Validation Plan
 
