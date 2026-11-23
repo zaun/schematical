@@ -618,6 +618,7 @@ private final class DrawerMemo {
     private struct GroupsKey: Equatable {
         let filter: DrawerFilter
         let partCount: Int
+        let revision: Int
         let loadState: PartCatalogStore.LoadState
     }
 
@@ -634,7 +635,8 @@ private final class DrawerMemo {
     private var cachedLayout = DrawerLayout()
 
     func groups(for catalog: PartCatalogStore, filter: DrawerFilter) -> [PartCatalogStore.CategoryGroup] {
-        let key = GroupsKey(filter: filter, partCount: catalog.partCount, loadState: catalog.loadState)
+        let key = GroupsKey(filter: filter, partCount: catalog.partCount,
+                           revision: catalog.derivedRevision, loadState: catalog.loadState)
         if key != groupsKey {
             cachedGroups = catalog.groups(matching: filter)
             groupsKey = key

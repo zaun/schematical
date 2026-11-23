@@ -1585,7 +1585,15 @@ final class PartCatalogStore {
     /// pass the first time it is asked for (plan-43 follow-up: each header
     /// used to scan every part on every redraw). `entries` changes only in
     /// `load` and `register`, which drop it.
-    @ObservationIgnored private var derivedCache: Derived?
+    @ObservationIgnored private var derivedCache: Derived? {
+        didSet { if derivedCache == nil { derivedRevision += 1 } }
+    }
+
+    /// Counts the times `entries` changed in a way the drawer must rebuild for,
+    /// including a part moving between categories or being replaced, which
+    /// leave `partCount` as it was (plan-53: the drawer kept listing an added
+    /// part under File Library).
+    private(set) var derivedRevision = 0
 
     private var derived: Derived {
         if let derivedCache { return derivedCache }

@@ -608,12 +608,12 @@ enum PartFileType {
 enum PartFileLoading {
     /// The open panel for a part file, as a sheet on the key window; nil when
     /// cancelled.
-    private static func choosePartFile() async -> URL? {
+    private static func choosePartFile(message: String) async -> URL? {
         let panel = NSOpenPanel()
         panel.allowedContentTypes = PartFileType.openableTypes
         panel.allowsMultipleSelection = false
         panel.canChooseDirectories = false
-        panel.message = "Choose a part file to add to your User Library"
+        panel.message = message
         let response: NSApplication.ModalResponse
         if let window = NSApp.keyWindow {
             response = await panel.beginSheetModal(for: window)
@@ -636,7 +636,7 @@ enum PartFileLoading {
     /// to the User Library with no question (plan-53-F).
     static func addToLibrary(catalog: PartCatalogStore? = nil) async {
         let catalog = catalog ?? PartCatalogStore.shared
-        guard let url = await choosePartFile() else { return }
+        guard let url = await choosePartFile(message: "Choose a part file to add to your User Library") else { return }
         do {
             let text = try PartFileReader.read(url: url)
             try catalog.addToUserLibrary(fileText: text, source: url.lastPathComponent)
@@ -647,7 +647,7 @@ enum PartFileLoading {
 
     static func loadPart(catalog: PartCatalogStore? = nil) async {
         let catalog = catalog ?? PartCatalogStore.shared
-        guard let url = await choosePartFile() else { return }
+        guard let url = await choosePartFile(message: "Choose a part file to load") else { return }
         do {
             let text = try PartFileReader.read(url: url)
             let outcome = try await load(text: text, source: url.lastPathComponent, catalog: catalog) { name in

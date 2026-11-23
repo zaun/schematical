@@ -97,6 +97,19 @@ final class UserLibraryCatalogTests: XCTestCase {
         XCTAssertEqual(files().count, 1)
     }
 
+    /// (d2) The drawer rebuilds on `derivedRevision`, not on the part count: a part
+    /// moving between categories leaves the count as it was (found by the real-app
+    /// run: the part stayed under File Library after Add to User Library).
+    func testMovingAPartChangesTheDrawerRevisionNotTheCount() throws {
+        let store = makeStore()
+        let part = try store.register(fileText: fileText("A4000000-0000-4000-8000-000000000009", "UL-D2"), source: "d2")
+        let count = store.partCount
+        let revision = store.derivedRevision
+        try store.addToUserLibrary(part)
+        XCTAssertEqual(store.partCount, count)
+        XCTAssertNotEqual(store.derivedRevision, revision)
+    }
+
     /// (e) A name a bundled part has is suffixed once, and the file holds the
     /// suffixed name, so a relaunch lists the same name.
     func testASuffixedNameIsWhatTheFileHolds() throws {
