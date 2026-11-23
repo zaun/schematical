@@ -48,6 +48,10 @@ struct SchematicNetlist {
     /// is the contact a click blows (plan-47-M).
     var fuseParts: [Int] = []
 
+    /// The buzzers (`PART_BUZZER`) of the circuit, whose tone `BuzzerTone`
+    /// reads each frame (plan-47-N).
+    var buzzers: [BuzzerTone.Buzzer] = []
+
     func isFuse(part: Int) -> Bool { fuseParts.contains(part) }
 }
 
@@ -235,6 +239,18 @@ enum NetlistBuilder {
             positionCounts.append(chip.part.kind == PART_FUSE ? 1 : chip.switchesOn.count)
         }
 
+        // Buzzers: the net of the `+` pin, for the tone of a transducer.
+        var buzzers: [BuzzerTone.Buzzer] = []
+        for (index, chip) in chips.enumerated() where chip.part.kind == PART_BUZZER {
+            guard let info = chip.part.buzzer else { continue }
+            let plus = chip.part.pins.first { $0.name == "+" }
+            let net = plus.flatMap { pin in
+                connections.first { $0.part == index && $0.pin == pin.designator }?.net
+            }
+            buzzers.append(BuzzerTone.Buzzer(chip: chip.id, part: index, isTransducer: info.driver == "transducer",
+                                             hz: Double(info.hz), plusNet: net))
+        }
+
         return SchematicNetlist(
             partNames: chips.map(\.partNumber),
             netCount: netCount,
@@ -245,7 +261,8 @@ enum NetlistBuilder {
             chipIDs: chips.map(\.id),
             netOfWire: netOfWire,
             lcdParts: chips.indices.filter { chips[$0].part.kind == PART_CHARLCD },
-            fuseParts: chips.indices.filter { chips[$0].part.kind == PART_FUSE }
+            fuseParts: chips.indices.filter { chips[$0].part.kind == PART_FUSE },
+            buzzers: buzzers
         )
     }
 }
@@ -304,6 +321,14 @@ final class SimulationController {
     /// The fuses blown with a click in this run (plan-47-M). Play-mode state
     /// only: empty at every start, cleared at stop, never saved.
     private(set) var blownFuses: Set<UUID> = []
+    /// The buzzers that sound in the last frame, each with its pitch in hertz
+    /// (plan-47-N). Empty outside play mode. `BuzzerSound` plays them unless
+    /// the setting is off or the process is silenced.
+    private(set) var buzzerVoices: [UUID: Double] = [:]
+    /// The snapshots of the last `BuzzerTone.windowPS` of circuit time, whose
+    /// oldest gives a steady pitch to a transducer.
+    private var toneHistory: [SimulationSnapshot] = []
+    private var sound: BuzzerSound?
     /// Counts engines started, so a snapshot from a stopped one is ignored.
     private var generation = 0
     private var netValues: [CircuitValue] = []
@@ -472,6 +497,10 @@ final class SimulationController {
         netValues = []
         shortedNets = []
         blownFuses = []
+        buzzerVoices = [:]
+        toneHistory = []
+        sound?.stop()
+        sound = nil
         lights = [:]
         lcdFrames = [:]
         previous = nil
@@ -528,6 +557,7 @@ final class SimulationController {
             }
         }
         lights = newLights
+        updateBuzzers(snapshot, netlist: netlist)
         var newFrames: [UUID: LCDFrame] = [:]
         for (part, frame) in snapshot.lcdFrames where part < netlist.chipIDs.count {
             newFrames[netlist.chipIDs[part]] = frame
@@ -546,6 +576,27 @@ final class SimulationController {
             errorMessage = error
         }
         stateVersion &+= 1
+    }
+
+    /// Works out which buzzers sound in this frame and plays them (plan-47-N).
+    /// A snapshot with an error silences every buzzer: the circuit stopped.
+    private func updateBuzzers(_ snapshot: SimulationSnapshot, netlist: SchematicNetlist) {
+        guard !netlist.buzzers.isEmpty else {
+            buzzerVoices = [:]
+            return
+        }
+        // The oldest snapshot within the window gives a transducer's pitch.
+        toneHistory.append(snapshot)
+        toneHistory.removeAll { snapshot.circuitTime > $0.circuitTime && snapshot.circuitTime - $0.circuitTime > BuzzerTone.windowPS }
+        let window = toneHistory.first { $0.circuitTime < snapshot.circuitTime }
+        buzzerVoices = BuzzerTone.voices(netlist: netlist, snapshot: snapshot, previous: previous, window: window)
+        guard BuzzerSoundSetting.mayPlay else {
+            sound?.stop()
+            sound = nil
+            return
+        }
+        if sound == nil, !buzzerVoices.isEmpty { sound = BuzzerSound() }
+        sound?.update(buzzerVoices)
     }
 
     // MARK: Switches

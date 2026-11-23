@@ -1656,6 +1656,14 @@ func symbol(for part: CatalogPart) -> PartSymbol {
         guard part.pins.contains(where: { $0.name == "1" }), part.pins.contains(where: { $0.name == "2" })
         else { return .block }
         return part.kind == PART_INDUCTOR ? .inductor : .fuse
+    case PART_RELAY:
+        // A relay whose pins read as a coil and poles (`RelayShape`) draws
+        // as a relay (plan-47-N); anything else as a block.
+        return RelayShape(part: part) == nil ? .block : .relay
+    case PART_BUZZER:
+        // A buzzer with its `+` and `-` pins draws as the half disc.
+        return part.pins.contains(where: { $0.name == "+" }) && part.pins.contains(where: { $0.name == "-" })
+            ? .buzzer : .block
     default: return .block
     }
 }

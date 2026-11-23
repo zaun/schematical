@@ -38,6 +38,14 @@ final class KeyboardHelpTests: XCTestCase {
         XCTAssertFalse(keys(.pcb).contains("Click a fuse (in play mode)"))
     }
 
+    /// plan-47-N: the Simulation section says buzzers play through the speakers.
+    func testSimulationBuzzerLine() {
+        let entry = EditorPage.schematic.helpSections.first { $0.title == "Simulation" }?.entries
+            .first { $0.keys == "Buzzers (in play mode)" }
+        XCTAssertEqual(entry?.action, "Buzzers play through the Mac's speakers; turn them off in Settings")
+        XCTAssertFalse(keys(.pcb).contains("Buzzers (in play mode)"))
+    }
+
     func testPCBKeys() {
         let keys = keys(.pcb)
         for key in ["⌘R", "⇧⌘R", "A", "⌘A", "⌘X", "⌘C", "⌘V", "⌘⌫", "Space", "/", "Esc", "⇧⌘D", "⌘?",

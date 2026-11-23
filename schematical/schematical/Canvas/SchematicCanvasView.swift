@@ -1111,6 +1111,21 @@ private struct SchematicPartsLayer: View {
                             isHovered: chip.id == hoveredChipID,
                             isBlown: simulation.blownFuses.contains(chip.id)
                         )
+                    case .relay:
+                        RelaySymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID,
+                            connectedPins: connectedPins[chip.id] ?? [],
+                            levels: simulation.lights[chip.id] ?? []
+                        )
+                    case .buzzer:
+                        BuzzerSymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID,
+                            level: simulation.lights[chip.id]?.first ?? 0
+                        )
                     case .transistor:
                         TransistorSymbolView(
                             chip: chip,

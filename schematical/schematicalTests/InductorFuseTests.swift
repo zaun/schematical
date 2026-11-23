@@ -204,9 +204,9 @@ final class InductorFuseTests: XCTestCase {
         XCTAssertEqual(symbol(for: try TestSupport.part("0ZCM0010FF2G")), .fuse)
         let cartridge = try XCTUnwrap(parts(PART_FUSE).first { $0.drawer.last == "Cartridge" })
         XCTAssertEqual(symbol(for: cartridge), .fuse, cartridge.name)
-        // Relays and buzzers draw as blocks until plan-47-N.
-        XCTAssertEqual(symbol(for: try TestSupport.part("RZ03-1A3-D005-R")), .block)
-        XCTAssertEqual(symbol(for: try TestSupport.part("SMT-0825-S-4-R")), .block)
+        // Relays and buzzers draw as such since plan-47-N (`RelayBuzzerTests`).
+        XCTAssertEqual(symbol(for: try TestSupport.part("RZ03-1A3-D005-R")), .relay)
+        XCTAssertEqual(symbol(for: try TestSupport.part("SMT-0825-S-4-R")), .buzzer)
     }
 
     /// Every inductor and fuse part draws as such: pin 1 left, pin 2 right, no

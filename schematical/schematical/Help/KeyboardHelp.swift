@@ -100,6 +100,7 @@ nonisolated enum KeyboardHelp {
         ]),
         HelpSection(title: "Simulation", entries: [
             entry("⌥⌘P", "Run or stop the simulation (Simulation menu, with Speed). Not available while a part that isn't simulated, such as a microcontroller, is on the schematic"),
+            entry("Buzzers (in play mode)", "Buzzers play through the Mac's speakers; turn them off in Settings"),
         ]),
         HelpSection(title: "Custom parts", entries: [
             entry("⇧⌘N", "New Part…: the Part Wizard walks you through a new part (kind, part number, datasheet, pins, the kind's settings, footprint, review)"),

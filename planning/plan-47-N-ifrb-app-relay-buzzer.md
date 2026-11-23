@@ -41,10 +41,10 @@ plan-47-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-47-M complete | `ls planning/completed/plan-47-M-*.md` → exists | NOT MET (2026-11-16: not started) |
-| `Details.relay` and `.buzzer` exist | `grep -c 'case relay(\|case buzzer(' schematical/schematical/Backend/PartCatalog.swift` → 2 | NOT MET (2026-11-16: 0; M Phase 1 adds them) |
-| The app has no audio engine yet | `grep -rln 'AVAudioEngine\|AVAudioSourceNode' schematical/schematical --include='*.swift' \| wc -l` → 0 | MET (2026-11-16: 0; `NSSound.beep()` is the app's only sound) |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p47-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-16 at 349f25b3) |
+| plan-47-M complete | `ls planning/completed/plan-47-M-*.md` → exists | NOT MET as written (2026-11-22: `ls planning/completed/plan-47-M-*.md` → no such file; M's work is committed on this worktree's branch at 15270503 and N is worked on top of it, § Corrections) |
+| `Details.relay` and `.buzzer` exist | `grep -c 'case relay(\|case buzzer(' schematical/schematical/Backend/PartCatalog.swift` → 2 | MET (2026-11-22: 2, added by M) |
+| The app has no audio engine yet | `grep -rln 'AVAudioEngine\|AVAudioSourceNode' schematical/schematical --include='*.swift' \| wc -l` → 0 | MET at the start (2026-11-22: 0 at HEAD, `git grep -l … HEAD` → 0; `NSSound.beep()` the only sound); after N: 1 file, `Simulation/BuzzerSound.swift` |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p47-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-22, P-47 worktree, `-derivedDataPath /tmp/p47-dd-n`: `** BUILD SUCCEEDED **` before and after the changes) |
 
 Everything below is written against the world where these hold.
 
@@ -204,11 +204,11 @@ being loud).
 
 ### Phase 1 — The relay symbol and its play state
 
-- [ ] `Canvas/SchematicModel.swift`: `PartSymbol.relay` (only if absent),
+- [x] (2026-11-22: `PartSymbol.relay`, `.buzzer` after `.fuse`; `ChipLayout.relay(_:)` over `Canvas/RelayShape.swift`; `symbol(for:)` `case PART_RELAY` falls back to `.block` when `RelayShape` is nil, § Corrections) `Canvas/SchematicModel.swift`: `PartSymbol.relay` (only if absent),
       `ChipLayout.relay`; `Backend/PartCatalog.swift` `symbol(for:)`.
-- [ ] `Canvas/RelaySymbolView.swift` (§ 3.1); the three other switch sites;
+- [x] (2026-11-22: `RelaySymbolView`; `SchematicCanvasView` passes `simulation.lights[chip.id]` as `levels`; `SchematicExportScene` (at rest); `ReferenceLabel` anchor) `Canvas/RelaySymbolView.swift` (§ 3.1); the three other switch sites;
       the canvas passes the operated state from `simulation.lights`.
-- [ ] Tests: `schematicalTests/RelayBuzzerTests.swift`: `symbol(for:)` is
+- [x] (2026-11-22: `testEveryRelayDrawsAsARelay`, `testSPDTLayout`, `testDPDTLayout`, `testDualCoilLatchingLayout` (both pinouts), `testSolidStateLayouts` (Form A, Form B, two-channel), `testNoConnectAndDoubledPinsAreNotDrawn`, `testRelaysRender`, `testTheArmSwingsWithTheOperatedState`; parts picked by property) Tests: `schematicalTests/RelayBuzzerTests.swift`: `symbol(for:)` is
       `.relay` for every relay part of the catalog; the layouts of one real
       SPDT, DPDT, dual-coil latching, Form A solid-state and two-channel
       solid-state part (pin sides and order; no `NC` pin drawn); a placed
@@ -216,14 +216,15 @@ being loud).
 
 Acceptance: relays draw as relays.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p47-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/RelayBuzzerTests` → `** TEST SUCCEEDED **` (est. 8 min).
+  Observed (2026-11-22, `-derivedDataPath /tmp/p47-dd-n`): the relay tests of `RelayBuzzerTests` pass; the class (22 tests) → `Executed 22 tests, with 0 failures`, `** TEST SUCCEEDED **`.
 Commit: —
 
 ### Phase 2 — The buzzer symbol and its voices
 
-- [ ] `PartSymbol.buzzer`, `ChipLayout.buzzer`, `symbol(for:)`;
+- [x] (2026-11-22: `PartSymbol.buzzer`, `ChipLayout.buzzer`, `symbol(for:)`, `BuzzerSymbolView`, the other switch sites and both exporters' `bodyBox`) `PartSymbol.buzzer`, `ChipLayout.buzzer`, `symbol(for:)`;
       `Canvas/BuzzerSymbolView.swift` (§ 3.2); the three other switch sites.
-- [ ] `Simulation/BuzzerTone.swift` and `Simulation.buzzerVoices` (§ 3.3).
-- [ ] Tests (`RelayBuzzerTests`): `symbol(for:)` `.buzzer` for every buzzer
+- [x] (2026-11-22: `BuzzerTone.voices(netlist:snapshot:previous:window:)`, `SchematicNetlist.buzzers`, `SimulationController.buzzerVoices`, § Corrections) `Simulation/BuzzerTone.swift` and `Simulation.buzzerVoices` (§ 3.3).
+- [x] (2026-11-22: `testEveryBuzzerDrawsAsABuzzer`, `testBuzzersRender`, `testIndicatorVoice`, `testTransducerVoice` (1000 Hz, steady, 30 kHz), `testTransducerPitchUsesTheWindow`, `testABuzzerWithoutAPlusNetHasNoVoice`, `testTheNetlistListsTheBuzzers`) Tests (`RelayBuzzerTests`): `symbol(for:)` `.buzzer` for every buzzer
       part; the layout; `BuzzerTone.voices` on hand-built snapshots: an
       indicator on (its `hz`), off (none); a transducer with 2000 changes in
       1 s of circuit time (1000 Hz), with a steady level (none), at 30 kHz
@@ -231,13 +232,14 @@ Commit: —
 
 Acceptance: buzzers draw as buzzers and their voices are computed.
   Check: `xcodebuild … test -only-testing:schematicalTests/RelayBuzzerTests` → `** TEST SUCCEEDED **` (est. 8 min).
+  Observed (2026-11-22): `RelayBuzzerTests` → `Executed 22 tests, with 0 failures (0 unexpected)`, `** TEST SUCCEEDED **`.
 Commit: —
 
 ### Phase 3 — The sound, the setting, the harness
 
-- [ ] `Simulation/BuzzerSound.swift` (§ 3.3); `Preferences/PreferencesView.swift`:
+- [x] (2026-11-22: `BuzzerSound.swift`, the setting in Settings > General Defaults, the Simulation help line, `KeyboardHelpTests.testSimulationBuzzerLine`; also `testToneRenderer`, `testVoiceSlots`, `testNoAudioUnderTest`, `testTheSourceNodeRendersTheToneOffline`) `Simulation/BuzzerSound.swift` (§ 3.3); `Preferences/PreferencesView.swift`:
       the setting; `Help/KeyboardHelp.swift` and `KeyboardHelpTests`.
-- [ ] `scripts/harness/relay-buzzer-app.swift` (from `transistor-app.swift`):
+- [x] (2026-11-22: written; run result under Acceptance) `scripts/harness/relay-buzzer-app.swift` (from `transistor-app.swift`):
       the checks of § 1 on the app's real catalog, document and
       `Simulation`: `5V`/`GND` → `SN74HC04N` (input on GND) → 1Y → the coil
       `A1` of the most-stocked 5 V SPDT `add` relay (`A2` on GND); `5V` on
@@ -252,7 +254,7 @@ Commit: —
       toggles every 1 ms, so the voice is within 2 % of 500 Hz. Renders a placed
       relay (at rest and operated), a solid-state relay and a buzzer to
       `/tmp`.
-- [ ] Runtime proof by ear and eye, once, in the built app
+- [ ] NOT DONE by the implementing agent (it cannot hear and drove no audio; § Corrections "runtime proof by ear") Runtime proof by ear and eye, once, in the built app
       (`open /tmp/p47-dd/Build/Products/Debug/schematical.app`): build the
       first harness circuit by hand, press play, hear the tone, toggle the
       setting off and hear it stop; move the pointer to (0, 0) afterwards
@@ -261,6 +263,7 @@ Commit: —
 
 Acceptance: relays and buzzers work in play mode, end to end.
   Check: `rm -rf /tmp/p47-harness && APP=/tmp/p47-dd/Build/Products/Debug/schematical.app scripts/harness/build.sh scripts/harness/relay-buzzer-app.swift /tmp/p47-harness && /tmp/p47-harness/H.app/Contents/MacOS/harness` → every line `ok`, exit 0; `xcodebuild … test -only-testing:schematicalTests/RelayBuzzerTests -only-testing:schematicalTests/DrawerPerformanceTests -only-testing:schematicalTests/KeyboardHelpTests` → `** TEST SUCCEEDED **` (est. 15 min, plus 5 min for the hand check).
+  Observed (2026-11-22): the harness (built with `APP=/tmp/p47-dd-n/Build/Products/Debug/schematical.app`) printed 13 `ok` lines, `gate low in: relay light 1.0, LED 1.0, voices ["2700.0 Hz"], rated 2700.0 Hz`, `gate high in: relay light 0.0, LED 0.0, voices [:]`, `self-interrupting relay 1558940-2 with transducer AST0440MFD-03TRQ: voice 500.3657369165446 Hz`, `all checks ok`, exit 0; `xcodebuild … test` with RelayBuzzerTests, DrawerPerformanceTests, KeyboardHelpTests and InductorFuseTests → `Executed 52 tests, with 0 failures`, `** TEST SUCCEEDED **`. NOT met: the hand check (ear) above, so the phase's last box stays open. A run of the whole `schematicalTests` target was stopped at RouterFixtureTests (minutes of router work, untouched by N): 933 test cases had passed and none failed up to there.
 Commit: —
 
 ## Validation Plan
@@ -296,6 +299,85 @@ Author decisions:
 - **No audio under XCTest or in the harness**; they assert `buzzerVoices`.
 
 ## Corrections
+
+- **2026-11-22, § Prerequisites.** plan-47-M is not in `planning/completed/`
+  (the coordinator commits the plans); its work is in the branch at 15270503
+  and N ran on top of it.
+- **2026-11-22, line numbers moved.** `lights` is at `Simulation.swift:~314`
+  (not 268), the snapshot handler `apply` at `:~500` (not 446), `lightTimes`
+  in `SimulationEngine.swift:63`; the part files now draw relays under
+  `["Switches & Relays","Relay",…]` and buzzers under
+  `["Displays & Indicators","Buzzers"]` (the plan's older paths).
+- **2026-11-22, § 3.1 pins and layout.** The backend's relay entries
+  (coils, contacts) are not in the C part struct the app reads (`PartRelay`
+  has only counts), so `Canvas/RelayShape.swift` derives the coils and poles
+  from the pin names and roles: coil pins are the `input`-role pins (`A1`/`A2`
+  [`A3`/`A4`], `S1`/`S2`/`R1`/`R2`, `S`/`C`/`R`, `A`/`K`, `A<n>`/`K<n>`),
+  contacts are the `inout`-role pins named `COM`/`NO`/`NC` plus an optional
+  pole number, and a solid-state output `D1`/`D2` or `D<n>A`/`D<n>B` (first
+  = common, second = `NO`, or `NC` when the part's `function` says `NC` and not
+  `NO`). Role matters: a reed relay's `NC` no-connect pads are named `NC` too.
+  A non-latching relay with several coils shares its poles out in order
+  (pole i moves with coil `i * coils / poles`; checked against every device of
+  `relay.json`: it matches each `"coil"` number). A two-pin coil takes rows
+  `3 k` and `3 k + 2` (a free row between its pins gives the coil room), the
+  three-terminal `S`, `C`, `R` takes rows 0, 2, 4 with two rectangles sharing
+  `C`. The body is 140 wide (`ChipLayout.relayBodyWidth`) and half a row taller
+  than its lowest pin row, which holds the coil voltage; the box has the part
+  number in a header like the tactile switch. The worst case in the catalog is
+  15 rows (the 16-row fallback is `RelayShape.maxRows`); a relay whose shape is
+  nil (`RelayShape(part:)`) gets `symbol(for:) == .block`, so "`.relay` for
+  every relay" holds for the whole catalog (asserted) and the fallback is
+  decided in `symbol(for:)`, not in the layout.
+- **2026-11-22, § 3.1 coil glow.** A non-latching relay's coil rectangle is
+  tinted while operated, an LED input turns red; a latching relay's two coils
+  never tint (which one is energised is not in the lights).
+- **2026-11-22, § 3.2.** The buzzer's frequency is under the symbol and the
+  reference label sits at the resistor's height (above the sound waves); `+`
+  and `-` are drawn left and right at `diodeCentreY`; the KiCad and EasyEDA
+  writers' two-terminal `bodyBox` lists gained `.buzzer` (the relay is a box
+  there, as the tactile switch is).
+- **2026-11-22, § 3.3 names.** `BuzzerTone.voices(netlist:snapshot:previous:window:)`
+  (no `parts:`): the part facts the tone needs (chip, part index, driver,
+  rated hertz, `+` net) are read once into `SchematicNetlist.buzzers`
+  (`BuzzerTone.Buzzer`) by `NetlistBuilder`. A transducer's pitch is counted over a
+  100 ms window of circuit time (`Simulation.toneHistory`, oldest snapshot
+  within `BuzzerTone.windowPS`), because a 60 Hz frame holds 16 or 17 changes
+  of a 500 Hz wave (3 % jitter); when the last frame holds at least 8 changes
+  and differs from the window by more than 30 %, the frame's pitch wins (the
+  drive has just changed); a frame with fewer changes uses the window. The
+  rest is as planned (an indicator at its `hz`; 20 to 20000 Hz; no `+` net, no
+  voice; a snapshot with an error, none).
+- **2026-11-22, sound.** `Simulation/BuzzerSound.swift`: `ToneRenderer` (the
+  audio thread's square-wave mixer: preallocated, `os_unfair_lock_trylock`,
+  10 ms ramp, a pitch within 10 % of the old one glides instead of ramping),
+  `VoiceSlots` (8 lowest chip ids, each kept in its slot), `BuzzerSound` (the
+  engine; stops 1 s after the last voice and at once on stop), `BuzzerSoundSetting`
+  (the `playBuzzerSounds` key, default on, `PreferenceKey.playBuzzerSounds`;
+  `isSilenced`, which the harness sets; `isUnderTest`). The sound is never
+  made under XCTest or in the harness. The engine's mixer takes 3 dB off a
+  mono source (measured offline: peak 0.0446 for 0.0631), so `BuzzerSound`
+  gives the renderer a gain of sqrt 2 (`monoMixerCompensation`) and each voice
+  is -24 dBFS at the device (offline test asserts it). The setting is read each frame, so
+  turning it off mid-run stops the sound.
+- **2026-11-22, tests.** A test helper named `run(for:)` in an `XCTestCase`
+  subclass is called as `run()` by its default argument and resolves to
+  `XCTestCase.run()` ("Invalid attempt to start a test run that has already
+  been started"); the helper is `spin(for:)`.
+- **2026-11-22, parts named.** Nothing is hard-coded: tests and harness pick by
+  property, the first by name. At this catalog: SPDT `1393277-4`, DPDT
+  `1-1462039-7`, dual-coil latching `DE2A-L2-12V` (S1/S2/R1/R2) and
+  `1-1415540-1` (S/C/R), solid-state `AQV210EHAX`, two-channel solid-state
+  `AQW210AX`, the circuits' 5 V SPDT `1558940-2`, indicator `AI-1027-TWT-3V-R`
+  (2700 Hz), transducer `AST0440MFD-03TRQ`. After the final regeneration of the
+  parts these are re-picked by the same properties; the harness prints them.
+- **2026-11-22, runtime proof by ear.** Not done by the implementing agent: it
+  cannot hear. What was run instead: the harness (the circuits' voices, the
+  pictures), `testToneRenderer` (the waveform, ramps, glide, level -24 dBFS)
+  and `testTheSourceNodeRendersTheToneOffline` (the real `AVAudioSourceNode`
+  from `BuzzerSound.makeNode` in an `AVAudioEngine` in offline manual
+  rendering mode). What has not been exercised: the output device, and the
+  engine start/idle-stop timing in the running app. The hand check stays open.
 
 ## Summary
 

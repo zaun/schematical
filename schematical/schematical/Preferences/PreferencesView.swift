@@ -33,6 +33,9 @@ nonisolated enum PreferenceKey {
     /// uppercased. On unless turned off (names are case sensitive, so
     /// "clk" and "CLK" would be two nets).
     static let uppercaseNames = "uppercaseNames"
+    /// Whether a buzzer makes a sound in play mode (plan-47-N). On unless
+    /// turned off.
+    static let playBuzzerSounds = "playBuzzerSounds"
     /// Whether the AI agent control server runs (`AutomationServer`). Off
     /// unless turned on.
     static let automationEnabled = "automationEnabled"
@@ -218,11 +221,21 @@ private struct DefaultsPreferencesView: View {
     @AppStorage(PreferenceKey.pullResistorOhms) private var pullOhms = 0.0
     @AppStorage(PreferenceKey.pullResistorFootprint) private var pullFootprint = ""
     @AppStorage(PreferenceKey.uppercaseNames) private var uppercaseNames = true
+    @AppStorage(PreferenceKey.playBuzzerSounds) private var playBuzzerSounds = true
     /// The app-wide catalog, loaded once at launch.
     private let catalog = PartCatalogStore.shared
 
     var body: some View {
         Form {
+            Section {
+                Toggle("Play buzzer sounds", isOn: $playBuzzerSounds)
+            } header: {
+                Text("Simulation")
+            } footer: {
+                Text("While a buzzer is on in play mode, the Mac's speakers play its tone: a buzzer with a built-in driver at its rated frequency, a transducer at the frequency its + pin is driven at.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
             Section {
                 Toggle("Uppercase only", isOn: $uppercaseNames)
             } header: {
