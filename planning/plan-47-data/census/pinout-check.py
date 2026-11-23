@@ -46,8 +46,14 @@ def form_of(s):
 
 
 def poles_of(form):
-    """The number of poles of a DigiKey contact form, None when it cannot be read."""
+    """The number of poles of a DigiKey contact form, None when it cannot be read: `SPDT (1 Form C)` 1,
+    `DPST-NO/NC (1 Form A, 1 Form B)` 2 (the Form counts add), `4PST-2NO/2NC (2 Form A, 2 Form B)` 4,
+    `SPST-NO (1 Form A) x 2` 2 (a trailing `x N` multiplies), `2 × SPDT` 2, `1 NO + 1 NC` 2."""
     f = form.strip()
+    m = re.match(r'(.*?)\s*[x×]\s*(\d+)$', f)
+    if m and not re.match(r'\d+ ×', f):
+        inner = poles_of(m.group(1))
+        return None if inner is None else inner * int(m.group(2))
     m = re.match(r'(\d+) ×\s*(.*)', f)
     if m:
         inner = poles_of(m.group(2))
@@ -55,15 +61,29 @@ def poles_of(form):
     m = re.match(r'(\d+) NO \+ (\d+) NC', f)
     if m:
         return int(m.group(1)) + int(m.group(2))
-    m = re.search(r'\((\d+) Form', f)
+    m = re.search(r'\(([^)]*Form[^)]*)\)', f)
     if m:
-        return int(m.group(1))
+        forms = re.findall(r'(\d+) Form', m.group(1))
+        if forms:
+            return sum(int(x) for x in forms)
     m = re.match(r'(SP|DP|3P|4P|5P|6P)', f)
     if m:
         return {'SP': 1, 'DP': 2, '3P': 3, '4P': 4, '5P': 5, '6P': 6}[m.group(1)]
     if f.startswith('1 Form'):
         return 1
     return None
+
+
+_OVERRIDES = None
+
+
+def pole_overrides():
+    """relay-poles.tsv: (pdf, DigiKey form) -> the datasheet's pole count, where DigiKey's form is wrong."""
+    global _OVERRIDES
+    if _OVERRIDES is None:
+        path = os.path.join(os.path.dirname(sp.CANDIDATES), 'relay-poles.tsv')
+        _OVERRIDES = {(r['pdf'], r['form']): int(r['poles']) for r in sp.read(path)} if os.path.exists(path) else {}
+    return _OVERRIDES
 
 
 def pin_list(pinout, errors):
@@ -122,6 +142,9 @@ def check_relay(s):
         if n != 'NC':
             errors.append(f"pin {n!r} is in no coil or contact (it should be NC)")
     expect = poles_of(form_of(s))
+    override = pole_overrides().get((s['pdf'], form_of(s)))
+    if override is not None:
+        expect = override
     if expect is not None and len(poles) != expect:
         errors.append(f"{len(poles)} poles, the contact form {form_of(s)!r} has {expect}")
     if s['pads'] in ('', '-'):

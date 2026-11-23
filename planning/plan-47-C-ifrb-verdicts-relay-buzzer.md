@@ -31,9 +31,9 @@ plan-47-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-47-B complete | `ls planning/completed/plan-47-B-*.md` → exists | NOT MET (2026-11-16: not started) |
-| The inductor, fuse and PTC rows have verdicts | `python3 -I planning/plan-47-data/census/scheme-check.py inductor fuse ptc` → `… 0 unchecked` | NOT MET (2026-11-16: B not started) |
-| The PDFs are placed | `python3 -I planning/plan-47-data/census/place.py --verify` → `0 missing, 0 unused` | NOT MET (2026-11-16: no PDF placed yet) |
+| plan-47-B complete | `ls planning/completed/plan-47-B-*.md` → exists | NOT MET (2026-11-23: B's data is done for the current set; its last task and A's Phase 2 / 3 wait for DigiKey's quota) |
+| The inductor, fuse and PTC rows have verdicts | `python3 -I planning/plan-47-data/census/scheme-check.py inductor fuse ptc` → `… 0 unchecked` | MET on the current set (2026-11-23: `scheme-check.py inductor fuse ptc` → `2213 rows: 2098 ok, 0 unchecked`) |
+| The PDFs are placed | `python3 -I planning/plan-47-data/census/place.py --verify` → `0 missing, 0 unused` | MET on the current set (2026-11-23: `0 missing, 0 unused`) |
 
 Everything below is written against the world where these hold.
 
@@ -204,11 +204,11 @@ plan-47-G draws each footprint from the same drawing.
 
 ### Phase 1 — The relays
 
-- [ ] Write `scheme`, `page`, `label`, `pinout`, `coils`, `polarized`,
+- [x] (2026-11-23: 294 relay specs rows, TE / Franjobaim / Panasonic by three agents (Panasonic split over four), `pinout-check.py` extended with the relay rules: `1625 specs rows: 0 errors`) Write `scheme`, `page`, `label`, `pinout`, `coils`, `polarized`,
       `latching`, `contacts`, `rtype`, `pads` and the relay fact columns on
       the 216 relay rows of `specs.tsv` (§ 3.1, § 3.2); extend
       `pinout-check.py` with the relay rules.
-- [ ] Run `scheme-check.py relay`, `--facts`, `pinout-check.py relay`; set
+- [x] (2026-11-23: `scheme-check.py relay buzzer --facts --apply` → `1309 rows: 1056 ok, 0 unchecked`; `--sample | wc -l` → 120; hand checks: every Panasonic and Franjobaim series' pinout was read from its drawing by the agents, one part per series by eye; `dead` is 0 on every row) Run `scheme-check.py relay`, `--facts`, `pinout-check.py relay`; set
       the `skip` / `out` rows; hand-check one part per (maker, series)
       against its datasheet's schematic and the `--sample` (20 per maker);
       read every `dead` = 1 relay row.
@@ -219,7 +219,7 @@ Commit: —
 
 ### Phase 2 — The buzzers
 
-- [ ] The 570 buzzer rows of `specs.tsv` (§ 3.1, § 3.3; `verbatim` schemes),
+- [x] (2026-11-23: 570 buzzer specs rows, one agent per maker; `0 errors`) The 570 buzzer rows of `specs.tsv` (§ 3.1, § 3.3; `verbatim` schemes),
       the three checks, the sample, the `dead` rows.
 
 Acceptance: every buzzer row of the download set has its verdicts.
@@ -228,6 +228,7 @@ Commit: —
 
 ### Phase 3 — The final pick and the skip list
 
+- [ ] After A's last refill (A Phase 2, Phase 3's re-run) and B's re-run task: run `specs-skeleton.py`, fill the specs rows the refill added (`census/frag-check.py` checks a fragment), re-run `scheme-check.py inductor fuse ptc relay buzzer --facts --apply` and `pinout-check.py` over all five types.
 - [ ] `census/verdicts.py` (§ 3.4): `add` rows for all five types; record
       the pick per (type, maker, class) and each shortfall in § Corrections.
 - [ ] `datasheets/skipped-parts.md`: the plan-47 section (§ 3.4).
@@ -280,6 +281,39 @@ Commit: —
   hundreds of skipped rows would bury the file.
 
 ## Corrections
+
+- **2026-11-23, the verdict data was entered before C's prerequisites held**
+  (the quota days of A), for the current download set; Phase 3 (the final pick
+  and the skip list) and Phase 4 are not started: they need A complete.
+  Provisional pick (`census/verdicts.py`, a dry run that writes nothing):
+  inductor 600, fuse 600, PTC 599 (Bourns through-hole 89 of 90), relay 504,
+  buzzer 513; shortfalls (recorded again at Phase 3): relays TE signal 42, Franjobaim
+  power 13, signal 12, auto 8, Panasonic SSR 7, TE auto 9, power 2, reed 2, SSR 1;
+  buzzers 40 short of 553 by the skips.
+- **Tools.** `census/verdicts.py` writes `state` / `reason` (`add`, `reserve`, `skip`,
+  `out`) for the download-set rows with `--apply` (it stops when a row has no
+  verdict; the quota of a group is its `candidate` count); `specs47.py`'s `in_set`
+  also counts `add` and verdict-carrying `skip` / `out` rows, so a later check sees
+  them. A relay specs key is `<package> / <contact form> / <coil type>` (a series
+  shares one datasheet over forms and coil types with different pinouts; 294 rows,
+  not 216). `pinout-check.py` counts poles from DigiKey's form (`(1 Form A, 1 Form B)`
+  = 2, `x 2` multiplies) and reads `relay-poles.tsv` for a wrong DigiKey form
+  (Panasonic AHER1281: the datasheet says 2 Form A).
+- **Datasheet notes.** The TE catalog PDFs are two-page extracts: 60 rows on the CII
+  sheets (`5-1773450-5_sec1_*`) have no ordering code in the PDF (scheme `-`, skipped);
+  31 TE rows point at application notes, socket sheets or 3D-model sheets (no pinout);
+  several TE rows mix variants (12 A and 16 A doubled pins) and use the first variant's
+  pinout; `DS11-1000` and `1617110-6` are `out` (not a plain relay). Franjobaim: 33
+  rows disagree with the datasheet on release time or switching voltage (DigiKey's
+  AC figure read as DC), 17 have no drawing for their form. Panasonic: JVN1A-xV-F is
+  `JVN1aF-` in the datasheet (DigiKey drops the F: skipped), DSP1-L-… are cited to a
+  PDF that does not cover them, the ST series says 30 V DC (DigiKey 250). Buzzers: 20
+  `out` (pin-selectable or control pin: Mallory 14, Same Sky 3, PUI 3). No obsolete or
+  NRND text was found in any relay or buzzer PDF.
+- **Judgement calls to revisit:** TX / TX-TH / TX-S dual-coil latching relays are
+  `polarized` 1 (their drawings mark + and -); Mallory MSW5GH and MSW5GLMCT technology
+  `magnetic` is a guess by analogy; PUI, Same Sky and Mallory four-pad buzzers carry two NC
+  dummy pads.
 
 ## Summary
 
