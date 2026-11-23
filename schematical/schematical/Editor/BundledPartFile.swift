@@ -121,6 +121,10 @@ extension PartKinds {
         case PART_NIXIE: "nixie"
         case PART_REGULATOR: "regulator"
         case PART_CRYSTAL: "crystal"
+        case PART_INDUCTOR: "inductor"
+        case PART_FUSE: "fuse"
+        case PART_RELAY: "relay"
+        case PART_BUZZER: "buzzer"
         default: nil
         }
     }

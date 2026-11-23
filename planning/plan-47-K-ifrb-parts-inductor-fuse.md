@@ -35,11 +35,11 @@ plan-47-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-47-J complete | `ls planning/completed/plan-47-J-*.md` → exists | NOT MET (2026-11-16: not started) |
-| The kinds exist | `grep -c 'INDUCTOR_KIND\|FUSE_KIND' backend/src/library/kinds.c` → 4 | NOT MET (2026-11-16: 0) |
-| Every D, E, F line has a footprint | `python3 -I planning/plan-47-data/census/fp-check.py D E F` → `<n> lines, 0 without a footprint` | NOT MET (2026-11-16: no map) |
-| Golden sizes and test count re-measured | `wc -l backend/tests/golden/{parts,traces,footprints}.txt`; `grep -c '^logic_test' backend/CMakeLists.txt` | record P0 / R0 / F0 / T0 at K's start (at 349f25b3: 32897 / 32897 / 1646 / 37; 41 tests after I and J) |
-| `datasheets.json` size recorded | `python3 -I -c "import json;print(len(json.load(open('schematical/schematical/Parts/datasheets.json'))['datasheets']))"` | 7993 at 349f25b3; record at K's start |
+| plan-47-J complete | `ls planning/completed/plan-47-J-*.md` → exists | NOT MET (2026-11-22: no such file, `ls` → `no matches found`; J is still `planning/plan-47-J-ifrb-kinds-relay-buzzer.md`, its phase commits df0bba59 and 177c4783 are recorded and `ctest` passes 45 of 45) |
+| The kinds exist | `grep -c 'INDUCTOR_KIND\|FUSE_KIND' backend/src/library/kinds.c` → 4 | MET (2026-11-22: 4; `RELAY_KIND\|BUZZER_KIND` → 4) |
+| Every D, E, F line has a footprint | `python3 -I planning/plan-47-data/census/fp-check.py D E F` → `<n> lines, 0 without a footprint` | MET (2026-11-22: `549 lines, 0 without a footprint`) |
+| Golden sizes and test count re-measured | `wc -l backend/tests/golden/{parts,traces,footprints}.txt`; `grep -c '^logic_test' backend/CMakeLists.txt` | recorded 2026-11-22: before the part files (at 95a174b4) P0 / R0 / F0 = 34375 / 34375 / 1895; after K and L's generated data (HEAD) 37191 / 37191 / 2780; `grep -c '^logic_test' backend/CMakeLists.txt` → 45 (`ctest` 45 of 45) (at 349f25b3: 32897 / 32897 / 1646 / 37) |
+| `datasheets.json` size recorded | `python3 -I -c "import json;print(len(json.load(open('schematical/schematical/Parts/datasheets.json'))['datasheets']))"` | 8558 entries at 95a174b4 (`grep -c '"id"'` of that version); 9822 now (+1264 new ids, 16 hosts); 7993 at 349f25b3 |
 
 Everything below is written against the world where these hold.
 
@@ -211,14 +211,14 @@ one file, as `diode.json` holds every diode type).
 
 ### Phase 1 — The generator, the inductors, the editor lists for `inductor`
 
-- [ ] `census/gen-parts.py` (§ 3.1) with `--check`; `gen-parts.py inductor`
+- [x] (2026-11-22: `python3 -I planning/plan-47-data/census/gen-parts.py inductor --check` → `0 differences`; `inductor.json` has 600 parts, `grep -o '"manufacturer"' schematical/schematical/Parts/inductor.json | wc -l` → 600) `census/gen-parts.py` (§ 3.1) with `--check`; `gen-parts.py inductor`
       writes `Parts/inductor.json` and the datasheet entries.
-- [ ] `fp-merge.py schematical/schematical/Parts/footprints.json
+- [x] (2026-11-22: footprints were merged by the coordinator in plan-47-D..H, all 889 loaded together; `ctest --test-dir /tmp/logic-p47-k -j8` → `100% tests passed, 0 tests failed out of 45`, `footprint_check` among them, so no unused footprint) `fp-merge.py schematical/schematical/Parts/footprints.json
       planning/plan-47-data/footprints-D.json
       planning/plan-47-data/footprints-D-explicit.json` (only the ids an
       inductor part names: `--only <ids>` from the map).
-- [ ] The editor lists for `inductor` (§ 3.2).
-- [ ] Regenerate the goldens; review `git diff --stat backend/tests/golden`.
+- [x] (2026-11-22: `Editor/InductorDraft.swift` from `python3 scripts/part-editor-schema.py . inductor` → `inductor: 16 devices, 600 parts, variant None, 7 source keys, missing []`; `xcodebuild … test -only-testing:schematicalTests/PartKindRoundTripTests -only-testing:schematicalTests/PartKindKeysTests -only-testing:schematicalTests/PartEditorWindowTests` (plus KindGuideTests, WizardStepsTests, WizardKindStepsTests, KindInfoTests) → `** TEST SUCCEEDED **`; `checked 600 parts of inductor, 0 mismatched, 0 with extras, 0 rejected`) The editor lists for `inductor` (§ 3.2).
+- [x] (2026-11-22: `git diff 95a174b4 HEAD --shortstat -- backend/tests/golden` → `3 files changed, 6517 insertions(+)`; `grep -c '|inductor|' backend/tests/golden/parts.txt` → 600) Regenerate the goldens; review `git diff --stat backend/tests/golden`.
 
 Acceptance: the inductors load with their footprints and datasheets; goldens grow by exactly the new lines.
   Check: `cmake -S backend -B /tmp/logic-p47-k && cmake --build /tmp/logic-p47-k -j8 && ctest --test-dir /tmp/logic-p47-k -j8` → `100% tests passed`; `grep -c '|inductor|' backend/tests/golden/parts.txt` = `awk -F'\t' '$23=="add" && $3=="inductor"' planning/plan-47-data/candidates.tsv \| wc -l`; `git diff backend/tests/golden \| grep -c '^-[^-]'` → 0; `python3 -I planning/plan-47-data/census/gen-parts.py inductor --check` → `0 differences` (est. 8 min: a build from scratch and the full `ctest`, which is the only check that loads every part).
@@ -226,7 +226,7 @@ Commit: —
 
 ### Phase 2 — The fuses
 
-- [ ] `gen-parts.py inductor fuse` → `Parts/fuse.json` with the fuse
+- [x] (2026-11-22: the coordinator generated all types in one run; `python3 -I planning/plan-47-data/census/gen-parts.py inductor fuse ptc --check` → `0 differences`, and `gen-parts.py fuse --check` alone → `1 differences` (the PTC devices of `fuse.json` are not in a run that names only `fuse`, Corrections); `grep -c '|fuse|' backend/tests/golden/parts.txt` → 1199; the six clip pairs: `grep -o '"footprint": "FUSE-CLIP[^"]*"' schematical/schematical/Parts/fuse.json | sort -u | wc -l` → 6; `ctest` 45 of 45) `gen-parts.py inductor fuse` → `Parts/fuse.json` with the fuse
       devices; merge the E footprints the parts name (the six clip pairs
       among them); regenerate the goldens.
 
@@ -236,9 +236,9 @@ Commit: —
 
 ### Phase 3 — The PTCs, the editor lists for `fuse`
 
-- [ ] `gen-parts.py inductor fuse ptc` → the PTC devices in `fuse.json`;
+- [x] (2026-11-22: `gen-parts.py inductor fuse ptc --check` → `0 differences`; `fuse.json` has 1199 parts, 330 + 269 of them PTCs in the two `Discrete > Resettable fuses` drawers; `ctest --test-dir /tmp/logic-p47-k -j8` → `100% tests passed, 0 tests failed out of 45`) `gen-parts.py inductor fuse ptc` → the PTC devices in `fuse.json`;
       merge the F footprints; regenerate the goldens.
-- [ ] The editor lists for `fuse` (§ 3.2; the schema needs both types'
+- [x] (2026-11-22: `python3 scripts/part-editor-schema.py . fuse` → `fuse: 30 devices, 1199 parts, variant type, 11 source keys, missing []`; `checked 1199 parts of fuse, 0 mismatched, 0 with extras, 0 rejected`; the `xcodebuild … test` run above → `** TEST SUCCEEDED **`) The editor lists for `fuse` (§ 3.2; the schema needs both types'
       parts shipped, so it is generated here).
 
 Acceptance: the PTCs load; the editor knows both kinds.
@@ -247,8 +247,8 @@ Commit: —
 
 ### Phase 4 — Docs, the datasheet URL check
 
-- [ ] `docs/parts-format.md` per § 3.3.
-- [ ] `node scripts/check-datasheets.js --host <host>` for each of the nine
+- [x] (2026-11-22: `grep -c 'Discrete → Inductors\|Discrete → Fuses\|Discrete → Resettable fuses' docs/parts-format.md` → 3; `grep -c 'we-online.com' docs/parts-format.md` → 1) `docs/parts-format.md` per § 3.3.
+- [x] (2026-11-22: eight of the nine hosts, 1 not applicable: `www.bourns.com` 129 of 129 ok, `pim.murata.com` 44 of 44, `www.murata.com` 7 of 7, `www.we-online.com` 200 of 200, `www.littelfuse.com` 123 of 124 (`fuse-208-datasheet`: `fetch failed`, ok on a retry with `--jobs 1 --timeout 60`), `www.eaton.com` 49 of 49, `www.schurter.com` 49 of 49, `www.belfuse.com` 23 of 23; `belfuse.com` has no entry; Corrections) `node scripts/check-datasheets.js --host <host>` for each of the nine
       maker hosts of K's parts (`www.bourns.com`, `pim.murata.com`,
       `www.murata.com`, `www.we-online.com`, `www.littelfuse.com`,
       `www.eaton.com`, `www.schurter.com`, `www.belfuse.com`,
@@ -290,6 +290,59 @@ Commit: —
   AEC-Q100.
 
 ## Corrections
+
+- **2026-11-22, `add` rows.** `candidates.tsv` column 23 holds `candidate`
+  (2953 rows: 600 inductor, 600 fuse, 600 ptc, 600 relay, 553 buzzer) and no
+  `add` yet (the pick is provisional until the final pick), so the `$23=="add"`
+  commands of Phase 1 to 3 print nothing. The measured populations are the
+  files': `grep -c '|inductor|' backend/tests/golden/parts.txt` → 600 and
+  `grep -c '|fuse|'` → 1199 (600 fuse + 599 PTC), the `"manufacturer"` count of
+  each part file (600, 1199). The generator builds one PTC fewer than the 600
+  PTC candidate rows. The goldens' growth is `git diff 95a174b4 HEAD --stat --
+  backend/tests/golden` → 2816 + 2816 + 885 lines, 0 removed.
+- **2026-11-22, `PartKindRoundTripTests.expected`.** The four new kinds'
+  counts are read from the shipped part files in the test
+  (`shippedCounts`: the `"manufacturer"` occurrences of
+  `Parts/<kind>.json`, i.e. `grep -o '"manufacturer"' … | wc -l`), not
+  written as numbers, so the data's regeneration does not break it.
+- **2026-11-22, the fuse is a model-picker kind.** `part-editor-schema.py`
+  gives a kind whose devices all have a `type` string the schema `variantKey:
+  "type"`, as for `capacitor` and `crystal`; `KindGuideTests` then wants a
+  `variantBlurbs` entry per value, so `fuse` (`fuse`, `ptc`) has two sentences in
+  `Editor/Wizard/Guides/VariantBlurbs.swift` (§ 3.2 says only "no curated
+  guide": the blurbs are the model picker's text, not a guide). The test
+  counts of `KindGuideTests` (69 models, 16 kinds with blurbs),
+  `WizardStepsTests` (93 combinations, 24 without a variant, 69 with) and
+  `KindInfoTests` (40 kinds) and `PartEditorWindowTests.testEnabledKinds` (36
+  to 40, K and L's four kinds) differ by K and L's kinds; the first three were
+  already failing before K because the `crystal` kind of plan-44-F was in none
+  of them (`KindInfoTests` said 35 against 36 kinds, `WizardStepsTests` and
+  `KindGuideTests` were short by crystal's two models, `crystal` had no
+  blurbs), so they are corrected to the actual counts and `crystal` gets its
+  two blurbs.
+- **2026-11-22, `fuse --check` alone.** `gen-parts.py fuse --check` → `1
+  differences`, because `fuse.json` holds both types and a run that names
+  only `fuse` leaves out the PTC devices; the passing form is `gen-parts.py
+  inductor fuse ptc --check` → `0 differences` (as is `inductor --check`).
+- **2026-11-22, the hosts of Phase 4.** Eight hosts, not nine:
+  `belfuse.com` has no datasheet entry (all 23 Bel Fuse entries are on
+  `www.belfuse.com`). The nine plus L's eight are 16 hosts in the 1264 new
+  entries (`git diff 95a174b4 HEAD` of `datasheets.json`; `suntsu.com` in that
+  diff is an existing entry whose line got a comma). The checker was run with
+  the new entries' ids (`node scripts/check-datasheets.js --verbose <ids>`, one
+  process per host, four at a time), not `--host`, which would also fetch the
+  host's existing entries (`www.littelfuse.com` has the Zilog datasheet
+  among them). Every K host answers every URL with a PDF except one Littelfuse
+  URL that failed once with `fetch failed` and passed on the retry; none
+  refuses the checker's client, unlike § 3.3 expects. The per-host results
+  are in § Datasheets of `docs/parts-format.md`.
+- **2026-11-22, the kinds' names in `PartFacts`** (§ 3.2) are not in K's
+  changes: `Backend/PartFacts.swift` is plan-47-M's.
+- **2026-11-22, the editor's examples.** `KindInfo.examples` are the
+  most-stocked built parts of `candidates.tsv` (inductor `LQG15HN18NJ02D`,
+  `RLB0914-102KL`; fuse `SS-5F-10A-AP`, PTC `0ZCM0010FF2G`); a regeneration
+  that drops one is caught by `KindInfoTests` (examples are real bundled
+  parts).
 
 ## Summary
 

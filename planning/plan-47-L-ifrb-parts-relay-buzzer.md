@@ -31,10 +31,10 @@ plan-47-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-47-K complete | `ls planning/completed/plan-47-K-*.md` → exists | NOT MET (2026-11-16: not started) |
-| The kinds exist | `grep -c 'RELAY_KIND\|BUZZER_KIND' backend/src/library/kinds.c` → 4 | NOT MET (2026-11-16: 0) |
-| Every G and H line has a footprint that matches its pinout | `python3 -I planning/plan-47-data/census/fp-check.py G H` → `0 without a footprint`; `python3 -I planning/plan-47-data/census/fp-pins.py G` and `… H` → `0 errors` | NOT MET (2026-11-16: no map) |
-| Golden sizes re-measured | `wc -l backend/tests/golden/{parts,traces,footprints}.txt` | record P0 / R0 / F0 at L's start (after K: the baseline + K's parts) |
+| plan-47-K complete | `ls planning/completed/plan-47-K-*.md` → exists | NOT MET (2026-11-22: no such file; K is still `planning/plan-47-K-ifrb-parts-inductor-fuse.md`, its boxes ticked and its `Commit:` lines open) |
+| The kinds exist | `grep -c 'RELAY_KIND\|BUZZER_KIND' backend/src/library/kinds.c` → 4 | MET (2026-11-22: 4) |
+| Every G and H line has a footprint that matches its pinout | `python3 -I planning/plan-47-data/census/fp-check.py G H` → `0 without a footprint`; `python3 -I planning/plan-47-data/census/fp-pins.py G` and `… H` → `0 errors` | MET (2026-11-22: `374 lines, 0 without a footprint`; `fp-pins.py G` → `210 rows: 0 errors`; `fp-pins.py H` → `210 rows: 0 errors`) |
+| Golden sizes re-measured | `wc -l backend/tests/golden/{parts,traces,footprints}.txt` | recorded 2026-11-22: 37191 / 37191 / 2780 with all four kinds' data (HEAD); 34375 / 34375 / 1895 before the part files (at 95a174b4); the relay and buzzer share is 504 + 513 = 1017 parts |
 
 Everything below is written against the world where these hold.
 
@@ -179,13 +179,13 @@ is on the drawer row, plan-47-M).
 
 ### Phase 1 — The relays
 
-- [ ] `gen-parts.py`: the `relay` type (§ 3.1) and `--check`'s pole count
+- [x] (2026-11-22: `python3 -I planning/plan-47-data/census/gen-parts.py relay --check` → `0 differences`; the pole count is in `gen-parts.py`'s `--check` (header: "a relay's pole …")) `gen-parts.py`: the `relay` type (§ 3.1) and `--check`'s pole count
       (`relay_check`: each part's device poles and channels against the
       row's DigiKey contact form).
-- [ ] `gen-parts.py inductor fuse ptc relay` → `Parts/relay.json` and the
+- [x] (2026-11-22: `relay.json` 120 devices, 504 parts, 156 distinct footprints; `grep -c '|relay|' backend/tests/golden/parts.txt` → 504; `git diff 95a174b4 HEAD --shortstat -- backend/tests/golden` → `3 files changed, 6517 insertions(+)`; `ctest --test-dir /tmp/logic-p47-k -j8` → `100% tests passed, 0 tests failed out of 45`) `gen-parts.py inductor fuse ptc relay` → `Parts/relay.json` and the
       datasheet entries; merge the G footprints the parts name; regenerate
       the goldens.
-- [ ] The editor lists for `relay` (§ 3.3).
+- [x] (2026-11-22: `python3 scripts/part-editor-schema.py . relay` → `relay: 120 devices, 504 parts, variant None, 18 source keys, missing []`; `checked 504 parts of relay, 0 mismatched, 0 with extras, 0 rejected`; `xcodebuild … test` → `** TEST SUCCEEDED **`) The editor lists for `relay` (§ 3.3).
 
 Acceptance: the relays load; goldens grow by exactly the new lines.
   Check: `cmake -S backend -B /tmp/logic-p47-l && cmake --build /tmp/logic-p47-l -j8 && ctest --test-dir /tmp/logic-p47-l -j8` → `100% tests passed`; `grep -c '|relay|' backend/tests/golden/parts.txt` = the relay `add` rows; `git diff backend/tests/golden \| grep -c '^-[^-]'` → 0; `python3 -I planning/plan-47-data/census/gen-parts.py relay --check` → `0 differences` (est. 8 min).
@@ -193,10 +193,10 @@ Commit: —
 
 ### Phase 2 — The buzzers
 
-- [ ] `gen-parts.py`: the `buzzer` type (§ 3.2); `gen-parts.py inductor fuse
+- [x] (2026-11-22: `python3 -I planning/plan-47-data/census/gen-parts.py inductor fuse ptc relay buzzer --check` → `0 differences`; `buzzer.json` 10 devices, 513 parts, 275 distinct footprints; `grep -c '|buzzer|' backend/tests/golden/parts.txt` → 513; `ctest` → `100% tests passed, 0 tests failed out of 45`) `gen-parts.py`: the `buzzer` type (§ 3.2); `gen-parts.py inductor fuse
       ptc relay buzzer` → `Parts/buzzer.json`; merge the H footprints;
       regenerate the goldens.
-- [ ] The editor lists for `buzzer` (§ 3.3).
+- [x] (2026-11-22: `python3 scripts/part-editor-schema.py . buzzer` → `buzzer: 10 devices, 513 parts, variant None, 10 source keys, missing []`; `checked 513 parts of buzzer, 0 mismatched, 0 with extras, 0 rejected`; `xcodebuild … test` → `** TEST SUCCEEDED **`) The editor lists for `buzzer` (§ 3.3).
 
 Acceptance: the buzzers load; every part of plan-47 is in the library; the editor knows all four kinds.
   Check: `cmake --build /tmp/logic-p47-l -j8 && ctest --test-dir /tmp/logic-p47-l -j8` → `100% tests passed`; `grep -c '|inductor|\||fuse|\||relay|\||buzzer|' backend/tests/golden/parts.txt` = `awk -F'\t' '$23=="add"' planning/plan-47-data/candidates.tsv \| wc -l`; `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p47-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/PartKindRoundTripTests -only-testing:schematicalTests/PartKindKeysTests -only-testing:schematicalTests/PartEditorWindowTests` → `** TEST SUCCEEDED **` (est. 12 min).
@@ -204,8 +204,8 @@ Commit: —
 
 ### Phase 3 — Docs, the datasheet URL check
 
-- [ ] `docs/parts-format.md` per § 3.4.
-- [ ] `node scripts/check-datasheets.js --host <host>` for L's hosts
+- [x] (2026-11-22: `grep -c 'Relay → \|Indicators → Buzzers' docs/parts-format.md` → 2; `grep -c 'www.te.com' docs/parts-format.md` → 1) `docs/parts-format.md` per § 3.4.
+- [~] (2026-11-22: seven of the eight hosts ok: `www.te.com` 59 of 59, `assets.franjobaim.com` 7 of 7, `industry.panasonic.com` 59 of 59, `mediap.industry.panasonic.eu` 1 of 1, `www.sameskydevices.com` 194 of 194, `puiaudio.com` 177 of 177, `api.puiaudio.com` 6 of 6; `mspindy.com` 128 of 136, 8 `fetch failed`, and afterwards every request to it, its home page included, times out (`curl -m 30` → exit 28, three tries): unconfirmed, Corrections) `node scripts/check-datasheets.js --host <host>` for L's hosts
       (`www.te.com`, `assets.franjobaim.com`, `industry.panasonic.com`,
       `mediap.industry.panasonic.eu`, `www.sameskydevices.com`,
       `puiaudio.com`, `api.puiaudio.com`, `mspindy.com`); record each
@@ -238,6 +238,51 @@ Commit: —
 - **The editor schemas are generated**; no curated guide.
 
 ## Corrections
+
+- **2026-11-22, `add` rows.** As in plan-47-K § Corrections: `candidates.tsv`
+  has `candidate` rows (600 relay, 553 buzzer) and no `add` yet, so the
+  `$23=="add"` commands print nothing; the part files hold 504 relays and 513
+  buzzers (`"manufacturer"` counts), the goldens `grep -c '|relay|'` → 504,
+  `grep -c '|buzzer|'` → 513, and the four kinds' sum `600 + 1199 + 504 + 513`
+  = 2816 (`git diff 95a174b4 HEAD --stat -- backend/tests/golden` → 2816 lines
+  added to `parts.txt` and `traces.txt`), against 2953 candidate rows. The
+  final pick regenerates the data; the sum check is then `grep -c
+  '|inductor|\||fuse|\||relay|\||buzzer|' backend/tests/golden/parts.txt`
+  against the rows built.
+- **2026-11-22, the relay's drawer and the buzzer's.** The shipped drawers
+  are `["Switches & Relays", "Relay", <class>]` and `["Displays &
+  Indicators", "Buzzers"]` (the generator's `RELAY_DRAWER` and `drawer`), not
+  `["Relay", <class>]` and `["Indicators", "Buzzers"]` of § 3.1, § 3.2:
+  the docs and `KindInfo` follow the files.
+- **2026-11-22, `PartKindRoundTripTests`.** `testRelay` and `testBuzzer`
+  read their counts from the shipped part files (K § Corrections).
+- **2026-11-22, no `variantKey` for the relay.** `part-editor-schema.py` would
+  give `relay` `variantKey: "type"` (every device has a `type` string) and a
+  `variants: ["electromechanical"]` on `latching`; the script has a
+  `NO_VARIANT` set (`{"relay"}`) so that `. relay` writes `variantKey: nil` and
+  keeps writing it, as § 3.3 says, with no `variantBlurbs` entry and no
+  `FieldCondition` table. `buzzer` has no `type` and gets none either.
+- **2026-11-22, the renumbering note is the footprint's.** § 3.4 expects the
+  device `note` to carry a renumbered pinout's datasheet terminal numbers;
+  the generator's relay `note` lists only the datasheets and pages, and the
+  mapping is in the footprints' `note` (`RELAY-CB-5-PANASONIC`: `terminals 30 85
+  86 87 87a renumbered 1..5 in ascending order`, 60 relay and other footprints
+  mention it). `docs/parts-format.md` § `relay` says so.
+- **2026-11-22, the datasheet hosts.** Eight hosts, results in
+  § Datasheets of `docs/parts-format.md`: `www.te.com` 59 of 59 ok,
+  `assets.franjobaim.com` 7 of 7, `industry.panasonic.com` 59 of 59,
+  `mediap.industry.panasonic.eu` 1 of 1, `www.sameskydevices.com` 194 of 194,
+  `puiaudio.com` 177 of 177, `api.puiaudio.com` 6 of 6: all serve a PDF, none
+  refuses the checker's client. `mspindy.com` (136 Mallory Sonalert entries):
+  128 serve a PDF, 8 (`pt-4175pq`, `pt-4532plq`, `pt-593sq`, `sbm428r`,
+  `sbs12m0pc`, `sbt200pc`, `sbt12ghpc`, `sbs300pc`) `fetch failed` and a retry
+  with `--jobs 1 --timeout 60` failed the same way; later even the home page and
+  a URL that had answered `ok` timed out from this machine (`curl -m 30` → exit
+  28), so the site stopped answering after the first run's 4 parallel
+  requests. Those 8 are unconfirmed, not known dead; re-run `mspindy.com` with
+  `--jobs 1` once it answers (this is why the host box above is `[~]`).
+  The checker was run with the new entries' ids, not `--host` (K
+  § Corrections).
 
 ## Summary
 

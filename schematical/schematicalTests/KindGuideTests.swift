@@ -188,8 +188,8 @@ final class KindGuideTests: XCTestCase {
             // And no blurb is for a model the kind does not have.
             XCTAssertEqual(Set(PartKinds.variantBlurbs[kind]?.keys.map { $0 } ?? []), Set(schema.variantValues), kind)
         }
-        XCTAssertEqual(count, 65)
-        XCTAssertEqual(PartKinds.variantBlurbs.count, 14)
+        XCTAssertEqual(count, 69)
+        XCTAssertEqual(PartKinds.variantBlurbs.count, 16)
     }
 
     /// (7) Every required key of a curated kind, nested ones included, has a

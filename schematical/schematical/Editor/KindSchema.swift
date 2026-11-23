@@ -205,6 +205,8 @@ enum PartKinds {
         "oscillator",
         "pio", "register", "regulator", "resistor", "rtc", "serial", "serialmem", "shift", "sram", "supply", "switch",
         "transistor",
+        // plan-47-K, L.
+        "buzzer", "fuse", "inductor", "relay",
     ]
 
     // The names shown for the kinds, their blurbs and example parts are in
@@ -229,6 +231,7 @@ enum PartKinds {
             SerialmemDraft.schema,
             RegulatorDraft.schema,
             CrystalDraft.schema,
+            InductorDraft.schema, FuseDraft.schema, RelayDraft.schema, BuzzerDraft.schema,
         ] {
             schemas[schema.kind] = schema
         }

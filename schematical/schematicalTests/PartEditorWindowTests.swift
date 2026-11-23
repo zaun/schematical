@@ -11,7 +11,7 @@ final class PartEditorWindowTests: XCTestCase {
     /// (a) Every kind has a form (plan-46-C gave the last five theirs).
     func testEnabledKinds() {
         XCTAssertEqual(PartDraft.enabledKinds, PartDraft.kindNames)
-        XCTAssertEqual(PartDraft.enabledKinds.count, 36)
+        XCTAssertEqual(PartDraft.enabledKinds.count, 40)  // plan-47-K, L: inductor, fuse, relay, buzzer
     }
 
     /// A new generic part (plan-46-B, C) starts unsimulated and the backend

@@ -227,8 +227,10 @@ Flags:
 
 - `obsolete`: the datasheet's ordering table lists the part as Obsolete.
 - `military`: SN54/SNJ54/SNV54/CD54 names, 5962- and (J)M38510/ numbers, SMD
-  drawing numbers, CD4000 …F3A parts.
-- `automotive`: AEC-Q100 qualified (-Q1) parts, and AEC-Q200 qualified crystals.
+  drawing numbers, CD4000 …F3A parts, and MIL-qualified relays (DigiKey grade
+  Military, MIL-PRF-39016 and the like).
+- `automotive`: AEC-Q100 or AEC-Q200 qualified parts: -Q1 parts, and the
+  crystals, inductors, fuses and PTC resettable fuses DigiKey lists as AEC-Q200.
 - `enhanced`: Enhanced Product (-EP) parts, V62/ numbers.
 - `ceramic`: a ceramic package body (CDIP, CFP, LCCC, CPGA, ceramic SMD
   oscillators). Ceramic and plastic DIPs share the package name `"DIP"`, so
@@ -479,6 +481,24 @@ maker's own and open in a browser; the local PDFs under
 `datasheets/crystal/suntsu/` are the Internet Archive's copies of those URLs.
 Treat those failures as expected (plan-44-F: 9 of the 11 `suntsu.com` entries
 403, the other two answer).
+
+The inductor, fuse, PTC, relay and buzzer entries (plan-47-K, L) were checked
+on 2026-11-22, host by host, with the new entries' ids (1264 entries, 16
+hosts). Fifteen hosts answered every URL with a PDF: `www.bourns.com`,
+`pim.murata.com`, `www.murata.com`, `www.we-online.com`, `www.littelfuse.com`,
+`www.eaton.com`, `www.schurter.com`, `www.belfuse.com`, `www.te.com`,
+`assets.franjobaim.com`, `industry.panasonic.com`,
+`mediap.industry.panasonic.eu`, `www.sameskydevices.com`, `puiaudio.com` and
+`api.puiaudio.com` (`www.littelfuse.com` dropped one URL, `fuse-208-datasheet`,
+in the first run with `fetch failed` and served it on the retry: re-run a
+failure there before believing it). None of them refuses the checker's client.
+`mspindy.com` (Mallory Sonalert) answered 128 of its 136 entries and then
+stopped answering this machine altogether (every request, the site's home page
+included, timed out minutes later); the other 8 (`pt-4175pq`, `pt-4532plq`,
+`pt-593sq`, `sbm428r`, `sbs12m0pc`, `sbt200pc`, `sbt12ghpc`, `sbs300pc`) report
+`fetch failed`, which is the checker's word for a connection that was reset or
+never opened, not an HTTP status. Run `mspindy.com` with `--jobs 1` and read
+those 8 as unconfirmed rather than dead.
 
 A part whose maker no longer hosts its datasheet has a `"manufacturer"`
 but no `"datasheet"`; `listing_check` prints how many there are. They are:
@@ -975,6 +995,27 @@ Part keys (`"hz"` is required):
 | `"ma"` | optional: the supply current in milliamperes, above 0 and at most 10000 (`PartBuzzer.ua`, microamperes) |
 | `"db"` | optional: the sound pressure level in dB, above 0 and at most 200 (`PartBuzzer.spl_cdb`, hundredths of a dB) |
 
+The library's `buzzer.json` (plan-47-L, `gen-parts.py … buzzer`) holds Same
+Sky, PUI Audio and Mallory Sonalert buzzers, one device per (driver,
+technology, pinout), under **Displays & Indicators → Buzzers**. The device
+`function` is `Indicator (built-in driver)` or `Transducer (external drive)`;
+`id` is `buzzer_<driver>_<technology>_<pinout key>`; `description` is `Piezo
+buzzer` or `Magnetic buzzer`. The pins are `+` and `-` (`"positive": "+"`,
+`"negative": "-"`), and every other pin is `NC` (a case or mounting pad) or
+`F` (a feedback electrode). `package` is `THT` or `SMD`. The optional keys
+are left out where the datasheet gives no figure.
+
+```json
+{"id": "buzzer_indicator_magnetic_plus-minus", "function": "Indicator (built-in driver)",
+ "description": "Magnetic buzzer", "drawer": ["Displays & Indicators", "Buzzers"],
+ "note": "Facts, pinouts and ordering codes from the maker datasheets: AI specs-AI-1027-TWT-5V-R.pdf p.1; …",
+ "pinouts": {"plus-minus": [{"number":1,"name":"+","role":"input"},{"number":2,"name":"-","role":"input"}]},
+ "driver": "indicator", "technology": "magnetic", "positive": "+", "negative": "-",
+ "parts": [{"name": "AI-1027-TWT-5V-R", "manufacturer": "PUI Audio", "package": "THT",
+            "datasheet": "specs-ai-1027-twt-5v-r", "pinout": "plus-minus", "footprint": "CAPE-RAD-10-5-L0.6",
+            "hz": 2700, "volts": 5, "voltsMin": 3, "voltsMax": 7, "ma": 30, "db": 80}]}
+```
+
 ### `diode`
 
 Diodes (plan-29): rectifier, fast recovery, switching, Schottky and Zener
@@ -1147,6 +1188,32 @@ Part keys (`"henries"` is required):
 | `"dcr"` | optional: the maximum DC resistance in ohms, above 0 and at most 100000 (`PartInductor.dcr_uohm`, micro-ohms) |
 | `"shielding"` | optional: `"shielded"`, `"semi-shielded"` or `"unshielded"` (`unknown shielding "X"`) |
 
+The library's `inductor.json` (plan-47-K, written by
+`planning/plan-47-data/census/gen-parts.py inductor`) holds Bourns, Murata
+Electronics and Würth Elektronik fixed inductors from their datasheets,
+chip (`0201` … `2323`, `SMD`), axial and radial, one device per (mounting
+class, pinout, value band), under **Discrete → Inductors → Surface mount /
+Through hole**. The band is the device's `function`, the inductance with its
+lower bound inclusive: `< 10 nH`, `10 nH – 100 nH`, `100 nH – 1 µH`,
+`1 µH – 10 µH`, `10 µH – 100 µH`, `100 µH – 1 mH`, `≥ 1 mH`. The device
+`id` is `ind_<smd|tht>_<pinout key>_<band>`; the pinout key is the pin names
+joined by `-` (`1-2`; `1-2-nc`, `1-nc-2-nc` and `1-nc-nc-2` for the shielded
+parts' extra pads, whose pin name is `NC`). Values are base units with the
+digits DigiKey gives (`4.7 µH` is `4.7e-06`); a key whose fact DigiKey leaves
+blank is left out. `"flags": ["automotive"]` marks an AEC-Q200 part. The
+device `note` names the datasheet and page each series was read from.
+
+```json
+{"id": "ind_smd_1-2_10-nh-100-nh", "function": "10 nH – 100 nH", "description": "Fixed inductor",
+ "drawer": ["Discrete", "Inductors", "Surface mount"],
+ "note": "Facts, pinouts and ordering codes from the maker datasheets: LQG15 JELF243B-0009_PDF_INDUCTOR.pdf p.1; …",
+ "pinouts": {"1-2": [{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}]},
+ "terminals": ["1", "2"],
+ "parts": [{"name": "LQG15HN18NJ02D", "manufacturer": "Murata Electronics", "package": "0402",
+            "datasheet": "jelf243b-0009-pdf-inductor", "pinout": "1-2", "footprint": "IND-1005-MURATA",
+            "henries": 1.8e-08, "tolerance": "±5%", "amps": 0.35, "dcr": 0.51, "shielding": "unshielded"}]}
+```
+
 ### `fuse`
 
 Board-mount fuses and polymeric PTC resettable fuses (plan-47):
@@ -1187,6 +1254,43 @@ a ptc`, `"amps" is not a ptc key`):
 | `"hold"`, `"trip"` | `ptc`, required | hold and trip current in amperes, above 0 and at most 1000; `"trip"` above `"hold"` (`rated_ma`, `trip_ma`) |
 | `"volts"` | `ptc`, required | the maximum voltage, above 0 and at most 100000 (`dc_mv`) |
 | `"imax"` | `ptc`, optional | maximum fault current in amperes, above 0 and at most 1000000 (`breaking_a`) |
+
+The library's `fuse.json` (plan-47-K, `gen-parts.py inductor fuse ptc`) holds
+Bel Fuse, Bourns, Eaton, Littelfuse and SCHURTER fuses and PTC resettable
+fuses: both types in one file, one device per (mounting class, pinout, value
+band), the pinout always `1-2`. The drawer paths are **Discrete → Fuses →
+Surface mount / Through hole / Cartridge** for `"type": "fuse"` and
+**Discrete → Resettable fuses → Surface mount / Through hole** for `"ptc"`.
+The band is the `function`, a current with its lower bound inclusive: a fuse's
+rated current `< 500 mA`, `500 mA – 1 A`, `1 A – 2 A`, `2 A – 5 A`,
+`5 A – 10 A`, `≥ 10 A`; a PTC's hold current `< 200 mA`,
+`200 mA – 500 mA`, `500 mA – 1 A`, `1 A – 2 A`, `2 A – 5 A`, `≥ 5 A`. The
+device `id` is `fuse_<smd|tht|cart>_1-2_<band>` or `ptc_<smd|tht>_1-2_<band>`,
+`description` `Fuse` or `PTC resettable fuse`. Values are base units;
+`"flags": ["automotive"]` marks an AEC-Q200 part.
+
+A **cartridge** fuse (a 5 × 20 mm or 6.3 × 32 mm glass or ceramic tube) has
+`"package": "Cartridge"` and sits on a pair of PCB fuse clips, so its
+`footprint` is its maker's clip pair, not the fuse: `FUSE-CLIP-5X20-` or
+`FUSE-CLIP-6X32-` with `LITTELFUSE`, `EATON` or `SCHURTER`; the device `note`
+ends by saying so. The clip's own part number is in the footprint's
+`description` (`01110501Z`, `BK/1A5018-10-R`, `0751.0052` for the 5 × 20 mm
+clips).
+
+```json
+{"id": "ptc_smd_1-2_200-ma", "function": "< 200 mA", "description": "PTC resettable fuse",
+ "drawer": ["Discrete", "Resettable fuses", "Surface mount"],
+ "note": "Facts, pinouts and ordering codes from the maker datasheets: 0ZCM ds-cp-0zcm-series.pdf p.1; …",
+ "pinouts": {"1-2": [{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}]},
+ "type": "ptc", "terminals": ["1", "2"],
+ "parts": [{"name": "0ZCM0010FF2G", "manufacturer": "Bel Fuse", "package": "0603",
+            "datasheet": "ds-cp-0zcm-series", "pinout": "1-2", "footprint": "PTC-1608-BELFUSE",
+            "hold": 0.1, "trip": 0.25, "volts": 15, "imax": 40}]}
+```
+
+A fuse device looks the same with `"type": "fuse"` and the part keys `"amps"`,
+`"speed"`, `"voltsAc"` or `"voltsDc"` and `"breaking"` (the library's
+`SS-5F-10A-AP`: `"amps": 10, "speed": "fast", "voltsAc": 125, "breaking": 50`).
 
 ### `transistor`
 
@@ -1662,6 +1766,56 @@ Part keys (`"contactAmps"` is always required):
 | `"contactVolts"` | all (optional) | the maximum switching voltage, DC, above 0 and at most 100000 (`contact_mv`) |
 | `"operateMs"`, `"releaseMs"` | all (optional) | above 0 and at most 10000 (`operate_us`, `release_us`, microseconds) |
 | `"onOhms"` | solid-state (optional) | the maximum on-resistance, above 0 and at most 100000 (`"onOhms" is only for a solid-state relay`; `on_mohm`) |
+
+The library's `relay.json` (plan-47-L, written by
+`planning/plan-47-data/census/gen-parts.py … relay`) holds TE Connectivity
+(its Potter & Brumfield, AMP and Aerospace Defense and Marine lines too),
+Franjobaim and Panasonic relays, one device per (class, type, coils,
+`polarized`, `latching`, contacts, pinout), under
+**Switches & Relays → Relay → Signal / Power / Reed / Solid state /
+Automotive**. The leaf is the
+contact arrangement, the device's `function`: `SPST-NO`, `SPST-NC`, `SPDT`,
+`DPST-NO`, `DPDT`, `4PDT`, `4PST-NO`; a mix as `1 NO + 1 NC` or `2 NO + 2 NC`;
+several channels as `2 × SPST-NO`, `2 × SPDT`, `4 × SPST-NO`; a latching
+device appends ` latching` (`DPDT latching`), because it is wired
+differently. The device `id` is `relay_<class>_<function>_<pinout key>`, with
+a counter on a clash; `description` is `Signal relay`, `Power relay`,
+`Reed relay`, `Solid-state relay` or `Automotive relay`.
+
+Pin names, the datasheet's own: a coil is `A1`, `A2` (`A1` the `+` terminal of
+a polarized coil, including a relay with a built-in diode); a single-coil
+latching relay `A1`, `A2`; a dual-coil latching relay `S1`, `S2` (set) and
+`R1`, `R2` (reset), a three-terminal coil `S`, `C`, `R`; the contacts `COM`,
+`NO`, `NC`, numbered `COM1`, `NO1`, `NC1`, `COM2`, … for several poles (a Form
+A pole has no `NC`, a Form B pole no `NO`); two pins on one contact (a power
+relay's doubled terminals) carry the same name; a solid-state relay's input
+is `A`, `K` and its output `D1`, `D2` (`D1A`, `D1B`, … and `A1`, `K1`, … for
+several channels, with `"coil": <n>` on each contact); every other pin
+(no-connect, case, test, mounting) is `NC`. Pad numbers are `1…n`: a relay
+whose datasheet numbers its terminals with gaps (1, 2, 5, 6, 9, 10; 11, 12,
+14, A1, A2) is **renumbered** `1…n` in ascending order of the datasheet's
+terminal names, digits before letters, and the footprint's `note` gives the
+datasheet's own numbers (`terminals 30 85 86 87 87a renumbered 1..5`) and
+whether its drawing is a bottom view that was mirrored. `"flags":
+["military"]` marks the MIL-qualified relays (DigiKey grade Military).
+
+```json
+{"id": "relay_signal_dpdt_a1-nc2-com2-no2-no1-com1-nc1-a2", "function": "DPDT", "description": "Signal relay",
+ "drawer": ["Switches & Relays", "Relay", "Signal"],
+ "note": "Facts, pinouts and ordering codes from the maker datasheets: IM, AXICOM 1-1773734-7_IM_Relay_I_Type.pdf p.2.",
+ "pinouts": {"a1-nc2-com2-no2-no1-com1-nc1-a2": [
+   {"number":1,"name":"A1","role":"input"},{"number":2,"name":"NC2","role":"inout"},
+   {"number":3,"name":"COM2","role":"inout"},{"number":4,"name":"NO2","role":"inout"},
+   {"number":5,"name":"NO1","role":"inout"},{"number":6,"name":"COM1","role":"inout"},
+   {"number":7,"name":"NC1","role":"inout"},{"number":8,"name":"A2","role":"input"}]},
+ "type": "electromechanical",
+ "coils": [{"a": "A1", "b": "A2", "polarized": true}],
+ "contacts": [{"common": "COM1", "no": "NO1", "nc": "NC1"}, {"common": "COM2", "no": "NO2", "nc": "NC2"}],
+ "parts": [{"name": "IM02GR", "manufacturer": "TE Connectivity", "package": "SMD",
+            "datasheet": "1-1773734-7-im-relay-i-type", "pinout": "a1-nc2-com2-no2-no1-com1-nc1-a2",
+            "footprint": "RELAY-IM-8-SMD-TE", "coilVolts": 4.5, "contactAmps": 2, "contactVolts": 220,
+            "operateMs": 3, "releaseMs": 3}]}
+```
 
 ### `connector`
 

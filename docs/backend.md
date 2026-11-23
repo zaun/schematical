@@ -513,7 +513,10 @@ A new kind of part is added the same way every time:
    - `python3 scripts/part-editor-schema.py . <kind>` writes
      `Editor/<Kind>Draft.swift` from the sources and the shipped parts (it
      must print `missing []`; a key the sources accept and no shipped part
-     uses goes in `scripts/part-editor-schema-extra.py` `EXTRA`). A kind
+     uses goes in `scripts/part-editor-schema-extra.py` `EXTRA`; the script
+     makes a `model` or `type` key every device has the schema's
+     `variantKey`, which then needs a `variantBlurbs` entry per value, and a
+     kind in its `NO_VARIANT` set, `relay`, gets none). A kind
      with no shipped parts gets a hand-written schema instead (the
      `GenericDraft.swift` precedent);
    - the schema in `PartKinds.schemas` (`Editor/KindSchema.swift`);

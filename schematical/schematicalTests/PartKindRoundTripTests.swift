@@ -21,7 +21,21 @@ final class PartKindRoundTripTests: XCTestCase {
         "serialmem": 92,
         "regulator": 603,
         "crystal": 604,
-    ]
+    ].merging(shippedCounts(["inductor", "fuse", "relay", "buzzer"])) { current, _ in current }
+
+    /// plan-47-K, L: the four kinds' counts are read from the shipped part
+    /// files (`grep -o '"manufacturer"' Parts/<kind>.json | wc -l`), so a
+    /// regeneration of the data does not break the test.
+    private static func shippedCounts(_ kinds: [String]) -> [String: Int] {
+        let parts = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent()
+            .appendingPathComponent("schematical/Parts")
+        var counts: [String: Int] = [:]
+        for kind in kinds {
+            guard let text = try? String(contentsOf: parts.appendingPathComponent("\(kind).json"), encoding: .utf8) else { continue }
+            counts[kind] = text.components(separatedBy: "\"manufacturer\"").count - 1
+        }
+        return counts
+    }
 
     private func check(_ kind: String) {
         let count = PartKindRoundTrip.check(kind: kind)
@@ -68,4 +82,8 @@ final class PartKindRoundTripTests: XCTestCase {
     func testSerialmem() { check("serialmem") }
     func testRegulator() { check("regulator") }
     func testCrystal() { check("crystal") }
+    func testInductor() { check("inductor") }
+    func testFuse() { check("fuse") }
+    func testRelay() { check("relay") }
+    func testBuzzer() { check("buzzer") }
 }

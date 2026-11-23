@@ -39,6 +39,10 @@ extension PartKinds {
             "divn": "A divider whose ratio is set on its pins, like the CD4059.",
             "rate": "A rate multiplier: passes a chosen fraction of its clock pulses, like the 7497 and CD4089.",
         ],
+        "crystal": [
+            "crystal": "A quartz crystal: a precise two-terminal clock reference, with its load capacitors outside.",
+            "resonator": "A ceramic resonator: a cheaper, less precise clock reference, some with the load capacitors built in.",
+        ],
         "decoder": [
             "binary": "Turns a binary address into one active output, like the 74HC138, 74HC139 and 74HC154.",
             "priority": "Reports the number of the highest active input, like the 74HC148 and 74HC147.",
@@ -51,6 +55,10 @@ extension PartKinds {
             "schottky": "A Schottky diode: low forward drop and fast, like the 1N5819 and BAT54.",
             "zener": "A Zener diode: holds a set voltage in reverse, like the 1N4733 or BZX84.",
             "bridge": "A bridge rectifier: four diodes in one package that turn AC into DC.",
+        ],
+        "fuse": [
+            "fuse": "A fuse: a one-shot link that blows when too much current flows, like a 5 x 20 mm glass fuse.",
+            "ptc": "A PTC resettable fuse: a polymer link that opens on overcurrent and recovers when it cools, like the Bourns MF series.",
         ],
         "latch": [
             "transparent": "Follows its data input while its latch-enable is active and holds it otherwise, like the 74HC373 and 74HC573.",
