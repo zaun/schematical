@@ -1,7 +1,7 @@
 # Part file format
 
 Every orderable part (gate, flip-flop, latch, decoder, counter, shift register, SRAM, EEPROM, switch, LED,
-diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character LCD module, oscillator, crystal, inductor, fuse, supply, microprocessor, microcontroller, serial controller, serial memory) is described in a JSON part file in
+diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character LCD module, oscillator, crystal, inductor, fuse, relay, buzzer, supply, microprocessor, microcontroller, serial controller, serial memory) is described in a JSON part file in
 `schematical/schematical/Parts/`, one file per kind:
 
 | File | Kind |
@@ -18,6 +18,8 @@ diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character
 | `crystal.json` | `crystal` |
 | `inductor.json` | `inductor` |
 | `fuse.json` | `fuse` |
+| `relay.json` | `relay` |
+| `buzzer.json` | `buzzer` |
 | `supply.json` | `supply` |
 | `latch.json` | `latch` |
 | `decoder.json` | `decoder` |
@@ -939,6 +941,40 @@ Parts carry no kind keys. The library has one LED part, `GENERIC-LED`, whose
 `footprintChoices` list the eleven LED footprints (0402 … Radial; default
 `LED-RADIAL-5MM`).
 
+### `buzzer`
+
+Board-mount buzzers (plan-47): `"kind": "buzzer"`, run by
+`backend/src/models/buzzer.c`. A buzzer is a two-terminal sounder with a built-in
+driver (an **indicator**) or without one (a **transducer**), piezo or magnetic.
+It drives nothing. It is **on** while its positive pin reads 1 and its
+negative pin reads 0, tracked and reported through the lights hooks exactly as an
+LED is: `circuit_part_lights` (on at any time during the last step) and
+`circuit_part_light_time` (the cumulative on-time), so the app can draw it and
+play a tone (a transducer driven by a square wave is on for the wave's high
+time). The facts are for the app. The voltage check ignores a buzzer. A
+buzzer has no `vcc`.
+
+Device keys:
+
+| Key | Value |
+|---|---|
+| `"driver"` | `"indicator"` or `"transducer"` (`unknown buzzer driver "X"`) |
+| `"technology"` | `"piezo"` or `"magnetic"` (`unknown buzzer technology "X"`) |
+| `"positive"`, `"negative"` | pin names, exactly one pin each (different pins) |
+
+The two named pins have the role `input` (`buzzer pin "+" must be input`);
+every other pin (a feedback electrode, a mounting pad) has the role `nc`
+(`buzzer pin "X" must be nc`).
+
+Part keys (`"hz"` is required):
+
+| Key | Value |
+|---|---|
+| `"hz"` | the rated (resonant) frequency in whole hertz, 1 to 100000 (`"hz" must be at least 1`) |
+| `"volts"`, `"voltsMin"`, `"voltsMax"` | optional: the rated voltage and the operating range, above 0 and at most 1000; `voltsMin` at most `voltsMax` (`"voltsMin" must be at most "voltsMax"`) |
+| `"ma"` | optional: the supply current in milliamperes, above 0 and at most 10000 (`PartBuzzer.ua`, microamperes) |
+| `"db"` | optional: the sound pressure level in dB, above 0 and at most 200 (`PartBuzzer.spl_cdb`, hundredths of a dB) |
+
 ### `diode`
 
 Diodes (plan-29): rectifier, fast recovery, switching, Schottky and Zener
@@ -1093,8 +1129,10 @@ Device keys:
 
 Each terminal name names at least one pin of every pinout; a name that
 several pins carry (a four-pad inductor has two pads per terminal) makes
-those pins one node: the first pin of the name is the contact's end and
-every other pin of the name is tied to it by a contact closed in `start`.
+those pins one node. The engine leaves out a contact whose pin has no net, so
+the part gets one contact between every pin of one terminal and every pin of
+the other (the terminal contacts) and one between every two pins of a name
+(the ties), all closed in `start`: any pads the circuit wires are joined.
 Every pin with a terminal name has the role `inout` (`inductor pin "1" must
 be inout`); every other pin (a shielded part's dummy pads) has the role `nc`
 (`inductor pin "3" must be nc`).
@@ -1571,6 +1609,59 @@ editing the generated devices.
 The DIP switches before that region are hand-written devices, one per
 (series, position count): `te_<series>_<NN>` (TE Connectivity) and
 `cts_219_08` (CTS 219, plan-43).
+
+### `relay`
+
+Electromechanical, reed and solid-state relays (plan-47): `"kind": "relay"`,
+run by `backend/src/models/relay.c`. A relay has **coils** (a solid-state
+relay's input LEDs) and **poles** of contacts; each pole has a `common` pin
+with a normally-open `no` pin, a normally-closed `nc` pin, or both. A coil
+entry `{a, b}` is **driven forward** when `a` reads 1 and `b` reads 0 and
+**driven backward** when `a` reads 0 and `b` reads 1 (a `"polarized"` coil, and
+every solid-state input, is driven forward only); X or Z on either pin is not
+driven. A non-latching relay has one **channel** per coil: the channel is
+*operated* while its coil is driven. A **latching** relay has one channel and
+keeps its position until driven the other way: with one coil forward operates
+it and backward releases it; with two coils the first operates it, the second
+releases it, and both or neither change nothing (the two entries may share a
+pin: a coil with a common). The armature moves **1 ms after the coil last
+changed** (the same for every relay, both ways; a shorter pulse moves nothing):
+every pole of the channel opens its old contacts and closes its new ones in one
+event, as a switch's contact. A coil is not a conductor, and a flyback diode
+across it is inert. Each pole's `common` pin is joined to every pin of its `no`
+or `nc` name by a contact (and the pins of one name to each other), so any wired
+pin of a name works. `circuit_part_lights` reports one light per channel (on
+while operated); `circuit_set_switch` does not address a relay. The voltage
+check sees the relay **at rest**: the normally-closed contacts join their nets
+and the normally-open ones do not, and it does not follow the relay during a
+run. Not modeled: coil current, pick-up and drop-out voltage, bounce, back-EMF,
+a solid-state relay's on-resistance, leakage and zero-cross timing; the
+datasheet's operate and release times are facts only.
+
+Device keys:
+
+| Key | Value |
+|---|---|
+| `"type"` | `"electromechanical"`, `"reed"` or `"solid-state"` (`unknown relay type "X"`) |
+| `"coils"` | 1 to 8 entries `{"a": <pin name>, "b": <pin name>}` (`"coils" must have 1 to 8 entries`; `a` and `b` differ), each optionally `"polarized": true` |
+| `"latching"` | optional, default `false`: one channel and 1 or 2 coils (`a latching relay has 1 or 2 coils`); `"polarized"` is an error on a single coil (`a single-coil latching relay is not "polarized"`); a solid-state relay is not latching (`a solid-state relay is not latching`) |
+| `"contacts"` | 1 to 8 entries `{"common", "no", "nc"}`, one per pole: `no`, `nc` or both (`a contact needs "no" or "nc"`), the names different; optional `"coil": <n>` (1-based, default 1): the channel that moves the pole (`"coil" must be 1 to <coils>`, an error on a latching relay); every channel has a pole (`coil 2 has no contact`) |
+
+A coil pin has the role `input` (`relay pin "A1" must be input`), a contact
+pin `inout`, every other pin `nc`; no pin is in two entries (`pin "COM" is in
+two entries`), except the shared pin of a latching relay's two coils; every
+`input` and `inout` pin is in an entry (`pin "X" is in no entry`).
+
+Part keys (`"contactAmps"` is always required):
+
+| Key | Types | Value |
+|---|---|---|
+| `"coilVolts"` | electromechanical, reed (required) | the nominal coil voltage, above 0 and at most 1000 (`"coilVolts" is not a solid-state relay key`) |
+| `"coilOhms"` | electromechanical, reed (optional) | above 0 and at most 10000000 (`PartRelay.coil_mohm`, milliohms) |
+| `"contactAmps"` | all | the contact (load) current, above 0 and at most 1000 (`contact_ma`) |
+| `"contactVolts"` | all (optional) | the maximum switching voltage, DC, above 0 and at most 100000 (`contact_mv`) |
+| `"operateMs"`, `"releaseMs"` | all (optional) | above 0 and at most 10000 (`operate_us`, `release_us`, microseconds) |
+| `"onOhms"` | solid-state (optional) | the maximum on-resistance, above 0 and at most 100000 (`"onOhms" is only for a solid-state relay`; `on_mohm`) |
 
 ### `connector`
 
