@@ -96,13 +96,13 @@ _PARTS = None
 
 
 def part_footprints():
-    """footprint-parts-*.tsv (mpn, footprint): a part whose footprint differs from its line's."""
+    """footprint-parts-*.tsv (mpn or pdf, footprint): a part whose footprint differs from its line's."""
     global _PARTS
     if _PARTS is None:
         _PARTS = {}
         for p in sorted(glob.glob(os.path.join(DATA, 'footprint-parts-*.tsv'))):
             for t in sp.read(p):
-                _PARTS[t['mpn']] = t['footprint']
+                _PARTS[t['mpn'] if 'mpn' in t else t['pdf']] = t.get('reuse_of') or t['footprint']   # by part number, or by PDF
     return _PARTS
 
 
@@ -111,7 +111,7 @@ def footprint_of(fmap, r):
     det = (r['form'] + '; ' + r['detail']) if relay else (r['detail'] if r['type'] in ('ptc', 'buzzer') else '')
     key = (LETTER[r['type']], r['type'], r['company'], r['series'] if relay else '', r['mounting'], r['package'],
            r['supplier_package'], r['size'], det)
-    part = part_footprints().get(r['mpn'])
+    part = part_footprints().get(r['mpn']) or part_footprints().get(r['pdf'])
     if part:
         return {'footprint': part}
     return fmap.get(key + (r['mpn'],)) or fmap.get(key + (r['series'],)) or fmap.get(key + ('',))
@@ -135,6 +135,8 @@ def datasheet_ids(rows):
             continue
         stem = kebab(os.path.splitext(os.path.basename(pdf))[0])
         url = urls[pdf]
+        if url.startswith('http://'):
+            url = 'https://' + url[len('http://'):]      # the format wants https
         i = stem
         if i in taken and taken[i] != url:
             i = f"{stem}-{r['company']}"
@@ -149,11 +151,13 @@ def datasheet_ids(rows):
 
 def pinout_parts(pinout):
     """[(designator, name)] of a specs pinout `1=1,2=2`."""
-    return [tuple(x.split('=', 1)) for x in pinout.split(',')]
+    pins = [tuple(x.split('=', 1)) for x in pinout.split(',')]
+    return sorted(pins, key=lambda p: (0, int(p[0])) if p[0].isdigit() else (1, p[0]))   # the loader wants 1..N in order
 
 
 def pinout_key(pinout):
-    return '-'.join(kebab(n) for _, n in pinout_parts(pinout))
+    names = {'+': 'plus', '-': 'minus'}
+    return '-'.join(names.get(n) or kebab(n) for _, n in pinout_parts(pinout))
 
 
 def role_of(kind, name):
@@ -169,11 +173,13 @@ def role_of(kind, name):
     return 'inout'
 
 
-def pinout_json(kind, pinout, relay_coil_names=()):
+def pinout_json(kind, pinout, relay_coil_names=(), relay_contact_names=()):
     pins = []
     for d, n in pinout_parts(pinout):
         if kind == 'relay':
-            role = 'nc' if n == 'NC' else ('input' if n in relay_coil_names else 'inout')
+            # a coil pin is an input, a contact pin (a throw may be named NC: normally closed) inout,
+            # every other pin a no-connect
+            role = 'input' if n in relay_coil_names else ('inout' if n in relay_contact_names else 'nc')
         else:
             role = role_of(kind, n)
         pins.append({'number': int(d) if d.isdigit() else d, 'name': n, 'role': role})
@@ -473,7 +479,8 @@ class Gen:
                 coils.append(c)
             dev = {'id': did, 'function': d['func'], 'description': RELAY_DESC[d['cls']],
                    'drawer': ['Switches & Relays', 'Relay', RELAY_DRAWER[d['cls']]], 'note': self.note(d),
-                   'pinouts': {pk: pinout_json('relay', s['pinout'], coil_names(s['coils']))},
+                   'pinouts': {pk: pinout_json('relay', s['pinout'], coil_names(s['coils']),
+                                               {x for e in d['entries'] for k, x in e.items() if k != 'coil'})},
                    'type': s['rtype'], 'coils': coils}
             if d['latching']:
                 dev['latching'] = True

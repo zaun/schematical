@@ -109,6 +109,10 @@ def fact_problem(r, s, params):
         speed = {'Fast Blow': 'fast', 'Slow Blow': 'slow', 'Medium Blow': 'medium'}.get(params.get('Response Time', ''), '')
         if speed and s['speed'] not in ('', '-') and speed not in s['speed'].split('|'):
             return 'fact not in datasheet'
+        if not speed and s['speed'] not in ('fast', 'medium', 'slow'):
+            return 'fact not given'          # the fuse kind needs "speed" (plan-47-I)
+        if sp.parse(params.get('Voltage Rating - AC')) is None and sp.parse(params.get('Voltage Rating - DC')) is None:
+            return 'fact not given'          # ... and "voltsAc" or "voltsDc"
         for col, name in (('vac', 'Voltage Rating - AC'), ('vdc', 'Voltage Rating - DC'),
                           ('break_max', 'Breaking Capacity @ Rated Voltage')):
             figure = sp.parse(params.get(name))
@@ -123,8 +127,10 @@ def fact_problem(r, s, params):
             figure = sp.parse(params.get(name))
             if s[col] not in ('', '-') and figure is not None and figure > float(s[col]) * (1 + 1e-6):
                 return 'fact not in datasheet'
-        if sp.parse(params.get('Current - Trip (It)')) is None:
-            return 'fact not given'
+        hold, trip = sp.parse(params.get('Current - Hold (Ih) (Max)')), sp.parse(params.get('Current - Trip (It)'))
+        volts = re.search(r'[0-9]*\.?[0-9]+', params.get('Voltage - Max', '') or '')
+        if not hold or not trip or not volts or trip <= hold:
+            return 'fact not given'          # the PTC needs hold, trip above hold and a maximum voltage
     return ''
 
 

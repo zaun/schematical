@@ -209,19 +209,16 @@ D	inductor	wurth		Through Hole	Radial, Vertical Cylinder (Open)	-	0.413" Dia (10
 D	inductor	wurth		Through Hole	Vertical, No Base, 2 PC Pin	Vertical, No Base, 2 PC Pin	0.669" Dia (17.00mm)		1	744131	1	
 E	fuse	eaton		Requires Holder	3AB, 3AG, 1/4" x 1-1/4"		0.250" Dia x 1.250" L (6.35mm x 31.75mm)		25	BK/AGC-2-R	6	
 E	fuse	eaton		Requires Holder	5mm x 20mm		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		45	BK1/GMA-2-R	9	
-E	fuse	eaton		Surface Mount	0603 (1608 Metric)		0.063" L x 0.032" W x 0.019" H (1.60mm x 0.81mm x 0.48mm)		12	TR/0603FA5-R	4	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
+E	fuse	eaton		Surface Mount	0603 (1608 Metric)		0.063" L x 0.032" W x 0.019" H (1.60mm x 0.81mm x 0.48mm)		13	TR/0603FA5-R	4	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
 E	fuse	eaton		Surface Mount	0603 (1608 Metric)		0.063" L x 0.032" W x 0.019" H (1.60mm x 0.82mm x 0.48mm)		2	CC06FA1A-TR	1	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
-E	fuse	eaton		Surface Mount	1206 (3216 Metric)		0.063" L x 0.126" W x 0.024" H (1.60mm x 3.20mm x 0.60mm)		1	CC12H20A-TR	1	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
 E	fuse	eaton		Surface Mount	1206 (3216 Metric)		0.126" L x 0.063" W x 0.024" H (3.20mm x 1.60mm x 0.60mm)		2	CC12H5A-TR	1	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
-E	fuse	eaton		Surface Mount	1206 (3216 Metric)		0.126" L x 0.063" W x 0.035" H (3.20mm x 1.60mm x 0.90mm)		7	TR/3216FF750-R	2	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
+E	fuse	eaton		Surface Mount	1206 (3216 Metric)		0.126" L x 0.063" W x 0.035" H (3.20mm x 1.60mm x 0.90mm)		8	TR/3216FF750-R	2	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
 E	fuse	eaton		Surface Mount	1206 (3216 Metric)		0.126" L x 0.063" W x 0.039" H (3.20mm x 1.60mm x 1.00mm)		4	TR/3216TD12-R	1	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
-E	fuse	eaton		Surface Mount	2-SMD, J-Lead		0.299" L x 0.236" W x 0.173" H (7.60mm x 6.00mm x 4.40mm)		2	2822HC70-RTR	1	
-E	fuse	eaton		Surface Mount	2-SMD, J-Lead		0.303" L x 0.236" W x 0.181" H (7.70mm x 6.00mm x 4.60mm)		1	2822HC125-RTR	1	
 E	fuse	eaton		Surface Mount	2-SMD, Square End Block		0.177" Dia x 0.488" L (4.50mm x 12.40mm)		1	1025HC50-RTR	1	
-E	fuse	eaton		Surface Mount	2-SMD, Square End Block		0.240" L x 0.101" W x 0.101" H (6.10mm x 2.57mm x 2.57mm)		3	CB61F5A-TR1	1	
+E	fuse	eaton		Surface Mount	2-SMD, Square End Block		0.240" L x 0.101" W x 0.101" H (6.10mm x 2.57mm x 2.57mm)		4	CB61F5A-TR1	1	
 E	fuse	eaton		Surface Mount	2-SMD, Square End Block		0.240" L x 0.107" W x 0.107" H (6.10mm x 2.72mm x 2.72mm)		4	TR1-2410TD1-5-R	1	
 E	fuse	eaton		Surface Mount	2-SMD, Square End Block		0.256" L x 0.122" W x 0.122" H (6.50mm x 3.10mm x 3.10mm)		3	TR1-2410FA15-R	1	
-E	fuse	eaton		Surface Mount	2-SMD, Square End Block		0.405" L x 0.109" W x 0.109" H (10.29mm x 2.77mm x 2.77mm)		7	TR2/1025TD3.5-R	2	
+E	fuse	eaton		Surface Mount	2-SMD, Square End Block		0.405" L x 0.109" W x 0.109" H (10.29mm x 2.77mm x 2.77mm)		8	TR2/1025TD3.5-R	2	
 E	fuse	eaton		Surface Mount	2-SMD, Square End Block		0.441" L x 0.199" W x 0.199" H (11.20mm x 5.05mm x 5.05mm)		6	TR-1145HV1-R	2	
 E	fuse	eaton		Surface Mount	2-SMD, Square End Block		0.472" L x 0.177" W x 0.177" H (12.00mm x 4.50mm x 4.50mm)		3	TR-1245UMFF800-R	1	
 E	fuse	eaton		Surface Mount	2-SMD, Square End Block		0.484" L x 0.177" W x 0.177" H (12.30mm x 4.50mm x 4.50mm)		3	1245HC60-RTR	1	
@@ -229,10 +226,10 @@ E	fuse	eaton		Surface Mount	2-SMD, Square End Block		0.520" L x 0.199" W x 0.199
 E	fuse	eaton		Surface Mount	2-SMD, Square End Block		1.268" L x 0.198" W x 0.198" H (32.20mm x 5.03mm x 5.03mm)		6	3250HV2-5-R	2	
 E	fuse	eaton		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.266" Dia x 1.292" L (6.76mm x 32.82mm)		10	BK/AGC-V-8-R	5	
 E	fuse	eaton		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.268" Dia x 1.291" L (6.81mm x 32.79mm)		2	BK-ADC-V2-12-R	1	
-E	fuse	eaton		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.275" Dia x 1.288" L (6.99mm x 32.72mm)		2	MDH-V-21-RTR	2	
+E	fuse	eaton		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.275" Dia x 1.288" L (6.99mm x 32.72mm)		1	BK-AHC-V-1-6-R	1	
 E	fuse	eaton		Through Hole	5mm x 20mm (Axial)		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		2	BK-S505SC-8-R	1	
 E	fuse	eaton		Through Hole	5mm x 20mm (Axial)		0.205" Dia x 0.807" L (5.20mm x 20.50mm)		3	BK/S505SCH-5-R	1	
-E	fuse	eaton		Through Hole	5mm x 20mm (Axial)		0.218" Dia x 0.831" L (5.54mm x 21.10mm)		19	TR2-S505H-V-2.5-R	7	
+E	fuse	eaton		Through Hole	5mm x 20mm (Axial)		0.218" Dia x 0.831" L (5.54mm x 21.10mm)		20	TR2-S505H-V-2.5-R	7	
 E	fuse	eaton		Through Hole	5mm x 20mm (Axial)		0.236" Dia x 0.831" L (6.00mm x 21.10mm)		1	BK/S520-V-15-R	1	
 E	fuse	eaton		Through Hole	Cartridge, Non-Standard (Axial)		0.142" Dia x 0.394" L (3.60mm x 10.00mm)		3	C310T-SC-2-5-R-TR1	1	
 E	fuse	eaton		Through Hole	Radial, Box		0.335" Dia x 0.362" H (8.50mm x 9.20mm)		1	SS-5FH-3.15A-AP	1	
@@ -244,23 +241,21 @@ E	fuse	littelfuse		Requires Holder	3AB, 3AG, 1/4" x 1-1/4"		0.248" Dia x 1.260" 
 E	fuse	littelfuse		Requires Holder	3AB, 3AG, 1/4" x 1-1/4"		0.250" Dia x 1.250" L (6.35mm x 31.75mm)		20	0314015.MXP	5	
 E	fuse	littelfuse		Requires Holder	5mm x 20mm		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		47	0217005.MXP	14	
 E	fuse	littelfuse		Surface Mount	0402 (1005 Metric)		0.039" L x 0.020" W x 0.013" H (1.00mm x 0.51mm x 0.33mm)		2	0435.500KR	1	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,LED-0402,RES-0402,RES-0402-VIKING,RES-0402-VISHAY
-E	fuse	littelfuse		Surface Mount	0603 (1608 Metric)		0.061" L x 0.033" W x 0.020" H (1.54mm x 0.85mm x 0.50mm)		7	0438002.WRGT	4	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
+E	fuse	littelfuse		Surface Mount	0603 (1608 Metric)		0.061" L x 0.033" W x 0.020" H (1.54mm x 0.85mm x 0.50mm)		8	0438002.WRGT	4	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
 E	fuse	littelfuse		Surface Mount	0603 (1608 Metric)		0.062" L x 0.033" W x 0.024" H (1.58mm x 0.85mm x 0.61mm)		2	0438.500WRA	1	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
-E	fuse	littelfuse		Surface Mount	0603 (1608 Metric)		0.063" L x 0.032" W x 0.012" H (1.60mm x 0.81mm x 0.31mm)		3	0467.250NR	2	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
+E	fuse	littelfuse		Surface Mount	0603 (1608 Metric)		0.063" L x 0.032" W x 0.012" H (1.60mm x 0.81mm x 0.31mm)		4	0467.250NR	2	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
 E	fuse	littelfuse		Surface Mount	1206 (3216 Metric)		-		1	0483005.DR	1	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
-E	fuse	littelfuse		Surface Mount	1206 (3216 Metric)		0.124" L x 0.059" W x 0.045" H (3.15mm x 1.50mm x 1.15mm)		1	0470001.DRSNP	1	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
+E	fuse	littelfuse		Surface Mount	1206 (3216 Metric)		0.124" L x 0.059" W x 0.045" H (3.15mm x 1.50mm x 1.15mm)		2	0470001.DRSNP	1	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
 E	fuse	littelfuse		Surface Mount	1206 (3216 Metric)		0.125" L x 0.060" W x 0.023" H (3.18mm x 1.52mm x 0.58mm)		4	0466.125NRHF	2	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
 E	fuse	littelfuse		Surface Mount	1206 (3216 Metric)		0.125" L x 0.062" W x 0.062" H (3.18mm x 1.58mm x 1.58mm)		2	0458002.DR	1	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
 E	fuse	littelfuse		Surface Mount	1206 (3216 Metric)		0.126" L x 0.064" W (3.20mm x 1.63mm)		2	040701.5WRA	1	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
 E	fuse	littelfuse		Surface Mount	1206 (3216 Metric)		0.126" L x 0.064" W x 0.032" H (3.20mm x 1.63mm x 0.82mm)		4	0440001.WR	2	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
-E	fuse	littelfuse		Surface Mount	1206 (3216 Metric)		0.126" L x 0.064" W x 0.033" H (3.20mm x 1.63mm x 0.84mm)		8	0501010.WR	5	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
+E	fuse	littelfuse		Surface Mount	1206 (3216 Metric)		0.126" L x 0.064" W x 0.033" H (3.20mm x 1.63mm x 0.84mm)		6	0501010.WR	4	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
 E	fuse	littelfuse		Surface Mount	1206 (3216 Metric)		0.130" L x 0.062" W x 0.056" H (3.30mm x 1.58mm x 1.42mm)		1	0483002.DRA	1	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
-E	fuse	littelfuse		Surface Mount	2-SMD, J-Lead		0.285" L x 0.170" W x 0.120" H (7.24mm x 4.32mm x 3.05mm)		3	0459001.UR	2	
-E	fuse	littelfuse		Surface Mount	2-SMD, J-Lead		0.394" L x 0.441" W x 0.268" H (10.00mm x 11.20mm x 6.80mm)		1	0881060.UR	1	
-E	fuse	littelfuse		Surface Mount	2-SMD, Square End Block		0.240" L x 0.106" W x 0.106" H (6.10mm x 2.69mm x 2.69mm)		13	0451.250MRL	5	
+E	fuse	littelfuse		Surface Mount	2-SMD, J-Lead		0.285" L x 0.170" W x 0.120" H (7.24mm x 4.32mm x 3.05mm)		4	0459001.UR	2	
+E	fuse	littelfuse		Surface Mount	2-SMD, Square End Block		0.240" L x 0.106" W x 0.106" H (6.10mm x 2.69mm x 2.69mm)		14	0451.250MRL	5	
 E	fuse	littelfuse		Surface Mount	2-SMD, Square End Block		0.397" L x 0.120" W x 0.120" H (10.08mm x 3.05mm x 3.05mm)		2	0443.500DR	1	
 E	fuse	littelfuse		Surface Mount	2-SMD, Square End Block		0.398" L x 0.123" W x 0.123" H (10.10mm x 3.12mm x 3.12mm)		5	0456030.ER	3	
-E	fuse	littelfuse		Surface Mount	2-SMD, Square End Block		0.428" L x 0.188" W x 0.188" H (10.86mm x 4.78mm x 4.78mm)		2	0885005.DR	1	
 E	fuse	littelfuse		Surface Mount	2-SMD, Square End Block		0.476" L x 0.177" W x 0.177" H (12.10mm x 4.50mm x 4.50mm)		2	0464.500DR	2	
 E	fuse	littelfuse		Surface Mount	2-SMD, Square End Block		0.480" L x 0.177" W x 0.177" H (12.20mm x 4.50mm x 4.50mm)		2	0456040.DRSDE	1	
 E	fuse	littelfuse		Surface Mount	2-SMD, Square End Block		0.492" L x 0.175" W x 0.175" H (12.50mm x 4.45mm x 4.45mm)		1	0456040.DR	1	
@@ -271,7 +266,7 @@ E	fuse	littelfuse		Through Hole	2AG, 5mm x 15mm (Axial)		0.185" Dia x 0.570" L (
 E	fuse	littelfuse		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.275" Dia x 1.288" L (6.99mm x 32.72mm)		5	0508001.MXEP	5	
 E	fuse	littelfuse		Through Hole	5mm x 20mm (Axial)		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		2	0215001.MXESPP	2	
 E	fuse	littelfuse		Through Hole	5mm x 20mm (Axial)		0.217" Dia x 0.846" L (5.50mm x 21.50mm)		2	047706.3MXEP	2	
-E	fuse	littelfuse		Through Hole	5mm x 20mm (Axial)		0.228" Dia x 0.886" L (5.80mm x 22.50mm)		8	0477001.MXEP	8	
+E	fuse	littelfuse		Through Hole	5mm x 20mm (Axial)		0.228" Dia x 0.886" L (5.80mm x 22.50mm)		9	0477001.MXEP	9	
 E	fuse	littelfuse		Through Hole	5mm x 20mm (Axial)		0.236" Dia x 0.886" L (6.00mm x 22.50mm)		1	0216.050MXEP	1	
 E	fuse	littelfuse		Through Hole	Axial		0.110" Dia x 0.280" L (2.80mm x 7.11mm)		4	0251.125MXL	3	
 E	fuse	littelfuse		Through Hole	Axial		0.133" Dia x 0.310" L (3.38mm x 7.87mm)		1	0275025.MXL	1	
@@ -280,7 +275,6 @@ E	fuse	littelfuse		Through Hole	Axial		0.135" Dia x 0.315" L (3.42mm x 8.00mm)		
 E	fuse	littelfuse		Through Hole	Axial		0.155" Dia x 0.280" L (3.94mm x 7.11mm)		2	0263005.WRT1L	2	
 E	fuse	littelfuse		Through Hole	Cartridge, Non-Standard (Axial)		0.142" Dia x 0.394" L (3.60mm x 10.00mm)		2	0875010.MXEP	1	
 E	fuse	littelfuse		Through Hole	Cartridge, Non-Standard (Axial)		0.177" Dia x 0.571" L (4.50mm x 14.50mm)		2	0230003.HXP	1	
-E	fuse	littelfuse		Through Hole	Radial Bend Cylinder		0.482" Dia x 1.315" L (12.25mm x 33.40mm)		1	0607050.UXTH500P	1	
 E	fuse	littelfuse		Through Hole	Radial, Box		0.335" L x 0.157" W x 0.315" H (8.50mm x 4.00mm x 8.00mm)		11	36911000000	6	
 E	fuse	littelfuse		Through Hole	Radial, Can, Vertical		0.250" Dia x 0.350" H (6.35mm x 8.89mm)		1	0273.050H	1	
 E	fuse	littelfuse		Through Hole	Radial, Can, Vertical		0.335" Dia x 0.315" H (8.50mm x 8.00mm)		11	37014000410	6	
@@ -386,14 +380,14 @@ F	ptc	bourns		Surface Mount	1206 (3216 Metric), Concave		0.126" L x 0.063" W (3.
 F	ptc	bourns		Surface Mount	1206 (3216 Metric), Concave		0.128" L x 0.063" W (3.25mm x 1.60mm)		7	MF-NSML350/12-2	2	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
 F	ptc	bourns		Surface Mount	1210 (3225 Metric), Concave		0.126" L x 0.100" W (3.20mm x 2.55mm)		2	MF-USHT035KX-2	1	RES-1210-YAGEO,XTAL-1210-2-ECS,XTAL-1210-4-ABRACON,XTAL-1210-4-ECS,XTAL-1210-4-ECS-B
 F	ptc	bourns		Surface Mount	1210 (3225 Metric), Concave		0.127" L x 0.101" W (3.22mm x 2.58mm)		8	MF-USML300/12-2	2	RES-1210-YAGEO,XTAL-1210-2-ECS,XTAL-1210-4-ABRACON,XTAL-1210-4-ECS,XTAL-1210-4-ECS-B
-F	ptc	bourns		Surface Mount	1210 (3225 Metric), Concave		0.127" L x 0.102" W (3.22mm x 2.58mm)		6	MF-USMF010-2	1	RES-1210-YAGEO,XTAL-1210-2-ECS,XTAL-1210-4-ABRACON,XTAL-1210-4-ECS,XTAL-1210-4-ECS-B
+F	ptc	bourns		Surface Mount	1210 (3225 Metric), Concave		0.127" L x 0.102" W (3.22mm x 2.58mm)		7	MF-USMF010-2	1	RES-1210-YAGEO,XTAL-1210-2-ECS,XTAL-1210-4-ABRACON,XTAL-1210-4-ECS,XTAL-1210-4-ECS-B
 F	ptc	bourns		Surface Mount	1210 (3225 Metric), Concave		0.135" L x 0.110" W (3.43mm x 2.80mm)		2	MF-USHT125KX/12-2	1	RES-1210-YAGEO,XTAL-1210-2-ECS,XTAL-1210-4-ABRACON,XTAL-1210-4-ECS,XTAL-1210-4-ECS-B
 F	ptc	bourns		Surface Mount	1812 (4532 Metric), Concave		0.179" L x 0.128" W (4.55mm x 3.24mm)		3	MF-MSMF250/16X-2	1	
 F	ptc	bourns		Surface Mount	1812 (4532 Metric), Concave		0.181" L x 0.128" W (4.60mm x 3.24mm)		9	MF-MSMF050/30X-2	2	
 F	ptc	bourns		Surface Mount	2-SMD		0.287" L x 0.214" W (7.31mm x 5.44mm)		5	MF-SM050-2	1	
 F	ptc	bourns		Surface Mount	2-SMD		0.344" L x 0.264" W (8.75mm x 6.71mm)		2	MF-SM250-2	2	
 F	ptc	bourns		Surface Mount	2018 (5045 Metric), Concave		0.200" L x 0.180" W (5.08mm x 4.58mm)		5	MF-SMDF150-2	1	
-F	ptc	bourns		Surface Mount	2920 (7351 Metric), Concave		0.314" L x 0.214" W (7.98mm x 5.44mm)	0.099" (2.51mm)	4	MF-LSMF300/24X-2	1	
+F	ptc	bourns		Surface Mount	2920 (7351 Metric), Concave		0.314" L x 0.214" W (7.98mm x 5.44mm)	0.099" (2.51mm)	3	MF-LSMF300/24X-2	1	
 F	ptc	bourns		Surface Mount	Nonstandard SMD		0.341" L x 0.250" W (8.65mm x 6.35mm)		1	MF-GSMF300/36X-2	1	
 F	ptc	bourns		Through Hole	Radial, Disc		0.118" Dia x 0.551" T (3.00mm x 14.00mm)	0.201" (5.10mm)	1	MF-RHT200/32-2	1	
 F	ptc	bourns		Through Hole	Radial, Disc		0.270" L x 0.118" W (6.86mm x 3.00mm)	0.114" (2.90mm)	1	MF-RHT070-0	1	
