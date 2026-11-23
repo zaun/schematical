@@ -495,7 +495,13 @@ private struct DrawerScrollList<Row: View>: View {
     @State private var window = ScrollWindow()
 
     var body: some View {
-        let rows = layout.rows(from: window.top - Self.overscan, to: window.bottom + Self.overscan)
+        // `window` is only as fresh as the last scroll report. When the list
+        // shrinks (a group closes, another opens) the scroll view pulls the
+        // offset back to the new end, so build the rows around where the
+        // window can be at most.
+        let span = window.bottom - window.top
+        let top = min(window.top, max(0, layout.tops[layout.items.count] - span))
+        let rows = layout.rows(from: top - Self.overscan, to: top + span + Self.overscan)
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
                 Color.clear.frame(height: rows.top)
@@ -508,10 +514,22 @@ private struct DrawerScrollList<Row: View>: View {
             .padding(.horizontal, 12)
             .padding(.vertical, 4)
         }
+        // The content's size is part of what is watched: opening or closing
+        // a group changes it with no change of offset, and the window then
+        // has to be read again. The offset is held inside the content.
         .onScrollGeometryChange(for: ScrollWindow.self) { geometry in
-            ScrollWindow(offset: geometry.contentOffset.y, height: geometry.containerSize.height)
+            ScrollWindow(offset: geometry.contentOffset.y, height: geometry.containerSize.height,
+                         content: geometry.contentSize.height)
         } action: { _, new in
             window = new
+        }
+        // The first window is made for the real height: the scroll geometry
+        // reports only changes, and a drawer taller than the guess in
+        // `ScrollWindow()` would start with its lower rows left out.
+        .onGeometryChange(for: CGFloat.self) { proxy in
+            proxy.size.height
+        } action: { height in
+            window = ScrollWindow(offset: window.top, height: height)
         }
     }
 }
@@ -605,9 +623,13 @@ private struct ScrollWindow: Equatable {
 
     init() {}
 
-    init(offset: CGFloat, height: CGFloat) {
-        top = (max(0, offset) / Self.step).rounded(.down) * Self.step
-        bottom = ((max(0, offset) + height) / Self.step).rounded(.up) * Self.step
+    /// `content`, when known, keeps the offset inside the content: a scroll
+    /// view that has just shrunk can still report its old, too-large offset.
+    init(offset: CGFloat, height: CGFloat, content: CGFloat? = nil) {
+        var clamped = max(0, offset)
+        if let content { clamped = min(clamped, max(0, content - height)) }
+        top = (clamped / Self.step).rounded(.down) * Self.step
+        bottom = ((clamped + height) / Self.step).rounded(.up) * Self.step
     }
 }
 
