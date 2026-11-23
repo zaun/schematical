@@ -85,15 +85,15 @@ Every other letter points here.
 
 | Must be true | Command | Status |
 |---|---|---|
-| Backend tests green | `cmake -S backend -B /tmp/logic-p47 && cmake --build /tmp/logic-p47 -j8 && ctest --test-dir /tmp/logic-p47 -j8` → `100% tests passed` | MET (2026-11-16 at 349f25b3: `100% tests passed, 0 tests failed out of 37`; T0 = 37, `grep -c '^logic_test' backend/CMakeLists.txt` → 37) |
-| Golden sizes recorded | `wc -l backend/tests/golden/parts.txt backend/tests/golden/traces.txt backend/tests/golden/footprints.txt` | at planning (349f25b3): **P0 = 32897**, **R0 = 32897**, **F0 = 1646**; I, J, K and L re-measure them at their start and use their own |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p47-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-16 at 349f25b3: `** BUILD SUCCEEDED **`) |
-| None of the four kinds exists | `grep -c 'PART_INDUCTOR\|PART_FUSE\|PART_RELAY\|PART_BUZZER' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/{inductor,fuse,relay,buzzer}.json` → no such file; `find datasheets/inductor datasheets/fuse -type f \| wc -l` → 0; `ls datasheets/relay datasheets/buzzer` → no such directory | MET (2026-11-16 at 349f25b3: 0; no file; 0 files in the two empty directories; no directory) |
-| No other open plan adds these parts or kinds | `grep -l -i 'PART_INDUCTOR\|PART_FUSE\|PART_RELAY\|PART_BUZZER\|Parts/inductor\.json\|Parts/fuse\.json\|Parts/relay\.json\|Parts/buzzer\.json\|datasheets/relay\|datasheets/buzzer' planning/plan-*.md \| grep -v plan-47 \| wc -l` → 0 | MET (2026-11-16: 0). plan-42 (regulators, `PART_REGULATOR`), plan-44 (crystals, `PART_CRYSTAL`) and plan-45 (terminal blocks, the existing `connector` kind) are open: the lines several plans touch (`PartKind`, `KINDS[]`, `TRACE_LAST_KIND`, the listing arrays, the editor's kind lists, `ReferenceCategory.of`, `PartSymbol`) are added only if absent and after whatever is last; each such step greps first (plan-47-I Phase 1, J Phase 1, K Phase 1, M Phase 1) |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p47 && cmake --build /tmp/logic-p47 -j8 && ctest --test-dir /tmp/logic-p47 -j8` → `100% tests passed` | MET (2026-11-22 at 7c7b4d31: `100% tests passed, 0 tests failed out of 41`; T0 = 41, `grep -c '^logic_test' backend/CMakeLists.txt` → 41; planning-time figure was 37) |
+| Golden sizes recorded | `wc -l backend/tests/golden/parts.txt backend/tests/golden/traces.txt backend/tests/golden/footprints.txt` | at planning (349f25b3): **P0 = 32897**, **R0 = 32897**, **F0 = 1646**; I, J, K and L re-measure them at their start and use their own. Measured 2026-11-22 at 7c7b4d31 (plan-53 and others landed since): **P0 = 34375**, **R0 = 34375**, **F0 = 1895** |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p47-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-22 at 7c7b4d31: `** BUILD SUCCEEDED **` with `-derivedDataPath /tmp/p47-dd2`; the stale `/tmp/p47-dd` from planning failed with "Framework … XCTest.framework did not contain an Info.plist", § Corrections) |
+| None of the four kinds exists | `grep -c 'PART_INDUCTOR\|PART_FUSE\|PART_RELAY\|PART_BUZZER' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/{inductor,fuse,relay,buzzer}.json` → no such file; `find datasheets/inductor datasheets/fuse -type f \| wc -l` → 0; `ls datasheets/relay datasheets/buzzer` → no such directory | MET (2026-11-22 at 7c7b4d31: 0; no file; `datasheets/inductor` and `datasheets/fuse` do not exist in a fresh checkout (git keeps no empty directory), so 0 files; no directory for relay and buzzer) |
+| No other open plan adds these parts or kinds | `grep -l -i 'PART_INDUCTOR\|PART_FUSE\|PART_RELAY\|PART_BUZZER\|Parts/inductor\.json\|Parts/fuse\.json\|Parts/relay\.json\|Parts/buzzer\.json\|datasheets/relay\|datasheets/buzzer' planning/plan-*.md \| grep -v 'plan-47\|plan-48-A' \| wc -l` → 0 | MET (2026-11-22: 0; plan-48-A, written after this plan, only names plan-47 in its own prerequisite as an open plan, § Corrections). plan-42 (regulators, `PART_REGULATOR`), plan-44 (crystals, `PART_CRYSTAL`) and plan-45 (terminal blocks, the existing `connector` kind) are open: the lines several plans touch (`PartKind`, `KINDS[]`, `TRACE_LAST_KIND`, the listing arrays, the editor's kind lists, `ReferenceCategory.of`, `PartSymbol`) are added only if absent and after whatever is last; each such step greps first (plan-47-I Phase 1, J Phase 1, K Phase 1, M Phase 1) |
 | No open plan uses this plan's footprint id prefixes | `grep -l '"IND-\|"FUSE-\|"PTC-\|"RELAY-\|"BUZZER-' planning/plan-4[245]-*.md planning/plan-4[245]-data/*.json 2>/dev/null \| wc -l` → 0; `python3 -I -c "import json;print(sum(f['id'].startswith(('IND-','FUSE-','PTC-','RELAY-','BUZZER-')) for f in json.load(open('schematical/schematical/Parts/footprints.json'))['footprints']))"` → 0 | MET (2026-11-16: 0 and 0; the library's one id with `IND` in it is `THINDPAK-3`) |
-| DigiKey credentials and quota | `grep -cE '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc` → 2; `eval "$(grep -E '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc)" && node scripts/digikey.js --in-stock --pages 1 --limit 1 --category 150 --manufacturer 507` prints `calls left today` ≥ 900 before each day's run of Phase 2 (about 1000 a day, shared with other sessions; it resets at about 00:00 UTC) | NOT MET (2026-11-16: credentials 2 of 2; `148 calls left today` after planning's 205 calls; the next reset is 2026-11-17 00:00 UTC) |
-| The maker sites answer Python's `urllib` | `python3 -I planning/plan-47-data/census/urlcheck.py <(head -3 planning/plan-47-data/urls-needed.tsv) /tmp/p47/pdf \| cut -f3` → `ok`, `1`, `1` | MET (2026-11-16: 1745 of 1866 URLs answered a PDF, § 2) |
-| `pdftotext`, `pdfinfo` | `which pdftotext pdfinfo` → two paths | MET (2026-11-16) |
+| DigiKey credentials and quota | `grep -cE '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc` → 2; `eval "$(grep -E '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc)" && node scripts/digikey.js --in-stock --pages 1 --limit 1 --category 150 --manufacturer 507` prints `calls left today` ≥ 900 before each day's run of Phase 2 (about 1000 a day, shared with other sessions; it resets at about 00:00 UTC) | MET today (2026-11-22: credentials 2 of 2; `999 calls left today` at the first call of the day, then `996` after three test look-ups; the run of Phase 2 starts a day only when this shows ≥ 900) |
+| The maker sites answer Python's `urllib` | `python3 -I planning/plan-47-data/census/urlcheck.py <(head -3 planning/plan-47-data/urls-needed.tsv) /tmp/p47/pdf \| cut -f3` → `ok`, `1`, `1` | MET (2026-11-22: `ok`, `1`, `1`; 1745 of 1866 URLs answered a PDF at planning, § 2) |
+| `pdftotext`, `pdfinfo` | `which pdftotext pdfinfo` → two paths | MET (2026-11-22) |
 
 Everything below is written against the world where these hold.
 
@@ -389,7 +389,7 @@ footprint's `note` and in the cartridge fuse devices' `note` (plan-47-K).
 
 ### Phase 1 — Restore the listing
 
-- [ ] Run `python3 -I planning/plan-47-data/census/select.py planning/plan-47-data/raw /tmp/p47-cand.tsv --urls planning/plan-47-data/url-check.tsv --report`:
+- [x] (2026-11-22: `download set: 3522 rows; 1461 distinct URLs`, `cmp` → `reproducible`) Run `python3 -I planning/plan-47-data/census/select.py planning/plan-47-data/raw /tmp/p47-cand.tsv --urls planning/plan-47-data/url-check.tsv --report`:
       `8075 parts listed`, `candidates: 2953; reserve: 569`, `download set:
       3522 rows; 1461 distinct URLs`; `cmp` with `candidates.tsv` →
       `reproducible`.
@@ -514,6 +514,20 @@ Author decisions (no user-visible fork; recorded so nobody re-litigates):
   of Materials.
 
 ## Corrections
+
+- **2026-11-22, Prerequisites.** Four figures had moved since planning (7c7b4d31):
+  T0 is 41 (not 37), P0 = R0 = 34375 (not 32897), F0 = 1895 (not 1646)
+  (`wc -l backend/tests/golden/{parts,traces,footprints}.txt`;
+  `grep -c '^logic_test' backend/CMakeLists.txt` → 41). Later letters
+  re-measure these at their start, as they already say.
+- **2026-11-22, the app-build prerequisite.** `-derivedDataPath /tmp/p47-dd`
+  (left from planning) failed with `Framework …XCTest.framework did not contain
+  an Info.plist`; a fresh `/tmp/p47-dd2` gave `** BUILD SUCCEEDED **`. Use a
+  fresh derived-data path for this check.
+- **2026-11-22, "no other open plan" row.** The literal command printed 1:
+  `planning/plan-48-A-timer-opamp-data.md`, whose own prerequisite names
+  plan-47's kinds as an open plan's. It adds none of them, so the command now
+  also excludes `plan-48-A` (above).
 
 ## Summary
 
