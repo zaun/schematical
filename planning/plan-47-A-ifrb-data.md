@@ -91,7 +91,7 @@ Every other letter points here.
 | None of the four kinds exists | `grep -c 'PART_INDUCTOR\|PART_FUSE\|PART_RELAY\|PART_BUZZER' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/{inductor,fuse,relay,buzzer}.json` → no such file; `find datasheets/inductor datasheets/fuse -type f \| wc -l` → 0; `ls datasheets/relay datasheets/buzzer` → no such directory | MET (2026-11-22 at 7c7b4d31: 0; no file; `datasheets/inductor` and `datasheets/fuse` do not exist in a fresh checkout (git keeps no empty directory), so 0 files; no directory for relay and buzzer) |
 | No other open plan adds these parts or kinds | `grep -l -i 'PART_INDUCTOR\|PART_FUSE\|PART_RELAY\|PART_BUZZER\|Parts/inductor\.json\|Parts/fuse\.json\|Parts/relay\.json\|Parts/buzzer\.json\|datasheets/relay\|datasheets/buzzer' planning/plan-*.md \| grep -v 'plan-47\|plan-48-A' \| wc -l` → 0 | MET (2026-11-22: 0; plan-48-A, written after this plan, only names plan-47 in its own prerequisite as an open plan, § Corrections). plan-42 (regulators, `PART_REGULATOR`), plan-44 (crystals, `PART_CRYSTAL`) and plan-45 (terminal blocks, the existing `connector` kind) are open: the lines several plans touch (`PartKind`, `KINDS[]`, `TRACE_LAST_KIND`, the listing arrays, the editor's kind lists, `ReferenceCategory.of`, `PartSymbol`) are added only if absent and after whatever is last; each such step greps first (plan-47-I Phase 1, J Phase 1, K Phase 1, M Phase 1) |
 | No open plan uses this plan's footprint id prefixes | `grep -l '"IND-\|"FUSE-\|"PTC-\|"RELAY-\|"BUZZER-' planning/plan-4[245]-*.md planning/plan-4[245]-data/*.json 2>/dev/null \| wc -l` → 0; `python3 -I -c "import json;print(sum(f['id'].startswith(('IND-','FUSE-','PTC-','RELAY-','BUZZER-')) for f in json.load(open('schematical/schematical/Parts/footprints.json'))['footprints']))"` → 0 | MET (2026-11-16: 0 and 0; the library's one id with `IND` in it is `THINDPAK-3`) |
-| DigiKey credentials and quota | `grep -cE '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc` → 2; `eval "$(grep -E '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc)" && node scripts/digikey.js --in-stock --pages 1 --limit 1 --category 150 --manufacturer 507` prints `calls left today` ≥ 900 before each day's run of Phase 2 (about 1000 a day, shared with other sessions; it resets at about 00:00 UTC) | MET today (2026-11-22: credentials 2 of 2; `999 calls left today` at the first call of the day, then `996` after three test look-ups; the run of Phase 2 starts a day only when this shows ≥ 900) |
+| DigiKey credentials and quota | `grep -cE '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc` → 2; `eval "$(grep -E '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc)" && node scripts/digikey.js --in-stock --pages 1 --limit 1 --category 150 --manufacturer 507` prints `calls left today` ≥ 900 before each day's run of Phase 2 (about 1000 a day, shared with other sessions; it resets at about 00:00 UTC) | NOT MET for the next day's run (2026-11-23 02:36 UTC: credentials 2 of 2; the day's quota is spent: `48 left today` after 951 calls, 938 of them the stock check; ≥ 900 is next true at the reset, 2026-11-24 00:00 UTC = 14:00 HST). It was MET at the start of the run: `999 left` at the first call, 2026-11-22 |
 | The maker sites answer Python's `urllib` | `python3 -I planning/plan-47-data/census/urlcheck.py <(head -3 planning/plan-47-data/urls-needed.tsv) /tmp/p47/pdf \| cut -f3` → `ok`, `1`, `1` | MET (2026-11-22: `ok`, `1`, `1`; 1745 of 1866 URLs answered a PDF at planning, § 2) |
 | `pdftotext`, `pdfinfo` | `which pdftotext pdfinfo` → two paths | MET (2026-11-22) |
 
@@ -543,6 +543,22 @@ Author decisions (no user-visible fork; recorded so nobody re-litigates):
   one more call), so it sold out after the planning listing: `out`, reason
   `stock check`; the next row of (wurth, inductor, tht) entered. The quota
   resets at about 00:00 UTC (14:00 HST); the run goes on then.
+
+- **2026-11-23, Phase 2 is quota-bound: where it stands and how to resume.**
+  `stock-check.tsv` has 939 look-ups (938 download-set rows and the first clip
+  tests; `to-check.py` says `2584` download-set rows still unchecked); one
+  miss so far (`768772331`, above), 0.1 %. The day's quota is spent (`48 left`).
+  Each later day: confirm `≥ 900 left` (the stock-check script prints `calls left
+  today` on every call), then
+  `cd planning/plan-47-data && STOCK_CHECK_RESERVE=50 census/stock-check.sh raw
+  clips/clips.jsonl candidates.tsv stock-check.tsv` (about 50 look-ups a minute
+  when the machine is quiet; about 20 minutes a day), then `python3 -I
+  census/select.py raw candidates.tsv --urls url-check.tsv --stock stock-check.tsv
+  --keep candidates.tsv --report`, then the Phase 3 re-run task. About 3 more
+  days (2584 rows at 940 a day), plus the refills of each miss. Letters B and C
+  need every download-set row checked and A complete (their prerequisites);
+  D-H need C's final pick; K-O need those. Plan-47-I and J (backend, no census
+  input) were therefore worked first.
 
 ## Summary
 
