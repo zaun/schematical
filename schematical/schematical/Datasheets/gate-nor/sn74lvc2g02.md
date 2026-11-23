@@ -24,24 +24,24 @@
 ## Description
 
 This dual 2-input positive-NOR gate is designed for 1.65-V to 5.5-V
-V~CC~ operation.
+V~CC~ operation. [[1::1]]
 
 The SN74LVC2G02 device performs the Boolean function Y = !{A + B} or
-Y = !{A} × !{B} in positive logic.
+Y = !{A} × !{B} in positive logic. [[1::3]]
 
 NanoFree™ package technology is a major breakthrough in IC packaging
-concepts, using the die as the package.
+concepts, using the die as the package. [[1::4]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when it is powered down.
+current backflow through the device when it is powered down. [[9::1]]
 
 Supports 5-V V~CC~ operation. Inputs accept voltages to 5.5 V. Max
 t~pd~ of 4.9 ns at 3.3 V. Low power consumption, 10-μA Max I~CC~.
 ±24-mA Output drive at 3.3 V. Typical V~OLP~ (output ground bounce)
 <0.8 V at V~CC~ = 3.3 V, T~A~ = 25°C. Typical V~OHV~ (output V~OH~
 undershoot) >2 V at V~CC~ = 3.3 V, T~A~ = 25°C. I~off~ supports
-partial-power-down mode operation.
+partial-power-down mode operation. [[1::2]]
 
 ## Pinout
 
@@ -63,6 +63,7 @@ GND: Ground
 1Y: Channel 1 output Y
 VCC: Positive supply
 ```
+[[3::table #1]]
 
 ## Functional description
 
@@ -70,7 +71,7 @@ The SN74LVC2G02 device contains two 2-input positive-NOR gates and each
 gate performs the Boolean function Y = !{A + B} or Y = !{A} • !{B}. This
 device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when it is powered down.
+current backflow through the device when it is powered down. [[9::1]]
 
 Conversion note: the logic diagram (positive logic) and the functional
 block diagram show two 2-input NOR gates, 1A (pin 1) and 1B (pin 2) to
@@ -78,12 +79,12 @@ block diagram show two 2-input NOR gates, 1A (pin 1) and 1B (pin 2) to
 
 ### Feature description
 
-- Wide operating voltage range.
-  - Operates from 1.65 V to 5.5 V.
-- Allows down voltage translation.
-- Inputs accept voltages to 5.5 V.
+- Wide operating voltage range. [[9::2]]
+  - Operates from 1.65 V to 5.5 V. [[9::2]]
+- Allows down voltage translation. [[9::2]]
+- Inputs accept voltages to 5.5 V. [[1::2]]
 - I~off~ feature allows voltages on the inputs and outputs, when V~CC~
-  is 0 V.
+  is 0 V. [[9::2]]
 
 ## Function tables
 
@@ -95,6 +96,7 @@ block diagram show two 2-input NOR gates, 1A (pin 1) and 1B (pin 2) to
 | X | H | L |
 | L | L | H |
 ```
+[[9::Table 1]]
 
 ## Absolute maximum ratings
 
@@ -116,6 +118,7 @@ block diagram show two 2-input NOR gates, 1A (pin 1) and 1B (pin 2) to
 [2] The input negative-voltage and output voltage ratings may be exceeded if the input and output clamp-current ratings are observed.
 [3] The value of V~CC~ is provided in the Recommended Operating Conditions table.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -126,6 +129,7 @@ block diagram show two 2-input NOR gates, 1A (pin 1) and 1B (pin 2) to
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -161,6 +165,7 @@ block diagram show two 2-input NOR gates, 1A (pin 1) and 1B (pin 2) to
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[5::table #1]]
 
 ## Thermal information
 
@@ -177,6 +182,7 @@ block diagram show two 2-input NOR gates, 1A (pin 1) and 1B (pin 2) to
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC package thermal metrics application report.
 ```
+[[5::table #2]]
 
 ## Electrical characteristics
 
@@ -204,6 +210,7 @@ block diagram show two 2-input NOR gates, 1A (pin 1) and 1B (pin 2) to
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25°C.
 ```
+[[6::table #1]]
 
 ### Operating characteristics
 
@@ -213,6 +220,7 @@ block diagram show two 2-input NOR gates, 1A (pin 1) and 1B (pin 2) to
 |---|---|---|--:|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | f = 10 MHz | 18 | 18 | 19 | 22 | pF |
 ```
+[[6::table #2]]
 
 ## Switching characteristics
 
@@ -225,6 +233,7 @@ See [parameter measurement information](#parameter-measurement).
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | 3.2 | 8.9 | 1 | 5.4 | 1 | 4.9 | 1 | 4.4 | ns |
 ```
+[[6::table #3]]
 
 ```table id=sw-125 caption="Switching characteristics, –40°C to 125°C" conditions="Over recommended operating free-air temperature range (unless otherwise noted) (see Figure 3)"
 | Symbol | From (input) | To (output) | –40°C to 125°C | < | < | < | < | < | < | < | Unit |
@@ -233,6 +242,7 @@ See [parameter measurement information](#parameter-measurement).
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | 3.2 | 10.9 | 1 | 6.4 | 1 | 5.9 | 1 | 5.4 | ns |
 ```
+[[6::table #4]]
 
 ## Typical characteristics
 
@@ -246,6 +256,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "VCC = 5 V", "points": [[-50, 3.92], [-25, 4.47], [0, 5.0]]}
  ]}
 ```
+[[7::Figure 1]]
 
 ```curve id=vol-iol caption="Simulated typical low-level output voltage (V~OL~) across low-level output current (I~OL~) at common supply values"
 {"x": {"label": "IOL, Low-level output current", "unit": "mA", "range": [0, 50]},
@@ -257,6 +268,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "VCC = 5 V", "points": [[0, 0], [25, 0.44], [50, 0.88]]}
  ]}
 ```
+[[7::Figure 2]]
 
 ## Parameter measurement information
 
@@ -264,7 +276,7 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. All parameters
-and waveforms are not applicable to all devices.
+and waveforms are not applicable to all devices. [[8::1]]
 
 Conversion note: the load circuit also has a second R~L~, from the output
 to switch S1, which goes to V~LOAD~, open or GND; the figure below draws
@@ -279,11 +291,13 @@ setup-and-hold and enable/disable waveforms, which are not drawn here.
 | t~PLZ~/t~PZL~ | V~LOAD~ |
 | t~PHZ~/t~PZH~ | GND |
 ```
+[[8::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: see table
 CL: see table
 ```
+[[8::Figure 3]]
 
 ```table id=test-conditions caption="Test conditions (Figure 3)"
 | V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -294,10 +308,12 @@ CL: see table
 | 3.3 V ± 0.3 V | 3 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 5 V ± 0.5 V | V~CC~ | ≤2.5 ns | V~CC~/2 | 2 × V~CC~ | 50 pF | 500 Ω | 0.3 V |
 ```
+[[8::table #2]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: see table
 ```
+[[8::Figure 3]]
 
 ## Application information
 
@@ -306,7 +322,7 @@ implement NOR logic with a high output drive, such as an LED
 application. It can produce 24-mA of drive current at 3.3 V making it
 Ideal for driving multiple outputs and good for high speed applications
 up to 100 Mhz. The inputs are 5.5-V tolerant allowing translation down
-to V~CC~.
+to V~CC~. [[10::1]]
 
 Conversion note: the typical application figure shows two circuits, "NOR Logic Function", an LVC2G02 gate whose two inputs and output connect to "uC or Logic", and "Basic LED Driver", an LVC2G02 gate with two "uC or Logic" inputs whose output drives an LED in series with a resistor to ground.
 
@@ -316,25 +332,25 @@ This device uses CMOS technology and has balanced output drive. Care
 should be taken to avoid bus contention because it can drive currents
 that would exceed maximum limits. The high drive will also create fast
 edges into light loads, so routing and load conditions should be
-considered to prevent ringing.
+considered to prevent ringing. [[10::2]]
 
 ### Detailed design procedure
 
-1. Recommended Input Conditions:
+1. Recommended Input Conditions: [[10::3]]
    - Rise time and fall time specs. See (Δt/ΔV) in the
      [Recommended Operating Conditions](#recommended-operating-conditions)
-     table.
+     table. [[10::3]]
    - Specified high and low levels. See (V~IH~ and V~IL~) in the
-     Recommended Operating Conditions table.
+     Recommended Operating Conditions table. [[10::3]]
    - Inputs are overvoltage tolerant allowing them to go as high as
      (V~I~ max) in the Recommended Operating Conditions table at any
-     valid V~CC~.
-2. Recommend Output Conditions:
+     valid V~CC~. [[10::3]]
+2. Recommend Output Conditions: [[10::3]]
    - Load currents should not exceed (I~O~ max) per output and should
      not exceed total current (continuous current through V~CC~ or GND)
      for the part. These limits are located in the Absolute Maximum
-     Ratings table.
-   - Outputs should not be pulled above V~CC~.
+     Ratings table. [[10::3]]
+   - Outputs should not be pulled above V~CC~. [[10::3]]
 
 ### Application curves
 
@@ -348,11 +364,12 @@ considered to prevent ringing.
   {"label": "Icc 5V", "points": [[0, 0], [10, 1.15], [20, 2.35], [25, 2.9], [30, 3.75], [40, 4.95], [50, 6.1], [55, 6.9], [65, 7.85], [70, 8.4], [75, 9.25]]}
  ]}
 ```
+[[11::Figure 4]]
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the min and max supply
-voltage rating located in the Recommended Operating Conditions table.
+voltage rating located in the Recommended Operating Conditions table. [[11::1]]
 
 Each V~CC~ pin should have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, a 0.1-μF capacitor is
@@ -361,11 +378,11 @@ recommended. If there are multiple V~CC~ pins, then a 0.01-μF or
 parallel multiple bypass capacitors to reject different frequencies of
 noise. A 0.1-μF and 1-μF capacitors are commonly used in parallel. The
 bypass capacitor should be installed as close to the power pin as
-possible for best results.
+possible for best results. [[11::2]]
 
 ### Layout guidelines
 
-When using multiple bit logic devices inputs should not ever float.
+When using multiple bit logic devices inputs should not ever float. [[11::3]]
 
 In many cases, functions or parts of functions of digital logic devices
 are unused; for example, when only two inputs of a triple-input AND gate
@@ -377,7 +394,7 @@ unused inputs of digital logic devices must be connected to a high or
 low bias to prevent them from floating. The logic level that should be
 applied to any particular unused input depends on the function of the
 device. Generally they will be tied to GND or V~CC~, whichever makes
-more sense or is more convenient.
+more sense or is more convenient. [[11::4]]
 
 Conversion note: the layout example shows a gate with its unused input tied to V~CC~ and a gate with its unused input tied to ground.
 
@@ -401,6 +418,7 @@ SN74LVC2G02DCUR | Reel of 3000 | -40 to 125 | C02J, C02Q, C02R
 SN74LVC2G02DCUT | Reel of 250 | -40 to 125 | C02J, C02Q, C02R
 SN74LVC2G02YZPR | Reel of 3000 | -40 to 125 | CBN
 ```
+[[13::table #1]]
 
 ## Conversion notes
 

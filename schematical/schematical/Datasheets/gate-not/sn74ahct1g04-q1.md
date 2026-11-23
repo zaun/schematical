@@ -24,12 +24,12 @@
 ## Description
 
 The SN74AHCT1G04-Q1 contains one gate. The device performs the Boolean
-function Y = !{A}.
+function Y = !{A}. [[1::2]]
 
 Qualified for automotive applications. ESD protection exceeds 1500V per
 MIL-STD-883, method 3015. Operating range of 4.5V to 5.5V. Max tpd of
 7.5ns at 5V. Low power consumption, 10µA max I~CC~. 8mA output drive at
-5V. Inputs are TTL-voltage compatible.
+5V. Inputs are TTL-voltage compatible. [[1::3]]
 
 ## Pinout
 
@@ -45,6 +45,7 @@ GND: Ground Pin
 Y: Output Y
 VCC: Power Pin
 ```
+[[3::Table 4-1]]
 
 ## Functional description
 
@@ -59,6 +60,7 @@ Conversion note: the functional block diagram (§ 7.1) shows one inverter, input
 | H | L |
 | L | H |
 ```
+[[7::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -77,6 +79,7 @@ Conversion note: the functional block diagram (§ 7.1) shows one inverter, input
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under [Section 5.3](#recommended-operating-conditions) is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output negative-voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -85,6 +88,7 @@ Conversion note: the functional block diagram (§ 7.1) shows one inverter, input
 
 [1] AEC Q100-002 indicates that HBM stressing must be in accordance with the ANSI/ESDA/JEDEC JS-001 specification.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -103,6 +107,7 @@ Conversion note: the functional block diagram (§ 7.1) shows one inverter, input
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs.
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -113,6 +118,7 @@ Conversion note: the functional block diagram (§ 7.1) shows one inverter, input
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 ```
+[[4::table #4]]
 
 ## Electrical characteristics
 
@@ -129,6 +135,7 @@ Conversion note: the functional block diagram (§ 7.1) shows one inverter, input
 | ΔI~CC~ ^1^ | One input at 3.4 V, Other inputs at V~CC~ or GND | 5.5 V | | | 1.35 | | 1.5 | mA |
 | C~i~ | V~I~ = V~CC~ or GND | 5 V | | 4 | 10 | | 10 | pF |
 ```
+[[5::table #1]]
 
 Source error: the source prints a note marker 1 on ΔI~CC~ (p.5) and no note under the table; the marker is kept as printed.
 
@@ -137,6 +144,7 @@ Source error: the source prints a note marker 1 on ΔI~CC~ (p.5) and no note und
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 14 | pF |
 ```
+[[5::table #2]]
 
 ## Switching characteristics
 
@@ -149,6 +157,7 @@ Source error: the source prints a note marker 1 on ΔI~CC~ (p.5) and no note und
 | t~PLH~ | A | Y | C~L~ = 50 pF | | 5.5 | 7.7 | 1 | 8.5 | ns |
 | t~PHL~ | A | Y | C~L~ = 50 pF | | 5.5 | 7.7 | 1 | 8.5 | ^ |
 ```
+[[5::table #3]]
 
 Conversion note: the source prints no temperature heading over the last Min and Max columns of this table.
 
@@ -161,6 +170,7 @@ Conversion note: the source prints no temperature heading over the last Min and 
   {"label": "TPD in ns", "points": [[-55, 4.4], [-40, 4.6], [0, 4.78], [25, 4.9], [50, 5.1], [85, 5.4], [125, 5.6]]}
  ]}
 ```
+[[5::figure #1]]
 
 ## Parameter measurement information
 
@@ -169,17 +179,19 @@ generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time, with one input transition per measurement. t~PHL~ and t~PLH~ are
 the same as t~pd~. All parameters and waveforms are not applicable to
-all devices.
+all devices. [[6::Figure 6-1]]
 
 Conversion note: in Figure 6-1 the inputs swing 0 V to V~CC~, inputs and outputs are measured at 50% V~CC~, and its table sets S1 to Open for t~PLH~/t~PHL~.
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: see table
 ```
+[[6::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 50% VCC
 ```
+[[6::Figure 6-1]]
 
 Conversion note: the source figure (Figure 6-1) also shows the load
 circuit for 3-state and open-drain outputs (R~L~ = 1 kΩ) with its S1
@@ -201,6 +213,7 @@ CAHCT1G04QDCKRG4Q1 | Reel of 3000 | -40 to 125 | BCS | NRND
 CAHCT1G04QDCKRQ1 | Reel of 3000 | -40 to 125 | BCS
 CAHCT1G04WDTXRQ1 | Reel of 3000 | -40 to 125 | 1
 ```
+[[10::table #1]]
 
 ## Conversion notes
 

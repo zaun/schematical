@@ -24,10 +24,10 @@
 ## Description
 
 These devices contain four independent 2-input NAND gates. They perform
-the Boolean function Y = !{A • B} in positive logic.
+the Boolean function Y = !{A • B} in positive logic. [[1::1]]
 
 Operating voltage range of 4.5V to 5.5V. Outputs can drive up to 10
-LSTTL loads. Inputs are TTL-voltage compatible.
+LSTTL loads. Inputs are TTL-voltage compatible. [[1::2]]
 
 ## Pinout
 
@@ -43,11 +43,12 @@ LSTTL loads. Inputs are TTL-voltage compatible.
 GND: Ground
 VCC: Positive supply
 ```
+[[5::table #1]]
 
 ## Functional description
 
 These devices contain four independent 2-input NAND gates. They perform
-the Boolean function Y = !{A • B} in positive logic.
+the Boolean function Y = !{A • B} in positive logic. [[1::1]]
 
 Conversion note: the functional block diagram shows one NAND gate with
 buffered inputs xA and xB and buffered output xY.
@@ -62,6 +63,7 @@ buffered inputs xA and xB and buffered output xY.
 | L | X | H |
 | X | L | H |
 ```
+[[7::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -79,6 +81,7 @@ buffered inputs xA and xB and buffered output xY.
 [1] Stresses beyond those listed under absolute maximum ratings may cause permanent damage to the device. These are stress ratings only and functional operation of the device at these or any other conditions beyond those indicated under recommended operating conditions is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ## Recommended operating conditions
 
@@ -97,6 +100,7 @@ buffered inputs xA and xB and buffered output xY.
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report Implications of Slow or Floating SMOS Inputs, literature number SCBA004.
 [2] SN54HCT00 is in product preview.
 ```
+[[4::table #2]]
 
 ## Thermal information
 
@@ -112,6 +116,7 @@ buffered inputs xA and xB and buffered output xY.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC package thermal metrics application report.
 ```
+[[4::table #3]]
 
 ## Electrical characteristics
 
@@ -132,12 +137,14 @@ buffered inputs xA and xB and buffered output xY.
 [2] This is the increase in supply current for each input that is at one of the specified TTL voltage levels, rather than 0 V or V~CC~.
 [3] SN54HCT00 is in product preview.
 ```
+[[5::table #2]]
 
 ```table id=op caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load | 20 | pF |
 ```
+[[5::table #3]]
 
 ## Switching characteristics
 
@@ -152,24 +159,26 @@ buffered inputs xA and xB and buffered output xY.
 
 [1] SN54HCT00 is in product preview.
 ```
+[[5::table #4]]
 
 ## Parameter measurement information
 
 Phase relationships between waveforms were chosen arbitrarily. All
 input pulses are supplied by generators having the following
-characteristics: PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~t~ < 6 ns.
+characteristics: PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~t~ < 6 ns. [[6::1]]
 
-For clock inputs, f~max~ is measured when the input duty cycle is 50%.
+For clock inputs, f~max~ is measured when the input duty cycle is 50%. [[6::2]]
 
 The outputs are measured one at a time with one input transition per
-measurement.
+measurement. [[6::3]]
 
 C~L~ includes probe and test-fixture capacitance. The greater between
-t~PLH~ and t~PHL~ is the same as t~pd~.
+t~PLH~ and t~PHL~ is the same as t~pd~. [[6::4]] [[6::6]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit for push-pull outputs"
 CL: see table
 ```
+[[6::Figure 6-1]]
 
 Conversion note: in the source's voltage waveforms the input swings
 0V to 3V and is measured at 1.3V; the outputs are measured at 50%.
@@ -177,6 +186,7 @@ Conversion note: in the source's voltage waveforms the input swings
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delays for TTL-compatible inputs"
 VM: 1.3V (input), 50% (output)
 ```
+[[6::Figure 6-2]]
 
 ## Application information
 
@@ -189,7 +199,7 @@ power disturbance. A 0.1-μF capacitor is recommended for this device.
 It is acceptable to parallel multiple bypass caps to reject different
 frequencies of noise. The 0.1-μF and 1-μF capacitors are commonly used
 in parallel. The bypass capacitor should be installed as close to the
-power terminal as possible for best results.
+power terminal as possible for best results. [[8::1]]
 
 ### Layout guidelines
 
@@ -205,7 +215,7 @@ as defined by the input voltage specifications, to prevent them from
 floating. The logic level that must be applied to any particular unused
 input depends on the function of the device. Generally, the inputs are
 tied to GND or V~CC~, whichever makes more sense for the logic function
-or is more convenient.
+or is more convenient. [[8::2]]
 
 ## Package
 
@@ -238,6 +248,7 @@ SN74HCT00PW | | -40 to 85 | HT00 | Obsolete
 SN74HCT00PWR | Reel of 2000 | -40 to 85 | HT00
 SN74HCT00PWRG4 | 2000 | -40 to 85 | HT00
 ```
+[[10::table #1]]
 
 ## Conversion notes
 

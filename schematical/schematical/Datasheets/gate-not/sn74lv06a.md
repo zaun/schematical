@@ -24,19 +24,19 @@
 ## Description
 
 These hex inverter buffers/drivers are designed for 2 V to 5.5 V V~CC~
-operation.
+operation. [[8::3]]
 
 The SN74LV06A device performs the Boolean function Y = !{A} in positive
-logic.
+logic. [[1::5]]
 
 The open-drain output require pull-up resistors to perform correctly and
 can be connected to other open-drain outputs to implement active-low
-wired-OR or active-high wired-AND functions.
+wired-OR or active-high wired-AND functions. [[1::6]]
 
 Outputs are disabled during power up and power down with inputs tied to
 V~CC~. Support mixed-mode voltage operation on all ports. I~off~
 supports live insertion, partial power down mode, and back drive
-protection. Latch-up performance exceeds 100 mA per JESD 78, Class II.
+protection. Latch-up performance exceeds 100 mA per JESD 78, Class II. [[1::2]]
 
 ## Pinout
 
@@ -61,33 +61,34 @@ protection. Latch-up performance exceeds 100 mA per JESD 78, Class II.
 GND: Ground Pin
 VCC: Power Pin
 ```
+[[3::Table 5-1]]
 
 ## Functional description
 
 These hex inverter buffers/drivers are designed for 2-V to 5.5-V V~CC~
-operation.
+operation. [[8::3]]
 
 The SN74LV06A device performs the Boolean function Y = !{A} in positive
-logic.
+logic. [[1::5]]
 
 The open-drain output require pull-up resistors to perform correctly and
 can be connected to other open-drain outputs to implement active-low
-wired-OR or active-high wired-AND functions.
+wired-OR or active-high wired-AND functions. [[1::6]]
 
 These devices are fully specified for partial-power-down applications
 using I~off~. The I~off~ circuitry disables the outputs, preventing
 damaging current back-flow through the devices when they are powered
-down.
+down. [[8::6]]
 
 Conversion note: the functional block diagram (Figure 8-1) shows one
 inverter with an open-drain output, input A and output Y.
 
-- Wide operating voltage range
-  - Operates from 2 V to 5.5 V
-- Allows up or down voltage translation
-  - Inputs and outputs accept voltages to 5.5 V
-- I~off~ feature
-  - Allows voltages on the inputs and outputs when V~CC~ is 0 V
+- Wide operating voltage range [[9::1]]
+  - Operates from 2 V to 5.5 V [[9::1]]
+- Allows up or down voltage translation [[9::1]]
+  - Inputs and outputs accept voltages to 5.5 V [[9::1]]
+- I~off~ feature [[9::1]]
+  - Allows voltages on the inputs and outputs when V~CC~ is 0 V [[9::1]]
 
 ## Function tables
 
@@ -101,6 +102,7 @@ inverter with an open-drain output, input A and output Y.
 [1] H = High Voltage Level, L = Low Voltage Level
 [2] H = Driving High, L = Driving Low
 ```
+[[9::Table 8-1]]
 
 Source conflict: the function table's note gives the output state H as
 "Driving High", while the overview says the open-drain output require
@@ -124,6 +126,7 @@ pull-up resistors to perform correctly. Both as printed.
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output negative-voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -135,6 +138,7 @@ pull-up resistors to perform correctly. Both as printed.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process. Manufacturing with less than 500-V HBM is possible with the necessary precautions.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process. Manufacturing with less than 250-V CDM is possible with the necessary precautions.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -165,6 +169,7 @@ pull-up resistors to perform correctly. Both as printed.
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs (SCBA004).
 [2] Unconfirmed: the electrical characteristics specify V~OL~ at I~OL~ = 50 µA for V~CC~ = 2 V to 5.5 V; kept as printed.
 ```
+[[4::table #3]] [[5::table #1]]
 
 ## Thermal information
 
@@ -180,6 +185,7 @@ pull-up resistors to perform correctly. Both as printed.
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report (SPRA953).
 ```
+[[5::table #2]]
 
 ## Electrical characteristics
 
@@ -199,6 +205,7 @@ pull-up resistors to perform correctly. Both as printed.
 
 [1] Conversion note: the source leaves the Min/Typ/Max cells under this group blank; its values are printed in the same positions as those of the other two groups.
 ```
+[[5::table #3]]
 
 ```table id=noise caption="Noise characteristics" conditions="V~CC~ = 3.3 V, C~L~ = 50 pF, T~A~ = 25°C"
 | Symbol | Parameter [1] | Min | Typ | Max | Unit |
@@ -211,6 +218,7 @@ pull-up resistors to perform correctly. Both as printed.
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[6::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
@@ -218,6 +226,7 @@ pull-up resistors to perform correctly. Both as printed.
 | C~pd~ | Power dissipation capacitance | C~L~ = 50 pF, f = 10 MHz | 3.3 V | 2.6 | pF |
 | ^ | ^ | ^ | 5 V | 4.7 | pF |
 ```
+[[6::table #2]]
 
 ## Switching characteristics
 
@@ -232,6 +241,7 @@ pull-up resistors to perform correctly. Both as printed.
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[5::table #4]]
 
 ```table id=sw-3v3 caption="Switching characteristics, V~CC~ = 3.3 V ± 0.3 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted) (see Load Circuit and Voltage Waveforms)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | < | –40°C to 85°C SN74LV06A | < | –40°C to 125°C SN74LV06A | < | Unit |
@@ -244,6 +254,7 @@ pull-up resistors to perform correctly. Both as printed.
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[2::table #1]] [[5::table #5]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Operating free-air temperature range (unless otherwise noted) (see Load Circuit and Voltage Waveforms)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | < | –40°C to 85°C SN74LV06A | < | –40°C to 125°C SN74LV06A | < | Unit |
@@ -256,6 +267,7 @@ pull-up resistors to perform correctly. Both as printed.
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[6::table #3]]
 
 ## Typical characteristics
 
@@ -266,6 +278,7 @@ pull-up resistors to perform correctly. Both as printed.
   {"label": "TPD in ns", "points": [[-55, 2.3], [0, 2.7], [25, 2.9], [50, 3.0], [85, 3.2], [125, 3.6]]}
  ]}
 ```
+[[7::Figure 6-1]]
 
 ```curve id=tpd-vcc caption="Figure 6-2. TPD vs V~CC~ at 25°C"
 {"x": {"label": "VCC", "unit": "V", "range": [0, 6]},
@@ -274,13 +287,14 @@ pull-up resistors to perform correctly. Both as printed.
   {"label": "TPD in ns", "points": [[2.5, 5.8], [3.3, 4.1], [5, 2.9]]}
  ]}
 ```
+[[7::Figure 6-2]]
 
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
-time, with one input transition per measurement.
+time, with one input transition per measurement. [[8::1]]
 
 Conversion note: C~L~ is 15 pF or 50 pF as given in the
 [switching characteristics](#switching-characteristics).
@@ -289,6 +303,7 @@ Conversion note: C~L~ is 15 pF or 50 pF as given in the
 RL: 1 kΩ
 CL: 15 pF or 50 pF
 ```
+[[8::Figure 7-1]]
 
 Conversion note: the voltage waveforms of Figure 7-1 (propagation delay
 times) show an input pulse between 0 V and V~CC~ and the inverted
@@ -303,12 +318,12 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[10::1]]
 
 The SN74LV06A is a low drive Open drain CMOS device that can be used for
 a multitude of buffer type functions. The inputs are 5.5 V tolerant and
 the outputs open drain and 5.5 V tolerant allowing it to translate up to
-5.5 V or down to any other voltage between GND and 5.5 V.
+5.5 V or down to any other voltage between GND and 5.5 V. [[10::2]]
 
 Conversion note: the typical application schematic (Figure 9-1) shows a
 buffer function, in which two LV06A inverters, each driven by a µC or
@@ -322,20 +337,20 @@ This device uses CMOS technology and is open drain so it has low output
 drive only. Care should be taken to avoid bus contention because it can
 drive currents that would exceed maximum limits. The parallel output
 drive can create fast edges into light loads so routing and load
-conditions should be considered to prevent ringing.
+conditions should be considered to prevent ringing. [[10::3]]
 
 ### Detailed design procedure
 
-1. Recommended Input Conditions:
+1. Recommended Input Conditions: [[10::4]]
    - For rise time and fall time specifications, see Δt/ΔV in the
-     Recommended Operating Conditions table.
+     Recommended Operating Conditions table. [[10::4]]
    - For specified high and low levels, see V~IH~ and V~IL~ in the
-     Recommended Operating Conditions table.
+     Recommended Operating Conditions table. [[10::4]]
    - Inputs are overvoltage tolerant allowing them to go as high as
-     5.5 V at any valid V~CC~.
-2. Recommended Output Conditions:
+     5.5 V at any valid V~CC~. [[10::4]]
+2. Recommended Output Conditions: [[10::4]]
    - Load currents should not exceed 35 mA per output and 50 mA total
-     for the part.
+     for the part. [[10::4]]
 
 Conversion note: the application curve (Figure 9-2, Output During Power
 Up with 4 k Pull-up at 3.3 V) plots VOUT against V~CC~ from 0 to
@@ -353,11 +368,11 @@ recommended. If there are multiple V~CC~ terminals then 0.01 μF or
 acceptable to parallel multiple bypass capacitors to reject different
 frequencies of noise. 0.1 μF and 1 μF capacitors are commonly used in
 parallel. The bypass capacitor should be installed as close to the power
-terminal as possible for best results.
+terminal as possible for best results. [[11::2]]
 
 ### Layout guidelines
 
-When using multiple bit logic devices, inputs should not float.
+When using multiple bit logic devices, inputs should not float. [[11::3]]
 
 In many cases, functions or parts of functions of digital logic devices
 are unused, for example, when only two inputs of a triple-input AND gate
@@ -370,7 +385,7 @@ low bias to prevent them from floating. The logic level that should be
 applied to any particular unused input depends on the function of the
 device. Generally they will be tied to GND or V~CC~ whichever make more
 sense or is more convenient. It is generally OK to float outputs unless
-the part is a transceiver.
+the part is a transceiver. [[11::4]]
 
 Conversion note: the layout diagram (Figure 9-3) shows one gate with its
 unused input tied to V~CC~ and one with its unused input tied to
@@ -405,6 +420,7 @@ SN74LV06APW | | -40 to 125 | LV06A | Obsolete
 SN74LV06APWR | Reel of 2000 | -40 to 125 | LV06A
 SN74LV06APWT | | -40 to 125 | LV06A | Obsolete
 ```
+[[13::table #1]]
 
 ## Conversion notes
 

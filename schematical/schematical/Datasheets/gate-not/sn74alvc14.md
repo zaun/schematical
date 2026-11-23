@@ -25,9 +25,9 @@
 
 This hex Schmitt-trigger inverter is designed for 2.3-V to 3.6-V V~CC~
 operation. The SN74ALVC14 contains six independent inverters and
-performs the Boolean function Y = !{A}.
+performs the Boolean function Y = !{A}. [[1::2]] [[1::3]]
 
-±24-mA Output Drive at 3.3 V.
+±24-mA Output Drive at 3.3 V. [[1::1]]
 
 ## Pinout
 
@@ -42,6 +42,7 @@ performs the Boolean function Y = !{A}.
 GND: Ground
 VCC: Positive supply
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -54,6 +55,7 @@ Conversion note: the logic diagram shows each inverter with a hysteresis symbol,
 | H | L |
 | L | H |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -78,10 +80,11 @@ Conversion note: the logic diagram shows each inverter with a hysteresis symbol,
 [3] This value is limited to 4.6 V maximum.
 [4] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #1]]
 
 Latch-Up Performance Exceeds 100 mA Per JESD 78, Class II. ESD Protection Exceeds
 JESD 22: 2000-V Human-Body Model (A114-A), 200-V Machine Model (A115-A),
-1000-V Charged-Device Model (C101).
+1000-V Charged-Device Model (C101). [[1::1]]
 
 ## Recommended operating conditions
 
@@ -101,6 +104,7 @@ JESD 22: 2000-V Human-Body Model (A114-A), 200-V Machine Model (A115-A),
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[2::table #2]]
 
 ## Electrical characteristics
 
@@ -138,6 +142,7 @@ JESD 22: 2000-V Human-Body Model (A114-A), 200-V Machine Model (A115-A),
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25°C.
 [2] Unconfirmed: the source prints I~OH~ = 100 µA without a minus sign, while every other I~OH~ condition of the table is negative.
 ```
+[[3::table #1]]
 
 ```table id=operating caption="Operating characteristics, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ = 2.5 V | V~CC~ = 3.3 V | Unit |
@@ -145,6 +150,7 @@ JESD 22: 2000-V Human-Body Model (A114-A), 200-V Machine Model (A115-A),
 |---|---|---|--:|--:|---|
 | C~pd~ | Power dissipation capacitance per inverter | C~L~ = 0, f = 10 MHz | 27 | 31 | pF |
 ```
+[[3::table #2]]
 
 ## Switching characteristics
 
@@ -154,6 +160,7 @@ JESD 22: 2000-V Human-Body Model (A114-A), 200-V Machine Model (A115-A),
 |---|---|---|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A | Y | 1 | 3.7 | | 3.9 | 1 | 3.4 | ns |
 ```
+[[3::table #3]]
 
 ## Parameter measurement information
 
@@ -163,7 +170,7 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 2 ns, t~f~ ≤ 2 ns. The outputs are measured one at a
 time, with one transition per measurement. t~PLH~ and t~PHL~ are the same
-as t~pd~. All parameters and waveforms are not applicable to all devices.
+as t~pd~. All parameters and waveforms are not applicable to all devices. [[5::1]]
 
 Conversion note: in the load circuit of Figure 1, S1 is open for t~pd~, so the 500 Ω to ground and C~L~ load the output.
 
@@ -171,10 +178,12 @@ Conversion note: in the load circuit of Figure 1, S1 is open for t~pd~, so the 5
 RL: 500 Ω
 CL: 30 pF
 ```
+[[4::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Figure 1, voltage waveforms, propagation delay times"
 VM: V~CC~/2
 ```
+[[4::Figure 1]]
 
 Conversion note: in Figure 1 the input swings from 0 V to V~CC~.
 
@@ -185,7 +194,7 @@ generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 2.5 ns, t~f~ ≤ 2.5 ns. The outputs are measured one at
 a time, with one transition per measurement. t~PLH~ and t~PHL~ are the
 same as t~pd~. All parameters and waveforms are not applicable to all
-devices.
+devices. [[5::1]]
 
 Conversion note: in the load circuit of Figure 2, S1 is open for t~pd~, so the 500 Ω to ground and C~L~ load the output.
 
@@ -193,10 +202,12 @@ Conversion note: in the load circuit of Figure 2, S1 is open for t~pd~, so the 5
 RL: 500 Ω
 CL: 50 pF
 ```
+[[4::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Figure 2, voltage waveforms, propagation delay times"
 VM: 1.5 V
 ```
+[[4::Figure 1]]
 
 Conversion note: in Figure 2 the input swings from 0 V to 2.7 V.
 
@@ -225,6 +236,7 @@ SN74ALVC14DR | Reel of 2500 | -40 to 85 | ALVC14
 SN74ALVC14NSR | Reel of 2000 | -40 to 85 | ALVC14
 SN74ALVC14PWR | Reel of 2000 | -40 to 85 | VA14
 ```
+[[1::table #3]]
 
 ## Conversion notes
 

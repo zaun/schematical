@@ -27,13 +27,13 @@ Each circuit functions as a NAND gate or inverter, but because of the
 Schmitt action, it has different input threshold levels for
 positive-going (V~T+~) and for negative-going (V~T–~) signals. The
 hysteresis or backlash, which is the difference between the two
-threshold levels (V~T+~ – V~T–~), is typically 800 millivolts.
+threshold levels (V~T+~ – V~T–~), is typically 800 millivolts. [[1::2]]
 
 These circuits are temperature-compensated and can be triggered from the
-slowest of input ramps and still give clean, jitter-free output signals.
+slowest of input ramps and still give clean, jitter-free output signals. [[1::3]]
 
 Improved Line-Receiving Characteristics. P-N-P Inputs Reduce System
-Loading. Excellent Noise Immunity with Typical Hysteresis of 0.8 V.
+Loading. Excellent Noise Immunity with Typical Hysteresis of 0.8 V. [[1::1]]
 
 ## Pinout
 
@@ -50,6 +50,7 @@ Conversion note: the source (p.1) draws this pinout for the SN74LS19A D, J, or N
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::figure #3]]
 
 ## Functional description
 
@@ -71,6 +72,7 @@ Conversion note: the source prints no function table.
 | | Operating free-air temperature range | 0 | 70 | °C |
 | | Storage temperature range | -65 | 150 | °C |
 ```
+[[2::table #1]]
 
 Source error: the supply voltage line refers to Note 1, which the page (p.2) does not print.
 
@@ -84,6 +86,7 @@ Source error: the supply voltage line refers to Note 1, which the page (p.2) doe
 | I~OL~ | Low-level output current | | | 8 | mA |
 | T~A~ | Operating free-air temperature | 0 | | 70 | °C |
 ```
+[[2::table #2]]
 
 ## Electrical characteristics
 
@@ -113,6 +116,7 @@ Source error: the supply voltage line refers to Note 1, which the page (p.2) doe
 [3] Not more than one output should be shorted at a time, and the duration of the short-circuit should not exceed one second.
 [4] Unconfirmed: the source prints this value under TYP; kept where printed.
 ```
+[[3::table #1]]
 
 ## Switching characteristics
 
@@ -123,10 +127,11 @@ Source error: the supply voltage line refers to Note 1, which the page (p.2) doe
 | t~PLH~ | Any | Y | R~L~ = 2 kΩ, C~L~ = 15 pF | | 13 | 20 | | 13 | 20 | ns |
 | t~PHL~ | Any | Y | ^ | | 18 | 30 | | 25 | 40 | ns |
 ```
+[[3::table #2]]
 
-t~PLH~ = Propagation delay time, low-to-high-level output
+t~PLH~ = Propagation delay time, low-to-high-level output [[3::2]]
 
-t~PHL~ = Propagation delay time, high-to-low-level output
+t~PHL~ = Propagation delay time, high-to-low-level output [[3::2]]
 
 ## Parameter measurement information
 
@@ -136,7 +141,7 @@ Conversion note: in the voltage waveforms of Figure 1 the input swings from 0 V 
 
 All diodes are 1N3064 or equivalent. C~L~ includes probe and circuit
 capacitance. The generator characteristics are: PRR = 1 MHz, t~r~ =
-15 ns, t~p~ = 6 ns, Z~o~ = 50 Ω.
+15 ns, t~p~ = 6 ns, Z~o~ = 50 Ω. [[4::1]]
 
 ## Package
 
@@ -152,6 +157,7 @@ capacitance. The generator characteristics are: PRR = 1 MHz, t~r~ =
 SN74LS19ADR | Reel of 2500 | 0 to 70 | LS19A
 SN74LS19AN | Tube of 25 | 0 to 70 | SN74LS19AN
 ```
+[[5::table #1]]
 
 ## Conversion notes
 

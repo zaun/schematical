@@ -25,11 +25,11 @@
 
 This device contains four independent 2-input XOR Gates with
 Schmitt-trigger inputs. Each gate performs the Boolean function
-Y = A ⊕ B in positive logic.
+Y = A ⊕ B in positive logic. [[1::3]]
 
 Wide operating voltage range: 2V to 6V. Schmitt-trigger inputs allow
 for slow or noisy input signals. Extended ambient temperature range:
-–40°C to +125°C, T~A~.
+–40°C to +125°C, T~A~. [[1::5]]
 
 ## Pinout
 
@@ -54,17 +54,18 @@ GND: Ground
 4B: Channel 4, Input B
 VCC: Positive Supply
 ```
+[[3::Table 4-1]]
 
 The thermal pad can be connected to GND or left floating. Do not
 connect to any other signal or supply. BQA Package only. Source error:
 the pin table marks Thermal Pad (1), the note on the TYPE letters; its
-note (2), BQA Package only, has no marker and is the one that fits.
+note (2), BQA Package only, has no marker and is the one that fits. [[3::1]]
 
 ## Functional description
 
 This device contains four independent 2-input XOR Gates with
 Schmitt-trigger inputs. Each gate performs the Boolean function
-Y = A ⊕ B in positive logic.
+Y = A ⊕ B in positive logic. [[1::3]]
 
 ### Balanced CMOS push-pull outputs
 
@@ -76,9 +77,9 @@ Additionally, the outputs of this device are capable of driving larger
 currents than the device can sustain without being damaged. It is
 important to limit the output power of the device to avoid damage due
 to overcurrent. The electrical and thermal limits defined in the
-Absolute Maximum Ratings must be followed at all times.
+Absolute Maximum Ratings must be followed at all times. [[8::2]]
 
-Unused push-pull CMOS outputs must be left disconnected.
+Unused push-pull CMOS outputs must be left disconnected. [[8::3]]
 
 ### CMOS Schmitt-trigger inputs
 
@@ -89,7 +90,7 @@ Characteristics table from the input to ground. The worst case
 resistance is calculated with the maximum input voltage, given in the
 Absolute Maximum Ratings table, and the maximum input leakage current,
 given in the Electrical Characteristics table, using Ohm's law
-(R = V ÷ I).
+(R = V ÷ I). [[8::4]]
 
 The Schmitt-trigger input architecture provides hysteresis as defined
 by ΔV~T~ in the Electrical Characteristics table, which makes this
@@ -97,24 +98,25 @@ device extremely tolerant to slow or noisy inputs. While the inputs can
 be driven much slower than standard CMOS inputs, it is still
 recommended to properly terminate unused inputs. Driving the inputs
 with slow transitioning signals will increase dynamic current
-consumption of the device.
+consumption of the device. [[8::5]]
 
 ### Clamp diode structure
 
 As shown in Figure 7-1, the inputs and outputs to this device have both
-positive and negative clamping diodes.
+positive and negative clamping diodes. [[9::1]]
 
 Voltages beyond the values specified in the Absolute Maximum Ratings
 table can cause damage to the device. The input and output voltage
 ratings may be exceeded if the input and output clamp-current ratings
-are observed.
+are observed. [[9::2]]
 
 ```figure ref=clamp-diodes caption="Electrical placement of clamping diodes for each input and output"
 ```
+[[9::Figure 7-1]]
 
 ## Function tables
 
-Function Table lists the functional modes of the SN74HCS86.
+Function Table lists the functional modes of the SN74HCS86. [[10::1]]
 
 ```table id=function caption="Function table"
 | Inputs [1] | < | Output |
@@ -127,6 +129,7 @@ Function Table lists the functional modes of the SN74HCS86.
 
 [1] H = High Voltage Level, L = Low Voltage Level
 ```
+[[3::Table 4-1]]
 
 ## Absolute maximum ratings
 
@@ -146,6 +149,7 @@ Function Table lists the functional modes of the SN74HCS86.
 [3] Guaranteed by design.
 [4] Unconfirmed: the source prints the output clamp current's condition with V~I~, the same text as the input clamp current's.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -155,6 +159,7 @@ Function Table lists the functional modes of the SN74HCS86.
 
 [1] AEC Q100-002 indicate that HBM stressing shall be in accordance with the ANSI/ESDA/JEDEC JS-001 specification.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -169,6 +174,7 @@ Function Table lists the functional modes of the SN74HCS86.
 
 [1] Conversion note: the source prints Unlimited in the Max column of this row.
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -185,6 +191,7 @@ Function Table lists the functional modes of the SN74HCS86.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application.
 ```
+[[5::table #1]]
 
 ## Electrical characteristics
 
@@ -210,6 +217,7 @@ Function Table lists the functional modes of the SN74HCS86.
 | I~CC~ | Supply current | V~I~ = V~CC~ or 0, I~O~ = 0 | < | 6V | | 0.1 | 2 | µA |
 | C~i~ | Input capacitance | | < | 2V to 6V | | | 5 | pF |
 ```
+[[5::table #2]]
 
 ## Switching characteristics
 
@@ -223,6 +231,7 @@ Function Table lists the functional modes of the SN74HCS86.
 | ^ | ^ | ^ | ^ | 4.5 V | | 5 | 9 | ns |
 | ^ | ^ | ^ | ^ | 6V | | 4 | 8 | ns |
 ```
+[[6::table #1]]
 
 ## Typical characteristics
 
@@ -236,6 +245,7 @@ Function Table lists the functional modes of the SN74HCS86.
   {"label": "VCC = 6 V", "points": [[0.5, 27.0], [10, 27.05], [20, 27.2], [25, 27.3]]}
  ]}
 ```
+[[6::Figure 5-1]]
 
 ```curve id=roh caption="Output driver resistance in HIGH state, T~A~ = 25°C"
 {"x": {"label": "Output source current", "unit": "mA", "range": [0, 25]},
@@ -247,6 +257,7 @@ Function Table lists the functional modes of the SN74HCS86.
   {"label": "VCC = 6 V", "points": [[0.5, 31.2], [10, 31.5], [20, 31.8], [25, 32.0]]}
  ]}
 ```
+[[6::Figure 5-2]]
 
 Conversion note: Figures 5-3 and 5-4 (p.6) plot the supply current across the input voltage for six supply voltages from 2 V to 6 V, as hysteresis loops that are not digitized here.
 
@@ -259,15 +270,17 @@ inputs, f~max~ is measured when the input duty cycle is 50%. The
 outputs are measured one at a time with one input transition per
 measurement. C~L~ includes probe and test-fixture capacitance. The
 greater between t~PLH~ and t~PHL~ is the same as t~pd~. The greater
-between t~r~ and t~f~ is the same as t~t~.
+between t~r~ and t~f~ is the same as t~t~. [[7::1]] [[7::2]] [[7::3]] [[7::4]] [[7::6]] [[7::8]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit for push-pull outputs"
 CL: see table
 ```
+[[7::Figure 6-1]]
 
 ```figure ref=waveforms-cmos-tpd-tt caption="Voltage waveforms, propagation delays and input and output transition times"
 VM: 50%
 ```
+[[7::Figure 6-3]]
 
 ## Application information
 
@@ -275,24 +288,24 @@ Information in the following applications sections is not part of the
 TI component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining
 suitability of components for their purposes, as well as validating and
-testing their design implementation to confirm system functionality.
+testing their design implementation to confirm system functionality. [[11::1]]
 
 In this application, a 2-input XOR gate is used as a phase difference
 detector as shown in Typical application block diagram. The remaining
 three gates can be used for other applications in the system, or the
-inputs can be grounded and the channels left unused.
+inputs can be grounded and the channels left unused. [[11::2]]
 
 The SN74HCS86 is used to identify phase difference between a reference
 clock and another input clock. Whenever the clock states are different,
 the XOR output will pulse HIGH until the clocks return to the same
 state. The output is fed into a low-pass filter to obtain a DC
-representation of the phase difference.
+representation of the phase difference. [[11::3]]
 
 Typically, clock signals have fast transition rates, but additional
 filtering can be added to the clock signals which can lead to slower
 transitions rates. This makes the SN74HCS86 an excellent choice for the
 application because it has Schmitt-trigger inputs that do not have
-input transition rate requirements.
+input transition rate requirements. [[11::4]]
 
 Conversion note: Figure 8-1 (p.11) shows one XOR gate with the inputs Input Clock and Reference Clock, and its output through a series resistor R and a capacitor C to ground to Output.
 
@@ -301,7 +314,7 @@ Conversion note: Figure 8-1 (p.11) shows one XOR gate with the inputs Input Cloc
 Ensure the desired supply voltage is within the range specified in the
 Recommended Operating Conditions. The supply voltage sets the device's
 electrical characteristics of the device as described in the Electrical
-Characteristics section.
+Characteristics section. [[12::1]]
 
 The positive voltage supply must be capable of sourcing current equal
 to the total current to be sourced by all outputs of the SN74HCS86 plus
@@ -309,7 +322,7 @@ the maximum static supply current, I~CC~, listed in the Electrical
 Characteristics, and any transient current required for switching. The
 logic device can only source as much current that is provided by the
 positive supply source. Ensure the maximum total current through V~CC~
-listed in the Absolute Maximum Ratings is not exceeded.
+listed in the Absolute Maximum Ratings is not exceeded. [[12::2]]
 
 The ground must be capable of sinking current equal to the total
 current to be sunk by all outputs of the SN74HCS86 plus the maximum
@@ -317,30 +330,30 @@ supply current, I~CC~, listed in the Electrical Characteristics, and
 any transient current required for switching. The logic device can only
 sink as much current that can be sunk into its ground connection.
 Ensure the maximum total current through GND listed in the Absolute
-Maximum Ratings is not exceeded.
+Maximum Ratings is not exceeded. [[12::3]]
 
 The SN74HCS86 can drive a load with a total capacitance less than or
 equal to 50pF while still meeting all of the data sheet specifications.
 Larger capacitive loads can be applied; however, it is not recommended
-to exceed 50pF.
+to exceed 50pF. [[12::4]]
 
 The SN74HCS86 can drive a load with total resistance described by
 R~L~ ≥ V~O~ / I~O~, with the output voltage and current defined in the
 Electrical Characteristics table with V~OH~ and V~OL~. When outputting
 in the HIGH state, the output voltage in the equation is defined as the
 difference between the measured output voltage and the supply voltage
-at the V~CC~ pin.
+at the V~CC~ pin. [[12::5]]
 
 The maximum junction temperature, T~J(max)~ listed in the Absolute
 Maximum Ratings, is an additional limitation to prevent damage to the
 device. Do not violate any values listed in the Absolute Maximum
-Ratings. These limits are provided to prevent damage to the device.
+Ratings. These limits are provided to prevent damage to the device. [[12::8]]
 
 ### Input considerations
 
 Input signals must cross V~t-(min)~ to be considered a logic LOW, and
 V~t+(max)~ to be considered a logic HIGH. Do not exceed the maximum
-input voltage range found in the Absolute Maximum Ratings.
+input voltage range found in the Absolute Maximum Ratings. [[13::1]]
 
 Unused inputs must be terminated to either V~CC~ or ground. The unused
 inputs can be directly terminated if the input is completely unused, or
@@ -350,22 +363,22 @@ a default state of HIGH, and a pull-down resistor is used for a default
 state of LOW. The drive current of the controller, leakage current into
 the SN74HCS86 (as specified in the Electrical Characteristics), and the
 desired input transition rate limits the resistor size. A 10kΩ resistor
-value is often used due to these factors.
+value is often used due to these factors. [[13::2]]
 
 The SN74HCS86 has no input signal transition rate requirements because
-it has Schmitt-Trigger inputs.
+it has Schmitt-Trigger inputs. [[13::3]]
 
 Another benefit to having Schmitt-Trigger inputs is the ability to
 reject noise. Noise with a large enough amplitude can still cause
 issues. To know how much noise is too much, please refer to the
 ΔV~T(min)~ in the Electrical Characteristics. This hysteresis value
-will provide the peak-to-peak limit.
+will provide the peak-to-peak limit. [[13::4]]
 
 Unlike what happens with standard CMOS inputs, Schmitt-Trigger inputs
 can be held at any valid value without causing huge increases in power
 consumption. The typical additional current caused by holding an input
 at a value other than V~CC~ or ground is plotted in the Typical
-Characteristics.
+Characteristics. [[13::5]]
 
 ### Output considerations
 
@@ -374,36 +387,36 @@ Drawing current from the output will decrease the output voltage as
 specified by the V~OH~ specification in the Electrical Characteristics.
 The ground voltage is used to produce the output LOW voltage. Sinking
 current into the output will increase the output voltage as specified
-by the V~OL~ specification in the Electrical Characteristics.
+by the V~OL~ specification in the Electrical Characteristics. [[13::7]]
 
 Push-pull outputs that could be in opposite states, even for a very
 short time period, should never be connected directly together. This
-can cause excessive current and damage to the device.
+can cause excessive current and damage to the device. [[13::8]]
 
 Two channels within the same device with the same input signals can be
-connected in parallel for additional output drive strength.
+connected in parallel for additional output drive strength. [[13::9]]
 
 Unused outputs can be left floating. Do not connect outputs directly to
-V~CC~ or ground.
+V~CC~ or ground. [[13::10]]
 
 ### Detailed design procedure
 
 1. Add a decoupling capacitor from V~CC~ to GND. The capacitor needs to
    be placed physically close to the device and electrically close to
-   both the V~CC~ and GND pins.
+   both the V~CC~ and GND pins. [[13::12]]
 2. Ensure the capacitive load at the output is ≤ 50pF. This is not a
    hard limit; by design, however, it will optimize performance. This
    can be accomplished by providing short, appropriately sized traces
-   from the SN74HCS86 to one or more of the receiving devices.
+   from the SN74HCS86 to one or more of the receiving devices. [[13::12]]
 3. Ensure the resistive load at the output is larger than
    (V~CC~ / I~O(max)~)Ω. Doing this will prevent the maximum output
    current from the Absolute Maximum Ratings from being violated. Most
    CMOS inputs have a resistive load measured in MΩ; much larger than
-   the minimum calculated previously.
+   the minimum calculated previously. [[13::12]]
 4. Thermal issues are rarely a concern for logic gates; the power
    consumption and thermal increase, however, can be calculated using
    the steps provided in the application report, CMOS Power Consumption
-   and Cpd Calculation.
+   and Cpd Calculation. [[13::12]]
 
 Conversion note: Figure 8-2 (p.14), the application timing diagram, shows Out high while the reference clock and the input clock differ.
 
@@ -417,7 +430,7 @@ is acceptable to parallel multiple bypass capacitors to reject
 different frequencies of noise. The 0.1μF and 1μF capacitors are
 commonly used in parallel. The bypass capacitor should be installed as
 close to the power terminal as possible for best results, as shown in
-the following layout example.
+the following layout example. [[15::1]]
 
 ### Layout guidelines
 
@@ -433,7 +446,7 @@ as defined by the input voltage specifications, to prevent them from
 floating. The logic level that must be applied to any particular unused
 input depends on the function of the device. Generally, the inputs are
 tied to GND or V~CC~, whichever makes more sense for the logic function
-or is more convenient.
+or is more convenient. [[15::2]]
 
 Conversion note: Figure 8-3 (p.15), the example layout for the SN74HCS86, shows a 0.1 µF bypass capacitor placed close to the device between V~CC~ and GND, unused inputs tied to V~CC~, an unused output left floating, and a GND flood fill.
 
@@ -455,6 +468,7 @@ SN74HCS86BQAR | Reel of 3000 | -40 to 125 | HCS86
 SN74HCS86DR | Reel of 2500 | -40 to 125 | HCS86
 SN74HCS86PWR | Reel of 2000 | -40 to 125 | HCS86
 ```
+[[19::table #1]]
 
 ## Conversion notes
 

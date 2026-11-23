@@ -25,11 +25,11 @@
 
 The SN74AHCT08Q-Q1 devices are quadruple 2-input positive-AND gates.
 These devices perform the Boolean function Y = A × B or
-Y = !{!{A} + !{B}} in positive logic.
+Y = !{!{A} + !{B}} in positive logic. [[1::1]]
 
 Qualified for automotive applications. EPIC™ (enhanced-performance
 implanted CMOS) process. Inputs are TTL-voltage compatible. Latch-up
-performance exceeds 250 mA per JESD 17.
+performance exceeds 250 mA per JESD 17. [[1::2]]
 
 ## Pinout
 
@@ -45,9 +45,10 @@ performance exceeds 250 mA per JESD 17.
 GND: Ground
 VCC: Positive Supply
 ```
+[[3::Table 4-1]]
 
 The thermal pad can be connected to GND or left floating.
-Do not connect to any other signal or supply. BQA package only.
+Do not connect to any other signal or supply. BQA package only. [[3::1]]
 
 ## Functional description
 
@@ -55,7 +56,7 @@ The SN74AHCT08Q-Q1 devices are quadruple 2-input positive-AND gates with low
 drive that will produce slow rise and fall times. This slow transition
 reduces ringing on the output signal. The device has TTL inputs that
 allow up translation from 3.3 V to 5 V. The inputs are high impedance
-when V~CC~ = 0 V.
+when V~CC~ = 0 V. [[8::1]]
 
 Source conflict: Overview (p.8) says low drive with slow rise and fall times, while Design Requirements (p.9) says balanced output drive whose high drive will create fast edges into light loads (both kept).
 
@@ -69,6 +70,7 @@ Source conflict: Overview (p.8) says low drive with slow rise and fall times, wh
 | L | X | L |
 | X | L | L |
 ```
+[[8::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -87,6 +89,7 @@ Source conflict: Overview (p.8) says low drive with slow rise and fall times, wh
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, which do not imply functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -96,6 +99,7 @@ Source conflict: Overview (p.8) says low drive with slow rise and fall times, wh
 
 [1] AEC Q100-002 indicate that HBM stressing shall be in accordance with the ANSI/ESDA/JEDEC JS-001 specification.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -114,6 +118,7 @@ Source conflict: Overview (p.8) says low drive with slow rise and fall times, wh
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI Application Report, Implications of Slow or Floating CMOS Inputs.
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -124,6 +129,7 @@ Source conflict: Overview (p.8) says low drive with slow rise and fall times, wh
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics.
 ```
+[[5::table #1]]
 
 ## Electrical characteristics
 
@@ -142,6 +148,7 @@ Source conflict: Overview (p.8) says low drive with slow rise and fall times, wh
 
 [1] This is the increase in supply current for each input at one of the specified TTL voltage levels, rather than 0 V or V~CC~.
 ```
+[[5::table #2]]
 
 ```table id=noise caption="Noise characteristics, SN74AHCT08Q-Q1 [1]" conditions="V~CC~ = 5 V, C~L~ = 50 pF, T~A~ = 25 °C"
 | Symbol | Parameter | Min | Typ | Max | Unit |
@@ -154,12 +161,14 @@ Source conflict: Overview (p.8) says low drive with slow rise and fall times, wh
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[5::table #3]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25 °C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 18 | pF |
 ```
+[[6::table #1]]
 
 ## Switching characteristics
 
@@ -174,6 +183,7 @@ See [parameter measurement information](#parameter-measurement).
 | t~PLH~ | A or B | Y | C~L~ = 50 pF | | 5.5 | 7.9 | 1 | 9 | ns |
 | t~PHL~ | ^ | ^ | ^ | | 5.5 | 7.9 | 1 | 9 | ns |
 ```
+[[5::table #4]]
 
 ## Typical characteristics
 
@@ -184,6 +194,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "TPD in ns", "points": [[-55, 2.94], [-40, 2.99], [0, 3.33], [25, 3.58], [50, 3.77], [75, 3.95], [100, 4.14], [125, 4.26]]}
  ]}
 ```
+[[6::Figure 5-1]]
 
 ## Parameter measurement information
 
@@ -191,17 +202,19 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time with one input transition per measurement. All parameters and
-waveforms are not applicable to all devices.
+waveforms are not applicable to all devices. [[7::1]]
 
 Conversion note: C~L~ is 15 pF or 50 pF, as given in the [switching characteristics](#sw); in the figure the inputs swing 0 V to 3 V and are measured at 1.5 V, and the outputs are measured at 50 % V~CC~.
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: see table
 ```
+[[7::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 1.5 V (input), 50 % VCC (output)
 ```
+[[7::Figure 6-1]]
 
 Conversion note: the source figure also shows the 3-state and open-drain load circuit and the pulse-duration, setup-and-hold and enable/disable waveforms.
 
@@ -209,13 +222,13 @@ Conversion note: the source figure also shows the 3-state and open-drain load ci
 
 Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
-completeness.
+completeness. [[9::1]]
 
 The SN74AHCT08Q-Q1 devices are low-drive CMOS devices that can be used for a
 multitude of bus-interface type applications where output ringing is a
 concern. The low drive and slow edge rates will minimize overshoot and
 undershoot on the outputs. The TTL inputs can except voltages down
-to 3.3 V and translate up to 5 V.
+to 3.3 V and translate up to 5 V. [[9::2]]
 
 Conversion note: the typical application diagram (Figure 8-1) shows a 3.3-V bus driver driving the gate inputs; the gate runs from a 5 V regulated V~CC~ bypassed with 0.1 µF, and its output drives a 5-V accessory.
 
@@ -225,19 +238,19 @@ This device uses CMOS technology and has balanced
 output drive. Care should be taken to avoid bus contention because it
 can drive currents that would exceed maximum limits. The high drive will
 also create fast edges into light loads, so routing and load conditions
-should be considered to prevent ringing.
+should be considered to prevent ringing. [[9::3]]
 
 ### Detailed design procedure
 
 - Rise time and fall time specs: See Δt/ΔV in the
-  [Recommended Operating Conditions](#recommended-operating-conditions) table.
+  [Recommended Operating Conditions](#recommended-operating-conditions) table. [[9::4]]
 - Specified High and low levels: See V~IH~ and V~IL~ in the Recommended
-  Operating Conditions table.
+  Operating Conditions table. [[9::4]]
 - Inputs are overvoltage tolerant allowing them to go as high as 5.5 V at
-  any valid V~CC~.
+  any valid V~CC~. [[9::4]]
 - Load currents should not exceed 25 mA per output and 50 mA total for
-  the part.
-- Outputs should not be pulled above V~CC~.
+  the part. [[9::4]]
+- Outputs should not be pulled above V~CC~. [[9::4]]
 
 ### Power supply recommendations
 
@@ -248,7 +261,7 @@ devices with a single supply, 0.1 µF is recommended. If there are
 multiple V~CC~ pins, 0.01 µF or 0.022 µF is recommended for each power
 pin. A 0.1 µF and 1 µF are commonly used in parallel. The bypass
 capacitor should be installed as close to the power pin as possible for
-best results.
+best results. [[10::1]] [[10::2]]
 
 ### Layout guidelines
 
@@ -260,7 +273,7 @@ circumstances. All
 unused inputs of digital logic devices must be connected to a high or low
 bias to prevent them from floating. Generally they will be tied to GND or
 V~CC~; whichever makes more sense or is more convenient. It is generally acceptable to float outputs unless
-the part is a transceiver.
+the part is a transceiver. [[10::3]] [[10::4]]
 
 Conversion note: the layout example (Figure 8-3) recommends a GND flood fill, a 0.1 µF bypass capacitor placed close to the device, unused inputs tied to V~CC~, an unused output left floating, and avoiding 90° corners for signal lines.
 
@@ -284,6 +297,7 @@ SN74AHCT08QPWRG4Q1 | Reel of 2000 | -40 to 125 | HB08Q
 SN74AHCT08QPWRQ1 | Reel of 2000 | -40 to 125 | HB08Q
 SN74AHCT08QWBQARQ1 | Reel of 3000 | -40 to 125 | AHT08Q
 ```
+[[13::table #1]]
 
 ## Conversion notes
 

@@ -24,10 +24,10 @@
 ## Description
 
 The ’HCU04 devices contain six independent inverters. They perform the
-Boolean function Y = !{A} in positive logic.
+Boolean function Y = !{A} in positive logic. [[1::3]]
 
 Wide Operating Voltage Range of 2 V to 6 V. Outputs Can Drive Up To 10
-LSTTL Loads. Unbuffered Outputs.
+LSTTL Loads. Unbuffered Outputs. [[1::1]]
 
 ## Pinout
 
@@ -46,6 +46,7 @@ GND: Ground
 VCC: Supply voltage
 NC: No internal connection
 ```
+[[1::table #1]]
 
 ## Functional description
 
@@ -60,6 +61,7 @@ Conversion note: the logic diagram (positive logic) (p.2) shows one inverter, in
 | H | L |
 | L | H |
 ```
+[[2::table #1]]
 
 ## Absolute maximum ratings
 
@@ -82,6 +84,7 @@ Conversion note: the logic diagram (positive logic) (p.2) shows one inverter, in
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #2]]
 
 ## Recommended operating conditions
 
@@ -102,6 +105,7 @@ Conversion note: the logic diagram (positive logic) (p.2) shows one inverter, in
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[2::table #3]]
 
 ## Electrical characteristics
 
@@ -123,12 +127,14 @@ Conversion note: the logic diagram (positive logic) (p.2) shows one inverter, in
 | I~CC~ | V~I~ = V~CC~ or 0, I~O~ = 0 | < | 6 V | | | 2 | | 40 | | 20 | µA |
 | C~i~ | | < | 2 V to 6 V | | 3 | 10 | | 10 | | 10 | pF |
 ```
+[[3::table #1]]
 
 ```table id=operating caption="Operating characteristics, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance per inverter | No load | 20 | pF |
 ```
+[[3::table #2]]
 
 ## Switching characteristics
 
@@ -143,25 +149,28 @@ Conversion note: the logic diagram (positive logic) (p.2) shows one inverter, in
 | ^ | ^ | ^ | 4.5 V | | 8 | 15 | | 22 | | 19 | ^ |
 | ^ | ^ | ^ | 6 V | | 6 | 13 | | 19 | | 16 | ^ |
 ```
+[[3::table #3]]
 
 ## Parameter measurement information
 
 ```figure ref=load-cmos-50pf caption="Figure 1: load circuit"
 CL: 50 pF
 ```
+[[4::Figure 1]]
 
 ```figure ref=waveforms-cmos-tpd-tt caption="Figure 1: voltage waveforms, propagation delay and output transition times"
 VM: 50%
 ```
+[[4::Figure 1]]
 
-t~r~ is not applicable to ’HCU devices.
+t~r~ is not applicable to ’HCU devices. [[4::1]]
 
 C~L~ includes probe and test-fixture capacitance. Phase relationships
 between waveforms were chosen arbitrarily. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ = 6 ns, t~f~ = 6 ns. The outputs are measured one at
 a time, with one input transition per measurement. t~PLH~ and t~PHL~
-are the same as t~pd~.
+are the same as t~pd~. [[4::1]]
 
 Conversion note: in Figure 1 the input swings from 0 V to V~CC~, the voltage waveform of the input rise and fall times marks t~r~ and t~f~ between the 10% and 90% points, and the output rise time t~r~ carries the † of the sentence above.
 
@@ -189,6 +198,7 @@ SN74HCU04PWRG4 | Reel of 2000 | -40 to 85 | HCU04
 SNJ54HCU04FK | Tube of 55 | -55 to 125 | 86010012A SNJ54HCU04FK
 SNJ54HCU04J | Tube of 25 | -55 to 125 | 8601001CA SNJ54HCU04J
 ```
+[[5::table #1]]
 
 ## Conversion notes
 

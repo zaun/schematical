@@ -24,7 +24,7 @@
 ## Description
 
 The SN74AHC1G08 device is a single 2-input positive-AND gate. The device
-performs the Boolean function Y = A ● B in positive logic.
+performs the Boolean function Y = A ● B in positive logic. [[1::1]]
 
 The SN74AHC1G08 device has a wide operating V~CC~ range of 2 V to 5.5 V,
 which allows it to be used in a broad range of systems. The low
@@ -32,7 +32,7 @@ propagation delay allows fast switching and higher operation speeds. In
 addition, the low-power consumption makes this device a good choice for
 portable and battery power-sensitive applications. Schmitt-trigger
 action at all inputs makes the circuit tolerant for slower input rise
-and fall time.
+and fall time. [[1::2]] [[8::2]]
 
 Source error: the Description (p.1) and Overview (p.8) print a second
 form, Y = !{A + B} (a NOR), while the function table (Table 7-1) gives
@@ -51,6 +51,7 @@ Y: Data Output
 GND: Ground
 VCC: Power
 ```
+[[3::Table 4-1]]
 
 ## Function tables
 
@@ -65,6 +66,7 @@ VCC: Power
 [1] H = High Voltage Level, L = Low Voltage Level, X = Don’t Care
 [2] H = Driving High, L = Driving Low, Z = High Impedance State
 ```
+[[8::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -84,6 +86,7 @@ VCC: Power
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -94,6 +97,7 @@ VCC: Power
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -121,6 +125,7 @@ VCC: Power
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, SCBA004.
 ```
+[[4::table #3]] [[5::table #1]]
 
 ## Thermal information
 
@@ -131,6 +136,7 @@ VCC: Power
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report, SPRA953. Conversion note: all packages are 5 pins.
 ```
+[[5::table #2]]
 
 ## Electrical characteristics
 
@@ -152,12 +158,14 @@ VCC: Power
 | I~CC~ | Supply current | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | | 1 | | 10 | µA |
 | C~i~ | Input Capacitance | V~I~ = V~CC~ or GND | 5 V | | 4 | 10 | | 10 | pF |
 ```
+[[5::table #3]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25 °C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 18 | pF |
 ```
+[[6::table #1]]
 
 ## Switching characteristics
 
@@ -172,6 +180,7 @@ See [parameter measurement information](#parameter-measurement).
 | t~PLH~ | A or B | Y | C~L~ = 50 pF | | 8.7 | 12.3 | 1 | 14 | 1 | 14.5 | ns |
 | t~PHL~ | ^ | ^ | ^ | | 8.7 | 12.3 | 1 | 14 | 1 | 14.5 | ns |
 ```
+[[5::table #4]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | From (input) | To (output) | Output capacitance | T~A~ = 25 °C | < | < | T~A~ = –40 °C to 85 °C | < | T~A~ = –55 °C to 125 °C | < | Unit |
@@ -182,6 +191,7 @@ See [parameter measurement information](#parameter-measurement).
 | t~PLH~ | A or B | Y | C~L~ = 50 pF | | 5.8 | 7.9 | 1 | 9 | 1 | 9.5 | ns |
 | t~PHL~ | ^ | ^ | ^ | | 5.8 | 7.9 | 1 | 9 | 1 | 9.5 | ns |
 ```
+[[6::table #2]]
 
 ## Typical characteristics
 
@@ -193,6 +203,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "AHCT", "points": [[-55, 0], [-50, 0], [-45, 0.61], [-40, 1.27], [-35, 1.79], [-30, 2.27], [-25, 2.75], [-20, 3.21], [-15, 3.62], [-10, 4.06], [-5, 4.5], [0, 5.02]]}
  ]}
 ```
+[[10::Figure 8-2]]
 
 ```curve id=vol caption="AHC family V~OL~ vs I~OL~, T~A~ = 25 °C, V~CC~ = 5.5 V, all outputs switching"
 {"x": {"label": "I_OL", "unit": "mA", "range": [0, 40]},
@@ -202,6 +213,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "AHCT", "points": [[0, 0], [10, 0.21], [20, 0.44], [30, 0.72], [40, 1.0]]}
  ]}
 ```
+[[10::Figure 8-2]]
 
 Conversion note: Figure 5-1 (response time vs output voltage,
 T~A~ = 25 °C, V~A~ = 5 V) is not converted; it shows two output edges rising from 0 V to 5 V near
@@ -214,15 +226,17 @@ generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time with one input transition per measurement. Conversion note: C~L~ is
 15 pF or 50 pF, as given in the
-[switching characteristics](#switching-characteristics).
+[switching characteristics](#switching-characteristics). [[7::1]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 15 pF or 50 pF
 ```
+[[7::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 50 % VCC
 ```
+[[7::Figure 6-1]]
 
 Conversion note: the source figure also shows the 3-state and open-drain
 load circuit, pulse-duration, setup-and-hold and enable/disable
@@ -233,36 +247,36 @@ devices.
 
 Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
-completeness.
+completeness. [[9::1]]
 
 A common application for AND gates is their use in power sequencing.
 Using the SN74AHC1G08 to verify that the processor has turned on can
 protect it from any harmful signals. Conversion note: in the power
 sequencing application (Figure 8-1) input A is tied to V~CC~ = 5 V, the MCU (MSP43x) drives
 input B, Y drives the EN input of a temperature sensor, and the sensor's
-V~O~ returns to the MCU.
+V~O~ returns to the MCU. [[9::2]]
 
 Design requirements: the SN74AHC1G08 device uses CMOS technology and has
 balanced output drive. Take care to avoid bus contention because it can
 drive currents that would exceed maximum limits. All input signals
 should remain as close to either 0 V or V~CC~ as possible for optimal
-operation.
+operation. [[9::3]] [[9::4]]
 
 - Rise time and fall time: see Δt/Δv in the
-  [recommended operating conditions](#recommended-operating-conditions).
-- High and low levels: see V~IH~ and V~IL~ in the same table.
+  [recommended operating conditions](#recommended-operating-conditions). [[9::5]]
+- High and low levels: see V~IH~ and V~IL~ in the same table. [[9::5]]
 - Inputs and outputs are overvoltage tolerant and can therefore go as
   high as 5.5 V at any valid V~CC~. Source conflict: the absolute
   maximum ratings limit V~O~ to V~CC~ + 0.5 V and the recommended
   operating conditions limit V~O~ to V~CC~; only the inputs are rated to
-  5.5 V.
+  5.5 V. [[9::5]]
 - Load currents should not exceed ±50 mA. Source conflict: the absolute
   maximum continuous output current is ±25 mA; ±50 mA is the rating for
-  the current through V~CC~ or GND.
+  the current through V~CC~ or GND. [[9::5]]
 - The effects of frequency upon the device's power consumption should be
-  studied in CMOS Power Consumption and CPD Calculation, SCAA035.
+  studied in CMOS Power Consumption and CPD Calculation, SCAA035. [[9::5]]
 - Added trace resistance and capacitance can reduce maximum frequency
-  capability.
+  capability. [[9::5]]
 
 Power supply: any voltage between the minimum and maximum supply voltage
 rating listed in the
@@ -271,7 +285,7 @@ Each V~CC~ terminal should have a bypass capacitor to prevent power
 disturbance. A 0.1-µF bypass capacitor is recommended for devices with a
 single supply. Capacitors with values of 0.1 µF and 1 µF are commonly
 used in parallel. The bypass capacitor should be installed as close to
-the power terminal as possible for best results.
+the power terminal as possible for best results. [[10::1]] [[10::2]]
 
 When a PCB trace turns a corner at a 90° angle, a reflection can occur.
 A reflection occurs primarily because of the change of width of the
@@ -279,7 +293,7 @@ trace. At the apex of the turn, the trace width increases to 1.414 times
 the width. Not all PCB traces can be straight and therefore some traces
 must turn corners. Figure 8-4 shows progressively better techniques of
 rounding corners. Only the last example (BEST) maintains constant trace
-width and minimizes reflections.
+width and minimizes reflections. [[10::3]]
 
 ## Package
 
@@ -310,6 +324,7 @@ SN74AHC1G08DCKTG4 | Reel of 250 | -55 to 125 | AE3
 SN74AHC1G08DRLR | Reel of 4000 | -55 to 125 | AEB, AES
 SN74AHC1G08DRLRG4 | Reel of 4000 | -55 to 125 | AEB, AES
 ```
+[[13::table #1]]
 
 ## Conversion notes
 

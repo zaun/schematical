@@ -26,23 +26,23 @@
 This single 2-input positive-AND gate performs the Boolean function
 Y = A • B or Y = !{!{A} + !{B}} in positive logic. AEC-Q100
 qualified with the following results: device temperature grade 1: –40°C
-to 125°C ambient operating temperature range.
+to 125°C ambient operating temperature range. [[1::1]] [[2::3]]
 
 The AUP family is TI's solution to the low-power needs of the industry
 in battery-powered portable applications. This family ensures a very low
 static- and dynamic-power consumption across the entire V~CC~ range of
-0.8 V to 3.6 V.
+0.8 V to 3.6 V. [[2::1]]
 
 Schmitt-trigger action allows slow input transition
 and better switching noise immunity at the input (V~hys~ = 250 mV, Typ
-at 3.3 V).
+at 3.3 V). [[1::1]]
 
 3.6-V input/output (I/O) tolerant to support mixed-mode
-signal operation.
+signal operation. [[1::2]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when it is powered down.
+current backflow through the device when it is powered down. [[2::5]]
 
 ## Pinout
 
@@ -58,6 +58,7 @@ Y: Output Y
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -70,6 +71,7 @@ VCC: Supply voltage
 | H | L | L |
 | H | H | H |
 ```
+[[3::table #1]]
 
 ## Absolute maximum ratings
 
@@ -91,6 +93,7 @@ VCC: Supply voltage
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input negative-voltage and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[3::table #2]]
 
 ## Recommended operating conditions
 
@@ -125,6 +128,7 @@ VCC: Supply voltage
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. See the TI application report Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[4::table #1]]
 
 ## Thermal information
 
@@ -140,6 +144,7 @@ VCC: Supply voltage
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report, SPRA953.
 ```
+[[3::table #3]]
 
 ## Electrical characteristics
 
@@ -175,6 +180,7 @@ VCC: Supply voltage
 [1] One input at V~CC~ – 0.6 V, other input at V~CC~ or GND.
 [2] Unconfirmed: the source gives 23 µA at 125 °C, below the 50 µA limit for –40 °C to 85 °C.
 ```
+[[4::table #2]] [[5::table #1]]
 
 ```table id=op caption="Operating characteristics" conditions="T~A~ = 25 °C"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
@@ -186,6 +192,7 @@ VCC: Supply voltage
 | ^ | ^ | ^ | 2.5 V ± 0.2 V | 4.1 | pF |
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 4.3 | pF |
 ```
+[[6::table #1]]
 
 ## Switching characteristics
 
@@ -202,6 +209,7 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | 2.5 V ± 0.2 V | 1 | 3 | 4.4 | 0.5 | 5.5 | ns |
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 1 | 2.4 | 3.5 | 0.5 | 4.3 | ns |
 ```
+[[5::table #2]]
 
 ```table id=sw-10pf caption="Switching characteristics, C~L~ = 10 pF" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | From | To | V~CC~ | T~A~ = 25 °C | < | < | T~A~ = –40 °C to 85 °C | < | Unit |
@@ -214,6 +222,7 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | 2.5 V ± 0.2 V | 1 | 3.6 | 5.2 | 0.5 | 6.1 | ns |
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 1 | 2.9 | 4.2 | 0.5 | 4.7 | ns |
 ```
+[[5::table #3]]
 
 ```table id=sw-15pf caption="Switching characteristics, C~L~ = 15 pF" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | From | To | V~CC~ | T~A~ = 25 °C | < | < | T~A~ = –40 °C to 85 °C | < | Unit |
@@ -226,6 +235,7 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | 2.5 V ± 0.2 V | 1 | 4.3 | 5.9 | 0.5 | 7.3 | ns |
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 1 | 3.4 | 4.8 | 0.5 | 5.9 | ns |
 ```
+[[6::table #2]]
 
 ```table id=sw-30pf caption="Switching characteristics, C~L~ = 30 pF" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | From | To | V~CC~ | T~A~ = 25 °C | < | < | T~A~ = –40 °C to 85 °C | < | T~A~ = 125 °C | < | Unit |
@@ -238,6 +248,7 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | 2.5 V ± 0.2 V | 1.8 | 5.7 | 7.6 | 1.3 | 9.4 | 1.3 | 11 | ns |
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 1.5 | 4.7 | 6.2 | 1 | 7.5 | 1 | 8.7 | ns |
 ```
+[[6::table #3]]
 
 Conversion note: the source gives 125 °C switching limits only for C~L~ = 30 pF.
 
@@ -247,7 +258,7 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω, slew rate ≥ 1 V/ns. The outputs are measured one at a time,
 with one transition per measurement. t~PLH~ and t~PHL~ are the same as
-t~pd~.
+t~pd~. [[7::2]]
 
 ```table id=pmi-conditions caption="Load circuit test conditions, T~A~ = -25°C to 85°C [1]"
 | | V~CC~ = 0.8 V | V~CC~ = 1.2 V ± 0.1 V | V~CC~ = 1.5 V ± 0.1 V | V~CC~ = 1.8 V ± 0.15 V | V~CC~ = 2.5 V ± 0.2 V | V~CC~ = 3.3 V ± 0.3 V |
@@ -258,15 +269,18 @@ t~pd~.
 
 [1] Unconfirmed: the source heads this table T~A~ = -25°C to 85°C, while the device is specified from –40°C to 125°C.
 ```
+[[1::table #2]]
 
 ```figure ref=load-rl-cl caption="Load circuit"
 RL: 1 MΩ
 CL: 5, 10, 15, 30 pF
 ```
+[[7::Figure 3]]
 
 ```figure ref=waveforms-tpd caption="Propagation delay times"
 VM: VCC/2
 ```
+[[7::figure #1]]
 
 ## Package
 
@@ -278,6 +292,7 @@ VM: VCC/2
 ```ordering
 SN74AUP1G08QDCKRQ1 | Reel of 3000 | -40 to 125 | SIJ, SIT
 ```
+[[2::table #1]]
 
 Source conflict: the ordering information table on p.2 gives top-side marking SIT, and the package option
 addendum on p.9 gives (SIJ, SIT). Conversion note: the package option addendum (p.9) names the catalog version of this device, SN74AUP1G08.

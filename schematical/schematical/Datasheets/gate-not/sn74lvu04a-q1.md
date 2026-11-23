@@ -23,15 +23,15 @@
 
 ## Description
 
-This hex inverter is designed for 2-V to 5.5-V V~CC~ operation.
+This hex inverter is designed for 2-V to 5.5-V V~CC~ operation. [[1::2]]
 
 The SN74LVU04A-Q1 contains six independent inverters with unbuffered
-outputs. This device performs the Boolean function Y = !{A}.
+outputs. This device performs the Boolean function Y = !{A}. [[1::3]]
 
 Qualified for Automotive Applications. Unbuffered Outputs. Typical
 V~OLP~ (Output Ground Bounce) <0.8 V at V~CC~ = 3.3 V, T~A~ = 25°C.
 Typical V~OHV~ (Output V~OH~ Undershoot) >2.3 V at V~CC~ = 3.3 V,
-T~A~ = 25°C. Supports Mixed-Mode Voltage Operation on All Ports.
+T~A~ = 25°C. Supports Mixed-Mode Voltage Operation on All Ports. [[1::1]]
 
 ## Pinout
 
@@ -46,6 +46,7 @@ T~A~ = 25°C. Supports Mixed-Mode Voltage Operation on All Ports.
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -56,6 +57,7 @@ VCC: Supply voltage
 | H | L |
 | L | H |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -81,6 +83,7 @@ VCC: Supply voltage
 [4] The package thermal impedance is calculated in accordance with JESD 51-7.
 [5] ESD protection level per AEC Q100 classification
 ```
+[[2::table #1]]
 
 ## Recommended operating conditions
 
@@ -111,6 +114,7 @@ VCC: Supply voltage
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 [2] Unconfirmed: the other V~IL~ rows above 2 V are a factor of V~CC~; this row is a fixed 0.8 V. Kept as printed.
 ```
+[[2::table #2]]
 
 ## Electrical characteristics
 
@@ -130,6 +134,7 @@ VCC: Supply voltage
 | I~CC~ | | V~I~ = V~CC~ or GND, I~O~ = 0 | < | 5.5 V | | | 20 | | | 20 | µA |
 | C~i~ | | V~I~ = V~CC~ or GND | < | 3.3 V | | 4 | | | 4 | | pF |
 ```
+[[3::table #1]]
 
 ```table id=noise caption="Noise characteristics" conditions="V~CC~ = 3.3 V, C~L~ = 50 pF, T~A~ = 25°C [1]"
 | Symbol | Parameter | Min | Typ | Max | Unit |
@@ -142,6 +147,7 @@ VCC: Supply voltage
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[3::table #2]]
 
 ```table id=operating caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
@@ -149,6 +155,7 @@ VCC: Supply voltage
 | C~pd~ | Power dissipation capacitance | C~L~ = 50 pF, f = 10 MHz | 3.3 V | 5.6 | pF |
 | ^ | ^ | ^ | 5 V | 6.7 | ^ |
 ```
+[[3::table #3]]
 
 ## Switching characteristics
 
@@ -158,6 +165,7 @@ VCC: Supply voltage
 |---|---|---|---|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A | Y | C~L~ = 50 pF | | 4.7 | 11.4 | 1 | 16 | 1 | 13 | ns |
 ```
+[[3::table #4]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range, V~CC~ = 5 V ± 0.5 V (unless otherwise noted) (see Figure 1)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | < | –40°C to 125°C | < | –40°C to 85°C | < | Unit |
@@ -165,6 +173,7 @@ VCC: Supply voltage
 |---|---|---|---|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A | Y | C~L~ = 50 pF | | 3.9 | 7 | 1 | 11 | 1 | 8 | ns |
 ```
+[[3::table #5]]
 
 ## Parameter measurement information
 
@@ -173,15 +182,17 @@ by generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time, with one input transition per measurement. t~PHL~ and t~PLH~ are
 the same as t~pd~. All parameters and waveforms are not applicable to
-all devices.
+all devices. [[4::1]]
 
 ```figure ref=load-cmos-50pf caption="Figure 1. Load circuit for totem-pole outputs"
 CL: see table
 ```
+[[4::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Figure 1. Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 50% V~CC~
 ```
+[[4::Figure 1]]
 
 Conversion note: the source figure (Figure 1) also shows the load
 circuit for 3-state and open-drain outputs with its S1 table, and the
@@ -198,6 +209,7 @@ notes B, E and F, which are not drawn here.
 ```ordering
 SN74LVU04AQPWRG4Q1 | Reel of 2000 | -40 to 125 | LU04AQ
 ```
+[[5::table #1]]
 
 ## Conversion notes
 

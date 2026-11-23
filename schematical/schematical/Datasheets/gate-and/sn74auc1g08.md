@@ -26,14 +26,14 @@
 This single 2-input positive-AND gate is operational at 0.8-V to 2.7-V
 V~CC~, but is designed specifically for 1.65-V to 1.95-V V~CC~
 operation. Optimized for 1.8-V operation and is 3.6-V I/O tolerant to
-support mixed-mode signal operation.
+support mixed-mode signal operation. [[1::1]] [[1::2]]
 
 The SN74AUC1G08 device performs the Boolean function
-Y = A • B or Y = !{!{A} + !{B}} in positive logic.
+Y = A • B or Y = !{!{A} + !{B}} in positive logic. [[1::3]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when it is powered down.
+current backflow through the device when it is powered down. [[1::5]]
 
 ## Pinout
 
@@ -55,6 +55,7 @@ Y: Y AND logic output
 GND: Ground
 VCC: Positive supply
 ```
+[[3::table #1]]
 
 ## Function tables
 
@@ -66,6 +67,7 @@ VCC: Positive supply
 | L | X | L |
 | X | L | L |
 ```
+[[7::Table 1]]
 
 ## Absolute maximum ratings
 
@@ -85,6 +87,7 @@ VCC: Positive supply
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, which do not imply functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input negative-voltage and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[3::table #2]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -96,6 +99,7 @@ VCC: Positive supply
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #1]]
 
 ## Recommended operating conditions
 
@@ -125,6 +129,7 @@ VCC: Positive supply
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. See Implications of Slow or Floating CMOS Inputs, SCBA004.
 ```
+[[4::table #2]]
 
 ## Thermal information
 
@@ -135,6 +140,7 @@ VCC: Positive supply
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 ```
+[[4::table #3]]
 
 ## Electrical characteristics
 
@@ -160,6 +166,7 @@ VCC: Positive supply
 
 [1] All typical values are at T~A~ = 25°C.
 ```
+[[5::table #1]]
 
 ```table id=op caption="Operating characteristics" conditions="T~A~ = 25 °C"
 | Symbol | Parameter | Test conditions | V~CC~ = 0.8 V | V~CC~ = 1.2 V | V~CC~ = 1.5 V | V~CC~ = 1.8 V | V~CC~ = 2.5 V | Unit |
@@ -167,6 +174,7 @@ VCC: Positive supply
 |---|---|---|--:|--:|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | f = 10 MHz | 15 | 15 | 15 | 15 | 19 | pF |
 ```
+[[5::table #2]]
 
 ## Switching characteristics
 
@@ -178,6 +186,7 @@ See [parameter measurement information](#parameter-measurement).
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | 4.7 | 0.9 | 3.3 | 0.6 | 2.3 | 0.4 | 1.1 | 1.7 | 0.2 | 1.6 | ns |
 ```
+[[5::table #3]]
 
 ```table id=sw-30pf caption="Switching characteristics, C~L~ = 30 pF" conditions="Over recommended operating free-air temperature range, C~L~ = 30 pF (unless otherwise noted)"
 | Symbol | From | To | V~CC~ = 1.8 V ± 0.15 V | < | < | V~CC~ = 2.5 V ± 0.2 V | < | Unit |
@@ -185,6 +194,7 @@ See [parameter measurement information](#parameter-measurement).
 |---|---|---|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | 0.7 | 1.3 | 2.4 | 0.5 | 2 | ns |
 ```
+[[5::table #4]]
 
 ## Parameter measurement information
 
@@ -195,7 +205,7 @@ with one transition per measurement. t~PLH~ and t~PHL~ are the same as
 t~pd~. Conversion note: the source's test table sets S1 open for
 t~PLH~/t~PHL~, which leaves R~L~ and C~L~ from the output to GND, and its
 waveforms draw the input from 0 V to V~CC~ with the delays measured at
-V~CC~/2.
+V~CC~/2. [[6::1]]
 
 ```table id=pmi-load caption="Load values"
 | V~CC~ | C~L~ | R~L~ | V~D~ |
@@ -208,15 +218,18 @@ V~CC~/2.
 | 1.8 V ± 0.15 V | 30 pF | 1 kΩ | 0.15 V |
 | 2.5 V ± 0.2 V | 30 pF | 500 Ω | 0.15 V |
 ```
+[[6::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit for t~PLH~/t~PHL~ (S1 open)"
 RL: see table
 CL: see table
 ```
+[[6::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Propagation delay times"
 VM: VCC/2
 ```
+[[6::figure #1]]
 
 ## Package
 
@@ -242,6 +255,7 @@ SN74AUC1G08DRLR | Reel of 4000 | -40 to 85 | UE7, UER
 SN74AUC1G08DRLRG4 | Reel of 4000 | -40 to 85 | UE7, UER
 SN74AUC1G08YZPR | Reel of 3000 | -40 to 85 | UEN
 ```
+[[9::table #1]]
 
 ## Conversion notes
 

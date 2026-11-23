@@ -25,11 +25,11 @@
 
 The SN74AHCT1G32 device is a single 2-input positive-OR gate. The
 device performs the Boolean function Y = A + B or Y = !{!{A} • !{B}} in
-positive logic.
+positive logic. [[1::1]]
 
 Operating range of 4.5V to 5.5V. Max t~pd~ of 8ns at 5V. Low power
 consumption, 10µA max I~CC~. ±8mA output drive at 5V. Inputs are
-TTL-voltage compatible. Latch-up performance exceeds 250mA per JESD 17.
+TTL-voltage compatible. Latch-up performance exceeds 250mA per JESD 17. [[1::2]]
 
 ## Pinout
 
@@ -45,21 +45,22 @@ GND: Ground Pin
 Y: Output Y
 VCC: Power Pin
 ```
+[[3::Table 4-1]]
 
 ## Functional description
 
 The SN74AHCT1G32 device is a single 2-input positive-OR gate. The
 device performs the Boolean function Y = A + B or Y = !{!{A} • !{B}} in
-positive logic.
+positive logic. [[1::1]]
 
 The device has TTL inputs that allow up translation from 3.3 V to 5 V.
-The inputs are high impedance when V~CC~ = 0 V.
+The inputs are high impedance when V~CC~ = 0 V. [[8::2]]
 
 Conversion note: the logic diagram (Figure 7-1) shows one OR gate with inputs A and B and output Y.
 
-- Slow rise and fall time on outputs allow for low noise outputs.
-- TTL inputs
-  - Allows up translation from 3.3 V to 5 V
+- Slow rise and fall time on outputs allow for low noise outputs. [[8::3]]
+- TTL inputs [[1::2]]
+  - Allows up translation from 3.3 V to 5 V [[8::3]]
 
 ## Function tables
 
@@ -74,6 +75,7 @@ Conversion note: the logic diagram (Figure 7-1) shows one OR gate with inputs A 
 [1] H = High Voltage Level, L = Low Voltage Level, X = Don’t Care
 [2] H = Driving High, L = Driving Low, Z = High Impedance State
 ```
+[[8::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -93,6 +95,7 @@ Conversion note: the logic diagram (Figure 7-1) shows one OR gate with inputs A 
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under Section 5.3 is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -103,6 +106,7 @@ Conversion note: the logic diagram (Figure 7-1) shows one OR gate with inputs A 
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -121,6 +125,7 @@ Conversion note: the logic diagram (Figure 7-1) shows one OR gate with inputs A 
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs (SCBA004).
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -137,6 +142,7 @@ Conversion note: the logic diagram (Figure 7-1) shows one OR gate with inputs A 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report (SPRA953).
 [2] Unconfirmed: the source prints "65." with a decimal point and no digit after it.
 ```
+[[5::table #1]]
 
 ## Electrical characteristics
 
@@ -155,12 +161,14 @@ Conversion note: the logic diagram (Figure 7-1) shows one OR gate with inputs A 
 
 [1] This is the increase in supply current for each input at one of the specified TTL voltage levels, rather than 0 V or V~CC~.
 ```
+[[5::table #2]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 11.5 | pF |
 ```
+[[5::table #3]]
 
 ## Switching characteristics
 
@@ -173,6 +181,7 @@ Conversion note: the logic diagram (Figure 7-1) shows one OR gate with inputs A 
 | t~PLH~ | A or B | Y | C~L~ = 50 pF | | 5.5 | 7.9 | 1 | 9 | 1 | 10 | ns |
 | t~PHL~ | ^ | ^ | ^ | | 5.5 | 7.9 | 1 | 9 | 1 | 10 | ns |
 ```
+[[5::table #4]]
 
 ## Typical characteristics
 
@@ -183,6 +192,7 @@ Conversion note: the logic diagram (Figure 7-1) shows one OR gate with inputs A 
   {"label": "TPD in ns", "points": [[-55, 3], [-40, 3.2], [25, 3.8], [85, 4.2], [125, 4.6]]}
  ]}
 ```
+[[6::Figure 5-1]]
 
 ## Parameter measurement information
 
@@ -190,17 +200,19 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time, with one input transition per measurement. All parameters and
-waveforms are not applicable to all devices.
+waveforms are not applicable to all devices. [[7::1]]
 
 Conversion note: C~L~ is 15 pF or 50 pF, as given in the [switching characteristics](#sw); in the figure the inputs swing 0 V to 3 V and are measured at 1.5 V, and the outputs are measured at 50% V~CC~.
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 15 pF or 50 pF
 ```
+[[7::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 1.5 V (input), 50% VCC (output)
 ```
+[[7::Figure 6-1]]
 
 Conversion note: the source figure (Figure 6-1) also shows the load circuit for 3-state and open-drain outputs with its S1 table, and the pulse-duration, setup-and-hold and enable/disable waveforms, which are not drawn here.
 
@@ -210,13 +222,13 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[9::1]]
 
 SN74AHCT1G32 is a low-drive CMOS device that can be used for a
 multitude of bus interface type applications where output ringing is a
 concern. The low drive and slow edge rates will minimize overshoot and
 undershoot on the outputs. The TTL inputs can accept voltages down to
-3.3 V and translate up to 5 V.
+3.3 V and translate up to 5 V. [[9::2]]
 
 Conversion note: in the typical application schematic (Figure 8-1) a µC or System Logic block supplied from 3.3 V or 5 V drives the gate inputs, the gate runs from a 5-V regulated V~CC~ bypassed with 0.1 µF, and its output drives a 5-V accessory.
 
@@ -226,23 +238,23 @@ This device uses CMOS technology and has balanced output drive. Care
 should be taken to avoid bus contention because it can drive currents
 that would exceed maximum limits. The high drive will also create fast
 edges into light loads, so routing and load conditions should be
-considered to prevent ringing.
+considered to prevent ringing. [[9::3]]
 
 ### Detailed design procedure
 
-1. Recommended Input Conditions
-   - For rise time and fall time specifications, see Δt/ΔV in the Section 5.3 table.
-   - For specified High and low levels, see V~IH~ and V~IL~ in the Section 5.3 table.
-2. Recommend Output Conditions
-   - Load currents should not exceed 25 mA per output and 50 mA total for the part.
-   - Outputs should not be pulled above V~CC~.
+1. Recommended Input Conditions [[9::4]]
+   - For rise time and fall time specifications, see Δt/ΔV in the Section 5.3 table. [[9::4]]
+   - For specified High and low levels, see V~IH~ and V~IL~ in the Section 5.3 table. [[9::4]]
+2. Recommend Output Conditions [[9::4]]
+   - Load currents should not exceed 25 mA per output and 50 mA total for the part. [[9::4]]
+   - Outputs should not be pulled above V~CC~. [[9::4]]
 
 Conversion note: the application curve (Figure 8-2, Switching Characteristics Comparison, a picture) shows an input edge V~I~ and the falling output edges of AC32, HC32 and AHCT1G32 gates at V~CC~ = 5 V, Load = 50 Ω/50 pF, and is not drawn here.
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the MIN and MAX supply
-voltage rating located in the Section 5.3 table.
+voltage rating located in the Section 5.3 table. [[10::1]]
 
 Each V~CC~ pin should have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, 0.1 μF is recommended.
@@ -250,7 +262,7 @@ If there are multiple V~CC~ pins, 0.01 μF or 0.022 μF is recommended
 for each power pin. It is acceptable to parallel multiple bypass caps
 to reject different frequencies of noise. A 0.1 μF and 1 μF are
 commonly used in parallel. The bypass capacitor should be installed as
-close to the power pin as possible for best results.
+close to the power pin as possible for best results. [[10::2]]
 
 ### Layout guidelines
 
@@ -260,7 +272,7 @@ unused. Some examples are when only two inputs of a triple-input AND
 gate are used, or when only 3 of the 4-buffer gates are used. Such
 input pins should not be left unconnected because the undefined
 voltages at the outside connections result in undefined operational
-states.
+states. [[10::3]]
 
 Specified in Figure 8-3 are rules that must be observed under all
 circumstances. All unused inputs of digital logic devices must be
@@ -271,7 +283,7 @@ GND or V~CC~, whichever makes more sense or is more convenient. It is
 acceptable to float outputs unless the part is a transceiver. If the
 transceiver has an output enable pin, it will disable the outputs
 section of the part when asserted. This will not disable the input
-section of the I/Os so they also cannot float when disabled.
+section of the I/Os so they also cannot float when disabled. [[10::4]]
 
 Conversion note: Figure 8-3, the layout diagram, shows one gate with its unused input tied to V~CC~ and one with its unused input tied to ground.
 
@@ -297,6 +309,7 @@ SN74AHCT1G32DCKR | Reel of 3000 | -40 to 125 | 1QU, BG3, BGG, BGJ, BGL, BGS
 SN74AHCT1G32DCKT | | -40 to 125 | BG3, BGG, BGJ, BGS | Obsolete
 SN74AHCT1G32DRLR | Reel of 4000 | -40 to 125 | BGS
 ```
+[[12::table #1]]
 
 ## Conversion notes
 

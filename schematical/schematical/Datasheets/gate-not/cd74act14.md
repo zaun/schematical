@@ -24,13 +24,13 @@
 ## Description
 
 The CD74ACT14 contains six independent inverters. This device performs
-the Boolean function Y = !{A}.
+the Boolean function Y = !{A}. [[7::1]]
 
 Inputs are TTL-voltage compatible. Speed of bipolar F, AS, and S, with
 significantly reduced power consumption. Greater noise immunity than
 standard inverters. Operates with much slower than standard input rise
 and fall slew rates. ±24mA output drive current. Fanout to 15 F
-devices. SCR-latchup-resistant CMOS process and circuit design.
+devices. SCR-latchup-resistant CMOS process and circuit design. [[1::2]]
 
 ## Pinout
 
@@ -55,15 +55,16 @@ devices. SCR-latchup-resistant CMOS process and circuit design.
 GND: Ground
 VCC: Positive Supply
 ```
+[[3::Table 3-1]]
 
 ## Functional description
 
 The CD74ACT14 contains six independent inverters. This device performs
-the Boolean function Y = !{A}.
+the Boolean function Y = !{A}. [[7::1]]
 
 Each circuit functions as an independent inverter, but because of the
 Schmitt action, the inverters have different input threshold levels for
-positive-going (V~T+~) and negative-going (V~T−~) signals.
+positive-going (V~T+~) and negative-going (V~T−~) signals. [[7::2]]
 
 Conversion note: the logic diagram, each inverter (positive logic),
 shows one inverter with the hysteresis symbol, input A and output Y.
@@ -77,6 +78,7 @@ shows one inverter with the hysteresis symbol, input A and output Y.
 | H | L |
 | L | H |
 ```
+[[7::Table 6-1]]
 
 ## Absolute maximum ratings
 
@@ -93,6 +95,7 @@ shows one inverter with the hysteresis symbol, input A and output Y.
 [1] Stresses beyond those listed under "absolute maximum ratings" may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under "recommended operating conditions" is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -101,6 +104,7 @@ shows one inverter with the hysteresis symbol, input A and output Y.
 
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -115,6 +119,7 @@ shows one inverter with the hysteresis symbol, input A and output Y.
 | I~OL~ | Low-level output current | | 24 | | 24 | | 24 | mA |
 | TΔt/Δv | Input transition rise or fall rate | | 20 | | 20 | | 20 | °C |
 ```
+[[4::table #3]]
 
 Unconfirmed: the input transition rise or fall rate row is printed with the symbol TΔt/Δv and the unit °C (p.4), kept as printed.
 
@@ -128,6 +133,7 @@ Unconfirmed: the input transition rise or fall rate row is printed with the symb
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 ```
+[[4::table #4]]
 
 ## Electrical characteristics
 
@@ -154,21 +160,24 @@ Unconfirmed: the input transition rise or fall rate row is printed with the symb
 [1] Test one output at a time, not exceeding 1-second duration. Measurement is made by forcing indicated current and measuring voltage to minimize power dissipation. Test verifies a minimum 50-Ω transmission-line drive capability at 85°C and 75-Ω transmission-line drive capability at 125°C.
 [2] Additional quiescent supply current per input pin, TTL inputs high, 1 unit load.
 ```
+[[4::table #5]] [[5::table #1]]
 
 ```table id=input-load caption="Act input load table" values=Value
 | Input | Unit load | Unit |
 |---|--:|---|
 | A | 0.21 | |
 ```
+[[5::Table 4-1]]
 
 Unit load is ΔI~CC~ limit specified in electrical characteristics table
-(e.g., 2.4 mA at 25°C).
+(e.g., 2.4 mA at 25°C). [[5::4]]
 
 ```table id=opchar caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Typ | Unit |
 |---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | 45 | pF |
 ```
+[[5::table #2]]
 
 ## Switching characteristics
 
@@ -179,6 +188,7 @@ Unit load is ΔI~CC~ limit specified in electrical characteristics table
 | t~PLH~ | A | Y | 3.6 | 14.5 | 3.7 | 13.2 | ns |
 | t~PHL~ | ^ | ^ | 2.4 | 9.5 | 2.4 | 8.6 | ^ |
 ```
+[[5::table #3]]
 
 ## Parameter measurement information
 
@@ -187,7 +197,7 @@ supplied by generators having the following characteristics:
 PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~r~ = 3 ns, t~f~ = 3 ns. Phase relationships
 between waveforms are arbitrary. The outputs are measured one at a time,
 with one input transition per measurement. t~PLH~ and t~PHL~ are the
-same as t~pd~.
+same as t~pd~. [[6::Figure 5-1]]
 
 Conversion note: the load circuit of Figure 5-1 also has R1 = 500 Ω
 from the output to switch S1 (2 × V~CC~, Open or GND), and S1 is Open
@@ -200,10 +210,12 @@ the voltage waveforms the input swings 0 V to 3 V and is measured at
 RL: 500 Ω (R2)
 CL: 50 pF
 ```
+[[6::Figure 5-1]]
 
 ```figure ref=waveforms-cmos-tpd-tt caption="Voltage waveforms, propagation delay and output transition times"
 VM: 1.5 V (input), 50% V~CC~ (outputs)
 ```
+[[6::Figure 5-1]]
 
 ## Application information
 
@@ -211,14 +223,14 @@ Information in the following applications sections is not part of the
 TI component specification, and TI does not warrant its accuracy or
 completeness. TI's customers are responsible for determining
 suitability of components for their purposes, as well as validating and
-testing their design implementation to confirm system functionality.
+testing their design implementation to confirm system functionality. [[8::1]]
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the MIN and MAX supply
 voltage rating located in the
 [recommended operating conditions](#recommended-operating-conditions)
-table.
+table. [[8::2]]
 
 Each V~CC~ pin should have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, 0.1 μF is recommended.
@@ -226,7 +238,7 @@ If there are multiple V~CC~ pins, 0.01 μF or 0.022 μF is recommended
 for each power pin. It is acceptable to parallel multiple bypass caps
 to reject different frequencies of noise. A 0.1 μF and 1 μF are
 commonly used in parallel. The bypass capacitor should be installed as
-close to the power pin as possible for best results.
+close to the power pin as possible for best results. [[8::3]]
 
 ### Layout guidelines
 
@@ -236,7 +248,7 @@ unused. Some examples are when only two inputs of a triple-input AND
 gate are used, or when only 3 of the 4-buffer gates are used. Such
 input pins should not be left unconnected because the undefined
 voltages at the outside connections result in undefined operational
-states.
+states. [[8::4]]
 
 Specified in Example Layout are rules that must be observed under all
 circumstances. All unused inputs of digital logic devices must be
@@ -244,7 +256,7 @@ connected to a high or low bias to prevent them from floating. The
 logic level that should be applied to any particular unused input
 depends on the function of the device. Generally they will be tied to
 GND or V~CC~, whichever makes more sense or is more convenient. It is
-acceptable to float outputs unless the part is a transceiver.
+acceptable to float outputs unless the part is a transceiver. [[8::5]]
 
 Conversion note: the layout diagram (Figure 7-1) shows a 0.1 μF bypass capacitor placed close to the device between V~CC~ and GND, a GND flood fill recommended for improved signal isolation, noise reduction, and thermal dissipation, unused inputs tied to V~CC~, an unused output left floating, and signal lines that avoid 90° corners.
 
@@ -262,6 +274,7 @@ Conversion note: the layout diagram (Figure 7-1) shows a 0.1 μF bypass capacito
 CD74ACT14E | Tube of 25 | -55 to 125 | CD74ACT14E
 CD74ACT14M96 | Reel of 2500 | -55 to 125 | ACT14M
 ```
+[[11::table #1]]
 
 ## Conversion notes
 

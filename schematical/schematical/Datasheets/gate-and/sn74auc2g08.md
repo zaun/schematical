@@ -27,15 +27,15 @@ This dual 2-input positive-AND gate is operational at 0.8-V to 2.7-V
 V~CC~, but is designed specifically for 1.65-V to 1.95-V V~CC~
 operation. The SN74AUC2G08 performs the Boolean function A • B or
 Y = !{!{A} + !{B}} in positive logic. Optimized for 1.8-V operation and
-is 3.6-V I/O tolerant to support mixed-mode signal operation.
+is 3.6-V I/O tolerant to support mixed-mode signal operation. [[1::1]] [[1::4]] [[1::5]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when it is powered down.
+current backflow through the device when it is powered down. [[1::7]]
 
 For more information about AUC Little Logic devices, refer to the TI
 application report, Applications of Texas Instruments AUC Sub-1-V Little
-Logic Devices, literature number SCEA027.
+Logic Devices, literature number SCEA027. [[1::8]]
 
 ## Pinout
 
@@ -58,6 +58,7 @@ generated from the catalog.
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -71,6 +72,7 @@ VCC: Supply voltage
 
 [1] Source error: the source heads the input columns CLK and D; the logic diagram and pinout name the inputs 1A, 1B, 2A and 2B.
 ```
+[[2::table #1]]
 
 ## Absolute maximum ratings
 
@@ -94,10 +96,11 @@ VCC: Supply voltage
 [2] The input negative-voltage and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #2]]
 
 ESD protection exceeds JESD 22: 2000-V Human-Body Model (A114-A),
 200-V Machine Model (A115-A), 1000-V Charged-Device Model (C101).
-Latch-up performance exceeds 100 mA per JESD 78, Class II.
+Latch-up performance exceeds 100 mA per JESD 78, Class II. [[1::2]]
 
 ## Recommended operating conditions
 
@@ -128,6 +131,7 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[3::table #1]]
 
 ## Electrical characteristics
 
@@ -153,6 +157,7 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 
 [1] All typical values are at T~A~ = 25°C.
 ```
+[[4::table #1]]
 
 ```table id=op caption="Operating characteristics" conditions="T~A~ = 25 °C"
 | Symbol | Parameter | Test conditions | V~CC~ = 0.8 V | V~CC~ = 1.2 V | V~CC~ = 1.5 V | V~CC~ = 1.8 V | V~CC~ = 2.5 V | Unit |
@@ -160,6 +165,7 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 |---|---|---|--:|--:|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | f = 10 MHz | 12 | 13 | 13 | 13 | 15 | pF |
 ```
+[[4::table #2]]
 
 ## Switching characteristics
 
@@ -171,6 +177,7 @@ See [parameter measurement information](#parameter-measurement).
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | 9.2 | 0.7 | 3 | 0.8 | 1.9 | 0.6 | 1 | 1.5 | 0.5 | 1 | ns |
 ```
+[[4::table #3]]
 
 ```table id=sw-30pf caption="Switching characteristics, C~L~ = 30 pF" conditions="Over recommended operating free-air temperature range, C~L~ = 30 pF (unless otherwise noted)"
 | Symbol | From | To | V~CC~ = 1.8 V ± 0.15 V | < | < | V~CC~ = 2.5 V ± 0.2 V | < | Unit |
@@ -178,6 +185,7 @@ See [parameter measurement information](#parameter-measurement).
 |---|---|---|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | 1.2 | 1.5 | 2.1 | 1 | 1.6 | ns |
 ```
+[[4::table #4]]
 
 ## Parameter measurement information
 
@@ -188,7 +196,7 @@ with one transition per measurement. t~PLH~ and t~PHL~ are the same as
 t~pd~. Conversion note: the source's test table sets S1 open for
 t~PLH~/t~PHL~, which leaves R~L~ and C~L~ from the output to GND, and its
 waveforms draw the input from 0 V to V~CC~ with the delays measured at
-V~CC~/2.
+V~CC~/2. [[5::1]]
 
 ```table id=pmi-load caption="Load values"
 | V~CC~ | C~L~ | R~L~ | V~Δ~ |
@@ -201,15 +209,18 @@ V~CC~/2.
 | 1.8 V ± 0.15 V | 30 pF | 1 kΩ | 0.15 V |
 | 2.5 V ± 0.2 V | 30 pF | 500 Ω | 0.15 V |
 ```
+[[5::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit for t~PLH~/t~PHL~ (S1 open)"
 RL: see table
 CL: see table
 ```
+[[5::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Propagation delay times"
 VM: VCC/2
 ```
+[[5::figure #1]]
 
 ## Package
 
@@ -230,6 +241,7 @@ SN74AUC2G08DCUR | Reel of 3000 | -40 to 85 | U08Q, U08R
 SN74AUC2G08DCURG4 | Reel of 3000 | -40 to 85 | U08R
 SN74AUC2G08YZPR | Reel of 3000 | -40 to 85 | UEN
 ```
+[[6::table #1]]
 
 Conversion note: the markings above are from the package option addendum, and the table below is the source's ordering information table (p.1).
 
@@ -242,6 +254,7 @@ Conversion note: the markings above are from the package option addendum, and th
 
 [1] DCT: The actual top-side marking has three additional characters that designate the year, month, and assembly/test site. DCU: The actual top-side marking has one additional character that designates the assembly/test site. YZP: The actual top-side marking has three preceding characters to denote year, month, and sequence code, and one following character to designate the assembly/test site. Pin 1 identifier indicates solder-bump composition (1 = SnPb, • = Pb-free).
 ```
+[[1::table #2]]
 
 ## Conversion notes
 

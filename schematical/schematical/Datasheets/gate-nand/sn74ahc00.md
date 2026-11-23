@@ -24,10 +24,10 @@
 ## Description
 
 The ’AHC00 devices perform the Boolean function Y = !{A • B} or
-Y = !{A} + !{B} in positive logic.
+Y = !{A} + !{B} in positive logic. [[1::1]]
 
 Operating range 2V to 5.5V. Latch-up performance exceeds 250mA per
-JESD 17.
+JESD 17. [[1::2]]
 
 ## Pinout
 
@@ -56,6 +56,7 @@ GND: Ground Pin
 VCC: Power Pin
 NC: No Connection
 ```
+[[3::table #1]]
 
 Source conflict: the pin functions table (Table 4-1, p.4) gives, for
 the 14-pin packages, 3A on pin 8, 3B on pin 9, 3Y on pin 10, 4A on pin
@@ -83,6 +84,7 @@ output Y.
 
 [1] H = High Voltage Level, L = Low Voltage Level, X = Don't Care
 ```
+[[9::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -101,6 +103,7 @@ output Y.
 [1] Stresses beyond those listed under “absolute maximum ratings” may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under “recommended operating conditions” is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[5::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -111,6 +114,7 @@ output Y.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[5::table #2]]
 
 ## Recommended operating conditions
 
@@ -140,6 +144,7 @@ output Y.
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 [2] Source error: the source prints the unit mA for the V~CC~ = 2 V rows, kept as printed; the absolute maximum continuous output current is ±25 mA and the electrical characteristics test at I~OH~ = –50 µA and I~OL~ = 50 µA.
 ```
+[[5::table #3]]
 
 ## Thermal information
 
@@ -151,6 +156,7 @@ output Y.
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report, SPRA953.
 ```
+[[6::table #1]]
 
 ## Electrical characteristics
 
@@ -175,6 +181,7 @@ output Y.
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested at VCC = 0 V.
 [2] Source error: printed as I~OH~ = 4 mA and I~OH~ = 8 mA; the rows give V~OL~, and the recommended operating conditions give I~OL~ = 4 mA and 8 mA, so the condition is I~OL~.
 ```
+[[6::table #2]]
 
 ```table id=noise caption="Noise characteristics" conditions="V~CC~ = 5 V, C~L~ = 50 pF, T~A~ = 25°C [1]"
 | Symbol | Parameter | SN74AHC00 | < | < | Unit |
@@ -188,12 +195,14 @@ output Y.
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[7::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 9.5 | pF |
 ```
+[[7::table #2]]
 
 ## Switching characteristics
 
@@ -208,6 +217,7 @@ output Y.
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[6::table #3]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range, V~CC~ = 5 V ± 0.5 V (unless otherwise noted) (see Load Circuit and Voltage Waveforms)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | T~A~ = –55°C to 125°C, SN54AHC00 | < | T~A~ = –40°C to 85°C, SN74AHC00 | < | T~A~ = –40°C to 125°C Recommended, SN74AHC00 | < | Unit |
@@ -220,26 +230,29 @@ output Y.
 
 [1] Source conflict: the 5-V table (p.7) marks these values with (1) and prints no note under the table; the 3.3-V table (p.6) prints note (1): On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[7::table #3]]
 
 ## Parameter measurement information
 
-C~L~ includes probe and jig capacitance.
+C~L~ includes probe and jig capacitance. [[8::1]]
 
 All input pulses are supplied by generators having the following
-characteristics: PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns.
+characteristics: PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. [[8::1]]
 
 The outputs are measured one at a time with one input transition per
-measurement.
+measurement. [[8::1]]
 
-All parameters and waveforms are not applicable to all devices.
+All parameters and waveforms are not applicable to all devices. [[8::1]]
 
 ```figure ref=load-cmos-50pf caption="Figure 6-1. Load circuit for totem-pole outputs"
 CL: see table
 ```
+[[8::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Figure 6-1. Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 50% V~CC~
 ```
+[[8::Figure 6-1]]
 
 Conversion note: the source figure (Figure 6-1) also shows the load
 circuit for 3-state and open-drain outputs with its S1 table, and the
@@ -252,12 +265,12 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes. Customers should validate and test
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[10::1]]
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the MIN and MAX
-supply-voltage rating located in Section 5.3.
+supply-voltage rating located in Section 5.3. [[10::2]]
 
 The power supply can be any voltage between the minimum and maximum
 supply voltage rating located in the Recommended Operating Conditions.
@@ -267,7 +280,7 @@ It is acceptable to parallel multiple bypass capacitors to reject
 different frequencies of noise. The 0.1-μF and 1-μF capacitors are
 commonly used in parallel. The bypass capacitor should be installed as
 close to the power terminal as possible for best results, as shown in
-Layout Example.
+Layout Example. [[10::3]]
 
 ### Layout guidelines
 
@@ -283,7 +296,7 @@ the input voltage specifications, to prevent them from floating. The
 logic level that must be applied to any particular unused input depends
 on the function of the device. Generally, the inputs are tied to GND or
 V~CC~, whichever makes more sense for the logic function or is more
-convenient.
+convenient. [[10::4]]
 
 Conversion note: the example layout for the SN74AHC00 (Figure 8-1) recommends a GND flood fill for improved signal isolation, noise reduction, and thermal dissipation, a 0.1 μF bypass capacitor placed close to the device, unused inputs tied to V~CC~, an unused output left floating, and no 90° corners for signal lines.
 
@@ -345,6 +358,7 @@ SNJ54AHC00FK | Tube of 55 | -55 to 125 | 5962-9682201Q2A SNJ54AHC00FK
 SNJ54AHC00J | Tube of 25 | -55 to 125 | 5962-9682201QCA SNJ54AHC00J
 SNJ54AHC00W | Tube of 25 | -55 to 125 | 5962-9682201QDA SNJ54AHC00W
 ```
+[[13::table #1]] [[14::table #1]]
 
 ## Conversion notes
 

@@ -29,14 +29,14 @@
 
 This dual 2-input positive-AND gate is designed for 1.65-V to 5.5-V
 V~CC~ operation. Inputs accept voltages to 5.5 V. The SN74LVC2G08 device performs the Boolean function
-Y = A × B or Y = !{!{A} + !{B}} in positive logic.
+Y = A × B or Y = !{!{A} + !{B}} in positive logic. [[1::1]] [[1::2]] [[1::3]]
 
 NanoFree package technology is a major breakthrough in IC packaging
-concepts, using the die as the package.
+concepts, using the die as the package. [[1::4]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when it is powered down.
+current backflow through the device when it is powered down. [[1::5]]
 
 ## Pinout
 
@@ -55,18 +55,19 @@ current backflow through the device when it is powered down.
 GND: Ground
 VCC: Power Supply
 ```
+[[3::table #1]]
 
 ## Functional description
 
 The SN74LVC2G08 device contains two positive-AND gates with a maximum
 sink current of 24 mA. Source error: the source names the device
 SN74LVC1G06 in this sentence. A very low t~pd~ of 4.7 ns at 3.3 V makes the
-device ideal for high speed applications.
+device ideal for high speed applications. [[9::1]]
 
 ### Down voltage translation
 
 While operating at V~CC~ of 3.3 V, the device will still recognize 5.5 V
-as a valid high input, however, the resulting output will be 3.3 V.
+as a valid high input, however, the resulting output will be 3.3 V. [[9::2]]
 
 ## Function tables
 
@@ -78,6 +79,7 @@ as a valid high input, however, the resulting output will be 3.3 V.
 | L | X | L |
 | X | L | L |
 ```
+[[9::Table 1]]
 
 ## Absolute maximum ratings
 
@@ -99,6 +101,7 @@ as a valid high input, however, the resulting output will be 3.3 V.
 [2] The input negative-voltage and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] The value of V~CC~ is provided in the Recommended Operating Conditions table.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -109,8 +112,9 @@ as a valid high input, however, the resulting output will be 3.3 V.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
-Latch-up performance exceeds 100 mA per JESD 78, Class II.
+Latch-up performance exceeds 100 mA per JESD 78, Class II. [[1::2]]
 
 ## Recommended operating conditions
 
@@ -148,6 +152,7 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[5::table #1]]
 
 ## Thermal information
 
@@ -159,6 +164,7 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report, SPRA953.
 ```
+[[5::table #2]]
 
 ## Electrical characteristics
 
@@ -187,9 +193,10 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25 °C.
 ```
+[[6::table #1]]
 
 Typical V~OLP~ (output ground bounce) < 0.8 V and typical V~OHV~ (output
-V~OH~ undershoot) > 2 V at V~CC~ = 3.3 V, T~A~ = 25 °C.
+V~OH~ undershoot) > 2 V at V~CC~ = 3.3 V, T~A~ = 25 °C. [[1::2]]
 
 ## Switching characteristics
 
@@ -207,6 +214,7 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | ^ | V~CC~ = 3.3 V ± 0.3 V | 1 | 5.3 | ns |
 | ^ | ^ | ^ | ^ | V~CC~ = 5 V ± 0.5 V | 1 | 4.8 | ns |
 ```
+[[6::table #2]]
 
 ## Typical characteristics
 
@@ -217,6 +225,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "TPD", "points": [[-55, 2.7], [-40, 2.9], [0, 3.0], [25, 3.1], [85, 3.7], [125, 5.0]]}
  ]}
 ```
+[[7::Figure 1]]
 
 ```curve id=tpd-vcc caption="t~PD~ across V~CC~ at 25 °C"
 {"x": {"label": "VCC", "unit": "V", "range": [0, 6]},
@@ -225,6 +234,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "TPD", "points": [[1.8, 7.0], [2.5, 4.0], [3.3, 3.0], [5.0, 2.5]]}
  ]}
 ```
+[[7::Figure 2]]
 
 ```curve id=icc-freq caption="I~CC~ vs frequency"
 {"x": {"label": "Frequency", "unit": "MHz", "range": [-20, 80]},
@@ -236,15 +246,16 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "ICC 5 V", "points": [[0, 0], [25, 2.9], [30, 3.9], [49, 6.0], [55, 6.9], [67, 8.1], [75, 9.3]]}
  ]}
 ```
+[[11::Figure 5]]
 
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
-per measurement. t~PLH~ and t~PHL~ are the same as t~pd~.
+per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. [[8::1]]
 
-All parameters and waveforms are not applicable to all devices.
+All parameters and waveforms are not applicable to all devices. [[8::1]]
 
 Conversion note: the load circuit also has a second R~L~, from the output
 to switch S1, which goes to V~LOAD~, open or GND; the figure below draws
@@ -259,11 +270,13 @@ setup-and-hold and enable/disable waveforms, which are not drawn here.
 | t~PLZ~/t~PZL~ | V~LOAD~ |
 | t~PHZ~/t~PZH~ | GND |
 ```
+[[8::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: see table
 CL: see table
 ```
+[[8::Figure 3]]
 
 ```table id=test-conditions caption="Test conditions (Figure 3)"
 | V~CC~ | V~I~ | t~r~/t~f~ | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -273,10 +286,12 @@ CL: see table
 | 3.3 V ± 0.3 V | 3 V | ≤ 2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 5 V ± 0.5 V | V~CC~ | ≤ 2.5 ns | V~CC~/2 | 2 × V~CC~ | 50 pF | 500 Ω | 0.3 V |
 ```
+[[8::table #2]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times"
 VM: see table
 ```
+[[8::Figure 3]]
 
 ## Application information
 
@@ -284,7 +299,7 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes. Customers should validate and test
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[10::1]]
 
 The SN74LVC2G08 is a high-drive CMOS device
 that can be used for implementing AND logic with a high output drive,
@@ -292,32 +307,32 @@ such as an LED application. It can produce 24 mA of drive current at
 3.3 V, making it ideal for driving multiple outputs and good for
 high-speed applications up to 100 MHz. Conversion note: the source's examples (Figure 4)
 show a gate between microcontroller or logic signals, and a basic LED
-driver with the LED and a resistor from Y to ground.
+driver with the LED and a resistor from Y to ground. [[10::2]]
 
 This device uses CMOS technology and has balanced output drive. Take
 care to avoid bus contention because it can drive currents that would
 exceed maximum limits. The high drive will also create fast edges into
 light loads so routing and load conditions must be considered to
-prevent ringing.
+prevent ringing. [[10::3]]
 
-Detailed design procedure:
+Detailed design procedure: [[10::3]]
 
-1. Recommended input conditions:
+1. Recommended input conditions: [[10::4]]
    - Rise time and fall time specs. See Δt/ΔV in the
      [recommended operating conditions](#recommended-operating-conditions)
-     table.
+     table. [[10::4]]
    - Specified high and low levels. See V~IH~ and V~IL~ in the recommended
-     operating conditions table.
+     operating conditions table. [[10::4]]
    - Inputs are overvoltage tolerant allowing them to go as high as
      V~I~ maximum in the recommended operating conditions table at any valid
-     V~CC~.
-2. Recommended output conditions:
+     V~CC~. [[10::4]]
+2. Recommended output conditions: [[10::4]]
    - Load currents must not exceed I~O~ maximum per output and must not exceed
      total current (continuous current through V~CC~ or GND) for the
      part. These limits are located in the recommended operating
      conditions table. Source error: these limits are in the
-     [absolute maximum ratings](#absolute-maximum-ratings) table.
-   - Outputs must not be pulled above V~CC~ in normal operating conditions.
+     [absolute maximum ratings](#absolute-maximum-ratings) table. [[10::4]]
+   - Outputs must not be pulled above V~CC~ in normal operating conditions. [[10::4]]
 
 Power: the power supply can be any voltage between the minimum and
 maximum supply voltage rating in the recommended operating conditions.
@@ -325,7 +340,7 @@ Each V~CC~ pin must have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, a 0.1-µF capacitor is
 recommended. 0.1-µF and 1-µF capacitors are commonly used in parallel.
 The bypass capacitor must be installed as close to the power pin as
-possible for best results.
+possible for best results. [[11::1]]
 
 When using multiple bit logic devices inputs must not ever float. In many
 cases, functions or parts of functions of digital logic devices are
@@ -337,7 +352,7 @@ the rules that must be observed under all circumstances. All unused inputs of
 digital logic devices must be connected to a high or low bias to prevent
 them from floating. The logic level that must be applied to any
 particular unused input depends on the function of the device. Generally they will be tied to GND or V~CC~ whichever
-make more sense or is more convenient.
+make more sense or is more convenient. [[11::2]]
 
 ## Package
 
@@ -363,6 +378,7 @@ SN74LVC2G08DCUT | Reel of 250 | -40 to 125 | C08J, C08Q, C08R, CR
 SN74LVC2G08DCUTG4 | Reel of 250 | -40 to 125 | C08R
 SN74LVC2G08YZPR | Reel of 3000 | -40 to 85 | CE7, CEN
 ```
+[[13::table #1]]
 
 ## Conversion notes
 

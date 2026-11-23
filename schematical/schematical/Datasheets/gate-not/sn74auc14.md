@@ -24,21 +24,21 @@
 ## Description
 
 Optimized for 1.8-V operation and is 3.6-V I/O tolerant to support
-mixed-mode signal operation.
+mixed-mode signal operation. [[1::1]]
 
 This hex Schmitt-trigger inverter is operational at 0.8-V to 2.7-V
 V~CC~, but is designed specifically for 1.65-V to 1.95-V V~CC~
-operation.
+operation. [[1::2]]
 
 The SN74AUC14 contains six independent inverters and performs the
 Boolean function Y = !{A}. The device functions as six independent
 inverters, but because of Schmitt action, it may have different input
 threshold levels for positive-going (V~T+~) and negative-going (V~T–~)
-signals.
+signals. [[1::3]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when it is powered down.
+current backflow through the device when it is powered down. [[1::4]]
 
 ## Pinout
 
@@ -55,6 +55,7 @@ Conversion note: the source has no pin table, and the descriptions are the conve
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Functional description
 
@@ -69,6 +70,7 @@ Conversion note: the logic diagram (each inverter, positive logic) shows one inv
 | H | L |
 | L | H |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -90,10 +92,11 @@ Conversion note: the logic diagram (each inverter, positive logic) shows one inv
 [2] The input negative-voltage and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] The package thermal impedance is calculated in accordance with JESD 51-5.
 ```
+[[2::table #1]]
 
 Latch-up performance exceeds 100 mA per JESD 78, Class II. ESD
 protection exceeds JESD 22: 2000-V Human-Body Model (A114-A), 200-V
-Machine Model (A115-A), 1000-V Charged-Device Model (C101).
+Machine Model (A115-A), 1000-V Charged-Device Model (C101). [[1::1]]
 
 ## Recommended operating conditions
 
@@ -117,6 +120,7 @@ Machine Model (A115-A), 1000-V Charged-Device Model (C101).
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[2::table #2]]
 
 ## Electrical characteristics
 
@@ -157,6 +161,7 @@ Machine Model (A115-A), 1000-V Charged-Device Model (C101).
 
 [1] All typical values are at T~A~ = 25°C.
 ```
+[[3::table #1]]
 
 ```table id=op caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ = 0.8 V | V~CC~ = 1.2 V | V~CC~ = 1.5 V | V~CC~ = 1.8 V | V~CC~ = 2.5 V | Unit |
@@ -164,6 +169,7 @@ Machine Model (A115-A), 1000-V Charged-Device Model (C101).
 |---|---|---|--:|--:|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | f = 10 MHz | 17 | 18 | 19 | 20 | 22 | pF |
 ```
+[[4::table #1]]
 
 ## Switching characteristics
 
@@ -175,6 +181,7 @@ Conversion note: Figure 1 is in [parameter measurement information](#parameter-m
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A | Y | 8.8 | 1.2 | 5.7 | 0.7 | 3.9 | 0.6 | 1.2 | 3 | 0.5 | 1.8 | ns |
 ```
+[[4::table #2]]
 
 ```table id=sw-30pf caption="Switching characteristics" conditions="Over recommended operating free-air temperature range, C~L~ = 30 pF (unless otherwise noted) (see Figure 1)"
 | Parameter | From (input) | To (output) | V~CC~ = 1.8 V ± 0.15 V | < | < | V~CC~ = 2.5 V ± 0.2 V | < | Unit |
@@ -182,6 +189,7 @@ Conversion note: Figure 1 is in [parameter measurement information](#parameter-m
 |---|---|---|--:|--:|--:|--:|--:|---|
 | t~pd~ | A | Y | 0.7 | 1.7 | 3.5 | 0.7 | 2.7 | ns |
 ```
+[[4::table #3]]
 
 ## Parameter measurement information
 
@@ -189,7 +197,7 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω, slew rate ≥ 1 V/ns. The outputs are measured one at a time,
 with one transition per measurement. t~PLH~ and t~PHL~ are the same as
-t~pd~. All parameters and waveforms are not applicable to all devices.
+t~pd~. All parameters and waveforms are not applicable to all devices. [[5::1]]
 
 Conversion note: the source's test table sets S1 open for
 t~PLH~/t~PHL~, which leaves R~L~ and C~L~ from the output to GND, and its
@@ -207,15 +215,18 @@ V~CC~/2.
 | 1.8 V ± 0.15 V | 30 pF | 1 kΩ | 0.15 V |
 | 2.5 V ± 0.2 V | 30 pF | 500 Ω | 0.15 V |
 ```
+[[5::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit for t~PLH~/t~PHL~ (S1 open)"
 RL: see table
 CL: see table
 ```
+[[5::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Propagation delay times"
 VM: VCC/2
 ```
+[[5::figure #1]]
 
 ## Package
 
@@ -227,6 +238,7 @@ VM: VCC/2
 ```ordering
 SN74AUC14RGYR | Reel of 3000 | -40 to 85 | MS14
 ```
+[[1::table #3]]
 
 ## Conversion notes
 

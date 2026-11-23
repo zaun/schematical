@@ -24,16 +24,16 @@
 ## Description
 
 This quadruple 2-input positive-OR gate is designed for 2-V to 5.5-V
-V~CC~ operation.
+V~CC~ operation. [[1::4]]
 
 The SN74LV32A-EP performs the Boolean function Y = A + B or
-Y = !{!{A} • !{B}} in positive logic.
+Y = !{!{A} • !{B}} in positive logic. [[1::5]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when it is powered down.
+current backflow through the device when it is powered down. [[1::6]]
 
-Supports Mixed-Mode Voltage Operation on All Ports.
+Supports Mixed-Mode Voltage Operation on All Ports. [[1::2]]
 
 Conversion note: SN74LV32AM is specified from –55°C to 125°C,
 SN74LV32AT from –40°C to 105°C (recommended operating conditions).
@@ -52,6 +52,7 @@ SN74LV32AT from –40°C to 105°C (recommended operating conditions).
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -63,6 +64,7 @@ VCC: Supply voltage
 | X | H | H |
 | L | L | L |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -85,6 +87,7 @@ VCC: Supply voltage
 [3] This value is limited to 5.5 V maximum.
 [4] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #1]]
 
 ## Recommended operating conditions
 
@@ -118,6 +121,7 @@ VCC: Supply voltage
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[3::table #1]]
 
 ## Electrical characteristics
 
@@ -138,6 +142,7 @@ VCC: Supply voltage
 | C~i~ | V~I~ = V~CC~ or GND | 3.3 V | | 3.3 | | pF |
 | ^ | ^ | 5 V | | 3.3 | | pF |
 ```
+[[4::table #1]]
 
 ```table id=noise caption="Noise characteristics [1]" conditions="V~CC~ = 3.3 V, C~L~ = 50 pF, T~A~ = 25°C"
 | Symbol | Parameter | Min | Typ | Max | Unit |
@@ -150,6 +155,7 @@ VCC: Supply voltage
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[5::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
@@ -157,6 +163,7 @@ VCC: Supply voltage
 | C~pd~ | Power dissipation capacitance | C~L~ = 50 pF, f = 10 MHz | 3.3 V | 9.5 | pF |
 | ^ | ^ | ^ | 5 V | 11.5 | pF |
 ```
+[[5::table #2]]
 
 ## Switching characteristics
 
@@ -168,6 +175,7 @@ See [parameter measurement information](#parameter-measurement).
 |---|---|---|---|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | C~L~ = 50 pF | | 9.6 | 16.2 | 1 | 20 | ns |
 ```
+[[4::table #2]]
 
 ```table id=sw-3v3 caption="Switching characteristics, V~CC~ = 3.3 V ± 0.3 V" conditions="Over recommended operating free-air temperature range, V~CC~ = 3.3 V ± 0.3 V (unless otherwise noted) (see Figure 1)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | < | Min | Max | Unit |
@@ -175,6 +183,7 @@ See [parameter measurement information](#parameter-measurement).
 |---|---|---|---|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | C~L~ = 50 pF | | 6.9 | 11.4 | 1 | 13 | ns |
 ```
+[[4::table #3]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range, V~CC~ = 5 V ± 0.5 V (unless otherwise noted) (see Figure 1)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | < | Min | Max | Unit |
@@ -182,6 +191,7 @@ See [parameter measurement information](#parameter-measurement).
 |---|---|---|---|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | C~L~ = 50 pF | | 4.9 | 7.5 | 1 | 8.5 | ns |
 ```
+[[4::table #4]]
 
 ## Parameter measurement information
 
@@ -190,15 +200,17 @@ by generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time, with one input transition per measurement. t~PHL~ and t~PLH~ are
 the same as t~pd~. All parameters and waveforms are not applicable to
-all devices.
+all devices. [[6::1]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 50 pF
 ```
+[[6::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 50% V~CC~
 ```
+[[6::Figure 1]]
 
 Conversion note: Figure 1 also shows the load circuit for 3-state and
 open-drain outputs (R~L~ = 1 kΩ) and the voltage waveforms for pulse
@@ -217,6 +229,7 @@ SN74LV32ATPWREP | Reel of 2000 | -40 to 105 | LV32AEP
 V62/04693-01XE | Reel of 2000 | -40 to 105 | LV32AEP
 V62/04693-02XE | Reel of 2000 | -55 to 125 | LV32AEP | Last Time Buy
 ```
+[[7::table #1]]
 
 ## Conversion notes
 

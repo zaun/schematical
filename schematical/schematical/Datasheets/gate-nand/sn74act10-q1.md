@@ -25,10 +25,10 @@
 
 The SN74ACT10-Q1 device contains three independent 3-input NAND gates.
 The device performs the Boolean functions Y = !{A • B • C} or
-Y = !{A} + !{B} + !{C} in positive logic.
+Y = !{A} + !{B} + !{C} in positive logic. [[1::1]]
 
 Qualified for automotive applications. 4.5V to 5.5V V~CC~ operation. Inputs accept voltages to 5.5V. Max
-t~pd~ of 9.5ns at 5V. Inputs are TTL-voltage compatible.
+t~pd~ of 9.5ns at 5V. Inputs are TTL-voltage compatible. [[1::2]]
 
 ## Pinout
 
@@ -53,15 +53,16 @@ GND: Ground
 1C: Channel 1, Input C
 VCC: Positive Supply
 ```
+[[3::table #1]]
 
 The thermal pad can be connected to GND or left floating. Do not
 connect to any other signal or supply. Conversion note: the source has
-this for the thermal pad, WBQA package only.
+this for the thermal pad, WBQA package only. [[3::1]]
 
 ## Functional description
 
 This device contains three independent 3-input NAND gates. Each gate
-performs the Boolean function Y = !{A•B•C} in positive logic.
+performs the Boolean function Y = !{A•B•C} in positive logic. [[8::1]]
 
 Conversion note: the functional block diagram shows one 3-input NAND
 gate, with buffered inputs xA, xB and xC and buffered output xY.
@@ -76,29 +77,29 @@ Additionally, the outputs of this device are capable of driving larger
 currents than the device can sustain without being damaged. It is
 important to limit the output power of the device to avoid damage due
 to overcurrent. The electrical and thermal limits defined in the
-Absolute Maximum Ratings must be followed at all times.
+Absolute Maximum Ratings must be followed at all times. [[9::1]]
 
-Unused push-pull CMOS outputs must be left disconnected.
+Unused push-pull CMOS outputs must be left disconnected. [[9::2]]
 
 ### TTL-compatible CMOS inputs
 
 This device includes TTL-compatible CMOS inputs. These inputs are
 specifically designed to interface with TTL logic devices by having a
-reduced input voltage threshold.
+reduced input voltage threshold. [[9::3]]
 
 TTL-compatible CMOS inputs are high impedance and are typically modeled
 as a resistor in parallel with the input capacitance given in the
 Electrical Characteristics. The worst case resistance is calculated
 with the maximum input voltage, given in the Absolute Maximum Ratings,
 and the maximum input leakage current, given in the Electrical
-Characteristics, using Ohm's law (R = V ÷ I).
+Characteristics, using Ohm's law (R = V ÷ I). [[9::4]]
 
 TTL-compatible CMOS inputs require that input signals transition
 between valid logic states quickly, as defined by the input transition
 time or rate in the Recommended Operating Conditions table. Failing to
 meet this specification will result in excessive power consumption and
 could cause oscillations. More details can be found in the Implications
-of Slow or Floating CMOS Inputs application report.
+of Slow or Floating CMOS Inputs application report. [[9::5]]
 
 Do not leave TTL-compatible CMOS inputs floating at any time during
 operation. Unused inputs must be terminated at V~CC~ or GND. If a
@@ -106,13 +107,13 @@ system will not be actively driving an input at all times, a pull-up or
 pull-down resistor can be added to provide a valid input voltage during
 these times. The resistor value will depend on multiple factors;
 however, a 10kΩ resistor is recommended and typically will meet all
-requirements.
+requirements. [[9::6]]
 
 ### Wettable flanks
 
 This device includes wettable flanks for at least one package. See the
 Features section on the front page of the data sheet where packages
-include this feature.
+include this feature. [[10::1]]
 
 Wettable flanks help improve side wetting after soldering, which makes
 QFN packages easier to inspect with automatic optical inspection (AOI).
@@ -121,20 +122,21 @@ provide additional surface area for solder adhesion which assists in
 reliably creating a side fillet. See the mechanical drawing for
 additional details. Conversion note: Figure 7-1, a simplified cutaway
 view of a wettable-flank QFN package and a standard QFN package after
-soldering, is not drawn here.
+soldering, is not drawn here. [[10::3]]
 
 ### Clamp diode structure
 
 As shown in Figure 7-2, the inputs and outputs to this device have both
-positive and negative clamping diodes.
+positive and negative clamping diodes. [[10::4]]
 
 Voltages beyond the values specified in the Absolute Maximum Ratings
 table can cause damage to the device. The input and output voltage
 ratings may be exceeded if the input and output clamp-current ratings
-are observed.
+are observed. [[10::5]]
 
 ```figure ref=clamp-diodes caption="Figure 7-2. Electrical placement of clamping diodes for each input and output"
 ```
+[[10::Figure 7-2]]
 
 ## Function tables
 
@@ -147,6 +149,7 @@ are observed.
 | X | L | X | H |
 | X | X | L | H |
 ```
+[[11::Table 8-1]]
 
 ## Absolute maximum ratings
 
@@ -165,6 +168,7 @@ are observed.
 [1] Operation outside the Absolute Maximum Ratings may cause permanent device damage. Absolute Maximum Ratings do not imply functional operation of the device at these or any other conditions beyond those listed under Recommended Operating Conditions. If used outside the Recommended Operating Conditions but within the Absolute Maximum Ratings, the device may not be fully functional, and this may affect device reliability, functionality, performance, and shorten the device lifetime.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ## Recommended operating conditions
 
@@ -183,6 +187,7 @@ are observed.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the Implications of Slow or Floating CMOS Inputs application note.
 ```
+[[4::table #2]]
 
 ## Thermal information
 
@@ -194,6 +199,7 @@ are observed.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application note.
 ```
+[[4::table #3]]
 
 ## Electrical characteristics
 
@@ -221,12 +227,14 @@ are observed.
 [1] Not more than one output should be tested at a time, and the duration of the test should not exceed 10 ms.
 [2] This is the increase in supply current for each input that is at one of the specified TTL voltage levels, rather than 0 V or V~CC~.
 ```
+[[5::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | C~L~ = 50pF, f = 1 MHz | 25 | pF |
 ```
+[[5::table #2]]
 
 ## Switching characteristics
 
@@ -237,10 +245,11 @@ are observed.
 | t~PLH~ | Any | Y | 1 | 6.5 | 9 | 1 | 10 | 1 | 10 | ns |
 | t~PHL~ | ^ | ^ | 1 | 6.5 | 9 | 1 | 9.5 | 1 | 9.5 | ns |
 ```
+[[5::table #3]]
 
 ## Typical characteristics
 
-T~A~ = 25°C (unless otherwise noted)
+T~A~ = 25°C (unless otherwise noted) [[6::1]]
 
 ```curve id=voh-ioh caption="Figure 5-1. Output voltage vs current in HIGH state; 5V supply"
 {"x": {"label": "I_OH", "unit": "mA", "range": [-50, 0]},
@@ -251,6 +260,7 @@ T~A~ = 25°C (unless otherwise noted)
    {"label": "-40°C", "points": [[-50, 4.52], [-25, 4.76], [0, 4.99]]}
  ]}
 ```
+[[6::Figure 5-1]]
 
 ```curve id=vol-iol caption="Figure 5-2. Output voltage vs current in LOW state; 5V supply"
 {"x": {"label": "I_OL", "unit": "mA", "range": [0, 50]},
@@ -261,16 +271,17 @@ T~A~ = 25°C (unless otherwise noted)
    {"label": "-40°C", "points": [[0, 0], [25, 0.12], [50, 0.24]]}
  ]}
 ```
+[[6::Figure 5-2]]
 
 ## Parameter measurement information
 
-C~L~ includes probe and jig capacitance.
+C~L~ includes probe and jig capacitance. [[7::1]]
 
 All input pulses are supplied by generators having the following
-characteristics: PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~r~ v 2.5 ns, t~f~ v 2.5 ns.
+characteristics: PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~r~ v 2.5 ns, t~f~ v 2.5 ns. [[7::1]]
 
 The outputs are measured one at a time, with one input transition per
-measurement.
+measurement. [[7::1]]
 
 Conversion note: the load circuit also has a 500 Ω resistor from the
 output to switch S1 (2 × V~CC~ or open), and S1 is open for
@@ -282,10 +293,12 @@ and the outputs are measured at 50% V~CC~.
 RL: 500 Ω
 CL: 50 pF
 ```
+[[7::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Figure 6-1. Voltage waveforms"
 VM: 1.5 V (input), 50% V~CC~ (outputs)
 ```
+[[7::Figure 6-1]]
 
 ## Application information
 
@@ -293,18 +306,18 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[12::1]]
 
 In this application, two 3-input NAND gates are used to create an
 active-low SR latch as shown in Figure 9-1. The additional gate can be
 used elsewhere in the system, or the inputs can be grounded and left
-unused.
+unused. [[12::2]]
 
 The SN74ACT10-Q1 is used to drive the tamper indicator LED and provide one
 bit of data to the system controller. When the tamper switch outputs
 LOW, the output Q becomes HIGH. This output remains HIGH until the
 system controller addresses the event and sends a LOW signal to the R
-input which returns the Q output back to LOW.
+input which returns the Q output back to LOW. [[12::3]]
 
 Conversion note: in the typical application block diagram (Figure 9-1)
 two cross-coupled 3-input NAND gates form the latch; the system
@@ -320,13 +333,14 @@ LED.
   {"name": "Q", "wave": "x0.1.0.1.."}
 ]}
 ```
+[[14::Figure 9-2]]
 
 ### Power considerations
 
 Ensure the desired supply voltage is within the range specified in the
 Recommended Operating Conditions. The supply voltage sets the device's
 electrical characteristics of the device as described in the Electrical
-Characteristics section.
+Characteristics section. [[13::1]]
 
 The positive voltage supply must be capable of sourcing current equal
 to the total current to be sourced by all outputs of the SN74ACT10-Q1 plus
@@ -334,7 +348,7 @@ the maximum static supply current, I~CC~, listed in the Electrical
 Characteristics, and any transient current required for switching. The
 logic device can only source as much current that is provided by the
 positive supply source. Ensure the maximum total current through V~CC~
-listed in the Absolute Maximum Ratings is not exceeded.
+listed in the Absolute Maximum Ratings is not exceeded. [[13::2]]
 
 The ground must be capable of sinking current equal to the total
 current to be sunk by all outputs of the SN74ACT10-Q1 plus the maximum
@@ -342,40 +356,40 @@ supply current, I~CC~, listed in the Electrical Characteristics, and
 any transient current required for switching. The logic device can only
 sink as much current that can be sunk into its ground connection.
 Ensure the maximum total current through GND listed in the Absolute
-Maximum Ratings is not exceeded.
+Maximum Ratings is not exceeded. [[13::3]]
 
 The SN74ACT10-Q1 can drive a load with a total capacitance less than or
 equal to 50pF while still meeting all of the data sheet specifications.
 Larger capacitive loads can be applied; however, it is not recommended
-to exceed 50pF.
+to exceed 50pF. [[13::4]]
 
 The SN74ACT10-Q1 can drive a load with total resistance described by
 R~L~ ≥ V~O~ / I~O~, with the output voltage and current defined in the
 Electrical Characteristics table with V~OH~ and V~OL~. When outputting
 in the HIGH state, the output voltage in the equation is defined as the
 difference between the measured output voltage and the supply voltage
-at the V~CC~ pin.
+at the V~CC~ pin. [[13::5]]
 
 Total power consumption can be calculated using the information
 provided in the CMOS Power Consumption and Cpd Calculation application
-note.
+note. [[13::6]]
 
 Thermal increase can be calculated using the information provided in
 the Thermal Characteristics of Standard Linear and Logic (SLL) Packages
-and Devices application note.
+and Devices application note. [[13::7]]
 
 The maximum junction temperature, T~J(max)~ listed in the Absolute
 Maximum Ratings, is an additional limitation to prevent damage to the
 device. Do not violate any values listed in the Absolute Maximum
 Ratings. These limits are provided to prevent damage to the device.
 Source conflict: the Absolute Maximum Ratings table (p.4) lists no
-junction temperature.
+junction temperature. [[13::8]]
 
 ### Input considerations
 
 Input signals must cross V~IL(max)~ to be considered a logic LOW, and
 V~IH(min)~ to be considered a logic HIGH. Do not exceed the maximum
-input voltage range found in the Absolute Maximum Ratings.
+input voltage range found in the Absolute Maximum Ratings. [[14::1]]
 
 Unused inputs must be terminated to either V~CC~ or ground. The unused
 inputs can be directly terminated if the input is completely unused, or
@@ -385,12 +399,12 @@ a default state of HIGH, and a pull-down resistor is used for a default
 state of LOW. The drive current of the controller, leakage current into
 the SN74ACT10-Q1 (as specified in the Electrical Characteristics), and the
 desired input transition rate limits the resistor size. A 10kΩ resistor
-value is often used due to these factors.
+value is often used due to these factors. [[14::2]]
 
 The SN74ACT10-Q1 has CMOS inputs and thus requires fast input transitions
 to operate correctly, as defined in the Recommended Operating
 Conditions table. Slow input transitions can cause oscillations,
-additional power consumption, and reduction in device reliability.
+additional power consumption, and reduction in device reliability. [[14::3]]
 
 ### Output considerations
 
@@ -399,37 +413,37 @@ Drawing current from the output will decrease the output voltage as
 specified by the V~OH~ specification in the Electrical Characteristics.
 The ground voltage is used to produce the output LOW voltage. Sinking
 current into the output will increase the output voltage as specified
-by the V~OL~ specification in the Electrical Characteristics.
+by the V~OL~ specification in the Electrical Characteristics. [[14::5]]
 
 Push-pull outputs that could be in opposite states, even for a very
 short time period, should never be connected directly together. This
-can cause excessive current and damage to the device.
+can cause excessive current and damage to the device. [[14::6]]
 
 Two channels within the same device with the same input signals can be
-connected in parallel for additional output drive strength.
+connected in parallel for additional output drive strength. [[14::7]]
 
 Unused outputs can be left floating. Do not connect outputs directly to
-V~CC~ or ground.
+V~CC~ or ground. [[14::8]]
 
 ### Detailed design procedure
 
 1. Add a decoupling capacitor from V~CC~ to GND. The capacitor needs to
    be placed physically close to the device and electrically close to
    both the V~CC~ and GND pins. An example layout is shown in the Layout
-   section.
+   section. [[14::10]]
 2. Verify that the capacitive load at the output is ≤ 50pF. This is not
    a hard limit; by design, however, it will optimize performance. This
    can be accomplished by providing short, appropriately sized traces
-   from the SN74ACT10-Q1 to one or more of the receiving devices.
+   from the SN74ACT10-Q1 to one or more of the receiving devices. [[14::10]]
 3. Verify that the resistive load at the output is larger than
    (V~CC~ / I~O(max)~)Ω. Doing this prevents the maximum output current
    from the Absolute Maximum Ratings from being violated. Most CMOS
    inputs have a resistive load measured in MΩ; much larger than the
-   minimum calculated previously.
+   minimum calculated previously. [[14::10]]
 4. Thermal issues are rarely a concern for logic gates; the power
    consumption and thermal increase, however, can be calculated using
    the steps provided in the CMOS Power Consumption and Cpd Calculation
-   application note.
+   application note. [[14::10]]
 
 ### Power supply recommendations
 
@@ -440,28 +454,28 @@ power disturbance. A 0.1μF capacitor is recommended for this device. It
 is acceptable to parallel multiple bypass capacitors to reject
 different frequencies of noise. The 0.1μF and 1μF capacitors are
 commonly used in parallel. The bypass capacitor should be installed as
-close to the power terminal as possible for best results.
+close to the power terminal as possible for best results. [[15::1]]
 
 ### Layout guidelines
 
-- Bypass capacitor placement
-  - Place near the positive supply terminal of the device
-  - Provide an electrically short ground return path
-  - Use wide traces to minimize impedance
+- Bypass capacitor placement [[16::2]]
+  - Place near the positive supply terminal of the device [[15::2]]
+  - Provide an electrically short ground return path [[15::2]]
+  - Use wide traces to minimize impedance [[15::2]]
   - Keep the device, capacitors, and traces on the same side of the
-    board whenever possible
-- Signal trace geometry
-  - 8mil to 12mil trace width
-  - Lengths less than 12cm to minimize transmission line effects
-  - Avoid 90° corners for signal traces
-  - Use an unbroken ground plane below signal traces
-  - Flood fill areas around signal traces with ground
+    board whenever possible [[15::2]]
+- Signal trace geometry [[15::2]]
+  - 8mil to 12mil trace width [[15::2]]
+  - Lengths less than 12cm to minimize transmission line effects [[15::2]]
+  - Avoid 90° corners for signal traces [[15::2]]
+  - Use an unbroken ground plane below signal traces [[15::2]]
+  - Flood fill areas around signal traces with ground [[15::2]]
   - Parallel traces must be separated by at least 3x dielectric
-    thickness
-  - For traces longer than 12cm
-    - Use impedance controlled traces
-    - Source-terminate using a series damping resistor near the output
-    - Avoid branches; buffer each signal that must branch separately
+    thickness [[15::2]]
+  - For traces longer than 12cm [[15::2]]
+    - Use impedance controlled traces [[15::2]]
+    - Source-terminate using a series damping resistor near the output [[15::2]]
+    - Avoid branches; buffer each signal that must branch separately [[15::2]]
 
 Conversion note: the layout example drawings (Figures 9-3 to 9-7) show
 trace corners for improved signal integrity, bypass capacitor placement
@@ -482,6 +496,7 @@ are not drawn here.
 SN74ACT10QPWRG4Q1 | Reel of 2000 | -40 to 125 | ACT10Q
 SN74ACT10WBQARQ1 | Reel of 3000 | -40 to 125 | AD10Q
 ```
+[[19::table #1]]
 
 ## Conversion notes
 

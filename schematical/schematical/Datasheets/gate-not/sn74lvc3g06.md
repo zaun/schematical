@@ -24,21 +24,21 @@
 ## Description
 
 This triple inverter buffer/driver is designed for 1.65-V to 5.5-V
-V~CC~ operation.
+V~CC~ operation. [[1::2]]
 
 The output of the SN74LVC3G06 is open drain and can be connected to
 other open-drain outputs to implement active-low wired-OR or active-high
-wired-AND functions. The maximum sink current is 32 mA.
+wired-AND functions. The maximum sink current is 32 mA. [[1::4]]
 
 NanoFree™ package technology is a major breakthrough in IC packaging
-concepts, using the die as the package.
+concepts, using the die as the package. [[1::5]]
 
 This device is fully specified for partial-power-down applications
 using I~off~. The I~off~ circuitry disables the outputs, preventing
-damaging current backflow through the device when it is powered down.
+damaging current backflow through the device when it is powered down. [[1::6]]
 
 Supports 5-V V~CC~ Operation. Input and Open-Drain Output Accepts
-Voltages up to 5.5 V.
+Voltages up to 5.5 V. [[1::3]]
 
 ## Pinout
 
@@ -58,6 +58,7 @@ Conversion note: the source has no pin table, and the descriptions are the conve
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -68,6 +69,7 @@ VCC: Supply voltage
 | H | L |
 | L | H |
 ```
+[[2::table #1]]
 
 Conversion note: the logic diagram (positive logic, p.2) shows three inverters with open-drain outputs, 1A (pin 1) to 1Y (pin 7), 2A (pin 3) to 2Y (pin 5) and 3A (pin 6) to 3Y (pin 2).
 
@@ -94,10 +96,11 @@ Conversion note: the logic diagram (positive logic, p.2) shows three inverters w
 [3] The value of V~CC~ is provided in the recommended operating conditions table.
 [4] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #2]]
 
 Latch-Up Performance Exceeds 100 mA Per JESD 78, Class II. ESD
 Protection Exceeds JESD 22: 2000-V Human-Body Model (A114-A), 200-V
-Machine Model (A115-A), 1000-V Charged-Device Model (C101).
+Machine Model (A115-A), 1000-V Charged-Device Model (C101). [[1::3]]
 
 ## Recommended operating conditions
 
@@ -128,6 +131,7 @@ Machine Model (A115-A), 1000-V Charged-Device Model (C101).
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[3::table #1]]
 
 ## Electrical characteristics
 
@@ -149,6 +153,7 @@ Machine Model (A115-A), 1000-V Charged-Device Model (C101).
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25°C.
 ```
+[[3::table #2]]
 
 ```table id=opchar caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ = 1.8 V | V~CC~ = 2.5 V | V~CC~ = 3.3 V | V~CC~ = 5 V | Unit |
@@ -156,6 +161,7 @@ Machine Model (A115-A), 1000-V Charged-Device Model (C101).
 |---|---|---|--:|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | f = 10 MHz | 2 | 2 | 3 | 4 | pF |
 ```
+[[4::table #1]]
 
 ## Switching characteristics
 
@@ -168,6 +174,7 @@ Conversion note: Figure 1 is in [parameter measurement information](#parameter-m
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A | Y | 1.8 | 7.2 | 1 | 3.9 | 1 | 3.4 | 1 | 2.9 | ns |
 ```
+[[4::table #2]]
 
 ```table id=sw-125 caption="Switching characteristics, –40°C to 125°C" conditions="Over recommended operating free-air temperature range (unless otherwise noted) (see Figure 1)"
 | Parameter | From (input) | To (output) | SN74LVC3G06, –40°C to 125°C | < | < | < | < | < | < | < | Unit |
@@ -177,6 +184,7 @@ Conversion note: Figure 1 is in [parameter measurement information](#parameter-m
 | t~pd~ | A | Y | 1.8 | 7.8 | 1 | 4.5 | 1 | 4.0 | 1 | 3.5 | ns |
 | t~pd~ | A or B | Y | 2.6 | 9.8 | 1 | 5.8 | 1 | 5.3 | 1 | 4.8 | ns |
 ```
+[[4::table #3]]
 
 Unconfirmed: the –40°C to 125°C table prints a second t~pd~ row from "A or B" to Y with other values; the device has no B input.
 
@@ -192,7 +200,7 @@ outputs are measured one at a time, with one transition per measurement.
 Since this device has open-drain outputs, t~PLZ~ and t~PZL~ are the same
 as t~pd~. t~PZL~ is measured at V~M~. t~PLZ~ is measured at
 V~OL~ + V~Δ~. All parameters and waveforms are not applicable to all
-devices.
+devices. [[5::1]]
 
 Conversion note: the load circuit of Figure 1 (open drain) connects the output under test to C~L~ and one R~L~ to GND and through a second R~L~ to switch S1, which has the positions V~LOAD~, Open and GND.
 
@@ -203,6 +211,7 @@ Conversion note: the load circuit of Figure 1 (open drain) connects the output u
 | t~PLZ~ (see Notes E and G) | V~LOAD~ |
 | t~PHZ~/t~PZH~ | V~LOAD~ |
 ```
+[[5::table #1]]
 
 ```table id=pmi-load caption="Figure 1. Load values"
 | V~CC~ | Input | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -213,6 +222,7 @@ Conversion note: the load circuit of Figure 1 (open drain) connects the output u
 | 3.3 V ± 0.3 V | 3 V | ≤ 2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 5 V ± 0.5 V | V~CC~ | ≤ 2.5 ns | V~CC~/2 | 2 × V~CC~ | 50 pF | 500 Ω | 0.3 V |
 ```
+[[5::table #2]]
 
 Conversion note: the voltage waveforms of Figure 1 draw the input and the output control from 0 V to V~I~ with the propagation delay times and the enable and disable times measured at V~M~, and output waveform 1 (S1 at V~LOAD~) falling from V~LOAD~/2 to V~OL~, with t~PLZ~ ending at V~OL~ + V~Δ~.
 
@@ -235,6 +245,7 @@ SN74LVC3G06DCUR | Reel of 3000 | -40 to 125 | C06J, C06Q, C06R
 SN74LVC3G06DCUT | Reel of 250 | -40 to 125 | C06J, C06Q, C06R
 SN74LVC3G06YZPR | Reel of 3000 | -40 to 85 | CTN
 ```
+[[7::table #1]]
 
 ## Conversion notes
 

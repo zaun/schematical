@@ -26,14 +26,14 @@
 This single 2-input positive-OR gate is operational at 0.8-V to 2.7-V
 V~CC~, but is designed specifically for 1.65-V to 1.95-V V~CC~
 operation. Optimized for 1.8-V operation and is 3.6-V I/O tolerant to
-support mixed-mode signal operation.
+support mixed-mode signal operation. [[1::1]] [[1::2]]
 
 The SN74AUC1G32 device performs the Boolean function
-Y = A + B or Y = !{!{A} · !{B}} in positive logic.
+Y = A + B or Y = !{!{A} · !{B}} in positive logic. [[1::3]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when it is powered down.
+current backflow through the device when it is powered down. [[1::5]]
 
 ## Pinout
 
@@ -55,12 +55,13 @@ Y: Output Y
 GND: Ground
 VCC: Positive Supply
 ```
+[[3::table #1]]
 
 ## Functional description
 
 Conversion note: the logic diagram (positive logic) shows one 2-input OR gate with inputs A and B and output Y.
 
-Table 1 lists the functional modes of SN74AUC1G32.
+Table 1 lists the functional modes of SN74AUC1G32. [[8::1]]
 
 ## Function tables
 
@@ -72,6 +73,7 @@ Table 1 lists the functional modes of SN74AUC1G32.
 | X | H | H |
 | L | L | L |
 ```
+[[8::Table 1]]
 
 Source error: the source prints "(Each Inverter)" under the title of this table of an OR gate, kept out.
 
@@ -93,6 +95,7 @@ Source error: the source prints "(Each Inverter)" under the title of this table 
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, which do not imply functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input negative-voltage and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -103,6 +106,7 @@ Source error: the source prints "(Each Inverter)" under the title of this table 
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -133,6 +137,7 @@ Source error: the source prints "(Each Inverter)" under the title of this table 
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. See Implications of Slow or Floating CMOS Inputs, SCBA004.
 ```
+[[4::table #3]] [[5::table #1]]
 
 ## Thermal information
 
@@ -144,6 +149,7 @@ Source error: the source prints "(Each Inverter)" under the title of this table 
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 ```
+[[5::table #2]]
 
 ## Electrical characteristics
 
@@ -169,6 +175,7 @@ Source error: the source prints "(Each Inverter)" under the title of this table 
 
 [1] All typical values are at T~A~ = 25°C.
 ```
+[[5::table #3]]
 
 ```table id=op caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ = 0.8 V | V~CC~ = 1.2 V | V~CC~ = 1.5 V | V~CC~ = 1.8 V | V~CC~ = 2.5 V | Unit |
@@ -176,6 +183,7 @@ Source error: the source prints "(Each Inverter)" under the title of this table 
 |---|---|---|--:|--:|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | f = 10 MHz | 14 | 14 | 15 | 15 | 20 | pF |
 ```
+[[6::table #1]]
 
 ## Switching characteristics
 
@@ -187,6 +195,7 @@ See [parameter measurement information](#parameter-measurement).
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | 4.8 | 1 | 3.5 | 0.6 | 2.3 | 0.5 | 0.9 | 1.5 | 0.3 | 1.4 | ns |
 ```
+[[5::table #4]]
 
 ```table id=sw-30pf caption="Switching characteristics: C~L~ = 30 pF" conditions="Over recommended operating free-air temperature range, C~L~ = 30 pF (unless otherwise noted) (see Figure 1)"
 | Parameter | From (input) | To (output) | V~CC~ = 1.8 V ± 0.15 V | < | < | V~CC~ = 2.5 V ± 0.2 V | < | Unit |
@@ -194,6 +203,7 @@ See [parameter measurement information](#parameter-measurement).
 |---|---|---|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | 0.8 | 1.4 | 2.4 | 0.6 | 2.1 | ns |
 ```
+[[5::table #5]]
 
 ## Parameter measurement information
 
@@ -201,7 +211,7 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω, slew rate ≥ 1 V/ns. The outputs are measured one at a time,
 with one transition per measurement. t~PLH~ and t~PHL~ are the same as
-t~pd~. All parameters and waveforms are not applicable to all devices.
+t~pd~. All parameters and waveforms are not applicable to all devices. [[7::1]]
 
 Conversion note: the source's test table sets S1 open for
 t~PLH~/t~PHL~, which leaves R~L~ and C~L~ from the output to GND, and its
@@ -219,15 +229,18 @@ V~CC~/2.
 | 1.8 V ± 0.15 V | 30 pF | 1 kΩ | 0.15 V |
 | 2.5 V ± 0.2 V | 30 pF | 500 Ω | 0.15 V |
 ```
+[[7::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit for t~PLH~/t~PHL~ (S1 open)"
 RL: see table
 CL: see table
 ```
+[[7::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Propagation delay times"
 VM: VCC/2
 ```
+[[7::figure #1]]
 
 ## Package
 
@@ -253,6 +266,7 @@ SN74AUC1G32DCKRG4 | Reel of 3000 | -40 to 85 | UG5, UGF, UGR
 SN74AUC1G32DRLR | Reel of 4000 | -40 to 85 | UG7, UGR
 SN74AUC1G32YZPR | Reel of 3000 | -40 to 85 | UGN
 ```
+[[10::table #1]]
 
 ## Conversion notes
 

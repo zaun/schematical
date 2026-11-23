@@ -24,10 +24,10 @@
 ## Description
 
 The SNx4ACT08 devices are quadruple 2-input positive-AND gates. These
-devices perform the Boolean function Y = A · B in positive logic.
+devices perform the Boolean function Y = A · B in positive logic. [[1::1]]
 
 4.5 V to 5.5 V V~CC~ operation. Inputs accept voltages to 5.5 V. Inputs
-are TTL-voltage compatible.
+are TTL-voltage compatible. [[1::2]]
 
 ## Pinout
 
@@ -46,9 +46,10 @@ are TTL-voltage compatible.
 GND: Ground
 VCC: Positive Supply
 ```
+[[3::table #1]]
 
 The thermal pad can be connected to GND or left floating. Do not
-connect to any other signal or supply. BQA package only.
+connect to any other signal or supply. BQA package only. [[3::1]]
 
 ## Functional description
 
@@ -65,6 +66,7 @@ Conversion note: the logic diagram, each gate (positive logic), shows one
 | L | X | L |
 | X | L | L |
 ```
+[[8::table #1]]
 
 ## Absolute maximum ratings
 
@@ -83,6 +85,7 @@ Conversion note: the logic diagram, each gate (positive logic), shows one
 [1] Stresses beyond those listed under absolute maximum ratings may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under recommended operating conditions is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ## Recommended operating conditions
 
@@ -100,6 +103,7 @@ Conversion note: the logic diagram, each gate (positive logic), shows one
 | Δt/Δv | Input transition rise and fall rate | | 8 | | 8 | ns/V |
 | T~A~ | Operating free-air temperature | -55 | 125 | -40 | 85 | °C |
 ```
+[[4::table #2]]
 
 ## Thermal information
 
@@ -111,6 +115,7 @@ Conversion note: the logic diagram, each gate (positive logic), shows one
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 [2] Source conflict: the thermal table labels NS "(PDIP)"; the device information table (p.1) lists NS as SOP, 14 pins.
 ```
+[[4::table #3]]
 
 ## Electrical characteristics
 
@@ -139,12 +144,14 @@ Conversion note: the logic diagram, each gate (positive logic), shows one
 [2] This is the increase in supply current for each input that is at one of the specified TTL voltage levels, rather than 0 V or V~CC~.
 [3] Unconfirmed: the source labels both column groups SNx4ACT08 and gives no temperature range for either, and their order matches the SN54ACT08 and SN74ACT08 columns of the recommended operating conditions.
 ```
+[[5::table #1]]
 
 ```table id=opchar caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25 °C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | C~L~ = 50 pF, f = 1 MHz | 20 | pF |
 ```
+[[5::table #2]]
 
 ## Switching characteristics
 
@@ -159,10 +166,11 @@ See [parameter measurement information](#parameter-measurement).
 
 [1] Unconfirmed: the source labels both column groups SNx4ACT08 and gives no temperature range for either.
 ```
+[[5::table #3]]
 
 ## Typical characteristics
 
-T~A~ = 25°C (unless otherwise noted)
+T~A~ = 25°C (unless otherwise noted) [[6::1]]
 
 ```curve id=icc-vcc caption="Supply current across supply voltage"
 {"x": {"label": "V_CC", "unit": "V", "range": [0.5, 5.5]},
@@ -173,6 +181,7 @@ T~A~ = 25°C (unless otherwise noted)
    {"label": "-40 °C", "points": [[0.5, 18], [1, 26.5], [1.5, 35], [2, 42.5], [2.5, 49.5], [3, 56], [3.5, 62.5], [4, 69], [4.5, 72.5], [5, 77], [5.1, 74], [5.5, 86]]}
  ]}
 ```
+[[6::Figure 4-1]]
 
 ```curve id=vol-iol caption="Output voltage vs current in LOW state; 5V supply"
 {"x": {"label": "I_OL", "unit": "mA", "range": [0, 50]},
@@ -183,13 +192,14 @@ T~A~ = 25°C (unless otherwise noted)
    {"label": "-40 °C", "points": [[0, 0], [25, 0.12], [50, 0.24]]}
  ]}
 ```
+[[6::Figure 4-2]]
 
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 2.5 ns, t~f~ ≤ 2.5 ns. The outputs are measured one
-at a time with one input transition per measurement.
+at a time with one input transition per measurement. [[7::1]]
 
 Conversion note: the load circuit also has a 500 Ω resistor from the output
 to switch S1 (2 × V~CC~ or open), and S1 is open for t~PLH~/t~PHL~, which
@@ -201,15 +211,17 @@ swings 0 V to 3 V and is measured at 1.5 V, and the outputs are measured at
 RL: 500 Ω
 CL: 50 pF
 ```
+[[7::Figure 5-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times"
 VM: 1.5 V (input), 50 % V~CC~ (outputs)
 ```
+[[7::Figure 5-1]]
 
 ## Application information
 
 Information in the following applications sections is not part of the
-TI component specification.
+TI component specification. [[9::1]]
 
 ### Power supply recommendations
 
@@ -221,7 +233,7 @@ disturbance. For devices with a single supply, 0.1 µF is recommended.
 It is acceptable to parallel multiple bypass caps to reject different
 frequencies of noise. A 0.1 µF and 1 µF are commonly used in parallel.
 The bypass capacitor should be installed as close to the power pin as
-possible for best results.
+possible for best results. [[9::2]] [[9::3]]
 
 ### Layout guidelines
 
@@ -234,7 +246,7 @@ a high or low bias to prevent them from floating. The logic level that
 should be applied to any particular unused input depends on the
 function of the device. Generally they will be tied to GND or V~CC~,
 whichever makes more sense or is more convenient. It is acceptable to
-float outputs unless the part is a transceiver.
+float outputs unless the part is a transceiver. [[9::4]]
 
 ## Package
 
@@ -286,6 +298,7 @@ SNJ54ACT08FK | Tube of 55 | -55 to 125 | 5962-89547022A SNJ54ACT08FK
 SNJ54ACT08J | Tube of 25 | -55 to 125 | 5962-8954702CA SNJ54ACT08J
 SNJ54ACT08W | Tube of 25 | -55 to 125 | 5962-8954702DA SNJ54ACT08W
 ```
+[[11::table #1]]
 
 ## Conversion notes
 

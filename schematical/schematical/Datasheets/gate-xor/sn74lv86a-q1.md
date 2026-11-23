@@ -24,10 +24,10 @@
 ## Description
 
 The SN74LV86A-Q1 is a quadruple 2-input exclusive-OR gate designed for
-2-V to 5.5-V V~CC~ operation.
+2-V to 5.5-V V~CC~ operation. [[8::1]]
 
 Qualified for automotive applications. Support mixed-mode voltage
-operation on all ports.
+operation on all ports. [[1::1]]
 
 Conversion note: the logic symbol (p.1) shows the four exclusive-OR
 gates (=1) with their pin numbers. This symbol is in accordance with
@@ -47,6 +47,7 @@ ANSI/IEEE Std 91-1984 and IEC Publication 617-12.
 GND: Ground
 VCC: Supply voltage
 ```
+[[3::table #1]]
 
 ## Functional description
 
@@ -54,12 +55,12 @@ This device contains four independent 2-input exclusive-OR gates. It
 performs the Boolean function Y = A ⊕ B or Y = !{A}B + A!{B} in positive
 logic. Source error: the source draws each bar over a whole product,
 !{AB} + !{AB} (p.8); the function table (Table 7-1, p.8) and Y = A ⊕ B
-show an exclusive-OR, so one bar is over A and the other over B.
+show an exclusive-OR, so one bar is over A and the other over B. [[8::2]]
 
 A common application is as a true/complement element. If one of the
 inputs is low, the other input is reproduced in true form at the output.
 If one of the inputs is high, the signal on the other input is
-reproduced inverted at the output.
+reproduced inverted at the output. [[8::3]]
 
 Conversion note: the functional block diagram (Figure 7-1, a picture)
 shows five equivalent exclusive-OR symbols and the logic-identity,
@@ -79,6 +80,7 @@ even-parity and odd-parity elements.
 [1] H = High Voltage Level, L = Low Voltage Level, X = Don’t Care
 [2] H = Driving High, L = Driving Low, Z = High Impedance State
 ```
+[[8::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -99,6 +101,7 @@ even-parity and odd-parity elements.
 [2] The input and output negative-voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] The value is limited to 5.5-V maximum.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -107,6 +110,7 @@ even-parity and odd-parity elements.
 
 [1] AEC Q100-002 indicates that HBM stressing must be in accordance with the ANSI/ESDA/JEDEC JS-001 specification.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -139,6 +143,7 @@ even-parity and odd-parity elements.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. See the TI application report, Implications of Slow or Floating CMOS Inputs, SCBA004.
 ```
+[[4::table #3]] [[5::table #1]]
 
 ## Thermal information
 
@@ -149,6 +154,7 @@ even-parity and odd-parity elements.
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report, SPRA953.
 ```
+[[5::table #2]]
 
 ## Electrical characteristics
 
@@ -168,6 +174,7 @@ even-parity and odd-parity elements.
 | I~off~ | Input/Output Power-Off Leakage Current | V~I~ or V~O~ = 0 to 5.5 V | 0 | | | 5 | μA |
 | C~i~ | Input Capacitance | V~I~ = V~CC~ or GND | 3.3 V | | 1.4 | | pF |
 ```
+[[5::table #3]]
 
 ```table id=noise caption="Noise characteristics" conditions="V~CC~ = 3.3 V, C~L~ = 50 pF, T~A~ = 25°C [1]"
 | Symbol | Parameter | Min | Typ | Max | Unit |
@@ -180,6 +187,7 @@ even-parity and odd-parity elements.
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[6::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
@@ -187,6 +195,7 @@ even-parity and odd-parity elements.
 | C~pd~ | Power dissipation capacitance | C~L~ = 50 pF, f = 10 MHz | 3.3 V | 8.4 | pF |
 | ^ | ^ | ^ | 5 V | 8.8 | pF |
 ```
+[[6::table #2]]
 
 ## Switching characteristics
 
@@ -198,6 +207,7 @@ See [parameter measurement information](#parameter-measurement).
 |---|---|---|---|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | C~L~ = 50 pF | | 10.5 | 22.6 | 1 | 26.5 | ns |
 ```
+[[5::table #4]]
 
 ```table id=sw-3v3 caption="Switching characteristics, V~CC~ = 3.3 V ± 0.3 V" conditions="Over recommended operating free-air temperature range, V~CC~ = 3.3 V ± 0.3 V (unless otherwise noted) (see Load Circuit and Voltage Waveforms)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | < | Min | Max | Unit |
@@ -205,6 +215,7 @@ See [parameter measurement information](#parameter-measurement).
 |---|---|---|---|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | C~L~ = 50 pF | | 7.4 | 14.5 | 1 | 16.5 | ns |
 ```
+[[5::table #5]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range, V~CC~ = 5 V ± 0.5 V (unless otherwise noted) (see Load Circuit and Voltage Waveforms)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | < | Min | Max | Unit |
@@ -212,6 +223,7 @@ See [parameter measurement information](#parameter-measurement).
 |---|---|---|---|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | C~L~ = 50 pF | | 5.3 | 8.8 | 1 | 10 | ns |
 ```
+[[6::table #3]]
 
 ## Parameter measurement information
 
@@ -220,15 +232,17 @@ by generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time, with one input transition per measurement. t~PHL~ and t~PLH~ are
 the same as t~pd~. All parameters and waveforms are not applicable to
-all devices.
+all devices. [[7::1]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 50 pF
 ```
+[[7::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 50% V~CC~
 ```
+[[7::Figure 6-1]]
 
 Conversion note: Figure 6-1 also shows the load circuit for 3-state and
 open-drain outputs (R~L~ = 1 kΩ) and the voltage waveforms for pulse
@@ -244,6 +258,7 @@ duration, setup and hold times, and enable and disable times.
 ```ordering
 SN74LV86ATPWRG4Q1 | Reel of 2000 | -40 to 105 | LV86AT
 ```
+[[10::table #1]]
 
 ## Conversion notes
 

@@ -24,7 +24,7 @@
 ## Description
 
 The SN74AHC00-EP performs the Boolean function Y = !{A • B} or
-Y = !{A} + !{B} in positive logic.
+Y = !{A} + !{B} in positive logic. [[1::4]]
 
 Controlled Baseline. One Assembly/Test Site, One Fabrication Site.
 Extended Temperature Performance of –55°C to 125°C. Enhanced Diminishing
@@ -32,13 +32,13 @@ Manufacturing Sources (DMS) Support. Enhanced Product Change
 Notification. Qualification Pedigree. EPIC (Enhanced-Performance
 Implanted CMOS) Process. Operating Range 2-V to 5.5-V V~CC~. ESD
 Protection Exceeds 2000 V Per MIL-STD-883, Method 3015; Exceeds 200 V
-Using Machine Model (C = 200 pF, R = 0).
+Using Machine Model (C = 200 pF, R = 0). [[1::1]] [[1::2]]
 
 Component qualification in accordance with JEDEC and industry standards
 to ensure reliable operation over an extended temperature range. This
 includes, but is not limited to, Highly Accelerated Stress Test (HAST)
 or biased 85/85, temperature cycle, autoclave or unbiased HAST,
-electromigration, bond intermetallic life, and mold compound life.
+electromigration, bond intermetallic life, and mold compound life. [[1::3]]
 
 ## Pinout
 
@@ -54,6 +54,7 @@ electromigration, bond intermetallic life, and mold compound life.
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -65,6 +66,7 @@ VCC: Supply voltage
 | L | X | H |
 | X | L | H |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -86,6 +88,7 @@ VCC: Supply voltage
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #1]]
 
 ## Recommended operating conditions
 
@@ -113,6 +116,7 @@ VCC: Supply voltage
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[2::table #2]]
 
 ## Electrical characteristics
 
@@ -134,6 +138,7 @@ VCC: Supply voltage
 | I~CC~ | | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | | 2 | | 20 | µA |
 | C~i~ | | V~I~ = V~CC~ or GND | 5 V | | 2 | 10 | | | pF |
 ```
+[[3::table #1]]
 
 ```table id=noise caption="Noise characteristics" conditions="V~CC~ = 5 V, C~L~ = 50 pF, T~A~ = 25°C [1]"
 | Symbol | Parameter | Min | Typ | Max | Unit |
@@ -146,12 +151,14 @@ VCC: Supply voltage
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[3::table #2]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 9.5 | pF |
 ```
+[[4::table #1]]
 
 ## Switching characteristics
 
@@ -164,6 +171,7 @@ VCC: Supply voltage
 | t~PLH~ | A or B | Y | C~L~ = 50 pF | | 8 | 11.4 | 1 | 13 | ns |
 | t~PHL~ | ^ | ^ | ^ | | 8 | 11.4 | 1 | 13 | ^ |
 ```
+[[3::table #3]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted) (see Figure 1)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | < | Min | Max | Unit |
@@ -174,21 +182,24 @@ VCC: Supply voltage
 | t~PLH~ | A or B | Y | C~L~ = 50 pF | | 5.2 | 7.5 | 1 | 8.5 | ns |
 | t~PHL~ | ^ | ^ | ^ | | 5.2 | 7.5 | 1 | 8.5 | ^ |
 ```
+[[3::table #4]]
 
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
-time with one input transition per measurement.
+time with one input transition per measurement. [[4::1]]
 
 ```figure ref=load-cmos-50pf caption="Figure 1. Load circuit for totem-pole outputs"
 CL: see table
 ```
+[[4::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Figure 1. Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 50% V~CC~
 ```
+[[4::Figure 1]]
 
 Conversion note: the source figure (Figure 1) also shows the load
 circuit for 3-state and open-drain outputs with its S1 table, and the
@@ -211,6 +222,7 @@ SN74AHC00MPWREP | Reel of 2000 | -55 to 125 | HA00MEP | Last Time Buy
 V62/03604-01XE | Reel of 2500 | -55 to 125 | AHC00MEP | NRND
 V62/03604-01YE | Reel of 2000 | -55 to 125 | HA00MEP | Last Time Buy
 ```
+[[5::table #1]]
 
 ## Conversion notes
 

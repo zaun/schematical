@@ -24,11 +24,11 @@
 ## Description
 
 The device contains six independent inverters. The device performs the
-Boolean function Y = !{A} in positive logic.
+Boolean function Y = !{A} in positive logic. [[1::2]]
 
 Qualified for Automotive Applications. Operating Voltage Range of 4.5 V
 to 5.5 V. Outputs Can Drive Up To 10 LSTTL Loads. Inputs Are
-TTL-Voltage Compatible.
+TTL-Voltage Compatible. [[1::1]]
 
 ## Pinout
 
@@ -43,6 +43,7 @@ TTL-Voltage Compatible.
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Functional description
 
@@ -57,6 +58,7 @@ Conversion note: the logic diagram (positive logic) (p.1) shows one inverter wit
 | H | L |
 | L | H |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -78,6 +80,7 @@ Conversion note: the logic diagram (positive logic) (p.1) shows one inverter wit
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #1]]
 
 ## Recommended operating conditions
 
@@ -91,6 +94,7 @@ Conversion note: the logic diagram (positive logic) (p.1) shows one inverter wit
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[2::table #2]]
 
 ## Electrical characteristics
 
@@ -115,6 +119,7 @@ Conversion note: the logic diagram (positive logic) (p.1) shows one inverter wit
 
 [1] This is the increase in supply current for each input that is at one of the specified TTL voltage levels, rather than 0 V or V~CC~.
 ```
+[[2::table #3]]
 
 Conversion note: the source prints no temperature heading over the second Min and Max columns of this table and of the switching characteristics table.
 
@@ -123,6 +128,7 @@ Conversion note: the source prints no temperature heading over the second Min an
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load | 10 | pF |
 ```
+[[3::table #1]]
 
 ## Switching characteristics
 
@@ -135,6 +141,7 @@ Conversion note: the source prints no temperature heading over the second Min an
 | t~t~ | | Y | 4.5 V | | 7 | 15 | | 22 | ns |
 | ^ | ^ | ^ | 5.5 V | | 6 | 14 | | 20 | ^ |
 ```
+[[3::table #2]]
 
 ## Typical characteristics
 
@@ -147,17 +154,19 @@ Conversion note: the two graphs of output voltage against input voltage (p.4) ar
 ```figure ref=load-cmos-50pf caption="Figure 1: load circuit"
 CL: 50 pF
 ```
+[[3::Figure 1]]
 
 ```figure ref=waveforms-cmos-tpd-tt caption="Figure 1: voltage waveforms, propagation delay and output rise and fall times"
 VM: 1.3 V
 ```
+[[3::Figure 1]]
 
 C~L~ includes probe and test-fixture capacitance. Phase relationships
 between waveforms were chosen arbitrarily. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ = 6 ns, t~f~ = 6 ns. The outputs are measured one at
 a time, with one input transition per measurement. t~PLH~ and t~PHL~
-are the same as t~pd~.
+are the same as t~pd~. [[3::2]]
 
 Conversion note: in Figure 1 the input swings from 0 V to 3 V, and the voltage waveform of the input rise and fall times marks t~r~ and t~f~ between the 10% and 90% points.
 
@@ -171,6 +180,7 @@ Conversion note: in Figure 1 the input swings from 0 V to 3 V, and the voltage w
 ```ordering
 SN74HCT14QPWRG4Q1 | Reel of 2000 | -40 to 125 | HCT14Q
 ```
+[[5::table #1]]
 
 ## Conversion notes
 

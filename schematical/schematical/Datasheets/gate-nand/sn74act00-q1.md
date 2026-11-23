@@ -25,12 +25,12 @@
 
 The SN74ACT00 contains four independent 2-input NAND gates. Each gate
 performs the Boolean function of Y = !{A B} or Y = !{A} + !{B} in
-positive logic.
+positive logic. [[1::1]]
 
 Qualified for automotive applications. ESD protection exceeds 2000V per
 MIL-STD-883, Method 3015; exceeds 200V using machine model (C = 20 pF,
 R = 0). 4.5V to 5.5V V~CC~ operation. Inputs accept voltages to 5.5V.
-Maximum t~pd~ of 8ns at 5V. Inputs are TTL-voltage compatible.
+Maximum t~pd~ of 8ns at 5V. Inputs are TTL-voltage compatible. [[1::2]]
 
 ## Pinout
 
@@ -46,6 +46,7 @@ Maximum t~pd~ of 8ns at 5V. Inputs are TTL-voltage compatible.
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 Conversion note: the source has no pin functions table, and these
 descriptions are the converter's.
@@ -65,6 +66,7 @@ one 2-input NAND gate, inputs A and B, output Y.
 | L | X | H |
 | X | L | H |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -83,6 +85,7 @@ one 2-input NAND gate, inputs A and B, output Y.
 [1] Operation outside the Absolute Maximum Ratings may cause permanent device damage. Absolute Maximum Ratings do not imply functional operation of the device at these or any other conditions beyond those listed under Recommended Operating Conditions. If used outside the Recommended Operating Conditions but within the Absolute Maximum Ratings, the device may not be fully functional, and this may affect device reliability, functionality, performance, and shorten the device lifetime.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[3::table #1]]
 
 ## Recommended operating conditions
 
@@ -101,6 +104,7 @@ one 2-input NAND gate, inputs A and B, output Y.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI Implications of Slow or Floating CMOS Inputs application note.
 ```
+[[3::table #2]]
 
 ## Thermal information
 
@@ -117,6 +121,7 @@ one 2-input NAND gate, inputs A and B, output Y.
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC package thermal metrics application note.
 [2] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[3::table #3]]
 
 ## Electrical characteristics
 
@@ -139,12 +144,14 @@ one 2-input NAND gate, inputs A and B, output Y.
 
 [1] This is the increase in supply current for each input that is at one of the specified TTL voltage levels, rather than 0 V or V~CC~.
 ```
+[[4::table #1]]
 
 ```table id=opchar caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Min | Typ | Max | Unit |
 |---|---|---|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | C~L~ = 50 pF, f = 1 MHz | | 40 | | pF |
 ```
+[[4::table #2]]
 
 ## Switching characteristics
 
@@ -155,6 +162,7 @@ one 2-input NAND gate, inputs A and B, output Y.
 | t~PLH~ | A or B | Y | 1.5 | 5.5 | 9 | 1 | 9.5 | ns |
 | t~PHL~ | A or B | Y | 1.5 | 4 | 7 | 1 | 8 | ns |
 ```
+[[4::table #3]]
 
 ## Parameter measurement information
 
@@ -169,10 +177,12 @@ load below. Conversion note: in the voltage waveforms the input swings
 RL: 500 Ω
 CL: 50 pF
 ```
+[[5::Figure 4-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms"
 VM: 1.5 V (input), 50% V~CC~ (outputs)
 ```
+[[5::Figure 4-1]]
 
 ## Package
 
@@ -192,6 +202,7 @@ SN74ACT00PWRQ1 | Reel of 3000 | -40 to 105 | ACT00Q
 SN74ACT00TDRQ1 | Reel of 2500 | -40 to 105 | ACT00TQ1
 SN74ACT00WBQARQ1 | Reel of 3000 | -40 to 105 | AD00Q
 ```
+[[9::table #1]]
 
 ## Conversion notes
 

@@ -24,13 +24,13 @@
 ## Description
 
 The 'ACT04 devices contain six independent inverters. The devices
-perform the Boolean function Y = !{A}.
+perform the Boolean function Y = !{A}. [[1::1]]
 
 Inputs are TTL-voltage compatible. Speed of Bipolar F, AS, and S, with
 significantly reduced power consumption. Balanced propagation delays.
 ± 24mA output drive current. Fanout to 15 F Devices.
 SCR-latchup-resistant CMOS process and circuit design. Exceeds 2kV ESD
-protection per MIL-STD-883, method 3015.
+protection per MIL-STD-883, method 3015. [[1::2]]
 
 ## Pinout
 
@@ -55,6 +55,7 @@ GND: Ground
 6A: Channel 6, Input A
 VCC: Positive Supply
 ```
+[[3::Table 3-1]]
 
 ## Functional description
 
@@ -70,6 +71,7 @@ Conversion note: the logic diagram, each inverter (positive logic)
 | H | L |
 | L | H |
 ```
+[[7::Table 6-1]]
 
 ## Absolute maximum ratings
 
@@ -86,6 +88,7 @@ Conversion note: the logic diagram, each inverter (positive logic)
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, which do not imply functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ## Recommended operating conditions
 
@@ -104,6 +107,7 @@ Conversion note: the logic diagram, each inverter (positive logic)
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[4::table #2]]
 
 ## Thermal information
 
@@ -115,6 +119,7 @@ Conversion note: the logic diagram, each inverter (positive logic)
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report (SPRA953).
 ```
+[[4::table #3]]
 
 ## Electrical characteristics
 
@@ -135,6 +140,7 @@ Conversion note: the logic diagram, each inverter (positive logic)
 | ΔI~CC~ | V~I~ = V~CC~ – 2.1 V | < | 4.5 V to 5.5 V | | 2.4 | | 2.8 | | 3 | mA |
 | C~i~ | | < | | | 10 | | 10 | | 10 | pF |
 ```
+[[5::table #1]]
 
 Source error: the V~OH~ and V~OL~ rows at 5.5 V carry a note marker (1) (p.5), and the source prints no note 1 under the electrical characteristics table; the markers are kept out.
 
@@ -145,12 +151,14 @@ Source error: the V~OH~ and V~OL~ rows at 5.5 V carry a note marker (1) (p.5), a
 
 [1] Unit load is ΔI~CC~ limit specified in electrical characteristics table (e.g., 2.4 mA at 25°C).
 ```
+[[5::Table 4-1]]
 
 ```table id=opchar caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Typ | Unit |
 |---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | 105 | pF |
 ```
+[[5::table #2]]
 
 ## Switching characteristics
 
@@ -161,6 +169,7 @@ Source error: the V~OH~ and V~OL~ rows at 5.5 V carry a note marker (1) (p.5), a
 | t~PLH~ | A | Y | 2.4 | 8.5 | 2.3 | 9.3 | ns |
 | t~PHL~ | ^ | ^ | 2.4 | 8.5 | 2.3 | 9.3 | ns |
 ```
+[[5::table #3]]
 
 ## Parameter measurement information
 
@@ -169,7 +178,7 @@ by generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at
 a time, with one input transition per measurement. t~PHL~ and t~PLH~
 are the same as t~pd~. All parameters and waveforms are not applicable
-to all devices.
+to all devices. [[6::1]]
 
 Conversion note: the load circuit of Figure 5-1 also has R1 = 500 Ω
 from the output to switch S1 (2 × V~CC~, Open or GND), and S1 is Open
@@ -179,6 +188,7 @@ for t~PLH~/t~PHL~, which leaves R2 and C~L~ below.
 RL: 500 Ω (R2)
 CL: 50 pF
 ```
+[[6::Figure 5-1]]
 
 Conversion note: in the voltage waveforms the input swings between 0 V
 and 3 V and is measured at 1.5 V, and the outputs are measured at 50%
@@ -187,6 +197,7 @@ V~CC~, with transition times between 10% and 90%.
 ```figure ref=waveforms-cmos-tpd-tt caption="Voltage waveforms, propagation delay and output transition times"
 VM: 1.5 V (input), 50% V~CC~ (outputs)
 ```
+[[6::Figure 5-1]]
 
 ## Application information
 
@@ -194,14 +205,14 @@ Information in the following applications sections is not part of the
 TI component specification, and TI does not warrant its accuracy or
 completeness. TI's customers are responsible for determining
 suitability of components for their purposes, as well as validating and
-testing their design implementation to confirm system functionality.
+testing their design implementation to confirm system functionality. [[8::1]]
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the MIN and MAX supply
 voltage rating located in the
 [Recommended Operating Conditions](#recommended-operating-conditions)
-table.
+table. [[8::2]]
 
 Each V~CC~ pin should have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, 0.1 µF is recommended.
@@ -209,7 +220,7 @@ If there are multiple V~CC~ pins, 0.01 µF or 0.022 µF is recommended
 for each power pin. It is acceptable to parallel multiple bypass caps
 to reject different frequencies of noise. A 0.1 µF and 1 µF are
 commonly used in parallel. The bypass capacitor should be installed as
-close to the power pin as possible for best results.
+close to the power pin as possible for best results. [[8::3]]
 
 ### Layout guidelines
 
@@ -219,7 +230,7 @@ unused. Some examples are when only two inputs of a triple-input AND
 gate are used, or when only 3 of the 4-buffer gates are used. Such
 input pins should not be left unconnected because the undefined
 voltages at the outside connections result in undefined operational
-states.
+states. [[8::4]]
 
 Specified in Layout Example are rules that must be observed under all
 circumstances. All unused inputs of digital logic devices must be
@@ -230,7 +241,7 @@ GND or V~CC~, whichever makes more sense or is more convenient. It is
 acceptable to float outputs unless the part is a transceiver. If the
 transceiver has an output enable pin, it will disable the outputs
 section of the part when asserted. This will not disable the input
-section of the I/Os so they also cannot float when disabled.
+section of the I/Os so they also cannot float when disabled. [[8::5]]
 
 Conversion note: the layout diagram (Figure 7-1) shows a 0.1 µF bypass capacitor placed close to the device between V~CC~ and GND, a GND flood fill recommended for improved signal isolation, noise reduction, and thermal dissipation, unused inputs tied to V~CC~, an unused output left floating, and signal lines that avoid 90° corners.
 
@@ -248,6 +259,7 @@ Conversion note: the layout diagram (Figure 7-1) shows a 0.1 µF bypass capacito
 CD74ACT04E | Tube of 25 | -55 to 125 | CD74ACT04E | NRND
 CD74ACT04M96 | Reel of 2500 | -55 to 125 | ACT04M
 ```
+[[11::table #1]]
 
 ## Conversion notes
 

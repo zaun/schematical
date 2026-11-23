@@ -24,10 +24,10 @@
 ## Description
 
 These quadruple 2-input positive-OR gates are designed for 2-V to 5.5-V
-V~CC~ operation.
+V~CC~ operation. [[1::1]]
 
 Qualified for automotive applications. Support mixed-mode voltage
-operation on all ports.
+operation on all ports. [[1::2]]
 
 ## Pinout
 
@@ -43,17 +43,18 @@ operation on all ports.
 GND: Ground
 VCC: Supply voltage
 ```
+[[3::table #1]]
 
 ## Functional description
 
 The SN74LV32A-Q1 performs the Boolean function Y = A + B in positive
 logic. Source error: the source also gives "Y = !{A • B}" with a single
 bar over the whole product, a NAND (p.8); the function table (Table 7-1,
-p.8) shows an OR, and that form is kept out.
+p.8) shows an OR, and that form is kept out. [[8::2]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when it is powered down.
+current backflow through the device when it is powered down. [[8::3]]
 
 Conversion note: the functional block diagram (Figure 7-1, Logic
 Diagram, Each Gate (Positive Logic)) shows inputs xA and xB, each
@@ -72,6 +73,7 @@ through a buffer, into a 2-input OR gate whose output is buffered to xY.
 [1] H = High Voltage Level, L = Low Voltage Level, X = Don’t Care
 [2] H = Driving High, L = Driving Low, Z = High Impedance State
 ```
+[[8::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -92,6 +94,7 @@ through a buffer, into a 2-input OR gate whose output is buffered to xY.
 [2] The input and output negative-voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] The value is limited to 5.5-V maximum.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -100,6 +103,7 @@ through a buffer, into a 2-input OR gate whose output is buffered to xY.
 
 [1] AEC Q100-002 indicates that HBM stressing must be in accordance with the ANSI/ESDA/JEDEC JS-001 specification.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -132,6 +136,7 @@ through a buffer, into a 2-input OR gate whose output is buffered to xY.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND for proper device operation. See the TI application report, Implications of Slow or Floating CMOS Inputs, SCBA004.
 ```
+[[4::table #3]] [[5::table #1]]
 
 ## Thermal information
 
@@ -142,6 +147,7 @@ through a buffer, into a 2-input OR gate whose output is buffered to xY.
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report, SPRA953.
 ```
+[[5::table #2]]
 
 ## Electrical characteristics
 
@@ -162,6 +168,7 @@ through a buffer, into a 2-input OR gate whose output is buffered to xY.
 | C~i~ | Input Capacitance | V~I~ = V~CC~ or GND | 3.3 V | | 3.3 | | pF |
 | ^ | ^ | ^ | 5 V | | 3.3 | | pF |
 ```
+[[5::table #3]]
 
 ```table id=noise caption="Noise characteristics" conditions="V~CC~ = 3.3 V, C~L~ = 50 pF, T~A~ = 25°C [1]"
 | Symbol | Parameter | Min | Typ | Max | Unit |
@@ -174,6 +181,7 @@ through a buffer, into a 2-input OR gate whose output is buffered to xY.
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[6::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
@@ -181,6 +189,7 @@ through a buffer, into a 2-input OR gate whose output is buffered to xY.
 | C~pd~ | Power dissipation capacitance | C~L~ = 50 pF, f = 10 MHz | 3.3 V | 9.5 | pF |
 | ^ | ^ | ^ | 5 V | 11.5 | pF |
 ```
+[[6::table #2]]
 
 ## Switching characteristics
 
@@ -192,6 +201,7 @@ See [parameter measurement information](#parameter-measurement).
 |---|---|---|---|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | C~L~ = 50 pF | | 9.6 | 16.2 | 1 | 20 | ns |
 ```
+[[5::table #4]]
 
 ```table id=sw-3v3 caption="Switching characteristics, V~CC~ = 3.3 V ±0.3 V" conditions="Over recommended operating free-air temperature range, V~CC~ = 3.3 V ±0.3 V (unless otherwise noted) (see Load Circuit and Voltage Waveforms)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | < | Min | Max | Unit |
@@ -199,6 +209,7 @@ See [parameter measurement information](#parameter-measurement).
 |---|---|---|---|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | C~L~ = 50 pF | | 6.9 | 11.4 | 1 | 13 | ns |
 ```
+[[5::table #5]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ±0.5 V" conditions="Over recommended operating free-air temperature range, V~CC~ = 5 V ±0.5 V (unless otherwise noted) (see Load Circuit and Voltage Waveforms)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | < | Min | Max | Unit |
@@ -206,6 +217,7 @@ See [parameter measurement information](#parameter-measurement).
 |---|---|---|---|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | C~L~ = 50 pF | | 4.9 | 7.5 | 1 | 8.5 | ns |
 ```
+[[6::table #3]]
 
 ## Parameter measurement information
 
@@ -214,15 +226,17 @@ by generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time, with one input transition per measurement. t~PHL~ and t~PLH~ are
 the same as t~pd~. All parameters and waveforms are not applicable to
-all devices.
+all devices. [[7::1]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 50 pF
 ```
+[[7::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 50% V~CC~
 ```
+[[7::Figure 6-1]]
 
 Conversion note: Figure 6-1 also shows the load circuit for 3-state and
 open-drain outputs (R~L~ = 1 kΩ) and the voltage waveforms for pulse
@@ -238,6 +252,7 @@ duration, setup and hold times, and enable and disable times.
 ```ordering
 SN74LV32ATPWRG4Q1 | Reel of 2000 | -40 to 105 | LV32AT, LV32ATQ
 ```
+[[10::table #1]]
 
 ## Conversion notes
 

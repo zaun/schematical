@@ -24,10 +24,10 @@
 ## Description
 
 The SN74AHC04-Q1 contains six independent inverters. This device
-performs the Boolean function Y = !{A}.
+performs the Boolean function Y = !{A}. [[1::1]]
 
 Qualified for automotive applications. EPIC™ (Enhanced-Performance
-Implanted CMOS) Process. Operating range of 2-V to 5.5-V V~CC~.
+Implanted CMOS) Process. Operating range of 2-V to 5.5-V V~CC~. [[1::2]]
 
 ## Pinout
 
@@ -52,6 +52,7 @@ GND: Ground
 6A: Channel 6, Input A
 VCC: Positive Supply
 ```
+[[3::Table 5-1]]
 
 ## Functional description
 
@@ -67,6 +68,7 @@ diagram of one inverter, input A, output Y.
 | H | L |
 | L | H |
 ```
+[[8::Table 8-1]]
 
 ## Absolute maximum ratings
 
@@ -85,6 +87,7 @@ diagram of one inverter, input A, output Y.
 [1] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [2] Source error: the source prints the marker 1 on the line over the table and the marker 2 on V~I~ and V~O~ (p.4), and only one note, (1), which is on the input and output voltage ratings; the note is given to V~I~ and V~O~ here.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -93,6 +96,7 @@ diagram of one inverter, input A, output Y.
 
 [1] AEC Q100-002 indicate that HBM stressing shall be in accordance with the ANSI/ESDA/JEDEC JS-001 specification.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -120,6 +124,7 @@ diagram of one inverter, input A, output Y.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -130,6 +135,7 @@ diagram of one inverter, input A, output Y.
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report, (SPRA953).
 ```
+[[5::table #1]]
 
 ## Electrical characteristics
 
@@ -151,6 +157,7 @@ diagram of one inverter, input A, output Y.
 | I~CC~ | | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | | 2 | | 20 | μA |
 | C~i~ | | V~I~ = V~CC~ or GND | 5 V | | 2 | 10 | | | pF |
 ```
+[[5::table #2]]
 
 ```table id=noise caption="Noise characteristics" conditions="V~CC~ = 5 V, C~L~ = 50 pF, T~A~ = 25°C [1]"
 | Symbol | Parameter | Min | Typ | Max | Unit |
@@ -163,12 +170,14 @@ diagram of one inverter, input A, output Y.
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[6::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 12 | pF |
 ```
+[[6::table #2]]
 
 ## Switching characteristics
 
@@ -181,6 +190,7 @@ diagram of one inverter, input A, output Y.
 | t~PLH~ | A | Y | C~L~ = 50 pF | | 7.5 | 11.4 | 1 | 13 | ns |
 | t~PHL~ | ^ | ^ | ^ | | 7.5 | 11.4 | 1 | 13 | ^ |
 ```
+[[5::table #3]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range, V~CC~ = 5 V ± 0.5 V (unless otherwise noted) (see Load Circuit and Voltage Waveforms)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | < | Min | Max | Unit |
@@ -191,21 +201,24 @@ diagram of one inverter, input A, output Y.
 | t~PLH~ | A | Y | C~L~ = 50 pF | | 5.3 | 7.5 | 1 | 8.5 | ns |
 | t~PHL~ | ^ | ^ | ^ | | 5.3 | 7.5 | 1 | 8.5 | ^ |
 ```
+[[5::table #4]]
 
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
-time with one input transition per measurement.
+time with one input transition per measurement. [[7::1]]
 
 ```figure ref=load-cmos-50pf caption="Figure 7-1. Load circuit for totem-pole outputs"
 CL: see table
 ```
+[[7::Figure 7-1]]
 
 ```figure ref=waveforms-tpd caption="Figure 7-1. Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 50% V~CC~
 ```
+[[7::Figure 7-1]]
 
 Conversion note: the source figure (Figure 7-1) also shows the load
 circuit for 3-state and open-drain outputs with its S1 table, and the
@@ -218,12 +231,12 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[9::1]]
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the MIN and MAX supply
-voltage rating located in the Recommended Operating Conditions table.
+voltage rating located in the Recommended Operating Conditions table. [[9::2]]
 
 Each V~CC~ pin should have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, 0.1 μF is recommended. If
@@ -231,11 +244,11 @@ there are multiple V~CC~ pins, 0.01 μF or 0.022 μF is recommended for
 each power pin. It is acceptable to parallel multiple bypass caps to
 reject different frequencies of noise. A 0.1 μF and 1 μF are commonly
 used in parallel. The bypass capacitor should be installed as close to
-the power pin as possible for best results.
+the power pin as possible for best results. [[9::3]]
 
 ### Layout guidelines
 
-When using multiple bit logic devices inputs should not ever float.
+When using multiple bit logic devices inputs should not ever float. [[9::4]]
 
 In many cases, functions or parts of functions of digital logic devices
 are unused, for example, when only two inputs of a triple-input AND gate
@@ -251,7 +264,7 @@ V~CC~; whichever makes more sense or is more convenient. It is generally
 acceptable to float outputs unless the part is a transceiver. If the
 transceiver has an output enable pin, it will disable the outputs
 section of the part when asserted. This will not disable the input
-section of the IOs, so they cannot float when disabled.
+section of the IOs, so they cannot float when disabled. [[9::5]]
 
 Conversion note: the layout diagram (Figure 9-1) shows a gate with its
 unused input tied to V~CC~ and a gate with its unused input tied to
@@ -272,6 +285,7 @@ SN74AHC04QDRG4Q1 | Reel of 2500 | -40 to 125 | AHC04Q1 | NRND
 SN74AHC04QDRQ1 | Reel of 2500 | -40 to 125 | AHC04Q1
 SN74AHC04QPWRG4Q1 | Reel of 2000 | -40 to 125 | AHC04Q1
 ```
+[[11::table #1]]
 
 ## Conversion notes
 

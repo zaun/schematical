@@ -25,12 +25,12 @@
 
 These dual 4-input positive-AND gates are designed for 2-V to 5.5-V
 V~CC~ operation. The SN74LV21A devices perform the Boolean function
-Y = A • B • C • D in positive logic.
+Y = A • B • C • D in positive logic. [[8::1]]
 
 These devices are fully specified for partial-power-down applications
 using I~off~. The I~off~ circuitry disables the outputs, preventing
 damaging current backflow through the devices when they are powered
-down.
+down. [[8::1]]
 
 ## Pinout
 
@@ -49,6 +49,7 @@ GND: Ground pin
 VCC: Power pin
 NC: Not internally connected
 ```
+[[3::Table 4-1]]
 
 ## Function tables
 
@@ -65,6 +66,7 @@ NC: Not internally connected
 [1] H = High Voltage Level, L = Low Voltage Level, X = Do not Care, Z = High Impedance
 [2] H = Driving High, L = Driving Low, Z = High Impedance State
 ```
+[[3::Table 4-1]]
 
 ## Absolute maximum ratings
 
@@ -85,6 +87,7 @@ NC: Not internally connected
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] This value is limited to 5.5 V maximum.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -95,8 +98,9 @@ NC: Not internally connected
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
-Latch-up performance exceeds 100 mA per JESD 78, Class II.
+Latch-up performance exceeds 100 mA per JESD 78, Class II. [[1::1]]
 
 ## Recommended operating conditions
 
@@ -129,6 +133,7 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004
 ```
+[[4::table #3]] [[5::table #1]]
 
 ## Thermal information
 
@@ -139,6 +144,7 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report (SPRA953).
 ```
+[[5::table #2]]
 
 ## Electrical characteristics
 
@@ -158,6 +164,7 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 | I~off~ | Off-state leakage current | V~I~ or V~O~ = 0 to 5.5 V | 0 V | | | 5 | µA |
 | C~i~ | Input capacitance | V~I~ = V~CC~ or GND | 3.3 V | | 1.9 | | pF |
 ```
+[[5::table #3]]
 
 ```table id=noise caption="Noise characteristics" conditions="V~CC~ = 3.3 V, C~L~ = 50 pF, T~A~ = 25 °C [1]"
 | Symbol | Parameter | Min | Typ | Max | Unit |
@@ -170,6 +177,7 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[6::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="T~A~ = 25 °C"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
@@ -177,6 +185,7 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 | C~pd~ | Power dissipation capacitance | C~L~ = 50 pF, f = 10 MHz | 3.3 V | 17.4 | pF |
 | ^ | ^ | ^ | 5 V | 20.2 | pF |
 ```
+[[6::table #2]]
 
 ## Switching characteristics
 
@@ -191,6 +200,7 @@ temperature range.
 | t~pd~ | A, B, C or D | Y | C~L~ = 15 pF | | 7 | 12 | 1 | 14 | ns |
 | t~pd~ | A, B, C or D | Y | C~L~ = 50 pF | | 9.2 | 15.7 | 1 | 19 | ns |
 ```
+[[5::table #4]]
 
 ```table id=sw-3v3 caption="Switching characteristics, V~CC~ = 3.3 V ± 0.3 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | From | To | Load capacitance | T~A~ = 25 °C | < | < | SN74LV21A | < | Unit |
@@ -199,6 +209,7 @@ temperature range.
 | t~pd~ | A, B, C, or D | Y | C~L~ = 15 pF | | 5.1 | 7 | 1 | 8.5 | ns |
 | t~pd~ | A, B, C, or D | Y | C~L~ = 50 pF | | 6.6 | 10.5 | 1 | 12 | ns |
 ```
+[[6::table #3]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | From | To | Load capacitance | T~A~ = 25 °C | < | < | SN74LV21A | < | Unit |
@@ -207,6 +218,7 @@ temperature range.
 | t~pd~ | A, B, C, or D | Y | C~L~ = 15 pF | | 3.8 | 5 | 1 | 6 | ns |
 | t~pd~ | A, B, C, or D | Y | C~L~ = 50 pF | | 4.9 | 7 | 1 | 8 | ns |
 ```
+[[6::table #4]]
 
 ## Parameter measurement information
 
@@ -215,7 +227,7 @@ input pulses are supplied by generators having the following
 characteristics: PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The
 outputs are measured one at a time, with one input transition per
 measurement. t~PHL~ and t~PLH~ are the same as t~pd~. All parameters
-and waveforms are not applicable to all devices.
+and waveforms are not applicable to all devices. [[7::2]]
 
 Conversion note: C~L~ is 15 pF or 50 pF as given in the
 [switching characteristics](#switching-characteristics).
@@ -223,10 +235,12 @@ Conversion note: C~L~ is 15 pF or 50 pF as given in the
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 15 pF or 50 pF
 ```
+[[7::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Propagation delay times, inverting and noninverting outputs"
 VM: 50 % V~CC~
 ```
+[[7::Figure 6-1]]
 
 Conversion note: Figure 6-1 also shows the load circuit for 3-state and
 open-drain outputs and the voltage waveforms for pulse duration, setup
@@ -261,6 +275,7 @@ SN74LV21APW | | -40 to 85 | LV21A | Obsolete
 SN74LV21APWR | Reel of 2000 | -40 to 85 | LV21A
 SN74LV21APWRG4 | 2000 | -40 to 85 | LV21A
 ```
+[[10::table #1]]
 
 ## Conversion notes
 

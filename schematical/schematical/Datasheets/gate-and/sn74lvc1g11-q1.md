@@ -24,14 +24,14 @@
 ## Description
 
 Qualified for automotive applications. Supports 5-V V~CC~ operation.
-Inputs accept voltages to 5.5 V.
+Inputs accept voltages to 5.5 V. [[1::1]]
 
 The SN74LVC1G11-Q1 performs the Boolean function Y = A • B • C or
-Y = !{!{A} + !{B} + !{C}} in positive logic.
+Y = !{!{A} + !{B} + !{C}} in positive logic. [[1::1]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when it is powered down.
+current backflow through the device when it is powered down. [[1::2]]
 
 ## Pinout
 
@@ -48,6 +48,7 @@ GND: Ground
 VCC: Supply voltage
 Y: Output
 ```
+[[2::table #1]]
 
 ## Function tables
 
@@ -60,6 +61,7 @@ Y: Output
 | X | L | X | L |
 | X | X | L | L |
 ```
+[[2::table #2]]
 
 ## Absolute maximum ratings
 
@@ -82,6 +84,7 @@ Y: Output
 [3] The value of V~CC~ is provided in the recommended operating conditions table.
 [4] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #3]]
 
 ## Recommended operating conditions
 
@@ -117,6 +120,7 @@ Y: Output
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[3::table #1]]
 
 ## Electrical characteristics
 
@@ -143,6 +147,7 @@ Y: Output
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25 °C.
 ```
+[[4::table #1]]
 
 ### Operating characteristics
 
@@ -152,6 +157,7 @@ Y: Output
 |---|---|---|--:|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | f = 10 MHz | 18 | 19 | 20 | 23 | pF |
 ```
+[[4::table #2]]
 
 ## Switching characteristics
 
@@ -165,15 +171,16 @@ See [parameter measurement information](#parameter-measurement).
 
 [1] Source conflict: this table gives a maximum t~pd~ of 4.9 ns at V~CC~ = 3.3 V ± 0.3 V; the features list (p.1) says "Max tpd of 4.1 ns at 3.3 V".
 ```
+[[4::table #3]]
 
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
-per measurement. t~PLH~ and t~PHL~ are the same as t~pd~.
+per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. [[5::1]]
 
-All parameters and waveforms are not applicable to all devices.
+All parameters and waveforms are not applicable to all devices. [[5::1]]
 
 Conversion note: the load circuit also has a second R~L~, from the output
 to switch S1, which goes to V~LOAD~, open or GND; the figure below draws
@@ -188,11 +195,13 @@ setup-and-hold and enable/disable waveforms, which are not drawn here.
 | t~PLZ~/t~PZL~ | V~LOAD~ |
 | t~PHZ~/t~PZH~ | GND |
 ```
+[[5::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: see table
 CL: see table
 ```
+[[5::Figure 1]]
 
 ```table id=test-conditions caption="Test conditions (Figure 1)"
 | V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -203,10 +212,12 @@ CL: see table
 | 3.3 V ± 0.3 V | 3 V | ≤ 2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 5 V ± 0.5 V | V~CC~ | ≤ 2.5 ns | V~CC~/2 | 2 × V~CC~ | 50 pF | 500 Ω | 0.3 V |
 ```
+[[5::table #2]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times"
 VM: see table
 ```
+[[5::Figure 1]]
 
 ## Package
 
@@ -218,6 +229,7 @@ VM: see table
 ```ordering
 SN74LVC1G11IDCKRQ1 | Reel of 3000 | -40 to 85 | 7LR
 ```
+[[1::table #1]]
 
 ## Conversion notes
 

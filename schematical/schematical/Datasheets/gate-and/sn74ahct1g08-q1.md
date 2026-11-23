@@ -24,11 +24,11 @@
 ## Description
 
 The SN74AHCT1G08-Q1 is a 2-input AND Gate. Each gate performs the Boolean
-function Y = A × B in positive logic.
+function Y = A × B in positive logic. [[1::1]]
 
 AEC-Q100 qualified for automotive applications: Device temperature
 grade 1: -40 °C to +125 °C. Operating range of 4.5 V to 5.5 V. Inputs are
-TTL-voltage compatible. Latch-up performance exceeds 250 mA per JESD 17.
+TTL-voltage compatible. Latch-up performance exceeds 250 mA per JESD 17. [[1::2]]
 
 ## Pinout
 
@@ -44,6 +44,7 @@ Y: Output Y
 GND: Ground
 VCC: Positive Supply
 ```
+[[3::Table 4-1]]
 
 ## Functional description
 
@@ -58,7 +59,7 @@ currents than the device can sustain without being damaged. It is
 important for the output power of the device to be limited to avoid
 damage due to overcurrent. The electrical and thermal limits defined in
 the Absolute Maximum Ratings must be followed at all times. Unused
-push-pull CMOS outputs should be left disconnected.
+push-pull CMOS outputs should be left disconnected. [[8::2]] [[8::3]]
 
 ### TTL-compatible CMOS inputs
 
@@ -69,13 +70,13 @@ parallel with the input capacitance given in the Electrical
 Characteristics. The worst case resistance is calculated with the
 maximum input voltage, given in the Absolute Maximum Ratings, and the
 maximum input leakage current, given in the Electrical Characteristics,
-using Ohm's law (R = V ÷ I).
+using Ohm's law (R = V ÷ I). [[8::4]] [[8::5]]
 
 TTL-compatible CMOS inputs require that input signals transition between
 valid logic states quickly, as defined by the input transition time or
 rate in the Recommended Operating Conditions table. Failing to meet this
 specification will result in excessive power consumption and could cause
-oscillations.
+oscillations. [[8::6]]
 
 Do not leave TTL-compatible CMOS inputs floating at any time during
 operation. Unused inputs must be terminated at V~CC~ or GND. If a system
@@ -83,7 +84,7 @@ will not be actively driving an input at all times, a pull-up or
 pull-down resistor can be added to provide a valid input voltage during
 these times. The resistor value will depend on multiple factors;
 however, a 10-kΩ resistor is recommended and will typically meet all
-requirements.
+requirements. [[8::7]]
 
 ### Clamp diode structure
 
@@ -92,7 +93,7 @@ diodes, and the inputs to this device have negative clamping diodes only
 as shown in Figure 7-1. Voltages beyond the values specified in the
 Absolute Maximum Ratings table can cause damage to the device. The input
 and output voltage ratings may be exceeded if the input and output
-clamp-current ratings are observed.
+clamp-current ratings are observed. [[8::8]] [[8::9]]
 
 Conversion note: Figure 7-1 draws the output clamps to V~CC~ (+I~OK~) and GND (-I~OK~) and the input clamp to GND (-I~IK~).
 
@@ -108,6 +109,7 @@ Conversion note: Figure 7-1 draws the output clamps to V~CC~ (+I~OK~) and GND (-
 
 [1] H = high voltage level, L = low voltage level, X = do not care, Z = high impedance
 ```
+[[9::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -126,6 +128,7 @@ Conversion note: Figure 7-1 draws the output clamps to V~CC~ (+I~OK~) and GND (-
 [1] Operation outside the Absolute Maximum Ratings may cause permanent device damage. Absolute maximum ratings do not imply functional operation of the device at these or any other conditions beyond those listed under Recommended Operating Conditions. If briefly operating outside the Recommended Operating Conditions but within the Absolute Maximum Ratings, the device may not sustain damage, but it may not be fully functional. Operating the device in this manner may affect device reliability, functionality, performance, and shorten the device lifetime.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -135,6 +138,7 @@ Conversion note: Figure 7-1 draws the output clamps to V~CC~ (+I~OK~) and GND (-
 
 [1] AEC Q100-002 indicate that HBM stressing shall be in accordance with the ANSI/ESDA/JEDEC JS-001 specification.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -152,6 +156,7 @@ Conversion note: Figure 7-1 draws the output clamps to V~CC~ (+I~OK~) and GND (-
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report: Implications of Slow or Floating CMOS Inputs.
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -167,6 +172,7 @@ Conversion note: Figure 7-1 draws the output clamps to V~CC~ (+I~OK~) and GND (-
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 ```
+[[5::table #1]]
 
 ## Electrical characteristics
 
@@ -188,6 +194,7 @@ Conversion note: Figure 7-1 draws the output clamps to V~CC~ (+I~OK~) and GND (-
 [2] C~PD~ is used to determine the dynamic power consumption, per channel.
 [3] P~D~ = V~CC~^2^ × F~I~ × (C~PD~ + C~L~) where F~I~ = input frequency, C~L~ = output load capacitance, V~CC~ = supply voltage
 ```
+[[5::table #2]]
 
 ## Switching characteristics
 
@@ -200,6 +207,7 @@ See [parameter measurement information](#parameter-measurement).
 | t~PD~ | A or B | Y | C~L~ = 15 pF | | 5 | 6.2 | | | 8 | ns |
 | ^ | ^ | ^ | C~L~ = 50 pF | | 5.5 | 7.9 | | | 10 | ns |
 ```
+[[5::table #3]]
 
 ## Typical characteristics
 
@@ -212,6 +220,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "125°C", "points": [[-25, 4.385], [-0.5, 4.99]]}
  ]}
 ```
+[[6::Figure 5-1]]
 
 ```curve id=vol caption="Output voltage vs current in LOW state; 5-V supply"
 {"x": {"label": "I_OL", "unit": "mA", "range": [0, 25]},
@@ -222,6 +231,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "125°C", "points": [[0.5, 0.01], [25, 0.482]]}
  ]}
 ```
+[[6::Figure 5-2]]
 
 ## Parameter measurement information
 
@@ -230,21 +240,23 @@ pulses are supplied by generators having the following characteristics:
 PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~t~ < 3 ns. The outputs are measured one at a
 time with one input transition per measurement. C~L~ includes probe and
 test-fixture capacitance. The greater between t~PLH~ and t~PHL~ is the
-same as t~pd~. The greater between t~r~ and t~f~ is the same as t~t~.
+same as t~pd~. The greater between t~r~ and t~f~ is the same as t~t~. [[7::1]] [[7::3]] [[7::4]] [[7::6]] [[7::8]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit for push-pull outputs"
 CL: see table
 ```
+[[7::Figure 6-1]]
 
 ```figure ref=waveforms-cmos-tpd-tt caption="Voltage waveforms, propagation delays and transition times"
 VM: 50 %
 ```
+[[7::Figure 6-2]]
 
 ## Application information
 
 Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
-completeness.
+completeness. [[10::1]]
 
 In this application, three 2-input AND gates are combined to produce a
 4-input AND gate function as shown in Figure 8-1. Multiple SN74AHCT1G08-Q1 are used
@@ -252,7 +264,7 @@ to directly control the !{RESET} pin of a motor controller. The
 controller requires four input signals to all be HIGH before being
 enabled, and should be disabled in the event that any one signal goes
 LOW. The 4-input AND gate function combines the four individual reset
-signals into a single active-low reset signal.
+signals into a single active-low reset signal. [[10::2]]
 
 Conversion note: in the block diagram (Figure 8-1) the four signals are !{OC} from over current detection, PG from the power supply, ON/!{OFF} from the on/off switch and !{OT} from over temp detection.
 
@@ -265,6 +277,7 @@ Conversion note: in the block diagram (Figure 8-1) the four signals are !{OC} fr
   {"name": "RESET#", "wave": "10......"}
 ]}
 ```
+[[12::Figure 8-2]]
 
 ### Power considerations
 
@@ -280,11 +293,11 @@ equal to the total current to be sunk by all outputs of the
 SN74AHCT1G08-Q1 plus the maximum supply current, I~CC~, listed in the
 Electrical Characteristics, and any transient current required for
 switching. Be sure to not exceed the maximum total current through GND
-listed in the Absolute Maximum Ratings.
+listed in the Absolute Maximum Ratings. [[10::4]] [[10::5]] [[10::6]]
 
 The maximum junction temperature, T~J(max)~ listed in the Absolute
 Maximum Ratings, is an additional limitation to prevent damage to the
-device. Source conflict: the Absolute Maximum Ratings table (p.4) lists no junction temperature.
+device. Source conflict: the Absolute Maximum Ratings table (p.4) lists no junction temperature. [[11::4]]
 
 The SN74AHCT1G08-Q1 can drive a load with a total capacitance less
 than or equal to 50 pF while still meeting all of the data sheet
@@ -296,7 +309,7 @@ V~OL~. When outputting in the HIGH state, the output voltage in the
 equation is defined as the difference between the measured output
 voltage and the supply voltage at the V~CC~ pin. Ensure the resistive
 load at the output is larger than (V~CC~ / I~O(max)~) Ω, so that the
-maximum output current from the Absolute Maximum Ratings is not violated.
+maximum output current from the Absolute Maximum Ratings is not violated. [[10::7]] [[11::1]] [[12::1]]
 
 ### Input considerations
 
@@ -310,7 +323,7 @@ will be used sometimes, but not always. A 10-kΩ resistor value is often used. T
 transitions to operate correctly, as defined in the Recommended
 Operating Conditions table. Slow input transitions
 can cause oscillations, additional power consumption, and reduction in
-device reliability.
+device reliability. [[11::5]] [[11::6]] [[11::7]]
 
 ### Output considerations
 
@@ -319,7 +332,7 @@ very short time period, should never be connected directly together.
 This can cause excessive current and damage to the device. Two channels
 within the same device with the same input signals can be connected in
 parallel for additional output drive strength. Unused outputs can be
-left floating. Do not connect outputs directly to V~CC~ or ground.
+left floating. Do not connect outputs directly to V~CC~ or ground. [[11::10]] [[11::11]] [[11::12]]
 
 ### Power supply recommendations
 
@@ -329,7 +342,7 @@ terminal should have a good bypass capacitor to prevent power
 disturbance. A 0.1-µF capacitor is recommended for this device. The
 0.1-µF and 1-µF capacitors are commonly used in parallel. The bypass
 capacitor should be installed as close to the power terminal as possible
-for best results.
+for best results. [[12::2]]
 
 ### Layout guidelines
 
@@ -339,7 +352,7 @@ undefined voltages at the outside connections result in undefined
 operational states. All unused inputs of digital logic
 devices must be connected to a logic high or logic low voltage, as
 defined by the input voltage specifications, to prevent them from
-floating.
+floating. [[12::3]]
 
 Conversion note: the layout example (Figure 8-3) recommends a GND flood fill, a 0.1 µF bypass capacitor placed close to the device, and avoiding 90° corners for signal lines.
 
@@ -357,6 +370,7 @@ Conversion note: the layout example (Figure 8-3) recommends a GND flood fill, a 
 CAHCT1G08QDBVRQ1 | Reel of 3000 | -40 to 125 | 38XH
 CAHCT1G08QDCKRQ1 | Reel of 3000 | -40 to 125 | 1PI
 ```
+[[15::table #1]]
 
 ## Conversion notes
 

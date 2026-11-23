@@ -24,23 +24,23 @@
 ## Description
 
 This hex inverter buffer/driver is designed for 1.65-V to 3.6-V V~CC~
-operation.
+operation. [[1::2]]
 
 The outputs of the device are open drain and can be connected to other
 open-drain outputs to implement active-low wired-OR or active-high
-wired-AND functions. The maximum sink current is 24 mA.
+wired-AND functions. The maximum sink current is 24 mA. [[1::3]]
 
 Inputs can be driven from either 3.3-V or 5-V devices. This feature
 allows the use of this device as a translator in a mixed 3.3-V/5-V
-system environment.
+system environment. [[1::4]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when it is powered down.
+current backflow through the device when it is powered down. [[1::5]]
 
 Qualified for Automotive Applications. Operate From 1.65 V to 3.6 V.
 Inputs and Open-Drain Outputs Accept Voltages up to 5.5 V. Latch-Up
-Performance Exceeds 250 mA Per JESD 17.
+Performance Exceeds 250 mA Per JESD 17. [[1::1]]
 
 ## Pinout
 
@@ -55,6 +55,7 @@ Performance Exceeds 250 mA Per JESD 17.
 GND: Ground
 VCC: Positive supply
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -65,6 +66,7 @@ VCC: Positive supply
 | H | L |
 | L | H |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -86,6 +88,7 @@ VCC: Positive supply
 [2] The input and output negative-voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #1]]
 
 ## Recommended operating conditions
 
@@ -110,6 +113,7 @@ VCC: Positive supply
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[2::table #2]]
 
 ## Electrical characteristics
 
@@ -128,6 +132,7 @@ VCC: Positive supply
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25°C.
 ```
+[[3::table #1]]
 
 ```table id=operating caption="Operating characteristics, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ = 3.3 V | Unit |
@@ -135,6 +140,7 @@ VCC: Positive supply
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance per buffer/driver | f = 10 MHz | 2.5 | pF |
 ```
+[[3::table #2]]
 
 ## Switching characteristics
 
@@ -144,6 +150,7 @@ VCC: Positive supply
 |---|---|---|--:|--:|--:|--:|---|
 | t~pd~ | A | Y | | 3.9 | 1 | 3.7 | ns |
 ```
+[[3::table #3]]
 
 ## Parameter measurement information
 
@@ -157,7 +164,7 @@ outputs are measured one at a time, with one transition per measurement.
 Since this device has open-drain outputs, t~PLZ~ and t~PZL~ are the same
 as t~pd~. t~PZL~ is measured at V~M~. t~PLZ~ is measured at
 V~OL~ + V~Δ~. All parameters and waveforms are not applicable to all
-devices.
+devices. [[4::1]]
 
 Conversion note: the load circuit of Figure 1 (open drain) connects the output under test to C~L~ and one R~L~ to GND and through a second R~L~ to switch S1, which has the positions V~LOAD~, Open and GND.
 
@@ -168,6 +175,7 @@ Conversion note: the load circuit of Figure 1 (open drain) connects the output u
 | t~PLZ~ (see Notes E and G) | V~LOAD~ |
 | t~PHZ~/t~PZH~ | V~LOAD~ |
 ```
+[[4::table #1]]
 
 ```table id=pmi-load caption="Figure 1. Load values"
 | V~CC~ | Input | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -176,6 +184,7 @@ Conversion note: the load circuit of Figure 1 (open drain) connects the output u
 | 2.7 V | 2.7 V | ≤ 2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 3.3 V ± 0.3 V | 2.7 V | ≤ 2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 ```
+[[4::table #2]]
 
 Conversion note: the voltage waveforms of Figure 1 draw the input and the output control from 0 V to V~I~ with the propagation delay times and the enable and disable times measured at V~M~, and output waveform 1 (S1 at V~LOAD~) falling from V~LOAD~/2 to V~OL~, with t~PLZ~ ending at V~OL~ + V~Δ~.
 
@@ -194,6 +203,7 @@ SN74LVC06AQDRG4Q1 | Reel of 2500 | -40 to 125 | LVC06AQ
 SN74LVC06AQDRQ1 | Reel of 2500 | -40 to 125 | LVC06AQ
 SN74LVC06AQPWRG4Q1 | Reel of 2000 | -40 to 125 | LVC06AQ
 ```
+[[5::table #1]]
 
 ## Conversion notes
 

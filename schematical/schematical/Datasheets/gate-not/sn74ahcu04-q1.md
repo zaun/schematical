@@ -26,10 +26,10 @@
 The SN74AHCU04-Q1 device contains six independent inverters. This device
 performs the Boolean function Y = !{A}. Internal circuitry consists of
 single-stage inverters that can be used in analog applications such as
-crystal oscillators.
+crystal oscillators. [[1::2]]
 
 Qualified for Automotive Applications. Operating Range 2-V to 5.5-V
-V~CC~. Unbuffered Outputs.
+V~CC~. Unbuffered Outputs. [[1::1]]
 
 ## Pinout
 
@@ -44,6 +44,7 @@ V~CC~. Unbuffered Outputs.
 GND: Ground
 VCC: Positive supply
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -54,6 +55,7 @@ VCC: Positive supply
 | H | L |
 | L | H |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -75,6 +77,7 @@ VCC: Positive supply
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #1]]
 
 ## Recommended operating conditions
 
@@ -100,6 +103,7 @@ VCC: Positive supply
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[2::table #2]]
 
 ## Electrical characteristics
 
@@ -121,6 +125,7 @@ VCC: Positive supply
 | I~CC~ | | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | | 2 | | 20 | | 20 | µA |
 | C~i~ | | V~I~ = V~CC~ or GND | 5 V | | 2 | 10 | | | | 10 | pF |
 ```
+[[3::table #1]]
 
 ```table id=noise caption="Noise characteristics" conditions="V~CC~ = 5 V, C~L~ = 50 pF, T~A~ = 25°C [1]"
 | Symbol | Parameter | Min | Typ | Max | Unit |
@@ -133,12 +138,14 @@ VCC: Positive supply
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[4::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 7.3 | pF |
 ```
+[[4::table #2]]
 
 ## Switching characteristics
 
@@ -151,6 +158,7 @@ VCC: Positive supply
 | t~PLH~ | A | Y | C~L~ = 50 pF | | 7.5 | 10.6 | 1 | 14 | 1 | 12 | ns |
 | t~PHL~ | ^ | ^ | ^ | | 7.5 | 10.6 | 1 | 14 | 1 | 12 | ^ |
 ```
+[[3::table #2]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range, V~CC~ = 5 V ± 0.5 V (unless otherwise noted) (see Figure 1)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | < | T~A~ = −40°C to 125°C | < | T~A~ = −40°C to 85°C | < | Unit |
@@ -161,6 +169,7 @@ VCC: Positive supply
 | t~PLH~ | A | Y | C~L~ = 50 pF | | 5 | 7 | 1 | 11 | 1 | 9 | ns |
 | t~PHL~ | ^ | ^ | ^ | | 5 | 7 | 1 | 11 | 1 | 9 | ^ |
 ```
+[[3::table #3]]
 
 ## Parameter measurement information
 
@@ -168,15 +177,17 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time, with one input transition per measurement. All parameters and
-waveforms are not applicable to all devices.
+waveforms are not applicable to all devices. [[5::1]]
 
 ```figure ref=load-cmos-50pf caption="Figure 1. Load circuit for totem-pole outputs"
 CL: see table
 ```
+[[5::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Figure 1. Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 50% V~CC~
 ```
+[[5::Figure 1]]
 
 Conversion note: the source figure (Figure 1) also shows the load
 circuit for 3-state and open-drain outputs with its S1 table, and the
@@ -193,6 +204,7 @@ note B, which are not drawn here.
 ```ordering
 SN74AHCU04QPWRG4Q1 | Reel of 2000 | -40 to 125 | AHCU04Q | Last Time Buy
 ```
+[[6::table #1]]
 
 ## Conversion notes
 

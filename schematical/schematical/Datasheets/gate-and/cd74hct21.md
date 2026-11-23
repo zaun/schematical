@@ -24,11 +24,11 @@
 ## Description
 
 This device contains two independent 4-input AND gates. Each gate
-performs the Boolean function Y = A · B · C · D in positive logic.
+performs the Boolean function Y = A · B · C · D in positive logic. [[1::1]]
 
 LSTTL input logic compatible. V~IL(max)~ = 0.8 V, V~IH(min)~ = 2 V.
 Buffered inputs. 4.5 V to 5.5 V operation. Wide operating temperature
-range: -55°C to +125°C. Supports fanout up to 10 LSTTL loads.
+range: -55°C to +125°C. Supports fanout up to 10 LSTTL loads. [[1::2]]
 
 ## Pinout
 
@@ -47,6 +47,7 @@ GND: Ground
 VCC: Positive supply
 NC: Not internally connected
 ```
+[[1::table #1]]
 
 ## Functional description
 
@@ -66,7 +67,7 @@ high-impedance CMOS input while still meeting all of the datasheet
 specifications. Larger capacitive loads can be applied, however it is
 not recommended to exceed the provided load value. If larger capacitive
 loads are required, it is recommended to add a series resistor between
-the output and the capacitor to limit output current.
+the output and the capacitor to limit output current. [[8::2]] [[8::3]]
 
 Inputs: TTL-compatible CMOS inputs are high impedance and are typically
 modeled as a resistor from the input to ground in parallel with the
@@ -78,15 +79,16 @@ noisy input signal is required, a device with a Schmitt-trigger input
 should be used to condition the input signal prior to the
 TTL-compatible CMOS input. TTL-compatible CMOS inputs have a lower
 threshold voltage than standard CMOS inputs to allow for compatibility
-with older bipolar logic devices.
+with older bipolar logic devices. [[8::3]] [[8::5]] [[8::6]]
 
 The inputs and outputs have both positive and negative clamping diodes.
 Voltages beyond the values specified in the absolute maximum ratings
 table can cause damage to the device. The recommended input and output voltage ratings may be exceeded
-if the input and output clamp-current ratings are observed.
+if the input and output clamp-current ratings are observed. [[9::1]] [[9::2]]
 
 ```figure ref=clamp-diodes caption="Electrical placement of clamping diodes for each input and output"
 ```
+[[9::Figure 8-1]]
 
 ## Function tables
 
@@ -100,6 +102,7 @@ if the input and output clamp-current ratings are observed.
 | X | X | L | X | L |
 | X | X | X | L | L |
 ```
+[[9::Table 8-1]]
 
 ## Absolute maximum ratings
 
@@ -120,6 +123,7 @@ if the input and output clamp-current ratings are observed.
 [3] Guaranteed by design.
 [4] Unconfirmed: the source gives this condition as printed, "V~O~ > –0.5 V or V~O~ < V~CC~ + 0.5 V", which every output voltage meets.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -130,6 +134,7 @@ if the input and output clamp-current ratings are observed.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -145,6 +150,7 @@ if the input and output clamp-current ratings are observed.
 | ^ | ^ | V~CC~ = 5.5 V | | | 400 | ns |
 | T~A~ | Operating free-air temperature | | -55 | | 125 | °C |
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -160,6 +166,7 @@ if the input and output clamp-current ratings are observed.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 ```
+[[4::table #4]] [[5::table #1]]
 
 ## Electrical characteristics
 
@@ -178,12 +185,14 @@ if the input and output clamp-current ratings are observed.
 
 [1] For dual-supply systems theoretical worst case (V~I~ = 2.4 V, V~CC~ = 5.5 V) specification is 1.8 mA.
 ```
+[[5::table #2]]
 
 ```table id=op caption="Operating characteristics" conditions="Over operating free-air temperature range; typical values measured at T~A~ = 25 °C (unless otherwise noted)"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
 |---|---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance per gate | No load | 5 V | 42 | pF |
 ```
+[[5::table #3]]
 
 ## Switching characteristics
 
@@ -197,6 +206,7 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | ^ | C~L~ = 15 pF | 5 V | 11 | | | | ns |
 | t~t~ | Transition-time | | Y | C~L~ = 50 pF | 4.5 V | | 15 | 19 | 22 | ns |
 ```
+[[5::table #4]]
 
 ## Parameter measurement information
 
@@ -205,15 +215,17 @@ pulses are supplied by generators having the following characteristics:
 PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~t~ < 6 ns. The outputs are measured one at a
 time, with one input transition per measurement. C~L~ = 50 pF and
 includes probe and jig capacitance. t~t~ is the greater of t~r~ and
-t~f~. The maximum between t~PLH~ and t~PHL~ is used for t~pd~.
+t~f~. The maximum between t~PLH~ and t~PHL~ is used for t~pd~. [[7::1]] [[7::2]] [[7::4]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit"
 CL: 50 pF
 ```
+[[7::Figure 7-1]]
 
 ```figure ref=waveforms-cmos-tpd-tt caption="Voltage waveforms, propagation delays and transition times"
 VM: 50 %
 ```
+[[7::Figure 7-2]]
 
 ## Application information
 
@@ -221,13 +233,13 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI's customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[10::1]]
 
 Typical application: this device is used to directly control the RESET
 pin of a motor controller. The controller requires four input signals
 to all be HIGH before being enabled, and should be disabled in the event
 that any one signal goes LOW. The 4-input AND gate function combines the
-four individual reset signals into a single active-low reset signal.
+four individual reset signals into a single active-low reset signal. [[10::2]]
 
 Power: the supply must be capable of sourcing current equal to the total
 current to be sourced by all outputs plus the maximum supply current,
@@ -236,16 +248,16 @@ V~CC~ listed in the absolute maximum ratings. Each V~CC~ terminal should
 have a bypass capacitor to prevent power disturbance. A 0.1-µF capacitor
 is recommended for this device. The 0.1-µF and 1-µF capacitors are commonly used in
 parallel. The bypass capacitor should be installed as close to the power
-terminal as possible.
+terminal as possible. [[10::4]] [[12::1]]
 
 Inputs: unused inputs must be terminated to either V~CC~ or ground.
 These can be directly terminated if the input is completely unused, or
 they can be connected with a pull-up or pull-down resistor if the input
 is to be used sometimes, but not always. A 10-kΩ resistor value is
-often used.
+often used. [[11::1]]
 
 Outputs: unused outputs can be left floating. Do not connect outputs
-directly to V~CC~ or ground.
+directly to V~CC~ or ground. [[11::4]]
 
 Detailed design procedure: add a decoupling capacitor from V~CC~ to GND.
 The capacitor needs to be placed physically close to the device and
@@ -253,7 +265,7 @@ electrically close to both the V~CC~ and GND pins. Ensure the capacitive load at
 This is not a hard limit, however it will ensure optimal performance.
 Ensure the resistive load at the output is larger than (V~CC~ /
 I~O(max)~) Ω. This will ensure that the maximum output current from the
-absolute maximum ratings is not violated.
+absolute maximum ratings is not violated. [[11::6]]
 
 Layout: inputs must not ever be left floating. Such unused input pins
 must not be left unconnected because the undefined voltages at the
@@ -262,7 +274,7 @@ digital logic devices must be connected to a logic high or logic low
 voltage, as defined by the input voltage specifications, to prevent them
 from floating. The logic level that must be applied to any particular
 unused input depends on the function of the device. Generally, the inputs are tied to GND or V~CC~, whichever
-makes more sense for the logic function or is more convenient.
+makes more sense for the logic function or is more convenient. [[13::1]]
 
 ## Package
 
@@ -280,6 +292,7 @@ CD74HCT21M | | -55 to 125 | HCT21M | Obsolete
 CD74HCT21M96 | Reel of 2500 | -55 to 125 | HCT21M
 CD74HCT21MT | | -55 to 125 | HCT21M | Obsolete
 ```
+[[15::table #1]]
 
 ## Conversion notes
 

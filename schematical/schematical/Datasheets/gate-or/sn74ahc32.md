@@ -24,7 +24,7 @@
 ## Description
 
 The SNx4AHC32 devices are quadruple 2-input positive-OR gates. These
-devices perform the Boolean function Y = A + B in positive logic.
+devices perform the Boolean function Y = A + B in positive logic. [[1::1]]
 
 Source error: the Description (p.1) prints a first form, Y = !{A × B}
 (a NAND), while the function table (Table 7-1) gives Y = L only when A
@@ -32,7 +32,7 @@ and B are both L; the first form is kept out.
 
 Operating range 2V to 5.5V V~CC~. Low power consumption, 10µA maximum
 I~CC~. ±8mA output drive at 5V. Latch-up performance exceeds 250mA per
-JESD 17.
+JESD 17. [[1::2]]
 
 ## Pinout
 
@@ -61,13 +61,14 @@ GND: Ground Pin
 NC: No Connection
 VCC: Power Pin
 ```
+[[3::Table 4-1]]
 
 Conversion note: the pin table also lists a Thermal Pad, RGY and BQA Package Only.
 
 ## Functional description
 
 The SNx4AHC32 contains four independent 2-input OR Gates. Each gate
-performs the Boolean function Y = A + B in positive logic.
+performs the Boolean function Y = A + B in positive logic. [[9::1]]
 
 Conversion note: the functional block diagram shows one 2-input OR gate with inputs xA and xB and output xY.
 
@@ -78,14 +79,14 @@ impedance and are typically modeled as a resistor in parallel with the
 input capacitance given in the Electrical Characteristics. The worst
 case resistance is calculated with the maximum input voltage, given in
 the Absolute Maximum Ratings, and the maximum input leakage current,
-given in the Electrical Characteristics, using Ohm's law (R = V ÷ I).
+given in the Electrical Characteristics, using Ohm's law (R = V ÷ I). [[10::1]]
 
 Standard CMOS inputs require that input signals transition between valid
 logic states quickly, as defined by the input transition time or rate in
 the Recommended Operating Conditions table. Failing to meet this
 specification will result in excessive power consumption and could cause
 oscillations. More details can be found in Implications of Slow or
-Floating CMOS Inputs.
+Floating CMOS Inputs. [[10::2]]
 
 Do not leave standard CMOS inputs floating at any time during operation.
 Unused inputs must be terminated at V~CC~ or GND. If a system will not
@@ -93,7 +94,7 @@ be actively driving an input at all times, then a pull-up or pull-down
 resistor can be added to provide a valid input voltage during these
 times. The resistor value will depend on multiple factors; a 10kΩ
 resistor, however, is recommended and will typically meet all
-requirements.
+requirements. [[10::3]]
 
 ### Balanced CMOS push-pull outputs
 
@@ -105,26 +106,26 @@ Additionally, the outputs of this device are capable of driving larger
 currents than the device can sustain without being damaged. It is
 important to limit the output power of the device to avoid damage due to
 overcurrent. The electrical and thermal limits defined in the Absolute
-Maximum Ratings must be followed at all times.
+Maximum Ratings must be followed at all times. [[10::4]]
 
-Unused push-pull CMOS outputs should be left disconnected.
+Unused push-pull CMOS outputs should be left disconnected. [[10::5]]
 
 ### Clamp diode structure
 
 The outputs to this device have both positive and negative clamping
 diodes, and the inputs to this device have negative clamping diodes only
-as shown in Figure 7-1.
+as shown in Figure 7-1. [[10::6]]
 
 Voltages beyond the values specified in the Absolute Maximum Ratings
 table can cause damage to the device. The input and output voltage
 ratings may be exceeded if the input and output clamp-current ratings
-are observed.
+are observed. [[10::7]]
 
 Conversion note: Figure 7-1 (electrical placement of clamping diodes for each input and output) shows a diode from GND to the input, and diodes from GND to the output and from the output to V~CC~.
 
 ### Device functional modes
 
-Table 7-1 lists the functional modes of the SNx4AHC32.
+Table 7-1 lists the functional modes of the SNx4AHC32. [[10::9]]
 
 ## Function tables
 
@@ -139,6 +140,7 @@ Table 7-1 lists the functional modes of the SNx4AHC32.
 
 [1] H = high voltage level, L = low voltage level, X = do not care, Z = high impedance
 ```
+[[10::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -157,6 +159,7 @@ Table 7-1 lists the functional modes of the SNx4AHC32.
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[5::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -167,6 +170,7 @@ Table 7-1 lists the functional modes of the SNx4AHC32.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[5::table #2]]
 
 ## Recommended operating conditions
 
@@ -195,6 +199,7 @@ Table 7-1 lists the functional modes of the SNx4AHC32.
 
 [1] Unconfirmed: the source prints the unit mA for the V~CC~ = 2 V rows; the absolute maximum continuous output current is ±25 mA and the electrical characteristics test at I~OH~ = –50 µA and I~OL~ = 50 µA.
 ```
+[[5::table #3]]
 
 ## Thermal information
 
@@ -208,6 +213,7 @@ Table 7-1 lists the functional modes of the SNx4AHC32.
 [3] The package thermal impedance is calculated in accordance with JESD 51-5
 [4] Conversion note: the text layer prints this symbol as "R θJA", in two pieces.
 ```
+[[6::table #1]]
 
 ## Electrical characteristics
 
@@ -232,6 +238,7 @@ Table 7-1 lists the functional modes of the SNx4AHC32.
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested at V~CC~ = 0 V.
 [2] Source error: printed as I~OH~ = 4 mA and I~OH~ = 8 mA; the rows give V~OL~, and the recommended operating conditions give I~OL~ = 4 mA and 8 mA, so the condition is I~OL~.
 ```
+[[6::table #2]]
 
 ```table id=noise caption="Noise characteristics, SN74AHC32" conditions="V~CC~ = 5 V, C~L~ = 50 pF, T~A~ = 25°C [1]"
 | Symbol | Parameter | Min | Typ | Max | Unit |
@@ -244,12 +251,14 @@ Table 7-1 lists the functional modes of the SNx4AHC32.
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[7::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 14 | pF |
 ```
+[[7::table #2]]
 
 ## Switching characteristics
 
@@ -266,6 +275,7 @@ See [parameter measurement information](#parameter-measurement).
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[6::table #3]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted) (see Figure 6-1)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | T~A~ = –55°C to 125°C, SN54AHC32 | < | T~A~ = –40°C to 85°C, SN74AHC32 | < | T~A~ = –40°C to 125°C Recommended, SN74AHC32 | < | Unit |
@@ -278,6 +288,7 @@ See [parameter measurement information](#parameter-measurement).
 
 [1] Source conflict: the 5-V table (p.7) marks these values with (1) and prints no note under the table; the 3.3-V table (p.6) prints note (1): On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[7::table #3]]
 
 ## Parameter measurement information
 
@@ -285,15 +296,17 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time with one input transition per measurement. All parameters and
-waveforms are not applicable to all devices.
+waveforms are not applicable to all devices. [[8::1]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: see table
 ```
+[[8::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 50% VCC
 ```
+[[8::Figure 6-1]]
 
 Conversion note: the source figure (Figure 6-1) also shows the load
 circuit for 3-state and open-drain outputs with its S1 table, and the
@@ -306,23 +319,23 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[12::1]]
 
 In this application, three 2-input OR gates are combined to produce a
 4-input OR gate function as shown in Figure 8-1. The fourth gate can be
 used for another application in the system, or the inputs can be
-grounded and the channel left unused.
+grounded and the channel left unused. [[12::2]]
 
 The SNx4AHC32 is used to directly control the Enable pin of a fan
 driver. The fan driver requires only one input signal to be HIGH before
 being enabled, and should be disabled in the event that all signals go
 LOW. The 4-input OR gate function combines the four individual overheat
-signals into a single active-high enable signal.
+signals into a single active-high enable signal. [[12::3]]
 
 Temperature sensors can often be spread throughout a system rather than
 being in a centralized location. This would mean longer length traces or
 wires to pass signals through leading to slower edge transitions. This
-makes the SNx4AHC32 useful for combining the incoming signals.
+makes the SNx4AHC32 useful for combining the incoming signals. [[12::4]]
 
 Conversion note: the typical application block diagram (Figure 8-1) shows two OR gates, one fed by the Device 1 and Device 2 Overheat signals and one by the Device 3 and Device 4 Overheat signals, and a third OR gate that combines their outputs into the EN input of the fan driver.
 
@@ -331,11 +344,11 @@ Conversion note: the typical application block diagram (Figure 8-1) shows two OR
 Ensure the desired supply voltage is within the range specified in the
 Recommended Operating Conditions. The supply voltage sets the electrical
 characteristics of the device as described in the Electrical
-Characteristics section.
+Characteristics section. [[12::6]]
 
 The positive voltage supply must be capable of sourcing current equal to
 the maximum static supply current, I~CC~, listed in the Electrical
-Characteristics, and any transient current required for switching.
+Characteristics, and any transient current required for switching. [[12::7]]
 
 The ground must be capable of sinking current equal to the total current
 to be sunk by all outputs of the SNx4AHC32 plus the maximum supply
@@ -343,33 +356,33 @@ current, I~CC~, listed in the Electrical Characteristics, and any
 transient current required for switching. The logic device can only sink
 as much current that can be sunk into its ground connection. Be sure to
 not exceed the maximum total current through GND listed in the Absolute
-Maximum Ratings.
+Maximum Ratings. [[13::1]]
 
 The SNx4AHC32 can drive a load with a total capacitance less than or
 equal to 50 pF while still meeting all of the data sheet specifications.
 Larger capacitive loads can be applied; however, it is not recommended
-to exceed 50 pF.
+to exceed 50 pF. [[13::2]]
 
 The SNx4AHC32 can drive a load with total resistance described by
 R~L~ ≥ V~O~ / I~O~, with the output voltage and current defined in the
 Electrical Characteristics table with V~OL~. When outputting in the HIGH
 state, the output voltage in the equation is defined as the difference
 between the measured output voltage and the supply voltage at the V~CC~
-pin.
+pin. [[13::3]]
 
 Total power consumption can be calculated using the information provided
-in CMOS Power Consumption and Cpd Calculation application note.
+in CMOS Power Consumption and Cpd Calculation application note. [[13::4]]
 
 Thermal increase can be calculated using the information provided in
 Thermal Characteristics of Standard Linear and Logic (SLL) Packages and
-Devices application note.
+Devices application note. [[13::5]]
 
 The maximum junction temperature, T~J(max)~ listed in the Absolute
 Maximum Ratings, is an additional limitation to prevent damage to the
 device. Do not violate any values listed in the Absolute Maximum
 Ratings. These limits are provided to prevent damage to the device.
 Source conflict: the Absolute Maximum Ratings table (p.5) lists no
-junction temperature.
+junction temperature. [[13::6]]
 
 ### Input considerations
 
@@ -377,7 +390,7 @@ Input signals must cross to be considered a logic LOW, and to be
 considered a logic HIGH. Source error: the source prints this sentence
 without the two levels the signals must cross (p.13); kept as printed.
 Do not exceed the maximum input voltage range found in the Absolute
-Maximum Ratings.
+Maximum Ratings. [[13::7]]
 
 Unused inputs must be terminated to either V~CC~ or ground. The unused
 inputs can be directly terminated if the input is completely unused, or
@@ -387,42 +400,42 @@ default state of HIGH, and a pull-down resistor is used for a default
 state of LOW. The drive current of the controller, leakage current into
 the SNx4AHC32 (as specified in the Electrical Characteristics), and the
 desired input transition rate limits the resistor size. A 10-kΩ resistor
-value is often used due to these factors.
+value is often used due to these factors. [[13::8]]
 
 Refer to the Feature Description section for additional information
-regarding the inputs for this device.
+regarding the inputs for this device. [[13::9]]
 
 ### Output considerations
 
 The ground voltage is used to produce the output LOW voltage. Sinking
 current into the output will increase the output voltage as specified by
-the V~OL~ specification in the Electrical Characteristics.
+the V~OL~ specification in the Electrical Characteristics. [[13::10]]
 
 Unused outputs can be left floating. Do not connect outputs directly to
-V~CC~ or ground.
+V~CC~ or ground. [[13::11]]
 
 Refer to the Feature Description section for additional information
-regarding the outputs for this device.
+regarding the outputs for this device. [[13::12]]
 
 ### Detailed design procedure
 
 1. Add a decoupling capacitor from V~CC~ to GND. The capacitor needs to
    be placed physically close to the device and electrically close to
    both the V~CC~ and GND pins. An example layout is shown in the Layout
-   section.
+   section. [[13::13]]
 2. Ensure the capacitive load at the output is ≤ 50pF. This is not a
    hard limit; by design, however, it will optimize performance. This
    can be accomplished by providing short, appropriately sized traces
-   from the SNx4AHC32 to one or more of the receiving devices.
+   from the SNx4AHC32 to one or more of the receiving devices. [[13::13]]
 3. Ensure the resistive load at the output is larger than
    (V~CC~ / I~O(max)~)Ω. Doing this will prevent the maximum output
    current from the Absolute Maximum Ratings from being violated. Most
    CMOS inputs have a resistive load measured in MΩ; much larger than
-   the minimum calculated previously.
+   the minimum calculated previously. [[13::13]]
 4. Thermal issues are rarely a concern for logic gates; the power
    consumption and thermal increase, however, can be calculated using
    the steps provided in the application report, CMOS Power Consumption
-   and Cpd Calculation.
+   and Cpd Calculation. [[14::1]]
 
 Conversion note: the application timing diagram (Figure 8-2) shows EN high whenever any of the Device 1 to Device 4 signals is high.
 
@@ -436,7 +449,7 @@ acceptable to parallel multiple bypass capacitors to reject different
 frequencies of noise. The 0.1-μF and 1-μF capacitors are commonly used
 in parallel. The bypass capacitor should be installed as close to the
 power terminal as possible for best results, as shown in the following
-layout example.
+layout example. [[14::2]]
 
 ### Layout guidelines
 
@@ -452,7 +465,7 @@ the input voltage specifications, to prevent them from floating. The
 logic level that must be applied to any particular unused input depends
 on the function of the device. Generally, the inputs are tied to GND or
 V~CC~, whichever makes more sense for the logic function or is more
-convenient.
+convenient. [[14::3]]
 
 Conversion note: the example layout (Figure 8-3) recommends a GND flood fill, a bypass capacitor placed close to the device, unused inputs tied to V~CC~, an unused output left floating, and no 90° corners for signal lines.
 
@@ -512,6 +525,7 @@ SNJ54AHC32FK | Tube of 55 | -55 to 125 | 5962-9682501Q2A SNJ54AHC32FK
 SNJ54AHC32J | Tube of 25 | -55 to 125 | 5962-9682501QCA SNJ54AHC32J
 SNJ54AHC32W | Tube of 25 | -55 to 125 | 5962-9682501QDA SNJ54AHC32W
 ```
+[[17::table #1]]
 
 ## Conversion notes
 

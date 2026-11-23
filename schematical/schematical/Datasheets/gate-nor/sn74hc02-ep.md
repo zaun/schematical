@@ -24,11 +24,11 @@
 ## Description
 
 The SN74HC02 contains four independent 2-input NOR gates. It performs
-the Boolean function Y = !{A + B} or Y = !{A} • !{B} in positive logic.
+the Boolean function Y = !{A + B} or Y = !{A} • !{B} in positive logic. [[1::4]]
 
 Controlled Baseline. One Assembly/Test Site, One Fabrication Site.
 Extended Temperature Performance of Up To −55°C to 125°C. 2-V to 6-V
-V~CC~ Operation. Outputs Can Drive Up To 10 LSTTL Loads.
+V~CC~ Operation. Outputs Can Drive Up To 10 LSTTL Loads. [[1::1]] [[1::2]]
 
 Component qualification in accordance with JEDEC and industry standards
 to ensure reliable operation over an extended temperature range. This
@@ -36,7 +36,7 @@ includes, but is not limited to, Highly Accelerated Stress Test (HAST)
 or biased 85/85, temperature cycle, autoclave or unbiased HAST,
 electromigration, bond intermetallic life, and mold compound life. Such
 qualification testing should not be viewed as justifying use of this
-component beyond specified performance and environmental limits.
+component beyond specified performance and environmental limits. [[1::3]]
 
 ## Pinout
 
@@ -52,6 +52,7 @@ component beyond specified performance and environmental limits.
 GND: Ground
 VCC: Positive supply
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -63,6 +64,7 @@ VCC: Positive supply
 | X | H | L |
 | L | L | H |
 ```
+[[1::table #2]]
 
 Conversion note: the logic diagram (positive logic) shows one 2-input NOR gate with the inputs A and B and the output Y.
 
@@ -84,6 +86,7 @@ Conversion note: the logic diagram (positive logic) shows one 2-input NOR gate w
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #1]]
 
 ## Recommended operating conditions
 
@@ -107,6 +110,7 @@ Conversion note: the logic diagram (positive logic) shows one 2-input NOR gate w
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[2::table #2]]
 
 ## Electrical characteristics
 
@@ -128,12 +132,14 @@ Conversion note: the logic diagram (positive logic) shows one 2-input NOR gate w
 | I~CC~ | V~I~ = V~CC~ or 0, | I~O~ = 0 | 6 V | | | 2 | | 40 | µA |
 | C~i~ | | < | 2 V to 6 V | | 3 | 10 | | 10 | pF |
 ```
+[[3::table #1]]
 
 ```table id=op caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance per gate | No load | 22 | pF |
 ```
+[[3::table #2]]
 
 ## Switching characteristics
 
@@ -148,6 +154,7 @@ Conversion note: the logic diagram (positive logic) shows one 2-input NOR gate w
 | ^ | ^ | ^ | 4.5 V | | 8 | 15 | | 22 | ns |
 | ^ | ^ | ^ | 6 V | | 6 | 13 | | 19 | ns |
 ```
+[[3::table #3]]
 
 ## Parameter measurement information
 
@@ -156,15 +163,17 @@ between waveforms were chosen arbitrarily. All input pulses are
 supplied by generators having the following characteristics:
 PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~r~ = 6 ns, t~f~ = 6 ns. The outputs are
 measured one at a time with one input transition per measurement.
-t~PLH~ and t~PHL~ are the same as t~pd~.
+t~PLH~ and t~PHL~ are the same as t~pd~. [[4::1]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit"
 CL: 50 pF
 ```
+[[4::Figure 1]]
 
 ```figure ref=waveforms-cmos-tpd-tt caption="Voltage waveforms, input rise and fall times, propagation delay and output transition times"
 VM: 50%
 ```
+[[4::Figure 1]]
 
 ## Package
 
@@ -177,6 +186,7 @@ VM: 50%
 SN74HC02QPWREP | Reel of 2000 | -40 to 125 | SHC02EP
 V62/04687-02YE | Reel of 2000 | -40 to 125 | SHC02EP
 ```
+[[5::table #1]]
 
 ## Conversion notes
 

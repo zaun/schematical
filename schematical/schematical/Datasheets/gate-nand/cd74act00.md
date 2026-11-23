@@ -24,13 +24,13 @@
 ## Description
 
 The 'ACT00 devices contain four independent 2-input NAND gates. Each
-gate performs the Boolean function of Y = !{A • B} in positive logic.
+gate performs the Boolean function of Y = !{A • B} in positive logic. [[1::1]]
 
 Inputs are TTL-voltage compatible. Speed of bipolar F, AS, and S, with
 significantly reduced power consumption. Balanced propagation delays.
 ±24mA output drive current. Fanout to 15 F devices.
 SCR-latchup-resistant CMOS process and circuit design. Exceeds 2kV ESD
-protection per MIL-STD-883, method 3015.
+protection per MIL-STD-883, method 3015. [[1::2]] [[1::3]]
 
 ## Pinout
 
@@ -55,6 +55,7 @@ protection per MIL-STD-883, method 3015.
 GND: Ground Pin
 VCC: Power Pin
 ```
+[[3::Table 3-1]]
 
 ## Functional description
 
@@ -63,7 +64,7 @@ one 2-input NAND gate with inputs A and B and output Y.
 
 ## Function tables
 
-Function Table (Each Gate) is the function table for the CDx4ACT00.
+Function Table (Each Gate) is the function table for the CDx4ACT00. [[7::2]]
 
 ```table id=function caption="Function table (each gate)"
 | Inputs | < | Output Y |
@@ -73,6 +74,7 @@ Function Table (Each Gate) is the function table for the CDx4ACT00.
 | L | X | H |
 | X | L | H |
 ```
+[[7::Table 6-1]]
 
 ## Absolute maximum ratings
 
@@ -89,6 +91,7 @@ Function Table (Each Gate) is the function table for the CDx4ACT00.
 [1] Stresses beyond those listed under "absolute maximum ratings" may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under "recommended operating conditions" is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -97,6 +100,7 @@ Function Table (Each Gate) is the function table for the CDx4ACT00.
 
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process. Manufacturing with less than 500-V HBM is possible with the necessary precautions.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -115,6 +119,7 @@ Function Table (Each Gate) is the function table for the CDx4ACT00.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -126,6 +131,7 @@ Function Table (Each Gate) is the function table for the CDx4ACT00.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report, SPRA953.
 ```
+[[4::table #4]]
 
 ## Electrical characteristics
 
@@ -148,6 +154,7 @@ Function Table (Each Gate) is the function table for the CDx4ACT00.
 
 [1] Test one output at a time, not exceeding 1-second duration. Measurement is made by forcing indicated current and measuring voltage to minimize power dissipation. Test verifies a minimum 50-Ω transmission-line drive capability at 85°C and 75-Ω transmission-line drive capability at 125°C.
 ```
+[[5::table #1]]
 
 Source error: the C~i~ unit is printed PF (p.5), kept as printed; picofarads (pF) are meant, as in the operating characteristics.
 
@@ -156,15 +163,17 @@ Source error: the C~i~ unit is printed PF (p.5), kept as printed; picofarads (pF
 |---|--:|---|
 | A or B | 0.15 | |
 ```
+[[5::Table 4-1]]
 
 Unit load is ΔI~CC~ limit specified in electrical characteristics table
-(e.g., 2.4 mA at 25°C).
+(e.g., 2.4 mA at 25°C). [[5::4]]
 
 ```table id=opchar caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Typ | Unit |
 |---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | 45 | pF |
 ```
+[[5::table #2]]
 
 ## Switching characteristics
 
@@ -175,6 +184,7 @@ Unit load is ΔI~CC~ limit specified in electrical characteristics table
 | t~PLH~ | A or B | Y | 3.4 | 9.5 | 3.2 | 10.8 | ns |
 | t~PHL~ | A or B | Y | 2.8 | 8 | 2.7 | 13.2 | ns |
 ```
+[[5::table #3]]
 
 Unconfirmed: the t~PHL~ maximum at –55°C to 125°C is printed 13.2 ns (p.5), above the t~PLH~ maximum of 10.8 ns, while at –40°C to 85°C the t~PHL~ maximum (8 ns) is below the t~PLH~ maximum (9.5 ns).
 
@@ -185,7 +195,7 @@ supplied by generators having the following characteristics:
 PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~r~ = 3 ns, t~f~ = 3 ns. Phase relationships
 between waveforms are arbitrary. The outputs are measured one at a time
 with one input transition per measurement. t~PLH~ and t~PHL~ are the
-same as t~pd~.
+same as t~pd~. [[6::Figure 5-1]]
 
 Conversion note: the load circuit of Figure 5-1 also has R1 = 500 Ω
 from the output to switch S1 (2 × V~CC~, Open or GND), and S1 is Open
@@ -198,10 +208,12 @@ the voltage waveforms the input swings 0 V to 3 V and is measured at
 RL: 500 Ω (R2)
 CL: 50 pF
 ```
+[[6::Figure 5-1]]
 
 ```figure ref=waveforms-cmos-tpd-tt caption="Voltage waveforms, propagation delay and output transition times"
 VM: 1.5 V (input), 50% V~CC~ (outputs)
 ```
+[[6::Figure 5-1]]
 
 ## Application information
 
@@ -209,7 +221,7 @@ Information in the following applications sections is not part of the
 TI component specification, and TI does not warrant its accuracy or
 completeness. TI's customers are responsible for determining
 suitability of components for their purposes, as well as validating and
-testing their design implementation to confirm system functionality.
+testing their design implementation to confirm system functionality. [[8::1]]
 
 ### Power supply recommendations
 
@@ -217,7 +229,7 @@ The power supply can be any voltage between the minimum and maximum
 supply voltage rating located in the Section 4.1 table. Source
 conflict: Section 4.1 is the
 [absolute maximum ratings](#absolute-maximum-ratings) table; see
-Conversion notes.
+Conversion notes. [[8::2]]
 
 Each V~CC~ pin should have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, 0.1 µF is recommended.
@@ -225,11 +237,11 @@ If there are multiple V~CC~ pins, 0.01 µF or 0.022 µF is recommended
 for each power pin. It is acceptable to parallel multiple bypass caps
 to reject different frequencies of noise. A 0.1 µF and 1 µF are
 commonly used in parallel. The bypass capacitor should be installed as
-close to the power pin as possible for best results.
+close to the power pin as possible for best results. [[8::3]]
 
 ### Layout guidelines
 
-When using multiple bit logic devices inputs should not ever float.
+When using multiple bit logic devices inputs should not ever float. [[8::4]]
 
 In many cases, functions or parts of functions of digital logic devices
 are unused, for example, when only two inputs of a triple-input AND
@@ -242,7 +254,7 @@ must be connected to a high or low bias to prevent them from floating.
 The logic level that must be applied to any particular unused input
 depends on the function of the device. Generally they will be tied to
 GND or V~CC~; whichever makes more sense or is more convenient. It is
-generally acceptable to float outputs unless the part is a transceiver.
+generally acceptable to float outputs unless the part is a transceiver. [[8::5]]
 
 Conversion note: the layout example for the CDx4ACT00 (Figure 7-1) shows a 0.1 µF bypass capacitor placed close to the device between V~CC~ and GND, a GND flood fill recommended for improved signal isolation, noise reduction, and thermal dissipation, unused inputs tied to V~CC~, an unused output left floating, and signal lines that avoid 90° corners.
 
@@ -266,6 +278,7 @@ CD74ACT00M | | -55 to 125 | ACT00M | Obsolete
 CD74ACT00M96 | Reel of 2500 | -55 to 125 | ACT00M
 CD74ACT00M96G4 | Reel of 2500 | -55 to 125 | ACT00M
 ```
+[[10::table #1]]
 
 ## Conversion notes
 

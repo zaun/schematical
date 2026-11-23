@@ -27,14 +27,14 @@ The CD4069UB device consist of six CMOS inverter circuits. These
 devices are intended for all general-purpose inverter applications
 where the medium-power TTL-drive and logic-level-conversion
 capabilities of circuits such as the CD4009 and CD4049 hex inverter and
-buffers are not required.
+buffers are not required. [[1::1]]
 
 Standardized symmetrical output characteristics. Medium speed
 operation: t~PHL~, t~PLH~ = 30 ns at 10 V (Typical). 100% Tested for
 quiescent current at 20 V. Maximum input current of 1 µA at 18 V over
 full package-temperature range, 100 nA at 18 V and 25°C. Meets all
 requirements of JEDEC tentative standard No. 13B, Standard
-Specifications for Description of B Series CMOS Devices.
+Specifications for Description of B Series CMOS Devices. [[1::2]]
 
 ## Pinout
 
@@ -59,6 +59,7 @@ L: L output
 VDD: Positive supply
 VSS: Negative supply
 ```
+[[1::table #1]]
 
 Conversion note: the source names the output pins by their equations,
 G = !{A}, H = !{B}, I = !{C}, J = !{D}, K = !{E} and L = !{F}.
@@ -70,7 +71,7 @@ operating range is from 3 V to 18 V. The CD4069UB-series types are
 supplied in 14-pin hermetic dual-in-line ceramic packages (F3A suffix),
 14-pin dual-in-line plastic packages (E suffix), 14-pin small-outline
 packages (M, MT, M96, and NSR suffixes), and 14-pin thin shrink
-small-outline packages (PW and PWR suffixes).
+small-outline packages (PW and PWR suffixes). [[13::1]]
 
 Conversion note: the functional block diagram shows six inverters, each
 from an input (A to F) to its output (G = !{A} to L = !{F}), with the
@@ -81,7 +82,7 @@ operating voltage range from 3 V to 18 V with quiescent current tested
 at 20 V. This has a medium operation speed of t~PHL~, t~PLH~ = 30 ns
 (typical) at 10 V. The operating temperature is from –55°C to 125°C.
 CB4069B meets all requirements of JEDEC tentative standard No. 13B,
-Standard Specifications for Description of B Series CMOS Devices.
+Standard Specifications for Description of B Series CMOS Devices. [[13::2]]
 
 ## Function tables
 
@@ -92,6 +93,7 @@ Standard Specifications for Description of B Series CMOS Devices.
 | H | L |
 | L | H |
 ```
+[[13::Table 1]]
 
 ## Absolute maximum ratings
 
@@ -112,6 +114,7 @@ Standard Specifications for Description of B Series CMOS Devices.
 [2] During soldering at distance 1/16 inch ± 1/32 inch (1.59 mm ± 0.79 mm) from case for 10 s maximum
 [3] Unconfirmed: the source prints 12 under MIN on the 100°C to 125°C row and does not say what it is.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -122,6 +125,7 @@ Standard Specifications for Description of B Series CMOS Devices.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -131,6 +135,7 @@ Standard Specifications for Description of B Series CMOS Devices.
 | V~DD~ | Supply voltage | 3 | 18 | V |
 | T~A~ | Operating temperature | -55 | 125 | °C |
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -147,6 +152,7 @@ Standard Specifications for Description of B Series CMOS Devices.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report, SPRA953.
 ```
+[[4::table #4]]
 
 ## Electrical characteristics
 
@@ -236,6 +242,7 @@ Standard Specifications for Description of B Series CMOS Devices.
 [2] Unconfirmed: the source prints ±01 at –55°C and –40°C and ±1 at 25°C; the features give a maximum input current of 1 µA over full package-temperature range and 100 nA at 25°C.
 [3] Conversion note: the source prints a typical value of ±10^–5^ µA here, which the value cell cannot hold.
 ```
+[[5::table #1]] [[6::table #1]]
 
 ## Switching characteristics
 
@@ -250,6 +257,7 @@ Standard Specifications for Description of B Series CMOS Devices.
 | ^ | ^ | V~DD~ (V) = 15 | | 40 | 80 | ns |
 | C~IN~ | Input capacitance | Any input | | 10 | 15 | pF |
 ```
+[[5::table #2]]
 
 ## Typical characteristics
 
@@ -265,6 +273,7 @@ Standard Specifications for Description of B Series CMOS Devices.
    {"label": "15-V Max VDD", "points": [[0, 15], [5, 15], [7, 14.5], [9, 13.5], [10, 12.5], [10.5, 10.5], [10.7, 5], [11.3, 3.5], [13, 1.5], [15, 0.3], [16, 0]]}
  ]}
 ```
+[[8::Figure 1]]
 
 Conversion note: Figure 2, typical voltage transfer characteristics as a function of temperature, shows the transfer curves at 5 V, 10 V and 15 V, each at -55°C and at 125°C, the two temperatures nearly on one line, and is not converted.
 
@@ -279,6 +288,7 @@ Conversion note: Figure 3, typical current and voltage transfer characteristics,
    {"label": "Gate-to-source voltage = 15 V", "points": [[0, 0], [2, 10], [4, 16.5], [6, 21], [8, 24], [10, 25.5], [12, 26.6], [15, 27.2]]}
  ]}
 ```
+[[8::Figure 4]]
 
 ```curve id=iol-min caption="Minimum output low (sink) current characteristics"
 {"x": {"label": "Drain-to-source voltage", "unit": "V", "range": [0, 25]},
@@ -289,6 +299,7 @@ Conversion note: Figure 3, typical current and voltage transfer characteristics,
    {"label": "Gate-to-source voltage = 15 V", "points": [[0, 0], [2, 5], [4, 8.8], [6, 10.8], [8, 11.6], [10, 12], [15, 12.2]]}
  ]}
 ```
+[[8::Figure 5]]
 
 ```curve id=ioh-typ caption="Typical output high (source) current characteristics"
 {"x": {"label": "Drain-to-source voltage", "unit": "V", "range": [-25, 0]},
@@ -299,6 +310,7 @@ Conversion note: Figure 3, typical current and voltage transfer characteristics,
    {"label": "Gate-to-source voltage = -15 V", "points": [[-15, -29.5], [-12, -28.5], [-10, -27], [-8, -24.5], [-6, -21], [-4, -15.5], [-2, -8.5], [0, 0]]}
  ]}
 ```
+[[8::Figure 6]]
 
 ```curve id=ioh-min caption="Minimum output high (source) current characteristics"
 {"x": {"label": "Drain-to-source voltage", "unit": "V", "range": [-25, 0]},
@@ -309,6 +321,7 @@ Conversion note: Figure 3, typical current and voltage transfer characteristics,
    {"label": "Gate-to-source voltage = -15 V", "points": [[-15, -15], [-12, -14.3], [-10, -13.2], [-8, -11.8], [-6, -10], [-4, -7.2], [-2, -3.8], [0, 0]]}
  ]}
 ```
+[[9::Figure 7]]
 
 ```curve id=tpd-cl caption="Typical propagation delay time vs load capacitance"
 {"x": {"label": "Load capacitance", "unit": "pF", "range": [0, 150]},
@@ -319,6 +332,7 @@ Conversion note: Figure 3, typical current and voltage transfer characteristics,
    {"label": "VDD = 15 V", "points": [[15, 16], [100, 33]]}
  ]}
 ```
+[[9::Figure 8]]
 
 ```curve id=tpd-vdd caption="Typical propagation delay time vs supply voltage"
 {"x": {"label": "Supply voltage", "unit": "V", "range": [0, 25]},
@@ -328,6 +342,7 @@ Conversion note: Figure 3, typical current and voltage transfer characteristics,
    {"label": "CL = 50 pF", "points": [[3, 79], [4, 63], [5, 53], [7.5, 37], [10, 29], [12.5, 25], [15, 23.5], [18, 24]]}
  ]}
 ```
+[[9::Figure 9]]
 
 ## Parameter measurement information
 
@@ -345,10 +360,12 @@ Conversion note: the dynamic electrical characteristics test circuit (Figure 14)
 RL: 200 kΩ
 CL: 50 pF
 ```
+[[11::Figure 14]]
 
 ```figure ref=waveforms-cmos-tpd-tt caption="Dynamic electrical characteristics waveform"
 VM: 50% V~DD~
 ```
+[[11::Figure 14]]
 
 Conversion note: the waveform shows only the inverting output, with t~PHL~, t~PLH~, t~THL~ and t~TLH~ and the 10%, 50% and 90% levels of V~DD~.
 
@@ -374,12 +391,12 @@ Information in the following applications sections is not part of the
 TI component specification, and TI does not warrant its accuracy or
 completeness. TI's customers are responsible for determining
 suitability of components for their purposes. Customers should validate
-and test their design implementation to confirm system functionality.
+and test their design implementation to confirm system functionality. [[14::1]]
 
 The CD4069UB device has a low input current of 1 µA at 18 V over full
 package-temperature range and 100 nA at 18 V, 25°C. This device has a
 wide operating voltage range from 3 V to 18 V and used in high voltage
-applications.
+applications. [[14::2]]
 
 ### Typical application
 
@@ -390,20 +407,20 @@ series from V~CC~ to its output.
 The CD4069UB device is the industry's highest logic inverter operating
 at 18 V under recommended conditions. The lower drive capabilities
 makes it suitable for driving light loads like LED and greatly reduces
-chances of overshoots and undershoots.
+chances of overshoots and undershoots. [[14::3]]
 
 The recommended input conditions for Figure 20 includes rise time and
 fall time specifications (see Δt/ΔV in Recommended Operating
 Conditions) and specified high and low levels (see V~IH~ and V~IL~ in
 Recommended Operating Conditions). Inputs are not overvoltage tolerant
 and must be below V~CC~ level because of the presence of input clamp
-diodes to V~CC~.
+diodes to V~CC~. [[14::4]]
 
 The recommended output condition for the CD4069UB application includes
 specific load currents. Load currents must be limited so as to not
 exceed the total power (continuous current through V~CC~ or GND) for
 the device. These limits are located in the Absolute Maximum Ratings.
-Outputs must not be pulled above V~CC~.
+Outputs must not be pulled above V~CC~. [[14::5]]
 
 ```curve id=tt-cl caption="Typical transition time vs load capacitance"
 {"x": {"label": "Load capacitance", "unit": "pF", "range": [0, 140]},
@@ -414,6 +431,7 @@ Outputs must not be pulled above V~CC~.
    {"label": "Supply voltage = 15 V", "points": [[15, 27], [100, 58]]}
  ]}
 ```
+[[15::Figure 21]]
 
 ```curve id=pd-f caption="Typical dynamic power dissipation vs frequency"
 {"x": {"label": "Input frequency", "unit": "kHz", "range": [10, 100000], "log": true},
@@ -425,6 +443,7 @@ Outputs must not be pulled above V~CC~.
    {"label": "VDD = 15 V (CL = 50 pF)", "points": [[10, 169], [5340, 87000]]}
  ]}
 ```
+[[15::Figure 22]]
 
 ```curve id=tpd-norm caption="Variation of normalized propagation delay time (t~PHL~ and t~PLH~) with supply voltage"
 {"x": {"label": "Supply voltage", "unit": "V", "range": [2, 16]},
@@ -433,11 +452,12 @@ Outputs must not be pulled above V~CC~.
    {"label": "Normalized propagation delay time", "points": [[3, 4.5], [3.5, 3.8], [4, 3.1], [5, 2.4], [6, 1.9], [8, 1.3], [10, 1], [12, 0.82], [14, 0.72], [15, 0.7]]}
  ]}
 ```
+[[15::Figure 23]]
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the minimum and maximum
-supply voltage rating located in Recommended Operating Conditions.
+supply voltage rating located in Recommended Operating Conditions. [[16::1]]
 
 Each V~CC~ pin must have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, TI recommends a 0.1-μF
@@ -446,11 +466,11 @@ capacitor. If there are multiple V~CC~ pins, then TI recommends a
 parallel multiple bypass capacitors to reject different frequencies of
 noise. 0.1-μF and 1-μF capacitors are commonly used in parallel. The
 bypass capacitor must be installed as close to the power pin as
-possible for best results.
+possible for best results. [[16::2]]
 
 ### Layout
 
-When using multiple bit logic devices, inputs must never float.
+When using multiple bit logic devices, inputs must never float. [[16::3]]
 
 In many cases, digital logic device functions or parts of these
 functions are unused (for example, when only two inputs of a
@@ -458,7 +478,7 @@ triple-input and gate are used, or only 3 of the 4 buffer gates are
 used). Such input pins must not be left unconnected because the
 undefined voltages at the outside connections result in undefined
 operational states. This rule must be observed under all circumstances
-specified in the next paragraph.
+specified in the next paragraph. [[16::4]]
 
 All unused inputs of digital logic devices must be connected to a high
 or low bias to prevent them from floating. See the application note,
@@ -466,7 +486,7 @@ Implications of Slow or Floating CMOS Inputs (SCBA004), for more
 information on the effects of floating inputs. The logic level must
 apply to any particular unused input depending on the function of the
 device. Generally, they are tied to GND or V~CC~ (whichever is
-convenient).
+convenient). [[16::5]]
 
 Conversion note: the layout example shows a gate with an unused input
 tied to V~CC~ and a gate with an unused input tied to ground.
@@ -486,6 +506,7 @@ CD4069UBF3A | Tube of 25 | -55 to 125 | CD4069UBF3A | NRND
 CD4069UBM96 | Reel of 2500 | -55 to 125 | CD4069UBM
 M38510/17401BCA | Tube of 25 | -55 to 125 | JM38510/17401BCA | NRND
 ```
+[[18::table #1]]
 
 ## Conversion notes
 

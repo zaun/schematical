@@ -25,16 +25,16 @@
 
 These devices contain four independent 2-input exclusive-OR gates. They
 perform the Boolean functions Y = A ⊕ B or Y = !{A}B + A!{B} in positive
-logic.
+logic. [[1::2]]
 
 A common application is as a true/complement element. If one of the
 inputs is low, the other input is reproduced in true form at the output.
 If one of the inputs is high, the signal on the other input is
-reproduced inverted at the output.
+reproduced inverted at the output. [[1::3]]
 
 The SN54ALS86 and SN54AS86A are characterized for operation over the
 full military temperature range of –55°C to 125°C. The SN74ALS86 and
-SN74AS86A are characterized for operation from 0°C to 70°C.
+SN74AS86A are characterized for operation from 0°C to 70°C. [[1::4]]
 
 ## Pinout
 
@@ -54,6 +54,7 @@ GND: Ground
 VCC: Positive supply
 NC: No internal connection
 ```
+[[1::table #1]]
 
 ## Functional description
 
@@ -61,19 +62,19 @@ An exclusive-OR gate has many applications, some of which can be
 represented better by alternative logic symbols. These are five
 equivalent exclusive-OR symbols valid for an ′ALS86 or ′AS86A gate in
 positive logic. Negation may be shown at any two ports. Conversion note:
-the five symbols are not drawn here.
+the five symbols are not drawn here. [[2::1]] [[2::2]]
 
 The output is active (low) if all inputs are at the same logic level
 (i.e., A = B). Conversion note: this is the logic-identity element
-(symbol =).
+(symbol =). [[2::3]]
 
 The output is active (low) if an even number of inputs (i.e., 0 or 2)
 are active. Conversion note: this is the even-parity element (symbol
-2k).
+2k). [[2::4]]
 
 The output is active (high) if an odd number of inputs (i.e., only 1 of
 the 2) are active. Conversion note: this is the odd-parity element
-(symbol 2k + 1).
+(symbol 2k + 1). [[2::5]]
 
 ## Function tables
 
@@ -86,6 +87,7 @@ the 2) are active. Conversion note: this is the odd-parity element
 | H | L | H |
 | H | H | L |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -100,6 +102,7 @@ the 2) are active. Conversion note: this is the odd-parity element
 
 [1] Stresses beyond those listed under “absolute maximum ratings” may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under “recommended operating conditions” is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 ```
+[[3::table #1]]
 
 ```table id=abs-max-as caption="Absolute maximum ratings, SN54AS86A and SN74AS86A [1]" parts=*AS86A* conditions="Over operating free-air temperature range (unless otherwise noted)"
 | Symbol | Parameter | Conditions | Min | Max | Unit |
@@ -112,6 +115,7 @@ the 2) are active. Conversion note: this is the odd-parity element
 
 [1] Stresses beyond those listed under “absolute maximum ratings” may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under “recommended operating conditions” is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 ```
+[[4::table #1]]
 
 ## Recommended operating conditions
 
@@ -126,6 +130,7 @@ the 2) are active. Conversion note: this is the odd-parity element
 | I~OL~ | Low-level output current | | | 4 | | | 8 | mA |
 | T~A~ | Operating free-air temperature | -55 | | 125 | 0 | | 70 | °C |
 ```
+[[3::table #2]]
 
 ```table id=roc-as caption="Recommended operating conditions, SN54AS86A and SN74AS86A" parts=*AS86A*
 | Symbol | Parameter | SN54AS86A | < | < | SN74AS86A | < | < | Unit |
@@ -138,6 +143,7 @@ the 2) are active. Conversion note: this is the odd-parity element
 | I~OL~ | Low-level output current | | | 20 | | | 20 | mA |
 | T~A~ | Operating free-air temperature | -55 | | 125 | 0 | | 70 | °C |
 ```
+[[3::table #3]]
 
 ## Electrical characteristics
 
@@ -158,6 +164,7 @@ the 2) are active. Conversion note: this is the odd-parity element
 [1] All typical values are at V~CC~ = 5 V, T~A~ = 25°C.
 [2] The output conditions have been chosen to produce a current that closely approximates one half of the true short-circuit output current, I~OS~.
 ```
+[[3::table #4]]
 
 ```table id=ec-as caption="Electrical characteristics, SN54AS86A and SN74AS86A" parts=*AS86A* conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | Test conditions | < | SN54AS86A | < | < | SN74AS86A | < | < | Unit |
@@ -176,6 +183,7 @@ the 2) are active. Conversion note: this is the odd-parity element
 [1] All typical values are at V~CC~ = 5 V, T~A~ = 25°C.
 [2] The output conditions have been chosen to produce a current that closely approximates one half of the true short-circuit output current, I~OS~.
 ```
+[[4::table #2]]
 
 ## Switching characteristics
 
@@ -192,6 +200,7 @@ Conversion note: Figure 1 is in [parameter measurement information](#parameter-m
 
 [1] For conditions shown as MIN or MAX, use the appropriate value specified under recommended operating conditions.
 ```
+[[3::table #5]]
 
 ```table id=sw-as caption="Switching characteristics, SN54AS86A and SN74AS86A (see Figure 1)" parts=*AS86A* conditions="V~CC~ = 4.5 V to 5.5 V, C~L~ = 50 pF, R~L~ = 500 Ω, T~A~ = MIN to MAX [1]"
 | Symbol | From (input) | To (output) | SN54AS86A | < | SN74AS86A | < | Unit |
@@ -204,13 +213,14 @@ Conversion note: Figure 1 is in [parameter measurement information](#parameter-m
 
 [1] For conditions shown as MIN or MAX, use the appropriate value specified under recommended operating conditions.
 ```
+[[4::table #3]]
 
 ## Parameter measurement information
 
 Series 54ALS/74ALS and 54AS/74AS devices. C~L~ includes probe and jig
 capacitance. All input pulses have the following characteristics:
 PRR ≤ 1 MHz, t~r~ = t~f~ = 2 ns, duty cycle = 50%. The outputs are
-measured one at a time with one transition per measurement.
+measured one at a time with one transition per measurement. [[5::1]]
 
 Conversion note: in the figure the input pulses swing from 0.3 V to 3.5 V and all waveforms are measured at 1.3 V.
 
@@ -218,10 +228,12 @@ Conversion note: in the figure the input pulses swing from 0.3 V to 3.5 V and al
 RL: 500 Ω
 CL: 50 pF
 ```
+[[5::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times"
 VM: 1.3 V
 ```
+[[5::Figure 1]]
 
 Conversion note: Figure 1 also shows the load circuits for
 open-collector and 3-state outputs and the setup-and-hold,
@@ -259,6 +271,7 @@ SNJ54ALS86W | Tube of 25 | -55 to 125 | 5962-8862101DA SNJ54ALS86W
 SN74AS86AD | Tube of 50 | 0 to 70 | AS86A
 SN74AS86AN | Tube of 25 | 0 to 70 | SN74AS86AN
 ```
+[[6::table #1]]
 
 ## Conversion notes
 

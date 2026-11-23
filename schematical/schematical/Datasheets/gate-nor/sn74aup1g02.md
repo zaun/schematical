@@ -24,7 +24,7 @@
 ## Description
 
 This single 2-input positive-NOR gate performs the Boolean function
-Y = !{A + B} or Y = !{A} × !{B} in positive logic.
+Y = !{A + B} or Y = !{A} × !{B} in positive logic. [[1::3]]
 
 ## Pinout
 
@@ -53,34 +53,35 @@ NC: No internal connection
 Y: Output Y
 VCC: Power Pin
 ```
+[[3::table #1]]
 
 ## Functional description
 
 The SN74LVC1G02 device contains one 2-input positive-NOR gate and
 performs the Boolean function Y = !{A + B} or Y = !{A} × !{B}. Source
 error: the source names the SN74LVC1G02 in this overview of the
-SN74AUP1G02, kept as printed.
+SN74AUP1G02, kept as printed. [[11::1]]
 
 The AUP family of devices has quiescent power consumption less than 1 µA
 and comes in the ultra small DPW package. The DPW package technology is
 a major breakthrough in IC packaging. Its tiny 0.64 mm square footprint
 saves significant board space over other package options while still
-retaining the traditional manufacturing friendly lead pitch of 0.5 mm.
+retaining the traditional manufacturing friendly lead pitch of 0.5 mm. [[11::2]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
 current backflow through the device when it is powered. The I~off~
-feature also allows for live insertion.
+feature also allows for live insertion. [[11::3]]
 
 Conversion note: the functional block diagram shows one 2-input NOR gate with inputs A and B and output Y.
 
-- Wide operating V~CC~ range of 0.8 V to 3.6 V
-- 3.6-V I/O tolerant to support down translation
-- Input hysteresis allows slow input transition and better switching noise immunity at the input
-- I~off~ feature allows voltages on the inputs and outputs when V~CC~ is 0 V
-- Low noise due to slower edge rates
+- Wide operating V~CC~ range of 0.8 V to 3.6 V [[1::1]]
+- 3.6-V I/O tolerant to support down translation [[11::4]]
+- Input hysteresis allows slow input transition and better switching noise immunity at the input [[1::1]]
+- I~off~ feature allows voltages on the inputs and outputs when V~CC~ is 0 V [[11::4]]
+- Low noise due to slower edge rates [[11::4]]
 
-Table 1 shows the functional modes of SN74AUP1G02.
+Table 1 shows the functional modes of SN74AUP1G02. [[11::5]]
 
 ## Function tables
 
@@ -93,6 +94,7 @@ Table 1 shows the functional modes of SN74AUP1G02.
 | H | L | L |
 | H | H | L |
 ```
+[[11::Table 1]]
 
 ## Absolute maximum ratings
 
@@ -112,6 +114,7 @@ Table 1 shows the functional modes of SN74AUP1G02.
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input negative-voltage and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -122,6 +125,7 @@ Table 1 shows the functional modes of SN74AUP1G02.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -156,6 +160,7 @@ Table 1 shows the functional modes of SN74AUP1G02.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. See the TI application report, Implications of Slow or Floating CMOS Inputs, SCBA004.
 ```
+[[5::table #1]]
 
 ## Thermal information
 
@@ -172,6 +177,7 @@ Table 1 shows the functional modes of SN74AUP1G02.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 ```
+[[5::table #2]]
 
 ## Electrical characteristics
 
@@ -206,6 +212,7 @@ Table 1 shows the functional modes of SN74AUP1G02.
 
 [1] One input at V~CC~ – 0.6 V, other input at V~CC~ or GND.
 ```
+[[6::table #1]]
 
 ```table id=op caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
@@ -217,6 +224,7 @@ Table 1 shows the functional modes of SN74AUP1G02.
 | ^ | ^ | ^ | 2.5 V ± 0.2 V | 4.2 | ^ |
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 4.3 | ^ |
 ```
+[[7::table #1]]
 
 ## Switching characteristics
 
@@ -233,6 +241,7 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | 2.5 V ± 0.2 V | 1 | 3 | 4.6 | 0.5 | 5.9 | ^ |
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 1 | 2.4 | 3.7 | 0.5 | 4.6 | ^ |
 ```
+[[6::table #2]]
 
 ```table id=sw-10pf caption="Switching characteristics, C~L~ = 10 pF" conditions="Over recommended operating free-air temperature range (unless otherwise noted) (see Figure 3 and Figure 4)"
 | Parameter | From (input) | To (output) | V~CC~ | T~A~ = 25°C | < | < | T~A~ = –40°C to +85°C | < | Unit |
@@ -245,6 +254,7 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | 2.5 V ± 0.2 V | 1 | 3.6 | 5.4 | 0.5 | 6.5 | ^ |
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 1 | 2.9 | 4.4 | 0.5 | 5 | ^ |
 ```
+[[7::table #2]]
 
 ```table id=sw-15pf caption="Switching characteristics, C~L~ = 15 pF" conditions="Over recommended operating free-air temperature range (unless otherwise noted) (see Figure 3 and Figure 4)"
 | Parameter | From (input) | To (output) | V~CC~ | T~A~ = 25°C | < | < | T~A~ = –40°C to +85°C | < | Unit |
@@ -257,6 +267,7 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | 2.5 V ± 0.2 V | 1 | 4.3 | 6.1 | 0.5 | 7.7 | ^ |
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 1 | 3.4 | 5 | 0.5 | 6.2 | ^ |
 ```
+[[7::table #3]]
 
 ```table id=sw-30pf caption="Switching characteristics, C~L~ = 30 pF" conditions="Over recommended operating free-air temperature range (unless otherwise noted) (see Figure 3 and Figure 4)"
 | Parameter | From (input) | To (output) | V~CC~ | T~A~ = 25°C | < | < | T~A~ = –40°C to +85°C | < | Unit |
@@ -269,6 +280,7 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | 2.5 V ± 0.2 V | 1.8 | 5.7 | 7.8 | 1.3 | 9.8 | ^ |
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 1.5 | 4.7 | 6.4 | 1 | 7.8 | ^ |
 ```
+[[7::table #4]]
 
 ## Typical characteristics
 
@@ -279,6 +291,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "TPD in ns", "points": [[0.8, 34], [1.2, 13], [1.5, 9.5], [1.8, 7.7], [2.5, 5.7], [3.3, 4.7]]}
  ]}
 ```
+[[8::Figure 1]]
 
 ```curve id=tpd-temp caption="TPD vs Temperature at 1.8 V"
 {"x": {"label": "Temperature", "unit": "°C", "range": [-50, 150]},
@@ -287,6 +300,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "TPD in ns", "points": [[-40, 7.0], [25, 7.7], [85, 8.0], [125, 8.4]]}
  ]}
 ```
+[[8::Figure 2]]
 
 ## Parameter measurement information
 
@@ -295,7 +309,7 @@ by generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω, t~r~/t~f~ = 3 ns. The outputs are measured one at a
 time, with one transition per measurement. t~PLH~ and t~PHL~ are the
 same as t~pd~. All parameters and waveforms are not applicable to all
-devices.
+devices. [[9::2]]
 
 ```table id=pmi-conditions caption="Load circuit test conditions"
 | | V~CC~ = 0.8 V | V~CC~ = 1.2 V ± 0.1 V | V~CC~ = 1.5 V ± 0.1 V | V~CC~ = 1.8 V ± 0.15 V | V~CC~ = 2.5 V ± 0.2 V | V~CC~ = 3.3 V ± 0.3 V |
@@ -304,15 +318,18 @@ devices.
 | V~M~ | V~CC~/2 | V~CC~/2 | V~CC~/2 | V~CC~/2 | V~CC~/2 | V~CC~/2 |
 | V~I~ | V~CC~ | V~CC~ | V~CC~ | V~CC~ | V~CC~ | V~CC~ |
 ```
+[[1::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit"
 RL: 1 MΩ
 CL: 5, 10, 15, 30 pF
 ```
+[[9::Figure 3]]
 
 ```figure ref=waveforms-tpd caption="Propagation delay times, inverting and noninverting outputs"
 VM: VCC/2
 ```
+[[9::figure #1]]
 
 ## Application information
 
@@ -320,7 +337,7 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes. Customers should validate and test
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[12::1]]
 
 The AUP family is TI's premier solution to the industry’s low-power
 needs in battery-powered portable applications. This family ensures a
@@ -329,7 +346,7 @@ range of 0.8 V to 3.6 V, resulting in an increased battery life. This
 product also maintains excellent signal integrity. It has a small amount
 of hysteresis built in allowing for slower or noisy input signals. The
 lowered drive produces slower edges and prevents overshoot and
-undershoot on the outputs.
+undershoot on the outputs. [[12::2]]
 
 Conversion note: the typical application schematic (Figure 5) shows a 3.3 V bus driver
 driving the gate's inputs, the gate on a 1 V regulated V~CC~ with a 0.1 µF
@@ -337,25 +354,25 @@ capacitor, and the gate's output driving a 1 V micro processor.
 
 This device uses CMOS technology and has balanced output drive. Care
 should be taken to avoid bus contention because it can drive currents
-that would exceed maximum limits.
+that would exceed maximum limits. [[12::3]]
 
-1. Recommended Input conditions
-   - Rise time and fall time specs. See (Δt/ΔV) in Recommended Operating Conditions
-   - Specified high and low levels. See (V~IH~ and V~IL~) in Recommended Operating Conditions
-   - Inputs are overvoltage tolerant allowing them to go as high as 3.6 V at any valid V~CC~
-2. Recommend output conditions
-   - Load currents should not exceed 20 mA on the output and 50 mA total for the part
-   - Outputs should not be pulled above V~CC~
+1. Recommended Input conditions [[12::4]]
+   - Rise time and fall time specs. See (Δt/ΔV) in Recommended Operating Conditions [[12::4]]
+   - Specified high and low levels. See (V~IH~ and V~IL~) in Recommended Operating Conditions [[12::4]]
+   - Inputs are overvoltage tolerant allowing them to go as high as 3.6 V at any valid V~CC~ [[12::4]]
+2. Recommend output conditions [[12::4]]
+   - Load currents should not exceed 20 mA on the output and 50 mA total for the part [[12::4]]
+   - Outputs should not be pulled above V~CC~ [[12::4]]
 
 The AUP family of single gate logic makes excellent translators for the
 new lower voltage microprocessors that typically are powered from 0.8 V
 to 1.2 V. They can drop the voltage of peripheral drivers and
-accessories that are still powered by 3.3 V to the new uC power levels.
+accessories that are still powered by 3.3 V to the new uC power levels. [[13::1]]
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the Min and Max supply
-voltage rating located in the Recommended Operating Conditions table.
+voltage rating located in the Recommended Operating Conditions table. [[14::1]]
 
 Each V~CC~ pin should have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, 0.1 μF is recommended; if
@@ -363,7 +380,7 @@ there are multiple V~CC~ pins, then 0.01 μF or 0.022 μF is recommended
 for each power pin. It is acceptable to parallel multiple bypass caps to
 reject different frequencies of noise. A 0.1 μF and a 1 μF are commonly
 used in parallel. The bypass capacitor should be installed as close to
-the power pin as possible for best results.
+the power pin as possible for best results. [[14::2]]
 
 ### Layout guidelines
 
@@ -381,7 +398,7 @@ more sense or is more convenient. It is generally acceptable to float
 outputs, unless the part is a transceiver. If the transceiver has an
 output enable pin, it will disable the output section of the part when
 asserted. This will not disable the input section of the I/Os, so they
-cannot float when disabled.
+cannot float when disabled. [[14::3]]
 
 Conversion note: the layout diagram (Figure 8, p.14) shows two gates, one with its
 unused input tied to V~CC~ and one with its unused input tied to ground.
@@ -427,6 +444,7 @@ SN74AUP1G02DSFR | Reel of 5000 | -40 to 85 | HB
 SN74AUP1G02DSFRG4 | Reel of 5000 | -40 to 85 | HB
 SN74AUP1G02YFPR | Reel of 3000 | | HBN
 ```
+[[16::table #1]]
 
 ## Conversion notes
 

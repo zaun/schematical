@@ -24,12 +24,12 @@
 ## Description
 
 The SN74AC11 device contains three independent 3-input AND gates. This
-device performs the Boolean function Y = A · B · C in positive logic.
+device performs the Boolean function Y = A · B · C in positive logic. [[1::3]]
 
 2-V to 6-V V~CC~ operation. Inputs accept voltages to 6 V. Controlled
 baseline. One assembly/test site, one fabrication site. Enhanced
 diminishing manufacturing sources (DMS) support. Enhanced
-product-change notification.
+product-change notification. [[1::1]]
 
 ## Pinout
 
@@ -46,6 +46,7 @@ product-change notification.
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Functional description
 
@@ -65,6 +66,7 @@ drive 3Y (pin 8).
 | X | L | X | L |
 | X | X | L | L |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -86,6 +88,7 @@ drive 3Y (pin 8).
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #1]]
 
 ## Recommended operating conditions
 
@@ -112,6 +115,7 @@ drive 3Y (pin 8).
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[3::table #1]]
 
 ## Electrical characteristics
 
@@ -140,12 +144,14 @@ drive 3Y (pin 8).
 [1] Not more than one output should be tested at a time, and the duration of the test should not exceed 10 ms.
 [2] Conversion note: the source prints no temperature heading over this Min and Max column group.
 ```
+[[3::table #2]]
 
 ```table id=opchar caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25 °C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | C~L~ = 50 pF, f = 1 MHz | 20 | pF |
 ```
+[[4::table #1]]
 
 ## Switching characteristics
 
@@ -160,6 +166,7 @@ See [parameter measurement information](#parameter-measurement).
 
 [1] Conversion note: the source prints no temperature heading over this Min and Max column group.
 ```
+[[4::table #2]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range, V~CC~ = 5 V ± 0.5 V (unless otherwise noted)"
 | Symbol | From (input) | To (output) | T~A~ = 25 °C | < | < | [1] | < | Unit |
@@ -170,13 +177,14 @@ See [parameter measurement information](#parameter-measurement).
 
 [1] Conversion note: the source prints no temperature heading over this Min and Max column group.
 ```
+[[4::table #3]]
 
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 2.5 ns, t~f~ ≤ 2.5 ns. The outputs are measured one
-at a time with one input transition per measurement.
+at a time with one input transition per measurement. [[4::3]]
 
 Conversion note: the load circuit also has a 500 Ω resistor from the output
 to switch S1 (2 × V~CC~ or open), and S1 is open for t~PLH~/t~PHL~, which
@@ -186,10 +194,12 @@ leaves the load below.
 RL: 500 Ω
 CL: 50 pF
 ```
+[[4::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times"
 VM: 50 % V~CC~
 ```
+[[4::Figure 1]]
 
 ## Package
 
@@ -202,6 +212,7 @@ VM: 50 % V~CC~
 SN74AC11IPWREP | Reel of 2000 | -40 to 85 | SAC11EP
 V62/04701-01XE | Reel of 2000 | -40 to 85 | SAC11EP
 ```
+[[5::table #1]]
 
 ## Conversion notes
 

@@ -27,16 +27,16 @@ The AUP family is TI's premier solution to the industry's low power
 needs in battery-powered portable applications. This family assures a
 very low static and dynamic power consumption across the entire V~CC~
 range of 0.8 V to 3.6 V, resulting in an increased battery life. This
-product also maintains excellent signal integrity.
+product also maintains excellent signal integrity. [[1::1]]
 
 This device functions as an independent gate with Schmitt-trigger
 inputs, which allows for slow input transition and better
-switching-noise immunity at the input.
+switching-noise immunity at the input. [[12::1]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs when the device is
 powered down. This inhibits current backflow into the device which
-prevents damage to the device.
+prevents damage to the device. [[12::2]]
 
 ## Pinout
 
@@ -60,17 +60,18 @@ NC: No internal connection
 VCC: Positive Supply
 Y: Output
 ```
+[[3::table #1]]
 
 ## Functional description
 
 This device functions as an independent gate with Schmitt-trigger
 inputs, which allows for slow input transition and better
-switching-noise immunity at the input.
+switching-noise immunity at the input. [[12::1]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs when the device is
 powered down. This inhibits current backflow into the device which
-prevents damage to the device.
+prevents damage to the device. [[12::2]]
 
 Conversion note: the logic diagrams show one Schmitt-trigger inverter, with input A on pin 2 and output Y on pin 4 (Figure 4, the DBV, DCK, DRL, DRY, DSF, DPW, and YZP packages), and with input A marked 1 and output Y marked 3 (Figure 5, the YFP package).
 
@@ -84,7 +85,7 @@ currents than the device can sustain without being damaged. It is
 important for the power output of the device to be limited to avoid
 thermal runaway and damage due to over-current. The electrical and
 thermal limits defined the in the Absolute Maximum Ratings table must be
-followed at all times.
+followed at all times. [[12::5]]
 
 ### Schmitt-trigger inputs
 
@@ -93,7 +94,7 @@ resistor in parallel with the input capacitance given in the Electrical
 Characteristics table. The worst case resistance is calculated with the
 maximum input voltage, given in the Absolute Maximum Ratings table, and
 the maximum input leakage current, given in the Electrical
-Characteristics table, using ohm's law (R = V ÷ I).
+Characteristics table, using ohm's law (R = V ÷ I). [[12::6]]
 
 The Schmitt-trigger input architecture provides hysteresis as defined by
 ΔV~T~ in the Electrical Characteristics table, which makes this device
@@ -102,16 +103,16 @@ driven much slower than standard CMOS inputs, it is still recommended to
 properly terminate unused inputs. Driving the inputs slowly will also
 increase dynamic current consumption of the device. For additional
 information regarding Schmitt-trigger inputs, see Understanding Schmitt
-Triggers.
+Triggers. [[12::7]]
 
 ### Clamp diodes
 
-The inputs and outputs to this device have negative clamping diodes.
+The inputs and outputs to this device have negative clamping diodes. [[13::1]]
 
 Voltages beyond the values specified in the Absolute Maximum Ratings
 table can cause damage to the device. The input negative-voltage and
 output voltage ratings may be exceeded if the input and output
-clamp-current ratings are observed.
+clamp-current ratings are observed. [[13::2]]
 
 Conversion note: Figure 6 (electrical placement of clamping diodes for each input and output) shows one diode from GND to the input and one from GND to the output, carrying -I~IK~ and -I~OK~.
 
@@ -120,17 +121,17 @@ Conversion note: Figure 6 (electrical placement of clamping diodes for each inpu
 The inputs and outputs for this device enter a high impedance state when
 the supply voltage is 0 V. The maximum leakage into or out of any input
 or output pin on the device is specified by I~off~ in the Electrical
-Characteristics table.
+Characteristics table. [[13::4]]
 
 ### Over-voltage tolerant inputs
 
 Input signals to this device can be driven above the supply voltage so
 long as they remain below the maximum input voltage value specified in
-the Absolute Maximum Ratings table.
+the Absolute Maximum Ratings table. [[13::5]]
 
 ### Device functional modes
 
-Table 1 lists the functional modes of the SN74AUP1G14.
+Table 1 lists the functional modes of the SN74AUP1G14. [[13::6]]
 
 ## Function tables
 
@@ -141,6 +142,7 @@ Table 1 lists the functional modes of the SN74AUP1G14.
 | H | L |
 | L | H |
 ```
+[[13::Table 1]]
 
 ## Absolute maximum ratings
 
@@ -161,6 +163,7 @@ Table 1 lists the functional modes of the SN74AUP1G14.
 [1] Stresses beyond those listed under "absolute maximum ratings" may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under "recommended operating conditions" is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output negative-voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -171,6 +174,7 @@ Table 1 lists the functional modes of the SN74AUP1G14.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -196,6 +200,7 @@ Table 1 lists the functional modes of the SN74AUP1G14.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to assure proper device operation. See Implications of Slow or Floating CMOS Inputs.
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -212,6 +217,7 @@ Table 1 lists the functional modes of the SN74AUP1G14.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 ```
+[[5::table #1]]
 
 ## Electrical characteristics
 
@@ -280,6 +286,7 @@ Table 1 lists the functional modes of the SN74AUP1G14.
 
 [1] Unconfirmed: the source prints this value at the MIN position of the MIN TYP MAX header; the features (p.1) give C~I~ = 1.5 pF Typical.
 ```
+[[5::table #2]] [[6::table #1]]
 
 ```table id=op caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
@@ -291,6 +298,7 @@ Table 1 lists the functional modes of the SN74AUP1G14.
 | ^ | ^ | ^ | 2.5 V ± 0.2 V | 4.3 | ^ |
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 4.4 | ^ |
 ```
+[[8::table #1]]
 
 ## Switching characteristics
 
@@ -311,6 +319,7 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | V~CC~ = 3.3 V ± 0.3 V | T~A~ = 25°C | 2.5 | 3 | 4 | ^ |
 | ^ | ^ | ^ | ^ | T~A~ = –40°C to +85°C | 1.7 | | 4.9 | ^ |
 ```
+[[7::table #1]]
 
 ```table id=sw-10pf caption="Switching characteristics: C~L~ = 10 pF" conditions="Over recommended operating free-air temperature range, C~L~ = 10 pF (unless otherwise noted) (see Figure 2 and Figure 3)"
 | Parameter | From (input) | To (output) | Test conditions | < | Min | Typ | Max | Unit |
@@ -327,6 +336,7 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | V~CC~ = 3.3 V ± 0.3 V | T~A~ = 25°C | 2.9 | 3.5 | 4.6 | ^ |
 | ^ | ^ | ^ | ^ | T~A~ = –40°C to +85°C | 2.1 | | 5.6 | ^ |
 ```
+[[7::table #2]]
 
 ```table id=sw-15pf caption="Switching characteristics: C~L~ = 15 pF" conditions="Over recommended operating free-air temperature range, C~L~ = 15 pF (unless otherwise noted) (see Figure 2 and Figure 3)"
 | Parameter | From (input) | To (output) | Test conditions | < | Min | Typ | Max | Unit |
@@ -343,6 +353,7 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | V~CC~ = 3.3 V ± 0.3 V | T~A~ = 25°C | 3.3 | 3.9 | 5 | ^ |
 | ^ | ^ | ^ | ^ | T~A~ = –40°C to +85°C | 2.5 | | 6.1 | ^ |
 ```
+[[8::table #2]]
 
 ```table id=sw-30pf caption="Switching characteristics: C~L~ = 30 pF" conditions="Over recommended operating free-air temperature range, C~L~ = 30 pF (unless otherwise noted) (see Figure 2 and Figure 3)"
 | Parameter | From (input) | To (output) | Test conditions | < | Min | Typ | Max | Unit |
@@ -359,6 +370,7 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | V~CC~ = 3.3 V ± 0.3 V | T~A~ = 25°C | 4.2 | 5 | 6.2 | ^ |
 | ^ | ^ | ^ | ^ | T~A~ = –40°C to +85°C | 3.5 | | 7.3 | ^ |
 ```
+[[8::table #3]]
 
 ## Typical characteristics
 
@@ -369,6 +381,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "TA = 25°C", "points": [[0.8, 20], [1.2, 8.7], [1.5, 6.7], [1.8, 5.6], [2.5, 4.5], [3.3, 3.9]]}
  ]}
 ```
+[[9::Figure 1]]
 
 ## Parameter measurement information
 
@@ -376,7 +389,7 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω, t~r~/t~f~ = 3 ns. The outputs are measured one at a time,
 with one transition per measurement. t~PLH~ and t~PHL~ are the same as
-t~pd~. All parameters and waveforms are not applicable to all devices.
+t~pd~. All parameters and waveforms are not applicable to all devices. [[10::2]]
 
 ```table id=pmi-conditions caption="Load circuit test conditions"
 | | V~CC~ = 0.8 V | V~CC~ = 1.2 V ± 0.1 V | V~CC~ = 1.5 V ± 0.1 V | V~CC~ = 1.8 V ± 0.15 V | V~CC~ = 2.5 V ± 0.2 V | V~CC~ = 3.3 V ± 0.3 V |
@@ -385,15 +398,18 @@ t~pd~. All parameters and waveforms are not applicable to all devices.
 | V~M~ | V~CC~/2 | V~CC~/2 | V~CC~/2 | V~CC~/2 | V~CC~/2 | V~CC~/2 |
 | V~I~ | V~CC~ | V~CC~ | V~CC~ | V~CC~ | V~CC~ | V~CC~ |
 ```
+[[1::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit"
 RL: 1 MΩ
 CL: 5, 10, 15, 30 pF
 ```
+[[10::Figure 2]]
 
 ```figure ref=waveforms-tpd caption="Propagation delay times, inverting and noninverting outputs"
 VM: VCC/2
 ```
+[[10::figure #1]]
 
 ## Application information
 
@@ -401,7 +417,7 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes. Customers should validate and test
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[14::1]]
 
 Mechanical input elements, such as push buttons or rotary knobs, offer
 simple ways to interact with electronic systems. Typically, these
@@ -410,7 +426,7 @@ breaks contact multiple times during human interaction. This bouncing
 can cause one or more repeated signals to be passed, triggering multiple
 actions when only a single input was intended. One potential solution to
 mitigating these multiple inputs is by utilizing a Schmitt-trigger to
-create a debounce circuit. Figure 7 shows an example of this solution.
+create a debounce circuit. Figure 7 shows an example of this solution. [[14::2]]
 
 The input due to the push button switches multiple times, causing the
 output of a non Schmitt-trigger device to trigger multiple times, while
@@ -418,7 +434,7 @@ the Schmitt-trigger input device with RC delay limits the output pulse
 to a single pulse desired by the user. The separated positive and
 negative input voltage threshold values prevent multiple triggers from
 occurring, see the Electrical Characteristics table for V~T+~, V~T-~,
-and V~hys~ values.
+and V~hys~ values. [[14::3]]
 
 Conversion note: Figure 7 (push button debounce circuit schematic) shows a push button to ground with a resistor R1 to V~CC~, a resistor R2 from the button to input A with a capacitor C1 to ground, and output Y as the OUTPUT.
 
@@ -430,26 +446,26 @@ This device uses CMOS technology and has balanced output drive. Take
 care to avoid bus contention because it can drive currents that would
 exceed maximum limits. The drive strength also creates fast edges into
 light loads so routing and load conditions should be considered to
-prevent ringing.
+prevent ringing. [[14::5]]
 
 ### Detailed design procedure
 
-1. Recommended Input Conditions:
-   - For specified high and low levels, see (V~T+~ and V~T-~) in the Electrical Characteristics table.
-   - Inputs are overvoltage tolerant allowing them to go as high as (V~I~ max) in the Recommended Operating Conditions table at any valid V~CC~.
-2. Recommended Output Conditions:
-   - Load currents should not exceed (I~O~ max) per output and should not exceed (Continuous current through V~CC~ or GND) total current for the part. These limits are located in the Absolute Maximum Ratings table.
+1. Recommended Input Conditions: [[14::6]]
+   - For specified high and low levels, see (V~T+~ and V~T-~) in the Electrical Characteristics table. [[14::6]]
+   - Inputs are overvoltage tolerant allowing them to go as high as (V~I~ max) in the Recommended Operating Conditions table at any valid V~CC~. [[14::6]]
+2. Recommended Output Conditions: [[14::6]]
+   - Load currents should not exceed (I~O~ max) per output and should not exceed (Continuous current through V~CC~ or GND) total current for the part. These limits are located in the Absolute Maximum Ratings table. [[14::6]]
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the min and max supply
-voltage rating located in the Recommended Operating Conditions table.
+voltage rating located in the Recommended Operating Conditions table. [[16::1]]
 
 Each V~CC~ pin should have a good bypass capacitor to prevent power
 disturbance. It is ok to parallel multiple bypass caps to reject
 different frequencies of noise. 0.1-μF and 1-μF capacitors are commonly
 used in parallel. The bypass capacitor should be installed as close to
-the power pin as possible for best results.
+the power pin as possible for best results. [[16::2]]
 
 ### Layout guidelines
 
@@ -463,7 +479,7 @@ especially the distributed capacitance and self–inductance of the trace
 which results in the reflection. Not all PCB traces can be straight and
 therefore some traces must turn corners. Figure 10 shows progressively
 better techniques of rounding corners. Only the last example (BEST)
-maintains constant trace width and minimizes reflections.
+maintains constant trace width and minimizes reflections. [[16::3]]
 
 An example layout is given in Figure 11 for the DPW (X2SON-5) package.
 This example layout includes a 0402 (metric) capacitor and uses the
@@ -471,7 +487,7 @@ measurements found in the example board layout appended to this end of
 this datasheet. A via of diameter 0.1 mm (3.973 mil) is placed directly
 in the center of the device. This via can be used to trace out the
 center pin connection through another board layer, or it can be left out
-of the layout
+of the layout [[16::4]]
 
 Conversion note: Figure 10 (trace example: WORST, BETTER, BEST corners) and Figure 11 (example layout with the DPW package and a 0402 0.1 µF bypass capacitor, p.16) are not drawn.
 
@@ -511,6 +527,7 @@ SN74AUP1G14DRYR | Reel of 5000 | -40 to 85 | HF
 SN74AUP1G14DSFR | Reel of 5000 | -40 to 85 | HF
 SN74AUP1G14YFPR | Reel of 3000 | | HFN
 ```
+[[18::table #1]]
 
 ## Conversion notes
 

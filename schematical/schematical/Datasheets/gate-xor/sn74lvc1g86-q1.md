@@ -25,21 +25,21 @@
 
 The SN74LVC1G86-Q1 is an automotive qualified device that performs the
 Boolean function Y = !{A}B + A!{B} in positive logic. This single 2-input exclusive-OR
-gate is designed for operation from 1.65V to 5.5V V~CC~.
+gate is designed for operation from 1.65V to 5.5V V~CC~. [[1::1]]
 
 If the input is low, the other input is reproduced in true form at the
 output. If the input is high, the signal on the other input is
 reproduced inverted at the output. This device has low power
 consumption with maximum t~pd~ of 6ns at 3.3V and 50pF capacitive load.
-The maximum output drive is ±32mA at 4.5V and ±24mA at 3.3V.
+The maximum output drive is ±32mA at 4.5V and ±24mA at 3.3V. [[1::4]]
 
 This device is fully specified for partial-power-down applications
 using I~off~. The I~off~ circuitry disables the outputs, preventing
-damaging current back flow through the device when it is powered down.
+damaging current back flow through the device when it is powered down. [[8::3]]
 
 Qualified for Automotive Applications. Supports 5V V~CC~ operation. Inputs are over voltage tolerant up to
 5.5V. Supports down translation to V~CC~. Latch-up performance exceeds
-100mA per JESD 78, Class II.
+100mA per JESD 78, Class II. [[1::2]]
 
 ## Pinout
 
@@ -55,17 +55,18 @@ GND: Ground
 VCC: Positive Supply
 Y: Output Y
 ```
+[[3::table #1]]
 
 ## Functional description
 
-A common application is as a true and complement element.
+A common application is as a true and complement element. [[8::2]]
 
 An exclusive-OR gate has many applications, some of which can be
 represented better by alternative logic symbols. These are five
 equivalent exclusive-OR symbols valid for an SN74LVC1G86-Q1 gate in
 positive logic; negation can be shown at any two ports. Conversion
 note: the five symbols of the functional block diagram are not drawn
-here.
+here. [[8::4]]
 
 ### Balanced high-drive CMOS push-pull outputs
 
@@ -77,7 +78,7 @@ of driving larger currents than the device can sustain without being
 damaged. Limit the power output of the device to avoid thermal runaway
 and damage due to over-current. The electrical and thermal limits
 defined the in the [Absolute Maximum Ratings](#absolute-maximum-ratings)
-must be followed at all times.
+must be followed at all times. [[8::5]]
 
 ### Standard CMOS inputs
 
@@ -87,13 +88,13 @@ resistor in parallel with the input capacitance given in the
 case resistance is calculated with the maximum input voltage, given in
 the [Recommended Operating Conditions](#recommended-operating-conditions),
 and the maximum input leakage current, given in the Electrical
-Characteristics, using Ohm's law (R = V ÷ I).
+Characteristics, using Ohm's law (R = V ÷ I). [[8::6]]
 
 Signals applied to the inputs need to have fast edge rates, as defined
 by Δt/Δv in Recommended Operating Conditions to avoid excessive
 currents and oscillations. If tolerance to a slow or noisy input signal
 is required, a device with a Schmitt-trigger input must be used to
-condition the input signal prior to the standard CMOS input.
+condition the input signal prior to the standard CMOS input. [[8::7]]
 
 ### Clamp diodes
 
@@ -101,7 +102,7 @@ The inputs and outputs to this device have negative clamping diodes.
 Avoid any voltage below or above the input or output voltage specified
 in the Absolute Maximum Ratings. In this event, the current must be
 limited to the maximum input or output clamp current value indicated in
-the Absolute Maximum Ratings to avoid damage to the device.
+the Absolute Maximum Ratings to avoid damage to the device. [[9::1]] [[9::2]]
 
 Conversion note: Figure 7-1 shows one clamping diode from GND to the
 input (-I~IK~) and one from GND to the output (-I~OK~), and none to
@@ -112,13 +113,13 @@ V~CC~.
 The inputs and outputs for this device enter a high impedance state
 when the supply voltage is 0V. The maximum leakage into or out of any
 input or output pin on the device is specified by I~off~ in the
-Electrical Characteristics.
+Electrical Characteristics. [[9::4]]
 
 ### Over-voltage tolerant inputs
 
 Input signals to this device can be driven above the supply voltage so
 long as they remain below the maximum input voltage value specified in
-the Recommended Operating Conditions.
+the Recommended Operating Conditions. [[9::5]]
 
 ## Function tables
 
@@ -131,6 +132,7 @@ the Recommended Operating Conditions.
 | H | L | H |
 | H | H | L |
 ```
+[[9::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -152,6 +154,7 @@ the Recommended Operating Conditions.
 [2] The input negative-voltage and output voltage ratings can be exceeded if the input and output clamp-current ratings are observed.
 [3] The value of V~CC~ is provided in the Recommended Operating Conditions table.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -161,6 +164,7 @@ the Recommended Operating Conditions.
 
 [1] AEC Q100-002 indicates that HBM stressing shall be in accordance with the ANSI/ESDA/JEDEC JS-001 specification.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -196,6 +200,7 @@ the Recommended Operating Conditions.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to maintain proper device operation. Refer to the TI application note, Implications of Slow or Floating CMOS Inputs.
 ```
+[[4::table #3]] [[5::table #1]]
 
 ## Thermal information
 
@@ -206,6 +211,7 @@ the Recommended Operating Conditions.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application note.
 ```
+[[5::table #2]]
 
 ## Electrical characteristics
 
@@ -232,6 +238,7 @@ the Recommended Operating Conditions.
 
 [1] All typical values are at V~CC~ = 3.3V, T~A~ = 25°C.
 ```
+[[5::table #3]]
 
 ### Operating characteristics
 
@@ -241,6 +248,7 @@ the Recommended Operating Conditions.
 |---|---|---|--:|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | f = 10MHz | 22 | 22 | 22 | 24 | pF |
 ```
+[[6::table #1]]
 
 ## Switching characteristics
 
@@ -254,6 +262,7 @@ See [parameter measurement information](#parameter-measurement).
 
 [1] Source conflict: this table is headed C~L~ = 30pF or 50pF and points to Figure 6-1, whose table gives C~L~ = 15 pF and R~L~ = 1 MΩ at every V~CC~ (p.7); the source has no table of the 30pF or 50pF load.
 ```
+[[6::table #2]]
 
 ## Typical characteristics
 
@@ -266,15 +275,16 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "-40 °C", "points": [[0, 4.49], [20, 4.34], [40, 4.15], [60, 3.98], [80, 3.76], [100, 3.54], [120, 3.28], [140, 3.02], [160, 2.59], [180, 1.86], [186, 1.32], [189, 0.94], [190, 0.32], [192, -0.37], [195, -0.64], [200, -0.74]]}
  ]}
 ```
+[[6::Figure 5-1]]
 
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
-per measurement. t~PLH~ and t~PHL~ are the same as t~pd~.
+per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. [[7::1]]
 
-All parameters and waveforms are not applicable to all devices.
+All parameters and waveforms are not applicable to all devices. [[7::1]]
 
 Conversion note: the load circuit also has a second R~L~, from the output
 to switch S1, which goes to V~LOAD~, open or GND; the figure below draws
@@ -289,11 +299,13 @@ setup-and-hold and enable/disable waveforms, which are not drawn here.
 | t~PLZ~/t~PZL~ | V~LOAD~ |
 | t~PHZ~/t~PZH~ | GND |
 ```
+[[7::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: see table
 CL: see table
 ```
+[[7::Figure 6-1]]
 
 ```table id=test-conditions caption="Test conditions (Figure 6-1)"
 | V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -304,10 +316,12 @@ CL: see table
 | 3.3 V ± 0.3 V | 3 V | ≤ 2.5 ns | 1.5 V | 6 V | 15 pF | 1 MΩ | 0.3 V |
 | 5 V ± 0.5 V | V~CC~ | ≤ 2.5 ns | V~CC~/2 | 2 × V~CC~ | 15 pF | 1 MΩ | 0.3 V |
 ```
+[[7::table #2]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: see table
 ```
+[[7::Figure 6-1]]
 
 ## Application information
 
@@ -315,12 +329,12 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[10::1]]
 
 The SN74LVC1G86-Q1 device can accept input voltages up to 5.5V at any valid
 V~CC~ which makes the device an excellent choice for down translation.
 Therefore, the SN74LVC1G86-Q1 is designed for various bus interface
-applications.
+applications. [[10::2]]
 
 Conversion note: the typical application schematic (Figure 8-1) shows the gate, supplied from a 3.3-V or 5-V regulated rail with a 0.1 µF capacitor to ground, between 5-V system logic on a 5-V accessory and a µC or system logic.
 
@@ -329,22 +343,22 @@ Conversion note: the typical application schematic (Figure 8-1) shows the gate, 
 This device uses CMOS technology and has balanced output drive. Avoid
 bus contention because it can drive currents that exceed maximum
 limits. The high drive also creates fast edges into light loads, so
-routing and load conditions must be considered to prevent ringing.
+routing and load conditions must be considered to prevent ringing. [[10::3]]
 
 ### Detailed design procedure
 
-1. Recommended Input Conditions
+1. Recommended Input Conditions [[10::4]]
    - For rise time and fall time specifications, see Δt/ΔV in the
      [Recommended Operating Conditions](#recommended-operating-conditions)
-     table.
+     table. [[10::4]]
    - For specified High and low levels, see V~IH~ and V~IL~ in the
-     Recommended Operating Conditions table.
+     Recommended Operating Conditions table. [[10::4]]
    - Inputs are overvoltage tolerant allowing them to go as high as 5.5V
-     at any valid V~CC~.
-2. Recommended Output Conditions
+     at any valid V~CC~. [[10::4]]
+2. Recommended Output Conditions [[10::4]]
    - Load currents must not exceed 32mA per output and 50mA total for
-     the part.
-   - Outputs must not be pulled above V~CC~.
+     the part. [[10::4]]
+   - Outputs must not be pulled above V~CC~. [[10::4]]
 
 ### Application curve
 
@@ -356,12 +370,13 @@ routing and load conditions must be considered to prevent ringing.
   {"label": "High->Low", "points": [[0, 0], [1, 0], [1.5, 4], [2, 9.4], [2.2, 11.5], [2.22, 15], [2.23, 40], [2.25, 68], [2.4, 72.5], [2.8, 73.5], [2.95, 76.4], [3, 70.8], [3.05, 69.8], [3.2, 71.8], [3.27, 71], [3.3, 55], [3.38, 48.5], [3.4, 30], [3.42, 15], [3.5, 8], [4, 3.4], [4.5, 1], [5, 0], [6, 0]]}
  ]}
 ```
+[[6::Figure 5-1]]
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the minimum and maximum
 supply voltage rating located in the Recommended Operating Conditions
-table.
+table. [[11::1]]
 
 Each V~CC~ pin must have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, 0.1µF is recommended. If
@@ -369,7 +384,7 @@ there are multiple V~CC~ pins, 0.01µF or 0.022µF is recommended for
 each power pin. Parallel multiple bypass caps to reject different
 frequencies of noise. A 0.1µF and 1µF are commonly used in parallel.
 The bypass capacitor must be installed as close to the power pin as
-possible for best results.
+possible for best results. [[11::2]]
 
 ### Layout guidelines
 
@@ -385,7 +400,7 @@ some traces must turn corners. Figure 8-3 shows progressively better
 techniques of rounding corners. Only the last example (BEST) maintains
 constant trace width and minimizes reflections. Conversion note:
 Figure 8-3 (trace example: WORST, BETTER, BEST corners) is not drawn
-here.
+here. [[11::3]]
 
 ## Package
 
@@ -398,6 +413,7 @@ here.
 SN74LVC1G86QDCKRQ1 | Reel of 3000 | -40 to 125 | 16T
 SN74LVC1G86QDCKTQ1 | Reel of 250 | -40 to 125 | 16T
 ```
+[[14::table #1]]
 
 ## Conversion notes
 

@@ -24,7 +24,7 @@
 ## Description
 
 The ’HC04 devices contain six independent inverters. They perform the
-Boolean function Y = !{A} in positive logic.
+Boolean function Y = !{A} in positive logic. [[1::4]]
 
 Source error: the description (p.1) names the ’HC04 devices; the data sheet's title and its ordering table give the SN74AHCU04-EP. Kept as printed.
 
@@ -35,7 +35,7 @@ Notification. Qualification Pedigree. Operating Range 2-V to 5.5-V
 V~CC~. Unbuffered Outputs. Latch-Up Performance Exceeds 100 mA Per
 JESD 78, Class II. ESD Protection Exceeds JESD 22. 2000-V Human-Body
 Model (A114-A). 200-V Machine Model (A115-A). 1000-V Charged-Device
-Model (C101).
+Model (C101). [[1::1]] [[1::2]]
 
 Component qualification in accordance with JEDEC and industry standards
 to ensure reliable operation over an extended temperature range. This
@@ -43,7 +43,7 @@ includes, but is not limited to, Highly Accelerated Stress Test (HAST)
 or biased 85/85, temperature cycle, autoclave or unbiased HAST,
 electromigration, bond intermetallic life, and mold compound life. Such
 qualification testing should not be viewed as justifying use of this
-component beyond specified performance and environmental limits.
+component beyond specified performance and environmental limits. [[1::3]]
 
 ## Pinout
 
@@ -58,6 +58,7 @@ component beyond specified performance and environmental limits.
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -68,6 +69,7 @@ VCC: Supply voltage
 | H | L |
 | L | H |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -90,6 +92,7 @@ VCC: Supply voltage
 [3] The package thermal impedance is calculated in accordance with JESD 51-7.
 [4] Unconfirmed: the condition of the output clamp current is printed "V~O~ < 0 or V~O~ = 0 to V~CC~", which repeats the condition of the continuous output current row below it.
 ```
+[[2::table #1]]
 
 ## Recommended operating conditions
 
@@ -115,6 +118,7 @@ VCC: Supply voltage
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[2::table #2]]
 
 ## Electrical characteristics
 
@@ -138,6 +142,7 @@ VCC: Supply voltage
 
 [1] Unconfirmed: the second condition of the I~CC~ row is printed as a subscript O alone, "O = 0", without its symbol.
 ```
+[[3::table #1]]
 
 ```table id=noise caption="Noise characteristics [1]" conditions="V~CC~ = 5 V, C~L~ = 50 pF, T~A~ = 25°C"
 | Symbol | Parameter | Min | Typ | Max | Unit |
@@ -150,12 +155,14 @@ VCC: Supply voltage
 
 [1] Characterists are for surface-mount packages only.
 ```
+[[3::table #2]]
 
 ```table id=operating caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 7.3 | pF |
 ```
+[[3::table #3]]
 
 ## Switching characteristics
 
@@ -168,6 +175,7 @@ VCC: Supply voltage
 
 [1] Source error: the source heads this column V~CC~; its cell gives the load capacitance, C~L~ = 50 pF, and V~CC~ is in the line over the table. Kept as printed.
 ```
+[[3::table #4]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 ± 0.5 V" conditions="Over operating free-air temperature range (unless otherwise noted) (see Figure 1)"
 | Symbol | From (input) | To (output) | V~CC~ [1] | T~A~ = 25°C | < | T~A~ = –55°C to 125°C | < | Unit |
@@ -178,6 +186,7 @@ VCC: Supply voltage
 
 [1] Source error: the source heads this column V~CC~; its cell gives the load capacitance, C~L~ = 50 pF, and V~CC~ is in the line over the table. Kept as printed.
 ```
+[[3::table #5]]
 
 ## Parameter measurement information
 
@@ -185,17 +194,19 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time, with one transition per measurement. All parameters and waveforms
-are not applicable to all devices.
+are not applicable to all devices. [[4::1]]
 
 Unconfirmed: note C of Figure 1 (p.4) prints "PRR ≤ MHz", with no number.
 
 ```figure ref=load-cmos-50pf caption="Figure 1. Load circuit for totem-pole outputs"
 CL: see table
 ```
+[[4::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Figure 1. Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 50% V~CC~
 ```
+[[4::Figure 1]]
 
 Conversion note: the load circuit of the source figure (Figure 1) prints
 no value for C~L~, which is 50 pF in the switching characteristics; the
@@ -213,6 +224,7 @@ enable/disable waveforms with their note B, which are not drawn here.
 ```ordering
 SN74AHCU04MPWREP | Reel of 2000 | -55 to 125 | AHCU04M | NRND
 ```
+[[1::table #3]]
 
 ## Conversion notes
 

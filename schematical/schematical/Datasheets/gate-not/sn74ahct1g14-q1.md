@@ -24,16 +24,16 @@
 ## Description
 
 The SN74AHCT1G14-Q1 is a single inverter gate. The device performs the
-Boolean function Y = !{A}.
+Boolean function Y = !{A}. [[1::1]] [[1::2]]
 
 The device functions as an independent inverter gate, but because of the
 Schmitt action, gates may have different input threshold levels for
-positive-going (V~T+~) and negative-going (V~T−~) signals.
+positive-going (V~T+~) and negative-going (V~T−~) signals. [[1::4]]
 
 AEC-Q100 qualified for automotive applications. Operating range of 4.5 V
 to 5.5 V. Low power consumption, 10-µA maximum I~CC~. ±8-mA output drive
 at 5 V. Inputs are TTL-voltage compatible. Latch-up performance exceeds
-250 mA per JESD 17.
+250 mA per JESD 17. [[1::3]]
 
 ## Pinout
 
@@ -49,15 +49,16 @@ GND: Ground
 Y: Data Output
 VCC: Power
 ```
+[[3::Table 4-1]]
 
 ## Functional description
 
 The SN74AHCT1G14-Q1 is a single inverter gate. The device performs the
-Boolean function Y = !{A}.
+Boolean function Y = !{A}. [[1::1]] [[1::2]]
 
 The device functions as an independent inverter gate, but because of the
 Schmitt action, gates may have different input threshold levels for
-positive-going (V~T+~) and negative-going (V~T−~) signals.
+positive-going (V~T+~) and negative-going (V~T−~) signals. [[1::4]]
 
 Conversion note: the functional block diagram shows one Schmitt-trigger inverter with input A and output Y.
 
@@ -71,29 +72,29 @@ Additionally, the outputs of this device are capable of driving larger
 currents than the device can sustain without being damaged. It is
 important for the output power of the device to be limited to avoid
 damage due to overcurrent. The electrical and thermal limits defined in
-the Absolute Maximum Ratings must be followed at all times.
+the Absolute Maximum Ratings must be followed at all times. [[8::3]]
 
-Unused push-pull CMOS outputs should be left disconnected.
+Unused push-pull CMOS outputs should be left disconnected. [[8::4]]
 
 ### TTL-compatible CMOS inputs
 
 This device includes TTL-compatible CMOS inputs. These inputs are
 specifically designed to interface with TTL logic devices by having a
-reduced input voltage threshold.
+reduced input voltage threshold. [[8::5]]
 
 TTL-compatible CMOS inputs are high impedance and are typically modeled
 as a resistor in parallel with the input capacitance given in the
 Electrical Characteristics. The worst case resistance is calculated with
 the maximum input voltage, given in the Absolute Maximum Ratings, and
 the maximum input leakage current, given in the Electrical
-Characteristics, using Ohm's law (R = V ÷ I).
+Characteristics, using Ohm's law (R = V ÷ I). [[8::6]]
 
 TTL-compatible CMOS inputs require that input signals transition between
 valid logic states quickly, as defined by the input transition time or
 rate in the Recommended Operating Conditions table. Failing to meet this
 specification will result in excessive power consumption and could cause
 oscillations. More details can be found in the Implications of Slow or
-Floating CMOS Inputs application report.
+Floating CMOS Inputs application report. [[8::7]]
 
 Do not leave TTL-compatible CMOS inputs floating at any time during
 operation. Unused inputs must be terminated at V~CC~ or GND. If a system
@@ -101,7 +102,7 @@ will not be actively driving an input at all times, a pull-up or
 pull-down resistor can be added to provide a valid input voltage during
 these times. The resistor value will depend on multiple factors;
 however, a 10-kΩ resistor is recommended and will typically meet all
-requirements.
+requirements. [[8::8]]
 
 ### CMOS Schmitt-trigger inputs
 
@@ -112,7 +113,7 @@ Characteristics table from the input to ground. The worst case
 resistance is calculated with the maximum input voltage, given in the
 Absolute Maximum Ratings table, and the maximum input leakage current,
 given in the Electrical Characteristics table, using Ohm's law
-(R = V ÷ I).
+(R = V ÷ I). [[8::6]] [[8::8]] [[8::9]]
 
 The Schmitt-trigger input architecture provides hysteresis as defined by
 ΔV~T~ in the Electrical Characteristics table, which makes this device
@@ -121,24 +122,24 @@ driven much slower than standard CMOS inputs, it is still recommended to
 properly terminate unused inputs. Driving the inputs with slow
 transitioning signals will increase dynamic current consumption of the
 device. For additional information regarding Schmitt-trigger inputs,
-please see Understanding Schmitt Triggers.
+please see Understanding Schmitt Triggers. [[8::10]]
 
 ### Clamp diode structure
 
 The outputs to this device have both positive and negative clamping
 diodes, and the inputs to this device have negative clamping diodes only
-as shown in Figure 7-1.
+as shown in Figure 7-1. [[9::1]]
 
 Voltages beyond the values specified in the Absolute Maximum Ratings
 table can cause damage to the device. The input and output voltage
 ratings may be exceeded if the input and output clamp-current ratings
-are observed.
+are observed. [[9::2]]
 
 Conversion note: Figure 7-1 draws the output clamps to V~CC~ (+I~OK~) and GND (-I~OK~) and the input clamp to GND (-I~IK~).
 
 ### Device functional modes
 
-Table 7-1 lists the device function modes.
+Table 7-1 lists the device function modes. [[9::4]]
 
 ## Function tables
 
@@ -151,6 +152,7 @@ Table 7-1 lists the device function modes.
 
 [1] H = High Voltage Level, L = Low Voltage Level
 ```
+[[9::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -171,6 +173,7 @@ Table 7-1 lists the device function modes.
 [1] Operation outside the Absolute Maximum Ratings may cause permanent device damage. Absolute maximum ratings do not imply functional operation of the device at these or any other conditions beyond those listed under Recommended Operating Conditions. If briefly operating outside the Recommended Operating Conditions but within the Absolute Maximum Ratings, the device may not sustain damage, but it may not be fully functional. Operating the device in this manner may affect device reliability, functionality, performance, and shorten the device lifetime.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -180,6 +183,7 @@ Table 7-1 lists the device function modes.
 
 [1] AEC Q100-002 indicate that HBM stressing shall be in accordance with the ANSI/ESDA/JEDEC JS-001 specification.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -200,6 +204,7 @@ Table 7-1 lists the device function modes.
 
 [1] Source conflict: this table (p.4) prints a minimum supply voltage of 3 V and gives V~IH~ and V~IL~ at V~CC~ = 3 V; the features (p.1) give an operating range of 4.5 V to 5.5 V, and the electrical and switching characteristics are specified from 4.5 V.
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -215,6 +220,7 @@ Table 7-1 lists the device function modes.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 ```
+[[5::table #1]]
 
 ## Electrical characteristics
 
@@ -239,6 +245,7 @@ Table 7-1 lists the device function modes.
 | C~O~ | V~O~ = V~CC~ or GND | 5 V | | 15 | | | | | pF |
 | C~PD~ | No load, f 10 MHz | 5 V | | 14 | | | | | pF |
 ```
+[[5::table #2]]
 
 ## Switching characteristics
 
@@ -251,10 +258,11 @@ Table 7-1 lists the device function modes.
 | T~PHL~ | A | Y | C~L~ = 50 pF | 5 V ± 0.5 V | | 5.5 | 8 | 1 | | 9 | 1 | | 10 | ns |
 | T~PLH~ | A | Y | C~L~ = 50 pF | 5 V ± 0.5 V | | 5.5 | 8 | 1 | | 9 | 1 | | 10 | ns |
 ```
+[[5::table #3]]
 
 ## Typical characteristics
 
-T~A~ = 25°C (unless otherwise noted)
+T~A~ = 25°C (unless otherwise noted) [[6::1]]
 
 ```curve id=voh-5v caption="Output voltage vs current in HIGH state; 5-V supply"
 {"x": {"label": "I_OH", "unit": "mA", "range": [-25, 0]},
@@ -265,6 +273,7 @@ T~A~ = 25°C (unless otherwise noted)
   {"label": "125°C", "points": [[-25, 4.385], [-0.5, 4.99]]}
  ]}
 ```
+[[6::Figure 5-1]]
 
 ```curve id=vol-5v caption="Output voltage vs current in LOW state; 5-V supply"
 {"x": {"label": "I_OL", "unit": "mA", "range": [0, 25]},
@@ -275,29 +284,32 @@ T~A~ = 25°C (unless otherwise noted)
   {"label": "125°C", "points": [[0.5, 0.01], [25, 0.48]]}
  ]}
 ```
+[[6::Figure 5-2]]
 
 ## Parameter measurement information
 
 Phase relationships between waveforms were chosen arbitrarily. All input
 pulses are supplied by generators having the following characteristics:
-PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~t~ < 3 ns.
+PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~t~ < 3 ns. [[7::1]]
 
-For clock inputs, f~max~ is measured when the input duty cycle is 50%.
+For clock inputs, f~max~ is measured when the input duty cycle is 50%. [[7::2]]
 
 The outputs are measured one at a time with one input transition per
-measurement.
+measurement. [[7::3]]
 
 C~L~ includes probe and test-fixture capacitance. The greater between
 t~PLH~ and t~PHL~ is the same as t~pd~. The greater between t~r~ and
-t~f~ is the same as t~t~.
+t~f~ is the same as t~t~. [[7::4]] [[7::6]] [[7::8]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit for push-pull outputs"
 CL: see table
 ```
+[[7::Figure 6-1]]
 
 ```figure ref=waveforms-cmos-tpd-tt caption="Voltage waveforms, propagation delays and input and output transition times"
 VM: 50%
 ```
+[[7::Figure 6-3]]
 
 ## Application information
 
@@ -305,17 +317,17 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[10::1]]
 
 The SN74AHCT1G14-Q1can be used to add an additional stage to a counter
 with an external flip-flop. Because counters use a negative edge
 trigger, the flip-flop's clock input must be inverted to provide this
 function. Having Schmitt-trigger inputs is important in this application
 to eliminate any noise issues that could impact the counting function
-which could lead to incorrect frequency division.
+which could lead to incorrect frequency division. [[10::2]]
 
 The SN74AHCT1G14-Q1 is a high drive CMOS device that can be used for
-implementing inversion logic with a high output drive.
+implementing inversion logic with a high output drive. [[10::3]]
 
 Conversion note: the typical application block diagram (Figure 8-1) shows a counter whose last output drives the inverter, the inverter driving the clock of a D-type flip-flop whose !{Q} output returns to its D input, and a Clear signal on the CLR inputs of both.
 
@@ -324,7 +336,7 @@ Conversion note: the typical application block diagram (Figure 8-1) shows a coun
 Ensure the desired supply voltage is within the range specified in the
 Recommended Operating Conditions. The supply voltage sets the electrical
 characteristics of the device as described in the Electrical
-Characteristics section.
+Characteristics section. [[10::5]]
 
 The positive voltage supply must be capable of sourcing current equal to
 the total current to be sourced by all outputs of the SN74AHCT1G14-Q1
@@ -332,7 +344,7 @@ plus the maximum static supply current, I~CC~, listed in the Electrical
 Characteristics, and any transient current required for switching. The
 logic device can only source as much current that is provided by the
 positive supply source. Be sure to not exceed the maximum total current
-through V~CC~ listed in the Absolute Maximum Ratings.
+through V~CC~ listed in the Absolute Maximum Ratings. [[10::6]]
 
 The ground must be capable of sinking current equal to the total current
 to be sunk by all outputs of the SN74AHCT1G14-Q1 plus the maximum supply
@@ -340,38 +352,38 @@ current, I~CC~, listed in the Electrical Characteristics, and any
 transient current required for switching. The logic device can only sink
 as much current that can be sunk into its ground connection. Be sure to
 not exceed the maximum total current through GND listed in the Absolute
-Maximum Ratings.
+Maximum Ratings. [[10::7]]
 
 The SN74AHCT1G14-Q1 can drive a load with a total capacitance less than
 or equal to 50 pF while still meeting all of the data sheet
 specifications. Larger capacitive loads can be applied; however, it is
-not recommended to exceed 50 pF.
+not recommended to exceed 50 pF. [[10::8]]
 
 The SN74AHCT1G14-Q1 can drive a load with total resistance described by
 R~L~ ≥ V~O~ / I~O~, with the output voltage and current defined in the
 Electrical Characteristics table with V~OH~ and V~OL~. When outputting
 in the HIGH state, the output voltage in the equation is defined as the
 difference between the measured output voltage and the supply voltage at
-the V~CC~ pin.
+the V~CC~ pin. [[11::1]]
 
 Total power consumption can be calculated using the information provided
-in the CMOS Power Consumption and Cpd Calculation application note.
+in the CMOS Power Consumption and Cpd Calculation application note. [[11::2]]
 
 Thermal increase can be calculated using the information provided in the
 Thermal Characteristics of Standard Linear and Logic (SLL) Packages and
-Devices application note.
+Devices application note. [[11::3]]
 
 The maximum junction temperature, T~J(max)~ listed in the Absolute
 Maximum Ratings, is an additional limitation to prevent damage to the
 device. Do not violate any values listed in the Absolute Maximum
-Ratings. These limits are provided to prevent damage to the device.
+Ratings. These limits are provided to prevent damage to the device. [[11::4]]
 
 ### Input considerations
 
 Input signals must cross V~IL(max)~ V~t-(min)~ to be considered a logic
 LOW, and V~IH(min)~ V~t+(max)~ to be considered a logic HIGH. Do not
 exceed the maximum input voltage range found in the Absolute Maximum
-Ratings.
+Ratings. [[11::5]]
 
 Unconfirmed: the source prints two level names side by side in each place (p.11), kept as printed.
 
@@ -383,16 +395,16 @@ default state of HIGH, and a pull-down resistor is used for a default
 state of LOW. The drive current of the controller, leakage current into
 the SN74AHCT1G14-Q1 (as specified in the Electrical Characteristics),
 and the desired input transition rate limits the resistor size. A 10-kΩ
-resistor value is often used due to these factors.
+resistor value is often used due to these factors. [[11::6]]
 
 The SN74AHCT1G14-Q1 has CMOS inputs and thus requires fast input
 transitions to operate correctly, as defined in the Recommended
 Operating Conditions table. Slow input transitions can cause
 oscillations, additional power consumption, and reduction in device
-reliability.
+reliability. [[11::7]]
 
 The SN74AHCT1G14-Q1 has no input signal transition rate requirements
-because it has Schmitt-trigger inputs.
+because it has Schmitt-trigger inputs. [[11::8]]
 
 Source conflict: § 8.2.1.2 (p.11) says in one paragraph that the device requires fast input transitions and in the next that it has no input signal transition rate requirements; the Recommended Operating Conditions (p.4) give a maximum input transition rise or fall rate. Both are kept as printed.
 
@@ -400,18 +412,18 @@ Another benefit to having Schmitt-trigger inputs is the ability to
 reject noise. Noise with a large enough amplitude can still cause
 issues. To know how much noise is too much, please refer to the
 ΔV~T(min)~ in the Electrical Characteristics. This hysteresis value will
-provide the peak-to-peak limit.
+provide the peak-to-peak limit. [[11::9]]
 
 Unlike what happens with standard CMOS inputs, Schmitt-trigger inputs
 can be held at any valid value without causing huge increases in power
 consumption. The typical additional current caused by holding an input
 at a value other than V~CC~ or ground is plotted in the Typical
-Characteristics.
+Characteristics. [[11::10]]
 
 Source conflict: § 8.2.1.2 (p.11) says the additional current is plotted in the Typical Characteristics; that section (p.6) holds only the two output voltage figures.
 
 Refer to the Feature Description section for additional information
-regarding the inputs for this device.
+regarding the inputs for this device. [[11::11]]
 
 ### Output considerations
 
@@ -420,20 +432,20 @@ Drawing current from the output will decrease the output voltage as
 specified by the V~OH~ specification in the Electrical Characteristics.
 The ground voltage is used to produce the output LOW voltage. Sinking
 current into the output will increase the output voltage as specified by
-the V~OL~ specification in the Electrical Characteristics.
+the V~OL~ specification in the Electrical Characteristics. [[11::12]]
 
 Push-pull outputs that could be in opposite states, even for a very
 short time period, should never be connected directly together. This can
-cause excessive current and damage to the device.
+cause excessive current and damage to the device. [[11::13]]
 
 Two channels within the same device with the same input signals can be
-connected in parallel for additional output drive strength.
+connected in parallel for additional output drive strength. [[11::14]]
 
 Unused outputs can be left floating. Do not connect outputs directly to
-V~CC~ or ground.
+V~CC~ or ground. [[11::15]]
 
 Refer to the Feature Description section for additional information
-regarding the outputs for this device.
+regarding the outputs for this device. [[11::16]]
 
 Source conflict: § 8.2.1.3 (p.11) speaks of two channels within the same device; the function table (p.9) and the pin table (p.3) show a single gate. Kept as printed.
 
@@ -442,20 +454,20 @@ Source conflict: § 8.2.1.3 (p.11) speaks of two channels within the same device
 1. Add a decoupling capacitor from V~CC~ to GND. The capacitor needs to
    be placed physically close to the device and electrically close to
    both the V~CC~ and GND pins. An example layout is shown in the Layout
-   section.
+   section. [[12::1]]
 2. Ensure the capacitive load at the output is ≤ 50 pF. This is not a
    hard limit; by design, however, it will optimize performance. This
    can be accomplished by providing short, appropriately sized traces
-   from the SN74AHCT1G14-Q1 to one or more of the receiving devices.
+   from the SN74AHCT1G14-Q1 to one or more of the receiving devices. [[12::1]]
 3. Ensure the resistive load at the output is larger than
    (V~CC~ / I~O(max)~) Ω. Doing this will not violate the maximum output
    current from the Absolute Maximum Ratings. Most CMOS inputs have a
    resistive load measured in MΩ; much larger than the minimum
-   calculated previously.
+   calculated previously. [[12::1]]
 4. Thermal issues are rarely a concern for logic gates; the power
    consumption and thermal increase, however, can be calculated using
    the steps provided in the application report, CMOS Power Consumption
-   and Cpd Calculation.
+   and Cpd Calculation. [[12::1]]
 
 Conversion note: the application timing diagram (Figure 8-2) shows the counter's last output, its inverse and the flip-flop output, which changes on each falling edge of the counter output; the legend reads Input – 32 kHz and 1 kHz for the flip-flop output.
 
@@ -469,7 +481,7 @@ acceptable to parallel multiple bypass capacitors to reject different
 frequencies of noise. The 0.1-μF and 1-μF capacitors are commonly used
 in parallel. The bypass capacitor should be installed as close to the
 power terminal as possible for best results, as shown in the following
-layout example.
+layout example. [[12::2]]
 
 ### Layout guidelines
 
@@ -485,7 +497,7 @@ the input voltage specifications, to prevent them from floating. The
 logic level that must be applied to any particular unused input depends
 on the function of the device. Generally, the inputs are tied to GND or
 V~CC~, whichever makes more sense for the logic function or is more
-convenient.
+convenient. [[12::3]]
 
 Conversion note: the example layout (Figure 8-3) recommends a GND flood fill for improved signal isolation, noise reduction, and thermal dissipation, a 0.1 µF bypass capacitor placed close to the device, and avoiding 90° corners for signal lines.
 
@@ -503,6 +515,7 @@ Conversion note: the example layout (Figure 8-3) recommends a GND flood fill for
 CAHCT1G14QDBVRQ1 | Reel of 3000 | -40 to 125 | 36EH
 CAHCT1G14QDCKRQ1 | Reel of 3000 | -40 to 125 | 1O5
 ```
+[[15::table #1]]
 
 ## Conversion notes
 

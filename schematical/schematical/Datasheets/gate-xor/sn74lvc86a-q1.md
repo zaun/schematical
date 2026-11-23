@@ -24,9 +24,9 @@
 ## Description
 
 The SN74LVC86A-Q1 quadruple 2-input exclusive-OR gate is designed for
-2.7V to 3.6V V~CC~ operation.
+2.7V to 3.6V V~CC~ operation. [[1::1]]
 
-Qualified for automotive applications. Inputs accept voltages to 5.5V.
+Qualified for automotive applications. Inputs accept voltages to 5.5V. [[1::1]]
 
 ## Pinout
 
@@ -51,24 +51,25 @@ Qualified for automotive applications. Inputs accept voltages to 5.5V.
 GND: Ground Pin
 VCC: Power Pin
 ```
+[[3::Table 3-1]]
 
 The thermal pad can be connected to GND or left floating. Do not
 connect to any other signal or supply. Conversion note: the source has
-this for the thermal pad of the BQA package drawing.
+this for the thermal pad of the BQA package drawing. [[3::1]]
 
 ## Functional description
 
 The device performs the Boolean function Y = A ⊕ B or
-Y = !{A}B + A!{B} in positive logic.
+Y = !{A}B + A!{B} in positive logic. [[7::1]]
 
 A common application is as a true/complement element. If one of the
 inputs is low, the other input is reproduced in true form at the output.
 If one of the inputs is high, the signal on the other input is
-reproduced inverted at the output.
+reproduced inverted at the output. [[7::2]]
 
 Inputs can be driven from either 3.3V or 5V devices. This feature allows
 the use of this device as a translator in a mixed 3.3V/5V system
-environment.
+environment. [[7::3]]
 
 ### Exclusive-OR logic
 
@@ -76,19 +77,19 @@ An exclusive-OR gate has many applications, some of which can be
 represented better by alternative logic symbols. These five equivalent
 exclusive-OR symbols are valid for an SN74LVC86A gate in positive logic;
 negation may be shown at any two ports. Conversion note: the five
-symbols are not drawn here.
+symbols are not drawn here. [[7::4]] [[7::5]]
 
 The output is active (low) if all inputs stand at the same logic level
 (i.e., A = B). Conversion note: this is the logic-identity element
-(symbol =).
+(symbol =). [[7::6]]
 
 The output is active (low) if an even number of inputs (i.e., 0 or 2)
 are active. Conversion note: this is the even-parity element (symbol
-2k).
+2k). [[7::7]]
 
 The output is active (high) if an odd number of inputs (i.e., only 1 of
 the 2) are active. Conversion note: this is the odd-parity element
-(symbol 2k + 1).
+(symbol 2k + 1). [[7::8]]
 
 ## Function tables
 
@@ -101,6 +102,7 @@ the 2) are active. Conversion note: this is the odd-parity element
 | H | L | H |
 | H | H | L |
 ```
+[[3::Table 3-1]]
 
 ## Absolute maximum ratings
 
@@ -120,6 +122,7 @@ the 2) are active. Conversion note: this is the odd-parity element
 [2] The input and output negative-voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] The value of V~CC~ is provided in the recommended operating conditions table.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -128,6 +131,7 @@ the 2) are active. Conversion note: this is the odd-parity element
 
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -149,6 +153,7 @@ the 2) are active. Conversion note: this is the odd-parity element
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -160,6 +165,7 @@ the 2) are active. Conversion note: this is the odd-parity element
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report, SPRA953.
 ```
+[[4::table #4]]
 
 ## Electrical characteristics
 
@@ -180,6 +186,7 @@ the 2) are active. Conversion note: this is the odd-parity element
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25°C.
 ```
+[[5::table #1]]
 
 ```table id=operating caption="Operating characteristics, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ = 2.5 V | V~CC~ = 3.3 V | Unit |
@@ -187,6 +194,7 @@ the 2) are active. Conversion note: this is the odd-parity element
 |---|---|---|--:|--:|---|
 | C~pd~ | Power dissipation capacitance per gate | f = 10 MHz | 7.5 | 8.5 | pF |
 ```
+[[5::table #2]]
 
 ## Switching characteristics
 
@@ -196,6 +204,7 @@ the 2) are active. Conversion note: this is the odd-parity element
 |---|---|---|--:|--:|--:|--:|---|
 | t~pd~ | A | Y | | 5.6 | 1 | 4.6 | ns |
 ```
+[[5::table #3]]
 
 ## Parameter measurement information
 
@@ -203,7 +212,7 @@ Phase relationships between waveforms were chosen arbitrarily for the
 examples listed in the following table. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1MHz,
 Z~O~ = 50Ω, t~t~ ≤ 2.5ns. The outputs are measured individually with one
-input transition per measurement.
+input transition per measurement. [[6::1]] [[6::2]]
 
 ```table id=pmi caption="Load circuit and input conditions"
 | V~CC~ | V~t~ | R~L~ | C~L~ | ΔV |
@@ -213,18 +222,21 @@ input transition per measurement.
 | 2.7V | 1.5V | 500Ω | 50pF | 0.3V |
 | 3.3V ± 0.3V | 1.5V | 500Ω | 50pF | 0.3V |
 ```
+[[6::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit for push-pull outputs"
 RL: see table
 CL: see table
 ```
+[[6::Figure 5-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delays"
 VM: V~t~ at the input, 50% at the outputs
 ```
+[[6::Figure 5-2]]
 
 C~L~ includes probe and test-fixture capacitance. The greater between
-t~PLH~ and t~PHL~ is the same as t~pd~.
+t~PLH~ and t~PHL~ is the same as t~pd~. [[6::3]] [[6::5]]
 
 Conversion note: Figure 5-3, voltage waveforms, input and output
 transition times, shows t~r~ and t~f~ between the 10% and 90% points of
@@ -236,7 +248,7 @@ same as t~t~.
 ### Power supply recommendations
 
 The power supply can be any voltage between the MIN and MAX supply
-voltage rating located in the Section 4.3 table.
+voltage rating located in the Section 4.3 table. [[8::1]]
 
 Each V~CC~ pin should have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, 0.1 µF is recommended; if
@@ -244,11 +256,11 @@ there are multiple V~CC~ pins, then 0.01 µF or 0.022 µF is recommended
 for each power pin. It is acceptable to parallel multiple bypass caps to
 reject different frequencies of noise. A 0.1 µF and a 1 µF are commonly
 used in parallel. The bypass capacitor should be installed as close to
-the power pin as possible for best results.
+the power pin as possible for best results. [[8::2]]
 
 ### Layout guidelines
 
-When using multiple bit logic devices inputs should never float.
+When using multiple bit logic devices inputs should never float. [[8::3]]
 
 In many cases, functions or parts of functions of digital logic devices
 are unused, for example, when only two inputs of a triple-input AND gate
@@ -261,7 +273,7 @@ connected to a high or low bias to prevent them from floating. The logic
 level that should be applied to any particular unused input depends on
 the function of the device. Generally they will be tied to GND or
 V~CC~, whichever makes more sense or is more convenient. It is generally
-acceptable to float outputs, unless the part is a transceiver.
+acceptable to float outputs, unless the part is a transceiver. [[8::4]]
 
 Conversion note: Figure 7-1, the example layout for the SN74LVC86A-Q1
 (p.8), recommends a GND flood fill, a bypass capacitor placed close to
@@ -287,6 +299,7 @@ SN74LVC86AQPWRG4Q1 | Reel of 2000 | -40 to 125 | LVC86AQ
 SN74LVC86AQPWRQ1 | Reel of 2000 | -40 to 125 | LVC86AQ
 SN74LVC86AWBQARQ1 | Reel of 3000 | -40 to 125 | LVC86Q
 ```
+[[10::table #1]]
 
 ## Conversion notes
 

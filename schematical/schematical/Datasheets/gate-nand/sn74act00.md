@@ -25,10 +25,10 @@
 
 The ‘ACT00 devices contain four independent 2-input NAND gates. Each
 gate performs the Boolean function of Y = !{A•B} or Y = !{A}+!{B} in
-positive logic.
+positive logic. [[1::1]]
 
 4.5V to 5.5V V~CC~ operation. Inputs accept voltages to 5.5V. Maximum
-t~pd~ of 8ns at 5V. Inputs are TTL-voltage compatible.
+t~pd~ of 8ns at 5V. Inputs are TTL-voltage compatible. [[1::2]]
 
 ## Pinout
 
@@ -57,10 +57,11 @@ GND: Ground
 VCC: Positive Supply
 NC: Not internally connected
 ```
+[[3::Table 3-1]]
 
 The thermal pad can be connected to GND or left floating. Do not
 connect to any other signal or supply. Conversion note: the source has
-this for the thermal pad, BQA package only.
+this for the thermal pad, BQA package only. [[4::1]]
 
 Source error: the pin table gives the rows 3A, 3B, 3Y the types O, I, I
 and the descriptions "Channel 3, Output Y", "Channel 3, Input A",
@@ -84,6 +85,7 @@ one 2-input NAND gate, inputs A and B, output Y.
 | L | X | H |
 | X | L | H |
 ```
+[[7::Table 6-1]]
 
 ## Absolute maximum ratings
 
@@ -102,6 +104,7 @@ one 2-input NAND gate, inputs A and B, output Y.
 [1] Stresses beyond those listed under “absolute maximum ratings” may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under “recommended operating conditions” is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[5::table #1]]
 
 ## Recommended operating conditions
 
@@ -121,6 +124,7 @@ one 2-input NAND gate, inputs A and B, output Y.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[5::table #2]]
 
 ## Thermal information
 
@@ -137,6 +141,7 @@ one 2-input NAND gate, inputs A and B, output Y.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC package thermal metrics application note.
 ```
+[[5::table #3]]
 
 ## Electrical characteristics
 
@@ -165,12 +170,14 @@ one 2-input NAND gate, inputs A and B, output Y.
 [2] This is the increase in supply current for each input that is at one of the specified TTL voltage levels, rather than 0 V or V~CC~.
 [3] Source error: the source prints I~OH~ = 24 mA, I~OH~ = 50 mA and I~OH~ = 75 mA in these V~OL~ rows; the currents are positive and the recommended operating conditions give I~OL~ = 24 mA, so they are I~OL~.
 ```
+[[6::table #1]]
 
 ```table id=opchar caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | C~L~ = 50 pF, f = 1 MHz | 40 | pF |
 ```
+[[6::table #2]]
 
 ## Switching characteristics
 
@@ -183,13 +190,14 @@ one 2-input NAND gate, inputs A and B, output Y.
 
 [1] Unconfirmed: the source labels both column groups SNx4ACT00 and gives no temperature range for either.
 ```
+[[6::table #3]]
 
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤2.5 ns, t~f~ ≤ 2.5 ns. The outputs are measured one
-at a time with one input transition per measurement.
+at a time with one input transition per measurement. [[7::1]]
 
 Conversion note: the load circuit also has a 500 Ω resistor from the output
 to switch S1 (2 × V~CC~ or open), and S1 is open for t~PLH~/t~PHL~, which
@@ -201,10 +209,12 @@ swings 0 V to 3 V and is measured at 1.5 V, and the outputs are measured at
 RL: 500 Ω
 CL: 50 pF
 ```
+[[7::Figure 5-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms"
 VM: 1.5 V (input), 50% V~CC~ (outputs)
 ```
+[[7::Figure 5-1]]
 
 ## Application information
 
@@ -212,7 +222,7 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[8::1]]
 
 ### Power supply recommendations
 
@@ -224,7 +234,7 @@ acceptable to parallel multiple bypass capacitors to reject different
 frequencies of noise. The 0.1-μF and 1-μF capacitors are commonly used
 in parallel. The bypass capacitor should be installed as close to the
 power terminal as possible for best results, as shown in the following
-layout example.
+layout example. [[8::2]]
 
 ### Layout guidelines
 
@@ -240,7 +250,7 @@ the input voltage specifications, to prevent them from floating. The
 logic level that must be applied to any particular unused input depends
 on the function of the device. Generally, the inputs are tied to GND or
 V~CC~, whichever makes more sense for the logic function or is more
-convenient.
+convenient. [[8::3]]
 
 Conversion note: Figure 7-1, the example layout for the SNx4ACT00
 (p.8), recommends a GND flood fill, a bypass capacitor placed close to
@@ -297,6 +307,7 @@ SNJ54ACT00FK | Tube of 55 | -55 to 125 | 5962-8769901M2A SNJ54ACT00FK | Last Tim
 SNJ54ACT00J | Tube of 25 | -55 to 125 | 5962-8769901MCA SNJ54ACT00J | NRND
 SNJ54ACT00W | Tube of 25 | -55 to 125 | 5962-8769901MDA SNJ54ACT00W
 ```
+[[11::table #1]]
 
 ## Conversion notes
 

@@ -24,21 +24,21 @@
 ## Description
 
 This dual 2-input positive-AND gate is designed for 0.8V to 3.6V V~CC~
-operation and performs the Boolean function Y = A ● B in positive logic.
+operation and performs the Boolean function Y = A ● B in positive logic. [[1::1]]
 
 The AUP family is TI's solution to the industry's low-power needs in
 battery-powered portable applications. This family ensures a very low
 static- and dynamic-power consumption across the entire V~CC~ range of
 0.8V to 3.6V. Schmitt-trigger action allows slow input transition and
 better switching noise immunity at the input (V~hys~ = 250mV Typ at
-3.3V).
+3.3V). [[1::2]] [[11::1]]
 
-3.6V I/O tolerant to support mixed-mode signal operation.
+3.6V I/O tolerant to support mixed-mode signal operation. [[1::2]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs when V~CC~ = 0V,
 preventing damaging current backflow through the device when it is
-powered down.
+powered down. [[1::3]]
 
 ## Pinout
 
@@ -63,6 +63,7 @@ Conversion note: DCU and DQE share one pin order, and the RSE (UQFN) package has
 GND: Ground
 VCC: Power supply
 ```
+[[3::Table 4-1]]
 
 ## Functional description
 
@@ -76,9 +77,9 @@ Additionally, the outputs of this device are capable of driving larger
 currents than the device can sustain without being damaged. It is
 important to limit the output power of the device to avoid damage due to
 overcurrent. The electrical and thermal limits defined in the Absolute
-Maximum Ratings must be followed at all times.
+Maximum Ratings must be followed at all times. [[11::4]]
 
-Unused push-pull CMOS outputs must be left disconnected.
+Unused push-pull CMOS outputs must be left disconnected. [[11::5]]
 
 ### CMOS Schmitt-trigger inputs
 
@@ -93,7 +94,7 @@ Characteristics table from the input to ground. The worst case
 resistance is calculated with the maximum input voltage, given in the
 Absolute Maximum Ratings table, and the maximum input leakage current,
 given in the Electrical Characteristics table, using Ohm's law
-(R = V ÷ I).
+(R = V ÷ I). [[11::6]]
 
 The Schmitt-trigger input architecture provides hysteresis as defined by
 ΔV~T~ in the Electrical Characteristics table, which makes this device
@@ -101,7 +102,7 @@ extremely tolerant to slow or noisy inputs. While the inputs can be
 driven much slower than standard CMOS inputs, it is still recommended to
 properly terminate unused inputs. Driving the inputs with slow
 transitioning signals will increase dynamic current consumption of the
-device.
+device. [[11::7]]
 
 ### Partial power down (I~off~)
 
@@ -109,7 +110,7 @@ This device includes circuitry to disable all outputs when the supply
 pin is held at 0V. When disabled, the outputs will neither source nor
 sink current, regardless of the input voltages applied. The amount of
 leakage current at each output is defined by the I~off~ specification in
-the Electrical Characteristics table.
+the Electrical Characteristics table. [[11::8]]
 
 ### Standard CMOS inputs
 
@@ -118,7 +119,7 @@ that input signals transition between valid logic states quickly, as
 defined by the input transition time or rate in the
 [Recommended Operating Conditions](#recommended-operating-conditions)
 table. Failing to meet this specification will result in excessive power
-consumption and could cause oscillations.
+consumption and could cause oscillations. [[11::9]] [[11::10]] [[12::1]]
 
 Do not leave standard CMOS inputs floating at any time during operation.
 Unused inputs must be terminated at V~CC~ or GND. If a system will not
@@ -126,19 +127,19 @@ be actively driving an input at all times, then a pull-up or pull-down
 resistor can be added to provide a valid input voltage during these
 times. The resistor value will depend on multiple factors; a 10kΩ
 resistor, however, is recommended and will typically meet all
-requirements.
+requirements. [[12::2]]
 
 ### Clamp diode structure
 
 Figure 7-1 shows the inputs and outputs to this device have negative
 clamping diodes only. Conversion note: Figure 7-1 draws one diode from
 GND to the input, carrying -I~IK~, and one from GND to the output,
-carrying -I~OK~.
+carrying -I~OK~. [[12::3]]
 
 Voltages beyond the values specified in the Absolute Maximum Ratings
 table can cause damage to the device. The input and output voltage
 ratings may be exceeded if the input and output clamp-current ratings
-are observed.
+are observed. [[12::4]]
 
 ## Function tables
 
@@ -151,6 +152,7 @@ are observed.
 | H | L | L |
 | H | H | H |
 ```
+[[12::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -171,6 +173,7 @@ are observed.
 [1] Operation outside the Absolute Maximum Ratings may cause permanent device damage. Absolute maximum ratings do not imply functional operation of the device at these or any other conditions beyond those listed under Recommended Operating Conditions. If briefly operating outside the Recommended Operating Conditions but within the Absolute Maximum Ratings, the device may not sustain damage, but it may not be fully functional. Operating the device in this manner may affect device reliability, functionality, performance, and shorten the device lifetime.
 [2] The input negative-voltage and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -181,6 +184,7 @@ are observed.
 [1] JEDEC document JEP155 states that 500V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -215,6 +219,7 @@ are observed.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. See Implications of Slow or Floating CMOS Inputs.
 ```
+[[5::table #1]]
 
 ## Thermal information
 
@@ -226,6 +231,7 @@ are observed.
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC package thermal metrics application report.
 [2] Source error: the source heads this column "YPF (DSBGA)"; the package information table and the pinout figure name the package YFP.
 ```
+[[5::table #2]]
 
 ## Electrical characteristics
 
@@ -260,6 +266,7 @@ are observed.
 
 [1] Source error: the source prints a broken note marker ("#none#") here and gives no note text; kept out.
 ```
+[[6::table #1]]
 
 ```table id=op caption="Operating characteristics" conditions="T~A~ = 25 °C"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
@@ -271,6 +278,7 @@ are observed.
 | ^ | ^ | ^ | 2.5 V ± 0.2 V | 4.1 | pF |
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 4.3 | pF |
 ```
+[[8::table #1]]
 
 ## Switching characteristics
 
@@ -287,6 +295,7 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | 2.5 V ± 0.2 V | 1 | 3 | 5.9 | 0.5 | 6.4 | ns |
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 1 | 2.4 | 5.2 | 0.5 | 5.7 | ns |
 ```
+[[7::table #1]]
 
 ```table id=sw-10pf caption="Switching characteristics, C~L~ = 10 pF" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | From | To | V~CC~ | T~A~ = 25 °C | < | < | T~A~ = –40 °C to 125 °C | < | Unit |
@@ -299,6 +308,7 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | 2.5 V ± 0.2 V | 1 | 3.6 | 7.4 | 0.5 | 7.9 | ns |
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 1 | 2.9 | 5.5 | 0.5 | 6 | ns |
 ```
+[[7::table #2]]
 
 ```table id=sw-15pf caption="Switching characteristics, C~L~ = 15 pF" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | From | To | V~CC~ | T~A~ = 25 °C | < | < | T~A~ = –40 °C to 125 °C | < | Unit |
@@ -313,6 +323,7 @@ See [parameter measurement information](#parameter-measurement).
 
 [1] Unconfirmed: this typical value is lower than the typical at 1.8 V in the same table and than the 10 pF typical at 1.5 V (6.3 ns).
 ```
+[[7::table #3]]
 
 ```table id=sw-30pf caption="Switching characteristics, C~L~ = 30 pF" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | From | To | V~CC~ | T~A~ = 25 °C | < | < | T~A~ = –40 °C to 125 °C | < | Unit |
@@ -325,6 +336,7 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | 2.5 V ± 0.2 V | 1.8 | 5.4 | 8.8 | 1.3 | 11.4 | ns |
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 1.5 | 4.5 | 7 | 1 | 9.5 | ns |
 ```
+[[8::table #2]]
 
 ## Typical characteristics
 
@@ -335,6 +347,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "TPD", "points": [[0.8, 24], [1.2, 10], [1.5, 7.2], [1.8, 5.8], [2.5, 4.3], [3.3, 3.4]]}
  ]}
 ```
+[[8::Figure 5-1]]
 
 ```curve id=tpd-temp caption="t~PD~ vs temperature, V~CC~ = 1.8 V, 15 pF load"
 {"x": {"label": "Temperature", "unit": "°C", "range": [-50, 150]},
@@ -343,6 +356,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "TPD", "points": [[-40, 5.2], [0, 5.6], [25, 5.8], [85, 6.0], [125, 6.6]]}
  ]}
 ```
+[[8::Figure 5-2]]
 
 ## Parameter measurement information
 
@@ -350,7 +364,7 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω, slew rate ≥ 1 V/ns. The outputs are measured one at a time,
 with one transition per measurement. t~PLH~ and t~PHL~ are the same as
-t~pd~.
+t~pd~. [[9::1]]
 
 ```table id=pmi-conditions caption="Load circuit test conditions"
 | | V~CC~ = 0.8 V | V~CC~ = 1.2 V ± 0.1 V | V~CC~ = 1.5 V ± 0.1 V | V~CC~ = 1.8 V ± 0.15 V | V~CC~ = 2.5 V ± 0.2 V | V~CC~ = 3.3 V ± 0.3 V |
@@ -359,15 +373,18 @@ t~pd~.
 | V~M~ | V~CC~/2 | V~CC~/2 | V~CC~/2 | V~CC~/2 | V~CC~/2 | V~CC~/2 |
 | V~I~ | V~CC~ | V~CC~ | V~CC~ | V~CC~ | V~CC~ | V~CC~ |
 ```
+[[1::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit"
 RL: 1 MΩ
 CL: 5, 10, 15, 30 pF
 ```
+[[9::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Propagation delay times"
 VM: VCC/2
 ```
+[[9::figure #1]]
 
 ## Application information
 
@@ -375,7 +392,7 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[13::1]]
 
 ### Typical application
 
@@ -385,7 +402,7 @@ are used to directly control the !{RESET} pin of a motor controller. The
 controller requires four input signals to all be HIGH before being
 enabled, and should be disabled in the event that any one signal goes
 LOW. The 4-input AND gate function combines the four individual reset
-signals into a single active-low reset signal.
+signals into a single active-low reset signal. [[13::2]]
 
 Conversion note: Figure 8-1 (block diagram) draws two 2-input AND gates
 taking !{OC} and PG, and ON/!{OFF} and !{OT}, and a third AND gate that
@@ -400,11 +417,12 @@ combines their outputs and drives the motor controller's !{RESET} input.
   {"name": "RESET#", "wave": "10......"}
 ]}
 ```
+[[16::Figure 8-2]]
 
 ### Power considerations
 
 Ensure the desired supply voltage is within the range specified in the
-Recommended Operating Conditions.
+Recommended Operating Conditions. [[14::1]]
 
 The positive voltage supply must be capable of sourcing current equal to
 the total current to be sourced by all outputs of the SN74AUP2G08 plus
@@ -412,7 +430,7 @@ the maximum static supply current, I~CC~, listed in the Electrical
 Characteristics, and any transient current required for switching. The
 logic device can only source as much current that is provided by the
 positive supply source. Ensure the maximum total current through V~CC~
-listed in the Absolute Maximum Ratings is not exceeded.
+listed in the Absolute Maximum Ratings is not exceeded. [[14::2]]
 
 The ground must be capable of sinking current equal to the total current
 to be sunk by all outputs of the SN74AUP2G08 plus the maximum supply
@@ -420,37 +438,37 @@ current, I~CC~, listed in the Electrical Characteristics, and any
 transient current required for switching. The logic device can only sink
 as much current that can be sunk into its ground connection. Ensure the
 maximum total current through GND listed in the Absolute Maximum Ratings
-is not exceeded.
+is not exceeded. [[14::3]]
 
 The SN74AUP2G08 can drive a load with a total capacitance less than or
 equal to 50pF while still meeting all of the data sheet specifications.
 Larger capacitive loads can be applied; however, it is not recommended
-to exceed 50pF.
+to exceed 50pF. [[14::4]]
 
 The SN74AUP2G08 can drive a load with total resistance described by
 R~L~ ≥ V~O~ / I~O~, with the output voltage and current defined in the
 Electrical Characteristics table with V~OH~ and V~OL~. When outputting
 in the HIGH state, the output voltage in the equation is defined as the
 difference between the measured output voltage and the supply voltage at
-the V~CC~ pin.
+the V~CC~ pin. [[14::5]]
 
 The maximum junction temperature, T~J(max)~ listed in the Absolute
 Maximum Ratings, is an additional limitation to prevent damage to the
 device. Do not violate any values listed in the Absolute Maximum
-Ratings.
+Ratings. [[14::8]]
 
 ### Input considerations
 
 Input signals must cross V~IL(max)~ to be considered a logic LOW, and
 V~IH(min)~ to be considered a logic HIGH. Do not exceed the maximum input
-voltage range found in the Absolute Maximum Ratings.
+voltage range found in the Absolute Maximum Ratings. [[15::1]]
 
 Unused inputs must be terminated to either V~CC~ or ground. The unused
 inputs can be directly terminated if the input is completely unused, or
 they can be connected with a pull-up or pull-down resistor if the input
 will be used sometimes, but not always. A pull-up resistor is used for a
 default state of HIGH, and a pull-down resistor is used for a default
-state of LOW. A 10kΩ resistor value is often used due to these factors.
+state of LOW. A 10kΩ resistor value is often used due to these factors. [[15::2]]
 
 ### Output considerations
 
@@ -459,23 +477,23 @@ Drawing current from the output will decrease the output voltage as
 specified by the V~OH~ specification in the Electrical Characteristics.
 The ground voltage is used to produce the output LOW voltage. Sinking
 current into the output will increase the output voltage as specified by
-the V~OL~ specification in the Electrical Characteristics.
+the V~OL~ specification in the Electrical Characteristics. [[15::8]]
 
 Push-pull outputs that could be in opposite states, even for a very
 short time period, should never be connected directly together. This can
-cause excessive current and damage to the device.
+cause excessive current and damage to the device. [[15::9]]
 
 Two channels within the same device with the same input signals can be
-connected in parallel for additional output drive strength.
+connected in parallel for additional output drive strength. [[15::10]]
 
 Unused outputs can be left floating. Do not connect outputs directly to
-V~CC~ or ground.
+V~CC~ or ground. [[15::11]]
 
 ### Detailed design procedure
 
-1. Add a decoupling capacitor from V~CC~ to GND. The capacitor needs to be placed physically close to the device and electrically close to both the V~CC~ and GND pins.
-2. Ensure the capacitive load at the output is ≤ 50pF. This is not a hard limit; by design, however, it will optimize performance. This can be accomplished by providing short, appropriately sized traces from the SN74AUP2G08 to one or more of the receiving devices.
-3. Ensure the resistive load at the output is larger than (V~CC~ / I~O(max)~)Ω. Doing this will prevent the maximum output current from the Absolute Maximum Ratings from being violated.
+1. Add a decoupling capacitor from V~CC~ to GND. The capacitor needs to be placed physically close to the device and electrically close to both the V~CC~ and GND pins. [[16::1]]
+2. Ensure the capacitive load at the output is ≤ 50pF. This is not a hard limit; by design, however, it will optimize performance. This can be accomplished by providing short, appropriately sized traces from the SN74AUP2G08 to one or more of the receiving devices. [[16::1]]
+3. Ensure the resistive load at the output is larger than (V~CC~ / I~O(max)~)Ω. Doing this will prevent the maximum output current from the Absolute Maximum Ratings from being violated. [[16::1]]
 
 ### Power supply recommendations
 
@@ -486,7 +504,7 @@ disturbance. A 0.1μF capacitor is recommended for this device. It is
 acceptable to parallel multiple bypass capacitors to reject different
 frequencies of noise. The 0.1μF and 1μF capacitors are commonly used in
 parallel. The bypass capacitor should be installed as close to the power
-terminal as possible for best results.
+terminal as possible for best results. [[16::2]]
 
 ### Layout guidelines
 
@@ -502,7 +520,7 @@ the input voltage specifications, to prevent them from floating. The
 logic level that must be applied to any particular unused input depends
 on the function of the device. Generally, the inputs are tied to GND or
 V~CC~, whichever makes more sense for the logic function or is more
-convenient.
+convenient. [[16::3]]
 
 ## Package
 
@@ -531,6 +549,7 @@ SN74AUP2G08RSER | Reel of 5000 | -40 to 125 | PR
 SN74AUP2G08YFPR | Reel of 3000 | -40 to 125 | HEN
 SN74AUP2G08YZPR | Reel of 3000 | -40 to 125 | HEN
 ```
+[[19::table #1]]
 
 ## Conversion notes
 

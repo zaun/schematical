@@ -24,10 +24,10 @@
 ## Description
 
 The ‘ACT04 devices contain six independent inverters. The devices
-perform the Boolean function Y = !{A}.
+perform the Boolean function Y = !{A}. [[1::1]]
 
 V~CC~ operation of 4.5V to 5.5V. Inputs accept voltages to 5.5V. Max
-t~pd~ of 8.5ns at 5V. Inputs are TTL-voltage compatible.
+t~pd~ of 8.5ns at 5V. Inputs are TTL-voltage compatible. [[1::2]]
 
 ## Pinout
 
@@ -52,18 +52,19 @@ GND: Ground
 6A: Channel 6, Input A
 VCC: Positive Supply
 ```
+[[3::Table 4-1]]
 
 Connect the GND pin to the exposed thermal pad for correct operation.
 Connect the thermal pad to any internal PCB ground plane using multiple
 vias for good thermal performance. Conversion note: the source has this
-in the thermal pad row of the pin table.
+in the thermal pad row of the pin table. [[4::1]]
 
 ## Functional description
 
 Conversion note: the logic diagram (positive logic) shows one inverter,
 input A, output Y.
 
-The SNx4ACT04 devices have an operating V~CC~ range from 4.5 V to 5.5 V.
+The SNx4ACT04 devices have an operating V~CC~ range from 4.5 V to 5.5 V. [[8::1]]
 
 ## Function tables
 
@@ -74,6 +75,7 @@ The SNx4ACT04 devices have an operating V~CC~ range from 4.5 V to 5.5 V.
 | H | L |
 | L | H |
 ```
+[[3::Table 4-1]]
 
 ## Absolute maximum ratings
 
@@ -91,6 +93,7 @@ The SNx4ACT04 devices have an operating V~CC~ range from 4.5 V to 5.5 V.
 
 [1] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[5::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -101,6 +104,7 @@ The SNx4ACT04 devices have an operating V~CC~ range from 4.5 V to 5.5 V.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[5::table #2]]
 
 ## Recommended operating conditions
 
@@ -118,6 +122,7 @@ The SNx4ACT04 devices have an operating V~CC~ range from 4.5 V to 5.5 V.
 | Δt/Δv | Input transition rise or fall rate | | 8 | | 8 | ns/V |
 | T~A~ | Operating free-air temperature | -55 | 125 | -40 | 85 | °C |
 ```
+[[5::table #3]]
 
 ## Thermal information
 
@@ -129,6 +134,7 @@ The SNx4ACT04 devices have an operating V~CC~ range from 4.5 V to 5.5 V.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report, SPRA953.
 ```
+[[5::table #4]]
 
 ## Electrical characteristics
 
@@ -156,12 +162,14 @@ The SNx4ACT04 devices have an operating V~CC~ range from 4.5 V to 5.5 V.
 [1] Not more than one output should be tested at a time, and the duration of the test should not exceed 2 ms.
 [2] This is the increase in supply current for each input that is at one of the specified TTL voltage levels, rather than 0 V or V~CC~.
 ```
+[[6::table #1]]
 
 ```table id=opchar caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | C~L~ = 50 pF, f = 1 MHz | 45 | pF |
 ```
+[[6::table #2]]
 
 ## Switching characteristics
 
@@ -172,13 +180,14 @@ The SNx4ACT04 devices have an operating V~CC~ range from 4.5 V to 5.5 V.
 | t~PLH~ | A | Y | 1 | 6 | 8.5 | 1 | 9 | 1 | 9 | ns |
 | t~PHL~ | ^ | ^ | 1 | 5.5 | 8 | 1 | 8.5 | 1 | 8.5 | ns |
 ```
+[[6::table #3]]
 
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 2.5 ns, t~f~ ≤ 2.5 ns. The outputs are measured one
-at a time with one input transition per measurement.
+at a time with one input transition per measurement. [[7::1]]
 
 Conversion note: the load circuit also has a 500 Ω resistor from the output
 to switch S1 (2 × V~CC~ or open), and S1 is open for t~PLH~/t~PHL~, which
@@ -190,10 +199,12 @@ swings 0 V to 3 V and is measured at 1.5 V, and the outputs are measured at
 RL: 500 Ω
 CL: 50 pF
 ```
+[[7::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Figure 6-1. Voltage waveforms"
 VM: 1.5 V (input), 50% V~CC~ (outputs)
 ```
+[[7::Figure 6-1]]
 
 ## Application information
 
@@ -201,12 +212,12 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[9::1]]
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the MIN and MAX supply
-voltage rating located in the Recommended Operating Conditions.
+voltage rating located in the Recommended Operating Conditions. [[9::2]]
 
 Each V~CC~ pin should have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, 0.1 μF is recommended; if
@@ -214,11 +225,11 @@ there are multiple V~CC~ pins, then 0.01 μF or 0.022 μF is recommended
 for each power pin. It is acceptable to parallel multiple bypass caps to
 reject different frequencies of noise. A 0.1 μF and a 1 μF are commonly
 used in parallel. The bypass capacitor should be installed as close to
-the power pin as possible for best results.
+the power pin as possible for best results. [[9::3]]
 
 ### Layout guidelines
 
-When using multiple-bit logic devices, inputs should never float.
+When using multiple-bit logic devices, inputs should never float. [[9::4]]
 
 In many cases, functions or parts of functions of digital logic devices
 are unused, for example, when only two inputs of a triple-input AND
@@ -235,7 +246,7 @@ generally acceptable to float outputs, unless the part is a
 transceiver. If the transceiver has an output enable pin, it will
 disable the output section of the part when asserted. This will not
 disable the input section of the IOs, so they cannot float when
-disabled.
+disabled. [[9::5]]
 
 Conversion note: the layout diagram (Figure 8-1) shows a GND flood
 fill, a bypass capacitor placed close to the device between V~CC~ and
@@ -274,6 +285,7 @@ SN74ACT04NSR | Reel of 2000 | -40 to 85 | ACT04
 SN74ACT04PW | | -40 to 85 | AD04 | Obsolete
 SN74ACT04PWR | Reel of 2000 | -40 to 85 | AD04
 ```
+[[12::table #1]] [[13::table #1]]
 
 ## Conversion notes
 

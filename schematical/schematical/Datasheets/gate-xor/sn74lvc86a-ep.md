@@ -25,20 +25,20 @@
 
 Controlled Baseline – One Assembly/Test Site, One Fabrication Site.
 Extended Temperature Performance of –40°C to 125°C and –55°C to 125°C.
-Inputs Accept Voltages to 5.5 V.
+Inputs Accept Voltages to 5.5 V. [[1::1]]
 
 The SN74LVC86A quadruple 2-input exclusive-OR gate is designed for 2.7-V
 to 3.6-V V~CC~ operation. The device performs the Boolean function
-Y = A ⊕ B or Y = !{A}B + A!{B} in positive logic.
+Y = A ⊕ B or Y = !{A}B + A!{B} in positive logic. [[1::3]] [[1::4]]
 
 A common application is as a true/complement element. If one of the
 inputs is low, the other input is reproduced in true form at the output.
 If one of the inputs is high, the signal on the other input is
-reproduced inverted at the output.
+reproduced inverted at the output. [[1::5]]
 
 Inputs can be driven from either 3.3-V or 5-V devices. This feature
 allows the use of this device as a translator in a mixed 3.3-V/5-V
-system environment.
+system environment. [[1::6]]
 
 ## Pinout
 
@@ -54,6 +54,7 @@ system environment.
 GND: Ground
 VCC: Positive supply
 ```
+[[1::table #1]]
 
 ## Functional description
 
@@ -61,19 +62,19 @@ An exclusive-OR gate has many applications, some of which can be
 represented better by alternative logic symbols. These five equivalent
 exclusive-OR symbols are valid for an SN74LVC86A gate in positive logic;
 negation may be shown at any two ports. Conversion note: the five
-symbols are not drawn here.
+symbols are not drawn here. [[2::1]] [[2::2]]
 
 The output is active (low) if all inputs stand at the same logic level
 (i.e., A = B). Conversion note: this is the logic-identity element
-(symbol =).
+(symbol =). [[2::3]]
 
 The output is active (low) if an even number of inputs (i.e., 0 or 2)
 are active. Conversion note: this is the even-parity element (symbol
-2k).
+2k). [[2::4]]
 
 The output is active (high) if an odd number of inputs (i.e., only 1 of
 the 2) are active. Conversion note: this is the odd-parity element
-(symbol 2k + 1).
+(symbol 2k + 1). [[2::5]]
 
 ## Function tables
 
@@ -86,6 +87,7 @@ the 2) are active. Conversion note: this is the odd-parity element
 | H | L | H |
 | H | H | L |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -108,6 +110,7 @@ the 2) are active. Conversion note: this is the odd-parity element
 [3] The value of V~CC~ is provided in the recommended operating conditions table.
 [4] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #1]]
 
 ## Recommended operating conditions
 
@@ -130,6 +133,7 @@ the 2) are active. Conversion note: this is the odd-parity element
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. See the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[3::table #1]]
 
 ## Electrical characteristics
 
@@ -150,6 +154,7 @@ the 2) are active. Conversion note: this is the odd-parity element
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25°C.
 ```
+[[3::table #2]]
 
 ```table id=operating caption="Operating characteristics, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ = 2.5 V | V~CC~ = 3.3 V | Unit |
@@ -157,6 +162,7 @@ the 2) are active. Conversion note: this is the odd-parity element
 |---|---|---|--:|--:|---|
 | C~pd~ | Power dissipation capacitance per gate | f = 10 MHz | 7.5 | 8.5 | pF |
 ```
+[[3::table #3]]
 
 ## Switching characteristics
 
@@ -166,6 +172,7 @@ the 2) are active. Conversion note: this is the odd-parity element
 |---|---|---|--:|--:|--:|--:|---|
 | t~pd~ | A | Y | | 5.6 | 1 | 4.6 | ns |
 ```
+[[3::table #4]]
 
 ## Parameter measurement information
 
@@ -173,7 +180,7 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. All parameters
-and waveforms are not applicable to all devices.
+and waveforms are not applicable to all devices. [[4::2]]
 
 Conversion note: for t~PLH~/t~PHL~ the switch S1 of the load circuit
 (Figure 1) is open, which leaves R~L~ and C~L~ from the output to ground.
@@ -185,15 +192,18 @@ Conversion note: for t~PLH~/t~PHL~ the switch S1 of the load circuit
 | 2.7 V | 2.7 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 3.3 V ± 0.3 V | 2.7 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 ```
+[[4::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit for t~pd~ (S1 open)"
 RL: 500 Ω
 CL: 50 pF
 ```
+[[4::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 1.5 V
 ```
+[[4::Figure 1]]
 
 ## Package
 
@@ -213,6 +223,7 @@ V62/04670-01XE | Reel of 2500 | -40 to 125 | LVC86AE
 V62/04670-01YE | Reel of 2000 | -40 to 125 | LVC86AE
 V62/04670-02XE | Reel of 2500 | -55 to 125 | LVC86AM
 ```
+[[5::table #1]]
 
 ## Conversion notes
 

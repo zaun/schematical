@@ -24,10 +24,10 @@
 ## Description
 
 These devices contain six independent inverters. They perform the
-Boolean function Y = !{A} in positive logic.
+Boolean function Y = !{A} in positive logic. [[7::1]]
 
 Operating voltage range of 4.5V to 5.5V. Outputs can drive up to 10
-LSTTL loads. Inputs are TTL-Voltage compatible.
+LSTTL loads. Inputs are TTL-Voltage compatible. [[1::2]]
 
 ## Pinout
 
@@ -45,11 +45,12 @@ LSTTL loads. Inputs are TTL-Voltage compatible.
 GND: Ground
 VCC: Positive supply
 ```
+[[4::table #1]]
 
 ## Functional description
 
 These devices contain six independent inverters. They perform the
-Boolean function Y = !{A} in positive logic.
+Boolean function Y = !{A} in positive logic. [[7::1]]
 
 Conversion note: the functional block diagram (p.1, p.7) shows a buffer, an inverter and a buffer in series between input xA and output xY.
 
@@ -62,6 +63,7 @@ Conversion note: the functional block diagram (p.1, p.7) shows a buffer, an inve
 | H | L |
 | L | H |
 ```
+[[7::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -79,6 +81,7 @@ Conversion note: the functional block diagram (p.1, p.7) shows a buffer, an inve
 [1] Stresses beyond those listed under absolute maximum ratings may cause permanent damage to the device. These are stress ratings only and functional operation of the device at these or any other conditions beyond those indicated under recommended operating conditions is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -96,6 +99,7 @@ Conversion note: the functional block diagram (p.1, p.7) shows a buffer, an inve
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report Implications of Slow or Floating SMOS Inputs, literature number SCBA004.
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -113,6 +117,7 @@ Conversion note: the functional block diagram (p.1, p.7) shows a buffer, an inve
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC package thermal metrics application report.
 [2] Unconfirmed: the source names the ψ~JB~ row "Junction-to-case (bottom) thermal resistance", the same name as the R~θJC(bot)~ row (p.4); kept as printed.
 ```
+[[4::table #4]]
 
 ## Electrical characteristics
 
@@ -132,12 +137,14 @@ Conversion note: the functional block diagram (p.1, p.7) shows a buffer, an inve
 [1] V~I~ = V~IH~ or V~IL~, unless otherwise noted.
 [2] This is the increase in supply current for each input that is at one of the specified TTL voltage levels, rather than 0 V or V~CC~.
 ```
+[[5::table #1]]
 
 ```table id=op caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load | 20 | pF |
 ```
+[[5::table #2]]
 
 ## Switching characteristics
 
@@ -152,30 +159,33 @@ Conversion note: the functional block diagram (p.1, p.7) shows a buffer, an inve
 
 [1] Source conflict: the switching characteristics (p.5) print the input as "A or B"; the pin drawings (p.3) and the function table (p.7) give each inverter the one input A.
 ```
+[[5::table #3]]
 
 ## Parameter measurement information
 
 Phase relationships between waveforms were chosen arbitrarily. All
 input pulses are supplied by generators having the following
-characteristics: PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~t~ < 6 ns.
+characteristics: PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~t~ < 6 ns. [[6::1]]
 
-For clock inputs, f~max~ is measured when the input duty cycle is 50%.
+For clock inputs, f~max~ is measured when the input duty cycle is 50%. [[6::2]]
 
 The outputs are measured one at a time with one input transition per
-measurement.
+measurement. [[6::3]]
 
 C~L~ includes probe and test-fixture capacitance. The greater between
-t~PLH~ and t~PHL~ is the same as t~pd~.
+t~PLH~ and t~PHL~ is the same as t~pd~. [[6::4]] [[6::6]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit for push-pull outputs"
 CL: see table
 ```
+[[6::Figure 6-1]]
 
 Conversion note: in the source's voltage waveforms (Figure 6-2, p.6) the input swings 0 V to 3V and is measured at 1.3V, and the outputs are measured at 50%.
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delays for TTL-compatible inputs"
 VM: 1.3V (input), 50% (output)
 ```
+[[6::Figure 6-2]]
 
 ## Application information
 
@@ -188,7 +198,7 @@ power disturbance. A 0.1-μF capacitor is recommended for this device.
 It is acceptable to parallel multiple bypass caps to reject different
 frequencies of noise. The 0.1-μF and 1-μF capacitors are commonly used
 in parallel. The bypass capacitor should be installed as close to the
-power terminal as possible for best results.
+power terminal as possible for best results. [[8::1]]
 
 ### Layout guidelines
 
@@ -204,7 +214,7 @@ as defined by the input voltage specifications, to prevent them from
 floating. The logic level that must be applied to any particular unused
 input depends on the function of the device. Generally, the inputs are
 tied to GND or V~CC~, whichever makes more sense for the logic function
-or is more convenient.
+or is more convenient. [[8::2]]
 
 ## Package
 
@@ -238,6 +248,7 @@ SN74HCT04NE4 | Tube of 25 | -40 to 85 | SN74HCT04N | NRND
 SNJ54HCT04FK | Tube of 55 | -55 to 125 | 5962-89747012A SNJ54HCT04FK
 SNJ54HCT04J | Tube of 25 | -55 to 125 | 5962-8974701CA SNJ54HCT04J
 ```
+[[10::table #1]] [[11::table #1]]
 
 ## Conversion notes
 

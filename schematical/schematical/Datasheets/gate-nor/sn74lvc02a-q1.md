@@ -24,17 +24,17 @@
 ## Description
 
 The quadruple 2-input positive-NOR gate is designed for 2.7V to 3.6V
-V~CC~ operation.
+V~CC~ operation. [[1::1]]
 
 The SN74LVC02A-Q1 performs the Boolean function Y = !{A + B} or
-Y = !{A} • !{B} in positive logic.
+Y = !{A} • !{B} in positive logic. [[1::3]]
 
 Inputs can be driven from either 3.3V or 5V devices. This feature allows
 the use of this device as a translator in a mixed 3.3V/5V system
-environment.
+environment. [[1::4]]
 
 Qualified for automotive applications. ESD protection exceeds 2000V per
-MIL-STD-883, Method 3015. Inputs accept voltages to 5.5V.
+MIL-STD-883, Method 3015. Inputs accept voltages to 5.5V. [[1::2]]
 
 ## Pinout
 
@@ -59,6 +59,7 @@ GND: Ground Pin
 4Y: 4Y Output
 VCC: Power Pin
 ```
+[[3::Table 3-1]]
 
 ## Functional description
 
@@ -75,6 +76,7 @@ Conversion note: the logic diagram, each gate (Figure 6-1), shows one
 | X | H | L |
 | L | L | H |
 ```
+[[3::Table 3-1]]
 
 ## Absolute maximum ratings
 
@@ -93,6 +95,7 @@ Conversion note: the logic diagram, each gate (Figure 6-1), shows one
 [1] The input and output negative-voltage ratings may be exceeded if the input and output current ratings are observed.
 [2] The value of V~CC~ is provided in the recommended operating conditions table.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -101,6 +104,7 @@ Conversion note: the logic diagram, each gate (Figure 6-1), shows one
 
 [1] AEC Q100-002 indicates that HBM stressing must be in accordance with the ANSI/ESDA/JEDEC JS-001 specification.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -119,6 +123,7 @@ Conversion note: the logic diagram, each gate (Figure 6-1), shows one
 | ^ | ^ | V~CC~ = 3V | | 24 | mA |
 | T~A~ | Operating free-air temperature | | -40 | 125 | °C |
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -130,6 +135,7 @@ Conversion note: the logic diagram, each gate (Figure 6-1), shows one
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC package thermal metrics application report.
 ```
+[[4::table #4]]
 
 ## Electrical characteristics
 
@@ -150,6 +156,7 @@ Conversion note: the logic diagram, each gate (Figure 6-1), shows one
 
 [1] All typical values are at V~CC~ = 3.3V, T~A~ = 25°C.
 ```
+[[5::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ = 2.5V | V~CC~ = 3.3V | Unit |
@@ -157,6 +164,7 @@ Conversion note: the logic diagram, each gate (Figure 6-1), shows one
 |---|---|---|--:|--:|---|
 | C~pd~ | Power dissipation capacitance per gate | f = 10MHz | 8.5 | 9.5 | pF |
 ```
+[[5::table #2]]
 
 ## Switching characteristics
 
@@ -166,6 +174,7 @@ Conversion note: the logic diagram, each gate (Figure 6-1), shows one
 |---|---|---|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | | 6.5 | 1 | 5.5 | ns |
 ```
+[[5::table #3]]
 
 ## Parameter measurement information
 
@@ -173,7 +182,7 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. All parameters
-and waveforms are not applicable to all devices.
+and waveforms are not applicable to all devices. [[6::2]]
 
 Conversion note: the load circuit also has a second R~L~, from the output
 to switch S1, which goes to V~LOAD~, open or GND; the figure below draws
@@ -188,11 +197,13 @@ and enable/disable waveforms, which are not drawn here.
 | t~PLZ~/t~PZL~ | V~LOAD~ |
 | t~PHZ~/t~PZH~ | GND |
 ```
+[[6::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: 500 Ω
 CL: 50 pF
 ```
+[[6::Figure 5-1]]
 
 ```table id=test-conditions caption="Test conditions (Figure 5-1)"
 | V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -201,10 +212,12 @@ CL: 50 pF
 | 2.7 V | 2.7 V | ≤2.5 ns | 1.5 V | 6V | 50 pF | 500 Ω | 0.3 V |
 | 3.3 V ± 0.3 V | 2.7 V | ≤2.5 ns | 1.5 V | 6V | 50 pF | 500 Ω | 0.3 V |
 ```
+[[6::table #2]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 1.5 V
 ```
+[[6::Figure 5-1]]
 
 ## Application information
 
@@ -212,7 +225,7 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[8::1]]
 
 ### Power supply recommendations
 
@@ -224,7 +237,7 @@ acceptable to parallel multiple bypass caps to reject different
 frequencies of noise. The 0.1-μF and 1-μF capacitors are commonly used
 in parallel. The bypass capacitor should be installed as close to the
 power terminal as possible for best results, as shown in given example
-layout image.
+layout image. [[8::2]]
 
 ### Layout guidelines
 
@@ -240,17 +253,17 @@ the input voltage specifications, to prevent them from floating. The
 logic level that must be applied to any particular unused input depends
 on the function of the device. Generally, the inputs are tied to GND or
 V~CC~, whichever makes more sense for the logic function or is more
-convenient.
+convenient. [[8::3]]
 
 Conversion note: the example layout for the SN74LVC02A-Q1 (Figure 7-1)
 is given here by its labels.
 
-- Recommend GND flood fill for improved signal isolation, noise reduction, and thermal dissipation
-- Bypass capacitor placed close to the device
-- 0.1 μF
-- Unused output left floating
-- Unused inputs tied to V~CC~
-- Avoid 90° corners for signal lines
+- Recommend GND flood fill for improved signal isolation, noise reduction, and thermal dissipation [[8::4]]
+- Bypass capacitor placed close to the device [[8::6]]
+- 0.1 μF [[8::2]]
+- Unused output left floating [[8::3]]
+- Unused inputs tied to V~CC~ [[8::3]]
+- Avoid 90° corners for signal lines [[8::5]]
 
 ## Package
 
@@ -272,6 +285,7 @@ SN74LVC02AQPWRG4Q1 | Reel of 2000 | -40 to 125 | LC02AQ
 SN74LVC02AQPWRQ1 | Reel of 2000 | -40 to 125 | LC02AQ
 SN74LVC02AWBQARQ1 | Reel of 3000 | -40 to 125 | LVC02Q
 ```
+[[10::table #1]]
 
 ## Conversion notes
 

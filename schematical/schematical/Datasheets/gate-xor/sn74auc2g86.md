@@ -26,19 +26,19 @@
 This dual 2-input exclusive-OR gate is operational at 0.8-V to 2.7-V
 V~CC~, but is designed specifically for 1.65-V to 1.95-V V~CC~
 operation. Optimized for 1.8-V operation and is 3.6-V I/O tolerant to
-support mixed-mode signal operation.
+support mixed-mode signal operation. [[1::1]] [[1::4]]
 
 The SN74AUC2G86 performs the Boolean function Y = A ⊕ B or
-Y = !{A}B + A!{B} in positive logic.
+Y = !{A}B + A!{B} in positive logic. [[1::5]]
 
 A common application is as a true/complement element. If the input is
 low, the other input is reproduced in true form at the output. If the
 input is high, the signal on the other input is reproduced inverted at
-the output.
+the output. [[1::6]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when it is powered down.
+current backflow through the device when it is powered down. [[1::8]]
 
 ## Pinout
 
@@ -61,6 +61,7 @@ generated from the catalog.
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Functional description
 
@@ -68,19 +69,19 @@ An exclusive-OR gate has many applications, some of which can be
 represented better by alternative logic symbols. These are five
 equivalent exclusive-OR symbols valid for an SN74AUC2G86 gate in
 positive logic; negation may be shown at any two ports. Conversion note:
-the five symbols are not drawn here.
+the five symbols are not drawn here. [[2::1]] [[2::2]]
 
 The output is active (low) if all inputs stand at the same logic level
 (i.e., A = B). Conversion note: this is the logic-identity element
-(symbol =).
+(symbol =). [[2::3]]
 
 The output is active (low) if an even number of inputs (i.e., 0 or 2)
 are active. Conversion note: this is the even-parity element (symbol
-2k).
+2k). [[2::4]]
 
 The output is active (high) if an odd number of inputs (i.e., only 1 of
 the 2) are active. Conversion note: this is the odd-parity element
-(symbol 2k + 1).
+(symbol 2k + 1). [[2::5]]
 
 ## Function tables
 
@@ -93,6 +94,7 @@ the 2) are active. Conversion note: this is the odd-parity element
 | H | L | H |
 | H | H | L |
 ```
+[[2::table #1]]
 
 ## Absolute maximum ratings
 
@@ -116,10 +118,11 @@ the 2) are active. Conversion note: this is the odd-parity element
 [2] The input negative-voltage and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #2]]
 
 ESD protection exceeds JESD 22: 2000-V Human-Body Model (A114-A),
 200-V Machine Model (A115-A), 1000-V Charged-Device Model (C101).
-Latch-up performance exceeds 100 mA per JESD 78, Class II.
+Latch-up performance exceeds 100 mA per JESD 78, Class II. [[1::2]]
 
 ## Recommended operating conditions
 
@@ -150,6 +153,7 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[3::table #1]]
 
 ## Electrical characteristics
 
@@ -175,6 +179,7 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 
 [1] All typical values are at T~A~ = 25°C.
 ```
+[[3::table #2]]
 
 ```table id=op caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ = 0.8 V | V~CC~ = 1.2 V | V~CC~ = 1.5 V | V~CC~ = 1.8 V | V~CC~ = 2.5 V | Unit |
@@ -182,6 +187,7 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 |---|---|---|--:|--:|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | f = 10 MHz | 15 | 15 | 16 | 19 | 27 | pF |
 ```
+[[4::table #1]]
 
 ## Switching characteristics
 
@@ -193,6 +199,7 @@ See [parameter measurement information](#parameter-measurement).
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | 5.3 | 0.8 | 3.8 | 0.5 | 2.6 | 0.4 | 1 | 1.7 | 0.3 | 1.3 | ns |
 ```
+[[4::table #2]]
 
 ```table id=sw-30pf caption="Switching characteristics, C~L~ = 30 pF" conditions="Over recommended operating free-air temperature range, C~L~ = 30 pF (unless otherwise noted) (see Figure 1)"
 | Symbol | From (input) | To (output) | V~CC~ = 1.8 V ± 0.15 V | < | < | V~CC~ = 2.5 V ± 0.2 V | < | Unit |
@@ -200,6 +207,7 @@ See [parameter measurement information](#parameter-measurement).
 |---|---|---|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | 0.8 | 1.5 | 2.6 | 0.7 | 2 | ns |
 ```
+[[4::table #3]]
 
 ## Parameter measurement information
 
@@ -210,7 +218,7 @@ with one transition per measurement. t~PLH~ and t~PHL~ are the same as
 t~pd~. Conversion note: the source's test table sets S1 open for
 t~PLH~/t~PHL~, which leaves R~L~ and C~L~ from the output to GND, and its
 waveforms draw the input from 0 V to V~CC~ with the delays measured at
-V~CC~/2.
+V~CC~/2. [[5::1]]
 
 ```table id=pmi-load caption="Load values"
 | V~CC~ | C~L~ | R~L~ | V~Δ~ |
@@ -223,15 +231,18 @@ V~CC~/2.
 | 1.8 V ± 0.15 V | 30 pF | 1 kΩ | 0.15 V |
 | 2.5 V ± 0.2 V | 30 pF | 500 Ω | 0.15 V |
 ```
+[[5::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit for t~PLH~/t~PHL~ (S1 open)"
 RL: see table
 CL: see table
 ```
+[[5::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: VCC/2
 ```
+[[5::Figure 1]]
 
 ## Package
 
@@ -252,6 +263,7 @@ SN74AUC2G86DCUR | Reel of 3000 | -40 to 85 | U86Q, U86R
 SN74AUC2G86DCURG4 | Reel of 3000 | -40 to 85 | U86R
 SN74AUC2G86YZPR | Reel of 3000 | -40 to 85 | UHN
 ```
+[[6::table #1]]
 
 Conversion note: the markings above are from the package option addendum, and the table below is the source's ordering information table (p.1).
 
@@ -265,6 +277,7 @@ Conversion note: the markings above are from the package option addendum, and th
 [1] Package drawings, standard packing quantities, thermal data, symbolization, and PCB design guidelines are available at www.ti.com/sc/package.
 [2] DCT: The actual top-side marking has three additional characters that designate the year, month, and assembly/test site. DCU: The actual top-side marking has one additional character that designates the assembly/test site. YZP: The actual top-side marking has three preceding characters to denote year, month, and sequence code, and one following character to designate the assembly/test site.
 ```
+[[1::table #2]]
 
 ## Conversion notes
 

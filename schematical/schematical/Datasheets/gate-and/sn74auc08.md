@@ -24,16 +24,16 @@
 ## Description
 
 Optimized for 1.8-V operation
-and is 3.6-V I/O tolerant to support mixed-mode signal operation.
+and is 3.6-V I/O tolerant to support mixed-mode signal operation. [[1::1]]
 
 This quadruple 2-input positive-AND gate is operational at 0.8-V to
 2.7-V V~CC~, but is designed specifically for 1.65-V to 1.95-V V~CC~
 operation. The SN74AUC08 device performs the Boolean function Y = A • B
-or Y = !{!{A} + !{B}} in positive logic.
+or Y = !{!{A} + !{B}} in positive logic. [[1::2]] [[1::3]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when it is powered down.
+current backflow through the device when it is powered down. [[1::4]]
 
 ## Pinout
 
@@ -49,6 +49,7 @@ current backflow through the device when it is powered down.
 GND: Ground
 VCC: Positive supply
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -62,6 +63,7 @@ Conversion note: the source's logic diagram (each gate, positive logic) draws on
 | L | X | L |
 | X | L | L |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -83,10 +85,11 @@ Conversion note: the source's logic diagram (each gate, positive logic) draws on
 [2] The input negative-voltage and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] The package thermal impedance is calculated in accordance with JESD 51-5.
 ```
+[[2::table #1]]
 
 ESD protection exceeds JESD 22: 2000-V human-body model (A114-A),
 200-V machine model (A115-A), 1000-V charged-device model (C101).
-Latch-up performance exceeds 100 mA per JESD 78, Class II.
+Latch-up performance exceeds 100 mA per JESD 78, Class II. [[1::1]]
 
 ## Recommended operating conditions
 
@@ -121,6 +124,7 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 [2] The data was taken at C~L~ = 15 pF, R~L~ = 2 kΩ (see Figure 1).
 [3] The data was taken at C~L~ = 30 pF, R~L~ = 500 Ω (see Figure 1).
 ```
+[[2::table #2]]
 
 ## Electrical characteristics
 
@@ -146,6 +150,7 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 
 [1] All typical values are at T~A~ = 25°C.
 ```
+[[3::table #1]]
 
 ```table id=operating caption="Operating characteristics, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ = 0.8 V | V~CC~ = 1.2 V | V~CC~ = 1.5 V | V~CC~ = 1.8 V | V~CC~ = 2.5 V | Unit |
@@ -153,6 +158,7 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 |---|---|---|--:|--:|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | f = 10 MHz | 14 | 14 | 14 | 14 | 17 | pF |
 ```
+[[3::table #2]]
 
 ## Switching characteristics
 
@@ -162,6 +168,7 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | 5.4 | 0.9 | 3.4 | 0.6 | 2.3 | 0.4 | 1 | 1.9 | 0.3 | 1.3 | ns |
 ```
+[[3::table #3]]
 
 ```table id=sw-30 caption="Switching characteristics, C~L~ = 30 pF (see Figure 1)" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | From (input) | To (output) | V~CC~ = 1.8 V ± 0.15 V | < | < | V~CC~ = 2.5 V ± 0.2 V | < | Unit |
@@ -169,6 +176,7 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 |---|---|---|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | 0.7 | 1.5 | 2.3 | 0.5 | 1.8 | ns |
 ```
+[[3::table #4]]
 
 ## Parameter measurement information
 
@@ -181,7 +189,7 @@ waveforms are not applicable to all devices. Figure 1, load circuit and
 voltage waveforms. Conversion note: the
 source's test table sets S1 open for t~PLH~/t~PHL~, which leaves R~L~
 and C~L~ from the output to GND, and its waveforms draw the input from
-0 V to V~CC~ with the delays measured at V~CC~/2.
+0 V to V~CC~ with the delays measured at V~CC~/2. [[4::1]] [[4::2]]
 
 ```table id=pmi caption="Load circuit values"
 | V~CC~ | C~L~ | R~L~ | V~Δ~ |
@@ -196,15 +204,18 @@ and C~L~ from the output to GND, and its waveforms draw the input from
 
 [1] Source conflict: Figure 1 (p.4) gives R~L~ = 1 kΩ for V~CC~ = 1.8 V ± 0.15 V at C~L~ = 30 pF; note 3 of the recommended operating conditions (p.2) says the V~CC~ = 1.65 V to 1.95 V data was taken at C~L~ = 30 pF, R~L~ = 500 Ω.
 ```
+[[4::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit for t~pd~ (S1 open)"
 RL: see table
 CL: see table
 ```
+[[4::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Propagation delay times, inverting and noninverting outputs"
 VM: V~CC~/2
 ```
+[[4::figure #1]]
 
 ## Package
 
@@ -217,6 +228,7 @@ VM: V~CC~/2
 SN74AUC08RGYR | Reel of 3000 | -40 to 85 | MS08
 SN74AUC08RGYRG4 | Reel of 3000 | -40 to 85 | MS08
 ```
+[[5::table #1]]
 
 ## Conversion notes
 

@@ -24,11 +24,11 @@
 ## Description
 
 The SN74AHCT14Q-Q1 contains six independent inverters. This device
-performs the Boolean function Y = !{A}.
+performs the Boolean function Y = !{A}. [[1::1]]
 
 Qualified for automotive applications. EPIC™ (Enhanced-Performance
 Implanted CMOS) process. Inputs are TTL-Voltage compatible. Latch-Up
-performance exceeds 250 mA per JESD 17.
+performance exceeds 250 mA per JESD 17. [[1::2]]
 
 ## Pinout
 
@@ -53,17 +53,18 @@ performance exceeds 250 mA per JESD 17.
 GND: Ground Pin
 VCC: Power Pin
 ```
+[[3::table #1]]
 
 ## Functional description
 
 Each circuit functions as an independent inverter, but because of the
 Schmitt action, the inverters have different input threshold levels for
-positive-going (V~T+~) and for negative-going (V~T−~) signals.
+positive-going (V~T+~) and for negative-going (V~T−~) signals. [[7::1]]
 
 Conversion note: the logic diagram (Figure 8-1) shows one Schmitt-trigger inverter, input A, output Y, and the logic symbol of the six inverters with their pin numbers.
 
 The ✝ symbol is in accordance with ANSI/IEEE Std 91-1984 and IEC
-Publication 617-12.
+Publication 617-12. [[7::2]]
 
 ## Function tables
 
@@ -74,6 +75,7 @@ Publication 617-12.
 | H | L |
 | L | H |
 ```
+[[7::Table 8-1]]
 
 ## Absolute maximum ratings
 
@@ -92,6 +94,7 @@ Publication 617-12.
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 Source error: the source prints the marker 1 on the V~I~ and V~O~ rows (p.4); note 2, on the input and output voltage ratings, is the one that applies to them and has no other marker, so the marker is written 2.
 
@@ -103,6 +106,7 @@ Source error: the source prints the marker 1 on the V~I~ and V~O~ rows (p.4); no
 
 [1] AEC Q100-002 indicates that HBM stressing must be in accordance with the ANSI/ESDA/JEDEC JS-001 specification.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -118,6 +122,7 @@ Source error: the source prints the marker 1 on the V~I~ and V~O~ rows (p.4); no
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -128,6 +133,7 @@ Source error: the source prints the marker 1 on the V~I~ and V~O~ rows (p.4); no
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report (SPRA953).
 ```
+[[4::table #4]]
 
 ## Electrical characteristics
 
@@ -153,6 +159,7 @@ Source error: the source prints the marker 1 on the V~I~ and V~O~ rows (p.4); no
 [1] This is the increase in supply current for each input at one of the specified TTL voltage levels rather than 0 V or V~CC~.
 [2] Source error: the source prints the unit of V~OL~ as a lower-case v (p.5), kept as printed; the V~OH~ rows print V.
 ```
+[[5::table #1]]
 
 Conversion note: the source prints no temperature heading over the second Min and Max columns of this table and of the switching characteristics table.
 
@@ -167,12 +174,14 @@ Conversion note: the source prints no temperature heading over the second Min an
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[5::table #2]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 12 | pF |
 ```
+[[5::table #3]]
 
 ## Switching characteristics
 
@@ -185,23 +194,26 @@ Conversion note: the source prints no temperature heading over the second Min an
 | t~PLH~ | A | Y | C~L~ = 50 pF | | 5.5 | 8 | 1 | 9 | ns |
 | t~PHL~ | ^ | ^ | ^ | | 5.5 | 8 | 1 | 9 | ^ |
 ```
+[[5::table #4]]
 
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
-time with one input transition per measurement.
+time with one input transition per measurement. [[6::1]]
 
 Conversion note: in Figure 7-1 the inputs swing 0 V to 3 V and are measured at 1.5 V, the outputs are measured at 50% V~CC~, and its table sets S1 to Open for t~PLH~/t~PHL~.
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: see table
 ```
+[[6::Figure 7-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 1.5 V (input), 50% VCC (output)
 ```
+[[6::Figure 7-1]]
 
 Conversion note: the source figure (Figure 7-1) also shows the load
 circuit for 3-state and open-drain outputs (R~L~ = 1 kΩ) with its S1
@@ -214,7 +226,7 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[8::1]]
 
 Conversion note: in the typical application block diagram (Figure 9-1) one AND gate combines !{OC} (over current detection) with PG (power supply), a second combines ON/!{OFF} (on/off switch) with !{OT} (over temp detection), and a third combines the two results into the !{RESET} input of a motor controller.
 
@@ -230,7 +242,7 @@ acceptable to parallel multiple bypass capacitors to reject different
 frequencies of noise. The 0.1-μF and 1-μF capacitors are commonly used
 in parallel. The bypass capacitor should be installed as close to the
 power terminal as possible for best results, as shown in the following
-layout example.
+layout example. [[8::3]]
 
 ### Layout guidelines
 
@@ -246,7 +258,7 @@ the input voltage specifications, to prevent them from floating. The
 logic level that must be applied to any particular unused input depends
 on the function of the device. Generally, the inputs are tied to GND or
 V~CC~, whichever makes more sense for the logic function or is more
-convenient.
+convenient. [[8::4]]
 
 Conversion note: the example layout (Figure 9-2) recommends a GND flood fill for improved signal isolation, noise reduction, and thermal dissipation, a 0.1 μF bypass capacitor placed close to the device, unused inputs tied to V~CC~, an unused output left floating, and avoiding 90° corners for signal lines.
 
@@ -268,6 +280,7 @@ SN74AHCT14QDRQ1 | Reel of 2500 | -40 to 125 | AHCT14Q
 SN74AHCT14QPWRG4Q1 | Reel of 2000 | -40 to 125 | HB14Q
 SN74AHCT14QPWRQ1 | Reel of 2000 | -40 to 125 | HB14Q
 ```
+[[10::table #1]]
 
 ## Conversion notes
 

@@ -25,14 +25,14 @@
 
 Supports 5-V V~CC~ operation. Inputs accept voltages to 5.5 V.
 Supports defense, aerospace, and medical applications. Available in
-military (–55°C/125°C) temperature range.
+military (–55°C/125°C) temperature range. [[1::1]] [[1::2]]
 
 The SN74LVC1G11 performs the Boolean function Y = A • B • C or
-Y = !{!{A} + !{B} + !{C}} in positive logic.
+Y = !{!{A} + !{B} + !{C}} in positive logic. [[1::3]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when it is powered down.
+current backflow through the device when it is powered down. [[1::5]]
 
 ## Pinout
 
@@ -49,6 +49,7 @@ GND: Ground
 VCC: Supply voltage
 Y: Output
 ```
+[[2::table #1]]
 
 ## Function tables
 
@@ -61,6 +62,7 @@ Y: Output
 | X | L | X | L |
 | X | X | L | L |
 ```
+[[2::table #2]]
 
 ## Absolute maximum ratings
 
@@ -83,10 +85,11 @@ Y: Output
 [3] The value of V~CC~ is provided in the recommended operating conditions table.
 [4] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #3]]
 
 Latch-up performance exceeds 100 mA per JESD 78, Class II.
 ESD protection exceeds JESD 22: 2000-V Human-Body Model (A114-A),
-200-V Machine Model (A115-A), 1000-V Charged-Device Model (C101).
+200-V Machine Model (A115-A), 1000-V Charged-Device Model (C101). [[1::1]]
 
 ## Recommended operating conditions
 
@@ -122,6 +125,7 @@ ESD protection exceeds JESD 22: 2000-V Human-Body Model (A114-A),
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[3::table #1]]
 
 ## Electrical characteristics
 
@@ -148,6 +152,7 @@ ESD protection exceeds JESD 22: 2000-V Human-Body Model (A114-A),
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25 °C.
 ```
+[[4::table #1]]
 
 ### Operating characteristics
 
@@ -157,6 +162,7 @@ ESD protection exceeds JESD 22: 2000-V Human-Body Model (A114-A),
 |---|---|---|--:|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | f = 10 MHz | 18 | 19 | 20 | 23 | pF |
 ```
+[[4::table #2]]
 
 ## Switching characteristics
 
@@ -171,15 +177,16 @@ See [parameter measurement information](#parameter-measurement).
 [1] Source error: the source refers to "Figure 2"; the data sheet has only Figure 1, whose load values (30 pF and 50 pF) match this table. Corrected.
 [2] Source error: the source prints the supply tolerances in this table's heading as "= 0.15 V", "= 0.2 V", "= 0.3 V" and "= 0.5 V"; the recommended operating conditions and the Figure 1 table give ± 0.15 V, ± 0.2 V, ± 0.3 V and ± 0.5 V. Corrected.
 ```
+[[4::table #3]]
 
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
-per measurement. t~PLH~ and t~PHL~ are the same as t~pd~.
+per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. [[5::1]]
 
-All parameters and waveforms are not applicable to all devices.
+All parameters and waveforms are not applicable to all devices. [[5::1]]
 
 Conversion note: the load circuit also has a second R~L~, from the output
 to switch S1, which goes to V~LOAD~, open or GND; the figure below draws
@@ -194,11 +201,13 @@ setup-and-hold and enable/disable waveforms, which are not drawn here.
 | t~PLZ~/t~PZL~ | V~LOAD~ |
 | t~PHZ~/t~PZH~ | GND |
 ```
+[[5::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: see table
 CL: see table
 ```
+[[5::Figure 1]]
 
 ```table id=test-conditions caption="Test conditions (Figure 1)"
 | V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -209,10 +218,12 @@ CL: see table
 | 3.3 V ± 0.3 V | 3 V | ≤ 2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 5 V ± 0.5 V | V~CC~ | ≤ 2.5 ns | V~CC~/2 | 2 × V~CC~ | 50 pF | 500 Ω | 0.3 V |
 ```
+[[5::table #2]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times"
 VM: see table
 ```
+[[5::Figure 1]]
 
 ## Package
 
@@ -225,6 +236,7 @@ VM: see table
 SN74LVC1G11MDCKREP | Reel of 3000 | -55 to 125 | OBF
 V62/09621-01XE | Reel of 3000 | -55 to 125 | OBF
 ```
+[[6::table #1]]
 
 ## Conversion notes
 

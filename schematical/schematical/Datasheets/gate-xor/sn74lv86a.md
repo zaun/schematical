@@ -24,19 +24,19 @@
 ## Description
 
 The ’LV86A devices are quadruple 2-input exclusive-OR gates designed for
-2-V to 5.5-V V~CC~ operation.
+2-V to 5.5-V V~CC~ operation. [[9::1]]
 
 These devices contain four independent 2-input exclusive-OR gates. They
 perform the Boolean function Y = A ⊕ B or Y = !{A}B + A!{B} in positive
-logic.
+logic. [[1::3]]
 
 A common application is as a true/complement element. If one of the
 inputs is low, the other input is reproduced in true form at the output.
 If one of the inputs is high, the signal on the other input is
-reproduced inverted at the output.
+reproduced inverted at the output. [[1::4]]
 
 Support Mixed-Mode Voltage Operation on All Ports. Latch-Up Performance
-Exceeds 250 mA per JESD 17.
+Exceeds 250 mA per JESD 17. [[1::1]]
 
 ## Pinout
 
@@ -62,6 +62,7 @@ GND: ground
 VCC: Power pin
 NC: No internal connection
 ```
+[[3::table #1]]
 
 ## Functional description
 
@@ -69,22 +70,22 @@ An exclusive-OR gate has many applications, some of which can be
 represented better by alternative logic symbols. These are five
 equivalent exclusive-OR symbols valid for an ’LV86A gate in positive
 logic; negation can be shown at any two ports. Conversion note: the five
-symbols of Figure 4 are not drawn here.
+symbols of Figure 4 are not drawn here. [[9::4]] [[9::5]]
 
 The output is active (low) if all inputs stand at the same logic level
 (that is, A = B). Conversion note: this is Figure 5, the logic-identity
-element (symbol =).
+element (symbol =). [[9::6]]
 
 The output is active (low) if an even number of inputs (that is, 0 or 2)
 are active. Conversion note: this is Figure 6, the even-parity element
-(symbol 2k).
+(symbol 2k). [[9::7]]
 
 The output is active (high) if an odd number of inputs (that is, only 1
 of the 2) are active. Conversion note: this is Figure 7, the odd-parity
-element (symbol 2k + 1).
+element (symbol 2k + 1). [[9::8]]
 
 Wide operating voltage range, operates from 2 to 5.5 V. Allows down
-voltage translation, inputs accept voltages to 5.5 V.
+voltage translation, inputs accept voltages to 5.5 V. [[9::9]]
 
 ## Function tables
 
@@ -97,6 +98,7 @@ voltage translation, inputs accept voltages to 5.5 V.
 | H | L | H |
 | H | H | L |
 ```
+[[9::Table 1]]
 
 ## Absolute maximum ratings
 
@@ -117,6 +119,7 @@ voltage translation, inputs accept voltages to 5.5 V.
 [2] The input and output negative-voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] This value is limited to 5.5-V maximum.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -127,6 +130,7 @@ voltage translation, inputs accept voltages to 5.5 V.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -159,6 +163,7 @@ voltage translation, inputs accept voltages to 5.5 V.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, SCBA004.
 ```
+[[5::table #1]]
 
 ## Thermal information
 
@@ -174,6 +179,7 @@ voltage translation, inputs accept voltages to 5.5 V.
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report, SPRA953.
 [2] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[5::table #2]]
 
 ## Electrical characteristics
 
@@ -194,6 +200,7 @@ voltage translation, inputs accept voltages to 5.5 V.
 | I~off~ | V~I~ or V~O~ = 0 to 5.5 V | 0 | | | 5 | | | 5 | µA |
 | C~i~ | V~I~ = V~CC~ or GND | 3.3 V | | 1.4 | | | 1.4 | | pF |
 ```
+[[6::table #1]]
 
 ```table id=noise caption="Noise characteristics for SN74LV86A" conditions="V~CC~ = 3.3 V, C~L~ = 50 pF, T~A~ = 25°C [1]"
 | Symbol | Parameter | Min | Typ | Max | Unit |
@@ -206,6 +213,7 @@ voltage translation, inputs accept voltages to 5.5 V.
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[7::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
@@ -213,6 +221,7 @@ voltage translation, inputs accept voltages to 5.5 V.
 | C~pd~ | Power dissipation capacitance | C~L~ = 50 pF, f = 10 MHz | 3.3 V | 8.4 | pF |
 | ^ | ^ | ^ | 5 V | 8.8 | pF |
 ```
+[[7::table #2]]
 
 ## Switching characteristics
 
@@ -228,6 +237,7 @@ See [parameter measurement information](#parameter-measurement).
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 [2] This note applies to SN54LV86A only: On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[6::table #2]]
 
 ```table id=sw-3v3 caption="Switching characteristics, V~CC~ = 3.3 V ± 0.3 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted) (see Figure 3)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | < | Min | Max | Unit |
@@ -239,6 +249,7 @@ See [parameter measurement information](#parameter-measurement).
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 [2] This note applies to SN54LV86A only: On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[6::table #3]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted) (see Figure 3)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | < | Min | Max | Unit |
@@ -250,6 +261,7 @@ See [parameter measurement information](#parameter-measurement).
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 [2] This note applies to SN54LV86A only: On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[6::table #4]]
 
 ## Typical characteristics
 
@@ -260,6 +272,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "tpd", "points": [[-55, 4.9], [-40, 4.95], [25, 5.6], [85, 6.0], [125, 6.25]]}
  ]}
 ```
+[[7::Figure 1]]
 
 ```curve id=tpd-vcc caption="t~pd~ vs V~CC~ at 25°C"
 {"x": {"label": "VCC", "unit": "V", "range": [0, 6]},
@@ -268,6 +281,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "tpd", "points": [[2.5, 7.9], [3.3, 5.6], [5, 3.9]]}
  ]}
 ```
+[[7::Figure 2]]
 
 ## Parameter measurement information
 
@@ -276,7 +290,7 @@ by generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time, with one input transition per measurement. t~PHL~ and t~PLH~ are
 the same as t~pd~. All parameters and waveforms are not applicable to
-all devices.
+all devices. [[8::1]] [[8::3]] [[8::4]] [[8::5]] [[8::6]]
 
 Conversion note: C~L~ is 15 pF or 50 pF as given in the
 [switching characteristics](#switching-characteristics).
@@ -284,10 +298,12 @@ Conversion note: C~L~ is 15 pF or 50 pF as given in the
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 15 pF or 50 pF
 ```
+[[8::Figure 3]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 50% V~CC~
 ```
+[[8::Figure 3]]
 
 Conversion note: Figure 3 also shows the load circuit for 3-state and
 open-drain outputs (R~L~ = 1 kΩ) and the voltage waveforms for pulse
@@ -299,13 +315,13 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes. Customers should validate and test
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[10::1]]
 
 The SN74LV86A is a low drive CMOS device that can be used for a
 multitude of bus interface type applications where output ringing is a
 concern. The low drive and slow edge rates will minimize overshoot and
 undershoot on the outputs. The inputs can accept voltages to 5.5 V at
-any valid V~CC~ making it Ideal for down translation.
+any valid V~CC~ making it Ideal for down translation. [[10::2]]
 
 Conversion note: in the typical application schematic (Figure 8) a 5-V
 bus driver drives the two inputs of one exclusive-OR gate, whose output
@@ -318,19 +334,19 @@ This device uses CMOS technology and has balanced output drive. Care
 should be taken to avoid bus contention because it can drive currents
 that would exceed maximum limits. The high drive will also create fast
 edges into light loads so routing and load conditions should be
-considered to prevent ringing.
+considered to prevent ringing. [[10::3]]
 
 ### Detailed design procedure
 
-1. Recommended Input conditions
+1. Recommended Input conditions [[10::4]]
    - Rise time and fall time specs see (Δt/ΔV) in
-     [Recommended Operating Conditions](#recommended-operating-conditions).
+     [Recommended Operating Conditions](#recommended-operating-conditions). [[10::4]]
    - Specified High and low levels. See (V~IH~ and V~IL~) in
-     [Recommended Operating Conditions](#recommended-operating-conditions).
-2. Recommend output conditions
+     [Recommended Operating Conditions](#recommended-operating-conditions). [[10::4]]
+2. Recommend output conditions [[10::4]]
    - Load currents should not exceed 25 mA per output and 50 mA total
-     for the part
-   - Outputs should not be pulled above V~CC~
+     for the part [[10::4]]
+   - Outputs should not be pulled above V~CC~ [[10::4]]
 
 Conversion note: the application curve (Figure 9, Switching
 Characteristics Comparison) is a picture of the output falling edges of
@@ -340,7 +356,7 @@ the LS86, the HC86 and the LV86A over 20 ns.
 
 The power supply can be any voltage between the minimum and maximum
 supply voltage rating located in
-[Recommended Operating Conditions](#recommended-operating-conditions).
+[Recommended Operating Conditions](#recommended-operating-conditions). [[11::1]]
 
 Each V~CC~ terminal should have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, TI recommends 0.1 µF and
@@ -348,11 +364,11 @@ if there are multiple V~CC~ terminals then .01 or .022 µF is recommended
 for each power terminal. It is okay to parallel multiple bypass
 capacitors to reject different frequencies of noise. A 0.1 µF and 1 µF
 are commonly used in parallel. The bypass capacitor should be installed
-as close to the power terminal as possible for best results.
+as close to the power terminal as possible for best results. [[11::2]]
 
 ### Layout guidelines
 
-When using multiple bit logic devices inputs should not ever float.
+When using multiple bit logic devices inputs should not ever float. [[11::3]]
 
 In many cases, functions or parts of functions of digital logic devices
 are unused, for example, when only two inputs of a triple-input AND gate
@@ -368,7 +384,7 @@ sense or is more convenient. It is generally okay to float outputs
 unless the part is a transceiver. If the transceiver has an output
 enable pin it will disable the outputs section of the part when
 asserted. This will not disable the input section of the IOs so they
-also cannot float when disabled.
+also cannot float when disabled. [[11::4]]
 
 Conversion note: the layout recommendation (Figure 10) shows one gate
 with its unused input tied to V~CC~ and one with its unused input tied
@@ -404,6 +420,7 @@ SN74LV86APWR | Reel of 2000 | -40 to 125 | LV86A
 SN74LV86APWRG4 | Reel of 2000 | -40 to 125 | LV86A
 SN74LV86APWT | | -40 to 125 | LV86A | Obsolete
 ```
+[[13::table #1]]
 
 ## Conversion notes
 

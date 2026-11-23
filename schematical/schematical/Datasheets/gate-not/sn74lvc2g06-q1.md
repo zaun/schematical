@@ -24,15 +24,15 @@
 ## Description
 
 This dual inverter buffer/driver is designed for 1.65-V to 5.5-V V~CC~
-operation.
+operation. [[1::3]]
 
 The output of the SN74LVC2G06-Q1 device is open drain and can be connected
 to other open-drain outputs to implement active-low wired-OR or
-active-high wired-AND functions. The maximum sink current is 32 mA.
+active-high wired-AND functions. The maximum sink current is 32 mA. [[1::4]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when it is powered down.
+current backflow through the device when it is powered down. [[1::5]]
 
 Qualified for Automotive Applications. Supports 5-V V~CC~ Operation.
 Max t~pd~ of 3.4 ns at 3.3 V. Low Power Consumption, 10-µA
@@ -40,7 +40,7 @@ Max I~CC~. ±24-mA Output Drive at 3.3 V. Typical V~OLP~ (Output Ground
 Bounce) <0.8 V at V~CC~ = 3.3 V, T~A~ = 25°C. Typical V~OHV~ (Output
 V~OH~ Undershoot) >2 V at V~CC~ = 3.3 V, T~A~ = 25°C. Inputs and
 Open-Drain Outputs Accept Voltages up to 5.5 V. I~off~ Supports
-Partial-Power-Down Mode Operation.
+Partial-Power-Down Mode Operation. [[1::1]]
 
 ## Pinout
 
@@ -59,6 +59,7 @@ Conversion note: the source has no pin table, and the descriptions are the conve
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Functional description
 
@@ -73,6 +74,7 @@ Conversion note: the logic diagram (positive logic) shows two inverters, 1A (pin
 | H | L |
 | L | H |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -96,10 +98,11 @@ Conversion note: the logic diagram (positive logic) shows two inverters, 1A (pin
 [3] The value of V~CC~ is provided in the recommended operating conditions table.
 [4] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #1]]
 
 Latch-Up Performance Exceeds 100 mA Per JESD 78, Class II. ESD
 Protection Exceeds JESD 22: 2000-V Human-Body Model (A114-A), 200-V
-Machine Model (A115-A), 1000-V Charged-Device Model (C101).
+Machine Model (A115-A), 1000-V Charged-Device Model (C101). [[1::1]] [[1::2]]
 
 ## Recommended operating conditions
 
@@ -130,6 +133,7 @@ Machine Model (A115-A), 1000-V Charged-Device Model (C101).
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[3::table #1]]
 
 ## Electrical characteristics
 
@@ -153,6 +157,7 @@ Machine Model (A115-A), 1000-V Charged-Device Model (C101).
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25°C.
 ```
+[[3::table #2]]
 
 ```table id=cpd caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ = 1.8 V | V~CC~ = 2.5 V | V~CC~ = 3.3 V | V~CC~ = 5 V | Unit |
@@ -160,6 +165,7 @@ Machine Model (A115-A), 1000-V Charged-Device Model (C101).
 |---|---|---|--:|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | f = 10 MHz | 2 | 2 | 3 | 4 | pF |
 ```
+[[4::table #1]]
 
 ## Switching characteristics
 
@@ -171,6 +177,7 @@ Conversion note: Figure 1 is in [parameter measurement information](#parameter-m
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A | Y | 1.8 | 7.2 | 1 | 3.9 | 1 | 3.4 | 1 | 2.9 | ns |
 ```
+[[4::table #2]]
 
 ## Parameter measurement information
 
@@ -180,7 +187,7 @@ Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. Since this device has open-drain outputs, t~PLZ~ and
 t~PZL~ are the same as t~pd~. t~PZL~ is measured at V~M~. t~PLZ~ is
 measured at V~OL~ + V~Δ~. All parameters and waveforms are not
-applicable to all devices.
+applicable to all devices. [[5::1]]
 
 Conversion note: the load circuit (open drain) has C~L~ and one R~L~ from the output to GND and a second R~L~ from the output to switch S1, which goes to V~LOAD~, open or GND.
 Conversion note: the source figure also shows pulse-duration, setup-and-hold and enable/disable waveforms, which are not drawn here.
@@ -192,6 +199,7 @@ Conversion note: the source figure also shows pulse-duration, setup-and-hold and
 | t~PLZ~ (see Notes E and G) | V~LOAD~ |
 | t~PHZ~/t~PZH~ | V~LOAD~ |
 ```
+[[5::table #1]]
 
 ```table id=test-conditions caption="Test conditions (Figure 1)"
 | V~CC~ | Input | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -202,10 +210,12 @@ Conversion note: the source figure also shows pulse-duration, setup-and-hold and
 | 3.3 V ± 0.3 V | 3 V | ≤ 2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 5 V ± 0.5 V | V~CC~ | ≤ 2.5 ns | V~CC~/2 | 2 × V~CC~ | 50 pF | 500 Ω | 0.3 V |
 ```
+[[5::table #2]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: see table
 ```
+[[5::Figure 1]]
 
 ## Package
 
@@ -217,6 +227,7 @@ VM: see table
 ```ordering
 SN74LVC2G06QDCKRQ1 | Reel of 3000 | -40 to 125 | CTO
 ```
+[[1::table #3]]
 
 Conversion note: the marking above is from the package option addendum, and the table below is the source's ordering information table (p.1).
 
@@ -230,6 +241,7 @@ Conversion note: the marking above is from the package option addendum, and the 
 [2] Package drawings, thermal data, and symbolization are available at www.ti.com/packaging.
 [3] DBV/DCK: The actual top-side marking has one additional character that designates the wafer fab/assembly site. Pin 1 identifier indicates solder-bump composition (1 = SnPb, • = Pb-free).
 ```
+[[1::table #4]]
 
 ## Conversion notes
 

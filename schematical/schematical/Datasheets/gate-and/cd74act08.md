@@ -26,7 +26,7 @@
 The 'ACT08 devices are quadruple 2-input positive-AND gates. These
 devices perform the Boolean function Y = A · B in positive logic. Inputs
 are TTL-voltage compatible. Balanced propagation delays. Buffered
-inputs. ±24mA output drive current.
+inputs. ±24mA output drive current. [[1::1]] [[1::2]]
 
 ## Pinout
 
@@ -42,11 +42,12 @@ inputs. ±24mA output drive current.
 GND: Ground
 VCC: Positive Supply
 ```
+[[3::Table 3-1]]
 
 ## Functional description
 
 Logic Diagram, Each Gate (Positive Logic). Conversion note: the diagram
-shows one 2-input AND gate, inputs A and B, output Y.
+shows one 2-input AND gate, inputs A and B, output Y. [[8::1]]
 
 ## Function tables
 
@@ -58,6 +59,7 @@ shows one 2-input AND gate, inputs A and B, output Y.
 | L | X | L |
 | X | L | L |
 ```
+[[8::Table 6-1]]
 
 ## Absolute maximum ratings
 
@@ -74,6 +76,7 @@ shows one 2-input AND gate, inputs A and B, output Y.
 [1] Stresses beyond those listed under absolute maximum ratings may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under recommended operating conditions is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -82,6 +85,7 @@ shows one 2-input AND gate, inputs A and B, output Y.
 
 [1] AEC Q100-002 indicate that HBM stressing shall be in accordance with the ANSI/ESDA/JEDEC JS-001 specification.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -100,6 +104,7 @@ shows one 2-input AND gate, inputs A and B, output Y.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -110,6 +115,7 @@ shows one 2-input AND gate, inputs A and B, output Y.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 ```
+[[4::table #4]]
 
 ## Electrical characteristics
 
@@ -132,18 +138,21 @@ shows one 2-input AND gate, inputs A and B, output Y.
 
 [1] Test one output at a time, not exceeding 1-second duration. Measurement is made by forcing indicated current and measuring voltage to minimize power dissipation. Test verifies a minimum 50-Ω transmission-line drive capability at 85°C and 75-Ω transmission-line drive capability at 125°C.
 ```
+[[5::table #1]]
 
 ```table id=input-load caption="ACT input load table"
 | Input | Value | Unit |
 |---|--:|---|
 | A or B | 0.3 | unit load |
 ```
+[[5::Table 4-1]]
 
 ```table id=opchar caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25 °C"
 | Symbol | Parameter | Typ | Unit |
 |---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | 50 | pF |
 ```
+[[5::table #2]]
 
 ## Switching characteristics
 
@@ -156,6 +165,7 @@ See [parameter measurement information](#parameter-measurement).
 | t~PLH~ | A or B | Y | 3.3 | 11.7 | 3.2 | 12.9 | ns |
 | t~PHL~ | A or B | Y | 3.3 | 11.7 | 3.2 | 12.9 | ns |
 ```
+[[5::table #3]]
 
 ## Parameter measurement information
 
@@ -163,7 +173,7 @@ C~L~ includes probe and test-fixture capacitance. All input pulses are
 supplied by generators having the following characteristics:
 PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~r~ = 3 ns, t~f~ = 3 ns. The outputs are
 measured one at a time with one input transition per measurement.
-t~PLH~ and t~PHL~ are the same as t~pd~.
+t~PLH~ and t~PHL~ are the same as t~pd~. [[6::Figure 5-1]]
 
 Conversion note: the load circuit of Figure 5-1 also has R1 = 500 Ω
 from the output to switch S1 (2 × V~CC~, Open or GND), and S1 is Open
@@ -176,15 +186,17 @@ the voltage waveforms the input swings 0 V to 3 V and is measured at
 RL: 500 Ω (R2)
 CL: 50 pF
 ```
+[[6::Figure 5-1]]
 
 ```figure ref=waveforms-cmos-tpd-tt caption="Voltage waveforms, propagation delay and output transition times"
 VM: 1.5 V (input), 50 % V~CC~ (outputs)
 ```
+[[6::Figure 5-1]]
 
 ## Application information
 
 Information in the following applications sections is not part of the
-TI component specification.
+TI component specification. [[9::1]]
 
 ### Power supply recommendations
 
@@ -196,7 +208,7 @@ disturbance. A 0.1-µF capacitor is recommended for this device. It is
 acceptable to parallel multiple bypass caps to reject different
 frequencies of noise. The 0.1-µF and 1-µF capacitors are commonly used
 in parallel. The bypass capacitor should be installed as close to the
-power terminal as possible for best results.
+power terminal as possible for best results. [[9::2]]
 
 ### Layout guidelines
 
@@ -209,7 +221,7 @@ voltage, as defined by the input voltage specifications, to prevent
 them from floating. The logic level that must be applied to any
 particular unused input depends on the function of the device.
 Generally, the inputs are tied to GND or V~CC~, whichever makes more
-sense for the logic function or is more convenient.
+sense for the logic function or is more convenient. [[9::3]]
 
 ## Package
 
@@ -231,6 +243,7 @@ CD74ACT08M | | -55 to 125 | ACT08M | Obsolete
 CD74ACT08M96 | Reel of 2500 | -55 to 125 | ACT08M
 CD74ACT08M96G4 | Reel of 2500 | -55 to 125 | ACT08M
 ```
+[[11::table #1]]
 
 ## Conversion notes
 

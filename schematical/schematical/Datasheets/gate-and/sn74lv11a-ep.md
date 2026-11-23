@@ -25,13 +25,13 @@
 
 This triple 3-input positive-AND gate is designed for 2-V to 5.5-V V~CC~
 operation. The SN74LV11A performs the Boolean function Y = A • B • C or
-Y = !{!{A} + !{B} + !{C}} in positive logic.
+Y = !{!{A} + !{B} + !{C}} in positive logic. [[1::3]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when it is powered down.
+current backflow through the device when it is powered down. [[1::4]]
 
-Extended temperature performance of −40 °C to 105 °C.
+Extended temperature performance of −40 °C to 105 °C. [[1::1]]
 
 ## Pinout
 
@@ -48,6 +48,7 @@ Extended temperature performance of −40 °C to 105 °C.
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -60,6 +61,7 @@ VCC: Supply voltage
 | X | L | X | L |
 | X | X | L | L |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -82,6 +84,7 @@ VCC: Supply voltage
 [3] This value is limited to 5.5 V maximum.
 [4] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #1]]
 
 ## Recommended operating conditions
 
@@ -114,6 +117,7 @@ VCC: Supply voltage
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[3::table #1]]
 
 ## Electrical characteristics
 
@@ -133,6 +137,7 @@ VCC: Supply voltage
 | I~off~ | V~I~ or V~O~ = 0 to 5.5 V | 0 V | | | 5 | µA |
 | C~i~ | V~I~ = V~CC~ or GND | 3.3 V | | 1.9 | | pF |
 ```
+[[3::table #2]]
 
 ```table id=noise caption="Noise characteristics [1]" conditions="V~CC~ = 3.3 V, C~L~ = 50 pF, T~A~ = 25 °C"
 | Symbol | Parameter | Min | Typ | Max | Unit |
@@ -145,6 +150,7 @@ VCC: Supply voltage
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[4::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="T~A~ = 25 °C"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
@@ -152,6 +158,7 @@ VCC: Supply voltage
 | C~pd~ | Power dissipation capacitance | C~L~ = 50 pF, f = 10 MHz | 3.3 V | 13.9 | pF |
 | ^ | ^ | ^ | 5 V | 15.4 | pF |
 ```
+[[4::table #2]]
 
 ## Switching characteristics
 
@@ -163,6 +170,7 @@ See [parameter measurement information](#parameter-measurement).
 |---|---|---|---|--:|--:|--:|--:|--:|---|
 | t~pd~ | A, B, or C | Y | C~L~ = 50 pF | | 9.9 | 17.5 | 1 | 21 | ns |
 ```
+[[4::table #3]]
 
 ```table id=sw-3v3 caption="Switching characteristics, V~CC~ = 3.3 V ± 0.3 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | From | To | Load capacitance | T~A~ = 25 °C | < | < | Min | Max | Unit |
@@ -170,6 +178,7 @@ See [parameter measurement information](#parameter-measurement).
 |---|---|---|---|--:|--:|--:|--:|--:|---|
 | t~pd~ | A, B, or C | Y | C~L~ = 50 pF | | 7.2 | 12.3 | 1 | 14 | ns |
 ```
+[[4::table #4]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | From | To | Load capacitance | T~A~ = 25 °C | < | < | Min | Max | Unit |
@@ -177,6 +186,7 @@ See [parameter measurement information](#parameter-measurement).
 |---|---|---|---|--:|--:|--:|--:|--:|---|
 | t~pd~ | A, B, or C | Y | C~L~ = 50 pF | | 5.4 | 7.9 | 1 | 9 | ns |
 ```
+[[4::table #5]]
 
 ## Parameter measurement information
 
@@ -184,15 +194,17 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time, with one input transition per measurement. t~PHL~ and t~PLH~ are
-the same as t~pd~.
+the same as t~pd~. [[5::1]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 50 pF
 ```
+[[5::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Propagation delay times, inverting and noninverting outputs"
 VM: 50 % V~CC~
 ```
+[[5::figure #1]]
 
 Conversion note: Figure 1 also shows the load circuit for 3-state and open-drain outputs
 (R~L~ = 1 kΩ) and the voltage waveforms for pulse duration, setup and
@@ -209,6 +221,7 @@ hold times, and enable and disable times.
 SN74LV11ATPWREP | Reel of 2000 | -40 to 105 | LV11AEP
 V62/04692-01XE | Reel of 2000 | -40 to 105 | LV11AEP
 ```
+[[6::table #1]]
 
 ## Conversion notes
 

@@ -24,14 +24,14 @@
 ## Description
 
 This quadruple 2-input positive-OR gates is designed for 2-V to 5.5-V
-V~CC~ operation.
+V~CC~ operation. [[1::3]]
 
 The SN74LV32A device performs the Boolean function Y = A + B or
-Y = !{!{A} • !{B}} in positive logic.
+Y = !{!{A} • !{B}} in positive logic. [[1::4]]
 
 Support Mixed-Mode Voltage Operation on All Ports. I~off~ Supports
 Partial-Power-Down Mode Operation. Latch-Up Performance Exceeds 250 mA
-Per JESD 17.
+Per JESD 17. [[1::1]]
 
 ## Pinout
 
@@ -56,29 +56,30 @@ Per JESD 17.
 GND: Ground Pin
 VCC: Power Pin
 ```
+[[3::table #1]]
 
 ## Functional description
 
 This quadruple 2-input positive-OR gate is designed for 2-V to 5.5-V
-V~CC~ operation.
+V~CC~ operation. [[9::1]]
 
 The SN74LV32A device performs the Boolean function Y = A + B or
-Y = !{!{A} • !{B}} in positive logic.
+Y = !{!{A} • !{B}} in positive logic. [[1::4]]
 
 This part has low drive which produces slower rise and fall times that
 will reduce ringing on the output signal. The inputs and outputs are of
-high impedance when V~CC~ = 0 V.
+high impedance when V~CC~ = 0 V. [[9::3]]
 
 Conversion note: the logic diagram (Figure 4) shows one 2-input OR gate
 with inputs A and B and output Y.
 
-- Wide operating voltage range
-  - Operates from 2 V to 5.5 V
-- Allows down-voltage translation
-  - Inputs accept voltages to 5.5 V
-- I~off~ feature
+- Wide operating voltage range [[9::5]]
+  - Operates from 2 V to 5.5 V [[9::5]]
+- Allows down-voltage translation [[9::5]]
+  - Inputs accept voltages to 5.5 V [[9::5]]
+- I~off~ feature [[9::5]]
   - Supports Live Insertion, Partial Power DownMode, and Back Drive
-    Protection
+    Protection [[9::5]]
 
 ## Function tables
 
@@ -90,6 +91,7 @@ with inputs A and B and output Y.
 | X | H | H |
 | L | L | L |
 ```
+[[9::Table 1]]
 
 ## Absolute maximum ratings
 
@@ -110,6 +112,7 @@ with inputs A and B and output Y.
 [2] The input and output negative-voltage ratings may be exceeded if the input and output current ratings are observed. 2. This value is limited to 5.5 V maximum.
 [3] This value is limited to 5.5-V maximum.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -120,6 +123,7 @@ with inputs A and B and output Y.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -152,6 +156,7 @@ with inputs A and B and output Y.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs (SCBA004).
 ```
+[[5::table #1]]
 
 ## Thermal information
 
@@ -169,6 +174,7 @@ with inputs A and B and output Y.
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report (SPRA953).
 [2] Source conflict: this table heads these columns DBV and DVG; the pin configuration and the package option addendum give the 14-pin packages DB (SSOP) and DGV (TVSOP).
 ```
+[[5::table #2]]
 
 ## Electrical characteristics
 
@@ -190,6 +196,7 @@ with inputs A and B and output Y.
 | C~i~ | V~I~ = V~CC~ or GND | 3.3 V | | 3.3 | | | | | | pF |
 | ^ | ^ | 5 V | | 3.3 | | | | | | pF |
 ```
+[[6::table #1]]
 
 ```table id=noise caption="Noise characteristics [1]" conditions="V~CC~ = 3.3 V, C~L~ = 50 pF, T~A~ = 25°C"
 | Symbol | Parameter | SN74LV32A | < | < | Unit |
@@ -203,6 +210,7 @@ with inputs A and B and output Y.
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[7::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
@@ -210,6 +218,7 @@ with inputs A and B and output Y.
 | C~pd~ | Power dissipation capacitance | C~L~ = 50 pF, f = 10 MHz | 3.3 V | 9.5 | pF |
 | ^ | ^ | ^ | 5 V | 11.5 | pF |
 ```
+[[7::table #2]]
 
 ## Switching characteristics
 
@@ -222,6 +231,7 @@ with inputs A and B and output Y.
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[6::table #2]]
 
 ```table id=sw-3v3 caption="Switching characteristics, V~CC~ = 3.3 V ± 0.3 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted) (see Figure 3)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | < | –40°C to 85°C | < | –40°C to 125°C | < | Unit |
@@ -232,6 +242,7 @@ with inputs A and B and output Y.
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[6::table #3]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted) (see Figure 3)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | < | –40°C to 85°C | < | –40°C to 125°C | < | Unit |
@@ -242,6 +253,7 @@ with inputs A and B and output Y.
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[6::table #4]]
 
 ## Typical characteristics
 
@@ -252,6 +264,7 @@ with inputs A and B and output Y.
   {"label": "TPD", "points": [[-55, 2.93], [-40, 2.97], [25, 3.6], [85, 4.0], [125, 4.25]]}
  ]}
 ```
+[[7::Figure 1]]
 
 ```curve id=tpd-vcc caption="TPD vs V~CC~ at 25°C"
 {"x": {"label": "VCC", "unit": "V", "range": [0, 6]},
@@ -260,6 +273,7 @@ with inputs A and B and output Y.
   {"label": "TPD", "points": [[2, 6.0], [3, 4.55], [4, 4.05], [4.5, 3.8], [5, 3.6], [5.5, 3.2]]}
  ]}
 ```
+[[7::Figure 2]]
 
 ## Parameter measurement information
 
@@ -268,7 +282,7 @@ by generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time, with one input transition per measurement. t~PHL~ and t~PLH~ are
 the same as t~pd~. All parameters and waveforms are not applicable to
-all devices.
+all devices. [[8::1]]
 
 Conversion note: C~L~ is 15 pF or 50 pF as given in the
 [switching characteristics](#switching-characteristics).
@@ -276,10 +290,12 @@ Conversion note: C~L~ is 15 pF or 50 pF as given in the
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 15 pF or 50 pF
 ```
+[[8::Figure 3]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 50% V~CC~
 ```
+[[8::Figure 3]]
 
 Conversion note: Figure 3 also shows the load circuit for 3-state and
 open-drain outputs (R~L~ = 1 kΩ) and the voltage waveforms for pulse
@@ -291,7 +307,7 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes. Customers should validate and test
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[10::1]]
 
 SN74LV32A is a low-drive CMOS device that can be used for a multitude
 of bus interface type applications where output ringing is a concern.
@@ -299,7 +315,7 @@ Source error: the source names the SN74LV04A in this sentence; the data
 sheet and its page headers are for the SN74LV32A. Corrected. The low
 drive and slow edge rates will minimize overshoot and undershoot on the
 outputs. The inputs can accept voltages to 5.5 V at any valid V~CC~
-making it Ideal for down translation.
+making it Ideal for down translation. [[10::2]]
 
 Conversion note: in the typical application schematic (Figure 5) one
 block drives the two inputs of one OR gate, whose output drives a 3.3-V
@@ -312,21 +328,21 @@ This device uses CMOS technology and has balanced output drive. Care
 should be taken to avoid bus contention because it can drive currents
 that would exceed maximum limits. The high drive will also create fast
 edges into light loads, so routing and load conditions should be
-considered to prevent ringing.
+considered to prevent ringing. [[10::3]]
 
 ### Detailed design procedure
 
-1. Recommended Input Conditions
+1. Recommended Input Conditions [[10::4]]
    - For rise time and fall time specifications, see Δt/ΔV in the
-     Recommended Operating Conditions table.
+     Recommended Operating Conditions table. [[10::4]]
    - For specified High and low levels, see V~IH~ and V~IL~ in the
-     Recommended Operating Conditions table.
+     Recommended Operating Conditions table. [[10::4]]
    - Inputs are overvoltage tolerant allowing them to go as high as
-     5.5 V at any valid V~CC~.
-2. Recommend Output Conditions
+     5.5 V at any valid V~CC~. [[10::4]]
+2. Recommend Output Conditions [[10::4]]
    - Load currents should not exceed 25 mA per output and 50 mA total
-     for the part.
-   - Outputs should not be pulled above V~CC~.
+     for the part. [[10::4]]
+   - Outputs should not be pulled above V~CC~. [[10::4]]
 
 Conversion note: the typical application curve (Figure 6) is a picture
 of the input V~I~ and the output falling edges of the AC32, the HC32
@@ -335,7 +351,7 @@ and the LV32 over 20 ns, at V~CC~ = 5 V with a load of 50 Ω/50 pF.
 ### Power supply recommendations
 
 The power supply can be any voltage between the MIN and MAX supply
-voltage rating located in the Recommended Operating Conditions table.
+voltage rating located in the Recommended Operating Conditions table. [[11::1]]
 
 Each V~CC~ pin should have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, 0.1 μF is recommended.
@@ -343,7 +359,7 @@ If there are multiple V~CC~ pins, 0.01 μF or 0.022 μF is recommended
 for each power pin. It is acceptable to parallel multiple bypass caps
 to reject different frequencies of noise. A 0.1 μF and 1 μF are
 commonly used in parallel. The bypass capacitor should be installed as
-close to the power pin as possible for best results.
+close to the power pin as possible for best results. [[11::2]]
 
 ### Layout guidelines
 
@@ -353,7 +369,7 @@ unused. Some examples are when only two inputs of a triple-input AND
 gate are used, or when only 3 of the 4-buffer gates are used. Such
 input pins should not be left unconnected because the undefined
 voltages at the outside connections result in undefined operational
-states.
+states. [[12::1]]
 
 Specified in Figure 7 are rules that must be observed under all
 circumstances. All unused inputs of digital logic devices must be
@@ -364,7 +380,7 @@ GND or V~CC~, whichever makes more sense or is more convenient. It is
 acceptable to float outputs unless the part is a transceiver. If the
 transceiver has an output enable pin, it will disable the outputs
 section of the part when asserted. This will not disable the input
-section of the I/Os so they also cannot float when disabled.
+section of the I/Os so they also cannot float when disabled. [[12::2]]
 
 Conversion note: the layout diagram (Figure 7) shows one gate with its
 unused input tied to V~CC~ and one with its unused input tied to
@@ -404,6 +420,7 @@ SN74LV32APWRG4 | Reel of 2000 | -40 to 125 | LV32A
 SN74LV32APWT | | -40 to 125 | LV32A | Obsolete
 SN74LV32ARGYR | Reel of 3000 | -40 to 125 | LV32A
 ```
+[[13::table #1]]
 
 ## Conversion notes
 

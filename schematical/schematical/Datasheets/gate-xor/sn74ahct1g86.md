@@ -25,11 +25,11 @@
 
 The SN74AHCT1G86 is a single 2-input exclusive-OR gate. The device
 performs the Boolean function Y = A ⊕ B or Y = !{A}B + A!{B} in positive
-logic.
+logic. [[1::1]]
 
 Operating range of 4.5V to 5.5V. Max t~pd~ of 8ns at 5V. 8mA output
 drive at 5V. Inputs are TTL-voltage compatible. Latch-up performance
-exceeds 250mA per JESD 17.
+exceeds 250mA per JESD 17. [[1::2]]
 
 Source error: the Features (p.1) also print "Low power consumption, 10A maximum I~CC~"; the electrical characteristics give an I~CC~ of at most 10 µA. Kept out.
 
@@ -47,6 +47,7 @@ GND: Ground pin
 Y: Output
 VCC: Power pin
 ```
+[[3::table #1]]
 
 ## Functional description
 
@@ -57,7 +58,7 @@ Conversion note: the functional block diagram (Figure 7-1, a picture) shows five
 The device is ideal for operating in a 5-V logic system. The low
 propagation delay allows fast switching and higher speeds of operation.
 In addition, the low power consumption makes this device a good choice
-for portable and battery power-sensitive applications.
+for portable and battery power-sensitive applications. [[8::3]]
 
 ## Function tables
 
@@ -73,6 +74,7 @@ for portable and battery power-sensitive applications.
 [1] H = High Voltage Level, L = Low Voltage Level, X = Don’t Care
 [2] H = Driving High, L = Driving Low, Z = High Impedance State
 ```
+[[8::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -92,6 +94,7 @@ for portable and battery power-sensitive applications.
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, which do not imply functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -102,6 +105,7 @@ for portable and battery power-sensitive applications.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -120,6 +124,7 @@ for portable and battery power-sensitive applications.
 
 [1] Source error: the source prints this symbol as "t/v" (p.4); its design procedure (§ 8.2.2) refers to it as Δt/ΔV.
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -135,6 +140,7 @@ for portable and battery power-sensitive applications.
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report (SPRA953).
 ```
+[[5::table #1]]
 
 ## Electrical characteristics
 
@@ -153,12 +159,14 @@ for portable and battery power-sensitive applications.
 
 [1] This is the increase in supply current for each input at one of the specified TTL voltage levels, rather than 0 V or V~CC~.
 ```
+[[5::table #2]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 18 | pF |
 ```
+[[6::table #1]]
 
 ## Switching characteristics
 
@@ -173,6 +181,7 @@ See [parameter measurement information](#parameter-measurement).
 | t~PLH~ | A or B | Y | C~L~ = 50 pF | 5.5 | 7.9 | 1 | 9 | 1 | 10 | ns |
 | t~PHL~ | ^ | ^ | ^ | 5.5 | 7.9 | 1 | 9 | 1 | 10 | ns |
 ```
+[[5::table #3]]
 
 ## Typical characteristics
 
@@ -183,6 +192,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "TPD", "points": [[-55, 4.2], [-40, 4.4], [25, 5], [85, 5.4], [125, 5.6]]}
  ]}
 ```
+[[6::Figure 5-1]]
 
 ## Parameter measurement information
 
@@ -193,10 +203,12 @@ Conversion note: in the figure the inputs swing 0 V to 3 V and are measured at 1
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 15 pF or 50 pF
 ```
+[[7::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 1.5 V (input), 50% VCC (output)
 ```
+[[7::Figure 6-1]]
 
 Conversion note: the source figure also shows the load circuit for
 3-state and open-drain outputs with its S1 table, and the
@@ -209,14 +221,14 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[9::1]]
 
 The SN74AHCT1G86 is a Low drive CMOS device that can be used for a
 multitude of bus interface type applications where output ringing is a
 concern. The low drive and slow edge rates will minimize overshoot and
 undershoot on the outputs. The input switching levels have been lowered
 to accommodate TTL inputs of 0.8-V V~IL~ and 2-V V~IH~. This feature
-makes it Ideal for translating up from 3.3 V to 5 V.
+makes it Ideal for translating up from 3.3 V to 5 V. [[9::2]]
 
 Conversion note: the typical application schematic (Figure 8-1) shows the gate, supplied from a 5V regulated rail with a 0.1uf capacitor to ground, between 3.3V system logic and a uC or system logic.
 
@@ -225,25 +237,25 @@ Conversion note: the typical application schematic (Figure 8-1) shows the gate, 
 This device uses CMOS technology and has balanced output drive. Take
 care to avoid bus contention because it can drive currents that would
 exceed maximum limits. The high drive will also create fast edges into
-light loads so consider routing and load conditions to prevent ringing.
+light loads so consider routing and load conditions to prevent ringing. [[9::3]]
 
 Source conflict: Application Information (§ 8.1) says "low drive and slow edge rates", Design Requirements (§ 8.2.1) says "the high drive will also create fast edges"; both are kept as printed.
 
 ### Detailed design procedure
 
-- Recommended input conditions:
+- Recommended input conditions: [[9::4]]
   - Rise time and fall time specs. See (Δt/ΔV) in
-    [Section 5.3](#recommended-operating-conditions).
+    [Section 5.3](#recommended-operating-conditions). [[9::4]]
   - Specified high and low levels. See (V~IH~ and V~IL~) in
-    Section 5.3.
-- Recommended output conditions:
-  - Load currents should not exceed 25 mA per output and 50 mA total for the part.
-  - Outputs should not be pulled above V~CC~.
+    Section 5.3. [[9::4]]
+- Recommended output conditions: [[9::4]]
+  - Load currents should not exceed 25 mA per output and 50 mA total for the part. [[9::4]]
+  - Outputs should not be pulled above V~CC~. [[9::4]]
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the minimum and maximum
-supply voltage rating located in the Section 5.3.
+supply voltage rating located in the Section 5.3. [[11::1]]
 
 Each V~CC~ terminal should have a good bypass capacitor to prevent
 power disturbance. For devices with a single supply, TI recommends a
@@ -252,11 +264,11 @@ recommends a 0.01-μF or 0.022-μF capacitor for each power terminal.
 Multiple bypass capacitors can be paralleled to reject different
 frequencies of noise. Frequencies of 0.1 μF and 1 μF are commonly used
 in parallel. The bypass capacitor should be installed as close as
-possible to the power terminal for best results.
+possible to the power terminal for best results. [[11::2]]
 
 ### Layout guidelines
 
-When using multiple bit logic devices inputs should not ever float.
+When using multiple bit logic devices inputs should not ever float. [[11::3]]
 
 In many cases, functions or parts of functions of digital logic devices
 are unused, for example, when only two inputs of a triple-input AND
@@ -272,7 +284,7 @@ GND or V~CC~ whichever make more sense or is more convenient. Floating
 outputs is generally acceptable, unless the part is a transceiver. If
 the transceiver has an output enable pin it will disable the outputs
 section of the part when asserted. This will not disable the input
-section of the I.O’s so they also cannot float when disabled.
+section of the I.O’s so they also cannot float when disabled. [[11::4]]
 
 Conversion note: the layout example (Figure 8-3) recommends a GND flood fill for improved signal isolation, noise reduction, and thermal dissipation, a 0.1 µF bypass capacitor placed close to the device, and avoiding 90° corners for signal lines.
 
@@ -294,6 +306,7 @@ SN74AHCT1G86DBVT | | -40 to 125 | B863, B86G, B86J, B86S | Obsolete
 SN74AHCT1G86DCKR | Reel of 3000 | -40 to 125 | 1QV, BH3, BHG, BHJ, BHL, BHS
 SN74AHCT1G86DCKT | | -40 to 125 | BH3, BHG, BHJ, BHS | Obsolete
 ```
+[[14::table #1]]
 
 ## Conversion notes
 

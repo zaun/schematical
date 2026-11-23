@@ -24,10 +24,10 @@
 ## Description
 
 The 'AHC04 devices contain six independent inverters. These devices
-perform the Boolean function Y = !{A}.
+perform the Boolean function Y = !{A}. [[1::1]]
 
 Operating range of 2 V to 5.5 V. Latch-up performance exceeds 250 mA
-per JESD 17.
+per JESD 17. [[1::2]]
 
 ## Pinout
 
@@ -52,6 +52,7 @@ per JESD 17.
 GND: Ground Pin
 VCC: Power Pin
 ```
+[[3::Table 4-1]]
 
 Source error: the pin functions table (Table 4-1, p.3) prints I in the
 I/O column of the 5Y row; its description is 5Y Output and the other
@@ -72,6 +73,7 @@ input A and output Y.
 | H | L |
 | L | H |
 ```
+[[8::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -91,6 +93,7 @@ input A and output Y.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] Unconfirmed: the source prints the symbol I~OK~ for the continuous output current as well as for the output clamp current; kept as printed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -101,6 +104,7 @@ input A and output Y.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -129,6 +133,7 @@ input A and output Y.
 
 [1] Source error: the source prints the unit mA for the V~CC~ = 2 V rows, kept as printed; the absolute maximum continuous output current is ±25 mA and the electrical characteristics test at I~OH~ = –50 µA and I~OL~ = 50 µA.
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -140,6 +145,7 @@ input A and output Y.
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report, (SPRA953).
 ```
+[[5::table #1]]
 
 ## Electrical characteristics
 
@@ -164,6 +170,7 @@ input A and output Y.
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested at V~CC~ = 0 V.
 [2] Source error: printed as I~OH~ = 4 mA and I~OH~ = 8 mA; the rows give V~OL~, and the recommended operating conditions give I~OL~ = 4 mA and 8 mA, so the condition is I~OL~.
 ```
+[[5::table #2]]
 
 ```table id=noise caption="Noise characteristics" conditions="V~CC~ = 5 V, C~L~ = 50 pF, T~A~ = 25°C [1]"
 | Symbol | Parameter | SN74AHC04 | < | < | Unit |
@@ -177,12 +184,14 @@ input A and output Y.
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[6::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 12 | pF |
 ```
+[[6::table #2]]
 
 ## Switching characteristics
 
@@ -197,6 +206,7 @@ input A and output Y.
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[5::table #3]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range, V~CC~ = 5 V ± 0.5 V (unless otherwise noted) (see Load Circuit and Voltage Waveforms)"
 | Symbol | From (input) | To (output) | Test conditions | T~A~ = 25°C | < | T~A~ = –55°C to 125°C, SN54AHC04 | < | T~A~ = –40°C to 85°C, SN74AHC04 | < | T~A~ = –40°C to 125°C Recommended, SN74AHC04 | < | Unit |
@@ -209,26 +219,29 @@ input A and output Y.
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[5::table #4]] [[6::table #3]]
 
 ## Parameter measurement information
 
-C~L~ includes probe and jig capacitance.
+C~L~ includes probe and jig capacitance. [[7::1]]
 
 All input pulses are supplied by generators having the following
-characteristics: PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns.
+characteristics: PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. [[7::1]]
 
 The outputs are measured one at a time with one input transition per
-measurement.
+measurement. [[7::1]]
 
-All parameters and waveforms are not applicable to all devices.
+All parameters and waveforms are not applicable to all devices. [[7::1]]
 
 ```figure ref=load-cmos-50pf caption="Figure 6-1. Load circuit for totem-pole outputs"
 CL: see table
 ```
+[[7::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Figure 6-1. Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 50% V~CC~
 ```
+[[7::Figure 6-1]]
 
 Conversion note: the source figure (Figure 6-1) also shows the load
 circuit for 3-state and open-drain outputs with its S1 table, and the
@@ -275,6 +288,7 @@ SN74AHC04PW | | -40 to 125 | HA04 | Obsolete
 SN74AHC04PWR | Reel of 2000 | -40 to 125 | HA04
 SN74AHC04RGYR | Reel of 3000 | -40 to 125 | HA04
 ```
+[[10::table #1]]
 
 ## Conversion notes
 

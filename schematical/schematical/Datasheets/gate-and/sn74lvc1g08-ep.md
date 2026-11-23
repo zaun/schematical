@@ -28,11 +28,11 @@
 
 The SN74LVC1G08 performs the Boolean function Y = A · B or
 Y = !{!{A} + !{B}} in positive logic. Supports 5-V
-V~CC~ operation. Inputs accept voltages to 5.5 V.
+V~CC~ operation. Inputs accept voltages to 5.5 V. [[1::1]] [[1::4]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when it is powered down.
+current backflow through the device when it is powered down. [[1::5]]
 
 Conversion note: the ordering information (p.1) and the recommended
 operating conditions give two temperature ranges, –40 °C to 85 °C
@@ -52,6 +52,7 @@ GND: Ground
 Y: Output
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -63,6 +64,7 @@ VCC: Supply voltage
 | L | X | L |
 | X | L | L |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -86,10 +88,11 @@ VCC: Supply voltage
 [3] The value of V~CC~ is provided in the recommended operating conditions table.
 [4] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #1]]
 
 ESD protection exceeds JESD 22: 2000-V Human-Body Model (A114-A),
 200-V Machine Model (A115-A), 1000-V Charged-Device Model (C101).
-Latch-up performance exceeds 100 mA per JESD 78, Class II.
+Latch-up performance exceeds 100 mA per JESD 78, Class II. [[1::2]]
 
 ## Recommended operating conditions
 
@@ -126,6 +129,7 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[3::table #1]]
 
 ## Electrical characteristics
 
@@ -152,6 +156,7 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25 °C.
 ```
+[[4::table #1]]
 
 ### Operating characteristics
 
@@ -161,6 +166,7 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 |---|---|---|--:|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | f = 10 MHz | 21 | 24 | 26 | 31 | pF |
 ```
+[[5::table #1]]
 
 ## Switching characteristics
 
@@ -172,6 +178,7 @@ See [parameter measurement information](#parameter-measurement).
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | 1.5 | 7.2 | 0.7 | 4.4 | 0.8 | 3.6 | 0.8 | 3.4 | ns |
 ```
+[[4::table #2]]
 
 ```table id=sw-i-30-50pf caption="Switching characteristics, I temp, C~L~ = 30 pF or 50 pF" conditions="Over recommended operating free-air temperature range of I temp = –40 °C to 85 °C, C~L~ = 30 pF or 50 pF (unless otherwise noted) (see Figure 2)"
 | Symbol | From (input) | To (output) | V~CC~ = 1.8 V ± 0.15 V | < | V~CC~ = 2.5 V ± 0.2 V | < | V~CC~ = 3.3 V ± 0.3 V | < | V~CC~ = 5 V ± 0.5 V | < | Unit |
@@ -179,6 +186,7 @@ See [parameter measurement information](#parameter-measurement).
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | 2.4 | 8 | 1.1 | 5.5 | 1 | 4.5 | 1 | 4 | ns |
 ```
+[[4::table #3]]
 
 ```table id=sw-m-50pf caption="Switching characteristics, M temp, C~L~ = 50 pF [1]" conditions="Over recommended operating free-air temperature range of M temp = –55 °C to 125 °C, C~L~ = 50 pF (unless otherwise noted) (see Figure 2)"
 | Symbol | From (input) | To (output) | V~CC~ = 1.8 V ± 0.15 V | < | V~CC~ = 2.5 V ± 0.2 V | < | V~CC~ = 3.3 V ± 0.3 V | < | V~CC~ = 5 V ± 0.5 V | < | Unit |
@@ -188,15 +196,16 @@ See [parameter measurement information](#parameter-measurement).
 
 [1] Source conflict: this table's heading says C~L~ = 50 pF, but Figure 2, which it refers to, uses C~L~ = 30 pF at V~CC~ = 1.8 V and 2.5 V.
 ```
+[[4::table #4]]
 
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
-per measurement. t~PLH~ and t~PHL~ are the same as t~pd~.
+per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. [[6::2]]
 
-All parameters and waveforms are not applicable to all devices.
+All parameters and waveforms are not applicable to all devices. [[7::2]]
 
 Conversion note: the load circuit also has a second R~L~, from the output
 to switch S1, which goes to V~LOAD~, open or GND; the figure below draws
@@ -211,11 +220,13 @@ setup-and-hold and enable/disable waveforms, which are not drawn here.
 | t~PLZ~/t~PZL~ | V~LOAD~ |
 | t~PHZ~/t~PZH~ | GND |
 ```
+[[6::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: see table
 CL: see table
 ```
+[[6::Figure 1]]
 
 ```table id=test-conditions caption="Test conditions (Figure 1 and Figure 2)"
 | V~CC~ | Figure | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -230,10 +241,12 @@ CL: see table
 | 3.3 V ± 0.3 V | 2 | 3 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 5 V ± 0.5 V | 2 | V~CC~ | ≤2.5 ns | V~CC~/2 | 2 × V~CC~ | 50 pF | 500 Ω | 0.3 V |
 ```
+[[4::table #5]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times"
 VM: see table
 ```
+[[6::Figure 1]]
 
 ## Package
 
@@ -254,6 +267,7 @@ V62/04733-01XE | Reel of 3000 | -40 to 85 | CEO
 V62/04733-02XE | Reel of 3000 | -55 to 125 | BUB
 V62/04733-02YE | Reel of 3000 | -55 to 125 | C08O
 ```
+[[8::table #1]]
 
 ## Conversion notes
 

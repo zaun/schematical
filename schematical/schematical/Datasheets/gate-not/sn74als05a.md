@@ -28,11 +28,11 @@ They perform the Boolean function Y = !{A}. The open-collector outputs
 require pullup resistors to perform correctly. These outputs can be
 connected to other open-collector outputs to implement active-low
 wired-OR or active-high wired-AND functions. Open-collector devices are
-often used to generate higher V~OH~ levels.
+often used to generate higher V~OH~ levels. [[1::2]]
 
 The SN54ALS05A is characterized for operation over the full military
 temperature range of –55°C to 125°C. The SN74ALS05A is characterized for
-operation from 0°C to 70°C.
+operation from 0°C to 70°C. [[1::3]]
 
 ## Pinout
 
@@ -47,6 +47,7 @@ operation from 0°C to 70°C.
 GND: Ground
 VCC: Positive supply
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -57,6 +58,7 @@ VCC: Positive supply
 | H | L |
 | L | H |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -72,6 +74,7 @@ VCC: Positive supply
 
 [1] Stresses beyond those listed under “absolute maximum ratings” may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under “recommended operating conditions” is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 ```
+[[2::table #1]]
 
 ## Recommended operating conditions
 
@@ -86,6 +89,7 @@ VCC: Positive supply
 | I~OL~ | Low-level output current | | | 4 | | | 8 | mA |
 | T~A~ | Operating free-air temperature | -55 | | 125 | 0 | | 70 | °C |
 ```
+[[2::table #2]]
 
 ## Electrical characteristics
 
@@ -105,6 +109,7 @@ VCC: Positive supply
 
 [1] All typical values are at V~CC~ = 5 V, T~A~ = 25°C.
 ```
+[[2::table #3]]
 
 ## Switching characteristics
 
@@ -117,13 +122,14 @@ VCC: Positive supply
 
 [1] For conditions shown as MIN or MAX, use the appropriate value specified under recommended operating conditions.
 ```
+[[2::table #4]]
 
 ## Parameter measurement information
 
 Series 54ALS/74ALS and 54AS/74AS devices. C~L~ includes probe and jig
 capacitance. All input pulses have the following characteristics:
 PRR ≤ 1 MHz, t~r~ = t~f~ = 2 ns, duty cycle = 50%. The outputs are
-measured one at a time with one transition per measurement.
+measured one at a time with one transition per measurement. [[3::1]]
 
 Conversion note: in Figure 1 the input pulses swing from 0.3 V to 3.5 V and all waveforms are measured at 1.3 V.
 
@@ -131,10 +137,12 @@ Conversion note: in Figure 1 the input pulses swing from 0.3 V to 3.5 V and all 
 RL: 2 kΩ
 CL: 50 pF
 ```
+[[3::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Figure 1. Voltage waveforms, propagation delay times"
 VM: 1.3 V
 ```
+[[3::Figure 1]]
 
 ## Package
 
@@ -155,6 +163,7 @@ SN74ALS05ADR | Reel of 2500 | 0 to 70 | ALS05A
 SN74ALS05AN | Tube of 25 | 0 to 70 | SN74ALS05AN
 SN74ALS05ANSR | Reel of 2000 | 0 to 70 | ALS05A
 ```
+[[4::table #1]]
 
 ## Conversion notes
 

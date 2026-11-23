@@ -25,14 +25,14 @@
 
 The SN54LVC00A quadruple 2-input positive-NAND gate is designed for 2.7V
 to 3.6V V~CC~ operation, and the SN74LVC00A quadruple 2-input
-positive-NAND gate is designed for 1.65V to 3.6V V~CC~ operation.
+positive-NAND gate is designed for 1.65V to 3.6V V~CC~ operation. [[1::1]]
 
 The SNx4LVC00A devices perform the Boolean function Y = !{A • B} or
-Y = !{A} + !{B} in positive logic.
+Y = !{A} + !{B} in positive logic. [[1::3]]
 
 Inputs can be driven from either 3.3V or 5V devices. This feature allows
 the use of these devices as translators in a mixed 3.3V/5V system
-environment.
+environment. [[1::4]]
 
 SN74LVC00A operates from 1.65V to 3.6V. SN54LVC00A operates from 2V to
 3.6V. SNx4LVC00A specified from –40°C to +85°C and –40°C to +125°C.
@@ -40,7 +40,7 @@ SN54LVC00A specified from –55°C to +125°C. Inputs accept voltages to
 5.5V. Latch-up performance exceeds 250 mA per JESD 17. On products
 compliant to MIL-PRF-38535, all parameters are tested unless otherwise
 noted. On all other products, production processing does not necessarily
-include testing of all parameters.
+include testing of all parameters. [[1::2]]
 
 ## Pinout
 
@@ -65,14 +65,15 @@ GND: Ground Pin
 VCC: Positive supply
 NC: No Connection
 ```
+[[3::Table 4-1]]
 
 ## Functional description
 
-The maximum sink and source current is 24 mA.
+The maximum sink and source current is 24 mA. [[9::1]]
 
 Inputs can be driven from 1.8-V, 2.5-V, 3.3-V (LVTTL), or 5-V (CMOS)
 devices. This feature allows the use of this device as translators in a
-mixed-system environment.
+mixed-system environment. [[9::2]]
 
 Conversion note: the logic diagram, each gate (Figure 7-1), shows one
 2-input NAND gate with inputs A and B and output Y.
@@ -87,7 +88,7 @@ larger currents than the device can sustain without being damaged. It is
 important for the power output of the device to be limited to avoid
 thermal runaway and damage due to over-current. The electrical and
 thermal limits defined in the Absolute Maximum Ratings must be followed
-at all times.
+at all times. [[9::4]]
 
 ### Standard CMOS inputs
 
@@ -96,22 +97,22 @@ resistor in parallel with the input capacitance given in the Electrical
 Characteristics. The worst case resistance is calculated with the
 maximum input voltage, given in the Absolute Maximum Ratings, and the
 maximum input leakage current, given in the Electrical Characteristics,
-using ohm's law (R = V ÷ I).
+using ohm's law (R = V ÷ I). [[9::5]]
 
 Signals applied to the inputs need to have fast edge rates, as defined
 by Δt/Δv in Recommended Operating Conditions to avoid excessive currents
 and oscillations. If a slow or noisy input signal is required, a device
 with a Schmitt-trigger input should be utilized to condition the input
-signal prior to the standard CMOS input.
+signal prior to the standard CMOS input. [[9::6]]
 
 ### Clamp diodes
 
-The inputs and outputs to this device have negative clamping diodes.
+The inputs and outputs to this device have negative clamping diodes. [[9::7]]
 
 Voltages beyond the values specified in the Absolute Maximum Ratings
 table can cause damage to the device. The input negative-voltage and
 output voltage ratings may be exceeded if the input and output
-clamp-current ratings are observed.
+clamp-current ratings are observed. [[9::8]]
 
 Conversion note: Figure 7-2, electrical placement of clamping diodes for
 each input and output, shows one diode from GND to the input (-I~IK~)
@@ -121,7 +122,7 @@ and one from GND to the output (-I~OK~).
 
 Input signals to this device can be driven above the supply voltage so
 long as they remain below the maximum input voltage value specified in
-the Absolute Maximum Ratings.
+the Absolute Maximum Ratings. [[10::1]]
 
 ## Function tables
 
@@ -133,6 +134,7 @@ the Absolute Maximum Ratings.
 | L | X | H |
 | X | L | H |
 ```
+[[10::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -156,6 +158,7 @@ the Absolute Maximum Ratings.
 [4] For the D package: above 70°C, the value of P~tot~ derates linearly with 8 mW/K.
 [5] For the DB, NS, and PW packages: above 60°C, the value of P~tot~ derates linearly with 5.5 mW/K.
 ```
+[[4::table #1]]
 
 Unconfirmed: the row "Continuous current through GND" is printed with
 the symbol V~CC~.
@@ -169,6 +172,7 @@ the symbol V~CC~.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -190,6 +194,7 @@ the symbol V~CC~.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. See Implications of Slow or Floating CMOS Inputs, SCBA004.
 ```
+[[4::table #3]]
 
 ```table id=roc-74 caption="Recommended operating conditions, SN74LVC00A" parts=SN74* conditions="Over operating free-air temperature range (unless otherwise noted) [1]"
 | Symbol | Parameter | Conditions | SN74LVC00A | < | < | < | < | < | Unit |
@@ -217,6 +222,7 @@ the symbol V~CC~.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. See Implications of Slow or Floating CMOS Inputs, SCBA004.
 ```
+[[5::table #1]]
 
 ## Thermal information
 
@@ -228,6 +234,7 @@ the symbol V~CC~.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 ```
+[[5::table #2]]
 
 ## Electrical characteristics
 
@@ -247,6 +254,7 @@ the symbol V~CC~.
 | I~CC~ | V~I~ = V~CC~ or GND, I~O~ = 0 | 3.6 V | | 10 | µA |
 | ΔI~CC~ | One input at V~CC~ – 0.6 V, Other inputs at V~CC~ or GND | 2.7 V to 3.6 V | | 500 | µA |
 ```
+[[6::table #1]]
 
 ```table id=ec-74 caption="Electrical characteristics, SN74LVC00A" parts=SN74* conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | Test conditions | V~CC~ | SN74LVC00A | < | < | < | < | < | < | Unit |
@@ -269,6 +277,7 @@ the symbol V~CC~.
 | ΔI~CC~ | One input at V~CC~ – 0.6 V, Other inputs at V~CC~ or GND | 2.7 V to 3.6 V | | | 500 | | 500 | | 5000 | µA |
 | C~i~ | V~I~ = V~CC~ or GND | 3.3 V | | 5 | | | | | | pF |
 ```
+[[6::table #2]]
 
 ```table id=operating caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
@@ -277,6 +286,7 @@ the symbol V~CC~.
 | ^ | ^ | ^ | 2.5 V | 18 | pF |
 | ^ | ^ | ^ | 3.3 V | 19 | pF |
 ```
+[[7::table #1]]
 
 ## Switching characteristics
 
@@ -288,6 +298,7 @@ the symbol V~CC~.
 | t~pd~ | A or B | Y | 2.7 V | | 5.1 | ns |
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 1 | 4.3 | ns |
 ```
+[[6::table #3]]
 
 ```table id=sw-74 caption="Switching characteristics, SN74LVC00A" parts=SN74* conditions="Over recommended operating free-air temperature range (unless otherwise noted) (see Load Circuit and Voltage Waveforms)"
 | Symbol | From (input) | To (output) | V~CC~ | SN74LVC00A | < | < | < | < | < | < | Unit |
@@ -300,6 +311,7 @@ the symbol V~CC~.
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 1 | 3.5 | 4.1 | 1 | 4.3 | 1 | 5.5 | ns |
 | t~sk(o)~ | | | 3.3 V ± 0.3 V | | | | | 1 | | 1.5 | ns |
 ```
+[[7::table #2]]
 
 ## Parameter measurement information
 
@@ -307,7 +319,7 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. All parameters
-and waveforms are not applicable to all devices.
+and waveforms are not applicable to all devices. [[8::2]]
 
 Conversion note: the load circuit also has a second R~L~, from the output
 to switch S1, which goes to V~LOAD~, open or GND; the figure below draws
@@ -322,11 +334,13 @@ and enable/disable waveforms, which are not drawn here.
 | t~PLZ~/t~PZL~ | V~LOAD~ |
 | t~PHZ~/t~PZH~ | GND |
 ```
+[[8::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: see table
 CL: see table
 ```
+[[8::Figure 6-1]]
 
 ```table id=test-conditions caption="Test conditions (Figure 6-1)"
 | V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -337,10 +351,12 @@ CL: see table
 | 2.7 V | 2.7 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 3.3 V ± 0.3 V | 2.7 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 ```
+[[8::table #2]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: see table
 ```
+[[8::Figure 6-1]]
 
 ## Application information
 
@@ -348,7 +364,7 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[11::1]]
 
 SN74LVC00A is a high-drive CMOS device that can be used for a multitude
 of buffer-type functions. It can produce 24 mA of drive current at
@@ -357,7 +373,7 @@ for high-speed applications up to 100 MHz. The inputs and outputs are
 5.5-V tolerant allowing the device to perform mixed-voltage input down
 translation. For example the A input can be 3.3 V and the B input can be
 5 V, while V~CC~ = 2.5 V and the device will operate properly to output
-a 2.5 V signal.
+a 2.5 V signal. [[11::2]]
 
 Conversion note: the typical NAND gate application and supply voltage
 (Figure 8-1) shows gates 1A, 1B, 1Y to 4A, 4B, 4Y supplied from 1.65-V
@@ -369,26 +385,26 @@ This device uses CMOS technology and has balanced output drive. Take
 care to avoid bus contention because it can drive currents that would
 exceed maximum limits. The high drive will also create fast edges into
 light loads; therefore, routing and load conditions should be considered
-to prevent ringing.
+to prevent ringing. [[11::4]]
 
 ### Detailed design procedure
 
-1. Recommended Input Conditions
+1. Recommended Input Conditions [[11::5]]
    - Rise time and fall time specs: See (Δt/ΔV) in the
-     Section 5.4 table.
+     Section 5.4 table. [[11::5]]
    - Specified high and low levels: See (V~IH~ and V~IL~) in the
-     Section 5.4 table.
+     Section 5.4 table. [[11::5]]
    - Inputs are overvoltage tolerant allowing them to go as high as
-     5.5 V at any valid V~CC~.
-2. Recommended Output Conditions
+     5.5 V at any valid V~CC~. [[11::5]]
+2. Recommended Output Conditions [[11::5]]
    - Load currents should not exceed 25 mA per output and 50 mA total
-     for the part.
-   - Outputs should not be pulled above 5.5 V.
+     for the part. [[11::5]]
+   - Outputs should not be pulled above 5.5 V. [[11::5]]
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the MIN and MAX supply
-voltage rating located in the Section 5.4 table.
+voltage rating located in the Section 5.4 table. [[12::1]]
 
 Each V~CC~ pin should have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, 0.1 µF is recommended; if
@@ -396,11 +412,11 @@ there are multiple V~CC~ pins, then 0.01 µF or 0.022 µF is recommended
 for each power pin. It is acceptable to parallel multiple bypass caps to
 reject different frequencies of noise. A 0.1 µF and a 1 µF are commonly
 used in parallel. The bypass capacitor should be installed as close to
-the power pin as possible for best results.
+the power pin as possible for best results. [[12::2]]
 
 ### Layout guidelines
 
-When using multiple bit logic devices inputs should never float.
+When using multiple bit logic devices inputs should never float. [[12::3]]
 
 In many cases, functions or parts of functions of digital logic devices
 are unused, for example, when only two inputs of a triple-input AND gate
@@ -413,17 +429,17 @@ or low bias to prevent them from floating. The logic level that should
 be applied to any particular unused input depends on the function of the
 device. Generally they will be tied to GND or V~CC~, whichever makes
 more sense or is more convenient. It is generally acceptable to float
-outputs, unless the part is a transceiver.
+outputs, unless the part is a transceiver. [[12::4]]
 
 Conversion note: the layout diagram for the SNx4LVC00A (Figure 8-3) is
 given here by its labels.
 
-- Recommend GND flood fill for improved signal isolation, noise reduction, and thermal dissipation
-- Bypass capacitor placed close to the device
-- 0.1 µF
-- Unused inputs tied to V~CC~
-- Unused output left floating
-- Avoid 90° corners for signal lines
+- Recommend GND flood fill for improved signal isolation, noise reduction, and thermal dissipation [[12::5]]
+- Bypass capacitor placed close to the device [[12::7]]
+- 0.1 µF [[12::2]]
+- Unused inputs tied to V~CC~ [[12::4]]
+- Unused output left floating [[12::4]]
+- Avoid 90° corners for signal lines [[12::6]]
 
 ## Package
 
@@ -484,6 +500,7 @@ SNJ54LVC00AFK | Tube of 55 | -55 to 125 | 5962-9753301Q2A SNJ54LVC00AFK
 SNJ54LVC00AJ | Tube of 25 | -55 to 125 | 5962-9753301QCA SNJ54LVC00AJ
 SNJ54LVC00AW | Tube of 25 | -55 to 125 | 5962-9753301QDA SNJ54LVC00AW
 ```
+[[15::table #1]] [[16::table #1]]
 
 ## Conversion notes
 

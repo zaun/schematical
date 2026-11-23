@@ -25,33 +25,33 @@
 
 The SN74AUP1T14 performs the Boolean function Y = !{A} with designation
 for logic-level translation applications with output referenced to
-supply V~CC~.
+supply V~CC~. [[1::3]]
 
 AUP technology is the industry's lowest-power logic technology designed
 for use in extending battery-life in operating. All input levels that
 accept 1.8-V LVCMOS signals, while operating from either a single 3.3-V
 or 2.5-V V~CC~ supply. This product also maintains excellent signal
-integrity.
+integrity. [[1::4]]
 
 The wide V~CC~ range of 2.3 V to 3.6 V allows the possibility of
 switching output level to connect to external controllers or
-processors.
+processors. [[1::5]]
 
 Schmitt-trigger inputs (ΔV~T~ = 210 mV between positive and negative
 input transitions) offer improved noise immunity during switching
 transitions, which is especially useful on analog mixed-mode designs.
 Schmitt-trigger inputs reject input noise, ensure integrity of output
-signals, and allow for slow input signal transition.
+signals, and allow for slow input signal transition. [[1::6]]
 
 I~off~ is a feature that allows for powered-down conditions
 (V~CC~ = 0 V) and is important in portable and mobile applications.
 When V~CC~ = 0 V, signals in the range from 0 V to 3.6 V can be applied
 to the inputs and outputs of the device. No damage occurs to the device
-under these conditions.
+under these conditions. [[1::7]]
 
 The SN74AUP1T14 is designed with optimized current-drive capability of
 4 mA to reduce line reflections, overshoot, and undershoot caused by
-high-drive outputs.
+high-drive outputs. [[1::8]]
 
 ## Pinout
 
@@ -66,6 +66,7 @@ GND: Ground
 Y: Inverter output
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -76,6 +77,7 @@ VCC: Supply voltage
 | H | L |
 | L | H |
 ```
+[[2::table #1]]
 
 ```table id=levels-2v5 caption="Supply V~CC~ = 2.3 V to 2.7 V (2.5 V)"
 | Inputs: V~T+~ max = V~IH~ min, V~T–~ min = V~IL~ max | < | Output CMOS |
@@ -86,6 +88,7 @@ VCC: Supply voltage
 
 [1] Source error: the source prints input columns A and B, kept as printed; the device has one input, A (pin drawing, p.1).
 ```
+[[2::table #2]]
 
 ```table id=levels-3v3 caption="Supply V~CC~ = 3 V to 3.6 V (3.3 V)"
 | Inputs: V~T+~ max = V~IH~ min, V~T–~ min = V~IL~ max | < | Output CMOS |
@@ -96,6 +99,7 @@ VCC: Supply voltage
 
 [1] Source error: the source prints input columns A and B, kept as printed; the device has one input, A (pin drawing, p.1).
 ```
+[[2::table #3]]
 
 Conversion note: the logic diagram (Schmitt-trigger inverter gate, p.2) shows one Schmitt-trigger inverter, input A on pin 2 and output Y on pin 4.
 
@@ -119,10 +123,11 @@ Conversion note: the logic diagram (Schmitt-trigger inverter gate, p.2) shows on
 [2] The input negative-voltage and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[4::table #1]]
 
 Latch-Up Performance Exceeds 100 mA Per JESD 78, Class II. ESD
 Performance Tested Per JESD 22: 2000-V Human-Body Model (A114-B, Class
-II), 1000-V Charged-Device Model (C101).
+II), 1000-V Charged-Device Model (C101). [[1::1]] [[1::2]]
 
 ## Recommended operating conditions
 
@@ -140,6 +145,7 @@ II), 1000-V Charged-Device Model (C101).
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. See the TI application report Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[4::table #2]]
 
 ## Electrical characteristics
 
@@ -172,6 +178,7 @@ II), 1000-V Charged-Device Model (C101).
 | C~i~ | | V~I~ = V~CC~ or GND | 3.3 V | | 1.5 | | | | pF |
 | C~o~ | | V~O~ = V~CC~ or GND | 3.3 V | | 3 | | | | pF |
 ```
+[[5::table #1]]
 
 ```table id=op caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ = 2.5 V | V~CC~ = 3.3 V | Unit |
@@ -179,6 +186,7 @@ II), 1000-V Charged-Device Model (C101).
 |---|---|---|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | f = 10 MHz | 4 | 5 | pF |
 ```
+[[7::table #1]]
 
 ## Switching characteristics
 
@@ -191,6 +199,7 @@ II), 1000-V Charged-Device Model (C101).
 | ^ | ^ | ^ | 15 pF | 2.6 | 3.1 | 3.8 | 1 | 8.7 | ^ |
 | ^ | ^ | ^ | 30 pF | 3.8 | 4.4 | 5.1 | 1.5 | 10.8 | ^ |
 ```
+[[5::table #2]]
 
 ```table id=sw-2v5-2v5 caption="Switching characteristics, V~CC~ = 2.5 V ± 0.2 V, V~I~ = 2.5 V ± 0.2 V" conditions="Over recommended operating free-air temperature range, V~CC~ = 2.5 V ± 0.2 V, V~I~ = 2.5 V ± 0.2 V (unless otherwise noted) (see Figure 5)"
 | Symbol | From (input) | To (output) | C~L~ | T~A~ = 25°C | < | < | T~A~ = –40°C to 85°C | < | Unit |
@@ -203,6 +212,7 @@ II), 1000-V Charged-Device Model (C101).
 
 [1] Unconfirmed: the source prints a 25°C maximum of 5.2 ns at 15 pF, the same as it prints at 30 pF.
 ```
+[[6::table #1]]
 
 ```table id=sw-2v5-3v3 caption="Switching characteristics, V~CC~ = 2.5 V ± 0.2 V, V~I~ = 3.3 V ± 0.3 V" conditions="Over recommended operating free-air temperature range, V~CC~ = 2.5 V ± 0.2 V, V~I~ = 3.3 V ± 0.3 V (unless otherwise noted) (see Figure 5)"
 | Symbol | From (input) | To (output) | C~L~ | T~A~ = 25°C | < | < | T~A~ = –40°C to 85°C | < | Unit |
@@ -213,6 +223,7 @@ II), 1000-V Charged-Device Model (C101).
 | ^ | ^ | ^ | 15 pF | 2.8 | 3.5 | 4.3 | 1 | 7.4 | ^ |
 | ^ | ^ | ^ | 30 pF | 4 | 4.7 | 5.5 | 1.5 | 9.5 | ^ |
 ```
+[[6::table #2]]
 
 ```table id=sw-3v3-1v8 caption="Switching characteristics, V~CC~ = 3.3 V ± 0.3 V, V~I~ = 1.8 V ± 0.15 V" conditions="Over recommended operating free-air temperature range, V~CC~ = 3.3 V ± 0.3 V, V~I~ = 1.8 V ± 0.15 V (unless otherwise noted) (see Figure 5)"
 | Symbol | From (input) | To (output) | C~L~ | T~A~ = 25°C | < | < | T~A~ = –40°C to 85°C | < | Unit |
@@ -223,6 +234,7 @@ II), 1000-V Charged-Device Model (C101).
 | ^ | ^ | ^ | 15 pF | 2.3 | 2.8 | 3.3 | 1 | 9.1 | ^ |
 | ^ | ^ | ^ | 30 pF | 3.4 | 3.9 | 4.4 | 1.5 | 9.8 | ^ |
 ```
+[[6::table #3]]
 
 ```table id=sw-3v3-2v5 caption="Switching characteristics, V~CC~ = 3.3 V ± 0.3 V, V~I~ = 2.5 V ± 0.2 V" conditions="Over recommended operating free-air temperature range, V~CC~ = 3.3 V ± 0.3 V, V~I~ = 2.5 V ± 0.2 V (unless otherwise noted) (see Figure 5)"
 | Symbol | From (input) | To (output) | C~L~ | T~A~ = 25°C | < | < | T~A~ = –40°C to 85°C | < | Unit |
@@ -233,6 +245,7 @@ II), 1000-V Charged-Device Model (C101).
 | ^ | ^ | ^ | 15 pF | 2.3 | 2.7 | 3.1 | 1 | 6.8 | ^ |
 | ^ | ^ | ^ | 30 pF | 3.4 | 3.8 | 4.2 | 1.5 | 8.5 | ^ |
 ```
+[[6::table #4]]
 
 ```table id=sw-3v3-3v3 caption="Switching characteristics, V~CC~ = 3.3 V ± 0.3 V, V~I~ = 3.3 V ± 0.3 V" conditions="Over recommended operating free-air temperature range, V~CC~ = 3.3 V ± 0.3 V, V~I~ = 3.3 V ± 0.3 V (unless otherwise noted) (see Figure 5)"
 | Symbol | From (input) | To (output) | C~L~ | T~A~ = 25°C | < | < | T~A~ = –40°C to 85°C | < | Unit |
@@ -243,6 +256,7 @@ II), 1000-V Charged-Device Model (C101).
 | ^ | ^ | ^ | 15 pF | 2.3 | 2.7 | 3.3 | 1 | 6.2 | ^ |
 | ^ | ^ | ^ | 30 pF | 3.4 | 3.8 | 4.4 | 1.5 | 7.8 | ^ |
 ```
+[[7::table #2]]
 
 ## Parameter measurement information
 
@@ -250,7 +264,7 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω, slew rate ≥ 1 V/ns. The outputs are measured one at a
 time, with one transition per measurement. t~PLH~ and t~PHL~ are the
-same as t~pd~.
+same as t~pd~. [[8::1]]
 
 ```table id=pmi-conditions caption="Load circuit test conditions"
 | | V~CC~ = 2.5 V ± 0.2 V | V~CC~ = 3.3 V ± 0.3 V |
@@ -259,15 +273,18 @@ same as t~pd~.
 | V~MI~ | V~I~/2 | V~I~/2 |
 | V~MO~ | V~CC~/2 | V~CC~/2 |
 ```
+[[8::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit"
 RL: 1 MΩ
 CL: 5, 10, 15, 30 pF
 ```
+[[8::Figure 5]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: see table
 ```
+[[8::Figure 5]]
 
 Conversion note: in the source's waveforms the input is measured at V~MI~ and the outputs at V~MO~, and the input swings between 0 V and V~I~.
 
@@ -287,6 +304,7 @@ Conversion note: Figure 4 (Switching Thresholds for 1.8-V to 3.3-V Translation, 
 ```ordering
 SN74AUP1T14DCKR | Reel of 3000 | -40 to 85 | 6FF
 ```
+[[2::table #4]]
 
 Conversion note: the marking above is from the package option addendum, and the table below is the source's ordering information table (p.2).
 
@@ -300,6 +318,7 @@ Conversion note: the marking above is from the package option addendum, and the 
 [2] Package drawings, thermal data, and symbolization are available at www.ti.com/packaging.
 [3] The actual top-side marking has one additional character that designates the wafer fab/assembly site.
 ```
+[[2::table #5]]
 
 ## Conversion notes
 

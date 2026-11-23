@@ -23,15 +23,15 @@
 
 ## Description
 
-Qualified for automotive applications.
+Qualified for automotive applications. [[1::2]]
 
 These triple 3-input positive-AND gates are designed for 2-V to 5.5-V
 V~CC~ operation. The SN74LV11A-Q1 devices perform the Boolean function
-Y = A • B • C in positive logic.
+Y = A • B • C in positive logic. [[1::1]] [[1::3]]
 
 These devices are fully specified for partial-power-down applications
 using I~off~. The I~off~ circuitry disables the outputs, preventing
-damaging current backflow through the device when it is powered down.
+damaging current backflow through the device when it is powered down. [[1::4]]
 
 ## Pinout
 
@@ -48,6 +48,7 @@ damaging current backflow through the device when it is powered down.
 GND: Ground pin
 VCC: Power pin
 ```
+[[3::table #1]]
 
 ## Function tables
 
@@ -63,6 +64,7 @@ VCC: Power pin
 [1] H = High Voltage Level, L = Low Voltage Level, X = Don't Care
 [2] H = Driving High, L = Driving Low
 ```
+[[8::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -83,6 +85,7 @@ VCC: Power pin
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] This value is limited to 5.5 V maximum.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -91,6 +94,7 @@ VCC: Power pin
 
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -123,6 +127,7 @@ VCC: Power pin
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004
 ```
+[[4::table #3]] [[5::table #1]]
 
 ## Thermal information
 
@@ -133,6 +138,7 @@ VCC: Power pin
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report (SPRA953).
 ```
+[[5::table #2]]
 
 ## Electrical characteristics
 
@@ -152,6 +158,7 @@ VCC: Power pin
 | I~off~ | Off-state leakage current | V~I~ or V~O~ = 0 to 5.5 V | 0 V | | | 5 | µA |
 | C~i~ | Input capacitance | V~I~ = V~CC~ or GND | 3.3 V | | 1.9 | | pF |
 ```
+[[5::table #3]]
 
 ```table id=noise caption="Noise characteristics" conditions="V~CC~ = 3.3 V, C~L~ = 50 pF, T~A~ = 25 °C [1]"
 | Symbol | Parameter | Min | Typ | Max | Unit |
@@ -164,6 +171,7 @@ VCC: Power pin
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[6::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="T~A~ = 25 °C"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
@@ -171,6 +179,7 @@ VCC: Power pin
 | C~pd~ | Power dissipation capacitance | C~L~ = 50 pF, f = 10 MHz | 3.3 V | 13.9 | pF |
 | ^ | ^ | ^ | 5 V | 15.4 | pF |
 ```
+[[6::table #2]]
 
 ## Switching characteristics
 
@@ -184,6 +193,7 @@ temperature range.
 |---|---|---|---|--:|--:|--:|--:|--:|---|
 | t~pd~ | A, B, or C | Y | C~L~ = 50 pF | | 9.9 | 17.5 | 1 | 21 | ns |
 ```
+[[5::table #4]]
 
 ```table id=sw-3v3 caption="Switching characteristics, V~CC~ = 3.3 V ± 0.3 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | From | To | Load capacitance | T~A~ = 25 °C | < | < | SN74LV11A-Q1 | < | Unit |
@@ -191,6 +201,7 @@ temperature range.
 |---|---|---|---|--:|--:|--:|--:|--:|---|
 | t~pd~ | A, B, or C | Y | C~L~ = 50 pF | | 7.2 | 12.3 | 1 | 14 | ns |
 ```
+[[5::table #5]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | From | To | Load capacitance | T~A~ = 25 °C | < | < | SN74LV11A-Q1 | < | Unit |
@@ -198,6 +209,7 @@ temperature range.
 |---|---|---|---|--:|--:|--:|--:|--:|---|
 | t~pd~ | A, B, or C | Y | C~L~ = 50 pF | | 5.4 | 7.9 | 1 | 9 | ns |
 ```
+[[6::table #3]]
 
 ## Parameter measurement information
 
@@ -206,15 +218,17 @@ by generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time, with one input transition per measurement. t~PHL~ and t~PLH~ are
 the same as t~pd~. All parameters and waveforms are not applicable to
-all devices.
+all devices. [[7::2]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 50 pF
 ```
+[[7::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Propagation delay times, inverting and noninverting outputs"
 VM: 50 % V~CC~
 ```
+[[7::Figure 6-1]]
 
 Conversion note: Figure 6-1 also shows the load circuit for 3-state and
 open-drain outputs and the voltage waveforms for pulse duration, setup
@@ -230,6 +244,7 @@ and hold times, and enable and disable times.
 ```ordering
 SN74LV11ATPWRG4Q1 | Reel of 2000 | -40 to 105 | LV11AT
 ```
+[[10::table #1]]
 
 ## Conversion notes
 

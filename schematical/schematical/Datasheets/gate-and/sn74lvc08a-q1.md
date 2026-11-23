@@ -23,15 +23,15 @@
 
 ## Description
 
-Qualified for automotive applications.
+Qualified for automotive applications. [[1::1]]
 
 The SN74LVC08A-Q1 quadruple 2-input positive-AND gate is designed for
 2.7V to 3.6V V~CC~ operation. The device performs the Boolean function
-Y = A • B or Y = !{!{A} + !{B}} in positive logic.
+Y = A • B or Y = !{!{A} + !{B}} in positive logic. [[1::1]] [[1::2]]
 
 Inputs can be driven from either 3.3V or 5V devices. This feature allows
 the use of this device as a translator in a mixed 3.3V/5V system
-environment.
+environment. [[1::3]]
 
 ## Pinout
 
@@ -47,6 +47,7 @@ environment.
 GND: Ground
 VCC: Positive supply
 ```
+[[3::Table 3-1]]
 
 Conversion note: the BQA package drawing shows an exposed pad (PAD); the
 pin functions table does not describe it.
@@ -65,6 +66,7 @@ Conversion note: the logic diagram, each gate (positive logic), is one 2-input A
 | L | X | L |
 | X | L | L |
 ```
+[[3::Table 3-1]]
 
 ## Absolute maximum ratings
 
@@ -83,6 +85,7 @@ Conversion note: the logic diagram, each gate (positive logic), is one 2-input A
 [1] The input and output negative-voltage ratings may be exceeded if the input and output current ratings are observed.
 [2] The value of V~CC~ is provided in the recommended operating conditions table.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Value | Unit |
@@ -91,6 +94,7 @@ Conversion note: the logic diagram, each gate (positive logic), is one 2-input A
 
 [1] AEC Q100-002 indicates that HBM stressing must be in accordance with the ANSI/ESDA/JEDEC JS-001 specification.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -110,6 +114,7 @@ Conversion note: the logic diagram, each gate (positive logic), is one 2-input A
 | Δt/Δv | Input transition rise or fall rate | | 0 | 8 | ns/V |
 | T~A~ | Operating free-air temperature | Q suffix | -40 | 125 | °C |
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -120,6 +125,7 @@ Conversion note: the logic diagram, each gate (positive logic), is one 2-input A
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC package thermal metrics application report.
 ```
+[[4::table #4]]
 
 ## Electrical characteristics
 
@@ -140,6 +146,7 @@ Conversion note: the logic diagram, each gate (positive logic), is one 2-input A
 
 [1] All typical values are at V~CC~ = 3.3V, T~A~ = 25°C.
 ```
+[[5::table #1]]
 
 ```table id=operating caption="Operating characteristics, T~A~ = 25 °C"
 | Symbol | Parameter | Test conditions | V~CC~ = 2.5V | V~CC~ = 3.3V | Unit |
@@ -147,6 +154,7 @@ Conversion note: the logic diagram, each gate (positive logic), is one 2-input A
 |---|---|---|--:|--:|---|
 | C~pd~ | Power dissipation capacitance per gate | f = 10MHz | 9.8 | 10 | pF |
 ```
+[[5::table #2]]
 
 ## Switching characteristics
 
@@ -156,6 +164,7 @@ Conversion note: the logic diagram, each gate (positive logic), is one 2-input A
 |---|---|---|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | | 4.8 | 1 | 4.1 | ns |
 ```
+[[5::table #3]]
 
 ## Parameter measurement information
 
@@ -163,7 +172,7 @@ C~L~ includes probe and jig capacitance. All input
 pulses are supplied by generators having the following characteristics:
 PRR ≤ 10 MHz, Z~O~ = 50 Ω. The outputs are measured one at a time, with
 one transition per measurement. t~PLH~ and t~PHL~ are the same as
-t~pd~. All parameters and waveforms are not applicable to all devices.
+t~pd~. All parameters and waveforms are not applicable to all devices. [[6::2]]
 
 Conversion note: for t~PLH~/t~PHL~ the switch S1 of the load circuit
 (Figure 5-1) is open, which leaves R~L~ and C~L~ from the output to
@@ -175,21 +184,24 @@ ground.
 | 2.7 V | 2.7 V | ≤2.5 ns | 1.5 V | 6V | 50 pF | 500 Ω | 0.3 V |
 | 3.3 V ± 0.3 V | 2.7 V | ≤2.5 ns | 1.5 V | 6V | 50 pF | 500 Ω | 0.3 V |
 ```
+[[6::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit for t~pd~ (S1 open)"
 RL: 500 Ω
 CL: 50 pF
 ```
+[[6::Figure 5-1]]
 
 ```figure ref=waveforms-tpd caption="Propagation delay times, inverting and noninverting outputs"
 VM: 1.5 V
 ```
+[[6::figure #1]]
 
 ## Application information
 
 Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
-completeness.
+completeness. [[8::1]]
 
 ### Power supply recommendations
 
@@ -201,7 +213,7 @@ disturbance. A 0.1-µF capacitor is recommended for this device. It is
 acceptable to parallel multiple bypass caps to reject different
 frequencies of noise. The 0.1-µF and 1-µF capacitors are commonly used
 in parallel. The bypass capacitor should be installed as close to the
-power terminal as possible for best results.
+power terminal as possible for best results. [[8::2]]
 
 ### Layout guidelines
 
@@ -213,16 +225,16 @@ digital logic devices must be connected to a logic high or logic low
 voltage, as defined by the input voltage specifications, to prevent them
 from floating. The logic level that must be applied to any particular
 unused input depends on the function of the device. Generally, the inputs are tied to GND or V~CC~, whichever
-makes more sense for the logic function or is more convenient.
+makes more sense for the logic function or is more convenient. [[8::3]]
 
 Conversion note: the example layout for the SN74LVC08A-Q1 (Figure 7-1) is given here by its labels.
 
-- Recommend GND flood fill for improved signal isolation, noise reduction, and thermal dissipation
-- Bypass capacitor placed close to the device
-- 0.1 µF
-- Unused inputs tied to V~CC~
-- Unused output left floating
-- Avoid 90° corners for signal lines
+- Recommend GND flood fill for improved signal isolation, noise reduction, and thermal dissipation [[8::4]]
+- Bypass capacitor placed close to the device [[8::6]]
+- 0.1 µF [[8::2]]
+- Unused inputs tied to V~CC~ [[8::3]]
+- Unused output left floating [[8::3]]
+- Avoid 90° corners for signal lines [[8::5]]
 
 ## Package
 
@@ -239,6 +251,7 @@ SN74LVC08AQPWRQ1 | Reel of 2000 | -40 to 125 | LVC08AQ
 SN74LVC08AQPWRG4Q1 | Reel of 2000 | -40 to 125 | LVC08AQ
 SN74LVC08AWBQARQ1 | Reel of 3000 | -40 to 125 | LVC08Q
 ```
+[[11::table #1]]
 
 ## Conversion notes
 

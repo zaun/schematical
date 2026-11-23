@@ -23,12 +23,12 @@
 
 ## Description
 
-The 'ACT05 devices contain six independent inverters.
+The 'ACT05 devices contain six independent inverters. [[1::1]]
 
 Inputs are TTL-voltage compatible. Speed of bipolar F, AS, and S, with
 significantly reduced power consumption. Fanout to 15 F devices.
 SCR-latchup-resistant CMOS process and circuit design. Exceeds 2kV ESD
-protection per MIL-STD-883, method 3015.
+protection per MIL-STD-883, method 3015. [[1::2]]
 
 ## Pinout
 
@@ -53,18 +53,19 @@ GND: Ground Pin
 6A: 6A Input
 VCC: Power Pin
 ```
+[[3::Table 3-1]]
 
 Connect the GND pin to the exposed thermal pad for correct operation.
 Connect the thermal pad to any internal PCB ground plane using multiple
 vias for good thermal performance. Conversion note: the source has this
-for the thermal pad of the BQA package.
+for the thermal pad of the BQA package. [[3::1]]
 
 ## Functional description
 
 These devices perform the Boolean function Y = !{A}. The open-drain
 outputs require pullup resistors to perform correctly, and can be
 connected to other open-drain outputs to implement active-low wired-OR
-or active-high wired-AND functions.
+or active-high wired-AND functions. [[7::1]]
 
 Conversion note: the functional block diagram shows one inverter with
 input A and output Y.
@@ -78,6 +79,7 @@ input A and output Y.
 | H | L |
 | L | Z |
 ```
+[[3::Table 3-1]]
 
 ## Absolute maximum ratings
 
@@ -93,6 +95,7 @@ input A and output Y.
 [1] Stresses beyond those listed under "absolute maximum ratings" may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under "recommended operating conditions" is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output negative voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -101,6 +104,7 @@ input A and output Y.
 
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -118,6 +122,7 @@ input A and output Y.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -130,6 +135,7 @@ input A and output Y.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report, SPRA953.
 ```
+[[4::table #4]]
 
 ## Electrical characteristics
 
@@ -146,6 +152,7 @@ input A and output Y.
 | ΔI~CC~ | V~I~ = V~CC~ – 2.1 V | < | 4.5 V to 5.5 V | | 2.4 | | 2.8 | | 3 | mA |
 | C~i~ | | < | | | 10 | | 10 | | 10 | pF |
 ```
+[[5::table #1]]
 
 Unconfirmed: the first V~OL~ row is printed with I~OL~ = 50 mA and a
 0.1 V limit (p.5).
@@ -159,12 +166,14 @@ Source error: the two V~OL~ rows at 5.5 V carry a note marker (1) (p.5), and the
 
 [1] Unit load is ΔI~CC~ limit specified in electrical characteristics table (e.g., 2.4 mA at 25°C).
 ```
+[[5::Table 4-1]]
 
 ```table id=opchar caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Typ | Unit |
 |---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | 105 | pF |
 ```
+[[5::table #2]]
 
 ## Switching characteristics
 
@@ -175,6 +184,7 @@ Source error: the two V~OL~ rows at 5.5 V carry a note marker (1) (p.5), and the
 | t~PZL~ | A or B | Y | 2.4 | 8.5 | 2.3 | 9.3 | ns |
 | t~PLZ~ | ^ | ^ | 2.8 | 9.8 | 2.7 | 10.8 | ns |
 ```
+[[5::table #3]]
 
 Source error: the switching characteristics (p.5) print the input as
 "A or B", kept as printed; the pin functions table (p.3) has no B
@@ -185,7 +195,7 @@ input.
 C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at
-a time, with one input transition per measurement.
+a time, with one input transition per measurement. [[6::1]]
 
 Conversion note: the load circuit of Figure 5-1 has R1 = 500 Ω from the
 output under test to switch S1 at 2 × V~CC~, and R2 = 500 Ω and
@@ -204,13 +214,13 @@ Information in the following applications sections is not part of the
 TI component specification, and TI does not warrant its accuracy or
 completeness. TI's customers are responsible for determining
 suitability of components for their purposes, as well as validating and
-testing their design implementation to confirm system functionality.
+testing their design implementation to confirm system functionality. [[8::1]]
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the MIN and MAX supply
 voltage rating located in the
-[Recommended Operating Conditions](#recommended-operating-conditions).
+[Recommended Operating Conditions](#recommended-operating-conditions). [[8::2]]
 
 Each V~CC~ pin should have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, 0.1 µF is recommended;
@@ -218,11 +228,11 @@ if there are multiple V~CC~ pins, then 0.01 µF or 0.022 µF is
 recommended for each power pin. It is acceptable to parallel multiple
 bypass caps to reject different frequencies of noise. A 0.1 µF and a
 1 µF are commonly used in parallel. The bypass capacitor should be
-installed as close to the power pin as possible for best results.
+installed as close to the power pin as possible for best results. [[8::3]]
 
 ### Layout guidelines
 
-When using multiple-bit logic devices, inputs should never float.
+When using multiple-bit logic devices, inputs should never float. [[8::4]]
 
 In many cases, functions or parts of functions of digital logic devices
 are unused, for example, when only two inputs of a triple-input AND
@@ -239,7 +249,7 @@ generally acceptable to float outputs, unless the part is a
 transceiver. If the transceiver has an output enable pin, it will
 disable the output section of the part when asserted. This will not
 disable the input section of the IOs, so they cannot float when
-disabled.
+disabled. [[8::5]]
 
 Conversion note: the example layout for the CD74ACT05 (Figure 7-1) shows a 0.1 µF bypass capacitor placed close to the device between V~CC~ and GND, a GND flood fill recommended for improved signal isolation, noise reduction, and thermal dissipation, unused inputs tied to V~CC~, an unused output left floating, and signal lines that avoid 90° corners.
 
@@ -270,6 +280,7 @@ CD74ACT05M | | -55 to 125 | ACT05M | Obsolete
 CD74ACT05M96 | Reel of 2500 | -55 to 125 | ACT05M
 CD74ACT05PWR | Reel of 3000 | -55 to 125 | AD05
 ```
+[[11::table #1]]
 
 ## Conversion notes
 

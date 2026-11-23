@@ -27,13 +27,13 @@ The SN74AHCT32 is a quadruple 2-input positive-OR gate. This device
 performs the Boolean function Y = !{A × B} or Y = A + B in positive
 logic. Source error: the source draws one bar over the whole of A × B,
 which is not the OR function that Y = A + B and the function table
-give; kept as printed.
+give; kept as printed. [[1::2]]
 
 AEC-Q100 qualified for automotive applications. Device temperature
 grade 1: -40°C to +125°C. Device HBM ESD classification level 2. Device
 CDM ESD classification level C4B. Available in wettable flank QFN (WBQA)
 package. Operating range of 4.5V to 5.5V. Inputs are TTL-voltage
-compatible.
+compatible. [[1::1]]
 
 ## Pinout
 
@@ -58,9 +58,10 @@ GND: Ground Pin
 4B: 4B Input
 VCC: Power Pin
 ```
+[[3::Table 4-1]]
 
 The thermal pad can be connected to GND or left floating. Do not connect
-to any other signal or supply. BQA Package Only.
+to any other signal or supply. BQA Package Only. [[3::1]]
 
 ## Functional description
 
@@ -68,7 +69,7 @@ The SN74AHCT32-Q1 is a quadruple 2-input positive-OR gate with low drive
 that will produce slow rise and fall times. This slow transition reduces
 ringing on the output signal. The device has TTL inputs that allow up
 translation from 3.3 V to 5 V. The inputs are high impedance when
-V~CC~ = 0 V.
+V~CC~ = 0 V. [[8::1]]
 
 Conversion note: the functional block diagram shows one 2-input OR gate with inputs A and B and output Y.
 
@@ -82,6 +83,7 @@ Conversion note: the functional block diagram shows one 2-input OR gate with inp
 | X | H | H |
 | L | L | L |
 ```
+[[8::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -100,6 +102,7 @@ Conversion note: the functional block diagram shows one 2-input OR gate with inp
 [1] Operation outside the Absolute Maximum Ratings may cause permanent device damage. Absolute Maximum Ratings do not imply functional operation of the device at these or any other conditions beyond those listed under Recommended Operating Conditions. If used outside the Recommended Operating Conditions but within the Absolute Maximum Ratings, the device may not be fully functional, and this may affect device reliability, functionality, performance, and shorten the device lifetime.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -110,6 +113,7 @@ Conversion note: the functional block diagram shows one 2-input OR gate with inp
 [1] AEC Q100-002 indicates HBM stressing is done in accordance with the ANSI/ESDA/JEDEC JS-001 specification.
 [2] Unconfirmed: the CDM value is printed ±100 V, while the feature list (p.1) gives CDM ESD classification level C4B.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -129,6 +133,7 @@ Conversion note: the functional block diagram shows one 2-input OR gate with inp
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs.
 [2] Source error: the source prints this symbol as "IH", without the V; the row is the high-level input voltage, next to V~IL~.
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -141,6 +146,7 @@ Conversion note: the functional block diagram shows one 2-input OR gate with inp
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC package thermal metrics application report.
 ```
+[[4::table #4]]
 
 ## Electrical characteristics
 
@@ -159,6 +165,7 @@ Conversion note: the functional block diagram shows one 2-input OR gate with inp
 
 [1] This is the increase in supply current for each input at one of the specified TTL voltage levels, rather than 0 V or V~CC~.
 ```
+[[5::table #1]]
 
 ```table id=noise caption="Noise characteristics [1]" conditions="V~CC~ = 5 V, C~L~ = 50 pF, T~A~ = 25°C"
 | Symbol | Parameter | SN74AHCT32-Q1 | < | < | Unit |
@@ -172,12 +179,14 @@ Conversion note: the functional block diagram shows one 2-input OR gate with inp
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[5::table #2]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 11.5 | pF |
 ```
+[[5::table #3]]
 
 ## Switching characteristics
 
@@ -190,10 +199,11 @@ Conversion note: the functional block diagram shows one 2-input OR gate with inp
 | t~PLH~ | A or B | Y | C~L~ = 50 pF | | 5.5 | 7.9 | 1 | 9 | ns |
 | t~PHL~ | ^ | ^ | ^ | | 5.5 | 7.9 | 1 | 9 | ns |
 ```
+[[5::table #4]]
 
 ## Typical characteristics
 
-T~A~ = 25°C (unless otherwise noted)
+T~A~ = 25°C (unless otherwise noted) [[6::1]]
 
 ```curve id=voh-ioh caption="Figure 5-1. Output voltage vs current in HIGH state; 5-V supply"
 {"x": {"label": "I_OH", "unit": "mA", "range": [-25, 0]},
@@ -204,6 +214,7 @@ T~A~ = 25°C (unless otherwise noted)
    {"label": "125°C", "points": [[-25, 4.385], [-12.5, 4.7], [-0.5, 5]]}
  ]}
 ```
+[[6::Figure 5-1]]
 
 ```curve id=vol-iol caption="Figure 5-2. Output voltage vs current in LOW state; 5-V supply"
 {"x": {"label": "I_OL", "unit": "mA", "range": [0, 25]},
@@ -214,6 +225,7 @@ T~A~ = 25°C (unless otherwise noted)
    {"label": "125°C", "points": [[0.5, 0.01], [12.5, 0.242], [25, 0.483]]}
  ]}
 ```
+[[6::Figure 5-2]]
 
 ## Parameter measurement information
 
@@ -221,17 +233,19 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time with one input transition per measurement. All parameters and
-waveforms are not applicable to all devices.
+waveforms are not applicable to all devices. [[7::Figure 6-1]]
 
 Conversion note: C~L~ is 15 pF or 50 pF, as given in the [switching characteristics](#sw); in the figure the inputs swing 0 V to 3 V and are measured at 1.5 V, and the outputs are measured at 50 % V~CC~.
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: see table
 ```
+[[7::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 1.5 V (input), 50 % VCC (output)
 ```
+[[7::Figure 6-1]]
 
 Conversion note: the source figure also shows the 3-state and open-drain load circuit and the pulse-duration, setup-and-hold and enable/disable waveforms.
 
@@ -241,23 +255,23 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes. Customers should validate and test
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[9::1]]
 
 In this application, three 2-input OR gates are combined to produce a
 4-input OR gate function as shown in Typical Application Block Diagram.
 The fourth gate can be used for another application in the system, or
-the inputs can be grounded and the channel left unused.
+the inputs can be grounded and the channel left unused. [[9::2]]
 
 The SN74AHCT32-Q1 is used to directly control the Enable pin of a fan
 driver. The fan driver requires only one input signal to be HIGH before
 being enabled, and should be disabled in the event that all signals go
 LOW. The 4-input OR gate function combines the four individual overheat
-signals into a single active-high enable signal.
+signals into a single active-high enable signal. [[9::3]]
 
 Temperature sensors can often be spread throughout a system rather than
 being in a centralized location. This would mean longer length traces or
 wires to pass signals through leading to slower edge transitions. This
-makes the SN74AHCT32-Q1 useful for combining the incoming signals.
+makes the SN74AHCT32-Q1 useful for combining the incoming signals. [[9::4]]
 
 Conversion note: in the typical application block diagram (Figure 8-1) the overheat signals of Device 1 to Device 4 are combined by three OR gates whose output drives the EN input of the fan driver.
 
@@ -270,17 +284,18 @@ Conversion note: in the typical application block diagram (Figure 8-1) the overh
   {"name": "EN", "wave": "0...1.........0......10."}
 ]}
 ```
+[[11::Figure 8-2]]
 
 ### Power considerations
 
 Ensure the desired supply voltage is within the range specified in the
 Recommended Operating Conditions. The supply voltage sets the electrical
 characteristics of the device as described in the Electrical
-Characteristics section.
+Characteristics section. [[9::6]]
 
 The positive voltage supply must be capable of sourcing current equal to
 the maximum static supply current, I~CC~, listed in the Electrical
-Characteristics, and any transient current required for switching.
+Characteristics, and any transient current required for switching. [[9::7]]
 
 The ground must be capable of sinking current equal to the total current
 to be sunk by all outputs of the SN74AHCT32-Q1 plus the maximum supply
@@ -288,32 +303,32 @@ current, I~CC~, listed in the Electrical Characteristics, and any
 transient current required for switching. The logic device can only sink
 as much current that can be sunk into its ground connection. Be sure to
 not exceed the maximum total current through GND listed in the Absolute
-Maximum Ratings.
+Maximum Ratings. [[10::1]]
 
 The SN74AHCT32-Q1 can drive a load with a total capacitance less than or
 equal to 50 pF while still meeting all of the data sheet specifications.
 Larger capacitive loads can be applied; however, it is not recommended
-to exceed 50 pF.
+to exceed 50 pF. [[10::2]]
 
 The SN74AHCT32-Q1 can drive a load with total resistance described by
 R~L~ ≥ V~O~ / I~O~, with the output voltage and current defined in the
 Electrical Characteristics table with V~OL~. When outputting in the HIGH
 state, the output voltage in the equation is defined as the difference
 between the measured output voltage and the supply voltage at the V~CC~
-pin.
+pin. [[10::3]]
 
 Total power consumption can be calculated using the information provided
-in CMOS Power Consumption and Cpd Calculation application note.
+in CMOS Power Consumption and Cpd Calculation application note. [[10::4]]
 
 Thermal increase can be calculated using the information provided in
 Thermal Characteristics of Standard Linear and Logic (SLL) Packages and
-Devices application note.
+Devices application note. [[10::5]]
 
 The maximum junction temperature, T~J(max)~ listed in the Absolute
 Maximum Ratings, is an additional limitation to prevent damage to the
 device. Do not violate any values listed in the Absolute Maximum
 Ratings. These limits are provided to prevent damage to the device.
-Source conflict: this caution (p.10) says T~J(max)~ is listed in the Absolute Maximum Ratings, while that table (p.4) has no junction temperature row.
+Source conflict: this caution (p.10) says T~J(max)~ is listed in the Absolute Maximum Ratings, while that table (p.4) has no junction temperature row. [[10::6]]
 
 ### Input considerations
 
@@ -321,7 +336,7 @@ Input signals must cross to be considered a logic LOW, and to be
 considered a logic HIGH. Source error: the source leaves out the two
 levels the signals must cross in this sentence; kept as printed. Do not
 exceed the maximum input voltage range found in the Absolute Maximum
-Ratings.
+Ratings. [[10::7]]
 
 Unused inputs must be terminated to either V~CC~ or ground. The unused
 inputs can be directly terminated if the input is completely unused, or
@@ -331,41 +346,41 @@ default state of HIGH, and a pull-down resistor is used for a default
 state of LOW. The drive current of the controller, leakage current into
 the SN74AHCT32-Q1 (as specified in the Electrical Characteristics), and
 the desired input transition rate limits the resistor size. A 10-kΩ
-resistor value is often used due to these factors.
+resistor value is often used due to these factors. [[10::8]]
 
 ### Output considerations
 
 The ground voltage is used to produce the output LOW voltage. Sinking
 current into the output will increase the output voltage as specified by
-the V~OL~ specification in the Electrical Characteristics.
+the V~OL~ specification in the Electrical Characteristics. [[10::10]]
 
 Unused outputs can be left floating. Do not connect outputs directly to
-V~CC~ or ground.
+V~CC~ or ground. [[10::11]]
 
 ### Detailed design procedure
 
 1. Add a decoupling capacitor from V~CC~ to GND. The capacitor needs to
    be placed physically close to the device and electrically close to
    both the V~CC~ and GND pins. An example layout is shown in the Layout
-   section.
+   section. [[11::1]]
 2. Ensure the capacitive load at the output is ≤ 50 pF. This is not a
    hard limit; by design, however, it will optimize performance. This
    can be accomplished by providing short, appropriately sized traces
-   from the SN74AHCT32-Q1 to one or more of the receiving devices.
+   from the SN74AHCT32-Q1 to one or more of the receiving devices. [[11::1]]
 3. Ensure the resistive load at the output is larger than
    (V~CC~ / I~O(max)~) Ω. Doing this will prevent the maximum output
    current from the Absolute Maximum Ratings from being violated. Most
    CMOS inputs have a resistive load measured in MΩ; much larger than
-   the minimum calculated previously.
+   the minimum calculated previously. [[11::1]]
 4. Thermal issues are rarely a concern for logic gates; the power
    consumption and thermal increase, however, can be calculated using
    the steps provided in the application report, CMOS Power Consumption
-   and Cpd Calculation.
+   and Cpd Calculation. [[11::1]]
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the MIN and MAX
-supply-voltage rating located in Section 5.3.
+supply-voltage rating located in Section 5.3. [[11::2]]
 
 The power supply can be any voltage between the minimum and maximum
 supply voltage rating located in the Recommended Operating Conditions.
@@ -374,7 +389,7 @@ disturbance. A 0.1-μF capacitor is recommended for this device. It is
 acceptable to parallel multiple bypass capacitors to reject different
 frequencies of noise. The 0.1-μF and 1-μF capacitors are commonly used
 in parallel. The bypass capacitor should be installed as close to the
-power terminal as possible for best results, as shown in Layout Example.
+power terminal as possible for best results, as shown in Layout Example. [[11::3]]
 
 ### Layout guidelines
 
@@ -390,7 +405,7 @@ the input voltage specifications, to prevent them from floating. The
 logic level that must be applied to any particular unused input depends
 on the function of the device. Generally, the inputs are tied to GND or
 V~CC~, whichever makes more sense for the logic function or is more
-convenient.
+convenient. [[11::4]]
 
 Conversion note: the layout example (Figure 8-3) recommends a GND flood fill, a 0.1 µF bypass capacitor placed close to the device, unused inputs tied to V~CC~, an unused output left floating, and avoiding 90° corners for signal lines.
 
@@ -414,6 +429,7 @@ SN74AHCT32QPWRG4Q1 | Reel of 2000 | -40 to 125 | AHCT32Q | NRND
 SN74AHCT32QPWRQ1 | Reel of 2000 | -40 to 125 | AHCT32Q, HB32Q
 SN74AHCT32QWBQARQ1 | Reel of 3000 | -40 to 125 | AHT32Q
 ```
+[[14::table #1]]
 
 ## Conversion notes
 

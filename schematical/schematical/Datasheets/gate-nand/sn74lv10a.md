@@ -28,7 +28,7 @@ V~CC~ operation. The SN74LV10A devices perform the Boolean function
 Y = !{A • B • C} in positive logic. These devices are fully specified
 for partial-power-down applications using I~off~. The I~off~ circuitry
 disables the outputs, preventing damaging current backflow through the
-devices when they are powered down.
+devices when they are powered down. [[1::1]]
 
 ## Pinout
 
@@ -53,6 +53,7 @@ GND: Ground Pin
 1C: 1C Input
 VCC: Power Pin
 ```
+[[3::Table 5-1]]
 
 Source error: the source's pin functions table (Table 5-1) is not that
 of this device: it lists NC at pins 3 and 11, 1C at pin 4, 1D at pin 5,
@@ -66,7 +67,7 @@ V~CC~ operation. The SN74LV10A devices perform the Boolean function
 Y = !{A • B • C} in positive logic. These devices are fully specified
 for partial-power-down applications using I~off~. The I~off~ circuitry
 disables the outputs, preventing damaging current backflow through the
-devices when they are powered down.
+devices when they are powered down. [[1::1]]
 
 Conversion note: the simplified schematic (Figure 8-1) shows one
 3-input NAND gate with buffered inputs xA, xB and xC and a buffered
@@ -86,6 +87,7 @@ output xY.
 [1] H = High Voltage Level, L = Low Voltage Level, X = Don't Care
 [2] H = Driving High, L = Driving Low
 ```
+[[8::Table 8-1]]
 
 ## Absolute maximum ratings
 
@@ -108,6 +110,7 @@ output xY.
 [3] This value is limited to 5.5 V maximum.
 [4] Unconfirmed: the source gives a package thermal impedance θ~JA~ of 150 in °C; the thermal information gives R~θJA~ in °C/W. Kept as printed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -119,8 +122,9 @@ output xY.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
-Latch-Up Performance Exceeds 100 mA Per JESD 78, Class II.
+Latch-Up Performance Exceeds 100 mA Per JESD 78, Class II. [[1::1]]
 
 ## Recommended operating conditions
 
@@ -153,6 +157,7 @@ Latch-Up Performance Exceeds 100 mA Per JESD 78, Class II.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004
 ```
+[[4::table #3]] [[5::table #1]]
 
 ## Thermal information
 
@@ -164,6 +169,7 @@ Latch-Up Performance Exceeds 100 mA Per JESD 78, Class II.
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report (SPRA953).
 ```
+[[5::table #2]]
 
 ## Electrical characteristics
 
@@ -182,6 +188,7 @@ Latch-Up Performance Exceeds 100 mA Per JESD 78, Class II.
 | I~CC~ | Supply current | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | | 20 | µA |
 | C~i~ | Input capacitance | V~I~ = V~CC~ or GND | 3.3 V | | 1.9 | | pF |
 ```
+[[5::table #3]]
 
 ```table id=noise caption="Noise characteristics" conditions="V~CC~ = 3.3 V, C~L~ = 50 pF, T~A~ = 25°C"
 | Symbol | Parameter [1] | Min | Typ | Max | Unit |
@@ -194,6 +201,7 @@ Latch-Up Performance Exceeds 100 mA Per JESD 78, Class II.
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[6::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
@@ -201,6 +209,7 @@ Latch-Up Performance Exceeds 100 mA Per JESD 78, Class II.
 | C~pd~ | Power dissipation capacitance | C~L~ = 50 pF, f = 10 MHz | 3.3 V | 14 | pF |
 | ^ | ^ | ^ | 5 V | 16.7 | pF |
 ```
+[[6::table #2]]
 
 ## Switching characteristics
 
@@ -211,6 +220,7 @@ Latch-Up Performance Exceeds 100 mA Per JESD 78, Class II.
 | t~pd~ | A, B, or C | Y | C~L~ = 15 pF | | 7.1 | 13 | 1 | 15.5 | ns |
 | t~pd~ | A, B, or C | Y | C~L~ = 50 pF | | 10.3 | 17.1 | 1 | 20.5 | ns |
 ```
+[[5::table #4]]
 
 ```table id=sw-3v3 caption="Switching characteristics, V~CC~ = 3.3 V ± 0.3 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted) (see Figure 7-1)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | < | SN74LV10A | < | Unit |
@@ -219,6 +229,7 @@ Latch-Up Performance Exceeds 100 mA Per JESD 78, Class II.
 | t~pd~ | A, B, or C | Y | C~L~ = 15 pF | | 5.2 | 8.4 | 1 | 10 | ns |
 | t~pd~ | A, B, or C | Y | C~L~ = 50 pF | | 7.4 | 11.9 | 1 | 13.5 | ns |
 ```
+[[6::table #3]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted) (see Figure 7-1)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | < | SN74LV10A | < | Unit |
@@ -227,6 +238,7 @@ Latch-Up Performance Exceeds 100 mA Per JESD 78, Class II.
 | t~pd~ | A, B, or C | Y | C~L~ = 15 pF | | 3.9 | 5.9 | 1 | 7 | ns |
 | t~pd~ | A, B, or C | Y | C~L~ = 50 pF | | 5.4 | 7.9 | 1 | 9 | ns |
 ```
+[[6::table #4]]
 
 ## Parameter measurement information
 
@@ -235,7 +247,7 @@ by generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time, with one input transition per measurement. t~PHL~ and t~PLH~ are
 the same as t~pd~. All parameters and waveforms are not applicable to
-all devices.
+all devices. [[7::2]]
 
 Conversion note: C~L~ is 15 pF or 50 pF as given in the
 [switching characteristics](#switching-characteristics).
@@ -243,10 +255,12 @@ Conversion note: C~L~ is 15 pF or 50 pF as given in the
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 15 pF or 50 pF
 ```
+[[7::Figure 7-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 50% V~CC~
 ```
+[[7::Figure 7-1]]
 
 Conversion note: Figure 7-1 also shows the load circuit for 3-state and
 open-drain outputs (R~L~ = 1 kΩ) and the voltage waveforms for pulse
@@ -258,7 +272,7 @@ Information in the following applications sections is not part of the
 TI component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining
 suitability of components for their purposes, as well as validating and
-testing their design implementation to confirm system functionality.
+testing their design implementation to confirm system functionality. [[9::1]]
 
 ### Power supply recommendations
 
@@ -269,7 +283,7 @@ power disturbance. A 0.1-μF capacitor is recommended for this device.
 It is acceptable to parallel multiple bypass caps to reject different
 frequencies of noise. The 0.1-μF and 1-μF capacitors are commonly used
 in parallel. The bypass capacitor should be installed as close to the
-power terminal as possible for best results.
+power terminal as possible for best results. [[9::2]]
 
 ### Layout guidelines
 
@@ -285,7 +299,7 @@ as defined by the input voltage specifications, to prevent them from
 floating. The logic level that must be applied to any particular unused
 input depends on the function of the device. Generally, the inputs are
 tied to GND or V~CC~, whichever makes more sense for the logic function
-or is more convenient.
+or is more convenient. [[9::3]]
 
 ## Package
 
@@ -307,6 +321,7 @@ SN74LV10ADRG4 | Reel of 2500 | -40 to 85 | LV10A
 SN74LV10ANSR | Reel of 2000 | -40 to 85 | 74LV10A
 SN74LV10APWR | Reel of 2000 | -40 to 85 | LV10A
 ```
+[[11::table #1]]
 
 ## Conversion notes
 

@@ -26,18 +26,18 @@
 The SNx4LVC04A hex inverters contains six independent inverters designed
 for 2.7-V to 3.6-V V~CC~ operation, and the SN74LVC04A hex inverter
 contains six independent inverters designed for 1.65-V to 3.6-V V~CC~
-operation. The SNx4LVC04A devices perform the Boolean function Y = !{A}.
+operation. The SNx4LVC04A devices perform the Boolean function Y = !{A}. [[1::1]]
 
 Inputs can be driven from 1.8-V or 3.3-V devices. This feature allows
 the use of these devices as translators in a mixed 1.8-V or 3.3-V system
-environment.
+environment. [[1::2]]
 
 Operate from 1.65 V to 3.6 V. Specified from –40°C to 85°C, –40°C to
 125°C, and –55°C to 125°C. Inputs accept voltages to 5.5 V. Maximum
 t~pd~ of 4.5 ns at 3.3 V. Latch-up performance exceeds 250 mA per
 JESD 17. On products compliant to MIL-PRF-38535, all parameters are
 tested unless otherwise noted. On all other products, production
-processing does not necessarily include testing of all parameters.
+processing does not necessarily include testing of all parameters. [[1::1]] [[1::7]]
 
 ## Pinout
 
@@ -62,6 +62,7 @@ processing does not necessarily include testing of all parameters.
 GND: Ground
 VCC: Power supply
 ```
+[[3::table #1]]
 
 ## Functional description
 
@@ -71,16 +72,16 @@ perform the Boolean function Y = !{A}. These devices are fully specified
 for partial-power-down applications using Ioff. The Ioff circuitry
 disables the outputs, preventing damaging current backflow through the
 devices when they are powered down. The inputs are high impedance when
-V~CC~ = 0V.
+V~CC~ = 0V. [[11::1]]
 
 Conversion note: the functional block diagram shows one inverter with
 input A and output Y.
 
 Wide operating voltage range from 1.65 V to 3.6 V. Allows down-voltage
 translation with inputs accept voltages to 3.6 V. I~OFF~ feature supports
-live insertion, partial power down mode, and back drive protection.
+live insertion, partial power down mode, and back drive protection. [[11::2]]
 
-Table 1 lists the functional modes of the SNx4LVC04A.
+Table 1 lists the functional modes of the SNx4LVC04A. [[11::3]]
 
 ## Function tables
 
@@ -91,6 +92,7 @@ Table 1 lists the functional modes of the SNx4LVC04A.
 | H | L |
 | L | H |
 ```
+[[11::Table 1]]
 
 ## Absolute maximum ratings
 
@@ -114,6 +116,7 @@ Table 1 lists the functional modes of the SNx4LVC04A.
 [4] For the D package: above 70°C, the value of P~tot~ derates linearly with 8 mW/K.
 [5] For the DB, DGV, NS, and PW packages: above 60°C, the value of P~tot~ derates linearly with 5.5 mW/K.
 ```
+[[5::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -125,6 +128,7 @@ Table 1 lists the functional modes of the SNx4LVC04A.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[5::table #2]]
 
 ## Recommended operating conditions
 
@@ -153,6 +157,7 @@ Table 1 lists the functional modes of the SNx4LVC04A.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. See TI application report, Implications of Slow or Floating CMOS Inputs (SCBA004).
 ```
+[[5::table #3]]
 
 ## Thermal information
 
@@ -169,6 +174,7 @@ Table 1 lists the functional modes of the SNx4LVC04A.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 ```
+[[6::table #1]]
 
 ```table id=thermal-74 caption="Thermal information – SN74LVC04A"
 | Thermal metric [1] | < | SN74LVC04A | < | < | < | < | < | Unit |
@@ -183,6 +189,7 @@ Table 1 lists the functional modes of the SNx4LVC04A.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 ```
+[[6::table #2]]
 
 ## Electrical characteristics
 
@@ -200,6 +207,7 @@ Table 1 lists the functional modes of the SNx4LVC04A.
 | I~CC~ | Supply current | V~I~ = V~CC~ or GND, I~O~ = 0, V~CC~ = 3.6 V | | | 10 | µA |
 | ΔI~CC~ | Change in supply current | One input at V~CC~ – 0.6 V, Other inputs at V~CC~ or GND, V~CC~ = 2.7 V to 3.6 V | | | 500 | µA |
 ```
+[[7::table #1]]
 
 ```table id=ec-74 caption="Electrical characteristics – SN74LVC04A" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | Parameter | Test conditions | < | Min | Typ | Max | Unit |
@@ -242,6 +250,7 @@ Table 1 lists the functional modes of the SNx4LVC04A.
 | ^ | ^ | ^ | T~A~ = –40°C to 125°C | | | 5000 | µA |
 | C~i~ | Input capacitance | V~I~ = V~CC~ or GND, V~CC~ = 3.3 V | | | 5 | | pF |
 ```
+[[7::table #2]]
 
 ```table id=operating caption="Operating characteristics" conditions="T~A~ = 25°C (unless otherwise noted)"
 | Symbol | Parameter | Test conditions | < | Min | Typ | Max | Unit |
@@ -250,6 +259,7 @@ Table 1 lists the functional modes of the SNx4LVC04A.
 | ^ | ^ | ^ | V~CC~ = 2.5 V | | 7 | | pF |
 | ^ | ^ | ^ | V~CC~ = 3.3 V | | 8 | | pF |
 ```
+[[8::table #1]]
 
 ## Switching characteristics
 
@@ -273,6 +283,7 @@ Table 1 lists the functional modes of the SNx4LVC04A.
 | t~sk(o)~ | Skew (time), output | V~CC~ = 3.3 V ±0.3 V, SN74LVC04A only | T~A~ = –40°C to 85°C | | | | 1 | ns |
 | ^ | ^ | ^ | T~A~ = –40°C to 125°C | | | | 1.5 | ns |
 ```
+[[8::table #2]]
 
 ## Parameter measurement information
 
@@ -280,7 +291,7 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. All parameters
-and waveforms are not applicable to all devices.
+and waveforms are not applicable to all devices. [[10::2]] [[10::4]] [[10::5]] [[10::6]] [[10::7]]
 
 Conversion note: the load circuit also has a second R~L~, from the output
 to switch S1, which goes to V~LOAD~, open or GND; the figure below draws
@@ -295,11 +306,13 @@ and enable/disable waveforms, which are not drawn here.
 | t~PLZ~/t~PZL~ | V~LOAD~ |
 | t~PHZ~/t~PZH~ | GND |
 ```
+[[10::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: see table
 CL: see table
 ```
+[[10::Figure 2]]
 
 ```table id=test-conditions caption="Test conditions (Figure 2)"
 | V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -310,10 +323,12 @@ CL: see table
 | 2.7 V | 2.7 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 3.3 V ± 0.3 V | 2.7 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 ```
+[[10::table #2]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: see table
 ```
+[[10::Figure 2]]
 
 ## Application information
 
@@ -321,13 +336,13 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes. Customers should validate and test
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[12::1]]
 
 SN74LVC04A is a low-drive CMOS device that can be used for a multitude
 of bus interface type applications where output ringing is a concern.
 The low drive and slow edge rates minimize overshoot and undershoot on
 the outputs. The inputs can accept voltages to 3.6 V at any valid V~CC~
-making it Ideal for down translation.
+making it Ideal for down translation. [[12::2]]
 
 Conversion note: the typical application schematic (Figure 3) shows a
 3.3V regulated supply with a 0.1 µF capacitor and an inverter driving a
@@ -339,25 +354,25 @@ This device uses CMOS technology and has balanced output drive. Take
 care to avoid bus contention, because it can drive currents that would
 exceed maximum limits. The high drive also creates fast edges into light
 loads, so routing and load conditions must be considered to prevent
-ringing.
+ringing. [[12::3]]
 
 ### Detailed design procedure
 
-Recommended Input Conditions:
+Recommended Input Conditions: [[12::4]]
 
-- For rise time and fall time specifications, see Δt/ΔV in Recommended Operating Conditions.
-- For specified high and low levels, see V~IH~ and V~IL~ in Recommended Operating Conditions.
-- Inputs are overvoltage tolerant allowing them to go as high as 3.6 V at any valid V~CC~.
+- For rise time and fall time specifications, see Δt/ΔV in Recommended Operating Conditions. [[12::4]]
+- For specified high and low levels, see V~IH~ and V~IL~ in Recommended Operating Conditions. [[12::4]]
+- Inputs are overvoltage tolerant allowing them to go as high as 3.6 V at any valid V~CC~. [[12::4]]
 
-Recommend Output Conditions:
+Recommend Output Conditions: [[12::5]]
 
-- Load currents must not exceed 25 mA per output and 50 mA total for the part.
-- Outputs must not be pulled above V~CC~.
+- Load currents must not exceed 25 mA per output and 50 mA total for the part. [[12::5]]
+- Outputs must not be pulled above V~CC~. [[12::5]]
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the minimum and maximum
-supply voltage rating located in the Recommended Operating Conditions.
+supply voltage rating located in the Recommended Operating Conditions. [[13::1]]
 
 Each V~CC~ pin must have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, 0.1 µF is recommended. If
@@ -365,7 +380,7 @@ there are multiple V~CC~ pins, 0.01 µF or 0.022 µF is recommended for
 each power pin. It is acceptable to parallel multiple bypass caps to
 reject different frequencies of noise. A 0.1 µF and 1 µF are commonly
 used in parallel. The bypass capacitor must be installed as close to the
-power pin as possible for best results.
+power pin as possible for best results. [[13::2]]
 
 ### Layout guidelines
 
@@ -374,7 +389,7 @@ cases, functions or parts of functions of digital logic devices are
 unused. Some examples are when only two inputs of a triple-input AND
 gate are used, or when only 3 of the 4-buffer gates are used. Such input
 pins must not be left unconnected because the undefined voltages at the
-outside connections result in undefined operational states.
+outside connections result in undefined operational states. [[13::3]]
 
 Specified in Figure 5 are rules that must be observed under all
 circumstances. All unused inputs of digital logic devices must be
@@ -385,7 +400,7 @@ whichever makes more sense or is more convenient. It is acceptable to
 float outputs unless the part is a transceiver. If the transceiver has
 an output enable pin, it disables the outputs section of the part when
 asserted. This does not disable the input section of the I/Os so they
-also cannot float when disabled.
+also cannot float when disabled. [[13::4]]
 
 Conversion note: the layout diagram (Figure 5) shows two gates, one with
 its unused input tied to Vcc and one with its unused input tied to
@@ -427,6 +442,7 @@ SN74LVC04APWRG3 | Reel of 2000 | -40 to 125 | LC04A
 SN74LVC04APWT | Reel of 250 | -40 to 125 | LC04A
 SN74LVC04ARGYR | Reel of 3000 | -40 to 125 | LC04A
 ```
+[[19::table #1]] [[21::table #1]]
 
 ## Conversion notes
 

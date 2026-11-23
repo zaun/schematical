@@ -25,9 +25,9 @@
 
 This hex inverter contains six independent inverters designed for
 1.65-V to 3.6-V V~CC~ operation. The SN74ALVC04 performs the Boolean
-function Y = !{A}.
+function Y = !{A}. [[1::1]] [[1::2]]
 
-±24-mA Output Drive at 3.3 V.
+±24-mA Output Drive at 3.3 V. [[1::3]]
 
 ## Pinout
 
@@ -42,6 +42,7 @@ function Y = !{A}.
 GND: Ground
 VCC: Positive supply
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -54,6 +55,7 @@ Conversion note: the logic diagram shows each inverter with input A and output Y
 | H | L |
 | L | H |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -80,10 +82,11 @@ Conversion note: the logic diagram shows each inverter with input A and output Y
 [4] The package thermal impedance is calculated in accordance with JESD 51-7.
 [5] The package thermal impedance is calculated in accordance with JESD 51-5.
 ```
+[[2::table #1]]
 
 Latch-Up Performance Exceeds 250 mA Per JESD 17. ESD Protection Exceeds
 JESD 22: 2000-V Human-Body Model (A114-A), 200-V Machine Model (A115-A),
-1000-V Charged-Device Model (C101).
+1000-V Charged-Device Model (C101). [[1::3]]
 
 ## Recommended operating conditions
 
@@ -112,6 +115,7 @@ JESD 22: 2000-V Human-Body Model (A114-A), 200-V Machine Model (A115-A),
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[2::table #2]]
 
 ## Electrical characteristics
 
@@ -138,6 +142,7 @@ JESD 22: 2000-V Human-Body Model (A114-A), 200-V Machine Model (A115-A),
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25°C.
 ```
+[[3::table #1]]
 
 ```table id=operating caption="Operating characteristics, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ = 1.8 V | V~CC~ = 2.5 V | V~CC~ = 3.3 V | Unit |
@@ -147,6 +152,7 @@ JESD 22: 2000-V Human-Body Model (A114-A), 200-V Machine Model (A115-A),
 
 [1] This information was not available at the time of publication.
 ```
+[[3::table #2]]
 
 ## Switching characteristics
 
@@ -158,6 +164,7 @@ JESD 22: 2000-V Human-Body Model (A114-A), 200-V Machine Model (A115-A),
 
 [1] This information was not available at the time of publication.
 ```
+[[1::table #3]]
 
 ## Parameter measurement information
 
@@ -165,7 +172,7 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. All parameters
-and waveforms are not applicable to all devices.
+and waveforms are not applicable to all devices. [[4::1]]
 
 Conversion note: in the load circuit of Figure 1, S1 is open for t~pd~, so the R~L~ to ground and C~L~ load the output.
 
@@ -178,15 +185,18 @@ Conversion note: in the load circuit of Figure 1, S1 is open for t~pd~, so the R
 | 2.7 V | 2.7 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 3.3 V ± 0.3 V | 2.7 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 ```
+[[4::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit for t~pd~ (S1 open)"
 RL: see table
 CL: see table
 ```
+[[4::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times"
 VM: see table
 ```
+[[4::Figure 1]]
 
 Conversion note: the source figure also shows the second R~L~ and switch S1 to V~LOAD~ or GND with its S1 table, and the pulse-duration, setup-and-hold and enable/disable waveforms with their notes B, E and F, which do not apply to this part.
 
@@ -215,6 +225,7 @@ SN74ALVC04PW | Tube of 90 | -40 to 85 | VA04
 SN74ALVC04PWR | Reel of 2000 | -40 to 85 | VA04
 SN74ALVC04RGYR | Reel of 3000 | -40 to 85 | VA04
 ```
+[[5::table #1]]
 
 ## Conversion notes
 

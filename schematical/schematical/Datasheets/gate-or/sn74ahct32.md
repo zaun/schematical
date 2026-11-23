@@ -24,7 +24,7 @@
 ## Description
 
 The SNx4AHCT32 devices are quadruple 2-input positive-OR gates. These
-devices perform the Boolean function Y = A + B in positive logic.
+devices perform the Boolean function Y = A + B in positive logic. [[1::1]]
 
 Source error: the source prints "Y = !{A × B} or Y = A + B" (one bar
 over A × B); the function table (Table 8-1) gives Y = L only when A and
@@ -33,7 +33,7 @@ B are both L, so !{A × B} (a NAND) is kept out.
 Inputs are TTL-voltage compatible. Latch-up performance exceeds 250 mA
 per JESD 17. On products compliant to MIL-PRF-38535, all parameters are
 tested unless otherwise noted. On all other products, production
-processing does not necessarily include testing of all parameters.
+processing does not necessarily include testing of all parameters. [[1::2]]
 
 ## Pinout
 
@@ -62,6 +62,7 @@ GND: Ground Pin
 NC: No Connection
 VCC: Power Pin
 ```
+[[3::Table 5-1]]
 
 Conversion note: the RGY and BQA packages also have a thermal pad.
 
@@ -71,12 +72,12 @@ The SNx4AHCT32 is a quadruple 2-input positive-OR gate with low drive
 that will produce slow rise and fall times. This slow transition
 reduces ringing on the output signal. The device has TTL inputs that
 allow up translation from 3.3 V to 5 V. The inputs are high impedance
-when V~CC~ = 0 V.
+when V~CC~ = 0 V. [[8::1]]
 
 Conversion note: the functional block diagram shows four OR gates, each with inputs A and B and output Y.
 
-- Slow rise and fall time on outputs allows for low-noise outputs
-- TTL inputs allow up translation from 3.3 V to 5 V
+- Slow rise and fall time on outputs allows for low-noise outputs [[8::2]]
+- TTL inputs allow up translation from 3.3 V to 5 V [[8::1]]
 
 ## Function tables
 
@@ -88,6 +89,7 @@ Conversion note: the functional block diagram shows four OR gates, each with inp
 | X | H | H |
 | L | L | L |
 ```
+[[8::Table 8-1]]
 
 ## Absolute maximum ratings
 
@@ -106,6 +108,7 @@ Conversion note: the functional block diagram shows four OR gates, each with inp
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -113,6 +116,7 @@ Conversion note: the functional block diagram shows four OR gates, each with inp
 | V~(ESD)~ | Electrostatic discharge | Human body model (HBM) | ±1000 | V |
 | ^ | ^ | Charged device model (CDM) | ±750 | V |
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -132,6 +136,7 @@ Conversion note: the functional block diagram shows four OR gates, each with inp
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs (SCBA004).
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -147,6 +152,7 @@ Conversion note: the functional block diagram shows four OR gates, each with inp
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report (SPRA953).
 ```
+[[5::table #1]]
 
 ## Electrical characteristics
 
@@ -166,6 +172,7 @@ Conversion note: the functional block diagram shows four OR gates, each with inp
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested at V~CC~ = 0 V.
 [2] This is the increase in supply current for each input at one of the specified TTL voltage levels, rather than 0 V or V~CC~.
 ```
+[[5::table #2]]
 
 ```table id=noise caption="Noise characteristics, SN74AHCT32" conditions="V~CC~ = 5 V, C~L~ = 50 pF, T~A~ = 25°C [1]"
 | Symbol | Parameter | Min | Typ | Max | Unit |
@@ -178,12 +185,14 @@ Conversion note: the functional block diagram shows four OR gates, each with inp
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[6::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 11.5 | pF |
 ```
+[[6::table #2]]
 
 ## Switching characteristics
 
@@ -198,6 +207,7 @@ Conversion note: the functional block diagram shows four OR gates, each with inp
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[5::table #3]]
 
 ## Typical characteristics
 
@@ -208,6 +218,7 @@ Conversion note: the functional block diagram shows four OR gates, each with inp
   {"label": "TPD in ns", "points": [[-55, 4.37], [-40, 4.42], [25, 5], [85, 5.45], [125, 5.7]]}
  ]}
 ```
+[[6::Figure 6-1]]
 
 ## Parameter measurement information
 
@@ -215,17 +226,19 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time with one input transition per measurement. All parameters and
-waveforms are not applicable to all devices.
+waveforms are not applicable to all devices. [[7::1]]
 
 Conversion note: C~L~ is 15 pF or 50 pF, as given in the [switching characteristics](#sw); in the figure the inputs swing 0 V to 3 V and are measured at 1.5 V, and the outputs are measured at 50% V~CC~.
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 15 pF or 50 pF
 ```
+[[7::Figure 7-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 1.5 V (input), 50% VCC (output)
 ```
+[[7::Figure 7-1]]
 
 Conversion note: the source figure (Figure 7-1) also shows the load circuit for 3-state and open-drain outputs with its S1 table, and the pulse-duration, setup-and-hold and enable/disable waveforms, which are not drawn here.
 
@@ -235,13 +248,13 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[9::1]]
 
 The SNx4AHCT32 is a low-drive CMOS device that can be used for a
 multitude of bus-interface type applications where output ringing is a
 concern. The low drive and slow edge rates will minimize overshoot and
 undershoot on the outputs. The TTL inputs can accept voltages down to
-3.3 V and can translate up to 5 V.
+3.3 V and can translate up to 5 V. [[9::2]]
 
 Conversion note: in the typical application diagram for a single gate (Figure 9-1) a 3.3- or 5-V Bus Driver drives the gate inputs, the gate runs from a 5-V Regulated V~CC~ bypassed with 0.1 µF, and its output drives a 5-V Accessory.
 
@@ -251,24 +264,24 @@ This device uses CMOS technology and has balanced output drive. Care
 should be taken to avoid bus contention because it can drive currents
 that would exceed maximum limits. The high drive will also create fast
 edges into light loads, so routing and load conditions should be
-considered to prevent ringing.
+considered to prevent ringing. [[9::4]]
 
 ### Detailed design procedure
 
-1. Recommended input conditions:
-   - For rise time and fall time specifications, see Δt/ΔV in the Recommended Operating Conditions table.
-   - For specified high and low levels, see V~IH~ and V~IL~ in the Recommended Operating Conditions table.
-   - Inputs are overvoltage tolerant allowing them to go as high as 5.5 V at any valid V~CC~.
-2. Recommend output conditions:
-   - Load currents should not exceed 25 mA per output and 50 mA total for the part.
-   - Outputs should not be pulled above V~CC~.
+1. Recommended input conditions: [[9::5]]
+   - For rise time and fall time specifications, see Δt/ΔV in the Recommended Operating Conditions table. [[9::5]]
+   - For specified high and low levels, see V~IH~ and V~IL~ in the Recommended Operating Conditions table. [[9::5]]
+   - Inputs are overvoltage tolerant allowing them to go as high as 5.5 V at any valid V~CC~. [[9::5]]
+2. Recommend output conditions: [[9::5]]
+   - Load currents should not exceed 25 mA per output and 50 mA total for the part. [[9::5]]
+   - Outputs should not be pulled above V~CC~. [[9::5]]
 
 Conversion note: the application curve (Figure 9-2, Switching Characteristics Comparison, a picture) shows an input edge V~I~ and the falling output edges of ACT32, HCT32 and AHCT32 gates at V~CC~ = 5 V, Load = 50 Ω/50 pF, and is not drawn here.
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the MIN and MAX
-supply-voltage rating located in Recommended Operating Conditions.
+supply-voltage rating located in Recommended Operating Conditions. [[10::1]]
 
 Each V~CC~ pin should have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, 0.1 μF is recommended.
@@ -276,11 +289,11 @@ If there are multiple V~CC~ pins then a 0.01 μF or a 0.022 μF is
 recommended for each power pin. It is acceptable to parallel multiple
 bypass caps to reject different frequencies of noise. A 0.1 μF and a
 1 μF are commonly used in parallel. The bypass capacitor should be
-installed as close to the power pin as possible for best results.
+installed as close to the power pin as possible for best results. [[10::2]]
 
 ### Layout guidelines
 
-When using multiple bit logic devices, inputs should never float.
+When using multiple bit logic devices, inputs should never float. [[10::3]]
 
 In many cases, functions or parts of functions of digital logic devices
 are unused, for example, when only two inputs of a triple-input AND gate
@@ -296,7 +309,7 @@ more sense or is more convenient. It is generally acceptable to float
 outputs, unless the part is a transceiver. If the transceiver has an
 output enable pin it will disable the outputs section of the part when
 asserted. This will not disable the input section of the I/Os so they
-also cannot float when disabled.
+also cannot float when disabled. [[10::4]]
 
 Conversion note: Figure 9-3, the layout diagram, shows one gate with its unused input tied to V~CC~ and one with its unused input tied to ground.
 
@@ -355,6 +368,7 @@ SNJ54AHCT32FK | Tube of 55 | -55 to 125 | 5962-9682601Q2A SNJ54AHCT32FK
 SNJ54AHCT32J | Tube of 25 | -55 to 125 | 5962-9682601QCA SNJ54AHCT32J
 SNJ54AHCT32W | Tube of 25 | -55 to 125 | 5962-9682601QDA SNJ54AHCT32W
 ```
+[[12::table #1]]
 
 ## Conversion notes
 
