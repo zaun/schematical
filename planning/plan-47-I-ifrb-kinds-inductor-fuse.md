@@ -41,9 +41,9 @@ plan-47-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-47-H complete | `ls planning/completed/plan-47-H-*.md` → exists | NOT MET (2026-11-16: not started) |
-| No `inductor` or `fuse` kind yet | `grep -c 'PART_INDUCTOR\|PART_FUSE' backend/include/parts.h` → 0; `ls backend/src/models/inductor.c backend/src/models/fuse.c` → no such file | MET (2026-11-16 at 349f25b3: 0, no file) |
-| Golden sizes and test count re-measured | `git show HEAD:backend/tests/golden/parts.txt \| wc -l` (and `traces.txt`, `footprints.txt`); `git show HEAD:backend/CMakeLists.txt \| grep -c '^logic_test'` | record P0 / R0 / F0 / T0 at I's start; at 349f25b3: 32897 / 32897 / 1646 / 37 |
+| plan-47-H complete | `ls planning/completed/plan-47-H-*.md` → exists | NOT MET as written (2026-11-22: H not started: it waits on C's final pick, and C on A's four quota days). I's header says it reads no census output and follows H only because letter order is implementation order, so I is worked out of order while A's Phase 2 waits for DigiKey's quota to reset; § Corrections |
+| No `inductor` or `fuse` kind yet | `grep -c 'PART_INDUCTOR\|PART_FUSE' backend/include/parts.h` → 0; `ls backend/src/models/inductor.c backend/src/models/fuse.c` → no such file | MET (2026-11-22 at 7c7b4d31: 0, no file; `PartKind` ends `PART_REGULATOR, PART_CRYSTAL`, I appends after them) |
+| Golden sizes and test count re-measured | `git show HEAD:backend/tests/golden/parts.txt \| wc -l` (and `traces.txt`, `footprints.txt`); `git show HEAD:backend/CMakeLists.txt \| grep -c '^logic_test'` | record P0 / R0 / F0 / T0 at I's start; at 349f25b3: 32897 / 32897 / 1646 / 37; at 7c7b4d31 (2026-11-22): **34375 / 34375 / 1895 / 41** |
 
 Everything below is written against the world where these hold.
 
@@ -274,56 +274,56 @@ lines; the voltage-check paragraph (`:190–192`) names the fuse rating.
 
 ### Phase 1 — The inductor kind
 
-- [ ] `backend/include/parts.h`: `PART_INDUCTOR` after the current last
+- [x] (2026-11-22: `grep -c 'PART_INDUCTOR' backend/include/parts.h` was 0 before; now `PART_INDUCTOR, PART_FUSE` after `PART_CRYSTAL`) `backend/include/parts.h`: `PART_INDUCTOR` after the current last
       `PartKind` (`grep -n 'PART_' backend/include/parts.h`), `PartInductor`,
       `const PartInductor *inductor;` on `Part` (each only if absent:
       `grep -c 'PART_INDUCTOR' backend/include/parts.h` → 0 before).
-- [ ] `backend/src/models/inductor.c`: `INDUCTOR_KIND` (`load_device`,
+- [x] (2026-11-22: `inductor.c` with the shared pin rules in `terminals.c` / `terminals.h`) `backend/src/models/inductor.c`: `INDUCTOR_KIND` (`load_device`,
       `bind_pinout`, `load_part`), `INDUCTOR_MODEL` (§ 3.2),
       `inductor_fixed_contact`.
-- [ ] `backend/src/models/model_pins.c` and `model_pins.h`:
+- [x] (2026-11-22) `backend/src/models/model_pins.c` and `model_pins.h`:
       `part_fixed_contact` (§ 3.3); `backend/src/library/kinds.c`:
       `&INDUCTOR_KIND` in `KINDS[]`; `backend/CMakeLists.txt`: the two
       sources in `logic` and `logic_test(inductor_test)`.
-- [ ] `backend/tests/support/listing.c`: `case PART_INDUCTOR: return
+- [x] (2026-11-22: `TRACE_LAST_KIND` was `PART_CRYSTAL`, now `PART_FUSE`; the two `listing_check.c` arrays likewise) `backend/tests/support/listing.c`: `case PART_INDUCTOR: return
       "inductor"` and the facts line `ph=%llu tol=%s amps=%u isat=%u
       dcr=%llu shield=%s`; `tests/trace_check.c` `TRACE_LAST_KIND` and
       `tests/listing_check.c`'s two array sizes → the last kind (moot if a
       later kind is already there: `grep -n 'TRACE_LAST_KIND'
       backend/tests/trace_check.c`).
-- [ ] `backend/src/voltage.c` step 1: the fixed-contact unions (§ 3.3).
-- [ ] `backend/tests/support/inductor_fixture.h`, `backend/tests/inductor_test.c`
+- [x] (2026-11-22: step 1 now uses a `join_pins` helper for the switches and the fixed contacts) `backend/src/voltage.c` step 1: the fixed-contact unions (§ 3.3).
+- [x] (2026-11-22: `inductor_test` all PASS, every § 6 a–h case) `backend/tests/support/inductor_fixture.h`, `backend/tests/inductor_test.c`
       (§ 6 a–h).
 
 Acceptance: the inductor loads, conducts and joins its nets in the voltage check; goldens unchanged.
   Check: `cmake -S backend -B /tmp/logic-p47-i && cmake --build /tmp/logic-p47-i -j8 && /tmp/logic-p47-i/inductor_test && /tmp/logic-p47-i/voltage_test` → every line `PASS`, and `/tmp/logic-p47-i/listing_check && /tmp/logic-p47-i/trace_check` → exit 0 (est. 4 min: a build from scratch).
-Commit: —
+Commit: 1c9f6088
 
 ### Phase 2 — The fuse kind
 
-- [ ] `parts.h`: `PART_FUSE`, `PartFuse`, `const PartFuse *fuse;` (only if
+- [x] (2026-11-22) `parts.h`: `PART_FUSE`, `PartFuse`, `const PartFuse *fuse;` (only if
       absent); `backend/src/models/fuse.c`: `FUSE_KIND`, `FUSE_MODEL` with
       `set_switch` (§ 3.2), `fuse_fixed_contact`; `model_pins.c` dispatch;
       `kinds.c`; `CMakeLists.txt` (`fuse.c`, `logic_test(fuse_test)`).
-- [ ] `listing.c`: `case PART_FUSE: return "fuse"` and the facts line
+- [x] (2026-11-22) `listing.c`: `case PART_FUSE: return "fuse"` and the facts line
       `type=%s amps=%u trip=%u ac=%u dc=%u speed=%s break=%u`; the last-kind
       lines of `trace_check.c` and `listing_check.c`.
-- [ ] `voltage.h`: `VOLTAGE_FUSE_OVER`; `voltage.c`: the rating branch and
+- [x] (2026-11-22) `voltage.h`: `VOLTAGE_FUSE_OVER`; `voltage.c`: the rating branch and
       the text case (§ 3.3).
-- [ ] `backend/tests/support/fuse_fixture.h`, `backend/tests/fuse_test.c`
+- [x] (2026-11-22: `fuse_test` all PASS, every § 6 i–t case, for the fuse and the PTC) `backend/tests/support/fuse_fixture.h`, `backend/tests/fuse_test.c`
       (§ 6 i–t).
 
 Acceptance: the fuse loads, conducts, blows and restores; goldens unchanged.
   Check: `cmake --build /tmp/logic-p47-i -j8 && /tmp/logic-p47-i/fuse_test && /tmp/logic-p47-i/voltage_test` → every line `PASS`; `/tmp/logic-p47-i/listing_check && /tmp/logic-p47-i/trace_check` → exit 0 (est. 2 min).
-Commit: —
+Commit: 1c9f6088
 
 ### Phase 3 — Docs
 
-- [ ] `docs/parts-format.md` and `docs/backend.md` per § 4.
+- [x] (2026-11-22: `grep -c '^### `inductor`\|^### `fuse`' docs/parts-format.md` → 2, `grep -c 'inductor_test\|fuse_test' docs/backend.md` → 2) `docs/parts-format.md` and `docs/backend.md` per § 4.
 
 Acceptance: the docs name both kinds.
   Check: `grep -c '^### `inductor`\|^### `fuse`' docs/parts-format.md` → 2 and `grep -c 'inductor_test\|fuse_test' docs/backend.md` → 2 (est. < 1 min).
-Commit: —
+Commit: f08a6bd6
 
 ## 6. Test cases
 
@@ -434,6 +434,29 @@ Author decisions (no user-visible fork; recorded so nobody re-litigates):
   without floats.
 
 ## Corrections
+
+- **2026-11-22, order.** Letter I was worked before H (and before A's Phase 2
+  finished) because A's quota days block the data letters and I's header says
+  it reads no census output. The prerequisite row "plan-47-H complete" stays
+  NOT MET and is not a dependency of the code.
+- **2026-11-22, § 2 "Current State".** `PartKind` already ended
+  `PART_REGULATOR, PART_CRYSTAL` (plans 42 and 44 landed); I appended
+  `PART_INDUCTOR, PART_FUSE`. `voltage.c`'s step 1 is at line 268 (not
+  139–165) and the rating chain at line 770 onwards: the fixed-contact unions
+  and the `VOLTAGE_FUSE_OVER` branch went there; the switch loop and the new
+  loop share a `join_pins` helper.
+- **2026-11-22, case (l).** `circuit_part_lights` answers "on at any time
+  during the last step" (`circuit_check` / `lights.h`), and a contact opens at
+  the first instant of the next step, so the LED behind a fuse blown during a
+  run still reports on for that step (`dbg`: `blown: anode 3 (Z) … led 1`).
+  The test steps a second microsecond before it checks the LED is off; the
+  net reads Z after the first. The app shows a light after each step, so the
+  LED goes dark on the step after the click.
+- **2026-11-22, shared code.** The two kinds' pin rules live in
+  `src/models/terminals.c` / `terminals.h` (not duplicated), and
+  `part_fixed_contact` in the new `src/models/model_pins.c`, as § 3.3 says.
+- **2026-11-22, goldens.** None changed: `ctest` 43 of 43 (T0 41 + 2),
+  `listing_check` and `trace_check` pass without a golden edit.
 
 ## Summary
 

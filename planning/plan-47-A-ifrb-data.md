@@ -396,7 +396,7 @@ footprint's `note` and in the cartridge fuse devices' `note` (plan-47-K).
 
 Acceptance: the planning pick reproduces.
   Check: `python3 -I planning/plan-47-data/census/select.py planning/plan-47-data/raw /tmp/p47-cand.tsv --urls planning/plan-47-data/url-check.tsv && cmp /tmp/p47-cand.tsv planning/plan-47-data/candidates.tsv && echo reproducible` → `reproducible` (est. < 1 min).
-Commit: —
+Commit: 19c545ea
 
 ### Phase 2 — The part-by-part stock check (four quota days)
 
