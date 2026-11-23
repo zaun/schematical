@@ -752,6 +752,18 @@
       ". Check critical values against the vendor's PDF.";
   }
 
+  // Who checked the conversion against the PDF, and when; "Unverified" when
+  // nobody has (front matter verifiedDate / verifiedBy, both optional).
+  function verifiedLine(front) {
+    if (!front.verifiedDate && !front.verifiedBy) {
+      return '<div class="verified unverified">Unverified</div>';
+    }
+    const bits = [];
+    if (front.verifiedDate) bits.push("on " + esc(front.verifiedDate));
+    if (front.verifiedBy) bits.push("by " + esc(front.verifiedBy));
+    return '<div class="verified">Verified ' + bits.join(" ") + "</div>";
+  }
+
   function outline(html) {
     const sections = [];
     const re = /<h2 id="([^"]+)">([\s\S]*?)<\/h2>/g;
@@ -776,7 +788,7 @@
       waveIndex = 0;
       tableIndex = 0;
       const html = md.render(body);
-      let head = '<div class="source">' + sourceLine(front) + "</div>";
+      let head = '<div class="source">' + sourceLine(front) + "</div>" + verifiedLine(front);
       if (ctx.part) head += '<div class="opened">Opened for ' + esc(ctx.part) + "</div>";
       page.innerHTML = outline(html) + '<article>' + head + html + "</article>";
       document.title = front.title || "";

@@ -71,6 +71,8 @@ The file starts with a line `---`, a JSON object, and a line `---`.
 | `parts` | the catalog parts this datasheet is *the* datasheet for: exact part names from the part files, each in one of `devices`, or globs with `*` matched against the parts of `devices` (`"ECS-2520MV-*"` claims all 49 ECS-2520MV parts, and parts added later). Orderables the PDF lists but the catalog doesn't carry are not listed here (they may appear in the Ordering table as text). A part is claimed by at most one datasheet. May be empty only for a PDF whose catalog parts all live under another datasheet. |
 | `packages` | optional: catalog pinout name → the vendor's package designators that use it (`"p14": "D, DB, N, NS, PW, J, W"`). Labels the pinout drawings and the per-package columns of the pin table. |
 | `converted` | date of conversion, `YYYY-MM-DD` |
+| `verifiedDate` | optional: the date a person checked the conversion against the PDF, `YYYY-MM-DD`. Only with `verifiedBy`. |
+| `verifiedBy` | optional: the email address of that person. Only with `verifiedDate`. Without the pair the viewer shows "Unverified". |
 | `pending` | optional: why none of the PDF's parts is in the catalog yet (`"AVR microcontrollers are not in the catalog yet"`). Only with `"devices": []` and `"parts": []`; see [Pending datasheets](#pending-datasheets). |
 
 No other key is allowed, and no key may appear twice.

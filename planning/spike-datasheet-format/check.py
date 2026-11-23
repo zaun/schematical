@@ -9,6 +9,7 @@ report. Exit status 1 if any file has an error.
 """
 
 import collections
+import datetime
 import fnmatch
 import json
 import os
@@ -60,7 +61,7 @@ FIGURE_LIBRARY = {"load-cmos-50pf", "waveforms-cmos-tpd-tt", "waveforms-cmos-tsu
     os.path.splitext(f)[0] for f in (os.listdir(FIGURES_DIR) if os.path.isdir(FIGURES_DIR) else [])
     if f.endswith(".svg")}
 FRONT_KEYS = {"format", "version", "id", "title", "class", "source", "devices", "parts", "packages", "converted",
-              "pending"}
+              "pending", "verifiedDate", "verifiedBy"}
 SOURCE_KEYS = {"pdf", "vendor", "document", "date", "pages"}
 VALUE_COLS = {"min", "typ", "nom", "max", "value"}
 NAMED_COLS = {"symbol", "parameter", "thermal metric", "conditions", "test conditions", "from", "to", "unit"} | VALUE_COLS
@@ -513,7 +514,7 @@ def check_file(path, cat, claims):
     # ---- front matter
     for k in sorted(set(fm) - FRONT_KEYS):
         rep.err(2, 'front matter: unknown key "%s"' % k)
-    for k in sorted(FRONT_KEYS - {"packages", "pending"} - set(fm)):
+    for k in sorted(FRONT_KEYS - {"packages", "pending", "verifiedDate", "verifiedBy"} - set(fm)):
         rep.err(2, 'front matter: missing "%s"' % k)
     if fm.get("format") != "schematical-datasheet":
         rep.err(2, 'front matter: format must be "schematical-datasheet"')
@@ -541,6 +542,20 @@ def check_file(path, cat, claims):
             rep.err(2, "source.date must be YYYY or YYYY-MM")
     if not re.match(r"^\d{4}-\d{2}-\d{2}$", str(fm.get("converted", ""))):
         rep.err(2, "converted must be YYYY-MM-DD")
+    if ("verifiedDate" in fm) != ("verifiedBy" in fm):
+        rep.err(2, "front matter: verifiedDate and verifiedBy go together")
+    if "verifiedDate" in fm:
+        vd = fm["verifiedDate"]
+        try:
+            ok = isinstance(vd, str) and re.match(r"^\d{4}-\d{2}-\d{2}$", vd) and datetime.date.fromisoformat(vd)
+        except ValueError:
+            ok = False
+        if not ok:
+            rep.err(2, "verifiedDate must be a real date, YYYY-MM-DD")
+    if "verifiedBy" in fm:
+        vb = fm["verifiedBy"]
+        if not isinstance(vb, str) or not re.match(r"^[^@\s]+@[^@\s]+\.[^@\s.]+$", vb):
+            rep.err(2, "verifiedBy must be an email address")
     devices = fm.get("devices", [])
     pending = "pending" in fm
     if pending:
