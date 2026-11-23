@@ -2,7 +2,7 @@
 """plan-47-B section 3: the verdicts of the inductor, fuse and PTC rows of the download set.
 
 usage: python3 -I scheme-check.py [--facts] [--apply] [--list] [--sample] <type>...
-       (type: inductor, fuse, ptc)
+       (type: inductor, fuse, ptc, relay, buzzer)
 
 For every download-set row (candidates.tsv state `candidate` or `reserve`) of
 the types, in the order the checks apply:
@@ -29,6 +29,7 @@ per maker and type with their scheme (a hand check against the PDF).
 import collections
 import os
 import random
+import re
 import sys
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -37,9 +38,56 @@ import specs47 as sp  # noqa: E402
 NOT_IN_TABLE = "not in the datasheet's ordering table"
 
 
+def over(figure, limit):
+    return limit not in ('', '-') and figure is not None and figure > float(limit) * (1 + 1e-6)
+
+
+def relay_fact_problem(r, s, params):
+    """plan-47-C section 3.1: a relay's facts against its specs row."""
+    solid = s['rtype'] == 'solid-state'
+    if not solid:
+        volts = sp.parse(params.get('Coil Voltage'))
+        if volts is None:
+            return 'fact not given'
+        if not sp.in_values(s['coilv'], volts):
+            return 'fact not in datasheet'
+    amps = sp.parse(params.get('Load Current' if solid else 'Contact Rating (Current)'))
+    if amps is None:
+        return 'fact not given'
+    if over(amps, s['amps']):
+        return 'fact not in datasheet'
+    switching = params.get('Voltage - Load' if solid else 'Switching Voltage', '')
+    m = re.findall(r'([0-9.]+)\s*V\s*DC', switching, re.I) if not solid else re.findall(r'([0-9.]+)\s*V', switching)
+    if m and over(max(float(x) for x in m), s['vdc']):
+        return 'fact not in datasheet'
+    if over(sp.parse(params.get('Operate Time')), s['op']) or over(sp.parse(params.get('Release Time')), s['rel']):
+        return 'fact not in datasheet'
+    if solid and over(sp.parse(params.get('On-State Resistance (Max)')), s['ron']):
+        return 'fact not in datasheet'
+    return ''
+
+
+def buzzer_fact_problem(r, s, params):
+    """plan-47-C section 3.1: a buzzer's facts against its specs row."""
+    rated = sp.parse(params.get('Voltage - Rated'))
+    if rated is not None and s['volts'] not in ('', '-') and not sp.close(rated, float(s['volts'])):
+        return 'fact not in datasheet'
+    span = [sp.parse(x) for x in re.findall(r'[0-9.]+\s*[A-Za-z]*', params.get('Voltage Range', ''))]
+    span = [x for x in span if x is not None]
+    if span and s['vrange'] not in ('', '-'):
+        lo, hi = (float(x) for x in s['vrange'].split('..'))
+        if min(span) < lo * (1 - 1e-6) or max(span) > hi * (1 + 1e-6):
+            return 'fact not in datasheet'
+    if over(sp.parse(params.get('Current - Supply')), s['ma_max']):
+        return 'fact not in datasheet'
+    return ''
+
+
 def fact_problem(r, s, params):
     """A reason when a fact of the row contradicts the specs row, else ''."""
     t = r['type']
+    if t in ('relay', 'buzzer'):
+        return relay_fact_problem(r, s, params) if t == 'relay' else buzzer_fact_problem(r, s, params)
     v = sp.row_value(r)
     if v is None:
         return 'fact not given'
@@ -66,6 +114,10 @@ def fact_problem(r, s, params):
             figure = sp.parse(params.get(name))
             if s[col] not in ('', '-') and figure is not None and figure > float(s[col]) * (1 + 1e-6):
                 return 'fact not in datasheet'
+    elif t == 'relay':
+        return relay_fact_problem(r, s, params)
+    elif t == 'buzzer':
+        return buzzer_fact_problem(r, s, params)
     else:
         for col, name in (('vmax', 'Voltage - Max'), ('imax', 'Current - Max')):
             figure = sp.parse(params.get(name))
@@ -96,7 +148,7 @@ def verdict(r, s, facts, params):
     if r['dead'] == '1' or r['pdf'] in obsolete_pdfs():
         return 'out', 'obsolete'
     if s['pinout'] == 'out':
-        return 'out', 'more than two terminals'
+        return 'out', 'not a plain relay' if r['type'] == 'relay' else 'more than two terminals'
     if s['pinout'] == '-':
         return 'skip', 'no pinout in the datasheet'
     scheme = s['scheme']

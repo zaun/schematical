@@ -18,7 +18,9 @@ import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import scancommon as sc  # noqa: E402
 
-FACTS = ['pads', 'values', 'tols', 'amps_max', 'isat_max', 'dcr_max', 'shield', 'speed', 'vac', 'vdc', 'break_max', 'vmax', 'imax']
+FACTS = ['pads', 'values', 'tols', 'amps_max', 'isat_max', 'dcr_max', 'shield', 'speed', 'vac', 'vdc', 'break_max', 'vmax', 'imax',
+         'rtype', 'coils', 'polarized', 'latching', 'contacts', 'coilv', 'coil_ohms', 'amps', 'op', 'rel', 'ron',
+         'driver', 'technology', 'hz', 'volts', 'vrange', 'ma_max', 'db']
 COLS = ['type', 'maker', 'series', 'pdf', 'package', 'rows', 'example', 'scheme', 'label', 'page', 'pinout', 'terminals'] + FACTS
 KEEP = ['scheme', 'label', 'page', 'pinout', 'terminals'] + FACTS
 KEY = ['type', 'maker', 'series', 'pdf', 'package']
@@ -32,7 +34,9 @@ def main(src, dst):
     groups = collections.defaultdict(list)
     for r in sc.read(src):
         if sc.in_set(r) and r['pdf']:
-            groups[(r['type'], r['company'], r['series'], r['pdf'], r['package'])].append(r)
+            pkg = (f"{r['package']} / {r['form']} / {r['detail'].split(';')[0]}"
+                   if r['type'] == 'relay' else r['package'])
+            groups[(r['type'], r['company'], r['series'], r['pdf'], pkg)].append(r)
     rows = []
     for g in sorted(groups):
         rs = groups[g]

@@ -14,7 +14,7 @@ import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import specs47 as sp  # noqa: E402
 
-FILLED = ['scheme', 'label', 'page', 'pinout', 'terminals'] + sp.FACT_COLS
+FILLED = ['scheme', 'label', 'page', 'pinout', 'terminals'] + sp.ALL_COLS
 
 
 def main(paths):

@@ -39,10 +39,16 @@ import common  # noqa: E402
 
 CANDIDATES = os.path.join(DATA, 'candidates.tsv')
 SPECS = os.path.join(DATA, 'specs.tsv')
-TYPES = ['inductor', 'fuse', 'ptc']
+TYPES = ['inductor', 'fuse', 'ptc', 'relay', 'buzzer']
 FACT_COLS = ['pads', 'values', 'tols', 'amps_max', 'isat_max', 'dcr_max', 'shield', 'speed', 'vac', 'vdc',
              'break_max', 'vmax', 'imax']
+# plan-47-C: the relay and buzzer columns
+RELAY_COLS = ['rtype', 'coils', 'polarized', 'latching', 'contacts', 'coilv', 'coil_ohms', 'amps', 'op', 'rel', 'ron']
+BUZZER_COLS = ['driver', 'technology', 'hz', 'volts', 'vrange', 'ma_max', 'db']
+ALL_COLS = FACT_COLS + RELAY_COLS + BUZZER_COLS
 LABELS = {'SMD', 'Radial', 'Axial', 'Cartridge'}
+RELAY_LABELS = {'THT', 'SMD', 'DIP', 'SOP', 'SSOP', 'VSSOP', 'SON', 'SIP'}
+BUZZER_LABELS = {'THT', 'SMD'}
 
 
 def read(path):
@@ -57,12 +63,24 @@ def write(path, rows, cols):
 
 
 def in_set(row):
-    return row['state'] in ('candidate', 'reserve')
+    """A download-set row: candidate or reserve, and after plan-47-C's final pick (verdicts.py) add, or
+    a skip / out that carries a verdict (a row dropped by the stock check is not in the set)."""
+    if row['state'] in ('candidate', 'reserve', 'add'):
+        return True
+    return row['state'] in ('skip', 'out') and bool(row.get('verdict')) and row['reason'] != 'stock check'
 
 
 def key(row):
     """The specs row of a candidates row: (type, maker, series, pdf, package)."""
-    return (row['type'], row['company'], row['series'], row['pdf'], row['package'])
+    return (row['type'], row['company'], row['series'], row['pdf'], package_of(row))
+
+
+def package_of(row):
+    """The package part of a specs key. A relay series shares one datasheet over several contact
+    forms and coil types with different pinouts, so a relay's key adds them (plan-47-C)."""
+    if row['type'] == 'relay':
+        return f"{row['package']} / {row['form']} / {row['detail'].split(';')[0]}"
+    return row['package']
 
 
 def load_specs(path=SPECS):
@@ -86,6 +104,7 @@ UNITS = {
     'a': 1.0, 'ma': 1e-3, 'ua': 1e-6, 'µa': 1e-6, 'v': 1.0, 'mv': 1e-3, 'kv': 1e3,
     'h': 1e6, 'mh': 1e3, 'uh': 1.0, 'µh': 1.0, 'nh': 1e-3, 'ph': 1e-6,          # henries: to microhenries
     'ohm': 1.0, 'ohms': 1.0, 'mohm': 1e-3, 'mohms': 1e-3, 'kohm': 1e3, 'kohms': 1e3,
+    'vdc': 1.0, 'vac': 1.0, 'ms': 1.0, 's': 1e3, 'us': 1e-3, 'µs': 1e-3, 'hz': 1.0, 'khz': 1e3, 'db': 1.0,
 }
 NUMBER = re.compile(r'([0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*([A-Za-zµΩ]*)')
 
@@ -152,6 +171,8 @@ def scheme_value(scheme, mpn):
             return True, float(g['amps'])
         if g.get('hold'):
             return True, int(g['hold']) / 100.0
+        if g.get('coil'):
+            return True, float(g['coil'])
     except (ValueError, KeyError):
         return True, None
     return True, None
