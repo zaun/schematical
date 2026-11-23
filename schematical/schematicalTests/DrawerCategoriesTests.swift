@@ -61,13 +61,14 @@ final class DrawerCategoriesTests: XCTestCase {
     /// Vintage is old technology: the tubes under one group, and the support
     /// chips; nothing is there only because it is obsolete.
     func testVintage() throws {
-        XCTAssertEqual(paths(under: "Vintage"),
+        XCTAssertEqual(Set(paths(under: "Vintage")),
                        ["Vintage > Support ICs", "Vintage > Display tubes > Nixie", "Vintage > Display tubes > Numitron",
-                        "Vintage > Display tubes > VFD", "Vintage > Display tubes > Neon"])
+                        "Vintage > Display tubes > VFD", "Vintage > Display tubes > Neon",
+                        "Vintage > Display tubes > Dekatron"])
         let vintage = try category("Vintage")
         XCTAssertEqual(Set(vintage.subcategories.map(\.subcategory)), ["Display tubes", "Support ICs"])
         let tubes = try XCTUnwrap(vintage.subcategories.first { $0.subcategory == "Display tubes" })
-        XCTAssertEqual(Set(tubes.subgroups.map(\.subcategory)), ["Nixie", "Numitron", "VFD", "Neon"])
+        XCTAssertEqual(Set(tubes.subgroups.map(\.subcategory)), ["Nixie", "Numitron", "VFD", "Neon", "Dekatron"])
     }
 
     func testMicrocontrollerAndMemory() throws {

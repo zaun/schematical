@@ -121,6 +121,7 @@ extension PartKinds {
         case PART_NIXIE: "nixie"
         case PART_REGULATOR: "regulator"
         case PART_CRYSTAL: "crystal"
+        case PART_DEKATRON: "dekatron"
         default: nil
         }
     }

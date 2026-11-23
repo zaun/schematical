@@ -103,7 +103,7 @@ nonisolated enum SupplyChoice {
     static let names = ["5V", "3V3", "2V5", "1V8", "1V2", "12V"]
     static let defaultName = "5V"
     /// The highest rail the backend loads (`supply.c`).
-    static let maxVolts = 300.0
+    static let maxVolts = 500.0
 
     /// The rail name of a voltage, the decimal point written as the `V`:
     /// 170 is "170V", 3.3 "3V3", 1.25 "1V25". Millivolt steps; nil outside
@@ -183,6 +183,9 @@ nonisolated enum PartSymbol: Hashable {
     /// A nixie tube: cathodes on the left, the anode on the right, the tube
     /// in the middle (`NixieSymbolView`).
     case nixie
+    /// A dekatron: cathodes on the left, the anode and guides on the right,
+    /// the ring of ten cathode positions in the middle (`DekatronSymbolView`).
+    case dekatron
     case characterLCD
     case barrelJack
     /// A generic pin header (plan-23): pins on the left, and with two rows
@@ -322,6 +325,8 @@ nonisolated struct ChipLayout: Hashable {
             self = Self.sevenSegment(pins, display: part.display)
         case .nixie:
             self = Self.nixie(pins, nixie: part.nixie)
+        case .dekatron:
+            self = Self.dekatron(pins, dekatron: part.dekatron)
         case .characterLCD:
             self = Self.characterLCD(pins, info: part.characterLCD)
         }
@@ -385,11 +390,22 @@ nonisolated struct ChipLayout: Hashable {
     static let sevenSegmentColonWidth: CGFloat = 8
     static let sevenSegmentNameColumn: CGFloat = 36
 
+    /// Width of one digit's cell: a row of dots (the IV-25's P1-P7) is wider
+    /// than a numeral.
+    static func sevenSegmentCellWidth(_ display: DisplayInfo) -> CGFloat {
+        display.leds.contains { $0.segment.hasPrefix("P") } ? 42 : sevenSegmentDigitSize.width
+    }
+
+    /// The gap between digits: narrower for a display of more than eight (the IV-27's 14).
+    static func sevenSegmentGap(_ display: DisplayInfo) -> CGFloat {
+        display.digits > 8 ? 4 : sevenSegmentDigitGap
+    }
+
     /// Width of the face that shows the digits, colon included.
     static func sevenSegmentFaceWidth(_ display: DisplayInfo) -> CGFloat {
         let digits = CGFloat(max(display.digits, 1))
         let colon = display.colonAfter > 0 ? sevenSegmentColonWidth : 0
-        return digits * sevenSegmentDigitSize.width + (digits + 1) * sevenSegmentDigitGap + colon
+        return digits * sevenSegmentCellWidth(display) + (digits + 1) * sevenSegmentGap(display) + colon
     }
 
     /// Segment pins on the left and common pins on the right, in the order
@@ -454,6 +470,37 @@ nonisolated struct ChipLayout: Hashable {
             }
         }
         let width = SchematicGrid.snap(nixieFaceSize.width + 2 * sevenSegmentNameColumn + 5)
+        return ChipLayout(
+            size: CGSize(width: max(width, bodyWidth), height: headerHeight + pitch * CGFloat(rows)),
+            slots: slots
+        )
+    }
+
+    /// Dekatron: the ring of cathode positions in the middle of the body.
+    static let dekatronFaceSize = CGSize(width: 64, height: 64)
+
+    /// Cathode pins on the left; the anode and the guides on the right, then
+    /// (after a gap) any other pin.
+    private static func dekatron(_ pins: [ChipPin], dekatron: DekatronInfo?) -> ChipLayout {
+        guard let dekatron else { return ChipLayout(pins: pins) }
+        let byIndex = Dictionary(pins.map { ($0.index, $0) }, uniquingKeysWith: { first, _ in first })
+        let left = dekatron.cathodePins.compactMap { byIndex[$0] }
+        let used = Set(dekatron.cathodePins + dekatron.guidePins + [dekatron.anodePin])
+        let unused = pins.filter { !used.contains($0.index) }.sorted { $0.index < $1.index }
+        let right = stack([[dekatron.anodePin].compactMap { byIndex[$0] }, dekatron.guidePins.compactMap { byIndex[$0] }, unused])
+        let faceRows = Int(((dekatronFaceSize.height + 16) / pitch).rounded(.up))
+        let rows = max(left.count, right.count, faceRows)
+
+        var slots: [PinSlot] = []
+        for (row, pin) in left.enumerated() {
+            slots.append(PinSlot(pin: pin, side: .left, centerY: centerY(forRow: row)))
+        }
+        for (row, pin) in right.enumerated() {
+            if let pin {
+                slots.append(PinSlot(pin: pin, side: .right, centerY: centerY(forRow: row)))
+            }
+        }
+        let width = SchematicGrid.snap(dekatronFaceSize.width + 2 * sevenSegmentNameColumn + 5)
         return ChipLayout(
             size: CGSize(width: max(width, bodyWidth), height: headerHeight + pitch * CGFloat(rows)),
             slots: slots

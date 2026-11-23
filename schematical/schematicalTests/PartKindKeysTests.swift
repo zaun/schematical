@@ -19,6 +19,7 @@ final class PartKindKeysTests: XCTestCase {
         "sram": ["sram.c"], "eeprom": ["eeprom.c"], "switch": ["switch.c"], "led": ["led.c"],
         "7seg": ["display7.c"], "oscillator": ["oscillator.c"], "supply": ["supply.c"],
         "nixie": ["nixie.c"],
+        "dekatron": ["dekatron.c"],
         "serialmem": ["serialmem.c"],
         "regulator": ["regulator.c"],
         "crystal": ["crystal.c"],

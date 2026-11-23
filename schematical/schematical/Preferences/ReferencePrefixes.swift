@@ -80,7 +80,7 @@ nonisolated enum ReferenceCategory: String, CaseIterable, Identifiable, Sendable
             if case let .diode(type, _, _, _, _, _) = part.details, type == "zener" { return .zenerDiode }
             return .diode
         case PART_LED: return .led
-        case PART_7SEG, PART_CHARLCD, PART_NIXIE: return .display
+        case PART_7SEG, PART_CHARLCD, PART_NIXIE, PART_DEKATRON: return .display
         case PART_OSCILLATOR: return .oscillator
         case PART_CRYSTAL: return .crystal
         case PART_SWITCH: return .switchPart

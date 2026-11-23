@@ -74,6 +74,8 @@ struct SchematicScene {
                 SevenSegmentSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired, levels: [])
             case .nixie:
                 NixieSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired, levels: [])
+            case .dekatron:
+                DekatronSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired, levels: [])
             case .characterLCD:
                 CharacterLCDSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired,
                                              frame: nil, backlights: [])

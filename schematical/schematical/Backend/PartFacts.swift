@@ -66,6 +66,10 @@ nonisolated enum PartFacts {
                 add("Type", "Vacuum fluorescent")
                 add("Phosphor", info.chip)
                 if info.vfMaxMV > 0 { add("Anode and grid voltage", volts) }
+            case "vfd-static":
+                add("Type", "Vacuum fluorescent, no grid")
+                add("Phosphor", info.chip)
+                if info.vfMaxMV > 0 { add("Anode voltage", volts) }
             default:
                 add("Type", info.commonAnode ? "Common anode" : "Common cathode")
                 add("LED chip", info.chip)
@@ -85,6 +89,18 @@ nonisolated enum PartFacts {
             add("Maintaining voltage", "\(VoltageCheck.volts(info.sustainMV)) V")
             add("Cathode current", info.currentMinUA == info.currentMaxUA
                 ? "\(milli(info.currentMaxUA)) mA" : "\(milli(info.currentMinUA))–\(milli(info.currentMaxUA)) mA")
+        case let .dekatron(info):
+            add("Type", info.twoGuide ? "Decade counting tube, two guides (counts both ways)"
+                                      : "Decade counting tube, single pulse (counts forward)")
+            add("Cathodes", "\(info.cathodePins.count) pins for ten positions")
+            add("Bulb", info.size)
+            add("Viewing", info.view == "end" ? "End view (through the top)" : "Side view")
+            add("Glow", info.color)
+            add("Minimum anode supply", "\(VoltageCheck.volts(info.strikeMV)) V")
+            add("Running voltage", "\(VoltageCheck.volts(info.sustainMV)) V")
+            add("Anode current", info.currentMinUA == info.currentMaxUA
+                ? "\(milli(info.currentMaxUA)) mA" : "\(milli(info.currentMinUA))–\(milli(info.currentMaxUA)) mA")
+            add("Counting rate", "up to \(hertz(UInt64(info.rateHz)))")
         case let .oscillator(family, minHz, maxHz, defaultHz, enablePin):
             add("Family", family)
             if let body = part.footprint?.body {
@@ -288,6 +304,7 @@ nonisolated enum PartFacts {
         case PART_TRANSISTOR: return "Transistor"
         case PART_GENERIC: return "Part"
         case PART_NIXIE: return "Nixie tube"
+        case PART_DEKATRON: return "Dekatron"
         case PART_REGULATOR: return "Voltage regulator"
         case PART_CRYSTAL: return "Crystal"
         default: return ""

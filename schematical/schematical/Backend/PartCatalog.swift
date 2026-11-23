@@ -252,6 +252,35 @@ nonisolated struct DisplayInfo: Hashable, Sendable {
     let commonPins: [Int]
 }
 
+/// A dekatron's facts (`PartDekatron`): one anode, ten cathode positions in a
+/// ring and the guides that step the glow round it.
+nonisolated struct DekatronInfo: Hashable, Sendable {
+    /// Pin indices (into `CatalogPart.pins`): `positionPins[p]` is the pin of
+    /// the cathode at position p (0-9, also the order the simulation reports
+    /// the lights); several positions may share a pin.
+    let positionPins: [Int]
+    /// The distinct cathode pins, in the file's order.
+    let cathodePins: [Int]
+    let anodePin: Int
+    /// The guides, in the file's order (a single-pulse tube's first guide is
+    /// the driven one).
+    let guidePins: [Int]
+    /// A two-guide tube counts both ways with two overlapping pulses; a
+    /// single-pulse tube counts forward with one.
+    let twoGuide: Bool
+    /// The glow color name ("Orange"), the bulb size, "side" or "end" view.
+    let color: String
+    let size: String
+    let view: String
+    /// Least anode supply, running voltage, millivolts.
+    let strikeMV: UInt32
+    let sustainMV: UInt32
+    /// Anode current range, microamps; the highest counting rate, hertz.
+    let currentMinUA: UInt32
+    let currentMaxUA: UInt32
+    let rateHz: UInt32
+}
+
 /// A nixie tube's facts (`PartNixie`): one anode and one cathode per glyph.
 nonisolated struct NixieInfo: Hashable, Sendable {
     /// What each cathode shows, in the order the simulation reports their
@@ -476,6 +505,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case led(colors: [String])
         case display(DisplayInfo)
         case nixie(NixieInfo)
+        case dekatron(DekatronInfo)
         case oscillator(family: String, minHz: UInt64, maxHz: UInt64, defaultHz: UInt64, enablePin: String?)
         /// `mv`: the supply's voltage in millivolts (0 for ground); `pull`:
         /// a pull-up or pull-down part (drives weakly).
@@ -613,6 +643,8 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .display(info) where info.vfMaxMV > 0:
             return "VF \(VoltageCheck.volts(info.vfMinMV))–\(VoltageCheck.volts(info.vfMaxMV)) V"
         case let .nixie(info):
+            return "\(VoltageCheck.volts(info.strikeMV)) V min"
+        case let .dekatron(info):
             return "\(VoltageCheck.volts(info.strikeMV)) V min"
         case let .dipSwitch(_, _, ratedMV) where ratedMV > 0,
              let .tactileSwitch(_, ratedMV, _, _, _) where ratedMV > 0:
@@ -764,6 +796,11 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         return nil
     }
 
+    var dekatron: DekatronInfo? {
+        if case let .dekatron(info) = details { return info }
+        return nil
+    }
+
     var characterLCD: CharacterLCDInfo? {
         if case let .characterLCD(info) = details { return info }
         return nil
@@ -788,6 +825,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .led(colors): return colors
         case let .display(info): return [info.color]
         case let .nixie(info): return [info.color]
+        case let .dekatron(info): return [info.color]
         default: return []
         }
     }
@@ -834,6 +872,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .led(colors): return colors.count == 1 ? colors : ["\(colors.count) colors"]
         case let .display(info): return [info.color, info.size, info.commonAnode ? "CA" : "CC"]
         case let .nixie(info): return [info.size, info.view == "end" ? "End view" : "Side view"]
+        case let .dekatron(info): return [info.size, info.twoGuide ? "2 guides" : "Single pulse"]
         case let .oscillator(family, _, _, _, _): return [family]
         case .supply: return []
         case let .cpu(_, _, maxHz): return ["\(maxHz / 1_000_000) MHz"]
@@ -1032,6 +1071,23 @@ extension CatalogPart {
                 sustainMV: nixie.sustain_mv,
                 currentMinUA: nixie.current_min_ua,
                 currentMaxUA: nixie.current_max_ua
+            ))
+        } else if let dekatron = part.dekatron?.pointee {
+            let positionPins = withUnsafeBytes(of: dekatron.position_pin) { Array($0.bindMemory(to: Int.self)) }
+            details = .dekatron(DekatronInfo(
+                positionPins: positionPins,
+                cathodePins: indices(dekatron.cathode_pins, dekatron.cathode_pin_count),
+                anodePin: dekatron.anode_pin,
+                guidePins: indices(dekatron.guide_pins, dekatron.guide_count),
+                twoGuide: dekatron.two_guide != 0,
+                color: string(dekatron.color),
+                size: string(dekatron.size),
+                view: string(dekatron.view),
+                strikeMV: dekatron.strike_mv,
+                sustainMV: dekatron.sustain_mv,
+                currentMinUA: dekatron.current_min_ua,
+                currentMaxUA: dekatron.current_max_ua,
+                rateHz: dekatron.rate_hz
             ))
         } else if let osc = part.oscillator?.pointee {
             details = .oscillator(family: string(osc.family), minHz: osc.min_hz, maxHz: osc.max_hz,
@@ -1440,6 +1496,7 @@ func symbol(for part: CatalogPart) -> PartSymbol {
     case PART_LED: return .diode
     case PART_7SEG: return .sevenSegment
     case PART_NIXIE: return .nixie
+    case PART_DEKATRON: return .dekatron
     case PART_CHARLCD: return .characterLCD
     case PART_OSCILLATOR: return .oscillator
     case PART_SUPPLY:
@@ -2303,7 +2360,7 @@ final class PartCatalogStore {
     private static func listsPartsDirectly(_ parts: [CatalogPart]) -> Bool {
         parts.allSatisfy {
             ($0.kind == PART_SWITCH && !$0.isTactileSwitch) || $0.kind == PART_LED || $0.kind == PART_7SEG || $0.kind == PART_CHARLCD
-                || $0.kind == PART_NIXIE
+                || $0.kind == PART_NIXIE || $0.kind == PART_DEKATRON
                 || $0.kind == PART_HEADER
         }
     }

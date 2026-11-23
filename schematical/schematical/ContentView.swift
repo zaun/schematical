@@ -473,8 +473,8 @@ struct ContentView: View {
                 Button("Cancel", role: .cancel) {}
             } message: {
                 Text(customVoltageRefused
-                    ? "That is not a voltage the tools can use. Enter a number above 0, up to 300 V."
-                    : "The voltage the VCC and Pull-up tools place, up to 300 V.")
+                    ? "That is not a voltage the tools can use. Enter a number above 0, up to 500 V."
+                    : "The voltage the VCC and Pull-up tools place, up to 500 V.")
             }
             .sheet(isPresented: $isAutorouteOpen) {
                 AutorouteSheet(model: autorouteModel, onClose: { isAutorouteOpen = false },

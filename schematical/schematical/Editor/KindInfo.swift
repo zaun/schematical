@@ -117,6 +117,9 @@ extension PartKinds {
             KindInfo(kind: "nixie", name: "Nixie Tube",
                      blurb: "Neon numeric indicator tubes with one anode and a cathode per numeral: IN-14, IN-12A, IN-18.",
                      examples: ["IN-14", "IN-18"], group: .displays),
+            KindInfo(kind: "dekatron", name: "Dekatron",
+                     blurb: "Cold-cathode decade counting tubes: a glow that steps round ten cathodes as the guides are pulsed (GC10B, OG-4, Z504S).",
+                     examples: ["GC10B", "Z504S"], group: .displays),
 
             // Passives and discretes
             KindInfo(kind: "resistor", name: "Resistor",
@@ -176,7 +179,7 @@ extension PartKinds {
         "mux", "decoder", "arith", "counter", "shift", "register",
         "sram", "eeprom", "serialmem",
         "cpu", "mcu", "pio", "serial", "converter", "rtc",
-        "led", "7seg", "charlcd", "nixie",
+        "led", "7seg", "charlcd", "nixie", "dekatron",
         "resistor", "capacitor", "diode", "transistor",
         "connector", "header", "switch",
         "supply", "oscillator", "crystal", "regulator",

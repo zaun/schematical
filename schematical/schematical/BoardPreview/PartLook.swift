@@ -82,6 +82,8 @@ struct PartLook {
             return .sevenSegment(digits: 1, tint: ledTint("Red"))
         case PART_NIXIE:
             return .nixie(endView: part.nixie?.view == "end", tint: ledTint(part.nixie?.color ?? "Orange"))
+        case PART_DEKATRON:
+            return .nixie(endView: part.dekatron?.view == "end", tint: ledTint(part.dekatron?.color ?? "Orange"))
         case PART_SWITCH:
             if part.isTactileSwitch { return .tactile }
             return .dipSwitch(positions: max(1, chip.switchesOn.count))

@@ -1207,6 +1207,14 @@ private struct SchematicPartsLayer: View {
                             connectedPins: connectedPins[chip.id] ?? [],
                             levels: simulation.lights[chip.id] ?? []
                         )
+                    case .dekatron:
+                        DekatronSymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID,
+                            connectedPins: connectedPins[chip.id] ?? [],
+                            levels: simulation.lights[chip.id] ?? []
+                        )
                     case .characterLCD:
                         CharacterLCDSymbolView(
                             chip: chip,

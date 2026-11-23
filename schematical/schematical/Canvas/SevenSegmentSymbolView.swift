@@ -93,8 +93,9 @@ struct SevenSegmentSymbolView: View {
 
     private static func drawFace<P: SchematicPainter>(_ painter: inout P, display: DisplayInfo,
                                                       box: CGRect, levels: [Double], light: Ink) {
-        let digit = ChipLayout.sevenSegmentDigitSize
-        let gap = ChipLayout.sevenSegmentDigitGap
+        let digit = CGSize(width: ChipLayout.sevenSegmentCellWidth(display),
+                           height: ChipLayout.sevenSegmentDigitSize.height)
+        let gap = ChipLayout.sevenSegmentGap(display)
         let faceWidth = ChipLayout.sevenSegmentFaceWidth(display)
         let faceHeight = digit.height + 16
         let bodyTop = ChipLayout.headerHeight
@@ -176,7 +177,28 @@ struct SevenSegmentSymbolView: View {
         case "F": ends = (CGPoint(x: x, y: y + inset), CGPoint(x: x, y: y + h / 2 - inset))
         case "G": ends = (CGPoint(x: x + inset, y: y + h / 2), CGPoint(x: x + w - inset, y: y + h / 2))
         case "HJ": ends = (CGPoint(x: x + w / 2, y: y + h / 2 - 7), CGPoint(x: x + w / 2, y: y + h / 2 + 7))
-        default: return nil
+        // The halves of a 16-segment character's horizontal bars.
+        case "A1": ends = (CGPoint(x: x + inset, y: y), CGPoint(x: x + w / 2 - 1.5, y: y))
+        case "A2": ends = (CGPoint(x: x + w / 2 + 1.5, y: y), CGPoint(x: x + w - inset, y: y))
+        case "D1": ends = (CGPoint(x: x + inset, y: y + h), CGPoint(x: x + w / 2 - 1.5, y: y + h))
+        case "D2": ends = (CGPoint(x: x + w / 2 + 1.5, y: y + h), CGPoint(x: x + w - inset, y: y + h))
+        case "G1": ends = (CGPoint(x: x + inset, y: y + h / 2), CGPoint(x: x + w / 2 - 1.5, y: y + h / 2))
+        case "G2": ends = (CGPoint(x: x + w / 2 + 1.5, y: y + h / 2), CGPoint(x: x + w - inset, y: y + h / 2))
+        // The diagonals and the centre bars.
+        case "H": ends = (CGPoint(x: x + inset + 1, y: y + inset + 1), CGPoint(x: x + w / 2 - 2, y: y + h / 2 - inset))
+        case "K": ends = (CGPoint(x: x + w - inset - 1, y: y + inset + 1), CGPoint(x: x + w / 2 + 2, y: y + h / 2 - inset))
+        case "N": ends = (CGPoint(x: x + inset + 1, y: y + h - inset - 1), CGPoint(x: x + w / 2 - 2, y: y + h / 2 + inset))
+        case "L": ends = (CGPoint(x: x + w - inset - 1, y: y + h - inset - 1), CGPoint(x: x + w / 2 + 2, y: y + h / 2 + inset))
+        case "J": ends = (CGPoint(x: x + w / 2, y: y + inset), CGPoint(x: x + w / 2, y: y + h / 2 - inset))
+        case "M": ends = (CGPoint(x: x + w / 2, y: y + h / 2 + inset), CGPoint(x: x + w / 2, y: y + h - inset))
+        default:
+            // P1-P7: a row of dots across the middle of the cell, a stroke with no length.
+            if segment.count == 2, segment.hasPrefix("P"), let n = Int(segment.dropFirst()), (1...7).contains(n) {
+                let dot = CGPoint(x: x + (CGFloat(n) - 0.5) * w / 7, y: y + h / 2)
+                ends = (dot, CGPoint(x: dot.x + 0.01, y: dot.y))
+            } else {
+                return nil
+            }
         }
         var path = Path()
         path.move(to: ends.0)
