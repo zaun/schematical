@@ -81,6 +81,7 @@ nonisolated enum KeyboardHelp {
             entry("⌘V", "Paste, centred on the pointer"),
             entry("Edit › Reset References…", "Give every part its default prefix and number them again"),
             entry("Click a switch lever", "Flip that DIP switch position (also in play mode)"),
+            entry("Click a fuse (in play mode)", "Blow or restore it"),
         ]),
         HelpSection(title: "Line and Bus tools (while dragging)", entries: [
             entry("Space", "Lock a corner"),

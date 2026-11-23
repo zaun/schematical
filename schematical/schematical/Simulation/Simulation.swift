@@ -26,7 +26,8 @@ struct SchematicNetlist {
     /// joined pairs always (plan-27-J). The voltage check reads them all.
     let switchesOn: [(part: Int, position: Int)]
     /// Positions `circuit_set_switch` can address, per part index (a DIP
-    /// switch's position count, 1 for a tactile switch, 0 otherwise). A
+    /// switch's position count, 1 for a tactile switch or a fuse (its
+    /// contact: ON = intact, plan-47-M), 0 otherwise). A
     /// tactile switch's joined pairs are numbered after them and are the
     /// backend's own, never sent.
     var positionCounts: [Int] = []
@@ -43,6 +44,11 @@ struct SchematicNetlist {
     /// Part indices of the character LCDs (`PART_CHARLCD`), whose dot image
     /// the engine reads each frame.
     var lcdParts: [Int] = []
+    /// Part indices of the fuses and PTCs (`PART_FUSE`), whose one position
+    /// is the contact a click blows (plan-47-M).
+    var fuseParts: [Int] = []
+
+    func isFuse(part: Int) -> Bool { fuseParts.contains(part) }
 }
 
 enum NetlistBuilder {
@@ -224,7 +230,9 @@ enum NetlistBuilder {
             for (position, isOn) in chip.switchesOn.enumerated() where isOn {
                 switchesOn.append((part: index, position: position + 1))
             }
-            positionCounts.append(chip.switchesOn.count)
+            // A fuse's one position is its contact; it is closed from the
+            // start and the voltage check never sees a blown one (plan-47-I).
+            positionCounts.append(chip.part.kind == PART_FUSE ? 1 : chip.switchesOn.count)
         }
 
         return SchematicNetlist(
@@ -236,7 +244,8 @@ enum NetlistBuilder {
             ohms: chips.map { $0.part.isGenericResistor ? $0.ohms : nil },
             chipIDs: chips.map(\.id),
             netOfWire: netOfWire,
-            lcdParts: chips.indices.filter { chips[$0].part.kind == PART_CHARLCD }
+            lcdParts: chips.indices.filter { chips[$0].part.kind == PART_CHARLCD },
+            fuseParts: chips.indices.filter { chips[$0].part.kind == PART_FUSE }
         )
     }
 }
@@ -292,6 +301,9 @@ final class SimulationController {
     private let library: PartLibraryHandle
     private var netlist: SchematicNetlist?
     private var engine: SimulationEngine?
+    /// The fuses blown with a click in this run (plan-47-M). Play-mode state
+    /// only: empty at every start, cleared at stop, never saved.
+    private(set) var blownFuses: Set<UUID> = []
     /// Counts engines started, so a snapshot from a stopped one is ignored.
     private var generation = 0
     private var netValues: [CircuitValue] = []
@@ -459,6 +471,7 @@ final class SimulationController {
         isRunning = false
         netValues = []
         shortedNets = []
+        blownFuses = []
         lights = [:]
         lcdFrames = [:]
         previous = nil
@@ -542,6 +555,29 @@ final class SimulationController {
     func setSwitch(_ chipID: UUID, position: Int, on: Bool) {
         guard let engine, let part = netlist?.chipIDs.firstIndex(of: chipID), position > 0 else { return }
         engine.setSwitch(part: part, position: position, on: on)
+    }
+
+    /// Blows the fuse `chipID`, or restores it when it is blown, in the
+    /// running simulation (plan-47-M): position 1 of a fuse is its contact,
+    /// ON = intact. Returns whether the fuse is blown now; nil when the
+    /// simulation is not running or the chip is not a fuse. A fuse is
+    /// blown only for the run: `stop` clears it.
+    @discardableResult
+    func toggleFuse(_ chipID: UUID) -> Bool? {
+        let blown = !blownFuses.contains(chipID)
+        return setFuse(chipID, blown: blown) ? blown : nil
+    }
+
+    /// Blows (`blown`) or restores the fuse `chipID` (see `toggleFuse`);
+    /// false, and nothing changes, when the simulation is not running or
+    /// the chip is not a fuse.
+    @discardableResult
+    func setFuse(_ chipID: UUID, blown: Bool) -> Bool {
+        guard engine != nil, let netlist, let part = netlist.chipIDs.firstIndex(of: chipID),
+              netlist.positionCounts.indices.contains(part), netlist.isFuse(part: part) else { return false }
+        if blown { blownFuses.insert(chipID) } else { blownFuses.remove(chipID) }
+        setSwitch(chipID, position: 1, on: !blown)
+        return true
     }
 
     // MARK: Memory

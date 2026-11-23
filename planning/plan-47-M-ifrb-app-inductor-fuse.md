@@ -1,6 +1,6 @@
 # plan-47-M: The app — the four kinds in the drawer and sidebar; inductor and fuse symbols; blowing a fuse
 
-Last updated: 2026-11-16
+Last updated: 2026-11-22
 Effort: large (3h–1d)
 Depends on: plan-47-L
 
@@ -47,10 +47,10 @@ plan-47-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-47-L complete | `ls planning/completed/plan-47-L-*.md` → exists | NOT MET (2026-11-16: not started) |
-| The parts are loaded | `grep -c '|inductor|\||fuse|\||relay|\||buzzer|' backend/tests/golden/parts.txt` → the `add` rows (2953 at planning time) | NOT MET (2026-11-16: 0) |
-| The editor's kind lists name the four kinds | `grep -c '"inductor"\|"fuse"\|"relay"\|"buzzer"' schematical/schematical/Editor/KindInfo.swift` → at least 4 | NOT MET (2026-11-16: 0) |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p47-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-16 at 349f25b3: `** BUILD SUCCEEDED **`) |
+| plan-47-L complete | `ls planning/completed/plan-47-L-*.md` → exists | NOT MET as written (2026-11-22: `ls planning/completed/plan-47-L-*.md` → no such file; L's work is in this worktree (the part files, goldens and kind lists exist, the coordinator commits it), so M is worked on top of it; § Corrections) |
+| The parts are loaded | `grep -c '|inductor|\||fuse|\||relay|\||buzzer|' backend/tests/golden/parts.txt` → the `add` rows (2953 at planning time) | MET (2026-11-22: `grep -c '\|inductor\|\|\|fuse\|\|\|relay\|\|\|buzzer\|' backend/tests/golden/parts.txt` → 2816 = 600 + 1199 + 504 + 513, the `"manufacturer"` counts of the four part files; the number changes at the final regeneration, no test here hard-codes it) |
+| The editor's kind lists name the four kinds | `grep -c '"inductor"\|"fuse"\|"relay"\|"buzzer"' schematical/schematical/Editor/KindInfo.swift` → at least 4 | MET (2026-11-22: 7) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p47-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-22 in the P-47 worktree, `-derivedDataPath /tmp/p47-dd-m`: `** BUILD SUCCEEDED **`, before and after the changes) |
 
 Everything below is written against the world where these hold.
 
@@ -207,12 +207,12 @@ part (no generics, owner decision).
 
 ### Phase 1 — Details, facts, kind names, references (all four kinds)
 
-- [ ] `Backend/PartCatalog.swift`: the four info structs and `Details`
+- [x] (2026-11-22: `InductorInfo`, `FuseInfo`, `RelayInfo`, `BuzzerInfo`, the four `Details` cases, the four builder branches, `detailLabels`, `trailingLabel`; also the accessors `inductor`/`fuse`/`relay`/`buzzer` and `drawerValue`) `Backend/PartCatalog.swift`: the four info structs and `Details`
       cases, the builder branches, `detailLabels`, `trailingLabel`.
-- [ ] `Canvas/InductorValue.swift`; `Backend/PartFacts.swift`: `amps`,
+- [x] (2026-11-22: `Canvas/InductorValue.swift`; `PartFacts.amps(mA:)`, `volts(mV:)`, `microohmsText`, `capitalized`, `relayType`, the four facts rows, both `kindName`s) `Canvas/InductorValue.swift`; `Backend/PartFacts.swift`: `amps`,
       `volts`, the facts rows, both `kindName`s.
-- [ ] `Preferences/ReferencePrefixes.swift`: `of(_:)` (each case if absent).
-- [ ] Tests: `schematicalTests/InductorFuseTests.swift` (from
+- [x] (2026-11-22: `grep -c PART_INDUCTOR` was 0 before, now 1; the four cases added) `Preferences/ReferencePrefixes.swift`: `of(_:)` (each case if absent).
+- [x] (2026-11-22: `InductorFuseTests` `testInductorValueText`, `testInductorFacts`, `testFuseAndPTCFacts`, `testRelayFacts`, `testBuzzerFacts`, `testReferences`, `testEveryPartReadsAsItsKind`; the parts are named: LQG15HN18NJ02D, SS-5F-10A-AP, 0ZCM0010FF2G, RZ03-1A3-D005-R, JWD-172-1, AQV210EHAX, SMT-0825-S-4-R, the most-stocked `add` row of each kind and type by `candidates.tsv`) Tests: `schematicalTests/InductorFuseTests.swift` (from
       `ResistorTests`): one real part per kind and type from the catalog
       (the most-stocked `add` row of each, named in the test): kind name,
       facts rows, trailing label, `ReferenceCategory.of` and the lowest free
@@ -220,15 +220,16 @@ part (no generics, owner decision).
 
 Acceptance: the facts, names and references are right on the real catalog.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p47-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/InductorFuseTests` → `** TEST SUCCEEDED **` (est. 8 min: build + one test class).
+  Observed (2026-11-22, `-derivedDataPath /tmp/p47-dd-m`): `Test Case '-[schematicalTests.InductorFuseTests testFuseAndPTCFacts]' passed` … `** TEST SUCCEEDED **`.
 Commit: —
 
 ### Phase 2 — The inductor and fuse symbols
 
-- [ ] `Canvas/SchematicModel.swift`: `PartSymbol.inductor`, `.fuse` (each
+- [x] (2026-11-22: `case inductor`, `case fuse` after `.resistor`; one shared `ChipLayout.twoTerminals(_:)` for both; `symbol(for:)` returns them for pins named `1` and `2`) `Canvas/SchematicModel.swift`: `PartSymbol.inductor`, `.fuse` (each
       only if absent) and the two `ChipLayout`s; `symbol(for:)`.
-- [ ] `Canvas/InductorSymbolView.swift`, `Canvas/FuseSymbolView.swift`; the
+- [x] (2026-11-22: both views; the other sites: `SchematicCanvasView.swift`, `SchematicExportScene.swift`, `ReferenceLabel.swift`; also the two writers' `bodyBox` lists, § Corrections) `Canvas/InductorSymbolView.swift`, `Canvas/FuseSymbolView.swift`; the
       three other switch sites.
-- [ ] Tests (`InductorFuseTests`): `symbol(for:)` for a chip inductor, a
+- [x] (2026-11-22: `testSymbolFor`, `testEveryInductorAndFuseGetsItsSymbol`, `testOtherPinNamesStayABlock`, `testRendering`, `testSymbolLabels`; the "four-pad inductor" is the catalog's first inductor with four pins, whose two extra pins are `NC`, § Corrections) Tests (`InductorFuseTests`): `symbol(for:)` for a chip inductor, a
       four-pad inductor, a fuse, a PTC and a cartridge fuse; the layouts put
       `1` left and `2` right and draw no `NC` pin; every inductor and fuse
       part of the catalog gets its symbol (none falls to `.block`); a placed
@@ -236,30 +237,32 @@ Commit: —
 
 Acceptance: inductors and fuses draw as such.
   Check: `xcodebuild … test -only-testing:schematicalTests/InductorFuseTests` → `** TEST SUCCEEDED **` (est. 8 min).
+  Observed (2026-11-22): `Executed 18 tests, with 0 failures` for `InductorFuseTests`, `** TEST SUCCEEDED **`.
 Commit: —
 
 ### Phase 3 — Drawer order, blowing a fuse, the harness
 
-- [ ] `Backend/PartCatalog.swift` `functionGroups`: the value order (§ 3).
-- [ ] `Simulation/Simulation.swift`: `blownFuses`, `positionCounts` for a
+- [x] (2026-11-22: `CatalogPart.drawerValue` (crystal hz, inductor pH, fuse ratedMA, buzzer hz, relay coilMV) replaces the crystal-only test in `functionGroups`; relay leaves keep the name order) `Backend/PartCatalog.swift` `functionGroups`: the value order (§ 3).
+- [x] (2026-11-22: `SimulationController.blownFuses`, `toggleFuse`, `setFuse`, `SchematicNetlist.fuseParts`, `positionCounts` 1 for a fuse, the click in `.pan`, `FuseSymbolView`'s blown drawing, the automation `set_switch` on a fuse (needs a running simulation), the help line) `Simulation/Simulation.swift`: `blownFuses`, `positionCounts` for a
       fuse, the toggle; `Canvas/SchematicCanvasView.swift`: the play-mode
       click; `FuseSymbolView`: the blown drawing;
       `Automation/AutomationSimulation.swift`: `setSwitch` on a fuse;
       `Help/KeyboardHelp.swift`.
-- [ ] `scripts/harness/inductor-fuse-app.swift` (from
+- [x] (2026-11-22: written; run result under Acceptance; `scripts/harness/build.sh` needed `-module-name schematical`, § Corrections) `scripts/harness/inductor-fuse-app.swift` (from
       `transistor-app.swift`): the checks of § 1 on the app's real catalog,
       document and `Simulation`; the circuit `5V`/`GND` → `SN74HC04N`
       (input on GND) → 1Y → an inductor → a fuse → `GENERIC-RESISTOR` →
       `GENERIC-LED` → GND, with the most-stocked `add` inductor and fuse:
       three 0.3 s runs (lit; fuse blown: dark; restored: lit). Renders a
       placed inductor, fuse, blown fuse and PTC to `/tmp`.
-- [ ] Tests: `DrawerPerformanceTests` and `PartEditorWindowTests` stay
+- [x] (2026-11-22: `testPaths`, `testValueOrder`, `testRelayAndBuzzerOrder`, `testPositionCounts`, `testBlowingAFuse`, `testAFuseIsHitAnywhereOnItsBody`; `DrawerPerformanceTests.testPartsAreInNaturalOrder` now sorts by `drawerValue`; `KeyboardHelpTests.testSchematicFuseLine`) Tests: `DrawerPerformanceTests` and `PartEditorWindowTests` stay
       green; `InductorFuseTests` gains the drawer order (the inductor leaves
       in band order, a leaf's parts in value order) and the blown-fuse state
       (set, cleared at stop); `KeyboardHelpTests` updated for the new line.
 
 Acceptance: the drawer, the sidebar and the play-mode outcome work end to end.
   Check: `rm -rf /tmp/p47-harness && APP=/tmp/p47-dd/Build/Products/Debug/schematical.app scripts/harness/build.sh scripts/harness/inductor-fuse-app.swift /tmp/p47-harness && /tmp/p47-harness/H.app/Contents/MacOS/harness` → every line `ok`, exit 0; and `xcodebuild … test -only-testing:schematicalTests/InductorFuseTests -only-testing:schematicalTests/DrawerPerformanceTests -only-testing:schematicalTests/PartEditorWindowTests -only-testing:schematicalTests/KeyboardHelpTests` → `** TEST SUCCEEDED **` (est. 15 min: app build, harness, four test classes).
+  Observed (2026-11-22): the harness (built with `APP=/tmp/p47-dd-m/Build/Products/Debug/schematical.app`) printed 18 `ok` lines, `LED: ["lit", "dark", "lit"]; blown after the clicks: [true, false]`, `all checks ok`, exit 0; `xcodebuild … test` with the four classes (and CrystalTests, ResistorTests, CapacitorTests, TactileSwitchTests, PlaySwitchResetTests, AutomationTests) → `Executed 103 tests, with 0 failures`, `** TEST SUCCEEDED **`. A second run of KiCadExportTests, EasyEDAProExportTests, NetListTests, ReferencePrefixTests, ReferencePositionTests, DatasheetCatalogTests, BoardCatalogTests, DrawerConverterFilterTests, UserLibraryCatalogTests, SimulationAvailabilityTests, PartKindRoundTripTests, PartKindKeysTests: `Executed 117 tests, with 1 failure`: `UserLibraryCatalogTests.testAddListsUnderUserLibraryAndWritesTheFile` compares `/var/folders/…` with `/private/var/folders/…` (a temp-directory path, nothing M touched).
 Commit: —
 
 ## Validation Plan
@@ -295,6 +298,63 @@ Author decisions:
   lands a working, complete drawer and sidebar on its own.
 
 ## Corrections
+
+- **2026-11-22, § Prerequisites.** plan-47-L is not in `planning/completed/`
+  (the coordinator commits it with the rest); its part files, goldens and the
+  editor's kind lists are in the worktree, so M ran on top of them.
+- **2026-11-22, line numbers moved.** `Details` is at
+  `PartCatalog.swift:543` (not 331), `trailingLabel` `:942`, `detailLabels`
+  `:964`, `symbol(for:)` `:1606` (not 1126), `functionGroups` `:2501` (not
+  1678); `PartFacts.kindName(_ kind:)` `:299`, `kindName(_ part:)` `:348`,
+  `hertz` `:638`; the play-mode click is the `.pan` case at
+  `SchematicCanvasView.swift:787` and `toggleSwitchLever` at `:833` (not 903,
+  936); `positionCounts` is declared at `Simulation.swift:33` and built at
+  `:218–235`, `setSwitch` is at `:555` (not 505); the help line "Click a
+  switch lever" is `KeyboardHelp.swift:83`.
+- **2026-11-22, drawer paths.** The part files now draw relays at `["Switches &
+  Relays", "Relay", "<Signal|Power|Reed|Solid state|Automotive>"]` and
+  buzzers at `["Displays & Indicators", "Buzzers"]` (the drawer regroup done
+  in the main checkout); the plan's `Relay` and `Indicators → Buzzers` are
+  those. The app's drawer code names no top-level category (they sort by
+  name), so no drawer ordering code needed an edit for the paths; the tests
+  assert the paths the part files give.
+- **2026-11-22, § 3 "Drawer order".** One `CatalogPart.drawerValue`
+  (crystal hz, inductor pH, fuse/PTC rated mA, buzzer hz, relay coil mV) now
+  drives both the leaf order and the order of a leaf's parts, instead of one
+  closure per kind; the crystal order is unchanged (`CrystalTests` green), and
+  `DrawerPerformanceTests.testPartsAreInNaturalOrder` follows it. Relay
+  leaves go by name (the closure answers nil for a relay leaf), their parts by
+  coil voltage then name.
+- **2026-11-22, § 3 "Blowing a fuse".** `positionCounts` is 1 for a fuse, as
+  planned; the app also needs to know which part is a fuse, so
+  `SchematicNetlist` gained `fuseParts` and `isFuse(part:)`, and
+  `SimulationController` gained `toggleFuse(_:)` (nil unless the simulation is
+  running and the chip is a fuse) and `setFuse(_:blown:)`. The automation
+  `set_switch` on a fuse needs a running simulation (a blown fuse is play-mode
+  state) and says so; `on` = intact.
+- **2026-11-22, § 3 "Symbols".** The inductor and the fuse share one layout,
+  `ChipLayout.twoTerminals`. Neither rotates (`PartSymbol.canRotate` is
+  unchanged: the plan asks for flip only). The catalog has no inductor with
+  two pads per terminal: its multi-pin inductors have `NC` pads (5 of the
+  `1`, `NC`, `NC`, `2` pinout, 2 of `1`, `NC`, `2`, `NC` and 2 of `1`, `2`,
+  `NC`), which the layout does not draw; the tests' "four-pad inductor" is the
+  first inductor with four pins. No fuse or PTC has more than two pins.
+  The reference label sits where a resistor's does (above the value, y = -1),
+  as the symbols' value text does.
+- **2026-11-22, the exporters.** `KiCadSchematicWriter.bodyBox` and
+  `EasyEDAProSchematicWriter.bodyBox` list the two-terminal symbols; `.inductor`
+  and `.fuse` were added to both (the plan names no exporter) so a placed
+  inductor or fuse exports with a body the size of its pins' span, as a
+  resistor does. The crystal is not in those lists; it was left as it is.
+- **2026-11-22, harness build.** `scripts/harness/build.sh` failed at HEAD
+  (`SchematicModel.swift:2221`: `schematical.symbol(for:)` names the module,
+  which `swiftc` called without `-module-name` does not have); `-module-name
+  schematical` was added to its `swiftc` line. No harness script is affected.
+- **2026-11-22, parts named in the tests.** The tests and the harness name the
+  seven most-stocked parts by `planning/plan-47-data/candidates.tsv`
+  (§ Phase 1); after the final regeneration of the data they must still exist
+  (re-check with `TestSupport.part`), and the leaf names asserted are only
+  those the paths and the order give (no count and no band name is asserted).
 
 ## Summary
 

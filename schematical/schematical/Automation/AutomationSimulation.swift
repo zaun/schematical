@@ -53,7 +53,7 @@ extension AutomationTools {
         AutomationTool(
             name: "set_switch",
             summary: "Set a switch: a DIP switch position (1-based) ON or OFF, or press (on=true) / release a "
-                + "tactile button. Works while the simulation runs; outside it the DIP position is an edit. "
+                + "tactile button, or blow (on=false) / restore (on=true) a fuse while the simulation runs. Works while the simulation runs; outside it the DIP position is an edit. "
                 + "(While running, flips are inputs to that run and are undone when it stops.)",
             properties: [
                 "reference": Schema.string("e.g. SW1"), "position": Schema.integer("1-based position (default 1)"),
@@ -95,6 +95,15 @@ extension AutomationTools {
     private static func setSwitch(_ context: AutomationContext, _ args: AutomationArgs) throws -> String {
         let document = context.document
         let chip = try context.chip(try args.string("reference"))
+        if chip.part.kind == PART_FUSE {
+            // A fuse: on = intact, off = blown; only while the simulation runs
+            // (a blown fuse is play-mode state, plan-47-M).
+            let intact = args.optBool("on") ?? true
+            guard context.simulation.setFuse(chip.id, blown: !intact) else {
+                throw AutomationFailure("the simulation isn't running; call simulation_start to blow a fuse")
+            }
+            return "\(chip.reference) is \(intact ? "intact" : "blown")"
+        }
         guard !chip.switchesOn.isEmpty else { throw AutomationFailure("\(chip.reference) isn't a switch") }
         let on = args.optBool("on") ?? true
         let position = args.optInt("position") ?? 1

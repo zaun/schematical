@@ -62,6 +62,10 @@ struct SchematicScene {
                 CrystalSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
             case .resistor:
                 ResistorSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
+            case .inductor:
+                InductorSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
+            case .fuse:
+                FuseSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, isBlown: false)
             case .transistor:
                 TransistorSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
             case .vcc, .ground, .pullUp, .pullDown:

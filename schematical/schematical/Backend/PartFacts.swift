@@ -210,6 +210,50 @@ nonisolated enum PartFacts {
             add("Stability", CrystalInfo.ppmText(info.stabilityPPM))
             if info.esrMOhm > 0 { add("ESR", milliohmsText(info.esrMOhm)) }
             if info.capacitors { add("Built-in capacitors", "Yes") }
+        case let .inductor(info):
+            add("Inductance", InductorValue.text(pH: info.pH))
+            add("Tolerance", info.tolerance ?? "")
+            if info.ratedMA > 0 { add("Rated current", amps(mA: info.ratedMA)) }
+            if info.isatMA > 0 { add("Saturation current", amps(mA: info.isatMA)) }
+            if info.dcrMicroOhm > 0 { add("DC resistance", microohmsText(info.dcrMicroOhm)) }
+            add("Shielding", info.shielding.map(capitalized) ?? "")
+        case let .fuse(info):
+            if info.isPTC {
+                add("Type", "Resettable fuse (PTC)")
+                if info.ratedMA > 0 { add("Hold current", amps(mA: info.ratedMA)) }
+                if info.tripMA > 0 { add("Trip current", amps(mA: info.tripMA)) }
+                if info.dcMV > 0 { add("Maximum voltage", volts(mV: info.dcMV)) }
+                if info.breakingA > 0 { add("Maximum current", "\(info.breakingA) A") }
+            } else {
+                add("Type", "Fuse")
+                if info.ratedMA > 0 { add("Rated current", amps(mA: info.ratedMA)) }
+                add("Speed", info.speed.map(capitalized) ?? "")
+                if info.acMV > 0 { add("Voltage (AC)", volts(mV: info.acMV)) }
+                if info.dcMV > 0 { add("Voltage (DC)", volts(mV: info.dcMV)) }
+                if info.breakingA > 0 { add("Breaking capacity", "\(info.breakingA) A") }
+            }
+        case let .relay(info):
+            add("Type", relayType(info.type))
+            add("Contacts", part.function)
+            if info.coilMV > 0 { add("Coil voltage", volts(mV: info.coilMV)) }
+            if info.coilMOhm > 0 { add("Coil resistance", milliohmsText(info.coilMOhm)) }
+            if info.contactMA > 0 { add("Contact current", amps(mA: info.contactMA)) }
+            if info.contactMV > 0 { add("Switching voltage", volts(mV: info.contactMV)) }
+            if info.operateUS > 0 { add("Operate time", duration(UInt64(info.operateUS) * 1_000_000)) }
+            if info.releaseUS > 0 { add("Release time", duration(UInt64(info.releaseUS) * 1_000_000)) }
+            if info.onMOhm > 0 { add("On-resistance", milliohmsText(info.onMOhm)) }
+            if info.latching { add("Latching", "Yes") }
+        case let .buzzer(info):
+            add("Type", info.driver == "indicator" ? "Indicator (built-in driver)"
+                                                    : "Transducer (external drive)")
+            add("Technology", capitalized(info.technology))
+            if info.hz > 0 { add("Frequency", hertz(UInt64(info.hz))) }
+            if info.ratedMV > 0 { add("Rated voltage", volts(mV: info.ratedMV)) }
+            if info.minMV > 0, info.maxMV > 0 {
+                add("Voltage range", "\(milli(info.minMV))–\(milli(info.maxMV)) V")
+            }
+            if info.uA > 0 { add("Current", info.uA >= 1000 ? amps(mA: info.uA / 1000) : "\(info.uA) µA") }
+            if info.splCDB > 0 { add("Sound level", "\(trimmed(Double(info.splCDB) / 100, decimals: 1)) dB") }
         case let .regulator(info):
             add("Type", regulatorType(info))
             if info.regulators > 1 { add("Regulators", String(info.regulators)) }
@@ -290,6 +334,10 @@ nonisolated enum PartFacts {
         case PART_NIXIE: return "Nixie tube"
         case PART_REGULATOR: return "Voltage regulator"
         case PART_CRYSTAL: return "Crystal"
+        case PART_INDUCTOR: return "Inductor"
+        case PART_FUSE: return "Fuse"
+        case PART_RELAY: return "Relay"
+        case PART_BUZZER: return "Buzzer"
         default: return ""
         }
     }
@@ -310,6 +358,14 @@ nonisolated enum PartFacts {
             }
         }
         if let info = part.crystal, info.type == "resonator" { return "Ceramic resonator" }
+        if let info = part.fuse, info.isPTC { return "Resettable fuse" }
+        if let info = part.relay {
+            switch info.type {
+            case "solid-state": return "Solid-state relay"
+            case "reed": return "Reed relay"
+            default: break
+            }
+        }
         if case .connector(_, _, _, _, _?) = part.details { return "USB connector" }
         if case let .converter(type, _, _) = part.details {
             switch type {
@@ -443,6 +499,40 @@ nonisolated enum PartFacts {
         if milliohms < 1000 { return "\(milliohms) mΩ" }
         let (number, unit) = ResistorValue.split(Double(milliohms) / 1000)
         return ResistorValue.numberText(number) + " " + unit.symbol
+    }
+
+    /// A current in milliamps as shown (plan-47-M): 500 → "500 mA", 1600 → "1.6 A".
+    static func amps(mA: UInt32) -> String {
+        mA < 1000 ? "\(mA) mA" : "\(trimmed(Double(mA) / 1000, decimals: 3)) A"
+    }
+
+    /// A voltage in millivolts as shown (plan-47-M): 250000 → "250 V", 500 → "0.5 V".
+    static func volts(mV: UInt32) -> String {
+        "\(milli(mV)) V"
+    }
+
+    /// A resistance in micro-ohms as shown (plan-47-M): 700 → "700 µΩ",
+    /// 29000 → "29 mΩ", 1500000 → "1.5 Ω", 2200000000 → "2.2 kΩ".
+    static func microohmsText(_ microohms: UInt64) -> String {
+        if microohms < 1000 { return "\(microohms) µΩ" }
+        if microohms < 1_000_000 { return "\(trimmed(Double(microohms) / 1000, decimals: 3)) mΩ" }
+        let (number, unit) = ResistorValue.split(Double(microohms) / 1e6)
+        return ResistorValue.numberText(number) + " " + unit.symbol
+    }
+
+    /// "shielded" → "Shielded", "semi-shielded" → "Semi-shielded".
+    static func capitalized(_ word: String) -> String {
+        word.prefix(1).uppercased() + word.dropFirst()
+    }
+
+    /// A relay's type as shown (plan-47-M).
+    static func relayType(_ type: String) -> String {
+        switch type {
+        case "electromechanical": return "Electromechanical"
+        case "reed": return "Reed"
+        case "solid-state": return "Solid-state"
+        default: return capitalized(type)
+        }
     }
 
     /// A resistor's tolerance as shown (plan-34-G): 1 → "1%", 0.1 → "0.1%".

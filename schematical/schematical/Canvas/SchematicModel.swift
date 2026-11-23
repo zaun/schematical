@@ -166,6 +166,14 @@ nonisolated enum PartSymbol: Hashable {
     /// (left) and pin 2 (right), its value above (`ResistorSymbolView`).
     /// Resistor arrays are blocks.
     case resistor
+    /// A fixed inductor (plan-47-M): four humps between pin 1 (left) and
+    /// pin 2 (right), its inductance above (`InductorSymbolView`).
+    case inductor
+    /// A fuse or PTC resettable fuse (plan-47-M): a rectangle with the lead
+    /// through it between pin 1 (left) and pin 2 (right), its rated current
+    /// above; a PTC adds the thermistor stroke (`FuseSymbolView`). A blown
+    /// fuse (play mode) draws with a gap in the lead.
+    case fuse
     /// A single transistor (plan-40-H): the BJT or MOSFET symbol, the base
     /// or gate on the left, the collector or drain at the top right and the
     /// emitter or source at the bottom right (`TransistorSymbolView`).
@@ -304,6 +312,8 @@ nonisolated struct ChipLayout: Hashable {
             self = Self.capacitor(pins)
         case .crystal:
             self = Self.crystal(pins)
+        case .inductor, .fuse:
+            self = Self.twoTerminals(pins)
         case .transistor:
             self = Self.transistor(pins)
         case .vcc:
@@ -657,6 +667,24 @@ nonisolated struct ChipLayout: Hashable {
             slots.append(PinSlot(pin: ground, side: .bottom, centerY: 0, centerX: diodeSize.width / 2))
         }
         return ChipLayout(size: diodeSize, slots: slots)
+    }
+
+    /// An inductor or a fuse (plan-47-M): pin `1` on the left, pin `2` on the
+    /// right, the diode's box. Every other pin (an `NC` pad, a further pad
+    /// of the same name, joined to its twin inside the part) is not drawn.
+    /// Falls back to the block layout if a terminal is missing.
+    private static func twoTerminals(_ pins: [ChipPin]) -> ChipLayout {
+        guard let first = pins.first(where: { $0.name == "1" }),
+              let second = pins.first(where: { $0.name == "2" }) else {
+            return ChipLayout(pins: pins)
+        }
+        return ChipLayout(
+            size: diodeSize,
+            slots: [
+                PinSlot(pin: first, side: .left, centerY: diodeCentreY),
+                PinSlot(pin: second, side: .right, centerY: diodeCentreY),
+            ]
+        )
     }
 
     /// A transistor (plan-40-H): the base (`B`) or gate (`G`) on the left

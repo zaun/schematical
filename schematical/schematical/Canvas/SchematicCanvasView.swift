@@ -785,9 +785,11 @@ struct SchematicCanvasView: View {
         case let .holdButton(chip)?:
             pressButton(chip, pressed: false)
         case .pan?:
-            // In play mode every press starts a pan; a click flips a lever.
+            // In play mode every press starts a pan; a click blows or restores
+            // a fuse, else flips a lever.
             if isRunning, isClick(value) {
-                toggleSwitchLever(at: viewport.world(value.startLocation))
+                let point = viewport.world(value.startLocation)
+                if !toggleFuse(at: point) { toggleSwitchLever(at: point) }
             }
         default:
             break
@@ -813,6 +815,16 @@ struct SchematicCanvasView: View {
         guard let isPressed = document.setButton(id, pressed: pressed),
               let chip = document.chips.first(where: { $0.id == id }) else { return }
         simulation.setSwitch(id, position: 1, on: isPressed != chip.part.isNormallyClosed)
+    }
+
+    /// Blows the fuse under `point` in the running simulation, or restores
+    /// it when it is blown (plan-47-M); any point of its body and leads
+    /// counts. False when no fuse is there, so the click goes on to the
+    /// switch levers.
+    private func toggleFuse(at point: CGPoint) -> Bool {
+        guard let chip = document.chip(at: point), chip.part.kind == PART_FUSE else { return false }
+        simulation.toggleFuse(chip.id)
+        return true
     }
 
     /// Flips the switch position whose lever is under `point`, in the
@@ -1085,6 +1097,19 @@ private struct SchematicPartsLayer: View {
                             chip: chip,
                             isSelected: document.isSelected(.chip(chip.id)),
                             isHovered: chip.id == hoveredChipID
+                        )
+                    case .inductor:
+                        InductorSymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID
+                        )
+                    case .fuse:
+                        FuseSymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID,
+                            isBlown: simulation.blownFuses.contains(chip.id)
                         )
                     case .transistor:
                         TransistorSymbolView(

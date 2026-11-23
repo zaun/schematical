@@ -30,6 +30,14 @@ final class KeyboardHelpTests: XCTestCase {
         XCTAssertFalse(keys.contains("A"))
     }
 
+    /// plan-47-M: a click on a fuse in play mode blows or restores it.
+    func testSchematicFuseLine() {
+        let entry = EditorPage.schematic.helpSections.flatMap(\.entries)
+            .first { $0.keys == "Click a fuse (in play mode)" }
+        XCTAssertEqual(entry?.action, "Blow or restore it")
+        XCTAssertFalse(keys(.pcb).contains("Click a fuse (in play mode)"))
+    }
+
     func testPCBKeys() {
         let keys = keys(.pcb)
         for key in ["⌘R", "⇧⌘R", "A", "⌘A", "⌘X", "⌘C", "⌘V", "⌘⌫", "Space", "/", "Esc", "⇧⌘D", "⌘?",
