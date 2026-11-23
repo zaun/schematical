@@ -1,10 +1,59 @@
 /*
- * The two terminals of an inductor or a fuse (terminals.h, plan-47-I).
+ * Contacts between the pins of inductors, fuses and relays (terminals.h,
+ * plan-47-I and J).
  */
 
 #include <string.h>
 
 #include "terminals.h"
+
+int contacts_new(KindContext *ctx, ContactSet *set, size_t capacity) {
+    set->count = 0;
+    set->a = kind_alloc(ctx, (capacity + 1) * sizeof(*set->a));
+    set->b = kind_alloc(ctx, (capacity + 1) * sizeof(*set->b));
+    return set->a != NULL && set->b != NULL ? 0 : -1;
+}
+
+void contacts_cross(ContactSet *set, const size_t *ga, size_t na, const size_t *gb, size_t nb) {
+    size_t i;
+    size_t j;
+
+    for (i = 0; i < na; i++) {
+        for (j = 0; j < nb; j++) {
+            set->a[set->count] = ga[i];
+            set->b[set->count++] = gb[j];
+        }
+    }
+}
+
+void contacts_within(ContactSet *set, const size_t *g, size_t n) {
+    size_t i;
+    size_t j;
+
+    for (i = 0; i < n; i++) {
+        for (j = i + 1; j < n; j++) {
+            set->a[set->count] = g[i];
+            set->b[set->count++] = g[j];
+        }
+    }
+}
+
+void contacts_set(Sim *sim, SimInstance *instance, const ContactSet *set, int closed) {
+    size_t i;
+
+    for (i = 0; i < set->count; i++) {
+        sim_set_contact(sim, instance, set->a[i], set->b[i], closed);
+    }
+}
+
+int contacts_at(const ContactSet *set, size_t k, size_t *a, size_t *b) {
+    if (k >= set->count) {
+        return 0;
+    }
+    *a = set->a[k];
+    *b = set->b[k];
+    return 1;
+}
 
 int terminals_names(KindContext *ctx, const cJSON *json, const char *names[2]) {
     const char *const *list;
@@ -27,34 +76,24 @@ int terminals_names(KindContext *ctx, const cJSON *json, const char *names[2]) {
 TerminalPins *terminals_bind(KindContext *ctx, const char *what, const char *const names[2],
                              const PartPin *pins, size_t pin_count) {
     TerminalPins *t = kind_alloc(ctx, sizeof(*t));
-    size_t *first = kind_alloc(ctx, 2 * sizeof(*first));
-    size_t *ends = kind_alloc(ctx, (pin_count + 1) * sizeof(*ends));
+    size_t *group[2];
+    size_t n[2];
     size_t i;
     size_t side;
 
-    if (t == NULL || first == NULL || ends == NULL) {
-        return NULL;
-    }
-    t->tie_from = kind_alloc(ctx, (pin_count + 1) * sizeof(*t->tie_from));
-    t->tie_to = kind_alloc(ctx, (pin_count + 1) * sizeof(*t->tie_to));
-    if (t->tie_from == NULL || t->tie_to == NULL) {
+    if (t == NULL) {
         return NULL;
     }
     for (side = 0; side < 2; side++) {
-        size_t n = kind_pins(ctx, pins, pin_count, names[side], ends, pin_count);
-        size_t k;
-
-        if (n == 0) {
+        group[side] = kind_alloc(ctx, (pin_count + 1) * sizeof(*group[side]));
+        if (group[side] == NULL) {
             return NULL;
         }
-        first[side] = ends[0];
-        for (k = 1; k < n; k++) {
-            t->tie_from[t->tie_count] = ends[0];
-            t->tie_to[t->tie_count++] = ends[k];
+        n[side] = kind_pins(ctx, pins, pin_count, names[side], group[side], pin_count);
+        if (n[side] == 0) {
+            return NULL;
         }
     }
-    t->a = first[0];
-    t->b = first[1];
     for (i = 0; i < pin_count; i++) {
         int terminal = strcmp(pins[i].name, names[0]) == 0 || strcmp(pins[i].name, names[1]) == 0;
 
@@ -67,6 +106,13 @@ TerminalPins *terminals_bind(KindContext *ctx, const char *what, const char *con
             return NULL;
         }
     }
+    if (contacts_new(ctx, &t->main, n[0] * n[1]) != 0 ||
+        contacts_new(ctx, &t->ties, n[0] * n[0] + n[1] * n[1]) != 0) {
+        return NULL;
+    }
+    contacts_cross(&t->main, group[0], n[0], group[1], n[1]);
+    contacts_within(&t->ties, group[0], n[0]);
+    contacts_within(&t->ties, group[1], n[1]);
     return t;
 }
 
@@ -74,24 +120,8 @@ int terminals_contact(const TerminalPins *terminals, size_t k, size_t *a, size_t
     if (terminals == NULL) {
         return 0;
     }
-    if (k == 0) {
-        *a = terminals->a;
-        *b = terminals->b;
-        return 1;
+    if (k < terminals->main.count) {
+        return contacts_at(&terminals->main, k, a, b);
     }
-    k -= 1;
-    if (k < terminals->tie_count) {
-        *a = terminals->tie_from[k];
-        *b = terminals->tie_to[k];
-        return 1;
-    }
-    return 0;
-}
-
-void terminals_close_ties(Sim *sim, SimInstance *instance, const TerminalPins *terminals) {
-    size_t i;
-
-    for (i = 0; i < terminals->tie_count; i++) {
-        sim_set_contact(sim, instance, terminals->tie_from[i], terminals->tie_to[i], 1);
-    }
+    return contacts_at(&terminals->ties, k - terminals->main.count, a, b);
 }

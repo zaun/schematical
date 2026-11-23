@@ -249,6 +249,21 @@ static void wire_cases(void) {
                "(f) TESTIND-4PAD with pads 1, 3 and 4 unconnected starts and advances");
         circuit_destroy(c);
     }
+    /* (f) only the second pad of each terminal wired (pads 2 and 4): the pads of a name are one node. */
+    {
+        Circuit *c = circuit_create(library);
+        size_t l = add(c, "TESTIND-4PAD"), v = add(c, "5V"), n2 = net(c), n4 = net(c);
+        int ok;
+
+        wire(c, v, "1", n2);
+        wire(c, l, "2", n2);
+        wire(c, l, "4", n4);
+        ok = circuit_start(c) == 0;
+        run(c, 1000000);
+        expect(ok && circuit_net_value(c, n4) == CIRCUIT_1,
+               "(f) TESTIND-4PAD with only pads 2 and 4 wired, 5V on pad 2: pad 4 reads 1");
+        circuit_destroy(c);
+    }
     /* (g) circuit_set_switch on an inductor. */
     {
         Circuit *c = circuit_create(library);

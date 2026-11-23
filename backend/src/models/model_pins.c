@@ -14,6 +14,8 @@ int part_fixed_contact(const Part *part, size_t k, size_t *a, size_t *b) {
             return inductor_fixed_contact(part, k, a, b);
         case PART_FUSE:
             return fuse_fixed_contact(part, k, a, b);
+        case PART_RELAY:
+            return relay_fixed_contact(part, k, a, b);
         default:
             return 0;
     }

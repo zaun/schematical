@@ -135,8 +135,8 @@ static void *inductor_create(const void *config) {
 static void inductor_start(Sim *sim, SimInstance *instance, void *raw) {
     const TerminalPins *t = raw;
 
-    sim_set_contact(sim, instance, t->a, t->b, 1);
-    terminals_close_ties(sim, instance, t);
+    contacts_set(sim, instance, &t->main, 1);
+    contacts_set(sim, instance, &t->ties, 1);
 }
 
 static const SimComponentType INDUCTOR_MODEL = {

@@ -37,6 +37,8 @@ add_library(logic STATIC
     src/models/terminals.c
     src/models/inductor.c
     src/models/fuse.c
+    src/models/relay.c
+    src/models/buzzer.c
     src/models/model_pins.c
     src/models/oscillator.c
     src/models/eeprom.c
@@ -199,6 +201,8 @@ logic_test(regulator_test)
 logic_test(crystal_test)
 logic_test(inductor_test)
 logic_test(fuse_test)
+logic_test(relay_test)
+logic_test(buzzer_test)
 
 # Engine speed bench (plan-05-A). Not a ctest: a wall-clock check would be
 # flaky. Build Release to get meaningful numbers.

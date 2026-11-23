@@ -44,6 +44,8 @@ const char *listing_kind_name(PartKind kind) {
         case PART_CRYSTAL: return "crystal";
         case PART_INDUCTOR: return "inductor";
         case PART_FUSE: return "fuse";
+        case PART_RELAY: return "relay";
+        case PART_BUZZER: return "buzzer";
     }
     return "?";
 }
@@ -250,6 +252,20 @@ static void print_details(FILE *out, const Part *part) {
                     (unsigned)part->fuse->ac_mv, (unsigned)part->fuse->dc_mv,
                     part->fuse->speed != NULL ? part->fuse->speed : "-",
                     (unsigned)part->fuse->breaking_a);
+            break;
+        case PART_RELAY:
+            fprintf(out, "type=%s poles=%u coils=%u latch=%d ch=%u coil=%u ohms=%llu amps=%u volts=%u op=%u rel=%u on=%llu",
+                    part->relay->type, part->relay->poles, part->relay->coils, part->relay->latching,
+                    part->relay->channels, (unsigned)part->relay->coil_mv,
+                    (unsigned long long)part->relay->coil_mohm, (unsigned)part->relay->contact_ma,
+                    (unsigned)part->relay->contact_mv, (unsigned)part->relay->operate_us,
+                    (unsigned)part->relay->release_us, (unsigned long long)part->relay->on_mohm);
+            break;
+        case PART_BUZZER:
+            fprintf(out, "driver=%s tech=%s hz=%u volts=%u min=%u max=%u ua=%u spl=%u", part->buzzer->driver,
+                    part->buzzer->technology, (unsigned)part->buzzer->hz, (unsigned)part->buzzer->rated_mv,
+                    (unsigned)part->buzzer->min_mv, (unsigned)part->buzzer->max_mv,
+                    (unsigned)part->buzzer->ua, (unsigned)part->buzzer->spl_cdb);
             break;
         case PART_TRANSISTOR:
             fprintf(out,

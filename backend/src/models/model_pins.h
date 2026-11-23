@@ -73,6 +73,9 @@ uint32_t regulator_input_max_mv(const Part *part);
    this board be powered".) */
 int inductor_fixed_contact(const Part *part, size_t k, size_t *a, size_t *b);
 int fuse_fixed_contact(const Part *part, size_t k, size_t *a, size_t *b);
+/* A relay's k-th fixed contact (0-based, plan-47-J, relay.c): the relay at
+   rest, every pole's common-nc pair, then the same-name ties. */
+int relay_fixed_contact(const Part *part, size_t k, size_t *a, size_t *b);
 /* A part's k-th fixed contact (model_pins.c): the kinds above, dispatched on
    part->kind. 0 past the last, and for every other kind. */
 int part_fixed_contact(const Part *part, size_t k, size_t *a, size_t *b);

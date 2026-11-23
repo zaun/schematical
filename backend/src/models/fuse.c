@@ -191,8 +191,8 @@ static void fuse_destroy(void *state) {
 static void fuse_start(Sim *sim, SimInstance *instance, void *raw) {
     FuseState *state = raw;
 
-    sim_set_contact(sim, instance, state->terminals->a, state->terminals->b, state->intact);
-    terminals_close_ties(sim, instance, state->terminals);
+    contacts_set(sim, instance, &state->terminals->main, state->intact);
+    contacts_set(sim, instance, &state->terminals->ties, 1);
 }
 
 /* Position 1 is the fuse: on = intact, off = blown. */
@@ -203,7 +203,7 @@ static int fuse_set(Sim *sim, SimInstance *instance, void *raw, size_t position,
         return 0;
     }
     state->intact = on != 0;
-    sim_set_contact(sim, instance, state->terminals->a, state->terminals->b, state->intact);
+    contacts_set(sim, instance, &state->terminals->main, state->intact);
     return 1;
 }
 
