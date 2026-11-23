@@ -13,6 +13,7 @@ One two-pad `dual` object per row (comment lines start with `#`). Columns:
   pad_w     pad size along the pad row, mm; pad_h across it
   shape     rect or round
   drill     the through-hole diameter, mm; empty for surface mount
+  polarized optional: 1 gives pad 1 `pin1Shape` rect (a polarized part: the + pin of a buzzer)
   pdf       the datasheet's path; page: its page; arith: the arithmetic or the table row (goes to `note`)
 Pin 1 is the left pad; there is no pin-1 mark (an unpolarized part).
 """
@@ -43,6 +44,8 @@ def obj(r):
     }
     if r.get('drill'):
         o['drill'] = num(r['drill'])
+    if r.get('polarized') == '1':
+        o['pin1Shape'] = 'rect'            # a polarized part (a buzzer): pad 1 is square, the + pin
     return o
 
 

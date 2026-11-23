@@ -191,11 +191,11 @@ DigiKey's size text (rejected: the rule is the datasheet's drawing;
 
 ### Phase 1 — Tools and the map skeleton
 
-- [ ] Copy `planning/plan-40-data/census/fp-load.sh`, `fp-merge.py` to
+- [x] (2026-11-23: tools copied with p40 → p47, `fp-check.py` rewritten for the line and map columns) Copy `planning/plan-40-data/census/fp-load.sh`, `fp-merge.py` to
       `planning/plan-47-data/census/` with `p40` → `p47`; adapt
       `fp-check.py` to this plan's line columns (§ 3.3).
-- [ ] Write `census/fp-gen.py` (§ 3.2) and `census/fp-compare.py` (§ 3.1).
-- [ ] `footprint-map.tsv` skeleton: one row per line of every letter (D to
+- [x] (2026-11-23: `fp-gen.py` and `fp-compare.py` written and run (IND-TEST: `1 new footprints: load ok`; RES-0603 `same`, RES-0402 differences)) Write `census/fp-gen.py` (§ 3.2) and `census/fp-compare.py` (§ 3.1).
+- [x] (2026-11-23: `census/map-skeleton.py` → 929 rows) `footprint-map.tsv` skeleton: one row per line of every letter (D to
       H), the footprint column empty.
 
 Acceptance: the tools run.
@@ -204,10 +204,10 @@ Commit: —
 
 ### Phase 2 — Chip inductors
 
-- [ ] The chip-code lines (71 at planning time): a `dims-D.tsv` row per
+- [x] (2026-11-23: D-bourns-murata and D-wurth slices; reuse by `fp-compare.py` found 1 (Würth 0201 = RES-0201-VIKING) and 3 Bourns CAP-AX bodies) The chip-code lines (71 at planning time): a `dims-D.tsv` row per
       distinct drawing, or a map row to an existing footprint by
       `fp-compare.py`; fill the map rows.
-- [ ] Hand-check one footprint per size code against its drawing.
+- [x] (2026-11-23: by the slice agents (their reports), pad numbers from the printed land tables) Hand-check one footprint per size code against its drawing.
 
 Acceptance: those lines have footprints that load.
   Check: `python3 -I planning/plan-47-data/census/fp-gen.py planning/plan-47-data/dims-D.tsv > planning/plan-47-data/footprints-D.json && planning/plan-47-data/census/fp-load.sh planning/plan-47-data/footprints-D.json` → `<k> new footprints: load ok` (est. 3 min).
@@ -215,12 +215,12 @@ Commit: —
 
 ### Phase 3 — Other surface-mount inductors
 
-- [ ] The remaining surface-mount lines (75 at planning time): `dims-D.tsv`
+- [x] (2026-11-23: explicit objects for the 4-pad and staggered-pad parts) The remaining surface-mount lines (75 at planning time): `dims-D.tsv`
       rows for two-pad parts, `explicit` objects in
       `footprints-D-explicit.json` for the rest (pads per plan-47-B's
       pinout: `NC` pads numbered, mechanical pads the pinout does not name
       `"pin": 0`).
-- [ ] Hand-check one footprint per series.
+- [x] (2026-11-23: by the slice agents) Hand-check one footprint per series.
 
 Acceptance: those lines have footprints that load.
   Check: `planning/plan-47-data/census/fp-load.sh planning/plan-47-data/footprints-D.json planning/plan-47-data/footprints-D-explicit.json` → `<k> new footprints: load ok` (est. 3 min).
@@ -228,11 +228,12 @@ Commit: —
 
 ### Phase 4 — Radial and axial inductors
 
-- [ ] The through-hole lines (83 at planning time: radial 68, axial 15): R8
+- [x] (2026-11-23: R7 / R8 rows and explicit hole patterns (toroids, rod chokes, HIDA slots)) The through-hole lines (83 at planning time: radial 68, axial 15): R8
       and R7 rows in `dims-D.tsv`; horizontal radial parts `explicit` (§
       3.2).
-- [ ] Hand-check one footprint per series; the arithmetic is in `arith`.
+- [x] (2026-11-23: the arithmetic is in each dims row and `note`) Hand-check one footprint per series; the arithmetic is in `arith`.
 
+- [ ] After A's last refill and C's final pick: regenerate `footprints-needed.txt` (`footprint-lines.py … --add`), `fp-check.py D` for lines new to the final pick (draw them), `fp-load.sh` over `footprints-*.json`, re-record the counts.
 Acceptance: every D line has a footprint that loads.
   Check: `python3 -I planning/plan-47-data/census/fp-check.py D` → `<n> lines, 0 without a footprint`, and `planning/plan-47-data/census/fp-load.sh planning/plan-47-data/footprints-D.json planning/plan-47-data/footprints-D-explicit.json` → `<k> new footprints: load ok` (est. 4 min).
 Commit: —
@@ -262,6 +263,32 @@ Commit: —
 - **No pin-1 mark on an inductor.**
 
 ## Corrections
+
+- **2026-11-23, order and method.** The footprint letters D to H were worked in one
+  wave on the provisional pick (`census/verdicts.py --out candidates-provisional.tsv`;
+  `footprints-needed.txt` is its lines: D 208, E 91, F 250, G 194, H 180 = 923), because A's
+  Phase 2 waits for DigiKey's quota; C's final pick (after A) can add lines the pick
+  did not have. The work was split into slices (`fp-lines/<slice>.txt`, 11 agents) with
+  per-slice files instead of one file per letter: `dims-<L>-<slice>.tsv`,
+  `footprints-<L>-<slice>.json` (`fp-gen.py`), `footprints-<L>-<slice>-explicit.json`,
+  `footprint-map-<L>-<slice>.tsv` (`fp-check.py`, `gen-parts.py` and `fp-load.sh` read them all), and
+  `footprint-parts-H-*.tsv` where parts of one line need different footprints. All 22
+  `footprints-*.json` loaded together: `census/fp-load.sh footprints-*.json` → `889 new
+  footprints: load ok` (no duplicate id across slices); `fp-check.py D E F G H` → every
+  letter `0 without a footprint`; 885 of them are used by the 2816 provisional parts and
+  now in `Parts/footprints.json` (IND 190, FUSE 57, PTC 209, RELAY 156, BUZZER 273).
+- **Footprint map.** A map row may carry a `series_split` (a series, or a part
+  number: `gen-parts.py` tries the part number, then the series, then the whole line);
+  `footprint-map.tsv` is the skeleton (empty rows serve nothing). Lines whose parts
+  differ in pad pattern are served per part by `footprint-parts-*.tsv`
+  (mpn or pdf, footprint).
+- **Doubts the slice agents recorded** (hand-check candidates): Würth WE-SD 744711015 (no land
+  pattern: outline), Bourns CV201210 pad height scaled, LQP03 / LQW15 / LQW18 lines whose
+  datasheets disagree within one series, several Mallory / PUI / Same Sky SMD buzzers
+  with no land pattern (R2 outline pads, polarity assumed), the CII hermetic TE relays'
+  pin numbers (no numbers on the bottom views), Franjobaim FAM-4 and TE V23700 (no PC board
+  pattern in the datasheet), TO-5 relay pads (0.9 x 1.5 ovals so the loader does not see
+  bounding boxes touching).
 
 ## Summary
 

@@ -124,7 +124,7 @@ layouts for 101 PDFs; the helper prints, a person transfers).
 
 ### Phase 1 — Surface-mount PTCs
 
-- [ ] The 56 surface-mount lines (at planning time): `dims-F.tsv` rows or
+- [x] (2026-11-23: slices F-littelfuse, F-bourns, F-belfuse (66 + 56 + 87 new footprints)) The 56 surface-mount lines (at planning time): `dims-F.tsv` rows or
       reuse; map rows; a hand check per size code.
 
 Acceptance: those lines have footprints that load.
@@ -133,7 +133,7 @@ Commit: —
 
 ### Phase 2 — Radial discs: Littelfuse
 
-- [ ] `census/ptc-dims.py`; the Littelfuse radial lines (88 at planning
+- [x] (2026-11-23: `ptc-dims.py` was not needed: each agent computed R8 rows from the datasheet tables (their scratch scripts)) `census/ptc-dims.py`; the Littelfuse radial lines (88 at planning
       time): `dims-F.tsv` rows, map rows, the three-part hand check per
       series.
 
@@ -143,9 +143,10 @@ Commit: —
 
 ### Phase 3 — Radial discs: Bourns and Bel Fuse
 
-- [ ] The Bourns (61) and Bel Fuse (82) radial lines as Phase 2. Record the
+- [x] (2026-11-23: distinct radial footprints: Littelfuse 71, Bourns 45, Bel Fuse 59) The Bourns (61) and Bel Fuse (82) radial lines as Phase 2. Record the
       number of distinct radial footprints in § Corrections.
 
+- [ ] After A's last refill and C's final pick: regenerate `footprints-needed.txt` (`footprint-lines.py … --add`), `fp-check.py F` for lines new to the final pick (draw them), `fp-load.sh` over `footprints-*.json`, re-record the counts.
 Acceptance: every F line has a footprint that loads.
   Check: `python3 -I planning/plan-47-data/census/fp-check.py F` → `<n> lines, 0 without a footprint`; the Phase 1 command → `<k> new footprints: load ok` (est. 3 min).
 Commit: —
@@ -168,6 +169,8 @@ Commit: —
   for their order code.
 
 ## Corrections
+
+- **2026-11-23.** Done in the wave described in plan-47-D § Corrections, slices `fp-lines/*-F-*` / `F-*.txt`; `fp-check.py F` → `0 without a footprint`. The lines are the provisional pick's (planning/plan-47-data/footprints-needed.txt is the PROVISIONAL pick's (candidates-provisional.tsv: C's dry run); the final pick follows A's last quota day).
 
 ## Summary
 

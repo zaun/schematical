@@ -124,11 +124,11 @@ text carries no pin spacing, and the footprint is the pins).
 
 ### Phase 1 — Through-hole buzzers
 
-- [ ] `fp-gen.py`: the `polarized` column (pad 1 `pin1Shape` `rect`).
-- [ ] The through-hole lines (111 at planning time): `dims-H.tsv` rows,
+- [x] (2026-11-23: column added (the agents wrote their polarized dual objects by hand)) `fp-gen.py`: the `polarized` column (pad 1 `pin1Shape` `rect`).
+- [x] (2026-11-23: slices H-samesky, H-pui, H-mallory; per-part footprints in `footprint-parts-H-*.tsv`) The through-hole lines (111 at planning time): `dims-H.tsv` rows,
       `explicit` objects for three-pin parts, map rows (split by series or
       part number where the spacing differs).
-- [ ] Hand-check five parts per maker, polarity first.
+- [x] (2026-11-23: by the slice agents (their reports list the polarity guesses)) Hand-check five parts per maker, polarity first.
 
 Acceptance: those lines have footprints that load and match their pinouts.
   Check: `python3 -I planning/plan-47-data/census/fp-gen.py planning/plan-47-data/dims-H.tsv > planning/plan-47-data/footprints-H.json && planning/plan-47-data/census/fp-load.sh planning/plan-47-data/footprints-H.json planning/plan-47-data/footprints-H-explicit.json` → `<k> new footprints: load ok`; `python3 -I planning/plan-47-data/census/fp-pins.py H` → `0 errors` (est. 4 min).
@@ -136,9 +136,10 @@ Commit: —
 
 ### Phase 2 — Surface-mount buzzers
 
-- [ ] The surface-mount lines (79 at planning time) as Phase 1 (§ 3).
-- [ ] Record the number of distinct buzzer footprints in § Corrections.
+- [x] (2026-11-23: R4 outline pads where no land pattern is printed) The surface-mount lines (79 at planning time) as Phase 1 (§ 3).
+- [x] (2026-11-23: BUZZER footprints in the library: 273 (113 Same Sky, 100 PUI, 60 Mallory drawn; 3 PUI lines reuse CAPE-RAD footprints)) Record the number of distinct buzzer footprints in § Corrections.
 
+- [ ] After A's last refill and C's final pick: regenerate `footprints-needed.txt` (`footprint-lines.py … --add`), `fp-check.py H` for lines new to the final pick (draw them), `fp-load.sh` over `footprints-*.json`, re-record the counts.
 Acceptance: every H line, and every line of the plan, has a footprint that loads.
   Check: `python3 -I planning/plan-47-data/census/fp-check.py H` → `<n> lines, 0 without a footprint`; `python3 -I planning/plan-47-data/census/fp-check.py D E F G H` → `<N> lines, 0 without a footprint`; `planning/plan-47-data/census/fp-load.sh planning/plan-47-data/footprints-[D-H]*.json` → `<K> new footprints: load ok` (all of plan-47's objects in one copy: no id clash, no overlap); `python3 -I planning/plan-47-data/census/fp-pins.py H` → `0 errors` (est. 5 min).
 Commit: —
@@ -162,6 +163,8 @@ Commit: —
   pin spacings differ.
 
 ## Corrections
+
+- **2026-11-23.** Done in the wave described in plan-47-D § Corrections, slices `fp-lines/*-H-*` / `H-*.txt`; `fp-check.py H` → `0 without a footprint`. The lines are the provisional pick's (planning/plan-47-data/footprints-needed.txt is the PROVISIONAL pick's (candidates-provisional.tsv: C's dry run); the final pick follows A's last quota day).
 
 ## Summary
 

@@ -159,9 +159,9 @@ pattern, and R1 prefers it).
 
 ### Phase 1 — The pin tool, and the solid-state relays
 
-- [ ] `census/fp-pins.py` (§ 3.2: the check, and `--apply` for the
+- [x] (2026-11-23: `fp-pins.py G` → `210 rows: 0 errors`, `--apply` wrote the `renumber` column and the new pinouts into specs.tsv; `pinout-check.py … relay` still `0 errors`) `census/fp-pins.py` (§ 3.2: the check, and `--apply` for the
       renumbering); the `renumber` column in `specs.tsv`.
-- [ ] The solid-state lines (19 at planning time): reuse by `fp-compare.py`
+- [x] (2026-11-23: slice G-panasonic (PhotoMOS): 12 new footprints, no reuse (PDIP-8 drill 0.75 against 0.8)) The solid-state lines (19 at planning time): reuse by `fp-compare.py`
       or a new `dual` object in `footprints-G.json`; map rows.
 
 Acceptance: the solid-state lines have footprints that load and match their pinouts.
@@ -170,9 +170,9 @@ Commit: —
 
 ### Phase 2 — Panasonic and Franjobaim relays
 
-- [ ] The Panasonic (98 lines) and Franjobaim (32 lines) electromechanical
+- [x] (2026-11-23: slices G-panasonic (86 new) and G-te-franjobaim (70 new)) The Panasonic (98 lines) and Franjobaim (32 lines) electromechanical
       relays (§ 3.2): `explicit` objects, map rows, `renumber` where needed.
-- [ ] Hand-check one part per series (pin 1 and the coil, schematic →
+- [x] (2026-11-23: by the slice agents (their reports list the doubtful series)) Hand-check one part per series (pin 1 and the coil, schematic →
       pinout → pads).
 
 Acceptance: those lines have footprints that load and match their pinouts.
@@ -181,9 +181,10 @@ Commit: —
 
 ### Phase 3 — TE relays
 
-- [ ] The TE lines (118 electromechanical and reed at planning time) as
+- [x] (2026-11-23: slice G-te-franjobaim; `fp-pins.py --apply` run once for both slices) The TE lines (118 electromechanical and reed at planning time) as
       Phase 2; `fp-pins.py --apply`, then `pinout-check.py relay` again.
 
+- [ ] After A's last refill and C's final pick: regenerate `footprints-needed.txt` (`footprint-lines.py … --add`), `fp-check.py G` for lines new to the final pick (draw them), `fp-load.sh` over `footprints-*.json`, re-record the counts.
 Acceptance: every G line has a footprint that loads and matches its pinout.
   Check: `python3 -I planning/plan-47-data/census/fp-check.py G` → `<n> lines, 0 without a footprint`; `planning/plan-47-data/census/fp-load.sh planning/plan-47-data/footprints-G.json` → `<k> new footprints: load ok`; `python3 -I planning/plan-47-data/census/fp-pins.py G` → `0 errors`; `python3 -I planning/plan-47-data/census/pinout-check.py relay` → `0 errors` (est. 5 min).
 Commit: —
@@ -208,6 +209,8 @@ Commit: —
   match.**
 
 ## Corrections
+
+- **2026-11-23.** Done in the wave described in plan-47-D § Corrections, slices `fp-lines/*-G-*` / `G-*.txt`; `fp-check.py G` → `0 without a footprint`. The lines are the provisional pick's (planning/plan-47-data/footprints-needed.txt is the PROVISIONAL pick's (candidates-provisional.tsv: C's dry run); the final pick follows A's last quota day).
 
 ## Summary
 

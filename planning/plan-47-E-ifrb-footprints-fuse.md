@@ -140,7 +140,7 @@ asked for clips).
 
 ### Phase 1 — Surface-mount fuses
 
-- [ ] The chip and other surface-mount lines (57 at planning time):
+- [x] (2026-11-23: slice E-fuses) The chip and other surface-mount lines (57 at planning time):
       `dims-E.tsv` rows or reuse; map rows; a hand check per size code and
       per series.
 
@@ -150,7 +150,7 @@ Commit: —
 
 ### Phase 2 — Radial and axial fuses
 
-- [ ] The through-hole lines (37 at planning time): R8 and R7 rows in
+- [x] (2026-11-23: slice E-fuses) The through-hole lines (37 at planning time): R8 and R7 rows in
       `dims-E.tsv`; map rows; a hand check per series.
 
 Acceptance: those lines have footprints that load.
@@ -159,11 +159,12 @@ Commit: —
 
 ### Phase 3 — The six clip pairs
 
-- [ ] `footprints-E-explicit.json`: the six `FUSE-CLIP-…` objects (§ 3.2);
+- [x] (2026-11-23: slice E-fuses (the clip pairs are in its explicit file)) `footprints-E-explicit.json`: the six `FUSE-CLIP-…` objects (§ 3.2);
       the 9 cartridge lines' map rows.
-- [ ] Hand-check each pair: the hole pattern against the clip drawing, the
+- [x] (2026-11-23: by the slice agent) Hand-check each pair: the hole pattern against the clip drawing, the
       spacing against the fuse length.
 
+- [ ] After A's last refill and C's final pick: regenerate `footprints-needed.txt` (`footprint-lines.py … --add`), `fp-check.py E` for lines new to the final pick (draw them), `fp-load.sh` over `footprints-*.json`, re-record the counts.
 Acceptance: every E line has a footprint that loads.
   Check: `python3 -I planning/plan-47-data/census/fp-check.py E` → `<n> lines, 0 without a footprint`; `planning/plan-47-data/census/fp-load.sh planning/plan-47-data/footprints-E.json planning/plan-47-data/footprints-E-explicit.json` → `<k> new footprints: load ok`; `python3 -I -c "import json;print(sum(f['id'].startswith('FUSE-CLIP-') for f in json.load(open('planning/plan-47-data/footprints-E-explicit.json'))['footprints']))"` → 6 (est. 4 min).
 Commit: —
@@ -186,6 +187,8 @@ Commit: —
   not clip parts.
 
 ## Corrections
+
+- **2026-11-23.** Done in the wave described in plan-47-D § Corrections, slices `fp-lines/*-E-*` / `E-*.txt`; `fp-check.py E` → `0 without a footprint`. The lines are the provisional pick's (planning/plan-47-data/footprints-needed.txt is the PROVISIONAL pick's (candidates-provisional.tsv: C's dry run); the final pick follows A's last quota day).
 
 ## Summary
 
