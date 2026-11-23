@@ -1,0 +1,16 @@
+== ideal	Ideal diodes (internal FET)	category 758	parts 101
+makers	Texas Instruments 44; Analog Devices Inc. 31; Monolithic Power Systems Inc. 9; Analog Devices Inc./Maxim Integrated 6; Richtek USA Inc. 4; Nexperia USA Inc. 3; Fairchild Semiconductor 1; Microchip Technology 1; onsemi 1; SCT 1
+pick	ideal	Texas Instruments	parts 44	packages(case) 9	packages(supplier) 9
+pick	ideal	Analog Devices	parts 37	packages(case) 13	packages(supplier) 14
+pick	ideal	Monolithic Power Systems	parts 9	packages(case) 2	packages(supplier) 2
+== load	Load switches	category 726	parts 442
+makers	Texas Instruments 140; Microchip Technology 36; onsemi 35; Toshiba Semiconductor and Storage 29; Infineon Technologies 27; Diodes Incorporated 26; Vishay Siliconix 26; Fairchild Semiconductor 24; GLF Integrated Power 15; Analog Devices Inc. 13; Rohm Semiconductor 10; ETEK MICROELECTRONICS 8; Torex Semiconductor Ltd 7; Micrel Inc. 6; Littelfuse Inc. 5; Monolithic Power Systems Inc. 5; Renesas Electronics Corporation 4; Kinetic Technologies 3; Nexperia USA Inc. 3; Nisshinbo Micro Devices Inc. 3; STMicroelectronics 3; ABLIC Inc. 2; Alpha & Omega Semiconductor Inc. 2; Analog Devices Inc./Maxim Integrated 2; Richtek USA Inc. 2; Semtech Corporation 2; Dioo Microcircuits Co., Ltd. 1; NXP Semiconductors 1; NXP USA Inc. 1; Union Semiconductor International Limited 1
+pick	load	Texas Instruments	parts 140	packages(case) 22	packages(supplier) 26
+pick	load	onsemi	parts 59	packages(case) 11	packages(supplier) 22
+pick	load	Microchip	parts 42	packages(case) 9	packages(supplier) 9
+== limited	Current-limited and USB switches	category 726	parts 1346
+makers	Texas Instruments 363; Diodes Incorporated 167; Microchip Technology 156; Infineon Technologies 130; STMicroelectronics 106; Rohm Semiconductor 88; onsemi 45; Torex Semiconductor Ltd 38; Fairchild Semiconductor 28; Monolithic Power Systems Inc. 23; Analog Devices Inc./Maxim Integrated 22; Kinetic Technologies 22; Richtek USA Inc. 21; Skyworks Solutions Inc. 21; Alpha & Omega Semiconductor Inc. 20; Micrel Inc. 17; Vishay Siliconix 11; GLF Integrated Power 10; Renesas Electronics Corporation 9; Analog Devices Inc. 6; ETEK MICROELECTRONICS 6; Toshiba Semiconductor and Storage 6; Nexperia USA Inc. 5; MaxLinear, Inc. 4; Navitas Semiconductor, Inc. 4; NXP USA Inc. 4; National Semiconductor 3; Littelfuse Inc. 2; Nisshinbo Micro Devices Inc. 2; TAEJIN 2; Flip Electronics 1; Freescale Semiconductor 1; Harris Corporation 1; Semtech Corporation 1; Silergy 1
+pick	limited	Texas Instruments	parts 366	packages(case) 37	packages(supplier) 38
+pick	limited	Diodes Incorporated	parts 167	packages(case) 17	packages(supplier) 22
+pick	limited	Microchip	parts 173	packages(case) 17	packages(supplier) 18
+left 12
