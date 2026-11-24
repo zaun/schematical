@@ -382,7 +382,7 @@ Commit: 07f6ecb7
 Acceptance: every candidate row either has a PDF or a reason it has none.
   Check: `awk -F'\t' '$20=="candidate" && $22==""' planning/plan-54-data/candidates.tsv \| wc -l` → the rows B to D will `skip` for no datasheet (recorded here); `find datasheets/connector-card-socket datasheets/connector-memory-module datasheets/connector-card-edge -iname '*.pdf' \| wc -l` = the distinct files the three `datasheets.tsv` list (est. 25 min: 498 downloads, about 4 files a second on the fast hosts and 1 a second at te.com).
   Result: `0` rows without a PDF; `339` PDFs = 112 + 53 + 174 lines of unique paths in the three `datasheets.tsv`.
-Commit: —
+Commit: 81cf168a
 
 ## Validation Plan
 

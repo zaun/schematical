@@ -31,7 +31,7 @@ plan-54-A § Prerequisites, plus:
 | Must be true | Command | Status |
 |---|---|---|
 | plan-54-C complete | `ls planning/completed/plan-54-C-*.md` → exists | NOT MET (2026-11-22: not started) |
-| The PDFs are placed | `python3 -I planning/plan-54-data/census/place.py --verify planning/plan-54-data/candidates.tsv` → `0 missing, 0 unused` | NOT MET (2026-11-22: A Phase 3) |
+| The PDFs are placed | `python3 -I planning/plan-54-data/census/place.py --verify planning/plan-54-data/candidates.tsv` → `0 missing, 0 unused` | MET (2026-11-23: `0 missing, 0 unused, 0 unlisted`) |
 
 Everything below is written against the world where these hold.
 
@@ -122,18 +122,23 @@ specifications that make a row unprovable; both are bounded by the skip rule.
 
 ### Phase 1 — Ordering-code schemes and facts
 
-- [ ] Six parallel readers (brief `planning/plan-54-data/specs-parts/README.md`
+- [x] Six parallel readers (brief `planning/plan-54-data/specs-parts/README.md`
       with this letter's § 3; fragments `edge-te-1` … `edge-te-6`, 38 or 39 rows
       each, split by series then by PDF) fill the seven columns of the 230 rows;
       `assign.py --merge`.
-- [ ] Run `scheme-check.py`; every failing row is `skip`. Print the `--sample` and
+- [x] Run `scheme-check.py`; every failing row is `skip`. Print the `--sample` and
       compare 20 rows by hand.
-- [ ] Apply plan-54-A § 3 rule 9 to the drawings: a row whose land pattern needs a
+- [x] Apply plan-54-A § 3 rule 9 to the drawings: a row whose land pattern needs a
       rotated slot or a keyhole shell slot is `skip` (`footprint not expressible: <feature>`).
       The `Board Edge, Straddle Mount` rows (TE Connectivity 32 candidates) are **not** skipped for
       their bottom-layer pads: mark each in `specs.tsv` `status` as `edge-mount` so the
       footprint readers (H to K) draw it with `opposite` pads and `edgeMount` (plan-54-E);
       record the skip count in § Corrections.
+
+      Result: TE's five reader fragments (`edge-te-1` … `edge-te-5`) filled 123 spec lines; merged with C's; `sibling.py` re-pointed 56 TE rows to a
+      sibling TE drawing that lists them; `scheme-check.py --family edge --maker "TE Connectivity"` → `edge TE Connectivity: 300 rows; 266 ok, 34 skip,
+      0 unchecked`. Rule 9: 0 `footprint-skip`; `edge-mount`: TE's straddle lines (Sliver 2.0 168 / 140, PCIe Gen 4 straddle, HD+, Power) are
+      marked and 32 `add` rows are DigiKey `Board Edge, Straddle Mount`.
 
 Acceptance: every TE card-edge row has a verdict on the ordering table and the facts.
   Check: `python3 -I planning/plan-54-data/census/scheme-check.py --family edge --maker "TE Connectivity"` → `<n> rows: <k> ok, 0 unchecked`; `… --sample \| wc -l` → 20 (est. 10 min of scripts).
@@ -141,8 +146,13 @@ Commit: —
 
 ### Phase 2 — Datasheet status
 
-- [ ] As C Phase 2 for TE's rows (the extra status words of § 3); delete and list
+- [x] As C Phase 2 for TE's rows (the extra status words of § 3); delete and list
       each PDF whose every row is skipped for status.
+
+      Result: `statusscan.py --family edge --ocr` over the TE drawings found OBSOLETE on tables of 1871058, 2332208, 5145165 to 5145169, 5145263, 5145274, 5145275,
+      5145432, 5147490, 5176139, 530666, 531433, 5530841, 5645235, 6364666 and others; each reader split those part numbers into `obsolete` spec lines or left
+      them out of the scheme; `final.py` → 1 row `skip` with reason `obsolete by the datasheet`; no PDF has every row obsolete, so
+      `obsolete-not-included.md` gets no entry.
 
 Acceptance: no `add`-eligible row is obsolete.
   Check: `awk -F'\t' '$4=="edge" && $2=="TE Connectivity" && $24==1 && $20!="out" && $20!="skip"' planning/plan-54-data/candidates.tsv \| wc -l` → 0 (est. 20 min).
@@ -150,9 +160,12 @@ Commit: —
 
 ### Phase 3 — Pin designators and pinouts
 
-- [ ] Run `pinout-check.py --family edge --maker "TE Connectivity"`; read every
+- [x] Run `pinout-check.py --family edge --maker "TE Connectivity"`; read every
       difference again in the PDF and record each confirmed one in `specs.tsv`
       `status` and § Corrections.
+
+      Result: `pinout-check.py --family edge --maker "TE Connectivity"` → 0 bad (the whole edge family: `277 rows, 0 bad`); the readers recorded `pins n, digikey m` where a
+      datasheet omits contacts (Standard Edge II 6489170, 2007209, 5645384 …).
 
 Acceptance: every TE specs row has a pinout the kind will accept.
   Check: `python3 -I planning/plan-54-data/census/pinout-check.py --family edge --maker "TE Connectivity"` → `<n> rows, 0 bad` with `<n>` = TE's rows after Phase 2 (est. 5 min).
@@ -160,10 +173,13 @@ Commit: —
 
 ### Phase 4 — The final pick, the skips, the prune
 
-- [ ] `census/final.py` for TE's rows; `--write-skipped`; `place.py --prune` on
+- [x] `census/final.py` for TE's rows; `--write-skipped`; `place.py --prune` on
       `datasheets/connector-card-edge/te/`; `final.py --verify-skipped`.
-- [ ] `census/footprint-lines.py`: TE's lines, letter `J`, id stem `EDGE-TE-<series
+- [x] `census/footprint-lines.py`: TE's lines, letter `J`, id stem `EDGE-TE-<series
       slug>`.
+
+      Result: `final.py --family edge` → TE add 266 / skip 34; the skips, prune and `--verify-skipped` as in plan-54-C Phase 4 (`230 skip rows`, `0 missing`); `footprints-needed.txt`:
+      J 92 lines (145 keys).
 
 Acceptance: the pick is final, consistent and pruned.
   Check: `awk -F'\t' '$20=="add" && $4=="edge" && $2=="TE Connectivity"' planning/plan-54-data/candidates.tsv \| wc -l` → the final pick (≤ 300); `python3 -I planning/plan-54-data/census/place.py --verify planning/plan-54-data/candidates.tsv` → `0 missing, 0 unused`; `python3 -I planning/plan-54-data/census/final.py --verify-skipped` → `0 missing from skipped-parts.md` (est. 20 min).
@@ -186,6 +202,10 @@ Commit: —
   prints it (plan-54-A § 3 rule 6).
 
 ## Corrections
+
+- D's TE fragments were read together with C's (plan-54-C § Corrections) and re-pointed by `sibling.py` (56 TE rows).
+- TE application specifications and qualification reports (`108-60121`, `501-60088`, `114-130015` …) print no part numbers: their rows are `skip`
+  unless a sibling drawing lists them.
 
 ## Summary
 

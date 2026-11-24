@@ -36,6 +36,33 @@ def slug(r):
     return re.sub(r'[^A-Z0-9]+', '-', s.upper()).strip('-')
 
 
+def build(cand, table, ids, fams=(), makers=()):
+    """The lines: dicts (letter, family, maker, series, mounting, card, pitch, rows, positions, parts, example, pdf, existing,
+    stem, status, variant, rows_of_line, spec) for the `add` rows (`candidate` rows when no row is `add` yet)."""
+    wanted = ('add',) if any(r['state'] == 'add' for r in cand) else ('candidate',)
+    groups = collections.defaultdict(list)
+    for r in cand:
+        if r['state'] in wanted and (not fams or r['family'] in fams) and (not makers or r['maker'] in makers):
+            groups[(letter(r), r['family'], r['maker'], r['variant'], r['pdf'])].append(r)
+    seen = collections.Counter()
+    out = []
+    for k in sorted(groups):
+        g = groups[k]
+        ex = max(g, key=lambda r: (int(r['stock'] or 0), r['mpn']))
+        _, _, _, spec = specs.verdict(ex, table.get(specs.key(ex)))
+        stem = f"{KIND[ex['family']]}-{MAKER[ex['maker']]}-{slug(ex)}"
+        seen[stem] += 1
+        if seen[stem] > 1:   # another variant of the same series: -B, -C ...
+            stem += '-' + chr(ord('A') + seen[stem] - 1)
+        out.append({'letter': k[0], 'family': k[1], 'maker': k[2], 'series': ex['series'], 'mounting': ex['mounting'],
+                    'card': spec['card'] if spec else '', 'pitch': spec['pitch'] if spec else '', 'rows': ex['rows'],
+                    'positions': sorted({int(r['positions']) for r in g}), 'parts': len(g), 'example': ex['mpn'],
+                    'pdf': ex['pdf'], 'existing': [i for i in ids if i.startswith(stem)], 'stem': stem,
+                    'status': 'edge-mount' if spec and 'edge-mount' in specs.status_words(spec) else '',
+                    'variant': ex['variant'], 'members': g})
+    return out
+
+
 def main():
     args = sys.argv[1:]
     fams, makers, rest = [], [], []
@@ -47,29 +74,13 @@ def main():
             makers.append(args[i + 1]); i += 2; continue
         rest.append(args[i]); i += 1
     cand = specs.candidates(rest[0] if rest else specs.CANDIDATES)
-    table = specs.load()
     ids = [f['id'] for f in json.load(open(FOOTPRINTS))['footprints']]
-    wanted = ('add',) if any(r['state'] == 'add' for r in cand) else ('candidate',)
-    groups = collections.defaultdict(list)
-    for r in cand:
-        if r['state'] in wanted and (not fams or r['family'] in fams) and (not makers or r['maker'] in makers):
-            groups[(letter(r), r['family'], r['maker'], r['variant'], r['pdf'])].append(r)
     print('# letter\tfamily\tmaker\tseries\tmounting\tcard\tpitch\trows\tpositions\tparts\texample\tdatasheet\texisting footprints\tid stem\tstatus\tvariant')
-    seen = collections.Counter()
-    for k in sorted(groups):
-        g = groups[k]
-        ex = max(g, key=lambda r: (int(r['stock'] or 0), r['mpn']))
-        spec = None
-        _, _, _, spec = specs.verdict(ex, table.get(specs.key(ex)))
-        stem = f"{KIND[ex['family']]}-{MAKER[ex['maker']]}-{slug(ex)}"
-        seen[stem] += 1
-        if seen[stem] > 1:   # another variant of the same series: -B, -C ...
-            stem += '-' + chr(ord('A') + seen[stem] - 1)
-        same = [i for i in ids if i.startswith(stem)]
-        pos = ','.join(str(n) for n in sorted({int(r['positions']) for r in g}))
-        print('\t'.join([k[0], k[1], k[2], ex['series'], ex['mounting'], spec['card'] if spec else '', spec['pitch'] if spec else '',
-                         ex['rows'], pos, str(len(g)), ex['mpn'], ex['pdf'], ' '.join(same), stem,
-                         'edge-mount' if spec and 'edge-mount' in specs.status_words(spec) else '', ex['variant']]))
+    for L in build(cand, specs.load(), ids, fams, makers):
+        print('\t'.join([L['letter'], L['family'], L['maker'], L['series'], L['mounting'], L['card'], L['pitch'], L['rows'],
+                         ','.join(str(n) for n in L['positions']), str(L['parts']), L['example'], L['pdf'],
+                         ' '.join(L['existing']), L['stem'], L['status'], L['variant']]))
 
 
-main()
+if __name__ == '__main__':
+    main()

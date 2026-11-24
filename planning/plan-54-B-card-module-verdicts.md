@@ -204,7 +204,7 @@ Rejected alternative: naming card-socket pins `1 … N` like the module sockets
 
 Acceptance: every card and module row has a verdict on the ordering table and the facts.
   Check: `python3 -I planning/plan-54-data/census/scheme-check.py --family card --family module` → `<n> rows: <k> ok, 0 unchecked`, then `python3 -I planning/plan-54-data/census/scheme-check.py --family card --family module --sample \| wc -l` → 60 (est. 10 min of scripts; the reading is the work).
-Commit: —
+Commit: 2e192538 (scripts), 77cd4b90 (verdicts)
 
 ### Phase 2 — Datasheet status
 
@@ -224,7 +224,7 @@ Commit: —
 
 Acceptance: no `add`-eligible row is obsolete; the obsolete PDFs are deleted.
   Check: `awk -F'\t' '($4=="card"||$4=="module") && $24==1 && $20!="out" && $20!="skip"' planning/plan-54-data/candidates.tsv \| wc -l` → 0 once each `dead` row has its verdict (a `dead` row the datasheet clears gets `dead` 0), and `grep -c 'plan-54' datasheets/obsolete-not-included.md` → the PDFs deleted (est. 20 min).
-Commit: —
+Commit: 77cd4b90
 
 ### Phase 3 — Pin names and pinouts
 
@@ -243,7 +243,7 @@ Commit: —
 
 Acceptance: every specs row has a pinout the kind will accept.
   Check: `python3 -I planning/plan-54-data/census/pinout-check.py --family card --family module` → `<n> rows, 0 bad` with `<n>` = the two families' `specs.tsv` rows after Phase 2 (est. 5 min).
-Commit: —
+Commit: 77cd4b90
 
 ### Phase 4 — The final pick, the skips, the prune
 
@@ -274,7 +274,7 @@ Commit: —
 
 Acceptance: the pick is final, consistent and pruned.
   Check: `awk -F'\t' '$20=="add" && ($4=="card"||$4=="module")' planning/plan-54-data/candidates.tsv \| wc -l` → the final pick (≤ 256); `python3 -I planning/plan-54-data/census/place.py --verify planning/plan-54-data/candidates.tsv` → `0 missing, 0 unused`; `python3 -I planning/plan-54-data/census/final.py --verify-skipped` → `0 missing from skipped-parts.md` (est. 20 min).
-Commit: —
+Commit: 77cd4b90
 
 ## Validation Plan
 

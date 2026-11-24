@@ -29,8 +29,8 @@ plan-54-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-54-B complete | `ls planning/completed/plan-54-B-*.md` → exists | NOT MET (2026-11-22: not started) |
-| The PDFs are placed | `python3 -I planning/plan-54-data/census/place.py --verify planning/plan-54-data/candidates.tsv` → `0 missing, 0 unused` | NOT MET (2026-11-22: A Phase 3) |
+| plan-54-B complete | `ls planning/completed/plan-54-B-*.md` → exists | MET (2026-11-23: B's commits 2e192538 and 77cd4b90 on worktree-P-54; archived when the plan lands) |
+| The PDFs are placed | `python3 -I planning/plan-54-data/census/place.py --verify planning/plan-54-data/candidates.tsv` → `0 missing, 0 unused` | MET (2026-11-23: `0 missing, 0 unused, 0 unlisted`) |
 
 Everything below is written against the world where these hold.
 
@@ -141,20 +141,28 @@ passes a part the print does not list) and the 49 odd-count pinouts; the
 
 ### Phase 1 — Ordering-code schemes and facts
 
-- [ ] Extend `census/specs.py`, `scheme-check.py`, `spec-rows.py`, `assign.py` with
+- [x] Extend `census/specs.py`, `scheme-check.py`, `spec-rows.py`, `assign.py` with
       `--family edge` and `--maker <name>`.
-- [ ] Six parallel readers (brief `planning/plan-54-data/specs-parts/README.md`
+- [x] Six parallel readers (brief `planning/plan-54-data/specs-parts/README.md`
       with § 3 here; fragments `edge-samtec-1`, `edge-samtec-2`, `edge-amphenol-1`,
       `edge-amphenol-2`, `edge-amphenol-3`, `edge-amphenol-4`) fill the seven columns
       of the 99 rows from the placed PDFs; `assign.py --merge`.
-- [ ] Run `scheme-check.py`; every failing row is `skip`. Print the `--sample` and
+- [x] Run `scheme-check.py`; every failing row is `skip`. Print the `--sample` and
       compare 20 rows per maker with their PDF by hand.
-- [ ] Apply plan-54-A § 3 rule 9 to the drawings: a row whose land pattern needs a
+- [x] Apply plan-54-A § 3 rule 9 to the drawings: a row whose land pattern needs a
       rotated slot or a keyhole shell slot is `skip` (`footprint not expressible: <feature>`).
       The `Board Edge, Straddle Mount` rows (Samtec 28 and Amphenol ICC 39 candidates) are **not** skipped for
       their bottom-layer pads: mark each in `specs.tsv` `status` as `edge-mount` so the
       footprint readers (H to K) draw it with `opposite` pads and `edgeMount` (plan-54-E);
       record the skip count in § Corrections.
+
+      Result: the scripts are B's (`specs.py` etc. take `--family edge` and `--maker`); eleven readers (Samtec 2 fragments, Amphenol ICC 4,
+      TE 5) filled 456 spec lines; `assign.py --merge` → `merged 456 fragment lines (456 with a scheme)`; `sibling.py --family edge
+      --apply` re-pointed 71 rows whose own PDF does not list them to a sibling PDF of the same maker that does (Samtec 11, Amphenol ICC 4, TE 56;
+      § Corrections); `scheme-check.py --family edge --maker Samtec --maker "Amphenol ICC"` → `edge Amphenol ICC: 324 rows; 204 ok, 120 skip,
+      0 unchecked`, `edge Samtec: 387 rows; 368 ok, 19 skip, 0 unchecked`. Rule 9: 0 rows `footprint-skip`; `edge-mount`: 79 `add` rows of the
+      edge family are on spec lines marked `edge-mount` (DigiKey says `Board Edge, Straddle Mount` for 22 Samtec and 19 Amphenol ICC `add` rows and
+      marks 6 and 20 more as skips; the readers also marked the datasheets' own straddle options, e.g. Samtec EM2).
 
 Acceptance: every Samtec and Amphenol ICC card-edge row has a verdict on the ordering table and the facts.
   Check: `python3 -I planning/plan-54-data/census/scheme-check.py --family edge --maker Samtec --maker "Amphenol ICC"` → `<n> rows: <k> ok, 0 unchecked`; `… --sample \| wc -l` → 40 (est. 10 min of scripts).
@@ -162,10 +170,13 @@ Commit: —
 
 ### Phase 2 — Datasheet status
 
-- [ ] As B Phase 2 for the two makers: read every `dead` = 1 row, scan every placed
+- [x] As B Phase 2 for the two makers: read every `dead` = 1 row, scan every placed
       PDF whole for the status words, set `skip` / `obsolete by the datasheet`
       rows; delete each PDF whose every row is skipped for status and list it in
       `obsolete-not-included.md` (`connector`, `Card slot → Card edge → <pitch>`).
+
+      Result: `statusscan.py --family edge --ocr` (text plus tesseract) found OBSOLETE only in TE drawings (D); no Samtec or Amphenol ICC
+      PDF carries a status word; `awk … $24==1 …` → 0.
 
 Acceptance: no `add`-eligible row is obsolete.
   Check: `awk -F'\t' '$4=="edge" && ($2=="Samtec"||$2=="Amphenol ICC") && $24==1 && $20!="out" && $20!="skip"' planning/plan-54-data/candidates.tsv \| wc -l` → 0 (est. 20 min).
@@ -173,11 +184,14 @@ Commit: —
 
 ### Phase 3 — Pin designators and pinouts
 
-- [ ] Extend `census/pinout-check.py` to `--family edge`: `seq` / `AB` / list pins are
+- [x] Extend `census/pinout-check.py` to `--family edge`: `seq` / `AB` / list pins are
       unique by name, `AB` needs an even count, the pin count equals the row's
       positions, and every position of `positions` is in the datasheet's table.
-- [ ] Run it; read every difference again in the PDF and record each confirmed
+- [x] Run it; read every difference again in the PDF and record each confirmed
       one in `specs.tsv` `status` and § Corrections.
+
+      Result: `pinout-check.py --family edge --maker Samtec --maker "Amphenol ICC"` → `277 rows, 0 bad` (the edge family's lines; 24 edge lines carry a `pins n, digikey m`
+      status).
 
 Acceptance: every specs row has a pinout the kind will accept.
   Check: `python3 -I planning/plan-54-data/census/pinout-check.py --family edge --maker Samtec --maker "Amphenol ICC"` → `<n> rows, 0 bad` with `<n>` = the two makers' rows after Phase 2 (est. 5 min).
@@ -185,14 +199,19 @@ Commit: —
 
 ### Phase 4 — The final pick, the skips, the prune
 
-- [ ] `census/final.py` for these rows: every row that passes becomes `add`;
+- [x] `census/final.py` for these rows: every row that passes becomes `add`;
       `--write-skipped` adds their skips to `datasheets/skipped-parts.md`
       § `Card slots (plan-54)`; `place.py --prune` deletes the PDFs no `add` row
       uses from `datasheets/connector-card-edge/samtec/` and `…/amphenol/`.
-- [ ] `census/footprint-lines.py` (the edge family): one line per variant — letter
+- [x] `census/footprint-lines.py` (the edge family): one line per variant — letter
       `I` (Samtec) or `K` (Amphenol ICC), maker, series, mounting, card, pitch, rows,
       the position counts, parts, example, datasheet, existing footprints (none),
       the id stem (`EDGE-<MAKER>-<series slug>`).
+
+      Result: `final.py --family edge` → Samtec add 368 / skip 19, Amphenol ICC add 204 / skip 120 (TE: D); `final.py --write-skipped` → `230 skip rows in 79
+      groups written`; `place.py --prune` deleted the PDFs no `add` row uses; `place.py --verify` → `0 missing, 0 unused, 0 unlisted`; `final.py
+      --verify-skipped` → `230 skip rows, 0 missing from skipped-parts.md`; `footprints-needed.txt` regenerated for every family
+      (`footprint-lines.py`): I 46 lines (168 keys), K 57 lines (112 keys).
 
 Acceptance: the pick is final, consistent and pruned.
   Check: `awk -F'\t' '$20=="add" && $4=="edge" && ($2=="Samtec"||$2=="Amphenol ICC")' planning/plan-54-data/candidates.tsv \| wc -l` → the final pick (≤ 714); `python3 -I planning/plan-54-data/census/place.py --verify planning/plan-54-data/candidates.tsv` → `0 missing, 0 unused`; `python3 -I planning/plan-54-data/census/final.py --verify-skipped` → `0 missing from skipped-parts.md` (est. 20 min).
@@ -214,6 +233,17 @@ Commit: —
   drawings that print only numbers.
 
 ## Corrections
+
+- **The readers ran for Samtec, Amphenol ICC and TE together** (eleven in parallel, 2026-11-23): C and D share one `specs.tsv`, and a reader's
+  fragment is one (maker, slice). D's results are in plan-54-D.
+- **`sibling.py`** (new): DigiKey links a row to one document; for 71 edge rows (Samtec 11, Amphenol ICC 4, TE 56) the document does not list the
+  part but a sibling PDF of the same maker, already in the tree, does (the reader of a fragment named them). Such a row is re-pointed to
+  the sibling (`pdf`, `url`, `series`) and judged by the sibling's spec line like any row; `datasheets.json` names the sibling's URL. Two Samtec
+  rows are listed by two siblings and take the first by path.
+- **Edge pinouts are `seq`, `AB` or explicit lists, never invented signal names**: PCIe and M.2 sheets without a pin table are `AB` (PCI-SIG's A/B
+  convention) or `seq`, flagged in `status` (`AB assumed`, `seq assumed`).
+- The straddle-mount sockets' pad faces are not labelled on most drawings; the footprint readers (I, K) decide from the drawing's views and say so in the
+  footprint `note`, or the line is not drawn (its parts become `skip`, § Corrections of I and K).
 
 ## Summary
 

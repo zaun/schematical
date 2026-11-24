@@ -1,21 +1,26 @@
 family	maker	series	pdf	rows	example	scheme	label	card	pinout	positions	pitch	status
-edge	TE Connectivity	MULTI-BEAM CE	datasheets/connector-card-edge/te/1-1773923-7_MULTI-BEAM_CE.pdf	1	2204072-1							
-edge	TE Connectivity	Mini Cool Edge 0.60mm	datasheets/connector-card-edge/te/2379397.pdf	6	2379397-5							
-edge	TE Connectivity	Mini Cool Edge 0.60mm	datasheets/connector-card-edge/te/2381578.pdf	2	3-2381578-9							
-edge	TE Connectivity	Mini Cool Edge IO	datasheets/connector-card-edge/te/2379397.pdf	1	1-2379397-5							
-edge	TE Connectivity	Mini Crown Edge, Elcon	datasheets/connector-card-edge/te/1651864.pdf	1	1651864-1							
-edge	TE Connectivity	Mini Crown Edge, Elcon	datasheets/connector-card-edge/te/1651929.pdf	1	1651929-1							
-edge	TE Connectivity	Mini Crown Edge, Elcon	datasheets/connector-card-edge/te/1766336.pdf	1	1766336-1							
-edge	TE Connectivity	Mini Crown Edge, Elcon	datasheets/connector-card-edge/te/1766436.pdf	1	1766436-1							
-edge	TE Connectivity	Mini Crown Edge, Elcon	datasheets/connector-card-edge/te/6651712.pdf	1	6651712-1							
-edge	TE Connectivity	Next Generation PACE	datasheets/connector-card-edge/te/5147490.pdf	1	1-5147490-0							
-edge	TE Connectivity	PCIe Gen 5	datasheets/connector-card-edge/te/DDEController-14436f.pdf	2	4-2388957-3							
-edge	TE Connectivity	PCIe Gen 5	datasheets/connector-card-edge/te/DDEController-57aa8a.pdf	3	5-2364427-8							
-edge	TE Connectivity	PCIe Gen 5	datasheets/connector-card-edge/te/DDEController-fb071b.pdf	2	4-2384214-3							
-edge	TE Connectivity	PCIe Gen 5	datasheets/connector-card-edge/te/DDEController.pdf	2	4-2378762-3							
-edge	TE Connectivity	Power	datasheets/connector-card-edge/te/108-128053.pdf	1	2204798-1							
-edge	TE Connectivity	SEC-II	datasheets/connector-card-edge/te/1773096_SEC03_CARD_EDGE.pdf	1	1888946-3							
-edge	TE Connectivity	SEC-II	datasheets/connector-card-edge/te/2204061.pdf	1	2204061-2							
-edge	TE Connectivity	Silver 2.0	datasheets/connector-card-edge/te/108-130021.pdf	3	2369833-3							
-edge	TE Connectivity	Silver 2.0	datasheets/connector-card-edge/te/2450185.pdf	1	2450185-3							
-edge	TE Connectivity	Sliver 2.0	datasheets/connector-card-edge/te/114-130015.pdf	3	2345808-4							
+edge	TE Connectivity	MULTI-BEAM CE	datasheets/connector-card-edge/te/1-1773923-7_MULTI-BEAM_CE.pdf	1	2204072-1	2204072-1	MULTI-BEAM CE 16	Dual edge	seq	16	1.0	active;note:2x3 power at 7.26 mm + 2x5 signal at 1.00 mm; no pad names printed
+edge	TE Connectivity	Mini Cool Edge 0.60mm	datasheets/connector-card-edge/te/2379397.pdf	6	2379397-5	2379397-1|2379397-2|2379397-3|2379397-4|2379397-5|2379397-6|2379397-7|2379397-8|2379397-9|1-2379397-1|1-2379397-2|1-2379397-3|1-2379397-4|1-2379397-5|1-2379397-6|1-2379397-7|1-2379397-8|1-2379397-9|2-2379397-6|2-2379397-9|3-2379397-9|4-2379397-5|5-2379397-1|5-2379397-5|5-2379397-6|5-2379397-7	Mini Cool Edge 74	Dual edge	AB	74	0.6	active;note:pads A1-A37 and B1-B37
+edge	TE Connectivity	Mini Cool Edge 0.60mm	datasheets/connector-card-edge/te/2381578.pdf	2	3-2381578-9	2381578-1|2381578-2|2381578-3|2381578-4|2381578-5|2381578-6|2381578-7|2381578-8|2381578-9|1-2381578-1|1-2381578-2|1-2381578-3|1-2381578-4|1-2381578-5|1-2381578-6|1-2381578-7|1-2381578-8|1-2381578-9|2-2381578-7|2-2381578-9|3-2381578-9|4-2381578-9|5-2381578-7	Mini Cool Edge 124	Dual edge	AB	124	0.6	active;note:pads A1-A62 and B1-B62
+edge	TE Connectivity	Mini Cool Edge IO	datasheets/connector-card-edge/te/2379397.pdf	1	1-2379397-5	2379397-1|2379397-2|2379397-3|2379397-4|2379397-5|2379397-6|2379397-7|2379397-8|2379397-9|1-2379397-1|1-2379397-2|1-2379397-3|1-2379397-4|1-2379397-5|1-2379397-6|1-2379397-7|1-2379397-8|1-2379397-9|2-2379397-6|2-2379397-9|3-2379397-9|4-2379397-5|5-2379397-1|5-2379397-5|5-2379397-6|5-2379397-7	Mini Cool Edge IO 74	Dual edge	AB	74	0.6	active;note:pads A1-A37 and B1-B37
+edge	TE Connectivity	Mini Crown Edge, Elcon	datasheets/connector-card-edge/te/1651864.pdf	1	1651864-1	1651864-1	Mini Crown Edge VRM 38	VRM	seq	38	2.5	active;note:19 pads per side; no pad names printed; signal pads 2.50, power pads 7.62
+edge	TE Connectivity	Mini Crown Edge, Elcon	datasheets/connector-card-edge/te/1651929.pdf	1	1651929-1	1651929-1	Mini Crown Edge VRM 30	VRM	seq	30	2.5	active;note:15 pads per side; no pad names printed; signal pads 2.50, power pads 7.62
+edge	TE Connectivity	Mini Crown Edge, Elcon	datasheets/connector-card-edge/te/1766336.pdf	1	1766336-1	1766336-1	Mini Crown Edge VRM 30 SMT	VRM	seq	30	2.5	active;note:15 pads per side (12 power, 18 signal contacts); no pad names printed
+edge	TE Connectivity	Mini Crown Edge, Elcon	datasheets/connector-card-edge/te/1766436.pdf	1	1766436-1	1766436-1	Mini Crown Edge VRM 30 press-fit	VRM	seq	30	2.5	active;note:15 pads per side (12 power, 18 signal contacts); no pad names printed
+edge	TE Connectivity	Mini Crown Edge, Elcon	datasheets/connector-card-edge/te/6651712.pdf	1	6651712-1	6651712-1|6651712-2	Mini Crown Edge 6	Dual edge	seq	6	7.5	active;note:3 power contacts per side at 7.50 mm; no pad names printed
+edge	TE Connectivity	Next Generation PACE	datasheets/connector-card-edge/te/5147490.pdf	1	1-5147490-0	1-5147490-0	PACE 2.54 20	Dual edge	seq	20	2.54	active;note:drawing lists POSN 10 per row (X=9 spaces at 2.54), 2 rows = 20 contacts; the other numbers of the drawing are struck out or other lengths
+edge	TE Connectivity	PCIe Gen 5	datasheets/connector-card-edge/te/DDEController-14436f.pdf	2	4-2388957-3	2388957-3|[12]-2388957-3|[345]-2388957-[37]	PCIe Gen5 x8 98	PCI Express	AB	98	1.0	active;note:A1-A49 and B1-B49
+edge	TE Connectivity	PCIe Gen 5	datasheets/connector-card-edge/te/DDEController-14436f.pdf	2	4-2388957-3	2388957-4|[12]-2388957-4|[345]-2388957-[48]|7-2388957-8	PCIe Gen5 x16 164	PCI Express	AB	164	1.0	active;note:A1-A82 and B1-B82
+edge	TE Connectivity	PCIe Gen 5	datasheets/connector-card-edge/te/DDEController-57aa8a.pdf	3	5-2364427-8	-	PCIe Gen5 x8 98	PCI Express	AB	98	1.0	active;note:A1-A49 and B1-B49; PDF is an application specification with no part table
+edge	TE Connectivity	PCIe Gen 5	datasheets/connector-card-edge/te/DDEController-57aa8a.pdf	3	5-2364427-8	-	PCIe Gen5 x16 164	PCI Express	AB	164	1.0	active;note:A1-A82 and B1-B82; PDF is an application specification with no part table
+edge	TE Connectivity	PCIe Gen 5	datasheets/connector-card-edge/te/DDEController-fb071b.pdf	2	4-2384214-3	2384214-3|[12]-2384214-3|[345]-2384214-[37]	PCIe Gen5 x8 98	PCI Express	AB	98	1.0	active;note:A1-A49 and B1-B49
+edge	TE Connectivity	PCIe Gen 5	datasheets/connector-card-edge/te/DDEController-fb071b.pdf	2	4-2384214-3	2384214-4|[12]-2384214-4|[345]-2384214-[48]|7-2384214-4	PCIe Gen5 x16 164	PCI Express	AB	164	1.0	active;note:A1-A82 and B1-B82
+edge	TE Connectivity	PCIe Gen 5	datasheets/connector-card-edge/te/DDEController.pdf	2	4-2378762-3	2378762-3|[12]-2378762-3|[345]-2378762-[37]	PCIe Gen5 x8 98	PCI Express	AB	98	1.0	active;note:A1-A49 and B1-B49
+edge	TE Connectivity	PCIe Gen 5	datasheets/connector-card-edge/te/DDEController.pdf	2	4-2378762-3	2378762-4|[12]-2378762-4|[345]-2378762-[48]|7-2378762-4	PCIe Gen5 x16 164	PCI Express	AB	164	1.0	active;note:A1-A82 and B1-B82
+edge	TE Connectivity	Power	datasheets/connector-card-edge/te/108-128053.pdf	1	2204798-1	2204798-1	Super Card Edge 34	Dual edge	seq	34	1.27	active;edge-mount;note:14 power contacts at 5.08 mm + 20 signal at 1.27 mm; the product specification has no drawing, so the face of each contact row is not confirmed; no pad names printed
+edge	TE Connectivity	SEC-II	datasheets/connector-card-edge/te/1773096_SEC03_CARD_EDGE.pdf	1	1888946-3	1888946-3	SEC-II Power 8	Dual edge	seq	8	7.62	active;note:catalog 1773096 p.184 power only press-fit, 8 power contacts (4 per side), no pad names printed
+edge	TE Connectivity	SEC-II	datasheets/connector-card-edge/te/2204061.pdf	1	2204061-2	2204061-2	SEC-II Power 4P+36S	Dual edge	1=P1,2=P2,3=P3,4=P4,5=S1,6=S2,7=S3,8=S4,9=S5,10=S6,11=S7,12=S8,13=S9,14=S10,15=S11,16=S12,17=S13,18=S14,19=S15,20=S16,21=S17,22=S18,23=S19,24=S20,25=S21,26=S22,27=S23,28=S24,29=S25,30=S26,31=S27,32=S28,33=S29,34=S30,35=S31,36=S32,37=S33,38=S34,39=S35,40=S36	40	1.27	active;note:4 SEC-II power contacts P1-P4 (7.62 mm) + 36 signal S1-S36 (1.27 mm); the pad numbering of the drawing is P1-P4 then S1-S36 per side
+edge	TE Connectivity	Silver 2.0	datasheets/connector-card-edge/te/108-130021.pdf	3	2369833-3	-	Silver 2.0 168	Dual edge	AB	168	0.6	active;note:product specification only, no part table or drawing
+edge	TE Connectivity	Silver 2.0	datasheets/connector-card-edge/te/2450185.pdf	1	2450185-3	2450185-[1-4]	Silver 2.0 168	Dual edge	AB	168	0.6	active;note:84 contacts per side A and B (contact numbers 1-84), only ground / signal marked
+edge	TE Connectivity	Sliver 2.0	datasheets/connector-card-edge/te/114-130015.pdf	3	2345808-4	-	Sliver 2.0 56	Dual edge	AB	56	0.6	active;note:application specification only (114-130015), no part table or drawing
+edge	TE Connectivity	Sliver 2.0	datasheets/connector-card-edge/te/114-130015.pdf	3	2345808-4	-	Sliver 2.0 28	Dual edge	AB	28	0.6	active;note:application specification only (114-130015), no part table or drawing
