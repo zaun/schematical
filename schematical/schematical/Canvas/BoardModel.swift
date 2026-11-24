@@ -169,10 +169,14 @@ nonisolated enum BoardReference {
 // MARK: - A placed part's footprint
 
 extension PlacedChip {
-    /// The footprint on the board: the connector footprint when the style is
-    /// Connector Only and the part has one, else the chosen footprint choice,
-    /// else the part's footprint.
+    /// The footprint on the board: the socket's when the chip is in a socket
+    /// mode, else the connector footprint when the style is Connector Only
+    /// and the part has one, else the chosen footprint choice, else the
+    /// part's footprint.
     nonisolated var footprint: Footprint? {
+        // A chip in a socket mode sits on the socket's footprint (plan-51-H); a socket
+        // ignores the connector style (only the character LCDs have one, and none is socketable).
+        if let socket { return socket.part.footprint }
         let base = footprintChoice?.footprint ?? part.footprint
         return board?.style == .connector ? part.connectorFootprint ?? base : base
     }

@@ -856,6 +856,28 @@ nonisolated struct MemoryFile: Hashable, Sendable {
     var name: String { url.lastPathComponent }
 }
 
+/// A DIP or PLCC chip's socket (plan-51-H): `part` is a `PART_SOCKET` catalog
+/// part whose `fits` hold the chip's footprint, and `mode` says whether the
+/// chip is soldered into it or left out. A chip with no `ChipSocket` is a plain IC.
+nonisolated struct ChipSocket: Hashable, Sendable {
+    /// The file's values are the raw values.
+    enum Mode: String, Sendable {
+        /// The chip sits in the socket: the Bill of Materials lists both.
+        case withSocket
+        /// The socket is on the board, the chip is not inserted.
+        case socketOnly
+    }
+
+    var part: CatalogPart
+    var mode: Mode
+
+    /// Whether `part` is a socket that holds `chip`'s base footprint.
+    static func fits(_ socket: CatalogPart, _ chip: CatalogPart) -> Bool {
+        guard socket.kind == PART_SOCKET, chip.footprintChoices.isEmpty, let base = chip.footprint else { return false }
+        return socket.fits.contains { $0.id == base.id }
+    }
+}
+
 nonisolated struct PlacedChip: Identifiable, Hashable {
     let id: UUID
     /// "U1", "R3": letters then a number. Changed through
@@ -897,6 +919,9 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     /// plan-33-H). Nil for every other part, real capacitors included (their
     /// value is their part's).
     var farads: Double?
+    /// The socket the chip is in or on (plan-51-H); nil = a plain IC. Only a
+    /// chip a socket fits can have one: with footprint choices, never.
+    var socket: ChipSocket?
     /// Whether the Schematic draws the reference above the part; the
     /// sidebar's Display Reference. On unless turned off.
     var showsReference = true
@@ -918,7 +943,8 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         footprintID: String? = nil,
         gender: String? = nil,
         ohms: Double? = nil,
-        farads: Double? = nil
+        farads: Double? = nil,
+        socket: ChipSocket? = nil
     ) {
         self.id = id
         self.reference = reference
@@ -959,6 +985,8 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         } else {
             self.farads = nil
         }
+        // A socket is kept only when it is one that holds this chip's footprint.
+        self.socket = socket.flatMap { ChipSocket.fits($0.part, part) ? $0 : nil }
         // A switch has one state per position, OFF unless given; others none.
         // A tactile switch has one, "pressed", and always starts released
         // (the file never stores it; plan-27-J).
@@ -989,7 +1017,7 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         var chip = PlacedChip(id: id, reference: reference, part: newPart, symbol: symbol, origin: origin,
                               isFlipped: isFlipped && symbol.canFlip, rotation: rotation, switchesOn: switchesOn, board: board,
                               memoryFile: memoryFile, color: color, footprintID: footprint, gender: gender,
-                              ohms: ohms, farads: farads)
+                              ohms: ohms, farads: farads, socket: socket)
         chip.showsReference = showsReference
         return chip
     }
@@ -2289,20 +2317,55 @@ final class SchematicDocument {
                   chips[index].footprintID != footprintID,
                   chips[index].part.footprintChoices.contains(where: { $0.footprint.id == footprintID })
             else { return }
-            let before = chips[index].footprint
-            chips[index].footprintID = footprintID
-            guard var changed = chips[index].board, let before, let after = chips[index].footprint else { return }
-            // The reference was placed for the old body.
-            changed.referenceOffset = .zero
-            let pad1 = chips[index].part.firstPinDesignator
-            if let old = before.pads.first(where: { $0.designator == pad1 }),
-               let new = after.pads.first(where: { $0.designator == pad1 }) {
-                let anchor = changed.board(old.centre)
-                let landed = changed.board(new.centre)
-                changed.centre.x += anchor.x - landed.x
-                changed.centre.y += anchor.y - landed.y
+            changingFootprint(of: index) { chips[index].footprintID = footprintID }
+        }
+    }
+
+    /// Runs `change`, which swaps the footprint of the chip at `index`, and
+    /// keeps the pad of the part's first pin at its board point: the
+    /// placement moves by the difference between the old and new pad 1, the
+    /// reference text goes back to its default offset. The chip's rotation,
+    /// origin, marks and style are kept (`setPartFootprint`, `setPartSocket`).
+    private func changingFootprint(of index: Int, _ change: () -> Void) {
+        let before = chips[index].footprint
+        change()
+        guard var changed = chips[index].board, let before, let after = chips[index].footprint else { return }
+        // The reference was placed for the old body.
+        changed.referenceOffset = .zero
+        let pad1 = chips[index].part.firstPinDesignator
+        if let old = before.pads.first(where: { $0.designator == pad1 }),
+           let new = after.pads.first(where: { $0.designator == pad1 }) {
+            let anchor = changed.board(old.centre)
+            let landed = changed.board(new.centre)
+            changed.centre.x += anchor.x - landed.x
+            changed.centre.y += anchor.y - landed.y
+        }
+        chips[index].board = changed
+    }
+
+    /// Puts a chip in or out of a socket (plan-51-H). `mode` nil is a plain IC;
+    /// otherwise `socket` is the socket part (a chip already in a socket mode
+    /// keeps its own when `socket` is nil). Does nothing for a socket that
+    /// does not hold the chip's footprint, a chip a socket cannot take, or
+    /// when nothing changes. Going between IC and a socket mode puts the
+    /// socket's footprint (or the chip's back) on the PCB with the first pin's
+    /// pad where it was; between the two socket modes only the mode changes,
+    /// and between two sockets that share a footprint nothing moves.
+    func setPartSocket(_ id: UUID, mode: ChipSocket.Mode?, socket: CatalogPart?) {
+        recordEdit(.schematic, "Change Socket") {
+            guard let index = chips.firstIndex(where: { $0.id == id }) else { return }
+            var new: ChipSocket?
+            if let mode {
+                guard let part = socket ?? chips[index].socket?.part,
+                      ChipSocket.fits(part, chips[index].part) else { return }
+                new = ChipSocket(part: part, mode: mode)
             }
-            chips[index].board = changed
+            guard chips[index].socket != new else { return }
+            if chips[index].socket?.part.footprint?.id == new?.part.footprint?.id {
+                chips[index].socket = new
+            } else {
+                changingFootprint(of: index) { chips[index].socket = new }
+            }
         }
     }
 
@@ -2559,7 +2622,8 @@ final class SchematicDocument {
                     part: chip.part,
                     symbol: chip.symbol, origin: shifted(chip.origin), isFlipped: chip.isFlipped,
                     rotation: chip.rotation, switchesOn: chip.switchesOn, memoryFile: chip.memoryFile, color: chip.color,
-                    footprintID: chip.footprintID, gender: chip.gender, ohms: chip.ohms, farads: chip.farads
+                    footprintID: chip.footprintID, gender: chip.gender, ohms: chip.ohms, farads: chip.farads,
+                    socket: chip.socket
                 )
                 placed.showsReference = chip.showsReference
                 placed.board = placed.footprint.map {

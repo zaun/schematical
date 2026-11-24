@@ -34,9 +34,9 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-51-G complete | `ls planning/completed/plan-51-G-*.md` → exists | NOT MET (2026-11-21: not started) |
-| The catalog has sockets | `grep -c 'GENERIC-SOCKET' schematical/schematical/Parts/socket.json` → 15 or more | NOT MET (F's output) |
-| The app builds and `SocketPartsTests` passes | the check of plan-51-F Phase 3 | NOT MET (F's output) |
+| plan-51-G complete | `ls planning/completed/plan-51-G-*.md` → exists | MET (2026-11-24: `planning/completed/plan-51-G-socket-part-editor.md`, commit 94613cea) |
+| The catalog has sockets | `grep -c 'GENERIC-SOCKET' schematical/schematical/Parts/socket.json` → 15 or more | MET (2026-11-24: 15 generic sockets) |
+| The app builds and `SocketPartsTests` passes | the check of plan-51-F Phase 3 | MET (2026-11-24: `SocketPartsTests` 7 of 7, the app builds) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > If you stop, report the status of *all* prerequisites.
@@ -154,32 +154,32 @@ The file read is the other: a bad file must fail with a message, not a crash.
 
 ### Phase 1 — the model
 
-- [ ] `SchematicModel.swift`: `ChipSocket`, `PlacedChip.socket`, the init parameter and its validation, `resized` passes it; `BoardModel.swift`: `footprint`; `PartCatalog.swift`: `sockets(fitting:)`, `genericSocket(fitting:)`, the index in `load()`.
-- [ ] `setPartSocket` and the shared anchoring helper (behavior of `setPartFootprint` unchanged: its tests are the check).
-- [ ] `schematicalTests/SocketModeTests.swift`: for `SN74HC00N` (14 pins): `footprint` is `PDIP-14` in IC mode and the generic socket's in both socket modes; `boardPads` has 14 pads with designators `1…14` in each; pad 1's board point is equal before and after each switch; a socket that does not fit (a 28-pin one) is refused; the generic list for `PDIP-14` and `CDIP-14` holds `GENERIC-SOCKET-DIP-14-300` first.
+- [x] `SchematicModel.swift`: `ChipSocket`, `PlacedChip.socket`, the init parameter and its validation, `resized` passes it; `BoardModel.swift`: `footprint`; `PartCatalog.swift`: `sockets(fitting:)`, `genericSocket(fitting:)`, the index in `load()`. — `ChipSocket` (+ `ChipSocket.fits`), `PlacedChip.socket` kept only when the socket holds the chip's base footprint, `resized` passes it; `BoardModel.swift` `footprint` is the socket's; `PartCatalogStore.sockets(fitting:)` and `genericSocket(fitting:)` (an index dropped whenever `partsByName` changes).
+- [x] `setPartSocket` and the shared anchoring helper (behavior of `setPartFootprint` unchanged: its tests are the check). — `SchematicDocument.setPartSocket` and the private `changingFootprint(of:_:)` that `setPartFootprint` now calls too (`PullResistorTests`, `HeaderBoardTests` pass).
+- [x] `schematicalTests/SocketModeTests.swift`: for `SN74HC00N` (14 pins): `footprint` is `PDIP-14` in IC mode and the generic socket's in both socket modes; `boardPads` has 14 pads with designators `1…14` in each; pad 1's board point is equal before and after each switch; a socket that does not fit (a 28-pin one) is refused; the generic list for `PDIP-14` and `CDIP-14` holds `GENERIC-SOCKET-DIP-14-300` first. — `SocketModeTests` (15 cases in all): the three modes keep pad 1's board point to 0.001 mm, `PDIP-14` → `SKT-DIP14-300-TH-MM-110` and back, 14 pads `1…14` in each; a 28-pin socket, a PLCC one and a non-socket are refused with no undo step; the generic is first in the list for `PDIP-14` and `CDIP-14`.
 
 Acceptance: `SocketModeTests` passes and the footprint-choice tests (`PullResistorTests`, `HeaderBoardTests`) still do.
-  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p51-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/SocketModeTests -only-testing:schematicalTests/PullResistorTests -only-testing:schematicalTests/HeaderBoardTests` → `** TEST SUCCEEDED **` (est. 12 min).
-Commit: —
+  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p51-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/SocketModeTests -only-testing:schematicalTests/PullResistorTests -only-testing:schematicalTests/HeaderBoardTests` → `** TEST SUCCEEDED **` (est. 12 min). Measured 2026-11-24 with every phase's classes in one run (the three phases' checks below): `Executed 179 tests, with 0 failures`, `** TEST SUCCEEDED **`; `SocketModeTests` 15 of 15, `PullResistorTests` 10, `HeaderBoardTests` 7. VERIFIED.
+Commit: (next commit)
 
 ### Phase 2 — file, undo, paste
 
-- [ ] `SchematicFile.swift`: `Part.socket`, write, read and errors per § 3.3; `docs/file-format.md`: a `socket` row in § Parts' field table (after `gender`), the three errors in § Validation on open.
-- [ ] `UndoHistory.swift`: compare and restore `socket`; `SchematicModel.swift` paste copy.
-- [ ] `SocketModeTests`: save then open keeps mode and socket; a file naming a non-socket part, a socket that does not fit and an unknown mode each fail with their message; undo after `setPartSocket` restores IC and the old footprint and board; redo re-applies; copy and paste keeps the socket; a document with no socket saves the same bytes as before (compare with the fixture).
+- [x] `SchematicFile.swift`: `Part.socket`, write, read and errors per § 3.3; `docs/file-format.md`: a `socket` row in § Parts' field table (after `gender`), the three errors in § Validation on open. — `SchematicFile.Part.socket: SocketEntry?`, written only for a chip in a socket mode; the read checks the mode, that the part is a socket and that it fits (`U1: "X" is not an IC socket`, `… does not fit PDIP-14`, `… is not a socket mode`); `docs/file-format.md` (field row and the three errors).
+- [x] `UndoHistory.swift`: compare and restore `socket`; `SchematicModel.swift` paste copy. — `UndoDiff.sameFootprint` compares `socket`, the footprint restore copies it; the paste copy passes `socket: chip.socket`.
+- [x] `SocketModeTests`: save then open keeps mode and socket; a file naming a non-socket part, a socket that does not fit and an unknown mode each fail with their message; undo after `setPartSocket` restores IC and the old footprint and board; redo re-applies; copy and paste keeps the socket; a document with no socket saves the same bytes as before (compare with the fixture). — save and open keep mode, socket and board placement; the three bad entries fail with their messages; undo and redo of `Change Socket`, and of a mode-only change; copy and paste keep the socket; a chip with no socket writes no `socket` key, and `SchematicFileV5Tests.testPlainSchematicIsVersion4AsBefore` (the golden bytes) passes.
 
 Acceptance: the file and undo cases pass with the existing file and PCB undo classes.
-  Check: the Phase 1 command with `-only-testing:schematicalTests/SchematicFileV5Tests -only-testing:schematicalTests/PCBUndoTests` replacing the two footprint classes → `** TEST SUCCEEDED **` (est. 13 min).
-Commit: —
+  Check: the Phase 1 command with `-only-testing:schematicalTests/SchematicFileV5Tests -only-testing:schematicalTests/PCBUndoTests` replacing the two footprint classes → `** TEST SUCCEEDED **` (est. 13 min). Measured 2026-11-24 (same run): `SchematicFileV5Tests` 10 of 10, `PCBUndoTests` 34 of 34. VERIFIED.
+Commit: (next commit)
 
 ### Phase 3 — Bill of Materials, facts, automation, exports
 
-- [ ] `BillOfMaterialsWindow.swift`: the three modes per § 3.3; `PartFacts.swift`: footprint and Socket rows; `AutomationSchematic.swift`, `AutomationRead.swift`, `docs/agent-control.md`.
-- [ ] `SocketModeTests`: the three BOM line sets for one chip (`[chip]`, `[chip, XU1]`, `[XU1]`) and for two chips sharing a socket (`XU1, XU2`); the facts rows; `set_part` with `socket_mode` `ic+socket` and `socket-only` and `ic`; a KiCad board export of a chip in a socket mode names the socket footprint (`KiCadExportTests` helper); a `Simulation` run builds with the same net count in all three modes.
+- [x] `BillOfMaterialsWindow.swift`: the three modes per § 3.3; `PartFacts.swift`: footprint and Socket rows; `AutomationSchematic.swift`, `AutomationRead.swift`, `docs/agent-control.md`. — the BOM (chip, chip + `X<ref>` socket line, or the socket line only; chips with one socket part share a line; a chip in a socket is not a machine-placed line), `PartFacts` (Footprint from the socket, a Socket row), `set_part` `socket_mode` and `socket`, `get_design` prints `socket=<name> (<mode>)`, `docs/agent-control.md`; `PickAndPlaceExport` and the BOM use `PlacedChip.fabricationReference` (`XU1`) so the placement file and the BOM agree.
+- [x] `SocketModeTests`: the three BOM line sets for one chip (`[chip]`, `[chip, XU1]`, `[XU1]`) and for two chips sharing a socket (`XU1, XU2`); the facts rows; `set_part` with `socket_mode` `ic+socket` and `socket-only` and `ic`; a KiCad board export of a chip in a socket mode names the socket footprint (`KiCadExportTests` helper); a `Simulation` run builds with the same net count in all three modes. — the three BOM line sets and two chips sharing a socket (`XU1, XU2`), a maker socket line with its maker, the facts rows, `set_part` through `AutomationTests.testSetPartSocketModes` (a mode alone picks the generic, a mode-only change keeps the socket, a named socket keeps the mode, the three refusals, `ic`), the KiCad board names `SKT-DIP14-300-TH-MM-110` and the placement file lists `XU1` for a surface-mount socket, and `Simulation` starts in all three modes.
 
 Acceptance: the cases pass with the BOM, automation and export classes.
-  Check: the Phase 1 command with `-only-testing:schematicalTests/BillOfMaterialsTests -only-testing:schematicalTests/AutomationTests -only-testing:schematicalTests/KiCadExportTests` replacing the two footprint classes → `** TEST SUCCEEDED **` (est. 14 min).
-Commit: —
+  Check: the Phase 1 command with `-only-testing:schematicalTests/BillOfMaterialsTests -only-testing:schematicalTests/AutomationTests -only-testing:schematicalTests/KiCadExportTests` replacing the two footprint classes → `** TEST SUCCEEDED **` (est. 14 min). Measured 2026-11-24 (same run): `BillOfMaterialsTests` 7, `AutomationTests` 31, `KiCadExportTests` 20, `EasyEDAProExportTests` and `PickAndPlaceExportTests` pass. VERIFIED.
+Commit: (next commit)
 
 ## Validation Plan
 
@@ -199,6 +199,12 @@ See plan-51-A § Decisions. Author decisions:
 - **Switching between the two socket modes changes no geometry.**
 
 ## Corrections
+
+- **2026-11-24, one run for the three phases.** Each phase's check names the Phase 1 classes plus its own; the three were built and run once together (12 classes, 179 tests, 0 failures) because the work was written in one pass and the app build is the slow part. Every class a phase names is in that run.
+- **2026-11-24, custom sockets are not offered.** `PartCatalogStore.sockets(fitting:)` lists bundled sockets only (`uuid == nil`): a chip's file names its socket by part number, and a file carries no custom part but a placed chip's own (`customParts`), so a custom socket would make the file fail to open on another machine. A custom socket can still be placed on its own (it is an ordinary part).
+- **2026-11-24, the placement file and the BOM share the fab reference.** The plan only says the BOM's socket line is `X` + the chip's reference. The pick-and-place file (`PickAndPlaceExport.rows`) also lists a chip in a socket mode under that reference (`PlacedChip.fabricationReference`), since the part a fab places is the socket and its pads are the socket's (`boardPads`); the chip's own BOM line is not marked surface mount while it sits in a socket.
+- **2026-11-24, `get_design`, not `read`, shows the socket**: the part's options line gets `socket=<name> (ic+socket | socket-only)`; `docs/agent-control.md` says so.
+- **2026-11-24, the same-footprint shortcut.** `setPartSocket` between two sockets that share a footprint id (the mode alone, or the same part) moves nothing; every other switch (IC ↔ a socket mode, or a socket with another footprint) goes through `changingFootprint(of:_:)`, which keeps pad 1 at its board point.
 
 ## Summary
 

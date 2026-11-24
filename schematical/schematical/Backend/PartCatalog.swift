@@ -1775,6 +1775,10 @@ final class PartCatalogStore {
     /// Listed parts (a non-empty drawer path).
     private var entries: [CatalogPart] = []
     private var partsByName: [String: CatalogPart] = [:]
+    /// The sockets by the id of each chip footprint they hold (plan-51-H),
+    /// built the first time `sockets(fitting:)` asks and dropped whenever
+    /// `partsByName` changes.
+    @ObservationIgnored private var socketIndex: [String: [CatalogPart]]?
     /// Registered custom parts (plan-32-A), by uuid, and the text each was
     /// registered with.
     private var partsByUUID: [String: CatalogPart] = [:]
@@ -2027,6 +2031,38 @@ final class PartCatalogStore {
     /// Any part by name, listed or not (VCC and GND are not listed). A rail
     /// of any voltage ("170V", "3V6") and its pull-up ("PULLUP-170V") exist
     /// as soon as they are asked for: see `customSupply`.
+    /// The sockets that hold a chip footprint (plan-51-H): the `PART_SOCKET`
+    /// parts whose `fits` name it, the generic one first, then by
+    /// manufacturer, then by part number in natural order. Bundled sockets
+    /// only (see the index).
+    func sockets(fitting footprint: Footprint) -> [CatalogPart] {
+        if socketIndex == nil {
+            var index: [String: [CatalogPart]] = [:]
+            // Bundled sockets only: a chip's file names its socket, and a file carries no
+            // custom part but a placed chip's own (`customParts`).
+            for part in partsByName.values where part.kind == PART_SOCKET && part.uuid == nil {
+                for fit in part.fits { index[fit.id, default: []].append(part) }
+            }
+            socketIndex = index.mapValues { list in
+                list.sorted { a, b in
+                    let (ga, gb) = (a.manufacturer == "Generic", b.manufacturer == "Generic")
+                    if ga != gb { return ga }
+                    if a.manufacturer != b.manufacturer {
+                        return a.manufacturer.localizedStandardCompare(b.manufacturer) == .orderedAscending
+                    }
+                    return a.name.localizedStandardCompare(b.name) == .orderedAscending
+                }
+            }
+        }
+        return socketIndex?[footprint.id] ?? []
+    }
+
+    /// The generic socket for a chip footprint: the first `Generic` entry of
+    /// `sockets(fitting:)`; nil when there is none.
+    func genericSocket(fitting footprint: Footprint) -> CatalogPart? {
+        sockets(fitting: footprint).first { $0.manufacturer == "Generic" }
+    }
+
     func part(named name: String) -> CatalogPart? {
         partsByName[name] ?? customSupplies[name] ?? customSupply(named: name)
     }
@@ -2150,6 +2186,7 @@ final class PartCatalogStore {
         let backendPart = BackendCatalog.catalogPart(loaded.pointee) { Footprint($0.pointee) }
         let part = backendPart.listed(in: listing.category ?? PartCategory.fileLibrary)
         partsByName[part.name] = part
+        socketIndex = nil
         partsByUUID[uuid] = part
         registeredTexts[uuid] = text
         listings[uuid] = listing
@@ -2327,6 +2364,7 @@ final class PartCatalogStore {
             .listed(in: PartCategory.userLibrary)
         if old.name != part.name { partsByName[old.name] = nil }
         partsByName[part.name] = part
+        socketIndex = nil
         partsByUUID[uuid] = part
         registeredTexts[uuid] = text
         if let index = entries.firstIndex(where: { $0.uuid == uuid }) {
@@ -2379,6 +2417,7 @@ final class PartCatalogStore {
         if let category = listing.category {
             let updated = current.listed(in: category)
             partsByName[updated.name] = updated
+            socketIndex = nil
             partsByUUID[uuid] = updated
             if let index = entries.firstIndex(where: { $0.uuid == uuid }) {
                 entries[index] = updated
@@ -2589,6 +2628,7 @@ final class PartCatalogStore {
         do {
             let parts = try BackendCatalog.load(into: library)
             partsByName = Dictionary(parts.map { ($0.name, $0) }, uniquingKeysWith: { first, _ in first })
+            socketIndex = nil
             // The 80 header sizes are one generic header in the drawer
             // (`HeaderFamily`); `part(named:)` still finds every size.
             entries = parts.filter {

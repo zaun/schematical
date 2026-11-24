@@ -94,7 +94,7 @@ enum UndoDiff {
 
     /// What the `.footprint` key covers.
     private static func sameFootprint(_ a: PlacedChip, _ b: PlacedChip) -> Bool {
-        a.board == b.board && a.footprintID == b.footprintID && a.part.name == b.part.name
+        a.board == b.board && a.footprintID == b.footprintID && a.part.name == b.part.name && a.socket == b.socket
     }
 
     /// Every key whose value differs. `.part` compares the chip with `board`
@@ -224,6 +224,7 @@ enum UndoDiff {
             if let index = state.chips.firstIndex(where: { $0.id == id }) {
                 state.chips[index].board = stored.board
                 state.chips[index].footprintID = stored.footprintID
+                state.chips[index].socket = stored.socket
             }
         }
         place(wires, in: &state.wires, unwrap: { if case let .wire(w, i) = $0 { (w, i) } else { nil } })

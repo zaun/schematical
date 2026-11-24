@@ -129,7 +129,8 @@ extension AutomationTools {
         AutomationTool(
             name: "set_part",
             summary: "Change a placed part: new_reference (\"U5\"), color, ohms, farads, footprint, gender, "
-                + "show_reference.",
+                + "show_reference, socket_mode (ic, ic+socket, socket-only) and socket (a socket part name; "
+                + "see search_parts).",
             properties: [
                 "reference": Schema.string("e.g. R1"),
                 "new_reference": Schema.string("Rename, e.g. R7 (a letter prefix and a number)"),
@@ -137,6 +138,8 @@ extension AutomationTools {
                 "farads": Schema.number("Capacitance"), "footprint": Schema.string("Package name or footprint id"),
                 "gender": Schema.string("Header gender"),
                 "show_reference": Schema.boolean("Show the reference label"),
+                "socket_mode": Schema.string("ic, ic+socket or socket-only (a DIP or PLCC chip a socket fits)"),
+                "socket": Schema.string("The socket part's name (a mode without it picks the generic socket)"),
             ],
             required: ["reference"], edits: true,
             run: { context, args in Out.text(try setPart(context!, args)) }),
@@ -559,6 +562,11 @@ extension AutomationTools {
                 document.setPartShowsReference(chip.id, shows)
                 done.append("show_reference")
             }
+            let socketName = args.optString("socket")
+            if socketName != nil || args.optString("socket_mode") != nil {
+                try setSocket(document, chip, mode: args.optString("socket_mode"), socketName: socketName)
+                done.append("socket")
+            }
             if let name = args.optString("new_reference") {
                 guard let match = name.wholeMatch(of: /([A-Za-z]+)(\d+)/), let number = Int(match.2) else {
                     throw AutomationFailure("a reference is letters then a number, like U5")
@@ -570,9 +578,52 @@ extension AutomationTools {
             }
         }
         guard !done.isEmpty else {
-            throw AutomationFailure("nothing to change: pass new_reference, color, ohms, farads, footprint, gender or show_reference")
+            throw AutomationFailure("nothing to change: pass new_reference, color, ohms, farads, footprint, gender, show_reference, socket_mode or socket")
         }
         return "\(chip.reference): changed \(done.joined(separator: ", "))"
+    }
+
+    /// `set_part`'s `socket_mode` (ic, ic+socket, socket-only) and `socket` (plan-51-H). `ic` puts
+    /// the chip back in plain IC mode; a socket mode without a `socket` keeps the chip's own socket,
+    /// or picks the generic one for its footprint; a `socket` without a mode keeps the chip's mode
+    /// (IC + Socket for a chip not in a socket yet).
+    private static func setSocket(_ document: SchematicDocument, _ chip: PlacedChip, mode: String?,
+                                  socketName: String?) throws {
+        let modes: [String: ChipSocket.Mode?] = ["ic": nil, "ic+socket": .withSocket, "socket-only": .socketOnly]
+        let newMode: ChipSocket.Mode?
+        if let mode {
+            guard let known = modes[mode] else {
+                throw AutomationFailure("socket_mode is ic, ic+socket or socket-only, not \(mode)")
+            }
+            newMode = known
+        } else {
+            newMode = chip.socket?.mode ?? .withSocket
+        }
+        if newMode == nil {
+            document.setPartSocket(chip.id, mode: nil, socket: nil)
+            return
+        }
+        guard let base = chip.part.footprint, chip.part.footprintChoices.isEmpty else {
+            throw AutomationFailure("\(chip.part.name) cannot go in a socket")
+        }
+        let catalog = PartCatalogStore.shared
+        let socket: CatalogPart
+        if let socketName {
+            guard let named = catalog.part(named: socketName), named.kind == PART_SOCKET else {
+                throw AutomationFailure("\(socketName) is not an IC socket; use search_parts")
+            }
+            guard ChipSocket.fits(named, chip.part) else {
+                throw AutomationFailure("\(socketName) does not hold \(base.id), the footprint of \(chip.part.name)")
+            }
+            socket = named
+        } else if let current = chip.socket?.part {
+            socket = current
+        } else if let generic = catalog.genericSocket(fitting: base) {
+            socket = generic
+        } else {
+            throw AutomationFailure("no socket holds \(base.id)")
+        }
+        document.setPartSocket(chip.id, mode: newMode, socket: socket)
     }
 
     // MARK: Labels, notes, buses

@@ -15,8 +15,11 @@ nonisolated enum PartFacts {
         add("Kind", kindName(part))
         add("Function", part.function)
         add("Package", chip.footprintChoice?.package ?? part.package)
-        if let footprint = chip.footprintChoice?.footprint ?? part.footprint {
+        if let footprint = chip.socket?.part.footprint ?? chip.footprintChoice?.footprint ?? part.footprint {
             add("Footprint", "\(footprint.id) — \(footprint.description)")
+        }
+        if let socket = chip.socket {
+            add("Socket", "\(socket.part.name) (\(socket.mode == .withSocket ? "IC + Socket" : "Socket only"))")
         }
         if let connector = part.connectorFootprint {
             add("Connector", "\(connector.id) — \(connector.description)")
