@@ -2665,6 +2665,28 @@ static void check_e_loader(void) {
                       E_TAIL,
                       "\"glyphs\" must have 10 names");
     expect(ok, "53 loader: seg7 with 9 glyphs is an error");
+
+    /* plan-56-F: the SN74143 keys (counter_sn74143_test runs the part itself) */
+#define SEG7_BASE \
+    E_HEAD(E_PINS) "'model':'seg7','clock':'A','reset':{'pin':'B','active':'high'}," \
+    "'segments':['C','C','C','C','C','C','C'],'glyphs':['0000000','0000000','0000000','0000000'," \
+    "'0000000','0000000','0000000','0000000','0000000','0000000'],"
+    ok = expect_error(SEG7_BASE "'segmentsOutput':'open-drain'," E_TAIL,
+                      "open-drain \"segmentsOutput\" needs \"segmentsActive\" low");
+    ok &= expect_error(SEG7_BASE "'segmentsActive':'low','segmentsOutput':'open-drain'," E_TAIL, NULL);
+    ok &= expect_error(SEG7_BASE "'segmentsActive':'mid'," E_TAIL, "\"segmentsActive\" must be \"high\" or \"low\"");
+    ok &= expect_error(SEG7_BASE "'segmentsOutput':'weak'," E_TAIL,
+                       "\"segmentsOutput\" must be \"push-pull\" or \"open-drain\"");
+    ok &= expect_error(SEG7_BASE "'rbi':'A'," E_TAIL, "\"rbi\" and \"rbo\" go together");
+    ok &= expect_error(SEG7_BASE "'rbi':'A','rbo':'D','rippleBlank':{'in':'A','out':'C'}," E_TAIL,
+                       "alternatives");
+    ok &= expect_error(SEG7_BASE "'latchOutputs':['A','B','C']," E_TAIL, "\"latchOutputs\" must have 4 names");
+    ok &= expect_error(SEG7_BASE "'toggleEnable':[]," E_TAIL, "must have 1 to 4 controls");
+    ok &= expect_error(SEG7_BASE "'toggleEnable':[{'pin':'A','active':'low'},{'pin':'D','active':'low'}]," E_TAIL,
+                       NULL);
+    ok &= expect_error(SEG7_BASE "'maxCount':{'pin':'C'}," E_TAIL, "enable");
+    ok &= expect_error(SEG7_BASE "'decimalPoint':{'in':'A'}," E_TAIL, "out");
+    expect(ok, "54 loader: seg7 segmentsActive/segmentsOutput/rbi+rbo/latchOutputs/toggleEnable/maxCount/decimalPoint rules");
 }
 
 /* ---- plan-10-F: real parts ------------------------------------------------- */
