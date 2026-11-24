@@ -441,16 +441,16 @@ Commit: b7215970
 
 Acceptance: the switched level, ORing and the input rating behave as § 6, and nothing else moved.
   Check: `ctest --test-dir /tmp/logic-p55 -R 'powerswitch_test|voltage_test|regulator_test|circuit_check' --output-on-failure` → 4 of 4 (est. 3 min); `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p55-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 4 min; the backend compiles into the app and the Swift switches take the new values through `default:`).
-Commit: —
+Commit: efe075c0
 
 ### Phase 3 — Docs
 
-- [ ] `docs/parts-format.md` § `powerswitch` and the kinds table, `docs/backend.md` (Power
-      switches, Voltages, the kind list) (§ 5).
+- [x] `docs/parts-format.md` § `powerswitch` and the kinds table, `docs/backend.md` (Power
+      switches, Voltages, the kind list) (§ 5). Observed: `grep -c 'enableRef\|flagWhen\|ilimit\|POWERSWITCH_INPUT_OVER\|switched level' docs/parts-format.md docs/backend.md` → `docs/backend.md:4`, `docs/parts-format.md:8`.
 
 Acceptance: the docs name every key, error and rule.
   Check: `grep -c 'enableRef\|flagWhen\|ilimit\|POWERSWITCH_INPUT_OVER\|switched level' docs/parts-format.md docs/backend.md` → at least 1 per file (est. < 1 min).
-Commit: —
+Commit: (filled by the next commit)
 
 ## Validation Plan
 

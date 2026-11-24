@@ -41,6 +41,7 @@ diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character
 | `serialmem.json` | `serialmem` |
 | `nixie.json` | `nixie` |
 | `dekatron.json` | `dekatron` |
+| `powerswitch.json` | `powerswitch` |
 
 Beside them, `datasheets.json` holds the datasheet URLs parts name with
 `"datasheet"` (see [Datasheets](#datasheets)), and `footprints.json` the land
@@ -1291,6 +1292,119 @@ Linear → Generic** (plan-42-H): `GENERIC-REG-5V` and `GENERIC-REG-3V3` (pins
 `vinMax`) and `GENERIC-REG-ADJ` (pins 1 ADJ, 2 OUT, 3 IN, the LM317 order,
 `adjustTo` `"output"`, `vref` 1.25, dropout 2 V), each `TO-220` by default
 with the footprint choices `TO-220` and `DPAK`.
+
+### `powerswitch`
+
+Power switches (plan-55): load switches, current-limited and USB power
+switches, and integrated ideal diodes, `"kind": "powerswitch"`, run by
+`backend/src/models/powerswitch.c`. A part is one to four **switches**
+(elements). Each is a **gate for a supply** in a logic simulator: while its
+input pin reads 1 and its enable pin (when it has one) is active, its output
+pin is driven strong 1; there is no analog behaviour (no ramp or slew, on-resistance
+drop, current limit, overcurrent, thermal shutdown, quick output discharge or
+reverse-current measurement). A change at the input or the enable reaches the
+output **1 ns** later, read again when that time comes, so a pulse shorter
+than 1 ns never moves it. A floating logic enable is inactive, for both
+polarities. An input reading X gives an X output; an input that reads 0, Z
+or is not connected leaves the output Z. A power switch has no `vcc`.
+
+Device keys:
+
+| Key | Value |
+|---|---|
+| `"type"` | `"load"`, `"limited"` or `"ideal-diode"` (`unknown power switch type`); every switch of the package has it |
+| `"switches"` | array of 1 to 4 objects (`"switches" must have 1 to 4 entries`), one per switch in the datasheet's numbering |
+| `"analog"` | optional array of pin names (each names a pin of every pinout) the voltage check skips and the model never drives: slew and soft-start pins (CT, SS), quick-output-discharge pins (QOD), current-limit set pins (ILIM, SET), bias supplies (VBIAS), mode straps, a status output that is not modelled (the LM66200's ST); may be `[]` |
+
+Each `"switches"` entry (`"in"` and `"out"` are required, no other key beyond
+these is allowed):
+
+| Key | Value |
+|---|---|
+| `"in"` | the input pin name: every pin of the name is the input; role `power` |
+| `"out"` | the output pin name: every pin of the name is driven; role `output`; two switches may share one name (the LM66200's VOUT: the pin reads 1 while either is on) |
+| `"enable"` | optional: the enable pin name (EN, ON, CE); role `input` |
+| `"enableActive"` | optional, with `"enable"`: `"high"` (default) or `"low"`, the level that turns the switch on |
+| `"enableRef"` | optional, with `"enable"`: `"logic"` (default: the pin is a logic input) or `"input"` (the pin is a comparator against the input, the LM66100's CE; needs `"enableActive": "low"`) |
+| `"flag"` | optional: a status or fault output pin name, open drain (the voltage check never counts it as driving 1); role `output` |
+| `"flagWhen"` | optional, with `"flag"`: `"fault"` (default: the part reports an overcurrent or over-temperature fault, which the model never has, so the pin is never pulled low) or `"disabled"` (pulled low while the switch is disabled: the LM66100's ST) |
+
+Every other pin of a pinout is `ground`, `nc`, `absent`, or named in
+`"analog"` (`pin "X" is in no switch and not analog`); a name used by an
+entry names at least one pin of every pinout, and its pins have the roles
+above (`power switch pin "X" (in) must be power`). An exposed pad or a tab
+with no number is not a pin. A package with no enable pin has no `"enable"`:
+the switch is on whenever its input reads 1. A single pin name may serve
+several switches (the TPS2053B's `IN1` feeds OUT1 and OUT2).
+
+The model, per switch (`powerswitch.c`, one 1 ns timer per switch):
+
+| Input | Enable | `out` | `flag` (`"disabled"`) | `flag` (`"fault"`) |
+|---|---|---|---|---|
+| 1 | no pin; active (`"logic"`); anything but X (`"input"`) | strong 1 | Z | Z |
+| 1 | inactive or Z (`"logic"`) | Z | strong 0 | Z |
+| 0 or Z | reads 1 (`"input"`) | Z | strong 0 | Z |
+| X | any | strong X | Z | Z |
+| 1 | X | strong X | strong X | Z |
+| 0 or Z | anything else | Z | Z | Z |
+
+An `"input"` enable is a comparator against the input and a logic simulator
+sees only 0, 1 and Z: a 1 on it is "not above" an input that reads 1, so with
+the input at 1 it never turns the switch off (the LM66100 with CE on VOUT
+conducts); a 1 on it with the input at 0 or Z is "above": the switch is off
+and a `"disabled"` flag is low (the battery-backup case). The output on a net a
+strong 0 holds is `smoke:`.
+
+Part keys (volts, amps, ohms; one number for the part):
+
+| Key | Value |
+|---|---|
+| `"vinMin"` | optional, above 0 and at most 100: the lowest input at which a switch conducts (the undervoltage lockout); below it the voltage check gives the output no level |
+| `"vinMax"` | optional, above 0 and at most 100 and at least `vinMin`: the input maximum (the recommended operating maximum; the absolute maximum when the datasheet gives none); the voltage check refuses an input or enable pin above it |
+| `"iout"` | optional, above 0 and at most 100: the continuous current per switch |
+| `"ilimit"` | optional, above 0 and at most 100, `"type": "limited"` only (`"ilimit" is only for a current-limited switch`): the fixed current limit |
+| `"ron"` | optional, above 0 and at most 10: the on-resistance, ohms |
+| `"iq"` | optional, above 0 and at most 1: the quiescent current |
+
+The values are facts for the app (`PartPowerSwitch`: millivolts, milliamps,
+milliohms, microamps; 0 = not given). **The voltage check** (`voltage.c`,
+step 3d): each switch whose input pin has a known, non-zero level of at least
+`vinMin`, and whose enable pin is not at an inactive level (an unknown level
+counts as active; an `"input"` enable is inactive above the input's level),
+raises a **switched level** W on its output pins' nets: the input's level. The
+order of levels is S, R, then W, D, P, C. Two switch outputs on one net never
+clash: the net reads the higher level (**ORing**: two ideal diodes from two
+rails, a battery and a wall supply). A switched level different from a supply
+level or from a regulated level on the net is a clash
+(`VOLTAGE_SUPPLY_CLASH`, `voltage: 3.3 V and 5 V supplies on one net (3V3,
+PFX-LOAD)`); ground on an output is the engine's short, not a voltage
+problem. An input or enable pin above `vinMax` is refused
+(`VOLTAGE_POWERSWITCH_INPUT_OVER`, `voltage: 12 V on pin 1 (VIN) of …; its
+input max is 5.5 V`).
+
+Conventions of the library's `powerswitch.json` (plan-55): device ids are
+`psw-<maker>-<series>-<package>` in lower case (`psw-ti-lm66100-sc70`), one
+device per (series, package, pin assignment); `"function"` is `Single
+channel`, `Dual channel`, `Triple channel` or `Quad channel` for `load` and
+`limited`, `Single input` or `Dual input` for `ideal-diode`; the drawer is
+**Power → Power Switches → Load Switches / Current-Limited / Ideal Diodes**;
+a part's `"name"` is the maker's orderable part number as DigiKey prints it
+and `"manufacturer"` is `Texas Instruments`, `Analog Devices`, `Microchip
+Technology`, `onsemi`, `Diodes Incorporated` or `Monolithic Power Systems`
+(a company's DigiKey labels together).
+
+```json
+{"id": "psw-ti-lm66100-sc70", "function": "Single input", "description": "Ideal diode, 1.5 A, 1.5-5.5 V",
+ "drawer": ["Power", "Power Switches", "Ideal Diodes"],
+ "pinouts": {"p6": [{"number":1,"name":"VIN","role":"power"},{"number":2,"name":"GND","role":"ground"},
+                    {"number":3,"name":"CE","role":"input"},{"number":4,"name":"NC","role":"nc"},
+                    {"number":5,"name":"ST","role":"output"},{"number":6,"name":"VOUT","role":"output"}]},
+ "type": "ideal-diode",
+ "switches": [{"in": "VIN", "out": "VOUT", "enable": "CE", "enableActive": "low", "enableRef": "input",
+               "flag": "ST", "flagWhen": "disabled"}], "analog": [],
+ "parts": [{"name": "LM66100DCKR", "manufacturer": "Texas Instruments", "package": "SC-70",
+            "pinout": "p6", "footprint": "SC70-6-DCK", "vinMin": 1.5, "vinMax": 5.5, "iout": 1.5}]}
+```
 
 ### `oscillator`
 

@@ -215,6 +215,31 @@ Notes:
   pins and `pin_analog` the `"analog"` names (`regulator_element`,
   `regulator_pin_in`, `regulator_pin_out`, `regulator_input_max_mv` in
   `model_pins.h`).
+- **Power switches** (plan-55-A). A power switch part is one to four
+  switches (elements), each a gate for a supply: `powerswitch.c` schedules a
+  timer 1 ns (`POWERSWITCH_DELAY_PS`) after any change of a switch's input
+  or enable pin, and the timer re-reads them and drives the switch's output
+  pins (`sim_schedule_drive`, strong) and its open-drain flag pins. Two
+  switches may name one output (or flag) pin: the pin takes the strongest of
+  them (1 over X over Z for an output, 0 over X over Z for a flag). What it
+  gives:
+
+  | Input | Enable (`"logic"`, active level, or no enable pin) | `out` | `flag` (`"disabled"`) | `flag` (`"fault"`) |
+  |---|---|---|---|---|
+  | 1 | active, or no pin | strong 1 | Z | Z |
+  | 1 | inactive, Z | Z | strong 0 | Z |
+  | 1 | X | strong X | strong X | Z |
+  | X | any | strong X | Z | Z |
+  | 0, Z, not connected | any | Z | Z | Z |
+
+  An enable that is a comparator against the input (`"enableRef":
+  "input"`, an ideal diode's CE) never turns the switch off while the input
+  reads 1, and with the input at 0 or Z a 1 on it turns a `"disabled"` flag
+  low. A 0.5 ns pulse on the enable never moves the output; the output on a
+  net a strong 0 holds is `smoke:`. The kind has no `vcc`; `pin_open_drain`
+  is the flag pins and `pin_analog` the `"analog"` names
+  (`powerswitch_element`, `powerswitch_pin_in`, `powerswitch_pin_out`,
+  `powerswitch_input_max_mv` in `model_pins.h`).
 - **Voltages** (`voltage.h`, plan-07). The simulation is logic-only; a
   separate static check, `voltage_check`, works out each net's voltage from
   its supplies (`PartSupply.mv`), the outputs of powered parts and what an
@@ -223,8 +248,9 @@ Notes:
   its part's `vcc` range, input above its part's input max, switch contact
   above its rating, capacitor pin above its rated voltage, transistor
   rating (a channel pin above `vceo` / `vds`, a MOSFET gate above `vgs`),
-  a regulator's input above its maximum, and two different non-zero
-  supplies on one net (a regulator's regulated level counts as one).
+  a regulator's or a power switch's input above its maximum, and two
+  different non-zero supplies on one net (a regulator's regulated level
+  counts as one; two power switches' levels never clash, the higher wins).
   `voltage_describe` gives the text, e.g. `voltage: 5 V on pin 14 (VCC) of
   SN74AUC00PWR; it needs 0.8-2.7 V`. It takes plain arrays (parts,
   pin→net connections, closed contacts), so the app runs it on a candidate
@@ -244,6 +270,16 @@ Notes:
     `VOLTAGE_REGULATOR_INPUT_OVER`. `voltage_check` takes an optional
     `milliohms` array (one entry per part, 0 = the part's own value): a
     placed `GENERIC-RESISTOR`'s value for the divider.
+  - **Switched level** (plan-55-A). A power switch element whose input has
+    a known non-zero level of at least `vinMin` and whose enable is not
+    inactive (a logic enable at its inactive level; an `"input"` enable above
+    the input) raises a switched level W on its output nets, the input's
+    level. The order of levels is S, then R, then W, then the driven D, the
+    pulled P, the carried C. Two switch outputs on one net never clash: the
+    net reads the higher level (ORing). W different from a supply level or
+    from a regulated level on the net is a `VOLTAGE_SUPPLY_CLASH` (one per
+    net); an input or enable pin above `vinMax` is
+    `VOLTAGE_POWERSWITCH_INPUT_OVER`.
   - `circuit_set_resistance(circuit, part, ohms)` sets that value for a
     resistor part whose manufacturer is `Generic` (more than 0 and at most
     1e9; `part N is not a generic resistor`, `the resistance is out of
@@ -373,6 +409,8 @@ backend/
                            plan-40-F);
                            regulator.c (the regulator kind: loader, the
                            regulated-supply model, plan-42-G);
+                           powerswitch.c (the power switch kind: loader,
+                           the supply-gate model, plan-55-A);
                            crystal.c (the crystal kind: loader, the weak
                            clock-on-both-terminals model, plan-44-E);
                            cpu.c + cpu.h (the cpu kind: loader, the model
@@ -639,6 +677,15 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   maker resistors and from `GENERIC-RESISTOR` values
   (`circuit_set_resistance`), a boost converter's `vinMin`, an enable at
   its inactive level, a chain of two regulators.
+- `powerswitch_test` — the power switch kind (plan-55-A): the fixture parts
+  of `tests/support/powerswitch_fixture.h` (a load switch, current-limited
+  switches, an ideal diode, a dual ideal diode, a quad switch) load and their
+  `PartPowerSwitch` facts read back; the loader's rejections; the engine
+  cases of the Power switches table above; and the voltage rules: the
+  switched level seen through a clash with a 1.2 V supply, ORing, a clash with
+  a rail and with a regulator, chains, `vinMin`, a comparator enable, the
+  input rating. `voltage_test` adds the cases of a circuit without a power
+  switch (unchanged) and the same rules through `voltage_check`.
 - `crystal_test` — the crystal kind (plan-44-E): the fixture parts of
   `tests/support/crystal_fixture.h` (a two-pin and a four-pad crystal, a
   100 MHz one, a three-pad resonator with built-in capacitors) load and
