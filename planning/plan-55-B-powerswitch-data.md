@@ -174,23 +174,23 @@ Commit: c8b2f11d
 
 Acceptance: every candidate row has `stock_checked` 1 or is `out`.
   Check: `python3 -I planning/plan-55-data/census/select.py planning/plan-55-data/raw planning/plan-55-data/candidates.tsv --urls planning/plan-55-data/url-check.tsv --stock planning/plan-55-data/stock-check.tsv --report` → exits 0 and prints `candidate` rows each with `stock_checked` 1 (est. 3 min). Observed (with `--carry` added): `candidate: 1030; out: no stock 5, stock check 1`; `candidate rows with stock_checked 1: 1030`.
-Commit: (filled by the next commit)
+Commit: 33ca1d56
 
 ### Phase 3 — Download, place and scan the datasheets
 
-- [ ] `census/fetch.js` (§ 3.3's rules, 4 at a time, one retry, a `%PDF-` check and `pdfinfo` on the
+- [x] `census/fetch.js` (§ 3.3's rules, 4 at a time, one retry, a `%PDF-` check and `pdfinfo` on the
       body) → `/tmp/p55/pdf/`; `census/place.py` (§ 3.4) → `datasheets/powerswitch/<company>/` and
-      `datasheets.tsv`.
-- [ ] `census/textscan.py`: `pdftotext` each PDF and set, per candidate row, `hit` 1 when the part number
+      `datasheets.tsv`. Observed: `fetch.js /tmp/p55-urls.tsv /tmp/p55/pdf` → `318 urls; 318 are PDFs; 0 failed`; `place.py` → `264 PDFs placed for 318 URLs`, `place.py --verify` → `0 missing, 0 unused`.
+- [x] `census/textscan.py`: `pdftotext` each PDF and set, per candidate row, `hit` 1 when the part number
       (or the ordering-table form of its base) is in the text; `census/sibling.py` for a row with no
       PDF of its own (§ 3.3 rule 4); a row still without a PDF is `out`, reason `no datasheet`,
-      `dead` 1.
-- [ ] `census/specs-skeleton.py` → `specs.tsv`: one row per (company, series, PDF) of the
-      candidate rows, the columns of plan-55-C § 3.1, the pinout columns empty.
+      `dead` 1. Observed: `textscan.py` → `883 candidate rows with a PDF; 776 print the part number; 107 do not`; `textscan.py --sibling` (the sibling step is a mode of `textscan.py`, Correction 7) → `147 candidate rows without their own PDF; 36 printed in a same-company PDF; 111 out`.
+- [x] `census/specs-skeleton.py` → `specs.tsv`: one row per (company, series, PDF) of the
+      candidate rows, the columns of plan-55-C § 3.1, the pinout columns empty. Observed: `372 rows` (per (company, series, pdf, package, supplier_package): Correction 8).
 
 Acceptance: every candidate row has a PDF in the tree or is `out`.
-  Check: `python3 -I planning/plan-55-data/census/select.py … --report` (as Phase 2) → `candidate` rows all with `pdf` non-empty and `hit` filled; `find datasheets/powerswitch -iname '*.pdf' \| wc -l` equals `awk -F'\t' 'NR>1 && $1!=""' datasheets/powerswitch/datasheets.tsv \| wc -l` (est. 20 min: the downloads at one request a second per host are the cost, and no smaller check covers a download).
-Commit: —
+  Check: `python3 -I planning/plan-55-data/census/select.py … --report` (as Phase 2) → `candidate` rows all with `pdf` non-empty and `hit` filled (observed: `candidate: 919; out: no datasheet 111, no stock 5, stock check 1`, 919 with pdf, 919 with hit); `find datasheets/powerswitch -iname '*.pdf' \| wc -l` equals `awk -F'\t' 'NR>1 && $1!=""' datasheets/powerswitch/datasheets.tsv \| wc -l` (est. 20 min: the downloads at one request a second per host are the cost, and no smaller check covers a download).
+Commit: (filled by the next commit)
 
 ## Validation Plan
 
@@ -220,6 +220,10 @@ Commit: —
 4. **Monolithic Power Systems' datasheet links are HTML pages behind a bot check** (`www.monolithicpower.com/en/documentview/…` answers 200 `text/html`, a challenge page, to `curl` and to Python): its 9 rows have no maker PDF a script can fetch, so by § 3.3 rule 4 (no same-company PDF either) they end `out`, reason `no datasheet` in Phase 3. The Microchip row whose `ww1.microchip.com` link is not a PDF is the same case.
 5. **The re-check ran the same day as the listing** (2026-11-23), not on its own day: the quota was not the constraint (key 2 had 677 calls left), and the second listing still sees stock changes (one part gone).
 6. **The chains of `urls.py` carry the alternatives**: a TI part's three document names are tried in order by `urlcheck.py` and `select.py --urls` takes the first that answered (the plan's "(maker URL, download source) pairs").
+7. **`sibling.py` is `textscan.py --sibling`** (one script shares the text cache and the matching); the obsolete-word scan of plan-44's `textscan.py` is not carried over: a part DigiKey lists Active is not dead, and `dead` 1 means only "no datasheet we can fetch" (C's skip reason 1).
+8. **`specs.tsv` is keyed (company, series, pdf, package, supplier_package)**, not (company, series, PDF): DigiKey's `series` is `-` for nearly every part and one PDF covers several packages whose pinouts differ, so a row per PDF would not carry a `package`. C to E split a row further when one package has two pin assignments or two enable polarities.
+9. **The PDFs (362 MB, 264 files) stay untracked until plan-55-E's prune**: committing them now would keep ~300 MB of PDFs no `add` row cites in the repository's history for good. `datasheets.tsv` and the check read the working tree; E prunes to the `add` rows' PDFs and commits those with `git add`. Texas Instruments rows whose names found no `ti.com` document (44 rows) and Monolithic Power Systems' 9 (Correction 4) are `out`, `no datasheet`: 111 rows in all.
+10. **`datasheets.tsv` is one line per file** (its first URL), so the Phase 3 check's two counts agree (264 and 264); a second URL of the same document is only in `candidates.tsv`'s `maker_url`.
 
 ## Summary
 

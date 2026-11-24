@@ -9,7 +9,7 @@ one). Each distinct file (by SHA-256: two URLs of one document share one file) l
 datasheets/powerswitch/<company>/<name>.pdf: <name> is the last path segment of the file's first (sorted) URL,
 query string dropped, `%20` -> `-`, `.pdf` appended when missing, characters outside A-Za-z0-9._- -> `-`; a clash
 with another file of the same name gets `-<first 6 hex of the md5 of its URL>`.
-datasheets.tsv (datasheets/powerswitch/): file, url, bytes, sha256, one line per URL. The copy rewrites `pdf` in
+datasheets.tsv (datasheets/powerswitch/): file, url (its first URL), bytes, sha256, one line per file. The copy rewrites `pdf` in
 <candidates.tsv> from the URL to the path; --verify reads paths.
 """
 import collections
@@ -71,7 +71,7 @@ def place(tsv, pdf_dir):
         shutil.copyfile(common.pdf_path(pdf_dir, first), dst)
         for url in urls:
             path_of[url] = rel
-            lines.append([rel, url, str(os.path.getsize(dst)), digest])
+        lines.append([rel, first, str(os.path.getsize(dst)), digest])
     os.makedirs(common.TREE, exist_ok=True)
     with open(common.PLACED, 'w') as out:
         out.write('\t'.join(COLS) + '\n')
