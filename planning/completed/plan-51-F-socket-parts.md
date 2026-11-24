@@ -147,7 +147,7 @@ Commit: 4f96af83
 
 Acceptance: the tests pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p51-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/SocketPartsTests -only-testing:schematicalTests/ReferencePrefixTests -only-testing:schematicalTests/DrawerPerformanceTests -only-testing:schematicalTests/PartRegistrationTests` → `** TEST SUCCEEDED **` (est. 12 min: app build and four classes). Measured 2026-11-24: `** TEST SUCCEEDED **`, 32 tests, 0 failures (SocketPartsTests 7, ReferencePrefixTests 5, DrawerPerformanceTests 7, PartRegistrationTests 13). VERIFIED.
-Commit: (next commit)
+Commit: 5843288a
 
 ## Validation Plan
 
