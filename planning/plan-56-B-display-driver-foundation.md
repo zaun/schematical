@@ -41,17 +41,17 @@ Rejected: one model per chip in C (about 25 models; the converter engine already
 
 ### Phase 1 — Safari lookup helper
 - [x] `scripts/safari-digikey.sh URL [wait] [js]` (the osascript helper used during planning), documented in `AGENTS.md` § Datasheets as the way to look up DigiKey stock.
-Acceptance: `scripts/safari-digikey.sh "https://www.digikey.com/en/products/filter/lcd-oled-character-and-numeric/99" 8 'document.title'` → prints a title containing "LCD, OLED Character and Numeric" (est. 20 s). Commit: —
+Acceptance: `scripts/safari-digikey.sh "https://www.digikey.com/en/products/filter/lcd-oled-character-and-numeric/99" 8 'document.title'` → prints a title containing "LCD, OLED Character and Numeric" (est. 20 s). Commit: d351253a
 
 ### Phase 2 — kinds and loader
 - [x] `parts.h` `PART_LEDDRIVER`, `PART_LCDDRIVER`; `leddriver.c`, `lcddriver.c` (`PartKindOps` forwarding to `cv_load_device(..., CV_MODE_DISPLAY)`), `kinds.c`, CMake, docs (`docs/parts-format.md` § `leddriver`, § `lcddriver`), empty `Parts/leddriver.json` and `Parts/lcddriver.json`, `tests/support/listing.c`, `TRACE_LAST_KIND`, `listing_check.c`.
 - [ ] The Part Editor recipe items for both kinds (docs/backend.md "Adding a kind" step 6; Swift): moved to plan-56-G (see Corrections).
 - [x] `converter_load.c`: accept the `"display"` object for these kinds only; reject it on `converter`/`rtc`; reject an unknown `driver`, unknown register/pin names.
-Acceptance: `/tmp/logic-build/library_check` passes with the new rejection cases (est. 30 s). Commit: —
+Acceptance: `/tmp/logic-build/library_check` passes with the new rejection cases (est. 30 s). Commit: 76e148db
 
 ### Phase 3 — output drivers
 - [x] `display_out.c`: `digits`, `static`, `matrix`, `ports`, `lcd` as in the table, each with a fixture device in `backend/tests/display_out_test.c` (an SPI digit driver on a 4-digit scan; an I2C 1:4 LCD driver on `GENERIC-LCD-8D-1:4`).
-Acceptance: `ctest --test-dir /tmp/logic-build -R display_out_test` passes (est. 1 min). Commit: —
+Acceptance: `ctest --test-dir /tmp/logic-build -R display_out_test` passes (est. 1 min). Commit: 76e148db
 
 
 ## Decisions
