@@ -15,7 +15,7 @@ cites. No part file, footprint, backend or app file changes.
 
 References:
 
-- `planning/plan-55-C-powerswitch-verdicts-ideal-load.md` § 3; `planning/completed/plan-55-A-powerswitch-kind.md` § 3.1;
+- `planning/completed/plan-55-C-powerswitch-verdicts-ideal-load.md` § 3; `planning/completed/plan-55-A-powerswitch-kind.md` § 3.1;
   `planning/plan-42-data/census/` (`footprint-lines.py`, `prune.py`: the scripts E adapts).
 - `datasheets/skipped-parts.md`, `datasheets/obsolete-not-included.md` (formats), `AGENTS.md`.
 

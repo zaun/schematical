@@ -15,7 +15,7 @@ backend or app file changes.
 
 References:
 
-- `planning/plan-55-C-powerswitch-verdicts-ideal-load.md` § 3 (the verdicts, the pin, enable,
+- `planning/completed/plan-55-C-powerswitch-verdicts-ideal-load.md` § 3 (the verdicts, the pin, enable,
   flag and fact rules, the `specs.tsv` columns), `planning/completed/plan-55-A-powerswitch-kind.md` § 3.1.
 - `datasheets/skipped-parts.md`; `planning/plan-55-data/census/` (`verdicts.py`, `pinout-check.py`).
 

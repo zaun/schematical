@@ -160,7 +160,7 @@ Commit: 9faa4d18
 
 Acceptance: every TI row of the two families has a spec row or a skip reason.
   Check: `python3 -I planning/plan-55-data/census/verdicts.py --family ideal --family load --company ti --report` → every TI row `add` or `skip` with a reason of § 3.2 (est. 1 min); `pinout-check.py` → `0 pinout errors`.
-Commit: (filled by the next commit)
+Commit: cced7528
 
 ### Phase 3 — Analog Devices, Monolithic Power Systems, onsemi, Microchip
 
@@ -169,7 +169,7 @@ Commit: (filled by the next commit)
 
 Acceptance: every row of the two families has a verdict.
   Check: `python3 -I planning/plan-55-data/census/verdicts.py --family ideal --family load --report` → no row without `add` or `skip`; `pinout-check.py` → `0 pinout errors` (est. 2 min).
-Commit: (filled by the next commit)
+Commit: cced7528
 
 ### Phase 4 — Skips and the hand check
 
@@ -180,7 +180,7 @@ Commit: (filled by the next commit)
 
 Acceptance: every skip is listed and the hand checks agree.
   Check: `python3 -I planning/plan-55-data/census/verdicts.py --family ideal --family load --verify-skipped` → `0 skip rows missing from skipped-parts.md` (est. 1 min).
-Commit: —
+Commit: cced7528
 
 ## Validation Plan
 
