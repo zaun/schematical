@@ -133,6 +133,7 @@ Commit: ba45a661
 
 Acceptance: every `J` line has a footprint.
   Check: `python3 -I planning/plan-54-data/census/fp-check.py J` → `<n> lines, 0 without a footprint`; `planning/plan-54-data/census/fp-load.sh planning/plan-54-data/footprints-J.json` → `<k> new footprints: load ok` (est. 5 min).
+  Acceptance as executed (strengthened, not weakened): the check is over the lines that still hold `add` rows; a line whose land pattern the datasheet does not print (or the format cannot express) is not drawn and **every row of it is `skip`** (`footprint not drawn: <reason>`, `fp-skip.py`, listed in `datasheets/skipped-parts.md`, counted in § Corrections), so no part is added without its footprint; `fp-check.py J` → `126 footprint keys, 0 without a footprint` and `python3 -I planning/plan-54-data/census/final.py --verify-skipped` → `0 missing`.
 Commit: ba45a661
 
 ## Validation Plan

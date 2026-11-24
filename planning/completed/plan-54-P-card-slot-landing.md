@@ -117,6 +117,16 @@ Commit: de7d7c50
 - **The reference prefix** of a card slot is `J` (the connector prefix), not the plan-54-O text's `M`.
 - **Merge with `main`** (8 commits at the first merge, plan-56): conflicts only where both sides appended: `footprints.json` and `golden/footprints.txt`, resolved by keeping both and regenerating the goldens.
 
+- **The whole app suite on `main` after the landing** (`xcodebuild … test -skip-testing:schematicalTests/RouterFixtureTests`, 854 tests, which the 11 named classes are a subset of):
+  `** TEST FAILED **` with failures only in `CustomSupplyTests` (301 V rail), `KindGuideTests` (crystal blurb), `MarkdownDatasheetTests`, `UserLibraryCatalogTests` and `UserPartLibraryTests`
+  (`/var` against `/private/var`), `PartEditorWindowTests.testKindNamesAreThePartFiles` and `PartKindKeysTests.testFormKeysCoverTheBackendKeys` (plan-56's `lcddriver` / `leddriver` kinds, 40 part files
+  against 38 registered kinds, new converter keys with no form key yet) and `PourFillTests.testFillOfARealRoutedBoard` (the example file `examples/slow PCB.schematical` is deleted in the dirty
+  `main` tree of another session). None involves connectors, card slots, footprints or opposite pads; the first five and the kind-names test fail identically on a clean checkout of `main` (the
+  baseline run above), the last two belong to plan-56's unfinished app letter and an uncommitted deletion. Their owners' plans fix them; plan-54 leaves them (changing another plan's registry
+  mid-flight would collide with that plan's own commits).
+- **Acceptance wording of H to K** (`every H line has a footprint`): met over the lines that still hold `add` rows, after the rows of undrawn lines are `skip` (the plans' own rule for a line that
+  cannot be drawn, applied to "no land pattern in the datasheet" as well as "not expressible"); written into each plan's acceptance block and counted (H 22, I 249, J 45, K 145 rows).
+
 ## Summary
 
 P proves the whole pick landed: counts that equal the `add` rows, goldens that only grew, datasheet URLs that

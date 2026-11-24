@@ -431,6 +431,13 @@ Commit: 81cf168a
 
 ## Corrections
 
+- **Final re-run of every Prerequisites command, together, on `main` after the landing** (2026-11-23, at the merge 085f4798 + 6e38775c): backend tests `100% tests passed, 0 tests failed
+  out of 44` on a fresh build; golden sizes `wc -l` parts / traces / footprints → 35018 / 35018 / 2201 (they were 34393 / 34393 / 1904 at the start; the difference is plan-54's 575 parts and 294
+  footprints plus plan-56's 50 parts and 3 footprints); the app builds and its suite runs (`xcodebuild … test`, § plan-54-P Corrections); `grep -c '"card"\|"cardPitch"'` connector.json /
+  connector.c → 432 and 7 (the entry rows "no card-slot parts yet" and "no `card` key" are entry conditions that the landing makes false by design); no other open plan mentions card slots
+  (`grep -l … \| grep -v plan-54 \| wc -l` → 0); DigiKey: `node scripts/digikey.js --opt2 …` answers (the second key, used for Phase 2); `url-check.tsv` → `1 506`, `0 11` unchanged; credentials
+  `grep -cE` → 2.
+
 - **Phase 2 ran on `scripts/digikey.js --opt2`, not `list.sh`** (2026-11-23; the owner's instruction at the start of
   the run, and the first key's quota was spent). `digikey.js` already splits a search above 300 results by facet,
   so 13 `--category --manufacturer --in-stock --active-only --json` runs re-listed the pieces in 94 calls (the plan
