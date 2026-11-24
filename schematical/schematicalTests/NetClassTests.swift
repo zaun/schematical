@@ -183,6 +183,45 @@ final class NetClassTests: XCTestCase {
         XCTAssertTrue(try netClass(doc, b).members.isEmpty)
     }
 
+    /// Moving a net to another class resizes the copper already on it, in
+    /// the one undo step; back to Default gives it the Default class's.
+    func testAssignNetUpdatesItsTracesAndVias() throws {
+        let doc = TestSupport.newDocument()
+        doc.setLayerCount(2)
+        let one = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 100))
+        let two = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 400, y: 200))
+        let k = try TestSupport.pin(one, "K"), a = try TestSupport.pin(two, "A")
+        XCTAssertNil(doc.connect(.pin(k), .pin(a)))
+        func padCentre(_ chip: PlacedChip, _ pin: String) throws -> CGPoint {
+            let designator = try XCTUnwrap(chip.part.pins.first { $0.name == pin }).designator
+            let pad = try XCTUnwrap(doc.chips.first { $0.id == chip.id }?.boardPads.first { $0.designator == designator })
+            return CGPoint(x: pad.rect.midX, y: pad.rect.midY)
+        }
+        let from = try padCentre(one, "K")
+        let trace = try XCTUnwrap(doc.addTrace(from: from, to: try padCentre(two, "A"), layer: .top, diagonalFirst: false))
+        let via = try XCTUnwrap(doc.addVia(at: from))
+        doc.endCoalescing()
+        let key = try XCTUnwrap(doc.netRows().first?.key)
+        let before = NetRules.defaults(for: doc.board.rules)
+        XCTAssertEqual(doc.traces.first { $0.id == trace }?.width, before.width)
+
+        let id = doc.addNetClass(named: "Wide")
+        doc.setNetClassWidth(id, 40)
+        doc.setNetClassVia(id, drill: 0.6, diameter: 1.2)
+        XCTAssertEqual(doc.traces.first { $0.id == trace }?.width, before.width, "editing the class alone changes nothing")
+        doc.assignNet(key, to: id)
+        XCTAssertEqual(doc.traces.first { $0.id == trace }?.width, 40)
+        XCTAssertEqual(doc.vias.first { $0.id == via }?.drill, 0.6)
+        XCTAssertEqual(doc.vias.first { $0.id == via }?.diameter, 1.2)
+        XCTAssertEqual(doc.undoName(on: .pcb), "Change Net Class")
+
+        doc.assignNet(key, to: nil)
+        XCTAssertEqual(doc.traces.first { $0.id == trace }?.width, before.width)
+        XCTAssertEqual(doc.vias.first { $0.id == via }?.diameter, before.viaDiameter)
+        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertEqual(doc.traces.first { $0.id == trace }?.width, 40, "one undo step restores the width")
+    }
+
     func testMoveNetClassChangesPriority() throws {
         let doc = TestSupport.newDocument()
         let a = doc.addNetClass(named: "A")

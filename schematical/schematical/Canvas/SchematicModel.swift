@@ -4095,13 +4095,37 @@ final class SchematicDocument {
     }
 
     /// Puts `net` in class `classID`, out of every other class; nil puts it
-    /// back in the Default class.
+    /// back in the Default class. The copper already on the net takes the
+    /// class's rules: every trace its width, every via its hole and metal
+    /// (`applyClass(toNet:)`). One undo step.
     func assignNet(_ net: PlaneNet, to classID: UUID?) {
         recordEdit(.pcb, "Change Net Class") {
             for index in board.netClasses.indices where board.netClasses[index].members.contains(net) {
                 board.netClasses[index].members.removeAll { $0 == net }
             }
             if let classID, let index = netClassIndex(classID) { board.netClasses[index].members.append(net) }
+            applyClass(toNet: net)
+        }
+    }
+
+    /// Gives the traces and vias of `net` the width and via of its class
+    /// (the Default class's when it is in none), so copper drawn before the
+    /// net changed class matches new copper. The class's clearance is read
+    /// by the checks, so there is nothing to set for it.
+    private func applyClass(toNet net: PlaneNet) {
+        let copper = connectivity()
+        guard let netID = copper.net(of: net) else { return }
+        let rules = netClass(ofNet: netID, in: copper).map {
+            NetRules(width: $0.width, clearance: $0.clearance, viaDrill: $0.viaDrill, viaDiameter: $0.viaDiameter)
+        } ?? NetRules.defaults(for: board.rules)
+        let items = copperItems(ofNet: netID, in: copper)
+        for index in traces.indices where items.traces.contains(traces[index].id) && traces[index].width != rules.width {
+            traces[index].width = rules.width
+        }
+        for index in vias.indices where items.vias.contains(vias[index].id)
+            && (vias[index].drill != rules.viaDrill || vias[index].diameter != rules.viaDiameter) {
+            vias[index].drill = rules.viaDrill
+            vias[index].diameter = rules.viaDiameter
         }
     }
 

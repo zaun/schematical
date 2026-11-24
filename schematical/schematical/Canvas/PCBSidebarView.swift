@@ -1032,8 +1032,8 @@ struct TracePanel: View {
 
 /// A selected trace's or via's net (read-only) and that net's class, which
 /// a menu sets. The class belongs to the net, so choosing one moves every
-/// trace, via and pad of the net into it; copper already drawn keeps its
-/// width and size.
+/// trace, via and pad of the net into it, and the net's traces and vias take
+/// the class's width and via size.
 private struct NetAndClassRows: View {
     let document: SchematicDocument
     let net: (BoardConnectivity) -> Int?
@@ -1055,7 +1055,7 @@ private struct NetAndClassRows: View {
         }
         .pickerStyle(.menu)
         .disabled(key == nil)
-        .help("The net's class: new copper on the net takes its width and via. Every item on the net changes class.")
+        .help("The net's class: its trace width, clearance and via. Every trace and via on the net changes to match.")
     }
 }
 
