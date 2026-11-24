@@ -18,22 +18,16 @@
 // `(cut at 300: <stock of the 300th>)`.
 // Every product is written once as one JSON line (mpn, maker, makerId,
 // category, series, stock, status, datasheet, description, params).
-// Credentials: DIGIKEY_CLIENT_ID / DIGIKEY_CLIENT_SECRET in the environment;
-// the login token is the one digikey.js caches.
+// Credentials and transport: dk.js (the second key unless DK_OPT2=0; Safari when Cloudflare challenges Node).
 'use strict';
 const fs = require('fs');
-const os = require('os');
-const path = require('path');
+const dk = require('./dk.js');
 
-const API = 'https://api.digikey.com';
-const TOKEN_CACHE = path.join(os.tmpdir(), 'digikey-token.json');
 const PAGE = 50;
 const CAP = 300;
 const [piece, outFile] = process.argv.slice(2);
 if (!piece || !outFile) { console.error('usage: node list.js <category>-<maker>-<t|jst> <out.jsonl>'); process.exit(2); }
 const [category, maker, scopeName] = piece.split('-');
-const creds = { id: process.env.DIGIKEY_CLIENT_ID, secret: process.env.DIGIKEY_CLIENT_SECRET };
-if (!creds.id || !creds.secret) { console.error('list.js: set DIGIKEY_CLIENT_ID and DIGIKEY_CLIENT_SECRET (see ~/.zshrc)'); process.exit(1); }
 
 const PITCH = 89, POSITIONS = 1075, TYPE = 183, MOUNTING = 69, CURRENT = 2155, TERMINATION = 258;
 const ids = (list) => list.map((x) => ({ Id: String(x) }));
@@ -52,46 +46,17 @@ if (scopeName === 't') {
   seriesIds = Object.values(JST_SERIES);
 } else { console.error('list.js: scope must be t or jst'); process.exit(2); }
 
-let tok = null;
-let calls = 0;
-let left = null;
+let ctx = null;
 
-async function token(fresh) {
-  if (!fresh) {
-    try {
-      const c = JSON.parse(fs.readFileSync(TOKEN_CACHE, 'utf8'));
-      if (c.id === creds.id && c.expires > Date.now() + 30000) return c.token;
-    } catch { /* none */ }
-  }
-  const r = await fetch(`${API}/v1/oauth2/token`, {
-    method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({ client_id: creds.id, client_secret: creds.secret, grant_type: 'client_credentials' }),
-  });
-  const body = await r.json();
-  if (!body.access_token) throw new Error(`login failed (${r.status})`);
-  fs.writeFileSync(TOKEN_CACHE, JSON.stringify({ id: creds.id, token: body.access_token,
-    expires: Date.now() + (body.expires_in || 0) * 1000 }), { mode: 0o600 });
-  return body.access_token;
-}
-
-async function search(params, series, offset, limit, retried) {
+async function search(params, series, offset, limit) {
   for (let attempt = 1; ; attempt++) {
     try {
       const options = { CategoryFilter: [{ Id: category }], ManufacturerFilter: [{ Id: maker }],
         MinimumQuantityAvailable: 1, StatusFilter: [{ Id: '0' }, { Id: '4' }] };
       if (params.length) options.ParameterFilterRequest = { CategoryFilter: { Id: category }, ParameterFilters: params };
       if (series.length) options.SeriesFilter = ids(series);
-      const r = await fetch(`${API}/products/v4/search/keyword`, {
-        method: 'POST', signal: AbortSignal.timeout(180000),
-        headers: { Authorization: `Bearer ${tok}`, 'X-DIGIKEY-Client-Id': creds.id, 'X-DIGIKEY-Locale-Site': 'US',
-          'X-DIGIKEY-Locale-Language': 'en', 'X-DIGIKEY-Locale-Currency': 'USD', 'Content-Type': 'application/json' },
-        body: JSON.stringify({ Keywords: '', Limit: limit, Offset: offset, FilterOptionsRequest: options,
-          SortOptions: { Field: 'QuantityAvailable', SortOrder: 'Descending' } }),
-      });
-      calls++;
-      left = r.headers.get('x-ratelimit-remaining') ?? left;
-      if (r.status === 401 && !retried) { tok = await token(true); return search(params, series, offset, limit, true); }
-      const text = await r.text();
+      const { response: r, text } = await dk.post(ctx, { Keywords: '', Limit: limit, Offset: offset, FilterOptionsRequest: options,
+        SortOptions: { Field: 'QuantityAvailable', SortOrder: 'Descending' } });
       if (r.status === 429) throw Object.assign(new Error(`rate limited: ${text}`), { fatal: true });
       if (!r.ok) throw new Error(`HTTP ${r.status}: ${text.slice(0, 200)}`);
       return JSON.parse(text);
@@ -164,8 +129,8 @@ async function read(params, series, label) {
 }
 
 (async () => {
-  tok = await token(false);
+  ctx = await dk.open();
   await read(baseParams, seriesIds, '');
-  console.error(`list.js: ${seen.size} parts, ${pieces} pieces, ${calls} calls, ${left} calls left today`);
+  console.error(`list.js: ${seen.size} parts, ${pieces} pieces, ${ctx.calls} calls, ${ctx.left} calls left today`);
   out.end();
 })().catch((e) => { console.error(`list.js: ${e.message}`); process.exit(1); });
