@@ -19,6 +19,7 @@ plan-55-A § Prerequisites, plus:
 | Must be true | Command | Status |
 |---|---|---|
 | plan-55-J complete | `ls planning/completed/plan-55-J-*.md` → exists | MET (2026-11-23: archived at 38be3f10) |
+| The app-test classes of the gate below pass on `main` before the plan (**added 2026-11-23, a Prerequisites defect: the gate's `** TEST SUCCEEDED **` rests on it**) | `xcodebuild … test -only-testing:schematicalTests/PartEditorWindowTests -only-testing:schematicalTests/PartKindKeysTests CODE_SIGNING_ALLOWED=NO` on the commit before plan-55 (`0978bb26`) | **NOT MET** (2026-11-23: `PartEditorWindowTests.testKindNamesAreThePartFiles` and `PartKindKeysTests.testFormKeysCoverTheBackendKeys` are red at `0978bb26` and on the landed tree with the same messages; the Part Editor recipe for plan-56's `leddriver` / `lcddriver` kinds and the display-driver keys of `rtc` / `converter` is plan-56-B's Correction "moved to plan-56-G", an open plan of another stream; plan-55 does not touch those files) |
 
 Everything below is written against the world where these hold.
 
@@ -63,6 +64,22 @@ Everything below is written against the world where these hold.
 | App | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p55-dd CODE_SIGNING_ALLOWED=NO build` | `** BUILD SUCCEEDED **` |
 | App tests | `xcodebuild … test -only-testing:schematicalTests/PowerSwitchTests -only-testing:schematicalTests/PartEditorWindowTests -only-testing:schematicalTests/BillOfMaterialsTests -only-testing:schematicalTests/KindInfoTests -only-testing:schematicalTests/PartKindKeysTests -only-testing:schematicalTests/PartKindRoundTripTests -only-testing:schematicalTests/ParametricFootprintDraftTests -only-testing:schematicalTests/WizardStepsTests -only-testing:schematicalTests/RegulatorTests CODE_SIGNING_ALLOWED=NO` | `** TEST SUCCEEDED **` |
 | Runtime proof | `APP=/tmp/p55-dd/Build/Products/Debug/schematical.app scripts/harness/build.sh scripts/harness/powerswitch-app.swift /tmp/p55-harness && /tmp/p55-harness/H.app/Contents/MacOS/harness` | `all checks ok` |
+
+**Prerequisites re-run on the landed tree** (plan-55-A's table and B to K's rows; `main` at `e2cb8c69`, 2026-11-23):
+
+| Row | Observed |
+|---|---|
+| Backend tests green | fresh `/tmp/logic-p55-final`: `100% tests passed, 0 tests failed out of 45` — MET |
+| Golden sizes | P0 / R0 / F0 now 35835 / 35835 / 2271 (main's growth and plan-55's +817 / +817 / +70) — recorded |
+| The app builds | `xcodebuild … build` from the main checkout: `** BUILD SUCCEEDED **` — MET |
+| Regulator kind landed | `plan-42-J` archived, `REGULATOR_KIND` 2 lines — MET |
+| `powerswitch` kind present (the plan's own outcome) | `PART_POWERSWITCH` 1 line in `parts.h`, `Parts/powerswitch.json` and `datasheets/powerswitch` exist — MET |
+| No other open plan adds these parts | 0 files — MET |
+| DigiKey credentials and quota (B only) | credentials 2 of 2 and 2 of 2 (`ID2` / `SECRET2`); `--opt2` call → 645 calls left — MET |
+| plan-55-A to J complete | all ten archived in `planning/completed/` — MET |
+| **App-test classes pass on `main` before the plan** | **NOT MET** (the row above) |
+
+So plan-55's own work meets every row and gate except the one that depends on plan-56-G's Part Editor work; K's `** TEST SUCCEEDED **` is reached when plan-56-G lands that work, and the two tests are the only red ones in the nine classes of the gate plus `CustomFootprintDraftTests`.
 
 Acceptance: every gate's observed value matches.
   Check: the table's commands (est. 60 min: the fresh backend build, the nine app test classes and the
