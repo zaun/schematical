@@ -40,7 +40,7 @@ import SwiftUI
 /// lines between their pads (`SchematicDocument.ratsnest`), over the marks.
 /// While a trace is drawn, its net's line runs from the trace's end.
 ///
-/// Hovering a drawn pad outlines it and shows its name beside the pointer
+/// Hovering a drawn pad outlines it and shows its name and net beside the pointer
 /// (`SchematicDocument.padLabel`), except during a move, pan or box.
 ///
 /// Board positions are millimetres; the view draws `BoardScale.pointsPerMM`
@@ -1087,7 +1087,7 @@ private struct PCBHoverLayer: View {
         }
         .overlay(alignment: .topLeading) {
             if let hovered, let location = hover.location {
-                PadLabel(text: hovered.label)
+                PadLabel(text: hovered.label + "\n" + document.netName(ofPad: hovered.pad, in: document.connectivity()))
                     .offset(x: location.x + 14, y: location.y + 14)
             }
         }
@@ -1095,7 +1095,8 @@ private struct PCBHoverLayer: View {
     }
 }
 
-/// The hovered pad's name, in a small tag beside the pointer.
+/// The hovered pad's name and, on a second line, its net, in a small tag
+/// beside the pointer.
 private struct PadLabel: View {
     let text: String
 
@@ -1103,6 +1104,7 @@ private struct PadLabel: View {
         Text(text)
             .font(.system(size: 11, weight: .medium))
             .foregroundStyle(.white)
+            .multilineTextAlignment(.leading)
             .padding(.horizontal, 5)
             .padding(.vertical, 2)
             .background(Color.black.opacity(0.75), in: RoundedRectangle(cornerRadius: 4))

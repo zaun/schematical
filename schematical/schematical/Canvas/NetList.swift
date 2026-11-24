@@ -132,6 +132,14 @@ extension SchematicDocument {
         return copper.netOfRoot()[copper.root[copper.viaNode(v)]]
     }
 
+    /// The name of the net a pad is on, for the PCB hover tag: its
+    /// schematic net's name, or "No net" for a pad wired to nothing.
+    func netName(ofPad pad: PlacedPad, in copper: BoardConnectivity) -> String {
+        guard let index = copper.pads.firstIndex(where: { $0.pad == pad }),
+              let net = copper.netOfPad[index] else { return "No net" }
+        return copper.netNames[net] ?? "Net \(net + 1)"
+    }
+
     /// The name of the net `net` and of its class ("Default" for none), as
     /// the Trace and Via panels show them; "None" for no net.
     func netAndClassNames(ofNet net: Int?, in copper: BoardConnectivity) -> (net: String, netClass: String) {

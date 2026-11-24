@@ -21,6 +21,23 @@ final class PadHoverTests: XCTestCase {
         XCTAssertEqual(hit.label, "\(chip.reference).\(k.designator) K")
     }
 
+    func testHoveredPadShowsItsNet() throws {
+        let doc = TestSupport.newDocument()
+        let chip = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 100))
+        let k = try XCTUnwrap(chip.part.pins.first { $0.name == "K" })
+        let a = try XCTUnwrap(chip.part.pins.first { $0.name == "A" })
+        func net(_ designator: String) throws -> String {
+            let hit = try XCTUnwrap(doc.padLabel(at: try padCentre(try XCTUnwrap(doc.chips.first), designator)))
+            return doc.netName(ofPad: hit.pad, in: doc.connectivity())
+        }
+        XCTAssertEqual(try net(k.designator), "No net")
+
+        let gnd = try TestSupport.place(doc, "GND", at: CGPoint(x: 100, y: 400))
+        XCTAssertNil(doc.connect(.pin(try TestSupport.pin(chip, "K")), .pin(PinRef(chipID: gnd.id, index: 0))))
+        XCTAssertEqual(try net(k.designator), "GND")
+        XCTAssertEqual(try net(a.designator), "No net", "the other pad is still unwired")
+    }
+
     func testAThroughHoleChipPadIsNamed() throws {
         let doc = TestSupport.newDocument()
         try TestSupport.place(doc, "SN74HC00N", at: CGPoint(x: 100, y: 100))
