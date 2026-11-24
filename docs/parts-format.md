@@ -4855,8 +4855,8 @@ Priority: reset > preset enable > clock.
 
 #### Model `seg7`
 
-Decade counters 0–9 with decoded 7-segment outputs: 4026B, 4033B, 40110B.
-`units` = 1; main path clock → segment.
+Decade counters 0–9 with decoded 7-segment outputs: 4026B, 4033B, 40110B, SN74143.
+`units` = 1; main path clock → segment (and the latched `latchOutputs`).
 
 | Key | Value |
 |---|---|
@@ -4869,10 +4869,27 @@ Decade counters 0–9 with decoded 7-segment outputs: 4026B, 4033B, 40110B.
 | `"ungatedC"` | optional pin (4026B): segment c of the count, not gated |
 | `"lampTest"` | optional control (4033B): every segment 1 |
 | `"rippleBlank"` | optional `{"in", "out"}` (4033B): count 0 and `in` = 0 → segments 0; `out` = NOT(count = 0 AND `in` = 0) |
-| `"toggleEnable"` | optional control (40110B): counting only while asserted |
+| `"toggleEnable"` | optional control (40110B), or an array of 1 to 4 controls (SN74143: SCEI and PCEI): counting only while every one is asserted at the clock edge. An unknown (X or Z) control with another one deasserted holds the count; otherwise the count goes unknown |
 | `"latchEnable"` | optional control (40110B): while asserted the segments hold the count they showed; the counter keeps counting |
 
-Segments: lamp test > (display enable 0, or ripple blank) > glyph.
+The keys below are all optional and added for the SN74143 (plan-56-F); a part
+that uses none of them behaves as before.
+
+| Key | Value |
+|---|---|
+| `"segmentsActive"` | `"high"` (default) or `"low"`: the pin level of a lit segment and of the `decimalPoint` output; `"low"` drives 1 for dark (or Z with `segmentsOutput`) |
+| `"segmentsOutput"` | `"push-pull"` (default) or `"open-drain"`: the seven segment pins, the `decimalPoint` output and the `rbo` pin drive 0 or release to Z, never 1 (the voltage check treats them as open drain). Needs `"segmentsActive": "low"` |
+| `"maxCount"` | `{"pin": out, "enable": control}` (SN74143 MAX): a push-pull output, low while the **count** (not the latched display) is 9 and the `enable` control is asserted, high for counts 0–8 and while `enable` is deasserted, X while the count or `enable` is unknown. Its delays are the timing entry's `maxRise` / `maxFall` (ns) when it has them, else its `rise` / `fall` |
+| `"latchOutputs"` | 4 push-pull pins, LSB first (QA–QD): the bits of the displayed (latched) count, so they hold while `latchEnable` is asserted |
+| `"blank"` | optional control (SN74143 BI, `"active": "high"`): every segment and the `decimalPoint` output go dark and the `rbo` pin is pulled low while asserted |
+| `"rbi"` + `"rbo"` | together, pin names (SN74143 RBI and BI/RBO, as the decoder `seg7`): the `rbo` pin must have role `inout`. RBI is read active low; RBI low with the latched code 0 blanks every segment and the dp output. The `rbo` pin is pulled low (open drain) while `blank` is asserted **or** (RBI low and the latched code is 0), and released otherwise; read as an input, a low on it from outside blanks every segment and the dp output (Z reads high, X reads X). An alternative to `rippleBlank` (not both) |
+| `"decimalPoint"` | `{"in": pin, "out": pin}` (SN74143 DP and dp): the `out` pin is lit (per `segmentsActive`) while `in` reads 1 and nothing blanks; X while `in` is X and nothing blanks |
+
+The timing entry's extra keys are `carryPulse`, `borrowPulse`, `maxRise` and
+`maxFall` (all optional, ns).
+
+Segments: (`blank`, or the `rbo` pin low) > lamp test > (display enable 0, or
+ripple blank, or `rbi` low with the latched 0) > glyph.
 
 #### Model `divn`
 
