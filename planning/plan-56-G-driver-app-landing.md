@@ -17,11 +17,11 @@ The app lists, places, draws, edits and simulates the two new kinds: block symbo
 Acceptance: `xcodebuild test` of those suites → TEST SUCCEEDED (all but `KindGuideTests`, whose failures are the `crystal`, `powerswitch` and `decoder` ones of other work; see Corrections). Commit: —
 
 ### Phase 2 — harness proof
-- [ ] A `scripts/harness/` script placing a MAX6951 + `7seg` and a PCF8576D + `GENERIC-LCD-8D-1:4` and writing digits through a switch/MCU-free bus stimulus, showing the lit display.
+- [ ] (not done: the benches in backend/tests drive each device through its real bus against the real glass and 7seg parts; a GUI harness needs a bus stimulus part the library does not have) A `scripts/harness/` script placing a MAX6951 + `7seg` and a PCF8576D + `GENERIC-LCD-8D-1:4` and writing digits through a switch/MCU-free bus stimulus, showing the lit display.
 Acceptance: the script prints the digit lit. Commit: —
 
 ### Phase 3 — landing tier (once)
-- [ ] `ctest --test-dir /tmp/logic-build` 100%; `xcodebuild test` of the Swift suites touched; `node scripts/check-datasheets.js` for the new datasheet ids; `planning/todo.md` updated; `docs/parts-format.md`, `docs/backend.md` in sync; tick the plan checkboxes.
+- [~] `ctest --test-dir /tmp/logic-build` 55/55 passed (2026-11-23); the Swift suites touched pass except `KindGuideTests` (crystal and powerswitch blurbs, from other sessions); `node scripts/check-datasheets.js` on 26 new ids: 26 of 26 serve a PDF; docs in sync. `planning/todo.md` is not updated (it holds the owner's uncommitted edits). Not run: the full Swift suite.
 Acceptance: all pass (est. 15 min). Commit: —
 
 ## Decisions
