@@ -7,7 +7,8 @@
 # on the next day. Stops when fewer than STOCK_CHECK_RESERVE (default 20)
 # calls are left today. STOCK_CHECK_MAX caps the calls of one run.
 # usage: stock-check.sh <raw dir> <clips.jsonl> <candidates.tsv> <stock-check.tsv>
-eval "$(grep -E '^export DIGIKEY_CLIENT_(ID|SECRET)=' ~/.zshrc)"
+eval "$(grep -E '^export DIGIKEY_CLIENT_(ID|SECRET)2?=' ~/.zshrc)"
+opt2=(); [[ -n $STOCK_CHECK_OPT2 ]] && opt2=(--opt2)   # STOCK_CHECK_OPT2=1: the second API key (its own quota)
 here=${0:A:h}
 raw=$1 clips=$2 cand=$3 out=$4
 dk=${DIGIKEY_JS:-$here/../../../scripts/digikey.js}   # DIGIKEY_JS: a copy with the Safari route (api.digikey.com is behind a Cloudflare challenge)
@@ -15,7 +16,7 @@ last=${TMPDIR:-/tmp}/p47-stock-check.last
 [[ -e $out ]] || print -r -- $'mpn\tfound\tstock\tstatus\tdate' > $out
 n=0
 python3 -I $here/to-check.py $raw $clips $cand $out | while IFS=$'\t' read -r id mpn; do
-  json=$(node $dk --manufacturer $id --in-stock --status 0 --status 4 --limit 5 --json "$mpn" 2> $last < /dev/null)
+  json=$(node $dk $opt2 --manufacturer $id --in-stock --status 0 --status 4 --limit 5 --json "$mpn" 2> $last < /dev/null)
   left=$(sed -n 's/.* \([0-9][0-9]*\) left today.*/\1/p' $last | tail -1)
   if grep -q 'rate limited\|(429)\|login failed\|failed (4' $last; then
     head -c 400 $last; print; exit 1
