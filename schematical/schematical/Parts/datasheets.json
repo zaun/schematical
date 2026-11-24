@@ -9045,6 +9045,9 @@
     {"id": "pca85176", "url": "https://www.nxp.com/docs/en/data-sheet/PCA85176.pdf"},
     {"id": "pcf85176", "url": "https://www.nxp.com/docs/en/data-sheet/PCF85176.pdf"},
     {"id": "pcf8576d", "url": "https://www.nxp.com/docs/en/data-sheet/PCF8576D.pdf"},
-    {"id": "icm7218-icm7228-maxim", "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/ICM7218-ICM7228.pdf"}
+    {"id": "icm7218-icm7228-maxim", "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/ICM7218-ICM7228.pdf"},
+    {"id": "atf16v8b", "url": "https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-0364-PLD-ATF16V8B-8BQ-8BQL-Datasheet.pdf"},
+    {"id": "atf22v10c", "url": "https://ww1.microchip.com/downloads/en/DeviceDoc/doc0735.pdf"},
+    {"id": "atf750c", "url": "https://ww1.microchip.com/downloads/en/DeviceDoc/doc0776.pdf"}
   ]
 }
