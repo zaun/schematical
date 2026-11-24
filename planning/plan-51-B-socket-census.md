@@ -99,18 +99,18 @@ reason, and C moves it to `datasheets/skipped-parts.md` (its format), never into
 
 Acceptance: `raw/1212.done` exists; `candidates.tsv` has Preci-Dip PLCC rows.
   Check: `ls planning/plan-51-data/raw/*.done \| wc -l` → 12 and `awk -F'\t' '$1=="Preci-Dip" && $4=="PLCC"' planning/plan-51-data/candidates.tsv | wc -l` → the number of Preci-Dip PLCC rows (est. 30 min of calls). Measured 2026-11-24: `ls planning/plan-51-data/raw/*.done | wc -l` → 12; the awk → 4 (`540-88-032-24-008`, `540-88-044-24-008`, `540-88-068-17-400-2`, `540-88-068-24-008`). VERIFIED.
-Commit: (next commit)
+Commit: 0def04ae
 
 ### Phase 2 — datasheets
 
-- [ ] Fill column 11 (`pdf`) of `candidates.tsv`: the downloaded file's path.
-- [ ] `datasheets/ic-socket/mill-max/088-145.pdf` from the URL in § 2; `datasheets/ic-socket/preci-dip/` the DigiKey-listed Preci-Dip PDFs (`CATALOG-DILSOCKETS.pdf`, and the PDF of the `AppHost` link) and the PDF for each of the 32 rows with no link, found on precidip.com; `datasheets/ic-socket/assmann/ASS_*_CO.pdf` for each distinct URL of the Assmann rows.
-- [ ] A `datasheets.tsv` in each folder: `file`, `url` (maker's own site), `bytes`, `parts` (candidate rows that cite it).
-- [ ] Every Mill-Max series of the candidates (110, 111, 114, 115, 116, 121, 122, 123, 126, 146, 210, 214, 540, 605, 612, 614, 940, 104: the `series` column of `candidates.tsv`) is looked up in `088-145.pdf` with `pdftotext`; a series `pdftotext` does not find in it has its rows marked `out`, reason `no drawing`.
+- [x] Fill column 11 (`pdf`) of `candidates.tsv`: the downloaded file's path. — `python3 -I planning/plan-51-data/census/fill-pdf.py` → `573 rows, 10 PDFs`; `awk -F'\t' 'NR>1 && $11==""' planning/plan-51-data/candidates.tsv | wc -l` → 0.
+- [x] `datasheets/ic-socket/mill-max/088-145.pdf` from the URL in § 2; `datasheets/ic-socket/preci-dip/` the DigiKey-listed Preci-Dip PDFs (`CATALOG-DILSOCKETS.pdf`, and the PDF of the `AppHost` link) and the PDF for each of the 32 rows with no link, found on precidip.com; `datasheets/ic-socket/assmann/ASS_*_CO.pdf` for each distinct URL of the Assmann rows. — 10 PDFs: Mill-Max `088-145.pdf` (20612647 bytes); Preci-Dip `CATALOG-DILSOCKETS.pdf` and `CATALOG-PGABGAPLCCSOCKETS.pdf`; Assmann `ASS_0142`, `0810`, `0981`, `4852`, `6290`, `6449`, `7007` `_CO.pdf`. The AppHost links are not PDFs (§ Corrections).
+- [x] A `datasheets.tsv` in each folder: `file`, `url` (maker's own site), `bytes`, `parts` (candidate rows that cite it). — written by `fill-pdf.py`: parts 320 (Mill-Max), 203 + 4 (Preci-Dip), 3 + 9 + 4 + 16 + 2 + 8 + 4 (Assmann) = 573.
+- [x] Every Mill-Max series of the candidates (110, 111, 114, 115, 116, 121, 122, 123, 126, 146, 210, 214, 540, 605, 612, 614, 940, 104: the `series` column of `candidates.tsv`) is looked up in `088-145.pdf` with `pdftotext`; a series `pdftotext` does not find in it has its rows marked `out`, reason `no drawing`. — all 18 series found as part-number prefixes (`grep -c "\b<series>-[0-9X][0-9X]-"` ≥ 12 for each); no row marked `out`.
 
 Acceptance: every candidate row's `pdf` is a file; each file is a PDF.
-  Check: `for f in datasheets/ic-socket/*/*.pdf; do file "$f"; done \| grep -vc 'PDF document'` → 0 (est. 15 min).
-Commit: —
+  Check: `for f in datasheets/ic-socket/*/*.pdf; do file "$f"; done \| grep -vc 'PDF document'` → 0 (est. 15 min). Measured 2026-11-24: 0 (and 0 rows with an empty `pdf`). VERIFIED.
+Commit: (next commit)
 
 ### Phase 3 — stock re-check
 
@@ -140,6 +140,7 @@ Author decisions:
 
 - **2026-11-24, `census/list.js` and `list.sh` changed before Phase 1 could run.** Cloudflare has challenged every Node request to `api.digikey.com` since 2026-11-23 (after the plan was written), so `list.js`'s own `fetch` could not log in. It now sends its requests through `scripts/digikey.js`'s `credentials`, `token` and `fetchRetry` (the Safari fallback; the module exports them for census scripts) and uses the second key unless `DK_OPT2=0` (owner, 2026-11-24: "using opt2"; the first key was spent). `list.sh` exports the second key's variables too. Same change as `planning/plan-45-data/census/dk.js`.
 - **2026-11-24, Phase 1 counts** (`python3 -I planning/plan-51-data/census/tally.py`): in scope per maker Mill-Max 320, Preci-Dip 207 (was 203: +4 PLCC), Samtec 50, Assmann 46, Aries 21, 3M 20, Adam Tech 20, TE AMP 10, Amphenol ICC 8; `three makers: 573` (was 569); groups 55 (was 53); variants 207; distinct datasheet URLs 17 (was 15). The Preci-Dip PLCC rows are series 540: 032 TH, 044 TH, 068 TH and 068 SMT. The planning note of 7 Preci-Dip PLCC parts in stock was a keyword search (any PLCC, including types and pin counts out of scope); the scope rule keeps 4. Per shape: see the tally's `per shape` line (PLCC: 28 SMD 1, 28 TH 3, 32 SMD 3, 32 TH 4, 44 SMD 3, 44 TH 4, 68 SMD 2, 68 TH 4 across the three makers).
+- **2026-11-24, Phase 2: the Preci-Dip `AppHost` links are not PDFs, and there are three of them, not one.** `curl -L` of each (`…/AppHost/9698,1/…dsku=115-PP-XXX-41-003101`, `…/9699,1/…dsku=540-88-XXX-24-008`, `…/9699,1/…dsku=540-88-XXX-17-400`) answers `200 text/html` with the same 598 KB "Product Finder" page, so they were not kept. The PLCC rows (series 540) cite two of them; Preci-Dip's own PLCC catalog is `https://precidip.com/wp-content/uploads/2024/10/CATALOG-PGABGAPLCCSOCKETS.pdf` (found on `precidip.com/catalogs-brochures/`), which names `540-88-0XX-24-008` and `-17-400` for 20 to 84 pins. The 115 row with an `AppHost` link, the 114 row with the DigiKey `Preci dip DIL.pdf` copy and the 32 rows with no link all cite `CATALOG-DILSOCKETS.pdf` (it names series 110, 114, 115, 116, 121, 122, 123, 146 and 614; `grep` per series). Assmann `A 32-LC-TR` (DigiKey copy `Axx-LC IC SOCKET.pdf`) is in `ASS_6449_CO.pdf` (`pdftotext` lists it in the `WSW P/N` table). `census/fill-pdf.py` records these rules.
 - **2026-11-24, Phase 3 re-lists only Mill-Max.** Phase 1's run listed Preci-Dip and Assmann today (the same date Phase 3 would stamp), so a second listing of them would spend about 35 calls for the same answer; Mill-Max's listing (`raw/54.jsonl.gz`) is from 2026-11-21 and is the one that is stale.
 
 ## Summary
