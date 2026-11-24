@@ -94,11 +94,8 @@
 - [x] Add crystals and resonators (oscillators exist, crystals don't). (plan-44:
       Abracon, ECS, Suntsu; SAW, overtone and thermistor parts out of scope)
 - [ ] Add inductors, fuses / polyfuses, relays and buzzers. (plan-47 written, not built)
-- [x] Add screw terminals and JST-XH/PH connectors (check what the 222
-      existing connectors already cover first). (plan-45: Phoenix Contact,
-      Weidmüller, Würth Elektronik terminal blocks; JST XH, PH, EH, ZH, SH,
-      GH, VH headers; Reliance North America and the XH/PH-style headers of
-      Pololu have no maker datasheet, so are out)
+- [ ] Add screw terminals and JST-XH/PH connectors (check what the 222
+      existing connectors already cover first). (plan-45 written, not built)
 - [x] Allow parts with a symbol, footprint and BOM data but no simulation
       model, so passives and analog parts don't each need a backend model.
       (`"simulated": false`, plan-36; docs/parts-format.md)
@@ -177,7 +174,7 @@ added. One item per family; 248 parts in all.
 
 - [ ] regulator: 45 parts (plan-42).
 - [ ] inductor: 26 parts.
-- [ ] connector (other than the two USB-C receptacles plan-43 added): 15 parts.
+- [ ] connector (other than the two USB-C receptacles plan-43 added): 22 parts.
 - [ ] protection: 18 parts.
 - [ ] bus-switch: 17 parts.
 - [ ] serial-memory: 16 parts.
