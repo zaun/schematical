@@ -29,8 +29,8 @@ plan-55-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-55-I complete | `ls planning/completed/plan-55-I-*.md` → exists | NOT MET (2026-11-22: not started) |
-| No app type for the kind yet | `grep -c 'PowerSwitchInfo' schematical/schematical/Backend/PartCatalog.swift` → 0 | MET (2026-11-22 at 7c7b4d31: 0) |
+| plan-55-I complete | `ls planning/completed/plan-55-I-*.md` → exists | MET (2026-11-23: archived at ef1fe2e5) |
+| No app type for the kind yet | `grep -c 'PowerSwitchInfo' schematical/schematical/Backend/PartCatalog.swift` → 0 | MET (2026-11-23: 0) |
 
 Everything below is written against the world where these hold.
 
@@ -94,43 +94,43 @@ change (J's tests pin both directions).
 
 ### Phase 1 — Details, facts, kind names
 
-- [ ] `PartCatalog.swift`: `PowerSwitchInfo` (type, switches, `vinMinMV`, `vinMaxMV`, `ioutMA`,
+- [x] `PartCatalog.swift`: `PowerSwitchInfo` (type, switches, `vinMinMV`, `vinMaxMV`, `ioutMA`,
       `ilimitMA`, `ronMOhm`, `iqUA`), `Details.powerswitch`, `CatalogPart.powerswitch`, the details
       builder from `part.powerswitch`, `detailLabels`, `symbol(for:)`'s explicit `.block` case.
-- [ ] `PartFacts.swift`: the facts rows and both `kindName`s (§ 3.1).
-- [ ] Tests: `schematicalTests/PowerSwitchTests.swift`: `kindName` and the facts of one load switch, one
+- [x] `PartFacts.swift`: the facts rows and both `kindName`s (§ 3.1).
+- [x] Tests: `schematicalTests/PowerSwitchTests.swift`: `kindName` and the facts of one load switch, one
       current-limited, one dual and one ideal diode from the loaded catalog (picked by `kind` and
-      facts, not by name).
+      facts, not by name). Observed: `PowerSwitchTests` has `testLoadSwitchFacts`, `testCurrentLimitedFacts` (a dual and, when present, a triple and a quad), `testIdealDiodeFacts` (one input and two).
 
 Acceptance: the sidebar shows a power switch's kind and facts.
-  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p55-dd test -only-testing:schematicalTests/PowerSwitchTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 12 min: the app test build; no smaller check runs Swift).
-Commit: —
+  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p55-dd test -only-testing:schematicalTests/PowerSwitchTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 12 min: the app test build; no smaller check runs Swift). Observed with the Phase 2 and the BOM test: `xcodebuild … test -only-testing:schematicalTests/PowerSwitchTests -only-testing:schematicalTests/BillOfMaterialsTests` → `** TEST SUCCEEDED **`.
+Commit: (filled by the next commit)
 
 ### Phase 2 — The voltage messages
 
-- [ ] `VoltageCheck.swift`: the `VOLTAGE_POWERSWITCH_INPUT_OVER` case (§ 3.2).
-- [ ] Tests: `PowerSwitchTests`: a placed power switch with a 12 V supply on its input pin gives one
+- [x] `VoltageCheck.swift`: the `VOLTAGE_POWERSWITCH_INPUT_OVER` case (§ 3.2).
+- [x] Tests: `PowerSwitchTests`: a placed power switch with a 12 V supply on its input pin gives one
       issue whose `message` is the § 1 text; a 5 V input switch whose output sits on the 3V3 rail gives
       `3.3 V (<the supply>) and 5 V (<the switch>) supplies on one net.`; a 3.3 V input switch on the 5V
       rail gives `3.3 V (<the switch>) and 5 V (<the supply>) supplies on one net.`; two switches of 5 V
-      and 3.3 V on one net give no issue.
+      and 3.3 V on one net give no issue. Observed: `testInputOverMessage`, `testSupplyClashFiveVoltSwitchOnTheLowerRail`, `testSupplyClashThreeVoltSwitchOnTheHigherRail` and `testTwoSwitchesOnOneNetDoNotClash` pass.
 
 Acceptance: the messages name the part, the limit and both voltages.
   Check: the Phase 1 command → `** TEST SUCCEEDED **` with the new cases (est. 12 min).
-Commit: —
+Commit: (filled by the next commit)
 
 ### Phase 3 — The harness and the BOM check
 
-- [ ] `scripts/harness/powerswitch-app.swift` (as `regulator-app.swift`): the drawer (`Power` → `Power
+- [x] `scripts/harness/powerswitch-app.swift` (as `regulator-app.swift`): the drawer (`Power` → `Power
       Switches` → `Load Switches` / `Current-Limited` / `Ideal Diodes` and their leaves), the facts, a placed
       load switch on its own footprint, an LED lit through it in play mode and dark with its enable
       inactive, an ideal diode passing 5 V and an input above the part's maximum refused.
-- [ ] `BillOfMaterialsTests`: a power switch line reads `U1`, the part name, its manufacturer and
+- [x] `BillOfMaterialsTests`: a power switch line reads `U1`, the part name, its manufacturer and
       footprint (the existing line format).
 
 Acceptance: the real app shows and runs power switches.
-  Check: `APP=/tmp/p55-dd/Build/Products/Debug/schematical.app scripts/harness/build.sh scripts/harness/powerswitch-app.swift /tmp/p55-harness && /tmp/p55-harness/H.app/Contents/MacOS/harness` → `all checks ok` (est. 10 min: it drives the real app; a unit test cannot show the drawer and play mode). When the harness drives the real mouse, the pointer ends at the top-left corner of the screen (`AGENTS.md`).
-Commit: —
+  Check: `APP=/tmp/p55-dd/Build/Products/Debug/schematical.app scripts/harness/build.sh scripts/harness/powerswitch-app.swift /tmp/p55-harness && /tmp/p55-harness/H.app/Contents/MacOS/harness` → `all checks ok` (est. 10 min: it drives the real app; a unit test cannot show the drawer and play mode). When the harness drives the real mouse, the pointer ends at the top-left corner of the screen (`AGENTS.md`). Observed: `scripts/harness/build.sh … /tmp/p55-harness` and the harness → 15 `ok` lines and `all checks ok` (the harness uses no mouse: it places parts and runs the simulation controller; Correction 2 for the build fix).
+Commit: (filled by the next commit)
 
 ## Validation Plan
 
@@ -150,7 +150,9 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+1. **The harness build was broken on `main` by plan-53-D** (`c50c25de`): `SchematicModel.updatePart` wrote `schematical.symbol(for:)`, a module-qualified call that cannot compile when `scripts/harness/build.sh` compiles the app's sources into a harness (every harness failed with `cannot find 'schematical' in scope`; checked with `regulator-app.swift`). The local `symbol` that the qualification worked around is renamed `newSymbol` (`schematical/schematical/Canvas/SchematicModel.swift:2240`); behaviour is unchanged.
+2. **The drawer hides flagged parts by default** (`PartVisibility`: automotive, military, obsolete), so the harness counts the 817 parts with every flag shown and checks that the default drawer shows `817 − automotive`.
+3. **The messages read** (the harness prints them): `Can't connect: U1 pin 1 (VIN) gets 12 V; TPS22918DBVR takes at most 5.5 V in.` and `Can't connect: 3.3 V (PWR2) and 5 V (U1) supplies on one net.` The sidebar rows and names are in `docs/parts-format.md` § `powerswitch` (the doc sync).
 
 ## Summary
 

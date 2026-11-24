@@ -226,6 +226,21 @@ nonisolated enum PartFacts {
             add("Stability", CrystalInfo.ppmText(info.stabilityPPM))
             if info.esrMOhm > 0 { add("ESR", milliohmsText(info.esrMOhm)) }
             if info.capacitors { add("Built-in capacitors", "Yes") }
+        case let .powerswitch(info):
+            add("Type", powerSwitchType(info))
+            if info.switches > 1 { add(info.type == "ideal-diode" ? "Inputs" : "Channels", String(info.switches)) }
+            if info.vinMaxMV > 0 {
+                add("Input", info.vinMinMV > 0 ? "\(milli(info.vinMinMV))–\(milli(info.vinMaxMV)) V"
+                                               : "up to \(milli(info.vinMaxMV)) V")
+            } else if info.vinMinMV > 0 {
+                add("Input", "from \(milli(info.vinMinMV)) V")
+            }
+            if info.ioutMA > 0 { add("Current", "\(milli(info.ioutMA)) A") }
+            if info.type == "limited", info.ilimitMA > 0 { add("Current limit", "\(milli(info.ilimitMA)) A") }
+            if info.ronMOhm > 0 { add("On-resistance", milliohmsText(UInt64(info.ronMOhm))) }
+            if info.iqUA > 0 {
+                add("Quiescent", info.iqUA >= 1000 ? "\(milli(info.iqUA)) mA" : "\(info.iqUA) µA")
+            }
         case let .regulator(info):
             add("Type", regulatorType(info))
             if info.regulators > 1 { add("Regulators", String(info.regulators)) }
@@ -306,6 +321,7 @@ nonisolated enum PartFacts {
         case PART_NIXIE: return "Nixie tube"
         case PART_DEKATRON: return "Dekatron"
         case PART_REGULATOR: return "Voltage regulator"
+        case PART_POWERSWITCH: return "Power switch"
         case PART_CRYSTAL: return "Crystal"
         default: return ""
         }
@@ -326,6 +342,7 @@ nonisolated enum PartFacts {
             default: break
             }
         }
+        if let info = part.powerswitch { return powerSwitchName(info) }
         if let info = part.crystal, info.type == "resonator" { return "Ceramic resonator" }
         if case .connector(_, _, _, _, _?) = part.details { return "USB connector" }
         if case let .converter(type, _, _) = part.details {
@@ -435,6 +452,32 @@ nonisolated enum PartFacts {
         if info.darlington { return polarity + " Darlington" }
         if info.preBiased { return polarity + " pre-biased" }
         return polarity
+    }
+
+    /// A power switch's type as shown (plan-55-J): "Load switch",
+    /// "Current-limited switch", "Ideal diode".
+    static func powerSwitchType(_ info: PowerSwitchInfo) -> String {
+        switch info.type {
+        case "load": return "Load switch"
+        case "limited": return "Current-limited switch"
+        case "ideal-diode": return "Ideal diode"
+        default: return info.type.prefix(1).uppercased() + info.type.dropFirst()
+        }
+    }
+
+    /// A power switch's kind as shown (plan-55-J): the type's name, with
+    /// "Dual", "Triple" or "Quad" in front for 2 to 4 switches ("Dual load
+    /// switch", "Quad current-limited switch", "Dual ideal diode").
+    static func powerSwitchName(_ info: PowerSwitchInfo) -> String {
+        let type = powerSwitchType(info)
+        let count: String
+        switch info.switches {
+        case 2: count = "Dual"
+        case 3: count = "Triple"
+        case 4: count = "Quad"
+        default: return type
+        }
+        return count + " " + type.prefix(1).lowercased() + type.dropFirst()
     }
 
     /// A regulator's type as shown (plan-42-I): "Linear", "Buck", "Boost",

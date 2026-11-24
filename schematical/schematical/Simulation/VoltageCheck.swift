@@ -158,7 +158,7 @@ enum VoltageCheck {
         case VOLTAGE_INPUT_OVER:
             return "\(edit.verb): \(chip.reference) \(pinText) gets \(volts(issue.mv)) V; "
                 + "\(part) inputs take at most \(volts(issue.maxMV)) V."
-        case VOLTAGE_REGULATOR_INPUT_OVER:
+        case VOLTAGE_REGULATOR_INPUT_OVER, VOLTAGE_POWERSWITCH_INPUT_OVER:
             return "\(edit.verb): \(chip.reference) \(pinText) gets \(volts(issue.mv)) V; "
                 + "\(part) takes at most \(volts(issue.maxMV)) V in."
         default:

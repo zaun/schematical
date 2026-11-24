@@ -197,6 +197,26 @@ nonisolated struct RegulatorInfo: Hashable, Sendable {
     let fswHz: UInt64
 }
 
+/// A power switch part's facts (plan-55-J), from the backend's
+/// `PartPowerSwitch`. Every value is 0 when not given.
+nonisolated struct PowerSwitchInfo: Hashable, Sendable {
+    /// "load", "limited" (a current-limited or USB switch) or "ideal-diode".
+    let type: String
+    /// The switches in the package (more than 1: a dual, triple or quad).
+    let switches: Int
+    /// The input range's ends, in millivolts.
+    let vinMinMV: UInt32
+    let vinMaxMV: UInt32
+    /// The continuous current per switch and a current-limited switch's
+    /// limit, in milliamps.
+    let ioutMA: UInt32
+    let ilimitMA: UInt32
+    /// The on-resistance, in milliohms.
+    let ronMOhm: UInt32
+    /// The quiescent current, in microamps.
+    let iqUA: UInt32
+}
+
 /// A crystal or ceramic resonator part's facts (plan-44-G), from the
 /// backend's `PartCrystal`. A value is 0 when not given.
 nonisolated struct CrystalInfo: Hashable, Sendable {
@@ -561,6 +581,11 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// regulators (more than 1: a dual, triple or quad), its facts
         /// (`RegulatorInfo`).
         case regulator(RegulatorInfo)
+        /// A power switch (plan-55): a load switch, a current-limited or
+        /// USB switch or an integrated ideal diode, one to four switches
+        /// (more than 1: a dual, triple or quad), its facts
+        /// (`PowerSwitchInfo`).
+        case powerswitch(PowerSwitchInfo)
         /// A crystal or ceramic resonator (plan-44): a two-terminal
         /// frequency reference, its facts (`CrystalInfo`).
         case crystal(CrystalInfo)
@@ -751,6 +776,12 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         return nil
     }
 
+    /// A power switch part's facts (plan-55-J); nil for every other kind.
+    var powerswitch: PowerSwitchInfo? {
+        if case let .powerswitch(info) = details { return info }
+        return nil
+    }
+
     /// A crystal or ceramic resonator part's facts (plan-44-G); nil for every other kind.
     var crystal: CrystalInfo? {
         if case let .crystal(info) = details { return info }
@@ -917,6 +948,10 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
             let output = outputs.isEmpty ? (info.adjustable ? ["ADJ"] : [])
                 : ["\(outputs.map { PartFacts.milli($0) }.joined(separator: "/")) V"]
             return output + (info.ioutMA > 0 ? ["\(PartFacts.milli(info.ioutMA)) A"] : [])
+        case let .powerswitch(info):
+            // The input maximum and the current: "≤ 5.5 V", "1.5 A" (plan-55-J).
+            return (info.vinMaxMV > 0 ? ["≤ \(PartFacts.milli(info.vinMaxMV)) V"] : [])
+                + (info.ioutMA > 0 ? ["\(PartFacts.milli(info.ioutMA)) A"] : [])
         case let .crystal(info):
             // The load capacitance and the tolerance, when the part gives them.
             return (info.loadFF > 0 ? [CapacitorValue.text(Double(info.loadFF) / 1e15)] : [])
@@ -1174,6 +1209,12 @@ extension CatalogPart {
                 vinMinMV: regulator.vin_min_mv, vinMaxMV: regulator.vin_max_mv,
                 dropoutMV: regulator.dropout_mv, ioutMA: regulator.iout_ma,
                 iqUA: regulator.iq_ua, fswHz: regulator.fsw_hz))
+        } else if let powerswitch = part.powerswitch?.pointee {
+            details = .powerswitch(PowerSwitchInfo(
+                type: string(powerswitch.type), switches: Int(powerswitch.switch_count),
+                vinMinMV: powerswitch.vin_min_mv, vinMaxMV: powerswitch.vin_max_mv,
+                ioutMA: powerswitch.iout_ma, ilimitMA: powerswitch.ilimit_ma,
+                ronMOhm: powerswitch.ron_mohm, iqUA: powerswitch.iq_ua))
         } else if let crystal = part.crystal?.pointee {
             details = .crystal(CrystalInfo(
                 type: string(crystal.type), hz: crystal.hz, loadFF: crystal.load_ff,
@@ -1532,6 +1573,9 @@ func symbol(for part: CatalogPart) -> PartSymbol {
         return names == ["B", "C", "E"] || names == ["G", "D", "S"] ? .transistor : .block
     case PART_REGULATOR:
         // A regulator draws as a block, its pins named (plan-42-I).
+        return .block
+    case PART_POWERSWITCH:
+        // A power switch draws as a block, its pins named (plan-55-J).
         return .block
     case PART_CRYSTAL:
         // A crystal or resonator with its two terminals draws as the

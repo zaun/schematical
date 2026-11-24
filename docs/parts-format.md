@@ -1402,6 +1402,15 @@ Devices 28, Texas Instruments 4, onsemi 1). A part's drawer follows its device's
 `"type"`. Monolithic Power Systems has none (its datasheet links are pages
 behind a bot check, so no script can fetch them); the parts left out are in
 `datasheets/skipped-parts.md` (§ Power switches). There is no generic part.
+In the app a power switch draws as a block with its pins named; the sidebar
+names its kind by its type and switch count (`Load switch`, `Dual
+current-limited switch`, `Quad current-limited switch`, `Ideal diode`, `Dual
+ideal diode`) and lists `Type`, `Channels` (`Inputs` for an ideal diode) when
+there is more than one, `Input` (`1.5–5.5 V`, `up to 6 V`, `from 2.7 V`),
+`Current`, `Current limit` (a current-limited switch with one fixed limit),
+`On-resistance` and `Quiescent`, each omitted when the part gives none; the
+voltage check's refusal reads `Can't connect: U1 pin 1 (VIN) gets 12 V; <part>
+takes at most 5.5 V in.`
 
 ```json
 {"id": "psw-ti-lm66100", "function": "Single input", "description": "Ideal diode, 1.5 A, 1.5-5.5 V",

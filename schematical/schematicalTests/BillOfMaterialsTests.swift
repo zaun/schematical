@@ -61,6 +61,25 @@ final class BillOfMaterialsTests: XCTestCase {
         XCTAssertEqual(other.package, "DPAK")
     }
 
+    /// plan-55-J: a power switch is a U line with its part number, maker, package and footprint.
+    func testPowerSwitchesAreULines() throws {
+        let part = try XCTUnwrap(TestSupport.allParts
+            .filter { $0.kind == PART_POWERSWITCH && $0.footprint != nil }.sorted { $0.name < $1.name }.first,
+                                 "no power switch")
+        let doc = TestSupport.newDocument()
+        try TestSupport.place(doc, part.name, at: CGPoint(x: 100, y: 100))
+        try TestSupport.place(doc, part.name, at: CGPoint(x: 300, y: 100))
+        let lines = BillOfMaterials.lines(for: doc.chips)
+        XCTAssertEqual(lines.count, 1)
+        let line = try XCTUnwrap(lines.first)
+        XCTAssertEqual(line.partNumber, part.name)
+        XCTAssertEqual(line.references, ["U1", "U2"])
+        XCTAssertEqual(line.manufacturer, part.manufacturer)
+        XCTAssertEqual(line.package, part.package)
+        XCTAssertEqual(line.description, part.description)
+        XCTAssertFalse(line.manufacturer.isEmpty)
+    }
+
     func testCSVQuotesFieldsWithCommas() {
         let line = BillOfMaterialsLine(partNumber: "X", package: "DIP-14", value: "", color: "",
                                        description: "Quad \"NAND\", 2-input", references: ["U1", "U2"])

@@ -2237,8 +2237,8 @@ final class SchematicDocument {
     func updatePart(uuid: String, to newPart: CatalogPart) -> Bool {
         let ids = chips.filter { $0.part.uuid == uuid }.map(\.id)
         guard !ids.isEmpty else { return false }
-        let symbol = schematical.symbol(for: newPart)
-        for id in ids { swapPart(of: id, to: newPart, symbol: symbol) }
+        let newSymbol = symbol(for: newPart)
+        for id in ids { swapPart(of: id, to: newPart, symbol: newSymbol) }
         history.clear()
         return true
     }
