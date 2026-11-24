@@ -16,7 +16,7 @@ candidate row needs; no part file, footprint, backend or app file changes.
 
 References:
 
-- `planning/plan-55-A-powerswitch-kind.md` (§ 2 populations, § 3.2 conventions);
+- `planning/completed/plan-55-A-powerswitch-kind.md` (§ 2 populations, § 3.2 conventions);
   `AGENTS.md` (§ Datasheets); `docs/parts-format.md` § Datasheets.
 - `planning/plan-55-data/` — `README.md`, `census/families.js`, `families.out`.
 - `planning/plan-54-data/census/` (`list.js`, `list.sh`, `select.py`, `common.py`: the listing

@@ -14,7 +14,7 @@ app's kind-list tests agree.
 
 References:
 
-- `planning/plan-55-A-powerswitch-kind.md` § 3.1, § 3.2 (the keys and the naming conventions);
+- `planning/completed/plan-55-A-powerswitch-kind.md` § 3.1, § 3.2 (the keys and the naming conventions);
   plan-55-C § 3 (the spec rows); `docs/parts-format.md` § Parts, § Datasheets, § Footprints,
   § `powerswitch`; `docs/backend.md` § Adding a kind, § Tests (golden regeneration).
 - `planning/completed/plan-42-H-regulator-parts.md` (the precedent, Phases 1 and 2 and its

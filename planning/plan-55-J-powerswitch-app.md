@@ -16,7 +16,7 @@ message naming the part and the limit.
 
 References:
 
-- `planning/plan-55-A-powerswitch-kind.md` § 3.1 (the facts), § 3.4 (the clash records and the
+- `planning/completed/plan-55-A-powerswitch-kind.md` § 3.1 (the facts), § 3.4 (the clash records and the
   input rating); `planning/completed/plan-42-I-regulator-app.md` (the precedent, Phases 1 and 3).
 - `schematical/schematical/Backend/PartCatalog.swift` (`RegulatorInfo` line 171, `Details.regulator`
   line 533, the accessor line 717, the details builder line 1109, `symbol(for:)` line 1464),

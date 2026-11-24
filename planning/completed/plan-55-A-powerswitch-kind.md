@@ -450,7 +450,7 @@ Commit: efe075c0
 
 Acceptance: the docs name every key, error and rule.
   Check: `grep -c 'enableRef\|flagWhen\|ilimit\|POWERSWITCH_INPUT_OVER\|switched level' docs/parts-format.md docs/backend.md` → at least 1 per file (est. < 1 min).
-Commit: (filled by the next commit)
+Commit: eae534aa
 
 ## Validation Plan
 

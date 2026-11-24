@@ -14,7 +14,7 @@ its reason. No part file, footprint, backend or app file changes.
 
 References:
 
-- `planning/plan-55-A-powerswitch-kind.md` § 3.1 (the kind's keys, roles, enable and flag
+- `planning/completed/plan-55-A-powerswitch-kind.md` § 3.1 (the kind's keys, roles, enable and flag
   modes), § 3.2 (naming conventions); plan-55-B § 3.2 (`candidates.tsv`).
 - `planning/completed/plan-42-B-regulator-verdicts.md` § 3 and `plan-42-C-regulator-pinouts.md` § 3
   (the verdict and pinout rules this letter adapts), `planning/plan-42-data/census/` (`verdicts.py`,
