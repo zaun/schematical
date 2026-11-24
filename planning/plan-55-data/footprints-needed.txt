@@ -1,0 +1,121 @@
+# letter	company	package	supplier package	add rows	example part	example pdf	families	spec rows
+F	ti	10-VFDFN Exposed Pad	10-VSON (3x3)	19	TPS2003CDRCR	datasheets/powerswitch/ti/tps2002c.pdf	limited	12
+F	ti	10-VFQFN	10-VQFN-HR (2x2)	1	LM73100RPWR	datasheets/powerswitch/ti/lm7310.pdf	ideal	1
+F	ti	10-WFDFN Exposed Pad	10-WSON (2x2)	2	TPS22954DSQR	datasheets/powerswitch/ti/tps22953.pdf	load	1
+F	ti	10-WFDFN Exposed Pad	10-WSON (3x2)	6	TPS22954DQCR	datasheets/powerswitch/ti/tps22953.pdf	limited,load	4
+F	ti	10-WFQFN	10-WQFN-HR (1.5x2)	1	TPS22997RYZR	datasheets/powerswitch/ti/tps22997.pdf	load	1
+F	ti	12-PowerQFN	12-VQFN-HR (3.5x3)	1	TPS482H85BQCHURQ1	datasheets/powerswitch/ti/tps482h85-q1.pdf	limited	1
+F	ti	12-WFDFN Exposed Pad	12-WSON (4x4)	2	TPS281C100ADNTR	datasheets/powerswitch/ti/tps281c100.pdf	limited	1
+F	ti	14-PowerTSSOP (0.173", 4.40mm Width)	14-HTSSOP	1	TPS2013APWPR	datasheets/powerswitch/ti/tps2010a.pdf	limited	1
+F	ti	14-PowerWFDFN	14-WSON (3x2)	11	TPS22976DPUR	datasheets/powerswitch/ti/tps22976.pdf	load	5
+F	ti	16-PowerTSSOP (0.173", 4.40mm Width)	16-HTSSOP	5	LM76202QPWPRQ1	datasheets/powerswitch/ti/lm76202-q1.pdf	ideal,limited	5
+F	ti	16-SOIC (0.154", 3.90mm Width)	16-SOIC	24	TPS2053BD	datasheets/powerswitch/ti/tps2042b.pdf	limited	17
+F	ti	16-WFQFN Exposed Pad	16-WQFN (3x3)	16	TPS2540ARTER	datasheets/powerswitch/ti/tps2540.pdf	limited	7
+F	ti	20-PowerTSSOP (0.173", 4.40mm Width)	20-HTSSOP	3	TPS4H000BQPWPRQ1	datasheets/powerswitch/ti/tps4h000-q1.pdf	limited	3
+F	ti	20-VQFN Exposed Pad	20-VQFN (5x5)	3	TPS281C30ERGWR	datasheets/powerswitch/ti/tps281c30.pdf	limited	2
+F	ti	20-WFQFN Exposed Pad	20-WQFN (4x3)	1	TPS254900IRVCTQ1	datasheets/powerswitch/ti/tps254900-q1.pdf	limited	1
+F	ti	24-VFQFN Exposed Pad	24-VQFN (5x4)	3	TPS272C45ARHFR	datasheets/powerswitch/ti/tps272c45.pdf	limited	2
+F	ti	28-PowerTSSOP (0.118", 3.00mm Width)	28-HTSSOP	3	TPS2HC120AQDGQRQ1	datasheets/powerswitch/ti/tps2hc120-q1.pdf	limited	2
+F	ti	28-WFQFN Exposed Pad	28-WQFN (4x5)	1	TPS274160BRLHR	datasheets/powerswitch/ti/tps274160.pdf	limited	1
+F	ti	4-UFBGA, DSBGA	4-DSBGA (0.9x0.9)	2	TPS22908YZTR	datasheets/powerswitch/ti/tps22908.pdf	load	1
+F	ti	4-UFQFN	4-UQFN-HR (0.85x0.75)	7	TPS22991CRAAR	datasheets/powerswitch/ti/tps22991.pdf	load	2
+F	ti	4-XFBGA, DSBGA	4-DSBGA	22	TPS22916BYFPR	datasheets/powerswitch/ti/tps22916.pdf	load	5
+F	ti	4-XFBGA, DSBGA	4-DSBGA (0.88x0.88)	12	TPS22912CYZVR	datasheets/powerswitch/ti/tps22910a.pdf	load	4
+F	ti	40-VFQFN Exposed Pad	40-VQFN (6x6)	3	TPS274C65CPHWRHAR	datasheets/powerswitch/ti/tps274c65cp.pdf	limited	1
+F	ti	5-TSSOP, SC-70-5, SOT-353	SC-70-5	4	TPS22944DCKR	datasheets/powerswitch/ti/tps22941.pdf	limited	4
+F	ti	6-TSSOP, SC-88, SOT-363	SC-70-6	2	TPS22919DCKT	datasheets/powerswitch/ti/tps22919.pdf	ideal,load	2
+F	ti	6-WDFN Exposed Pad	6-WSON (2x2)	9	TPS22810DRVR	datasheets/powerswitch/ti/tps22810.pdf	limited,load	3
+F	ti	6-WFBGA, DSBGA	6-DSBGA	3	LM34904ITMX/NOPB	datasheets/powerswitch/ti/lm34904.pdf	limited	2
+F	ti	6-WFBGA, DSBGA	6-DSBGA (1.44x1.16)	1	LM34902ITMX/NOPB	datasheets/powerswitch/ti/lm34902.pdf	limited	1
+F	ti	6-WFQFN	6-WQFN-HR (1.25x0.85)	1	TPS22995RZFR	datasheets/powerswitch/ti/tps22995.pdf	load	1
+F	ti	6-XFBGA, DSBGA	6-DSBGA	17	TPS22922YFPR	datasheets/powerswitch/ti/tps22921.pdf	load	4
+F	ti	6-XFBGA, DSBGA	6-DSBGA (1.11x0.71)	2	TPS22950YBHR	datasheets/powerswitch/ti/tps22950.pdf	limited	1
+F	ti	6-XFBGA, DSBGA	6-DSBGA (1.39x.89)	5	TPS22924CYZPR	datasheets/powerswitch/ti/tps22924b.pdf	load	3
+F	ti	8-DIP (0.300", 7.62mm)	8-PDIP	6	TPS2021P	datasheets/powerswitch/ti/tps2020.pdf	limited	6
+F	ti	8-PowerTSSOP, 8-MSOP (0.118", 3.00mm Width)	8-HVSSOP	6	TPS2065DGNR-1	datasheets/powerswitch/ti/tps2066-1.pdf	limited	6
+F	ti	8-SOIC (0.154", 3.90mm Width)	8-SOIC	76	TPS2055ADR	datasheets/powerswitch/ti/tps2058a.pdf	limited	48
+F	ti	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-VSSOP	9	TPS2000CDGK	datasheets/powerswitch/ti/tps2000c.pdf	limited,load	6
+F	ti	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-HVSSOP	49	TPS2065CDGN-2	datasheets/powerswitch/ti/tps2000c.pdf	limited,load	29
+F	ti	8-UFQFN	8-UQFN (1.5x1.5)	2	TPS22960RSET	datasheets/powerswitch/ti/tps22960.pdf	load	1
+F	ti	8-VDFN Exposed Pad	8-SON (3x3)	13	TPS2062CDRBR-2	datasheets/powerswitch/ti/tps2002c.pdf	limited	9
+F	ti	8-WDFN Exposed Pad	8-WSON (3x3)	5	TPS22959DNYT	datasheets/powerswitch/ti/tps22959.pdf	load	4
+F	ti	8-WFDFN Exposed Pad	8-SON (3x3)	1	TPS22949ADRGR	datasheets/powerswitch/ti/tps22949.pdf	limited	1
+F	ti	8-WFDFN Exposed Pad	8-WSON (2x2)	9	TPS22965NDSGR	datasheets/powerswitch/ti/tps22965.pdf	load	4
+F	ti	8-WFQFN	8-WQFN-HR (1.25x1.25)	1	TPS22992SRXNR	datasheets/powerswitch/ti/tps22992.pdf	limited	1
+F	ti	8-WFQFN	8-WQFN-HR (1.5x1.25)	1	TPS22992RXPR	datasheets/powerswitch/ti/tps22992.pdf	limited	1
+F	ti	8-XFBGA, DSBGA	8-DSBGA	3	TPS22920YZPRB	datasheets/powerswitch/ti/tps22920.pdf	load	2
+F	ti	8-XFBGA, DSBGA	8-DSBGA (0.66x1.36)	1	TPS22999YCHR	datasheets/powerswitch/ti/tps22999.pdf	load	1
+F	ti	SC-74A, SOT-753	SOT-23-5	27	TPS2051BDBVR	datasheets/powerswitch/ti/tps2042b.pdf	limited	20
+F	ti	SOT-23-6	SOT-23-6	22	TPS22917DBVR	datasheets/powerswitch/ti/tps22917.pdf	limited,load	12
+F	ti	SOT-23-6 Thin, TSOT-23-6	SOT-23-THIN	2	TPS22950CQDDCRQ1	datasheets/powerswitch/ti/tps22950-q1.pdf	limited,load	2
+F	ti	SOT-23-8	SOT-23-8	1	TPS22960DCNR	datasheets/powerswitch/ti/tps22960.pdf	load	1
+F	ti	SOT-583	SOT-583	3	LM66200DRLR	datasheets/powerswitch/ti/lm66200.pdf	ideal,load	3
+G	analog-devices	10-VFDFN Exposed Pad	10-LDFN (3x2)	1	LT4423AV#TRPBF	datasheets/powerswitch/analog-devices/lt4423.pdf	ideal	1
+G	analog-devices	10-WFDFN Exposed Pad	10-DFN (3x3)	6	LTC4413EDD-1#PBF	datasheets/powerswitch/analog-devices/441312fg.pdf	ideal	3
+G	analog-devices	14-WFDFN Exposed Pad	14-DFN (4x3)	3	LTC4358CDE#PBF	datasheets/powerswitch/analog-devices/4358fa.pdf	ideal	1
+G	analog-devices	16-TFSOP (0.118", 3.00mm Width) Exposed Pad	16-MSOP-EP	4	LTC4415EMSE#TRPBF	datasheets/powerswitch/analog-devices/4415fa.pdf	ideal	1
+G	analog-devices	16-TSSOP (0.173", 4.40mm Width) Exposed Pad	16-TSSOP-EP	2	LTC4358IFE#PBF	datasheets/powerswitch/analog-devices/4358fa.pdf	ideal	1
+G	analog-devices	16-WFDFN Exposed Pad	16-DFN (5x3)	4	LTC4415EDHC#PBF	datasheets/powerswitch/analog-devices/4415fa.pdf	ideal	1
+G	analog-devices	20-WFQFN Exposed Pad	20-TQFN (4x4)	2	MAX17614ATP+	datasheets/powerswitch/analog-devices/max17614.pdf	ideal	1
+G	analog-devices	4-XFBGA, WLBGA	4-WLP (0.73x0.73)	1	MAX40200ANS+T	datasheets/powerswitch/analog-devices/max40200.pdf	ideal	1
+G	analog-devices	4-XFBGA, WLBGA	4-WLP (0.77x0.77)	1	MAX40203ANS+T	datasheets/powerswitch/analog-devices/max40203.pdf	ideal	1
+G	analog-devices	SC-74A, SOT-753	SOT-23-5	2	MAX40203AUK+T	datasheets/powerswitch/analog-devices/max40203.pdf	ideal	2
+G	analog-devices	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	2	LTC4411ES5#TRMPBF	datasheets/powerswitch/analog-devices/4411fa.pdf	ideal	1
+G	diodes	12-VFDFN Exposed Pad	V-DFN3030-12 (Type B)	1	DML3012LDC-7	datasheets/powerswitch/diodes/DML3012LDC.pdf	limited	1
+G	diodes	14-SOIC (0.154", 3.90mm Width) Exposed Pad	14-SO-EP	3	ZXMS82120S14PQ-13	datasheets/powerswitch/diodes/ZXMS82120S14PQ.pdf	limited	3
+G	diodes	16-WFQFN Exposed Pad	16-TQFN (3x3)	3	PI5USB2546JZHEX	datasheets/powerswitch/diodes/PI5USB2546J.pdf	limited	3
+G	diodes	17-VFQFN Exposed Pad	V-QFN4040-17	1	DPS1113FIA-13	datasheets/powerswitch/diodes/DPS1113.pdf	limited	1
+G	diodes	6-UDFN Exposed Pad	U-DFN2020-6	6	AP22804BSN-7	datasheets/powerswitch/diodes/AP22804-14.pdf	limited	6
+G	diodes	6-UDFN Exposed Pad	U-DFN2020-6 (Type C)	5	AP2552FDC-7	datasheets/powerswitch/diodes/AP255x.pdf	limited	2
+G	diodes	6-UFDFN Exposed Pad	U-DFN2018-6	8	AP21510FM-7	datasheets/powerswitch/diodes/AP21410_21510.pdf	limited	8
+G	diodes	6-WDFN Exposed Pad	W-DFN2020-6 (Type A1)	4	AP22653FDZ-7	datasheets/powerswitch/diodes/AP22652_53_52A_53A.pdf	limited	2
+G	diodes	8-SOIC (0.154", 3.90mm Width)	8-SO	8	AP2411S-13	datasheets/powerswitch/diodes/AP24x1.pdf	limited	8
+G	diodes	8-SOIC (0.154", 3.90mm Width)	8-SOP	20	AP2176SG-13	datasheets/powerswitch/diodes/AP2166_76.pdf	limited	20
+G	diodes	8-SOIC (0.154", 3.90mm Width) Exposed Pad	8-SO-EP	2	ZXMS81045SP-13	datasheets/powerswitch/diodes/ZXMS81045SP.pdf	limited	2
+G	diodes	8-SOIC (0.154", 3.90mm Width) Exposed Pad	8-SO-EP (Type E)	2	ZXMS81090SPQ-13	datasheets/powerswitch/diodes/ZXMS81090SPQ.pdf	limited	2
+G	diodes	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	9	AP22804AM8-13	datasheets/powerswitch/diodes/AP22804-14.pdf	limited	9
+G	diodes	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-MSOP-EP	29	AP2172AMPG-13	datasheets/powerswitch/diodes/AP2162A_72A.pdf	limited	29
+G	diodes	8-UDFN Exposed Pad	U-DFN3030-8 (Type E)	5	AP2152AFGEG-7	datasheets/powerswitch/diodes/AP2142A_52A.pdf	limited	5
+G	diodes	SC-74A, SOT-753	SOT-25	17	AP22804AW5-7	datasheets/powerswitch/diodes/AP22804_14.pdf	limited	17
+G	diodes	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	10	AP22818AKEWT-7	datasheets/powerswitch/diodes/AP22816_17_18.pdf	limited	10
+G	diodes	SOT-23-5 Thin, TSOT-23-5	TSOT-25	12	AP22818AKAWT-7	datasheets/powerswitch/diodes/AP22816_17_18.pdf	limited	12
+G	diodes	SOT-23-6	SOT-26	2	AP22652W6-7	datasheets/powerswitch/diodes/AP22652_53_52A_53A.pdf	limited	2
+G	diodes	SOT-23-6	SOT-26 (Type A1)	3	AP22652AW6-7	datasheets/powerswitch/diodes/AP22652_53_52A_53A.pdf	limited	3
+G	diodes	SOT-23-6 Thin, TSOT-23-6	TSOT-26 (Type A1)	4	AP22655QWU-7	datasheets/powerswitch/diodes/AP22654Q_AP22655Q.pdf	limited	4
+G	microchip	10-PowerVFQFN	10-FQFN (1.2x2)	1	MIC95410YFL-TR	datasheets/powerswitch/microchip/MIC95410-6.6mOhm-7A-5.5V-VIN-Load-Switch-DS20006431A.pdf	load	1
+G	microchip	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	10-MSOP	4	MIC2040-1YMM-TR	datasheets/powerswitch/microchip/mic2040.PDF	limited	2
+G	microchip	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	MIC2549A-2YTS	datasheets/powerswitch/microchip/mic2545a.pdf	limited	3
+G	microchip	16-SOIC (0.154", 3.90mm Width)	16-SOIC	6	MIC2546-2YM	datasheets/powerswitch/microchip/mic2546.pdf	limited	3
+G	microchip	16-TSSOP (0.173", 4.40mm Width)	16-TSSOP	10	MIC2547-2BTSTR	datasheets/powerswitch/microchip/mic2546.pdf	limited	4
+G	microchip	4-UFDFN Exposed Pad, 4-TMLF®	4-TMLF® (1.2x1.6)	8	MIC94072YMT	datasheets/powerswitch/microchip/mic94070-3.pdf	load	3
+G	microchip	4-UFDFN, 4-TMLF®	4-TMLF® (0.85x0.85)	5	MIC94080YFT-TR	datasheets/powerswitch/microchip/MIC9408x-67mOhm-RDSON-2A-High-Side-Load-Switch-DS20006118.pdf	load	2
+G	microchip	4-WDFN, 4-MLF®	4-MLF® (1.2x1.2)	1	MIC94044YFL-TR	datasheets/powerswitch/microchip/mic94044_5.pdf	load	1
+G	microchip	4-WQFN, 4-MLF®	4-MLF® (1.2x1.2)	1	MIC94042YFL-TR	datasheets/powerswitch/microchip/MIC9404X-Family-Data-Sheet-DS20006607.pdf	load	1
+G	microchip	6-TSSOP, SC-88, SOT-363	SC-70-6	11	MIC94092YC6-TR	datasheets/powerswitch/microchip/mic9409x.pdf	load	4
+G	microchip	6-UDFN Exposed Pad	6-TDFN (2x2)	2	MIC2039AYMT-TR	datasheets/powerswitch/microchip/MIC2039-High-Accuracy-High-Side-Adjustable-Current-Limit-Power-Switch-20005540A.pdf	limited	2
+G	microchip	6-UFDFN Exposed Pad	6-TDFN (2x2)	1	MIC2039EYMT-TR	datasheets/powerswitch/microchip/MIC2039-High-Accuracy-High-Side-Adjustable-Current-Limit-Power-Switch-20005540A.pdf	limited	1
+G	microchip	6-UFDFN Exposed Pad	6-TMLF® (1.6x1.6)	5	MIC2097-1YMT-TR	datasheets/powerswitch/microchip/mic2095.pdf	limited	4
+G	microchip	6-VDFN Exposed Pad, 6-MLF®	6-DFN (2x2)	7	MIC2008YML-TR	datasheets/powerswitch/microchip/mic20xx.pdf	limited	5
+G	microchip	6-VDFN Exposed Pad, 6-MLF®	6-MLF® (2x2)	5	MIC2016-0.5YML	datasheets/powerswitch/microchip/MIC20xx-Fixed-and-Adjustable-Current-Limiting-Power-Distribution-Switches-DS20006486C.pdf	limited	5
+G	microchip	6-WFBGA, WLCSP	6-WLCSP (1.5x1.1)	1	MIC94162YCS-TR	datasheets/powerswitch/microchip/MIC9416x-3A-High-Side-Load-Switch-with-Reverse-Blocking-DS20006439A.pdf	load	1
+G	microchip	6-WFBGA, WLCSP	6-WLCSP (1x1.5)	2	MIC94163YCS-TR	datasheets/powerswitch/microchip/MIC9416x-3A-High-Side-Load-Switch-with-Reverse-Blocking-DS20006439A.pdf	load	2
+G	microchip	8-DIP (0.300", 7.62mm)	8-DIP	2	MIC2545A-2YN	datasheets/powerswitch/microchip/mic2545a.pdf	limited	2
+G	microchip	8-SOIC (0.154", 3.90mm Width)	8-SOIC	41	MIC2545A-2BM TR	datasheets/powerswitch/microchip/mic2545a.pdf	limited	16
+G	microchip	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	15	MIC2025-1YMM-TR	datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf	limited	5
+G	microchip	8-VFDFN Exposed Pad, 8-MLF®	8-MLF® (2x2)	4	MIC94067YML	datasheets/powerswitch/microchip/mic94066-69.pdf	load	1
+G	microchip	SC-74A, SOT-753	SOT-23-5	15	MIC2091-1YM5-TR	datasheets/powerswitch/microchip/MIC2090-1-Current-Limiting-Power-Distribution-Switches-DS20006611A.pdf	limited,load	12
+G	microchip	SOT-23-6	SOT-23-6	22	MIC2009A-1YM6-TR	datasheets/powerswitch/microchip/mic20xx.pdf	limited	15
+G	onsemi	12-UFBGA, WLCSP	12-WLCSP (1.83x1.29)	2	FPF3381UCX	datasheets/powerswitch/onsemi/fpf3381-d.pdf	load	2
+G	onsemi	12-VFDFN Exposed Pad	12-DFN (3x3)	4	NCP45541IMNTWG-H	datasheets/powerswitch/onsemi/ncp45541-d.pdf	load	4
+G	onsemi	4-UFBGA, WLCSP	4-WLCSP	1	FPF1504LBUCX	datasheets/powerswitch/onsemi/fpf1504cn-d.pdf	load	1
+G	onsemi	4-UFBGA, WLCSP	4-WLCSP (0.76x0.76)	2	FPF1204UCX	datasheets/powerswitch/onsemi/fpf1204-d.pdf	load	2
+G	onsemi	4-UFBGA, WLCSP	4-WLCSP (0.96x0.96)	3	FPF1504UCX	datasheets/powerswitch/onsemi/fpf1504cn-d.pdf	load	3
+G	onsemi	4-UFDFN Exposed Pad	4-UDFN (1.2x1.6)	3	NCP330MUTBG	datasheets/powerswitch/onsemi/ncp330-d.pdf	load	2
+G	onsemi	4-XFBGA, WLCSP	4-WLCSP (0.7x0.7)	1	FPF1903UCX	datasheets/powerswitch/onsemi/fpf1903ucx-d.pdf	load	1
+G	onsemi	6-UFBGA, WLCSP	6-WLCSP (0.96x1.66)	1	FPF1038UCX	datasheets/powerswitch/onsemi/FPF1038-D.PDF	load	1
+G	onsemi	6-UFBGA, WLCSP	6-WLCSP (1.3x0.9)	1	FPF2286UCX	datasheets/powerswitch/onsemi/fpf2286ucx-d.pdf	load	1
+G	onsemi	6-UFBGA, WLCSP	6-WLCSP (1.4x0.9)	2	NCP451FCT2G	datasheets/powerswitch/onsemi/ncp451-d.pdf	load	1
+G	onsemi	6-VDFN Exposed Pad	6-DFNW (2x2.2)	1	NCV451AMNWTBG	datasheets/powerswitch/onsemi/ncv451-d.pdf	load	1
+G	onsemi	6-WDFN Exposed Pad	6-MicroFET (2x2)	1	FPF1006	datasheets/powerswitch/onsemi/fpf1006-d.pdf	load	1
+G	onsemi	8-VFDFN Exposed Pad	8-DFN (2x2)	6	NCP45524IMNTWG-H	datasheets/powerswitch/onsemi/ncp45524-d.pdf	load	6
+G	onsemi	SOT-23-6 Thin, TSOT-23-6	SuperSOT™-6	4	FDC6324L	datasheets/powerswitch/onsemi/FDC6324L-D.PDF	load	4
