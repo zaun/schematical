@@ -97,8 +97,9 @@ Parts: each `add` row `{"name": <MPN>, "manufacturer": <maker's DigiKey name>,
 "footprint": <id>, "mounting": "through-hole"|"surface-mount", "finish": <from the
 row's DigiKey `Contact Finish - Mating`, lower case>, "fits": [<chip footprints of
 fits.tsv>]}`; no `flags`. Generic sockets: `GENERIC-SOCKET-DIP-14-300`,
-`GENERIC-SOCKET-PLCC-44`, manufacturer `Generic`, no datasheet, no finish,
-`through-hole`, the generic footprint of plan-51-C § 3.3.
+`GENERIC-SOCKET-PLCC-44`, manufacturer `Generic`, no datasheet, no finish, mounting
+`through-hole` for a DIP and `surface-mount` for a PLCC (the through-hole PLCC groups are
+`out`, plan-51-C § Corrections), the generic footprint of `series.tsv`'s `generic` cell.
 
 ### 3.2 The app
 
@@ -166,6 +167,8 @@ See plan-51-A § Decisions. Author decisions:
 - **The package is `DIP socket` / `PLCC socket`**, so the drawer's package filter keeps sockets apart from chips.
 
 ## Corrections
+
+- **2026-11-24 (plan-51-C), the numbers behind F changed.** `add` rows: 560 (`awk -F'\t' '$12=="add"' planning/plan-51-data/candidates.tsv | wc -l`; Mill-Max 318, Preci-Dip 204, Assmann 38), not "569 before B and C"; 15 candidates (through-hole PLCC) are `out` and in `datasheets/skipped-parts.md`; maker PDFs under `datasheets/ic-socket/`: 8 (Mill-Max 1, Preci-Dip 2, Assmann 5). The 15 generic sockets stay (11 DIP, through hole, from Mill-Max 110; 4 PLCC, **surface mount**, from the `generic` cells of `series.tsv`). Some mounting values come from `candidates.tsv` after C's correction of six Mill-Max `210-47-…` rows to through hole, not from DigiKey's field. Assmann's series are `ASS_<n>`; ids and series text with `_` become `-` (the footprint id rule).
 
 ## Summary
 

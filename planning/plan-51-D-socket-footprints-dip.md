@@ -150,6 +150,8 @@ See plan-51-A § Decisions. Author decisions:
 
 ## Corrections
 
+- **2026-11-24 (plan-51-C), `series.tsv` differs from the plan's picture.** 55 group rows, of which the DIP ones are 51 (41 through hole, 10 surface mount); the 188 variants of § 2 were a planning-time upper bound (re-measured by the generator: the number of distinct `(row, N)` geometries). Assmann's series are the drawing numbers `ASS_0142`, `ASS_0810`, `ASS_4852`, `ASS_6290`, `ASS_6449`; a footprint id may hold only `A-Z 0-9 . -`, so the generator writes the series with `_` as `-` (`SKT-DIP14-300-TH-AS-ASS-0810`). A pad is round when `pad_w` equals `pad_h` (through hole, and the 114 / 214 surface-mount round pads), else rect. The generic DIP footprints are Mill-Max 110 through hole (`generic` `yes` on its 0.3 and 0.6 rows); `series_check.py` verifies that the 11 DIP shapes are each supplied once.
+
 ## Summary
 
 D's risk is the numbers C read; the loader's pad checks and the golden review bound it.

@@ -5,9 +5,10 @@ Effort: medium (1h–2h)
 Depends on: plan-51-D
 
 E extends `scripts/gen-sockets.js` (plan-51-D) to the **PLCC** socket groups,
-through hole and surface mount, and writes their `quad` footprints to a side file
-that F merges. It includes the footprints the generic PLCC sockets use (the Assmann
-A-CCS through-hole sockets, 28, 32, 44 and 68 pins).
+surface mount (the through-hole PLCC groups are `out`: plan-51-C § Corrections), and writes
+their `quad` footprints to a side file that F merges. It includes the footprints the generic
+PLCC sockets use (the surface-mount rows marked `generic` in `series.tsv`: Assmann
+`ASS_0142` for 28, 32 and 44 pins, Mill-Max 940 for 68).
 
 Outcome of E: `node scripts/gen-sockets.js --letter E --out planning/plan-51-data/footprints-E.json`
 writes one `quad` object per distinct `(PLCC row of series.tsv, pin count)`
@@ -62,10 +63,10 @@ References:
 ## 3. Design
 
 `--letter E`: for each PLCC row and `N` in `pins`: `style` `quad`, `pins` N, `sides`
-and `pitch`, `spanX`, `spanY` from the row, `pad` `{pad_w, pad_h, shape}` (a
-through-hole socket's `shape` is `round` with `drill`; a surface-mount one's is
-`rect`), `slots` by the § 2 formula, `body` from the row. Id
-`SKT-PLCC<N>-<TH|SM>-<maker code>-<series>`; equal geometry shares one id (D's rule).
+and `pitch`, `spanX`, `spanY` from the row, `pad` `{pad_w, pad_h, shape}` (`rect`; every
+PLCC row left in `series.tsv` is surface mount, no `drill`), `slots` by the § 2 formula,
+`body` from the row. Id `SKT-PLCC<N>-SM-<maker code>-<series>` (a series' `_` becomes `-`,
+as in D); equal geometry shares one id (D's rule).
 A pin count whose `sides` are not `[L,B,R,T]` with odd `T` is not generated (none
 of 28 `[7,7,7,7]`, 32 `[9,7,9,7]`, 44 `[11,11,11,11]`, 68 `[17,17,17,17]` is).
 The generator fails with a message when a `sides` entry does not add to N.
@@ -80,7 +81,7 @@ and E's test checks the position of pin 1.
 ### Phase 1 — PLCC in the generator
 
 - [ ] `scripts/gen-sockets.js`: `--letter E` per § 3.
-- [ ] `scripts/gen-sockets.test.js`: the slot formula reproduces the `slots` arrays of all five existing PLCC footprints exactly (read from `footprints.json`); a row with `sides` not adding to N fails with a message; a surface-mount row has no `drill`; the generic through-hole PLCC shapes (4) are required as in D.
+- [ ] `scripts/gen-sockets.test.js`: the slot formula reproduces the `slots` arrays of all five existing PLCC footprints exactly (read from `footprints.json`); a row with `sides` not adding to N fails with a message; a surface-mount row has no `drill`; the four generic PLCC shapes are required, supplied by the rows' `generic` cell (28, 32, 44 from `ASS_0142`, 68 from Mill-Max 940), each once, as in D.
 
 Acceptance: the tests pass.
   Check: `node --test scripts/gen-sockets.test.js` → `# pass`, no `# fail` (est. 5 s).
@@ -107,6 +108,8 @@ Commit: —
 See plan-51-A § Decisions and plan-51-D § Decisions.
 
 ## Corrections
+
+- **2026-11-24 (plan-51-C), no through-hole PLCC.** The 15 through-hole PLCC candidates are `out` (their tails are on staggered 2.54 mm hole rows that `quad` cannot draw), so E generates only surface-mount `quad` footprints: `series.tsv` has 4 PLCC rows (Assmann `ASS_0142`: 28, 32, 44; Mill-Max 540: 32, 44; Mill-Max 940: 32, 68; Preci-Dip 540: 68), and the generic PLCC sockets (F) are surface mount. The planning-time "15 PLCC variants" is now `awk -F'\t' '$4=="PLCC" && $12=="add"' …` (counted in § 2's command by the generator's output).
 
 ## Summary
 

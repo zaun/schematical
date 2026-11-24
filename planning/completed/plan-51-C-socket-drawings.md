@@ -115,7 +115,7 @@ Image-only drawings are read from the rendered page (`pdftoppm -r 150 -f <p> -l 
 
 Acceptance: `series_check.py` prints `ok`.
   Check: `python3 -I planning/plan-51-data/census/series_check.py` → `ok` (est. 4 h of reading, 1 s to check). Measured 2026-11-24 after `census/merge-series.py` (55 rows): `ok`. VERIFIED.
-Commit: (next commit)
+Commit: fcf2a18a
 
 ### Phase 2 — verdicts and skipped parts
 
@@ -124,7 +124,7 @@ Commit: (next commit)
 
 Acceptance: no row has an empty `state`; every `out` row of a drawing reason is in `skipped-parts.md`.
   Check: `awk -F'\t' 'NR>1 && $12!="add" && $12!="out"' planning/plan-51-data/candidates.tsv \| wc -l` → 0 (est. 1 s). Measured 2026-11-24: 0; `series_check.py` → `ok`; the 15 `out` mpns are all in `skipped-parts.md`. VERIFIED.
-Commit: (next commit)
+Commit: fcf2a18a
 
 ## Validation Plan
 
