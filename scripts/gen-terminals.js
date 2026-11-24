@@ -19,13 +19,19 @@
 //               <stem>-<NN> for E (its stems start with JST-), NN the position count in two digits
 //   letter      "C", "D" or "E"
 //   positions   the position counts to write
-//   style       "header" (a row of through-hole pads at the pitch)
+//   style       "header" (one row of through-hole pads at the pitch, centred on the body) or "explicit" (any of
+//               the options below; the footprint is then a list of pads)
 //   describe    the description's start; ", <n> positions" is appended
 //   note        the provenance: maker, item, file, page, the numbers read
 //   pitch, drill, firstRowY, bodyExtra, bodyDepth
 //   pad         optional {width, height, shape}; default R5-T: a round pad of diameter drill + 0.7, at most
 //               pitch - 0.8 (a copper gap of at least 0.8 mm), rounded to 0.01
-// Body width = n * pitch + bodyExtra, height = bodyDepth. Pin 1 is square.
+//   explicit only:
+//   edgeX       distance from the body's left edge to the leftmost column of holes (default: the row centred)
+//   holes       [dy, ...] one pad per entry for every pole, dy from the pole's row (several pins per pole)
+//   stagger     [dy, ...] pole p's row is firstRowY + stagger[(p - 1) % length] (poles alternate between rows)
+//   reverse     true: the poles are numbered from the right
+// Body width = n * pitch + bodyExtra, height = bodyDepth. Pin 1's pads are square (rect).
 
 'use strict';
 
@@ -56,7 +62,35 @@ function padOf(v) {
   return { width: d, height: d, shape: 'round' };
 }
 
+function buildExplicit(v, n) {
+  const pad = padOf(v);
+  const width = mm(n * v.pitch + v.bodyExtra);
+  const edgeX = v.edgeX !== undefined ? v.edgeX : (width - (n - 1) * v.pitch) / 2;
+  const holes = v.holes || [0];
+  const stagger = v.stagger || [0];
+  const pads = [];
+  for (let p = 1; p <= n; p++) {
+    const c = v.reverse ? n - p : p - 1;                       // the column from the left
+    const x = mm(-width / 2 + edgeX + c * v.pitch);
+    const rowY = v.firstRowY + stagger[(p - 1) % stagger.length];
+    for (const dy of holes) {
+      pads.push({ pin: p, x, y: mm(rowY + dy), width: pad.width, height: pad.height, shape: p === 1 ? 'rect' : pad.shape, drill: v.drill });
+    }
+  }
+  pads.sort((a, b) => a.pin - b.pin || a.y - b.y);
+  return {
+    id: idOf(v, n),
+    description: `${v.describe}, ${n} positions`,
+    note: v.note,
+    style: 'explicit',
+    pins: n,
+    body: { width, height: v.bodyDepth },
+    pads,
+  };
+}
+
 function build(v, n) {
+  if (v.style === 'explicit') return buildExplicit(v, n);
   const pad = padOf(v);
   return {
     id: idOf(v, n),
@@ -82,7 +116,10 @@ function loadTable() {
     for (const k of ['stem', 'letter', 'positions', 'style', 'describe', 'note', 'pitch', 'drill', 'firstRowY', 'bodyExtra', 'bodyDepth']) {
       if (v[k] === undefined) throw new Error(`${v.stem || '?'}: missing "${k}"`);
     }
-    if (v.style !== 'header') throw new Error(`${v.stem}: style ${v.style} is not supported`);
+    if (!['header', 'explicit'].includes(v.style)) throw new Error(`${v.stem}: style ${v.style} is not supported`);
+    if (v.style === 'header' && ['edgeX', 'holes', 'stagger', 'reverse'].some((k) => v[k] !== undefined)) {
+      throw new Error(`${v.stem}: edgeX, holes, stagger and reverse need style "explicit"`);
+    }
     if (!['C', 'D', 'E'].includes(v.letter)) throw new Error(`${v.stem}: letter ${v.letter}`);
     if (!(v.drill > 0 && v.pitch > 0)) throw new Error(`${v.stem}: drill and pitch must be > 0`);
     for (const n of v.positions) {

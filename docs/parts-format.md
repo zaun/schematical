@@ -836,6 +836,23 @@ copper; neither the ratsnest nor traces connect to a non-plated hole, and
 the design-rule check counts it only as a hole (hole to hole, silkscreen,
 solder mask), not as copper.
 
+### Terminal-block footprints (`TB-`)
+
+The through-hole PCB terminal blocks (screw, spring-cage and push-in, one level, 2 to 12 positions at 3.50, 3.81,
+5.00, 5.08, 7.50 and 7.62 mm) have footprints `TB-<maker>-<series>-<pitch>-<V|H|A><T>-<NN>` (`TB-WUR-WR-TBL-SERIES-1377-5.00-HT-03`:
+V vertical, H horizontal, A angled wire entry; T through hole; NN the position count in two digits). They are not
+written by hand: `scripts/gen-terminals.js` generates every one from one table entry per variant
+(`scripts/terminal-footprints.json`: pitch, hole diameter, the housing's width formula `n x pitch + bodyExtra` and depth,
+the hole row's offset, and a `note` that names the maker's drawing, its page and every number read), and
+`node scripts/gen-terminals.js --write` puts exactly the footprints the `connector` parts name into
+`footprints.json` (a second run changes nothing; `--check` fails when the file differs). A block with one row of holes
+centred on its housing is a `header` footprint (`rows` 1, square pad on pin 1); a block with two holes per pole
+(`holes`), poles that alternate between two rows (`stagger`), a first column that is not centred (`edgeX`) or poles
+numbered from the right (`reverse`) is an `explicit` one, with one pad per hole and every hole of a pole on that pole's
+pin. The pad is rule R5-T: round, the drill + 0.7 mm at most the pitch - 0.8 mm, the drill the drawing's hole diameter
+(the middle of a min / max); pin 1's pad is square. Where a maker draws different housings under one series, each
+housing is its own variant (Weidmuller LM and LM1N, Phoenix SMKDS 2,5 and SMKDS 3).
+
 ### Custom footprints in a part file
 
 A single part file (§ [Single part files](#single-part-files)) may carry

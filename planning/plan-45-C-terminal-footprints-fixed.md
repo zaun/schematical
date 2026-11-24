@@ -187,55 +187,62 @@ the library yet.
       The copies are of plan-44's (which are plan-40's with its name); `fp-check.py C` → `17 lines, 17 without a footprint`, `133 footprints, 133 missing` (before any object exists).
 
 Acceptance: the generator works on its test table.
-  Check: `node --test scripts/gen-terminals.test.js` → all tests pass (est. 1 min). Result: `ℹ pass 6`, `ℹ fail 0`.
-Commit: this commit (hash in the next one)
+  Check: `node --test scripts/gen-terminals.test.js` → all tests pass (est. 1 min). Result: `ℹ pass 6`, `ℹ fail 0` (8 tests after the explicit style, Corrections).
+Commit: 8e9d4165
 
 ### Phase 2 — Phoenix Contact (5 variants)
 
-- [ ] One table entry per Phoenix C line, from the placed per-item PDFs
+- [x] One table entry per Phoenix C line, from the placed per-item PDFs
       (`datasheets/connector-terminal/phoenix/<item>.pdf`, the `Drilling
       diagram` and the dimension drawing); `positions` from the final line.
-- [ ] `node scripts/gen-terminals.js --letter C --out planning/plan-45-data/footprints-C.json`
+      Six entries (the five lines and `PHO-COMBICON-SMKDS3-5.08-AT`, split off, Corrections). Read from the drilling diagrams (rendered and enlarged: `census/drawing.sh`): PT 5.00 H (1935161: Ø1.3, row 4 from the housing edge, depth 9), SMKDS 5.08 A (1705469: Ø1.4, row 5.4, depth 14.25), SPT-THR 3.81 V (1822422: two holes per pole 5.5 apart, Ø1.1, first hole 2 from the end), SPTA 3.50 A (1752117: Ø1.1, first hole 2.35, row 5.7 from the front of a 10 deep housing), SPT 7.50 V (1719325: poles alternate between rows 14 apart, Ø2.1, first hole 6.55, depth 18.5), SMKDS 3 (1713040: Ø1.3, row 7.5 from the front of a 16 deep housing).
+- [x] `node scripts/gen-terminals.js --letter C --out planning/plan-45-data/footprints-C.json`
       after each maker (the file grows).
+      Run after all three makers were in the table (one `--letter C` run writes the whole letter: the table is data, so the file did not need to grow step by step).
 
 Acceptance: the Phoenix lines have objects.
-  Check: `python3 -I planning/plan-45-data/census/fp-check.py C` → `<n> lines, <k> without a footprint` with the Phoenix lines absent from the missing list (est. 1.5 h of reading five drawings).
-Commit: —
+  Check: `python3 -I planning/plan-45-data/census/fp-check.py C` → `<n> lines, <k> without a footprint` with the Phoenix lines absent from the missing list (est. 1.5 h of reading five drawings). Result: `19 lines, 0 without a footprint` (no Phoenix line missing).
+Commit: this commit (hash in the next one)
 
 ### Phase 3 — Weidmüller (6 variants)
 
-- [ ] As Phase 2, from `datasheets/connector-terminal/weidmuller/<item>.pdf`
+- [x] As Phase 2, from `datasheets/connector-terminal/weidmuller/<item>.pdf`
       (the raster dimensional drawing on the `Drawings` pages; the
       `Solder eyelet hole diameter` line gives the drill).
+      Seven entries (the six lines and `WEI-OMNIMATE-LM1N-5.08-HT`, split off). The Dimensions table gives depth, width (a formula checked at two position counts) and the hole Ø (`Solder eyelet hole diameter (D)`, "+0,1": the mid-value is the drill); the rasters (`census/wdm.sh` extracts them with `pdfimages`) give the rows: LLFS 7.50 (2473000000: poles alternate between rows 13.2 apart, first hole 6.6), LM 5.08 (1716020000: one row, pin 4.8 from the edge of a 10 deep housing), LM1N (1766320000: depth 12.6, pin 1.6 from the front), LSF-SMT 3.50 / 3.81 / 5.00 / 7.62 (two solder pins per pole: rows 7 / 5 / 5.5 / 5 apart).
 
 Acceptance: the Weidmüller lines have objects.
-  Check: `python3 -I planning/plan-45-data/census/fp-check.py C` → the Weidmüller lines absent from the missing list (est. 1.5 h).
-Commit: —
+  Check: `python3 -I planning/plan-45-data/census/fp-check.py C` → the Weidmüller lines absent from the missing list (est. 1.5 h). Result: `19 lines, 0 without a footprint`.
+Commit: this commit (hash in the next one)
 
 ### Phase 4 — Würth Elektronik (6 variants)
 
-- [ ] As Phase 2, from `datasheets/connector-terminal/wurth/<item>.pdf` (the
+- [x] As Phase 2, from `datasheets/connector-terminal/wurth/<item>.pdf` (the
       `Dimensions` and `Recommended Hole Pattern` of page 1).
+      Six entries from page 1 of 691137710002 (1377: row 3.5 / 4 from the edges of a 7.5 deep housing), 950008102500000 (0008: row on the housing edge), 950011202000000 (0011), 691411410002 (4114: two holes per pole 5 apart), 691412320002M (4123: staggered, numbered from the right: "start on the top right corner") and the series sheet 691412120002B (412 B: staggered, "start on the bottom left corner", A = 3.5 x NB PINS + 1.5).
 
 Acceptance: every C line has its objects.
-  Check: `python3 -I planning/plan-45-data/census/fp-check.py C` → `<n> lines, 0 without a footprint` (est. 1.5 h).
-Commit: —
+  Check: `python3 -I planning/plan-45-data/census/fp-check.py C` → `<n> lines, 0 without a footprint` (est. 1.5 h). Result: `19 lines, 0 without a footprint`, `135 footprints, 0 missing`.
+Commit: this commit (hash in the next one)
 
 ### Phase 5 — Load and hand-check
 
-- [ ] `census/fp-load.sh planning/plan-45-data/footprints-C.json`: no load
+- [x] `census/fp-load.sh planning/plan-45-data/footprints-C.json`: no load
       error; only `extra footprint` / `unused footprint` for the new ids.
-- [ ] For each variant, check its smallest and largest position counts
+      `135 footprints appended`, `135 new footprints: load ok` (the script's own wording: it fails on any other line and on overlapping pads).
+- [x] For each variant, check its smallest and largest position counts
       against the drawing (pitch, hole, body, pad row), and record the check
       in the variant's `note` as the numbers the check changed.
-- [ ] `docs/parts-format.md` § Footprints: a paragraph "Terminal-block
+      `census/fp-widths.py C --ends`: 91 body widths and 31 hole spans (Phoenix `Dimension a`) that the sheets print are compared with the footprints', every row, not only the ends: all equal except `691412320011` (Würth prints 44.41 for 11 positions where 10 and 12 give n x 3.81 + 1.5 = 43.41: a datasheet typo, in the variant's note). The smallest and largest compared counts per variant are equal (e.g. LSF 3.81: 2 pos 8.01, 11 pos 42.3). `census/fp-consistency.py C` found the two housings that did not share a land pattern (Corrections). Every variant's `note` says what was checked; no number changed after the check apart from the two splits.
+- [x] `docs/parts-format.md` § Footprints: a paragraph "Terminal-block
       footprints (`TB-`): `header` style, generated by
       `scripts/gen-terminals.js` from `scripts/terminal-footprints.json`, pads
       by R5-T" (G adds the JST and the merge).
+      Added as "### Terminal-block footprints (`TB-`)" before "Custom footprints in a part file": the id scheme, the generator and its `--write` / `--check`, `header` for a centred single row and `explicit` for the rest, R5-T, the split rule.
 
 Acceptance: the objects load and match their drawings.
-  Check: `planning/plan-45-data/census/fp-load.sh planning/plan-45-data/footprints-C.json` → exits 0, `<n> new footprints, 0 errors` (est. 10 min: a temp backend build).
-Commit: —
+  Check: `planning/plan-45-data/census/fp-load.sh planning/plan-45-data/footprints-C.json` → exits 0, `<n> new footprints, 0 errors` (est. 10 min: a temp backend build). Result: exit 0, `135 new footprints: load ok` (4 s: the build is incremental).
+Commit: this commit (hash in the next one)
 
 ## Validation Plan
 
@@ -257,6 +264,13 @@ Commit: —
   parts**, the library's right-angle header convention.
 
 ## Corrections
+
+- **2026-11-24, Prerequisites.** `footprints-needed.txt` after B has 17 C lines and **133** footprints (123 parts), not 124 / 128: B's pick plus the generics' 2…12; after C's splits (below) **19 lines and 135 footprints** (`fp-check.py C`: `19 lines`, `135 footprints`). Test count and the other A-letter numbers are B's.
+- **2026-11-24, Phase 1 and 2–4: 13 of the 19 variants are not `header` footprints; `explicit` draws them, no row is skipped.** § 2 "Verified properties" said `header` covers every C variant except a staggered one, which is `skip` (`no footprint`). The drawings show otherwise: two solder pins per pole (Phoenix SPT-THR, Weidmüller LSF-SMT ×4, Würth 4114), poles that alternate between two rows (Phoenix SPT, Weidmüller LLFS, Würth 4123 and 412 B) and housings whose first hole is not centred (Phoenix SPTA, Weidmüller LM and LM1N). `docs/parts-format.md` § `explicit` takes several pads on one pin, so the generator got an `explicit` style (`holes`, `stagger`, `edgeX`, `reverse` in the table; `scripts/gen-terminals.test.js` has the two new tests, 8 tests in all) and every row keeps its footprint: 6 variants are `header` (Phoenix PT, SMKDS, SMKDS 3; Würth 0008, 0011, 1377), 13 `explicit`. The two "no footprint" skips the plan allowed (§ Non-goals) are not needed.
+- **2026-11-24, Phase 3 / 5: two housings that share a DigiKey series are split into their own variants.** A's variant key (maker, series, pitch, orientation, …) merged them. `census/fp-widths.py C` found `1766320000` and `1766330000` printing a width of n x 5.08 + 1.0 (11.16, 16.24) where the other `Omnimate LM` items print + 0.55 (the LM1N housing: depth 12.6, pin 1.6 from the front, against 10 and 5.2), and `census/fp-consistency.py C` found Phoenix `1713040` (SMKDS 3: depth 16, hole Ø1.3, row 7.5 from the front) among the `SMKDS 2,5` items (depth 14.25, Ø1.4). `census/split-variant.py` gave them the variants `WDM|Omnimate-LM1N|5.08|H|tht|screw` (positions 2, 3) and `PHX|COMBICON-SMKDS3|5.08|A|tht|screw` (position 4) in `candidates.tsv` and `specs.tsv`, and `footprint-lines.py` takes the id stem from the variant's series token so each gets its own (`WEI-OMNIMATE-LM1N-5.08-HT`, `PHO-COMBICON-SMKDS3-5.08-AT`; the other 17 labels are unchanged: `cmp` of the regenerated file before the splits). `footprints-needed.txt` has 19 C lines. D and E run the same two checks on their variants.
+- **2026-11-24, Orientation.** § 3.2 puts the wire entry of a horizontal or angled part at +y. The sheets' plan views are drawn first- or third-angle and do not always show which edge is the wire entry, and turning a plan view through 180° reverses the pole order (Würth's 4123 and 412 B state which corner pole 1 is at). Each footprint therefore follows the datasheet's plan view as drawn (poles left to right, or as the sheet says, rows and housing edges as printed there), and each `note` says which dimensions were read from which edge. Where only a 400 to 800 px raster is available (Weidmüller) the housing outline's offset from the hole rows is good to about 0.3 mm; pitch, row distance and hole Ø are printed numbers.
+- **2026-11-24, Drill and body.** Drill = the drawing's Ø, the middle of a "+0,1" (Weidmüller Ø1.3 +0.1 → 1.35, 1.1 +0.1 → 1.15, 2 +0.1 → 2.05); body depth = the Dimensions table's `Depth` / the drawing's housing depth, body width = `n x pitch + bodyExtra` from the printed length at two position counts. Würth `691412320011` prints 44.41 for 11 positions (10 and 12 follow n x 3.81 + 1.5 = 43.41): kept as a datasheet typo, in the variant's `note`.
+- **2026-11-24, `fp-load.sh`** is a copy of plan-44's (themselves plan-40's); it finished in 4 s (the temp build reuses the cmake cache).
 
 ## Summary
 

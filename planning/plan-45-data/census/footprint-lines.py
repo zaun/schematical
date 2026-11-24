@@ -34,7 +34,8 @@ for v, rs in by.items():
     pitch = float(r0['pitch'])
     existing = [f['id'] for f in fps if abs(f.get('pitch', 0) - pitch) < 0.001 and f.get('style') in ('header', 'dual')
                 and f['id'].startswith(('PINHDR-', 'TBS-'))]
-    stem = re.sub(r'[^A-Z0-9.]+', '-', (r0['maker'].split()[0][:3] + '-' + r0['series']).upper()).strip('-')
+    # the series token of the variant, not DigiKey's `series`: a variant split off a series (split-variant.py) has its own
+    stem = re.sub(r'[^A-Z0-9.]+', '-', (r0['maker'].split()[0][:3] + '-' + v.split('|')[1]).upper()).strip('-')
     label = f"{stem}-{pitch:.2f}-{r0['orientation'][:1].upper()}{'S' if r0['mounting'] == 'smd' else 'T'}"
     print('\t'.join([letter, v, r0['maker'], r0['series'], r0['pitch'], r0['orientation'], r0['mounting'],
                      ','.join(map(str, pos)), str(len(rs)), ','.join(existing), label, 'G' if v in reps else '']))

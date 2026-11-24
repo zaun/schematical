@@ -25,14 +25,16 @@ D	PHX|COMBICON-ICV|5.08|V|tht|pluggable|Header-FemaleSockets	Phoenix Contact	COM
 D	PHX|COMBICON-PC|7.62|H|tht|pluggable|Header-MalePins-Shrouded	Phoenix Contact	COMBICON PC	7.62	horizontal	tht	2,3,4,6,10	5		PHO-COMBICON-PC-7.62-HT	
 D	PHX|COMBICON-PST|5.00|V|tht|pluggable|Header-MalePins-Unshroud	Phoenix Contact	COMBICON PST	5.0	vertical	tht	2,3,4,6,8,11,12	7		PHO-COMBICON-PST-5.00-VT	
 C	PHX|COMBICON-PT|5.00|H|tht|screw	Phoenix Contact	COMBICON PT	5.0	horizontal	tht	2,3,4,5,6,7,8,9,12	11		PHO-COMBICON-PT-5.00-HT	
-C	PHX|COMBICON-SMKDS|5.08|A|tht|screw	Phoenix Contact	COMBICON SMKDS	5.08	angled	tht	2,3,4,5	4		PHO-COMBICON-SMKDS-5.08-AT	
+C	PHX|COMBICON-SMKDS|5.08|A|tht|screw	Phoenix Contact	COMBICON SMKDS	5.08	angled	tht	2,3,5	3		PHO-COMBICON-SMKDS-5.08-AT	
+C	PHX|COMBICON-SMKDS3|5.08|A|tht|screw	Phoenix Contact	COMBICON SMKDS	5.08	angled	tht	4	1		PHO-COMBICON-SMKDS3-5.08-AT	
 C	PHX|COMBICON-SPT-THR|3.81|V|tht|push-in	Phoenix Contact	COMBICON SPT-THR	3.81	vertical	tht	2,3,4,5,9,11,12	7		PHO-COMBICON-SPT-THR-3.81-VT	
 C	PHX|COMBICON-SPTA|3.50|A|tht|spring	Phoenix Contact	COMBICON SPTA	3.5	angled	tht	3,5,7,8,9	5		PHO-COMBICON-SPTA-3.50-AT	
 C	PHX|COMBICON-SPT|7.50|V|tht|spring	Phoenix Contact	COMBICON SPT	7.5	vertical	tht	3,4,6,8,9,12	6		PHO-COMBICON-SPT-7.50-VT	
 D	WDM|Omnimate-4.0-MHS|5.00|H|tht|pluggable|Header-MalePins-Shrouded	Weidmuller	Omnimate 4.0 MHS	5.0	horizontal	tht	2,3,4,5,6,7,8,9,10,11,12	17		WEI-OMNIMATE-4.0-MHS-5.00-HT	
 D	WDM|Omnimate-4.0-MHS|7.50|H|tht|pluggable|Header-MalePins-Shrouded	Weidmuller	Omnimate 4.0 MHS	7.5	horizontal	tht	2,3,4,5,6,7,8	11		WEI-OMNIMATE-4.0-MHS-7.50-HT	
 C	WDM|Omnimate-LLFS|7.50|H|tht|push-in	Weidmuller	Omnimate LLFS	7.5	horizontal	tht	2,4,5,6	4		WEI-OMNIMATE-LLFS-7.50-HT	
-C	WDM|Omnimate-LM|5.08|H|tht|screw	Weidmuller	Omnimate LM	5.08	horizontal	tht	2,3,4,5,6,7,8,9,10,11,12	10		WEI-OMNIMATE-LM-5.08-HT	G
+C	WDM|Omnimate-LM|5.08|H|tht|screw	Weidmuller	Omnimate LM	5.08	horizontal	tht	2,3,4,5,6,7,8,9,10,11,12	8		WEI-OMNIMATE-LM-5.08-HT	G
+C	WDM|Omnimate-LM1N|5.08|H|tht|screw	Weidmuller	Omnimate LM	5.08	horizontal	tht	2,3	2		WEI-OMNIMATE-LM1N-5.08-HT	
 C	WDM|Omnimate-LSF-SMT|3.50|H|tht|spring	Weidmuller	Omnimate LSF-SMT	3.5	horizontal	tht	2,3,4,5,6,7,8,9,10,11,12	11		WEI-OMNIMATE-LSF-SMT-3.50-HT	G
 C	WDM|Omnimate-LSF-SMT|3.81|A|tht|spring	Weidmuller	Omnimate LSF-SMT	3.81	angled	tht	2,4,5,6,7,8,9,10,11	9		WEI-OMNIMATE-LSF-SMT-3.81-AT	
 C	WDM|Omnimate-LSF-SMT|5.00|V|tht|spring	Weidmuller	Omnimate LSF-SMT	5.0	vertical	tht	2,3,4,5,6,8	6		WEI-OMNIMATE-LSF-SMT-5.00-VT	

@@ -76,7 +76,7 @@ Phoenix Contact	PHX|COMBICON-PT|5.00|H|tht|screw	datasheets/connector-terminal/p
 Phoenix Contact	PHX|COMBICON-SMKDS|5.08|A|tht|screw	datasheets/connector-terminal/phoenix/1702558.pdf	1	1702558		400	20	1..n	
 Phoenix Contact	PHX|COMBICON-SMKDS|5.08|A|tht|screw	datasheets/connector-terminal/phoenix/1705469.pdf	1	1705469		250	20	1..n	
 Phoenix Contact	PHX|COMBICON-SMKDS|5.08|A|tht|screw	datasheets/connector-terminal/phoenix/1705472.pdf	1	1705472		250	20	1..n	
-Phoenix Contact	PHX|COMBICON-SMKDS|5.08|A|tht|screw	datasheets/connector-terminal/phoenix/1713040.pdf	1	1713040		250	24	1..n	
+Phoenix Contact	PHX|COMBICON-SMKDS3|5.08|A|tht|screw	datasheets/connector-terminal/phoenix/1713040.pdf	1	1713040		250	24	1..n	
 Phoenix Contact	PHX|COMBICON-SPT-THR|3.81|V|tht|push-in	datasheets/connector-terminal/phoenix/1822422.pdf	1	1822422		160	13.5	1..n	
 Phoenix Contact	PHX|COMBICON-SPT-THR|3.81|V|tht|push-in	datasheets/connector-terminal/phoenix/1822435.pdf	1	1822435		160	13.5	1..n	
 Phoenix Contact	PHX|COMBICON-SPT-THR|3.81|V|tht|push-in	datasheets/connector-terminal/phoenix/1823324.pdf	1	1823324		160	13.5	1..n	
@@ -129,8 +129,8 @@ Weidmuller	WDM|Omnimate-LLFS|7.50|H|tht|push-in	datasheets/connector-terminal/we
 Weidmuller	WDM|Omnimate-LLFS|7.50|H|tht|push-in	datasheets/connector-terminal/weidmuller/2473040000.pdf	1	2473040000		1000	41	1..n	
 Weidmuller	WDM|Omnimate-LM|5.08|H|tht|screw	datasheets/connector-terminal/weidmuller/1716020000.pdf	1	1716020000		630	17.5	1..n	
 Weidmuller	WDM|Omnimate-LM|5.08|H|tht|screw	datasheets/connector-terminal/weidmuller/1716030000.pdf	1	1716030000		630	17.5	1..n	
-Weidmuller	WDM|Omnimate-LM|5.08|H|tht|screw	datasheets/connector-terminal/weidmuller/1766320000.pdf	1	1766320000		630	17.5	1..n	
-Weidmuller	WDM|Omnimate-LM|5.08|H|tht|screw	datasheets/connector-terminal/weidmuller/1766330000.pdf	1	1766330000		630	17.5	1..n	
+Weidmuller	WDM|Omnimate-LM1N|5.08|H|tht|screw	datasheets/connector-terminal/weidmuller/1766320000.pdf	1	1766320000		630	17.5	1..n	
+Weidmuller	WDM|Omnimate-LM1N|5.08|H|tht|screw	datasheets/connector-terminal/weidmuller/1766330000.pdf	1	1766330000		630	17.5	1..n	
 Weidmuller	WDM|Omnimate-LM|5.08|H|tht|screw	datasheets/connector-terminal/weidmuller/9993920000.pdf	1	9993920000		630	17.5	1..n	
 Weidmuller	WDM|Omnimate-LM|5.08|H|tht|screw	datasheets/connector-terminal/weidmuller/9993940000.pdf	1	9993940000		630	17.5	1..n	
 Weidmuller	WDM|Omnimate-LM|5.08|H|tht|screw	datasheets/connector-terminal/weidmuller/9993960000.pdf	1	9993960000		630	17.5	1..n	
