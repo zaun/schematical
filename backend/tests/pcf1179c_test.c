@@ -255,6 +255,18 @@ static void pins_and_power_on(void) {
     close_bench(b);
 }
 
+/* n presses of a button (a press is 100 ms low, 10 ms released). */
+static void press(Bench *b, const char *pin, int n) {
+    int i;
+
+    for (i = 0; i < n; i++) {
+        set(b, pin, LOGIC_0);
+        run(b, 100 * MS);
+        release(b, pin);
+        run(b, 10 * MS);
+    }
+}
+
 static void counting(void) {
     Bench *b = bench("PCF1179CT,118", 0, 0);
     char what[96];
@@ -264,35 +276,53 @@ static void counting(void) {
     t = shown(b);
     snprintf(what, sizeof what, "60 s later: 0:01 (shows %d)", t);
     check(t == 1, what);
-    run(b, 59 * 60 * SEC);
+    close_bench(b);
+
+    /* the minutes carry into the hours by counting: set 0:59 with S2, run 60 s */
+    b = bench("PCF1179CT,118", 0, 0);
+    press(b, "S2", 59);
     t = shown(b);
-    snprintf(what, sizeof what, "1 h later: 1:00 (shows %d)", t);
+    snprintf(what, sizeof what, "S2 pressed 59 times: 0:59 (shows %d)", t);
+    check(t == 59, what);
+    run(b, 60 * SEC);
+    t = shown(b);
+    snprintf(what, sizeof what, "the counters carry 0:59 -> 1:00 (shows %d)", t);
     check(t == 100, what);
     close_bench(b);
 
+    /* 12-hour: the face walks 1 .. 12, flips AM/PM at 11 -> 12 and wraps at 23 -> 0 */
     b = bench("PCF1179CT,118", 1, 0);
-    run(b, 11 * 3600 * SEC);
+    press(b, "S1", 11);
     t = shown(b);
-    snprintf(what, sizeof what, "12-hour: after 11 h, 12:00 PM (shows %d, AM %d PM %d)", t, lit[AM], lit[PM]);
+    snprintf(what, sizeof what, "12-hour: 11 S1 presses from 1:00 AM, 12:00 PM (shows %d, AM %d PM %d)", t, lit[AM], lit[PM]);
     check(t == 1200 && !lit[AM] && lit[PM], what);
-    run(b, 1 * 3600 * SEC);
+    press(b, "S1", 1);
     t = shown(b);
-    snprintf(what, sizeof what, "12-hour: after 12 h, 1:00 PM (shows %d)", t);
+    snprintf(what, sizeof what, "12-hour: 1:00 PM (shows %d)", t);
     check(t == 100 && lit[PM], what);
-    run(b, 11 * 3600 * SEC);
+    press(b, "S1", 11);
     t = shown(b);
-    snprintf(what, sizeof what, "12-hour: after 23 h, 12:00 AM (shows %d)", t);
+    snprintf(what, sizeof what, "12-hour: 12:00 AM after 23 h (shows %d, AM %d PM %d)", t, lit[AM], lit[PM]);
     check(t == 1200 && lit[AM] && !lit[PM], what);
+    press(b, "S1", 1);
+    t = shown(b);
+    snprintf(what, sizeof what, "12-hour: 1:00 AM the next day (shows %d)", t);
+    check(t == 100 && lit[AM], what);
     close_bench(b);
 
+    /* 24-hour: hour tens 2, and 23 -> 0 */
     b = bench("PCF1179CT,118", 0, 0);
-    run(b, 20 * 3600 * SEC);
+    press(b, "S1", 20);
     t = shown(b);
-    snprintf(what, sizeof what, "24-hour: after 20 h, 20:00 (hour tens 2 shape; shows %d)", t);
+    snprintf(what, sizeof what, "24-hour: 20 S1 presses, 20:00 (hour tens 2 shape; shows %d)", t);
     check(t == 2000, what);
-    run(b, 3 * 3600 * SEC + 59 * 60 * SEC + 60 * SEC);
+    press(b, "S1", 3);
     t = shown(b);
-    snprintf(what, sizeof what, "24-hour: after 24 h, back to 0:00 (shows %d)", t);
+    snprintf(what, sizeof what, "24-hour: 23:00 (shows %d)", t);
+    check(t == 2300, what);
+    press(b, "S1", 1);
+    t = shown(b);
+    snprintf(what, sizeof what, "24-hour: 23 -> 0:00 (shows %d)", t);
     check(t == 0, what);
     close_bench(b);
 }
