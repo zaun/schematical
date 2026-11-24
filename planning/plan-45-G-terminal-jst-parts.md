@@ -28,10 +28,10 @@ plan-45-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-45-F complete | `ls planning/completed/plan-45-F-*.md` → exists | NOT MET (2026-11-16: not started) |
-| The pick is final | `awk -F'\t' '$22=="add"' planning/plan-45-data/candidates.tsv \| wc -l` → the `add` rows (521 at planning time, `candidate`) | NOT MET (2026-11-16: 521 `candidate`, none `add`) |
-| The footprint tables are done | `python3 -I planning/plan-45-data/census/fp-check.py C && python3 -I planning/plan-45-data/census/fp-check.py D && python3 -I planning/plan-45-data/census/fp-check.py E` → each `0 without a footprint` | NOT MET (2026-11-16: not started) |
-| The goldens are P0 / R0 / F0 | `wc -l < backend/tests/golden/parts.txt` etc. re-measured at the start; G uses its own | MET (2026-11-16 at 5bccd0d7: 32897 / 32897 / 1646) |
+| plan-45-F complete | `ls planning/completed/plan-45-F-*.md` → exists | MET (2026-11-24: not archived, every F box ticked: `grep -c '\[ \]' planning/plan-45-F-connector-kind.md` → 0; F's commit c1afdc4a) |
+| The pick is final | `awk -F'\t' '$22=="add"' planning/plan-45-data/candidates.tsv \| wc -l` → the `add` rows (521 at planning time, `candidate`) | MET (2026-11-24: **501** `add` (Phoenix Contact 68, Weidmüller 149, Würth Elektronik 93, JST 191), 12 `skip` (6, 4, 2: B and D Corrections), 0 `candidate`) |
+| The footprint tables are done | `python3 -I planning/plan-45-data/census/fp-check.py C && python3 -I planning/plan-45-data/census/fp-check.py D && python3 -I planning/plan-45-data/census/fp-check.py E` → each `0 without a footprint` | MET (2026-11-24: `19 lines, 0 without`, `24 lines, 0 without`, `21 lines, 0 without`) |
+| The goldens are P0 / R0 / F0 | `wc -l < backend/tests/golden/parts.txt` etc. re-measured at the start; G uses its own | MET (2026-11-24 at c1afdc4a: **35921 / 35921 / 2293**; after Phase 1 36009 / 36009 / 2381) |
 
 Everything below is written against the world where these hold.
 
@@ -135,20 +135,23 @@ surface as a load error or a `footprint_check` failure.
 
 ### Phase 1 — The generics
 
-- [ ] `census/gen-parts.py` (§ 3.1, § 3.2): the generics only first; run it,
+- [x] `census/gen-parts.py` (§ 3.1, § 3.2): the generics only first; run it,
       then `node scripts/gen-terminals.js --write`.
-- [ ] `connector_test.c`: `GENERIC-TERMINAL-5.08-03` pins 1 and 3 on two nets
+      `gen-parts.py --generics-only` → `8 devices, 88 parts, 0 datasheet entries` (`git diff` of `connector.json`: 184 insertions, 0 deletions: every existing block byte for byte); `gen-terminals.js --write` → `88 TB-/JST- footprints written` (the 88 the generics name); `--check` modes of both → exit 0.
+- [x] `connector_test.c`: `GENERIC-TERMINAL-5.08-03` pins 1 and 3 on two nets
       driven from `5V` and `GND`, and the same for `GENERIC-JST-XH-04`: after
       `circuit_start` and `circuit_advance(circuit, 1)` neither net is
       shorted.
-- [ ] Regenerate the goldens (`docs/backend.md` § Tests) and review: only added
+      The card-slot helper became `part_joins_nothing(…, what)`; both parts also checked for kind, `terminal` / `jst`, `pitch_um` and a footprint with as many pads as pins: `PASS: GENERIC-TERMINAL-5.08-03 (a generic terminal block) joins nothing`, `PASS: GENERIC-JST-XH-04 (a generic JST header) joins nothing`.
+- [x] Regenerate the goldens (`docs/backend.md` § Tests) and review: only added
       lines.
-- [ ] Tests: `library_check`, `listing_check`, `trace_check`, `footprint_check`,
+      `parts.txt` and `traces.txt` 35921 → 36009, `footprints.txt` 2293 → 2381: `264 insertions(+)`, 0 deletions.
+- [x] Tests: `library_check`, `listing_check`, `trace_check`, `footprint_check`,
       `connector_test`.
 
 Acceptance: 88 generics load with footprints; goldens only gained.
-  Check: `cmake --build /tmp/logic-p45 -j8 && ctest --test-dir /tmp/logic-p45 -R 'connector_test|library_check|listing_check|trace_check|footprint_check'` → `100% tests passed`; `git diff backend/tests/golden \| grep -c '^-[^-]'` → 0; `grep -c 'GENERIC-TERMINAL\|GENERIC-JST' backend/tests/golden/parts.txt` → 88 (est. 15 min).
-Commit: —
+  Check: `cmake --build /tmp/logic-p45 -j8 && ctest --test-dir /tmp/logic-p45 -R 'connector_test|library_check|listing_check|trace_check|footprint_check'` → `100% tests passed`; `git diff backend/tests/golden \| grep -c '^-[^-]'` → 0; `grep -c 'GENERIC-TERMINAL\|GENERIC-JST' backend/tests/golden/parts.txt` → 88 (est. 15 min). Result: `100% tests passed, 0 tests failed out of 5`; `0`; `88`.
+Commit: this commit (hash in the next one)
 
 ### Phase 2 — Phoenix Contact and Weidmüller
 

@@ -157,7 +157,7 @@ is empty.
 
 Acceptance: the loader accepts the new devices and rejects the malformed ones.
   Check: `cmake --build /tmp/logic-p45 -j8 --target library_check && /tmp/logic-p45/library_check` → every line `ok`, exit 0, including `ok   terminal block and JST header connectors load; malformed ones fail` (est. 5 min). Result: exit 0, `library_check: all passed`, 539 `ok` lines, the line above present.
-Commit: this commit (hash in the next one)
+Commit: c1afdc4a
 
 ### Phase 2 — The listing and the circuit test
 
@@ -177,7 +177,7 @@ Commit: this commit (hash in the next one)
 
 Acceptance: the circuit and listing tests pass and the goldens are unchanged.
   Check: `cmake --build /tmp/logic-p45 -j8 && ctest --test-dir /tmp/logic-p45 -R 'connector_test|library_check|listing_check|trace_check|footprint_check'` → `100% tests passed`; `git diff --stat backend/tests/golden` → empty (est. 8 min). Result: `100% tests passed, 0 tests failed out of 5`; `git diff backend/tests/golden | wc -l` → 0; the whole suite `100% tests passed, 0 tests failed out of 57`.
-Commit: this commit (hash in the next one)
+Commit: c1afdc4a
 
 ### Phase 3 — Docs
 
@@ -200,7 +200,7 @@ Commit: this commit (hash in the next one)
 
 Acceptance: the doc names every key and the drawers.
   Check: `grep -c '"terminal"\|"jst"\|"pitch"' docs/parts-format.md` → at least 3 (est. 10 min). Result: `12`.
-Commit: this commit (hash in the next one)
+Commit: c1afdc4a
 
 ## Validation Plan
 

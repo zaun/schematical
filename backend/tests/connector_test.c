@@ -5,8 +5,9 @@
 #include "parts.h"
 #include "read_file.h"
 
-/* A real library card slot (planning/plan-54-data/examples.tsv): its pins A and B on two nets driven from 5V and GND join nothing. */
-static int card_part_joins_nothing(PartLibrary *library, const char *name, const char *a, const char *b) {
+/* A real library part (WHAT names it in the log: a card slot of planning/plan-54-data/examples.tsv, a generic terminal
+ * block or JST header of plan-45): its pins A and B on two nets driven from 5V and GND join nothing. */
+static int part_joins_nothing(PartLibrary *library, const char *name, const char *a, const char *b, const char *what) {
     Circuit *circuit = circuit_create(library);
     size_t vcc, gnd, part, na, nb;
 
@@ -20,7 +21,7 @@ static int card_part_joins_nothing(PartLibrary *library, const char *name, const
         return -1;
     }
     circuit_destroy(circuit);
-    printf("PASS: %s (a library card slot) joins nothing\n", name);
+    printf("PASS: %s (%s) joins nothing\n", name, what);
     return 0;
 }
 
@@ -181,11 +182,26 @@ int main(void) {
         puts("PASS: a card slot loads and joins nothing");
     }
     /* The most-stocked `add` part of each family and of the straddle-mount kind (examples.tsv). */
-    if (card_part_joins_nothing(library, "MSD-1-A", "1", "2") != 0 ||
-        card_part_joins_nothing(library, "2309413-1", "1", "2") != 0 ||
-        card_part_joins_nothing(library, "7-1734774-7", "1", "2") != 0 ||
-        card_part_joins_nothing(library, "2387405-2", "1", "2") != 0) {   /* a card-edge socket; a straddle-mount one */
+    if (part_joins_nothing(library, "MSD-1-A", "1", "2", "a library card slot") != 0 ||
+        part_joins_nothing(library, "2309413-1", "1", "2", "a library card slot") != 0 ||
+        part_joins_nothing(library, "7-1734774-7", "1", "2", "a library card slot") != 0 ||
+        part_joins_nothing(library, "2387405-2", "1", "2", "a library card slot") != 0) {   /* a card-edge socket; a straddle-mount one */
         return 1;
+    }
+    /* plan-45: the generic terminal block and JST header (pins 1 and 3, and 1 and 2) join nothing; each has its pitch. */
+    {
+        const Part *tb = part_library_find(library, "GENERIC-TERMINAL-5.08-03");
+        const Part *jst = part_library_find(library, "GENERIC-JST-XH-04");
+
+        if (tb == NULL || tb->kind != PART_CONNECTOR || tb->connector->terminal != 's' || tb->connector->pitch_um != 5080 ||
+            tb->pin_count != 3 || tb->footprint == NULL || tb->footprint->pad_count != 3 ||
+            jst == NULL || jst->kind != PART_CONNECTOR || jst->connector->jst != 'X' || jst->connector->pitch_um != 2500 ||
+            jst->pin_count != 4 || jst->footprint == NULL || jst->footprint->pad_count != 4) {
+            fprintf(stderr, "GENERIC-TERMINAL-5.08-03 / GENERIC-JST-XH-04: missing or loaded wrongly\n");
+            return 1;
+        }
+        if (part_joins_nothing(library, "GENERIC-TERMINAL-5.08-03", "1", "3", "a generic terminal block") != 0 ||
+            part_joins_nothing(library, "GENERIC-JST-XH-04", "1", "2", "a generic JST header") != 0) return 1;
     }
     /* plan-57: the library's test point is one passive pin, with its ten footprints, and joins nothing. */
     {
