@@ -60,10 +60,10 @@ These are a precondition on the whole feature, not a dependency to negotiate.
 
 | Must be true | Command | Status |
 |---|---|---|
-| The backend builds and passes | `cmake -S backend -B /tmp/logic-p51 -DCMAKE_BUILD_TYPE=Release && cmake --build /tmp/logic-p51 -j8 && ctest --test-dir /tmp/logic-p51 -j8` → `100% tests passed, 0 tests failed out of 39` | MET (2026-11-21 at f3256ba1: 39 of 39) |
+| The backend builds and passes | `cmake -S backend -B /tmp/logic-p51 -DCMAKE_BUILD_TYPE=Release && cmake --build /tmp/logic-p51 -j8 && ctest --test-dir /tmp/logic-p51 -j8` → `100% tests passed, 0 tests failed out of 60` | MET (2026-11-24 at 2865af91: 60 of 60, build dir /tmp/logic-p51-wt) |
 | No `socket` kind yet | `grep -c 'PART_SOCKET' backend/include/parts.h` → 0; `ls backend/src/models/socket.c` → no such file | MET (2026-11-21: 0, no file) |
-| Baselines recorded at A's start | `grep -c '^logic_test' backend/CMakeLists.txt` (T0 = 39); `wc -l backend/tests/golden/{parts,traces,footprints}.txt` (33042 / 33042 / 1685); `awk '/PART_GATE/,/} PartKind;/' backend/include/parts.h \| grep -o 'PART_[A-Z0-9_]*' \| wc -l` (34 kinds) | MET (2026-11-21 at f3256ba1) |
-| The DigiKey daily quota is available to B | `eval "$(grep -E '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc)"; node scripts/digikey.js --limit 1 "74HC00"` → a table, not HTTP 429 (the quota resets about 00:00 UTC; other sessions share it) | NOT MET (2026-11-21 18:03 UTC: 429 after the planning census used it; B only) |
+| Baselines recorded at A's start | `grep -c '^logic_test' backend/CMakeLists.txt` (T0 = 60); `wc -l backend/tests/golden/{parts,traces,footprints}.txt` (36515 / 36515 / 2775); `awk '/PART_GATE/,/} PartKind;/' backend/include/parts.h \| grep -o 'PART_[A-Z0-9_]*' \| wc -l` (42 kinds) | MET (2026-11-24 at 2865af91: 60, 36515 / 36515 / 2775, 42 kinds) |
+| The DigiKey daily quota is available to B | `eval "$(grep -E '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc)"; node scripts/digikey.js --limit 1 "74HC00"` → a table, not HTTP 429 (the quota resets about 00:00 UTC; other sessions share it) | MET on the second key (2026-11-24 18:01 UTC, `node scripts/digikey.js --opt2 --limit 1 "74HC00"` → a table, 399 calls left today; the standard key is at 0 until 2026-11-25 00:00 UTC; B only: run B's listing on `--opt2`) |
 
 Everything below is written against the world where these hold. The last row
 gates sub-plan B alone.
@@ -74,7 +74,7 @@ gates sub-plan B alone.
 
 ## 1. Goal
 
-- `ctest --test-dir /tmp/logic-p51 -j8` → `100% tests passed` with 40 programs
+- `ctest --test-dir /tmp/logic-p51 -j8` → `100% tests passed` with 61 programs
   (T0 + `socket_test`).
 - `socket_test` passes the § 6 cases (loads, every rejection, a socket in a circuit).
 - `parts.txt`, `traces.txt` and `footprints.txt` under `backend/tests/golden/`
@@ -92,9 +92,9 @@ gates sub-plan B alone.
 
 ## 2. Current State
 
-- `PartKind` ends with `PART_NIXIE` (`backend/include/parts.h:30`);
-  `TRACE_LAST_KIND` is `PART_NIXIE` (`tests/trace_check.c:22`); two arrays in
-  `tests/listing_check.c:50–51` are sized `PART_NIXIE + 1`;
+- `PartKind` ends with `PART_PLD` (`backend/include/parts.h:33`);
+  `TRACE_LAST_KIND` is `PART_PLD` (`tests/trace_check.c:22`); two arrays in
+  `tests/listing_check.c:50–51` are sized `PART_PLD + 1`;
   `tests/support/listing.c:30–42` names each kind and `:119–:194` prints its facts.
 - `HEADER_KIND` (`backend/src/models/header.c`, 68 lines) is the passive kind:
   `load_device` reads `"rows"` and `"genders"`, `bind_pinout` checks the pin
@@ -115,9 +115,9 @@ gates sub-plan B alone.
 
 | What | Count | Command |
 |---|---|---|
-| Test programs T0 | 39 | `grep -c '^logic_test' backend/CMakeLists.txt` → 39; `ctest` → `100% tests passed, 0 tests failed out of 39` (2026-11-21 at f3256ba1) |
-| Kinds | 34 | `awk '/PART_GATE/,/} PartKind;/' backend/include/parts.h \| grep -o 'PART_[A-Z0-9_]*' \| wc -l` → 34 |
-| Golden lines parts / traces / footprints | 33042 / 33042 / 1685 | `wc -l backend/tests/golden/{parts,traces,footprints}.txt` |
+| Test programs T0 | 60 | `grep -c '^logic_test' backend/CMakeLists.txt` → 60; `ctest` → `100% tests passed, 0 tests failed out of 60` (2026-11-24 at 2865af91) |
+| Kinds | 42 | `awk '/PART_GATE/,/} PartKind;/' backend/include/parts.h \| grep -o 'PART_[A-Z0-9_]*' \| wc -l` → 42 |
+| Golden lines parts / traces / footprints | 36515 / 36515 / 2775 | `wc -l backend/tests/golden/{parts,traces,footprints}.txt` |
 | Chip footprints a socket holds | 24, used by 2405 parts, 0 with an absent pin | `python3 -I planning/plan-51-data/census/chips.py` |
 
 ### Verified properties
@@ -201,8 +201,8 @@ with `listing_check --print | diff`.
 - [ ] `backend/src/library/kinds.c`: `extern const PartKindOps SOCKET_KIND;` and one line in `KINDS[]`; `backend/CMakeLists.txt`: add `src/models/socket.c` where `header.c` is listed.
 - [ ] `tests/trace_check.c:22` `TRACE_LAST_KIND`, `tests/listing_check.c:50–51`, `tests/support/listing.c` (name `socket`; print `family`, `row_um`, `mounting`, `finish`, `fit_count`) — the three lines `docs/backend.md` § Adding a kind names.
 
-Acceptance: the backend builds; the existing 39 programs pass; goldens byte-identical.
-  Check: `cmake --build /tmp/logic-p51 -j8 && ctest --test-dir /tmp/logic-p51 -j8 && git diff --stat backend/tests/golden` → `100% tests passed, 0 tests failed out of 39`, empty diff (est. 3 min).
+Acceptance: the backend builds; the existing 60 programs pass; goldens byte-identical.
+  Check: `cmake --build /tmp/logic-p51 -j8 && ctest --test-dir /tmp/logic-p51 -j8 && git diff --stat backend/tests/golden` → `100% tests passed, 0 tests failed out of 60`, empty diff (est. 3 min).
 Commit: —
 
 ### Phase 2 — `"fits"`, tests, docs
@@ -211,8 +211,8 @@ Commit: —
 - [ ] `backend/tests/socket_test.c` + `logic_test(socket_test)` in `backend/CMakeLists.txt`: § 6 cases (inline JSON, a tiny `footprints.json` with `PDIP-14`, `CDIP-14`, `PLCC-28`).
 - [ ] `docs/parts-format.md`: the file table gains `socket.json`; the intro list of kinds gains "IC socket"; a `### socket` section (device and part keys, the pin rules, `"fits"`); `"fits"` in the Parts key table; `docs/backend.md`: none (no new step).
 
-Acceptance: `socket_test` passes every § 6 case; 40 of 40.
-  Check: `cmake --build /tmp/logic-p51 -j8 && ctest --test-dir /tmp/logic-p51 -j8` → `100% tests passed, 0 tests failed out of 40`; `git diff --stat backend/tests/golden` → empty (est. 3 min).
+Acceptance: `socket_test` passes every § 6 case; 61 of 61.
+  Check: `cmake --build /tmp/logic-p51 -j8 && ctest --test-dir /tmp/logic-p51 -j8` → `100% tests passed, 0 tests failed out of 61`; `git diff --stat backend/tests/golden` → empty (est. 3 min).
 Commit: —
 
 ## 6. Test cases (`socket_test`)
@@ -230,7 +230,7 @@ Commit: —
 
 ## Validation Plan
 
-- Tests: `socket_test` (above); the 39 existing programs unchanged.
+- Tests: `socket_test` (above); the 60 existing programs unchanged.
 - Coverage check: `socket_test` exercises `socket.c` and `load_fits`; `listing_check` prints the kind once F adds parts.
 - Runtime proof: the circuit case of `socket_test`.
 - Doc sync: `docs/parts-format.md` (§ socket, § Parts key table, file table).
@@ -254,6 +254,10 @@ Author decisions:
 - **Only chip shapes the library has**: DIP 0.3 in at 8, 14, 16, 20, 24, 28 pins; DIP 0.6 in at 24, 28, 32, 40, 48; PLCC 28, 32, 44, 68 (`fits.tsv`). A socket that fits no catalog chip is not added.
 
 ## Corrections
+
+- **2026-11-24, baselines at the start of the run (main at 2865af91).** The plan was written at f3256ba1; other plans landed since. Measured: `grep -c '^logic_test' backend/CMakeLists.txt` → 60 (was 39), so A's goal is 61 programs (was 40); `wc -l backend/tests/golden/{parts,traces,footprints}.txt` → 36515 / 36515 / 2775 (was 33042 / 33042 / 1685); kinds 42 (was 34); the last kind is `PART_PLD` (`parts.h:33`), not `PART_NIXIE` (`TRACE_LAST_KIND` `trace_check.c:22`, `listing_check.c:50–51`). Every count of A, F and J was updated in place; no sub-plan's scope rested on the old numbers. Datasheets: 9356 (F's baseline said 8010).
+- **2026-11-24, the build directory is `/tmp/logic-p51-wt`.** `/tmp/logic-p51` is a CMake cache of the main checkout's source (another session's), which CMake refuses to reuse for the worktree. Read `/tmp/logic-p51` in every check below as `/tmp/logic-p51-wt`.
+- **2026-11-24, the DigiKey row is checked on the second key.** The owner started the run with "using opt2": the standard key's daily quota was spent (HTTP 429, resets 2026-11-25 00:00 UTC), the second key had 399 calls left. B runs `node` and `list.js` with `--opt2`-equivalent credentials (B § Corrections).
 
 ## Summary
 

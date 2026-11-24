@@ -39,7 +39,7 @@ All of § 4 passes on one tree.
 
 ### Phase 1 — the gates
 
-- [ ] Backend: `cmake -S backend -B /tmp/logic-p51 -DCMAKE_BUILD_TYPE=Release && cmake --build /tmp/logic-p51 -j8 && ctest --test-dir /tmp/logic-p51 -j8` → `100% tests passed, 0 tests failed out of 40`.
+- [ ] Backend: `cmake -S backend -B /tmp/logic-p51 -DCMAKE_BUILD_TYPE=Release && cmake --build /tmp/logic-p51 -j8 && ctest --test-dir /tmp/logic-p51 -j8` → `100% tests passed, 0 tests failed out of 61`.
 - [ ] Generated data: `node scripts/gen-sockets.js --check` → exit 0; `node --test scripts/gen-sockets.test.js` → no `# fail`.
 - [ ] Datasheet URLs of the sockets: `node scripts/check-datasheets.js --host www.mill-max.com`, `--host precidip.com`, `--host www.assmann-wsw.com` → each exits 0 (est. 3 min; Mill-Max's PDF is 20 MB).
 - [ ] App tests: `xcodebuild … test -only-testing:schematicalTests/SocketPartsTests -only-testing:schematicalTests/SocketEditorTests -only-testing:schematicalTests/SocketModeTests -only-testing:schematicalTests/SocketPickerTests -only-testing:schematicalTests/PartKindKeysTests -only-testing:schematicalTests/PartKindRoundTripTests -only-testing:schematicalTests/KindInfoTests -only-testing:schematicalTests/KindGuideTests -only-testing:schematicalTests/BillOfMaterialsTests -only-testing:schematicalTests/SchematicFileV5Tests -only-testing:schematicalTests/PCBUndoTests -only-testing:schematicalTests/AutomationTests -only-testing:schematicalTests/KiCadExportTests -only-testing:schematicalTests/EasyEDAProExportTests -only-testing:schematicalTests/DrawerPerformanceTests -only-testing:schematicalTests/ReferencePrefixTests` → `** TEST SUCCEEDED **` (est. 25 min).
