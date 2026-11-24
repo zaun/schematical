@@ -1940,6 +1940,89 @@ static void check_test_point_connector(void) {
                 TEST_POINT_DEVICE("'usb':'A',", TP_PIN), "a connector has at least two pins");
 }
 
+/* A terminal block or JST header device (plan-45) with KEYS (JSON members, each ending in a comma). */
+#define PITCH_DEVICE(KEYS) \
+    HEAD("connector") "{'id':'t','function':'Screw, vertical','description':'d'," \
+    "'drawer':['Connector','Terminal block','5.08 mm']," \
+    KEYS "'pinouts':{'p':[{'number':1,'name':'1','role':'inout'},{'number':2,'name':'2','role':'inout'}]}," \
+    "'parts':[{'name':'TB-T','manufacturer':'M','package':'Through hole vertical','pinout':'p','footprint':'T2'}]}" TAIL
+
+/* One clamp / series: loads with the pitch, the code and the ratings of KEYS (and 0 without them). */
+#define TERMINAL_CASE(KEY, VALUE, FIELD, CODE, PITCH_KEY, PITCH_UM) do { \
+        PartLibrary *lib_ = part_library_create(); char *err_ = NULL; const Part *p_; \
+        CHECK(load(lib_, PITCH_DEVICE("'" KEY "':'" VALUE "','pitch':" PITCH_KEY ",'ratedVolts':250,'ratedAmps':16,"), &err_) == 0); \
+        p_ = part_library_find(lib_, "TB-T"); \
+        CHECK(p_ != NULL && p_->kind == PART_CONNECTOR && p_->connector->FIELD == CODE && \
+              p_->connector->pitch_um == PITCH_UM && p_->connector->rated_mv == 250000 && p_->connector->rated_ma == 16000 && \
+              p_->connector->usb == 0 && p_->connector->card == NULL && p_->connector->contacts == 0 && \
+              p_->connector->center_diameter_um == 0 && p_->connector->test_point == 0 && \
+              (CODE == p_->connector->terminal || p_->connector->terminal == 0) && \
+              (CODE == p_->connector->jst || p_->connector->jst == 0)); \
+        free(err_); part_library_destroy(lib_); \
+    } while (0)
+
+static void check_terminal_connector(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    TERMINAL_CASE("terminal", "screw", terminal, 's', "5.08", 5080);
+    TERMINAL_CASE("terminal", "spring", terminal, 'c', "5.08", 5080);
+    TERMINAL_CASE("terminal", "push-in", terminal, 'p', "5.08", 5080);
+    TERMINAL_CASE("terminal", "pluggable", terminal, 'h', "5.08", 5080);
+    TERMINAL_CASE("jst", "XH", jst, 'X', "2.5", 2500);
+    TERMINAL_CASE("jst", "PH", jst, 'P', "2.5", 2500);
+    TERMINAL_CASE("jst", "EH", jst, 'E', "2.5", 2500);
+    TERMINAL_CASE("jst", "ZH", jst, 'Z', "2.5", 2500);
+    TERMINAL_CASE("jst", "SH", jst, 'S', "2.5", 2500);
+    TERMINAL_CASE("jst", "GH", jst, 'G', "2.5", 2500);
+    TERMINAL_CASE("jst", "VH", jst, 'V', "2.5", 2500);
+    CHECK(load(library, PITCH_DEVICE("'terminal':'screw','pitch':3.5,"), &error) == 0);   /* the ratings are optional */
+    part = part_library_find(library, "TB-T");
+    CHECK(part != NULL && part->connector->terminal == 's' && part->connector->pitch_um == 3500 &&
+          part->connector->rated_mv == 0 && part->connector->rated_ma == 0 && part->connector->jst == 0);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   terminal block and JST header connectors load; malformed ones fail\n");
+
+    expect_fail("terminal and jst", PITCH_DEVICE("'terminal':'screw','jst':'XH','pitch':5,"),
+                "a connector is one of \"usb\", \"terminal\" and \"jst\"");
+    expect_fail("terminal and usb", PITCH_DEVICE("'terminal':'screw','usb':'A','pitch':5,"),
+                "a connector is one of \"usb\", \"terminal\" and \"jst\"");
+    expect_fail("jst and usb", PITCH_DEVICE("'jst':'XH','usb':'A','pitch':5,"),
+                "a connector is one of \"usb\", \"terminal\" and \"jst\"");
+    expect_fail("terminal: unknown clamp", PITCH_DEVICE("'terminal':'clip','pitch':5,"),
+                "\"terminal\" must be \"screw\", \"spring\", \"push-in\" or \"pluggable\"");
+    expect_fail("jst: unknown series", PITCH_DEVICE("'jst':'JH','pitch':2.5,"),
+                "\"jst\" must be \"XH\", \"PH\", \"EH\", \"ZH\", \"SH\", \"GH\" or \"VH\"");
+    expect_fail("terminal: no pitch", PITCH_DEVICE("'terminal':'screw',"), "a terminal block needs \"pitch\"");
+    expect_fail("jst: no pitch", PITCH_DEVICE("'jst':'XH',"), "a JST connector needs \"pitch\"");
+    expect_fail("terminal: pitch 0", PITCH_DEVICE("'terminal':'screw','pitch':0,"),
+                "\"pitch\" must be above 0 and at most 20 mm");
+    expect_fail("terminal: pitch 21", PITCH_DEVICE("'terminal':'screw','pitch':21,"),
+                "\"pitch\" must be above 0 and at most 20 mm");
+    expect_fail("jst: pitch 21", PITCH_DEVICE("'jst':'PH','pitch':21,"), "\"pitch\" must be above 0 and at most 20 mm");
+    expect_fail("usb: pitch", PITCH_DEVICE("'usb':'A','pitch':5,"), "\"pitch\" is only for terminal blocks and JST connectors");
+    expect_fail("barrel: pitch", PITCH_DEVICE("'centerPin':2,'ratedVolts':20,'ratedAmps':5,'pitch':5,"),
+                "\"pitch\" is only for terminal blocks and JST connectors");
+    expect_fail("terminal: centre pin", PITCH_DEVICE("'terminal':'screw','pitch':5,'centerPin':2,"),
+                "a terminal block has no \"centerPin\"");
+    expect_fail("terminal: contacts", PITCH_DEVICE("'terminal':'screw','pitch':5,'contacts':[['1','2']],"),
+                "a terminal block has no \"contacts\"");
+    expect_fail("jst: centre pin", PITCH_DEVICE("'jst':'XH','pitch':2.5,'centerPin':2,"),
+                "a JST connector has no \"centerPin\"");
+    expect_fail("jst: contacts", PITCH_DEVICE("'jst':'XH','pitch':2.5,'contacts':[['1','2']],"),
+                "a JST connector has no \"contacts\"");
+    expect_fail("terminal: zero amps", PITCH_DEVICE("'terminal':'screw','pitch':5,'ratedAmps':0,"),
+                "\"ratedAmps\" must be above 0 and at most 100");
+    expect_fail("jst: zero volts", PITCH_DEVICE("'jst':'XH','pitch':2.5,'ratedVolts':0,"), "ratings must be above 0");
+    expect_fail("card: terminal", CARD_DEVICE("'card':'SD','terminal':'screw',"), "a card slot has no \"terminal\"");
+    expect_fail("card: pitch", CARD_DEVICE("'card':'SD','pitch':5,"), "a card slot has no \"pitch\"");
+    expect_fail("test point: jst", TEST_POINT_DEVICE("'testPoint':true,'jst':'XH',", TP_PIN),
+                "a test point has no \"jst\"");
+    expect_fail("barrel: still needs its centre pin", PITCH_DEVICE("'ratedVolts':20,'ratedAmps':5,"), "\"centerPin\"");
+}
+
 /* DQ_EXTRA, VCC_EXTRA: more keys on DQ0 (pin 2) and VCC (pin 6), such as "side". */
 #define SRAM_PINS_DEVICE(GRADE, DQ_EXTRA, VCC_EXTRA) \
     HEAD("sram") "{'id':'m','function':'1 KB','description':'d','drawer':['Memory','SRAM']," \
@@ -3487,6 +3570,7 @@ int main(void) {
     check_usb_connector();
     check_card_slot_connector();
     check_test_point_connector();
+    check_terminal_connector();
     check_footprint_corners();
     check_footprint_cases();
     check_header_footprints();

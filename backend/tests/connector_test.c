@@ -86,6 +86,66 @@ int main(void) {
         puts("PASS: a USB connector loads and joins nothing");
     }
 
+    /* A terminal block and a JST header are passive too (plan-45): pins 1 and 2 on two driven nets join nothing. */
+    {
+        static const char TERMINAL[] =
+            "{\"format\":\"schematical-parts\",\"version\":1,\"kind\":\"connector\",\"devices\":["
+            "{\"id\":\"tb-test\",\"function\":\"Screw, vertical\",\"description\":\"d\","
+            "\"drawer\":[\"Connector\",\"Terminal block\",\"5.08 mm\"],\"terminal\":\"screw\",\"pitch\":5.08,"
+            "\"ratedVolts\":300,\"ratedAmps\":15,"
+            "\"pinouts\":{\"p\":[{\"number\":1,\"name\":\"1\",\"role\":\"inout\"},"
+            "{\"number\":2,\"name\":\"2\",\"role\":\"inout\"},{\"number\":3,\"name\":\"3\",\"role\":\"inout\"},"
+            "{\"number\":4,\"name\":\"4\",\"role\":\"inout\"}]},"
+            "\"parts\":[{\"name\":\"TB-TEST\",\"package\":\"x\",\"pinout\":\"p\",\"footprint\":\"LED-DIP4\"}]}]}";
+        static const char JST[] =
+            "{\"format\":\"schematical-parts\",\"version\":1,\"kind\":\"connector\",\"devices\":["
+            "{\"id\":\"jst-test\",\"function\":\"Top entry\",\"description\":\"d\","
+            "\"drawer\":[\"Connector\",\"JST\",\"XH\"],\"jst\":\"XH\",\"pitch\":2.5,"
+            "\"pinouts\":{\"p\":[{\"number\":1,\"name\":\"1\",\"role\":\"inout\"},"
+            "{\"number\":2,\"name\":\"2\",\"role\":\"inout\"}]},"
+            "\"parts\":[{\"name\":\"JST-TEST\",\"package\":\"x\",\"pinout\":\"p\",\"footprint\":\"LED-0402\"}]}]}";
+        char *error = NULL;
+        size_t part_index, a, b;
+        const Part *part;
+
+        if (load_parts(library, TERMINAL, "tb-test.json", &error) != 0 ||
+            load_parts(library, JST, "jst-test.json", &error) != 0) {
+            fprintf(stderr, "terminal / JST fixture: %s\n", error != NULL ? error : "?");
+            return 1;
+        }
+        part = part_library_find(library, "TB-TEST");
+        if (part == NULL || part->connector == NULL || part->connector->terminal != 's' ||
+            part->connector->jst != 0 || part->connector->pitch_um != 5080 || part->connector->rated_mv != 300000 ||
+            part->connector->rated_ma != 15000) {
+            fprintf(stderr, "terminal block: loaded wrongly\n");
+            return 1;
+        }
+        part = part_library_find(library, "JST-TEST");
+        if (part == NULL || part->connector == NULL || part->connector->jst != 'X' ||
+            part->connector->terminal != 0 || part->connector->pitch_um != 2500 || part->connector->rated_ma != 0) {
+            fprintf(stderr, "JST header: loaded wrongly\n");
+            return 1;
+        }
+        {
+            static const char *const NAMES[] = {"TB-TEST", "JST-TEST"};
+            size_t k;
+            for (k = 0; k < 2; k++) {
+                circuit = circuit_create(library);
+                if (circuit == NULL || circuit_add_part(circuit, "5V", &vcc) != 0 ||
+                    circuit_add_part(circuit, "GND", &gnd) != 0 || circuit_add_part(circuit, NAMES[k], &part_index) != 0 ||
+                    circuit_add_net(circuit, &a) != 0 || circuit_add_net(circuit, &b) != 0 ||
+                    circuit_connect(circuit, vcc, "1", a) != 0 || circuit_connect(circuit, part_index, "1", a) != 0 ||
+                    circuit_connect(circuit, gnd, "1", b) != 0 || circuit_connect(circuit, part_index, "2", b) != 0 ||
+                    circuit_start(circuit) != 0 || (circuit_advance(circuit, 1), circuit_shorted_net(circuit, &a))) {
+                    fprintf(stderr, "%s: %s\n", NAMES[k], circuit != NULL ? circuit_error(circuit) : "no circuit");
+                    return 1;
+                }
+                circuit_destroy(circuit);
+            }
+        }
+        puts("PASS: a terminal block and a JST header load with their pitch and join nothing");
+    }
+
     /* A card slot is passive too: two of its contacts on two driven nets join nothing. */
     {
         static const char CARD[] =

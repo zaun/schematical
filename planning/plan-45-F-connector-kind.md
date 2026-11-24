@@ -32,9 +32,9 @@ plan-45-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-45-E complete | `ls planning/completed/plan-45-E-*.md` → exists | NOT MET (2026-11-16: not started) |
-| The connector kind has no terminal or JST key | `grep -c '"terminal"\|"jst"\|"pitch"' backend/src/models/connector.c` → 0 | MET (2026-11-16 at 5bccd0d7: 0) |
-| `PartConnector` is the five-field struct | `grep -c 'rated_ma; unsigned contacts; char usb; } PartConnector' backend/include/parts.h` → 1 | MET (2026-11-16: 1) |
+| plan-45-E complete | `ls planning/completed/plan-45-E-*.md` → exists | MET (2026-11-24: not archived, every E box ticked: `grep -c '\[ \]' planning/plan-45-E-jst-footprints.md` → 0; E's commit 1dcc28c7) |
+| The connector kind has no terminal or JST key | `grep -c '"terminal"\|"jst"\|"pitch"' backend/src/models/connector.c` → 0 | MET (2026-11-24 at 1dcc28c7, before F: 0) |
+| `PartConnector` is the five-field struct | `grep -c 'rated_ma; unsigned contacts; char usb; } PartConnector' backend/include/parts.h` → 1 | MET, reworded (2026-11-24: the struct has grown since: plan-54 added `card` / `card_pitch_um`, plan-57 `test_point`; the command's `usb; } PartConnector` ending → 0, the struct is `{center_diameter_um, rated_mv, rated_ma, contacts, usb, card, card_pitch_um, test_point}`: F appends `pitch_um`, `terminal`, `jst` after `test_point`; no code initializes it positionally) |
 
 Everything below is written against the world where these hold.
 
@@ -136,13 +136,15 @@ is empty.
 
 ### Phase 1 — The loader and its tests
 
-- [ ] `backend/include/parts.h`: `PartConnector` gains `uint32_t pitch_um;
+- [x] `backend/include/parts.h`: `PartConnector` gains `uint32_t pitch_um;
       char terminal; char jst;` and its comment names them (zero for barrel
       and USB).
-- [ ] `backend/src/models/connector.c`: `DEVICE_KEYS`, `terminal_load` and the
+      Appended after `test_point` (Corrections); the comment names the codes and says both are passive.
+- [x] `backend/src/models/connector.c`: `DEVICE_KEYS`, `terminal_load` and the
       branch of § 3; the file's header comment names terminal blocks and JST
       headers.
-- [ ] `backend/tests/library_check.c`: `check_terminal_connector` (beside
+      `DEVICE_KEYS` + `"terminal"`, `"jst"`, `"pitch"`; `terminal_load` (one function for both keys: the clamp / series table, the pitch, the shared `optional_ratings_load` that `usb_load` now also calls); the dispatch checks "one of usb / terminal / jst" and "pitch only with them" before the USB branch; the card-slot and test-point `FORBIDDEN` lists gain the three keys.
+- [x] `backend/tests/library_check.c`: `check_terminal_connector` (beside
       `check_usb_connector`): a fixture device for each clamp (`'terminal':'screw'`,
       `'spring'`, `'push-in'`, `'pluggable'`) loads with `pitch_um` 5080,
       `terminal` `'s'`/`'c'`/`'p'`/`'h'`, `rated_mv`/`rated_ma` from the keys
@@ -151,31 +153,35 @@ is empty.
       two of the three keys, an unknown clamp, an unknown series, no pitch
       (both), pitch 0, pitch 21, pitch on a USB device, `centerPin` and
       `contacts` with `terminal`, `ratedAmps` 0.
+      All of them (four clamps and seven series by `TERMINAL_CASE`; the ratings absent; 21 `expect_fail` cases: the three two-of-three pairs, unknown clamp and series, no pitch ×2, pitch 0 and 21, pitch on USB and on a barrel jack, `centerPin` and `contacts` with each key, `ratedAmps` 0, `ratedVolts` 0, and the card slot and test point rejecting the new keys) plus the old barrel negative on the new fixture.
 
 Acceptance: the loader accepts the new devices and rejects the malformed ones.
-  Check: `cmake --build /tmp/logic-p45 -j8 --target library_check && /tmp/logic-p45/library_check` → every line `ok`, exit 0, including `ok   terminal block and JST header connectors load; malformed ones fail` (est. 5 min).
-Commit: —
+  Check: `cmake --build /tmp/logic-p45 -j8 --target library_check && /tmp/logic-p45/library_check` → every line `ok`, exit 0, including `ok   terminal block and JST header connectors load; malformed ones fail` (est. 5 min). Result: exit 0, `library_check: all passed`, 539 `ok` lines, the line above present.
+Commit: this commit (hash in the next one)
 
 ### Phase 2 — The listing and the circuit test
 
-- [ ] `backend/tests/support/listing.c` (`case PART_CONNECTOR`): the two new
+- [x] `backend/tests/support/listing.c` (`case PART_CONNECTOR`): the two new
       lines of § 3 before the barrel line.
-- [ ] `backend/tests/connector_test.c`: a fixture terminal block (3 pins) and
+      After the USB line and before the barrel line: `terminal=<screw|spring|push-in|pluggable> pitch_um=<n> rated=<V>V/<mA>mA` and `jst=<XH…> pitch_um=<n> rated=…`.
+- [x] `backend/tests/connector_test.c`: a fixture terminal block (3 pins) and
       a JST header (2 pins) beside the USB case: each part's pins 1 and 2 on
       two nets, one driven high from `5V`, the other from `GND`: after
       `circuit_start` and `circuit_advance(circuit, 1)` neither net is
       shorted; `part->connector->terminal` / `jst` and `pitch_um` as loaded.
-- [ ] `/tmp/logic-p45/listing_check --print > /tmp/p45-parts.txt && diff
+      The terminal fixture has 4 pins (the `LED-DIP4` footprint it names has 4 pads; a 3 pin pinout is refused against it) and the JST header 2 (`LED-0402`); `PASS: a terminal block and a JST header load with their pitch and join nothing`.
+- [x] `/tmp/logic-p45/listing_check --print > /tmp/p45-parts.txt && diff
       /tmp/p45-parts.txt backend/tests/golden/parts.txt` → no output (no
       shipped part has the new keys yet).
+      `diff` → no output (exit 0); 35921 lines.
 
 Acceptance: the circuit and listing tests pass and the goldens are unchanged.
-  Check: `cmake --build /tmp/logic-p45 -j8 && ctest --test-dir /tmp/logic-p45 -R 'connector_test|library_check|listing_check|trace_check|footprint_check'` → `100% tests passed`; `git diff --stat backend/tests/golden` → empty (est. 8 min).
-Commit: —
+  Check: `cmake --build /tmp/logic-p45 -j8 && ctest --test-dir /tmp/logic-p45 -R 'connector_test|library_check|listing_check|trace_check|footprint_check'` → `100% tests passed`; `git diff --stat backend/tests/golden` → empty (est. 8 min). Result: `100% tests passed, 0 tests failed out of 5`; `git diff backend/tests/golden | wc -l` → 0; the whole suite `100% tests passed, 0 tests failed out of 57`.
+Commit: this commit (hash in the next one)
 
 ### Phase 3 — Docs
 
-- [ ] `docs/parts-format.md` § `connector`: a subsection "Terminal blocks and
+- [x] `docs/parts-format.md` § `connector`: a subsection "Terminal blocks and
       JST headers": the keys of § 3; no `centerPin`, no `contacts`; every pin
       a passive `inout` terminal named `"1"`…`"n"` (pin 1 the first along the
       row, as the footprint); drawers `["Connector", "Terminal block",
@@ -187,12 +193,14 @@ Commit: —
       footprints `TB-…` and `JST-…` (plan-45-C … E); the device's ratings are
       the datasheet's, optional. The intro sentence names terminal blocks and
       JST headers beside "Barrel power connectors".
-- [ ] `docs/parts-format.md` § Devices table of kinds: no change (the kind is
+      Added as "**Terminal blocks and JST headers** (plan-45)" after the test-point paragraph, with the keys, every rejection message, the `PartConnector` fields, and a table of drawer, function, package and footprint; the section's first sentence names terminal blocks and JST headers beside the other connectors.
+- [x] `docs/parts-format.md` § Devices table of kinds: no change (the kind is
       still `connector`); the intro list of kinds gets no new name.
+      No change made there.
 
 Acceptance: the doc names every key and the drawers.
-  Check: `grep -c '"terminal"\|"jst"\|"pitch"' docs/parts-format.md` → at least 3 (est. 10 min).
-Commit: —
+  Check: `grep -c '"terminal"\|"jst"\|"pitch"' docs/parts-format.md` → at least 3 (est. 10 min). Result: `12`.
+Commit: this commit (hash in the next one)
 
 ## Validation Plan
 
@@ -218,6 +226,10 @@ Commit: —
   future series needs no loader change.
 
 ## Corrections
+
+- **2026-11-24, populations.** The test-program count is **57**, not 36 ("T0 stays 36" is "T0 stays 57": `grep -c '^logic_test' backend/CMakeLists.txt` → 57; no program added). The `connector` kind holds 482 devices / 952 parts (plan-54's card slots and plan-57's test points landed since the plan's 224 / 376; `grep -c '|connector|' backend/tests/golden/parts.txt` → 952); the golden is unchanged (`diff` of `listing_check --print` against it is empty).
+- **2026-11-24, the struct and the other modes.** `PartConnector` already had `card`, `card_pitch_um` and `test_point`; F appends `pitch_um`, `terminal`, `jst` (a card slot's `card_pitch_um` stays its own field). A card slot and a test point reject `terminal`, `jst` and `pitch` through their `FORBIDDEN` lists, and a card slot's `cardPitch` still means the contact pitch; the plan's rules covered barrel and USB only. `usb_load`'s ratings code moved into `optional_ratings_load`, shared with `terminal_load` (same messages).
+- **2026-11-24, library_check wording.** The `expect_fail` for pitch on a USB device and on a barrel jack both give `"pitch" is only for terminal blocks and JST connectors`; "a connector is one of …" comes first when two of the three keys are present.
 
 ## Summary
 

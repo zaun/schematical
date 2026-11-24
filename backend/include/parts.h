@@ -156,9 +156,13 @@ typedef struct { const char *model; unsigned channels; const char *grade; const 
    (0 for USB). rated_mv / rated_ma: 0 = not given (USB only). */
 /* card: a card slot's card text ("microSD", "DDR4 SODIMM", "PCI Express"; plan-54-L), NULL for a barrel jack and a USB
    connector; card_pitch_um: its contact pitch in micrometres, 0 when not given (and for barrel and USB).
-   test_point: 1 for a test point (plan-57), a single passive pin; 0 for every other connector. */
+   test_point: 1 for a test point (plan-57), a single passive pin; 0 for every other connector.
+   terminal / jst / pitch_um (plan-45): a PCB terminal block's wire clamp ('s' screw, 'c' spring cage, 'p' push-in, 'h'
+   the board-side header of a pluggable block) or a JST header's series (the first letter: 'X' XH, 'P' PH, 'E' EH,
+   'Z' ZH, 'S' SH / SR, 'G' GH, 'V' VH), and the pin pitch in micrometres; all 0 for every other connector. Both are
+   passive terminals (no contacts); rated_mv / rated_ma are the datasheet's, 0 when it gives none. */
 typedef struct { uint32_t center_diameter_um, rated_mv, rated_ma; unsigned contacts; char usb; const char *card;
-                 uint32_t card_pitch_um; unsigned test_point; } PartConnector;
+                 uint32_t card_pitch_um; unsigned test_point; uint32_t pitch_um; char terminal; char jst; } PartConnector;
 /* A supply domain of a dual-supply part (plan-20-F): the pins powered from
    one supply. power_pins: the supply's pins (one name, possibly several
    pins, e.g. two VCCB); pins: every other pin of the domain (not ground or

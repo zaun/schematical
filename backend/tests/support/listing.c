@@ -406,6 +406,20 @@ static void print_details(FILE *out, const Part *part) {
                         (unsigned)(part->connector->rated_mv / 1000), (unsigned)part->connector->rated_ma);
                 break;
             }
+            if (part->connector->terminal != 0) {   /* a PCB terminal block (plan-45) */
+                const char terminal = part->connector->terminal;
+                fprintf(out, "terminal=%s pitch_um=%u rated=%uV/%umA",
+                        terminal == 's' ? "screw" : terminal == 'c' ? "spring" : terminal == 'p' ? "push-in" : "pluggable",
+                        (unsigned)part->connector->pitch_um, (unsigned)(part->connector->rated_mv / 1000),
+                        (unsigned)part->connector->rated_ma);
+                break;
+            }
+            if (part->connector->jst != 0) {         /* a JST board header (plan-45): the series' first letter + "H" */
+                fprintf(out, "jst=%cH pitch_um=%u rated=%uV/%umA", part->connector->jst,
+                        (unsigned)part->connector->pitch_um, (unsigned)(part->connector->rated_mv / 1000),
+                        (unsigned)part->connector->rated_ma);
+                break;
+            }
             fprintf(out, "center_um=%u rated=%uV/%umA contacts=%u",
                     (unsigned)part->connector->center_diameter_um,
                     (unsigned)(part->connector->rated_mv / 1000),

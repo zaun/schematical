@@ -131,7 +131,7 @@ below.
 
 Acceptance: the surface-mount entries work.
   Check: `node --test scripts/gen-terminals.test.js` → all tests pass (est. 1 min). Result: `ℹ tests 10`, `ℹ pass 10`, `ℹ fail 0`.
-Commit: this commit (hash in the next one)
+Commit: 1dcc28c7
 
 ### Phase 2 — Through-hole JST (10 variants)
 
@@ -145,7 +145,7 @@ Commit: this commit (hash in the next one)
 
 Acceptance: the through-hole E lines have objects.
   Check: `python3 -I planning/plan-45-data/census/fp-check.py E` → the through-hole lines absent from the missing list (est. 2 h). Result: `21 lines, 0 without a footprint`.
-Commit: this commit (hash in the next one)
+Commit: 1dcc28c7
 
 ### Phase 3 — Surface-mount JST (9 variants), load and hand-check
 
@@ -166,7 +166,7 @@ Commit: this commit (hash in the next one)
 
 Acceptance: every E line has objects that load and match their drawings.
   Check: `python3 -I planning/plan-45-data/census/fp-check.py E` → `<n> lines, 0 without a footprint`, then `planning/plan-45-data/census/fp-load.sh planning/plan-45-data/footprints-E.json` → exits 0 (est. 3 h; the load builds a temp backend, 10 min). Result: `21 lines, 0 without a footprint`, `193 footprints, 0 missing`; exit 0, `193 new footprints: load ok`.
-Commit: this commit (hash in the next one)
+Commit: 1dcc28c7
 
 ## Validation Plan
 
