@@ -176,25 +176,27 @@ Commit: d4d8c847
 
 Acceptance: every `add` row is a part.
   Check: `grep -c '|connector|' backend/tests/golden/parts.txt` → 376 + 88 + the `add` rows; `awk -F'\t' '$22=="add"' planning/plan-45-data/candidates.tsv \| wc -l` gives the last term (est. 15 min). Result: `1541` = 952 + 88 + 501 (the connector kind held 952 parts, not 376: Corrections).
-Commit: this commit (hash in the next one)
+Commit: 96f98f8c
 
 ### Phase 4 — Datasheets and docs
 
-- [ ] `datasheets/connector-terminal/` and `datasheets/connector-jst/` hold
+- [x] `datasheets/connector-terminal/` and `datasheets/connector-jst/` hold
       exactly the PDFs the `datasheets.json` entries need (`place.py --verify`).
-- [ ] `node scripts/check-datasheets.js --host www.phoenixcontact.com`,
+      `ok: 308 files, 0 rows without a file, 0 unused, 0 changed`.
+- [x] `node scripts/check-datasheets.js --host www.phoenixcontact.com`,
       `--host datasheet.weidmueller.com`, `--host www.we-online.com`,
       `--host www.jst-mfg.com`, `--host www.jst.com`: record each host's
       result in `docs/parts-format.md` § Datasheets next to the Suntsu note
       (the hosts that refuse the script's client, with their HTTP status).
-- [ ] `docs/parts-format.md` § Footprints: the `TB-`/`JST-` paragraph names
+      phoenixcontact 68 of 68, weidmueller 149 of 149, we-online 219 of 219 (run alone), jst-mfg 7 of 7 serve a PDF; `www.jst.com` 0 of 2: `HTTP 403` for `eSR_SZ` and `eSR_SZ-new` (recorded in § Datasheets).
+- [x] `docs/parts-format.md` § Footprints: the `TB-`/`JST-` paragraph names
       `gen-terminals.js --write`; § `connector` lists the 88 generics.
-- [ ] `docs/file-format.md` (the `reference` row): the `J` prefix reads
+- [x] `docs/file-format.md` (the `reference` row): the `J` prefix reads
       "USB/barrel connectors, terminal blocks, JST headers and female headers".
 
 Acceptance: the datasheet and doc state matches the tree.
-  Check: `python3 -I planning/plan-45-data/census/place.py --verify` → `ok`; `node scripts/check-datasheets.js --host www.jst-mfg.com` → the result the doc records (est. 20 min).
-Commit: —
+  Check: `python3 -I planning/plan-45-data/census/place.py --verify` → `ok`; `node scripts/check-datasheets.js --host www.jst-mfg.com` → the result the doc records (est. 20 min). Result: `ok: 308 files ...`; `7 of 7 URLs serve a PDF; 0 failed.`
+Commit: this commit (hash in the next one)
 
 ## Validation Plan
 
@@ -218,6 +220,23 @@ Commit: —
   is one land pattern per pitch and no duplicate objects.
 
 ## Corrections
+
+- The connector kind held 952 parts before G, not 376 (the plan's figure was
+  written before other plans' connector parts landed): the Phase 3 check is
+  `1541 = 952 + 88 + 501`, measured with `grep -c '|connector|'`.
+- 589 parts = 88 generics + 501 `add` rows (the 12 `skip` rows are in
+  `datasheets/skipped-parts.md`).
+- `datasheets.json` entries are one per placed file: 308, not the 340 of
+  planning time (several PDFs are shared by one URL; `place.py --verify` is the
+  proof).
+- 480 footprints (C 135 + D 152 + E 193): `--write` emits only those the parts
+  name, and all of the generated ones are named.
+- Phase 1's goldens were regenerated against the previous library, so Phase 3's
+  diff (+284 / +284 / +231 lines, 0 removed) is against Phase 2.
+- `docs/parts-format.md` drawer text now shows the two-decimal pitch strings the
+  generator writes (`5.00 mm`), not `5.0 mm`.
+- `www.jst.com` answers a script `HTTP 403` (both entries); the other four hosts
+  serve every PDF. Recorded in § Datasheets as expected.
 
 ## Summary
 
