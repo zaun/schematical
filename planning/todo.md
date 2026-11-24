@@ -82,6 +82,10 @@
 - [x] Add voltage regulators: 78xx, AMS1117, LM317, LDOs, and common buck
       modules. (plan-42: TI, ADI, Microchip; AMS1117 and buck modules out of
       scope)
+- [x] Add power switches: integrated ideal diodes, load switches, current-limited
+      and USB switches (plan-55: top three makers per family, Active parts only;
+      power muxes, external-FET controllers, eFuses and hot-swap controllers out
+      of scope)
 - [x] Add hobby microcontrollers: ATmega328P, ATtiny, RP2040, ESP32
       modules. The bus-CPU kind only covers 6502/65816/Z80. These 
       microcontrollers need a `simulated` property set to false. When any
