@@ -91,7 +91,7 @@ def strip_comments(text):
 # are hand-written (the form edits `display` as one JSON field), so they are
 # not in KIND_FILES.
 DISPLAY_LOADERS = {"load_display_scan", "load_display_static", "load_display_ports", "load_display_lcd",
-                   "load_display_clock", "clk_cell"}
+                   "load_display_clock", "load_display_ccsi"}
 NOT_CALLED = {"converter": {"load_clock"} | DISPLAY_LOADERS,
               "rtc": {"load_choice", "load_time", "load_conversion", "load_dac"} | DISPLAY_LOADERS}
 

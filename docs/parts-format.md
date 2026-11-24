@@ -3738,7 +3738,7 @@ reset values.
 
 #### `display`
 
-An object whose `"driver"` names one of six output drivers (`digits`, `static`, `matrix`, `ports`, `lcd`, `clock`); its other keys
+An object whose `"driver"` names one of seven output drivers (`digits`, `static`, `matrix`, `ports`, `lcd`, `clock`, `ccsi`); its other keys
 depend on the driver. Rules common to every driver:
 
 | Term | Meaning |
@@ -3983,6 +3983,27 @@ A key counts as pressed after its pin has been low `debounceMs` while `enable` i
 one; if it is still held `firstRepeatMs` later it advances every `repeatMs` until released. A minute key zeroes the
 seconds and does not carry into the hours. Two keys held together (overlapping) light every cell and advance
 nothing; releasing both resets the clock to its start-up time (re-reading `mode`), unless `data` is low.
+
+##### `ccsi` driver (plan-56-D, TLC6983)
+
+A 48 x 16 common-cathode RGB matrix driver on TI's continuous clock series interface, with `"bus": {"style": "none"}`
+(the interface is the driver's own: `sclk`, `sin`, `sout` below; no `protocol`, no registers). `{"driver": "ccsi",
+"sclk": "SCLK", "sin": "SIN", "sout": "SOUT", "lines": [16 names], "red": [16], "green": [16], "blue": [16],
+"scan": {"periodUs": 9}, "openDrain": [the line pins]}`.
+
+- **Interface.** SIN is sampled on both edges of SCLK. It idles high; a frame starts when SIN falls (START), then a 16-bit command ID and
+  N x 48 bits of data, each as 17-bit words (16 data bits MSB first and a check bit equal to NOT the 16th bit), then 18 consecutive highs
+  starting on a word boundary (END). A frame with a wrong check bit or a length that is not 17 + 51 n is ignored. A data command takes the last unit
+  (3 words, bits 47-32, 31-16, 15-0) of its frame, as the device cut off by a chain would.
+- **Commands.** FC0-FC4 (AA00h-AA04h), FC10, FC11 (AA0Ah, AA0Bh): 48-bit registers with the reset values of the register figures;
+  FC0 and FC1 take effect at the next VSYNC. Reads (AA60h-AA64h, AA6Ah, AA6Bh, AA6Ch-AA6Fh = 0, AA70h = chip index 0): after the END the
+  chip answers on SOUT, one bit per SCLK edge: START, the command ID (17 bits) and the register's 48 bits (3 words). SRAM write (AA30h, WRTGS): the unit goes to the
+  grayscale memory at (line counter, pixel counter) of the bank that is not displayed, the pixel counter counts to 16, then the line counter (to SCAN_NUM + 1, then 0).
+  VSYNC (AAF0h) swaps the banks and clears both counters; Soft_Reset (AA80h) restores the registers (not the memory); Chip Index (AA10h) sets index 0.
+- **Outputs.** In turn (every `periodUs`) line n = 0 .. SCAN_NUM (FC0 bits 20-16, plus 1; lines past 15 have no pin) is pulled low and the other `lines` are
+  released (list them in `openDrain`); that line's pixel p (0-15) drives `red[p]`, `green[p]`, `blue[p]` high while its 16-bit gray value (bits 15-0, 31-16, 47-32 of its unit) is nonzero, else low.
+- **Not modeled:** SOUT pass-through of a chain (chip index counts, broadcast versus non-broadcast), the PWM gray levels and DS-PWM timing, current setting
+  (BC, CC, IMAX, IREF), LED open / short detection, power saving, thermal and IREF protection; the register values are stored and read back only.
 
 #### Writing a device
 
