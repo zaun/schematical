@@ -23,6 +23,7 @@ add_library(logic STATIC
     src/models/diode.c
     src/models/capacitor.c
     src/models/mcu.c
+    src/models/pld.c
     src/models/resistor.c
     src/models/transistor.c
     src/models/generic.c
@@ -207,6 +208,7 @@ logic_test(transistor_test)
 logic_test(capacitor_test)
 logic_test(mcu_test)
 logic_test(generic_test)
+logic_test(pld_test)
 logic_test(serialmem_test)
 logic_test(nixie_test)
 logic_test(dekatron_test)

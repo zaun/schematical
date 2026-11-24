@@ -35,6 +35,7 @@ extern const PartKindOps MCU_KIND;
 extern const PartKindOps RESISTOR_KIND;
 extern const PartKindOps TRANSISTOR_KIND;
 extern const PartKindOps GENERIC_KIND;
+extern const PartKindOps PLD_KIND;
 extern const PartKindOps SERIALMEM_KIND;
 extern const PartKindOps NIXIE_KIND;
 extern const PartKindOps REGULATOR_KIND;
@@ -88,6 +89,7 @@ const PartKindOps *const KINDS[] = {
     &LEDDRIVER_KIND,
     &LCDDRIVER_KIND,
     &POWERSWITCH_KIND,
+    &PLD_KIND,
     NULL
 };
 

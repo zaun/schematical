@@ -1,7 +1,7 @@
 # Part file format
 
 Every orderable part (gate, flip-flop, latch, decoder, counter, shift register, SRAM, EEPROM, switch, LED,
-diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character LCD module, oscillator, crystal, supply, microprocessor, microcontroller, serial controller, serial memory, LED and LCD driver) is described in a JSON part file in
+diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character LCD module, oscillator, crystal, supply, microprocessor, microcontroller, serial controller, serial memory, LED and LCD driver, programmable logic device) is described in a JSON part file in
 `schematical/schematical/Parts/`, one file per kind:
 
 | File | Kind |
@@ -44,6 +44,7 @@ diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character
 | `nixie.json` | `nixie` |
 | `dekatron.json` | `dekatron` |
 | `lcd.json` | `lcd` |
+| `pld.json` | `pld` |
 
 Beside them, `datasheets.json` holds the datasheet URLs parts name with
 `"datasheet"` (see [Datasheets](#datasheets)), and `footprints.json` the land
@@ -126,7 +127,7 @@ parts) last.
 | Discrete | Capacitors › Ceramic / Electrolytic / Tantalum; Diodes; Resistors › Array / Chip / Through-hole; Transistors › BJT / MOSFET |
 | Displays & Indicators | LED; 7-Segment; Character LCD; LCD glass (plan-56); Buzzers (plan-47) |
 | Interface | Serial (UART, Bridge UART, I2C controller); Parallel I/O (PIA, VIA); Driver (LED, LCD: display driver ICs, plan-56) |
-| Logic | Arithmetic, Buffers, Counters, Decoders & muxes, Flip-flops & latches, Gates, Registers |
+| Logic | Arithmetic, Buffers, Counters, Decoders & muxes, Flip-flops & latches, Gates, Registers, CPLD (the PLDs and GALs: ATF16V8, ATF22V10, ATF750C) |
 | Memory | EEPROM; SRAM; Serial › EEPROM / FRAM / Flash |
 | Microcontroller | AVR › AT90 / ATmega / ATtiny / Dx / Ex / Lx/Sx / XMEGA / megaAVR 0 / tinyAVR 0/1/2; ESP32; RP2040 |
 | Power | Regulators › Linear / Switching |
@@ -2292,6 +2293,42 @@ on a 5 V net is refused). The RP2040's 1.1 V core-supply pins (`DVDD`) are
 `power` pins fed by its own `VREG_VOUT` output; the check drives an output
 at the part's level, so `DVDD` sees the I/O level and passes. The check
 cannot judge the 1.1 V rail itself.
+
+### `pld`
+
+Programmable logic devices (`backend/src/models/pld.c`): the GAL / PAL
+class SPLDs and the CPLDs built like them (ATF16V8B, ATF22V10C, ATF750C),
+listed under Logic › CPLD. **Facts only for now**: what such a chip does is
+the logic its owner programs into it, and there is no model of that yet, so
+every `pld` device says `"simulated": false` and a circuit refuses its parts;
+the app disables Simulation › Run while one is placed. The engine model is
+passive (no callbacks, like `mcu`). The function level of the drawer is the
+architecture (`"16V8"`, `"22V10"`, `"750C"`).
+
+```json
+"simulated": false,
+"macrocells": 10,
+"vcc": [4.5, 5.5]
+```
+
+| Key | Value |
+|---|---|
+| `"simulated"` | required, `false` (`a pld has no simulation model: "simulated" must be false`) |
+| `"macrocells"` | required, the output macrocells, 1 to 1024 (`"macrocells" must be above 0`) |
+| `"vcc"`, `"inputMax"` | the supply range ([Supply voltage](#supply-voltage-vcc-and-inputmax)); every part must end up with a `vcc` |
+
+Part keys:
+
+| Key | Value |
+|---|---|
+| `"tpd"` | required, the part's speed grade: the maximum pin-to-pin delay, ns, above 0 (`"tpd" must be above 0`) |
+| `"vcc"`, `"inputMax"` | override the device's (a commercial `-7` grade is specified at 5 V ± 5%, so `[4.75, 5.25]`) |
+
+Pins: any count, any roles and names; no key names a pin, so the many
+`I/O` and `IN` pins keep the datasheet's names. Each pinout needs a `power`
+and a `ground` pin. The PLCC pinouts of the 24-pin parts list their extra
+`VCC` and `GND` pins (pins 1, 8, 15 and 22), which the datasheet says may be
+left unconnected.
 
 ### `generic`
 

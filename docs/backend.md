@@ -414,6 +414,8 @@ backend/
                            the supply-gate model, plan-55-A);
                            crystal.c (the crystal kind: loader, the weak
                            clock-on-both-terminals model, plan-44-E);
+                           pld.c (the programmable logic kind: loader,
+                           passive model, facts only);
                            cpu.c + cpu.h (the cpu kind: loader, the model
                            that forwards to a core adapter, input sampling,
                            the instruction tracker), cpu6502.c (the
@@ -541,7 +543,7 @@ guide has device.<key>`: add the key to a step of
 `Guides/<Kind>Guide.swift` (and a `FieldGuide` for it; a required key must
 say where to find it).
 
-A kind with no simulation model (plan-36's `mcu`, plan-46's `generic`)
+A kind with no simulation model (plan-36's `mcu`, plan-46's `generic`, `pld`)
 sets `"simulated": false` on its devices, so `circuit_add_part` refuses its parts, and still
 ships a passive model (no callbacks, the `header.c` shape) so the engine
 never sees a NULL model.
@@ -729,6 +731,12 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   read back (the part's clock over the device's), its listing line ends
   `|unsimulated`, and `circuit_add_part` refuses it with `part "TESTMCU"
   is not simulated`. The kind's loader errors are in `library_check`.
+- `pld_test` — the pld kind: the shipped ATF22V10C, ATF750C and ATF16V8B
+  parts read back their `PartPld` facts (macrocells, the part's tpd, a
+  commercial part's own `vcc`), single part files cover every loader rule
+  (`"simulated"`, `macrocells`, `tpd`, a supply range, a power and a ground
+  pin), the listing line ends `|unsimulated`, and `circuit_add_part` refuses
+  the part.
 - `circuit_check` — the circuit API, including the voltage refusal at
   start, the running switch stop (fixture parts from
   `tests/support/voltage_fixture.h`) and the refusal of a part whose device

@@ -28,7 +28,7 @@ typedef enum {
     PART_BUFFER, PART_MUX, PART_HEADER, PART_ARITH, PART_CONVERTER, PART_RTC, PART_DIODE,
     PART_CAPACITOR, PART_REGISTER, PART_MCU, PART_RESISTOR, PART_TRANSISTOR,
     PART_GENERIC, PART_SERIALMEM, PART_NIXIE, PART_REGULATOR, PART_CRYSTAL, PART_DEKATRON, PART_LCD,
-    PART_LEDDRIVER, PART_LCDDRIVER, PART_POWERSWITCH
+    PART_LEDDRIVER, PART_LCDDRIVER, PART_POWERSWITCH, PART_PLD
 } PartKind;
 
 /* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */
@@ -261,6 +261,12 @@ typedef struct { const char *type; uint64_t hz; uint64_t load_ff;
    (RP2040 flash). A part may override clock, flash and psram. */
 typedef struct { const char *core; uint64_t max_hz; uint32_t flash, ram, eeprom, psram; } PartMcu;
 
+/* A programmable logic device (pld kind): facts only, no simulation model
+   yet (its device says "simulated": false). macrocells: the device's output
+   macrocells (a GAL16V8 has 8, an ATF22V10 10). tpd_ps: the part's speed
+   grade, the maximum pin-to-pin delay, in picoseconds. */
+typedef struct { uint32_t macrocells; uint64_t tpd_ps; } PartPld;
+
 /* A serial (SPI) memory chip (serialmem kind). type: "eeprom", "fram",
    "flash" (the three the engine simulates), "dataflash" or "pageeeprom"
    (facts only: their devices say "simulated": false). size: bytes.
@@ -368,6 +374,7 @@ typedef struct Part {
     const PartRegulator *regulator;
     const PartCrystal *crystal;
     const PartPowerSwitch *powerswitch;
+    const PartPld *pld;
     /* Dual-supply parts (plan-20-F): domain 0 is the A side (its vcc is
        Part.vcc), domain 1 the B side; NULL/0 for single-supply parts. */
     const PartSupplyDomain *domains; size_t domain_count;
