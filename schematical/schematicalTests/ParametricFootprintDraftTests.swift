@@ -32,7 +32,7 @@ final class ParametricFootprintDraftTests: XCTestCase {
     }
 
     func testEachStyleReadsAndWritesItsEntry() throws {
-        XCTAssertEqual(Self.entries.count, 1935)
+        XCTAssertEqual(Self.entries.count, 1974)
         for style in ["dual", "quad", "grid", "header"] {
             let entry = try Self.sample(style)
             let draft = try XCTUnwrap(ParametricFootprintDraft(json: entry), style)
@@ -55,7 +55,7 @@ final class ParametricFootprintDraftTests: XCTestCase {
             if draft.encoded() != entry { XCTFail("\(draft.id) did not write back the same") }
             count += 1
         }
-        XCTAssertEqual(count, 1290)
+        XCTAssertEqual(count, 1324)
     }
 
     /// A generic part with the footprint's pins, naming an inline copy of it.

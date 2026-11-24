@@ -1383,18 +1383,28 @@ problem. An input or enable pin above `vinMax` is refused
 input max is 5.5 V`).
 
 Conventions of the library's `powerswitch.json` (plan-55): device ids are
-`psw-<maker>-<series>-<package>` in lower case (`psw-ti-lm66100-sc70`), one
-device per (series, package, pin assignment); `"function"` is `Single
+`psw-<maker>-<datasheet name>` in lower case (`psw-ti-lm66200`), one device per
+(datasheet, switch layout) holding a pinout per package (a second layout in
+one datasheet gets `-2`, `-3` after the id); `"function"` is `Single
 channel`, `Dual channel`, `Triple channel` or `Quad channel` for `load` and
 `limited`, `Single input` or `Dual input` for `ideal-diode`; the drawer is
 **Power → Power Switches → Load Switches / Current-Limited / Ideal Diodes**;
 a part's `"name"` is the maker's orderable part number as DigiKey prints it
 and `"manufacturer"` is `Texas Instruments`, `Analog Devices`, `Microchip
 Technology`, `onsemi`, `Diodes Incorporated` or `Monolithic Power Systems`
-(a company's DigiKey labels together).
+(a company's DigiKey labels together). The library holds 817 parts in 343
+devices (every in-stock Active part of the top three makers of each family whose
+datasheet the maker publishes and whose switch the kind can express): **Load
+Switches** 194 (Texas Instruments 128, Microchip Technology 34, onsemi 31,
+Diodes Incorporated 1), **Current-Limited** 590 (Texas Instruments 298, Diodes
+Incorporated 153, Microchip Technology 139), **Ideal Diodes** 33 (Analog
+Devices 28, Texas Instruments 4, onsemi 1). A part's drawer follows its device's
+`"type"`. Monolithic Power Systems has none (its datasheet links are pages
+behind a bot check, so no script can fetch them); the parts left out are in
+`datasheets/skipped-parts.md` (§ Power switches). There is no generic part.
 
 ```json
-{"id": "psw-ti-lm66100-sc70", "function": "Single input", "description": "Ideal diode, 1.5 A, 1.5-5.5 V",
+{"id": "psw-ti-lm66100", "function": "Single input", "description": "Ideal diode, 1.5 A, 1.5-5.5 V",
  "drawer": ["Power", "Power Switches", "Ideal Diodes"],
  "pinouts": {"p6": [{"number":1,"name":"VIN","role":"power"},{"number":2,"name":"GND","role":"ground"},
                     {"number":3,"name":"CE","role":"input"},{"number":4,"name":"NC","role":"nc"},

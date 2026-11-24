@@ -22,7 +22,7 @@ final class PartKindRoundTripTests: XCTestCase {
         "serialmem": 92,
         "regulator": 603,
         "crystal": 604,
-        "powerswitch": 229,
+        "powerswitch": 817,
     ]
 
     private func check(_ kind: String) {
