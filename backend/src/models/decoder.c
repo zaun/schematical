@@ -654,7 +654,7 @@ static int pri_open_drain(const void *bound, size_t pin) {
 
 static const char *const SEG7_KEYS[] = {
     "inputs", "segments", "segmentsActive", "glyphs", "lampTest", "blank", "rbi", "rbo",
-    "latch", "phase", "output", NULL
+    "latch", "phase", "phaseOut", "output", NULL
 };
 
 typedef struct {
@@ -665,7 +665,7 @@ typedef struct {
     int segments_high;
     unsigned char glyphs[16];   /* bit j = segment j (a = bit 0) */
     SeqControlName lamp_test, blank, latch;
-    const char *rbi, *rbo, *phase;
+    const char *rbi, *rbo, *phase, *phase_out;
     SeqOutputStyle style;
 } SegDevice;
 
@@ -675,7 +675,7 @@ typedef struct {
     int segments_high;
     const unsigned char *glyphs;
     SeqControl lamp_test, blank, latch;
-    size_t rbi, rbo, phase;
+    size_t rbi, rbo, phase, phase_out;
     SeqOutputStyle style;
 } SegBound;
 
@@ -685,6 +685,7 @@ typedef struct {
     LogicValue code[4];
     SeqOutput seg[7];
     SeqOutput rbo;
+    SeqOutput phase_out;
 } SegState;
 
 static void *seg_load(KindContext *ctx, const cJSON *json, unsigned *units) {
@@ -704,6 +705,7 @@ static void *seg_load(KindContext *ctx, const cJSON *json, unsigned *units) {
         seq_optional_name(ctx, json, "rbi", &dev->rbi) != 0 ||
         seq_optional_name(ctx, json, "rbo", &dev->rbo) != 0 ||
         seq_optional_name(ctx, json, "phase", &dev->phase) != 0 ||
+        seq_optional_name(ctx, json, "phaseOut", &dev->phase_out) != 0 ||
         seq_output_style(ctx, json, &dev->style) != 0) {
         return NULL;
     }
@@ -725,6 +727,10 @@ static void *seg_load(KindContext *ctx, const cJSON *json, unsigned *units) {
         kind_error(ctx, "\"rbi\" and \"rbo\" go together");
         return NULL;
     }
+    if (dev->phase_out != NULL && dev->phase == NULL) {
+        kind_error(ctx, "\"phaseOut\" needs \"phase\"");
+        return NULL;
+    }
     *units = 1;
     return dev;
 }
@@ -740,7 +746,8 @@ static void *seg_bind(KindContext *ctx, const void *raw, const PartPin *pins, si
         seq_bind_control(ctx, pins, count, &dev->latch, &b->latch) != 0 ||
         seq_bind(ctx, pins, count, dev->rbi, &b->rbi) != 0 ||
         seq_bind(ctx, pins, count, dev->rbo, &b->rbo) != 0 ||
-        seq_bind(ctx, pins, count, dev->phase, &b->phase) != 0) {
+        seq_bind(ctx, pins, count, dev->phase, &b->phase) != 0 ||
+        seq_bind(ctx, pins, count, dev->phase_out, &b->phase_out) != 0) {
         return NULL;
     }
     if (b->rbo != SEQ_NO_PIN && pins[b->rbo].role != PIN_INOUT) {
@@ -767,6 +774,7 @@ static DecoderHeader *seg_create(const void *bound) {
     }
     init_outputs(s->seg, b->segments, 7);
     init_outputs(&s->rbo, &b->rbo, 1);
+    init_outputs(&s->phase_out, &b->phase_out, 1);
     return &s->h;
 }
 
@@ -855,6 +863,11 @@ static void seg_eval(Sim *sim, SimInstance *inst, DecoderHeader *h, size_t pin,
         }
         seq_drive(sim, inst, &s->seg[j], merged(&m), b->style, h->timing);
     }
+    if (b->phase_out != SEQ_NO_PIN) {
+        /* a copy of the phase input (CD4055B's DF OUT, level-shifted on the real chip) */
+        seq_drive(sim, inst, &s->phase_out, phase < 0 ? LOGIC_X : level_value(phase), b->style,
+                  h->timing);
+    }
     if (b->rbo != SEQ_NO_PIN) {
         unsigned code;
         int lt, rb;
@@ -898,7 +911,7 @@ static const char *const DEVICE_KEYS[] = {
     "inputs", "inputsActive", "code", "codeActive", "offset", "idle", "enableIn",
     "groupSelect", "enableOut",
     "segments", "segmentsActive", "glyphs", "lampTest", "blank", "rbi", "rbo", "latch", "phase",
-    NULL
+    "phaseOut", NULL
 };
 static const char *const PART_KEYS[] = {"family", "vcc", "inputMax", NULL};
 

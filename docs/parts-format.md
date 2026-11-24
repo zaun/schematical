@@ -3930,6 +3930,7 @@ Main path D → Q; `units` = the number of units.
 | `"presetActive"`, `"clearActive"` | `"high"`/`"low"`; required when any unit has `pre` / `clr`. |
 | `"presetWins"` | bool; required when some unit has both: true → both asserted store 1, false → 0. |
 | `"output"` | `"push-pull"` (default) or `"open-drain"`. |
+| `"phase"` | optional pin name (CD4054B display frequency): `q` shows the stored bit XOR this pin's level and `qn` its complement. An X or Z level shows X. |
 
 Per unit: `clr`/`pre` act at once; else while transparent the stored bit
 follows D; else it holds. `q` shows the bit, `qn` its complement, both
@@ -4067,6 +4068,7 @@ Main path BCD input → segment; `units` = 1.
 | `"rbi"`, `"rbo"` | optional pin names, given together (SN7447A): RBI is read active low; RBO (role `inout`, open drain) is pulled low while RBI is low, the code is 0 and lamp test is off; read as an input, a low on it blanks every segment (Z reads high) |
 | `"latch"` | optional control: the code is held while asserted (CD4056B strobe) |
 | `"phase"` | optional pin name: every segment level is XORed with it (CD4056B DF, liquid-crystal drive) |
+| `"phaseOut"` | optional pin name, needs `"phase"`: an output that copies the `phase` pin's level (CD4055B DF OUT; the real pin is level-shifted, the engine has no second supply) |
 
 Priority: blank (`blank` asserted or RBO low) > lamp test (every segment
 lit) > ripple blanking (RBI low and code 0) > the glyph of the code. The

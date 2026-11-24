@@ -1131,6 +1131,49 @@ static void check_real(void) {
     expect(ok && bus_value(b, "A%u", 1, 12, 0x0FF) && bench_error(b) == NULL,
            "34 SN74ALVCH16260DL: SEL selects the 1B latch onto A (and the 2B latch when low)");
     bench_destroy(b);
+
+    b = open_real("CD4511BE");
+    set(b, "LE", L0);
+    set(b, "LT", L1);
+    set(b, "BL", L1);
+    set(b, "A", L0);
+    set(b, "B", L1);
+    set(b, "C", L1);
+    set(b, "D", L0);
+    slow(b);
+    ok = segments_are(b, "0011111");
+    set(b, "A", L1);
+    set(b, "D", L1);
+    set(b, "B", L0);
+    set(b, "C", L0);
+    slow(b);
+    ok &= segments_are(b, "1110011");
+    set(b, "B", L1);
+    slow(b);
+    expect(ok && segments_are(b, "0000000"), "35 CD4511BE: 6 has no top segment, 9 no bottom, code 11 blank");
+    bench_destroy(b);
+
+    /* CD4054B: OUT = latched IN XOR DF while the strobe is low it holds */
+    b = open_real("CD4054BE");
+    set(b, "DF", L0);
+    set(b, "STROBE1", L1);
+    set(b, "IN1", L1);
+    set(b, "STROBE2", L1);
+    set(b, "IN2", L0);
+    slow(b);
+    ok = is(b, "OUT1", L1) && is(b, "OUT2", L0);
+    set(b, "DF", L1);
+    slow(b);
+    ok &= is(b, "OUT1", L0) && is(b, "OUT2", L1);
+    set(b, "STROBE1", L0);
+    set(b, "IN1", L0);
+    slow(b);
+    ok &= is(b, "OUT1", L0);
+    set(b, "DF", L0);
+    slow(b);
+    expect(ok && is(b, "OUT1", L1) && is(b, "OUT2", L0),
+           "36 CD4054BE: DF inverts the held or passed bit; a low strobe holds IN");
+    bench_destroy(b);
 }
 
 /* ---- Loader and voltage --------------------------------------------------- */

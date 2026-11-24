@@ -1554,10 +1554,14 @@
       "rbo": "BI/RBO",
       "output": "open-drain",
       "timing": {
-        "TTL": {"rise":100,"fall":100,"vcc":[4.75,5.25],"note":"A to segment max (toff, ton), 5 V 15 pF 120 ohm; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn7447a p.9)"}
+        "TTL": {"rise":100,"fall":100,"vcc":[4.75,5.25],"note":"A to segment max (toff, ton), 5 V 15 pF 120 ohm; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn7447a p.9)"},
+        "LS": {"rise":100,"fall":100,"vcc":[4.75,5.25],"note":"A to segment max (toff, ton), SN74LS47 5 V 15 pF 665 ohm; VCC SN74LS47 4.75-5.25 V (sn7447a p.11)"}
       },
       "parts": [
-        {"name":"SN7447AN","manufacturer":"Texas Instruments","datasheet":"sn7447a","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"TTL"}
+        {"name":"SN7447AN","manufacturer":"Texas Instruments","datasheet":"sn7447a","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"TTL"},
+        {"name":"SN74LS47D","manufacturer":"Texas Instruments","datasheet":"sn7447a","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
+        {"name":"SN74LS47DR","manufacturer":"Texas Instruments","datasheet":"sn7447a","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
+        {"name":"SN74LS47N","manufacturer":"Texas Instruments","datasheet":"sn7447a","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"}
       ]
     },
     {
@@ -1635,6 +1639,230 @@
         {"name":"SN74141N","manufacturer":"Texas Instruments","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"TTL"},
         {"name":"DM74141N","manufacturer":"National Semiconductor","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"TTL"},
         {"name":"K155ID1","manufacturer":"USSR (various makers)","package":"DIP","pinout":"p16","footprint":"DIP-16-2.5MM","family":"TTL"}
+      ]
+    },
+    {
+      "id": "4543B",
+      "function": "7-segment decoder",
+      "description": "BCD-to-seven-segment latch/decoder/driver for liquid crystals, input latch, blanking and phase inputs, active-high outputs",
+      "drawer": ["Logic", "Decoders & muxes"],
+      "note": "cd4543b p.1 (terminal assignment), p.2 (logic diagram, 3-18 V), p.5 (truth table), mc14543b-d p.1-2 (same pinout and truth table); scanned Harris/TI sheet read from the images. LD high = latch transparent, LD low = code held (truth table: LD 0 depends on the code applied while LD = 1); BI high blanks every segment (BI is not latched: LD X); codes 10-15 blank; Ph 1 inverts every output including the blank state; Ph = 0 for common-cathode LED, 1 for common-anode, a square wave (also on the backplane) for liquid crystal.",
+      "model": "seg7",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"LD","role":"input"},
+          {"number":2,"name":"C","role":"input"},
+          {"number":3,"name":"B","role":"input"},
+          {"number":4,"name":"D","role":"input"},
+          {"number":5,"name":"A","role":"input"},
+          {"number":6,"name":"PH","role":"input"},
+          {"number":7,"name":"BI","role":"input"},
+          {"number":8,"name":"VSS","role":"ground"},
+          {"number":9,"name":"a","role":"output"},
+          {"number":10,"name":"b","role":"output"},
+          {"number":11,"name":"c","role":"output"},
+          {"number":12,"name":"d","role":"output"},
+          {"number":13,"name":"e","role":"output"},
+          {"number":14,"name":"g","role":"output"},
+          {"number":15,"name":"f","role":"output"},
+          {"number":16,"name":"VDD","role":"power"}
+        ]
+      },
+      "inputs": ["A","B","C","D"],
+      "segments": ["a","b","c","d","e","f","g"],
+      "segmentsActive": "high",
+      "glyphs": ["1111110","0110000","1101101","1111001","0110011","1011011","1011111","1110000","1111111","1111011","0000000","0000000","0000000","0000000","0000000","0000000"],
+      "blank": {"pin":"BI","active":"high"},
+      "latch": {"pin":"LD","active":"low"},
+      "phase": "PH",
+      "timing": {
+        "C": {"rise":500,"fall":600,"vcc":[3,18],"note":"A-D to segment typ, 5 V 50 pF: tPLH 500, tPHL 600 (max 1000 / 1200) (cd4543b p.4; mc14543b-d p.4 prints typ 605 / 505); VDD 3-18 V (cd4543b p.2)"}
+      },
+      "parts": [
+        {"name":"CD4543BE","manufacturer":"Texas Instruments","datasheet":"cd4543b","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
+        {"name":"CD4543BF","manufacturer":"Harris Corporation","datasheet":"cd4543b","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["ceramic"]},
+        {"name":"CD4543BM","manufacturer":"Texas Instruments","datasheet":"cd4543b","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C","flags":["obsolete"]},
+        {"name":"CD4543BM96","manufacturer":"Texas Instruments","datasheet":"cd4543b","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
+        {"name":"CD4543BMT","manufacturer":"Texas Instruments","datasheet":"cd4543b","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C","flags":["obsolete"]},
+        {"name":"CD4543BNSR","manufacturer":"Texas Instruments","datasheet":"cd4543b","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"},
+        {"name":"CD4543BPW","manufacturer":"Texas Instruments","datasheet":"cd4543b","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C","flags":["obsolete"]},
+        {"name":"CD4543BPWR","manufacturer":"Texas Instruments","datasheet":"cd4543b","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C"},
+        {"name":"MC14543BDG","manufacturer":"onsemi","datasheet":"mc14543b-d","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
+        {"name":"MC14543BDR2G","manufacturer":"onsemi","datasheet":"mc14543b-d","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
+        {"name":"NLV14543BDR2G","manufacturer":"onsemi","datasheet":"mc14543b-d","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C","flags":["automotive"]}
+      ]
+    },
+    {
+      "id": "74_4543",
+      "function": "7-segment decoder",
+      "description": "BCD-to-seven-segment latch/decoder/driver for LCDs, input latch, blanking and phase inputs, active-high outputs",
+      "drawer": ["Logic", "Decoders & muxes"],
+      "note": "cd74hc4543 p.1-2 (pinout, function table), cd74hct4543 p.1-2 (same pinout and function table). LD high = latch transparent, LD low = code held (HC function table note 1: depends on the code applied while LD = high); BI high blanks every segment (LD X); codes 10-15 blank; PH high inverts every output including the blank state (function table last row); PH low for common cathode, high for common anode, a square wave for liquid crystal.",
+      "model": "seg7",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"LD","role":"input"},
+          {"number":2,"name":"D2","role":"input"},
+          {"number":3,"name":"D1","role":"input"},
+          {"number":4,"name":"D3","role":"input"},
+          {"number":5,"name":"D0","role":"input"},
+          {"number":6,"name":"PH","role":"input"},
+          {"number":7,"name":"BI","role":"input"},
+          {"number":8,"name":"GND","role":"ground"},
+          {"number":9,"name":"a","role":"output"},
+          {"number":10,"name":"b","role":"output"},
+          {"number":11,"name":"c","role":"output"},
+          {"number":12,"name":"d","role":"output"},
+          {"number":13,"name":"e","role":"output"},
+          {"number":14,"name":"g","role":"output"},
+          {"number":15,"name":"f","role":"output"},
+          {"number":16,"name":"VCC","role":"power"}
+        ]
+      },
+      "inputs": ["D0","D1","D2","D3"],
+      "segments": ["a","b","c","d","e","f","g"],
+      "segmentsActive": "high",
+      "glyphs": ["1111110","0110000","1101101","1111001","0110011","1011011","1011111","1110000","1111111","1111011","0000000","0000000","0000000","0000000","0000000","0000000"],
+      "blank": {"pin":"BI","active":"high"},
+      "latch": {"pin":"LD","active":"low"},
+      "phase": "PH",
+      "timing": {
+        "HC": {"rise":68,"fall":68,"vcc":[2,6],"note":"Dn to segment max, 4.5 V 50 pF, 25 C; VCC 2-6 V (cd74hc4543 p.5, p.4)"},
+        "HCT": {"rise":80,"fall":80,"vcc":[4.5,5.5],"note":"Dn to segment max, 4.5 V 50 pF, 25 C; VCC 4.5-5.5 V (cd74hct4543 p.5, p.4)"}
+      },
+      "parts": [
+        {"name":"CD74HC4543E","manufacturer":"Texas Instruments","datasheet":"cd74hc4543","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"CD74HCT4543E","manufacturer":"Texas Instruments","datasheet":"cd74hct4543","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"}
+      ]
+    },
+    {
+      "id": "4056B",
+      "function": "7-segment decoder",
+      "description": "BCD-to-7-segment latch/decoder/driver for liquid-crystal displays: strobed latch, display-frequency (DF) phase input, 3-18 V level-shifted outputs",
+      "drawer": ["Logic", "Decoders & muxes"],
+      "note": "cd4054b p.1, p.2, p.4; glyph 'L H P A - blank' for codes 10-15 from the truth table (p.2). Segments are high when selected and DF low; every segment is XORed with DF. STROBE high passes the BCD code, low holds it (p.1). VEE (output low rail) is given role ground: the engine has no negative or second supply, so level shifting is not modelled; the outputs swing 0 to VDD",
+      "model": "seg7",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"STROBE","role":"input"},
+          {"number":2,"name":"C","role":"input"},
+          {"number":3,"name":"B","role":"input"},
+          {"number":4,"name":"D","role":"input"},
+          {"number":5,"name":"A","role":"input"},
+          {"number":6,"name":"DF","role":"input"},
+          {"number":7,"name":"VEE","role":"ground"},
+          {"number":8,"name":"VSS","role":"ground"},
+          {"number":9,"name":"a","role":"output"},
+          {"number":10,"name":"b","role":"output"},
+          {"number":11,"name":"c","role":"output"},
+          {"number":12,"name":"d","role":"output"},
+          {"number":13,"name":"e","role":"output"},
+          {"number":14,"name":"g","role":"output"},
+          {"number":15,"name":"f","role":"output"},
+          {"number":16,"name":"VDD","role":"power"}
+        ]
+      },
+      "inputs": ["A","B","C","D"],
+      "segments": ["a","b","c","d","e","f","g"],
+      "segmentsActive": "high",
+      "glyphs": ["1111110","0110000","1101101","1111001","0110011","1011011","1011111","1110000","1111111","1111011","0001110","0110111","1100111","1110111","0000001","0000000"],
+      "phase": "DF",
+      "latch": {"pin":"STROBE","active":"low"},
+      "timing": {
+        "C": {"rise":575,"fall":575,"vcc":[3,18],"note":"any input to any output, typ, VDD 10 V, VEE 0 V, 50 pF (CD4055B/CD4056B column; 1150 ns max); VDD 3-18 V (cd4054b p.4)"}
+      },
+      "parts": [
+        {"name":"CD4056BE","manufacturer":"Texas Instruments","datasheet":"cd4054b","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
+        {"name":"CD4056BM","manufacturer":"Texas Instruments","datasheet":"cd4054b","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C","flags":["obsolete"]},
+        {"name":"CD4056BM96","manufacturer":"Texas Instruments","datasheet":"cd4054b","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
+        {"name":"CD4056BMT","manufacturer":"Texas Instruments","datasheet":"cd4054b","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C","flags":["obsolete"]},
+        {"name":"CD4056BPW","manufacturer":"Texas Instruments","datasheet":"cd4054b","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C"}
+      ]
+    },
+    {
+      "id": "4055B",
+      "function": "7-segment decoder",
+      "description": "BCD-to-7-segment decoder/driver for liquid-crystal displays: display-frequency (DF) phase input and level-shifted DF output, 3-18 V",
+      "drawer": ["Logic", "Decoders & muxes"],
+      "note": "cd4054b p.1, p.2, p.4; truth table p.2 (as 4056B, no strobe latch). Pin 1 DF OUT is a level-shifted copy of the DF input (p.1, Fig.2, Fig.17): the device key phaseOut drives it with the DF level. VEE has role ground (no second supply in the engine)",
+      "model": "seg7",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"DF OUT","role":"output"},
+          {"number":2,"name":"C","role":"input"},
+          {"number":3,"name":"B","role":"input"},
+          {"number":4,"name":"D","role":"input"},
+          {"number":5,"name":"A","role":"input"},
+          {"number":6,"name":"DF","role":"input"},
+          {"number":7,"name":"VEE","role":"ground"},
+          {"number":8,"name":"VSS","role":"ground"},
+          {"number":9,"name":"a","role":"output"},
+          {"number":10,"name":"b","role":"output"},
+          {"number":11,"name":"c","role":"output"},
+          {"number":12,"name":"d","role":"output"},
+          {"number":13,"name":"e","role":"output"},
+          {"number":14,"name":"g","role":"output"},
+          {"number":15,"name":"f","role":"output"},
+          {"number":16,"name":"VDD","role":"power"}
+        ]
+      },
+      "inputs": ["A","B","C","D"],
+      "segments": ["a","b","c","d","e","f","g"],
+      "segmentsActive": "high",
+      "glyphs": ["1111110","0110000","1101101","1111001","0110011","1011011","1011111","1110000","1111111","1111011","0001110","0110111","1100111","1110111","0000001","0000000"],
+      "phase": "DF",
+      "phaseOut": "DF OUT",
+      "timing": {
+        "C": {"rise":575,"fall":575,"vcc":[3,18],"note":"any input to any output, typ, VDD 10 V, VEE 0 V, 50 pF (CD4055B/CD4056B column; 1150 ns max); VDD 3-18 V (cd4054b p.4)"}
+      },
+      "parts": [
+        {"name":"CD4055BE","manufacturer":"Texas Instruments","datasheet":"cd4054b","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C","flags":["obsolete"]},
+        {"name":"CD4055BM","manufacturer":"Texas Instruments","datasheet":"cd4054b","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C","flags":["obsolete"]},
+        {"name":"CD4055BPW","manufacturer":"Texas Instruments","datasheet":"cd4054b","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C","flags":["obsolete"]}
+      ]
+    },
+    {
+      "id": "74_247",
+      "function": "7-segment decoder",
+      "description": "BCD-to-seven-segment decoder/driver, open-collector active-low outputs, 6 and 9 with tails",
+      "drawer": ["Logic", "Decoders & muxes"],
+      "note": "sn74ls247 p.1, p.2, p.3, p.9; same pins, RBI/BI/LT behaviour and timing as 74_47 (sn7447a p.3); only glyphs 6 and 9 differ (segment a on for 6, d on for 9)",
+      "model": "seg7",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"B","role":"input"},
+          {"number":2,"name":"C","role":"input"},
+          {"number":3,"name":"LT","role":"input","activeLow":true},
+          {"number":4,"name":"BI/RBO","role":"inout","activeLow":true},
+          {"number":5,"name":"RBI","role":"input","activeLow":true},
+          {"number":6,"name":"D","role":"input"},
+          {"number":7,"name":"A","role":"input"},
+          {"number":8,"name":"GND","role":"ground"},
+          {"number":9,"name":"e","role":"output","activeLow":true},
+          {"number":10,"name":"d","role":"output","activeLow":true},
+          {"number":11,"name":"c","role":"output","activeLow":true},
+          {"number":12,"name":"b","role":"output","activeLow":true},
+          {"number":13,"name":"a","role":"output","activeLow":true},
+          {"number":14,"name":"g","role":"output","activeLow":true},
+          {"number":15,"name":"f","role":"output","activeLow":true},
+          {"number":16,"name":"VCC","role":"power"}
+        ]
+      },
+      "inputs": ["A","B","C","D"],
+      "segments": ["a","b","c","d","e","f","g"],
+      "segmentsActive": "low",
+      "glyphs": ["1111110","0110000","1101101","1111001","0110011","1011011","1011111","1110000","1111111","1111011","0001101","0011001","0100011","1001011","0001111","0000000"],
+      "lampTest": {"pin":"LT","active":"low"},
+      "rbi": "RBI",
+      "rbo": "BI/RBO",
+      "output": "open-drain",
+      "timing": {
+        "LS": {"rise":100,"fall":100,"vcc":[4.75,5.25],"note":"A to segment max (toff, ton), SN74LS247 5 V 15 pF 665 ohm; VCC SN74LS247 4.75-5.25 V (sn74ls247 p.9)"}
+      },
+      "parts": [
+        {"name":"SN74LS247N","manufacturer":"Texas Instruments","datasheet":"sn74ls247","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
+        {"name":"SN74LS247NE4","manufacturer":"Texas Instruments","datasheet":"sn74ls247","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
+        {"name":"SN74LS247DR","manufacturer":"Texas Instruments","datasheet":"sn74ls247","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"}
       ]
     }
   ]
