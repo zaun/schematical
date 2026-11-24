@@ -26,7 +26,7 @@ def main(src, dst):
             old[(r['maker'], r['variant'], r['pdf'])] = r
     groups = collections.defaultdict(list)
     for r in csv.DictReader(open(src), delimiter='\t'):
-        if r['state'] == 'candidate' and r['pdf']:
+        if r['state'] in ('candidate', 'add') and r['pdf']:
             groups[(r['maker'], r['variant'], r['pdf'])].append(r)
     with open(dst, 'w') as out:
         out.write('\t'.join(COLS) + '\n')

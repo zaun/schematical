@@ -57,7 +57,7 @@ def main():
     cache = {}
     for r in rows:
         r['hit'] = r['dead'] = ''
-        if r['state'] != 'candidate' or not r['pdf']:
+        if r['state'] not in ('candidate', 'add') or not r['pdf']:
             continue
         if r['pdf'] not in cache:
             cache[r['pdf']] = pages_of(txt_dir, r['pdf'])

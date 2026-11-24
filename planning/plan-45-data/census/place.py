@@ -195,9 +195,9 @@ def prune():
 
 def main():
     if len(sys.argv) > 1 and sys.argv[1] == '--verify':
-        # once B has set `add` rows the pick is what the tree must hold
-        picked = any(r['state'] == 'add' for r in read(CAND))
-        sys.exit(verify((lambda r: r['state'] == 'add') if picked else (lambda r: r['state'] == 'candidate')))
+        # the files the rows still in play need: `candidate` (A, and B before its verdict) and `add`
+        # (B's verdict; after `--prune` every file belongs to an `add` row)
+        sys.exit(verify(lambda r: r['state'] in ('candidate', 'add')))
     if len(sys.argv) > 1 and sys.argv[1] == '--prune':
         prune()
         return

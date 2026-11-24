@@ -281,7 +281,7 @@ Wurth Elektronik	WE|WR-TBL-Series-1377|5.00|H|tht|screw	datasheets/connector-ter
 Wurth Elektronik	WE|WR-TBL-Series-1377|5.00|H|tht|screw	datasheets/connector-terminal/wurth/691137710005.pdf	1	691137710005					
 Wurth Elektronik	WE|WR-TBL-Series-1377|5.00|H|tht|screw	datasheets/connector-terminal/wurth/691137710006.pdf	1	691137710006					
 Wurth Elektronik	WE|WR-TBL-Series-1377|5.00|H|tht|screw	datasheets/connector-terminal/wurth/691137710008.pdf	1	691137710008					
-Wurth Elektronik	WE|WR-TBL-Series-3114|7.62|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691311400102.pdf	7	691311400102					
+Wurth Elektronik	WE|WR-TBL-Series-3114|7.62|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691311400102.pdf	7	691311400102	6913114001(?P<n>\d\d)				series sheet, title block "WERI PART NO: 691 311 400 1xx", xx = pins (p1)
 Wurth Elektronik	WE|WR-TBL-Series-311|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691311500102.pdf	1	691311500102					
 Wurth Elektronik	WE|WR-TBL-Series-311|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691311500103.pdf	1	691311500103					
 Wurth Elektronik	WE|WR-TBL-Series-311|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691311500104.pdf	1	691311500104					
@@ -331,4 +331,4 @@ Wurth Elektronik	WE|WR-TBL-Series-4123|3.81|A|tht|spring	datasheets/connector-te
 Wurth Elektronik	WE|WR-TBL-Series-4123|3.81|A|tht|spring	datasheets/connector-terminal/wurth/691412320010.pdf	1	691412320010					
 Wurth Elektronik	WE|WR-TBL-Series-4123|3.81|A|tht|spring	datasheets/connector-terminal/wurth/691412320011.pdf	1	691412320011					
 Wurth Elektronik	WE|WR-TBL-Series-4123|3.81|A|tht|spring	datasheets/connector-terminal/wurth/691412320012.pdf	1	691412320012					
-Wurth Elektronik	WE|WR-TBL-Series-412B|3.50|A|tht|spring	datasheets/connector-terminal/wurth/691412120002B.pdf	6	691412120002B					
+Wurth Elektronik	WE|WR-TBL-Series-412B|3.50|A|tht|spring	datasheets/connector-terminal/wurth/691412120002B.pdf	6	691412120002B	6914121200(?P<n>\d\d)B				series sheet, title block "WERI PART NO: 691 412 120 0xx B", xx = pins; A = (3.5 x NB PINS) + 1.5 (p1)

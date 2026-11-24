@@ -159,20 +159,21 @@ name on the maker site includes it.
 
 Acceptance: every JST candidate row is covered by one scheme.
   Check: `python3 -I planning/plan-45-data/census/scheme-check.py planning/plan-45-data/specs.tsv planning/plan-45-data/candidates.tsv` → `jst: 192 rows, 0 unmatched, 0 ambiguous` (est. 1 h: reading 11 numbering tables). Result: `jst: 191 rows, 0 unmatched, 0 ambiguous` (191, not 192: A's stock check removed `S11B-XH-A`).
-Commit: this commit (hash in the next one)
+Commit: ec922b72
 
 ### Phase 2 — Per-item verdicts
 
-- [ ] `census/verdicts.py` (adapted): `hit` and `dead` for the 329 terminal
+- [x] `census/verdicts.py` (adapted): `hit` and `dead` for the 329 terminal
       rows from `textscan.py`'s output; read every `dead` = 1 row and set
       `skip` or keep it; record the readings in `specs.tsv`'s `note`.
-- [ ] Delete the PDF of a per-item row marked obsolete and list it in
+      Output 2026-11-24: 322 terminal rows (Phoenix 74, Weidmüller 153, Würth 95). `hit` 1 for 309; the other 13 are Würth rows of two series-level sheets whose title block prints the numbering rule (`census/series-schemes.py`: `6913114001(?P<n>\d\d)` and `6914121200(?P<n>\d\d)B` in `specs.tsv`, Corrections), each with `n` equal to DigiKey's `positions` (13 of 13). `dead` 1: 0 rows, so no reading to record (the dict `READINGS` in `verdicts.py` is empty). `verdicts.py` → `terminal: 322 rows: 322 add, 0 skip, 0 undecided`.
+- [x] ~~Delete the PDF of a per-item row marked obsolete and list it in
       `datasheets/obsolete-not-included.md` (the family column
-      `connector`, category `Connector → Terminal block`).
+      `connector`, category `Connector → Terminal block`).~~ — moot: no PDF names an obsolescence word anywhere. A scan of all 320 placed files (`pdftotext -layout`, words OBSOLE…, DISCONTINUED, DISCONTINUATION, NOT RECOMMENDED FOR NEW, END OF LIFE, EOL, LAST TIME BUY, NRND, PHASE-OUT, NOT FOR NEW DESIGN, SUPERSEDED, REPLACED BY, SUCCESSOR, not only on the pages that name the part) → `320 files scanned; 0 with a hit`; DigiKey lists every candidate Active (A's stock check).
 
 Acceptance: every terminal row has a verdict and a reason when skipped.
-  Check: `python3 -I planning/plan-45-data/census/verdicts.py planning/plan-45-data/candidates.tsv --check` → `terminal: 329 rows: <add> add, <skip> skip, 0 undecided` (est. 1 h).
-Commit: —
+  Check: `python3 -I planning/plan-45-data/census/verdicts.py planning/plan-45-data/candidates.tsv --check` → `terminal: 329 rows: <add> add, <skip> skip, 0 undecided` (est. 1 h). Result: `terminal: 322 rows: 322 add, 0 skip, 0 undecided`.
+Commit: this commit (hash in the next one)
 
 ### Phase 3 — Facts, pins, the final pick
 
@@ -210,6 +211,11 @@ Commit: —
 - **2026-11-24, Phase 1.**
   - *One scheme read in several PDFs is not ambiguous.* The SH/SR top and side entry numbering (`BM*B-SRSS-TB`, `SM*B-SRSS-TB`) is printed in `eSH.pdf`, `eSR_SZ.pdf` and `eSR_SZ-new.pdf`, so a part matched the same variant's scheme in two or three PDFs (17 rows) and the first run said `17 ambiguous`. `scheme-check.py` now calls a row ambiguous only when the schemes of more than one *variant* match, and requires the row's own (variant, PDF) scheme among the matches.
   - *`scheme-check.py` and `jst-schemes.py` are new files, not adapted copies:* plan-40's and plan-44's schemes cover a different spec columns set (frequency, loads, …); plan-45's is the regex over the part number with `n` = positions.
+
+- **2026-11-24, Phase 2.**
+  - *§ 2 said every Würth sheet is per-item; two are series-level.* `691311400102.pdf` (series 3114, 7.62 mm close vertical header) and `691412120002B.pdf` (series 412 B, 3.5 mm screwless 45°) are one file each shared by 7 and 6 candidate rows (same SHA-256 under several URLs, `datasheets.tsv`). They print "WERI PART NO: 691 311 400 1xx" / "691 412 120 0xx B" (and 412 B "A = (3.5 x NB PINS) + 1.5"), not the part numbers, so `hit` was 0 for those 13 rows. Rule 1 for a per-item maker now reads: the number is printed, or a numbering rule printed in the sheet makes it (the JST rule). The two rules are in `specs.tsv` (`scheme`, `note`), checked per row with `n` = `positions` (13 of 13), and `verdicts.py` applies them.
+  - *Terminal rows are `add` now, JST rows still `candidate`.* `verdicts.py` sets `state` for the terminal makers only; Phase 3's `final.py` decides the JST rows and the facts step may still turn an `add` into a `skip` (`datasheet disagrees`). `place.py --verify`, `textscan.py` and `specs-skeleton.py` treat `candidate` and `add` alike (they said `candidate` only).
+  - *No obsolete PDF.* The whole-file scan (task 2 above) found no obsolescence wording in any of the 320 files, so nothing is deleted and `datasheets/obsolete-not-included.md` is untouched.
 
 ## Summary
 
