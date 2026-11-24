@@ -3443,8 +3443,51 @@ static int load_display_clock(Dl *dl, const cJSON *o, DispCfg *c) {
     return 0;
 }
 
+/* ccsi: a 48 x 16 RGB matrix driver on the continuous clock series interface (plan-56-D, TLC6983). */
+static int load_display_ccsi(Dl *dl, const cJSON *o, DispCfg *c) {
+    static const char *const KEYS[] = {
+        "driver", "sclk", "sin", "sout", "lines", "red", "green", "blue", "scan", "openDrain", NULL
+    };
+    static const char *const PINS[] = {"sclk", "sin", "sout"};
+    Ld *ld = dl->ld;
+    CcsiCfg *k = kind_alloc(ld->ctx, sizeof(*k));
+    int *dst[3];
+    const int *grp[4];
+    int *arr[4];
+    size_t n, i, j;
+    const char *const GROUPS[] = {"lines", "red", "green", "blue"};
+
+    if (k == NULL || check_keys(ld, o, KEYS) != 0) {
+        return -1;
+    }
+    dst[0] = &k->sclk;
+    dst[1] = &k->sin;
+    dst[2] = &k->sout;
+    for (i = 0; i < 3; i++) {
+        const char *name;
+
+        if (kind_string(ld->ctx, o, PINS[i], &name) != 0 || dl_take(dl, name, dst[i]) != 0) {
+            return -1;
+        }
+    }
+    arr[0] = k->line;
+    arr[1] = k->red;
+    arr[2] = k->green;
+    arr[3] = k->blue;
+    for (i = 0; i < 4; i++) {
+        if (dl_pins(dl, o, GROUPS[i], 16, 16, &grp[i], &n) != 0) {
+            return -1;
+        }
+        for (j = 0; j < 16; j++) {
+            arr[i][j] = grp[i][j];
+        }
+    }
+    c->ccsi = k;
+    return dl_scan(ld, o, &c->slot_ps);
+}
+
 static int load_display(Ld *ld, const cJSON *d, CvDevice *dev) {
-    static const char *const DRIVERS[] = {"digits", "static", "matrix", "ports", "lcd", "clock", NULL};
+    static const char *const DRIVERS[] = {"digits", "static", "matrix", "ports", "lcd", "clock", "ccsi", NULL};
     Dl *dl;
     DispCfg *c;
     const char *name;
@@ -3461,7 +3504,7 @@ static int load_display(Ld *ld, const cJSON *d, CvDevice *dev) {
     for (i = 0; DRIVERS[i] != NULL && strcmp(DRIVERS[i], name) != 0; i++) {
     }
     if (DRIVERS[i] == NULL) {
-        return kind_error(ld->ctx, "unknown driver \"%s\" (digits, static, matrix, ports, lcd, clock)", name);
+        return kind_error(ld->ctx, "unknown driver \"%s\" (digits, static, matrix, ports, lcd, clock, ccsi)", name);
     }
     dl = kind_alloc(ld->ctx, sizeof(*dl));
     c = kind_alloc(ld->ctx, sizeof(*c));
@@ -3483,6 +3526,9 @@ static int load_display(Ld *ld, const cJSON *d, CvDevice *dev) {
         break;
     case DISP_CLOCK:
         rc = load_display_clock(dl, d, c);
+        break;
+    case DISP_CCSI:
+        rc = load_display_ccsi(dl, d, c);
         break;
     default:
         rc = load_display_lcd(dl, d, c);

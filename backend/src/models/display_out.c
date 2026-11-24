@@ -29,12 +29,14 @@
 #include <stdlib.h>
 
 #include "converter_int.h"
+#include "display_ccsi.h"
 #include "display_clock.h"
 
 typedef struct {
     unsigned slot;
     uint32_t frame;
     struct ClockState *clk;     /* clock driver */
+    struct CcsiState *ccsi;     /* ccsi driver */
     /* ports: what each pin was last driven with (value; weak) */
     LogicValue *port_value;
     uint8_t *port_weak;
@@ -386,6 +388,10 @@ static unsigned slots_of(const DispCfg *c) {
 static unsigned active_slots(const CvState *s, const DispCfg *c) {
     unsigned n = c->driver == DISP_LCD ? lcd_slots(s, c) : slots_of(c);
 
+    if (c->driver == DISP_CCSI) {
+        return ccsi_lines(s->disp != NULL ? ((DispState *)s->disp)->ccsi : NULL);
+    }
+
     if (c->has_limit && !holds(s, &c->test)) {
         uint32_t lim = cv_field_get(s, &c->limit);
 
@@ -398,7 +404,7 @@ static unsigned active_slots(const CvState *s, const DispCfg *c) {
 
 static int scans(const DispCfg *c) {
     return c->driver == DISP_DIGITS || c->driver == DISP_MATRIX || c->driver == DISP_LCD ||
-           c->driver == DISP_CLOCK;
+           c->driver == DISP_CLOCK || c->driver == DISP_CCSI;
 }
 
 static void apply(CvState *s) {
@@ -428,6 +434,12 @@ static void apply(CvState *s) {
             st->slot = 0;
         }
         apply_clock(s, c, st->slot, st->frame);
+        break;
+    case DISP_CCSI:
+        if (st->slot >= ccsi_lines(st->ccsi)) {
+            st->slot = 0;
+        }
+        ccsi_apply(s, c->ccsi, st->ccsi, st->slot);
         break;
     default:
         apply_lcd(s, c, st->slot, st->frame);
@@ -463,6 +475,16 @@ void disp_start(CvState *s) {
     if (c->driver == DISP_CLOCK) {
         st->clk = clock_new(s, c->clock);
         if (st->clk == NULL) {
+            s->disp = NULL;
+            free(st->port_value);
+            free(st->port_weak);
+            free(st);
+            return;
+        }
+    }
+    if (c->driver == DISP_CCSI) {
+        st->ccsi = ccsi_new();
+        if (st->ccsi == NULL) {
             s->disp = NULL;
             free(st->port_value);
             free(st->port_weak);
@@ -510,6 +532,8 @@ void disp_pin(CvState *s, size_t pin) {
     if (st != NULL && st->clk != NULL) {
         clock_pin(s, s->dev->disp->clock, st->clk, pin);
         apply(s);
+    } else if (st != NULL && st->ccsi != NULL) {
+        ccsi_pin(s, s->dev->disp->ccsi, st->ccsi, pin);
     }
 }
 
@@ -518,6 +542,7 @@ void disp_free(CvState *s) {
 
     if (st != NULL) {
         clock_free(st->clk);
+        ccsi_free(st->ccsi);
         free(st->port_value);
         free(st->port_weak);
     }

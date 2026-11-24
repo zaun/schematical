@@ -15,11 +15,12 @@
  *   ports    pins driven (or released) per a direction and a data field
  *   lcd      backplane and segment waveforms from a display RAM
  *   clock    a bus-less duplex LCD clock face (PCF1179C): time, buttons, glyph decode
+ *   ccsi     a 48 x 16 RGB matrix driver on the continuous clock series interface (TLC6983)
  */
 
 #include "converter.h"
 
-typedef enum { DISP_DIGITS, DISP_STATIC, DISP_MATRIX, DISP_PORTS, DISP_LCD, DISP_CLOCK } DispDriver;
+typedef enum { DISP_DIGITS, DISP_STATIC, DISP_MATRIX, DISP_PORTS, DISP_LCD, DISP_CLOCK, DISP_CCSI } DispDriver;
 
 typedef enum { DEC_NONE, DEC_HEX, DEC_CODEB, DEC_BCD, DEC_ASCII7, DEC_ASCII16 } DispDecode;
 
@@ -84,8 +85,16 @@ typedef struct {
     ClkCell colon, am, pm;
 } ClockCfg;
 
+/* ccsi driver (plan-56-D, TLC6983; display_ccsi.c): the interface pins and the 16 scan lines, 16 pixels of
+   red, green and blue outputs (name ids). */
+typedef struct {
+    int sclk, sin, sout;
+    int line[16], red[16], green[16], blue[16];
+} CcsiCfg;
+
 typedef struct DispCfg {
     DispDriver driver;
+    const CcsiCfg *ccsi;        /* ccsi */
     const ClockCfg *clock;      /* clock */
     /* digits (digit pins), matrix (row pins): the scan lines, one per ram field */
     const int *lines;
