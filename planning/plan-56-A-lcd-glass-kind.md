@@ -93,7 +93,7 @@ Pins: segment pins role `input`, backplane pins role `input`; no output is ever 
 - [x] `docs/parts-format.md`: `lcd.json` row in the file table and a `### lcd` section; `docs/backend.md` kind list.
 
 Acceptance: `ctest --test-dir /tmp/logic-build -R "lcd_test|library_check"` passes. Check: that command (est. 30 s).
-Commit: —
+Commit: f1d20778
 
 ### Phase 2 — glass parts
 
@@ -102,7 +102,7 @@ Commit: —
 - [x] Regenerate `backend/tests/golden/{parts,traces,footprints}.txt` and review the diff (additions only).
 
 Acceptance: `ctest --test-dir /tmp/logic-build` 100%; `git diff --stat backend/tests/golden` shows additions only.
-Commit: —
+Commit: 9e6b4fd5
 
 ### Phase 3 — app
 
@@ -111,7 +111,7 @@ Commit: —
 - [x] Swift tests updated (`DrawerCategoriesTests` counts, `KindInfoTests`, `PartEditorWindowTests`).
 
 Acceptance: `xcodebuild test -only-testing:schematicalTests/PartKindKeysTests -only-testing:schematicalTests/DrawerCategoriesTests -only-testing:schematicalTests/KindInfoTests` → TEST SUCCEEDED (est. 3 min).
-Commit: —
+Commit: 93d47c2c
 
 ## Validation Plan
 

@@ -40,7 +40,7 @@ Rejected: one model per chip in C (about 25 models; the converter engine already
 ## Phases
 
 ### Phase 1 — Safari lookup helper
-- [ ] `scripts/safari-digikey.sh URL [wait] [js]` (the osascript helper used during planning), documented in `AGENTS.md` § Datasheets as the way to look up DigiKey stock.
+- [x] `scripts/safari-digikey.sh URL [wait] [js]` (the osascript helper used during planning), documented in `AGENTS.md` § Datasheets as the way to look up DigiKey stock.
 Acceptance: `scripts/safari-digikey.sh "https://www.digikey.com/en/products/filter/lcd-oled-character-and-numeric/99" 8 'document.title'` → prints a title containing "LCD, OLED Character and Numeric" (est. 20 s). Commit: —
 
 ### Phase 2 — kinds and loader
