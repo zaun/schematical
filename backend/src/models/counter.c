@@ -1951,7 +1951,8 @@ static const char *const DEVICE_KEYS[] = {
     "qbar",
     /* seg7 */
     "clockUp", "clockDown", "segments", "glyphs", "carryPulse", "borrowPulse", "displayEnable",
-    "ungatedC", "lampTest", "rippleBlank", "toggleEnable", "latchEnable",
+    "ungatedC", "lampTest", "rippleBlank", "toggleEnable", "latchEnable", "segmentsActive",
+    "segmentsOutput", "maxCount", "latchOutputs", "blank", "rbi", "rbo", "decimalPoint",
     /* divn */
     "modes", "output",
     /* rate */
@@ -2090,11 +2091,12 @@ static const SimComponentType COUNTER_SIM_MODEL = {
     .timer = counter_timer,
 };
 
-/* No counter has open-drain outputs. */
+/* Only a model with an open_drain hook has open-drain outputs (seg7 of the SN74143, plan-56-F). */
 static int counter_pin_open_drain(const Part *part, size_t pin) {
-    (void)part;
-    (void)pin;
-    return 0;
+    const PartInternal *internal = part_internal(part);
+    const CounterDevice *dev = internal->device;
+
+    return dev->model->open_drain != NULL && dev->model->open_drain(internal->bound, pin);
 }
 
 const PartKindOps COUNTER_KIND = {
