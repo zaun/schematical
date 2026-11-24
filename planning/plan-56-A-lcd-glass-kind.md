@@ -22,9 +22,9 @@ References: `AGENTS.md`; `docs/backend.md` § Adding a kind; `docs/parts-format.
 
 | Must be true | Command | Status |
 |---|---|---|
-| the BCD decoders commit is on main | `git log --oneline \| grep -c "4511B, 4543B, 4054B"` → 1 | MET |
-| the display-driver datasheets are filed | `ls datasheets/led-drivers datasheets/lcd-drivers \| grep -c pdf` → 30 | MET |
-| the backend builds and its tests pass | `cmake -S backend -B /tmp/logic-build && cmake --build /tmp/logic-build -j8 && ctest --test-dir /tmp/logic-build` → 100% | MET |
+| the BCD decoders commit is on main | `git log --oneline \| grep -c "4511B, 4543B, 4054B"` → 1 (2 on 2026-11-24: a later commit names the same list) | MET |
+| the display-driver datasheets are filed | `ls datasheets/led-drivers datasheets/lcd-drivers \| grep -c pdf` → 30 (23 on 2026-11-24: eight PDFs of parts not in stock were removed and recorded in `datasheets/not-included.md` by plan-56-C..E, commit 90e4874c) | MET (re-run 2026-11-24: 23) |
+| the backend builds and its tests pass | `cmake -S backend -B /tmp/logic-build && cmake --build /tmp/logic-build -j8 && ctest --test-dir /tmp/logic-build` → 100% | MET (2026-11-24, `/tmp/logic-build-p56`: 57 of 57) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.** Re-run every command before you continue.
 
@@ -125,7 +125,7 @@ Commit: 93d47c2c
 
 ## Corrections
 
-(none yet)
+- 2026-11-24 (follow-plan): the `lcd` kind gained the annunciator segment names `AM` and `PM` (`lcd.c`, docs, `SevenSegmentSymbolView.swift`, `LcdDraft.swift`) for the PCF1179C's glass `GENERIC-LCD-CLOCK-1:2`.
 
 ## Summary
 

@@ -32,3 +32,5 @@ Acceptance: `ctest --test-dir /tmp/logic-build` 100%; goldens additions only. Co
 
 - Shipped (lcddriver, one `PCF85176` device covers PCF8576D and PCF85176 TSSOP56/TQFP64): PCF8576DT/2,518, PCF85176T/1Y, PCA85176H/Q900/1,5 (obsolete); BU91795MUF-ME2; BU9796AFS-E2; BU9796AMUV-E2. No part in stock for PCA85276, PCF8553, PCA8553 (their PDFs went to not-included.md); BU97960MUV-E2 is a different sheet (8 backplanes) and is not modeled. `pcf8576-lcd-mode-after-max695x.patch` (mode and load by register, per-mode backplane slots) was applied.
 - Not modeled: blink, bias/VLCD, cascade pins, the I2C NACK of another subaddress; the PCF/PCA 64 Hz frame for every mode.
+- 2026-11-24 (follow-plan): PCA85276, PCF8553 and PCA8553 re-checked with `digikey.js --opt2`: `0 of 0 parts` each (not in DigiKey's catalog), so they stay out (moot with evidence). BU97960MUV-E2 is in DigiKey stock (2 units) but has 8 backplanes and its own datasheet, which is not in the tree (`bu9796axxx-e.pdf` is the BU9796A sheet): not added.
+

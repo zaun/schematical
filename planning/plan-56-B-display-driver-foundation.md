@@ -45,7 +45,7 @@ Acceptance: `scripts/safari-digikey.sh "https://www.digikey.com/en/products/filt
 
 ### Phase 2 — kinds and loader
 - [x] `parts.h` `PART_LEDDRIVER`, `PART_LCDDRIVER`; `leddriver.c`, `lcddriver.c` (`PartKindOps` forwarding to `cv_load_device(..., CV_MODE_DISPLAY)`), `kinds.c`, CMake, docs (`docs/parts-format.md` § `leddriver`, § `lcddriver`), empty `Parts/leddriver.json` and `Parts/lcddriver.json`, `tests/support/listing.c`, `TRACE_LAST_KIND`, `listing_check.c`.
-- [ ] The Part Editor recipe items for both kinds (docs/backend.md "Adding a kind" step 6; Swift): moved to plan-56-G (see Corrections).
+- [x] The Part Editor recipe items for both kinds (docs/backend.md "Adding a kind" step 6; Swift): moved to plan-56-G and done there (plan-56-G phase 1, commit 5f696fcf: `LeddriverDraft.swift`, `LcddriverDraft.swift`, `PartKinds`, `PartKindKeysTests`, `PartKindRoundTripTests`; `xcodebuild test` of those suites -> see plan-56-G phase 1).
 - [x] `converter_load.c`: accept the `"display"` object for these kinds only; reject it on `converter`/`rtc`; reject an unknown `driver`, unknown register/pin names.
 Acceptance: `/tmp/logic-build/library_check` passes with the new rejection cases (est. 30 s). Commit: 76e148db
 
