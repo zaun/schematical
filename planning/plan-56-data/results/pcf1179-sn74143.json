@@ -1,0 +1,27 @@
+{
+  "kind": "none",
+  "newDevices": [],
+  "datasheets": [],
+  "missingFootprints": [
+    {"id": "PDIP-24-600", "package": "PDIP N, 24 pins", "pins": 24, "pitch": 2.54, "body": "13.72 x 31.75 mm (13.21-14.22 x 31.24-32.26)", "leadDims": "lead 0.38-0.53 mid 0.46, row spacing 15.24 (0.590-0.610 over leads)", "source": "sn74143 p.9, drawing 4040053/B 04/95 (MPDI008), JEDEC MS-011",
+     "entry": {"id":"PDIP-24-600","description":"24-pin 600 mil PDIP (N), 13.72 x 31.75 mm body, 2.54 mm pitch, 15.24 mm row spacing","note":"TI N (R-PDIP-T**) outline 4040053/B (MPDI008, R5; lead 0.46 mid (0.38-0.53); row spacing 0.600 in, 0.590-0.610 over the leads; body A 31.75 mid (31.24-32.26), width 13.72 mid (13.21-14.22)), counters/sn74143.pdf p.9","style":"dual","pins":24,"body":{"width":13.72,"height":31.75},"pitch":2.54,"span":15.24,"pad":{"width":1.5,"height":1.5,"shape":"round"},"drill":0.75,"pin1Shape":"rect"}}
+  ],
+  "skipped": [
+    {"part": "PCF1179CT,112 / PCF1179CT,118", "why": "no loadable device: the engine has no bus-less device, no clock+display device, no lcd decode, no buttons (see engineNeeds)"},
+    {"part": "SN74143N", "why": "not a display-driver device: counter seg7 part, needs new counter seg7 keys first (see counterSeg7Needs); AGENTS.md obsolete rule conflict: TI status OBSOLETE and it is the only part"}
+  ],
+  "engineNeeds": {
+    "pcf1179c": [
+      "bus {\"style\":\"none\"} accepted on leddriver/lcddriver (load_bus requires an object with a style today)",
+      "clock section allowed together with display in lcddriver (converter_load.c loads clock for rtc only, display for led/lcd driver only), the rtc.c engine run for that kind",
+      "clock.powerOn: start time as a function of a field (MODE strap via pins.levels): 12-hour 1:00 AM, 24-hour 0:00; also applied by the reset action",
+      "display.lcd.decode: [{field, cells:[{pin,bp}], table:[strings of 0/1 per cell]}]: field value v lights cell i when table[v][i]=1; OR-ed with the RAM bits; several cells on one (pin,bp) allowed (A1/D1/E1/G1, A3/D3)",
+      "display.lcd.cells conditional: [{pin,bp,when:[conditions]}] lit while conditions hold (colon static/flash, AM, PM)",
+      "display.lcd.test: condition; while true every segment pin is driven opposite the frame level in every slot (all cells lit)",
+      "buttons section: S1 hour+1, S2 minute+1 (no carry to hours) and seconds:=0; debounce 65 ms (30-100), first repeat 1000 ms, then 4/s; TS low: counting stopped and all these times /64; ENABLE low disables; both keys: segment test while pressed, release (DATA not low) = reset to power-on state",
+      "glass: a bundled GENERIC-LCD-CLOCK-1:2 with 13 segment pins + BP1/BP2, colon (L1) and two new annunciator names AM and PM in the lcd kind"
+    ],
+    "counterSeg7": "see spec § SN74143: segmentsActive, segmentsOutput open-drain (+ per-model counter_pin_open_drain), toggleEnable array, maxCount, latchOutputs, blank, rbi/rbo (latched, with BI term), decimalPoint; optional maxRise/maxFall extras"
+  },
+  "notes": "Spec: planning/plan-56-data/specs/pcf1179-sn74143.md. Neither maker hosts its datasheet (NXP and TI URLs all 404): parts take no datasheet key. PCF1179C footprint = existing SOIC-28W. SN74143: glyphs 0-9 verified against both the p.2 figure and the p.7 table; MAX low at counter 9 with SCEI low; QA-QD show the latch (tPHL clock to Q is blank in the scan)."
+}

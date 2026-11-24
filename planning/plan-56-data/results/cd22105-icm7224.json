@@ -1,0 +1,6253 @@
+{
+ "kind": "lcddriver",
+ "newDevices": [
+  {
+   "id": "CD22105",
+   "function": "4-digit driver",
+   "description": "4-digit 7-segment LCD decoder/driver, microprocessor input (2-bit digit select, 2 chip selects), hexadecimal font",
+   "drawer": [
+    "Displays & Indicators",
+    "LCD drivers"
+   ],
+   "pinouts": {
+    "dip40": [
+     {
+      "number": 1,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "E1",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "G1",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "F1",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "BP",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "A2",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "B2",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "C2",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "D2",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "E2",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "G2",
+      "role": "output"
+     },
+     {
+      "number": 12,
+      "name": "F2",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "A3",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "B3",
+      "role": "output"
+     },
+     {
+      "number": 15,
+      "name": "C3",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "D3",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "E3",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "G3",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "F3",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "A4",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "B4",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "C4",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "D4",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "E4",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "G4",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "F4",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "DIN0",
+      "role": "input"
+     },
+     {
+      "number": 28,
+      "name": "DIN1",
+      "role": "input"
+     },
+     {
+      "number": 29,
+      "name": "DIN2",
+      "role": "input"
+     },
+     {
+      "number": 30,
+      "name": "DIN3",
+      "role": "input"
+     },
+     {
+      "number": 31,
+      "name": "DSC1",
+      "role": "input"
+     },
+     {
+      "number": 32,
+      "name": "DSC2",
+      "role": "input"
+     },
+     {
+      "number": 33,
+      "name": "CS1",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 34,
+      "name": "CS2",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 35,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 36,
+      "name": "OSC",
+      "role": "input"
+     },
+     {
+      "number": 37,
+      "name": "A1",
+      "role": "output"
+     },
+     {
+      "number": 38,
+      "name": "B1",
+      "role": "output"
+     },
+     {
+      "number": 39,
+      "name": "C1",
+      "role": "output"
+     },
+     {
+      "number": 40,
+      "name": "D1",
+      "role": "output"
+     }
+    ]
+   },
+   "vcc": [
+    3,
+    6
+   ],
+   "inputMax": 6,
+   "analog": [
+    "OSC"
+   ],
+   "bus": {
+    "style": "parallel",
+    "data": [
+     "DIN3",
+     "DIN2",
+     "DIN1",
+     "DIN0"
+    ],
+    "cs": {
+     "pin": "CS1",
+     "active": 0
+    },
+    "wr": {
+     "pin": "CS2",
+     "active": 0
+    },
+    "address": [
+     "DSC2",
+     "DSC1"
+    ]
+   },
+   "registers": [
+    {
+     "name": "SEG1",
+     "width": 7
+    },
+    {
+     "name": "SEG2",
+     "width": 7
+    },
+    {
+     "name": "SEG3",
+     "width": 7
+    },
+    {
+     "name": "SEG4",
+     "width": 7
+    }
+   ],
+   "display": {
+    "driver": "lcd",
+    "mode": "static",
+    "backplanes": [
+     "BP"
+    ],
+    "segmentPins": [
+     "A1",
+     "B1",
+     "C1",
+     "D1",
+     "E1",
+     "F1",
+     "G1",
+     "A2",
+     "B2",
+     "C2",
+     "D2",
+     "E2",
+     "F2",
+     "G2",
+     "A3",
+     "B3",
+     "C3",
+     "D3",
+     "E3",
+     "F3",
+     "G3",
+     "A4",
+     "B4",
+     "C4",
+     "D4",
+     "E4",
+     "F4",
+     "G4"
+    ],
+    "ram": [
+     "SEG1",
+     "SEG2",
+     "SEG3",
+     "SEG4"
+    ],
+    "frameUs": 4000
+   },
+   "protocol": {
+    "frame": "fixed",
+    "commands": [
+     {
+      "name": "DSC=00: digit 4 = 0",
+      "in": "000000",
+      "set": {
+       "SEG4": 63
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = 1",
+      "in": "000001",
+      "set": {
+       "SEG4": 6
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = 2",
+      "in": "000010",
+      "set": {
+       "SEG4": 91
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = 3",
+      "in": "000011",
+      "set": {
+       "SEG4": 79
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = 4",
+      "in": "000100",
+      "set": {
+       "SEG4": 102
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = 5",
+      "in": "000101",
+      "set": {
+       "SEG4": 109
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = 6",
+      "in": "000110",
+      "set": {
+       "SEG4": 125
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = 7",
+      "in": "000111",
+      "set": {
+       "SEG4": 7
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = 8",
+      "in": "001000",
+      "set": {
+       "SEG4": 127
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = 9",
+      "in": "001001",
+      "set": {
+       "SEG4": 111
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = A",
+      "in": "001010",
+      "set": {
+       "SEG4": 119
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = B",
+      "in": "001011",
+      "set": {
+       "SEG4": 124
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = C",
+      "in": "001100",
+      "set": {
+       "SEG4": 57
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = D",
+      "in": "001101",
+      "set": {
+       "SEG4": 94
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = E",
+      "in": "001110",
+      "set": {
+       "SEG4": 121
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = F",
+      "in": "001111",
+      "set": {
+       "SEG4": 113
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = 0",
+      "in": "010000",
+      "set": {
+       "SEG3": 63
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = 1",
+      "in": "010001",
+      "set": {
+       "SEG3": 6
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = 2",
+      "in": "010010",
+      "set": {
+       "SEG3": 91
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = 3",
+      "in": "010011",
+      "set": {
+       "SEG3": 79
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = 4",
+      "in": "010100",
+      "set": {
+       "SEG3": 102
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = 5",
+      "in": "010101",
+      "set": {
+       "SEG3": 109
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = 6",
+      "in": "010110",
+      "set": {
+       "SEG3": 125
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = 7",
+      "in": "010111",
+      "set": {
+       "SEG3": 7
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = 8",
+      "in": "011000",
+      "set": {
+       "SEG3": 127
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = 9",
+      "in": "011001",
+      "set": {
+       "SEG3": 111
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = A",
+      "in": "011010",
+      "set": {
+       "SEG3": 119
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = B",
+      "in": "011011",
+      "set": {
+       "SEG3": 124
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = C",
+      "in": "011100",
+      "set": {
+       "SEG3": 57
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = D",
+      "in": "011101",
+      "set": {
+       "SEG3": 94
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = E",
+      "in": "011110",
+      "set": {
+       "SEG3": 121
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = F",
+      "in": "011111",
+      "set": {
+       "SEG3": 113
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = 0",
+      "in": "100000",
+      "set": {
+       "SEG2": 63
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = 1",
+      "in": "100001",
+      "set": {
+       "SEG2": 6
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = 2",
+      "in": "100010",
+      "set": {
+       "SEG2": 91
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = 3",
+      "in": "100011",
+      "set": {
+       "SEG2": 79
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = 4",
+      "in": "100100",
+      "set": {
+       "SEG2": 102
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = 5",
+      "in": "100101",
+      "set": {
+       "SEG2": 109
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = 6",
+      "in": "100110",
+      "set": {
+       "SEG2": 125
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = 7",
+      "in": "100111",
+      "set": {
+       "SEG2": 7
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = 8",
+      "in": "101000",
+      "set": {
+       "SEG2": 127
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = 9",
+      "in": "101001",
+      "set": {
+       "SEG2": 111
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = A",
+      "in": "101010",
+      "set": {
+       "SEG2": 119
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = B",
+      "in": "101011",
+      "set": {
+       "SEG2": 124
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = C",
+      "in": "101100",
+      "set": {
+       "SEG2": 57
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = D",
+      "in": "101101",
+      "set": {
+       "SEG2": 94
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = E",
+      "in": "101110",
+      "set": {
+       "SEG2": 121
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = F",
+      "in": "101111",
+      "set": {
+       "SEG2": 113
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = 0",
+      "in": "110000",
+      "set": {
+       "SEG1": 63
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = 1",
+      "in": "110001",
+      "set": {
+       "SEG1": 6
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = 2",
+      "in": "110010",
+      "set": {
+       "SEG1": 91
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = 3",
+      "in": "110011",
+      "set": {
+       "SEG1": 79
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = 4",
+      "in": "110100",
+      "set": {
+       "SEG1": 102
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = 5",
+      "in": "110101",
+      "set": {
+       "SEG1": 109
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = 6",
+      "in": "110110",
+      "set": {
+       "SEG1": 125
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = 7",
+      "in": "110111",
+      "set": {
+       "SEG1": 7
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = 8",
+      "in": "111000",
+      "set": {
+       "SEG1": 127
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = 9",
+      "in": "111001",
+      "set": {
+       "SEG1": 111
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = A",
+      "in": "111010",
+      "set": {
+       "SEG1": 119
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = B",
+      "in": "111011",
+      "set": {
+       "SEG1": 124
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = C",
+      "in": "111100",
+      "set": {
+       "SEG1": 57
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = D",
+      "in": "111101",
+      "set": {
+       "SEG1": 94
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = E",
+      "in": "111110",
+      "set": {
+       "SEG1": 121
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = F",
+      "in": "111111",
+      "set": {
+       "SEG1": 113
+      }
+     }
+    ]
+   },
+   "parts": [
+    {
+     "name": "CD22105E",
+     "manufacturer": "Renesas Electronics",
+     "package": "DIP",
+     "pinout": "dip40",
+     "footprint": "PDIP-40-600"
+    }
+   ],
+   "note": "cd22105-harris.pdf: p.1 features, description and 40-pin pinout, p.2 supply and electrical (VDD 3-6 V, backplane 125 Hz), p.3 block diagram, p.4 timing diagram, p.5 Table I output codes, chip-select and digit-selection truth tables, Fig. 6 waveforms, p.7-8 E-suffix 40-lead plastic DIP outline"
+  },
+  {
+   "id": "CD22105A",
+   "function": "4-digit driver",
+   "description": "4-digit 7-segment LCD decoder/driver, microprocessor input (2-bit digit select, 2 chip selects), decimal (Code B) font",
+   "drawer": [
+    "Displays & Indicators",
+    "LCD drivers"
+   ],
+   "pinouts": {
+    "dip40": [
+     {
+      "number": 1,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "E1",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "G1",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "F1",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "BP",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "A2",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "B2",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "C2",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "D2",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "E2",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "G2",
+      "role": "output"
+     },
+     {
+      "number": 12,
+      "name": "F2",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "A3",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "B3",
+      "role": "output"
+     },
+     {
+      "number": 15,
+      "name": "C3",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "D3",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "E3",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "G3",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "F3",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "A4",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "B4",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "C4",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "D4",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "E4",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "G4",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "F4",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "DIN0",
+      "role": "input"
+     },
+     {
+      "number": 28,
+      "name": "DIN1",
+      "role": "input"
+     },
+     {
+      "number": 29,
+      "name": "DIN2",
+      "role": "input"
+     },
+     {
+      "number": 30,
+      "name": "DIN3",
+      "role": "input"
+     },
+     {
+      "number": 31,
+      "name": "DSC1",
+      "role": "input"
+     },
+     {
+      "number": 32,
+      "name": "DSC2",
+      "role": "input"
+     },
+     {
+      "number": 33,
+      "name": "CS1",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 34,
+      "name": "CS2",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 35,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 36,
+      "name": "OSC",
+      "role": "input"
+     },
+     {
+      "number": 37,
+      "name": "A1",
+      "role": "output"
+     },
+     {
+      "number": 38,
+      "name": "B1",
+      "role": "output"
+     },
+     {
+      "number": 39,
+      "name": "C1",
+      "role": "output"
+     },
+     {
+      "number": 40,
+      "name": "D1",
+      "role": "output"
+     }
+    ]
+   },
+   "vcc": [
+    3,
+    6
+   ],
+   "inputMax": 6,
+   "analog": [
+    "OSC"
+   ],
+   "bus": {
+    "style": "parallel",
+    "data": [
+     "DIN3",
+     "DIN2",
+     "DIN1",
+     "DIN0"
+    ],
+    "cs": {
+     "pin": "CS1",
+     "active": 0
+    },
+    "wr": {
+     "pin": "CS2",
+     "active": 0
+    },
+    "address": [
+     "DSC2",
+     "DSC1"
+    ]
+   },
+   "registers": [
+    {
+     "name": "SEG1",
+     "width": 7
+    },
+    {
+     "name": "SEG2",
+     "width": 7
+    },
+    {
+     "name": "SEG3",
+     "width": 7
+    },
+    {
+     "name": "SEG4",
+     "width": 7
+    }
+   ],
+   "display": {
+    "driver": "lcd",
+    "mode": "static",
+    "backplanes": [
+     "BP"
+    ],
+    "segmentPins": [
+     "A1",
+     "B1",
+     "C1",
+     "D1",
+     "E1",
+     "F1",
+     "G1",
+     "A2",
+     "B2",
+     "C2",
+     "D2",
+     "E2",
+     "F2",
+     "G2",
+     "A3",
+     "B3",
+     "C3",
+     "D3",
+     "E3",
+     "F3",
+     "G3",
+     "A4",
+     "B4",
+     "C4",
+     "D4",
+     "E4",
+     "F4",
+     "G4"
+    ],
+    "ram": [
+     "SEG1",
+     "SEG2",
+     "SEG3",
+     "SEG4"
+    ],
+    "frameUs": 4000
+   },
+   "protocol": {
+    "frame": "fixed",
+    "commands": [
+     {
+      "name": "DSC=00: digit 4 = 0",
+      "in": "000000",
+      "set": {
+       "SEG4": 63
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = 1",
+      "in": "000001",
+      "set": {
+       "SEG4": 6
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = 2",
+      "in": "000010",
+      "set": {
+       "SEG4": 91
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = 3",
+      "in": "000011",
+      "set": {
+       "SEG4": 79
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = 4",
+      "in": "000100",
+      "set": {
+       "SEG4": 102
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = 5",
+      "in": "000101",
+      "set": {
+       "SEG4": 109
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = 6",
+      "in": "000110",
+      "set": {
+       "SEG4": 125
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = 7",
+      "in": "000111",
+      "set": {
+       "SEG4": 7
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = 8",
+      "in": "001000",
+      "set": {
+       "SEG4": 127
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = 9",
+      "in": "001001",
+      "set": {
+       "SEG4": 111
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = A",
+      "in": "001010",
+      "set": {
+       "SEG4": 64
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = B",
+      "in": "001011",
+      "set": {
+       "SEG4": 121
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = C",
+      "in": "001100",
+      "set": {
+       "SEG4": 118
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = D",
+      "in": "001101",
+      "set": {
+       "SEG4": 56
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = E",
+      "in": "001110",
+      "set": {
+       "SEG4": 115
+      }
+     },
+     {
+      "name": "DSC=00: digit 4 = F",
+      "in": "001111",
+      "set": {
+       "SEG4": 0
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = 0",
+      "in": "010000",
+      "set": {
+       "SEG3": 63
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = 1",
+      "in": "010001",
+      "set": {
+       "SEG3": 6
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = 2",
+      "in": "010010",
+      "set": {
+       "SEG3": 91
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = 3",
+      "in": "010011",
+      "set": {
+       "SEG3": 79
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = 4",
+      "in": "010100",
+      "set": {
+       "SEG3": 102
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = 5",
+      "in": "010101",
+      "set": {
+       "SEG3": 109
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = 6",
+      "in": "010110",
+      "set": {
+       "SEG3": 125
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = 7",
+      "in": "010111",
+      "set": {
+       "SEG3": 7
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = 8",
+      "in": "011000",
+      "set": {
+       "SEG3": 127
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = 9",
+      "in": "011001",
+      "set": {
+       "SEG3": 111
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = A",
+      "in": "011010",
+      "set": {
+       "SEG3": 64
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = B",
+      "in": "011011",
+      "set": {
+       "SEG3": 121
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = C",
+      "in": "011100",
+      "set": {
+       "SEG3": 118
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = D",
+      "in": "011101",
+      "set": {
+       "SEG3": 56
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = E",
+      "in": "011110",
+      "set": {
+       "SEG3": 115
+      }
+     },
+     {
+      "name": "DSC=01: digit 3 = F",
+      "in": "011111",
+      "set": {
+       "SEG3": 0
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = 0",
+      "in": "100000",
+      "set": {
+       "SEG2": 63
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = 1",
+      "in": "100001",
+      "set": {
+       "SEG2": 6
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = 2",
+      "in": "100010",
+      "set": {
+       "SEG2": 91
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = 3",
+      "in": "100011",
+      "set": {
+       "SEG2": 79
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = 4",
+      "in": "100100",
+      "set": {
+       "SEG2": 102
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = 5",
+      "in": "100101",
+      "set": {
+       "SEG2": 109
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = 6",
+      "in": "100110",
+      "set": {
+       "SEG2": 125
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = 7",
+      "in": "100111",
+      "set": {
+       "SEG2": 7
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = 8",
+      "in": "101000",
+      "set": {
+       "SEG2": 127
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = 9",
+      "in": "101001",
+      "set": {
+       "SEG2": 111
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = A",
+      "in": "101010",
+      "set": {
+       "SEG2": 64
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = B",
+      "in": "101011",
+      "set": {
+       "SEG2": 121
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = C",
+      "in": "101100",
+      "set": {
+       "SEG2": 118
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = D",
+      "in": "101101",
+      "set": {
+       "SEG2": 56
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = E",
+      "in": "101110",
+      "set": {
+       "SEG2": 115
+      }
+     },
+     {
+      "name": "DSC=10: digit 2 = F",
+      "in": "101111",
+      "set": {
+       "SEG2": 0
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = 0",
+      "in": "110000",
+      "set": {
+       "SEG1": 63
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = 1",
+      "in": "110001",
+      "set": {
+       "SEG1": 6
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = 2",
+      "in": "110010",
+      "set": {
+       "SEG1": 91
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = 3",
+      "in": "110011",
+      "set": {
+       "SEG1": 79
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = 4",
+      "in": "110100",
+      "set": {
+       "SEG1": 102
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = 5",
+      "in": "110101",
+      "set": {
+       "SEG1": 109
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = 6",
+      "in": "110110",
+      "set": {
+       "SEG1": 125
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = 7",
+      "in": "110111",
+      "set": {
+       "SEG1": 7
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = 8",
+      "in": "111000",
+      "set": {
+       "SEG1": 127
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = 9",
+      "in": "111001",
+      "set": {
+       "SEG1": 111
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = A",
+      "in": "111010",
+      "set": {
+       "SEG1": 64
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = B",
+      "in": "111011",
+      "set": {
+       "SEG1": 121
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = C",
+      "in": "111100",
+      "set": {
+       "SEG1": 118
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = D",
+      "in": "111101",
+      "set": {
+       "SEG1": 56
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = E",
+      "in": "111110",
+      "set": {
+       "SEG1": 115
+      }
+     },
+     {
+      "name": "DSC=11: digit 1 = F",
+      "in": "111111",
+      "set": {
+       "SEG1": 0
+      }
+     }
+    ]
+   },
+   "parts": [
+    {
+     "name": "CD22105AE",
+     "manufacturer": "Renesas Electronics",
+     "package": "DIP",
+     "pinout": "dip40",
+     "footprint": "PDIP-40-600"
+    }
+   ],
+   "note": "cd22105-harris.pdf: p.1 features, description and 40-pin pinout, p.2 supply and electrical (VDD 3-6 V, backplane 125 Hz), p.3 block diagram, p.4 timing diagram, p.5 Table I output codes, chip-select and digit-selection truth tables, Fig. 6 waveforms, p.7-8 E-suffix 40-lead plastic DIP outline"
+  },
+  {
+   "id": "ICM7224",
+   "function": "4-1/2 digit counter",
+   "description": "4-1/2 digit counter/decoder/driver, 29 LCD segment outputs with backplane oscillator (static drive)",
+   "drawer": [
+    "Displays & Indicators",
+    "LCD drivers"
+   ],
+   "pinouts": {
+    "dip40": [
+     {
+      "number": 1,
+      "name": "V+",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "E1",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "G1",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "F1",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "BP",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "A2",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "B2",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "C2",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "D2",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "E2",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "G2",
+      "role": "output"
+     },
+     {
+      "number": 12,
+      "name": "F2",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "A3",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "B3",
+      "role": "output"
+     },
+     {
+      "number": 15,
+      "name": "C3",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "D3",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "E3",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "G3",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "F3",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "A4",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "B4",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "C4",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "D4",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "E4",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "G4",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "F4",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "1/2-DIGIT",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "CARRY",
+      "role": "output",
+      "activeLow": true
+     },
+     {
+      "number": 29,
+      "name": "LZB IN",
+      "role": "input"
+     },
+     {
+      "number": 30,
+      "name": "LZB OUT",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "COUNT INHIBIT",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 32,
+      "name": "COUNT",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 33,
+      "name": "RESET",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 34,
+      "name": "STORE",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 35,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 36,
+      "name": "OSC",
+      "role": "input"
+     },
+     {
+      "number": 37,
+      "name": "A1",
+      "role": "output"
+     },
+     {
+      "number": 38,
+      "name": "B1",
+      "role": "output"
+     },
+     {
+      "number": 39,
+      "name": "C1",
+      "role": "output"
+     },
+     {
+      "number": 40,
+      "name": "D1",
+      "role": "output"
+     }
+    ],
+    "plcc44": [
+     {
+      "number": 1,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 2,
+      "name": "V+",
+      "role": "power"
+     },
+     {
+      "number": 3,
+      "name": "E1",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "G1",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "F1",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "BP",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "A2",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "B2",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "C2",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "D2",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "E2",
+      "role": "output"
+     },
+     {
+      "number": 12,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 13,
+      "name": "G2",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "F2",
+      "role": "output"
+     },
+     {
+      "number": 15,
+      "name": "A3",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "B3",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "C3",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "D3",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "E3",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "G3",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "F3",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "A4",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 24,
+      "name": "B4",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "C4",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "D4",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "E4",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "G4",
+      "role": "output"
+     },
+     {
+      "number": 29,
+      "name": "F4",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "1/2-DIGIT",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "CARRY",
+      "role": "output",
+      "activeLow": true
+     },
+     {
+      "number": 32,
+      "name": "LZB IN",
+      "role": "input"
+     },
+     {
+      "number": 33,
+      "name": "LZB OUT",
+      "role": "output"
+     },
+     {
+      "number": 34,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 35,
+      "name": "COUNT INHIBIT",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 36,
+      "name": "COUNT",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 37,
+      "name": "RESET",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 38,
+      "name": "STORE",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 39,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 40,
+      "name": "OSC",
+      "role": "input"
+     },
+     {
+      "number": 41,
+      "name": "A1",
+      "role": "output"
+     },
+     {
+      "number": 42,
+      "name": "B1",
+      "role": "output"
+     },
+     {
+      "number": 43,
+      "name": "C1",
+      "role": "output"
+     },
+     {
+      "number": 44,
+      "name": "D1",
+      "role": "output"
+     }
+    ]
+   },
+   "vcc": [
+    3,
+    6
+   ],
+   "inputMax": 6,
+   "analog": [
+    "OSC"
+   ],
+   "bus": {
+    "style": "parallel",
+    "address": [
+     "COUNT",
+     "RESET",
+     "COUNT INHIBIT",
+     "STORE",
+     "LZB IN"
+    ],
+    "data": [
+     "COUNT",
+     "RESET",
+     "COUNT INHIBIT",
+     "STORE",
+     "LZB IN"
+    ]
+   },
+   "registers": [
+    {
+     "name": "CNT1",
+     "width": 4
+    },
+    {
+     "name": "CNT2",
+     "width": 4
+    },
+    {
+     "name": "CNT3",
+     "width": 4
+    },
+    {
+     "name": "CNT4",
+     "width": 4
+    },
+    {
+     "name": "HALF",
+     "width": 1
+    },
+    {
+     "name": "SEG1",
+     "width": 7
+    },
+    {
+     "name": "SEG2",
+     "width": 7
+    },
+    {
+     "name": "SEG3",
+     "width": 7
+    },
+    {
+     "name": "SEG4",
+     "width": 7
+    },
+    {
+     "name": "SEGH",
+     "width": 1
+    },
+    {
+     "name": "PIN",
+     "width": 2,
+     "fields": [
+      {
+       "name": "STORE",
+       "bits": [
+        0,
+        0
+       ]
+      },
+      {
+       "name": "LZB",
+       "bits": [
+        1,
+        1
+       ]
+      }
+     ]
+    },
+    {
+     "name": "ST",
+     "width": 4,
+     "fields": [
+      {
+       "name": "STG",
+       "bits": [
+        2,
+        0
+       ]
+      },
+      {
+       "name": "LASTC",
+       "bits": [
+        3,
+        3
+       ]
+      }
+     ]
+    },
+    {
+     "name": "OUT",
+     "width": 2,
+     "fields": [
+      {
+       "name": "CARRY",
+       "bits": [
+        0,
+        0
+       ]
+      },
+      {
+       "name": "LZBOUT",
+       "bits": [
+        1,
+        1
+       ]
+      }
+     ]
+    }
+   ],
+   "protocol": {
+    "frame": "stream",
+    "commands": [
+     {
+      "name": "RESET low: counter and half digit cleared",
+      "in": "a0x",
+      "when": [
+       "ST.STG=0"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 0,
+       "CNT4": 0,
+       "HALF": 0,
+       "OUT.CARRY": 0,
+       "ST.LASTC": "a",
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digit 1 0 -> 1",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=0"
+      ],
+      "set": {
+       "CNT1": 1,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digit 1 1 -> 2",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=1"
+      ],
+      "set": {
+       "CNT1": 2,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digit 1 2 -> 3",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=2"
+      ],
+      "set": {
+       "CNT1": 3,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digit 1 3 -> 4",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=3"
+      ],
+      "set": {
+       "CNT1": 4,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digit 1 4 -> 5",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=4"
+      ],
+      "set": {
+       "CNT1": 5,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digit 1 5 -> 6",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=5"
+      ],
+      "set": {
+       "CNT1": 6,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digit 1 6 -> 7",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=6"
+      ],
+      "set": {
+       "CNT1": 7,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digit 1 7 -> 8",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=7"
+      ],
+      "set": {
+       "CNT1": 8,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digit 1 8 -> 9",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=8"
+      ],
+      "set": {
+       "CNT1": 9,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-1 9 -> 0, digit 2 0 -> 1",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=0"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 1,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-1 9 -> 0, digit 2 1 -> 2",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=1"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 2,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-1 9 -> 0, digit 2 2 -> 3",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=2"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 3,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-1 9 -> 0, digit 2 3 -> 4",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=3"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 4,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-1 9 -> 0, digit 2 4 -> 5",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=4"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 5,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-1 9 -> 0, digit 2 5 -> 6",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=5"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 6,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-1 9 -> 0, digit 2 6 -> 7",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=6"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 7,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-1 9 -> 0, digit 2 7 -> 8",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=7"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 8,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-1 9 -> 0, digit 2 8 -> 9",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=8"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 9,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-2 9 -> 0, digit 3 0 -> 1",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=0"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 1,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-2 9 -> 0, digit 3 1 -> 2",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=1"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 2,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-2 9 -> 0, digit 3 2 -> 3",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=2"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 3,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-2 9 -> 0, digit 3 3 -> 4",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=3"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 4,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-2 9 -> 0, digit 3 4 -> 5",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=4"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 5,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-2 9 -> 0, digit 3 5 -> 6",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=5"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 6,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-2 9 -> 0, digit 3 6 -> 7",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=6"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 7,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-2 9 -> 0, digit 3 7 -> 8",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=7"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 8,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-2 9 -> 0, digit 3 8 -> 9",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=8"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 9,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-3 9 -> 0, digit 4 0 -> 1",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=9",
+       "CNT4=0"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 0,
+       "CNT4": 1,
+       "ST.LASTC": 0,
+       "ST.STG": 1,
+       "OUT.CARRY": 0
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-3 9 -> 0, digit 4 1 -> 2",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=9",
+       "CNT4=1"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 0,
+       "CNT4": 2,
+       "ST.LASTC": 0,
+       "ST.STG": 1,
+       "OUT.CARRY": 0
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-3 9 -> 0, digit 4 2 -> 3",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=9",
+       "CNT4=2"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 0,
+       "CNT4": 3,
+       "ST.LASTC": 0,
+       "ST.STG": 1,
+       "OUT.CARRY": 0
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-3 9 -> 0, digit 4 3 -> 4",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=9",
+       "CNT4=3"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 0,
+       "CNT4": 4,
+       "ST.LASTC": 0,
+       "ST.STG": 1,
+       "OUT.CARRY": 0
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-3 9 -> 0, digit 4 4 -> 5",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=9",
+       "CNT4=4"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 0,
+       "CNT4": 5,
+       "ST.LASTC": 0,
+       "ST.STG": 1,
+       "OUT.CARRY": 0
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-3 9 -> 0, digit 4 5 -> 6",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=9",
+       "CNT4=5"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 0,
+       "CNT4": 6,
+       "ST.LASTC": 0,
+       "ST.STG": 1,
+       "OUT.CARRY": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-3 9 -> 0, digit 4 6 -> 7",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=9",
+       "CNT4=6"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 0,
+       "CNT4": 7,
+       "ST.LASTC": 0,
+       "ST.STG": 1,
+       "OUT.CARRY": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-3 9 -> 0, digit 4 7 -> 8",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=9",
+       "CNT4=7"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 0,
+       "CNT4": 8,
+       "ST.LASTC": 0,
+       "ST.STG": 1,
+       "OUT.CARRY": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-3 9 -> 0, digit 4 8 -> 9",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=9",
+       "CNT4=8"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 0,
+       "CNT4": 9,
+       "ST.LASTC": 0,
+       "ST.STG": 1,
+       "OUT.CARRY": 1
+      }
+     },
+     {
+      "name": "COUNT falls at 9999: digits to 0, half digit set (CARRY falls)",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=9",
+       "CNT4=9"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 0,
+       "CNT4": 0,
+       "HALF": 1,
+       "OUT.CARRY": 0,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT level seen (no count)",
+      "in": "axx",
+      "when": [
+       "ST.STG=0"
+      ],
+      "set": {
+       "ST.LASTC": "a",
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "STORE and LZB IN levels of this event",
+      "in": "bc",
+      "when": [
+       "ST.STG=1"
+      ],
+      "set": {
+       "PIN.STORE": "b",
+       "PIN.LZB": "c",
+       "ST.STG": 2
+      }
+     },
+     {
+      "name": "digit 1 blank (LZB IN high, count 0000, STORE low): LZB OUT high",
+      "in": "x",
+      "when": [
+       "ST.STG=2",
+       "PIN.STORE=0",
+       "PIN.LZB=1",
+       "HALF=0",
+       "CNT1=0",
+       "CNT2=0",
+       "CNT3=0",
+       "CNT4=0"
+      ],
+      "set": {
+       "SEG1": 0,
+       "OUT.LZBOUT": 1,
+       "ST.STG": 3
+      }
+     },
+     {
+      "name": "digit 1 held (STORE high), LZB OUT high",
+      "in": "x",
+      "when": [
+       "ST.STG=2",
+       "PIN.LZB=1",
+       "HALF=0",
+       "CNT1=0",
+       "CNT2=0",
+       "CNT3=0",
+       "CNT4=0"
+      ],
+      "set": {
+       "OUT.LZBOUT": 1,
+       "ST.STG": 3
+      }
+     },
+     {
+      "name": "digit 1 shows 0",
+      "in": "x",
+      "when": [
+       "ST.STG=2",
+       "PIN.STORE=0",
+       "CNT1=0"
+      ],
+      "set": {
+       "SEG1": 63,
+       "OUT.LZBOUT": 0,
+       "ST.STG": 3
+      }
+     },
+     {
+      "name": "digit 1 shows 1",
+      "in": "x",
+      "when": [
+       "ST.STG=2",
+       "PIN.STORE=0",
+       "CNT1=1"
+      ],
+      "set": {
+       "SEG1": 6,
+       "OUT.LZBOUT": 0,
+       "ST.STG": 3
+      }
+     },
+     {
+      "name": "digit 1 shows 2",
+      "in": "x",
+      "when": [
+       "ST.STG=2",
+       "PIN.STORE=0",
+       "CNT1=2"
+      ],
+      "set": {
+       "SEG1": 91,
+       "OUT.LZBOUT": 0,
+       "ST.STG": 3
+      }
+     },
+     {
+      "name": "digit 1 shows 3",
+      "in": "x",
+      "when": [
+       "ST.STG=2",
+       "PIN.STORE=0",
+       "CNT1=3"
+      ],
+      "set": {
+       "SEG1": 79,
+       "OUT.LZBOUT": 0,
+       "ST.STG": 3
+      }
+     },
+     {
+      "name": "digit 1 shows 4",
+      "in": "x",
+      "when": [
+       "ST.STG=2",
+       "PIN.STORE=0",
+       "CNT1=4"
+      ],
+      "set": {
+       "SEG1": 102,
+       "OUT.LZBOUT": 0,
+       "ST.STG": 3
+      }
+     },
+     {
+      "name": "digit 1 shows 5",
+      "in": "x",
+      "when": [
+       "ST.STG=2",
+       "PIN.STORE=0",
+       "CNT1=5"
+      ],
+      "set": {
+       "SEG1": 109,
+       "OUT.LZBOUT": 0,
+       "ST.STG": 3
+      }
+     },
+     {
+      "name": "digit 1 shows 6",
+      "in": "x",
+      "when": [
+       "ST.STG=2",
+       "PIN.STORE=0",
+       "CNT1=6"
+      ],
+      "set": {
+       "SEG1": 125,
+       "OUT.LZBOUT": 0,
+       "ST.STG": 3
+      }
+     },
+     {
+      "name": "digit 1 shows 7",
+      "in": "x",
+      "when": [
+       "ST.STG=2",
+       "PIN.STORE=0",
+       "CNT1=7"
+      ],
+      "set": {
+       "SEG1": 7,
+       "OUT.LZBOUT": 0,
+       "ST.STG": 3
+      }
+     },
+     {
+      "name": "digit 1 shows 8",
+      "in": "x",
+      "when": [
+       "ST.STG=2",
+       "PIN.STORE=0",
+       "CNT1=8"
+      ],
+      "set": {
+       "SEG1": 127,
+       "OUT.LZBOUT": 0,
+       "ST.STG": 3
+      }
+     },
+     {
+      "name": "digit 1 shows 9",
+      "in": "x",
+      "when": [
+       "ST.STG=2",
+       "PIN.STORE=0",
+       "CNT1=9"
+      ],
+      "set": {
+       "SEG1": 111,
+       "OUT.LZBOUT": 0,
+       "ST.STG": 3
+      }
+     },
+     {
+      "name": "digit 1 held (STORE high)",
+      "in": "x",
+      "when": [
+       "ST.STG=2"
+      ],
+      "set": {
+       "OUT.LZBOUT": 0,
+       "ST.STG": 3
+      }
+     },
+     {
+      "name": "digit 2 blank (leading zero)",
+      "in": "x",
+      "when": [
+       "ST.STG=3",
+       "PIN.STORE=0",
+       "PIN.LZB=1",
+       "HALF=0",
+       "CNT2=0",
+       "CNT3=0",
+       "CNT4=0"
+      ],
+      "set": {
+       "SEG2": 0,
+       "ST.STG": 4
+      }
+     },
+     {
+      "name": "digit 2 shows 0",
+      "in": "x",
+      "when": [
+       "ST.STG=3",
+       "PIN.STORE=0",
+       "CNT2=0"
+      ],
+      "set": {
+       "SEG2": 63,
+       "ST.STG": 4
+      }
+     },
+     {
+      "name": "digit 2 shows 1",
+      "in": "x",
+      "when": [
+       "ST.STG=3",
+       "PIN.STORE=0",
+       "CNT2=1"
+      ],
+      "set": {
+       "SEG2": 6,
+       "ST.STG": 4
+      }
+     },
+     {
+      "name": "digit 2 shows 2",
+      "in": "x",
+      "when": [
+       "ST.STG=3",
+       "PIN.STORE=0",
+       "CNT2=2"
+      ],
+      "set": {
+       "SEG2": 91,
+       "ST.STG": 4
+      }
+     },
+     {
+      "name": "digit 2 shows 3",
+      "in": "x",
+      "when": [
+       "ST.STG=3",
+       "PIN.STORE=0",
+       "CNT2=3"
+      ],
+      "set": {
+       "SEG2": 79,
+       "ST.STG": 4
+      }
+     },
+     {
+      "name": "digit 2 shows 4",
+      "in": "x",
+      "when": [
+       "ST.STG=3",
+       "PIN.STORE=0",
+       "CNT2=4"
+      ],
+      "set": {
+       "SEG2": 102,
+       "ST.STG": 4
+      }
+     },
+     {
+      "name": "digit 2 shows 5",
+      "in": "x",
+      "when": [
+       "ST.STG=3",
+       "PIN.STORE=0",
+       "CNT2=5"
+      ],
+      "set": {
+       "SEG2": 109,
+       "ST.STG": 4
+      }
+     },
+     {
+      "name": "digit 2 shows 6",
+      "in": "x",
+      "when": [
+       "ST.STG=3",
+       "PIN.STORE=0",
+       "CNT2=6"
+      ],
+      "set": {
+       "SEG2": 125,
+       "ST.STG": 4
+      }
+     },
+     {
+      "name": "digit 2 shows 7",
+      "in": "x",
+      "when": [
+       "ST.STG=3",
+       "PIN.STORE=0",
+       "CNT2=7"
+      ],
+      "set": {
+       "SEG2": 7,
+       "ST.STG": 4
+      }
+     },
+     {
+      "name": "digit 2 shows 8",
+      "in": "x",
+      "when": [
+       "ST.STG=3",
+       "PIN.STORE=0",
+       "CNT2=8"
+      ],
+      "set": {
+       "SEG2": 127,
+       "ST.STG": 4
+      }
+     },
+     {
+      "name": "digit 2 shows 9",
+      "in": "x",
+      "when": [
+       "ST.STG=3",
+       "PIN.STORE=0",
+       "CNT2=9"
+      ],
+      "set": {
+       "SEG2": 111,
+       "ST.STG": 4
+      }
+     },
+     {
+      "name": "digit 2 held (STORE high)",
+      "in": "x",
+      "when": [
+       "ST.STG=3"
+      ],
+      "set": {
+       "ST.STG": 4
+      }
+     },
+     {
+      "name": "digit 3 blank (leading zero)",
+      "in": "x",
+      "when": [
+       "ST.STG=4",
+       "PIN.STORE=0",
+       "PIN.LZB=1",
+       "HALF=0",
+       "CNT3=0",
+       "CNT4=0"
+      ],
+      "set": {
+       "SEG3": 0,
+       "ST.STG": 5
+      }
+     },
+     {
+      "name": "digit 3 shows 0",
+      "in": "x",
+      "when": [
+       "ST.STG=4",
+       "PIN.STORE=0",
+       "CNT3=0"
+      ],
+      "set": {
+       "SEG3": 63,
+       "ST.STG": 5
+      }
+     },
+     {
+      "name": "digit 3 shows 1",
+      "in": "x",
+      "when": [
+       "ST.STG=4",
+       "PIN.STORE=0",
+       "CNT3=1"
+      ],
+      "set": {
+       "SEG3": 6,
+       "ST.STG": 5
+      }
+     },
+     {
+      "name": "digit 3 shows 2",
+      "in": "x",
+      "when": [
+       "ST.STG=4",
+       "PIN.STORE=0",
+       "CNT3=2"
+      ],
+      "set": {
+       "SEG3": 91,
+       "ST.STG": 5
+      }
+     },
+     {
+      "name": "digit 3 shows 3",
+      "in": "x",
+      "when": [
+       "ST.STG=4",
+       "PIN.STORE=0",
+       "CNT3=3"
+      ],
+      "set": {
+       "SEG3": 79,
+       "ST.STG": 5
+      }
+     },
+     {
+      "name": "digit 3 shows 4",
+      "in": "x",
+      "when": [
+       "ST.STG=4",
+       "PIN.STORE=0",
+       "CNT3=4"
+      ],
+      "set": {
+       "SEG3": 102,
+       "ST.STG": 5
+      }
+     },
+     {
+      "name": "digit 3 shows 5",
+      "in": "x",
+      "when": [
+       "ST.STG=4",
+       "PIN.STORE=0",
+       "CNT3=5"
+      ],
+      "set": {
+       "SEG3": 109,
+       "ST.STG": 5
+      }
+     },
+     {
+      "name": "digit 3 shows 6",
+      "in": "x",
+      "when": [
+       "ST.STG=4",
+       "PIN.STORE=0",
+       "CNT3=6"
+      ],
+      "set": {
+       "SEG3": 125,
+       "ST.STG": 5
+      }
+     },
+     {
+      "name": "digit 3 shows 7",
+      "in": "x",
+      "when": [
+       "ST.STG=4",
+       "PIN.STORE=0",
+       "CNT3=7"
+      ],
+      "set": {
+       "SEG3": 7,
+       "ST.STG": 5
+      }
+     },
+     {
+      "name": "digit 3 shows 8",
+      "in": "x",
+      "when": [
+       "ST.STG=4",
+       "PIN.STORE=0",
+       "CNT3=8"
+      ],
+      "set": {
+       "SEG3": 127,
+       "ST.STG": 5
+      }
+     },
+     {
+      "name": "digit 3 shows 9",
+      "in": "x",
+      "when": [
+       "ST.STG=4",
+       "PIN.STORE=0",
+       "CNT3=9"
+      ],
+      "set": {
+       "SEG3": 111,
+       "ST.STG": 5
+      }
+     },
+     {
+      "name": "digit 3 held (STORE high)",
+      "in": "x",
+      "when": [
+       "ST.STG=4"
+      ],
+      "set": {
+       "ST.STG": 5
+      }
+     },
+     {
+      "name": "digit 4 and half digit blank (leading zero, half digit clear)",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "PIN.LZB=1",
+       "HALF=0",
+       "CNT4=0"
+      ],
+      "set": {
+       "SEG4": 0,
+       "SEGH": 0,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 0, half digit 0",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=0",
+       "HALF=0"
+      ],
+      "set": {
+       "SEG4": 63,
+       "SEGH": 0,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 1, half digit 0",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=1",
+       "HALF=0"
+      ],
+      "set": {
+       "SEG4": 6,
+       "SEGH": 0,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 2, half digit 0",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=2",
+       "HALF=0"
+      ],
+      "set": {
+       "SEG4": 91,
+       "SEGH": 0,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 3, half digit 0",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=3",
+       "HALF=0"
+      ],
+      "set": {
+       "SEG4": 79,
+       "SEGH": 0,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 4, half digit 0",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=4",
+       "HALF=0"
+      ],
+      "set": {
+       "SEG4": 102,
+       "SEGH": 0,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 5, half digit 0",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=5",
+       "HALF=0"
+      ],
+      "set": {
+       "SEG4": 109,
+       "SEGH": 0,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 6, half digit 0",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=6",
+       "HALF=0"
+      ],
+      "set": {
+       "SEG4": 125,
+       "SEGH": 0,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 7, half digit 0",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=7",
+       "HALF=0"
+      ],
+      "set": {
+       "SEG4": 7,
+       "SEGH": 0,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 8, half digit 0",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=8",
+       "HALF=0"
+      ],
+      "set": {
+       "SEG4": 127,
+       "SEGH": 0,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 9, half digit 0",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=9",
+       "HALF=0"
+      ],
+      "set": {
+       "SEG4": 111,
+       "SEGH": 0,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 0, half digit 1",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=0",
+       "HALF=1"
+      ],
+      "set": {
+       "SEG4": 63,
+       "SEGH": 1,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 1, half digit 1",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=1",
+       "HALF=1"
+      ],
+      "set": {
+       "SEG4": 6,
+       "SEGH": 1,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 2, half digit 1",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=2",
+       "HALF=1"
+      ],
+      "set": {
+       "SEG4": 91,
+       "SEGH": 1,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 3, half digit 1",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=3",
+       "HALF=1"
+      ],
+      "set": {
+       "SEG4": 79,
+       "SEGH": 1,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 4, half digit 1",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=4",
+       "HALF=1"
+      ],
+      "set": {
+       "SEG4": 102,
+       "SEGH": 1,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 5, half digit 1",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=5",
+       "HALF=1"
+      ],
+      "set": {
+       "SEG4": 109,
+       "SEGH": 1,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 6, half digit 1",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=6",
+       "HALF=1"
+      ],
+      "set": {
+       "SEG4": 125,
+       "SEGH": 1,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 7, half digit 1",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=7",
+       "HALF=1"
+      ],
+      "set": {
+       "SEG4": 7,
+       "SEGH": 1,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 8, half digit 1",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=8",
+       "HALF=1"
+      ],
+      "set": {
+       "SEG4": 127,
+       "SEGH": 1,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 9, half digit 1",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=9",
+       "HALF=1"
+      ],
+      "set": {
+       "SEG4": 111,
+       "SEGH": 1,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 and half digit held (STORE high)",
+      "in": "x",
+      "when": [
+       "ST.STG=5"
+      ],
+      "set": {
+       "ST.STG": 0
+      }
+     }
+    ]
+   },
+   "display": {
+    "driver": "lcd",
+    "mode": "static",
+    "backplanes": [
+     "BP"
+    ],
+    "segmentPins": [
+     "A1",
+     "B1",
+     "C1",
+     "D1",
+     "E1",
+     "F1",
+     "G1",
+     "A2",
+     "B2",
+     "C2",
+     "D2",
+     "E2",
+     "F2",
+     "G2",
+     "A3",
+     "B3",
+     "C3",
+     "D3",
+     "E3",
+     "F3",
+     "G3",
+     "A4",
+     "B4",
+     "C4",
+     "D4",
+     "E4",
+     "F4",
+     "G4",
+     "1/2-DIGIT"
+    ],
+    "ram": [
+     "SEG1",
+     "SEG2",
+     "SEG3",
+     "SEG4",
+     "SEGH"
+    ],
+    "frameUs": 3333
+   },
+   "parts": [
+    {
+     "name": "ICM7224IPL",
+     "manufacturer": "Analog Devices",
+     "datasheet": "icm7224-icm7225-maxim",
+     "package": "DIP",
+     "pinout": "dip40",
+     "footprint": "PDIP-40-600"
+    },
+    {
+     "name": "ICM7224IQH",
+     "manufacturer": "Analog Devices",
+     "datasheet": "icm7224-icm7225-maxim",
+     "package": "PLCC",
+     "pinout": "plcc44",
+     "footprint": "PLCC-44"
+    },
+    {
+     "name": "ICM7224IJL",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7224-icm7225-harris",
+     "package": "DIP",
+     "pinout": "dip40",
+     "footprint": "CDIP-40-600",
+     "flags": [
+      "ceramic"
+     ]
+    }
+   ],
+   "note": "icm7224-icm7225-maxim.pdf: p.1 pinout and ordering, p.2-3 electricals, p.4 timing, p.5 pin descriptions, p.6-7 detailed description, Fig. 5 font, p.8 PLCC pinout; icm7224-icm7225-harris.pdf p.1-2 ordering and functional diagram, p.5-6 control inputs and counter section"
+  }
+ ],
+ "newDevicesLeddriver": [
+  {
+   "id": "ICM7225",
+   "function": "4-1/2 digit counter",
+   "description": "4-1/2 digit counter/decoder/driver, 29 open-drain constant-current LED segment outputs (common anode)",
+   "drawer": [
+    "Displays & Indicators",
+    "LED drivers"
+   ],
+   "pinouts": {
+    "dip40": [
+     {
+      "number": 1,
+      "name": "V+",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "E1",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "G1",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "F1",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "BRT",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "A2",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "B2",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "C2",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "D2",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "E2",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "G2",
+      "role": "output"
+     },
+     {
+      "number": 12,
+      "name": "F2",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "A3",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "B3",
+      "role": "output"
+     },
+     {
+      "number": 15,
+      "name": "C3",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "D3",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "E3",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "G3",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "F3",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "A4",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "B4",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "C4",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "D4",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "E4",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "G4",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "F4",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "1/2-DIGIT",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "CARRY",
+      "role": "output",
+      "activeLow": true
+     },
+     {
+      "number": 29,
+      "name": "LZB IN",
+      "role": "input"
+     },
+     {
+      "number": 30,
+      "name": "LZB OUT",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "COUNT INHIBIT",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 32,
+      "name": "COUNT",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 33,
+      "name": "RESET",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 34,
+      "name": "STORE",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 35,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 36,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 37,
+      "name": "A1",
+      "role": "output"
+     },
+     {
+      "number": 38,
+      "name": "B1",
+      "role": "output"
+     },
+     {
+      "number": 39,
+      "name": "C1",
+      "role": "output"
+     },
+     {
+      "number": 40,
+      "name": "D1",
+      "role": "output"
+     }
+    ],
+    "plcc44": [
+     {
+      "number": 1,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 2,
+      "name": "V+",
+      "role": "power"
+     },
+     {
+      "number": 3,
+      "name": "E1",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "G1",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "F1",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "BRT",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "A2",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "B2",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "C2",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "D2",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "E2",
+      "role": "output"
+     },
+     {
+      "number": 12,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 13,
+      "name": "G2",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "F2",
+      "role": "output"
+     },
+     {
+      "number": 15,
+      "name": "A3",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "B3",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "C3",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "D3",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "E3",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "G3",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "F3",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "A4",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 24,
+      "name": "B4",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "C4",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "D4",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "E4",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "G4",
+      "role": "output"
+     },
+     {
+      "number": 29,
+      "name": "F4",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "1/2-DIGIT",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "CARRY",
+      "role": "output",
+      "activeLow": true
+     },
+     {
+      "number": 32,
+      "name": "LZB IN",
+      "role": "input"
+     },
+     {
+      "number": 33,
+      "name": "LZB OUT",
+      "role": "output"
+     },
+     {
+      "number": 34,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 35,
+      "name": "COUNT INHIBIT",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 36,
+      "name": "COUNT",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 37,
+      "name": "RESET",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 38,
+      "name": "STORE",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 39,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 40,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 41,
+      "name": "A1",
+      "role": "output"
+     },
+     {
+      "number": 42,
+      "name": "B1",
+      "role": "output"
+     },
+     {
+      "number": 43,
+      "name": "C1",
+      "role": "output"
+     },
+     {
+      "number": 44,
+      "name": "D1",
+      "role": "output"
+     }
+    ]
+   },
+   "vcc": [
+    4,
+    6
+   ],
+   "inputMax": 6,
+   "analog": [
+    "BRT"
+   ],
+   "bus": {
+    "style": "parallel",
+    "address": [
+     "COUNT",
+     "RESET",
+     "COUNT INHIBIT",
+     "STORE",
+     "LZB IN"
+    ],
+    "data": [
+     "COUNT",
+     "RESET",
+     "COUNT INHIBIT",
+     "STORE",
+     "LZB IN"
+    ]
+   },
+   "registers": [
+    {
+     "name": "CNT1",
+     "width": 4
+    },
+    {
+     "name": "CNT2",
+     "width": 4
+    },
+    {
+     "name": "CNT3",
+     "width": 4
+    },
+    {
+     "name": "CNT4",
+     "width": 4
+    },
+    {
+     "name": "HALF",
+     "width": 1
+    },
+    {
+     "name": "SEG1",
+     "width": 7,
+     "fields": [
+      {
+       "name": "A",
+       "bits": [
+        0,
+        0
+       ]
+      },
+      {
+       "name": "B",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "C",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "D",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "E",
+       "bits": [
+        4,
+        4
+       ]
+      },
+      {
+       "name": "F",
+       "bits": [
+        5,
+        5
+       ]
+      },
+      {
+       "name": "G",
+       "bits": [
+        6,
+        6
+       ]
+      }
+     ]
+    },
+    {
+     "name": "SEG2",
+     "width": 7,
+     "fields": [
+      {
+       "name": "A",
+       "bits": [
+        0,
+        0
+       ]
+      },
+      {
+       "name": "B",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "C",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "D",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "E",
+       "bits": [
+        4,
+        4
+       ]
+      },
+      {
+       "name": "F",
+       "bits": [
+        5,
+        5
+       ]
+      },
+      {
+       "name": "G",
+       "bits": [
+        6,
+        6
+       ]
+      }
+     ]
+    },
+    {
+     "name": "SEG3",
+     "width": 7,
+     "fields": [
+      {
+       "name": "A",
+       "bits": [
+        0,
+        0
+       ]
+      },
+      {
+       "name": "B",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "C",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "D",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "E",
+       "bits": [
+        4,
+        4
+       ]
+      },
+      {
+       "name": "F",
+       "bits": [
+        5,
+        5
+       ]
+      },
+      {
+       "name": "G",
+       "bits": [
+        6,
+        6
+       ]
+      }
+     ]
+    },
+    {
+     "name": "SEG4",
+     "width": 7,
+     "fields": [
+      {
+       "name": "A",
+       "bits": [
+        0,
+        0
+       ]
+      },
+      {
+       "name": "B",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "C",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "D",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "E",
+       "bits": [
+        4,
+        4
+       ]
+      },
+      {
+       "name": "F",
+       "bits": [
+        5,
+        5
+       ]
+      },
+      {
+       "name": "G",
+       "bits": [
+        6,
+        6
+       ]
+      }
+     ]
+    },
+    {
+     "name": "SEGH",
+     "width": 1
+    },
+    {
+     "name": "PIN",
+     "width": 2,
+     "fields": [
+      {
+       "name": "STORE",
+       "bits": [
+        0,
+        0
+       ]
+      },
+      {
+       "name": "LZB",
+       "bits": [
+        1,
+        1
+       ]
+      }
+     ]
+    },
+    {
+     "name": "ST",
+     "width": 4,
+     "fields": [
+      {
+       "name": "STG",
+       "bits": [
+        2,
+        0
+       ]
+      },
+      {
+       "name": "LASTC",
+       "bits": [
+        3,
+        3
+       ]
+      }
+     ]
+    },
+    {
+     "name": "OUT",
+     "width": 2,
+     "fields": [
+      {
+       "name": "CARRY",
+       "bits": [
+        0,
+        0
+       ]
+      },
+      {
+       "name": "LZBOUT",
+       "bits": [
+        1,
+        1
+       ]
+      }
+     ]
+    }
+   ],
+   "protocol": {
+    "frame": "stream",
+    "commands": [
+     {
+      "name": "RESET low: counter and half digit cleared",
+      "in": "a0x",
+      "when": [
+       "ST.STG=0"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 0,
+       "CNT4": 0,
+       "HALF": 0,
+       "OUT.CARRY": 0,
+       "ST.LASTC": "a",
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digit 1 0 -> 1",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=0"
+      ],
+      "set": {
+       "CNT1": 1,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digit 1 1 -> 2",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=1"
+      ],
+      "set": {
+       "CNT1": 2,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digit 1 2 -> 3",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=2"
+      ],
+      "set": {
+       "CNT1": 3,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digit 1 3 -> 4",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=3"
+      ],
+      "set": {
+       "CNT1": 4,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digit 1 4 -> 5",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=4"
+      ],
+      "set": {
+       "CNT1": 5,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digit 1 5 -> 6",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=5"
+      ],
+      "set": {
+       "CNT1": 6,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digit 1 6 -> 7",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=6"
+      ],
+      "set": {
+       "CNT1": 7,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digit 1 7 -> 8",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=7"
+      ],
+      "set": {
+       "CNT1": 8,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digit 1 8 -> 9",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=8"
+      ],
+      "set": {
+       "CNT1": 9,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-1 9 -> 0, digit 2 0 -> 1",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=0"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 1,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-1 9 -> 0, digit 2 1 -> 2",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=1"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 2,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-1 9 -> 0, digit 2 2 -> 3",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=2"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 3,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-1 9 -> 0, digit 2 3 -> 4",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=3"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 4,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-1 9 -> 0, digit 2 4 -> 5",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=4"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 5,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-1 9 -> 0, digit 2 5 -> 6",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=5"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 6,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-1 9 -> 0, digit 2 6 -> 7",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=6"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 7,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-1 9 -> 0, digit 2 7 -> 8",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=7"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 8,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-1 9 -> 0, digit 2 8 -> 9",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=8"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 9,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-2 9 -> 0, digit 3 0 -> 1",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=0"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 1,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-2 9 -> 0, digit 3 1 -> 2",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=1"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 2,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-2 9 -> 0, digit 3 2 -> 3",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=2"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 3,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-2 9 -> 0, digit 3 3 -> 4",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=3"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 4,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-2 9 -> 0, digit 3 4 -> 5",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=4"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 5,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-2 9 -> 0, digit 3 5 -> 6",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=5"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 6,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-2 9 -> 0, digit 3 6 -> 7",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=6"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 7,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-2 9 -> 0, digit 3 7 -> 8",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=7"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 8,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-2 9 -> 0, digit 3 8 -> 9",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=8"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 9,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-3 9 -> 0, digit 4 0 -> 1",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=9",
+       "CNT4=0"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 0,
+       "CNT4": 1,
+       "ST.LASTC": 0,
+       "ST.STG": 1,
+       "OUT.CARRY": 0
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-3 9 -> 0, digit 4 1 -> 2",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=9",
+       "CNT4=1"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 0,
+       "CNT4": 2,
+       "ST.LASTC": 0,
+       "ST.STG": 1,
+       "OUT.CARRY": 0
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-3 9 -> 0, digit 4 2 -> 3",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=9",
+       "CNT4=2"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 0,
+       "CNT4": 3,
+       "ST.LASTC": 0,
+       "ST.STG": 1,
+       "OUT.CARRY": 0
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-3 9 -> 0, digit 4 3 -> 4",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=9",
+       "CNT4=3"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 0,
+       "CNT4": 4,
+       "ST.LASTC": 0,
+       "ST.STG": 1,
+       "OUT.CARRY": 0
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-3 9 -> 0, digit 4 4 -> 5",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=9",
+       "CNT4=4"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 0,
+       "CNT4": 5,
+       "ST.LASTC": 0,
+       "ST.STG": 1,
+       "OUT.CARRY": 0
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-3 9 -> 0, digit 4 5 -> 6",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=9",
+       "CNT4=5"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 0,
+       "CNT4": 6,
+       "ST.LASTC": 0,
+       "ST.STG": 1,
+       "OUT.CARRY": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-3 9 -> 0, digit 4 6 -> 7",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=9",
+       "CNT4=6"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 0,
+       "CNT4": 7,
+       "ST.LASTC": 0,
+       "ST.STG": 1,
+       "OUT.CARRY": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-3 9 -> 0, digit 4 7 -> 8",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=9",
+       "CNT4=7"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 0,
+       "CNT4": 8,
+       "ST.LASTC": 0,
+       "ST.STG": 1,
+       "OUT.CARRY": 1
+      }
+     },
+     {
+      "name": "COUNT falls: digits 1-3 9 -> 0, digit 4 8 -> 9",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=9",
+       "CNT4=8"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 0,
+       "CNT4": 9,
+       "ST.LASTC": 0,
+       "ST.STG": 1,
+       "OUT.CARRY": 1
+      }
+     },
+     {
+      "name": "COUNT falls at 9999: digits to 0, half digit set (CARRY falls)",
+      "in": "011",
+      "when": [
+       "ST.STG=0",
+       "ST.LASTC=1",
+       "CNT1=9",
+       "CNT2=9",
+       "CNT3=9",
+       "CNT4=9"
+      ],
+      "set": {
+       "CNT1": 0,
+       "CNT2": 0,
+       "CNT3": 0,
+       "CNT4": 0,
+       "HALF": 1,
+       "OUT.CARRY": 0,
+       "ST.LASTC": 0,
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "COUNT level seen (no count)",
+      "in": "axx",
+      "when": [
+       "ST.STG=0"
+      ],
+      "set": {
+       "ST.LASTC": "a",
+       "ST.STG": 1
+      }
+     },
+     {
+      "name": "STORE and LZB IN levels of this event",
+      "in": "bc",
+      "when": [
+       "ST.STG=1"
+      ],
+      "set": {
+       "PIN.STORE": "b",
+       "PIN.LZB": "c",
+       "ST.STG": 2
+      }
+     },
+     {
+      "name": "digit 1 blank (LZB IN high, count 0000, STORE low): LZB OUT high",
+      "in": "x",
+      "when": [
+       "ST.STG=2",
+       "PIN.STORE=0",
+       "PIN.LZB=1",
+       "HALF=0",
+       "CNT1=0",
+       "CNT2=0",
+       "CNT3=0",
+       "CNT4=0"
+      ],
+      "set": {
+       "SEG1": 0,
+       "OUT.LZBOUT": 1,
+       "ST.STG": 3
+      }
+     },
+     {
+      "name": "digit 1 held (STORE high), LZB OUT high",
+      "in": "x",
+      "when": [
+       "ST.STG=2",
+       "PIN.LZB=1",
+       "HALF=0",
+       "CNT1=0",
+       "CNT2=0",
+       "CNT3=0",
+       "CNT4=0"
+      ],
+      "set": {
+       "OUT.LZBOUT": 1,
+       "ST.STG": 3
+      }
+     },
+     {
+      "name": "digit 1 shows 0",
+      "in": "x",
+      "when": [
+       "ST.STG=2",
+       "PIN.STORE=0",
+       "CNT1=0"
+      ],
+      "set": {
+       "SEG1": 63,
+       "OUT.LZBOUT": 0,
+       "ST.STG": 3
+      }
+     },
+     {
+      "name": "digit 1 shows 1",
+      "in": "x",
+      "when": [
+       "ST.STG=2",
+       "PIN.STORE=0",
+       "CNT1=1"
+      ],
+      "set": {
+       "SEG1": 6,
+       "OUT.LZBOUT": 0,
+       "ST.STG": 3
+      }
+     },
+     {
+      "name": "digit 1 shows 2",
+      "in": "x",
+      "when": [
+       "ST.STG=2",
+       "PIN.STORE=0",
+       "CNT1=2"
+      ],
+      "set": {
+       "SEG1": 91,
+       "OUT.LZBOUT": 0,
+       "ST.STG": 3
+      }
+     },
+     {
+      "name": "digit 1 shows 3",
+      "in": "x",
+      "when": [
+       "ST.STG=2",
+       "PIN.STORE=0",
+       "CNT1=3"
+      ],
+      "set": {
+       "SEG1": 79,
+       "OUT.LZBOUT": 0,
+       "ST.STG": 3
+      }
+     },
+     {
+      "name": "digit 1 shows 4",
+      "in": "x",
+      "when": [
+       "ST.STG=2",
+       "PIN.STORE=0",
+       "CNT1=4"
+      ],
+      "set": {
+       "SEG1": 102,
+       "OUT.LZBOUT": 0,
+       "ST.STG": 3
+      }
+     },
+     {
+      "name": "digit 1 shows 5",
+      "in": "x",
+      "when": [
+       "ST.STG=2",
+       "PIN.STORE=0",
+       "CNT1=5"
+      ],
+      "set": {
+       "SEG1": 109,
+       "OUT.LZBOUT": 0,
+       "ST.STG": 3
+      }
+     },
+     {
+      "name": "digit 1 shows 6",
+      "in": "x",
+      "when": [
+       "ST.STG=2",
+       "PIN.STORE=0",
+       "CNT1=6"
+      ],
+      "set": {
+       "SEG1": 125,
+       "OUT.LZBOUT": 0,
+       "ST.STG": 3
+      }
+     },
+     {
+      "name": "digit 1 shows 7",
+      "in": "x",
+      "when": [
+       "ST.STG=2",
+       "PIN.STORE=0",
+       "CNT1=7"
+      ],
+      "set": {
+       "SEG1": 7,
+       "OUT.LZBOUT": 0,
+       "ST.STG": 3
+      }
+     },
+     {
+      "name": "digit 1 shows 8",
+      "in": "x",
+      "when": [
+       "ST.STG=2",
+       "PIN.STORE=0",
+       "CNT1=8"
+      ],
+      "set": {
+       "SEG1": 127,
+       "OUT.LZBOUT": 0,
+       "ST.STG": 3
+      }
+     },
+     {
+      "name": "digit 1 shows 9",
+      "in": "x",
+      "when": [
+       "ST.STG=2",
+       "PIN.STORE=0",
+       "CNT1=9"
+      ],
+      "set": {
+       "SEG1": 111,
+       "OUT.LZBOUT": 0,
+       "ST.STG": 3
+      }
+     },
+     {
+      "name": "digit 1 held (STORE high)",
+      "in": "x",
+      "when": [
+       "ST.STG=2"
+      ],
+      "set": {
+       "OUT.LZBOUT": 0,
+       "ST.STG": 3
+      }
+     },
+     {
+      "name": "digit 2 blank (leading zero)",
+      "in": "x",
+      "when": [
+       "ST.STG=3",
+       "PIN.STORE=0",
+       "PIN.LZB=1",
+       "HALF=0",
+       "CNT2=0",
+       "CNT3=0",
+       "CNT4=0"
+      ],
+      "set": {
+       "SEG2": 0,
+       "ST.STG": 4
+      }
+     },
+     {
+      "name": "digit 2 shows 0",
+      "in": "x",
+      "when": [
+       "ST.STG=3",
+       "PIN.STORE=0",
+       "CNT2=0"
+      ],
+      "set": {
+       "SEG2": 63,
+       "ST.STG": 4
+      }
+     },
+     {
+      "name": "digit 2 shows 1",
+      "in": "x",
+      "when": [
+       "ST.STG=3",
+       "PIN.STORE=0",
+       "CNT2=1"
+      ],
+      "set": {
+       "SEG2": 6,
+       "ST.STG": 4
+      }
+     },
+     {
+      "name": "digit 2 shows 2",
+      "in": "x",
+      "when": [
+       "ST.STG=3",
+       "PIN.STORE=0",
+       "CNT2=2"
+      ],
+      "set": {
+       "SEG2": 91,
+       "ST.STG": 4
+      }
+     },
+     {
+      "name": "digit 2 shows 3",
+      "in": "x",
+      "when": [
+       "ST.STG=3",
+       "PIN.STORE=0",
+       "CNT2=3"
+      ],
+      "set": {
+       "SEG2": 79,
+       "ST.STG": 4
+      }
+     },
+     {
+      "name": "digit 2 shows 4",
+      "in": "x",
+      "when": [
+       "ST.STG=3",
+       "PIN.STORE=0",
+       "CNT2=4"
+      ],
+      "set": {
+       "SEG2": 102,
+       "ST.STG": 4
+      }
+     },
+     {
+      "name": "digit 2 shows 5",
+      "in": "x",
+      "when": [
+       "ST.STG=3",
+       "PIN.STORE=0",
+       "CNT2=5"
+      ],
+      "set": {
+       "SEG2": 109,
+       "ST.STG": 4
+      }
+     },
+     {
+      "name": "digit 2 shows 6",
+      "in": "x",
+      "when": [
+       "ST.STG=3",
+       "PIN.STORE=0",
+       "CNT2=6"
+      ],
+      "set": {
+       "SEG2": 125,
+       "ST.STG": 4
+      }
+     },
+     {
+      "name": "digit 2 shows 7",
+      "in": "x",
+      "when": [
+       "ST.STG=3",
+       "PIN.STORE=0",
+       "CNT2=7"
+      ],
+      "set": {
+       "SEG2": 7,
+       "ST.STG": 4
+      }
+     },
+     {
+      "name": "digit 2 shows 8",
+      "in": "x",
+      "when": [
+       "ST.STG=3",
+       "PIN.STORE=0",
+       "CNT2=8"
+      ],
+      "set": {
+       "SEG2": 127,
+       "ST.STG": 4
+      }
+     },
+     {
+      "name": "digit 2 shows 9",
+      "in": "x",
+      "when": [
+       "ST.STG=3",
+       "PIN.STORE=0",
+       "CNT2=9"
+      ],
+      "set": {
+       "SEG2": 111,
+       "ST.STG": 4
+      }
+     },
+     {
+      "name": "digit 2 held (STORE high)",
+      "in": "x",
+      "when": [
+       "ST.STG=3"
+      ],
+      "set": {
+       "ST.STG": 4
+      }
+     },
+     {
+      "name": "digit 3 blank (leading zero)",
+      "in": "x",
+      "when": [
+       "ST.STG=4",
+       "PIN.STORE=0",
+       "PIN.LZB=1",
+       "HALF=0",
+       "CNT3=0",
+       "CNT4=0"
+      ],
+      "set": {
+       "SEG3": 0,
+       "ST.STG": 5
+      }
+     },
+     {
+      "name": "digit 3 shows 0",
+      "in": "x",
+      "when": [
+       "ST.STG=4",
+       "PIN.STORE=0",
+       "CNT3=0"
+      ],
+      "set": {
+       "SEG3": 63,
+       "ST.STG": 5
+      }
+     },
+     {
+      "name": "digit 3 shows 1",
+      "in": "x",
+      "when": [
+       "ST.STG=4",
+       "PIN.STORE=0",
+       "CNT3=1"
+      ],
+      "set": {
+       "SEG3": 6,
+       "ST.STG": 5
+      }
+     },
+     {
+      "name": "digit 3 shows 2",
+      "in": "x",
+      "when": [
+       "ST.STG=4",
+       "PIN.STORE=0",
+       "CNT3=2"
+      ],
+      "set": {
+       "SEG3": 91,
+       "ST.STG": 5
+      }
+     },
+     {
+      "name": "digit 3 shows 3",
+      "in": "x",
+      "when": [
+       "ST.STG=4",
+       "PIN.STORE=0",
+       "CNT3=3"
+      ],
+      "set": {
+       "SEG3": 79,
+       "ST.STG": 5
+      }
+     },
+     {
+      "name": "digit 3 shows 4",
+      "in": "x",
+      "when": [
+       "ST.STG=4",
+       "PIN.STORE=0",
+       "CNT3=4"
+      ],
+      "set": {
+       "SEG3": 102,
+       "ST.STG": 5
+      }
+     },
+     {
+      "name": "digit 3 shows 5",
+      "in": "x",
+      "when": [
+       "ST.STG=4",
+       "PIN.STORE=0",
+       "CNT3=5"
+      ],
+      "set": {
+       "SEG3": 109,
+       "ST.STG": 5
+      }
+     },
+     {
+      "name": "digit 3 shows 6",
+      "in": "x",
+      "when": [
+       "ST.STG=4",
+       "PIN.STORE=0",
+       "CNT3=6"
+      ],
+      "set": {
+       "SEG3": 125,
+       "ST.STG": 5
+      }
+     },
+     {
+      "name": "digit 3 shows 7",
+      "in": "x",
+      "when": [
+       "ST.STG=4",
+       "PIN.STORE=0",
+       "CNT3=7"
+      ],
+      "set": {
+       "SEG3": 7,
+       "ST.STG": 5
+      }
+     },
+     {
+      "name": "digit 3 shows 8",
+      "in": "x",
+      "when": [
+       "ST.STG=4",
+       "PIN.STORE=0",
+       "CNT3=8"
+      ],
+      "set": {
+       "SEG3": 127,
+       "ST.STG": 5
+      }
+     },
+     {
+      "name": "digit 3 shows 9",
+      "in": "x",
+      "when": [
+       "ST.STG=4",
+       "PIN.STORE=0",
+       "CNT3=9"
+      ],
+      "set": {
+       "SEG3": 111,
+       "ST.STG": 5
+      }
+     },
+     {
+      "name": "digit 3 held (STORE high)",
+      "in": "x",
+      "when": [
+       "ST.STG=4"
+      ],
+      "set": {
+       "ST.STG": 5
+      }
+     },
+     {
+      "name": "digit 4 and half digit blank (leading zero, half digit clear)",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "PIN.LZB=1",
+       "HALF=0",
+       "CNT4=0"
+      ],
+      "set": {
+       "SEG4": 0,
+       "SEGH": 0,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 0, half digit 0",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=0",
+       "HALF=0"
+      ],
+      "set": {
+       "SEG4": 63,
+       "SEGH": 0,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 1, half digit 0",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=1",
+       "HALF=0"
+      ],
+      "set": {
+       "SEG4": 6,
+       "SEGH": 0,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 2, half digit 0",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=2",
+       "HALF=0"
+      ],
+      "set": {
+       "SEG4": 91,
+       "SEGH": 0,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 3, half digit 0",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=3",
+       "HALF=0"
+      ],
+      "set": {
+       "SEG4": 79,
+       "SEGH": 0,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 4, half digit 0",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=4",
+       "HALF=0"
+      ],
+      "set": {
+       "SEG4": 102,
+       "SEGH": 0,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 5, half digit 0",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=5",
+       "HALF=0"
+      ],
+      "set": {
+       "SEG4": 109,
+       "SEGH": 0,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 6, half digit 0",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=6",
+       "HALF=0"
+      ],
+      "set": {
+       "SEG4": 125,
+       "SEGH": 0,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 7, half digit 0",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=7",
+       "HALF=0"
+      ],
+      "set": {
+       "SEG4": 7,
+       "SEGH": 0,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 8, half digit 0",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=8",
+       "HALF=0"
+      ],
+      "set": {
+       "SEG4": 127,
+       "SEGH": 0,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 9, half digit 0",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=9",
+       "HALF=0"
+      ],
+      "set": {
+       "SEG4": 111,
+       "SEGH": 0,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 0, half digit 1",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=0",
+       "HALF=1"
+      ],
+      "set": {
+       "SEG4": 63,
+       "SEGH": 1,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 1, half digit 1",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=1",
+       "HALF=1"
+      ],
+      "set": {
+       "SEG4": 6,
+       "SEGH": 1,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 2, half digit 1",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=2",
+       "HALF=1"
+      ],
+      "set": {
+       "SEG4": 91,
+       "SEGH": 1,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 3, half digit 1",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=3",
+       "HALF=1"
+      ],
+      "set": {
+       "SEG4": 79,
+       "SEGH": 1,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 4, half digit 1",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=4",
+       "HALF=1"
+      ],
+      "set": {
+       "SEG4": 102,
+       "SEGH": 1,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 5, half digit 1",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=5",
+       "HALF=1"
+      ],
+      "set": {
+       "SEG4": 109,
+       "SEGH": 1,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 6, half digit 1",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=6",
+       "HALF=1"
+      ],
+      "set": {
+       "SEG4": 125,
+       "SEGH": 1,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 7, half digit 1",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=7",
+       "HALF=1"
+      ],
+      "set": {
+       "SEG4": 7,
+       "SEGH": 1,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 8, half digit 1",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=8",
+       "HALF=1"
+      ],
+      "set": {
+       "SEG4": 127,
+       "SEGH": 1,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 shows 9, half digit 1",
+      "in": "x",
+      "when": [
+       "ST.STG=5",
+       "PIN.STORE=0",
+       "CNT4=9",
+       "HALF=1"
+      ],
+      "set": {
+       "SEG4": 111,
+       "SEGH": 1,
+       "ST.STG": 0
+      }
+     },
+     {
+      "name": "digit 4 and half digit held (STORE high)",
+      "in": "x",
+      "when": [
+       "ST.STG=5"
+      ],
+      "set": {
+       "ST.STG": 0
+      }
+     }
+    ]
+   },
+   "display": {
+    "driver": "ports",
+    "ports": [
+     {
+      "pin": "A1",
+      "dataField": "SEG1.A",
+      "invert": true
+     },
+     {
+      "pin": "B1",
+      "dataField": "SEG1.B",
+      "invert": true
+     },
+     {
+      "pin": "C1",
+      "dataField": "SEG1.C",
+      "invert": true
+     },
+     {
+      "pin": "D1",
+      "dataField": "SEG1.D",
+      "invert": true
+     },
+     {
+      "pin": "E1",
+      "dataField": "SEG1.E",
+      "invert": true
+     },
+     {
+      "pin": "F1",
+      "dataField": "SEG1.F",
+      "invert": true
+     },
+     {
+      "pin": "G1",
+      "dataField": "SEG1.G",
+      "invert": true
+     },
+     {
+      "pin": "A2",
+      "dataField": "SEG2.A",
+      "invert": true
+     },
+     {
+      "pin": "B2",
+      "dataField": "SEG2.B",
+      "invert": true
+     },
+     {
+      "pin": "C2",
+      "dataField": "SEG2.C",
+      "invert": true
+     },
+     {
+      "pin": "D2",
+      "dataField": "SEG2.D",
+      "invert": true
+     },
+     {
+      "pin": "E2",
+      "dataField": "SEG2.E",
+      "invert": true
+     },
+     {
+      "pin": "F2",
+      "dataField": "SEG2.F",
+      "invert": true
+     },
+     {
+      "pin": "G2",
+      "dataField": "SEG2.G",
+      "invert": true
+     },
+     {
+      "pin": "A3",
+      "dataField": "SEG3.A",
+      "invert": true
+     },
+     {
+      "pin": "B3",
+      "dataField": "SEG3.B",
+      "invert": true
+     },
+     {
+      "pin": "C3",
+      "dataField": "SEG3.C",
+      "invert": true
+     },
+     {
+      "pin": "D3",
+      "dataField": "SEG3.D",
+      "invert": true
+     },
+     {
+      "pin": "E3",
+      "dataField": "SEG3.E",
+      "invert": true
+     },
+     {
+      "pin": "F3",
+      "dataField": "SEG3.F",
+      "invert": true
+     },
+     {
+      "pin": "G3",
+      "dataField": "SEG3.G",
+      "invert": true
+     },
+     {
+      "pin": "A4",
+      "dataField": "SEG4.A",
+      "invert": true
+     },
+     {
+      "pin": "B4",
+      "dataField": "SEG4.B",
+      "invert": true
+     },
+     {
+      "pin": "C4",
+      "dataField": "SEG4.C",
+      "invert": true
+     },
+     {
+      "pin": "D4",
+      "dataField": "SEG4.D",
+      "invert": true
+     },
+     {
+      "pin": "E4",
+      "dataField": "SEG4.E",
+      "invert": true
+     },
+     {
+      "pin": "F4",
+      "dataField": "SEG4.F",
+      "invert": true
+     },
+     {
+      "pin": "G4",
+      "dataField": "SEG4.G",
+      "invert": true
+     },
+     {
+      "pin": "1/2-DIGIT",
+      "dataField": "SEGH",
+      "invert": true
+     },
+     {
+      "pin": "CARRY",
+      "dataField": "OUT.CARRY"
+     },
+     {
+      "pin": "LZB OUT",
+      "dataField": "OUT.LZBOUT"
+     }
+    ],
+    "openDrain": [
+     "A1",
+     "B1",
+     "C1",
+     "D1",
+     "E1",
+     "F1",
+     "G1",
+     "A2",
+     "B2",
+     "C2",
+     "D2",
+     "E2",
+     "F2",
+     "G2",
+     "A3",
+     "B3",
+     "C3",
+     "D3",
+     "E3",
+     "F3",
+     "G3",
+     "A4",
+     "B4",
+     "C4",
+     "D4",
+     "E4",
+     "F4",
+     "G4",
+     "1/2-DIGIT"
+    ]
+   },
+   "parts": [
+    {
+     "name": "ICM7225IPL",
+     "manufacturer": "Analog Devices",
+     "datasheet": "icm7224-icm7225-maxim",
+     "package": "DIP",
+     "pinout": "dip40",
+     "footprint": "PDIP-40-600"
+    },
+    {
+     "name": "ICM7225IQH",
+     "manufacturer": "Analog Devices",
+     "datasheet": "icm7224-icm7225-maxim",
+     "package": "PLCC",
+     "pinout": "plcc44",
+     "footprint": "PLCC-44"
+    }
+   ],
+   "note": "icm7224-icm7225-maxim.pdf: p.1 pinout and ordering, p.2-3 electricals, p.4 timing, p.5 pin descriptions, p.6-7 detailed description, Fig. 5 font, p.8 PLCC pinout; icm7224-icm7225-harris.pdf p.1-2 ordering and functional diagram, p.5-6 control inputs and counter section"
+  }
+ ],
+ "datasheets": [
+  {
+   "id": "icm7224-icm7225-maxim",
+   "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/ICM7224-ICM7225.pdf"
+  },
+  {
+   "id": "icm7224-icm7225-harris",
+   "url": "https://www.renesas.com/en/document/dst/icm7224-datasheet"
+  }
+ ],
+ "missingFootprints": [],
+ "skipped": [
+  {
+   "part": "ICL7224RIPL",
+   "why": "icm7224-icm7225-harris p.1 ordering table: 40-pin plastic DIP with the 'R' reversed-leads configuration; the sheet gives no reversed pinout, so no pinout can be written."
+  },
+  {
+   "part": "ICM7224C/D, ICM7225C/D",
+   "why": "dice (icm7224-icm7225-maxim p.1), not packaged parts."
+  },
+  {
+   "part": "ICM7225IJL, ICM7225 CERDIP",
+   "why": "not in any ordering table: the Harris table (p.1) lists only ICM7224IPL, ICM7224IJL and ICL7224RIPL; Maxim lists ICM7225IPL and ICM7225IQH."
+  },
+  {
+   "part": "CD22105D / other CD22105 package suffixes",
+   "why": "cd22105-harris.pdf has no ordering table; only the 'E' suffix 40-lead plastic DIP is stated (p.1 'supplied in the 40-lead dual-in-line plastic (E suffix) package', p.8 drawing). CD22105E and CD22105AE are the two names (the 'A' type is the decimal one, p.5 Table I)."
+  }
+ ],
+ "engineNeeds": [
+  {
+   "id": "lcd-extra-outputs",
+   "needs": "A device whose display driver is `lcd` must also be able to drive plain output pins from register fields: the ICM7224's CARRY (pin 28) and LZB OUT (pin 30). Requested form: an optional `\"ports\"` array inside the `lcd` display object, same entries as the `ports` driver (`{\"pin\", \"dataField\", \"invert\"}`; no dirField): the pin drives 1 while the field is nonzero, else 0, strong, computed with every register change. The ICM7224 device already keeps the two fields up to date (`OUT.CARRY` = high from count 6000 to 9999 of each 10000 counts; `OUT.LZBOUT` = LZB IN high, half digit clear, count 0000, live decoder state not latched by STORE): the same two registers drive the pins of the ICM7225 today through its `ports` driver. Without the key the ICM7224's CARRY and LZB OUT pins are listed outputs that nothing drives (an 8-digit cascade of two ICM7224 cannot be built)."
+  },
+  {
+   "id": "pullups",
+   "needs": "Internal input pull-ups: RESET, STORE, COUNT INHIBIT and LZB IN have 10 uA pull-ups to V+ (icm7224-icm7225-maxim p.2-3 'Input Pull-up Currents', p.5 pin descriptions: 'inactive when ... floating'), the datasheet's circuits leave them open. Requested key: a device list `\"pullups\": [pin names]` (bus pins and `levels` pins): a pin that reads Z is read as 1 (and a pin at X stays X). Today a floating pin among the five inputs of the counter reads X, so no event fires and the counter does nothing until every one of COUNT, RESET, COUNT INHIBIT, STORE and LZB IN is driven (the five pins must be wired high/low in a circuit: documented in the part's note)."
+  },
+  {
+   "id": "lcd-slave-backplane",
+   "needs": "Backplane slave mode of the LCD parts (ICM7224 OSC pin 36 grounded, icm7224-icm7225-maxim p.5 pin 5/36 and p.6-7; CD22105 pin 36 at Vss, cd22105-harris p.1): the BP pin becomes an input and the segments follow it. Requested `lcd` key `\"slaveWhen\": {\"pin\": \"OSC\", \"level\": 0}`: while the pin reads that level the driver releases BP (it reads the external backplane) and every segment pin carries (its RAM bit) XOR (the level read on BP), no frame timer. Today the model always drives BP, so two chips sharing a BP net drive the same wire from two outputs and run in the same phase only if their frame timers start together (they do, both start at time 0)."
+  },
+  {
+   "id": "count-pin-note",
+   "needs": "Not required, a simplification only: the counters are modeled today with the engine's existing features (the unlatched parallel bus with the five input pins listed as both `address` and `data` so one pin change is a ten-bit write that the `stream` frame matches as up to 6 chained commands; 99 commands). A `\"pins\": {\"count\": {\"pin\": \"COUNT\", \"edge\": \"fall\", \"inhibit\": \"...\"}}` counter action and a register-to-register copy in `set` would make the table about ten lines, but nothing in the model is missing without them."
+  }
+ ],
+ "notes": "Four devices, seven parts, all loading with library_check and passing the bench (122 checks, ~1.5 s). newDevices (lcddriver.json): CD22105, CD22105A, ICM7224; newDevicesLeddriver (leddriver.json): ICM7225. Parts: CD22105E, CD22105AE (Renesas Electronics, no datasheet key: Renesas/Harris no longer host cd22105-harris.pdf, 404 on every renesas.com name tried), ICM7224IPL/IQH and ICM7225IPL/IQH (Analog Devices, datasheet icm7224-icm7225-maxim), ICM7224IJL (CERDIP, flags ceramic, Renesas Electronics, datasheet icm7224-icm7225-harris). Footprints exist: PDIP-40-600, PLCC-44, CDIP-40-600 (no new footprint). datasheets: icm7224-icm7225-maxim URL is NOT verified (analog.com did not answer from this machine, same as the other Maxim sheets; pattern of the verified ICM7211-ICM7212.pdf); icm7224-icm7225-harris URL https://www.renesas.com/en/document/dst/icm7224-datasheet answers a PDF (the Intersil ICM7224-only revision of May 2001, which carries an OBSOLETE PRODUCT / NO RECOMMENDED REPLACEMENT banner; it is a different document from the local Harris PDF but the same maker's ICM7224 sheet). obsolete flag: not set on any part (neither local sheet marks parts obsolete); the Renesas ICM7224 sheet and DigiKey (IQH+D) say obsolete: main thread decides. Distributor spellings: ICM7224IPL+ (Safari stock) and ICM7224IQH+D. Counter model: see the spec (section 3): count, reset, inhibit, store, LZB in/out, carry, half digit, 29 outputs; the display has registers SEG1..4/SEGH; the 5 input pins must all be driven. Regenerate backend/tests/golden (parts.txt, traces.txt, footprints.txt unchanged): 7 new parts, additions only. Install cd22105_icm7224_test.c with logic_test(cd22105_icm7224_test)."
+}
