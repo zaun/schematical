@@ -12,7 +12,7 @@ footprint, `ctest` passes, and the goldens only gain lines.
 
 References:
 
-- `planning/plan-55-H-powerswitch-parts-ideal-load.md` (the generator, the phases I repeats for another
+- `planning/completed/plan-55-H-powerswitch-parts-ideal-load.md` (the generator, the phases I repeats for another
   family); `planning/completed/plan-55-A-powerswitch-kind.md` § 3.2; `docs/parts-format.md` § `powerswitch`;
   `docs/backend.md` § Tests.
 

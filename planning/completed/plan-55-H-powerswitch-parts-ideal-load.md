@@ -113,7 +113,7 @@ Commit: 4a8b7300
 
 Acceptance: the editor agrees with the part file and the kind-list tests pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p55-dd test -only-testing:schematicalTests/PartEditorWindowTests -only-testing:schematicalTests/KindInfoTests -only-testing:schematicalTests/PartKindKeysTests -only-testing:schematicalTests/PartKindRoundTripTests -only-testing:schematicalTests/ParametricFootprintDraftTests -only-testing:schematicalTests/WizardStepsTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 20 min: a Debug build and six classes that read the part, kind and footprint counts; no smaller check covers the schema, the lists and the part file together; the full suite is not a plan step). Observed: every test of the six classes passes except `PartKindRoundTripTests.testDecoder` (352 decoder parts, expected 325; 18 with the extra key `device.latch`) and `testLatch` (768, expected 752): both fail on `main` without this plan (Correction 3), so the check is those six classes minus the two.
-Commit: (filled by the next commit)
+Commit: 9fbe1d64
 
 ## Validation Plan
 
