@@ -95,7 +95,7 @@ are Phase 2's; *leadless* lines (`DFN`, `QFN`, `WSON`, `UFDFN`, `X2SON`, `WLCSP`
 
 Acceptance: the tools run and every reusable line is mapped.
   Check: `python3 -I planning/plan-55-data/census/fp-check.py F` → prints the count of lines still without a footprint (est. 1 min).
-Commit: (filled by the next commit)
+Commit: c3380d83
 
 ### Phase 2 — Leaded and through-hole packages
 
@@ -104,7 +104,7 @@ Commit: (filled by the next commit)
 
 Acceptance: every leaded `F` line has a footprint and the objects load.
   Check: `planning/plan-55-data/census/fp-load.sh planning/plan-55-data/footprints-F.json` → `<k> new footprints: load ok` (est. 1 min).
-Commit: (filled by the next commit)
+Commit: c3380d83
 
 ### Phase 3 — Leadless and ball-grid packages
 
@@ -113,7 +113,7 @@ Commit: (filled by the next commit)
 
 Acceptance: every `F` line has a footprint and the objects load.
   Check: `python3 -I planning/plan-55-data/census/fp-check.py F` → `<n> lines, 0 without a footprint`; `fp-load.sh planning/plan-55-data/footprints-F.json` → `<k> new footprints: load ok` (est. 2 min).
-Commit: (filled by the next commit)
+Commit: c3380d83
 
 ## Validation Plan
 

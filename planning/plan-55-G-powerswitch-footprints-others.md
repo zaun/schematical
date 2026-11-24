@@ -12,7 +12,7 @@ of `footprint-map.tsv`. The behavioral outcome: every `G` line has a footprint i
 
 References:
 
-- `planning/plan-55-F-powerswitch-footprints-ti.md` § 3 (ids, reuse, the map, the two classes) and its tools;
+- `planning/completed/plan-55-F-powerswitch-footprints-ti.md` § 3 (ids, reuse, the map, the two classes) and its tools;
   `docs/parts-format.md` § Footprints; `planning/plan-55-data/footprints-needed.txt`.
 
 ## Prerequisites
