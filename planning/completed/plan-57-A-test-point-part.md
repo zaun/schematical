@@ -399,6 +399,8 @@ Commit: d0c6d820
    that `ConverterDraft.swift` / `RtcDraft.swift` do not yet have. The
    connector half of the test passes, which is what this plan needs; the
    converter / rtc form keys belong to plan-56 and are left untouched.
+   After `git merge main` (plan-56-G landed) `PartKindKeysTests` passes
+   (`Executed 2 tests, with 0 failures`), confirming the failure was plan-56's.
 4. **Where the docs went.** The card-slot paragraph of `docs/parts-format.md`
    sits (misplaced) under § `grid`, not § `connector`; the Test points
    subsection went at the end of § `connector` (before `### header`) where the

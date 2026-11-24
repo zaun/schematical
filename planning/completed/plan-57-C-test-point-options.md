@@ -179,7 +179,7 @@ Commit: 22b70666
       (`mcp__schematical__run_drc` after placing and routing both to a net): no
       violation whose message names a test point's pad (annular ring, drill
       or clearance).
-- [ ] Archive: `git mv planning/plan-57-A-test-point-part.md
+- [x] Archive (done in the landing commit): `git mv planning/plan-57-A-test-point-part.md
       planning/plan-57-B-test-point-schematic.md planning/plan-57-C-test-point-options.md
       planning/completed/` in the last commit, with every phase's `Commit:` line
       filled in.
@@ -190,7 +190,7 @@ changing pad; the DRC is clean for both mountings; the plans are archived.
   2.0 mm pad and the 2.0 mm through-hole (est. 10 min).
   Check: `mcp__schematical__run_drc` → no violation naming a test point (est. 2 min).
 Observed: `APP=/tmp/plan57/dd/Build/Products/Debug/schematical.app scripts/harness/build.sh scripts/harness/test-point-app.swift /tmp/p57-harness && /tmp/p57-harness/H.app/Contents/MacOS/harness /tmp/plan57/img` → seven `ok` lines (1 drawer leaf, 2 TP1/TP2 and the symbol, 3 wires, 4 the 1.5 mm pad, 5 no BOM line, 6 the footprints follow the controls, 7 no pad-rule issue on any test point) and four pictures written. `p57-board.png` (Board Preview, angled): three round pads, 1.5 mm, 2.0 mm and 2.0 mm with a drilled (black) centre. `p57-sidebar-pad.png`: Options show Size 1.5 mm and Through hole off, no Footprint menu. `p57-sidebar-through-hole.png`: Size 2.0 mm, Through hole on, Package "Through hole 2.0 mm", Footprint TESTPOINT-THT-2.0.
-Commit: —
+Commit: bb38e953 (the plans' move to `planning/completed/` is the landing commit after it)
 
 ## Validation Plan
 
@@ -204,7 +204,8 @@ Commit: —
 - Runtime proof: Phase 2's real-app and DRC checks.
 - Doc sync: `docs/parts-format.md` § Test points gets one sentence (the Phase 1
   task); no format change.
-- Final gate (run once, after Phase 2): the plan-57-A final gate
+- Final gate (run once, after Phase 2) — **run, on the tree after `git merge main` (plan-56-G had landed)**:
+  `ctest --test-dir /tmp/logic-build-p57` → `100% tests passed, 0 tests failed out of 55`; `xcodebuild … test -only-testing:schematicalTests/{TestPointTests,BillOfMaterialsTests,KiCadExportTests,CardSlotTests,DrawerCategoriesTests,PartKindKeysTests,DrawerPerformanceTests}` → `Executed 59 tests, with 0 failures` and `** TEST SUCCEEDED **`. Before the merge the same run had two failures unrelated to plan-57 (plan-57-A Corrections 5, and `DrawerCategoriesTests.testDisplaysAndIndicators`, which still listed Displays & Indicators without plan-56's LCD / LED drivers); both are green after plan-56-G. Planned: the plan-57-A final gate
   (`ctest --test-dir /tmp/logic-build`, est. 10 min) and
   `xcodebuild … test -only-testing:schematicalTests/TestPointTests -only-testing:schematicalTests/BillOfMaterialsTests -only-testing:schematicalTests/KiCadExportTests -only-testing:schematicalTests/CardSlotTests -only-testing:schematicalTests/DrawerCategoriesTests -only-testing:schematicalTests/PartKindKeysTests`
   (same flags as Phase 1, est. 12 min) → `** TEST SUCCEEDED **`; the full app
