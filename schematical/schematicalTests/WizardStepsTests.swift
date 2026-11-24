@@ -19,8 +19,8 @@ final class WizardStepsTests: XCTestCase {
     /// The coverage invariant (plan-46-D § 3.2).
     func testEveryKindKeyIsInExactlyOneStep() throws {
         let combinations = Self.combinations
-        XCTAssertEqual(combinations.count, 89)
-        XCTAssertEqual(combinations.filter { $0.variant == nil }.count, 22)
+        XCTAssertEqual(combinations.count, 90)
+        XCTAssertEqual(combinations.filter { $0.variant == nil }.count, 23)
         XCTAssertEqual(combinations.filter { $0.variant != nil }.count, 67)
         for (kind, variant) in combinations {
             let schema = try XCTUnwrap(PartKinds.schemas[kind])

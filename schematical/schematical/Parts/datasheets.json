@@ -8791,6 +8791,18 @@
     {"id": "sxt224-series-1", "url": "https://suntsu.com/wp-content/uploads/2019/07/SXT224-Series-1.pdf"},
     {"id": "sxt324-series-1", "url": "https://suntsu.com/wp-content/uploads/2020/07/SXT324-Series-1.pdf"},
     {"id": "sxt834-series", "url": "https://suntsu.com/wp-content/uploads/SXT834-Series.pdf"},
-    {"id": "sxthm2-series", "url": "https://suntsu.com/wp-content/uploads/2020/09/SXTHM2-Series.pdf"}
+    {"id": "sxthm2-series", "url": "https://suntsu.com/wp-content/uploads/2020/09/SXTHM2-Series.pdf"},
+    {"id": "74hc_hct4511", "url": "https://assets.nexperia.com/documents/data-sheet/74HC_HCT4511.pdf"},
+    {"id": "cd4511b", "url": "https://www.ti.com/lit/ds/symlink/cd4511b.pdf"},
+    {"id": "mc14511b-d", "url": "https://www.onsemi.com/pdf/datasheet/mc14511b-d.pdf"},
+    {"id": "cd4543b", "url": "https://www.ti.com/lit/ds/symlink/cd4543b.pdf"},
+    {"id": "cd74hc4543", "url": "https://www.ti.com/lit/ds/symlink/cd74hc4543.pdf"},
+    {"id": "cd74hct4543", "url": "https://www.ti.com/lit/ds/symlink/cd74hct4543.pdf"},
+    {"id": "mc14543b-d", "url": "https://www.onsemi.com/pdf/datasheet/mc14543b-d.pdf"},
+    {"id": "cd4054b", "url": "https://www.ti.com/lit/ds/symlink/cd4054b.pdf"},
+    {"id": "sn74ls247", "url": "https://www.ti.com/lit/ds/symlink/sn74ls247.pdf"},
+    {"id": "lcd-s401c39tr", "url": "https://www.lumex.com/datasheet/files/LCD-S401C39TR.pdf"},
+    {"id": "lcd-s3x1c50tr-b", "url": "https://www.lumex.com/web_files/?func=datasheet&fs=LCD-S3X1C50TR-B.pdf"},
+    {"id": "lcd-s301c31tr", "url": "https://www.lumex.com/datasheet/files/LCD-S301C31TR.pdf"}
   ]
 }

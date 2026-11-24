@@ -677,7 +677,7 @@ static const char *const DEVICE_KEYS[] = {
 static const char *const PART_KEYS[] = {"vcc", "inputMax", "i2cAddress", "i2c", "resets", NULL};
 
 static void *rtc_load_device(KindContext *ctx, const cJSON *json) {
-    return cv_load_device(ctx, json, 1);
+    return cv_load_device(ctx, json, CV_MODE_RTC);
 }
 
 static int rtc_pin_open_drain(const Part *part, size_t pin) {

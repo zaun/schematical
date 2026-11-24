@@ -316,6 +316,69 @@ static void check_rtc_cases(void) {
 #undef CONV_DEVICE
 #undef CONV_REG
 
+/* plan-56-B: the leddriver and lcddriver kinds (the output drivers run in display_out_test). */
+#define DISPLAY_DEVICE(KIND, DISPLAY) \
+    HEAD(KIND) "{'id':'L','function':'driver','description':'d','drawer':['Displays & Indicators']," \
+    "'pinouts':{'p':[{'number':1,'name':'VCC','role':'power'},{'number':2,'name':'CS','role':'input'}," \
+    "{'number':3,'name':'SCLK','role':'input'},{'number':4,'name':'DIN','role':'input'}," \
+    "{'number':5,'name':'O1','role':'output'},{'number':6,'name':'O2','role':'output'}]},'vcc':[4.5,5.5]," \
+    "'bus':{'style':'spi','cs':'CS','sclk':'SCLK','mosi':'DIN','mode':0}," \
+    "'registers':[{'name':'V','address':1,'width':8,'fields':[{'name':'F','bits':[3,0]}]}]," \
+    "'protocol':{'frame':'fixed','commands':[{'name':'W','in':'aaaaaaaa dddddddd','action':'write'," \
+    "'address':'a','data':'d'}]}" DISPLAY \
+    ",'parts':[{'name':'L-1','package':'SOIC','pinout':'p','footprint':'T6'}]}" TAIL
+#define DISPLAY_STATIC(GROUPS) ",'display':{'driver':'static','segmentActive':'high','groups':[" GROUPS "]}"
+#define DISPLAY_GROUP "{'pins':['O1','O2'],'ram':'V'}"
+
+static void check_driver_cases(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    CHECK(load(library, DISPLAY_DEVICE("leddriver", DISPLAY_STATIC(DISPLAY_GROUP)), &error) == 0);
+    part = part_library_find(library, "L-1");
+    CHECK(part != NULL && part->kind == PART_LEDDRIVER && part->vcc != NULL && part->converter == NULL);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   valid leddriver part\n");
+    library = part_library_create();
+    CHECK(load(library, DISPLAY_DEVICE("lcddriver", DISPLAY_STATIC(DISPLAY_GROUP)), &error) == 0);
+    part = part_library_find(library, "L-1");
+    CHECK(part != NULL && part->kind == PART_LCDDRIVER && part->vcc != NULL && part->converter == NULL);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   valid lcddriver part\n");
+
+    expect_fail("leddriver without a display", DISPLAY_DEVICE("leddriver", ""),
+                "devices[0] (L): a display driver needs \"display\"");
+    expect_fail("leddriver unknown driver",
+                DISPLAY_DEVICE("leddriver", ",'display':{'driver':'blink'}"),
+                "devices[0] (L): display: unknown driver \"blink\"");
+    expect_fail("leddriver unknown register in a group",
+                DISPLAY_DEVICE("leddriver", DISPLAY_STATIC("{'pins':['O1','O2'],'ram':'NOPE'}")),
+                "unknown register \"NOPE\"");
+    expect_fail("leddriver unknown field in a decodeField",
+                DISPLAY_DEVICE("leddriver", ",'display':{'driver':'static','segmentActive':'high','decode':'hex',"
+                               "'groups':[{'pins':['O1','O2'],'ram':'V','decodeField':'V.Q'}]}"),
+                "register \"V\" has no field \"Q\"");
+    expect_fail("leddriver pin missing from the pinout",
+                DISPLAY_DEVICE("leddriver", DISPLAY_STATIC("{'pins':['O1','O9'],'ram':'V'}")),
+                "no pin \"O9\" in this pinout");
+    expect_fail("lcddriver unknown key in display",
+                DISPLAY_DEVICE("lcddriver", ",'display':{'driver':'ports','ports':[],'blink':1}"),
+                "unknown key \"blink\"");
+    expect_fail("converter device with a display",
+                DISPLAY_DEVICE("converter", DISPLAY_STATIC(DISPLAY_GROUP)), "unknown key \"display\"");
+    expect_fail("rtc device with a display",
+                DISPLAY_DEVICE("rtc", DISPLAY_STATIC(DISPLAY_GROUP)), "unknown key \"display\"");
+    expect_fail("leddriver device with a conversion",
+                DISPLAY_DEVICE("leddriver", DISPLAY_STATIC(DISPLAY_GROUP) ",'conversion':{}"),
+                "unknown key \"conversion\"");
+}
+#undef DISPLAY_DEVICE
+#undef DISPLAY_STATIC
+#undef DISPLAY_GROUP
+
 /* plan-29-H: the diode kind. */
 #define DIODE_PIN(N, NAME, ROLE) "{'number':" #N ",'name':'" NAME "','role':'" ROLE "'}"
 #define DIODE_DEVICE(TYPE, PINS, DIODES, PART_KEYS) \
@@ -3402,6 +3465,7 @@ int main(void) {
     check_pio();
     check_converter_cases();
     check_rtc_cases();
+    check_driver_cases();
     check_diode_cases();
     check_capacitor_cases();
     check_mcu_cases();

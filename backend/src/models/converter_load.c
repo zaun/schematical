@@ -1,6 +1,6 @@
 /*
- * Loads a converter or rtc device (planning/plan-24-data/schema.md) into a
- * CvDevice, binds its pin names per pinout and loads its parts. Everything
+ * Loads a converter, rtc, leddriver or lcddriver device
+ * (planning/plan-24-data/schema.md, docs/parts-format.md) into a CvDevice, binds its pin names per pinout and loads its parts. Everything
  * comes from the KindContext arena.
  */
 
@@ -10,6 +10,7 @@
 #include <string.h>
 
 #include "converter.h"
+#include "display_out.h"
 #include "rtc.h"
 
 typedef struct {
@@ -21,6 +22,7 @@ typedef struct {
     size_t space_count;
     const char **names;
     size_t name_count, name_cap;
+    size_t ram_first, ram_count;    /* display.ram {"bytes", ...}: the registers it made */
 } Ld;
 
 /* A time in ns, as ps. Converter and RTC times reach minutes (slow data rates,
@@ -2255,9 +2257,717 @@ static int load_ram(Ld *ld, const cJSON *c) {
     return 0;
 }
 
+/* ---- The display section (plan-56-B; docs/parts-format.md § leddriver, § lcddriver) ----- */
+
+enum {
+    DISP_MAX_USED = 512,
+    DISP_MAX_LINES = 32,            /* digits, rows */
+    DISP_MAX_SEGMENTS = 16,         /* data pins of one digit / row / group */
+    DISP_MAX_LCD_SEGMENTS = 160
+};
+
+typedef struct {
+    Ld *ld;
+    int used[DISP_MAX_USED];        /* name ids the section has taken: a pin has one job */
+    size_t used_count;
+} Dl;
+
+/* display.ram {"bytes", "address", "space"}: makes the byte registers (as clock.ram does),
+   before the protocol reads the register names. */
+static int load_display_ram(Ld *ld, const cJSON *d) {
+    static const char *const RK[] = {"bytes", "address", "space", NULL};
+    const cJSON *r = member(d, "ram");
+    size_t first = ld->reg_count;
+    int rc;
+
+    if (r == NULL || !cJSON_IsObject(r)) {
+        return 0;
+    }
+    kind_push(ld->ctx, "display");
+    kind_push(ld->ctx, "ram");
+    if (check_keys(ld, r, RK) != 0) {
+        return -1;
+    }
+    if (member(r, "bytes") == NULL) {
+        return kind_error(ld->ctx, "missing \"bytes\"");
+    }
+    if (!cJSON_IsNumber(member(r, "bytes")) || member(r, "bytes")->valuedouble < 1 ||
+        member(r, "bytes")->valuedouble > 65536) {
+        return kind_error(ld->ctx, "\"bytes\" is 1-65536");
+    }
+    rc = load_ram(ld, d);
+    kind_pop(ld->ctx);
+    kind_pop(ld->ctx);
+    ld->ram_first = first;
+    ld->ram_count = ld->reg_count - first;
+    return rc;
+}
+
+/* A pin name: its name id, taken for one job in the section. */
+static int dl_take(Dl *dl, const char *name, int *id) {
+    size_t k;
+
+    if (name[0] == '\0') {
+        return kind_error(dl->ld->ctx, "a pin name is empty");
+    }
+    if ((*id = name_id(dl->ld, name)) == CV_NONE) {
+        return -1;
+    }
+    for (k = 0; k < dl->used_count; k++) {
+        if (dl->used[k] == *id) {
+            return kind_error(dl->ld->ctx, "pin \"%s\" is used twice in \"display\"", name);
+        }
+    }
+    if (dl->used_count == DISP_MAX_USED) {
+        return kind_error(dl->ld->ctx, "too many pins in \"display\"");
+    }
+    dl->used[dl->used_count++] = *id;
+    return 0;
+}
+
+/* An array of min..max pin names under `key`. */
+static int dl_pins(Dl *dl, const cJSON *o, const char *key, size_t min, size_t max,
+                   const int **out, size_t *count) {
+    Ld *ld = dl->ld;
+    const cJSON *v = member(o, key), *e;
+    size_t n = 0, size;
+    int *ids;
+
+    if (v == NULL) {
+        return kind_error(ld->ctx, "missing \"%s\"", key);
+    }
+    if (!cJSON_IsArray(v)) {
+        return kind_error(ld->ctx, "\"%s\" must be an array of pin names", key);
+    }
+    size = (size_t)cJSON_GetArraySize(v);
+    if (size < min || size > max) {
+        return min == max ? kind_error(ld->ctx, "\"%s\" must name %zu pins", key, min)
+                          : kind_error(ld->ctx, "\"%s\" must name %zu to %zu pins", key, min, max);
+    }
+    ids = kind_alloc(ld->ctx, (size + 1) * sizeof(*ids));
+    if (ids == NULL) {
+        return -1;
+    }
+    cJSON_ArrayForEach(e, v) {
+        if (!cJSON_IsString(e)) {
+            return kind_error(ld->ctx, "\"%s\" must be an array of pin names", key);
+        }
+        if (dl_take(dl, e->valuestring, &ids[n++]) != 0) {
+            return -1;
+        }
+    }
+    *out = ids;
+    *count = n;
+    return 0;
+}
+
+/* "high" -> 1, "low" -> 0. */
+static int dl_level(Ld *ld, const cJSON *o, const char *key, int *out) {
+    const char *s;
+
+    if (kind_string(ld->ctx, o, key, &s) != 0) {
+        return -1;
+    }
+    if (strcmp(s, "high") != 0 && strcmp(s, "low") != 0) {
+        return kind_error(ld->ctx, "\"%s\" must be \"high\" or \"low\"", key);
+    }
+    *out = strcmp(s, "high") == 0;
+    return 0;
+}
+
+/* A register or field name; the result code and the channel are no registers here. */
+static int dl_field(Ld *ld, const char *text, CvField *out) {
+    if (field_ref(ld, text, out) != 0) {
+        return -1;
+    }
+    if (out->reg < 0) {
+        return kind_error(ld->ctx, "\"%s\" is not a register or field", text);
+    }
+    return 0;
+}
+
+static int dl_field_member(Ld *ld, const cJSON *o, const char *key, CvField *out) {
+    const char *s;
+
+    return kind_string(ld->ctx, o, key, &s) != 0 ? -1 : dl_field(ld, s, out);
+}
+
+/* "ram": an array of register / field names, or {"bytes", ...} (made by load_display_ram).
+   `want` > 0: exactly that many, one per `noun`. */
+static int dl_ram(Ld *ld, const cJSON *o, size_t want, const char *noun, const CvField **out,
+                  size_t *count) {
+    const cJSON *v = member(o, "ram"), *e;
+    CvField *f;
+    size_t n = 0, size, i;
+
+    if (v == NULL) {
+        return kind_error(ld->ctx, "missing \"ram\"");
+    }
+    if (cJSON_IsObject(v)) {
+        size = ld->ram_count;
+    } else if (cJSON_IsArray(v)) {
+        size = (size_t)cJSON_GetArraySize(v);
+    } else {
+        return kind_error(ld->ctx, "\"ram\" is an array of register names or {\"bytes\": n}");
+    }
+    if (size == 0) {
+        return kind_error(ld->ctx, "\"ram\" is empty");
+    }
+    if (want > 0 && size != want) {
+        return kind_error(ld->ctx, "\"ram\" has %zu registers for %zu %s", size, want, noun);
+    }
+    f = kind_alloc(ld->ctx, size * sizeof(*f));
+    if (f == NULL) {
+        return -1;
+    }
+    if (cJSON_IsObject(v)) {
+        for (i = 0; i < size; i++) {
+            f[i].reg = (int)(ld->ram_first + i);
+            f[i].hi = ld->regs[ld->ram_first + i].width - 1;
+            f[i].lo = 0;
+        }
+    } else {
+        cJSON_ArrayForEach(e, v) {
+            if (!cJSON_IsString(e)) {
+                return kind_error(ld->ctx, "\"ram\" is an array of register names");
+            }
+            kind_push(ld->ctx, "ram[%zu]", n);
+            if (dl_field(ld, e->valuestring, &f[n++]) != 0) {
+                return -1;
+            }
+            kind_pop(ld->ctx);
+        }
+    }
+    *out = f;
+    *count = size;
+    return 0;
+}
+
+/* An optional condition under `key` ("REG.FIELD=v", "!=v", or an array: all must hold). */
+static int dl_cond(Ld *ld, const cJSON *o, const char *key, CvConds *out) {
+    const cJSON *v = member(o, key);
+
+    if (v == NULL) {
+        return 0;
+    }
+    kind_push(ld->ctx, "%s", key);
+    if (conds(ld, v, out) != 0) {
+        return -1;
+    }
+    kind_pop(ld->ctx);
+    return 0;
+}
+
+/* Optional "<key>": [bit, ...], one per data pin (0-31, all different). Default: pin i is bit i. */
+static int dl_bits(Ld *ld, const cJSON *o, const char *key, size_t count, const uint8_t **out) {
+    const cJSON *v = member(o, key), *e;
+    uint8_t *bits = kind_alloc(ld->ctx, count + 1);
+    size_t n = 0, i;
+
+    if (bits == NULL) {
+        return -1;
+    }
+    for (i = 0; i < count; i++) {
+        bits[i] = (uint8_t)i;
+    }
+    if (v != NULL) {
+        uint32_t seen = 0;
+
+        if (!cJSON_IsArray(v) || (size_t)cJSON_GetArraySize(v) != count) {
+            return kind_error(ld->ctx, "\"%s\" must list %zu bit numbers, one per pin", key, count);
+        }
+        cJSON_ArrayForEach(e, v) {
+            if (!cJSON_IsNumber(e) || e->valuedouble < 0 || e->valuedouble > 31 ||
+                e->valuedouble != (double)(int)e->valuedouble) {
+                return kind_error(ld->ctx, "\"%s\" holds bit numbers 0-31", key);
+            }
+            if (seen & (1u << (int)e->valuedouble)) {
+                return kind_error(ld->ctx, "\"%s\" names bit %d twice", key, (int)e->valuedouble);
+            }
+            seen |= 1u << (int)e->valuedouble;
+            bits[n++] = (uint8_t)(int)e->valuedouble;
+        }
+    }
+    *out = bits;
+    return 0;
+}
+
+/* A time in microseconds, > 0 and at most 1e7, as ps. */
+static int dl_us(Ld *ld, const cJSON *v, const char *what, uint64_t *ps) {
+    if (!cJSON_IsNumber(v) || !(v->valuedouble > 0) || v->valuedouble > 1e7) {
+        return kind_error(ld->ctx, "%s must be a time in microseconds above 0 and up to 1e7", what);
+    }
+    *ps = (uint64_t)llround(v->valuedouble * 1e6);
+    if (*ps == 0) {
+        *ps = 1;
+    }
+    return 0;
+}
+
+/* "scan": {"periodUs": n}, the time one scan slot lasts. */
+static int dl_scan(Ld *ld, const cJSON *o, uint64_t *ps) {
+    static const char *const SK[] = {"periodUs", NULL};
+    const cJSON *v = member(o, "scan");
+    int rc;
+
+    if (v == NULL) {
+        return kind_error(ld->ctx, "missing \"scan\"");
+    }
+    kind_push(ld->ctx, "scan");
+    if (check_keys(ld, v, SK) != 0 || member(v, "periodUs") == NULL) {
+        return kind_failed(ld->ctx) ? -1 : kind_error(ld->ctx, "missing \"periodUs\"");
+    }
+    rc = dl_us(ld, member(v, "periodUs"), "\"periodUs\"", ps);
+    kind_pop(ld->ctx);
+    return rc;
+}
+
+static int dl_decode_name(Ld *ld, const cJSON *o, DispDecode *out) {
+    static const char *const NAMES[] = {"none", "hex", "codeB", "bcd", "ascii7", NULL};
+    const char *s = "none";
+    size_t i;
+
+    *out = DEC_NONE;
+    if (member(o, "decode") == NULL) {
+        return 0;
+    }
+    if (kind_string(ld->ctx, o, "decode", &s) != 0) {
+        return -1;
+    }
+    for (i = 0; NAMES[i] != NULL; i++) {
+        if (strcmp(NAMES[i], s) == 0) {
+            *out = (DispDecode)i;
+            return 0;
+        }
+    }
+    return kind_error(ld->ctx, "\"decode\" must be \"none\", \"hex\", \"codeB\", \"bcd\" or \"ascii7\"");
+}
+
+/* decode, decodeField, decodeActive, dpBit of a digits or static driver. `data_pins`: how many
+   data pins one digit has (decoding needs 7 or 8). `digits`: how many decodeFields an array has
+   (0: no array form: static takes its field from each group). */
+static int dl_decode(Ld *ld, const cJSON *o, DispCfg *c, size_t data_pins, size_t digits) {
+    const cJSON *v;
+    uint32_t dp = 7, active = 1;
+
+    if (dl_decode_name(ld, o, &c->decode) != 0 ||
+        u32_member(ld, o, "decodeActive", &active) != 0 || u32_member(ld, o, "dpBit", &dp) != 0) {
+        return -1;
+    }
+    if (active > 1 || dp > 31) {
+        return kind_error(ld->ctx, "\"decodeActive\" is 0 or 1 and \"dpBit\" is 0-31");
+    }
+    c->decode_active = (int)active;
+    c->dp_bit = dp;
+    if (c->decode != DEC_NONE && data_pins != 7 && data_pins != 8) {
+        return kind_error(ld->ctx, "\"decode\" needs 7 segment pins (a-g) or 8 (and the point)");
+    }
+    if ((v = member(o, "decodeField")) != NULL) {
+        CvField *f;
+        size_t n = 0;
+
+        if (c->decode == DEC_NONE) {
+            return kind_error(ld->ctx, "\"decodeField\" needs a \"decode\" other than \"none\"");
+        }
+        if (digits == 0) {
+            return kind_error(ld->ctx, "\"decodeField\" goes in each group");
+        }
+        c->has_decode_field = 1;
+        if (cJSON_IsString(v)) {
+            f = kind_alloc(ld->ctx, sizeof(*f));
+            if (f == NULL || dl_field(ld, v->valuestring, f) != 0) {
+                return -1;
+            }
+            n = 1;
+        } else if (cJSON_IsArray(v) && (size_t)cJSON_GetArraySize(v) == digits) {
+            const cJSON *e;
+
+            f = kind_alloc(ld->ctx, digits * sizeof(*f));
+            if (f == NULL) {
+                return -1;
+            }
+            cJSON_ArrayForEach(e, v) {
+                if (!cJSON_IsString(e) || dl_field(ld, e->valuestring, &f[n++]) != 0) {
+                    return kind_failed(ld->ctx) ? -1
+                                                : kind_error(ld->ctx, "\"decodeField\" holds field names");
+                }
+            }
+        } else {
+            return kind_error(ld->ctx, "\"decodeField\" is a field name or an array of %zu", digits);
+        }
+        c->decode_field = f;
+        c->decode_field_count = n;
+    }
+    return 0;
+}
+
+/* openDrain: pins named by the driver that drive 0 or release. */
+static int dl_open_drain(Dl *dl, const cJSON *o, DispCfg *c) {
+    Ld *ld = dl->ld;
+    const cJSON *v = member(o, "openDrain"), *e;
+    int *ids;
+    size_t n = 0, k;
+
+    if (v == NULL) {
+        return 0;
+    }
+    if (!cJSON_IsArray(v)) {
+        return kind_error(ld->ctx, "\"openDrain\" must be an array of pin names");
+    }
+    ids = kind_alloc(ld->ctx, ((size_t)cJSON_GetArraySize(v) + 1) * sizeof(*ids));
+    if (ids == NULL) {
+        return -1;
+    }
+    cJSON_ArrayForEach(e, v) {
+        int id = CV_NONE;
+
+        if (cJSON_IsString(e)) {
+            for (k = 0; k < ld->name_count; k++) {
+                if (strcmp(ld->names[k], e->valuestring) == 0) {
+                    id = (int)k;
+                }
+            }
+        }
+        for (k = 0; k < dl->used_count && id != CV_NONE; k++) {
+            if (dl->used[k] == id) {
+                break;
+            }
+        }
+        if (id == CV_NONE || k == dl->used_count) {
+            return kind_error(ld->ctx, "\"openDrain\": \"%s\" is not a pin this driver drives",
+                              cJSON_IsString(e) ? e->valuestring : "?");
+        }
+        ids[n++] = id;
+    }
+    c->open_drain = ids;
+    c->open_drain_count = n;
+    return 0;
+}
+
+/* digits and matrix: a scan line per ram field, the data pins carrying the selected line. */
+static int load_display_scan(Dl *dl, const cJSON *o, DispCfg *c, int matrix) {
+    static const char *const DIGITS_KEYS[] = {
+        "driver", "digits", "digitPins", "digitActive", "segmentPins", "segmentActive", "segmentBits",
+        "ram", "decode", "decodeField", "decodeActive", "dpBit", "scan", "blank", "test", "shutdown",
+        "openDrain", NULL
+    };
+    static const char *const MATRIX_KEYS[] = {
+        "driver", "rows", "rowActive", "columns", "columnActive", "columnBits", "ram", "scan",
+        "blank", "test", "shutdown", "openDrain", NULL
+    };
+    Ld *ld = dl->ld;
+    const char *line_key = matrix ? "rows" : "digitPins";
+    const char *out_key = matrix ? "columns" : "segmentPins";
+    uint64_t n = 0;
+    size_t count = 0;
+
+    if (check_keys(ld, o, matrix ? MATRIX_KEYS : DIGITS_KEYS) != 0) {
+        return -1;
+    }
+    if (!matrix && (kind_uint(ld->ctx, o, "digits", DISP_MAX_LINES, &n) != 0 || n == 0)) {
+        return kind_failed(ld->ctx) ? -1 : kind_error(ld->ctx, "\"digits\" must be 1 to %d", DISP_MAX_LINES);
+    }
+    if (dl_pins(dl, o, line_key, matrix ? 1 : n, matrix ? DISP_MAX_LINES : n, &c->lines,
+                &c->line_count) != 0 ||
+        dl_level(ld, o, matrix ? "rowActive" : "digitActive", &c->line_active) != 0 ||
+        dl_pins(dl, o, out_key, matrix ? 1 : 7, DISP_MAX_SEGMENTS, &c->outs, &c->out_count) != 0 ||
+        dl_level(ld, o, matrix ? "columnActive" : "segmentActive", &c->out_active) != 0) {
+        return -1;
+    }
+    if (!matrix && c->out_count != 7 && c->out_count != 8 && c->out_count != 14 &&
+        c->out_count != 16) {
+        return kind_error(ld->ctx, "\"segmentPins\" names 7 pins (a-g), 8 (and the point), 14 or 16");
+    }
+    if (dl_bits(ld, o, matrix ? "columnBits" : "segmentBits", c->out_count, &c->out_bits) != 0 ||
+        dl_ram(ld, o, c->line_count, matrix ? "rows" : "digits", &c->ram, &count) != 0) {
+        return -1;
+    }
+    if (!matrix && dl_decode(ld, o, c, c->out_count, c->line_count) != 0) {
+        return -1;
+    }
+    if (dl_scan(ld, o, &c->slot_ps) != 0 || dl_cond(ld, o, "blank", &c->blank) != 0 ||
+        dl_cond(ld, o, "test", &c->test) != 0 || dl_cond(ld, o, "shutdown", &c->shutdown) != 0) {
+        return -1;
+    }
+    return 0;
+}
+
+/* static: groups of output pins, each following a ram field. */
+static int load_display_static(Dl *dl, const cJSON *o, DispCfg *c) {
+    static const char *const KEYS[] = {
+        "driver", "segmentActive", "segmentBits", "decode", "decodeActive", "dpBit", "groups",
+        "openDrain", NULL
+    };
+    static const char *const GK[] = {"pins", "ram", "decodeField", NULL};
+    Ld *ld = dl->ld;
+    const cJSON *groups = member(o, "groups"), *g;
+    DispGroup *out;
+    size_t n = 0, width = 0;
+
+    if (check_keys(ld, o, KEYS) != 0 || dl_level(ld, o, "segmentActive", &c->out_active) != 0 ||
+        dl_decode_name(ld, o, &c->decode) != 0) {
+        return -1;
+    }
+    if (!cJSON_IsArray(groups) || cJSON_GetArraySize(groups) < 1 ||
+        cJSON_GetArraySize(groups) > DISP_MAX_LINES) {
+        return kind_error(ld->ctx, "\"groups\" must be an array of 1 to %d groups", DISP_MAX_LINES);
+    }
+    out = kind_alloc(ld->ctx, (size_t)cJSON_GetArraySize(groups) * sizeof(*out));
+    if (out == NULL) {
+        return -1;
+    }
+    cJSON_ArrayForEach(g, groups) {
+        DispGroup *gr = &out[n];
+        const cJSON *dec;
+
+        kind_push(ld->ctx, "groups[%zu]", n);
+        if (check_keys(ld, g, GK) != 0 || dl_pins(dl, g, "pins", 1, DISP_MAX_SEGMENTS, &gr->pins,
+                                                  &gr->count) != 0 ||
+            dl_field_member(ld, g, "ram", &gr->ram) != 0) {
+            return -1;
+        }
+        if (n == 0) {
+            width = gr->count;
+        } else if (gr->count != width) {
+            return kind_error(ld->ctx, "every group has the same number of pins (%zu)", width);
+        }
+        if ((dec = member(g, "decodeField")) != NULL) {
+            if (c->decode == DEC_NONE) {
+                return kind_error(ld->ctx, "\"decodeField\" needs a \"decode\" other than \"none\"");
+            }
+            if (!cJSON_IsString(dec) || dl_field(ld, dec->valuestring, &gr->decode) != 0) {
+                return kind_failed(ld->ctx) ? -1 : kind_error(ld->ctx, "\"decodeField\" is a field name");
+            }
+            gr->has_decode = 1;
+        }
+        kind_pop(ld->ctx);
+        n++;
+    }
+    c->groups = out;
+    c->group_count = n;
+    c->out_count = width;
+    if (dl_decode(ld, o, c, width, 0) != 0 ||
+        dl_bits(ld, o, "segmentBits", width, &c->out_bits) != 0) {
+        return -1;
+    }
+    return 0;
+}
+
+/* ports: pins driven per a direction and a data field. */
+static int load_display_ports(Dl *dl, const cJSON *o, DispCfg *c) {
+    static const char *const KEYS[] = {"driver", "ports", "openDrain", NULL};
+    static const char *const PK[] = {"pin", "dirField", "dirOutput", "dataField", "invert", NULL};
+    Ld *ld = dl->ld;
+    const cJSON *ports = member(o, "ports"), *p;
+    DispPort *out;
+    size_t n = 0;
+
+    if (check_keys(ld, o, KEYS) != 0) {
+        return -1;
+    }
+    if (!cJSON_IsArray(ports) || cJSON_GetArraySize(ports) < 1 || cJSON_GetArraySize(ports) > 256) {
+        return kind_error(ld->ctx, "\"ports\" must be an array of 1 to 256 ports");
+    }
+    out = kind_alloc(ld->ctx, (size_t)cJSON_GetArraySize(ports) * sizeof(*out));
+    if (out == NULL) {
+        return -1;
+    }
+    cJSON_ArrayForEach(p, ports) {
+        DispPort *po = &out[n];
+        const cJSON *v;
+        const char *name;
+        uint32_t *vals;
+
+        kind_push(ld->ctx, "ports[%zu]", n);
+        if (check_keys(ld, p, PK) != 0 || kind_string(ld->ctx, p, "pin", &name) != 0 ||
+            dl_take(dl, name, &po->pin) != 0 || dl_field_member(ld, p, "dataField", &po->data) != 0) {
+            return -1;
+        }
+        if (member(p, "dirField") != NULL) {
+            po->has_dir = 1;
+            if (dl_field_member(ld, p, "dirField", &po->dir) != 0) {
+                return -1;
+            }
+        }
+        vals = kind_alloc(ld->ctx, 64 * sizeof(*vals));
+        if (vals == NULL) {
+            return -1;
+        }
+        vals[0] = 1;
+        po->output_count = 1;
+        if ((v = member(p, "dirOutput")) != NULL) {
+            const cJSON *e;
+
+            if (!po->has_dir) {
+                return kind_error(ld->ctx, "\"dirOutput\" needs \"dirField\"");
+            }
+            po->output_count = 0;
+            if (cJSON_IsNumber(v)) {
+                if (u32(ld, v, "\"dirOutput\"", &vals[po->output_count++]) != 0) {
+                    return -1;
+                }
+            } else if (cJSON_IsArray(v) && cJSON_GetArraySize(v) >= 1 && cJSON_GetArraySize(v) <= 64) {
+                cJSON_ArrayForEach(e, v) {
+                    if (u32(ld, e, "\"dirOutput\"", &vals[po->output_count++]) != 0) {
+                        return -1;
+                    }
+                }
+            } else {
+                return kind_error(ld->ctx, "\"dirOutput\" is a value or an array of 1 to 64 values");
+            }
+        }
+        po->outputs = vals;
+        if (member(p, "invert") != NULL && kind_bool(ld->ctx, p, "invert", &po->invert) != 0) {
+            return -1;
+        }
+        kind_pop(ld->ctx);
+        n++;
+    }
+    c->ports = out;
+    c->port_count = n;
+    return 0;
+}
+
+/* lcd: backplane and segment waveforms from a display RAM. */
+static int load_display_lcd(Dl *dl, const cJSON *o, DispCfg *c) {
+    static const char *const KEYS[] = {
+        "driver", "mode", "backplanes", "segmentPins", "ram", "ramOrder", "bitOrder", "frameUs",
+        "enable", "openDrain", NULL
+    };
+    static const char *const MODES[] = {"static", "1:2", "1:3", "1:4", NULL};
+    Ld *ld = dl->ld;
+    const char *s;
+    uint64_t frame_ps;
+    size_t i, k, bits = 0, need, idx = 0;
+    int msb = 0;
+    uint16_t *bit_field;
+    uint8_t *bit_pos;
+
+    if (check_keys(ld, o, KEYS) != 0 || kind_string(ld->ctx, o, "mode", &s) != 0) {
+        return -1;
+    }
+    for (i = 0; MODES[i] != NULL && strcmp(MODES[i], s) != 0; i++) {
+    }
+    if (MODES[i] == NULL) {
+        return kind_error(ld->ctx, "\"mode\" must be \"static\", \"1:2\", \"1:3\" or \"1:4\"");
+    }
+    c->bp_count = (unsigned)i + 1;
+    if (dl_pins(dl, o, "backplanes", c->bp_count, c->bp_count, &c->lines, &c->line_count) != 0 ||
+        dl_pins(dl, o, "segmentPins", 1, DISP_MAX_LCD_SEGMENTS, &c->outs, &c->out_count) != 0) {
+        return -1;
+    }
+    c->segments = (unsigned)c->out_count;
+    s = "segment";
+    if (member(o, "ramOrder") != NULL && kind_string(ld->ctx, o, "ramOrder", &s) != 0) {
+        return -1;
+    }
+    if (strcmp(s, "backplane") != 0 && strcmp(s, "segment") != 0) {
+        return kind_error(ld->ctx, "\"ramOrder\" must be \"segment\" or \"backplane\"");
+    }
+    c->bp_major = strcmp(s, "backplane") == 0;
+    s = "lsb";
+    if (member(o, "bitOrder") != NULL && kind_string(ld->ctx, o, "bitOrder", &s) != 0) {
+        return -1;
+    }
+    if (strcmp(s, "lsb") != 0 && strcmp(s, "msb") != 0) {
+        return kind_error(ld->ctx, "\"bitOrder\" must be \"lsb\" or \"msb\"");
+    }
+    msb = strcmp(s, "msb") == 0;
+    if (dl_ram(ld, o, 0, "", &c->ram, &k) != 0) {
+        return -1;
+    }
+    c->ram_count = k;
+    for (i = 0; i < k; i++) {
+        bits += c->ram[i].hi - c->ram[i].lo + 1;
+    }
+    need = (size_t)c->segments * c->bp_count;
+    if (bits < need) {
+        return kind_error(ld->ctx, "\"ram\" holds %zu bits, %zu segment pins x %u backplanes need %zu",
+                          bits, c->out_count, c->bp_count, need);
+    }
+    bit_field = kind_alloc(ld->ctx, need * sizeof(*bit_field));
+    bit_pos = kind_alloc(ld->ctx, need);
+    if (bit_field == NULL || bit_pos == NULL) {
+        return -1;
+    }
+    for (i = 0; i < k && idx < need; i++) {
+        unsigned w = c->ram[i].hi - c->ram[i].lo + 1, j;
+
+        for (j = 0; j < w && idx < need; j++) {
+            bit_field[idx] = (uint16_t)i;
+            bit_pos[idx++] = (uint8_t)(msb ? w - 1 - j : j);
+        }
+    }
+    c->bit_field = bit_field;
+    c->bit_pos = bit_pos;
+    if (member(o, "frameUs") == NULL) {
+        return kind_error(ld->ctx, "missing \"frameUs\"");
+    }
+    if (dl_us(ld, member(o, "frameUs"), "\"frameUs\"", &frame_ps) != 0) {
+        return -1;
+    }
+    c->slot_ps = frame_ps / c->bp_count;
+    if (c->slot_ps == 0) {
+        c->slot_ps = 1;
+    }
+    return dl_cond(ld, o, "enable", &c->enable);
+}
+
+static int load_display(Ld *ld, const cJSON *d, CvDevice *dev) {
+    static const char *const DRIVERS[] = {"digits", "static", "matrix", "ports", "lcd", NULL};
+    Dl *dl;
+    DispCfg *c;
+    const char *name;
+    size_t i;
+    int rc;
+
+    if (d == NULL) {
+        return kind_error(ld->ctx, "a display driver needs \"display\"");
+    }
+    kind_push(ld->ctx, "display");
+    if (!cJSON_IsObject(d) || kind_string(ld->ctx, d, "driver", &name) != 0) {
+        return kind_failed(ld->ctx) ? -1 : kind_error(ld->ctx, "\"display\" must be an object");
+    }
+    for (i = 0; DRIVERS[i] != NULL && strcmp(DRIVERS[i], name) != 0; i++) {
+    }
+    if (DRIVERS[i] == NULL) {
+        return kind_error(ld->ctx, "unknown driver \"%s\" (digits, static, matrix, ports, lcd)", name);
+    }
+    dl = kind_alloc(ld->ctx, sizeof(*dl));
+    c = kind_alloc(ld->ctx, sizeof(*c));
+    if (dl == NULL || c == NULL) {
+        return -1;
+    }
+    dl->ld = ld;
+    c->driver = (DispDriver)i;
+    switch (c->driver) {
+    case DISP_DIGITS:
+    case DISP_MATRIX:
+        rc = load_display_scan(dl, d, c, c->driver == DISP_MATRIX);
+        break;
+    case DISP_STATIC:
+        rc = load_display_static(dl, d, c);
+        break;
+    case DISP_PORTS:
+        rc = load_display_ports(dl, d, c);
+        break;
+    default:
+        rc = load_display_lcd(dl, d, c);
+        break;
+    }
+    if (rc != 0 || dl_open_drain(dl, d, c) != 0) {
+        return -1;
+    }
+    kind_pop(ld->ctx);
+    dev->disp = c;
+    return 0;
+}
+
 /* ---- The device ------------------------------------------------------------------------ */
 
-CvDevice *cv_load_device(KindContext *ctx, const cJSON *json, int rtc) {
+CvDevice *cv_load_device(KindContext *ctx, const cJSON *json, CvMode mode) {
+    int rtc = mode == CV_MODE_RTC, display = mode == CV_MODE_DISPLAY;
+    int converter = mode == CV_MODE_CONVERTER;
     Ld ld;
     CvDevice *dev = kind_alloc(ctx, sizeof(*dev));
     const cJSON *v;
@@ -2273,7 +2983,11 @@ CvDevice *cv_load_device(KindContext *ctx, const cJSON *json, int rtc) {
     ld.ctx = ctx;
     ld.dev = dev;
     dev->rtc = rtc;
-    if (!rtc) {
+    if (display && member(json, "display") == NULL) {
+        kind_error(ctx, "a display driver needs \"display\"");
+        return NULL;
+    }
+    if (converter) {
         if (kind_string(ctx, json, "type", &type) != 0) {
             return NULL;
         }
@@ -2298,12 +3012,13 @@ CvDevice *cv_load_device(KindContext *ctx, const cJSON *json, int rtc) {
     dev->info.bits = dev->bits;
     dev->info.channels = dev->channels;
     if (load_registers(&ld, member(json, "registers")) != 0 ||
-        (rtc && load_ram(&ld, member(json, "clock")) != 0)) {
+        (rtc && load_ram(&ld, member(json, "clock")) != 0) ||
+        (display && load_display_ram(&ld, member(json, "display")) != 0)) {
         return NULL;
     }
     dev->regs = ld.regs;
     dev->reg_count = ld.reg_count;
-    if (!rtc && !dev->dac) {
+    if (converter && !dev->dac) {
         if (member(json, "codeFormat") == NULL) {
             kind_error(ctx, "an ADC needs \"codeFormat\"");
             return NULL;
@@ -2376,7 +3091,7 @@ CvDevice *cv_load_device(KindContext *ctx, const cJSON *json, int rtc) {
         load_pins(&ld, member(json, "pins"), &dev->pins) != 0) {
         return NULL;
     }
-    if (!rtc) {
+    if (converter) {
         if (load_dac(&ld, member(json, "dac"), &dev->dacinfo) != 0) {
             return NULL;
         }
@@ -2388,7 +3103,11 @@ CvDevice *cv_load_device(KindContext *ctx, const cJSON *json, int rtc) {
             kind_error(ctx, "\"dac.ldac\" \"pin\" needs \"pins.ldac\"");
             return NULL;
         }
-    } else if (load_clock(&ld, member(json, "clock"), dev) != 0) {
+    } else if (rtc) {
+        if (load_clock(&ld, member(json, "clock"), dev) != 0) {
+            return NULL;
+        }
+    } else if (load_display(&ld, member(json, "display"), dev) != 0) {
         return NULL;
     }
     if (kind_voltage(ctx, json, NULL, &dev->vcc) != 0) {
@@ -2464,6 +3183,11 @@ void *cv_bind_pinout(KindContext *ctx, const void *device, const PartPin *pins, 
     for (i = 0; i < dev->ready_count; i++) {
         if (dev->ready[i].open_drain && idx[dev->ready[i].pin] != SIZE_MAX) {
             od[idx[dev->ready[i].pin]] = 1;
+        }
+    }
+    for (i = 0; dev->disp != NULL && i < dev->disp->open_drain_count; i++) {
+        if (idx[dev->disp->open_drain[i]] != SIZE_MAX) {
+            od[idx[dev->disp->open_drain[i]]] = 1;
         }
     }
     b->dev = dev;
@@ -2560,7 +3284,7 @@ int cv_load_part(KindContext *ctx, const void *device, const void *bound, const 
         }
         data->resets = rv;
     }
-    if (!dev->rtc) {
+    if (!dev->rtc && dev->disp == NULL) {
         out->converter = &dev->info;
     }
     kind_set_part_data(out, data);

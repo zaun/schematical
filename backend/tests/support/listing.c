@@ -43,6 +43,9 @@ const char *listing_kind_name(PartKind kind) {
         case PART_REGULATOR: return "regulator";
         case PART_CRYSTAL: return "crystal";
         case PART_DEKATRON: return "dekatron";
+        case PART_LCD: return "lcd";
+        case PART_LEDDRIVER: return "leddriver";
+        case PART_LCDDRIVER: return "lcddriver";
     }
     return "?";
 }
@@ -134,6 +137,10 @@ static void print_details(FILE *out, const Part *part) {
             break;
         case PART_RTC:
             fputs("clock", out);
+            break;
+        case PART_LEDDRIVER:
+        case PART_LCDDRIVER:
+            fputs("display", out);
             break;
         case PART_DIODE:
             fprintf(out, "type=%s diodes=%zu", part->diode->type, part->diode->diode_count);
@@ -294,6 +301,7 @@ static void print_details(FILE *out, const Part *part) {
             }
             break;
         }
+        case PART_LCD:
         case PART_7SEG: {
             const PartDisplay *d = part->display;
             size_t i;

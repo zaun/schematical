@@ -135,6 +135,16 @@ struct SevenSegmentSymbolView: View {
                 switch led.segment {
                 case "L1": centre = CGPoint(x: gapCentre(after: display.colonAfter), y: top + digit.height * 0.3)
                 case "L2": centre = CGPoint(x: gapCentre(after: display.colonAfter), y: top + digit.height * 0.7)
+                case "MINUS":
+                    // LCD glass: the minus sign, a bar before the first digit.
+                    var bar = Path()
+                    bar.move(to: CGPoint(x: digitX(1) - 8, y: top + digit.height / 2))
+                    bar.addLine(to: CGPoint(x: digitX(1) - 2, y: top + digit.height / 2))
+                    for ink in inks {
+                        painter.stroke(bar, with: ink, style: StrokeStyle(lineWidth: 3, lineCap: .round))
+                    }
+                    continue
+                case "LB": centre = CGPoint(x: digitX(1) - 5, y: top + 2)
                 default: centre = CGPoint(x: gapCentre(after: display.dotAfter), y: top + 1)
                 }
                 for ink in inks {
