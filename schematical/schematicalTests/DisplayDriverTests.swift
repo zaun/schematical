@@ -38,7 +38,7 @@ final class DisplayDriverTests: XCTestCase {
     /// kind-specific facts rows beyond the common ones.
     func testEveryDriverHasRegisters() {
         let drivers = TestSupport.catalog.allParts.filter { $0.kind == PART_LEDDRIVER || $0.kind == PART_LCDDRIVER }
-        XCTAssertEqual(drivers.count, 51)
+        XCTAssertEqual(drivers.count, 60)
         XCTAssertTrue(drivers.allSatisfy(\.hasRegisters))
         XCTAssertTrue(drivers.allSatisfy { part in
             if case .displayDriver = part.details { return true }

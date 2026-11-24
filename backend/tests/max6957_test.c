@@ -234,9 +234,40 @@ static int pinout_is(const Part *part, const PinRow *rows, size_t n) {
 }
 
 static void pinouts(void) {
+    /* p.20: 36-pin SSOP */
+    static const char *const SSOP36[36] = {"ISET", "GND", "GND", "DOUT", "P8", "P12", "P9", "P13", "P10", "P14", "P11",
+                                           "P15", "P16", "P17", "P18", "P19", "P20", "P21", "P22", "P23", "P24", "P25",
+                                           "P26", "P27", "P28", "P7", "P29", "P6", "P30", "P5", "P31", "P4", "SCLK",
+                                           "DIN", "CS", "V+"};
+    /* p.20: 40-pin TQFN (N.C. 11, 20, 31) */
+    static const char *const TQFN40[40] = {"P8", "P12", "P9", "P13", "P10", "P14", "P11", "P15", "P16", "P17", "NC",
+                                           "P18", "P19", "P20", "P21", "P22", "P23", "P24", "P25", "NC", "P26", "P27",
+                                           "P28", "P7", "P29", "P6", "P30", "P5", "P31", "P4", "NC", "SCLK", "DIN",
+                                           "CS", "V+", "ISET", "GND", "GND", "GND", "DOUT"};
+    static const char *const AAX[] = {"MAX6957AAX+", "MAX6957AAX+T"};
+    static const char *const ATL[] = {"MAX6957ATL+", "MAX6957ATL+T"};
     const Part *p;
+    size_t i, k;
     int ok;
 
+    for (k = 0; k < 2; k++) {
+        char text[160];
+
+        p = find(AAX[k]);
+        ok = p->pin_count == 36;
+        for (i = 0; ok && i < 36; i++) {
+            ok = strcmp(p->pins[i].name, SSOP36[i]) == 0;
+        }
+        snprintf(text, sizeof text, "%s: the 36-pin SSOP pinout is the one on p.20", AAX[k]);
+        check(ok, text);
+        p = find(ATL[k]);
+        ok = p->pin_count == 40;
+        for (i = 0; ok && i < 40; i++) {
+            ok = strcmp(p->pins[i].name, TQFN40[i]) == 0;
+        }
+        snprintf(text, sizeof text, "%s: the 40-pin TQFN pinout is the one on p.20 (exposed pad is not a pin)", ATL[k]);
+        check(ok, text);
+    }
     p = find("MAX6957AAI+T");
     ok = p->pin_count == 28 && strcmp(p->pins[0].name, "ISET") == 0 && strcmp(p->pins[3].name, "DOUT") == 0 &&
          strcmp(p->pins[4].name, "P12") == 0 && strcmp(p->pins[23].name, "P31") == 0 && strcmp(p->pins[24].name, "SCLK") == 0 &&
@@ -502,6 +533,10 @@ int main(void) {
         return 1;
     }
     pinouts();
+    device("MAX6957AAX+", 4);
+    device("MAX6957AAX+T", 4);
+    device("MAX6957ATL+", 4);
+    device("MAX6957ATL+T", 4);
     device("MAX6957AAI+T", 12);
     part_library_destroy(library);
     if (failures) {

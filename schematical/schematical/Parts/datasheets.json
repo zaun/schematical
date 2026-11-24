@@ -9038,6 +9038,8 @@
     {"id": "icm7228-intersil-2002", "url": "https://www.renesas.com/en/document/dst/icm7228-datasheet"},
     {"id": "icm7228-intersil-2015", "url": "https://www.renesas.com/en/document/dst/icm7228-datasheet"},
     {"id": "max6950-max6951", "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/max6950-max6951.pdf"},
+    {"id": "max6954", "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/MAX6954.pdf"},
+    {"id": "max6955", "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/MAX6955.pdf"},
     {"id": "max6957", "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/MAX6957.pdf"},
     {"id": "max7231-max7234", "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/MAX7231-MAX7234.pdf"},
     {"id": "pca85176", "url": "https://www.nxp.com/docs/en/data-sheet/PCA85176.pdf"},

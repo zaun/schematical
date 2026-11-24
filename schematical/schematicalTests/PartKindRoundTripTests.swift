@@ -24,7 +24,7 @@ final class PartKindRoundTripTests: XCTestCase {
         "regulator": 603,
         "crystal": 604,
         "powerswitch": 817,
-        "leddriver": 31,
+        "leddriver": 40,
         "lcddriver": 20,
     ]
 
