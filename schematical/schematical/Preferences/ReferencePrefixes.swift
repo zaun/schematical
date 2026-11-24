@@ -84,7 +84,7 @@ nonisolated enum ReferenceCategory: String, CaseIterable, Identifiable, Sendable
         case PART_OSCILLATOR: return .oscillator
         case PART_CRYSTAL: return .crystal
         case PART_SWITCH: return .switchPart
-        case PART_CONNECTOR: return .femaleConnector
+        case PART_CONNECTOR: return part.isTestPoint ? .testPoint : .femaleConnector
         case PART_HEADER:
             return (gender ?? part.genders.first) == "Female" ? .femaleConnector : .maleConnector
         case PART_SRAM, PART_EEPROM, PART_SERIALMEM: return .memory

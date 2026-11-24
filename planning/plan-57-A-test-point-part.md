@@ -342,7 +342,7 @@ The part is placeable and drawn as a plain block, not as a barrel jack.
 Acceptance: the app lists, places and draws the part without barrel artifacts.
   Observed (`xcodebuild … -derivedDataPath /tmp/plan57/dd test -only-testing:schematicalTests/TestPointTests -only-testing:schematicalTests/PartKindKeysTests -only-testing:schematicalTests/CardSlotTests`, 12 tests): `TestPointTests` passed (5/5), `CardSlotTests` passed (6/6), `PartKindKeysTests` failed on `testFormKeysCoverTheBackendKeys` with keys missing for `converter` and `rtc` only (plan-56's display-driver keys: `backplanes`, `blink`, `scanLimit` …); no `connector` key is missing, so the form covers `testPoint`. That failure is not caused by this plan (Corrections 5).
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/TestPointTests -only-testing:schematicalTests/PartKindKeysTests -only-testing:schematicalTests/CardSlotTests` → `** TEST SUCCEEDED **` (est. 8 min incl. build; scoped to the new test, the form-key drift test and the card-slot test that shares the code).
-Commit: —
+Commit: d0c6d820
 
 ## Validation Plan
 

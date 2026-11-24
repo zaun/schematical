@@ -27,6 +27,19 @@ final class BillOfMaterialsTests: XCTestCase {
         XCTAssertFalse(lines.contains { $0.partNumber == "GND" })
     }
 
+    /// plan-57: test points are not bought, so they have no line, in the
+    /// window or in either CSV.
+    func testTestPointsAreLeftOut() throws {
+        let doc = TestSupport.newDocument()
+        try TestSupport.place(doc, "GENERIC-TESTPOINT", at: CGPoint(x: 100, y: 100))
+        try TestSupport.place(doc, "GENERIC-TESTPOINT", at: CGPoint(x: 300, y: 100))
+        try TestSupport.place(doc, "SN74HC00D", at: CGPoint(x: 500, y: 100))
+        let lines = BillOfMaterials.lines(for: doc.chips)
+        XCTAssertEqual(lines.map(\.partNumber), ["SN74HC00D"])
+        XCTAssertFalse(BillOfMaterials.csv(lines).contains("TESTPOINT"))
+        XCTAssertFalse(BillOfMaterials.jlcpcbCSV(lines).contains("TESTPOINT"))
+    }
+
     /// LEDs of different colors are separate lines.
     func testLEDColorsSplitLines() throws {
         let doc = TestSupport.newDocument()

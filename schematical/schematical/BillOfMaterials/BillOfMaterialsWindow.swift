@@ -43,13 +43,14 @@ nonisolated struct BillOfMaterialsLine: Identifiable, Hashable, Sendable {
 
 nonisolated enum BillOfMaterials {
     /// The lines for `chips`. Parts with no footprint (VCC, GND) are not on
-    /// the board, so they are left out. Pull-ups, pull-downs and
+    /// the board, so they are left out; so are test points, which are not
+    /// bought (plan-57). Pull-ups, pull-downs and
     /// `GENERIC-RESISTOR`s are one `RESISTOR` line per value and package,
     /// whatever their rail (plan-34-G: the same thing to buy). Lines are
     /// in the order of their first reference (C before R before U, U2 before U10).
     static func lines(for chips: [PlacedChip]) -> [BillOfMaterialsLine] {
         var groups: [String: (sample: PlacedChip, references: [String])] = [:]
-        for chip in chips where chip.part.footprint != nil {
+        for chip in chips where chip.part.footprint != nil && !chip.part.isTestPoint {
             let line = line(for: chip, references: [])
             groups[line.id, default: (chip, [])].references.append(chip.reference)
         }

@@ -27,7 +27,7 @@ one.
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-57-A is complete | `rg -c 'isTestPoint' schematical/schematical/Backend/PartCatalog.swift` → ≥ 1 and `rg -c GENERIC-TESTPOINT schematical/schematical/Parts/connector.json` → 1 | NOT MET (A not landed) |
+| plan-57-A is complete | `rg -c 'isTestPoint' schematical/schematical/Backend/PartCatalog.swift` → ≥ 1 and `rg -c GENERIC-TESTPOINT schematical/schematical/Parts/connector.json` → 1 | MET (`isTestPoint` → 2; `GENERIC-TESTPOINT` → 1; plan-57-A commits 9fcf8fe3, d0c6d820) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command and update every status before you continue. If you stop,
@@ -127,21 +127,22 @@ excluding test points from the BOM by package name (a kind-level
 
 Behavior only; the symbol is still the block from plan-57-A.
 
-- [ ] `Preferences/ReferencePrefixes.swift:87`: `case PART_CONNECTOR: return
+- [x] `Preferences/ReferencePrefixes.swift:87`: `case PART_CONNECTOR: return
       part.isTestPoint ? .testPoint : .femaleConnector`.
-- [ ] `BillOfMaterials/BillOfMaterialsWindow.swift:52`: the loop is `for chip in
+- [x] `BillOfMaterials/BillOfMaterialsWindow.swift:52`: the loop is `for chip in
       chips where chip.part.footprint != nil && !chip.part.isTestPoint`; the doc
       comment above `lines(for:)` says "Test points are not bought, so they are
       left out too".
-- [ ] `schematicalTests/TestPointTests.swift` (from plan-57-A): placing
+- [x] `schematicalTests/TestPointTests.swift` (from plan-57-A): placing
       `GENERIC-TESTPOINT` three times gives references `TP1`, `TP2`, `TP3`; a
       barrel jack placed beside still gets `J1` (the prefix is not shared);
       `ReferenceCategory.of(testPoint) == .testPoint`.
-- [ ] `schematicalTests/BillOfMaterialsTests.swift`: a document with two test
+- [x] `schematicalTests/BillOfMaterialsTests.swift`: a document with two test
       points and one `SN74HC00D` has one BOM line (the gate); `csv` and
       `jlcpcbCSV` of those lines contain no `TESTPOINT`.
 
 Acceptance: references and BOM are right with the old block symbol still drawn.
+  Observed: `xcodebuild … -derivedDataPath /tmp/plan57/dd test -only-testing:schematicalTests/TestPointTests -only-testing:schematicalTests/BillOfMaterialsTests` → `Executed 13 tests, with 0 failures` and `** TEST SUCCEEDED **` (the new tests are `testReferencesAreTP` and `testTestPointsAreLeftOut`).
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/TestPointTests -only-testing:schematicalTests/BillOfMaterialsTests` → `** TEST SUCCEEDED **` (est. 8 min incl. build).
 Commit: —
 

@@ -69,6 +69,21 @@ final class TestPointTests: XCTestCase {
         guard case .testPad = PartLook.of(chip).kind else { return XCTFail("a test point has no body: \(PartLook.of(chip).kind)") }
     }
 
+    /// plan-57-B: new test points are TP1, TP2, ...; a barrel jack beside
+    /// them keeps the J prefix.
+    func testReferencesAreTP() throws {
+        let part = try testPoint()
+        XCTAssertEqual(ReferenceCategory.of(part), .testPoint)
+        let doc = TestSupport.newDocument()
+        let first = try TestSupport.place(doc, "GENERIC-TESTPOINT", at: CGPoint(x: 100, y: 100))
+        let second = try TestSupport.place(doc, "GENERIC-TESTPOINT", at: CGPoint(x: 300, y: 100))
+        let third = try TestSupport.place(doc, "GENERIC-TESTPOINT", at: CGPoint(x: 500, y: 100))
+        let jack = try TestSupport.place(doc, "PJ-002A", at: CGPoint(x: 700, y: 100))
+        XCTAssertEqual([first, second, third].map(\.reference), ["TP1", "TP2", "TP3"])
+        XCTAssertTrue(jack.reference.hasPrefix("J"), jack.reference)
+        XCTAssertEqual(ReferenceCategory.of(jack.part), .femaleConnector)
+    }
+
     /// Connector's drawer lists the leaf Test Point beside its groups, and
     /// the groups are the ones it had.
     func testTheDrawerListsTheLeafUnderConnector() throws {
