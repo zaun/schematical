@@ -893,7 +893,12 @@ never writes `footprints.json`:
 A custom part has a `"footprint"` only:
 `"connectorFootprint"` and `"footprintChoices"` stay with the bundled parts
 that use them (the generic LED, character LCDs, headers, test points and pull
-resistors), whose footprint menus the PCB sidebar owns. A numbered pinout's custom
+resistors), whose footprint menus the PCB sidebar owns. The one exception is a
+custom **socket**: it keeps its own `"footprint"` (its land pattern) and names bundled
+chip footprints in `"fits"` (the Part Editor's **Fits** list on the Footprint section and
+the wizard's Footprint page: a checkbox per bundled footprint with the pinout's pad count,
+the socket's own and the `SKT-…` ones left out), the one case a custom part lists bundled
+footprints; a socket with none is refused with `missing "fits"`. A numbered pinout's custom
 footprint has numbered pads (`"pin"`); a ball pinout's custom footprint is
 a `grid`, whose `"balls"` are the pinout's ball names, or an `explicit` one
 with `"ball"` pads.

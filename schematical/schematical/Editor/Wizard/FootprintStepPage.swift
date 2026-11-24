@@ -50,6 +50,10 @@ struct FootprintStepPage: View {
         case .pads: pads
         }
 
+        if model.draft.kind == "socket" {
+            FitsEditor(model: model)
+        }
+
         Section("Preview") {
             if let part = model.lastValidPart, part.footprint != nil, model.isValid {
                 FootprintPreviewView(part: part, revision: model.previewRevision)

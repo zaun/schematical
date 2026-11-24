@@ -152,6 +152,9 @@ extension PartKinds {
             KindInfo(kind: "connector", name: "Connector",
                      blurb: "Power jacks and USB sockets that bring power onto the board.",
                      examples: ["PJ-037A", "UJ2-AH-1-SMT-TR"], group: .connectors),
+            KindInfo(kind: "socket", name: "IC Socket",
+                     blurb: "A socket a DIP or PLCC chip plugs into: the socket's footprint replaces the chip's on the board.",
+                     examples: ["GENERIC-SOCKET-DIP-14-300", "GENERIC-SOCKET-PLCC-44"], group: .connectors),
             KindInfo(kind: "header", name: "Pin Header",
                      blurb: "Rows of pins or sockets, one or two rows, for jumper wires and ribbon cables.",
                      examples: ["GENERIC-HEADER-1X40", "GENERIC-HEADER-2X13"], group: .connectors),
@@ -197,7 +200,7 @@ extension PartKinds {
         "cpu", "mcu", "pio", "serial", "converter", "rtc",
         "led", "7seg", "lcd", "leddriver", "lcddriver", "charlcd", "nixie", "dekatron",
         "resistor", "capacitor", "diode", "transistor",
-        "connector", "header", "switch",
+        "connector", "header", "socket", "switch",
         "supply", "oscillator", "crystal", "regulator", "powerswitch",
         "generic",
     ]

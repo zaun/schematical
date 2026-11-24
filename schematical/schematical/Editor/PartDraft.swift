@@ -179,6 +179,9 @@ struct PartDraft: Equatable, Sendable {
     /// The footprints a placed part may use, each with its package name
     /// (bundled parts: the generic LED, headers, pull resistors).
     var footprintChoices: [FootprintChoiceDraft]? = nil
+    /// A socket's `fits` (plan-51): the bundled chip footprints it holds, in file
+    /// order; nil = the key is absent (the loader says `missing "fits"`).
+    var fits: [String]? = nil
 
     /// The kind's own device and part keys (its `KindSchema`).
     var kindDevice: [String: JSONValue] = [:]
@@ -206,7 +209,7 @@ struct PartDraft: Equatable, Sendable {
     /// The generic keys every kind's form edits.
     static let genericDeviceKeys: Set<String> = ["id", "function", "description", "drawer", "note", "pinouts", "parts"]
     static let genericPartKeys: Set<String> = ["name", "package", "pinout", "flags", "footprint", "manufacturer",
-                                               "datasheet", "connectorFootprint", "footprintChoices"]
+                                               "datasheet", "connectorFootprint", "footprintChoices", "fits"]
     static let pinKeys: Set<String> = ["number", "ball", "name", "role", "group", "side", "activeLow"]
 
     /// Every key the form has a control for, for a kind: the generic ones and
@@ -351,6 +354,10 @@ struct PartDraft: Equatable, Sendable {
                 part.removeValue(forKey: "footprintChoices")
             }
         }
+        if let ids = strings(part["fits"]) {
+            fits = ids
+            part.removeValue(forKey: "fits")
+        }
 
         if let schema = PartKinds.schemas[kind] {
             for field in schema.device {
@@ -451,6 +458,7 @@ struct PartDraft: Equatable, Sendable {
         if let datasheet { part["datasheet"] = .string(datasheet) }
         if let connectorFootprint { part["connectorFootprint"] = .string(connectorFootprint) }
         if let footprintChoices { part["footprintChoices"] = .array(footprintChoices.map { $0.encoded() }) }
+        if let fits { part["fits"] = .array(fits.map { .string($0) }) }
         part.merge(kindPart) { _, new in new }
         device["parts"] = .array([.object(part)])
 

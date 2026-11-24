@@ -31,8 +31,8 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-51-F complete | `ls planning/completed/plan-51-F-*.md` → exists | NOT MET (2026-11-21: not started) |
-| Socket parts ship | `python3 -I -c "import json;print(json.load(open('schematical/schematical/Parts/socket.json'))['kind'])"` → `socket` | NOT MET (F's output) |
+| plan-51-F complete | `ls planning/completed/plan-51-F-*.md` → exists | MET (2026-11-24: `planning/completed/plan-51-F-socket-parts.md`, commit b9a15838) |
+| Socket parts ship | `python3 -I -c "import json;print(json.load(open('schematical/schematical/Parts/socket.json'))['kind'])"` → `socket` | MET (2026-11-24: `socket`) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > If you stop, report the status of *all* prerequisites.
@@ -90,24 +90,24 @@ survives open → edit → save unchanged.
 
 ### Phase 1 — the kind entry and schema
 
-- [ ] `KindInfo.swift`: the `socket` entry, `PartKinds.all`, `infoOrder`; `scripts/part-editor-schema.py` `KIND_FILES` and `PartKindKeysTests.files`: `"socket": ["socket.c"]`.
-- [ ] `python3 scripts/part-editor-schema.py . socket` → `Editor/SocketDraft.swift`, output ends `missing []`; `PartKinds.schemas` (`KindSchema.swift`) lists it.
-- [ ] `PartKindRoundTripTests`: `testSocket` and the shipped count (every shipped socket: 0 mismatched, 0 with extras, 0 rejected).
+- [x] `KindInfo.swift`: the `socket` entry, `PartKinds.all`, `infoOrder`; `scripts/part-editor-schema.py` `KIND_FILES` and `PartKindKeysTests.files`: `"socket": ["socket.c"]`. — `KindInfo` (`IC Socket`, group Connectors and switches, after `header`), `PartKinds.all`, `infoOrder`, `part-editor-schema.py` (`KIND_FILES`, `fits` among the generic part keys), `PartKindKeysTests.files`; `PartKinds.schemas` lists `SocketDraft`.
+- [x] `python3 scripts/part-editor-schema.py . socket` → `Editor/SocketDraft.swift`, output ends `missing []`; `PartKinds.schemas` (`KindSchema.swift`) lists it. — `socket: 15 devices, 575 parts, variant None, 4 source keys, missing []`; `SocketDraft.swift` hand-tuned (`family` and `mounting` are choices, `rowSpacing` in mm with a DIP-only hint).
+- [x] `PartKindRoundTripTests`: `testSocket` and the shipped count (every shipped socket: 0 mismatched, 0 with extras, 0 rejected). — `testSocket` and `"socket": 575`; counts moved: `KindInfoTests` 43, `PartEditorWindowTests` 43 enabled kinds, `WizardStepsTests` 97 combinations (27 without a variant).
 
 Acceptance: the four existing test classes of § Goal pass.
-  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p51-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/PartKindKeysTests -only-testing:schematicalTests/PartKindRoundTripTests -only-testing:schematicalTests/KindInfoTests -only-testing:schematicalTests/KindGuideTests` → `** TEST SUCCEEDED **` (est. 12 min).
-Commit: —
+  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p51-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/PartKindKeysTests -only-testing:schematicalTests/PartKindRoundTripTests -only-testing:schematicalTests/KindInfoTests -only-testing:schematicalTests/KindGuideTests` → `** TEST SUCCEEDED **` (est. 12 min). Measured 2026-11-24 with the Phase 2 classes and `WizardStepsTests`, `PartEditorWindowTests`, `WizardKindStepsTests`, `WizardModelTests`, `WizardIssueLocatorTests`, `PartDraftRoundTripTests` added: `Executed 117 tests, with 2 failures` (both `ParametricFootprintDraftTests` footprint counts, § Corrections); `PartKindRoundTripTests testSocket` passed (575 parts: 0 mismatched, 0 extras, 0 rejected). VERIFIED.
+Commit: (next commit)
 
 ### Phase 2 — `fits`
 
-- [ ] `PartDraft.swift`: the `fits` field, `genericPartKeys`, read and write.
-- [ ] `PartEditorSections.swift` and `Wizard/FootprintStepPage.swift`: the Fits list per § 3; `WizardIssueLocator.swift`: `"fits"`.
-- [ ] `schematicalTests/SocketEditorTests.swift`: a draft from `GENERIC-SOCKET-DIP-14-300` encodes to the shipped JSON (`fits` equal); unchecking `CDIP-14` and saving gives `"fits": ["PDIP-14"]`; a draft with no fits is invalid with the loader's `missing "fits"` message and the locator sends it to the footprint page; the Fits list offers only 14-pad footprints.
-- [ ] `docs/parts-format.md` § Custom footprints in a part file: a custom socket's `"fits"`.
+- [x] `PartDraft.swift`: the `fits` field, `genericPartKeys`, read and write. — `PartDraft.fits` (read after `footprintChoices`, written beside it, in `genericPartKeys`).
+- [x] `PartEditorSections.swift` and `Wizard/FootprintStepPage.swift`: the Fits list per § 3; `WizardIssueLocator.swift`: `"fits"`. — `FitsEditor` (`PartEditorSections.swift`), shown by `FootprintSection` and the wizard's `FootprintStepPage` for the socket kind; the locator sends a message that quotes `"fits"` to the footprint page.
+- [x] `schematicalTests/SocketEditorTests.swift`: a draft from `GENERIC-SOCKET-DIP-14-300` encodes to the shipped JSON (`fits` equal); unchecking `CDIP-14` and saving gives `"fits": ["PDIP-14"]`; a draft with no fits is invalid with the loader's `missing "fits"` message and the locator sends it to the footprint page; the Fits list offers only 14-pad footprints. — 8 cases (the kind card and the form's kind list; `GENERIC-SOCKET-DIP-14-300` encodes to the shipped file; a PLCC one; unchecking `CDIP-14` gives `"fits": ["PDIP-14"]`; no fits is `missing "fits"` and placed on the footprint page; an 8-pin fit on a 14-pin socket gets the loader's message; the list offers only 14-pad footprints; all 575 shipped sockets round-trip).
+- [x] `docs/parts-format.md` § Custom footprints in a part file: a custom socket's `"fits"`. — the exception for a custom socket is in the paragraph that says a custom part has a `"footprint"` only.
 
 Acceptance: `SocketEditorTests` and the Phase 1 classes pass.
-  Check: the Phase 1 command with `-only-testing:schematicalTests/SocketEditorTests` added → `** TEST SUCCEEDED **` (est. 13 min).
-Commit: —
+  Check: the Phase 1 command with `-only-testing:schematicalTests/SocketEditorTests` added → `** TEST SUCCEEDED **` (est. 13 min). Measured 2026-11-24: `SocketEditorTests` 8 of 8 passed, the classes above passed; `ParametricFootprintDraftTests` re-run after its counts were corrected: `Executed 8 tests, with 0 failures`, `** TEST SUCCEEDED **`. VERIFIED.
+Commit: (next commit)
 
 ## Validation Plan
 
@@ -125,6 +125,11 @@ See plan-51-A § Decisions. Author decisions:
 - **`fits` is edited on the Footprint page and section**, not on a page of its own.
 
 ## Corrections
+
+- **2026-11-24, `ParametricFootprintDraftTests` counts were stale and F's footprints moved them.** Its two counts (`entries.count` 2293, parametric round trips 1339) had already fallen behind `footprints.json` on main (2775 footprints, 1556 parametric); with plan-51-F's 154 `SKT-` footprints (146 `dual`, 8 `quad`) the true values are 2929 and 1710. Updated in `ParametricFootprintDraftTests.swift` with the arithmetic in comments.
+- **2026-11-24, the Fits list also leaves out the `SKT-…` footprints**, not only the part's own: a socket does not hold a socket. An id the file names that the list does not offer stays listed so it can be unchecked.
+- **2026-11-24, `SocketDraft` is hand-tuned** (the generator's output has `family` and `mounting` as suggestions): both are `.choice`, `rowSpacing` is a number in mm with a hint that only a DIP socket has it, optional since a PLCC socket rejects it (the loader says `missing "rowSpacing"` for a DIP without). No `variantKey`: the wizard has one step more for the kind, not a model picker.
+- **2026-11-24, verification on the whole suite is impractical in Debug.** A full `xcodebuild test` stalled for many minutes in `AutorouteModelTests testTheSummaryOnAFU` (the router measured 50 times slower in Debug), so the gates run the classes each phase names plus the ones whose counts the work moved.
 
 ## Summary
 

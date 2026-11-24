@@ -203,7 +203,7 @@ enum PartKinds {
         "7seg", "arith", "buffer", "capacitor", "charlcd", "connector", "converter", "counter", "cpu", "crystal", "decoder",
         "dff", "diode", "eeprom", "gate", "generic", "header", "jkff", "latch", "lcddriver", "led", "leddriver", "mcu", "mux", "nixie", "dekatron", "lcd",
         "oscillator",
-        "pio", "pld", "powerswitch", "register", "regulator", "resistor", "rtc", "serial", "serialmem", "shift", "sram", "supply", "switch",
+        "pio", "pld", "powerswitch", "register", "regulator", "resistor", "rtc", "serial", "serialmem", "shift", "socket", "sram", "supply", "switch",
         "transistor",
     ]
 
@@ -232,6 +232,7 @@ enum PartKinds {
             DekatronDraft.schema,
             LcdDraft.schema,
             PowerswitchDraft.schema,
+            SocketDraft.schema,
             PldDraft.schema,
             LeddriverDraft.schema, LcddriverDraft.schema,
         ] {

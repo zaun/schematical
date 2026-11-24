@@ -37,6 +37,7 @@ KIND_FILES = {
     "dekatron": ["dekatron.c"],
     "lcd": ["lcd.c"],
     "powerswitch": ["powerswitch.c"],
+    "socket": ["socket.c"],
 }
 
 NAMES = {
@@ -46,7 +47,7 @@ NAMES = {
 
 GENERIC_DEVICE = {"id", "function", "description", "drawer", "note", "pinouts", "parts"}
 GENERIC_PART = {"name", "package", "pinout", "flags", "footprint", "manufacturer", "datasheet",
-                "connectorFootprint", "footprintChoices"}
+                "connectorFootprint", "footprintChoices", "fits"}
 
 CV_SHARED_DEVICE = {"vcc", "inputMax", "analog", "bus", "configBus", "timing", "registers", "protocol", "ready",
                     "pins"}

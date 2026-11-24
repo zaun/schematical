@@ -22,6 +22,7 @@ final class PartKindKeysTests: XCTestCase {
         "dekatron": ["dekatron.c"],
         "lcd": ["lcd.c"],
         "powerswitch": ["powerswitch.c"],
+        "socket": ["socket.c"],
         "serialmem": ["serialmem.c"],
         "regulator": ["regulator.c"],
         "crystal": ["crystal.c"],
