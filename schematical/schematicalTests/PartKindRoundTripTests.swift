@@ -22,6 +22,7 @@ final class PartKindRoundTripTests: XCTestCase {
         "serialmem": 92,
         "regulator": 603,
         "crystal": 604,
+        "powerswitch": 229,
     ]
 
     private func check(_ kind: String) {
@@ -70,4 +71,5 @@ final class PartKindRoundTripTests: XCTestCase {
     func testSerialmem() { check("serialmem") }
     func testRegulator() { check("regulator") }
     func testCrystal() { check("crystal") }
+    func testPowerswitch() { check("powerswitch") }
 }

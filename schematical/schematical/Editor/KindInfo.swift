@@ -159,6 +159,9 @@ extension PartKinds {
             KindInfo(kind: "regulator", name: "Voltage Regulator",
                      blurb: "Linear regulators and LDOs, fixed or adjustable, and switching regulators: a regulated output from a higher input.",
                      examples: ["GENERIC-REG-5V", "GENERIC-REG-ADJ"], group: .power),
+            KindInfo(kind: "powerswitch", name: "Power Switch",
+                     blurb: "Load switches, current-limited and USB power switches and integrated ideal diodes: an input passed to an output, gated by an enable pin.",
+                     examples: ["LM66200DRLR", "TPS22922YFPR"], group: .power),
 
             // Other
             KindInfo(kind: "generic", name: "Other part (no simulation)",
@@ -182,7 +185,7 @@ extension PartKinds {
         "led", "7seg", "charlcd", "nixie", "dekatron",
         "resistor", "capacitor", "diode", "transistor",
         "connector", "header", "switch",
-        "supply", "oscillator", "crystal", "regulator",
+        "supply", "oscillator", "crystal", "regulator", "powerswitch",
         "generic",
     ]
 }

@@ -122,6 +122,7 @@ extension PartKinds {
         case PART_REGULATOR: "regulator"
         case PART_CRYSTAL: "crystal"
         case PART_DEKATRON: "dekatron"
+        case PART_POWERSWITCH: "powerswitch"
         default: nil
         }
     }

@@ -89,31 +89,31 @@ kind; the regulator's are the template (`Editor/KindInfo.swift:156`, `KindSchema
 
 Acceptance: every `add` row is a loaded part and nothing else moved.
   Check: `cmake --build /tmp/logic-p55 -j8 && ctest --test-dir /tmp/logic-p55 -R 'listing_check|trace_check|library_check|footprint_check|powerswitch_test'` → 5 of 5; `grep -c '|powerswitch|' backend/tests/golden/parts.txt` → N; `git diff --numstat backend/tests/golden | awk '{d+=$2} END{print d}'` → 0 (est. 4 min). The app's kind-list tests are red between this phase and the next (a kind with parts and no editor entry) and are not run here. Observed: `ctest -R 'listing_check|trace_check|library_check|footprint_check|powerswitch_test'` → `100% tests passed, 0 tests failed out of 5`; `grep -c '|powerswitch|' backend/tests/golden/parts.txt` → 229; the removed-lines sum is 0.
-Commit: (filled by the next commit)
+Commit: 4a8b7300
 
 ### Phase 2 — The Part Editor's kind lists, the app's counts
 
-- [ ] The editor's lists, each only if absent: `"powerswitch"` in `PartKinds.all` (`Editor/KindSchema.swift`)
+- [x] The editor's lists, each only if absent: `"powerswitch"` in `PartKinds.all` (`Editor/KindSchema.swift`)
       and `infoOrder` (`Editor/KindInfo.swift`); `KindInfo(kind: "powerswitch", name: "Power Switch", blurb:
       "Load switches, current-limited and USB power switches and integrated ideal diodes: an input
       passed to an output, gated by an enable pin.", examples: <the part names of the most-stocked `add`
       row of the ideal diodes and of the load switches>, group: .power)`; `PART_POWERSWITCH` →
       `"powerswitch"` in `PartKinds.name(of:)` (`Editor/BundledPartFile.swift`).
-- [ ] The editor schema: `"powerswitch": ["powerswitch.c"]` in `scripts/part-editor-schema.py` `KIND_FILES`
+- [x] The editor schema: `"powerswitch": ["powerswitch.c"]` in `scripts/part-editor-schema.py` `KIND_FILES`
       and in `PartKindKeysTests.files`; `python3 scripts/part-editor-schema.py . powerswitch` → `missing []`
       (a key no shipped part uses yet goes in `scripts/part-editor-schema-extra.py` `EXTRA`) →
       `Editor/PowerswitchDraft.swift`, added to `PartKinds.schemas`; `testPowerswitch` in
-      `PartKindRoundTripTests` with `expected["powerswitch"]` = the `"manufacturer"` count of Goal 1.
-- [ ] Update the app's count assertions the new kind and footprints move: `KindInfoTests`
+      `PartKindRoundTripTests` with `expected["powerswitch"]` = the `"manufacturer"` count of Goal 1. Observed: `python3 scripts/part-editor-schema.py . powerswitch` → `powerswitch: 103 devices, 229 parts, variant type, 16 source keys, missing [] -> …/PowerswitchDraft.swift`; `PartKindRoundTripTests.testPowerswitch` passes with `expected["powerswitch"]` 229 (Correction 2: the file's order in `PartKinds.all` / `KindInfo` is the plan's).
+- [x] Update the app's count assertions the new kind and footprints move: `KindInfoTests`
       (`PartKinds.info.count`), `ParametricFootprintDraftTests` (the entry count and the parametric
       count), `WizardStepsTests` (the combinations and those with no variant), as the failing run prints
-      them (plan-42-H Corrections 2).
-- [ ] Spot-check five parts' listing lines against their PDFs (two ideal diodes, three load switches, from
-      different companies): name, pinout, enable, `vinMax`, footprint; record in § Corrections.
+      them (plan-42-H Corrections 2). Observed: `KindInfoTests` 37 → 38, `PartEditorWindowTests.testEnabledKinds` 37 → 38 (not named by the plan), `ParametricFootprintDraftTests` 1823 → 1935 entries and 1210 → 1290 parametric, `WizardStepsTests` 89 → 92 combinations, 67 → 70 with a variant (22 without, unchanged); I raises the two footprint counts again.
+- [x] Spot-check five parts' listing lines against their PDFs (two ideal diodes, three load switches, from
+      different companies): name, pinout, enable, `vinMax`, footprint; record in § Corrections (Correction 1).
 
 Acceptance: the editor agrees with the part file and the kind-list tests pass.
-  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p55-dd test -only-testing:schematicalTests/PartEditorWindowTests -only-testing:schematicalTests/KindInfoTests -only-testing:schematicalTests/PartKindKeysTests -only-testing:schematicalTests/PartKindRoundTripTests -only-testing:schematicalTests/ParametricFootprintDraftTests -only-testing:schematicalTests/WizardStepsTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 20 min: a Debug build and six classes that read the part, kind and footprint counts; no smaller check covers the schema, the lists and the part file together; the full suite is not a plan step).
-Commit: —
+  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p55-dd test -only-testing:schematicalTests/PartEditorWindowTests -only-testing:schematicalTests/KindInfoTests -only-testing:schematicalTests/PartKindKeysTests -only-testing:schematicalTests/PartKindRoundTripTests -only-testing:schematicalTests/ParametricFootprintDraftTests -only-testing:schematicalTests/WizardStepsTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 20 min: a Debug build and six classes that read the part, kind and footprint counts; no smaller check covers the schema, the lists and the part file together; the full suite is not a plan step). Observed: every test of the six classes passes except `PartKindRoundTripTests.testDecoder` (352 decoder parts, expected 325; 18 with the extra key `device.latch`) and `testLatch` (768, expected 752): both fail on `main` without this plan (Correction 3), so the check is those six classes minus the two.
+Commit: (filled by the next commit)
 
 ## Validation Plan
 
@@ -134,7 +134,10 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+1. **Spot checks (2026-11-23), all agree with the PDFs**: LM66200DRLR (TI ideal diode, `lm66200.pdf` Table 5-1: GND 1 and 5, VOUT 2 and 7, VIN1 3, ON 4 active low, VIN2 6, ST 8; footprint `SOT583-8-DRL`; `vinMax` 5.5); LTC4413EDD-1#PBF (Analog Devices ideal diode, `441312fg.pdf` Pin Functions: INA 1, ENBA 2, GND 3, ENBB 4, INB 5, OUTB 6, STAT 9, OUTA 10; footprint `DFN-10-ADI-DD`); TPS22918DBVR (TI load switch, `tps22918.pdf`: VIN 1, GND 2, ON 3 active high, CT 4, QOD 5, VOUT 6; `SOT23-6`); FPF1204 and MIC94060YC6-TR (onsemi and Microchip load switches: plan-55-C Correction 4's pin checks, here the listing lines `A1 VOUT, A2 VIN, B1 GND, B2 ON` with `vinMax` 5.5 and `1 VOUT, 2 GND, 3 EN, 4 VIN, 5 GND, 6 NC` with footprint `SC70-6-MCHP-C6`). The drawer follows the spec row's `type`: the 229 parts sit under Load Switches 191, Ideal Diodes 33 and Current-Limited 5 (the readers typed a few DigiKey `load` parts `limited` or `ideal-diode` from their datasheets: MIC2090 and TPS22919 with a fault flag or a current limit, a reverse-blocking switch).
+2. **The editor's schema for the kind has `variant type`** (`part-editor-schema.py` reads the device key `type`), 16 source keys and nothing missing; `PowerswitchDraft.swift` needs no entry in the Xcode project (the app's folders are synchronised groups).
+3. **Two tests of the six fail on `main` without this plan**: `testDecoder` (decoder parts 352 against the table's 325, 18 of them with the key `device.latch` the Part Editor's decoder schema does not take: CD4543B and the other BCD display decoders that landed in `48a0236d` / `fa284dd8` / `f00c09ae`) and `testLatch` (768 against 752). `decoder.json` and `latch.json` are untouched by plan-55 (`git diff main --stat -- schematical/schematical/Parts/decoder.json` is empty), so they belong to the display-decoder work; plan-55 leaves them red and says so in plan-55-K.
+4. **The per-maker counts of `docs/parts-format.md` § `powerswitch`** are written once, at plan-55-I, over both families.
 
 ## Summary
 
