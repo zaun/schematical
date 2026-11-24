@@ -10,8 +10,7 @@ placed chip). Written at planning time, 2026-11-21.
 | `census/common.py` | reading both listing formats, and the scope rule (`scope()`): the part is a candidate |
 | `census/tally.py` | the counts plan-51 cites; `--candidates candidates.tsv` writes the candidate rows of the three chosen makers |
 | `census/chips.py` | the chips a socket can hold (`FITS`: socket shape → chip footprints of `footprints.json`), parts per footprint, parts with an absent pin; `fits.tsv` is its output |
-| `raw/54.jsonl.gz` | Mill-Max, complete (550 parts, 24 DigiKey calls, `raw/54.err`) |
-| `raw/<maker>.jsonl.gz`, `.err`, `.done` | plan-51-B (2026-11-24): `census/list.sh raw` listed all twelve makers on the second DigiKey key (Preci-Dip, `1212`: 1007 parts, 32 calls, DIP, PLCC and the rest of its types; the other ten makers 1 or 2 calls each, 14 in all; Mill-Max `54` is the planning-time listing of 2026-11-21) |
+| `raw/<maker>.jsonl.gz`, `.err`, `.done` | plan-51-B (2026-11-24): `census/list.sh raw` listed all twelve makers on the second DigiKey key (Preci-Dip, `1212`: 1007 parts, 32 calls, DIP, PLCC and the rest of its types; the other ten makers 1 or 2 calls each, 14 in all). Mill-Max, `54`, was listed again for the stock re-check and replaced the planning-time listing of 2026-11-21 (552 parts, 24 calls, `raw/54.err`; the first was 550) |
 | `raw/digikey-json/<maker>.jsonl.gz` | the planning-time listing of seven makers, as `node scripts/digikey.js --in-stock --category 409 --manufacturer <id> --limit 300 --pages 6 --json` printed them. `common.rows` prefers `raw/<maker>.jsonl.gz`, so these are the fallback only |
 | `candidates.tsv` | one row per candidate of Mill-Max, Preci-Dip (DIP and PLCC) and Assmann; columns 11–14 (`pdf`, `state`, `reason`, `stock_checked`) are B's: filled in by hand and script, so never re-run `tally.py --candidates` over this file |
 | `fits.tsv` | the socket shapes and the chip footprints each holds |

@@ -1,10 +1,11 @@
+digikey: Cloudflare challenged Node; sending requests through Safari instead
 piece /183=DIP, 0.1" (2.54mm) Row Spacing: 3 of 3
 piece /183=DIP, 0.2" (5.08mm) Row Spacing: 10 of 10
 piece /183=DIP, 0.3" (7.62mm) Row Spacing/69=Surface Mount: 34 of 34
-piece /183=DIP, 0.3" (7.62mm) Row Spacing/69=Through Hole: 245 of 245
+piece /183=DIP, 0.3" (7.62mm) Row Spacing/69=Through Hole: 246 of 246
 piece /183=DIP, 0.3" (7.62mm) Row Spacing/69=Through Hole, Right Angle, Horizontal: 27 of 27
 piece /183=DIP, 0.4" (10.16mm) Row Spacing: 25 of 25
-piece /183=DIP, 0.6" (15.24mm) Row Spacing: 133 of 133
+piece /183=DIP, 0.6" (15.24mm) Row Spacing: 134 of 134
 piece /183=DIP, 0.75" (19.05mm) Row Spacing: 2 of 2
 piece /183=DIP, 0.9" (22.86mm) Row Spacing: 9 of 9
 piece /183=PGA: 11 of 11
@@ -14,4 +15,4 @@ piece /183=Transistor, TO-100: 7 of 7
 piece /183=Transistor, TO-5: 10 of 10
 piece /183=Zig-Zag, Left Stackable: 1 of 1
 piece /183=Zig-Zag, Right Stackable: 1 of 1
-list.js: 550 parts, 16 pieces, 24 calls, 18 calls left today
+list.js: 552 parts, 16 pieces, 24 calls, 329 calls left today
