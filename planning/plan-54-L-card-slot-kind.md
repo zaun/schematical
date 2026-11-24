@@ -182,7 +182,7 @@ is independent of plan-45, which also adds a `pitch` key with other rules).
 Acceptance: the loader accepts card slots and rejects the malformed ones.
   Check: `cmake -S backend -B /tmp/logic-p54 && cmake --build /tmp/logic-p54 -j8 --target library_check && /tmp/logic-p54/library_check` → every line `ok`, exit 0, including `ok   card slot connectors load; malformed ones fail` (est. 8 min: a first build).
   Result: exit 0, `library_check: all passed`, 493 `ok` lines, the card-slot line present.
-Commit: COMMIT_L
+Commit: c4b0a12c
 
 ### Phase 2 — The listing and the circuit test
 
@@ -198,7 +198,7 @@ Commit: COMMIT_L
 Acceptance: the circuit and listing tests pass and the goldens are unchanged.
   Check: `cmake --build /tmp/logic-p54 -j8 && ctest --test-dir /tmp/logic-p54 -R 'connector_test|library_check|listing_check|trace_check|footprint_check'` → `100% tests passed`; `git diff --stat backend/tests/golden` → empty (est. 8 min).
   Result: `100% tests passed, 0 tests failed out of 5`; the golden diff is empty (the listing prints `card=` only for a card slot, so no shipped line changed).
-Commit: COMMIT_L
+Commit: c4b0a12c
 
 ### Phase 3 — Docs
 
@@ -211,7 +211,7 @@ Commit: COMMIT_L
 Acceptance: the doc names every key and the drawers.
   Check: `grep -c '"card"\|"cardPitch"' docs/parts-format.md` → at least 3 (est. 10 min).
   Result: `grep -c` → 4.
-Commit: COMMIT_L
+Commit: c4b0a12c
 
 ## Validation Plan
 

@@ -62,6 +62,10 @@ def main(argv):
                 pads = [p for p, _ in e]
                 if len(set(pads)) != len(pads):
                     problems.append('repeated pad label')
+                if pads != [str(i) for i in range(1, len(pads) + 1)]:
+                    problems.append('pad labels are not 1..N in list order')
+                if e[-1][1] != 'SHIELD' and any(n == 'SHIELD' for _, n in e):
+                    problems.append('SHIELD is not the last pin')
                 if len(e) < 2:
                     problems.append('fewer than 2 pins')
                 names = collections.Counter(n for _, n in e)

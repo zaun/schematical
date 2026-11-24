@@ -1,0 +1,49 @@
+# letter	family	maker	series	mounting	card	pitch	rows	positions	parts	example	datasheet	existing footprints	id stem	status
+H	card	Amphenol ICC	-	Surface Mount, Right Angle	microSD / UFS	-		19	1	1010170469#2A	datasheets/connector-card-socket/amphenol/io_ufs.pdf		SOCK-AMPHENOL-IO-UFS	
+H	card	Amphenol ICC	-	Surface Mount, Right Angle	microSD	-		19	1	10102166A812A	datasheets/connector-card-socket/amphenol/io_micro_sd_express.pdf		SOCK-AMPHENOL-IO-MICRO-SD-EXPRESS	
+H	card	Amphenol ICC	GSD	Surface Mount, Right Angle	SD	-		11	1	GSD090012SEU	datasheets/connector-card-socket/amphenol/io_micro_sdcard.pdf		SOCK-AMPHENOL-GSD	
+H	card	Amphenol ICC	GSD	Surface Mount, Right Angle	SD	-		11,21	2	GSD09002SEU	datasheets/connector-card-socket/amphenol/io_micro_sdcard.pdf		SOCK-AMPHENOL-GSD	
+H	card	Amphenol ICC	C04	Through Hole, Right Angle	Smart card	-		8	1	7832C0425X01LF	datasheets/connector-card-socket/amphenol/vrw11376.pdf		SOCK-AMPHENOL-C04	
+H	card	Amphenol ICC	E	Surface Mount, Right Angle	Smart card	-		10	1	7311E0225S01001LF	datasheets/connector-card-socket/amphenol/10128659.pdf		SOCK-AMPHENOL-E	
+H	card	Amphenol ICC	E	Through Hole, Right Angle	Smart card	-		10	1	7431E0525S01LF	datasheets/connector-card-socket/amphenol/vjw53908.pdf		SOCK-AMPHENOL-E	
+H	card	Amphenol ICC	L26	Through Hole, Right Angle	Smart card	-		10	2	7334L2622F01LF	datasheets/connector-card-socket/amphenol/vjw54701.pdf		SOCK-AMPHENOL-L26	
+H	card	Amphenol ICC	P02	Surface Mount, Right Angle	Smart card	-		10	1	7312P0225A13LF	datasheets/connector-card-socket/amphenol/vjw53666.pdf		SOCK-AMPHENOL-P02	
+H	card	Amphenol ICC	S07	Surface Mount, Right Angle	Micro SIM	-		10	2	7311S0725A06LF	datasheets/connector-card-socket/amphenol/vjw54719.pdf		SOCK-AMPHENOL-S07	
+H	card	GCT	MEM1052	Surface Mount, Right Angle	SD	-		11	1	MEM1052-00-283-01-A	datasheets/connector-card-socket/gct/MEM1052.pdf		SOCK-GCT-MEM1052	
+H	card	Same Sky	-	Surface Mount, Right Angle	Micro SIM	-		6,8	3	MSIM-8-A	datasheets/connector-card-socket/same-sky/msim-8-a.pdf		SOCK-SAMESKY-MSIM-8-A	
+H	card	Same Sky	-	Surface Mount, Right Angle	Micro SIM	-		6,7,9	7	MSIM-6-A	datasheets/connector-card-socket/same-sky/msim-6-a.pdf		SOCK-SAMESKY-MSIM-6-A	
+H	card	Same Sky	-	Surface Mount, Right Angle	Micro SIM	-		6,8	3	MSIM-9-B	datasheets/connector-card-socket/same-sky/msim-9-b.pdf		SOCK-SAMESKY-MSIM-9-B	
+H	card	Same Sky	-	Surface Mount, Right Angle; Through Hole	Nano SIM	-		7	1	NSIM-7-A	datasheets/connector-card-socket/same-sky/nsim-7-a.pdf		SOCK-SAMESKY-NSIM-7-A	
+H	card	Same Sky	-	Surface Mount, Right Angle	Nano SIM	-		6,7	4	NSIM-2-C	datasheets/connector-card-socket/same-sky/nsim-2-c.pdf		SOCK-SAMESKY-NSIM-2-C	
+H	card	Same Sky	-	Surface Mount, Right Angle	Nano SIM	-		7	5	NSIM-1-A	datasheets/connector-card-socket/same-sky/nsim-1-a.pdf		SOCK-SAMESKY-NSIM-1-A	
+H	card	Same Sky	-	Surface Mount, Right Angle	Nano SIM	-		6,7	5	NSIM-11-B	datasheets/connector-card-socket/same-sky/nsim-11-b.pdf		SOCK-SAMESKY-NSIM-11-B	
+H	card	Same Sky	-	Surface Mount, Right Angle	SIM	-		6	1	SIM-9-C	datasheets/connector-card-socket/same-sky/sim-9-c.pdf		SOCK-SAMESKY-SIM-9-C	
+H	card	Same Sky	-	Surface Mount, Right Angle	SIM	-		7,8,9,10	8	SIM-11-A	datasheets/connector-card-socket/same-sky/sim-11-a.pdf		SOCK-SAMESKY-SIM-11-A	
+H	card	Same Sky	-	Surface Mount, Right Angle	SIM	-		6,8,16	3	SIM-8-B	datasheets/connector-card-socket/same-sky/sim-8-b.pdf		SOCK-SAMESKY-SIM-8-B	
+H	card	Same Sky	-	Surface Mount, Right Angle	SD	-		11,19,21	6	SD7-5-A	datasheets/connector-card-socket/same-sky/sd7-5-a.pdf		SOCK-SAMESKY-SD7-5-A	
+H	card	Same Sky	-	Surface Mount, Right Angle	SD	-		10,11,19,21	10	SD4-4-B	datasheets/connector-card-socket/same-sky/sd4-4-b.pdf		SOCK-SAMESKY-SD4-4-B	
+H	card	Same Sky	-	Surface Mount, Right Angle	Smart card	-		10	3	SMRT-3-B	datasheets/connector-card-socket/same-sky/smrt-3-b.pdf		SOCK-SAMESKY-SMRT-3-B	
+H	card	Same Sky	-	Surface Mount, Right Angle; Through Hole	microSD	-		19	3	MSD4-2-A	datasheets/connector-card-socket/same-sky/msd4-2-a.pdf		SOCK-SAMESKY-MSD4-2-A	
+H	card	Same Sky	-	Surface Mount, Right Angle	microSD	-		8	1	MSD-10-C	datasheets/connector-card-socket/same-sky/msd-10-c.pdf		SOCK-SAMESKY-MSD-10-C	
+H	card	Same Sky	-	Surface Mount, Right Angle	microSD	-		9,10,23	10	MSD-1-A	datasheets/connector-card-socket/same-sky/msd-1-a.pdf		SOCK-SAMESKY-MSD-1-A	
+H	card	Same Sky	-	Surface Mount, Right Angle	microSD	-		10	1	MSD-11-A	datasheets/connector-card-socket/same-sky/msd-11-a.pdf		SOCK-SAMESKY-MSD-11-A	
+H	module	Amphenol ICC	-	Surface Mount	DDR5 DIMM	0.85		287,288	25	DDR506117001H	datasheets/connector-memory-module/amphenol/ssio_ddr5_smt.pdf		DIMM-AMPHENOL-SSIO-DDR5-SMT	
+H	module	Amphenol ICC	-	Surface Mount	DDR5 DIMM	0.85		288	3	DDR504111002KQ	datasheets/connector-memory-module/amphenol/ssio_ddr5_smt.pdf		DIMM-AMPHENOL-SSIO-DDR5-SMT	
+H	module	Amphenol ICC	-	Surface Mount, Right Angle	DDR5 SODIMM	0.5		262	3	10162981-002RHLF	datasheets/connector-memory-module/amphenol/ssio_ddr5_sodimm.pdf		DIMM-AMPHENOL-SSIO-DDR5-SODIMM	
+H	module	Amphenol ICC	-	Surface Mount	DDR5 SODIMM	0.5		262	1	10160554-004THLF	datasheets/connector-memory-module/amphenol/ssio_ddr5_sodimm.pdf		DIMM-AMPHENOL-SSIO-DDR5-SODIMM	
+H	module	Amphenol ICC	-	Surface Mount	DDR2 SODIMM	0.6		200	2	10033853-052ASLF	datasheets/connector-memory-module/amphenol/10033853.pdf		DIMM-AMPHENOL-10033853	
+H	module	Amphenol ICC	CMM	Surface Mount	LPDDR5 CAMM2	1.0,1.38		644,666	2	CMM5D1001001A	datasheets/connector-memory-module/amphenol/ssio-ddr5-lpddr5-camm2.pdf		DIMM-AMPHENOL-CMM	
+H	module	Amphenol ICC	DDR5	Surface Mount	DDR5 DIMM	0.85		287	2	DDR516442010K	datasheets/connector-memory-module/amphenol/ssio_ddr5_smt.pdf		DIMM-AMPHENOL-DDR5	
+H	module	Molex	151080	Through Hole	DDR4 DIMM	0.85		288	1	1510800101	datasheets/connector-memory-module/molex/987650-9721.PDF		DIMM-MOLEX-151080	
+H	module	Molex	151105	Surface Mount	DDR4 MiniDIMM	0.5		288	1	1511050004	datasheets/connector-memory-module/molex/1511050004_sd.pdf		DIMM-MOLEX-151105	
+H	module	Molex	204473	Surface Mount	DDR5 DIMM	0.85		288	2	2044733334	datasheets/connector-memory-module/molex/2044733334_sd.pdf		DIMM-MOLEX-204473	
+H	module	TE Connectivity	-	Surface Mount	DDR4 DIMM	0.85		288,644,666	4	9-2199155-1	datasheets/connector-memory-module/te/2199155.pdf		DIMM-TE-2199155	
+H	module	TE Connectivity	-	Through Hole	DDR4 DIMM	0.85		240,288	11	2308107-9	datasheets/connector-memory-module/te/114-115012.pdf		DIMM-TE-114-115012	
+H	module	TE Connectivity	-	Through Hole	SIMM	1.27		72	1	7-5382483-2	datasheets/connector-memory-module/te/5382483.pdf		DIMM-TE-5382483	
+H	module	TE Connectivity	-	Surface Mount	DDR4 SODIMM	0.5		260	1	2309413-3	datasheets/connector-memory-module/te/2309413.pdf		DIMM-TE-2309413	
+H	module	TE Connectivity	-	Surface Mount	DDR / DDR2 SODIMM	0.6		124,200,204	23	1473150-4	datasheets/connector-memory-module/te/1473150.pdf		DIMM-TE-1473150	
+H	module	TE Connectivity	-	Surface Mount	DDR / DDR2 SODIMM	0.6		144,200	9	1565917-4	datasheets/connector-memory-module/te/1565917.pdf		DIMM-TE-1565917	
+H	module	TE Connectivity	AdvancedMC	Surface Mount	DDR4 SODIMM	0.5		260	12	2309413-1	datasheets/connector-memory-module/te/2309413.pdf		DIMM-TE-ADVANCEDMC	
+H	module	TE Connectivity	Micro-Edge	Through Hole	SIMM	1.27		72	4	5822021-4	datasheets/connector-memory-module/te/5822021.pdf		DIMM-TE-MICRO-EDGE	
+H	module	TE Connectivity	Micro-Edge	Through Hole	SIMM	1.27		72,80	2	5822134-3	datasheets/connector-memory-module/te/5822134.pdf		DIMM-TE-MICRO-EDGE	
+H	module	TE Connectivity	AdvancedMC	Surface Mount	DDR4 SODIMM	0.5		260	1	2309410-3	datasheets/connector-memory-module/te/2309410.pdf		DIMM-TE-ADVANCEDMC	

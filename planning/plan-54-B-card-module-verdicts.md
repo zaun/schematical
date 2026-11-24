@@ -33,9 +33,9 @@ plan-54-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-54-A complete | `ls planning/completed/plan-54-A-*.md` → exists | NOT MET (2026-11-22: not started) |
-| Every candidate row is stock-checked | `awk -F'\t' '$20=="candidate" && $25==""' planning/plan-54-data/candidates.tsv \| wc -l` → 0 | NOT MET (2026-11-22: 1270 rows unchecked; A Phase 2) |
-| The PDFs are placed | `python3 -I planning/plan-54-data/census/place.py --verify planning/plan-54-data/candidates.tsv` → `0 missing, 0 unused` | NOT MET (2026-11-22: A Phase 3) |
+| plan-54-A complete | `ls planning/completed/plan-54-A-*.md` → exists | MET (2026-11-23: A's three phases are committed on worktree-P-54 (a73e4b9d, 07f6ecb7, 81cf168a); the archive to `planning/completed/` happens when the plan lands, § 5 of the skill) |
+| Every candidate row is stock-checked | `awk -F'\t' '$20=="candidate" && $25==""' planning/plan-54-data/candidates.tsv \| wc -l` → 0 | MET (2026-11-23: 0) |
+| The PDFs are placed | `python3 -I planning/plan-54-data/census/place.py --verify planning/plan-54-data/candidates.tsv` → `0 missing, 0 unused` | MET (2026-11-23: `0 missing, 0 unused, 0 unlisted`) |
 
 Everything below is written against the world where these hold.
 
@@ -178,20 +178,29 @@ Rejected alternative: naming card-socket pins `1 … N` like the module sockets
 
 ### Phase 1 — Ordering-code schemes and facts
 
-- [ ] Adapt `census/specs.py`, `scheme-check.py`, `spec-rows.py`, `assign.py` from
+- [x] Adapt `census/specs.py`, `scheme-check.py`, `spec-rows.py`, `assign.py` from
       plan-44's to the columns of this plan's `candidates.tsv` and `specs.tsv`
       (`--family card`, `--family module`).
-- [ ] Six parallel readers (the brief is `planning/plan-54-data/specs-parts/README.md`:
+- [x] Six parallel readers (the brief is `planning/plan-54-data/specs-parts/README.md`:
       the plan-44 brief with § 3.1 – 3.4 here; fragments `card-samesky`,
       `card-amphenol`, `card-gct`, `module-te`, `module-amphenol`, `module-molex`)
       fill `scheme`, `label`, `card`, `pinout`, `positions`, `pitch`, `status` of
       the 194 rows from the placed PDFs (`pdftotext -layout`); `assign.py --merge`.
-- [ ] Run `scheme-check.py`; every row that fails is `skip` (`reason` as § 3.1 /
+- [x] Run `scheme-check.py`; every row that fails is `skip` (`reason` as § 3.1 /
       § 3.4). Print the `--sample` and compare 20 rows per maker with their PDF by
       hand.
-- [ ] Apply plan-54-A § 3 rule 9 to the drawings: a row whose land pattern needs a
+- [x] Apply plan-54-A § 3 rule 9 to the drawings: a row whose land pattern needs a
       rotated slot or a keyhole shell slot is `skip` (`footprint not expressible:
       <feature>`); record the number in § Corrections.
+
+      Result: the scripts are `specs.py` (shared), `scheme-check.py`, `spec-rows.py`, `assign.py`, `pinout-check.py`, `final.py`,
+      `footprint-lines.py`, `statusscan.py` (2e192538); six readers (card: Same Sky 2 fragments, Amphenol, GCT; module: TE,
+      Amphenol + Molex) filled the 179 lines (the 174 skeleton rows plus 5 repeated keys); `assign.py --merge` →
+      `merged 377 fragment lines (179 with a scheme)`; `scheme-check.py --family card --family module` →
+      `255 rows: 198 ok, 0 unchecked` (the plan's 256 lost one row to A's stock check). Hand checks: the reader of each fragment compared
+      the key / table with its PDF; the main thread opened TE `2309413.pdf` (drawing: parts -1 to -5, 260 positions, DDR4 SODIMM, 0.50 mm, matches
+      the line), and read every module line and the 40 Same Sky lines it printed. Rule 9: 0 rows `footprint-skip`, 0 `edge-mount` among
+      the 255 (no drawing needs a rotated or keyhole slot; § Corrections).
 
 Acceptance: every card and module row has a verdict on the ordering table and the facts.
   Check: `python3 -I planning/plan-54-data/census/scheme-check.py --family card --family module` → `<n> rows: <k> ok, 0 unchecked`, then `python3 -I planning/plan-54-data/census/scheme-check.py --family card --family module --sample \| wc -l` → 60 (est. 10 min of scripts; the reading is the work).
@@ -199,13 +208,19 @@ Commit: —
 
 ### Phase 2 — Datasheet status
 
-- [ ] Read every `dead` = 1 row of the two families in its PDF (§ 3.2); set
+- [x] Read every `dead` = 1 row of the two families in its PDF (§ 3.2); set
       `skip` / `obsolete by the datasheet` rows. Scan every placed PDF whole for
       the status words (`pdftotext`, context printed), since `dead` only looks
       300 characters around a part number; record the PDFs read and kept.
-- [ ] Delete each PDF whose every row is `skip` for status, remove it from
+- [x] Delete each PDF whose every row is `skip` for status, remove it from
       its `datasheets.tsv`, add it to `datasheets/obsolete-not-included.md`
       (PDF name, `connector`, `Card slot → <leaf>`, the page and the words).
+
+      Result: `statusscan.py --family card --family module --ocr` over the 165 PDFs (text plus tesseract on the 33 with no text):
+      `165 PDFs scanned, 3 with a status word`: TE `390111.pdf` and `390112.pdf` ("SUPERSEDED BY" is a column heading of the drawing's
+      table, and the parts it marks NOT AVAILABLE are outside the schemes) and TE `440360.pdf` (440360-4 struck out as OBSOLETE; the
+      scheme is `440360-[25]`). No `dead` = 1 row exists (`awk … $24==1` → 0). No PDF is all obsolete, so nothing is added to
+      `obsolete-not-included.md` (`grep -c 'plan-54' datasheets/obsolete-not-included.md` → 0).
 
 Acceptance: no `add`-eligible row is obsolete; the obsolete PDFs are deleted.
   Check: `awk -F'\t' '($4=="card"||$4=="module") && $24==1 && $20!="out" && $20!="skip"' planning/plan-54-data/candidates.tsv \| wc -l` → 0 once each `dead` row has its verdict (a `dead` row the datasheet clears gets `dead` 0), and `grep -c 'plan-54' datasheets/obsolete-not-included.md` → the PDFs deleted (est. 20 min).
@@ -213,15 +228,18 @@ Commit: —
 
 ### Phase 3 — Pin names and pinouts
 
-- [ ] Adapt `census/pinout-check.py`: for every `specs.tsv` row of the two
+- [x] Adapt `census/pinout-check.py`: for every `specs.tsv` row of the two
       families, the pin names of § 3.3 are unique (a repeated name only for `NC`,
       `GND`, `VSS`, `SHIELD` as USB parts do), the pinout has the pin count the
       row's candidate rows give (card: DigiKey contacts + switch contacts + the
       shell pin when the PDF has a shell pad; module: DigiKey positions), and
       `positions` lists the counts.
-- [ ] Run it; list every difference between a pinout and DigiKey's number and
+- [x] Run it; list every difference between a pinout and DigiKey's number and
       read it again in the PDF; a difference the datasheet confirms is recorded
       in `specs.tsv` `status` (`pins n, digikey m`) and in § Corrections.
+
+      Result: `pinout-check.py --family card --family module` → `179 rows, 0 bad`; 7 lines carry a `pins n, digikey m` status
+      (the datasheet's pin count differs from DigiKey's; § Corrections).
 
 Acceptance: every specs row has a pinout the kind will accept.
   Check: `python3 -I planning/plan-54-data/census/pinout-check.py --family card --family module` → `<n> rows, 0 bad` with `<n>` = the two families' `specs.tsv` rows after Phase 2 (est. 5 min).
@@ -229,24 +247,30 @@ Commit: —
 
 ### Phase 4 — The final pick, the skips, the prune
 
-- [ ] `census/final.py` (plan-44's, no quota): every row of the two families that
+- [x] `census/final.py` (plan-44's, no quota): every row of the two families that
       passes § 3 and A § 3 becomes `add`; the rest stay `skip` / `out`. Print the
       counts per (family, maker).
-- [ ] Write `datasheets/skipped-parts.md` § `## Card slots (plan-54)`: one row
+- [x] Write `datasheets/skipped-parts.md` § `## Card slots (plan-54)`: one row
       per `skip` row group (part numbers, device, "would have gone into"
       `connector` / Connector → Card slot → …, reason: `no datasheet on the maker's
       site` with the host, `not in the datasheet's ordering table`, `fact not in
       datasheet`, `obsolete by the datasheet`). `final.py --write-skipped`.
-- [ ] Delete every PDF no `add` row uses (`place.py --prune`) from
+- [x] Delete every PDF no `add` row uses (`place.py --prune`) from
       `datasheets/connector-card-socket/` and `datasheets/connector-memory-module/`;
       rewrite their `datasheets.tsv`.
-- [ ] `census/final.py --verify-skipped` prints `<n> skip rows, 0 missing from
+- [x] `census/final.py --verify-skipped` prints `<n> skip rows, 0 missing from
       skipped-parts.md`.
-- [ ] Write `census/footprint-lines.py` (plan-44's, the two families) and
+- [x] Write `census/footprint-lines.py` (plan-44's, the two families) and
       `footprints-needed.txt`: one line per variant — letter `H`, family, maker,
       series, mounting, card, pitch, the position counts, parts, example, datasheet,
       the existing footprints of the same pad count (none at planning), the id stem
       (`SOCK-<MAKER>-<series slug>` or `DIMM-<MAKER>-<series slug>`).
+
+      Result: `final.py --family card --family module` → `add 198 skip 57` (card: Same Sky 74 add, Amphenol ICC 13 add / 19 skip, GCT 1
+      add / 27 skip; module: TE 68 add / 7 skip, Amphenol ICC 38 add / 4 skip, Molex 4 add); `final.py --write-skipped` → `57 skip rows in
+      38 groups written`; `place.py --prune` deleted the PDFs no `add` row uses; `place.py --verify` → `0 missing, 0 unused, 0 unlisted`;
+      `final.py --verify-skipped --family card --family module` → `57 skip rows, 0 missing from skipped-parts.md`;
+      `footprints-needed.txt` has 48 variant lines (the card and module `add` rows).
 
 Acceptance: the pick is final, consistent and pruned.
   Check: `awk -F'\t' '$20=="add" && ($4=="card"||$4=="module")' planning/plan-54-data/candidates.tsv \| wc -l` → the final pick (≤ 256); `python3 -I planning/plan-54-data/census/place.py --verify planning/plan-54-data/candidates.tsv` → `0 missing, 0 unused`; `python3 -I planning/plan-54-data/census/final.py --verify-skipped` → `0 missing from skipped-parts.md` (est. 20 min).
@@ -274,6 +298,23 @@ Commit: —
   as the USB connectors (`docs/parts-format.md` § `connector`).
 
 ## Corrections
+
+- **The specs table has 13 columns, not the plan's 7 to fill**: `scheme`, `label`, `card`, `pinout`, `positions`, `pitch`, `status`
+  after the 6 skeleton columns; a key may repeat on several lines (one PDF with two schemes / pinouts). `specs.py`'s docstring
+  defines them. `status` is a `;`-separated word list (`active`, `obsolete`, `edge-mount`, `footprint-skip:<feature>`,
+  `pins n, digikey m`, `note:…`).
+- **Explicit pinouts are renumbered 1…N in list order** at merge (`assign.py --merge`), with `SHIELD` last, so a pin's number is its
+  position in the list (a datasheet's pad label differs: it goes in the footprint's drawing, H). `pinout-check.py` enforces it.
+- **`pins n, digikey m`** (a datasheet-confirmed pin count that differs from DigiKey's: Same Sky MSD-8, MSIM-4, MSIM-6, NSIM-15, NSIM-2,
+  SMRT-3-B, SIM-12-B …) keeps the part with the datasheet's `n` pins for every row whose DigiKey position count is `m`
+  (`specs.confirmed_difference`); the datasheet is the authority.
+- **GCT's DigiKey datasheet links are 22 "Product Specification" PDFs with no ordering key and no pin table** (they name the series,
+  not the part number): 27 of 28 GCT rows are `skip` (not in the datasheet's ordering table), and the 22 spec PDFs are deleted
+  with the skips listed in `skipped-parts.md`. Only MEM1052 (an ordering grid on sheet 1) is added.
+- **Facts a reader could not read from the datasheet** are marked in `status` as `note:`: Molex `151080` (pitch 0.85 mm is the JEDEC
+  DDR4 DIMM pitch, the brochure prints none), TE `108-5701` and `6-1773454-7` (0.6 mm from TE's own drawings of the same family),
+  Amphenol ISO 7816 smart-card names (`VCC`, `RST`, `CLK`, `GND`, `VPP`, `IO`) where the drawing only labels C1 to C8.
+- `--sample` prints 20 rows per (family, maker) group, 73 lines for the six groups here (the plan's 60 assumed three groups).
 
 ## Summary
 

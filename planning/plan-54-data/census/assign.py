@@ -56,6 +56,9 @@ def merge():
         if not name.endswith('.tsv'):
             continue
         for r in specs.read_rows(os.path.join(PARTS, name)):
+            e = specs.explicit_pins(r['pinout'])
+            if e is not None:   # the pad labels are the pin numbers 1..N in list order
+                r['pinout'] = ','.join(f'{i}={nm}' for i, (_, nm) in enumerate(e, 1))
             k = specs.key(r)
             frag.setdefault(k, []).append(r)
             n += 1

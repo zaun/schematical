@@ -926,3 +926,50 @@ datasheet's other options. Their PDFs may be in the tree for the parts that were
 | ECS-110.5-18-30-JGN-TR | ECS ECX-53, 2-SMD, No Lead, `ecx-53r.pdf` | `crystal` / Crystal → MHz | not in the datasheet's ordering table |
 | ECS-120-32-4VX | ECS HC-49USSX, HC-49/US, `HC-49USS.pdf` | `crystal` / Crystal → MHz | not in the datasheet's ordering table |
 | SWS8347D16-32.768KT, SWS8347D48-32.768KT, SWS8349D16-32.768KT, SWS8349D48-32.768KT | Suntsu SWS834, 4-SOJ, 5.50mm pitch, `SWS834-Series.pdf` | `crystal` / Crystal → kHz | not in the datasheet's ordering table |
+
+## Card slots (plan-54)
+
+Card-slot parts (memory / SIM card sockets, memory-module sockets, card-edge sockets; in stock and Active at
+DigiKey, plan-54-A) that the maker's datasheet does not list or that the library cannot hold, so no part is
+added. They are still made; a later plan may add them.
+
+| Part(s) | Device | Would have gone into | Why skipped |
+|---|---|---|---|
+| 10067099-200LF, 10067847-301RLF | Amphenol ICC, `bwb_sdmemorycard.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| 1140084168 | Amphenol ICC, `io_micro_sdcard.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| G85B21611142HHR, G85B231021B1HR, G85D1171012HHR | Amphenol ICC G85B, `io_simcardsockets.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| G85D1160022HHR | Amphenol ICC G85D, `io_simcardsockets.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| GTFP08441BEU | Amphenol ICC GFTP08, `io_micro_sdcard.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| GSD09002SDEU, GSD090144HR | Amphenol ICC GSD, `io_micro_sdcard.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| GTFP08432B1HR | Amphenol ICC GTFP08, `io_micro_sdcard.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| 7334L2620F01LF | Amphenol ICC L26, `vjw54701.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | fact not in datasheet |
+| 7112S2015X02LF | Amphenol ICC S, `io_smartcard_ss06ss10series.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| 7112S0815X01LF, 7112S0815X29LF, 7112S0825X29LF, 7312S0825X19LF | Amphenol ICC S08, `io_smartcard_ss06ss10series.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| 7111S1615A01LF | Amphenol ICC S16, `io_smartcard_ss06ss10series.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| 7111S2015X02LF | Amphenol ICC S20, `io_smartcard_ss06ss10series.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| MEM2052-00-195-00-A | GCT MEM2052, `mem2052-spec.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| MEM2061-01-188-00-A | GCT MEM2061, `mem2061-spec.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| MEM2067-02-180-00-A | GCT MEM2067, `mem2067-spec.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| MEM2075-00-140-01-A | GCT MEM2075, `mem2075-spec.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| MEM2080-00-128-00-A | GCT MEM2080, `mem2080-spec.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| MEM2085-00-115-00-A | GCT MEM2085, `mem2085-spec.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| MEM2090-00-145-00-A | GCT MEM2090, `mem2090-spec.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| SIM2070-6-1-30-00-A | GCT SIM2070, `sim2070-spec.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| SIM4065-8-1-15-00-A | GCT SIM4065, `sim4065-spec.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| SIM5051-6-0-18-00-A | GCT SIM5051, `sim5051-spec.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| SIM5055-6-1-25-00-A | GCT SIM5055, `sim5055-spec.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| SIM5060-6-0-26-00-A | GCT SIM5060, `sim5060-spec.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| SIM6050-8-0-30-00-A | GCT SIM6050, `sim6050-spec.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| SIM7050-6-0-00-A, SIM7050-8-0-00-A | GCT SIM7050, `sim7050-spec.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| SIM7100-6-1-15-00-A, SIM7100-8-1-15-00-A | GCT SIM7100, `sim7100-spec.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| SIM7155-6-1-14-A | GCT SIM7155, `sim7155-spec.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| SIM7200-6-0-18-00-A | GCT SIM7200, `sim7200-spec.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| SIM8051-6-0-14-00-A, SIM8051-6-0-14-01-A | GCT SIM8051, `sim8051-spec.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| SIM8055-6-1-14-00-A, SIM8055-6-1-14-01-A | GCT SIM8055, `sim8055-spec.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| SIM8060-6-0-14-00-A, SIM8060-6-1-14-00-A | GCT SIM8060, `sim8060-spec.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| SIM8061-6-1-14-00-A | GCT SIM8061, `sim8061-spec.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| SIM8066-6-1-14-01-A | GCT SIM8066, `sim8066-spec.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| 10161033-002RHLF, 10161036-002RHLF, 10162866-002RHLF, 10162991-002RHLF | Amphenol ICC, `ssio_ddr5_sodimm.pdf` | `connector` / Connector → Card slot → Memory module | not in the datasheet's ordering table |
+| 1-1473005-1, 1473005-1, 1473005-4 | TE Connectivity, `108-5701.pdf` | `connector` / Connector → Card slot → Memory module | not in the datasheet's ordering table |
+| 2199154-1, 2199154-2, 2199154-7 | TE Connectivity, `1-1773877-7_DDR4_Flyer_ENG.pdf` | `connector` / Connector → Card slot → Memory module | not in the datasheet's ordering table |
+| 8-2355632-1 | TE Connectivity, `DDEController.pdf` | `connector` / Connector → Card slot → Memory module | not in the datasheet's ordering table |

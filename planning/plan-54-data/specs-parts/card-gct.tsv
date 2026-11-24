@@ -1,24 +1,24 @@
 family	maker	series	pdf	rows	example	scheme	label	card	pinout	positions	pitch	status
-card	GCT	MEM1052	datasheets/connector-card-socket/gct/MEM1052.pdf	1	MEM1052-00-283-01-A							
-card	GCT	MEM2052	datasheets/connector-card-socket/gct/mem2052-spec.pdf	1	MEM2052-00-195-00-A							
-card	GCT	MEM2061	datasheets/connector-card-socket/gct/mem2061-spec.pdf	1	MEM2061-01-188-00-A							
-card	GCT	MEM2067	datasheets/connector-card-socket/gct/mem2067-spec.pdf	1	MEM2067-02-180-00-A							
-card	GCT	MEM2075	datasheets/connector-card-socket/gct/mem2075-spec.pdf	1	MEM2075-00-140-01-A							
-card	GCT	MEM2080	datasheets/connector-card-socket/gct/mem2080-spec.pdf	1	MEM2080-00-128-00-A							
-card	GCT	MEM2085	datasheets/connector-card-socket/gct/mem2085-spec.pdf	1	MEM2085-00-115-00-A							
-card	GCT	MEM2090	datasheets/connector-card-socket/gct/mem2090-spec.pdf	1	MEM2090-00-145-00-A							
-card	GCT	SIM2070	datasheets/connector-card-socket/gct/sim2070-spec.pdf	1	SIM2070-6-1-30-00-A							
-card	GCT	SIM4065	datasheets/connector-card-socket/gct/sim4065-spec.pdf	1	SIM4065-8-1-15-00-A							
-card	GCT	SIM5051	datasheets/connector-card-socket/gct/sim5051-spec.pdf	1	SIM5051-6-0-18-00-A							
-card	GCT	SIM5055	datasheets/connector-card-socket/gct/sim5055-spec.pdf	1	SIM5055-6-1-25-00-A							
-card	GCT	SIM5060	datasheets/connector-card-socket/gct/sim5060-spec.pdf	1	SIM5060-6-0-26-00-A							
-card	GCT	SIM6050	datasheets/connector-card-socket/gct/sim6050-spec.pdf	1	SIM6050-8-0-30-00-A							
-card	GCT	SIM7050	datasheets/connector-card-socket/gct/sim7050-spec.pdf	2	SIM7050-6-0-00-A							
-card	GCT	SIM7100	datasheets/connector-card-socket/gct/sim7100-spec.pdf	2	SIM7100-8-1-15-00-A							
-card	GCT	SIM7155	datasheets/connector-card-socket/gct/sim7155-spec.pdf	1	SIM7155-6-1-14-A							
-card	GCT	SIM7200	datasheets/connector-card-socket/gct/sim7200-spec.pdf	1	SIM7200-6-0-18-00-A							
-card	GCT	SIM8051	datasheets/connector-card-socket/gct/sim8051-spec.pdf	2	SIM8051-6-0-14-01-A							
-card	GCT	SIM8055	datasheets/connector-card-socket/gct/sim8055-spec.pdf	2	SIM8055-6-1-14-00-A							
-card	GCT	SIM8060	datasheets/connector-card-socket/gct/sim8060-spec.pdf	2	SIM8060-6-1-14-00-A							
-card	GCT	SIM8061	datasheets/connector-card-socket/gct/sim8061-spec.pdf	1	SIM8061-6-1-14-00-A							
-card	GCT	SIM8066	datasheets/connector-card-socket/gct/sim8066-spec.pdf	1	SIM8066-6-1-14-01-A							
+card	GCT	MEM1052	datasheets/connector-card-socket/gct/MEM1052.pdf	1	MEM1052-00-283-01-A	MEM1052-00-283-01-A	MEM1052 SD	SD	1=CD/DAT3,2=CMD,3=VSS,4=VDD,5=CLK,6=VSS,7=DAT0,8=DAT1,9=DAT2,10=WP,11=CD,12=SHIELD	11	-	active;note:pinout from the MEM1052 drawing pin table P1-P9 + WP + CD + cover GND
+card	GCT	MEM2052	datasheets/connector-card-socket/gct/mem2052-spec.pdf	1	MEM2052-00-195-00-A	-	MEM2052 microSD	microSD	seq	*	-	active;note:product specification has only a cover picture, test tables, no ordering key or pin table
+card	GCT	MEM2061	datasheets/connector-card-socket/gct/mem2061-spec.pdf	1	MEM2061-01-188-00-A	-	MEM2061 microSD	microSD	seq	*	-	active;note:product specification has only a cover picture, test tables, no ordering key or pin table
+card	GCT	MEM2067	datasheets/connector-card-socket/gct/mem2067-spec.pdf	1	MEM2067-02-180-00-A	-	MEM2067 microSD	microSD	seq	*	-	active;note:product specification has only a cover picture, test tables, no ordering key or pin table
+card	GCT	MEM2075	datasheets/connector-card-socket/gct/mem2075-spec.pdf	1	MEM2075-00-140-01-A	-	MEM2075 microSD	microSD	seq	*	-	active;note:product specification has only a cover picture, test tables, no ordering key or pin table
+card	GCT	MEM2080	datasheets/connector-card-socket/gct/mem2080-spec.pdf	1	MEM2080-00-128-00-A	-	MEM2080 microSD	microSD	seq	*	-	active;note:product specification has only a cover picture, test tables, no ordering key or pin table
+card	GCT	MEM2085	datasheets/connector-card-socket/gct/mem2085-spec.pdf	1	MEM2085-00-115-00-A	-	MEM2085 microSD	microSD	seq	*	-	active;note:product specification has only a cover picture, test tables, no ordering key or pin table
+card	GCT	MEM2090	datasheets/connector-card-socket/gct/mem2090-spec.pdf	1	MEM2090-00-145-00-A	-	MEM2090 microSD	microSD	seq	*	-	active;note:product specification has only a cover picture, test tables, no ordering key or pin table
+card	GCT	SIM2070	datasheets/connector-card-socket/gct/sim2070-spec.pdf	1	SIM2070-6-1-30-00-A	-	SIM2070 Mini SIM	Mini SIM	seq	*	-	active;note:product specification has only a cover picture, test tables, no ordering key or pin table
+card	GCT	SIM4065	datasheets/connector-card-socket/gct/sim4065-spec.pdf	1	SIM4065-8-1-15-00-A	-	SIM4065 Mini SIM	Mini SIM	seq	*	-	active;note:product specification has only a cover picture, test tables, no ordering key or pin table
+card	GCT	SIM5051	datasheets/connector-card-socket/gct/sim5051-spec.pdf	1	SIM5051-6-0-18-00-A	-	SIM5051 Mini SIM	Mini SIM	seq	*	-	active;note:product specification has only a cover picture, test tables, no ordering key or pin table
+card	GCT	SIM5055	datasheets/connector-card-socket/gct/sim5055-spec.pdf	1	SIM5055-6-1-25-00-A	-	SIM5055 Mini SIM	Mini SIM	seq	*	-	active;note:product specification has only a cover picture, test tables, no ordering key or pin table
+card	GCT	SIM5060	datasheets/connector-card-socket/gct/sim5060-spec.pdf	1	SIM5060-6-0-26-00-A	-	SIM5060 Mini SIM	Mini SIM	seq	*	-	active;note:product specification has only a cover picture, test tables, no ordering key or pin table
+card	GCT	SIM6050	datasheets/connector-card-socket/gct/sim6050-spec.pdf	1	SIM6050-8-0-30-00-A	-	SIM6050 Mini SIM	Mini SIM	seq	*	-	active;note:product specification has only a cover picture, test tables, no ordering key or pin table
+card	GCT	SIM7050	datasheets/connector-card-socket/gct/sim7050-spec.pdf	2	SIM7050-6-0-00-A	-	SIM7050 Micro SIM	Micro SIM	seq	*	-	active;note:product specification has only a cover picture, test tables, no ordering key or pin table
+card	GCT	SIM7100	datasheets/connector-card-socket/gct/sim7100-spec.pdf	2	SIM7100-8-1-15-00-A	-	SIM7100 Micro SIM	Micro SIM	seq	*	-	active;note:product specification has only a cover picture, test tables, no ordering key or pin table
+card	GCT	SIM7155	datasheets/connector-card-socket/gct/sim7155-spec.pdf	1	SIM7155-6-1-14-A	-	SIM7155 Micro SIM	Micro SIM	seq	*	-	active;note:product specification has only a cover picture, test tables, no ordering key or pin table
+card	GCT	SIM7200	datasheets/connector-card-socket/gct/sim7200-spec.pdf	1	SIM7200-6-0-18-00-A	-	SIM7200 Micro SIM	Micro SIM	seq	*	-	active;note:product specification has only a cover picture, test tables, no ordering key or pin table
+card	GCT	SIM8051	datasheets/connector-card-socket/gct/sim8051-spec.pdf	2	SIM8051-6-0-14-01-A	-	SIM8051 Nano SIM	Nano SIM	seq	*	-	active;note:product specification has only a cover picture, test tables, no ordering key or pin table
+card	GCT	SIM8055	datasheets/connector-card-socket/gct/sim8055-spec.pdf	2	SIM8055-6-1-14-00-A	-	SIM8055 Nano SIM	Nano SIM	seq	*	-	active;note:product specification has only a cover picture, test tables, no ordering key or pin table
+card	GCT	SIM8060	datasheets/connector-card-socket/gct/sim8060-spec.pdf	2	SIM8060-6-1-14-00-A	-	SIM8060 Nano SIM	Nano SIM	seq	*	-	active;note:product specification has only a cover picture, test tables, no ordering key or pin table
+card	GCT	SIM8061	datasheets/connector-card-socket/gct/sim8061-spec.pdf	1	SIM8061-6-1-14-00-A	-	SIM8061 Nano SIM	Nano SIM	seq	*	-	active;note:product specification has only a cover picture, test tables, no ordering key or pin table
+card	GCT	SIM8066	datasheets/connector-card-socket/gct/sim8066-spec.pdf	1	SIM8066-6-1-14-01-A	-	SIM8066 Nano SIM	Nano SIM	seq	*	-	active;note:product specification has only a cover picture, test tables, no ordering key or pin table

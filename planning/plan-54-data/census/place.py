@@ -14,8 +14,9 @@ segment, query string dropped, `.pdf` appended when missing, characters outside 
 with another file of the same name gets `-<first 6 hex of the md5 of the source>`.
 datasheets.tsv (in each folder): path (relative to the folder), url (the maker URL of candidates.tsv), bytes, sha256,
 source (the host the file was downloaded from). One line per (file, url).
---verify: with no `add` row yet the `candidate` rows' PDFs are what the tree must hold; once B, C and D have set
-`state` = add, the `add` rows' are.
+--verify: for a (family, maker) pair B, C or D have not decided yet (no `add` or `skip` row) the `candidate` rows' PDFs are
+what the tree must hold; for a decided pair the `add` rows' are. --prune deletes, for decided pairs only, the PDFs no
+`add` row uses, and drops their datasheets.tsv lines.
 """
 import collections
 import csv
@@ -141,10 +142,25 @@ def listed():
     return out
 
 
+def decided_families(rows):
+    """The (family, maker) pairs whose rows B, C or D have decided: a pair with any `add` or `skip` row."""
+    return {(r['family'], r['maker']) for r in rows if r['state'] in ('add', 'skip')}
+
+
 def needed(rows):
-    picked = any(r['state'] == 'add' for r in rows)
-    keep = 'add' if picked else 'candidate'
-    return {r['pdf'] for r in rows if r['state'] == keep and r['pdf']}
+    """The PDFs the tree must hold: for a (family, maker) pair already decided the `add` rows' PDFs, for the others the
+    `candidate` rows'."""
+    done = decided_families(rows)
+    out = set()
+    for r in rows:
+        if not r['pdf']:
+            continue
+        if (r['family'], r['maker']) in done:
+            if r['state'] == 'add':
+                out.add(r['pdf'])
+        elif r['state'] == 'candidate':
+            out.add(r['pdf'])
+    return out
 
 
 def verify(tsv):
@@ -165,9 +181,16 @@ def verify(tsv):
 
 
 def prune(tsv):
+    """Delete the PDFs of decided (family, maker) pairs that no `add` row uses; a pair still undecided keeps its PDFs."""
     rows = read(tsv)
-    need = {r['pdf'] for r in rows if r['state'] == 'add' and r['pdf']}
+    done = decided_families(rows)
+    need = needed(rows)
+    slug_of = {(fam, SLUG[mk]) for fam, mk in done}
     for p in sorted(tree_files() - need):
+        parts = p.split('/')   # datasheets/<folder>/<slug>/<name>
+        fam = {v: k for k, v in FOLDER.items()}[parts[1]]
+        if (fam, parts[2]) not in slug_of:
+            continue
         os.remove(os.path.join(ROOT, p))
         print('deleted', p)
     for folder in FOLDER.values():
@@ -175,7 +198,7 @@ def prune(tsv):
         if not os.path.exists(tsv_path):
             continue
         keep = [line for n, line in enumerate(open(tsv_path))
-                if n == 0 or os.path.join('datasheets', folder, line.split('\t')[0]) in need]
+                if n == 0 or os.path.exists(os.path.join(ROOT, 'datasheets', folder, line.split('\t')[0]))]
         with open(tsv_path, 'w') as out:
             out.writelines(keep)
 

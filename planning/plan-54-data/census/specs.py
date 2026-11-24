@@ -15,7 +15,8 @@ matches it; two lines of one key may not both match a part number). Columns (13,
              `<generation> <style>` (`DDR4 SODIMM`); card-edge sockets `PCI Express`, `M.2`, `MicroTCA`,
              `MXM 3.0`, `Dual edge`, `Single edge`
   pinout     `seq` (pins 1..N named 1..N), `AB` (A1..A<N/2> then B1..B<N/2>, N even) or an explicit list
-             `1=NAME,2=NAME,...` (pins in the datasheet's order; names unique except NC, GND, VSS, SHIELD)
+             `1=NAME,2=NAME,...` (pins in the datasheet's order, `SHIELD` last; the pad labels are the pin numbers
+             1..N in list order (assign.py --merge renumbers them); names unique except NC, GND, VSS, SHIELD)
   positions  the position counts (DigiKey's Number of Positions) the datasheet lists for this line: `a,b,c-d,e-f/s`
              (`c-d` every integer in the range, `e-f/s` every s-th); `*` when the datasheet gives no list
   pitch      the contact pitch in mm of the drawing, `a,b` for several; `-` for a card socket (none kept)
@@ -138,10 +139,23 @@ def pin_names(pinout, n):
     return [name for _, name in e]
 
 
+def confirmed_difference(spec):
+    """(n, m) of a `pins n, digikey m` status word (the datasheet confirms n pins where DigiKey says m), or None."""
+    for w in status_words(spec):
+        m = re.fullmatch(r'pins (\d+), digikey (\d+)', w)
+        if m:
+            return int(m.group(1)), int(m.group(2))
+    return None
+
+
 def pin_count(row, spec):
     """The pin count the pinout must have for this candidate row: DigiKey's positions, plus one SHIELD pin when
-    the pinout names one and DigiKey's number (contacts + switch contacts) leaves it out."""
+    the pinout names one and DigiKey's number (contacts + switch contacts) leaves it out; the `n` of a status word
+    `pins n, digikey m` when DigiKey's number is that m (the datasheet is the authority)."""
     n = int(row['positions'] or 0)
+    diff = confirmed_difference(spec)
+    if diff is not None and n == diff[1]:
+        return diff[0]
     e = explicit_pins(spec['pinout'])
     if e is not None and any(name == 'SHIELD' for _, name in e) and len(e) == n + 1:
         return n + 1
@@ -175,6 +189,9 @@ def verdict(row, specs_of_key):
             return 'skip', 'footprint not expressible: ' + w.split(':', 1)[1].strip(), '', spec
     problems = []
     pos = parse_set(spec['positions'])
+    diff = confirmed_difference(spec)
+    if pos is not None and diff is not None and int(row['positions'] or 0) == diff[1]:
+        pos = None   # the datasheet confirms its own count for DigiKey's m (status `pins n, digikey m`)
     if pos is not None and int(row['positions'] or 0) not in pos:
         problems.append(f"positions {row['positions']} not in {spec['positions']}")
     pitches = parse_pitches(spec['pitch'])
