@@ -184,7 +184,7 @@ numbering of an IC; a module's key gap and mixed pegs need `explicit`).
 
 Acceptance: the tools run.
   Check: `python3 -I planning/plan-54-data/census/fp-check.py H` → `<n> lines, <n> without a footprint`; `python3 -I planning/plan-54-data/census/rowgen.py planning/plan-54-data/census/rowgen-test.tsv \| cmp - planning/plan-54-data/census/rowgen-test.json && echo ok` → `ok` (est. 30 min).
-Commit: —
+Commit: ae339fd3
 
 ### Phase 2 — Card sockets
 
@@ -206,7 +206,7 @@ Commit: —
 
 Acceptance: the card-socket lines have footprints that load.
   Check: `python3 -I planning/plan-54-data/census/fp-check.py H` → the card lines have a footprint; `planning/plan-54-data/census/fp-load.sh planning/plan-54-data/footprints-H.json` → `<k> new footprints: load ok` (est. 3 min: it builds `footprint_check` in a copy).
-Commit: —
+Commit: ae339fd3
 
 ### Phase 3 — Module sockets
 
@@ -225,7 +225,7 @@ Commit: —
 
 Acceptance: the module lines have footprints that load, and the reference dimensions hold.
   Check: `python3 -I planning/plan-54-data/census/rowgen-check.py planning/plan-54-data/census/rowgen-ref.tsv` → `<n> dimensions, 0 differ`; `python3 -I planning/plan-54-data/census/fp-check.py H` → `<n> lines, 0 without a footprint`; `planning/plan-54-data/census/fp-load.sh planning/plan-54-data/footprints-H.json` → `<k> new footprints: load ok` (est. 5 min).
-Commit: —
+Commit: ae339fd3
 
 ### Phase 4 — Hand checks and the lines that cannot be drawn
 
@@ -239,7 +239,7 @@ Commit: —
 
 Acceptance: every `H` line has a footprint.
   Check: `python3 -I planning/plan-54-data/census/fp-check.py H` → `<n> lines, 0 without a footprint` (est. 1 min).
-Commit: —
+Commit: ae339fd3
 
 ## Validation Plan
 

@@ -107,7 +107,7 @@ count that differs.
 
 Acceptance: Samtec's card-edge sockets load with footprints; goldens only gained.
   Check: `cmake --build /tmp/logic-p54 -j8 && ctest --test-dir /tmp/logic-p54 -R 'library_check|listing_check|trace_check|footprint_check'` → `100% tests passed`; `git diff backend/tests/golden \| grep -c '^-[^-]'` → 0 (est. 20 min).
-Commit: —
+Commit: ba45a661
 
 ### Phase 2 — TE Connectivity
 
@@ -117,7 +117,7 @@ Commit: —
 
 Acceptance: TE's card-edge sockets load with footprints; goldens only gained.
   Check: as Phase 1 (est. 20 min).
-Commit: —
+Commit: ba45a661
 
 ### Phase 3 — Amphenol ICC, the third example
 
@@ -132,7 +132,7 @@ Commit: —
 
 Acceptance: every card-edge `add` row is a part; the example joins nothing.
   Check: `grep -c '|connector|' backend/tests/golden/parts.txt` → 376 + M's parts + the card-edge `add` rows (`awk -F'\t' '$4=="edge" && $20=="add"' planning/plan-54-data/candidates.tsv | wc -l`); `ctest --test-dir /tmp/logic-p54 -R 'connector_test|library_check|listing_check|trace_check|footprint_check'` → `100% tests passed`; `git diff backend/tests/golden | grep -c '^-[^-]'` → 0 (est. 25 min).
-Commit: —
+Commit: ba45a661
 
 ## Validation Plan
 

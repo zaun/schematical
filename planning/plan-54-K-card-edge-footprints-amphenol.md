@@ -108,7 +108,7 @@ differs per count).
 
 Acceptance: those lines have footprints that load and hold their reference dimensions.
   Check: `python3 -I planning/plan-54-data/census/rowgen-check.py planning/plan-54-data/census/rowgen-ref.tsv` → `<n> dimensions, 0 differ`; `planning/plan-54-data/census/fp-load.sh planning/plan-54-data/footprints-K.json` → `<k> new footprints: load ok` (est. 5 min).
-Commit: —
+Commit: ba45a661
 
 ### Phase 2 — The second third
 
@@ -118,7 +118,7 @@ Commit: —
 
 Acceptance: as Phase 1.
   Check: the Phase 1 commands → `0 differ`, `load ok` (est. 5 min).
-Commit: —
+Commit: ba45a661
 
 ### Phase 3 — The last third, the hand checks
 
@@ -133,7 +133,7 @@ Commit: —
 
 Acceptance: every `K` line has a footprint.
   Check: `python3 -I planning/plan-54-data/census/fp-check.py K` → `<n> lines, 0 without a footprint`; `planning/plan-54-data/census/fp-load.sh planning/plan-54-data/footprints-K.json` → `<k> new footprints: load ok` (est. 5 min).
-Commit: —
+Commit: ba45a661
 
 ## Validation Plan
 

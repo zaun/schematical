@@ -137,7 +137,7 @@ Acceptance: the Gerber files and the printed copper pages follow the pad's layer
   Result: `GerberAttributeTests` 11 tests, `GerberExportTests` 23, `GerberJobTests` 7, `PrintExportTests` 24, 0 failures
   (`Executed 65 tests, with 0 failures`), `** TEST SUCCEEDED **`; again in the final run over all of F's and G's classes
   (`Executed 179 tests, with 0 failures`, `** TEST SUCCEEDED **`).
-Commit: —
+Commit: b80d3818
 
 ### Phase 2 — KiCad, EasyEDA Pro and the 3D preview
 
@@ -168,7 +168,7 @@ Acceptance: KiCad, EasyEDA Pro and the preview follow the pad's layer.
   Check: `xcodebuild … test -only-testing:schematicalTests/KiCadExportTests -only-testing:schematicalTests/EasyEDAProExportTests -only-testing:schematicalTests/BoardPreviewTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 12 min).
   Result: `BoardPreviewTests` 7 tests, `EasyEDAProExportTests` 9, `KiCadExportTests` 19, 0 failures
   (`Executed 35 tests, with 0 failures`), `** TEST SUCCEEDED **`; again in the final run (`Executed 179 tests, with 0 failures`).
-Commit: —
+Commit: b80d3818
 
 ### Phase 3 — The real tools
 
@@ -186,7 +186,7 @@ Acceptance: the real consumers accept the exports.
   footprint library 'Schematical'", the same for every app export), no pad-layer or "no copper" violation, 0 unconnected items;
   KiCad's own `pcbnew` reads the pads on the layers the app has; `gerbonara` 1.6.3 finds all 28 pads of a Top and a
   Bottom part in the copper, mask and paste files of the expected layer and in no other (0 wrong).
-Commit: —
+Commit: b80d3818
 
 ## Validation Plan
 

@@ -173,7 +173,7 @@ Rejected alternative: storing a layer on `BoardConnectivity.Pad` separately from
 Acceptance: connectivity sees the opposite pad on the other layer, on both sides of the board.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p54-dd test -only-testing:schematicalTests/OppositePadTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 8 min: app build and one test class).
   Result: `Executed 4 tests, with 0 failures (0 unexpected)`, `** TEST SUCCEEDED **`.
-Commit: —
+Commit: 814e4406
 
 ### Phase 2 — The canvas, hit testing, visibility and the editor
 
@@ -208,7 +208,7 @@ Acceptance: the canvas, hit testing and visibility follow the pad's layer; the e
   Check: `xcodebuild … test -only-testing:schematicalTests/OppositePadTests -only-testing:schematicalTests/PartEditorWindowTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 10 min).
   Result: `OppositePadTests` `Executed 8 tests, with 0 failures`, `PartEditorWindowTests` `Executed 10 tests, with 0 failures`,
   `** TEST SUCCEEDED **` (and again, with the later Phase 3 tests, in the Phase 3 run: 11 and 10 tests, 0 failures).
-Commit: —
+Commit: 814e4406
 
 ### Phase 3 — The checks and the routing
 
@@ -246,7 +246,7 @@ Acceptance: the checks and the router know the layers.
   `** TEST FAILED **` (226 tests, 5 failures) because of two classes the plan does not name, neither caused by F
   (§ Corrections): `ParametricFootprintDraftTests` (2) and `PourCanvasTests` (3; passes alone: `Executed 19 tests, with 0 failures`,
   `** TEST SUCCEEDED **`).
-Commit: —
+Commit: 814e4406
 
 ## Validation Plan
 

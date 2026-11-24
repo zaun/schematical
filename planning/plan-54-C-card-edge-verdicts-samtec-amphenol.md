@@ -166,7 +166,7 @@ passes a part the print does not list) and the 49 odd-count pinouts; the
 
 Acceptance: every Samtec and Amphenol ICC card-edge row has a verdict on the ordering table and the facts.
   Check: `python3 -I planning/plan-54-data/census/scheme-check.py --family edge --maker Samtec --maker "Amphenol ICC"` → `<n> rows: <k> ok, 0 unchecked`; `… --sample \| wc -l` → 40 (est. 10 min of scripts).
-Commit: —
+Commit: ab646b4a
 
 ### Phase 2 — Datasheet status
 
@@ -180,7 +180,7 @@ Commit: —
 
 Acceptance: no `add`-eligible row is obsolete.
   Check: `awk -F'\t' '$4=="edge" && ($2=="Samtec"||$2=="Amphenol ICC") && $24==1 && $20!="out" && $20!="skip"' planning/plan-54-data/candidates.tsv \| wc -l` → 0 (est. 20 min).
-Commit: —
+Commit: ab646b4a
 
 ### Phase 3 — Pin designators and pinouts
 
@@ -195,7 +195,7 @@ Commit: —
 
 Acceptance: every specs row has a pinout the kind will accept.
   Check: `python3 -I planning/plan-54-data/census/pinout-check.py --family edge --maker Samtec --maker "Amphenol ICC"` → `<n> rows, 0 bad` with `<n>` = the two makers' rows after Phase 2 (est. 5 min).
-Commit: —
+Commit: ab646b4a
 
 ### Phase 4 — The final pick, the skips, the prune
 
@@ -215,7 +215,7 @@ Commit: —
 
 Acceptance: the pick is final, consistent and pruned.
   Check: `awk -F'\t' '$20=="add" && $4=="edge" && ($2=="Samtec"||$2=="Amphenol ICC")' planning/plan-54-data/candidates.tsv \| wc -l` → the final pick (≤ 714); `python3 -I planning/plan-54-data/census/place.py --verify planning/plan-54-data/candidates.tsv` → `0 missing, 0 unused`; `python3 -I planning/plan-54-data/census/final.py --verify-skipped` → `0 missing from skipped-parts.md` (est. 20 min).
-Commit: —
+Commit: ab646b4a
 
 ## Validation Plan
 

@@ -144,7 +144,7 @@ is a wrong pinout or footprint on a part; both surface as a load error, a `footp
 
 Acceptance: Same Sky's card sockets load with footprints; goldens only gained.
   Check: `cmake --build /tmp/logic-p54 -j8 && ctest --test-dir /tmp/logic-p54 -R 'connector_test|library_check|listing_check|trace_check|footprint_check'` → `100% tests passed`; `git diff backend/tests/golden \| grep -c '^-[^-]'` → 0; `grep -c '|connector|' backend/tests/golden/parts.txt` → 376 + Same Sky's `add` rows (est. 15 min).
-Commit: —
+Commit: ae339fd3
 
 ### Phase 2 — The other card-socket makers and the module sockets
 
@@ -157,7 +157,7 @@ Commit: —
 
 Acceptance: every `add` row of the two families is a part.
   Check: `grep -c '|connector|' backend/tests/golden/parts.txt` → 376 + the `add` rows of the two families (`awk -F'\t' '($4=="card"||$4=="module") && $20=="add"' planning/plan-54-data/candidates.tsv | wc -l`); `ctest --test-dir /tmp/logic-p54 -R 'library_check|listing_check|trace_check|footprint_check'` → `100% tests passed`; `git diff backend/tests/golden | grep -c '^-[^-]'` → 0 (est. 20 min).
-Commit: —
+Commit: ae339fd3
 
 ### Phase 3 — The examples, the real-part test, the datasheet note
 
@@ -176,7 +176,7 @@ Commit: —
 
 Acceptance: a placed card socket and module socket join nothing.
   Check: `cmake --build /tmp/logic-p54 -j8 && ctest --test-dir /tmp/logic-p54 -R 'connector_test|library_check|listing_check|trace_check|footprint_check'` → `100% tests passed`; `grep -c 'catsy.925' docs/parts-format.md` → 1 (est. 15 min).
-Commit: —
+Commit: ae339fd3
 
 ## Validation Plan
 
