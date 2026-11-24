@@ -33,10 +33,10 @@ plan-45-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-45-B complete | `ls planning/completed/plan-45-B-*.md` → exists | NOT MET (2026-11-16: not started) |
-| `footprints-needed.txt` is final | `awk -F'\t' '!/^#/ && $1=="C"' planning/plan-45-data/footprints-needed.txt \| wc -l` → the C lines (17 at planning time, before B's pick) | NOT MET (2026-11-16: 17 from the candidates) |
-| The plan-40 tools exist | `ls planning/plan-40-data/census/fp-load.sh planning/plan-40-data/census/fp-merge.py` → both exist | MET (2026-11-16) |
-| No `TB-` or `JST-` footprint yet | `python3 -I -c "import json;print(sum(f['id'].startswith(('TB-','JST-')) for f in json.load(open('schematical/schematical/Parts/footprints.json'))['footprints']))"` → 0 | MET (2026-11-16: 0 of 1646) |
+| plan-45-B complete | `ls planning/completed/plan-45-B-*.md` → exists | MET (2026-11-24: not archived (`ls planning/completed/plan-45-B-*.md` → no match), every B box ticked: `grep -c '\[ \]' planning/plan-45-B-terminal-jst-verdicts.md` → 0; B's commits ec922b72, 41b89bed, d5d472ee) |
+| `footprints-needed.txt` is final | `awk -F'\t' '!/^#/ && $1=="C"' planning/plan-45-data/footprints-needed.txt \| wc -l` → the C lines (17 at planning time, before B's pick) | MET (2026-11-24: 17 lines, 133 footprints (17 variants, 123 parts: B's pick plus the generics' 2…12), `final.py` wrote it) |
+| The plan-40 tools exist | `ls planning/plan-40-data/census/fp-load.sh planning/plan-40-data/census/fp-merge.py` → both exist | MET (2026-11-24) |
+| No `TB-` or `JST-` footprint yet | `python3 -I -c "import json;print(sum(f['id'].startswith(('TB-','JST-')) for f in json.load(open('schematical/schematical/Parts/footprints.json'))['footprints']))"` → 0 | MET (2026-11-24: 0 of 2293) |
 
 Everything below is written against the world where these hold.
 
@@ -170,22 +170,25 @@ the library yet.
 
 ### Phase 1 — The generator and its tests
 
-- [ ] `scripts/gen-terminals.js` (§ 3.1: `--letter`, `--out`, `--write`,
+- [x] `scripts/gen-terminals.js` (§ 3.1: `--letter`, `--out`, `--write`,
       `--check`) and an empty `scripts/terminal-footprints.json`
       (`{"variants": []}`).
-- [ ] `scripts/gen-terminals.test.js` (`node --test`): a table of two
+      Also `--table`, `--footprints`, `--parts` overrides for the tests. `--check` on the real library → `ok: 0 TB-/JST- footprints`.
+- [x] `scripts/gen-terminals.test.js` (`node --test`): a table of two
       variants (one 5.00 mm vertical, one 3.50 mm horizontal) gives the
       expected objects (positions, `body.width`, `firstRowY`, pad ≤ pitch −
       0.8); `--write` twice changes nothing; ids are unique and match
       `[A-Z0-9.-]+`.
-- [ ] `census/fp-load.sh`, `census/fp-merge.py` (copies of plan-40's with
+      Six tests (the two variants and a JST one; the cap at pitch − 0.8; `--write` keeps the other lines, drops a stale `TB-` line and is idempotent; `--check`; an unknown named id; a duplicate id and a pad that does not fit): `ℹ tests 6, pass 6, fail 0`.
+- [x] `census/fp-load.sh`, `census/fp-merge.py` (copies of plan-40's with
       `p45` in the temp directory name) and `census/fp-check.py` (every
       (variant, n) of the letter's lines has an object in
       `footprints-<letter>.json`).
+      The copies are of plan-44's (which are plan-40's with its name); `fp-check.py C` → `17 lines, 17 without a footprint`, `133 footprints, 133 missing` (before any object exists).
 
 Acceptance: the generator works on its test table.
-  Check: `node --test scripts/gen-terminals.test.js` → all tests pass (est. 1 min).
-Commit: —
+  Check: `node --test scripts/gen-terminals.test.js` → all tests pass (est. 1 min). Result: `ℹ pass 6`, `ℹ fail 0`.
+Commit: this commit (hash in the next one)
 
 ### Phase 2 — Phoenix Contact (5 variants)
 

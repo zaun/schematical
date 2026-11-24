@@ -190,7 +190,7 @@ Commit: 41b89bed
 
 Acceptance: the pick is final and its skips are listed.
   Check: `python3 -I planning/plan-45-data/census/final.py --verify-skipped` → `<n> skip rows, 0 missing from skipped-parts.md`; `awk -F'\t' '$22=="candidate"' planning/plan-45-data/candidates.tsv \| wc -l` → 0 (est. 30 min). Result: `2 skip rows, 0 missing from skipped-parts.md`; `0`.
-Commit: this commit (hash in the next one)
+Commit: d5d472ee
 
 ## Validation Plan
 
