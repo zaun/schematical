@@ -1149,3 +1149,27 @@ power mux with select logic, an external pass element, more than four switches).
 | TPS22932BYFPR, TPS22932BYFPT | Texas Instruments load switch, `tps22932b.pdf` | `powerswitch` / Power → Power Switches → Load Switches | a control other than an enable pin (I²C, SPI, PWM, an analog level or a multi-level setting): outside the `powerswitch` kind |
 | UC27133D, UC37133D | Texas Instruments load switch | `powerswitch` / Power → Power Switches → Load Switches | no datasheet on the maker's site |
 | TPS2116DRLR | Texas Instruments load switch, `tps2116.pdf` | `powerswitch` / Power → Power Switches → Load Switches | two or more inputs with a select, priority or mode pin (a power mux): outside the `powerswitch` kind |
+
+## Terminal blocks and JST headers (plan-45)
+
+In-stock, Active parts of the DigiKey categories Terminal Blocks - Wire to Board (371), Terminal Blocks - Headers,
+Plugs and Sockets (370) and Rectangular Connectors - Headers, Male Pins (314) that plan-45 looked at (DigiKey
+2026-11-16 listing, re-checked 2026-11-24; `planning/plan-45-data/candidates.tsv`) and left out, though they are
+still made; a later plan may add them. The maker rule (`docs/parts-format.md` § Datasheets): a part needs a
+datasheet on its maker's site that prints it. Pitches 3.50, 3.81, 5.00, 5.08, 7.50 and 7.62 mm, 2 to 12
+positions, one level; the other scope rules (levels, pitch, positions, mounting, termination) and the
+one-of-a-kind and variant-quota rules are in plan-45-A § 3 and are not skips.
+
+| Part(s) | Device | Would have gone into | Why skipped |
+|---|---|---|---|
+| Reliance North America's single-level in-scope parts (3759 at planning time: `node planning/plan-45-data/census/count.js 371 4915 t`) | Reliance PCB terminal blocks | `connector` / Connector → Terminal block | the maker publishes no datasheet on its own site that prints a part: DigiKey links its own copy (`mm.digikey.com`) for 40 of its 50 most-stocked parts and nothing for 10 (plan-45-A § 2, measured 2026-11-16), and the maker catalog `003_PCB_BLOCK_2027.pdf` (153 pages) is images (`pdftotext -layout` gives 12910 bytes, all of it the index) |
+| Pololu `JST PH-Style` (10) and `JST SH-Style` (12) headers | Pololu 2.00 mm and 1.00 mm JST-style headers | `connector` / Connector → JST | the datasheet link is an HTML product page (`https://www.pololu.com/product-info-merged/4362`, `content-type: text/html`), not a datasheet; JST is the only maker of XH / PH-style headers with a datasheet PDF |
+| 735 Phoenix Contact terminal-block rows (`awk -F'\t' '$2=="Phoenix Contact" && $23=="no datasheet"' planning/plan-45-data/candidates.tsv`) | Phoenix Contact COMBICON blocks and headers | `connector` / Connector → Terminal block | no per-item datasheet to check the part against: Phoenix answers every automated download of `phoenixcontact.com/us/products/<item>/pdf` with 403, and DigiKey links its own per-item copy (`mm.digikey.com/…/<item>.pdf`) for only the 74 parts that were added |
+| 57 Weidmüller terminal-block rows (`$2=="Weidmuller" && $23=="no datasheet"`) | Weidmüller Omnimate blocks and headers | `connector` / Connector → Terminal block | DigiKey links no datasheet on `datasheet.weidmueller.com` for them |
+| 22 Würth Elektronik terminal-block rows (`$2=="Wurth Elektronik" && $23=="no datasheet"`) | Würth WR-TBL blocks and headers | `connector` / Connector → Terminal block | DigiKey links no datasheet on `we-online.com` for them |
+| S4B-XH-SM4-TB | JST XH, SMT side entry, 4 positions | `connector` / Connector → JST → XH | DigiKey links only its own copy (`mm.digikey.com/…/S4B-XH-SM4-TB.pdf`), not JST's `eXH.pdf` that prints the other XH SMT parts |
+| 950018205000000, 950018207000000 | Würth WR-TBL 9500182 series, 5 and 7 positions | `connector` / Connector → Terminal block | the datasheet DigiKey links (`we-online.com/components/products/datasheet/<item>.pdf`) is a 3-page stub (soldering profile, cautions, disclaimer): no rating, pitch or land pattern, unlike the 9-page sheets of its 2, 3, 4, 6 and 8 position siblings; the same two items under `we-online.com/catalog/datasheet/<item>.pdf` (the form the siblings were downloaded from) answered 403 when tried on 2026-11-24 (the maker's throttle: a control item that had downloaded earlier that day answered 403 too), and plan-45 does not hunt for datasheets |
+| S11B-XH-A | JST XH, side entry, 11 positions | `connector` / Connector → JST → XH | not in stock at DigiKey on 2026-11-24 (the stock rule); it was in the 2026-11-16 listing |
+| 5430904 | Phoenix Contact BCH 3.50 mm shrouded header | `connector` / Connector → Terminal block | not in stock at DigiKey on 2026-11-24 |
+| 2473010000, 1124280000 | Weidmüller Omnimate LLFS 7.50 mm push-in; Omnimate SL 7.62 mm header | `connector` / Connector → Terminal block | not in stock at DigiKey on 2026-11-24 |
+| 691412120005B, 691412120006B, 691412120008B, 691412120009B | Würth WR-TBL 412B 3.50 mm spring | `connector` / Connector → Terminal block | not in stock at DigiKey on 2026-11-24 |

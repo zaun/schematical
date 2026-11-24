@@ -172,22 +172,25 @@ Commit: ec922b72
       `connector`, category `Connector → Terminal block`).~~ — moot: no PDF names an obsolescence word anywhere. A scan of all 320 placed files (`pdftotext -layout`, words OBSOLE…, DISCONTINUED, DISCONTINUATION, NOT RECOMMENDED FOR NEW, END OF LIFE, EOL, LAST TIME BUY, NRND, PHASE-OUT, NOT FOR NEW DESIGN, SUPERSEDED, REPLACED BY, SUCCESSOR, not only on the pages that name the part) → `320 files scanned; 0 with a hit`; DigiKey lists every candidate Active (A's stock check).
 
 Acceptance: every terminal row has a verdict and a reason when skipped.
-  Check: `python3 -I planning/plan-45-data/census/verdicts.py planning/plan-45-data/candidates.tsv --check` → `terminal: 329 rows: <add> add, <skip> skip, 0 undecided` (est. 1 h). Result: `terminal: 322 rows: 322 add, 0 skip, 0 undecided`.
-Commit: this commit (hash in the next one)
+  Check: `python3 -I planning/plan-45-data/census/verdicts.py planning/plan-45-data/candidates.tsv --check` → `terminal: 329 rows: <add> add, <skip> skip, 0 undecided` (est. 1 h). Result: `terminal: 322 rows: 322 add, 0 skip, 0 undecided` (after Phase 3 the same command says `320 add, 2 skip`: the two stub sheets).
+Commit: 41b89bed
 
 ### Phase 3 — Facts, pins, the final pick
 
-- [ ] `census/specs-fill.py`: rated voltage and current from each PDF into
+- [x] `census/specs-fill.py`: rated voltage and current from each PDF into
       `specs.tsv` and `candidates.tsv` (`volts`, `amps`); `pinout-check.py`:
       the pin rule of § 3 holds for every `add` row.
-- [ ] `generic-reps.tsv` (§ 4); `census/final.py`: `state` `add` / `skip`,
+      Output 2026-11-24: `specs-fill.py --write` read 513 rows: JST 191 (specification box), Phoenix 74 (71 by the headline "Nominal current …, Rated voltage (III/2) …", 3 by the IEC table: `Rated voltage (III/3)` or the one the sheet prints), Weidmüller 153 (`Product data IEC: <V> V / <A> A`), Würth 95 (12 VDE section, 68 the VDE column of a "cULus / UL, VDE" table, 13 the two series sheets, 2 none). Rule: the IEC value when the sheet prints IEC and UL (Würth: VDE), else the one it prints. Ratings the sheets do not print stay empty (`add` rows with no `amps` or `volts`: 0, the two empties are the two skipped stubs). Pitch compared on 482 rows (JST 191, Phoenix 70, Weidmüller 153, Würth 68; the sheets of the other 31, Phoenix 4 and Würth 27, print none) and positions on 234 (Phoenix 70, Weidmüller 153, Würth 11): **0 disagreements**. Spot-checked against the PDFs: Phoenix 1935815 32 A / 400 V, 5441278 160 V (DigiKey says 320: the II/2 figure), Würth 950011202000000 VDE 24 A / 750 V (DigiKey 14 A / 300 V), Weidmüller 8000078321 IEC 1000 V / 30.4 A, 2741400000 26.8 A (DigiKey: none). `pinout-check.py --fill` → `pinout: 511 rows, 0 bad` (every row `1..n`, 2 to 12 positions).
+- [x] `generic-reps.tsv` (§ 4); `census/final.py`: `state` `add` / `skip`,
       `footprints-needed.txt` rewritten.
-- [ ] `datasheets/skipped-parts.md`: the section of § 4; `final.py
+      Output: `final.py --write` → `191 JST rows decided; 511 add, 2 skip; 8 generic representatives`; no row stays `candidate`. Representatives: 3.50 WDM Omnimate-LSF-SMT H spring, 3.81 WE WR-TBL-Series-4123 A spring, 5.00 WE 1377 H screw, 5.08 WDM Omnimate-LM H screw, 7.50 WE 0011 H screw, 7.62 WE 4114 H spring, JST XH and PH `V|tht`. `footprints-needed.txt` per letter: C 17 variants (123 parts) 133 footprints; D 18 (197) 139; E 19 (191) 184; the `existing` column is empty for every variant (`awk -F'\t' '!/^#/ && $10!=""' … \| wc -l` → 0).
+- [x] `datasheets/skipped-parts.md`: the section of § 4; `final.py
       --verify-skipped` finds every `skip` row in it.
+      Section "Terminal blocks and JST headers (plan-45)": the five groups of § 4 (Reliance North America, Pololu, Phoenix 735, Weidmüller 57, Würth 22), the one JST row with only a DigiKey copy, the 2 `skip` rows and the 8 rows A's stock check removed. `final.py --verify-skipped` → `2 skip rows, 0 missing from skipped-parts.md`.
 
 Acceptance: the pick is final and its skips are listed.
-  Check: `python3 -I planning/plan-45-data/census/final.py --verify-skipped` → `<n> skip rows, 0 missing from skipped-parts.md`; `awk -F'\t' '$22=="candidate"' planning/plan-45-data/candidates.tsv \| wc -l` → 0 (est. 30 min).
-Commit: —
+  Check: `python3 -I planning/plan-45-data/census/final.py --verify-skipped` → `<n> skip rows, 0 missing from skipped-parts.md`; `awk -F'\t' '$22=="candidate"' planning/plan-45-data/candidates.tsv \| wc -l` → 0 (est. 30 min). Result: `2 skip rows, 0 missing from skipped-parts.md`; `0`.
+Commit: this commit (hash in the next one)
 
 ## Validation Plan
 
@@ -216,6 +219,13 @@ Commit: —
   - *§ 2 said every Würth sheet is per-item; two are series-level.* `691311400102.pdf` (series 3114, 7.62 mm close vertical header) and `691412120002B.pdf` (series 412 B, 3.5 mm screwless 45°) are one file each shared by 7 and 6 candidate rows (same SHA-256 under several URLs, `datasheets.tsv`). They print "WERI PART NO: 691 311 400 1xx" / "691 412 120 0xx B" (and 412 B "A = (3.5 x NB PINS) + 1.5"), not the part numbers, so `hit` was 0 for those 13 rows. Rule 1 for a per-item maker now reads: the number is printed, or a numbering rule printed in the sheet makes it (the JST rule). The two rules are in `specs.tsv` (`scheme`, `note`), checked per row with `n` = `positions` (13 of 13), and `verdicts.py` applies them.
   - *Terminal rows are `add` now, JST rows still `candidate`.* `verdicts.py` sets `state` for the terminal makers only; Phase 3's `final.py` decides the JST rows and the facts step may still turn an `add` into a `skip` (`datasheet disagrees`). `place.py --verify`, `textscan.py` and `specs-skeleton.py` treat `candidate` and `add` alike (they said `candidate` only).
   - *No obsolete PDF.* The whole-file scan (task 2 above) found no obsolescence wording in any of the 320 files, so nothing is deleted and `datasheets/obsolete-not-included.md` is untouched.
+
+- **2026-11-24, Phase 3.**
+  - *Two Würth sheets are stubs, so their rows are `skip`.* `950018205000000.pdf` and `950018207000000.pdf` (the `/components/products/datasheet/` copies DigiKey links) are 3 pages: soldering profile, cautions, disclaimer: no rating, pitch, drawing or land pattern (page 1 and 2 looked at as images); their siblings 2, 3, 4, 6, 8 of the same series are 9-page full sheets from `/catalog/datasheet/`. § Non-goals: no datasheet hunting, a row with no usable PDF is `skip`. The `/catalog/…` form of the two items answered 403 on 2026-11-24 (so did a control item that had downloaded the same day: the throttle A's § 4 describes), so it was not used. Rule in `specs-fill.py`: a placed sheet that prints no rating, no voltage and no pitch → `skip`, reason `no technical data in the datasheet`. Both PDFs are deleted from the tree (`place.py --prune`: 318 files left, `ok: 318 files, 0 rows without a file, 0 unused`). `verdicts.py` leaves a row another step skipped for its own reason (it would have turned both back into `add`).
+  - *Four Phoenix headers and the Würth 3114 sheet print no drilling or hole wording.* A scan for land-pattern wording over the 318 placed files (`Drilling diagram`, `Hole diameter` (Phoenix); `Solder eyelet hole diameter`, `Drawings` (Weidmüller); `Hole Pattern`, `PCB LAYOUT`, `Footprint`, … (Würth); `PC board layout` (JST)) finds it in every file except Phoenix `1941650`, `1966509`, `5452093`, `5452094` and Würth `691311400102` (the 3114 series sheet, 1 page, a drawing without those words). § 2's "every land pattern C, D and E draw is in a placed PDF" is therefore **not** established for those five sheets (11 rows: Phoenix 4 rows, Würth 3114 7 rows). They stay `add`: C, D and E read the drawing and, per § Non-goals, make a row `skip` in their own Corrections when no land pattern can be drawn (the footprint list only shrinks).
+  - *Ratings: IEC over UL.* Phoenix's headline is the IEC figure (III/2); a header whose headline names no voltage gets the IEC table's `III/3` (400 V, 320 V), else `II/2`. Würth prints UL and VDE ([IEC 61984]) columns: VDE. DigiKey's value often differs (Phoenix 5441278: 160 V against 320 V (II/2); Würth 950011202000000: 24 A / 750 V against 14 A / 300 V): 20 JST, 33 Phoenix, 76 Weidmüller and 57 Würth `amps` and 63 / 70 / 74 `volts` differ from DigiKey's. JST VH is two ratings in one sheet: 10 A for the standard header (AWG #16), 7 A for the shrouded `-FB-B` (AWG #18), set per part; SR (`eSR_SZ`) 0.7 A against SH's 1.0 A: each row takes its own PDF's.
+  - *Positions can be compared only where the sheet ties the part to a count.* Phoenix and Weidmüller print it (`Number of positions`, `Number of poles`): compared on 223 rows; Würth on 11 (a table row naming the part); JST's `n` equals DigiKey's `positions` on all 191 (`scheme-check.py`), and the `xx` of the 13 Würth series-sheet rows does the same: the remaining 69 Würth rows, 4 Phoenix rows and the 2 stubs rely on DigiKey's count, as § 3 allows when the sheet prints none.
+  - *Footprint numbers moved.* `footprints-needed.txt` is now from the `add` rows plus the generics' counts 2…12: **C 17 variants / 133 footprints, D 18 / 139, E 19 / 184** (A's planning pick: 17 / 124, 18 / 142, 19 / 184 for 450 in all, and A's § 2 line count 54 is unchanged). C, D and E re-measure these at their start.
 
 ## Summary
 

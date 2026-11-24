@@ -47,6 +47,12 @@ def main():
         if r['maker'] not in TERMINAL or r['state'] not in ('candidate', 'add', 'skip') or not r['pdf']:
             continue
         total += 1
+        if r['state'] == 'skip' and r['reason'] not in (NOT_TABLE, OBSOLETE):
+            # skipped by a later step for its own reason (specs-fill.py: no technical data, datasheet disagrees)
+            count['skip'] += 1
+            if listing:
+                print('skip', r['mpn'], r['pdf'], r['reason'])
+            continue
         state, reason = 'add', ''
         rx = schemes.get((r['maker'], r['variant'], r['pdf']))
         m = rx.fullmatch(r['mpn']) if rx else None
