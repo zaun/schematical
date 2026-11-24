@@ -326,21 +326,24 @@ rows keeps the rest (no refill: each row is its own part).
 
 Acceptance: the planning pick reproduces.
   Check: `python3 -I planning/plan-45-data/census/select.py planning/plan-45-data/raw /tmp/p45-cand.tsv --urls planning/plan-45-data/url-check.tsv && cmp /tmp/p45-cand.tsv planning/plan-45-data/candidates.tsv && echo reproducible` → `reproducible` (est. < 1 min).
-Commit: —
+Commit: ced62f5e (the gate and the call scripts: 248d40f4)
 
 ### Phase 2 — The stock re-check (145 DigiKey calls)
 
-- [ ] `census/recheck.py` (§ 5): `census/list.sh /tmp/p45-raw2` (145 calls),
+- [x] `census/recheck.py` (§ 5): `census/list.sh /tmp/p45-raw2` (145 calls),
       then `python3 -I census/recheck.py /tmp/p45-raw2 candidates.tsv > stock-check.tsv`.
-- [ ] `python3 -I census/select.py raw candidates.tsv --urls url-check.tsv --stock stock-check.tsv --report`:
+      Output 2026-11-24 (second key; 7 pieces, 0 `cut at` lines, 5271 parts in the fresh listing; 148 calls: 145 + the 3 retries after the `371-732-t` failure, Corrections): `recheck.py: 513 found, 8 not found`.
+- [x] `python3 -I census/select.py raw candidates.tsv --urls url-check.tsv --stock stock-check.tsv --report`:
       every row `stock_checked` 1 or `out` (`stock check`); record the number
       out under § Corrections.
-- [ ] Update `candidates.tsv`; `planning/plan-45-data/README.md` names
-      `stock-check.tsv`.
+      Output: `out: … stock check 8`, `candidates: 513; distinct URLs 333; variants 54` (Phoenix 74, Weidmuller 153, Wurth 95, JST 191); 8 out, listed in Corrections.
+- [x] Update `candidates.tsv`; `planning/plan-45-data/README.md` names
+      `stock-check.tsv`. (`candidates.tsv` rewritten; README § Added by plan-45-A.)
 
 Acceptance: every candidate row was seen in stock on the day of this phase.
   Check: `awk -F'\t' '$22=="candidate" && $27!=1' planning/plan-45-data/candidates.tsv \| wc -l` → 0 (est. 15 min: the 145-call listing; nothing smaller covers 521 rows).
-Commit: —
+  Result 2026-11-24: `0`; also no candidate that was not in the planning pick (`comm -13` of the two candidate lists → 0).
+Commit: this commit (hash in the next one)
 
 ### Phase 3 — Download and place the datasheets
 
@@ -413,6 +416,12 @@ Commit: —
   - *Cloudflare answers scripts with a challenge since 2026-11-23* (AGENTS.md / `scripts/digikey.js`). `count.js`, `sample.js` and `list.js` called `fetch` directly, so they could not run. They now take their login and transport from the new `census/dk.js`, which wraps `scripts/digikey.js`'s `credentials`, `token` and `fetchRetry` (the pattern of `planning/plan-55-data/census/common.js`): Node first, Safari when challenged. Key: the **second** key (`DIGIKEY_CLIENT_ID2` / `_SECRET2`, its own quota) unless `DK_OPT2=0`, per the owner's "using opt2" (the first key's quota was already spent by another session: 429, resets 2026-11-25 00:00 UTC). `list.sh` exports both keys. Output and arguments of the three scripts are unchanged.
   - *DigiKey's copies of the Phoenix PDFs are behind the same challenge.* `urlcheck.py` on the 241 non-Würth URLs → `0 75` (all 75 `mm.digikey.com` files: HTTP 403, `cf-mitigated: challenge`, `server: cloudflare`) and `1 166`; on 2026-11-16 all 241 were `1`. Safari passes: `scripts/safari-digikey-pdf.sh` fetched `…/docus/20/5441278.pdf` → 97716 bytes, `%PDF-1.4`, 4 pages. Phase 3's `fetch.py` therefore fetches every `mm.digikey.com` URL through `safari-digikey-pdf.sh` (one at a time; it opens a tab in Safari's DigiKey window, so a DigiKey page must be open there) and every other host as § 4 says. `url-check.tsv` stays the planning snapshot (75 rows `ok`); a Phoenix file that does not download makes its row `out` (`no datasheet`) as § 4 says.
   - *Live JST count drifted.* `count.js 314 455 jst` → `all 318` (312 at planning): stock moves; Phase 2's fresh listing re-measures, and a part that appeared since is not added (the pick is the planning pick, § 5).
+
+- **2026-11-24, Phase 2.**
+  - *`select.py --stock` refilled the pick.* As written it applied the stock check before the duplicate and variant-quota choices, so the 8 lost rows changed their winners: a first run gave 517 candidates, with four rows the planning pick did not have (`S11B-XH-A-1` took `S11B-XH-A`'s duplicate slot, `3124680000` … `3124740000` became a Weidmüller variant) and a variant lost to the quota. § 5 says the opposite ("no refill: each row is its own part") and the Phase 2 check needs every candidate stock-checked. `select.py` now applies the stock check last, to the finished pick: a `candidate` that is `found` 0 becomes `out`, `stock check`; nothing else moves. Without `--stock` its output is unchanged (`cmp` → `reproducible` again after the edit).
+  - *8 rows out for stock check* (`found` 0: not in the fresh listing with stock above 0 and status Active or Last Time Buy): JST `S11B-XH-A`; Phoenix Contact `5430904`; Weidmüller `2473010000`, `1124280000`; Würth `691412120005B`, `691412120006B`, `691412120008B`, `691412120009B`. All 54 variants keep at least one row (variants 54 before and after). Candidates 521 → **513** (Phoenix 74, Weidmüller 153, Würth 95, JST 191); distinct URLs 340 → **333**: the Phase 3 download set is 333, not 340.
+  - *Calls.* The listing took 148 calls, not 145: `371-732-t` failed once (Safari request timeouts, then DigiKey HTTP 500) and `list.sh` re-ran it from its start. Second key 573 left after the first piece; 421 at the lowest point (shared with other sessions).
+  - *Dates.* `recheck.py` stamps the UTC date (2026-11-24), the date the plans use.
 
 ## Summary
 
