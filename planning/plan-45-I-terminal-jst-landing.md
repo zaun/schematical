@@ -21,7 +21,7 @@ plan-45-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-45-H complete | `ls planning/completed/plan-45-H-*.md` → exists, or every H box ticked | NOT MET (2026-11-16: not started) |
+| plan-45-H complete | `ls planning/completed/plan-45-H-*.md` → exists, or every H box ticked | MET (2026-11-24: every H box ticked: `grep -c '^- \[ \]' planning/plan-45-H-*.md` → 0) |
 
 Everything below is written against the world where these hold.
 
@@ -45,9 +45,22 @@ Every gate of Phase 1's table shows its expected value in one run.
 
 ### Phase 1 — Landing tier
 
-- [ ] Run every gate of the table on a fresh build dir (`/tmp/logic-p45-land`)
+- [x] Run every gate of the table on a fresh build dir (`/tmp/logic-p45-land`)
       and record the observed values here.
-- [ ] `planning/todo.md`: mark `Add screw terminals and JST-XH/PH connectors
+      Observed (2026-11-24, tree at f274adb4 plus docs; `main` has not moved: base `ed9b9765` is its tip):
+      Backend: fresh `cmake -S backend -B /tmp/logic-p45-land`, build, `ctest` → `100% tests passed, 0 tests failed out of 57`.
+      Goldens vs start: `git diff main -- backend/tests/golden | grep -c '^-[^-]'` → `0`.
+      Connector parts: `1541` (main 952) = 952 + 88 + 501 `add` rows.
+      Parts total: `36510` (main 35921) = 35921 + 589.
+      Footprints: `2773` (main 2293) = 2293 + 480 `TB-`/`JST-` ids.
+      Generators: `node --test scripts/gen-terminals.test.js` → `tests 10, pass 10, fail 0`; `gen-terminals.js --check` → `ok: 480 TB-/JST- footprints`, exit 0; `gen-parts.py --check` → exit 0.
+      Datasheets: `308` PDFs = `308` distinct PDFs of the `add` rows; `place.py --verify` → `ok: 308 files, 0 rows without a file, 0 unused, 0 changed`.
+      Datasheet URLs: `datasheet.weidmueller.com` 149 of 149, `www.we-online.com` 219 of 219, `www.jst-mfg.com` 7 of 7 serve a PDF; `www.jst.com` 0 of 2 (`HTTP 403`, recorded); `www.phoenixcontact.com` 68 of 68 on G's first run, 20 of 68 on the landing run and 0 of 68 on the rerun after it (`HTTP 403`, `curl` too: the host throttles the script; recorded in § Datasheets).
+      Skipped parts: `12 skip rows, 0 missing from skipped-parts.md`.
+      Stock check: `select.py … --report` exit 0 (`candidates: 513; distinct URLs 333; variants 54`); `awk -F'\t' '$22=="add" && $27!=1' … | wc -l` → `0`.
+      App: `** BUILD SUCCEEDED **`; app tests (six classes: TerminalConnectorTests, DrawerPerformanceTests, PartEditorWindowTests, BoardPreviewTests, HeaderBoardTests, DatasheetCatalogTests): `** TEST SUCCEEDED **`, every `Executed` line `0 failures`.
+      Runtime proof: harness `all checks ok`, exit 0 (10 `ok` lines, a `J1` terminal block with three pads 5.08 mm apart, a JST header from `B2B-XH-A`, levels `1 / 0` in play mode with no short).
+- [x] `planning/todo.md`: mark `Add screw terminals and JST-XH/PH connectors
       (check what the 222 existing connectors already cover first).` done
       (`[x]`) with a note on the same item: "(plan-45: Phoenix Contact,
       Weidmüller, Würth Elektronik terminal blocks; JST XH, PH, EH, ZH, SH,
@@ -61,8 +74,10 @@ Every gate of Phase 1's table shows its expected value in one run.
       "^<name>|" backend/tests/golden/parts.txt`); N is at most 15 (the seven
       JST headers among the 22 are plan-45 candidates), so the item stays
       unticked.
-- [ ] Move `plan-45-A` … `plan-45-I` to `planning/completed/` (A–H are
+      The first item is `[x]` with the note; the family item reads `15 parts`: the 22 `later` rows minus the 7 JST headers the library now has (`later-connector` count: 22 rows, 15 still missing).
+- [x] Move `plan-45-A` … `plan-45-I` to `planning/completed/` (A–H are
       archived as each completes; I with this commit).
+      Done at the landing, with the two references to plan-45-A (`plan-51-B`, `plan-54-A`) following; `planning/plan-45-data/` stays beside the other `plan-NN-data` directories.
 
 | Gate | Command | Expected |
 |---|---|---|
@@ -84,8 +99,8 @@ Acceptance: every gate's observed value matches.
   Check: the table's commands (est. 45 min: the fresh backend build, the app
   tests and the harness; this is the plan's one landing run, and nothing
   smaller covers the backend, the part files, the generators and the app
-  together).
-Commit: —
+  together). Result: every gate as observed above; the planning-time numbers in the table (376, P0 32897, F0 1646) were stale and are corrected in § Corrections.
+Commit: this commit (hash in the next one)
 
 ## Validation Plan
 
@@ -99,6 +114,15 @@ Commit: —
   drawer's leaf order, which those tests exercise.
 
 ## Corrections
+
+- The table's planning-time baselines were stale: the connector kind held
+  952 parts on `main` (not 376), the parts golden 35921 lines (not 32897) and
+  the footprints golden 2293 (not 1646), because other plans landed meanwhile;
+  the gates are measured against `main`'s tip (`git show main:backend/tests/golden/...`),
+  which is also plan-45's base, so the deltas are exactly 589 parts (88
+  generics + 501 `add` rows) and 480 footprints.
+- `www.phoenixcontact.com` throttles the script (403) after a few runs; the
+  host check is recorded as "serves all 68 on a first run".
 
 ## Summary
 

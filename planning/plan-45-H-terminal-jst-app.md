@@ -206,7 +206,7 @@ Commit: f209d66c
 
 Acceptance: the app works end to end.
   Check: `rm -rf /tmp/p45-harness && APP=/tmp/p45-dd/Build/Products/Debug/schematical.app scripts/harness/build.sh scripts/harness/terminal-app.swift /tmp/p45-harness && /tmp/p45-harness/H.app/Contents/MacOS/harness` → every line `ok`, exit 0; and `xcodebuild … test -only-testing:schematicalTests/TerminalConnectorTests -only-testing:schematicalTests/DrawerPerformanceTests -only-testing:schematicalTests/HeaderBoardTests` → `** TEST SUCCEEDED **` (est. 20 min: app build, harness, three classes). Result: harness `all checks ok`, exit 0; `** TEST SUCCEEDED **`, `Executed 18 tests, with 0 failures`.
-Commit: this commit (hash in the next one)
+Commit: f274adb4
 
 ## Validation Plan
 

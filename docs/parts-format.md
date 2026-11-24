@@ -512,10 +512,13 @@ Treat those failures as expected (plan-44-F: 9 of the 11 `suntsu.com` entries
 datasheets (plan-54): their entries name `cdn.amphenol-cs.com`, which answers a
 script `HTTP 403` or `429`; the local PDFs are Amphenol's own `catsy.925` file
 store's copies of the same documents. The terminal-block and JST datasheets
-(plan-45) were checked host by host: `www.phoenixcontact.com` (68 URLs),
-`datasheet.weidmueller.com` (149), `www.we-online.com` (219; it throttles a
-fast run to `HTTP 403`, so run it alone) and `www.jst-mfg.com` (7) all serve a
-PDF; `www.jst.com` answers a script `HTTP 403` for both its entries
+(plan-45) were checked host by host: `datasheet.weidmueller.com` (149 URLs),
+`www.we-online.com` (219; it throttles a fast run to `HTTP 403`, so run it
+alone) and `www.jst-mfg.com` (7) all serve a PDF; `www.phoenixcontact.com`
+(68) serves all 68 on a first run, then throttles the script to `HTTP 403`
+for a while (a later run: 20 of 68 passed, the next 0 of 68, and `curl` got
+403 too), so run it once and treat a 403 there as expected;
+`www.jst.com` answers a script `HTTP 403` for both its entries
 (`eSR_SZ`, `eSR_SZ-new`), though the URLs open in a browser, so treat those two
 as expected.
 
