@@ -1,0 +1,51 @@
+{
+ "rows": [
+  {
+   "stem": "EDGE-TE-2345808",
+   "positions": [28],
+   "description": "TE 2345808 SLIVER 2.0 right-angle edge connector, 28 positions (2 x 14, 0.6 pitch), surface mount",
+   "note": "Drawing 2345808 rev C1, datasheets/connector-card-edge/te/2345808.pdf, sheet 2 (recommended PCB layout, top view; dimensions read off the 10:1 print and checked against the PDF's vector geometry) and sheet 1 (housing 16.25 max x 11.1 max). Datum W = the vertical centre line through the left locating peg hole; Y = that peg's horizontal line. Contacts: 14 pads per row, row A (pins 1..14 = A1..A14, upper) and row B (pins 15..28 = B1..B14, lower), pin 1 at the left; pad 0.35 x 1.4 (28X 0.35+-0.05, 1.4+-0.05 printed), pitch 0.6 (printed 0.6; 14 pads drawn per row, the print's '27X 0.6' and '56X 1.4' counts do not match the 2 x 14 pads drawn and are taken as stale). First pad centre 1.42 right of W (printed 1.42), so the last is 1.42 + 13 x 0.6 = 9.22. Row A is 2.15 below the left peg line (printed), row B 5.1 below it (printed); rows 5.1 - 2.15 = 2.95 apart. Locating pegs (ASSUMED non-plated: the print says plated only for the '6X' holes, the two peg holes only carry a diameter 1.1+-0.05): left peg on W, right peg 11.365 right of W (printed) and 1.0 higher (peg line y 22.156 against 23.156 in the PDF geometry). Six plated 1.1+-0.05 thru holes (the shell hold-downs; the PAD diameter is not printed: ASSUMED 1.5 = 1.1 + 2 x 0.2): at W-1.74 / y -4.53, W-0.68 / y -3.0, W-1.74 / y +1.47, W+13.105 / y -4.53, W+12.195 / y -3.0, W+13.105 / y +1.47 (x and y printed: 1.74, 0.68, 13.105, 12.195, 4.53, 3, 1.47, relative to the left peg). The footprint origin is the centre of the housing outline: x = the midline of the pegs, W + 11.365 / 2 = W + 5.6825 (the hold-down holes are symmetric about it: (-1.74 + 13.105) / 2 = 5.6825); y: the housing front edge is 6.15 before the left peg line (printed on sheet 1, bottom view) and the housing is 11.1 deep (max), so its centre is 6.15 - 11.1 / 2 = 0.6 before the left peg line (the housing is assumed to be exactly the 11.1 max). Card entry faces up (-y). Coordinates here = (printed position - the origin): pad k x = 1.42 + 0.6 (k-1) - 5.6825 = -4.2625 + 0.6 (k-1); row A y = 2.15 + 0.6 = 2.75, row B y = 5.1 + 0.6 = 5.7; left peg (-5.6825, 0.6), right peg (5.6825, 0.6 - 1.0 = -0.4); plated holes at x = -7.4225 / -6.3625 / 6.5125 / 7.4225 and y = -4.53 + 0.6, -3.0 + 0.6, 1.47 + 0.6. The pad centres are shifted -0.3625 from the generator's centred row (centre of a 13 x 0.6 span at -4.2625 + 3.9 = -0.3625). Part -B (2345808-B) is the same land pattern (the sheet 4 table differs only in plating and tape).",
+   "numbering": "halves",
+   "pitch": 0.6,
+   "row_y": "2.75,5.7",
+   "x_off": -0.3625,
+   "pad_w": 0.35,
+   "pad_h": 1.4,
+   "shape": "rect",
+   "extras": [
+    {"pin": 0, "x": -7.4225, "y": -3.93, "width": 1.5, "height": 1.5, "shape": "round", "drill": 1.1},
+    {"pin": 0, "x": -6.3625, "y": -2.4, "width": 1.5, "height": 1.5, "shape": "round", "drill": 1.1},
+    {"pin": 0, "x": -7.4225, "y": 2.07, "width": 1.5, "height": 1.5, "shape": "round", "drill": 1.1},
+    {"pin": 0, "x": 7.4225, "y": -3.93, "width": 1.5, "height": 1.5, "shape": "round", "drill": 1.1},
+    {"pin": 0, "x": 6.5125, "y": -2.4, "width": 1.5, "height": 1.5, "shape": "round", "drill": 1.1},
+    {"pin": 0, "x": 7.4225, "y": 2.07, "width": 1.5, "height": 1.5, "shape": "round", "drill": 1.1},
+    {"pin": 0, "x": -5.6825, "y": 0.6, "width": 1.1, "height": 1.1, "shape": "round", "drill": 1.1, "plated": false},
+    {"pin": 0, "x": 5.6825, "y": -0.4, "width": 1.1, "height": 1.1, "shape": "round", "drill": 1.1, "plated": false}
+   ],
+   "body_w": 16.25,
+   "body_h": 11.1
+  },
+  {
+   "stem": "EDGE-TE-2380366",
+   "positions": [84],
+   "description": "TE 2380366 SLIVER 2.0 vertical edge connector, 84 positions (2 x 42, 0.6 pitch), surface mount",
+   "note": "Drawing 2380366 rev A, datasheets/connector-card-edge/te/2380366.pdf, sheet 2 (recommended PC board layout, top view, 10:1 print; positions read off the PDF's vector geometry and checked against the printed numbers) and sheet 1 (housing 35.75 max x 6.62). Contacts: row A (pins 1..42 = A1..A42, upper) and row B (pins 43..84 = B1..B42, lower), pin 1 at the left; each row is 28 pads, a gap, then 14 pads (84X 0.35+-0.05 x 1.20+-0.05; '54X 0.60' = 2 x 27 pitches, '26X 0.60' = 2 x 13 pitches); pitch 0.6. Printed: pad 1 is 18.21 left of the centre peg (2X 18.21); pad 28 and pad 29 are each 2.00 either side of the peg (2X 2.00; 18.21 - 27 x 0.6 = 2.01, within 0.01), so the gap pad 28 to pad 29 is 2.01 + 2.00 = 4.01 (3.41 more than the pitch); the 14-pad group ends 13 x 0.6 = 7.8 after pad 29. Rows are 2.61 either side of the peg line (2X 2.61), 5.22 apart. Centre peg hole: 1.00+-0.05 (non-plated assumed: no plating stated), on the row centre line. Hold-down slots: 2 plated slots 1.10 x 2.45 (3X 1.10+-0.05 x 2.45+-0.05 PLATED THRU SLOT printed; only two are drawn), at 21.58 left (printed 21.58) and 12.87 right of the peg (printed 12.87), y = the peg line; the slots' PAD is not printed (ASSUMED 1.5 x 2.85 = the slot + 2 x 0.2); and one 1.60 x 1.00 slot (printed 1.60+-0.05 and 1.00+-0.05; plating not stated: taken as non-plated, the second locating peg) 20.03 left of the peg (printed 20.03) and 1.75 below the peg line (printed 1.75). The origin is the centre of the housing outline: x = the midpoint of the two hold-down slots, peg - 21.58 + (21.58 + 12.87) / 2 = peg - 4.355 (sheet 1, bottom view: the slots sit symmetrically in the 35.75 housing), y = the peg line (the pad rows and the housing are symmetric about it); housing 35.75 x 6.62 (35.75 max; 6.62 printed). Coordinates: peg x = +4.355; slots x = -17.225 and +17.225 (= -21.58 + 4.355, 12.87 + 4.355); 1.6 x 1.0 slot x = -20.03 + 4.355 = -15.675; pad 1 x = -18.21 + 4.355 = -13.855, pad 28 x = 2.345, pad 29 x = 2.00 + 4.355 = 6.355, pad 42 x = 14.155. The generator centres the row (span 41 x 0.6 + 3.41 = 28.01); the row is shifted by +0.15 (= -13.855 + 14.005).",
+   "numbering": "halves",
+   "pitch": 0.6,
+   "row_y": "-2.61,2.61",
+   "x_off": 0.15,
+   "pad_w": 0.35,
+   "pad_h": 1.2,
+   "shape": "rect",
+   "gaps": {"28": 3.41},
+   "extras": [
+    {"pin": 0, "x": -17.225, "y": 0, "width": 1.5, "height": 2.85, "shape": "round", "drill": 1.1, "slotLength": 2.45},
+    {"pin": 0, "x": 17.225, "y": 0, "width": 1.5, "height": 2.85, "shape": "round", "drill": 1.1, "slotLength": 2.45},
+    {"pin": 0, "x": 4.355, "y": 0, "width": 1.0, "height": 1.0, "shape": "round", "drill": 1.0, "plated": false},
+    {"pin": 0, "x": -15.675, "y": 1.75, "width": 1.6, "height": 1.0, "shape": "round", "drill": 1.0, "slotLength": 1.6, "plated": false}
+   ],
+   "body_w": 35.75,
+   "body_h": 6.62
+  }
+ ]
+}

@@ -120,9 +120,11 @@ int main(void) {
         circuit_destroy(circuit);
         puts("PASS: a card slot loads and joins nothing");
     }
-    /* The most-stocked `add` part of each family (examples.tsv). */
+    /* The most-stocked `add` part of each family and of the straddle-mount kind (examples.tsv). */
     if (card_part_joins_nothing(library, "MSD-1-A", "1", "2") != 0 ||
-        card_part_joins_nothing(library, "2309413-1", "1", "2") != 0) {
+        card_part_joins_nothing(library, "2309413-1", "1", "2") != 0 ||
+        card_part_joins_nothing(library, "7-1734774-7", "1", "2") != 0 ||
+        card_part_joins_nothing(library, "2387405-2", "1", "2") != 0) {   /* a card-edge socket; a straddle-mount one */
         return 1;
     }
     part_library_destroy(library);

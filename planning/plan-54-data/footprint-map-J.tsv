@@ -26,6 +26,7 @@ EDGE-TE-HD	48	EDGE-TE-HD-48P-0	the line's own footprint: 34 pins of the 48 posit
 EDGE-TE-MINI-CROWN-EDGE-ELCON	30	EDGE-TE-MINI-CROWN-EDGE-ELCON-30P-0	the line's own footprint: an all-pad row (N = 0 of the generator) because power lands and signal lands of a row differ in size and row distance
 EDGE-TE-MINI-CROWN-EDGE-ELCON-C	30	EDGE-TE-MINI-CROWN-EDGE-ELCON-C-30P-0	the line's own footprint: an all-pad row (N = 0 of the generator), as above
 EDGE-TE-MINI-CROWN-EDGE-ELCON-D	38	EDGE-TE-MINI-CROWN-EDGE-ELCON-D-38P-0	the line's own footprint: an all-pad row (N = 0 of the generator), as above
+EDGE-TE-STANDARD-EDGE-050-H	120	EDGE-TE-STANDARD-EDGE-050-E-120	5145167 (TE drawing 5145167, 60 dual position .050 standard edge, through hole) has the same RECOMMENDED CONNECTOR MOUNTING HOLE PATTERN as 5145154: 10 spaces + 48 spaces at 1.27 with the key at 1.91 either side of the mounting hole, 64.77 +-0.08 between the dia 2.44 holes, 3.81 / 1.27 staggered dia 1.02 hole rows; compared dimension by dimension on sheet 2 of both prints; housing length 84.84 assumed the same
 EDGE-TE-STANDARD-EDGE-II-E	64	EDGE-TE-STANDARD-EDGE-II-E-54	footprint has the datasheet's 54 pins (10 contacts omitted)
 EDGE-TE-STANDARD-EDGE-II-F	36	EDGE-TE-STANDARD-EDGE-II-F-28	footprint has the datasheet's 28 pins (5645384-6, 8 contacts omitted)
 EDGE-TE-STANDARD-EDGE-II-D	30	EDGE-TE-STANDARD-EDGE-II-G-30	5650118-1 (15 dual positions) is drawn on the 5650118 print (line II-G)
@@ -34,3 +35,4 @@ EDGE-TE-STANDARD-EDGE-II-L	50	EDGE-TE-STANDARD-EDGE-II-L-49	footprint has the da
 EDGE-TE-STANDARD-EDGE-II-Q	60	EDGE-TE-STANDARD-EDGE-II-Q-52	footprint has the datasheet's 52 pins (positions 15-18 omitted in both rows)
 EDGE-TE-STANDARD-EDGE-II-P	50	EDGE-TE-STANDARD-EDGE-II-P-49	footprint has the datasheet's 49 pins (pin 44 omitted)
 EDGE-TE-STANDARD-EDGE-II-P	62	EDGE-TE-STANDARD-EDGE-II-P-61	footprint has the datasheet's 61 pins (pin 6 omitted); built by merge_te4.py (not expressible by rowgen: 30 + 31 pads)
+EDGE-TE-2345808-B	28	EDGE-TE-2345808-28	2345808-4 (and the other -B part numbers) are on the same drawing: sheet 4 of 2345808 lists them with the same land pattern (sheets 1-3 are common), they differ only in plating, tape pitch and reel quantity

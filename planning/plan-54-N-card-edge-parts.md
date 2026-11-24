@@ -25,10 +25,10 @@ plan-54-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-54-M complete | `ls planning/completed/plan-54-M-*.md` → exists | NOT MET (2026-11-22: not started) |
-| plan-54-K complete | `ls planning/completed/plan-54-K-*.md` → exists | NOT MET (2026-11-22: not started) |
-| The pick is final | `awk -F'\t' '$4=="edge" && $20=="add"' planning/plan-54-data/candidates.tsv \| wc -l` → the `add` rows (at most 1014; 0 at planning, all `candidate`) | NOT MET (2026-11-22: C and D) |
-| The footprint tables are done | `python3 -I planning/plan-54-data/census/fp-check.py I && python3 -I planning/plan-54-data/census/fp-check.py J && python3 -I planning/plan-54-data/census/fp-check.py K` → each `0 without a footprint` | NOT MET (2026-11-22: I, J, K) |
+| plan-54-M complete | `ls planning/completed/plan-54-M-*.md` → exists | MET (2026-11-23: I, J, K committed on worktree-P-54) |
+| plan-54-K complete | `ls planning/completed/plan-54-K-*.md` → exists | MET (2026-11-23: I, J, K committed on worktree-P-54) |
+| The pick is final | `awk -F'\t' '$4=="edge" && $20=="add"' planning/plan-54-data/candidates.tsv \| wc -l` → the `add` rows (at most 1014; 0 at planning, all `candidate`) | MET (2026-11-23) |
+| The footprint tables are done | `python3 -I planning/plan-54-data/census/fp-check.py I && python3 -I planning/plan-54-data/census/fp-check.py J && python3 -I planning/plan-54-data/census/fp-check.py K` → each `0 without a footprint` | MET (2026-11-23) |
 | The goldens are P0 / R0 / F0 | `wc -l < backend/tests/golden/parts.txt` etc. re-measured at the start; N uses its own | MET (2026-11-22 at 7b449718: 34375 / 34375 / 1895; M moves them) |
 
 Everything below is written against the world where these hold.
@@ -98,9 +98,12 @@ count that differs.
 
 ### Phase 1 — Samtec
 
-- [ ] Re-measure P0, R0, F0; `census/gen-parts.py --family edge --maker samtec` (adds the `edge`
+- [x] Re-measure P0, R0, F0; `census/gen-parts.py --family edge --maker samtec` (adds the `edge`
       family to the generator's families), `fp-merge.py --only` the footprints of `footprints-I.json`
       those parts name, goldens, review: only added lines.
+
+      Result: P0 = R0 = 34569, F0 = 2020 at the start (after M); `gen-parts.py --family edge` generated the three makers at once (§ Corrections); `fp-merge.py` appended the 178 footprints of
+      `footprints-I/J/K.json`; goldens regenerated: `diff … | grep -c '^<'` → 0, 0, 0; `ctest --test-dir /tmp/logic-p54 -j8` → `100% tests passed, 0 tests failed out of 42`.
 
 Acceptance: Samtec's card-edge sockets load with footprints; goldens only gained.
   Check: `cmake --build /tmp/logic-p54 -j8 && ctest --test-dir /tmp/logic-p54 -R 'library_check|listing_check|trace_check|footprint_check'` → `100% tests passed`; `git diff backend/tests/golden \| grep -c '^-[^-]'` → 0 (est. 20 min).
@@ -108,7 +111,9 @@ Commit: —
 
 ### Phase 2 — TE Connectivity
 
-- [ ] `gen-parts.py --family edge --maker te`; footprints of `footprints-J.json`; goldens; review.
+- [x] `gen-parts.py --family edge --maker te`; footprints of `footprints-J.json`; goldens; review.
+
+      Result: Samtec 119, TE 221, Amphenol ICC 59 card-edge parts (399) in one run: `gen-parts.py` → `257 devices, 575 parts, 231 datasheets` for all three families.
 
 Acceptance: TE's card-edge sockets load with footprints; goldens only gained.
   Check: as Phase 1 (est. 20 min).
@@ -116,11 +121,14 @@ Commit: —
 
 ### Phase 3 — Amphenol ICC, the third example
 
-- [ ] `gen-parts.py --family edge --maker amphenol`; footprints of `footprints-K.json`; goldens; review;
+- [x] `gen-parts.py --family edge --maker amphenol`; footprints of `footprints-K.json`; goldens; review;
       `gen-parts.py --check` → exit 0.
-- [ ] `examples.tsv` gains the most-stocked card-edge `add` row and the most-stocked straddle-mount `add`
+- [x] `examples.tsv` gains the most-stocked card-edge `add` row and the most-stocked straddle-mount `add`
       row (a part whose footprint has `opposite` pads); `backend/tests/connector_test.c` places both like M's
       two examples (pins 1 and 2 on two nets, neither shorted).
+
+      Result: `gen-parts.py --check` → `up to date`; `grep -c '|connector|' backend/tests/golden/parts.txt` → 376 + 176 + 399 = 951; `examples.tsv` gains `7-1734774-7` (card edge, 36 positions) and
+      `2387405-2` (straddle mount, 64 positions, footprint `EDGE-TE-2372484-64` with 32 `opposite` pads and `edgeMount`); `connector_test` → `PASS: 7-1734774-7 …`, `PASS: 2387405-2 (a library card slot) joins nothing`.
 
 Acceptance: every card-edge `add` row is a part; the example joins nothing.
   Check: `grep -c '|connector|' backend/tests/golden/parts.txt` → 376 + M's parts + the card-edge `add` rows (`awk -F'\t' '$4=="edge" && $20=="add"' planning/plan-54-data/candidates.tsv | wc -l`); `ctest --test-dir /tmp/logic-p54 -R 'connector_test|library_check|listing_check|trace_check|footprint_check'` → `100% tests passed`; `git diff backend/tests/golden | grep -c '^-[^-]'` → 0 (est. 25 min).
@@ -141,6 +149,12 @@ Commit: —
 - Author: as plan-54-M § Decisions (one device per variant, one pinout per position count).
 
 ## Corrections
+
+- **One generator run for every family** (`gen-parts.py` with no `--family`): a run for one family keeps the other families' blocks and appends its own, so the file order depended on the order of runs and
+  `--check` (which regenerates everything) differed; the canonical state is the all-family run (blocks sorted by id after the kept ones).
+- **`datasheets.json` ids** of the TE documents named `DDEController.pdf` collide by file name; `place.py` suffixes real clashes by SHA, and the one id with two URLs (`ddecontroller`, the same file served for two DocIds) takes the
+  first URL sorted.
+- The generator's 399 parts: Samtec 119 (devices from 11 lines), TE 221, Amphenol ICC 59.
 
 ## Summary
 

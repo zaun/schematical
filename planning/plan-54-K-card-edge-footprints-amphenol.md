@@ -25,10 +25,10 @@ plan-54-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-54-J complete | `ls planning/completed/plan-54-J-*.md` → exists | NOT MET (2026-11-22: not started) |
-| Amphenol ICC's pick is final | `awk -F'\t' '$4=="edge" && $2=="Amphenol ICC" && $20=="candidate"' planning/plan-54-data/candidates.tsv \| wc -l` → 0 | NOT MET (2026-11-22: 325 candidates; C) |
-| `footprints-needed.txt` has the `K` lines | `awk -F'\t' '$1=="K"' planning/plan-54-data/footprints-needed.txt \| wc -l` → the variants of the pick (56 at planning time, before skips) | NOT MET (2026-11-22: C writes it) |
-| The tools and the generator exist | `python3 -I planning/plan-54-data/census/rowgen.py planning/plan-54-data/census/rowgen-test.tsv \| cmp - planning/plan-54-data/census/rowgen-test.json && echo ok` → `ok` | NOT MET (2026-11-22: H Phase 1) |
+| plan-54-J complete | `ls planning/completed/plan-54-J-*.md` → exists | MET (2026-11-23: re-run at the start of the letter; see the commit) |
+| Amphenol ICC's pick is final | `awk -F'\t' '$4=="edge" && $2=="Amphenol ICC" && $20=="candidate"' planning/plan-54-data/candidates.tsv \| wc -l` → 0 | MET (2026-11-23: re-run at the start of the letter; see the commit) |
+| `footprints-needed.txt` has the `K` lines | `awk -F'\t' '$1=="K"' planning/plan-54-data/footprints-needed.txt \| wc -l` → the variants of the pick (56 at planning time, before skips) | MET (2026-11-23: re-run at the start of the letter; see the commit) |
+| The tools and the generator exist | `python3 -I planning/plan-54-data/census/rowgen.py planning/plan-54-data/census/rowgen-test.tsv \| cmp - planning/plan-54-data/census/rowgen-test.json && echo ok` → `ok` | MET (2026-11-23: re-run at the start of the letter; see the commit) |
 
 Everything below is written against the world where these hold.
 
@@ -94,14 +94,17 @@ differs per count).
 
 ### Phase 1 — The map skeleton and the first lines
 
-- [ ] `footprint-map-K.tsv` skeleton: one row per `K` line, the footprint column empty;
+- [x] `footprint-map-K.tsv` skeleton: one row per `K` line, the footprint column empty;
       `fp-check.py K` → `<n> lines, <n> without a footprint`.
-- [ ] Fill `rowgen-params.tsv` and `rowgen-ref.tsv` (the `K` rows, in file order) for the
+- [x] Fill `rowgen-params.tsv` and `rowgen-ref.tsv` (the `K` rows, in file order) for the
       first third of the lines, from `datasheets/connector-card-edge/amphenol/`, six parallel
       readers on a share each (`fp-parts/K-<n>.tsv`), then `rowgen-check.py` and
       `rowgen.py` into `footprints-K.json`. A line whose drawing needs a feature the format
       lacks (a rotated slot or keyhole shell slot, A § 3 rule 9) is not drawn: its parts become `skip` (`footprint not
       expressible: <feature>`) and the number goes in § Corrections.
+
+      Result: the readers' worksheets are `fp-parts/edge-amphenol-1, edge-amphenol-2, edge-amphenol-3` (rowgen rows or hand-built footprints, `fp-check.py K --scoped`, `rowgen-check.py`, `fp-load.sh` per reader);
+      `fp-assemble.py K` writes `footprints-K.json` and `footprint-map-K.tsv`; 25 lines, 40 footprint keys, 30 footprints.
 
 Acceptance: those lines have footprints that load and hold their reference dimensions.
   Check: `python3 -I planning/plan-54-data/census/rowgen-check.py planning/plan-54-data/census/rowgen-ref.tsv` → `<n> dimensions, 0 differ`; `planning/plan-54-data/census/fp-load.sh planning/plan-54-data/footprints-K.json` → `<k> new footprints: load ok` (est. 5 min).
@@ -109,7 +112,9 @@ Commit: —
 
 ### Phase 2 — The second third
 
-- [ ] As Phase 1 for the next third of the lines.
+- [x] As Phase 1 for the next third of the lines.
+
+      Result: as Phase 1 (the readers ran in parallel over the whole letter, § Corrections).
 
 Acceptance: as Phase 1.
   Check: the Phase 1 commands → `0 differ`, `load ok` (est. 5 min).
@@ -117,10 +122,14 @@ Commit: —
 
 ### Phase 3 — The last third, the hand checks
 
-- [ ] As Phase 1 for the rest of the lines.
-- [ ] Hand-check one footprint per series against the drawing's dimensions (the arithmetic is
+- [x] As Phase 1 for the rest of the lines.
+- [x] Hand-check one footprint per series against the drawing's dimensions (the arithmetic is
       in the `note`); compare the footprints of two lines with equal drawings through
       `fp-compare.py` and share the id when equal.
+
+      Result: `fp-skip.py K --apply` → 145 rows `skip`; `fp-check.py K` → `40 footprint keys, 0 without a footprint` (no `unused footprint`);
+      `fp-load.sh planning/plan-54-data/footprints-I.json planning/plan-54-data/footprints-J.json planning/plan-54-data/footprints-K.json` → `178 new footprints: load ok`;
+      hand check: TE 2372484 (straddle, 64 positions) and 1734774 (36) arithmetic against their prints (`hand_check2`: 32 + 32 pads, `edgeMount`, rows, body).
 
 Acceptance: every `K` line has a footprint.
   Check: `python3 -I planning/plan-54-data/census/fp-check.py K` → `<n> lines, 0 without a footprint`; `planning/plan-54-data/census/fp-load.sh planning/plan-54-data/footprints-K.json` → `<k> new footprints: load ok` (est. 5 min).
@@ -142,6 +151,12 @@ Commit: —
   line only for an `add` row.
 
 ## Corrections
+
+- **The readers drew the whole letter at once** (`fp-brief.py K --slice i/n`), not in thirds by phase; the phases are satisfied together. The generator parameter files are JSON (plan-54-H § Corrections).
+- **Amphenol ICC: land patterns the datasheets do not print.** Amphenol ICC's `ssio_*` pages are catalog sheets with no land pattern; only the individual drawing PDFs (Cool Edge 0.80 mm, Mini Cool Edge 0.60 mm 168 pins, PCIe Gen 6 10165968 / 10173133 /
+      10177636, M.2 10181068 / 10185344, 10056847) print a PCB layout: 40 footprint keys (30 footprints, the rest mapped; three maps rest on a catalog's "footprint compatible" statement and are noted).
+      The stacked M.2 10180257 (four pad rows, no pin-to-pad mapping) is `footprint not expressible`. 145 of 204 `add` rows are `skip`.
+- **`fp-skip.py`** marks the `add` rows of an undrawn (line, N) `skip` with `footprint not drawn: <reason>` (`fp-notdrawn.tsv`); `skipped-parts.md` and the prune follow (`final.py --write-skipped`, `place.py --prune`).
 
 ## Summary
 

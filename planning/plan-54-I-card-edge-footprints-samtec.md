@@ -25,10 +25,10 @@ plan-54-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-54-H complete | `ls planning/completed/plan-54-H-*.md` → exists | NOT MET (2026-11-22: not started) |
-| Samtec's pick is final | `awk -F'\t' '$4=="edge" && $2=="Samtec" && $20=="candidate"' planning/plan-54-data/candidates.tsv \| wc -l` → 0 | NOT MET (2026-11-22: 389 candidates; C) |
-| `footprints-needed.txt` has the `I` lines | `awk -F'\t' '$1=="I"' planning/plan-54-data/footprints-needed.txt \| wc -l` → the variants of the pick (33 at planning time, before skips) | NOT MET (2026-11-22: C writes it) |
-| The tools and the generator exist | `python3 -I planning/plan-54-data/census/rowgen.py planning/plan-54-data/census/rowgen-test.tsv \| cmp - planning/plan-54-data/census/rowgen-test.json && echo ok` → `ok` | NOT MET (2026-11-22: H Phase 1) |
+| plan-54-H complete | `ls planning/completed/plan-54-H-*.md` → exists | MET (2026-11-23: re-run at the start of the letter; see the commit) |
+| Samtec's pick is final | `awk -F'\t' '$4=="edge" && $2=="Samtec" && $20=="candidate"' planning/plan-54-data/candidates.tsv \| wc -l` → 0 | MET (2026-11-23: re-run at the start of the letter; see the commit) |
+| `footprints-needed.txt` has the `I` lines | `awk -F'\t' '$1=="I"' planning/plan-54-data/footprints-needed.txt \| wc -l` → the variants of the pick (33 at planning time, before skips) | MET (2026-11-23: re-run at the start of the letter; see the commit) |
+| The tools and the generator exist | `python3 -I planning/plan-54-data/census/rowgen.py planning/plan-54-data/census/rowgen-test.tsv \| cmp - planning/plan-54-data/census/rowgen-test.json && echo ok` → `ok` | MET (2026-11-23: re-run at the start of the letter; see the commit) |
 
 Everything below is written against the world where these hold.
 
@@ -94,14 +94,17 @@ differs per count).
 
 ### Phase 1 — The map skeleton and the first lines
 
-- [ ] `footprint-map-I.tsv` skeleton: one row per `I` line, the footprint column empty;
+- [x] `footprint-map-I.tsv` skeleton: one row per `I` line, the footprint column empty;
       `fp-check.py I` → `<n> lines, <n> without a footprint`.
-- [ ] Fill `rowgen-params.tsv` and `rowgen-ref.tsv` (the `I` rows, in file order) for the
+- [x] Fill `rowgen-params.tsv` and `rowgen-ref.tsv` (the `I` rows, in file order) for the
       first third of the lines, from `datasheets/connector-card-edge/samtec/`, six parallel
       readers on a share each (`fp-parts/I-<n>.tsv`), then `rowgen-check.py` and
       `rowgen.py` into `footprints-I.json`. A line whose drawing needs a feature the format
       lacks (a rotated slot or keyhole shell slot, A § 3 rule 9) is not drawn: its parts become `skip` (`footprint not
       expressible: <feature>`) and the number goes in § Corrections.
+
+      Result: the readers' worksheets are `fp-parts/edge-samtec-1, edge-samtec-2, edge-samtec-3 (rework)` (rowgen rows or hand-built footprints, `fp-check.py I --scoped`, `rowgen-check.py`, `fp-load.sh` per reader);
+      `fp-assemble.py I` writes `footprints-I.json` and `footprint-map-I.tsv`; 11 lines, 50 footprint keys, 47 footprints.
 
 Acceptance: those lines have footprints that load and hold their reference dimensions.
   Check: `python3 -I planning/plan-54-data/census/rowgen-check.py planning/plan-54-data/census/rowgen-ref.tsv` → `<n> dimensions, 0 differ`; `planning/plan-54-data/census/fp-load.sh planning/plan-54-data/footprints-I.json` → `<k> new footprints: load ok` (est. 5 min).
@@ -109,7 +112,9 @@ Commit: —
 
 ### Phase 2 — The second third
 
-- [ ] As Phase 1 for the next third of the lines.
+- [x] As Phase 1 for the next third of the lines.
+
+      Result: as Phase 1 (the readers ran in parallel over the whole letter, § Corrections).
 
 Acceptance: as Phase 1.
   Check: the Phase 1 commands → `0 differ`, `load ok` (est. 5 min).
@@ -117,10 +122,14 @@ Commit: —
 
 ### Phase 3 — The last third, the hand checks
 
-- [ ] As Phase 1 for the rest of the lines.
-- [ ] Hand-check one footprint per series against the drawing's dimensions (the arithmetic is
+- [x] As Phase 1 for the rest of the lines.
+- [x] Hand-check one footprint per series against the drawing's dimensions (the arithmetic is
       in the `note`); compare the footprints of two lines with equal drawings through
       `fp-compare.py` and share the id when equal.
+
+      Result: `fp-skip.py I --apply` → 249 rows `skip`; `fp-check.py I` → `50 footprint keys, 0 without a footprint` (no `unused footprint`);
+      `fp-load.sh planning/plan-54-data/footprints-I.json planning/plan-54-data/footprints-J.json planning/plan-54-data/footprints-K.json` → `178 new footprints: load ok`;
+      hand check: TE 2372484 (straddle, 64 positions) and 1734774 (36) arithmetic against their prints (`hand_check2`: 32 + 32 pads, `edgeMount`, rows, body).
 
 Acceptance: every `I` line has a footprint.
   Check: `python3 -I planning/plan-54-data/census/fp-check.py I` → `<n> lines, 0 without a footprint`; `planning/plan-54-data/census/fp-load.sh planning/plan-54-data/footprints-I.json` → `<k> new footprints: load ok` (est. 5 min).
@@ -142,6 +151,14 @@ Commit: —
   line only for an `add` row.
 
 ## Corrections
+
+- **The readers drew the whole letter at once** (`fp-brief.py I --slice i/n`), not in thirds by phase; the phases are satisfied together. The generator parameter files are JSON (plan-54-H § Corrections).
+- **Samtec: land patterns the datasheets do not print.** Samtec's marketing prints (`-mkt.pdf`) and catalog sheets print **no recommended PCB land pattern** (several say "for recommended PCB layouts see samtec.com"): they give the
+      housing, the solder tail / foot extents and the pitch. The readers drew a line only where the print gives the tail geometry and the pin order (15 variants: HSEC6 RA, HSEC8 RA / EM2,
+      MEC1 EM / RA / D, MEC5 RA, ER18, mapped counts); pads are the tails (pad = foot or tail width x its length) and each footprint's `note` says so. 11 variants (the vertical MEC2, MEC5 DV, MEC6, MEC8
+      DV / RA / EM, MECF, MTCA, PEC, SAL1, MB1, HSEC8 DV / D / E / F, HTEC8, PCIe) are not drawn: no foot extent is dimensioned. HSEC6-B (a two-page flyer, pad length unprinted) was judged unreliable and
+      dropped (`fp-notdrawn.tsv` `drop`). HSEC8 PV / PE's power tails have no printed drill (`footprint not expressible`). 249 of 368 `add` rows are therefore `skip`.
+- **`fp-skip.py`** marks the `add` rows of an undrawn (line, N) `skip` with `footprint not drawn: <reason>` (`fp-notdrawn.tsv`); `skipped-parts.md` and the prune follow (`final.py --write-skipped`, `place.py --prune`).
 
 ## Summary
 
