@@ -623,28 +623,29 @@ static void seg7_outputs(Sim *sim, SimInstance *inst, Seg7State *s) {
     int is_zero = s->shown < 0 ? -1 : s->shown == 0;
     int rbi = b->rb_in != SEQ_NO_PIN ? seq_read(sim, inst, b->rb_in) : 1;
     int blank = or3(not3(de), and3(is_zero, not3(rbi)));
-    int bi = 0, ripple = 0, dp = 0;
+    int bi = 0, ripple = 0, hard = 0, dp = 0;
     unsigned j;
 
     if (b->lamp_test.pin == SEQ_NO_PIN) {
         lamp = 0;
     }
     if (b->rbi != SEQ_NO_PIN) {
-        /* SN74143: BI high blanks and pulls RBO low; RBI low with the latched 0 does too; an external
-           low on RBO (Z reads high) blanks. The RBO pin drives only the first two terms, so it never
-           holds itself low. */
+        /* SN74143: BI high blanks and pulls RBO low; RBI low with the latched 0 blanks and pulls it
+           low; an external low on RBO (Z reads high) blanks. The RBO pin drives only the first two
+           terms, so it never holds itself low. */
         LogicValue pin = sim_read_pin(sim, inst, b->rbo);
         int external = pin == LOGIC_0 ? 1 : pin == LOGIC_X ? -1 : 0;
 
         bi = seg7_control(sim, inst, &b->blank);
         ripple = and3(is_zero, not3(seq_read(sim, inst, b->rbi)));
-        blank = or3(blank, or3(or3(bi, ripple), external));
+        blank = or3(blank, ripple);
+        hard = or3(bi, external);
     } else if (b->blank.pin != SEQ_NO_PIN) {
         bi = seg7_control(sim, inst, &b->blank);
-        blank = or3(blank, bi);
+        hard = bi;
     }
     for (j = 0; j < 7; j++) {
-        int seg = or3(lamp, and3(not3(blank), glyph_level(d, s->shown, j)));
+        int seg = and3(not3(hard), or3(lamp, and3(not3(blank), glyph_level(d, s->shown, j))));
 
         seq_drive(sim, inst, &s->segments[j], seq_value(d->segments_high ? seg : not3(seg)),
                   d->segments_style, t->seq);
@@ -657,7 +658,7 @@ static void seg7_outputs(Sim *sim, SimInstance *inst, Seg7State *s) {
         seq_drive(sim, inst, &s->rbo, seq_value(not3(or3(bi, ripple))), SEQ_OPEN_DRAIN, t->seq);
     }
     if (b->dp_out != SEQ_NO_PIN) {
-        dp = and3(seq_read(sim, inst, b->dp_in), not3(blank));
+        dp = and3(seq_read(sim, inst, b->dp_in), not3(or3(hard, blank)));
         seq_drive(sim, inst, &s->dp_out, seq_value(d->segments_high ? dp : not3(dp)),
                   d->segments_style, t->seq);
     }
