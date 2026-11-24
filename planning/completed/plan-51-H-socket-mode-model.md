@@ -160,7 +160,7 @@ The file read is the other: a bad file must fail with a message, not a crash.
 
 Acceptance: `SocketModeTests` passes and the footprint-choice tests (`PullResistorTests`, `HeaderBoardTests`) still do.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p51-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/SocketModeTests -only-testing:schematicalTests/PullResistorTests -only-testing:schematicalTests/HeaderBoardTests` → `** TEST SUCCEEDED **` (est. 12 min). Measured 2026-11-24 with every phase's classes in one run (the three phases' checks below): `Executed 179 tests, with 0 failures`, `** TEST SUCCEEDED **`; `SocketModeTests` 15 of 15, `PullResistorTests` 10, `HeaderBoardTests` 7. VERIFIED.
-Commit: (next commit)
+Commit: 78021c79
 
 ### Phase 2 — file, undo, paste
 
@@ -170,7 +170,7 @@ Commit: (next commit)
 
 Acceptance: the file and undo cases pass with the existing file and PCB undo classes.
   Check: the Phase 1 command with `-only-testing:schematicalTests/SchematicFileV5Tests -only-testing:schematicalTests/PCBUndoTests` replacing the two footprint classes → `** TEST SUCCEEDED **` (est. 13 min). Measured 2026-11-24 (same run): `SchematicFileV5Tests` 10 of 10, `PCBUndoTests` 34 of 34. VERIFIED.
-Commit: (next commit)
+Commit: 78021c79
 
 ### Phase 3 — Bill of Materials, facts, automation, exports
 
@@ -179,7 +179,7 @@ Commit: (next commit)
 
 Acceptance: the cases pass with the BOM, automation and export classes.
   Check: the Phase 1 command with `-only-testing:schematicalTests/BillOfMaterialsTests -only-testing:schematicalTests/AutomationTests -only-testing:schematicalTests/KiCadExportTests` replacing the two footprint classes → `** TEST SUCCEEDED **` (est. 14 min). Measured 2026-11-24 (same run): `BillOfMaterialsTests` 7, `AutomationTests` 31, `KiCadExportTests` 20, `EasyEDAProExportTests` and `PickAndPlaceExportTests` pass. VERIFIED.
-Commit: (next commit)
+Commit: 78021c79
 
 ## Validation Plan
 
