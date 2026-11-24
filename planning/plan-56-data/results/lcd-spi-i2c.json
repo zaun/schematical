@@ -1,0 +1,3166 @@
+{
+ "kind": "lcddriver",
+ "newDevices": [
+  {
+   "id": "PCF8553",
+   "function": "40x4 driver",
+   "description": "40 x 4 LCD segment driver, I2C or SPI: 4 backplanes, 40 segments, 20-byte display RAM, display enable, software reset (blink, bias, frame rate not modeled)",
+   "drawer": [
+    "Displays & Indicators",
+    "LCD drivers"
+   ],
+   "note": "pcf8553 p.1 features, p.2 ordering, p.4-5 pinning (TSSOP56) and pin description, p.5-6 register map Table 4, p.7-9 command registers Tables 5-7, p.10-11 reset, p.11-13 display RAM mapping, p.25-30 I2C and SPI protocols, p.27-28 slave address Table 12, p.29 SPI address byte Table 15, p.32 supply 1.8-5.5 V",
+   "vcc": [
+    1.8,
+    5.5
+   ],
+   "analog": [
+    "VLCD"
+   ],
+   "pinouts": {
+    "tssop56": [
+     {
+      "number": 1,
+      "name": "SEG34",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "SEG35",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "SEG36",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "SEG37",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "SEG38",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "SEG39",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "COM0",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "COM1",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "COM2",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "COM3",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "VLCD",
+      "role": "power"
+     },
+     {
+      "number": 12,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 13,
+      "name": "IFS",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 15,
+      "name": "RST",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "SDIO",
+      "role": "inout"
+     },
+     {
+      "number": 17,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 18,
+      "name": "CLK",
+      "role": "inout"
+     },
+     {
+      "number": 19,
+      "name": "SCL",
+      "role": "input"
+     },
+     {
+      "number": 20,
+      "name": "SDA/CE",
+      "role": "inout"
+     },
+     {
+      "number": 21,
+      "name": "PORE",
+      "role": "input"
+     },
+     {
+      "number": 22,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 23,
+      "name": "SEG0",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "SEG1",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "SEG2",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "SEG3",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "SEG4",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "SEG5",
+      "role": "output"
+     },
+     {
+      "number": 29,
+      "name": "SEG6",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "SEG7",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "SEG8",
+      "role": "output"
+     },
+     {
+      "number": 32,
+      "name": "SEG9",
+      "role": "output"
+     },
+     {
+      "number": 33,
+      "name": "SEG10",
+      "role": "output"
+     },
+     {
+      "number": 34,
+      "name": "SEG11",
+      "role": "output"
+     },
+     {
+      "number": 35,
+      "name": "SEG12",
+      "role": "output"
+     },
+     {
+      "number": 36,
+      "name": "SEG13",
+      "role": "output"
+     },
+     {
+      "number": 37,
+      "name": "SEG14",
+      "role": "output"
+     },
+     {
+      "number": 38,
+      "name": "SEG15",
+      "role": "output"
+     },
+     {
+      "number": 39,
+      "name": "SEG16",
+      "role": "output"
+     },
+     {
+      "number": 40,
+      "name": "SEG17",
+      "role": "output"
+     },
+     {
+      "number": 41,
+      "name": "SEG18",
+      "role": "output"
+     },
+     {
+      "number": 42,
+      "name": "SEG19",
+      "role": "output"
+     },
+     {
+      "number": 43,
+      "name": "SEG20",
+      "role": "output"
+     },
+     {
+      "number": 44,
+      "name": "SEG21",
+      "role": "output"
+     },
+     {
+      "number": 45,
+      "name": "SEG22",
+      "role": "output"
+     },
+     {
+      "number": 46,
+      "name": "SEG23",
+      "role": "output"
+     },
+     {
+      "number": 47,
+      "name": "SEG24",
+      "role": "output"
+     },
+     {
+      "number": 48,
+      "name": "SEG25",
+      "role": "output"
+     },
+     {
+      "number": 49,
+      "name": "SEG26",
+      "role": "output"
+     },
+     {
+      "number": 50,
+      "name": "SEG27",
+      "role": "output"
+     },
+     {
+      "number": 51,
+      "name": "SEG28",
+      "role": "output"
+     },
+     {
+      "number": 52,
+      "name": "SEG29",
+      "role": "output"
+     },
+     {
+      "number": 53,
+      "name": "SEG30",
+      "role": "output"
+     },
+     {
+      "number": 54,
+      "name": "SEG31",
+      "role": "output"
+     },
+     {
+      "number": 55,
+      "name": "SEG32",
+      "role": "output"
+     },
+     {
+      "number": 56,
+      "name": "SEG33",
+      "role": "output"
+     }
+    ]
+   },
+   "bus": {
+    "style": "i2c-spi",
+    "selectPin": "IFS",
+    "spiLevel": 1,
+    "selectSampled": "live",
+    "spi": {
+     "cs": "SDA/CE",
+     "sclk": "SCL",
+     "mosi": "SDIO",
+     "miso": "SDIO",
+     "mode": 0
+    },
+    "i2c": {
+     "scl": "SCL",
+     "sda": "SDA/CE",
+     "address": [
+      "A0",
+      "A1"
+     ],
+     "table": [
+      56,
+      57,
+      null,
+      null,
+      58,
+      59,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ]
+    }
+   },
+   "registers": [
+    {
+     "name": "SWRST",
+     "address": 0,
+     "width": 8,
+     "fields": [
+      {
+       "name": "SR",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ],
+     "note": "Software_reset 00h: SR = 0010 1100 (0x2C) resets every register and the address pointer (Table 8, p.11); a trigger below"
+    },
+    {
+     "name": "DEVCTRL",
+     "address": 1,
+     "width": 8,
+     "reset": 4,
+     "readOnly": 240,
+     "fields": [
+      {
+       "name": "FF",
+       "bits": [
+        3,
+        2
+       ]
+      },
+      {
+       "name": "OSC",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "COE",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "note": "Device_ctrl 01h (Table 5, p.7): FF[1:0] 00..11 = 32, 64, 96, 128 Hz (Table 5, pcf8553 p.7) (reset 01 = 64 Hz); OSC 0 internal oscillator enabled, 1 disabled (external clock on CLK); COE 1 puts the clock on CLK. Not modeled: the frame frequency stays at its reset 64 Hz (frameUs), the clock pin"
+    },
+    {
+     "name": "DISP1",
+     "address": 2,
+     "width": 8,
+     "readOnly": 224,
+     "fields": [
+      {
+       "name": "BOOST",
+       "bits": [
+        4,
+        4
+       ]
+      },
+      {
+       "name": "MUX",
+       "bits": [
+        3,
+        2
+       ]
+      },
+      {
+       "name": "B",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "DE",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "note": "Display_ctrl_1 02h (Table 6, p.8): MUX 00 1:4, 01 1:3, 10 1:2, 11 static; B 0 1/3 bias, 1 1/2 bias; DE 1 display enabled (0 = power-down, every segment and backplane output at VSS). Drives enable; MUX, B and BOOST are stored only (the lcd driver cannot switch mode: see engineNeeds)"
+    },
+    {
+     "name": "DISP2",
+     "address": 3,
+     "width": 8,
+     "readOnly": 248,
+     "fields": [
+      {
+       "name": "BL",
+       "bits": [
+        2,
+        1
+       ]
+      },
+      {
+       "name": "INV",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "note": "Display_ctrl_2 03h (Table 7, p.8-9): BL 00 off, 01 0.5 Hz, 10 1 Hz, 11 2 Hz blinking; INV 0 line inversion, 1 frame inversion. Stored only (not modeled)"
+    },
+    {
+     "name": "AP18",
+     "address": 24,
+     "width": 8,
+     "readOnly": 255,
+     "note": "not a chip register: the address 18h where the auto-increment stops, so that bytes written past 17h are ignored and read 0 (pcf8553 p.6 and p.27: 'after register 17h the auto-incrementing will stop and data are ignored')"
+    }
+   ],
+   "protocol": {
+    "frame": "fixed",
+    "commands": [
+     {
+      "name": "SPI read: R/W = 1, 00, AP[4:0], then the registers from AP upward",
+      "in": "100aaaaa",
+      "action": "rreg",
+      "address": "a",
+      "count": 24
+     },
+     {
+      "name": "Address pointer (I2C: first data byte; SPI write: R/W = 0, 00, AP[4:0]), then the data bytes with auto-increment",
+      "in": "aaaaaaaa",
+      "action": "pointer",
+      "address": "a",
+      "increment": 1
+     }
+    ],
+    "read": "pointer",
+    "triggers": [
+     {
+      "write": "SWRST.SR=44",
+      "action": "reset"
+     }
+    ]
+   },
+   "pins": {
+    "reset": {
+     "pin": "RST",
+     "active": 0
+    }
+   },
+   "display": {
+    "driver": "lcd",
+    "mode": "1:4",
+    "backplanes": [
+     "COM0",
+     "COM1",
+     "COM2",
+     "COM3"
+    ],
+    "segmentPins": [
+     "SEG0",
+     "SEG1",
+     "SEG2",
+     "SEG3",
+     "SEG4",
+     "SEG5",
+     "SEG6",
+     "SEG7",
+     "SEG8",
+     "SEG9",
+     "SEG10",
+     "SEG11",
+     "SEG12",
+     "SEG13",
+     "SEG14",
+     "SEG15",
+     "SEG16",
+     "SEG17",
+     "SEG18",
+     "SEG19",
+     "SEG20",
+     "SEG21",
+     "SEG22",
+     "SEG23",
+     "SEG24",
+     "SEG25",
+     "SEG26",
+     "SEG27",
+     "SEG28",
+     "SEG29",
+     "SEG30",
+     "SEG31",
+     "SEG32",
+     "SEG33",
+     "SEG34",
+     "SEG35",
+     "SEG36",
+     "SEG37",
+     "SEG38",
+     "SEG39"
+    ],
+    "ram": {
+     "bytes": 20,
+     "address": 4
+    },
+    "ramOrder": "backplane",
+    "bitOrder": "lsb",
+    "frameUs": 15625,
+    "enable": "DISP1.DE=1",
+    "note": "RAM 04h-17h: COM0 = 04h-08h, COM1 = 09h-0Dh, COM2 = 0Eh-12h, COM3 = 13h-17h, five bytes each, SEG0 the LSB of the first byte (Table 9, p.11-12, Figure 5 p.13); the layout is the same in every MUX mode, so a 1:3, 1:2 or static glass wired to COM0.. shows the same RAM bits. Frame 64 Hz = 15625 us (Table 5 default, p.7)"
+   },
+   "parts": [
+    {
+     "name": "PCF8553DTT/AJ",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "pcf8553",
+     "package": "TSSOP",
+     "pinout": "tssop56",
+     "footprint": "TSSOP-56",
+     "flags": [
+      "obsolete"
+     ]
+    },
+    {
+     "name": "PCF8553DTT/AY",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "pcf8553",
+     "package": "TSSOP",
+     "pinout": "tssop56",
+     "footprint": "TSSOP-56"
+    }
+   ]
+  },
+  {
+   "id": "PCA8553",
+   "function": "40x4 driver",
+   "description": "Automotive 40 x 4 LCD segment driver, I2C or SPI: 4 backplanes, 40 segments, 20-byte display RAM, display enable, software reset (blink, bias, frame rate not modeled)",
+   "drawer": [
+    "Displays & Indicators",
+    "LCD drivers"
+   ],
+   "note": "pca8553 p.1 features, p.2 ordering, p.4-5 pinning (TSSOP56) and pin description, p.5-6 register map Table 4, p.7-9 command registers Tables 5-7, p.10-11 reset, p.11-13 display RAM mapping, p.25-30 I2C and SPI protocols, p.27-28 slave address Table 12, p.29 SPI address byte Table 15, p.32 supply 1.8-5.5 V",
+   "vcc": [
+    1.8,
+    5.5
+   ],
+   "analog": [
+    "VLCD"
+   ],
+   "pinouts": {
+    "tssop56": [
+     {
+      "number": 1,
+      "name": "SEG34",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "SEG35",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "SEG36",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "SEG37",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "SEG38",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "SEG39",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "COM0",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "COM1",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "COM2",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "COM3",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "VLCD",
+      "role": "power"
+     },
+     {
+      "number": 12,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 13,
+      "name": "IFS",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 15,
+      "name": "RST",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "SDIO",
+      "role": "inout"
+     },
+     {
+      "number": 17,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 18,
+      "name": "CLK",
+      "role": "inout"
+     },
+     {
+      "number": 19,
+      "name": "SCL",
+      "role": "input"
+     },
+     {
+      "number": 20,
+      "name": "SDA/CE",
+      "role": "inout"
+     },
+     {
+      "number": 21,
+      "name": "PORE",
+      "role": "input"
+     },
+     {
+      "number": 22,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 23,
+      "name": "SEG0",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "SEG1",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "SEG2",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "SEG3",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "SEG4",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "SEG5",
+      "role": "output"
+     },
+     {
+      "number": 29,
+      "name": "SEG6",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "SEG7",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "SEG8",
+      "role": "output"
+     },
+     {
+      "number": 32,
+      "name": "SEG9",
+      "role": "output"
+     },
+     {
+      "number": 33,
+      "name": "SEG10",
+      "role": "output"
+     },
+     {
+      "number": 34,
+      "name": "SEG11",
+      "role": "output"
+     },
+     {
+      "number": 35,
+      "name": "SEG12",
+      "role": "output"
+     },
+     {
+      "number": 36,
+      "name": "SEG13",
+      "role": "output"
+     },
+     {
+      "number": 37,
+      "name": "SEG14",
+      "role": "output"
+     },
+     {
+      "number": 38,
+      "name": "SEG15",
+      "role": "output"
+     },
+     {
+      "number": 39,
+      "name": "SEG16",
+      "role": "output"
+     },
+     {
+      "number": 40,
+      "name": "SEG17",
+      "role": "output"
+     },
+     {
+      "number": 41,
+      "name": "SEG18",
+      "role": "output"
+     },
+     {
+      "number": 42,
+      "name": "SEG19",
+      "role": "output"
+     },
+     {
+      "number": 43,
+      "name": "SEG20",
+      "role": "output"
+     },
+     {
+      "number": 44,
+      "name": "SEG21",
+      "role": "output"
+     },
+     {
+      "number": 45,
+      "name": "SEG22",
+      "role": "output"
+     },
+     {
+      "number": 46,
+      "name": "SEG23",
+      "role": "output"
+     },
+     {
+      "number": 47,
+      "name": "SEG24",
+      "role": "output"
+     },
+     {
+      "number": 48,
+      "name": "SEG25",
+      "role": "output"
+     },
+     {
+      "number": 49,
+      "name": "SEG26",
+      "role": "output"
+     },
+     {
+      "number": 50,
+      "name": "SEG27",
+      "role": "output"
+     },
+     {
+      "number": 51,
+      "name": "SEG28",
+      "role": "output"
+     },
+     {
+      "number": 52,
+      "name": "SEG29",
+      "role": "output"
+     },
+     {
+      "number": 53,
+      "name": "SEG30",
+      "role": "output"
+     },
+     {
+      "number": 54,
+      "name": "SEG31",
+      "role": "output"
+     },
+     {
+      "number": 55,
+      "name": "SEG32",
+      "role": "output"
+     },
+     {
+      "number": 56,
+      "name": "SEG33",
+      "role": "output"
+     }
+    ]
+   },
+   "bus": {
+    "style": "i2c-spi",
+    "selectPin": "IFS",
+    "spiLevel": 1,
+    "selectSampled": "live",
+    "spi": {
+     "cs": "SDA/CE",
+     "sclk": "SCL",
+     "mosi": "SDIO",
+     "miso": "SDIO",
+     "mode": 0
+    },
+    "i2c": {
+     "scl": "SCL",
+     "sda": "SDA/CE",
+     "address": [
+      "A0",
+      "A1"
+     ],
+     "table": [
+      56,
+      57,
+      null,
+      null,
+      58,
+      59,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ]
+    }
+   },
+   "registers": [
+    {
+     "name": "SWRST",
+     "address": 0,
+     "width": 8,
+     "fields": [
+      {
+       "name": "SR",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ],
+     "note": "Software_reset 00h: SR = 0010 1100 (0x2C) resets every register and the address pointer (Table 8, p.11); a trigger below"
+    },
+    {
+     "name": "DEVCTRL",
+     "address": 1,
+     "width": 8,
+     "reset": 4,
+     "readOnly": 224,
+     "fields": [
+      {
+       "name": "FF",
+       "bits": [
+        4,
+        2
+       ]
+      },
+      {
+       "name": "OSC",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "COE",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "note": "Device_ctrl 01h (Table 5, p.7): FF[2:0] 000..111 = 32, 64, 96, 128, 160, 192, 224, 256 Hz (Table 5, pca8553 p.7) (reset 01 = 64 Hz); OSC 0 internal oscillator enabled, 1 disabled (external clock on CLK); COE 1 puts the clock on CLK. Not modeled: the frame frequency stays at its reset 64 Hz (frameUs), the clock pin"
+    },
+    {
+     "name": "DISP1",
+     "address": 2,
+     "width": 8,
+     "readOnly": 224,
+     "fields": [
+      {
+       "name": "BOOST",
+       "bits": [
+        4,
+        4
+       ]
+      },
+      {
+       "name": "MUX",
+       "bits": [
+        3,
+        2
+       ]
+      },
+      {
+       "name": "B",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "DE",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "note": "Display_ctrl_1 02h (Table 6, p.8): MUX 00 1:4, 01 1:3, 10 1:2, 11 static; B 0 1/3 bias, 1 1/2 bias; DE 1 display enabled (0 = power-down, every segment and backplane output at VSS). Drives enable; MUX, B and BOOST are stored only (the lcd driver cannot switch mode: see engineNeeds)"
+    },
+    {
+     "name": "DISP2",
+     "address": 3,
+     "width": 8,
+     "readOnly": 248,
+     "fields": [
+      {
+       "name": "BL",
+       "bits": [
+        2,
+        1
+       ]
+      },
+      {
+       "name": "INV",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "note": "Display_ctrl_2 03h (Table 7, p.8-9): BL 00 off, 01 0.5 Hz, 10 1 Hz, 11 2 Hz blinking; INV 0 line inversion, 1 frame inversion. Stored only (not modeled)"
+    },
+    {
+     "name": "AP18",
+     "address": 24,
+     "width": 8,
+     "readOnly": 255,
+     "note": "not a chip register: the address 18h where the auto-increment stops, so that bytes written past 17h are ignored and read 0 (pcf8553 p.6 and p.27: 'after register 17h the auto-incrementing will stop and data are ignored')"
+    }
+   ],
+   "protocol": {
+    "frame": "fixed",
+    "commands": [
+     {
+      "name": "SPI read: R/W = 1, 00, AP[4:0], then the registers from AP upward",
+      "in": "100aaaaa",
+      "action": "rreg",
+      "address": "a",
+      "count": 24
+     },
+     {
+      "name": "Address pointer (I2C: first data byte; SPI write: R/W = 0, 00, AP[4:0]), then the data bytes with auto-increment",
+      "in": "aaaaaaaa",
+      "action": "pointer",
+      "address": "a",
+      "increment": 1
+     }
+    ],
+    "read": "pointer",
+    "triggers": [
+     {
+      "write": "SWRST.SR=44",
+      "action": "reset"
+     }
+    ]
+   },
+   "pins": {
+    "reset": {
+     "pin": "RST",
+     "active": 0
+    }
+   },
+   "display": {
+    "driver": "lcd",
+    "mode": "1:4",
+    "backplanes": [
+     "COM0",
+     "COM1",
+     "COM2",
+     "COM3"
+    ],
+    "segmentPins": [
+     "SEG0",
+     "SEG1",
+     "SEG2",
+     "SEG3",
+     "SEG4",
+     "SEG5",
+     "SEG6",
+     "SEG7",
+     "SEG8",
+     "SEG9",
+     "SEG10",
+     "SEG11",
+     "SEG12",
+     "SEG13",
+     "SEG14",
+     "SEG15",
+     "SEG16",
+     "SEG17",
+     "SEG18",
+     "SEG19",
+     "SEG20",
+     "SEG21",
+     "SEG22",
+     "SEG23",
+     "SEG24",
+     "SEG25",
+     "SEG26",
+     "SEG27",
+     "SEG28",
+     "SEG29",
+     "SEG30",
+     "SEG31",
+     "SEG32",
+     "SEG33",
+     "SEG34",
+     "SEG35",
+     "SEG36",
+     "SEG37",
+     "SEG38",
+     "SEG39"
+    ],
+    "ram": {
+     "bytes": 20,
+     "address": 4
+    },
+    "ramOrder": "backplane",
+    "bitOrder": "lsb",
+    "frameUs": 15625,
+    "enable": "DISP1.DE=1",
+    "note": "RAM 04h-17h: COM0 = 04h-08h, COM1 = 09h-0Dh, COM2 = 0Eh-12h, COM3 = 13h-17h, five bytes each, SEG0 the LSB of the first byte (Table 9, p.11-12, Figure 5 p.13); the layout is the same in every MUX mode, so a 1:3, 1:2 or static glass wired to COM0.. shows the same RAM bits. Frame 64 Hz = 15625 us (Table 5 default, p.7)"
+   },
+   "parts": [
+    {
+     "name": "PCA8553DTT/AJ",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "pca8553",
+     "package": "TSSOP",
+     "pinout": "tssop56",
+     "footprint": "TSSOP-56",
+     "flags": [
+      "automotive",
+      "obsolete"
+     ]
+    },
+    {
+     "name": "PCA8553DTT/AY",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "pca8553",
+     "package": "TSSOP",
+     "pinout": "tssop56",
+     "footprint": "TSSOP-56",
+     "flags": [
+      "automotive"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "BU91795",
+   "function": "12x4 driver",
+   "description": "Automotive 12 x 4 (48 segment) LCD segment driver, I2C write-only (address 0x3E): 4 backplanes, 12 segments, 4-bit DDRAM with ADSET, display on/off, software reset (blink, bias, frame rate, all-pixel-on not modeled)",
+   "drawer": [
+    "Displays & Indicators",
+    "LCD drivers"
+   ],
+   "note": "bu91795muf-m-e p.1 features, p.2-3 pin configuration and description, p.4 supply 2.5-6.0 V and VLCD, p.8-9 interface, slave address 01111100 and DDRAM, p.10-13 command list and ICSET, DISCTL, ADSET, MODESET, BLKCTL, APCTL, p.15 example, p.16-17 start and on/off sequences, p.25 ordering, p.26 package",
+   "vcc": [
+    2.5,
+    6.0
+   ],
+   "analog": [
+    "VLCD"
+   ],
+   "pinouts": {
+    "vqfn24": [
+     {
+      "number": 1,
+      "name": "OSCIN",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "SCL",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "SDA",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "SEG0",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "SEG1",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "SEG2",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "SEG3",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "SEG4",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "SEG5",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "SEG6",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "SEG7",
+      "role": "output"
+     },
+     {
+      "number": 12,
+      "name": "SEG8",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "SEG9",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "SEG10",
+      "role": "output"
+     },
+     {
+      "number": 15,
+      "name": "SEG11",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "COM0",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "COM1",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "COM2",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "COM3",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "VLCD",
+      "role": "power"
+     },
+     {
+      "number": 21,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 22,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 23,
+      "name": "TEST1",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "TEST2",
+      "role": "input"
+     }
+    ]
+   },
+   "bus": {
+    "style": "i2c",
+    "scl": "SCL",
+    "sda": "SDA",
+    "address": [],
+    "table": [
+     62
+    ]
+   },
+   "registers": [
+    {
+     "name": "DD00",
+     "address": 0,
+     "width": 4
+    },
+    {
+     "name": "DD01",
+     "address": 1,
+     "width": 4
+    },
+    {
+     "name": "DD02",
+     "address": 2,
+     "width": 4
+    },
+    {
+     "name": "DD03",
+     "address": 3,
+     "width": 4
+    },
+    {
+     "name": "DD04",
+     "address": 4,
+     "width": 4
+    },
+    {
+     "name": "DD05",
+     "address": 5,
+     "width": 4
+    },
+    {
+     "name": "DD06",
+     "address": 6,
+     "width": 4
+    },
+    {
+     "name": "DD07",
+     "address": 7,
+     "width": 4
+    },
+    {
+     "name": "DD08",
+     "address": 8,
+     "width": 4
+    },
+    {
+     "name": "DD09",
+     "address": 9,
+     "width": 4
+    },
+    {
+     "name": "DD0A",
+     "address": 10,
+     "width": 4
+    },
+    {
+     "name": "DD0B",
+     "address": 11,
+     "width": 4
+    },
+    {
+     "name": "DD0C",
+     "address": 12,
+     "width": 4
+    },
+    {
+     "name": "DD0D",
+     "address": 13,
+     "width": 4
+    },
+    {
+     "name": "DD0E",
+     "address": 14,
+     "width": 4
+    },
+    {
+     "name": "DD0F",
+     "address": 15,
+     "width": 4
+    },
+    {
+     "name": "DD10",
+     "address": 16,
+     "width": 4
+    },
+    {
+     "name": "DD11",
+     "address": 17,
+     "width": 4
+    },
+    {
+     "name": "DD12",
+     "address": 18,
+     "width": 4
+    },
+    {
+     "name": "DD13",
+     "address": 19,
+     "width": 4
+    },
+    {
+     "name": "SINK",
+     "address": 0,
+     "space": "sink",
+     "width": 4,
+     "note": "not a chip register: the target of RAM data bytes that follow a non-ADSET command with C = 0 (the chip would write them at the current address; the engine cannot keep the address, see engineNeeds)"
+    },
+    {
+     "name": "ICSET",
+     "width": 1,
+     "fields": [
+      {
+       "name": "OSC",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "note": "ICSET P0: 0 internal oscillator, 1 external clock on OSCIN; stored only"
+    },
+    {
+     "name": "DISCTL",
+     "width": 5,
+     "reset": 2,
+     "fields": [
+      {
+       "name": "FR",
+       "bits": [
+        4,
+        3
+       ]
+      },
+      {
+       "name": "INV",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "SR",
+       "bits": [
+        1,
+        0
+       ]
+      }
+     ],
+     "note": "DISCTL: FR 00 80 Hz, 01 71 Hz, 10 64 Hz, 11 53 Hz (Hz as bu91795 p.12; bu9796a p.13 prints 50 Hz for 11); INV 0 line, 1 frame inversion; SR 00 power save 1, 01 power save 2, 10 normal, 11 high power. Reset FR 00, INV 0, SR 10. Stored only"
+    },
+    {
+     "name": "MODE",
+     "width": 1,
+     "fields": [
+      {
+       "name": "ON",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "note": "MODESET P3 = ON (display on); reset display off"
+    },
+    {
+     "name": "BLKCTL",
+     "width": 2,
+     "fields": [
+      {
+       "name": "B",
+       "bits": [
+        1,
+        0
+       ]
+      }
+     ],
+     "note": "BLKCTL P1 P0, stored only"
+    },
+    {
+     "name": "APCTL",
+     "width": 2,
+     "fields": [
+      {
+       "name": "APON",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "APOFF",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "note": "APCTL P1 all pixels on (not modeled), P0 all pixels off (wins when both set); both reset to 0"
+    }
+   ],
+   "protocol": {
+    "frame": "stream",
+    "commands": [
+     {
+      "name": "ICSET, P1 = 1: software reset (display off, address 00h, registers to reset values, DDRAM data kept)",
+      "in": "1 1101 x 1 x",
+      "action": "read",
+      "address": 0,
+      "increment": 1,
+      "set": {
+       "ICSET.OSC": 0,
+       "DISCTL.FR": 0,
+       "DISCTL.INV": 0,
+       "DISCTL.SR": 2,
+       "MODE.ON": 0,
+       "BLKCTL.B": 0,
+       "APCTL.APON": 0,
+       "APCTL.APOFF": 0
+      }
+     },
+     {
+      "name": "ICSET, P1 = 0: P0 selects the oscillator (0 internal, 1 external clock)",
+      "in": "1 1101 x 0 p",
+      "set": {
+       "ICSET.OSC": "p"
+      }
+     },
+     {
+      "name": "DISCTL: P4 P3 frame frequency, P2 inversion, P1 P0 power mode (stored only)",
+      "in": "1 01 aa b cc",
+      "set": {
+       "DISCTL.FR": "a",
+       "DISCTL.INV": "b",
+       "DISCTL.SR": "c"
+      }
+     },
+     {
+      "name": "ADSET out of range: the address becomes 00h",
+      "in": "1 000 00xx",
+      "action": "read",
+      "address": 0,
+      "increment": 1
+     },
+     {
+      "name": "ADSET: DDRAM address (04h-0Fh), auto-increment every 4 bits",
+      "in": "1 000 aaaa",
+      "action": "read",
+      "address": "a",
+      "increment": 1
+     },
+     {
+      "name": "MODESET: P3 display on",
+      "in": "1 10x p0 xx",
+      "set": {
+       "MODE.ON": "p"
+      }
+     },
+     {
+      "name": "BLKCTL: P1 P0 blink 00 off, 01 0.5 Hz, 10 1 Hz, 11 2 Hz (stored only)",
+      "in": "1 1110 x bb",
+      "set": {
+       "BLKCTL.B": "b"
+      }
+     },
+     {
+      "name": "APCTL: P1 all pixels on (not modeled), P0 all pixels off (P0 wins)",
+      "in": "1 11111 ab",
+      "set": {
+       "APCTL.APON": "a",
+       "APCTL.APOFF": "b"
+      }
+     },
+     {
+      "name": "ICSET, P1 = 1, C = 0: software reset, then RAM data from address 00h",
+      "in": "0 1101 x 1 x",
+      "action": "pointer",
+      "address": 0,
+      "increment": 1,
+      "set": {
+       "ICSET.OSC": 0,
+       "DISCTL.FR": 0,
+       "DISCTL.INV": 0,
+       "DISCTL.SR": 2,
+       "MODE.ON": 0,
+       "BLKCTL.B": 0,
+       "APCTL.APON": 0,
+       "APCTL.APOFF": 0
+      }
+     },
+     {
+      "name": "ICSET, P1 = 0, C = 0: oscillator select, then RAM data (written at the current address on the chip, dropped here)",
+      "in": "0 1101 x 0 p",
+      "action": "pointer",
+      "address": 0,
+      "space": "sink",
+      "set": {
+       "ICSET.OSC": "p"
+      }
+     },
+     {
+      "name": "DISCTL, C = 0: then RAM data (written at the current address on the chip, dropped here)",
+      "in": "0 01 aa b cc",
+      "action": "pointer",
+      "address": 0,
+      "space": "sink",
+      "set": {
+       "DISCTL.FR": "a",
+       "DISCTL.INV": "b",
+       "DISCTL.SR": "c"
+      }
+     },
+     {
+      "name": "ADSET out of range: the address becomes 00h",
+      "in": "0 000 00xx",
+      "action": "pointer",
+      "address": 0,
+      "increment": 1
+     },
+     {
+      "name": "ADSET: DDRAM address (04h-0Fh), auto-increment every 4 bits, RAM data follows",
+      "in": "0 000 aaaa",
+      "action": "pointer",
+      "address": "a",
+      "increment": 1
+     },
+     {
+      "name": "MODESET: P3 display on, C = 0: then RAM data (dropped here)",
+      "in": "0 10x p0 xx",
+      "set": {
+       "MODE.ON": "p"
+      },
+      "action": "pointer",
+      "address": 0,
+      "space": "sink"
+     },
+     {
+      "name": "BLKCTL: P1 P0 blink 00 off, 01 0.5 Hz, 10 1 Hz, 11 2 Hz (stored only), C = 0: then RAM data (dropped here)",
+      "in": "0 1110 x bb",
+      "set": {
+       "BLKCTL.B": "b"
+      },
+      "action": "pointer",
+      "address": 0,
+      "space": "sink"
+     },
+     {
+      "name": "APCTL: P1 all pixels on (not modeled), P0 all pixels off (P0 wins), C = 0: then RAM data (dropped here)",
+      "in": "0 11111 ab",
+      "set": {
+       "APCTL.APON": "a",
+       "APCTL.APOFF": "b"
+      },
+      "action": "pointer",
+      "address": 0,
+      "space": "sink"
+     }
+    ]
+   },
+   "display": {
+    "driver": "lcd",
+    "mode": "1:4",
+    "backplanes": [
+     "COM0",
+     "COM1",
+     "COM2",
+     "COM3"
+    ],
+    "segmentPins": [
+     "SEG0",
+     "SEG1",
+     "SEG2",
+     "SEG3",
+     "SEG4",
+     "SEG5",
+     "SEG6",
+     "SEG7",
+     "SEG8",
+     "SEG9",
+     "SEG10",
+     "SEG11"
+    ],
+    "ram": [
+     "DD04",
+     "DD05",
+     "DD06",
+     "DD07",
+     "DD08",
+     "DD09",
+     "DD0A",
+     "DD0B",
+     "DD0C",
+     "DD0D",
+     "DD0E",
+     "DD0F"
+    ],
+    "ramOrder": "segment",
+    "bitOrder": "msb",
+    "frameUs": 12500,
+    "enable": [
+     "MODE.ON=1",
+     "APCTL.APOFF=0"
+    ],
+    "note": "DDRAM address 04h-0Fh = SEG0-SEG11, 4 bits each, bit 3 = COM0 ... bit 0 = COM3 (first bit received = COM0 of the lower address; p.9); 00h-03h and 10h-13h are unused. Frame 80 Hz = 12500 us (DISCTL reset, p.12). Display off or APOFF: pins released (the chip drives VSS)"
+   },
+   "parts": [
+    {
+     "name": "BU91795MUF-ME2",
+     "manufacturer": "ROHM Semiconductor",
+     "datasheet": "bu91795muf-m-e",
+     "package": "VQFN",
+     "pinout": "vqfn24",
+     "footprint": "VQFN-24-4X4-ROHM",
+     "flags": [
+      "automotive"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "BU9796AFS",
+   "function": "20x4 driver",
+   "description": "20 x 4 (80 segment) LCD segment driver, I2C write-only (address 0x3E): 4 backplanes, 20 segments, 4-bit DDRAM with ADSET, display on/off, software reset (blink, bias, frame rate, all-pixel-on not modeled)",
+   "drawer": [
+    "Displays & Indicators",
+    "LCD drivers"
+   ],
+   "note": "bu9796axxx-e p.1 features, p.2 BU9796AFS block diagram, pin configuration and description, p.4 supply 2.5-5.5 V, p.9-10 interface, slave address 01111100 and DDRAM, p.12 command list, p.13-15 DISCTL, MODESET, ADSET, ICSET, BLKCTL, APCTL, p.18 example, p.19-20 start and on/off sequences, p.24 ordering, p.25 package",
+   "vcc": [
+    2.5,
+    5.5
+   ],
+   "analog": [
+    "VLCD"
+   ],
+   "pinouts": {
+    "ssop32": [
+     {
+      "number": 1,
+      "name": "SEG2",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "SEG3",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "SEG4",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "SEG5",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "SEG6",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "SEG7",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "SEG8",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "SEG9",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "SEG10",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "SEG11",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "SEG12",
+      "role": "output"
+     },
+     {
+      "number": 12,
+      "name": "SEG13",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "SEG14",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "SEG15",
+      "role": "output"
+     },
+     {
+      "number": 15,
+      "name": "SEG16",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "SEG17",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "SEG18",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "SEG19",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "COM0",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "COM1",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "COM2",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "COM3",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "VLCD",
+      "role": "power"
+     },
+     {
+      "number": 24,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 25,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 26,
+      "name": "TEST1",
+      "role": "input"
+     },
+     {
+      "number": 27,
+      "name": "TEST2",
+      "role": "input"
+     },
+     {
+      "number": 28,
+      "name": "OSCIN",
+      "role": "input"
+     },
+     {
+      "number": 29,
+      "name": "SCL",
+      "role": "input"
+     },
+     {
+      "number": 30,
+      "name": "SDA",
+      "role": "inout"
+     },
+     {
+      "number": 31,
+      "name": "SEG0",
+      "role": "output"
+     },
+     {
+      "number": 32,
+      "name": "SEG1",
+      "role": "output"
+     }
+    ]
+   },
+   "bus": {
+    "style": "i2c",
+    "scl": "SCL",
+    "sda": "SDA",
+    "address": [],
+    "table": [
+     62
+    ]
+   },
+   "registers": [
+    {
+     "name": "DD00",
+     "address": 0,
+     "width": 4
+    },
+    {
+     "name": "DD01",
+     "address": 1,
+     "width": 4
+    },
+    {
+     "name": "DD02",
+     "address": 2,
+     "width": 4
+    },
+    {
+     "name": "DD03",
+     "address": 3,
+     "width": 4
+    },
+    {
+     "name": "DD04",
+     "address": 4,
+     "width": 4
+    },
+    {
+     "name": "DD05",
+     "address": 5,
+     "width": 4
+    },
+    {
+     "name": "DD06",
+     "address": 6,
+     "width": 4
+    },
+    {
+     "name": "DD07",
+     "address": 7,
+     "width": 4
+    },
+    {
+     "name": "DD08",
+     "address": 8,
+     "width": 4
+    },
+    {
+     "name": "DD09",
+     "address": 9,
+     "width": 4
+    },
+    {
+     "name": "DD0A",
+     "address": 10,
+     "width": 4
+    },
+    {
+     "name": "DD0B",
+     "address": 11,
+     "width": 4
+    },
+    {
+     "name": "DD0C",
+     "address": 12,
+     "width": 4
+    },
+    {
+     "name": "DD0D",
+     "address": 13,
+     "width": 4
+    },
+    {
+     "name": "DD0E",
+     "address": 14,
+     "width": 4
+    },
+    {
+     "name": "DD0F",
+     "address": 15,
+     "width": 4
+    },
+    {
+     "name": "DD10",
+     "address": 16,
+     "width": 4
+    },
+    {
+     "name": "DD11",
+     "address": 17,
+     "width": 4
+    },
+    {
+     "name": "DD12",
+     "address": 18,
+     "width": 4
+    },
+    {
+     "name": "DD13",
+     "address": 19,
+     "width": 4
+    },
+    {
+     "name": "SINK",
+     "address": 0,
+     "space": "sink",
+     "width": 4,
+     "note": "not a chip register: the target of RAM data bytes that follow a non-ADSET command with C = 0 (the chip would write them at the current address; the engine cannot keep the address, see engineNeeds)"
+    },
+    {
+     "name": "ICSET",
+     "width": 1,
+     "fields": [
+      {
+       "name": "OSC",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "note": "ICSET P0: 0 internal oscillator, 1 external clock on OSCIN; stored only"
+    },
+    {
+     "name": "DISCTL",
+     "width": 5,
+     "reset": 2,
+     "fields": [
+      {
+       "name": "FR",
+       "bits": [
+        4,
+        3
+       ]
+      },
+      {
+       "name": "INV",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "SR",
+       "bits": [
+        1,
+        0
+       ]
+      }
+     ],
+     "note": "DISCTL: FR 00 80 Hz, 01 71 Hz, 10 64 Hz, 11 53 Hz (Hz as bu91795 p.12; bu9796a p.13 prints 50 Hz for 11); INV 0 line, 1 frame inversion; SR 00 power save 1, 01 power save 2, 10 normal, 11 high power. Reset FR 00, INV 0, SR 10. Stored only"
+    },
+    {
+     "name": "MODE",
+     "width": 2,
+     "fields": [
+      {
+       "name": "ON",
+       "bits": [
+        0,
+        0
+       ]
+      },
+      {
+       "name": "BIAS",
+       "bits": [
+        1,
+        1
+       ]
+      }
+     ],
+     "note": "MODESET P3 = ON (display on); P2 = BIAS (0 1/3 bias, 1 1/2 bias, stored only); reset display off"
+    },
+    {
+     "name": "BLKCTL",
+     "width": 2,
+     "fields": [
+      {
+       "name": "B",
+       "bits": [
+        1,
+        0
+       ]
+      }
+     ],
+     "note": "BLKCTL P1 P0, stored only"
+    },
+    {
+     "name": "APCTL",
+     "width": 2,
+     "fields": [
+      {
+       "name": "APON",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "APOFF",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "note": "APCTL P1 all pixels on (not modeled), P0 all pixels off (wins when both set); both reset to 0"
+    }
+   ],
+   "protocol": {
+    "frame": "stream",
+    "commands": [
+     {
+      "name": "ICSET, P1 = 1: software reset (display off, address 00h, registers to reset values, DDRAM data kept)",
+      "in": "1 1101 x 1 x",
+      "action": "read",
+      "address": 0,
+      "increment": 1,
+      "set": {
+       "ICSET.OSC": 0,
+       "DISCTL.FR": 0,
+       "DISCTL.INV": 0,
+       "DISCTL.SR": 2,
+       "MODE.ON": 0,
+       "BLKCTL.B": 0,
+       "APCTL.APON": 0,
+       "APCTL.APOFF": 0,
+       "MODE.BIAS": 0
+      }
+     },
+     {
+      "name": "ICSET, P1 = 0: P0 selects the oscillator (0 internal, 1 external clock)",
+      "in": "1 1101 x 0 p",
+      "set": {
+       "ICSET.OSC": "p"
+      }
+     },
+     {
+      "name": "DISCTL: P4 P3 frame frequency, P2 inversion, P1 P0 power mode (stored only)",
+      "in": "1 01 aa b cc",
+      "set": {
+       "DISCTL.FR": "a",
+       "DISCTL.INV": "b",
+       "DISCTL.SR": "c"
+      }
+     },
+     {
+      "name": "ADSET out of range: the address becomes 00h",
+      "in": "1 00 11 xxx",
+      "action": "read",
+      "address": 0,
+      "increment": 1
+     },
+     {
+      "name": "ADSET out of range: the address becomes 00h",
+      "in": "1 00 101 xx",
+      "action": "read",
+      "address": 0,
+      "increment": 1
+     },
+     {
+      "name": "ADSET: DDRAM address (00h-13h), auto-increment every 4 bits",
+      "in": "1 00 aaaaa",
+      "action": "read",
+      "address": "a",
+      "increment": 1
+     },
+     {
+      "name": "MODESET: P3 display on, P2 bias (0 = 1/3, 1 = 1/2)",
+      "in": "1 10x pq xx",
+      "set": {
+       "MODE.ON": "p",
+       "MODE.BIAS": "q"
+      }
+     },
+     {
+      "name": "BLKCTL: P1 P0 blink 00 off, 01 0.5 Hz, 10 1 Hz, 11 2 Hz (stored only)",
+      "in": "1 1110 x bb",
+      "set": {
+       "BLKCTL.B": "b"
+      }
+     },
+     {
+      "name": "APCTL: P1 all pixels on (not modeled), P0 all pixels off (P0 wins)",
+      "in": "1 11111 ab",
+      "set": {
+       "APCTL.APON": "a",
+       "APCTL.APOFF": "b"
+      }
+     },
+     {
+      "name": "ICSET, P1 = 1, C = 0: software reset, then RAM data from address 00h",
+      "in": "0 1101 x 1 x",
+      "action": "pointer",
+      "address": 0,
+      "increment": 1,
+      "set": {
+       "ICSET.OSC": 0,
+       "DISCTL.FR": 0,
+       "DISCTL.INV": 0,
+       "DISCTL.SR": 2,
+       "MODE.ON": 0,
+       "BLKCTL.B": 0,
+       "APCTL.APON": 0,
+       "APCTL.APOFF": 0,
+       "MODE.BIAS": 0
+      }
+     },
+     {
+      "name": "ICSET, P1 = 0, C = 0: oscillator select, then RAM data (written at the current address on the chip, dropped here)",
+      "in": "0 1101 x 0 p",
+      "action": "pointer",
+      "address": 0,
+      "space": "sink",
+      "set": {
+       "ICSET.OSC": "p"
+      }
+     },
+     {
+      "name": "DISCTL, C = 0: then RAM data (written at the current address on the chip, dropped here)",
+      "in": "0 01 aa b cc",
+      "action": "pointer",
+      "address": 0,
+      "space": "sink",
+      "set": {
+       "DISCTL.FR": "a",
+       "DISCTL.INV": "b",
+       "DISCTL.SR": "c"
+      }
+     },
+     {
+      "name": "ADSET out of range: the address becomes 00h",
+      "in": "0 00 11 xxx",
+      "action": "pointer",
+      "address": 0,
+      "increment": 1
+     },
+     {
+      "name": "ADSET out of range: the address becomes 00h",
+      "in": "0 00 101 xx",
+      "action": "pointer",
+      "address": 0,
+      "increment": 1
+     },
+     {
+      "name": "ADSET: DDRAM address (00h-13h), auto-increment every 4 bits, RAM data follows",
+      "in": "0 00 aaaaa",
+      "action": "pointer",
+      "address": "a",
+      "increment": 1
+     },
+     {
+      "name": "MODESET: P3 display on, P2 bias (0 = 1/3, 1 = 1/2), C = 0: then RAM data (dropped here)",
+      "in": "0 10x pq xx",
+      "set": {
+       "MODE.ON": "p",
+       "MODE.BIAS": "q"
+      },
+      "action": "pointer",
+      "address": 0,
+      "space": "sink"
+     },
+     {
+      "name": "BLKCTL: P1 P0 blink 00 off, 01 0.5 Hz, 10 1 Hz, 11 2 Hz (stored only), C = 0: then RAM data (dropped here)",
+      "in": "0 1110 x bb",
+      "set": {
+       "BLKCTL.B": "b"
+      },
+      "action": "pointer",
+      "address": 0,
+      "space": "sink"
+     },
+     {
+      "name": "APCTL: P1 all pixels on (not modeled), P0 all pixels off (P0 wins), C = 0: then RAM data (dropped here)",
+      "in": "0 11111 ab",
+      "set": {
+       "APCTL.APON": "a",
+       "APCTL.APOFF": "b"
+      },
+      "action": "pointer",
+      "address": 0,
+      "space": "sink"
+     }
+    ]
+   },
+   "display": {
+    "driver": "lcd",
+    "mode": "1:4",
+    "backplanes": [
+     "COM0",
+     "COM1",
+     "COM2",
+     "COM3"
+    ],
+    "segmentPins": [
+     "SEG0",
+     "SEG1",
+     "SEG2",
+     "SEG3",
+     "SEG4",
+     "SEG5",
+     "SEG6",
+     "SEG7",
+     "SEG8",
+     "SEG9",
+     "SEG10",
+     "SEG11",
+     "SEG12",
+     "SEG13",
+     "SEG14",
+     "SEG15",
+     "SEG16",
+     "SEG17",
+     "SEG18",
+     "SEG19"
+    ],
+    "ram": [
+     "DD00",
+     "DD01",
+     "DD02",
+     "DD03",
+     "DD04",
+     "DD05",
+     "DD06",
+     "DD07",
+     "DD08",
+     "DD09",
+     "DD0A",
+     "DD0B",
+     "DD0C",
+     "DD0D",
+     "DD0E",
+     "DD0F",
+     "DD10",
+     "DD11",
+     "DD12",
+     "DD13"
+    ],
+    "ramOrder": "segment",
+    "bitOrder": "msb",
+    "frameUs": 12500,
+    "enable": [
+     "MODE.ON=1",
+     "APCTL.APOFF=0"
+    ],
+    "note": "DDRAM address 00h-13h = SEG0-SEG19, 4 bits each, bit 3 = COM0 ... bit 0 = COM3 (p.10). Frame 80 Hz = 12500 us (DISCTL reset, p.13). Display off or APOFF: pins released (the chip drives VSS)"
+   },
+   "parts": [
+    {
+     "name": "BU9796AFS-E2",
+     "manufacturer": "ROHM Semiconductor",
+     "datasheet": "bu9796axxx-e",
+     "package": "SSOP",
+     "pinout": "ssop32",
+     "footprint": "SSOP-A32-ROHM"
+    }
+   ]
+  },
+  {
+   "id": "BU9796AMUV",
+   "function": "12x4 driver",
+   "description": "12 x 4 (48 segment) LCD segment driver in VQFN24, I2C write-only (address 0x3E): 4 backplanes, 12 segments, 4-bit DDRAM with ADSET 00h-13h, display on/off, software reset (blink, bias, frame rate, all-pixel-on not modeled)",
+   "drawer": [
+    "Displays & Indicators",
+    "LCD drivers"
+   ],
+   "note": "bu9796axxx-e p.1 features, p.3 BU9796AMUV block diagram, pin configuration and description, p.4 supply 2.5-5.5 V, p.9-11 interface, slave address 01111100 and DDRAM (SEG12-SEG19 addresses 0Ch-13h are dummy data), p.12 command list, p.13-15 DISCTL, MODESET, ADSET, ICSET, BLKCTL, APCTL, p.19-20 start and on/off sequences, p.24 and p.29 ordering, p.26 and p.30 packages",
+   "vcc": [
+    2.5,
+    5.5
+   ],
+   "analog": [
+    "VLCD"
+   ],
+   "pinouts": {
+    "vqfn24": [
+     {
+      "number": 1,
+      "name": "OSCIN",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "SCL",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "SDA",
+      "role": "inout"
+     },
+     {
+      "number": 4,
+      "name": "SEG0",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "SEG1",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "SEG2",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "SEG3",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "SEG4",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "SEG5",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "SEG6",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "SEG7",
+      "role": "output"
+     },
+     {
+      "number": 12,
+      "name": "SEG8",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "SEG9",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "SEG10",
+      "role": "output"
+     },
+     {
+      "number": 15,
+      "name": "SEG11",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "COM0",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "COM1",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "COM2",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "COM3",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "VLCD",
+      "role": "power"
+     },
+     {
+      "number": 21,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 22,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 23,
+      "name": "TEST1",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "TEST2",
+      "role": "input"
+     }
+    ]
+   },
+   "bus": {
+    "style": "i2c",
+    "scl": "SCL",
+    "sda": "SDA",
+    "address": [],
+    "table": [
+     62
+    ]
+   },
+   "registers": [
+    {
+     "name": "DD00",
+     "address": 0,
+     "width": 4
+    },
+    {
+     "name": "DD01",
+     "address": 1,
+     "width": 4
+    },
+    {
+     "name": "DD02",
+     "address": 2,
+     "width": 4
+    },
+    {
+     "name": "DD03",
+     "address": 3,
+     "width": 4
+    },
+    {
+     "name": "DD04",
+     "address": 4,
+     "width": 4
+    },
+    {
+     "name": "DD05",
+     "address": 5,
+     "width": 4
+    },
+    {
+     "name": "DD06",
+     "address": 6,
+     "width": 4
+    },
+    {
+     "name": "DD07",
+     "address": 7,
+     "width": 4
+    },
+    {
+     "name": "DD08",
+     "address": 8,
+     "width": 4
+    },
+    {
+     "name": "DD09",
+     "address": 9,
+     "width": 4
+    },
+    {
+     "name": "DD0A",
+     "address": 10,
+     "width": 4
+    },
+    {
+     "name": "DD0B",
+     "address": 11,
+     "width": 4
+    },
+    {
+     "name": "DD0C",
+     "address": 12,
+     "width": 4
+    },
+    {
+     "name": "DD0D",
+     "address": 13,
+     "width": 4
+    },
+    {
+     "name": "DD0E",
+     "address": 14,
+     "width": 4
+    },
+    {
+     "name": "DD0F",
+     "address": 15,
+     "width": 4
+    },
+    {
+     "name": "DD10",
+     "address": 16,
+     "width": 4
+    },
+    {
+     "name": "DD11",
+     "address": 17,
+     "width": 4
+    },
+    {
+     "name": "DD12",
+     "address": 18,
+     "width": 4
+    },
+    {
+     "name": "DD13",
+     "address": 19,
+     "width": 4
+    },
+    {
+     "name": "SINK",
+     "address": 0,
+     "space": "sink",
+     "width": 4,
+     "note": "not a chip register: the target of RAM data bytes that follow a non-ADSET command with C = 0 (the chip would write them at the current address; the engine cannot keep the address, see engineNeeds)"
+    },
+    {
+     "name": "ICSET",
+     "width": 1,
+     "fields": [
+      {
+       "name": "OSC",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "note": "ICSET P0: 0 internal oscillator, 1 external clock on OSCIN; stored only"
+    },
+    {
+     "name": "DISCTL",
+     "width": 5,
+     "reset": 2,
+     "fields": [
+      {
+       "name": "FR",
+       "bits": [
+        4,
+        3
+       ]
+      },
+      {
+       "name": "INV",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "SR",
+       "bits": [
+        1,
+        0
+       ]
+      }
+     ],
+     "note": "DISCTL: FR 00 80 Hz, 01 71 Hz, 10 64 Hz, 11 53 Hz (Hz as bu91795 p.12; bu9796a p.13 prints 50 Hz for 11); INV 0 line, 1 frame inversion; SR 00 power save 1, 01 power save 2, 10 normal, 11 high power. Reset FR 00, INV 0, SR 10. Stored only"
+    },
+    {
+     "name": "MODE",
+     "width": 2,
+     "fields": [
+      {
+       "name": "ON",
+       "bits": [
+        0,
+        0
+       ]
+      },
+      {
+       "name": "BIAS",
+       "bits": [
+        1,
+        1
+       ]
+      }
+     ],
+     "note": "MODESET P3 = ON (display on); P2 = BIAS (0 1/3 bias, 1 1/2 bias, stored only); reset display off"
+    },
+    {
+     "name": "BLKCTL",
+     "width": 2,
+     "fields": [
+      {
+       "name": "B",
+       "bits": [
+        1,
+        0
+       ]
+      }
+     ],
+     "note": "BLKCTL P1 P0, stored only"
+    },
+    {
+     "name": "APCTL",
+     "width": 2,
+     "fields": [
+      {
+       "name": "APON",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "APOFF",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "note": "APCTL P1 all pixels on (not modeled), P0 all pixels off (wins when both set); both reset to 0"
+    }
+   ],
+   "protocol": {
+    "frame": "stream",
+    "commands": [
+     {
+      "name": "ICSET, P1 = 1: software reset (display off, address 00h, registers to reset values, DDRAM data kept)",
+      "in": "1 1101 x 1 x",
+      "action": "read",
+      "address": 0,
+      "increment": 1,
+      "set": {
+       "ICSET.OSC": 0,
+       "DISCTL.FR": 0,
+       "DISCTL.INV": 0,
+       "DISCTL.SR": 2,
+       "MODE.ON": 0,
+       "BLKCTL.B": 0,
+       "APCTL.APON": 0,
+       "APCTL.APOFF": 0,
+       "MODE.BIAS": 0
+      }
+     },
+     {
+      "name": "ICSET, P1 = 0: P0 selects the oscillator (0 internal, 1 external clock)",
+      "in": "1 1101 x 0 p",
+      "set": {
+       "ICSET.OSC": "p"
+      }
+     },
+     {
+      "name": "DISCTL: P4 P3 frame frequency, P2 inversion, P1 P0 power mode (stored only)",
+      "in": "1 01 aa b cc",
+      "set": {
+       "DISCTL.FR": "a",
+       "DISCTL.INV": "b",
+       "DISCTL.SR": "c"
+      }
+     },
+     {
+      "name": "ADSET out of range: the address becomes 00h",
+      "in": "1 00 11 xxx",
+      "action": "read",
+      "address": 0,
+      "increment": 1
+     },
+     {
+      "name": "ADSET out of range: the address becomes 00h",
+      "in": "1 00 101 xx",
+      "action": "read",
+      "address": 0,
+      "increment": 1
+     },
+     {
+      "name": "ADSET: DDRAM address (00h-13h), auto-increment every 4 bits",
+      "in": "1 00 aaaaa",
+      "action": "read",
+      "address": "a",
+      "increment": 1
+     },
+     {
+      "name": "MODESET: P3 display on, P2 bias (0 = 1/3, 1 = 1/2)",
+      "in": "1 10x pq xx",
+      "set": {
+       "MODE.ON": "p",
+       "MODE.BIAS": "q"
+      }
+     },
+     {
+      "name": "BLKCTL: P1 P0 blink 00 off, 01 0.5 Hz, 10 1 Hz, 11 2 Hz (stored only)",
+      "in": "1 1110 x bb",
+      "set": {
+       "BLKCTL.B": "b"
+      }
+     },
+     {
+      "name": "APCTL: P1 all pixels on (not modeled), P0 all pixels off (P0 wins)",
+      "in": "1 11111 ab",
+      "set": {
+       "APCTL.APON": "a",
+       "APCTL.APOFF": "b"
+      }
+     },
+     {
+      "name": "ICSET, P1 = 1, C = 0: software reset, then RAM data from address 00h",
+      "in": "0 1101 x 1 x",
+      "action": "pointer",
+      "address": 0,
+      "increment": 1,
+      "set": {
+       "ICSET.OSC": 0,
+       "DISCTL.FR": 0,
+       "DISCTL.INV": 0,
+       "DISCTL.SR": 2,
+       "MODE.ON": 0,
+       "BLKCTL.B": 0,
+       "APCTL.APON": 0,
+       "APCTL.APOFF": 0,
+       "MODE.BIAS": 0
+      }
+     },
+     {
+      "name": "ICSET, P1 = 0, C = 0: oscillator select, then RAM data (written at the current address on the chip, dropped here)",
+      "in": "0 1101 x 0 p",
+      "action": "pointer",
+      "address": 0,
+      "space": "sink",
+      "set": {
+       "ICSET.OSC": "p"
+      }
+     },
+     {
+      "name": "DISCTL, C = 0: then RAM data (written at the current address on the chip, dropped here)",
+      "in": "0 01 aa b cc",
+      "action": "pointer",
+      "address": 0,
+      "space": "sink",
+      "set": {
+       "DISCTL.FR": "a",
+       "DISCTL.INV": "b",
+       "DISCTL.SR": "c"
+      }
+     },
+     {
+      "name": "ADSET out of range: the address becomes 00h",
+      "in": "0 00 11 xxx",
+      "action": "pointer",
+      "address": 0,
+      "increment": 1
+     },
+     {
+      "name": "ADSET out of range: the address becomes 00h",
+      "in": "0 00 101 xx",
+      "action": "pointer",
+      "address": 0,
+      "increment": 1
+     },
+     {
+      "name": "ADSET: DDRAM address (00h-13h), auto-increment every 4 bits, RAM data follows",
+      "in": "0 00 aaaaa",
+      "action": "pointer",
+      "address": "a",
+      "increment": 1
+     },
+     {
+      "name": "MODESET: P3 display on, P2 bias (0 = 1/3, 1 = 1/2), C = 0: then RAM data (dropped here)",
+      "in": "0 10x pq xx",
+      "set": {
+       "MODE.ON": "p",
+       "MODE.BIAS": "q"
+      },
+      "action": "pointer",
+      "address": 0,
+      "space": "sink"
+     },
+     {
+      "name": "BLKCTL: P1 P0 blink 00 off, 01 0.5 Hz, 10 1 Hz, 11 2 Hz (stored only), C = 0: then RAM data (dropped here)",
+      "in": "0 1110 x bb",
+      "set": {
+       "BLKCTL.B": "b"
+      },
+      "action": "pointer",
+      "address": 0,
+      "space": "sink"
+     },
+     {
+      "name": "APCTL: P1 all pixels on (not modeled), P0 all pixels off (P0 wins), C = 0: then RAM data (dropped here)",
+      "in": "0 11111 ab",
+      "set": {
+       "APCTL.APON": "a",
+       "APCTL.APOFF": "b"
+      },
+      "action": "pointer",
+      "address": 0,
+      "space": "sink"
+     }
+    ]
+   },
+   "display": {
+    "driver": "lcd",
+    "mode": "1:4",
+    "backplanes": [
+     "COM0",
+     "COM1",
+     "COM2",
+     "COM3"
+    ],
+    "segmentPins": [
+     "SEG0",
+     "SEG1",
+     "SEG2",
+     "SEG3",
+     "SEG4",
+     "SEG5",
+     "SEG6",
+     "SEG7",
+     "SEG8",
+     "SEG9",
+     "SEG10",
+     "SEG11"
+    ],
+    "ram": [
+     "DD00",
+     "DD01",
+     "DD02",
+     "DD03",
+     "DD04",
+     "DD05",
+     "DD06",
+     "DD07",
+     "DD08",
+     "DD09",
+     "DD0A",
+     "DD0B"
+    ],
+    "ramOrder": "segment",
+    "bitOrder": "msb",
+    "frameUs": 12500,
+    "enable": [
+     "MODE.ON=1",
+     "APCTL.APOFF=0"
+    ],
+    "note": "DDRAM address 00h-0Bh = SEG0-SEG11, 4 bits each, bit 3 = COM0 ... bit 0 = COM3 (p.11); 0Ch-13h hold dummy data (registers DD0C-DD13 exist for the auto-increment, nothing is displayed). Frame 80 Hz = 12500 us (p.13)"
+   },
+   "parts": [
+    {
+     "name": "BU9796AMUV-E2",
+     "manufacturer": "ROHM Semiconductor",
+     "datasheet": "bu9796axxx-e",
+     "package": "VQFN",
+     "pinout": "vqfn24",
+     "footprint": "VQFN-24-4X4-ROHM"
+    },
+    {
+     "name": "BU9796AMUV-ZE2",
+     "manufacturer": "ROHM Semiconductor",
+     "datasheet": "bu9796axxx-e",
+     "package": "VQFN",
+     "pinout": "vqfn24",
+     "footprint": "VQFN-24-4X4-ROHM-A"
+    }
+   ]
+  }
+ ],
+ "datasheets": [
+  {
+   "id": "pcf8553",
+   "url": "https://www.nxp.com/docs/en/data-sheet/PCF8553.pdf"
+  },
+  {
+   "id": "pca8553",
+   "url": "https://www.nxp.com/docs/en/data-sheet/PCA8553.pdf"
+  },
+  {
+   "id": "bu91795muf-m-e",
+   "url": "https://fscdn.rohm.com/en/products/databook/datasheet/ic/driver/lcd_segment/bu91795muf-m-e.pdf"
+  },
+  {
+   "id": "bu9796axxx-e",
+   "url": "https://fscdn.rohm.com/en/products/databook/datasheet/ic/driver/lcd_segment/bu9796axxx-e.pdf"
+  }
+ ],
+ "missingFootprints": [
+  {
+   "id": "SSOP-A32-ROHM",
+   "description": "32-pin SSOP-A32 (ROHM EX134-5001-1), 5.4 x 13.6 mm body, 0.8 mm pitch",
+   "note": "ROHM SSOP-A32 outline EX134-5001-1 (R2 with L = 1.2: the foot length is not printed, so L is taken as the whole lead projection (7.8 tip to tip - 5.4 body) / 2 = 1.2 mm; lead b 0.36 mid (0.26-0.46); tip-to-tip 7.8 mid (7.5-8.1); pad length 1.2 + 0.8 = 2.0, width 0.36 + 0.05 = 0.41, span 7.8 + 1.0 - 2.0 = 6.8; body 5.4 mid (5.2-5.6) x 13.6 mid (13.4-13.8)), bu9796axxx-e.pdf p.25",
+   "style": "dual",
+   "pins": 32,
+   "body": {
+    "width": 5.4,
+    "height": 13.6
+   },
+   "pitch": 0.8,
+   "span": 6.8,
+   "pad": {
+    "width": 2.0,
+    "height": 0.41,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "VQFN-24-4X4-ROHM",
+   "description": "24-pin VQFN (ROHM VQFN24FV4040 / VQFN024V4040), 4 x 4 mm body, 0.5 mm pitch, exposed pad 2.4 mm; pin 1 on the bottom row's left (top view)",
+   "note": "ROHM VQFN24FV4040 (EX394-5001) and VQFN024V4040 (EX463-5001-2) outlines, identical land geometry (R4: terminal L 0.4 mid (0.3-0.5) so pad length 0.7, b 0.255 mid (0.21-0.30) so pad width 0.31 (0.305 rounded up), terminal-centre span 4.0 - 0.4 = 3.6 + 0.3 = 3.9; exposed pad 2.4 +-0.1; body 4.0 +-0.1; the pins run counter-clockwise from pin 1 on the bottom row's left in the top view of bu91795muf-m-e.pdf Figure 3 p.2, so the slots start on the bottom side), bu91795muf-m-e.pdf p.26 and bu9796axxx-e.pdf p.26",
+   "style": "quad",
+   "pins": 24,
+   "body": {
+    "width": 4.0,
+    "height": 4.0
+   },
+   "sides": [
+    6,
+    6,
+    6,
+    6
+   ],
+   "pitch": 0.5,
+   "spanX": 3.9,
+   "spanY": 3.9,
+   "pad": {
+    "width": 0.7,
+    "height": 0.31,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 2.4,
+    "height": 2.4,
+    "shape": "rect"
+   },
+   "slots": [
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ]
+  },
+  {
+   "id": "VQFN-24-4X4-ROHM-A",
+   "description": "24-pin VQFN (ROHM VQFN24V4040A), 4 x 4 mm body, 0.5 mm pitch, exposed pad 2.6 mm; pin 1 on the bottom row's left (top view)",
+   "note": "ROHM VQFN24V4040A outline (EX001-0098), bu9796axxx-e.pdf p.30 (R4 as VQFN-24-4X4-ROHM: L 0.4 mid, b 0.255 mid, pad 0.7 x 0.31, span 3.9; exposed pad 2.6 +-0.1)",
+   "style": "quad",
+   "pins": 24,
+   "body": {
+    "width": 4.0,
+    "height": 4.0
+   },
+   "sides": [
+    6,
+    6,
+    6,
+    6
+   ],
+   "pitch": 0.5,
+   "spanX": 3.9,
+   "spanY": 3.9,
+   "pad": {
+    "width": 0.7,
+    "height": 0.31,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 2.6,
+    "height": 2.6,
+    "shape": "rect"
+   },
+   "slots": [
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ]
+  }
+ ],
+ "skipped": [
+  {
+   "part": "BU97960MUV-E2",
+   "why": "not in bu9796axxx-e.pdf (the brief and the plan assume it is). It has its own ROHM sheet bu97960muv-e.pdf (34 pages; https://fscdn.rohm.com/en/products/databook/datasheet/ic/driver/lcd_segment/bu97960muv-e.pdf answers with a PDF; a copy is in scratchpad/g2/lsi/bu97960muv-e.pdf, not filed in datasheets/): 1/8 or 1/4 duty, COM0-COM7 with COM4-COM7 shared with SEG18-SEG15, 15 x 8 bit DDRAM, EVR contrast register, VQFN028V5050. Eight backplanes are beyond the lcd driver (static to 1:4), so it cannot be modeled; file the sheet and decide whether a 1:4-only partial model is wanted."
+  },
+  {
+   "part": "PCF8553DTT/A, PCA8553DTT/A (product type numbers, Table 1)",
+   "why": "Table 1 product type numbers, not orderable; Table 2 lists the orderable parts (PCF8553DTT/AJ and /AY, PCA8553DTT/AJ and /AY), all four added; the AJ parts carry obsolete (discontinuation notice 202107021DN, drop-in replacement AY)."
+  },
+  {
+   "part": "stock of every part",
+   "why": "not checked here; the main thread checks stock (Safari). The plan reports PCF8576DT, BU91795MUF-ME2, BU9796AFS-E2, BU9796AMUV-E2 in stock and PCF8553 / PCA8553 / PCA85276 without a script hit; BU9796AMUV-ZE2 (bu9796axxx-e p.29) is new in this list."
+  }
+ ],
+ "engineNeeds": [
+  {
+   "need": "multiplex mode chosen by a register field (PCF8553, PCA8553 MUX)",
+   "keys": "display.mode as an object {\"field\": \"DISP1.MUX\", \"values\": {\"0\": \"1:4\", \"1\": \"1:3\", \"2\": \"1:2\", \"3\": \"static\"}}; display.backplanes keeps the four names; with n backplanes active the frame has n slots (slot = frame / n) and the unused backplane pins are released; the RAM bit (segment, backplane) layout does not change with the mode (ramOrder backplane, 5 bytes per backplane), so only the slot count and the released pins change",
+   "why": "pcf8553 p.8 Table 6: MUX[1:0] 00 1:4, 01 1:3, 10 1:2, 11 static. Today the device is fixed to a four-backplane frame; the register is stored. A glass of fewer backplanes wired to COM0.. shows the right cells (bench: 8D-1:3, 4D-1:2 and 4D-STATIC), only the pin waveform differs from the silicon. The ROHM chips are fixed 1/4 duty and need nothing."
+  },
+  {
+   "need": "frame time chosen by a register field",
+   "keys": "display.frameUs as {\"field\": \"DEVCTRL.FF\", \"values\": {\"0\": 31250, \"1\": 15625, \"2\": 10417, \"3\": 7813}} (PCA8553: eight values 32, 64, 96, 128, 160, 192, 224, 256 Hz); BU91795 / BU9796A DISCTL.FR {\"0\": 12500, \"1\": 14085, \"2\": 15625, \"3\": 18868} (80, 71, 64, 53 Hz; BU9796A p.13 prints 50 Hz = 20000 for 3)",
+   "why": "pcf8553 p.7 Table 5, bu91795 p.12, bu9796axxx-e p.13; the frame time is fixed at the reset value today (64 Hz, 80 Hz)."
+  },
+  {
+   "need": "whole-display blinking",
+   "keys": "display.blink {\"field\": \"DISP2.BL\", \"periodsUs\": {\"1\": 2000000, \"2\": 1000000, \"3\": 500000}} (and BLKCTL.B for the ROHM chips): while the field is nonzero the display alternates between shown and off (every pin released) each half period",
+   "why": "pcf8553 p.8-9 Table 7 and 7.2.3.1 ('During the blank-out phase of the blinking period, the display is turned off'), bu91795 p.13; the duty of the blank phase is not given by either sheet. Stored only today."
+  },
+  {
+   "need": "all pixels on regardless of the RAM (ROHM APCTL P1)",
+   "keys": "display.allOn: a condition (here APCTL.APON=1); while it holds every RAM bit reads 1 (each segment pin carries the inverse of the active backplane), the RAM is unchanged; the existing enable / APOFF condition wins",
+   "why": "bu91795 p.13, bu9796axxx-e p.15: all pixels on regardless of DDRAM, DDRAM unchanged, valid in display-on state; P0 (all off) wins when both are set. APOFF is modeled through the enable condition; APON is stored only."
+  },
+  {
+   "need": "disabled output level",
+   "keys": "display.disabledLevel 0 (or \"low\"): while the enable condition is false every backplane and segment pin is driven 0 instead of released",
+   "why": "pcf8553 p.10 (power-down: all outputs set to VSS), bu91795 p.13 and p.20 (segment and common ports output VSS after one frame of off data). A glass reads both the same; a probe on the pin does not."
+  },
+  {
+   "need": "a pointer action that keeps the current address, and pointer wrap-around",
+   "keys": "protocol command action \"pointer\" without an address (or \"address\": \"keep\") that starts the auto-increment payload at the current pointer; a pointer \"wrap\": true that goes from the last register of a space back to its first",
+   "why": "ROHM chips: a command byte with C = 0 is followed by RAM data that is written at the current DDRAM address (bu91795 p.9: after an ADSET, the address is kept; p.9 / bu9796axxx-e p.10: after 13h the address returns to 00h). Modeled: C = 0 on ADSET and on the ICSET reset (address 00h) write RAM; C = 0 on every other command sends the data to a sink register (dropped); the address stays on the last register instead of wrapping."
+  },
+  {
+   "need": "an I2C strap pin left open reads as 0",
+   "keys": "bus.i2c.table index digit for an open pin (a fifth tie value, or a bus key \"openAs\": 0)",
+   "why": "pcf8553 p.39 15.3: A0, A1, PORE and IFS have internal latching pull-downs, 'connect to VSS (or leave open) for logic 0'. Today only a pin tied to VSS or VDD gives an address; A0 / A1 left open (Z) answer nothing (bench: removed, noted in the spec)."
+  },
+  {
+   "need": "an oscillator output and an external clock input (CLK pin, OSC and COE bits)",
+   "keys": "none proposed; nothing in the sheets a host can observe except the clock itself",
+   "why": "pcf8553 p.7: OSC = 1 needs an external clock on CLK ('removing the clock may freeze the LCD in a DC state'), COE = 1 puts the clock on CLK. Stored only; the display runs whatever OSC says."
+  }
+ ],
+ "notes": "Five lcddriver devices: PCF8553 and PCA8553 (40 x 4, `i2c-spi` bus: I2C 0x38-0x3B by A0 / A1 and 3-wire SPI by IFS, registers 00h-03h plus a 20-byte RAM, Software_reset 2Ch, RST pin, DE display enable; the two differ only in the width of Device_ctrl FF), BU91795 (VQFN24, 12 x 4), BU9796AFS (SSOP-A32, 20 x 4) and BU9796AMUV (VQFN24, 12 x 4): I2C write-only at 0x3E, the C-bit command chain (ICSET, DISCTL, ADSET, MODESET, BLKCTL, APCTL, each in a C = 1 and a C = 0 form), 4-bit DDRAM with auto-increment, display on/off, all-pixel-off, software reset. Eight parts: PCF8553DTT/AJ (obsolete), /AY, PCA8553DTT/AJ (obsolete, automotive), /AY (automotive), BU91795MUF-ME2 (automotive), BU9796AFS-E2, BU9796AMUV-E2, BU9796AMUV-ZE2. Footprints: TSSOP-56 reused; three new (VQFN-24-4X4-ROHM, VQFN-24-4X4-ROHM-A, SSOP-A32-ROHM, the last with the foot length taken as the whole 1.2 mm lead projection because the drawing does not print it). Four datasheet entries. Validated in a private copy (built Release): library_check passes; listing_check, trace_check and footprint_check differ from the goldens only by the added lines (8 parts, 3 footprints; trace_check 'lcd 7' is the existing kind row); lcd_spi_i2c_test passes (it needs `logic_test(lcd_spi_i2c_test)` in backend/CMakeLists.txt). The bench reads internal registers through SimComponentType.registers. BU97960MUV-E2 is skipped (own datasheet, eight backplanes). Cells of the glass are checked against the RAM for 1:4 (GENERIC-LCD-8D-1:4), 1:3, 1:2 and static glass; the multiplex mode is not switched by MUX (engineNeeds)."
+}

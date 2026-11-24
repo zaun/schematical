@@ -1,0 +1,767 @@
+diff -ruN a/backend/src/models/converter.c b/backend/src/models/converter.c
+--- a/backend/src/models/converter.c	2026-11-23 19:10:04
++++ b/backend/src/models/converter.c	2026-11-23 19:10:20
+@@ -751,6 +751,11 @@
+     case CVA_CLEAR:
+         dac_clear(s);
+         break;
++    case CVA_LCDLOAD:
++        s->x.payload = CV_PAY_LCD;
++        s->x.pay_bits = 0;
++        s->x.pay_value = 0;
++        break;
+     case CVA_SETBITS:
+     case CVA_CLEARBITS: {
+         uint32_t data = value_of(&cmd->data, caps);
+@@ -918,6 +923,15 @@
+                     x->done = 1;
+                 }
+             }
++        }
++        return;
++    }
++    if (x->payload == CV_PAY_LCD) {
++        x->pay_value = (x->pay_value << 1) | bit;
++        if (++x->pay_bits == 8) {
++            disp_lcd_byte(s, (uint8_t)x->pay_value);
++            x->pay_bits = 0;
++            x->pay_value = 0;
+         }
+         return;
+     }
+diff -ruN a/backend/src/models/converter.h b/backend/src/models/converter.h
+--- a/backend/src/models/converter.h	2026-11-23 19:10:04
++++ b/backend/src/models/converter.h	2026-11-23 19:10:20
+@@ -75,7 +75,7 @@
+ typedef enum {
+     CVA_NOP, CVA_WREG, CVA_RREG, CVA_WRITE, CVA_READ, CVA_POINTER, CVA_START, CVA_STOP,
+     CVA_RESET, CVA_POWERDOWN, CVA_WAKEUP, CVA_UPDATE, CVA_UPDATEALL, CVA_CLEAR, CVA_SETBITS,
+-    CVA_CLEARBITS
++    CVA_CLEARBITS, CVA_LCDLOAD
+ } CvAction;
+ 
+ typedef struct {
+diff -ruN a/backend/src/models/converter_int.h b/backend/src/models/converter_int.h
+--- a/backend/src/models/converter_int.h	2026-11-23 19:10:04
++++ b/backend/src/models/converter_int.h	2026-11-23 19:10:20
+@@ -17,7 +17,7 @@
+     CV_TM_DISP = 0x50000000u    /* display_out.c */
+ };
+ 
+-enum { CV_PAY_NONE, CV_PAY_WREG, CV_PAY_POINTER };
++enum { CV_PAY_NONE, CV_PAY_WREG, CV_PAY_POINTER, CV_PAY_LCD };
+ 
+ /* An output segment: a pattern being shifted out. */
+ typedef struct {
+@@ -172,6 +172,9 @@
+ void disp_timer(CvState *s, uint32_t id);
+ void disp_refresh(CvState *s);
+ void disp_free(CvState *s);
++/* An lcd driver with a "load" section (plan-56-E): one display data byte arrived after an
++   `lcdload` command; it goes into the RAM per the current mode, pointer, bank and subaddress. */
++void disp_lcd_byte(CvState *s, uint8_t byte);
+ 
+ /* converter_par.c (plan-24-E) */
+ void cv_par_start(CvState *s);
+diff -ruN a/backend/src/models/converter_load.c b/backend/src/models/converter_load.c
+--- a/backend/src/models/converter_load.c	2026-11-23 19:10:04
++++ b/backend/src/models/converter_load.c	2026-11-23 19:10:20
+@@ -668,7 +668,7 @@
+ 
+ static const char *const ACTION_NAMES[] = {
+     "nop", "wreg", "rreg", "write", "read", "pointer", "start", "stop", "reset", "powerdown",
+-    "wakeup", "update", "updateall", "clear", "setbits", "clearbits", NULL
++    "wakeup", "update", "updateall", "clear", "setbits", "clearbits", "lcdload", NULL
+ };
+ 
+ static int action_of(Ld *ld, const char *name, uint8_t *out) {
+@@ -2979,34 +2979,207 @@
+     return dl_cond(ld, o, "shutdown", &c->shutdown) != 0 || dl_cond(ld, o, "test", &c->test) != 0 ? -1 : 0;
+ }
+ 
++/* A mode name -> its backplane count (1-4), or 0. */
++static unsigned lcd_mode_slots(const char *name) {
++    static const char *const MODES[] = {"static", "1:2", "1:3", "1:4", NULL};
++    unsigned i;
++
++    for (i = 0; MODES[i] != NULL; i++) {
++        if (strcmp(MODES[i], name) == 0) {
++            return i + 1;
++        }
++    }
++    return 0;
++}
++
++/* The index of the backplane line named `name` in c->lines, or -1. */
++static int lcd_line_of(const Ld *ld, const DispCfg *c, const char *name) {
++    size_t i;
++
++    for (i = 0; i < c->line_count; i++) {
++        if (strcmp(ld->names[c->lines[i]], name) == 0) {
++            return (int)i;
++        }
++    }
++    return -1;
++}
++
++/* "mode" as an object {"field", "values": {value: mode name}} with "slots": per mode name, one array
++   per slot of the backplane pins driven in that slot (plan-56-E). */
++static int load_lcd_modes(Dl *dl, const cJSON *o, DispCfg *c) {
++    static const char *const MK[] = {"field", "values", NULL};
++    Ld *ld = dl->ld;
++    const cJSON *m = member(o, "mode"), *vals = member(m, "values"), *slots = member(o, "slots"), *e;
++    char *end;
++    size_t n = 0;
++
++    if (check_keys(ld, m, MK) != 0 || dl_field_member(ld, m, "field", &c->mode_field) != 0) {
++        return -1;
++    }
++    if (!cJSON_IsObject(vals) || cJSON_GetArraySize(vals) < 1 ||
++        cJSON_GetArraySize(vals) > DISP_LCD_MODES) {
++        return kind_error(ld->ctx, "\"mode\" \"values\" maps 1 to %d field values to mode names", DISP_LCD_MODES);
++    }
++    if (!cJSON_IsObject(slots)) {
++        return kind_error(ld->ctx, "a \"mode\" field needs \"slots\": mode name -> the backplane pins of each slot");
++    }
++    cJSON_ArrayForEach(e, vals) {
++        const cJSON *sl, *one;
++        unsigned count, k = 0, j;
++        unsigned long key = strtoul(e->string, &end, 10);
++
++        if (*end != '\0' || e->string[0] == '\0' || !cJSON_IsString(e) ||
++            (count = lcd_mode_slots(e->valuestring)) == 0) {
++            return kind_error(ld->ctx, "\"mode\" \"values\" is field value -> \"static\", \"1:2\", \"1:3\" or \"1:4\"");
++        }
++        for (j = 0; j < n; j++) {
++            if (c->mode_key[j] == key) {
++                return kind_error(ld->ctx, "\"mode\" \"values\" names field value %lu twice", key);
++            }
++        }
++        if (c->bp_count < count) {
++            return kind_error(ld->ctx, "mode \"%s\" needs %u backplane pins, \"backplanes\" has %u",
++                              e->valuestring, count, c->bp_count);
++        }
++        sl = member(slots, e->valuestring);
++        if (!cJSON_IsArray(sl) || (unsigned)cJSON_GetArraySize(sl) != count) {
++            return kind_error(ld->ctx, "\"slots\" \"%s\" is an array of %u slots", e->valuestring, count);
++        }
++        cJSON_ArrayForEach(one, sl) {
++            const cJSON *p;
++            unsigned mask = 0;
++
++            if (!cJSON_IsArray(one) || cJSON_GetArraySize(one) < 1) {
++                return kind_error(ld->ctx, "a slot of \"slots\" \"%s\" is an array of backplane pin names", e->valuestring);
++            }
++            cJSON_ArrayForEach(p, one) {
++                int line = cJSON_IsString(p) ? lcd_line_of(ld, c, p->valuestring) : -1;
++
++                if (line < 0) {
++                    return kind_error(ld->ctx, "\"slots\" \"%s\": \"%s\" is not one of \"backplanes\"", e->valuestring,
++                                      cJSON_IsString(p) ? p->valuestring : "?");
++                }
++                mask |= 1u << line;
++            }
++            c->slot_mask[n][k++] = (uint8_t)mask;
++        }
++        c->mode_key[n] = (uint32_t)key;
++        c->mode_slots[n] = count;
++        n++;
++    }
++    if ((size_t)cJSON_GetArraySize(slots) != n) {
++        return kind_error(ld->ctx, "\"slots\" names a mode that \"mode\" \"values\" does not");
++    }
++    c->mode_count = (unsigned)n;
++    c->mode_dynamic = 1;
++    return 0;
++}
++
++/* "load": the data pointer, per-mode steps, banks and subaddress of an lcd driver (plan-56-E). */
++static int load_lcd_load(Dl *dl, const cJSON *o, DispCfg *c) {
++    static const char *const LK[] = {"pointer", "step", "bank", "subaddress", "hardware", "subaddresses", NULL};
++    Ld *ld = dl->ld;
++    const cJSON *l = member(o, "load"), *st, *e;
++    unsigned i;
++    uint32_t subs = 8;
++
++    if (!c->mode_dynamic) {
++        return kind_error(ld->ctx, "\"load\" needs \"mode\" as a field");
++    }
++    kind_push(ld->ctx, "load");
++    if (check_keys(ld, l, LK) != 0 || dl_field_member(ld, l, "pointer", &c->ld_pointer) != 0) {
++        return -1;
++    }
++    st = member(l, "step");
++    if (!cJSON_IsObject(st)) {
++        return kind_error(ld->ctx, "\"step\" maps each mode name to the data pointer's increment per byte");
++    }
++    for (i = 0; i < c->mode_count; i++) {
++        c->mode_step[i] = 0;
++    }
++    cJSON_ArrayForEach(e, st) {
++        unsigned slots = lcd_mode_slots(e->string);
++
++        for (i = 0; i < c->mode_count && c->mode_slots[i] != slots; i++) {
++        }
++        if (slots == 0 || i == c->mode_count || !cJSON_IsNumber(e) || e->valuedouble < 1 ||
++            e->valuedouble > 64) {
++            return kind_error(ld->ctx, "\"step\" is mode name -> 1 to 64, for the modes of \"mode\"");
++        }
++        c->mode_step[i] = (unsigned)e->valuedouble;
++    }
++    for (i = 0; i < c->mode_count; i++) {
++        if (c->mode_step[i] == 0) {
++            return kind_error(ld->ctx, "\"step\" has no entry for the mode with %u slots", c->mode_slots[i]);
++        }
++    }
++    if (member(l, "bank") != NULL) {
++        c->has_in_bank = 1;
++        if (dl_field_member(ld, l, "bank", &c->ld_bank) != 0) {
++            return -1;
++        }
++    }
++    if (member(l, "subaddress") != NULL || member(l, "hardware") != NULL) {
++        if (member(l, "subaddress") == NULL || member(l, "hardware") == NULL) {
++            return kind_error(ld->ctx, "\"subaddress\" and \"hardware\" go together");
++        }
++        c->has_sub = 1;
++        if (dl_field_member(ld, l, "subaddress", &c->ld_sub) != 0 ||
++            dl_field_member(ld, l, "hardware", &c->ld_hw) != 0 ||
++            u32_member(ld, l, "subaddresses", &subs) != 0) {
++            return -1;
++        }
++        if (subs < 2 || subs > 256) {
++            return kind_error(ld->ctx, "\"subaddresses\" is 2 to 256");
++        }
++    } else if (member(l, "subaddresses") != NULL) {
++        return kind_error(ld->ctx, "\"subaddresses\" needs \"subaddress\"");
++    }
++    c->ld_subs = subs;
++    c->has_load = 1;
++    kind_pop(ld->ctx);
++    return 0;
++}
++
+ /* lcd: backplane and segment waveforms from a display RAM. */
+ static int load_display_lcd(Dl *dl, const cJSON *o, DispCfg *c) {
+     static const char *const KEYS[] = {
+         "driver", "mode", "backplanes", "segmentPins", "ram", "ramOrder", "bitOrder", "frameUs",
+-        "enable", "openDrain", NULL
++        "enable", "openDrain", "slots", "outputBank", "load", NULL
+     };
+-    static const char *const MODES[] = {"static", "1:2", "1:3", "1:4", NULL};
+     Ld *ld = dl->ld;
++    const cJSON *mode;
+     const char *s;
+     uint64_t frame_ps;
+     size_t i, k, bits = 0, need, idx = 0;
+-    int msb = 0;
++    int msb = 0, dynamic;
+     uint16_t *bit_field;
+     uint8_t *bit_pos;
+ 
+-    if (check_keys(ld, o, KEYS) != 0 || kind_string(ld->ctx, o, "mode", &s) != 0) {
++    if (check_keys(ld, o, KEYS) != 0) {
+         return -1;
+     }
+-    for (i = 0; MODES[i] != NULL && strcmp(MODES[i], s) != 0; i++) {
++    mode = member(o, "mode");
++    dynamic = cJSON_IsObject(mode);
++    if (!dynamic) {
++        if (kind_string(ld->ctx, o, "mode", &s) != 0) {
++            return -1;
++        }
++        if ((c->bp_count = lcd_mode_slots(s)) == 0) {
++            return kind_error(ld->ctx, "\"mode\" must be \"static\", \"1:2\", \"1:3\" or \"1:4\"");
++        }
++        if (member(o, "slots") != NULL || member(o, "outputBank") != NULL || member(o, "load") != NULL) {
++            return kind_error(ld->ctx, "\"slots\", \"outputBank\" and \"load\" need \"mode\" as a field");
++        }
+     }
+-    if (MODES[i] == NULL) {
+-        return kind_error(ld->ctx, "\"mode\" must be \"static\", \"1:2\", \"1:3\" or \"1:4\"");
+-    }
+-    c->bp_count = (unsigned)i + 1;
+-    if (dl_pins(dl, o, "backplanes", c->bp_count, c->bp_count, &c->lines, &c->line_count) != 0 ||
++    if (dl_pins(dl, o, "backplanes", dynamic ? 1 : c->bp_count, dynamic ? DISP_LCD_ROWS : c->bp_count,
++                &c->lines, &c->line_count) != 0 ||
+         dl_pins(dl, o, "segmentPins", 1, DISP_MAX_LCD_SEGMENTS, &c->outs, &c->out_count) != 0) {
+         return -1;
+     }
++    if (dynamic) {
++        c->bp_count = (unsigned)c->line_count;
++    }
+     c->segments = (unsigned)c->out_count;
+     s = "segment";
+     if (member(o, "ramOrder") != NULL && kind_string(ld->ctx, o, "ramOrder", &s) != 0) {
+@@ -3016,6 +3189,9 @@
+         return kind_error(ld->ctx, "\"ramOrder\" must be \"segment\" or \"backplane\"");
+     }
+     c->bp_major = strcmp(s, "backplane") == 0;
++    if (dynamic && c->bp_major) {
++        return kind_error(ld->ctx, "\"mode\" as a field needs \"ramOrder\" \"segment\"");
++    }
+     s = "lsb";
+     if (member(o, "bitOrder") != NULL && kind_string(ld->ctx, o, "bitOrder", &s) != 0) {
+         return -1;
+@@ -3057,10 +3233,23 @@
+     if (dl_us(ld, member(o, "frameUs"), "\"frameUs\"", &frame_ps) != 0) {
+         return -1;
+     }
++    c->frame_ps = frame_ps;
+     c->slot_ps = frame_ps / c->bp_count;
+     if (c->slot_ps == 0) {
+         c->slot_ps = 1;
+     }
++    if (dynamic && load_lcd_modes(dl, o, c) != 0) {
++        return -1;
++    }
++    if (member(o, "outputBank") != NULL) {
++        c->has_out_bank = 1;
++        if (dl_field_member(ld, o, "outputBank", &c->out_bank) != 0) {
++            return -1;
++        }
++    }
++    if (member(o, "load") != NULL && load_lcd_load(dl, o, c) != 0) {
++        return -1;
++    }
+     return dl_cond(ld, o, "enable", &c->enable);
+ }
+ 
+@@ -3260,6 +3449,22 @@
+         }
+     } else if (load_display(&ld, member(json, "display"), dev) != 0) {
+         return NULL;
++    }
++    if (dev->disp != NULL) {
++        size_t ci, ti;
++
++        for (ci = 0; ci < dev->protocol.command_count; ci++) {
++            const CvCommand *cmd = &dev->protocol.commands[ci];
++            int uses = cmd->action == CVA_LCDLOAD;
++
++            for (ti = 0; ti < cmd->then_count; ti++) {
++                uses |= cmd->then[ti] == CVA_LCDLOAD;
++            }
++            if (uses && !(dev->disp->driver == DISP_LCD && dev->disp->has_load)) {
++                kind_error(ctx, "action \"lcdload\" needs an lcd \"display\" with a \"load\" section");
++                return NULL;
++            }
++        }
+     }
+     if (kind_voltage(ctx, json, NULL, &dev->vcc) != 0) {
+         return NULL;
+diff -ruN a/backend/src/models/display_out.c b/backend/src/models/display_out.c
+--- a/backend/src/models/display_out.c	2026-11-23 19:10:04
++++ b/backend/src/models/display_out.c	2026-11-23 19:10:20
+@@ -279,9 +279,32 @@
+     }
+ }
+ 
++/* The lcd run-time mode now: its index into the mode tables (0 without a mode field). */
++static unsigned lcd_mode(const CvState *s, const DispCfg *c) {
++    uint32_t v;
++    unsigned i;
++
++    if (!c->mode_dynamic) {
++        return 0;
++    }
++    v = cv_field_get(s, &c->mode_field);
++    for (i = 0; i < c->mode_count; i++) {
++        if (c->mode_key[i] == v) {
++            return i;
++        }
++    }
++    return 0;
++}
++
++/* The slots of one frame: a backplane each, or the mode's. */
++static unsigned lcd_slots(const CvState *s, const DispCfg *c) {
++    return c->mode_dynamic ? c->mode_slots[lcd_mode(s, c)] : c->bp_count;
++}
++
+ static void apply_lcd(CvState *s, const DispCfg *c, unsigned k, uint32_t frame) {
+     int ac = (int)(frame & 1u);
+-    unsigned b, g;
++    unsigned b, g, mode = lcd_mode(s, c), slots = lcd_slots(s, c), row;
++    unsigned mask;
+ 
+     if (c->enable.count > 0 && !cv_conds_hold(s, &c->enable)) {
+         for (b = 0; b < c->bp_count; b++) {
+@@ -292,24 +315,43 @@
+         }
+         return;
+     }
++    k %= slots;
++    mask = c->mode_dynamic ? c->slot_mask[mode][k] : 1u << k;
++    row = k;
++    if (c->has_out_bank && slots <= 2 && cv_field_get(s, &c->out_bank) != 0) {
++        row += 2;
++    }
+     for (b = 0; b < c->bp_count; b++) {
+-        put(s, c->lines[b], b == k ? level(ac) : LOGIC_Z);
++        put(s, c->lines[b], (mask >> b) & 1u ? level(ac) : LOGIC_Z);
+     }
+     for (g = 0; g < c->segments; g++) {
+-        size_t idx = c->bp_major ? (size_t)k * c->segments + g : (size_t)g * c->bp_count + k;
+-        int bit = (int)((cv_field_get(s, &c->ram[c->bit_field[idx]]) >> c->bit_pos[idx]) & 1u);
++        size_t idx = c->bp_major ? (size_t)row * c->segments + g : (size_t)g * c->bp_count + row;
++        int bit = 0;
+ 
++        if (row < c->bp_count) {
++            bit = (int)((cv_field_get(s, &c->ram[c->bit_field[idx]]) >> c->bit_pos[idx]) & 1u);
++        }
+         put(s, c->outs[g], level(bit ^ ac));
+     }
+ }
+ 
++/* The time one slot lasts now (an lcd's depends on the mode). */
++static uint64_t slot_ps_of(const CvState *s, const DispCfg *c) {
++    if (c->driver == DISP_LCD && c->mode_dynamic) {
++        uint64_t ps = c->frame_ps / lcd_slots(s, c);
++
++        return ps > 0 ? ps : 1;
++    }
++    return c->slot_ps;
++}
++
+ static unsigned slots_of(const DispCfg *c) {
+     return c->driver == DISP_LCD ? c->bp_count : c->shared ? c->shared_digits : (unsigned)c->line_count;
+ }
+ 
+ /* The slots scanned now: all, or the scan limit's field + 1 digits (a test scans every digit). */
+ static unsigned active_slots(const CvState *s, const DispCfg *c) {
+-    unsigned n = slots_of(c);
++    unsigned n = c->driver == DISP_LCD ? lcd_slots(s, c) : slots_of(c);
+ 
+     if (c->has_limit && !holds(s, &c->test)) {
+         uint32_t lim = cv_field_get(s, &c->limit);
+@@ -380,7 +422,7 @@
+     s->disp = st;
+     apply(s);
+     if (scans(c)) {
+-        sim_schedule_timer(s->sim, s->inst, CV_TM_DISP, c->slot_ps);
++        sim_schedule_timer(s->sim, s->inst, CV_TM_DISP, slot_ps_of(s, c));
+     }
+ }
+ 
+@@ -397,7 +439,7 @@
+         st->frame++;
+     }
+     apply(s);
+-    sim_schedule_timer(s->sim, s->inst, CV_TM_DISP, c->slot_ps);
++    sim_schedule_timer(s->sim, s->inst, CV_TM_DISP, slot_ps_of(s, c));
+ }
+ 
+ void disp_refresh(CvState *s) {
+@@ -415,4 +457,70 @@
+     }
+     free(s->disp);
+     s->disp = NULL;
++}
++
++static void field_set(CvState *s, const CvField *f, uint32_t value) {
++    uint32_t m = (f->hi - f->lo + 1 >= 32 ? 0xFFFFFFFFu : ((1u << (f->hi - f->lo + 1)) - 1u)) << f->lo;
++
++    s->regs[f->reg] = (s->regs[f->reg] & ~m) | ((value << f->lo) & m);
++}
++
++/* A display data byte for the lcd's RAM (plan-56-E, PCF8576 family). In a mode of n slots the byte's
++   bits, most significant first, go in groups of n down a column: bit j to RAM column pointer + j / n,
++   row j % n (rows 2.. in an input bank of 1, in a mode of at most 2 slots). They are stored only
++   while the subaddress counter equals the hardware subaddress; a bit past the last column falls into
++   the next device (counter + 1, column 0...), which is this one only when that counter value is the
++   hardware subaddress. Then the pointer steps by the mode's increment; past the last column it wraps
++   and the counter increments. */
++void disp_lcd_byte(CvState *s, uint8_t byte) {
++    const DispCfg *c = s->dev->disp;
++    unsigned mode, rows, offset = 0, j;
++    uint32_t ptr, sub = 0, hw = 0;
++
++    if (c == NULL || c->driver != DISP_LCD || !c->has_load) {
++        return;
++    }
++    mode = lcd_mode(s, c);
++    rows = c->mode_slots[mode];
++    if (c->has_in_bank && rows <= 2 && cv_field_get(s, &c->ld_bank) != 0) {
++        offset = 2;
++    }
++    ptr = cv_field_get(s, &c->ld_pointer);
++    if (c->has_sub) {
++        sub = cv_field_get(s, &c->ld_sub);
++        hw = cv_field_get(s, &c->ld_hw);
++    }
++    for (j = 0; j < 8; j++) {
++        uint32_t col = ptr + j / rows, owner = sub;
++        unsigned row = j % rows + offset;
++        int bit = (byte >> (7 - j)) & 1;
++
++        if (col >= c->segments && !c->has_sub) {
++            continue;                   /* a single device: the bits past the end are dropped */
++        }
++        while (col >= c->segments) {
++            col -= c->segments;
++            owner = (owner + 1) % c->ld_subs;
++        }
++        if (row >= c->bp_count || (c->has_sub && owner != hw)) {
++            continue;
++        }
++        {
++            size_t idx = (size_t)col * c->bp_count + row;
++            const CvField *f = &c->ram[c->bit_field[idx]];
++            uint32_t m = 1u << (f->lo + c->bit_pos[idx]);
++
++            s->regs[f->reg] = (s->regs[f->reg] & ~m) | (bit ? m : 0);
++        }
++    }
++    ptr += c->mode_step[mode];
++    if (ptr >= c->segments) {
++        ptr -= c->segments;
++        if (c->has_sub) {
++            sub = (sub + 1) % c->ld_subs;
++            field_set(s, &c->ld_sub, sub);
++        }
++    }
++    field_set(s, &c->ld_pointer, ptr);
++    disp_refresh(s);
+ }
+diff -ruN a/backend/src/models/display_out.h b/backend/src/models/display_out.h
+--- a/backend/src/models/display_out.h	2026-11-23 19:10:04
++++ b/backend/src/models/display_out.h	2026-11-23 19:10:20
+@@ -52,6 +52,9 @@
+     CvField read;
+ } DispPort;
+ 
++/* lcd run-time mode (plan-56-E): the mode is the value of a register field (PCF8576 mode-set M[1:0]). */
++enum { DISP_LCD_MODES = 4, DISP_LCD_ROWS = 4 };
++
+ typedef struct DispCfg {
+     DispDriver driver;
+     /* digits (digit pins), matrix (row pins): the scan lines, one per ram field */
+@@ -105,6 +108,26 @@
+     CvConds blink_enable;
+     const CvField *ram1;
+     CvChoice blink_half;
++    uint64_t frame_ps;          /* the frame time: a slot lasts frame_ps / the mode's slot count */
++    /* lcd, mode chosen by a field: up to 4 modes, each with its slot count (1-4) and, per slot, the
++       mask of the backplane lines (bit b = lines[b]) driven in it; the others are released */
++    int mode_dynamic;
++    CvField mode_field;
++    unsigned mode_count;
++    uint32_t mode_key[DISP_LCD_MODES];          /* field value */
++    unsigned mode_slots[DISP_LCD_MODES];        /* 1 static, 2 1:2, 3 1:3, 4 1:4 */
++    uint8_t slot_mask[DISP_LCD_MODES][DISP_LCD_ROWS];
++    unsigned mode_step[DISP_LCD_MODES];         /* load: the data pointer's increment per byte */
++    int has_out_bank;
++    CvField out_bank;           /* nonzero in a mode of at most 2 slots: slot k shows RAM row k + 2 */
++    /* lcd "load": display data bytes written through the data pointer */
++    int has_load;
++    CvField ld_pointer;
++    int has_in_bank;
++    CvField ld_bank;            /* nonzero in a mode of at most 2 slots: rows + 2 receive the bits */
++    int has_sub;
++    CvField ld_sub, ld_hw;      /* storing needs the subaddress counter equal to the hardware address */
++    unsigned ld_subs;           /* the counter's modulus */
+     /* pins that drive 0 or release (never 1) */
+     const int *open_drain;
+     size_t open_drain_count;
+diff -ruN a/docs/parts-format.md b/docs/parts-format.md
+--- a/docs/parts-format.md	2026-11-23 19:10:04
++++ b/docs/parts-format.md	2026-11-23 19:10:20
+@@ -44,7 +44,6 @@
+ | `nixie.json` | `nixie` |
+ | `dekatron.json` | `dekatron` |
+ | `lcd.json` | `lcd` |
+-| `powerswitch.json` | `powerswitch` |
+ 
+ Beside them, `datasheets.json` holds the datasheet URLs parts name with
+ `"datasheet"` (see [Datasheets](#datasheets)), and `footprints.json` the land
+@@ -1345,138 +1344,6 @@
+ `adjustTo` `"output"`, `vref` 1.25, dropout 2 V), each `TO-220` by default
+ with the footprint choices `TO-220` and `DPAK`.
+ 
+-### `powerswitch`
+-
+-Power switches (plan-55): load switches, current-limited and USB power
+-switches, and integrated ideal diodes, `"kind": "powerswitch"`, run by
+-`backend/src/models/powerswitch.c`. A part is one to four **switches**
+-(elements). Each is a **gate for a supply** in a logic simulator: while its
+-input pin reads 1 and its enable pin (when it has one) is active, its output
+-pin is driven strong 1; there is no analog behaviour (no ramp or slew, on-resistance
+-drop, current limit, overcurrent, thermal shutdown, quick output discharge or
+-reverse-current measurement). A change at the input or the enable reaches the
+-output **1 ns** later, read again when that time comes, so a pulse shorter
+-than 1 ns never moves it. A floating logic enable is inactive, for both
+-polarities. An input reading X gives an X output; an input that reads 0, Z
+-or is not connected leaves the output Z. A power switch has no `vcc`.
+-
+-Device keys:
+-
+-| Key | Value |
+-|---|---|
+-| `"type"` | `"load"`, `"limited"` or `"ideal-diode"` (`unknown power switch type`); every switch of the package has it |
+-| `"switches"` | array of 1 to 4 objects (`"switches" must have 1 to 4 entries`), one per switch in the datasheet's numbering |
+-| `"analog"` | optional array of pin names (each names a pin of every pinout) the voltage check skips and the model never drives: slew and soft-start pins (CT, SS), quick-output-discharge pins (QOD), current-limit set pins (ILIM, SET), bias supplies (VBIAS), mode straps, a status output that is not modelled (the LM66200's ST); may be `[]` |
+-
+-Each `"switches"` entry (`"in"` and `"out"` are required, no other key beyond
+-these is allowed):
+-
+-| Key | Value |
+-|---|---|
+-| `"in"` | the input pin name: every pin of the name is the input; role `power` |
+-| `"out"` | the output pin name: every pin of the name is driven; role `output`; two switches may share one name (the LM66200's VOUT: the pin reads 1 while either is on) |
+-| `"enable"` | optional: the enable pin name (EN, ON, CE); role `input` |
+-| `"enableActive"` | optional, with `"enable"`: `"high"` (default) or `"low"`, the level that turns the switch on |
+-| `"enableRef"` | optional, with `"enable"`: `"logic"` (default: the pin is a logic input) or `"input"` (the pin is a comparator against the input, the LM66100's CE; needs `"enableActive": "low"`) |
+-| `"flag"` | optional: a status or fault output pin name, open drain (the voltage check never counts it as driving 1); role `output` |
+-| `"flagWhen"` | optional, with `"flag"`: `"fault"` (default: the part reports an overcurrent or over-temperature fault, which the model never has, so the pin is never pulled low) or `"disabled"` (pulled low while the switch is disabled: the LM66100's ST) |
+-
+-Every other pin of a pinout is `ground`, `nc`, `absent`, or named in
+-`"analog"` (`pin "X" is in no switch and not analog`); a name used by an
+-entry names at least one pin of every pinout, and its pins have the roles
+-above (`power switch pin "X" (in) must be power`). An exposed pad or a tab
+-with no number is not a pin. A package with no enable pin has no `"enable"`:
+-the switch is on whenever its input reads 1. A single pin name may serve
+-several switches (the TPS2053B's `IN1` feeds OUT1 and OUT2).
+-
+-The model, per switch (`powerswitch.c`, one 1 ns timer per switch):
+-
+-| Input | Enable | `out` | `flag` (`"disabled"`) | `flag` (`"fault"`) |
+-|---|---|---|---|---|
+-| 1 | no pin; active (`"logic"`); anything but X (`"input"`) | strong 1 | Z | Z |
+-| 1 | inactive or Z (`"logic"`) | Z | strong 0 | Z |
+-| 0 or Z | reads 1 (`"input"`) | Z | strong 0 | Z |
+-| X | any | strong X | Z | Z |
+-| 1 | X | strong X | strong X | Z |
+-| 0 or Z | anything else | Z | Z | Z |
+-
+-An `"input"` enable is a comparator against the input and a logic simulator
+-sees only 0, 1 and Z: a 1 on it is "not above" an input that reads 1, so with
+-the input at 1 it never turns the switch off (the LM66100 with CE on VOUT
+-conducts); a 1 on it with the input at 0 or Z is "above": the switch is off
+-and a `"disabled"` flag is low (the battery-backup case). The output on a net a
+-strong 0 holds is `smoke:`.
+-
+-Part keys (volts, amps, ohms; one number for the part):
+-
+-| Key | Value |
+-|---|---|
+-| `"vinMin"` | optional, above 0 and at most 100: the lowest input at which a switch conducts (the undervoltage lockout); below it the voltage check gives the output no level |
+-| `"vinMax"` | optional, above 0 and at most 100 and at least `vinMin`: the input maximum (the recommended operating maximum; the absolute maximum when the datasheet gives none); the voltage check refuses an input or enable pin above it |
+-| `"iout"` | optional, above 0 and at most 100: the continuous current per switch |
+-| `"ilimit"` | optional, above 0 and at most 100, `"type": "limited"` only (`"ilimit" is only for a current-limited switch`): the fixed current limit |
+-| `"ron"` | optional, above 0 and at most 10: the on-resistance, ohms |
+-| `"iq"` | optional, above 0 and at most 1: the quiescent current |
+-
+-The values are facts for the app (`PartPowerSwitch`: millivolts, milliamps,
+-milliohms, microamps; 0 = not given). **The voltage check** (`voltage.c`,
+-step 3d): each switch whose input pin has a known, non-zero level of at least
+-`vinMin`, and whose enable pin is not at an inactive level (an unknown level
+-counts as active; an `"input"` enable is inactive above the input's level),
+-raises a **switched level** W on its output pins' nets: the input's level. The
+-order of levels is S, R, then W, D, P, C. Two switch outputs on one net never
+-clash: the net reads the higher level (**ORing**: two ideal diodes from two
+-rails, a battery and a wall supply). A switched level different from a supply
+-level or from a regulated level on the net is a clash
+-(`VOLTAGE_SUPPLY_CLASH`, `voltage: 3.3 V and 5 V supplies on one net (3V3,
+-PFX-LOAD)`); ground on an output is the engine's short, not a voltage
+-problem. An input or enable pin above `vinMax` is refused
+-(`VOLTAGE_POWERSWITCH_INPUT_OVER`, `voltage: 12 V on pin 1 (VIN) of …; its
+-input max is 5.5 V`).
+-
+-Conventions of the library's `powerswitch.json` (plan-55): device ids are
+-`psw-<maker>-<datasheet name>` in lower case (`psw-ti-lm66200`), one device per
+-(datasheet, switch layout) holding a pinout per package (a second layout in
+-one datasheet gets `-2`, `-3` after the id); `"function"` is `Single
+-channel`, `Dual channel`, `Triple channel` or `Quad channel` for `load` and
+-`limited`, `Single input` or `Dual input` for `ideal-diode`; the drawer is
+-**Power → Power Switches → Load Switches / Current-Limited / Ideal Diodes**;
+-a part's `"name"` is the maker's orderable part number as DigiKey prints it
+-and `"manufacturer"` is `Texas Instruments`, `Analog Devices`, `Microchip
+-Technology`, `onsemi`, `Diodes Incorporated` or `Monolithic Power Systems`
+-(a company's DigiKey labels together). The library holds 817 parts in 343
+-devices (every in-stock Active part of the top three makers of each family whose
+-datasheet the maker publishes and whose switch the kind can express): **Load
+-Switches** 194 (Texas Instruments 128, Microchip Technology 34, onsemi 31,
+-Diodes Incorporated 1), **Current-Limited** 590 (Texas Instruments 298, Diodes
+-Incorporated 153, Microchip Technology 139), **Ideal Diodes** 33 (Analog
+-Devices 28, Texas Instruments 4, onsemi 1). A part's drawer follows its device's
+-`"type"`. Monolithic Power Systems has none (its datasheet links are pages
+-behind a bot check, so no script can fetch them); the parts left out are in
+-`datasheets/skipped-parts.md` (§ Power switches). There is no generic part.
+-In the app a power switch draws as a block with its pins named; the sidebar
+-names its kind by its type and switch count (`Load switch`, `Dual
+-current-limited switch`, `Quad current-limited switch`, `Ideal diode`, `Dual
+-ideal diode`) and lists `Type`, `Channels` (`Inputs` for an ideal diode) when
+-there is more than one, `Input` (`1.5–5.5 V`, `up to 6 V`, `from 2.7 V`),
+-`Current`, `Current limit` (a current-limited switch with one fixed limit),
+-`On-resistance` and `Quiescent`, each omitted when the part gives none; the
+-voltage check's refusal reads `Can't connect: U1 pin 1 (VIN) gets 12 V; <part>
+-takes at most 5.5 V in.`
+-
+-```json
+-{"id": "psw-ti-lm66100", "function": "Single input", "description": "Ideal diode, 1.5 A, 1.5-5.5 V",
+- "drawer": ["Power", "Power Switches", "Ideal Diodes"],
+- "pinouts": {"p6": [{"number":1,"name":"VIN","role":"power"},{"number":2,"name":"GND","role":"ground"},
+-                    {"number":3,"name":"CE","role":"input"},{"number":4,"name":"NC","role":"nc"},
+-                    {"number":5,"name":"ST","role":"output"},{"number":6,"name":"VOUT","role":"output"}]},
+- "type": "ideal-diode",
+- "switches": [{"in": "VIN", "out": "VOUT", "enable": "CE", "enableActive": "low", "enableRef": "input",
+-               "flag": "ST", "flagWhen": "disabled"}], "analog": [],
+- "parts": [{"name": "LM66100DCKR", "manufacturer": "Texas Instruments", "package": "SC-70",
+-            "pinout": "p6", "footprint": "SC70-6-DCK", "vinMin": 1.5, "vinMax": 5.5, "iout": 1.5}]}
+-```
+-
+ ### `oscillator`
+ 
+ A clock source; the primary output toggles every half period. Device keys:
+@@ -3532,6 +3399,7 @@
+ | `updateall` | DAC: copies input → DAC register for every channel (a "write channel n and update all" command: `then: ["updateall"]`) |
+ | `clear` | DAC: input and DAC registers to `dac.clearCode` |
+ | `setbits`, `clearbits` | the register at `address` / `register`: OR in / clear the bits of capture `data` (read-modify-write opcodes) |
++| `lcdload` | lcd display drivers with a `load` section (§ `lcd` driver): every following byte of the transfer is display data stored into the display RAM |
+ 
+ #### `conversion` (ADC)
+ 
+@@ -3923,6 +3791,42 @@
+ 
+ LCD bias levels, contrast, and the drive waveform's analog shape are not
+ modeled; an `lcd` glass reads 0 and 1 only.
++
++**A run-time mode and a loadable RAM** (PCF8576, PCF85176, PCA85176, PCA85276;
++plan-56-E). The chip's mode-set command picks static, 1:2, 1:3 or 1:4 while it
++runs, and display data bytes are written through a data pointer that places
++their bits by mode. Instead of the string `"mode"`, name the register field
++that holds it:
++
++| Key | Value |
++|---|---|
++| `"mode"` | `{"field": "REG.FIELD", "values": {"<field value>": "static" \| "1:2" \| "1:3" \| "1:4"}}`: up to 4 values; a field value not listed uses the first. The mode names the slot count (1, 2, 3, 4); `"backplanes"` then lists 1 to 4 pins (the RAM's rows), and `"ramOrder"` must be `"segment"` (RAM column g = segment pin g, bit k of a column = backplane k, whatever the mode) |
++| `"slots"` | required with a mode field: mode name -> an array with one entry per slot of that mode, each an array of the `backplanes` pins driven in that slot (the others are released). The slot's RAM row is its number. PCF8576: static `[[BP0, BP1, BP2, BP3]]`, 1:2 `[[BP0, BP2], [BP1, BP3]]`, 1:3 `[[BP0], [BP1, BP3], [BP2]]`, 1:4 one pin each. A slot lasts `frameUs` divided by the mode's slot count |
++| `"outputBank"` | optional field name: while it is nonzero and the mode has at most 2 slots, slot k shows RAM row k + 2 (PCF8576 bank-select O) |
++| `"load"` | optional: lets the protocol action `lcdload` (below) store display data bytes. `"pointer"`: the field holding the data pointer (a RAM column); `"step"`: mode name -> the columns the pointer advances per byte (1 to 64; every mode of `mode` needs one); `"bank"`: optional field name, nonzero stores into rows + 2 in a mode of at most 2 slots (bank-select I); `"subaddress"` and `"hardware"` (together): the counter and the hardware strap field; bits are stored only while they are equal; `"subaddresses"`: the counter's modulus, 2 to 256, default 8 |
++
++The protocol action **`lcdload`** (a command's `action`) turns every following
++byte of the transfer into display data: in a mode of n slots the byte's bits, most
++significant bit first, go in groups of n down a column: bit j to RAM column
++pointer + j / n, row j % n (plus 2 when the input bank applies). With a
++`subaddress`, a bit whose column is past the last one falls into the next device
++(the counter + 1, column 0 on), and is stored only if that counter value is the
++hardware subaddress; without one the bits past the last column are dropped. After
++the byte the pointer advances by the mode's `step`; past the last column it wraps
++and the counter increments. A bit that belongs to another device's subaddress is
++not stored but the pointer still advances.
++
++```json
++"display": {"driver": "lcd",
++  "mode": {"field": "MODE.M", "values": {"0": "1:4", "1": "static", "2": "1:2", "3": "1:3"}},
++  "backplanes": ["BP0", "BP1", "BP2", "BP3"],
++  "slots": {"static": [["BP0", "BP1", "BP2", "BP3"]], "1:2": [["BP0", "BP2"], ["BP1", "BP3"]],
++            "1:3": [["BP0"], ["BP1", "BP3"], ["BP2"]], "1:4": [["BP0"], ["BP1"], ["BP2"], ["BP3"]]},
++  "segmentPins": ["S0", "S1"], "ram": {"bytes": 20, "address": 0}, "frameUs": 6487,
++  "enable": "MODE.E=1", "outputBank": "BANK.O",
++  "load": {"pointer": "PTR.P", "step": {"static": 8, "1:2": 4, "1:3": 3, "1:4": 2}, "bank": "BANK.I",
++           "subaddress": "SUB.A", "hardware": "HW", "subaddresses": 8}}
++```
+ 
+ #### Writing a device
+ 
