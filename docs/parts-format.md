@@ -518,6 +518,7 @@ but no `"datasheet"`; `listing_check` prints how many there are. They are:
 | Manufacturer | Datasheet (local copy) | Parts |
 |---|---|---|
 | General Instrument | `ay-5-1013` | AY-3-1015D, AY-5-1013A, AY-5-1013A-HR |
+| Analog Devices (Harris) | `icm7231-icm7232-harris` | ICM7232AFIPL, ICM7232BFIPL |
 | Intel | `82510` | N82510, TN82510 |
 | Intel | `8251a` | D8251A, LD8251A, MD8251A/B, N8251A, P8251A, P8251A-G |
 | Lite-On | `LSHD-5601` | LSHD-5601 |
@@ -540,6 +541,7 @@ but no `"datasheet"`; `listing_check` prints how many there are. They are:
 | Microchip Technology | `com78c802` | COM78C802P |
 | Microchip Technology | `com78c804` | COM78C804LJP |
 | Microchip Technology | `com92c451` | COM92C451P |
+| Renesas Electronics (Harris) | `cd22105-harris` | CD22105AE |
 | Renesas Electronics | `cdp1854a` | CDP1854ADS2082, CP1854ACD, CP1854AE |
 | Renesas Electronics | `cdp65c51` | CDP65C51M1, CDP65C51M4S2357 |
 | Renesas Electronics | `hd-6406` | HD3-6406-5 |
