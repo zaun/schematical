@@ -63,7 +63,7 @@
 - [x] Add default power net classes for common voltages (5V and 3V3)
 - [x] Add default logic net classes for common voltages (5V and 3V3)
 - [ ] (plan-51 written, not built) For DIP and PLCC chips have a toggle to use a socket footprint. This means each of these needs a secondary part picker, when in socket mode then need a button to show a small dialog listing compatible sockets to choose from. A prereq for this is adding the socket parts to the part picker database.
-- [ ] (plan-54 written, not built) Add card edge sockets, and memory / SIM card sockets and DIMM / SO-DIMM module sockets: from the top three makers of each, Active parts only, no generics
+- [x] Add card edge sockets, and memory / SIM card sockets and DIMM / SO-DIMM module sockets: from the top three makers of each, Active parts only, no generics (plan-54: memory / SIM, module and card-edge sockets from Same Sky, Amphenol ICC, GCT, TE Connectivity, Molex and Samtec; Active parts only)
 
 ## Manufacturing (a board can't be ordered without these)
 
