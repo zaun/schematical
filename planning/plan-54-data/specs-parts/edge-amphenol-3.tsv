@@ -1,0 +1,14 @@
+family	maker	series	pdf	rows	example	scheme	label	card	pinout	positions	pitch	status
+edge	Amphenol ICC	Mini Cool Edge 0.60mm	datasheets/connector-card-edge/amphenol/cme101683340xr0x.pdf	1	ME1016833402R01							
+edge	Amphenol ICC	Mini Cool Edge 0.60mm	datasheets/connector-card-edge/amphenol/cmet00840241301x.pdf	1	MET008402413011							
+edge	Amphenol ICC	Mini Cool Edge 0.60mm	datasheets/connector-card-edge/amphenol/cmet01681020207x.pdf	1	MET016810202071							
+edge	Amphenol ICC	Mini Cool Edge 0.60mm	datasheets/connector-card-edge/amphenol/cmex005630502911.pdf	1	ME3005630502911							
+edge	Amphenol ICC	Mini Cool Edge 0.60mm	datasheets/connector-card-edge/amphenol/io_extremeport_z_link.pdf	7	G64V35333HR							
+edge	Amphenol ICC	Mini Cool Edge 0.60mm	datasheets/connector-card-edge/amphenol/io_mini_cool_edge_io.pdf	54	G97R22332HR							
+edge	Amphenol ICC	Mini Cool Edge 0.60mm	datasheets/connector-card-edge/amphenol/ssio-coolexpress-link.pdf	1	MET005602413011							
+edge	Amphenol ICC	Mini Cool Edge 0.60mm	datasheets/connector-card-edge/amphenol/ssio_mini_cooledge_0_60mm.pdf	44	ME1008410101011							
+edge	Amphenol ICC	Mini Cool Edge 0.60mm	datasheets/connector-card-edge/amphenol/ssio_pcie_gen6_mini_cooledge_060_cardedge.pdf	8	ME6016833401101							
+edge	Amphenol ICC	Multi-Trak 	datasheets/connector-card-edge/amphenol/io_multi_trak.pdf	7	G03V41322HR							
+edge	Amphenol ICC	PCI Express®	datasheets/connector-card-edge/amphenol/10165968c.pdf	5	10165968-113Y100LF							
+edge	Amphenol ICC	PCI Express®	datasheets/connector-card-edge/amphenol/10173133.pdf	4	10173133-A44210HLF							
+edge	Amphenol ICC	PCI Express®	datasheets/connector-card-edge/amphenol/10174645.pdf	2	10174645-113Q000LF							

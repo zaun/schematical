@@ -1,0 +1,14 @@
+family	maker	series	pdf	rows	example	scheme	label	card	pinout	positions	pitch	status
+edge	Amphenol ICC	*	datasheets/connector-card-edge/amphenol/ssio_pcie_gen4_gen5.pdf	1	10146070-113X0LF							
+edge	Amphenol ICC	-	datasheets/connector-card-edge/amphenol/10056847.pdf	2	10056847-101LF							
+edge	Amphenol ICC	-	datasheets/connector-card-edge/amphenol/gs-12-233.pdf	1	10018783-10202TLF							
+edge	Amphenol ICC	-	datasheets/connector-card-edge/amphenol/pwr_hpce.pdf	1	10107844-002LF							
+edge	Amphenol ICC	-	datasheets/connector-card-edge/amphenol/pwr_powercardedge.pdf	1	10135383-001LF							
+edge	Amphenol ICC	-	datasheets/connector-card-edge/amphenol/ssio_micro_tca.pdf	1	10058831-110LF							
+edge	Amphenol ICC	-	datasheets/connector-card-edge/amphenol/ssio_mxm.pdf	1	10151114-001TLF							
+edge	Amphenol ICC	-	datasheets/connector-card-edge/amphenol/ssio_pcie_gen3.pdf	36	10061913-100TLF							
+edge	Amphenol ICC	-	datasheets/connector-card-edge/amphenol/ssio_pcie_gen4_gen5.pdf	14	10146065-111T0LF							
+edge	Amphenol ICC	-	datasheets/connector-card-edge/amphenol/ssio_pcie_gen6.pdf	1	10165968-113Y000LF							
+edge	Amphenol ICC	-	datasheets/connector-card-edge/amphenol/ssio_pcie_m2.pdf	3	MDT420M01002							
+edge	Amphenol ICC	Cool Edge 0.80mm	datasheets/connector-card-edge/amphenol/ccedx1xxx11xxxxx.pdf	1	CED014281111001							
+edge	Amphenol ICC	Cool Edge 0.80mm	datasheets/connector-card-edge/amphenol/ssio_cooledge0_8mm.pdf	6	CE1006000110111							

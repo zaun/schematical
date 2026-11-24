@@ -1,0 +1,10 @@
+family	maker	series	pdf	rows	example	scheme	label	card	pinout	positions	pitch	status
+module	Amphenol ICC	-	datasheets/connector-memory-module/amphenol/10033853.pdf	2	10033853-052ASLF							
+module	Amphenol ICC	-	datasheets/connector-memory-module/amphenol/cddr503xxxxxxxx.pdf	1	DDR503122007K							
+module	Amphenol ICC	-	datasheets/connector-memory-module/amphenol/cddr506xxxxxxxx.pdf	4	DDR506115001H							
+module	Amphenol ICC	-	datasheets/connector-memory-module/amphenol/cddr518xxxxxxxx.pdf	1	DDR518112003K							
+module	Amphenol ICC	-	datasheets/connector-memory-module/amphenol/ssio_ddr4.pdf	1	10145891-0320J13LF							
+module	Amphenol ICC	-	datasheets/connector-memory-module/amphenol/ssio_ddr5_smt.pdf	21	DDR506117001H							
+module	Amphenol ICC	-	datasheets/connector-memory-module/amphenol/ssio_ddr5_sodimm.pdf	8	10161036-002RHLF							
+module	Amphenol ICC	CMM	datasheets/connector-memory-module/amphenol/ssio-ddr5-lpddr5-camm2.pdf	2	CMM5D1001001A							
+module	Amphenol ICC	DDR5	datasheets/connector-memory-module/amphenol/ssio_ddr5_smt.pdf	2	DDR516442010K							

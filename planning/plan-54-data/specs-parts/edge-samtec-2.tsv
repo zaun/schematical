@@ -1,0 +1,24 @@
+family	maker	series	pdf	rows	example	scheme	label	card	pinout	positions	pitch	status
+edge	Samtec	MEC5 - DV	datasheets/connector-card-edge/samtec/mec5_dv.pdf	1	MEC5-070-01-L-DV-W1-K-TR							
+edge	Samtec	MEC5 - RA	datasheets/connector-card-edge/samtec/mec5-xxx-xx-x-ra-xx-xr-mkt.pdf	4	MEC5-040-01-L-RA-W2-TR							
+edge	Samtec	MEC6 - DV	datasheets/connector-card-edge/samtec/mec6-1xx-02-x-dv-xx-x-xx-mkt.pdf	13	MEC6-110-02-L-DV-A-K-TR							
+edge	Samtec	MEC6 - DV	datasheets/connector-card-edge/samtec/mec6_dv.pdf	1	MEC6-120-02-L-DV-A-K-TR							
+edge	Samtec	MEC6 - RA	datasheets/connector-card-edge/samtec/mec6-1xx-02-x-d-rax-xx-mkt.pdf	7	MEC6-130-02-L-D-RA1							
+edge	Samtec	MEC6 - RA	datasheets/connector-card-edge/samtec/mec6_dv.pdf	1	MEC6-150-02-L-D-RA1							
+edge	Samtec	MEC8 - D	datasheets/connector-card-edge/samtec/mec8-1xx-xx-xx-d-emx-mkt.pdf	2	MEC8-110-02-L-D-EM2							
+edge	Samtec	MEC8 - DV	datasheets/connector-card-edge/samtec/mec8-1xx-xx-x-vxx-mkt.pdf	1	MEC8-110-02-L-VP							
+edge	Samtec	MEC8 - DV	datasheets/connector-card-edge/samtec/mec8-1xx-xx-xx-dv-xx-x-xx-mkt.pdf	11	MEC8-110-02-L-DV-A							
+edge	Samtec	MEC8 - DV	datasheets/connector-card-edge/samtec/mec8_dv.pdf	2	MEC8-110-02-SM-DV-A-K-TR							
+edge	Samtec	MEC8 - EM	datasheets/connector-card-edge/samtec/mec8-1xx-xx-xx-d-emx-mkt.pdf	2	MEC8-120-02-L-D-EM2							
+edge	Samtec	MEC8 - RA	datasheets/connector-card-edge/samtec/mec8-1xx-xx-xx-d-rxx-xx-mkt.pdf	9	MEC8-135-02-L-D-RA1							
+edge	Samtec	MEC8 - VP	datasheets/connector-card-edge/samtec/mec8-1xx-xx-x-vxx-mkt.pdf	2	MEC8-140-02-S-VP							
+edge	Samtec	MEC8 - VP	datasheets/connector-card-edge/samtec/mec8_dv.pdf	1	MEC8-120-02-L-VP							
+edge	Samtec	MECF	datasheets/connector-card-edge/samtec/mec2-th.pdf	1	MECF-08-01-L-DV-NP							
+edge	Samtec	MECF	datasheets/connector-card-edge/samtec/mecf-xx-xx-xx-dv-xx-x-xx-mkt.pdf	19	MECF-05-01-L-DV-NP							
+edge	Samtec	MTCA	datasheets/connector-card-edge/samtec/mtca.pdf	1	MTCA-085-02-S-DV-SMT-K-TR							
+edge	Samtec	PCI Express® (PCIe)	datasheets/connector-card-edge/samtec/pcie-g4.pdf	6	PCIE-G4-04-01-F-DV-WT-K-TR							
+edge	Samtec	PCI Express® (PCIe)	datasheets/connector-card-edge/samtec/pcie.pdf	33	PCIE-036-02-F-D-RA							
+edge	Samtec	PEC	datasheets/connector-card-edge/samtec/pec-xx-xx-xx-s-xx-mkt.pdf	3	PEC-03-02-T-S-LC							
+edge	Samtec	PEC	datasheets/connector-card-edge/samtec/pec.pdf	1	PEC-07-01-T-S							
+edge	Samtec	SataLink™ SAL1	datasheets/connector-card-edge/samtec/sal1-1xx-xx-xx-s-a-x-xx-mkt.pdf	2	SAL1-120-01-S-S-A-TR							
+edge	Samtec	SataLink™ SAL1	datasheets/connector-card-edge/samtec/sal1.pdf	1	SAL1-140-01-S-S-A-TR							

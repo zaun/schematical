@@ -5,7 +5,7 @@ usage: python3 -I specs-skeleton.py candidates.tsv specs.tsv
 
 One row per distinct (family, maker, series, pdf) of the `candidate` rows that have a PDF (`pdf`, the path place.py
 wrote): `rows` the number of candidate rows in the group, `example` its most-stocked part number. The columns
-`scheme`, `label`, `pinout`, `positions`, `status` are empty (plan-54-B, C and D fill them). Run again over an
+`scheme`, `label`, `card`, `pinout`, `positions`, `pitch`, `status` are empty (plan-54-B, C and D fill them). Run again over an
 existing specs.tsv it merges: a group's existing scheme columns are kept, a new group gets empty ones, and a row
 whose group is gone is dropped and named.
 """
@@ -14,7 +14,7 @@ import csv
 import os
 import sys
 
-COLS = ['family', 'maker', 'series', 'pdf', 'rows', 'example', 'scheme', 'label', 'pinout', 'positions', 'status']
+COLS = ['family', 'maker', 'series', 'pdf', 'rows', 'example', 'scheme', 'label', 'card', 'pinout', 'positions', 'pitch', 'status']
 KEEP = COLS[6:]
 
 

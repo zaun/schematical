@@ -1,0 +1,23 @@
+family	maker	series	pdf	rows	example	scheme	label	card	pinout	positions	pitch	status
+card	Amphenol ICC	-	datasheets/connector-card-socket/amphenol/bwb_sdmemorycard.pdf	2	10067099-200LF							
+card	Amphenol ICC	-	datasheets/connector-card-socket/amphenol/io_micro_sd_express.pdf	1	10102166A812A							
+card	Amphenol ICC	-	datasheets/connector-card-socket/amphenol/io_micro_sdcard.pdf	1	1140084168							
+card	Amphenol ICC	-	datasheets/connector-card-socket/amphenol/io_ufs.pdf	1	1010170469#2A							
+card	Amphenol ICC	C04	datasheets/connector-card-socket/amphenol/vrw11376.pdf	1	7832C0425X01LF							
+card	Amphenol ICC	E	datasheets/connector-card-socket/amphenol/10128659.pdf	1	7311E0225S01001LF							
+card	Amphenol ICC	E	datasheets/connector-card-socket/amphenol/vjw53908.pdf	1	7431E0525S01LF							
+card	Amphenol ICC	G85B	datasheets/connector-card-socket/amphenol/io_simcardsockets.pdf	3	G85D1171012HHR							
+card	Amphenol ICC	G85D	datasheets/connector-card-socket/amphenol/io_simcardsockets.pdf	1	G85D1160022HHR							
+card	Amphenol ICC	GFTP08	datasheets/connector-card-socket/amphenol/io_micro_sdcard.pdf	1	GTFP08441BEU							
+card	Amphenol ICC	GSD	datasheets/connector-card-socket/amphenol/gsd21001x7bhr.pdf	1	GSD2100107BHR							
+card	Amphenol ICC	GSD	datasheets/connector-card-socket/amphenol/io_micro_sdcard.pdf	4	GSD09002SEU							
+card	Amphenol ICC	GTFP08	datasheets/connector-card-socket/amphenol/io_micro_sdcard.pdf	1	GTFP08432B1HR							
+card	Amphenol ICC	L26	datasheets/connector-card-socket/amphenol/vjw54701.pdf	2	7334L2620F01LF							
+card	Amphenol ICC	L26	datasheets/connector-card-socket/amphenol/vjw54705.pdf	1	7334L2622F05LF							
+card	Amphenol ICC	P02	datasheets/connector-card-socket/amphenol/vjw53666.pdf	1	7312P0225A13LF							
+card	Amphenol ICC	S	datasheets/connector-card-socket/amphenol/io_smartcard_ss06ss10series.pdf	1	7112S2015X02LF							
+card	Amphenol ICC	S07	datasheets/connector-card-socket/amphenol/vjw53696.pdf	1	7311S0725A01LF							
+card	Amphenol ICC	S07	datasheets/connector-card-socket/amphenol/vjw54719.pdf	1	7311S0725A06LF							
+card	Amphenol ICC	S08	datasheets/connector-card-socket/amphenol/io_smartcard_ss06ss10series.pdf	4	7112S0815X01LF							
+card	Amphenol ICC	S16	datasheets/connector-card-socket/amphenol/io_smartcard_ss06ss10series.pdf	1	7111S1615A01LF							
+card	Amphenol ICC	S20	datasheets/connector-card-socket/amphenol/io_smartcard_ss06ss10series.pdf	1	7111S2015X02LF							

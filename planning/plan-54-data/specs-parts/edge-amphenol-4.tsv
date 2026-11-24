@@ -1,0 +1,14 @@
+family	maker	series	pdf	rows	example	scheme	label	card	pinout	positions	pitch	status
+edge	Amphenol ICC	PCI Express®	datasheets/connector-card-edge/amphenol/10176844.pdf	1	10176844-113K000LF							
+edge	Amphenol ICC	PCI Express®	datasheets/connector-card-edge/amphenol/ssio_pcie_gen6.pdf	1	10165968-113Q700LF							
+edge	Amphenol ICC	PCI Express®	datasheets/connector-card-edge/amphenol/ssio_pcie_gen6_mini_cooledge_060_cardedge.pdf	1	ME6008433401101							
+edge	Amphenol ICC	PCI Express® (PCIe)	datasheets/connector-card-edge/amphenol/ssio_pcie_m2.pdf	2	MDT320M01501							
+edge	Amphenol ICC	PCIE M.2	datasheets/connector-card-edge/amphenol/10180257c.pdf	1	10180257-004RHLF							
+edge	Amphenol ICC	PCIE M.2	datasheets/connector-card-edge/amphenol/10181068.pdf	1	10181068-002RLF							
+edge	Amphenol ICC	PCIE M.2	datasheets/connector-card-edge/amphenol/10185344c.pdf	1	10185344-M2RHLF							
+edge	Amphenol ICC	PCIE M.2	datasheets/connector-card-edge/amphenol/ssio_pcie_m2_gen5.pdf	1	10187495-M5RHLF							
+edge	Amphenol ICC	PCIe Gen 5	datasheets/connector-card-edge/amphenol/ssio_pcie_gen6.pdf	1	10173133-A41310HLF							
+edge	Amphenol ICC	PCIe Gen 6	datasheets/connector-card-edge/amphenol/10177636.pdf	1	10177636-1131100LF							
+edge	Amphenol ICC	PCIe Gen 6	datasheets/connector-card-edge/amphenol/ssio-pcie-gen6-directattached-cem-card-edge.pdf	6	CEMDA0980010221							
+edge	Amphenol ICC	Power Edge	datasheets/connector-card-edge/amphenol/pwr_powercardedge.pdf	12	10075664-007LF							
+edge	Amphenol ICC	Slim Cool Edge 0.65mm	datasheets/connector-card-edge/amphenol/ssio_slimcooledge0_65mm.pdf	5	SE1002023111111							

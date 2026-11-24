@@ -1,0 +1,24 @@
+family	maker	series	pdf	rows	example	scheme	label	card	pinout	positions	pitch	status
+edge	Samtec	ER18	datasheets/connector-card-edge/samtec/eri8-ra.pdf	1	ERI8-019-S-D-RA							
+edge	Samtec	ER18	datasheets/connector-card-edge/samtec/eri8-xxx-x-d-ra-x-xr-mkt.pdf	2	ERI8-019-S-D-RA-K-TR							
+edge	Samtec	Edge Rate™ HSEC6	datasheets/connector-card-edge/samtec/hsec6-dv.pdf	7	HSEC6-028-01-S-DV-WT-TR							
+edge	Samtec	Edge Rate™ HSEC6	datasheets/connector-card-edge/samtec/hsec6-xxx-xx-x-ra-x-wt-xr-mkt.pdf	2	HSEC6-070-01-S-RA-WT-TR							
+edge	Samtec	Edge Rate™ HSEC8	datasheets/connector-card-edge/samtec/hsec8-1xx-xx-x-d-emxx-mkt.pdf	8	HSEC8-140-01-S-D-EM2							
+edge	Samtec	Edge Rate™ HSEC8	datasheets/connector-card-edge/samtec/hsec8-1xx-xx-x-pv-x-x-xx-mkt.pdf	12	HSEC8-120-01-S-PV-4-1-WT							
+edge	Samtec	Edge Rate™ HSEC8	datasheets/connector-card-edge/samtec/hsec8-1xx-xx-x-ra-xx-xx-mkt.pdf	22	HSEC8-130-01-L-RA							
+edge	Samtec	Edge Rate™ HSEC8	datasheets/connector-card-edge/samtec/hsec8-1xxx-xx-xx-dv-x-xx-x-xx-mkt.pdf	92	HSEC8-170-01-L-DV-A-K-TR							
+edge	Samtec	Edge Rate™ HSEC8	datasheets/connector-card-edge/samtec/hsec8-dp.pdf	7	HSEC8-116-01-L-DP-A-K							
+edge	Samtec	Edge Rate™ HSEC8	datasheets/connector-card-edge/samtec/hsec8-pv.pdf	2	HSEC8-113-01-H-DV-A-PE-K-TR							
+edge	Samtec	Edge Rate™ HSEC8	datasheets/connector-card-edge/samtec/hsec8_dv.pdf	7	HSEC8-120-01-SM-DV-A-PE							
+edge	Samtec	Edge Rate™ HSEC8	datasheets/connector-card-edge/samtec/hsec8_em.pdf	1	HSEC8-110-01-S-D-EM2							
+edge	Samtec	Edge Rate™ HTEC8	datasheets/connector-card-edge/samtec/htec8-1xxx-xx-x-dv-xx-x-xx-mkt.pdf	3	HTEC8-130-01-S-DV-A-K-TR							
+edge	Samtec	MB1	datasheets/connector-card-edge/samtec/mb1-1xx-xx-xx-s-xx-xx-x-mkt.pdf	4	MB1-130-01-F-S-02-SL							
+edge	Samtec	MB1	datasheets/connector-card-edge/samtec/mb1.pdf	2	MB1-120-01-L-S-02-SL							
+edge	Samtec	MEC1	datasheets/connector-card-edge/samtec/mec1-1xx-xx-xx-d-emx-xx-xx-mkt.pdf	8	MEC1-120-02-F-D-EM2							
+edge	Samtec	MEC1	datasheets/connector-card-edge/samtec/mec1-1xx-xx-xx-d-rax-xx-sl-xx-mkt.pdf	15	MEC1-130-02-L-D-RA1-SL							
+edge	Samtec	MEC1	datasheets/connector-card-edge/samtec/mec1-1xx-xx-xx-d-xx-xx-x-xx-mkt.pdf	48	MEC1-108-02-S-D-A							
+edge	Samtec	MEC1	datasheets/connector-card-edge/samtec/mec1.pdf	1	MEC1-105-02-F-D-NP-A-K-TR							
+edge	Samtec	MEC2 - DV	datasheets/connector-card-edge/samtec/mec2-th.pdf	1	MEC2-05-01-L-DV-WT							
+edge	Samtec	MEC2 - DV	datasheets/connector-card-edge/samtec/mec2-xx-xx-x-xxx-xx-x-xx-mkt.pdf	9	MEC2-08-01-L-DV-WT-K-TR							
+edge	Samtec	MEC2 - TH	datasheets/connector-card-edge/samtec/mec2-xx-xx-x-xxx-xx-x-xx-mkt.pdf	3	MEC2-30-01-L-TH1-NP-WT							
+edge	Samtec	MEC5 - DV	datasheets/connector-card-edge/samtec/mec5-xxx-xx-x-dv-xx-k-xx-mkt.pdf	6	MEC5-050-01-L-DV-W1-K-TR							

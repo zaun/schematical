@@ -1,0 +1,5 @@
+family	maker	series	pdf	rows	example	scheme	label	card	pinout	positions	pitch	status
+module	Molex	151080	datasheets/connector-memory-module/molex/987650-9721.PDF	1	1510800101							
+module	Molex	151105	datasheets/connector-memory-module/molex/1511050004_sd.pdf	1	1511050004							
+module	Molex	204473	datasheets/connector-memory-module/molex/2044731134_sd.pdf	1	2044731134							
+module	Molex	204473	datasheets/connector-memory-module/molex/2044733334_sd.pdf	1	2044733334							
