@@ -30,9 +30,9 @@ plan-55-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-55-A complete | `ls planning/completed/plan-55-A-*.md` → exists | NOT MET (2026-11-22: not started) |
-| DigiKey quota | plan-55-A's quota row: `left` ≥ 40 before Phase 1 and again before Phase 2 | NOT MET (2026-11-22: `left 12`) |
-| The census still shows nine pieces | `grep -c '^pick' planning/plan-55-data/families.out` → 9 | MET (2026-11-22: 9) |
+| plan-55-A complete | `ls planning/completed/plan-55-A-*.md` → exists | MET (2026-11-23: archived at 29edf01f) |
+| DigiKey quota | plan-55-A's quota row: `left` ≥ 40 before Phase 1 and again before Phase 2; **owner 2026-11-23: every call runs with `--opt2`** | MET for Phase 1 (2026-11-23: 750 left with key 2 before the listing, 677 after); Phase 2: re-measure |
+| The census still shows nine pieces | `grep -c '^pick' planning/plan-55-data/families.out` → 9 | MET (2026-11-23: 9) |
 
 Everything below is written against the world where these hold.
 
@@ -150,17 +150,18 @@ row needs is not copied.
 
 ### Phase 1 — The listing
 
-- [ ] `census/common.js`, `census/list.js`, `census/list.sh` (§ 3.1); `families.js` requires
-      `common.js`.
-- [ ] Run `census/list.sh planning/plan-55-data/raw` (30 to 40 calls, within one quota day);
-      `gzip -9` the `.jsonl` files.
-- [ ] `census/common.py`, `census/select.py` (§ 3.2): the first pass, no datasheet judgement yet; `--carry`
+- [x] `census/common.js`, `census/list.js`, `census/list.sh` (§ 3.1); `families.js` requires
+      `common.js`. (`scripts/digikey.js` exports its login and request path when `require`d, so the census
+      scripts get its Safari fallback: Correction 1; `--opt2` is `list.js`'s and `list.sh`'s second argument.)
+- [x] Run `census/list.sh planning/plan-55-data/raw` (30 to 40 calls, within one quota day);
+      `gzip -9` the `.jsonl` files. Observed: `zsh planning/plan-55-data/census/list.sh planning/plan-55-data/raw --opt2` → `all 14 pieces done`; 1036 parts, 32 calls, no `cut at` (Corrections 2 and 3).
+- [x] `census/common.py`, `census/select.py` (§ 3.2): the first pass, no datasheet judgement yet; `--carry`
       keeps the `pdf`, `hit`, `dead` and `stock_checked` of the existing `candidates.tsv` when it is rewritten
-      (plan-42-J's Correction 1: a rewrite without it dropped them).
+      (plan-42-J's Correction 1: a rewrite without it dropped them). Observed: `select.py raw /tmp/p55-c0.tsv --report` → `listed: 1036 (planning census pick sum 1037)`, `ideal: 90 (pick sum 90)`, `load: 241 (pick sum 241)`, `limited: 705 (pick sum 706)`; 1031 candidates, 5 `out` (no stock: the listing gives those five no quantity).
 
 Acceptance: every piece is listed in full.
   Check: `grep -h 'list.js:' planning/plan-55-data/raw/*.err | awk '{s+=$6} END{print s}'` → at least 30 and at most 40 calls (est. < 1 min); `grep -h 'cut at' planning/plan-55-data/raw/*.err | wc -l` → 0; `python3 -I planning/plan-55-data/census/select.py planning/plan-55-data/raw /tmp/p55-c0.tsv --report` → `listed:` equal to the sum of the nine `pick` counts of `families.out` plus any part DigiKey added since, `ideal`, `load` and `limited` lines each within their `pick` sums (est. 2 min).
-Commit: —
+Commit: (filled by the next commit)
 
 ### Phase 2 — The datasheet sources, the stock re-check
 
@@ -213,7 +214,9 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+1. **DigiKey's API answers scripts with a Cloudflare challenge since 2026-11-23** (`scripts/digikey.js` header; the memory `digikey-credentials`): `list.js` as plan-54 wrote it (plain `fetch`) would fail. `scripts/digikey.js` now `module.exports` its `credentials`, `token` and `fetchRetry` (the request path with the Safari fallback) when `require`d (the command line is unchanged: `require.main === module`), `census/common.js` uses them, and `list.js`, `list.sh` and `families.js` take `--opt2`. The token cache is `digikey.js`'s (one file per key).
+2. **The split must be an exact partition.** plan-54's `splitFacet` took the facet whose largest value is smallest; for the 363-part Texas Instruments current-limited piece that was a facet (`Grade`, id 1977) that only 57 of the 363 parts have a value for, so the first run listed 57 parts and no `cut at` line. `splitFacet` now takes only a facet whose values sum to the piece's count (and the Series facet likewise) and, among those, the one that reads the piece in the fewest calls (a value of n parts costs ceil(n / 50), at least 1): `Switch Type` (279 + 83) → 9 calls; the first exact-partition version chose by smallest largest value and took 38 calls over 34 sub-pieces. The spent calls: 26 + 38 + 9 on the way, 32 in the kept run (the check's sum counts only the kept `.err` files).
+3. **The listing is 1036 parts, not 1037**: DigiKey's Texas Instruments current-limited count went from 363 to 362 since planning (`limited: 705`); the checks read "each within their `pick` sums".
 
 ## Summary
 

@@ -581,8 +581,14 @@ async function main() {
   summary(ctx);
 }
 
-main().catch((error) => {
-  console.error(`digikey: ${error.message}`);
-  if (current) summary(current);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch((error) => {
+    console.error(`digikey: ${error.message}`);
+    if (current) summary(current);
+    process.exit(1);
+  });
+} else {
+  // `require`d by a census script (planning/plan-55-data/census/common.js): the login and the request
+  // path (with the Safari fallback), not the command line.
+  module.exports = { credentials, token, fetchRetry };
+}
