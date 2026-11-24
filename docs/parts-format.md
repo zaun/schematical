@@ -712,6 +712,35 @@ column c, row index r (A = 0):  x = (c − 1 − (columns−1)/2) · pitch
                                 y = (r − (rows−1)/2) · pitch
 ```
 
+**Card slots** name `"card"`: what the slot takes, a string of 1 to 40
+characters (`"microSD"`, `"Nano SIM"`, `"DDR4 SODIMM"`, `"PCI Express"`), and
+optionally `"cardPitch"`: the contact pitch in millimetres, above 0 and at most
+20 (module and card-edge sockets; none for memory / SIM sockets). `"cardPitch"`
+without `"card"` is rejected. A card slot has no `centerPin`, `contacts`, `usb`,
+`ratedVolts` or `ratedAmps` (each is rejected with "a card slot has no ..."). It
+is passive like a USB connector: every pin is an `inout` terminal (`nc` for a pad
+the datasheet marks not connected), nothing is driven, and two pins of one slot
+on one net join nothing in play mode. `PartConnector` carries `card` and
+`card_pitch_um` (NULL / 0 for barrel jacks and USB connectors).
+
+| | |
+|---|---|
+| drawer | `["Connector", "Card slot", "<leaf>"]`: leaf `SD`, `microSD`, `SIM` or `Smart card` for a memory / SIM socket, `Memory module` for a module socket (DIMM, SO-DIMM, SIMM, SOCAMM), `Card edge` for a card-edge socket (PCI Express, M.2, MicroTCA, dual and single edge) |
+| function | the card text for a memory / SIM or module socket (`Nano SIM`, `DDR4 SODIMM`); `<pitch> mm <card>` for a card-edge socket (`1.00 mm PCI Express`) |
+| package | by the mounting: `SMD right angle`, `SMD vertical`, `Through hole vertical`, `Through hole right angle`, `Hybrid vertical`, `Hybrid right angle`, `Board edge straddle` |
+| device id | `card-<family>-<maker slug>-<variant slug>`, `<family>` `socket` (memory / SIM), `module` or `edge` (`card-socket-gct-sim8055-nano-sim`) |
+
+Pins, numbered 1 … N: a memory / SIM socket's by function as the datasheet
+names them (`CLK`, `CMD`, `DAT0`, `VCC`, `RST`, `CD`) with one last `SHIELD` pin
+for the shell tabs; a module or card-edge socket's by the contact designator
+(`1` … `288`, `A1` … `B12`), or by the signal names the datasheet's pin table
+prints. Mounting pegs and board-lock holes are footprint pads with no pin. A
+pinout of more than 40 pins has `"side": "in"` on its first half (rounded up), so
+the block symbol has two columns. Footprints are `SOCK-…` (memory / SIM),
+`DIMM-…` (module) and `EDGE-…` (card edge), `explicit`; a straddle-mount socket
+uses `opposite` pads and `"edgeMount": true` (§ Footprints). Only Active parts
+are in the library (`datasheets/skipped-parts.md`, `datasheets/obsolete-not-included.md`).
+
 ### `header` — pin header
 
 Through-hole pin headers, one or two rows, numbered zigzag: pin 2 is across
@@ -1545,7 +1574,8 @@ The DIP switches before that region are hand-written devices, one per
 
 ### `connector`
 
-Barrel power connectors are passive `inout` terminals. `centerPin` is the
+Barrel power connectors, USB connectors (below) and card slots (the last
+subsection) are all in this kind. Barrel power connectors are passive `inout` terminals. `centerPin` is the
 mating plug centre-pin diameter in millimetres; `ratedVolts` and `ratedAmps`
 are the connector ratings. A two-terminal jack has centre and sleeve pins.
 A switched jack additionally names `"contacts": [["Sleeve", "Switch"]]`:

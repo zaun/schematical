@@ -371,6 +371,10 @@ static void print_details(FILE *out, const Part *part) {
                     part->serial->channels, part->serial->grade);
             break;
         case PART_CONNECTOR:
+            if (part->connector->card != NULL) {
+                fprintf(out, "card=%s pitch_um=%u", part->connector->card, (unsigned)part->connector->card_pitch_um);
+                break;
+            }
             if (part->connector->usb != 0) {
                 fprintf(out, "usb=%c rated=%uV/%umA", part->connector->usb,
                         (unsigned)(part->connector->rated_mv / 1000), (unsigned)part->connector->rated_ma);

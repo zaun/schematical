@@ -150,7 +150,7 @@ the footprint).
 Acceptance: the loader accepts the keys and rejects the malformed ones.
   Check: `cmake -S backend -B /tmp/logic-p54 && cmake --build /tmp/logic-p54 -j8 --target library_check && /tmp/logic-p54/library_check` → every line `ok`, exit 0, including `ok   explicit: opposite-side pads and edge mount load` (est. 8 min: a first build).
   Result: exit 0, 481 `ok` lines, 0 `FAIL`, the `ok   explicit: opposite-side pads and edge mount load` line present.
-Commit: see Phase 2 (one commit for both phases)
+Commit: 939713b0 (one commit for both phases)
 
 ### Phase 2 — The golden printer and the docs
 
@@ -167,7 +167,7 @@ Commit: see Phase 2 (one commit for both phases)
 Acceptance: the printer prints the keys and the existing golden is unchanged.
   Check: `cmake --build /tmp/logic-p54 -j8 && ctest --test-dir /tmp/logic-p54 -R 'library_check|footprint_check|listing_check'` → `100% tests passed`; `git diff --stat backend/tests/golden` → empty; `grep -c 'opposite\|edgeMount' docs/parts-format.md` → at least 4 (est. 10 min).
   Result: `100% tests passed, 0 tests failed out of 3`; the golden diff is empty; `grep -c` → 8.
-Commit: COMMIT_E
+Commit: 939713b0
 
 ## Validation Plan
 

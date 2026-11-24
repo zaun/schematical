@@ -1787,6 +1787,52 @@ static void check_usb_connector(void) {
                 "\"centerPin\"");
 }
 
+/* A card slot device with KEYS (JSON members, each ending in a comma). */
+#define CARD_DEVICE(KEYS) \
+    HEAD("connector") "{'id':'c','function':'microSD','description':'d','drawer':['Connector','Card slot','microSD']," \
+    KEYS "'pinouts':{'p':[{'number':1,'name':'CLK','role':'inout'},{'number':2,'name':'CMD','role':'inout'}," \
+    "{'number':3,'name':'DAT0','role':'inout'},{'number':4,'name':'VSS','role':'inout'}," \
+    "{'number':5,'name':'SHIELD','role':'inout'}]}," \
+    "'parts':[{'name':'CARD-T','manufacturer':'M','package':'SMD right angle','pinout':'p','footprint':'T5'}]}" TAIL
+
+static void check_card_slot_connector(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    CHECK(load(library, CARD_DEVICE("'card':'microSD',"), &error) == 0);
+    part = part_library_find(library, "CARD-T");
+    CHECK(part != NULL && part->kind == PART_CONNECTOR && part->connector->card != NULL &&
+          strcmp(part->connector->card, "microSD") == 0 && part->connector->card_pitch_um == 0 &&
+          part->connector->usb == 0 && part->connector->contacts == 0 && part->connector->rated_ma == 0);
+    free(error);
+    error = NULL;
+    part_library_destroy(library);
+    library = part_library_create();
+    CHECK(load(library, CARD_DEVICE("'card':'PCI Express','cardPitch':1.0,"), &error) == 0);
+    part = part_library_find(library, "CARD-T");
+    CHECK(part != NULL && strcmp(part->connector->card, "PCI Express") == 0 && part->connector->card_pitch_um == 1000);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   card slot connectors load; malformed ones fail\n");
+
+    expect_fail("card: a number", CARD_DEVICE("'card':3,"), "\"card\" must be a string of 1 to 40 characters");
+    expect_fail("card: empty", CARD_DEVICE("'card':'',"), "\"card\" must be a string of 1 to 40 characters");
+    expect_fail("card: 41 bytes", CARD_DEVICE("'card':'12345678901234567890123456789012345678901',"),
+                "\"card\" must be a string of 1 to 40 characters");
+    expect_fail("card: pitch 0", CARD_DEVICE("'card':'M.2','cardPitch':0,"),
+                "\"cardPitch\" must be above 0 and at most 20 mm");
+    expect_fail("card: pitch 21", CARD_DEVICE("'card':'M.2','cardPitch':21,"),
+                "\"cardPitch\" must be above 0 and at most 20 mm");
+    expect_fail("card: pitch without card", CARD_DEVICE("'cardPitch':1.0,"), "\"cardPitch\" is only for card slots");
+    expect_fail("card: usb", CARD_DEVICE("'card':'SD','usb':'A',"), "a card slot has no \"usb\"");
+    expect_fail("card: centre pin", CARD_DEVICE("'card':'SD','centerPin':2,"), "a card slot has no \"centerPin\"");
+    expect_fail("card: contacts", CARD_DEVICE("'card':'SD','contacts':[['CLK','CMD']],"),
+                "a card slot has no \"contacts\"");
+    expect_fail("card: rated volts", CARD_DEVICE("'card':'SD','ratedVolts':5,"), "a card slot has no \"ratedVolts\"");
+    expect_fail("card: rated amps", CARD_DEVICE("'card':'SD','ratedAmps':1,"), "a card slot has no \"ratedAmps\"");
+}
+
 /* DQ_EXTRA, VCC_EXTRA: more keys on DQ0 (pin 2) and VCC (pin 6), such as "side". */
 #define SRAM_PINS_DEVICE(GRADE, DQ_EXTRA, VCC_EXTRA) \
     HEAD("sram") "{'id':'m','function':'1 KB','description':'d','drawer':['Memory','SRAM']," \
@@ -3332,6 +3378,7 @@ int main(void) {
     check_explicit_holes();
     check_opposite_pads();
     check_usb_connector();
+    check_card_slot_connector();
     check_footprint_corners();
     check_footprint_cases();
     check_header_footprints();

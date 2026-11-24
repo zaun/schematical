@@ -1,14 +1,17 @@
-/* Barrel power connectors and USB connectors. They are passive terminals; a
+/* Barrel power connectors, USB connectors and card slots. They are passive terminals; a
  * three-terminal barrel jack additionally has a normally-closed sleeve
  * contact that opens when a plug is inserted. A USB connector ("usb": "A",
- * "B" or "C") has no centre pin and no contacts; its ratings are optional. */
+ * "B" or "C") has no centre pin and no contacts; its ratings are optional.
+ * A card slot ("card": what it takes, "cardPitch": the contact pitch in mm;
+ * memory / SIM sockets, memory-module sockets, card-edge sockets) has no
+ * centre pin, contacts, usb or ratings (plan-54-L). */
 
 #include <math.h>
 #include <string.h>
 
 #include "kind.h"
 
-static const char *const DEVICE_KEYS[] = {"centerPin", "ratedVolts", "ratedAmps", "contacts", "usb", NULL};
+static const char *const DEVICE_KEYS[] = {"centerPin", "ratedVolts", "ratedAmps", "contacts", "usb", "card", "cardPitch", NULL};
 
 typedef struct {
     PartConnector info;
@@ -44,6 +47,30 @@ static int usb_load(KindContext *ctx, const cJSON *json, ConnectorDevice *device
     return 0;
 }
 
+static int card_load(KindContext *ctx, const cJSON *json, ConnectorDevice *device) {
+    static const char *const FORBIDDEN[] = {"usb", "centerPin", "contacts", "ratedVolts", "ratedAmps", NULL};
+    const cJSON *card = cJSON_GetObjectItemCaseSensitive(json, "card");
+    size_t i;
+    double pitch;
+
+    for (i = 0; FORBIDDEN[i] != NULL; i++) {
+        if (cJSON_GetObjectItemCaseSensitive(json, FORBIDDEN[i]) != NULL) {
+            return kind_error(ctx, "a card slot has no \"%s\"", FORBIDDEN[i]);
+        }
+    }
+    if (!cJSON_IsString(card) || card->valuestring[0] == '\0' || strlen(card->valuestring) > 40) {
+        return kind_error(ctx, "\"card\" must be a string of 1 to 40 characters");
+    }
+    device->info.card = kind_strdup(ctx, card->valuestring);
+    if (device->info.card == NULL) return -1;
+    if (cJSON_GetObjectItemCaseSensitive(json, "cardPitch") != NULL) {
+        if (kind_number(ctx, json, "cardPitch", &pitch) != 0) return -1;
+        if (!(pitch > 0) || pitch > 20) return kind_error(ctx, "\"cardPitch\" must be above 0 and at most 20 mm");
+        device->info.card_pitch_um = (uint32_t)llround(pitch * 1000);
+    }
+    return 0;
+}
+
 static void *connector_load_device(KindContext *ctx, const cJSON *json) {
     ConnectorDevice *device = kind_alloc(ctx, sizeof(*device));
     const cJSON *contacts;
@@ -52,6 +79,13 @@ static void *connector_load_device(KindContext *ctx, const cJSON *json) {
     size_t count = 0;
 
     if (device == NULL) return NULL;
+    if (cJSON_GetObjectItemCaseSensitive(json, "card") != NULL) {
+        return card_load(ctx, json, device) == 0 ? device : NULL;
+    }
+    if (cJSON_GetObjectItemCaseSensitive(json, "cardPitch") != NULL) {
+        kind_error(ctx, "\"cardPitch\" is only for card slots");
+        return NULL;
+    }
     if (cJSON_GetObjectItemCaseSensitive(json, "usb") != NULL) {
         return usb_load(ctx, json, device) == 0 ? device : NULL;
     }

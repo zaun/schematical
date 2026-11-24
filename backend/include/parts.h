@@ -153,7 +153,10 @@ typedef struct { const char *model; unsigned channels; const char *grade; const 
    for a barrel jack. center_diameter_um is a barrel's mating plug centre-pin
    diameter (0 for USB); contacts is the number of normally-closed contacts
    (0 for USB). rated_mv / rated_ma: 0 = not given (USB only). */
-typedef struct { uint32_t center_diameter_um, rated_mv, rated_ma; unsigned contacts; char usb; } PartConnector;
+/* card: a card slot's card text ("microSD", "DDR4 SODIMM", "PCI Express"; plan-54-L), NULL for a barrel jack and a USB
+   connector; card_pitch_um: its contact pitch in micrometres, 0 when not given (and for barrel and USB). */
+typedef struct { uint32_t center_diameter_um, rated_mv, rated_ma; unsigned contacts; char usb; const char *card;
+                 uint32_t card_pitch_um; } PartConnector;
 /* A supply domain of a dual-supply part (plan-20-F): the pins powered from
    one supply. power_pins: the supply's pins (one name, possibly several
    pins, e.g. two VCCB); pins: every other pin of the domain (not ground or

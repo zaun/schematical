@@ -164,15 +164,15 @@ is independent of plan-45, which also adds a `pitch` key with other rules).
 
 ### Phase 1 — The loader and its tests
 
-- [ ] Re-read `backend/include/parts.h` (`PartConnector`) and `connector.c` on the state
+- [x] Re-read `backend/include/parts.h` (`PartConnector`) and `connector.c` on the state
       `main` has now (`git log --oneline -5 -- backend/src/models/connector.c`); another plan may
       have added members and keys: edit by hunk.
-- [ ] `backend/include/parts.h`: `PartConnector` gains `const char *card; uint32_t
+- [x] `backend/include/parts.h`: `PartConnector` gains `const char *card; uint32_t
       card_pitch_um;` after its last member, and the comment names them (NULL / 0 for barrel
       and USB).
-- [ ] `backend/src/models/connector.c`: `DEVICE_KEYS` gains `"card"`, `"cardPitch"`;
+- [x] `backend/src/models/connector.c`: `DEVICE_KEYS` gains `"card"`, `"cardPitch"`;
       `card_load` and the first branch of § 3.1; the header comment names card slots.
-- [ ] `backend/tests/library_check.c`: `check_card_slot_connector` (beside
+- [x] `backend/tests/library_check.c`: `check_card_slot_connector` (beside
       `check_usb_connector`): a fixture device with `'card':'microSD'` loads with `card` equal
       `"microSD"` and `card_pitch_um` 0; one with `'card':'PCI Express','cardPitch':1.0` loads
       with 1000; `expect_fail` for: `card` as a number, empty `card`, a 41-byte `card`,
@@ -181,26 +181,28 @@ is independent of plan-45, which also adds a `pitch` key with other rules).
 
 Acceptance: the loader accepts card slots and rejects the malformed ones.
   Check: `cmake -S backend -B /tmp/logic-p54 && cmake --build /tmp/logic-p54 -j8 --target library_check && /tmp/logic-p54/library_check` → every line `ok`, exit 0, including `ok   card slot connectors load; malformed ones fail` (est. 8 min: a first build).
-Commit: —
+  Result: exit 0, `library_check: all passed`, 493 `ok` lines, the card-slot line present.
+Commit: COMMIT_L
 
 ### Phase 2 — The listing and the circuit test
 
-- [ ] `backend/tests/support/listing.c` (`case PART_CONNECTOR`): the card-slot line of § 3.1
+- [x] `backend/tests/support/listing.c` (`case PART_CONNECTOR`): the card-slot line of § 3.1
       before the barrel line.
-- [ ] `backend/tests/connector_test.c`: a fixture card slot (3 pins) beside the USB case: pins 1
+- [x] `backend/tests/connector_test.c`: a fixture card slot (3 pins) beside the USB case: pins 1
       and 2 on two nets, one driven high from `5V`, the other from `GND`: after `circuit_start`
       and `circuit_advance(circuit, 1)` neither net is shorted; `part->connector->card` and
       `card_pitch_um` as loaded.
-- [ ] `/tmp/logic-p54/listing_check --print > /tmp/p54-parts.txt && diff /tmp/p54-parts.txt
+- [x] `/tmp/logic-p54/listing_check --print > /tmp/p54-parts.txt && diff /tmp/p54-parts.txt
       backend/tests/golden/parts.txt` → no output (no shipped part has the new keys yet).
 
 Acceptance: the circuit and listing tests pass and the goldens are unchanged.
   Check: `cmake --build /tmp/logic-p54 -j8 && ctest --test-dir /tmp/logic-p54 -R 'connector_test|library_check|listing_check|trace_check|footprint_check'` → `100% tests passed`; `git diff --stat backend/tests/golden` → empty (est. 8 min).
-Commit: —
+  Result: `100% tests passed, 0 tests failed out of 5`; the golden diff is empty (the listing prints `card=` only for a card slot, so no shipped line changed).
+Commit: COMMIT_L
 
 ### Phase 3 — Docs
 
-- [ ] `docs/parts-format.md` § `connector`: a subsection "Card slots": the keys and rules of § 3.1;
+- [x] `docs/parts-format.md` § `connector`: a subsection "Card slots": the keys and rules of § 3.1;
       no `centerPin`, `contacts`, `usb`, ratings; every pin a passive `inout` terminal named by
       § 3.2; the drawer, function, package and device-id conventions of § 3.2; footprints
       `SOCK-…`, `DIMM-…`, `EDGE-…` (plan-54-H to K); Active parts only; no generic. The intro
@@ -208,7 +210,8 @@ Commit: —
 
 Acceptance: the doc names every key and the drawers.
   Check: `grep -c '"card"\|"cardPitch"' docs/parts-format.md` → at least 3 (est. 10 min).
-Commit: —
+  Result: `grep -c` → 4.
+Commit: COMMIT_L
 
 ## Validation Plan
 
@@ -231,6 +234,12 @@ Commit: —
   `drawer`, not by the loader.
 
 ## Corrections
+
+- **L was worked while B's readers ran, before K** (its `Depends on: plan-54-K` row is an ordering, as E's: L reads no
+  data of H to K; 2026-11-23). `grep -c '"card"\|"cardPitch"' backend/src/models/connector.c` → `0` and
+  `grep -c 'const char \*card;' backend/include/parts.h` → `0` at L's start.
+- The test fixtures' pinouts have 5 pins (card test) and 4 pins (`connector_test`): the footprints the fixtures name (`T5`,
+  `LED-DIP4`) need that many pads; the plan's 3-pin fixture would not load.
 
 ## Summary
 
