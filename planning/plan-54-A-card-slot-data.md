@@ -337,7 +337,7 @@ loses rows keeps the rest (no refill: each row is its own part).
 
 Acceptance: the planning pick reproduces.
   Check: `python3 -I planning/plan-54-data/census/select.py planning/plan-54-data/raw /tmp/p54-cand.tsv --urls planning/plan-54-data/url-check.tsv && cmp /tmp/p54-cand.tsv planning/plan-54-data/candidates.tsv && echo reproducible` → `reproducible` (est. < 1 min).
-Commit: —
+Commit: a73e4b9d
 
 ### Phase 2 — The stock re-check (one quota day)
 
@@ -354,35 +354,34 @@ Commit: —
 Acceptance: every candidate row is in stock and Active.
   Check: `awk -F'\t' 'NR>1 && $2!=1' planning/plan-54-data/stock-check.tsv \| wc -l` → the `found` = 0 count recorded above, and `awk -F'\t' '$20=="candidate" && $25==""' planning/plan-54-data/candidates.tsv \| wc -l` → 0 (est. 8 min: 162 calls at about 23 a minute plus 1 min of scripts).
   Result: `4` and `0`; `awk -F'\t' '$20=="candidate"' planning/plan-54-data/candidates.tsv | wc -l` → 1266.
-Commit: —
+Commit: 07f6ecb7
 
 ### Phase 3 — Download, place and scan the datasheets
 
-- [ ] `census/fetch.py`, `place.py`, `textscan.py` (§ 4, § 6): download every
-      distinct source the candidate rows cite (498 at planning) by § 4's rules
-      into `/tmp/p54/pdf`; `%PDF-` and `pdfinfo` on each; failures recorded in
-      § Corrections with their host.
-- [ ] Place the PDFs under `datasheets/connector-card-socket/`,
+- [x] `census/fetch.py`, `place.py`, `textscan.py` (§ 4, § 6): downloaded every distinct source the candidate rows
+      cite by § 4's rules into the scratchpad's `pdf/` (`fetch.py`: `fetch: 498 sources, 0 failed`; 497 are
+      the sources of the 1266 candidates left by Phase 2, the 498th only a dropped row cites); `%PDF-` and `pdfinfo`
+      on each (both inside `fetch.py`). No failure to record.
+- [x] Placed the PDFs under `datasheets/connector-card-socket/`,
       `datasheets/connector-memory-module/` and `datasheets/connector-card-edge/`
-      and write each folder's `datasheets.tsv`; `place.py --verify` → `0
-      missing, 0 unused`. The PDFs stay out of the commits until B, C and D
-      prune them, so the history never carries PDFs no `add` row uses.
-- [ ] `candidates.tsv`: `pdf` (the placed path) for every candidate row whose
-      source gave a PDF, and `hit` = 1 when its part number is printed
-      verbatim (`pdftotext -layout`, token-boundary search); `dead` = 1 when
-      the text near the part number says obsolete, discontinued, NRND, "not
-      recommended for new designs", last time buy or end of life (B, C and D
-      read every such row).
-- [ ] `census/specs-skeleton.py`: `planning/plan-54-data/specs.tsv`, one row per
-      (maker, series, PDF) of the candidate rows (`specs rows` of `report.py`:
-      card 119, module 75, edge 329 = 523 at planning), columns `family`,
-      `maker`, `series`, `pdf`, `rows`, `example`, `scheme`, `label`,
-      `pinout`, `positions`, `status` (B to D's).
-- [ ] Record `du -sh datasheets/connector-card-socket datasheets/connector-memory-module datasheets/connector-card-edge`
-      here, before the prune.
+      and wrote each folder's `datasheets.tsv`: `339 PDFs placed for 497 sources` (card 112, module 53, edge 174; the
+      sources of one document share a file by SHA-256); `place.py --verify` → `0 missing, 0 unused, 0 unlisted`. The
+      PDFs and the three `datasheets.tsv` stay out of the commits until B, C and D prune them, so the history never
+      carries PDFs no `add` row uses.
+- [x] `candidates.tsv`: `pdf` (the placed path) and `hit` and `dead` for every candidate row: `1266 candidate rows with
+      their own PDF of 1266; 203 printed verbatim; 0 dead` (`textscan.py`; 131 of the 497 PDFs give `pdftotext` under
+      200 bytes of text, drawings or scans, so B, C and D read those as images; 6 of the 497 texts contain
+      obsolete / discontinued / not recommended for new / end of life / last time buy anywhere, none near a part number).
+- [x] `census/specs-skeleton.py`: `planning/plan-54-data/specs.tsv`, one row per
+      (family, maker, series, PDF file): `372 rows` (card 119, module 55, edge 198; the plan's 523 counted per
+      source, and te.com serves one file under several DocNm links, § Corrections), columns `family`, `maker`,
+      `series`, `pdf`, `rows`, `example`, `scheme`, `label`, `pinout`, `positions`, `status` (B to D's).
+- [x] `du -sh` before the prune: `48M datasheets/connector-card-socket`, `45M datasheets/connector-memory-module`,
+      `112M datasheets/connector-card-edge` (339 PDFs).
 
 Acceptance: every candidate row either has a PDF or a reason it has none.
   Check: `awk -F'\t' '$20=="candidate" && $22==""' planning/plan-54-data/candidates.tsv \| wc -l` → the rows B to D will `skip` for no datasheet (recorded here); `find datasheets/connector-card-socket datasheets/connector-memory-module datasheets/connector-card-edge -iname '*.pdf' \| wc -l` = the distinct files the three `datasheets.tsv` list (est. 25 min: 498 downloads, about 4 files a second on the fast hosts and 1 a second at te.com).
+  Result: `0` rows without a PDF; `339` PDFs = 112 + 53 + 174 lines of unique paths in the three `datasheets.tsv`.
 Commit: —
 
 ## Validation Plan
@@ -443,6 +442,10 @@ Commit: —
   quotes from 1270 (§ 1, § 2, Phase 3's 498 downloads and 523 specs rows) is the planning figure; Phase 3 records the
   measured ones. The datasheet downloads started before the re-check finished, so the one source only a dropped row
   cites is downloaded and is not copied by `place.py`.
+- **`specs.tsv` has 372 rows, not 523** (Phase 3): the plan's `report.py` count is per download source; the skeleton is per
+  PDF file (family, maker, series, file), and several te.com and Amphenol links return one document
+  (`place.py` shares a file by SHA-256). `report.py` stays the planning record. Also `textscan.py`'s `hit` is 203 of
+  1266: 131 PDFs have no extractable text, so a `hit` of 0 there means "read the drawing", not "absent".
 - **Prerequisites golden sizes** moved with other plans' landings: P0 = R0 = 34393, F0 = 1904 at 450ab7c3
   (the plan quoted 34375, 34375, 1895); H, I, J, K, M and N re-measure at their start as written.
 
