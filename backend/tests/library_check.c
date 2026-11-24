@@ -1896,6 +1896,50 @@ static void check_card_slot_connector(void) {
     expect_fail("card: rated amps", CARD_DEVICE("'card':'SD','ratedAmps':1,"), "a card slot has no \"ratedAmps\"");
 }
 
+/* A test point device (plan-57) with KEYS (JSON members, each ending in a comma) and PINS (JSON pin objects). */
+#define TEST_POINT_DEVICE(KEYS, PINS) \
+    HEAD("connector") "{'id':'tp','function':'Test Point','description':'d','drawer':['Connector']," \
+    KEYS "'pinouts':{'p':[" PINS "]}," \
+    "'parts':[{'name':'TP-T','manufacturer':'M','package':'Pad','pinout':'p','footprint':'T1'}]}" TAIL
+#define TP_PIN "{'number':1,'name':'TP','role':'inout'}"
+
+static void check_test_point_connector(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    CHECK(load(library, TEST_POINT_DEVICE("'testPoint':true,", TP_PIN), &error) == 0);
+    part = part_library_find(library, "TP-T");
+    CHECK(part != NULL && part->kind == PART_CONNECTOR && part->pin_count == 1 && part->connector->test_point == 1 &&
+          part->connector->card == NULL && part->connector->usb == 0 && part->connector->contacts == 0 &&
+          part->connector->rated_ma == 0 && part->connector->center_diameter_um == 0);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   test point connectors load; malformed ones fail\n");
+
+    expect_fail("test point: false", TEST_POINT_DEVICE("'testPoint':false,", TP_PIN), "\"testPoint\" must be true");
+    expect_fail("test point: a string", TEST_POINT_DEVICE("'testPoint':'yes',", TP_PIN), "\"testPoint\" must be true");
+    expect_fail("test point: usb", TEST_POINT_DEVICE("'testPoint':true,'usb':'A',", TP_PIN),
+                "a test point has no \"usb\"");
+    expect_fail("test point: centre pin", TEST_POINT_DEVICE("'testPoint':true,'centerPin':2,", TP_PIN),
+                "a test point has no \"centerPin\"");
+    expect_fail("test point: contacts", TEST_POINT_DEVICE("'testPoint':true,'contacts':[['A','B']],", TP_PIN),
+                "a test point has no \"contacts\"");
+    expect_fail("test point: rated volts", TEST_POINT_DEVICE("'testPoint':true,'ratedVolts':5,", TP_PIN),
+                "a test point has no \"ratedVolts\"");
+    expect_fail("test point: rated amps", TEST_POINT_DEVICE("'testPoint':true,'ratedAmps':1,", TP_PIN),
+                "a test point has no \"ratedAmps\"");
+    expect_fail("test point: card", TEST_POINT_DEVICE("'testPoint':true,'card':'SD',", TP_PIN),
+                "a test point has no \"card\"");
+    expect_fail("test point: card pitch", TEST_POINT_DEVICE("'testPoint':true,'cardPitch':1.0,", TP_PIN),
+                "a test point has no \"cardPitch\"");
+    expect_fail("test point: two pins",
+                TEST_POINT_DEVICE("'testPoint':true,", TP_PIN ",{'number':2,'name':'TP2','role':'inout'}"),
+                "a test point has exactly one pin");
+    expect_fail("connector: one pin without testPoint",
+                TEST_POINT_DEVICE("'usb':'A',", TP_PIN), "a connector has at least two pins");
+}
+
 /* DQ_EXTRA, VCC_EXTRA: more keys on DQ0 (pin 2) and VCC (pin 6), such as "side". */
 #define SRAM_PINS_DEVICE(GRADE, DQ_EXTRA, VCC_EXTRA) \
     HEAD("sram") "{'id':'m','function':'1 KB','description':'d','drawer':['Memory','SRAM']," \
@@ -3442,6 +3486,7 @@ int main(void) {
     check_opposite_pads();
     check_usb_connector();
     check_card_slot_connector();
+    check_test_point_connector();
     check_footprint_corners();
     check_footprint_cases();
     check_header_footprints();

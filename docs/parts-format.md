@@ -122,7 +122,7 @@ parts) last.
 |---|---|
 | Analog | Data converters (ADC, DAC); Timers and Op-amps (plan-48) |
 | Clocks | Crystal › kHz / MHz; Ceramic resonator; Oscillator; the RTC leaf |
-| Connector | Barrel, Header, USB; later Terminal block, JST, Card slot, IC Socket |
+| Connector | Barrel, Header, USB, Card slot; Test Point (a leaf of the category itself, no sub-group); later Terminal block, JST, IC Socket |
 | Discrete | Capacitors › Ceramic / Electrolytic / Tantalum; Diodes; Resistors › Array / Chip / Through-hole; Transistors › BJT / MOSFET |
 | Displays & Indicators | LED; 7-Segment; Character LCD; LED drivers; LCD drivers (plan-56); Buzzers (plan-47) |
 | Interface | Serial (UART, Bridge UART, I2C controller); Parallel I/O (PIA, VIA) |
@@ -855,8 +855,8 @@ never writes `footprints.json`:
 
 A custom part has a `"footprint"` only:
 `"connectorFootprint"` and `"footprintChoices"` stay with the bundled parts
-that use them (the generic LED, character LCDs, headers and pull resistors),
-whose footprint menus the PCB sidebar owns. A numbered pinout's custom
+that use them (the generic LED, character LCDs, headers, test points and pull
+resistors), whose footprint menus the PCB sidebar owns. A numbered pinout's custom
 footprint has numbered pads (`"pin"`); a ball pinout's custom footprint is
 a `grid`, whose `"balls"` are the pinout's ball names, or an `explicit` one
 with `"ball"` pads.
@@ -1636,6 +1636,32 @@ L-shaped / keyhole shell slots are not in the library
 (`datasheets/skipped-parts.md`); a pad on the other face of the board is an
 `opposite` pad (§ `explicit`), and the USB parts skipped for pads on the
 bottom layer stay skipped.
+
+**Test points** (plan-57) name `"testPoint": true` on the device (never on a
+part; `false` or a non-boolean is `"testPoint" must be true`). A test point is
+one passive `inout` pin: it has no `centerPin`, `contacts`, `usb`, `card`,
+`cardPitch`, `ratedVolts` or `ratedAmps` (each rejected with "a test point has
+no ..."), and its pinout has exactly one pin (`a test point has exactly one
+pin`; every other connector keeps `a connector has at least two pins`). It
+joins nothing in play mode. `PartConnector.test_point` is 1 for it (0 for every
+other connector).
+
+| | |
+|---|---|
+| drawer | `["Connector"]`: the leaf `Test Point` of the category itself, listed after its groups |
+| function | `Test Point` |
+| package | `Pad <d> mm` or `Through hole <d> mm`, one per footprint choice |
+| device id | `testpoint` |
+
+The library has one part, `GENERIC-TESTPOINT` (manufacturer `Generic`, no
+datasheet): pin `1` named `TP`, default footprint `TESTPOINT-PAD-1.5`, and ten
+`footprintChoices`, `d` = 1.0, 1.5, 2.0, 2.5, 3.0 mm, pads first and then through
+hole. The footprints are `explicit`, one round pad at the origin whose body is
+the pad: `TESTPOINT-PAD-<d>` (surface mount) and `TESTPOINT-THT-<d>` (plated
+hole, drill 0.5, 0.8, 1.0, 1.3, 1.5 mm for the five sizes). They are generic land
+patterns (no drawing). The app draws a test point as a small circle on a pin
+stub with a `TP` reference, leaves it out of the Bill of Materials, and shows
+Size and Through hole in its Options in place of the footprint menu.
 
 ### `header`
 

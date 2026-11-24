@@ -6466,6 +6466,29 @@
       "parts": [
         {"name":"SMRT-3-B","manufacturer":"Same Sky","datasheet":"smrt-3-b","package":"SMD right angle","pinout":"p8","footprint":"SOCK-SAMESKY-SMRT-3-B-10"}
       ]
+    },
+    {
+      "id": "testpoint",
+      "function": "Test Point",
+      "description": "Test point: a bare copper pad or plated hole to probe",
+      "drawer": ["Connector"],
+      "note": "generic; plan-57-A § 4.3",
+      "testPoint": true,
+      "pinouts": {"p1":[{"number":1,"name":"TP","role":"inout"}]},
+      "parts": [
+        {"name":"GENERIC-TESTPOINT","manufacturer":"Generic","package":"Pad 1.5 mm","pinout":"p1","footprint":"TESTPOINT-PAD-1.5","footprintChoices":[
+          {"package":"Pad 1.0 mm","footprint":"TESTPOINT-PAD-1.0"},
+          {"package":"Pad 1.5 mm","footprint":"TESTPOINT-PAD-1.5"},
+          {"package":"Pad 2.0 mm","footprint":"TESTPOINT-PAD-2.0"},
+          {"package":"Pad 2.5 mm","footprint":"TESTPOINT-PAD-2.5"},
+          {"package":"Pad 3.0 mm","footprint":"TESTPOINT-PAD-3.0"},
+          {"package":"Through hole 1.0 mm","footprint":"TESTPOINT-THT-1.0"},
+          {"package":"Through hole 1.5 mm","footprint":"TESTPOINT-THT-1.5"},
+          {"package":"Through hole 2.0 mm","footprint":"TESTPOINT-THT-2.0"},
+          {"package":"Through hole 2.5 mm","footprint":"TESTPOINT-THT-2.5"},
+          {"package":"Through hole 3.0 mm","footprint":"TESTPOINT-THT-3.0"}
+        ]}
+      ]
     }
   ]
 }

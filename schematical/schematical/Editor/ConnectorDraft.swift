@@ -12,12 +12,13 @@ enum ConnectorDraft {
     static let f4: Field = Field(key: "contacts", label: "Contacts", type: .listOf(.pins))
     static let f5: Field = Field(key: "ratedAmps", label: "Rated Amps", type: .number(unit: "A"))
     static let f6: Field = Field(key: "ratedVolts", label: "Rated Volts", type: .number(unit: "V"))
-    static let f7: Field = Field(key: "usb", label: "Usb", type: .suggested(["A", "B", "C"]))
+    static let f7: Field = Field(key: "testPoint", label: "Test Point", type: .bool)
+    static let f8: Field = Field(key: "usb", label: "Usb", type: .suggested(["A", "B", "C"]))
 
     static let schema = KindSchema(
         kind: "connector",
         variantKey: nil,
-        device: [f1, f2, f3, f4, f5, f6, f7],
+        device: [f1, f2, f3, f4, f5, f6, f7, f8],
         part: []
     )
 }

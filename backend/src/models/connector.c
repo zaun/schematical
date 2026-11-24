@@ -11,7 +11,8 @@
 
 #include "kind.h"
 
-static const char *const DEVICE_KEYS[] = {"centerPin", "ratedVolts", "ratedAmps", "contacts", "usb", "card", "cardPitch", NULL};
+static const char *const DEVICE_KEYS[] = {"centerPin", "ratedVolts", "ratedAmps", "contacts", "usb", "card", "cardPitch",
+                                          "testPoint", NULL};
 
 typedef struct {
     PartConnector info;
@@ -71,6 +72,24 @@ static int card_load(KindContext *ctx, const cJSON *json, ConnectorDevice *devic
     return 0;
 }
 
+/* A test point (plan-57): one passive pin, no ratings, contacts or other mode's keys. */
+static int test_point_load(KindContext *ctx, const cJSON *json, ConnectorDevice *device) {
+    static const char *const FORBIDDEN[] = {"centerPin", "ratedVolts", "ratedAmps", "contacts", "usb", "card",
+                                            "cardPitch", NULL};
+    size_t i;
+
+    if (!cJSON_IsTrue(cJSON_GetObjectItemCaseSensitive(json, "testPoint"))) {
+        return kind_error(ctx, "\"testPoint\" must be true");
+    }
+    for (i = 0; FORBIDDEN[i] != NULL; i++) {
+        if (cJSON_GetObjectItemCaseSensitive(json, FORBIDDEN[i]) != NULL) {
+            return kind_error(ctx, "a test point has no \"%s\"", FORBIDDEN[i]);
+        }
+    }
+    device->info.test_point = 1;
+    return 0;
+}
+
 static void *connector_load_device(KindContext *ctx, const cJSON *json) {
     ConnectorDevice *device = kind_alloc(ctx, sizeof(*device));
     const cJSON *contacts;
@@ -79,6 +98,9 @@ static void *connector_load_device(KindContext *ctx, const cJSON *json) {
     size_t count = 0;
 
     if (device == NULL) return NULL;
+    if (cJSON_GetObjectItemCaseSensitive(json, "testPoint") != NULL) {
+        return test_point_load(ctx, json, device) == 0 ? device : NULL;
+    }
     if (cJSON_GetObjectItemCaseSensitive(json, "card") != NULL) {
         return card_load(ctx, json, device) == 0 ? device : NULL;
     }
@@ -138,7 +160,12 @@ static void *connector_bind_pinout(KindContext *ctx, const void *raw, const Part
     ConnectorPins *bound = kind_alloc(ctx, sizeof(*bound));
     size_t i;
 
-    if (bound == NULL || pin_count < 2) {
+    if (bound != NULL && device->info.test_point) {
+        if (pin_count != 1) {
+            kind_error(ctx, "a test point has exactly one pin");
+            return NULL;
+        }
+    } else if (bound == NULL || pin_count < 2) {
         if (bound != NULL) kind_error(ctx, "a connector has at least two pins");
         return NULL;
     }

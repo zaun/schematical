@@ -169,9 +169,9 @@ same message shape, and not change what any existing device does (the
 `parts.txt` golden for every existing connector line must not move).
 
 **Byte-identity is not the gate.** The gate is behavior: the loader tests, the
-golden diff (one new `parts.txt` line, ten new `footprints.txt` lines, nothing
-else), and the app test. The expected diffs: `parts.txt` +1 line,
-`footprints.txt` +10 lines, `traces.txt` unchanged.
+golden diff (one new `parts.txt` line, ten new `footprints.txt` lines, one new
+`traces.txt` line, nothing else), and the app test. The expected diffs: `parts.txt` +1 line,
+`footprints.txt` +10 lines, `traces.txt` +1 line (Corrections 1).
 
 **Probed before writing:** the schema-script probe above (a key with no shipped
 value is `missing`).
@@ -248,10 +248,10 @@ and no solids (the board view draws pads itself).
 One commit: the loader key, the shipped part carrying it, the regenerated
 Part Editor form (they cannot be split: Verified properties).
 
-- [ ] `backend/include/parts.h:159`: add `unsigned test_point;` as the last
+- [x] `backend/include/parts.h:159`: add `unsigned test_point;` as the last
       `PartConnector` field; extend the comment above it (`test_point: 1 for a
       test point, a single passive pin; 0 for every other connector`).
-- [ ] `backend/src/models/connector.c`: add `"testPoint"` to `DEVICE_KEYS`
+- [x] `backend/src/models/connector.c`: add `"testPoint"` to `DEVICE_KEYS`
       (line 14); add `test_point_load` that requires `cJSON_IsTrue`, rejects
       each of `centerPin ratedVolts ratedAmps contacts usb card cardPitch`
       with `a test point has no "%s"`, sets `info.test_point = 1`; call it
@@ -259,9 +259,9 @@ Part Editor form (they cannot be split: Verified properties).
       is present; in `connector_bind_pinout` keep `pin_count < 2` for every
       device without `info.test_point` and require `pin_count == 1`
       (`a test point has exactly one pin`) for one with it.
-- [ ] `backend/tests/support/listing.c:391`: print `testpoint=1` first in the
+- [x] `backend/tests/support/listing.c:391`: print `testpoint=1` first in the
       `PART_CONNECTOR` case when `part->connector->test_point` is set.
-- [ ] `backend/tests/library_check.c`: add `check_test_point_connector`
+- [x] `backend/tests/library_check.c`: add `check_test_point_connector`
       (beside `check_card_slot_connector`, line 1861; call it next to line
       3444): a valid device loads and its part has `connector->test_point == 1`
       and `pin_count == 1`; `expect_fail` for `testPoint:false`,
@@ -269,35 +269,44 @@ Part Editor form (they cannot be split: Verified properties).
       `ratedVolts`, `ratedAmps`, `contacts`, `card`, `cardPitch` (messages
       above), a two-pin pinout (`a test point has exactly one pin`), and a
       one-pin pinout without the key (`a connector has at least two pins`).
-- [ ] `schematical/schematical/Parts/footprints.json`: add the ten footprints
+- [x] `schematical/schematical/Parts/footprints.json`: add the ten footprints
       of § 4.2 as one block of ten lines directly after the last `PINHDR-` line
       (`rg -n 'PINHDR-' schematical/schematical/Parts/footprints.json` shows it).
-- [ ] `schematical/schematical/Parts/connector.json`: append device `testpoint`
+- [x] `schematical/schematical/Parts/connector.json`: append device `testpoint`
       (§ 4.3), the same layout (one device per block) as the file's other devices.
-- [ ] `backend/tests/connector_test.c`: add `test_point_joins_nothing` after
+- [x] `backend/tests/connector_test.c`: add `test_point_joins_nothing` after
       the card-slot checks, with the real library: `GENERIC-TESTPOINT` has one
       pin and ten `footprintChoices`' worth of `footprint` ids that exist
       (`part_library_find`), and a circuit with `5V` → net → the test point's
       pin `1` starts, advances one step and `circuit_shorted_net` is false;
       a second test point on the same net leaves it unshorted too.
-- [ ] Goldens: `cmake --build /tmp/logic-build` then
+- [x] Goldens: `cmake --build /tmp/logic-build` then
       `/tmp/logic-build/listing_check --print > backend/tests/golden/parts.txt`
       and `/tmp/logic-build/footprint_check --print >
       backend/tests/golden/footprints.txt`; `git diff --stat backend/tests/golden`
       shows `parts.txt` +1 line, `footprints.txt` +10 lines, nothing else; hand-read
-      the ten lines against § 4.2.
-- [ ] `python3 scripts/part-editor-schema.py . connector` regenerates
+      the ten lines against § 4.2. **Done** (build dir `/tmp/logic-build-p57`,
+      see Corrections): `parts.txt | 1 +`, `footprints.txt | 10 ++++++++++`; the ten
+      lines read against § 4.2 (pads 1.0–3.0, drills 0.5/0.8/1.0/1.3/1.5) match.
+      `traces.txt | 1 +` as well (Corrections 1).
+- [x] `python3 scripts/part-editor-schema.py . connector` regenerates
       `schematical/schematical/Editor/ConnectorDraft.swift` with a `testPoint`
-      bool device field (`git diff` shows only that field added).
-- [ ] `docs/parts-format.md`: § connector gets a **Test points** subsection
+      bool device field (`git diff` shows only that field added). **Done by hand**:
+      the script did emit `testPoint` (`missing []`, 482 devices) but also
+      downgraded the file's hand-tuned `card` field from `.suggested([...])` to
+      `.text`, so its output was discarded and the `testPoint` bool field added
+      to the committed file by hand (Corrections 2); `git diff` shows the new
+      `f7` field and `usb` renumbered `f8`.
+- [x] `docs/parts-format.md`: § connector gets a **Test points** subsection
       (key, rules, messages, pinout, the ten footprints, the part, the drawer
       leaf); the category table row (line 125) says "Barrel, Header, USB,
       Card slot; Test Point (a leaf of the category itself)"; line 855's list of
       parts that keep `"footprintChoices"` gains "test points".
 
 Acceptance: the backend loads the part and rejects every malformed device.
+  Observed: `ctest --test-dir /tmp/logic-build-p57 -R 'library_check|listing_check|connector_test|footprint_check|trace_check'` → `100% tests passed, 0 tests failed out of 5` (10 s after the build).
   Check: `cmake -S backend -B /tmp/logic-build && cmake --build /tmp/logic-build && ctest --test-dir /tmp/logic-build -R 'library_check|listing_check|connector_test|footprint_check' --output-on-failure` → `100% tests passed, 0 tests failed out of 4` (est. 5 min first build, 1 min after; scoped to the four tests that read the changed files, not the suite).
-  Check: `git diff --stat backend/tests/golden` → `parts.txt | 1 +`, `footprints.txt | 10 ++++++++++`, no other file (est. seconds).
+  Check: `git diff --stat backend/tests/golden` → `parts.txt | 1 +`, `footprints.txt | 10 ++++++++++`, `traces.txt | 1 +`, no other file (est. seconds).
 Commit: —
 
 ### Phase 2 — The app recognises the part
@@ -365,7 +374,25 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+1. **`traces.txt` also gains a line.** § 3 and Phase 1's golden task say
+   `traces.txt` is unchanged. It is not: it holds one line per part, in
+   `parts.txt` order, and `listing_check` fails with `traces.txt does not line up
+   with parts.txt at line 13886` until the new part has one. Evidence:
+   `/tmp/logic-build-p57/trace_check --print > backend/tests/golden/traces.txt`
+   → `traces.txt | 1 +` (`GENERIC-TESTPOINT	f412f47acbc3761f`); `docs/backend.md`
+   § Tests already lists `trace_check --print` among the regenerations. The
+   expected diff is `parts.txt` +1, `footprints.txt` +10, `traces.txt` +1.
+2. **The Part Editor schema script cannot be used as is.** Its output replaced
+   `ConnectorDraft.swift`'s hand-tuned `card` field (`.suggested([...])`, 18
+   entries) with `.text`; the file says "Edit by hand freely". The new
+   `testPoint` bool field was added by hand and the script's output discarded.
+3. **Build directory.** `/tmp/logic-build` already existed (another session's);
+   this plan used `/tmp/logic-build-p57` so the two do not share a CMake cache.
+   Every `Check` command below reads the same with that path.
+4. **Where the docs went.** The card-slot paragraph of `docs/parts-format.md`
+   sits (misplaced) under § `grid`, not § `connector`; the Test points
+   subsection went at the end of § `connector` (before `### header`) where the
+   kind's other modes are described.
 
 ## Summary
 

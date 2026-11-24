@@ -127,6 +127,35 @@ int main(void) {
         card_part_joins_nothing(library, "2387405-2", "1", "2") != 0) {   /* a card-edge socket; a straddle-mount one */
         return 1;
     }
+    /* plan-57: the library's test point is one passive pin, with its ten footprints, and joins nothing. */
+    {
+        const Part *part = part_library_find(library, "GENERIC-TESTPOINT");
+        size_t tp1, tp2, a;
+
+        if (part == NULL || part->kind != PART_CONNECTOR || part->connector == NULL || part->connector->test_point != 1 ||
+            part->pin_count != 1 || part->footprint_choice_count != 10 || part->footprint == NULL) {
+            fprintf(stderr, "GENERIC-TESTPOINT: missing, not a test point, or not ten footprint choices\n");
+            return 1;
+        }
+        for (size_t i = 0; i < part->footprint_choice_count; i++) {
+            if (part->footprint_choices[i].footprint == NULL || part->footprint_choices[i].footprint->pad_count != 1) {
+                fprintf(stderr, "GENERIC-TESTPOINT: choice %zu has no one-pad footprint\n", i);
+                return 1;
+            }
+        }
+        circuit = circuit_create(library);
+        if (circuit == NULL || circuit_add_part(circuit, "5V", &vcc) != 0 ||
+            circuit_add_part(circuit, "GENERIC-TESTPOINT", &tp1) != 0 ||
+            circuit_add_part(circuit, "GENERIC-TESTPOINT", &tp2) != 0 || circuit_add_net(circuit, &a) != 0 ||
+            circuit_connect(circuit, vcc, "1", a) != 0 || circuit_connect(circuit, tp1, "1", a) != 0 ||
+            circuit_connect(circuit, tp2, "1", a) != 0 || circuit_start(circuit) != 0 ||
+            (circuit_advance(circuit, 1), circuit_shorted_net(circuit, &a))) {
+            fprintf(stderr, "test point: %s\n", circuit != NULL ? circuit_error(circuit) : "no part");
+            return 1;
+        }
+        circuit_destroy(circuit);
+        puts("PASS: a test point loads with ten footprints and joins nothing");
+    }
     part_library_destroy(library);
     return 0;
 }

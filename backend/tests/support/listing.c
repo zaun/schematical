@@ -388,6 +388,10 @@ static void print_details(FILE *out, const Part *part) {
                     part->serial->channels, part->serial->grade);
             break;
         case PART_CONNECTOR:
+            if (part->connector->test_point) {
+                fprintf(out, "testpoint=1");
+                break;
+            }
             if (part->connector->card != NULL) {
                 fprintf(out, "card=%s pitch_um=%u", part->connector->card, (unsigned)part->connector->card_pitch_um);
                 break;
