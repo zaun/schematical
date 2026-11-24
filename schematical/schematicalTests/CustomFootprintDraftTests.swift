@@ -70,8 +70,9 @@ final class CustomFootprintDraftTests: XCTestCase {
         // with ten more tube footprints (VFD, numitron, more nixies); 613
         // with the 31 explicit footprints of the regulator packages (plan-42-D / E / F);
         // 638 with the five VFD tube footprints (IV-8, IV-17, IV-22, IV-25, IV-27), the four
-        // dekatron base footprints and the crystal packages'.
-        XCTAssertEqual(ids.count, 638)
+        // dekatron base footprints and the crystal packages';
+        // 932 with the card-slot footprints of plan-54-H to K (SOCK-, DIMM-, EDGE-; 294 more).
+        XCTAssertEqual(ids.count, 932)
         XCTAssertEqual(mismatched, [])
         XCTAssertEqual(rejected, [:])
     }

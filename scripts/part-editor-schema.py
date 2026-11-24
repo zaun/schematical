@@ -58,7 +58,7 @@ VOLT_KEYS = {"vcc", "vccB"}
 ENUMS = {"active": ["high", "low"], "edge": ["rising", "falling"], "when": ["async", "clock"],
          "output": ["push-pull", "open-drain"]}
 UNITS = {"inputMax": "V", "inputMaxB": "V", "volts": "V", "ratedVolts": "V", "ratedAmps": "A",
-         "minHz": "Hz", "maxHz": "Hz", "rise": "ns", "fall": "ns",
+         "minHz": "Hz", "maxHz": "Hz", "rise": "ns", "fall": "ns", "cardPitch": "mm",
          # serialmem: SCK in MHz; the write and erase times in ns.
          "maxClock": "MHz", "writeCycle": "ns", "pageProgram": "ns", "byteProgram": "ns", "sectorErase": "ns",
          "blockErase32": "ns", "blockErase64": "ns", "chipErase": "ns", "pageErase": "ns", "writeStatus": "ns",

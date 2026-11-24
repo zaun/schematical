@@ -143,6 +143,9 @@ nonisolated enum PartFacts {
             add("Centre pin", String(format: "%.1f mm", Double(centerPinUM) / 1000))
             add("Rating", "\(VoltageCheck.volts(ratedMV)) V, \(String(format: "%.1f", Double(ratedMA) / 1000)) A")
             add("Sleeve contact", contacts > 0 ? "Normally closed when unplugged" : "None")
+        case let .cardSlot(card, pitchUM):
+            add("Card", card)
+            if pitchUM > 0 { add("Pitch", String(format: "%.2f mm", Double(pitchUM) / 1000)) }
         case let .header(rows, perRow, genders):
             add("Rows", String(rows))
             add("Pins per row", String(perRow))
@@ -328,6 +331,7 @@ nonisolated enum PartFacts {
         }
         if let info = part.crystal, info.type == "resonator" { return "Ceramic resonator" }
         if case .connector(_, _, _, _, _?) = part.details { return "USB connector" }
+        if part.isCardSlot { return "Card slot" }
         if case let .converter(type, _, _) = part.details {
             switch type {
             case "adc": return "ADC"

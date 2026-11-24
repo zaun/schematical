@@ -89,6 +89,23 @@ final class PartEditorWindowTests: XCTestCase {
         XCTAssertTrue(model.isDirty)
     }
 
+    /// plan-54-O: the connector kind's schema has the card-slot keys, and a library card slot opens as a draft
+    /// with its `card` (and `cardPitch`) in the kind's device keys and nothing left over.
+    func testConnectorSchemaHasTheCardSlotKeys() throws {
+        let schema = try XCTUnwrap(PartKinds.schemas["connector"])
+        XCTAssertTrue(schema.keys.isSuperset(of: ["card", "cardPitch"]), "\(schema.keys)")
+        let card = try XCTUnwrap(schema.device.first { $0.key == "card" })
+        let pitch = try XCTUnwrap(schema.device.first { $0.key == "cardPitch" })
+        if case .suggested = card.type {} else { XCTFail("card is \(card.type)") }
+        if case .number(unit: "mm") = pitch.type {} else { XCTFail("cardPitch is \(pitch.type)") }
+        for part in try CardSlotTests.representatives().compactMap(\.part) {
+            let draft = try PartDraft(file: XCTUnwrap(BundledPartFile.copy(name: part.name, kind: "connector"), part.name))
+            XCTAssertEqual(draft.extraKeys, [], part.name)
+            XCTAssertTrue(draft.kindDevice.keys.contains("card"), part.name)
+            XCTAssertEqual(draft.kindDevice.keys.contains("cardPitch"), part.detailLabels.count > 1, part.name)
+        }
+    }
+
     // MARK: Active-low pins (plan-39-B)
 
     private func activeLowDraft() throws -> PartDraft {

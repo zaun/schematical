@@ -32,6 +32,9 @@ struct PartLook {
         case canOscillator
         case smdOscillator
         case usb(String?)
+        /// A card slot (plan-54-O): a dark housing over the footprint's pads,
+        /// `height` mm tall (by what the slot takes).
+        case cardSlot(height: CGFloat)
         case barrel
         case toPackage
         case block(height: CGFloat)
@@ -93,6 +96,7 @@ struct PartLook {
             return footprint.bodyRound ? .radialLED(tint) : .squareLED(tint)
         case PART_CONNECTOR:
             if case let .connector(_, _, _, _, usb) = part.details, let usb { return .usb(usb) }
+            if part.isCardSlot { return .cardSlot(height: cardSlotHeight(of: part)) }
             if id.hasPrefix("USB") { return .usb(nil) }
             return .barrel
         case PART_OSCILLATOR:
@@ -127,6 +131,17 @@ struct PartLook {
             abs(pad.centre.x) > body.width / 2 || abs(pad.centre.y) > body.height / 2
         }
         return outside ? .leadedIC(ceramic: ceramic) : .leadlessIC(ceramic: ceramic)
+    }
+
+    /// How tall a card slot stands, mm, by its drawer leaf: the common height
+    /// of DigiKey's listings (plan-54-O § 3): 3.0 for a memory / SIM socket,
+    /// 5.2 for a memory module, 6.0 for a card-edge socket.
+    static func cardSlotHeight(of part: CatalogPart) -> CGFloat {
+        switch part.drawer.last {
+        case "Memory module": 5.2
+        case "Card edge": 6.0
+        default: 3.0
+        }
     }
 
     static func ledTint(_ name: String) -> Tint {
@@ -207,6 +222,7 @@ struct PartLook {
             case "C": 3.2
             default: 4
             }
+        case let .cardSlot(height): height
         case .barrel: 11
         case .toPackage: 15
         case let .block(height): height
@@ -560,6 +576,15 @@ struct PartLook {
                 }
                 layer.stroke(ridges, with: .color(.black.opacity(0.18)), lineWidth: 0.2)
             }
+
+        case .cardSlot:
+            // The housing is the bounds of the pads: a dark box over them.
+            let padBounds = pads.reduce(CGRect.null) {
+                $0.union(CGRect(x: $1.centre.x - $1.size.width / 2, y: $1.centre.y - $1.size.height / 2,
+                                width: $1.size.width, height: $1.size.height))
+            }
+            let housing = Tint(0.16, 0.17, 0.19)
+            if !padBounds.isNull { box(padBounds, 0, h, housing, top: housing.shaded(1.15)) }
 
         case .barrel:
             box(bodyRect, 0, h, Tint(0.10, 0.10, 0.11), top: Tint(0.14, 0.14, 0.15))

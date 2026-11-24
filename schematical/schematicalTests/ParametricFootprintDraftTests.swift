@@ -32,7 +32,9 @@ final class ParametricFootprintDraftTests: XCTestCase {
     }
 
     func testEachStyleReadsAndWritesItsEntry() throws {
-        XCTAssertEqual(Self.entries.count, 1823)
+        // 2198 = 1266 parametric + 932 explicit (the explicit count of CustomFootprintDraftTests); it was 1823 (1210 + 613)
+        // before the card-slot footprints of plan-54-H to K (SOCK-, DIMM-, EDGE-) and the explicit ones since.
+        XCTAssertEqual(Self.entries.count, 2198)
         for style in ["dual", "quad", "grid", "header"] {
             let entry = try Self.sample(style)
             let draft = try XCTUnwrap(ParametricFootprintDraft(json: entry), style)
@@ -55,7 +57,7 @@ final class ParametricFootprintDraftTests: XCTestCase {
             if draft.encoded() != entry { XCTFail("\(draft.id) did not write back the same") }
             count += 1
         }
-        XCTAssertEqual(count, 1210)
+        XCTAssertEqual(count, 1266)
     }
 
     /// A generic part with the footprint's pins, naming an inline copy of it.

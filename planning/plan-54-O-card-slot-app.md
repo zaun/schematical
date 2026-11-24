@@ -32,10 +32,10 @@ plan-54-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-54-N complete | `ls planning/completed/plan-54-N-*.md` → exists | NOT MET (2026-11-22: not started) |
-| The library has the parts | `grep -c '|connector|' backend/tests/golden/parts.txt` → 376 + M's + N's parts; `wc -l < planning/plan-54-data/examples.tsv` → 5 (header and four examples) | NOT MET (2026-11-22: 376 parts, M and N add them) |
-| No `cardSlot` case yet | `grep -c 'cardSlot' schematical/schematical/Backend/PartCatalog.swift` → 0 | MET (2026-11-22 at 7b449718: 0) |
-| `PartConnector` has the new fields | `grep -c 'card_pitch_um' backend/include/parts.h` → 1 | NOT MET (2026-11-22: L adds it) |
+| plan-54-N complete | `ls planning/completed/plan-54-N-*.md` → exists | NOT MET (2026-11-23: no such file; N's parts are in `Parts/`, the parent session lands them in parallel, § Corrections 6) |
+| The library has the parts | `grep -c '|connector|' backend/tests/golden/parts.txt` → 376 + M's + N's parts; `wc -l < planning/plan-54-data/examples.tsv` → 5 (header and four examples) | MET (2026-11-23: 951 connector lines; examples.tsv 5 lines: MSD-1-A, 7-1734774-7, 2309413-1, 2387405-2; at O's start it had 3 lines and the library 552, so the work was written against the rows present and re-run) |
+| No `cardSlot` case yet | `grep -c 'cardSlot' schematical/schematical/Backend/PartCatalog.swift` → 0 | MET (2026-11-23 at the start of O: 0) |
+| `PartConnector` has the new fields | `grep -c 'card_pitch_um' backend/include/parts.h` → 1 | MET (2026-11-23: 2, the member and its comment; L is done, § Corrections 6) |
 
 Everything below is written against the world where these hold.
 
@@ -131,48 +131,83 @@ function group's parts in natural name order. `ConnectorDraft.swift` is generate
 
 ### Phase 1 — Details, facts, names, symbol, order
 
-- [ ] Re-read the `PartDetails` enum and the five matching sites on the state `main` has
-      (`git log --oneline -5 -- schematical/schematical/Backend`).
-- [ ] `Backend/PartCatalog.swift`: the `cardSlot` case and its doc comment; the construction (§ 3); `count`;
+- [x] Re-read the `PartDetails` enum and the five matching sites on the state `main` has
+      (`git log --oneline -5 -- schematical/schematical/Backend`). Result: the enum is `CatalogPart.Details`
+      (§ Corrections 1); the `.connector(` sites are the 9 lines the plan counts, at new line numbers (§ Corrections 2).
+- [x] `Backend/PartCatalog.swift`: the `cardSlot` case and its doc comment; the construction (§ 3); `count`;
       the chip-label `switch`; the symbol `switch` (`.block`); `functionGroups`' group order.
-- [ ] `Backend/PartFacts.swift`: the facts of § 1 and `kindName`; fix every exhaustive `switch` the build
-      lists (record the number under § Corrections).
-- [ ] `schematicalTests/CardSlotTests.swift`: for the four parts of `examples.tsv`: details, `kindName`,
+      Result: the case `cardSlot(card:pitchUM:)`, the branch before `part.connector`, `count` = `pins.count`,
+      `detailLabels`, `symbol(for:)`, `functionGroups` (a leaf whose parts are all `isCardSlot` goes by
+      `byCountThenName`), and `CatalogPart.isCardSlot`; `xcodebuild … build` → `** BUILD SUCCEEDED **`.
+- [x] `Backend/PartFacts.swift`: the facts of § 1 and `kindName`; fix every exhaustive `switch` the build
+      lists (record the number under § Corrections). Result: `Card`, `Pitch` (above 0; `%.2f mm`) and `Kind` `Card slot`;
+      the build listed 0 exhaustive switches (§ Corrections 3).
+- [x] `schematicalTests/CardSlotTests.swift`: for the four parts of `examples.tsv`: details, `kindName`,
       facts rows, chip labels, symbol `.block`, drawer path and function group (`Connector › Card slot ›
       microSD › microSD`), the group's parts in pin-count order, a barrel jack and a USB connector
       unchanged; every `add` part of the library has `details` `.cardSlot` and a footprint with at least its
-      pin count of pads.
+      pin count of pads. Result: six tests (the examples of `examples.tsv`, whatever rows it has; one library part
+      per drawer leaf; every `cardSlot` part of `catalog.allParts`, 176 now; the drawer branch; the microSD path; the
+      barrel and USB parts unchanged); `DrawerPerformanceTests.testPartsAreInNaturalOrder` learned the pin-count order
+      (§ Corrections 7).
 
 Acceptance: the catalog and sidebar show the new parts.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p54-dd test -only-testing:schematicalTests/CardSlotTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 8 min: app build and one test class).
+  Result: `** TEST SUCCEEDED **`, `Executed 6 tests, with 0 failures`; `CardSlotTests: leaves checked 7, none in the library yet: []`
+  (the four rows of `examples.tsv` and the SD, SIM and Smart card leaves; `testEveryCardSlotPart` looped over the library's 575 card slots).
+  The first run, before the parent landed the card-edge parts (library 552 connector lines, examples.tsv 3 lines), was `Executed 6 tests,
+  with 1 test skipped and 0 failures` (`leaves checked 5, none in the library yet: ["Card edge"]`: the test skips only when a leaf has no
+  library part).
 Commit: —
 
 ### Phase 2 — The Board Preview look and the Part Editor
 
-- [ ] `BoardPreview/PartLook.swift`: `cardSlot` in `Look`, `look(for:)`, `height`, and the draw `switch` (§ 3).
-- [ ] `schematicalTests/BoardPreviewTests.swift`: a placed card slot of each leaf kind gets the new look with the
-      heights of § 3; a USB connector is still `.usb`.
-- [ ] `python3 scripts/part-editor-schema.py . connector` regenerates `Editor/ConnectorDraft.swift`;
+- [x] `BoardPreview/PartLook.swift`: `cardSlot` in `Look`, `look(for:)`, `height`, and the draw `switch` (§ 3).
+      Result: `PartLook.Kind.cardSlot(height:)` (the type is `Kind`, § Corrections 1), picked in `kind(of:)`, heights from
+      `PartLook.cardSlotHeight(of:)` by the drawer leaf, the housing a box over the pads' bounds (`Tint(0.16, 0.17, 0.19)`).
+- [x] `schematicalTests/BoardPreviewTests.swift`: a placed card slot of each leaf kind gets the new look with the
+      heights of § 3; a USB connector is still `.usb`. Result: `testCardSlotLook` (the examples, then one library part per
+      other leaf; the look's one solid sits on the pads' bounds at the leaf's height) and `testCardSlotShowsInTheRender`.
+- [x] `python3 scripts/part-editor-schema.py . connector` regenerates `Editor/ConnectorDraft.swift`;
       `PartEditorWindowTests` gains a check that the connector schema has `card` and `cardPitch`.
+      Result: `connector: 356 devices, 552 parts, variant None, 7 source keys, missing []`; `card` is `.suggested([…18 values])`, `cardPitch`
+      `.number(unit: "mm")` (`"cardPitch": "mm"` added to the script's `UNITS`, § Corrections 8);
+      `testConnectorSchemaHasTheCardSlotKeys` also opens a library card slot as a draft with no key left over.
 
 Acceptance: the preview and the editor know the new parts.
   Check: `xcodebuild … test -only-testing:schematicalTests/BoardPreviewTests -only-testing:schematicalTests/PartEditorWindowTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 10 min).
+  Result: `** TEST SUCCEEDED **`; BoardPreviewTests `Executed 9 tests, with 0 failures`, PartEditorWindowTests `Executed 11 tests, with 0 failures`
+  (with the card-edge parts in the library: `card slot looks checked for ["microSD", "Card edge", "Memory module", "Card edge", "SD", "SIM",
+  "Smart card"], none in the library yet: []`). The first run, before they landed, was 20 tests with 1 skipped (`testCardSlotLook`, no `Card edge`
+  part) and 0 failures. Run together with `DrawerPerformanceTests`, `HeaderBoardTests`, `PartKindKeysTests`, `KindInfoTests`:
+  `Executed 44 tests, with 0 failures`, `** TEST SUCCEEDED **`.
 Commit: —
 
 ### Phase 3 — The harness
 
-- [ ] `scripts/harness/card-slot-app.swift` (from `generic-header.swift`): on the app's real catalog and
+- [x] `scripts/harness/card-slot-app.swift` (from `generic-header.swift`): on the app's real catalog and
       document: the drawer branch and its six leaves exist; placing each example gives reference `J1`
       and PCB pads at its footprint's positions; the sidebar facts of § 1; a 0.6 s play run with pins 1
       and 2 of the card-edge example on two driven nets shows neither shorted; placing the straddle-mount
       example on a 2-layer board puts one pad on Top and one on Bottom (`connectivity()`) and the design-rule
       check has no placement issue although its housing hangs over the board edge; renders a placed
       socket, a module socket and a card-edge socket to `/tmp`.
-- [ ] `DrawerPerformanceTests`: the drawer builds in the same time class with the new parts
-      (the test's existing bound).
+      Result: the harness reads `examples.tsv` (every row) and takes one library part for each leaf with no example; a leaf with no library
+      part is printed as `ok … (skipped)`, none was skipped in the final run. `/tmp/p54-harness/H.app/Contents/MacOS/harness` → 31 `ok` lines, 0 `FAIL`,
+      `all checks ok`, exit 0 (§ Corrections 9: the harness build needed `-module-name schematical`). Play run: pins 1 / 2 of `7-1734774-7` →
+      levels `1 / 0`, wire styles `value(green)`, `normal`. Straddle: `2387405-2` → pad sides `[top, bottom]`, body minY -1.795 over the edge,
+      pads minY 0.105, no placement issue. Images `/tmp/p54-socket.png`, `p54-module.png`, `p54-edge.png`, `p54-sidebar.png` written and looked at
+      (a dark box over the pads).
+- [x] `DrawerPerformanceTests`: the drawer builds in the same time class with the new parts
+      (the test's existing bound). Result: the existing `testBiggestOpenGroupBuildsFast` → 0.36 s (bound 2.0 s) with the library at 951
+      connector parts; a new `testCardSlotGroupBuildsFast` opens Connector › Card slot down to its biggest function group (`1.00 mm PCI Express`,
+      137 parts) → 0.36 s; `testPartsAreInNaturalOrder` learned the pin-count order (§ Corrections 7).
 
 Acceptance: the real app shows card slots end to end.
   Check: `rm -rf /tmp/p54-harness && APP=/tmp/p54-dd/Build/Products/Debug/schematical.app scripts/harness/build.sh scripts/harness/card-slot-app.swift /tmp/p54-harness && /tmp/p54-harness/H.app/Contents/MacOS/harness` → every line `ok`, exit 0; and `xcodebuild … test -only-testing:schematicalTests/CardSlotTests -only-testing:schematicalTests/DrawerPerformanceTests -only-testing:schematicalTests/PartEditorWindowTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 15 min: app build, harness, three test classes).
+  Result: the harness (built with the check's `rm -rf … && APP=… build.sh … && …/harness`, run from the repository root): 31 `ok`, 0 `FAIL`,
+  `all checks ok`, exit 0. The test command: `** TEST SUCCEEDED **`; `DrawerPerformanceTests` 7 tests, `CardSlotTests` 6, `PartEditorWindowTests` 11,
+  `Executed 24 tests, with 0 failures`.
 Commit: —
 
 ## Validation Plan
@@ -196,6 +231,50 @@ Commit: —
   `examples.tsv`.
 
 ## Corrections
+
+1. **Names.** The plan's `PartDetails` is `CatalogPart.Details` (`PartCatalog.swift`, `enum Details`; `grep -rn PartDetails schematical` → nothing);
+   `part.details` is of that type. The look's `Look` is `PartLook.Kind` (`case cardSlot(height:)`), `look(for:)` is `PartLook.kind(of:chip:footprint:pads:)`.
+   The plan's "chip-label `switch`" is `CatalogPart.detailLabels` (the drawer's second line after the package).
+2. **Line numbers moved** (found with `grep -rn '\.connector(' schematical/schematical --include='*.swift'`, still 9 lines in 3 files): the
+   `Details.connector` case is `PartCatalog.swift:530` (the new case follows it), its construction `:1130` (plan: 1028), the symbol switch `:1517`
+   (plan: 1347), `detailLabels` `:891` and `voltageLabel` `:659`, `PartFacts.swift:138`, `:142` and `kindName` `:330` (plan: 313), `PartLook.swift:95` (plan:
+   93), `functionGroups` `:2392` (plan: 1945), the drawer's `localizedStandardCompare` sorts in `subgroups` / `functionGroups` (plan: 1887, 1906, 1966).
+3. **Exhaustive switches after the new case: 0.** `xcodebuild … build` → `** BUILD SUCCEEDED **`, `grep -c 'error:'` → 0: every `switch` over `details` has a
+   `default` or is an `if case`; the plan's "record the number" is 0. `PartLook.Kind` has one exhaustive switch each in `height` and `solids`, both edited.
+4. **Reference prefix.** The plan's non-goal says the prefix is `M`; `ReferencePrefixes.swift:55` gives `.femaleConnector` the prefix `J`, which is
+   what the plan's behavior (`J1`) and the tests and harness use. Unchanged.
+5. **`CatalogPart.count` is `pins.count`** (not the non-hidden pins as the Pins fact counts): a card slot has no hidden pin, and the sort calls `count`
+   per comparison. `count` feeds only the logic and switch filters (guarded by `isLogic` / `PART_SWITCH`), so a card slot adds nothing to them.
+6. **Prerequisites.** plan-54-N is not complete (no `planning/completed/plan-54-N-*.md`; the parent session was adding the card-edge parts in
+   parallel). O was written against the rows `examples.tsv` has at run time (3 lines at the start, 5 at the end), never a count of four, and every
+   test and the harness takes the library part of a drawer leaf with no example, skipping only when the library has none (it had none for `Card
+   edge` at the first runs, then 575 card slots in six leaves). `grep -c 'card_pitch_um' backend/include/parts.h` is 2 (the plan says 1): the member and its comment.
+7. **`DrawerPerformanceTests.testPartsAreInNaturalOrder`** asserted every leaf's parts in natural name order; a card-slot leaf now goes by pin count
+   then name, so the test has a branch for it (as for the crystals).
+8. **Part Editor units.** `scripts/part-editor-schema.py` gave `cardPitch` the unit `""` (no entry in `UNITS`); `"cardPitch": "mm"` was added to
+   `UNITS`, and the generated field is `.number(unit: "mm")`. `card` is generated as `.suggested([…])` (a text field with a menu of the 18 shipped
+   values), which accepts any text of the backend's 1 to 40 bytes.
+9. **The harness build was broken.** `scripts/harness/build.sh` failed on `SchematicModel.swift:2240: cannot find 'schematical' in scope` (the app source
+   qualifies `schematical.symbol(for:)`, and `swiftc` named the module `main`); no harness had been built since that line landed. `swiftc -module-name
+   schematical` is the one-word fix; the harness now builds (0 errors).
+10. **Pitch text.** The facts' `Pitch` and the second chip label use `%.2f mm` (`0.50 mm`, `1.00 mm`, as the plan's `1.00 mm`); a card edge's `Function` is
+    `1.00 mm PCI Express` (plan-54-L § 3.2), so the drawer's function group and the label repeat the pitch there.
+11. **Harness play run and straddle part.** The play run uses the first `examples.tsv` row in the `Card edge` leaf (`7-1734774-7`) and wires `5V.VCC` to its
+    pin 1 and `GND.GND` to pin 2 (a pin found by designator or name); the straddle check uses the row whose family is `straddle` (`2387405-2`).
+    Neither example existed in the library when O started; the harness falls back to a library part (the leaf's smallest, the smallest with opposite pads) and
+    skips with an `ok … (skipped)` line only when the library has none.
+12. **Stale library counts in four existing tests**, failing in the first full run because the library grew (the card-slot parts and footprints of
+    plan-54-H to N), not because of O; each fixed with the observed number: `ParametricFootprintDraftTests` `entries.count` 1823 → 2198 (`("2198") is not
+    equal to ("1823")`) and its parametric count 1210 → 1266 (`("1266") is not equal to ("1210")`; 2198 = 1266 + 932 explicit); `CustomFootprintDraftTests`
+    explicit footprints 638 → 932 (`("932") is not equal to ("638")`); `PartKindRoundTripTests` connector parts 376 → 951 (`("Optional(951)") is not equal to
+    ("Optional(376)") - connector`; all 951 round trip through the regenerated `ConnectorDraft` with no mismatch or extra key).
+13. **Full run** (`xcodebuild … test -skip-testing:schematicalTests/RouterFixtureTests`, ~10 min; `RouterFixtureTests` run for minutes each in Debug and
+    are not touched by O): 1450 passed, 4 skipped, 8 failed, `** TEST FAILED **`; none concerns card slots, the drawer, the Part Editor schema or the Board
+    Preview: `CustomSupplyTests` ×4 (a 301 V rail is made: the supply limit is now 500 V), `KindGuideTests.testEveryModelHasABlurb` (crystal has no
+    blurb), `MarkdownDatasheetTests.testConvertedPartHasMarkdownDatasheet`, `UserLibraryCatalogTests.testAddListsUnderUserLibraryAndWritesTheFile` and
+    `UserPartLibraryTests.testWriteThenFilesReturnsTheFile` (`/var/…` against `/private/var/…` file URLs). `ParametricFootprintDraftTests` and
+    `PourCanvasTests` passed in this run. These eight are unrelated to O and were not fixed. The Part Editor's kind blurb for `connector`
+    ("Power jacks and USB sockets that bring power onto the board.", `KindInfo.swift`) still omits card slots; no test or task of O names it, so it is unchanged.
 
 ## Summary
 
