@@ -18,10 +18,10 @@ E	JST|ZH|1.50|H|smd	JST	ZH	1.5	horizontal	smd	3,4,5,6,7,8,9,10,11,12	10		JST-ZH-
 E	JST|ZH|1.50|H|tht	JST	ZH	1.5	horizontal	tht	2,4,5,6,7,8,9,10,11,12	10		JST-ZH-1.50-HT	
 E	JST|ZH|1.50|V|smd	JST	ZH	1.5	vertical	smd	2,3,4,5,6,7,8,9,10,12	10		JST-ZH-1.50-VS	
 E	JST|ZH|1.50|V|tht	JST	ZH	1.5	vertical	tht	2,3,4,5,7,8,9,10,11,12	10		JST-ZH-1.50-VT	
-D	PHX|BCH|3.50|V|tht|pluggable|Header-MalePins-Shrouded	Phoenix Contact	BCH	3.5	vertical	tht	2,3,4,5,6,12	9		PHO-BCH-3.50-VT	
-D	PHX|BCH|3.81|H|tht|pluggable|Header-MalePins-Shrouded	Phoenix Contact	BCH	3.81	horizontal	tht	2,3,4,5,6,8,12	9		PHO-BCH-3.81-HT	
-D	PHX|COMBICON-GMSTBVA|7.50|V|tht|pluggable|Header-MalePins-Shrouded	Phoenix Contact	COMBICON GMSTBVA	7.5	vertical	tht	2,5,8,9	4		PHO-COMBICON-GMSTBVA-7.50-VT	
-D	PHX|COMBICON-ICV|5.08|V|tht|pluggable|Header-FemaleSockets	Phoenix Contact	COMBICON ICV	5.08	vertical	tht	2,3,4,5,9,12	7		PHO-COMBICON-ICV-5.08-VT	
+D	PHX|BCH|3.50|V|tht|pluggable|Header-MalePins-Shrouded	Phoenix Contact	BCH	3.5	vertical	tht	2,3,4,5,6,12	7		PHO-BCH-3.50-VT	
+D	PHX|BCH|3.81|H|tht|pluggable|Header-MalePins-Shrouded	Phoenix Contact	BCH	3.81	horizontal	tht	2,3,4,5,6,8,12	7		PHO-BCH-3.81-HT	
+D	PHX|COMBICON-GMSTBVA|7.50|V|tht|pluggable|Header-MalePins-Shrouded	Phoenix Contact	COMBICON GMSTBVA	7.5	vertical	tht	5,8,9	3		PHO-COMBICON-GMSTBVA-7.50-VT	
+D	PHX|COMBICON-ICV|5.08|V|tht|pluggable|Header-FemaleSockets	Phoenix Contact	COMBICON ICV	5.08	vertical	tht	2,3,4,5,9,12	6		PHO-COMBICON-ICV-5.08-VT	
 D	PHX|COMBICON-PC|7.62|H|tht|pluggable|Header-MalePins-Shrouded	Phoenix Contact	COMBICON PC	7.62	horizontal	tht	2,3,4,6,10	5		PHO-COMBICON-PC-7.62-HT	
 D	PHX|COMBICON-PST|5.00|V|tht|pluggable|Header-MalePins-Unshroud	Phoenix Contact	COMBICON PST	5.0	vertical	tht	2,3,4,6,8,11,12	7		PHO-COMBICON-PST-5.00-VT	
 C	PHX|COMBICON-PT|5.00|H|tht|screw	Phoenix Contact	COMBICON PT	5.0	horizontal	tht	2,3,4,5,6,7,8,9,12	11		PHO-COMBICON-PT-5.00-HT	
@@ -31,7 +31,7 @@ C	PHX|COMBICON-SPT-THR|3.81|V|tht|push-in	Phoenix Contact	COMBICON SPT-THR	3.81	
 C	PHX|COMBICON-SPTA|3.50|A|tht|spring	Phoenix Contact	COMBICON SPTA	3.5	angled	tht	3,5,7,8,9	5		PHO-COMBICON-SPTA-3.50-AT	
 C	PHX|COMBICON-SPT|7.50|V|tht|spring	Phoenix Contact	COMBICON SPT	7.5	vertical	tht	3,4,6,8,9,12	6		PHO-COMBICON-SPT-7.50-VT	
 D	WDM|Omnimate-4.0-MHS|5.00|H|tht|pluggable|Header-MalePins-Shrouded	Weidmuller	Omnimate 4.0 MHS	5.0	horizontal	tht	2,3,4,5,6,7,8,9,10,11,12	17		WEI-OMNIMATE-4.0-MHS-5.00-HT	
-D	WDM|Omnimate-4.0-MHS|7.50|H|tht|pluggable|Header-MalePins-Shrouded	Weidmuller	Omnimate 4.0 MHS	7.5	horizontal	tht	2,3,4,5,6,7,8	11		WEI-OMNIMATE-4.0-MHS-7.50-HT	
+D	WDM|Omnimate-4.0-MHS|7.50|H|tht|pluggable|Header-MalePins-Shrouded	Weidmuller	Omnimate 4.0 MHS	7.5	horizontal	tht	2,3,4,5,6,7,8	7		WEI-OMNIMATE-4.0-MHS-7.50-HT	
 C	WDM|Omnimate-LLFS|7.50|H|tht|push-in	Weidmuller	Omnimate LLFS	7.5	horizontal	tht	2,4,5,6	4		WEI-OMNIMATE-LLFS-7.50-HT	
 C	WDM|Omnimate-LM|5.08|H|tht|screw	Weidmuller	Omnimate LM	5.08	horizontal	tht	2,3,4,5,6,7,8,9,10,11,12	8		WEI-OMNIMATE-LM-5.08-HT	G
 C	WDM|Omnimate-LM1N|5.08|H|tht|screw	Weidmuller	Omnimate LM	5.08	horizontal	tht	2,3	2		WEI-OMNIMATE-LM1N-5.08-HT	
@@ -39,10 +39,16 @@ C	WDM|Omnimate-LSF-SMT|3.50|H|tht|spring	Weidmuller	Omnimate LSF-SMT	3.5	horizon
 C	WDM|Omnimate-LSF-SMT|3.81|A|tht|spring	Weidmuller	Omnimate LSF-SMT	3.81	angled	tht	2,4,5,6,7,8,9,10,11	9		WEI-OMNIMATE-LSF-SMT-3.81-AT	
 C	WDM|Omnimate-LSF-SMT|5.00|V|tht|spring	Weidmuller	Omnimate LSF-SMT	5.0	vertical	tht	2,3,4,5,6,8	6		WEI-OMNIMATE-LSF-SMT-5.00-VT	
 C	WDM|Omnimate-LSF-SMT|7.62|A|tht|spring	Weidmuller	Omnimate LSF-SMT	7.62	angled	tht	2,3,4,5,6	5		WEI-OMNIMATE-LSF-SMT-7.62-AT	
-D	WDM|Omnimate-SC|3.81|H|tht|pluggable|Header-MalePins-Shrouded	Weidmuller	Omnimate SC	3.81	horizontal	tht	2,3,4,5,6,8,9,10,12	9		WEI-OMNIMATE-SC-3.81-HT	
-D	WDM|Omnimate-SL|3.50|V|tht|pluggable|Header-MalePins-Shrouded	Weidmuller	Omnimate SL	3.5	vertical	tht	2,3,4,5,6,7,8,9,10,11,12	33		WEI-OMNIMATE-SL-3.50-VT	
-D	WDM|Omnimate-SL|5.08|V|tht|pluggable|Header-MalePins-Shrouded	Weidmuller	Omnimate SL	5.08	vertical	tht	2,3,4,5,6,7,8,9,10,11,12	26		WEI-OMNIMATE-SL-5.08-VT	
-D	WDM|Omnimate-SL|7.62|H|tht|pluggable|Header-MalePins-Shrouded	Weidmuller	Omnimate SL	7.62	horizontal	tht	2,3,4,5,6,7,11	12		WEI-OMNIMATE-SL-7.62-HT	
+D	WDM|Omnimate-SC-F|3.81|H|tht|pluggable|Header-MalePins-Shrouded	Weidmuller	Omnimate SC	3.81	horizontal	tht	2,4,6,8	4		WEI-OMNIMATE-SC-F-3.81-HT	
+D	WDM|Omnimate-SC|3.81|H|tht|pluggable|Header-MalePins-Shrouded	Weidmuller	Omnimate SC	3.81	horizontal	tht	3,5,9,10,12	5		WEI-OMNIMATE-SC-3.81-HT	
+D	WDM|Omnimate-SL|3.50|V|tht|pluggable|Header-MalePins-Shrouded	Weidmuller	Omnimate SL	3.5	vertical	tht	2,3,4,5,6,7,8,10,11,12	26		WEI-OMNIMATE-SL-3.50-VT	
+D	WDM|Omnimate-SL-F|3.50|V|tht|pluggable|Header-MalePins-Shrouded	Weidmuller	Omnimate SL	3.5	vertical	tht	3,4,5,9,10	7		WEI-OMNIMATE-SL-F-3.50-VT	
+D	WDM|Omnimate-SL|5.08|V|tht|pluggable|Header-MalePins-Shrouded	Weidmuller	Omnimate SL	5.08	vertical	tht	2,3,4,5,6,7,8,9,10,11,12	19		WEI-OMNIMATE-SL-5.08-VT	
+D	WDM|Omnimate-SL-F1|5.08|V|tht|pluggable|Header-MalePins-Shrouded	Weidmuller	Omnimate SL	5.08	vertical	tht	2,3,4,5,6	5		WEI-OMNIMATE-SL-F1-5.08-VT	
+D	WDM|Omnimate-SL-F2|5.08|V|tht|pluggable|Header-MalePins-Shrouded	Weidmuller	Omnimate SL	5.08	vertical	tht	10,12	2		WEI-OMNIMATE-SL-F2-5.08-VT	
+D	WDM|Omnimate-SL|7.62|H|tht|pluggable|Header-MalePins-Shrouded	Weidmuller	Omnimate SL	7.62	horizontal	tht	2,3,4,5,6,7	8		WEI-OMNIMATE-SL-7.62-HT	
+D	WDM|Omnimate-SL-F|7.62|H|tht|pluggable|Header-MalePins-Shrouded	Weidmuller	Omnimate SL	7.62	horizontal	tht	3,6,11	3		WEI-OMNIMATE-SL-F-7.62-HT	
+D	WDM|Omnimate-SL-GAP|7.62|H|tht|pluggable|Header-MalePins-Shrouded	Weidmuller	Omnimate SL	7.62	horizontal	tht	4	1		WEI-OMNIMATE-SL-GAP-7.62-HT	
 C	WE|WR-TBL-Series-0008|5.08|V|tht|screw	Wurth Elektronik	WR-TBL Series 0008	5.08	vertical	tht	2,3,5,6,7,8	6		WUR-WR-TBL-SERIES-0008-5.08-VT	
 C	WE|WR-TBL-Series-0011|7.50|H|tht|screw	Wurth Elektronik	WR-TBL Series 0011	7.5	horizontal	tht	2,3,4,5,6,7,8,9,10,11,12	7		WUR-WR-TBL-SERIES-0011-7.50-HT	G
 D	WE|WR-TBL-Series-0016|5.00|V|tht|pluggable|Header-BladePins	Wurth Elektronik	WR-TBL Series 0016	5.0	vertical	tht	2,3,4,5,6,7,8	7		WUR-WR-TBL-SERIES-0016-5.00-VT	

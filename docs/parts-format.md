@@ -848,8 +848,10 @@ the hole row's offset, and a `note` that names the maker's drawing, its page and
 `footprints.json` (a second run changes nothing; `--check` fails when the file differs). A block with one row of holes
 centred on its housing is a `header` footprint (`rows` 1, square pad on pin 1); a block with two holes per pole
 (`holes`), poles that alternate between two rows (`stagger`), a first column that is not centred (`edgeX`) or poles
-numbered from the right (`reverse`) is an `explicit` one, with one pad per hole and every hole of a pole on that pole's
-pin. The pad is rule R5-T: round, the drill + 0.7 mm at most the pitch - 0.8 mm, the drill the drawing's hole diameter
+numbered from the right (`reverse`), an empty slot between two poles (`gaps`) or mounting holes at the ends of the row
+(`flange`) is an `explicit` one, with one pad per hole and every hole of a pole on that pole's pin. A flange is two
+holes beyond the end poles: non-plated pegs (`"pin": 0`, `"plated": false`, the hole itself, as the drawing shows no
+copper ring) or, where the maker draws solder flange pins, plated unnumbered pads (`"pin": 0`). The pad is rule R5-T: round, the drill + 0.7 mm at most the pitch - 0.8 mm, the drill the drawing's hole diameter
 (the middle of a min / max); pin 1's pad is square. Where a maker draws different housings under one series, each
 housing is its own variant (Weidmuller LM and LM1N, Phoenix SMKDS 2,5 and SMKDS 3).
 

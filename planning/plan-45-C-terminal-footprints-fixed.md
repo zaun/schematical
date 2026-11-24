@@ -202,7 +202,7 @@ Commit: 8e9d4165
 
 Acceptance: the Phoenix lines have objects.
   Check: `python3 -I planning/plan-45-data/census/fp-check.py C` → `<n> lines, <k> without a footprint` with the Phoenix lines absent from the missing list (est. 1.5 h of reading five drawings). Result: `19 lines, 0 without a footprint` (no Phoenix line missing).
-Commit: this commit (hash in the next one)
+Commit: 4f629283
 
 ### Phase 3 — Weidmüller (6 variants)
 
@@ -213,7 +213,7 @@ Commit: this commit (hash in the next one)
 
 Acceptance: the Weidmüller lines have objects.
   Check: `python3 -I planning/plan-45-data/census/fp-check.py C` → the Weidmüller lines absent from the missing list (est. 1.5 h). Result: `19 lines, 0 without a footprint`.
-Commit: this commit (hash in the next one)
+Commit: 4f629283
 
 ### Phase 4 — Würth Elektronik (6 variants)
 
@@ -223,7 +223,7 @@ Commit: this commit (hash in the next one)
 
 Acceptance: every C line has its objects.
   Check: `python3 -I planning/plan-45-data/census/fp-check.py C` → `<n> lines, 0 without a footprint` (est. 1.5 h). Result: `19 lines, 0 without a footprint`, `135 footprints, 0 missing`.
-Commit: this commit (hash in the next one)
+Commit: 4f629283
 
 ### Phase 5 — Load and hand-check
 
@@ -242,7 +242,7 @@ Commit: this commit (hash in the next one)
 
 Acceptance: the objects load and match their drawings.
   Check: `planning/plan-45-data/census/fp-load.sh planning/plan-45-data/footprints-C.json` → exits 0, `<n> new footprints, 0 errors` (est. 10 min: a temp backend build). Result: exit 0, `135 new footprints: load ok` (4 s: the build is incremental).
-Commit: this commit (hash in the next one)
+Commit: 4f629283
 
 ## Validation Plan
 

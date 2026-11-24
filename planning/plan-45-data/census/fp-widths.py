@@ -76,8 +76,15 @@ def main():
         f = line.rstrip('\n').split('\t')
         if f[0] == letter:
             labels[f[1]] = f[10]
-    compared = bad = unprinted = spans = 0
+    compared = bad = unprinted = spans = wide = 0
     per_variant = {}
+    # variants the table draws with their family's widest outline ("widest": true): the footprint may be wider than a sheet, not narrower
+    table = json.load(open(os.path.join(ROOT, 'scripts', 'terminal-footprints.json')))['variants']
+    widest = {('' if v['letter'] == 'E' else 'TB-') + v['stem']: bool(v.get('widest')) for v in table}
+
+    def stem_of(fid):
+        return fid.rsplit('-', 1)[0]
+
     for r in csv.DictReader(open(os.path.join(DATA, 'candidates.tsv')), delimiter='\t'):
         if r['state'] != 'add' or r['variant'] not in labels:
             continue
@@ -97,7 +104,9 @@ def main():
         compared += 1
         got = fps[fid]['body']['width']
         per_variant.setdefault(r['variant'], {})[int(r['positions'])] = (r['mpn'], w, got)
-        if abs(got - w) > 0.05:
+        if widest.get(stem_of(fid)) and -0.05 <= got - w <= 3.5:
+            wide += 1                       # a variant drawn with its family's widest outline: never narrower than a sheet
+        elif abs(got - w) > 0.05:
             bad += 1
             print(f"MISMATCH {r['mpn']} {fid}: datasheet {w}, footprint {got}")
     if '--ends' in sys.argv:       # the smallest and largest position count the sheets print, per variant
@@ -105,7 +114,8 @@ def main():
             ns = sorted(d)
             parts = [f'{n} pos {d[n][0]}: sheet {d[n][1]:g}, footprint {d[n][2]:g}' for n in dict.fromkeys((ns[0], ns[-1]))]
             print(f"{labels[v]} | " + '; '.join(parts))
-    print(f'{compared} widths compared, {spans} hole spans compared, {bad} mismatches, {unprinted} widths not printed')
+    print(f'{compared} widths compared ({wide} of them against a "widest" outline), {spans} hole spans compared, '
+          f'{bad} mismatches, {unprinted} widths not printed')
     sys.exit(1 if bad else 0)
 
 

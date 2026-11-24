@@ -131,6 +131,43 @@ test('explicit style: two holes per pole, staggered rows, an off-centre first co
     [[1, 4.405, -3.7, 'rect'], [2, 0.595, 1.3, 'round'], [3, -3.215, -3.7, 'round']]);
 });
 
+test('flange holes: non-plated pegs or plated unnumbered pads beyond each end of the row; a gap leaves an empty slot', () => {
+  const { dir, files } = workspace();
+  const t = JSON.parse(fs.readFileSync(files.table, 'utf8'));
+  t.variants.push(
+    // two non-plated 2.3 pegs, 5.08 beyond the end poles, on the pole row
+    { stem: 'TEST-FLG-5.08-VT', letter: 'C', positions: [2, 5], style: 'explicit', flange: { dx: 5.08, dy: 0, drill: 2.3 }, describe: 'Test flange block',
+      note: 'test', pitch: 5.08, drill: 1.45, firstRowY: 0.4, bodyExtra: 10, bodyDepth: 8.4 },
+    // plated solder flange pins 3.8 beyond the ends and 2.3 below the row
+    { stem: 'TEST-FLP-3.81-HT', letter: 'C', positions: [3], style: 'explicit', flange: { dx: 3.8, dy: 2.3, drill: 1.55, plated: true }, describe: 'Test solder flange',
+      note: 'test', pitch: 3.81, drill: 1.35, firstRowY: -3.3, bodyExtra: 10.6, bodyDepth: 9.2 },
+    // 4 poles on a 5 slot housing: no pin in slot 4
+    { stem: 'TEST-GAP-7.62-HT', letter: 'C', positions: [4], style: 'explicit', gaps: [3], edgeX: 3.5, describe: 'Test gap block',
+      note: 'test', pitch: 7.62, drill: 1.45, firstRowY: -1.45, bodyExtra: 7, bodyDepth: 12.7 });
+  fs.writeFileSync(files.table, JSON.stringify(t));
+  const out = path.join(dir, 'out.json');
+  const r = run(files, '--letter', 'C', '--out', out);
+  assert.strictEqual(r.status, 0, r.stderr);
+  const by = Object.fromEntries(JSON.parse(fs.readFileSync(out, 'utf8')).footprints.map((o) => [o.id, o]));
+
+  const flg = by['TB-TEST-FLG-5.08-VT-02'];
+  assert.strictEqual(flg.pads.length, 4);                   // 2 poles + 2 pegs
+  assert.deepStrictEqual(flg.pads.filter((p) => p.pin !== 0).map((p) => [p.pin, p.x]), [[1, -2.54], [2, 2.54]]);
+  assert.deepStrictEqual(flg.pads.filter((p) => p.pin === 0),
+    [{ pin: 0, x: -7.62, y: 0.4, width: 2.3, height: 2.3, shape: 'round', drill: 2.3, plated: false },
+     { pin: 0, x: 7.62, y: 0.4, width: 2.3, height: 2.3, shape: 'round', drill: 2.3, plated: false }]);
+  assert.strictEqual(flg.pins, 2);                          // the pegs are not pins
+
+  const flp = by['TB-TEST-FLP-3.81-HT-03'];
+  const solder = flp.pads.filter((p) => p.pin === 0);
+  assert.deepStrictEqual(solder.map((p) => [p.x, p.y, p.width, p.drill, p.plated]), [[-7.61, -1, 2.25, 1.55, undefined], [7.61, -1, 2.25, 1.55, undefined]]);   // the end poles are at +-3.81, the pins 3.8 beyond
+
+  const gap = by['TB-TEST-GAP-7.62-HT-04'];
+  // width 4 * 7.62 + 7 = 37.48, first column 3.5 from the left end; poles 1, 2, 3 then slot 4 empty, pole 4 in slot 5
+  assert.strictEqual(gap.body.width, 37.48);
+  assert.deepStrictEqual(gap.pads.map((p) => [p.pin, p.x]), [[1, -15.24], [2, -7.62], [3, 0], [4, 15.24]]);
+});
+
 test('edgeX, holes, stagger and reverse need the explicit style', () => {
   const { dir, files } = workspace();
   const t = JSON.parse(fs.readFileSync(files.table, 'utf8'));

@@ -31,6 +31,11 @@
 //   holes       [dy, ...] one pad per entry for every pole, dy from the pole's row (several pins per pole)
 //   stagger     [dy, ...] pole p's row is firstRowY + stagger[(p - 1) % length] (poles alternate between rows)
 //   reverse     true: the poles are numbered from the right
+//   gaps        [k, ...] an empty slot after pole k (a housing with a blank slot between two pins); the width formula
+//               stays n * pitch + bodyExtra
+//   flange      {dx, dy, drill, plated} two more holes, one beyond each end of the row of poles: dx from the end pole,
+//               dy from the row. plated false (the default): a non-plated peg hole (round, width = height = drill,
+//               "pin": 0); plated true: an unnumbered solder pad ("pin": 0, pad drill + 0.7)
 // Body width = n * pitch + bodyExtra, height = bodyDepth. Pin 1's pads are square (rect).
 
 'use strict';
@@ -68,16 +73,33 @@ function buildExplicit(v, n) {
   const edgeX = v.edgeX !== undefined ? v.edgeX : (width - (n - 1) * v.pitch) / 2;
   const holes = v.holes || [0];
   const stagger = v.stagger || [0];
+  const gaps = v.gaps || [];
   const pads = [];
+  let firstX = Infinity;
+  let lastX = -Infinity;
   for (let p = 1; p <= n; p++) {
-    const c = v.reverse ? n - p : p - 1;                       // the column from the left
-    const x = mm(-width / 2 + edgeX + c * v.pitch);
+    const slots = (v.reverse ? n - p : p - 1) + gaps.filter((k) => k < p).length;   // the column from the left
+    const x = mm(-width / 2 + edgeX + slots * v.pitch);
+    firstX = Math.min(firstX, x);
+    lastX = Math.max(lastX, x);
     const rowY = v.firstRowY + stagger[(p - 1) % stagger.length];
     for (const dy of holes) {
       pads.push({ pin: p, x, y: mm(rowY + dy), width: pad.width, height: pad.height, shape: p === 1 ? 'rect' : pad.shape, drill: v.drill });
     }
   }
   pads.sort((a, b) => a.pin - b.pin || a.y - b.y);
+  if (v.flange) {
+    const f = v.flange;
+    for (const x of [mm(firstX - f.dx), mm(lastX + f.dx)]) {
+      const y = mm(v.firstRowY + f.dy);
+      if (f.plated) {
+        const d = Math.round((f.drill + 0.7) * 100) / 100;
+        pads.push({ pin: 0, x, y, width: d, height: d, shape: 'round', drill: f.drill });
+      } else {
+        pads.push({ pin: 0, x, y, width: f.drill, height: f.drill, shape: 'round', drill: f.drill, plated: false });
+      }
+    }
+  }
   return {
     id: idOf(v, n),
     description: `${v.describe}, ${n} positions`,
@@ -117,8 +139,8 @@ function loadTable() {
       if (v[k] === undefined) throw new Error(`${v.stem || '?'}: missing "${k}"`);
     }
     if (!['header', 'explicit'].includes(v.style)) throw new Error(`${v.stem}: style ${v.style} is not supported`);
-    if (v.style === 'header' && ['edgeX', 'holes', 'stagger', 'reverse'].some((k) => v[k] !== undefined)) {
-      throw new Error(`${v.stem}: edgeX, holes, stagger and reverse need style "explicit"`);
+    if (v.style === 'header' && ['edgeX', 'holes', 'stagger', 'reverse', 'gaps', 'flange'].some((k) => v[k] !== undefined)) {
+      throw new Error(`${v.stem}: edgeX, holes, stagger, reverse, gaps and flange need style "explicit"`);
     }
     if (!['C', 'D', 'E'].includes(v.letter)) throw new Error(`${v.stem}: letter ${v.letter}`);
     if (!(v.drill > 0 && v.pitch > 0)) throw new Error(`${v.stem}: drill and pitch must be > 0`);
