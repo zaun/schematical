@@ -29,8 +29,8 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-51-B complete | `ls planning/completed/plan-51-B-*.md` → exists | NOT MET (2026-11-21: not started) |
-| Every candidate row has a downloaded PDF | `awk -F'\t' 'NR>1 && $12=="candidate" && $11==""' planning/plan-51-data/candidates.tsv \| wc -l` → 0 | NOT MET (B's output) |
+| plan-51-B complete | `ls planning/completed/plan-51-B-*.md` → exists | MET (2026-11-24: `planning/completed/plan-51-B-socket-census.md`, commit f96265bc) |
+| Every candidate row has a downloaded PDF | `awk -F'\t' 'NR>1 && $12=="candidate" && $11==""' planning/plan-51-data/candidates.tsv \| wc -l` → 0 | MET (2026-11-24: 0; 575 rows) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > If you stop, report the status of *all* prerequisites.
@@ -108,23 +108,23 @@ Image-only drawings are read from the rendered page (`pdftoppm -r 150 -f <p> -l 
 
 ### Phase 1 — the tables
 
-- [ ] `planning/plan-51-data/census/series_check.py`: reads `candidates.tsv` and `series.tsv`; fails on a group with no row, an empty required cell, an unknown `rule`, a `pins` entry outside `fits.tsv`, a `drawing` file that does not exist, or a `generic` group set that does not cover all 11 DIP and 4 PLCC shapes; prints `ok`.
-- [ ] Mill-Max rows (series of `candidates.tsv` column 3 for maker Mill-Max) from `088-145.pdf`.
-- [ ] Preci-Dip rows from `CATALOG-DILSOCKETS.pdf` and the PDFs B downloaded.
-- [ ] Assmann rows from the `ASS_*_CO.pdf` files.
+- [x] `planning/plan-51-data/census/series_check.py`: reads `candidates.tsv` and `series.tsv`; fails on a group with no row, an empty required cell, an unknown `rule`, a `pins` entry outside `fits.tsv`, a `drawing` file that does not exist, or a `generic` group set that does not cover all 11 DIP and 4 PLCC shapes; prints `ok`. — written; also checks the per-pin-count cells (`body_len`, `sides` sum, `span` as x/y), the drill against the pad, `--maker` / `--series` filters, and skips groups whose candidates are all `out` (§ Corrections).
+- [x] Mill-Max rows (series of `candidates.tsv` column 3 for maker Mill-Max) from `088-145.pdf`. — 29 rows (`series-parts/mm-a.tsv`, `mm-b.tsv`), read by two subagents from the catalog pages and spot-checked by the owner session against the drawings (series 110 surface mount p.17, 940 p.57).
+- [x] Preci-Dip rows from `CATALOG-DILSOCKETS.pdf` and the PDFs B downloaded. — 18 rows (`series-parts/pd.tsv`: 17 DIP from `CATALOG-DILSOCKETS.pdf`, 1 PLCC surface mount from `CATALOG-PGABGAPLCCSOCKETS.pdf`).
+- [x] Assmann rows from the `ASS_*_CO.pdf` files. — 8 rows (`series-parts/as.tsv`), read by hand from the rendered drawings.
 
 Acceptance: `series_check.py` prints `ok`.
-  Check: `python3 -I planning/plan-51-data/census/series_check.py` → `ok` (est. 4 h of reading, 1 s to check).
-Commit: —
+  Check: `python3 -I planning/plan-51-data/census/series_check.py` → `ok` (est. 4 h of reading, 1 s to check). Measured 2026-11-24 after `census/merge-series.py` (55 rows): `ok`. VERIFIED.
+Commit: (next commit)
 
 ### Phase 2 — verdicts and skipped parts
 
-- [ ] A candidate group whose drawing gives no land pattern and no tail size, or whose pattern the `dual` and `quad` styles cannot draw, is `out` (`state` column), `reason` naming the page; its rows go to `datasheets/skipped-parts.md` in that file's format.
-- [ ] `candidates.tsv` column 12 is `add` or `out` on every row.
+- [x] A candidate group whose drawing gives no land pattern and no tail size, or whose pattern the `dual` and `quad` styles cannot draw, is `out` (`state` column), `reason` naming the page; its rows go to `datasheets/skipped-parts.md` in that file's format. — 4 groups, 15 rows, all through-hole PLCC (§ Corrections): Assmann `ASS_0981` and `ASS_7007` (4 + 4), Mill-Max 940 TH (4), Preci-Dip 540 TH (3); `datasheets/skipped-parts.md` § "IC sockets, PLCC through hole (plan-51-C)"; the two Assmann PDFs only they cite were deleted.
+- [x] `candidates.tsv` column 12 is `add` or `out` on every row. — `census/finalize-state.py` → `add 560 out 15`.
 
 Acceptance: no row has an empty `state`; every `out` row of a drawing reason is in `skipped-parts.md`.
-  Check: `awk -F'\t' 'NR>1 && $12!="add" && $12!="out"' planning/plan-51-data/candidates.tsv \| wc -l` → 0 (est. 1 s).
-Commit: —
+  Check: `awk -F'\t' 'NR>1 && $12!="add" && $12!="out"' planning/plan-51-data/candidates.tsv \| wc -l` → 0 (est. 1 s). Measured 2026-11-24: 0; `series_check.py` → `ok`; the 15 `out` mpns are all in `skipped-parts.md`. VERIFIED.
+Commit: (next commit)
 
 ## Validation Plan
 
@@ -141,6 +141,12 @@ See plan-51-A § Decisions. Author decisions:
 - **Pad rules are plan-03-B's** (§ 3.1); mid-values as `docs/parts-format.md` says.
 
 ## Corrections
+
+- **2026-11-24, the through-hole PLCC groups are `out` (15 rows), and the generic PLCC sockets are surface mount.** A PLCC socket's through-hole tails are not on the chip's 1.27 mm perimeter ring: Assmann `ASS_0981_CO.pdf` / `ASS_7007_CO.pdf` p.2, Mill-Max `088-145.pdf` p.57 (940) and Preci-Dip `CATALOG-PGABGAPLCCSOCKETS.pdf` p.23 (540) all draw two staggered rows of 2.54 mm holes per side (Ø0.75–0.90). The `quad` style cannot draw it (one pad per slot); an `explicit` footprint would need the contact-to-hole map, which only Mill-Max and Preci-Dip print (the numbers beside the holes; Assmann gives none). This is the case the Phase 2 task names (a pattern the styles cannot draw), so the four groups are `out` with the page in `reason`, and § 3.3's premise that a generic PLCC socket takes the Assmann A-CCS through-hole footprint is false. The generic PLCC sockets use the surface-mount rows instead: `generic` is `28,32,44` on Assmann `ASS_0142` (A-CCS 0xx-Z-SM) and `68` on Mill-Max 940 surface mount, so plan-51-E (no through-hole PLCC groups left; the 15 TH PLCC candidates are skipped) and plan-51-F (the four generic PLCC sockets are `surface-mount`) are corrected in their own files.
+- **2026-11-24, Assmann is split by drawing.** DigiKey lists every Assmann socket under the series `-`, but each drawing has its own PCB layout (`A xx-LC-TT` hole Ø1.00, `AR xx-HZL` Ø0.90, `AR xx-HZW/TN` Ø1.02, `A xx-LC-TR` Ø1.00 with another body, `A-CCS Z-SM`). `census/assmann-series.py` sets column 3 of the 46 Assmann rows to `ASS_<n>` (the drawing number), giving 10 Assmann groups instead of 4 (8 after the PLCC through-hole `out`).
+- **2026-11-24, six Mill-Max `210-47-…-001000` rows are through hole, not surface mount.** DigiKey lists five of them as Surface Mount and `210-47-316-41-001000` (same series, same suffix) as Through Hole; the catalog (p.12) names `-001000` the standard solder tail, and the gull-wing surface-mount version of series 210 is `-105000` (p.18). `census/fix-mounting.py` sets their mounting to `Through Hole` and records why in `reason`; the 210 surface-mount group does not exist. (F reads the mounting from `candidates.tsv`.)
+- **2026-11-24, counts.** 55 groups with a row (`series.tsv`: Mill-Max 29, Preci-Dip 18, Assmann 8; DIP through hole 41, DIP surface mount 10, PLCC surface mount 4); the planning-time 53 changed with B's PLCC rows, the Assmann split and the 210 correction. Candidates: 575 = 560 `add` (Mill-Max 318, Preci-Dip 204, Assmann 38) + 15 `out`. Pin 1, `rect` (through hole) or `none` (surface mount); a pad is round when `pad_w` equals `pad_h`.
+- **2026-11-24, how the readings were done.** Three subagents read Mill-Max (two) and Preci-Dip into `series-parts/*.tsv` against the rules of § 3.1; their doubts are in each row's `note` (series 110 SM pad centre read from the drawing's .018 in dimension: checked by the owner session against p.17; 121/122/123 wrapost hole from the square post's diagonal; 605/612/614 hole from the catalog's "minimum mounting hole"; 146 press-fit hole 1.02 finished). Assmann was read by hand; its surface-mount PLCC (`ASS_0142`) takes spanY = Dim C and spanX = 2 × C1 from the table (the figure is not to scale; C is the distance of the two Ø1.60 location holes, which sit on the top and bottom pad-row lines).
 
 ## Summary
 

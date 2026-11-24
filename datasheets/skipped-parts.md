@@ -927,6 +927,24 @@ datasheet's other options. Their PDFs may be in the tree for the parts that were
 | ECS-120-32-4VX | ECS HC-49USSX, HC-49/US, `HC-49USS.pdf` | `crystal` / Crystal → MHz | not in the datasheet's ordering table |
 | SWS8347D16-32.768KT, SWS8347D48-32.768KT, SWS8349D16-32.768KT, SWS8349D48-32.768KT | Suntsu SWS834, 4-SOJ, 5.50mm pitch, `SWS834-Series.pdf` | `crystal` / Crystal → kHz | not in the datasheet's ordering table |
 
+## IC sockets, PLCC through hole (plan-51-C)
+
+In-stock Active DIP and PLCC IC sockets of Mill-Max, Preci-Dip and Assmann (DigiKey category 409,
+census 2026-11-24) whose through-hole PLCC land pattern the footprint styles cannot draw. A PLCC
+socket's tails do not sit on the chip's 1.27 mm perimeter ring: they fan out to a **grid of
+2.54 mm holes in two staggered rows per side**, so pin *n* of the socket is one of two hole
+rows, not one pad per slot of a `quad` footprint. It would need an `explicit` footprint with a
+per-pin hole position: Mill-Max (p.57) and Preci-Dip (p.23) print the hole numbers beside a drawn
+pattern, Assmann's drawings give the grid and the pin count only. The surface-mount PLCC sockets
+of the same makers are added (their pads are one row per side on 1.27 mm).
+
+| Part(s) | Device | Would have gone into | Why skipped |
+|---|---|---|---|
+| A-CCS 028-Z-T, A-CCS 032-Z-T, A-CCS 044-Z-T, A-CCS 068-Z-T | Assmann A-CCS 0xx-Z-T, PLCC socket straight THT, `ASS_0981_CO.pdf` | `socket` / Connector → IC Socket | Recommended PCB layout (p.2) is two nested rings of 2.54 mm holes (Ø0.80) with no pin numbers: which contact goes to which hole cannot be read from the drawing. |
+| A-CCS 028-G-T, A-CCS 032-G-T, A-CCS 044-G-T, A-CCS 068-G-T | Assmann A-CCS 0xx-G-T, PLCC socket straight THT (gold contact), `ASS_7007_CO.pdf` | `socket` / Connector → IC Socket | As above (p.2). |
+| 940-44-028-24-000000, 940-44-032-24-000000, 940-44-044-24-000000, 940-44-068-24-000000 | Mill-Max series 940, PLCC through-board mount, `088-145.pdf` p.57 | `socket` / Connector → IC Socket | Staggered 2.54 mm drilling pattern (0.035 in holes), see above; needs `explicit` pads. |
+| 540-88-032-24-008, 540-88-044-24-008, 540-88-068-24-008 | Preci-Dip series 540, PLCC solder tail, `CATALOG-PGABGAPLCCSOCKETS.pdf` p.23 | `socket` / Connector → IC Socket | Staggered 2.54 mm hole pattern (Ø0.75 min), see above; needs `explicit` pads. |
+
 ## Card slots (plan-54)
 
 Card-slot parts (memory / SIM card sockets, memory-module sockets, card-edge sockets; in stock and Active at
