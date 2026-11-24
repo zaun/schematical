@@ -29,8 +29,8 @@ plan-55-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-55-E complete | `ls planning/completed/plan-55-E-*.md` → exists | NOT MET (2026-11-22: not started) |
-| `footprints-needed.txt` is final | `grep -c '^F' planning/plan-55-data/footprints-needed.txt` → E's recorded `F` count | NOT MET (2026-11-22: E not started) |
+| plan-55-E complete | `ls planning/completed/plan-55-E-*.md` → exists | MET (2026-11-23: archived at 0ba82f54) |
+| `footprints-needed.txt` is final | `grep -c '^F' planning/plan-55-data/footprints-needed.txt` → E's recorded `F` count | MET (2026-11-23: 51) |
 
 Everything below is written against the world where these hold.
 
@@ -63,7 +63,7 @@ Everything below is written against the world where these hold.
 | What | Count | Command |
 |---|---|---|
 | TI `Package / Case` labels at most, three families | 9 + 22 + 37 = 68 | `grep '^pick.*Texas' planning/plan-55-data/families.out` → `packages(case)` 9, 22, 37 |
-| `F` lines after E | the distinct (company, package, supplier package) of the TI `add` rows | `awk -F'\t' '$1=="F"' planning/plan-55-data/footprints-needed.txt \| wc -l` (recorded here when F starts) |
+| `F` lines after E | the distinct (company, package, supplier package) of the TI `add` rows | `awk -F'\t' '$1=="F"' planning/plan-55-data/footprints-needed.txt \| wc -l` (recorded here when F starts: **51**; 52 units once the pin count splits a line) |
 
 ## 3. Design
 
@@ -88,32 +88,32 @@ are Phase 2's; *leadless* lines (`DFN`, `QFN`, `WSON`, `UFDFN`, `X2SON`, `WLCSP`
 
 ### Phase 1 — The tools and the reuse pass
 
-- [ ] Copy `fp-check.py`, `fp-load.sh`, `fp-merge.py` from `planning/plan-42-data/census/` and adapt the
-      paths (`planning/plan-55-data/`, `footprints-<letter>.json`).
-- [ ] Map every `F` line to a library footprint whose pads equal its package drawing's (`source`
-      `reuse`); the lines left are Phase 2's and 3's.
+- [x] Copy `fp-check.py`, `fp-load.sh`, `fp-merge.py` from `planning/plan-42-data/census/` and adapt the
+      paths (`planning/plan-55-data/`, `footprints-<letter>.json`). Beside them `census/fp-units.py` (the units and the reader packets), `fp-find.py` (reuse search), `fp-combine.py` (merges the packets' files) and `FOOTPRINT-GUIDE.md` (Correction 1).
+- [x] Map every `F` line to a library footprint whose pads equal its package drawing's (`source`
+      `reuse`); the lines left are Phase 2's and 3's. Observed: 33 of the 60 map rows are `reuse`.
 
 Acceptance: the tools run and every reusable line is mapped.
   Check: `python3 -I planning/plan-55-data/census/fp-check.py F` → prints the count of lines still without a footprint (est. 1 min).
-Commit: —
+Commit: (filled by the next commit)
 
 ### Phase 2 — Leaded and through-hole packages
 
-- [ ] Draw each remaining leaded `F` line from its package drawing into `footprints-F.json` (the
-      `dual`, `quad`, `explicit` styles, § Footprints rules), `source` `new`.
+- [x] Draw each remaining leaded `F` line from its package drawing into `footprints-F.json` (the
+      `dual`, `quad`, `explicit` styles, § Footprints rules), `source` `new`. Observed: the readers' packets f01 to f08 (Correction 1) drew 27 new footprints in all (leaded and leadless together); `fp-load.sh planning/plan-55-data/footprints-F.json` → `27 new footprints: load ok`.
 
 Acceptance: every leaded `F` line has a footprint and the objects load.
   Check: `planning/plan-55-data/census/fp-load.sh planning/plan-55-data/footprints-F.json` → `<k> new footprints: load ok` (est. 1 min).
-Commit: —
+Commit: (filled by the next commit)
 
 ### Phase 3 — Leadless and ball-grid packages
 
-- [ ] The same for the leadless `F` lines (`"centre"` for an exposed pad; `explicit` for WLCSP and
-      DSBGA balls).
+- [x] The same for the leadless `F` lines (`"centre"` for an exposed pad; `explicit` for WLCSP and
+      DSBGA balls). Observed: `fp-check.py F` → `51 lines, 0 without a footprint`.
 
 Acceptance: every `F` line has a footprint and the objects load.
   Check: `python3 -I planning/plan-55-data/census/fp-check.py F` → `<n> lines, 0 without a footprint`; `fp-load.sh planning/plan-55-data/footprints-F.json` → `<k> new footprints: load ok` (est. 2 min).
-Commit: —
+Commit: (filled by the next commit)
 
 ## Validation Plan
 
@@ -132,7 +132,10 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+1. **The readers work in packets by unit.** A unit is (letter, company, `Package / Case`, `Supplier Device Package`, pin count): 52 for TI (a pin count splits a line: the 16-pin and the 17-pin HTSSOP; the numbered pad is the 17th pin), in eight packets (`census/fp-units.py --packets`, reader guide `planning/plan-55-data/FOOTPRINT-GUIDE.md`, outputs `footprints.json` and `map.tsv` per packet, merged by `fp-combine.py F`). `fp-check.py` checks every (PDF, pin count, part number) of a line, so `footprint-map.tsv` carries `pdf` (a row for one PDF wins) and, new here, `mpn` (a regex a part number must fully match, a row with it wins).
+2. **A numbered exposed pad that is a pin** (plan-55-C Correction 6) is the `centre` pad with `slots` 0 for its pin: `HTSSOP-17-TI-PWP0016M` (TPS1HA08-Q1's VBB). The unnumbered pads (the usual exposed pad) stay unnamed.
+3. **`tps22921.pdf` covers YFP (0.4 mm pitch) and YZP (0.5 mm) parts under one pair of labels**: `footprint-map-fixes.tsv` maps `TPS2292[12]B?YZPR` to `DSBGA-6-YZP`; the rest of the PDF is `DSBGA-6-YFP`.
+4. **For a reviewer** (from the readers' reports; all load, none overlaps): the YZV0004 land pattern of tps22910a / tps22934 is taken from tps22930a p.21 (those PDFs have no drawing) and equals the library's `WLCSP-4-ADI-CB-4-4` pads (its body is 0.95 x 1.03, larger than the die); `HTSSOP-14-PWP` and `SOIC-16` are reused for PDFs with no 14-pin / 16-pin land pattern of their own (same family drawings); `SOT583-8-TI-DYC0008A` draws a stepped land as its 0.85 x 0.3 bounding rectangle; the RPW, DML, RYZ, CHU, RXP and RXN lands are read off rendered pages; `WSON-8-TI-DNY0008A` draws the 0.6 x 1.6 land of pins 6 to 8 as three abutting pads; `HVSSOP-8-TI-DGN0008`'s exposed pad is the midpoint of four DGN drawings (within 0.05 mm of each); `HTSSOP-20-TI-PWP0020T`'s and `UQFN`/`WQFN` pads omit the drawings' R0.05 corners, as the library's TI footprints do; TPS254900-Q1's RVC0020A drawing comes from the TPS25940 datasheet (`slvscf3a.pdf` p.40-41, downloaded from ti.com), not from the placed PDF, which has none.
 
 ## Summary
 

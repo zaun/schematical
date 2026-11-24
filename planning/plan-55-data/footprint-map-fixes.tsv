@@ -1,0 +1,2 @@
+letter	company	package	supplier_package	pins	footprint	source	drawing	pdf	note	mpn
+F	ti	6-XFBGA, DSBGA	6-DSBGA	6	DSBGA-6-YZP	reuse	TI YZP0006 board layout, tps22921.pdf p.35	tps22921.pdf	the YZP parts of tps22921.pdf (0.5 pitch, pad 0.225); the YFP parts take the other row (plan-55-F Correction 3)	TPS2292[12]B?YZPR
