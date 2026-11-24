@@ -204,17 +204,17 @@ with `listing_check --print | diff`.
 
 Acceptance: the backend builds; the existing 60 programs pass; goldens byte-identical.
   Check: `cmake --build /tmp/logic-p51 -j8 && ctest --test-dir /tmp/logic-p51 -j8 && git diff --stat backend/tests/golden` → `100% tests passed, 0 tests failed out of 60`, empty diff (est. 3 min). Measured 2026-11-24 in `/tmp/logic-p51-wt`: `100% tests passed, 0 tests failed out of 60`, `git diff --stat backend/tests/golden` empty. VERIFIED.
-Commit: (next commit)
+Commit: d3a4cf25
 
 ### Phase 2 — `"fits"`, tests, docs
 
-- [ ] `backend/src/library/library.c`: `"fits"` in `PART_KEYS`; `load_fits` beside `load_footprint_choices` per § 3.2 (required on a socket, rejected elsewhere), called from the same key loop.
-- [ ] `backend/tests/socket_test.c` + `logic_test(socket_test)` in `backend/CMakeLists.txt`: § 6 cases (inline JSON, a tiny `footprints.json` with `PDIP-14`, `CDIP-14`, `PLCC-28`).
-- [ ] `docs/parts-format.md`: the file table gains `socket.json`; the intro list of kinds gains "IC socket"; a `### socket` section (device and part keys, the pin rules, `"fits"`); `"fits"` in the Parts key table; `docs/backend.md`: none (no new step).
+- [x] `backend/src/library/library.c`: `"fits"` in `PART_KEYS`; `load_fits` beside `load_footprint_choices` per § 3.2 (required on a socket, rejected elsewhere), called from the same key loop. — `load_fits` runs after the footprint keys (`library.c`, after the `missing "footprint"` check).
+- [x] `backend/tests/socket_test.c` + `logic_test(socket_test)` in `backend/CMakeLists.txt`: § 6 cases (inline JSON, a tiny `footprints.json` with `PDIP-14`, `CDIP-14`, `PLCC-28`). — 31 assertions, `/tmp/logic-p51-wt/socket_test | grep -c '^PASS'` → 31, `socket_test: all passed`. Deviations in § Corrections.
+- [x] `docs/parts-format.md`: the file table gains `socket.json`; the intro list of kinds gains "IC socket"; a `### socket` section (device and part keys, the pin rules, `"fits"`); `"fits"` in the Parts key table; `docs/backend.md`: none (no new step). — done; `docs/backend.md` also lists `socket.c` in its model-file index.
 
 Acceptance: `socket_test` passes every § 6 case; 61 of 61.
-  Check: `cmake --build /tmp/logic-p51 -j8 && ctest --test-dir /tmp/logic-p51 -j8` → `100% tests passed, 0 tests failed out of 61`; `git diff --stat backend/tests/golden` → empty (est. 3 min).
-Commit: —
+  Check: `cmake --build /tmp/logic-p51 -j8 && ctest --test-dir /tmp/logic-p51 -j8` → `100% tests passed, 0 tests failed out of 61`; `git diff --stat backend/tests/golden` → empty (est. 3 min). Measured 2026-11-24 in `/tmp/logic-p51-wt`: `100% tests passed, 0 tests failed out of 61`; `git diff --stat backend/tests/golden` empty. VERIFIED.
+Commit: (next commit)
 
 ## 6. Test cases (`socket_test`)
 
@@ -258,6 +258,7 @@ Author decisions:
 
 - **2026-11-24, baselines at the start of the run (main at 2865af91).** The plan was written at f3256ba1; other plans landed since. Measured: `grep -c '^logic_test' backend/CMakeLists.txt` → 60 (was 39), so A's goal is 61 programs (was 40); `wc -l backend/tests/golden/{parts,traces,footprints}.txt` → 36515 / 36515 / 2775 (was 33042 / 33042 / 1685); kinds 42 (was 34); the last kind is `PART_PLD` (`parts.h:33`), not `PART_NIXIE` (`TRACE_LAST_KIND` `trace_check.c:22`, `listing_check.c:50–51`). Every count of A, F and J was updated in place; no sub-plan's scope rested on the old numbers. Datasheets: 9356 (F's baseline said 8010).
 - **2026-11-24, the build directory is `/tmp/logic-p51-wt`.** `/tmp/logic-p51` is a CMake cache of the main checkout's source (another session's), which CMake refuses to reuse for the worktree. Read `/tmp/logic-p51` in every check below as `/tmp/logic-p51-wt`.
+- **2026-11-24, `socket_test` differs from the § 6 plan in two places.** (1) It loads the bundled library (`load_parts_dir`: the `5V` supply the circuit case needs, and the real `PDIP-14`, `CDIP-14`, `PLCC-28`) plus two inline footprints (`T-DIP-12`, a 12-pin dual; `T-BALL-14`, 14 ball-named pads) through `load_footprints`, instead of a tiny `footprints.json`. (2) "a footprint with no pad `"7"`" is `T-BALL-14`: a footprint whose designators are `A1` … `B7`, so the numbered pin `"1"` has no pad (`pin "1" has no pad in fits footprint "T-BALL-14"`). A numbered explicit footprint cannot lack one pad and keep its pin count, since the loader requires pads `1` … `pins`. Added cases: a DIP with 2 and with 66 pins, `fits` as a string and as an array of a number.
 - **2026-11-24, the DigiKey row is checked on the second key.** The owner started the run with "using opt2": the standard key's daily quota was spent (HTTP 429, resets 2026-11-25 00:00 UTC), the second key had 399 calls left. B runs `node` and `list.js` with `--opt2`-equivalent credentials (B § Corrections).
 
 ## Summary

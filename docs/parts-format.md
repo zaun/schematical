@@ -1,7 +1,7 @@
 # Part file format
 
 Every orderable part (gate, flip-flop, latch, decoder, counter, shift register, SRAM, EEPROM, switch, LED,
-diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character LCD module, oscillator, crystal, supply, microprocessor, microcontroller, serial controller, serial memory, LED and LCD driver, programmable logic device) is described in a JSON part file in
+diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character LCD module, oscillator, crystal, supply, microprocessor, microcontroller, serial controller, serial memory, LED and LCD driver, programmable logic device, IC socket) is described in a JSON part file in
 `schematical/schematical/Parts/`, one file per kind:
 
 | File | Kind |
@@ -45,6 +45,7 @@ diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character
 | `dekatron.json` | `dekatron` |
 | `lcd.json` | `lcd` |
 | `pld.json` | `pld` |
+| `socket.json` | `socket` |
 
 Beside them, `datasheets.json` holds the datasheet URLs parts name with
 `"datasheet"` (see [Datasheets](#datasheets)), and `footprints.json` the land
@@ -249,6 +250,7 @@ one device with one of these parts (see [Single part files](#single-part-files))
 | `"footprint"` | the `id` of a footprint in `footprints.json` (see [Footprints](#footprints)). Required on every part except VCC/GND supplies (`VCC`, `GND`, `5V`, …), which reject it. Pull parts (`"pull": true`) are resistors and require it |
 | `"connectorFootprint"` | optional: a second footprint, the `id` of one in `footprints.json`, that the PCB Style option switches to (**Connector Only**). Same rules as `footprint`. Character LCD modules use it (§ `charlcd`) |
 | `"footprintChoices"` | optional: the footprints a placed part may use, each `{"package": …, "footprint": …}`, in picker order. The part's own `footprint` is one of them (the default), with the part's `package`. `GENERIC-LED` uses it (§ `led`; rules in [The `"footprint"` part key](#the-footprint-part-key)) |
+| `"fits"` | a socket part only (required there, rejected on every other kind: `"fits" is only for a socket`): the chip footprints the socket holds, a non-empty array of footprint ids. Each id must exist (`unknown fits footprint "X"`), be listed once (`fits footprint "X" listed twice`), have as many pins as the part (`fits footprint "X" has 12 pins; the part has 14`) and a pad for every pin (`pin "7" has no pad in fits footprint "X"`). § `socket` |
 | `"vcc"`, `"inputMax"` | on gate, dff, jkff, sram, eeprom, serialmem and oscillator parts only: the part's own supply range / input limit, replacing the one it inherits (see [Supply voltage](#supply-voltage-vcc-and-inputmax)) |
 
 Every other key belongs to the kind.
@@ -1752,6 +1754,39 @@ lists pins 1 … R·NN in order, named by number. Each part's
 `Right angle` (`PINHDR-<R>X<NN>-RA`); the script also writes those 160
 `header`-style footprints (every `PINHDR-` line of `footprints.json`) from
 the Würth WR-PHD drawings in `datasheets/connector-header/`.
+
+### `socket`
+
+An IC socket (plan-51, `backend/src/models/socket.c`): the part a DIP or
+PLCC chip plugs into. Passive `inout` terminals like `header`: each pin is just
+its net, the model drives nothing, and a placed socket does not turn Run off
+(`"simulated"` stays `true`). The sockets are listed under Connector › IC
+Socket. Device keys:
+
+| Key | Value |
+|---|---|
+| `"family"` | required, `"DIP"` or `"PLCC"` (`unknown socket family "X"`) |
+| `"rowSpacing"` | a DIP socket only, required there: the row spacing in mm, one of 5.08, 7.62, 10.16, 15.24 (`"rowSpacing" must be 5.08, 7.62, 10.16 or 15.24`); a PLCC socket rejects it (`a PLCC socket has no "rowSpacing"`) |
+
+Part keys:
+
+| Key | Value |
+|---|---|
+| `"mounting"` | required, `"through-hole"` or `"surface-mount"` (`unknown socket mounting "X"`) |
+| `"finish"` | optional, a non-empty string: the contact finish as the datasheet prints it (`"gold"`, `"tin"`, `"tin-lead"`); the app shows it |
+| `"fits"` | required: the chip footprints the socket holds (the common part key, [Parts](#parts)) |
+
+Pins: every pin is `inout` (`socket pin "X" must be inout`); a DIP socket has
+an even pin count of 4 to 64 (`a DIP socket needs an even pin count of 4 to
+64`), a PLCC socket 20, 28, 32, 44, 52, 68 or 84 (`a PLCC socket needs 20,
+28, 32, 44, 52, 68 or 84 pins`). The part's own `footprint` is the socket's
+land pattern, with a pad for every pin like any part's.
+
+`"fits"` names chip footprints by id: nothing derives the fit from pad
+positions, since an oscillator or a 7-segment display also has the package
+`DIP`. The loader checks that each listed footprint has the socket's pin
+count and a pad for every pin designator, so a socket's pin `n` is the pad
+`n` of every chip it holds. `Part.fits` lists them in file order.
 
 ### `sram`
 

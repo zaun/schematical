@@ -416,6 +416,8 @@ backend/
                            clock-on-both-terminals model, plan-44-E);
                            pld.c (the programmable logic kind: loader,
                            passive model, facts only);
+                           socket.c (the IC socket kind: loader, passive
+                           model, plan-51-A);
                            cpu.c + cpu.h (the cpu kind: loader, the model
                            that forwards to a core adapter, input sampling,
                            the instruction tracker), cpu6502.c (the
