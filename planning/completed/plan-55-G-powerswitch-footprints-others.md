@@ -65,7 +65,7 @@ F's footprints are in `footprints-F.json` and the library's in `Parts/footprints
 
 Acceptance: every reusable line is mapped.
   Check: `python3 -I planning/plan-55-data/census/fp-check.py G` → prints the count of lines still without a footprint (est. 1 min).
-Commit: (filled by the next commit)
+Commit: 257917ba
 
 ### Phase 2 — Leaded and through-hole packages
 
@@ -73,7 +73,7 @@ Commit: (filled by the next commit)
 
 Acceptance: every leaded `G` line has a footprint and the objects load.
   Check: `planning/plan-55-data/census/fp-load.sh planning/plan-55-data/footprints-G.json` → `<k> new footprints: load ok` (est. 1 min).
-Commit: (filled by the next commit)
+Commit: 257917ba
 
 ### Phase 3 — Leadless and ball-grid packages
 
@@ -81,7 +81,7 @@ Commit: (filled by the next commit)
 
 Acceptance: every `G` line has a footprint and the objects load.
   Check: `python3 -I planning/plan-55-data/census/fp-check.py G` → `<n> lines, 0 without a footprint`; `fp-load.sh planning/plan-55-data/footprints-G.json` → `<k> new footprints: load ok` (est. 2 min).
-Commit: (filled by the next commit)
+Commit: 257917ba
 
 ## Validation Plan
 
