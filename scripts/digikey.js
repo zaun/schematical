@@ -10,7 +10,6 @@ const path = require('path');
 const { execFileSync } = require('child_process');
 
 const API = 'https://api.digikey.com';
-const TOKEN_CACHE = path.join(os.tmpdir(), 'digikey-token.json');
 const PAGE = 50; // the API's largest page
 
 const HELP = `Search DigiKey's catalog.
@@ -40,6 +39,8 @@ Output
   --json                    each raw API response, one JSON line per page
   --limit <n>               most parts (default 500; with --list, all)
   --pages <n>               most result pages (50 parts each)
+  --opt2                    use the second API key (DIGIKEY_CLIENT_ID2 and
+                            DIGIKEY_CLIENT_SECRET2), which has its own quota
   --safari                  send every request through Safari (macOS); see below
   -h, --help                this text
 
@@ -48,8 +49,10 @@ summary line goes to stderr: parts found, pages, API calls, calls left today.
 
 Things to know
   * Credentials: DIGIKEY_CLIENT_ID and DIGIKEY_CLIENT_SECRET in the
-    environment (set in ~/.zshrc). The login token lasts 10 minutes and is
-    cached in the temp directory; it is renewed when it expires.
+    environment (set in ~/.zshrc); --opt2 uses DIGIKEY_CLIENT_ID2 and
+    DIGIKEY_CLIENT_SECRET2 instead. The login token lasts 10 minutes and is
+    cached in the temp directory (one file per key); it is renewed when it
+    expires.
   * Cloudflare: DigiKey's API answers scripts with a "Just a moment..." 403
     challenge (since 2026-11-23); only a real browser passes. When Node gets
     it, the script retries through Safari automatically (--safari starts
@@ -111,6 +114,7 @@ function parseArgs(argv) {
       case '--pages': opts.pages = Number(value()); break;
       case '--json': opts.json = true; break;
       case '--safari': safari.forced = true; break;
+      case '--opt2': opts.opt2 = true; break;
       case '--list': opts.list = true; break;
       case '-h': case '--help': usage();
       default:
@@ -130,19 +134,26 @@ function parseArgs(argv) {
   return opts;
 }
 
-function credentials() {
-  const id = process.env.DIGIKEY_CLIENT_ID;
-  const secret = process.env.DIGIKEY_CLIENT_SECRET;
+// --opt2 uses the second API key (DIGIKEY_CLIENT_ID2 / DIGIKEY_CLIENT_SECRET2),
+// which has its own daily quota.
+function credentials(opt2) {
+  const suffix = opt2 ? '2' : '';
+  const id = process.env[`DIGIKEY_CLIENT_ID${suffix}`];
+  const secret = process.env[`DIGIKEY_CLIENT_SECRET${suffix}`];
   if (!id || !secret) {
-    console.error('digikey: set DIGIKEY_CLIENT_ID and DIGIKEY_CLIENT_SECRET (see ~/.zshrc)');
+    console.error(`digikey: set DIGIKEY_CLIENT_ID${suffix} and DIGIKEY_CLIENT_SECRET${suffix} (see ~/.zshrc)`);
     process.exit(1);
   }
   return { id, secret };
 }
 
+// One cache file per key, so runs on different keys do not overwrite each
+// other's login token.
+const tokenCache = (creds) => path.join(os.tmpdir(), `digikey-token-${creds.id.slice(0, 8)}.json`);
+
 async function token(creds, fresh = false) {
   if (!fresh) try {
-    const cached = JSON.parse(fs.readFileSync(TOKEN_CACHE, 'utf8'));
+    const cached = JSON.parse(fs.readFileSync(tokenCache(creds), 'utf8'));
     if (cached.id === creds.id && cached.expires > Date.now() + 30_000) return cached.token;
   } catch { /* no usable cache */ }
 
@@ -159,7 +170,7 @@ async function token(creds, fresh = false) {
     throw new Error(`login failed (${response.status}): ${JSON.stringify(body)}`);
   }
   const expires = Date.now() + (body.expires_in || 0) * 1000;
-  fs.writeFileSync(TOKEN_CACHE, JSON.stringify({ id: creds.id, token: body.access_token, expires }), { mode: 0o600 });
+  fs.writeFileSync(tokenCache(creds), JSON.stringify({ id: creds.id, token: body.access_token, expires }), { mode: 0o600 });
   return body.access_token;
 }
 
@@ -555,7 +566,7 @@ let current = null; // the running search, for the summary on error
 
 async function main() {
   const opts = parseArgs(process.argv.slice(2));
-  const creds = credentials();
+  const creds = credentials(opts.opt2);
   const ctx = current = {
     opts, creds, token: await token(creds), calls: 0, remaining: null,
     pages: 0, seen: new Set(), total: null, warnings: [],
