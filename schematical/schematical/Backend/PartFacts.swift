@@ -197,6 +197,9 @@ nonisolated enum PartFacts {
             add("RAM", bytes(ram))
             add("EEPROM", bytes(eeprom))
             add("PSRAM", bytes(psram))
+        case let .pld(macrocells, tpdPS):
+            add("Macrocells", String(macrocells))
+            add("Delay (tPD)", duration(tpdPS))
         case let .resistor(ohms, tolerancePercent, powerW, resistors):
             add("Resistance", ResistorValue.text(part.hasOhmsField ? chip.ohms ?? ohms : ohms))
             add("Tolerance", tolerancePercent.map { "±" + percentText($0) } ?? "")
@@ -322,6 +325,7 @@ nonisolated enum PartFacts {
         case PART_CAPACITOR: return "Capacitor"
         case PART_REGISTER: return "Register"
         case PART_MCU: return "Microcontroller"
+        case PART_PLD: return "Programmable logic"
         case PART_RESISTOR: return "Resistor"
         case PART_TRANSISTOR: return "Transistor"
         case PART_GENERIC: return "Part"

@@ -13,7 +13,7 @@ final class PartKindRoundTripTests: XCTestCase {
         "latch": 768, "buffer": 2137, "arith": 107,
         "counter": 732, "shift": 597,
         "sram": 172, "eeprom": 174, "switch": 2070, "led": 1, "7seg": 60, "oscillator": 1145, "supply": 18,
-        "cpu": 21, "pio": 7, "serial": 247, "charlcd": 72, "connector": 951, "converter": 1914, "rtc": 16,
+        "cpu": 21, "pio": 7, "serial": 247, "charlcd": 72, "connector": 952, "converter": 1914, "rtc": 16,
         "diode": 11166, "header": 80, "register": 220,
         // plan-46-C.
         "resistor": 1975, "capacitor": 1032, "transistor": 1256, "mcu": 1424,
@@ -26,6 +26,7 @@ final class PartKindRoundTripTests: XCTestCase {
         "powerswitch": 817,
         "leddriver": 40,
         "lcddriver": 20,
+        "pld": 25,
     ]
 
     private func check(_ kind: String) {
@@ -78,4 +79,5 @@ final class PartKindRoundTripTests: XCTestCase {
     func testPowerswitch() { check("powerswitch") }
     func testLeddriver() { check("leddriver") }
     func testLcddriver() { check("lcddriver") }
+    func testPld() { check("pld") }
 }

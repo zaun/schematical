@@ -55,6 +55,8 @@ EXTRA = {
     # mcu.c DEVICE_KEYS "inputMax" (kind_voltage): no shipped mcu device sets it.
     # PART_KEYS "inputMax" likewise: no shipped mcu part sets it.
     "mcu": [("device", "inputMax", ("number", "V"), []), ("part", "inputMax", ("number", "V"), [])],
+    # pld.c DEVICE_KEYS and PART_KEYS "inputMax" (kind_voltage / kind_part_voltage): no shipped pld sets it.
+    "pld": [("device", "inputMax", ("number", "V"), []), ("part", "inputMax", ("number", "V"), [])],
     # serialmem.c DEVICE_KEYS "inputMax" (kind_voltage), PART_KEYS "inputMax"
     # (kind_part_voltage), and "outputValid", "outputDisable" (optional ns).
     "serialmem": [("device", "inputMax", ("number", "V"), []), ("part", "inputMax", ("number", "V"), []),

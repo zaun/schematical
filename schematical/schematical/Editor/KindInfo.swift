@@ -73,6 +73,10 @@ extension PartKinds {
                      blurb: "Rows of D flip-flops on one clock, with clock enable or 3-state outputs: 74HC377, 74HC574, CD40174.",
                      examples: ["74HC377D,653", "SN74LS377DWR"], group: .logic),
 
+            KindInfo(kind: "pld", name: "Programmable Logic",
+                     blurb: "GALs and PLDs you program with your own logic equations: ATF16V8, ATF22V10, ATF750C. Symbol, footprint and facts only: they are not simulated yet.",
+                     examples: ["ATF16V8B-15PU", "ATF22V10C-15PU", "ATF750CL-15PU"], group: .logic, simulated: false),
+
             // Memory
             KindInfo(kind: "sram", name: "SRAM",
                      blurb: "Parallel static RAM, read and written through address and data pins: 6264, 62256.",
@@ -188,7 +192,7 @@ extension PartKinds {
     /// The order the kinds are listed in within their groups.
     private static let infoOrder = [
         "gate", "buffer", "dff", "jkff", "latch",
-        "mux", "decoder", "arith", "counter", "shift", "register",
+        "mux", "decoder", "arith", "counter", "shift", "register", "pld",
         "sram", "eeprom", "serialmem",
         "cpu", "mcu", "pio", "serial", "converter", "rtc",
         "led", "7seg", "lcd", "leddriver", "lcddriver", "charlcd", "nixie", "dekatron",

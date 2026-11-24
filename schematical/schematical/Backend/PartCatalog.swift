@@ -586,6 +586,10 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// A microcontroller (plan-36): its core ("avr", "avrxt", "riscv", …),
         /// highest clock, and flash, RAM, EEPROM and PSRAM in bytes (0 = none).
         case mcu(core: String, maxHz: UInt64, flash: UInt32, ram: UInt32, eeprom: UInt32, psram: UInt32)
+        /// A programmable logic device (GAL, ATF16V8, ATF22V10, ATF750): its
+        /// output macrocells and its speed grade, the maximum pin-to-pin
+        /// delay, in picoseconds. Not simulated yet.
+        case pld(macrocells: Int, tpdPS: UInt64)
         /// A resistor (plan-34): its resistance in ohms (0 = a jumper), its
         /// tolerance in percent and rated power per element in watts (nil when
         /// not given: the generic part, a jumper's tolerance), and the
@@ -970,6 +974,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
             return [CapacitorValue.text(farads)] + (ratedMV > 0 ? ["\(PartFacts.milli(ratedMV)) V"] : [])
                 + (dielectric.map { [$0] } ?? [])
         case let .mcu(_, maxHz, _, _, _, _): return [PartFacts.hertz(maxHz)]
+        case let .pld(_, tpdPS): return [PartFacts.duration(tpdPS)]
         case let .resistor(ohms, tolerancePercent, powerW, _):
             return [ResistorValue.text(ohms)]
                 + (tolerancePercent.map { [PartFacts.percentText($0)] } ?? [])
@@ -1227,6 +1232,8 @@ extension CatalogPart {
         } else if let mcu = part.mcu?.pointee {
             details = .mcu(core: string(mcu.core), maxHz: mcu.max_hz, flash: mcu.flash, ram: mcu.ram,
                            eeprom: mcu.eeprom, psram: mcu.psram)
+        } else if let pld = part.pld?.pointee {
+            details = .pld(macrocells: Int(pld.macrocells), tpdPS: pld.tpd_ps)
         } else if let resistor = part.resistor?.pointee {
             details = .resistor(ohms: Double(resistor.milliohms) / 1000,
                                 tolerancePercent: resistor.tolerance_ppm == 0 ? nil
