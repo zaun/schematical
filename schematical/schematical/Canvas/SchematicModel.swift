@@ -3758,6 +3758,15 @@ final class SchematicDocument {
         return traces.filter { ids.contains($0.id) }
     }
 
+    /// The selected board texts, in creation order, for ⌘C.
+    func selectedTexts() -> [BoardText] {
+        let ids = Set(boardSelection.items.compactMap { item -> UUID? in
+            if case let .text(id) = item { return id }
+            return nil
+        })
+        return texts.filter { ids.contains($0.id) }
+    }
+
     /// ⌘V on the PCB: adds a copy of each of `copied` moved by `offset`
     /// (mm), with new ids, its width and layer kept, joined to whatever it
     /// touches, as one step. The copies become the whole selection. A trace
@@ -3765,20 +3774,41 @@ final class SchematicDocument {
     /// the new ids.
     @discardableResult
     func pasteTraces(_ copied: [BoardTrace], offset: CGSize) -> [UUID] {
-        let pasted = copied.filter { traceLayerRefusal($0.layer) == nil }
-        guard !pasted.isEmpty else { return [] }
+        pasteBoard(traces: copied, texts: [], offset: offset)
+    }
+
+    /// ⌘V on the PCB: adds a copy of each of `traces` (as `pasteTraces`) and
+    /// of each of `texts`, moved by `offset` (mm), with new ids, as one step.
+    /// A text keeps its words, size, layer, rotation and side (Top on a
+    /// 1-layer board), lands on the grid and is not locked. The copies become
+    /// the whole selection. Returns the new ids.
+    @discardableResult
+    func pasteBoard(traces copied: [BoardTrace], texts copiedTexts: [BoardText], offset: CGSize) -> [UUID] {
+        let pastedTraces = copied.filter { traceLayerRefusal($0.layer) == nil }
+        guard !pastedTraces.isEmpty || !copiedTexts.isEmpty else { return [] }
         return recordEdit(.pcb, "Paste") { () -> [UUID] in
+            var items: [BoardItem] = []
             var ids: [UUID] = []
-            for trace in pasted {
+            for trace in pastedTraces {
                 let copy = BoardTrace(id: UUID(), layer: trace.layer, width: trace.width,
                                       points: trace.points.map {
                                           CGPoint(x: $0.x + offset.width, y: $0.y + offset.height)
                                       })
                 traces.append(copy)
                 ids.append(copy.id)
+                items.append(.trace(copy.id))
             }
             for id in ids { join(id) }
-            boardSelection.set(Set(ids.map(BoardItem.trace)))
+            for text in copiedTexts {
+                let moved = CGPoint(x: text.anchor.x + offset.width, y: text.anchor.y + offset.height)
+                let copy = BoardText(id: UUID(), text: text.text, anchor: BoardGrid.snap(moved, spacing: board.grid),
+                                     size: text.size, layer: text.layer, rotation: text.rotation,
+                                     side: board.layers == 1 ? .top : text.side)
+                texts.append(copy)
+                ids.append(copy.id)
+                items.append(.text(copy.id))
+            }
+            boardSelection.set(Set(items))
             return ids
         }
     }
@@ -3815,15 +3845,17 @@ final class SchematicDocument {
         return true
     }
 
-    /// ⌘X on the PCB, after the selected traces were copied: deletes just
-    /// those traces (what ⌘C takes), as one step named "Cut". Returns
-    /// whether any were deleted.
+    /// ⌘X on the PCB, after the selection was copied: deletes just the
+    /// selected traces and texts (what ⌘C takes), as one step named "Cut".
+    /// Returns whether any were deleted.
     @discardableResult
-    func cutBoardTraces() -> Bool {
+    func cutBoardSelection() -> Bool {
         let traceIDs = Set(selectedTraces().map(\.id))
-        guard !traceIDs.isEmpty else { return false }
+        let textIDs = Set(selectedTexts().map(\.id))
+        guard !traceIDs.isEmpty || !textIDs.isEmpty else { return false }
         recordEdit(.pcb, "Cut") {
             traces.removeAll { traceIDs.contains($0.id) }
+            texts.removeAll { textIDs.contains($0.id) }
             pruneSelection()
         }
         return true

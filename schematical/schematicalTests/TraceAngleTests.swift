@@ -255,7 +255,7 @@ final class TraceAngleTests: XCTestCase {
     func testPasteOffsetCentresOnThePointer() {
         let trace = BoardTrace(id: UUID(), layer: .top, width: 10, points: [p(0, 0), p(5.08, 0), p(5.08, 2.54)])
         // Box centre (2.54, 1.27); pointer near (50.8, 25.4).
-        let offset = TraceClipboard.offset(centring: [trace], on: p(50.9, 25.3), grid: 0.635)
+        let offset = BoardClipboard.offset(centring: [trace], on: p(50.9, 25.3), grid: 0.635)
         XCTAssertEqual(offset.width, 48.26, accuracy: 1e-9)
         XCTAssertEqual(offset.height, 24.13, accuracy: 1e-9)
         for value in [offset.width, offset.height] {
@@ -265,10 +265,10 @@ final class TraceAngleTests: XCTestCase {
     }
 
     func testClipboardOffsetsStepAndResetOnCopy() {
-        TraceClipboard.copy([])
-        XCTAssertEqual(TraceClipboard.nextOffset(), CGSize(width: 2.54, height: 2.54))
-        XCTAssertEqual(TraceClipboard.nextOffset(), CGSize(width: 5.08, height: 5.08))
-        TraceClipboard.copy([])
-        XCTAssertEqual(TraceClipboard.nextOffset(), CGSize(width: 2.54, height: 2.54))
+        BoardClipboard.copy([])
+        XCTAssertEqual(BoardClipboard.nextOffset(), CGSize(width: 2.54, height: 2.54))
+        XCTAssertEqual(BoardClipboard.nextOffset(), CGSize(width: 5.08, height: 5.08))
+        BoardClipboard.copy([])
+        XCTAssertEqual(BoardClipboard.nextOffset(), CGSize(width: 2.54, height: 2.54))
     }
 }
