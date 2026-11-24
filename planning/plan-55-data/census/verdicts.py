@@ -199,9 +199,8 @@ def verify_skipped(args):
     section = text[at:] if at >= 0 else ''
     end = section.find('\n## ', len(SECTION))
     section = section[:end] if end >= 0 else section
-    names = set(re.findall(r'[^\s,|]+', section))
     missing = [r['mpn'] for r in rows if r['verdict'] == 'skip' and (not fams or r['family'] in fams)
-               and (not cos or r['company'] in cos) and r['mpn'] not in names]
+               and (not cos or r['company'] in cos) and r['mpn'] not in section]
     for m in missing:
         print('missing', m)
     print(f'{len(missing)} skip rows missing from skipped-parts.md')

@@ -151,32 +151,32 @@ of the pinout; roles follow rule 2; `analog` names exist; an `"input"` enable ha
 
 Acceptance: the scripts run on the worked rows.
   Check: `python3 -I planning/plan-55-data/census/pinout-check.py --family ideal --family load` → `0 pinout errors` (est. 1 min).
-Commit: (filled by the next commit)
+Commit: 9faa4d18
 
 ### Phase 2 — Texas Instruments (ideal diodes and load switches)
 
-- [ ] Read every TI PDF of the two families (`pdftotext -layout`): ordering tables, pin tables,
-      electrical characteristics; fill `specs.tsv` (§ 3.1) and the facts (§ 3.3).
+- [x] Read every TI PDF of the two families (`pdftotext -layout`): ordering tables, pin tables,
+      electrical characteristics; fill `specs.tsv` (§ 3.1) and the facts (§ 3.3). Observed: read in the readers' packets (Correction 2); `verdicts.py --family ideal --family load --company ti --report` → `ideal: 4 add, 40 skip`, `load: 127 add, 14 skip`, `rows without a verdict: 0`; `pinout-check.py --family ideal --family load --company ti --complete` → `0 pinout errors`.
 
 Acceptance: every TI row of the two families has a spec row or a skip reason.
   Check: `python3 -I planning/plan-55-data/census/verdicts.py --family ideal --family load --company ti --report` → every TI row `add` or `skip` with a reason of § 3.2 (est. 1 min); `pinout-check.py` → `0 pinout errors`.
-Commit: —
+Commit: (filled by the next commit)
 
 ### Phase 3 — Analog Devices, Monolithic Power Systems, onsemi, Microchip
 
-- [ ] The same for Analog Devices and Monolithic Power Systems (ideal diodes) and onsemi and Microchip
-      Technology (load switches).
+- [x] The same for Analog Devices and Monolithic Power Systems (ideal diodes) and onsemi and Microchip
+      Technology (load switches). Observed: `verdicts.py --family ideal --family load --report` → `ideal: 32 add, 58 skip` (Analog Devices 28 add; Monolithic Power Systems 0: its 9 rows are `out`, `no datasheet`, plan-55-B Correction 4), `load: 197 add, 44 skip` (Microchip 38, onsemi 32, TI 127), `rows without a verdict: 0`; `pinout-check.py --family ideal --family load --complete` → `0 pinout errors`.
 
 Acceptance: every row of the two families has a verdict.
   Check: `python3 -I planning/plan-55-data/census/verdicts.py --family ideal --family load --report` → no row without `add` or `skip`; `pinout-check.py` → `0 pinout errors` (est. 2 min).
-Commit: —
+Commit: (filled by the next commit)
 
 ### Phase 4 — Skips and the hand check
 
-- [ ] `datasheets/skipped-parts.md`: a `## Power switches (plan-55)` section, one row per `skip` row of
-      the two families (part numbers grouped by reason and PDF); the section's header names plan-55.
-- [ ] Hand-check five `add` rows (two ideal diodes, three load switches, from different companies)
-      against their PDFs: name, pin order, enable polarity, `vin_max`; record in § Corrections.
+- [x] `datasheets/skipped-parts.md`: a `## Power switches (plan-55)` section, one row per `skip` row of
+      the two families (part numbers grouped by reason and PDF); the section's header names plan-55. Observed: `verdicts.py --write-skipped` → `213 skip rows in 53 table rows` (the section is written once for all three families; D and E add nothing by hand).
+- [x] Hand-check five `add` rows (two ideal diodes, three load switches, from different companies)
+      against their PDFs: name, pin order, enable polarity, `vin_max`; record in § Corrections (Correction 4).
 
 Acceptance: every skip is listed and the hand checks agree.
   Check: `python3 -I planning/plan-55-data/census/verdicts.py --family ideal --family load --verify-skipped` → `0 skip rows missing from skipped-parts.md` (est. 1 min).
@@ -203,6 +203,9 @@ Commit: —
 1. **The `specs.tsv` rows are keyed (company, series, pdf, package, supplier_package)** (plan-55-B Correction 8) and carry a `skip` column (one of § 3.2's reasons 3 to 7: `control`, `select logic`, `external pass element`, `more than 4 switches`, `negative supply`, `no pin table`) beside § 3.1's columns: a spec row that the kind cannot express is a `skip` row and every candidate row of its key is a skip with that reason (reasons 1 and 2 stay per part: `no datasheet` is B's `out` rows, `not in the datasheet's ordering table` is `hit` 0 with no `ordering` match). A key may have several rows told apart by `ordering`.
 2. **The readers work in packets.** The 372 spec rows of the three families are filled by readers in parallel (one packet of whole PDFs each, output a TSV of the `specs.tsv` columns, checked by `pinout-check.py --specs <packet> --all` and merged by `merge-specs.py`); the Texas Instruments, Microchip and Diodes rows of `limited` (plan-55-D and E's reading) are in the same packets, because a PDF serves several families and is read once. C's Phases 2 and 3, D's Phase 1 and E's Phase 1 are ticked as their rows are merged and checked; each letter's own checks, hand checks and verdicts are run in its turn.
 3. **`pinout-check.py` checks filled rows** (non-skip rows with a pinout, type or switches) of the requested families and companies; `--complete` also reports a used row that is not read; `verdicts.py` refuses a candidate whose spec row is neither read nor a skip.
+4. **Hand checks (2026-11-23), all agree with the PDFs**: LTC4413EDD-1 (Analog Devices, ideal diode, `441312fg.pdf` Pin Functions: INA 1, ENBA 2, GND 3, ENBB 4, INB 5, OUTB 6, NC 7 and 8, STAT 9, OUTA 10; ENBx active low; `vin_max` 5.5); LM73100RPWR (TI, ideal diode, `lm7310.pdf` Table 5-1: EN/UVLO 1 active high, OVLO 2, PG 3, PGTH 4, IN 5, OUT 6, DVDT 7, GND 8, IMON 9, DNC 10; `vin_max` 23); FPF1204 (onsemi, load, `fpf1204-d.pdf`: A1 VOUT, A2 VIN, B1 GND, B2 ON active high; `vin_max` 5.5); MIC94060 SC-70-6 (Microchip, load, Table 3-1: 1 VOUT, 2 and 5 GND, 3 EN active high, 4 VIN, 6 NC; `vin_max` 5.5); TPS22918 (TI, load, the worked example: VIN 1, GND 2, ON 3 high, CT 4, QOD 5, VOUT 6).
+5. **Skip reasons by use**: the readers used `select logic` for the TPS211x / LTC441x / TPS22980 power muxes, `control` for I²C / SPI parts (UCS211x, TPS274C65) and for GaN power stages (LMG34xx) and a pair of buck converters with a switch (TPS65281 / 65286), `external pass element` for gate-driver ORing controllers (LTC4421, TPS4811, TPS1211) and `no pin table` for a one-page brief and for the smart high-side switches whose only input is an unnumbered exposed pad. The closed list of § 3.2 was kept.
+6. **A numbered exposed pad is a pin** when it carries a switch's only input or the datasheet numbers it (the Diodes ZXMS81 / 82, the onsemi NCP4552x / NCP4554x, NCV451, FPF1006, Diodes DML3012, TI TPS1HA08-Q1): the lead count is then DigiKey's plus one, written in `planning/plan-55-data/pinout-count-overrides.tsv` (16 rows, the packets' own files merged); F and G draw those packages with a numbered centre pad.
 
 ## Summary
 

@@ -168,10 +168,13 @@ def spec_key(r):
 
 
 def count_overrides():
+    """pinout-count-overrides.tsv (pdf, package, supplier_package, count, evidence), and the file named by the
+    environment variable P55_OVERRIDES (a reader's own packet file), correct a package label that misleads."""
     out = {}
-    if os.path.exists(OVERRIDES):
-        for r in read_tsv(OVERRIDES):
-            out[(r['pdf'], r['package'], r['supplier_package'])] = int(r['count'])
+    for path in (OVERRIDES, os.environ.get('P55_OVERRIDES')):
+        if path and os.path.exists(path):
+            for r in read_tsv(path):
+                out[(r['pdf'], r['package'], r['supplier_package'])] = int(r['count'])
     return out
 
 

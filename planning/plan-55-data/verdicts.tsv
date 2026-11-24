@@ -1,0 +1,1031 @@
+mpn	family	company	verdict	reason	spec	flags	pdf
+MP6919GS-Z	ideal	monolithic-power-systems	skip	no datasheet on the maker's site (www.monolithicpower.com)			
+MP6973GS-Z	ideal	monolithic-power-systems	skip	no datasheet on the maker's site (www.monolithicpower.com)			
+MP6972GS-Z	ideal	monolithic-power-systems	skip	no datasheet on the maker's site (www.monolithicpower.com)			
+MP9989GS-Z	ideal	monolithic-power-systems	skip	no datasheet on the maker's site (www.monolithicpower.com)			
+MP6972GS-P	ideal	monolithic-power-systems	skip	no datasheet on the maker's site (www.monolithicpower.com)			
+MP6973GS-P	ideal	monolithic-power-systems	skip	no datasheet on the maker's site (www.monolithicpower.com)			
+MP6919GS-P	ideal	monolithic-power-systems	skip	no datasheet on the maker's site (www.monolithicpower.com)			
+MPQ5850GJ-AEC1-P	ideal	monolithic-power-systems	skip	no datasheet on the maker's site (www.monolithicpower.com)		automotive	
+MP9989GS-P	ideal	monolithic-power-systems	skip	no datasheet on the maker's site (www.monolithicpower.com)			
+MAX40203AUK+T	ideal	analog-devices	add		analog-devices|-|datasheets/powerswitch/analog-devices/max40203.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/analog-devices/max40203.pdf
+MAX40200ANS+T	ideal	analog-devices	add		analog-devices|-|datasheets/powerswitch/analog-devices/max40200.pdf|4-XFBGA, WLBGA|4-WLP (0.73x0.73)#0		datasheets/powerswitch/analog-devices/max40200.pdf
+MAX40203ANS+T	ideal	analog-devices	add		analog-devices|-|datasheets/powerswitch/analog-devices/max40203.pdf|4-XFBGA, WLBGA|4-WLP (0.77x0.77)#0		datasheets/powerswitch/analog-devices/max40203.pdf
+MAX40200AUK+T	ideal	analog-devices	add		analog-devices|-|datasheets/powerswitch/analog-devices/max40200.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/analog-devices/max40200.pdf
+MAX17614ATP+	ideal	analog-devices	add		analog-devices|-|datasheets/powerswitch/analog-devices/max17614.pdf|20-WFQFN Exposed Pad|20-TQFN (4x4)#0		datasheets/powerswitch/analog-devices/max17614.pdf
+MAX17614ATP+T	ideal	analog-devices	add		analog-devices|-|datasheets/powerswitch/analog-devices/max17614.pdf|20-WFQFN Exposed Pad|20-TQFN (4x4)#0		datasheets/powerswitch/analog-devices/max17614.pdf
+LM66200DRLR	ideal	ti	add		ti|-|datasheets/powerswitch/ti/lm66200.pdf|SOT-583|SOT-583#0		datasheets/powerswitch/ti/lm66200.pdf
+LM73100RPWR	ideal	ti	add		ti|-|datasheets/powerswitch/ti/lm7310.pdf|10-VFQFN|10-VQFN-HR (2x2)#0		datasheets/powerswitch/ti/lm7310.pdf
+TPS2114PW	ideal	ti	skip	select logic	"ti|-|datasheets/powerswitch/ti/tps2114.pdf|8-TSSOP (0.173"", 4.40mm Width)|8-TSSOP#0"		datasheets/powerswitch/ti/tps2114.pdf
+TPS2103DBVR	ideal	ti	skip	select logic	ti|-|datasheets/powerswitch/ti/tps2102.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/ti/tps2102.pdf
+TPS2105D	ideal	ti	skip	select logic	"ti|-|datasheets/powerswitch/ti/tps2104.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/tps2104.pdf
+TPS2104DBVT	ideal	ti	skip	select logic	ti|-|datasheets/powerswitch/ti/tps2104.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/ti/tps2104.pdf
+TPS2100DBVT	ideal	ti	skip	select logic	ti|-|datasheets/powerswitch/ti/tps2100.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/ti/tps2100.pdf
+TPS2114APW	ideal	ti	skip	select logic	"ti|-|datasheets/powerswitch/ti/tps2114a.pdf|8-TSSOP (0.173"", 4.40mm Width)|8-TSSOP#0"		datasheets/powerswitch/ti/tps2114a.pdf
+TPS22933ARSET	ideal	ti	skip	select logic	ti|-|datasheets/powerswitch/ti/tps22933.pdf|8-UFQFN|8-UQFN (1.5x1.5)#0		datasheets/powerswitch/ti/tps22933.pdf
+TPS2100DBVR	ideal	ti	skip	select logic	ti|-|datasheets/powerswitch/ti/tps2100.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/ti/tps2100.pdf
+TPS2112PW	ideal	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS2105DBVR	ideal	ti	skip	select logic	ti|-|datasheets/powerswitch/ti/tps2104.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/ti/tps2104.pdf
+TPS2104DBVR	ideal	ti	skip	select logic	ti|-|datasheets/powerswitch/ti/tps2104.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/ti/tps2104.pdf
+TPS2114APWR	ideal	ti	skip	select logic	"ti|-|datasheets/powerswitch/ti/tps2114a.pdf|8-TSSOP (0.173"", 4.40mm Width)|8-TSSOP#0"		datasheets/powerswitch/ti/tps2114a.pdf
+TPS2101DBVR	ideal	ti	skip	select logic	ti|-|datasheets/powerswitch/ti/tps2100.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/ti/tps2100.pdf
+LM76202QPWPRQ1	ideal	ti	add		"ti|-|datasheets/powerswitch/ti/lm76202-q1.pdf|16-PowerTSSOP (0.173"", 4.40mm Width)|16-HTSSOP#0"	automotive	datasheets/powerswitch/ti/lm76202-q1.pdf
+TPS2110APW	ideal	ti	skip	select logic	"ti|-|datasheets/powerswitch/ti/tps2110a.pdf|8-TSSOP (0.173"", 4.40mm Width)|8-TSSOP#0"		datasheets/powerswitch/ti/tps2110a.pdf
+TPS2101D	ideal	ti	skip	select logic	"ti|-|datasheets/powerswitch/ti/tps2100.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/tps2100.pdf
+TPS2112PWR	ideal	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS2105MDBVREP	ideal	ti	skip	select logic	ti|-|datasheets/powerswitch/ti/tps2105-ep.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/ti/tps2105-ep.pdf
+LM66100QDCKRQ1	ideal	ti	add		ti|-|datasheets/powerswitch/ti/lm66100-q1.pdf|6-TSSOP, SC-88, SOT-363|SC-70-6#0	automotive	datasheets/powerswitch/ti/lm66100-q1.pdf
+TPS2113PWR	ideal	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS2115AIPWRQ1	ideal	ti	skip	select logic	"ti|-|datasheets/powerswitch/ti/tps2115a-q1.pdf|8-TSSOP (0.173"", 4.40mm Width)|8-TSSOP#0"	automotive	datasheets/powerswitch/ti/tps2115a-q1.pdf
+TPS2115APWR	ideal	ti	skip	select logic	"ti|-|datasheets/powerswitch/ti/tps2114a.pdf|8-TSSOP (0.173"", 4.40mm Width)|8-TSSOP#0"		datasheets/powerswitch/ti/tps2114a.pdf
+TPS2103DBVT	ideal	ti	skip	select logic	ti|-|datasheets/powerswitch/ti/tps2102.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/ti/tps2102.pdf
+TPS2110PWR	ideal	ti	skip	select logic	"ti|-|datasheets/powerswitch/ti/tps2110.pdf|8-TSSOP (0.173"", 4.40mm Width)|8-TSSOP#0"		datasheets/powerswitch/ti/tps2110.pdf
+TPS2115PW	ideal	ti	skip	select logic	"ti|-|datasheets/powerswitch/ti/tps2114.pdf|8-TSSOP (0.173"", 4.40mm Width)|8-TSSOP#0"		datasheets/powerswitch/ti/tps2114.pdf
+TPS2111APWR	ideal	ti	skip	select logic	"ti|-|datasheets/powerswitch/ti/tps2110a.pdf|8-TSSOP (0.173"", 4.40mm Width)|8-TSSOP#0"		datasheets/powerswitch/ti/tps2110a.pdf
+TPS2115PWR	ideal	ti	skip	select logic	"ti|-|datasheets/powerswitch/ti/tps2114.pdf|8-TSSOP (0.173"", 4.40mm Width)|8-TSSOP#0"		datasheets/powerswitch/ti/tps2114.pdf
+TPS2110APWR	ideal	ti	skip	select logic	"ti|-|datasheets/powerswitch/ti/tps2110a.pdf|8-TSSOP (0.173"", 4.40mm Width)|8-TSSOP#0"		datasheets/powerswitch/ti/tps2110a.pdf
+TPS2113APWR	ideal	ti	skip	select logic	"ti|-|datasheets/powerswitch/ti/tps2112a.pdf|8-TSSOP (0.173"", 4.40mm Width)|8-TSSOP#0"		datasheets/powerswitch/ti/tps2112a.pdf
+TPS2101DBVT	ideal	ti	skip	select logic	ti|-|datasheets/powerswitch/ti/tps2100.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/ti/tps2100.pdf
+TPS2110PW	ideal	ti	skip	select logic	"ti|-|datasheets/powerswitch/ti/tps2110.pdf|8-TSSOP (0.173"", 4.40mm Width)|8-TSSOP#0"		datasheets/powerswitch/ti/tps2110.pdf
+TPS2111PWR	ideal	ti	skip	select logic	"ti|-|datasheets/powerswitch/ti/tps2110.pdf|8-TSSOP (0.173"", 4.40mm Width)|8-TSSOP#0"		datasheets/powerswitch/ti/tps2110.pdf
+TPS2115APW	ideal	ti	skip	select logic	"ti|-|datasheets/powerswitch/ti/tps2114a.pdf|8-TSSOP (0.173"", 4.40mm Width)|8-TSSOP#0"		datasheets/powerswitch/ti/tps2114a.pdf
+TPS2111PW	ideal	ti	skip	select logic	"ti|-|datasheets/powerswitch/ti/tps2110.pdf|8-TSSOP (0.173"", 4.40mm Width)|8-TSSOP#0"		datasheets/powerswitch/ti/tps2110.pdf
+LM66100DCKT	ideal	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS2112APW	ideal	ti	skip	select logic	"ti|-|datasheets/powerswitch/ti/tps2112a.pdf|8-TSSOP (0.173"", 4.40mm Width)|8-TSSOP#0"		datasheets/powerswitch/ti/tps2112a.pdf
+TPS2111APW	ideal	ti	skip	select logic	"ti|-|datasheets/powerswitch/ti/tps2110a.pdf|8-TSSOP (0.173"", 4.40mm Width)|8-TSSOP#0"		datasheets/powerswitch/ti/tps2110a.pdf
+TPS2105DBVT	ideal	ti	skip	select logic	ti|-|datasheets/powerswitch/ti/tps2104.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/ti/tps2104.pdf
+TPS2115ADRBT	ideal	ti	skip	select logic	ti|-|datasheets/powerswitch/ti/tps2114a.pdf|8-VDFN Exposed Pad|8-SON (3x3)#0		datasheets/powerswitch/ti/tps2114a.pdf
+TPS2113APW	ideal	ti	skip	select logic	"ti|-|datasheets/powerswitch/ti/tps2112a.pdf|8-TSSOP (0.173"", 4.40mm Width)|8-TSSOP#0"		datasheets/powerswitch/ti/tps2112a.pdf
+TPS2113PW	ideal	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS2112APWR	ideal	ti	skip	select logic	"ti|-|datasheets/powerswitch/ti/tps2112a.pdf|8-TSSOP (0.173"", 4.40mm Width)|8-TSSOP#0"		datasheets/powerswitch/ti/tps2112a.pdf
+LTC4415EDHC#PBF	ideal	analog-devices	add		analog-devices|PowerPath™|datasheets/powerswitch/analog-devices/4415fa.pdf|16-WFDFN Exposed Pad|16-DFN (5x3)#0		datasheets/powerswitch/analog-devices/4415fa.pdf
+LTC4415EDHC#TRPBF	ideal	analog-devices	add		analog-devices|PowerPath™|datasheets/powerswitch/analog-devices/4415fa.pdf|16-WFDFN Exposed Pad|16-DFN (5x3)#0		datasheets/powerswitch/analog-devices/4415fa.pdf
+LTC4413EDD-1#PBF	ideal	analog-devices	add		analog-devices|-|datasheets/powerswitch/analog-devices/441312fg.pdf|10-WFDFN Exposed Pad|10-DFN (3x3)#0		datasheets/powerswitch/analog-devices/441312fg.pdf
+LTC4415EMSE#TRPBF	ideal	analog-devices	add		"analog-devices|PowerPath™|datasheets/powerswitch/analog-devices/4415fa.pdf|16-TFSOP (0.118"", 3.00mm Width) Exposed Pad|16-MSOP-EP#0"		datasheets/powerswitch/analog-devices/4415fa.pdf
+LTC4413EDD-1#TRPBF	ideal	analog-devices	add		analog-devices|-|datasheets/powerswitch/analog-devices/441312fg.pdf|10-WFDFN Exposed Pad|10-DFN (3x3)#0		datasheets/powerswitch/analog-devices/441312fg.pdf
+LTC4413EDD#PBF	ideal	analog-devices	add		analog-devices|-|datasheets/powerswitch/analog-devices/4413fd.pdf|10-WFDFN Exposed Pad|10-DFN (3x3)#0		datasheets/powerswitch/analog-devices/4413fd.pdf
+LTC4415IMSE#TRPBF	ideal	analog-devices	add		"analog-devices|PowerPath™|datasheets/powerswitch/analog-devices/4415fa.pdf|16-TFSOP (0.118"", 3.00mm Width) Exposed Pad|16-MSOP-EP#0"		datasheets/powerswitch/analog-devices/4415fa.pdf
+LTC4413EDD#TRPBF	ideal	analog-devices	add		analog-devices|-|datasheets/powerswitch/analog-devices/4413fd.pdf|10-WFDFN Exposed Pad|10-DFN (3x3)#0		datasheets/powerswitch/analog-devices/4413fd.pdf
+LTC4413EDD-2#TRPBF	ideal	analog-devices	add		analog-devices|-|datasheets/powerswitch/analog-devices/441312fg.pdf|10-WFDFN Exposed Pad|10-DFN (3x3)#1		datasheets/powerswitch/analog-devices/441312fg.pdf
+LTC4415IMSE#PBF	ideal	analog-devices	add		"analog-devices|PowerPath™|datasheets/powerswitch/analog-devices/4415fa.pdf|16-TFSOP (0.118"", 3.00mm Width) Exposed Pad|16-MSOP-EP#0"		datasheets/powerswitch/analog-devices/4415fa.pdf
+LTC4415IDHC#TRPBF	ideal	analog-devices	add		analog-devices|PowerPath™|datasheets/powerswitch/analog-devices/4415fa.pdf|16-WFDFN Exposed Pad|16-DFN (5x3)#0		datasheets/powerswitch/analog-devices/4415fa.pdf
+LTC4358CDE#PBF	ideal	analog-devices	add		analog-devices|-|datasheets/powerswitch/analog-devices/4358fa.pdf|14-WFDFN Exposed Pad|14-DFN (4x3)#0		datasheets/powerswitch/analog-devices/4358fa.pdf
+LTC4413EDD-2#PBF	ideal	analog-devices	add		analog-devices|-|datasheets/powerswitch/analog-devices/441312fg.pdf|10-WFDFN Exposed Pad|10-DFN (3x3)#1		datasheets/powerswitch/analog-devices/441312fg.pdf
+LTC4419IDD#TRPBF	ideal	analog-devices	skip	select logic	analog-devices|PowerPath™|datasheets/powerswitch/analog-devices/4419fa.pdf|10-WFDFN Exposed Pad|10-DFN (3x3)#0		datasheets/powerswitch/analog-devices/4419fa.pdf
+LTC4421HG#WTRPBF	ideal	analog-devices	skip	external pass element	"analog-devices|-|datasheets/powerswitch/analog-devices/LTC4421.pdf|36-SSOP (0.209"", 5.30mm Width)|36-SSOP#0"	automotive	datasheets/powerswitch/analog-devices/LTC4421.pdf
+LT4423AV#TRPBF	ideal	analog-devices	add		analog-devices|LT®4423|datasheets/powerswitch/analog-devices/lt4423.pdf|10-VFDFN Exposed Pad|10-LDFN (3x2)#0		datasheets/powerswitch/analog-devices/lt4423.pdf
+LTC4415IDHC#PBF	ideal	analog-devices	add		analog-devices|PowerPath™|datasheets/powerswitch/analog-devices/4415fa.pdf|16-WFDFN Exposed Pad|16-DFN (5x3)#0		datasheets/powerswitch/analog-devices/4415fa.pdf
+LTC4415EMSE#PBF	ideal	analog-devices	add		"analog-devices|PowerPath™|datasheets/powerswitch/analog-devices/4415fa.pdf|16-TFSOP (0.118"", 3.00mm Width) Exposed Pad|16-MSOP-EP#0"		datasheets/powerswitch/analog-devices/4415fa.pdf
+LTC4411ES5#TRMPBF	ideal	analog-devices	add		analog-devices|-|datasheets/powerswitch/analog-devices/4411fa.pdf|SOT-23-5 Thin, TSOT-23-5|TSOT-23-5#0		datasheets/powerswitch/analog-devices/4411fa.pdf
+LTC4411ES5#TRPBF	ideal	analog-devices	add		analog-devices|-|datasheets/powerswitch/analog-devices/4411fa.pdf|SOT-23-5 Thin, TSOT-23-5|TSOT-23-5#0		datasheets/powerswitch/analog-devices/4411fa.pdf
+LTC4419CDD#PBF	ideal	analog-devices	skip	select logic	analog-devices|PowerPath™|datasheets/powerswitch/analog-devices/4419fa.pdf|10-WFDFN Exposed Pad|10-DFN (3x3)#0		datasheets/powerswitch/analog-devices/4419fa.pdf
+LTC4358IDE#TRPBF	ideal	analog-devices	add		analog-devices|-|datasheets/powerswitch/analog-devices/4358fa.pdf|14-WFDFN Exposed Pad|14-DFN (4x3)#0		datasheets/powerswitch/analog-devices/4358fa.pdf
+LTC4419IDD#PBF	ideal	analog-devices	skip	select logic	analog-devices|PowerPath™|datasheets/powerswitch/analog-devices/4419fa.pdf|10-WFDFN Exposed Pad|10-DFN (3x3)#0		datasheets/powerswitch/analog-devices/4419fa.pdf
+LTC4358IFE#PBF	ideal	analog-devices	add		"analog-devices|-|datasheets/powerswitch/analog-devices/4358fa.pdf|16-TSSOP (0.173"", 4.40mm Width) Exposed Pad|16-TSSOP-EP#0"		datasheets/powerswitch/analog-devices/4358fa.pdf
+LTC4420CMSE#PBF	ideal	analog-devices	skip	select logic	"analog-devices|PowerPath™|datasheets/powerswitch/analog-devices/4420fa.pdf|12-TSSOP (0.118"", 3.00mm Width) Exposed Pad|12-MSOP-EP#0"		datasheets/powerswitch/analog-devices/4420fa.pdf
+LTC4419CMSE#PBF	ideal	analog-devices	skip	select logic	"analog-devices|PowerPath™|datasheets/powerswitch/analog-devices/4419fa.pdf|12-TSSOP (0.118"", 3.00mm Width) Exposed Pad|12-MSOP-EP#0"		datasheets/powerswitch/analog-devices/4419fa.pdf
+LTC4420IDD#PBF	ideal	analog-devices	skip	select logic	analog-devices|PowerPath™|datasheets/powerswitch/analog-devices/4420fa.pdf|12-WFDFN Exposed Pad|12-DFN (3x3)#0		datasheets/powerswitch/analog-devices/4420fa.pdf
+LTC4358CFE#PBF	ideal	analog-devices	add		"analog-devices|-|datasheets/powerswitch/analog-devices/4358fa.pdf|16-TSSOP (0.173"", 4.40mm Width) Exposed Pad|16-TSSOP-EP#0"		datasheets/powerswitch/analog-devices/4358fa.pdf
+LTC4420IMSE#PBF	ideal	analog-devices	skip	select logic	"analog-devices|PowerPath™|datasheets/powerswitch/analog-devices/4420fa.pdf|12-TSSOP (0.118"", 3.00mm Width) Exposed Pad|12-MSOP-EP#0"		datasheets/powerswitch/analog-devices/4420fa.pdf
+LTC4420CDD#PBF	ideal	analog-devices	skip	select logic	analog-devices|PowerPath™|datasheets/powerswitch/analog-devices/4420fa.pdf|12-WFDFN Exposed Pad|12-DFN (3x3)#0		datasheets/powerswitch/analog-devices/4420fa.pdf
+LTC4358IDE#PBF	ideal	analog-devices	add		analog-devices|-|datasheets/powerswitch/analog-devices/4358fa.pdf|14-WFDFN Exposed Pad|14-DFN (4x3)#0		datasheets/powerswitch/analog-devices/4358fa.pdf
+LM34902ITMX/NOPB	limited	ti	add		ti|-|datasheets/powerswitch/ti/lm34902.pdf|6-WFBGA, DSBGA|6-DSBGA (1.44x1.16)#0		datasheets/powerswitch/ti/lm34902.pdf
+LM3525MX-H-NS	limited	ti	skip	no datasheet on the maker's site (rocelec.widen.net)			
+LM3544MX-L	limited	ti	add		"ti|-|datasheets/powerswitch/ti/lm3544.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#0"		datasheets/powerswitch/ti/lm3544.pdf
+MIC2025-2BM TR	limited	microchip	skip	no datasheet on the maker's site (rocelec.widen.net)			
+MIC2009A-1YM6-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|SOT-23-6|SOT-23-6#7		datasheets/powerswitch/microchip/mic20xx.pdf
+MIC2545A-2BM TR	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2545a.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/microchip/mic2545a.pdf
+MIC2026-1YM-TR	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2026.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/microchip/mic2026.pdf
+MIC2039AYMT-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC2039-High-Accuracy-High-Side-Adjustable-Current-Limit-Power-Switch-20005540A.pdf|6-UDFN Exposed Pad|6-TDFN (2x2)#0		datasheets/powerswitch/microchip/MIC2039-High-Accuracy-High-Side-Adjustable-Current-Limit-Power-Switch-20005540A.pdf
+MIC2026-2YM-TR	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/MIC2026-Family-Data-Sheet-DS20006443.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/microchip/MIC2026-Family-Data-Sheet-DS20006443.pdf
+MIC2026-1YM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/MIC2026-Family-Data-Sheet-DS20006443.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/microchip/MIC2026-Family-Data-Sheet-DS20006443.pdf
+MIC2039EYM6-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC2039-High-Accuracy-High-Side-Adjustable-Current-Limit-Power-Switch-20005540A.pdf|SOT-23-6|SOT-23-6#0		datasheets/powerswitch/microchip/MIC2039-High-Accuracy-High-Side-Adjustable-Current-Limit-Power-Switch-20005540A.pdf
+MIC2039AYM6-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC2039-High-Accuracy-High-Side-Adjustable-Current-Limit-Power-Switch-20005540A.pdf|SOT-23-6|SOT-23-6#0		datasheets/powerswitch/microchip/MIC2039-High-Accuracy-High-Side-Adjustable-Current-Limit-Power-Switch-20005540A.pdf
+MIC2514YM5-TR	limited	microchip	add		microchip|IttyBitty®|datasheets/powerswitch/microchip/mic2514.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/microchip/mic2514.pdf
+MIC2005-0.5YM6-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|SOT-23-6|SOT-23-6#0		datasheets/powerswitch/microchip/mic20xx.pdf
+MIC2097-1YMT-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic2095.pdf|6-UFDFN Exposed Pad|6-TMLF® (1.6x1.6)#2		datasheets/powerswitch/microchip/mic2095.pdf
+MIC2005A-2YM5-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|SC-74A, SOT-753|SOT-23-5#10		datasheets/powerswitch/microchip/mic20xx.pdf
+MIC2005-0.8YM6-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|SOT-23-6|SOT-23-6#1		datasheets/powerswitch/microchip/mic20xx.pdf
+MIC2019YM6-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC20xx-Fixed-and-Adjustable-Current-Limiting-Power-Distribution-Switches-DS20006486C.pdf|SOT-23-6|SOT-23-6#0		datasheets/powerswitch/microchip/MIC20xx-Fixed-and-Adjustable-Current-Limiting-Power-Distribution-Switches-DS20006486C.pdf
+MIC2009YM6-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|SOT-23-6|SOT-23-6#11		datasheets/powerswitch/microchip/mic20xx.pdf
+MIC2098-1YMT-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic2095.pdf|6-UFDFN Exposed Pad|6-TMLF® (1.6x1.6)#1		datasheets/powerswitch/microchip/mic2095.pdf
+MIC2008YML-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|6-VDFN Exposed Pad, 6-MLF®|6-DFN (2x2)#12		datasheets/powerswitch/microchip/mic20xx.pdf
+MIC2005A-1YM6-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|SOT-23-6|SOT-23-6#6		datasheets/powerswitch/microchip/mic20xx.pdf
+MIC2025-1YMM-TR	limited	microchip	add		"microchip|MM8™|datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-MSOP#0"		datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf
+MIC2009YML-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|6-VDFN Exposed Pad, 6-MLF®|6-DFN (2x2)#13		datasheets/powerswitch/microchip/mic20xx.pdf
+MIC2026A-1YM-TR	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/MIC2026A-76A-Dual-Channel-Power-Distribution-Switches-DS20006608A.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/microchip/MIC2026A-76A-Dual-Channel-Power-Distribution-Switches-DS20006608A.pdf
+MIC2005A-2YM6-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|SOT-23-6|SOT-23-6#8		datasheets/powerswitch/microchip/mic20xx.pdf
+MIC2536-2BMM TR	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2536.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-MSOP#1"		datasheets/powerswitch/microchip/mic2536.pdf
+MIC2003-0.5YM5-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/microchip/mic20xx.pdf
+MIC2039BYM6-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC2039-High-Accuracy-High-Side-Adjustable-Current-Limit-Power-Switch-20005540A.pdf|SOT-23-6|SOT-23-6#1		datasheets/powerswitch/microchip/MIC2039-High-Accuracy-High-Side-Adjustable-Current-Limit-Power-Switch-20005540A.pdf
+MIC2075-2BMMTR	limited	microchip	skip	no datasheet on the maker's site (rocelec.widen.net)			
+MIC2005-1.2YM6-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|SOT-23-6|SOT-23-6#2		datasheets/powerswitch/microchip/mic20xx.pdf
+MIC2033-10AYM6-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC2033-High-Accuracy-High-Side-Fixed-Current-Limit-Power-Switch-20005539A.pdf|SOT-23-6|SOT-23-6#2		datasheets/powerswitch/microchip/MIC2033-High-Accuracy-High-Side-Fixed-Current-Limit-Power-Switch-20005539A.pdf
+MIC2005-0.8YML-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|6-VDFN Exposed Pad, 6-MLF®|6-DFN (2x2)#6		datasheets/powerswitch/microchip/mic20xx.pdf
+MIC2033-55AYM6-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC2033-High-Accuracy-High-Side-Fixed-Current-Limit-Power-Switch-20005539A.pdf|SOT-23-6|SOT-23-6#1		datasheets/powerswitch/microchip/MIC2033-High-Accuracy-High-Side-Fixed-Current-Limit-Power-Switch-20005539A.pdf
+MIC2008YM6-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|SOT-23-6|SOT-23-6#10		datasheets/powerswitch/microchip/mic20xx.pdf
+MIC2548-1YMM-TR	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/20005725B.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-MSOP#0"		datasheets/powerswitch/microchip/20005725B.pdf
+MIC2039EYMT-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC2039-High-Accuracy-High-Side-Adjustable-Current-Limit-Power-Switch-20005540A.pdf|6-UFDFN Exposed Pad|6-TDFN (2x2)#0		datasheets/powerswitch/microchip/MIC2039-High-Accuracy-High-Side-Adjustable-Current-Limit-Power-Switch-20005540A.pdf
+MIC2547-2BTSTR	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2546.pdf|16-TSSOP (0.173"", 4.40mm Width)|16-TSSOP#1"		datasheets/powerswitch/microchip/mic2546.pdf
+MIC2099-1YMT-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic2095.pdf|6-UFDFN Exposed Pad|6-TMLF® (1.6x1.6)#2		datasheets/powerswitch/microchip/mic2095.pdf
+MIC2019YML-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|6-VDFN Exposed Pad, 6-MLF®|6-DFN (2x2)#13		datasheets/powerswitch/microchip/mic20xx.pdf
+MIC2549A-2YTS	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2545a.pdf|14-TSSOP (0.173"", 4.40mm Width)|14-TSSOP#1"		datasheets/powerswitch/microchip/mic2545a.pdf
+MIC2547-2YTS-TR	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2546.pdf|16-TSSOP (0.173"", 4.40mm Width)|16-TSSOP#1"		datasheets/powerswitch/microchip/mic2546.pdf
+MIC2004-0.8YM5-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|SC-74A, SOT-753|SOT-23-5#4		datasheets/powerswitch/microchip/mic20xx.pdf
+MIC2544A-1YM-TR	limited	microchip	skip	no datasheet on the maker's site (ww1.microchip.com)			
+MIC2009A-2YM6-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|SOT-23-6|SOT-23-6#9		datasheets/powerswitch/microchip/mic20xx.pdf
+MIC2033-55AYMT-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC2033-High-Accuracy-High-Side-Fixed-Current-Limit-Power-Switch-20005539A.pdf|6-UDFN Exposed Pad|6-TDFN (2x2)#0		datasheets/powerswitch/microchip/MIC2033-High-Accuracy-High-Side-Fixed-Current-Limit-Power-Switch-20005539A.pdf
+UCS2112T-2-V/G4	limited	microchip	skip	control	microchip|-|datasheets/powerswitch/microchip/USB-Dual-Port-Power-Switch-and-Current-Monitor-DS20005424D.pdf|20-VFQFN Exposed Pad|20-QFN (4x4)#0		datasheets/powerswitch/microchip/USB-Dual-Port-Power-Switch-and-Current-Monitor-DS20005424D.pdf
+MIC2014-0.8YM5-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|SC-74A, SOT-753|SOT-23-5#4		datasheets/powerswitch/microchip/mic20xx.pdf
+MIC2025-1YM-TR	limited	microchip	add		"microchip|MM8™|datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf
+MIC2076-1YM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2026.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/microchip/mic2026.pdf
+MIC2025-1YMM	limited	microchip	add		"microchip|MM8™|datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-MSOP#0"		datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf
+MIC2537-1YM	limited	microchip	skip	no datasheet on the maker's site (rocelec.widen.net)			
+MIC2013-1.2YML-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|6-VDFN Exposed Pad, 6-MLF®|6-DFN (2x2)#8		datasheets/powerswitch/microchip/mic20xx.pdf
+MIC2536-2YMM	limited	microchip	skip	no datasheet on the maker's site (rocelec.widen.net)			
+MIC2545A-1YTS	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2545a.pdf|14-TSSOP (0.173"", 4.40mm Width)|14-TSSOP#0"		datasheets/powerswitch/microchip/mic2545a.pdf
+MIC2549A-1YTS	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2545a.pdf|14-TSSOP (0.173"", 4.40mm Width)|14-TSSOP#0"		datasheets/powerswitch/microchip/mic2545a.pdf
+MIC2017YM6-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|SOT-23-6|SOT-23-6#10		datasheets/powerswitch/microchip/mic20xx.pdf
+MIC2019A-1YM6-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|SOT-23-6|SOT-23-6#7		datasheets/powerswitch/microchip/mic20xx.pdf
+MIC2025-1YM	limited	microchip	add		"microchip|MM8™|datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf
+MIC2005-0.5LYM5-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|SC-74A, SOT-753|SOT-23-5#6		datasheets/powerswitch/microchip/mic20xx.pdf
+UCS2113T-1C-V/G4	limited	microchip	skip	control	microchip|-|datasheets/powerswitch/microchip/UCS2113-USB-Dual-Port-Power-Switch-and-Current-Monitor-20005680B.pdf|20-VFQFN Exposed Pad|20-QFN (4x4)#0		datasheets/powerswitch/microchip/UCS2113-USB-Dual-Port-Power-Switch-and-Current-Monitor-20005680B.pdf
+UCS2113T-2C-V/G4	limited	microchip	skip	control	microchip|-|datasheets/powerswitch/microchip/UCS2113-USB-Dual-Port-Power-Switch-and-Current-Monitor-20005680B.pdf|20-VFQFN Exposed Pad|20-QFN (4x4)#0		datasheets/powerswitch/microchip/UCS2113-USB-Dual-Port-Power-Switch-and-Current-Monitor-20005680B.pdf
+MIC2033-05AYM6-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC2033-High-Accuracy-High-Side-Fixed-Current-Limit-Power-Switch-20005539A.pdf|SOT-23-6|SOT-23-6#0		datasheets/powerswitch/microchip/MIC2033-High-Accuracy-High-Side-Fixed-Current-Limit-Power-Switch-20005539A.pdf
+MIC2026-2YM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2026.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/microchip/mic2026.pdf
+MIC2025-2YMM-TR	limited	microchip	add		"microchip|MM8™|datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-MSOP#1"		datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf
+MIC2544A-1YMM-TR	limited	microchip	skip	no datasheet on the maker's site (ww1.microchip.com)			
+MIC2505-1YM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/MIC2505-6-Single-2A-Dual-1A-High-Side-Switches-DS20005579B.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/microchip/MIC2505-6-Single-2A-Dual-1A-High-Side-Switches-DS20005579B.pdf
+MIC2076-1YM-TR	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2026.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/microchip/mic2026.pdf
+MIC2546-2YM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2546.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#0"		datasheets/powerswitch/microchip/mic2546.pdf
+MIC2004-0.5YM5-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|SC-74A, SOT-753|SOT-23-5#3		datasheets/powerswitch/microchip/mic20xx.pdf
+MIC2505-2YM-TR	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/MIC2505-6-Single-2A-Dual-1A-High-Side-Switches-DS20005579B.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/microchip/MIC2505-6-Single-2A-Dual-1A-High-Side-Switches-DS20005579B.pdf
+UCS2114-1-V/LX	limited	microchip	skip	control	microchip|-|datasheets/powerswitch/microchip/UCS2114-Data-Sheet-20005743B.pdf|20-VFQFN|20-VQFN (3x3)#0		datasheets/powerswitch/microchip/UCS2114-Data-Sheet-20005743B.pdf
+MIC2039FYM6-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC2039-High-Accuracy-High-Side-Adjustable-Current-Limit-Power-Switch-20005540A.pdf|SOT-23-6|SOT-23-6#1		datasheets/powerswitch/microchip/MIC2039-High-Accuracy-High-Side-Adjustable-Current-Limit-Power-Switch-20005540A.pdf
+UCS2113T-2-V/G4	limited	microchip	skip	control	microchip|-|datasheets/powerswitch/microchip/20005680a.pdf|20-VFQFN Exposed Pad|20-QFN (4x4)#0		datasheets/powerswitch/microchip/20005680a.pdf
+MIC2544-2YMM-TR	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/20005725B.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-MSOP#1"		datasheets/powerswitch/microchip/20005725B.pdf
+MIC2075-1YM-TR	limited	microchip	add		"microchip|MM8™|datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf
+MIC2040-1YMM-TR	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2040.PDF|10-TFSOP, 10-MSOP (0.118"", 3.00mm Width)|10-MSOP#0"		datasheets/powerswitch/microchip/mic2040.PDF
+MIC2007YM6-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|SOT-23-6|SOT-23-6#10		datasheets/powerswitch/microchip/mic20xx.pdf
+MIC2544-1YMM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/20005725B.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-MSOP#0"		datasheets/powerswitch/microchip/20005725B.pdf
+MIC2026A-2YM-TR	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/MIC2026A-76A-Dual-Channel-Power-Distribution-Switches-DS20006608A.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/microchip/MIC2026A-76A-Dual-Channel-Power-Distribution-Switches-DS20006608A.pdf
+MIC2075-2YM-TR	limited	microchip	add		"microchip|MM8™|datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf
+MIC2537-2YM	limited	microchip	skip	no datasheet on the maker's site (rocelec.widen.net)			
+MIC2544-1YMM-TR	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/20005725B.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-MSOP#0"		datasheets/powerswitch/microchip/20005725B.pdf
+MIC2005A-1YM5-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|SC-74A, SOT-753|SOT-23-5#9		datasheets/powerswitch/microchip/mic20xx.pdf
+MIC2505-1YM-TR	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/MIC2505-6-Single-2A-Dual-1A-High-Side-Switches-DS20005579B.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/microchip/MIC2505-6-Single-2A-Dual-1A-High-Side-Switches-DS20005579B.pdf
+MIC2546-1YTS-TR	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2546.pdf|16-TSSOP (0.173"", 4.40mm Width)|16-TSSOP#0"		datasheets/powerswitch/microchip/mic2546.pdf
+MIC2025-2YM-TR	limited	microchip	add		"microchip|MM8™|datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf
+MIC2546-2YTS	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2546.pdf|16-TSSOP (0.173"", 4.40mm Width)|16-TSSOP#1"		datasheets/powerswitch/microchip/mic2546.pdf
+MIC2005-1.2LYM5-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|SC-74A, SOT-753|SOT-23-5#8		datasheets/powerswitch/microchip/mic20xx.pdf
+MIC2544-2YM-TR	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/20005725B.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/microchip/20005725B.pdf
+MIC2077-2YM-TR	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2027.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#1"		datasheets/powerswitch/microchip/mic2027.pdf
+MIC2536-1YM-TR	limited	microchip	skip	not in the datasheet's ordering table			datasheets/powerswitch/microchip/mic2536.pdf
+MIC2545A-2YM-TR	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2545a.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/microchip/mic2545a.pdf
+MIC2549A-1YM-TR	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2545a.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/microchip/mic2545a.pdf
+MIC2025-2YM	limited	microchip	add		"microchip|MM8™|datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf
+UCS2112-1-V/G4	limited	microchip	skip	control	microchip|-|datasheets/powerswitch/microchip/USB-Dual-Port-Power-Switch-and-Current-Monitor-DS20005424D.pdf|20-VFQFN Exposed Pad|20-QFN (4x4)#0		datasheets/powerswitch/microchip/USB-Dual-Port-Power-Switch-and-Current-Monitor-DS20005424D.pdf
+MIC2005-0.8LYM5-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|SC-74A, SOT-753|SOT-23-5#7		datasheets/powerswitch/microchip/mic20xx.pdf
+UCS2113T-1-V/G4	limited	microchip	skip	control	microchip|-|datasheets/powerswitch/microchip/20005680a.pdf|20-VFQFN Exposed Pad|20-QFN (4x4)#0		datasheets/powerswitch/microchip/20005680a.pdf
+MIC2026A-1YM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/MIC2026A-76A-Dual-Channel-Power-Distribution-Switches-DS20006608A.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/microchip/MIC2026A-76A-Dual-Channel-Power-Distribution-Switches-DS20006608A.pdf
+MIC2544A-1YM	limited	microchip	skip	no datasheet on the maker's site (ww1.microchip.com)			
+MIC2015-1.2YM6-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|SOT-23-6|SOT-23-6#2		datasheets/powerswitch/microchip/mic20xx.pdf
+MIC2075-1YMM-TR	limited	microchip	add		"microchip|MM8™|datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-MSOP#0"		datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf
+MIC2505YM-TR	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/MIC2505-6-Single-2A-Dual-1A-High-Side-Switches-DS20005579B.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/microchip/MIC2505-6-Single-2A-Dual-1A-High-Side-Switches-DS20005579B.pdf
+MIC2026A-2YM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/MIC2026A-76A-Dual-Channel-Power-Distribution-Switches-DS20006608A.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/microchip/MIC2026A-76A-Dual-Channel-Power-Distribution-Switches-DS20006608A.pdf
+MIC2076-2YM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2026.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/microchip/mic2026.pdf
+MIC2536-1YMM	limited	microchip	skip	no datasheet on the maker's site (rocelec.widen.net)			
+MIC2027-1YM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2027.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#0"		datasheets/powerswitch/microchip/mic2027.pdf
+MIC2548-1YM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/20005725B.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/microchip/20005725B.pdf
+MIC2075-1YMM	limited	microchip	add		"microchip|MM8™|datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-MSOP#0"		datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf
+MIC2042-1YTS	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2042.PDF|14-TSSOP (0.173"", 4.40mm Width)|14-TSSOP#0"		datasheets/powerswitch/microchip/mic2042.PDF
+MIC2095-2YMT-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic2095.pdf|6-UFDFN Exposed Pad|6-TMLF® (1.6x1.6)#3		datasheets/powerswitch/microchip/mic2095.pdf
+MIC2548-2YM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/20005725B.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/microchip/20005725B.pdf
+MIC2544A-2YM	limited	microchip	skip	no datasheet on the maker's site (ww1.microchip.com)			
+MIC2045-1YTS	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2044-45.pdf|16-TSSOP (0.173"", 4.40mm Width)|16-TSSOP#0"		datasheets/powerswitch/microchip/mic2044-45.pdf
+MIC2076A-1YM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/MIC2026A-76A-Dual-Channel-Power-Distribution-Switches-DS20006608A.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/microchip/MIC2026A-76A-Dual-Channel-Power-Distribution-Switches-DS20006608A.pdf
+MIC2544-2YM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/20005725B.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/microchip/20005725B.pdf
+MIC2547-1YTS	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2546.pdf|16-TSSOP (0.173"", 4.40mm Width)|16-TSSOP#0"		datasheets/powerswitch/microchip/mic2546.pdf
+MIC2027-2YM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2027.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#1"		datasheets/powerswitch/microchip/mic2027.pdf
+UCS2113-2C-V/G4	limited	microchip	skip	control	microchip|-|datasheets/powerswitch/microchip/UCS2113-USB-Dual-Port-Power-Switch-and-Current-Monitor-20005680B.pdf|20-VFQFN Exposed Pad|20-QFN (4x4)#0		datasheets/powerswitch/microchip/UCS2113-USB-Dual-Port-Power-Switch-and-Current-Monitor-20005680B.pdf
+MIC2043-1YM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2042.PDF|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/microchip/mic2042.PDF
+MIC2004-1.2YM5-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|SC-74A, SOT-753|SOT-23-5#5		datasheets/powerswitch/microchip/mic20xx.pdf
+MIC2042-1YM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2042.PDF|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/microchip/mic2042.PDF
+MIC2075-2YMM	limited	microchip	add		"microchip|MM8™|datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-MSOP#1"		datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf
+MIC2043-2YM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2042.PDF|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/microchip/mic2042.PDF
+UCS2113-1-V/G4	limited	microchip	skip	control	microchip|-|datasheets/powerswitch/microchip/20005680a.pdf|20-VFQFN Exposed Pad|20-QFN (4x4)#0		datasheets/powerswitch/microchip/20005680a.pdf
+MIC2544-1YM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/20005725B.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/microchip/20005725B.pdf
+MIC2536-1YM	limited	microchip	skip	not in the datasheet's ordering table			datasheets/powerswitch/microchip/mic2536.pdf
+MIC2547-2YTS	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2546.pdf|16-TSSOP (0.173"", 4.40mm Width)|16-TSSOP#1"		datasheets/powerswitch/microchip/mic2546.pdf
+MIC2505-2YM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/MIC2505-6-Single-2A-Dual-1A-High-Side-Switches-DS20005579B.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/microchip/MIC2505-6-Single-2A-Dual-1A-High-Side-Switches-DS20005579B.pdf
+MIC2536-2YM	limited	microchip	skip	not in the datasheet's ordering table			datasheets/powerswitch/microchip/mic2536.pdf
+MIC2007YML-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|6-VDFN Exposed Pad, 6-MLF®|6-DFN (2x2)#12		datasheets/powerswitch/microchip/mic20xx.pdf
+MIC2077-2YM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2027.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#1"		datasheets/powerswitch/microchip/mic2027.pdf
+MIC2549A-1YM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2545a.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/microchip/mic2545a.pdf
+MIC2019A-2YM6-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|SOT-23-6|SOT-23-6#9		datasheets/powerswitch/microchip/mic20xx.pdf
+MIC2077-1YM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2027.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#0"		datasheets/powerswitch/microchip/mic2027.pdf
+MIC2025-2YMM	limited	microchip	add		"microchip|MM8™|datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-MSOP#1"		datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf
+MIC2075-1YM	limited	microchip	add		"microchip|MM8™|datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf
+MIC2545A-2YN	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2545a.pdf|8-DIP (0.300"", 7.62mm)|8-DIP#1"		datasheets/powerswitch/microchip/mic2545a.pdf
+MIC2548-2YMM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/20005725B.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-MSOP#1"		datasheets/powerswitch/microchip/20005725B.pdf
+MIC2075-2YM	limited	microchip	add		"microchip|MM8™|datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf
+MIC2505YM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/MIC2505-6-Single-2A-Dual-1A-High-Side-Switches-DS20005579B.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/microchip/MIC2505-6-Single-2A-Dual-1A-High-Side-Switches-DS20005579B.pdf
+MIC2042-2YM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2042.PDF|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/microchip/mic2042.PDF
+UCS2113-1C-V/G4	limited	microchip	skip	control	microchip|-|datasheets/powerswitch/microchip/UCS2113-USB-Dual-Port-Power-Switch-and-Current-Monitor-20005680B.pdf|20-VFQFN Exposed Pad|20-QFN (4x4)#0		datasheets/powerswitch/microchip/UCS2113-USB-Dual-Port-Power-Switch-and-Current-Monitor-20005680B.pdf
+MIC2044-1YTS	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2044-45.pdf|16-TSSOP (0.173"", 4.40mm Width)|16-TSSOP#0"		datasheets/powerswitch/microchip/mic2044-45.pdf
+MIC2097-2YMT-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic2095.pdf|6-UFDFN Exposed Pad|6-TMLF® (1.6x1.6)#5		datasheets/powerswitch/microchip/mic2095.pdf
+MIC2546-1YTS	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2546.pdf|16-TSSOP (0.173"", 4.40mm Width)|16-TSSOP#0"		datasheets/powerswitch/microchip/mic2546.pdf
+MIC2548-1YMM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/20005725B.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-MSOP#0"		datasheets/powerswitch/microchip/20005725B.pdf
+MIC2544-1YM-TR	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/20005725B.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/microchip/20005725B.pdf
+MIC2040-2YMM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2040.PDF|10-TFSOP, 10-MSOP (0.118"", 3.00mm Width)|10-MSOP#1"		datasheets/powerswitch/microchip/mic2040.PDF
+MIC2544A-1YMM	limited	microchip	skip	no datasheet on the maker's site (ww1.microchip.com)			
+MIC2045-2YTS	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2044-45.pdf|16-TSSOP (0.173"", 4.40mm Width)|16-TSSOP#1"		datasheets/powerswitch/microchip/mic2044-45.pdf
+MIC2041-1YMM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2040.PDF|10-TFSOP, 10-MSOP (0.118"", 3.00mm Width)|10-MSOP#0"		datasheets/powerswitch/microchip/mic2040.PDF
+MIC2544-2YMM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/20005725B.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-MSOP#1"		datasheets/powerswitch/microchip/20005725B.pdf
+MIC2545A-1YN	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2545a.pdf|8-DIP (0.300"", 7.62mm)|8-DIP#0"		datasheets/powerswitch/microchip/mic2545a.pdf
+MIC2545A-2YM	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2545a.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/microchip/mic2545a.pdf
+MIC2041-1YMM-TR	limited	microchip	add		"microchip|-|datasheets/powerswitch/microchip/mic2040.PDF|10-TFSOP, 10-MSOP (0.118"", 3.00mm Width)|10-MSOP#0"		datasheets/powerswitch/microchip/mic2040.PDF
+MIC2004-0.5YML-TR	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic20xx.pdf|6-VDFN Exposed Pad, 6-MLF®|6-DFN (2x2)#1		datasheets/powerswitch/microchip/mic20xx.pdf
+TPS2062CDRBR-2	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2002c.pdf|8-VDFN Exposed Pad|8-SON (3x3)#0		datasheets/powerswitch/ti/tps2002c.pdf
+TPS2003CDRCR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2002c.pdf|10-VFDFN Exposed Pad|10-VSON (3x3)#1		datasheets/powerswitch/ti/tps2002c.pdf
+TPS2065DGNR-1	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2066-1.pdf|8-PowerTSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-HVSSOP#0"		datasheets/powerswitch/ti/tps2066-1.pdf
+TPS22980RGPR	limited	ti	skip	select logic	ti|-|datasheets/powerswitch/ti/tps22980.pdf|20-VFQFN Exposed Pad|20-QFN (4x4)#0		datasheets/powerswitch/ti/tps22980.pdf
+TPS2055ADR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2058a.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/ti/tps2058a.pdf
+TPS2090DR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2090.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/tps2090.pdf
+TPS2062CDR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2002c.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/tps2002c.pdf
+TPS2051BQDRQ1	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2041b-q1.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"	automotive	datasheets/powerswitch/ti/tps2041b-q1.pdf
+TPS2051BDBVR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2042b.pdf|SC-74A, SOT-753|SOT-23-5#1		datasheets/powerswitch/ti/tps2042b.pdf
+TPS22949ADRGR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps22949.pdf|8-WFDFN Exposed Pad|8-SON (3x3)#0		datasheets/powerswitch/ti/tps22949.pdf
+TPS2002CDRCT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2002c.pdf|10-VFDFN Exposed Pad|10-VSON (3x3)#0		datasheets/powerswitch/ti/tps2002c.pdf
+TPS2051AD	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2054a.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/ti/tps2054a.pdf
+TPS2013AD	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2010a.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#3"		datasheets/powerswitch/ti/tps2010a.pdf
+TPS2041ADR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2054a.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/tps2054a.pdf
+TPS2052ADR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2054a.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#3"		datasheets/powerswitch/ti/tps2054a.pdf
+TPS2061DR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2061.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/tps2061.pdf
+TPS2052BDR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2042b.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#3"		datasheets/powerswitch/ti/tps2042b.pdf
+TPS2064CDGN-2	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2002c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#6"		datasheets/powerswitch/ti/tps2002c.pdf
+TPS2023DR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2020.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#3"		datasheets/powerswitch/ti/tps2020.pdf
+TPS2117DRLR	limited	ti	skip	select logic	ti|-|datasheets/powerswitch/ti/tps2117.pdf|SOT-583|SOT-583#0		datasheets/powerswitch/ti/tps2117.pdf
+TPS2064DGN	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2060.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#1"		datasheets/powerswitch/ti/tps2060.pdf
+TPS2051DR	limited	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS2024IDRQ1	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2020-q1.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#3"	automotive	datasheets/powerswitch/ti/tps2020-q1.pdf
+TPS2013ADR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2010a.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#3"		datasheets/powerswitch/ti/tps2010a.pdf
+TPS2023D	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2020.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#3"		datasheets/powerswitch/ti/tps2020.pdf
+TPS2053BD	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2042b.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#1"		datasheets/powerswitch/ti/tps2042b.pdf
+TPS2068D	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2060.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/tps2060.pdf
+TPS2046AD	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2058a.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#2"		datasheets/powerswitch/ti/tps2058a.pdf
+TPS2022DRQ1	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2020-q1.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#2"	automotive	datasheets/powerswitch/ti/tps2020-q1.pdf
+TPS2041DR	limited	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS22950YBHR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps22950.pdf|6-XFBGA, DSBGA|6-DSBGA (1.11x0.71)#0		datasheets/powerswitch/ti/tps22950.pdf
+TPS2054AD	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2054a.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#3"		datasheets/powerswitch/ti/tps2054a.pdf
+TPS2041BDBVR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2042b.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/ti/tps2042b.pdf
+TPS22944DCKR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps22941.pdf|5-TSSOP, SC-70-5, SOT-353|SC-70-5#3		datasheets/powerswitch/ti/tps22941.pdf
+TPS48110AQDGXRQ1	limited	ti	skip	external pass element	"ti|-|datasheets/powerswitch/ti/tps4811-q1.pdf|20-TFSOP (0.118"", 3.00mm Width), 19 Leads|19-VSSOP#0"	automotive	datasheets/powerswitch/ti/tps4811-q1.pdf
+TPS2013APWPR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2010a.pdf|14-PowerTSSOP (0.173"", 4.40mm Width)|14-HTSSOP#0"		datasheets/powerswitch/ti/tps2010a.pdf
+TPS2068DGN	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2060.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#2"		datasheets/powerswitch/ti/tps2060.pdf
+TPS2057AD	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2058a.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#0"		datasheets/powerswitch/ti/tps2058a.pdf
+TPS22943DCKR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps22941.pdf|5-TSSOP, SC-70-5, SOT-353|SC-70-5#2		datasheets/powerswitch/ti/tps22941.pdf
+TPS2065DDBVR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2065d.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/ti/tps2065d.pdf
+TPS2092DR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2090.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/ti/tps2090.pdf
+TPS2052BDGNR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2042b.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#3"		datasheets/powerswitch/ti/tps2042b.pdf
+TPS2021P	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2020.pdf|8-DIP (0.300"", 7.62mm)|8-PDIP#0"		datasheets/powerswitch/ti/tps2020.pdf
+TPS2043AD	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2054a.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#0"		datasheets/powerswitch/ti/tps2054a.pdf
+TPS2048AD	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2058a.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#1"		datasheets/powerswitch/ti/tps2058a.pdf
+TPS2062CDGNR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2002c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#1"		datasheets/powerswitch/ti/tps2002c.pdf
+TPS2046D	limited	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS281C100ADNTR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps281c100.pdf|12-WFDFN Exposed Pad|12-WSON (4x4)#0		datasheets/powerswitch/ti/tps281c100.pdf
+TPS2056P	limited	ti	skip	no datasheet on the maker's site (rocelec.widen.net)			
+TPS2065DBVR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2061.pdf|SC-74A, SOT-753|SOT-23-5#1		datasheets/powerswitch/ti/tps2061.pdf
+TPS2062CDGN	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2002c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#1"		datasheets/powerswitch/ti/tps2002c.pdf
+TPS2034P	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2030.pdf|8-DIP (0.300"", 7.62mm)|8-PDIP#2"		datasheets/powerswitch/ti/tps2030.pdf
+TPS2041P	limited	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS22950CQDDCRQ1	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps22950-q1.pdf|SOT-23-6 Thin, TSOT-23-6|SOT-23-THIN#0	automotive	datasheets/powerswitch/ti/tps22950-q1.pdf
+TPS2041D	limited	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS2051ADR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2054a.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/ti/tps2054a.pdf
+TPS2052AD	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2054a.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#3"		datasheets/powerswitch/ti/tps2054a.pdf
+TPS2042P	limited	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS2559DRCR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2559.pdf|10-VFDFN Exposed Pad|10-VSON (3x3)#0		datasheets/powerswitch/ti/tps2559.pdf
+TPS2552DBVR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2552-1.pdf|SOT-23-6|SOT-23-6#0		datasheets/powerswitch/ti/tps2552-1.pdf
+TPS2031P	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2030.pdf|8-DIP (0.300"", 7.62mm)|8-PDIP#1"		datasheets/powerswitch/ti/tps2030.pdf
+TPS2552DRVR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2552-1.pdf|6-WDFN Exposed Pad|6-WSON (2x2)#0		datasheets/powerswitch/ti/tps2552-1.pdf
+LM34904ITMX/NOPB	limited	ti	add		ti|-|datasheets/powerswitch/ti/lm34904.pdf|6-WFBGA, DSBGA|6-DSBGA#0		datasheets/powerswitch/ti/lm34904.pdf
+TPS2060DRBT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2060.pdf|8-VDFN Exposed Pad|8-SON (3x3)#0		datasheets/powerswitch/ti/tps2060.pdf
+TPS2003CDRCT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2002c.pdf|10-VFDFN Exposed Pad|10-VSON (3x3)#1		datasheets/powerswitch/ti/tps2002c.pdf
+TPS2066DR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2061.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#3"		datasheets/powerswitch/ti/tps2061.pdf
+TPS2047BD	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2046b.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#0"		datasheets/powerswitch/ti/tps2046b.pdf
+TPS2013APWP	limited	ti	skip	not in the datasheet's ordering table	"ti|-|datasheets/powerswitch/ti/tps2010a.pdf|14-PowerTSSOP (0.173"", 4.40mm Width)|14-HTSSOP#0"		datasheets/powerswitch/ti/tps2010a.pdf
+TPS2087D	limited	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS2065DGN-1	limited	ti	skip	no pin table	"ti|-|datasheets/powerswitch/ti/tps2065d.pdf|8-PowerTSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-HVSSOP#0"		datasheets/powerswitch/ti/tps2065d.pdf
+TPS2011APWP	limited	ti	skip	not in the datasheet's ordering table	"ti|-|datasheets/powerswitch/ti/tps2010a.pdf|14-PowerTSSOP (0.173"", 4.40mm Width)|14-HTSSOP#0"		datasheets/powerswitch/ti/tps2010a.pdf
+TPS2043DR	limited	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS2063D	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2061.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#0"		datasheets/powerswitch/ti/tps2061.pdf
+TPS2066DGNR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2061.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#2"		datasheets/powerswitch/ti/tps2061.pdf
+TPS12110AQDGXRQ1	limited	ti	skip	external pass element	"ti|-|datasheets/powerswitch/ti/tps1211-q1.pdf|20-TFSOP (0.118"", 3.00mm Width), 19 Leads|19-VSSOP#0"	automotive	datasheets/powerswitch/ti/tps1211-q1.pdf
+TPS2030P	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2030.pdf|8-DIP (0.300"", 7.62mm)|8-PDIP#0"		datasheets/powerswitch/ti/tps2030.pdf
+TPS2085D	limited	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS2032D	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2030.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#2"		datasheets/powerswitch/ti/tps2030.pdf
+TPS2062QDGNRQ1	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2062-q1.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#0"	automotive	datasheets/powerswitch/ti/tps2062-q1.pdf
+TPS2553DBVT-1	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2552-1.pdf|SOT-23-6|SOT-23-6#1		datasheets/powerswitch/ti/tps2552-1.pdf
+TPS2068DGNR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2060.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#2"		datasheets/powerswitch/ti/tps2060.pdf
+TPS2023P	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2020.pdf|8-DIP (0.300"", 7.62mm)|8-PDIP#1"		datasheets/powerswitch/ti/tps2020.pdf
+TPS2032QDRQ1	limited	ti	skip	not in the datasheet's ordering table		automotive	datasheets/powerswitch/ti/tps2030.pdf
+TPS2095D	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2090.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#0"		datasheets/powerswitch/ti/tps2090.pdf
+TPS2065DGNR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2061.pdf|8-PowerTSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-HVSSOP#0"		datasheets/powerswitch/ti/tps2061.pdf
+TPS2065DR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2061.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/ti/tps2061.pdf
+TPS2552DRVR-1	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2552-1.pdf|6-WDFN Exposed Pad|6-WSON (2x2)#0		datasheets/powerswitch/ti/tps2552-1.pdf
+TPS2054BDR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2042b.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#3"		datasheets/powerswitch/ti/tps2042b.pdf
+TPS2060CDGNR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2002c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#4"		datasheets/powerswitch/ti/tps2002c.pdf
+TPS2061DBVR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2061.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/ti/tps2061.pdf
+TPS2561ADRCR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2560a.pdf|10-VFDFN Exposed Pad|10-VSON (3x3)#1		datasheets/powerswitch/ti/tps2560a.pdf
+TPS2011AD	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2010a.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/ti/tps2010a.pdf
+TPS2051BDGNR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2042b.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#1"		datasheets/powerswitch/ti/tps2042b.pdf
+TPS2080DR	limited	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS48111LQDGXRQ1	limited	ti	skip	external pass element	"ti|-|datasheets/powerswitch/ti/tps4811-q1.pdf|20-TFSOP (0.118"", 3.00mm Width), 19 Leads|19-VSSOP#0"	automotive	datasheets/powerswitch/ti/tps4811-q1.pdf
+TPS2042BDR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2042b.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#2"		datasheets/powerswitch/ti/tps2042b.pdf
+TPS2043BDR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2042b.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#0"		datasheets/powerswitch/ti/tps2042b.pdf
+TPS272C45ARHFR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps272c45.pdf|24-VFQFN Exposed Pad|24-VQFN (5x4)#0		datasheets/powerswitch/ti/tps272c45.pdf
+TPS2064DGNR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2060.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#1"		datasheets/powerswitch/ti/tps2060.pdf
+TPS2090D	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2090.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/tps2090.pdf
+TPS2022DR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2020.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#2"		datasheets/powerswitch/ti/tps2020.pdf
+TPS2066CDGNR-2	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2002c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#3"		datasheets/powerswitch/ti/tps2002c.pdf
+TPS2043BD	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2042b.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#0"		datasheets/powerswitch/ti/tps2042b.pdf
+TPS2060DGN	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2060.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#0"		datasheets/powerswitch/ti/tps2060.pdf
+TPS2058AD	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2058a.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#2"		datasheets/powerswitch/ti/tps2058a.pdf
+TPS2044AD	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2054a.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#1"		datasheets/powerswitch/ti/tps2054a.pdf
+TPS2054D	limited	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS4H000BQPWPRQ1	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps4h000-q1.pdf|20-PowerTSSOP (0.173"", 4.40mm Width)|20-HTSSOP#1"	automotive	datasheets/powerswitch/ti/tps4h000-q1.pdf
+TPS22981RGPR	limited	ti	skip	select logic	ti|-|datasheets/powerswitch/ti/tps22981.pdf|20-VFQFN Exposed Pad|20-QFN (4x4)#0		datasheets/powerswitch/ti/tps22981.pdf
+TPS22941DCKR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps22941.pdf|5-TSSOP, SC-70-5, SOT-353|SC-70-5#0		datasheets/powerswitch/ti/tps22941.pdf
+TPS281C30ERGWR	limited	ti	add		ti|TPS281C30x|datasheets/powerswitch/ti/tps281c30.pdf|20-VQFN Exposed Pad|20-VQFN (5x5)#1		datasheets/powerswitch/ti/tps281c30.pdf
+TPS2057DR	limited	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS2049DR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2049.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/tps2049.pdf
+TPS2045ADR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2058a.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/tps2058a.pdf
+TPS281C30BRGWR	limited	ti	add		ti|TPS281C30x|datasheets/powerswitch/ti/tps281c30.pdf|20-VQFN Exposed Pad|20-VQFN (5x5)#1		datasheets/powerswitch/ti/tps281c30.pdf
+TPS2552DDBVR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2552d.pdf|SOT-23-6|SOT-23-6#0		datasheets/powerswitch/ti/tps2552d.pdf
+TPS2552DBVR-1	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2552-1.pdf|SOT-23-6|SOT-23-6#0		datasheets/powerswitch/ti/tps2552-1.pdf
+TPS2052BDRBR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2042b.pdf|8-VDFN Exposed Pad|8-SON (3x3)#1		datasheets/powerswitch/ti/tps2042b.pdf
+TPS2561QDRCRQ1	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2561-q1.pdf|10-VFDFN Exposed Pad|10-VSON (3x3)#0	automotive	datasheets/powerswitch/ti/tps2561-q1.pdf
+TPS2048D	limited	ti	skip	no datasheet on the maker's site (rocelec.widen.net)			
+TPS2046BD	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2046b.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/tps2046b.pdf
+TPS2041BMDBVTEP	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2041b-ep.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/ti/tps2041b-ep.pdf
+TPS2031DR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2030.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/ti/tps2030.pdf
+TPS2049D	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2049.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/tps2049.pdf
+TPS2032DR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2030.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#2"		datasheets/powerswitch/ti/tps2030.pdf
+TPS2024P	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2020.pdf|8-DIP (0.300"", 7.62mm)|8-PDIP#2"		datasheets/powerswitch/ti/tps2020.pdf
+TPS2553DRVT-1	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2552-1.pdf|6-WDFN Exposed Pad|6-WSON (2x2)#1		datasheets/powerswitch/ti/tps2552-1.pdf
+TPS2046BDR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2046b.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/tps2046b.pdf
+TPS2081D	limited	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS2053BDR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2042b.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#1"		datasheets/powerswitch/ti/tps2042b.pdf
+TPS2082DR	limited	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS2052CDGN	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2002c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#0"		datasheets/powerswitch/ti/tps2002c.pdf
+TPS2012ADR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2010a.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#2"		datasheets/powerswitch/ti/tps2010a.pdf
+TPS2062DR-1	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2066-1.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/tps2066-1.pdf
+TPS4H000AQPWPRQ1	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps4h000-q1.pdf|20-PowerTSSOP (0.173"", 4.40mm Width)|20-HTSSOP#0"	automotive	datasheets/powerswitch/ti/tps4h000-q1.pdf
+TPS2034D	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2030.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#4"		datasheets/powerswitch/ti/tps2030.pdf
+TPS2061DGNR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2061.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#0"		datasheets/powerswitch/ti/tps2061.pdf
+TPS2052CDGNR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2002c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#0"		datasheets/powerswitch/ti/tps2002c.pdf
+TPS272C45DRHFR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps272c45.pdf|24-VFQFN Exposed Pad|24-VQFN (5x4)#1		datasheets/powerswitch/ti/tps272c45.pdf
+TPS2041BQDBVRQ1	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2041b-q1.pdf|SC-74A, SOT-753|SOT-23-5#0	automotive	datasheets/powerswitch/ti/tps2041b-q1.pdf
+TPS2041AD	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2054a.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/tps2054a.pdf
+TPS2069DGNR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2060.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#3"		datasheets/powerswitch/ti/tps2060.pdf
+TPS22942DCKR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps22941.pdf|5-TSSOP, SC-70-5, SOT-353|SC-70-5#1		datasheets/powerswitch/ti/tps22941.pdf
+TPS2561DRCT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2560.pdf|10-VFDFN Exposed Pad|10-VSON (3x3)#1		datasheets/powerswitch/ti/tps2560.pdf
+TPS2553DRVR-1	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2552-1.pdf|6-WDFN Exposed Pad|6-WSON (2x2)#1		datasheets/powerswitch/ti/tps2552-1.pdf
+TPS2552DRVT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2552-1.pdf|6-WDFN Exposed Pad|6-WSON (2x2)#0		datasheets/powerswitch/ti/tps2552-1.pdf
+TPS2063DR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2061.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#0"		datasheets/powerswitch/ti/tps2061.pdf
+TPS2042BQDRQ1	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2041b-q1.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"	automotive	datasheets/powerswitch/ti/tps2041b-q1.pdf
+TPS22981RGPT	limited	ti	skip	select logic	ti|-|datasheets/powerswitch/ti/tps22981.pdf|20-VFQFN Exposed Pad|20-QFN (4x4)#0		datasheets/powerswitch/ti/tps22981.pdf
+TPS2552DBVT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2552-1.pdf|SOT-23-6|SOT-23-6#0		datasheets/powerswitch/ti/tps2552-1.pdf
+TPS2030D	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2030.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/tps2030.pdf
+TPS2HB35AQPWPRQ1	limited	ti	skip	no pin table	"ti|-|datasheets/powerswitch/ti/tps2hb35-q1.pdf|16-PowerTSSOP (0.173"", 4.40mm Width)|16-HTSSOP#0"	automotive	datasheets/powerswitch/ti/tps2hb35-q1.pdf
+TPS482H85BQCHURQ1	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps482h85-q1.pdf|12-PowerQFN|12-VQFN-HR (3.5x3)#0	automotive	datasheets/powerswitch/ti/tps482h85-q1.pdf
+TPS2069DDBVR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2069d.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/ti/tps2069d.pdf
+TPS274160BRLHR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps274160.pdf|28-WFQFN Exposed Pad|28-WQFN (4x5)#0		datasheets/powerswitch/ti/tps274160.pdf
+TPS2021D	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2020.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/ti/tps2020.pdf
+TPS2552DBVT-1	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2552-1.pdf|SOT-23-6|SOT-23-6#0		datasheets/powerswitch/ti/tps2552-1.pdf
+TPS2062ADRBR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2062a.pdf|8-VDFN Exposed Pad|8-SON (3x3)#0		datasheets/powerswitch/ti/tps2062a.pdf
+TPS2560DRCR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2560.pdf|10-VFDFN Exposed Pad|10-VSON (3x3)#0		datasheets/powerswitch/ti/tps2560.pdf
+TPS2051D	limited	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS2051BDR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2042b.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/ti/tps2042b.pdf
+TPS22992SRXNR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps22992.pdf|8-WFQFN|8-WQFN-HR (1.25x1.25)#0		datasheets/powerswitch/ti/tps22992.pdf
+TPS1HA08DQPWPRQ1	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps1ha08-q1.pdf|16-PowerTSSOP (0.173"", 4.40mm Width)|16-HTSSOP#0"	automotive	datasheets/powerswitch/ti/tps1ha08-q1.pdf
+TPS2020DR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2020.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/tps2020.pdf
+TPS2555DRCT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2554.pdf|10-VFDFN Exposed Pad|10-VSON (3x3)#1		datasheets/powerswitch/ti/tps2554.pdf
+TPS2HB35BQPWPRQ1	limited	ti	skip	no pin table	"ti|-|datasheets/powerswitch/ti/tps2hb35-q1.pdf|16-PowerTSSOP (0.173"", 4.40mm Width)|16-HTSSOP#0"	automotive	datasheets/powerswitch/ti/tps2hb35-q1.pdf
+TPS12111LQDGXRQ1	limited	ti	skip	external pass element	"ti|-|datasheets/powerswitch/ti/tps1211-q1.pdf|20-TFSOP (0.118"", 3.00mm Width), 19 Leads|19-VSSOP#0"	automotive	datasheets/powerswitch/ti/tps1211-q1.pdf
+TPS2557DRBT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2556.pdf|8-VDFN Exposed Pad|8-SON (3x3)#1		datasheets/powerswitch/ti/tps2556.pdf
+TPS2HC120AQDGQRQ1	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2hc120-q1.pdf|28-PowerTSSOP (0.118"", 3.00mm Width)|28-HTSSOP#0"	automotive	datasheets/powerswitch/ti/tps2hc120-q1.pdf
+TPS274C65BSWRHAR	limited	ti	skip	control	ti|-|datasheets/powerswitch/ti/tps274c65.pdf|40-VFQFN Exposed Pad|40-VQFN (6x6)#0		datasheets/powerswitch/ti/tps274c65.pdf
+TPS274C65BSRHAR	limited	ti	skip	control	ti|-|datasheets/powerswitch/ti/tps274c65.pdf|40-VFQFN Exposed Pad|40-VQFN (6x6)#0		datasheets/powerswitch/ti/tps274c65.pdf
+TPS2020IDRQ1	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2020-q1.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"	automotive	datasheets/powerswitch/ti/tps2020-q1.pdf
+TPS274C65ASWRHAR	limited	ti	skip	control	ti|-|datasheets/powerswitch/ti/tps274c65.pdf|40-VFQFN Exposed Pad|40-VQFN (6x6)#0		datasheets/powerswitch/ti/tps274c65.pdf
+TPS274C65ASHRHAR	limited	ti	skip	control	ti|-|datasheets/powerswitch/ti/tps274c65.pdf|40-VFQFN Exposed Pad|40-VQFN (6x6)#0		datasheets/powerswitch/ti/tps274c65.pdf
+TPS281C100BDNTR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps281c100.pdf|12-WFDFN Exposed Pad|12-WSON (4x4)#0		datasheets/powerswitch/ti/tps281c100.pdf
+TPS274C65ASHWRHAR	limited	ti	skip	control	ti|-|datasheets/powerswitch/ti/tps274c65.pdf|40-VFQFN Exposed Pad|40-VQFN (6x6)#0		datasheets/powerswitch/ti/tps274c65.pdf
+TPS2034DR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2030.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#4"		datasheets/powerswitch/ti/tps2030.pdf
+TPS2561ADRCT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2560a.pdf|10-VFDFN Exposed Pad|10-VSON (3x3)#1		datasheets/powerswitch/ti/tps2560a.pdf
+TPS2041BDGNR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2042b.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#0"		datasheets/powerswitch/ti/tps2042b.pdf
+TPS2021DR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2020.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/ti/tps2020.pdf
+TPS274C65CPHWRHAR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps274c65cp.pdf|40-VFQFN Exposed Pad|40-VQFN (6x6)#0		datasheets/powerswitch/ti/tps274c65cp.pdf
+TPS274C65CPWRHAR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps274c65cp.pdf|40-VFQFN Exposed Pad|40-VQFN (6x6)#0		datasheets/powerswitch/ti/tps274c65cp.pdf
+TPS2554DRCR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2554.pdf|10-VFDFN Exposed Pad|10-VSON (3x3)#0		datasheets/powerswitch/ti/tps2554.pdf
+TPS2560DRCT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2560.pdf|10-VFDFN Exposed Pad|10-VSON (3x3)#0		datasheets/powerswitch/ti/tps2560.pdf
+TPS274C65CPHRHAR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps274c65cp.pdf|40-VFQFN Exposed Pad|40-VQFN (6x6)#0		datasheets/powerswitch/ti/tps274c65cp.pdf
+TPS2042ADR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2054a.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#2"		datasheets/powerswitch/ti/tps2054a.pdf
+TPS2080D	limited	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS2042AD	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2054a.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#2"		datasheets/powerswitch/ti/tps2054a.pdf
+TPS2069DDBVT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2069d.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/ti/tps2069d.pdf
+TPS2021IDRQ1	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2020-q1.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"	automotive	datasheets/powerswitch/ti/tps2020-q1.pdf
+TPS2033DR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2030.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#3"		datasheets/powerswitch/ti/tps2030.pdf
+TPS16637PWPR	limited	ti	add		"ti|TPS1663x|datasheets/powerswitch/ti/tps1663.pdf|20-PowerTSSOP (0.173"", 4.40mm Width)|20-HTSSOP#0"		datasheets/powerswitch/ti/tps1663.pdf
+TPS2022D	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2020.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#2"		datasheets/powerswitch/ti/tps2020.pdf
+TPS2066CD	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2002c.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/ti/tps2002c.pdf
+TPS2066TDGNRQ1	limited	ti	skip	no datasheet on the maker's site (www.ti.com)		automotive	
+TPS2553DBVR-1	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2552-1.pdf|SOT-23-6|SOT-23-6#1		datasheets/powerswitch/ti/tps2552-1.pdf
+TPS2055AD	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2058a.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/ti/tps2058a.pdf
+TPS2031D	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2030.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/ti/tps2030.pdf
+TPS2054BD	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2042b.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#3"		datasheets/powerswitch/ti/tps2042b.pdf
+TPS2H000BQPWPRQ1	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2h000-q1.pdf|16-PowerTSSOP (0.173"", 4.40mm Width)|16-HTSSOP#1"	automotive	datasheets/powerswitch/ti/tps2h000-q1.pdf
+TPS2561AQDRCRQ1	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2561a-q1.pdf|10-VFDFN Exposed Pad|10-VSON (3x3)#0	automotive	datasheets/powerswitch/ti/tps2561a-q1.pdf
+TPS281C30ARGWR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps281c30.pdf|20-VQFN Exposed Pad|20-VQFN (5x5)#0		datasheets/powerswitch/ti/tps281c30.pdf
+TPS2053	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2054a.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#2"		datasheets/powerswitch/ti/tps2054a.pdf
+TPS2064CDGNR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2002c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#5"		datasheets/powerswitch/ti/tps2002c.pdf
+TPS2067DR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2061.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#1"		datasheets/powerswitch/ti/tps2061.pdf
+TPS2044BD	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2042b.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#2"		datasheets/powerswitch/ti/tps2042b.pdf
+TPS2041BDR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2042b.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/tps2042b.pdf
+TPS2552DRVT-1	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2552-1.pdf|6-WDFN Exposed Pad|6-WSON (2x2)#0		datasheets/powerswitch/ti/tps2552-1.pdf
+TPS2553QDBVRQ1	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2553-q1.pdf|SOT-23-6|SOT-23-6#0	automotive	datasheets/powerswitch/ti/tps2553-q1.pdf
+TPS2066CDGNR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2002c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#2"		datasheets/powerswitch/ti/tps2002c.pdf
+TPS2082D	limited	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS2020D	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2020.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/tps2020.pdf
+TPS2042DR	limited	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS272C45CRHFR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps272c45.pdf|24-VFQFN Exposed Pad|24-VQFN (5x4)#0		datasheets/powerswitch/ti/tps272c45.pdf
+TPS2553DRVT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2552-1.pdf|6-WDFN Exposed Pad|6-WSON (2x2)#1		datasheets/powerswitch/ti/tps2552-1.pdf
+TPS26637PWPR	limited	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS2561AQDRCTQ1	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2561a-q1.pdf|10-VFDFN Exposed Pad|10-VSON (3x3)#0	automotive	datasheets/powerswitch/ti/tps2561a-q1.pdf
+TPS2022DRG4Q1	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2020-q1.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#2"	automotive	datasheets/powerswitch/ti/tps2020-q1.pdf
+TPS2044BDR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2042b.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#2"		datasheets/powerswitch/ti/tps2042b.pdf
+TPS2H000AQPWPRQ1	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2h000-q1.pdf|16-PowerTSSOP (0.173"", 4.40mm Width)|16-HTSSOP#0"	automotive	datasheets/powerswitch/ti/tps2h000-q1.pdf
+LM34902ITM/NOPB	limited	ti	add		ti|-|datasheets/powerswitch/ti/lm34902.pdf|6-WFBGA, DSBGA|6-DSBGA#0		datasheets/powerswitch/ti/lm34902.pdf
+TPS2HB50AQPWPRQ1	limited	ti	skip	no pin table	"ti|-|datasheets/powerswitch/ti/tps2hb50-q1.pdf|16-PowerTSSOP (0.173"", 4.40mm Width)|16-HTSSOP#0"	automotive	datasheets/powerswitch/ti/tps2hb50-q1.pdf
+TPS2030DR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2030.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/tps2030.pdf
+TPS2062DR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2061.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#2"		datasheets/powerswitch/ti/tps2061.pdf
+TPS26637RGER	limited	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS2557DRBR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2556.pdf|8-VDFN Exposed Pad|8-SON (3x3)#1		datasheets/powerswitch/ti/tps2556.pdf
+TPS22992RXPR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps22992.pdf|8-WFQFN|8-WQFN-HR (1.5x1.25)#0		datasheets/powerswitch/ti/tps22992.pdf
+TPS2555DRCR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2554.pdf|10-VFDFN Exposed Pad|10-VSON (3x3)#1		datasheets/powerswitch/ti/tps2554.pdf
+TPS2069DGN	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2060.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#3"		datasheets/powerswitch/ti/tps2060.pdf
+TPS2554DRCT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2554.pdf|10-VFDFN Exposed Pad|10-VSON (3x3)#0		datasheets/powerswitch/ti/tps2554.pdf
+TPS2092D	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2090.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/ti/tps2090.pdf
+TPS1HA08EQPWPRQ1	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps1ha08-q1.pdf|16-PowerTSSOP (0.173"", 4.40mm Width)|16-HTSSOP#1"	automotive	datasheets/powerswitch/ti/tps1ha08-q1.pdf
+TPS2042BDRBT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2042b.pdf|8-VDFN Exposed Pad|8-SON (3x3)#0		datasheets/powerswitch/ti/tps2042b.pdf
+TPS2066CDGN-2	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2002c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#3"		datasheets/powerswitch/ti/tps2002c.pdf
+TPS2033D	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2030.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#3"		datasheets/powerswitch/ti/tps2030.pdf
+TPS2064CDGNR-2	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2002c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#6"		datasheets/powerswitch/ti/tps2002c.pdf
+TPS2559DRCT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2559.pdf|10-VFDFN Exposed Pad|10-VSON (3x3)#0		datasheets/powerswitch/ti/tps2559.pdf
+TPS2046BDG4	limited	ti	skip	not in the datasheet's ordering table	"ti|-|datasheets/powerswitch/ti/tps2046b.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/tps2046b.pdf
+TPS2044D	limited	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS2066CDGN	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2002c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#2"		datasheets/powerswitch/ti/tps2002c.pdf
+TPS2553DDBVT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2552d.pdf|SOT-23-6|SOT-23-6#1		datasheets/powerswitch/ti/tps2552d.pdf
+TPS2024D	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2020.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#4"		datasheets/powerswitch/ti/tps2020.pdf
+TPS2060DGNR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2060.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#0"		datasheets/powerswitch/ti/tps2060.pdf
+TPS2062ADR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2062a.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/tps2062a.pdf
+TPS2553DDBVR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2552d.pdf|SOT-23-6|SOT-23-6#1		datasheets/powerswitch/ti/tps2552d.pdf
+TPS22950LYBHR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps22950.pdf|6-XFBGA, DSBGA|6-DSBGA (1.11x0.71)#0		datasheets/powerswitch/ti/tps22950.pdf
+TPS2062CDRBT-2	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2002c.pdf|8-VDFN Exposed Pad|8-SON (3x3)#0		datasheets/powerswitch/ti/tps2002c.pdf
+TPS2011ADR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2010a.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/ti/tps2010a.pdf
+LM34904ITM/NOPB	limited	ti	add		ti|-|datasheets/powerswitch/ti/lm34904.pdf|6-WFBGA, DSBGA|6-DSBGA#0		datasheets/powerswitch/ti/lm34904.pdf
+TPS2068DR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2060.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/tps2060.pdf
+TPS2560ADRCT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2560a.pdf|10-VFDFN Exposed Pad|10-VSON (3x3)#0		datasheets/powerswitch/ti/tps2560a.pdf
+TPS2010ADR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2010a.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/tps2010a.pdf
+TPS2556QDRBTQ1	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2556-q1.pdf|8-VDFN Exposed Pad|8-SON (3x3)#0	automotive	datasheets/powerswitch/ti/tps2556-q1.pdf
+TPS2066CDR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2002c.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/ti/tps2002c.pdf
+TPS2097D	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2090.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#1"		datasheets/powerswitch/ti/tps2090.pdf
+TPS2032DG4	limited	ti	skip	no datasheet on the maker's site (mm.digikey.com)			
+TPS2062DGNR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2061.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#1"		datasheets/powerswitch/ti/tps2061.pdf
+TPS2064DRBT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2060.pdf|8-VDFN Exposed Pad|8-SON (3x3)#1		datasheets/powerswitch/ti/tps2060.pdf
+LMG3425R050RQZT	limited	ti	skip	control	ti|-|datasheets/powerswitch/ti/lmg3422r050.pdf|54-VQFN Exposed Pad|54-VQFN (12x12)#0		datasheets/powerswitch/ti/lmg3422r050.pdf
+TPS22953QDQCRQ1	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps22953-q1.pdf|10-WFDFN Exposed Pad|10-WSON (3x2)#0	automotive	datasheets/powerswitch/ti/tps22953-q1.pdf
+TPS2042D	limited	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS2062ADRBT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2062a.pdf|8-VDFN Exposed Pad|8-SON (3x3)#0		datasheets/powerswitch/ti/tps2062a.pdf
+TPS4HC120BQDGQRQ1	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps4hc120-q1.pdf|28-PowerTSSOP (0.118"", 3.00mm Width)|28-HTSSOP#0"	automotive	datasheets/powerswitch/ti/tps4hc120-q1.pdf
+TPS65286RHDT	limited	ti	skip	control	ti|-|datasheets/powerswitch/ti/tps65286.pdf|28-VFQFN Exposed Pad|28-VQFN (5x5)#0		datasheets/powerswitch/ti/tps65286.pdf
+TPS2HC120BQDGQRQ1	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2hc120-q1.pdf|28-PowerTSSOP (0.118"", 3.00mm Width)|28-HTSSOP#0"	automotive	datasheets/powerswitch/ti/tps2hc120-q1.pdf
+TPS2052BDRBT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2042b.pdf|8-VDFN Exposed Pad|8-SON (3x3)#1		datasheets/powerswitch/ti/tps2042b.pdf
+TPS2055D	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2055.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/ti/tps2055.pdf
+TPS2559QWDRCTQ1	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2559-q1.pdf|10-VFDFN Exposed Pad|10-VSON (3x3)#0	automotive	datasheets/powerswitch/ti/tps2559-q1.pdf
+TPS2012AD	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2010a.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#2"		datasheets/powerswitch/ti/tps2010a.pdf
+TPS2010AD	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2010a.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/tps2010a.pdf
+TPS2060CDGN	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2002c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#4"		datasheets/powerswitch/ti/tps2002c.pdf
+TPS2062D-1	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2066-1.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/tps2066-1.pdf
+TPS2552DDBVT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2552d.pdf|SOT-23-6|SOT-23-6#0		datasheets/powerswitch/ti/tps2552d.pdf
+TPS2045D	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2055.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/tps2055.pdf
+TPS2042BDGNR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2042b.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#2"		datasheets/powerswitch/ti/tps2042b.pdf
+TPS2064CDGN	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2002c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#5"		datasheets/powerswitch/ti/tps2002c.pdf
+TPS2HB16AQPWPRQ1	limited	ti	skip	no pin table	"ti|-|datasheets/powerswitch/ti/tps2hb16-q1.pdf|16-PowerTSSOP (0.173"", 4.40mm Width)|16-HTSSOP#0"	automotive	datasheets/powerswitch/ti/tps2hb16-q1.pdf
+TPS2045AD	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2058a.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/tps2058a.pdf
+TPS2556DRBT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2556.pdf|8-VDFN Exposed Pad|8-SON (3x3)#0		datasheets/powerswitch/ti/tps2556.pdf
+TPS2065CDGN-2	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2000c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#4"		datasheets/powerswitch/ti/tps2000c.pdf
+TPS2540ARTER	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2540.pdf|16-WFQFN Exposed Pad|16-WQFN (3x3)#0		datasheets/powerswitch/ti/tps2540.pdf
+TPS2065CDGNR-2	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2000c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#4"		datasheets/powerswitch/ti/tps2000c.pdf
+TPS2061CDGN	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2000c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#0"		datasheets/powerswitch/ti/tps2000c.pdf
+TPS2000CDGNR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2000c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#2"		datasheets/powerswitch/ti/tps2000c.pdf
+TPS65282RGER	limited	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS2061CDGNR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2000c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#0"		datasheets/powerswitch/ti/tps2000c.pdf
+TPS65281RGVR	limited	ti	skip	control	ti|-|datasheets/powerswitch/ti/tps65281.pdf|16-VQFN Exposed Pad|16-VQFN (4x4)#0		datasheets/powerswitch/ti/tps65281.pdf
+TPS2541RTER	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2540.pdf|16-WFQFN Exposed Pad|16-WQFN (3x3)#1		datasheets/powerswitch/ti/tps2540.pdf
+TPS2068CDGN	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2000c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#1"		datasheets/powerswitch/ti/tps2000c.pdf
+TPS2000CDGK	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2000c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-VSSOP#0"		datasheets/powerswitch/ti/tps2000c.pdf
+TPS2540RTET	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2540.pdf|16-WFQFN Exposed Pad|16-WQFN (3x3)#0		datasheets/powerswitch/ti/tps2540.pdf
+TPS2069CDGN-2	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2000c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#6"		datasheets/powerswitch/ti/tps2000c.pdf
+TPS2541ARTET	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2540.pdf|16-WFQFN Exposed Pad|16-WQFN (3x3)#1		datasheets/powerswitch/ti/tps2540.pdf
+TPS2069CDBVT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2000c.pdf|SC-74A, SOT-753|SOT-23-5#5		datasheets/powerswitch/ti/tps2000c.pdf
+TPS2541ARTER	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2540.pdf|16-WFQFN Exposed Pad|16-WQFN (3x3)#1		datasheets/powerswitch/ti/tps2540.pdf
+TPS2000CDGN	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2000c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#2"		datasheets/powerswitch/ti/tps2000c.pdf
+LM3526MX-H/NOPB	limited	ti	add		"ti|-|datasheets/powerswitch/ti/lm3526.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/lm3526.pdf
+TPS2544RTER	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2544.pdf|16-WFQFN Exposed Pad|16-WQFN (3x3)#0		datasheets/powerswitch/ti/tps2544.pdf
+TPS2541RTET	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2540.pdf|16-WFQFN Exposed Pad|16-WQFN (3x3)#1		datasheets/powerswitch/ti/tps2540.pdf
+TPS2158IDGN	limited	ti	skip	no pin table	"ti|-|datasheets/powerswitch/ti/tps2149.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#0"		datasheets/powerswitch/ti/tps2149.pdf
+TPS2001DDBVT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2001d.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/ti/tps2001d.pdf
+TPS2549IRTERQ1	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2549-q1.pdf|16-WFQFN Exposed Pad|16-WQFN (3x3)#0	automotive	datasheets/powerswitch/ti/tps2549-q1.pdf
+TPS2068CDGNR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2000c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#1"		datasheets/powerswitch/ti/tps2000c.pdf
+LM3525MX-H/NOPB	limited	ti	skip	no datasheet on the maker's site (rocelec.widen.net)			
+TPS2065CDBVR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2000c.pdf|SC-74A, SOT-753|SOT-23-5#3		datasheets/powerswitch/ti/tps2000c.pdf
+TPS65280RGER	limited	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS2001EDBVR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2000e.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/ti/tps2000e.pdf
+TPS2069CDBVR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2000c.pdf|SC-74A, SOT-753|SOT-23-5#5		datasheets/powerswitch/ti/tps2000c.pdf
+TPS2065CDGNR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2000c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#3"		datasheets/powerswitch/ti/tps2000c.pdf
+TPS2543RTER	limited	ti	skip	no datasheet on the maker's site (mm.digikey.com)			
+TPS2000CDGKR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2000c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-VSSOP#0"		datasheets/powerswitch/ti/tps2000c.pdf
+TPS2001CDGNR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2000c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#7"		datasheets/powerswitch/ti/tps2000c.pdf
+TPS2065CDBVT-2	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2000c.pdf|SC-74A, SOT-753|SOT-23-5#4		datasheets/powerswitch/ti/tps2000c.pdf
+TPS2001DDBVR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2001d.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/ti/tps2001d.pdf
+LM3544MX-L/NOPB	limited	ti	add		"ti|-|datasheets/powerswitch/ti/lm3544.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#0"		datasheets/powerswitch/ti/lm3544.pdf
+TPS2061CDBVT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2000c.pdf|SC-74A, SOT-753|SOT-23-5#2		datasheets/powerswitch/ti/tps2000c.pdf
+TPS2015DR	limited	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS2159IDGN	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2149.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#1"		datasheets/powerswitch/ti/tps2149.pdf
+TPS2540RTER	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2540.pdf|16-WFQFN Exposed Pad|16-WQFN (3x3)#0		datasheets/powerswitch/ti/tps2540.pdf
+TPS2065CDBVR-2	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2000c.pdf|SC-74A, SOT-753|SOT-23-5#4		datasheets/powerswitch/ti/tps2000c.pdf
+TPS2000EDBVR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2000e.pdf|SC-74A, SOT-753|SOT-23-5#1		datasheets/powerswitch/ti/tps2000e.pdf
+TPS2041CDBVT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2000c.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/ti/tps2000c.pdf
+TPS2061CDBVR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2000c.pdf|SC-74A, SOT-753|SOT-23-5#2		datasheets/powerswitch/ti/tps2000c.pdf
+TPS2069EDBVR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2000e.pdf|SC-74A, SOT-753|SOT-23-5#2		datasheets/powerswitch/ti/tps2000e.pdf
+TPS2068EDBVR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2000e.pdf|SC-74A, SOT-753|SOT-23-5#3		datasheets/powerswitch/ti/tps2000e.pdf
+TPS2065CDBVT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2000c.pdf|SC-74A, SOT-753|SOT-23-5#3		datasheets/powerswitch/ti/tps2000c.pdf
+LM3526M-H/NOPB	limited	ti	add		"ti|-|datasheets/powerswitch/ti/lm3526.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#0"		datasheets/powerswitch/ti/lm3526.pdf
+LM3526MX-L/NOPB	limited	ti	add		"ti|-|datasheets/powerswitch/ti/lm3526.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOIC#1"		datasheets/powerswitch/ti/lm3526.pdf
+TPS2530DBVR	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2530.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/ti/tps2530.pdf
+TPS2068EDGNR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2000e.pdf|8-PowerTSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-HVSSOP#0"		datasheets/powerswitch/ti/tps2000e.pdf
+TPS2000EDGNR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2000e.pdf|8-PowerTSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-HVSSOP#1"		datasheets/powerswitch/ti/tps2000e.pdf
+TPS2001DDGKR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2001d.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-VSSOP#0"		datasheets/powerswitch/ti/tps2001d.pdf
+TPS2001EDGKR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2000e.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-VSSOP#0"		datasheets/powerswitch/ti/tps2000e.pdf
+TPS2069CDGNR-2	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2000c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#6"		datasheets/powerswitch/ti/tps2000c.pdf
+LM3525M-H/NOPB	limited	ti	skip	no datasheet on the maker's site (rocelec.widen.net)			
+TPS2000EDGKR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2000e.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-VSSOP#1"		datasheets/powerswitch/ti/tps2000e.pdf
+LM3525M-L/NOPB	limited	ti	skip	no datasheet on the maker's site (rocelec.widen.net)			
+LMG3624YREQR	limited	ti	skip	control	ti|-|datasheets/powerswitch/ti/lmg3624.pdf|38-VFQFN Exposed Pad|38-VQFN (8x5.3)#0		datasheets/powerswitch/ti/lmg3624.pdf
+TPS65281-1RGVR	limited	ti	skip	control	ti|-|datasheets/powerswitch/ti/tps65281.pdf|16-VQFN Exposed Pad|16-VQFN (4x4)#0		datasheets/powerswitch/ti/tps65281.pdf
+TPS2065CDGN	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2000c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#3"		datasheets/powerswitch/ti/tps2000c.pdf
+TPS2069EDGNR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2000e.pdf|8-PowerTSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-HVSSOP#2"		datasheets/powerswitch/ti/tps2000e.pdf
+TPS2069CDGN	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2000c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#5"		datasheets/powerswitch/ti/tps2000c.pdf
+TPS2015D	limited	ti	skip	no datasheet on the maker's site (www.ti.com)			
+TPS2001CDGN	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2000c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#7"		datasheets/powerswitch/ti/tps2000c.pdf
+TPS2001EDGNR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2000e.pdf|8-PowerTSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-HVSSOP#3"		datasheets/powerswitch/ti/tps2000e.pdf
+LM3525MX-L/NOPB	limited	ti	skip	no datasheet on the maker's site (rocelec.widen.net)			
+TPS2540ARTET	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2540.pdf|16-WFQFN Exposed Pad|16-WQFN (3x3)#0		datasheets/powerswitch/ti/tps2540.pdf
+TPS2051CDBVT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2000c.pdf|SC-74A, SOT-753|SOT-23-5#1		datasheets/powerswitch/ti/tps2000c.pdf
+TPS2530DBVT	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2530.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/ti/tps2530.pdf
+TPS2543RTET	limited	ti	skip	no datasheet on the maker's site (mm.digikey.com)			
+TPS2549RTER	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2549.pdf|16-WFQFN Exposed Pad|16-WQFN (3x3)#0		datasheets/powerswitch/ti/tps2549.pdf
+TPS2001CDGK	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2000c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-VSSOP#1"		datasheets/powerswitch/ti/tps2000c.pdf
+TPS2546RTET	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2546.pdf|16-WFQFN Exposed Pad|16-WQFN (3x3)#0		datasheets/powerswitch/ti/tps2546.pdf
+TPS254900IRVCTQ1	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps254900-q1.pdf|20-WFQFN Exposed Pad|20-WQFN (4x3)#0	automotive	datasheets/powerswitch/ti/tps254900-q1.pdf
+TPS2544RTET	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2544.pdf|16-WFQFN Exposed Pad|16-WQFN (3x3)#0		datasheets/powerswitch/ti/tps2544.pdf
+TPS2547RTET	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2547.pdf|16-WFQFN Exposed Pad|16-WQFN (3x3)#0		datasheets/powerswitch/ti/tps2547.pdf
+TPS2069CDGNR	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2000c.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#5"		datasheets/powerswitch/ti/tps2000c.pdf
+TPS2549RTET	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2549.pdf|16-WFQFN Exposed Pad|16-WQFN (3x3)#0		datasheets/powerswitch/ti/tps2549.pdf
+TPS2549IRTETQ1	limited	ti	add		ti|-|datasheets/powerswitch/ti/tps2549-q1.pdf|16-WFQFN Exposed Pad|16-WQFN (3x3)#0	automotive	datasheets/powerswitch/ti/tps2549-q1.pdf
+TPS65281RGVT	limited	ti	skip	control	ti|-|datasheets/powerswitch/ti/tps65281.pdf|16-VQFN Exposed Pad|16-VQFN (4x4)#0		datasheets/powerswitch/ti/tps65281.pdf
+TPS2001DDGK	limited	ti	add		"ti|-|datasheets/powerswitch/ti/tps2001d.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-VSSOP#0"		datasheets/powerswitch/ti/tps2001d.pdf
+LM3544M-L/NOPB	limited	ti	add		"ti|-|datasheets/powerswitch/ti/lm3544.pdf|16-SOIC (0.154"", 3.90mm Width)|16-SOIC#0"		datasheets/powerswitch/ti/lm3544.pdf
+AP22804AW5-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22804_14.pdf|SC-74A, SOT-753|SOT-25#0		datasheets/powerswitch/diodes/AP22804_14.pdf
+AP22652AW6-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22652_53_52A_53A.pdf|SOT-23-6|SOT-26 (Type A1)#0		datasheets/powerswitch/diodes/AP22652_53_52A_53A.pdf
+AP22811AW5-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22811.pdf|SC-74A, SOT-753|SOT-25#0		datasheets/powerswitch/diodes/AP22811.pdf
+AP22653AW6-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22652_53_52A_53A.pdf|SOT-23-6|SOT-26 (Type A1)#1		datasheets/powerswitch/diodes/AP22652_53_52A_53A.pdf
+AP22652W6-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22652_53_52A_53A.pdf|SOT-23-6|SOT-26#0		datasheets/powerswitch/diodes/AP22652_53_52A_53A.pdf
+AP22653FDZ-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22652_53_52A_53A.pdf|6-WDFN Exposed Pad|W-DFN2020-6 (Type A1)#1		datasheets/powerswitch/diodes/AP22652_53_52A_53A.pdf
+AP22653W6-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22652_53_52A_53A.pdf|SOT-23-6|SOT-26#1		datasheets/powerswitch/diodes/AP22652_53_52A_53A.pdf
+AP2171AW-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP2161A_71A.pdf|SC-74A, SOT-753|SOT-25#0		datasheets/powerswitch/diodes/AP2161A_71A.pdf
+AP22652FDZ-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22652_53_52A_53A.pdf|6-WDFN Exposed Pad|W-DFN2020-6 (Type A1)#0		datasheets/powerswitch/diodes/AP22652_53_52A_53A.pdf
+AP22814AW5-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22804_14.pdf|SC-74A, SOT-753|SOT-25#1		datasheets/powerswitch/diodes/AP22804_14.pdf
+AP21510FM-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP21410_21510.pdf|6-UFDFN Exposed Pad|U-DFN2018-6#1		datasheets/powerswitch/diodes/AP21410_21510.pdf
+AP2176SG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2166_76.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOP#1"		datasheets/powerswitch/diodes/AP2166_76.pdf
+AP2151WG-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP2141-51.pdf|SC-74A, SOT-753|SOT-25#1		datasheets/powerswitch/diodes/AP2141-51.pdf
+AP2171WG-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP2161_71.pdf|SC-74A, SOT-753|SOT-25#1		datasheets/powerswitch/diodes/AP2161_71.pdf
+AP2152AFGEG-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP2142A_52A.pdf|8-UDFN Exposed Pad|U-DFN3030-8 (Type E)#0		datasheets/powerswitch/diodes/AP2142A_52A.pdf
+AP22653QW6-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22653Q.pdf|SOT-23-6|SOT-26 (Type A1)#0	automotive	datasheets/powerswitch/diodes/AP22653Q.pdf
+AP22818AKAWT-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22816_17_18.pdf|SOT-23-5 Thin, TSOT-23-5|TSOT-25#6		datasheets/powerswitch/diodes/AP22816_17_18.pdf
+AP22653AFDZ-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22652_53_52A_53A.pdf|6-WDFN Exposed Pad|W-DFN2020-6 (Type A1)#1		datasheets/powerswitch/diodes/AP22652_53_52A_53A.pdf
+AP2172AMPG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2162A_72A.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#1"		datasheets/powerswitch/diodes/AP2162A_72A.pdf
+AP22817BKBWT-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22816_17_18.pdf|SOT-23-5 Thin, TSOT-23-5|TSOT-25#5		datasheets/powerswitch/diodes/AP22816_17_18.pdf
+AP2161WG-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP2161_71.pdf|SC-74A, SOT-753|SOT-25#0		datasheets/powerswitch/diodes/AP2161_71.pdf
+AP2156MPG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2146_56.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#1"		datasheets/powerswitch/diodes/AP2146_56.pdf
+AP21410FM-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP21410_21510.pdf|6-UFDFN Exposed Pad|U-DFN2018-6#0		datasheets/powerswitch/diodes/AP21410_21510.pdf
+AP2191AW-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP2181A-91A.pdf|SC-74A, SOT-753|SOT-25#0		datasheets/powerswitch/diodes/AP2181A-91A.pdf
+AP2151DWG-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP2141D_51D.pdf|SC-74A, SOT-753|SOT-25#0		datasheets/powerswitch/diodes/AP2141D_51D.pdf
+AP2411MP-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP24x1.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#1"		datasheets/powerswitch/diodes/AP24x1.pdf
+AP2171DWG-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP2161D_71D.pdf|SC-74A, SOT-753|SOT-25#1		datasheets/powerswitch/diodes/AP2161D_71D.pdf
+AP2192ASG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2182A_92A.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOP#1"		datasheets/powerswitch/diodes/AP2182A_92A.pdf
+AP2411S-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP24x1.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SO#1"		datasheets/powerswitch/diodes/AP24x1.pdf
+AP2192AFGEG-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP2182A_92A.pdf|8-UDFN Exposed Pad|U-DFN3030-8 (Type E)#0		datasheets/powerswitch/diodes/AP2182A_92A.pdf
+AP2151AW-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP2151A.pdf|SC-74A, SOT-753|SOT-25#0		datasheets/powerswitch/diodes/AP2151A.pdf
+AP2141SG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2141-51.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOP#0"		datasheets/powerswitch/diodes/AP2141-51.pdf
+AP2191WG-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP2181_91.pdf|SC-74A, SOT-753|SOT-25#1		datasheets/powerswitch/diodes/AP2181_91.pdf
+PI5USB2546AZHEX	limited	diodes	skip	no datasheet on the maker's site (www.diodes.com)			
+AP2142ASG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2142A_52A.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOP#0"		datasheets/powerswitch/diodes/AP2142A_52A.pdf
+AP2172AFGEG-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP2162A_72A.pdf|8-UDFN Exposed Pad|U-DFN3030-8 (Type E)#1		datasheets/powerswitch/diodes/AP2162A_72A.pdf
+AP2141MPG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2141-51.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#0"		datasheets/powerswitch/diodes/AP2141-51.pdf
+AP2152SG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2142_52.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOP#1"		datasheets/powerswitch/diodes/AP2142_52.pdf
+AP2141DFMG-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP2141D_51D.pdf|6-UFDFN Exposed Pad|U-DFN2018-6#0		datasheets/powerswitch/diodes/AP2141D_51D.pdf
+AP2101MPG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2101_2111.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#0"		datasheets/powerswitch/diodes/AP2101_2111.pdf
+AP22655QWU-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22654Q_AP22655Q.pdf|SOT-23-6 Thin, TSOT-23-6|TSOT-26 (Type A1)#1		datasheets/powerswitch/diodes/AP22654Q_AP22655Q.pdf
+AP2162SG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2162_72.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOP#0"		datasheets/powerswitch/diodes/AP2162_72.pdf
+AP22818AKEWT-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22816_17_18.pdf|SOT-23-5 Thin, TSOT-23-5|TSOT-23-5#6		datasheets/powerswitch/diodes/AP22816_17_18.pdf
+AP2141WG-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP2141-51.pdf|SC-74A, SOT-753|SOT-25#0		datasheets/powerswitch/diodes/AP2141-51.pdf
+AP22818AKBWT-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22816_17_18.pdf|SOT-23-5 Thin, TSOT-23-5|TSOT-25#7		datasheets/powerswitch/diodes/AP22816_17_18.pdf
+AP2182ASG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2182A_92A.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOP#0"		datasheets/powerswitch/diodes/AP2182A_92A.pdf
+ZXMS81045SP-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/ZXMS81045SP.pdf|8-SOIC (0.154"", 3.90mm Width) Exposed Pad|8-SO-EP#0"		datasheets/powerswitch/diodes/ZXMS81045SP.pdf
+AP2552FDC-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP255x.pdf|6-UDFN Exposed Pad|U-DFN2020-6 (Type C)#0		datasheets/powerswitch/diodes/AP255x.pdf
+AP22804AM8-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP22804-14.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-MSOP#0"		datasheets/powerswitch/diodes/AP22804-14.pdf
+AP22814BW5-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22804-14.pdf|SC-74A, SOT-753|SOT-25#1		datasheets/powerswitch/diodes/AP22804-14.pdf
+AP2191DWG-7	limited	diodes	skip	no datasheet on the maker's site (mm.digikey.com)			
+AP2553FDC-7R	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP255x.pdf|6-UDFN Exposed Pad|U-DFN2020-6 (Type C)#1		datasheets/powerswitch/diodes/AP255x.pdf
+AP22818BKEWT-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22816_17_18.pdf|SOT-23-5 Thin, TSOT-23-5|TSOT-25#11		datasheets/powerswitch/diodes/AP22816_17_18.pdf
+AP2181MPG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2181_91.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#0"		datasheets/powerswitch/diodes/AP2181_91.pdf
+AP22817BKAWT-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22816_17_18.pdf|SOT-23-5 Thin, TSOT-23-5|TSOT-25#4		datasheets/powerswitch/diodes/AP22816_17_18.pdf
+AP2401S-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP24x1.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SO#0"		datasheets/powerswitch/diodes/AP24x1.pdf
+AP2141DSG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2141D_51D.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SO#0"		datasheets/powerswitch/diodes/AP2141D_51D.pdf
+AP2191DSG-13	limited	diodes	skip	no datasheet on the maker's site (mm.digikey.com)			
+AP2176MPG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2166_76.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#1"		datasheets/powerswitch/diodes/AP2166_76.pdf
+AP2196SG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2186_96.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOP#1"		datasheets/powerswitch/diodes/AP2186_96.pdf
+AP2166SG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2166_76.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOP#0"		datasheets/powerswitch/diodes/AP2166_76.pdf
+AP2151DFMG-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP2141D_51D.pdf|6-UFDFN Exposed Pad|U-DFN2018-6#1		datasheets/powerswitch/diodes/AP2141D_51D.pdf
+AP2146SG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2146_56.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOP#0"		datasheets/powerswitch/diodes/AP2146_56.pdf
+AP22655WU-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22654_AP22655.pdf|SOT-23-6 Thin, TSOT-23-6|TSOT-26 (Type A1)#1		datasheets/powerswitch/diodes/AP22654_AP22655.pdf
+AP2511M8-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP25x1.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-MSOP#0"		datasheets/powerswitch/diodes/AP25x1.pdf
+AP2311AMP-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP23x1A.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#0"		datasheets/powerswitch/diodes/AP23x1A.pdf
+AP2186SG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2186_96.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOP#0"		datasheets/powerswitch/diodes/AP2186_96.pdf
+AP2142SG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2142_52.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOP#0"		datasheets/powerswitch/diodes/AP2142_52.pdf
+AP2111MPG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2101_2111.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#1"		datasheets/powerswitch/diodes/AP2101_2111.pdf
+AP22816AKAWT-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22816_17_18.pdf|SOT-23-5 Thin, TSOT-23-5|TSOT-23-5#0		datasheets/powerswitch/diodes/AP22816_17_18.pdf
+AP2162ASG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2162A_72A.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SO#0"		datasheets/powerswitch/diodes/AP2162A_72A.pdf
+PI5USB2546ZHEX	limited	diodes	skip	no datasheet on the maker's site (www.diodes.com)			
+AP22804BSN-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22804-14.pdf|6-UDFN Exposed Pad|U-DFN2020-6#0		datasheets/powerswitch/diodes/AP22804-14.pdf
+PI5USB2546HZHDEX	limited	diodes	skip	no pin table	diodes|-|datasheets/powerswitch/diodes/PI5USB2546H-Product-Brief.pdf|16-UFQFN Exposed Pad|16-UQFN (3x3)#0		datasheets/powerswitch/diodes/PI5USB2546H-Product-Brief.pdf
+PI5USB2546ZHDEX	limited	diodes	skip	no datasheet on the maker's site (www.diodes.com)			
+DPS1113FIA-13	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/DPS1113.pdf|17-VFQFN Exposed Pad|V-QFN4040-17#0		datasheets/powerswitch/diodes/DPS1113.pdf
+AP22817AKAWT-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22816_17_18.pdf|SOT-23-5 Thin, TSOT-23-5|TSOT-25#2		datasheets/powerswitch/diodes/AP22816_17_18.pdf
+PI5USB2546JZHEX	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/PI5USB2546J.pdf|16-WFQFN Exposed Pad|16-TQFN (3x3)#0	automotive	datasheets/powerswitch/diodes/PI5USB2546J.pdf
+AP22817BKEWT-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22816_17_18.pdf|SOT-23-5 Thin, TSOT-23-5|TSOT-23-5#5		datasheets/powerswitch/diodes/AP22816_17_18.pdf
+AP22811AM8-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP22811.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-MSOP#0"		datasheets/powerswitch/diodes/AP22811.pdf
+AP2553FDC-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP255x.pdf|6-UDFN Exposed Pad|U-DFN2020-6 (Type C)#1		datasheets/powerswitch/diodes/AP255x.pdf
+AP2161DWG-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP2161D_71D.pdf|SC-74A, SOT-753|SOT-25#0		datasheets/powerswitch/diodes/AP2161D_71D.pdf
+AP22816BKAWT-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22816_17_18.pdf|SOT-23-5 Thin, TSOT-23-5|TSOT-25#0		datasheets/powerswitch/diodes/AP22816_17_18.pdf
+AP2161FMG-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP2161_71.pdf|6-UFDFN Exposed Pad|U-DFN2018-6#0		datasheets/powerswitch/diodes/AP2161_71.pdf
+AP2162AFGEG-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP2162A_72A.pdf|8-UDFN Exposed Pad|U-DFN3030-8 (Type E)#0		datasheets/powerswitch/diodes/AP2162A_72A.pdf
+AP2181DWG-7	limited	diodes	skip	no datasheet on the maker's site (mm.digikey.com)			
+AP2401SN-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP24x1.pdf|6-UDFN Exposed Pad|U-DFN2020-6#0		datasheets/powerswitch/diodes/AP24x1.pdf
+AP22816BKWT-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22816_17_18.pdf|SOT-23-5 Thin, TSOT-23-5|TSOT-23-5#3		datasheets/powerswitch/diodes/AP22816_17_18.pdf
+AP2152ASG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2142A_52A.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOP#1"		datasheets/powerswitch/diodes/AP2142A_52A.pdf
+AP22817BKCWT-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22816_17_18.pdf|SOT-23-5 Thin, TSOT-23-5|TSOT-23-5#4		datasheets/powerswitch/diodes/AP22816_17_18.pdf
+AP22816BKCWT-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22816_17_18.pdf|SOT-23-5 Thin, TSOT-23-5|TSOT-23-5#2		datasheets/powerswitch/diodes/AP22816_17_18.pdf
+AP2145SG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2145.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOP#0"		datasheets/powerswitch/diodes/AP2145.pdf
+AP2162AMPG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2162A_72A.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#0"		datasheets/powerswitch/diodes/AP2162A_72A.pdf
+AP22818BKBWT-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22816_17_18.pdf|SOT-23-5 Thin, TSOT-23-5|TSOT-25#10		datasheets/powerswitch/diodes/AP22816_17_18.pdf
+AP2151MPG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2141-51.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#1"		datasheets/powerswitch/diodes/AP2141-51.pdf
+AP22818BM8-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP22816_17_18.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-MSOP#1"		datasheets/powerswitch/diodes/AP22816_17_18.pdf
+AP2191DMPG-13	limited	diodes	skip	no datasheet on the maker's site (mm.digikey.com)			
+ZXMS82120S14PQ-13	limited	diodes	add		"diodes|INTELLIFET®|datasheets/powerswitch/diodes/ZXMS82120S14PQ.pdf|14-SOIC (0.154"", 3.90mm Width) Exposed Pad|14-SO-EP#0"		datasheets/powerswitch/diodes/ZXMS82120S14PQ.pdf
+AP2171DSG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2161D_71D.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SO#0"		datasheets/powerswitch/diodes/AP2161D_71D.pdf
+AP2171AS-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2161A_71A.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SO#0"		datasheets/powerswitch/diodes/AP2161A_71A.pdf
+ZXMS82090S14PQ-13	limited	diodes	add		"diodes|INTELLIFET®|datasheets/powerswitch/diodes/ZXMS82090S14PQ.pdf|14-SOIC (0.154"", 3.90mm Width) Exposed Pad|14-SO-EP#0"		datasheets/powerswitch/diodes/ZXMS82090S14PQ.pdf
+AP2191MPG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2181_91.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#1"		datasheets/powerswitch/diodes/AP2181_91.pdf
+AP2181DMPG-13	limited	diodes	skip	no datasheet on the maker's site (mm.digikey.com)			
+AP2171SG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2161_71.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOP#0"		datasheets/powerswitch/diodes/AP2161_71.pdf
+AP2172MPG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2162_72.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#0"		datasheets/powerswitch/diodes/AP2162_72.pdf
+AP2511AMP-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP25x1A.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#0"		datasheets/powerswitch/diodes/AP25x1A.pdf
+AP2182AMPG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2182A_92A.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#0"		datasheets/powerswitch/diodes/AP2182A_92A.pdf
+AP2192SG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2182_92.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOP#0"		datasheets/powerswitch/diodes/AP2182_92.pdf
+AP22814AM8-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP22804-14.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-MSOP#1"		datasheets/powerswitch/diodes/AP22804-14.pdf
+AP22818BKCWT-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22816_17_18.pdf|SOT-23-5 Thin, TSOT-23-5|TSOT-23-5#8		datasheets/powerswitch/diodes/AP22816_17_18.pdf
+AP2172SG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2162_72.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOP#1"		datasheets/powerswitch/diodes/AP2162_72.pdf
+AP2192MPG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2182_92.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#0"		datasheets/powerswitch/diodes/AP2182_92.pdf
+AP22818AKCWT-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22816_17_18.pdf|SOT-23-5 Thin, TSOT-23-5|TSOT-25#8		datasheets/powerswitch/diodes/AP22816_17_18.pdf
+AP2411SN-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP24x1.pdf|6-UDFN Exposed Pad|U-DFN2020-6#1		datasheets/powerswitch/diodes/AP24x1.pdf
+AP2151AMP-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2151A.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#0"		datasheets/powerswitch/diodes/AP2151A.pdf
+PI5USB2546QZHEX	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/PI5USB2546Q.pdf|16-WFQFN Exposed Pad|16-TQFN (3x3)#0	automotive	datasheets/powerswitch/diodes/PI5USB2546Q.pdf
+AP22816AKWT-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22816_17_18.pdf|SOT-23-5 Thin, TSOT-23-5|TSOT-23-5#1		datasheets/powerswitch/diodes/AP22816_17_18.pdf
+AP2552AFDC-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP255x.pdf|6-UDFN Exposed Pad|U-DFN2020-6 (Type C)#0		datasheets/powerswitch/diodes/AP255x.pdf
+AP2311AS-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP23x1A.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SO#0"		datasheets/powerswitch/diodes/AP23x1A.pdf
+AP2553AFDC-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP255x.pdf|6-UDFN Exposed Pad|U-DFN2020-6 (Type C)#1		datasheets/powerswitch/diodes/AP255x.pdf
+AP22814BSN-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22804-14.pdf|6-UDFN Exposed Pad|U-DFN2020-6#1		datasheets/powerswitch/diodes/AP22804-14.pdf
+AP2166MPG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2166_76.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#0"		datasheets/powerswitch/diodes/AP2166_76.pdf
+AP22654QWU-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22654Q_AP22655Q.pdf|SOT-23-6 Thin, TSOT-23-6|TSOT-26 (Type A1)#0		datasheets/powerswitch/diodes/AP22654Q_AP22655Q.pdf
+AP2142MPG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2142_52.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#0"		datasheets/powerswitch/diodes/AP2142_52.pdf
+ZXMS81045SPQ-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/ZXMS81045SPQ.pdf|8-SOIC (0.154"", 3.90mm Width) Exposed Pad|8-SO-EP#0"		datasheets/powerswitch/diodes/ZXMS81045SPQ.pdf
+AP22818AM8-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP22816_17_18.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-MSOP#0"		datasheets/powerswitch/diodes/AP22816_17_18.pdf
+AP22804BM8-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP22804_14.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-MSOP#0"		datasheets/powerswitch/diodes/AP22804_14.pdf
+AP2151DMPG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2141D_51D.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#1"		datasheets/powerswitch/diodes/AP2141D_51D.pdf
+AP2151FMG-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP2141-51.pdf|6-UFDFN Exposed Pad|U-DFN2018-6#0		datasheets/powerswitch/diodes/AP2141-51.pdf
+AP22818BKAWT-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22816_17_18.pdf|SOT-23-5 Thin, TSOT-23-5|TSOT-25#9		datasheets/powerswitch/diodes/AP22816_17_18.pdf
+AP22654WU-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22654_AP22655.pdf|SOT-23-6 Thin, TSOT-23-6|TSOT-26 (Type A1)#0		datasheets/powerswitch/diodes/AP22654_AP22655.pdf
+AP2101SG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2101_2111.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOP#0"		datasheets/powerswitch/diodes/AP2101_2111.pdf
+AP2171DMPG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2161D_71D.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#0"		datasheets/powerswitch/diodes/AP2161D_71D.pdf
+AP2171DM8G-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2161D_71D.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-MSOP#0"		datasheets/powerswitch/diodes/AP2161D_71D.pdf
+AP22804BW5-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22804-14.pdf|SC-74A, SOT-753|SOT-25#0		datasheets/powerswitch/diodes/AP22804-14.pdf
+ZXMS82180S14PQ-13	limited	diodes	add		"diodes|INTELLIFET®|datasheets/powerswitch/diodes/ZXMS82180S14PQ.pdf|14-SOIC (0.154"", 3.90mm Width) Exposed Pad|14-SO-EP#0"		datasheets/powerswitch/diodes/ZXMS82180S14PQ.pdf
+ZXMS81090SPQ-13	limited	diodes	add		"diodes|INTELLIFET®|datasheets/powerswitch/diodes/ZXMS81090SPQ.pdf|8-SOIC (0.154"", 3.90mm Width) Exposed Pad|8-SO-EP (Type E)#0"		datasheets/powerswitch/diodes/ZXMS81090SPQ.pdf
+AP2401MP-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP24x1.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#0"		datasheets/powerswitch/diodes/AP24x1.pdf
+ZXMS81200SPQ-13	limited	diodes	add		"diodes|INTELLIFET®|datasheets/powerswitch/diodes/ZXMS81200SPQ.pdf|8-SOIC (0.154"", 3.90mm Width) Exposed Pad|8-SO-EP (Type E)#0"		datasheets/powerswitch/diodes/ZXMS81200SPQ.pdf
+AP2151AFM-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP2151A.pdf|6-UFDFN Exposed Pad|U-DFN2018-6#0		datasheets/powerswitch/diodes/AP2151A.pdf
+AP22816BKBWT-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22816_17_18.pdf|SOT-23-5 Thin, TSOT-23-5|TSOT-25#1		datasheets/powerswitch/diodes/AP22816_17_18.pdf
+AP22817AKBWT-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22816_17_18.pdf|SOT-23-5 Thin, TSOT-23-5|TSOT-25#3		datasheets/powerswitch/diodes/AP22816_17_18.pdf
+AP2311SN-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP2301-11.pdf|6-UDFN Exposed Pad|U-DFN2020-6#1		datasheets/powerswitch/diodes/AP2301-11.pdf
+AP2311MPG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2301-11.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#0"		datasheets/powerswitch/diodes/AP2301-11.pdf
+AP2301SN-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP2301-11.pdf|6-UDFN Exposed Pad|U-DFN2020-6#0		datasheets/powerswitch/diodes/AP2301-11.pdf
+PI5USB2546AQZHEX	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/PI5USB2546AQ.pdf|16-WFQFN Exposed Pad|16-TQFN (3x3)#0	automotive	datasheets/powerswitch/diodes/PI5USB2546AQ.pdf
+AP2411AMP-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP24x1A.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#0"		datasheets/powerswitch/diodes/AP24x1A.pdf
+AP2181WG-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP2181_91.pdf|SC-74A, SOT-753|SOT-25#0		datasheets/powerswitch/diodes/AP2181_91.pdf
+AP22818BKWT-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22816_17_18.pdf|SOT-23-5 Thin, TSOT-23-5|TSOT-23-5#9		datasheets/powerswitch/diodes/AP22816_17_18.pdf
+AP22818AKWT-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22816_17_18.pdf|SOT-23-5 Thin, TSOT-23-5|TSOT-23-5#7		datasheets/powerswitch/diodes/AP22816_17_18.pdf
+AP2151DSG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2141D_51D.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SO#1"		datasheets/powerswitch/diodes/AP2141D_51D.pdf
+AP2511MP-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP25x1.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#0"		datasheets/powerswitch/diodes/AP25x1.pdf
+AP22814BM8-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP22804-14.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-MSOP#2"		datasheets/powerswitch/diodes/AP22804-14.pdf
+AP2161MPG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2161_71.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#0"		datasheets/powerswitch/diodes/AP2161_71.pdf
+AP2146MPG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2146_56.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#0"		datasheets/powerswitch/diodes/AP2146_56.pdf
+AP2161DFMG-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP2161D_71D.pdf|6-UFDFN Exposed Pad|U-DFN2018-6#0		datasheets/powerswitch/diodes/AP2161D_71D.pdf
+AP2141DMPG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2141D_51D.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#0"		datasheets/powerswitch/diodes/AP2141D_51D.pdf
+AP2411FGE-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP24x1.pdf|8-UDFN Exposed Pad|U-DFN3030-8 (Type E)#0		datasheets/powerswitch/diodes/AP24x1.pdf
+AP2156SG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2146_56.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOP#1"		datasheets/powerswitch/diodes/AP2146_56.pdf
+AP22652AFDZ-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/AP22652_53_52A_53A.pdf|6-WDFN Exposed Pad|W-DFN2020-6 (Type A1)#0		datasheets/powerswitch/diodes/AP22652_53_52A_53A.pdf
+DML3012LDC-7	limited	diodes	add		diodes|-|datasheets/powerswitch/diodes/DML3012LDC.pdf|12-VFDFN Exposed Pad|V-DFN3030-12 (Type B)#0		datasheets/powerswitch/diodes/DML3012LDC.pdf
+AP2152MPG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2142_52.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-MSOP-EP#1"		datasheets/powerswitch/diodes/AP2142_52.pdf
+AP2111SG-13	limited	diodes	add		"diodes|-|datasheets/powerswitch/diodes/AP2101_2111.pdf|8-SOIC (0.154"", 3.90mm Width)|8-SOP#1"		datasheets/powerswitch/diodes/AP2101_2111.pdf
+MIC2525-2BM TR	limited	microchip	skip	no datasheet on the maker's site (rocelec.widen.net)			
+MIC2526-2BM	limited	microchip	skip	no datasheet on the maker's site (rocelec.widen.net)			
+MIC2526-1BM	limited	microchip	skip	no datasheet on the maker's site (rocelec.widen.net)			
+MIC2525-2BM	limited	microchip	skip	no datasheet on the maker's site (rocelec.widen.net)			
+MIC2016-0.5YML	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC20xx-Fixed-and-Adjustable-Current-Limiting-Power-Distribution-Switches-DS20006486C.pdf|6-VDFN Exposed Pad, 6-MLF®|6-MLF® (2x2)#4		datasheets/powerswitch/microchip/MIC20xx-Fixed-and-Adjustable-Current-Limiting-Power-Distribution-Switches-DS20006486C.pdf
+MIC2014-0.5YML	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC20xx-Fixed-and-Adjustable-Current-Limiting-Power-Distribution-Switches-DS20006486C.pdf|6-VDFN Exposed Pad, 6-MLF®|6-MLF® (2x2)#2		datasheets/powerswitch/microchip/MIC20xx-Fixed-and-Adjustable-Current-Limiting-Power-Distribution-Switches-DS20006486C.pdf
+MIC2003-0.5YML	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC20xx-Fixed-and-Adjustable-Current-Limiting-Power-Distribution-Switches-DS20006486C.pdf|6-VDFN Exposed Pad, 6-MLF®|6-MLF® (2x2)#0		datasheets/powerswitch/microchip/MIC20xx-Fixed-and-Adjustable-Current-Limiting-Power-Distribution-Switches-DS20006486C.pdf
+MIC2525-1BM	limited	microchip	skip	no datasheet on the maker's site (rocelec.widen.net)			
+MIC2077-2BN	limited	microchip	skip	no datasheet on the maker's site (rocelec.widen.net)			
+MIC2013-1.2YML	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC20xx-Fixed-and-Adjustable-Current-Limiting-Power-Distribution-Switches-DS20006486C.pdf|6-VDFN Exposed Pad, 6-MLF®|6-MLF® (2x2)#1		datasheets/powerswitch/microchip/MIC20xx-Fixed-and-Adjustable-Current-Limiting-Power-Distribution-Switches-DS20006486C.pdf
+MIC2005M-0.5YM6 TR	limited	microchip	skip	no datasheet on the maker's site (rocelec.widen.net)			
+MIC2027-1BN	limited	microchip	skip	no datasheet on the maker's site (rocelec.widen.net)			
+MIC2005M-0.5M6	limited	microchip	skip	no datasheet on the maker's site (rocelec.widen.net)			
+MIC2507BM TR	limited	microchip	skip	no datasheet on the maker's site (rocelec.widen.net)			
+MIC2527-2BWM	limited	microchip	skip	no datasheet on the maker's site (rocelec.widen.net)			
+MIC2507BM	limited	microchip	skip	no datasheet on the maker's site (rocelec.widen.net)			
+MIC2005-0.5YML	limited	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC20xx-Fixed-and-Adjustable-Current-Limiting-Power-Distribution-Switches-DS20006486C.pdf|6-VDFN Exposed Pad, 6-MLF®|6-MLF® (2x2)#3		datasheets/powerswitch/microchip/MIC20xx-Fixed-and-Adjustable-Current-Limiting-Power-Distribution-Switches-DS20006486C.pdf
+MIC2091-1YM5-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC2090-1-Current-Limiting-Power-Distribution-Switches-DS20006611A.pdf|SC-74A, SOT-753|SOT-23-5#1		datasheets/powerswitch/microchip/MIC2090-1-Current-Limiting-Power-Distribution-Switches-DS20006611A.pdf
+MIC94080YFT-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC9408x-67mOhm-RDSON-2A-High-Side-Load-Switch-DS20006118.pdf|4-UFDFN, 4-TMLF®|4-TMLF® (0.85x0.85)#0		datasheets/powerswitch/microchip/MIC9408x-67mOhm-RDSON-2A-High-Side-Load-Switch-DS20006118.pdf
+MIC94092YC6-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic9409x.pdf|6-TSSOP, SC-88, SOT-363|SC-70-6#0		datasheets/powerswitch/microchip/mic9409x.pdf
+MIC2091-2YM5-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC2090-1-Current-Limiting-Power-Distribution-Switches-DS20006611A.pdf|SC-74A, SOT-753|SOT-23-5#1		datasheets/powerswitch/microchip/MIC2090-1-Current-Limiting-Power-Distribution-Switches-DS20006611A.pdf
+MIC94163YCS-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC9416x-3A-High-Side-Load-Switch-with-Reverse-Blocking-DS20006439A.pdf|6-WFBGA, WLCSP|6-WLCSP (1x1.5)#0		datasheets/powerswitch/microchip/MIC9416x-3A-High-Side-Load-Switch-with-Reverse-Blocking-DS20006439A.pdf
+MIC94072YC6-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic94070-3.pdf|6-TSSOP, SC-88, SOT-363|SC-70-6#0		datasheets/powerswitch/microchip/mic94070-3.pdf
+MIC95410YFL-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC95410-6.6mOhm-7A-5.5V-VIN-Load-Switch-DS20006431A.pdf|10-PowerVFQFN|10-FQFN (1.2x2)#0		datasheets/powerswitch/microchip/MIC95410-6.6mOhm-7A-5.5V-VIN-Load-Switch-DS20006431A.pdf
+MIC94084YFT-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC9408x-67mOhm-RDSON-2A-High-Side-Load-Switch-DS20006118.pdf|4-UFDFN, 4-TMLF®|4-TMLF® (0.85x0.85)#1		datasheets/powerswitch/microchip/MIC9408x-67mOhm-RDSON-2A-High-Side-Load-Switch-DS20006118.pdf
+MIC94068YML-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic94066-69.pdf|8-VFDFN Exposed Pad, 8-MLF®|8-MLF® (2x2)#0		datasheets/powerswitch/microchip/mic94066-69.pdf
+MIC94062YMT-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC94060-1-2-3-High-Side-Power-Switches-DS20006517B.pdf|4-UFDFN Exposed Pad, 4-TMLF®|4-TMLF® (1.2x1.6)#0		datasheets/powerswitch/microchip/MIC94060-1-2-3-High-Side-Power-Switches-DS20006517B.pdf
+MIC94164YCS-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC9416x-3A-High-Side-Load-Switch-with-Reverse-Blocking-DS20006439A.pdf|6-WFBGA, WLCSP|6-WLCSP (1x1.5)#1		datasheets/powerswitch/microchip/MIC9416x-3A-High-Side-Load-Switch-with-Reverse-Blocking-DS20006439A.pdf
+MIC94060YC6-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC94060-1-2-3-High-Side-Power-Switches-DS20006517B.pdf|6-TSSOP, SC-88, SOT-363|SC-70-6#0		datasheets/powerswitch/microchip/MIC94060-1-2-3-High-Side-Power-Switches-DS20006517B.pdf
+MIC94066YML-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic94066-69.pdf|8-VFDFN Exposed Pad, 8-MLF®|8-MLF® (2x2)#0		datasheets/powerswitch/microchip/mic94066-69.pdf
+MIC94062YC6-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC94060-1-2-3-High-Side-Power-Switches-DS20006517B.pdf|6-TSSOP, SC-88, SOT-363|SC-70-6#0		datasheets/powerswitch/microchip/MIC94060-1-2-3-High-Side-Power-Switches-DS20006517B.pdf
+MIC2090-1YM5-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC2090-1-Current-Limiting-Power-Distribution-Switches-DS20006611A.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/microchip/MIC2090-1-Current-Limiting-Power-Distribution-Switches-DS20006611A.pdf
+MIC94061YMT-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC94060-1-2-3-High-Side-Power-Switches-DS20006517B.pdf|4-UFDFN Exposed Pad, 4-TMLF®|4-TMLF® (1.2x1.6)#0		datasheets/powerswitch/microchip/MIC94060-1-2-3-High-Side-Power-Switches-DS20006517B.pdf
+MIC94070YC6-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic94070-3.pdf|6-TSSOP, SC-88, SOT-363|SC-70-6#0		datasheets/powerswitch/microchip/mic94070-3.pdf
+MIC94071YC6-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic94070-3.pdf|6-TSSOP, SC-88, SOT-363|SC-70-6#0		datasheets/powerswitch/microchip/mic94070-3.pdf
+MIC2090-2YM5-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC2090-1-Current-Limiting-Power-Distribution-Switches-DS20006611A.pdf|SC-74A, SOT-753|SOT-23-5#0		datasheets/powerswitch/microchip/MIC2090-1-Current-Limiting-Power-Distribution-Switches-DS20006611A.pdf
+MIC94085YFT-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC9408x-67mOhm-RDSON-2A-High-Side-Load-Switch-DS20006118.pdf|4-UFDFN, 4-TMLF®|4-TMLF® (0.85x0.85)#1		datasheets/powerswitch/microchip/MIC9408x-67mOhm-RDSON-2A-High-Side-Load-Switch-DS20006118.pdf
+MIC94094YC6-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic9409x.pdf|6-TSSOP, SC-88, SOT-363|SC-70-6#0		datasheets/powerswitch/microchip/mic9409x.pdf
+MIC94044YFL-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic94044_5.pdf|4-WDFN, 4-MLF®|4-MLF® (1.2x1.2)#0		datasheets/powerswitch/microchip/mic94044_5.pdf
+MIC94063YC6-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC94060-1-2-3-High-Side-Power-Switches-DS20006517B.pdf|6-TSSOP, SC-88, SOT-363|SC-70-6#0		datasheets/powerswitch/microchip/MIC94060-1-2-3-High-Side-Power-Switches-DS20006517B.pdf
+MIC94082YFT-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC9408x-67mOhm-RDSON-2A-High-Side-Load-Switch-DS20006118.pdf|4-UFDFN, 4-TMLF®|4-TMLF® (0.85x0.85)#1		datasheets/powerswitch/microchip/MIC9408x-67mOhm-RDSON-2A-High-Side-Load-Switch-DS20006118.pdf
+MIC94081YFT-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC9408x-67mOhm-RDSON-2A-High-Side-Load-Switch-DS20006118.pdf|4-UFDFN, 4-TMLF®|4-TMLF® (0.85x0.85)#0		datasheets/powerswitch/microchip/MIC9408x-67mOhm-RDSON-2A-High-Side-Load-Switch-DS20006118.pdf
+MIC94070YMT-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic94070-3.pdf|4-UFDFN Exposed Pad, 4-TMLF®|4-TMLF® (1.2x1.6)#0		datasheets/powerswitch/microchip/mic94070-3.pdf
+MIC94061YC6-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC94060-1-2-3-High-Side-Power-Switches-DS20006517B.pdf|6-TSSOP, SC-88, SOT-363|SC-70-6#0		datasheets/powerswitch/microchip/MIC94060-1-2-3-High-Side-Power-Switches-DS20006517B.pdf
+MIC94064YC6-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic94064-5.pdf|6-TSSOP, SC-88, SOT-363|SC-70-6#0		datasheets/powerswitch/microchip/mic94064-5.pdf
+MIC94060YMT-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC94060-1-2-3-High-Side-Power-Switches-DS20006517B.pdf|4-UFDFN Exposed Pad, 4-TMLF®|4-TMLF® (1.2x1.6)#0		datasheets/powerswitch/microchip/MIC94060-1-2-3-High-Side-Power-Switches-DS20006517B.pdf
+MIC94061BC6TR	load	microchip	skip	no datasheet on the maker's site (rocelec.widen.net)			
+MIC94162YCS-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC9416x-3A-High-Side-Load-Switch-with-Reverse-Blocking-DS20006439A.pdf|6-WFBGA, WLCSP|6-WLCSP (1.5x1.1)#0		datasheets/powerswitch/microchip/MIC9416x-3A-High-Side-Load-Switch-with-Reverse-Blocking-DS20006439A.pdf
+MIC94073YC6-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic94070-3.pdf|6-TSSOP, SC-88, SOT-363|SC-70-6#0		datasheets/powerswitch/microchip/mic94070-3.pdf
+MIC94073YMT-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic94070-3.pdf|4-UFDFN Exposed Pad, 4-TMLF®|4-TMLF® (1.2x1.6)#0		datasheets/powerswitch/microchip/mic94070-3.pdf
+MIC94064YMT-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic94064-5.pdf|4-UFDFN Exposed Pad, 4-TMLF®|4-TMLF® (1.2x1.6)#0		datasheets/powerswitch/microchip/mic94064-5.pdf
+MIC94042YFL-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC9404X-Family-Data-Sheet-DS20006607.pdf|4-WQFN, 4-MLF®|4-MLF® (1.2x1.2)#0		datasheets/powerswitch/microchip/MIC9404X-Family-Data-Sheet-DS20006607.pdf
+MIC94063YMT-TR	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/MIC94060-1-2-3-High-Side-Power-Switches-DS20006517B.pdf|4-UFDFN Exposed Pad, 4-TMLF®|4-TMLF® (1.2x1.6)#0		datasheets/powerswitch/microchip/MIC94060-1-2-3-High-Side-Power-Switches-DS20006517B.pdf
+TPS22922YFPR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22921.pdf|6-XFBGA, DSBGA|6-DSBGA#0		datasheets/powerswitch/ti/tps22921.pdf
+TPS22922YZPR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22921.pdf|6-XFBGA, DSBGA|6-DSBGA#0		datasheets/powerswitch/ti/tps22921.pdf
+TPS22921YFPR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22921.pdf|6-XFBGA, DSBGA|6-DSBGA#0		datasheets/powerswitch/ti/tps22921.pdf
+TPS22921YZPR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22921.pdf|6-XFBGA, DSBGA|6-DSBGA#0		datasheets/powerswitch/ti/tps22921.pdf
+TPS22917DBVR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22917.pdf|SOT-23-6|SOT-23-6#0		datasheets/powerswitch/ti/tps22917.pdf
+TPS22908YZTR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22908.pdf|4-UFBGA, DSBGA|4-DSBGA (0.9x0.9)#0		datasheets/powerswitch/ti/tps22908.pdf
+TPS22916BYFPR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22916.pdf|4-XFBGA, DSBGA|4-DSBGA#0		datasheets/powerswitch/ti/tps22916.pdf
+TPS22965NDSGR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22965.pdf|8-WFDFN Exposed Pad|8-WSON (2x2)#0		datasheets/powerswitch/ti/tps22965.pdf
+TPS22916CNYFPR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22916.pdf|4-XFBGA, DSBGA|4-DSBGA#0		datasheets/powerswitch/ti/tps22916.pdf
+TPS22810TDBVRQ1	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22810-q1.pdf|SOT-23-6|SOT-23-6#0	automotive	datasheets/powerswitch/ti/tps22810-q1.pdf
+TPS2116DRLR	load	ti	skip	select logic	ti|-|datasheets/powerswitch/ti/tps2116.pdf|SOT-583|SOT-583#0		datasheets/powerswitch/ti/tps2116.pdf
+TPS22932BYFPT	load	ti	skip	control	ti|-|datasheets/powerswitch/ti/tps22932b.pdf|6-XFBGA, DSBGA|6-DSBGA#0		datasheets/powerswitch/ti/tps22932b.pdf
+TPS22912CYZVR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22910a.pdf|4-XFBGA, DSBGA|4-DSBGA (0.88x0.88)#1		datasheets/powerswitch/ti/tps22910a.pdf
+TPS22929DDBVT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22929d.pdf|SOT-23-6|SOT-23-6#0		datasheets/powerswitch/ti/tps22929d.pdf
+TPS22914CYFPT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22914.pdf|4-XFBGA, DSBGA|4-DSBGA#0		datasheets/powerswitch/ti/tps22914.pdf
+TPS22901YFPR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22901.pdf|4-XFBGA, DSBGA|4-DSBGA#0		datasheets/powerswitch/ti/tps22901.pdf
+TPS22964CYZPR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22963c.pdf|6-XFBGA, DSBGA|6-DSBGA#0		datasheets/powerswitch/ti/tps22963c.pdf
+TPS22925BNYPHT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22925.pdf|6-XFBGA, DSBGA|6-DSBGA#0		datasheets/powerswitch/ti/tps22925.pdf
+TPS22958NDGKR	load	ti	add		"ti|-|datasheets/powerswitch/ti/tps22958.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-VSSOP#0"		datasheets/powerswitch/ti/tps22958.pdf
+TPS22929DDBVR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22929d.pdf|SOT-23-6|SOT-23-6#0		datasheets/powerswitch/ti/tps22929d.pdf
+TPS22810DRVR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22810.pdf|6-WDFN Exposed Pad|6-WSON (2x2)#0		datasheets/powerswitch/ti/tps22810.pdf
+TPS22976DPUR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22976.pdf|14-PowerWFDFN|14-WSON (3x2)#0		datasheets/powerswitch/ti/tps22976.pdf
+TPS22810DBVT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22810.pdf|SOT-23-6|SOT-23-6#0		datasheets/powerswitch/ti/tps22810.pdf
+TPS22924CYZPR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22924b.pdf|6-XFBGA, DSBGA|6-DSBGA (1.39x.89)#0		datasheets/powerswitch/ti/tps22924b.pdf
+TPS22960DCNR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22960.pdf|SOT-23-8|SOT-23-8#0		datasheets/powerswitch/ti/tps22960.pdf
+TPS22922BYZPR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22921.pdf|6-XFBGA, DSBGA|6-DSBGA#0		datasheets/powerswitch/ti/tps22921.pdf
+TPS22965DSGR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22965.pdf|8-WFDFN Exposed Pad|8-WSON (2x2)#0		datasheets/powerswitch/ti/tps22965.pdf
+TPS22919DCKT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22919.pdf|6-TSSOP, SC-88, SOT-363|SC-70-6#0		datasheets/powerswitch/ti/tps22919.pdf
+TPS22996HQDYCRQ1	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22996h-q1.pdf|SOT-583|SOT-583#0	automotive	datasheets/powerswitch/ti/tps22996h-q1.pdf
+TPS22915BYFPR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22914.pdf|4-XFBGA, DSBGA|4-DSBGA#0		datasheets/powerswitch/ti/tps22914.pdf
+TPS22917DBVT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22917.pdf|SOT-23-6|SOT-23-6#0		datasheets/powerswitch/ti/tps22917.pdf
+TPS22954DQCR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22953.pdf|10-WFDFN Exposed Pad|10-WSON (3x2)#0		datasheets/powerswitch/ti/tps22953.pdf
+TPS22918DBVT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22918.pdf|SOT-23-6|SOT-23-6#0		datasheets/powerswitch/ti/tps22918.pdf
+TPS22913BYZVR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22910a.pdf|4-XFBGA, DSBGA|4-DSBGA (0.88x0.88)#1		datasheets/powerswitch/ti/tps22910a.pdf
+TPS22991CRAAR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22991.pdf|4-UFQFN|4-UQFN-HR (0.85x0.75)#0		datasheets/powerswitch/ti/tps22991.pdf
+TPS22902YFPR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22901.pdf|4-XFBGA, DSBGA|4-DSBGA#0		datasheets/powerswitch/ti/tps22901.pdf
+UC27133D	load	ti	skip	no datasheet on the maker's site (rocelec.widen.net)			
+TPS22959DNYT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22959.pdf|8-WDFN Exposed Pad|8-WSON (3x3)#0		datasheets/powerswitch/ti/tps22959.pdf
+TPS22916BYFPT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22916.pdf|4-XFBGA, DSBGA|4-DSBGA#0		datasheets/powerswitch/ti/tps22916.pdf
+TPS22925CNYPHT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22925.pdf|6-XFBGA, DSBGA|6-DSBGA#0		datasheets/powerswitch/ti/tps22925.pdf
+TPS22918DBVR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22918.pdf|SOT-23-6|SOT-23-6#0		datasheets/powerswitch/ti/tps22918.pdf
+TPS22995RZFR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22995.pdf|6-WFQFN|6-WQFN-HR (1.25x0.85)#0		datasheets/powerswitch/ti/tps22995.pdf
+TPS22968DPUT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22968.pdf|14-PowerWFDFN|14-WSON (3x2)#0		datasheets/powerswitch/ti/tps22968.pdf
+TPS22968NDPUT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22968.pdf|14-PowerWFDFN|14-WSON (3x2)#0		datasheets/powerswitch/ti/tps22968.pdf
+TPS22968DPUR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22968.pdf|14-PowerWFDFN|14-WSON (3x2)#0		datasheets/powerswitch/ti/tps22968.pdf
+TPS22965DSGT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22965.pdf|8-WFDFN Exposed Pad|8-WSON (2x2)#0		datasheets/powerswitch/ti/tps22965.pdf
+TPS22914BYFPR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22914.pdf|4-XFBGA, DSBGA|4-DSBGA#0		datasheets/powerswitch/ti/tps22914.pdf
+TPS22958DGKR	load	ti	add		"ti|-|datasheets/powerswitch/ti/tps22958.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)|8-VSSOP#0"		datasheets/powerswitch/ti/tps22958.pdf
+TPS22999YCHR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22999.pdf|8-XFBGA, DSBGA|8-DSBGA (0.66x1.36)#0		datasheets/powerswitch/ti/tps22999.pdf
+TPS22976NDPUR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22976.pdf|14-PowerWFDFN|14-WSON (3x2)#1		datasheets/powerswitch/ti/tps22976.pdf
+TPS22967DSGR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22967.pdf|8-WFDFN Exposed Pad|8-WSON (2x2)#0		datasheets/powerswitch/ti/tps22967.pdf
+TPS22913CYZVR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22910a.pdf|4-XFBGA, DSBGA|4-DSBGA (0.88x0.88)#1		datasheets/powerswitch/ti/tps22910a.pdf
+TPS22917LDBVR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22917.pdf|SOT-23-6|SOT-23-6#1		datasheets/powerswitch/ti/tps22917.pdf
+TPS22965TDSGRQ1	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22965-q1.pdf|8-WFDFN Exposed Pad|8-WSON (2x2)#0	automotive	datasheets/powerswitch/ti/tps22965-q1.pdf
+TPS22954DSQR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22953.pdf|10-WFDFN Exposed Pad|10-WSON (2x2)#0		datasheets/powerswitch/ti/tps22953.pdf
+TPS22930AYZVR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22930a.pdf|4-XFBGA, DSBGA|4-DSBGA (0.88x0.88)#0		datasheets/powerswitch/ti/tps22930a.pdf
+TPS22810DRVT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22810.pdf|6-WDFN Exposed Pad|6-WSON (2x2)#0		datasheets/powerswitch/ti/tps22810.pdf
+TPS27081ADDCR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps27081a.pdf|SOT-23-6 Thin, TSOT-23-6|SOT-23-THIN#0		datasheets/powerswitch/ti/tps27081a.pdf
+TPS22953DSQR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22953.pdf|10-WFDFN Exposed Pad|10-WSON (2x2)#0		datasheets/powerswitch/ti/tps22953.pdf
+TPS22991BNRAAR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22991.pdf|4-UFQFN|4-UQFN-HR (0.85x0.75)#0		datasheets/powerswitch/ti/tps22991.pdf
+TPS22916BLYFPR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22916.pdf|4-XFBGA, DSBGA|4-DSBGA#1		datasheets/powerswitch/ti/tps22916.pdf
+TPS22925CNYPHR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22925.pdf|6-XFBGA, DSBGA|6-DSBGA#0		datasheets/powerswitch/ti/tps22925.pdf
+UC37133D	load	ti	skip	no datasheet on the maker's site (rocelec.widen.net)			
+TPS22968NDPUR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22968.pdf|14-PowerWFDFN|14-WSON (3x2)#0		datasheets/powerswitch/ti/tps22968.pdf
+TPS22924BYZR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22924b.pdf|6-XFBGA, DSBGA|6-DSBGA#0		datasheets/powerswitch/ti/tps22924b.pdf
+TPS22934YZVR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22934.pdf|4-XFBGA, DSBGA|4-DSBGA (0.88x0.88)#0		datasheets/powerswitch/ti/tps22934.pdf
+TPS22920YZPRB	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22920.pdf|8-XFBGA, DSBGA|8-DSBGA#0		datasheets/powerswitch/ti/tps22920.pdf
+TPS22920LYZPT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22920.pdf|8-XFBGA, DSBGA|8-DSBGA#1		datasheets/powerswitch/ti/tps22920.pdf
+TPS22958DGNR	load	ti	add		"ti|-|datasheets/powerswitch/ti/tps22958.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#0"		datasheets/powerswitch/ti/tps22958.pdf
+TPS22910AYZVR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22910a.pdf|4-XFBGA, DSBGA|4-DSBGA (0.88x0.88)#0		datasheets/powerswitch/ti/tps22910a.pdf
+TPS22932BYFPR	load	ti	skip	control	ti|-|datasheets/powerswitch/ti/tps22932b.pdf|6-XFBGA, DSBGA|6-DSBGA#0		datasheets/powerswitch/ti/tps22932b.pdf
+TPS22991ICNRAAR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22991i.pdf|4-UFQFN|4-UQFN-HR (0.85x0.75)#0		datasheets/powerswitch/ti/tps22991i.pdf
+TPS22991IBNRAAR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22991i.pdf|4-UFQFN|4-UQFN-HR (0.85x0.75)#0		datasheets/powerswitch/ti/tps22991i.pdf
+TPS22914BYFPT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22914.pdf|4-XFBGA, DSBGA|4-DSBGA#0		datasheets/powerswitch/ti/tps22914.pdf
+TPS22976ADPUR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22976.pdf|14-PowerWFDFN|14-WSON (3x2)#2		datasheets/powerswitch/ti/tps22976.pdf
+TPS22962DNYT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22962.pdf|8-WDFN Exposed Pad|8-WSON (3x3)#0		datasheets/powerswitch/ti/tps22962.pdf
+TPS22966TDPURQ1	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22966-q1.pdf|14-PowerWFDFN|14-WSON (3x2)#0	automotive	datasheets/powerswitch/ti/tps22966-q1.pdf
+TPS22991IBRAAR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22991i.pdf|4-UFQFN|4-UQFN-HR (0.85x0.75)#0		datasheets/powerswitch/ti/tps22991i.pdf
+TPS22930AYZVT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22930a.pdf|4-XFBGA, DSBGA|4-DSBGA (0.88x0.88)#0		datasheets/powerswitch/ti/tps22930a.pdf
+TPS22918TDBVTQ1	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22918-q1.pdf|SOT-23-6|SOT-23-6#0	automotive	datasheets/powerswitch/ti/tps22918-q1.pdf
+TPS22924BYZZR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22924b.pdf|6-XFBGA, DSBGA|6-DSBGA#0		datasheets/powerswitch/ti/tps22924b.pdf
+TPS22916CYFPT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22916.pdf|4-XFBGA, DSBGA|4-DSBGA#0		datasheets/powerswitch/ti/tps22916.pdf
+TPS22913BYZVT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22910a.pdf|4-XFBGA, DSBGA|4-DSBGA (0.88x0.88)#1		datasheets/powerswitch/ti/tps22910a.pdf
+TPS22908YZTT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22908.pdf|4-UFBGA, DSBGA|4-DSBGA (0.9x0.9)#0		datasheets/powerswitch/ti/tps22908.pdf
+TPS22916CLYFPR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22916.pdf|4-XFBGA, DSBGA|4-DSBGA#1		datasheets/powerswitch/ti/tps22916.pdf
+TPS22912CYZVT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22910a.pdf|4-XFBGA, DSBGA|4-DSBGA (0.88x0.88)#1		datasheets/powerswitch/ti/tps22910a.pdf
+TPS22922BYFPR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22921.pdf|6-XFBGA, DSBGA|6-DSBGA#0		datasheets/powerswitch/ti/tps22921.pdf
+TPS22934YZVT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22934.pdf|4-XFBGA, DSBGA|4-DSBGA (0.88x0.88)#0		datasheets/powerswitch/ti/tps22934.pdf
+TPS22991ICRAAR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22991i.pdf|4-UFQFN|4-UQFN-HR (0.85x0.75)#0		datasheets/powerswitch/ti/tps22991i.pdf
+TPS22991CNRAAR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22991.pdf|4-UFQFN|4-UQFN-HR (0.85x0.75)#0		datasheets/powerswitch/ti/tps22991.pdf
+TPS22915BYFPT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22914.pdf|4-XFBGA, DSBGA|4-DSBGA#0		datasheets/powerswitch/ti/tps22914.pdf
+TPS22910AYZVT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22910a.pdf|4-XFBGA, DSBGA|4-DSBGA (0.88x0.88)#0		datasheets/powerswitch/ti/tps22910a.pdf
+TPS22969DNYT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22969.pdf|8-WDFN Exposed Pad|8-WSON (3x3)#0		datasheets/powerswitch/ti/tps22969.pdf
+TPS22963CYZPR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22963c.pdf|6-XFBGA, DSBGA|6-DSBGA (1.39x.89)#0		datasheets/powerswitch/ti/tps22963c.pdf
+TPS22904YFPR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22904.pdf|4-XFBGA, DSBGA|4-DSBGA#0		datasheets/powerswitch/ti/tps22904.pdf
+LMG3411R150RWHR	load	ti	skip	control	ti|-|datasheets/powerswitch/ti/lmg3410r150.pdf|32-VQFN Exposed Pad|32-VQFN (8x8)#0		datasheets/powerswitch/ti/lmg3410r150.pdf
+TPS22996NDRLR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22996.pdf|SOT-583|SOT-583#0		datasheets/powerswitch/ti/tps22996.pdf
+LMG3410R150RWHR	load	ti	skip	control	ti|-|datasheets/powerswitch/ti/lmg3410r150.pdf|32-VQFN Exposed Pad|32-VQFN (8x8)#0		datasheets/powerswitch/ti/lmg3410r150.pdf
+TPS22916CLYFPT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22916.pdf|4-XFBGA, DSBGA|4-DSBGA#1		datasheets/powerswitch/ti/tps22916.pdf
+LMG3411R050RWHR	load	ti	skip	control	ti|-|datasheets/powerswitch/ti/lmg3410r050.pdf|32-VQFN Exposed Pad|32-VQFN (8x8)#0		datasheets/powerswitch/ti/lmg3410r050.pdf
+TPS22925BYPHR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22925.pdf|6-XFBGA, DSBGA|6-DSBGA#0		datasheets/powerswitch/ti/tps22925.pdf
+TPS22902BYFPR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22901.pdf|4-XFBGA, DSBGA|4-DSBGA#0		datasheets/powerswitch/ti/tps22901.pdf
+TPS22958NDGNR	load	ti	add		"ti|-|datasheets/powerswitch/ti/tps22958.pdf|8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad|8-HVSSOP#0"		datasheets/powerswitch/ti/tps22958.pdf
+TPS22975NDSGT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22975.pdf|8-WFDFN Exposed Pad|8-WSON (2x2)#0		datasheets/powerswitch/ti/tps22975.pdf
+TPS22976NDPUT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22976.pdf|14-PowerWFDFN|14-WSON (3x2)#1		datasheets/powerswitch/ti/tps22976.pdf
+TPS22916CNLYFPR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22916.pdf|4-XFBGA, DSBGA|4-DSBGA#1		datasheets/powerswitch/ti/tps22916.pdf
+TPS22976DPUT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22976.pdf|14-PowerWFDFN|14-WSON (3x2)#0		datasheets/powerswitch/ti/tps22976.pdf
+TPS22924BYZT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22924b.pdf|6-XFBGA, DSBGA|6-DSBGA#0		datasheets/powerswitch/ti/tps22924b.pdf
+TPS22904YFPT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22904.pdf|4-XFBGA, DSBGA|4-DSBGA#0		datasheets/powerswitch/ti/tps22904.pdf
+TPS22965NTDSGRQ1	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22965-q1.pdf|8-WFDFN Exposed Pad|8-WSON (2x2)#0	automotive	datasheets/powerswitch/ti/tps22965-q1.pdf
+TPS22965TDSGTQ1	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22965-q1.pdf|8-WFDFN Exposed Pad|8-WSON (2x2)#0	automotive	datasheets/powerswitch/ti/tps22965-q1.pdf
+TPS22914CYFPR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22914.pdf|4-XFBGA, DSBGA|4-DSBGA#0		datasheets/powerswitch/ti/tps22914.pdf
+TPS22966TDPUTQ1	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22966-q1.pdf|14-PowerWFDFN|14-WSON (3x2)#0	automotive	datasheets/powerswitch/ti/tps22966-q1.pdf
+TPS22918TDBVRQ1	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22918-q1.pdf|SOT-23-6|SOT-23-6#0	automotive	datasheets/powerswitch/ti/tps22918-q1.pdf
+TPS22913CYZVT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22910a.pdf|4-XFBGA, DSBGA|4-DSBGA (0.88x0.88)#1		datasheets/powerswitch/ti/tps22910a.pdf
+TPS22916CNYFPT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22916.pdf|4-XFBGA, DSBGA|4-DSBGA#0		datasheets/powerswitch/ti/tps22916.pdf
+TPS22990NDMLT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22990.pdf|10-WFDFN Exposed Pad|10-WSON (3x2)#0		datasheets/powerswitch/ti/tps22990.pdf
+TPS22997RYZR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22997.pdf|10-WFQFN|10-WQFN-HR (1.5x2)#0		datasheets/powerswitch/ti/tps22997.pdf
+TPS22967DSGT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22967.pdf|8-WFDFN Exposed Pad|8-WSON (2x2)#0		datasheets/powerswitch/ti/tps22967.pdf
+LMG3411R050RWHT	load	ti	skip	control	ti|-|datasheets/powerswitch/ti/lmg3410r050.pdf|32-VQFN Exposed Pad|32-VQFN (8x8)#0		datasheets/powerswitch/ti/lmg3410r050.pdf
+TPS22924CYZPT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22924b.pdf|6-XFBGA, DSBGA|6-DSBGA (1.39x.89)#0		datasheets/powerswitch/ti/tps22924b.pdf
+TPS22961DNYT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22961.pdf|8-WDFN Exposed Pad|8-WSON (3x3)#0		datasheets/powerswitch/ti/tps22961.pdf
+LMG3410R070RWHT	load	ti	skip	control	ti|-|datasheets/powerswitch/ti/lmg3410r070.pdf|32-VQFN Exposed Pad|32-VQFN (8x8)#0		datasheets/powerswitch/ti/lmg3410r070.pdf
+TPS22968QDMGTQ1	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22968-q1.pdf|10-WFDFN Exposed Pad|10-WSON (3x2)#0	automotive	datasheets/powerswitch/ti/tps22968-q1.pdf
+LMG3410R050RWHR	load	ti	skip	control	ti|-|datasheets/powerswitch/ti/lmg3410r050.pdf|32-VQFN Exposed Pad|32-VQFN (8x8)#0		datasheets/powerswitch/ti/lmg3410r050.pdf
+TPS22920LYZPR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22920.pdf|8-XFBGA, DSBGA|8-DSBGA#1		datasheets/powerswitch/ti/tps22920.pdf
+LMG3411R070RWHT	load	ti	skip	control	ti|-|datasheets/powerswitch/ti/lmg3410r070.pdf|32-VQFN Exposed Pad|32-VQFN (8x8)#0		datasheets/powerswitch/ti/lmg3410r070.pdf
+TPS22915CYFPT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22914.pdf|4-XFBGA, DSBGA|4-DSBGA#0		datasheets/powerswitch/ti/tps22914.pdf
+LMG3410R050RWHT	load	ti	skip	control	ti|-|datasheets/powerswitch/ti/lmg3410r050.pdf|32-VQFN Exposed Pad|32-VQFN (8x8)#0		datasheets/powerswitch/ti/lmg3410r050.pdf
+TPS22968NQDMGTQ1	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22968-q1.pdf|10-WFDFN Exposed Pad|10-WSON (3x2)#0	automotive	datasheets/powerswitch/ti/tps22968-q1.pdf
+TPS22916CYFPR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22916.pdf|4-XFBGA, DSBGA|4-DSBGA#0		datasheets/powerswitch/ti/tps22916.pdf
+TPS22924DYZPT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22924d.pdf|6-XFBGA, DSBGA|6-DSBGA (1.39x.89)#0		datasheets/powerswitch/ti/tps22924d.pdf
+TPS22969DNYR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22969.pdf|8-WDFN Exposed Pad|8-WSON (3x3)#0		datasheets/powerswitch/ti/tps22969.pdf
+TPS22925CYPHT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22925.pdf|6-XFBGA, DSBGA|6-DSBGA#0		datasheets/powerswitch/ti/tps22925.pdf
+TPS22990NDMLR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22990.pdf|10-WFDFN Exposed Pad|10-WSON (3x2)#0		datasheets/powerswitch/ti/tps22990.pdf
+TPS22963CYZPT	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22963c.pdf|6-XFBGA, DSBGA|6-DSBGA#0		datasheets/powerswitch/ti/tps22963c.pdf
+LMG3411R150RWHT	load	ti	skip	control	ti|-|datasheets/powerswitch/ti/lmg3410r150.pdf|32-VQFN Exposed Pad|32-VQFN (8x8)#0		datasheets/powerswitch/ti/lmg3410r150.pdf
+TPS22925BNYPHR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22925.pdf|6-XFBGA, DSBGA|6-DSBGA#0		datasheets/powerswitch/ti/tps22925.pdf
+TPS22960RSET	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22960.pdf|8-UFQFN|8-UQFN (1.5x1.5)#0		datasheets/powerswitch/ti/tps22960.pdf
+TPS22964C2YZPR	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22963c.pdf|6-XFBGA, DSBGA|6-DSBGA (1.39x.89)#0		datasheets/powerswitch/ti/tps22963c.pdf
+TPS22960RSER	load	ti	add		ti|-|datasheets/powerswitch/ti/tps22960.pdf|8-UFQFN|8-UQFN (1.5x1.5)#0		datasheets/powerswitch/ti/tps22960.pdf
+FDC6324L	load	onsemi	add		onsemi|-|datasheets/powerswitch/onsemi/FDC6324L-D.PDF|SOT-23-6 Thin, TSOT-23-6|SuperSOT™-6#0		datasheets/powerswitch/onsemi/FDC6324L-D.PDF
+FPF1320UCX	load	onsemi	skip	select logic	onsemi|IntelliMAX™|datasheets/powerswitch/onsemi/fpf1321-d.pdf|6-UFBGA, WLCSP|6-WLCSP (0.96x1.66)#0		datasheets/powerswitch/onsemi/fpf1321-d.pdf
+NCP45524IMNTWG-H	load	onsemi	add		onsemi|ecoSWITCH™|datasheets/powerswitch/onsemi/ncp45524-d.pdf|8-VFDFN Exposed Pad|8-DFN (2x2)#0		datasheets/powerswitch/onsemi/ncp45524-d.pdf
+FDC6330L	load	onsemi	add		onsemi|-|datasheets/powerswitch/onsemi/FDC6330L-D.PDF|SOT-23-6 Thin, TSOT-23-6|SuperSOT™-6#0		datasheets/powerswitch/onsemi/FDC6330L-D.PDF
+NCP451FCT2G	load	onsemi	add		onsemi|-|datasheets/powerswitch/onsemi/ncp451-d.pdf|6-UFBGA, WLCSP|6-WLCSP (1.4x0.9)#0		datasheets/powerswitch/onsemi/ncp451-d.pdf
+FPF1204UCX	load	onsemi	add		onsemi|IntelliMAX™|datasheets/powerswitch/onsemi/fpf1204-d.pdf|4-UFBGA, WLCSP|4-WLCSP (0.76x0.76)#0		datasheets/powerswitch/onsemi/fpf1204-d.pdf
+FPF2286UCX	load	onsemi	add		onsemi|-|datasheets/powerswitch/onsemi/fpf2286ucx-d.pdf|6-UFBGA, WLCSP|6-WLCSP (1.3x0.9)#0		datasheets/powerswitch/onsemi/fpf2286ucx-d.pdf
+FPF1006	load	onsemi	add		onsemi|IntelliMAX™|datasheets/powerswitch/onsemi/fpf1006-d.pdf|6-WDFN Exposed Pad|6-MicroFET (2x2)#0		datasheets/powerswitch/onsemi/fpf1006-d.pdf
+NCP45520IMNTWG-L	load	onsemi	add		onsemi|ecoSWITCH™|datasheets/powerswitch/onsemi/ncp45520-d.pdf|8-VFDFN Exposed Pad|8-DFN (2x2)#1		datasheets/powerswitch/onsemi/ncp45520-d.pdf
+NCP330MUTBG	load	onsemi	add		onsemi|-|datasheets/powerswitch/onsemi/ncp330-d.pdf|4-UFDFN Exposed Pad|4-UDFN (1.2x1.6)#0		datasheets/powerswitch/onsemi/ncp330-d.pdf
+NCP333FCT2G	load	onsemi	add		onsemi|-|datasheets/powerswitch/onsemi/ncp333-d.pdf|4-UFBGA, WLCSP|4-WLCSP (0.76x0.76)#0		datasheets/powerswitch/onsemi/ncp333-d.pdf
+FDC6331L	load	onsemi	add		onsemi|-|datasheets/powerswitch/onsemi/FDC6331L-D.PDF|SOT-23-6 Thin, TSOT-23-6|SuperSOT™-6#0		datasheets/powerswitch/onsemi/FDC6331L-D.PDF
+NCV459MNWTBG	load	onsemi	skip	not in the datasheet's ordering table	onsemi|-|datasheets/powerswitch/onsemi/ncv459-d.pdf|8-VDFN Exposed Pad|8-DFNW (3x3)#0	automotive	datasheets/powerswitch/onsemi/ncv459-d.pdf
+NCP456RFCCT2G	load	onsemi	skip	no datasheet on the maker's site (mm.digikey.com)			
+NCP335FCT2G	load	onsemi	add		onsemi|-|datasheets/powerswitch/onsemi/ncp334-d.pdf|4-UFBGA, WLCSP|4-WLCSP (0.96x0.96)#0		datasheets/powerswitch/onsemi/ncp334-d.pdf
+FPF3381UCX	load	onsemi	add		onsemi|-|datasheets/powerswitch/onsemi/fpf3381-d.pdf|12-UFBGA, WLCSP|12-WLCSP (1.83x1.29)#0		datasheets/powerswitch/onsemi/fpf3381-d.pdf
+FDC6326L	load	onsemi	add		onsemi|-|datasheets/powerswitch/onsemi/FDC6326L-D.PDF|SOT-23-6 Thin, TSOT-23-6|SuperSOT™-6#0		datasheets/powerswitch/onsemi/FDC6326L-D.PDF
+FPF1038UCX	load	onsemi	add		onsemi|IntelliMAX™|datasheets/powerswitch/onsemi/FPF1038-D.PDF|6-UFBGA, WLCSP|6-WLCSP (0.96x1.66)#0		datasheets/powerswitch/onsemi/FPF1038-D.PDF
+NCP45521IMNTWG-H	load	onsemi	add		onsemi|ecoSWITCH™|datasheets/powerswitch/onsemi/ncp45520-d.pdf|8-VFDFN Exposed Pad|8-DFN (2x2)#2		datasheets/powerswitch/onsemi/ncp45520-d.pdf
+NCP45541IMNTWG-H	load	onsemi	add		onsemi|ecoSWITCH™|datasheets/powerswitch/onsemi/ncp45541-d.pdf|12-VFDFN Exposed Pad|12-DFN (3x3)#0		datasheets/powerswitch/onsemi/ncp45541-d.pdf
+FPF1903UCX	load	onsemi	add		onsemi|-|datasheets/powerswitch/onsemi/fpf1903ucx-d.pdf|4-XFBGA, WLCSP|4-WLCSP (0.7x0.7)#0		datasheets/powerswitch/onsemi/fpf1903ucx-d.pdf
+NCV330MUTBG	load	onsemi	add		onsemi|-|datasheets/powerswitch/onsemi/ncp330-d.pdf|4-UFDFN Exposed Pad|4-UDFN (1.2x1.6)#0		datasheets/powerswitch/onsemi/ncp330-d.pdf
+NCV451AMNWTBG	load	onsemi	add		onsemi|-|datasheets/powerswitch/onsemi/ncv451-d.pdf|6-VDFN Exposed Pad|6-DFNW (2x2.2)#0		datasheets/powerswitch/onsemi/ncv451-d.pdf
+NCP45540IMNTWG-H	load	onsemi	add		onsemi|ecoSWITCH™|datasheets/powerswitch/onsemi/ncp45540-d.pdf|12-VFDFN Exposed Pad|12-DFN (3x3)#0		datasheets/powerswitch/onsemi/ncp45540-d.pdf
+NCP45560IMNTWG-L	load	onsemi	add		onsemi|ecoSWITCH™|datasheets/powerswitch/onsemi/ncp45560-d.pdf|12-VFDFN Exposed Pad|12-DFN (3x3)#0		datasheets/powerswitch/onsemi/ncp45560-d.pdf
+FPF3380UCX	load	onsemi	add		onsemi|-|datasheets/powerswitch/onsemi/fpf3380ucx-d.pdf|12-UFBGA, WLCSP|12-WLCSP (1.83x1.29)#0		datasheets/powerswitch/onsemi/fpf3380ucx-d.pdf
+NCP45540IMNTWG-L	load	onsemi	add		onsemi|ecoSWITCH™|datasheets/powerswitch/onsemi/ncp45540-d.pdf|12-VFDFN Exposed Pad|12-DFN (3x3)#1		datasheets/powerswitch/onsemi/ncp45540-d.pdf
+NCP451AFCT2GA	load	onsemi	add		onsemi|-|datasheets/powerswitch/onsemi/ncp451-d.pdf|6-UFBGA, WLCSP|6-WLCSP (1.4x0.9)#0		datasheets/powerswitch/onsemi/ncp451-d.pdf
+NCP340MUTBG	load	onsemi	add		onsemi|-|datasheets/powerswitch/onsemi/ncp340-d.pdf|4-UFDFN Exposed Pad|4-UDFN (1.2x1.6)#0		datasheets/powerswitch/onsemi/ncp340-d.pdf
+NCP45525IMNTWG-H	load	onsemi	add		onsemi|ecoSWITCH™|datasheets/powerswitch/onsemi/ncp45524-d.pdf|8-VFDFN Exposed Pad|8-DFN (2x2)#1		datasheets/powerswitch/onsemi/ncp45524-d.pdf
+NCP45521IMNTWG-L	load	onsemi	add		onsemi|ecoSWITCH™|datasheets/powerswitch/onsemi/ncp45520-d.pdf|8-VFDFN Exposed Pad|8-DFN (2x2)#3		datasheets/powerswitch/onsemi/ncp45520-d.pdf
+FPF1321UCX	load	onsemi	skip	select logic	onsemi|IntelliMAX™|datasheets/powerswitch/onsemi/fpf1321-d.pdf|6-UFBGA, WLCSP|6-WLCSP (0.96x1.66)#0		datasheets/powerswitch/onsemi/fpf1321-d.pdf
+FPF1504LUCX	load	onsemi	add		onsemi|IntelliMAX™|datasheets/powerswitch/onsemi/fpf1504cn-d.pdf|4-UFBGA, WLCSP|4-WLCSP (0.96x0.96)#1		datasheets/powerswitch/onsemi/fpf1504cn-d.pdf
+NCP45520IMNTWG-H	load	onsemi	add		onsemi|ecoSWITCH™|datasheets/powerswitch/onsemi/ncp45520-d.pdf|8-VFDFN Exposed Pad|8-DFN (2x2)#0		datasheets/powerswitch/onsemi/ncp45520-d.pdf
+MIC94060YML	load	microchip	skip	no datasheet on the maker's site (rocelec.widen.net)			
+MIC94072YMT	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic94070-3.pdf|4-UFDFN Exposed Pad, 4-TMLF®|4-TMLF® (1.2x1.6)#0		datasheets/powerswitch/microchip/mic94070-3.pdf
+MIC94067YML	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic94066-69.pdf|8-VFDFN Exposed Pad, 8-MLF®|8-MLF® (2x2)#0		datasheets/powerswitch/microchip/mic94066-69.pdf
+MIC94066YML	load	microchip	add		microchip|-|datasheets/powerswitch/microchip/mic94066-69.pdf|8-VFDFN Exposed Pad, 8-MLF®|8-MLF® (2x2)#0		datasheets/powerswitch/microchip/mic94066-69.pdf
+MIC94063YML	load	microchip	skip	no datasheet on the maker's site (rocelec.widen.net)			
+MIC94062BC6	load	microchip	skip	no datasheet on the maker's site (rocelec.widen.net)			
+FPF2411BUCX-F130	load	onsemi	skip	no datasheet on the maker's site (rocelec.widen.net)			
+FPF1504UCX	load	onsemi	add		onsemi|IntelliMAX™|datasheets/powerswitch/onsemi/fpf1504cn-d.pdf|4-UFBGA, WLCSP|4-WLCSP (0.96x0.96)#0		datasheets/powerswitch/onsemi/fpf1504cn-d.pdf
+FPF1203LUCX	load	onsemi	skip	no datasheet on the maker's site (rocelec.widen.net)			
+FPF1104	load	onsemi	skip	no datasheet on the maker's site (rocelec.widen.net)			
+FPF1207UCX	load	onsemi	skip	no datasheet on the maker's site (rocelec.widen.net)			
+FPF1004	load	onsemi	skip	no datasheet on the maker's site (rocelec.widen.net)			
+FPF1107	load	onsemi	skip	no datasheet on the maker's site (rocelec.widen.net)			
+FPF12045UCX	load	onsemi	skip	no datasheet on the maker's site (rocelec.widen.net)			
+FPF1208UCX	load	onsemi	skip	no datasheet on the maker's site (rocelec.widen.net)			
+FPF1205UCX	load	onsemi	skip	no datasheet on the maker's site (rocelec.widen.net)			
+FPF1013	load	onsemi	skip	no datasheet on the maker's site (rocelec.widen.net)			
+FDZ4010	load	onsemi	skip	no datasheet on the maker's site (rocelec.widen.net)			
+FPF1014	load	onsemi	skip	no datasheet on the maker's site (rocelec.widen.net)			
+FPF1204UCX-F013	load	onsemi	skip	no datasheet on the maker's site (rocelec.widen.net)			
+FPF1206UCX	load	onsemi	skip	no datasheet on the maker's site (rocelec.widen.net)			
+FPF1018	load	onsemi	skip	no datasheet on the maker's site (rocelec.widen.net)			
+FPF1204BUCX	load	onsemi	skip	no datasheet on the maker's site (rocelec.widen.net)			
+FPF1015	load	onsemi	skip	no datasheet on the maker's site (rocelec.widen.net)			
+FPF1103	load	onsemi	skip	no datasheet on the maker's site (rocelec.widen.net)			
+FPF1108	load	onsemi	skip	no datasheet on the maker's site (rocelec.widen.net)			
+FPF1017	load	onsemi	skip	no datasheet on the maker's site (rocelec.widen.net)			
+FPF1016	load	onsemi	skip	no datasheet on the maker's site (rocelec.widen.net)			
+FPF1504LBUCX	load	onsemi	add		onsemi|IntelliMAX™|datasheets/powerswitch/onsemi/fpf1504cn-d.pdf|4-UFBGA, WLCSP|4-WLCSP#0		datasheets/powerswitch/onsemi/fpf1504cn-d.pdf
+FTL11639UCX	load	onsemi	skip	no datasheet on the maker's site (rocelec.widen.net)			

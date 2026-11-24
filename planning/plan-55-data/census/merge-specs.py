@@ -7,8 +7,8 @@ A packet is a TSV with the columns of specs.tsv (common.SPEC_COLS; extra columns
 that a reader filled for the spec rows (company, series, pdf, package, supplier_package) assigned to it. For every
 key in the packet, the key's rows of specs.tsv are replaced by the packet's rows for it (a key may have several
 rows: two pin assignments or two enable polarities, told apart by `ordering`); `rows` and `example` are
-recomputed from candidates.tsv by specs-skeleton.py, so a packet may leave them empty. Keys not in specs.tsv are
-refused (print and exit 1). specs.tsv keeps the row order of its keys.
+recomputed from candidates.tsv by specs-skeleton.py, so a packet may leave them empty. A packet's `series` is ignored (a reader
+wrote `-`; specs.tsv keeps DigiKey's). Keys not in specs.tsv are refused (print and exit 1). specs.tsv keeps the row order of its keys.
 """
 import csv
 import os
@@ -20,10 +20,12 @@ import common  # noqa: E402
 specs = common.read_tsv(common.SPECS)
 order = []
 by_key = {}
+by_loose = {}      # (company, pdf, package, supplier_package) -> the full keys: a packet's `series` may be `-`
 for r in specs:
     k = common.spec_key(r)
     if k not in by_key:
         order.append(k)
+        by_loose.setdefault((k[0], k[2], k[3], k[4]), []).append(k)
     by_key.setdefault(k, []).append(r)
 new = {}
 bad = 0
@@ -31,11 +33,13 @@ for path in sys.argv[1:]:
     for r in csv.DictReader(open(path), delimiter='\t'):
         row = {c: r.get(c, '') or '' for c in common.SPEC_COLS}
         k = common.spec_key(row)
-        if k not in by_key:
+        keys = by_loose.get((k[0], k[2], k[3], k[4]), [])
+        if not keys:
             print(f'{path}: no such spec row {k}')
             bad += 1
             continue
-        new.setdefault(k, []).append(row)
+        for kk in keys:   # two series of one PDF and package share the packet's rows; `ordering` picks the part
+            new.setdefault(kk, []).append(dict(row, series=kk[1]))
 if bad:
     sys.exit(1)
 out = []
