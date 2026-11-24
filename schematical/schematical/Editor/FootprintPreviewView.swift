@@ -66,10 +66,15 @@ struct FootprintPreviewView: View {
             let path = body.round ? Path(ellipseIn: body.rect) : Path(body.rect)
             context.stroke(path, with: .color(BoardColor.document), lineWidth: line)
         }
+        // An opposite pad is on the other face of the board: Bottom copper,
+        // seen from above, in the Bottom layer's colour.
+        let bottom = LayerStyle.defaultStyle(of: .bottom).color.color
+        let side = chip.board?.side ?? .top
         for pad in chip.boardPads {
             let outline = PCBCanvasView.outline(of: pad)
             if pad.plated {
-                context.fill(outline, with: .color(PCBCanvasView.copper))
+                context.fill(outline, with: .color(pad.drill == 0 && pad.layerSide(on: side) == .bottom
+                                                   ? bottom : PCBCanvasView.copper))
             } else {
                 context.stroke(outline, with: .color(ink), lineWidth: line)
             }

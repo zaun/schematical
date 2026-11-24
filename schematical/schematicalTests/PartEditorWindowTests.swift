@@ -168,4 +168,35 @@ final class PartEditorWindowTests: XCTestCase {
         XCTAssertEqual(model.previewPane, .footprint)
         XCTAssertEqual(PartEditorModel.PreviewPane.allCases.map(\.title), ["Block", "Footprint"])
     }
+
+    /// (e) plan-54-F: a custom footprint's opposite pad and edge mount are
+    /// written only when set (`"opposite": true`, `"edgeMount": true`), read
+    /// back into the draft, and load in the backend.
+    func testOppositePadAndEdgeMountRoundTrip() throws {
+        var draft = CustomFootprintDraft.starter(id: "CUSTOM-ABCDEF12", pins: 2)
+        for index in draft.pads.indices { draft.pads[index].drill = 0 }
+        guard case let .object(plain) = draft.encoded() else { return XCTFail("shape") }
+        XCTAssertNil(plain["edgeMount"])
+        for pad in draft.pads {
+            guard case let .object(keys) = pad.encoded() else { return XCTFail("pad") }
+            XCTAssertNil(keys["opposite"])
+        }
+
+        draft.pads[1].opposite = true
+        draft.edgeMount = true
+        guard case let .object(keys) = draft.encoded(), case let .array(pads)? = keys["pads"],
+              case let .object(first) = pads[0], case let .object(second) = pads[1] else { return XCTFail("shape") }
+        XCTAssertEqual(second["opposite"], .bool(true))
+        XCTAssertNil(first["opposite"])
+        XCTAssertEqual(keys["edgeMount"], .bool(true))
+        // The entry reads back to the same draft.
+        XCTAssertEqual(CustomFootprintDraft(json: draft.encoded()), draft)
+        // The backend loads it, and the draft of the loaded footprint is the same draft.
+        guard case let .success(footprint) = CustomFootprintDraftTests.load(draft.encoded()) else {
+            return XCTFail("rejected")
+        }
+        XCTAssertEqual(footprint.pads.map(\.opposite), [false, true])
+        XCTAssertTrue(footprint.edgeMount)
+        XCTAssertEqual(CustomFootprintDraft(footprint: footprint), draft)
+    }
 }

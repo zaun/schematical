@@ -336,7 +336,9 @@ private struct DesignRuleChecker {
         }
         let placed = chips.filter { $0.board != nil }
         for chip in placed {
-            guard let bounds = chip.boardBounds else { continue }
+            // An edge-mount footprint's housing hangs over the outline on
+            // purpose: only its pads must be on the board (plan-54-E).
+            guard let bounds = chip.footprint?.edgeMount == true ? chip.boardPadBounds : chip.boardBounds else { continue }
             if !rectIsOnBoard(bounds) {
                 add(.placement, chip.reference,
                     rectTouchesBoard(bounds) ? "Hangs off the board's edge" : "Off the board",
@@ -396,8 +398,15 @@ private struct DesignRuleChecker {
             }
         }
         if !layers.contains(.bottom) {
-            for chip in chips where chip.board?.side == .bottom {
-                add(.layer, chip.reference, "On Bottom, but a 1-layer board has only Top", [.footprint(chip.id)])
+            for chip in chips {
+                guard let side = chip.board?.side else { continue }
+                if side == .bottom {
+                    add(.layer, chip.reference, "On Bottom, but a 1-layer board has only Top", [.footprint(chip.id)])
+                } else if chip.boardPads.contains(where: { $0.drill == 0 && $0.layerSide(on: side) == .bottom }) {
+                    // A Top part with an opposite pad (plan-54-E).
+                    add(.layer, chip.reference, "Has pads on Bottom, but a 1-layer board has only Top",
+                        [.footprint(chip.id)])
+                }
             }
             for text in texts where text.side == .bottom {
                 add(.layer, textName(text), "On Bottom, but a 1-layer board has only Top", [.text(text.id)])

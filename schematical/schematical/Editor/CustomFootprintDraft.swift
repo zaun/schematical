@@ -21,6 +21,9 @@ struct PadDraft: Hashable, Identifiable, Sendable {
     var slotLength: Double = 0
     /// False only for a non-plated hole (pin 0).
     var plated = true
+    /// True for a surface-mount pad on the other face of the board from the
+    /// footprint's own side (plan-54-E); written only when true.
+    var opposite = false
     /// Rect only; 0 = square corners.
     var radius: Double = 0
     /// Rect only; 0 = no cut.
@@ -33,7 +36,7 @@ struct PadDraft: Hashable, Identifiable, Sendable {
     static func == (a: PadDraft, b: PadDraft) -> Bool {
         a.pin == b.pin && a.ball == b.ball && a.x == b.x && a.y == b.y && a.width == b.width && a.height == b.height
             && a.shape == b.shape && a.drill == b.drill && a.slotLength == b.slotLength && a.plated == b.plated
-            && a.radius == b.radius && a.chamfer == b.chamfer && a.corners == b.corners
+            && a.opposite == b.opposite && a.radius == b.radius && a.chamfer == b.chamfer && a.corners == b.corners
     }
 
     func hash(into hasher: inout Hasher) {
@@ -54,6 +57,7 @@ struct PadDraft: Hashable, Identifiable, Sendable {
         if drill != 0 { keys["drill"] = .number(drill) }
         if slotLength != 0 { keys["slotLength"] = .number(slotLength) }
         if !plated { keys["plated"] = .bool(false) }
+        if opposite { keys["opposite"] = .bool(true) }
         if radius != 0 { keys["radius"] = .number(radius) }
         if chamfer != 0 { keys["chamfer"] = .number(chamfer) }
         if !corners.isEmpty { keys["corners"] = .array(corners.map { .string($0) }) }
@@ -83,6 +87,7 @@ struct PadDraft: Hashable, Identifiable, Sendable {
         drill = pad.drill
         slotLength = pad.slotLength
         plated = pad.plated
+        opposite = pad.opposite
         radius = pad.radius
         chamfer = pad.chamfer
         corners = Self.cornerNames.enumerated()
@@ -107,13 +112,14 @@ struct PadDraft: Hashable, Identifiable, Sendable {
         if case let .number(drill)? = keys["drill"] { self.drill = drill }
         if case let .number(slot)? = keys["slotLength"] { slotLength = slot }
         if case let .bool(plated)? = keys["plated"] { self.plated = plated }
+        if case let .bool(opposite)? = keys["opposite"] { self.opposite = opposite }
         if case let .number(radius)? = keys["radius"] { self.radius = radius }
         if case let .number(chamfer)? = keys["chamfer"] { self.chamfer = chamfer }
         if case let .array(items)? = keys["corners"] {
             corners = items.compactMap { if case let .string(name) = $0 { return name } else { return nil } }
         }
         let known: Set<String> = ["pin", "ball", "x", "y", "width", "height", "shape", "drill", "slotLength", "plated",
-                                  "radius", "chamfer", "corners"]
+                                  "opposite", "radius", "chamfer", "corners"]
         guard Set(keys.keys).isSubset(of: known) else { return nil }
     }
 }
@@ -129,6 +135,8 @@ struct CustomFootprintDraft: Hashable, Sendable {
     var bodyHeight: Double
     var bodyRound = false
     var pads: [PadDraft]
+    /// The housing straddles the board edge (plan-54-E); written only when true.
+    var edgeMount = false
 
     /// The id for a part's custom footprint: `CUSTOM-` and the first eight
     /// characters of its uuid (only A–Z, 0–9 and '-', as `valid_id` asks).
@@ -150,6 +158,7 @@ struct CustomFootprintDraft: Hashable, Sendable {
             "pins": .number(Double(pinCount)), "body": .object(body), "pads": .array(pads.map { $0.encoded() }),
         ]
         if let note { keys["note"] = .string(note) }
+        if edgeMount { keys["edgeMount"] = .bool(true) }
         return .object(keys)
     }
 
@@ -169,6 +178,7 @@ struct CustomFootprintDraft: Hashable, Sendable {
         bodyWidth = footprint.body.width
         bodyHeight = footprint.body.height
         bodyRound = footprint.bodyRound
+        edgeMount = footprint.edgeMount
         pads = footprint.pads.map { PadDraft($0) }
     }
 
@@ -179,13 +189,14 @@ struct CustomFootprintDraft: Hashable, Sendable {
               case let .string(id)? = keys["id"], case let .string(description)? = keys["description"],
               case let .object(body)? = keys["body"], case let .number(width)? = body["width"],
               case let .number(height)? = body["height"], case let .array(padItems)? = keys["pads"],
-              Set(keys.keys).isSubset(of: ["id", "description", "note", "style", "pins", "body", "pads"]),
+              Set(keys.keys).isSubset(of: ["id", "description", "note", "style", "pins", "body", "pads", "edgeMount"]),
               Set(body.keys).isSubset(of: ["width", "height", "round"]) else { return nil }
         let pads = padItems.compactMap { PadDraft(json: $0) }
         guard pads.count == padItems.count else { return nil }
         self.init(id: id, description: description, bodyWidth: width, bodyHeight: height, pads: pads)
         if case let .bool(round)? = body["round"] { bodyRound = round }
         if case let .string(note)? = keys["note"] { self.note = note }
+        if case let .bool(edgeMount)? = keys["edgeMount"] { self.edgeMount = edgeMount }
         // The entry's own pin count must be the one this draft writes back.
         if case let .number(pins)? = keys["pins"], Int(pins) != pinCount { return nil }
     }

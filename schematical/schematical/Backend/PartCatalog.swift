@@ -458,6 +458,10 @@ nonisolated struct Footprint: Hashable, Sendable {
         var slotLength: Double = 0
         /// False for a non-plated hole: no copper, the pad is the hole itself.
         var plated: Bool = true
+        /// A surface-mount pad on the other face of the board from the
+        /// footprint's own side (plan-54-E); it swaps layers with the part's
+        /// side. See `PlacedPad.layerSide(on:)`.
+        var opposite: Bool = false
     }
 
     let id: String
@@ -465,6 +469,9 @@ nonisolated struct Footprint: Hashable, Sendable {
     let body: CGSize
     let bodyRound: Bool
     let pads: [Pad]
+    /// The housing straddles the board edge (plan-54-E): the placement check
+    /// asks only that its pads are on the board.
+    var edgeMount: Bool = false
 
     // Ids are unique across the library, so a footprint is its id.
     static func == (a: Footprint, b: Footprint) -> Bool { a.id == b.id }
@@ -974,8 +981,10 @@ extension Footprint {
                        chamfer: pad.chamfer,
                        corners: Corners(rawValue: Int(pad.corners)),
                        slotLength: pad.slot_length,
-                       plated: pad.npth == 0)
+                       plated: pad.npth == 0,
+                       opposite: pad.opposite != 0)
         }
+        edgeMount = footprint.edge_mount != 0
     }
 }
 

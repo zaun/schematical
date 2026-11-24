@@ -3376,9 +3376,13 @@ final class SchematicDocument {
             return Self.point(point, touches: pad)
         }
         for side in [BoardSide.top, .bottom] {
-            for (chip, pads) in zip(chips, chipPads).reversed() where chip.board?.side == side {
+            for (chip, pads) in zip(chips, chipPads).reversed() {
+                guard let placed = chip.board?.side else { continue }
+                // A pad is on its layer's side, which an opposite pad's is
+                // not its part's.
                 guard let pad = pads.last(where: {
-                    $0.plated && visible.showsPad(drill: $0.drill, side: side) && hits($0)
+                    $0.plated && $0.layerSide(on: placed) == side && visible.showsPad(drill: $0.drill, side: side)
+                        && hits($0)
                 }) else { continue }
                 guard let designator = pad.designator else { return (pad, "\(chip.reference) centre pad") }
                 let name = chip.part.pins.first { $0.designator == designator }?.name ?? ""
@@ -3407,12 +3411,13 @@ final class SchematicDocument {
     // MARK: Traces (PCB)
 
     /// The pads on `layer`, with their parts: a surface-mount pad is on its
-    /// part's side layer; a through-hole pad is on every layer.
+    /// layer's side (its part's, or the other for an opposite pad); a
+    /// through-hole pad is on every layer.
     func pads(on layer: CopperLayer) -> [(chip: PlacedChip, pad: PlacedPad)] {
         zip(chips, chipPads).flatMap { chip, pads -> [(chip: PlacedChip, pad: PlacedPad)] in
             guard let side = chip.board?.side else { return [] }
             return pads
-                .filter { $0.plated && ($0.drill > 0 || side.copperLayer == layer) }
+                .filter { $0.plated && ($0.drill > 0 || $0.layerSide(on: side).copperLayer == layer) }
                 .map { (chip: chip, pad: $0) }
         }
     }

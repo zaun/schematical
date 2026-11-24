@@ -379,8 +379,9 @@ struct PCBCanvasView: View {
                 for finger in board.fingers where !finger.isThroughHole && finger.side == side {
                     context.fill(Path(finger.rect), with: .color(style.color.color))
                 }
-                for (chip, pads) in zip(document.chips, chipPads) where chip.board?.side == side {
-                    for pad in pads where pad.drill == 0 {
+                for (chip, pads) in zip(document.chips, chipPads) {
+                    guard let placed = chip.board?.side else { continue }
+                    for pad in pads where pad.drill == 0 && pad.layerSide(on: placed) == side {
                         context.fill(Self.outline(of: pad), with: .color(style.color.color))
                     }
                 }
