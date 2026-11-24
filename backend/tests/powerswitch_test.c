@@ -426,6 +426,339 @@ static void engine_cases(void) {
     }
 }
 
+/* ---- voltage cases ------------------------------------------------------- */
+
+static size_t add(Circuit *c, const char *name) {
+    size_t index = 0;
+
+    if (circuit_add_part(c, name, &index) != 0) {
+        fprintf(stderr, "add %s: %s\n", name, circuit_error(c));
+        exit(1);
+    }
+    return index;
+}
+
+static size_t net(Circuit *c) {
+    size_t index = 0;
+
+    if (circuit_add_net(c, &index) != 0) {
+        fprintf(stderr, "net: %s\n", circuit_error(c));
+        exit(1);
+    }
+    return index;
+}
+
+static void wire(Circuit *c, size_t part, const char *pin, size_t n) {
+    if (circuit_connect(c, part, pin, n) != 0) {
+        fprintf(stderr, "connect %s: %s\n", pin, circuit_error(c));
+        exit(1);
+    }
+}
+
+/* Starts the circuit and returns 1 when the voltage check refused it, with the problem and text. */
+static int refused_start(Circuit *c, VoltageProblem *p, char *text, size_t size) {
+    int refused = circuit_start(c) != 0;
+
+    text[0] = '\0';
+    memset(p, 0, sizeof(*p));
+    if (refused && circuit_voltage_problem(c, p) == 1 && circuit_error(c) != NULL) {
+        snprintf(text, size, "%s", circuit_error(c));
+    }
+    return refused;
+}
+
+/* The level on out_net, read through a clash with a 1.2 V supply on it: returns the switched level in
+   millivolts, 0 when the circuit starts (the net has no switched level), 1 when it is refused for any
+   other reason. A level of 1.2 V reads 0 here: read that one through a part's supply range instead. */
+static unsigned level_through_clash(Circuit *c, size_t out_net) {
+    VoltageProblem p;
+    char text[256];
+    size_t probe = add(c, "1V2");
+
+    wire(c, probe, "1", out_net);
+    if (!refused_start(c, &p, text, sizeof text)) {
+        return 0;
+    }
+    if (p.kind != VOLTAGE_SUPPLY_CLASH || p.min_mv != 1200) {
+        return 1;
+    }
+    return (unsigned)p.mv;
+}
+
+/* A rig for one switch: the supply `vin` (a part name) on net hi, GND on net lo; returns the part. The
+   caller wires its pins (PFX-LOAD: 1 VIN, 2 GND, 3 ON, 4 VOUT). */
+typedef struct {
+    Circuit *c;
+    size_t part, hi, lo, out;
+} Rig1;
+
+static Rig1 rig1(const char *part, const char *vin) {
+    Rig1 r;
+    size_t v, gnd;
+
+    r.c = circuit_create(library);
+    r.part = add(r.c, part);
+    v = add(r.c, vin);
+    gnd = add(r.c, "GND");
+    r.hi = net(r.c);
+    r.lo = net(r.c);
+    r.out = net(r.c);
+    wire(r.c, v, "1", r.hi);
+    wire(r.c, gnd, "1", r.lo);
+    return r;
+}
+
+/* PFX-LOAD from `vin`, ON on the input (or on `en_net` when given), VOUT on r.out. */
+static Rig1 load_rig(const char *vin, int enable_on_ground) {
+    Rig1 r = rig1("PFX-LOAD", vin);
+
+    wire(r.c, r.part, "1", r.hi);
+    wire(r.c, r.part, "2", r.lo);
+    wire(r.c, r.part, "3", enable_on_ground ? r.lo : r.hi);
+    wire(r.c, r.part, "4", r.out);
+    return r;
+}
+
+static void voltage_cases(void) {
+    VoltageProblem p;
+    char text[256];
+
+    /* (n) 5V -> PFX-LOAD (ON on VIN): the output net is 5000 mV; a 74HC00 (2-6 V) on it: no problem; VIN at 3V3:
+       3300 mV. */
+    {
+        Rig1 r = load_rig("5V", 0);
+        unsigned level = level_through_clash(r.c, r.out);
+
+        expect(level == 5000, "(n) 5 V -> PFX-LOAD: the output net is 5000 mV");
+        circuit_destroy(r.c);
+        r = load_rig("5V", 0);
+        {
+            size_t chip = add(r.c, "SN74HC00N");
+
+            wire(r.c, chip, "14", r.out);
+            wire(r.c, chip, "7", r.lo);
+        }
+        expect(circuit_start(r.c) == 0, "(n) 5 V -> PFX-LOAD -> a 74HC00 (2-6 V): no voltage problem");
+        circuit_destroy(r.c);
+        r = load_rig("3V3", 0);
+        level = level_through_clash(r.c, r.out);
+        expect(level == 3300, "(n) 3.3 V -> PFX-LOAD: the output net is 3300 mV");
+        circuit_destroy(r.c);
+    }
+    /* (o) ORing: two ideal diodes (or a load switch and an ideal diode) at 5 V and at 3.3 V into one net: no
+       problem; the net reads 5000 mV. PFX-DIODE: 1 VIN, 2 GND, 3 CE, 4 ST, 5 VOUT. */
+    {
+        int k;
+
+        for (k = 0; k < 4; k++) {
+            Circuit *c = circuit_create(library);
+            size_t a = add(c, k < 2 ? "PFX-DIODE" : "PFX-LOAD"), b = add(c, "PFX-DIODE");
+            size_t v5 = add(c, "5V"), v3 = add(c, "3V3"), gnd = add(c, "GND");
+            size_t n5 = net(c), n3 = net(c), lo = net(c), out = net(c);
+
+            wire(c, v5, "1", n5);
+            wire(c, v3, "1", n3);
+            wire(c, gnd, "1", lo);
+            if (k < 2) {
+                wire(c, a, "1", n5);
+                wire(c, a, "2", lo);
+                wire(c, a, "5", out);
+            } else {
+                wire(c, a, "1", n5);
+                wire(c, a, "2", lo);
+                wire(c, a, "3", n5);
+                wire(c, a, "4", out);
+            }
+            wire(c, b, "1", n3);
+            wire(c, b, "2", lo);
+            wire(c, b, "5", out);
+            if (k % 2 == 0) {
+                expect(circuit_start(c) == 0, k == 0 ? "(o) two PFX-DIODE (5 V and 3.3 V) on one net: no problem"
+                                                     : "(o) PFX-LOAD (5 V) and PFX-DIODE (3.3 V) on one net: no problem");
+            } else {
+                unsigned level = level_through_clash(c, out);
+
+                expect(level == 5000, k == 1 ? "(o) the two-diode net reads 5000 mV (the higher level)"
+                                             : "(o) the load switch + diode net reads 5000 mV (the higher level)");
+            }
+            circuit_destroy(c);
+        }
+    }
+    /* (p) PFX-LOAD VIN at 5V with VOUT on the 3V3 supply: one clash; VOUT on the 5V supply: no problem. */
+    {
+        Rig1 r = load_rig("5V", 0);
+        size_t v3 = add(r.c, "3V3");
+
+        wire(r.c, v3, "1", r.out);
+        expect(refused_start(r.c, &p, text, sizeof text) && p.kind == VOLTAGE_SUPPLY_CLASH && p.mv == 5000 &&
+                   p.min_mv == 3300 && p.max_mv == 3300 && p.other_part == r.part &&
+                   strcmp(text, "voltage: 3.3 V and 5 V supplies on one net (3V3, PFX-LOAD)") == 0,
+               "(p) PFX-LOAD at 5 V with VOUT on the 3V3 supply: one VOLTAGE_SUPPLY_CLASH, 5000 against 3300");
+        if (strcmp(text, "voltage: 3.3 V and 5 V supplies on one net (3V3, PFX-LOAD)") != 0) {
+            printf("  text: %s\n", text);
+        }
+        circuit_destroy(r.c);
+        r = load_rig("5V", 0);
+        {
+            size_t v5 = add(r.c, "5V");
+
+            wire(r.c, v5, "1", r.out);
+        }
+        expect(circuit_start(r.c) == 0, "(p) PFX-LOAD at 5 V with VOUT on the 5V supply: no problem");
+        circuit_destroy(r.c);
+    }
+    /* (q) PFX-LOAD at 5V and RFX-LDO33 (5V -> 3.3 V) outputs on one net: one clash, the regulator the lower. */
+    {
+        Rig1 r = load_rig("5V", 0);
+        size_t reg = add(r.c, "RFX-LDO33");
+
+        wire(r.c, reg, "1", r.hi);
+        wire(r.c, reg, "3", r.hi);
+        wire(r.c, reg, "2", r.lo);
+        wire(r.c, reg, "5", r.out);
+        expect(refused_start(r.c, &p, text, sizeof text) && p.kind == VOLTAGE_SUPPLY_CLASH && p.mv == 5000 &&
+                   p.min_mv == 3300 && p.part == reg && p.other_part == r.part &&
+                   strcmp(text, "voltage: 3.3 V and 5 V supplies on one net (RFX-LDO33, PFX-LOAD)") == 0,
+               "(q) PFX-LOAD (5 V) and RFX-LDO33 (3.3 V) outputs on one net: one VOLTAGE_SUPPLY_CLASH");
+        if (strcmp(text, "voltage: 3.3 V and 5 V supplies on one net (RFX-LDO33, PFX-LOAD)") != 0) {
+            printf("  text: %s\n", text);
+        }
+        circuit_destroy(r.c);
+    }
+    /* (r) Chains: 12V -> RFX-LDO5 -> PFX-LOAD -> a 74HC00 is powered at 5 V; RFX-LDO33 -> PFX-DIODE ->
+       PFX-LOAD -> a 0.8-2.7 V part is refused with 3.3 V (the level passes through two switches). */
+    {
+        Circuit *c = circuit_create(library);
+        size_t ldo = add(c, "RFX-LDO5"), load = add(c, "PFX-LOAD"), chip = add(c, "SN74HC00N");
+        size_t v12 = add(c, "12V"), gnd = add(c, "GND");
+        size_t top = net(c), lo = net(c), mid = net(c), out = net(c);
+
+        wire(c, v12, "1", top);
+        wire(c, gnd, "1", lo);
+        wire(c, ldo, "1", top);
+        wire(c, ldo, "2", lo);
+        wire(c, ldo, "3", mid);
+        wire(c, load, "1", mid);
+        wire(c, load, "2", lo);
+        wire(c, load, "3", mid);
+        wire(c, load, "4", out);
+        wire(c, chip, "14", out);
+        wire(c, chip, "7", lo);
+        expect(circuit_start(c) == 0, "(r) 12 V -> RFX-LDO5 -> PFX-LOAD -> a 74HC00 (2-6 V): no voltage problem");
+        circuit_destroy(c);
+    }
+    {
+        Circuit *c = circuit_create(library);
+        size_t ldo = add(c, "RFX-LDO33"), diode = add(c, "PFX-DIODE"), load = add(c, "PFX-LOAD");
+        size_t chip = add(c, "SN74AUC00RGYR"), v5 = add(c, "5V"), gnd = add(c, "GND");
+        size_t hi = net(c), lo = net(c), reg_out = net(c), mid = net(c), out = net(c);
+
+        wire(c, v5, "1", hi);
+        wire(c, gnd, "1", lo);
+        wire(c, ldo, "1", hi);
+        wire(c, ldo, "3", hi);
+        wire(c, ldo, "2", lo);
+        wire(c, ldo, "5", reg_out);
+        wire(c, diode, "1", reg_out);
+        wire(c, diode, "2", lo);
+        wire(c, diode, "5", mid);
+        wire(c, load, "1", mid);
+        wire(c, load, "2", lo);
+        wire(c, load, "3", mid);
+        wire(c, load, "4", out);
+        wire(c, chip, "14", out);
+        wire(c, chip, "7", lo);
+        expect(refused_start(c, &p, text, sizeof text) && p.kind == VOLTAGE_POWER_RANGE && p.mv == 3300 &&
+                   p.part == chip &&
+                   strcmp(text, "voltage: 3.3 V on pin 14 (VCC) of SN74AUC00RGYR; it needs 0.8-2.7 V") == 0,
+               "(r) RFX-LDO33 -> PFX-DIODE -> PFX-LOAD -> a 0.8-2.7 V part: refused with 3.3 V");
+        if (strcmp(text, "voltage: 3.3 V on pin 14 (VCC) of SN74AUC00RGYR; it needs 0.8-2.7 V") != 0) {
+            printf("  text: %s\n", text);
+        }
+        circuit_destroy(c);
+    }
+    /* (s) PFX-LOAD at 1.2 V (vinMin 1): the output is 1200 mV (read through a 2-6 V part's range); at 0.5 V
+       (below vinMin): no level; ON tied to GND: no level. */
+    {
+        Rig1 r = load_rig("1V2", 0);
+        size_t chip = add(r.c, "SN74HC00N");
+
+        wire(r.c, chip, "14", r.out);
+        wire(r.c, chip, "7", r.lo);
+        expect(refused_start(r.c, &p, text, sizeof text) && p.kind == VOLTAGE_POWER_RANGE && p.mv == 1200 &&
+                   p.part == chip,
+               "(s) PFX-LOAD at 1.2 V (vinMin 1): the output is 1200 mV (a 2-6 V part there is refused with 1.2 V)");
+        circuit_destroy(r.c);
+        r = load_rig("SFX-0V5", 0);
+        {
+            size_t c2 = add(r.c, "SN74HC00N");
+
+            wire(r.c, c2, "14", r.out);
+            wire(r.c, c2, "7", r.lo);
+        }
+        expect(circuit_start(r.c) == 0, "(s) PFX-LOAD at 0.5 V (below vinMin): the output has no level");
+        circuit_destroy(r.c);
+        r = load_rig("5V", 1);
+        expect(level_through_clash(r.c, r.out) == 0, "(s) PFX-LOAD with ON tied to GND: the output has no level");
+        circuit_destroy(r.c);
+    }
+    /* (t) PFX-DIODE with CE on a 5V supply and VIN at 3V3: no level; CE on its own VOUT: 3300 mV. */
+    {
+        Rig1 r = rig1("PFX-DIODE", "3V3");
+        size_t v5 = add(r.c, "5V");
+        size_t n5 = net(r.c);
+
+        wire(r.c, v5, "1", n5);
+        wire(r.c, r.part, "1", r.hi);
+        wire(r.c, r.part, "2", r.lo);
+        wire(r.c, r.part, "3", n5);
+        wire(r.c, r.part, "5", r.out);
+        expect(level_through_clash(r.c, r.out) == 0, "(t) PFX-DIODE, CE on 5 V and VIN at 3.3 V: the output has no level");
+        circuit_destroy(r.c);
+        r = rig1("PFX-DIODE", "3V3");
+        wire(r.c, r.part, "1", r.hi);
+        wire(r.c, r.part, "2", r.lo);
+        wire(r.c, r.part, "3", r.out);
+        wire(r.c, r.part, "5", r.out);
+        expect(level_through_clash(r.c, r.out) == 3300, "(t) PFX-DIODE with CE on its own VOUT: the output is 3300 mV");
+        circuit_destroy(r.c);
+    }
+    /* (u) 12V on PFX-LOAD's VIN: the input rating; ON on 12V likewise; PFX-FREE (no vinMax) from 12V: 12000 mV. */
+    {
+        Rig1 r = load_rig("12V", 0);
+
+        expect(refused_start(r.c, &p, text, sizeof text) && p.kind == VOLTAGE_POWERSWITCH_INPUT_OVER &&
+                   p.max_mv == 5500 && p.mv == 12000 && p.part == r.part && p.pin == 0 &&
+                   strcmp(text, "voltage: 12 V on pin 1 (VIN) of PFX-LOAD; its input max is 5.5 V") == 0,
+               "(u) 12 V on PFX-LOAD's VIN: VOLTAGE_POWERSWITCH_INPUT_OVER, max 5500, 'its input max is 5.5 V'");
+        if (strcmp(text, "voltage: 12 V on pin 1 (VIN) of PFX-LOAD; its input max is 5.5 V") != 0) {
+            printf("  text: %s\n", text);
+        }
+        circuit_destroy(r.c);
+        r = rig1("PFX-LOAD", "5V");
+        {
+            size_t v12 = add(r.c, "12V");
+            size_t top = net(r.c);
+
+            wire(r.c, v12, "1", top);
+            wire(r.c, r.part, "1", r.hi);
+            wire(r.c, r.part, "2", r.lo);
+            wire(r.c, r.part, "3", top);
+        }
+        expect(refused_start(r.c, &p, text, sizeof text) && p.kind == VOLTAGE_POWERSWITCH_INPUT_OVER && p.pin == 2 &&
+                   p.mv == 12000,
+               "(u) 12 V on PFX-LOAD's ON: refused too (the enable is rated to the input maximum)");
+        circuit_destroy(r.c);
+        r = rig1("PFX-FREE", "12V");
+        wire(r.c, r.part, "1", r.hi);
+        wire(r.c, r.part, "2", r.lo);
+        wire(r.c, r.part, "3", r.out);
+        expect(level_through_clash(r.c, r.out) == 12000,
+               "(u) PFX-FREE (no vinMax) from 12 V: no input problem, the output is 12000 mV");
+        circuit_destroy(r.c);
+    }
+}
+
 int main(void) {
     library = part_library_create();
     if (library == NULL || load_parts_dir(library, PARTS_DIR) != 0 || load_regulator_fixture(library) != 0 ||
@@ -436,6 +769,7 @@ int main(void) {
     fact_cases();
     rejection_cases();
     engine_cases();
+    voltage_cases();
     part_library_destroy(library);
     printf("%d failure(s)\n", failures);
     return failures == 0 ? 0 : 1;

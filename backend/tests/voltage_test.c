@@ -14,6 +14,7 @@
 #include "voltage_fixture.h"
 #include "diode_fixture.h"
 #include "capacitor_fixture.h"
+#include "powerswitch_fixture.h"
 
 static int failures;
 static PartLibrary *library;
@@ -660,11 +661,62 @@ static void check_analog(void) {
            "converter: 5 V on DVDD (the digital supply) is POWER_RANGE");
 }
 
+/* plan-55-A (v): the switched level is empty without a power switch, and with one it follows the rules. */
+static void check_powerswitch(void) {
+    Netlist n;
+    size_t a;
+    size_t out;
+
+    memset(&n, 0, sizeof n);
+    a = supply(&n, "5V");
+    out = net(&n);
+    wire(&n, add(&n, "3V3"), "1", out);
+    wire(&n, add(&n, "SN74HC00N"), "14", a);
+    expect(none(&n), "(v) no power switch: 5 V on a gate and a lone 3.3 V supply, no problem (unchanged)");
+
+    memset(&n, 0, sizeof n);
+    a = supply(&n, "5V");
+    wire(&n, add(&n, "3V3"), "1", a);
+    expect(only(&n, VOLTAGE_SUPPLY_CLASH) && n.problems[0].mv == 5000 && n.problems[0].min_mv == 3300,
+           "(v) no power switch: 5 V and 3.3 V supplies on one net are one clash (unchanged)");
+
+    memset(&n, 0, sizeof n);
+    {
+        size_t sw = add(&n, "PFX-LOAD");
+        size_t hi = supply(&n, "5V");
+        size_t lo = supply(&n, "GND");
+
+        out = net(&n);
+        wire(&n, sw, "1", hi);
+        wire(&n, sw, "2", lo);
+        wire(&n, sw, "3", hi);
+        wire(&n, sw, "4", out);
+        wire(&n, add(&n, "3V3"), "1", out);
+        expect(only(&n, VOLTAGE_SUPPLY_CLASH) && n.problems[0].mv == 5000 && n.problems[0].min_mv == 3300 &&
+                   text_is(&n, 0, "voltage: 3.3 V and 5 V supplies on one net (3V3, PFX-LOAD)"),
+               "(v) PFX-LOAD at 5 V with VOUT on a 3.3 V supply: one clash through voltage_check");
+    }
+    memset(&n, 0, sizeof n);
+    {
+        size_t sw = add(&n, "PFX-LOAD");
+        size_t hi = supply(&n, "12V");
+        size_t lo = supply(&n, "GND");
+
+        out = net(&n);
+        wire(&n, sw, "1", hi);
+        wire(&n, sw, "2", lo);
+        wire(&n, sw, "4", out);
+        expect(only(&n, VOLTAGE_POWERSWITCH_INPUT_OVER) && n.problems[0].max_mv == 5500 &&
+                   text_is(&n, 0, "voltage: 12 V on pin 1 (VIN) of PFX-LOAD; its input max is 5.5 V"),
+               "(v) PFX-LOAD at 12 V: the input rating through voltage_check");
+    }
+}
+
 int main(void) {
     library = part_library_create();
     if (library == NULL || load_parts_dir(library, PARTS_DIR) != 0 ||
         load_voltage_fixture(library) != 0 || load_diode_fixture(library) != 0 ||
-        load_capacitor_fixture(library) != 0) {
+        load_capacitor_fixture(library) != 0 || load_powerswitch_fixture(library) != 0) {
         printf("FAIL: cannot load the part library\n");
         return 1;
     }
@@ -681,6 +733,7 @@ int main(void) {
     check_domains();
     check_real_translator();
     check_analog();
+    check_powerswitch();
     part_library_destroy(library);
     if (failures > 0) {
         printf("FAIL: %d\n", failures);

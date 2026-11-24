@@ -430,13 +430,14 @@ read through the clash it causes with a 1.2 V supply on the same net, as `regula
 
 Acceptance: the kind loads, refuses bad keys and switches its output.
   Check: `cmake --build /tmp/logic-p55 -j8 && ctest --test-dir /tmp/logic-p55 -R 'powerswitch_test|listing_check|trace_check|library_check' --output-on-failure` → 4 of 4 passed, `git diff --stat backend/tests/golden` empty (est. 3 min).
-Commit: —
+Commit: b7215970
 
 ### Phase 2 — The switched level, the ORing rule and the input rating
 
-- [ ] `voltage.h` / `voltage.c`: `switched[]`, `effective()` with W, the fixed-point branch, the
+- [x] `voltage.h` / `voltage.c`: `switched[]`, `effective()` with W, the fixed-point branch, the
       clashes, `VOLTAGE_POWERSWITCH_INPUT_OVER` and its `voltage_describe` text (§ 3.4).
-- [ ] Tests: `powerswitch_test.c` cases (n)–(u); `voltage_test.c` case (v).
+- [x] Tests: `powerswitch_test.c` cases (n)–(u); `voltage_test.c` case (v).
+      Observed: `ctest -R 'powerswitch_test|voltage_test|regulator_test|circuit_check'` → `100% tests passed, 0 tests failed out of 4` (powerswitch_test prints 20 PASS lines for (n)–(u); voltage_test prints 4 `(v)` PASS lines); `xcodebuild … build` → `** BUILD SUCCEEDED **`.
 
 Acceptance: the switched level, ORing and the input rating behave as § 6, and nothing else moved.
   Check: `ctest --test-dir /tmp/logic-p55 -R 'powerswitch_test|voltage_test|regulator_test|circuit_check' --output-on-failure` → 4 of 4 (est. 3 min); `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p55-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 4 min; the backend compiles into the app and the Swift switches take the new values through `default:`).
@@ -490,6 +491,8 @@ Author decisions:
 
 1. **T0 is 42, not 41; P0 / R0 / F0 are 34436 / 34436 / 1904** (`grep -c '^logic_test' backend/CMakeLists.txt` → 42, `wc -l < backend/tests/golden/parts.txt` → 34436, `traces.txt` → 34436, `footprints.txt` → 1904 at e5242c08, 2026-11-23): other plans landed after 7c7b4d31. Every "T0 + 1" below reads 43 programs. The goldens' growth does not change A's check (byte-identical).
 2. **The DigiKey quota row used key 1; the owner asked for `--opt2`** (2026-11-23): key 1's day was already spent; key 2 has its own quota (750 left). B's two listings run with `--opt2` (B's phases say how).
+
+3. **Case (r)'s second circuit is a refusal, not "no problem".** § 6 (r) says `RFX-LDO33` → `PFX-DIODE` → `PFX-LOAD` → `SN74AUC00RGYR` (0.8–2.7 V) gives "no problem", but the chain carries 3.3 V to a part rated 0.8–2.7 V, which `regulator_test` (j) shows is refused. The test pins the refusal instead (`VOLTAGE_POWER_RANGE`, 3300 mV, `voltage: 3.3 V on pin 14 (VCC) of SN74AUC00RGYR; it needs 0.8-2.7 V`): it proves the level passes through both switches, which is what the case is for (`powerswitch_test` case (r)).
 
 ## Summary
 

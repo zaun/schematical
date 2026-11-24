@@ -20,6 +20,14 @@
  *      resistors of its feedback divider (divider_mv). R is between S and D in
  *      the order of levels: S, else R, else D, else P, else C. A group whose
  *      R differs from its S, or that holds two different R, is a clash.
+ *   3d. A power switch (plan-55-A): each switch whose input is known, at
+ *      least the part's vinMin and non-zero, and whose enable is not
+ *      inactive (a logic enable at its inactive level; a comparator enable
+ *      "against the input" above the input) raises the switched level W of
+ *      its output pins' groups to its input level. W sits between R and D:
+ *      S, else R, else W, else D, else P, else C. Two switch outputs on one
+ *      group never clash (the group reads the higher level); a W that
+ *      differs from a supply's or a regulated level is a clash.
  *   3a. A part with supply domains (dual-supply translators, plan-20-F):
  *      each domain is powered at the highest known voltage on its own power
  *      pins, and the domain's outputs drive that level.
@@ -104,15 +112,18 @@ static int domain_of(const Part *part, size_t pin, int *power) {
     return -1;
 }
 
-/* E: the supply level, else the regulated one, else the driven one, else the
-   pulled one, else the carried one. */
-static Level effective(const Level *s, const Level *r, const Level *d, const Level *p, const Level *c,
-                       size_t g) {
+/* E: the supply level, else the regulated one, else the switched one, else the
+   driven one, else the pulled one, else the carried one. */
+static Level effective(const Level *s, const Level *r, const Level *w, const Level *d, const Level *p,
+                       const Level *c, size_t g) {
     if (s[g].known) {
         return s[g];
     }
     if (r[g].known) {
         return r[g];
+    }
+    if (w[g].known) {
+        return w[g];
     }
     if (d[g].known) {
         return d[g];
@@ -229,6 +240,19 @@ static int regulator_vin_pin(const Part *part, size_t pin) {
     return 0;
 }
 
+/* 1 when pin is an input or an enable pin of any switch of a power switch. */
+static int powerswitch_vin_pin(const Part *part, size_t pin) {
+    size_t k;
+    size_t enable;
+
+    for (k = 0; powerswitch_element(part, k, NULL, NULL, &enable, NULL, NULL, NULL, NULL); k++) {
+        if (powerswitch_pin_in(part, k, pin) || (enable != SIZE_MAX && enable == pin)) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 /* A nixie's or a dekatron's anode links and firing voltage (nixie.c, dekatron.c). */
 static int tube_link(const Part *part, size_t k, size_t *anode, size_t *cathode) {
     return part->kind == PART_DEKATRON ? dekatron_link(part, k, anode, cathode)
@@ -249,6 +273,10 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
     Level *carried = calloc(net_count + 1, sizeof(*carried));
     Level *pulled = calloc(net_count + 1, sizeof(*pulled));
     Level *regulated = calloc(net_count + 1, sizeof(*regulated));
+    Level *switched = calloc(net_count + 1, sizeof(*switched));
+    size_t *sw_high_part = malloc((net_count + 1) * sizeof(*sw_high_part));
+    size_t *sw_high_pin = malloc((net_count + 1) * sizeof(*sw_high_pin));
+    size_t *sw_high_net = malloc((net_count + 1) * sizeof(*sw_high_net));
     size_t *reg_low_part = malloc((net_count + 1) * sizeof(*reg_low_part));
     size_t *reg_low_pin = malloc((net_count + 1) * sizeof(*reg_low_pin));
     size_t *reg_low_net = malloc((net_count + 1) * sizeof(*reg_low_net));
@@ -266,11 +294,12 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
 
     if (parent == NULL || supply == NULL || driven == NULL || carried == NULL || pulled == NULL ||
         regulated == NULL || reg_low_part == NULL || reg_low_pin == NULL || reg_low_net == NULL ||
-        reg_high_part == NULL || reg_low_mv == NULL ||
+        reg_high_part == NULL || reg_low_mv == NULL || switched == NULL || sw_high_part == NULL ||
+        sw_high_pin == NULL || sw_high_net == NULL ||
         clash_first == NULL || clash_conn == NULL || clash_done == NULL || found == NULL) {
         free(parent); free(supply); free(driven); free(carried); free(pulled);
         free(regulated); free(reg_low_part); free(reg_low_pin); free(reg_low_net); free(reg_high_part);
-        free(reg_low_mv);
+        free(reg_low_mv); free(switched); free(sw_high_part); free(sw_high_pin); free(sw_high_net);
         free(clash_first); free(clash_conn); free(clash_done); free(found);
         return 0;
     }
@@ -403,7 +432,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
                     for (j = 0; j < connection_count; j++) {
                         if (connections[j].part == i && connections[j].pin == anode &&
                             connections[j].net < net_count) {
-                            Level e = effective(supply, regulated, driven, pulled, carried, find(parent, connections[j].net));
+                            Level e = effective(supply, regulated, switched, driven, pulled, carried, find(parent, connections[j].net));
 
                             if (e.known) {
                                 level_raise(&from, e.mv);
@@ -437,7 +466,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
                     for (j = 0; j < connection_count; j++) {
                         if (connections[j].part == i && connections[j].pin == anode &&
                             connections[j].net < net_count) {
-                            Level e = effective(supply, regulated, driven, pulled, carried, find(parent, connections[j].net));
+                            Level e = effective(supply, regulated, switched, driven, pulled, carried, find(parent, connections[j].net));
 
                             if (e.known) {
                                 level_raise(&from, e.mv);
@@ -469,7 +498,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
                     for (j = 0; j < connection_count; j++) {
                         if (connections[j].part == i && connections[j].pin == anode &&
                             connections[j].net < net_count) {
-                            Level e = effective(supply, regulated, driven, pulled, carried, find(parent, connections[j].net));
+                            Level e = effective(supply, regulated, switched, driven, pulled, carried, find(parent, connections[j].net));
 
                             if (e.known) {
                                 level_raise(&from, e.mv);
@@ -505,7 +534,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
                         for (j = 0; j < connection_count; j++) {
                             if (connections[j].part == i && connections[j].pin == from_pin &&
                                 connections[j].net < net_count) {
-                                Level e = effective(supply, regulated, driven, pulled, carried,
+                                Level e = effective(supply, regulated, switched, driven, pulled, carried,
                                                     find(parent, connections[j].net));
 
                                 if (e.known) {
@@ -547,7 +576,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
                     for (j = 0; j < connection_count; j++) {
                         if (connections[j].part == i && connections[j].net < net_count &&
                             regulator_pin_in(part, k, connections[j].pin)) {
-                            Level e = effective(supply, regulated, driven, pulled, carried,
+                            Level e = effective(supply, regulated, switched, driven, pulled, carried,
                                                 find(parent, connections[j].net));
 
                             if (e.known) {
@@ -563,7 +592,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
                                               &pin_found);
 
                         if (pin_found) {
-                            Level e = effective(supply, regulated, driven, pulled, carried, eg);
+                            Level e = effective(supply, regulated, switched, driven, pulled, carried, eg);
 
                             if (e.known && (en_low ? e.mv > 0 : e.mv == 0)) {
                                 continue;    /* disabled */
@@ -621,6 +650,62 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
                 }
                 continue;
             }
+            /* A power switch (3d): see the header. */
+            if (part->kind == PART_POWERSWITCH && part->powerswitch != NULL) {
+                size_t k;
+                size_t enable;
+                int enable_low, ref_input;
+
+                for (k = 0; powerswitch_element(part, k, NULL, NULL, &enable, &enable_low, &ref_input, NULL, NULL);
+                     k++) {
+                    Level vin = {0, 0};
+                    int pin_found;
+
+                    for (j = 0; j < connection_count; j++) {
+                        if (connections[j].part == i && connections[j].net < net_count &&
+                            powerswitch_pin_in(part, k, connections[j].pin)) {
+                            Level e = effective(supply, regulated, switched, driven, pulled, carried,
+                                                find(parent, connections[j].net));
+
+                            if (e.known) {
+                                level_raise(&vin, e.mv);
+                            }
+                        }
+                    }
+                    if (!vin.known || vin.mv == 0 || vin.mv < part->powerswitch->vin_min_mv) {
+                        continue;
+                    }
+                    if (enable != SIZE_MAX) {
+                        size_t eg = pin_group(parent, net_count, connections, connection_count, i, enable,
+                                              &pin_found);
+
+                        if (pin_found) {
+                            Level e = effective(supply, regulated, switched, driven, pulled, carried, eg);
+
+                            if (e.known && (ref_input ? e.mv > vin.mv : (enable_low ? e.mv > 0 : e.mv == 0))) {
+                                continue;    /* disabled */
+                            }
+                        }
+                    }
+                    for (j = 0; j < connection_count; j++) {
+                        const VoltageConnection *c = &connections[j];
+
+                        if (c->part == i && c->net < net_count && powerswitch_pin_out(part, k, c->pin)) {
+                            size_t g = find(parent, c->net);
+                            Level before = switched[g];
+
+                            level_raise(&switched[g], vin.mv);
+                            if (!before.known || vin.mv > before.mv) {
+                                sw_high_part[g] = i;
+                                sw_high_pin[g] = c->pin;
+                                sw_high_net[g] = c->net;
+                            }
+                            changed |= before.known != switched[g].known || before.mv != switched[g].mv;
+                        }
+                    }
+                }
+                continue;
+            }
             if (part->vcc == NULL) {
                 continue;
             }
@@ -637,7 +722,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
 
                         if (c->part == i && c->net < net_count && c->pin < part->pin_count &&
                             domain_of(part, c->pin, &is_power) == (int)k && is_power) {
-                            Level e = effective(supply, regulated, driven, pulled, carried, find(parent, c->net));
+                            Level e = effective(supply, regulated, switched, driven, pulled, carried, find(parent, c->net));
 
                             if (e.known) {
                                 level_raise(&dp, e.mv);
@@ -674,7 +759,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
 
                 if (c->part == i && c->net < net_count && c->pin < part->pin_count &&
                     part->pins[c->pin].role == PIN_POWER && !part_pin_analog(part, c->pin)) {
-                    Level e = effective(supply, regulated, driven, pulled, carried, find(parent, c->net));
+                    Level e = effective(supply, regulated, switched, driven, pulled, carried, find(parent, c->net));
 
                     if (e.known) {
                         level_raise(&power, e.mv);
@@ -726,6 +811,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
             p->pin = s->pin;
             p->mv = supply[i].mv > regulated[i].mv ? supply[i].mv : regulated[i].mv;
             p->min_mv = p->max_mv = supply[i].mv < regulated[i].mv ? supply[i].mv : regulated[i].mv;
+            clash_done[i] = 1;
         } else if (!supply[i].known && reg_low_mv[i] != regulated[i].mv) {
             p = &found[found_count++];
             p->kind = VOLTAGE_SUPPLY_CLASH;
@@ -735,7 +821,47 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
             p->pin = reg_low_pin[i];
             p->mv = regulated[i].mv;
             p->min_mv = p->max_mv = reg_low_mv[i];
+            clash_done[i] = 1;
         }
+    }
+
+    /* 3d. A switched level that differs from the supply level or from the
+       regulated level of its group: one clash per group, those above first.
+       Two switch outputs on one group never clash: the group reads the
+       higher level. Ground (S = 0) on an output is the engine's short. */
+    for (i = 0; i < net_count; i++) {
+        VoltageProblem *p;
+
+        if (find(parent, i) != i || !switched[i].known || clash_done[i]) {
+            continue;
+        }
+        if (supply[i].known && supply[i].mv > 0 && clash_first[i] != SIZE_MAX &&
+            supply[i].mv != switched[i].mv) {
+            const VoltageConnection *s = &connections[clash_first[i]];
+
+            p = &found[found_count++];
+            p->kind = VOLTAGE_SUPPLY_CLASH;
+            p->net = s->net;
+            p->part = s->part;
+            p->other_part = sw_high_part[i];
+            p->pin = s->pin;
+            p->mv = supply[i].mv > switched[i].mv ? supply[i].mv : switched[i].mv;
+            p->min_mv = p->max_mv = supply[i].mv < switched[i].mv ? supply[i].mv : switched[i].mv;
+        } else if (!supply[i].known && regulated[i].known && regulated[i].mv != switched[i].mv) {
+            int regulator_lower = regulated[i].mv < switched[i].mv;
+
+            p = &found[found_count++];
+            p->kind = VOLTAGE_SUPPLY_CLASH;
+            p->net = regulator_lower ? reg_low_net[i] : sw_high_net[i];
+            p->part = regulator_lower ? reg_low_part[i] : sw_high_part[i];
+            p->other_part = regulator_lower ? sw_high_part[i] : reg_high_part[i];
+            p->pin = regulator_lower ? reg_low_pin[i] : sw_high_pin[i];
+            p->mv = regulated[i].mv > switched[i].mv ? regulated[i].mv : switched[i].mv;
+            p->min_mv = p->max_mv = regulated[i].mv < switched[i].mv ? regulated[i].mv : switched[i].mv;
+        } else {
+            continue;
+        }
+        clash_done[i] = 1;
     }
 
     /* 4. Checks. */
@@ -753,7 +879,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
         if (c->pin >= part->pin_count || part_pin_analog(part, c->pin)) {
             continue;
         }
-        e = effective(supply, regulated, driven, pulled, carried, find(parent, c->net));
+        e = effective(supply, regulated, switched, driven, pulled, carried, find(parent, c->net));
         if (!e.known) {
             continue;
         }
@@ -823,6 +949,12 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
             p.kind = VOLTAGE_REGULATOR_INPUT_OVER;
             p.min_mv = 0;
             p.max_mv = regulator_input_max_mv(part);
+        } else if (part->kind == PART_POWERSWITCH && powerswitch_input_max_mv(part) > 0 &&
+                   powerswitch_vin_pin(part, c->pin) && e.mv > powerswitch_input_max_mv(part)) {
+            /* An input or enable pin above the part's input maximum (plan-55-A). */
+            p.kind = VOLTAGE_POWERSWITCH_INPUT_OVER;
+            p.min_mv = 0;
+            p.max_mv = powerswitch_input_max_mv(part);
         } else if ((part->kind == PART_NIXIE || part->kind == PART_DEKATRON) &&
                    e.mv < tube_anode_min_mv(part, c->pin)) {
             /* The anode supply must reach the firing voltage, or the tube
@@ -842,7 +974,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
     }
     free(parent); free(supply); free(driven); free(carried); free(pulled);
     free(regulated); free(reg_low_part); free(reg_low_pin); free(reg_low_net); free(reg_high_part);
-    free(reg_low_mv);
+    free(reg_low_mv); free(switched); free(sw_high_part); free(sw_high_pin); free(sw_high_net);
     free(clash_first); free(clash_conn); free(clash_done); free(found);
     return found_count;
 }
@@ -887,6 +1019,7 @@ int voltage_describe(const Part *const *parts, const VoltageProblem *problem,
                             pin_designator(part, problem->pin), pin_name(part, problem->pin),
                             part->name, problem->max_mv / 1000.0);
         case VOLTAGE_REGULATOR_INPUT_OVER:
+        case VOLTAGE_POWERSWITCH_INPUT_OVER:
             return snprintf(buffer, size, "voltage: %g V on pin %s (%s) of %s; its input max is %g V", v,
                             pin_designator(part, problem->pin), pin_name(part, problem->pin),
                             part->name, problem->max_mv / 1000.0);
