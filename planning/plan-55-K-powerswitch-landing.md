@@ -18,7 +18,7 @@ plan-55-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-55-J complete | `ls planning/completed/plan-55-J-*.md` → exists | NOT MET (2026-11-22: not started) |
+| plan-55-J complete | `ls planning/completed/plan-55-J-*.md` → exists | MET (2026-11-23: archived at 38be3f10) |
 
 Everything below is written against the world where these hold.
 
@@ -41,13 +41,13 @@ Everything below is written against the world where these hold.
 
 ### Phase 1 — Landing tier
 
-- [ ] Run every gate of the table on a fresh build dir (`/tmp/logic-p55-land`) and record the
-      observed values under it.
-- [ ] `planning/todo.md`, section Parts: add `- [x] Add power switches: integrated ideal diodes, load
+- [x] Run every gate of the table on a fresh build dir (`/tmp/logic-p55-land`) and record the
+      observed values under it (Correction 1).
+- [x] `planning/todo.md`, section Parts: add `- [x] Add power switches: integrated ideal diodes, load
       switches, current-limited and USB switches (plan-55: top three makers per family, Active only; power
       muxes, external-FET controllers, eFuses and hot-swap controllers out of scope)`, touching only that
       item.
-- [ ] Move `plan-55-A` … `plan-55-K` to `planning/completed/` (A to J are archived as each completes; K
+- [x] Move `plan-55-A` … `plan-55-K` to `planning/completed/` (A to J are archived as each completes; K
       with this commit).
 
 | Gate | Command | Expected |
@@ -68,7 +68,7 @@ Acceptance: every gate's observed value matches.
   Check: the table's commands (est. 60 min: the fresh backend build, the nine app test classes and the
   harness; this is the plan's one landing run, and nothing smaller covers the backend, the part files
   and the app together).
-Commit: —
+Commit: (filled by the next commit)
 
 ## Validation Plan
 
@@ -82,7 +82,26 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+1. **The observed values** (2026-11-23, on `worktree-P-55` merged with `main` at 0978bb26, the tree that lands):
+
+   | Gate | Observed |
+   |---|---|
+   | Backend tests | fresh `/tmp/logic-p55-land`: `100% tests passed, 0 tests failed out of 45` (main's 44 programs + `powerswitch_test`; main's count grew by the plan-56 `display_out_test` and `lcd_test`) |
+   | Goldens | `git diff main --numstat -- backend/tests/golden` → `70 0 footprints.txt`, `817 0 parts.txt`, `817 0 traces.txt`: only added lines |
+   | Part count | `grep -c '\|powerswitch\|' backend/tests/golden/parts.txt` → 817 = 32 + 197 + 588 (`verdicts.py --report`) |
+   | Footprints | `wc -l < footprints.txt` → 2271 = main's 2201 + the 70 objects H and I merged |
+   | Datasheets | `find datasheets/powerswitch -iname '*.pdf' \| wc -l` → 225 = `add pdfs: 225` |
+   | Datasheet URLs | `node scripts/check-datasheets.js <224 ids>` → `224 of 224 URLs serve a PDF; 0 failed`, exit 0 |
+   | Skipped parts listed | `verdicts.py --verify-skipped` → `0 skip rows missing from skipped-parts.md` |
+   | Stock check | `select.py … --carry candidates.tsv --urls … --stock …` (written to /tmp: the gate's command with its `--carry` argument and an output file) exits 0; the 817 `add` rows all have `stock_checked` 1 |
+   | App | `xcodebuild … build` → `** BUILD SUCCEEDED **` |
+   | App tests | the nine classes of the table plus `CustomFootprintDraftTests` (its explicit-footprint count moved, 932 → 944): every test passes except two that fail on `main` without plan-55 (Correction 2) |
+   | Runtime proof | `powerswitch-app.swift` → 15 `ok` lines, `all checks ok` |
+
+2. **Two app tests fail on `main` itself**, not on plan-55: `PartEditorWindowTests.testKindNamesAreThePartFiles` (the Parts folder has `lcddriver.json` and `leddriver.json`, plan-56's empty kinds, that `PartKinds.all` does not list: 41 files against 39 kinds) and `PartKindKeysTests.testFormKeysCoverTheBackendKeys` (the display-driver keys plan-56 put into `rtc.c` and `converter.c` are in no form yet). `main`'s own commit 13b2b163 records the first as its one failing gate. Neither touches a file of plan-55; the other seven tests of `PartEditorWindowTests` and `PartKindKeysTests` pass, and so does everything plan-55 changed. The plan-55-H and I check lists named the decoder and latch round-trip tests (red at the start of H); `main` has fixed their counts since.
+3. **The merge with `main`** (`9a14d9e9`) took plan-56's three kinds beside `powerswitch` in `parts.h`, `kinds.c`, `listing.c`, `listing_check.c`, `trace_check.c`, `KindSchema.swift`, `BundledPartFile.swift`, `PartKindKeysTests.swift` and `part-editor-schema.py` (main's lines first, the power switch last: `PART_LCD, PART_LEDDRIVER, PART_LCDDRIVER, PART_POWERSWITCH`); `datasheets.json`, `footprints.json` and the goldens were taken from main and regenerated (`gen-parts.py` on all three families, the three `--print` outputs), so they hold main's lines plus plan-55's; the editor's count assertions were measured again (`68354f88`): kinds 39, footprint entries 2271 (1327 parametric + 944 explicit), wizard combinations 93 (23 + 70).
+4. **The Rust formatter step of the follow-plan skill does not apply**: the repository has no Rust workspace here (`ls repository` is empty, no `Cargo.toml`).
+5. **`planning/todo.md`** is dirty in the main checkout (the owner's own edits), so the plan-55 item is added there after the merge and committed alone (its one hunk), not through the worktree branch, to leave the owner's other edits uncommitted.
 
 ## Summary
 

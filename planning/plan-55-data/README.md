@@ -27,6 +27,14 @@ Settings > "Allow JavaScript from Apple Events"). `--opt2` uses the second API k
 | `census/textscan.py` | `pdftotext` each PDF: `pdf`, `hit` per candidate row; `--sibling`: a same-company PDF that prints the part number; rows with none are `out`, `no datasheet` |
 | `census/place.py` | copies the PDFs to `datasheets/powerswitch/<company>/` and writes `datasheets/powerswitch/datasheets.tsv` (`--verify`) |
 | `census/specs-skeleton.py`, `specs.tsv` | one row per (company, series, PDF, package, supplier package) of the candidate rows, the columns of plan-55-C § 3.1, the pinout columns empty |
+| `census/texts.py`, `census/packets.py`, `READER-GUIDE.md` | plan-55-C/D/E: the `pdftotext` texts, the 37 reader packets (whole PDFs by company and family) and the guide the readers followed (rules of plan-55-C § 3, the output columns, the checker) |
+| `census/merge-specs.py`, `census/pinout-check.py`, `census/show.py` | merge a reader's packet into `specs.tsv`; check the pinout, switches, analog list and facts by rule; print the spec rows of a PDF |
+| `specs.tsv`, `pinout-count-overrides.tsv` | one row per (company, series, PDF, package, supplier package, ordering); the lead-count corrections for packages whose numbered pad is a pin |
+| `census/verdicts.py`, `verdicts.tsv`, `verdict-overrides.tsv` (absent) | a verdict (`add` / `skip`, with its reason, spec row and flags) per candidate row; `--write-skipped` writes `datasheets/skipped-parts.md` § Power switches; `--verify-skipped` |
+| `census/footprint-lines.py`, `footprints-needed.txt`, `census/prune.py` | plan-55-E: one line per (company, package, supplier package) of the `add` rows, lettered F (TI) or G; the PDF prune |
+| `census/fp-units.py`, `FOOTPRINT-GUIDE.md`, `census/fp-find.py` | plan-55-F/G: the land-pattern units and reader packets, the guide the footprint readers followed, the reuse search |
+| `census/fp-combine.py`, `census/fp-check.py`, `census/fp-load.sh`, `census/fp-merge.py` | merge the footprint packets into `footprints-F.json` / `footprints-G.json` and `footprint-map.tsv` (`footprint-map-fixes.tsv`: the per-part-number rows); check every line has a footprint of the right pin count; load the objects through `footprint_check` |
+| `census/gen-parts.py` | plan-55-H/I: `Parts/powerswitch.json`, the `datasheets.json` entries and the footprints the parts use, from the `add` rows (`--family ideal --family load --family limited`) |
 
 Reproduce (the first listing; the second is the same on a later call with `raw-recheck`):
 
