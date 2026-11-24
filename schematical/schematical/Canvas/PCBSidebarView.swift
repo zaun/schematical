@@ -1030,17 +1030,32 @@ struct TracePanel: View {
     }
 }
 
-/// A selected trace's or via's net and that net's class, read-only.
+/// A selected trace's or via's net (read-only) and that net's class, which
+/// a menu sets. The class belongs to the net, so choosing one moves every
+/// trace, via and pad of the net into it; copper already drawn keeps its
+/// width and size.
 private struct NetAndClassRows: View {
     let document: SchematicDocument
     let net: (BoardConnectivity) -> Int?
 
     var body: some View {
         let copper = document.connectivity()
-        let names = document.netAndClassNames(ofNet: net(copper), in: copper)
+        let netID = net(copper)
+        let names = document.netAndClassNames(ofNet: netID, in: copper)
+        let key = netID.flatMap { copper.netKeys[$0] }
         LabeledContent("Net", value: names.net)
-        LabeledContent("Class", value: names.netClass)
-            .help("New copper on the net takes its class's width and via")
+        Picker("Class", selection: Binding<UUID?>(
+            get: { netID.flatMap { document.netClass(ofNet: $0, in: copper) }?.id },
+            set: { if let key { document.assignNet(key, to: $0) } }
+        )) {
+            Text("Default").tag(UUID?.none)
+            ForEach(document.board.netClasses) { netClass in
+                Text(netClass.name).tag(Optional(netClass.id))
+            }
+        }
+        .pickerStyle(.menu)
+        .disabled(key == nil)
+        .help("The net's class: new copper on the net takes its width and via. Every item on the net changes class.")
     }
 }
 
