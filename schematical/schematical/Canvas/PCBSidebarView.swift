@@ -105,6 +105,15 @@ struct PCBSidebarView: View {
                         .id(keepout.id)
                 }
             case .selection:
+                let footprints = document.boardSelection.items.compactMap { item -> UUID? in
+                    if case let .footprint(id) = item, document.chips.contains(where: { $0.id == id && $0.board != nil }) {
+                        return id
+                    }
+                    return nil
+                }
+                if !footprints.isEmpty {
+                    MarksSection(document: document, ids: footprints)
+                }
                 SelectionListSection(
                     rows: SelectionRows.board(document),
                     onSelect: { document.select($0) },
@@ -127,6 +136,50 @@ struct PCBSidebarView: View {
             BoardDetailsSheet(document: document, highlightedNet: highlightedNet, onRoute: onRoute,
                               onClose: { isDetailsOpen = false })
         }
+    }
+}
+
+// MARK: - Marks
+
+/// The Marks section of one or more selected footprints: where the bounding
+/// box, pin 1 mark and reference are drawn. A change applies to every
+/// footprint in `ids` as one undo step. When they disagree, no segment is
+/// shown selected for that mark.
+struct MarksSection: View {
+    let document: SchematicDocument
+    let ids: [UUID]
+
+    private var placements: [BoardPlacement] {
+        document.chips.filter { ids.contains($0.id) }.compactMap(\.board)
+    }
+
+    var body: some View {
+        Section("Marks") {
+            markPicker("Bounding Box", \.outline) { document.setFootprintMarks(ids, outline: $0) }
+            markPicker("Pin 1", \.pin1) { document.setFootprintMarks(ids, pin1: $0) }
+            markPicker("Reference", \.reference) { document.setFootprintMarks(ids, reference: $0) }
+            if placements.contains(where: { $0.referenceOffset != .zero }) {
+                Button("Reset Reference Position") {
+                    document.recordEdit(.pcb, "Reset Reference") {
+                        for id in ids { document.resetReference(id) }
+                    }
+                }
+            }
+        }
+    }
+
+    private func markPicker(_ title: String, _ mark: KeyPath<BoardPlacement, MarkLayer>,
+                            set: @escaping (MarkLayer) -> Void) -> some View {
+        let layers = Set(placements.map { $0[keyPath: mark] })
+        return Picker(title, selection: Binding<MarkLayer?>(
+            get: { layers.count == 1 ? layers.first : nil },
+            set: { if let layer = $0 { set(layer) } }
+        )) {
+            ForEach(MarkLayer.allCases, id: \.self) { layer in
+                Text(layer.title).tag(Optional(layer))
+            }
+        }
+        .pickerStyle(.segmented)
     }
 }
 
@@ -1021,23 +1074,7 @@ private struct FootprintPanel: View {
             LabeledContent("Rotation", value: "\(placement.rotation)°")
         }
 
-        Section("Marks") {
-            markPicker("Bounding Box", placement.outline) { document.setFootprintMarks(chip.id, outline: $0) }
-            markPicker("Pin 1", placement.pin1) { document.setFootprintMarks(chip.id, pin1: $0) }
-            markPicker("Reference", placement.reference) { document.setFootprintMarks(chip.id, reference: $0) }
-            if placement.referenceOffset != .zero {
-                Button("Reset Reference Position") { document.resetReference(chip.id) }
-            }
-        }
-    }
-
-    private func markPicker(_ title: String, _ layer: MarkLayer, set: @escaping (MarkLayer) -> Void) -> some View {
-        Picker(title, selection: Binding(get: { layer }, set: set)) {
-            ForEach(MarkLayer.allCases, id: \.self) { layer in
-                Text(layer.title).tag(layer)
-            }
-        }
-        .pickerStyle(.segmented)
+        MarksSection(document: document, ids: [chip.id])
     }
 
     /// Moves the origin point (snapped) and returns where it ended up.

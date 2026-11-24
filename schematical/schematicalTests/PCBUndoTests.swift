@@ -84,6 +84,19 @@ final class PCBUndoTests: XCTestCase {
         assertStep(c.doc, "Change Marks") { c.doc.setFootprintMarks(c.chip.id, outline: other) }
     }
 
+    /// Several selected footprints change together, as one undo step.
+    func testSetFootprintMarksOfSeveral() throws {
+        let doc = TestSupport.newDocument()
+        let a = try TestSupport.place(doc, "SN74HC00N", at: p(100, 100))
+        let b = try TestSupport.place(doc, "SN74HC00N", at: p(300, 100))
+        let other = try XCTUnwrap(MarkLayer.allCases.first { $0 != a.board?.pin1 })
+        assertStep(doc, "Change Marks") { doc.setFootprintMarks([a.id, b.id], pin1: other) }
+        XCTAssertTrue(doc.redo(on: .pcb))
+        for id in [a.id, b.id] {
+            XCTAssertEqual(doc.chips.first { $0.id == id }?.board?.pin1, other)
+        }
+    }
+
     // MARK: Board
 
     func testSetBoardSize() throws {

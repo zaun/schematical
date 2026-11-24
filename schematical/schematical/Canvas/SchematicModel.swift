@@ -2995,11 +2995,20 @@ final class SchematicDocument {
     /// Sets where a footprint's marks are drawn. A nil layer is left as it is.
     func setFootprintMarks(_ id: UUID, outline: MarkLayer? = nil, pin1: MarkLayer? = nil,
                            reference: MarkLayer? = nil) {
+        setFootprintMarks([id], outline: outline, pin1: pin1, reference: reference)
+    }
+
+    /// Sets where the marks of every footprint in `ids` are drawn, as one
+    /// undo step. A nil layer is left as it is; a part with no footprint is
+    /// skipped.
+    func setFootprintMarks(_ ids: some Collection<UUID>, outline: MarkLayer? = nil, pin1: MarkLayer? = nil,
+                           reference: MarkLayer? = nil) {
         recordEdit(.pcb, "Change Marks") {
-            guard let index = chips.firstIndex(where: { $0.id == id }), chips[index].board != nil else { return }
-            if let outline { chips[index].board?.outline = outline }
-            if let pin1 { chips[index].board?.pin1 = pin1 }
-            if let reference { chips[index].board?.reference = reference }
+            for index in chips.indices where ids.contains(chips[index].id) && chips[index].board != nil {
+                if let outline { chips[index].board?.outline = outline }
+                if let pin1 { chips[index].board?.pin1 = pin1 }
+                if let reference { chips[index].board?.reference = reference }
+            }
         }
     }
 
