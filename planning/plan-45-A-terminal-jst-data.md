@@ -343,25 +343,30 @@ Commit: ced62f5e (the gate and the call scripts: 248d40f4)
 Acceptance: every candidate row was seen in stock on the day of this phase.
   Check: `awk -F'\t' '$22=="candidate" && $27!=1' planning/plan-45-data/candidates.tsv \| wc -l` → 0 (est. 15 min: the 145-call listing; nothing smaller covers 521 rows).
   Result 2026-11-24: `0`; also no candidate that was not in the planning pick (`comm -13` of the two candidate lists → 0).
-Commit: this commit (hash in the next one)
+Commit: febbaa58
 
 ### Phase 3 — Download and place the datasheets
 
-- [ ] `census/fetch.py` and `census/place.py` (§ 4): download the distinct
+- [x] `census/fetch.py` and `census/place.py` (§ 4): download the distinct
       `src` of the candidate rows (340 at planning time) and place them;
       write the four `datasheets.tsv`.
-- [ ] `pdfinfo` every file: `Pages` ≥ 1; `place.py --verify` → every URL of the
+      Output 2026-11-24: `fetch.py` 340 of 340 files (the 521-row set; Weidmüller 155, Würth 99, JST 11 on the first try, no 403 wait; Phoenix 75 through Safari, `safari-1` each); `place.py` on the 513 rows (333 URLs): `320 files placed for 333 URLs; 0 rows out (no datasheet)`: Phoenix 74 files / 74 `datasheets.tsv` rows, Weidmüller 153 / 153, Würth 84 / 95, JST 9 / 11 (same SHA-256 under two URLs shares a file).
+- [x] `pdfinfo` every file: `Pages` ≥ 1; `place.py --verify` → every URL of the
       candidate rows has a file, every file a row.
-- [ ] Fill `pdf` (the placed path) and `hit` (1 when `textscan.py` finds the
+      Output: `pdfinfo: 320 files, 0 bad`; `place.py --verify` → `ok: 320 files, 0 rows without a file, 0 unused, 0 changed`.
+- [x] Fill `pdf` (the placed path) and `hit` (1 when `textscan.py` finds the
       part number in the PDF text; the JST series PDFs are checked in B) in
       `candidates.tsv`; fill `dead` (1 when `textscan.py` finds an
       obsolescence word on a page that names the part).
-- [ ] `census/specs-skeleton.py` → `planning/plan-45-data/specs.tsv`.
-- [ ] Tests: none (data only).
+      Output: Phoenix 74 rows, 74 printed verbatim, 0 dead; Weidmüller 153, 153, 0; Würth 95, 82, 0 (13 not printed: B's ordering-table reading); JST 191, 180, 0 (11 not printed: series numbering tables, B). `awk … ($24=="" \|\| $25=="" \|\| $26=="")` over the candidates → 0.
+- [x] `census/specs-skeleton.py` → `planning/plan-45-data/specs.tsv`.
+      Output: `333 rows` (one per (maker, variant, PDF)), scheme / volts / amps / pinout / note empty.
+- [x] Tests: none (data only).
 
 Acceptance: every candidate row has a placed PDF and the verbatim scan.
   Check: `python3 -I planning/plan-45-data/census/place.py --verify` → `ok: <n> files, 0 rows without a file` (est. 30 min: 99 Würth files 5 s apart plus any 120 s waits dominate; the other hosts run beside them).
-Commit: —
+  Result 2026-11-24: `ok: 320 files, 0 rows without a file, 0 unused, 0 changed`.
+Commit: this commit (hash in the next one)
 
 ## Validation Plan
 
@@ -422,6 +427,12 @@ Commit: —
   - *8 rows out for stock check* (`found` 0: not in the fresh listing with stock above 0 and status Active or Last Time Buy): JST `S11B-XH-A`; Phoenix Contact `5430904`; Weidmüller `2473010000`, `1124280000`; Würth `691412120005B`, `691412120006B`, `691412120008B`, `691412120009B`. All 54 variants keep at least one row (variants 54 before and after). Candidates 521 → **513** (Phoenix 74, Weidmüller 153, Würth 95, JST 191); distinct URLs 340 → **333**: the Phase 3 download set is 333, not 340.
   - *Calls.* The listing took 148 calls, not 145: `371-732-t` failed once (Safari request timeouts, then DigiKey HTTP 500) and `list.sh` re-ran it from its start. Second key 573 left after the first piece; 421 at the lowest point (shared with other sessions).
   - *Dates.* `recheck.py` stamps the UTC date (2026-11-24), the date the plans use.
+
+- **2026-11-24, Phase 3.**
+  - *Download set.* 333 URLs after the stock check (the downloads started before it ran, on the 521-row set: 340 files fetched, the Phoenix `5430904` copy of the one Phoenix row that went out is in `/tmp/p45/pdf` only, not placed). 333 URLs → 320 placed files: Würth 95 URLs → 84 files, JST 11 → 9, by identical SHA-256 (`place.py` shares one file).
+  - *Phoenix copies through Safari.* Every `mm.digikey.com` file came down through `scripts/safari-digikey-pdf.sh` (first try each, about 20 s a file, 75 files in about 30 minutes, serial; the listing and the downloads cannot share Safari, so they ran one after the other). `fetch.py` decides by host, `--skip <host>` leaves one for a later run.
+  - *`textscan.py` false positive.* The first run flagged 82 of 95 Würth rows `dead`: every Würth datasheet says "we also reserve the right to **discontinue** production and delivery of products". The word list used the bare `DISCONTINUE`; the plan's word is "discontinued". It is `DISCONTINUED|DISCONTINUATION` now (and `OBSOLETE`, `NOT RECOMMENDED FOR NEW`, `END OF LIFE`, `EOL`, `LAST TIME BUY`, `NRND`); rerun → `dead` 0 in all four makers. B still reads the PDFs of rows it keeps, the zero is a scan result, not a status.
+  - *Column order of `specs.tsv`.* § Goal said "its scheme and pinout columns empty": the columns are `maker, variant, pdf, rows, example, scheme, volts, amps, pinout, note` (B's `note` is Phase 2's, `volts` / `amps` its Phase 3 facts); B may add columns.
 
 ## Summary
 
