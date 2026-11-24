@@ -26,8 +26,8 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-51-D complete | `ls planning/completed/plan-51-D-*.md` → exists | NOT MET (2026-11-21: not started) |
-| `series_check.py` passes | `python3 -I planning/plan-51-data/census/series_check.py` → `ok` | NOT MET (C's output) |
+| plan-51-D complete | `ls planning/completed/plan-51-D-*.md` → exists | MET (2026-11-24: `planning/completed/plan-51-D-socket-footprints-dip.md`, commit a059e68c) |
+| `series_check.py` passes | `python3 -I planning/plan-51-data/census/series_check.py` → `ok` | MET (2026-11-24: `ok`) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > If you stop, report the status of *all* prerequisites.
@@ -80,20 +80,20 @@ and E's test checks the position of pin 1.
 
 ### Phase 1 — PLCC in the generator
 
-- [ ] `scripts/gen-sockets.js`: `--letter E` per § 3.
-- [ ] `scripts/gen-sockets.test.js`: the slot formula reproduces the `slots` arrays of all five existing PLCC footprints exactly (read from `footprints.json`); a row with `sides` not adding to N fails with a message; a surface-mount row has no `drill`; the four generic PLCC shapes are required, supplied by the rows' `generic` cell (28, 32, 44 from `ASS_0142`, 68 from Mill-Max 940), each once, as in D.
+- [x] `scripts/gen-sockets.js`: `--letter E` per § 3. — `--letter D|E`; `plccSlots`, `plccFootprint`, `genericPlccProblems` in `scripts/gen-sockets.js`.
+- [x] `scripts/gen-sockets.test.js`: the slot formula reproduces the `slots` arrays of all five existing PLCC footprints exactly (read from `footprints.json`); a row with `sides` not adding to N fails with a message; a surface-mount row has no `drill`; the four generic PLCC shapes are required, supplied by the rows' `generic` cell (28, 32, 44 from `ASS_0142`, 68 from Mill-Max 940), each once, as in D. — 17 tests in all (7 new PLCC cases: the formula against `PLCC-28`, `-32`, `-44`, `-44-MC-44J`, `-68`; pin 1 on the middle slot of the top side; one `quad` per pin count; `sides` not adding to N; a through-hole row refused; generic shapes missing, supplied once, supplied twice).
 
 Acceptance: the tests pass.
-  Check: `node --test scripts/gen-sockets.test.js` → `# pass`, no `# fail` (est. 5 s).
-Commit: —
+  Check: `node --test scripts/gen-sockets.test.js` → `# pass`, no `# fail` (est. 5 s). Measured 2026-11-24: `ℹ pass 17`, `ℹ fail 0`. VERIFIED.
+Commit: (next commit)
 
 ### Phase 2 — the PLCC footprints
 
-- [ ] `node scripts/gen-sockets.js --letter E --out planning/plan-51-data/footprints-E.json`.
+- [x] `node scripts/gen-sockets.js --letter E --out planning/plan-51-data/footprints-E.json`. — `planning/plan-51-data/footprints-E.json: 8 PLCC socket footprints from 4 rows`.
 
 Acceptance: the side file loads; its ids are exactly the "new" ids.
-  Check: `planning/plan-51-data/census/fp-load.sh planning/plan-51-data/footprints-E.json` → `<n> new footprints: load ok` (est. 5 min).
-Commit: —
+  Check: `planning/plan-51-data/census/fp-load.sh planning/plan-51-data/footprints-E.json` → `<n> new footprints: load ok` (est. 5 min). Measured 2026-11-24: `8 new footprints: load ok`; pin 1 at (0, -spanY/2) and pin 2 one pitch to its left on all 8, as on `PLCC-28`, `-32`, `-44`, `-68` (`footprint_check --print`). VERIFIED.
+Commit: (next commit)
 
 ## Validation Plan
 

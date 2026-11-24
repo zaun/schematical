@@ -9,14 +9,16 @@
 // id, description and note share the first one's id: no two footprints have the same pads.
 //
 // Options:
-//   --letter D        the DIP rows (E, the PLCC rows, is plan-51-E's)
+//   --letter D|E      D: the DIP rows (`dual`); E: the PLCC rows (`quad` with `slots`, pin 1 top centre like the
+//                     chip footprints PLCC-28, -32, -44, -68)
 //   --out FILE        the side file written ({"format","version","footprints"}); plan-51-F merges it
 //   --series FILE     series.tsv (default planning/plan-51-data/series.tsv; the tests give a fixture)
 //   --skip-generic-check   for fixtures: do not require the generic DIP shapes (see below)
 //
 // Exit 1, writing nothing, when a DIP shape of fits.tsv (8, 14, 16, 20, 24, 28 pins at 0.3 in;
 // 24, 28, 32, 40, 48 at 0.6 in) is not supplied exactly once by a through-hole row whose
-// `generic` cell says `yes` (or lists the pin count): the generic sockets (plan-51-F) need it.
+// `generic` cell says `yes` (or lists the pin count), or (letter E) a PLCC shape (28, 32, 44, 68)
+// is not supplied exactly once by a PLCC row's `generic` cell: the generic sockets (plan-51-F) need them.
 
 'use strict';
 
@@ -88,6 +90,76 @@ function dipFootprint(row, n) {
   return fp;
 }
 
+const PLCC_SHAPES = [28, 32, 44, 68];
+
+// `32:9,7,9,7` -> { 32: [9, 7, 9, 7] }: the slots per side, left, bottom, right, top.
+function sidesPerPin(text, what) {
+  const out = {};
+  for (const part of text.split(';')) {
+    const [n, v] = part.split(':');
+    const sides = (v || '').split(',').map(Number);
+    if (!/^\d+$/.test(n) || sides.length !== 4 || sides.some((s) => !Number.isInteger(s) || s < 0)) {
+      throw new Error(`${what}: "${part}" is not N:left,bottom,right,top`);
+    }
+    out[Number(n)] = sides;
+  }
+  return out;
+}
+
+// `32:11.02/13.56` -> { 32: [11.02, 13.56] }: spanX / spanY per pin count.
+function spansPerPin(text, what) {
+  const out = {};
+  for (const part of text.split(';')) {
+    const [n, v] = part.split(':');
+    const xy = (v || '').split('/').map(Number);
+    if (!/^\d+$/.test(n) || xy.length !== 2 || xy.some((s) => !(s > 0))) throw new Error(`${what}: "${part}" is not N:x/y`);
+    out[Number(n)] = xy;
+  }
+  return out;
+}
+
+// The slot of each pin of a PLCC: pin 1 on the middle of the top side (the footprints.json PLCC chips'
+// convention: pin 1 top centre, numbers counter-clockwise: left, bottom, right, top), so pin p sits on slot
+// ((first - 1 + p - 1) mod total) + 1 with first = L + B + R + (T + 1) / 2. T must be odd.
+function plccSlots(sides) {
+  const [l, b, r, t] = sides;
+  const total = l + b + r + t;
+  if (t % 2 === 0) throw new Error(`sides ${sides.join(',')}: pin 1 is the middle of the top side, which must have an odd number of slots`);
+  const first = l + b + r + (t + 1) / 2;
+  return Array.from({ length: total }, (_, i) => ((first - 1 + i) % total) + 1);
+}
+
+// The `quad` object of one pin count of a PLCC row (surface mount: the through-hole PLCC groups are out, plan-51-C).
+function plccFootprint(row, n) {
+  const what = `${row.maker} ${row.series}`;
+  if (!MAKER_CODE[row.maker]) throw new Error(`no maker code for ${row.maker}`);
+  if (row.mounting !== 'Surface Mount') throw new Error(`${what}: a PLCC row must be surface mount (through-hole PLCC groups are out)`);
+  const sides = sidesPerPin(row.sides, `${what} sides`)[n];
+  const span = spansPerPin(row.span, `${what} span`)[n];
+  const bodyW = perPin(row.body_w, `${what} body_w`)[n];
+  const bodyH = perPin(row.body_len, `${what} body_len`)[n];
+  if (!sides || !span || !bodyW || !bodyH) throw new Error(`${what}: no sides, span or body for ${n} pins`);
+  const total = sides.reduce((a, b) => a + b, 0);
+  if (total !== n) throw new Error(`${what}: sides ${sides.join(',')} add to ${total}, not ${n}`);
+  const [file, page] = row.drawing.split(' p.');
+  const padW = Number(row.pad_w);
+  const padH = Number(row.pad_h);
+  return {
+    id: `SKT-PLCC${n}-SM-${MAKER_CODE[row.maker]}-${idSeries(row.series)}`,
+    description: `${n}-pin PLCC socket, ${row.maker} ${row.series}, surface mount`,
+    note: `${row.maker} ${file} p.${page}: pad ${padW} x ${padH}, pad-centre span ${span[0]} x ${span[1]}, body ${bodyW} x ${bodyH}; ${row.rule}`,
+    style: 'quad',
+    pins: n,
+    body: { width: bodyW, height: bodyH },
+    sides,
+    pitch: Number(row.pitch),
+    spanX: span[0],
+    spanY: span[1],
+    pad: { width: padW, height: padH, shape: 'rect' },
+    slots: plccSlots(sides),
+  };
+}
+
 // Objects equal in every key but id, description and note are one footprint.
 function dedupe(footprints) {
   const byGeometry = new Map();
@@ -107,6 +179,10 @@ function dedupe(footprints) {
 
 function dipRows(rows) {
   return rows.filter((r) => r.family === 'DIP');
+}
+
+function plccRows(rows) {
+  return rows.filter((r) => r.family === 'PLCC');
 }
 
 // Every DIP shape of fits.tsv must be supplied exactly once by a generic through-hole row.
@@ -131,10 +207,34 @@ function genericProblems(rows) {
   return problems;
 }
 
+// Every PLCC shape (28, 32, 44, 68) must be supplied exactly once by a generic row (surface mount: plan-51-C).
+function genericPlccProblems(rows) {
+  const supplied = {};
+  for (const row of plccRows(rows)) {
+    if (row.generic === '-') continue;
+    const pins = row.generic === 'yes' ? row.pins.split(',') : row.generic.split(',');
+    for (const p of pins) (supplied[p] = supplied[p] || []).push(`${row.maker} ${row.series}`);
+  }
+  const problems = [];
+  for (const n of PLCC_SHAPES) {
+    const who = supplied[n] || [];
+    if (who.length !== 1) problems.push(`${n}-pin PLCC socket: ${who.length === 0 ? 'no generic row' : `generic from ${who.join(' and ')}`}`);
+  }
+  return problems;
+}
+
 function dipFootprints(rows) {
   const all = [];
   for (const row of dipRows(rows)) {
     for (const n of row.pins.split(',').map(Number)) all.push(dipFootprint(row, n));
+  }
+  return dedupe(all);
+}
+
+function plccFootprints(rows) {
+  const all = [];
+  for (const row of plccRows(rows)) {
+    for (const n of row.pins.split(',').map(Number)) all.push(plccFootprint(row, n));
   }
   return dedupe(all);
 }
@@ -154,21 +254,22 @@ function main(argv) {
     else if (argv[i] === '--skip-generic-check') args.skipGeneric = true;
     else throw new Error(`unknown option ${argv[i]}`);
   }
-  if (args.letter !== 'D' || !args.out) {
-    console.error('usage: node scripts/gen-sockets.js --letter D --out FILE [--series FILE] [--skip-generic-check]');
+  if (!['D', 'E'].includes(args.letter) || !args.out) {
+    console.error('usage: node scripts/gen-sockets.js --letter D|E --out FILE [--series FILE] [--skip-generic-check]');
     process.exit(2);
   }
   const rows = readTsv(args.series);
+  const dip = args.letter === 'D';
   if (!args.skipGeneric) {
-    const problems = genericProblems(rows);
+    const problems = dip ? genericProblems(rows) : genericPlccProblems(rows);
     if (problems.length > 0) {
-      console.error('gen-sockets: the generic DIP sockets are not covered:\n  ' + problems.join('\n  '));
+      console.error(`gen-sockets: the generic ${dip ? 'DIP' : 'PLCC'} sockets are not covered:\n  ` + problems.join('\n  '));
       process.exit(1);
     }
   }
-  const { unique } = dipFootprints(rows);
+  const { unique } = dip ? dipFootprints(rows) : plccFootprints(rows);
   fs.writeFileSync(args.out, sideFile(unique));
-  console.log(`${args.out}: ${unique.length} DIP socket footprints from ${dipRows(rows).length} rows`);
+  console.log(`${args.out}: ${unique.length} ${dip ? 'DIP' : 'PLCC'} socket footprints from ${(dip ? dipRows(rows) : plccRows(rows)).length} rows`);
 }
 
 if (require.main === module) {
@@ -179,5 +280,8 @@ if (require.main === module) {
     process.exit(1);
   }
 } else {
-  module.exports = { readTsv, perPin, dipFootprint, dedupe, dipFootprints, genericProblems, sideFile };
+  module.exports = {
+    readTsv, perPin, dipFootprint, dedupe, dipFootprints, genericProblems, sideFile,
+    plccSlots, plccFootprint, plccFootprints, genericPlccProblems,
+  };
 }
