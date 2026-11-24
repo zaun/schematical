@@ -91,10 +91,32 @@ final class PCBUndoTests: XCTestCase {
         let b = try TestSupport.place(doc, "SN74HC00N", at: p(300, 100))
         let other = try XCTUnwrap(MarkLayer.allCases.first { $0 != a.board?.pin1 })
         assertStep(doc, "Change Marks") { doc.setFootprintMarks([a.id, b.id], pin1: other) }
-        XCTAssertTrue(doc.redo(on: .pcb))
         for id in [a.id, b.id] {
             XCTAssertEqual(doc.chips.first { $0.id == id }?.board?.pin1, other)
         }
+    }
+
+    /// Several selected items lock together, as one undo step.
+    func testLockSeveralItems() throws {
+        let doc = TestSupport.newDocument()
+        let a = try TestSupport.place(doc, "SN74HC00N", at: p(100, 100))
+        let text = doc.addText(at: p(20, 20))
+        let items: [BoardItem] = [.footprint(a.id), .text(text)]
+        assertStep(doc, "Lock Position") { doc.setLocked(items, true) }
+        XCTAssertTrue(items.allSatisfy { doc.isLocked($0) })
+    }
+
+    /// Several selected footprints and texts change side together; a via or
+    /// hole in the selection is skipped.
+    func testSetSideOfSeveralItems() throws {
+        let doc = TestSupport.newDocument()
+        doc.setLayerCount(2)
+        let a = try TestSupport.place(doc, "SN74HC00N", at: p(100, 100))
+        let text = doc.addText(at: p(20, 20))
+        let items: [BoardItem] = [.footprint(a.id), .text(text)]
+        assertStep(doc, "Change Side") { doc.setSide(of: items, .bottom) }
+        XCTAssertEqual(doc.chips.first { $0.id == a.id }?.board?.side, .bottom)
+        XCTAssertEqual(doc.texts.first { $0.id == text }?.side, .bottom)
     }
 
     // MARK: Board

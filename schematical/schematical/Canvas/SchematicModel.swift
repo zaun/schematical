@@ -4720,6 +4720,28 @@ final class SchematicDocument {
         }
     }
 
+    /// Locks or unlocks every item in `items` as one undo step.
+    func setLocked(_ items: some Collection<BoardItem>, _ locked: Bool) {
+        guard items.contains(where: { isLocked($0) != locked }) else { return }
+        recordEdit(.pcb, locked ? "Lock Position" : "Unlock Position") {
+            for item in items { setLocked(item, locked) }
+        }
+    }
+
+    /// Puts every footprint and text in `items` on `side` of the board, as
+    /// one undo step. Other items have no side and are skipped.
+    func setSide(of items: some Collection<BoardItem>, _ side: BoardSide) {
+        recordEdit(.pcb, "Change Side") {
+            for item in items {
+                switch item {
+                case let .footprint(id): setFootprintSide(id, side)
+                case let .text(id): setTextSide(id, side)
+                default: break
+                }
+            }
+        }
+    }
+
     // MARK: Group drags (PCB)
 
     /// Where every selected footprint (its centre) and text (its anchor) is

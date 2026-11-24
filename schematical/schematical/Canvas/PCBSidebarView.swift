@@ -105,6 +105,7 @@ struct PCBSidebarView: View {
                         .id(keepout.id)
                 }
             case .selection:
+                MultiPositionSection(document: document)
                 let footprints = document.boardSelection.items.compactMap { item -> UUID? in
                     if case let .footprint(id) = item, document.chips.contains(where: { $0.id == id && $0.board != nil }) {
                         return id
@@ -135,6 +136,50 @@ struct PCBSidebarView: View {
         .sheet(isPresented: $isDetailsOpen) {
             BoardDetailsSheet(document: document, highlightedNet: highlightedNet, onRoute: onRoute,
                               onClose: { isDetailsOpen = false })
+        }
+    }
+}
+
+// MARK: - Position of several items
+
+/// The Position section for a selection of several items: the Layer (Top or
+/// Bottom) of its footprints and board texts, and Lock Position for every
+/// item. A change applies to all of them as one undo step. When they
+/// disagree, the Layer shows no segment selected and Lock Position is off;
+/// turning it on locks them all.
+struct MultiPositionSection: View {
+    let document: SchematicDocument
+
+    var body: some View {
+        let items = Array(document.boardSelection.items)
+        let sides = Set(items.compactMap { side(of: $0) })
+        Section("Position") {
+            if !sides.isEmpty {
+                Picker("Layer", selection: Binding<BoardSide?>(
+                    get: { sides.count == 1 ? sides.first : nil },
+                    set: { if let side = $0 { document.setSide(of: items, side) } }
+                )) {
+                    ForEach(BoardSide.allCases, id: \.self) { side in
+                        Text(side.title).tag(Optional(side))
+                    }
+                }
+                .pickerStyle(.segmented)
+                .disabled(document.board.layers == 1)
+            }
+            Toggle("Lock Position", isOn: Binding(
+                get: { !items.isEmpty && items.allSatisfy { document.isLocked($0) } },
+                set: { document.setLocked(items, $0) }
+            ))
+            .help("A locked item can't be moved")
+        }
+    }
+
+    /// The side a footprint or board text is on; nil for any other item.
+    private func side(of item: BoardItem) -> BoardSide? {
+        switch item {
+        case let .footprint(id): document.chips.first { $0.id == id }?.board?.side
+        case let .text(id): document.texts.first { $0.id == id }?.side
+        default: nil
         }
     }
 }
