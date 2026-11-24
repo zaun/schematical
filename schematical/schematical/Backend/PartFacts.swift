@@ -305,6 +305,7 @@ nonisolated enum PartFacts {
         case PART_GENERIC: return "Part"
         case PART_NIXIE: return "Nixie tube"
         case PART_DEKATRON: return "Dekatron"
+        case PART_LCD: return "LCD glass"
         case PART_REGULATOR: return "Voltage regulator"
         case PART_CRYSTAL: return "Crystal"
         default: return ""

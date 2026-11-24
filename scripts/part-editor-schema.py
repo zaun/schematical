@@ -34,6 +34,7 @@ KIND_FILES = {
     "regulator": ["regulator.c"],
     "crystal": ["crystal.c"],
     "dekatron": ["dekatron.c"],
+    "lcd": ["lcd.c"],
 }
 
 NAMES = {

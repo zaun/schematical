@@ -9,8 +9,8 @@ import XCTest
 final class PartKindRoundTripTests: XCTestCase {
     /// The shipped part count of each kind (`rg -o '"manufacturer"' Parts/<kind>.json | wc -l`).
     static let expected: [String: Int] = [
-        "dff": 867, "jkff": 186, "mux": 346, "decoder": 325,
-        "latch": 752, "buffer": 2137, "arith": 107,
+        "dff": 867, "jkff": 186, "mux": 346, "decoder": 352,
+        "latch": 768, "buffer": 2137, "arith": 107,
         "counter": 732, "shift": 597,
         "sram": 172, "eeprom": 174, "switch": 2070, "led": 1, "7seg": 60, "oscillator": 1145, "supply": 18,
         "cpu": 21, "pio": 7, "serial": 247, "charlcd": 72, "connector": 376, "converter": 1914, "rtc": 16,
@@ -19,6 +19,7 @@ final class PartKindRoundTripTests: XCTestCase {
         "resistor": 1975, "capacitor": 1032, "transistor": 1256, "mcu": 1424,
         "nixie": 22,
         "dekatron": 13,
+        "lcd": 7,
         "serialmem": 92,
         "regulator": 603,
         "crystal": 604,
@@ -67,6 +68,7 @@ final class PartKindRoundTripTests: XCTestCase {
     func testMcu() { check("mcu") }
     func testNixie() { check("nixie") }
     func testDekatron() { check("dekatron") }
+    func testLcd() { check("lcd") }
     func testSerialmem() { check("serialmem") }
     func testRegulator() { check("regulator") }
     func testCrystal() { check("crystal") }

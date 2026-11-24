@@ -106,9 +106,9 @@ Commit: —
 
 ### Phase 3 — app
 
-- [ ] `PartCatalog.swift`, `PartFacts.swift`, `SchematicModel.swift`, `SchematicCanvasView.swift`, `SchematicExportScene.swift`, `ReferenceLabel.swift`, `PartLook.swift`: the glass uses `SevenSegmentSymbolView` with `PartDisplay` built from `cells` (the lit set from `circuit_part_lights`).
-- [ ] Part Editor: `KindInfo`, `PartKinds.all`, `KIND_FILES`, `PartKindKeysTests.files`, `LcdDraft.swift` (generated), `KindSchema`, `PartKindRoundTripTests`, ReferencePrefixes (`DS`).
-- [ ] Swift tests updated (`DrawerCategoriesTests` counts, `KindInfoTests`, `PartEditorWindowTests`).
+- [x] `PartCatalog.swift`, `PartFacts.swift`, `SchematicModel.swift`, `SchematicCanvasView.swift`, `SchematicExportScene.swift`, `ReferenceLabel.swift`, `PartLook.swift`: the glass uses `SevenSegmentSymbolView` with `PartDisplay` built from `cells` (the lit set from `circuit_part_lights`).
+- [x] Part Editor: `KindInfo`, `PartKinds.all`, `KIND_FILES`, `PartKindKeysTests.files`, `LcdDraft.swift` (generated), `KindSchema`, `PartKindRoundTripTests`, ReferencePrefixes (`DS`).
+- [x] Swift tests updated (`DrawerCategoriesTests` counts, `KindInfoTests`, `PartEditorWindowTests`).
 
 Acceptance: `xcodebuild test -only-testing:schematicalTests/PartKindKeysTests -only-testing:schematicalTests/DrawerCategoriesTests -only-testing:schematicalTests/KindInfoTests` → TEST SUCCEEDED (est. 3 min).
 Commit: —

@@ -1494,7 +1494,7 @@ func symbol(for part: CatalogPart) -> PartSymbol {
     switch part.kind {
     case PART_SWITCH: return part.isTactileSwitch ? .tactileSwitch : .dipSwitch
     case PART_LED: return .diode
-    case PART_7SEG: return .sevenSegment
+    case PART_7SEG, PART_LCD: return .sevenSegment
     case PART_NIXIE: return .nixie
     case PART_DEKATRON: return .dekatron
     case PART_CHARLCD: return .characterLCD
@@ -2360,7 +2360,7 @@ final class PartCatalogStore {
     private static func listsPartsDirectly(_ parts: [CatalogPart]) -> Bool {
         parts.allSatisfy {
             ($0.kind == PART_SWITCH && !$0.isTactileSwitch) || $0.kind == PART_LED || $0.kind == PART_7SEG || $0.kind == PART_CHARLCD
-                || $0.kind == PART_NIXIE || $0.kind == PART_DEKATRON
+                || $0.kind == PART_NIXIE || $0.kind == PART_DEKATRON || $0.kind == PART_LCD
                 || $0.kind == PART_HEADER
         }
     }
