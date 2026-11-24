@@ -1,0 +1,5 @@
+{"rows": [{"stem": "TEST-ROW", "positions": [8], "description": "{N}-contact test row", "note": "plan-54-H fixture: 2 x 4 pads, pitch 1.0, a 0.5 gap after pad 2, side 1 runs right to left, one peg",
+  "numbering": "halves", "pitch": 1.0, "dir": "ltr,rtl", "row_y": "-2,2", "row_layer": "same,opposite", "edge_mount": 1,
+  "pad_w": 0.4, "pad_h": 1.2, "shape": "rect", "gaps": {"2": 0.5},
+  "extras": [{"pin": 0, "x": "L0/2+1", "y": 0, "width": 1.0, "height": 1.0, "shape": "round", "drill": 1.0, "plated": false}],
+  "body_w": "L0+4", "body_h": 6}]}

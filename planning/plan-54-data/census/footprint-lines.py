@@ -53,19 +53,23 @@ def main():
     groups = collections.defaultdict(list)
     for r in cand:
         if r['state'] in wanted and (not fams or r['family'] in fams) and (not makers or r['maker'] in makers):
-            groups[(letter(r), r['family'], r['maker'], r['variant'])].append(r)
-    print('# letter\tfamily\tmaker\tseries\tmounting\tcard\tpitch\trows\tpositions\tparts\texample\tdatasheet\texisting footprints\tid stem\tstatus')
+            groups[(letter(r), r['family'], r['maker'], r['variant'], r['pdf'])].append(r)
+    print('# letter\tfamily\tmaker\tseries\tmounting\tcard\tpitch\trows\tpositions\tparts\texample\tdatasheet\texisting footprints\tid stem\tstatus\tvariant')
+    seen = collections.Counter()
     for k in sorted(groups):
         g = groups[k]
         ex = max(g, key=lambda r: (int(r['stock'] or 0), r['mpn']))
         spec = None
         _, _, _, spec = specs.verdict(ex, table.get(specs.key(ex)))
         stem = f"{KIND[ex['family']]}-{MAKER[ex['maker']]}-{slug(ex)}"
+        seen[stem] += 1
+        if seen[stem] > 1:   # another variant of the same series: -B, -C ...
+            stem += '-' + chr(ord('A') + seen[stem] - 1)
         same = [i for i in ids if i.startswith(stem)]
         pos = ','.join(str(n) for n in sorted({int(r['positions']) for r in g}))
         print('\t'.join([k[0], k[1], k[2], ex['series'], ex['mounting'], spec['card'] if spec else '', spec['pitch'] if spec else '',
                          ex['rows'], pos, str(len(g)), ex['mpn'], ex['pdf'], ' '.join(same), stem,
-                         'edge-mount' if spec and 'edge-mount' in specs.status_words(spec) else '']))
+                         'edge-mount' if spec and 'edge-mount' in specs.status_words(spec) else '', ex['variant']]))
 
 
 main()
