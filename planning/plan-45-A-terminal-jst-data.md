@@ -319,9 +319,10 @@ rows keeps the rest (no refill: each row is its own part).
 
 ### Phase 1 — Restore the listing
 
-- [ ] Run `python3 -I planning/plan-45-data/census/select.py planning/plan-45-data/raw /tmp/p45-cand.tsv --urls planning/plan-45-data/url-check.tsv --report`:
+- [x] Run `python3 -I planning/plan-45-data/census/select.py planning/plan-45-data/raw /tmp/p45-cand.tsv --urls planning/plan-45-data/url-check.tsv --report`:
       `5295 parts listed`, `candidates: 521; distinct URLs 340; variants 54`;
       `cmp` with `candidates.tsv` → `reproducible`.
+      Output 2026-11-24: `5295 parts listed`, `candidates: 521; distinct URLs 340; variants 54`, `cmp` → `reproducible`.
 
 Acceptance: the planning pick reproduces.
   Check: `python3 -I planning/plan-45-data/census/select.py planning/plan-45-data/raw /tmp/p45-cand.tsv --urls planning/plan-45-data/url-check.tsv && cmp /tmp/p45-cand.tsv planning/plan-45-data/candidates.tsv && echo reproducible` → `reproducible` (est. < 1 min).
