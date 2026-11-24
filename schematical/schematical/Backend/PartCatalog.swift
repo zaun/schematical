@@ -553,6 +553,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// slot takes ("microSD", "DDR4 SODIMM", "PCI Express"); `pitchUM`:
         /// the contact pitch in micrometres, 0 when the part gives none.
         case cardSlot(card: String, pitchUM: UInt32)
+        /// A test point (plan-57): one passive pin, a bare pad or plated hole
+        /// to probe; a `connector` device with `"testPoint": true`.
+        case testPoint
         /// A parallel I/O peripheral on the 65xx bus (plan-14): its model
         /// ("pia6521", "via6522"), speed grade and highest clock.
         case pio(model: String, grade: String, maxHz: UInt64)
@@ -702,6 +705,12 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     /// A card slot: a socket for a memory or SIM card, a module or a card edge (plan-54).
     var isCardSlot: Bool {
         if case .cardSlot = details { return true }
+        return false
+    }
+
+    /// A test point: one passive pin on a bare pad or plated hole (plan-57).
+    var isTestPoint: Bool {
+        if case .testPoint = details { return true }
         return false
     }
 
@@ -939,6 +948,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
                     String(format: "%.1f A", Double(ratedMA) / 1000)] + (contacts > 0 ? ["switched"] : [])
         case let .cardSlot(card, pitchUM):
             return [card] + (pitchUM > 0 ? [String(format: "%.2f mm", Double(pitchUM) / 1000)] : [])
+        case .testPoint: return []
         case let .header(rows, perRow, _): return ["\(rows)×\(perRow)"]
         case let .converter(_, bits, channels):
             return ["\(bits)-bit"] + (channels > 1 ? ["\(channels) channels"] : [])
@@ -1176,6 +1186,8 @@ extension CatalogPart {
             let rows = max(Int(header.rows), 1)
             details = .header(rows: rows, perRow: Int(part.pin_count) / rows,
                               genders: (0..<header.gender_count).map { string(header.genders?[$0]) })
+        } else if let connector = part.connector?.pointee, connector.test_point != 0 {
+            details = .testPoint
         } else if let connector = part.connector?.pointee, let card = connector.card {
             details = .cardSlot(card: string(card), pitchUM: connector.card_pitch_um)
         } else if let connector = part.connector?.pointee {
@@ -1571,7 +1583,8 @@ func symbol(for part: CatalogPart) -> PartSymbol {
         if pull { return level == 0 ? .pullDown : .pullUp }
         return level == 0 ? .ground : .vcc
     case PART_CONNECTOR:
-        // A USB connector and a card slot are plain blocks of their pins.
+        // A USB connector, a card slot and a test point are plain blocks of their pins.
+        if part.isTestPoint { return .block }
         if case .connector(_, _, _, _, _?) = part.details { return .block }
         if case .cardSlot = part.details { return .block }
         return .barrelJack

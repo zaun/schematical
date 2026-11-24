@@ -35,6 +35,8 @@ struct PartLook {
         /// A card slot (plan-54-O): a dark housing over the footprint's pads,
         /// `height` mm tall (by what the slot takes).
         case cardSlot(height: CGFloat)
+        /// A test point (plan-57): a bare pad or plated hole with no body.
+        case testPad
         case barrel
         case toPackage
         case block(height: CGFloat)
@@ -100,6 +102,7 @@ struct PartLook {
             if !tht { return .chipLED(tint) }
             return footprint.bodyRound ? .radialLED(tint) : .squareLED(tint)
         case PART_CONNECTOR:
+            if part.isTestPoint { return .testPad }
             if case let .connector(_, _, _, _, usb) = part.details, let usb { return .usb(usb) }
             if part.isCardSlot { return .cardSlot(height: cardSlotHeight(of: part)) }
             if id.hasPrefix("USB") { return .usb(nil) }
@@ -228,6 +231,7 @@ struct PartLook {
             default: 4
             }
         case let .cardSlot(height): height
+        case .testPad: 0
         case .barrel: 11
         case .toPackage: 15
         case let .block(height): height
@@ -590,6 +594,10 @@ struct PartLook {
             }
             let housing = Tint(0.16, 0.17, 0.19)
             if !padBounds.isNull { box(padBounds, 0, h, housing, top: housing.shaded(1.15)) }
+
+        case .testPad:
+            // A test point has no body; the pad is drawn by the board's copper.
+            break
 
         case .barrel:
             box(bodyRect, 0, h, Tint(0.10, 0.10, 0.11), top: Tint(0.14, 0.14, 0.15))

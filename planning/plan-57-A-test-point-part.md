@@ -307,13 +307,13 @@ Acceptance: the backend loads the part and rejects every malformed device.
   Observed: `ctest --test-dir /tmp/logic-build-p57 -R 'library_check|listing_check|connector_test|footprint_check|trace_check'` → `100% tests passed, 0 tests failed out of 5` (10 s after the build).
   Check: `cmake -S backend -B /tmp/logic-build && cmake --build /tmp/logic-build && ctest --test-dir /tmp/logic-build -R 'library_check|listing_check|connector_test|footprint_check' --output-on-failure` → `100% tests passed, 0 tests failed out of 4` (est. 5 min first build, 1 min after; scoped to the four tests that read the changed files, not the suite).
   Check: `git diff --stat backend/tests/golden` → `parts.txt | 1 +`, `footprints.txt | 10 ++++++++++`, `traces.txt | 1 +`, no other file (est. seconds).
-Commit: —
+Commit: 9fcf8fe3
 
 ### Phase 2 — The app recognises the part
 
 The part is placeable and drawn as a plain block, not as a barrel jack.
 
-- [ ] `schematical/schematical/Backend/PartCatalog.swift`: add `case testPoint`
+- [x] `schematical/schematical/Backend/PartCatalog.swift`: add `case testPoint`
       to `PartDetails` after `.cardSlot` (line 555, with a doc comment); add
       `var isTestPoint: Bool` beside `isCardSlot` (line 703); in the details
       builder (line 1179) add `else if let connector = part.connector?.pointee,
@@ -321,15 +321,15 @@ The part is placeable and drawn as a plain block, not as a barrel jack.
       add the case to the labels switch at line 940 (`return []`); `symbol(for:)`
       (line 1573): `if part.isTestPoint { return .block }` first in the
       `PART_CONNECTOR` case.
-- [ ] `schematical/schematical/Backend/PartFacts.swift`: the facts switch at
+- [x] `schematical/schematical/Backend/PartFacts.swift`: the facts switch at
       line 146 gets `case .testPoint: break`; `kindName` (line 352) returns
       "Test point" when `part.isTestPoint`.
-- [ ] `schematical/schematical/BoardPreview/PartLook.swift`: add `case testPad`
+- [x] `schematical/schematical/BoardPreview/PartLook.swift`: add `case testPad`
       to `Kind` (line 37 region); `kind(of:)` (line 102): `if part.isTestPoint
       { return .testPad }` first in the `PART_CONNECTOR` case; height (line 231)
       `.testPad: 0`; solids (line 594) `case .testPad: break` with the comment
       "a test point has no body; the pad is drawn by the board's copper".
-- [ ] `schematical/schematicalTests/TestPointTests.swift` (new): the real
+- [x] `schematical/schematicalTests/TestPointTests.swift` (new): the real
       catalog's `GENERIC-TESTPOINT` has `kind == PART_CONNECTOR`, `isTestPoint`,
       one pin named `TP`, `drawer == ["Connector"]`, `function == "Test Point"`,
       ten `footprintChoices` all distinct, `footprint?.id == "TESTPOINT-PAD-1.5"`,
@@ -340,6 +340,7 @@ The part is placeable and drawn as a plain block, not as a barrel jack.
       details (`PJ-002A` is `.connector`, a card slot is `.cardSlot`).
 
 Acceptance: the app lists, places and draws the part without barrel artifacts.
+  Observed (`xcodebuild … -derivedDataPath /tmp/plan57/dd test -only-testing:schematicalTests/TestPointTests -only-testing:schematicalTests/PartKindKeysTests -only-testing:schematicalTests/CardSlotTests`, 12 tests): `TestPointTests` passed (5/5), `CardSlotTests` passed (6/6), `PartKindKeysTests` failed on `testFormKeysCoverTheBackendKeys` with keys missing for `converter` and `rtc` only (plan-56's display-driver keys: `backplanes`, `blink`, `scanLimit` …); no `connector` key is missing, so the form covers `testPoint`. That failure is not caused by this plan (Corrections 5).
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/TestPointTests -only-testing:schematicalTests/PartKindKeysTests -only-testing:schematicalTests/CardSlotTests` → `** TEST SUCCEEDED **` (est. 8 min incl. build; scoped to the new test, the form-key drift test and the card-slot test that shares the code).
 Commit: —
 
@@ -389,6 +390,15 @@ Commit: —
 3. **Build directory.** `/tmp/logic-build` already existed (another session's);
    this plan used `/tmp/logic-build-p57` so the two do not share a CMake cache.
    Every `Check` command below reads the same with that path.
+5. **`PartKindKeysTests.testFormKeysCoverTheBackendKeys` is red for other
+   reasons.** Phase 2's check includes it to prove the Part Editor form covers
+   `testPoint`. It fails, but its message lists keys of `converter` and `rtc`
+   only (`rg -c '"connector"' /tmp/plan57/xcb-a2.log` → 0 in the failure text):
+   plan-56's display-driver keys (`backplanes`, `blink`, `scanLimit`, …,
+   `backend/src/models/converter_load.c`, last changed by `9a2c0969`, plan-56)
+   that `ConverterDraft.swift` / `RtcDraft.swift` do not yet have. The
+   connector half of the test passes, which is what this plan needs; the
+   converter / rtc form keys belong to plan-56 and are left untouched.
 4. **Where the docs went.** The card-slot paragraph of `docs/parts-format.md`
    sits (misplaced) under § `grid`, not § `connector`; the Test points
    subsection went at the end of § `connector` (before `### header`) where the

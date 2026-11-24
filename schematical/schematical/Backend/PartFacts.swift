@@ -146,6 +146,8 @@ nonisolated enum PartFacts {
         case let .cardSlot(card, pitchUM):
             add("Card", card)
             if pitchUM > 0 { add("Pitch", String(format: "%.2f mm", Double(pitchUM) / 1000)) }
+        case .testPoint:
+            break
         case let .header(rows, perRow, genders):
             add("Rows", String(rows))
             add("Pins per row", String(perRow))
@@ -350,6 +352,7 @@ nonisolated enum PartFacts {
         if let info = part.crystal, info.type == "resonator" { return "Ceramic resonator" }
         if case .connector(_, _, _, _, _?) = part.details { return "USB connector" }
         if part.isCardSlot { return "Card slot" }
+        if part.isTestPoint { return "Test point" }
         if case let .converter(type, _, _) = part.details {
             switch type {
             case "adc": return "ADC"
