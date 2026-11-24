@@ -48,13 +48,13 @@ All of § 4 passes on one tree.
 
 Acceptance: every item above passes.
   Check: the items themselves (est. 40 min in total).
-Commit: (next commit)
+Commit: 9b8cdecf
 
 ### Phase 2 — close out
 
-- [ ] `planning/todo.md`: the "For DIP and PLCC chips have a toggle to use a socket footprint…" line becomes `[x]` with `(plan-51)`.
-- [ ] `git mv planning/plan-51-[A-J]-*.md planning/completed/` (`plan-51-data/` stays).
-- [ ] One commit per AGENTS § Git, naming only the files changed.
+- [x] `planning/todo.md`: the "For DIP and PLCC chips have a toggle to use a socket footprint…" line becomes `[x]` with `(plan-51)`. — made in the main tree after the merge, left uncommitted (§ Corrections: the file holds the owner's own uncommitted edits); the line reads `- [x] (plan-51) For DIP and PLCC chips …`.
+- [x] `git mv planning/plan-51-[A-J]-*.md planning/completed/` (`plan-51-data/` stays). — A to I were archived as each finished; J with this commit.
+- [x] One commit per AGENTS § Git, naming only the files changed. — one commit per letter's work on the branch (named files only), the branch merged into main without a conflict.
 
 Acceptance: `ls planning/completed/plan-51-*.md | wc -l` → 10.
   Check: that command (est. 1 s).
