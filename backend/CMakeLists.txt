@@ -33,6 +33,7 @@ add_library(logic STATIC
     src/models/led.c
     src/models/nixie.c
     src/models/dekatron.c
+    src/models/lcd.c
     src/models/regulator.c
     src/models/crystal.c
     src/models/oscillator.c
@@ -193,6 +194,7 @@ logic_test(generic_test)
 logic_test(serialmem_test)
 logic_test(nixie_test)
 logic_test(dekatron_test)
+logic_test(lcd_test)
 logic_test(regulator_test)
 logic_test(crystal_test)
 

@@ -43,6 +43,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_REGULATOR: return "regulator";
         case PART_CRYSTAL: return "crystal";
         case PART_DEKATRON: return "dekatron";
+        case PART_LCD: return "lcd";
     }
     return "?";
 }
@@ -294,6 +295,7 @@ static void print_details(FILE *out, const Part *part) {
             }
             break;
         }
+        case PART_LCD:
         case PART_7SEG: {
             const PartDisplay *d = part->display;
             size_t i;

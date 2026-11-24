@@ -40,6 +40,7 @@ extern const PartKindOps NIXIE_KIND;
 extern const PartKindOps REGULATOR_KIND;
 extern const PartKindOps CRYSTAL_KIND;
 extern const PartKindOps DEKATRON_KIND;
+extern const PartKindOps LCD_KIND;
 
 /* One line per kind. Adding a kind: docs/backend.md, "Adding a kind". */
 const PartKindOps *const KINDS[] = {
@@ -80,6 +81,7 @@ const PartKindOps *const KINDS[] = {
     &REGULATOR_KIND,
     &CRYSTAL_KIND,
     &DEKATRON_KIND,
+    &LCD_KIND,
     NULL
 };
 

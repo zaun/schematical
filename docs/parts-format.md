@@ -41,6 +41,7 @@ diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character
 | `serialmem.json` | `serialmem` |
 | `nixie.json` | `nixie` |
 | `dekatron.json` | `dekatron` |
+| `lcd.json` | `lcd` |
 
 Beside them, `datasheets.json` holds the datasheet URLs parts name with
 `"datasheet"` (see [Datasheets](#datasheets)), and `footprints.json` the land
@@ -3566,6 +3567,36 @@ An LED's segment pin is the first pin (in pin order) in `segmentPins` that
 drives its segment for its digit (or every digit); its commons are the
 first two pins of its digit in `commonPins`. Unused positions are pins with
 role `nc` (no connect) or `absent` (no lead). Parts carry no kind keys.
+
+### `lcd`
+
+Segment liquid-crystal glass (plan-56-A): a set of cells, each between one
+segment pin and one backplane pin. A cell is lit while both pins are driven
+(0 or 1) and their levels differ: the digital form of "the segment waveform is
+out of phase with the backplane". A multiplexed driver drives the backplane of
+the active slot and leaves the others at Z, so only that backplane's cells can
+light in that slot; static glass is the one-backplane case. The glass drives
+nothing and there is no bias, contrast or DC-damage model. Lights report "on
+at any time during the last step", as on a multiplexed `7seg`.
+
+```json
+"digits": 4, "colonAfter": 0, "dotAfter": 0, "color": "Gray", "size": "0.5 in",
+"drive": "1:3", "backplanes": ["COM1", "COM2", "COM3"],
+"cells": [{"digit": 1, "segment": "A", "pin": "S1", "bp": "COM1"}],
+"segmentSide": ["S1", "S2"], "backplaneSide": ["COM1", "COM2", "COM3"]
+```
+
+| Key | Value |
+|---|---|
+| `"digits"`, `"colonAfter"`, `"dotAfter"`, `"color"`, `"size"` | as `7seg` (1–14 digits) |
+| `"drive"` | `"static"`, `"1:2"`, `"1:3"` or `"1:4"`: the multiplex the glass is made for. Shown, not used by the model |
+| `"backplanes"` | 1–4 pin names (role `input`) |
+| `"cells"` | every cell in lights order: `digit` (1…, 0 = the colon/dot/annunciator group), `segment` (`A`–`G`, `DP`, `L1`–`L3` colon and raised dot, `LB` low battery, `MINUS`), `pin` (a segment pin, role `input`) and `bp` (one of `backplanes`). One digit and segment appears once; several cells may share a segment pin (a multiplexed glass shares each pin between backplanes, and a half digit's B and C share one pin) |
+| `"segmentSide"`, `"backplaneSide"` | drawing order of the symbol's two sides, by pin name; `PartDisplay.segment_pins` / `common_pins` hold these pins' indices (the backplanes are the common pins) |
+
+`Part.display` is the same `PartDisplay` a `7seg` has (`type` holds the drive;
+`common_anode` is 0), so the app draws it with the 7-segment symbol. Parts
+carry no kind keys.
 
 ### `dekatron`
 

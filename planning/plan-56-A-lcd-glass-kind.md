@@ -85,12 +85,12 @@ Pins: segment pins role `input`, backplane pins role `input`; no output is ever 
 
 ### Phase 1 — backend kind
 
-- [ ] `backend/include/parts.h`: `PART_LCD`, `PartLcd` info (digits, drive, cell count) on `Part`.
-- [ ] `backend/src/models/lcd.c`: `LCD_KIND` (device/part keys, loader cross-checks: cell pins exist and are `input`, bp is one of `backplanes`, no duplicate (pin,bp) cell, `digits` 1–14), model, lights.
-- [ ] `backend/src/library/kinds.c`: the `LCD_KIND` line; `backend/CMakeLists.txt`: `src/models/lcd.c`.
-- [ ] `backend/tests/lcd_test.c` (+ `logic_test(lcd_test)`): static cell lit/unlit, X and Z segment or backplane → unlit-unknown rules, 1:3 multiplex slot (inactive backplane Z), loader rejections (unknown pin, unknown bp, duplicate cell).
-- [ ] `tests/support/listing.c`, `trace_check.c`, `listing_check.c`: kind name and facts, `TRACE_LAST_KIND`.
-- [ ] `docs/parts-format.md`: `lcd.json` row in the file table and a `### lcd` section; `docs/backend.md` kind list.
+- [x] `backend/include/parts.h`: `PART_LCD`, `PartLcd` info (digits, drive, cell count) on `Part`.
+- [x] `backend/src/models/lcd.c`: `LCD_KIND` (device/part keys, loader cross-checks: cell pins exist and are `input`, bp is one of `backplanes`, no duplicate (pin,bp) cell, `digits` 1–14), model, lights.
+- [x] `backend/src/library/kinds.c`: the `LCD_KIND` line; `backend/CMakeLists.txt`: `src/models/lcd.c`.
+- [x] `backend/tests/lcd_test.c` (+ `logic_test(lcd_test)`): static cell lit/unlit, X and Z segment or backplane → unlit-unknown rules, 1:3 multiplex slot (inactive backplane Z), loader rejections (unknown pin, unknown bp, duplicate cell).
+- [x] `tests/support/listing.c`, `trace_check.c`, `listing_check.c`: kind name and facts, `TRACE_LAST_KIND`.
+- [x] `docs/parts-format.md`: `lcd.json` row in the file table and a `### lcd` section; `docs/backend.md` kind list.
 
 Acceptance: `ctest --test-dir /tmp/logic-build -R "lcd_test|library_check"` passes. Check: that command (est. 30 s).
 Commit: —
