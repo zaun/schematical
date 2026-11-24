@@ -161,20 +161,20 @@ row needs is not copied.
 
 Acceptance: every piece is listed in full.
   Check: `grep -h 'list.js:' planning/plan-55-data/raw/*.err | awk '{s+=$6} END{print s}'` → at least 30 and at most 40 calls (est. < 1 min); `grep -h 'cut at' planning/plan-55-data/raw/*.err | wc -l` → 0; `python3 -I planning/plan-55-data/census/select.py planning/plan-55-data/raw /tmp/p55-c0.tsv --report` → `listed:` equal to the sum of the nine `pick` counts of `families.out` plus any part DigiKey added since, `ideal`, `load` and `limited` lines each within their `pick` sums (est. 2 min).
-Commit: (filled by the next commit)
+Commit: c8b2f11d
 
 ### Phase 2 — The datasheet sources, the stock re-check
 
-- [ ] `census/urls.py` → `urls-needed.tsv`: the distinct (maker URL, download source) pairs of the
+- [x] `census/urls.py` → `urls-needed.tsv`: the distinct (maker URL, download source) pairs of the
       rows; `census/urlcheck.py` → `url-check.tsv`: which sources answer a PDF (one request a second
-      per host).
-- [ ] `census/stock-check.sh` (adapted from plan-44-A): `census/list.sh planning/plan-55-data/raw-recheck` (30 to 40 calls),
+      per host). Observed: 679 chains; `url-check.tsv` 410 URLs: 196 ti.com, 12 analog.com, 50 diodes.com, 26 onsemi.com, 34 microchip.com answer a PDF; 85 ti.com and 1 diodes.com answer 404; 5 monolithicpower.com and 1 microchip.com answer a page, not a PDF (Correction 4).
+- [x] `census/stock-check.sh` (adapted from plan-44-A): `census/list.sh planning/plan-55-data/raw-recheck` (30 to 40 calls),
       then `select.py --stock` marks every row found again (`stock_checked` 1) and a row not found `out`,
-      reason `stock check`. Needs quota `left` ≥ 40 on its own day.
+      reason `stock check`. Needs quota `left` ≥ 40 on its own day. Observed: `stock-check.sh … --opt2` → 30 calls (the facets files are copied, saving two), no `cut at`, `stock-check: 1031 rows, 1030 found again`; the one not found is `MIC2077-2BWM TR` (`out`, `stock check`).
 
 Acceptance: every candidate row has `stock_checked` 1 or is `out`.
-  Check: `python3 -I planning/plan-55-data/census/select.py planning/plan-55-data/raw planning/plan-55-data/candidates.tsv --urls planning/plan-55-data/url-check.tsv --stock planning/plan-55-data/stock-check.tsv --report` → exits 0 and prints `candidate` rows each with `stock_checked` 1 (est. 3 min).
-Commit: —
+  Check: `python3 -I planning/plan-55-data/census/select.py planning/plan-55-data/raw planning/plan-55-data/candidates.tsv --urls planning/plan-55-data/url-check.tsv --stock planning/plan-55-data/stock-check.tsv --report` → exits 0 and prints `candidate` rows each with `stock_checked` 1 (est. 3 min). Observed (with `--carry` added): `candidate: 1030; out: no stock 5, stock check 1`; `candidate rows with stock_checked 1: 1030`.
+Commit: (filled by the next commit)
 
 ### Phase 3 — Download, place and scan the datasheets
 
@@ -217,6 +217,9 @@ Commit: —
 1. **DigiKey's API answers scripts with a Cloudflare challenge since 2026-11-23** (`scripts/digikey.js` header; the memory `digikey-credentials`): `list.js` as plan-54 wrote it (plain `fetch`) would fail. `scripts/digikey.js` now `module.exports` its `credentials`, `token` and `fetchRetry` (the request path with the Safari fallback) when `require`d (the command line is unchanged: `require.main === module`), `census/common.js` uses them, and `list.js`, `list.sh` and `families.js` take `--opt2`. The token cache is `digikey.js`'s (one file per key).
 2. **The split must be an exact partition.** plan-54's `splitFacet` took the facet whose largest value is smallest; for the 363-part Texas Instruments current-limited piece that was a facet (`Grade`, id 1977) that only 57 of the 363 parts have a value for, so the first run listed 57 parts and no `cut at` line. `splitFacet` now takes only a facet whose values sum to the piece's count (and the Series facet likewise) and, among those, the one that reads the piece in the fewest calls (a value of n parts costs ceil(n / 50), at least 1): `Switch Type` (279 + 83) → 9 calls; the first exact-partition version chose by smallest largest value and took 38 calls over 34 sub-pieces. The spent calls: 26 + 38 + 9 on the way, 32 in the kept run (the check's sum counts only the kept `.err` files).
 3. **The listing is 1036 parts, not 1037**: DigiKey's Texas Instruments current-limited count went from 363 to 362 since planning (`limited: 705`); the checks read "each within their `pick` sums".
+4. **Monolithic Power Systems' datasheet links are HTML pages behind a bot check** (`www.monolithicpower.com/en/documentview/…` answers 200 `text/html`, a challenge page, to `curl` and to Python): its 9 rows have no maker PDF a script can fetch, so by § 3.3 rule 4 (no same-company PDF either) they end `out`, reason `no datasheet` in Phase 3. The Microchip row whose `ww1.microchip.com` link is not a PDF is the same case.
+5. **The re-check ran the same day as the listing** (2026-11-23), not on its own day: the quota was not the constraint (key 2 had 677 calls left), and the second listing still sees stock changes (one part gone).
+6. **The chains of `urls.py` carry the alternatives**: a TI part's three document names are tried in order by `urlcheck.py` and `select.py --urls` takes the first that answered (the plan's "(maker URL, download source) pairs").
 
 ## Summary
 

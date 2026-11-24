@@ -1,0 +1,680 @@
+chain	host	company	parts
+https://www.monolithicpower.com/en/documentview/productdocument/index/version/2/document_type/Datasheet/lang/en/sku/MP6919/document_id/6805/	www.monolithicpower.com	monolithic-power-systems	2
+https://www.monolithicpower.com/en/documentview/productdocument/index/version/2/document_type/Datasheet/lang/en/sku/MP6973GS/document_id/9053/	www.monolithicpower.com	monolithic-power-systems	2
+https://www.monolithicpower.com/en/documentview/productdocument/index/version/2/document_type/Datasheet/lang/en/sku/MP6972GS/document_id/9052/	www.monolithicpower.com	monolithic-power-systems	2
+https://www.monolithicpower.com/en/documentview/productdocument/index/version/2/document_type/Datasheet/lang/en/sku/MP9989/document_id/6359/	www.monolithicpower.com	monolithic-power-systems	2
+https://www.monolithicpower.com/en/documentview/productdocument/index/version/2/document_type/Datasheet/lang/en/sku/MPQ5850GJ-AEC1/document_id/10288/	www.monolithicpower.com	monolithic-power-systems	1
+https://www.analog.com/media/en/technical-documentation/data-sheets/max40203.pdf	www.analog.com	analog-devices	2
+https://www.analog.com/media/en/technical-documentation/data-sheets/max40200.pdf	www.analog.com	analog-devices	2
+https://www.analog.com/media/en/technical-documentation/data-sheets/max17614.pdf	www.analog.com	analog-devices	2
+https://www.ti.com/lit/ds/symlink/lm66200.pdf https://www.ti.com/lit/ds/symlink/lm66200drlr.pdf https://www.ti.com/lit/ds/symlink/lm66200d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lm7310.pdf https://www.ti.com/lit/ds/symlink/lm73100rpwr.pdf https://www.ti.com/lit/ds/symlink/lm73100r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2114.pdf https://www.ti.com/lit/ds/symlink/tps2114pw.pdf https://www.ti.com/lit/ds/symlink/tps2114p.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2102.pdf https://www.ti.com/lit/ds/symlink/tps2103dbvr.pdf https://www.ti.com/lit/ds/symlink/tps2103d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2104.pdf https://www.ti.com/lit/ds/symlink/tps2105d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2104.pdf https://www.ti.com/lit/ds/symlink/tps2104dbvt.pdf https://www.ti.com/lit/ds/symlink/tps2104d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2100.pdf https://www.ti.com/lit/ds/symlink/tps2100dbvt.pdf https://www.ti.com/lit/ds/symlink/tps2100d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2114a.pdf https://www.ti.com/lit/ds/symlink/tps2114apw.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22933.pdf https://www.ti.com/lit/ds/symlink/tps22933arset.pdf https://www.ti.com/lit/ds/symlink/tps22933a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2100.pdf https://www.ti.com/lit/ds/symlink/tps2100dbvr.pdf https://www.ti.com/lit/ds/symlink/tps2100d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2112pw.pdf https://www.ti.com/lit/ds/symlink/tps2112p.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2104.pdf https://www.ti.com/lit/ds/symlink/tps2105dbvr.pdf https://www.ti.com/lit/ds/symlink/tps2105d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2104.pdf https://www.ti.com/lit/ds/symlink/tps2104dbvr.pdf https://www.ti.com/lit/ds/symlink/tps2104d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2114a.pdf https://www.ti.com/lit/ds/symlink/tps2114apwr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2100.pdf https://www.ti.com/lit/ds/symlink/tps2101dbvr.pdf https://www.ti.com/lit/ds/symlink/tps2101d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lm76202-q1.pdf https://www.ti.com/lit/ds/symlink/lm76202qpwprq1.pdf https://www.ti.com/lit/ds/symlink/lm76202q.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2110a.pdf https://www.ti.com/lit/ds/symlink/tps2110apw.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2101.pdf https://www.ti.com/lit/ds/symlink/tps2101d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2112pwr.pdf https://www.ti.com/lit/ds/symlink/tps2112p.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2105-ep.pdf https://www.ti.com/lit/ds/symlink/tps2105mdbvrep.pdf https://www.ti.com/lit/ds/symlink/tps2105m.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lm66100-q1.pdf https://www.ti.com/lit/ds/symlink/lm66100qdckrq1.pdf https://www.ti.com/lit/ds/symlink/lm66100q.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2113pwr.pdf https://www.ti.com/lit/ds/symlink/tps2113p.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2115a-q1.pdf https://www.ti.com/lit/ds/symlink/tps2115aipwrq1.pdf https://www.ti.com/lit/ds/symlink/tps2115a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2114a.pdf https://www.ti.com/lit/ds/symlink/tps2115apwr.pdf https://www.ti.com/lit/ds/symlink/tps2115a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2102.pdf https://www.ti.com/lit/ds/symlink/tps2103dbvt.pdf https://www.ti.com/lit/ds/symlink/tps2103d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2110.pdf https://www.ti.com/lit/ds/symlink/tps2110pwr.pdf https://www.ti.com/lit/ds/symlink/tps2110p.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2114.pdf https://www.ti.com/lit/ds/symlink/tps2115pw.pdf https://www.ti.com/lit/ds/symlink/tps2115p.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2110a.pdf https://www.ti.com/lit/ds/symlink/tps2111apwr.pdf https://www.ti.com/lit/ds/symlink/tps2111a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2114.pdf https://www.ti.com/lit/ds/symlink/tps2115pwr.pdf https://www.ti.com/lit/ds/symlink/tps2115p.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2110a.pdf https://www.ti.com/lit/ds/symlink/tps2110apwr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2112a.pdf https://www.ti.com/lit/ds/symlink/tps2113apwr.pdf https://www.ti.com/lit/ds/symlink/tps2113a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2100.pdf https://www.ti.com/lit/ds/symlink/tps2101dbvt.pdf https://www.ti.com/lit/ds/symlink/tps2101d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2110.pdf https://www.ti.com/lit/ds/symlink/tps2110pw.pdf https://www.ti.com/lit/ds/symlink/tps2110p.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2110.pdf https://www.ti.com/lit/ds/symlink/tps2111pwr.pdf https://www.ti.com/lit/ds/symlink/tps2111p.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2114a.pdf https://www.ti.com/lit/ds/symlink/tps2115apw.pdf https://www.ti.com/lit/ds/symlink/tps2115a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2110.pdf https://www.ti.com/lit/ds/symlink/tps2111pw.pdf https://www.ti.com/lit/ds/symlink/tps2111p.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lm66100dckt.pdf https://www.ti.com/lit/ds/symlink/lm66100d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2112a.pdf https://www.ti.com/lit/ds/symlink/tps2112apw.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2110a.pdf https://www.ti.com/lit/ds/symlink/tps2111apw.pdf https://www.ti.com/lit/ds/symlink/tps2111a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2104.pdf https://www.ti.com/lit/ds/symlink/tps2105dbvt.pdf https://www.ti.com/lit/ds/symlink/tps2105d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2115a.pdf https://www.ti.com/lit/ds/symlink/tps2115adrbt.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2112a.pdf https://www.ti.com/lit/ds/symlink/tps2113apw.pdf https://www.ti.com/lit/ds/symlink/tps2113a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2113pw.pdf https://www.ti.com/lit/ds/symlink/tps2113p.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2112a.pdf https://www.ti.com/lit/ds/symlink/tps2112apwr.pdf	www.ti.com	ti	1
+https://www.analog.com/media/en/technical-documentation/data-sheets/4415fa.pdf	www.analog.com	analog-devices	8
+https://www.analog.com/media/en/technical-documentation/data-sheets/441312fg.pdf	www.analog.com	analog-devices	4
+https://www.analog.com/media/en/technical-documentation/data-sheets/4413fd.pdf	www.analog.com	analog-devices	2
+https://www.analog.com/media/en/technical-documentation/data-sheets/4358fa.pdf	www.analog.com	analog-devices	5
+https://www.analog.com/media/en/technical-documentation/data-sheets/4419fa.pdf	www.analog.com	analog-devices	4
+https://www.analog.com/media/en/technical-documentation/data-sheets/LTC4421.pdf	www.analog.com	analog-devices	1
+https://www.analog.com/media/en/technical-documentation/data-sheets/lt4423.pdf	www.analog.com	analog-devices	1
+https://www.analog.com/media/en/technical-documentation/data-sheets/4411fa.pdf	www.analog.com	analog-devices	2
+https://www.analog.com/media/en/technical-documentation/data-sheets/4420fa.pdf	www.analog.com	analog-devices	4
+https://www.ti.com/lit/ds/symlink/lm34902itmx.pdf https://www.ti.com/lit/ds/symlink/lm34902i.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lm3525mx-h-ns.pdf https://www.ti.com/lit/ds/symlink/lm3525m.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lm3544mx-l.pdf https://www.ti.com/lit/ds/symlink/lm3544m.pdf	www.ti.com	ti	1
+https://ww1.microchip.com/downloads/en/DeviceDoc/mic20xx.pdf	ww1.microchip.com	microchip	31
+https://ww1.microchip.com/downloads/en/DeviceDoc/mic2026.pdf	ww1.microchip.com	microchip	5
+https://ww1.microchip.com/downloads/en/DeviceDoc/MIC2039-High-Accuracy-High-Side-Adjustable-Current-Limit-Power-Switch-20005540A.pdf	ww1.microchip.com	microchip	6
+https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC2026-Family-Data-Sheet-DS20006443.pdf	ww1.microchip.com	microchip	2
+https://ww1.microchip.com/downloads/en/DeviceDoc/mic2514.pdf	ww1.microchip.com	microchip	1
+https://ww1.microchip.com/downloads/en/DeviceDoc/mic2095.pdf	ww1.microchip.com	microchip	5
+https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC20xx-Fixed-and-Adjustable-Current-Limiting-Power-Distribution-Switches-DS20006486C.pdf	ww1.microchip.com	microchip	1
+https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf	ww1.microchip.com	microchip	15
+https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC2026A-76A-Dual-Channel-Power-Distribution-Switches-DS20006608A.pdf	ww1.microchip.com	microchip	5
+https://ww1.microchip.com/downloads/en/DeviceDoc/MIC2033-High-Accuracy-High-Side-Fixed-Current-Limit-Power-Switch-20005539A.pdf	ww1.microchip.com	microchip	4
+https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/20005725B.pdf	ww1.microchip.com	microchip	13
+https://ww1.microchip.com/downloads/en/DeviceDoc/mic2546.pdf	ww1.microchip.com	microchip	5
+https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/mic2544_48a.pdf	ww1.microchip.com	microchip	5
+https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/USB-Dual-Port-Power-Switch-and-Current-Monitor-DS20005424D.pdf	ww1.microchip.com	microchip	2
+https://ww1.microchip.com/downloads/en/DeviceDoc/UCS2113-USB-Dual-Port-Power-Switch-and-Current-Monitor-20005680B.pdf	ww1.microchip.com	microchip	4
+https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC2505-6-Single-2A-Dual-1A-High-Side-Switches-DS20005579B.pdf	ww1.microchip.com	microchip	6
+https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/UCS2114-Data-Sheet-20005743B.pdf	ww1.microchip.com	microchip	1
+http://ww1.microchip.com/downloads/en/devicedoc/20005680a.pdf	ww1.microchip.com	microchip	3
+https://ww1.microchip.com/downloads/en/DeviceDoc/mic2040.PDF	ww1.microchip.com	microchip	4
+https://ww1.microchip.com/downloads/en/DeviceDoc/mic2027.pdf	ww1.microchip.com	microchip	5
+https://ww1.microchip.com/downloads/en/DeviceDoc/mic2536.pdf	ww1.microchip.com	microchip	3
+https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/mic2545a.pdf	ww1.microchip.com	microchip	6
+https://ww1.microchip.com/downloads/en/DeviceDoc/mic2042.PDF	ww1.microchip.com	microchip	5
+https://ww1.microchip.com/downloads/en/DeviceDoc/mic2044-45.pdf	ww1.microchip.com	microchip	3
+https://www.ti.com/lit/ds/symlink/tps2062c-2.pdf https://www.ti.com/lit/ds/symlink/tps2062cdrbr-2.pdf https://www.ti.com/lit/ds/symlink/tps2062c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2003c.pdf https://www.ti.com/lit/ds/symlink/tps2003cdrcr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2066-1.pdf https://www.ti.com/lit/ds/symlink/tps2065dgnr-1.pdf https://www.ti.com/lit/ds/symlink/tps2065d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22980.pdf https://www.ti.com/lit/ds/symlink/tps22980rgpr.pdf https://www.ti.com/lit/ds/symlink/tps22980r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2058a.pdf https://www.ti.com/lit/ds/symlink/tps2055adr.pdf https://www.ti.com/lit/ds/symlink/tps2055a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2090.pdf https://www.ti.com/lit/ds/symlink/tps2090dr.pdf https://www.ti.com/lit/ds/symlink/tps2090d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2062c.pdf https://www.ti.com/lit/ds/symlink/tps2062cdr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2051b-q1.pdf https://www.ti.com/lit/ds/symlink/tps2051bqdrq1.pdf https://www.ti.com/lit/ds/symlink/tps2051b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2051b.pdf https://www.ti.com/lit/ds/symlink/tps2051bdbvr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22949.pdf https://www.ti.com/lit/ds/symlink/tps22949adrgr.pdf https://www.ti.com/lit/ds/symlink/tps22949a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2002c.pdf https://www.ti.com/lit/ds/symlink/tps2002cdrct.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2054a.pdf https://www.ti.com/lit/ds/symlink/tps2051ad.pdf https://www.ti.com/lit/ds/symlink/tps2051a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2010a.pdf https://www.ti.com/lit/ds/symlink/tps2013ad.pdf https://www.ti.com/lit/ds/symlink/tps2013a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2054a.pdf https://www.ti.com/lit/ds/symlink/tps2041adr.pdf https://www.ti.com/lit/ds/symlink/tps2041a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2054a.pdf https://www.ti.com/lit/ds/symlink/tps2052adr.pdf https://www.ti.com/lit/ds/symlink/tps2052a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2061.pdf https://www.ti.com/lit/ds/symlink/tps2061dr.pdf https://www.ti.com/lit/ds/symlink/tps2061d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2051b.pdf https://www.ti.com/lit/ds/symlink/tps2052bdr.pdf https://www.ti.com/lit/ds/symlink/tps2052b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2064c-2.pdf https://www.ti.com/lit/ds/symlink/tps2064cdgn-2.pdf https://www.ti.com/lit/ds/symlink/tps2064c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2022.pdf https://www.ti.com/lit/ds/symlink/tps2023dr.pdf https://www.ti.com/lit/ds/symlink/tps2023d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2117.pdf https://www.ti.com/lit/ds/symlink/tps2117drlr.pdf https://www.ti.com/lit/ds/symlink/tps2117d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2060.pdf https://www.ti.com/lit/ds/symlink/tps2064dgn.pdf https://www.ti.com/lit/ds/symlink/tps2064d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2051dr.pdf https://www.ti.com/lit/ds/symlink/tps2051d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2024-q1.pdf https://www.ti.com/lit/ds/symlink/tps2024idrq1.pdf https://www.ti.com/lit/ds/symlink/tps2024i.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2010a.pdf https://www.ti.com/lit/ds/symlink/tps2013adr.pdf https://www.ti.com/lit/ds/symlink/tps2013a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2022.pdf https://www.ti.com/lit/ds/symlink/tps2023d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2051b.pdf https://www.ti.com/lit/ds/symlink/tps2053bd.pdf https://www.ti.com/lit/ds/symlink/tps2053b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2060.pdf https://www.ti.com/lit/ds/symlink/tps2068d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2058a.pdf https://www.ti.com/lit/ds/symlink/tps2046ad.pdf https://www.ti.com/lit/ds/symlink/tps2046a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2022-q1.pdf https://www.ti.com/lit/ds/symlink/tps2022drq1.pdf https://www.ti.com/lit/ds/symlink/tps2022d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2041dr.pdf https://www.ti.com/lit/ds/symlink/tps2041d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22950.pdf https://www.ti.com/lit/ds/symlink/tps22950ybhr.pdf https://www.ti.com/lit/ds/symlink/tps22950y.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2054a.pdf https://www.ti.com/lit/ds/symlink/tps2054ad.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2051b.pdf https://www.ti.com/lit/ds/symlink/tps2041bdbvr.pdf https://www.ti.com/lit/ds/symlink/tps2041b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22941.pdf https://www.ti.com/lit/ds/symlink/tps22944dckr.pdf https://www.ti.com/lit/ds/symlink/tps22944d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps4811-q1.pdf https://www.ti.com/lit/ds/symlink/tps48110aqdgxrq1.pdf https://www.ti.com/lit/ds/symlink/tps48110a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2010a.pdf https://www.ti.com/lit/ds/symlink/tps2013apwpr.pdf https://www.ti.com/lit/ds/symlink/tps2013a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2069.pdf https://www.ti.com/lit/ds/symlink/tps2068dgn.pdf https://www.ti.com/lit/ds/symlink/tps2068d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2058a.pdf https://www.ti.com/lit/ds/symlink/tps2057ad.pdf https://www.ti.com/lit/ds/symlink/tps2057a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22943.pdf https://www.ti.com/lit/ds/symlink/tps22943dckr.pdf https://www.ti.com/lit/ds/symlink/tps22943d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2065d.pdf https://www.ti.com/lit/ds/symlink/tps2065ddbvr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2092.pdf https://www.ti.com/lit/ds/symlink/tps2092dr.pdf https://www.ti.com/lit/ds/symlink/tps2092d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2051b.pdf https://www.ti.com/lit/ds/symlink/tps2052bdgnr.pdf https://www.ti.com/lit/ds/symlink/tps2052b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2022.pdf https://www.ti.com/lit/ds/symlink/tps2021p.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2054a.pdf https://www.ti.com/lit/ds/symlink/tps2043ad.pdf https://www.ti.com/lit/ds/symlink/tps2043a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2058a.pdf https://www.ti.com/lit/ds/symlink/tps2048ad.pdf https://www.ti.com/lit/ds/symlink/tps2048a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2062c.pdf https://www.ti.com/lit/ds/symlink/tps2062cdgnr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2046d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps281c100.pdf https://www.ti.com/lit/ds/symlink/tps281c100adntr.pdf https://www.ti.com/lit/ds/symlink/tps281c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2056p.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2065.pdf https://www.ti.com/lit/ds/symlink/tps2065dbvr.pdf https://www.ti.com/lit/ds/symlink/tps2065d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2062c.pdf https://www.ti.com/lit/ds/symlink/tps2062cdgn.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2034p.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2041p.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22950-q1.pdf https://www.ti.com/lit/ds/symlink/tps22950cqddcrq1.pdf https://www.ti.com/lit/ds/symlink/tps22950c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2041d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2054a.pdf https://www.ti.com/lit/ds/symlink/tps2051adr.pdf https://www.ti.com/lit/ds/symlink/tps2051a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2054a.pdf https://www.ti.com/lit/ds/symlink/tps2052ad.pdf https://www.ti.com/lit/ds/symlink/tps2052a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2042p.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2559.pdf https://www.ti.com/lit/ds/symlink/tps2559drcr.pdf https://www.ti.com/lit/ds/symlink/tps2559d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2552.pdf https://www.ti.com/lit/ds/symlink/tps2552dbvr.pdf https://www.ti.com/lit/ds/symlink/tps2552d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2031p.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2552.pdf https://www.ti.com/lit/ds/symlink/tps2552drvr.pdf https://www.ti.com/lit/ds/symlink/tps2552d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lm34904.pdf https://www.ti.com/lit/ds/symlink/lm34904itmx.pdf https://www.ti.com/lit/ds/symlink/lm34904i.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2060.pdf https://www.ti.com/lit/ds/symlink/tps2060drbt.pdf https://www.ti.com/lit/ds/symlink/tps2060d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2003c.pdf https://www.ti.com/lit/ds/symlink/tps2003cdrct.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2061.pdf https://www.ti.com/lit/ds/symlink/tps2066dr.pdf https://www.ti.com/lit/ds/symlink/tps2066d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2047b.pdf https://www.ti.com/lit/ds/symlink/tps2047bd.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2010a.pdf https://www.ti.com/lit/ds/symlink/tps2013apwp.pdf https://www.ti.com/lit/ds/symlink/tps2013a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2087d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2065dgn-1.pdf https://www.ti.com/lit/ds/symlink/tps2065d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2010a.pdf https://www.ti.com/lit/ds/symlink/tps2011apwp.pdf https://www.ti.com/lit/ds/symlink/tps2011a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2043dr.pdf https://www.ti.com/lit/ds/symlink/tps2043d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2061.pdf https://www.ti.com/lit/ds/symlink/tps2063d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2061.pdf https://www.ti.com/lit/ds/symlink/tps2066dgnr.pdf https://www.ti.com/lit/ds/symlink/tps2066d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps1211-q1.pdf https://www.ti.com/lit/ds/symlink/tps12110aqdgxrq1.pdf https://www.ti.com/lit/ds/symlink/tps12110a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2030p.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2085d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2032d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2062-q1.pdf https://www.ti.com/lit/ds/symlink/tps2062qdgnrq1.pdf https://www.ti.com/lit/ds/symlink/tps2062q.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2552.pdf https://www.ti.com/lit/ds/symlink/tps2553dbvt-1.pdf https://www.ti.com/lit/ds/symlink/tps2553d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2069.pdf https://www.ti.com/lit/ds/symlink/tps2068dgnr.pdf https://www.ti.com/lit/ds/symlink/tps2068d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2022.pdf https://www.ti.com/lit/ds/symlink/tps2023p.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2032.pdf https://www.ti.com/lit/ds/symlink/tps2032qdrq1.pdf https://www.ti.com/lit/ds/symlink/tps2032q.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2090.pdf https://www.ti.com/lit/ds/symlink/tps2095d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2061.pdf https://www.ti.com/lit/ds/symlink/tps2065dgnr.pdf https://www.ti.com/lit/ds/symlink/tps2065d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2061.pdf https://www.ti.com/lit/ds/symlink/tps2065dr.pdf https://www.ti.com/lit/ds/symlink/tps2065d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2552-1.pdf https://www.ti.com/lit/ds/symlink/tps2552drvr-1.pdf https://www.ti.com/lit/ds/symlink/tps2552d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2051b.pdf https://www.ti.com/lit/ds/symlink/tps2054bdr.pdf https://www.ti.com/lit/ds/symlink/tps2054b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2060c.pdf https://www.ti.com/lit/ds/symlink/tps2060cdgnr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2061.pdf https://www.ti.com/lit/ds/symlink/tps2061dbvr.pdf https://www.ti.com/lit/ds/symlink/tps2061d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2561a.pdf https://www.ti.com/lit/ds/symlink/tps2561adrcr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2011a.pdf https://www.ti.com/lit/ds/symlink/tps2011ad.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2051b.pdf https://www.ti.com/lit/ds/symlink/tps2051bdgnr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2080dr.pdf https://www.ti.com/lit/ds/symlink/tps2080d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps4811-q1.pdf https://www.ti.com/lit/ds/symlink/tps48111lqdgxrq1.pdf https://www.ti.com/lit/ds/symlink/tps48111l.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2051b.pdf https://www.ti.com/lit/ds/symlink/tps2042bdr.pdf https://www.ti.com/lit/ds/symlink/tps2042b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2051b.pdf https://www.ti.com/lit/ds/symlink/tps2043bdr.pdf https://www.ti.com/lit/ds/symlink/tps2043b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps272c45.pdf https://www.ti.com/lit/ds/symlink/tps272c45arhfr.pdf https://www.ti.com/lit/ds/symlink/tps272c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2060.pdf https://www.ti.com/lit/ds/symlink/tps2064dgnr.pdf https://www.ti.com/lit/ds/symlink/tps2064d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2090.pdf https://www.ti.com/lit/ds/symlink/tps2090d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2022.pdf https://www.ti.com/lit/ds/symlink/tps2022dr.pdf https://www.ti.com/lit/ds/symlink/tps2022d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2066c-2.pdf https://www.ti.com/lit/ds/symlink/tps2066cdgnr-2.pdf https://www.ti.com/lit/ds/symlink/tps2066c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2051b.pdf https://www.ti.com/lit/ds/symlink/tps2043bd.pdf https://www.ti.com/lit/ds/symlink/tps2043b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2060.pdf https://www.ti.com/lit/ds/symlink/tps2060dgn.pdf https://www.ti.com/lit/ds/symlink/tps2060d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2058a.pdf https://www.ti.com/lit/ds/symlink/tps2058ad.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2054a.pdf https://www.ti.com/lit/ds/symlink/tps2044ad.pdf https://www.ti.com/lit/ds/symlink/tps2044a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2054d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps4h000-q1.pdf https://www.ti.com/lit/ds/symlink/tps4h000bqpwprq1.pdf https://www.ti.com/lit/ds/symlink/tps4h.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22981.pdf https://www.ti.com/lit/ds/symlink/tps22981rgpr.pdf https://www.ti.com/lit/ds/symlink/tps22981r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22941.pdf https://www.ti.com/lit/ds/symlink/tps22941dckr.pdf https://www.ti.com/lit/ds/symlink/tps22941d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps281c30.pdf https://www.ti.com/lit/ds/symlink/tps281c30ergwr.pdf https://www.ti.com/lit/ds/symlink/tps281c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2057dr.pdf https://www.ti.com/lit/ds/symlink/tps2057d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2049.pdf https://www.ti.com/lit/ds/symlink/tps2049dr.pdf https://www.ti.com/lit/ds/symlink/tps2049d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2058a.pdf https://www.ti.com/lit/ds/symlink/tps2045adr.pdf https://www.ti.com/lit/ds/symlink/tps2045a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps281c30.pdf https://www.ti.com/lit/ds/symlink/tps281c30brgwr.pdf https://www.ti.com/lit/ds/symlink/tps281c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2552d.pdf https://www.ti.com/lit/ds/symlink/tps2552ddbvr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2552.pdf https://www.ti.com/lit/ds/symlink/tps2552dbvr-1.pdf https://www.ti.com/lit/ds/symlink/tps2552d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2051b.pdf https://www.ti.com/lit/ds/symlink/tps2052bdrbr.pdf https://www.ti.com/lit/ds/symlink/tps2052b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2561-q1.pdf https://www.ti.com/lit/ds/symlink/tps2561qdrcrq1.pdf https://www.ti.com/lit/ds/symlink/tps2561q.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2048d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2046bd.pdf https://www.ti.com/lit/ds/symlink/tps2046b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2041b-ep.pdf https://www.ti.com/lit/ds/symlink/tps2041bmdbvtep.pdf https://www.ti.com/lit/ds/symlink/tps2041b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2031dr.pdf https://www.ti.com/lit/ds/symlink/tps2031d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2049.pdf https://www.ti.com/lit/ds/symlink/tps2049d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2032dr.pdf https://www.ti.com/lit/ds/symlink/tps2032d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2022.pdf https://www.ti.com/lit/ds/symlink/tps2024p.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2553-1.pdf https://www.ti.com/lit/ds/symlink/tps2553drvt-1.pdf https://www.ti.com/lit/ds/symlink/tps2553d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2046bdr.pdf https://www.ti.com/lit/ds/symlink/tps2046b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2081d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2051b.pdf https://www.ti.com/lit/ds/symlink/tps2053bdr.pdf https://www.ti.com/lit/ds/symlink/tps2053b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2082dr.pdf https://www.ti.com/lit/ds/symlink/tps2082d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2052c.pdf https://www.ti.com/lit/ds/symlink/tps2052cdgn.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2010a.pdf https://www.ti.com/lit/ds/symlink/tps2012adr.pdf https://www.ti.com/lit/ds/symlink/tps2012a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2062dr-1.pdf https://www.ti.com/lit/ds/symlink/tps2062d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps4h000-q1.pdf https://www.ti.com/lit/ds/symlink/tps4h000aqpwprq1.pdf https://www.ti.com/lit/ds/symlink/tps4h.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2034d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2061.pdf https://www.ti.com/lit/ds/symlink/tps2061dgnr.pdf https://www.ti.com/lit/ds/symlink/tps2061d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2052c.pdf https://www.ti.com/lit/ds/symlink/tps2052cdgnr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps272c45.pdf https://www.ti.com/lit/ds/symlink/tps272c45drhfr.pdf https://www.ti.com/lit/ds/symlink/tps272c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2041b-q1.pdf https://www.ti.com/lit/ds/symlink/tps2041bqdbvrq1.pdf https://www.ti.com/lit/ds/symlink/tps2041b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2054a.pdf https://www.ti.com/lit/ds/symlink/tps2041ad.pdf https://www.ti.com/lit/ds/symlink/tps2041a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2069.pdf https://www.ti.com/lit/ds/symlink/tps2069dgnr.pdf https://www.ti.com/lit/ds/symlink/tps2069d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22942.pdf https://www.ti.com/lit/ds/symlink/tps22942dckr.pdf https://www.ti.com/lit/ds/symlink/tps22942d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2560.pdf https://www.ti.com/lit/ds/symlink/tps2561drct.pdf https://www.ti.com/lit/ds/symlink/tps2561d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2552.pdf https://www.ti.com/lit/ds/symlink/tps2553drvr-1.pdf https://www.ti.com/lit/ds/symlink/tps2553d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2552.pdf https://www.ti.com/lit/ds/symlink/tps2552drvt.pdf https://www.ti.com/lit/ds/symlink/tps2552d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2061.pdf https://www.ti.com/lit/ds/symlink/tps2063dr.pdf https://www.ti.com/lit/ds/symlink/tps2063d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2042b-q1.pdf https://www.ti.com/lit/ds/symlink/tps2042bqdrq1.pdf https://www.ti.com/lit/ds/symlink/tps2042b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22981.pdf https://www.ti.com/lit/ds/symlink/tps22981rgpt.pdf https://www.ti.com/lit/ds/symlink/tps22981r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2552.pdf https://www.ti.com/lit/ds/symlink/tps2552dbvt.pdf https://www.ti.com/lit/ds/symlink/tps2552d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2030d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2hb35-q1.pdf https://www.ti.com/lit/ds/symlink/tps2hb35aqpwprq1.pdf https://www.ti.com/lit/ds/symlink/tps2h.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps482h85-q1.pdf https://www.ti.com/lit/ds/symlink/tps482h85bqchurq1.pdf https://www.ti.com/lit/ds/symlink/tps482h.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2069d.pdf https://www.ti.com/lit/ds/symlink/tps2069ddbvr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps274160.pdf https://www.ti.com/lit/ds/symlink/tps274160brlhr.pdf https://www.ti.com/lit/ds/symlink/tps274160b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2022.pdf https://www.ti.com/lit/ds/symlink/tps2021d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2552.pdf https://www.ti.com/lit/ds/symlink/tps2552dbvt-1.pdf https://www.ti.com/lit/ds/symlink/tps2552d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2062a.pdf https://www.ti.com/lit/ds/symlink/tps2062adrbr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2560.pdf https://www.ti.com/lit/ds/symlink/tps2560drcr.pdf https://www.ti.com/lit/ds/symlink/tps2560d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2051d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2051b.pdf https://www.ti.com/lit/ds/symlink/tps2051bdr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22992.pdf https://www.ti.com/lit/ds/symlink/tps22992srxnr.pdf https://www.ti.com/lit/ds/symlink/tps22992s.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps1ha08-q1.pdf https://www.ti.com/lit/ds/symlink/tps1ha08dqpwprq1.pdf https://www.ti.com/lit/ds/symlink/tps1h.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2020.pdf https://www.ti.com/lit/ds/symlink/tps2020dr.pdf https://www.ti.com/lit/ds/symlink/tps2020d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2555.pdf https://www.ti.com/lit/ds/symlink/tps2555drct.pdf https://www.ti.com/lit/ds/symlink/tps2555d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2hb35-q1.pdf https://www.ti.com/lit/ds/symlink/tps2hb35bqpwprq1.pdf https://www.ti.com/lit/ds/symlink/tps2h.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps1211-q1.pdf https://www.ti.com/lit/ds/symlink/tps12111lqdgxrq1.pdf https://www.ti.com/lit/ds/symlink/tps12111l.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2557.pdf https://www.ti.com/lit/ds/symlink/tps2557drbt.pdf https://www.ti.com/lit/ds/symlink/tps2557d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2hc120-q1.pdf https://www.ti.com/lit/ds/symlink/tps2hc120aqdgqrq1.pdf https://www.ti.com/lit/ds/symlink/tps2h.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps274c65.pdf https://www.ti.com/lit/ds/symlink/tps274c65bswrhar.pdf https://www.ti.com/lit/ds/symlink/tps274c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps274c65.pdf https://www.ti.com/lit/ds/symlink/tps274c65bsrhar.pdf https://www.ti.com/lit/ds/symlink/tps274c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2020-q1.pdf https://www.ti.com/lit/ds/symlink/tps2020idrq1.pdf https://www.ti.com/lit/ds/symlink/tps2020i.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps274c65.pdf https://www.ti.com/lit/ds/symlink/tps274c65aswrhar.pdf https://www.ti.com/lit/ds/symlink/tps274c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps274c65.pdf https://www.ti.com/lit/ds/symlink/tps274c65ashrhar.pdf https://www.ti.com/lit/ds/symlink/tps274c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps281c100.pdf https://www.ti.com/lit/ds/symlink/tps281c100bdntr.pdf https://www.ti.com/lit/ds/symlink/tps281c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps274c65.pdf https://www.ti.com/lit/ds/symlink/tps274c65ashwrhar.pdf https://www.ti.com/lit/ds/symlink/tps274c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2034dr.pdf https://www.ti.com/lit/ds/symlink/tps2034d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2561a.pdf https://www.ti.com/lit/ds/symlink/tps2561adrct.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2051b.pdf https://www.ti.com/lit/ds/symlink/tps2041bdgnr.pdf https://www.ti.com/lit/ds/symlink/tps2041b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2022.pdf https://www.ti.com/lit/ds/symlink/tps2021dr.pdf https://www.ti.com/lit/ds/symlink/tps2021d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps274c65cp.pdf https://www.ti.com/lit/ds/symlink/tps274c65cphwrhar.pdf https://www.ti.com/lit/ds/symlink/tps274c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps274c65cp.pdf https://www.ti.com/lit/ds/symlink/tps274c65cpwrhar.pdf https://www.ti.com/lit/ds/symlink/tps274c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2554.pdf https://www.ti.com/lit/ds/symlink/tps2554drcr.pdf https://www.ti.com/lit/ds/symlink/tps2554d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2560.pdf https://www.ti.com/lit/ds/symlink/tps2560drct.pdf https://www.ti.com/lit/ds/symlink/tps2560d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps274c65cp.pdf https://www.ti.com/lit/ds/symlink/tps274c65cphrhar.pdf https://www.ti.com/lit/ds/symlink/tps274c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2054a.pdf https://www.ti.com/lit/ds/symlink/tps2042adr.pdf https://www.ti.com/lit/ds/symlink/tps2042a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2080d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2054a.pdf https://www.ti.com/lit/ds/symlink/tps2042ad.pdf https://www.ti.com/lit/ds/symlink/tps2042a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2069d.pdf https://www.ti.com/lit/ds/symlink/tps2069ddbvt.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2024-q1.pdf https://www.ti.com/lit/ds/symlink/tps2021idrq1.pdf https://www.ti.com/lit/ds/symlink/tps2021i.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2030.pdf https://www.ti.com/lit/ds/symlink/tps2033dr.pdf https://www.ti.com/lit/ds/symlink/tps2033d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps1663.pdf https://www.ti.com/lit/ds/symlink/tps16637pwpr.pdf https://www.ti.com/lit/ds/symlink/tps16637p.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2022.pdf https://www.ti.com/lit/ds/symlink/tps2022d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2066c.pdf https://www.ti.com/lit/ds/symlink/tps2066cd.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2066tdgnrq1.pdf https://www.ti.com/lit/ds/symlink/tps2066t.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2552.pdf https://www.ti.com/lit/ds/symlink/tps2553dbvr-1.pdf https://www.ti.com/lit/ds/symlink/tps2553d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2058a.pdf https://www.ti.com/lit/ds/symlink/tps2055ad.pdf https://www.ti.com/lit/ds/symlink/tps2055a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2031d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2051b.pdf https://www.ti.com/lit/ds/symlink/tps2054bd.pdf https://www.ti.com/lit/ds/symlink/tps2054b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2h000-q1.pdf https://www.ti.com/lit/ds/symlink/tps2h000bqpwprq1.pdf https://www.ti.com/lit/ds/symlink/tps2h.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2561a-q1.pdf https://www.ti.com/lit/ds/symlink/tps2561aqdrcrq1.pdf https://www.ti.com/lit/ds/symlink/tps2561a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps281c30.pdf https://www.ti.com/lit/ds/symlink/tps281c30argwr.pdf https://www.ti.com/lit/ds/symlink/tps281c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2053.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2064c.pdf https://www.ti.com/lit/ds/symlink/tps2064cdgnr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2061.pdf https://www.ti.com/lit/ds/symlink/tps2067dr.pdf https://www.ti.com/lit/ds/symlink/tps2067d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2051b.pdf https://www.ti.com/lit/ds/symlink/tps2044bd.pdf https://www.ti.com/lit/ds/symlink/tps2044b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2051b.pdf https://www.ti.com/lit/ds/symlink/tps2041bdr.pdf https://www.ti.com/lit/ds/symlink/tps2041b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2552-1.pdf https://www.ti.com/lit/ds/symlink/tps2552drvt-1.pdf https://www.ti.com/lit/ds/symlink/tps2552d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2553-q1.pdf https://www.ti.com/lit/ds/symlink/tps2553qdbvrq1.pdf https://www.ti.com/lit/ds/symlink/tps2553q.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2066c.pdf https://www.ti.com/lit/ds/symlink/tps2066cdgnr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2082d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2020.pdf https://www.ti.com/lit/ds/symlink/tps2020d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2042dr.pdf https://www.ti.com/lit/ds/symlink/tps2042d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps272c45.pdf https://www.ti.com/lit/ds/symlink/tps272c45crhfr.pdf https://www.ti.com/lit/ds/symlink/tps272c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2553.pdf https://www.ti.com/lit/ds/symlink/tps2553drvt.pdf https://www.ti.com/lit/ds/symlink/tps2553d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps26637pwpr.pdf https://www.ti.com/lit/ds/symlink/tps26637p.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2561a-q1.pdf https://www.ti.com/lit/ds/symlink/tps2561aqdrctq1.pdf https://www.ti.com/lit/ds/symlink/tps2561a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2022-q1.pdf https://www.ti.com/lit/ds/symlink/tps2022drg4q1.pdf https://www.ti.com/lit/ds/symlink/tps2022d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2051b.pdf https://www.ti.com/lit/ds/symlink/tps2044bdr.pdf https://www.ti.com/lit/ds/symlink/tps2044b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2h000-q1.pdf https://www.ti.com/lit/ds/symlink/tps2h000aqpwprq1.pdf https://www.ti.com/lit/ds/symlink/tps2h.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lm34902.pdf https://www.ti.com/lit/ds/symlink/lm34902itm.pdf https://www.ti.com/lit/ds/symlink/lm34902i.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2hb50-q1.pdf https://www.ti.com/lit/ds/symlink/tps2hb50aqpwprq1.pdf https://www.ti.com/lit/ds/symlink/tps2h.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2030dr.pdf https://www.ti.com/lit/ds/symlink/tps2030d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2061.pdf https://www.ti.com/lit/ds/symlink/tps2062dr.pdf https://www.ti.com/lit/ds/symlink/tps2062d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps26637rger.pdf https://www.ti.com/lit/ds/symlink/tps26637r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2557.pdf https://www.ti.com/lit/ds/symlink/tps2557drbr.pdf https://www.ti.com/lit/ds/symlink/tps2557d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22992.pdf https://www.ti.com/lit/ds/symlink/tps22992rxpr.pdf https://www.ti.com/lit/ds/symlink/tps22992r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2554.pdf https://www.ti.com/lit/ds/symlink/tps2555drcr.pdf https://www.ti.com/lit/ds/symlink/tps2555d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2069.pdf https://www.ti.com/lit/ds/symlink/tps2069dgn.pdf https://www.ti.com/lit/ds/symlink/tps2069d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2554.pdf https://www.ti.com/lit/ds/symlink/tps2554drct.pdf https://www.ti.com/lit/ds/symlink/tps2554d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2092.pdf https://www.ti.com/lit/ds/symlink/tps2092d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps1ha08-q1.pdf https://www.ti.com/lit/ds/symlink/tps1ha08eqpwprq1.pdf https://www.ti.com/lit/ds/symlink/tps1h.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2042b.pdf https://www.ti.com/lit/ds/symlink/tps2042bdrbt.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2066c-2.pdf https://www.ti.com/lit/ds/symlink/tps2066cdgn-2.pdf https://www.ti.com/lit/ds/symlink/tps2066c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2030.pdf https://www.ti.com/lit/ds/symlink/tps2033d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2064c-2.pdf https://www.ti.com/lit/ds/symlink/tps2064cdgnr-2.pdf https://www.ti.com/lit/ds/symlink/tps2064c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2559.pdf https://www.ti.com/lit/ds/symlink/tps2559drct.pdf https://www.ti.com/lit/ds/symlink/tps2559d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2046bdg4.pdf https://www.ti.com/lit/ds/symlink/tps2046b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2044d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2066c.pdf https://www.ti.com/lit/ds/symlink/tps2066cdgn.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2552d.pdf https://www.ti.com/lit/ds/symlink/tps2553ddbvt.pdf https://www.ti.com/lit/ds/symlink/tps2553d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2022.pdf https://www.ti.com/lit/ds/symlink/tps2024d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2060.pdf https://www.ti.com/lit/ds/symlink/tps2060dgnr.pdf https://www.ti.com/lit/ds/symlink/tps2060d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2062a.pdf https://www.ti.com/lit/ds/symlink/tps2062adr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2552d.pdf https://www.ti.com/lit/ds/symlink/tps2553ddbvr.pdf https://www.ti.com/lit/ds/symlink/tps2553d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22950.pdf https://www.ti.com/lit/ds/symlink/tps22950lybhr.pdf https://www.ti.com/lit/ds/symlink/tps22950l.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2062c-2.pdf https://www.ti.com/lit/ds/symlink/tps2062cdrbt-2.pdf https://www.ti.com/lit/ds/symlink/tps2062c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2010a.pdf https://www.ti.com/lit/ds/symlink/tps2011adr.pdf https://www.ti.com/lit/ds/symlink/tps2011a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lm34904.pdf https://www.ti.com/lit/ds/symlink/lm34904itm.pdf https://www.ti.com/lit/ds/symlink/lm34904i.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2069.pdf https://www.ti.com/lit/ds/symlink/tps2068dr.pdf https://www.ti.com/lit/ds/symlink/tps2068d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2560a.pdf https://www.ti.com/lit/ds/symlink/tps2560adrct.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2010a.pdf https://www.ti.com/lit/ds/symlink/tps2010adr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2556-q1.pdf https://www.ti.com/lit/ds/symlink/tps2556qdrbtq1.pdf https://www.ti.com/lit/ds/symlink/tps2556q.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2066c.pdf https://www.ti.com/lit/ds/symlink/tps2066cdr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2090.pdf https://www.ti.com/lit/ds/symlink/tps2097d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2032dg4.pdf https://www.ti.com/lit/ds/symlink/tps2032d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2061.pdf https://www.ti.com/lit/ds/symlink/tps2062dgnr.pdf https://www.ti.com/lit/ds/symlink/tps2062d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2064.pdf https://www.ti.com/lit/ds/symlink/tps2064drbt.pdf https://www.ti.com/lit/ds/symlink/tps2064d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lmg3422r050.pdf https://www.ti.com/lit/ds/symlink/lmg3425r050rqzt.pdf https://www.ti.com/lit/ds/symlink/lmg3425r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22953-q1.pdf https://www.ti.com/lit/ds/symlink/tps22953qdqcrq1.pdf https://www.ti.com/lit/ds/symlink/tps22953q.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2042d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2062a.pdf https://www.ti.com/lit/ds/symlink/tps2062adrbt.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps4hc120-q1.pdf https://www.ti.com/lit/ds/symlink/tps4hc120bqdgqrq1.pdf https://www.ti.com/lit/ds/symlink/tps4h.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps65286.pdf https://www.ti.com/lit/ds/symlink/tps65286rhdt.pdf https://www.ti.com/lit/ds/symlink/tps65286r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2hc120-q1.pdf https://www.ti.com/lit/ds/symlink/tps2hc120bqdgqrq1.pdf https://www.ti.com/lit/ds/symlink/tps2h.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2051b.pdf https://www.ti.com/lit/ds/symlink/tps2052bdrbt.pdf https://www.ti.com/lit/ds/symlink/tps2052b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2055.pdf https://www.ti.com/lit/ds/symlink/tps2055d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2559-q1.pdf https://www.ti.com/lit/ds/symlink/tps2559qwdrctq1.pdf https://www.ti.com/lit/ds/symlink/tps2559q.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2010a.pdf https://www.ti.com/lit/ds/symlink/tps2012ad.pdf https://www.ti.com/lit/ds/symlink/tps2012a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2010a.pdf https://www.ti.com/lit/ds/symlink/tps2010ad.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2060c.pdf https://www.ti.com/lit/ds/symlink/tps2060cdgn.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2066-1.pdf https://www.ti.com/lit/ds/symlink/tps2062d-1.pdf https://www.ti.com/lit/ds/symlink/tps2062d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2552d.pdf https://www.ti.com/lit/ds/symlink/tps2552ddbvt.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2045d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2051b.pdf https://www.ti.com/lit/ds/symlink/tps2042bdgnr.pdf https://www.ti.com/lit/ds/symlink/tps2042b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2064c.pdf https://www.ti.com/lit/ds/symlink/tps2064cdgn.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2hb16-q1.pdf https://www.ti.com/lit/ds/symlink/tps2hb16aqpwprq1.pdf https://www.ti.com/lit/ds/symlink/tps2h.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2058a.pdf https://www.ti.com/lit/ds/symlink/tps2045ad.pdf https://www.ti.com/lit/ds/symlink/tps2045a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2556.pdf https://www.ti.com/lit/ds/symlink/tps2556drbt.pdf https://www.ti.com/lit/ds/symlink/tps2556d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2065c.pdf https://www.ti.com/lit/ds/symlink/tps2065cdgn-2.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2540a.pdf https://www.ti.com/lit/ds/symlink/tps2540arter.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2065c.pdf https://www.ti.com/lit/ds/symlink/tps2065cdgnr-2.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2061c.pdf https://www.ti.com/lit/ds/symlink/tps2061cdgn.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2000c.pdf https://www.ti.com/lit/ds/symlink/tps2000cdgnr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps65282rger.pdf https://www.ti.com/lit/ds/symlink/tps65282r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2061c.pdf https://www.ti.com/lit/ds/symlink/tps2061cdgnr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps65281.pdf https://www.ti.com/lit/ds/symlink/tps65281rgvr.pdf https://www.ti.com/lit/ds/symlink/tps65281r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2541.pdf https://www.ti.com/lit/ds/symlink/tps2541rter.pdf https://www.ti.com/lit/ds/symlink/tps2541r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2068c.pdf https://www.ti.com/lit/ds/symlink/tps2068cdgn.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2000c.pdf https://www.ti.com/lit/ds/symlink/tps2000cdgk.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2540.pdf https://www.ti.com/lit/ds/symlink/tps2540rtet.pdf https://www.ti.com/lit/ds/symlink/tps2540r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2069c.pdf https://www.ti.com/lit/ds/symlink/tps2069cdgn-2.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2541a.pdf https://www.ti.com/lit/ds/symlink/tps2541artet.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2069c.pdf https://www.ti.com/lit/ds/symlink/tps2069cdbvt.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2541a.pdf https://www.ti.com/lit/ds/symlink/tps2541arter.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2000c.pdf https://www.ti.com/lit/ds/symlink/tps2000cdgn.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lm3526.pdf https://www.ti.com/lit/ds/symlink/lm3526mx-h.pdf https://www.ti.com/lit/ds/symlink/lm3526m.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2544.pdf https://www.ti.com/lit/ds/symlink/tps2544rter.pdf https://www.ti.com/lit/ds/symlink/tps2544r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2540.pdf https://www.ti.com/lit/ds/symlink/tps2541rtet.pdf https://www.ti.com/lit/ds/symlink/tps2541r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2158idgn.pdf https://www.ti.com/lit/ds/symlink/tps2158i.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2001d.pdf https://www.ti.com/lit/ds/symlink/tps2001ddbvt.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2549-q1.pdf https://www.ti.com/lit/ds/symlink/tps2549irterq1.pdf https://www.ti.com/lit/ds/symlink/tps2549i.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2068c.pdf https://www.ti.com/lit/ds/symlink/tps2068cdgnr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lm3525mx-h.pdf https://www.ti.com/lit/ds/symlink/lm3525m.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2065c.pdf https://www.ti.com/lit/ds/symlink/tps2065cdbvr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps65280rger.pdf https://www.ti.com/lit/ds/symlink/tps65280r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2000e.pdf https://www.ti.com/lit/ds/symlink/tps2001edbvr.pdf https://www.ti.com/lit/ds/symlink/tps2001e.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2061c.pdf https://www.ti.com/lit/ds/symlink/tps2069cdbvr.pdf https://www.ti.com/lit/ds/symlink/tps2069c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2065c.pdf https://www.ti.com/lit/ds/symlink/tps2065cdgnr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2543rter.pdf https://www.ti.com/lit/ds/symlink/tps2543r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2000c.pdf https://www.ti.com/lit/ds/symlink/tps2000cdgkr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2001c.pdf https://www.ti.com/lit/ds/symlink/tps2001cdgnr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2065c.pdf https://www.ti.com/lit/ds/symlink/tps2065cdbvt-2.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2001d.pdf https://www.ti.com/lit/ds/symlink/tps2001ddbvr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lm3544.pdf https://www.ti.com/lit/ds/symlink/lm3544mx-l.pdf https://www.ti.com/lit/ds/symlink/lm3544m.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2061c.pdf https://www.ti.com/lit/ds/symlink/tps2061cdbvt.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2015dr.pdf https://www.ti.com/lit/ds/symlink/tps2015d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2149.pdf https://www.ti.com/lit/ds/symlink/tps2159idgn.pdf https://www.ti.com/lit/ds/symlink/tps2159i.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2540.pdf https://www.ti.com/lit/ds/symlink/tps2540rter.pdf https://www.ti.com/lit/ds/symlink/tps2540r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2065c.pdf https://www.ti.com/lit/ds/symlink/tps2065cdbvr-2.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2000e.pdf https://www.ti.com/lit/ds/symlink/tps2000edbvr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2041c.pdf https://www.ti.com/lit/ds/symlink/tps2041cdbvt.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2061c.pdf https://www.ti.com/lit/ds/symlink/tps2061cdbvr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2000e.pdf https://www.ti.com/lit/ds/symlink/tps2069edbvr.pdf https://www.ti.com/lit/ds/symlink/tps2069e.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2000e.pdf https://www.ti.com/lit/ds/symlink/tps2068edbvr.pdf https://www.ti.com/lit/ds/symlink/tps2068e.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2065c.pdf https://www.ti.com/lit/ds/symlink/tps2065cdbvt.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lm3526.pdf https://www.ti.com/lit/ds/symlink/lm3526m-h.pdf https://www.ti.com/lit/ds/symlink/lm3526m.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lm3526.pdf https://www.ti.com/lit/ds/symlink/lm3526mx-l.pdf https://www.ti.com/lit/ds/symlink/lm3526m.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2530.pdf https://www.ti.com/lit/ds/symlink/tps2530dbvr.pdf https://www.ti.com/lit/ds/symlink/tps2530d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2000e.pdf https://www.ti.com/lit/ds/symlink/tps2068edgnr.pdf https://www.ti.com/lit/ds/symlink/tps2068e.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2000e.pdf https://www.ti.com/lit/ds/symlink/tps2000edgnr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2001d.pdf https://www.ti.com/lit/ds/symlink/tps2001ddgkr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2000e.pdf https://www.ti.com/lit/ds/symlink/tps2001edgkr.pdf https://www.ti.com/lit/ds/symlink/tps2001e.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2069c.pdf https://www.ti.com/lit/ds/symlink/tps2069cdgnr-2.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lm3525m-h.pdf https://www.ti.com/lit/ds/symlink/lm3525m.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2000e.pdf https://www.ti.com/lit/ds/symlink/tps2000edgkr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lm3525m-l.pdf https://www.ti.com/lit/ds/symlink/lm3525m.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lmg3624.pdf https://www.ti.com/lit/ds/symlink/lmg3624yreqr.pdf https://www.ti.com/lit/ds/symlink/lmg3624y.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps65281-1rgvr.pdf https://www.ti.com/lit/ds/symlink/tps65281.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2065c.pdf https://www.ti.com/lit/ds/symlink/tps2065cdgn.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2000e.pdf https://www.ti.com/lit/ds/symlink/tps2069edgnr.pdf https://www.ti.com/lit/ds/symlink/tps2069e.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2069c.pdf https://www.ti.com/lit/ds/symlink/tps2069cdgn.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2015d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2001c.pdf https://www.ti.com/lit/ds/symlink/tps2001cdgn.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2000e.pdf https://www.ti.com/lit/ds/symlink/tps2001edgnr.pdf https://www.ti.com/lit/ds/symlink/tps2001e.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lm3525mx-l.pdf https://www.ti.com/lit/ds/symlink/lm3525m.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2540a.pdf https://www.ti.com/lit/ds/symlink/tps2540artet.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2051c.pdf https://www.ti.com/lit/ds/symlink/tps2051cdbvt.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2530.pdf https://www.ti.com/lit/ds/symlink/tps2530dbvt.pdf https://www.ti.com/lit/ds/symlink/tps2530d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2543rtet.pdf https://www.ti.com/lit/ds/symlink/tps2543r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2549.pdf https://www.ti.com/lit/ds/symlink/tps2549rter.pdf https://www.ti.com/lit/ds/symlink/tps2549r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2001c.pdf https://www.ti.com/lit/ds/symlink/tps2001cdgk.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2546.pdf https://www.ti.com/lit/ds/symlink/tps2546rtet.pdf https://www.ti.com/lit/ds/symlink/tps2546r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps254900-q1.pdf https://www.ti.com/lit/ds/symlink/tps254900irvctq1.pdf https://www.ti.com/lit/ds/symlink/tps254900i.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2544.pdf https://www.ti.com/lit/ds/symlink/tps2544rtet.pdf https://www.ti.com/lit/ds/symlink/tps2544r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2547.pdf https://www.ti.com/lit/ds/symlink/tps2547rtet.pdf https://www.ti.com/lit/ds/symlink/tps2547r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2069c.pdf https://www.ti.com/lit/ds/symlink/tps2069cdgnr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2549.pdf https://www.ti.com/lit/ds/symlink/tps2549rtet.pdf https://www.ti.com/lit/ds/symlink/tps2549r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2549-q1.pdf https://www.ti.com/lit/ds/symlink/tps2549irtetq1.pdf https://www.ti.com/lit/ds/symlink/tps2549i.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps65281.pdf https://www.ti.com/lit/ds/symlink/tps65281rgvt.pdf https://www.ti.com/lit/ds/symlink/tps65281r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2001d.pdf https://www.ti.com/lit/ds/symlink/tps2001ddgk.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lm3544.pdf https://www.ti.com/lit/ds/symlink/lm3544m-l.pdf https://www.ti.com/lit/ds/symlink/lm3544m.pdf	www.ti.com	ti	1
+https://www.diodes.com/assets/Datasheets/AP22804_14.pdf	www.diodes.com	diodes	3
+https://www.diodes.com/datasheet/download/AP22652_AP22653_AP22652A_AP22653A.pdf	www.diodes.com	diodes	2
+https://www.diodes.com/datasheet/download/AP22811.pdf	www.diodes.com	diodes	1
+https://www.diodes.com/assets/Datasheets/AP22652_53_52A_53A.pdf	www.diodes.com	diodes	6
+https://www.diodes.com/assets/Datasheets/AP2161A_71A.pdf	www.diodes.com	diodes	2
+https://www.diodes.com/assets/Datasheets/AP21410_21510.pdf	www.diodes.com	diodes	2
+https://www.diodes.com/assets/Datasheets/AP2166_76.pdf	www.diodes.com	diodes	4
+https://www.diodes.com/assets/Datasheets/AP2141-51.pdf	www.diodes.com	diodes	6
+https://www.diodes.com/assets/Datasheets/AP2161_71.pdf	www.diodes.com	diodes	5
+https://www.diodes.com/assets/Datasheets/AP2142A_52A.pdf	www.diodes.com	diodes	3
+https://www.diodes.com/datasheet/download/AP22653Q.pdf	www.diodes.com	diodes	1
+https://www.diodes.com/assets/Datasheets/AP22816_17_18.pdf	www.diodes.com	diodes	24
+https://www.diodes.com/assets/Datasheets/AP2162A_72A.pdf	www.diodes.com	diodes	5
+https://www.diodes.com/assets/Datasheets/AP2146_56.pdf	www.diodes.com	diodes	4
+https://www.diodes.com/assets/Datasheets/AP2181A-91A.pdf	www.diodes.com	diodes	1
+https://www.diodes.com/assets/Datasheets/AP2141D_51D.pdf	www.diodes.com	diodes	7
+https://www.diodes.com/assets/Datasheets/AP24x1.pdf	www.diodes.com	diodes	7
+https://www.diodes.com/assets/Datasheets/AP2161D_71D.pdf	www.diodes.com	diodes	6
+https://www.diodes.com/assets/Datasheets/AP2182A_92A.pdf	www.diodes.com	diodes	4
+https://www.diodes.com/assets/Datasheets/AP2151A.pdf	www.diodes.com	diodes	3
+https://www.diodes.com/assets/Datasheets/AP2181_91.pdf	www.diodes.com	diodes	4
+https://www.diodes.com/assets/Databriefs/PI5USB2546-Product-Brief.pdf	www.diodes.com	diodes	3
+https://www.diodes.com/assets/Datasheets/AP2142_52.pdf	www.diodes.com	diodes	4
+https://www.diodes.com/assets/Datasheets/AP2101_2111.pdf	www.diodes.com	diodes	4
+https://www.diodes.com/assets/Datasheets/AP22654Q_AP22655Q.pdf	www.diodes.com	diodes	2
+https://www.diodes.com/assets/Datasheets/AP2162_72.pdf	www.diodes.com	diodes	3
+https://www.diodes.com/assets/Datasheets/ZXMS81045SP.pdf	www.diodes.com	diodes	1
+https://www.diodes.com/assets/Datasheets/products_inactive_data/AP255x.pdf	www.diodes.com	diodes	2
+https://www.diodes.com/assets/Datasheets/AP22804-14.pdf	www.diodes.com	diodes	7
+https://www.diodes.com/datasheet/download/AP2552.pdf	www.diodes.com	diodes	3
+https://www.diodes.com/assets/Datasheets/AP2186_96.pdf	www.diodes.com	diodes	2
+https://www.diodes.com/assets/Datasheets/AP22654_AP22655.pdf	www.diodes.com	diodes	2
+https://www.diodes.com/assets/Datasheets/AP25x1.pdf	www.diodes.com	diodes	2
+https://www.diodes.com/assets/Datasheets/AP23x1A.pdf	www.diodes.com	diodes	2
+https://www.diodes.com/assets/Databriefs/PI5USB2546H-Product-Brief.pdf	www.diodes.com	diodes	1
+https://www.diodes.com/assets/Datasheets/DPS1113.pdf	www.diodes.com	diodes	1
+https://www.diodes.com/assets/Datasheets/PI5USB2546J.pdf	www.diodes.com	diodes	1
+https://www.diodes.com/assets/Datasheets/AP2145.pdf	www.diodes.com	diodes	1
+https://www.diodes.com/assets/Datasheets/ZXMS82120S14PQ.pdf	www.diodes.com	diodes	1
+https://www.diodes.com/assets/Datasheets/ZXMS82090S14PQ.pdf	www.diodes.com	diodes	1
+https://www.diodes.com/assets/Datasheets/AP25x1A.pdf	www.diodes.com	diodes	1
+https://www.diodes.com/assets/Datasheets/AP2182_92.pdf	www.diodes.com	diodes	2
+https://www.diodes.com/assets/Datasheets/PI5USB2546Q.pdf	www.diodes.com	diodes	1
+https://www.diodes.com/assets/Datasheets/ZXMS81045SPQ.pdf	www.diodes.com	diodes	1
+https://www.diodes.com/assets/Datasheets/ZXMS82180S14PQ.pdf	www.diodes.com	diodes	1
+https://www.diodes.com/assets/Datasheets/ZXMS81090SPQ.pdf	www.diodes.com	diodes	1
+https://www.diodes.com/assets/Datasheets/ZXMS81200SPQ.pdf	www.diodes.com	diodes	1
+https://www.diodes.com/assets/Datasheets/AP2301-11.pdf	www.diodes.com	diodes	3
+https://www.diodes.com/assets/Datasheets/PI5USB2546AQ.pdf	www.diodes.com	diodes	1
+https://www.diodes.com/assets/Datasheets/AP24x1A.pdf	www.diodes.com	diodes	1
+https://www.diodes.com/assets/Datasheets/DML3012LDC.pdf	www.diodes.com	diodes	1
+https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC2090-1-Current-Limiting-Power-Distribution-Switches-DS20006611A.pdf	ww1.microchip.com	microchip	4
+https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC9408x-67mOhm-RDSON-2A-High-Side-Load-Switch-DS20006118.pdf	ww1.microchip.com	microchip	5
+https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/mic9409x.pdf	ww1.microchip.com	microchip	2
+https://ww1.microchip.com/downloads/en/DeviceDoc/MIC9416x-3A-High-Side-Load-Switch-with-Reverse-Blocking-DS20006439A.pdf	ww1.microchip.com	microchip	3
+https://ww1.microchip.com/downloads/en/DeviceDoc/mic94070-3.pdf	ww1.microchip.com	microchip	6
+https://ww1.microchip.com/downloads/en/DeviceDoc/MIC95410-6.6mOhm-7A-5.5V-VIN-Load-Switch-DS20006431A.pdf	ww1.microchip.com	microchip	1
+https://ww1.microchip.com/downloads/en/DeviceDoc/mic94066-69.pdf	ww1.microchip.com	microchip	2
+https://ww1.microchip.com/downloads/en/DeviceDoc/MIC94060-1-2-3-High-Side-Power-Switches-DS20006517B.pdf	ww1.microchip.com	microchip	8
+https://ww1.microchip.com/downloads/en/DeviceDoc/mic94044_5.pdf	ww1.microchip.com	microchip	1
+https://ww1.microchip.com/downloads/en/DeviceDoc/mic94064-5.pdf	ww1.microchip.com	microchip	2
+https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/MIC9404X-Family-Data-Sheet-DS20006607.pdf	ww1.microchip.com	microchip	1
+https://www.ti.com/lit/ds/symlink/tps22921.pdf https://www.ti.com/lit/ds/symlink/tps22922yfpr.pdf https://www.ti.com/lit/ds/symlink/tps22922y.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22921.pdf https://www.ti.com/lit/ds/symlink/tps22922yzpr.pdf https://www.ti.com/lit/ds/symlink/tps22922y.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22921.pdf https://www.ti.com/lit/ds/symlink/tps22921yfpr.pdf https://www.ti.com/lit/ds/symlink/tps22921y.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22921.pdf https://www.ti.com/lit/ds/symlink/tps22921yzpr.pdf https://www.ti.com/lit/ds/symlink/tps22921y.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22917.pdf https://www.ti.com/lit/ds/symlink/tps22917dbvr.pdf https://www.ti.com/lit/ds/symlink/tps22917d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22908.pdf https://www.ti.com/lit/ds/symlink/tps22908yztr.pdf https://www.ti.com/lit/ds/symlink/tps22908y.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22916.pdf https://www.ti.com/lit/ds/symlink/tps22916byfpr.pdf https://www.ti.com/lit/ds/symlink/tps22916b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22965.pdf https://www.ti.com/lit/ds/symlink/tps22965ndsgr.pdf https://www.ti.com/lit/ds/symlink/tps22965n.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22916.pdf https://www.ti.com/lit/ds/symlink/tps22916cnyfpr.pdf https://www.ti.com/lit/ds/symlink/tps22916c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22810-q1.pdf https://www.ti.com/lit/ds/symlink/tps22810tdbvrq1.pdf https://www.ti.com/lit/ds/symlink/tps22810t.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps2116.pdf https://www.ti.com/lit/ds/symlink/tps2116drlr.pdf https://www.ti.com/lit/ds/symlink/tps2116d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22932b.pdf https://www.ti.com/lit/ds/symlink/tps22932byfpt.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22912c.pdf https://www.ti.com/lit/ds/symlink/tps22912cyzvr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22929d.pdf https://www.ti.com/lit/ds/symlink/tps22929ddbvt.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22914.pdf https://www.ti.com/lit/ds/symlink/tps22914cyfpt.pdf https://www.ti.com/lit/ds/symlink/tps22914c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22901.pdf https://www.ti.com/lit/ds/symlink/tps22901yfpr.pdf https://www.ti.com/lit/ds/symlink/tps22901y.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22964c.pdf https://www.ti.com/lit/ds/symlink/tps22964cyzpr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22925.pdf https://www.ti.com/lit/ds/symlink/tps22925bnypht.pdf https://www.ti.com/lit/ds/symlink/tps22925b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22958.pdf https://www.ti.com/lit/ds/symlink/tps22958ndgkr.pdf https://www.ti.com/lit/ds/symlink/tps22958n.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22929d.pdf https://www.ti.com/lit/ds/symlink/tps22929ddbvr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22810.pdf https://www.ti.com/lit/ds/symlink/tps22810drvr.pdf https://www.ti.com/lit/ds/symlink/tps22810d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22976.pdf https://www.ti.com/lit/ds/symlink/tps22976dpur.pdf https://www.ti.com/lit/ds/symlink/tps22976d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22810.pdf https://www.ti.com/lit/ds/symlink/tps22810dbvt.pdf https://www.ti.com/lit/ds/symlink/tps22810d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22924c.pdf https://www.ti.com/lit/ds/symlink/tps22924cyzpr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22960.pdf https://www.ti.com/lit/ds/symlink/tps22960dcnr.pdf https://www.ti.com/lit/ds/symlink/tps22960d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22921.pdf https://www.ti.com/lit/ds/symlink/tps22922byzpr.pdf https://www.ti.com/lit/ds/symlink/tps22922b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22965.pdf https://www.ti.com/lit/ds/symlink/tps22965dsgr.pdf https://www.ti.com/lit/ds/symlink/tps22965d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22919.pdf https://www.ti.com/lit/ds/symlink/tps22919dckt.pdf https://www.ti.com/lit/ds/symlink/tps22919d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22996h-q1.pdf https://www.ti.com/lit/ds/symlink/tps22996hqdycrq1.pdf https://www.ti.com/lit/ds/symlink/tps22996h.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22915.pdf https://www.ti.com/lit/ds/symlink/tps22915byfpr.pdf https://www.ti.com/lit/ds/symlink/tps22915b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22917.pdf https://www.ti.com/lit/ds/symlink/tps22917dbvt.pdf https://www.ti.com/lit/ds/symlink/tps22917d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22954.pdf https://www.ti.com/lit/ds/symlink/tps22954dqcr.pdf https://www.ti.com/lit/ds/symlink/tps22954d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22918.pdf https://www.ti.com/lit/ds/symlink/tps22918dbvt.pdf https://www.ti.com/lit/ds/symlink/tps22918d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22913.pdf https://www.ti.com/lit/ds/symlink/tps22913byzvr.pdf https://www.ti.com/lit/ds/symlink/tps22913b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22991.pdf https://www.ti.com/lit/ds/symlink/tps22991craar.pdf https://www.ti.com/lit/ds/symlink/tps22991c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22902.pdf https://www.ti.com/lit/ds/symlink/tps22902yfpr.pdf https://www.ti.com/lit/ds/symlink/tps22902y.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/uc27133d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22959.pdf https://www.ti.com/lit/ds/symlink/tps22959dnyt.pdf https://www.ti.com/lit/ds/symlink/tps22959d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22916.pdf https://www.ti.com/lit/ds/symlink/tps22916byfpt.pdf https://www.ti.com/lit/ds/symlink/tps22916b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22925.pdf https://www.ti.com/lit/ds/symlink/tps22925cnypht.pdf https://www.ti.com/lit/ds/symlink/tps22925c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22918.pdf https://www.ti.com/lit/ds/symlink/tps22918dbvr.pdf https://www.ti.com/lit/ds/symlink/tps22918d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22995.pdf https://www.ti.com/lit/ds/symlink/tps22995rzfr.pdf https://www.ti.com/lit/ds/symlink/tps22995r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22968.pdf https://www.ti.com/lit/ds/symlink/tps22968dput.pdf https://www.ti.com/lit/ds/symlink/tps22968d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22968.pdf https://www.ti.com/lit/ds/symlink/tps22968ndput.pdf https://www.ti.com/lit/ds/symlink/tps22968n.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22968.pdf https://www.ti.com/lit/ds/symlink/tps22968dpur.pdf https://www.ti.com/lit/ds/symlink/tps22968d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22965.pdf https://www.ti.com/lit/ds/symlink/tps22965dsgt.pdf https://www.ti.com/lit/ds/symlink/tps22965d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22914.pdf https://www.ti.com/lit/ds/symlink/tps22914byfpr.pdf https://www.ti.com/lit/ds/symlink/tps22914b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22958.pdf https://www.ti.com/lit/ds/symlink/tps22958dgkr.pdf https://www.ti.com/lit/ds/symlink/tps22958d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22999.pdf https://www.ti.com/lit/ds/symlink/tps22999ychr.pdf https://www.ti.com/lit/ds/symlink/tps22999y.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22976.pdf https://www.ti.com/lit/ds/symlink/tps22976ndpur.pdf https://www.ti.com/lit/ds/symlink/tps22976n.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22967.pdf https://www.ti.com/lit/ds/symlink/tps22967dsgr.pdf https://www.ti.com/lit/ds/symlink/tps22967d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22913.pdf https://www.ti.com/lit/ds/symlink/tps22913cyzvr.pdf https://www.ti.com/lit/ds/symlink/tps22913c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22917.pdf https://www.ti.com/lit/ds/symlink/tps22917ldbvr.pdf https://www.ti.com/lit/ds/symlink/tps22917l.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22965-q1.pdf https://www.ti.com/lit/ds/symlink/tps22965tdsgrq1.pdf https://www.ti.com/lit/ds/symlink/tps22965t.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22954.pdf https://www.ti.com/lit/ds/symlink/tps22954dsqr.pdf https://www.ti.com/lit/ds/symlink/tps22954d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22930a.pdf https://www.ti.com/lit/ds/symlink/tps22930ayzvr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22810.pdf https://www.ti.com/lit/ds/symlink/tps22810drvt.pdf https://www.ti.com/lit/ds/symlink/tps22810d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps27081a.pdf https://www.ti.com/lit/ds/symlink/tps27081addcr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22953.pdf https://www.ti.com/lit/ds/symlink/tps22953dsqr.pdf https://www.ti.com/lit/ds/symlink/tps22953d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22991.pdf https://www.ti.com/lit/ds/symlink/tps22991bnraar.pdf https://www.ti.com/lit/ds/symlink/tps22991b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22916.pdf https://www.ti.com/lit/ds/symlink/tps22916blyfpr.pdf https://www.ti.com/lit/ds/symlink/tps22916b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22925.pdf https://www.ti.com/lit/ds/symlink/tps22925cnyphr.pdf https://www.ti.com/lit/ds/symlink/tps22925c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/uc37133d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22968.pdf https://www.ti.com/lit/ds/symlink/tps22968ndpur.pdf https://www.ti.com/lit/ds/symlink/tps22968n.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22924b.pdf https://www.ti.com/lit/ds/symlink/tps22924byzr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22934.pdf https://www.ti.com/lit/ds/symlink/tps22934yzvr.pdf https://www.ti.com/lit/ds/symlink/tps22934y.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22920.pdf https://www.ti.com/lit/ds/symlink/tps22920yzprb.pdf https://www.ti.com/lit/ds/symlink/tps22920y.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22920.pdf https://www.ti.com/lit/ds/symlink/tps22920lyzpt.pdf https://www.ti.com/lit/ds/symlink/tps22920l.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22958.pdf https://www.ti.com/lit/ds/symlink/tps22958dgnr.pdf https://www.ti.com/lit/ds/symlink/tps22958d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22910a.pdf https://www.ti.com/lit/ds/symlink/tps22910ayzvr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22932b.pdf https://www.ti.com/lit/ds/symlink/tps22932byfpr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22991i.pdf https://www.ti.com/lit/ds/symlink/tps22991icnraar.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22991i.pdf https://www.ti.com/lit/ds/symlink/tps22991ibnraar.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22914.pdf https://www.ti.com/lit/ds/symlink/tps22914byfpt.pdf https://www.ti.com/lit/ds/symlink/tps22914b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22976.pdf https://www.ti.com/lit/ds/symlink/tps22976adpur.pdf https://www.ti.com/lit/ds/symlink/tps22976a.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22962.pdf https://www.ti.com/lit/ds/symlink/tps22962dnyt.pdf https://www.ti.com/lit/ds/symlink/tps22962d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22966-q1.pdf https://www.ti.com/lit/ds/symlink/tps22966tdpurq1.pdf https://www.ti.com/lit/ds/symlink/tps22966t.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22991i.pdf https://www.ti.com/lit/ds/symlink/tps22991ibraar.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22930a.pdf https://www.ti.com/lit/ds/symlink/tps22930ayzvt.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22918-q1.pdf https://www.ti.com/lit/ds/symlink/tps22918tdbvtq1.pdf https://www.ti.com/lit/ds/symlink/tps22918t.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22924b.pdf https://www.ti.com/lit/ds/symlink/tps22924byzzr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22916.pdf https://www.ti.com/lit/ds/symlink/tps22916cyfpt.pdf https://www.ti.com/lit/ds/symlink/tps22916c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22913.pdf https://www.ti.com/lit/ds/symlink/tps22913byzvt.pdf https://www.ti.com/lit/ds/symlink/tps22913b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22908.pdf https://www.ti.com/lit/ds/symlink/tps22908yztt.pdf https://www.ti.com/lit/ds/symlink/tps22908y.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22916.pdf https://www.ti.com/lit/ds/symlink/tps22916clyfpr.pdf https://www.ti.com/lit/ds/symlink/tps22916c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22912c.pdf https://www.ti.com/lit/ds/symlink/tps22912cyzvt.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22921.pdf https://www.ti.com/lit/ds/symlink/tps22922byfpr.pdf https://www.ti.com/lit/ds/symlink/tps22922b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22934.pdf https://www.ti.com/lit/ds/symlink/tps22934yzvt.pdf https://www.ti.com/lit/ds/symlink/tps22934y.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22991i.pdf https://www.ti.com/lit/ds/symlink/tps22991icraar.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22991.pdf https://www.ti.com/lit/ds/symlink/tps22991cnraar.pdf https://www.ti.com/lit/ds/symlink/tps22991c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22915.pdf https://www.ti.com/lit/ds/symlink/tps22915byfpt.pdf https://www.ti.com/lit/ds/symlink/tps22915b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22910a.pdf https://www.ti.com/lit/ds/symlink/tps22910ayzvt.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22969.pdf https://www.ti.com/lit/ds/symlink/tps22969dnyt.pdf https://www.ti.com/lit/ds/symlink/tps22969d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22963c.pdf https://www.ti.com/lit/ds/symlink/tps22963cyzpr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22903.pdf https://www.ti.com/lit/ds/symlink/tps22904yfpr.pdf https://www.ti.com/lit/ds/symlink/tps22904y.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lmg3411r150.pdf https://www.ti.com/lit/ds/symlink/lmg3411r150rwhr.pdf https://www.ti.com/lit/ds/symlink/lmg3411r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22996.pdf https://www.ti.com/lit/ds/symlink/tps22996ndrlr.pdf https://www.ti.com/lit/ds/symlink/tps22996n.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lmg3410r150.pdf https://www.ti.com/lit/ds/symlink/lmg3410r150rwhr.pdf https://www.ti.com/lit/ds/symlink/lmg3410r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22916.pdf https://www.ti.com/lit/ds/symlink/tps22916clyfpt.pdf https://www.ti.com/lit/ds/symlink/tps22916c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lmg3411r050.pdf https://www.ti.com/lit/ds/symlink/lmg3411r050rwhr.pdf https://www.ti.com/lit/ds/symlink/lmg3411r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22925.pdf https://www.ti.com/lit/ds/symlink/tps22925byphr.pdf https://www.ti.com/lit/ds/symlink/tps22925b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22901.pdf https://www.ti.com/lit/ds/symlink/tps22902byfpr.pdf https://www.ti.com/lit/ds/symlink/tps22902b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22958.pdf https://www.ti.com/lit/ds/symlink/tps22958ndgnr.pdf https://www.ti.com/lit/ds/symlink/tps22958n.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22975.pdf https://www.ti.com/lit/ds/symlink/tps22975ndsgt.pdf https://www.ti.com/lit/ds/symlink/tps22975n.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22976.pdf https://www.ti.com/lit/ds/symlink/tps22976ndput.pdf https://www.ti.com/lit/ds/symlink/tps22976n.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22916.pdf https://www.ti.com/lit/ds/symlink/tps22916cnlyfpr.pdf https://www.ti.com/lit/ds/symlink/tps22916c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22976.pdf https://www.ti.com/lit/ds/symlink/tps22976dput.pdf https://www.ti.com/lit/ds/symlink/tps22976d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22924b.pdf https://www.ti.com/lit/ds/symlink/tps22924byzt.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22904.pdf https://www.ti.com/lit/ds/symlink/tps22904yfpt.pdf https://www.ti.com/lit/ds/symlink/tps22904y.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22965-q1.pdf https://www.ti.com/lit/ds/symlink/tps22965ntdsgrq1.pdf https://www.ti.com/lit/ds/symlink/tps22965n.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22965-q1.pdf https://www.ti.com/lit/ds/symlink/tps22965tdsgtq1.pdf https://www.ti.com/lit/ds/symlink/tps22965t.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22914.pdf https://www.ti.com/lit/ds/symlink/tps22914cyfpr.pdf https://www.ti.com/lit/ds/symlink/tps22914c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22966-q1.pdf https://www.ti.com/lit/ds/symlink/tps22966tdputq1.pdf https://www.ti.com/lit/ds/symlink/tps22966t.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22918-q1.pdf https://www.ti.com/lit/ds/symlink/tps22918tdbvrq1.pdf https://www.ti.com/lit/ds/symlink/tps22918t.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22913.pdf https://www.ti.com/lit/ds/symlink/tps22913cyzvt.pdf https://www.ti.com/lit/ds/symlink/tps22913c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22916.pdf https://www.ti.com/lit/ds/symlink/tps22916cnyfpt.pdf https://www.ti.com/lit/ds/symlink/tps22916c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22990.pdf https://www.ti.com/lit/ds/symlink/tps22990ndmlt.pdf https://www.ti.com/lit/ds/symlink/tps22990n.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22997.pdf https://www.ti.com/lit/ds/symlink/tps22997ryzr.pdf https://www.ti.com/lit/ds/symlink/tps22997r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22967.pdf https://www.ti.com/lit/ds/symlink/tps22967dsgt.pdf https://www.ti.com/lit/ds/symlink/tps22967d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lmg3411r050.pdf https://www.ti.com/lit/ds/symlink/lmg3411r050rwht.pdf https://www.ti.com/lit/ds/symlink/lmg3411r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22924c.pdf https://www.ti.com/lit/ds/symlink/tps22924cyzpt.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22961.pdf https://www.ti.com/lit/ds/symlink/tps22961dnyt.pdf https://www.ti.com/lit/ds/symlink/tps22961d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lmg3410r070.pdf https://www.ti.com/lit/ds/symlink/lmg3410r070rwht.pdf https://www.ti.com/lit/ds/symlink/lmg3410r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22968-q1.pdf https://www.ti.com/lit/ds/symlink/tps22968qdmgtq1.pdf https://www.ti.com/lit/ds/symlink/tps22968q.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lmg3410r050.pdf https://www.ti.com/lit/ds/symlink/lmg3410r050rwhr.pdf https://www.ti.com/lit/ds/symlink/lmg3410r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22920.pdf https://www.ti.com/lit/ds/symlink/tps22920lyzpr.pdf https://www.ti.com/lit/ds/symlink/tps22920l.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lmg3410r070.pdf https://www.ti.com/lit/ds/symlink/lmg3411r070rwht.pdf https://www.ti.com/lit/ds/symlink/lmg3411r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22915.pdf https://www.ti.com/lit/ds/symlink/tps22915cyfpt.pdf https://www.ti.com/lit/ds/symlink/tps22915c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lmg3410r050.pdf https://www.ti.com/lit/ds/symlink/lmg3410r050rwht.pdf https://www.ti.com/lit/ds/symlink/lmg3410r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22968-q1.pdf https://www.ti.com/lit/ds/symlink/tps22968nqdmgtq1.pdf https://www.ti.com/lit/ds/symlink/tps22968n.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22916.pdf https://www.ti.com/lit/ds/symlink/tps22916cyfpr.pdf https://www.ti.com/lit/ds/symlink/tps22916c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22924d.pdf https://www.ti.com/lit/ds/symlink/tps22924dyzpt.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22969.pdf https://www.ti.com/lit/ds/symlink/tps22969dnyr.pdf https://www.ti.com/lit/ds/symlink/tps22969d.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22925.pdf https://www.ti.com/lit/ds/symlink/tps22925cypht.pdf https://www.ti.com/lit/ds/symlink/tps22925c.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22990.pdf https://www.ti.com/lit/ds/symlink/tps22990ndmlr.pdf https://www.ti.com/lit/ds/symlink/tps22990n.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22963c.pdf https://www.ti.com/lit/ds/symlink/tps22963cyzpt.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/lmg3411r150.pdf https://www.ti.com/lit/ds/symlink/lmg3411r150rwht.pdf https://www.ti.com/lit/ds/symlink/lmg3411r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22925.pdf https://www.ti.com/lit/ds/symlink/tps22925bnyphr.pdf https://www.ti.com/lit/ds/symlink/tps22925b.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22960.pdf https://www.ti.com/lit/ds/symlink/tps22960rset.pdf https://www.ti.com/lit/ds/symlink/tps22960r.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22964c.pdf https://www.ti.com/lit/ds/symlink/tps22964c2yzpr.pdf	www.ti.com	ti	1
+https://www.ti.com/lit/ds/symlink/tps22960.pdf https://www.ti.com/lit/ds/symlink/tps22960rser.pdf https://www.ti.com/lit/ds/symlink/tps22960r.pdf	www.ti.com	ti	1
+https://www.onsemi.com/pub/Collateral/FDC6324L-D.PDF	www.onsemi.com	onsemi	1
+https://www.onsemi.com/pdf/datasheet/fpf1321-d.pdf	www.onsemi.com	onsemi	2
+https://www.onsemi.com/pdf/datasheet/ncp45524-d.pdf	www.onsemi.com	onsemi	2
+https://www.onsemi.com/pub/Collateral/FDC6330L-D.PDF	www.onsemi.com	onsemi	1
+https://www.onsemi.com/pdf/datasheet/ncp451-d.pdf	www.onsemi.com	onsemi	2
+https://www.onsemi.com/download/data-sheet/pdf/fpf1204-d.pdf	www.onsemi.com	onsemi	1
+https://www.onsemi.com/pdf/datasheet/fpf2286ucx-d.pdf	www.onsemi.com	onsemi	1
+https://www.onsemi.com/pdf/datasheet/fpf1006-d.pdf	www.onsemi.com	onsemi	1
+https://www.onsemi.com/pdf/datasheet/ncp45520-d.pdf	www.onsemi.com	onsemi	4
+https://www.onsemi.com/pdf/datasheet/ncp330-d.pdf	www.onsemi.com	onsemi	2
+https://www.onsemi.com/pdf/datasheet/ncp333-d.pdf	www.onsemi.com	onsemi	1
+https://www.onsemi.com/pub/Collateral/FDC6331L-D.PDF	www.onsemi.com	onsemi	1
+https://www.onsemi.com/pdf/datasheet/ncv459-d.pdf	www.onsemi.com	onsemi	1
+https://www.onsemi.com/pdf/datasheet/ncp334-d.pdf	www.onsemi.com	onsemi	1
+https://www.onsemi.com/pdf/datasheet/fpf3381-d.pdf	www.onsemi.com	onsemi	1
+https://www.onsemi.com/pub/Collateral/FDC6326L-D.PDF	www.onsemi.com	onsemi	1
+https://www.onsemi.com/pub/Collateral/FPF1038-D.PDF	www.onsemi.com	onsemi	1
+https://www.onsemi.com/pdf/datasheet/ncp45541-d.pdf	www.onsemi.com	onsemi	1
+https://www.onsemi.com/download/data-sheet/pdf/fpf1903ucx-d.pdf	www.onsemi.com	onsemi	1
+https://www.onsemi.com/pdf/datasheet/ncv451-d.pdf	www.onsemi.com	onsemi	1
+https://www.onsemi.com/pdf/datasheet/ncp45540-d.pdf	www.onsemi.com	onsemi	2
+https://www.onsemi.com/pdf/datasheet/ncp45560-d.pdf	www.onsemi.com	onsemi	1
+https://www.onsemi.com/pdf/datasheet/fpf3380ucx-d.pdf	www.onsemi.com	onsemi	1
+https://www.onsemi.com/pdf/datasheet/ncp340-d.pdf	www.onsemi.com	onsemi	1
+https://www.onsemi.com/download/data-sheet/pdf/fpf1504cn-d.pdf	www.onsemi.com	onsemi	1
+https://www.onsemi.com/pdf/datasheet/fpf1504-d.pdf	www.onsemi.com	onsemi	1
