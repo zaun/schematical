@@ -104,7 +104,7 @@ change (J's tests pin both directions).
 
 Acceptance: the sidebar shows a power switch's kind and facts.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p55-dd test -only-testing:schematicalTests/PowerSwitchTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 12 min: the app test build; no smaller check runs Swift). Observed with the Phase 2 and the BOM test: `xcodebuild … test -only-testing:schematicalTests/PowerSwitchTests -only-testing:schematicalTests/BillOfMaterialsTests` → `** TEST SUCCEEDED **`.
-Commit: (filled by the next commit)
+Commit: db26f902
 
 ### Phase 2 — The voltage messages
 
@@ -117,7 +117,7 @@ Commit: (filled by the next commit)
 
 Acceptance: the messages name the part, the limit and both voltages.
   Check: the Phase 1 command → `** TEST SUCCEEDED **` with the new cases (est. 12 min).
-Commit: (filled by the next commit)
+Commit: db26f902
 
 ### Phase 3 — The harness and the BOM check
 
@@ -130,7 +130,7 @@ Commit: (filled by the next commit)
 
 Acceptance: the real app shows and runs power switches.
   Check: `APP=/tmp/p55-dd/Build/Products/Debug/schematical.app scripts/harness/build.sh scripts/harness/powerswitch-app.swift /tmp/p55-harness && /tmp/p55-harness/H.app/Contents/MacOS/harness` → `all checks ok` (est. 10 min: it drives the real app; a unit test cannot show the drawer and play mode). When the harness drives the real mouse, the pointer ends at the top-left corner of the screen (`AGENTS.md`). Observed: `scripts/harness/build.sh … /tmp/p55-harness` and the harness → 15 `ok` lines and `all checks ok` (the harness uses no mouse: it places parts and runs the simulation controller; Correction 2 for the build fix).
-Commit: (filled by the next commit)
+Commit: db26f902
 
 ## Validation Plan
 
