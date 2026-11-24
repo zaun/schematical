@@ -3767,6 +3767,15 @@ final class SchematicDocument {
         return texts.filter { ids.contains($0.id) }
     }
 
+    /// The selected vias, in creation order, for ⌘C.
+    func selectedVias() -> [BoardVia] {
+        let ids = Set(boardSelection.items.compactMap { item -> UUID? in
+            if case let .via(id) = item { return id }
+            return nil
+        })
+        return vias.filter { ids.contains($0.id) }
+    }
+
     /// ⌘V on the PCB: adds a copy of each of `copied` moved by `offset`
     /// (mm), with new ids, its width and layer kept, joined to whatever it
     /// touches, as one step. The copies become the whole selection. A trace
@@ -3777,15 +3786,20 @@ final class SchematicDocument {
         pasteBoard(traces: copied, texts: [], offset: offset)
     }
 
-    /// ⌘V on the PCB: adds a copy of each of `traces` (as `pasteTraces`) and
-    /// of each of `texts`, moved by `offset` (mm), with new ids, as one step.
-    /// A text keeps its words, size, layer, rotation and side (Top on a
-    /// 1-layer board), lands on the grid and is not locked. The copies become
-    /// the whole selection. Returns the new ids.
+    /// ⌘V on the PCB: adds a copy of each of `traces` (as `pasteTraces`), of
+    /// each of `texts` and of each of `vias`, moved by `offset` (mm), with
+    /// new ids, as one step. A text keeps its words, size, layer, rotation
+    /// and side (Top on a 1-layer board), lands on the grid and is not
+    /// locked. A via keeps its drill, diameter and tenting, lands on the
+    /// trace grid, is not locked and is not the autorouter's; none are
+    /// pasted on a 1-layer board. The copies become the whole selection.
+    /// Returns the new ids.
     @discardableResult
-    func pasteBoard(traces copied: [BoardTrace], texts copiedTexts: [BoardText], offset: CGSize) -> [UUID] {
+    func pasteBoard(traces copied: [BoardTrace], texts copiedTexts: [BoardText], vias copiedVias: [BoardVia] = [],
+                    offset: CGSize) -> [UUID] {
         let pastedTraces = copied.filter { traceLayerRefusal($0.layer) == nil }
-        guard !pastedTraces.isEmpty || !copiedTexts.isEmpty else { return [] }
+        let pastedVias = board.layers > 1 ? copiedVias : []
+        guard !pastedTraces.isEmpty || !copiedTexts.isEmpty || !pastedVias.isEmpty else { return [] }
         return recordEdit(.pcb, "Paste") { () -> [UUID] in
             var items: [BoardItem] = []
             var ids: [UUID] = []
@@ -3807,6 +3821,15 @@ final class SchematicDocument {
                 texts.append(copy)
                 ids.append(copy.id)
                 items.append(.text(copy.id))
+            }
+            for via in pastedVias {
+                let moved = CGPoint(x: via.centre.x + offset.width, y: via.centre.y + offset.height)
+                let copy = BoardVia(id: UUID(), centre: BoardGrid.snap(moved, spacing: board.traceGrid),
+                                    drill: via.drill, diameter: via.diameter,
+                                    tentedTop: via.tentedTop, tentedBottom: via.tentedBottom)
+                vias.append(copy)
+                ids.append(copy.id)
+                items.append(.via(copy.id))
             }
             boardSelection.set(Set(items))
             return ids
@@ -3846,16 +3869,18 @@ final class SchematicDocument {
     }
 
     /// ⌘X on the PCB, after the selection was copied: deletes just the
-    /// selected traces and texts (what ⌘C takes), as one step named "Cut".
+    /// selected traces, texts and vias (what ⌘C takes), as one step named "Cut".
     /// Returns whether any were deleted.
     @discardableResult
     func cutBoardSelection() -> Bool {
         let traceIDs = Set(selectedTraces().map(\.id))
         let textIDs = Set(selectedTexts().map(\.id))
-        guard !traceIDs.isEmpty || !textIDs.isEmpty else { return false }
+        let viaIDs = Set(selectedVias().map(\.id))
+        guard !traceIDs.isEmpty || !textIDs.isEmpty || !viaIDs.isEmpty else { return false }
         recordEdit(.pcb, "Cut") {
             traces.removeAll { traceIDs.contains($0.id) }
             texts.removeAll { textIDs.contains($0.id) }
+            vias.removeAll { viaIDs.contains($0.id) }
             pruneSelection()
         }
         return true

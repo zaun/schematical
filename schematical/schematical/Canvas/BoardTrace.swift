@@ -202,7 +202,7 @@ nonisolated struct TraceDraft: Equatable {
     }
 }
 
-/// Traces and board texts copied with ⌘C on the PCB, shared by every window,
+/// Traces, board texts and vias copied with ⌘C on the PCB, shared by every window,
 /// for ⌘V. A paste lands centred on the pointer (`offset(centring:on:)`);
 /// with the pointer off the board, each paste lands one more `step` right
 /// and down from the copied items instead (`nextOffset`).
@@ -210,28 +210,32 @@ nonisolated struct TraceDraft: Equatable {
 enum BoardClipboard {
     private(set) static var traces: [BoardTrace] = []
     private(set) static var texts: [BoardText] = []
+    private(set) static var vias: [BoardVia] = []
     /// Pastes since the last copy.
     private(set) static var pastes = 0
     /// mm: four grid steps.
     static let step: CGFloat = 2.54
 
-    static var isEmpty: Bool { traces.isEmpty && texts.isEmpty }
+    static var isEmpty: Bool { traces.isEmpty && texts.isEmpty && vias.isEmpty }
 
-    static func copy(_ copied: [BoardTrace], texts copiedTexts: [BoardText] = []) {
+    static func copy(_ copied: [BoardTrace], texts copiedTexts: [BoardText] = [], vias copiedVias: [BoardVia] = []) {
         traces = copied
         texts = copiedTexts
+        vias = copiedVias
         pastes = 0
     }
 
-    /// The offset that puts the middle of the bounding box of `traces` and
-    /// `texts` on `point` (mm), rounded to whole steps of `grid` (the trace
+    /// The offset that puts the middle of the bounding box of `traces`,
+    /// `texts` and `vias` on `point` (mm), rounded to whole steps of `grid` (the trace
     /// grid) so points on that grid stay on it.
-    static func offset(centring traces: [BoardTrace], texts: [BoardText] = [], on point: CGPoint,
+    static func offset(centring traces: [BoardTrace], texts: [BoardText] = [], vias: [BoardVia] = [],
+                       on point: CGPoint,
                        grid: CGFloat = BoardGrid.spacing / 2) -> CGSize {
         var box: CGRect?
         func add(_ rect: CGRect) { box = box.map { $0.union(rect) } ?? rect }
         for p in traces.flatMap(\.points) { add(CGRect(origin: p, size: .zero)) }
         for text in texts { add(text.boardRect) }
+        for via in vias { add(via.rect) }
         guard let box else { return .zero }
         return CGSize(width: BoardGrid.snap(point.x - box.midX, spacing: grid),
                       height: BoardGrid.snap(point.y - box.midY, spacing: grid))

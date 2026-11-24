@@ -90,13 +90,52 @@ final class EditMenuTests: XCTestCase {
         XCTAssertEqual(doc.texts.map(\.id), [id])
     }
 
+    func testCopyPasteVia() throws {
+        let doc = TestSupport.newDocument()
+        doc.setLayerCount(2)
+        let id = try XCTUnwrap(doc.addVia(at: p(20, 20)))
+        doc.setViaDiameter(id, 1.2)
+        doc.setViaDrill(id, 0.6)
+        doc.setLocked(.via(id), true)
+        doc.endCoalescing()
+
+        let copied = doc.selectedVias()
+        XCTAssertEqual(copied.map(\.id), [id])
+        let offset = BoardClipboard.offset(centring: [], vias: copied, on: p(60, 40), grid: doc.board.traceGrid)
+        let ids = doc.pasteBoard(traces: [], texts: [], vias: copied, offset: offset)
+        let pasted = try XCTUnwrap(doc.vias.first { $0.id == ids.first })
+        XCTAssertEqual(doc.vias.count, 2)
+        XCTAssertNotEqual(pasted.id, id)
+        XCTAssertEqual(pasted.drill, 0.6)
+        XCTAssertEqual(pasted.diameter, 1.2)
+        XCTAssertFalse(pasted.locked, "a copy is not locked")
+        XCTAssertEqual(pasted.centre.x, 60, accuracy: doc.board.traceGrid)
+        XCTAssertEqual(pasted.centre.y, 40, accuracy: doc.board.traceGrid)
+        XCTAssertEqual(doc.boardSelection.items, [.via(pasted.id)])
+        XCTAssertEqual(doc.undoName(on: .pcb), "Paste")
+        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertEqual(doc.vias.map(\.id), [id])
+    }
+
+    func testPasteViaRefusedOnOneLayerBoard() throws {
+        let doc = TestSupport.newDocument()
+        doc.setLayerCount(1)
+        let copied = [BoardVia(id: UUID(), centre: p(20, 20))]
+        XCTAssertEqual(doc.pasteBoard(traces: [], texts: [], vias: copied, offset: .zero), [])
+        XCTAssertTrue(doc.vias.isEmpty)
+    }
+
     func testCutBoardSelectionTakesTextsWithTraces() throws {
         let doc = TestSupport.newDocument()
         let text = doc.addText(at: p(20, 20))
         let trace = try XCTUnwrap(doc.addTrace(points: [p(5, 5), p(15, 5)], layer: .top))
         doc.endCoalescing()
+        doc.setLayerCount(2)
+        let via = try XCTUnwrap(doc.addVia(at: p(30, 30)))
+        doc.endCoalescing()
         doc.selectAllBoard()
         XCTAssertTrue(doc.cutBoardSelection())
+        XCTAssertFalse(doc.vias.contains { $0.id == via })
         XCTAssertFalse(doc.texts.contains { $0.id == text })
         XCTAssertFalse(doc.traces.contains { $0.id == trace })
         XCTAssertEqual(doc.undoName(on: .pcb), "Cut")
