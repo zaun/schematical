@@ -68,7 +68,7 @@ Acceptance: every gate's observed value matches.
   Check: the table's commands (est. 60 min: the fresh backend build, the nine app test classes and the
   harness; this is the plan's one landing run, and nothing smaller covers the backend, the part files
   and the app together).
-Commit: (filled by the next commit)
+Commit: 3ab4e220
 
 ## Validation Plan
 
