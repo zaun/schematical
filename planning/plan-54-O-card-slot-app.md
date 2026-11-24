@@ -158,7 +158,7 @@ Acceptance: the catalog and sidebar show the new parts.
   The first run, before the parent landed the card-edge parts (library 552 connector lines, examples.tsv 3 lines), was `Executed 6 tests,
   with 1 test skipped and 0 failures` (`leaves checked 5, none in the library yet: ["Card edge"]`: the test skips only when a leaf has no
   library part).
-Commit: —
+Commit: 487329b1
 
 ### Phase 2 — The Board Preview look and the Part Editor
 
@@ -181,7 +181,7 @@ Acceptance: the preview and the editor know the new parts.
   "Smart card"], none in the library yet: []`). The first run, before they landed, was 20 tests with 1 skipped (`testCardSlotLook`, no `Card edge`
   part) and 0 failures. Run together with `DrawerPerformanceTests`, `HeaderBoardTests`, `PartKindKeysTests`, `KindInfoTests`:
   `Executed 44 tests, with 0 failures`, `** TEST SUCCEEDED **`.
-Commit: —
+Commit: 487329b1
 
 ### Phase 3 — The harness
 
@@ -208,7 +208,7 @@ Acceptance: the real app shows card slots end to end.
   Result: the harness (built with the check's `rm -rf … && APP=… build.sh … && …/harness`, run from the repository root): 31 `ok`, 0 `FAIL`,
   `all checks ok`, exit 0. The test command: `** TEST SUCCEEDED **`; `DrawerPerformanceTests` 7 tests, `CardSlotTests` 6, `PartEditorWindowTests` 11,
   `Executed 24 tests, with 0 failures`.
-Commit: —
+Commit: 487329b1
 
 ## Validation Plan
 
