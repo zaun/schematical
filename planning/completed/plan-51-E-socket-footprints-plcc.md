@@ -85,7 +85,7 @@ and E's test checks the position of pin 1.
 
 Acceptance: the tests pass.
   Check: `node --test scripts/gen-sockets.test.js` → `# pass`, no `# fail` (est. 5 s). Measured 2026-11-24: `ℹ pass 17`, `ℹ fail 0`. VERIFIED.
-Commit: (next commit)
+Commit: 86ecfb94
 
 ### Phase 2 — the PLCC footprints
 
@@ -93,7 +93,7 @@ Commit: (next commit)
 
 Acceptance: the side file loads; its ids are exactly the "new" ids.
   Check: `planning/plan-51-data/census/fp-load.sh planning/plan-51-data/footprints-E.json` → `<n> new footprints: load ok` (est. 5 min). Measured 2026-11-24: `8 new footprints: load ok`; pin 1 at (0, -spanY/2) and pin 2 one pitch to its left on all 8, as on `PLCC-28`, `-32`, `-44`, `-68` (`footprint_check --print`). VERIFIED.
-Commit: (next commit)
+Commit: 86ecfb94
 
 ## Validation Plan
 
