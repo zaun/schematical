@@ -13,7 +13,12 @@
 //                     chip footprints PLCC-28, -32, -44, -68)
 //   --out FILE        the side file written ({"format","version","footprints"}); plan-51-F merges it
 //   --series FILE     series.tsv (default planning/plan-51-data/series.tsv; the tests give a fixture)
-//   --skip-generic-check   for fixtures: do not require the generic DIP shapes (see below)
+//   --skip-generic-check   for fixtures: do not require the generic shapes (see below)
+//   --write           plan-51-F: writes schematical/schematical/Parts/socket.json (every `add` row of candidates.tsv
+//                     plus 15 generic sockets), replaces every SKT- footprint of footprints.json by the ones those
+//                     parts name, and the datasheets.json entries of the maker PDFs; idempotent
+//   --check           exits 1 when --write would change one of those files (gen-headers.js has no such mode)
+//   --root DIR        the tree --write / --check read and write (default: this repository; the tests give a fixture)
 //
 // Exit 1, writing nothing, when a DIP shape of fits.tsv (8, 14, 16, 20, 24, 28 pins at 0.3 in;
 // 24, 28, 32, 40, 48 at 0.6 in) is not supplied exactly once by a through-hole row whose
@@ -91,6 +96,7 @@ function dipFootprint(row, n) {
 }
 
 const PLCC_SHAPES = [28, 32, 44, 68];
+const plccIdOf = (row, n) => `SKT-PLCC${n}-SM-${MAKER_CODE[row.maker]}-${idSeries(row.series)}`;
 
 // `32:9,7,9,7` -> { 32: [9, 7, 9, 7] }: the slots per side, left, bottom, right, top.
 function sidesPerPin(text, what) {
@@ -145,7 +151,7 @@ function plccFootprint(row, n) {
   const padW = Number(row.pad_w);
   const padH = Number(row.pad_h);
   return {
-    id: `SKT-PLCC${n}-SM-${MAKER_CODE[row.maker]}-${idSeries(row.series)}`,
+    id: plccIdOf(row, n),
     description: `${n}-pin PLCC socket, ${row.maker} ${row.series}, surface mount`,
     note: `${row.maker} ${file} p.${page}: pad ${padW} x ${padH}, pad-centre span ${span[0]} x ${span[1]}, body ${bodyW} x ${bodyH}; ${row.rule}`,
     style: 'quad',
@@ -239,6 +245,143 @@ function plccFootprints(rows) {
   return dedupe(all);
 }
 
+// ---- The parts (plan-51-F) ----------------------------------------------------------------------------------------
+
+const MAKER_NAME = { 'Mill-Max': 'Mill-Max Manufacturing Corp.', 'Preci-Dip': 'Preci-Dip', 'Assmann': 'Assmann WSW Components' };
+const DATASHEET_PREFIX = { 'Mill-Max': 'mill-max', 'Preci-Dip': 'precidip', 'Assmann': 'assmann' };
+const SOCKET_FILE_HEAD = ['{', '  "format": "schematical-parts",', '  "version": 1,', '  "kind": "socket",', '  "devices": ['];
+
+// `datasheets/ic-socket/assmann/ASS_4852_CO.pdf` -> `assmann-ass-4852-co` (the local PDF's name in lower case).
+function datasheetId(maker, pdf) {
+  return `${DATASHEET_PREFIX[maker]}-${path.basename(pdf, '.pdf').toLowerCase().replace(/_/g, '-')}`;
+}
+
+const mountingWord = (m) => (m === 'Through Hole' ? 'through-hole' : 'surface-mount');
+
+// Everything --write writes, as text, from the data files under `root`.
+function buildAll(root, skipGeneric) {
+  const data = path.join(root, 'planning', 'plan-51-data');
+  const parts = path.join(root, 'schematical', 'schematical', 'Parts');
+  const rows = readTsv(path.join(data, 'series.tsv'));
+  const candidates = readTsv(path.join(data, 'candidates.tsv')).filter((c) => c.state === 'add');
+  const fits = readTsv(path.join(data, 'fits.tsv'));
+  if (!skipGeneric) {
+    const problems = [...genericProblems(rows), ...genericPlccProblems(rows)];
+    if (problems.length > 0) throw new Error('the generic sockets are not covered:\n  ' + problems.join('\n  '));
+  }
+  const d = dipFootprints(rows);
+  const e = plccFootprints(rows);
+  const idOf = new Map([...d.idOf, ...e.idOf]);
+  const byId = new Map([...d.unique, ...e.unique].map((fp) => [fp.id, fp]));
+  const footprintOf = (row, n) => idOf.get(row.family === 'DIP' ? dipId(row, n) : plccIdOf(row, n));
+
+  const rowOf = new Map(rows.map((r) => [[r.maker, r.series, r.family, r.mounting, r.spacing].join('|'), r]));
+  const generic = new Map();   // `<family>:<spacing>:<pins>` -> footprint id
+  for (const row of rows) {
+    if (row.generic === '-') continue;
+    for (const n of (row.generic === 'yes' ? row.pins : row.generic).split(',').map(Number)) {
+      generic.set(`${row.family}:${row.family === 'DIP' ? row.spacing : ''}:${n}`, footprintOf(row, n));
+    }
+  }
+
+  const used = new Set();
+  const sheets = new Map();    // datasheet id -> url
+  const names = new Set();
+  const devices = [];
+  for (const f of fits) {
+    const n = Number(f.pins);
+    const dip = f.family === 'DIP';
+    const tag = dip ? `${n}-${f.spacing === '0.3' ? '300' : '600'}` : `${n}`;
+    const list = [];
+    const genericFootprint = generic.get(`${f.family}:${dip ? f.spacing : ''}:${n}`);
+    const fitList = f.fits.split(',');
+    const base = { package: dip ? 'DIP socket' : 'PLCC socket', pinout: `p${n}` };
+    if (genericFootprint) {
+      list.push({ name: `GENERIC-SOCKET-${dip ? 'DIP' : 'PLCC'}-${tag}`, manufacturer: 'Generic', ...base, footprint: genericFootprint,
+        mounting: dip ? 'through-hole' : 'surface-mount', fits: fitList });
+      used.add(genericFootprint);
+    } else if (!skipGeneric) {
+      throw new Error(`no generic footprint for ${f.family} ${n} ${f.spacing}`);
+    }
+    for (const c of candidates) {
+      if (c.family !== f.family || c.pins !== f.pins || (dip && c.spacing !== f.spacing)) continue;
+      const row = rowOf.get([c.maker, c.series, c.family, c.mounting, c.spacing || '-'].join('|'));
+      if (!row) throw new Error(`no series.tsv row for ${c.mpn} (${c.maker} ${c.series} ${c.family} ${c.mounting} ${c.spacing})`);
+      const footprint = footprintOf(row, n);
+      if (!footprint) throw new Error(`no footprint for ${c.mpn}`);
+      const sheet = datasheetId(c.maker, c.pdf);
+      if (!sheets.has(sheet)) {
+        const table = readTsv(path.join(root, path.dirname(c.pdf), 'datasheets.tsv'));
+        const entry = table.find((t) => t.file === path.basename(c.pdf));
+        if (!entry) throw new Error(`${c.pdf} is not in its datasheets.tsv`);
+        sheets.set(sheet, entry.url);
+      }
+      if (names.has(c.mpn)) throw new Error(`part name ${c.mpn} twice`);
+      names.add(c.mpn);
+      const part = { name: c.mpn, manufacturer: MAKER_NAME[c.maker], datasheet: sheet, ...base, footprint, mounting: mountingWord(c.mounting) };
+      if (c.finish && c.finish !== '-') part.finish = c.finish;
+      part.fits = fitList;
+      list.push(part);
+      used.add(footprint);
+    }
+    devices.push({ f, n, dip, tag, list });
+  }
+  const unusedUnique = [...byId.keys()].filter((id) => !used.has(id));
+  if (unusedUnique.length > 0) throw new Error(`footprints no part names: ${unusedUnique.slice(0, 5).join(', ')} (${unusedUnique.length})`);
+
+  const socketText = [
+    ...SOCKET_FILE_HEAD,
+    devices.map(({ f, n, dip, tag, list }) => [
+      '    {',
+      `      "id": "${dip ? 'dip' : 'plcc'}-${tag}",`,
+      `      "function": ${JSON.stringify(dip ? `${n}-pin, ${f.spacing} in` : `${n}-pin`)},`,
+      `      "description": ${JSON.stringify(dip ? `${n}-pin ${f.spacing} in DIP socket` : `${n}-pin PLCC socket`)},`,
+      `      "drawer": ["Connector","IC Socket","${dip ? 'DIP' : 'PLCC'}"],`,
+      `      "family": "${f.family}",`,
+      ...(dip ? [`      "rowSpacing": ${ROW_SPACING_MM[f.spacing]},`] : []),
+      '      "pinouts": {',
+      `        "p${n}": [${Array.from({ length: n }, (_, i) => JSON.stringify({ number: i + 1, name: String(i + 1), role: 'inout' })).join(',')}]`,
+      '      },',
+      '      "parts": [',
+      list.map((p) => '        ' + JSON.stringify(p)).join(',\n'),
+      '      ]',
+      '    }',
+    ].join('\n')).join(',\n'),
+    '  ]', '}', '',
+  ].join('\n');
+
+  return {
+    socketText, socketFile: path.join(parts, 'socket.json'),
+    footprints: [...byId.values()], footprintFile: path.join(parts, 'footprints.json'),
+    sheets, datasheetFile: path.join(parts, 'datasheets.json'),
+    partCount: devices.reduce((s, x) => s + x.list.length, 0), deviceCount: devices.length,
+  };
+}
+
+// Drops the lines of a file's array block for which `drop(line)` is true and puts `fresh` at the end (gen-headers.js'
+// way: every other line is kept, in the file's own layout).
+function replaceLines(text, drop, fresh) {
+  const lines = text.split('\n');
+  const open = lines.findIndex((l) => /^  "(footprints|datasheets)": \[$/.test(l));
+  const close = lines.lastIndexOf('  ]');
+  if (open < 0 || close < open) throw new Error('no array block');
+  const kept = lines.slice(open + 1, close).map((l) => l.replace(/,$/, '')).filter((l) => !drop(l));
+  const entries = kept.concat(fresh);
+  return [...lines.slice(0, open + 1), ...entries.map((l, i) => (i < entries.length - 1 ? l + ',' : l)), ...lines.slice(close)].join('\n');
+}
+
+// The three files as --write would leave them: [[path, text], …].
+function outputs(root, skipGeneric) {
+  const all = buildAll(root, skipGeneric);
+  const footprintText = replaceLines(fs.readFileSync(all.footprintFile, 'utf8'), (l) => l.startsWith('    {"id":"SKT-'),
+    all.footprints.map((fp) => '    ' + JSON.stringify(fp)));
+  const ours = [...all.sheets.keys()];
+  const datasheetText = replaceLines(fs.readFileSync(all.datasheetFile, 'utf8'),
+    (l) => ours.some((id) => l.startsWith(`    {"id": ${JSON.stringify(id)},`)),
+    ours.map((id) => `    {"id": ${JSON.stringify(id)}, "url": ${JSON.stringify(all.sheets.get(id))}}`));
+  return { all, files: [[all.socketFile, all.socketText], [all.footprintFile, footprintText], [all.datasheetFile, datasheetText]] };
+}
+
 function sideFile(footprints) {
   return ['{', '  "format": "schematical-footprints",', '  "version": 1,', '  "footprints": [',
     footprints.map((fp, i) => '    ' + JSON.stringify(fp) + (i < footprints.length - 1 ? ',' : '')).join('\n'),
@@ -246,16 +389,36 @@ function sideFile(footprints) {
 }
 
 function main(argv) {
-  const args = { series: DEFAULT_SERIES, skipGeneric: false };
+  const args = { series: DEFAULT_SERIES, skipGeneric: false, root: ROOT };
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--letter') args.letter = argv[++i];
     else if (argv[i] === '--out') args.out = argv[++i];
     else if (argv[i] === '--series') args.series = argv[++i];
+    else if (argv[i] === '--root') args.root = argv[++i];
+    else if (argv[i] === '--write') args.write = true;
+    else if (argv[i] === '--check') args.check = true;
     else if (argv[i] === '--skip-generic-check') args.skipGeneric = true;
     else throw new Error(`unknown option ${argv[i]}`);
   }
+  if (args.write || args.check) {
+    const { all, files } = outputs(args.root, args.skipGeneric);
+    const stale = files.filter(([file, text]) => !fs.existsSync(file) || fs.readFileSync(file, 'utf8') !== text);
+    if (args.check) {
+      if (stale.length > 0) {
+        console.error(`gen-sockets --check: ${stale.map(([f]) => path.relative(args.root, f)).join(', ')} differ from what --write writes`);
+        process.exit(1);
+      }
+      console.log(`gen-sockets --check: socket.json (${all.partCount} parts), footprints.json and datasheets.json are up to date`);
+      return;
+    }
+    for (const [file, text] of stale) fs.writeFileSync(file, text);
+    console.log(`socket.json: ${all.partCount} parts in ${all.deviceCount} devices; footprints.json: ${all.footprints.length} SKT- footprints; `
+      + `datasheets.json: ${all.sheets.size} entries (${stale.length} files changed)`);
+    return;
+  }
   if (!['D', 'E'].includes(args.letter) || !args.out) {
-    console.error('usage: node scripts/gen-sockets.js --letter D|E --out FILE [--series FILE] [--skip-generic-check]');
+    console.error('usage: node scripts/gen-sockets.js --letter D|E --out FILE [--series FILE] [--skip-generic-check]\n'
+      + '       node scripts/gen-sockets.js --write | --check [--root DIR] [--skip-generic-check]');
     process.exit(2);
   }
   const rows = readTsv(args.series);
@@ -282,6 +445,6 @@ if (require.main === module) {
 } else {
   module.exports = {
     readTsv, perPin, dipFootprint, dedupe, dipFootprints, genericProblems, sideFile,
-    plccSlots, plccFootprint, plccFootprints, genericPlccProblems,
+    plccSlots, plccFootprint, plccFootprints, genericPlccProblems, buildAll, outputs, datasheetId,
   };
 }

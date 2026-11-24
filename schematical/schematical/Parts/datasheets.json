@@ -9357,6 +9357,14 @@
     {"id": "esr_sz-new", "url": "https://www.jst.com/wp-content/uploads/2021/03/eSR_SZ-new.pdf"},
     {"id": "evh", "url": "https://www.jst-mfg.com/product/pdf/eng/eVH.pdf"},
     {"id": "exh", "url": "https://www.jst-mfg.com/product/pdf/eng/eXH.pdf"},
-    {"id": "ezh", "url": "https://www.jst-mfg.com/product/pdf/eng/eZH.pdf"}
+    {"id": "ezh", "url": "https://www.jst-mfg.com/product/pdf/eng/eZH.pdf"},
+    {"id": "assmann-ass-6449-co", "url": "https://www.assmann-wsw.com/uploads/datasheets/ASS_6449_CO.pdf"},
+    {"id": "assmann-ass-0810-co", "url": "https://www.assmann-wsw.com/uploads/datasheets/ASS_0810_CO.pdf"},
+    {"id": "assmann-ass-4852-co", "url": "https://www.assmann-wsw.com/uploads/datasheets/ASS_4852_CO.pdf"},
+    {"id": "mill-max-088-145", "url": "https://www.mill-max.com/sites/default/files/external/catalog/2018-12/088-145.pdf"},
+    {"id": "precidip-catalog-dilsockets", "url": "https://precidip.com/wp-content/uploads/2024/10/CATALOG-DILSOCKETS.pdf"},
+    {"id": "assmann-ass-6290-co", "url": "https://www.assmann-wsw.com/uploads/datasheets/ASS_6290_CO.pdf"},
+    {"id": "assmann-ass-0142-co", "url": "https://www.assmann-wsw.com/uploads/datasheets/ASS_0142_CO.pdf"},
+    {"id": "precidip-catalog-pgabgaplccsockets", "url": "https://precidip.com/wp-content/uploads/2024/10/CATALOG-PGABGAPLCCSOCKETS.pdf"}
   ]
 }

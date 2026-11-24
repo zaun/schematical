@@ -217,6 +217,148 @@ test('the four generic PLCC shapes are required, each supplied once', () => {
   assert.strictEqual(runE(twice).status, 1);
 });
 
+// ---- --write / --check (plan-51-F) -------------------------------------------------------------------------------
+
+const CAND_HEADER = ['maker', 'mpn', 'series', 'family', 'pins', 'spacing', 'mounting', 'stock', 'status', 'datasheet', 'pdf', 'state',
+  'reason', 'stock_checked', 'finish'];
+
+function cand(over) {
+  return Object.assign({
+    maker: 'Mill-Max', mpn: '110-93-314-41-001000', series: '110', family: 'DIP', pins: '14', spacing: '0.3', mounting: 'Through Hole',
+    stock: '100', status: 'Active', datasheet: '-', pdf: 'datasheets/ic-socket/mill-max/088-145.pdf', state: 'add', reason: '',
+    stock_checked: '2026-11-24', finish: 'gold',
+  }, over);
+}
+
+// A tree with two devices: a 14-pin 0.3 in DIP and a 28-pin PLCC, each with a generic row and one maker part.
+function tree() {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'gen-sockets-root-'));
+  const put = (rel, text) => {
+    fs.mkdirSync(path.dirname(path.join(root, rel)), { recursive: true });
+    fs.writeFileSync(path.join(root, rel), text);
+  };
+  const tsv = (header, rows) => [header.join('\t'), ...rows.map((r) => header.map((h) => r[h]).join('\t'))].join('\n') + '\n';
+  put('planning/plan-51-data/series.tsv', tsv(HEADER, [
+    row({ generic: 'yes' }),
+    plccRow({ pins: '28', generic: 'yes', span: '28:15.30/15.25', sides: '28:7,7,7,7', body_w: '28:18.19', body_len: '28:18.19' }),
+  ]));
+  put('planning/plan-51-data/candidates.tsv', tsv(CAND_HEADER, [
+    cand({}),
+    cand({ mpn: '110-93-314-41-009999', state: 'out', reason: 'no stock' }),
+    cand({ maker: 'Assmann', mpn: 'A-CCS 028-Z-SM', series: 'ASS_0142', family: 'PLCC', pins: '28', spacing: '', mounting: 'Surface Mount',
+      pdf: 'datasheets/ic-socket/assmann/ASS_0142_CO.pdf', finish: 'tin' }),
+  ]));
+  put('planning/plan-51-data/fits.tsv', 'family\tpins\tspacing\tfits\nDIP\t14\t0.3\tPDIP-14,CDIP-14\nPLCC\t28\t\tPLCC-28\n');
+  put('datasheets/ic-socket/mill-max/datasheets.tsv', 'file\turl\tbytes\tparts\n088-145.pdf\thttps://www.mill-max.com/catalog/088-145.pdf\t1\t1\n');
+  put('datasheets/ic-socket/assmann/datasheets.tsv', 'file\turl\tbytes\tparts\nASS_0142_CO.pdf\thttps://www.assmann-wsw.com/uploads/datasheets/ASS_0142_CO.pdf\t1\t1\n');
+  put('schematical/schematical/Parts/footprints.json', `{
+  "format": "schematical-footprints",
+  "version": 1,
+  "footprints": [
+    {"id":"PDIP-14","style":"dual","pins":14},
+    {"id":"SKT-OLD-STALE","style":"dual","pins":2},
+    {"id":"PLCC-28","style":"quad","pins":28}
+  ]
+}
+`);
+  put('schematical/schematical/Parts/datasheets.json', `{
+  "format": "schematical-datasheets",
+  "version": 1,
+  "datasheets": [
+    {"id": "assmann-ass-0142-co", "url": "https://old.example/stale.pdf"},
+    {"id": "sn74hc00", "url": "https://www.ti.com/lit/ds/symlink/sn74hc00.pdf"}
+  ]
+}
+`);
+  return root;
+}
+
+function gensock(root, ...args) {
+  return childProcess.spawnSync('node', [TOOL, ...args, '--root', root, '--skip-generic-check'], { encoding: 'utf8' });
+}
+
+const readJson = (root, rel) => JSON.parse(fs.readFileSync(path.join(root, 'schematical', 'schematical', 'Parts', rel), 'utf8'));
+
+test('the datasheet id is the local PDF name in lower case under the maker', () => {
+  assert.strictEqual(gen.datasheetId('Assmann', 'datasheets/ic-socket/assmann/ASS_4852_CO.pdf'), 'assmann-ass-4852-co');
+  assert.strictEqual(gen.datasheetId('Preci-Dip', 'datasheets/ic-socket/preci-dip/CATALOG-DILSOCKETS.pdf'), 'precidip-catalog-dilsockets');
+  assert.strictEqual(gen.datasheetId('Mill-Max', 'datasheets/ic-socket/mill-max/088-145.pdf'), 'mill-max-088-145');
+});
+
+test('--write makes one device per fits.tsv row, a generic part and one part per add row', () => {
+  const root = tree();
+  const result = gensock(root, '--write');
+  assert.strictEqual(result.status, 0, result.stderr);
+  const doc = readJson(root, 'socket.json');
+  assert.strictEqual(doc.kind, 'socket');
+  assert.deepStrictEqual(doc.devices.map((d) => d.id), ['dip-14-300', 'plcc-28']);
+  const dip = doc.devices[0];
+  assert.deepStrictEqual(dip.drawer, ['Connector', 'IC Socket', 'DIP']);
+  assert.strictEqual(dip.family, 'DIP');
+  assert.strictEqual(dip.rowSpacing, 7.62);
+  assert.strictEqual(dip.function, '14-pin, 0.3 in');
+  assert.strictEqual(dip.pinouts.p14.length, 14);
+  assert.deepStrictEqual(dip.pinouts.p14[13], { number: 14, name: '14', role: 'inout' });
+  assert.deepStrictEqual(dip.parts.map((p) => p.name), ['GENERIC-SOCKET-DIP-14-300', '110-93-314-41-001000']);
+  const [generic, maker] = dip.parts;
+  assert.deepStrictEqual(generic, {
+    name: 'GENERIC-SOCKET-DIP-14-300', manufacturer: 'Generic', package: 'DIP socket', pinout: 'p14', footprint: 'SKT-DIP14-300-TH-MM-110',
+    mounting: 'through-hole', fits: ['PDIP-14', 'CDIP-14'],
+  });
+  assert.deepStrictEqual(maker, {
+    name: '110-93-314-41-001000', manufacturer: 'Mill-Max Manufacturing Corp.', datasheet: 'mill-max-088-145', package: 'DIP socket',
+    pinout: 'p14', footprint: 'SKT-DIP14-300-TH-MM-110', mounting: 'through-hole', finish: 'gold', fits: ['PDIP-14', 'CDIP-14'],
+  });
+  const plcc = doc.devices[1];
+  assert.strictEqual('rowSpacing' in plcc, false);
+  assert.deepStrictEqual(plcc.parts.map((p) => p.name), ['GENERIC-SOCKET-PLCC-28', 'A-CCS 028-Z-SM']);
+  assert.strictEqual(plcc.parts[0].mounting, 'surface-mount');
+  assert.strictEqual(plcc.parts[1].finish, 'tin');
+  assert.strictEqual(plcc.parts[1].footprint, 'SKT-PLCC28-SM-AS-ASS-0142');
+});
+
+test('--write replaces the SKT- footprints and the maker datasheet entries and keeps every other line', () => {
+  const root = tree();
+  assert.strictEqual(gensock(root, '--write').status, 0);
+  const ids = readJson(root, 'footprints.json').footprints.map((f) => f.id);
+  assert.deepStrictEqual(ids, ['PDIP-14', 'PLCC-28', 'SKT-DIP14-300-TH-MM-110', 'SKT-PLCC28-SM-AS-ASS-0142']);
+  const sheets = readJson(root, 'datasheets.json').datasheets;
+  assert.deepStrictEqual(sheets.map((s) => s.id), ['sn74hc00', 'mill-max-088-145', 'assmann-ass-0142-co']);
+  assert.strictEqual(sheets.find((s) => s.id === 'assmann-ass-0142-co').url, 'https://www.assmann-wsw.com/uploads/datasheets/ASS_0142_CO.pdf');
+});
+
+test('--write twice changes nothing, and --check agrees; a hand edit makes --check fail', () => {
+  const root = tree();
+  assert.strictEqual(gensock(root, '--write').status, 0);
+  const files = ['socket.json', 'footprints.json', 'datasheets.json'].map((f) => path.join(root, 'schematical', 'schematical', 'Parts', f));
+  const before = files.map((f) => fs.readFileSync(f, 'utf8'));
+  const again = gensock(root, '--write');
+  assert.match(again.stdout, /\(0 files changed\)/);
+  assert.deepStrictEqual(files.map((f) => fs.readFileSync(f, 'utf8')), before);
+  assert.strictEqual(gensock(root, '--check').status, 0);
+  fs.writeFileSync(files[0], before[0].replace('"finish":"gold"', '"finish":"tin"'));
+  const stale = gensock(root, '--check');
+  assert.strictEqual(stale.status, 1);
+  assert.match(stale.stderr, /socket\.json/);
+});
+
+test('--write fails, writing nothing, when an add row has no series.tsv row', () => {
+  const root = tree();
+  const file = path.join(root, 'planning', 'plan-51-data', 'candidates.tsv');
+  fs.writeFileSync(file, fs.readFileSync(file, 'utf8').replace('\t110\tDIP', '\t999\tDIP'));
+  const result = gensock(root, '--write');
+  assert.strictEqual(result.status, 1);
+  assert.match(result.stderr, /no series\.tsv row for 110-93-314-41-001000/);
+  assert.strictEqual(fs.existsSync(path.join(root, 'schematical', 'schematical', 'Parts', 'socket.json')), false);
+});
+
+test('--write without the generic coverage fails', () => {
+  const root = tree();
+  const result = childProcess.spawnSync('node', [TOOL, '--write', '--root', root], { encoding: 'utf8' });
+  assert.strictEqual(result.status, 1);
+  assert.match(result.stderr, /generic sockets are not covered/);
+});
+
 test('a generic row must be through hole', () => {
   const ws = workspace([row({ mounting: 'Surface Mount', generic: 'yes', drill: '0', pin1: 'none' })]);
   const result = run(ws);

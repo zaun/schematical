@@ -1791,6 +1791,21 @@ an even pin count of 4 to 64 (`a DIP socket needs an even pin count of 4 to
 28, 32, 44, 52, 68 or 84 pins`). The part's own `footprint` is the socket's
 land pattern, with a pad for every pin like any part's.
 
+The library's sockets are `Parts/socket.json`, written by `node scripts/gen-sockets.js
+--write` (`--check` exits 1 when a file differs; running it twice changes nothing) from
+`planning/plan-51-data/` (`series.tsv`, `candidates.tsv`, `fits.tsv`): 575 parts in 15
+devices, one device per socket shape (`dip-14-300`, `plcc-44`, …; the shapes the library's
+chips use), 15 generic sockets and 560 parts of three makers. The generic ones are
+`GENERIC-SOCKET-DIP-<pins>-<300|600>` (through hole, the Mill-Max 110 footprint) and
+`GENERIC-SOCKET-PLCC-<pins>` (surface mount: Assmann A-CCS Z-SM for 28, 32 and 44 pins,
+Mill-Max 940 for 68), manufacturer `Generic`, no datasheet. Each maker part names its
+datasheet (the maker's catalog or drawing, `datasheets/ic-socket/`, ids `mill-max-088-145`,
+`precidip-catalog-dilsockets`, `assmann-ass-4852-co`, …), its own `SKT-…` footprint (one per
+distinct pad geometry, ids by family, pins, row spacing, mounting, maker and series), and the
+contact finish DigiKey lists. Through-hole PLCC sockets are not in the library: their
+tails are on two staggered rows of 2.54 mm holes that `quad` cannot draw
+(`datasheets/skipped-parts.md`).
+
 `"fits"` names chip footprints by id: nothing derives the fit from pad
 positions, since an oscillator or a 7-segment display also has the package
 `DIP`. The loader checks that each listed footprint has the socket's pin

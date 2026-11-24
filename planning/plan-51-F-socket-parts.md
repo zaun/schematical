@@ -32,10 +32,10 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-51-E complete | `ls planning/completed/plan-51-E-*.md` → exists | NOT MET (2026-11-21: not started) |
-| Side files exist | `ls planning/plan-51-data/footprints-D.json planning/plan-51-data/footprints-E.json` | NOT MET (D and E outputs) |
-| Every candidate row is `add` or `out` | `awk -F'\t' 'NR>1 && $12!="add" && $12!="out"' planning/plan-51-data/candidates.tsv \| wc -l` → 0 | NOT MET (C's output) |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p51-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | NOT MET (2026-11-21: not run; run at F's start) |
+| plan-51-E complete | `ls planning/completed/plan-51-E-*.md` → exists | MET (2026-11-24: `planning/completed/plan-51-E-socket-footprints-plcc.md`, commit 02e9b252) |
+| Side files exist | `ls planning/plan-51-data/footprints-D.json planning/plan-51-data/footprints-E.json` | MET (2026-11-24: both exist, 146 and 8 footprints) |
+| Every candidate row is `add` or `out` | `awk -F'\t' 'NR>1 && $12!="add" && $12!="out"' planning/plan-51-data/candidates.tsv \| wc -l` → 0 | MET (2026-11-24: 0) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p51-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-24 at 02e9b252: `** BUILD SUCCEEDED **`, the build with the `PART_SOCKET` kind and no app change) |
 | Baselines at F's start | `wc -l backend/tests/golden/{parts,traces,footprints}.txt` (P0 / R0 / F0 = 36515 / 36515 / 2775 at 2865af91; re-measure after A's landing, which adds none) | MET (2026-11-21) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
@@ -123,22 +123,22 @@ changed line.
 
 ### Phase 1 — generate and merge
 
-- [ ] `scripts/gen-sockets.js --write` per § 3.1; `scripts/gen-sockets.test.js` gains the device and part cases (a generic, a maker row, the datasheet id rule, idempotence).
-- [ ] Run `node scripts/gen-sockets.js --write`, then `--check` → exit 0.
-- [ ] `docs/parts-format.md`: the table's `socket.json`; the shipped-part count and the generic part names in § socket; the intro's kind list.
+- [x] `scripts/gen-sockets.js --write` per § 3.1; `scripts/gen-sockets.test.js` gains the device and part cases (a generic, a maker row, the datasheet id rule, idempotence). — `--write`, `--check`, `--root`; 6 new test cases (23 in all: datasheet id rule, device and part contents for a generic and a maker row, SKT- replacement and datasheet entries, idempotence and `--check`, a missing series row, missing generic coverage).
+- [x] Run `node scripts/gen-sockets.js --write`, then `--check` → exit 0. — `socket.json: 575 parts in 15 devices; footprints.json: 154 SKT- footprints; datasheets.json: 8 entries (3 files changed)`; the second `--write` → `(0 files changed)`; `--check` → `socket.json (575 parts), footprints.json and datasheets.json are up to date`, exit 0.
+- [x] `docs/parts-format.md`: the table's `socket.json`; the shipped-part count and the generic part names in § socket; the intro's kind list. — § socket gained the shipped-part paragraph (575 parts, 15 generic, the footprint and datasheet naming, no through-hole PLCC); the table's `socket.json` and the intro were A's.
 
 Acceptance: the loader accepts everything.
-  Check: `node scripts/gen-sockets.js --write && node scripts/gen-sockets.js --check && cmake --build /tmp/logic-p51 -j8 && /tmp/logic-p51/library_check` → exit 0 (est. 3 min).
-Commit: —
+  Check: `node scripts/gen-sockets.js --write && node scripts/gen-sockets.js --check && cmake --build /tmp/logic-p51 -j8 && /tmp/logic-p51/library_check` → exit 0 (est. 3 min). Measured 2026-11-24 (build dir `/tmp/logic-p51-wt`): `--write` and `--check` exit 0, `library_check: all passed`. VERIFIED.
+Commit: (next commit)
 
 ### Phase 2 — goldens
 
-- [ ] `/tmp/logic-p51/listing_check --print > backend/tests/golden/parts.txt`; `trace_check --print > …/traces.txt`; `footprint_check --print > …/footprints.txt`.
-- [ ] Review: `git diff backend/tests/golden | grep -c '^-[^-]'` → 0 (only added lines); `git diff --stat` shows the three files.
+- [x] `/tmp/logic-p51/listing_check --print > backend/tests/golden/parts.txt`; `trace_check --print > …/traces.txt`; `footprint_check --print > …/footprints.txt`. — `listing_check --print` (37090 lines), `trace_check --print` (37090), `footprint_check --print` (2929).
+- [x] Review: `git diff backend/tests/golden | grep -c '^-[^-]'` → 0 (only added lines); `git diff --stat` shows the three files. — `git diff backend/tests/golden | grep -c '^-[^-]'` → 0; `git diff --stat`: footprints.txt +154, parts.txt +575, traces.txt +575.
 
 Acceptance: 61 of 61.
-  Check: `ctest --test-dir /tmp/logic-p51 -j8` → `100% tests passed, 0 tests failed out of 61` (est. 1 min).
-Commit: —
+  Check: `ctest --test-dir /tmp/logic-p51 -j8` → `100% tests passed, 0 tests failed out of 61` (est. 1 min). Measured 2026-11-24: before the goldens `95% tests passed, 3 tests failed out of 61` (listing_check, trace_check, footprint_check only); after: `100% tests passed, 0 tests failed out of 61`. VERIFIED.
+Commit: (next commit)
 
 ### Phase 3 — the app
 
