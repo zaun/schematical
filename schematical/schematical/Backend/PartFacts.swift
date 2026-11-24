@@ -155,7 +155,7 @@ nonisolated enum PartFacts {
         case let .converter(_, bits, channels):
             add("Bits", String(bits))
             add("Channels", String(channels))
-        case .rtc:
+        case .rtc, .displayDriver:
             break
         case let .serialmem(info):
             add("Type", serialMemoryType(info.type))
@@ -315,6 +315,8 @@ nonisolated enum PartFacts {
         case PART_ARITH: return "Arithmetic"
         case PART_CONVERTER: return "Converter"
         case PART_RTC: return "RTC"
+        case PART_LEDDRIVER: return "LED driver"
+        case PART_LCDDRIVER: return "LCD driver"
         case PART_SERIALMEM: return "Serial memory"
         case PART_DIODE: return "Diode"
         case PART_CAPACITOR: return "Capacitor"

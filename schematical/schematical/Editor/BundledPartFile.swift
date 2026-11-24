@@ -109,6 +109,8 @@ extension PartKinds {
         case PART_CONNECTOR: "connector"
         case PART_CONVERTER: "converter"
         case PART_RTC: "rtc"
+        case PART_LEDDRIVER: "leddriver"
+        case PART_LCDDRIVER: "lcddriver"
         case PART_SERIALMEM: "serialmem"
         case PART_DIODE: "diode"
         case PART_HEADER: "header"

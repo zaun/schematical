@@ -567,6 +567,8 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case converter(type: String, bits: Int, channels: Int)
         /// A real-time clock (plan-24): no kind-specific facts.
         case rtc
+        /// An LED or LCD display driver (plan-56): no kind-specific facts.
+        case displayDriver
         /// A serial (SPI) memory chip: EEPROM, F-RAM or flash (`SerialMemoryInfo`).
         case serialmem(SerialMemoryInfo)
         /// A diode part (plan-29): its type ("rectifier", "fast",
@@ -750,8 +752,11 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     /// A processor: a part with a processor window.
     var isCpu: Bool { kind == PART_CPU }
 
-    /// A converter or RTC: a part with a register window (plan-24-I).
-    var hasRegisters: Bool { kind == PART_CONVERTER || kind == PART_RTC }
+    /// A converter, RTC or display driver: a part with a register window
+    /// (plan-24-I, plan-56-G).
+    var hasRegisters: Bool {
+        kind == PART_CONVERTER || kind == PART_RTC || kind == PART_LEDDRIVER || kind == PART_LCDDRIVER
+    }
 
     /// A pull-up or pull-down: a resistor on the board, with a resistance
     /// (`PlacedChip.ohms`) and footprint choices.
@@ -952,7 +957,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .header(rows, perRow, _): return ["\(rows)×\(perRow)"]
         case let .converter(_, bits, channels):
             return ["\(bits)-bit"] + (channels > 1 ? ["\(channels) channels"] : [])
-        case .rtc: return []
+        case .rtc, .displayDriver: return []
         case let .serialmem(info):
             // The function level of the drawer already says the density.
             return info.maxClockKHz > 0 ? [PartFacts.hertz(UInt64(info.maxClockKHz) * 1000)] : []
@@ -1200,6 +1205,8 @@ extension CatalogPart {
                                  channels: Int(converter.channels))
         } else if part.kind == PART_RTC {
             details = .rtc
+        } else if part.kind == PART_LEDDRIVER || part.kind == PART_LCDDRIVER {
+            details = .displayDriver
         } else if let memory = part.serialmem?.pointee {
             details = .serialmem(SerialMemoryInfo(
                 type: string(memory.type), size: memory.size, addressBytes: Int(memory.address_bytes),

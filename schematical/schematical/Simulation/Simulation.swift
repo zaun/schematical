@@ -614,9 +614,9 @@ final class SimulationController {
         return engine.cpuState(part: part)
     }
 
-    // MARK: Converters and RTCs
+    // MARK: Converters, RTCs and display drivers
 
-    /// A converter's or RTC's registers (and an RTC's clock) in the running
+    /// A converter's, RTC's or display driver's registers (and an RTC's clock) in the running
     /// simulation, or nil when the part has none or the simulation is not
     /// running.
     func registerState(of chip: PlacedChip) -> RegisterSnapshot? {

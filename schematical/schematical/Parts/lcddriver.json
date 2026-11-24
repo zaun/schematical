@@ -5,9 +5,9 @@
  "devices": [
     {
       "id": "CD22105A",
-      "function": "4-digit driver",
+      "function": "LCD",
       "description": "4-digit 7-segment LCD decoder/driver, microprocessor input (2-bit digit select, 2 chip selects), decimal (Code B) font",
-      "drawer": ["Displays & Indicators", "LCD drivers"],
+      "drawer": ["Interface", "Driver"],
       "note": "cd22105-harris.pdf: p.1 features, description and 40-pin pinout, p.2 supply and electrical (VDD 3-6 V, backplane 125 Hz), p.3 block diagram, p.4 timing diagram, p.5 Table I output codes, chip-select and digit-selection truth tables, Fig. 6 waveforms, p.7-8 E-suffix 40-lead plastic DIP outline",
       "pinouts": {
         "dip40": [
@@ -66,9 +66,9 @@
     },
     {
       "id": "ICM7224",
-      "function": "4-1/2 digit counter",
+      "function": "LCD",
       "description": "4-1/2 digit counter/decoder/driver, 29 LCD segment outputs with backplane oscillator (static drive)",
-      "drawer": ["Displays & Indicators", "LCD drivers"],
+      "drawer": ["Interface", "Driver"],
       "note": "icm7224-icm7225-maxim.pdf: p.1 pinout and ordering, p.2-3 electricals, p.4 timing, p.5 pin descriptions, p.6-7 detailed description, Fig. 5 font, p.8 PLCC pinout; icm7224-icm7225-harris.pdf p.1-2 ordering and functional diagram, p.5-6 control inputs and counter section",
       "pinouts": {
         "dip40": [
@@ -175,9 +175,9 @@
     },
     {
       "id": "ICM7211",
-      "function": "4-digit driver",
+      "function": "LCD",
       "description": "4-digit 7-segment LCD decoder/driver, multiplexed BCD (4 data bits, 4 digit strobes) input, hexadecimal font",
-      "drawer": ["Displays & Indicators", "LCD drivers"],
+      "drawer": ["Interface", "Driver"],
       "note": "icm7211-icm7212.pdf (Maxim 19-959): p.1 features, ordering and 40-lead DIP pinout, p.4 ordering (IQ 44-lead PLCC, IPL 40-lead DIP) and pinouts of every variant, p.2-3 supply range, p.6-7 block diagrams, p.8-9 detailed description (backplane, LED drive, digital interface), p.10 Table 1 output codes and Figures 10-11 digit-select truth tables",
       "pinouts": {
         "dip40": [
@@ -282,9 +282,9 @@
     },
     {
       "id": "ICM7211A",
-      "function": "4-digit driver",
+      "function": "LCD",
       "description": "4-digit 7-segment LCD decoder/driver, multiplexed BCD (4 data bits, 4 digit strobes) input, Code B font",
-      "drawer": ["Displays & Indicators", "LCD drivers"],
+      "drawer": ["Interface", "Driver"],
       "note": "icm7211-icm7212.pdf (Maxim 19-959): p.1 features, ordering and 40-lead DIP pinout, p.4 ordering (IQ 44-lead PLCC, IPL 40-lead DIP) and pinouts of every variant, p.2-3 supply range, p.6-7 block diagrams, p.8-9 detailed description (backplane, LED drive, digital interface), p.10 Table 1 output codes and Figures 10-11 digit-select truth tables",
       "pinouts": {
         "dip40": [
@@ -390,9 +390,9 @@
     },
     {
       "id": "ICM7211AM",
-      "function": "4-digit driver",
+      "function": "LCD",
       "description": "4-digit 7-segment LCD decoder/driver, microprocessor (2-bit digit select, 2 chip selects) input, Code B font",
-      "drawer": ["Displays & Indicators", "LCD drivers"],
+      "drawer": ["Interface", "Driver"],
       "note": "icm7211-icm7212.pdf (Maxim 19-959): p.1 features, ordering and 40-lead DIP pinout, p.4 ordering (IQ 44-lead PLCC, IPL 40-lead DIP) and pinouts of every variant, p.2-3 supply range, p.6-7 block diagrams, p.8-9 detailed description (backplane, LED drive, digital interface), p.10 Table 1 output codes and Figures 10-11 digit-select truth tables",
       "pinouts": {
         "dip40": [
@@ -498,9 +498,9 @@
     },
     {
       "id": "ICM7232A",
-      "function": "10-digit driver",
+      "function": "LCD",
       "description": "10-digit 7-segment triplexed (1:3) LCD driver, serial 10-bit entry, hexadecimal font, both annunciators on BP3",
-      "drawer": ["Displays & Indicators", "LCD drivers"],
+      "drawer": ["Interface", "Driver"],
       "note": "icm7231-icm7232-harris.pdf (Harris FN3161, Dec 1993): p.1 features and ordering, p.2 pinout (ICM7232AF, BF), p.4 block diagram, p.5-6 specifications and terminal definitions, p.7-8 Figures 2 and 3 (write order AN1 AN2 BD0-BD3 A0-A3), p.11-12 serial interface, Tables 1 and 2. Modeled: the serial write (8, 9 or 10 bits clocked on DATA CLOCK rising edges, committed by the WRITE pulse; AN1 and AN2 are 0 when fewer bits are sent), digits 1-10, hexadecimal font, 1:3 drive. DATA ACCEPTED is not driven. See ICM7231 note for the rest.",
       "pinouts": {
         "dip40": [
@@ -560,9 +560,9 @@
     },
     {
       "id": "ICM7232B",
-      "function": "10-digit driver",
+      "function": "LCD",
       "description": "10-digit 7-segment triplexed (1:3) LCD driver, serial 10-bit entry, Code B font, both annunciators on BP3",
-      "drawer": ["Displays & Indicators", "LCD drivers"],
+      "drawer": ["Interface", "Driver"],
       "note": "icm7231-icm7232-harris.pdf (Harris FN3161, Dec 1993): as ICM7232A (p.2 pinout ICM7232AF, BF), Code B font (p.12 Table 1). DATA ACCEPTED is not driven.",
       "pinouts": {
         "dip40": [
@@ -622,9 +622,9 @@
     },
     {
       "id": "MAX7231B",
-      "function": "8-digit driver",
+      "function": "LCD",
       "description": "8-digit 7-segment triplexed (1:3) LCD driver, parallel entry, Code B font, both annunciators on COM3",
-      "drawer": ["Displays & Indicators", "LCD drivers"],
+      "drawer": ["Interface", "Driver"],
       "note": "max7231-max7234.pdf (Maxim, (c) 1995; max7231-max7234-maxim-old.pdf is the same sheet, a poorer scan): as MAX7231A with the Code B font (p.12 Table 2). Pins nZ = b, c, an1 on COM1, COM2, COM3; nY = a, g, d; nX = f, e, an2 (p.11 Figure 16, p.13 Figures 18-19). Not modeled: VDISP open = shutdown, display voltage levels, CS mid-level test mode, oscillator, power-up latch contents (dark).",
       "pinouts": {
         "dip40": [
@@ -731,9 +731,9 @@
     },
     {
       "id": "MAX7231C",
-      "function": "8-digit driver",
+      "function": "LCD",
       "description": "8-digit 7-segment triplexed (1:3) LCD driver, parallel entry, Code B font, left annunciator an2 on COM1 and right annunciator an1 on COM3",
-      "drawer": ["Displays & Indicators", "LCD drivers"],
+      "drawer": ["Interface", "Driver"],
       "note": "max7231-max7234.pdf (Maxim, (c) 1995; max7231-max7234-maxim-old.pdf is the same sheet, a poorer scan): as MAX7231A, C suffix: an2 on COM1, an1 on COM3, X line = an2, f, e on COM1, COM2, COM3 (p.12 Table 1, p.13 Figure 19). Pins nZ = b, c, an1 on COM1, COM2, COM3; nY = a, g, d; nX = f, e, an2 (p.11 Figure 16, p.13 Figures 18-19). Not modeled: VDISP open = shutdown, display voltage levels, CS mid-level test mode, oscillator, power-up latch contents (dark).",
       "pinouts": {
         "dip40": [
@@ -839,9 +839,9 @@
     },
     {
       "id": "BU91795",
-      "function": "12x4 driver",
+      "function": "LCD",
       "description": "Automotive 12 x 4 (48 segment) LCD segment driver, I2C write-only (address 0x3E): 4 backplanes, 12 segments, 4-bit DDRAM with ADSET, display on/off, software reset (blink, bias, frame rate, all-pixel-on not modeled)",
-      "drawer": ["Displays & Indicators", "LCD drivers"],
+      "drawer": ["Interface", "Driver"],
       "note": "bu91795muf-m-e p.1 features, p.2-3 pin configuration and description, p.4 supply 2.5-6.0 V and VLCD, p.8-9 interface, slave address 01111100 and DDRAM, p.10-13 command list and ICSET, DISCTL, ADSET, MODESET, BLKCTL, APCTL, p.15 example, p.16-17 start and on/off sequences, p.25 ordering, p.26 package",
       "pinouts": {
         "vqfn24": [
@@ -883,9 +883,9 @@
     },
     {
       "id": "BU9796AFS",
-      "function": "20x4 driver",
+      "function": "LCD",
       "description": "20 x 4 (80 segment) LCD segment driver, I2C write-only (address 0x3E): 4 backplanes, 20 segments, 4-bit DDRAM with ADSET, display on/off, software reset (blink, bias, frame rate, all-pixel-on not modeled)",
-      "drawer": ["Displays & Indicators", "LCD drivers"],
+      "drawer": ["Interface", "Driver"],
       "note": "bu9796axxx-e p.1 features, p.2 BU9796AFS block diagram, pin configuration and description, p.4 supply 2.5-5.5 V, p.9-10 interface, slave address 01111100 and DDRAM, p.12 command list, p.13-15 DISCTL, MODESET, ADSET, ICSET, BLKCTL, APCTL, p.18 example, p.19-20 start and on/off sequences, p.24 ordering, p.25 package",
       "pinouts": {
         "ssop32": [
@@ -935,9 +935,9 @@
     },
     {
       "id": "BU9796AMUV",
-      "function": "12x4 driver",
+      "function": "LCD",
       "description": "12 x 4 (48 segment) LCD segment driver in VQFN24, I2C write-only (address 0x3E): 4 backplanes, 12 segments, 4-bit DDRAM with ADSET 00h-13h, display on/off, software reset (blink, bias, frame rate, all-pixel-on not modeled)",
-      "drawer": ["Displays & Indicators", "LCD drivers"],
+      "drawer": ["Interface", "Driver"],
       "note": "bu9796axxx-e p.1 features, p.3 BU9796AMUV block diagram, pin configuration and description, p.4 supply 2.5-5.5 V, p.9-11 interface, slave address 01111100 and DDRAM (SEG12-SEG19 addresses 0Ch-13h are dummy data), p.12 command list, p.13-15 DISCTL, MODESET, ADSET, ICSET, BLKCTL, APCTL, p.19-20 start and on/off sequences, p.24 and p.29 ordering, p.26 and p.30 packages",
       "pinouts": {
         "vqfn24": [
@@ -979,9 +979,9 @@
     },
     {
       "id": "PCF85176",
-      "function": "40x4 driver",
+      "function": "LCD",
       "description": "40 x 4 I2C LCD driver for static and 1:2, 1:3, 1:4 multiplex glass (PCF8576D, PCF85176, PCA85176H), 1.8-5.5 V logic",
-      "drawer": ["Displays & Indicators", "LCD drivers"],
+      "drawer": ["Interface", "Driver"],
       "note": "pcf85176.pdf p.2 ordering (PCF85176H TQFP64 SOT357-1, PCF85176T TSSOP56 SOT364-1), p.4-5 pinning and Table 3, p.5-8 commands (Tables 4-10), p.9 power-on reset, p.19 clock, timing and backplane outputs, p.20-26 RAM, data pointer, subaddress, banks, p.28 I2C address, p.31-33 characteristics (VDD 1.8-5.5 V, fclk(int) 1850 Hz typ, ffr 77 Hz typ). pcf8576d.pdf (PCF8576DT TSSOP56, same pinout and logic): p.2 ordering, p.4-6 pinning, p.7 power-on reset, p.16 ffr = fclk / 24 and backplane pairing, p.17-24 RAM, Figure 13 fills, data pointer, subaddress, banks and commands, p.27 address, p.31-32 characteristics. pca85176.pdf (PCA85176H TQFP64 automotive): p.2 ordering, p.4 pinning, p.6-9 the same commands, p.9 power-on reset, p.32-33 fclk(int) PCA85176H 1850 Hz typ, ffr 77 Hz typ. Power-on: mode 1:4, E = 0 (display disabled, outputs at VLCD -> released here), pointer, counter, banks, blink cleared. The frame is the model's half period (Tfr / 2, Tfr = 24 / fclk, Figure 11 p.15: one pass of the backplanes per polarity). Modeled: I2C write address 0111 00 SA0 (0x38 / 0x39); command bytes with the C continuation bit (mode-set C 10 - E B M1 M0, load-data-pointer C 0 P5-P0, device-select, bank-select C 11110 I O, blink-select C 1110 AB BF1 BF0), the display data bytes after the last command byte, stored in the 40 x 4 RAM by mode (static 1 row, 1:2 2 rows, 1:3 3 rows, 1:4 4 rows per column, most significant bit first, data pointer step 8 / 4 / 3 / 2, the pointer wraps past column 39 and increments the subaddress counter, bits past column 39 fall into the next device), storing only while the subaddress counter equals the hardware subaddress pins, the input and output RAM banks in static and 1:2, the display-enable bit E (E = 0 releases every BP and S pin), the backplane slots (static all four BP pins alike, 1:2 BP0 = BP2 and BP1 = BP3, 1:3 BP3 = BP1, 1:4 one each) and the frame time. Not modeled: LCD bias and VLCD (bias and blink-select bits are only stored), blinking, the CLK / SYNC / OSC cascade and clock pins (the frame always runs from the internal oscillator), the missing acknowledge of a data byte addressed to another subaddress, the refusal of a read address byte.",
       "pinouts": {
         "p56": [

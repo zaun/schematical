@@ -29,10 +29,13 @@ extension PartKinds {
     }()
 
     /// Kind → dotted path of a key (no side: `"bus.cs"`) → its condition.
-    /// `converter` and `rtc` share the bus loader, so they share the table.
+    /// `converter`, `rtc` and the display drivers share the bus loader, so
+    /// they share the table.
     static let conditions: [String: [String: FieldCondition]] = [
         "converter": busConditions,
         "rtc": busConditions,
+        "leddriver": busConditions,
+        "lcddriver": busConditions,
     ]
 
     /// One plain sentence per model of each kind with variants, for the

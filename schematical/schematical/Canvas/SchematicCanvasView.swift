@@ -195,7 +195,7 @@ struct SchematicCanvasView: View {
                         onOpenTerminal(chip.id)
                         return
                     }
-                    // A converter or RTC opens its register window.
+                    // A converter, RTC or display driver opens its register window.
                     if let chip = document.chip(at: point), chip.part.hasRegisters {
                         onOpenRegisters(chip.id)
                         return

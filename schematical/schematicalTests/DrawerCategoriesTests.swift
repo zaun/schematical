@@ -34,7 +34,7 @@ final class DrawerCategoriesTests: XCTestCase {
     /// Interface keeps the serial and parallel I/O chips; converters moved to
     /// Analog and the real-time clocks to Clocks.
     func testInterfaceAnalogAndClocks() throws {
-        XCTAssertEqual(paths(under: "Interface"), ["Interface > Parallel I/O", "Interface > Serial"])
+        XCTAssertEqual(paths(under: "Interface"), ["Interface > Driver", "Interface > Parallel I/O", "Interface > Serial"])
         let interface = try category("Interface")
         let serial = try XCTUnwrap(interface.subcategories.first { $0.subcategory == "Serial" })
         XCTAssertEqual(Set(serial.functions.map(\.function)), ["UART", "Bridge UART", "I2C controller"])

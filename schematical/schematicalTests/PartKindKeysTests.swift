@@ -33,6 +33,8 @@ final class PartKindKeysTests: XCTestCase {
                    "ns16550.c", "ns16550_bridge.c", "ns16550_exar.c"],
         "charlcd": ["charlcd.c"], "connector": ["connector.c"],
         "converter": ["converter.c", "converter_load.c"], "rtc": ["rtc.c", "converter_load.c"],
+        // plan-56-G: the display drivers share the converter loader too.
+        "leddriver": ["leddriver.c", "converter_load.c"], "lcddriver": ["lcddriver.c", "converter_load.c"],
         "diode": ["diode.c"], "header": ["header.c"],
         "register": ["register.c", "seq.c"],
         // plan-46-C: the last kinds to get a form.
@@ -53,9 +55,27 @@ final class PartKindKeysTests: XCTestCase {
     /// `load_dac`, `load_choice` (dac's `clearCode` and `codeFormat`),
     /// `load_conversion` and `load_time` (conversion's `time`) are converter
     /// only; without it, it never calls `load_clock`.
+    ///
+    /// plan-56-G: the `display` section's own arrays (`load_display_scan`,
+    /// `_static`, `_ports`, `_lcd`) are read only for the display drivers
+    /// (converter and rtc reject `display`). For leddriver and lcddriver they
+    /// are the keys *inside* `display`, which the Part Editor's form edits as
+    /// one JSON field (Editor/LeddriverDraft.swift), not as controls of their
+    /// own: they are skipped here, and `testDisplayDriversEditDisplayAsJSON`
+    /// checks the form has the `display` key itself (no `KEYS[]` array names
+    /// it: `DEVICE_KEYS` in leddriver.c / lcddriver.c does). A display driver
+    /// has no conversion, clock or `ready`, so those loaders are skipped too.
+    static let displayLoaders: Set<String> = [
+        "load_display_scan", "load_display_static", "load_display_ports", "load_display_lcd",
+    ]
     static let notCalled: [String: [String: Set<String>]] = [
-        "converter": ["converter_load.c": ["load_clock"]],
-        "rtc": ["converter_load.c": ["load_choice", "load_time", "load_conversion", "load_dac"]],
+        "converter": ["converter_load.c": Set(["load_clock"]).union(displayLoaders)],
+        "rtc": ["converter_load.c": Set(["load_choice", "load_time", "load_conversion", "load_dac"]).union(displayLoaders)],
+        "leddriver": ["converter_load.c": displayLoaders.union(displayDriverSkipped)],
+        "lcddriver": ["converter_load.c": displayLoaders.union(displayDriverSkipped)],
+    ]
+    private static let displayDriverSkipped: Set<String> = [
+        "load_clock", "load_choice", "load_time", "load_conversion", "load_dac", "load_ready",
     ]
 
     /// The string keys of every `KEYS[] = { … }` array in a source file (its
@@ -104,6 +124,22 @@ final class PartKindKeysTests: XCTestCase {
             pattern: #"seq_control_name\([^;]*?"[A-Za-z]+",\s*[01],\s*1\s*,|seq_control_object\(\s*ctx,\s*\w+,\s*1\s*,"#)
         if when.firstMatch(in: own, range: NSRange(own.startIndex..., in: own)) == nil { exempt.insert("when") }
         return exempt
+    }
+
+    /// The loader reads `display` straight from the device object, so no
+    /// `KEYS[]` array lists it; the two display drivers' forms must still
+    /// have it, required, as a JSON field.
+    func testDisplayDriversEditDisplayAsJSON() throws {
+        for kind in ["leddriver", "lcddriver"] {
+            let schema = try XCTUnwrap(PartKinds.schemas[kind], kind)
+            let field = try XCTUnwrap(schema.device.first { $0.key == "display" }, "\(kind): no display field")
+            XCTAssertTrue(field.required, kind)
+            if case .json = field.type {} else { XCTFail("\(kind): display is not a JSON field") }
+            // Device keys of the converter and rtc kinds that the loader rejects here.
+            for gone in ["clock", "ready", "conversion", "type", "bits", "channels", "codeFormat", "dac"] {
+                XCTAssertFalse(schema.device.contains { $0.key == gone }, "\(kind) form has \(gone), the loader rejects it")
+            }
+        }
     }
 
     func testFormKeysCoverTheBackendKeys() throws {
