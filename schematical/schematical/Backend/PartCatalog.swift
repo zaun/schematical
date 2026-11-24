@@ -548,6 +548,13 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// A barrel jack (`usb` nil) or a USB connector (`usb` "A", "B" or
         /// "C"; no centre pin or contacts, ratings 0 when not given).
         case connector(centerPinUM: UInt32, ratedMV: UInt32, ratedMA: UInt32, contacts: Int, usb: String?)
+        /// A PCB terminal block or a JST board header (plan-45): `kind` is
+        /// "terminal" or "jst"; `variant` the terminal block's clamp ("screw",
+        /// "spring", "push-in", "pluggable") or the JST series ("XH", "PH",
+        /// "EH", "ZH", "SH", "GH", "VH"); `pitchUM` the pole pitch in
+        /// micrometres; the ratings are 0 when the maker gives none. A passive
+        /// row of pins.
+        case wireConnector(kind: String, variant: String, pitchUM: UInt32, ratedMV: UInt32, ratedMA: UInt32)
         /// A card slot (plan-54): a socket for a memory or SIM card, a memory
         /// module or a card edge; a passive block of pins. `card`: what the
         /// slot takes ("microSD", "DDR4 SODIMM", "PCI Express"); `pitchUM`:
@@ -695,7 +702,8 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .dipSwitch(_, _, ratedMV) where ratedMV > 0,
              let .tactileSwitch(_, ratedMV, _, _, _) where ratedMV > 0:
             return "\(VoltageCheck.volts(ratedMV)) V max"
-        case let .connector(_, ratedMV, _, _, _) where ratedMV > 0:
+        case let .connector(_, ratedMV, _, _, _) where ratedMV > 0,
+             let .wireConnector(_, _, _, ratedMV, _) where ratedMV > 0:
             return "\(VoltageCheck.volts(ratedMV)) V max"
         default:
             return nil
@@ -705,6 +713,12 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     /// A tactile (momentary push-button) switch, plan-27.
     var isTactileSwitch: Bool {
         if case .tactileSwitch = details { return true }
+        return false
+    }
+
+    /// A terminal block or a JST board header (plan-45).
+    var isWireConnector: Bool {
+        if case .wireConnector = details { return true }
         return false
     }
 
@@ -904,14 +918,14 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     }
 
     /// The count shown next to the name in the drawer: gates or flip-flops per
-    /// package, switch positions, display digits, a card slot's pins. Nil for
-    /// other parts.
+    /// package, switch positions, display digits, a card slot's or a terminal
+    /// block's pins. Nil for other parts.
     var count: Int? {
         switch details {
         case let .logic(_, units): return units
         case let .dipSwitch(positions, _, _): return positions
         case let .display(info): return info.digits
-        case .cardSlot: return pins.count
+        case .cardSlot, .wireConnector: return pins.count
         default: return nil
         }
     }
@@ -950,6 +964,10 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .serial(_, channels, _, host):
             return [PartFacts.serialHost(host)] + (channels > 1 ? ["\(channels) channels"] : [])
         case let .pio(_, _, maxHz): return ["\(maxHz / 1_000_000) MHz"]
+        case let .wireConnector(kind, variant, pitchUM, _, ratedMA):
+            let pitch = String(format: "%.2f mm", Double(pitchUM) / 1000)
+            let current = ratedMA > 0 ? [String(format: "%g A", Double(ratedMA) / 1000)] : []
+            return kind == "jst" ? [variant, pitch] : [pitch, PartFacts.clampName(variant)] + current
         case let .connector(_, _, ratedMA, _, usb?):
             return ["USB-\(usb)"] + (ratedMA > 0 ? [String(format: "%.1f A", Double(ratedMA) / 1000)] : [])
         case let .connector(centerPinUM, _, ratedMA, contacts, nil):
@@ -1200,6 +1218,12 @@ extension CatalogPart {
             details = .testPoint
         } else if let connector = part.connector?.pointee, let card = connector.card {
             details = .cardSlot(card: string(card), pitchUM: connector.card_pitch_um)
+        } else if let connector = part.connector?.pointee, connector.terminal != 0 || connector.jst != 0 {
+            details = .wireConnector(kind: connector.terminal != 0 ? "terminal" : "jst",
+                                     variant: connector.terminal != 0
+                                         ? PartFacts.clampWord(connector.terminal) : PartFacts.jstSeries(connector.jst),
+                                     pitchUM: connector.pitch_um, ratedMV: connector.rated_mv,
+                                     ratedMA: connector.rated_ma)
         } else if let connector = part.connector?.pointee {
             details = .connector(centerPinUM: connector.center_diameter_um, ratedMV: connector.rated_mv,
                                  ratedMA: connector.rated_ma, contacts: Int(connector.contacts),
@@ -1601,6 +1625,7 @@ func symbol(for part: CatalogPart) -> PartSymbol {
         if part.isTestPoint { return .testPoint }
         if case .connector(_, _, _, _, _?) = part.details { return .block }
         if case .cardSlot = part.details { return .block }
+        if case .wireConnector = part.details { return .block }
         return .barrelJack
     case PART_HEADER: return .header
     case PART_DIODE:
@@ -2516,8 +2541,9 @@ final class PartCatalogStore {
                             ? ($0.crystalHz ?? 0) < ($1.crystalHz ?? 0)
                             : rank[$0.name, default: 0] < rank[$1.name, default: 0]
                     }
-                    // The card slots of a leaf go by pin count then name (plan-54-O).
-                    : parts.allSatisfy(\.isCardSlot) ? byCountThenName(parts, rank: rank)
+                    // The card slots of a leaf go by pin count then name (plan-54-O),
+                    // and so do a leaf's terminal blocks and JST headers (plan-45-H).
+                    : parts.allSatisfy({ $0.isCardSlot || $0.isWireConnector }) ? byCountThenName(parts, rank: rank)
                     : parts
                 return FunctionGroup(function: function, parts: ordered, bitGroups: bitGroups(parts))
             }

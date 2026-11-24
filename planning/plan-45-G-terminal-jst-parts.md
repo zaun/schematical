@@ -196,7 +196,7 @@ Commit: 96f98f8c
 
 Acceptance: the datasheet and doc state matches the tree.
   Check: `python3 -I planning/plan-45-data/census/place.py --verify` → `ok`; `node scripts/check-datasheets.js --host www.jst-mfg.com` → the result the doc records (est. 20 min). Result: `ok: 308 files ...`; `7 of 7 URLs serve a PDF; 0 failed.`
-Commit: this commit (hash in the next one)
+Commit: 79c30358
 
 ## Validation Plan
 

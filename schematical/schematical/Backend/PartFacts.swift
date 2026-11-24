@@ -143,6 +143,13 @@ nonisolated enum PartFacts {
             add("Centre pin", String(format: "%.1f mm", Double(centerPinUM) / 1000))
             add("Rating", "\(VoltageCheck.volts(ratedMV)) V, \(String(format: "%.1f", Double(ratedMA) / 1000)) A")
             add("Sleeve contact", contacts > 0 ? "Normally closed when unplugged" : "None")
+        case let .wireConnector(kind, variant, pitchUM, ratedMV, ratedMA):
+            add("Type", kind == "jst" ? "JST header" : "Terminal block")
+            add("Pitch", String(format: "%.2f mm", Double(pitchUM) / 1000))
+            add(kind == "jst" ? "Series" : "Clamp", kind == "jst" ? variant : clampName(variant))
+            add("Positions", String(part.pins.filter { !$0.isHidden }.count))
+            if ratedMV > 0 { add("Rated voltage", "\(VoltageCheck.volts(ratedMV)) V") }
+            if ratedMA > 0 { add("Rated current", String(format: "%g A", Double(ratedMA) / 1000)) }
         case let .cardSlot(card, pitchUM):
             add("Card", card)
             if pitchUM > 0 { add("Pitch", String(format: "%.2f mm", Double(pitchUM) / 1000)) }
@@ -342,6 +349,40 @@ nonisolated enum PartFacts {
     /// A part's kind as shown: a tactile switch as "Tactile switch", a
     /// converter by its type ("ADC", "DAC"), other
     /// kinds as `kindName(_: PartKind)`.
+    /// A terminal block's clamp as the backend names it (`'s'`, `'c'`, `'p'`,
+    /// `'h'`): "screw", "spring", "push-in" or "pluggable" (plan-45).
+    static func clampWord(_ code: CChar) -> String {
+        switch UnicodeScalar(UInt8(bitPattern: code)) {
+        case "s": "screw"
+        case "c": "spring"
+        case "p": "push-in"
+        default: "pluggable"
+        }
+    }
+
+    /// The clamp word as the sidebar and the chip show it.
+    static func clampName(_ word: String) -> String {
+        switch word {
+        case "screw": "Screw"
+        case "spring": "Spring-cage"
+        case "push-in": "Push-in"
+        default: "Plug-in header"
+        }
+    }
+
+    /// A JST header's series from the backend's first letter (`'X'` …).
+    static func jstSeries(_ code: CChar) -> String {
+        switch UnicodeScalar(UInt8(bitPattern: code)) {
+        case "P": "PH"
+        case "E": "EH"
+        case "Z": "ZH"
+        case "S": "SH"
+        case "G": "GH"
+        case "V": "VH"
+        default: "XH"
+        }
+    }
+
     static func kindName(_ part: CatalogPart) -> String {
         if part.isTactileSwitch { return "Tactile switch" }
         if case let .resistor(_, _, _, resistors) = part.details, resistors > 1 { return "Resistor array" }
@@ -357,6 +398,9 @@ nonisolated enum PartFacts {
         if let info = part.powerswitch { return powerSwitchName(info) }
         if let info = part.crystal, info.type == "resonator" { return "Ceramic resonator" }
         if case .connector(_, _, _, _, _?) = part.details { return "USB connector" }
+        if case let .wireConnector(kind, _, _, _, _) = part.details {
+            return kind == "jst" ? "JST connector" : "Terminal block"
+        }
         if part.isCardSlot { return "Card slot" }
         if part.isTestPoint { return "Test point" }
         if case let .converter(type, _, _) = part.details {
