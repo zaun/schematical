@@ -34,6 +34,10 @@ print('distinct datasheet URLs:', len(datasheets))
 print('per shape:', sorted(shape.items()))
 if len(sys.argv) > 2 and sys.argv[1] == '--candidates':
     with open(sys.argv[2], 'w') as f:
-        f.write('maker\tmpn\tseries\tfamily\tpins\tspacing\tmounting\tstock\tstatus\tdatasheet\n')
+        # Columns 11-14 (plan-51-B): the downloaded PDF, the row's state ('candidate', or 'out'
+        # with the reason), and the date of the last in-stock check. B fills them in; running this
+        # again starts them empty, so never re-run it over a filled file.
+        f.write('maker\tmpn\tseries\tfamily\tpins\tspacing\tmounting\tstock\tstatus\tdatasheet'
+                '\tpdf\tstate\treason\tstock_checked\n')
         for c in sorted(cands):
-            f.write('\t'.join(str(x) for x in c) + '\n')
+            f.write('\t'.join(str(x) for x in c) + '\t\tcandidate\t\t\n')

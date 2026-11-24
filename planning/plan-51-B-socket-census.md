@@ -30,8 +30,8 @@ Rows 1 and 4 of plan-51-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-51-A complete | `ls planning/completed/plan-51-A-*.md` → exists | NOT MET (2026-11-21: not started) |
-| The DigiKey quota is available | `node scripts/digikey.js --limit 1 "74HC00"` (with the credentials) → a table, not HTTP 429 | NOT MET (2026-11-21 18:03 UTC: 429) |
+| plan-51-A complete | `ls planning/completed/plan-51-A-*.md` → exists | MET (2026-11-24: `planning/completed/plan-51-A-socket-kind.md`, commit 83da69bc) |
+| The DigiKey quota is available | `node scripts/digikey.js --opt2 --limit 1 "74HC00"` (with the credentials) → a table, not HTTP 429 | MET on the second key (2026-11-24 18:01 UTC: a table, 399 calls left; the standard key is spent until 2026-11-25 00:00 UTC; plan-45's census is on the second key today too, so the quota is shared) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > If you stop, report the status of *all* prerequisites.
@@ -93,13 +93,13 @@ reason, and C moves it to `datasheets/skipped-parts.md` (its format), never into
 
 ### Phase 1 — the listing (needs the quota)
 
-- [ ] `rm planning/plan-51-data/raw/1212.jsonl.gz` and run `planning/plan-51-data/census/list.sh planning/plan-51-data/raw` (credentials by the `eval` in a script file); it lists Preci-Dip again from the start and ends `list.sh: all 12 makers done`, or stops on 429 (rerun the next day: finished makers are skipped).
-- [ ] `gzip -9 planning/plan-51-data/raw/*.jsonl`.
-- [ ] `census/tally.py --candidates` writes four more empty trailing columns (`pdf`, `state` = `candidate`, `reason`, `stock_checked`; columns 11–14); then `python3 -I planning/plan-51-data/census/tally.py --candidates planning/plan-51-data/candidates.tsv`; copy the new counts into § Corrections (the table above is the planning-time record).
+- [x] `rm planning/plan-51-data/raw/1212.jsonl.gz` and run `planning/plan-51-data/census/list.sh planning/plan-51-data/raw` (credentials by the `eval` in a script file); it lists Preci-Dip again from the start and ends `list.sh: all 12 makers done`, or stops on 429 (rerun the next day: finished makers are skipped). — ran on the second key (§ Corrections: `list.js` moved to `scripts/digikey.js`'s transport first); the output ended `list.sh: all 12 makers done`; Preci-Dip 1007 parts in 32 calls, the other ten makers 14 calls, 358 calls left on the second key afterwards.
+- [x] `gzip -9 planning/plan-51-data/raw/*.jsonl`. — done; `ls planning/plan-51-data/raw/*.jsonl 2>&1` → no match.
+- [x] `census/tally.py --candidates` writes four more empty trailing columns (`pdf`, `state` = `candidate`, `reason`, `stock_checked`; columns 11–14); then `python3 -I planning/plan-51-data/census/tally.py --candidates planning/plan-51-data/candidates.tsv`; copy the new counts into § Corrections (the table above is the planning-time record). — counts in § Corrections.
 
 Acceptance: `raw/1212.done` exists; `candidates.tsv` has Preci-Dip PLCC rows.
-  Check: `ls planning/plan-51-data/raw/*.done \| wc -l` → 12 and `awk -F'\t' '$1=="Preci-Dip" && $4=="PLCC"' planning/plan-51-data/candidates.tsv | wc -l` → the number of Preci-Dip PLCC rows (est. 30 min of calls).
-Commit: —
+  Check: `ls planning/plan-51-data/raw/*.done \| wc -l` → 12 and `awk -F'\t' '$1=="Preci-Dip" && $4=="PLCC"' planning/plan-51-data/candidates.tsv | wc -l` → the number of Preci-Dip PLCC rows (est. 30 min of calls). Measured 2026-11-24: `ls planning/plan-51-data/raw/*.done | wc -l` → 12; the awk → 4 (`540-88-032-24-008`, `540-88-044-24-008`, `540-88-068-17-400-2`, `540-88-068-24-008`). VERIFIED.
+Commit: (next commit)
 
 ### Phase 2 — datasheets
 
@@ -137,6 +137,10 @@ Author decisions:
 - **A candidate's `datasheet` id (F) is by the local PDF's name in lower case**, as `docs/parts-format.md` § Datasheets says: `mill-max-088-145`, `precidip-catalog-dilsockets`, `assmann-ass-4852-co`.
 
 ## Corrections
+
+- **2026-11-24, `census/list.js` and `list.sh` changed before Phase 1 could run.** Cloudflare has challenged every Node request to `api.digikey.com` since 2026-11-23 (after the plan was written), so `list.js`'s own `fetch` could not log in. It now sends its requests through `scripts/digikey.js`'s `credentials`, `token` and `fetchRetry` (the Safari fallback; the module exports them for census scripts) and uses the second key unless `DK_OPT2=0` (owner, 2026-11-24: "using opt2"; the first key was spent). `list.sh` exports the second key's variables too. Same change as `planning/plan-45-data/census/dk.js`.
+- **2026-11-24, Phase 1 counts** (`python3 -I planning/plan-51-data/census/tally.py`): in scope per maker Mill-Max 320, Preci-Dip 207 (was 203: +4 PLCC), Samtec 50, Assmann 46, Aries 21, 3M 20, Adam Tech 20, TE AMP 10, Amphenol ICC 8; `three makers: 573` (was 569); groups 55 (was 53); variants 207; distinct datasheet URLs 17 (was 15). The Preci-Dip PLCC rows are series 540: 032 TH, 044 TH, 068 TH and 068 SMT. The planning note of 7 Preci-Dip PLCC parts in stock was a keyword search (any PLCC, including types and pin counts out of scope); the scope rule keeps 4. Per shape: see the tally's `per shape` line (PLCC: 28 SMD 1, 28 TH 3, 32 SMD 3, 32 TH 4, 44 SMD 3, 44 TH 4, 68 SMD 2, 68 TH 4 across the three makers).
+- **2026-11-24, Phase 3 re-lists only Mill-Max.** Phase 1's run listed Preci-Dip and Assmann today (the same date Phase 3 would stamp), so a second listing of them would spend about 35 calls for the same answer; Mill-Max's listing (`raw/54.jsonl.gz`) is from 2026-11-21 and is the one that is stale.
 
 ## Summary
 
