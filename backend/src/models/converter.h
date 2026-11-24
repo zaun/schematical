@@ -2,7 +2,8 @@
 #define CONVERTER_H
 
 /*
- * The converter kind (plan-24-D, -E) and the rtc kind (plan-24-F): one
+ * The converter kind (plan-24-D, -E), the rtc kind (plan-24-F) and the
+ * leddriver and lcddriver kinds (plan-56-B): one
  * declarative engine that runs a device's digital side as
  * planning/plan-24-data/schema.md describes it — registers, a bit-pattern
  * protocol over SPI, I2C, a parallel bus or a clocked output bus,
@@ -343,6 +344,7 @@ typedef struct {
 } CvTiming;
 
 struct RtcClock;
+struct DispCfg;
 
 typedef struct {
     int rtc;
@@ -368,6 +370,7 @@ typedef struct {
     CvPins pins;
     CvDac dacinfo;
     const struct RtcClock *clock;
+    const struct DispCfg *disp;     /* leddriver, lcddriver: the output driver (display_out.c) */
     const PartVoltage *vcc;     /* the device's digital supply (parts may override) */
     PartConverter info;
 } CvDevice;
@@ -394,11 +397,19 @@ typedef struct {
     size_t reset_count;
 } CvPart;
 
+/* What a device is: the converter kind, the rtc kind, or a display driver
+   (leddriver, lcddriver). */
+typedef enum { CV_MODE_CONVERTER, CV_MODE_RTC, CV_MODE_DISPLAY } CvMode;
+
 /* converter_load.c */
-CvDevice *cv_load_device(KindContext *ctx, const cJSON *json, int rtc);
+CvDevice *cv_load_device(KindContext *ctx, const cJSON *json, CvMode mode);
 void *cv_bind_pinout(KindContext *ctx, const void *device, const PartPin *pins, size_t pin_count);
 int cv_load_part(KindContext *ctx, const void *device, const void *bound, const cJSON *json,
                  Part *out);
+
+/* The kinds on this engine share these for their PartKindOps. */
+int cv_pin_open_drain(const Part *part, size_t pin);
+int cv_pin_analog(const Part *part, size_t pin);
 
 extern const SimComponentType CONVERTER_COMPONENT;
 

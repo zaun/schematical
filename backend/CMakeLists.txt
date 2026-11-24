@@ -72,6 +72,9 @@ add_library(logic STATIC
     src/models/converter_load.c
     src/models/converter_par.c
     src/models/rtc.c
+    src/models/display_out.c
+    src/models/leddriver.c
+    src/models/lcddriver.c
     src/models/ns16550_bridge.c
     src/models/ns16550_xr1280.c
     src/models/serial_max3100.c
@@ -184,6 +187,7 @@ logic_test(usbuart_test)
 logic_test(pio_test)
 logic_test(converter_test)
 logic_test(rtc_test)
+logic_test(display_out_test)
 logic_test(tactile_test)
 logic_test(diode_test)
 logic_test(resistor_test)

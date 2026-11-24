@@ -44,12 +44,13 @@ Rejected: one model per chip in C (about 25 models; the converter engine already
 Acceptance: `scripts/safari-digikey.sh "https://www.digikey.com/en/products/filter/lcd-oled-character-and-numeric/99" 8 'document.title'` → prints a title containing "LCD, OLED Character and Numeric" (est. 20 s). Commit: —
 
 ### Phase 2 — kinds and loader
-- [ ] `parts.h` `PART_LEDDRIVER`, `PART_LCDDRIVER`; `leddriver.c`, `lcddriver.c` (`PartKindOps` forwarding to `cv_load_device(..., rtc=0, display=1)`), `kinds.c`, CMake, docs, the Part Editor recipe items for both kinds, `tests/support/listing.c`, `TRACE_LAST_KIND`.
-- [ ] `converter_load.c`: accept the `"display"` object for these kinds only; reject it on `converter`/`rtc`; reject an unknown `driver`, unknown register/pin names.
+- [x] `parts.h` `PART_LEDDRIVER`, `PART_LCDDRIVER`; `leddriver.c`, `lcddriver.c` (`PartKindOps` forwarding to `cv_load_device(..., CV_MODE_DISPLAY)`), `kinds.c`, CMake, docs (`docs/parts-format.md` § `leddriver`, § `lcddriver`), empty `Parts/leddriver.json` and `Parts/lcddriver.json`, `tests/support/listing.c`, `TRACE_LAST_KIND`, `listing_check.c`.
+- [ ] The Part Editor recipe items for both kinds (docs/backend.md "Adding a kind" step 6; Swift): moved to plan-56-G (see Corrections).
+- [x] `converter_load.c`: accept the `"display"` object for these kinds only; reject it on `converter`/`rtc`; reject an unknown `driver`, unknown register/pin names.
 Acceptance: `/tmp/logic-build/library_check` passes with the new rejection cases (est. 30 s). Commit: —
 
 ### Phase 3 — output drivers
-- [ ] `display_out.c`: `digits`, `static`, `matrix`, `ports`, `lcd` as in the table, each with a fixture device in `backend/tests/display_out_test.c` (an SPI digit driver on a 4-digit `7seg`; an I2C 1:4 LCD driver on `GENERIC-LCD-8D-1:4`).
+- [x] `display_out.c`: `digits`, `static`, `matrix`, `ports`, `lcd` as in the table, each with a fixture device in `backend/tests/display_out_test.c` (an SPI digit driver on a 4-digit scan; an I2C 1:4 LCD driver on `GENERIC-LCD-8D-1:4`).
 Acceptance: `ctest --test-dir /tmp/logic-build -R display_out_test` passes (est. 1 min). Commit: —
 
 
@@ -61,4 +62,7 @@ Acceptance: `ctest --test-dir /tmp/logic-build -R display_out_test` passes (est.
 
 ## Corrections
 
-(none yet)
+- The `display` section's exact keys are in `docs/parts-format.md` § `leddriver`. Differences from the table in § 3: there is no `ascii16` decode (`ascii7` only; a 14/16-segment device uses `decode` `"none"` with `segmentBits`); `blank`, `test`, `shutdown` and the lcd's `enable` are conditions (`"REG.FIELD=v"`, the converter's `when` form), not bare fields; the digit scan and the lcd frame take their time from `scan.periodUs` / `frameUs`; the `lcd` driver's RAM layout has `ramOrder` and `bitOrder`; a device may list `openDrain` pins; `ram` may be `{"bytes", "address"}` (byte registers `RAM<address>…`, as an rtc's `clock.ram`).
+- The kinds reject `ready` and `conversion` (a display driver has no conversion); `pins` (reset and level-copy pins) is allowed.
+- Phase 2's Part Editor recipe items (Swift: `KindInfo`, schemas, `PartKindRoundTripTests`, the app's symbol for `PART_LEDDRIVER` / `PART_LCDDRIVER`) are Swift work, done in plan-56-G; the backend part of phase 2 is complete.
+- The goldens (`parts.txt`, `traces.txt`, `footprints.txt`) did not change: no part is added yet.

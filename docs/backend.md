@@ -293,8 +293,9 @@ Notes:
   k = 0 is E1's, k = 1 E2's). The image does not depend on the backlight
   or V0; the app dims the face by the backlight lights (one per LED). Any
   other kind: -1, `part N is not a character LCD`.
-- Converters and RTCs (`converter`, `rtc` kinds, plan-24):
-  `circuit_converter_registers` copies the part's registers
+- Converters and RTCs (`converter`, `rtc` kinds, plan-24; the `leddriver` and
+  `lcddriver` kinds of plan-56-B run on the same engine and have registers
+  too): `circuit_converter_registers` copies the part's registers
   (`ConverterRegister`, `converter_state.h`: name, bus address or -1 for an
   internal one, address space, width, value) and returns their count; any
   other kind: -1, `part N has no registers`. `circuit_rtc_time` fills an
@@ -563,6 +564,17 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
 - `lcd_test` — the `lcd` kind on a fixture glass next to the real part files: the loader's rules
   and rejections, the model (a cell is lit while its segment and backplane pins are driven and
   differ; a Z backplane lights nothing) and every shipped glass.
+- `display_out_test` — the `leddriver` and `lcddriver` kinds (plan-56-B) on
+  fixture devices next to the real part files: an SPI 4-digit `digits` driver
+  (scan order and slot time in simulated time, raw and decoded bytes, a decode
+  switch per digit, blank, test and shutdown), the codeB, bcd and ascii7
+  decodes, `static` groups, `ports` (direction field, invert, open drain),
+  a `matrix`, and I2C `lcd` drivers in modes 1:4, 1:3 (backplane-major,
+  MSB-first RAM) and static wired to the real GENERIC-LCD glass (the lit cells
+  equal the RAM bits, the backplanes alternate and are released in turn, the
+  enable bit releases every pin), then the `display` section's rejections
+  (unknown driver, register, field or pin; counts; a `display` on a
+  `converter` or `rtc`). A few of the same rejections are in `library_check`.
 - `dekatron_test` — the `dekatron` kind: the loader's rules and rejections
   (on fixture tubes), the model on the real GC10B and OG-8 (a glow that
   steps one position for two overlapping guide pulses, counts backward for

@@ -41,6 +41,8 @@ extern const PartKindOps REGULATOR_KIND;
 extern const PartKindOps CRYSTAL_KIND;
 extern const PartKindOps DEKATRON_KIND;
 extern const PartKindOps LCD_KIND;
+extern const PartKindOps LEDDRIVER_KIND;
+extern const PartKindOps LCDDRIVER_KIND;
 
 /* One line per kind. Adding a kind: docs/backend.md, "Adding a kind". */
 const PartKindOps *const KINDS[] = {
@@ -82,6 +84,8 @@ const PartKindOps *const KINDS[] = {
     &CRYSTAL_KIND,
     &DEKATRON_KIND,
     &LCD_KIND,
+    &LEDDRIVER_KIND,
+    &LCDDRIVER_KIND,
     NULL
 };
 

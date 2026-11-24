@@ -1,7 +1,7 @@
 # Part file format
 
 Every orderable part (gate, flip-flop, latch, decoder, counter, shift register, SRAM, EEPROM, switch, LED,
-diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character LCD module, oscillator, crystal, supply, microprocessor, microcontroller, serial controller, serial memory) is described in a JSON part file in
+diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character LCD module, oscillator, crystal, supply, microprocessor, microcontroller, serial controller, serial memory, LED and LCD driver) is described in a JSON part file in
 `schematical/schematical/Parts/`, one file per kind:
 
 | File | Kind |
@@ -27,6 +27,8 @@ diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character
 | `connector.json` | `connector` |
 | `converter.json` | `converter` |
 | `rtc.json` | `rtc` |
+| `leddriver.json` | `leddriver` |
+| `lcddriver.json` | `lcddriver` |
 | `diode.json` | `diode` |
 | `mux.json` | `mux` |
 | `buffer.json` | `buffer` |
@@ -122,7 +124,7 @@ parts) last.
 | Clocks | Crystal › kHz / MHz; Ceramic resonator; Oscillator; the RTC leaf |
 | Connector | Barrel, Header, USB; later Terminal block, JST, Card slot, IC Socket |
 | Discrete | Capacitors › Ceramic / Electrolytic / Tantalum; Diodes; Resistors › Array / Chip / Through-hole; Transistors › BJT / MOSFET |
-| Displays & Indicators | LED; 7-Segment; Character LCD; Buzzers (plan-47) |
+| Displays & Indicators | LED; 7-Segment; Character LCD; LED drivers; LCD drivers (plan-56); Buzzers (plan-47) |
 | Interface | Serial (UART, Bridge UART, I2C controller); Parallel I/O (PIA, VIA) |
 | Logic | Arithmetic, Buffers, Counters, Decoders & muxes, Flip-flops & latches, Gates, Registers |
 | Memory | EEPROM; SRAM; Serial › EEPROM / FRAM / Flash |
@@ -3508,6 +3510,245 @@ Further forms (from the RTC datasheets, plan-24-B):
   data pins as the address for the following read or write.
 - `protocol.reads` entries may give `"read"` as an address map (an object,
   like `protocol.read`): pages/blocks selected by a field (DP8570).
+
+### `leddriver`
+
+LED display driver ICs (plan-56-B): `leddriver.json`, `"kind": "leddriver"`,
+`"function"` the part family (`"LED driver"`), `"drawer": ["Displays &
+Indicators", "LED drivers"]`. MAX6951, ICM7218, AS1115 and the like: a host
+writes digit bytes (or a bit RAM) over a bus and the chip scans them out on
+digit/segment (or row/column) pins that a `7seg` display or an LED matrix
+shows. Built on the converter engine exactly as `rtc` is
+(`backend/src/models/converter.c`, `converter_load.c`), plus a `"display"`
+section run by `backend/src/models/display_out.c`. `Part.kind` is
+`PART_LEDDRIVER`; the parts have no kind-specific facts (`Part.converter` is
+NULL). The part's registers show in the app's register window like a
+converter's (`circuit_converter_registers`).
+
+The device describes its digital side with the converter keys, as § `converter`
+documents them (`bus`, `configBus`, `timing`, `registers`, `protocol`,
+`pins`, `analog`, `vcc`, `inputMax`) and names what its pins do with the
+register contents in `"display"`. The converter-only keys (`type`, `bits`,
+`channels`, `codeFormat`, `conversion`, `ready`, `dac`) and `clock` are
+rejected (`unknown key`); `display` is required, and is rejected on
+`converter` and `rtc` devices. Part keys are the converter's (`name`,
+`package`, `pinout`, `footprint`, `flags`, `vcc`, `inputMax`, `i2cAddress`,
+`i2c`, `resets`). A pin role is as in § `converter`: scan lines, segment
+pins and backplane pins are `output`, port pins `inout`, bus inputs `input`.
+
+The bus, registers and protocol decide what the host's writes do; nothing
+else about the display is modeled: **brightness, intensity, segment
+current, scan-limit registers, LED-open/short detection and key scanning
+are not simulated** (a register may hold them, a register's bits that no
+`display` key names do nothing). Time is simulated time: a scan slot lasts
+the `scan` period written from the datasheet's oscillator, so a `7seg`
+shows a multiplexed digit as it does with any scanned driver ("on at any
+time during the last step").
+
+The outputs are computed from the registers when a scan slot starts and
+again after every register or pin change, so a write shows at once, and a
+reset (the reset pin, the reset command, power-on) shows the registers'
+reset values.
+
+#### `display`
+
+An object whose `"driver"` names one of five output drivers; its other keys
+depend on the driver. Rules common to every driver:
+
+| Term | Meaning |
+|---|---|
+| pin name | a pin of every pinout of the device (a pinout without it is rejected at load: `no pin "X" in this pinout`). A pin has one job: naming it twice in `display` is `pin "X" is used twice in "display"`. The bus pins are not named here |
+| field name | `"REG"` (the whole register) or `"REG.FIELD"`: the register's `fields` (§ `registers`); its value is the field's bits, right-aligned. A name that is no register or field is `unknown register` / `register "REG" has no field "F"` |
+| condition | a string `"REG.FIELD=v"` or `"REG.FIELD!=v"` (or an array of them, all must hold), the converter's `when` form (§ `protocol`) |
+| `"high"` / `"low"` | a level word: the level of the named state (`digitActive`, `segmentActive`, `rowActive`, `columnActive`) |
+| `"ram"` | the registers that hold what to show: an array of field names (one per digit or row for `digits` and `matrix`; the bit stream of `lcd`), or the shorthand `{"bytes": n, "address": a, "space": "reg"}`: it makes n byte registers named `RAM<a>` … `RAM<a+n-1>` (8 bits, reset 0, at addresses a… in `space`, default `"reg"`; as `clock.ram` of an `rtc`) and `ram` is those registers in order. The protocol can name them (`[RAM3]`) or address them |
+| `"scan"` | `{"periodUs": n}`: the time one scan slot (one digit, one row) lasts, 0 < n ≤ 1e7. Datasheet: the oscillator period times the cycles per digit |
+| `"openDrain"` | optional array of pin names the driver uses: those pins drive 0 or release (Z), never 1 (open-drain outputs; the voltage check treats them like any open-drain pin) |
+| `"note"` | allowed anywhere, ignored |
+
+No other key is accepted. A condition or field a driver key names is checked
+at load.
+
+##### `digits`
+
+A multiplexed digit scan. In slot k only digit k's pin is at its active
+level, the other digit pins at the inactive level, and the segment pins carry
+digit k's value; then slot k+1, round and round (slot 0 starts at time 0).
+
+| Key | Value |
+|---|---|
+| `"digits"` | n, 1–32 |
+| `"digitPins"` | n pin names, in digit order (digit 1 is the first slot) |
+| `"digitActive"` | `"high"` or `"low"`: the level that selects a digit |
+| `"segmentPins"` | the data pins: 7 names (segments a–g in that order), 8 (a–g then the decimal point), or 14 / 16 (alphanumeric segments, in your own order; no decode) |
+| `"segmentActive"` | `"high"` or `"low"`: the level of a lit segment |
+| `"segmentBits"` | optional: one bit number (0–31, all different) per segment pin: the bit of the digit's value that segment pin follows when the value is not decoded. Default: pin i follows bit i (a = bit 0 … g = bit 6, point = bit 7). MAX6951: `[6,5,4,3,2,1,0,7]` |
+| `"ram"` | n field names, in digit order: each digit's value (an 8-bit data register, or a field) |
+| `"decode"` | `"none"` (default), `"hex"`, `"codeB"`, `"bcd"`, `"ascii7"`: how a digit's value is turned into segments a–g (needs 7 or 8 segment pins), below |
+| `"decodeField"` | optional with a `decode`: a field name (the same for every digit) or an array of n field names (one per digit): a digit is decoded while its field is nonzero, else its value is raw (segmentBits). Without it, every digit is decoded |
+| `"decodeActive"` | optional, 1 (default) or 0: with `decodeField`, decode while the field is nonzero (1) or while it is 0 (0) |
+| `"dpBit"` | optional, default 7: the bit of a decoded value that lights the decimal point (the 8th segment pin) |
+| `"scan"` | required, above |
+| `"blank"`, `"test"`, `"shutdown"` | optional conditions, below |
+
+Decodes (segments a–g; "value" is the digit's value, `ram` register or field):
+
+| `decode` | Value used | Result |
+|---|---|---|
+| `hex` | bits 3–0 | 0–9 A b C d E F (7 shows a, b, c; 6 and 9 have their a and d bars) |
+| `codeB` | bits 3–0 | 0–9, 10 `-` (g), 11 E, 12 H, 13 L, 14 P, 15 blank |
+| `bcd` | bits 3–0 | 0–9; 10–15 blank |
+| `ascii7` | bits 6–0 | 7-segment ASCII: digits, upper case (lower case reads the same), `- _ = " ' ( ) [ ] ? / $ !` and a few more; space, the control codes and every character with no 7-segment shape are blank |
+
+The decimal point of a decoded digit comes from bit `dpBit` of its value. A
+raw value lights segment pin j when bit `segmentBits[j]` is 1.
+
+`shutdown` (a condition), while true: every digit pin and every segment pin at
+the inactive level. Else `test`, while true: every segment pin lit in every
+slot (digit pins scan as usual). Else `blank`, while true: no segment lit
+(digit pins scan as usual). So shutdown beats test and test beats blank; to
+let the display test show in shutdown (MAX6951) add `TEST.T=0` to
+the `shutdown` array. A condition left out never holds. Intensity registers
+are plain registers: not in `display`.
+
+```json
+"registers": [
+  {"name": "DIGIT0", "address": 1, "width": 8}, {"name": "DIGIT1", "address": 2, "width": 8},
+  {"name": "DECODE", "address": 9, "width": 8, "fields": [{"name": "D0", "bits": [0, 0]}, {"name": "D1", "bits": [1, 1]}]},
+  {"name": "CONFIG", "address": 4, "width": 8, "reset": 1, "fields": [{"name": "RUN", "bits": [0, 0]}]},
+  {"name": "TEST", "address": 7, "width": 8, "fields": [{"name": "T", "bits": [0, 0]}]}
+],
+"display": {
+  "driver": "digits", "digits": 2, "digitPins": ["DIG0", "DIG1"], "digitActive": "low",
+  "segmentPins": ["SEGA", "SEGB", "SEGC", "SEGD", "SEGE", "SEGF", "SEGG", "SEGDP"], "segmentActive": "high",
+  "segmentBits": [6, 5, 4, 3, 2, 1, 0, 7], "ram": ["DIGIT0", "DIGIT1"],
+  "decode": "hex", "decodeField": ["DECODE.D0", "DECODE.D1"],
+  "scan": {"periodUs": 250}, "test": "TEST.T=1", "shutdown": ["CONFIG.RUN=0", "TEST.T=0"]
+}
+```
+
+##### `matrix`
+
+Rows scanned one at a time, the columns carry the active row's bits: an LED
+matrix or a digit scan whose data is a bit RAM. The same scan as `digits`
+with raw values only.
+
+| Key | Value |
+|---|---|
+| `"rows"` | 1–32 pin names: the scan lines, in order |
+| `"rowActive"` | `"high"` / `"low"`: the level that selects a row |
+| `"columns"` | 1–16 pin names: the data pins |
+| `"columnActive"` | `"high"` / `"low"`: the level of a set bit |
+| `"columnBits"` | optional: one bit number per column pin, as `segmentBits`; default column i follows bit i |
+| `"ram"` | one field name per row (or `{"bytes": ...}` with that many bytes) |
+| `"scan"` | required: the time one row lasts |
+| `"blank"`, `"test"`, `"shutdown"` | as `digits` (test: every column set; shutdown: every row and column inactive) |
+
+```json
+"display": {"driver": "matrix", "rows": ["R1", "R2", "R3"], "rowActive": "low",
+            "columns": ["C1", "C2", "C3", "C4"], "columnActive": "high", "columnBits": [3, 2, 1, 0],
+            "ram": {"bytes": 3, "address": 0}, "scan": {"periodUs": 200}, "shutdown": "CFG.RUN=0"}
+```
+
+##### `static`
+
+Non-multiplexed outputs: every output pin follows its group's value at
+all times (ICM7212-style 4-digit latch/decoder, a latched byte output).
+Nothing scans and no timer runs.
+
+| Key | Value |
+|---|---|
+| `"segmentActive"` | `"high"` / `"low"`: the level of a lit segment / set bit |
+| `"groups"` | 1–32 groups `{"pins": [pin names], "ram": field name, "decodeField": field name}`; every group has the same number of pins (1–16) |
+| `"segmentBits"`, `"decode"`, `"decodeActive"`, `"dpBit"` | as `digits`: raw group pin j follows bit `segmentBits[j]` of the group's field (default j); with a `decode` (7 or 8 pins per group) a group is decoded always, or while its own `decodeField` is nonzero (zero with `decodeActive` 0). A group's `decodeField` needs a `decode` |
+
+```json
+"display": {"driver": "static", "segmentActive": "low", "decode": "hex", "groups": [
+  {"pins": ["A1", "B1", "C1", "D1", "E1", "F1", "G1"], "ram": "V1"},
+  {"pins": ["A2", "B2", "C2", "D2", "E2", "F2", "G2"], "ram": "V2", "decodeField": "MODE.M"}]}
+```
+
+##### `ports`
+
+General-purpose port pins: each pin is driven from a data field, or
+released (Z) while its direction field says input.
+
+| Key | Value |
+|---|---|
+| `"ports"` | 1–256 ports `{"pin", "dataField", "dirField", "dirOutput", "invert"}` |
+| `"pin"` | pin name |
+| `"dataField"` | field name: the pin drives 1 while the field is nonzero (0 otherwise), or the opposite with `invert` |
+| `"dirField"` | optional field name: the pin is an output while the field's value is in `dirOutput`, else released. Without it the pin is always an output |
+| `"dirOutput"` | optional (needs `dirField`): a value or an array of up to 64 values that make the pin an output. Default 1 |
+| `"invert"` | optional boolean, default false |
+
+Open-drain port outputs: list the pin in `display.openDrain` (it then drives 0 or Z).
+
+```json
+"display": {"driver": "ports", "openDrain": ["P2"], "ports": [
+  {"pin": "P0", "dirField": "DIR.D0", "dataField": "DATA.B0"},
+  {"pin": "P2", "dirField": "CFG.M2", "dirOutput": [1, 3], "dataField": "DATA.B2", "invert": true}]}
+```
+
+##### `lcd`
+
+(`lcddriver` devices.) Backplane and segment waveforms from a display RAM,
+to drive an `lcd` glass (§ `lcd`) wired to the driver's pins. The frame has one
+slot per backplane (`static`: one slot): in slot k the backplane pin k is
+driven with the frame's level and every other backplane pin is released (Z);
+every segment pin is driven with (its RAM bit for backplane k) XOR the frame's
+level. The level alternates 0, 1, 0, 1 … on consecutive frames (AC drive). A
+glass cell (segment pin ≠ backplane pin, both driven) is therefore lit in
+the slot of its backplane exactly when its RAM bit is 1, and the glass's
+lights read it as stable.
+
+| Key | Value |
+|---|---|
+| `"mode"` | `"static"`, `"1:2"`, `"1:3"` or `"1:4"` (1, 2, 3 or 4 backplanes) |
+| `"backplanes"` | exactly 1 / 2 / 3 / 4 pin names, in slot order |
+| `"segmentPins"` | 1–160 pin names: segment pin g of the RAM below |
+| `"ram"` | the RAM as a bit stream: an array of field names whose bits, in order, are the stream (an 8-bit register contributes 8 bits, a 3-bit field 3), or `{"bytes": n, "address": a}` (the byte registers `RAM<a>` …). At least segments × backplanes bits |
+| `"ramOrder"` | `"segment"` (default): the stream lists segment 0's bits for backplane 0, 1, … then segment 1's…, i.e. bit (segment g, backplane k) is stream bit g × backplanes + k (PCF8576: bit 0 of a byte is backplane 1); `"backplane"`: backplane 0's bits for segment 0, 1, … then backplane 1's…, i.e. k × segments + g |
+| `"bitOrder"` | `"lsb"` (default): within a register or field the stream starts at bit 0; `"msb"`: at its top bit |
+| `"frameUs"` | the frame time in µs (all slots together; 0 < n ≤ 1e7); a slot lasts frameUs / backplanes (static: a frame is one slot and the level alternates every frame) |
+| `"enable"` | optional condition: while false every backplane and segment pin is released (Z) and the glass is dark (the display-enable / blank bit). A condition left out is always enabled |
+
+```json
+"registers": [{"name": "CTRL", "address": 16, "width": 8, "reset": 1, "fields": [{"name": "ON", "bits": [0, 0]}]}],
+"display": {"driver": "lcd", "mode": "1:4", "backplanes": ["BP1", "BP2", "BP3", "BP4"],
+            "segmentPins": ["S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8"],
+            "ram": {"bytes": 8, "address": 0}, "frameUs": 2000, "enable": "CTRL.ON=1"}
+```
+
+LCD bias levels, contrast, and the drive waveform's analog shape are not
+modeled; an `lcd` glass reads 0 and 1 only.
+
+#### Writing a device
+
+1. Transcribe the bus, registers and protocol as for any converter-engine
+   device (§ `converter`, § `rtc`); `backend/tests/display_out_test.c` has an
+   SPI or I2C fixture device of every driver.
+2. Pick the driver from the datasheet's output stage. Digit RAM → `digits`;
+   a bit RAM with columns → `matrix`; latched outputs → `static` or `ports`;
+   backplane/segment outputs → `lcd`.
+3. Give every pin the display uses a role and a name in each pinout; the
+   same name in the `display` section.
+4. Write the register bits the driver reads (decode enables, shutdown,
+   display test, blank, display enable) as `fields`, and a condition for each.
+5. Put the oscillator period from the datasheet into `scan.periodUs` /
+   `frameUs`.
+
+### `lcddriver`
+
+LCD driver ICs (plan-56-B): `lcddriver.json`, `"kind": "lcddriver"`,
+`"drawer": ["Displays & Indicators", "LCD drivers"]`. PCF8576, PCF85176,
+PCF8553, BU91795 and the like: a host writes a display RAM over I2C or SPI and
+the chip drives an `lcd` glass's backplane and segment pins. The same kind as
+`leddriver` in every way (device keys, part keys, the `display` section and its
+drivers; § `leddriver`) except its name, `Part.kind` (`PART_LCDDRIVER`) and the
+drawer; the driver used is normally `lcd`, and a device may also use `ports`
+for its general-purpose outputs (`static`, `digits` and `matrix` are accepted
+too). Pin roles: backplane and segment pins `output`.
 
 ### `7seg`
 
