@@ -189,22 +189,24 @@ Commit: 834de11c
 
 Acceptance: the preview and the editor know the new parts.
   Check: `xcodebuild … test -only-testing:schematicalTests/BoardPreviewTests -only-testing:schematicalTests/PartEditorWindowTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 10 min). Result: `** TEST SUCCEEDED **`.
-Commit: this commit (hash in the next one)
+Commit: f209d66c
 
 ### Phase 3 — The harness
 
-- [ ] `scripts/harness/terminal-app.swift` (from `generic-header.swift`): on
+- [x] `scripts/harness/terminal-app.swift` (from `generic-header.swift`): on
       the app's real catalog and document: the drawer branch and leaves
       exist; placing `GENERIC-TERMINAL-5.08-03` gives reference `J1` and
       three PCB pads 5.08 mm apart; placing `B2B-XH-A` gives a JST header;
       the sidebar facts of § 1; a 0.6 s play run with two of the terminal's
       pins on `5V` and `GND` nets runs without a short; renders a placed
       terminal block and a JST header's Board Preview to `/tmp`.
-- [ ] Tests: `DrawerPerformanceTests` and `HeaderBoardTests` stay green.
+      Built on `card-slot-app.swift`, the nearer precedent. Output: 10 `ok` lines (drawer 3, placement 2, sidebar 2, looks 1, play run 1, images 1) and `all checks ok`, exit 0: `GENERIC-TERMINAL-5.08-03 is J1 on TB-WEI-OMNIMATE-LM-5.08-HT-03 ... three pads 5.08 mm apart`, `B2B-XH-A ... JST-XH-2.50-VT-02, two pads 2.50 mm apart`, pins 1 / 2 on 5V / GND at levels `1 / 0`, no wire shorted; the two Board Preview images were viewed (a green housing with three dark entries; a white one with a dark notch).
+- [x] Tests: `DrawerPerformanceTests` and `HeaderBoardTests` stay green.
+      18 tests in the four classes, 0 failures.
 
 Acceptance: the app works end to end.
-  Check: `rm -rf /tmp/p45-harness && APP=/tmp/p45-dd/Build/Products/Debug/schematical.app scripts/harness/build.sh scripts/harness/terminal-app.swift /tmp/p45-harness && /tmp/p45-harness/H.app/Contents/MacOS/harness` → every line `ok`, exit 0; and `xcodebuild … test -only-testing:schematicalTests/TerminalConnectorTests -only-testing:schematicalTests/DrawerPerformanceTests -only-testing:schematicalTests/HeaderBoardTests` → `** TEST SUCCEEDED **` (est. 20 min: app build, harness, three classes).
-Commit: —
+  Check: `rm -rf /tmp/p45-harness && APP=/tmp/p45-dd/Build/Products/Debug/schematical.app scripts/harness/build.sh scripts/harness/terminal-app.swift /tmp/p45-harness && /tmp/p45-harness/H.app/Contents/MacOS/harness` → every line `ok`, exit 0; and `xcodebuild … test -only-testing:schematicalTests/TerminalConnectorTests -only-testing:schematicalTests/DrawerPerformanceTests -only-testing:schematicalTests/HeaderBoardTests` → `** TEST SUCCEEDED **` (est. 20 min: app build, harness, three classes). Result: harness `all checks ok`, exit 0; `** TEST SUCCEEDED **`, `Executed 18 tests, with 0 failures`.
+Commit: this commit (hash in the next one)
 
 ## Validation Plan
 
@@ -236,6 +238,10 @@ Commit: —
   must be exhaustive'` → 0). The Type row reads `Terminal block` / `JST
   header`, the Kind row `Terminal block` / `JST connector`; the sidebar also
   keeps the generic `Pins` row beside `Positions`.
+- Phase 3: the harness prints the plan's `B2B-XH-A` check as a JST header on
+  `JST-XH-2.50-VT-02`; the generic 5.08 mm part's footprint is the
+  representative's (a Weidmüller OMNIMATE LM 5.08/90 horizontal one), as G
+  decided, so its Board Preview housing is the long side-entry body.
 - Phase 2: regenerating `ConnectorDraft.swift` turned the `card` field into
   free text (`.text`): plan-54 put its distinct values at 27, over the
   generator's 24-value limit for a suggested list, and the existing
