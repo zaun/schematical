@@ -28,34 +28,52 @@ def rw(path, fn):
 
 
 def main():
-    old, new, mpns = sys.argv[1], sys.argv[2], set(sys.argv[3].split(','))
-    pdfs = set()
-
-    def cand(rows):
+    if sys.argv[1] == '--sync-specs':          # only the specs.tsv step (the candidates were split already)
+        old = new = 'the rows already split'
         n = 0
-        for r in rows:
-            if r['mpn'] in mpns:
-                if r['variant'] != old:
-                    sys.exit(f"{r['mpn']} is in {r['variant']}, not {old}")
-                r['variant'] = new
-                pdfs.add((r['maker'], r['pdf']))
-                n += 1
-        return n
+    else:
+        old, new, mpns = sys.argv[1], sys.argv[2], set(sys.argv[3].split(','))
 
-    n = rw(os.path.join(DATA, 'candidates.tsv'), cand)
-    if n != len(mpns):
-        sys.exit(f'{n} of {len(mpns)} rows found')
+        def cand(rows):
+            n = 0
+            for r in rows:
+                if r['mpn'] in mpns:
+                    if r['variant'] != old:
+                        sys.exit(f"{r['mpn']} is in {r['variant']}, not {old}")
+                    r['variant'] = new
+                    n += 1
+            return n
+
+        n = rw(os.path.join(DATA, 'candidates.tsv'), cand)
+        if n != len(mpns):
+            sys.exit(f'{n} of {len(mpns)} rows found')
+
+    # specs.tsv has one row per (maker, variant, PDF) of the rows in play: a PDF that serves several variants (the
+    # JST sheets) needs a row per variant, so the spec rows are synced from the candidates, not renamed: a key a row
+    # needs and has no spec row gets a copy of a sibling's (same maker and PDF); a spec row no row needs is dropped.
+    needed = set()
+    for r in csv.DictReader(open(os.path.join(DATA, 'candidates.tsv')), delimiter='\t'):
+        if r['state'] in ('candidate', 'add'):
+            needed.add((r['maker'], r['variant'], r['pdf']))
+    stats = {'copied': 0, 'dropped': 0}
 
     def spec(rows):
-        k = 0
-        for s in rows:
-            if s['variant'] == old and (s['maker'], s['pdf']) in pdfs:
-                s['variant'] = new
-                k += 1
-        return k
+        have = {(s['maker'], s['variant'], s['pdf']) for s in rows}
+        for key in sorted(needed - have):
+            sib = next((s for s in rows if (s['maker'], s['pdf']) == (key[0], key[2])), None)
+            if sib is None:
+                sys.exit(f'no spec row to copy for {key}')
+            copy = dict(sib)
+            copy['variant'] = key[1]
+            rows.append(copy)
+            stats['copied'] += 1
+        keep = [s for s in rows if (s['maker'], s['variant'], s['pdf']) in needed]
+        stats['dropped'] = len(rows) - len(keep)
+        rows[:] = keep
+        return len(keep)
 
     k = rw(os.path.join(DATA, 'specs.tsv'), spec)
-    print(f'{n} rows and {k} spec rows moved to {new}')
+    print(f"{n} rows moved to {new}; specs.tsv: {stats['copied']} spec rows copied, {stats['dropped']} dropped, {k} left")
 
 
 main()

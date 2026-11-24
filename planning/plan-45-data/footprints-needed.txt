@@ -10,10 +10,12 @@ E	JST|PH|2.00|V|tht	JST	PH	2.0	vertical	tht	2,3,4,5,6,7,8,9,10,11,12	10		JST-PH-
 E	JST|SH/SR|1.00|H|smd	JST	SH/SR	1.0	horizontal	smd	2,3,4,6,7,9,10,11,12	9		JST-SH-SR-1.00-HS	
 E	JST|SH/SR|1.00|V|smd	JST	SH/SR	1.0	vertical	smd	2,3,4,5,6,7,8,9,10,11,12	11		JST-SH-SR-1.00-VS	
 E	JST|VH|3.96|H|tht	JST	VH	3.96	horizontal	tht	2,3,4,5,6,7,8,9,10	9		JST-VH-3.96-HT	
-E	JST|VH|3.96|V|tht	JST	VH	3.96	vertical	tht	2,3,4,5,6,7,8,9,10	17		JST-VH-3.96-VT	
+E	JST|VH|3.96|V|tht	JST	VH	3.96	vertical	tht	2,3,4,5,6,7,8,9,10	9		JST-VH-3.96-VT	
+E	JST|VH-FB|3.96|V|tht	JST	VH	3.96	vertical	tht	2,3,4,5,6,7,9,10	8		JST-VH-FB-3.96-VT	
 E	JST|XH|2.50|H|smd	JST	XH	2.5	horizontal	smd	3,6	2		JST-XH-2.50-HS	
 E	JST|XH|2.50|H|tht	JST	XH	2.5	horizontal	tht	2,3,4,5,6,7,8,9,10,12	10		JST-XH-2.50-HT	
-E	JST|XH|2.50|V|tht	JST	XH	2.5	vertical	tht	2,3,4,5,6,7,8,9,10,11,12	11		JST-XH-2.50-VT	G
+E	JST|XH|2.50|V|tht	JST	XH	2.5	vertical	tht	2,3,4,5,6,7,8,9,10,11,12	10		JST-XH-2.50-VT	G
+E	JST|XH-M|2.50|V|tht	JST	XH	2.5	vertical	tht	3	1		JST-XH-M-2.50-VT	
 E	JST|ZH|1.50|H|smd	JST	ZH	1.5	horizontal	smd	3,4,5,6,7,8,9,10,11,12	10		JST-ZH-1.50-HS	
 E	JST|ZH|1.50|H|tht	JST	ZH	1.5	horizontal	tht	2,4,5,6,7,8,9,10,11,12	10		JST-ZH-1.50-HT	
 E	JST|ZH|1.50|V|smd	JST	ZH	1.5	vertical	smd	2,3,4,5,6,7,8,9,10,12	10		JST-ZH-1.50-VS	

@@ -36,6 +36,11 @@
 //   flange      {dx, dy, drill, plated} two more holes, one beyond each end of the row of poles: dx from the end pole,
 //               dy from the row. plated false (the default): a non-plated peg hole (round, width = height = drill,
 //               "pin": 0); plated true: an unnumbered solder pad ("pin": 0, pad drill + 0.7)
+//   pegs        [{end, dx, dy, drill, plated}] single holes like `flange` but at one end only: end "first" (pole 1's
+//               end) or "last"; dx outward from that end pole
+//   smd         {pad: {width, height}, tab: {dx, dy, width, height}}: a surface-mount header: rect pads without a
+//               drill on the row (the land sizes of the layout figure), and, with `tab`, two unnumbered rect pads
+//               (`"pin": 0`) dx outward from the end poles and dy from the row. No `drill`, `pad`, `holes`, `flange`.
 // Body width = n * pitch + bodyExtra, height = bodyDepth. Pin 1's pads are square (rect).
 
 'use strict';
@@ -67,7 +72,42 @@ function padOf(v) {
   return { width: d, height: d, shape: 'round' };
 }
 
+function buildSmd(v, n) {
+  const width = mm(n * v.pitch + v.bodyExtra);
+  const edgeX = v.edgeX !== undefined ? v.edgeX : (width - (n - 1) * v.pitch) / 2;
+  const { pad, tab } = v.smd;
+  const pads = [];
+  for (let p = 1; p <= n; p++) {
+    const slots = (v.reverse ? n - p : p - 1);
+    pads.push({ pin: p, x: mm(-width / 2 + edgeX + slots * v.pitch), y: mm(v.firstRowY), width: pad.width, height: pad.height, shape: 'rect' });
+  }
+  if (tab) {
+    const xs = pads.map((p) => p.x);
+    for (const x of [mm(Math.min(...xs) - tab.dx), mm(Math.max(...xs) + tab.dx)]) {
+      pads.push({ pin: 0, x, y: mm(v.firstRowY + tab.dy), width: tab.width, height: tab.height, shape: 'rect' });
+    }
+  }
+  return {
+    id: idOf(v, n),
+    description: `${v.describe}, ${n} positions`,
+    note: v.note,
+    style: 'explicit',
+    pins: n,
+    body: { width, height: v.bodyDepth },
+    pads,
+  };
+}
+
+function holePad(x, y, drill, plated) {
+  if (plated) {
+    const d = Math.round((drill + 0.7) * 100) / 100;
+    return { pin: 0, x, y, width: d, height: d, shape: 'round', drill };
+  }
+  return { pin: 0, x, y, width: drill, height: drill, shape: 'round', drill, plated: false };
+}
+
 function buildExplicit(v, n) {
+  if (v.smd) return buildSmd(v, n);
   const pad = padOf(v);
   const width = mm(n * v.pitch + v.bodyExtra);
   const edgeX = v.edgeX !== undefined ? v.edgeX : (width - (n - 1) * v.pitch) / 2;
@@ -90,15 +130,12 @@ function buildExplicit(v, n) {
   pads.sort((a, b) => a.pin - b.pin || a.y - b.y);
   if (v.flange) {
     const f = v.flange;
-    for (const x of [mm(firstX - f.dx), mm(lastX + f.dx)]) {
-      const y = mm(v.firstRowY + f.dy);
-      if (f.plated) {
-        const d = Math.round((f.drill + 0.7) * 100) / 100;
-        pads.push({ pin: 0, x, y, width: d, height: d, shape: 'round', drill: f.drill });
-      } else {
-        pads.push({ pin: 0, x, y, width: f.drill, height: f.drill, shape: 'round', drill: f.drill, plated: false });
-      }
-    }
+    for (const x of [mm(firstX - f.dx), mm(lastX + f.dx)]) pads.push(holePad(x, mm(v.firstRowY + f.dy), f.drill, f.plated));
+  }
+  for (const g of v.pegs || []) {
+    // "first" is pole 1's end: the end the poles are numbered from (the left, or the right when reversed)
+    const left = (g.end === 'first') !== !!v.reverse;
+    pads.push(holePad(mm(left ? firstX - g.dx : lastX + g.dx), mm(v.firstRowY + g.dy), g.drill, g.plated));
   }
   return {
     id: idOf(v, n),
@@ -135,15 +172,22 @@ function loadTable() {
   const variants = table.variants || [];
   const seen = new Set();
   for (const v of variants) {
-    for (const k of ['stem', 'letter', 'positions', 'style', 'describe', 'note', 'pitch', 'drill', 'firstRowY', 'bodyExtra', 'bodyDepth']) {
+    const smd = v.smd !== undefined;
+    for (const k of ['stem', 'letter', 'positions', 'style', 'describe', 'note', 'pitch', 'firstRowY', 'bodyExtra', 'bodyDepth']) {
       if (v[k] === undefined) throw new Error(`${v.stem || '?'}: missing "${k}"`);
     }
+    if (!smd && v.drill === undefined) throw new Error(`${v.stem || '?'}: missing "drill"`);
     if (!['header', 'explicit'].includes(v.style)) throw new Error(`${v.stem}: style ${v.style} is not supported`);
-    if (v.style === 'header' && ['edgeX', 'holes', 'stagger', 'reverse', 'gaps', 'flange'].some((k) => v[k] !== undefined)) {
-      throw new Error(`${v.stem}: edgeX, holes, stagger, reverse, gaps and flange need style "explicit"`);
+    if (v.style === 'header' && ['edgeX', 'holes', 'stagger', 'reverse', 'gaps', 'flange', 'pegs', 'smd'].some((k) => v[k] !== undefined)) {
+      throw new Error(`${v.stem}: edgeX, holes, stagger, reverse, gaps, flange, pegs and smd need style "explicit"`);
+    }
+    if (smd) {
+      if (v.drill !== undefined || v.pad || v.holes || v.flange || v.stagger || v.gaps) throw new Error(`${v.stem}: smd takes no drill, pad, holes, flange, stagger or gaps`);
+      if (!(v.smd.pad && v.smd.pad.width > 0 && v.smd.pad.height > 0)) throw new Error(`${v.stem}: smd.pad needs width and height`);
+      if (v.smd.pad.width >= v.pitch) throw new Error(`${v.stem}: smd pad ${v.smd.pad.width} does not fit the pitch ${v.pitch}`);
     }
     if (!['C', 'D', 'E'].includes(v.letter)) throw new Error(`${v.stem}: letter ${v.letter}`);
-    if (!(v.drill > 0 && v.pitch > 0)) throw new Error(`${v.stem}: drill and pitch must be > 0`);
+    if (!(v.pitch > 0) || (!smd && !(v.drill > 0))) throw new Error(`${v.stem}: drill and pitch must be > 0`);
     for (const n of v.positions) {
       const id = idOf(v, n);
       if (!/^[A-Z0-9.-]+$/.test(id)) throw new Error(`id ${id} has characters outside A-Z 0-9 . -`);
@@ -151,6 +195,7 @@ function loadTable() {
       seen.add(id);
       if (!Number.isInteger(n) || n < 1) throw new Error(`${id}: position count ${n}`);
     }
+    if (smd) continue;
     const pad = padOf(v);
     if (pad.width >= v.pitch || pad.height >= v.pitch) throw new Error(`${v.stem}: pad ${pad.width}x${pad.height} does not fit the pitch ${v.pitch}`);
     if (pad.width <= v.drill || pad.height <= v.drill) throw new Error(`${v.stem}: pad smaller than the drill`);

@@ -112,7 +112,7 @@ literal pads, including unnumbered (`"pin": 0`) non-plated holes
 
 Acceptance: the explicit entries work.
   Check: `node --test scripts/gen-terminals.test.js` → all tests pass (est. 1 min). Result: `ℹ tests 9`, `ℹ pass 9`, `ℹ fail 0`.
-Commit: this commit (hash in the next one)
+Commit: fdb2f35f
 
 ### Phase 2 — Phoenix Contact (6 variants)
 
@@ -124,7 +124,7 @@ Commit: this commit (hash in the next one)
 
 Acceptance: the Phoenix D lines have objects.
   Check: `python3 -I planning/plan-45-data/census/fp-check.py D` → the Phoenix lines absent from the missing list (est. 2 h). Result: `24 lines, 0 without a footprint`.
-Commit: this commit (hash in the next one)
+Commit: fdb2f35f
 
 ### Phase 3 — Weidmüller (6 variants)
 
@@ -133,7 +133,7 @@ Commit: this commit (hash in the next one)
 
 Acceptance: the Weidmüller D lines have objects.
   Check: `python3 -I planning/plan-45-data/census/fp-check.py D` → the Weidmüller lines absent from the missing list (est. 2 h). Result: `24 lines, 0 without a footprint`.
-Commit: this commit (hash in the next one)
+Commit: fdb2f35f
 
 ### Phase 4 — Würth Elektronik (6 variants), load and hand-check
 
@@ -151,7 +151,7 @@ Commit: this commit (hash in the next one)
 
 Acceptance: every D line has objects that load and match their drawings.
   Check: `python3 -I planning/plan-45-data/census/fp-check.py D` → `<n> lines, 0 without a footprint`, then `planning/plan-45-data/census/fp-load.sh planning/plan-45-data/footprints-D.json` → exits 0 (est. 2.5 h; the load builds a temp backend, 10 min). Result: `24 lines, 0 without a footprint`, `152 footprints, 0 missing`; `152 new footprints: load ok`.
-Commit: this commit (hash in the next one)
+Commit: fdb2f35f
 
 ## Validation Plan
 

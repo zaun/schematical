@@ -168,6 +168,39 @@ test('flange holes: non-plated pegs or plated unnumbered pads beyond each end of
   assert.deepStrictEqual(gap.pads.map((p) => [p.pin, p.x]), [[1, -15.24], [2, -7.62], [3, 0], [4, 15.24]]);
 });
 
+test('smd: rect pads without a drill and two unnumbered tabs; pegs: single holes at one end', () => {
+  const { dir, files } = workspace();
+  const t = JSON.parse(fs.readFileSync(files.table, 'utf8'));
+  t.variants.push(
+    // 1.25 mm pitch, 0.6 x 1.7 pads on the row 2.3 above the body centre, 1.0 x 2.8 tabs 1.85 beyond the end pads, 1.03 below
+    { stem: 'JST-TEST-GH-1.25-VS', letter: 'E', positions: [3, 12], style: 'explicit', describe: 'JST test GH', note: 'test', pitch: 1.25,
+      firstRowY: -2.3, bodyExtra: 3.25, bodyDepth: 4.3, smd: { pad: { width: 0.6, height: 1.7 }, tab: { dx: 1.85, dy: 3.33, width: 1, height: 2.8 } } },
+    // through hole with a boss peg 1.6 beyond pole 1 and 2 above the row; plated is false
+    { stem: 'JST-TEST-XH-2.50-VT', letter: 'E', positions: [3], style: 'explicit', describe: 'JST test XH', note: 'test', pitch: 2.5, drill: 1,
+      firstRowY: -0.5, bodyExtra: 2.4, bodyDepth: 5.75, pegs: [{ end: 'first', dx: 1.6, dy: -2, drill: 1.2 }] });
+  fs.writeFileSync(files.table, JSON.stringify(t));
+  const out = path.join(dir, 'out.json');
+  const r = run(files, '--letter', 'E', '--out', out);
+  assert.strictEqual(r.status, 0, r.stderr);
+  const by = Object.fromEntries(JSON.parse(fs.readFileSync(out, 'utf8')).footprints.map((o) => [o.id, o]));
+
+  const gh3 = by['JST-TEST-GH-1.25-VS-03'];
+  assert.strictEqual(gh3.pins, 3);
+  assert.strictEqual(gh3.pads.length, 5);                    // 3 pads + 2 tabs
+  assert.ok(gh3.pads.every((p) => p.shape === 'rect' && p.drill === undefined));
+  assert.deepStrictEqual(gh3.pads.filter((p) => p.pin !== 0).map((p) => [p.pin, p.x, p.y, p.width, p.height]),
+    [[1, -1.25, -2.3, 0.6, 1.7], [2, 0, -2.3, 0.6, 1.7], [3, 1.25, -2.3, 0.6, 1.7]]);
+  assert.deepStrictEqual(gh3.pads.filter((p) => p.pin === 0).map((p) => [p.x, p.y, p.width, p.height]), [[-3.1, 1.03, 1, 2.8], [3.1, 1.03, 1, 2.8]]);
+  assert.strictEqual(gh3.body.width, 7);                      // 3 * 1.25 + 3.25
+  const gh12 = by['JST-TEST-GH-1.25-VS-12'];
+  assert.strictEqual(gh12.pads.length, 14);
+  assert.deepStrictEqual(gh12.pads.filter((p) => p.pin === 0).map((p) => p.x), [-6.875 - 1.85, 6.875 + 1.85]);   // the end pads of 12 are at +-11/2 x 1.25
+
+  const xh = by['JST-TEST-XH-2.50-VT-03'];
+  assert.deepStrictEqual(xh.pads.filter((p) => p.pin === 0),
+    [{ pin: 0, x: -2.5 - 1.6, y: -2.5, width: 1.2, height: 1.2, shape: 'round', drill: 1.2, plated: false }]);   // pole 1 is at x = -2.5
+});
+
 test('edgeX, holes, stagger and reverse need the explicit style', () => {
   const { dir, files } = workspace();
   const t = JSON.parse(fs.readFileSync(files.table, 'utf8'));

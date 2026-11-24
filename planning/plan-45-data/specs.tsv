@@ -13,10 +13,10 @@ JST	JST|SH/SR|1.00|V|smd	datasheets/connector-jst/eSH.pdf	3	BM06B-SRSS-TB	BM(?P<
 JST	JST|SH/SR|1.00|V|smd	datasheets/connector-jst/eSR_SZ-new.pdf	2	BM08B-SRSS-TB	BM(?P<n>\d+)B-SRSS-TB	50	0.7	1..n	SR SMT top entry BM*B-SRSS-TB (newer revision): tables p2-3, allocation p3
 JST	JST|SH/SR|1.00|V|smd	datasheets/connector-jst/eSR_SZ.pdf	6	BM05B-SRSS-TB	BM(?P<n>\d+)B-SRSS-TBT?	50	0.7	1..n	SR SMT top entry BM*B-SRSS-TB, and with suction tape BM*B-SRSS-TBT ("T…Yes", allocation p4; the TB forms are printed in the tables p2-3)
 JST	JST|VH|3.96|H|tht	datasheets/connector-jst/eVH.pdf	9	B4PS-VH	B(?P<n>\d+)PS-VH	250	10	1..n	VH side entry without stopper B*PS-VH: tables p2-4 (the S*P-VH "with stopper" column is not a candidate)
-JST	JST|VH|3.96|V|tht	datasheets/connector-jst/eVH.pdf	17	B3P-VH	B(?P<n>\d+)P-VH(?:-FB-B|-B)?	250	7/10	1..n	VH top entry B*P-VH, B*P-VH-B (colour) and B*P-VH-FB-B (flange, the table p4 prints "B2P-VH-FB-BNote2"): tables p2-4, allocation p5-6
+JST	JST|VH|3.96|V|tht	datasheets/connector-jst/eVH.pdf	17	B3P-VH	B(?P<n>\d+)P-VH(?:-B)?	250	10	1..n	VH top entry B*P-VH and B*P-VH-B (colour): tables p2-4, allocation p5-6
 JST	JST|XH|2.50|H|smd	datasheets/connector-jst/eXH.pdf	2	S3B-XH-SM4-TB	S(?P<n>\d+)B-XH-SM4-TB	250	3	1..n	XH SMT side entry S*B-XH-SM4-TB: table p6, allocation p9
 JST	JST|XH|2.50|H|tht	datasheets/connector-jst/eXH.pdf	10	S6B-XH-A	S(?P<n>\d+)B-XH-A(?:-1)?	250	3	1..n	XH side entry S*B-XH-A and S*B-XH-A-1 (both printed in the table p5, circuits 2-15): allocation p9
-JST	JST|XH|2.50|V|tht	datasheets/connector-jst/eXH.pdf	11	B2B-XH-A	B(?P<n>\d+)B-XH-A(?:M)?	250	3	1..n	XH top entry B*B-XH-A, with boss B*B-XH-AM ("M…With boss", allocation p9): table p3-4
+JST	JST|XH|2.50|V|tht	datasheets/connector-jst/eXH.pdf	11	B2B-XH-A	B(?P<n>\d+)B-XH-A	250	3	1..n	XH top entry B*B-XH-A (without boss): table p5, allocation p9
 JST	JST|ZH|1.50|H|smd	datasheets/connector-jst/eZH.pdf	10	S6B-ZR-SM4A-TF	S(?P<n>\d+)B-ZR-SM4A-TF	50	1.0	1..n	ZH SMT SM4 side entry S*B-ZR-SM4A-TF: table p5, allocation p6
 JST	JST|ZH|1.50|H|tht	datasheets/connector-jst/eZH.pdf	10	S5B-ZR	S(?P<n>\d+)B-ZR(?:-3\.4)?	50	1.0	1..n	ZH side entry S*B-ZR and S*B-ZR-3.4 (soldering length 3.4 mm): tables p3-4, allocation p6
 JST	JST|ZH|1.50|V|smd	datasheets/connector-jst/eZH.pdf	10	B8B-ZR-SM4-TF	B(?P<n>\d+)B-ZR-SM4-TFT?	50	1.0	1..n	ZH SMT SM4 top entry B*B-ZR-SM4-TF, and with suction tape B*B-ZR-SM4-TFT ("T…Yes", allocation p6)
@@ -26,8 +26,6 @@ Phoenix Contact	PHX|BCH|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets
 Phoenix Contact	PHX|BCH|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/5441294.pdf	1	5441294		160	8	1..n	
 Phoenix Contact	PHX|BCH|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/5441304.pdf	1	5441304		160	8	1..n	
 Phoenix Contact	PHX|BCH|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/5441317.pdf	1	5441317		160	8	1..n	
-Phoenix Contact	PHX|BCH|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/5452093.pdf	1	5452093		160	8	1..n	
-Phoenix Contact	PHX|BCH|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/5452094.pdf	1	5452094		160	8	1..n	
 Phoenix Contact	PHX|BCH|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/5452095.pdf	1	5452095		160	8	1..n	
 Phoenix Contact	PHX|BCH|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/5452102.pdf	1	5452102		160	8	1..n	
 Phoenix Contact	PHX|BCH|3.81|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/5431194.pdf	1	5431194		160	8	1..n	
@@ -37,17 +35,13 @@ Phoenix Contact	PHX|BCH|3.81|H|tht|pluggable|Header-MalePins-Shrouded	datasheets
 Phoenix Contact	PHX|BCH|3.81|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/5431288.pdf	1	5431288		160	8	1..n	
 Phoenix Contact	PHX|BCH|3.81|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/5444262.pdf	1	5444262		160	8	1..n	
 Phoenix Contact	PHX|BCH|3.81|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/5444288.pdf	1	5444288		160	8	1..n	
-Phoenix Contact	PHX|BCH|3.81|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/5452027.pdf	1	5452027		160	8	1..n	
-Phoenix Contact	PHX|BCH|3.81|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/5452029.pdf	1	5452029		160	8	1..n	
 Phoenix Contact	PHX|COMBICON-GMSTBVA|7.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/1766699.pdf	1	1766699		400	12	1..n	
 Phoenix Contact	PHX|COMBICON-GMSTBVA|7.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/1766725.pdf	1	1766725		630	12	1..n	
 Phoenix Contact	PHX|COMBICON-GMSTBVA|7.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/1766738.pdf	1	1766738		630	12	1..n	
-Phoenix Contact	PHX|COMBICON-GMSTBVA|7.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/1966509.pdf	1	1966509		400	12	1..n	
 Phoenix Contact	PHX|COMBICON-ICV|5.08|V|tht|pluggable|Header-FemaleSockets	datasheets/connector-terminal/phoenix/1785955.pdf	1	1785955		320	12	1..n	
 Phoenix Contact	PHX|COMBICON-ICV|5.08|V|tht|pluggable|Header-FemaleSockets	datasheets/connector-terminal/phoenix/1785968.pdf	1	1785968		320	12	1..n	
 Phoenix Contact	PHX|COMBICON-ICV|5.08|V|tht|pluggable|Header-FemaleSockets	datasheets/connector-terminal/phoenix/1785971.pdf	1	1785971		320	12	1..n	
 Phoenix Contact	PHX|COMBICON-ICV|5.08|V|tht|pluggable|Header-FemaleSockets	datasheets/connector-terminal/phoenix/1786019.pdf	1	1786019		320	12	1..n	
-Phoenix Contact	PHX|COMBICON-ICV|5.08|V|tht|pluggable|Header-FemaleSockets	datasheets/connector-terminal/phoenix/1941650.pdf	1	1941650		320	12	1..n	
 Phoenix Contact	PHX|COMBICON-ICV|5.08|V|tht|pluggable|Header-FemaleSockets	datasheets/connector-terminal/phoenix/1943535.pdf	1	1943535		320	16	1..n	
 Phoenix Contact	PHX|COMBICON-ICV|5.08|V|tht|pluggable|Header-FemaleSockets	datasheets/connector-terminal/phoenix/1943632.pdf	1	1943632		320	16	1..n	
 Phoenix Contact	PHX|COMBICON-PC|7.62|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/1720466.pdf	1	1720466		630	41	1..n	
@@ -119,10 +113,6 @@ Weidmuller	WDM|Omnimate-4.0-MHS|7.50|H|tht|pluggable|Header-MalePins-Shrouded	da
 Weidmuller	WDM|Omnimate-4.0-MHS|7.50|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/8000078325.pdf	1	8000078325		1000	30.4	1..n	
 Weidmuller	WDM|Omnimate-4.0-MHS|7.50|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/8000078326.pdf	1	8000078326		1000	30.4	1..n	
 Weidmuller	WDM|Omnimate-4.0-MHS|7.50|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/8000078327.pdf	1	8000078327		1000	30.4	1..n	
-Weidmuller	WDM|Omnimate-4.0-MHS|7.50|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/8000078338.pdf	1	8000078338		630	30.4	1..n	
-Weidmuller	WDM|Omnimate-4.0-MHS|7.50|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/8000078340.pdf	1	8000078340		630	30.4	1..n	
-Weidmuller	WDM|Omnimate-4.0-MHS|7.50|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/8000078341.pdf	1	8000078341		630	30.4	1..n	
-Weidmuller	WDM|Omnimate-4.0-MHS|7.50|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/8000078343.pdf	1	8000078343		630	30.4	1..n	
 Weidmuller	WDM|Omnimate-LLFS|7.50|H|tht|push-in	datasheets/connector-terminal/weidmuller/2473000000.pdf	1	2473000000		1000	41	1..n	
 Weidmuller	WDM|Omnimate-LLFS|7.50|H|tht|push-in	datasheets/connector-terminal/weidmuller/2473020000.pdf	1	2473020000		1000	41	1..n	
 Weidmuller	WDM|Omnimate-LLFS|7.50|H|tht|push-in	datasheets/connector-terminal/weidmuller/2473030000.pdf	1	2473030000		1000	41	1..n	
@@ -271,9 +261,7 @@ Wurth Elektronik	WE|WR-TBL-Series-0016|5.00|V|tht|pluggable|Header-BladePins	dat
 Wurth Elektronik	WE|WR-TBL-Series-0018|7.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/950018202000000.pdf	1	950018202000000		500	20	1..n	
 Wurth Elektronik	WE|WR-TBL-Series-0018|7.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/950018203000000.pdf	1	950018203000000		500	20	1..n	
 Wurth Elektronik	WE|WR-TBL-Series-0018|7.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/950018204000000.pdf	1	950018204000000		500	20	1..n	
-Wurth Elektronik	WE|WR-TBL-Series-0018|7.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/950018205000000.pdf	1	950018205000000					
 Wurth Elektronik	WE|WR-TBL-Series-0018|7.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/950018206000000.pdf	1	950018206000000		500	20	1..n	
-Wurth Elektronik	WE|WR-TBL-Series-0018|7.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/950018207000000.pdf	1	950018207000000					
 Wurth Elektronik	WE|WR-TBL-Series-0018|7.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/950018208000000.pdf	1	950018208000000		500	20	1..n	
 Wurth Elektronik	WE|WR-TBL-Series-1377|5.00|H|tht|screw	datasheets/connector-terminal/wurth/691137710002.pdf	1	691137710002		250	24	1..n	
 Wurth Elektronik	WE|WR-TBL-Series-1377|5.00|H|tht|screw	datasheets/connector-terminal/wurth/691137710003.pdf	1	691137710003		250	24	1..n	
@@ -332,3 +320,5 @@ Wurth Elektronik	WE|WR-TBL-Series-4123|3.81|A|tht|spring	datasheets/connector-te
 Wurth Elektronik	WE|WR-TBL-Series-4123|3.81|A|tht|spring	datasheets/connector-terminal/wurth/691412320011.pdf	1	691412320011		450	4	1..n	
 Wurth Elektronik	WE|WR-TBL-Series-4123|3.81|A|tht|spring	datasheets/connector-terminal/wurth/691412320012.pdf	1	691412320012		450	4	1..n	
 Wurth Elektronik	WE|WR-TBL-Series-412B|3.50|A|tht|spring	datasheets/connector-terminal/wurth/691412120002B.pdf	6	691412120002B	6914121200(?P<n>\d\d)B	250	2	1..n	series sheet, title block "WERI PART NO: 691 412 120 0xx B", xx = pins; A = (3.5 x NB PINS) + 1.5 (p1)
+JST	JST|VH-FB|3.96|V|tht	datasheets/connector-jst/eVH.pdf	9	B4PS-VH	B(?P<n>\d+)P-VH-FB-B	250	7	1..n	VH shrouded header B*P-VH-FB-B (the table p4 prints "B2P-VH-FB-BNote2"): split off VH top entry by plan-45-E (it has a mounting peg)
+JST	JST|XH-M|2.50|V|tht	datasheets/connector-jst/eXH.pdf	2	S3B-XH-SM4-TB	B(?P<n>\d+)B-XH-AM	250	3	1..n	XH top entry with boss B*B-XH-AM ("M…With boss", allocation p9): split off XH top entry by plan-45-E (it has a boss peg hole)

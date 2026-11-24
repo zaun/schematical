@@ -35,7 +35,18 @@ def number(tok):
     return float(parts[0] + '.' + parts[1]) if len(parts) >= 2 else float(parts[0])
 
 
-def printed(maker, t):
+def printed(maker, t, mpn=''):
+    if maker == 'JST':
+        # the header tables: "<n> <model(s)> <A> <B> <Q'ty>": B is the second decimal after the part number
+        # (the models of one row share it; the model may be one of several on the line)
+        for line in t.splitlines():
+            m = re.search(r'(?<![A-Za-z0-9])' + re.escape(mpn) + r'(?![A-Za-z0-9-])(.*)', line)
+            if m:
+                # standalone numeric tokens only: the model name "B4B-ZR-3.4" holds a "3.4" that is not a column
+                nums = [float(x) for x in m.group(1).split() if re.fullmatch(r'\d+\.\d+', x)]
+                if len(nums) >= 2:
+                    return nums[1]
+        return None
     if maker == 'Weidmuller':
         m = re.search(r'(?<![A-Za-z(])Width\s+([\d.]+)\s*mm', t)
     elif maker == 'Wurth Elektronik':
@@ -97,7 +108,7 @@ def main():
             if abs(span(fps[fid]) - a) > 0.05:
                 bad += 1
                 print(f"MISMATCH {r['mpn']} {fid}: datasheet hole span a = {a}, footprint {span(fps[fid]):g}")
-        w = printed(r['maker'], pdf_text)
+        w = printed(r['maker'], pdf_text, r['mpn'])
         if w is None:
             unprinted += 1
             continue
