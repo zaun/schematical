@@ -48,6 +48,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_LCDDRIVER: return "lcddriver";
         case PART_POWERSWITCH: return "powerswitch";
         case PART_PLD: return "pld";
+        case PART_SOCKET: return "socket";
     }
     return "?";
 }
@@ -266,6 +267,11 @@ static void print_details(FILE *out, const Part *part) {
         case PART_PLD:
             fprintf(out, "macrocells=%u tpd=%llu", (unsigned)part->pld->macrocells,
                     (unsigned long long)part->pld->tpd_ps);
+            break;
+        case PART_SOCKET:
+            fprintf(out, "family=%s row=%u mounting=%s finish=%s fits=%zu", part->socket->family,
+                    (unsigned)part->socket->row_um, part->socket->mounting,
+                    part->socket->finish != NULL ? part->socket->finish : "-", part->fit_count);
             break;
         case PART_CRYSTAL:
             fprintf(out, "type=%s hz=%llu load=%llu tol=%u stab=%u esr=%llu cap=%d",

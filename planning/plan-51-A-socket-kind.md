@@ -196,14 +196,15 @@ with `listing_check --print | diff`.
 
 ### Phase 1 — the kind
 
-- [ ] `backend/include/parts.h`: `PART_SOCKET` after the last kind; `PartSocket`; `Part.socket`, `Part.fits`, `Part.fit_count` (doc comments).
-- [ ] `backend/src/models/socket.c`: `SOCKET_KIND` per § 3.1 (copy `header.c`'s shape; `KindContext` helpers `kind_string`, `kind_number`).
-- [ ] `backend/src/library/kinds.c`: `extern const PartKindOps SOCKET_KIND;` and one line in `KINDS[]`; `backend/CMakeLists.txt`: add `src/models/socket.c` where `header.c` is listed.
-- [ ] `tests/trace_check.c:22` `TRACE_LAST_KIND`, `tests/listing_check.c:50–51`, `tests/support/listing.c` (name `socket`; print `family`, `row_um`, `mounting`, `finish`, `fit_count`) — the three lines `docs/backend.md` § Adding a kind names.
+- [x] `backend/include/parts.h`: `PART_SOCKET` after the last kind; `PartSocket`; `Part.socket`, `Part.fits`, `Part.fit_count` (doc comments). — `PART_SOCKET` follows `PART_PLD`; `PartSocket` after `PartPld`; the three `Part` members after `pld`.
+- [x] `backend/src/models/socket.c`: `SOCKET_KIND` per § 3.1 (copy `header.c`'s shape; `KindContext` helpers `kind_string`, `kind_number`). — device keys `family` / `rowSpacing`, part keys `mounting` / `finish`; `socket_bind_pinout` checks `inout` and the pin counts; the per-part `PartSocket` is allocated in `socket_load_part`.
+- [x] `backend/src/library/kinds.c`: `extern const PartKindOps SOCKET_KIND;` and one line in `KINDS[]`; `backend/CMakeLists.txt`: add `src/models/socket.c` where `header.c` is listed.
+- [x] `tests/trace_check.c:22` `TRACE_LAST_KIND`, `tests/listing_check.c:50–51`, `tests/support/listing.c` (name `socket`; print `family`, `row_um`, `mounting`, `finish`, `fit_count`) — the three lines `docs/backend.md` § Adding a kind names. — `TRACE_LAST_KIND` → `PART_SOCKET`, the two arrays → `PART_SOCKET + 1`, `listing.c` names `socket` and prints `family=… row=… mounting=… finish=… fits=…`.
+- [x] Discovered: the two Swift switches over `PartKind` (`PartFacts.kindName`, `BundledPartFile.name(of:)`) both end in `default:`, so a kind the app does not know yet does not break the app build (the kind's own entries are G's and H's).
 
 Acceptance: the backend builds; the existing 60 programs pass; goldens byte-identical.
-  Check: `cmake --build /tmp/logic-p51 -j8 && ctest --test-dir /tmp/logic-p51 -j8 && git diff --stat backend/tests/golden` → `100% tests passed, 0 tests failed out of 60`, empty diff (est. 3 min).
-Commit: —
+  Check: `cmake --build /tmp/logic-p51 -j8 && ctest --test-dir /tmp/logic-p51 -j8 && git diff --stat backend/tests/golden` → `100% tests passed, 0 tests failed out of 60`, empty diff (est. 3 min). Measured 2026-11-24 in `/tmp/logic-p51-wt`: `100% tests passed, 0 tests failed out of 60`, `git diff --stat backend/tests/golden` empty. VERIFIED.
+Commit: (next commit)
 
 ### Phase 2 — `"fits"`, tests, docs
 

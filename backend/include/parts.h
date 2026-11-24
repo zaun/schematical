@@ -28,7 +28,7 @@ typedef enum {
     PART_BUFFER, PART_MUX, PART_HEADER, PART_ARITH, PART_CONVERTER, PART_RTC, PART_DIODE,
     PART_CAPACITOR, PART_REGISTER, PART_MCU, PART_RESISTOR, PART_TRANSISTOR,
     PART_GENERIC, PART_SERIALMEM, PART_NIXIE, PART_REGULATOR, PART_CRYSTAL, PART_DEKATRON, PART_LCD,
-    PART_LEDDRIVER, PART_LCDDRIVER, PART_POWERSWITCH, PART_PLD
+    PART_LEDDRIVER, PART_LCDDRIVER, PART_POWERSWITCH, PART_PLD, PART_SOCKET
 } PartKind;
 
 /* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */
@@ -271,6 +271,19 @@ typedef struct { const char *core; uint64_t max_hz; uint32_t flash, ram, eeprom,
    grade, the maximum pin-to-pin delay, in picoseconds. */
 typedef struct { uint32_t macrocells; uint64_t tpd_ps; } PartPld;
 
+/* An IC socket (plan-51-A): a passive part a DIP or PLCC chip plugs into; its
+   pins join nothing. family: "DIP" or "PLCC". row_um: a DIP socket's row
+   spacing in micrometres (5080, 7620, 10160 or 15240), 0 for a PLCC socket.
+   mounting: "through-hole" or "surface-mount". finish: the contact finish as
+   the datasheet prints it ("gold", "tin", "tin-lead"), NULL = not given. The
+   chip footprints the socket holds are Part.fits. The facts are for the app. */
+typedef struct {
+    const char *family;
+    uint32_t row_um;
+    const char *mounting;
+    const char *finish;
+} PartSocket;
+
 /* A serial (SPI) memory chip (serialmem kind). type: "eeprom", "fram",
    "flash" (the three the engine simulates), "dataflash" or "pageeeprom"
    (facts only: their devices say "simulated": false). size: bytes.
@@ -379,6 +392,10 @@ typedef struct Part {
     const PartCrystal *crystal;
     const PartPowerSwitch *powerswitch;
     const PartPld *pld;
+    const PartSocket *socket;
+    /* A socket's "fits" (plan-51-A): the chip footprints it holds, in file
+       order; NULL/0 for every other kind. */
+    const PartFootprint *const *fits; size_t fit_count;
     /* Dual-supply parts (plan-20-F): domain 0 is the A side (its vcc is
        Part.vcc), domain 1 the B side; NULL/0 for single-supply parts. */
     const PartSupplyDomain *domains; size_t domain_count;
