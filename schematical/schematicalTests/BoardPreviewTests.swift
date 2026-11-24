@@ -115,6 +115,28 @@ final class BoardPreviewTests: XCTestCase {
         XCTAssertLessThan(angled.point(CGPoint(x: 50, y: 25), 5).y, angled.point(CGPoint(x: 50, y: 25)).y)
     }
 
+    /// plan-54-G: a Top part's opposite pads are bare copper (solder) on the back face, and a
+    /// Top part's own pads are not there: the back render of a board with the opposite-pad part
+    /// differs from a bare board's, that of the same part without opposite pads does not.
+    func testOppositePadsAreDrawnOnTheOtherFace() throws {
+        func back(_ doc: SchematicDocument) throws -> Data {
+            let view = BoardPreviewView.canvas(document: doc, face: .back, angle: .top).frame(width: 300, height: 220)
+            return try XCTUnwrap(ImageRenderer(content: view).cgImage?.dataProvider?.data as Data?)
+        }
+        // A small board, so the pads (1 mm) are some pixels across.
+        let bare = TestSupport.newDocument()
+        bare.setLayerCount(2)
+        let withOpposite = try OppositePadTests.fixture(at: CGPoint(x: 10, y: 6)).doc
+        let control = try OppositePadTests.fixture(at: CGPoint(x: 10, y: 6), oppositePads: false).doc
+        for doc in [bare, withOpposite, control] { doc.setBoardSize(width: 40, height: 20) }
+        // The first render in a process differs a little from later ones (caches): warm up, discard.
+        _ = try back(bare)
+        let bareBack = try back(bare)
+        let change = differing(bareBack, try back(withOpposite))
+        XCTAssertGreaterThan(change, 100, "the opposite pads show on the back")
+        XCTAssertLessThan(differing(bareBack, try back(control)), change / 10, "a Top part's own pads do not")
+    }
+
     /// plan-52-F: a pour on Top shows in the front render, under the mask, and not in the back one.
     func testAPourShowsInTheFrontRenderOnly() throws {
         let doc = TestSupport.newDocument()

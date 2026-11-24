@@ -114,7 +114,8 @@ nonisolated final class EasyEDAProBoardWriter {
 
     @MainActor private func spec(_ pad: Footprint.Pad) -> PadSpec {
         PadSpec(designator: pad.designator, centre: pad.centre, size: pad.size, drill: pad.drill,
-                slotLength: pad.slotLength, shape: pad.shape, radius: pad.radius, plated: pad.plated, side: .top)
+                slotLength: pad.slotLength, shape: pad.shape, radius: pad.radius, plated: pad.plated,
+                side: pad.opposite ? .bottom : .top)
     }
 
     @MainActor private func spec(placed pad: PlacedPad, side: BoardSide) -> PadSpec {
