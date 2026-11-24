@@ -17,7 +17,7 @@ enum {
     CV_TM_DISP = 0x50000000u    /* display_out.c */
 };
 
-enum { CV_PAY_NONE, CV_PAY_WREG, CV_PAY_POINTER };
+enum { CV_PAY_NONE, CV_PAY_WREG, CV_PAY_POINTER, CV_PAY_LCD };
 
 /* An output segment: a pattern being shifted out. */
 typedef struct {
@@ -172,6 +172,9 @@ void disp_start(CvState *s);
 void disp_timer(CvState *s, uint32_t id);
 void disp_refresh(CvState *s);
 void disp_free(CvState *s);
+/* An lcd driver with a "load" section (plan-56-E): one display data byte arrived after an
+   `lcdload` command; it goes into the RAM per the current mode, pointer, bank and subaddress. */
+void disp_lcd_byte(CvState *s, uint8_t byte);
 
 /* converter_par.c (plan-24-E) */
 void cv_par_start(CvState *s);

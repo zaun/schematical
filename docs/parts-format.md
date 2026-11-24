@@ -44,7 +44,6 @@ diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character
 | `nixie.json` | `nixie` |
 | `dekatron.json` | `dekatron` |
 | `lcd.json` | `lcd` |
-| `powerswitch.json` | `powerswitch` |
 
 Beside them, `datasheets.json` holds the datasheet URLs parts name with
 `"datasheet"` (see [Datasheets](#datasheets)), and `footprints.json` the land
@@ -1344,138 +1343,6 @@ Linear → Generic** (plan-42-H): `GENERIC-REG-5V` and `GENERIC-REG-3V3` (pins
 `vinMax`) and `GENERIC-REG-ADJ` (pins 1 ADJ, 2 OUT, 3 IN, the LM317 order,
 `adjustTo` `"output"`, `vref` 1.25, dropout 2 V), each `TO-220` by default
 with the footprint choices `TO-220` and `DPAK`.
-
-### `powerswitch`
-
-Power switches (plan-55): load switches, current-limited and USB power
-switches, and integrated ideal diodes, `"kind": "powerswitch"`, run by
-`backend/src/models/powerswitch.c`. A part is one to four **switches**
-(elements). Each is a **gate for a supply** in a logic simulator: while its
-input pin reads 1 and its enable pin (when it has one) is active, its output
-pin is driven strong 1; there is no analog behaviour (no ramp or slew, on-resistance
-drop, current limit, overcurrent, thermal shutdown, quick output discharge or
-reverse-current measurement). A change at the input or the enable reaches the
-output **1 ns** later, read again when that time comes, so a pulse shorter
-than 1 ns never moves it. A floating logic enable is inactive, for both
-polarities. An input reading X gives an X output; an input that reads 0, Z
-or is not connected leaves the output Z. A power switch has no `vcc`.
-
-Device keys:
-
-| Key | Value |
-|---|---|
-| `"type"` | `"load"`, `"limited"` or `"ideal-diode"` (`unknown power switch type`); every switch of the package has it |
-| `"switches"` | array of 1 to 4 objects (`"switches" must have 1 to 4 entries`), one per switch in the datasheet's numbering |
-| `"analog"` | optional array of pin names (each names a pin of every pinout) the voltage check skips and the model never drives: slew and soft-start pins (CT, SS), quick-output-discharge pins (QOD), current-limit set pins (ILIM, SET), bias supplies (VBIAS), mode straps, a status output that is not modelled (the LM66200's ST); may be `[]` |
-
-Each `"switches"` entry (`"in"` and `"out"` are required, no other key beyond
-these is allowed):
-
-| Key | Value |
-|---|---|
-| `"in"` | the input pin name: every pin of the name is the input; role `power` |
-| `"out"` | the output pin name: every pin of the name is driven; role `output`; two switches may share one name (the LM66200's VOUT: the pin reads 1 while either is on) |
-| `"enable"` | optional: the enable pin name (EN, ON, CE); role `input` |
-| `"enableActive"` | optional, with `"enable"`: `"high"` (default) or `"low"`, the level that turns the switch on |
-| `"enableRef"` | optional, with `"enable"`: `"logic"` (default: the pin is a logic input) or `"input"` (the pin is a comparator against the input, the LM66100's CE; needs `"enableActive": "low"`) |
-| `"flag"` | optional: a status or fault output pin name, open drain (the voltage check never counts it as driving 1); role `output` |
-| `"flagWhen"` | optional, with `"flag"`: `"fault"` (default: the part reports an overcurrent or over-temperature fault, which the model never has, so the pin is never pulled low) or `"disabled"` (pulled low while the switch is disabled: the LM66100's ST) |
-
-Every other pin of a pinout is `ground`, `nc`, `absent`, or named in
-`"analog"` (`pin "X" is in no switch and not analog`); a name used by an
-entry names at least one pin of every pinout, and its pins have the roles
-above (`power switch pin "X" (in) must be power`). An exposed pad or a tab
-with no number is not a pin. A package with no enable pin has no `"enable"`:
-the switch is on whenever its input reads 1. A single pin name may serve
-several switches (the TPS2053B's `IN1` feeds OUT1 and OUT2).
-
-The model, per switch (`powerswitch.c`, one 1 ns timer per switch):
-
-| Input | Enable | `out` | `flag` (`"disabled"`) | `flag` (`"fault"`) |
-|---|---|---|---|---|
-| 1 | no pin; active (`"logic"`); anything but X (`"input"`) | strong 1 | Z | Z |
-| 1 | inactive or Z (`"logic"`) | Z | strong 0 | Z |
-| 0 or Z | reads 1 (`"input"`) | Z | strong 0 | Z |
-| X | any | strong X | Z | Z |
-| 1 | X | strong X | strong X | Z |
-| 0 or Z | anything else | Z | Z | Z |
-
-An `"input"` enable is a comparator against the input and a logic simulator
-sees only 0, 1 and Z: a 1 on it is "not above" an input that reads 1, so with
-the input at 1 it never turns the switch off (the LM66100 with CE on VOUT
-conducts); a 1 on it with the input at 0 or Z is "above": the switch is off
-and a `"disabled"` flag is low (the battery-backup case). The output on a net a
-strong 0 holds is `smoke:`.
-
-Part keys (volts, amps, ohms; one number for the part):
-
-| Key | Value |
-|---|---|
-| `"vinMin"` | optional, above 0 and at most 100: the lowest input at which a switch conducts (the undervoltage lockout); below it the voltage check gives the output no level |
-| `"vinMax"` | optional, above 0 and at most 100 and at least `vinMin`: the input maximum (the recommended operating maximum; the absolute maximum when the datasheet gives none); the voltage check refuses an input or enable pin above it |
-| `"iout"` | optional, above 0 and at most 100: the continuous current per switch |
-| `"ilimit"` | optional, above 0 and at most 100, `"type": "limited"` only (`"ilimit" is only for a current-limited switch`): the fixed current limit |
-| `"ron"` | optional, above 0 and at most 10: the on-resistance, ohms |
-| `"iq"` | optional, above 0 and at most 1: the quiescent current |
-
-The values are facts for the app (`PartPowerSwitch`: millivolts, milliamps,
-milliohms, microamps; 0 = not given). **The voltage check** (`voltage.c`,
-step 3d): each switch whose input pin has a known, non-zero level of at least
-`vinMin`, and whose enable pin is not at an inactive level (an unknown level
-counts as active; an `"input"` enable is inactive above the input's level),
-raises a **switched level** W on its output pins' nets: the input's level. The
-order of levels is S, R, then W, D, P, C. Two switch outputs on one net never
-clash: the net reads the higher level (**ORing**: two ideal diodes from two
-rails, a battery and a wall supply). A switched level different from a supply
-level or from a regulated level on the net is a clash
-(`VOLTAGE_SUPPLY_CLASH`, `voltage: 3.3 V and 5 V supplies on one net (3V3,
-PFX-LOAD)`); ground on an output is the engine's short, not a voltage
-problem. An input or enable pin above `vinMax` is refused
-(`VOLTAGE_POWERSWITCH_INPUT_OVER`, `voltage: 12 V on pin 1 (VIN) of …; its
-input max is 5.5 V`).
-
-Conventions of the library's `powerswitch.json` (plan-55): device ids are
-`psw-<maker>-<datasheet name>` in lower case (`psw-ti-lm66200`), one device per
-(datasheet, switch layout) holding a pinout per package (a second layout in
-one datasheet gets `-2`, `-3` after the id); `"function"` is `Single
-channel`, `Dual channel`, `Triple channel` or `Quad channel` for `load` and
-`limited`, `Single input` or `Dual input` for `ideal-diode`; the drawer is
-**Power → Power Switches → Load Switches / Current-Limited / Ideal Diodes**;
-a part's `"name"` is the maker's orderable part number as DigiKey prints it
-and `"manufacturer"` is `Texas Instruments`, `Analog Devices`, `Microchip
-Technology`, `onsemi`, `Diodes Incorporated` or `Monolithic Power Systems`
-(a company's DigiKey labels together). The library holds 817 parts in 343
-devices (every in-stock Active part of the top three makers of each family whose
-datasheet the maker publishes and whose switch the kind can express): **Load
-Switches** 194 (Texas Instruments 128, Microchip Technology 34, onsemi 31,
-Diodes Incorporated 1), **Current-Limited** 590 (Texas Instruments 298, Diodes
-Incorporated 153, Microchip Technology 139), **Ideal Diodes** 33 (Analog
-Devices 28, Texas Instruments 4, onsemi 1). A part's drawer follows its device's
-`"type"`. Monolithic Power Systems has none (its datasheet links are pages
-behind a bot check, so no script can fetch them); the parts left out are in
-`datasheets/skipped-parts.md` (§ Power switches). There is no generic part.
-In the app a power switch draws as a block with its pins named; the sidebar
-names its kind by its type and switch count (`Load switch`, `Dual
-current-limited switch`, `Quad current-limited switch`, `Ideal diode`, `Dual
-ideal diode`) and lists `Type`, `Channels` (`Inputs` for an ideal diode) when
-there is more than one, `Input` (`1.5–5.5 V`, `up to 6 V`, `from 2.7 V`),
-`Current`, `Current limit` (a current-limited switch with one fixed limit),
-`On-resistance` and `Quiescent`, each omitted when the part gives none; the
-voltage check's refusal reads `Can't connect: U1 pin 1 (VIN) gets 12 V; <part>
-takes at most 5.5 V in.`
-
-```json
-{"id": "psw-ti-lm66100", "function": "Single input", "description": "Ideal diode, 1.5 A, 1.5-5.5 V",
- "drawer": ["Power", "Power Switches", "Ideal Diodes"],
- "pinouts": {"p6": [{"number":1,"name":"VIN","role":"power"},{"number":2,"name":"GND","role":"ground"},
-                    {"number":3,"name":"CE","role":"input"},{"number":4,"name":"NC","role":"nc"},
-                    {"number":5,"name":"ST","role":"output"},{"number":6,"name":"VOUT","role":"output"}]},
- "type": "ideal-diode",
- "switches": [{"in": "VIN", "out": "VOUT", "enable": "CE", "enableActive": "low", "enableRef": "input",
-               "flag": "ST", "flagWhen": "disabled"}], "analog": [],
- "parts": [{"name": "LM66100DCKR", "manufacturer": "Texas Instruments", "package": "SC-70",
-            "pinout": "p6", "footprint": "SC70-6-DCK", "vinMin": 1.5, "vinMax": 5.5, "iout": 1.5}]}
-```
 
 ### `oscillator`
 
@@ -3532,6 +3399,7 @@ Actions:
 | `updateall` | DAC: copies input → DAC register for every channel (a "write channel n and update all" command: `then: ["updateall"]`) |
 | `clear` | DAC: input and DAC registers to `dac.clearCode` |
 | `setbits`, `clearbits` | the register at `address` / `register`: OR in / clear the bits of capture `data` (read-modify-write opcodes) |
+| `lcdload` | lcd display drivers with a `load` section (§ `lcd` driver): every following byte of the transfer is display data stored into the display RAM |
 
 #### `conversion` (ADC)
 
@@ -3775,6 +3643,9 @@ digit k's value; then slot k+1, round and round (slot 0 starts at time 0).
 | `"dpBit"` | optional, default 7: the bit of a decoded value that lights the decimal point (the 8th segment pin) |
 | `"scan"` | required, above |
 | `"blank"`, `"test"`, `"shutdown"` | optional conditions, below |
+| `"sharedPins"`, `"segmentLines"` | optional pair, the MAX6950/51 wiring (below): replaces `digitPins` and `segmentPins` |
+| `"scanLimit"` | optional, needs `sharedPins`: a field name; only digits 0 to its value are scanned (a test scans all of them) |
+| `"blink"` | optional, needs `sharedPins`: `{"enable": condition, "ram": [n field names], "halfPeriodUs": n or {"field": "REG.F", "values": {"0": 1000000, "1": 500000}}}`: while `enable` holds, the digit shows its `ram` field in the first half of each blink period and its `blink.ram` field (the second plane) in the second half; the period starts at time 0 |
 
 Decodes (segments a–g; "value" is the digit's value, `ram` register or field):
 
@@ -3795,6 +3666,15 @@ slot (digit pins scan as usual). Else `blank`, while true: no segment lit
 let the display test show in shutdown (MAX6951) add `TEST.T=0` to
 the `shutdown` array. A condition left out never holds. Intensity registers
 are plain registers: not in `display`.
+
+**Shared digit and segment pins** (`"sharedPins"`: 9 pin names; MAX6950/51). Digit k (k below
+`digits`, at most 9) is selected on shared pin k, which takes the `digitActive` level, and the other
+eight pins carry its segments in column order, `segmentLines` naming the segment each of those eight
+shows (`["dp", "g", "f", "e", "d", "c", "b", "a"]`: a to g and dp, each once). A lit segment drives the
+`segmentActive` level and an unlit one is released (Z), so one chip drives eight single-digit common-
+cathode displays wired as the datasheet's table shows, with no ghost segments. `segmentBits`
+(8 entries, in the order a b c d e f g dp), `decode`, `decodeField` (one per digit), `ram` (one field
+per digit), `scan`, `blank`, `test` and `shutdown` work as above (shutdown releases every shared pin).
 
 ```json
 "registers": [
@@ -3860,12 +3740,16 @@ released (Z) while its direction field says input.
 
 | Key | Value |
 |---|---|
-| `"ports"` | 1–256 ports `{"pin", "dataField", "dirField", "dirOutput", "invert"}` |
+| `"ports"` | 1–256 ports `{"pin", "dataField", "dirField", "dirOutput", "invert", "sinkValues", "pullupValues", "readField"}` |
 | `"pin"` | pin name |
 | `"dataField"` | field name: the pin drives 1 while the field is nonzero (0 otherwise), or the opposite with `invert` |
 | `"dirField"` | optional field name: the pin is an output while the field's value is in `dirOutput`, else released. Without it the pin is always an output |
 | `"dirOutput"` | optional (needs `dirField`): a value or an array of up to 64 values that make the pin an output. Default 1 |
 | `"invert"` | optional boolean, default false |
+| `"sinkValues"` | optional (needs `dirField`): a value or an array of up to 64 `dirField` values that make the pin an open-drain LED sink: it drives 0 while `dataField` is nonzero and is released otherwise |
+| `"pullupValues"` | optional (needs `dirField`): `dirField` values that make the pin an input with a pullup: a weak 1, so a floating pin reads 1 and an external driver wins |
+| `"readField"` | optional field name: refreshed on every register or pin change with the value a read of the port should return: `dataField` while the pin is an output or a sink, the pin's level (Z and X read 0) while it is an input. The protocol reads it with `[REG.FIELD]` |
+| `"shutdown"`, `"test"` | optional conditions (driver level): while `shutdown` holds every port is released (an input without pullup), except the sink ports while `test` holds; while `test` holds every sink port sinks (drives 0) whatever its data bit; push-pull outputs are not touched by the test |
 
 Open-drain port outputs: list the pin in `display.openDrain` (it then drives 0 or Z).
 
@@ -3907,6 +3791,42 @@ lights read it as stable.
 
 LCD bias levels, contrast, and the drive waveform's analog shape are not
 modeled; an `lcd` glass reads 0 and 1 only.
+
+**A run-time mode and a loadable RAM** (PCF8576, PCF85176, PCA85176, PCA85276;
+plan-56-E). The chip's mode-set command picks static, 1:2, 1:3 or 1:4 while it
+runs, and display data bytes are written through a data pointer that places
+their bits by mode. Instead of the string `"mode"`, name the register field
+that holds it:
+
+| Key | Value |
+|---|---|
+| `"mode"` | `{"field": "REG.FIELD", "values": {"<field value>": "static" \| "1:2" \| "1:3" \| "1:4"}}`: up to 4 values; a field value not listed uses the first. The mode names the slot count (1, 2, 3, 4); `"backplanes"` then lists 1 to 4 pins (the RAM's rows), and `"ramOrder"` must be `"segment"` (RAM column g = segment pin g, bit k of a column = backplane k, whatever the mode) |
+| `"slots"` | required with a mode field: mode name -> an array with one entry per slot of that mode, each an array of the `backplanes` pins driven in that slot (the others are released). The slot's RAM row is its number. PCF8576: static `[[BP0, BP1, BP2, BP3]]`, 1:2 `[[BP0, BP2], [BP1, BP3]]`, 1:3 `[[BP0], [BP1, BP3], [BP2]]`, 1:4 one pin each. A slot lasts `frameUs` divided by the mode's slot count |
+| `"outputBank"` | optional field name: while it is nonzero and the mode has at most 2 slots, slot k shows RAM row k + 2 (PCF8576 bank-select O) |
+| `"load"` | optional: lets the protocol action `lcdload` (below) store display data bytes. `"pointer"`: the field holding the data pointer (a RAM column); `"step"`: mode name -> the columns the pointer advances per byte (1 to 64; every mode of `mode` needs one); `"bank"`: optional field name, nonzero stores into rows + 2 in a mode of at most 2 slots (bank-select I); `"subaddress"` and `"hardware"` (together): the counter and the hardware strap field; bits are stored only while they are equal; `"subaddresses"`: the counter's modulus, 2 to 256, default 8 |
+
+The protocol action **`lcdload`** (a command's `action`) turns every following
+byte of the transfer into display data: in a mode of n slots the byte's bits, most
+significant bit first, go in groups of n down a column: bit j to RAM column
+pointer + j / n, row j % n (plus 2 when the input bank applies). With a
+`subaddress`, a bit whose column is past the last one falls into the next device
+(the counter + 1, column 0 on), and is stored only if that counter value is the
+hardware subaddress; without one the bits past the last column are dropped. After
+the byte the pointer advances by the mode's `step`; past the last column it wraps
+and the counter increments. A bit that belongs to another device's subaddress is
+not stored but the pointer still advances.
+
+```json
+"display": {"driver": "lcd",
+  "mode": {"field": "MODE.M", "values": {"0": "1:4", "1": "static", "2": "1:2", "3": "1:3"}},
+  "backplanes": ["BP0", "BP1", "BP2", "BP3"],
+  "slots": {"static": [["BP0", "BP1", "BP2", "BP3"]], "1:2": [["BP0", "BP2"], ["BP1", "BP3"]],
+            "1:3": [["BP0"], ["BP1", "BP3"], ["BP2"]], "1:4": [["BP0"], ["BP1"], ["BP2"], ["BP3"]]},
+  "segmentPins": ["S0", "S1"], "ram": {"bytes": 20, "address": 0}, "frameUs": 6487,
+  "enable": "MODE.E=1", "outputBank": "BANK.O",
+  "load": {"pointer": "PTR.P", "step": {"static": 8, "1:2": 4, "1:3": 3, "1:4": 2}, "bank": "BANK.I",
+           "subaddress": "SUB.A", "hardware": "HW", "subaddresses": 8}}
+```
 
 #### Writing a device
 

@@ -1048,7 +1048,7 @@ static void loader(void) {
     free(dev);
     rejects_led("{'driver':'blink'}", "unknown driver \"blink\"", "an unknown driver is rejected");
     rejects_led("{'digits':2}", "missing \"driver\"", "a display without a driver is rejected");
-    rejects_led(REJ_DIGITS(",'blink':1"), "unknown key \"blink\"", "an unknown display key is rejected");
+    rejects_led(REJ_DIGITS(",'sparkle':1"), "unknown key \"sparkle\"", "an unknown display key is rejected");
     rejects_led("{'driver':'digits','digits':2,'digitPins':['DIG1','DIG2'],'digitActive':'high','segmentPins':["
                 SEG7_NAMES "],'segmentActive':'high','ram':['DIGIT1','NOPE'],'scan':{'periodUs':100}}",
                 "unknown register \"NOPE\"", "an unknown register in ram is rejected");
@@ -1086,6 +1086,22 @@ static void loader(void) {
                 "\"openDrain\": \"VCC\" is not a pin this driver drives", "openDrain must name driven pins");
     rejects_led("{'driver':'ports','ports':[{'pin':'SEGA','dataField':'CFG.X','dirOutput':1}]}",
                 "\"dirOutput\" needs \"dirField\"", "dirOutput needs dirField");
+    /* plan-56-D: shared digit/data pins, scan limit, blink; port sinks, pullups and read-back */
+    rejects_led(REJ_DIGITS(",'sharedPins':['DIG1','DIG2']"), "\"sharedPins\" replaces \"digitPins\"",
+                "sharedPins replaces digitPins and segmentPins");
+    rejects_led("{'driver':'digits','digits':2,'sharedPins':['DIG1','DIG2'],'digitActive':'low','segmentActive':'high',"
+                "'ram':['DIGIT1','DIGIT2'],'scan':{'periodUs':100}}",
+                "\"sharedPins\" must name 9 pins", "sharedPins names exactly nine pins");
+    rejects_led(REJ_DIGITS(",'scanLimit':'CFG.X'"), "go with \"sharedPins\"", "scanLimit needs sharedPins");
+    rejects_led(REJ_DIGITS(",'segmentLines':['a']"), "go with \"sharedPins\"", "segmentLines needs sharedPins");
+    rejects_led("{'driver':'ports','ports':[{'pin':'SEGA','dataField':'CFG.X','sinkValues':0}]}",
+                "\"sinkValues\" needs \"dirField\"", "sinkValues needs dirField");
+    rejects_led("{'driver':'ports','ports':[{'pin':'SEGA','dataField':'CFG.X','dirField':'CFG.X','pullupValues':[]}]}",
+                "\"pullupValues\" is a value or an array", "pullupValues is a value or a list");
+    rejects_led("{'driver':'ports','ports':[{'pin':'SEGA','dataField':'CFG.X','readField':'CFG.NOPE'}]}",
+                "has no field \"NOPE\"", "an unknown readField is rejected");
+    rejects_led("{'driver':'ports','ports':[{'pin':'SEGA','dataField':'CFG.X'}],'shutdown':'CFG.NOPE=1'}",
+                "has no field \"NOPE\"", "an unknown field in a ports shutdown is rejected");
     rejects_led("{'driver':'static','segmentActive':'high','groups':[{'pins':['SEGA','SEGB'],'ram':'DIGIT1'},"
                 "{'pins':['SEGC'],'ram':'DIGIT2'}]}",
                 "every group has the same number of pins", "static groups have equal width");

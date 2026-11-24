@@ -751,6 +751,11 @@ static void run_action(CvState *s, uint8_t action, const CvCommand *cmd, const u
     case CVA_CLEAR:
         dac_clear(s);
         break;
+    case CVA_LCDLOAD:
+        s->x.payload = CV_PAY_LCD;
+        s->x.pay_bits = 0;
+        s->x.pay_value = 0;
+        break;
     case CVA_SETBITS:
     case CVA_CLEARBITS: {
         uint32_t data = value_of(&cmd->data, caps);
@@ -918,6 +923,15 @@ static void payload_bit(CvState *s, uint8_t bit) {
                     x->done = 1;
                 }
             }
+        }
+        return;
+    }
+    if (x->payload == CV_PAY_LCD) {
+        x->pay_value = (x->pay_value << 1) | bit;
+        if (++x->pay_bits == 8) {
+            disp_lcd_byte(s, (uint8_t)x->pay_value);
+            x->pay_bits = 0;
+            x->pay_value = 0;
         }
         return;
     }
