@@ -76,6 +76,8 @@ enum LatchGuide {
             "device.presetWins": GuideLayout.function("Preset wins over clear", "What both asserted together store: Yes for 1, No for 0."),
             "device.polarity": GuideLayout.pins("Polarity pin", "A pin whose level sets which latch-enable level is the active one (CD4042B). "
                 + "Use it instead of the latch-enable level.", also: ["POLARITY"]),
+            "device.phase": GuideLayout.pins("Phase pin", "A pin whose level inverts every latch output, for liquid-crystal drive (CD4054B).",
+                                             also: ["DF", "Ph"]),
             "device.address": GuideLayout.pins("Address pins", "The pins that pick the latch, least significant first.", also: ["A0, A1, A2", "S0, S1, S2"]),
             "device.data": GuideLayout.pins("Data pin", "The pin whose level the addressed latch takes.", also: ["D"]),
             "device.outputs": GuideLayout.pins("Outputs", "One pin per latch, in address order.", also: ["Q0 to Q7"]),
@@ -206,6 +208,8 @@ enum DecoderGuide {
             "device.rbo": GuideLayout.pins("Ripple blanking output", "The pin that passes zero blanking on to the next digit.", also: ["BI/RBO"]),
             "device.phase": GuideLayout.pins("Phase pin", "A pin that inverts every segment level, for liquid-crystal drive (CD4056B).",
                                              also: ["DF", "Ph"]),
+            "device.phaseOut": GuideLayout.pins("Phase output", "An output pin that repeats the phase pin's level (CD4055B DF OUT).",
+                                                also: ["DF OUT"]),
         ]) { _, new in new })
 }
 

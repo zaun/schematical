@@ -17,6 +17,7 @@ enum LatchDraft {
     static let f10: Field = Field(key: "active", label: "Active", type: .choice(["high", "low"]), required: true)
     static let f11: Field = Field(key: "pin", label: "Pin", type: .pin, required: true)
     static let f9: Field = Field(key: "clear", label: "Clear", type: .object([f10, f11]), variants: ["addressable"])
+    static let fPhase: Field = Field(key: "phase", label: "Phase", type: .pin, variants: ["transparent"])
     static let f12: Field = Field(key: "clearActive", label: "Clear Active", type: .suggested(["high", "low"]), variants: ["transparent"])
     static let f13: Field = Field(key: "data", label: "Data", type: .pin, variants: ["addressable"])
     static let f15: Field = Field(key: "active", label: "Active", type: .choice(["high", "low"]), required: true)
@@ -76,7 +77,7 @@ enum LatchDraft {
     static let schema = KindSchema(
         kind: "latch",
         variantKey: "model",
-        device: [f1, f2, f3, f4, f5, f8, f9, f12, f13, f14, f17, f18, f19, f20, f21, f22, f25, f28, f33, f34, f35, f38, f39, f43, f44, f45, f46, f47, f48, f49, f55],
+        device: [f1, f2, f3, f4, f5, f8, f9, f12, f13, f14, f17, f18, f19, f20, f21, f22, f25, f28, f33, f34, f35, f38, f39, f43, f44, f45, f46, f47, f48, f49, f55, fPhase],
         part: [f65, f66]
     )
 }

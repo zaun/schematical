@@ -36,6 +36,7 @@ enum DecoderDraft {
     static let f28: Field = Field(key: "outputsActive", label: "Outputs Active", type: .suggested(["high", "low"]), variants: ["binary"])
     static let f29: Field = Field(key: "phase", label: "Phase", type: .pin, variants: ["seg7"])
     static let f30: Field = Field(key: "rbi", label: "Rbi", type: .pin, variants: ["seg7"])
+    static let fPhaseOut: Field = Field(key: "phaseOut", label: "Phase Out", type: .pin, variants: ["seg7"])
     static let f31: Field = Field(key: "rbo", label: "Rbo", type: .pin, variants: ["seg7"])
     static let f32: Field = Field(key: "segments", label: "Segments", type: .pins, variants: ["seg7"])
     static let f33: Field = Field(key: "segmentsActive", label: "Segments Active", type: .suggested(["high", "low"]), variants: ["seg7"])
@@ -60,7 +61,7 @@ enum DecoderDraft {
     static let schema = KindSchema(
         kind: "decoder",
         variantKey: "model",
-        device: [f1, f4, f5, f6, f7, f10, f13, f14, f17, f18, f19, f20, f23, f24, f25, f26, f27, f28, f29, f30, f31, f32, f33, f34, f40, f48],
+        device: [f1, f4, f5, f6, f7, f10, f13, f14, f17, f18, f19, f20, f23, f24, f25, f26, f27, f28, f29, f30, f31, f32, f33, f34, f40, f48, fPhaseOut],
         part: [f49, f50]
     )
 }
