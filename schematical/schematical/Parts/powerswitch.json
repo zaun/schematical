@@ -1,0 +1,10001 @@
+{
+ "format": "schematical-parts",
+ "version": 1,
+ "kind": "powerswitch",
+ "devices": [
+  {
+   "id": "psw-mchp-mic2090-1-current-limiting-power-distribution-switches-ds20006611a",
+   "function": "Single channel",
+   "description": "Current-limited power switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Current-Limited"
+   ],
+   "pinouts": {
+    "p5": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 3,
+      "name": "EN",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "FAULT",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "VOUT",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "limited",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "EN",
+     "flag": "FAULT"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "MIC2090-1YM5-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "SOT-23",
+     "pinout": "p5",
+     "footprint": "SOT23-5-MCHP-5LD-PL-1",
+     "datasheet": "mchp-mic2090-1-current-limiting-power-distribution-switches-ds20006611a",
+     "vinMin": 1.8,
+     "vinMax": 5.5,
+     "iout": 0.05,
+     "ilimit": 0.075,
+     "ron": 0.7,
+     "iq": 7e-05
+    },
+    {
+     "name": "MIC2090-2YM5-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "SOT-23",
+     "pinout": "p5",
+     "footprint": "SOT23-5-MCHP-5LD-PL-1",
+     "datasheet": "mchp-mic2090-1-current-limiting-power-distribution-switches-ds20006611a",
+     "vinMin": 1.8,
+     "vinMax": 5.5,
+     "iout": 0.05,
+     "ilimit": 0.075,
+     "ron": 0.7,
+     "iq": 7e-05
+    },
+    {
+     "name": "MIC2091-1YM5-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "SOT-23",
+     "pinout": "p5",
+     "footprint": "SOT23-5-MCHP-5LD-PL-1",
+     "datasheet": "mchp-mic2090-1-current-limiting-power-distribution-switches-ds20006611a",
+     "vinMin": 1.8,
+     "vinMax": 5.5,
+     "iout": 0.1,
+     "ilimit": 0.15,
+     "ron": 0.7,
+     "iq": 7e-05
+    },
+    {
+     "name": "MIC2091-2YM5-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "SOT-23",
+     "pinout": "p5",
+     "footprint": "SOT23-5-MCHP-5LD-PL-1",
+     "datasheet": "mchp-mic2090-1-current-limiting-power-distribution-switches-ds20006611a",
+     "vinMin": 1.8,
+     "vinMax": 5.5,
+     "iout": 0.1,
+     "ilimit": 0.15,
+     "ron": 0.7,
+     "iq": 7e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22919",
+   "function": "Single channel",
+   "description": "Current-limited power switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Current-Limited"
+   ],
+   "pinouts": {
+    "p6": [
+     {
+      "number": 1,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 3,
+      "name": "ON",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 5,
+      "name": "QOD",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "VOUT",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "limited",
+   "switches": [
+    {
+     "in": "IN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [
+    "QOD"
+   ],
+   "parts": [
+    {
+     "name": "TPS22919DCKT",
+     "manufacturer": "Texas Instruments",
+     "package": "SC-70",
+     "pinout": "p6",
+     "footprint": "SC70-6",
+     "datasheet": "ti-tps22919",
+     "vinMin": 1.6,
+     "vinMax": 5.5,
+     "iout": 1.5,
+     "ilimit": 3,
+     "ron": 0.089,
+     "iq": 8e-06
+    }
+   ]
+  },
+  {
+   "id": "psw-adi-441312fg",
+   "function": "Dual input",
+   "description": "Ideal diode, 2 inputs",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Ideal Diodes"
+   ],
+   "pinouts": {
+    "p10": [
+     {
+      "number": 1,
+      "name": "INA",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "ENBA",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 4,
+      "name": "ENBB",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "INB",
+      "role": "power"
+     },
+     {
+      "number": 6,
+      "name": "OUTB",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 8,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 9,
+      "name": "STAT",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "OUTA",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "ideal-diode",
+   "switches": [
+    {
+     "in": "INA",
+     "out": "OUTA",
+     "enable": "ENBA",
+     "enableActive": "low"
+    },
+    {
+     "in": "INB",
+     "out": "OUTB",
+     "enable": "ENBB",
+     "enableActive": "low"
+    }
+   ],
+   "analog": [
+    "STAT"
+   ],
+   "parts": [
+    {
+     "name": "LTC4413EDD-1#PBF",
+     "manufacturer": "Analog Devices",
+     "package": "DFN",
+     "pinout": "p10",
+     "footprint": "DFN-10-ADI-DD",
+     "datasheet": "adi-441312fg",
+     "vinMin": 2.5,
+     "vinMax": 5.5,
+     "iout": 2.6,
+     "ron": 0.14,
+     "iq": 4e-05
+    },
+    {
+     "name": "LTC4413EDD-1#TRPBF",
+     "manufacturer": "Analog Devices",
+     "package": "DFN",
+     "pinout": "p10",
+     "footprint": "DFN-10-ADI-DD",
+     "datasheet": "adi-441312fg",
+     "vinMin": 2.5,
+     "vinMax": 5.5,
+     "iout": 2.6,
+     "ron": 0.14,
+     "iq": 4e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-adi-441312fg-2",
+   "function": "Dual input",
+   "description": "Ideal diode, 2 inputs",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Ideal Diodes"
+   ],
+   "pinouts": {
+    "p10": [
+     {
+      "number": 1,
+      "name": "INA",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "ENBA",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 4,
+      "name": "ENBB",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "INB",
+      "role": "power"
+     },
+     {
+      "number": 6,
+      "name": "OUTB",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "OVP",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "OVI",
+      "role": "input"
+     },
+     {
+      "number": 9,
+      "name": "STAT",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "OUTA",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "ideal-diode",
+   "switches": [
+    {
+     "in": "INA",
+     "out": "OUTA",
+     "enable": "ENBA",
+     "enableActive": "low"
+    },
+    {
+     "in": "INB",
+     "out": "OUTB",
+     "enable": "ENBB",
+     "enableActive": "low"
+    }
+   ],
+   "analog": [
+    "STAT",
+    "OVI",
+    "OVP"
+   ],
+   "parts": [
+    {
+     "name": "LTC4413EDD-2#PBF",
+     "manufacturer": "Analog Devices",
+     "package": "DFN",
+     "pinout": "p10",
+     "footprint": "DFN-10-ADI-DD",
+     "datasheet": "adi-441312fg",
+     "vinMin": 2.5,
+     "vinMax": 5.5,
+     "iout": 2.6,
+     "ron": 0.14,
+     "iq": 4e-05
+    },
+    {
+     "name": "LTC4413EDD-2#TRPBF",
+     "manufacturer": "Analog Devices",
+     "package": "DFN",
+     "pinout": "p10",
+     "footprint": "DFN-10-ADI-DD",
+     "datasheet": "adi-441312fg",
+     "vinMin": 2.5,
+     "vinMax": 5.5,
+     "iout": 2.6,
+     "ron": 0.14,
+     "iq": 4e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-adi-4413fd",
+   "function": "Dual input",
+   "description": "Ideal diode, 2 inputs",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Ideal Diodes"
+   ],
+   "pinouts": {
+    "p10": [
+     {
+      "number": 1,
+      "name": "INA",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "ENBA",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 4,
+      "name": "ENBB",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "INB",
+      "role": "power"
+     },
+     {
+      "number": 6,
+      "name": "OUTB",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 8,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 9,
+      "name": "STAT",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "OUTA",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "ideal-diode",
+   "switches": [
+    {
+     "in": "INA",
+     "out": "OUTA",
+     "enable": "ENBA",
+     "enableActive": "low"
+    },
+    {
+     "in": "INB",
+     "out": "OUTB",
+     "enable": "ENBB",
+     "enableActive": "low"
+    }
+   ],
+   "analog": [
+    "STAT"
+   ],
+   "parts": [
+    {
+     "name": "LTC4413EDD#PBF",
+     "manufacturer": "Analog Devices",
+     "package": "DFN",
+     "pinout": "p10",
+     "footprint": "DFN-10-ADI-DD",
+     "datasheet": "adi-4413fd",
+     "vinMin": 2.5,
+     "vinMax": 5.5,
+     "iout": 2.6,
+     "ron": 0.14,
+     "iq": 2.5e-05
+    },
+    {
+     "name": "LTC4413EDD#TRPBF",
+     "manufacturer": "Analog Devices",
+     "package": "DFN",
+     "pinout": "p10",
+     "footprint": "DFN-10-ADI-DD",
+     "datasheet": "adi-4413fd",
+     "vinMin": 2.5,
+     "vinMax": 5.5,
+     "iout": 2.6,
+     "ron": 0.14,
+     "iq": 2.5e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-adi-4415fa",
+   "function": "Dual input",
+   "description": "Ideal diode, 2 inputs",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Ideal Diodes"
+   ],
+   "pinouts": {
+    "p16": [
+     {
+      "number": 1,
+      "name": "IN1",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "IN1",
+      "role": "power"
+     },
+     {
+      "number": 3,
+      "name": "EN1",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "CLIM1",
+      "role": "inout"
+     },
+     {
+      "number": 5,
+      "name": "CLIM2",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "EN2",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "IN2",
+      "role": "power"
+     },
+     {
+      "number": 8,
+      "name": "IN2",
+      "role": "power"
+     },
+     {
+      "number": 9,
+      "name": "OUT2",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "OUT2",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "STAT2",
+      "role": "output"
+     },
+     {
+      "number": 12,
+      "name": "WARN2",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "WARN1",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "STAT1",
+      "role": "output"
+     },
+     {
+      "number": 15,
+      "name": "OUT1",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "OUT1",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "ideal-diode",
+   "switches": [
+    {
+     "in": "IN1",
+     "out": "OUT1",
+     "enable": "EN1",
+     "enableActive": "high",
+     "flag": "WARN1",
+     "flagWhen": "fault"
+    },
+    {
+     "in": "IN2",
+     "out": "OUT2",
+     "enable": "EN2",
+     "enableActive": "low",
+     "flag": "WARN2",
+     "flagWhen": "fault"
+    }
+   ],
+   "analog": [
+    "CLIM1",
+    "CLIM2",
+    "STAT1",
+    "STAT2"
+   ],
+   "parts": [
+    {
+     "name": "LTC4415EDHC#PBF",
+     "manufacturer": "Analog Devices",
+     "package": "DFN",
+     "pinout": "p16",
+     "footprint": "DFN-16-ADI-DHC",
+     "datasheet": "adi-4415fa",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 4,
+     "ron": 0.05,
+     "iq": 4.4e-05
+    },
+    {
+     "name": "LTC4415EDHC#TRPBF",
+     "manufacturer": "Analog Devices",
+     "package": "DFN",
+     "pinout": "p16",
+     "footprint": "DFN-16-ADI-DHC",
+     "datasheet": "adi-4415fa",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 4,
+     "ron": 0.05,
+     "iq": 4.4e-05
+    },
+    {
+     "name": "LTC4415EMSE#PBF",
+     "manufacturer": "Analog Devices",
+     "package": "MSOP",
+     "pinout": "p16",
+     "footprint": "MSOP-16-EP-ADI-MSE-E",
+     "datasheet": "adi-4415fa",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 4,
+     "ron": 0.05,
+     "iq": 4.4e-05
+    },
+    {
+     "name": "LTC4415EMSE#TRPBF",
+     "manufacturer": "Analog Devices",
+     "package": "MSOP",
+     "pinout": "p16",
+     "footprint": "MSOP-16-EP-ADI-MSE-E",
+     "datasheet": "adi-4415fa",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 4,
+     "ron": 0.05,
+     "iq": 4.4e-05
+    },
+    {
+     "name": "LTC4415IDHC#PBF",
+     "manufacturer": "Analog Devices",
+     "package": "DFN",
+     "pinout": "p16",
+     "footprint": "DFN-16-ADI-DHC",
+     "datasheet": "adi-4415fa",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 4,
+     "ron": 0.05,
+     "iq": 4.4e-05
+    },
+    {
+     "name": "LTC4415IDHC#TRPBF",
+     "manufacturer": "Analog Devices",
+     "package": "DFN",
+     "pinout": "p16",
+     "footprint": "DFN-16-ADI-DHC",
+     "datasheet": "adi-4415fa",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 4,
+     "ron": 0.05,
+     "iq": 4.4e-05
+    },
+    {
+     "name": "LTC4415IMSE#PBF",
+     "manufacturer": "Analog Devices",
+     "package": "MSOP",
+     "pinout": "p16",
+     "footprint": "MSOP-16-EP-ADI-MSE-E",
+     "datasheet": "adi-4415fa",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 4,
+     "ron": 0.05,
+     "iq": 4.4e-05
+    },
+    {
+     "name": "LTC4415IMSE#TRPBF",
+     "manufacturer": "Analog Devices",
+     "package": "MSOP",
+     "pinout": "p16",
+     "footprint": "MSOP-16-EP-ADI-MSE-E",
+     "datasheet": "adi-4415fa",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 4,
+     "ron": 0.05,
+     "iq": 4.4e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-lm66200",
+   "function": "Dual input",
+   "description": "Ideal diode, 2 inputs",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Ideal Diodes"
+   ],
+   "pinouts": {
+    "p8": [
+     {
+      "number": 1,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 2,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "VIN1",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "ON",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 6,
+      "name": "VIN2",
+      "role": "power"
+     },
+     {
+      "number": 7,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "ST",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "ideal-diode",
+   "switches": [
+    {
+     "in": "VIN1",
+     "out": "VOUT",
+     "enable": "ON",
+     "enableActive": "low"
+    },
+    {
+     "in": "VIN2",
+     "out": "VOUT",
+     "enable": "ON",
+     "enableActive": "low"
+    }
+   ],
+   "analog": [
+    "ST"
+   ],
+   "parts": [
+    {
+     "name": "LM66200DRLR",
+     "manufacturer": "Texas Instruments",
+     "package": "SOT-583",
+     "pinout": "p8",
+     "footprint": "SOT583-8-DRL",
+     "datasheet": "ti-lm66200",
+     "vinMin": 1.6,
+     "vinMax": 5.5,
+     "iout": 2.5
+    }
+   ]
+  },
+  {
+   "id": "psw-adi-4358fa",
+   "function": "Single input",
+   "description": "Ideal diode, 1 input",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Ideal Diodes"
+   ],
+   "pinouts": {
+    "p14": [
+     {
+      "number": 1,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 3,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 5,
+      "name": "GATE",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 7,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 8,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 9,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 11,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 12,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 13,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 14,
+      "name": "IN",
+      "role": "power"
+     }
+    ],
+    "p16": [
+     {
+      "number": 1,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 3,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 5,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 6,
+      "name": "GATE",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 8,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 9,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 10,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 12,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 13,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 14,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 15,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 16,
+      "name": "IN",
+      "role": "power"
+     }
+    ]
+   },
+   "type": "ideal-diode",
+   "switches": [
+    {
+     "in": "IN",
+     "out": "OUT"
+    }
+   ],
+   "analog": [
+    "GATE",
+    "VDD"
+   ],
+   "parts": [
+    {
+     "name": "LTC4358CDE#PBF",
+     "manufacturer": "Analog Devices",
+     "package": "DFN",
+     "pinout": "p14",
+     "footprint": "DFN-14-ADI-DE",
+     "datasheet": "adi-4358fa",
+     "vinMin": 9,
+     "vinMax": 26.5,
+     "iout": 5,
+     "ron": 0.02
+    },
+    {
+     "name": "LTC4358CFE#PBF",
+     "manufacturer": "Analog Devices",
+     "package": "TSSOP",
+     "pinout": "p16",
+     "footprint": "TSSOP-16-EP-ADI-FE",
+     "datasheet": "adi-4358fa",
+     "vinMin": 9,
+     "vinMax": 26.5,
+     "iout": 5,
+     "ron": 0.02
+    },
+    {
+     "name": "LTC4358IDE#PBF",
+     "manufacturer": "Analog Devices",
+     "package": "DFN",
+     "pinout": "p14",
+     "footprint": "DFN-14-ADI-DE",
+     "datasheet": "adi-4358fa",
+     "vinMin": 9,
+     "vinMax": 26.5,
+     "iout": 5,
+     "ron": 0.02
+    },
+    {
+     "name": "LTC4358IDE#TRPBF",
+     "manufacturer": "Analog Devices",
+     "package": "DFN",
+     "pinout": "p14",
+     "footprint": "DFN-14-ADI-DE",
+     "datasheet": "adi-4358fa",
+     "vinMin": 9,
+     "vinMax": 26.5,
+     "iout": 5,
+     "ron": 0.02
+    },
+    {
+     "name": "LTC4358IFE#PBF",
+     "manufacturer": "Analog Devices",
+     "package": "TSSOP",
+     "pinout": "p16",
+     "footprint": "TSSOP-16-EP-ADI-FE",
+     "datasheet": "adi-4358fa",
+     "vinMin": 9,
+     "vinMax": 26.5,
+     "iout": 5,
+     "ron": 0.02
+    }
+   ]
+  },
+  {
+   "id": "psw-adi-4411fa",
+   "function": "Single input",
+   "description": "Ideal diode, 1 input",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Ideal Diodes"
+   ],
+   "pinouts": {
+    "p5": [
+     {
+      "number": 1,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 3,
+      "name": "CTL",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "STAT",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "OUT",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "ideal-diode",
+   "switches": [
+    {
+     "in": "IN",
+     "out": "OUT",
+     "enable": "CTL",
+     "enableActive": "low"
+    }
+   ],
+   "analog": [
+    "STAT"
+   ],
+   "parts": [
+    {
+     "name": "LTC4411ES5#TRMPBF",
+     "manufacturer": "Analog Devices",
+     "package": "TSOT-23",
+     "pinout": "p5",
+     "footprint": "TSOT23-5-ADI-S5",
+     "datasheet": "adi-4411fa",
+     "vinMin": 2.6,
+     "vinMax": 5.5,
+     "iout": 2.6,
+     "ron": 0.14,
+     "iq": 4e-05
+    },
+    {
+     "name": "LTC4411ES5#TRPBF",
+     "manufacturer": "Analog Devices",
+     "package": "TSOT-23",
+     "pinout": "p5",
+     "footprint": "TSOT23-5-ADI-S5",
+     "datasheet": "adi-4411fa",
+     "vinMin": 2.6,
+     "vinMax": 5.5,
+     "iout": 2.6,
+     "ron": 0.14,
+     "iq": 4e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-adi-lt4423",
+   "function": "Single input",
+   "description": "Ideal diode, 1 input",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Ideal Diodes"
+   ],
+   "pinouts": {
+    "p10": [
+     {
+      "number": 1,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 3,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "SHDN",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 6,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 7,
+      "name": "STATUS",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "OUT",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "ideal-diode",
+   "switches": [
+    {
+     "in": "IN",
+     "out": "OUT",
+     "enable": "SHDN",
+     "enableActive": "high",
+     "flag": "STATUS",
+     "flagWhen": "disabled"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "LT4423AV#TRPBF",
+     "manufacturer": "Analog Devices",
+     "package": "LDFN",
+     "pinout": "p10",
+     "footprint": "DFN-10-ADI-LDFN",
+     "datasheet": "adi-lt4423",
+     "vinMin": 1.9,
+     "vinMax": 28,
+     "iout": 2,
+     "ron": 0.2,
+     "iq": 1e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-adi-max17614",
+   "function": "Single input",
+   "description": "Ideal diode, 1 input",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Ideal Diodes"
+   ],
+   "pinouts": {
+    "p20": [
+     {
+      "number": 1,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 3,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "UVLO",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "OVLO",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "CLMODE",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "SETI",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 9,
+      "name": "EN",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "UVOV",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "FLAG",
+      "role": "output"
+     },
+     {
+      "number": 12,
+      "name": "TSTART",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 15,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 17,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 18,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 19,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 20,
+      "name": "NC",
+      "role": "nc"
+     }
+    ]
+   },
+   "type": "ideal-diode",
+   "switches": [
+    {
+     "in": "IN",
+     "out": "OUT",
+     "enable": "EN",
+     "enableActive": "high",
+     "flag": "FLAG",
+     "flagWhen": "fault"
+    }
+   ],
+   "analog": [
+    "UVLO",
+    "OVLO",
+    "CLMODE",
+    "SETI",
+    "UVOV",
+    "TSTART"
+   ],
+   "parts": [
+    {
+     "name": "MAX17614ATP+",
+     "manufacturer": "Analog Devices",
+     "package": "TQFN",
+     "pinout": "p20",
+     "footprint": "TQFN-20-ADI-T2044",
+     "datasheet": "adi-max17614",
+     "vinMin": 4.5,
+     "vinMax": 60,
+     "iout": 3,
+     "ron": 0.13,
+     "iq": 0.00102
+    },
+    {
+     "name": "MAX17614ATP+T",
+     "manufacturer": "Analog Devices",
+     "package": "TQFN",
+     "pinout": "p20",
+     "footprint": "TQFN-20-ADI-T2044",
+     "datasheet": "adi-max17614",
+     "vinMin": 4.5,
+     "vinMax": 60,
+     "iout": 3,
+     "ron": 0.13,
+     "iq": 0.00102
+    }
+   ]
+  },
+  {
+   "id": "psw-adi-max40200",
+   "function": "Single input",
+   "description": "Ideal diode, 1 input",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Ideal Diodes"
+   ],
+   "pinouts": {
+    "p4": [
+     {
+      "ball": "A1",
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "ball": "A2",
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "ball": "B1",
+      "name": "EN",
+      "role": "input"
+     },
+     {
+      "ball": "B2",
+      "name": "GND",
+      "role": "ground"
+     }
+    ],
+    "p5": [
+     {
+      "number": 1,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 3,
+      "name": "EN",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 5,
+      "name": "OUT",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "ideal-diode",
+   "switches": [
+    {
+     "in": "VDD",
+     "out": "OUT",
+     "enable": "EN",
+     "enableActive": "high"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "MAX40200ANS+T",
+     "manufacturer": "Analog Devices",
+     "package": "WLP",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YKE",
+     "datasheet": "adi-max40200",
+     "vinMin": 1.5,
+     "vinMax": 5.5,
+     "iout": 1.2,
+     "iq": 7e-06
+    },
+    {
+     "name": "MAX40200AUK+T",
+     "manufacturer": "Analog Devices",
+     "package": "SOT-23",
+     "pinout": "p5",
+     "footprint": "TSOT-5-ADI-UJ",
+     "datasheet": "adi-max40200",
+     "vinMin": 1.5,
+     "vinMax": 5.5,
+     "iout": 1,
+     "iq": 7e-06
+    }
+   ]
+  },
+  {
+   "id": "psw-adi-max40203",
+   "function": "Single input",
+   "description": "Ideal diode, 1 input",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Ideal Diodes"
+   ],
+   "pinouts": {
+    "p5": [
+     {
+      "number": 1,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 3,
+      "name": "EN",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 5,
+      "name": "OUT",
+      "role": "output"
+     }
+    ],
+    "p4": [
+     {
+      "ball": "A1",
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "ball": "A2",
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "ball": "B1",
+      "name": "EN",
+      "role": "input"
+     },
+     {
+      "ball": "B2",
+      "name": "GND",
+      "role": "ground"
+     }
+    ]
+   },
+   "type": "ideal-diode",
+   "switches": [
+    {
+     "in": "VDD",
+     "out": "OUT",
+     "enable": "EN",
+     "enableActive": "high"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "MAX40203ANS+T",
+     "manufacturer": "Analog Devices",
+     "package": "WLP",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YKE",
+     "datasheet": "adi-max40203",
+     "vinMin": 1.2,
+     "vinMax": 5.5,
+     "iout": 1,
+     "iq": 3e-07
+    },
+    {
+     "name": "MAX40203AUK+T",
+     "manufacturer": "Analog Devices",
+     "package": "SOT-23",
+     "pinout": "p5",
+     "footprint": "TSOT-5-ADI-UJ",
+     "datasheet": "adi-max40203",
+     "vinMin": 1.2,
+     "vinMax": 5.5,
+     "iout": 1,
+     "iq": 3e-07
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-fpf1903ucx-d",
+   "function": "Single input",
+   "description": "Ideal diode, 1 input",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Ideal Diodes"
+   ],
+   "pinouts": {
+    "p4": [
+     {
+      "ball": "A1",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "A2",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "B1",
+      "name": "ON",
+      "role": "input"
+     },
+     {
+      "ball": "B2",
+      "name": "GND",
+      "role": "ground"
+     }
+    ]
+   },
+   "type": "ideal-diode",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON",
+     "enableActive": "high"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "FPF1903UCX",
+     "manufacturer": "onsemi",
+     "package": "WLCSP",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YKE",
+     "datasheet": "onsemi-fpf1903ucx-d",
+     "vinMin": 1.2,
+     "vinMax": 5.5,
+     "iout": 1.5,
+     "ron": 0.1,
+     "iq": 2.5e-07
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-lm66100-q1",
+   "function": "Single input",
+   "description": "Ideal diode, 1 input",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Ideal Diodes"
+   ],
+   "pinouts": {
+    "p6": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 3,
+      "name": "CE",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 5,
+      "name": "ST",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "VOUT",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "ideal-diode",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "CE",
+     "enableActive": "low",
+     "enableRef": "input",
+     "flag": "ST",
+     "flagWhen": "disabled"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "LM66100QDCKRQ1",
+     "manufacturer": "Texas Instruments",
+     "package": "SC-70",
+     "pinout": "p6",
+     "footprint": "SC70-6",
+     "datasheet": "ti-lm66100-q1",
+     "vinMin": 1.5,
+     "vinMax": 5.5,
+     "iout": 1.5,
+     "ron": 0.079,
+     "flags": [
+      "automotive"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-lm7310",
+   "function": "Single input",
+   "description": "Ideal diode, 1 input",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Ideal Diodes"
+   ],
+   "pinouts": {
+    "p10": [
+     {
+      "number": 1,
+      "name": "EN/UVLO",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "OVLO",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "PG",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "PGTH",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 6,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "DVDT",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 9,
+      "name": "IMON",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "DNC",
+      "role": "nc"
+     }
+    ]
+   },
+   "type": "ideal-diode",
+   "switches": [
+    {
+     "in": "IN",
+     "out": "OUT",
+     "enable": "EN/UVLO",
+     "enableActive": "high"
+    }
+   ],
+   "analog": [
+    "OVLO",
+    "PG",
+    "PGTH",
+    "DVDT",
+    "IMON"
+   ],
+   "parts": [
+    {
+     "name": "LM73100RPWR",
+     "manufacturer": "Texas Instruments",
+     "package": "VQFN",
+     "pinout": "p10",
+     "footprint": "VQFN-10-TI-RPW0010A",
+     "datasheet": "ti-lm7310",
+     "vinMin": 2.7,
+     "vinMax": 23,
+     "iout": 5.5,
+     "ron": 0.0284,
+     "iq": 0.000426
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-lm76202-q1",
+   "function": "Single input",
+   "description": "Ideal diode, 1 input",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Ideal Diodes"
+   ],
+   "pinouts": {
+    "p16": [
+     {
+      "number": 1,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 3,
+      "name": "UVLO",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 5,
+      "name": "OVP",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "MODE",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "SHDN",
+      "role": "input"
+     },
+     {
+      "number": 8,
+      "name": "RTN",
+      "role": "ground"
+     },
+     {
+      "number": 9,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 10,
+      "name": "IMON",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "ILIM",
+      "role": "inout"
+     },
+     {
+      "number": 12,
+      "name": "DVDT",
+      "role": "inout"
+     },
+     {
+      "number": 13,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 14,
+      "name": "FLT",
+      "role": "output"
+     },
+     {
+      "number": 15,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "OUT",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "ideal-diode",
+   "switches": [
+    {
+     "in": "IN",
+     "out": "OUT",
+     "enable": "SHDN",
+     "enableActive": "high",
+     "flag": "FLT",
+     "flagWhen": "fault"
+    }
+   ],
+   "analog": [
+    "UVLO",
+    "OVP",
+    "MODE",
+    "IMON",
+    "ILIM",
+    "DVDT"
+   ],
+   "parts": [
+    {
+     "name": "LM76202QPWPRQ1",
+     "manufacturer": "Texas Instruments",
+     "package": "HTSSOP",
+     "pinout": "p16",
+     "footprint": "HTSSOP-16-PWP",
+     "datasheet": "ti-lm76202-q1",
+     "vinMin": 4.2,
+     "vinMax": 60,
+     "iout": 2.2,
+     "ron": 0.15,
+     "iq": 0.000285,
+     "flags": [
+      "automotive"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "psw-mchp-mic94066-69",
+   "function": "Dual channel",
+   "description": "Load switch, 2 channels",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p8": [
+     {
+      "number": 1,
+      "name": "VINA",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "ENA",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "VINB",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "ENB",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "VOUTB",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 7,
+      "name": "VOUTA",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "GND",
+      "role": "ground"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VINA",
+     "out": "VOUTA",
+     "enable": "ENA"
+    },
+    {
+     "in": "VINB",
+     "out": "VOUTB",
+     "enable": "ENB"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "MIC94066YML",
+     "manufacturer": "Microchip Technology",
+     "package": "MLF",
+     "pinout": "p8",
+     "footprint": "MLF-8-MCHP-2X2-MIC94066",
+     "datasheet": "mchp-mic94066-69",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.085,
+     "iq": 2e-06
+    },
+    {
+     "name": "MIC94066YML-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "MLF",
+     "pinout": "p8",
+     "footprint": "MLF-8-MCHP-2X2-MIC94066",
+     "datasheet": "mchp-mic94066-69",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.085,
+     "iq": 2e-06
+    },
+    {
+     "name": "MIC94067YML",
+     "manufacturer": "Microchip Technology",
+     "package": "MLF",
+     "pinout": "p8",
+     "footprint": "MLF-8-MCHP-2X2-MIC94066",
+     "datasheet": "mchp-mic94066-69",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.085,
+     "iq": 2e-06
+    },
+    {
+     "name": "MIC94068YML-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "MLF",
+     "pinout": "p8",
+     "footprint": "MLF-8-MCHP-2X2-MIC94066",
+     "datasheet": "mchp-mic94066-69",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.085,
+     "iq": 2e-06
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22960",
+   "function": "Dual channel",
+   "description": "Load switch, 2 channels",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p8": [
+     {
+      "number": 1,
+      "name": "VIN1",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "ON1",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "ON2",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "VIN2",
+      "role": "power"
+     },
+     {
+      "number": 5,
+      "name": "VOUT2",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 7,
+      "name": "SR",
+      "role": "input"
+     },
+     {
+      "number": 8,
+      "name": "VOUT1",
+      "role": "output"
+     }
+    ],
+    "p8-2": [
+     {
+      "number": 1,
+      "name": "VIN1",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "ON1",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "SR",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "VOUT1",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "VOUT2",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 7,
+      "name": "ON2",
+      "role": "input"
+     },
+     {
+      "number": 8,
+      "name": "VIN2",
+      "role": "power"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN1",
+     "out": "VOUT1",
+     "enable": "ON1"
+    },
+    {
+     "in": "VIN2",
+     "out": "VOUT2",
+     "enable": "ON2"
+    }
+   ],
+   "analog": [
+    "SR"
+   ],
+   "parts": [
+    {
+     "name": "TPS22960DCNR",
+     "manufacturer": "Texas Instruments",
+     "package": "SOT-23",
+     "pinout": "p8",
+     "footprint": "SOT23-8-DCN",
+     "datasheet": "ti-tps22960",
+     "vinMin": 1.62,
+     "vinMax": 5.5,
+     "iout": 0.5,
+     "ron": 0.342,
+     "iq": 6.4e-07
+    },
+    {
+     "name": "TPS22960RSER",
+     "manufacturer": "Texas Instruments",
+     "package": "UQFN",
+     "pinout": "p8-2",
+     "footprint": "UQFN-8",
+     "datasheet": "ti-tps22960",
+     "vinMin": 1.62,
+     "vinMax": 5.5,
+     "iout": 0.5,
+     "ron": 0.342,
+     "iq": 6.4e-07
+    },
+    {
+     "name": "TPS22960RSET",
+     "manufacturer": "Texas Instruments",
+     "package": "UQFN",
+     "pinout": "p8-2",
+     "footprint": "UQFN-8",
+     "datasheet": "ti-tps22960",
+     "vinMin": 1.62,
+     "vinMax": 5.5,
+     "iout": 0.5,
+     "ron": 0.342,
+     "iq": 6.4e-07
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22966-q1",
+   "function": "Dual channel",
+   "description": "Load switch, 2 channels",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p14": [
+     {
+      "number": 1,
+      "name": "VIN1",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "VIN1",
+      "role": "power"
+     },
+     {
+      "number": 3,
+      "name": "ON1",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "VBIAS",
+      "role": "power"
+     },
+     {
+      "number": 5,
+      "name": "ON2",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "VIN2",
+      "role": "power"
+     },
+     {
+      "number": 7,
+      "name": "VIN2",
+      "role": "power"
+     },
+     {
+      "number": 8,
+      "name": "VOUT2",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "VOUT2",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "CT2",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 12,
+      "name": "CT1",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "VOUT1",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "VOUT1",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN1",
+     "out": "VOUT1",
+     "enable": "ON1"
+    },
+    {
+     "in": "VIN2",
+     "out": "VOUT2",
+     "enable": "ON2"
+    }
+   ],
+   "analog": [
+    "VBIAS",
+    "CT1",
+    "CT2"
+   ],
+   "parts": [
+    {
+     "name": "TPS22966TDPURQ1",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p14",
+     "footprint": "WSON-14-TI-DPU",
+     "datasheet": "ti-tps22966-q1",
+     "vinMax": 5.5,
+     "iout": 4,
+     "ron": 0.016,
+     "iq": 8e-05,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "TPS22966TDPUTQ1",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p14",
+     "footprint": "WSON-14-TI-DPU",
+     "datasheet": "ti-tps22966-q1",
+     "vinMax": 5.5,
+     "iout": 4,
+     "ron": 0.016,
+     "iq": 8e-05,
+     "flags": [
+      "automotive"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22968",
+   "function": "Dual channel",
+   "description": "Load switch, 2 channels",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p14": [
+     {
+      "number": 1,
+      "name": "VIN1",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "VIN1",
+      "role": "power"
+     },
+     {
+      "number": 3,
+      "name": "ON1",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "VBIAS",
+      "role": "power"
+     },
+     {
+      "number": 5,
+      "name": "ON2",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "VIN2",
+      "role": "power"
+     },
+     {
+      "number": 7,
+      "name": "VIN2",
+      "role": "power"
+     },
+     {
+      "number": 8,
+      "name": "VOUT2",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "VOUT2",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "CT2",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 12,
+      "name": "CT1",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "VOUT1",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "VOUT1",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN1",
+     "out": "VOUT1",
+     "enable": "ON1"
+    },
+    {
+     "in": "VIN2",
+     "out": "VOUT2",
+     "enable": "ON2"
+    }
+   ],
+   "analog": [
+    "VBIAS",
+    "CT1",
+    "CT2"
+   ],
+   "parts": [
+    {
+     "name": "TPS22968DPUR",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p14",
+     "footprint": "WSON-14-TI-DPU",
+     "datasheet": "ti-tps22968",
+     "vinMin": 0.8,
+     "vinMax": 5.5,
+     "iout": 4,
+     "ron": 0.027,
+     "iq": 5.5e-05
+    },
+    {
+     "name": "TPS22968DPUT",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p14",
+     "footprint": "WSON-14-TI-DPU",
+     "datasheet": "ti-tps22968",
+     "vinMin": 0.8,
+     "vinMax": 5.5,
+     "iout": 4,
+     "ron": 0.027,
+     "iq": 5.5e-05
+    },
+    {
+     "name": "TPS22968NDPUR",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p14",
+     "footprint": "WSON-14-TI-DPU",
+     "datasheet": "ti-tps22968",
+     "vinMin": 0.8,
+     "vinMax": 5.5,
+     "iout": 4,
+     "ron": 0.027,
+     "iq": 5.5e-05
+    },
+    {
+     "name": "TPS22968NDPUT",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p14",
+     "footprint": "WSON-14-TI-DPU",
+     "datasheet": "ti-tps22968",
+     "vinMin": 0.8,
+     "vinMax": 5.5,
+     "iout": 4,
+     "ron": 0.027,
+     "iq": 5.5e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22968-q1",
+   "function": "Dual channel",
+   "description": "Load switch, 2 channels",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p10": [
+     {
+      "number": 1,
+      "name": "VIN1",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "ON1",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "VBIAS",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "ON2",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "VIN2",
+      "role": "power"
+     },
+     {
+      "number": 6,
+      "name": "VOUT2",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "CT2",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 9,
+      "name": "CT1",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "VOUT1",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN1",
+     "out": "VOUT1",
+     "enable": "ON1"
+    },
+    {
+     "in": "VIN2",
+     "out": "VOUT2",
+     "enable": "ON2"
+    }
+   ],
+   "analog": [
+    "VBIAS",
+    "CT1",
+    "CT2"
+   ],
+   "parts": [
+    {
+     "name": "TPS22968NQDMGTQ1",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p10",
+     "footprint": "WSON-10-TI-DQC0010A",
+     "datasheet": "ti-tps22968-q1",
+     "vinMin": 0.8,
+     "vinMax": 5.5,
+     "iout": 4,
+     "ron": 0.029,
+     "iq": 5.8e-05,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "TPS22968QDMGTQ1",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p10",
+     "footprint": "WSON-10-TI-DQC0010A",
+     "datasheet": "ti-tps22968-q1",
+     "vinMin": 0.8,
+     "vinMax": 5.5,
+     "iout": 4,
+     "ron": 0.029,
+     "iq": 5.8e-05,
+     "flags": [
+      "automotive"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22976",
+   "function": "Dual channel",
+   "description": "Load switch, 2 channels",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p14": [
+     {
+      "number": 1,
+      "name": "VIN1",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "VIN1",
+      "role": "power"
+     },
+     {
+      "number": 3,
+      "name": "ON1",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "VBIAS",
+      "role": "power"
+     },
+     {
+      "number": 5,
+      "name": "ON2",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "VIN2",
+      "role": "power"
+     },
+     {
+      "number": 7,
+      "name": "VIN2",
+      "role": "power"
+     },
+     {
+      "number": 8,
+      "name": "VOUT2",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "VOUT2",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "CT2",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 12,
+      "name": "CT1",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "VOUT1",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "VOUT1",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN1",
+     "out": "VOUT1",
+     "enable": "ON1"
+    },
+    {
+     "in": "VIN2",
+     "out": "VOUT2",
+     "enable": "ON2"
+    }
+   ],
+   "analog": [
+    "VBIAS",
+    "CT1",
+    "CT2"
+   ],
+   "parts": [
+    {
+     "name": "TPS22976ADPUR",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p14",
+     "footprint": "WSON-14-TI-DPU",
+     "datasheet": "ti-tps22976",
+     "vinMin": 0.6,
+     "vinMax": 5.7,
+     "iout": 6,
+     "ron": 0.014,
+     "iq": 8.5e-05
+    },
+    {
+     "name": "TPS22976DPUR",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p14",
+     "footprint": "WSON-14-TI-DPU",
+     "datasheet": "ti-tps22976",
+     "vinMin": 0.6,
+     "vinMax": 5.7,
+     "iout": 6,
+     "ron": 0.016,
+     "iq": 3.7e-05
+    },
+    {
+     "name": "TPS22976DPUT",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p14",
+     "footprint": "WSON-14-TI-DPU",
+     "datasheet": "ti-tps22976",
+     "vinMin": 0.6,
+     "vinMax": 5.7,
+     "iout": 6,
+     "ron": 0.016,
+     "iq": 3.7e-05
+    },
+    {
+     "name": "TPS22976NDPUR",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p14",
+     "footprint": "WSON-14-TI-DPU",
+     "datasheet": "ti-tps22976",
+     "vinMin": 0.6,
+     "vinMax": 5.7,
+     "iout": 6,
+     "ron": 0.014,
+     "iq": 3.7e-05
+    },
+    {
+     "name": "TPS22976NDPUT",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p14",
+     "footprint": "WSON-14-TI-DPU",
+     "datasheet": "ti-tps22976",
+     "vinMin": 0.6,
+     "vinMax": 5.7,
+     "iout": 6,
+     "ron": 0.014,
+     "iq": 3.7e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22996",
+   "function": "Dual channel",
+   "description": "Load switch, 2 channels",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p8": [
+     {
+      "number": 1,
+      "name": "ON1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "VIN1",
+      "role": "power"
+     },
+     {
+      "number": 3,
+      "name": "VIN2",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "ON2",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 6,
+      "name": "VOUT2",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "VOUT1",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VBIAS",
+      "role": "power"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN1",
+     "out": "VOUT1",
+     "enable": "ON1"
+    },
+    {
+     "in": "VIN2",
+     "out": "VOUT2",
+     "enable": "ON2"
+    }
+   ],
+   "analog": [
+    "VBIAS"
+   ],
+   "parts": [
+    {
+     "name": "TPS22996NDRLR",
+     "manufacturer": "Texas Instruments",
+     "package": "SOT-583",
+     "pinout": "p8",
+     "footprint": "SOT583-8-DRL",
+     "datasheet": "ti-tps22996",
+     "vinMin": 0.6,
+     "vinMax": 5.5,
+     "iout": 4,
+     "ron": 0.014,
+     "iq": 1.6e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22996h-q1",
+   "function": "Dual channel",
+   "description": "Load switch, 2 channels",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p8": [
+     {
+      "number": 1,
+      "name": "ON1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "VIN1",
+      "role": "power"
+     },
+     {
+      "number": 3,
+      "name": "VIN2",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "ON2",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 6,
+      "name": "VOUT2",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "VOUT1",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VBIAS",
+      "role": "power"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN1",
+     "out": "VOUT1",
+     "enable": "ON1"
+    },
+    {
+     "in": "VIN2",
+     "out": "VOUT2",
+     "enable": "ON2"
+    }
+   ],
+   "analog": [
+    "VBIAS"
+   ],
+   "parts": [
+    {
+     "name": "TPS22996HQDYCRQ1",
+     "manufacturer": "Texas Instruments",
+     "package": "SOT-583",
+     "pinout": "p8",
+     "footprint": "SOT583-8-TI-DYC0008A",
+     "datasheet": "ti-tps22996h-q1",
+     "vinMin": 0.6,
+     "vinMax": 5.5,
+     "iout": 4,
+     "ron": 0.013,
+     "iq": 1.8e-05,
+     "flags": [
+      "automotive"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "psw-mchp-mic94044-5",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p4": [
+     {
+      "number": 1,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 3,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "EN",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "EN"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "MIC94044YFL-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "MLF",
+     "pinout": "p4",
+     "footprint": "UDFN-4-MCHP-HEA",
+     "datasheet": "mchp-mic94044-5",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 3,
+     "ron": 0.028,
+     "iq": 2.25e-06
+    }
+   ]
+  },
+  {
+   "id": "psw-mchp-mic9404x-family-data-sheet-ds20006607",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p4": [
+     {
+      "number": 1,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 3,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "EN",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "EN"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "MIC94042YFL-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "MLF",
+     "pinout": "p4",
+     "footprint": "UDFN-4-MCHP-HEA",
+     "datasheet": "mchp-mic9404x-family-data-sheet-ds20006607",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 3,
+     "ron": 0.028,
+     "iq": 7e-06
+    }
+   ]
+  },
+  {
+   "id": "psw-mchp-mic94060-1-2-3-high-side-power-switches-ds20006517b",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p4": [
+     {
+      "number": 1,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 3,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "EN",
+      "role": "input"
+     }
+    ],
+    "p6": [
+     {
+      "number": 1,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 3,
+      "name": "EN",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 5,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 6,
+      "name": "NC",
+      "role": "nc"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "EN"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "MIC94060YC6-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "SC-70",
+     "pinout": "p6",
+     "footprint": "SC70-6-MCHP-C6",
+     "datasheet": "mchp-mic94060-1-2-3-high-side-power-switches-ds20006517b",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.077,
+     "iq": 2e-06
+    },
+    {
+     "name": "MIC94060YMT-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "TMLF",
+     "pinout": "p4",
+     "footprint": "UDFN-4-MCHP-HGA",
+     "datasheet": "mchp-mic94060-1-2-3-high-side-power-switches-ds20006517b",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.085,
+     "iq": 2e-06
+    },
+    {
+     "name": "MIC94061YC6-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "SC-70",
+     "pinout": "p6",
+     "footprint": "SC70-6-MCHP-C6",
+     "datasheet": "mchp-mic94060-1-2-3-high-side-power-switches-ds20006517b",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.077,
+     "iq": 2e-06
+    },
+    {
+     "name": "MIC94061YMT-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "TMLF",
+     "pinout": "p4",
+     "footprint": "UDFN-4-MCHP-HGA",
+     "datasheet": "mchp-mic94060-1-2-3-high-side-power-switches-ds20006517b",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.085,
+     "iq": 2e-06
+    },
+    {
+     "name": "MIC94062YC6-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "SC-70",
+     "pinout": "p6",
+     "footprint": "SC70-6-MCHP-C6",
+     "datasheet": "mchp-mic94060-1-2-3-high-side-power-switches-ds20006517b",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.077,
+     "iq": 2e-06
+    },
+    {
+     "name": "MIC94062YMT-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "TMLF",
+     "pinout": "p4",
+     "footprint": "UDFN-4-MCHP-HGA",
+     "datasheet": "mchp-mic94060-1-2-3-high-side-power-switches-ds20006517b",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.085,
+     "iq": 2e-06
+    },
+    {
+     "name": "MIC94063YC6-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "SC-70",
+     "pinout": "p6",
+     "footprint": "SC70-6-MCHP-C6",
+     "datasheet": "mchp-mic94060-1-2-3-high-side-power-switches-ds20006517b",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.077,
+     "iq": 2e-06
+    },
+    {
+     "name": "MIC94063YMT-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "TMLF",
+     "pinout": "p4",
+     "footprint": "UDFN-4-MCHP-HGA",
+     "datasheet": "mchp-mic94060-1-2-3-high-side-power-switches-ds20006517b",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.085,
+     "iq": 2e-06
+    }
+   ]
+  },
+  {
+   "id": "psw-mchp-mic94064-5",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p6": [
+     {
+      "number": 1,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 3,
+      "name": "EN",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 5,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 6,
+      "name": "NC",
+      "role": "nc"
+     }
+    ],
+    "p4": [
+     {
+      "number": 1,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 3,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "EN",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "EN"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "MIC94064YC6-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "SC-70",
+     "pinout": "p6",
+     "footprint": "SC70-6-MCHP-C6",
+     "datasheet": "mchp-mic94064-5",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.077,
+     "iq": 2e-06
+    },
+    {
+     "name": "MIC94064YMT-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "TMLF",
+     "pinout": "p4",
+     "footprint": "TDFN-4-MCHP-MLF1216",
+     "datasheet": "mchp-mic94064-5",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.085,
+     "iq": 2e-06
+    }
+   ]
+  },
+  {
+   "id": "psw-mchp-mic94070-3",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p6": [
+     {
+      "number": 1,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 3,
+      "name": "EN",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 5,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 6,
+      "name": "NIC",
+      "role": "nc"
+     }
+    ],
+    "p4": [
+     {
+      "number": 1,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 3,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "EN",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "EN"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "MIC94070YC6-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "SC-70",
+     "pinout": "p6",
+     "footprint": "SC70-6-MCHP-C6",
+     "datasheet": "mchp-mic94070-3",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 1.2,
+     "ron": 0.12,
+     "iq": 5e-08
+    },
+    {
+     "name": "MIC94070YMT-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "TMLF",
+     "pinout": "p4",
+     "footprint": "TDFN-4-MCHP-MLF1216",
+     "datasheet": "mchp-mic94070-3",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 1.2,
+     "ron": 0.1,
+     "iq": 5e-08
+    },
+    {
+     "name": "MIC94071YC6-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "SC-70",
+     "pinout": "p6",
+     "footprint": "SC70-6-MCHP-C6",
+     "datasheet": "mchp-mic94070-3",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 1.2,
+     "ron": 0.12,
+     "iq": 5e-08
+    },
+    {
+     "name": "MIC94072YC6-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "SC-70",
+     "pinout": "p6",
+     "footprint": "SC70-6-MCHP-C6",
+     "datasheet": "mchp-mic94070-3",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 1.2,
+     "ron": 0.12,
+     "iq": 5e-08
+    },
+    {
+     "name": "MIC94072YMT",
+     "manufacturer": "Microchip Technology",
+     "package": "TMLF",
+     "pinout": "p4",
+     "footprint": "TDFN-4-MCHP-MLF1216",
+     "datasheet": "mchp-mic94070-3",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 1.2,
+     "ron": 0.1,
+     "iq": 5e-08
+    },
+    {
+     "name": "MIC94073YC6-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "SC-70",
+     "pinout": "p6",
+     "footprint": "SC70-6-MCHP-C6",
+     "datasheet": "mchp-mic94070-3",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 1.2,
+     "ron": 0.12,
+     "iq": 5e-08
+    },
+    {
+     "name": "MIC94073YMT-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "TMLF",
+     "pinout": "p4",
+     "footprint": "TDFN-4-MCHP-MLF1216",
+     "datasheet": "mchp-mic94070-3",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 1.2,
+     "ron": 0.1,
+     "iq": 5e-08
+    }
+   ]
+  },
+  {
+   "id": "psw-mchp-mic9408x-67mohm-rdson-2a-high-side-load-switch-ds20006118",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p4": [
+     {
+      "number": 1,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 3,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "EN",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "EN"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "MIC94080YFT-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "TMLF",
+     "pinout": "p4",
+     "footprint": "UDFN-4-MCHP-HBA",
+     "datasheet": "mchp-mic9408x-67mohm-rdson-2a-high-side-load-switch-ds20006118",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.067,
+     "iq": 1e-07
+    },
+    {
+     "name": "MIC94081YFT-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "TMLF",
+     "pinout": "p4",
+     "footprint": "UDFN-4-MCHP-HBA",
+     "datasheet": "mchp-mic9408x-67mohm-rdson-2a-high-side-load-switch-ds20006118",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.067,
+     "iq": 1e-07
+    },
+    {
+     "name": "MIC94082YFT-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "TMLF",
+     "pinout": "p4",
+     "footprint": "UDFN-4-MCHP-HBA",
+     "datasheet": "mchp-mic9408x-67mohm-rdson-2a-high-side-load-switch-ds20006118",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.067,
+     "iq": 8e-06
+    },
+    {
+     "name": "MIC94084YFT-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "TMLF",
+     "pinout": "p4",
+     "footprint": "UDFN-4-MCHP-HBA",
+     "datasheet": "mchp-mic9408x-67mohm-rdson-2a-high-side-load-switch-ds20006118",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.067,
+     "iq": 8e-06
+    },
+    {
+     "name": "MIC94085YFT-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "TMLF",
+     "pinout": "p4",
+     "footprint": "UDFN-4-MCHP-HBA",
+     "datasheet": "mchp-mic9408x-67mohm-rdson-2a-high-side-load-switch-ds20006118",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.067,
+     "iq": 8e-06
+    }
+   ]
+  },
+  {
+   "id": "psw-mchp-mic9409x",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p6": [
+     {
+      "number": 1,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 3,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 4,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 5,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 6,
+      "name": "EN",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "EN"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "MIC94092YC6-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "SC-70",
+     "pinout": "p6",
+     "footprint": "SC70-6-MCHP-C6",
+     "datasheet": "mchp-mic9409x",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 1.2,
+     "ron": 0.13,
+     "iq": 8e-06
+    },
+    {
+     "name": "MIC94094YC6-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "SC-70",
+     "pinout": "p6",
+     "footprint": "SC70-6-MCHP-C6",
+     "datasheet": "mchp-mic9409x",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 1.2,
+     "ron": 0.13,
+     "iq": 8e-06
+    }
+   ]
+  },
+  {
+   "id": "psw-mchp-mic9416x-3a-high-side-load-switch-with-reverse-blocking-ds20006439a",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p6": [
+     {
+      "ball": "A1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "B1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "C1",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "A2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "B2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "C2",
+      "name": "EN",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "EN"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "MIC94162YCS-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "WLCSP",
+     "pinout": "p6",
+     "footprint": "WLCSP-6-MCHP-WLCSP1510D-6BL",
+     "datasheet": "mchp-mic9416x-3a-high-side-load-switch-with-reverse-blocking-ds20006439a",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 3,
+     "ron": 0.0145,
+     "iq": 2.5e-05
+    },
+    {
+     "name": "MIC94163YCS-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "WLCSP",
+     "pinout": "p6",
+     "footprint": "WLCSP-6-MCHP-WLCSP1510D-6BL",
+     "datasheet": "mchp-mic9416x-3a-high-side-load-switch-with-reverse-blocking-ds20006439a",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 3,
+     "ron": 0.0145,
+     "iq": 2.5e-05
+    },
+    {
+     "name": "MIC94164YCS-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "WLCSP",
+     "pinout": "p6",
+     "footprint": "WLCSP-6-MCHP-WLCSP1510D-6BL",
+     "datasheet": "mchp-mic9416x-3a-high-side-load-switch-with-reverse-blocking-ds20006439a",
+     "vinMin": 1.7,
+     "vinMax": 5.5,
+     "iout": 3,
+     "ron": 0.0145,
+     "iq": 1.5e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-mchp-mic95410-6-6mohm-7a-5-5v-vin-load-switch-ds20006431a",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p10": [
+     {
+      "number": 1,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 2,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 3,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 5,
+      "name": "VS",
+      "role": "power"
+     },
+     {
+      "number": 6,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "GC",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "CTL",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "IN",
+     "out": "OUT",
+     "enable": "CTL"
+    }
+   ],
+   "analog": [
+    "VS",
+    "GC"
+   ],
+   "parts": [
+    {
+     "name": "MIC95410YFL-TR",
+     "manufacturer": "Microchip Technology",
+     "package": "FQFN",
+     "pinout": "p10",
+     "footprint": "VQFN-10-MCHP-NDA",
+     "datasheet": "mchp-mic95410-6-6mohm-7a-5-5v-vin-load-switch-ds20006431a",
+     "vinMax": 5.5,
+     "iout": 7,
+     "ron": 0.0066,
+     "iq": 0.00015
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-fdc6324l-d",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p6": [
+     {
+      "number": 1,
+      "name": "R2",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 5,
+      "name": "ON_OFF",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "R1_C1",
+      "role": "inout"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON_OFF",
+     "enableActive": "high"
+    }
+   ],
+   "analog": [
+    "R2",
+    "R1_C1"
+   ],
+   "parts": [
+    {
+     "name": "FDC6324L",
+     "manufacturer": "onsemi",
+     "package": "SuperSOT",
+     "pinout": "p6",
+     "footprint": "SOT23-6-ONSEMI-419BL",
+     "datasheet": "onsemi-fdc6324l-d",
+     "vinMin": 3,
+     "vinMax": 20,
+     "iout": 1.5
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-fdc6326l-d",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p6": [
+     {
+      "number": 1,
+      "name": "R2",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 5,
+      "name": "ON_OFF",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "R1_C1",
+      "role": "inout"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON_OFF",
+     "enableActive": "high"
+    }
+   ],
+   "analog": [
+    "R2",
+    "R1_C1"
+   ],
+   "parts": [
+    {
+     "name": "FDC6326L",
+     "manufacturer": "onsemi",
+     "package": "SuperSOT",
+     "pinout": "p6",
+     "footprint": "SOT23-6-ONSEMI-419BL",
+     "datasheet": "onsemi-fdc6326l-d",
+     "vinMin": 3,
+     "vinMax": 20,
+     "iout": 1.8,
+     "ron": 0.095
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-fdc6330l-d",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p6": [
+     {
+      "number": 1,
+      "name": "R2",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 5,
+      "name": "ON_OFF",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "R1_C1",
+      "role": "inout"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON_OFF",
+     "enableActive": "high"
+    }
+   ],
+   "analog": [
+    "R2",
+    "R1_C1"
+   ],
+   "parts": [
+    {
+     "name": "FDC6330L",
+     "manufacturer": "onsemi",
+     "package": "SuperSOT",
+     "pinout": "p6",
+     "footprint": "SOT23-6-ONSEMI-419BL",
+     "datasheet": "onsemi-fdc6330l-d",
+     "vinMin": 3,
+     "vinMax": 20,
+     "iout": 2.3,
+     "ron": 0.054
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-fdc6331l-d",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p6": [
+     {
+      "number": 1,
+      "name": "R2",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 5,
+      "name": "ON_OFF",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "R1_C1",
+      "role": "inout"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON_OFF",
+     "enableActive": "high"
+    }
+   ],
+   "analog": [
+    "R2",
+    "R1_C1"
+   ],
+   "parts": [
+    {
+     "name": "FDC6331L",
+     "manufacturer": "onsemi",
+     "package": "SuperSOT",
+     "pinout": "p6",
+     "footprint": "SOT23-6-ONSEMI-419BL",
+     "datasheet": "onsemi-fdc6331l-d",
+     "vinMin": 2.5,
+     "vinMax": 8,
+     "iout": 2.8,
+     "ron": 0.034
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-fpf1006-d",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p7": [
+     {
+      "number": 1,
+      "name": "ON",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 3,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 7,
+      "name": "GND",
+      "role": "ground"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON",
+     "enableActive": "high"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "FPF1006",
+     "manufacturer": "onsemi",
+     "package": "MicroFET",
+     "pinout": "p7",
+     "footprint": "WDFN-6-ONSEMI-511CY",
+     "datasheet": "onsemi-fpf1006-d",
+     "vinMin": 1.2,
+     "vinMax": 5.5,
+     "iout": 1.5,
+     "ron": 0.05
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-fpf1038-d",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p6": [
+     {
+      "ball": "A1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "B1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "A2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "B2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "C1",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "C2",
+      "name": "ON",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON",
+     "enableActive": "high"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "FPF1038UCX",
+     "manufacturer": "onsemi",
+     "package": "WLCSP",
+     "pinout": "p6",
+     "footprint": "WLCSP6-1015-ONSEMI",
+     "datasheet": "onsemi-fpf1038-d",
+     "vinMin": 1.2,
+     "vinMax": 5.5,
+     "iout": 3.5,
+     "ron": 0.02,
+     "iq": 5.5e-06
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-fpf1204-d",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p4": [
+     {
+      "ball": "A1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "A2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "B1",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "B2",
+      "name": "ON",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON",
+     "enableActive": "high"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "FPF1204UCX",
+     "manufacturer": "onsemi",
+     "package": "WLCSP",
+     "pinout": "p4",
+     "footprint": "MICROFOOT-4-0808-VISHAY",
+     "datasheet": "onsemi-fpf1204-d",
+     "vinMin": 1.2,
+     "vinMax": 5.5,
+     "iout": 2.2,
+     "ron": 0.045,
+     "iq": 1e-07
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-fpf1504cn-d",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p4": [
+     {
+      "ball": "A1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "A2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "B1",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "B2",
+      "name": "ON",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON",
+     "enableActive": "low"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "FPF1504LBUCX",
+     "manufacturer": "onsemi",
+     "package": "WLCSP",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YZR",
+     "datasheet": "onsemi-fpf1504cn-d",
+     "vinMin": 1,
+     "vinMax": 3.6,
+     "iout": 1.5,
+     "ron": 0.015,
+     "iq": 8e-08
+    },
+    {
+     "name": "FPF1504LUCX",
+     "manufacturer": "onsemi",
+     "package": "WLCSP",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YZR",
+     "datasheet": "onsemi-fpf1504cn-d",
+     "vinMin": 1,
+     "vinMax": 3.6,
+     "iout": 1.5,
+     "ron": 0.015,
+     "iq": 8e-08
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-fpf1504cn-d-2",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p4": [
+     {
+      "ball": "A1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "A2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "B1",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "B2",
+      "name": "ON",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON",
+     "enableActive": "high"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "FPF1504UCX",
+     "manufacturer": "onsemi",
+     "package": "WLCSP",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YZR",
+     "datasheet": "onsemi-fpf1504cn-d",
+     "vinMin": 1,
+     "vinMax": 3.6,
+     "iout": 1.5,
+     "ron": 0.015,
+     "iq": 8e-08
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-fpf2286ucx-d",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p6": [
+     {
+      "ball": "A1",
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "ball": "A2",
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "ball": "B1",
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "ball": "B2",
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "ball": "C1",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "C2",
+      "name": "OVLO",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "IN",
+     "out": "OUT"
+    }
+   ],
+   "analog": [
+    "OVLO"
+   ],
+   "parts": [
+    {
+     "name": "FPF2286UCX",
+     "manufacturer": "onsemi",
+     "package": "WLCSP",
+     "pinout": "p6",
+     "footprint": "DSBGA-6-YFD",
+     "datasheet": "onsemi-fpf2286ucx-d",
+     "vinMin": 2.8,
+     "vinMax": 23,
+     "iout": 3.5,
+     "ron": 0.025,
+     "iq": 8.5e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-fpf3380ucx-d",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p12": [
+     {
+      "ball": "A1",
+      "name": "ENB",
+      "role": "input"
+     },
+     {
+      "ball": "A2",
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "ball": "A3",
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "ball": "A4",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "B1",
+      "name": "ACOKB",
+      "role": "output"
+     },
+     {
+      "ball": "B2",
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "ball": "B3",
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "ball": "B4",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "C1",
+      "name": "OVLO",
+      "role": "input"
+     },
+     {
+      "ball": "C2",
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "ball": "C3",
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "ball": "C4",
+      "name": "GND",
+      "role": "ground"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "IN",
+     "out": "OUT",
+     "enable": "ENB",
+     "enableActive": "low"
+    }
+   ],
+   "analog": [
+    "ACOKB",
+    "OVLO"
+   ],
+   "parts": [
+    {
+     "name": "FPF3380UCX",
+     "manufacturer": "onsemi",
+     "package": "WLCSP",
+     "pinout": "p12",
+     "footprint": "WLCSP-12-ONSEMI-567WP",
+     "datasheet": "onsemi-fpf3380ucx-d",
+     "vinMin": 2.8,
+     "vinMax": 23,
+     "iout": 5,
+     "ron": 0.015,
+     "iq": 9e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-fpf3381-d",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p12": [
+     {
+      "ball": "A1",
+      "name": "ENB",
+      "role": "input"
+     },
+     {
+      "ball": "A2",
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "ball": "A3",
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "ball": "A4",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "B1",
+      "name": "ACOKB",
+      "role": "output"
+     },
+     {
+      "ball": "B2",
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "ball": "B3",
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "ball": "B4",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "C1",
+      "name": "OVLO",
+      "role": "input"
+     },
+     {
+      "ball": "C2",
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "ball": "C3",
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "ball": "C4",
+      "name": "GND",
+      "role": "ground"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "IN",
+     "out": "OUT",
+     "enable": "ENB",
+     "enableActive": "low"
+    }
+   ],
+   "analog": [
+    "ACOKB",
+    "OVLO"
+   ],
+   "parts": [
+    {
+     "name": "FPF3381UCX",
+     "manufacturer": "onsemi",
+     "package": "WLCSP",
+     "pinout": "p12",
+     "footprint": "WLCSP-12-ONSEMI-567WP",
+     "datasheet": "onsemi-fpf3381-d",
+     "vinMin": 2.8,
+     "vinMax": 25,
+     "iout": 5,
+     "ron": 0.015,
+     "iq": 9e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-ncp330-d",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p4": [
+     {
+      "number": 1,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 3,
+      "name": "EN",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "OUT",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "IN",
+     "out": "OUT",
+     "enable": "EN",
+     "enableActive": "high"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "NCP330MUTBG",
+     "manufacturer": "onsemi",
+     "package": "UDFN",
+     "pinout": "p4",
+     "footprint": "TDFN-4-MCHP-MT",
+     "datasheet": "onsemi-ncp330-d",
+     "vinMin": 1.8,
+     "vinMax": 5.5,
+     "iout": 3,
+     "ron": 0.026,
+     "iq": 0.0001
+    },
+    {
+     "name": "NCV330MUTBG",
+     "manufacturer": "onsemi",
+     "package": "UDFN",
+     "pinout": "p4",
+     "footprint": "TDFN-4-MCHP-MT",
+     "datasheet": "onsemi-ncp330-d",
+     "vinMin": 1.8,
+     "vinMax": 5.5,
+     "iout": 3,
+     "ron": 0.026,
+     "iq": 0.0001
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-ncp333-d",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p4": [
+     {
+      "ball": "A1",
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "ball": "A2",
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "ball": "B1",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "B2",
+      "name": "EN",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "IN",
+     "out": "OUT",
+     "enable": "EN",
+     "enableActive": "high"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "NCP333FCT2G",
+     "manufacturer": "onsemi",
+     "package": "WLCSP",
+     "pinout": "p4",
+     "footprint": "MICROFOOT-4-0808-VISHAY",
+     "datasheet": "onsemi-ncp333-d",
+     "vinMin": 1.2,
+     "vinMax": 5.5,
+     "iout": 1.5,
+     "ron": 0.045
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-ncp334-d",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p4": [
+     {
+      "ball": "A1",
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "ball": "A2",
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "ball": "B1",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "B2",
+      "name": "EN",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "IN",
+     "out": "OUT",
+     "enable": "EN",
+     "enableActive": "high"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "NCP335FCT2G",
+     "manufacturer": "onsemi",
+     "package": "WLCSP",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YZR",
+     "datasheet": "onsemi-ncp334-d",
+     "vinMin": 1.2,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.038
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-ncp340-d",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p4": [
+     {
+      "number": 1,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 3,
+      "name": "EN",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "OUT",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "IN",
+     "out": "OUT",
+     "enable": "EN",
+     "enableActive": "high"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "NCP340MUTBG",
+     "manufacturer": "onsemi",
+     "package": "UDFN",
+     "pinout": "p4",
+     "footprint": "TDFN-4-MCHP-MT",
+     "datasheet": "onsemi-ncp340-d",
+     "vinMin": 1.8,
+     "vinMax": 5.5,
+     "iout": 3,
+     "ron": 0.026,
+     "iq": 0.0001
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-ncp451-d",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p6": [
+     {
+      "ball": "A1",
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "ball": "A2",
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "ball": "B1",
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "ball": "B2",
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "ball": "C1",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "C2",
+      "name": "EN",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "IN",
+     "out": "OUT",
+     "enable": "EN",
+     "enableActive": "high"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "NCP451AFCT2GA",
+     "manufacturer": "onsemi",
+     "package": "WLCSP",
+     "pinout": "p6",
+     "footprint": "WLCSP-6-ONSEMI-567KB",
+     "datasheet": "onsemi-ncp451-d",
+     "vinMin": 0.75,
+     "vinMax": 5.5,
+     "iout": 3,
+     "ron": 0.012,
+     "iq": 8e-06
+    },
+    {
+     "name": "NCP451FCT2G",
+     "manufacturer": "onsemi",
+     "package": "WLCSP",
+     "pinout": "p6",
+     "footprint": "WLCSP-6-ONSEMI-567KB",
+     "datasheet": "onsemi-ncp451-d",
+     "vinMin": 0.75,
+     "vinMax": 5.5,
+     "iout": 3,
+     "ron": 0.012,
+     "iq": 8e-06
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-ncp45520-d",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p9": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "EN",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 5,
+      "name": "BLEED",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "PG",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "VIN",
+      "role": "power"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "EN",
+     "enableActive": "low"
+    }
+   ],
+   "analog": [
+    "VCC",
+    "BLEED",
+    "PG"
+   ],
+   "parts": [
+    {
+     "name": "NCP45520IMNTWG-L",
+     "manufacturer": "onsemi",
+     "package": "DFN",
+     "pinout": "p9",
+     "footprint": "DFN-8-ONSEMI-506CC",
+     "datasheet": "onsemi-ncp45520-d",
+     "vinMin": 0.5,
+     "vinMax": 13.5,
+     "iout": 10.5,
+     "ron": 0.0128,
+     "iq": 0.00028
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-ncp45520-d-2",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p9": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "EN",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 5,
+      "name": "BLEED",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "SR",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "VIN",
+      "role": "power"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "EN",
+     "enableActive": "high"
+    }
+   ],
+   "analog": [
+    "VCC",
+    "BLEED",
+    "SR"
+   ],
+   "parts": [
+    {
+     "name": "NCP45521IMNTWG-H",
+     "manufacturer": "onsemi",
+     "package": "DFN",
+     "pinout": "p9",
+     "footprint": "DFN-8-ONSEMI-506CC",
+     "datasheet": "onsemi-ncp45520-d",
+     "vinMin": 0.5,
+     "vinMax": 13.5,
+     "iout": 10.5,
+     "ron": 0.0128,
+     "iq": 0.00028
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-ncp45520-d-3",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p9": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "EN",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 5,
+      "name": "BLEED",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "SR",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "VIN",
+      "role": "power"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "EN",
+     "enableActive": "low"
+    }
+   ],
+   "analog": [
+    "VCC",
+    "BLEED",
+    "SR"
+   ],
+   "parts": [
+    {
+     "name": "NCP45521IMNTWG-L",
+     "manufacturer": "onsemi",
+     "package": "DFN",
+     "pinout": "p9",
+     "footprint": "DFN-8-ONSEMI-506CC",
+     "datasheet": "onsemi-ncp45520-d",
+     "vinMin": 0.5,
+     "vinMax": 13.5,
+     "iout": 10.5,
+     "ron": 0.0128,
+     "iq": 0.00028
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-ncp45520-d-4",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p9": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "EN",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 5,
+      "name": "BLEED",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "PG",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "VIN",
+      "role": "power"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "EN",
+     "enableActive": "high"
+    }
+   ],
+   "analog": [
+    "VCC",
+    "BLEED",
+    "PG"
+   ],
+   "parts": [
+    {
+     "name": "NCP45520IMNTWG-H",
+     "manufacturer": "onsemi",
+     "package": "DFN",
+     "pinout": "p9",
+     "footprint": "DFN-8-ONSEMI-506CC",
+     "datasheet": "onsemi-ncp45520-d",
+     "vinMin": 0.5,
+     "vinMax": 13.5,
+     "iout": 10.5,
+     "ron": 0.0128,
+     "iq": 0.00028
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-ncp45524-d",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p9": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "EN",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 5,
+      "name": "BLEED",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "PG",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "VIN",
+      "role": "power"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "EN",
+     "enableActive": "high"
+    }
+   ],
+   "analog": [
+    "VCC",
+    "BLEED",
+    "PG"
+   ],
+   "parts": [
+    {
+     "name": "NCP45524IMNTWG-H",
+     "manufacturer": "onsemi",
+     "package": "DFN",
+     "pinout": "p9",
+     "footprint": "DFN-8-ONSEMI-506CC",
+     "datasheet": "onsemi-ncp45524-d",
+     "vinMin": 0.5,
+     "vinMax": 13.5,
+     "iout": 6,
+     "ron": 0.0219,
+     "iq": 0.00018
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-ncp45524-d-2",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p9": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "EN",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 5,
+      "name": "BLEED",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "SR",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "VIN",
+      "role": "power"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "EN",
+     "enableActive": "high"
+    }
+   ],
+   "analog": [
+    "VCC",
+    "BLEED",
+    "SR"
+   ],
+   "parts": [
+    {
+     "name": "NCP45525IMNTWG-H",
+     "manufacturer": "onsemi",
+     "package": "DFN",
+     "pinout": "p9",
+     "footprint": "DFN-8-ONSEMI-506CC",
+     "datasheet": "onsemi-ncp45524-d",
+     "vinMin": 0.5,
+     "vinMax": 13.5,
+     "iout": 6,
+     "ron": 0.0219,
+     "iq": 0.00018
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-ncp45540-d",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p13": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "EN",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 5,
+      "name": "SR",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "PG",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "BLEED",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 9,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 12,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "VIN",
+      "role": "power"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "EN",
+     "enableActive": "high"
+    }
+   ],
+   "analog": [
+    "VCC",
+    "SR",
+    "PG",
+    "BLEED"
+   ],
+   "parts": [
+    {
+     "name": "NCP45540IMNTWG-H",
+     "manufacturer": "onsemi",
+     "package": "DFN",
+     "pinout": "p13",
+     "footprint": "DFN-12-ONSEMI-506CD",
+     "datasheet": "onsemi-ncp45540-d",
+     "vinMin": 0.5,
+     "vinMax": 13.5,
+     "iout": 14,
+     "ron": 0.0092,
+     "iq": 0.00028
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-ncp45540-d-2",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p13": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "EN",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 5,
+      "name": "SR",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "PG",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "BLEED",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 9,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 12,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "VIN",
+      "role": "power"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "EN",
+     "enableActive": "low"
+    }
+   ],
+   "analog": [
+    "VCC",
+    "SR",
+    "PG",
+    "BLEED"
+   ],
+   "parts": [
+    {
+     "name": "NCP45540IMNTWG-L",
+     "manufacturer": "onsemi",
+     "package": "DFN",
+     "pinout": "p13",
+     "footprint": "DFN-12-ONSEMI-506CD",
+     "datasheet": "onsemi-ncp45540-d",
+     "vinMin": 0.5,
+     "vinMax": 13.5,
+     "iout": 14,
+     "ron": 0.0092,
+     "iq": 0.00028
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-ncp45541-d",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p13": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "EN",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 5,
+      "name": "SR",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "PG",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "BLEED",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 9,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 12,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "VIN",
+      "role": "power"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "EN",
+     "enableActive": "high"
+    }
+   ],
+   "analog": [
+    "VCC",
+    "SR",
+    "PG",
+    "BLEED"
+   ],
+   "parts": [
+    {
+     "name": "NCP45541IMNTWG-H",
+     "manufacturer": "onsemi",
+     "package": "DFN",
+     "pinout": "p13",
+     "footprint": "DFN-12-ONSEMI-506CD",
+     "datasheet": "onsemi-ncp45541-d",
+     "vinMin": 0.5,
+     "vinMax": 13.5,
+     "iout": 14,
+     "ron": 0.0092,
+     "iq": 0.00018
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-ncp45560-d",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p13": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "EN",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 5,
+      "name": "SR",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "PG",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "BLEED",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 12,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "VIN",
+      "role": "power"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "EN",
+     "enableActive": "low"
+    }
+   ],
+   "analog": [
+    "VCC",
+    "SR",
+    "PG",
+    "BLEED"
+   ],
+   "parts": [
+    {
+     "name": "NCP45560IMNTWG-L",
+     "manufacturer": "onsemi",
+     "package": "DFN",
+     "pinout": "p13",
+     "footprint": "DFN-12-ONSEMI-506CD",
+     "datasheet": "onsemi-ncp45560-d",
+     "vinMin": 0.5,
+     "vinMax": 13.5,
+     "iout": 17,
+     "ron": 0.0049,
+     "iq": 0.00028
+    }
+   ]
+  },
+  {
+   "id": "psw-onsemi-ncv451-d",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p7": [
+     {
+      "number": 1,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 2,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 5,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 6,
+      "name": "EN",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "GND",
+      "role": "ground"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "IN",
+     "out": "OUT",
+     "enable": "EN",
+     "enableActive": "high"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "NCV451AMNWTBG",
+     "manufacturer": "onsemi",
+     "package": "DFNW",
+     "pinout": "p7",
+     "footprint": "DFNW-6-ONSEMI-507AF",
+     "datasheet": "onsemi-ncv451-d",
+     "vinMin": 0.75,
+     "vinMax": 5.5,
+     "iout": 3,
+     "ron": 0.021,
+     "iq": 8e-06
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22810",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p6": [
+     {
+      "number": 1,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "QOD",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "CT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 5,
+      "name": "EN/UVLO",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "VIN",
+      "role": "power"
+     }
+    ],
+    "p6-2": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 3,
+      "name": "EN/UVLO",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "CT",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "QOD",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "VOUT",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "EN/UVLO"
+    }
+   ],
+   "analog": [
+    "CT",
+    "QOD"
+   ],
+   "parts": [
+    {
+     "name": "TPS22810DBVT",
+     "manufacturer": "Texas Instruments",
+     "package": "SOT-23",
+     "pinout": "p6-2",
+     "footprint": "SOT23-6",
+     "datasheet": "ti-tps22810",
+     "vinMin": 2.7,
+     "vinMax": 18,
+     "iout": 2,
+     "ron": 0.079,
+     "iq": 6.2e-05
+    },
+    {
+     "name": "TPS22810DRVR",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p6",
+     "footprint": "WSON-6-DRV",
+     "datasheet": "ti-tps22810",
+     "vinMin": 2.7,
+     "vinMax": 18,
+     "iout": 3,
+     "ron": 0.079,
+     "iq": 6.2e-05
+    },
+    {
+     "name": "TPS22810DRVT",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p6",
+     "footprint": "WSON-6-DRV",
+     "datasheet": "ti-tps22810",
+     "vinMin": 2.7,
+     "vinMax": 18,
+     "iout": 3,
+     "ron": 0.079,
+     "iq": 6.2e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22810-q1",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p6": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 3,
+      "name": "EN/UVLO",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "CT",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "QOD",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "VOUT",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "EN/UVLO"
+    }
+   ],
+   "analog": [
+    "CT",
+    "QOD"
+   ],
+   "parts": [
+    {
+     "name": "TPS22810TDBVRQ1",
+     "manufacturer": "Texas Instruments",
+     "package": "SOT-23",
+     "pinout": "p6",
+     "footprint": "SOT23-6",
+     "datasheet": "ti-tps22810-q1",
+     "vinMin": 2.7,
+     "vinMax": 18,
+     "iout": 2,
+     "ron": 0.079,
+     "iq": 6.2e-05,
+     "flags": [
+      "automotive"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22901",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p4": [
+     {
+      "ball": "A1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "A2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "B1",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "B2",
+      "name": "ON",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "TPS22901YFPR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YFP",
+     "datasheet": "ti-tps22901",
+     "vinMin": 1,
+     "vinMax": 3.6,
+     "iout": 0.5,
+     "ron": 0.078,
+     "iq": 2.04e-07
+    },
+    {
+     "name": "TPS22902BYFPR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YFP",
+     "datasheet": "ti-tps22901",
+     "vinMin": 1,
+     "vinMax": 3.6,
+     "iout": 0.5,
+     "ron": 0.078,
+     "iq": 2.04e-07
+    },
+    {
+     "name": "TPS22902YFPR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YFP",
+     "datasheet": "ti-tps22901",
+     "vinMin": 1,
+     "vinMax": 3.6,
+     "iout": 0.5,
+     "ron": 0.078,
+     "iq": 2.04e-07
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22904",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p4": [
+     {
+      "ball": "A1",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "A2",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "B1",
+      "name": "ON",
+      "role": "input"
+     },
+     {
+      "ball": "B2",
+      "name": "GND",
+      "role": "ground"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "TPS22904YFPR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YFP",
+     "datasheet": "ti-tps22904",
+     "vinMin": 1.1,
+     "vinMax": 3.6,
+     "iout": 0.5,
+     "ron": 0.066
+    },
+    {
+     "name": "TPS22904YFPT",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YFP",
+     "datasheet": "ti-tps22904",
+     "vinMin": 1.1,
+     "vinMax": 3.6,
+     "iout": 0.5,
+     "ron": 0.066
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22908",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p4": [
+     {
+      "ball": "A1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "A2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "B1",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "B2",
+      "name": "ON",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "TPS22908YZTR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YZT",
+     "datasheet": "ti-tps22908",
+     "vinMin": 1,
+     "vinMax": 3.6,
+     "iout": 1,
+     "ron": 0.0282,
+     "iq": 1.9e-07
+    },
+    {
+     "name": "TPS22908YZTT",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YZT",
+     "datasheet": "ti-tps22908",
+     "vinMin": 1,
+     "vinMax": 3.6,
+     "iout": 1,
+     "ron": 0.0282,
+     "iq": 1.9e-07
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22910a",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p4": [
+     {
+      "ball": "A1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "A2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "B1",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "B2",
+      "name": "ON",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "TPS22912CYZVR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "WLCSP-4-ADI-CB-4-4",
+     "datasheet": "ti-tps22910a",
+     "vinMin": 1.4,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.06,
+     "iq": 2e-06
+    },
+    {
+     "name": "TPS22912CYZVT",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "WLCSP-4-ADI-CB-4-4",
+     "datasheet": "ti-tps22910a",
+     "vinMin": 1.4,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.06,
+     "iq": 2e-06
+    },
+    {
+     "name": "TPS22913BYZVR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "WLCSP-4-ADI-CB-4-4",
+     "datasheet": "ti-tps22910a",
+     "vinMin": 1.4,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.06,
+     "iq": 2e-06
+    },
+    {
+     "name": "TPS22913BYZVT",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "WLCSP-4-ADI-CB-4-4",
+     "datasheet": "ti-tps22910a",
+     "vinMin": 1.4,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.06,
+     "iq": 2e-06
+    },
+    {
+     "name": "TPS22913CYZVR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "WLCSP-4-ADI-CB-4-4",
+     "datasheet": "ti-tps22910a",
+     "vinMin": 1.4,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.06,
+     "iq": 2e-06
+    },
+    {
+     "name": "TPS22913CYZVT",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "WLCSP-4-ADI-CB-4-4",
+     "datasheet": "ti-tps22910a",
+     "vinMin": 1.4,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.06,
+     "iq": 2e-06
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22910a-2",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p4": [
+     {
+      "ball": "A1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "A2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "B1",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "B2",
+      "name": "ON",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON",
+     "enableActive": "low"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "TPS22910AYZVR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "WLCSP-4-ADI-CB-4-4",
+     "datasheet": "ti-tps22910a",
+     "vinMin": 1.4,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.06,
+     "iq": 2e-06
+    },
+    {
+     "name": "TPS22910AYZVT",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "WLCSP-4-ADI-CB-4-4",
+     "datasheet": "ti-tps22910a",
+     "vinMin": 1.4,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.06,
+     "iq": 2e-06
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22914",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p4": [
+     {
+      "ball": "A1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "A2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "B1",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "B2",
+      "name": "ON",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "TPS22914BYFPR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YFP",
+     "datasheet": "ti-tps22914",
+     "vinMin": 1.05,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.037,
+     "iq": 7.7e-06
+    },
+    {
+     "name": "TPS22914BYFPT",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YFP",
+     "datasheet": "ti-tps22914",
+     "vinMin": 1.05,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.037,
+     "iq": 7.7e-06
+    },
+    {
+     "name": "TPS22914CYFPR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YFP",
+     "datasheet": "ti-tps22914",
+     "vinMin": 1.05,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.037,
+     "iq": 7.7e-06
+    },
+    {
+     "name": "TPS22914CYFPT",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YFP",
+     "datasheet": "ti-tps22914",
+     "vinMin": 1.05,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.037,
+     "iq": 7.7e-06
+    },
+    {
+     "name": "TPS22915BYFPR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YFP",
+     "datasheet": "ti-tps22914",
+     "vinMin": 1.05,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.037,
+     "iq": 7.7e-06
+    },
+    {
+     "name": "TPS22915BYFPT",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YFP",
+     "datasheet": "ti-tps22914",
+     "vinMin": 1.05,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.037,
+     "iq": 7.7e-06
+    },
+    {
+     "name": "TPS22915CYFPT",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YFP",
+     "datasheet": "ti-tps22914",
+     "vinMin": 1.05,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.037,
+     "iq": 7.7e-06
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22916",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p4": [
+     {
+      "ball": "A1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "A2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "B1",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "B2",
+      "name": "ON",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "TPS22916BYFPR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YFP",
+     "datasheet": "ti-tps22916",
+     "vinMin": 1,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.06,
+     "iq": 5e-07
+    },
+    {
+     "name": "TPS22916BYFPT",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YFP",
+     "datasheet": "ti-tps22916",
+     "vinMin": 1,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.06,
+     "iq": 5e-07
+    },
+    {
+     "name": "TPS22916CNYFPR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YFP",
+     "datasheet": "ti-tps22916",
+     "vinMin": 1,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.06,
+     "iq": 5e-07
+    },
+    {
+     "name": "TPS22916CNYFPT",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YFP",
+     "datasheet": "ti-tps22916",
+     "vinMin": 1,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.06,
+     "iq": 5e-07
+    },
+    {
+     "name": "TPS22916CYFPR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YFP",
+     "datasheet": "ti-tps22916",
+     "vinMin": 1,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.06,
+     "iq": 5e-07
+    },
+    {
+     "name": "TPS22916CYFPT",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YFP",
+     "datasheet": "ti-tps22916",
+     "vinMin": 1,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.06,
+     "iq": 5e-07
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22916-2",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p4": [
+     {
+      "ball": "A1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "A2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "B1",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "B2",
+      "name": "ON",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON",
+     "enableActive": "low"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "TPS22916BLYFPR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YFP",
+     "datasheet": "ti-tps22916",
+     "vinMin": 1,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.06,
+     "iq": 5e-07
+    },
+    {
+     "name": "TPS22916CLYFPR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YFP",
+     "datasheet": "ti-tps22916",
+     "vinMin": 1,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.06,
+     "iq": 5e-07
+    },
+    {
+     "name": "TPS22916CLYFPT",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YFP",
+     "datasheet": "ti-tps22916",
+     "vinMin": 1,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.06,
+     "iq": 5e-07
+    },
+    {
+     "name": "TPS22916CNLYFPR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "DSBGA-4-YFP",
+     "datasheet": "ti-tps22916",
+     "vinMin": 1,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.06,
+     "iq": 5e-07
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22917",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p6": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 3,
+      "name": "ON",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "CT",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "QOD",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "VOUT",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [
+    "CT",
+    "QOD"
+   ],
+   "parts": [
+    {
+     "name": "TPS22917DBVR",
+     "manufacturer": "Texas Instruments",
+     "package": "SOT-23",
+     "pinout": "p6",
+     "footprint": "SOT23-6",
+     "datasheet": "ti-tps22917",
+     "vinMin": 1,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.08,
+     "iq": 5e-07
+    },
+    {
+     "name": "TPS22917DBVT",
+     "manufacturer": "Texas Instruments",
+     "package": "SOT-23",
+     "pinout": "p6",
+     "footprint": "SOT23-6",
+     "datasheet": "ti-tps22917",
+     "vinMin": 1,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.08,
+     "iq": 5e-07
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22917-2",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p6": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 3,
+      "name": "ON",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "CT",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "QOD",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "VOUT",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON",
+     "enableActive": "low"
+    }
+   ],
+   "analog": [
+    "CT",
+    "QOD"
+   ],
+   "parts": [
+    {
+     "name": "TPS22917LDBVR",
+     "manufacturer": "Texas Instruments",
+     "package": "SOT-23",
+     "pinout": "p6",
+     "footprint": "SOT23-6",
+     "datasheet": "ti-tps22917",
+     "vinMin": 1,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.08,
+     "iq": 5e-07
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22918",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p6": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 3,
+      "name": "ON",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "CT",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "QOD",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "VOUT",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [
+    "CT",
+    "QOD"
+   ],
+   "parts": [
+    {
+     "name": "TPS22918DBVR",
+     "manufacturer": "Texas Instruments",
+     "package": "SOT-23",
+     "pinout": "p6",
+     "footprint": "SOT23-6",
+     "datasheet": "ti-tps22918",
+     "vinMin": 1,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.052
+    },
+    {
+     "name": "TPS22918DBVT",
+     "manufacturer": "Texas Instruments",
+     "package": "SOT-23",
+     "pinout": "p6",
+     "footprint": "SOT23-6",
+     "datasheet": "ti-tps22918",
+     "vinMin": 1,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.052
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22918-q1",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p6": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 3,
+      "name": "ON",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "CT",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "QOD",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "VOUT",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [
+    "CT",
+    "QOD"
+   ],
+   "parts": [
+    {
+     "name": "TPS22918TDBVRQ1",
+     "manufacturer": "Texas Instruments",
+     "package": "SOT-23",
+     "pinout": "p6",
+     "footprint": "SOT23-6",
+     "datasheet": "ti-tps22918-q1",
+     "vinMin": 1,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.052,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "TPS22918TDBVTQ1",
+     "manufacturer": "Texas Instruments",
+     "package": "SOT-23",
+     "pinout": "p6",
+     "footprint": "SOT23-6",
+     "datasheet": "ti-tps22918-q1",
+     "vinMin": 1,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.052,
+     "flags": [
+      "automotive"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22920",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p8": [
+     {
+      "ball": "A1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "A2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "B1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "B2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "C1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "C2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "D1",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "D2",
+      "name": "ON",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "TPS22920YZPRB",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p8",
+     "footprint": "DSBGA-8-YZP",
+     "datasheet": "ti-tps22920",
+     "vinMin": 0.75,
+     "vinMax": 3.6,
+     "iout": 4,
+     "ron": 0.0053,
+     "iq": 6.8e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22920-2",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p8": [
+     {
+      "ball": "A1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "A2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "B1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "B2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "C1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "C2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "D1",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "D2",
+      "name": "ON",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON",
+     "enableActive": "low"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "TPS22920LYZPR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p8",
+     "footprint": "DSBGA-8-YZP",
+     "datasheet": "ti-tps22920",
+     "vinMin": 0.75,
+     "vinMax": 3.6,
+     "iout": 4,
+     "ron": 0.0053,
+     "iq": 6.8e-05
+    },
+    {
+     "name": "TPS22920LYZPT",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p8",
+     "footprint": "DSBGA-8-YZP",
+     "datasheet": "ti-tps22920",
+     "vinMin": 0.75,
+     "vinMax": 3.6,
+     "iout": 4,
+     "ron": 0.0053,
+     "iq": 6.8e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22921",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p6": [
+     {
+      "ball": "A1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "A2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "B1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "B2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "C1",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "C2",
+      "name": "ON",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "TPS22921YFPR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p6",
+     "footprint": "DSBGA-6-YFP",
+     "datasheet": "ti-tps22921",
+     "vinMin": 0.9,
+     "vinMax": 3.6,
+     "iout": 2,
+     "ron": 0.014,
+     "iq": 2e-07
+    },
+    {
+     "name": "TPS22921YZPR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p6",
+     "footprint": "DSBGA-6-YZP",
+     "datasheet": "ti-tps22921",
+     "vinMin": 0.9,
+     "vinMax": 3.6,
+     "iout": 2,
+     "ron": 0.014,
+     "iq": 2e-07
+    },
+    {
+     "name": "TPS22922BYFPR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p6",
+     "footprint": "DSBGA-6-YFP",
+     "datasheet": "ti-tps22921",
+     "vinMin": 0.9,
+     "vinMax": 3.6,
+     "iout": 2,
+     "ron": 0.014,
+     "iq": 2e-07
+    },
+    {
+     "name": "TPS22922BYZPR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p6",
+     "footprint": "DSBGA-6-YZP",
+     "datasheet": "ti-tps22921",
+     "vinMin": 0.9,
+     "vinMax": 3.6,
+     "iout": 2,
+     "ron": 0.014,
+     "iq": 2e-07
+    },
+    {
+     "name": "TPS22922YFPR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p6",
+     "footprint": "DSBGA-6-YFP",
+     "datasheet": "ti-tps22921",
+     "vinMin": 0.9,
+     "vinMax": 3.6,
+     "iout": 2,
+     "ron": 0.014,
+     "iq": 2e-07
+    },
+    {
+     "name": "TPS22922YZPR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p6",
+     "footprint": "DSBGA-6-YZP",
+     "datasheet": "ti-tps22921",
+     "vinMin": 0.9,
+     "vinMax": 3.6,
+     "iout": 2,
+     "ron": 0.014,
+     "iq": 2e-07
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22924b",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p6": [
+     {
+      "ball": "A1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "B1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "C1",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "A2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "B2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "C2",
+      "name": "ON",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "TPS22924BYZR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p6",
+     "footprint": "DSBGA-6-YZP",
+     "datasheet": "ti-tps22924b",
+     "vinMin": 0.75,
+     "vinMax": 3.6,
+     "iout": 2,
+     "ron": 0.0183,
+     "iq": 7.5e-05
+    },
+    {
+     "name": "TPS22924BYZT",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p6",
+     "footprint": "DSBGA-6-YZP",
+     "datasheet": "ti-tps22924b",
+     "vinMin": 0.75,
+     "vinMax": 3.6,
+     "iout": 2,
+     "ron": 0.0183,
+     "iq": 7.5e-05
+    },
+    {
+     "name": "TPS22924BYZZR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p6",
+     "footprint": "DSBGA-6-YZP",
+     "datasheet": "ti-tps22924b",
+     "vinMin": 0.75,
+     "vinMax": 3.6,
+     "iout": 2,
+     "ron": 0.0183,
+     "iq": 7.5e-05
+    },
+    {
+     "name": "TPS22924CYZPR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p6",
+     "footprint": "DSBGA-6-YZP",
+     "datasheet": "ti-tps22924b",
+     "vinMin": 0.75,
+     "vinMax": 3.6,
+     "iout": 2,
+     "ron": 0.0183,
+     "iq": 7.5e-05
+    },
+    {
+     "name": "TPS22924CYZPT",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p6",
+     "footprint": "DSBGA-6-YZP",
+     "datasheet": "ti-tps22924b",
+     "vinMin": 0.75,
+     "vinMax": 3.6,
+     "iout": 2,
+     "ron": 0.0183,
+     "iq": 7.5e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22924d",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p6": [
+     {
+      "ball": "A1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "B1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "C1",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "A2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "B2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "C2",
+      "name": "ON",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "TPS22924DYZPT",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p6",
+     "footprint": "DSBGA-6-YZP",
+     "datasheet": "ti-tps22924d",
+     "vinMin": 0.75,
+     "vinMax": 3.6,
+     "iout": 2,
+     "ron": 0.0183,
+     "iq": 7.5e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22925",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p6": [
+     {
+      "ball": "A1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "B1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "C1",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "A2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "B2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "C2",
+      "name": "ON",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "TPS22925BNYPHR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p6",
+     "footprint": "DSBGA-6-YZP",
+     "datasheet": "ti-tps22925",
+     "vinMin": 0.65,
+     "vinMax": 3.6,
+     "iout": 3,
+     "ron": 0.0092,
+     "iq": 2.9e-05
+    },
+    {
+     "name": "TPS22925BNYPHT",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p6",
+     "footprint": "DSBGA-6-YZP",
+     "datasheet": "ti-tps22925",
+     "vinMin": 0.65,
+     "vinMax": 3.6,
+     "iout": 3,
+     "ron": 0.0092,
+     "iq": 2.9e-05
+    },
+    {
+     "name": "TPS22925BYPHR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p6",
+     "footprint": "DSBGA-6-YZP",
+     "datasheet": "ti-tps22925",
+     "vinMin": 0.65,
+     "vinMax": 3.6,
+     "iout": 3,
+     "ron": 0.0092,
+     "iq": 2.9e-05
+    },
+    {
+     "name": "TPS22925CNYPHR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p6",
+     "footprint": "DSBGA-6-YZP",
+     "datasheet": "ti-tps22925",
+     "vinMin": 0.65,
+     "vinMax": 3.6,
+     "iout": 3,
+     "ron": 0.0092,
+     "iq": 2.9e-05
+    },
+    {
+     "name": "TPS22925CNYPHT",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p6",
+     "footprint": "DSBGA-6-YZP",
+     "datasheet": "ti-tps22925",
+     "vinMin": 0.65,
+     "vinMax": 3.6,
+     "iout": 3,
+     "ron": 0.0092,
+     "iq": 2.9e-05
+    },
+    {
+     "name": "TPS22925CYPHT",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p6",
+     "footprint": "DSBGA-6-YZP",
+     "datasheet": "ti-tps22925",
+     "vinMin": 0.65,
+     "vinMax": 3.6,
+     "iout": 3,
+     "ron": 0.0092,
+     "iq": 2.9e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22929d",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p6": [
+     {
+      "number": 1,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 3,
+      "name": "ON",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 5,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 6,
+      "name": "VIN",
+      "role": "power"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "TPS22929DDBVR",
+     "manufacturer": "Texas Instruments",
+     "package": "SOT-23",
+     "pinout": "p6",
+     "footprint": "SOT23-6",
+     "datasheet": "ti-tps22929d",
+     "vinMin": 1.4,
+     "vinMax": 5.5,
+     "iout": 1.8,
+     "ron": 0.115,
+     "iq": 2.2e-06
+    },
+    {
+     "name": "TPS22929DDBVT",
+     "manufacturer": "Texas Instruments",
+     "package": "SOT-23",
+     "pinout": "p6",
+     "footprint": "SOT23-6",
+     "datasheet": "ti-tps22929d",
+     "vinMin": 1.4,
+     "vinMax": 5.5,
+     "iout": 1.8,
+     "ron": 0.115,
+     "iq": 2.2e-06
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22930a",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p4": [
+     {
+      "ball": "A1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "A2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "B1",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "B2",
+      "name": "ON",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "TPS22930AYZVR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "WLCSP-4-ADI-CB-4-4",
+     "datasheet": "ti-tps22930a",
+     "vinMin": 1.4,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.035,
+     "iq": 2.3e-06
+    },
+    {
+     "name": "TPS22930AYZVT",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "WLCSP-4-ADI-CB-4-4",
+     "datasheet": "ti-tps22930a",
+     "vinMin": 1.4,
+     "vinMax": 5.5,
+     "iout": 2,
+     "ron": 0.035,
+     "iq": 2.3e-06
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22934",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p4": [
+     {
+      "ball": "A1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "A2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "B1",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "B2",
+      "name": "ON",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "TPS22934YZVR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "WLCSP-4-ADI-CB-4-4",
+     "datasheet": "ti-tps22934",
+     "vinMin": 1.5,
+     "vinMax": 3.6,
+     "iout": 1,
+     "ron": 0.063,
+     "iq": 3.5e-06
+    },
+    {
+     "name": "TPS22934YZVT",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p4",
+     "footprint": "WLCSP-4-ADI-CB-4-4",
+     "datasheet": "ti-tps22934",
+     "vinMin": 1.5,
+     "vinMax": 3.6,
+     "iout": 1,
+     "ron": 0.063,
+     "iq": 3.5e-06
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22953",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p10": [
+     {
+      "number": 1,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "IN",
+      "role": "power"
+     },
+     {
+      "number": 3,
+      "name": "BIAS",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "EN",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 6,
+      "name": "CT",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "PG",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "SNS",
+      "role": "input"
+     },
+     {
+      "number": 9,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "OUT",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "IN",
+     "out": "OUT",
+     "enable": "EN"
+    }
+   ],
+   "analog": [
+    "BIAS",
+    "CT",
+    "PG",
+    "SNS"
+   ],
+   "parts": [
+    {
+     "name": "TPS22953DSQR",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p10",
+     "footprint": "WSON-10-TI-DSQ0010A",
+     "datasheet": "ti-tps22953",
+     "vinMin": 0.7,
+     "vinMax": 5.7,
+     "iout": 5,
+     "ron": 0.014,
+     "iq": 3.4e-05
+    },
+    {
+     "name": "TPS22954DQCR",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p10",
+     "footprint": "WSON-10-TI-DQC0010A",
+     "datasheet": "ti-tps22953",
+     "vinMin": 0.7,
+     "vinMax": 5.7,
+     "iout": 5,
+     "ron": 0.014,
+     "iq": 3.4e-05
+    },
+    {
+     "name": "TPS22954DSQR",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p10",
+     "footprint": "WSON-10-TI-DSQ0010A",
+     "datasheet": "ti-tps22953",
+     "vinMin": 0.7,
+     "vinMax": 5.7,
+     "iout": 5,
+     "ron": 0.014,
+     "iq": 3.4e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22958",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p8": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "ON",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "VBIAS",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 5,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 7,
+      "name": "CT",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VOUT",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [
+    "VBIAS",
+    "CT"
+   ],
+   "parts": [
+    {
+     "name": "TPS22958DGKR",
+     "manufacturer": "Texas Instruments",
+     "package": "VSSOP",
+     "pinout": "p8",
+     "footprint": "VSSOP-8-DGK",
+     "datasheet": "ti-tps22958",
+     "vinMin": 0.6,
+     "vinMax": 5.5,
+     "iout": 4,
+     "ron": 0.014,
+     "iq": 5.4e-05
+    },
+    {
+     "name": "TPS22958DGNR",
+     "manufacturer": "Texas Instruments",
+     "package": "HVSSOP",
+     "pinout": "p8",
+     "footprint": "HVSSOP-8-TI-DGN0008",
+     "datasheet": "ti-tps22958",
+     "vinMin": 0.6,
+     "vinMax": 5.5,
+     "iout": 6,
+     "ron": 0.014,
+     "iq": 5.4e-05
+    },
+    {
+     "name": "TPS22958NDGKR",
+     "manufacturer": "Texas Instruments",
+     "package": "VSSOP",
+     "pinout": "p8",
+     "footprint": "VSSOP-8-DGK",
+     "datasheet": "ti-tps22958",
+     "vinMin": 0.6,
+     "vinMax": 5.5,
+     "iout": 4,
+     "ron": 0.014,
+     "iq": 5.4e-05
+    },
+    {
+     "name": "TPS22958NDGNR",
+     "manufacturer": "Texas Instruments",
+     "package": "HVSSOP",
+     "pinout": "p8",
+     "footprint": "HVSSOP-8-TI-DGN0008",
+     "datasheet": "ti-tps22958",
+     "vinMin": 0.6,
+     "vinMax": 5.5,
+     "iout": 6,
+     "ron": 0.014,
+     "iq": 5.4e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22959",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p8": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 3,
+      "name": "VBIAS",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "ON",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 6,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VOUT",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [
+    "VBIAS"
+   ],
+   "parts": [
+    {
+     "name": "TPS22959DNYT",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p8",
+     "footprint": "WSON-8-TI-DNY0008A",
+     "datasheet": "ti-tps22959",
+     "vinMin": 0.8,
+     "vinMax": 5.5,
+     "iout": 15,
+     "ron": 0.0044,
+     "iq": 2.04e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22961",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p8": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 3,
+      "name": "VBIAS",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "ON",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 6,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VOUT",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [
+    "VBIAS"
+   ],
+   "parts": [
+    {
+     "name": "TPS22961DNYT",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p8",
+     "footprint": "WSON-8-TI-DNY0008A",
+     "datasheet": "ti-tps22961",
+     "vinMin": 0.8,
+     "vinMax": 3.5,
+     "iout": 6,
+     "ron": 0.0065,
+     "iq": 6e-07
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22962",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p8": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 3,
+      "name": "VBIAS",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "ON",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 6,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VOUT",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [
+    "VBIAS"
+   ],
+   "parts": [
+    {
+     "name": "TPS22962DNYT",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p8",
+     "footprint": "WSON-8-TI-DNY0008A",
+     "datasheet": "ti-tps22962",
+     "vinMin": 0.8,
+     "vinMax": 5.5,
+     "iout": 10,
+     "ron": 0.0044,
+     "iq": 2.04e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22963c",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p6": [
+     {
+      "ball": "A1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "A2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "B1",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "B2",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "C1",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "C2",
+      "name": "ON",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "TPS22963CYZPR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p6",
+     "footprint": "DSBGA-6-YZP",
+     "datasheet": "ti-tps22963c",
+     "vinMin": 1,
+     "vinMax": 5.5,
+     "iout": 3,
+     "ron": 0.0133,
+     "iq": 6.65e-05
+    },
+    {
+     "name": "TPS22963CYZPT",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p6",
+     "footprint": "DSBGA-6-YZP",
+     "datasheet": "ti-tps22963c",
+     "vinMin": 1,
+     "vinMax": 5.5,
+     "iout": 3,
+     "ron": 0.0133,
+     "iq": 6.65e-05
+    },
+    {
+     "name": "TPS22964C2YZPR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p6",
+     "footprint": "DSBGA-6-YZP",
+     "datasheet": "ti-tps22963c",
+     "vinMin": 1,
+     "vinMax": 5.5,
+     "iout": 3,
+     "ron": 0.0133,
+     "iq": 6.65e-05
+    },
+    {
+     "name": "TPS22964CYZPR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p6",
+     "footprint": "DSBGA-6-YZP",
+     "datasheet": "ti-tps22963c",
+     "vinMin": 1,
+     "vinMax": 5.5,
+     "iout": 3,
+     "ron": 0.0133,
+     "iq": 6.65e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22965",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p8": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 3,
+      "name": "ON",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "VBIAS",
+      "role": "power"
+     },
+     {
+      "number": 5,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 6,
+      "name": "CT",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VOUT",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [
+    "VBIAS",
+    "CT"
+   ],
+   "parts": [
+    {
+     "name": "TPS22965DSGR",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p8",
+     "footprint": "WSON-8-DSG",
+     "datasheet": "ti-tps22965",
+     "vinMin": 0.8,
+     "vinMax": 5.7,
+     "iout": 6,
+     "ron": 0.016,
+     "iq": 5e-05
+    },
+    {
+     "name": "TPS22965DSGT",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p8",
+     "footprint": "WSON-8-DSG",
+     "datasheet": "ti-tps22965",
+     "vinMin": 0.8,
+     "vinMax": 5.7,
+     "iout": 6,
+     "ron": 0.016,
+     "iq": 5e-05
+    },
+    {
+     "name": "TPS22965NDSGR",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p8",
+     "footprint": "WSON-8-DSG",
+     "datasheet": "ti-tps22965",
+     "vinMin": 0.8,
+     "vinMax": 5.7,
+     "iout": 6,
+     "ron": 0.016,
+     "iq": 5e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22965-q1",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p8": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 3,
+      "name": "ON",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "VBIAS",
+      "role": "power"
+     },
+     {
+      "number": 5,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 6,
+      "name": "CT",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VOUT",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [
+    "VBIAS",
+    "CT"
+   ],
+   "parts": [
+    {
+     "name": "TPS22965NTDSGRQ1",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p8",
+     "footprint": "WSON-8-DSG",
+     "datasheet": "ti-tps22965-q1",
+     "vinMin": 0.8,
+     "vinMax": 5.5,
+     "iout": 4,
+     "ron": 0.016,
+     "iq": 5e-05,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "TPS22965TDSGRQ1",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p8",
+     "footprint": "WSON-8-DSG",
+     "datasheet": "ti-tps22965-q1",
+     "vinMin": 0.8,
+     "vinMax": 5.5,
+     "iout": 4,
+     "ron": 0.016,
+     "iq": 5e-05,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "TPS22965TDSGTQ1",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p8",
+     "footprint": "WSON-8-DSG",
+     "datasheet": "ti-tps22965-q1",
+     "vinMin": 0.8,
+     "vinMax": 5.5,
+     "iout": 4,
+     "ron": 0.016,
+     "iq": 5e-05,
+     "flags": [
+      "automotive"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22967",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p8": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 3,
+      "name": "ON",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "VBIAS",
+      "role": "power"
+     },
+     {
+      "number": 5,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 6,
+      "name": "CT",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VOUT",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [
+    "VBIAS",
+    "CT"
+   ],
+   "parts": [
+    {
+     "name": "TPS22967DSGR",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p8",
+     "footprint": "WSON-8-DSG",
+     "datasheet": "ti-tps22967",
+     "vinMin": 0.8,
+     "vinMax": 5.5,
+     "iout": 4,
+     "ron": 0.022,
+     "iq": 5e-05
+    },
+    {
+     "name": "TPS22967DSGT",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p8",
+     "footprint": "WSON-8-DSG",
+     "datasheet": "ti-tps22967",
+     "vinMin": 0.8,
+     "vinMax": 5.5,
+     "iout": 4,
+     "ron": 0.022,
+     "iq": 5e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22969",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p8": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 3,
+      "name": "VBIAS",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "ON",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 6,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VOUT",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [
+    "VBIAS"
+   ],
+   "parts": [
+    {
+     "name": "TPS22969DNYR",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p8",
+     "footprint": "WSON-8-TI-DNY0008A",
+     "datasheet": "ti-tps22969",
+     "vinMin": 0.8,
+     "vinMax": 5.5,
+     "iout": 6,
+     "ron": 0.0044,
+     "iq": 2.04e-05
+    },
+    {
+     "name": "TPS22969DNYT",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p8",
+     "footprint": "WSON-8-TI-DNY0008A",
+     "datasheet": "ti-tps22969",
+     "vinMin": 0.8,
+     "vinMax": 5.5,
+     "iout": 6,
+     "ron": 0.0044,
+     "iq": 2.04e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22975",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p8": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 3,
+      "name": "ON",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "VBIAS",
+      "role": "power"
+     },
+     {
+      "number": 5,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 6,
+      "name": "CT",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VOUT",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [
+    "VBIAS",
+    "CT"
+   ],
+   "parts": [
+    {
+     "name": "TPS22975NDSGT",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p8",
+     "footprint": "WSON-8-DSG",
+     "datasheet": "ti-tps22975",
+     "vinMin": 0.6,
+     "vinMax": 5.7,
+     "iout": 6,
+     "ron": 0.016,
+     "iq": 3.7e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22990",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p10": [
+     {
+      "number": 1,
+      "name": "CT",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 3,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "VBIAS",
+      "role": "power"
+     },
+     {
+      "number": 5,
+      "name": "ON",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 7,
+      "name": "PG",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "VOUT",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [
+    "VBIAS",
+    "CT",
+    "PG"
+   ],
+   "parts": [
+    {
+     "name": "TPS22990NDMLR",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p10",
+     "footprint": "WSON-10-TI-DML0010A",
+     "datasheet": "ti-tps22990",
+     "vinMin": 0.6,
+     "vinMax": 5.5,
+     "iout": 10,
+     "ron": 0.0039,
+     "iq": 6.3e-05
+    },
+    {
+     "name": "TPS22990NDMLT",
+     "manufacturer": "Texas Instruments",
+     "package": "WSON",
+     "pinout": "p10",
+     "footprint": "WSON-10-TI-DML0010A",
+     "datasheet": "ti-tps22990",
+     "vinMin": 0.6,
+     "vinMax": 5.5,
+     "iout": 10,
+     "ron": 0.0039,
+     "iq": 6.3e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22991",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p4": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "ON",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "GND",
+      "role": "ground"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "TPS22991BNRAAR",
+     "manufacturer": "Texas Instruments",
+     "package": "UQFN",
+     "pinout": "p4",
+     "footprint": "UQFN-4-TI-RAA0004A",
+     "datasheet": "ti-tps22991",
+     "vinMin": 1,
+     "vinMax": 5.5,
+     "iout": 3,
+     "ron": 0.025,
+     "iq": 6e-06
+    },
+    {
+     "name": "TPS22991CNRAAR",
+     "manufacturer": "Texas Instruments",
+     "package": "UQFN",
+     "pinout": "p4",
+     "footprint": "UQFN-4-TI-RAA0004A",
+     "datasheet": "ti-tps22991",
+     "vinMin": 1,
+     "vinMax": 5.5,
+     "iout": 3,
+     "ron": 0.025,
+     "iq": 6e-06
+    },
+    {
+     "name": "TPS22991CRAAR",
+     "manufacturer": "Texas Instruments",
+     "package": "UQFN",
+     "pinout": "p4",
+     "footprint": "UQFN-4-TI-RAA0004A",
+     "datasheet": "ti-tps22991",
+     "vinMin": 1,
+     "vinMax": 5.5,
+     "iout": 3,
+     "ron": 0.025,
+     "iq": 6e-06
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22991i",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p4": [
+     {
+      "number": 1,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "ON",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "GND",
+      "role": "ground"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [],
+   "parts": [
+    {
+     "name": "TPS22991IBNRAAR",
+     "manufacturer": "Texas Instruments",
+     "package": "UQFN",
+     "pinout": "p4",
+     "footprint": "UQFN-4-TI-RAA0004A",
+     "datasheet": "ti-tps22991i",
+     "vinMin": 1,
+     "vinMax": 5.5,
+     "iout": 2.7,
+     "ron": 0.025,
+     "iq": 6e-06
+    },
+    {
+     "name": "TPS22991IBRAAR",
+     "manufacturer": "Texas Instruments",
+     "package": "UQFN",
+     "pinout": "p4",
+     "footprint": "UQFN-4-TI-RAA0004A",
+     "datasheet": "ti-tps22991i",
+     "vinMin": 1,
+     "vinMax": 5.5,
+     "iout": 2.7,
+     "ron": 0.025,
+     "iq": 6e-06
+    },
+    {
+     "name": "TPS22991ICNRAAR",
+     "manufacturer": "Texas Instruments",
+     "package": "UQFN",
+     "pinout": "p4",
+     "footprint": "UQFN-4-TI-RAA0004A",
+     "datasheet": "ti-tps22991i",
+     "vinMin": 1,
+     "vinMax": 5.5,
+     "iout": 2.7,
+     "ron": 0.025,
+     "iq": 6e-06
+    },
+    {
+     "name": "TPS22991ICRAAR",
+     "manufacturer": "Texas Instruments",
+     "package": "UQFN",
+     "pinout": "p4",
+     "footprint": "UQFN-4-TI-RAA0004A",
+     "datasheet": "ti-tps22991i",
+     "vinMin": 1,
+     "vinMax": 5.5,
+     "iout": 2.7,
+     "ron": 0.025,
+     "iq": 6e-06
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22995",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p6": [
+     {
+      "number": 1,
+      "name": "VBIAS",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 3,
+      "name": "ON",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 5,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "CT",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [
+    "VBIAS",
+    "CT"
+   ],
+   "parts": [
+    {
+     "name": "TPS22995RZFR",
+     "manufacturer": "Texas Instruments",
+     "package": "WQFN",
+     "pinout": "p6",
+     "footprint": "WQFN-6-TI-RZF0006A",
+     "datasheet": "ti-tps22995",
+     "vinMin": 0.4,
+     "vinMax": 5.5,
+     "iout": 3.8,
+     "ron": 0.018,
+     "iq": 1e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22997",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p10": [
+     {
+      "number": 1,
+      "name": "VBIAS",
+      "role": "power"
+     },
+     {
+      "number": 2,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 3,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "PG",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 6,
+      "name": "QOD",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "CT",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "ON",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON"
+    }
+   ],
+   "analog": [
+    "VBIAS",
+    "PG",
+    "QOD",
+    "CT"
+   ],
+   "parts": [
+    {
+     "name": "TPS22997RYZR",
+     "manufacturer": "Texas Instruments",
+     "package": "WQFN",
+     "pinout": "p10",
+     "footprint": "WQFN-10-TI-RYZ0010A",
+     "datasheet": "ti-tps22997",
+     "vinMin": 0.1,
+     "vinMax": 5.5,
+     "iout": 10,
+     "ron": 0.004,
+     "iq": 1e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps22999",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p8": [
+     {
+      "ball": "A1",
+      "name": "VBIAS",
+      "role": "power"
+     },
+     {
+      "ball": "A2",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "B1",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "B2",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "C1",
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "ball": "C2",
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "ball": "D1",
+      "name": "EN",
+      "role": "input"
+     },
+     {
+      "ball": "D2",
+      "name": "PG",
+      "role": "output"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "EN"
+    }
+   ],
+   "analog": [
+    "VBIAS",
+    "PG"
+   ],
+   "parts": [
+    {
+     "name": "TPS22999YCHR",
+     "manufacturer": "Texas Instruments",
+     "package": "DSBGA",
+     "pinout": "p8",
+     "footprint": "DSBGA-8-TI-YCH0008-C01",
+     "datasheet": "ti-tps22999",
+     "vinMin": 0.1,
+     "vinMax": 4.5,
+     "iout": 1.5,
+     "ron": 0.0075,
+     "iq": 1e-05
+    }
+   ]
+  },
+  {
+   "id": "psw-ti-tps27081a",
+   "function": "Single channel",
+   "description": "Load switch, 1 channel",
+   "drawer": [
+    "Power",
+    "Power Switches",
+    "Load Switches"
+   ],
+   "pinouts": {
+    "p6": [
+     {
+      "number": 1,
+      "name": "R2",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "VIN",
+      "role": "power"
+     },
+     {
+      "number": 5,
+      "name": "ON/OFF",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "R1/C1",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "load",
+   "switches": [
+    {
+     "in": "VIN",
+     "out": "VOUT",
+     "enable": "ON/OFF"
+    }
+   ],
+   "analog": [
+    "R2",
+    "R1/C1"
+   ],
+   "parts": [
+    {
+     "name": "TPS27081ADDCR",
+     "manufacturer": "Texas Instruments",
+     "package": "TSOT-23",
+     "pinout": "p6",
+     "footprint": "SOT23-THIN-6",
+     "datasheet": "ti-tps27081a",
+     "vinMin": 1,
+     "vinMax": 8,
+     "iout": 3,
+     "ron": 0.032
+    }
+   ]
+  }
+ ]
+}

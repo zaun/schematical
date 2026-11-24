@@ -27,9 +27,9 @@ plan-55-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-55-G complete | `ls planning/completed/plan-55-G-*.md` → exists | NOT MET (2026-11-22: not started) |
-| The goldens' sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `traces.txt`; `footprints.txt` re-measured at the start of H; H uses its own | at planning (7c7b4d31): 34375 / 34375 / 1895 |
-| The editor's lists do not name the kind | `grep -c '"powerswitch"' schematical/schematical/Editor/KindSchema.swift schematical/schematical/Editor/KindInfo.swift` → 0 and 0 | MET (2026-11-22 at 7c7b4d31: 0, 0) |
+| plan-55-G complete | `ls planning/completed/plan-55-G-*.md` → exists | MET (2026-11-23: archived at 40d43728) |
+| The goldens' sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `traces.txt`; `footprints.txt` re-measured at the start of H; H uses its own | at planning (7c7b4d31): 34375 / 34375 / 1895; at H's start (40d43728): **34436 / 34436 / 1904** |
+| The editor's lists do not name the kind | `grep -c '"powerswitch"' schematical/schematical/Editor/KindSchema.swift schematical/schematical/Editor/KindInfo.swift` → 0 and 0 | MET (2026-11-23: 0, 0) |
 
 Everything below is written against the world where these hold.
 
@@ -65,7 +65,7 @@ kind; the regulator's are the template (`Editor/KindInfo.swift:156`, `KindSchema
 
 | What | Count | Command |
 |---|---|---|
-| `add` rows of `ideal` and `load` | N (at most 331) | `python3 -I planning/plan-55-data/census/verdicts.py --report` → the `ideal` and `load` `add` lines (recorded here when H starts) |
+| `add` rows of `ideal` and `load` | N (at most 331) | `python3 -I planning/plan-55-data/census/verdicts.py --report` → the `ideal` and `load` `add` lines (recorded here when H starts: **229** = ideal 32 + load 197) |
 | Files naming the regulator kind | 10 | plan-55-A § 2 |
 
 ## Phases
@@ -76,20 +76,20 @@ kind; the regulator's are the template (`Editor/KindInfo.swift:156`, `KindSchema
 
 ### Phase 1 — The generator and every `add` row (backend side)
 
-- [ ] `census/gen-parts.py` (adapted from plan-42's): from `verdicts.tsv`, `specs.tsv` and
+- [x] `census/gen-parts.py` (adapted from plan-42's): from `verdicts.tsv`, `specs.tsv` and
       `candidates.tsv` it writes the devices and parts of the given families to
       `Parts/powerswitch.json` (A § 3.2's ids, `function`, `drawer` and part fields; `datasheet` the id of
-      the entry it adds; `flags` from `verdicts.tsv`) and prints `<d> devices, <p> parts`.
-- [ ] `gen-parts.py --family ideal --family load`; `fp-merge.py` merges the footprints these parts name
+      the entry it adds; `flags` from `verdicts.tsv`) and prints `<d> devices, <p> parts`. Observed: `gen-parts.py --family ideal --family load` → `103 devices, 229 parts`.
+- [x] `gen-parts.py --family ideal --family load`; `fp-merge.py` merges the footprints these parts name
       (`--only`); one `datasheets.json` entry per cited PDF (`id` the PDF's lower-case name, `url` the
-      row's `maker_url`); record the device and part counts here.
-- [ ] Regenerate `parts.txt`, `traces.txt`, `footprints.txt` (`/tmp/logic-p55/listing_check --print >
+      row's `maker_url`); record the device and part counts here (103 devices, 229 parts; 92 `datasheets.json` entries; 31 footprints appended to `footprints.json`: the 31 `footprint_check` lines the goldens gained).
+- [x] Regenerate `parts.txt`, `traces.txt`, `footprints.txt` (`/tmp/logic-p55/listing_check --print >
       backend/tests/golden/parts.txt`, `trace_check --print`, `footprint_check --print`, `docs/backend.md`
-      § Tests); review the diff: added lines only.
+      § Tests); review the diff: added lines only. Observed: `git diff --numstat backend/tests/golden` → `31 0 footprints.txt`, `229 0 parts.txt`, `229 0 traces.txt`.
 
 Acceptance: every `add` row is a loaded part and nothing else moved.
-  Check: `cmake --build /tmp/logic-p55 -j8 && ctest --test-dir /tmp/logic-p55 -R 'listing_check|trace_check|library_check|footprint_check|powerswitch_test'` → 5 of 5; `grep -c '|powerswitch|' backend/tests/golden/parts.txt` → N; `git diff --numstat backend/tests/golden | awk '{d+=$2} END{print d}'` → 0 (est. 4 min). The app's kind-list tests are red between this phase and the next (a kind with parts and no editor entry) and are not run here.
-Commit: —
+  Check: `cmake --build /tmp/logic-p55 -j8 && ctest --test-dir /tmp/logic-p55 -R 'listing_check|trace_check|library_check|footprint_check|powerswitch_test'` → 5 of 5; `grep -c '|powerswitch|' backend/tests/golden/parts.txt` → N; `git diff --numstat backend/tests/golden | awk '{d+=$2} END{print d}'` → 0 (est. 4 min). The app's kind-list tests are red between this phase and the next (a kind with parts and no editor entry) and are not run here. Observed: `ctest -R 'listing_check|trace_check|library_check|footprint_check|powerswitch_test'` → `100% tests passed, 0 tests failed out of 5`; `grep -c '|powerswitch|' backend/tests/golden/parts.txt` → 229; the removed-lines sum is 0.
+Commit: (filled by the next commit)
 
 ### Phase 2 — The Part Editor's kind lists, the app's counts
 
