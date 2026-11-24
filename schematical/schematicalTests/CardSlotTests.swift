@@ -202,7 +202,8 @@ final class CardSlotTests: XCTestCase {
     /// The drawer: Connector › Card slot has a leaf for each drawer leaf the
     /// library has parts in (and no other), each leaf's function groups hold
     /// the parts of that function, and a leaf's parts are in pin-count order,
-    /// then by name.
+    /// then by name. A leaf whose parts all use its own name as the function
+    /// (SD, microSD, Smart card) lists them directly: no repeated title.
     func testDrawerBranch() throws {
         let groups = TestSupport.catalog.groups(matching: everything())
         let connector = try XCTUnwrap(groups.first { $0.category == "Connector" })
@@ -215,7 +216,12 @@ final class CardSlotTests: XCTestCase {
         XCTAssertEqual(slot.allParts.count, Self.cardSlots.count)
         for leaf in slot.subgroups {
             XCTAssertEqual(leaf.path.prefix(2), ["Connector", "Card slot"])
-            for group in leaf.functions {
+            XCTAssertFalse(leaf.functions.contains { $0.function.caseInsensitiveCompare(leaf.subcategory) == .orderedSame }
+                           && leaf.functions.count == 1, "\(leaf.subcategory) repeats its own name")
+            // Direct parts sort like a function group's: pin count, then name.
+            let direct = [(function: leaf.subcategory, parts: leaf.parts)].filter { !$0.parts.isEmpty }
+            XCTAssertTrue(direct.isEmpty || leaf.functions.isEmpty, "\(leaf.subcategory) lists parts both ways")
+            for group in leaf.functions.map({ (function: $0.function, parts: $0.parts) }) + direct {
                 let parts = group.parts
                 XCTAssertFalse(parts.isEmpty)
                 XCTAssertTrue(parts.allSatisfy { $0.function == group.function && $0.drawer == leaf.path }, group.function)
@@ -234,8 +240,8 @@ final class CardSlotTests: XCTestCase {
         for example in try Self.examples() {
             let part = try TestSupport.part(example.mpn)
             let leaf = try XCTUnwrap(slot.subgroups.first { $0.subcategory == example.drawer.last }, example.mpn)
-            let group = try XCTUnwrap(leaf.functions.first { $0.function == part.function }, example.mpn)
-            XCTAssertTrue(group.parts.contains(part), example.mpn)
+            let listed = leaf.functions.first { $0.function == part.function }?.parts ?? leaf.parts
+            XCTAssertTrue(listed.contains(part), example.mpn)
             XCTAssertEqual(example.drawer.prefix(2), ["Connector", "Card slot"])
         }
     }

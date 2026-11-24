@@ -2417,7 +2417,7 @@ final class PartCatalogStore {
                 let groupPath = path + [name]
                 let own = parts.filter { $0.drawer.count == groupPath.count }
                 let subgroups = Self.subgroups(parts, below: groupPath, rank: rank)
-                return listsPartsDirectly(own)
+                return listsPartsDirectly(own) || repeatsDrawerName(own, name)
                     ? SubcategoryGroup(subcategory: name, path: groupPath, subgroups: subgroups,
                                        functions: [], parts: byCountThenName(own, rank: rank))
                     : SubcategoryGroup(subcategory: name, path: groupPath, subgroups: subgroups,
@@ -2434,6 +2434,14 @@ final class PartCatalogStore {
                 || $0.kind == PART_NIXIE || $0.kind == PART_DEKATRON || $0.kind == PART_LCD
                 || $0.kind == PART_HEADER
         }
+    }
+
+    /// Card slots whose function is the drawer's own name (Card slot → SD →
+    /// SD): a function level would repeat the group's title, so they are
+    /// listed directly. A drawer that also holds other functions (SIM →
+    /// Micro SIM, Nano SIM, SIM) keeps its function level.
+    private static func repeatsDrawerName(_ parts: [CatalogPart], _ name: String) -> Bool {
+        !parts.isEmpty && parts.allSatisfy { $0.isCardSlot && $0.function.caseInsensitiveCompare(name) == .orderedSame }
     }
 
     /// Parts by count (positions, digits), then by name.
