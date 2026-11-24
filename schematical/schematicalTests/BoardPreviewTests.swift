@@ -192,6 +192,52 @@ final class BoardPreviewTests: XCTestCase {
         XCTAssertGreaterThan(differing(try pixels(bare), try pixels(doc)), 100, part.name)
     }
 
+    /// plan-45-H: a placed terminal block gets the `terminalBlock` look (9.5 mm, one housing box over its
+    /// footprint's body) and a JST header the `jstHeader` look (6 mm); a USB connector is still `.usb`, a barrel
+    /// jack `.barrel`; and each shows in the render.
+    func testTerminalBlockAndJstLooks() throws {
+        let doc = TestSupport.newDocument()
+        let bare = TestSupport.newDocument()
+        var checked = 0
+        for (index, (name, height)) in [("GENERIC-TERMINAL-5.08-03", CGFloat(9.5)), ("GENERIC-JST-XH-04", 6)].enumerated() {
+            let chip = try TestSupport.place(doc, name, at: CGPoint(x: 200 + 300 * index, y: 200))
+            let look = PartLook.of(chip)
+            switch (index, look.kind) {
+            case (0, .terminalBlock), (1, .jstHeader): break
+            default: XCTFail("\(name) is \(look.kind)"); continue
+            }
+            XCTAssertEqual(look.height, height, name)
+            let outline = [CGPoint.zero, CGPoint(x: 100, y: 0), CGPoint(x: 100, y: 50), CGPoint(x: 0, y: 50)]
+            let projection = RenderProjection.fitting(outline, face: .front, angle: .top, size: CGSize(width: 800, height: 600),
+                                                      height: height, below: 0)
+            let solids = look.solids(painter: SolidPainter(projection: projection))
+            XCTAssertEqual(solids.count, 1, name)
+            XCTAssertEqual(try XCTUnwrap(solids.first).height, height, name)
+            checked += 1
+        }
+        XCTAssertEqual(checked, 2)
+        let barrel = try XCTUnwrap(TestSupport.catalog.allParts.first {
+            if case .connector(_, _, _, _, nil) = $0.details { return true }
+            return false
+        })
+        let usb = try XCTUnwrap(TestSupport.catalog.allParts.first {
+            if case .connector(_, _, _, _, _?) = $0.details { return true }
+            return false
+        })
+        let barrelChip = try TestSupport.place(doc, barrel.name, at: CGPoint(x: 200, y: 600))
+        let usbChip = try TestSupport.place(doc, usb.name, at: CGPoint(x: 500, y: 600))
+        guard case .barrel = PartLook.of(barrelChip).kind else { return XCTFail("barrel is \(PartLook.of(barrelChip).kind)") }
+        guard case .usb = PartLook.of(usbChip).kind else { return XCTFail("USB is \(PartLook.of(usbChip).kind)") }
+        // Each look shows in the front render, on a board of its own.
+        for name in ["GENERIC-TERMINAL-5.08-03", "GENERIC-JST-XH-04"] {
+            let one = TestSupport.newDocument()
+            let chip = try TestSupport.place(one, name, at: CGPoint(x: 100, y: 100))
+            for document in [bare, one] { document.setBoardSize(width: 60, height: 40) }
+            one.moveFootprintOrigin(chip.id, to: CGPoint(x: 30, y: 20))
+            XCTAssertGreaterThan(differing(try pixels(bare), try pixels(one)), 100, name)
+        }
+    }
+
     /// plan-52-F: a pour on Top shows in the front render, under the mask, and not in the back one.
     func testAPourShowsInTheFrontRenderOnly() throws {
         let doc = TestSupport.newDocument()

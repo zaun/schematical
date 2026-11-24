@@ -106,6 +106,29 @@ final class PartEditorWindowTests: XCTestCase {
         }
     }
 
+    /// plan-45-H: the connector kind's schema has `terminal`, `jst` and `pitch` (millimetres), and a library terminal
+    /// block and JST header open as drafts with their keys in the kind's device keys and nothing left over.
+    func testConnectorSchemaHasTheTerminalKeys() throws {
+        let schema = try XCTUnwrap(PartKinds.schemas["connector"])
+        XCTAssertTrue(schema.keys.isSuperset(of: ["terminal", "jst", "pitch"]), "\(schema.keys)")
+        let terminal = try XCTUnwrap(schema.device.first { $0.key == "terminal" })
+        let jst = try XCTUnwrap(schema.device.first { $0.key == "jst" })
+        let pitch = try XCTUnwrap(schema.device.first { $0.key == "pitch" })
+        if case let .suggested(words) = terminal.type {
+            XCTAssertEqual(Set(words), ["screw", "spring", "push-in", "pluggable"])
+        } else { XCTFail("terminal is \(terminal.type)") }
+        if case let .suggested(series) = jst.type {
+            XCTAssertEqual(Set(series), ["XH", "PH", "EH", "ZH", "SH", "GH", "VH"])
+        } else { XCTFail("jst is \(jst.type)") }
+        if case .number(unit: "mm") = pitch.type {} else { XCTFail("pitch is \(pitch.type)") }
+        for name in ["GENERIC-TERMINAL-5.08-03", "GENERIC-JST-XH-04"] {
+            let draft = try PartDraft(file: XCTUnwrap(BundledPartFile.copy(name: name, kind: "connector"), name))
+            XCTAssertEqual(draft.extraKeys, [], name)
+            XCTAssertTrue(draft.kindDevice.keys.contains("pitch"), name)
+            XCTAssertTrue(draft.kindDevice.keys.contains(name.contains("JST") ? "jst" : "terminal"), name)
+        }
+    }
+
     // MARK: Active-low pins (plan-39-B)
 
     private func activeLowDraft() throws -> PartDraft {

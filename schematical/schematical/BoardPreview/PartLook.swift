@@ -35,6 +35,12 @@ struct PartLook {
         /// A card slot (plan-54-O): a dark housing over the footprint's pads,
         /// `height` mm tall (by what the slot takes).
         case cardSlot(height: CGFloat)
+        /// A PCB terminal block (plan-45-H): a green housing with a dark wire
+        /// entry over each pole.
+        case terminalBlock
+        /// A JST board header (plan-45-H): a natural-white housing with a
+        /// polarization notch at pin 1.
+        case jstHeader
         /// A test point (plan-57): a bare pad or plated hole with no body.
         case testPad
         case barrel
@@ -105,6 +111,7 @@ struct PartLook {
             if part.isTestPoint { return .testPad }
             if case let .connector(_, _, _, _, usb) = part.details, let usb { return .usb(usb) }
             if part.isCardSlot { return .cardSlot(height: cardSlotHeight(of: part)) }
+            if case let .wireConnector(kind, _, _, _, _) = part.details { return kind == "jst" ? .jstHeader : .terminalBlock }
             if id.hasPrefix("USB") { return .usb(nil) }
             return .barrel
         case PART_OSCILLATOR:
@@ -231,6 +238,8 @@ struct PartLook {
             default: 4
             }
         case let .cardSlot(height): height
+        case .terminalBlock: 9.5
+        case .jstHeader: 6
         case .testPad: 0
         case .barrel: 11
         case .toPackage: 15
@@ -594,6 +603,35 @@ struct PartLook {
             }
             let housing = Tint(0.16, 0.17, 0.19)
             if !padBounds.isNull { box(padBounds, 0, h, housing, top: housing.shaded(1.15)) }
+
+        case .terminalBlock:
+            // A green housing over the footprint's body with a dark wire entry
+            // over each pole (one per pin: the pad of each designator, or the
+            // middle of a pole's two holes).
+            let green = Tint(0.17, 0.58, 0.32)
+            var poles: [String: [CGPoint]] = [:]
+            for pad in pads { if let designator = pad.designator { poles[designator, default: []].append(pad.centre) } }
+            var pitch: CGFloat = 5
+            if case let .wireConnector(_, _, pitchUM, _, _) = chip.part.details { pitch = CGFloat(pitchUM) / 1000 }
+            let entry = min(max(pitch * 0.6, 1.6), 3.2)
+            box(bodyRect, 0, h, green, top: green.shaded(1.12)) { layer in
+                for (_, points) in poles {
+                    let cx = points.map(\.x).reduce(0, +) / CGFloat(points.count)
+                    let cy = points.map(\.y).reduce(0, +) / CGFloat(points.count)
+                    layer.fill(Path(rect(cx, cy, entry, entry)), with: .color(Tint(0.08, 0.08, 0.09).color))
+                }
+            }
+
+        case .jstHeader:
+            // A natural-white housing; a dark notch on the top edge at pin 1's end.
+            let white = Tint(0.93, 0.91, 0.84)
+            let p1 = pad1?.centre ?? CGPoint(x: -body.width / 2, y: 0)
+            let notch = horizontal
+                ? rect(min(max(p1.x, -body.width / 2 + 0.6), body.width / 2 - 0.6), -body.height / 2 + 0.45, 1.2, 0.9)
+                : rect(-body.width / 2 + 0.45, min(max(p1.y, -body.height / 2 + 0.6), body.height / 2 - 0.6), 0.9, 1.2)
+            box(bodyRect, 0, h, white, top: white.shaded(1.05)) { layer in
+                layer.fill(Path(notch), with: .color(Tint(0.35, 0.33, 0.28).color))
+            }
 
         case .testPad:
             // A test point has no body; the pad is drawn by the board's copper.

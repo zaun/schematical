@@ -61,7 +61,7 @@ VOLT_KEYS = {"vcc", "vccB"}
 ENUMS = {"active": ["high", "low"], "edge": ["rising", "falling"], "when": ["async", "clock"],
          "output": ["push-pull", "open-drain"]}
 UNITS = {"inputMax": "V", "inputMaxB": "V", "volts": "V", "ratedVolts": "V", "ratedAmps": "A",
-         "minHz": "Hz", "maxHz": "Hz", "rise": "ns", "fall": "ns", "cardPitch": "mm",
+         "minHz": "Hz", "maxHz": "Hz", "rise": "ns", "fall": "ns", "cardPitch": "mm", "pitch": "mm",
          # serialmem: SCK in MHz; the write and erase times in ns.
          "maxClock": "MHz", "writeCycle": "ns", "pageProgram": "ns", "byteProgram": "ns", "sectorErase": "ns",
          "blockErase32": "ns", "blockErase64": "ns", "chipErase": "ns", "pageErase": "ns", "writeStatus": "ns",
@@ -165,7 +165,8 @@ def infer(key, items, known):
         distinct = sorted({v for v, _ in vals})
         if key in ENUMS and set(distinct) <= set(ENUMS[key]):
             return ("choice", ENUMS[key])
-        if len(distinct) <= 24 and all(len(v) <= 32 for v in distinct):
+        # A connector's `card` has 27 values since plan-54 (the editor offers them all).
+        if (len(distinct) <= 24 or key == "card") and all(len(v) <= 32 for v in distinct):
             return ("suggested", distinct)
         return ("text",)
     if cat == "num":
