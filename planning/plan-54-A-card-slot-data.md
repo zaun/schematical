@@ -88,11 +88,11 @@ Every other letter points here.
 | Must be true | Command | Status |
 |---|---|---|
 | Backend tests green | `cmake -S backend -B /tmp/logic-p54 && cmake --build /tmp/logic-p54 -j8 && ctest --test-dir /tmp/logic-p54 -j8` → `100% tests passed` | MET (2026-11-22 at 7b449718: the plan-44-H landing run, `100% tests passed, 0 tests failed out of 41`; T0 = 41, `grep -c '^logic_test' backend/CMakeLists.txt` → 41) |
-| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `traces.txt`; `footprints.txt` | at planning (7b449718): **P0 = 34375**, **R0 = 34375**, **F0 = 1895**; H, I, J, K, M and N re-measure them at their start and use their own |
+| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `traces.txt`; `footprints.txt` | at planning (7b449718): **P0 = 34375**, **R0 = 34375**, **F0 = 1895**; at 450ab7c3 (2026-11-23): 34393, 34393, 1904; H, I, J, K, M and N re-measure them at their start and use their own |
 | The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p54-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-22: `** BUILD SUCCEEDED **` in plan-44-H's landing run on the tree HEAD 7b449718 holds) |
 | No card-slot parts yet | `grep -c '"card"\|"cardPitch"' schematical/schematical/Parts/connector.json backend/src/models/connector.c` → `0` and `0`; `ls datasheets \| grep -c 'card\|memory-module'` → 0 | MET (2026-11-22 at 7b449718: 0, 0, 0) |
 | No other open plan adds them | `grep -l -i 'datasheets/connector-card\|card slot\|card edge\|card-edge\|memory card' planning/plan-*.md \| grep -v plan-54 \| wc -l` → 0 | MET (2026-11-22: 0). plan-45 (terminal blocks and JST) and plan-53 are open and also edit the `connector` kind, `PartCatalog.swift` / `PartFacts.swift` `switch` statements, `footprints.json`, `datasheets.json` and the goldens; those lines are edited by hunk; each plan-54 step that adds a line another plan also adds greps first (E Phase 1, F Phase 1, L Phase 1, M Phase 1, O Phase 1) |
-| DigiKey credentials and quota | `grep -cE '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc` → 2; `eval "$(grep -E '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc)" && node planning/plan-54-data/census/stocked.js 414:2223` prints `left` ≥ 220 before Phase 2 (about 1000 a day, shared with other sessions; it resets at about 00:00 UTC) | NOT MET (2026-11-22: credentials 2 of 2; `left 48` after planning's calls and other sessions'; the quota resets at about 00:00 UTC). Phases 1 and 3 need no quota |
+| DigiKey credentials and quota | `grep -cE '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc` → 2; `eval "$(grep -E '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc)" && node planning/plan-54-data/census/stocked.js 414:2223` prints `left` ≥ 220 before Phase 2 (about 1000 a day, shared with other sessions; it resets at about 00:00 UTC) | MET (2026-11-23: the first key is spent, so Phase 2 uses `scripts/digikey.js --opt2` (the second key, `DIGIKEY_CLIENT_ID2/SECRET2`, its own quota): a probe call answered `998 left today`; credentials `grep -c` → 2). Phases 1 and 3 need no quota |
 | The download sources answer | `awk -F'\t' 'NR>1{n[$4]++} END{for(k in n) print k, n[k]}' planning/plan-54-data/url-check.tsv` → `1 506`, `0 11` (the 2026-11-22 result: Phase 3 fetches each source again) | MET (2026-11-22: `1 506`, `0 11`; the 11 are 6 te.com links answering 500, 3 molex.com links answering HTML, 1 cuidevices.com 404, 1 Amphenol S3 key answering 403) |
 
 Everything below is written against the world where these hold; only the
@@ -329,10 +329,10 @@ loses rows keeps the rest (no refill: each row is its own part).
 
 ### Phase 1 — Restore the listing and commit the planning data
 
-- [ ] Run `python3 -I planning/plan-54-data/census/select.py planning/plan-54-data/raw /tmp/p54-cand.tsv --urls planning/plan-54-data/url-check.tsv --report`:
+- [x] Run `python3 -I planning/plan-54-data/census/select.py planning/plan-54-data/raw /tmp/p54-cand.tsv --urls planning/plan-54-data/url-check.tsv --report`:
       `1651 parts listed`, `candidates: 1270; distinct URLs 498`; `cmp` with
-      `candidates.tsv` → `reproducible`.
-- [ ] `census/list.sh`: the `PIECES` environment variable replaces the default
+      `candidates.tsv` → `reproducible`. Result: `1651 parts listed`, `candidates: 1270; distinct URLs 498`, `reproducible`.
+- [x] `census/list.sh`: the `PIECES` environment variable replaces the default
       piece list when set (§ 5); `pieces=(…)` stays the default.
 
 Acceptance: the planning pick reproduces.
