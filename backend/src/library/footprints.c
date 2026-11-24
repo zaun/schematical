@@ -30,7 +30,7 @@ typedef struct {
 } Slot;
 
 static const char *const FILE_KEYS[] = {"format", "version", "footprints", NULL};
-static const char *const COMMON_KEYS[] = {"id", "description", "note", "style", "pins", "body", NULL};
+static const char *const COMMON_KEYS[] = {"id", "description", "note", "style", "pins", "body", "edgeMount", NULL};
 static const char *const DUAL_KEYS[] = {
     "pad", "drill", "pin1Shape", "centre", "slots", "pitch", "span", "perSide", NULL
 };
@@ -46,7 +46,7 @@ static const char *const SIZE_KEYS[] = {"width", "height", "shape", "radius", "c
 static const char *const BODY_KEYS[] = {"width", "height", "round", NULL};
 static const char *const PAD_KEYS[] = {
     "pin", "ball", "x", "y", "width", "height", "shape", "drill", "slotLength", "plated", "radius",
-    "chamfer", "corners", NULL
+    "chamfer", "corners", "opposite", NULL
 };
 static const char *const CORNER_NAMES[] = {"tl", "tr", "br", "bl"};   /* bit 1 << index */
 
@@ -682,6 +682,29 @@ static int load_grid(KindContext *ctx, const cJSON *json, PartFootprint *fp) {
  * slot along the pad's longer side) and "plated": false (a non-plated hole
  * on a pin 0 pad; the pad is the hole itself, no copper).
  */
+static int explicit_hole(KindContext *ctx, const cJSON *item, uint64_t pin, FootprintPad *pad);
+
+/*
+ * An explicit pad's "opposite": true (plan-54-E): a surface-mount pad on the
+ * other face of the board from the footprint's own side. Only true; never
+ * with a hole.
+ */
+static int explicit_opposite(KindContext *ctx, const cJSON *item, FootprintPad *pad) {
+    const cJSON *opposite = cJSON_GetObjectItemCaseSensitive(item, "opposite");
+
+    if (opposite == NULL) {
+        return 0;
+    }
+    if (!cJSON_IsTrue(opposite)) {
+        return kind_error(ctx, "\"opposite\" may only be true");
+    }
+    if (pad->drill > 0 || pad->slot_length > 0 || pad->npth) {
+        return kind_error(ctx, "an opposite pad is surface mount");
+    }
+    pad->opposite = 1;
+    return 0;
+}
+
 static int explicit_hole(KindContext *ctx, const cJSON *item, uint64_t pin, FootprintPad *pad) {
     const cJSON *plated = cJSON_GetObjectItemCaseSensitive(item, "plated");
     double shorter = pad->width < pad->height ? pad->width : pad->height;
@@ -825,7 +848,7 @@ static int load_explicit(KindContext *ctx, const cJSON *json, PartFootprint *fp)
             kind_number(ctx, item, "drill", &pad->drill) != 0) {
             return -1;
         }
-        if (explicit_hole(ctx, item, number, pad) != 0) {
+        if (explicit_hole(ctx, item, number, pad) != 0 || explicit_opposite(ctx, item, pad) != 0) {
             return -1;
         }
         pad->x = clean(pad->x);
@@ -955,6 +978,12 @@ static int load_footprint(KindContext *ctx, const cJSON *json, const PartLibrary
         return kind_error(ctx, "\"pins\" must be at least 1");
     }
     fp->pins = (unsigned)pins;
+    if (cJSON_GetObjectItemCaseSensitive(json, "edgeMount") != NULL) {
+        if (!cJSON_IsTrue(cJSON_GetObjectItemCaseSensitive(json, "edgeMount"))) {
+            return kind_error(ctx, "\"edgeMount\" may only be true");
+        }
+        fp->edge_mount = 1;
+    }
 
     body = kind_member(ctx, json, "body", 1);
     if (body == NULL) {

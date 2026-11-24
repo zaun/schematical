@@ -135,12 +135,12 @@ the footprint).
 
 ### Phase 1 — The loader and its tests
 
-- [ ] `backend/include/parts.h`: `FootprintPad` gains `int opposite;` after `corners`,
+- [x] `backend/include/parts.h`: `FootprintPad` gains `int opposite;` after `corners`,
       `PartFootprint` gains `int edge_mount;`, each with its comment (§ 3).
-- [ ] `backend/src/library/footprints.c`: `PAD_KEYS` and `COMMON_KEYS` gain the keys; the
+- [x] `backend/src/library/footprints.c`: `PAD_KEYS` and `COMMON_KEYS` gain the keys; the
       explicit pad reader sets `pad->opposite` with the rules of § 3 (a helper beside
       `explicit_hole`); the footprint reader sets `edge_mount`.
-- [ ] `backend/tests/library_check.c`: beside the explicit hole tests, `ok   explicit:
+- [x] `backend/tests/library_check.c` (`check_opposite_pads`): beside the explicit hole tests, `ok   explicit:
       opposite-side pads and edge mount load` (a footprint with one top pad, one `opposite`
       pad and `"edgeMount": true` loads; `opposite` 1 on the second pad and 0 on the first,
       `edge_mount` 1) and `expect_fp_fail` for: `"opposite": false`, `"opposite": 1`,
@@ -149,23 +149,25 @@ the footprint).
 
 Acceptance: the loader accepts the keys and rejects the malformed ones.
   Check: `cmake -S backend -B /tmp/logic-p54 && cmake --build /tmp/logic-p54 -j8 --target library_check && /tmp/logic-p54/library_check` → every line `ok`, exit 0, including `ok   explicit: opposite-side pads and edge mount load` (est. 8 min: a first build).
-Commit: —
+  Result: exit 0, 481 `ok` lines, 0 `FAIL`, the `ok   explicit: opposite-side pads and edge mount load` line present.
+Commit: see Phase 2 (one commit for both phases)
 
 ### Phase 2 — The golden printer and the docs
 
-- [ ] `backend/tests/footprint_check.c`: the grammar comment and `footprint_line` print `,opp`
+- [x] `backend/tests/footprint_check.c`: the grammar comment and `footprint_line` print `,opp`
       and `|edge` (§ 3); `docs/backend.md` § Tests' footprint line grammar gains both.
-- [ ] `docs/parts-format.md`: § Common keys gains `"edgeMount"`; § `explicit` gains `"opposite"`
+- [x] `docs/parts-format.md`: § Common keys gains `"edgeMount"`; § `explicit` gains `"opposite"`
       with the example `{"pin": 3, "x": 1.5, "y": 2, "width": 0.4, "height": 1.2, "shape":
       "rect", "opposite": true}`; the USB paragraph in § `connector` now reads: "Parts that need
       rotated slots or L-shaped / keyhole shell slots are not in the library
       (`datasheets/skipped-parts.md`); a pad on the other face of the board is an `opposite`
       pad (§ `explicit`), and the USB parts skipped for pads on the bottom layer stay skipped."
-- [ ] `footprint_check` still passes against the unchanged golden.
+- [x] `footprint_check` still passes against the unchanged golden (`ctest -R 'library_check|footprint_check|listing_check'` → `100% tests passed, 0 tests failed out of 3`).
 
 Acceptance: the printer prints the keys and the existing golden is unchanged.
   Check: `cmake --build /tmp/logic-p54 -j8 && ctest --test-dir /tmp/logic-p54 -R 'library_check|footprint_check|listing_check'` → `100% tests passed`; `git diff --stat backend/tests/golden` → empty; `grep -c 'opposite\|edgeMount' docs/parts-format.md` → at least 4 (est. 10 min).
-Commit: —
+  Result: `100% tests passed, 0 tests failed out of 3`; the golden diff is empty; `grep -c` → 8.
+Commit: COMMIT_E
 
 ## Validation Plan
 
@@ -189,6 +191,12 @@ Commit: —
   `note`, not modelled: the app only relaxes the placement check (F).
 
 ## Corrections
+
+- **E was worked while B's readers ran, before D.** E's `Depends on: plan-54-D` and its "plan-54-D complete" prerequisite row
+  order the letters; nothing in E reads B, C or D's output (it is a loader, a printer and docs, with no part or footprint using
+  the keys). The prerequisite is a serialization choice, so E's code was written while the data readers of B ran
+  (2026-11-23). Every other row of E's Prerequisites was measured at its start: `grep -c 'opposite\|edgeMount'
+  backend/src/library/footprints.c backend/include/parts.h` → `0` and `0`; the `corners` comment line → 1.
 
 ## Summary
 

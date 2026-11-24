@@ -2832,6 +2832,62 @@ static void check_explicit_holes(void) {
                    "a non-plated pad is the hole itself");
 }
 
+/* Opposite-side pads and edge-mounted footprints (plan-54-E). */
+#define OPP_PAD(PIN, X, KEYS) \
+    "{'pin':" PIN ",'x':" X ",'y':0,'width':0.4,'height':1.2,'shape':'rect'" KEYS "}"
+static void check_opposite_pads(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const PartFootprint *fp;
+
+    CHECK(load_fp(library,
+                  FP_EXPLICIT_WITH("'edgeMount':true,'pads':[" OPP_PAD("1", "0", "") "," OPP_PAD("2", "1", ",'opposite':true") "]"),
+                  &error) == 0);
+    fp = part_library_find_footprint(library, "F");
+    CHECK(fp != NULL && fp->pad_count == 2 && fp->edge_mount == 1);
+    CHECK(fp->pads[0].opposite == 0 && fp->pads[1].opposite == 1);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   explicit: opposite-side pads and edge mount load\n");
+
+    library = part_library_create();
+    error = NULL;
+    CHECK(load_fp(library, FP_EXPLICIT_WITH("'pads':[" EPAD("1", "0") "," EPAD("2", "1") "]"), &error) == 0);
+    fp = part_library_find_footprint(library, "F");
+    CHECK(fp != NULL && fp->edge_mount == 0 && fp->pads[0].opposite == 0 && fp->pads[1].opposite == 0);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   explicit: a footprint without the keys has edge_mount 0 and opposite 0\n");
+
+    expect_fp_fail("explicit: opposite false",
+                   FP_EXPLICIT_WITH("'pads':[" OPP_PAD("1", "0", "") "," OPP_PAD("2", "1", ",'opposite':false") "]"),
+                   "\"opposite\" may only be true");
+    expect_fp_fail("explicit: opposite 1",
+                   FP_EXPLICIT_WITH("'pads':[" OPP_PAD("1", "0", "") "," OPP_PAD("2", "1", ",'opposite':1") "]"),
+                   "\"opposite\" may only be true");
+    expect_fp_fail("explicit: opposite with a drill",
+                   FP_EXPLICIT_WITH("'pads':[" OPP_PAD("1", "0", "") "," OPP_PAD("2", "1", ",'drill':0.3,'opposite':true") "]"),
+                   "an opposite pad is surface mount");
+    expect_fp_fail("explicit: opposite with a slot",
+                   FP_EXPLICIT_WITH("'pads':[" OPP_PAD("1", "0", "") ","
+                                    OPP_PAD("2", "1", ",'drill':0.3,'slotLength':0.8,'opposite':true") "]"),
+                   "an opposite pad is surface mount");
+    expect_fp_fail("explicit: opposite non-plated",
+                   FP_EXPLICIT_WITH("'pads':[" EPAD("1", "0") "," EPAD("2", "1") ","
+                                    NPTH_PAD("'width':0.9,'height':0.9,'drill':0.9,'plated':false,'opposite':true") "]"),
+                   "an opposite pad is surface mount");
+    expect_fp_fail("footprint: edgeMount false",
+                   FP_EXPLICIT_WITH("'edgeMount':false,'pads':[" EPAD("1", "0") "," EPAD("2", "1") "]"),
+                   "\"edgeMount\" may only be true");
+    expect_fp_fail("footprint: edgeMount yes",
+                   FP_EXPLICIT_WITH("'edgeMount':'yes','pads':[" EPAD("1", "0") "," EPAD("2", "1") "]"),
+                   "\"edgeMount\" may only be true");
+    expect_fp_fail("footprint: opposite on a dual footprint's pad",
+                   FP_FILE("{'id':'F','description':'d','style':'dual','pins':2,'pitch':1,'span':1,'body':{'width':1,'height':1},"
+                           "'pad':{'width':0.5,'height':0.5,'shape':'rect','opposite':true}}"),
+                   "opposite");
+}
+
 /* An LED with one pinout of PINS whose part names FOOTPRINT (a JSON value). */
 #define FP_LED(PINS, FOOTPRINT) \
     HEAD("led") "{'id':'led-fp','function':'LED','description':'d','drawer':[]," \
@@ -3274,6 +3330,7 @@ int main(void) {
     check_explicit_repeated_pins();
     check_explicit_balls();
     check_explicit_holes();
+    check_opposite_pads();
     check_usb_connector();
     check_footprint_corners();
     check_footprint_cases();

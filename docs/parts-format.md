@@ -595,6 +595,7 @@ left side. Pads are axis-aligned.
 | `"style"` | `"dual"`, `"quad"`, `"grid"` or `"explicit"` |
 | `"pins"` | number of designated pads (1–1000). `dual`, `quad` and `explicit` pads are `"1"`…`"<pins>"`; `grid` pads, and `explicit` pads given by `"ball"`, are ball names |
 | `"body"` | `{"width", "height"}` > 0, optional `"round": true` (drawn as an ellipse) |
+| `"edgeMount"` | optional, only `true`: the housing straddles the board edge (a card-edge socket on the board's edge). The app checks only the footprint's pads, not its body, against the board outline; the footprint's `note` says where the board edge is relative to the pads |
 | `"pad"` | `{"width", "height", "shape"}`, sizes > 0, shape `"rect"` or `"round"` (an oval, a stadium: a semicircle of the short side at each end of the long side; a circle when width = height), plus optional corner keys (below). Not on `explicit` |
 | `"drill"` | optional, default 0 (surface mount); a through-hole diameter, smaller than both pad sides. Not on `explicit` |
 | `"pin1Shape"` | optional, `dual`/`quad` only: pin 1's pad shape (through-hole parts use `"rect"` to mark pin 1); pin 1 then has square corners |
@@ -775,6 +776,22 @@ Holes on explicit pads (USB connector shell legs and locating pegs):
 {"pin": 5, "x": -6.57, "y": -1, "width": 1.6, "height": 3.0, "shape": "round", "drill": 0.9, "slotLength": 2.3},
 {"pin": 0, "x": 0, "y": -3, "width": 1.0, "height": 1.0, "shape": "round", "drill": 1.0, "plated": false}
 ```
+
+Pads on the other face of the board (a straddle-mount card-edge socket has
+contacts on both faces):
+
+| Key | Value |
+|---|---|
+| `"opposite"` | optional, only `true`: a surface-mount pad on the other face of the board from the footprint's own side. Never with `drill`, `slotLength` or `"plated": false` (an opposite pad is surface mount) |
+
+```json
+{"pin": 3, "x": 1.5, "y": 2, "width": 0.4, "height": 1.2, "shape": "rect", "opposite": true}
+```
+
+A footprint is drawn as seen from its own side, so an `opposite` pad is
+copper on the other face: on Bottom for a part placed on Top, and on Top for
+a part placed on Bottom (every pad's layer swaps when the part flips). Only
+`explicit` pads take it; on the other styles' `pad` it is an unknown key.
 
 The app draws a slot as a capsule and a non-plated hole as a hole with no
 copper; neither the ratsnest nor traces connect to a non-plated hole, and
@@ -1576,9 +1593,11 @@ USB footprints (`USB-SS-…` Same Sky, `USB-AMP-…` Amphenol ICC,
 every number used). The origin is the centre of the housing's top-view
 outline, and a right-angle or mid-mount connector's mating face points up
 (−y). A mid-mount part's board cut-out is not part of the footprint; its
-size is in the footprint `note`. Parts that need pads on the bottom
-layer, rotated slots or L-shaped / keyhole shell slots are not in the
-library (`datasheets/skipped-parts.md`).
+size is in the footprint `note`. Parts that need rotated slots or
+L-shaped / keyhole shell slots are not in the library
+(`datasheets/skipped-parts.md`); a pad on the other face of the board is an
+`opposite` pad (§ `explicit`), and the USB parts skipped for pads on the
+bottom layer stay skipped.
 
 ### `header`
 

@@ -533,8 +533,8 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   `footprints.txt` did not move.
 - `footprint_check` — every footprint in `footprints.json`, expanded to
   pads, against `tests/golden/footprints.txt` (one line per footprint:
-  `id|pins=N|body=WxH|pads=<designator>:x,y,wxh,shape[,d<drill>][,s<slotLength>][,npth][,r<radius>][,c<chamfer>:<corners>];…`,
-  `s` a slotted hole's length, `npth` a non-plated hole,
+  `id|pins=N|body=WxH|pads=<designator>:x,y,wxh,shape[,d<drill>][,s<slotLength>][,npth][,opp][,r<radius>][,c<chamfer>:<corners>];…[|edge]`,
+  `s` a slotted hole's length, `npth` a non-plated hole, `opp` a pad on the other face of the board, `|edge` a footprint that straddles the board edge,
   corners `tl+tr+br+bl` order; `-`
   for an unnumbered pad), and every footprint used by some part (`footprint`
   or `connectorFootprint`). After an

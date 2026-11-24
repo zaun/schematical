@@ -280,6 +280,7 @@ typedef struct {
     double radius;           /* rect only: every corner rounded by this radius; 0 = square */
     double chamfer;          /* rect only: `corners` cut at 45 deg, this far along each edge; 0 = none */
     unsigned corners;        /* PAD_CORNER_* bits the chamfer cuts */
+    int opposite;            /* explicit only: 1 = a surface-mount pad on the other face of the board from the footprint's own side */
 } FootprintPad;
 
 /* A footprint, expanded to a flat pad list by the loader. */
@@ -288,6 +289,7 @@ typedef struct {
     unsigned pins;                      /* designated pads */
     double body_width, body_height;
     int body_round;
+    int edge_mount;                     /* 1 = the housing straddles the board edge (plan-54-E) */
     const FootprintPad *pads; size_t pad_count;   /* "1"…"N" order (grid: row-major); a pin with several pads (explicit only) lists them together, in file order; unnumbered last */
 } PartFootprint;
 
