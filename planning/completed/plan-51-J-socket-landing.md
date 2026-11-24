@@ -20,7 +20,7 @@ References:
 | Must be true | Command | Status |
 |---|---|---|
 | plan-51-I complete | `ls planning/completed/plan-51-I-*.md` → exists | MET (2026-11-24: `planning/completed/plan-51-I-socket-mode-ui.md`, commit 39961690) |
-| Every earlier letter's boxes are ticked | `grep -c '^- \[ \]' planning/plan-51-[A-I]-*.md` → every count 0 | MET (2026-11-24: A to I have 0 `- [ ]`; one `- [~]`, I's real-window pass, which is open: plan-51-I § Corrections) |
+| Every earlier letter's boxes are ticked | `grep -c '^- \[ \]' planning/plan-51-[A-I]-*.md` → every count 0 | MET (2026-11-24: A to I have 0 `- [ ]`; I's real-window pass was skipped by the owner: plan-51-I § Corrections) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > If you stop, report the status of *all* prerequisites.
