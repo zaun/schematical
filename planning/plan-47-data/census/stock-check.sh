@@ -10,7 +10,7 @@
 eval "$(grep -E '^export DIGIKEY_CLIENT_(ID|SECRET)=' ~/.zshrc)"
 here=${0:A:h}
 raw=$1 clips=$2 cand=$3 out=$4
-dk=$here/../../../scripts/digikey.js
+dk=${DIGIKEY_JS:-$here/../../../scripts/digikey.js}   # DIGIKEY_JS: a copy with the Safari route (api.digikey.com is behind a Cloudflare challenge)
 last=${TMPDIR:-/tmp}/p47-stock-check.last
 [[ -e $out ]] || print -r -- $'mpn\tfound\tstock\tstatus\tdate' > $out
 n=0
