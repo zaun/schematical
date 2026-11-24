@@ -6673,6 +6673,811 @@
         {"name":"GENERIC-TERMINAL-7.62-11","manufacturer":"Generic","package":"Through hole right angle","pinout":"p11","footprint":"TB-WUR-WR-TBL-SERIES-4114-7.62-HT-11"},
         {"name":"GENERIC-TERMINAL-7.62-12","manufacturer":"Generic","package":"Through hole right angle","pinout":"p12","footprint":"TB-WUR-WR-TBL-SERIES-4114-7.62-HT-12"}
       ]
+    },
+    {
+      "id": "tb-pho-bch-3.50-vt-8a-160v",
+      "function": "Plug-in header, vertical",
+      "description": "Phoenix Contact BCH 3.50 mm board-side header of a plug-in terminal block, vertical",
+      "drawer": ["Connector", "Terminal block", "3.50 mm"],
+      "note": "Phoenix Contact BCH, datasheets/connector-terminal/phoenix/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "pluggable",
+      "pitch": 3.5,
+      "ratedVolts": 160,
+      "ratedAmps": 8,
+      "pinouts": {"p02":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}],"p03":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"}],"p04":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"}],"p05":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"}],"p06":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"}],"p12":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"},{"number":11,"name":"11","role":"inout"},{"number":12,"name":"12","role":"inout"}]},
+      "parts": [
+        {"name":"5430810","manufacturer":"Phoenix Contact","datasheet":"5430810","package":"Through hole vertical","pinout":"p03","footprint":"TB-PHO-BCH-3.50-VT-03"},
+        {"name":"5441278","manufacturer":"Phoenix Contact","datasheet":"5441278","package":"Through hole vertical","pinout":"p02","footprint":"TB-PHO-BCH-3.50-VT-02"},
+        {"name":"5441294","manufacturer":"Phoenix Contact","datasheet":"5441294","package":"Through hole vertical","pinout":"p04","footprint":"TB-PHO-BCH-3.50-VT-04"},
+        {"name":"5441304","manufacturer":"Phoenix Contact","datasheet":"5441304","package":"Through hole vertical","pinout":"p05","footprint":"TB-PHO-BCH-3.50-VT-05"},
+        {"name":"5441317","manufacturer":"Phoenix Contact","datasheet":"5441317","package":"Through hole vertical","pinout":"p06","footprint":"TB-PHO-BCH-3.50-VT-06"},
+        {"name":"5452095","manufacturer":"Phoenix Contact","datasheet":"5452095","package":"Through hole vertical","pinout":"p05","footprint":"TB-PHO-BCH-3.50-VT-05"},
+        {"name":"5452102","manufacturer":"Phoenix Contact","datasheet":"5452102","package":"Through hole vertical","pinout":"p12","footprint":"TB-PHO-BCH-3.50-VT-12"}
+      ]
+    },
+    {
+      "id": "tb-pho-bch-3.81-ht-8a-160v",
+      "function": "Plug-in header, horizontal",
+      "description": "Phoenix Contact BCH 3.81 mm board-side header of a plug-in terminal block, horizontal",
+      "drawer": ["Connector", "Terminal block", "3.81 mm"],
+      "note": "Phoenix Contact BCH, datasheets/connector-terminal/phoenix/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "pluggable",
+      "pitch": 3.81,
+      "ratedVolts": 160,
+      "ratedAmps": 8,
+      "pinouts": {"p02":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}],"p03":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"}],"p04":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"}],"p05":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"}],"p06":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"}],"p08":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"}],"p12":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"},{"number":11,"name":"11","role":"inout"},{"number":12,"name":"12","role":"inout"}]},
+      "parts": [
+        {"name":"5431194","manufacturer":"Phoenix Contact","datasheet":"5431194","package":"Through hole right angle","pinout":"p03","footprint":"TB-PHO-BCH-3.81-HT-03"},
+        {"name":"5431217","manufacturer":"Phoenix Contact","datasheet":"5431217","package":"Through hole right angle","pinout":"p05","footprint":"TB-PHO-BCH-3.81-HT-05"},
+        {"name":"5431220","manufacturer":"Phoenix Contact","datasheet":"5431220","package":"Through hole right angle","pinout":"p06","footprint":"TB-PHO-BCH-3.81-HT-06"},
+        {"name":"5431246","manufacturer":"Phoenix Contact","datasheet":"5431246","package":"Through hole right angle","pinout":"p08","footprint":"TB-PHO-BCH-3.81-HT-08"},
+        {"name":"5431288","manufacturer":"Phoenix Contact","datasheet":"5431288","package":"Through hole right angle","pinout":"p12","footprint":"TB-PHO-BCH-3.81-HT-12"},
+        {"name":"5444262","manufacturer":"Phoenix Contact","datasheet":"5444262","package":"Through hole right angle","pinout":"p02","footprint":"TB-PHO-BCH-3.81-HT-02"},
+        {"name":"5444288","manufacturer":"Phoenix Contact","datasheet":"5444288","package":"Through hole right angle","pinout":"p04","footprint":"TB-PHO-BCH-3.81-HT-04"}
+      ]
+    },
+    {
+      "id": "tb-pho-combicon-gmstbva-7.50-vt-12a-400v",
+      "function": "Plug-in header, vertical",
+      "description": "Phoenix Contact COMBICON GMSTBVA 7.50 mm board-side header of a plug-in terminal block, vertical",
+      "drawer": ["Connector", "Terminal block", "7.50 mm"],
+      "note": "Phoenix Contact COMBICON GMSTBVA, datasheets/connector-terminal/phoenix/1766699.pdf; rating from the datasheet",
+      "terminal": "pluggable",
+      "pitch": 7.5,
+      "ratedVolts": 400,
+      "ratedAmps": 12,
+      "pinouts": {"p05":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"}]},
+      "parts": [
+        {"name":"1766699","manufacturer":"Phoenix Contact","datasheet":"1766699","package":"Through hole vertical","pinout":"p05","footprint":"TB-PHO-COMBICON-GMSTBVA-7.50-VT-05"}
+      ]
+    },
+    {
+      "id": "tb-pho-combicon-gmstbva-7.50-vt-12a-630v",
+      "function": "Plug-in header, vertical",
+      "description": "Phoenix Contact COMBICON GMSTBVA 7.50 mm board-side header of a plug-in terminal block, vertical",
+      "drawer": ["Connector", "Terminal block", "7.50 mm"],
+      "note": "Phoenix Contact COMBICON GMSTBVA, datasheets/connector-terminal/phoenix/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "pluggable",
+      "pitch": 7.5,
+      "ratedVolts": 630,
+      "ratedAmps": 12,
+      "pinouts": {"p08":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"}],"p09":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"}]},
+      "parts": [
+        {"name":"1766725","manufacturer":"Phoenix Contact","datasheet":"1766725","package":"Through hole vertical","pinout":"p08","footprint":"TB-PHO-COMBICON-GMSTBVA-7.50-VT-08"},
+        {"name":"1766738","manufacturer":"Phoenix Contact","datasheet":"1766738","package":"Through hole vertical","pinout":"p09","footprint":"TB-PHO-COMBICON-GMSTBVA-7.50-VT-09"}
+      ]
+    },
+    {
+      "id": "tb-pho-combicon-icv-5.08-vt-12a-320v",
+      "function": "Plug-in header, vertical",
+      "description": "Phoenix Contact COMBICON ICV 5.08 mm board-side header of a plug-in terminal block, vertical",
+      "drawer": ["Connector", "Terminal block", "5.08 mm"],
+      "note": "Phoenix Contact COMBICON ICV, datasheets/connector-terminal/phoenix/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "pluggable",
+      "pitch": 5.08,
+      "ratedVolts": 320,
+      "ratedAmps": 12,
+      "pinouts": {"p03":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"}],"p04":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"}],"p05":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"}],"p09":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"}]},
+      "parts": [
+        {"name":"1785955","manufacturer":"Phoenix Contact","datasheet":"1785955","package":"Through hole vertical","pinout":"p03","footprint":"TB-PHO-COMBICON-ICV-5.08-VT-03"},
+        {"name":"1785968","manufacturer":"Phoenix Contact","datasheet":"1785968","package":"Through hole vertical","pinout":"p04","footprint":"TB-PHO-COMBICON-ICV-5.08-VT-04"},
+        {"name":"1785971","manufacturer":"Phoenix Contact","datasheet":"1785971","package":"Through hole vertical","pinout":"p05","footprint":"TB-PHO-COMBICON-ICV-5.08-VT-05"},
+        {"name":"1786019","manufacturer":"Phoenix Contact","datasheet":"1786019","package":"Through hole vertical","pinout":"p09","footprint":"TB-PHO-COMBICON-ICV-5.08-VT-09"}
+      ]
+    },
+    {
+      "id": "tb-pho-combicon-icv-5.08-vt-16a-320v",
+      "function": "Plug-in header, vertical",
+      "description": "Phoenix Contact COMBICON ICV 5.08 mm board-side header of a plug-in terminal block, vertical",
+      "drawer": ["Connector", "Terminal block", "5.08 mm"],
+      "note": "Phoenix Contact COMBICON ICV, datasheets/connector-terminal/phoenix/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "pluggable",
+      "pitch": 5.08,
+      "ratedVolts": 320,
+      "ratedAmps": 16,
+      "pinouts": {"p02":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}],"p12":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"},{"number":11,"name":"11","role":"inout"},{"number":12,"name":"12","role":"inout"}]},
+      "parts": [
+        {"name":"1943535","manufacturer":"Phoenix Contact","datasheet":"1943535","package":"Through hole vertical","pinout":"p02","footprint":"TB-PHO-COMBICON-ICV-5.08-VT-02"},
+        {"name":"1943632","manufacturer":"Phoenix Contact","datasheet":"1943632","package":"Through hole vertical","pinout":"p12","footprint":"TB-PHO-COMBICON-ICV-5.08-VT-12"}
+      ]
+    },
+    {
+      "id": "tb-pho-combicon-pc-7.62-ht-20a-630v",
+      "function": "Plug-in header, horizontal",
+      "description": "Phoenix Contact COMBICON PC 7.62 mm board-side header of a plug-in terminal block, horizontal",
+      "drawer": ["Connector", "Terminal block", "7.62 mm"],
+      "note": "Phoenix Contact COMBICON PC, datasheets/connector-terminal/phoenix/1804836.pdf; rating from the datasheet",
+      "terminal": "pluggable",
+      "pitch": 7.62,
+      "ratedVolts": 630,
+      "ratedAmps": 20,
+      "pinouts": {"p06":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"}]},
+      "parts": [
+        {"name":"1804836","manufacturer":"Phoenix Contact","datasheet":"1804836","package":"Through hole right angle","pinout":"p06","footprint":"TB-PHO-COMBICON-PC-7.62-HT-06"}
+      ]
+    },
+    {
+      "id": "tb-pho-combicon-pc-7.62-ht-41a-630v",
+      "function": "Plug-in header, horizontal",
+      "description": "Phoenix Contact COMBICON PC 7.62 mm board-side header of a plug-in terminal block, horizontal",
+      "drawer": ["Connector", "Terminal block", "7.62 mm"],
+      "note": "Phoenix Contact COMBICON PC, datasheets/connector-terminal/phoenix/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "pluggable",
+      "pitch": 7.62,
+      "ratedVolts": 630,
+      "ratedAmps": 41,
+      "pinouts": {"p02":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}],"p03":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"}],"p04":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"}],"p10":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"}]},
+      "parts": [
+        {"name":"1720466","manufacturer":"Phoenix Contact","datasheet":"1720466","package":"Through hole right angle","pinout":"p02","footprint":"TB-PHO-COMBICON-PC-7.62-HT-02"},
+        {"name":"1720479","manufacturer":"Phoenix Contact","datasheet":"1720479","package":"Through hole right angle","pinout":"p03","footprint":"TB-PHO-COMBICON-PC-7.62-HT-03"},
+        {"name":"1720482","manufacturer":"Phoenix Contact","datasheet":"1720482","package":"Through hole right angle","pinout":"p04","footprint":"TB-PHO-COMBICON-PC-7.62-HT-04"},
+        {"name":"1720877","manufacturer":"Phoenix Contact","datasheet":"1720877","package":"Through hole right angle","pinout":"p10","footprint":"TB-PHO-COMBICON-PC-7.62-HT-10"}
+      ]
+    },
+    {
+      "id": "tb-pho-combicon-pst-5.00-vt-12a-250v",
+      "function": "Plug-in header, vertical",
+      "description": "Phoenix Contact COMBICON PST 5.00 mm board-side header of a plug-in terminal block, vertical",
+      "drawer": ["Connector", "Terminal block", "5.00 mm"],
+      "note": "Phoenix Contact COMBICON PST, datasheets/connector-terminal/phoenix/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "pluggable",
+      "pitch": 5,
+      "ratedVolts": 250,
+      "ratedAmps": 12,
+      "pinouts": {"p02":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}],"p03":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"}],"p04":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"}],"p06":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"}],"p08":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"}],"p11":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"},{"number":11,"name":"11","role":"inout"}]},
+      "parts": [
+        {"name":"1933189","manufacturer":"Phoenix Contact","datasheet":"1933189","package":"Through hole vertical","pinout":"p02","footprint":"TB-PHO-COMBICON-PST-5.00-VT-02"},
+        {"name":"1933192","manufacturer":"Phoenix Contact","datasheet":"1933192","package":"Through hole vertical","pinout":"p03","footprint":"TB-PHO-COMBICON-PST-5.00-VT-03"},
+        {"name":"1933202","manufacturer":"Phoenix Contact","datasheet":"1933202","package":"Through hole vertical","pinout":"p04","footprint":"TB-PHO-COMBICON-PST-5.00-VT-04"},
+        {"name":"1933228","manufacturer":"Phoenix Contact","datasheet":"1933228","package":"Through hole vertical","pinout":"p06","footprint":"TB-PHO-COMBICON-PST-5.00-VT-06"},
+        {"name":"1933244","manufacturer":"Phoenix Contact","datasheet":"1933244","package":"Through hole vertical","pinout":"p08","footprint":"TB-PHO-COMBICON-PST-5.00-VT-08"},
+        {"name":"1933273","manufacturer":"Phoenix Contact","datasheet":"1933273","package":"Through hole vertical","pinout":"p11","footprint":"TB-PHO-COMBICON-PST-5.00-VT-11"}
+      ]
+    },
+    {
+      "id": "tb-pho-combicon-pst-5.00-vt-12a-320v",
+      "function": "Plug-in header, vertical",
+      "description": "Phoenix Contact COMBICON PST 5.00 mm board-side header of a plug-in terminal block, vertical",
+      "drawer": ["Connector", "Terminal block", "5.00 mm"],
+      "note": "Phoenix Contact COMBICON PST, datasheets/connector-terminal/phoenix/1933286.pdf; rating from the datasheet",
+      "terminal": "pluggable",
+      "pitch": 5,
+      "ratedVolts": 320,
+      "ratedAmps": 12,
+      "pinouts": {"p12":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"},{"number":11,"name":"11","role":"inout"},{"number":12,"name":"12","role":"inout"}]},
+      "parts": [
+        {"name":"1933286","manufacturer":"Phoenix Contact","datasheet":"1933286","package":"Through hole vertical","pinout":"p12","footprint":"TB-PHO-COMBICON-PST-5.00-VT-12"}
+      ]
+    },
+    {
+      "id": "tb-pho-combicon-pt-5.00-ht-17.5a-400v",
+      "function": "Screw, horizontal",
+      "description": "Phoenix Contact COMBICON PT 5.00 mm PCB terminal block, screw clamp, horizontal",
+      "drawer": ["Connector", "Terminal block", "5.00 mm"],
+      "note": "Phoenix Contact COMBICON PT, datasheets/connector-terminal/phoenix/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "screw",
+      "pitch": 5,
+      "ratedVolts": 400,
+      "ratedAmps": 17.5,
+      "pinouts": {"p02":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}],"p03":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"}],"p04":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"}],"p05":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"}],"p06":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"}],"p07":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"}],"p08":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"}],"p09":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"}],"p12":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"},{"number":11,"name":"11","role":"inout"},{"number":12,"name":"12","role":"inout"}]},
+      "parts": [
+        {"name":"1935161","manufacturer":"Phoenix Contact","datasheet":"1935161","package":"Through hole right angle","pinout":"p02","footprint":"TB-PHO-COMBICON-PT-5.00-HT-02"},
+        {"name":"1935174","manufacturer":"Phoenix Contact","datasheet":"1935174","package":"Through hole right angle","pinout":"p03","footprint":"TB-PHO-COMBICON-PT-5.00-HT-03"},
+        {"name":"1935187","manufacturer":"Phoenix Contact","datasheet":"1935187","package":"Through hole right angle","pinout":"p04","footprint":"TB-PHO-COMBICON-PT-5.00-HT-04"},
+        {"name":"1935190","manufacturer":"Phoenix Contact","datasheet":"1935190","package":"Through hole right angle","pinout":"p05","footprint":"TB-PHO-COMBICON-PT-5.00-HT-05"},
+        {"name":"1935200","manufacturer":"Phoenix Contact","datasheet":"1935200","package":"Through hole right angle","pinout":"p06","footprint":"TB-PHO-COMBICON-PT-5.00-HT-06"},
+        {"name":"1935213","manufacturer":"Phoenix Contact","datasheet":"1935213","package":"Through hole right angle","pinout":"p07","footprint":"TB-PHO-COMBICON-PT-5.00-HT-07"},
+        {"name":"1935226","manufacturer":"Phoenix Contact","datasheet":"1935226","package":"Through hole right angle","pinout":"p08","footprint":"TB-PHO-COMBICON-PT-5.00-HT-08"},
+        {"name":"1935239","manufacturer":"Phoenix Contact","datasheet":"1935239","package":"Through hole right angle","pinout":"p09","footprint":"TB-PHO-COMBICON-PT-5.00-HT-09"},
+        {"name":"1935268","manufacturer":"Phoenix Contact","datasheet":"1935268","package":"Through hole right angle","pinout":"p12","footprint":"TB-PHO-COMBICON-PT-5.00-HT-12"}
+      ]
+    },
+    {
+      "id": "tb-pho-combicon-pt-5.00-ht-32a-400v",
+      "function": "Screw, horizontal",
+      "description": "Phoenix Contact COMBICON PT 5.00 mm PCB terminal block, screw clamp, horizontal",
+      "drawer": ["Connector", "Terminal block", "5.00 mm"],
+      "note": "Phoenix Contact COMBICON PT, datasheets/connector-terminal/phoenix/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "screw",
+      "pitch": 5,
+      "ratedVolts": 400,
+      "ratedAmps": 32,
+      "pinouts": {"p06":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"}],"p12":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"},{"number":11,"name":"11","role":"inout"},{"number":12,"name":"12","role":"inout"}]},
+      "parts": [
+        {"name":"1935815","manufacturer":"Phoenix Contact","datasheet":"1935815","package":"Through hole right angle","pinout":"p06","footprint":"TB-PHO-COMBICON-PT-5.00-HT-06"},
+        {"name":"1935873","manufacturer":"Phoenix Contact","datasheet":"1935873","package":"Through hole right angle","pinout":"p12","footprint":"TB-PHO-COMBICON-PT-5.00-HT-12"}
+      ]
+    },
+    {
+      "id": "tb-pho-combicon-smkds-5.08-at-20a-250v",
+      "function": "Screw, angled",
+      "description": "Phoenix Contact COMBICON SMKDS 5.08 mm PCB terminal block, screw clamp, angled",
+      "drawer": ["Connector", "Terminal block", "5.08 mm"],
+      "note": "Phoenix Contact COMBICON SMKDS, datasheets/connector-terminal/phoenix/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "screw",
+      "pitch": 5.08,
+      "ratedVolts": 250,
+      "ratedAmps": 20,
+      "pinouts": {"p02":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}],"p03":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"}]},
+      "parts": [
+        {"name":"1705469","manufacturer":"Phoenix Contact","datasheet":"1705469","package":"Through hole angled","pinout":"p02","footprint":"TB-PHO-COMBICON-SMKDS-5.08-AT-02"},
+        {"name":"1705472","manufacturer":"Phoenix Contact","datasheet":"1705472","package":"Through hole angled","pinout":"p03","footprint":"TB-PHO-COMBICON-SMKDS-5.08-AT-03"}
+      ]
+    },
+    {
+      "id": "tb-pho-combicon-smkds-5.08-at-20a-400v",
+      "function": "Screw, angled",
+      "description": "Phoenix Contact COMBICON SMKDS 5.08 mm PCB terminal block, screw clamp, angled",
+      "drawer": ["Connector", "Terminal block", "5.08 mm"],
+      "note": "Phoenix Contact COMBICON SMKDS, datasheets/connector-terminal/phoenix/1702558.pdf; rating from the datasheet",
+      "terminal": "screw",
+      "pitch": 5.08,
+      "ratedVolts": 400,
+      "ratedAmps": 20,
+      "pinouts": {"p05":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"}]},
+      "parts": [
+        {"name":"1702558","manufacturer":"Phoenix Contact","datasheet":"1702558","package":"Through hole angled","pinout":"p05","footprint":"TB-PHO-COMBICON-SMKDS-5.08-AT-05"}
+      ]
+    },
+    {
+      "id": "tb-pho-combicon-smkds3-5.08-at-24a-250v",
+      "function": "Screw, angled",
+      "description": "Phoenix Contact COMBICON SMKDS 5.08 mm PCB terminal block, screw clamp, angled",
+      "drawer": ["Connector", "Terminal block", "5.08 mm"],
+      "note": "Phoenix Contact COMBICON SMKDS, datasheets/connector-terminal/phoenix/1713040.pdf; rating from the datasheet",
+      "terminal": "screw",
+      "pitch": 5.08,
+      "ratedVolts": 250,
+      "ratedAmps": 24,
+      "pinouts": {"p04":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"}]},
+      "parts": [
+        {"name":"1713040","manufacturer":"Phoenix Contact","datasheet":"1713040","package":"Through hole angled","pinout":"p04","footprint":"TB-PHO-COMBICON-SMKDS3-5.08-AT-04"}
+      ]
+    },
+    {
+      "id": "tb-pho-combicon-spt-7.50-vt-41a-1000v",
+      "function": "Spring, vertical",
+      "description": "Phoenix Contact COMBICON SPT 7.50 mm PCB terminal block, spring clamp, vertical",
+      "drawer": ["Connector", "Terminal block", "7.50 mm"],
+      "note": "Phoenix Contact COMBICON SPT, datasheets/connector-terminal/phoenix/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "spring",
+      "pitch": 7.5,
+      "ratedVolts": 1000,
+      "ratedAmps": 41,
+      "pinouts": {"p03":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"}],"p04":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"}],"p09":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"}],"p12":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"},{"number":11,"name":"11","role":"inout"},{"number":12,"name":"12","role":"inout"}]},
+      "parts": [
+        {"name":"1719325","manufacturer":"Phoenix Contact","datasheet":"1719325","package":"Through hole vertical","pinout":"p03","footprint":"TB-PHO-COMBICON-SPT-7.50-VT-03"},
+        {"name":"1719338","manufacturer":"Phoenix Contact","datasheet":"1719338","package":"Through hole vertical","pinout":"p04","footprint":"TB-PHO-COMBICON-SPT-7.50-VT-04"},
+        {"name":"1719383","manufacturer":"Phoenix Contact","datasheet":"1719383","package":"Through hole vertical","pinout":"p09","footprint":"TB-PHO-COMBICON-SPT-7.50-VT-09"},
+        {"name":"1719419","manufacturer":"Phoenix Contact","datasheet":"1719419","package":"Through hole vertical","pinout":"p12","footprint":"TB-PHO-COMBICON-SPT-7.50-VT-12"}
+      ]
+    },
+    {
+      "id": "tb-pho-combicon-spt-7.50-vt-41a-800v",
+      "function": "Spring, vertical",
+      "description": "Phoenix Contact COMBICON SPT 7.50 mm PCB terminal block, spring clamp, vertical",
+      "drawer": ["Connector", "Terminal block", "7.50 mm"],
+      "note": "Phoenix Contact COMBICON SPT, datasheets/connector-terminal/phoenix/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "spring",
+      "pitch": 7.5,
+      "ratedVolts": 800,
+      "ratedAmps": 41,
+      "pinouts": {"p06":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"}],"p08":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"}]},
+      "parts": [
+        {"name":"1719354","manufacturer":"Phoenix Contact","datasheet":"1719354","package":"Through hole vertical","pinout":"p06","footprint":"TB-PHO-COMBICON-SPT-7.50-VT-06"},
+        {"name":"1719370","manufacturer":"Phoenix Contact","datasheet":"1719370","package":"Through hole vertical","pinout":"p08","footprint":"TB-PHO-COMBICON-SPT-7.50-VT-08"}
+      ]
+    },
+    {
+      "id": "tb-pho-combicon-spt-thr-3.81-vt-13.5a-160v",
+      "function": "Push-in, vertical",
+      "description": "Phoenix Contact COMBICON SPT-THR 3.81 mm PCB terminal block, push-in clamp, vertical",
+      "drawer": ["Connector", "Terminal block", "3.81 mm"],
+      "note": "Phoenix Contact COMBICON SPT-THR, datasheets/connector-terminal/phoenix/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "push-in",
+      "pitch": 3.81,
+      "ratedVolts": 160,
+      "ratedAmps": 13.5,
+      "pinouts": {"p02":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}],"p03":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"}],"p04":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"}],"p05":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"}],"p09":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"}],"p11":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"},{"number":11,"name":"11","role":"inout"}],"p12":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"},{"number":11,"name":"11","role":"inout"},{"number":12,"name":"12","role":"inout"}]},
+      "parts": [
+        {"name":"1822422","manufacturer":"Phoenix Contact","datasheet":"1822422","package":"Through hole vertical","pinout":"p02","footprint":"TB-PHO-COMBICON-SPT-THR-3.81-VT-02"},
+        {"name":"1822435","manufacturer":"Phoenix Contact","datasheet":"1822435","package":"Through hole vertical","pinout":"p03","footprint":"TB-PHO-COMBICON-SPT-THR-3.81-VT-03"},
+        {"name":"1823324","manufacturer":"Phoenix Contact","datasheet":"1823324","package":"Through hole vertical","pinout":"p04","footprint":"TB-PHO-COMBICON-SPT-THR-3.81-VT-04"},
+        {"name":"1823337","manufacturer":"Phoenix Contact","datasheet":"1823337","package":"Through hole vertical","pinout":"p05","footprint":"TB-PHO-COMBICON-SPT-THR-3.81-VT-05"},
+        {"name":"1823379","manufacturer":"Phoenix Contact","datasheet":"1823379","package":"Through hole vertical","pinout":"p09","footprint":"TB-PHO-COMBICON-SPT-THR-3.81-VT-09"},
+        {"name":"1823395","manufacturer":"Phoenix Contact","datasheet":"1823395","package":"Through hole vertical","pinout":"p11","footprint":"TB-PHO-COMBICON-SPT-THR-3.81-VT-11"},
+        {"name":"1823405","manufacturer":"Phoenix Contact","datasheet":"1823405","package":"Through hole vertical","pinout":"p12","footprint":"TB-PHO-COMBICON-SPT-THR-3.81-VT-12"}
+      ]
+    },
+    {
+      "id": "tb-pho-combicon-spta-3.50-at-9a-200v",
+      "function": "Spring, angled",
+      "description": "Phoenix Contact COMBICON SPTA 3.50 mm PCB terminal block, spring clamp, angled",
+      "drawer": ["Connector", "Terminal block", "3.50 mm"],
+      "note": "Phoenix Contact COMBICON SPTA, datasheets/connector-terminal/phoenix/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "spring",
+      "pitch": 3.5,
+      "ratedVolts": 200,
+      "ratedAmps": 9,
+      "pinouts": {"p03":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"}],"p05":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"}],"p07":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"}],"p08":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"}],"p09":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"}]},
+      "parts": [
+        {"name":"1752117","manufacturer":"Phoenix Contact","datasheet":"1752117","package":"Through hole angled","pinout":"p03","footprint":"TB-PHO-COMBICON-SPTA-3.50-AT-03"},
+        {"name":"1752133","manufacturer":"Phoenix Contact","datasheet":"1752133","package":"Through hole angled","pinout":"p05","footprint":"TB-PHO-COMBICON-SPTA-3.50-AT-05"},
+        {"name":"1752159","manufacturer":"Phoenix Contact","datasheet":"1752159","package":"Through hole angled","pinout":"p07","footprint":"TB-PHO-COMBICON-SPTA-3.50-AT-07"},
+        {"name":"1752162","manufacturer":"Phoenix Contact","datasheet":"1752162","package":"Through hole angled","pinout":"p08","footprint":"TB-PHO-COMBICON-SPTA-3.50-AT-08"},
+        {"name":"1752175","manufacturer":"Phoenix Contact","datasheet":"1752175","package":"Through hole angled","pinout":"p09","footprint":"TB-PHO-COMBICON-SPTA-3.50-AT-09"}
+      ]
+    },
+    {
+      "id": "tb-wei-omnimate-4.0-mhs-5.00-ht-26.8a-400v",
+      "function": "Plug-in header, horizontal",
+      "description": "Weidmüller Omnimate 4.0 MHS 5.00 mm board-side header of a plug-in terminal block, horizontal",
+      "drawer": ["Connector", "Terminal block", "5.00 mm"],
+      "note": "Weidmüller Omnimate 4.0 MHS, datasheets/connector-terminal/weidmuller/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "pluggable",
+      "pitch": 5,
+      "ratedVolts": 400,
+      "ratedAmps": 26.8,
+      "pinouts": {"p02":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}],"p03":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"}],"p04":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"}],"p05":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"}],"p06":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"}],"p07":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"}],"p08":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"}],"p09":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"}],"p10":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"}],"p11":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"},{"number":11,"name":"11","role":"inout"}],"p12":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"},{"number":11,"name":"11","role":"inout"},{"number":12,"name":"12","role":"inout"}]},
+      "parts": [
+        {"name":"2741400000","manufacturer":"Weidmüller","datasheet":"2741400000","package":"Through hole right angle","pinout":"p02","footprint":"TB-WEI-OMNIMATE-4.0-MHS-5.00-HT-02"},
+        {"name":"2741420000","manufacturer":"Weidmüller","datasheet":"2741420000","package":"Through hole right angle","pinout":"p03","footprint":"TB-WEI-OMNIMATE-4.0-MHS-5.00-HT-03"},
+        {"name":"2741430000","manufacturer":"Weidmüller","datasheet":"2741430000","package":"Through hole right angle","pinout":"p04","footprint":"TB-WEI-OMNIMATE-4.0-MHS-5.00-HT-04"},
+        {"name":"2741440000","manufacturer":"Weidmüller","datasheet":"2741440000","package":"Through hole right angle","pinout":"p05","footprint":"TB-WEI-OMNIMATE-4.0-MHS-5.00-HT-05"},
+        {"name":"2741480000","manufacturer":"Weidmüller","datasheet":"2741480000","package":"Through hole right angle","pinout":"p09","footprint":"TB-WEI-OMNIMATE-4.0-MHS-5.00-HT-09"},
+        {"name":"2741510000","manufacturer":"Weidmüller","datasheet":"2741510000","package":"Through hole right angle","pinout":"p12","footprint":"TB-WEI-OMNIMATE-4.0-MHS-5.00-HT-12"},
+        {"name":"8000072497","manufacturer":"Weidmüller","datasheet":"8000072497","package":"Through hole right angle","pinout":"p02","footprint":"TB-WEI-OMNIMATE-4.0-MHS-5.00-HT-02"},
+        {"name":"8000072503","manufacturer":"Weidmüller","datasheet":"8000072503","package":"Through hole right angle","pinout":"p03","footprint":"TB-WEI-OMNIMATE-4.0-MHS-5.00-HT-03"},
+        {"name":"8000072506","manufacturer":"Weidmüller","datasheet":"8000072506","package":"Through hole right angle","pinout":"p04","footprint":"TB-WEI-OMNIMATE-4.0-MHS-5.00-HT-04"},
+        {"name":"8000072508","manufacturer":"Weidmüller","datasheet":"8000072508","package":"Through hole right angle","pinout":"p05","footprint":"TB-WEI-OMNIMATE-4.0-MHS-5.00-HT-05"},
+        {"name":"8000072509","manufacturer":"Weidmüller","datasheet":"8000072509","package":"Through hole right angle","pinout":"p06","footprint":"TB-WEI-OMNIMATE-4.0-MHS-5.00-HT-06"},
+        {"name":"8000072510","manufacturer":"Weidmüller","datasheet":"8000072510","package":"Through hole right angle","pinout":"p07","footprint":"TB-WEI-OMNIMATE-4.0-MHS-5.00-HT-07"},
+        {"name":"8000072511","manufacturer":"Weidmüller","datasheet":"8000072511","package":"Through hole right angle","pinout":"p08","footprint":"TB-WEI-OMNIMATE-4.0-MHS-5.00-HT-08"},
+        {"name":"8000072512","manufacturer":"Weidmüller","datasheet":"8000072512","package":"Through hole right angle","pinout":"p09","footprint":"TB-WEI-OMNIMATE-4.0-MHS-5.00-HT-09"},
+        {"name":"8000072513","manufacturer":"Weidmüller","datasheet":"8000072513","package":"Through hole right angle","pinout":"p10","footprint":"TB-WEI-OMNIMATE-4.0-MHS-5.00-HT-10"},
+        {"name":"8000072514","manufacturer":"Weidmüller","datasheet":"8000072514","package":"Through hole right angle","pinout":"p11","footprint":"TB-WEI-OMNIMATE-4.0-MHS-5.00-HT-11"},
+        {"name":"8000072515","manufacturer":"Weidmüller","datasheet":"8000072515","package":"Through hole right angle","pinout":"p12","footprint":"TB-WEI-OMNIMATE-4.0-MHS-5.00-HT-12"}
+      ]
+    },
+    {
+      "id": "tb-wei-omnimate-4.0-mhs-7.50-ht-30.4a-1000v",
+      "function": "Plug-in header, horizontal",
+      "description": "Weidmüller Omnimate 4.0 MHS 7.50 mm board-side header of a plug-in terminal block, horizontal",
+      "drawer": ["Connector", "Terminal block", "7.50 mm"],
+      "note": "Weidmüller Omnimate 4.0 MHS, datasheets/connector-terminal/weidmuller/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "pluggable",
+      "pitch": 7.5,
+      "ratedVolts": 1000,
+      "ratedAmps": 30.4,
+      "pinouts": {"p02":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}],"p03":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"}],"p04":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"}],"p05":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"}],"p06":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"}],"p07":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"}],"p08":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"}]},
+      "parts": [
+        {"name":"8000078308","manufacturer":"Weidmüller","datasheet":"8000078308","package":"Through hole right angle","pinout":"p03","footprint":"TB-WEI-OMNIMATE-4.0-MHS-7.50-HT-03"},
+        {"name":"8000078321","manufacturer":"Weidmüller","datasheet":"8000078321","package":"Through hole right angle","pinout":"p02","footprint":"TB-WEI-OMNIMATE-4.0-MHS-7.50-HT-02"},
+        {"name":"8000078323","manufacturer":"Weidmüller","datasheet":"8000078323","package":"Through hole right angle","pinout":"p04","footprint":"TB-WEI-OMNIMATE-4.0-MHS-7.50-HT-04"},
+        {"name":"8000078324","manufacturer":"Weidmüller","datasheet":"8000078324","package":"Through hole right angle","pinout":"p05","footprint":"TB-WEI-OMNIMATE-4.0-MHS-7.50-HT-05"},
+        {"name":"8000078325","manufacturer":"Weidmüller","datasheet":"8000078325","package":"Through hole right angle","pinout":"p06","footprint":"TB-WEI-OMNIMATE-4.0-MHS-7.50-HT-06"},
+        {"name":"8000078326","manufacturer":"Weidmüller","datasheet":"8000078326","package":"Through hole right angle","pinout":"p07","footprint":"TB-WEI-OMNIMATE-4.0-MHS-7.50-HT-07"},
+        {"name":"8000078327","manufacturer":"Weidmüller","datasheet":"8000078327","package":"Through hole right angle","pinout":"p08","footprint":"TB-WEI-OMNIMATE-4.0-MHS-7.50-HT-08"}
+      ]
+    },
+    {
+      "id": "tb-wei-omnimate-llfs-7.50-ht-41a-1000v",
+      "function": "Push-in, horizontal",
+      "description": "Weidmüller Omnimate LLFS 7.50 mm PCB terminal block, push-in clamp, horizontal",
+      "drawer": ["Connector", "Terminal block", "7.50 mm"],
+      "note": "Weidmüller Omnimate LLFS, datasheets/connector-terminal/weidmuller/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "push-in",
+      "pitch": 7.5,
+      "ratedVolts": 1000,
+      "ratedAmps": 41,
+      "pinouts": {"p02":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}],"p04":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"}],"p05":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"}],"p06":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"}]},
+      "parts": [
+        {"name":"2473000000","manufacturer":"Weidmüller","datasheet":"2473000000","package":"Through hole right angle","pinout":"p02","footprint":"TB-WEI-OMNIMATE-LLFS-7.50-HT-02"},
+        {"name":"2473020000","manufacturer":"Weidmüller","datasheet":"2473020000","package":"Through hole right angle","pinout":"p04","footprint":"TB-WEI-OMNIMATE-LLFS-7.50-HT-04"},
+        {"name":"2473030000","manufacturer":"Weidmüller","datasheet":"2473030000","package":"Through hole right angle","pinout":"p05","footprint":"TB-WEI-OMNIMATE-LLFS-7.50-HT-05"},
+        {"name":"2473040000","manufacturer":"Weidmüller","datasheet":"2473040000","package":"Through hole right angle","pinout":"p06","footprint":"TB-WEI-OMNIMATE-LLFS-7.50-HT-06"}
+      ]
+    },
+    {
+      "id": "tb-wei-omnimate-lm-5.08-ht-17.5a-630v",
+      "function": "Screw, horizontal",
+      "description": "Weidmüller Omnimate LM 5.08 mm PCB terminal block, screw clamp, horizontal",
+      "drawer": ["Connector", "Terminal block", "5.08 mm"],
+      "note": "Weidmüller Omnimate LM, datasheets/connector-terminal/weidmuller/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "screw",
+      "pitch": 5.08,
+      "ratedVolts": 630,
+      "ratedAmps": 17.5,
+      "pinouts": {"p02":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}],"p03":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"}],"p04":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"}],"p05":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"}],"p06":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"}],"p08":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"}],"p09":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"}],"p10":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"}]},
+      "parts": [
+        {"name":"1716020000","manufacturer":"Weidmüller","datasheet":"1716020000","package":"Through hole right angle","pinout":"p02","footprint":"TB-WEI-OMNIMATE-LM-5.08-HT-02"},
+        {"name":"1716030000","manufacturer":"Weidmüller","datasheet":"1716030000","package":"Through hole right angle","pinout":"p03","footprint":"TB-WEI-OMNIMATE-LM-5.08-HT-03"},
+        {"name":"9993920000","manufacturer":"Weidmüller","datasheet":"9993920000","package":"Through hole right angle","pinout":"p04","footprint":"TB-WEI-OMNIMATE-LM-5.08-HT-04"},
+        {"name":"9993940000","manufacturer":"Weidmüller","datasheet":"9993940000","package":"Through hole right angle","pinout":"p06","footprint":"TB-WEI-OMNIMATE-LM-5.08-HT-06"},
+        {"name":"9993960000","manufacturer":"Weidmüller","datasheet":"9993960000","package":"Through hole right angle","pinout":"p08","footprint":"TB-WEI-OMNIMATE-LM-5.08-HT-08"},
+        {"name":"9994140000","manufacturer":"Weidmüller","datasheet":"9994140000","package":"Through hole right angle","pinout":"p05","footprint":"TB-WEI-OMNIMATE-LM-5.08-HT-05"},
+        {"name":"9994180000","manufacturer":"Weidmüller","datasheet":"9994180000","package":"Through hole right angle","pinout":"p09","footprint":"TB-WEI-OMNIMATE-LM-5.08-HT-09"},
+        {"name":"9994190000","manufacturer":"Weidmüller","datasheet":"9994190000","package":"Through hole right angle","pinout":"p10","footprint":"TB-WEI-OMNIMATE-LM-5.08-HT-10"}
+      ]
+    },
+    {
+      "id": "tb-wei-omnimate-lm1n-5.08-ht-17.5a-630v",
+      "function": "Screw, horizontal",
+      "description": "Weidmüller Omnimate LM 5.08 mm PCB terminal block, screw clamp, horizontal",
+      "drawer": ["Connector", "Terminal block", "5.08 mm"],
+      "note": "Weidmüller Omnimate LM, datasheets/connector-terminal/weidmuller/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "screw",
+      "pitch": 5.08,
+      "ratedVolts": 630,
+      "ratedAmps": 17.5,
+      "pinouts": {"p02":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}],"p03":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"}]},
+      "parts": [
+        {"name":"1766320000","manufacturer":"Weidmüller","datasheet":"1766320000","package":"Through hole right angle","pinout":"p02","footprint":"TB-WEI-OMNIMATE-LM1N-5.08-HT-02"},
+        {"name":"1766330000","manufacturer":"Weidmüller","datasheet":"1766330000","package":"Through hole right angle","pinout":"p03","footprint":"TB-WEI-OMNIMATE-LM1N-5.08-HT-03"}
+      ]
+    },
+    {
+      "id": "tb-wei-omnimate-lsf-smt-3.50-ht-17.5a-320v",
+      "function": "Spring, horizontal",
+      "description": "Weidmüller Omnimate LSF-SMT 3.50 mm PCB terminal block, spring clamp, horizontal",
+      "drawer": ["Connector", "Terminal block", "3.50 mm"],
+      "note": "Weidmüller Omnimate LSF-SMT, datasheets/connector-terminal/weidmuller/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "spring",
+      "pitch": 3.5,
+      "ratedVolts": 320,
+      "ratedAmps": 17.5,
+      "pinouts": {"p02":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}],"p03":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"}],"p04":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"}],"p05":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"}],"p06":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"}],"p07":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"}],"p08":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"}],"p09":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"}],"p10":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"}],"p11":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"},{"number":11,"name":"11","role":"inout"}],"p12":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"},{"number":11,"name":"11","role":"inout"},{"number":12,"name":"12","role":"inout"}]},
+      "parts": [
+        {"name":"1824420000","manufacturer":"Weidmüller","datasheet":"1824420000","package":"Through hole right angle","pinout":"p02","footprint":"TB-WEI-OMNIMATE-LSF-SMT-3.50-HT-02"},
+        {"name":"1824430000","manufacturer":"Weidmüller","datasheet":"1824430000","package":"Through hole right angle","pinout":"p03","footprint":"TB-WEI-OMNIMATE-LSF-SMT-3.50-HT-03"},
+        {"name":"1824440000","manufacturer":"Weidmüller","datasheet":"1824440000","package":"Through hole right angle","pinout":"p04","footprint":"TB-WEI-OMNIMATE-LSF-SMT-3.50-HT-04"},
+        {"name":"1824470000","manufacturer":"Weidmüller","datasheet":"1824470000","package":"Through hole right angle","pinout":"p07","footprint":"TB-WEI-OMNIMATE-LSF-SMT-3.50-HT-07"},
+        {"name":"1824480000","manufacturer":"Weidmüller","datasheet":"1824480000","package":"Through hole right angle","pinout":"p08","footprint":"TB-WEI-OMNIMATE-LSF-SMT-3.50-HT-08"},
+        {"name":"1824490000","manufacturer":"Weidmüller","datasheet":"1824490000","package":"Through hole right angle","pinout":"p09","footprint":"TB-WEI-OMNIMATE-LSF-SMT-3.50-HT-09"},
+        {"name":"1824500000","manufacturer":"Weidmüller","datasheet":"1824500000","package":"Through hole right angle","pinout":"p10","footprint":"TB-WEI-OMNIMATE-LSF-SMT-3.50-HT-10"},
+        {"name":"1824510000","manufacturer":"Weidmüller","datasheet":"1824510000","package":"Through hole right angle","pinout":"p11","footprint":"TB-WEI-OMNIMATE-LSF-SMT-3.50-HT-11"},
+        {"name":"1824520000","manufacturer":"Weidmüller","datasheet":"1824520000","package":"Through hole right angle","pinout":"p12","footprint":"TB-WEI-OMNIMATE-LSF-SMT-3.50-HT-12"},
+        {"name":"1870580000","manufacturer":"Weidmüller","datasheet":"1870580000","package":"Through hole right angle","pinout":"p05","footprint":"TB-WEI-OMNIMATE-LSF-SMT-3.50-HT-05"},
+        {"name":"1870590000","manufacturer":"Weidmüller","datasheet":"1870590000","package":"Through hole right angle","pinout":"p06","footprint":"TB-WEI-OMNIMATE-LSF-SMT-3.50-HT-06"}
+      ]
+    },
+    {
+      "id": "tb-wei-omnimate-lsf-smt-3.81-at-17.5a-320v",
+      "function": "Spring, angled",
+      "description": "Weidmüller Omnimate LSF-SMT 3.81 mm PCB terminal block, spring clamp, angled",
+      "drawer": ["Connector", "Terminal block", "3.81 mm"],
+      "note": "Weidmüller Omnimate LSF-SMT, datasheets/connector-terminal/weidmuller/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "spring",
+      "pitch": 3.81,
+      "ratedVolts": 320,
+      "ratedAmps": 17.5,
+      "pinouts": {"p02":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}],"p04":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"}],"p05":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"}],"p06":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"}],"p07":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"}],"p08":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"}],"p09":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"}],"p10":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"}],"p11":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"},{"number":11,"name":"11","role":"inout"}]},
+      "parts": [
+        {"name":"1885410000","manufacturer":"Weidmüller","datasheet":"1885410000","package":"Through hole angled","pinout":"p02","footprint":"TB-WEI-OMNIMATE-LSF-SMT-3.81-AT-02"},
+        {"name":"1885440000","manufacturer":"Weidmüller","datasheet":"1885440000","package":"Through hole angled","pinout":"p05","footprint":"TB-WEI-OMNIMATE-LSF-SMT-3.81-AT-05"},
+        {"name":"1885900000","manufacturer":"Weidmüller","datasheet":"1885900000","package":"Through hole angled","pinout":"p04","footprint":"TB-WEI-OMNIMATE-LSF-SMT-3.81-AT-04"},
+        {"name":"1885920000","manufacturer":"Weidmüller","datasheet":"1885920000","package":"Through hole angled","pinout":"p06","footprint":"TB-WEI-OMNIMATE-LSF-SMT-3.81-AT-06"},
+        {"name":"1885930000","manufacturer":"Weidmüller","datasheet":"1885930000","package":"Through hole angled","pinout":"p07","footprint":"TB-WEI-OMNIMATE-LSF-SMT-3.81-AT-07"},
+        {"name":"1885940000","manufacturer":"Weidmüller","datasheet":"1885940000","package":"Through hole angled","pinout":"p08","footprint":"TB-WEI-OMNIMATE-LSF-SMT-3.81-AT-08"},
+        {"name":"1885950000","manufacturer":"Weidmüller","datasheet":"1885950000","package":"Through hole angled","pinout":"p09","footprint":"TB-WEI-OMNIMATE-LSF-SMT-3.81-AT-09"},
+        {"name":"1885960000","manufacturer":"Weidmüller","datasheet":"1885960000","package":"Through hole angled","pinout":"p10","footprint":"TB-WEI-OMNIMATE-LSF-SMT-3.81-AT-10"},
+        {"name":"1885970000","manufacturer":"Weidmüller","datasheet":"1885970000","package":"Through hole angled","pinout":"p11","footprint":"TB-WEI-OMNIMATE-LSF-SMT-3.81-AT-11"}
+      ]
+    },
+    {
+      "id": "tb-wei-omnimate-lsf-smt-5.00-vt-17.5a-500v",
+      "function": "Spring, vertical",
+      "description": "Weidmüller Omnimate LSF-SMT 5.00 mm PCB terminal block, spring clamp, vertical",
+      "drawer": ["Connector", "Terminal block", "5.00 mm"],
+      "note": "Weidmüller Omnimate LSF-SMT, datasheets/connector-terminal/weidmuller/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "spring",
+      "pitch": 5,
+      "ratedVolts": 500,
+      "ratedAmps": 17.5,
+      "pinouts": {"p02":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}],"p03":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"}],"p04":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"}],"p05":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"}],"p06":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"}],"p08":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"}]},
+      "parts": [
+        {"name":"1825960000","manufacturer":"Weidmüller","datasheet":"1825960000","package":"Through hole vertical","pinout":"p02","footprint":"TB-WEI-OMNIMATE-LSF-SMT-5.00-VT-02"},
+        {"name":"1825970000","manufacturer":"Weidmüller","datasheet":"1825970000","package":"Through hole vertical","pinout":"p03","footprint":"TB-WEI-OMNIMATE-LSF-SMT-5.00-VT-03"},
+        {"name":"1825990000","manufacturer":"Weidmüller","datasheet":"1825990000","package":"Through hole vertical","pinout":"p05","footprint":"TB-WEI-OMNIMATE-LSF-SMT-5.00-VT-05"},
+        {"name":"1826000000","manufacturer":"Weidmüller","datasheet":"1826000000","package":"Through hole vertical","pinout":"p06","footprint":"TB-WEI-OMNIMATE-LSF-SMT-5.00-VT-06"},
+        {"name":"1826020000","manufacturer":"Weidmüller","datasheet":"1826020000","package":"Through hole vertical","pinout":"p08","footprint":"TB-WEI-OMNIMATE-LSF-SMT-5.00-VT-08"},
+        {"name":"1870160000","manufacturer":"Weidmüller","datasheet":"1870160000","package":"Through hole vertical","pinout":"p04","footprint":"TB-WEI-OMNIMATE-LSF-SMT-5.00-VT-04"}
+      ]
+    },
+    {
+      "id": "tb-wei-omnimate-lsf-smt-7.62-at-17.5a-800v",
+      "function": "Spring, angled",
+      "description": "Weidmüller Omnimate LSF-SMT 7.62 mm PCB terminal block, spring clamp, angled",
+      "drawer": ["Connector", "Terminal block", "7.62 mm"],
+      "note": "Weidmüller Omnimate LSF-SMT, datasheets/connector-terminal/weidmuller/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "spring",
+      "pitch": 7.62,
+      "ratedVolts": 800,
+      "ratedAmps": 17.5,
+      "pinouts": {"p02":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}],"p03":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"}],"p04":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"}],"p05":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"}],"p06":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"}]},
+      "parts": [
+        {"name":"1884970000","manufacturer":"Weidmüller","datasheet":"1884970000","package":"Through hole angled","pinout":"p04","footprint":"TB-WEI-OMNIMATE-LSF-SMT-7.62-AT-04"},
+        {"name":"1884980000","manufacturer":"Weidmüller","datasheet":"1884980000","package":"Through hole angled","pinout":"p05","footprint":"TB-WEI-OMNIMATE-LSF-SMT-7.62-AT-05"},
+        {"name":"1884990000","manufacturer":"Weidmüller","datasheet":"1884990000","package":"Through hole angled","pinout":"p06","footprint":"TB-WEI-OMNIMATE-LSF-SMT-7.62-AT-06"},
+        {"name":"1886180000","manufacturer":"Weidmüller","datasheet":"1886180000","package":"Through hole angled","pinout":"p02","footprint":"TB-WEI-OMNIMATE-LSF-SMT-7.62-AT-02"},
+        {"name":"1886190000","manufacturer":"Weidmüller","datasheet":"1886190000","package":"Through hole angled","pinout":"p03","footprint":"TB-WEI-OMNIMATE-LSF-SMT-7.62-AT-03"}
+      ]
+    },
+    {
+      "id": "tb-wei-omnimate-sc-3.81-ht-17.5a-320v",
+      "function": "Plug-in header, horizontal",
+      "description": "Weidmüller Omnimate SC 3.81 mm board-side header of a plug-in terminal block, horizontal",
+      "drawer": ["Connector", "Terminal block", "3.81 mm"],
+      "note": "Weidmüller Omnimate SC, datasheets/connector-terminal/weidmuller/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "pluggable",
+      "pitch": 3.81,
+      "ratedVolts": 320,
+      "ratedAmps": 17.5,
+      "pinouts": {"p03":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"}],"p05":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"}],"p09":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"}],"p10":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"}],"p12":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"},{"number":11,"name":"11","role":"inout"},{"number":12,"name":"12","role":"inout"}]},
+      "parts": [
+        {"name":"1793250000","manufacturer":"Weidmüller","datasheet":"1793250000","package":"Through hole right angle","pinout":"p03","footprint":"TB-WEI-OMNIMATE-SC-3.81-HT-03"},
+        {"name":"1862730000","manufacturer":"Weidmüller","datasheet":"1862730000","package":"Through hole right angle","pinout":"p12","footprint":"TB-WEI-OMNIMATE-SC-3.81-HT-12"},
+        {"name":"1862870000","manufacturer":"Weidmüller","datasheet":"1862870000","package":"Through hole right angle","pinout":"p05","footprint":"TB-WEI-OMNIMATE-SC-3.81-HT-05"},
+        {"name":"1863220000","manufacturer":"Weidmüller","datasheet":"1863220000","package":"Through hole right angle","pinout":"p10","footprint":"TB-WEI-OMNIMATE-SC-3.81-HT-10"},
+        {"name":"1942270000","manufacturer":"Weidmüller","datasheet":"1942270000","package":"Through hole right angle","pinout":"p09","footprint":"TB-WEI-OMNIMATE-SC-3.81-HT-09"}
+      ]
+    },
+    {
+      "id": "tb-wei-omnimate-sc-f-3.81-ht-17.5a-320v",
+      "function": "Plug-in header, horizontal",
+      "description": "Weidmüller Omnimate SC 3.81 mm board-side header of a plug-in terminal block, horizontal",
+      "drawer": ["Connector", "Terminal block", "3.81 mm"],
+      "note": "Weidmüller Omnimate SC, datasheets/connector-terminal/weidmuller/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "pluggable",
+      "pitch": 3.81,
+      "ratedVolts": 320,
+      "ratedAmps": 17.5,
+      "pinouts": {"p02":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}],"p04":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"}],"p06":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"}],"p08":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"}]},
+      "parts": [
+        {"name":"1862720000","manufacturer":"Weidmüller","datasheet":"1862720000","package":"Through hole right angle","pinout":"p02","footprint":"TB-WEI-OMNIMATE-SC-F-3.81-HT-02"},
+        {"name":"1942470000","manufacturer":"Weidmüller","datasheet":"1942470000","package":"Through hole right angle","pinout":"p04","footprint":"TB-WEI-OMNIMATE-SC-F-3.81-HT-04"},
+        {"name":"1942490000","manufacturer":"Weidmüller","datasheet":"1942490000","package":"Through hole right angle","pinout":"p06","footprint":"TB-WEI-OMNIMATE-SC-F-3.81-HT-06"},
+        {"name":"1942510000","manufacturer":"Weidmüller","datasheet":"1942510000","package":"Through hole right angle","pinout":"p08","footprint":"TB-WEI-OMNIMATE-SC-F-3.81-HT-08"}
+      ]
+    },
+    {
+      "id": "tb-wei-omnimate-sl-3.50-vt-15a-320v",
+      "function": "Plug-in header, vertical",
+      "description": "Weidmüller Omnimate SL 3.50 mm board-side header of a plug-in terminal block, vertical",
+      "drawer": ["Connector", "Terminal block", "3.50 mm"],
+      "note": "Weidmüller Omnimate SL, datasheets/connector-terminal/weidmuller/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "pluggable",
+      "pitch": 3.5,
+      "ratedVolts": 320,
+      "ratedAmps": 15,
+      "pinouts": {"p02":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}],"p04":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"}],"p05":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"}],"p06":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"}],"p08":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"}],"p10":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"}],"p12":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"},{"number":11,"name":"11","role":"inout"},{"number":12,"name":"12","role":"inout"}]},
+      "parts": [
+        {"name":"1752984002","manufacturer":"Weidmüller","datasheet":"1752984002","package":"Through hole vertical","pinout":"p02","footprint":"TB-WEI-OMNIMATE-SL-3.50-VT-02"},
+        {"name":"1753014002","manufacturer":"Weidmüller","datasheet":"1753014002","package":"Through hole vertical","pinout":"p05","footprint":"TB-WEI-OMNIMATE-SL-3.50-VT-05"},
+        {"name":"1753044001","manufacturer":"Weidmüller","datasheet":"1753044001","package":"Through hole vertical","pinout":"p08","footprint":"TB-WEI-OMNIMATE-SL-3.50-VT-08"},
+        {"name":"1753062001","manufacturer":"Weidmüller","datasheet":"1753062001","package":"Through hole vertical","pinout":"p10","footprint":"TB-WEI-OMNIMATE-SL-3.50-VT-10"},
+        {"name":"1753082001","manufacturer":"Weidmüller","datasheet":"1753082001","package":"Through hole vertical","pinout":"p12","footprint":"TB-WEI-OMNIMATE-SL-3.50-VT-12"},
+        {"name":"1842340000","manufacturer":"Weidmüller","datasheet":"1842340000","package":"Through hole vertical","pinout":"p04","footprint":"TB-WEI-OMNIMATE-SL-3.50-VT-04"},
+        {"name":"1842360000","manufacturer":"Weidmüller","datasheet":"1842360000","package":"Through hole vertical","pinout":"p06","footprint":"TB-WEI-OMNIMATE-SL-3.50-VT-06"},
+        {"name":"1928230000","manufacturer":"Weidmüller","datasheet":"1928230000","package":"Through hole vertical","pinout":"p12","footprint":"TB-WEI-OMNIMATE-SL-3.50-VT-12"},
+        {"name":"1934610000","manufacturer":"Weidmüller","datasheet":"1934610000","package":"Through hole vertical","pinout":"p06","footprint":"TB-WEI-OMNIMATE-SL-3.50-VT-06"},
+        {"name":"1934630000","manufacturer":"Weidmüller","datasheet":"1934630000","package":"Through hole vertical","pinout":"p08","footprint":"TB-WEI-OMNIMATE-SL-3.50-VT-08"}
+      ]
+    },
+    {
+      "id": "tb-wei-omnimate-sl-3.50-vt-17a-320v",
+      "function": "Plug-in header, vertical",
+      "description": "Weidmüller Omnimate SL 3.50 mm board-side header of a plug-in terminal block, vertical",
+      "drawer": ["Connector", "Terminal block", "3.50 mm"],
+      "note": "Weidmüller Omnimate SL, datasheets/connector-terminal/weidmuller/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "pluggable",
+      "pitch": 3.5,
+      "ratedVolts": 320,
+      "ratedAmps": 17,
+      "pinouts": {"p02":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}],"p03":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"}],"p04":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"}],"p05":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"}],"p06":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"}],"p07":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"}],"p08":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"}],"p10":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"}],"p11":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"},{"number":11,"name":"11","role":"inout"}],"p12":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"},{"number":11,"name":"11","role":"inout"},{"number":12,"name":"12","role":"inout"}]},
+      "parts": [
+        {"name":"1604470000","manufacturer":"Weidmüller","datasheet":"1604470000","package":"Through hole vertical","pinout":"p02","footprint":"TB-WEI-OMNIMATE-SL-3.50-VT-02"},
+        {"name":"1604480000","manufacturer":"Weidmüller","datasheet":"1604480000","package":"Through hole vertical","pinout":"p03","footprint":"TB-WEI-OMNIMATE-SL-3.50-VT-03"},
+        {"name":"1604510000","manufacturer":"Weidmüller","datasheet":"1604510000","package":"Through hole vertical","pinout":"p06","footprint":"TB-WEI-OMNIMATE-SL-3.50-VT-06"},
+        {"name":"1604520000","manufacturer":"Weidmüller","datasheet":"1604520000","package":"Through hole vertical","pinout":"p07","footprint":"TB-WEI-OMNIMATE-SL-3.50-VT-07"},
+        {"name":"1604530000","manufacturer":"Weidmüller","datasheet":"1604530000","package":"Through hole vertical","pinout":"p08","footprint":"TB-WEI-OMNIMATE-SL-3.50-VT-08"},
+        {"name":"1604560000","manufacturer":"Weidmüller","datasheet":"1604560000","package":"Through hole vertical","pinout":"p11","footprint":"TB-WEI-OMNIMATE-SL-3.50-VT-11"},
+        {"name":"1604570000","manufacturer":"Weidmüller","datasheet":"1604570000","package":"Through hole vertical","pinout":"p12","footprint":"TB-WEI-OMNIMATE-SL-3.50-VT-12"},
+        {"name":"1614240000","manufacturer":"Weidmüller","datasheet":"1614240000","package":"Through hole vertical","pinout":"p02","footprint":"TB-WEI-OMNIMATE-SL-3.50-VT-02"},
+        {"name":"1614250000","manufacturer":"Weidmüller","datasheet":"1614250000","package":"Through hole vertical","pinout":"p08","footprint":"TB-WEI-OMNIMATE-SL-3.50-VT-08"},
+        {"name":"1616020000","manufacturer":"Weidmüller","datasheet":"1616020000","package":"Through hole vertical","pinout":"p03","footprint":"TB-WEI-OMNIMATE-SL-3.50-VT-03"},
+        {"name":"1616030000","manufacturer":"Weidmüller","datasheet":"1616030000","package":"Through hole vertical","pinout":"p04","footprint":"TB-WEI-OMNIMATE-SL-3.50-VT-04"},
+        {"name":"1616040000","manufacturer":"Weidmüller","datasheet":"1616040000","package":"Through hole vertical","pinout":"p05","footprint":"TB-WEI-OMNIMATE-SL-3.50-VT-05"},
+        {"name":"1616050000","manufacturer":"Weidmüller","datasheet":"1616050000","package":"Through hole vertical","pinout":"p06","footprint":"TB-WEI-OMNIMATE-SL-3.50-VT-06"},
+        {"name":"1616060000","manufacturer":"Weidmüller","datasheet":"1616060000","package":"Through hole vertical","pinout":"p07","footprint":"TB-WEI-OMNIMATE-SL-3.50-VT-07"},
+        {"name":"1616080000","manufacturer":"Weidmüller","datasheet":"1616080000","package":"Through hole vertical","pinout":"p10","footprint":"TB-WEI-OMNIMATE-SL-3.50-VT-10"},
+        {"name":"1616100000","manufacturer":"Weidmüller","datasheet":"1616100000","package":"Through hole vertical","pinout":"p12","footprint":"TB-WEI-OMNIMATE-SL-3.50-VT-12"}
+      ]
+    },
+    {
+      "id": "tb-wei-omnimate-sl-5.08-vt-24a-400v",
+      "function": "Plug-in header, vertical",
+      "description": "Weidmüller Omnimate SL 5.08 mm board-side header of a plug-in terminal block, vertical",
+      "drawer": ["Connector", "Terminal block", "5.08 mm"],
+      "note": "Weidmüller Omnimate SL, datasheets/connector-terminal/weidmuller/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "pluggable",
+      "pitch": 5.08,
+      "ratedVolts": 400,
+      "ratedAmps": 24,
+      "pinouts": {"p02":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}],"p03":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"}],"p04":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"}],"p05":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"}],"p06":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"}],"p07":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"}],"p08":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"}],"p09":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"}],"p10":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"}],"p11":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"},{"number":11,"name":"11","role":"inout"}],"p12":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"},{"number":11,"name":"11","role":"inout"},{"number":12,"name":"12","role":"inout"}]},
+      "parts": [
+        {"name":"1146750000","manufacturer":"Weidmüller","datasheet":"1146750000","package":"Through hole vertical","pinout":"p03","footprint":"TB-WEI-OMNIMATE-SL-5.08-VT-03"},
+        {"name":"1146840000","manufacturer":"Weidmüller","datasheet":"1146840000","package":"Through hole vertical","pinout":"p07","footprint":"TB-WEI-OMNIMATE-SL-5.08-VT-07"},
+        {"name":"1146890000","manufacturer":"Weidmüller","datasheet":"1146890000","package":"Through hole vertical","pinout":"p09","footprint":"TB-WEI-OMNIMATE-SL-5.08-VT-09"},
+        {"name":"1147430000","manufacturer":"Weidmüller","datasheet":"1147430000","package":"Through hole vertical","pinout":"p06","footprint":"TB-WEI-OMNIMATE-SL-5.08-VT-06"},
+        {"name":"1147510000","manufacturer":"Weidmüller","datasheet":"1147510000","package":"Through hole vertical","pinout":"p08","footprint":"TB-WEI-OMNIMATE-SL-5.08-VT-08"},
+        {"name":"1147640000","manufacturer":"Weidmüller","datasheet":"1147640000","package":"Through hole vertical","pinout":"p12","footprint":"TB-WEI-OMNIMATE-SL-5.08-VT-12"},
+        {"name":"1149470000","manufacturer":"Weidmüller","datasheet":"1149470000","package":"Through hole vertical","pinout":"p04","footprint":"TB-WEI-OMNIMATE-SL-5.08-VT-04"},
+        {"name":"1149500000","manufacturer":"Weidmüller","datasheet":"1149500000","package":"Through hole vertical","pinout":"p05","footprint":"TB-WEI-OMNIMATE-SL-5.08-VT-05"},
+        {"name":"1149670000","manufacturer":"Weidmüller","datasheet":"1149670000","package":"Through hole vertical","pinout":"p10","footprint":"TB-WEI-OMNIMATE-SL-5.08-VT-10"},
+        {"name":"1397350000","manufacturer":"Weidmüller","datasheet":"1397350000","package":"Through hole vertical","pinout":"p02","footprint":"TB-WEI-OMNIMATE-SL-5.08-VT-02"},
+        {"name":"1539220000","manufacturer":"Weidmüller","datasheet":"1539220000","package":"Through hole vertical","pinout":"p11","footprint":"TB-WEI-OMNIMATE-SL-5.08-VT-11"}
+      ]
+    },
+    {
+      "id": "tb-wei-omnimate-sl-5.08-vt-27.5a-400v",
+      "function": "Plug-in header, vertical",
+      "description": "Weidmüller Omnimate SL 5.08 mm board-side header of a plug-in terminal block, vertical",
+      "drawer": ["Connector", "Terminal block", "5.08 mm"],
+      "note": "Weidmüller Omnimate SL, datasheets/connector-terminal/weidmuller/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "pluggable",
+      "pitch": 5.08,
+      "ratedVolts": 400,
+      "ratedAmps": 27.5,
+      "pinouts": {"p02":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}],"p03":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"}],"p04":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"}],"p05":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"}],"p06":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"}],"p07":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"}],"p08":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"}],"p09":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"}]},
+      "parts": [
+        {"name":"1775954001","manufacturer":"Weidmüller","datasheet":"1775954001","package":"Through hole vertical","pinout":"p05","footprint":"TB-WEI-OMNIMATE-SL-5.08-VT-05"},
+        {"name":"1775964001","manufacturer":"Weidmüller","datasheet":"1775964001","package":"Through hole vertical","pinout":"p06","footprint":"TB-WEI-OMNIMATE-SL-5.08-VT-06"},
+        {"name":"1775992001","manufacturer":"Weidmüller","datasheet":"1775992001","package":"Through hole vertical","pinout":"p09","footprint":"TB-WEI-OMNIMATE-SL-5.08-VT-09"},
+        {"name":"1838210000","manufacturer":"Weidmüller","datasheet":"1838210000","package":"Through hole vertical","pinout":"p02","footprint":"TB-WEI-OMNIMATE-SL-5.08-VT-02"},
+        {"name":"1838220000","manufacturer":"Weidmüller","datasheet":"1838220000","package":"Through hole vertical","pinout":"p03","footprint":"TB-WEI-OMNIMATE-SL-5.08-VT-03"},
+        {"name":"1838230000","manufacturer":"Weidmüller","datasheet":"1838230000","package":"Through hole vertical","pinout":"p04","footprint":"TB-WEI-OMNIMATE-SL-5.08-VT-04"},
+        {"name":"1838260000","manufacturer":"Weidmüller","datasheet":"1838260000","package":"Through hole vertical","pinout":"p07","footprint":"TB-WEI-OMNIMATE-SL-5.08-VT-07"},
+        {"name":"1838270000","manufacturer":"Weidmüller","datasheet":"1838270000","package":"Through hole vertical","pinout":"p08","footprint":"TB-WEI-OMNIMATE-SL-5.08-VT-08"}
+      ]
+    },
+    {
+      "id": "tb-wei-omnimate-sl-7.62-ht-27.5a-630v",
+      "function": "Plug-in header, horizontal",
+      "description": "Weidmüller Omnimate SL 7.62 mm board-side header of a plug-in terminal block, horizontal",
+      "drawer": ["Connector", "Terminal block", "7.62 mm"],
+      "note": "Weidmüller Omnimate SL, datasheets/connector-terminal/weidmuller/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "pluggable",
+      "pitch": 7.62,
+      "ratedVolts": 630,
+      "ratedAmps": 27.5,
+      "pinouts": {"p02":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}],"p03":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"}],"p04":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"}],"p05":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"}],"p06":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"}]},
+      "parts": [
+        {"name":"1472240000","manufacturer":"Weidmüller","datasheet":"1472240000","package":"Through hole right angle","pinout":"p02","footprint":"TB-WEI-OMNIMATE-SL-7.62-HT-02"},
+        {"name":"1472250000","manufacturer":"Weidmüller","datasheet":"1472250000","package":"Through hole right angle","pinout":"p03","footprint":"TB-WEI-OMNIMATE-SL-7.62-HT-03"},
+        {"name":"1472260000","manufacturer":"Weidmüller","datasheet":"1472260000","package":"Through hole right angle","pinout":"p04","footprint":"TB-WEI-OMNIMATE-SL-7.62-HT-04"},
+        {"name":"1472270000","manufacturer":"Weidmüller","datasheet":"1472270000","package":"Through hole right angle","pinout":"p05","footprint":"TB-WEI-OMNIMATE-SL-7.62-HT-05"},
+        {"name":"1472280000","manufacturer":"Weidmüller","datasheet":"1472280000","package":"Through hole right angle","pinout":"p06","footprint":"TB-WEI-OMNIMATE-SL-7.62-HT-06"}
+      ]
+    },
+    {
+      "id": "tb-wei-omnimate-sl-7.62-ht-29a-630v",
+      "function": "Plug-in header, horizontal",
+      "description": "Weidmüller Omnimate SL 7.62 mm board-side header of a plug-in terminal block, horizontal",
+      "drawer": ["Connector", "Terminal block", "7.62 mm"],
+      "note": "Weidmüller Omnimate SL, datasheets/connector-terminal/weidmuller/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "pluggable",
+      "pitch": 7.62,
+      "ratedVolts": 630,
+      "ratedAmps": 29,
+      "pinouts": {"p02":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}],"p05":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"}],"p07":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"}]},
+      "parts": [
+        {"name":"1026790000","manufacturer":"Weidmüller","datasheet":"1026790000","package":"Through hole right angle","pinout":"p05","footprint":"TB-WEI-OMNIMATE-SL-7.62-HT-05"},
+        {"name":"1980370000","manufacturer":"Weidmüller","datasheet":"1980370000","package":"Through hole right angle","pinout":"p02","footprint":"TB-WEI-OMNIMATE-SL-7.62-HT-02"},
+        {"name":"1980420000","manufacturer":"Weidmüller","datasheet":"1980420000","package":"Through hole right angle","pinout":"p07","footprint":"TB-WEI-OMNIMATE-SL-7.62-HT-07"}
+      ]
+    },
+    {
+      "id": "tb-wei-omnimate-sl-f-3.50-vt-15a-320v",
+      "function": "Plug-in header, vertical",
+      "description": "Weidmüller Omnimate SL 3.50 mm board-side header of a plug-in terminal block, vertical",
+      "drawer": ["Connector", "Terminal block", "3.50 mm"],
+      "note": "Weidmüller Omnimate SL, datasheets/connector-terminal/weidmuller/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "pluggable",
+      "pitch": 3.5,
+      "ratedVolts": 320,
+      "ratedAmps": 15,
+      "pinouts": {"p03":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"}],"p09":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"}],"p10":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"}]},
+      "parts": [
+        {"name":"1805230000","manufacturer":"Weidmüller","datasheet":"1805230000","package":"Through hole vertical","pinout":"p03","footprint":"TB-WEI-OMNIMATE-SL-F-3.50-VT-03"},
+        {"name":"1842610000","manufacturer":"Weidmüller","datasheet":"1842610000","package":"Through hole vertical","pinout":"p09","footprint":"TB-WEI-OMNIMATE-SL-F-3.50-VT-09"},
+        {"name":"1936340000","manufacturer":"Weidmüller","datasheet":"1936340000","package":"Through hole vertical","pinout":"p10","footprint":"TB-WEI-OMNIMATE-SL-F-3.50-VT-10"}
+      ]
+    },
+    {
+      "id": "tb-wei-omnimate-sl-f-3.50-vt-17a-320v",
+      "function": "Plug-in header, vertical",
+      "description": "Weidmüller Omnimate SL 3.50 mm board-side header of a plug-in terminal block, vertical",
+      "drawer": ["Connector", "Terminal block", "3.50 mm"],
+      "note": "Weidmüller Omnimate SL, datasheets/connector-terminal/weidmuller/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "pluggable",
+      "pitch": 3.5,
+      "ratedVolts": 320,
+      "ratedAmps": 17,
+      "pinouts": {"p04":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"}],"p05":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"}],"p09":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"}],"p10":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"}]},
+      "parts": [
+        {"name":"1607520000","manufacturer":"Weidmüller","datasheet":"1607520000","package":"Through hole vertical","pinout":"p04","footprint":"TB-WEI-OMNIMATE-SL-F-3.50-VT-04"},
+        {"name":"1607530000","manufacturer":"Weidmüller","datasheet":"1607530000","package":"Through hole vertical","pinout":"p05","footprint":"TB-WEI-OMNIMATE-SL-F-3.50-VT-05"},
+        {"name":"1607570000","manufacturer":"Weidmüller","datasheet":"1607570000","package":"Through hole vertical","pinout":"p09","footprint":"TB-WEI-OMNIMATE-SL-F-3.50-VT-09"},
+        {"name":"1607580000","manufacturer":"Weidmüller","datasheet":"1607580000","package":"Through hole vertical","pinout":"p10","footprint":"TB-WEI-OMNIMATE-SL-F-3.50-VT-10"}
+      ]
+    },
+    {
+      "id": "tb-wei-omnimate-sl-f-7.62-ht-29a-630v",
+      "function": "Plug-in header, horizontal",
+      "description": "Weidmüller Omnimate SL 7.62 mm board-side header of a plug-in terminal block, horizontal",
+      "drawer": ["Connector", "Terminal block", "7.62 mm"],
+      "note": "Weidmüller Omnimate SL, datasheets/connector-terminal/weidmuller/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "pluggable",
+      "pitch": 7.62,
+      "ratedVolts": 630,
+      "ratedAmps": 29,
+      "pinouts": {"p03":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"}],"p06":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"}],"p11":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"},{"number":11,"name":"11","role":"inout"}]},
+      "parts": [
+        {"name":"1026820000","manufacturer":"Weidmüller","datasheet":"1026820000","package":"Through hole right angle","pinout":"p03","footprint":"TB-WEI-OMNIMATE-SL-F-7.62-HT-03"},
+        {"name":"1095960000","manufacturer":"Weidmüller","datasheet":"1095960000","package":"Through hole right angle","pinout":"p06","footprint":"TB-WEI-OMNIMATE-SL-F-7.62-HT-06"},
+        {"name":"1124310000","manufacturer":"Weidmüller","datasheet":"1124310000","package":"Through hole right angle","pinout":"p11","footprint":"TB-WEI-OMNIMATE-SL-F-7.62-HT-11"}
+      ]
+    },
+    {
+      "id": "tb-wei-omnimate-sl-f1-5.08-vt-27.5a-400v",
+      "function": "Plug-in header, vertical",
+      "description": "Weidmüller Omnimate SL 5.08 mm board-side header of a plug-in terminal block, vertical",
+      "drawer": ["Connector", "Terminal block", "5.08 mm"],
+      "note": "Weidmüller Omnimate SL, datasheets/connector-terminal/weidmuller/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "pluggable",
+      "pitch": 5.08,
+      "ratedVolts": 400,
+      "ratedAmps": 27.5,
+      "pinouts": {"p02":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}],"p03":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"}],"p04":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"}],"p05":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"}],"p06":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"}]},
+      "parts": [
+        {"name":"1776364001","manufacturer":"Weidmüller","datasheet":"1776364001","package":"Through hole vertical","pinout":"p02","footprint":"TB-WEI-OMNIMATE-SL-F1-5.08-VT-02"},
+        {"name":"1776374001","manufacturer":"Weidmüller","datasheet":"1776374001","package":"Through hole vertical","pinout":"p03","footprint":"TB-WEI-OMNIMATE-SL-F1-5.08-VT-03"},
+        {"name":"1776384001","manufacturer":"Weidmüller","datasheet":"1776384001","package":"Through hole vertical","pinout":"p04","footprint":"TB-WEI-OMNIMATE-SL-F1-5.08-VT-04"},
+        {"name":"1776394001","manufacturer":"Weidmüller","datasheet":"1776394001","package":"Through hole vertical","pinout":"p05","footprint":"TB-WEI-OMNIMATE-SL-F1-5.08-VT-05"},
+        {"name":"1776404001","manufacturer":"Weidmüller","datasheet":"1776404001","package":"Through hole vertical","pinout":"p06","footprint":"TB-WEI-OMNIMATE-SL-F1-5.08-VT-06"}
+      ]
+    },
+    {
+      "id": "tb-wei-omnimate-sl-f2-5.08-vt-27.5a-400v",
+      "function": "Plug-in header, vertical",
+      "description": "Weidmüller Omnimate SL 5.08 mm board-side header of a plug-in terminal block, vertical",
+      "drawer": ["Connector", "Terminal block", "5.08 mm"],
+      "note": "Weidmüller Omnimate SL, datasheets/connector-terminal/weidmuller/<item>.pdf (one per part); rating from the datasheet",
+      "terminal": "pluggable",
+      "pitch": 5.08,
+      "ratedVolts": 400,
+      "ratedAmps": 27.5,
+      "pinouts": {"p10":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"}],"p12":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"},{"number":5,"name":"5","role":"inout"},{"number":6,"name":"6","role":"inout"},{"number":7,"name":"7","role":"inout"},{"number":8,"name":"8","role":"inout"},{"number":9,"name":"9","role":"inout"},{"number":10,"name":"10","role":"inout"},{"number":11,"name":"11","role":"inout"},{"number":12,"name":"12","role":"inout"}]},
+      "parts": [
+        {"name":"1820630000","manufacturer":"Weidmüller","datasheet":"1820630000","package":"Through hole vertical","pinout":"p12","footprint":"TB-WEI-OMNIMATE-SL-F2-5.08-VT-12"},
+        {"name":"1820780000","manufacturer":"Weidmüller","datasheet":"1820780000","package":"Through hole vertical","pinout":"p10","footprint":"TB-WEI-OMNIMATE-SL-F2-5.08-VT-10"}
+      ]
+    },
+    {
+      "id": "tb-wei-omnimate-sl-gap-7.62-ht-29a-630v",
+      "function": "Plug-in header, horizontal",
+      "description": "Weidmüller Omnimate SL 7.62 mm board-side header of a plug-in terminal block, horizontal",
+      "drawer": ["Connector", "Terminal block", "7.62 mm"],
+      "note": "Weidmüller Omnimate SL, datasheets/connector-terminal/weidmuller/1173770000.pdf; rating from the datasheet",
+      "terminal": "pluggable",
+      "pitch": 7.62,
+      "ratedVolts": 630,
+      "ratedAmps": 29,
+      "pinouts": {"p04":[{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"},{"number":3,"name":"3","role":"inout"},{"number":4,"name":"4","role":"inout"}]},
+      "parts": [
+        {"name":"1173770000","manufacturer":"Weidmüller","datasheet":"1173770000","package":"Through hole right angle","pinout":"p04","footprint":"TB-WEI-OMNIMATE-SL-GAP-7.62-HT-04"}
+      ]
     }
   ]
 }

@@ -151,17 +151,19 @@ surface as a load error or a `footprint_check` failure.
 
 Acceptance: 88 generics load with footprints; goldens only gained.
   Check: `cmake --build /tmp/logic-p45 -j8 && ctest --test-dir /tmp/logic-p45 -R 'connector_test|library_check|listing_check|trace_check|footprint_check'` → `100% tests passed`; `git diff backend/tests/golden \| grep -c '^-[^-]'` → 0; `grep -c 'GENERIC-TERMINAL\|GENERIC-JST' backend/tests/golden/parts.txt` → 88 (est. 15 min). Result: `100% tests passed, 0 tests failed out of 5`; `0`; `88`.
-Commit: this commit (hash in the next one)
+Commit: b9a48fd2
 
 ### Phase 2 — Phoenix Contact and Weidmüller
 
-- [ ] `gen-parts.py --maker phoenix --maker weidmuller`: their `add` rows'
+- [x] `gen-parts.py --maker phoenix --maker weidmuller`: their `add` rows'
       devices, `datasheets.json` entries, then `gen-terminals.js --write`.
-- [ ] Regenerate the goldens; review: only added lines.
+      `50 devices, 305 parts, 217 datasheet entries` (the 88 generics + 68 Phoenix + 149 Weidmüller parts, 217 datasheet files: one per part); `249 TB-/JST- footprints written` (88 generics' + 161).
+- [x] Regenerate the goldens; review: only added lines.
+      Against Phase 1: `parts.txt` +217, `traces.txt` +217, `footprints.txt` +161: `595 insertions(+)`, 0 deletions.
 
 Acceptance: the two makers' parts load.
-  Check: `cmake --build /tmp/logic-p45 -j8 && ctest --test-dir /tmp/logic-p45 -R 'library_check|listing_check|trace_check|footprint_check'` → `100% tests passed`; `git diff backend/tests/golden \| grep -c '^-[^-]'` → 0 (est. 15 min).
-Commit: —
+  Check: `cmake --build /tmp/logic-p45 -j8 && ctest --test-dir /tmp/logic-p45 -R 'library_check|listing_check|trace_check|footprint_check'` → `100% tests passed`; `git diff backend/tests/golden \| grep -c '^-[^-]'` → 0 (est. 15 min). Result: `100% tests passed, 0 tests failed out of 4`; `0`.
+Commit: this commit (hash in the next one)
 
 ### Phase 3 — Würth Elektronik and JST
 
