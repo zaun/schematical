@@ -617,6 +617,13 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// A crystal or ceramic resonator (plan-44): a two-terminal
         /// frequency reference, its facts (`CrystalInfo`).
         case crystal(CrystalInfo)
+        /// An IC socket (plan-51): a passive block of pins a DIP or PLCC chip
+        /// plugs into. `family`: "DIP" or "PLCC"; `rowUM`: a DIP socket's row
+        /// spacing in micrometres (0 for PLCC); `mounting`: "through-hole" or
+        /// "surface-mount"; `finish`: the contact finish ("gold", "tin",
+        /// "tin-lead"), nil when not given. The chip footprints it holds are
+        /// `CatalogPart.fits`.
+        case socket(family: String, rowUM: UInt32, mounting: String, finish: String?)
     }
 
     let name: String
@@ -656,6 +663,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     /// picker order; one of them is `footprint` (the default). Empty for
     /// most parts.
     let footprintChoices: [FootprintChoice]
+    /// A socket's `fits` (plan-51): the chip footprints it holds, in file
+    /// order. Empty for every other kind.
+    let fits: [Footprint]
     /// The recommended supply range and the highest input voltage,
     /// millivolts. Nil for supplies, LEDs, 7-segment displays and switches.
     let vcc: (minMV: UInt32, maxMV: UInt32, inputMaxMV: UInt32)?
@@ -1016,6 +1026,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
             // The load capacitance and the tolerance, when the part gives them.
             return (info.loadFF > 0 ? [CapacitorValue.text(Double(info.loadFF) / 1e15)] : [])
                 + (info.tolerancePPM > 0 ? [CrystalInfo.ppmText(info.tolerancePPM)] : [])
+        case let .socket(_, _, mounting, finish):
+            // The mounting and the contact finish: "through hole", "gold".
+            return [mounting == "surface-mount" ? "surface mount" : "through hole"] + (finish.map { [$0] } ?? [])
         }
     }
 }
@@ -1081,10 +1094,11 @@ extension CatalogPart {
     /// `connectorFootprint` are the Swift copies of `part.footprint` and
     /// `part.connector_footprint`, shared by every part that uses them.
     nonisolated init(_ part: Part, footprint: Footprint?, connectorFootprint: Footprint? = nil,
-                     footprintChoices: [FootprintChoice] = []) {
+                     footprintChoices: [FootprintChoice] = [], fits: [Footprint] = []) {
         self.footprint = footprint
         self.connectorFootprint = connectorFootprint
         self.footprintChoices = footprintChoices
+        self.fits = fits
         vcc = part.vcc.map { ($0.pointee.min_mv, $0.pointee.max_mv, $0.pointee.input_max_mv) }
         supplyDomains = (0..<part.domain_count).compactMap { k in
             guard let domain = part.domains?[k], let range = domain.vcc?.pointee else { return nil }
@@ -1296,6 +1310,9 @@ extension CatalogPart {
                 type: string(crystal.type), hz: crystal.hz, loadFF: crystal.load_ff,
                 tolerancePPM: crystal.tolerance_ppm, stabilityPPM: crystal.stability_ppm,
                 esrMOhm: crystal.esr_mohm, capacitors: crystal.capacitors != 0))
+        } else if let socket = part.socket?.pointee {
+            details = .socket(family: string(socket.family), rowUM: socket.row_um,
+                              mounting: string(socket.mounting), finish: socket.finish.map { String(cString: $0) })
         } else {
             details = .supply(level: 0, mv: 0, pull: false)
         }
@@ -1381,6 +1398,9 @@ nonisolated enum BackendCatalog {
                               let copy = choice.footprint.flatMap(footprint)
                         else { return nil }
                         return CatalogPart.FootprintChoice(package: string(choice.package), footprint: copy)
+                    },
+                    fits: (0..<part.fit_count).compactMap { k in
+                        part.fits?[k].flatMap(footprint)
                     })
     }
 

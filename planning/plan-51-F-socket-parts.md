@@ -129,7 +129,7 @@ changed line.
 
 Acceptance: the loader accepts everything.
   Check: `node scripts/gen-sockets.js --write && node scripts/gen-sockets.js --check && cmake --build /tmp/logic-p51 -j8 && /tmp/logic-p51/library_check` → exit 0 (est. 3 min). Measured 2026-11-24 (build dir `/tmp/logic-p51-wt`): `--write` and `--check` exit 0, `library_check: all passed`. VERIFIED.
-Commit: (next commit)
+Commit: 4f96af83
 
 ### Phase 2 — goldens
 
@@ -138,16 +138,16 @@ Commit: (next commit)
 
 Acceptance: 61 of 61.
   Check: `ctest --test-dir /tmp/logic-p51 -j8` → `100% tests passed, 0 tests failed out of 61` (est. 1 min). Measured 2026-11-24: before the goldens `95% tests passed, 3 tests failed out of 61` (listing_check, trace_check, footprint_check only); after: `100% tests passed, 0 tests failed out of 61`. VERIFIED.
-Commit: (next commit)
+Commit: 4f96af83
 
 ### Phase 3 — the app
 
-- [ ] `PartCatalog.swift`: `Details.socket`, `fits`, the `init` arm for `PART_SOCKET`; `PartFacts.swift`; `BundledPartFile.swift`; `ReferencePrefixes.swift` (`.socket`) and `ReferencePrefixTests`.
-- [ ] `schematicalTests/SocketPartsTests.swift`: the catalog has the 15 generics; `GENERIC-SOCKET-DIP-14-300` has 14 pins, a footprint with 14 pads, `fits` naming `PDIP-14` and `CDIP-14`, kind `PART_SOCKET`, facts rows Family `DIP`, Pins `14`, Row spacing `0.3 in`, Mounting `through-hole`; `ReferenceCategory.of` gives `.socket`; a document with a placed generic socket starts a run (`Simulation` builds) and the socket's pins join nothing.
+- [x] `PartCatalog.swift`: `Details.socket`, `fits`, the `init` arm for `PART_SOCKET`; `PartFacts.swift`; `BundledPartFile.swift`; `ReferencePrefixes.swift` (`.socket`) and `ReferencePrefixTests`. — `Details.socket(family:rowUM:mounting:finish:)`, `CatalogPart.fits`, the init arm and `BackendCatalog.catalogPart` reading `part.fits`, the drawer's `detailLabels` arm (`through hole`, finish); `PartFacts` (`IC socket`, Family, Row spacing, Mounting, Finish); `BundledPartFile.name(of:)` → `socket`; `ReferenceCategory.socket` (`IC Socket`, `XS`).
+- [x] `schematicalTests/SocketPartsTests.swift`: the catalog has the 15 generics; `GENERIC-SOCKET-DIP-14-300` has 14 pins, a footprint with 14 pads, `fits` naming `PDIP-14` and `CDIP-14`, kind `PART_SOCKET`, facts rows Family `DIP`, Pins `14`, Row spacing `0.3 in`, Mounting `through-hole`; `ReferenceCategory.of` gives `.socket`; a document with a placed generic socket starts a run (`Simulation` builds) and the socket's pins join nothing. — 7 cases (the 15 generics: 11 DIP, 4 PLCC; every socket `>= 575`, drawer `Connector › IC Socket`, a footprint and every `fits` footprint with its pin count of pads; the generic 14-pin DIP socket and its facts; a generic PLCC is surface mount with no Row spacing; a maker socket `A 14-LC-TR`: manufacturer, datasheet URL, footprint, finish; `XS1`, `XS2` and `U1`; Run starts with a socket placed). "The socket's pins join nothing" is the backend `socket_test` circuit case; the app test checks that Run starts.
 
 Acceptance: the tests pass.
-  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p51-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/SocketPartsTests -only-testing:schematicalTests/ReferencePrefixTests -only-testing:schematicalTests/DrawerPerformanceTests -only-testing:schematicalTests/PartRegistrationTests` → `** TEST SUCCEEDED **` (est. 12 min: app build and four classes).
-Commit: —
+  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p51-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/SocketPartsTests -only-testing:schematicalTests/ReferencePrefixTests -only-testing:schematicalTests/DrawerPerformanceTests -only-testing:schematicalTests/PartRegistrationTests` → `** TEST SUCCEEDED **` (est. 12 min: app build and four classes). Measured 2026-11-24: `** TEST SUCCEEDED **`, 32 tests, 0 failures (SocketPartsTests 7, ReferencePrefixTests 5, DrawerPerformanceTests 7, PartRegistrationTests 13). VERIFIED.
+Commit: (next commit)
 
 ## Validation Plan
 

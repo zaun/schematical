@@ -281,6 +281,12 @@ nonisolated enum PartFacts {
                 add("Quiescent", info.iqUA >= 1000 ? "\(milli(info.iqUA)) mA" : "\(info.iqUA) µA")
             }
             if info.fswHz > 0 { add("Switching", hertz(info.fswHz)) }
+        case let .socket(family, rowUM, mounting, finish):
+            // Pins is the overview row above; the row spacing is a DIP's, in inches (plan-51-F).
+            add("Family", family)
+            if rowUM > 0 { add("Row spacing", String(format: "%.1f in", Double(rowUM) / 25400)) }
+            add("Mounting", mounting)
+            add("Finish", finish ?? "")
         }
         if !part.isSimulated { add("Simulation", "Not simulated") }
 
@@ -342,6 +348,7 @@ nonisolated enum PartFacts {
         case PART_REGULATOR: return "Voltage regulator"
         case PART_POWERSWITCH: return "Power switch"
         case PART_CRYSTAL: return "Crystal"
+        case PART_SOCKET: return "IC socket"
         default: return ""
         }
     }

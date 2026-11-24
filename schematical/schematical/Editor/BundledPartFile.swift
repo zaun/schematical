@@ -127,6 +127,7 @@ extension PartKinds {
         case PART_DEKATRON: "dekatron"
         case PART_LCD: "lcd"
         case PART_POWERSWITCH: "powerswitch"
+        case PART_SOCKET: "socket"
         default: nil
         }
     }
