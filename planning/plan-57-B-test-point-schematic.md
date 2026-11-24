@@ -184,7 +184,7 @@ Acceptance: the canvas, the export and the reference label draw the circle symbo
   Observed (the render check, by the harness, Corrections 1): `APP=/tmp/plan57/dd/Build/Products/Debug/schematical.app scripts/harness/build.sh scripts/harness/test-point-app.swift /tmp/p57-harness && /tmp/p57-harness/H.app/Contents/MacOS/harness /tmp/plan57/img` → five `ok` lines and `wrote /tmp/plan57/img/p57-schematic.png`; the picture shows two open circles on stubs at the ends of wires from a resistor, `TP1` and `TP2` above them.
   Check: `xcodebuild … test -only-testing:schematicalTests/TestPointTests -only-testing:schematicalTests/KiCadExportTests -only-testing:schematicalTests/BillOfMaterialsTests` (same flags as Phase 1) → `** TEST SUCCEEDED **` (est. 8 min).
   Check: render a schematic with a test point on a wire through the MCP `render` tool (`mcp__schematical__place_part` GENERIC-TESTPOINT, `connect` to a net label, `render` schematic) → the picture shows a circle at the wire's end and `TP1` above it (est. 2 min; the picture is the runtime proof that the three drawing paths agree; the unit tests cannot see pixels).
-Commit: —
+Commit: eb4d442d
 
 ## Validation Plan
 

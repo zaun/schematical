@@ -4,7 +4,8 @@ import SwiftUI
 /// The Schematic sidebar's Options for a placed part that has a choice of
 /// color, resistance or footprint (the Generic LED, pull resistors): a Color
 /// picker, an Ohms field and a Footprint picker. A header (plan-23) also
-/// gets Rows, Pins per row and Gender. A change takes effect at once on the
+/// gets Rows, Pins per row and Gender; a test point (plan-57) gets Size and
+/// Through hole in place of the Footprint picker. A change takes effect at once on the
 /// canvas, the PCB and the file.
 struct PartOptionsSection: View {
     /// Looks up a header's new size (`HeaderFamily.name(rows:perRow:)`).
@@ -95,7 +96,24 @@ struct PartOptionsSection: View {
                     document.setPartFarads(chip.id, farads)
                 }
             }
-            if !current.part.footprintChoices.isEmpty {
+            if current.part.isTestPoint {
+                let mounting = TestPointFamily.parse(current.footprintID ?? current.part.footprint?.id ?? "")
+                    ?? (size: TestPointFamily.defaultSize, throughHole: false)
+                Picker("Size", selection: Binding(
+                    get: { mounting.size },
+                    set: { document.setPartFootprint(
+                        chip.id, TestPointFamily.footprintID(size: $0, throughHole: mounting.throughHole)) }
+                )) {
+                    ForEach(TestPointFamily.sizes, id: \.self) { Text(TestPointFamily.label($0)).tag($0) }
+                }
+                .pickerStyle(.menu)
+                Toggle("Through hole", isOn: Binding(
+                    get: { mounting.throughHole },
+                    set: { document.setPartFootprint(
+                        chip.id, TestPointFamily.footprintID(size: mounting.size, throughHole: $0)) }
+                ))
+            }
+            if !current.part.footprintChoices.isEmpty && !current.part.isTestPoint {
                 FootprintChoicePicker(choices: current.part.footprintChoices, selection: Binding(
                     get: { current.footprintID ?? current.part.footprint?.id ?? "" },
                     set: { document.setPartFootprint(chip.id, $0) }

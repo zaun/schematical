@@ -105,6 +105,84 @@ final class TestPointTests: XCTestCase {
         XCTAssertEqual(ReferenceCategory.of(jack.part), .femaleConnector)
     }
 
+    /// plan-57-C: the size and mounting map to the ten footprint ids and back.
+    func testFamilyBuildsAndParsesAllTenIds() throws {
+        let ids = Set(try testPoint().footprintChoices.map(\.footprint.id))
+        var built: Set<String> = []
+        for size in TestPointFamily.sizes {
+            for throughHole in [false, true] {
+                let id = TestPointFamily.footprintID(size: size, throughHole: throughHole)
+                XCTAssertTrue(ids.contains(id), id)
+                let parsed = try XCTUnwrap(TestPointFamily.parse(id), id)
+                XCTAssertEqual(parsed.size, size, id)
+                XCTAssertEqual(parsed.throughHole, throughHole, id)
+                built.insert(id)
+            }
+        }
+        XCTAssertEqual(built, ids)
+        XCTAssertNil(TestPointFamily.parse("RES-0805"))
+        XCTAssertNil(TestPointFamily.parse("TESTPOINT-PAD-9.9"))
+        XCTAssertNil(TestPointFamily.parse("TESTPOINT-XYZ-1.5"))
+        let part = try testPoint()
+        let own = try XCTUnwrap(TestPointFamily.parse(part.footprint?.id ?? ""))
+        XCTAssertEqual(own.size, TestPointFamily.defaultSize)
+        XCTAssertFalse(own.throughHole)
+        XCTAssertEqual(TestPointFamily.label(2.5), "2.5 mm")
+    }
+
+    /// plan-57-C: the Size menu and the Through hole toggle each write one
+    /// footprint, keep the other's value, undo, and survive a file round trip.
+    func testSizeAndThroughHoleWritesUndoAndSave() throws {
+        let doc = TestSupport.newDocument()
+        let chip = try TestSupport.place(doc, "GENERIC-TESTPOINT", at: CGPoint(x: 100, y: 100))
+        func live() throws -> PlacedChip {
+            try XCTUnwrap(doc.chips.first { $0.id == chip.id })
+        }
+        func current() throws -> (size: Double, throughHole: Bool) {
+            let now = try live()
+            return try XCTUnwrap(TestPointFamily.parse(now.footprintID ?? now.part.footprint?.id ?? ""))
+        }
+        func pad() throws -> Footprint.Pad {
+            try XCTUnwrap(try live().footprint?.pads.first)
+        }
+        XCTAssertEqual(try current().size, 1.5)
+        XCTAssertFalse(try current().throughHole)
+        XCTAssertEqual(try pad().drill, 0)
+
+        doc.setPartFootprint(chip.id, TestPointFamily.footprintID(size: 2.0, throughHole: try current().throughHole))
+        XCTAssertEqual(try live().footprintID, "TESTPOINT-PAD-2.0")
+        doc.setPartFootprint(chip.id, TestPointFamily.footprintID(size: try current().size, throughHole: true))
+        XCTAssertEqual(try live().footprintID, "TESTPOINT-THT-2.0")
+        doc.setPartFootprint(chip.id, TestPointFamily.footprintID(size: 3.0, throughHole: try current().throughHole))
+        XCTAssertEqual(try live().footprintID, "TESTPOINT-THT-3.0")
+        XCTAssertEqual(try pad().size.width, 3.0, accuracy: 1e-9)
+        XCTAssertGreaterThan(try pad().drill, 0)
+
+        let data = try SchematicFile(document: doc, fileURL: nil, catalog: TestSupport.catalog).encoded()
+        let opened = TestSupport.newDocument()
+        try SchematicFile.decode(data).apply(to: opened, catalog: TestSupport.catalog, fileURL: nil)
+        XCTAssertEqual(opened.chips.first?.footprintID, "TESTPOINT-THT-3.0")
+
+        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertEqual(try live().footprintID, "TESTPOINT-THT-2.0")
+        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertEqual(try live().footprintID, "TESTPOINT-PAD-2.0")
+        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertEqual(try current().size, 1.5)
+        XCTAssertFalse(try current().throughHole)
+        XCTAssertEqual(try pad().drill, 0)
+    }
+
+    /// plan-57-C: only the test point swaps its footprint menu; another part
+    /// with choices keeps the flat picker.
+    func testOnlyTheTestPointIsATestPoint() throws {
+        let led = try TestSupport.part("GENERIC-LED")
+        XCTAssertFalse(led.footprintChoices.isEmpty)
+        XCTAssertFalse(led.isTestPoint)
+        XCTAssertTrue(PartOptionsSection.applies(to: led))
+        XCTAssertTrue(PartOptionsSection.applies(to: try testPoint()))
+    }
+
     /// Connector's drawer lists the leaf Test Point beside its groups, and
     /// the groups are the ones it had.
     func testTheDrawerListsTheLeafUnderConnector() throws {

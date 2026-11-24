@@ -32,7 +32,7 @@ one.
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-57-B is complete | `rg -c 'case testPoint' schematical/schematical/Canvas/SchematicModel.swift` → 1 and `test -f schematical/schematical/Canvas/TestPointSymbolView.swift` | NOT MET (B not landed) |
+| plan-57-B is complete | `rg -c 'case testPoint' schematical/schematical/Canvas/SchematicModel.swift` → 1 and `test -f schematical/schematical/Canvas/TestPointSymbolView.swift` | MET (`case testPoint` → 1; `TestPointSymbolView.swift` exists; plan-57-B commits be3441e6, eb4d442d) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command and update every status before you continue. If you stop,
@@ -131,14 +131,14 @@ size field (the footprint library is a closed list); a segmented size control
 
 ### Phase 1 — `TestPointFamily` and the Options controls
 
-- [ ] `schematical/schematical/Backend/TestPointFamily.swift` (new): the enum of
+- [x] `schematical/schematical/Backend/TestPointFamily.swift` (new): the enum of
       § 3.
-- [ ] `schematical/schematical/Drawer/PartOptionsSection.swift`: the Size menu
+- [x] `schematical/schematical/Drawer/PartOptionsSection.swift`: the Size menu
       and Through hole toggle for `current.part.isTestPoint`, placed where the
       footprint picker was, and `&& !current.part.isTestPoint` on the
       `FootprintChoicePicker` branch (lines 98–103); update the doc comment at the
       top of the file ("A test point gets Size and Through hole").
-- [ ] `schematical/schematicalTests/TestPointTests.swift`:
+- [x] `schematical/schematicalTests/TestPointTests.swift`:
       - `TestPointFamily`: all ten `(size, throughHole)` combinations build an id
         that is one of `GENERIC-TESTPOINT`'s `footprintChoices`, and `parse`
         inverts each; `parse("RES-0805")` and `parse("TESTPOINT-PAD-9.9")` are nil.
@@ -154,11 +154,14 @@ size field (the footprint library is a closed list); a segmented size control
         document, as `PullResistorTests.open` decodes) keeps `TESTPOINT-THT-2.5`.
       - `GENERIC-LED` (choices, not a test point) is not `isTestPoint`, so it
         keeps the flat picker.
-- [ ] `docs/parts-format.md` § Test points (written in plan-57-A): add one
+- [x] `docs/parts-format.md` § Test points (written in plan-57-A): add one
       sentence, "A placed test point's Options show Size and Through hole,
-      which pick one of the ten footprints."
+      which pick one of the ten footprints." — already there: plan-57-A's
+      subsection ends "…and shows Size and Through hole in its Options in place
+      of the footprint menu" (`rg -n 'Size and Through hole' docs/parts-format.md` → 1 line), so no edit.
 
 Acceptance: both controls swap the footprint, keep each other's value, undo and save.
+  Observed: `xcodebuild … -derivedDataPath /tmp/plan57/dd test -only-testing:schematicalTests/TestPointTests` → `Executed 10 tests, with 0 failures` and `** TEST SUCCEEDED **` (new: `testFamilyBuildsAndParsesAllTenIds`, `testSizeAndThroughHoleWritesUndoAndSave`, `testOnlyTheTestPointIsATestPoint`).
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/TestPointTests` → `** TEST SUCCEEDED **` (est. 8 min incl. build; scoped to the one test class that holds every new assertion).
 Commit: —
 
