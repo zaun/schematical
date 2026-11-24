@@ -75,7 +75,7 @@ H's parts are in; the editor knows the kind. The `limited` verdicts are D's and 
 
 Acceptance: every `add` row is a loaded part and nothing else moved.
   Check: `ctest --test-dir /tmp/logic-p55 -R 'listing_check|trace_check|library_check|footprint_check|powerswitch_test'` → 5 of 5; `grep -c '|powerswitch|' backend/tests/golden/parts.txt` → H's N + M; `git diff --numstat backend/tests/golden | awk '{d+=$2} END{print d}'` → 0 (est. 4 min); `xcodebuild … test -only-testing:schematicalTests/PartKindRoundTripTests -only-testing:schematicalTests/PartKindKeysTests -only-testing:schematicalTests/ParametricFootprintDraftTests -only-testing:schematicalTests/PartEditorWindowTests` → `** TEST SUCCEEDED **` (est. 15 min: the counts the tests read move with the parts). Observed: `ctest -R 'listing_check|trace_check|library_check|footprint_check|powerswitch_test'` → `100% tests passed, 0 tests failed out of 5`; `grep -c '|powerswitch|' backend/tests/golden/parts.txt` → 817 = 229 + 588; the removed-lines sum is 0; the four app classes pass except `PartKindRoundTripTests.testDecoder` and `testLatch`, which fail on `main` without this plan (plan-55-H Correction 3).
-Commit: (filled by the next commit)
+Commit: adf48459
 
 ## Validation Plan
 
