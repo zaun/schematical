@@ -69,7 +69,7 @@ struct SchematicSidebarView: View {
                 Form {
                     Section { PartHeader(chip: chip) }
                     ReferenceSection(document: document, chip: chip, page: .schematic)
-                    if PartOptionsSection.applies(to: chip.part) {
+                    if PartOptionsSection.applies(to: chip, in: catalog) {
                         PartOptionsSection(catalog: catalog, document: document, chip: chip)
                     }
                     Section("Details") {

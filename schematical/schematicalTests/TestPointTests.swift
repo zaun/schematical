@@ -184,12 +184,13 @@ final class TestPointTests: XCTestCase {
     }
 
     /// Connector's drawer lists the leaf Test Point beside its groups, and
-    /// the groups are the ones it had.
+    /// the groups are the ones it had (the terminal blocks and JST headers of plan-45 and the IC sockets of
+    /// plan-51 have joined them; the list had gone stale).
     func testTheDrawerListsTheLeafUnderConnector() throws {
         let groups = TestSupport.catalog.groups(matching: DrawerFilter())
         let connector = try XCTUnwrap(groups.first { $0.category == "Connector" })
         XCTAssertEqual(connector.functions.map(\.function), ["Test Point"])
-        XCTAssertEqual(connector.subcategories.map(\.subcategory), ["Barrel", "Card slot", "Header", "USB"])
+        XCTAssertEqual(connector.subcategories.map(\.subcategory), ["Barrel", "Card slot", "Header", "IC Socket", "JST", "Terminal block", "USB"])
         let leaf = try XCTUnwrap(connector.functions.first)
         XCTAssertEqual(leaf.parts.map(\.name), ["GENERIC-TESTPOINT"])
     }

@@ -30,8 +30,8 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-51-H complete | `ls planning/completed/plan-51-H-*.md` → exists | NOT MET (2026-11-21: not started) |
-| `SocketModeTests` passes | the check of plan-51-H Phase 1 | NOT MET (H's output) |
+| plan-51-H complete | `ls planning/completed/plan-51-H-*.md` → exists | MET (2026-11-24: `planning/completed/plan-51-H-socket-mode-model.md`, commit 44979c02) |
+| `SocketModeTests` passes | the check of plan-51-H Phase 1 | MET (2026-11-24: `SocketModeTests` 15 of 15) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > If you stop, report the status of *all* prerequisites.
@@ -99,22 +99,22 @@ re-reads the document, as the section does. The harness drives it end to end.
 
 ### Phase 1 — the control and the filter
 
-- [ ] `PartOptionsSection.swift`: `applies(to:in:)`, the Mounting picker, the Socket row and button; `SchematicSidebarView.swift:72`.
-- [ ] `Drawer/SocketPickerSheet.swift`: the view and `rows(_:search:mounting:maker:)`.
-- [ ] `schematicalTests/SocketPickerTests.swift`: `applies` is true for `SN74HC00N` and false for `GENERIC-LED`, `GENERIC-HEADER-1X02`, a 7-segment display and a 4-pin DIP oscillator; `rows` with search `mill`, with Mounting `Surface mount`, with a maker, and with all three together; generics first; every row's `fits` holds `PDIP-14` for the 14-pin chip; the pure rows function never returns a socket that does not fit.
+- [x] `PartOptionsSection.swift`: `applies(to:in:)`, the Mounting picker, the Socket row and button; `SchematicSidebarView.swift:72`. — `PartOptionsSection`: `applies(to:in:)` (the old `applies(to: part)` stays for the LED and header options), `isSocketable`, `MountingChoice`, `choose(_:for:in:catalog:)`, the segmented Mounting control, the Socket row, its caption and Choose Socket…, the sheet; `SchematicSidebarView` passes the chip and catalog.
+- [x] `Drawer/SocketPickerSheet.swift`: the view and `rows(_:search:mounting:maker:)`. — `SocketPickerSheet` (search, Mounting and Manufacturer menus, a `Table`, Cancel and Use Socket, a double-click is Use Socket) and the pure `rows(_:search:mounting:maker:)`.
+- [x] `schematicalTests/SocketPickerTests.swift`: `applies` is true for `SN74HC00N` and false for `GENERIC-LED`, `GENERIC-HEADER-1X02`, a 7-segment display and a 4-pin DIP oscillator; `rows` with search `mill`, with Mounting `Surface mount`, with a maker, and with all three together; generics first; every row's `fits` holds `PDIP-14` for the 14-pin chip; the pure rows function never returns a socket that does not fit. — 6 cases; "applies" is the new `isSocketable` for the socket control (the LED and the header still have their own Options): true for `SN74HC00N` and a PLCC-44 CPU, false for `GENERIC-LED`, `GENERIC-HEADER-1X02`, `5V`, a 7-segment display, a 4-pin DIP oscillator and a socket.
 
 Acceptance: `SocketPickerTests` passes.
-  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p51-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/SocketPickerTests -only-testing:schematicalTests/DrawerPerformanceTests` → `** TEST SUCCEEDED **` (est. 13 min).
-Commit: —
+  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p51-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/SocketPickerTests -only-testing:schematicalTests/DrawerPerformanceTests` → `** TEST SUCCEEDED **` (est. 13 min). Measured 2026-11-24 (with `SocketModeTests` and `TestPointTests` added): `SocketPickerTests` 6 of 6, `DrawerPerformanceTests`, `SocketModeTests` passed; the one failure was `TestPointTests.testTheDrawerListsTheLeafUnderConnector`, a list that had gone stale before this plan (§ Corrections), corrected afterwards. VERIFIED.
+Commit: (next commit)
 
 ### Phase 2 — the harness
 
-- [ ] `scripts/harness/socket-mode-ui.swift` (the `generic-led-ui.swift` shape, `check(name) { … }` per line): places `SN74HC00N` and a `GENERIC-LED`; the sidebar of the gate renders the Mounting control and the LED's does not; `setPartSocket` through the same closure the picker's `onUse` calls changes the chip's `footprint.id`; the BOM of the document lists `XU1` in `IC + Socket` and drops the chip in `Socket Only`; the sheet renders (`Harness.render`) with the generic first and writes `p51-socket-sheet.png`; one undo returns the chip to IC.
-- [ ] A real-window pass on the running app (AGENTS § Testing in the app: afterwards the pointer goes to (0, 0)): place a gate, switch to IC + Socket, open Choose Socket…, pick a Mill-Max row, check the PCB footprint changed and Edit › Undo restores it.
+- [x] `scripts/harness/socket-mode-ui.swift` (the `generic-led-ui.swift` shape, `check(name) { … }` per line): places `SN74HC00N` and a `GENERIC-LED`; the sidebar of the gate renders the Mounting control and the LED's does not; `setPartSocket` through the same closure the picker's `onUse` calls changes the chip's `footprint.id`; the BOM of the document lists `XU1` in `IC + Socket` and drops the chip in `Socket Only`; the sheet renders (`Harness.render`) with the generic first and writes `p51-socket-sheet.png`; one undo returns the chip to IC. — `scripts/harness/socket-mode-ui.swift`, 10 checks, built with `APP=/tmp/p51-dd/Build/Products/Debug/schematical.app scripts/harness/build.sh` and run: every line `ok`, `all ok`, exit 0; the images (sidebar of the gate, the LED, a gate in IC + Socket, the sheet) were read.
+- [~] A real-window pass on the running app (AGENTS § Testing in the app: afterwards the pointer goes to (0, 0)): place a gate, switch to IC + Socket, open Choose Socket…, pick a Mill-Max row, check the PCB footprint changed and Edit › Undo restores it. — NOT DONE as written: this session has no way to drive the real mouse (no computer-use tool, and the automation server's fixed port 47800 is held by the owner's running app), so the click-through on the running app (place a gate, IC + Socket, Choose Socket…, pick a Mill-Max row, check the PCB footprint, Edit › Undo) was not made. What stands in for it: the harness renders the app's real `SchematicSidebarView` and `SocketPickerSheet` in a hosted window and drives the same closures the controls call (checks 4 to 9). What remains: the owner's pass on the running app.
 
 Acceptance: every harness line is `ok`.
-  Check: `rm -rf /tmp/p51-harness && APP=/tmp/p51-dd/Build/Products/Debug/schematical.app scripts/harness/build.sh scripts/harness/socket-mode-ui.swift /tmp/p51-harness && /tmp/p51-harness/H.app/Contents/MacOS/harness` → every line `ok`, exit 0 (est. 10 min).
-Commit: —
+  Check: `rm -rf /tmp/p51-harness && APP=/tmp/p51-dd/Build/Products/Debug/schematical.app scripts/harness/build.sh scripts/harness/socket-mode-ui.swift /tmp/p51-harness && /tmp/p51-harness/H.app/Contents/MacOS/harness` → every line `ok`, exit 0 (est. 10 min). Measured 2026-11-24: `all ok`, exit 0 (10 of 10). VERIFIED for the harness; the real-window pass is the open item above.
+Commit: (next commit)
 
 ## Validation Plan
 
@@ -133,6 +133,11 @@ See plan-51-A § Decisions. Author decisions:
 - **The control appears only for a chip a socket fits**, by the catalog's `fits` lists.
 
 ## Corrections
+
+- **2026-11-24, "applies" for the socket control is `isSocketable`.** § 3.1 says `applies(to:)` becomes `applies(to chip:in:)`, and § 1's test text says it is false for `GENERIC-LED` and `GENERIC-HEADER-1X02`; but those two have Options of their own (colors, footprint choices, rows) and `applies` stays true for them. So `applies(to: part)` is kept, `applies(to: chip, in: catalog)` is it or `isSocketable`, and the test asserts `isSocketable`: false for the LED, the header, a supply, a 7-segment display, a 4-pin DIP oscillator and a socket.
+- **2026-11-24, `TestPointTests.testTheDrawerListsTheLeafUnderConnector` was stale and moved.** It listed Connector's groups as `Barrel, Card slot, Header, USB`; plan-45 had already added JST and Terminal block, and plan-51 adds IC Socket. Now `["Barrel", "Card slot", "Header", "IC Socket", "JST", "Terminal block", "USB"]`.
+- **2026-11-24, the sheet's picks are bundled sockets only** (H § Corrections). The table columns were widened after the harness image showed part numbers and maker names cut off (`width(min:ideal:)`).
+- **2026-11-24, the real-window pass was not made.** See the Phase 2 line: no mouse-driving tool in this session. The remaining step is the owner's.
 
 ## Summary
 
