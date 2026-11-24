@@ -505,6 +505,11 @@ A new kind of part is added the same way every time:
      uses goes in `scripts/part-editor-schema-extra.py` `EXTRA`). A kind
      with no shipped parts gets a hand-written schema instead (the
      `GenericDraft.swift` precedent);
+   - a kind whose device object has a section the loader checks inline (no
+     `KEYS[]` array: the `display` of `leddriver` / `lcddriver`) is
+     hand-written too, as a copy of the kind it shares a loader with, the
+     section a required `.json` field (`LeddriverDraft.swift`), and
+     `PartKindKeysTests.notCalled` skips the section's own arrays;
    - the schema in `PartKinds.schemas` (`Editor/KindSchema.swift`);
    - `test<Kind>` and the kind's shipped part count in
      `PartKindRoundTripTests` (0 mismatched, 0 with extras, 0 rejected).

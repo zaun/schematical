@@ -201,7 +201,7 @@ enum PartKinds {
     /// The kinds the backend loads (`kinds.c`), as their part files name them.
     static let all = [
         "7seg", "arith", "buffer", "capacitor", "charlcd", "connector", "converter", "counter", "cpu", "crystal", "decoder",
-        "dff", "diode", "eeprom", "gate", "generic", "header", "jkff", "latch", "led", "mcu", "mux", "nixie", "dekatron", "lcd",
+        "dff", "diode", "eeprom", "gate", "generic", "header", "jkff", "latch", "lcddriver", "led", "leddriver", "mcu", "mux", "nixie", "dekatron", "lcd",
         "oscillator",
         "pio", "powerswitch", "register", "regulator", "resistor", "rtc", "serial", "serialmem", "shift", "sram", "supply", "switch",
         "transistor",
@@ -232,6 +232,7 @@ enum PartKinds {
             DekatronDraft.schema,
             LcdDraft.schema,
             PowerswitchDraft.schema,
+            LeddriverDraft.schema, LcddriverDraft.schema,
         ] {
             schemas[schema.kind] = schema
         }

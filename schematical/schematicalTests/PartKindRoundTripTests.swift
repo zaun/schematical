@@ -24,6 +24,8 @@ final class PartKindRoundTripTests: XCTestCase {
         "regulator": 603,
         "crystal": 604,
         "powerswitch": 817,
+        "leddriver": 31,
+        "lcddriver": 20,
     ]
 
     private func check(_ kind: String) {
@@ -74,4 +76,6 @@ final class PartKindRoundTripTests: XCTestCase {
     func testRegulator() { check("regulator") }
     func testCrystal() { check("crystal") }
     func testPowerswitch() { check("powerswitch") }
+    func testLeddriver() { check("leddriver") }
+    func testLcddriver() { check("lcddriver") }
 }

@@ -204,6 +204,8 @@ enum DecoderGuide {
                                           whereToFind: GuideParts.functionTitles, alsoCalled: ["LT"]),
             "device.blank": FieldGuide(label: "Blanking", help: "A pin that turns every segment off, and its active level.",
                                        whereToFind: GuideParts.functionTitles, alsoCalled: ["BI"]),
+            "device.latch": FieldGuide(label: "Latch", help: "The pin that holds the code (CD4056B strobe, CD4543B latch disable), and the level at which it holds.",
+                                       whereToFind: GuideParts.functionTitles, alsoCalled: ["STROBE", "LD"]),
             "device.rbi": GuideLayout.pins("Ripple blanking input", "The pin that blanks a leading zero (7447).", also: ["RBI"]),
             "device.rbo": GuideLayout.pins("Ripple blanking output", "The pin that passes zero blanking on to the next digit.", also: ["BI/RBO"]),
             "device.phase": GuideLayout.pins("Phase pin", "A pin that inverts every segment level, for liquid-crystal drive (CD4056B).",

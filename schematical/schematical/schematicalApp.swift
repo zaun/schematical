@@ -81,7 +81,7 @@ struct schematicalApp: App {
         // Like a memory window: tied to a schematic window's simulation.
         .restorationBehavior(.disabled)
 
-        // One register window per converter or RTC part (plan-24-I).
+        // One register window per converter, RTC or display driver part (plan-24-I).
         WindowGroup("Registers", id: "registers", for: RegisterWindowTarget.self) { $target in
             if let target {
                 RegisterWindowView(target: target)

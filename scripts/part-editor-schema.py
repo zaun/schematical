@@ -85,8 +85,13 @@ def strip_comments(text):
 
 
 # Loader functions a kind never calls (see PartKindKeysTests.notCalled).
-NOT_CALLED = {"converter": {"load_clock"},
-              "rtc": {"load_choice", "load_time", "load_conversion", "load_dac"}}
+# plan-56-G: the display section's loaders (converter_load.c) run only for the
+# leddriver and lcddriver kinds, which have no generated schema: their Drafts
+# are hand-written (the form edits `display` as one JSON field), so they are
+# not in KIND_FILES.
+DISPLAY_LOADERS = {"load_display_scan", "load_display_static", "load_display_ports", "load_display_lcd"}
+NOT_CALLED = {"converter": {"load_clock"} | DISPLAY_LOADERS,
+              "rtc": {"load_choice", "load_time", "load_conversion", "load_dac"} | DISPLAY_LOADERS}
 
 
 def source_keys(repo, kind, report=False):

@@ -24,7 +24,7 @@ enum GuideLayout {
             || key == "invert" || key == "polarity"
     }
 
-    static let displayKeys: Set<String> = ["glyphs", "segments", "segmentsActive", "blank", "lampTest", "rbi", "rbo"]
+    static let displayKeys: Set<String> = ["glyphs", "segments", "segmentsActive", "blank", "lampTest", "rbi", "rbo", "latch", "phase", "phaseOut"]
 
     /// The steps for a model of a kind:
     /// 1. the model picker; 2. Supply voltage (`vcc`, `inputMax`); 3. Pins it

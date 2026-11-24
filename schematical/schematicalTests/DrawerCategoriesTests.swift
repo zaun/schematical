@@ -55,7 +55,8 @@ final class DrawerCategoriesTests: XCTestCase {
     func testDisplaysAndIndicators() {
         XCTAssertEqual(paths(under: "Displays & Indicators"),
                        ["Displays & Indicators > 7-Segment", "Displays & Indicators > Character LCD",
-                        "Displays & Indicators > LCD glass", "Displays & Indicators > LED"])
+                        "Displays & Indicators > LCD glass", "Displays & Indicators > LED",
+                        "Displays & Indicators > LED drivers", "Displays & Indicators > LCD drivers"])
     }
 
     /// Vintage is old technology: the tubes under one group, and the support
