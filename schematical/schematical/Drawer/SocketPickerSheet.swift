@@ -101,11 +101,11 @@ struct SocketPickerSheet: View {
                 .frame(width: 260)
             }
             Table(shown, selection: $selection) {
-                TableColumn("Part", value: \.name).width(min: 180, ideal: 250)
-                TableColumn("Manufacturer", value: \.manufacturer).width(min: 140, ideal: 210)
-                TableColumn("Mounting") { Text(Self.mountingText($0)) }.width(min: 90, ideal: 100)
+                TableColumn("Part", value: \.name).width(min: 170, ideal: 215)
+                TableColumn("Manufacturer", value: \.manufacturer).width(min: 130, ideal: 190)
+                TableColumn("Mounting") { Text(Self.mountingText($0)) }.width(min: 80, ideal: 95)
                 TableColumn("Finish") { Text(Self.finishText($0)) }.width(min: 50, ideal: 70)
-                TableColumn("Row spacing") { Text(Self.rowSpacingText($0)) }.width(min: 70, ideal: 90)
+                TableColumn("Row spacing") { Text(Self.rowSpacingText($0)) }.width(min: 70, ideal: 85)
             }
             .contextMenu(forSelectionType: String.self) { _ in
             } primaryAction: { names in
