@@ -118,7 +118,7 @@ Commit: 97eeae18
 
 Acceptance: no candidate row has an empty `stock_checked` or `state`.
   Check: `awk -F'\t' 'NR>1 && ($12=="" || $14=="")' planning/plan-51-data/candidates.tsv | wc -l` → 0 (est. 30 min of calls). Measured 2026-11-24: 0 (575 candidate rows; every one `candidate`, `stock_checked` 2026-11-24). VERIFIED.
-Commit: (next commit)
+Commit: 12ba99b1
 
 ## Validation Plan
 
