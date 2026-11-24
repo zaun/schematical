@@ -27,8 +27,8 @@ plan-55-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-55-B complete | `ls planning/completed/plan-55-B-*.md` → exists | NOT MET (2026-11-22: not started) |
-| Every candidate row has a PDF | `awk -F'\t' '$12=="candidate" && $14==""' planning/plan-55-data/candidates.tsv \| wc -l` → 0 (`state` is column 12, `pdf` column 14 of plan-55-B § 3.2) | NOT MET (2026-11-22: B not started) |
+| plan-55-B complete | `ls planning/completed/plan-55-B-*.md` → exists | MET (2026-11-23: archived at bb8897b7) |
+| Every candidate row has a PDF | `awk -F'\t' '$12=="candidate" && $14==""' planning/plan-55-data/candidates.tsv \| wc -l` → 0 (`state` is column 12, `pdf` column 14 of plan-55-B § 3.2) | MET (2026-11-23: 0; 919 candidate rows, every one with a PDF) |
 
 Everything below is written against the world where these hold.
 
@@ -143,15 +143,15 @@ of the pinout; roles follow rule 2; `analog` names exist; an `"input"` enable ha
 
 ### Phase 1 — The scripts and the worked examples
 
-- [ ] `census/verdicts.py` (adapted from plan-42's: reads `candidates.tsv` and `specs.tsv`, applies
+- [x] `census/verdicts.py` (adapted from plan-42's: reads `candidates.tsv` and `specs.tsv`, applies
       § 3.2, writes `verdicts.tsv`, prints the counts per family, company and reason; `--verify-skipped`
-      checks `datasheets/skipped-parts.md`), `census/pinout-check.py` (§ 3.3).
-- [ ] The Texas Instruments rows of the three worked datasheets of these families (LM66100,
-      LM66200, TPS22918) in `specs.tsv`, checked by `pinout-check.py`.
+      checks `datasheets/skipped-parts.md`), `census/pinout-check.py` (§ 3.3). Beside them `census/merge-specs.py` (merges a reader's packet into `specs.tsv`) and `census/texts.py` (the `pdftotext` texts the readers use): Correction 1.
+- [x] The Texas Instruments rows of the three worked datasheets of these families (LM66100,
+      LM66200, TPS22918) in `specs.tsv`, checked by `pinout-check.py`. Observed: `pinout-check.py --family ideal --family load` → `4 rows checked; 0 pinout errors` (lm66100-q1, lm66200, tps22918, tps22918-q1).
 
 Acceptance: the scripts run on the worked rows.
   Check: `python3 -I planning/plan-55-data/census/pinout-check.py --family ideal --family load` → `0 pinout errors` (est. 1 min).
-Commit: —
+Commit: (filled by the next commit)
 
 ### Phase 2 — Texas Instruments (ideal diodes and load switches)
 
@@ -200,7 +200,9 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+1. **The `specs.tsv` rows are keyed (company, series, pdf, package, supplier_package)** (plan-55-B Correction 8) and carry a `skip` column (one of § 3.2's reasons 3 to 7: `control`, `select logic`, `external pass element`, `more than 4 switches`, `negative supply`, `no pin table`) beside § 3.1's columns: a spec row that the kind cannot express is a `skip` row and every candidate row of its key is a skip with that reason (reasons 1 and 2 stay per part: `no datasheet` is B's `out` rows, `not in the datasheet's ordering table` is `hit` 0 with no `ordering` match). A key may have several rows told apart by `ordering`.
+2. **The readers work in packets.** The 372 spec rows of the three families are filled by readers in parallel (one packet of whole PDFs each, output a TSV of the `specs.tsv` columns, checked by `pinout-check.py --specs <packet> --all` and merged by `merge-specs.py`); the Texas Instruments, Microchip and Diodes rows of `limited` (plan-55-D and E's reading) are in the same packets, because a PDF serves several families and is read once. C's Phases 2 and 3, D's Phase 1 and E's Phase 1 are ticked as their rows are merged and checked; each letter's own checks, hand checks and verdicts are run in its turn.
+3. **`pinout-check.py` checks filled rows** (non-skip rows with a pinout, type or switches) of the requested families and companies; `--complete` also reports a used row that is not read; `verdicts.py` refuses a candidate whose spec row is neither read nor a skip.
 
 ## Summary
 

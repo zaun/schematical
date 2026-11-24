@@ -148,3 +148,49 @@ def is_pdf(path):
             return fh.read(5) == b'%PDF-'
     except OSError:
         return False
+
+
+# ---- specs.tsv (plan-55-C § 3.1) -------------------------------------------------------------------------
+
+SPECS = os.path.join(DATA, 'specs.tsv')
+CANDIDATES = os.path.join(DATA, 'candidates.tsv')
+VERDICTS = os.path.join(DATA, 'verdicts.tsv')
+SPEC_COLS = ['company', 'series', 'pdf', 'package', 'supplier_package', 'rows', 'example', 'ordering', 'pinout', 'type',
+             'switches', 'analog', 'vin_min', 'vin_max', 'iout', 'ilimit', 'ron', 'iq', 'flags', 'note', 'skip']
+# The closed list of skip reasons of plan-55-C § 3.2 (the `skip` column of a spec row holds one of these).
+SKIP_REASONS = ('control', 'select logic', 'external pass element', 'more than 4 switches', 'negative supply',
+                'no pin table')
+OVERRIDES = os.path.join(DATA, 'pinout-count-overrides.tsv')
+
+
+def spec_key(r):
+    return (r['company'], r['series'], r['pdf'], r['package'], r['supplier_package'])
+
+
+def count_overrides():
+    out = {}
+    if os.path.exists(OVERRIDES):
+        for r in read_tsv(OVERRIDES):
+            out[(r['pdf'], r['package'], r['supplier_package'])] = int(r['count'])
+    return out
+
+
+def pin_count(package, supplier):
+    """The number of leads DigiKey's labels give (an exposed pad is not a pin), or None.
+    pinout-count-overrides.tsv (pdf, package, supplier_package, count, evidence) corrects a label that misleads."""
+    for text in (package, supplier):
+        m = re.search(r'(\d+) Leads', text or '')
+        if m:
+            return int(m.group(1))
+    for text in (package, supplier):
+        m = re.match(r'\s*(\d+)-', text or '')
+        if m:
+            return int(m.group(1))
+    for text in (supplier, package):
+        m = re.search(r'(?:SOT-23|TSOT-23|SC-70|SC-88|SOT-363|SuperSOT\S*)-(\d+)\b', text or '')
+        if m:
+            return int(m.group(1))
+        m = re.search(r'(?:SOT|TSOT)-2([5-8])\b(?!-)', text or '')
+        if m:
+            return int(m.group(1))
+    return None

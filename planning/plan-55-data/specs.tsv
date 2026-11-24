@@ -1,373 +1,373 @@
-company	series	pdf	package	supplier_package	rows	example	ordering	pinout	type	switches	analog	vin_min	vin_max	iout	ilimit	ron	iq	flags	note
-analog-devices	-	datasheets/powerswitch/analog-devices/4358fa.pdf	14-WFDFN Exposed Pad	14-DFN (4x3)	3	LTC4358CDE#PBF													
-analog-devices	-	datasheets/powerswitch/analog-devices/4358fa.pdf	16-TSSOP (0.173", 4.40mm Width) Exposed Pad	16-TSSOP-EP	2	LTC4358IFE#PBF													
-analog-devices	-	datasheets/powerswitch/analog-devices/4411fa.pdf	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	2	LTC4411ES5#TRMPBF													
-analog-devices	-	datasheets/powerswitch/analog-devices/441312fg.pdf	10-WFDFN Exposed Pad	10-DFN (3x3)	4	LTC4413EDD-1#PBF													
-analog-devices	-	datasheets/powerswitch/analog-devices/4413fd.pdf	10-WFDFN Exposed Pad	10-DFN (3x3)	2	LTC4413EDD#PBF													
-analog-devices	-	datasheets/powerswitch/analog-devices/LTC4421.pdf	36-SSOP (0.209", 5.30mm Width)	36-SSOP	1	LTC4421HG#WTRPBF													
-analog-devices	-	datasheets/powerswitch/analog-devices/max17614.pdf	20-WFQFN Exposed Pad	20-TQFN (4x4)	2	MAX17614ATP+													
-analog-devices	-	datasheets/powerswitch/analog-devices/max40200.pdf	4-XFBGA, WLBGA	4-WLP (0.73x0.73)	1	MAX40200ANS+T													
-analog-devices	-	datasheets/powerswitch/analog-devices/max40200.pdf	SC-74A, SOT-753	SOT-23-5	1	MAX40200AUK+T													
-analog-devices	-	datasheets/powerswitch/analog-devices/max40203.pdf	4-XFBGA, WLBGA	4-WLP (0.77x0.77)	1	MAX40203ANS+T													
-analog-devices	-	datasheets/powerswitch/analog-devices/max40203.pdf	SC-74A, SOT-753	SOT-23-5	1	MAX40203AUK+T													
-analog-devices	LT®4423	datasheets/powerswitch/analog-devices/lt4423.pdf	10-VFDFN Exposed Pad	10-LDFN (3x2)	1	LT4423AV#TRPBF													
-analog-devices	PowerPath™	datasheets/powerswitch/analog-devices/4415fa.pdf	16-TFSOP (0.118", 3.00mm Width) Exposed Pad	16-MSOP-EP	4	LTC4415EMSE#TRPBF													
-analog-devices	PowerPath™	datasheets/powerswitch/analog-devices/4415fa.pdf	16-WFDFN Exposed Pad	16-DFN (5x3)	4	LTC4415EDHC#PBF													
-analog-devices	PowerPath™	datasheets/powerswitch/analog-devices/4419fa.pdf	10-WFDFN Exposed Pad	10-DFN (3x3)	3	LTC4419IDD#TRPBF													
-analog-devices	PowerPath™	datasheets/powerswitch/analog-devices/4419fa.pdf	12-TSSOP (0.118", 3.00mm Width) Exposed Pad	12-MSOP-EP	1	LTC4419CMSE#PBF													
-analog-devices	PowerPath™	datasheets/powerswitch/analog-devices/4420fa.pdf	12-TSSOP (0.118", 3.00mm Width) Exposed Pad	12-MSOP-EP	2	LTC4420CMSE#PBF													
-analog-devices	PowerPath™	datasheets/powerswitch/analog-devices/4420fa.pdf	12-WFDFN Exposed Pad	12-DFN (3x3)	2	LTC4420IDD#PBF													
-diodes	-	datasheets/powerswitch/diodes/AP2101_2111.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOP	2	AP2101SG-13													
-diodes	-	datasheets/powerswitch/diodes/AP2101_2111.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-MSOP-EP	2	AP2101MPG-13													
-diodes	-	datasheets/powerswitch/diodes/AP2141-51.pdf	6-UFDFN Exposed Pad	U-DFN2018-6	1	AP2151FMG-7													
-diodes	-	datasheets/powerswitch/diodes/AP2141-51.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOP	1	AP2141SG-13													
-diodes	-	datasheets/powerswitch/diodes/AP2141-51.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-MSOP-EP	2	AP2141MPG-13													
-diodes	-	datasheets/powerswitch/diodes/AP2141-51.pdf	SC-74A, SOT-753	SOT-25	2	AP2151WG-7													
-diodes	-	datasheets/powerswitch/diodes/AP21410_21510.pdf	6-UFDFN Exposed Pad	U-DFN2018-6	2	AP21510FM-7													
-diodes	-	datasheets/powerswitch/diodes/AP2141D_51D.pdf	6-UFDFN Exposed Pad	U-DFN2018-6	2	AP2141DFMG-7													
-diodes	-	datasheets/powerswitch/diodes/AP2141D_51D.pdf	8-SOIC (0.154", 3.90mm Width)	8-SO	2	AP2141DSG-13													
-diodes	-	datasheets/powerswitch/diodes/AP2141D_51D.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-MSOP-EP	2	AP2151DMPG-13													
-diodes	-	datasheets/powerswitch/diodes/AP2141D_51D.pdf	SC-74A, SOT-753	SOT-25	1	AP2151DWG-7													
-diodes	-	datasheets/powerswitch/diodes/AP2142A_52A.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOP	2	AP2142ASG-13													
-diodes	-	datasheets/powerswitch/diodes/AP2142A_52A.pdf	8-UDFN Exposed Pad	U-DFN3030-8 (Type E)	1	AP2152AFGEG-7													
-diodes	-	datasheets/powerswitch/diodes/AP2142_52.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOP	2	AP2152SG-13													
-diodes	-	datasheets/powerswitch/diodes/AP2142_52.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-MSOP-EP	2	AP2142MPG-13													
-diodes	-	datasheets/powerswitch/diodes/AP2145.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOP	1	AP2145SG-13													
-diodes	-	datasheets/powerswitch/diodes/AP2146_56.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOP	2	AP2146SG-13													
-diodes	-	datasheets/powerswitch/diodes/AP2146_56.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-MSOP-EP	2	AP2156MPG-13													
-diodes	-	datasheets/powerswitch/diodes/AP2151A.pdf	6-UFDFN Exposed Pad	U-DFN2018-6	1	AP2151AFM-7													
-diodes	-	datasheets/powerswitch/diodes/AP2151A.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-MSOP-EP	1	AP2151AMP-13													
-diodes	-	datasheets/powerswitch/diodes/AP2151A.pdf	SC-74A, SOT-753	SOT-25	1	AP2151AW-7													
-diodes	-	datasheets/powerswitch/diodes/AP2161A_71A.pdf	8-SOIC (0.154", 3.90mm Width)	8-SO	1	AP2171AS-13													
-diodes	-	datasheets/powerswitch/diodes/AP2161A_71A.pdf	SC-74A, SOT-753	SOT-25	1	AP2171AW-7													
-diodes	-	datasheets/powerswitch/diodes/AP2161D_71D.pdf	6-UFDFN Exposed Pad	U-DFN2018-6	1	AP2161DFMG-7													
-diodes	-	datasheets/powerswitch/diodes/AP2161D_71D.pdf	8-SOIC (0.154", 3.90mm Width)	8-SO	1	AP2171DSG-13													
-diodes	-	datasheets/powerswitch/diodes/AP2161D_71D.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	1	AP2171DM8G-13													
-diodes	-	datasheets/powerswitch/diodes/AP2161D_71D.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-MSOP-EP	1	AP2171DMPG-13													
-diodes	-	datasheets/powerswitch/diodes/AP2161D_71D.pdf	SC-74A, SOT-753	SOT-25	2	AP2171DWG-7													
-diodes	-	datasheets/powerswitch/diodes/AP2161_71.pdf	6-UFDFN Exposed Pad	U-DFN2018-6	1	AP2161FMG-7													
-diodes	-	datasheets/powerswitch/diodes/AP2161_71.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOP	1	AP2171SG-13													
-diodes	-	datasheets/powerswitch/diodes/AP2161_71.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-MSOP-EP	1	AP2161MPG-13													
-diodes	-	datasheets/powerswitch/diodes/AP2161_71.pdf	SC-74A, SOT-753	SOT-25	2	AP2171WG-7													
-diodes	-	datasheets/powerswitch/diodes/AP2162A_72A.pdf	8-SOIC (0.154", 3.90mm Width)	8-SO	1	AP2162ASG-13													
-diodes	-	datasheets/powerswitch/diodes/AP2162A_72A.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-MSOP-EP	2	AP2172AMPG-13													
-diodes	-	datasheets/powerswitch/diodes/AP2162A_72A.pdf	8-UDFN Exposed Pad	U-DFN3030-8 (Type E)	2	AP2172AFGEG-7													
-diodes	-	datasheets/powerswitch/diodes/AP2162_72.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOP	2	AP2172SG-13													
-diodes	-	datasheets/powerswitch/diodes/AP2162_72.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-MSOP-EP	1	AP2172MPG-13													
-diodes	-	datasheets/powerswitch/diodes/AP2166_76.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOP	2	AP2176SG-13													
-diodes	-	datasheets/powerswitch/diodes/AP2166_76.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-MSOP-EP	2	AP2176MPG-13													
-diodes	-	datasheets/powerswitch/diodes/AP2181A-91A.pdf	SC-74A, SOT-753	SOT-25	1	AP2191AW-7													
-diodes	-	datasheets/powerswitch/diodes/AP2181_91.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-MSOP-EP	2	AP2181MPG-13													
-diodes	-	datasheets/powerswitch/diodes/AP2181_91.pdf	SC-74A, SOT-753	SOT-25	2	AP2191WG-7													
-diodes	-	datasheets/powerswitch/diodes/AP2182A_92A.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOP	2	AP2192ASG-13													
-diodes	-	datasheets/powerswitch/diodes/AP2182A_92A.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-MSOP-EP	1	AP2182AMPG-13													
-diodes	-	datasheets/powerswitch/diodes/AP2182A_92A.pdf	8-UDFN Exposed Pad	U-DFN3030-8 (Type E)	1	AP2192AFGEG-7													
-diodes	-	datasheets/powerswitch/diodes/AP2182_92.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOP	1	AP2192SG-13													
-diodes	-	datasheets/powerswitch/diodes/AP2182_92.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-MSOP-EP	1	AP2192MPG-13													
-diodes	-	datasheets/powerswitch/diodes/AP2186_96.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOP	2	AP2196SG-13													
-diodes	-	datasheets/powerswitch/diodes/AP22652_53_52A_53A.pdf	6-WDFN Exposed Pad	W-DFN2020-6 (Type A1)	4	AP22653FDZ-7													
-diodes	-	datasheets/powerswitch/diodes/AP22652_53_52A_53A.pdf	SOT-23-6	SOT-26	2	AP22652W6-7													
-diodes	-	datasheets/powerswitch/diodes/AP22652_53_52A_53A.pdf	SOT-23-6	SOT-26 (Type A1)	2	AP22652AW6-7													
-diodes	-	datasheets/powerswitch/diodes/AP22653Q.pdf	SOT-23-6	SOT-26 (Type A1)	1	AP22653QW6-7													
-diodes	-	datasheets/powerswitch/diodes/AP22654Q_AP22655Q.pdf	SOT-23-6 Thin, TSOT-23-6	TSOT-26 (Type A1)	2	AP22655QWU-7													
-diodes	-	datasheets/powerswitch/diodes/AP22654_AP22655.pdf	SOT-23-6 Thin, TSOT-23-6	TSOT-26 (Type A1)	2	AP22655WU-7													
-diodes	-	datasheets/powerswitch/diodes/AP22804-14.pdf	6-UDFN Exposed Pad	U-DFN2020-6	2	AP22804BSN-7													
-diodes	-	datasheets/powerswitch/diodes/AP22804-14.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	3	AP22804AM8-13													
-diodes	-	datasheets/powerswitch/diodes/AP22804-14.pdf	SC-74A, SOT-753	SOT-25	2	AP22814BW5-7													
-diodes	-	datasheets/powerswitch/diodes/AP22804_14.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	1	AP22804BM8-13													
-diodes	-	datasheets/powerswitch/diodes/AP22804_14.pdf	SC-74A, SOT-753	SOT-25	2	AP22804AW5-7													
-diodes	-	datasheets/powerswitch/diodes/AP22811.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	1	AP22811AM8-13													
-diodes	-	datasheets/powerswitch/diodes/AP22811.pdf	SC-74A, SOT-753	SOT-25	1	AP22811AW5-7													
-diodes	-	datasheets/powerswitch/diodes/AP22816_17_18.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	2	AP22818BM8-13													
-diodes	-	datasheets/powerswitch/diodes/AP22816_17_18.pdf	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	10	AP22818AKEWT-7													
-diodes	-	datasheets/powerswitch/diodes/AP22816_17_18.pdf	SOT-23-5 Thin, TSOT-23-5	TSOT-25	12	AP22818AKAWT-7													
-diodes	-	datasheets/powerswitch/diodes/AP2301-11.pdf	6-UDFN Exposed Pad	U-DFN2020-6	2	AP2311SN-7													
-diodes	-	datasheets/powerswitch/diodes/AP2301-11.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-MSOP-EP	1	AP2311MPG-13													
-diodes	-	datasheets/powerswitch/diodes/AP23x1A.pdf	8-SOIC (0.154", 3.90mm Width)	8-SO	1	AP2311AS-13													
-diodes	-	datasheets/powerswitch/diodes/AP23x1A.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-MSOP-EP	1	AP2311AMP-13													
-diodes	-	datasheets/powerswitch/diodes/AP24x1.pdf	6-UDFN Exposed Pad	U-DFN2020-6	2	AP2401SN-7													
-diodes	-	datasheets/powerswitch/diodes/AP24x1.pdf	8-SOIC (0.154", 3.90mm Width)	8-SO	2	AP2411S-13													
-diodes	-	datasheets/powerswitch/diodes/AP24x1.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-MSOP-EP	2	AP2411MP-13													
-diodes	-	datasheets/powerswitch/diodes/AP24x1.pdf	8-UDFN Exposed Pad	U-DFN3030-8 (Type E)	1	AP2411FGE-7													
-diodes	-	datasheets/powerswitch/diodes/AP24x1A.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-MSOP-EP	1	AP2411AMP-13													
-diodes	-	datasheets/powerswitch/diodes/AP255x.pdf	6-UDFN Exposed Pad	U-DFN2020-6 (Type C)	5	AP2552FDC-7													
-diodes	-	datasheets/powerswitch/diodes/AP25x1.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	1	AP2511M8-13													
-diodes	-	datasheets/powerswitch/diodes/AP25x1.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-MSOP-EP	1	AP2511MP-13													
-diodes	-	datasheets/powerswitch/diodes/AP25x1A.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-MSOP-EP	1	AP2511AMP-13													
-diodes	-	datasheets/powerswitch/diodes/DML3012LDC.pdf	12-VFDFN Exposed Pad	V-DFN3030-12 (Type B)	1	DML3012LDC-7													
-diodes	-	datasheets/powerswitch/diodes/DPS1113.pdf	17-VFQFN Exposed Pad	V-QFN4040-17	1	DPS1113FIA-13													
-diodes	-	datasheets/powerswitch/diodes/PI5USB2546AQ.pdf	16-WFQFN Exposed Pad	16-TQFN (3x3)	1	PI5USB2546AQZHEX													
-diodes	-	datasheets/powerswitch/diodes/PI5USB2546H-Product-Brief.pdf	16-UFQFN Exposed Pad	16-UQFN (3x3)	1	PI5USB2546HZHDEX													
-diodes	-	datasheets/powerswitch/diodes/PI5USB2546J.pdf	16-WFQFN Exposed Pad	16-TQFN (3x3)	1	PI5USB2546JZHEX													
-diodes	-	datasheets/powerswitch/diodes/PI5USB2546Q.pdf	16-WFQFN Exposed Pad	16-TQFN (3x3)	1	PI5USB2546QZHEX													
-diodes	-	datasheets/powerswitch/diodes/ZXMS81045SP.pdf	8-SOIC (0.154", 3.90mm Width) Exposed Pad	8-SO-EP	1	ZXMS81045SP-13													
-diodes	-	datasheets/powerswitch/diodes/ZXMS81045SPQ.pdf	8-SOIC (0.154", 3.90mm Width) Exposed Pad	8-SO-EP	1	ZXMS81045SPQ-13													
-diodes	INTELLIFET®	datasheets/powerswitch/diodes/ZXMS81090SPQ.pdf	8-SOIC (0.154", 3.90mm Width) Exposed Pad	8-SO-EP (Type E)	1	ZXMS81090SPQ-13													
-diodes	INTELLIFET®	datasheets/powerswitch/diodes/ZXMS81200SPQ.pdf	8-SOIC (0.154", 3.90mm Width) Exposed Pad	8-SO-EP (Type E)	1	ZXMS81200SPQ-13													
-diodes	INTELLIFET®	datasheets/powerswitch/diodes/ZXMS82090S14PQ.pdf	14-SOIC (0.154", 3.90mm Width) Exposed Pad	14-SO-EP	1	ZXMS82090S14PQ-13													
-diodes	INTELLIFET®	datasheets/powerswitch/diodes/ZXMS82120S14PQ.pdf	14-SOIC (0.154", 3.90mm Width) Exposed Pad	14-SO-EP	1	ZXMS82120S14PQ-13													
-diodes	INTELLIFET®	datasheets/powerswitch/diodes/ZXMS82180S14PQ.pdf	14-SOIC (0.154", 3.90mm Width) Exposed Pad	14-SO-EP	1	ZXMS82180S14PQ-13													
-microchip	-	datasheets/powerswitch/microchip/20005680a.pdf	20-VFQFN Exposed Pad	20-QFN (4x4)	3	UCS2113T-2-V/G4													
-microchip	-	datasheets/powerswitch/microchip/20005725B.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	6	MIC2544-2YM-TR													
-microchip	-	datasheets/powerswitch/microchip/20005725B.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	7	MIC2548-1YMM-TR													
-microchip	-	datasheets/powerswitch/microchip/MIC2026-Family-Data-Sheet-DS20006443.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	MIC2026-2YM-TR													
-microchip	-	datasheets/powerswitch/microchip/MIC2026A-76A-Dual-Channel-Power-Distribution-Switches-DS20006608A.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	5	MIC2026A-1YM-TR													
-microchip	-	datasheets/powerswitch/microchip/MIC2033-High-Accuracy-High-Side-Fixed-Current-Limit-Power-Switch-20005539A.pdf	6-UDFN Exposed Pad	6-TDFN (2x2)	1	MIC2033-55AYMT-TR													
-microchip	-	datasheets/powerswitch/microchip/MIC2033-High-Accuracy-High-Side-Fixed-Current-Limit-Power-Switch-20005539A.pdf	SOT-23-6	SOT-23-6	3	MIC2033-10AYM6-TR													
-microchip	-	datasheets/powerswitch/microchip/MIC2039-High-Accuracy-High-Side-Adjustable-Current-Limit-Power-Switch-20005540A.pdf	6-UDFN Exposed Pad	6-TDFN (2x2)	1	MIC2039AYMT-TR													
-microchip	-	datasheets/powerswitch/microchip/MIC2039-High-Accuracy-High-Side-Adjustable-Current-Limit-Power-Switch-20005540A.pdf	6-UFDFN Exposed Pad	6-TDFN (2x2)	1	MIC2039EYMT-TR													
-microchip	-	datasheets/powerswitch/microchip/MIC2039-High-Accuracy-High-Side-Adjustable-Current-Limit-Power-Switch-20005540A.pdf	SOT-23-6	SOT-23-6	4	MIC2039EYM6-TR													
-microchip	-	datasheets/powerswitch/microchip/MIC2090-1-Current-Limiting-Power-Distribution-Switches-DS20006611A.pdf	SC-74A, SOT-753	SOT-23-5	4	MIC2091-1YM5-TR													
-microchip	-	datasheets/powerswitch/microchip/MIC20xx-Fixed-and-Adjustable-Current-Limiting-Power-Distribution-Switches-DS20006486C.pdf	6-VDFN Exposed Pad, 6-MLF®	6-MLF® (2x2)	5	MIC2016-0.5YML													
-microchip	-	datasheets/powerswitch/microchip/MIC20xx-Fixed-and-Adjustable-Current-Limiting-Power-Distribution-Switches-DS20006486C.pdf	SOT-23-6	SOT-23-6	1	MIC2019YM6-TR													
-microchip	-	datasheets/powerswitch/microchip/MIC2505-6-Single-2A-Dual-1A-High-Side-Switches-DS20005579B.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	6	MIC2505-1YM													
-microchip	-	datasheets/powerswitch/microchip/MIC9404X-Family-Data-Sheet-DS20006607.pdf	4-WQFN, 4-MLF®	4-MLF® (1.2x1.2)	1	MIC94042YFL-TR													
-microchip	-	datasheets/powerswitch/microchip/MIC94060-1-2-3-High-Side-Power-Switches-DS20006517B.pdf	4-UFDFN Exposed Pad, 4-TMLF®	4-TMLF® (1.2x1.6)	4	MIC94062YMT-TR													
-microchip	-	datasheets/powerswitch/microchip/MIC94060-1-2-3-High-Side-Power-Switches-DS20006517B.pdf	6-TSSOP, SC-88, SOT-363	SC-70-6	4	MIC94060YC6-TR													
-microchip	-	datasheets/powerswitch/microchip/MIC9408x-67mOhm-RDSON-2A-High-Side-Load-Switch-DS20006118.pdf	4-UFDFN, 4-TMLF®	4-TMLF® (0.85x0.85)	5	MIC94080YFT-TR													
-microchip	-	datasheets/powerswitch/microchip/MIC9416x-3A-High-Side-Load-Switch-with-Reverse-Blocking-DS20006439A.pdf	6-WFBGA, WLCSP	6-WLCSP (1.5x1.1)	1	MIC94162YCS-TR													
-microchip	-	datasheets/powerswitch/microchip/MIC9416x-3A-High-Side-Load-Switch-with-Reverse-Blocking-DS20006439A.pdf	6-WFBGA, WLCSP	6-WLCSP (1x1.5)	2	MIC94163YCS-TR													
-microchip	-	datasheets/powerswitch/microchip/MIC95410-6.6mOhm-7A-5.5V-VIN-Load-Switch-DS20006431A.pdf	10-PowerVFQFN	10-FQFN (1.2x2)	1	MIC95410YFL-TR													
-microchip	-	datasheets/powerswitch/microchip/UCS2113-USB-Dual-Port-Power-Switch-and-Current-Monitor-20005680B.pdf	20-VFQFN Exposed Pad	20-QFN (4x4)	4	UCS2113T-1C-V/G4													
-microchip	-	datasheets/powerswitch/microchip/UCS2114-Data-Sheet-20005743B.pdf	20-VFQFN	20-VQFN (3x3)	1	UCS2114-1-V/LX													
-microchip	-	datasheets/powerswitch/microchip/USB-Dual-Port-Power-Switch-and-Current-Monitor-DS20005424D.pdf	20-VFQFN Exposed Pad	20-QFN (4x4)	2	UCS2112T-2-V/G4													
-microchip	-	datasheets/powerswitch/microchip/mic2026.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	5	MIC2026-1YM-TR													
-microchip	-	datasheets/powerswitch/microchip/mic2027.pdf	16-SOIC (0.154", 3.90mm Width)	16-SOIC	5	MIC2077-2YM-TR													
-microchip	-	datasheets/powerswitch/microchip/mic2040.PDF	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	10-MSOP	4	MIC2040-1YMM-TR													
-microchip	-	datasheets/powerswitch/microchip/mic2042.PDF	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	1	MIC2042-1YTS													
-microchip	-	datasheets/powerswitch/microchip/mic2042.PDF	8-SOIC (0.154", 3.90mm Width)	8-SOIC	4	MIC2043-1YM													
-microchip	-	datasheets/powerswitch/microchip/mic2044-45.pdf	16-TSSOP (0.173", 4.40mm Width)	16-TSSOP	3	MIC2045-1YTS													
-microchip	-	datasheets/powerswitch/microchip/mic2095.pdf	6-UFDFN Exposed Pad	6-TMLF® (1.6x1.6)	5	MIC2097-1YMT-TR													
-microchip	-	datasheets/powerswitch/microchip/mic20xx.pdf	6-VDFN Exposed Pad, 6-MLF®	6-DFN (2x2)	7	MIC2008YML-TR													
-microchip	-	datasheets/powerswitch/microchip/mic20xx.pdf	SC-74A, SOT-753	SOT-23-5	10	MIC2005A-2YM5-TR													
-microchip	-	datasheets/powerswitch/microchip/mic20xx.pdf	SOT-23-6	SOT-23-6	14	MIC2009A-1YM6-TR													
-microchip	-	datasheets/powerswitch/microchip/mic2536.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	3	MIC2536-1YM-TR													
-microchip	-	datasheets/powerswitch/microchip/mic2536.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	1	MIC2536-2BMM TR													
-microchip	-	datasheets/powerswitch/microchip/mic2545a.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	3	MIC2549A-2YTS													
-microchip	-	datasheets/powerswitch/microchip/mic2545a.pdf	8-DIP (0.300", 7.62mm)	8-DIP	2	MIC2545A-2YN													
-microchip	-	datasheets/powerswitch/microchip/mic2545a.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	5	MIC2545A-2BM TR													
-microchip	-	datasheets/powerswitch/microchip/mic2546.pdf	16-SOIC (0.154", 3.90mm Width)	16-SOIC	1	MIC2546-2YM													
-microchip	-	datasheets/powerswitch/microchip/mic2546.pdf	16-TSSOP (0.173", 4.40mm Width)	16-TSSOP	7	MIC2547-2BTSTR													
-microchip	-	datasheets/powerswitch/microchip/mic94044_5.pdf	4-WDFN, 4-MLF®	4-MLF® (1.2x1.2)	1	MIC94044YFL-TR													
-microchip	-	datasheets/powerswitch/microchip/mic94064-5.pdf	4-UFDFN Exposed Pad, 4-TMLF®	4-TMLF® (1.2x1.6)	1	MIC94064YMT-TR													
-microchip	-	datasheets/powerswitch/microchip/mic94064-5.pdf	6-TSSOP, SC-88, SOT-363	SC-70-6	1	MIC94064YC6-TR													
-microchip	-	datasheets/powerswitch/microchip/mic94066-69.pdf	8-VFDFN Exposed Pad, 8-MLF®	8-MLF® (2x2)	4	MIC94067YML													
-microchip	-	datasheets/powerswitch/microchip/mic94070-3.pdf	4-UFDFN Exposed Pad, 4-TMLF®	4-TMLF® (1.2x1.6)	3	MIC94072YMT													
-microchip	-	datasheets/powerswitch/microchip/mic94070-3.pdf	6-TSSOP, SC-88, SOT-363	SC-70-6	4	MIC94072YC6-TR													
-microchip	-	datasheets/powerswitch/microchip/mic9409x.pdf	6-TSSOP, SC-88, SOT-363	SC-70-6	2	MIC94092YC6-TR													
-microchip	IttyBitty®	datasheets/powerswitch/microchip/mic2514.pdf	SC-74A, SOT-753	SOT-23-5	1	MIC2514YM5-TR													
-microchip	MM8™	datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	8	MIC2025-1YM-TR													
-microchip	MM8™	datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	7	MIC2025-1YMM-TR													
-onsemi	-	datasheets/powerswitch/onsemi/FDC6324L-D.PDF	SOT-23-6 Thin, TSOT-23-6	SuperSOT™-6	1	FDC6324L													
-onsemi	-	datasheets/powerswitch/onsemi/FDC6326L-D.PDF	SOT-23-6 Thin, TSOT-23-6	SuperSOT™-6	1	FDC6326L													
-onsemi	-	datasheets/powerswitch/onsemi/FDC6330L-D.PDF	SOT-23-6 Thin, TSOT-23-6	SuperSOT™-6	1	FDC6330L													
-onsemi	-	datasheets/powerswitch/onsemi/FDC6331L-D.PDF	SOT-23-6 Thin, TSOT-23-6	SuperSOT™-6	1	FDC6331L													
-onsemi	-	datasheets/powerswitch/onsemi/fpf1903ucx-d.pdf	4-XFBGA, WLCSP	4-WLCSP (0.7x0.7)	1	FPF1903UCX													
-onsemi	-	datasheets/powerswitch/onsemi/fpf2286ucx-d.pdf	6-UFBGA, WLCSP	6-WLCSP (1.3x0.9)	1	FPF2286UCX													
-onsemi	-	datasheets/powerswitch/onsemi/fpf3380ucx-d.pdf	12-UFBGA, WLCSP	12-WLCSP (1.83x1.29)	1	FPF3380UCX													
-onsemi	-	datasheets/powerswitch/onsemi/fpf3381-d.pdf	12-UFBGA, WLCSP	12-WLCSP (1.83x1.29)	1	FPF3381UCX													
-onsemi	-	datasheets/powerswitch/onsemi/ncp330-d.pdf	4-UFDFN Exposed Pad	4-UDFN (1.2x1.6)	2	NCP330MUTBG													
-onsemi	-	datasheets/powerswitch/onsemi/ncp333-d.pdf	4-UFBGA, WLCSP	4-WLCSP (0.76x0.76)	1	NCP333FCT2G													
-onsemi	-	datasheets/powerswitch/onsemi/ncp334-d.pdf	4-UFBGA, WLCSP	4-WLCSP (0.96x0.96)	1	NCP335FCT2G													
-onsemi	-	datasheets/powerswitch/onsemi/ncp340-d.pdf	4-UFDFN Exposed Pad	4-UDFN (1.2x1.6)	1	NCP340MUTBG													
-onsemi	-	datasheets/powerswitch/onsemi/ncp451-d.pdf	6-UFBGA, WLCSP	6-WLCSP (1.4x0.9)	2	NCP451FCT2G													
-onsemi	-	datasheets/powerswitch/onsemi/ncv451-d.pdf	6-VDFN Exposed Pad	6-DFNW (2x2.2)	1	NCV451AMNWTBG													
-onsemi	-	datasheets/powerswitch/onsemi/ncv459-d.pdf	8-VDFN Exposed Pad	8-DFNW (3x3)	1	NCV459MNWTBG													
-onsemi	IntelliMAX™	datasheets/powerswitch/onsemi/FPF1038-D.PDF	6-UFBGA, WLCSP	6-WLCSP (0.96x1.66)	1	FPF1038UCX													
-onsemi	IntelliMAX™	datasheets/powerswitch/onsemi/fpf1006-d.pdf	6-WDFN Exposed Pad	6-MicroFET (2x2)	1	FPF1006													
-onsemi	IntelliMAX™	datasheets/powerswitch/onsemi/fpf1204-d.pdf	4-UFBGA, WLCSP	4-WLCSP (0.76x0.76)	1	FPF1204UCX													
-onsemi	IntelliMAX™	datasheets/powerswitch/onsemi/fpf1321-d.pdf	6-UFBGA, WLCSP	6-WLCSP (0.96x1.66)	2	FPF1320UCX													
-onsemi	IntelliMAX™	datasheets/powerswitch/onsemi/fpf1504cn-d.pdf	4-UFBGA, WLCSP	4-WLCSP	1	FPF1504LBUCX													
-onsemi	IntelliMAX™	datasheets/powerswitch/onsemi/fpf1504cn-d.pdf	4-UFBGA, WLCSP	4-WLCSP (0.96x0.96)	2	FPF1504UCX													
-onsemi	ecoSWITCH™	datasheets/powerswitch/onsemi/ncp45520-d.pdf	8-VFDFN Exposed Pad	8-DFN (2x2)	4	NCP45520IMNTWG-L													
-onsemi	ecoSWITCH™	datasheets/powerswitch/onsemi/ncp45524-d.pdf	8-VFDFN Exposed Pad	8-DFN (2x2)	2	NCP45524IMNTWG-H													
-onsemi	ecoSWITCH™	datasheets/powerswitch/onsemi/ncp45540-d.pdf	12-VFDFN Exposed Pad	12-DFN (3x3)	2	NCP45540IMNTWG-H													
-onsemi	ecoSWITCH™	datasheets/powerswitch/onsemi/ncp45541-d.pdf	12-VFDFN Exposed Pad	12-DFN (3x3)	1	NCP45541IMNTWG-H													
-onsemi	ecoSWITCH™	datasheets/powerswitch/onsemi/ncp45560-d.pdf	12-VFDFN Exposed Pad	12-DFN (3x3)	1	NCP45560IMNTWG-L													
-ti	-	datasheets/powerswitch/ti/lm34902.pdf	6-WFBGA, DSBGA	6-DSBGA	1	LM34902ITM/NOPB													
-ti	-	datasheets/powerswitch/ti/lm34902.pdf	6-WFBGA, DSBGA	6-DSBGA (1.44x1.16)	1	LM34902ITMX/NOPB													
-ti	-	datasheets/powerswitch/ti/lm34904.pdf	6-WFBGA, DSBGA	6-DSBGA	2	LM34904ITMX/NOPB													
-ti	-	datasheets/powerswitch/ti/lm3526.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	3	LM3526MX-H/NOPB													
-ti	-	datasheets/powerswitch/ti/lm3544.pdf	16-SOIC (0.154", 3.90mm Width)	16-SOIC	3	LM3544MX-L/NOPB													
-ti	-	datasheets/powerswitch/ti/lm66100-q1.pdf	6-TSSOP, SC-88, SOT-363	SC-70-6	1	LM66100QDCKRQ1													
-ti	-	datasheets/powerswitch/ti/lm66200.pdf	SOT-583	SOT-583	1	LM66200DRLR													
-ti	-	datasheets/powerswitch/ti/lm7310.pdf	10-VFQFN	10-VQFN-HR (2x2)	1	LM73100RPWR													
-ti	-	datasheets/powerswitch/ti/lm76202-q1.pdf	16-PowerTSSOP (0.173", 4.40mm Width)	16-HTSSOP	1	LM76202QPWPRQ1													
-ti	-	datasheets/powerswitch/ti/lmg3410r050.pdf	32-VQFN Exposed Pad	32-VQFN (8x8)	4	LMG3411R050RWHR													
-ti	-	datasheets/powerswitch/ti/lmg3410r070.pdf	32-VQFN Exposed Pad	32-VQFN (8x8)	2	LMG3410R070RWHT													
-ti	-	datasheets/powerswitch/ti/lmg3410r150.pdf	32-VQFN Exposed Pad	32-VQFN (8x8)	3	LMG3411R150RWHR													
-ti	-	datasheets/powerswitch/ti/lmg3422r050.pdf	54-VQFN Exposed Pad	54-VQFN (12x12)	1	LMG3425R050RQZT													
-ti	-	datasheets/powerswitch/ti/lmg3624.pdf	38-VFQFN Exposed Pad	38-VQFN (8x5.3)	1	LMG3624YREQR													
-ti	-	datasheets/powerswitch/ti/tps1211-q1.pdf	20-TFSOP (0.118", 3.00mm Width), 19 Leads	19-VSSOP	2	TPS12110AQDGXRQ1													
-ti	-	datasheets/powerswitch/ti/tps1ha08-q1.pdf	16-PowerTSSOP (0.173", 4.40mm Width)	16-HTSSOP	2	TPS1HA08DQPWPRQ1													
-ti	-	datasheets/powerswitch/ti/tps2000c.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-VSSOP	3	TPS2000CDGK													
-ti	-	datasheets/powerswitch/ti/tps2000c.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-HVSSOP	16	TPS2065CDGN-2													
-ti	-	datasheets/powerswitch/ti/tps2000c.pdf	SC-74A, SOT-753	SOT-23-5	10	TPS2069CDBVT													
-ti	-	datasheets/powerswitch/ti/tps2000e.pdf	8-PowerTSSOP, 8-MSOP (0.118", 3.00mm Width)	8-HVSSOP	4	TPS2068EDGNR													
-ti	-	datasheets/powerswitch/ti/tps2000e.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-VSSOP	2	TPS2001EDGKR													
-ti	-	datasheets/powerswitch/ti/tps2000e.pdf	SC-74A, SOT-753	SOT-23-5	4	TPS2001EDBVR													
-ti	-	datasheets/powerswitch/ti/tps2001d.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-VSSOP	2	TPS2001DDGKR													
-ti	-	datasheets/powerswitch/ti/tps2001d.pdf	SC-74A, SOT-753	SOT-23-5	2	TPS2001DDBVT													
-ti	-	datasheets/powerswitch/ti/tps2002c.pdf	10-VFDFN Exposed Pad	10-VSON (3x3)	3	TPS2003CDRCR													
-ti	-	datasheets/powerswitch/ti/tps2002c.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	3	TPS2062CDR													
-ti	-	datasheets/powerswitch/ti/tps2002c.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-HVSSOP	14	TPS2064CDGN-2													
-ti	-	datasheets/powerswitch/ti/tps2002c.pdf	8-VDFN Exposed Pad	8-SON (3x3)	2	TPS2062CDRBR-2													
-ti	-	datasheets/powerswitch/ti/tps2010a.pdf	14-PowerTSSOP (0.173", 4.40mm Width)	14-HTSSOP	3	TPS2013APWPR													
-ti	-	datasheets/powerswitch/ti/tps2010a.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	8	TPS2013AD													
-ti	-	datasheets/powerswitch/ti/tps2020-q1.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	5	TPS2024IDRQ1													
-ti	-	datasheets/powerswitch/ti/tps2020.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	3	TPS2021P													
-ti	-	datasheets/powerswitch/ti/tps2020.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	9	TPS2023DR													
-ti	-	datasheets/powerswitch/ti/tps2030.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	3	TPS2034P													
-ti	-	datasheets/powerswitch/ti/tps2030.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	11	TPS2032D													
-ti	-	datasheets/powerswitch/ti/tps2041b-ep.pdf	SC-74A, SOT-753	SOT-23-5	1	TPS2041BMDBVTEP													
-ti	-	datasheets/powerswitch/ti/tps2041b-q1.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	TPS2051BQDRQ1													
-ti	-	datasheets/powerswitch/ti/tps2041b-q1.pdf	SC-74A, SOT-753	SOT-23-5	1	TPS2041BQDBVRQ1													
-ti	-	datasheets/powerswitch/ti/tps2042b.pdf	16-SOIC (0.154", 3.90mm Width)	16-SOIC	8	TPS2053BD													
-ti	-	datasheets/powerswitch/ti/tps2042b.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	4	TPS2052BDR													
-ti	-	datasheets/powerswitch/ti/tps2042b.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-HVSSOP	4	TPS2052BDGNR													
-ti	-	datasheets/powerswitch/ti/tps2042b.pdf	8-VDFN Exposed Pad	8-SON (3x3)	3	TPS2052BDRBR													
-ti	-	datasheets/powerswitch/ti/tps2042b.pdf	SC-74A, SOT-753	SOT-23-5	2	TPS2051BDBVR													
-ti	-	datasheets/powerswitch/ti/tps2046b.pdf	16-SOIC (0.154", 3.90mm Width)	16-SOIC	1	TPS2047BD													
-ti	-	datasheets/powerswitch/ti/tps2046b.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	3	TPS2046BD													
-ti	-	datasheets/powerswitch/ti/tps2049.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	TPS2049DR													
-ti	-	datasheets/powerswitch/ti/tps2054a.pdf	16-SOIC (0.154", 3.90mm Width)	16-SOIC	4	TPS2054AD													
-ti	-	datasheets/powerswitch/ti/tps2054a.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	8	TPS2051AD													
-ti	-	datasheets/powerswitch/ti/tps2055.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	TPS2055D													
-ti	-	datasheets/powerswitch/ti/tps2058a.pdf	16-SOIC (0.154", 3.90mm Width)	16-SOIC	3	TPS2057AD													
-ti	-	datasheets/powerswitch/ti/tps2058a.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	5	TPS2055ADR													
-ti	-	datasheets/powerswitch/ti/tps2060.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	TPS2068D													
-ti	-	datasheets/powerswitch/ti/tps2060.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-HVSSOP	8	TPS2064DGN													
-ti	-	datasheets/powerswitch/ti/tps2060.pdf	8-VDFN Exposed Pad	8-SON (3x3)	2	TPS2060DRBT													
-ti	-	datasheets/powerswitch/ti/tps2061.pdf	16-SOIC (0.154", 3.90mm Width)	16-SOIC	3	TPS2063D													
-ti	-	datasheets/powerswitch/ti/tps2061.pdf	8-PowerTSSOP, 8-MSOP (0.118", 3.00mm Width)	8-HVSSOP	1	TPS2065DGNR													
-ti	-	datasheets/powerswitch/ti/tps2061.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	4	TPS2061DR													
-ti	-	datasheets/powerswitch/ti/tps2061.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-HVSSOP	3	TPS2066DGNR													
-ti	-	datasheets/powerswitch/ti/tps2061.pdf	SC-74A, SOT-753	SOT-23-5	2	TPS2065DBVR													
-ti	-	datasheets/powerswitch/ti/tps2062-q1.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-HVSSOP	1	TPS2062QDGNRQ1													
-ti	-	datasheets/powerswitch/ti/tps2062a.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	TPS2062ADR													
-ti	-	datasheets/powerswitch/ti/tps2062a.pdf	8-VDFN Exposed Pad	8-SON (3x3)	2	TPS2062ADRBR													
-ti	-	datasheets/powerswitch/ti/tps2065d.pdf	8-PowerTSSOP, 8-MSOP (0.118", 3.00mm Width)	8-HVSSOP	1	TPS2065DGN-1													
-ti	-	datasheets/powerswitch/ti/tps2065d.pdf	SC-74A, SOT-753	SOT-23-5	1	TPS2065DDBVR													
-ti	-	datasheets/powerswitch/ti/tps2066-1.pdf	8-PowerTSSOP, 8-MSOP (0.118", 3.00mm Width)	8-HVSSOP	1	TPS2065DGNR-1													
-ti	-	datasheets/powerswitch/ti/tps2066-1.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	TPS2062DR-1													
-ti	-	datasheets/powerswitch/ti/tps2069d.pdf	SC-74A, SOT-753	SOT-23-5	2	TPS2069DDBVR													
-ti	-	datasheets/powerswitch/ti/tps2090.pdf	16-SOIC (0.154", 3.90mm Width)	16-SOIC	2	TPS2095D													
-ti	-	datasheets/powerswitch/ti/tps2090.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	4	TPS2090DR													
-ti	-	datasheets/powerswitch/ti/tps2100.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	TPS2101D													
-ti	-	datasheets/powerswitch/ti/tps2100.pdf	SC-74A, SOT-753	SOT-23-5	4	TPS2100DBVT													
-ti	-	datasheets/powerswitch/ti/tps2102.pdf	SC-74A, SOT-753	SOT-23-5	2	TPS2103DBVR													
-ti	-	datasheets/powerswitch/ti/tps2104.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	TPS2105D													
-ti	-	datasheets/powerswitch/ti/tps2104.pdf	SC-74A, SOT-753	SOT-23-5	4	TPS2104DBVT													
-ti	-	datasheets/powerswitch/ti/tps2105-ep.pdf	SC-74A, SOT-753	SOT-23-5	1	TPS2105MDBVREP													
-ti	-	datasheets/powerswitch/ti/tps2110.pdf	8-TSSOP (0.173", 4.40mm Width)	8-TSSOP	4	TPS2110PWR													
-ti	-	datasheets/powerswitch/ti/tps2110a.pdf	8-TSSOP (0.173", 4.40mm Width)	8-TSSOP	4	TPS2110APW													
-ti	-	datasheets/powerswitch/ti/tps2112a.pdf	8-TSSOP (0.173", 4.40mm Width)	8-TSSOP	4	TPS2113APWR													
-ti	-	datasheets/powerswitch/ti/tps2114.pdf	8-TSSOP (0.173", 4.40mm Width)	8-TSSOP	3	TPS2114PW													
-ti	-	datasheets/powerswitch/ti/tps2114a.pdf	8-TSSOP (0.173", 4.40mm Width)	8-TSSOP	4	TPS2114APW													
-ti	-	datasheets/powerswitch/ti/tps2114a.pdf	8-VDFN Exposed Pad	8-SON (3x3)	1	TPS2115ADRBT													
-ti	-	datasheets/powerswitch/ti/tps2115a-q1.pdf	8-TSSOP (0.173", 4.40mm Width)	8-TSSOP	1	TPS2115AIPWRQ1													
-ti	-	datasheets/powerswitch/ti/tps2116.pdf	SOT-583	SOT-583	1	TPS2116DRLR													
-ti	-	datasheets/powerswitch/ti/tps2117.pdf	SOT-583	SOT-583	1	TPS2117DRLR													
-ti	-	datasheets/powerswitch/ti/tps2149.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-HVSSOP	2	TPS2158IDGN													
-ti	-	datasheets/powerswitch/ti/tps22810-q1.pdf	SOT-23-6	SOT-23-6	1	TPS22810TDBVRQ1													
-ti	-	datasheets/powerswitch/ti/tps22810.pdf	6-WDFN Exposed Pad	6-WSON (2x2)	2	TPS22810DRVR													
-ti	-	datasheets/powerswitch/ti/tps22810.pdf	SOT-23-6	SOT-23-6	1	TPS22810DBVT													
-ti	-	datasheets/powerswitch/ti/tps22901.pdf	4-XFBGA, DSBGA	4-DSBGA	3	TPS22901YFPR													
-ti	-	datasheets/powerswitch/ti/tps22904.pdf	4-XFBGA, DSBGA	4-DSBGA	2	TPS22904YFPR													
-ti	-	datasheets/powerswitch/ti/tps22908.pdf	4-UFBGA, DSBGA	4-DSBGA (0.9x0.9)	2	TPS22908YZTR													
-ti	-	datasheets/powerswitch/ti/tps22910a.pdf	4-XFBGA, DSBGA	4-DSBGA (0.88x0.88)	8	TPS22912CYZVR													
-ti	-	datasheets/powerswitch/ti/tps22914.pdf	4-XFBGA, DSBGA	4-DSBGA	7	TPS22914CYFPT													
-ti	-	datasheets/powerswitch/ti/tps22916.pdf	4-XFBGA, DSBGA	4-DSBGA	10	TPS22916BYFPR													
-ti	-	datasheets/powerswitch/ti/tps22917.pdf	SOT-23-6	SOT-23-6	3	TPS22917DBVR													
-ti	-	datasheets/powerswitch/ti/tps22918-q1.pdf	SOT-23-6	SOT-23-6	2	TPS22918TDBVTQ1													
-ti	-	datasheets/powerswitch/ti/tps22918.pdf	SOT-23-6	SOT-23-6	2	TPS22918DBVT													
-ti	-	datasheets/powerswitch/ti/tps22919.pdf	6-TSSOP, SC-88, SOT-363	SC-70-6	1	TPS22919DCKT													
-ti	-	datasheets/powerswitch/ti/tps22920.pdf	8-XFBGA, DSBGA	8-DSBGA	3	TPS22920YZPRB													
-ti	-	datasheets/powerswitch/ti/tps22921.pdf	6-XFBGA, DSBGA	6-DSBGA	6	TPS22922YFPR													
-ti	-	datasheets/powerswitch/ti/tps22924b.pdf	6-XFBGA, DSBGA	6-DSBGA	3	TPS22924BYZR													
-ti	-	datasheets/powerswitch/ti/tps22924b.pdf	6-XFBGA, DSBGA	6-DSBGA (1.39x.89)	2	TPS22924CYZPR													
-ti	-	datasheets/powerswitch/ti/tps22924d.pdf	6-XFBGA, DSBGA	6-DSBGA (1.39x.89)	1	TPS22924DYZPT													
-ti	-	datasheets/powerswitch/ti/tps22925.pdf	6-XFBGA, DSBGA	6-DSBGA	6	TPS22925BNYPHT													
-ti	-	datasheets/powerswitch/ti/tps22929d.pdf	SOT-23-6	SOT-23-6	2	TPS22929DDBVT													
-ti	-	datasheets/powerswitch/ti/tps22930a.pdf	4-XFBGA, DSBGA	4-DSBGA (0.88x0.88)	2	TPS22930AYZVR													
-ti	-	datasheets/powerswitch/ti/tps22932b.pdf	6-XFBGA, DSBGA	6-DSBGA	2	TPS22932BYFPT													
-ti	-	datasheets/powerswitch/ti/tps22933.pdf	8-UFQFN	8-UQFN (1.5x1.5)	1	TPS22933ARSET													
-ti	-	datasheets/powerswitch/ti/tps22934.pdf	4-XFBGA, DSBGA	4-DSBGA (0.88x0.88)	2	TPS22934YZVR													
-ti	-	datasheets/powerswitch/ti/tps22941.pdf	5-TSSOP, SC-70-5, SOT-353	SC-70-5	4	TPS22944DCKR													
-ti	-	datasheets/powerswitch/ti/tps22949.pdf	8-WFDFN Exposed Pad	8-SON (3x3)	1	TPS22949ADRGR													
-ti	-	datasheets/powerswitch/ti/tps22950-q1.pdf	SOT-23-6 Thin, TSOT-23-6	SOT-23-THIN	1	TPS22950CQDDCRQ1													
-ti	-	datasheets/powerswitch/ti/tps22950.pdf	6-XFBGA, DSBGA	6-DSBGA (1.11x0.71)	2	TPS22950YBHR													
-ti	-	datasheets/powerswitch/ti/tps22953-q1.pdf	10-WFDFN Exposed Pad	10-WSON (3x2)	1	TPS22953QDQCRQ1													
-ti	-	datasheets/powerswitch/ti/tps22953.pdf	10-WFDFN Exposed Pad	10-WSON (2x2)	2	TPS22954DSQR													
-ti	-	datasheets/powerswitch/ti/tps22953.pdf	10-WFDFN Exposed Pad	10-WSON (3x2)	1	TPS22954DQCR													
-ti	-	datasheets/powerswitch/ti/tps22958.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-VSSOP	2	TPS22958NDGKR													
-ti	-	datasheets/powerswitch/ti/tps22958.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-HVSSOP	2	TPS22958DGNR													
-ti	-	datasheets/powerswitch/ti/tps22959.pdf	8-WDFN Exposed Pad	8-WSON (3x3)	1	TPS22959DNYT													
-ti	-	datasheets/powerswitch/ti/tps22960.pdf	8-UFQFN	8-UQFN (1.5x1.5)	2	TPS22960RSET													
-ti	-	datasheets/powerswitch/ti/tps22960.pdf	SOT-23-8	SOT-23-8	1	TPS22960DCNR													
-ti	-	datasheets/powerswitch/ti/tps22961.pdf	8-WDFN Exposed Pad	8-WSON (3x3)	1	TPS22961DNYT													
-ti	-	datasheets/powerswitch/ti/tps22962.pdf	8-WDFN Exposed Pad	8-WSON (3x3)	1	TPS22962DNYT													
-ti	-	datasheets/powerswitch/ti/tps22963c.pdf	6-XFBGA, DSBGA	6-DSBGA	2	TPS22964CYZPR													
-ti	-	datasheets/powerswitch/ti/tps22963c.pdf	6-XFBGA, DSBGA	6-DSBGA (1.39x.89)	2	TPS22963CYZPR													
-ti	-	datasheets/powerswitch/ti/tps22965-q1.pdf	8-WFDFN Exposed Pad	8-WSON (2x2)	3	TPS22965TDSGRQ1													
-ti	-	datasheets/powerswitch/ti/tps22965.pdf	8-WFDFN Exposed Pad	8-WSON (2x2)	3	TPS22965NDSGR													
-ti	-	datasheets/powerswitch/ti/tps22966-q1.pdf	14-PowerWFDFN	14-WSON (3x2)	2	TPS22966TDPURQ1													
-ti	-	datasheets/powerswitch/ti/tps22967.pdf	8-WFDFN Exposed Pad	8-WSON (2x2)	2	TPS22967DSGR													
-ti	-	datasheets/powerswitch/ti/tps22968-q1.pdf	10-WFDFN Exposed Pad	10-WSON (3x2)	2	TPS22968QDMGTQ1													
-ti	-	datasheets/powerswitch/ti/tps22968.pdf	14-PowerWFDFN	14-WSON (3x2)	4	TPS22968DPUT													
-ti	-	datasheets/powerswitch/ti/tps22969.pdf	8-WDFN Exposed Pad	8-WSON (3x3)	2	TPS22969DNYT													
-ti	-	datasheets/powerswitch/ti/tps22975.pdf	8-WFDFN Exposed Pad	8-WSON (2x2)	1	TPS22975NDSGT													
-ti	-	datasheets/powerswitch/ti/tps22976.pdf	14-PowerWFDFN	14-WSON (3x2)	5	TPS22976DPUR													
-ti	-	datasheets/powerswitch/ti/tps22980.pdf	20-VFQFN Exposed Pad	20-QFN (4x4)	1	TPS22980RGPR													
-ti	-	datasheets/powerswitch/ti/tps22981.pdf	20-VFQFN Exposed Pad	20-QFN (4x4)	2	TPS22981RGPR													
-ti	-	datasheets/powerswitch/ti/tps22990.pdf	10-WFDFN Exposed Pad	10-WSON (3x2)	2	TPS22990NDMLT													
-ti	-	datasheets/powerswitch/ti/tps22991.pdf	4-UFQFN	4-UQFN-HR (0.85x0.75)	3	TPS22991CRAAR													
-ti	-	datasheets/powerswitch/ti/tps22991i.pdf	4-UFQFN	4-UQFN-HR (0.85x0.75)	4	TPS22991ICNRAAR													
-ti	-	datasheets/powerswitch/ti/tps22992.pdf	8-WFQFN	8-WQFN-HR (1.25x1.25)	1	TPS22992SRXNR													
-ti	-	datasheets/powerswitch/ti/tps22992.pdf	8-WFQFN	8-WQFN-HR (1.5x1.25)	1	TPS22992RXPR													
-ti	-	datasheets/powerswitch/ti/tps22995.pdf	6-WFQFN	6-WQFN-HR (1.25x0.85)	1	TPS22995RZFR													
-ti	-	datasheets/powerswitch/ti/tps22996.pdf	SOT-583	SOT-583	1	TPS22996NDRLR													
-ti	-	datasheets/powerswitch/ti/tps22996h-q1.pdf	SOT-583	SOT-583	1	TPS22996HQDYCRQ1													
-ti	-	datasheets/powerswitch/ti/tps22997.pdf	10-WFQFN	10-WQFN-HR (1.5x2)	1	TPS22997RYZR													
-ti	-	datasheets/powerswitch/ti/tps22999.pdf	8-XFBGA, DSBGA	8-DSBGA (0.66x1.36)	1	TPS22999YCHR													
-ti	-	datasheets/powerswitch/ti/tps2530.pdf	SC-74A, SOT-753	SOT-23-5	2	TPS2530DBVR													
-ti	-	datasheets/powerswitch/ti/tps2540.pdf	16-WFQFN Exposed Pad	16-WQFN (3x3)	8	TPS2540ARTER													
-ti	-	datasheets/powerswitch/ti/tps2544.pdf	16-WFQFN Exposed Pad	16-WQFN (3x3)	2	TPS2544RTER													
-ti	-	datasheets/powerswitch/ti/tps2546.pdf	16-WFQFN Exposed Pad	16-WQFN (3x3)	1	TPS2546RTET													
-ti	-	datasheets/powerswitch/ti/tps2547.pdf	16-WFQFN Exposed Pad	16-WQFN (3x3)	1	TPS2547RTET													
-ti	-	datasheets/powerswitch/ti/tps2549-q1.pdf	16-WFQFN Exposed Pad	16-WQFN (3x3)	2	TPS2549IRTERQ1													
-ti	-	datasheets/powerswitch/ti/tps2549.pdf	16-WFQFN Exposed Pad	16-WQFN (3x3)	2	TPS2549RTER													
-ti	-	datasheets/powerswitch/ti/tps254900-q1.pdf	20-WFQFN Exposed Pad	20-WQFN (4x3)	1	TPS254900IRVCTQ1													
-ti	-	datasheets/powerswitch/ti/tps2552-1.pdf	6-WDFN Exposed Pad	6-WSON (2x2)	7	TPS2552DRVR													
-ti	-	datasheets/powerswitch/ti/tps2552-1.pdf	SOT-23-6	SOT-23-6	6	TPS2552DBVR													
-ti	-	datasheets/powerswitch/ti/tps2552d.pdf	SOT-23-6	SOT-23-6	4	TPS2552DDBVR													
-ti	-	datasheets/powerswitch/ti/tps2553-q1.pdf	SOT-23-6	SOT-23-6	1	TPS2553QDBVRQ1													
-ti	-	datasheets/powerswitch/ti/tps2554.pdf	10-VFDFN Exposed Pad	10-VSON (3x3)	4	TPS2555DRCT													
-ti	-	datasheets/powerswitch/ti/tps2556-q1.pdf	8-VDFN Exposed Pad	8-SON (3x3)	1	TPS2556QDRBTQ1													
-ti	-	datasheets/powerswitch/ti/tps2556.pdf	8-VDFN Exposed Pad	8-SON (3x3)	3	TPS2557DRBT													
-ti	-	datasheets/powerswitch/ti/tps2559-q1.pdf	10-VFDFN Exposed Pad	10-VSON (3x3)	1	TPS2559QWDRCTQ1													
-ti	-	datasheets/powerswitch/ti/tps2559.pdf	10-VFDFN Exposed Pad	10-VSON (3x3)	2	TPS2559DRCR													
-ti	-	datasheets/powerswitch/ti/tps2560.pdf	10-VFDFN Exposed Pad	10-VSON (3x3)	3	TPS2561DRCT													
-ti	-	datasheets/powerswitch/ti/tps2560a.pdf	10-VFDFN Exposed Pad	10-VSON (3x3)	3	TPS2561ADRCR													
-ti	-	datasheets/powerswitch/ti/tps2561-q1.pdf	10-VFDFN Exposed Pad	10-VSON (3x3)	1	TPS2561QDRCRQ1													
-ti	-	datasheets/powerswitch/ti/tps2561a-q1.pdf	10-VFDFN Exposed Pad	10-VSON (3x3)	2	TPS2561AQDRCRQ1													
-ti	-	datasheets/powerswitch/ti/tps27081a.pdf	SOT-23-6 Thin, TSOT-23-6	SOT-23-THIN	1	TPS27081ADDCR													
-ti	-	datasheets/powerswitch/ti/tps272c45.pdf	24-VFQFN Exposed Pad	24-VQFN (5x4)	3	TPS272C45ARHFR													
-ti	-	datasheets/powerswitch/ti/tps274160.pdf	28-WFQFN Exposed Pad	28-WQFN (4x5)	1	TPS274160BRLHR													
-ti	-	datasheets/powerswitch/ti/tps274c65.pdf	40-VFQFN Exposed Pad	40-VQFN (6x6)	5	TPS274C65BSWRHAR													
-ti	-	datasheets/powerswitch/ti/tps274c65cp.pdf	40-VFQFN Exposed Pad	40-VQFN (6x6)	3	TPS274C65CPHWRHAR													
-ti	-	datasheets/powerswitch/ti/tps281c100.pdf	12-WFDFN Exposed Pad	12-WSON (4x4)	2	TPS281C100ADNTR													
-ti	-	datasheets/powerswitch/ti/tps281c30.pdf	20-VQFN Exposed Pad	20-VQFN (5x5)	1	TPS281C30ARGWR													
-ti	-	datasheets/powerswitch/ti/tps2h000-q1.pdf	16-PowerTSSOP (0.173", 4.40mm Width)	16-HTSSOP	2	TPS2H000BQPWPRQ1													
-ti	-	datasheets/powerswitch/ti/tps2hb16-q1.pdf	16-PowerTSSOP (0.173", 4.40mm Width)	16-HTSSOP	1	TPS2HB16AQPWPRQ1													
-ti	-	datasheets/powerswitch/ti/tps2hb35-q1.pdf	16-PowerTSSOP (0.173", 4.40mm Width)	16-HTSSOP	2	TPS2HB35AQPWPRQ1													
-ti	-	datasheets/powerswitch/ti/tps2hb50-q1.pdf	16-PowerTSSOP (0.173", 4.40mm Width)	16-HTSSOP	1	TPS2HB50AQPWPRQ1													
-ti	-	datasheets/powerswitch/ti/tps2hc120-q1.pdf	28-PowerTSSOP (0.118", 3.00mm Width)	28-HTSSOP	2	TPS2HC120AQDGQRQ1													
-ti	-	datasheets/powerswitch/ti/tps4811-q1.pdf	20-TFSOP (0.118", 3.00mm Width), 19 Leads	19-VSSOP	2	TPS48110AQDGXRQ1													
-ti	-	datasheets/powerswitch/ti/tps482h85-q1.pdf	12-PowerQFN	12-VQFN-HR (3.5x3)	1	TPS482H85BQCHURQ1													
-ti	-	datasheets/powerswitch/ti/tps4h000-q1.pdf	20-PowerTSSOP (0.173", 4.40mm Width)	20-HTSSOP	2	TPS4H000BQPWPRQ1													
-ti	-	datasheets/powerswitch/ti/tps4hc120-q1.pdf	28-PowerTSSOP (0.118", 3.00mm Width)	28-HTSSOP	1	TPS4HC120BQDGQRQ1													
-ti	-	datasheets/powerswitch/ti/tps65281.pdf	16-VQFN Exposed Pad	16-VQFN (4x4)	3	TPS65281RGVR													
-ti	-	datasheets/powerswitch/ti/tps65286.pdf	28-VFQFN Exposed Pad	28-VQFN (5x5)	1	TPS65286RHDT													
-ti	TPS1663x	datasheets/powerswitch/ti/tps1663.pdf	20-PowerTSSOP (0.173", 4.40mm Width)	20-HTSSOP	1	TPS16637PWPR													
-ti	TPS281C30x	datasheets/powerswitch/ti/tps281c30.pdf	20-VQFN Exposed Pad	20-VQFN (5x5)	2	TPS281C30ERGWR													
+company	series	pdf	package	supplier_package	rows	example	ordering	pinout	type	switches	analog	vin_min	vin_max	iout	ilimit	ron	iq	flags	note	skip
+analog-devices	-	datasheets/powerswitch/analog-devices/4358fa.pdf	14-WFDFN Exposed Pad	14-DFN (4x3)	3	LTC4358CDE#PBF														
+analog-devices	-	datasheets/powerswitch/analog-devices/4358fa.pdf	"16-TSSOP (0.173"", 4.40mm Width) Exposed Pad"	16-TSSOP-EP	2	LTC4358IFE#PBF														
+analog-devices	-	datasheets/powerswitch/analog-devices/4411fa.pdf	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	2	LTC4411ES5#TRMPBF														
+analog-devices	-	datasheets/powerswitch/analog-devices/441312fg.pdf	10-WFDFN Exposed Pad	10-DFN (3x3)	4	LTC4413EDD-1#PBF														
+analog-devices	-	datasheets/powerswitch/analog-devices/4413fd.pdf	10-WFDFN Exposed Pad	10-DFN (3x3)	2	LTC4413EDD#PBF														
+analog-devices	-	datasheets/powerswitch/analog-devices/LTC4421.pdf	"36-SSOP (0.209"", 5.30mm Width)"	36-SSOP	1	LTC4421HG#WTRPBF														
+analog-devices	-	datasheets/powerswitch/analog-devices/max17614.pdf	20-WFQFN Exposed Pad	20-TQFN (4x4)	2	MAX17614ATP+														
+analog-devices	-	datasheets/powerswitch/analog-devices/max40200.pdf	4-XFBGA, WLBGA	4-WLP (0.73x0.73)	1	MAX40200ANS+T														
+analog-devices	-	datasheets/powerswitch/analog-devices/max40200.pdf	SC-74A, SOT-753	SOT-23-5	1	MAX40200AUK+T														
+analog-devices	-	datasheets/powerswitch/analog-devices/max40203.pdf	4-XFBGA, WLBGA	4-WLP (0.77x0.77)	1	MAX40203ANS+T														
+analog-devices	-	datasheets/powerswitch/analog-devices/max40203.pdf	SC-74A, SOT-753	SOT-23-5	1	MAX40203AUK+T														
+analog-devices	LT®4423	datasheets/powerswitch/analog-devices/lt4423.pdf	10-VFDFN Exposed Pad	10-LDFN (3x2)	1	LT4423AV#TRPBF														
+analog-devices	PowerPath™	datasheets/powerswitch/analog-devices/4415fa.pdf	"16-TFSOP (0.118"", 3.00mm Width) Exposed Pad"	16-MSOP-EP	4	LTC4415EMSE#TRPBF														
+analog-devices	PowerPath™	datasheets/powerswitch/analog-devices/4415fa.pdf	16-WFDFN Exposed Pad	16-DFN (5x3)	4	LTC4415EDHC#PBF														
+analog-devices	PowerPath™	datasheets/powerswitch/analog-devices/4419fa.pdf	10-WFDFN Exposed Pad	10-DFN (3x3)	3	LTC4419IDD#TRPBF														
+analog-devices	PowerPath™	datasheets/powerswitch/analog-devices/4419fa.pdf	"12-TSSOP (0.118"", 3.00mm Width) Exposed Pad"	12-MSOP-EP	1	LTC4419CMSE#PBF														
+analog-devices	PowerPath™	datasheets/powerswitch/analog-devices/4420fa.pdf	"12-TSSOP (0.118"", 3.00mm Width) Exposed Pad"	12-MSOP-EP	2	LTC4420CMSE#PBF														
+analog-devices	PowerPath™	datasheets/powerswitch/analog-devices/4420fa.pdf	12-WFDFN Exposed Pad	12-DFN (3x3)	2	LTC4420IDD#PBF														
+diodes	-	datasheets/powerswitch/diodes/AP2101_2111.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOP	2	AP2101SG-13														
+diodes	-	datasheets/powerswitch/diodes/AP2101_2111.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-MSOP-EP	2	AP2101MPG-13														
+diodes	-	datasheets/powerswitch/diodes/AP2141-51.pdf	6-UFDFN Exposed Pad	U-DFN2018-6	1	AP2151FMG-7														
+diodes	-	datasheets/powerswitch/diodes/AP2141-51.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOP	1	AP2141SG-13														
+diodes	-	datasheets/powerswitch/diodes/AP2141-51.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-MSOP-EP	2	AP2141MPG-13														
+diodes	-	datasheets/powerswitch/diodes/AP2141-51.pdf	SC-74A, SOT-753	SOT-25	2	AP2151WG-7														
+diodes	-	datasheets/powerswitch/diodes/AP21410_21510.pdf	6-UFDFN Exposed Pad	U-DFN2018-6	2	AP21510FM-7														
+diodes	-	datasheets/powerswitch/diodes/AP2141D_51D.pdf	6-UFDFN Exposed Pad	U-DFN2018-6	2	AP2141DFMG-7														
+diodes	-	datasheets/powerswitch/diodes/AP2141D_51D.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SO	2	AP2141DSG-13														
+diodes	-	datasheets/powerswitch/diodes/AP2141D_51D.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-MSOP-EP	2	AP2151DMPG-13														
+diodes	-	datasheets/powerswitch/diodes/AP2141D_51D.pdf	SC-74A, SOT-753	SOT-25	1	AP2151DWG-7														
+diodes	-	datasheets/powerswitch/diodes/AP2142A_52A.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOP	2	AP2142ASG-13														
+diodes	-	datasheets/powerswitch/diodes/AP2142A_52A.pdf	8-UDFN Exposed Pad	U-DFN3030-8 (Type E)	1	AP2152AFGEG-7														
+diodes	-	datasheets/powerswitch/diodes/AP2142_52.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOP	2	AP2152SG-13														
+diodes	-	datasheets/powerswitch/diodes/AP2142_52.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-MSOP-EP	2	AP2142MPG-13														
+diodes	-	datasheets/powerswitch/diodes/AP2145.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOP	1	AP2145SG-13														
+diodes	-	datasheets/powerswitch/diodes/AP2146_56.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOP	2	AP2146SG-13														
+diodes	-	datasheets/powerswitch/diodes/AP2146_56.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-MSOP-EP	2	AP2156MPG-13														
+diodes	-	datasheets/powerswitch/diodes/AP2151A.pdf	6-UFDFN Exposed Pad	U-DFN2018-6	1	AP2151AFM-7														
+diodes	-	datasheets/powerswitch/diodes/AP2151A.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-MSOP-EP	1	AP2151AMP-13														
+diodes	-	datasheets/powerswitch/diodes/AP2151A.pdf	SC-74A, SOT-753	SOT-25	1	AP2151AW-7														
+diodes	-	datasheets/powerswitch/diodes/AP2161A_71A.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SO	1	AP2171AS-13														
+diodes	-	datasheets/powerswitch/diodes/AP2161A_71A.pdf	SC-74A, SOT-753	SOT-25	1	AP2171AW-7														
+diodes	-	datasheets/powerswitch/diodes/AP2161D_71D.pdf	6-UFDFN Exposed Pad	U-DFN2018-6	1	AP2161DFMG-7														
+diodes	-	datasheets/powerswitch/diodes/AP2161D_71D.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SO	1	AP2171DSG-13														
+diodes	-	datasheets/powerswitch/diodes/AP2161D_71D.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)"	8-MSOP	1	AP2171DM8G-13														
+diodes	-	datasheets/powerswitch/diodes/AP2161D_71D.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-MSOP-EP	1	AP2171DMPG-13														
+diodes	-	datasheets/powerswitch/diodes/AP2161D_71D.pdf	SC-74A, SOT-753	SOT-25	2	AP2171DWG-7														
+diodes	-	datasheets/powerswitch/diodes/AP2161_71.pdf	6-UFDFN Exposed Pad	U-DFN2018-6	1	AP2161FMG-7														
+diodes	-	datasheets/powerswitch/diodes/AP2161_71.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOP	1	AP2171SG-13														
+diodes	-	datasheets/powerswitch/diodes/AP2161_71.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-MSOP-EP	1	AP2161MPG-13														
+diodes	-	datasheets/powerswitch/diodes/AP2161_71.pdf	SC-74A, SOT-753	SOT-25	2	AP2171WG-7														
+diodes	-	datasheets/powerswitch/diodes/AP2162A_72A.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SO	1	AP2162ASG-13														
+diodes	-	datasheets/powerswitch/diodes/AP2162A_72A.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-MSOP-EP	2	AP2172AMPG-13														
+diodes	-	datasheets/powerswitch/diodes/AP2162A_72A.pdf	8-UDFN Exposed Pad	U-DFN3030-8 (Type E)	2	AP2172AFGEG-7														
+diodes	-	datasheets/powerswitch/diodes/AP2162_72.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOP	2	AP2172SG-13														
+diodes	-	datasheets/powerswitch/diodes/AP2162_72.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-MSOP-EP	1	AP2172MPG-13														
+diodes	-	datasheets/powerswitch/diodes/AP2166_76.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOP	2	AP2176SG-13														
+diodes	-	datasheets/powerswitch/diodes/AP2166_76.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-MSOP-EP	2	AP2176MPG-13														
+diodes	-	datasheets/powerswitch/diodes/AP2181A-91A.pdf	SC-74A, SOT-753	SOT-25	1	AP2191AW-7														
+diodes	-	datasheets/powerswitch/diodes/AP2181_91.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-MSOP-EP	2	AP2181MPG-13														
+diodes	-	datasheets/powerswitch/diodes/AP2181_91.pdf	SC-74A, SOT-753	SOT-25	2	AP2191WG-7														
+diodes	-	datasheets/powerswitch/diodes/AP2182A_92A.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOP	2	AP2192ASG-13														
+diodes	-	datasheets/powerswitch/diodes/AP2182A_92A.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-MSOP-EP	1	AP2182AMPG-13														
+diodes	-	datasheets/powerswitch/diodes/AP2182A_92A.pdf	8-UDFN Exposed Pad	U-DFN3030-8 (Type E)	1	AP2192AFGEG-7														
+diodes	-	datasheets/powerswitch/diodes/AP2182_92.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOP	1	AP2192SG-13														
+diodes	-	datasheets/powerswitch/diodes/AP2182_92.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-MSOP-EP	1	AP2192MPG-13														
+diodes	-	datasheets/powerswitch/diodes/AP2186_96.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOP	2	AP2196SG-13														
+diodes	-	datasheets/powerswitch/diodes/AP22652_53_52A_53A.pdf	6-WDFN Exposed Pad	W-DFN2020-6 (Type A1)	4	AP22653FDZ-7														
+diodes	-	datasheets/powerswitch/diodes/AP22652_53_52A_53A.pdf	SOT-23-6	SOT-26	2	AP22652W6-7														
+diodes	-	datasheets/powerswitch/diodes/AP22652_53_52A_53A.pdf	SOT-23-6	SOT-26 (Type A1)	2	AP22652AW6-7														
+diodes	-	datasheets/powerswitch/diodes/AP22653Q.pdf	SOT-23-6	SOT-26 (Type A1)	1	AP22653QW6-7														
+diodes	-	datasheets/powerswitch/diodes/AP22654Q_AP22655Q.pdf	SOT-23-6 Thin, TSOT-23-6	TSOT-26 (Type A1)	2	AP22655QWU-7														
+diodes	-	datasheets/powerswitch/diodes/AP22654_AP22655.pdf	SOT-23-6 Thin, TSOT-23-6	TSOT-26 (Type A1)	2	AP22655WU-7														
+diodes	-	datasheets/powerswitch/diodes/AP22804-14.pdf	6-UDFN Exposed Pad	U-DFN2020-6	2	AP22804BSN-7														
+diodes	-	datasheets/powerswitch/diodes/AP22804-14.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)"	8-MSOP	3	AP22804AM8-13														
+diodes	-	datasheets/powerswitch/diodes/AP22804-14.pdf	SC-74A, SOT-753	SOT-25	2	AP22814BW5-7														
+diodes	-	datasheets/powerswitch/diodes/AP22804_14.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)"	8-MSOP	1	AP22804BM8-13														
+diodes	-	datasheets/powerswitch/diodes/AP22804_14.pdf	SC-74A, SOT-753	SOT-25	2	AP22804AW5-7														
+diodes	-	datasheets/powerswitch/diodes/AP22811.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)"	8-MSOP	1	AP22811AM8-13														
+diodes	-	datasheets/powerswitch/diodes/AP22811.pdf	SC-74A, SOT-753	SOT-25	1	AP22811AW5-7														
+diodes	-	datasheets/powerswitch/diodes/AP22816_17_18.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)"	8-MSOP	2	AP22818BM8-13														
+diodes	-	datasheets/powerswitch/diodes/AP22816_17_18.pdf	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	10	AP22818AKEWT-7														
+diodes	-	datasheets/powerswitch/diodes/AP22816_17_18.pdf	SOT-23-5 Thin, TSOT-23-5	TSOT-25	12	AP22818AKAWT-7														
+diodes	-	datasheets/powerswitch/diodes/AP2301-11.pdf	6-UDFN Exposed Pad	U-DFN2020-6	2	AP2311SN-7														
+diodes	-	datasheets/powerswitch/diodes/AP2301-11.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-MSOP-EP	1	AP2311MPG-13														
+diodes	-	datasheets/powerswitch/diodes/AP23x1A.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SO	1	AP2311AS-13														
+diodes	-	datasheets/powerswitch/diodes/AP23x1A.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-MSOP-EP	1	AP2311AMP-13														
+diodes	-	datasheets/powerswitch/diodes/AP24x1.pdf	6-UDFN Exposed Pad	U-DFN2020-6	2	AP2401SN-7														
+diodes	-	datasheets/powerswitch/diodes/AP24x1.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SO	2	AP2411S-13														
+diodes	-	datasheets/powerswitch/diodes/AP24x1.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-MSOP-EP	2	AP2411MP-13														
+diodes	-	datasheets/powerswitch/diodes/AP24x1.pdf	8-UDFN Exposed Pad	U-DFN3030-8 (Type E)	1	AP2411FGE-7														
+diodes	-	datasheets/powerswitch/diodes/AP24x1A.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-MSOP-EP	1	AP2411AMP-13														
+diodes	-	datasheets/powerswitch/diodes/AP255x.pdf	6-UDFN Exposed Pad	U-DFN2020-6 (Type C)	5	AP2552FDC-7														
+diodes	-	datasheets/powerswitch/diodes/AP25x1.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)"	8-MSOP	1	AP2511M8-13														
+diodes	-	datasheets/powerswitch/diodes/AP25x1.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-MSOP-EP	1	AP2511MP-13														
+diodes	-	datasheets/powerswitch/diodes/AP25x1A.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-MSOP-EP	1	AP2511AMP-13														
+diodes	-	datasheets/powerswitch/diodes/DML3012LDC.pdf	12-VFDFN Exposed Pad	V-DFN3030-12 (Type B)	1	DML3012LDC-7														
+diodes	-	datasheets/powerswitch/diodes/DPS1113.pdf	17-VFQFN Exposed Pad	V-QFN4040-17	1	DPS1113FIA-13														
+diodes	-	datasheets/powerswitch/diodes/PI5USB2546AQ.pdf	16-WFQFN Exposed Pad	16-TQFN (3x3)	1	PI5USB2546AQZHEX														
+diodes	-	datasheets/powerswitch/diodes/PI5USB2546H-Product-Brief.pdf	16-UFQFN Exposed Pad	16-UQFN (3x3)	1	PI5USB2546HZHDEX														
+diodes	-	datasheets/powerswitch/diodes/PI5USB2546J.pdf	16-WFQFN Exposed Pad	16-TQFN (3x3)	1	PI5USB2546JZHEX														
+diodes	-	datasheets/powerswitch/diodes/PI5USB2546Q.pdf	16-WFQFN Exposed Pad	16-TQFN (3x3)	1	PI5USB2546QZHEX														
+diodes	-	datasheets/powerswitch/diodes/ZXMS81045SP.pdf	"8-SOIC (0.154"", 3.90mm Width) Exposed Pad"	8-SO-EP	1	ZXMS81045SP-13														
+diodes	-	datasheets/powerswitch/diodes/ZXMS81045SPQ.pdf	"8-SOIC (0.154"", 3.90mm Width) Exposed Pad"	8-SO-EP	1	ZXMS81045SPQ-13														
+diodes	INTELLIFET®	datasheets/powerswitch/diodes/ZXMS81090SPQ.pdf	"8-SOIC (0.154"", 3.90mm Width) Exposed Pad"	8-SO-EP (Type E)	1	ZXMS81090SPQ-13														
+diodes	INTELLIFET®	datasheets/powerswitch/diodes/ZXMS81200SPQ.pdf	"8-SOIC (0.154"", 3.90mm Width) Exposed Pad"	8-SO-EP (Type E)	1	ZXMS81200SPQ-13														
+diodes	INTELLIFET®	datasheets/powerswitch/diodes/ZXMS82090S14PQ.pdf	"14-SOIC (0.154"", 3.90mm Width) Exposed Pad"	14-SO-EP	1	ZXMS82090S14PQ-13														
+diodes	INTELLIFET®	datasheets/powerswitch/diodes/ZXMS82120S14PQ.pdf	"14-SOIC (0.154"", 3.90mm Width) Exposed Pad"	14-SO-EP	1	ZXMS82120S14PQ-13														
+diodes	INTELLIFET®	datasheets/powerswitch/diodes/ZXMS82180S14PQ.pdf	"14-SOIC (0.154"", 3.90mm Width) Exposed Pad"	14-SO-EP	1	ZXMS82180S14PQ-13														
+microchip	-	datasheets/powerswitch/microchip/20005680a.pdf	20-VFQFN Exposed Pad	20-QFN (4x4)	3	UCS2113T-2-V/G4														
+microchip	-	datasheets/powerswitch/microchip/20005725B.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	6	MIC2544-2YM-TR														
+microchip	-	datasheets/powerswitch/microchip/20005725B.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)"	8-MSOP	7	MIC2548-1YMM-TR														
+microchip	-	datasheets/powerswitch/microchip/MIC2026-Family-Data-Sheet-DS20006443.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	2	MIC2026-2YM-TR														
+microchip	-	datasheets/powerswitch/microchip/MIC2026A-76A-Dual-Channel-Power-Distribution-Switches-DS20006608A.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	5	MIC2026A-1YM-TR														
+microchip	-	datasheets/powerswitch/microchip/MIC2033-High-Accuracy-High-Side-Fixed-Current-Limit-Power-Switch-20005539A.pdf	6-UDFN Exposed Pad	6-TDFN (2x2)	1	MIC2033-55AYMT-TR														
+microchip	-	datasheets/powerswitch/microchip/MIC2033-High-Accuracy-High-Side-Fixed-Current-Limit-Power-Switch-20005539A.pdf	SOT-23-6	SOT-23-6	3	MIC2033-10AYM6-TR														
+microchip	-	datasheets/powerswitch/microchip/MIC2039-High-Accuracy-High-Side-Adjustable-Current-Limit-Power-Switch-20005540A.pdf	6-UDFN Exposed Pad	6-TDFN (2x2)	1	MIC2039AYMT-TR														
+microchip	-	datasheets/powerswitch/microchip/MIC2039-High-Accuracy-High-Side-Adjustable-Current-Limit-Power-Switch-20005540A.pdf	6-UFDFN Exposed Pad	6-TDFN (2x2)	1	MIC2039EYMT-TR														
+microchip	-	datasheets/powerswitch/microchip/MIC2039-High-Accuracy-High-Side-Adjustable-Current-Limit-Power-Switch-20005540A.pdf	SOT-23-6	SOT-23-6	4	MIC2039EYM6-TR														
+microchip	-	datasheets/powerswitch/microchip/MIC2090-1-Current-Limiting-Power-Distribution-Switches-DS20006611A.pdf	SC-74A, SOT-753	SOT-23-5	4	MIC2091-1YM5-TR														
+microchip	-	datasheets/powerswitch/microchip/MIC20xx-Fixed-and-Adjustable-Current-Limiting-Power-Distribution-Switches-DS20006486C.pdf	6-VDFN Exposed Pad, 6-MLF®	6-MLF® (2x2)	5	MIC2016-0.5YML														
+microchip	-	datasheets/powerswitch/microchip/MIC20xx-Fixed-and-Adjustable-Current-Limiting-Power-Distribution-Switches-DS20006486C.pdf	SOT-23-6	SOT-23-6	1	MIC2019YM6-TR														
+microchip	-	datasheets/powerswitch/microchip/MIC2505-6-Single-2A-Dual-1A-High-Side-Switches-DS20005579B.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	6	MIC2505-1YM														
+microchip	-	datasheets/powerswitch/microchip/MIC9404X-Family-Data-Sheet-DS20006607.pdf	4-WQFN, 4-MLF®	4-MLF® (1.2x1.2)	1	MIC94042YFL-TR														
+microchip	-	datasheets/powerswitch/microchip/MIC94060-1-2-3-High-Side-Power-Switches-DS20006517B.pdf	4-UFDFN Exposed Pad, 4-TMLF®	4-TMLF® (1.2x1.6)	4	MIC94062YMT-TR														
+microchip	-	datasheets/powerswitch/microchip/MIC94060-1-2-3-High-Side-Power-Switches-DS20006517B.pdf	6-TSSOP, SC-88, SOT-363	SC-70-6	4	MIC94060YC6-TR														
+microchip	-	datasheets/powerswitch/microchip/MIC9408x-67mOhm-RDSON-2A-High-Side-Load-Switch-DS20006118.pdf	4-UFDFN, 4-TMLF®	4-TMLF® (0.85x0.85)	5	MIC94080YFT-TR														
+microchip	-	datasheets/powerswitch/microchip/MIC9416x-3A-High-Side-Load-Switch-with-Reverse-Blocking-DS20006439A.pdf	6-WFBGA, WLCSP	6-WLCSP (1.5x1.1)	1	MIC94162YCS-TR														
+microchip	-	datasheets/powerswitch/microchip/MIC9416x-3A-High-Side-Load-Switch-with-Reverse-Blocking-DS20006439A.pdf	6-WFBGA, WLCSP	6-WLCSP (1x1.5)	2	MIC94163YCS-TR														
+microchip	-	datasheets/powerswitch/microchip/MIC95410-6.6mOhm-7A-5.5V-VIN-Load-Switch-DS20006431A.pdf	10-PowerVFQFN	10-FQFN (1.2x2)	1	MIC95410YFL-TR														
+microchip	-	datasheets/powerswitch/microchip/UCS2113-USB-Dual-Port-Power-Switch-and-Current-Monitor-20005680B.pdf	20-VFQFN Exposed Pad	20-QFN (4x4)	4	UCS2113T-1C-V/G4														
+microchip	-	datasheets/powerswitch/microchip/UCS2114-Data-Sheet-20005743B.pdf	20-VFQFN	20-VQFN (3x3)	1	UCS2114-1-V/LX														
+microchip	-	datasheets/powerswitch/microchip/USB-Dual-Port-Power-Switch-and-Current-Monitor-DS20005424D.pdf	20-VFQFN Exposed Pad	20-QFN (4x4)	2	UCS2112T-2-V/G4														
+microchip	-	datasheets/powerswitch/microchip/mic2026.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	5	MIC2026-1YM-TR														
+microchip	-	datasheets/powerswitch/microchip/mic2027.pdf	"16-SOIC (0.154"", 3.90mm Width)"	16-SOIC	5	MIC2077-2YM-TR														
+microchip	-	datasheets/powerswitch/microchip/mic2040.PDF	"10-TFSOP, 10-MSOP (0.118"", 3.00mm Width)"	10-MSOP	4	MIC2040-1YMM-TR														
+microchip	-	datasheets/powerswitch/microchip/mic2042.PDF	"14-TSSOP (0.173"", 4.40mm Width)"	14-TSSOP	1	MIC2042-1YTS														
+microchip	-	datasheets/powerswitch/microchip/mic2042.PDF	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	4	MIC2043-1YM														
+microchip	-	datasheets/powerswitch/microchip/mic2044-45.pdf	"16-TSSOP (0.173"", 4.40mm Width)"	16-TSSOP	3	MIC2045-1YTS														
+microchip	-	datasheets/powerswitch/microchip/mic2095.pdf	6-UFDFN Exposed Pad	6-TMLF® (1.6x1.6)	5	MIC2097-1YMT-TR														
+microchip	-	datasheets/powerswitch/microchip/mic20xx.pdf	6-VDFN Exposed Pad, 6-MLF®	6-DFN (2x2)	7	MIC2008YML-TR														
+microchip	-	datasheets/powerswitch/microchip/mic20xx.pdf	SC-74A, SOT-753	SOT-23-5	10	MIC2005A-2YM5-TR														
+microchip	-	datasheets/powerswitch/microchip/mic20xx.pdf	SOT-23-6	SOT-23-6	14	MIC2009A-1YM6-TR														
+microchip	-	datasheets/powerswitch/microchip/mic2536.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	3	MIC2536-1YM-TR														
+microchip	-	datasheets/powerswitch/microchip/mic2536.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)"	8-MSOP	1	MIC2536-2BMM TR														
+microchip	-	datasheets/powerswitch/microchip/mic2545a.pdf	"14-TSSOP (0.173"", 4.40mm Width)"	14-TSSOP	3	MIC2549A-2YTS														
+microchip	-	datasheets/powerswitch/microchip/mic2545a.pdf	"8-DIP (0.300"", 7.62mm)"	8-DIP	2	MIC2545A-2YN														
+microchip	-	datasheets/powerswitch/microchip/mic2545a.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	5	MIC2545A-2BM TR														
+microchip	-	datasheets/powerswitch/microchip/mic2546.pdf	"16-SOIC (0.154"", 3.90mm Width)"	16-SOIC	1	MIC2546-2YM														
+microchip	-	datasheets/powerswitch/microchip/mic2546.pdf	"16-TSSOP (0.173"", 4.40mm Width)"	16-TSSOP	7	MIC2547-2BTSTR														
+microchip	-	datasheets/powerswitch/microchip/mic94044_5.pdf	4-WDFN, 4-MLF®	4-MLF® (1.2x1.2)	1	MIC94044YFL-TR														
+microchip	-	datasheets/powerswitch/microchip/mic94064-5.pdf	4-UFDFN Exposed Pad, 4-TMLF®	4-TMLF® (1.2x1.6)	1	MIC94064YMT-TR														
+microchip	-	datasheets/powerswitch/microchip/mic94064-5.pdf	6-TSSOP, SC-88, SOT-363	SC-70-6	1	MIC94064YC6-TR														
+microchip	-	datasheets/powerswitch/microchip/mic94066-69.pdf	8-VFDFN Exposed Pad, 8-MLF®	8-MLF® (2x2)	4	MIC94067YML														
+microchip	-	datasheets/powerswitch/microchip/mic94070-3.pdf	4-UFDFN Exposed Pad, 4-TMLF®	4-TMLF® (1.2x1.6)	3	MIC94072YMT														
+microchip	-	datasheets/powerswitch/microchip/mic94070-3.pdf	6-TSSOP, SC-88, SOT-363	SC-70-6	4	MIC94072YC6-TR														
+microchip	-	datasheets/powerswitch/microchip/mic9409x.pdf	6-TSSOP, SC-88, SOT-363	SC-70-6	2	MIC94092YC6-TR														
+microchip	IttyBitty®	datasheets/powerswitch/microchip/mic2514.pdf	SC-74A, SOT-753	SOT-23-5	1	MIC2514YM5-TR														
+microchip	MM8™	datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	8	MIC2025-1YM-TR														
+microchip	MM8™	datasheets/powerswitch/microchip/MIC2025-2075-Single-Channel-Power-Distribution-Switch-DS20006030A.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)"	8-MSOP	7	MIC2025-1YMM-TR														
+onsemi	-	datasheets/powerswitch/onsemi/FDC6324L-D.PDF	SOT-23-6 Thin, TSOT-23-6	SuperSOT™-6	1	FDC6324L														
+onsemi	-	datasheets/powerswitch/onsemi/FDC6326L-D.PDF	SOT-23-6 Thin, TSOT-23-6	SuperSOT™-6	1	FDC6326L														
+onsemi	-	datasheets/powerswitch/onsemi/FDC6330L-D.PDF	SOT-23-6 Thin, TSOT-23-6	SuperSOT™-6	1	FDC6330L														
+onsemi	-	datasheets/powerswitch/onsemi/FDC6331L-D.PDF	SOT-23-6 Thin, TSOT-23-6	SuperSOT™-6	1	FDC6331L														
+onsemi	-	datasheets/powerswitch/onsemi/fpf1903ucx-d.pdf	4-XFBGA, WLCSP	4-WLCSP (0.7x0.7)	1	FPF1903UCX														
+onsemi	-	datasheets/powerswitch/onsemi/fpf2286ucx-d.pdf	6-UFBGA, WLCSP	6-WLCSP (1.3x0.9)	1	FPF2286UCX														
+onsemi	-	datasheets/powerswitch/onsemi/fpf3380ucx-d.pdf	12-UFBGA, WLCSP	12-WLCSP (1.83x1.29)	1	FPF3380UCX														
+onsemi	-	datasheets/powerswitch/onsemi/fpf3381-d.pdf	12-UFBGA, WLCSP	12-WLCSP (1.83x1.29)	1	FPF3381UCX														
+onsemi	-	datasheets/powerswitch/onsemi/ncp330-d.pdf	4-UFDFN Exposed Pad	4-UDFN (1.2x1.6)	2	NCP330MUTBG														
+onsemi	-	datasheets/powerswitch/onsemi/ncp333-d.pdf	4-UFBGA, WLCSP	4-WLCSP (0.76x0.76)	1	NCP333FCT2G														
+onsemi	-	datasheets/powerswitch/onsemi/ncp334-d.pdf	4-UFBGA, WLCSP	4-WLCSP (0.96x0.96)	1	NCP335FCT2G														
+onsemi	-	datasheets/powerswitch/onsemi/ncp340-d.pdf	4-UFDFN Exposed Pad	4-UDFN (1.2x1.6)	1	NCP340MUTBG														
+onsemi	-	datasheets/powerswitch/onsemi/ncp451-d.pdf	6-UFBGA, WLCSP	6-WLCSP (1.4x0.9)	2	NCP451FCT2G														
+onsemi	-	datasheets/powerswitch/onsemi/ncv451-d.pdf	6-VDFN Exposed Pad	6-DFNW (2x2.2)	1	NCV451AMNWTBG														
+onsemi	-	datasheets/powerswitch/onsemi/ncv459-d.pdf	8-VDFN Exposed Pad	8-DFNW (3x3)	1	NCV459MNWTBG														
+onsemi	IntelliMAX™	datasheets/powerswitch/onsemi/FPF1038-D.PDF	6-UFBGA, WLCSP	6-WLCSP (0.96x1.66)	1	FPF1038UCX														
+onsemi	IntelliMAX™	datasheets/powerswitch/onsemi/fpf1006-d.pdf	6-WDFN Exposed Pad	6-MicroFET (2x2)	1	FPF1006														
+onsemi	IntelliMAX™	datasheets/powerswitch/onsemi/fpf1204-d.pdf	4-UFBGA, WLCSP	4-WLCSP (0.76x0.76)	1	FPF1204UCX														
+onsemi	IntelliMAX™	datasheets/powerswitch/onsemi/fpf1321-d.pdf	6-UFBGA, WLCSP	6-WLCSP (0.96x1.66)	2	FPF1320UCX														
+onsemi	IntelliMAX™	datasheets/powerswitch/onsemi/fpf1504cn-d.pdf	4-UFBGA, WLCSP	4-WLCSP	1	FPF1504LBUCX														
+onsemi	IntelliMAX™	datasheets/powerswitch/onsemi/fpf1504cn-d.pdf	4-UFBGA, WLCSP	4-WLCSP (0.96x0.96)	2	FPF1504UCX														
+onsemi	ecoSWITCH™	datasheets/powerswitch/onsemi/ncp45520-d.pdf	8-VFDFN Exposed Pad	8-DFN (2x2)	4	NCP45520IMNTWG-L														
+onsemi	ecoSWITCH™	datasheets/powerswitch/onsemi/ncp45524-d.pdf	8-VFDFN Exposed Pad	8-DFN (2x2)	2	NCP45524IMNTWG-H														
+onsemi	ecoSWITCH™	datasheets/powerswitch/onsemi/ncp45540-d.pdf	12-VFDFN Exposed Pad	12-DFN (3x3)	2	NCP45540IMNTWG-H														
+onsemi	ecoSWITCH™	datasheets/powerswitch/onsemi/ncp45541-d.pdf	12-VFDFN Exposed Pad	12-DFN (3x3)	1	NCP45541IMNTWG-H														
+onsemi	ecoSWITCH™	datasheets/powerswitch/onsemi/ncp45560-d.pdf	12-VFDFN Exposed Pad	12-DFN (3x3)	1	NCP45560IMNTWG-L														
+ti	-	datasheets/powerswitch/ti/lm34902.pdf	6-WFBGA, DSBGA	6-DSBGA	1	LM34902ITM/NOPB														
+ti	-	datasheets/powerswitch/ti/lm34902.pdf	6-WFBGA, DSBGA	6-DSBGA (1.44x1.16)	1	LM34902ITMX/NOPB														
+ti	-	datasheets/powerswitch/ti/lm34904.pdf	6-WFBGA, DSBGA	6-DSBGA	2	LM34904ITMX/NOPB														
+ti	-	datasheets/powerswitch/ti/lm3526.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	3	LM3526MX-H/NOPB														
+ti	-	datasheets/powerswitch/ti/lm3544.pdf	"16-SOIC (0.154"", 3.90mm Width)"	16-SOIC	3	LM3544MX-L/NOPB														
+ti	-	datasheets/powerswitch/ti/lm66100-q1.pdf	6-TSSOP, SC-88, SOT-363	SC-70-6	1	LM66100QDCKRQ1		"[[1, ""VIN"", ""power""], [2, ""GND"", ""ground""], [3, ""CE"", ""input""], [4, ""NC"", ""nc""], [5, ""ST"", ""output""], [6, ""VOUT"", ""output""]]"	ideal-diode	"[{""in"": ""VIN"", ""out"": ""VOUT"", ""enable"": ""CE"", ""enableActive"": ""low"", ""enableRef"": ""input"", ""flag"": ""ST"", ""flagWhen"": ""disabled""}]"	[]	1.5	5.5	1.5		0.079		automotive	worked example (plan-55-C § 2): CE compared with VIN, ST low while disabled	
+ti	-	datasheets/powerswitch/ti/lm66200.pdf	SOT-583	SOT-583	1	LM66200DRLR		"[[1, ""GND"", ""ground""], [2, ""VOUT"", ""output""], [3, ""VIN1"", ""power""], [4, ""ON"", ""input""], [5, ""GND"", ""ground""], [6, ""VIN2"", ""power""], [7, ""VOUT"", ""output""], [8, ""ST"", ""output""]]"	ideal-diode	"[{""in"": ""VIN1"", ""out"": ""VOUT"", ""enable"": ""ON"", ""enableActive"": ""low""}, {""in"": ""VIN2"", ""out"": ""VOUT"", ""enable"": ""ON"", ""enableActive"": ""low""}]"	"[""ST""]"	1.6	5.5	2.5					worked example (plan-55-C § 2): two ideal diodes into one VOUT, shared active-low ON; ST (push-pull: which input powers VOUT) is analog	
+ti	-	datasheets/powerswitch/ti/lm7310.pdf	10-VFQFN	10-VQFN-HR (2x2)	1	LM73100RPWR														
+ti	-	datasheets/powerswitch/ti/lm76202-q1.pdf	"16-PowerTSSOP (0.173"", 4.40mm Width)"	16-HTSSOP	1	LM76202QPWPRQ1														
+ti	-	datasheets/powerswitch/ti/lmg3410r050.pdf	32-VQFN Exposed Pad	32-VQFN (8x8)	4	LMG3411R050RWHR														
+ti	-	datasheets/powerswitch/ti/lmg3410r070.pdf	32-VQFN Exposed Pad	32-VQFN (8x8)	2	LMG3410R070RWHT														
+ti	-	datasheets/powerswitch/ti/lmg3410r150.pdf	32-VQFN Exposed Pad	32-VQFN (8x8)	3	LMG3411R150RWHR														
+ti	-	datasheets/powerswitch/ti/lmg3422r050.pdf	54-VQFN Exposed Pad	54-VQFN (12x12)	1	LMG3425R050RQZT														
+ti	-	datasheets/powerswitch/ti/lmg3624.pdf	38-VFQFN Exposed Pad	38-VQFN (8x5.3)	1	LMG3624YREQR														
+ti	-	datasheets/powerswitch/ti/tps1211-q1.pdf	"20-TFSOP (0.118"", 3.00mm Width), 19 Leads"	19-VSSOP	2	TPS12110AQDGXRQ1														
+ti	-	datasheets/powerswitch/ti/tps1ha08-q1.pdf	"16-PowerTSSOP (0.173"", 4.40mm Width)"	16-HTSSOP	2	TPS1HA08DQPWPRQ1														
+ti	-	datasheets/powerswitch/ti/tps2000c.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)"	8-VSSOP	3	TPS2000CDGK														
+ti	-	datasheets/powerswitch/ti/tps2000c.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-HVSSOP	16	TPS2065CDGN-2														
+ti	-	datasheets/powerswitch/ti/tps2000c.pdf	SC-74A, SOT-753	SOT-23-5	10	TPS2069CDBVT														
+ti	-	datasheets/powerswitch/ti/tps2000e.pdf	"8-PowerTSSOP, 8-MSOP (0.118"", 3.00mm Width)"	8-HVSSOP	4	TPS2068EDGNR														
+ti	-	datasheets/powerswitch/ti/tps2000e.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)"	8-VSSOP	2	TPS2001EDGKR														
+ti	-	datasheets/powerswitch/ti/tps2000e.pdf	SC-74A, SOT-753	SOT-23-5	4	TPS2001EDBVR														
+ti	-	datasheets/powerswitch/ti/tps2001d.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)"	8-VSSOP	2	TPS2001DDGKR														
+ti	-	datasheets/powerswitch/ti/tps2001d.pdf	SC-74A, SOT-753	SOT-23-5	2	TPS2001DDBVT														
+ti	-	datasheets/powerswitch/ti/tps2002c.pdf	10-VFDFN Exposed Pad	10-VSON (3x3)	3	TPS2003CDRCR														
+ti	-	datasheets/powerswitch/ti/tps2002c.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	3	TPS2062CDR														
+ti	-	datasheets/powerswitch/ti/tps2002c.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-HVSSOP	14	TPS2064CDGN-2														
+ti	-	datasheets/powerswitch/ti/tps2002c.pdf	8-VDFN Exposed Pad	8-SON (3x3)	2	TPS2062CDRBR-2														
+ti	-	datasheets/powerswitch/ti/tps2010a.pdf	"14-PowerTSSOP (0.173"", 4.40mm Width)"	14-HTSSOP	3	TPS2013APWPR														
+ti	-	datasheets/powerswitch/ti/tps2010a.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	8	TPS2013AD														
+ti	-	datasheets/powerswitch/ti/tps2020-q1.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	5	TPS2024IDRQ1														
+ti	-	datasheets/powerswitch/ti/tps2020.pdf	"8-DIP (0.300"", 7.62mm)"	8-PDIP	3	TPS2021P														
+ti	-	datasheets/powerswitch/ti/tps2020.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	9	TPS2023DR														
+ti	-	datasheets/powerswitch/ti/tps2030.pdf	"8-DIP (0.300"", 7.62mm)"	8-PDIP	3	TPS2034P														
+ti	-	datasheets/powerswitch/ti/tps2030.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	11	TPS2032D														
+ti	-	datasheets/powerswitch/ti/tps2041b-ep.pdf	SC-74A, SOT-753	SOT-23-5	1	TPS2041BMDBVTEP														
+ti	-	datasheets/powerswitch/ti/tps2041b-q1.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	2	TPS2051BQDRQ1														
+ti	-	datasheets/powerswitch/ti/tps2041b-q1.pdf	SC-74A, SOT-753	SOT-23-5	1	TPS2041BQDBVRQ1														
+ti	-	datasheets/powerswitch/ti/tps2042b.pdf	"16-SOIC (0.154"", 3.90mm Width)"	16-SOIC	8	TPS2053BD														
+ti	-	datasheets/powerswitch/ti/tps2042b.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	4	TPS2052BDR														
+ti	-	datasheets/powerswitch/ti/tps2042b.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-HVSSOP	4	TPS2052BDGNR														
+ti	-	datasheets/powerswitch/ti/tps2042b.pdf	8-VDFN Exposed Pad	8-SON (3x3)	3	TPS2052BDRBR														
+ti	-	datasheets/powerswitch/ti/tps2042b.pdf	SC-74A, SOT-753	SOT-23-5	2	TPS2051BDBVR														
+ti	-	datasheets/powerswitch/ti/tps2046b.pdf	"16-SOIC (0.154"", 3.90mm Width)"	16-SOIC	1	TPS2047BD														
+ti	-	datasheets/powerswitch/ti/tps2046b.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	3	TPS2046BD														
+ti	-	datasheets/powerswitch/ti/tps2049.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	2	TPS2049DR														
+ti	-	datasheets/powerswitch/ti/tps2054a.pdf	"16-SOIC (0.154"", 3.90mm Width)"	16-SOIC	4	TPS2054AD														
+ti	-	datasheets/powerswitch/ti/tps2054a.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	8	TPS2051AD														
+ti	-	datasheets/powerswitch/ti/tps2055.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	2	TPS2055D														
+ti	-	datasheets/powerswitch/ti/tps2058a.pdf	"16-SOIC (0.154"", 3.90mm Width)"	16-SOIC	3	TPS2057AD														
+ti	-	datasheets/powerswitch/ti/tps2058a.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	5	TPS2055ADR														
+ti	-	datasheets/powerswitch/ti/tps2060.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	2	TPS2068D														
+ti	-	datasheets/powerswitch/ti/tps2060.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-HVSSOP	8	TPS2064DGN														
+ti	-	datasheets/powerswitch/ti/tps2060.pdf	8-VDFN Exposed Pad	8-SON (3x3)	2	TPS2060DRBT														
+ti	-	datasheets/powerswitch/ti/tps2061.pdf	"16-SOIC (0.154"", 3.90mm Width)"	16-SOIC	3	TPS2063D														
+ti	-	datasheets/powerswitch/ti/tps2061.pdf	"8-PowerTSSOP, 8-MSOP (0.118"", 3.00mm Width)"	8-HVSSOP	1	TPS2065DGNR														
+ti	-	datasheets/powerswitch/ti/tps2061.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	4	TPS2061DR														
+ti	-	datasheets/powerswitch/ti/tps2061.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-HVSSOP	3	TPS2066DGNR														
+ti	-	datasheets/powerswitch/ti/tps2061.pdf	SC-74A, SOT-753	SOT-23-5	2	TPS2065DBVR														
+ti	-	datasheets/powerswitch/ti/tps2062-q1.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-HVSSOP	1	TPS2062QDGNRQ1														
+ti	-	datasheets/powerswitch/ti/tps2062a.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	1	TPS2062ADR														
+ti	-	datasheets/powerswitch/ti/tps2062a.pdf	8-VDFN Exposed Pad	8-SON (3x3)	2	TPS2062ADRBR														
+ti	-	datasheets/powerswitch/ti/tps2065d.pdf	"8-PowerTSSOP, 8-MSOP (0.118"", 3.00mm Width)"	8-HVSSOP	1	TPS2065DGN-1														
+ti	-	datasheets/powerswitch/ti/tps2065d.pdf	SC-74A, SOT-753	SOT-23-5	1	TPS2065DDBVR														
+ti	-	datasheets/powerswitch/ti/tps2066-1.pdf	"8-PowerTSSOP, 8-MSOP (0.118"", 3.00mm Width)"	8-HVSSOP	1	TPS2065DGNR-1														
+ti	-	datasheets/powerswitch/ti/tps2066-1.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	2	TPS2062DR-1														
+ti	-	datasheets/powerswitch/ti/tps2069d.pdf	SC-74A, SOT-753	SOT-23-5	2	TPS2069DDBVR														
+ti	-	datasheets/powerswitch/ti/tps2090.pdf	"16-SOIC (0.154"", 3.90mm Width)"	16-SOIC	2	TPS2095D														
+ti	-	datasheets/powerswitch/ti/tps2090.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	4	TPS2090DR														
+ti	-	datasheets/powerswitch/ti/tps2100.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	1	TPS2101D														
+ti	-	datasheets/powerswitch/ti/tps2100.pdf	SC-74A, SOT-753	SOT-23-5	4	TPS2100DBVT														
+ti	-	datasheets/powerswitch/ti/tps2102.pdf	SC-74A, SOT-753	SOT-23-5	2	TPS2103DBVR														
+ti	-	datasheets/powerswitch/ti/tps2104.pdf	"8-SOIC (0.154"", 3.90mm Width)"	8-SOIC	1	TPS2105D														
+ti	-	datasheets/powerswitch/ti/tps2104.pdf	SC-74A, SOT-753	SOT-23-5	4	TPS2104DBVT														
+ti	-	datasheets/powerswitch/ti/tps2105-ep.pdf	SC-74A, SOT-753	SOT-23-5	1	TPS2105MDBVREP														
+ti	-	datasheets/powerswitch/ti/tps2110.pdf	"8-TSSOP (0.173"", 4.40mm Width)"	8-TSSOP	4	TPS2110PWR														
+ti	-	datasheets/powerswitch/ti/tps2110a.pdf	"8-TSSOP (0.173"", 4.40mm Width)"	8-TSSOP	4	TPS2110APW														
+ti	-	datasheets/powerswitch/ti/tps2112a.pdf	"8-TSSOP (0.173"", 4.40mm Width)"	8-TSSOP	4	TPS2113APWR														
+ti	-	datasheets/powerswitch/ti/tps2114.pdf	"8-TSSOP (0.173"", 4.40mm Width)"	8-TSSOP	3	TPS2114PW														
+ti	-	datasheets/powerswitch/ti/tps2114a.pdf	"8-TSSOP (0.173"", 4.40mm Width)"	8-TSSOP	4	TPS2114APW														
+ti	-	datasheets/powerswitch/ti/tps2114a.pdf	8-VDFN Exposed Pad	8-SON (3x3)	1	TPS2115ADRBT														
+ti	-	datasheets/powerswitch/ti/tps2115a-q1.pdf	"8-TSSOP (0.173"", 4.40mm Width)"	8-TSSOP	1	TPS2115AIPWRQ1														
+ti	-	datasheets/powerswitch/ti/tps2116.pdf	SOT-583	SOT-583	1	TPS2116DRLR														
+ti	-	datasheets/powerswitch/ti/tps2117.pdf	SOT-583	SOT-583	1	TPS2117DRLR														
+ti	-	datasheets/powerswitch/ti/tps2149.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-HVSSOP	2	TPS2158IDGN														
+ti	-	datasheets/powerswitch/ti/tps22810-q1.pdf	SOT-23-6	SOT-23-6	1	TPS22810TDBVRQ1														
+ti	-	datasheets/powerswitch/ti/tps22810.pdf	6-WDFN Exposed Pad	6-WSON (2x2)	2	TPS22810DRVR														
+ti	-	datasheets/powerswitch/ti/tps22810.pdf	SOT-23-6	SOT-23-6	1	TPS22810DBVT														
+ti	-	datasheets/powerswitch/ti/tps22901.pdf	4-XFBGA, DSBGA	4-DSBGA	3	TPS22901YFPR														
+ti	-	datasheets/powerswitch/ti/tps22904.pdf	4-XFBGA, DSBGA	4-DSBGA	2	TPS22904YFPR														
+ti	-	datasheets/powerswitch/ti/tps22908.pdf	4-UFBGA, DSBGA	4-DSBGA (0.9x0.9)	2	TPS22908YZTR														
+ti	-	datasheets/powerswitch/ti/tps22910a.pdf	4-XFBGA, DSBGA	4-DSBGA (0.88x0.88)	8	TPS22912CYZVR														
+ti	-	datasheets/powerswitch/ti/tps22914.pdf	4-XFBGA, DSBGA	4-DSBGA	7	TPS22914CYFPT														
+ti	-	datasheets/powerswitch/ti/tps22916.pdf	4-XFBGA, DSBGA	4-DSBGA	10	TPS22916BYFPR														
+ti	-	datasheets/powerswitch/ti/tps22917.pdf	SOT-23-6	SOT-23-6	3	TPS22917DBVR														
+ti	-	datasheets/powerswitch/ti/tps22918-q1.pdf	SOT-23-6	SOT-23-6	2	TPS22918TDBVTQ1		"[[1, ""VIN"", ""power""], [2, ""GND"", ""ground""], [3, ""ON"", ""input""], [4, ""CT"", ""output""], [5, ""QOD"", ""output""], [6, ""VOUT"", ""output""]]"	load	"[{""in"": ""VIN"", ""out"": ""VOUT"", ""enable"": ""ON""}]"	"[""CT"", ""QOD""]"	1	5.5	2		0.052			worked example (plan-55-C § 2): ON active high; CT slew and QOD discharge pins are analog	
+ti	-	datasheets/powerswitch/ti/tps22918.pdf	SOT-23-6	SOT-23-6	2	TPS22918DBVT		"[[1, ""VIN"", ""power""], [2, ""GND"", ""ground""], [3, ""ON"", ""input""], [4, ""CT"", ""output""], [5, ""QOD"", ""output""], [6, ""VOUT"", ""output""]]"	load	"[{""in"": ""VIN"", ""out"": ""VOUT"", ""enable"": ""ON""}]"	"[""CT"", ""QOD""]"	1	5.5	2		0.052			worked example (plan-55-C § 2): ON active high; CT slew and QOD discharge pins are analog	
+ti	-	datasheets/powerswitch/ti/tps22919.pdf	6-TSSOP, SC-88, SOT-363	SC-70-6	1	TPS22919DCKT														
+ti	-	datasheets/powerswitch/ti/tps22920.pdf	8-XFBGA, DSBGA	8-DSBGA	3	TPS22920YZPRB														
+ti	-	datasheets/powerswitch/ti/tps22921.pdf	6-XFBGA, DSBGA	6-DSBGA	6	TPS22922YFPR														
+ti	-	datasheets/powerswitch/ti/tps22924b.pdf	6-XFBGA, DSBGA	6-DSBGA	3	TPS22924BYZR														
+ti	-	datasheets/powerswitch/ti/tps22924b.pdf	6-XFBGA, DSBGA	6-DSBGA (1.39x.89)	2	TPS22924CYZPR														
+ti	-	datasheets/powerswitch/ti/tps22924d.pdf	6-XFBGA, DSBGA	6-DSBGA (1.39x.89)	1	TPS22924DYZPT														
+ti	-	datasheets/powerswitch/ti/tps22925.pdf	6-XFBGA, DSBGA	6-DSBGA	6	TPS22925BNYPHT														
+ti	-	datasheets/powerswitch/ti/tps22929d.pdf	SOT-23-6	SOT-23-6	2	TPS22929DDBVT														
+ti	-	datasheets/powerswitch/ti/tps22930a.pdf	4-XFBGA, DSBGA	4-DSBGA (0.88x0.88)	2	TPS22930AYZVR														
+ti	-	datasheets/powerswitch/ti/tps22932b.pdf	6-XFBGA, DSBGA	6-DSBGA	2	TPS22932BYFPT														
+ti	-	datasheets/powerswitch/ti/tps22933.pdf	8-UFQFN	8-UQFN (1.5x1.5)	1	TPS22933ARSET														
+ti	-	datasheets/powerswitch/ti/tps22934.pdf	4-XFBGA, DSBGA	4-DSBGA (0.88x0.88)	2	TPS22934YZVR														
+ti	-	datasheets/powerswitch/ti/tps22941.pdf	5-TSSOP, SC-70-5, SOT-353	SC-70-5	4	TPS22944DCKR														
+ti	-	datasheets/powerswitch/ti/tps22949.pdf	8-WFDFN Exposed Pad	8-SON (3x3)	1	TPS22949ADRGR														
+ti	-	datasheets/powerswitch/ti/tps22950-q1.pdf	SOT-23-6 Thin, TSOT-23-6	SOT-23-THIN	1	TPS22950CQDDCRQ1														
+ti	-	datasheets/powerswitch/ti/tps22950.pdf	6-XFBGA, DSBGA	6-DSBGA (1.11x0.71)	2	TPS22950YBHR														
+ti	-	datasheets/powerswitch/ti/tps22953-q1.pdf	10-WFDFN Exposed Pad	10-WSON (3x2)	1	TPS22953QDQCRQ1														
+ti	-	datasheets/powerswitch/ti/tps22953.pdf	10-WFDFN Exposed Pad	10-WSON (2x2)	2	TPS22954DSQR														
+ti	-	datasheets/powerswitch/ti/tps22953.pdf	10-WFDFN Exposed Pad	10-WSON (3x2)	1	TPS22954DQCR														
+ti	-	datasheets/powerswitch/ti/tps22958.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width)"	8-VSSOP	2	TPS22958NDGKR														
+ti	-	datasheets/powerswitch/ti/tps22958.pdf	"8-TSSOP, 8-MSOP (0.118"", 3.00mm Width) Exposed Pad"	8-HVSSOP	2	TPS22958DGNR														
+ti	-	datasheets/powerswitch/ti/tps22959.pdf	8-WDFN Exposed Pad	8-WSON (3x3)	1	TPS22959DNYT														
+ti	-	datasheets/powerswitch/ti/tps22960.pdf	8-UFQFN	8-UQFN (1.5x1.5)	2	TPS22960RSET														
+ti	-	datasheets/powerswitch/ti/tps22960.pdf	SOT-23-8	SOT-23-8	1	TPS22960DCNR														
+ti	-	datasheets/powerswitch/ti/tps22961.pdf	8-WDFN Exposed Pad	8-WSON (3x3)	1	TPS22961DNYT														
+ti	-	datasheets/powerswitch/ti/tps22962.pdf	8-WDFN Exposed Pad	8-WSON (3x3)	1	TPS22962DNYT														
+ti	-	datasheets/powerswitch/ti/tps22963c.pdf	6-XFBGA, DSBGA	6-DSBGA	2	TPS22964CYZPR														
+ti	-	datasheets/powerswitch/ti/tps22963c.pdf	6-XFBGA, DSBGA	6-DSBGA (1.39x.89)	2	TPS22963CYZPR														
+ti	-	datasheets/powerswitch/ti/tps22965-q1.pdf	8-WFDFN Exposed Pad	8-WSON (2x2)	3	TPS22965TDSGRQ1														
+ti	-	datasheets/powerswitch/ti/tps22965.pdf	8-WFDFN Exposed Pad	8-WSON (2x2)	3	TPS22965NDSGR														
+ti	-	datasheets/powerswitch/ti/tps22966-q1.pdf	14-PowerWFDFN	14-WSON (3x2)	2	TPS22966TDPURQ1														
+ti	-	datasheets/powerswitch/ti/tps22967.pdf	8-WFDFN Exposed Pad	8-WSON (2x2)	2	TPS22967DSGR														
+ti	-	datasheets/powerswitch/ti/tps22968-q1.pdf	10-WFDFN Exposed Pad	10-WSON (3x2)	2	TPS22968QDMGTQ1														
+ti	-	datasheets/powerswitch/ti/tps22968.pdf	14-PowerWFDFN	14-WSON (3x2)	4	TPS22968DPUT														
+ti	-	datasheets/powerswitch/ti/tps22969.pdf	8-WDFN Exposed Pad	8-WSON (3x3)	2	TPS22969DNYT														
+ti	-	datasheets/powerswitch/ti/tps22975.pdf	8-WFDFN Exposed Pad	8-WSON (2x2)	1	TPS22975NDSGT														
+ti	-	datasheets/powerswitch/ti/tps22976.pdf	14-PowerWFDFN	14-WSON (3x2)	5	TPS22976DPUR														
+ti	-	datasheets/powerswitch/ti/tps22980.pdf	20-VFQFN Exposed Pad	20-QFN (4x4)	1	TPS22980RGPR														
+ti	-	datasheets/powerswitch/ti/tps22981.pdf	20-VFQFN Exposed Pad	20-QFN (4x4)	2	TPS22981RGPR														
+ti	-	datasheets/powerswitch/ti/tps22990.pdf	10-WFDFN Exposed Pad	10-WSON (3x2)	2	TPS22990NDMLT														
+ti	-	datasheets/powerswitch/ti/tps22991.pdf	4-UFQFN	4-UQFN-HR (0.85x0.75)	3	TPS22991CRAAR														
+ti	-	datasheets/powerswitch/ti/tps22991i.pdf	4-UFQFN	4-UQFN-HR (0.85x0.75)	4	TPS22991ICNRAAR														
+ti	-	datasheets/powerswitch/ti/tps22992.pdf	8-WFQFN	8-WQFN-HR (1.25x1.25)	1	TPS22992SRXNR														
+ti	-	datasheets/powerswitch/ti/tps22992.pdf	8-WFQFN	8-WQFN-HR (1.5x1.25)	1	TPS22992RXPR														
+ti	-	datasheets/powerswitch/ti/tps22995.pdf	6-WFQFN	6-WQFN-HR (1.25x0.85)	1	TPS22995RZFR														
+ti	-	datasheets/powerswitch/ti/tps22996.pdf	SOT-583	SOT-583	1	TPS22996NDRLR														
+ti	-	datasheets/powerswitch/ti/tps22996h-q1.pdf	SOT-583	SOT-583	1	TPS22996HQDYCRQ1														
+ti	-	datasheets/powerswitch/ti/tps22997.pdf	10-WFQFN	10-WQFN-HR (1.5x2)	1	TPS22997RYZR														
+ti	-	datasheets/powerswitch/ti/tps22999.pdf	8-XFBGA, DSBGA	8-DSBGA (0.66x1.36)	1	TPS22999YCHR														
+ti	-	datasheets/powerswitch/ti/tps2530.pdf	SC-74A, SOT-753	SOT-23-5	2	TPS2530DBVR														
+ti	-	datasheets/powerswitch/ti/tps2540.pdf	16-WFQFN Exposed Pad	16-WQFN (3x3)	8	TPS2540ARTER														
+ti	-	datasheets/powerswitch/ti/tps2544.pdf	16-WFQFN Exposed Pad	16-WQFN (3x3)	2	TPS2544RTER														
+ti	-	datasheets/powerswitch/ti/tps2546.pdf	16-WFQFN Exposed Pad	16-WQFN (3x3)	1	TPS2546RTET														
+ti	-	datasheets/powerswitch/ti/tps2547.pdf	16-WFQFN Exposed Pad	16-WQFN (3x3)	1	TPS2547RTET														
+ti	-	datasheets/powerswitch/ti/tps2549-q1.pdf	16-WFQFN Exposed Pad	16-WQFN (3x3)	2	TPS2549IRTERQ1														
+ti	-	datasheets/powerswitch/ti/tps2549.pdf	16-WFQFN Exposed Pad	16-WQFN (3x3)	2	TPS2549RTER														
+ti	-	datasheets/powerswitch/ti/tps254900-q1.pdf	20-WFQFN Exposed Pad	20-WQFN (4x3)	1	TPS254900IRVCTQ1														
+ti	-	datasheets/powerswitch/ti/tps2552-1.pdf	6-WDFN Exposed Pad	6-WSON (2x2)	7	TPS2552DRVR														
+ti	-	datasheets/powerswitch/ti/tps2552-1.pdf	SOT-23-6	SOT-23-6	6	TPS2552DBVR														
+ti	-	datasheets/powerswitch/ti/tps2552d.pdf	SOT-23-6	SOT-23-6	4	TPS2552DDBVR														
+ti	-	datasheets/powerswitch/ti/tps2553-q1.pdf	SOT-23-6	SOT-23-6	1	TPS2553QDBVRQ1														
+ti	-	datasheets/powerswitch/ti/tps2554.pdf	10-VFDFN Exposed Pad	10-VSON (3x3)	4	TPS2555DRCT														
+ti	-	datasheets/powerswitch/ti/tps2556-q1.pdf	8-VDFN Exposed Pad	8-SON (3x3)	1	TPS2556QDRBTQ1														
+ti	-	datasheets/powerswitch/ti/tps2556.pdf	8-VDFN Exposed Pad	8-SON (3x3)	3	TPS2557DRBT														
+ti	-	datasheets/powerswitch/ti/tps2559-q1.pdf	10-VFDFN Exposed Pad	10-VSON (3x3)	1	TPS2559QWDRCTQ1														
+ti	-	datasheets/powerswitch/ti/tps2559.pdf	10-VFDFN Exposed Pad	10-VSON (3x3)	2	TPS2559DRCR														
+ti	-	datasheets/powerswitch/ti/tps2560.pdf	10-VFDFN Exposed Pad	10-VSON (3x3)	3	TPS2561DRCT														
+ti	-	datasheets/powerswitch/ti/tps2560a.pdf	10-VFDFN Exposed Pad	10-VSON (3x3)	3	TPS2561ADRCR														
+ti	-	datasheets/powerswitch/ti/tps2561-q1.pdf	10-VFDFN Exposed Pad	10-VSON (3x3)	1	TPS2561QDRCRQ1														
+ti	-	datasheets/powerswitch/ti/tps2561a-q1.pdf	10-VFDFN Exposed Pad	10-VSON (3x3)	2	TPS2561AQDRCRQ1														
+ti	-	datasheets/powerswitch/ti/tps27081a.pdf	SOT-23-6 Thin, TSOT-23-6	SOT-23-THIN	1	TPS27081ADDCR														
+ti	-	datasheets/powerswitch/ti/tps272c45.pdf	24-VFQFN Exposed Pad	24-VQFN (5x4)	3	TPS272C45ARHFR														
+ti	-	datasheets/powerswitch/ti/tps274160.pdf	28-WFQFN Exposed Pad	28-WQFN (4x5)	1	TPS274160BRLHR														
+ti	-	datasheets/powerswitch/ti/tps274c65.pdf	40-VFQFN Exposed Pad	40-VQFN (6x6)	5	TPS274C65BSWRHAR														
+ti	-	datasheets/powerswitch/ti/tps274c65cp.pdf	40-VFQFN Exposed Pad	40-VQFN (6x6)	3	TPS274C65CPHWRHAR														
+ti	-	datasheets/powerswitch/ti/tps281c100.pdf	12-WFDFN Exposed Pad	12-WSON (4x4)	2	TPS281C100ADNTR														
+ti	-	datasheets/powerswitch/ti/tps281c30.pdf	20-VQFN Exposed Pad	20-VQFN (5x5)	1	TPS281C30ARGWR														
+ti	-	datasheets/powerswitch/ti/tps2h000-q1.pdf	"16-PowerTSSOP (0.173"", 4.40mm Width)"	16-HTSSOP	2	TPS2H000BQPWPRQ1														
+ti	-	datasheets/powerswitch/ti/tps2hb16-q1.pdf	"16-PowerTSSOP (0.173"", 4.40mm Width)"	16-HTSSOP	1	TPS2HB16AQPWPRQ1														
+ti	-	datasheets/powerswitch/ti/tps2hb35-q1.pdf	"16-PowerTSSOP (0.173"", 4.40mm Width)"	16-HTSSOP	2	TPS2HB35AQPWPRQ1														
+ti	-	datasheets/powerswitch/ti/tps2hb50-q1.pdf	"16-PowerTSSOP (0.173"", 4.40mm Width)"	16-HTSSOP	1	TPS2HB50AQPWPRQ1														
+ti	-	datasheets/powerswitch/ti/tps2hc120-q1.pdf	"28-PowerTSSOP (0.118"", 3.00mm Width)"	28-HTSSOP	2	TPS2HC120AQDGQRQ1														
+ti	-	datasheets/powerswitch/ti/tps4811-q1.pdf	"20-TFSOP (0.118"", 3.00mm Width), 19 Leads"	19-VSSOP	2	TPS48110AQDGXRQ1														
+ti	-	datasheets/powerswitch/ti/tps482h85-q1.pdf	12-PowerQFN	12-VQFN-HR (3.5x3)	1	TPS482H85BQCHURQ1														
+ti	-	datasheets/powerswitch/ti/tps4h000-q1.pdf	"20-PowerTSSOP (0.173"", 4.40mm Width)"	20-HTSSOP	2	TPS4H000BQPWPRQ1														
+ti	-	datasheets/powerswitch/ti/tps4hc120-q1.pdf	"28-PowerTSSOP (0.118"", 3.00mm Width)"	28-HTSSOP	1	TPS4HC120BQDGQRQ1														
+ti	-	datasheets/powerswitch/ti/tps65281.pdf	16-VQFN Exposed Pad	16-VQFN (4x4)	3	TPS65281RGVR														
+ti	-	datasheets/powerswitch/ti/tps65286.pdf	28-VFQFN Exposed Pad	28-VQFN (5x5)	1	TPS65286RHDT														
+ti	TPS1663x	datasheets/powerswitch/ti/tps1663.pdf	"20-PowerTSSOP (0.173"", 4.40mm Width)"	20-HTSSOP	1	TPS16637PWPR														
+ti	TPS281C30x	datasheets/powerswitch/ti/tps281c30.pdf	20-VQFN Exposed Pad	20-VQFN (5x5)	2	TPS281C30ERGWR														
