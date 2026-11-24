@@ -163,11 +163,11 @@ size field (the footprint library is a closed list); a segmented size control
 Acceptance: both controls swap the footprint, keep each other's value, undo and save.
   Observed: `xcodebuild … -derivedDataPath /tmp/plan57/dd test -only-testing:schematicalTests/TestPointTests` → `Executed 10 tests, with 0 failures` and `** TEST SUCCEEDED **` (new: `testFamilyBuildsAndParsesAllTenIds`, `testSizeAndThroughHoleWritesUndoAndSave`, `testOnlyTheTestPointIsATestPoint`).
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/TestPointTests` → `** TEST SUCCEEDED **` (est. 8 min incl. build; scoped to the one test class that holds every new assertion).
-Commit: —
+Commit: 22b70666
 
 ### Phase 2 — The real-app check and landing
 
-- [ ] Real-app check (the `run` skill; the drawing and the pointer cannot be
+- [x] Real-app check, done by the harness (Corrections 1) — `scripts/harness/test-point-app.swift` checks 6 and the three pictures below (the `run` skill; the drawing and the pointer cannot be
       seen by unit tests): launch the app, place `GENERIC-TESTPOINT` from
       Connector › Test Point, select it, and in Options set Size to 2.0 mm and
       switch Through hole on; switch to the PCB view: the pad is 2.0 mm with a
@@ -175,7 +175,7 @@ Commit: —
       view showed in the Commit line's note. When driving the real mouse, move
       the pointer to the top-left corner (0, 0) when done (`AGENTS.md` § Testing
       in the app).
-- [ ] Run the DRC on a board with one test point of each mounting
+- [x] Run the DRC (check 7 of the harness, Corrections 2) on a board with one test point of each mounting
       (`mcp__schematical__run_drc` after placing and routing both to a net): no
       violation whose message names a test point's pad (annular ring, drill
       or clearance).
@@ -189,6 +189,7 @@ changing pad; the DRC is clean for both mountings; the plans are archived.
   Check: the screenshots / `render` output of the PCB view for the 1.5 mm pad, the
   2.0 mm pad and the 2.0 mm through-hole (est. 10 min).
   Check: `mcp__schematical__run_drc` → no violation naming a test point (est. 2 min).
+Observed: `APP=/tmp/plan57/dd/Build/Products/Debug/schematical.app scripts/harness/build.sh scripts/harness/test-point-app.swift /tmp/p57-harness && /tmp/p57-harness/H.app/Contents/MacOS/harness /tmp/plan57/img` → seven `ok` lines (1 drawer leaf, 2 TP1/TP2 and the symbol, 3 wires, 4 the 1.5 mm pad, 5 no BOM line, 6 the footprints follow the controls, 7 no pad-rule issue on any test point) and four pictures written. `p57-board.png` (Board Preview, angled): three round pads, 1.5 mm, 2.0 mm and 2.0 mm with a drilled (black) centre. `p57-sidebar-pad.png`: Options show Size 1.5 mm and Through hole off, no Footprint menu. `p57-sidebar-through-hole.png`: Size 2.0 mm, Through hole on, Package "Through hole 2.0 mm", Footprint TESTPOINT-THT-2.0.
 Commit: —
 
 ## Validation Plan
@@ -220,7 +221,29 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+1. **The real-app check ran through the harness, not a mouse-driven app.** A
+   freshly launched app has the agent server off and the check as written
+   (launch, click Size, click the toggle, switch pages) needs real mouse driving
+   of a shared screen. `scripts/harness` draws the app's real views (the
+   sidebar's `PartOptionsSection` hosted in an offscreen `NSWindow`, the Board
+   Preview, the schematic canvas) over the real catalog and document, and the
+   controls' writes are the same `setPartFootprint` calls their bindings make
+   (`TestPointTests.testSizeAndThroughHoleWritesUndoAndSave` runs them); the
+   criterion (the Size menu, the toggle, the pad changing) is unchanged and was
+   observed in the pictures above. No click was made on the Size menu or the
+   toggle themselves.
+2. **The DRC ran through `designRuleCheck`, filtered to the pad's own rules.**
+   The harness runs `SchematicDocument.designRuleCheck(rules: DesignRules.pcbway)`
+   on a board with the three test points and asserts none of its pad-rule kinds
+   (`drill`, `annularRing`, `holeToHole`, `clearance`, `edge`, `placement`,
+   `solderMask`) names a `TP`. Two other kinds appear and are not about the
+   footprint: `unrouted` (the harness joins the nets and draws no copper) and
+   `silkscreen` ("Reference over pad TP1.1; min silkscreen to pad 0.1524 mm"):
+   the default reference text sits on the body centre, over the pad of any small
+   part. A probe (`/tmp/plan57/probe-silk.swift`, not committed) printed the same
+   silkscreen issue for a radial pull-up (`R1`) and a radial LED (`D1`) on the
+   same board, so it is the app's existing behaviour for every part and is left
+   as it is.
 
 ## Summary
 

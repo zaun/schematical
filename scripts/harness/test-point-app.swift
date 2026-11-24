@@ -2,14 +2,15 @@
 // Checks: the part is listed as the leaf Test Point of Connector; placing it gives
 // references TP1, TP2 and the circle-on-a-stub symbol; its pin takes a wire and the
 // pad is on the PCB at the default 1.5 mm; the Bill of Materials has no line for it.
-// Renders the schematic (a 5V rail through a resistor to two test points) to the image dir.
+// Renders the schematic (a 5V rail through a resistor to two test points), the Board Preview of three
+// test points (1.5 mm pad, 2.0 mm pad, 2.0 mm hole), their design-rule check and the Options sidebar to the image dir.
 // Prints one ok/FAIL line per check; exits 1 on any FAIL.
 //
 //   rm -rf /tmp/p57-harness && APP=/tmp/plan57/dd/Build/Products/Debug/schematical.app \
 //     scripts/harness/build.sh scripts/harness/test-point-app.swift /tmp/p57-harness && \
 //     /tmp/p57-harness/H.app/Contents/MacOS/harness [image dir]
 //
-// Images (default dir /tmp): p57-schematic.png.
+// Images (default dir /tmp): p57-schematic.png, p57-board.png, p57-sidebar-pad.png, p57-sidebar-through-hole.png.
 import CoreGraphics
 import Foundation
 import SwiftUI
@@ -88,5 +89,51 @@ MainActor.assumeIsolated { runTestPointChecks() }
     }
 
     Harness.renderCanvas(doc, to: "\(images)/p57-schematic.png", size: CGSize(width: 480, height: 260))
+
+    // (6) Options: Size and Through hole pick the footprint; the board shows the pad. Three test points on
+    // one 2-layer board: 1.5 mm pad (the default), 2.0 mm pad, 2.0 mm through hole, all on the 5V net.
+    let board = Harness.newDocument()
+    board.setBoardSize(width: 40, height: 24)
+    func putBoard(_ name: String, _ x: CGFloat, _ y: CGFloat) -> PlacedChip {
+        let p = catalog.part(named: name)!
+        board.placeChip(part: p, symbol: symbol(for: p), centeredAt: CGPoint(x: x, y: y))
+        return board.chips.last!
+    }
+    let supply = putBoard("5V", 60, 60)
+    let a1 = putBoard("GENERIC-TESTPOINT", 200, 60)
+    let a2 = putBoard("GENERIC-TESTPOINT", 200, 160)
+    let a3 = putBoard("GENERIC-TESTPOINT", 200, 260)
+    for tp in [a1, a2, a3] {
+        _ = board.connect(.pin(PinRef(chipID: supply.id, index: 0)), .pin(PinRef(chipID: tp.id, index: 0)))
+    }
+    board.setPartFootprint(a2.id, TestPointFamily.footprintID(size: 2.0, throughHole: false))
+    board.setPartFootprint(a3.id, TestPointFamily.footprintID(size: 2.0, throughHole: false))
+    board.setPartFootprint(a3.id, TestPointFamily.footprintID(size: 2.0, throughHole: true))
+    board.moveFootprintOrigin(a1.id, to: CGPoint(x: 10, y: 12))
+    board.moveFootprintOrigin(a2.id, to: CGPoint(x: 20, y: 12))
+    board.moveFootprintOrigin(a3.id, to: CGPoint(x: 30, y: 12))
+    func live(_ chip: PlacedChip) -> PlacedChip { board.chips.first { $0.id == chip.id }! }
+    check("6 the footprints follow the controls: 1.5 mm pad, 2.0 mm pad, 2.0 mm hole") {
+        let seen = [a1, a2, a3].map { live($0).footprint }
+        let want = [("TESTPOINT-PAD-1.5", 1.5, 0.0), ("TESTPOINT-PAD-2.0", 2.0, 0.0), ("TESTPOINT-THT-2.0", 2.0, 1.0)]
+        for (footprint, want) in zip(seen, want) {
+            guard let footprint, footprint.id == want.0, let pad = footprint.pads.first else { return "\(footprint?.id ?? "nil") for \(want.0)" }
+            if pad.size.width != want.1 || pad.drill != want.2 { return "\(footprint.id): pad \(pad.size) drill \(pad.drill)" }
+        }
+        return nil
+    }
+    // The pad's own rules. "unrouted" is the nets joined here with no copper drawn, and "silkscreen" is the
+    // default reference text over a small part's pad, which every part gets (an R1 and a D1 too).
+    let padRules: Set<DesignRuleIssue.Kind> = [.drill, .annularRing, .holeToHole, .clearance, .edge, .placement, .solderMask]
+    check("7 the design-rule check names no test point (no ring, drill, hole, clearance, edge, mask or placement issue)") {
+        let issues = board.designRuleCheck(rules: DesignRules.pcbway).filter { $0.reference.hasPrefix("TP") && padRules.contains($0.kind) }
+        return issues.isEmpty ? nil : "issues \(issues.map { "\($0.reference) \($0.kind) \($0.issue)" })"
+    }
+    Harness.render(BoardPreviewView.canvas(document: board, face: .front, angle: .angled),
+                   size: CGSize(width: 720, height: 420), to: "\(images)/p57-board.png")
+    board.select(.chip(a3.id))
+    Harness.renderSidebar(board, to: "\(images)/p57-sidebar-through-hole.png", size: CGSize(width: 320, height: 640))
+    board.select(.chip(a1.id))
+    Harness.renderSidebar(board, to: "\(images)/p57-sidebar-pad.png", size: CGSize(width: 320, height: 640))
     if failures > 0 { exit(1) }
 }
