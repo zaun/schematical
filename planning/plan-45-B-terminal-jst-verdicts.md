@@ -26,8 +26,8 @@ plan-45-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-45-A complete | `ls planning/completed/plan-45-A-*.md` → exists, or every A box ticked | NOT MET (2026-11-16: not started) |
-| Every candidate row has a placed PDF | `awk -F'\t' '$22=="candidate" && $24==""' planning/plan-45-data/candidates.tsv \| wc -l` → 0 | NOT MET (2026-11-16: A not started; `pdf` is empty) |
+| plan-45-A complete | `ls planning/completed/plan-45-A-*.md` → exists, or every A box ticked | MET (2026-11-24: not archived yet (`ls planning/completed/plan-45-A-*.md` → no match), but every A box is ticked: `grep -c '\[ \]' planning/plan-45-A-terminal-jst-data.md` → 0; A's commits 248d40f4, ced62f5e, febbaa58, 185524c9) |
+| Every candidate row has a placed PDF | `awk -F'\t' '$22=="candidate" && $24==""' planning/plan-45-data/candidates.tsv \| wc -l` → 0 | MET (2026-11-24: 0; 513 candidate rows, 320 placed files) |
 
 Everything below is written against the world where these hold.
 
@@ -152,13 +152,14 @@ name on the maker site includes it.
 
 ### Phase 1 — JST ordering schemes
 
-- [ ] `census/scheme-check.py` (adapted): one scheme per (JST PDF, variant) in
+- [x] `census/scheme-check.py` (adapted): one scheme per (JST PDF, variant) in
       `specs.tsv`; run it: every JST candidate row matches exactly one
       scheme, with its position count.
+      Output 2026-11-24: `census/jst-schemes.py` wrote the 22 schemes (one per (JST PDF, variant): the sheets' "Model number allocation" page and part-number tables, page numbers in each `note`); `scheme-check.py` → `jst: 191 rows, 0 unmatched, 0 ambiguous; 0 wrong spec, 0 position mismatches, 0 unread`. The 11 rows the PDFs do not print verbatim are each made by a documented option of a printed form: PH SMT top entry `B*B-PH-SM4-TB` + suction tape `T` (6 rows, allocation p5), SR top entry `BM*B-SRSS-TB` + `T` (3, eSR_SZ allocation p4), VH `B2P-VH-FB-B` (printed glued to its footnote marker: "B2P-VH-FB-BNote2", p4), ZH `B*B-ZR-SM4-TF` + `T` (1, allocation p6); each base form is printed (`pdftotext … \| grep -c` → 1).
 
 Acceptance: every JST candidate row is covered by one scheme.
-  Check: `python3 -I planning/plan-45-data/census/scheme-check.py planning/plan-45-data/specs.tsv planning/plan-45-data/candidates.tsv` → `jst: 192 rows, 0 unmatched, 0 ambiguous` (est. 1 h: reading 11 numbering tables).
-Commit: —
+  Check: `python3 -I planning/plan-45-data/census/scheme-check.py planning/plan-45-data/specs.tsv planning/plan-45-data/candidates.tsv` → `jst: 192 rows, 0 unmatched, 0 ambiguous` (est. 1 h: reading 11 numbering tables). Result: `jst: 191 rows, 0 unmatched, 0 ambiguous` (191, not 192: A's stock check removed `S11B-XH-A`).
+Commit: this commit (hash in the next one)
 
 ### Phase 2 — Per-item verdicts
 
@@ -204,6 +205,11 @@ Commit: —
   plan-44's rule), so the golden lines and the BOM match what a buyer types.
 
 ## Corrections
+
+- **2026-11-24, populations after A.** A's stock check took the candidates from 521 to **513** (Phoenix 74, Weidmüller 153, Würth 95, JST 191) and the distinct URLs from 340 to 333 (320 placed files); the "329 terminal rows" below are **322** (74 + 153 + 95), the JST rows 191. § 2's numbers are planning-time figures; the checks below are the truth.
+- **2026-11-24, Phase 1.**
+  - *One scheme read in several PDFs is not ambiguous.* The SH/SR top and side entry numbering (`BM*B-SRSS-TB`, `SM*B-SRSS-TB`) is printed in `eSH.pdf`, `eSR_SZ.pdf` and `eSR_SZ-new.pdf`, so a part matched the same variant's scheme in two or three PDFs (17 rows) and the first run said `17 ambiguous`. `scheme-check.py` now calls a row ambiguous only when the schemes of more than one *variant* match, and requires the row's own (variant, PDF) scheme among the matches.
+  - *`scheme-check.py` and `jst-schemes.py` are new files, not adapted copies:* plan-40's and plan-44's schemes cover a different spec columns set (frequency, loads, …); plan-45's is the regex over the part number with `n` = positions.
 
 ## Summary
 

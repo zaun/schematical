@@ -366,7 +366,7 @@ Commit: febbaa58
 Acceptance: every candidate row has a placed PDF and the verbatim scan.
   Check: `python3 -I planning/plan-45-data/census/place.py --verify` → `ok: <n> files, 0 rows without a file` (est. 30 min: 99 Würth files 5 s apart plus any 120 s waits dominate; the other hosts run beside them).
   Result 2026-11-24: `ok: 320 files, 0 rows without a file, 0 unused, 0 changed`.
-Commit: this commit (hash in the next one)
+Commit: 185524c9
 
 ## Validation Plan
 
