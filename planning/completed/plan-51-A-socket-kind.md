@@ -214,7 +214,7 @@ Commit: d3a4cf25
 
 Acceptance: `socket_test` passes every § 6 case; 61 of 61.
   Check: `cmake --build /tmp/logic-p51 -j8 && ctest --test-dir /tmp/logic-p51 -j8` → `100% tests passed, 0 tests failed out of 61`; `git diff --stat backend/tests/golden` → empty (est. 3 min). Measured 2026-11-24 in `/tmp/logic-p51-wt`: `100% tests passed, 0 tests failed out of 61`; `git diff --stat backend/tests/golden` empty. VERIFIED.
-Commit: (next commit)
+Commit: fb1b747e
 
 ## 6. Test cases (`socket_test`)
 
