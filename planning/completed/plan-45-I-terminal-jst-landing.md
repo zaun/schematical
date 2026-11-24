@@ -100,7 +100,7 @@ Acceptance: every gate's observed value matches.
   tests and the harness; this is the plan's one landing run, and nothing
   smaller covers the backend, the part files, the generators and the app
   together). Result: every gate as observed above; the planning-time numbers in the table (376, P0 32897, F0 1646) were stale and are corrected in § Corrections.
-Commit: this commit (hash in the next one)
+Commit: e2dd4de3
 
 ## Validation Plan
 

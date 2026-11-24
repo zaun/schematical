@@ -19,7 +19,7 @@ References:
 - `AGENTS.md` (§ Datasheets: in-stock rule, obsolete rule);
   `docs/parts-format.md` (§ Datasheets: the `url` is on the manufacturer's own site).
 - `planning/plan-51-data/` (README, `census/`), plan-51-A § 2 (the scope shapes).
-- `planning/plan-45-A-terminal-jst-data.md` (the precedent: download, URL check).
+- `planning/completed/plan-45-A-terminal-jst-data.md` (the precedent: download, URL check).
 - Memory notes: DigiKey credentials come from `~/.zshrc` through
   `eval "$(grep -E '^export DIGIKEY_CLIENT_(ID|SECRET)=' ~/.zshrc)"` in a script
   file; the quota is 1000 calls a day, shared with other sessions.

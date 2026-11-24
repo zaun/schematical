@@ -77,7 +77,7 @@ References:
   time, 2026-11-22).
 - `planning/completed/plan-44-A-crystal-data.md` and `planning/plan-44-data/census/`
   (`stock-check.sh`, `fetch.js`, `place.py`, `textscan.py`, `sibling.py`,
-  `specs-skeleton.py`: the scripts A adapts), `planning/plan-45-A-terminal-jst-data.md`
+  `specs-skeleton.py`: the scripts A adapts), `planning/completed/plan-45-A-terminal-jst-data.md`
   (the same method for another connector family; a written plan, not a dependency).
 
 ## Prerequisites
