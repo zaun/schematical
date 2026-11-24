@@ -96,7 +96,7 @@ survives open → edit → save unchanged.
 
 Acceptance: the four existing test classes of § Goal pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p51-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/PartKindKeysTests -only-testing:schematicalTests/PartKindRoundTripTests -only-testing:schematicalTests/KindInfoTests -only-testing:schematicalTests/KindGuideTests` → `** TEST SUCCEEDED **` (est. 12 min). Measured 2026-11-24 with the Phase 2 classes and `WizardStepsTests`, `PartEditorWindowTests`, `WizardKindStepsTests`, `WizardModelTests`, `WizardIssueLocatorTests`, `PartDraftRoundTripTests` added: `Executed 117 tests, with 2 failures` (both `ParametricFootprintDraftTests` footprint counts, § Corrections); `PartKindRoundTripTests testSocket` passed (575 parts: 0 mismatched, 0 extras, 0 rejected). VERIFIED.
-Commit: (next commit)
+Commit: d6ec9bed
 
 ### Phase 2 — `fits`
 
@@ -107,7 +107,7 @@ Commit: (next commit)
 
 Acceptance: `SocketEditorTests` and the Phase 1 classes pass.
   Check: the Phase 1 command with `-only-testing:schematicalTests/SocketEditorTests` added → `** TEST SUCCEEDED **` (est. 13 min). Measured 2026-11-24: `SocketEditorTests` 8 of 8 passed, the classes above passed; `ParametricFootprintDraftTests` re-run after its counts were corrected: `Executed 8 tests, with 0 failures`, `** TEST SUCCEEDED **`. VERIFIED.
-Commit: (next commit)
+Commit: d6ec9bed
 
 ## Validation Plan
 
