@@ -432,6 +432,31 @@ final class BusTypeTests: XCTestCase {
         XCTAssertEqual(net(second.wire), net(wired))
     }
 
+    /// A bus wire named like a supply is on that rail, as a net label of
+    /// the name would be, with no label on the schematic.
+    func testBusWireNamedLikeASupplyJoinsTheRail() throws {
+        let doc = TestSupport.newDocument()
+        let first = try wiredBus(doc, y: 100, index: 2)
+        let other = try wiredBus(doc, y: 1000, index: 3)
+        let supply = try TestSupport.place(doc, "5V", at: p(100, 1600))
+        let led = try TestSupport.place(doc, "GENERIC-LED", at: p(600, 1600))
+        XCTAssertNil(doc.connect(.pin(PinRef(chipID: supply.id, index: 0)), .pin(try TestSupport.pin(led, "A"))))
+        func net(_ wire: UUID) -> Int? {
+            NetlistBuilder.build(chips: doc.chips, wires: doc.wires, buses: doc.buses, labels: doc.netLabels)
+                .netOfWire[wire]
+        }
+        let rail = try XCTUnwrap(doc.wires.last?.id)
+        XCTAssertNotEqual(net(first.wire), net(rail), "named B2: not the 5V rail")
+
+        let b2 = try bus(doc, first.bus).wires[2]
+        XCTAssertNil(doc.renameBusWire(bus: first.bus, wire: b2.id, to: "5V"))
+        XCTAssertEqual(net(first.wire), net(rail), "named 5V: on the rail")
+        XCTAssertNotEqual(net(other.wire), net(rail), "another wire stays apart")
+
+        XCTAssertNil(doc.renameBusWire(bus: first.bus, wire: b2.id, to: "5v"))
+        XCTAssertNotEqual(net(first.wire), net(rail), "case counts")
+    }
+
     /// Wire names are case sensitive: "b2" is another name than "B2".
     func testWireNamesAreCaseSensitive() throws {
         let doc = TestSupport.newDocument()
