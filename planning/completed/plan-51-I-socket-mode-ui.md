@@ -105,7 +105,7 @@ re-reads the document, as the section does. The harness drives it end to end.
 
 Acceptance: `SocketPickerTests` passes.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p51-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/SocketPickerTests -only-testing:schematicalTests/DrawerPerformanceTests` → `** TEST SUCCEEDED **` (est. 13 min). Measured 2026-11-24 (with `SocketModeTests` and `TestPointTests` added): `SocketPickerTests` 6 of 6, `DrawerPerformanceTests`, `SocketModeTests` passed; the one failure was `TestPointTests.testTheDrawerListsTheLeafUnderConnector`, a list that had gone stale before this plan (§ Corrections), corrected afterwards. VERIFIED.
-Commit: (next commit)
+Commit: 86253641
 
 ### Phase 2 — the harness
 
@@ -114,7 +114,7 @@ Commit: (next commit)
 
 Acceptance: every harness line is `ok`.
   Check: `rm -rf /tmp/p51-harness && APP=/tmp/p51-dd/Build/Products/Debug/schematical.app scripts/harness/build.sh scripts/harness/socket-mode-ui.swift /tmp/p51-harness && /tmp/p51-harness/H.app/Contents/MacOS/harness` → every line `ok`, exit 0 (est. 10 min). Measured 2026-11-24: `all ok`, exit 0 (10 of 10). VERIFIED for the harness; the real-window pass is the open item above.
-Commit: (next commit)
+Commit: 86253641
 
 ## Validation Plan
 
