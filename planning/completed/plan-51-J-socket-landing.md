@@ -58,7 +58,7 @@ Commit: 9b8cdecf
 
 Acceptance: `ls planning/completed/plan-51-*.md | wc -l` → 10.
   Check: that command (est. 1 s).
-Commit: —
+Commit: f6e8a0ff
 
 ## Validation Plan
 
