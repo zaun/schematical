@@ -11,7 +11,7 @@ enum LcdDraft {
     static let f4: Field = Field(key: "bp", label: "Bp", type: .pin, required: true)
     static let f5: Field = Field(key: "digit", label: "Digit", type: .integer, required: true)
     static let f6: Field = Field(key: "pin", label: "Pin", type: .pin, required: true)
-    static let f7: Field = Field(key: "segment", label: "Segment", type: .suggested(["A", "B", "C", "D", "DP", "E", "F", "G", "L1", "L2", "LB", "MINUS"]), required: true)
+    static let f7: Field = Field(key: "segment", label: "Segment", type: .suggested(["A", "AM", "B", "C", "D", "DP", "E", "F", "G", "L1", "L2", "LB", "MINUS", "PM"]), required: true)
     static let f3: Field = Field(key: "cells", label: "Cells", type: .list([f4, f5, f6, f7]), required: true)
     static let f8: Field = Field(key: "colonAfter", label: "Colon After", type: .integer, required: true)
     static let f9: Field = Field(key: "color", label: "Color", type: .suggested(["Gray"]), required: true)

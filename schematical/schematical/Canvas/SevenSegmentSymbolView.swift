@@ -145,6 +145,10 @@ struct SevenSegmentSymbolView: View {
                     }
                     continue
                 case "LB": centre = CGPoint(x: digitX(1) - 5, y: top + 2)
+                case "AM", "PM":
+                    // LCD clock glass: the AM and PM marks, a dot each right of the last digit.
+                    centre = CGPoint(x: digitX(display.digits) + digit.width + 4,
+                                     y: top + (led.segment == "AM" ? 2 : digit.height * 0.5))
                 default: centre = CGPoint(x: gapCentre(after: display.dotAfter), y: top + 1)
                 }
                 for ink in inks {

@@ -90,7 +90,8 @@ def strip_comments(text):
 # leddriver and lcddriver kinds, which have no generated schema: their Drafts
 # are hand-written (the form edits `display` as one JSON field), so they are
 # not in KIND_FILES.
-DISPLAY_LOADERS = {"load_display_scan", "load_display_static", "load_display_ports", "load_display_lcd"}
+DISPLAY_LOADERS = {"load_display_scan", "load_display_static", "load_display_ports", "load_display_lcd",
+                   "load_display_clock", "clk_cell"}
 NOT_CALLED = {"converter": {"load_clock"} | DISPLAY_LOADERS,
               "rtc": {"load_choice", "load_time", "load_conversion", "load_dac"} | DISPLAY_LOADERS}
 

@@ -3376,6 +3376,9 @@ The serial kind's object (`docs/parts-format.md` § SPI and I2C host ports):
   carry the part key `"i2cAddress"` (§ 11). A package without the strap pins
   (ADC081C021 SOT-6: fixed 0x54) sets `"i2cAddress"` in its `packages` entry
   (§ 1); its pinout may then lack the strap pins.
+- No bus (plan-56-F): `{"style": "none"}`, a `leddriver` / `lcddriver` device only (the PCF1179C
+  clock; § `lcddriver`, `clock` driver). The device has no `protocol`, and the pins its `display`
+  section names are the only ones the engine reads.
 - Parallel (plan-24-E):
 
 ```json
@@ -3735,7 +3738,7 @@ reset values.
 
 #### `display`
 
-An object whose `"driver"` names one of five output drivers; its other keys
+An object whose `"driver"` names one of six output drivers (`digits`, `static`, `matrix`, `ports`, `lcd`, `clock`); its other keys
 depend on the driver. Rules common to every driver:
 
 | Term | Meaning |
@@ -3958,6 +3961,29 @@ not stored but the pointer still advances.
            "subaddress": "SUB.A", "hardware": "HW", "subaddresses": 8}}
 ```
 
+##### `clock` driver (plan-56-F, PCF1179C)
+
+A bus-less duplex LCD **clock face**: the device has `"bus": {"style": "none"}` (no host bus; `protocol`, `registers`
+and `conversion` are not needed) and `"display": {"driver": "clock", ...}`. The chip keeps hours, minutes and seconds on
+a 1 Hz timer of simulated time (24-hour counters; the 12-hour face is derived: 12, 1 ... 11 and AM / PM), shows the four
+digits through glyph tables onto the segment pins, and runs its time-setting buttons. Start-up is 0:00; the `mode` pin
+high makes it a 12-hour face starting at 1:00 AM, and an open `mode` pin starts 24-hour (a reset then flips the face).
+The `mode` strap is read while the supply comes up (until the first second has counted).
+
+| key | meaning |
+|---|---|
+| `backplanes`, `segmentPins`, `frameUs` | as the `lcd` driver (2-4 backplanes, each slot one backplane driven, the others released) |
+| `digits` | 1-4 objects `{"value", "cells", "glyphs"}` in display order: `value` is `hourTens`, `hourUnits`, `minuteTens` or `minuteUnits` (12- or 24-hour as set); `cells` seven entries a-g, each `{"pin", "bp"}` (a segment pin, a backplane name) or `null`; `glyphs` the segments lit for each value 0, 1, ... as 7-character `a`-`g` strings (a value past the table lights nothing). Several segments may share a cell (a tied pair, `A3` and `D3`): the cell is lit while any of them is |
+| `colon`, `am`, `pm` | one cell each (`{"pin", "bp"}`); the colon is on while the `flash` pin is not high, else on in odd seconds; `am` is lit in the 12-hour face before noon, `pm` after |
+| `mode`, `flash`, `enable`, `fast`, `data` | input pins (names): `mode` high = 12-hour; `flash` high = the colon pulses at 1 Hz; `enable` high enables the keys (the keys do nothing while it is not high); `fast` low stops the counters and divides the three key times by `fastDivisor` (default 64); `data` low blocks the reset |
+| `keys` | one or two `{"pin", "unit"}` (`hour` or `minute`); a key is pressed while its pin reads 0 (a released pin reads 1: pull-up) |
+| `debounceMs` (65), `firstRepeatMs` (1000), `repeatMs` (250), `fastDivisor` (64) | key times |
+
+A key counts as pressed after its pin has been low `debounceMs` while `enable` is high: the hours (or minutes) advance by
+one; if it is still held `firstRepeatMs` later it advances every `repeatMs` until released. A minute key zeroes the
+seconds and does not carry into the hours. Two keys held together (overlapping) light every cell and advance
+nothing; releasing both resets the clock to its start-up time (re-reading `mode`), unless `data` is low.
+
 #### Writing a device
 
 1. Transcribe the bus, registers and protocol as for any converter-engine
@@ -4067,7 +4093,7 @@ at any time during the last step", as on a multiplexed `7seg`.
 | `"digits"`, `"colonAfter"`, `"dotAfter"`, `"color"`, `"size"` | as `7seg` (1–14 digits) |
 | `"drive"` | `"static"`, `"1:2"`, `"1:3"` or `"1:4"`: the multiplex the glass is made for. Shown, not used by the model |
 | `"backplanes"` | 1–4 pin names (role `input`) |
-| `"cells"` | every cell in lights order: `digit` (1…, 0 = the colon/dot/annunciator group), `segment` (`A`–`G`, `DP`, `L1`–`L3` colon and raised dot, `LB` low battery, `MINUS`), `pin` (a segment pin, role `input`) and `bp` (one of `backplanes`). One digit and segment appears once; several cells may share a segment pin (a multiplexed glass shares each pin between backplanes, and a half digit's B and C share one pin) |
+| `"cells"` | every cell in lights order: `digit` (1…, 0 = the colon/dot/annunciator group), `segment` (`A`–`G`, `DP`, `L1`–`L3` colon and raised dot, `LB` low battery, `MINUS`, `AM` and `PM` clock annunciators), `pin` (a segment pin, role `input`) and `bp` (one of `backplanes`). One digit and segment appears once; several cells may share a segment pin (a multiplexed glass shares each pin between backplanes, and a half digit's B and C share one pin) |
 | `"segmentSide"`, `"backplaneSide"` | drawing order of the symbol's two sides, by pin name; `PartDisplay.segment_pins` / `common_pins` hold these pins' indices (the backplanes are the common pins) |
 
 `Part.display` is the same `PartDisplay` a `7seg` has (`type` holds the drive;

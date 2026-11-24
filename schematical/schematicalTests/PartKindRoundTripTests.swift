@@ -19,13 +19,13 @@ final class PartKindRoundTripTests: XCTestCase {
         "resistor": 1975, "capacitor": 1032, "transistor": 1256, "mcu": 1424,
         "nixie": 22,
         "dekatron": 13,
-        "lcd": 7,
+        "lcd": 8,
         "serialmem": 92,
         "regulator": 603,
         "crystal": 604,
         "powerswitch": 817,
         "leddriver": 40,
-        "lcddriver": 20,
+        "lcddriver": 22,
         "pld": 25,
     ]
 

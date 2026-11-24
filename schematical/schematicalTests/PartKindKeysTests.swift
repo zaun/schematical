@@ -67,6 +67,7 @@ final class PartKindKeysTests: XCTestCase {
     /// has no conversion, clock or `ready`, so those loaders are skipped too.
     static let displayLoaders: Set<String> = [
         "load_display_scan", "load_display_static", "load_display_ports", "load_display_lcd",
+        "load_display_clock", "clk_cell",
     ]
     static let notCalled: [String: [String: Set<String>]] = [
         "converter": ["converter_load.c": Set(["load_clock"]).union(displayLoaders)],
