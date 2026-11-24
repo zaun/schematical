@@ -8,7 +8,7 @@ Part of plan-56 (display driver ICs; see plan-56-A for the goal, prerequisites a
 
 ## 1. Goal
 
-Two kinds, `leddriver` (`leddriver.json`, drawer Displays & Indicators › LED drivers) and `lcddriver` (`lcddriver.json`, Displays & Indicators › LCD drivers), built on the converter engine exactly as `rtc` is (`backend/src/models/rtc.c`, `converter_load.c:cv_load_device(ctx, json, rtc)`): the device describes its `bus`, `registers`, `protocol` as `docs/parts-format.md` § `converter` says, and a new `"display"` section says what its pins do with the register contents. A circuit with a MAX6951 on SPI shows the digits a host wrote on a `7seg` display; a circuit with a PCF8576 on I2C shows what a host wrote on an `lcd` glass.
+Two kinds, `leddriver` (`leddriver.json`, drawer Interface › Driver › LED) and `lcddriver` (`lcddriver.json`, Interface › Driver › LCD), built on the converter engine exactly as `rtc` is (`backend/src/models/rtc.c`, `converter_load.c:cv_load_device(ctx, json, rtc)`): the device describes its `bus`, `registers`, `protocol` as `docs/parts-format.md` § `converter` says, and a new `"display"` section says what its pins do with the register contents. A circuit with a MAX6951 on SPI shows the digits a host wrote on a `7seg` display; a circuit with a PCF8576 on I2C shows what a host wrote on an `lcd` glass.
 
 ### Non-goals
 

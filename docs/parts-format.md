@@ -124,8 +124,8 @@ parts) last.
 | Clocks | Crystal › kHz / MHz; Ceramic resonator; Oscillator; the RTC leaf |
 | Connector | Barrel, Header, USB; later Terminal block, JST, Card slot, IC Socket |
 | Discrete | Capacitors › Ceramic / Electrolytic / Tantalum; Diodes; Resistors › Array / Chip / Through-hole; Transistors › BJT / MOSFET |
-| Displays & Indicators | LED; 7-Segment; Character LCD; LED drivers; LCD drivers (plan-56); Buzzers (plan-47) |
-| Interface | Serial (UART, Bridge UART, I2C controller); Parallel I/O (PIA, VIA) |
+| Displays & Indicators | LED; 7-Segment; Character LCD; LCD glass (plan-56); Buzzers (plan-47) |
+| Interface | Serial (UART, Bridge UART, I2C controller); Parallel I/O (PIA, VIA); Driver (LED, LCD: display driver ICs, plan-56) |
 | Logic | Arithmetic, Buffers, Counters, Decoders & muxes, Flip-flops & latches, Gates, Registers |
 | Memory | EEPROM; SRAM; Serial › EEPROM / FRAM / Flash |
 | Microcontroller | AVR › AT90 / ATmega / ATtiny / Dx / Ex / Lx/Sx / XMEGA / megaAVR 0 / tinyAVR 0/1/2; ESP32; RP2040 |
@@ -3569,8 +3569,7 @@ Further forms (from the RTC datasheets, plan-24-B):
 ### `leddriver`
 
 LED display driver ICs (plan-56-B): `leddriver.json`, `"kind": "leddriver"`,
-`"function"` the part family (`"LED driver"`), `"drawer": ["Displays &
-Indicators", "LED drivers"]`. MAX6951, ICM7218, AS1115 and the like: a host
+`"function"` `"LED"`, `"drawer": ["Interface", "Driver"]`. MAX6951, ICM7218, AS1115 and the like: a host
 writes digit bytes (or a bit RAM) over a bus and the chip scans them out on
 digit/segment (or row/column) pins that a `7seg` display or an LED matrix
 shows. Built on the converter engine exactly as `rtc` is
@@ -3848,7 +3847,7 @@ not stored but the pointer still advances.
 ### `lcddriver`
 
 LCD driver ICs (plan-56-B): `lcddriver.json`, `"kind": "lcddriver"`,
-`"drawer": ["Displays & Indicators", "LCD drivers"]`. PCF8576, PCF85176,
+`"function"` `"LCD"`, `"drawer": ["Interface", "Driver"]`. PCF8576, PCF85176,
 PCF8553, BU91795 and the like: a host writes a display RAM over I2C or SPI and
 the chip drives an `lcd` glass's backplane and segment pins. The same kind as
 `leddriver` in every way (device keys, part keys, the `display` section and its

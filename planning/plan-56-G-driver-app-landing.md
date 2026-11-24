@@ -8,7 +8,7 @@ Part of plan-56 (display driver ICs; see plan-56-A for the goal, prerequisites a
 
 ## 1. Goal
 
-The app lists, places, draws, edits and simulates the two new kinds: block symbols with the bus and display pins grouped, the drawer groups Displays & Indicators › LED drivers / LCD drivers / LCD glass, sidebar facts, Part Editor (File › New Part…), the harness proof, docs and the final gate.
+The app lists, places, draws, edits and simulates the two new kinds: block symbols with the bus and display pins grouped, the drawer groups Interface › Driver › LED / LCD and Displays & Indicators › LCD glass, sidebar facts, Part Editor (File › New Part…), the harness proof, docs and the final gate.
 
 ## Phases
 

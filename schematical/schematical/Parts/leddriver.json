@@ -5,9 +5,9 @@
  "devices": [
     {
       "id": "ICM7212AM",
-      "function": "4-digit driver",
+      "function": "LED",
       "description": "4-digit 7-segment common-anode LED decoder/driver, microprocessor (2-bit digit select, 2 chip selects) input, Code B font",
-      "drawer": ["Displays & Indicators", "LED drivers"],
+      "drawer": ["Interface", "Driver"],
       "note": "icm7211-icm7212.pdf (Maxim 19-959): p.1 features, ordering and 40-lead DIP pinout, p.4 ordering (IQ 44-lead PLCC, IPL 40-lead DIP) and pinouts of every variant, p.2-3 supply range, p.6-7 block diagrams, p.8-9 detailed description (backplane, LED drive, digital interface), p.10 Table 1 output codes and Figures 10-11 digit-select truth tables",
       "pinouts": {
         "dip40": [
@@ -112,9 +112,9 @@
     },
     {
       "id": "ICM7218A",
-      "function": "8-digit driver",
+      "function": "LED",
       "description": "8-digit common-anode LED display driver: 8-bit bus, MODE/WRITE control word then 8 sequential digit bytes, hex or no decode (Code B not modeled)",
-      "drawer": ["Displays & Indicators", "LED drivers"],
+      "drawer": ["Interface", "Driver"],
       "note": "icm7218-renesas p.1 features and block diagram, p.2 ordering, p.2 pinout (ICM7218A), p.3-4 pin descriptions and notes 2-3, p.5 supply 4-6 V and fMUX 250 Hz per digit, p.6 Fig.2 multiplex timing and Fig.3 segments, p.7 decode/Table 1/Table 2/shutdown/sequential addressing, p.8 Fig.4-5 load sequence; icm7218-icm7228-maxim p.5 Table 1, p.6 Fig.3-6 and the 8-digit update, p.8 Fig.7 font, p.9 digit multiplex order, p.12 packages",
       "pinouts": {
         "dip28": [
@@ -161,9 +161,9 @@
     },
     {
       "id": "ICM7218B",
-      "function": "8-digit driver",
+      "function": "LED",
       "description": "8-digit common-cathode LED display driver: 8-bit bus, MODE/WRITE control word then 8 sequential digit bytes, hex or no decode (Code B not modeled)",
-      "drawer": ["Displays & Indicators", "LED drivers"],
+      "drawer": ["Interface", "Driver"],
       "note": "icm7218-renesas p.1, p.2 ordering and pinout (ICM7218B), p.3-4 pin descriptions, p.5 supply and scan rate, p.6 Fig.2-3, p.7 decode, shutdown, sequential addressing, p.8 Fig.4-5; icm7218-icm7228-maxim p.5 Table 1, p.6, p.9 multiplex order, p.12 packages",
       "pinouts": {
         "dip28": [
@@ -210,9 +210,9 @@
     },
     {
       "id": "ICM7218C",
-      "function": "8-digit driver",
+      "function": "LED",
       "description": "8-digit common-anode LED display driver: random-access digit address (DA0-DA2), 4-bit data plus decimal point, hex decode (Code B and shutdown pin not modeled)",
-      "drawer": ["Displays & Indicators", "LED drivers"],
+      "drawer": ["Interface", "Driver"],
       "note": "icm7218-renesas p.1 features and block diagram, p.2 ordering, p.3 pinout (ICM7218C), p.3-4 pin descriptions and notes 1-3, p.5 supply and scan rate, p.7 random access, p.8 Fig.6; icm7218-icm7228-maxim p.6 Table 2, p.8 Fig.7 font and Maxim C/D interface, p.9 Table 3 digit addressing and multiplex order, p.12 packages",
       "pinouts": {
         "dip28": [
@@ -259,9 +259,9 @@
     },
     {
       "id": "ICM7218D",
-      "function": "8-digit driver",
+      "function": "LED",
       "description": "8-digit common-cathode LED display driver: random-access digit address (DA0-DA2), 4-bit data plus decimal point, hex decode (Code B and shutdown pin not modeled)",
-      "drawer": ["Displays & Indicators", "LED drivers"],
+      "drawer": ["Interface", "Driver"],
       "note": "icm7218-renesas p.1, p.2 ordering, p.3 pinout (ICM7218D), p.3-4 pin descriptions, p.5 supply and scan rate, p.7 random access, p.8 Fig.6; icm7218-icm7228-maxim p.6 Table 2, p.8 Fig.7, p.9 Table 3 and multiplex order, p.12 packages",
       "pinouts": {
         "dip28": [
@@ -308,9 +308,9 @@
     },
     {
       "id": "ICM7228A",
-      "function": "8-digit driver",
+      "function": "LED",
       "description": "8-digit microprocessor-compatible LED display decoder driver, sequential or single-digit update, common anode",
-      "drawer": ["Displays & Indicators", "LED drivers"],
+      "drawer": ["Interface", "Driver"],
       "note": "icm7228-intersil-2015.pdf p.3 pinout, p.5-6 electrical and switching specifications, p.7 write timing and digit multiplex, p.8-10 pin tables, p.11-12 data entry modes (control register, sequential 8-digit update, single digit update, Table 4 digit address), p.13 Tables 5-6 display formats and no-decode segments, p.14 shutdown and multiplexing (digit order D2 D5 D1 D7 D8 D6 D4 D3, 320 us per digit)",
       "pinouts": {
         "p28": [
@@ -356,9 +356,9 @@
     },
     {
       "id": "ICM7228B",
-      "function": "8-digit driver",
+      "function": "LED",
       "description": "8-digit microprocessor-compatible LED display decoder driver, sequential or single-digit update, common cathode",
-      "drawer": ["Displays & Indicators", "LED drivers"],
+      "drawer": ["Interface", "Driver"],
       "note": "icm7228-intersil-2015.pdf p.3 pinout, p.5-6 electrical and switching specifications, p.7 write timing and digit multiplex, p.8-10 pin tables, p.11-12 data entry modes (control register, sequential 8-digit update, single digit update, Table 4 digit address), p.13 Tables 5-6 display formats and no-decode segments, p.14 shutdown and multiplexing (digit order D2 D5 D1 D7 D8 D6 D4 D3, 320 us per digit)",
       "pinouts": {
         "p28": [
@@ -406,9 +406,9 @@
     },
     {
       "id": "ICM7228C",
-      "function": "8-digit driver",
+      "function": "LED",
       "description": "8-digit microprocessor-compatible LED display decoder driver, parallel random-access write, common anode",
-      "drawer": ["Displays & Indicators", "LED drivers"],
+      "drawer": ["Interface", "Driver"],
       "note": "icm7228-intersil-2002.pdf p.2 pinout, p.4-5 electrical and switching specifications, p.6 write timing and digit multiplex, p.9-11 pin tables, p.12-13 interfacing and display formats, p.14 shutdown and multiplexing (digit order D2 D5 D1 D7 D8 D6 D4 D3, 320 us per digit); the C is also on icm7228-intersil-2015.pdf p.3, p.10-13",
       "pinouts": {
         "p28": [
@@ -457,9 +457,9 @@
     },
     {
       "id": "ICM7228D",
-      "function": "8-digit driver",
+      "function": "LED",
       "description": "8-digit microprocessor-compatible LED display decoder driver, parallel random-access write, common cathode",
-      "drawer": ["Displays & Indicators", "LED drivers"],
+      "drawer": ["Interface", "Driver"],
       "note": "icm7228-intersil-2002.pdf p.2 pinout, p.4-5 electrical and switching specifications, p.6 write timing and digit multiplex, p.9-11 pin tables, p.12-13 interfacing and display formats, p.14 shutdown and multiplexing (digit order D2 D5 D1 D7 D8 D6 D4 D3, 320 us per digit); the C is also on icm7228-intersil-2015.pdf p.3, p.10-13",
       "pinouts": {
         "p28": [
@@ -504,9 +504,9 @@
     },
     {
       "id": "MAX6950",
-      "function": "5-digit driver",
+      "function": "LED",
       "description": "SPI 5-digit common-cathode 7-segment LED driver, hex decode or raw segments per digit, blink, scan limit",
-      "drawer": ["Displays & Indicators", "LED drivers"],
+      "drawer": ["Interface", "Driver"],
       "note": "max6950-max6951.pdf (Maxim 19-2227 Rev 2) p.1 pinout and ordering table, p.2 electrical characteristics, p.5 pin description, p.5-6 serial interface, p.6 Table 1 digit wiring, p.8 Table 3 register map, p.9 Table 4 power-up, p.9-11 registers, p.12 oscillator and blink (200 us per digit at 4 MHz), p.13 Figure 4 multiplex timing, p.14 Tables 14-15 decode, p.15 Table 16 no-decode bits, p.16 Tables 17-18 planes",
       "pinouts": {
         "qsop16": [
@@ -541,9 +541,9 @@
     },
     {
       "id": "MAX6951",
-      "function": "8-digit driver",
+      "function": "LED",
       "description": "SPI 8-digit common-cathode 7-segment LED driver, hex decode or raw segments per digit, blink, scan limit",
-      "drawer": ["Displays & Indicators", "LED drivers"],
+      "drawer": ["Interface", "Driver"],
       "note": "max6950-max6951.pdf (Maxim 19-2227 Rev 2) p.1 pinout and ordering table, p.2 electrical characteristics, p.5 pin description, p.5-6 serial interface, p.6 Table 1 digit wiring, p.8 Table 3 register map, p.9 Table 4 power-up, p.9-11 registers, p.12 oscillator and blink (200 us per digit at 4 MHz), p.13 Figure 4 multiplex timing, p.14 Tables 14-15 decode, p.15 Table 16 no-decode bits, p.16 Tables 17-18 planes",
       "pinouts": {
         "qsop16": [
@@ -578,9 +578,9 @@
     },
     {
       "id": "MAX6957-20",
-      "function": "20-port driver",
+      "function": "LED",
       "description": "SPI 20-port LED driver and GPIO expander: each port a constant-current LED sink, push-pull output or input with optional pullup, register read-back",
-      "drawer": ["Displays & Indicators", "LED drivers"],
+      "drawer": ["Interface", "Driver"],
       "note": "max6957.pdf (Maxim 19-2429 Rev 5) p.1 ordering table and pinouts, p.2-3 electrical characteristics and timing, p.5 pin description and port count, p.6 Tables 1-2 port configuration, p.7 shutdown and serial interface, p.9-10 write and read frames, p.11-13 Table 3 register map, p.15 Table 4 power-up, p.16-19 Tables 5-14, p.20 pin configurations; this 20-port device has P12-P31 on pins, the registers of P4-P11 exist but have no pins",
       "pinouts": {
         "ssop28": [
@@ -626,9 +626,9 @@
     },
     {
       "id": "AS1115",
-      "function": "8-digit driver",
+      "function": "LED",
       "description": "8-digit 7-segment (64 LED) I2C LED driver: Code-B or no decode per digit, shutdown, display test (HEX decode, scan limit, blink, key scan not modeled)",
-      "drawer": ["Displays & Indicators", "LED drivers"],
+      "drawer": ["Interface", "Driver"],
       "note": "as1115 (PDF pages) p.3 features and ordering, p.4 pinout and pin descriptions, p.6 supply 2.7-5.5 V and 8-digit scan rate, p.12 slave address 0000000, p.13 command byte and read pointer, p.14-15 register map Table 6, shutdown Table 7, decode enable Table 8, p.16 Code-B and HEX fonts Tables 9-10, p.17 no-decode Table 11, key scan registers 0x1C/0x1D, p.18 test mode 0x0F, p.19 intensity and scan limit, p.20 feature register, p.24-25 packages, p.26 Table 25 ordering",
       "pinouts": {
         "qsop24": [

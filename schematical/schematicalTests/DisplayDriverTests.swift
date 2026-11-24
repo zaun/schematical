@@ -11,8 +11,8 @@ final class DisplayDriverTests: XCTestCase {
     private static var keptSimulations: [SimulationController] = []
 
     private static let kinds: [(kind: PartKind, name: String, file: String, example: String, drawer: String)] = [
-        (PART_LEDDRIVER, "LED driver", "leddriver", "MAX6951CEE+T", "LED drivers"),
-        (PART_LCDDRIVER, "LCD driver", "lcddriver", "PCF85176T/1Y", "LCD drivers"),
+        (PART_LEDDRIVER, "LED driver", "leddriver", "MAX6951CEE+T", "LED"),
+        (PART_LCDDRIVER, "LCD driver", "lcddriver", "PCF85176T/1Y", "LCD"),
     ]
 
     func testNamesAndFacts() throws {
@@ -21,7 +21,8 @@ final class DisplayDriverTests: XCTestCase {
             XCTAssertEqual(PartKinds.name(of: kind), file)
             let part = try TestSupport.part(example)
             XCTAssertEqual(part.kind, kind, example)
-            XCTAssertEqual(part.drawer, ["Displays & Indicators", drawer], example)
+            XCTAssertEqual(part.drawer, ["Interface", "Driver"], example)
+            XCTAssertEqual(part.function, drawer, example)
             XCTAssertTrue(part.hasRegisters, example)
             XCTAssertEqual(symbol(for: part), .block, example)
             XCTAssertEqual(ReferenceCategory.of(part), .integratedCircuit, example)
