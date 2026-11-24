@@ -120,7 +120,7 @@ catch the impossible ones; the golden (`footprints.txt`, F) records the rest for
 
 Acceptance: the test passes; `fp-load.sh` accepts a known-good side file and rejects one with a footprint of overlapping pads.
   Check: `node --test scripts/gen-sockets.test.js` → `# pass` and no `# fail` (est. 5 s). Measured 2026-11-24: `ℹ pass 11`, `ℹ fail 0`; `fp-load.sh` on a one-footprint good file → `1 new footprints: load ok` (exit 0); on a footprint with 3.2 mm pads on a 2.54 pitch → `SKT-TEST-OVERLAP-8: overlapping pads 1/2, 2/3, 3/4, 5/6, …` (exit 1). VERIFIED.
-Commit: (next commit)
+Commit: d833cade
 
 ### Phase 2 — the DIP footprints
 
@@ -130,7 +130,7 @@ Commit: (next commit)
 
 Acceptance: the side file loads; its ids are exactly the "new" ids.
   Check: `planning/plan-51-data/census/fp-load.sh planning/plan-51-data/footprints-D.json` → `<n> new footprints: load ok` (est. 5 min: it builds `footprint_check` in a copy). Measured 2026-11-24: `146 new footprints: load ok`. VERIFIED.
-Commit: (next commit)
+Commit: d833cade
 
 ## Validation Plan
 
