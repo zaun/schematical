@@ -33,7 +33,7 @@ static const char *const DRIVES[] = {"static", "1:2", "1:3", "1:4", NULL};
 
 /* The 7seg segment names, plus the annunciators LB (low battery) and MINUS. */
 static const char *const SEGMENTS[] = {
-    "A", "B", "C", "D", "E", "F", "G", "DP", "L1", "L2", "L3", "LB", "MINUS", NULL
+    "A", "B", "C", "D", "E", "F", "G", "DP", "L1", "L2", "L3", "LB", "MINUS", "AM", "PM", NULL
 };
 
 typedef struct {

@@ -142,7 +142,7 @@ typedef struct {
 
 /* ---- Buses ------------------------------------------------------------------------------ */
 
-typedef enum { CVB_SPI, CVB_I2C, CVB_I2C_SPI, CVB_PARALLEL, CVB_CLOCKED } CvBusStyle;
+typedef enum { CVB_SPI, CVB_I2C, CVB_I2C_SPI, CVB_PARALLEL, CVB_CLOCKED, CVB_NONE } CvBusStyle;
 
 typedef struct {
     int pin;                /* name id, CV_NONE */

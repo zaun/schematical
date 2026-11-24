@@ -75,6 +75,7 @@ add_library(logic STATIC
     src/models/converter_par.c
     src/models/rtc.c
     src/models/display_out.c
+    src/models/display_clock.c
     src/models/leddriver.c
     src/models/lcddriver.c
     src/models/ns16550_bridge.c
@@ -190,6 +191,7 @@ logic_test(pio_test)
 logic_test(converter_test)
 logic_test(rtc_test)
 logic_test(display_out_test)
+logic_test(pcf1179c_test)
 logic_test(icm7218_test)
 logic_test(icm7228_test)
 logic_test(icm7211_test)

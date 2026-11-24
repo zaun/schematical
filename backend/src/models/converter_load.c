@@ -23,6 +23,7 @@ typedef struct {
     const char **names;
     size_t name_count, name_cap;
     size_t ram_first, ram_count;    /* display.ram {"bytes", ...}: the registers it made */
+    int display;                    /* a leddriver / lcddriver device */
 } Ld;
 
 /* A time in ns, as ps. Converter and RTC times reach minutes (slow data rates,
@@ -1196,6 +1197,13 @@ static int load_bus(Ld *ld, const cJSON *b, CvBus *out, int config) {
     }
     if (check_keys(ld, b, KEYS) != 0 || kind_string(ld->ctx, b, "style", &style) != 0) {
         return -1;
+    }
+    if (strcmp(style, "none") == 0) {
+        if (config || !ld->display) {
+            return kind_error(ld->ctx, "\"none\" is a bus style of a display driver only");
+        }
+        out->style = CVB_NONE;
+        return 0;
     }
     if (strcmp(style, "spi") == 0) {
         out->style = CVB_SPI;
@@ -3256,8 +3264,187 @@ static int load_display_lcd(Dl *dl, const cJSON *o, DispCfg *c) {
     return dl_cond(ld, o, "enable", &c->enable);
 }
 
+/* clock: a bus-less duplex LCD clock face (plan-56-F, PCF1179C; display_clock.c). */
+static int clk_cell(Dl *dl, const cJSON *e, const DispCfg *c, ClkCell *out) {
+    static const char *const CK[] = {"pin", "bp", NULL};
+    Ld *ld = dl->ld;
+    const char *pin, *bp;
+    size_t g, b;
+
+    out->seg = -1;
+    out->bp = 0;
+    if (e == NULL || cJSON_IsNull(e)) {
+        return 0;
+    }
+    if (!cJSON_IsObject(e) || check_keys(ld, e, CK) != 0 || kind_string(ld->ctx, e, "pin", &pin) != 0 ||
+        kind_string(ld->ctx, e, "bp", &bp) != 0) {
+        return kind_failed(ld->ctx) ? -1 : kind_error(ld->ctx, "a cell is null or {pin, bp}");
+    }
+    for (g = 0; g < c->out_count && strcmp(ld->names[c->outs[g]], pin) != 0; g++) {
+    }
+    for (b = 0; b < c->line_count && strcmp(ld->names[c->lines[b]], bp) != 0; b++) {
+    }
+    if (g == c->out_count) {
+        return kind_error(ld->ctx, "cell pin \"%s\" is not one of \"segmentPins\"", pin);
+    }
+    if (b == c->line_count) {
+        return kind_error(ld->ctx, "cell bp \"%s\" is not one of \"backplanes\"", bp);
+    }
+    out->seg = (int)g;
+    out->bp = (unsigned)b;
+    return 0;
+}
+
+/* A time key: "name": milliseconds above 0, stored in picoseconds. */
+static int clk_ms(Ld *ld, const cJSON *o, const char *key, uint64_t *ps) {
+    const cJSON *v = member(o, key);
+
+    if (v == NULL) {
+        return 0;
+    }
+    if (!cJSON_IsNumber(v) || !(v->valuedouble > 0) || v->valuedouble > 1e6) {
+        return kind_error(ld->ctx, "\"%s\" must be a time in milliseconds above 0", key);
+    }
+    *ps = (uint64_t)llround(v->valuedouble * 1e9);
+    return 0;
+}
+
+static int load_display_clock(Dl *dl, const cJSON *o, DispCfg *c) {
+    static const char *const KEYS[] = {
+        "driver", "backplanes", "segmentPins", "frameUs", "mode", "flash", "enable", "fast", "data",
+        "keys", "debounceMs", "firstRepeatMs", "repeatMs", "fastDivisor", "digits", "colon",
+        "am", "pm", "openDrain", NULL
+    };
+    static const char *const DK[] = {"value", "cells", "glyphs", NULL};
+    static const char *const VALUES[] = {"hourTens", "hourUnits", "minuteTens", "minuteUnits", NULL};
+    static const char *const KK[] = {"pin", "unit", NULL};
+    Ld *ld = dl->ld;
+    ClockCfg *k = kind_alloc(ld->ctx, sizeof(*k));
+    const cJSON *v, *e;
+    uint64_t frame_ps;
+    uint32_t n32;
+    size_t i;
+
+    if (k == NULL || check_keys(ld, o, KEYS) != 0) {
+        return -1;
+    }
+    memset(k, 0, sizeof *k);
+    k->mode_pin = k->flash_pin = k->enable_pin = k->fast_pin = k->data_pin = CV_NONE;
+    k->key_pin[0] = k->key_pin[1] = CV_NONE;
+    if (dl_pins(dl, o, "backplanes", 2, DISP_LCD_ROWS, &c->lines, &c->line_count) != 0 ||
+        dl_pins(dl, o, "segmentPins", 1, DISP_MAX_LCD_SEGMENTS, &c->outs, &c->out_count) != 0) {
+        return -1;
+    }
+    c->bp_count = (unsigned)c->line_count;
+    c->segments = (unsigned)c->out_count;
+    if (member(o, "frameUs") == NULL) {
+        return kind_error(ld->ctx, "missing \"frameUs\"");
+    }
+    if (dl_us(ld, member(o, "frameUs"), "\"frameUs\"", &frame_ps) != 0) {
+        return -1;
+    }
+    c->frame_ps = frame_ps;
+    c->slot_ps = frame_ps / c->bp_count > 0 ? frame_ps / c->bp_count : 1;
+    if (pin_member(ld, o, "mode", 0, &k->mode_pin) != 0 || pin_member(ld, o, "flash", 0, &k->flash_pin) != 0 ||
+        pin_member(ld, o, "enable", 0, &k->enable_pin) != 0 || pin_member(ld, o, "fast", 0, &k->fast_pin) != 0 ||
+        pin_member(ld, o, "data", 0, &k->data_pin) != 0) {
+        return -1;
+    }
+    k->debounce_ps = 65000000000ull;
+    k->first_ps = 1000000000000ull;
+    k->repeat_ps = 250000000000ull;
+    k->fast_div = 64;
+    if (clk_ms(ld, o, "debounceMs", &k->debounce_ps) != 0 || clk_ms(ld, o, "firstRepeatMs", &k->first_ps) != 0 ||
+        clk_ms(ld, o, "repeatMs", &k->repeat_ps) != 0) {
+        return -1;
+    }
+    if (member(o, "fastDivisor") != NULL) {
+        if (u32_member(ld, o, "fastDivisor", &n32) != 0 || n32 < 1) {
+            return kind_failed(ld->ctx) ? -1 : kind_error(ld->ctx, "\"fastDivisor\" is 1 or more");
+        }
+        k->fast_div = n32;
+    }
+    v = member(o, "keys");
+    if (!cJSON_IsArray(v) || cJSON_GetArraySize(v) < 1 || cJSON_GetArraySize(v) > 2) {
+        return kind_error(ld->ctx, "\"keys\" is an array of 1-2 {pin, unit}");
+    }
+    cJSON_ArrayForEach(e, v) {
+        const char *unit;
+
+        kind_push(ld->ctx, "keys[%u]", k->key_count);
+        if (check_keys(ld, e, KK) != 0 || pin_member(ld, e, "pin", 1, &k->key_pin[k->key_count]) != 0 ||
+            kind_string(ld->ctx, e, "unit", &unit) != 0) {
+            return -1;
+        }
+        if (strcmp(unit, "hour") != 0 && strcmp(unit, "minute") != 0) {
+            return kind_error(ld->ctx, "\"unit\" is \"hour\" or \"minute\"");
+        }
+        k->key_minute[k->key_count] = strcmp(unit, "minute") == 0;
+        k->key_count++;
+        kind_pop(ld->ctx);
+    }
+    v = member(o, "digits");
+    if (!cJSON_IsArray(v) || cJSON_GetArraySize(v) < 1 || cJSON_GetArraySize(v) > CLK_DIGITS) {
+        return kind_error(ld->ctx, "\"digits\" is an array of 1-%d digits", CLK_DIGITS);
+    }
+    cJSON_ArrayForEach(e, v) {
+        ClkDigit *d = &k->digit[k->digit_count];
+        const char *val;
+        const cJSON *cells = member(e, "cells"), *gl = member(e, "glyphs"), *x;
+        size_t j = 0;
+
+        kind_push(ld->ctx, "digits[%u]", k->digit_count);
+        if (check_keys(ld, e, DK) != 0 || kind_string(ld->ctx, e, "value", &val) != 0) {
+            return -1;
+        }
+        for (i = 0; VALUES[i] != NULL && strcmp(VALUES[i], val) != 0; i++) {
+        }
+        if (VALUES[i] == NULL) {
+            return kind_error(ld->ctx, "\"value\" is hourTens, hourUnits, minuteTens or minuteUnits");
+        }
+        d->value = (ClkValue)i;
+        if (!cJSON_IsArray(cells) || cJSON_GetArraySize(cells) != CLK_SEGS) {
+            return kind_error(ld->ctx, "\"cells\" is an array of 7 cells (a-g, null = none)");
+        }
+        cJSON_ArrayForEach(x, cells) {
+            if (clk_cell(dl, x, c, &d->seg[j++]) != 0) {
+                return -1;
+            }
+        }
+        if (!cJSON_IsArray(gl) || cJSON_GetArraySize(gl) < 1 || cJSON_GetArraySize(gl) > CLK_GLYPHS) {
+            return kind_error(ld->ctx, "\"glyphs\" is an array of 1-%d 7-character a-g strings", CLK_GLYPHS);
+        }
+        j = 0;
+        cJSON_ArrayForEach(x, gl) {
+            size_t q;
+
+            if (!cJSON_IsString(x) || strlen(x->valuestring) != CLK_SEGS) {
+                return kind_error(ld->ctx, "a glyph is 7 characters, 0 or 1 for segments a-g");
+            }
+            for (q = 0; q < CLK_SEGS; q++) {
+                char ch = x->valuestring[q];
+
+                if (ch != '0' && ch != '1') {
+                    return kind_error(ld->ctx, "a glyph is 7 characters, 0 or 1 for segments a-g");
+                }
+                d->glyph[j] |= (uint8_t)((ch == '1') << q);
+            }
+            j++;
+        }
+        d->glyph_count = (unsigned)j;
+        k->digit_count++;
+        kind_pop(ld->ctx);
+    }
+    if (clk_cell(dl, member(o, "colon"), c, &k->colon) != 0 || clk_cell(dl, member(o, "am"), c, &k->am) != 0 ||
+        clk_cell(dl, member(o, "pm"), c, &k->pm) != 0) {
+        return -1;
+    }
+    c->clock = k;
+    return 0;
+}
+
 static int load_display(Ld *ld, const cJSON *d, CvDevice *dev) {
-    static const char *const DRIVERS[] = {"digits", "static", "matrix", "ports", "lcd", NULL};
+    static const char *const DRIVERS[] = {"digits", "static", "matrix", "ports", "lcd", "clock", NULL};
     Dl *dl;
     DispCfg *c;
     const char *name;
@@ -3274,7 +3461,7 @@ static int load_display(Ld *ld, const cJSON *d, CvDevice *dev) {
     for (i = 0; DRIVERS[i] != NULL && strcmp(DRIVERS[i], name) != 0; i++) {
     }
     if (DRIVERS[i] == NULL) {
-        return kind_error(ld->ctx, "unknown driver \"%s\" (digits, static, matrix, ports, lcd)", name);
+        return kind_error(ld->ctx, "unknown driver \"%s\" (digits, static, matrix, ports, lcd, clock)", name);
     }
     dl = kind_alloc(ld->ctx, sizeof(*dl));
     c = kind_alloc(ld->ctx, sizeof(*c));
@@ -3293,6 +3480,9 @@ static int load_display(Ld *ld, const cJSON *d, CvDevice *dev) {
         break;
     case DISP_PORTS:
         rc = load_display_ports(dl, d, c);
+        break;
+    case DISP_CLOCK:
+        rc = load_display_clock(dl, d, c);
         break;
     default:
         rc = load_display_lcd(dl, d, c);
@@ -3325,6 +3515,7 @@ CvDevice *cv_load_device(KindContext *ctx, const cJSON *json, CvMode mode) {
     memset(&ld, 0, sizeof ld);
     ld.ctx = ctx;
     ld.dev = dev;
+    ld.display = display;
     dev->rtc = rtc;
     if (display && member(json, "display") == NULL) {
         kind_error(ctx, "a display driver needs \"display\"");
@@ -3428,7 +3619,8 @@ CvDevice *cv_load_device(KindContext *ctx, const cJSON *json, CvMode mode) {
             }
         }
     }
-    if (load_protocol(&ld, member(json, "protocol"), &dev->protocol) != 0 ||
+    if ((dev->bus.style == CVB_NONE ? (memset(&dev->protocol, 0, sizeof dev->protocol), 0)
+                                     : load_protocol(&ld, member(json, "protocol"), &dev->protocol)) != 0 ||
         load_conversion(&ld, member(json, "conversion"), &dev->conversion) != 0 ||
         load_ready(&ld, member(json, "ready"), dev) != 0 ||
         load_pins(&ld, member(json, "pins"), &dev->pins) != 0) {

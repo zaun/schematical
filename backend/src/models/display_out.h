@@ -14,11 +14,12 @@
  *   matrix   rows scanned one at a time, the column pins carry the row's bits
  *   ports    pins driven (or released) per a direction and a data field
  *   lcd      backplane and segment waveforms from a display RAM
+ *   clock    a bus-less duplex LCD clock face (PCF1179C): time, buttons, glyph decode
  */
 
 #include "converter.h"
 
-typedef enum { DISP_DIGITS, DISP_STATIC, DISP_MATRIX, DISP_PORTS, DISP_LCD } DispDriver;
+typedef enum { DISP_DIGITS, DISP_STATIC, DISP_MATRIX, DISP_PORTS, DISP_LCD, DISP_CLOCK } DispDriver;
 
 typedef enum { DEC_NONE, DEC_HEX, DEC_CODEB, DEC_BCD, DEC_ASCII7, DEC_ASCII16 } DispDecode;
 
@@ -55,8 +56,37 @@ typedef struct {
 /* lcd run-time mode (plan-56-E): the mode is the value of a register field (PCF8576 mode-set M[1:0]). */
 enum { DISP_LCD_MODES = 4, DISP_LCD_ROWS = 4 };
 
+/* clock driver (plan-56-F, PCF1179C; display_clock.c). A cell is a segment pin (an index into
+   `outs`, -1 = none) lit against one backplane. */
+typedef struct { int seg; unsigned bp; } ClkCell;
+
+enum { CLK_DIGITS = 4, CLK_SEGS = 7, CLK_GLYPHS = 10 };
+
+/* What a clock digit shows: the hour tens or units (12- or 24-hour as set), the minute tens or units. */
+typedef enum { CLK_HOUR_TENS, CLK_HOUR_UNITS, CLK_MINUTE_TENS, CLK_MINUTE_UNITS } ClkValue;
+
+typedef struct {
+    ClkValue value;
+    ClkCell seg[CLK_SEGS];          /* a-g */
+    uint8_t glyph[CLK_GLYPHS];      /* per value: bit j = segment j lit */
+    unsigned glyph_count;           /* values past it show nothing */
+} ClkDigit;
+
+typedef struct {
+    int mode_pin, flash_pin, enable_pin, fast_pin, data_pin;   /* name ids, CV_NONE = none */
+    int key_pin[2];
+    int key_minute[2];              /* the key advances the minutes (else the hours) */
+    unsigned key_count;
+    uint64_t debounce_ps, first_ps, repeat_ps;
+    unsigned fast_div;              /* TS low divides the three times above */
+    ClkDigit digit[CLK_DIGITS];
+    unsigned digit_count;
+    ClkCell colon, am, pm;
+} ClockCfg;
+
 typedef struct DispCfg {
     DispDriver driver;
+    const ClockCfg *clock;      /* clock */
     /* digits (digit pins), matrix (row pins): the scan lines, one per ram field */
     const int *lines;
     size_t line_count;

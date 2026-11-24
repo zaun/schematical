@@ -1777,6 +1777,9 @@ static void cv_pin_changed(Sim *sim, SimInstance *instance, void *state, size_t 
     if (s->dev->rtc) {
         rtc_pin(s, pin);
     }
+    if (s->dev->disp != NULL) {
+        disp_pin(s, pin);
+    }
     if (s->in_reset || s->powered_down_bus) {
         return;
     }

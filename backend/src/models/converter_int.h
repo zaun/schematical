@@ -171,6 +171,7 @@ int rtc_snapshot(const CvState *s, struct RtcTime *out);
 void disp_start(CvState *s);
 void disp_timer(CvState *s, uint32_t id);
 void disp_refresh(CvState *s);
+void disp_pin(CvState *s, size_t pin);
 void disp_free(CvState *s);
 /* An lcd driver with a "load" section (plan-56-E): one display data byte arrived after an
    `lcdload` command; it goes into the RAM per the current mode, pointer, bank and subaddress. */

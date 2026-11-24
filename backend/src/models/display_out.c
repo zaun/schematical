@@ -29,10 +29,12 @@
 #include <stdlib.h>
 
 #include "converter_int.h"
+#include "display_clock.h"
 
 typedef struct {
     unsigned slot;
     uint32_t frame;
+    struct ClockState *clk;     /* clock driver */
     /* ports: what each pin was last driven with (value; weak) */
     LogicValue *port_value;
     uint8_t *port_weak;
@@ -351,6 +353,21 @@ static void apply_lcd(CvState *s, const DispCfg *c, unsigned k, uint32_t frame) 
     }
 }
 
+/* clock: the lcd slot waveforms with the clock's lit cells in place of a RAM. */
+static void apply_clock(CvState *s, const DispCfg *c, unsigned k, uint32_t frame) {
+    const DispState *st = s->disp;
+    int ac = (int)(frame & 1u);
+    unsigned b, g;
+
+    k %= c->bp_count;
+    for (b = 0; b < c->bp_count; b++) {
+        put(s, c->lines[b], b == k ? level(ac) : LOGIC_Z);
+    }
+    for (g = 0; g < c->segments; g++) {
+        put(s, c->outs[g], level(clock_lit(s, c->clock, st->clk, g, k) ^ ac));
+    }
+}
+
 /* The time one slot lasts now (an lcd's depends on the mode). */
 static uint64_t slot_ps_of(const CvState *s, const DispCfg *c) {
     if (c->driver == DISP_LCD && c->mode_dynamic) {
@@ -362,7 +379,7 @@ static uint64_t slot_ps_of(const CvState *s, const DispCfg *c) {
 }
 
 static unsigned slots_of(const DispCfg *c) {
-    return c->driver == DISP_LCD ? c->bp_count : c->shared ? c->shared_digits : (unsigned)c->line_count;
+    return c->driver == DISP_LCD || c->driver == DISP_CLOCK ? c->bp_count : c->shared ? c->shared_digits : (unsigned)c->line_count;
 }
 
 /* The slots scanned now: all, or the scan limit's field + 1 digits (a test scans every digit). */
@@ -380,7 +397,8 @@ static unsigned active_slots(const CvState *s, const DispCfg *c) {
 }
 
 static int scans(const DispCfg *c) {
-    return c->driver == DISP_DIGITS || c->driver == DISP_MATRIX || c->driver == DISP_LCD;
+    return c->driver == DISP_DIGITS || c->driver == DISP_MATRIX || c->driver == DISP_LCD ||
+           c->driver == DISP_CLOCK;
 }
 
 static void apply(CvState *s) {
@@ -404,6 +422,12 @@ static void apply(CvState *s) {
         break;
     case DISP_PORTS:
         apply_ports(s, c);
+        break;
+    case DISP_CLOCK:
+        if (st->slot >= c->bp_count) {
+            st->slot = 0;
+        }
+        apply_clock(s, c, st->slot, st->frame);
         break;
     default:
         apply_lcd(s, c, st->slot, st->frame);
@@ -436,6 +460,16 @@ void disp_start(CvState *s) {
         }
     }
     s->disp = st;
+    if (c->driver == DISP_CLOCK) {
+        st->clk = clock_new(s, c->clock);
+        if (st->clk == NULL) {
+            s->disp = NULL;
+            free(st->port_value);
+            free(st->port_weak);
+            free(st);
+            return;
+        }
+    }
     apply(s);
     if (scans(c)) {
         sim_schedule_timer(s->sim, s->inst, CV_TM_DISP, slot_ps_of(s, c));
@@ -446,8 +480,13 @@ void disp_timer(CvState *s, uint32_t id) {
     const DispCfg *c = s->dev->disp;
     DispState *st = s->disp;
 
-    (void)id;
     if (st == NULL || !scans(c)) {
+        return;
+    }
+    if (st->clk != NULL && ((id >> 24) & 0xFu) != 0) {
+        if (clock_timer(s, c->clock, st->clk, id)) {
+            apply(s);
+        }
         return;
     }
     if (++st->slot >= active_slots(s, c)) {
@@ -464,10 +503,21 @@ void disp_refresh(CvState *s) {
     }
 }
 
+/* A pin changed: the clock driver reads its buttons and straps. */
+void disp_pin(CvState *s, size_t pin) {
+    DispState *st = s->disp;
+
+    if (st != NULL && st->clk != NULL) {
+        clock_pin(s, s->dev->disp->clock, st->clk, pin);
+        apply(s);
+    }
+}
+
 void disp_free(CvState *s) {
     DispState *st = s->disp;
 
     if (st != NULL) {
+        clock_free(st->clk);
         free(st->port_value);
         free(st->port_weak);
     }
