@@ -1,0 +1,1826 @@
+{
+ "format": "schematical-footprints",
+ "version": 1,
+ "footprints": [
+  {
+   "id": "SOCK-SAMESKY-NSIM-12-A-7",
+   "description": "Same Sky NSIM-12-A nano SIM card socket (push-in, auto eject), 7 contacts + shield tabs",
+   "note": "NSIM-12-A nsim-12-a.pdf p.3 Recommended PCB Layout (top view). Origin = centre of the layout outline 11.50 x 13.36 (centre line x=0, y=0 midway between the signal-pad line and the front edge: pad line y=-13.36/2=-6.68). Signal pads 7-0.60 x 7-0.75 on a 1.10 pitch (6-1.10), C3 at -4.20 from the centre line (4.20), order C3 C7 C2 C6 SW C5 C1 = x -4.20..+2.40; SW(CD switch) = pin 7. Shield tabs (pin 8), y measured up from the front edge y=+6.68: 2-5.87 left at x -5.87, y = 6.68-12.56 = -5.88 and 6.68-6.43 = +0.25 (12.56, 6.43), 0.70 x 1.50 at x -5.35 (5.35), y = 6.68-1.08 = +5.60 (1.08); 3-5.89 right at y -4.15 / +0.05 / +5.35 (10.83 / 6.63 / 1.33 from the front edge), sizes 5-0.85 x 3-2.00 / 3-1.60 as printed. Two 2-phi0.75 locating holes at (-4.66,+3.58) and (+2.64,+4.48) (4.66 / 2.64 from the centre line, 3.10 / 2.20 above the front edge), taken as non-plated (plating not stated). Body = the outline of the layout drawing (11.50 x 13.36; the mechanical drawing p.2 gives 11.50 x 13.63 over the contact tips). The cross-hatched \"copper restricted\" areas of the drawing are keep-outs, not pads, and are not drawn. Drawn contact side up as printed, then rotated 180 deg (x,y -> -x,-y) so the card entry / eject side points up (-y).",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 11.5,
+    "height": 13.36
+   },
+   "pads": [
+    {
+     "pin": 3,
+     "x": 4.2,
+     "y": 6.68,
+     "width": 0.6,
+     "height": 0.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 3.1,
+     "y": 6.68,
+     "width": 0.6,
+     "height": 0.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 2.0,
+     "y": 6.68,
+     "width": 0.6,
+     "height": 0.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 0.9,
+     "y": 6.68,
+     "width": 0.6,
+     "height": 0.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -0.2,
+     "y": 6.68,
+     "width": 0.6,
+     "height": 0.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -1.3,
+     "y": 6.68,
+     "width": 0.6,
+     "height": 0.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -2.4,
+     "y": 6.68,
+     "width": 0.6,
+     "height": 0.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 5.87,
+     "y": 5.88,
+     "width": 0.85,
+     "height": 2.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 5.87,
+     "y": -0.25,
+     "width": 0.85,
+     "height": 2.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 5.35,
+     "y": -5.6,
+     "width": 0.7,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -5.89,
+     "y": 4.15,
+     "width": 0.85,
+     "height": 1.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -5.89,
+     "y": -0.05,
+     "width": 0.85,
+     "height": 1.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -5.89,
+     "y": -5.35,
+     "width": 0.85,
+     "height": 2.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 4.66,
+     "y": -3.58,
+     "width": 0.75,
+     "height": 0.75,
+     "shape": "round",
+     "drill": 0.75,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -2.64,
+     "y": -4.48,
+     "width": 0.75,
+     "height": 0.75,
+     "shape": "round",
+     "drill": 0.75,
+     "plated": false
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-NSIM-13-A-7",
+   "description": "Same Sky NSIM-13-A nano SIM card socket (push-in, auto eject), 7 contacts + shield tabs",
+   "note": "NSIM-13-A nsim-13-a.pdf p.3 Recommended PCB Layout (top view). Origin = centre of the layout outline 11.50 x 13.36 (centre line x=0, y=0 midway between the signal-pad line and the front edge: pad line y=-13.36/2=-6.68). Signal pads 7-0.60 x 7-0.75 on a 1.10 pitch (6-1.10), C3 at -4.20 from the centre line (4.20), order C3 C7 C2 C6 SW C5 C1 = x -4.20..+2.40; SW(CD switch) = pin 7. Shield tabs (pin 8), y measured up from the front edge y=+6.68: 2-5.87 left at x -5.87, y = 6.68-12.56 = -5.88 and 6.68-6.43 = +0.25 (12.56, 6.43), 0.70 x 1.50 at x -5.35 (5.35), y = 6.68-1.08 = +5.60 (1.08); 3-5.89 right at y -4.15 / +0.05 / +5.35 (10.83 / 6.63 / 1.33 from the front edge), sizes 5-0.85 x 3-2.00 / 3-1.60 as printed. This drawing prints no locating holes. Body = the outline of the layout drawing (11.50 x 13.36; the mechanical drawing p.2 gives 11.50 x 13.63 over the contact tips). The cross-hatched \"copper restricted\" areas of the drawing are keep-outs, not pads, and are not drawn. Drawn contact side up as printed, then rotated 180 deg (x,y -> -x,-y) so the card entry / eject side points up (-y).",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 11.5,
+    "height": 13.36
+   },
+   "pads": [
+    {
+     "pin": 3,
+     "x": 4.2,
+     "y": 6.68,
+     "width": 0.6,
+     "height": 0.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 3.1,
+     "y": 6.68,
+     "width": 0.6,
+     "height": 0.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 2.0,
+     "y": 6.68,
+     "width": 0.6,
+     "height": 0.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 0.9,
+     "y": 6.68,
+     "width": 0.6,
+     "height": 0.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -0.2,
+     "y": 6.68,
+     "width": 0.6,
+     "height": 0.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -1.3,
+     "y": 6.68,
+     "width": 0.6,
+     "height": 0.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -2.4,
+     "y": 6.68,
+     "width": 0.6,
+     "height": 0.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 5.87,
+     "y": 5.88,
+     "width": 0.85,
+     "height": 2.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 5.87,
+     "y": -0.25,
+     "width": 0.85,
+     "height": 2.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 5.35,
+     "y": -5.6,
+     "width": 0.7,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -5.89,
+     "y": 4.15,
+     "width": 0.85,
+     "height": 1.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -5.89,
+     "y": -0.05,
+     "width": 0.85,
+     "height": 1.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -5.89,
+     "y": -5.35,
+     "width": 0.85,
+     "height": 2.0,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-NSIM-14-C-6",
+   "description": "Same Sky NSIM-14-C nano SIM card socket (hinged), 6 contacts + cover tabs",
+   "note": "NSIM-14-C nsim-14-c.pdf p.3 Recommended PCB Layout (top view). Origin = centre of the 11.70 x 14.00 outline (the 13.00 tab-to-tab dimension is the outer edge of the 1.30 tabs, so the outline is 13.00-1.30 = 11.70 wide; scale of the print checked with the 6-0.90 / 4-1.30 sizes). Signal pads 6-0.90 x 6-1.20 on a 1.27 pitch at x = +-0.635 / +-1.905 / +-3.175 (printed 2-0.64 / 2-1.91 / 2-3.18 are these rounded), order C1 C5 C2 C6 C3 C7; pad row 4.10 above the first tab row: y = -6.80 (measured on the vector drawing: the outline top is 0.20 above the pad-row line), tabs 4-1.30 x 4-1.80 at x +-5.85 (13.00-1.30)/2, y = -6.80+4.10 = -2.70 and -2.70+8.80 = +6.10 (4.10 and 8.80 printed). All four tabs are the cover ground (pin 7 SHIELD). The hinge is at the top of the printed view and the cover opens toward the bottom, so the opening is taken at the bottom. Drawn contact side up as printed, then rotated 180 deg (x,y -> -x,-y) so the card entry / eject side points up (-y).",
+   "style": "explicit",
+   "pins": 7,
+   "body": {
+    "width": 11.7,
+    "height": 14.0
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 3.175,
+     "y": 6.8,
+     "width": 0.9,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 1.905,
+     "y": 6.8,
+     "width": 0.9,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 0.635,
+     "y": 6.8,
+     "width": 0.9,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -0.635,
+     "y": 6.8,
+     "width": 0.9,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -1.905,
+     "y": 6.8,
+     "width": 0.9,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -3.175,
+     "y": 6.8,
+     "width": 0.9,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 5.85,
+     "y": 2.7,
+     "width": 1.3,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 5.85,
+     "y": -6.1,
+     "width": 1.3,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -5.85,
+     "y": 2.7,
+     "width": 1.3,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -5.85,
+     "y": -6.1,
+     "width": 1.3,
+     "height": 1.8,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-NSIM-15-C-6",
+   "description": "Same Sky NSIM-15-C nano SIM card socket (hinged, card detect), 6 contacts + CD + cover tabs",
+   "note": "NSIM-15-C nsim-15-c.pdf p.3 Recommended PCB Layout (top view). Origin = centre of the 11.70 x 14.00 outline (the 13.00 tab-to-tab dimension is the outer edge of the 1.30 tabs, so the outline is 13.00-1.30 = 11.70 wide; scale of the print checked with the 6-0.90 / 4-1.30 sizes). Signal pads 6-0.90 x 6-1.20 on a 1.27 pitch at x = +-0.635 / +-1.905 / +-3.175 (printed 2-0.64 / 2-1.91 / 2-3.18 are these rounded), order C1 C5 C2 C6 C3 C7; pad row 4.10 above the first tab row: y = -6.80 (measured on the vector drawing: the outline top is 0.20 above the pad-row line), tabs 4-1.30 x 4-1.80 at x +-5.85 (13.00-1.30)/2, y = -6.80+4.10 = -2.70 and -2.70+8.80 = +6.10 (4.10 and 8.80 printed). The two left tabs are the card-detect switch SW (pin 7 CD), the two right tabs the cover ground (pin 8 SHIELD). The hinge is at the top of the printed view and the cover opens toward the bottom, so the opening is taken at the bottom. Drawn contact side up as printed, then rotated 180 deg (x,y -> -x,-y) so the card entry / eject side points up (-y).",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 11.7,
+    "height": 14.0
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 3.175,
+     "y": 6.8,
+     "width": 0.9,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 1.905,
+     "y": 6.8,
+     "width": 0.9,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 0.635,
+     "y": 6.8,
+     "width": 0.9,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -0.635,
+     "y": 6.8,
+     "width": 0.9,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -1.905,
+     "y": 6.8,
+     "width": 0.9,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -3.175,
+     "y": 6.8,
+     "width": 0.9,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 5.85,
+     "y": 2.7,
+     "width": 1.3,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 5.85,
+     "y": -6.1,
+     "width": 1.3,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -5.85,
+     "y": 2.7,
+     "width": 1.3,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -5.85,
+     "y": -6.1,
+     "width": 1.3,
+     "height": 1.8,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-NSIM-2-C-6",
+   "description": "Same Sky NSIM-2-C nano SIM card socket (hinged, card detect), 6 contacts + SW tabs",
+   "note": "NSIM-2-C nsim-2-c.pdf p.3 Recommended PCB Layout (top view). Origin = centre of the 11.70 x 14.00 outline (the 13.00 tab-to-tab dimension is the outer edge of the 1.30 tabs, so the outline is 13.00-1.30 = 11.70 wide; scale of the print checked with the 6-0.90 / 4-1.30 sizes). Signal pads 6-0.90 x 6-1.20 on a 1.27 pitch at x = +-0.635 / +-1.905 / +-3.175 (printed 2-0.64 / 2-1.91 / 2-3.18 are these rounded), order C1 C5 C2 C6 C3 C7; pad row 4.10 above the first tab row: y = -6.80 (measured on the vector drawing: the outline top is 0.20 above the pad-row line), tabs 4-1.30 x 4-1.80 at x +-5.85 (13.00-1.30)/2, y = -6.80+4.10 = -2.70 and -2.70+8.80 = +6.10 (4.10 and 8.80 printed). The two left tabs are the card-detect switch S/W (pin 7); the two right tabs have no signal name in the pin table and are unnumbered (pin 0). The hinge is at the top of the printed view and the cover opens toward the bottom, so the opening is taken at the bottom. Drawn contact side up as printed, then rotated 180 deg (x,y -> -x,-y) so the card entry / eject side points up (-y).",
+   "style": "explicit",
+   "pins": 7,
+   "body": {
+    "width": 11.7,
+    "height": 14.0
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 3.175,
+     "y": 6.8,
+     "width": 0.9,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 1.905,
+     "y": 6.8,
+     "width": 0.9,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 0.635,
+     "y": 6.8,
+     "width": 0.9,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -0.635,
+     "y": 6.8,
+     "width": 0.9,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -1.905,
+     "y": 6.8,
+     "width": 0.9,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -3.175,
+     "y": 6.8,
+     "width": 0.9,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 5.85,
+     "y": 2.7,
+     "width": 1.3,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 5.85,
+     "y": -6.1,
+     "width": 1.3,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": -5.85,
+     "y": 2.7,
+     "width": 1.3,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": -5.85,
+     "y": -6.1,
+     "width": 1.3,
+     "height": 1.8,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-NSIM-16-B-6",
+   "description": "Same Sky NSIM-16-B nano SIM card socket (push in/pull out), 6 contacts + shield pads",
+   "note": "NSIM-16-B nsim-16-b.pdf p.3 Recommended PCB Layout (top view; p.2 for the body 10.40 x 12.30). Origin x = centre line (C6/C2 column), y = midway between the two contact rows. Contact pads 6-1.00 x 6-1.10 at x -2.54 / 0 / +2.54 (2.54, 2.54); top row C7 C6 C5, bottom row C3 C2 C1. Row distance: bottom row is 12.05 - 0.25 = 11.80 below the top row (3-12.05 to the line, 3-0.25 offset of the bottom pads) so rows at y = -5.90 / +5.90. Side shield pads (pin 7 SHIELD) 2-1.00 x 2-3.00 at x = +-5.30 (5.30, 5.30); y = top row + (12.05-6.21) = +5.84 -> -5.90+5.84 = -0.06 (2-6.21 from the line 12.05). Holes: phi0.70 (+0.10/-0.00) at x +4.60 (4.60), y = top row + (12.05-10.30) = 1.75 -> -4.15 (10.30); phi0.90 (+0.10/-0.00) at x -4.40 (4.40), y = top row + (12.05-2.00) = 10.05 -> +4.15 (2.00): taken as non-plated (plating not stated). The body outline is not dimensioned against the pads in the layout; body 10.40 x 12.30 (p.2) centred on the origin, an assumption. Kept as printed (top view): the drawing does not show on which side the card enters, so the card entry is not forced to -y.",
+   "style": "explicit",
+   "pins": 7,
+   "body": {
+    "width": 10.4,
+    "height": 12.3
+   },
+   "pads": [
+    {
+     "pin": 6,
+     "x": -2.54,
+     "y": -5.9,
+     "width": 1.0,
+     "height": 1.1,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 0.0,
+     "y": -5.9,
+     "width": 1.0,
+     "height": 1.1,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 2.54,
+     "y": -5.9,
+     "width": 1.0,
+     "height": 1.1,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -2.54,
+     "y": 5.9,
+     "width": 1.0,
+     "height": 1.1,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 0.0,
+     "y": 5.9,
+     "width": 1.0,
+     "height": 1.1,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": 2.54,
+     "y": 5.9,
+     "width": 1.0,
+     "height": 1.1,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -5.3,
+     "y": -0.06,
+     "width": 1.0,
+     "height": 3.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 5.3,
+     "y": -0.06,
+     "width": 1.0,
+     "height": 3.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 4.6,
+     "y": -4.15,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "round",
+     "drill": 0.7,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -4.4,
+     "y": 4.15,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "round",
+     "drill": 0.9,
+     "plated": false
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-NSIM-3-C-7",
+   "description": "Same Sky NSIM-3-C nano SIM card socket (hinged, card detect), 6 contacts + CD + shield",
+   "note": "NSIM-3-C nsim-3-c.pdf p.3 Recommended PCB Layout (top view) with p.2 for the signal labels. Origin = centre of the body 10.90 x 13.45 (p.2 overall dims; centre line x=0 = the centre of the 2-10.60 tab pair). The bottom edge is the reference line: body spans y -6.725..+6.725. Contact pads 7-0.60 x 0.60: upper row of four on a 1.80 pitch (3-1.80, span 5.40) centred 0.11 right of the centre line (0.11): x = 0.11 + (-2.70, -0.90, +0.90, +2.70) = -2.59 / -0.79 / +1.01 / +2.81, y = 6.725 - 5.23 - 1.06 = +0.435 (5.23 and 1.06 printed); lower row of three centred on the same x: x = 0.11 + (-1.80, 0, +1.80) (3.60 span), y = 6.725 - 5.23 = +1.495. Signals (assigned from the p.2 top view, where the rows read C7 C6 C5 CD above and C3 C2 C1 below, left to right): upper row C7 C6 C5 CD, lower row C3 C2 C1; the layout page itself carries no pad labels. Shield (pin 8): four side tabs 4-0.60 x 4-1.40 at x +-5.30 (2-5.30), y = 6.725-1.70 = +5.025 and 5.025-8.00 = -2.975 (2-1.70, 2-8.00); two top pads 2-0.50 x 2-0.90 at x -3.00 / +3.81 (3.00 / 3.81 from the centre line), y = 6.725-11.95 = -5.225 (2-11.95). The two top pads are taken as cover-ground (they are not labelled in the print); p.2 shows them as the cover ears. Body height 13.45 per p.2 (the layout outline top is about 13.4). The cross-hatched \"copper restricted\" areas of the drawing are keep-outs, not pads, and are not drawn. Drawn contact side up as printed, then rotated 180 deg (x,y -> -x,-y) so the card entry / eject side points up (-y). Hinged cover: hinge at the top of the printed view, opening at the bottom.",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 10.9,
+    "height": 13.45
+   },
+   "pads": [
+    {
+     "pin": 6,
+     "x": 2.59,
+     "y": -0.435,
+     "width": 0.6,
+     "height": 0.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 0.79,
+     "y": -0.435,
+     "width": 0.6,
+     "height": 0.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -1.01,
+     "y": -0.435,
+     "width": 0.6,
+     "height": 0.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -2.81,
+     "y": -0.435,
+     "width": 0.6,
+     "height": 0.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 1.69,
+     "y": -1.495,
+     "width": 0.6,
+     "height": 0.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -0.11,
+     "y": -1.495,
+     "width": 0.6,
+     "height": 0.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -1.91,
+     "y": -1.495,
+     "width": 0.6,
+     "height": 0.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 5.3,
+     "y": 2.975,
+     "width": 0.6,
+     "height": 1.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 5.3,
+     "y": -5.025,
+     "width": 0.6,
+     "height": 1.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -5.3,
+     "y": 2.975,
+     "width": 0.6,
+     "height": 1.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -5.3,
+     "y": -5.025,
+     "width": 0.6,
+     "height": 1.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 3.0,
+     "y": 5.225,
+     "width": 0.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -3.81,
+     "y": 5.225,
+     "width": 0.5,
+     "height": 0.9,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-NSIM-4-B-7",
+   "description": "Same Sky NSIM-4-B nano SIM card socket (push in, pull out), 6 contacts + CD + GND tabs",
+   "note": "NSIM-4-B nsim-4-b.pdf p.3 Recommended PCB Layout (top view). Print dimensions are from the phi0.89 locating hole H at the top left (H = (0,0)): contact pads 6-0.90 x 1.40 in a row 9.40 below H (9.40), C7 at +10.32 (10.32), pitch 1.27 (6.35 for C1..C7), so C1 +3.97, C5 +5.24, C2 +6.51, C6 +7.78, C3 +9.05, C7 +10.32; Detect pad (pin 7 CD) 1.30 x 0.70 at (+12.20, -0.40) (12.20, 0.40, 1.30, 0.70); four GND tabs 4-1.45 x 4-2.60 (pin 8) at y +2.10 / +14.10 (2.10, 14.10), x = -0.38 and +14.67: tab centre-to-centre 15.05 (printed), left tab measured 0.38 left of H (printed 0.40) -> -0.38, +14.67 = -0.38+15.05; second locating hole: slot 0.89 x 1.28 at (+14.30, 0) (14.30, 1.28 wide), taken as non-plated; phi0.89 at H non-plated (plating not stated). The six phi1.50 circles of the drawing at x 4.61 / 7.15 / 9.69 (2.54), y 4.14 / 11.76 are clearances under the contact springs (no copper stated) and are not drawn. Origin = (+7.145, +7.55) in the H frame: x = middle of the tab pair ((-0.38+14.67)/2), y = middle of the body 16.50 (p.2) whose top edge is taken 0.70 above H (read off the print, +-0.2); body 15.30 x 16.50 (p.2). The tray (card) slides out of the bottom of the printed view (p.2: working position 20.80), hence the 180 deg rotation. Drawn contact side up as printed, then rotated 180 deg (x,y -> -x,-y) so the card entry / eject side points up (-y).",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 15.3,
+    "height": 16.5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 3.175,
+     "y": -1.85,
+     "width": 0.9,
+     "height": 1.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 1.905,
+     "y": -1.85,
+     "width": 0.9,
+     "height": 1.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 0.635,
+     "y": -1.85,
+     "width": 0.9,
+     "height": 1.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -0.635,
+     "y": -1.85,
+     "width": 0.9,
+     "height": 1.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -1.905,
+     "y": -1.85,
+     "width": 0.9,
+     "height": 1.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -3.175,
+     "y": -1.85,
+     "width": 0.9,
+     "height": 1.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -5.055,
+     "y": 7.95,
+     "width": 1.3,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 7.525,
+     "y": 5.45,
+     "width": 1.45,
+     "height": 2.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 7.525,
+     "y": -6.55,
+     "width": 1.45,
+     "height": 2.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -7.525,
+     "y": 5.45,
+     "width": 1.45,
+     "height": 2.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -7.525,
+     "y": -6.55,
+     "width": 1.45,
+     "height": 2.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 7.145,
+     "y": 7.55,
+     "width": 0.89,
+     "height": 0.89,
+     "shape": "round",
+     "drill": 0.89,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -7.155,
+     "y": 7.55,
+     "width": 1.28,
+     "height": 0.89,
+     "shape": "round",
+     "drill": 0.89,
+     "slotLength": 1.28,
+     "plated": false
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-NSIM-5-B-7",
+   "description": "Same Sky NSIM-5-B nano SIM card socket (push in, pull out), 6 contacts + CD + shield",
+   "note": "NSIM-5-B nsim-5-b.pdf p.3 Recommended PCB Layout (top view). Origin = centre of the connector area 9.80 x 12.40 (dotted box, 4-12.40; width 9.80 from the print, the 10.10 dimension is tab outer to outer), centre line x=0. Bottom reference line y=+6.20. Top row (y = -6.20 + 1.15/2 = -5.625, top edges on the box edge): C7 -1.90 (1.90), C6 0, CD +1.50 (1.50), C5 +2.555 (2.555), pads 4-0.75 x 4-1.15; left pad A 1.40 x 1.35 at x -3.60 (3.60) and right pad B 1.05 x 1.00 at x +3.775 (3.775): not labelled in the print, taken as cover ground (pin 8), y measured on the vector drawing (-5.73 / -5.85; both stand 0.2 / 0.15 above the box edge). Bottom row y = 6.20-1.00 = +5.20 (6-1.00 from the bottom line): 6-0.45 x 1.00 pads, two per contact 1.35 apart (3-1.35), centres 2.54 apart (2.54, 2.54): C3 at -2.54, C2 at 0, C1 at +2.54, i.e. x = +-0.675 about each. Four tabs 4-0.90 x 4-1.90 (pin 8) at x +-4.60 ((10.10-0.90)/2), y = 6.20-10.00 = -3.80 and 6.20-1.60 = +4.60 (2-10.00, 2-1.60). Body 9.80 x 12.40. The print does not show the card entry side (contacts at both ends) so the printed orientation is kept. Kept as printed (top view): the drawing does not show on which side the card enters, so the card entry is not forced to -y.",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 9.8,
+    "height": 12.4
+   },
+   "pads": [
+    {
+     "pin": 6,
+     "x": -1.9,
+     "y": -5.625,
+     "width": 0.75,
+     "height": 1.15,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 0.0,
+     "y": -5.625,
+     "width": 0.75,
+     "height": 1.15,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 1.5,
+     "y": -5.625,
+     "width": 0.75,
+     "height": 1.15,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 2.555,
+     "y": -5.625,
+     "width": 0.75,
+     "height": 1.15,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -3.6,
+     "y": -5.73,
+     "width": 1.4,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 3.775,
+     "y": -5.85,
+     "width": 1.05,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -4.6,
+     "y": -3.8,
+     "width": 0.9,
+     "height": 1.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -4.6,
+     "y": 4.6,
+     "width": 0.9,
+     "height": 1.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 4.6,
+     "y": -3.8,
+     "width": 0.9,
+     "height": 1.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 4.6,
+     "y": 4.6,
+     "width": 0.9,
+     "height": 1.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -3.215,
+     "y": 5.2,
+     "width": 0.45,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -1.865,
+     "y": 5.2,
+     "width": 0.45,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -0.675,
+     "y": 5.2,
+     "width": 0.45,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 0.675,
+     "y": 5.2,
+     "width": 0.45,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": 1.865,
+     "y": 5.2,
+     "width": 0.45,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": 3.215,
+     "y": 5.2,
+     "width": 0.45,
+     "height": 1.0,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-NSIM-6-A-7",
+   "description": "Same Sky NSIM-6-A nano SIM card socket (push in, auto eject), 6 contacts + SW(+) + ground pads",
+   "note": "NSIM-6-A nsim-6-a.pdf p.3 Recommended PCB Layout (top view, left drawing; the right drawing names the pads GND1..GND8, SW<+>, SW<GND>). Origin = centre of the product profile 11.15 x 13.85 (11.15 between the tab centres, 13.85 overall height); bottom edge y=+6.925. Rows: C7 C6 C5 at y = 6.925-5.77 = +1.155 (3-5.77), pads 3-0.90 x 0.70, x = -0.98 (0.98 from the centre line) +- 2.54 (2-2.54) = -3.52 / -0.98 / +1.56; C3 C2 C1 at y = 6.925-2.67 = +4.255 (3-2.67), pads 3-0.70 x 0.55, x = -0.98 +- 2.44 (2-2.44) = -3.42 / -0.98 / +1.46. SW(+) pad 1.20 x 0.65 at x -1.53 (1.53), y -5.85 (measured on the vector drawing). GND5 / GND4: 1.40 x 0.50 at x -3.18 / +1.22 (4.40 apart, 1.22 right of the centre line), centred on the top edge y=-6.925 (2-1.40, 2-0.50); GND6 0.75 x 0.70 at (-5.07 (5.07), 6.925-10.90 = -3.975); SW<GND> 0.70 x 0.70 at (-5.25 (5.25), 6.925-9.10 = -2.175); side tabs 0.45 wide at x +-5.575 (11.15/2): left 1.90 tall at y 6.925-6.75 = +0.175 (2-6.75) and 2.90 tall at 6.925-1.90 = +5.025 (2-1.90, 2-2.90); right 2.40 / 1.90 / 2.90 tall at y -4.975 (measured) / +0.175 / +5.025. Pin 7 = SW(+); pin 8 = the GND tabs and pads (GND1..GND8); SW<GND>, the switch ground (not in the pinout), is also assigned to pin 8 SHIELD so that it can be grounded - an assumption. Scale of the vector drawing calibrated on the 11.15 tab spacing and the 0.90 x 0.70 pads; positions rounded to 0.005 against the printed dimensions. The cross-hatched \"copper restricted\" areas of the drawing are keep-outs, not pads, and are not drawn. Drawn contact side up as printed, then rotated 180 deg (x,y -> -x,-y) so the card entry / eject side points up (-y). The card ejects toward the bottom of the printed view (p.2).",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 11.15,
+    "height": 13.85
+   },
+   "pads": [
+    {
+     "pin": 6,
+     "x": 3.52,
+     "y": -1.155,
+     "width": 0.9,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 0.98,
+     "y": -1.155,
+     "width": 0.9,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -1.56,
+     "y": -1.155,
+     "width": 0.9,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 3.42,
+     "y": -4.255,
+     "width": 0.7,
+     "height": 0.55,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 0.98,
+     "y": -4.255,
+     "width": 0.7,
+     "height": 0.55,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -1.46,
+     "y": -4.255,
+     "width": 0.7,
+     "height": 0.55,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 1.53,
+     "y": 5.85,
+     "width": 1.2,
+     "height": 0.65,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 3.18,
+     "y": 6.925,
+     "width": 1.4,
+     "height": 0.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -1.22,
+     "y": 6.925,
+     "width": 1.4,
+     "height": 0.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 5.07,
+     "y": 3.975,
+     "width": 0.75,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 5.25,
+     "y": 2.175,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 5.575,
+     "y": -0.175,
+     "width": 0.45,
+     "height": 1.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 5.575,
+     "y": -5.025,
+     "width": 0.45,
+     "height": 2.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -5.575,
+     "y": 4.975,
+     "width": 0.45,
+     "height": 2.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -5.575,
+     "y": -0.175,
+     "width": 0.45,
+     "height": 1.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -5.575,
+     "y": -5.025,
+     "width": 0.45,
+     "height": 2.9,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-NSIM-7-A-7",
+   "description": "Same Sky NSIM-7-A nano SIM card socket (push in, auto eject), 6 contacts + CD + GND tabs",
+   "note": "NSIM-7-A nsim-7-a.pdf p.3 Recommended PCB Layout (top view), p.2 for the body. Origin = centre of the body 13.09 x 13.72 (p.2), centre x = middle of the tab pair 2-13.00 (tab centre to centre); the 7-14.23 height runs from the pad-row line to the bottom edge, and the body top (p.2: 13.72 body) is 14.23-13.72 = 0.51 below the pad-row line, so the pad row is at y = 6.86-14.23 = -7.37 and the bottom edge at +6.86 (13.72/2 = 6.86). Contacts 7-0.80 x 7-1.14: C3 at x -4.83 (4.83), C7 / C2 / C6 / C1 every 1.27 (5-1.27): -3.56 / -2.29 / -1.02 / +0.25, C5 +1.52, CD 0.95 further (0.95): +2.47. Four GND tabs 4-0.70 x 4-2.10 (pin 8) at x +-6.50, y = 6.86-0.75 = +6.11 (2-0.75) and 6.86-12.75 = -5.89 (2-12.75). Two 2-phi0.75 holes at x -5.00 / +3.50 (8.50 apart, 8.50 between the holes; positions read off the vector drawing) and y = 6.86-2.00 = +4.86 (2-2.00): taken as non-plated (the part is surface mount; plating not stated). The 4.83 / 8.50 horizontal references are read off the vector drawing (the hole x positions are not dimensioned from the centre line). The cross-hatched \"copper restricted\" areas of the drawing are keep-outs, not pads, and are not drawn. Drawn contact side up as printed, then rotated 180 deg (x,y -> -x,-y) so the card entry / eject side points up (-y). The card ejects toward the bottom of the printed view (p.2).",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 13.09,
+    "height": 13.72
+   },
+   "pads": [
+    {
+     "pin": 3,
+     "x": 4.83,
+     "y": 7.37,
+     "width": 0.8,
+     "height": 1.14,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 3.56,
+     "y": 7.37,
+     "width": 0.8,
+     "height": 1.14,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 2.29,
+     "y": 7.37,
+     "width": 0.8,
+     "height": 1.14,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 1.02,
+     "y": 7.37,
+     "width": 0.8,
+     "height": 1.14,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -0.25,
+     "y": 7.37,
+     "width": 0.8,
+     "height": 1.14,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -1.52,
+     "y": 7.37,
+     "width": 0.8,
+     "height": 1.14,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -2.47,
+     "y": 7.37,
+     "width": 0.8,
+     "height": 1.14,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 6.5,
+     "y": 5.89,
+     "width": 0.7,
+     "height": 2.1,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 6.5,
+     "y": -6.11,
+     "width": 0.7,
+     "height": 2.1,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -6.5,
+     "y": 5.89,
+     "width": 0.7,
+     "height": 2.1,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -6.5,
+     "y": -6.11,
+     "width": 0.7,
+     "height": 2.1,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 5.0,
+     "y": -4.86,
+     "width": 0.75,
+     "height": 0.75,
+     "shape": "round",
+     "drill": 0.75,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -3.5,
+     "y": -4.86,
+     "width": 0.75,
+     "height": 0.75,
+     "shape": "round",
+     "drill": 0.75,
+     "plated": false
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-NSIM-8-B-7",
+   "description": "Same Sky NSIM-8-B nano SIM card socket (push in, pull out), 6 contacts + CD + GND tabs",
+   "note": "NSIM-8-B nsim-8-b.pdf p.3 Recommended PCB Layout (top view). Origin = centre of the outline 12.70 x 14.45 (p.2 body width 12.70; 14.45 = the 14.45 dimension of the layout), centre line x=0 (6.50 + 6.50 to the tab centres, 3-6.50). Bottom edge y = +7.225. Contacts 7-0.80 x 7-0.80 (0.80 each way): C1 C2 C3 at y = 7.225-6.92 = +0.305 (3-6.92), C5 C6 C7 at y = 7.225-5.10 = +2.125 (3-5.10), x = -2.54 / 0 / +2.54 (2-2.54, 2-2.54); CD at x +1.27 (1.27), y = 7.225-12.71 = -5.485 (12.71). Six side tabs 6-0.60 x 6-1.70 (pin 8) at x +-6.50, y = 7.225-14.20 = -6.975, 7.225-11.70 = -4.475 (2-14.20, 2-11.70) and 7.225-0.70 = +6.525 (2-0.70). Card entry: the lead-in funnel is at the bottom edge of the printed top view (p.2), so the opening is taken at the bottom. The cross-hatched \"copper restricted\" areas of the drawing are keep-outs, not pads, and are not drawn. Drawn contact side up as printed, then rotated 180 deg (x,y -> -x,-y) so the card entry / eject side points up (-y).",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 12.7,
+    "height": 14.45
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 2.54,
+     "y": -0.305,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 0.0,
+     "y": -0.305,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -2.54,
+     "y": -0.305,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 2.54,
+     "y": -2.125,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 0.0,
+     "y": -2.125,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -2.54,
+     "y": -2.125,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -1.27,
+     "y": 5.485,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 6.5,
+     "y": 6.975,
+     "width": 0.6,
+     "height": 1.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 6.5,
+     "y": 4.475,
+     "width": 0.6,
+     "height": 1.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 6.5,
+     "y": -6.525,
+     "width": 0.6,
+     "height": 1.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -6.5,
+     "y": 6.975,
+     "width": 0.6,
+     "height": 1.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -6.5,
+     "y": 4.475,
+     "width": 0.6,
+     "height": 1.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -6.5,
+     "y": -6.525,
+     "width": 0.6,
+     "height": 1.7,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-SD-1-A-11",
+   "description": "Same Sky SD-1-A SD card socket (push in, auto eject), 9 contacts + WP + CD + cover ground",
+   "note": "SD-1-A sd-1-a.pdf p.3 Recommended PCB Layout (top view), p.2 for the body 28.48 x 29.00. Pad x from the centre line: #4 at -0.63 (0.63), #3 +1.08 (1.08), CD +1.65 -> +2.73, #2 +1.65 -> +4.38, #1 +2.50 -> +6.88, #9 +2.50 -> +9.38; #5 -2.50 -> -3.13, #6 -2.50 -> -5.63, #7 -2.42 -> -8.05, #8 -1.70 -> -9.75, WP -3.35 -> -13.10. Tabs 2-1.20 x 2-2.00 at x -13.60 (13.60) and +14.40 (14.40), y = R+21.45 / R+20.25 (2.10 / 3.30 above the hole line), i.e. 22.20 / 21.00 below the pad row -> +7.20 / +6.00; holes at x +-12.10 (12.10, 12.10; 24.20 apart). Pads 11-1.00 x 1.50 in one row. Origin: the body is taken as 28.48 x 29.00 with its top edge 0.50 below the pad-row line (the p.2 tails project 1.20-1.25 of their 1.50 length), so the body centre is 15.00 below the pad row (y_pad = -15.00). Reference line R = pad-row line + 0.75 (lower pad edge): the printed 28.80 / 29.00 run from R to the bottom edge, the printed 23.55 to the hole line, so the holes are 0.75 + 23.55 = 24.30 below the pad row = +9.30 from the body centre. The long thin 1.70 x 8.00 outlined rectangle at the left of the print (not hatched, 7.30 / 15.30 from the pad line) is the position of the cover slot / a keep-out and is not drawn. Two holes phi1.50 (2-phi1.50): taken as non-plated locating holes (plating not stated). Pad numbers: #n = SD pin n, WP = pin 10, CD = pin 11, tabs = cover ground (pin 12 SHIELD). The card is inserted from the bottom of the printed view (eject stroke drawn there, p.2). Drawn contact side up as printed, then rotated 180 deg (x,y -> -x,-y) so the card entry / eject side points up (-y).",
+   "style": "explicit",
+   "pins": 12,
+   "body": {
+    "width": 28.48,
+    "height": 29.0
+   },
+   "pads": [
+    {
+     "pin": 10,
+     "x": 13.1,
+     "y": 15.0,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 9.75,
+     "y": 15.0,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 8.05,
+     "y": 15.0,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 5.63,
+     "y": 15.0,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 3.13,
+     "y": 15.0,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 0.63,
+     "y": 15.0,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -1.08,
+     "y": 15.0,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -2.73,
+     "y": 15.0,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -4.38,
+     "y": 15.0,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -6.88,
+     "y": 15.0,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -9.38,
+     "y": 15.0,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": 13.6,
+     "y": -7.2,
+     "width": 1.2,
+     "height": 2.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -14.4,
+     "y": -6.0,
+     "width": 1.2,
+     "height": 2.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 12.1,
+     "y": -9.3,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 1.5,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -12.1,
+     "y": -9.3,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 1.5,
+     "plated": false
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-SD-2-A-11",
+   "description": "Same Sky SD-2-A SD card socket (push in, auto eject), 9 contacts + WP + CD + cover ground",
+   "note": "SD-2-A sd-2-a.pdf p.3 Recommended PCB Layout (top view), p.2 for the body 28.48 x 29.00. Pad x from the centre line: #4 at -1.02 (1.02), #3 +0.68 (0.68), CD +1.65 -> +2.33, #2 +1.65 -> +3.98, #1 +2.50 -> +6.48, #9 +2.50 -> +8.98; #5 -2.50 -> -3.52, #6 -2.50 -> -6.02, #7 -2.42 -> -8.44, #8 -1.70 -> -10.14, WP -3.35 -> -13.49. Tabs 2-1.20 x 2-2.00 at x +-14.52 (29.04 tab to tab), 1.90 (left) and 3.10 (right) above the hole line: y = 24.30-1.90 = 22.40 / 24.30-3.10 = 21.20 below the pad row -> +7.40 / +6.20; holes at x -12.50 / +11.70 (12.50, 11.70; 24.20 apart). Pads 11-1.00 x 1.50 in one row. Origin: the body is taken as 28.48 x 29.00 with its top edge 0.50 below the pad-row line (the p.2 tails project 1.20-1.25 of their 1.50 length), so the body centre is 15.00 below the pad row (y_pad = -15.00). Reference line R = pad-row line + 0.75 (lower pad edge): the printed 28.80 / 29.00 run from R to the bottom edge, the printed 23.55 to the hole line, so the holes are 0.75 + 23.55 = 24.30 below the pad row = +9.30 from the body centre. The long thin 1.70 x 8.00 outlined rectangle at the left of the print (not hatched, 7.30 / 15.30 from the pad line) is the position of the cover slot / a keep-out and is not drawn. Two holes phi1.50 (2-phi1.50): taken as non-plated locating holes (plating not stated). Pad numbers: #n = SD pin n, WP = pin 10, CD = pin 11, tabs = cover ground (pin 12 SHIELD). The card is inserted from the bottom of the printed view (eject stroke drawn there, p.2). Drawn contact side up as printed, then rotated 180 deg (x,y -> -x,-y) so the card entry / eject side points up (-y).",
+   "style": "explicit",
+   "pins": 12,
+   "body": {
+    "width": 28.48,
+    "height": 29.0
+   },
+   "pads": [
+    {
+     "pin": 10,
+     "x": 13.49,
+     "y": 15.0,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 10.14,
+     "y": 15.0,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 8.44,
+     "y": 15.0,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 6.02,
+     "y": 15.0,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 3.52,
+     "y": 15.0,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 1.02,
+     "y": 15.0,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -0.68,
+     "y": 15.0,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -2.33,
+     "y": 15.0,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -3.98,
+     "y": 15.0,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -6.48,
+     "y": 15.0,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -8.98,
+     "y": 15.0,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": 14.52,
+     "y": -7.4,
+     "width": 1.2,
+     "height": 2.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -14.52,
+     "y": -6.2,
+     "width": 1.2,
+     "height": 2.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 12.5,
+     "y": -9.3,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 1.5,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -11.7,
+     "y": -9.3,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 1.5,
+     "plated": false
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-SD-3-B-11",
+   "description": "Same Sky SD-3-B SD card socket (push in, pull out), 9 contacts + WP + CD + shield",
+   "note": "SD-3-B sd-3-b.pdf p.3 Recommended PCB Layout (top view), p.2 for the body 26.40 x 16.10. Origin: centre line x=0 (the middle of the 26.25 slot pair, 13.125 each side), y = centre of the body 16.10 whose top edge is 0.86 below the pad-row centre (the bottom edge 16.96 below the pad row is read off the vector drawing, 16.96-16.10 = 0.86), so the pad row is at y = -(0.86+8.05) = -8.91. Contacts: P9 at +9.38 (9.38 from the centre line, 9-1.00 x 1.75), then 2.50 pitch: P1 +6.88, P2 +4.38, P3 +1.88, P4 -0.62, P5 -3.12, P6 -5.62, P7 -8.12 (2.50X7 = 17.50 from P7 to P9), P8 -9.75 (1.63 from P7), CD -11.05 (1.30) and W/P -12.25 (1.20), the last two 2-0.70 x 1.75. Pins: P1..P9 = SD pins 1..9, W/P = pin 10, CD = pin 11. Shield (pin 12): P12 / P14 SMD pads 1.50 x 2.80 at x -13.65 / +11.30 (24.95 apart, measured 13.65 left of the centre line), y = pad row + 1.93 (vector measured; 2.40 = hole line to the top edge of the pad) = -6.98; P13 / P15 plated slots at x +-13.125 (13.125), pad 1.20 x 3.90 with a 0.60 x 3.40 slot (1.20 wide, 3.90 and 3.40 long as printed), y = hole line + 8.85 (8.85) = +2.87; holes phi1.20 (+0.10/-0.00) at x -11.50 (21.00 - 9.50) and phi1.70 (+0.10/-0.00) at x +9.50 (9.50), both y = pad row + 2.925 (hole line, vector measured) = -5.985, taken as non-plated locating holes. The cross-hatched \"no trace / no test point / no via / no ground\" areas are keep-outs, not drawn. The card is inserted from the bottom (the ejected card is drawn there on p.2). Drawn contact side up as printed, then rotated 180 deg (x,y -> -x,-y) so the card entry / eject side points up (-y).",
+   "style": "explicit",
+   "pins": 12,
+   "body": {
+    "width": 26.4,
+    "height": 16.1
+   },
+   "pads": [
+    {
+     "pin": 10,
+     "x": 12.25,
+     "y": 8.91,
+     "width": 0.7,
+     "height": 1.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": 11.05,
+     "y": 8.91,
+     "width": 0.7,
+     "height": 1.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 9.75,
+     "y": 8.91,
+     "width": 1.0,
+     "height": 1.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 8.12,
+     "y": 8.91,
+     "width": 1.0,
+     "height": 1.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 5.62,
+     "y": 8.91,
+     "width": 1.0,
+     "height": 1.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 3.12,
+     "y": 8.91,
+     "width": 1.0,
+     "height": 1.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 0.62,
+     "y": 8.91,
+     "width": 1.0,
+     "height": 1.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -1.88,
+     "y": 8.91,
+     "width": 1.0,
+     "height": 1.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -4.38,
+     "y": 8.91,
+     "width": 1.0,
+     "height": 1.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -6.88,
+     "y": 8.91,
+     "width": 1.0,
+     "height": 1.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -9.38,
+     "y": 8.91,
+     "width": 1.0,
+     "height": 1.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": 13.65,
+     "y": 6.98,
+     "width": 1.5,
+     "height": 2.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -11.3,
+     "y": 6.98,
+     "width": 1.5,
+     "height": 2.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": 13.125,
+     "y": -2.87,
+     "width": 1.2,
+     "height": 3.9,
+     "shape": "round",
+     "drill": 0.6,
+     "slotLength": 3.4
+    },
+    {
+     "pin": 12,
+     "x": -13.125,
+     "y": -2.87,
+     "width": 1.2,
+     "height": 3.9,
+     "shape": "round",
+     "drill": 0.6,
+     "slotLength": 3.4
+    },
+    {
+     "pin": 0,
+     "x": 11.5,
+     "y": 5.985,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "round",
+     "drill": 1.2,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -9.5,
+     "y": 5.985,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.7,
+     "plated": false
+    }
+   ]
+  }
+ ]
+}

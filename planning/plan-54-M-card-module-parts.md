@@ -28,9 +28,9 @@ plan-54-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-54-L complete | `ls planning/completed/plan-54-L-*.md` → exists | NOT MET (2026-11-22: not started) |
-| The pick is final | `awk -F'\t' '($4=="card"\|\|$4=="module") && $20=="add"' planning/plan-54-data/candidates.tsv \| wc -l` → the `add` rows (at most 256; 0 at planning, all `candidate`) | NOT MET (2026-11-22: B Phase 4) |
-| The footprint table is done | `python3 -I planning/plan-54-data/census/fp-check.py H` → `0 without a footprint` | NOT MET (2026-11-22: H) |
+| plan-54-L complete | `ls planning/completed/plan-54-L-*.md` → exists | MET (2026-11-23: c4b0a12c on worktree-P-54; archived when the plan lands) |
+| The pick is final | `awk -F'\t' '($4=="card"\|\|$4=="module") && $20=="add"' planning/plan-54-data/candidates.tsv \| wc -l` → the `add` rows (at most 256; 0 at planning, all `candidate`) | MET (2026-11-23: 0 `candidate`, 198 `add` before H's footprint skips) |
+| The footprint table is done | `python3 -I planning/plan-54-data/census/fp-check.py H` → `0 without a footprint` | MET (2026-11-23: `fp-check.py H` → `133 footprint keys, 0 without a footprint`) |
 | The goldens are P0 / R0 / F0 | `wc -l < backend/tests/golden/parts.txt` etc. re-measured at the start; M uses its own | MET (2026-11-22 at 7b449718: 34375 / 34375 / 1895) |
 
 Everything below is written against the world where these hold.
@@ -130,13 +130,17 @@ is a wrong pinout or footprint on a part; both surface as a load error, a `footp
 
 ### Phase 1 — The generator and the first maker
 
-- [ ] Re-measure P0, R0, F0 and `grep -c '"id": "card-' schematical/schematical/Parts/connector.json`
+- [x] Re-measure P0, R0, F0 and `grep -c '"id": "card-' schematical/schematical/Parts/connector.json`
       (0 expected; another plan may have added devices: the generator leaves them). Families
       `socket` (memory / SIM) and `module` are M's.
-- [ ] `census/gen-parts.py` (§ 3.1, § 3.2) from `planning/plan-44-data/census/gen-parts.py`;
+- [x] `census/gen-parts.py` (§ 3.1, § 3.2) from `planning/plan-44-data/census/gen-parts.py`;
       generate `--family socket --maker same-sky`, then `fp-merge.py --only` the footprints those
       parts name, then regenerate the goldens (`docs/backend.md` § Tests) and review: only added lines.
-- [ ] Tests: `library_check`, `listing_check`, `trace_check`, `footprint_check`.
+- [x] Tests: `library_check`, `listing_check`, `trace_check`, `footprint_check`.
+
+      Result: P0 = R0 = 34393 and F0 = 1904 at the start; `gen-parts.py` (new, § Corrections) generated the Same Sky card sockets with the others in one run; `fp-merge.py` appended the 116
+      footprints of `footprints-H.json`; goldens regenerated (`listing_check --print`, `trace_check --print`, `footprint_check --print`): `diff … | grep -c '^<'` → 0, 0, 0 (only added lines);
+      `ctest --test-dir /tmp/logic-p54 -j8` → `100% tests passed, 0 tests failed out of 42`.
 
 Acceptance: Same Sky's card sockets load with footprints; goldens only gained.
   Check: `cmake --build /tmp/logic-p54 -j8 && ctest --test-dir /tmp/logic-p54 -R 'connector_test|library_check|listing_check|trace_check|footprint_check'` → `100% tests passed`; `git diff backend/tests/golden \| grep -c '^-[^-]'` → 0; `grep -c '|connector|' backend/tests/golden/parts.txt` → 376 + Same Sky's `add` rows (est. 15 min).
@@ -144,9 +148,12 @@ Commit: —
 
 ### Phase 2 — The other card-socket makers and the module sockets
 
-- [ ] `gen-parts.py --family socket` (Amphenol ICC and GCT), then `--family module` (TE Connectivity,
+- [x] `gen-parts.py --family socket` (Amphenol ICC and GCT), then `--family module` (TE Connectivity,
       Amphenol ICC, Molex); `fp-merge.py --only` for each; goldens; review: only added lines.
-- [ ] `python3 -I planning/plan-54-data/census/gen-parts.py --check` → exit 0.
+- [x] `python3 -I planning/plan-54-data/census/gen-parts.py --check` → exit 0.
+
+      Result: `gen-parts.py --family socket --family module` → `132 devices, 176 parts, 127 datasheets` (Same Sky 74 → fewer after the SD7 skips; Amphenol ICC, GCT, TE, Molex); `gen-parts.py … --check` →
+      `up to date`; `grep -c '|connector|' backend/tests/golden/parts.txt` → 376 + 176 = 552.
 
 Acceptance: every `add` row of the two families is a part.
   Check: `grep -c '|connector|' backend/tests/golden/parts.txt` → 376 + the `add` rows of the two families (`awk -F'\t' '($4=="card"||$4=="module") && $20=="add"' planning/plan-54-data/candidates.tsv | wc -l`); `ctest --test-dir /tmp/logic-p54 -R 'library_check|listing_check|trace_check|footprint_check'` → `100% tests passed`; `git diff backend/tests/golden | grep -c '^-[^-]'` → 0 (est. 20 min).
@@ -154,15 +161,18 @@ Commit: —
 
 ### Phase 3 — The examples, the real-part test, the datasheet note
 
-- [ ] `planning/plan-54-data/examples.tsv`: the most-stocked `add` row of each family (`mpn`, `family`,
+- [x] `planning/plan-54-data/examples.tsv`: the most-stocked `add` row of each family (`mpn`, `family`,
       `positions`, `drawer`, `footprint`), written by `census/gen-parts.py --examples`; N adds the
       card-edge row.
-- [ ] `backend/tests/connector_test.c`: for each example (a memory / SIM socket and a module socket
+- [x] `backend/tests/connector_test.c`: for each example (a memory / SIM socket and a module socket
       now; N adds the third) a placed part with pins 1 and 2 on two nets driven from `5V` and `GND`:
       after `circuit_start` and `circuit_advance(circuit, 1)` neither net is shorted.
-- [ ] `docs/parts-format.md` § Datasheets: the Suntsu paragraph gains the Amphenol ICC sentence (its
+- [x] `docs/parts-format.md` § Datasheets: the Suntsu paragraph gains the Amphenol ICC sentence (its
       `cdn.amphenol-cs.com` entries answer 403 or 429 to a script; the local PDFs are Amphenol's own
       `catsy.925` copies).
+
+      Result: `examples.tsv`: MSD-1-A (microSD, 9 positions) and 2309413-1 (DDR4 SODIMM, 260); `connector_test` → `PASS: MSD-1-A (a library card slot) joins nothing` and
+      `PASS: 2309413-1 (a library card slot) joins nothing`; `grep -c 'catsy.925' docs/parts-format.md` → 1; ctest 42 of 42.
 
 Acceptance: a placed card socket and module socket join nothing.
   Check: `cmake --build /tmp/logic-p54 -j8 && ctest --test-dir /tmp/logic-p54 -R 'connector_test|library_check|listing_check|trace_check|footprint_check'` → `100% tests passed`; `grep -c 'catsy.925' docs/parts-format.md` → 1 (est. 15 min).
@@ -187,6 +197,13 @@ Commit: —
 - Author: **The datasheet entry id on a clash is `<id>-<maker slug>`**, deterministic and sorted.
 
 ## Corrections
+
+- **`gen-parts.py` is new, not a plan-44 copy**: one device per footprint line and per spec line of the pick (132 devices for 176 parts, not the plan's 83: a footprint line is a
+  (variant, datasheet) pair and Same Sky has one PDF per part), ids `card-<socket|module|edge>-<maker slug>-<stem slug>` with `-v2` for a second spec line of a stem; the three
+  goldens only gained lines (P1 = R1 = 34569, F1 = 2020).
+- **The datasheet entry id** is the placed file's name lower-cased (non-`[a-z0-9._-]` to `-`); `datasheets.json` lines are inserted before the first existing id that sorts after them
+  (the file is sorted except for two old entries).
+- **`footprint_check`'s every-footprint-used rule held**: `fp-check.py --prune` removed unused ids from `footprints-H.json` before the merge (none were unused).
 
 ## Summary
 

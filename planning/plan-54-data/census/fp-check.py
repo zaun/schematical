@@ -40,6 +40,8 @@ def main(argv):
     letter = argv[0]
     maps, jsons = [], []
     needed = os.path.join(specs.DATA, 'footprints-needed.txt')
+    prune = '--prune' in argv   # rewrite the letter's footprints-<letter>.json without the footprints no line uses
+    argv = [a for a in argv if a != '--prune']
     scoped = '--scoped' in argv   # a reader's worksheet: count only the keys its own json / map name
     argv = [a for a in argv if a != '--scoped']
     i = 1
@@ -105,6 +107,13 @@ def main(argv):
                 missing += 1
                 print('; '.join(bad) + ':', stem, N)
     unused = sorted(set(mine) - used)
+    if prune and unused and not jsons:
+        path = own[0]
+        keep = [o for o in json.load(open(path))['footprints'] if o['id'] not in set(unused)]
+        lines = ',\n'.join('    ' + json.dumps(o, ensure_ascii=False, separators=(',', ':')) for o in keep)
+        open(path, 'w').write('{\n  "format": "schematical-footprints",\n  "version": 1,\n  "footprints": [\n' + lines + '\n  ]\n}\n')
+        print(f'pruned {len(unused)} unused footprints from {os.path.basename(path)}')
+        unused = []
     for u in unused:
         print('unused footprint', u)
     print(f'{n} footprint keys, {missing} without a footprint')

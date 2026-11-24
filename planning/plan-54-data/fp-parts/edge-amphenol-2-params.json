@@ -1,0 +1,1081 @@
+{
+ "rows": [
+  {
+   "stem": "EDGE-AMPHENOL-MINI-COOL-EDGE-0-60MM-F",
+   "positions": [
+    168
+   ],
+   "description": "Amphenol Mini Cool Edge 0.60 mm straddle-mount card-edge socket, {N} contacts (OCP/EDSFF 168, 3.05 mm board), pads on both faces of the host board edge",
+   "note": "Drawing C ME1016833402R01 (ME1016833340XR0X) rev A, PDF datasheets/connector-card-edge/amphenol/cme101683340xr0x.pdf, sheet 2 (recommended footprint, two views) and sheet 1 (housing). Straddle mount: the host board edge goes into the connector, pads on BOTH faces. Print shows both faces: the first footprint view (labels OB1..OB14, B1..B70, datum G = board edge) and the second view (CH/FH/GH, 'POSITION A1 ON THE OPPOSITE SIDE OF CARD OF B1', pads directly opposite). Assumed (the print does not say which face is up): the B pads (first-drawn view) are on the part's own face, the A pads (pins 1-84) on the opposite face (PCIe/EDSFF convention: B = component side). Pins 1..84 = left-to-right OA1..OA14, A1..A70 and pins 85..168 = OB1..OB14, B1..B70 in the print's top view (OB1 at the left); the pinout of the line names them A1..A84 / B1..B84, the order is the same. Pads 0.38 wide (0.38+-0.05) x 2.12 long: from 0.88 to 3.00 from the board edge (level 1 sequence 0.88+-0.13, contact point reference 3.00+-0.13; the level 2 pads start at 1.28 and the optional split pads are not drawn). Pitch 0.60 (0.60 TYP). x origin = datum C (centre of the pad pattern, 0.258 right of datum F): pad groups 14 | 28 | 14 | 28 with OB1 at 30.40 left of datum F, B1 at 18.205 left, B28 2.005 left, B29 2.005 right, B43 14.715 right, B70 at 31.995-1.08 = 30.915 right of F (board edge 31.48 left / 31.995 right of F, first/last pad 1.08 from the edge); gaps: OB14 at 30.40-13*0.6 = 22.60 left of F, B1 at 18.205: 4.395 apart (extra 3.795), B28 to B29 = 4.01 (extra 3.41), B42 to B43 = 14.715-9.805 = 4.91 (extra 4.31). Board edge: y = +1.67 (housing 15.20 deep centred on y=0 with datum G 5.93 from the front face, sheet 1 section: -7.60+5.93 = -1.67 from the front; the board interior is toward -y as in the top-face view); pad centre y = 1.67-(0.88+3.00)/2 = -0.27 on both faces; the housing's offset to the pads is read approximately (sheet 1 section). Two non-plated holes dia 2.40+-0.05 NPTH at 3.23 from the board edge (y = 1.67-3.23 = -1.56), 67.96 apart, datum F centred 33.985 from the left and 33.975 from the right hole: x = -33.985-0.258 = -34.243 and 33.975-0.258 = 33.717. Not drawn: the board outline slots (2.25 / 1.85 / 2.75 wide, 7.00 deep), chamfers and the card's own edge.",
+   "numbering": "halves",
+   "pitch": 0.6,
+   "dir": "ltr,ltr",
+   "row_y": "-0.27,-0.27",
+   "row_layer": "opposite,same",
+   "edge_mount": 1,
+   "pad_w": 0.38,
+   "pad_h": 2.12,
+   "shape": "rect",
+   "gaps": {
+    "14": 3.795,
+    "42": 3.41,
+    "56": 4.31
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": -34.243,
+     "y": -1.56,
+     "width": 2.4,
+     "height": 2.4,
+     "shape": "round",
+     "drill": 2.4,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 33.717,
+     "y": -1.56,
+     "width": 2.4,
+     "height": 2.4,
+     "shape": "round",
+     "drill": 2.4,
+     "plated": false
+    }
+   ],
+   "body_w": 73.0,
+   "body_h": 15.2
+  },
+  {
+   "stem": "EDGE-AMPHENOL-MINI-COOL-EDGE-0-60MM-H",
+   "positions": [
+    168
+   ],
+   "description": "Amphenol Mini Cool Edge 0.60 mm right-angle SMT card-edge socket, {N} contacts (R/A H3.05, reverse type)",
+   "note": "Drawing C MET0168X020207X (MET016810202071) rev A, PDF datasheets/connector-card-edge/amphenol/cmet01681020207x.pdf, sheet 2 (recommended footprint) and sheet 1 (housing). All pads on the part's own face, two rows. The print shows the footprint with OA1/OB1 at the RIGHT (A70/B70 at the left), B pads in the upper row, A pads in the lower row (labels B70/A70, B1/A1, OB14/OA14): pins 1..84 = A row from OA1 at the right to A70 at the left (dir rtl), pins 85..168 = B row from OB1 to B70. Pad groups 14 | 28 | 14 | 28 counted from the OB1/OA1 end, the same pattern as the straddle drawing: OB1 pad 1.42 left of the right NPTH hole W, B1 13.615, B29 33.825, B43 46.535 from W (printed 1.42, 13.615, 33.825, 46.535; gaps 13.615-1.42-13*0.6 = 4.395 -> extra 3.795, 33.825-13.615-27*0.6 = 4.01 -> extra 3.41, 46.535-33.825-13*0.6 = 4.91 -> extra 4.31); A70/B70 at 46.535+27*0.6 = 62.735 (not printed). Pattern centre = 32.08 from W (printed, the middle PTH), x origin there; x = 32.08 - (distance from W). Pad 0.35+-0.05 wide x 1.40+-0.05 long; row centres 2.14 (B) and 5.10 (A) below the line through the W hole (printed 2.14 and 5.10; rows 2.96 apart). Origin y = the centre of the print's keepout rectangle 68.72 x 13.67 (dash-dot outline, 0.35 below the W line): rows at y = 5.10-0.35 = 4.75 (A) and 2.14-0.35 = 1.79 (B). Holes: NPTH dia 1.10+-0.05 at W (x = 32.08, y = -0.35) and at 64.165 left of W, 1.00 above the W line (x = 32.08-64.165 = -32.085, y = -1.35); 5 PTH dia 1.10+-0.05 3.00 above the W line (y = -3.35) at 0.68 right of W and 11.70, 32.08, 44.615, 64.84 left of W (x = 32.76, 20.38, 0, -12.535, -32.76). The PTH pad (copper ring) diameter is not printed: assumed 1.60 (drill + 0.5). The body is the print's keepout outline (68.72 x 13.67), not the housing (housing 67.52 wide, sheet 1).",
+   "numbering": "halves",
+   "pitch": 0.6,
+   "dir": "rtl,rtl",
+   "row_y": "4.75,1.79",
+   "pad_w": 0.35,
+   "pad_h": 1.4,
+   "shape": "rect",
+   "gaps": {
+    "14": 3.795,
+    "42": 3.41,
+    "56": 4.31
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": 32.08,
+     "y": -0.35,
+     "width": 1.1,
+     "height": 1.1,
+     "shape": "round",
+     "drill": 1.1,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -32.085,
+     "y": -1.35,
+     "width": 1.1,
+     "height": 1.1,
+     "shape": "round",
+     "drill": 1.1,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 32.76,
+     "y": -3.35,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 0,
+     "x": 20.38,
+     "y": -3.35,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 0,
+     "x": 0,
+     "y": -3.35,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 0,
+     "x": -12.535,
+     "y": -3.35,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 0,
+     "x": -32.76,
+     "y": -3.35,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.1
+    }
+   ],
+   "body_w": 68.72,
+   "body_h": 13.67
+  },
+  {
+   "stem": "EDGE-AMPHENOL-MINI-COOL-EDGE-0-60MM-I",
+   "positions": [
+    56
+   ],
+   "description": "Amphenol Mini Cool Edge 0.60 mm orthogonal EDSFF 1x1 card-edge socket, {N} contacts, SMT 26.5 mm offset",
+   "note": "Drawing C MEX005630502911 rev B, PDF datasheets/connector-card-edge/amphenol/cmex005630502911.pdf, sheet 3 'RECOMMEND PCB LAYOUT' (+ details B, C). All pads on the part's own face, two rows of 28 contiguous pads (no key gap): A row (pins 1..28, A1 at the left) 4.05 above the line through the W hole, B row (pins 29..56, B1 at the left) 0.55 below it (printed 4.05 and 0.55; rows 4.60 apart); A1/B1 are 1.82 right of W (printed 1.82), pitch 0.60 (0.60), pads 56 x 0.35+-0.05 wide, 56 x 1.20+-0.05 long (detail B). x origin = pattern centre = W + 1.82 + 27*0.6/2 = W + 9.92; y origin = the row centre line = W - 1.75 (printed 1.75). Holes (x = distance from W - 9.92, y = up distance from the centre line, down positive): NPTH dia 2.00+-0.05 at 1.32 left of W and 3.90 below the W line (x -11.24, y 5.65); NPTH dia 1.10+-0.05 at W (x -9.92, y 1.75); PTH dia 1.10 at 3.755 right of W, 7.40 above the W line (x -6.165, y -5.65) and at 19.63 right of W on the centre line (x 9.71, y 0); two PTH slots 1.10 x 2.45 (2x1.10+-0.05 PTH, 2x2.45+-0.05 PTH) at 1.55 left of W (x -11.47, y 0) and 21.18 right of W (x 11.26, y 0). Assumed: which round holes are plated is not labelled clearly (the W hole read as the NPTH datum hole, the other two dia 1.10 as the 2 PTH); the PTH / slot pad (copper) sizes are not printed: pads 1.50 round and 1.50 x 2.95 for the slots (drill + 0.4, the holes are only 1.55 apart). Body = the print's keepout outline: 26.72 wide (PCB edge to the right end) x 7.20 (printed (26.72), (7.20)), centred on the pad pattern (its position relative to the pads is read approximately); the PCB edge is 5.44 left of W (4.12 + 1.32).",
+   "numbering": "halves",
+   "pitch": 0.6,
+   "dir": "ltr,ltr",
+   "row_y": "-2.3,2.3",
+   "pad_w": 0.35,
+   "pad_h": 1.2,
+   "shape": "rect",
+   "extras": [
+    {
+     "pin": 0,
+     "x": -11.24,
+     "y": 5.65,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 2.0,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -9.92,
+     "y": 1.75,
+     "width": 1.1,
+     "height": 1.1,
+     "shape": "round",
+     "drill": 1.1,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -6.165,
+     "y": -5.65,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 0,
+     "x": 9.71,
+     "y": 0,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 0,
+     "x": -11.47,
+     "y": 0,
+     "width": 1.5,
+     "height": 2.95,
+     "shape": "round",
+     "drill": 1.1,
+     "slotLength": 2.45
+    },
+    {
+     "pin": 0,
+     "x": 11.26,
+     "y": 0,
+     "width": 1.5,
+     "height": 2.95,
+     "shape": "round",
+     "drill": 1.1,
+     "slotLength": 2.45
+    }
+   ],
+   "body_w": 26.72,
+   "body_h": 7.2
+  },
+  {
+   "stem": "EDGE-AMPHENOL-MINI-COOL-EDGE-0-60MM-L",
+   "positions": [
+    168
+   ],
+   "description": "Amphenol Mini Cool Edge 0.60 mm vertical SMT card-edge socket, {N} contacts (AIC 1.97 mm)",
+   "note": "Drawing C ME1016810115 01X rev A, PDF datasheets/connector-card-edge/amphenol/cme101681011501x.pdf, sheet 3 'RECOMMENDED FOOTPRINT' (+ sheet 1 housing, sheet 2 pin assignment). All pads on the part's own face, two rows. The footprint view prints no pad labels: assumed (as in the right-angle drawing of the same family) the lower row is the A row (pins 1..84: OA1..OA14, A1..A70) and the upper row the B row (pins 85..168: OB1..OB14, B1..B70), pin 1 / OB1 at the LEFT (the 14-pad group is at the left end, 1.825 from the W hole). Pad groups 14 | 28 | 14 | 28: first pads at 1.825, 14.02, 34.23, 46.94 from the left NPTH hole W (printed; gaps 12.195-13*0.6 = 4.395 -> extra 3.795, 20.21-27*0.6 = 4.01 -> 3.41, 12.71-13*0.6 = 4.91 -> 4.31). Pattern centre = W + 32.485 (printed 32.485 on sheet 1): x origin there. Pad 0.35+-0.05 wide x 1.40+-0.05 long; row centres 4.17 above and 0.67 below the W line (printed 4.17, 0.67; rows 4.84 apart); y origin = the centre line of the slots, 1.75 above the W line (printed 1.75): rows y = +2.42 (A) and -2.42 (B). Holes: NPTH dia 1.10+-0.05 at W (x -32.485, y +1.75) and at 64.97 right of W on the centre line (x 32.485, y 0); 5 PTH slots 1.10+-0.05 x 2.45+-0.05 (5X1.10 PTH, 5X2.45 PTH) on the centre line at 1.55, 11.86, 32.23, 44.49, 66.52 right of W (x = -30.9325, -20.6225, -0.2525, 12.0075, 34.0375). Assumed: the pad (copper) of the slots is not printed: 1.60 x 2.95 (drill + 0.5). Body = the print's footprint keepout outline 69.62 x 7.75 (printed (69.62), (7.75)); the housing is 67.52 wide (sheet 1).",
+   "numbering": "halves",
+   "pitch": 0.6,
+   "dir": "ltr,ltr",
+   "row_y": "2.42,-2.42",
+   "pad_w": 0.35,
+   "pad_h": 1.4,
+   "shape": "rect",
+   "gaps": {
+    "14": 3.795,
+    "42": 3.41,
+    "56": 4.31
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": -32.485,
+     "y": 1.75,
+     "width": 1.1,
+     "height": 1.1,
+     "shape": "round",
+     "drill": 1.1,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 32.485,
+     "y": 0,
+     "width": 1.1,
+     "height": 1.1,
+     "shape": "round",
+     "drill": 1.1,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -30.9325,
+     "y": 0,
+     "width": 1.6,
+     "height": 2.95,
+     "shape": "round",
+     "drill": 1.1,
+     "slotLength": 2.45
+    },
+    {
+     "pin": 0,
+     "x": -20.6225,
+     "y": 0,
+     "width": 1.6,
+     "height": 2.95,
+     "shape": "round",
+     "drill": 1.1,
+     "slotLength": 2.45
+    },
+    {
+     "pin": 0,
+     "x": -0.2525,
+     "y": 0,
+     "width": 1.6,
+     "height": 2.95,
+     "shape": "round",
+     "drill": 1.1,
+     "slotLength": 2.45
+    },
+    {
+     "pin": 0,
+     "x": 12.0075,
+     "y": 0,
+     "width": 1.6,
+     "height": 2.95,
+     "shape": "round",
+     "drill": 1.1,
+     "slotLength": 2.45
+    },
+    {
+     "pin": 0,
+     "x": 34.0375,
+     "y": 0,
+     "width": 1.6,
+     "height": 2.95,
+     "shape": "round",
+     "drill": 1.1,
+     "slotLength": 2.45
+    }
+   ],
+   "body_w": 69.62,
+   "body_h": 7.75
+  },
+  {
+   "stem": "EDGE-AMPHENOL-PCI-EXPRESS",
+   "positions": [
+    164
+   ],
+   "description": "Amphenol PCI Express 6.0 x16 straddle-mount card-edge socket, {N} contacts, pitch 1.00 mm (board edge mount)",
+   "note": "Drawing 10173133 rev A 'PCI Express 6.0, Assembly, Straddle Mount Type', PDF datasheets/connector-card-edge/amphenol/10173133.pdf, sheet 2 'RECOMMENDED PCB LAYOUT' (164 POS: DIM D = 92.60) and sheet 1 (housing, DIM B = 89.00). Straddle mount: pads on both faces of the board edge. The print draws both faces: the first view (PIN A1) and the second view (PIN B1), same x; assumed (not stated) the A pads (pins 1..82, first-drawn view) are on the part's own face and the B pads (pins 83..164) on the opposite face. x origin = centre of the pad pattern (and of the two mounting holes): A1 at 16.30-1.50-10.00 = 4.80 from the left hole, 11 pads at 1.00 (10.00 A1-A11), 1.50 from A11 to the key centre line and 1.50 to A12 (gap 3.00 -> extra 2.00), then N = 70 spaces at 1.00 to A82 (4.80 from the right hole, DIM D 92.60): pattern 10+3+70 = 83 wide, pads at +-41.5. y origin = the board edge (datum W), the board interior toward -y as drawn; pad 0.60+-0.05 wide, signal pads 1.60+-0.10 long from 1.60 to 3.20 from the edge (y centre -2.40); the longer GND pads (2.50 long, 0.70 to 3.20 from the edge; pins listed in note 1 for 164 POS) are the signal pad plus an abutting 0.60 x 0.90 pad (y -1.15) of the same pin. Two holes dia 2.30+-0.05 at 2.50 from the edge, 92.60 apart (x +-46.30, y -2.50); not labelled plated or not: drawn as NPTH (assumed). Body = housing outline 89.00 x 8.80 (sheet 1: DIM B, 8.80) centred on the board edge (the offset between housing and board edge is not printed). Not drawn: the board key slot (1.90 wide at the key centre line), chamfers, the keepout regions.",
+   "numbering": "halves",
+   "pitch": 1.0,
+   "dir": "ltr,ltr",
+   "row_y": "-2.4,-2.4",
+   "row_layer": "same,opposite",
+   "edge_mount": 1,
+   "pad_w": 0.6,
+   "pad_h": 1.6,
+   "shape": "rect",
+   "gaps": {
+    "11": 2.0
+   },
+   "extras": [
+    {
+     "pin": 12,
+     "x": -28.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": -25.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": -22.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": -20.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 23,
+     "x": -17.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 24,
+     "x": -16.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 27,
+     "x": -13.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 28,
+     "x": -12.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 31,
+     "x": -9.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 34,
+     "x": -6.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 37,
+     "x": -3.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 38,
+     "x": -2.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": 0.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 42,
+     "x": 1.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 45,
+     "x": 4.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 46,
+     "x": 5.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 8.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 51,
+     "x": 10.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 54,
+     "x": 13.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 55,
+     "x": 14.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 58,
+     "x": 17.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 59,
+     "x": 18.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 62,
+     "x": 21.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 63,
+     "x": 22.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 66,
+     "x": 25.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 67,
+     "x": 26.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 70,
+     "x": 29.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 71,
+     "x": 30.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 74,
+     "x": 33.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 75,
+     "x": 34.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 78,
+     "x": 37.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 79,
+     "x": 38.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 82,
+     "x": 41.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 95,
+     "x": -27.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 98,
+     "x": -24.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 100,
+     "x": -22.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 103,
+     "x": -19.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 104,
+     "x": -18.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 107,
+     "x": -15.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 108,
+     "x": -14.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 111,
+     "x": -11.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 114,
+     "x": -8.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 117,
+     "x": -5.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 118,
+     "x": -4.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 121,
+     "x": -1.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 122,
+     "x": -0.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 125,
+     "x": 2.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 126,
+     "x": 3.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 129,
+     "x": 6.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 131,
+     "x": 8.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 134,
+     "x": 11.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 135,
+     "x": 12.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 138,
+     "x": 15.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 139,
+     "x": 16.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 142,
+     "x": 19.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 143,
+     "x": 20.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 146,
+     "x": 23.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 147,
+     "x": 24.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 150,
+     "x": 27.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 151,
+     "x": 28.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 154,
+     "x": 31.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 155,
+     "x": 32.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 158,
+     "x": 35.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 159,
+     "x": 36.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 162,
+     "x": 39.5,
+     "y": -1.15,
+     "width": 0.6,
+     "height": 0.9,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 0,
+     "x": -46.3,
+     "y": -2.5,
+     "width": 2.3,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 2.3,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 46.3,
+     "y": -2.5,
+     "width": 2.3,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 2.3,
+     "plated": false
+    }
+   ],
+   "body_w": 89.0,
+   "body_h": 8.8
+  },
+  {
+   "stem": "EDGE-AMPHENOL-PCI-EXPRESS-B",
+   "positions": [
+    36,
+    64,
+    98,
+    164
+   ],
+   "description": "Amphenol PCI Express Gen 6 SMT card-edge socket, {N} contacts, pitch 1.00 mm",
+   "note": "Drawing 10165968 rev A 'PCI Express Gen 6, SMT Type', PDF datasheets/connector-card-edge/amphenol/10165968c.pdf, sheet 3 'RECOMMENDED PCB LAYOUT, PAD TYPE' (table by POSITION: A = N spaces 6/20/37/70, B, C, D, H 28/42/59/92, J, K 9.15/23.15/40.15/73.15) and sheet 1 (housing D = 25/39/56/89, 8.80 deep). All pads on the part's own face, two rows; A row on top (A1 at the left), B row below (B1 at the left). Pads 0.53+-0.05 x 2.00+-0.05, pitch 1.00; inner pad edges 3.60 from the centre line, so row centres at +-(3.60+1.00) = +-4.60 (rows 9.20 apart). A1..A11 (10 spaces at 1.00), 1.65 from A11 to the key hole, 1.35 from the key hole to A12 (gap 3.00 -> extra 2.00), then N spaces at 1.00 (P-12 for P pads per row: 6/20/37/70) = pads symmetric about the pattern centre: first pad at -L0/2, L0 = 10+3+(P-12) = 19/33/50/83. Two 3.00 x 5.00 hold-down pads (2X 3.00+-0.05, 2X 5.00+-0.05, no pin number) 3.00 wide each end: outer ends H = L0+9 apart (28/42/59/92), centres at +-(L0/2+3); two non-plated holes dia 1.2+-0.05 on the centre line: the key hole at A11+1.65 = -L0/2+11.65 and the right hole K = 9.15/23.15/40.15/73.15 further (L0/2+1.80); the right hole sits in a dia 1.80 clearance cut of its pad: drawn as the pad cut back to x = hole + 0.90 (right pad 1.80 wide x 5.00, centre L0/2+3.6, outer end unchanged at L0/2+4.5). Assumed: the dia 1.2 holes read as non-plated (no PTH label); the hold-down rectangles as plain copper pads. Body = housing outline D = L0+6 (25/39/56/89) x 8.80 (sheet 1 top view); its y offset to the pad rows is not printed (centred). Only the 164 table row is cross-checked in detail; 36/64/98 use the same arithmetic against the table columns H and K.",
+   "numbering": "halves",
+   "pitch": 1.0,
+   "dir": "ltr,ltr",
+   "row_y": "-4.6,4.6",
+   "pad_w": 0.53,
+   "pad_h": 2.0,
+   "shape": "rect",
+   "gaps": {
+    "11": 2.0
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": "-L0/2-3",
+     "y": 0,
+     "width": 3.0,
+     "height": 5.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": "L0/2+3.6",
+     "y": 0,
+     "width": 1.8,
+     "height": 5.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2+11.65",
+     "y": 0,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "round",
+     "drill": 1.2,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "L0/2+1.8",
+     "y": 0,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "round",
+     "drill": 1.2,
+     "plated": false
+    }
+   ],
+   "body_w": "L0+6",
+   "body_h": 8.8
+  },
+  {
+   "numbering": "halves",
+   "pitch": 1.0,
+   "dir": "ltr,ltr",
+   "row_y": "-4.6,4.6",
+   "pad_w": 0.53,
+   "pad_h": 2.0,
+   "shape": "rect",
+   "gaps": {
+    "11": 2.0
+   },
+   "positions": [
+    164
+   ],
+   "body_w": 89.0,
+   "body_h": 8.8,
+   "stem": "EDGE-AMPHENOL-PCI-EXPRESS-C",
+   "description": "Amphenol PCI Express Gen 6 SMT latch card-edge socket, {N} contacts, pitch 1.00 mm",
+   "note": "Drawing 10174645 rev A 'PCIE GEN 6, SMT, LATCH, ASSY - BLADE HOLDDOWN', PDF datasheets/connector-card-edge/amphenol/10174645.pdf, sheet 3 'RECOMMENDED PCB LAYOUT, PAD TYPE' (164 POS: A 70.00, B 71.65, C 73.15). All pads on the part's own face, two rows, A row on top (A1 at the left): pads 0.53+-0.05 x 2.00+-0.05 TYP, pitch 1.00, inner pad edges 3.60 from the centre line (detail A) -> row centres +-4.60. A1..A11 (10.00), 1.65 to the key hole, 1.35 to A12 (gap 3.00 -> extra 2.00), A12..A82 70.00 (pads +-41.5, L0 = 83). Key hole dia 1.20+-0.05 at A11+1.65 = -41.5+11.65 = -29.85 (assumed non-plated: no PTH label); PTH slots 1.10+-0.05 x 2.45+-0.05 (2X 1.10 PTH, 2X 2.45 PTH) on the centre line: left 1.10 left of A1 (12.75 left of the key hole: -29.85-12.75 = -42.60) and right 1.80 right of A82 (C = 73.15 from the key hole: -29.85+73.15 = 43.30). Assumed: the slot pad (copper) size is not printed: 1.60 x 2.95 (drill + 0.5). Body = housing 89.00 x 8.80 (assumed the same housing as sheet 1 of 10165968; not printed on this PDF's footprint sheet), centred on the pad pattern.",
+   "extras": [
+    {
+     "pin": 0,
+     "x": -42.6,
+     "y": 0,
+     "width": 1.6,
+     "height": 2.95,
+     "shape": "round",
+     "drill": 1.1,
+     "slotLength": 2.45
+    },
+    {
+     "pin": 0,
+     "x": -29.85,
+     "y": 0,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "round",
+     "drill": 1.2,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 43.3,
+     "y": 0,
+     "width": 1.6,
+     "height": 2.95,
+     "shape": "round",
+     "drill": 1.1,
+     "slotLength": 2.45
+    }
+   ]
+  },
+  {
+   "numbering": "halves",
+   "pitch": 1.0,
+   "dir": "ltr,ltr",
+   "row_y": "-4.6,4.6",
+   "pad_w": 0.53,
+   "pad_h": 2.0,
+   "shape": "rect",
+   "gaps": {
+    "11": 2.0
+   },
+   "positions": [
+    164
+   ],
+   "body_w": 89.0,
+   "body_h": 8.8,
+   "stem": "EDGE-AMPHENOL-PCI-EXPRESS-D",
+   "description": "Amphenol PCI Express Gen 6 customized-latch SMT card-edge socket, {N} contacts, pitch 1.00 mm",
+   "note": "Drawing 10176844 rev A 'PCIE GEN6, CUSTOMIZED LATCH, SMT, MODULE ASSY', PDF datasheets/connector-card-edge/amphenol/10176844.pdf, sheet 3 'RECOMMENDED PCB LAYOUT, PAD TYPE' (164 POS: A 70.00, B 71.65, C 75.85, D 89.00, J 70.00, E 73.15). All pads on the part's own face, two rows, A row on top (A1 at the left): pads 0.53+-0.05 x 2.00 (print: the same layout as the other PCIe SMT drawings, 3.60 from the centre line to the pad edge) pitch 1.00, row centres +-4.60; A1..A11 (10.00), 1.65 to the key hole, 1.35 to A12 (gap 3.00 -> extra 2.00), J = 70.00 to A82 (pads +-41.5). Two non-plated holes dia 1.20+-0.05 (2X NON-PTH) on the centre line: key hole -41.5+11.65 = -29.85, right hole E = 73.15 further = 43.30; PTH slots 1.10 x 2.45 (2X 1.10 PTH, 2X 2.45 PTH): left 1.10 left of A1 (12.75 left of the key hole, x -42.60), right at C = 75.85 from the key hole (x 46.00, 4.50 right of A82). Assumed: slot pad sizes not printed (1.60 x 2.95). Body = housing D = 89.00 (table) x 8.80 (the height is taken from 10165968 sheet 1, not printed here), centred on the pad pattern.",
+   "extras": [
+    {
+     "pin": 0,
+     "x": -42.6,
+     "y": 0,
+     "width": 1.6,
+     "height": 2.95,
+     "shape": "round",
+     "drill": 1.1,
+     "slotLength": 2.45
+    },
+    {
+     "pin": 0,
+     "x": -29.85,
+     "y": 0,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "round",
+     "drill": 1.2,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 43.3,
+     "y": 0,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "round",
+     "drill": 1.2,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 46.0,
+     "y": 0,
+     "width": 1.6,
+     "height": 2.95,
+     "shape": "round",
+     "drill": 1.1,
+     "slotLength": 2.45
+    }
+   ]
+  }
+ ]
+}

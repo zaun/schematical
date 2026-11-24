@@ -5,6 +5,25 @@
 #include "parts.h"
 #include "read_file.h"
 
+/* A real library card slot (planning/plan-54-data/examples.tsv): its pins A and B on two nets driven from 5V and GND join nothing. */
+static int card_part_joins_nothing(PartLibrary *library, const char *name, const char *a, const char *b) {
+    Circuit *circuit = circuit_create(library);
+    size_t vcc, gnd, part, na, nb;
+
+    if (circuit == NULL || circuit_add_part(circuit, "5V", &vcc) != 0 || circuit_add_part(circuit, "GND", &gnd) != 0 ||
+        circuit_add_part(circuit, name, &part) != 0 || circuit_add_net(circuit, &na) != 0 ||
+        circuit_add_net(circuit, &nb) != 0 || circuit_connect(circuit, vcc, "1", na) != 0 ||
+        circuit_connect(circuit, part, a, na) != 0 || circuit_connect(circuit, gnd, "1", nb) != 0 ||
+        circuit_connect(circuit, part, b, nb) != 0 || circuit_start(circuit) != 0 ||
+        (circuit_advance(circuit, 1), circuit_shorted_net(circuit, &na))) {
+        fprintf(stderr, "%s: %s\n", name, circuit != NULL ? circuit_error(circuit) : "no circuit");
+        return -1;
+    }
+    circuit_destroy(circuit);
+    printf("PASS: %s (a library card slot) joins nothing\n", name);
+    return 0;
+}
+
 int main(void) {
     PartLibrary *library = part_library_create();
     Circuit *circuit;
@@ -100,6 +119,11 @@ int main(void) {
         }
         circuit_destroy(circuit);
         puts("PASS: a card slot loads and joins nothing");
+    }
+    /* The most-stocked `add` part of each family (examples.tsv). */
+    if (card_part_joins_nothing(library, "MSD-1-A", "1", "2") != 0 ||
+        card_part_joins_nothing(library, "2309413-1", "1", "2") != 0) {
+        return 1;
     }
     part_library_destroy(library);
     return 0;

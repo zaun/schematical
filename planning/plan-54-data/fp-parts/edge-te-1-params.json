@@ -1,0 +1,397 @@
+{
+ "rows": [
+  {
+   "stem": "EDGE-TE-166088",
+   "positions": [
+    13
+   ],
+   "description": "TE 166088 AMP-Edge board-to-board card-edge connector, {N} posts, 2.54 mm pitch, one row of through-hole posts",
+   "note": "TE customer drawing C-166088 (rev H2), datasheets/connector-card-edge/te/166088.pdf, sheet 1 of 1. Posts: 13 at pitch 2.54 (N-1) x 2.54 = 30.48 printed; post hole 0.8 mm min dia printed ('board to board contact post for 0.8 min dia hole') -> drill 0.8; pad diameter 1.6 NOT printed (assumed). Row y = +2.54: the print shows two possible post rows 5.08 apart in section A-A (5.08 printed), the single-loaded row is the left one in section A-A, which is the lower row (+y) of the top view; 2.54 = 5.08/2 (symmetric about the housing centre, scaled 2.5 on the print); the sign is read from the section direction, not printed. Origin: centre of the top-view outline 53.08 x 10.2 (53.08 printed, depth 10.2 printed in section A-A). Two housing ear holes 47.08 apart (printed), 3.4 high x 4 wide on the print (clipped circle): drawn as non-plated round holes of 3.4 mm (the 4 mm width is not expressible); plating and PCB use of the ear holes not printed. No PCB layout is printed; pin 1 assumed at the left. Card slot runs along x; the card is inserted perpendicular to the board.",
+   "numbering": "single",
+   "pitch": 2.54,
+   "row_y": 2.54,
+   "pad_w": 1.6,
+   "pad_h": 1.6,
+   "shape": "round",
+   "drill": 0.8,
+   "extras": [
+    {
+     "pin": 0,
+     "x": -23.54,
+     "y": 0,
+     "width": 3.4,
+     "height": 3.4,
+     "shape": "round",
+     "drill": 3.4,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 23.54,
+     "y": 0,
+     "width": 3.4,
+     "height": 3.4,
+     "shape": "round",
+     "drill": 3.4,
+     "plated": false
+    }
+   ],
+   "body_w": 53.08,
+   "body_h": 10.2
+  },
+  {
+   "stem": "EDGE-TE-530666",
+   "positions": [
+    12
+   ],
+   "description": "TE 530666 low-profile edge connector, {N} contacts (2 rows of 6), 3.96 mm pitch, through-hole posts",
+   "note": "TE customer drawing C-530666 (rev K3), datasheets/connector-card-edge/te/530666.pdf, sheet 1 of 1. Pitch .156 in = 3.9624 (3.96 printed; the 'A spaces at 3.175' callout is a print error, the table gives A = 19.81 for the 6-position part = 5 x 3.9624). Row spacing .200 in = 5.08 (5.09 printed). Hole: title block says .052 dia hole = 1.32 -> drill 1.32; pad diameter 2.1 NOT printed (assumed, hole + 0.8). Housing C = 31.50 long x D = 9.40 deep (table, 6-position column); the housing is centred on the posts (4.06 post-to-B-edge on both ends, B = 27.94). Numbers 1..6 are the upper row (y -2.54) and letters A..F the lower row (+2.54) in the print's top view / mating-face view; pin 1 at the left (position-1 indicator at the left). Origin: centre of the housing outline. No PCB layout drawing beyond the hole size and the .156 x .200 centres.",
+   "numbering": "halves",
+   "pitch": 3.9624,
+   "row_y": "-2.54,2.54",
+   "pad_w": 2.1,
+   "pad_h": 2.1,
+   "shape": "round",
+   "drill": 1.32,
+   "body_w": "L0+11.69",
+   "body_h": 9.4
+  },
+  {
+   "stem": "EDGE-TE-531433",
+   "positions": [
+    44
+   ],
+   "description": "TE 531433 low-profile edge connector, {N} contacts (2 rows of 22), 3.96 mm pitch, through-hole posts",
+   "note": "TE customer drawing C-531433 (rev J), datasheets/connector-card-edge/te/531433.pdf, sheet 1 of 1, inches. Pitch .156 in = 3.9624; row spacing .200 in = 5.08; table row 531433-4 (22 positions per row): C = 3.276 in = 83.21 (21 x .156), B = 3.596, A = 3.736 in = 94.89, W = .370 in = 9.40. Hole: title block says .040 dia hole = 1.016 -> drill 1.02; pad diameter 1.8 NOT printed (assumed, hole + 0.8). Numbers 1..22 upper row (y -2.54), letters lower row (+2.54), pin 1 at the left. Origin: centre of the housing outline (A x W, housing centred on the posts: A - C = 11.68).",
+   "numbering": "halves",
+   "pitch": 3.9624,
+   "row_y": "-2.54,2.54",
+   "pad_w": 1.8,
+   "pad_h": 1.8,
+   "shape": "round",
+   "drill": 1.02,
+   "body_w": "L0+11.68",
+   "body_h": 9.4
+  },
+  {
+   "stem": "EDGE-TE-1717831",
+   "positions": [
+    52
+   ],
+   "description": "TE 1717831 mini PCI Express / mSATA card-edge socket, {N} contacts, 0.8 mm pitch, surface mount",
+   "note": "TE customer drawing C-1717831 (rev E), datasheets/connector-card-edge/te/1717831.pdf, sheet 2 'referential P.C.board layout for full card connector' (sheet 1 for the 29.8 x ~9.5 outline and the pin-1 triangle). Datum = centre of the O1.6 hole (x 0, y 0 on the print). Pads 0.6 x 2.0, pitch 0.8, 2 rows at y = -4.1 / +4.1 (4.1 printed). Odd pins (pin 1 marked by the triangle on sheet 1) on the lower row, first centre x = 0.7; even pins on the upper row, first centre x = 1.1 (0.4 REF stagger); 8 pads (0.8 x 7 = 5.6), then the key: second group starts at 10.3 (odd) / 10.7 (even) with 18 pads (0.8 x 17 = 13.6). Pegs: pads 2.3 x 3.2 centred at x = -2.15 and 27.15, y = +3.5 (2.15, 27.15, 3.5, 2.3, 3.2 printed); holes O1.6 at x = 0 and O1.1 at x = 25 (25 printed), y = 0. Plating of these holes not printed: drawn non-plated. Footprint origin = housing centre: x = 12.5 (25/2, the print's housing is 30 wide, 2.5 outside the two holes, read from the scaled outline); y = +0.23 (outline top/bottom read off the scaled sheet-1 plan view, 9.5 deep: approximate). So every printed x is shifted by -12.5, every y by -0.23. The housing body 29.8 x 9.5 is approximate in y.",
+   "numbering": "odd-even",
+   "pitch": 0.8,
+   "gaps": {
+    "8": 3.2
+   },
+   "row_y": "3.87,-4.33",
+   "x_off": "-0.2,0.2",
+   "pad_w": 0.6,
+   "pad_h": 2.0,
+   "shape": "rect",
+   "extras": [
+    {
+     "pin": 0,
+     "x": -12.5,
+     "y": -0.23,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 12.5,
+     "y": -0.23,
+     "width": 1.1,
+     "height": 1.1,
+     "shape": "round",
+     "drill": 1.1,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -14.65,
+     "y": 3.27,
+     "width": 2.3,
+     "height": 3.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 14.65,
+     "y": 3.27,
+     "width": 2.3,
+     "height": 3.2,
+     "shape": "rect"
+    }
+   ],
+   "body_w": 29.8,
+   "body_h": 9.5
+  },
+  {
+   "stem": "EDGE-TE-1734774",
+   "positions": [
+    36,
+    64,
+    98,
+    164
+   ],
+   "description": "TE 1734774 PCI Express card-edge socket, {N} contacts, 1.0 mm pitch, vertical through-hole",
+   "note": "TE customer drawing C-1734774 (rev H1), datasheets/connector-card-edge/te/1734774.pdf, sheet 4 'recommended PCB layout' (sheets 1 and 2 for the table of DIM F / DIM G and the 14.50 / B housing). Four staggered rows of holes: A odd pins (A1, A3, ..) on the inner row y = -1.25, A even on the outer row y = -3.25, B odd inner +1.25, B even outer +3.25 (rows 2.50 apart inner and 6.50 outer printed, inner 1.25 / 1.25 / 3.25 printed); pitch along x 1.00 (printed), so each row has a 2.00 pitch; hole O0.7 +-0.08 -> drill 0.7; pad diameter 0.9 NOT printed (assumed: the largest round pad whose box stays clear of the O2.35 key hole, whose edge is 1.65 - 1.175 = 0.475 from A11 and 1.35 - 1.175 from A12's row). Key centre line x = 0 (in the key frame): A11 at -1.65, A12 at +1.35 (printed), A1 at -11.65 (11.65 printed; 10.00 A1-A11), last A pin at 1.35 + F; DIM F = N/2 - 12 (6, 20, 37, 70 printed); the key gap is 3.00 between A11 and A12 (extra 2.00). B pins have the same x as the A pins (B1 under A1). Mounting holes O2.35 (2 places) at the key (x = 0) and at DIM G = F + 3.15 (9.15, 23.15, 40.15, 73.15 printed); plating not printed, drawn non-plated. Origin: centre of the housing outline, which spans 14.50 left of the key to B - 14.50 right of it, B = F + 19 (25, 39, 56, 89 printed): housing centre at (F - 10)/2 right of the key, so every key-frame x is shifted by +(10 - F)/2 (the pads end up 0.15 left of the housing centre, hence x_off -0.15). Housing depth 7.40 (printed), assumed centred on the rows (y = 0).",
+   "numbering": "halves",
+   "pitch": 1.0,
+   "gaps": {
+    "11": 2.0
+   },
+   "row_y": "-1.25,1.25",
+   "stagger": "-2,2",
+   "x_off": "-0.15,-0.15",
+   "pad_w": 0.9,
+   "pad_h": 0.9,
+   "shape": "round",
+   "drill": 0.7,
+   "extras": [
+    {
+     "pin": 0,
+     "x": "11-N/4",
+     "y": 0,
+     "width": 2.35,
+     "height": 2.35,
+     "shape": "round",
+     "drill": 2.35,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "N/4+2.15",
+     "y": 0,
+     "width": 2.35,
+     "height": 2.35,
+     "shape": "round",
+     "drill": 2.35,
+     "plated": false
+    }
+   ],
+   "body_w": "N/2+7",
+   "body_h": 7.4
+  },
+  {
+   "numbering": "halves",
+   "pitch": 1.0,
+   "gaps": {
+    "11": 2.0
+   },
+   "dir": "rtl,rtl",
+   "row_y": "3.6,-3.6",
+   "x_off": "0.15,0.15",
+   "pad_w": 0.7,
+   "pad_h": 2.0,
+   "shape": "rect",
+   "body_w": "N/2+7",
+   "body_h": 7.5,
+   "stem": "EDGE-TE-2337939",
+   "positions": [
+    64,
+    98,
+    164
+   ],
+   "description": "TE 2337939 PCI Express Gen4 card-edge socket, {N} contacts, 1.0 mm pitch, surface mount",
+   "note": "TE customer drawing C-2337939 (rev F1), datasheets/connector-card-edge/te/2337939.pdf, sheet 3 'recommended PCB layout'. Recommended PCB layout is drawn looking at the board from above with pin A1 at the RIGHT: A pads on the lower row y = +3.6, B pads on the upper row y = -3.6 (3.60 printed from the datum A line to each row's pad centre), pads 0.70 x 2.00 (printed), pitch 1.00, A1 at +11.65 from the key centre, A11 at +1.65, A12 at -1.35 (1.65 / 1.35 / 10.00 printed), then to the left; last pin at -(1.35 + F), DIM F = N/2 - 12 (20, 37, 70 printed). Hold-down pads 3.00 x 5.00 (2X, printed) with left tab centre at -(G + 1.0) from the key (tab spans G + 2.5 .. G - 0.5, read from the scaled print; G = F + 3.15 printed 23.15 / 40.15 / 73.15) and right tab 13.35..16.35 right of the key (DIM E = tab outer edge to outer edge = N/2 + 10: 42, 59, 92 printed, so the right tab right edge is at +16.35); positioning hole at the key and at -G (G printed), plating not printed for the second: drawn non-plated O1.20 for both. Origin: housing centre. The housing spans 14.5 on the A1 side and B - 14.5 = F + 4.5 on the other (B = F + 19), so every key-frame x is shifted by -(10 - F)/2 (x_off +0.15); pads end up 0.15 right of the housing centre. Housing depth 7.5 max (printed), assumed centred on the datum line. Holes: O1.20 +-0.05 NPTH (printed for the hole inside the left tab) with an O1.80 clearance (printed) round it: the left 3.00 x 5.00 tab (hole 0.5 from its right edge) is therefore drawn as three copper pads (a 1.6 x 5.00 strip at the outer end and two 1.4 x 1.6 strips above and below the clearance circle, arithmetic: tab = hole - 2.5 .. hole + 0.5, clearance radius 0.9, so strips are hole - 2.5 .. hole - 0.9 and hole - 0.9 .. hole + 0.5, y +-(0.9 .. 2.5)); the clearance circle's round corners are approximated by the straight cut.",
+   "extras": [
+    {
+     "pin": 0,
+     "x": "-N/4-3.85",
+     "y": 0,
+     "width": 1.6,
+     "height": 5.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": "-N/4-2.35",
+     "y": -1.7,
+     "width": 1.4,
+     "height": 1.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": "-N/4-2.35",
+     "y": 1.7,
+     "width": 1.4,
+     "height": 1.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": "N/4+3.85",
+     "y": 0,
+     "width": 3.0,
+     "height": 5.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": "-N/4-2.15",
+     "y": 0,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "round",
+     "drill": 1.2,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "N/4-11",
+     "y": 0,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "round",
+     "drill": 1.2,
+     "plated": false
+    }
+   ]
+  },
+  {
+   "numbering": "halves",
+   "pitch": 1.0,
+   "gaps": {
+    "11": 2.0
+   },
+   "dir": "rtl,rtl",
+   "row_y": "3.6,-3.6",
+   "x_off": "0.15,0.15",
+   "pad_w": 0.7,
+   "pad_h": 2.0,
+   "shape": "rect",
+   "body_w": "N/2+7",
+   "body_h": 7.5,
+   "stem": "EDGE-TE-2354154",
+   "positions": [
+    164
+   ],
+   "description": "TE 2354154 PCI Express Gen4 card-edge socket with solder tabs, {N} contacts, 1.0 mm pitch, surface mount",
+   "note": "TE customer drawing C-2354154 (rev C), datasheets/connector-card-edge/te/2354154.pdf, sheet 3 'recommended PCB layout'. Recommended PCB layout is drawn looking at the board from above with pin A1 at the RIGHT: A pads on the lower row y = +3.6, B pads on the upper row y = -3.6 (3.60 printed from the datum A line to each row's pad centre), pads 0.70 x 2.00 (printed), pitch 1.00, A1 at +11.65 from the key centre, A11 at +1.65, A12 at -1.35 (1.65 / 1.35 / 10.00 printed), then to the left; last pin at -(1.35 + F), DIM F = N/2 - 12 (20, 37, 70 printed). Hold-down pads 3.00 x 5.00 (2X, printed) with left tab centre at -(G + 1.0) from the key (tab spans G + 2.5 .. G - 0.5, read from the scaled print; G = F + 3.15 printed 23.15 / 40.15 / 73.15) and right tab 13.35..16.35 right of the key (DIM E = tab outer edge to outer edge = N/2 + 10: 42, 59, 92 printed, so the right tab right edge is at +16.35); positioning hole at the key and at -G (G printed), plating not printed for the second: drawn non-plated O1.20 for both. Origin: housing centre. The housing spans 14.5 on the A1 side and B - 14.5 = F + 4.5 on the other (B = F + 19), so every key-frame x is shifted by -(10 - F)/2 (x_off +0.15); pads end up 0.15 right of the housing centre. Housing depth 7.5 max (printed), assumed centred on the datum line. This variant: no hold-down pads; a plated through hole O1.09 +-0.05 (PTH printed) at -G, and two plated slots 1.10 +-0.05 x 2.30 +-0.05 (2X printed, long side along y) at the key and at DIM E - G = 86.82 - 73.15 = 13.67 right of the key (E printed 86.82 for 164). Pad (land) sizes of the PTH and slots are NOT printed: assumed O1.8 and 1.9 x 3.1 (hole + 0.8).",
+   "extras": [
+    {
+     "pin": 0,
+     "x": "-N/4-2.15",
+     "y": 0,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.09
+    },
+    {
+     "pin": 0,
+     "x": "N/4-11",
+     "y": 0,
+     "width": 1.9,
+     "height": 3.1,
+     "shape": "round",
+     "drill": 1.1,
+     "slotLength": 2.3
+    },
+    {
+     "pin": 0,
+     "x": "N/4+2.67",
+     "y": 0,
+     "width": 1.9,
+     "height": 3.1,
+     "shape": "round",
+     "drill": 1.1,
+     "slotLength": 2.3
+    }
+   ]
+  },
+  {
+   "stem": "EDGE-TE-2372484",
+   "positions": [
+    36,
+    64,
+    98,
+    164
+   ],
+   "description": "TE 2372484 PCI Express Gen4 straddle-mount card-edge socket, {N} contacts, 1.0 mm pitch, pads on both faces of the board edge",
+   "note": "TE customer drawing C-2372484 (rev A), datasheets/connector-card-edge/te/2372484.pdf, sheet 3 'recommend PCB layout' (sheet 1 for the housing, table for DIM.C / DIM.D). STRADDLE: the host board edge is clamped by the housing. The board edge runs along x at y = +3.2 (below the pads in the print, board extends to -y). The PCB layout is drawn for both faces: top face (primary side) carries the A pins (PIN A1 on the left, drawing view 1), bottom face carries the B pins (PIN B1 on the right in the second view, which is a view from the solder side, i.e. mirrored: seen from above B1 is on the left, under A1). Pads 0.70 x 3.6 on a 1.00 pitch: from 1.4 to 5.0 from the board edge (5.00 printed, 1.40 printed in the section 'DIM J' detail, 0.70 printed), so centre at 3.2 from the edge (y = 0 here). Key at x = 0 in the key frame: A11 at -1.65, A12 at +1.35 (1.50 / 10.00 / 11.65 printed), A1 at -11.65, last pin at 1.35 + C (C = 6, 20, 37, 70 printed). B pins are the same x as A pins and carry opposite: true. Mounting holes O2.00 (2 PLC printed) at 16.30 left of the key and at D right of it (D = C + 6.3: 12.30, 26.30, 43.30, 76.30 printed), 2.50 from the board edge (2.50 printed) -> y = +0.70; plating not printed: drawn non-plated. Origin x = housing centre ((C - 10)/2 right of the key; the housing is 14.50 left of the key and B - 14.5 right of it, B = C + 19 printed 25 / 39 / 56 / 89). Origin y = the pad centre line (the housing depth 7.4 is not located relative to the board edge on the print, so y is anchored on the pads). Body drawn 7.4 deep centred on y = 0.",
+   "numbering": "halves",
+   "pitch": 1.0,
+   "gaps": {
+    "11": 2.0
+   },
+   "row_y": "0,0",
+   "row_layer": "same,opposite",
+   "edge_mount": 1,
+   "x_off": "-0.15,-0.15",
+   "pad_w": 0.7,
+   "pad_h": 3.6,
+   "shape": "rect",
+   "extras": [
+    {
+     "pin": 0,
+     "x": "-N/4-5.3",
+     "y": 0.7,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 2.0,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "N/4+5.3",
+     "y": 0.7,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 2.0,
+     "plated": false
+    }
+   ],
+   "body_w": "N/2+7",
+   "body_h": 7.4
+  },
+  {
+   "stem": "EDGE-TE-2358256",
+   "positions": [
+    50
+   ],
+   "description": "TE 2358256 single-beam card-edge socket, {N} contacts (2 rows of 25), 2.54 mm pitch, right angle through-hole",
+   "note": "TE customer drawing C-2358256 (rev A1), datasheets/connector-card-edge/te/2358256.pdf, sheet 2 'recommended mounting board configuration layout, view from component side'. Two rows of O1.10 +-0.05 holes (drill 1.10), pitch 2.54 (printed), A row pos 1..M on the upper row (y -2.54), B row pos 1..N on the lower row (+2.54); rows 5.08 apart (5.08 printed); M = N = 25 (50 positions); DIM F = 24 x 2.54 = 60.96 (reference). Pad diameter 1.8 NOT printed (assumed hole + 0.7). Pins 1..25 = A, 26..50 = B (pin 1 at the left, as 'A row pos 1' on the print). Two optional non-plated O2.50 +-0.05 holes (for the post feature) at the x of the end positions and 10.83 below the A row (10.83 printed): y = -2.54 + 10.83 = 8.29. Body: the dashed keep-out outline 17.05 deep (printed, from the B row) x about 69 wide (scaled, not printed). Origin: centre of the hole array; the body outline is not located precisely relative to the holes (approximate). The direction of card entry is not stated on the print (the view is from the component side).",
+   "numbering": "halves",
+   "pitch": 2.54,
+   "row_y": "-2.54,2.54",
+   "pad_w": 1.8,
+   "pad_h": 1.8,
+   "shape": "round",
+   "drill": 1.1,
+   "extras": [
+    {
+     "pin": 0,
+     "x": -30.48,
+     "y": 8.29,
+     "width": 2.5,
+     "height": 2.5,
+     "shape": "round",
+     "drill": 2.5,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 30.48,
+     "y": 8.29,
+     "width": 2.5,
+     "height": 2.5,
+     "shape": "round",
+     "drill": 2.5,
+     "plated": false
+    }
+   ],
+   "body_w": "L0+8",
+   "body_h": 17.05
+  }
+ ]
+}

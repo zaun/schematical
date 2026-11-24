@@ -504,7 +504,10 @@ reports `HTTP 403` for most Suntsu crystal entries even though the URLs are the
 maker's own and open in a browser; the local PDFs under
 `datasheets/crystal/suntsu/` are the Internet Archive's copies of those URLs.
 Treat those failures as expected (plan-44-F: 9 of the 11 `suntsu.com` entries
-403, the other two answer).
+403, the other two answer). The same goes for Amphenol ICC's card-slot
+datasheets (plan-54): their entries name `cdn.amphenol-cs.com`, which answers a
+script `HTTP 403` or `429`; the local PDFs are Amphenol's own `catsy.925` file
+store's copies of the same documents.
 
 A part whose maker no longer hosts its datasheet has a `"manufacturer"`
 but no `"datasheet"`; `listing_check` prints how many there are. They are:

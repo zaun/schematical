@@ -1,9 +1,6 @@
 path	url	bytes	sha256	source
 amphenol/10128659.pdf	https://www.amphenol-icc.com/media/wysiwyg/files/drawing/10128659.pdf	309655	ab74fdc86c4d334872d4f5b1d16d90e533f800d0afd7be6e14afd80d03f1d60a	s3.us-west-2.amazonaws.com
 amphenol/gsd21001x7bhr.pdf	https://cdn.amphenol-cs.com/media/wysiwyg/files/drawing/gsd21001x7bhr.pdf	297140	3d1f8a30df2fd154bc79e3d985aa6bf921d77e0f7f48d7a4dfff38cbc7e3bd9d	s3.us-west-2.amazonaws.com
-amphenol/io_micro_sd_express.pdf	https://cdn.amphenol-cs.com/media/wysiwyg/files/documentation/datasheet/inputoutput/io_micro_sd_express.pdf	301768	ae86bba8760ca87dea38e9cb98c483b34b8a6b4a42f940a1df6231d6584be165	s3.us-west-2.amazonaws.com
-amphenol/io_micro_sdcard.pdf	https://cdn.amphenol-cs.com/media/wysiwyg/files/documentation/datasheet/inputoutput/io_micro_sdcard.pdf	323144	e62bc60ffbab2d9cb0ccd4950e7b4fa64e86ce15274e91f8f6c938daead12b17	s3.us-west-2.amazonaws.com
-amphenol/io_ufs.pdf	https://cdn.amphenol-cs.com/media/wysiwyg/files/documentation/datasheet/inputoutput/io_ufs.pdf	213375	4f74cab085f0588883ce7b1a8ec22ad39b8ab581746b602ce23d18387f1cd704	s3.us-west-2.amazonaws.com
 amphenol/vjw53666.pdf	https://cdn.amphenol-icc.com/media/wysiwyg/files/drawing/vjw53666.pdf	1138988	12a17d19f8a76b04b896529b786c3208bc36fdb336a24522f9b309150fb0dd2f	s3.us-west-2.amazonaws.com
 amphenol/vjw53696.pdf	https://cdn.amphenol-icc.com/media/wysiwyg/files/drawing/vjw53696.pdf	98169	64a8c67914ad7c1dc18f56b53eda8e9f4c6f7d70d26ce8df0171195d721123a2	s3.us-west-2.amazonaws.com
 amphenol/vjw53908.pdf	https://cdn.amphenol-icc.com/media/wysiwyg/files/drawing/vjw53908.pdf	123062	62deb929b34b3312c0d0ae44cae26eab4b5da14c2d5c7e8b7825c7b639250694	s3.us-west-2.amazonaws.com
@@ -69,9 +66,7 @@ same-sky/sd4-5-b.pdf	https://www.cuidevices.com/product/resource/digikeypdf/sd4-
 same-sky/sd7-1-b.pdf	https://www.sameskydevices.com/product/resource/digikeypdf/sd7-1-b.pdf	675326	6448ef6c8931f9228ddb395e585cf974e2c564e37a288e7d5d6f7a420209e658	www.sameskydevices.com
 same-sky/sd7-3-b.pdf	https://www.sameskydevices.com/product/resource/digikeypdf/sd7-3-b.pdf	625143	07808a758ad853e83be66288d8d884290d50ffe08ec8fe878d11a61a00861b8a	www.sameskydevices.com
 same-sky/sd7-4-b.pdf	https://www.sameskydevices.com/product/resource/digikeypdf/sd7-4-b.pdf	680101	5d399ad53b701f80187116cc4afdaee4b8c320d9b0d261878947ce2e3d59f2eb	www.sameskydevices.com
-same-sky/sd7-5-a.pdf	https://www.sameskydevices.com/product/resource/digikeypdf/sd7-5-a.pdf	777141	8145c2dbd1f2a1e1b6060f0f02cc79e4f41ede3e33356f9b82eaa770066e583c	www.sameskydevices.com
 same-sky/sd7-6-a.pdf	https://www.sameskydevices.com/product/resource/digikeypdf/sd7-6-a.pdf	648337	8c51c7d25dca668f70a787e9fd3e6c561b90d2df20e571c6143a1632f945661f	www.sameskydevices.com
-same-sky/sd7-7-a.pdf	https://www.sameskydevices.com/product/resource/digikeypdf/sd7-7-a.pdf	777859	81f9fc391fb238b3abacadb605073edb4b88b7303db24d871e6bd08826089f30	www.sameskydevices.com
 same-sky/sim-1-a.pdf	https://www.cuidevices.com/product/resource/digikeypdf/sim-1-a.pdf	546647	ce37b7b796e12771c29b3c00ef5ed634ee8630aad071ceb8e758ba5c571d9c84	www.cuidevices.com
 same-sky/sim-10-a.pdf	https://www.cuidevices.com/product/resource/digikeypdf/sim-10-a.pdf	572149	4830d78f215730236b21c839e002e98f020654f183d2d4f853e4943d5f847c0a	www.cuidevices.com
 same-sky/sim-11-a.pdf	https://www.cuidevices.com/product/resource/digikeypdf/sim-11-a.pdf	567242	38db08197eda906fc3dcb856885cee53466f109956ac612172c5512c109e9787	www.cuidevices.com

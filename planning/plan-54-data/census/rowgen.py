@@ -25,7 +25,8 @@ and `m1` (pads on side 0 and side 1), `L0` and `L1` (first-to-last pad centre di
   edge_mount   1 writes `"edgeMount": true`
   pad_w, pad_h pad size (x by y); `"0.5,0.6"` gives side 0 and side 1 their own
   shape        `rect` or `round`; drill 0 (surface mount) or the through-hole drill
-  stagger      y offset added to every second pad of a side (staggered rows), default 0
+  stagger      y offset added to every second pad of a side (staggered rows), default 0; `"a,b"` per side
+  x_off        x shift of a side, default 0; `"a,b"` per side (a row offset by half a pitch)
   gaps         `{"<after pad index, 1-based>": <extra mm>, ...}` per side as `[{...}, {...}]` or one object for both:
                extra distance after that pad of the side (a key notch)
   extras       a list of `explicit` pads (pegs, tabs, holes, shield tabs) in the footprint's coordinates; `x`, `y`,
@@ -131,7 +132,8 @@ def footprint(row, N):
     ph = [num(x, env) for x in per_side(row['pad_h'])]
     shape = row.get('shape', 'rect')
     drill = float(row.get('drill', 0))
-    stagger = float(row.get('stagger', 0))
+    stagger = [float(v) for v in per_side(row.get('stagger', 0), 0)]   # `"a,b"`: per side
+    x_off = [float(v) for v in per_side(row.get('x_off', 0), 0)]       # `"a,b"`: x shift of a side (offset rows)
     spans = []
     for s, m in enumerate((m0, m1)):
         spans.append(((m - 1) * pitch + sum(gaps[s].values())) if m > 0 else 0)
@@ -140,8 +142,8 @@ def footprint(row, N):
     for p in range(1, N + 1):
         s, i = side_of(numbering, N, p)
         m = (m0, m1)[s]
-        x = side_x(i, m, pitch, gaps[s], dirs[s] == 'rtl')
-        y = ys[s] + (stagger if i % 2 else 0)
+        x = side_x(i, m, pitch, gaps[s], dirs[s] == 'rtl') + x_off[s]
+        y = ys[s] + (stagger[s] if i % 2 else 0)
         pad = {'pin': p, 'x': r3(x), 'y': r3(y), 'width': r3(pw[s]), 'height': r3(ph[s]), 'shape': shape}
         if drill:
             pad['drill'] = drill

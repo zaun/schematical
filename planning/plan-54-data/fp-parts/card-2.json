@@ -1,0 +1,2233 @@
+{
+ "format": "schematical-footprints",
+ "version": 1,
+ "footprints": [
+  {
+   "id": "SOCK-SAMESKY-MSD-10-C-8",
+   "description": "Same Sky MSD-10-C hinged microSD card socket, 8 contacts + 4 shell tabs (not named in the pinout), surface mount",
+   "note": "MSD-10-C.pdf p.3 Recommended PCB Layout (Top View) and p.2 mechanical drawing. Layout y is measured from the housing back edge (top line of the outline) down; origin = centre of the housing: x on the connector centre line, y = 13.80/2 = 6.90 below the back edge, so every layout y has 6.90 subtracted. Contacts: pitch 1.10, 0.80 x 1.50, #01 at x +3.20 (CL to pin 1 = 3.20 on p.2), pin n at 3.20-(n-1)*1.10 (pin 8 at -4.50, printed 4.50 left of CL); pad rows 4.65 + 5.45 = 10.10 (bottom edge) and 10.10-1.50 = 8.60 (top edge) from the back edge: centre 9.35-6.90 = 2.45. Shell tabs 1.45 x 2.00 at x +-6.88 (printed 6.88): the upper tab bottom edge is 4.65 (printed) from the back edge, so its centre is 4.65-1.00 = 3.65 -> 3.65-6.90 = -3.25; the lower tab top edge is 10.10+0.85 = 10.95 (5.45 and 0.85 printed), centre 10.95+1.00 = 11.95 -> 5.05. The pinout names no shield pad, so the four tabs are unnumbered (pin 0). Body = overall top view 14.60 x 13.80 (p.2); the contact row is shown at the front of the drawing, entry at the top, as drawn (no rotation).",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 14.6,
+    "height": 13.8
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 3.2,
+     "y": 2.45,
+     "width": 0.8,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 2.1,
+     "y": 2.45,
+     "width": 0.8,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 1.0,
+     "y": 2.45,
+     "width": 0.8,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -0.1,
+     "y": 2.45,
+     "width": 0.8,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -1.2,
+     "y": 2.45,
+     "width": 0.8,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -2.3,
+     "y": 2.45,
+     "width": 0.8,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -3.4,
+     "y": 2.45,
+     "width": 0.8,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -4.5,
+     "y": 2.45,
+     "width": 0.8,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": -6.88,
+     "y": -3.25,
+     "width": 1.45,
+     "height": 2.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": -6.88,
+     "y": 5.05,
+     "width": 1.45,
+     "height": 2.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 6.88,
+     "y": -3.25,
+     "width": 1.45,
+     "height": 2.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 6.88,
+     "y": 5.05,
+     "width": 1.45,
+     "height": 2.0,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-MSD-11-A-10",
+   "description": "Same Sky MSD-11-A push-pull microSD card socket, 8 contacts + CD + WP switch pads + 2 shell tabs, 2 locating holes, surface mount",
+   "note": "MSD-11-A.pdf p.3 Recommended PCB Layout (Top View) and p.2. Layout x is measured from the left locating hole centre, y from the housing back edge (datum line, 11.70 to the front). Contacts P8 at x 0.20 (printed 0.20), pitch 1.10: P_n at 0.20+(8-n)*1.10 (P1 at 7.90, P1-P7 = 6.60 printed); WP at P1+1.10 = 9.00; CD at WP+1.25 = 10.25 (printed 1.25); pads 0.60 x 1.50; y from -1.10 to +0.40 about the datum (read from the vector drawing, not printed: tails project 1.10 behind the back edge) -> centre -0.35. Locating holes dia 1.40 at (0, 2.60) and (10.00, 2.60) (printed 2.60, 10.00; the drawing does not say plated, taken as non-plated pegs). Shell pads 1.50 x 2.34 (printed): left edge 2.92 left of the hole, so centre -2.92+0.75 = -2.17; right pad 15.84 wide over both (printed): outer edge -2.92+15.84 = 12.92, centre 12.92-0.75 = 12.17; centre y 7.30 (printed). CD = pin 9, WP = pin 10, shell = pin 11. Origin = centre of the housing: x = (-2.17+12.17)/2 = 5.00 (hole midpoint), y = 11.70/2 = 5.85; body 13.78 x 11.70 (p.2 overall width). The drawing has the contacts at the back and the card entry at the bottom; it is rotated 180 deg here (x and y negated about the body centre) so the card entry faces up (-y). ",
+   "style": "explicit",
+   "pins": 11,
+   "body": {
+    "width": 13.78,
+    "height": 11.7
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -2.9,
+     "y": 6.2,
+     "width": 0.6,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -1.8,
+     "y": 6.2,
+     "width": 0.6,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -0.7,
+     "y": 6.2,
+     "width": 0.6,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 0.4,
+     "y": 6.2,
+     "width": 0.6,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 1.5,
+     "y": 6.2,
+     "width": 0.6,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 2.6,
+     "y": 6.2,
+     "width": 0.6,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 3.7,
+     "y": 6.2,
+     "width": 0.6,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 4.8,
+     "y": 6.2,
+     "width": 0.6,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -4.0,
+     "y": 6.2,
+     "width": 0.6,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -5.25,
+     "y": 6.2,
+     "width": 0.6,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": 7.17,
+     "y": -1.45,
+     "width": 1.5,
+     "height": 2.34,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -7.17,
+     "y": -1.45,
+     "width": 1.5,
+     "height": 2.34,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 5.0,
+     "y": 3.25,
+     "width": 1.4,
+     "height": 1.4,
+     "shape": "round",
+     "drill": 1.4,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -5.0,
+     "y": 3.25,
+     "width": 1.4,
+     "height": 1.4,
+     "shape": "round",
+     "drill": 1.4,
+     "plated": false
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-MSD-12-A-9",
+   "description": "Same Sky MSD-12-A push-push microSD card socket, 8 contacts + CD switch pad + 6 shell pads, surface mount",
+   "note": "MSD-12-A.pdf p.3 Recommended PCB Layout (Top View), p.2 for the body. Layout x from the outer edge of the upper-left shell pad, y from the top edge of the contact pads. p1..p8: pitch 1.10, 0.80 x 1.24 (printed), p1 centre 4.82 from the left (printed 4.82) so p_n at 4.82+(n-1)*1.10 (p1-p8 = 7.70 printed), y 0..1.24 -> centre 0.62. CD pad 1.16 x 1.25 at (14.46, 3.25) (printed 3.25, 1.16, 1.25; x read from the vector drawing: 15.04 right edge printed). Shell pads (cover ground = pin 10): upper-left 1.15 x 2.50 at (0.575, 1.25); upper-right 1.15 x 2.20 at (14.86, 1.10) (15.44 overall printed: 15.44-0.575 = 14.865); lower-left 1.15 x 2.20 at (0.575, 12.58) (printed 12.58); lower-right small 1.16 x 1.20 at (14.46, 12.25) (printed 12.25); two bottom pads 1.50 x 1.15 at x 4.88 and 12.66 (printed), y bottom edge 13.95 (printed) so centre 13.95-0.575 = 13.375. Origin: the housing is 14.14 wide (p.2) x 13.95 (the layout height 13.95 printed; p.2 says 13.80 +-0.15), centred on the shell-pad span (0.575+14.865)/2 = 7.72 and y 13.95/2 = 6.975. The shell tab x position vs the housing edge is only known to about 0.2 mm. The drawing has the contacts at the back and the card entry at the bottom; it is rotated 180 deg here (x and y negated about the body centre) so the card entry faces up (-y). ",
+   "style": "explicit",
+   "pins": 10,
+   "body": {
+    "width": 14.14,
+    "height": 13.95
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 2.9,
+     "y": 6.35,
+     "width": 0.8,
+     "height": 1.24,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 1.8,
+     "y": 6.35,
+     "width": 0.8,
+     "height": 1.24,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 0.7,
+     "y": 6.35,
+     "width": 0.8,
+     "height": 1.24,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -0.4,
+     "y": 6.35,
+     "width": 0.8,
+     "height": 1.24,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -1.5,
+     "y": 6.35,
+     "width": 0.8,
+     "height": 1.24,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -2.6,
+     "y": 6.35,
+     "width": 0.8,
+     "height": 1.24,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -3.7,
+     "y": 6.35,
+     "width": 0.8,
+     "height": 1.24,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -4.8,
+     "y": 6.35,
+     "width": 0.8,
+     "height": 1.24,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -6.74,
+     "y": 3.72,
+     "width": 1.16,
+     "height": 1.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": 7.14,
+     "y": 5.72,
+     "width": 1.15,
+     "height": 2.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -7.15,
+     "y": 5.88,
+     "width": 1.15,
+     "height": 2.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": 7.14,
+     "y": -5.61,
+     "width": 1.15,
+     "height": 2.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -6.74,
+     "y": -5.28,
+     "width": 1.16,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": 2.84,
+     "y": -6.4,
+     "width": 1.5,
+     "height": 1.15,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -4.94,
+     "y": -6.4,
+     "width": 1.5,
+     "height": 1.15,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-MSD-2-A-9",
+   "description": "Same Sky MSD-2-A push-push microSD card socket, 8 contacts + CD pad + 4 shell tabs, surface mount",
+   "note": "MSD-2-A.pdf p.3 Recommended PCB Layout (Top View), p.2 for the body. Layout x from the card centre line (through pad 4), y from the bottom edge of the contact pads. Contacts 0.70 x 1.80 (printed), pitch 1.10 (printed), pad 1 at -3.30 (printed 3.30 left of CL) -> pad n at (n-4)*1.10, Cd (pin 9) at +5.50 (printed); pad row y -1.80..0 -> centre -0.90. Shell tabs (cover ground = pin 10): upper-left 2.30 x 1.40 (printed) from x -10.15 (= -7.85 printed 7.85 - 2.30) to -7.85, y 0..1.40 -> centre (-9.00, 0.70); lower-left 1.45 x 2.20 (printed) inner edge -8.70 (printed 8.70 left of CL) outer -10.15 -> centre (-9.425, y 10.10); right tabs 1.45 wide with inner edge +6.60 (printed): centre 7.325, upper y 0.70 (1.40 high), lower y 10.10 (2.20 high). The tab y positions (lower tab centre 10.10 below the pad row) are read from the vector drawing, not printed. Origin: housing 14.75 x 14.50 (p.2), x centred on the connector centre line which is 0.95 (p.2) toward pad 1 from the card centre line: -0.95; y from the contact-row bottom edge 0 to 14.50 -> 7.25. The drawing has the contacts at the back and the card entry at the bottom; it is rotated 180 deg here (x and y negated about the body centre) so the card entry faces up (-y). ",
+   "style": "explicit",
+   "pins": 10,
+   "body": {
+    "width": 14.75,
+    "height": 14.5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 2.35,
+     "y": 8.15,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 1.25,
+     "y": 8.15,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 0.15,
+     "y": 8.15,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -0.95,
+     "y": 8.15,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -2.05,
+     "y": 8.15,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -3.15,
+     "y": 8.15,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -4.25,
+     "y": 8.15,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -5.35,
+     "y": 8.15,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -6.45,
+     "y": 8.15,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": 8.05,
+     "y": 6.55,
+     "width": 2.3,
+     "height": 1.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -8.28,
+     "y": 6.55,
+     "width": 1.45,
+     "height": 1.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": 8.48,
+     "y": -2.85,
+     "width": 1.45,
+     "height": 2.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -8.28,
+     "y": -2.85,
+     "width": 1.45,
+     "height": 2.2,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-MSD-3-A-9",
+   "description": "Same Sky MSD-3-A push-push microSD card socket, 8 contacts + CD pad + 4 plated shell slots, surface mount",
+   "note": "MSD-3-A.pdf p.3 Recommended PCB Layout (Top View), p.2 for the body. Layout x from the connector centre line (through pad 3), y from the bottom edge of the contact pads. Pads 0.70 x 1.20 (printed), pitch 1.10 (printed), drawn left to right Cd 8 7 6 5 4 3 2 1: pin n at 2.20-(n-1)*1.10 (pad 1 at +2.20, pad 8 at -5.50, Cd at -6.60 = 6.55 printed ~ 6 pitches; 8 pitches = 8.80 printed); y -1.20..0 -> centre -0.60. Shell slots (pin 10): upper pair outer pad 1.35 x 2.15, slot 0.55 x 1.35, centres (-8.55, 0.75) and (7.90, 0.75) (16.45 apart printed); lower pair outer 1.05 x 2.70 (printed 2.70), slot 0.45 x 2.10 (printed 2.10), centres (-8.25, 9.65) and (8.15, 9.65) (16.40 apart printed). The outer widths/lengths of the upper slots and the slot y positions are read from the vector drawing (not printed; the print gives 0.75/0.80 as the offset of the upper slot from the contact row); the plated-ness of the slots is assumed (the pinout makes the shell pin 10). Origin: housing 14.75 x 14.50 (p.2), x on the connector centre line, y from the contact-row bottom edge to +14.50 -> 7.25. The drawing has the contacts at the back and the card entry at the bottom; it is rotated 180 deg here (x and y negated about the body centre) so the card entry faces up (-y). ",
+   "style": "explicit",
+   "pins": 10,
+   "body": {
+    "width": 14.75,
+    "height": 14.5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -2.2,
+     "y": 7.85,
+     "width": 0.7,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -1.1,
+     "y": 7.85,
+     "width": 0.7,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 0.0,
+     "y": 7.85,
+     "width": 0.7,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 1.1,
+     "y": 7.85,
+     "width": 0.7,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 2.2,
+     "y": 7.85,
+     "width": 0.7,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 3.3,
+     "y": 7.85,
+     "width": 0.7,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 4.4,
+     "y": 7.85,
+     "width": 0.7,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 5.5,
+     "y": 7.85,
+     "width": 0.7,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": 6.6,
+     "y": 7.85,
+     "width": 0.7,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": 8.55,
+     "y": 6.5,
+     "width": 1.35,
+     "height": 2.15,
+     "shape": "round",
+     "drill": 0.55,
+     "slotLength": 1.35
+    },
+    {
+     "pin": 10,
+     "x": -7.9,
+     "y": 6.5,
+     "width": 1.35,
+     "height": 2.15,
+     "shape": "round",
+     "drill": 0.55,
+     "slotLength": 1.35
+    },
+    {
+     "pin": 10,
+     "x": 8.25,
+     "y": -2.4,
+     "width": 1.05,
+     "height": 2.7,
+     "shape": "round",
+     "drill": 0.45,
+     "slotLength": 2.1
+    },
+    {
+     "pin": 10,
+     "x": -8.15,
+     "y": -2.4,
+     "width": 1.05,
+     "height": 2.7,
+     "shape": "round",
+     "drill": 0.45,
+     "slotLength": 2.1
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-MSD-4-A-9",
+   "description": "Same Sky MSD-4-A push-push microSD card socket, 8 contacts + CD pad + 4 shell pads, 2 locating holes, surface mount",
+   "note": "MSD-4-A.pdf p.3 Recommended PCB Layout (Top View), p.2 for the body. Layout x from the connector centre line (through pad 3), y from the bottom edge of the contact pads. Pads 0.70 x 1.60 (printed 0.70 / 1.60), pitch 1.10; drawn left to right Cd 8 7 6 5 4 3 2 1: pin n at 2.20-(n-1)*1.10 (8*1.10 = 8.80 printed; 6.55 printed ~ Cd at -6.60), y -1.60..0 -> -0.80. Shell pads (pin 10): upper-left 1.20 x 1.80 (printed) at (-7.80, 0.50); upper-right 1.60 x 1.50 (printed) at (6.79, 0.25); lower-left 1.20 x 2.20 (printed) at (-7.80, 9.79); lower-right 1.20 x 2.20 at (7.70, 9.79) (positions read from the vector drawing, not printed against the contact row). Locating holes dia 1.00 at x -4.95 and -4.95+8.00 = 3.05 (printed 4.95, 8.00), y 10.20 below the contact row (printed 10.20); not stated plated, taken as non-plated pegs (page 2: 2 dia 0.80 pegs). Origin: housing 14.75 x 14.50 (p.2), x on the connector centre line, y from the contact-row bottom edge to +14.50 -> 7.25. The drawing has the contacts at the back and the card entry at the bottom; it is rotated 180 deg here (x and y negated about the body centre) so the card entry faces up (-y). ",
+   "style": "explicit",
+   "pins": 10,
+   "body": {
+    "width": 14.75,
+    "height": 14.5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -2.2,
+     "y": 8.05,
+     "width": 0.7,
+     "height": 1.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -1.1,
+     "y": 8.05,
+     "width": 0.7,
+     "height": 1.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 0.0,
+     "y": 8.05,
+     "width": 0.7,
+     "height": 1.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 1.1,
+     "y": 8.05,
+     "width": 0.7,
+     "height": 1.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 2.2,
+     "y": 8.05,
+     "width": 0.7,
+     "height": 1.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 3.3,
+     "y": 8.05,
+     "width": 0.7,
+     "height": 1.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 4.4,
+     "y": 8.05,
+     "width": 0.7,
+     "height": 1.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 5.5,
+     "y": 8.05,
+     "width": 0.7,
+     "height": 1.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": 6.6,
+     "y": 8.05,
+     "width": 0.7,
+     "height": 1.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": 7.8,
+     "y": 6.75,
+     "width": 1.2,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -6.79,
+     "y": 7.0,
+     "width": 1.6,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": 7.8,
+     "y": -2.54,
+     "width": 1.2,
+     "height": 2.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -7.7,
+     "y": -2.54,
+     "width": 1.2,
+     "height": 2.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 4.95,
+     "y": -2.95,
+     "width": 1.0,
+     "height": 1.0,
+     "shape": "round",
+     "drill": 1.0,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -3.05,
+     "y": -2.95,
+     "width": 1.0,
+     "height": 1.0,
+     "shape": "round",
+     "drill": 1.0,
+     "plated": false
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-MSD-5-A-9",
+   "description": "Same Sky MSD-5-A push-push microSD card socket, 8 staggered contacts + CD pad + 4 shell pads, surface mount",
+   "note": "MSD-5-A.pdf p.3 Recommended PCB Layout (Top View), p.2 for the body. Coordinates read from the PDF vector drawing (scale fixed by the 1.10 pitch = 10.46 pt, 0.80 pad width = 7.60 pt) and agreeing with the printed numbers: P1..P8 pitch 1.10, pads 0.80 x 1.50, staggered in y by +0.20 / -0.20 (printed 0.20): P2 +0.20, P4 and P6 -0.20, others on the row; P1 5.35 from the outer edge of the upper-left shell pad (printed 5.35); P1-P8 = 7.70 (printed). Shell pads (pin 10): upper 1.40 x 1.90 (printed), lower 1.30 x 1.40 (printed); P9 (CD, pin 9) 1.00 x 0.85 (printed 1.00, 0.85). Origin: housing 14.00 wide (printed 14.00, dash-dot edges) x 14.55 (p.2) with the back edge at the top of the upper-left shell pad (the print does not dimension the housing edge against the pads: about 0.3 mm uncertain); centre x on the housing centre, y = back edge + 14.55/2. The drawing has the contacts at the back and the card entry at the bottom; it is rotated 180 deg here (x and y negated about the body centre) so the card entry faces up (-y). ",
+   "style": "explicit",
+   "pins": 10,
+   "body": {
+    "width": 14.0,
+    "height": 14.55
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 1.93,
+     "y": 2.48,
+     "width": 0.8,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 0.83,
+     "y": 2.28,
+     "width": 0.8,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -0.27,
+     "y": 2.48,
+     "width": 0.8,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -1.37,
+     "y": 2.68,
+     "width": 0.8,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -2.47,
+     "y": 2.48,
+     "width": 0.8,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -3.57,
+     "y": 2.68,
+     "width": 0.8,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -4.67,
+     "y": 2.48,
+     "width": 0.8,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -5.77,
+     "y": 2.48,
+     "width": 0.8,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -3.58,
+     "y": -8.1,
+     "width": 1.0,
+     "height": 0.85,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": 6.58,
+     "y": 6.32,
+     "width": 1.4,
+     "height": 1.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -6.57,
+     "y": 5.32,
+     "width": 1.4,
+     "height": 1.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": 0.73,
+     "y": -7.82,
+     "width": 1.3,
+     "height": 1.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -4.97,
+     "y": -7.82,
+     "width": 1.3,
+     "height": 1.4,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-MSD-7-A-10",
+   "description": "Same Sky MSD-7-A push-push microSD card socket, 8 contacts + 2 switch pads + 4 shell tabs (not named in the pinout), surface mount",
+   "note": "MSD-7-A.pdf p.3 Recommended PCB Layout (Top View), p.2 for the body. Coordinates read from the PDF vector drawing (scale fixed by the 1.10 pitch = 11.39 pt) and agreeing with the printed numbers: pads 1..8 0.75 x 1.70 (printed 0.75, 1.70), pitch 1.10, 7.70 first to last (printed); upper tabs 1.70 x 1.50 and 1.60 x 1.50 (printed), lower tabs 1.50 x 1.70, switch pads A 1.30 x 1.30 and 1.30 x 1.00 (printed 1.30, 1.00). The contact row is 0.95 (printed) off the socket centre line, which is the midpoint of the 15.00 (printed) tab span. The switch pads are pins 9 and 10 (SWA1 upper, SWA2 lower); the four tabs are not named in the pinout, unnumbered (pin 0). Origin: housing 14.30 wide (p.2) on the tab-span midpoint, 15.90 long (p.2 15.90) starting at the top of the upper tabs (the housing edge is not dimensioned against the pads; about 0.3 mm uncertain). The drawing has the contacts at the back and the card entry at the bottom; it is rotated 180 deg here (x and y negated about the body centre) so the card entry faces up (-y). ",
+   "style": "explicit",
+   "pins": 10,
+   "body": {
+    "width": 14.3,
+    "height": 15.9
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 2.9,
+     "y": 7.1,
+     "width": 0.75,
+     "height": 1.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 1.8,
+     "y": 7.1,
+     "width": 0.75,
+     "height": 1.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 0.7,
+     "y": 7.1,
+     "width": 0.75,
+     "height": 1.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -0.4,
+     "y": 7.1,
+     "width": 0.75,
+     "height": 1.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -1.5,
+     "y": 7.1,
+     "width": 0.75,
+     "height": 1.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -2.6,
+     "y": 7.1,
+     "width": 0.75,
+     "height": 1.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -3.7,
+     "y": 7.1,
+     "width": 0.75,
+     "height": 1.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -4.8,
+     "y": 7.1,
+     "width": 0.75,
+     "height": 1.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 6.45,
+     "y": 7.2,
+     "width": 1.7,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": -6.2,
+     "y": 7.2,
+     "width": 1.6,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 6.75,
+     "y": -7.65,
+     "width": 1.5,
+     "height": 1.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": -6.75,
+     "y": -7.65,
+     "width": 1.5,
+     "height": 1.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -6.85,
+     "y": 5.55,
+     "width": 1.3,
+     "height": 1.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -6.85,
+     "y": -1.85,
+     "width": 1.3,
+     "height": 1.0,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-MSD-8-A-9",
+   "description": "Same Sky MSD-8-A push-push microSD card socket, 8 contacts + CD1/CD2 switch pads + 6 ground pads, surface mount",
+   "note": "MSD-8-A.pdf p.3 Recommended PCB Layout (Top View), p.2. Layout from the PDF vector drawing (scale 1.00 pitch = 15.37 pt); every x agrees with a printed number: P8 4.775 left of the centre line (printed), P1..P8 pitch 1.00, 7.00 (printed) P8 to P1, pads 0.60 x 0.80; CD1 (P10, pin 9) x -3.78..-3.15, CD2 (P11, pin 10) x +2.55..+3.20, both 0.85 tall (printed edges 3.78, 3.15, 2.55, 3.20); ground pads P9 (pin 11): top-left x -5.313..-4.133, top-right x +5.413..+6.613 (printed), both 0.85 tall; lower-left x -6.833..-6.088 (printed) 1.20 tall, lower-right x +6.10..+7.083 (printed) 0.90 tall; two small pads 0.60 x 0.68 at x -3.275 and +0.725 (printed). The y positions and the pad heights are read from the vector drawing. Origin: housing outline drawn in the layout (x -6.833..+6.965 about the centre line = 13.80 wide, 15.21 tall; p.2 says 13.90 +-0.15 x 15.20 +-0.10), centred. The drawing has the contacts at the back and the card entry at the bottom; it is rotated 180 deg here (x and y negated about the body centre) so the card entry faces up (-y). ",
+   "style": "explicit",
+   "pins": 11,
+   "body": {
+    "width": 13.8,
+    "height": 15.21
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -2.16,
+     "y": -4.46,
+     "width": 0.6,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -1.16,
+     "y": -4.46,
+     "width": 0.6,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -0.16,
+     "y": -4.46,
+     "width": 0.6,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 0.84,
+     "y": -4.46,
+     "width": 0.6,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 1.84,
+     "y": -4.46,
+     "width": 0.6,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 2.84,
+     "y": -4.46,
+     "width": 0.6,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 3.84,
+     "y": -4.46,
+     "width": 0.6,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 4.84,
+     "y": -4.46,
+     "width": 0.6,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": 3.53,
+     "y": 7.43,
+     "width": 0.63,
+     "height": 0.85,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -2.81,
+     "y": 7.43,
+     "width": 0.65,
+     "height": 0.85,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": 4.79,
+     "y": 7.43,
+     "width": 1.18,
+     "height": 0.85,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -5.95,
+     "y": 7.43,
+     "width": 1.2,
+     "height": 0.85,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": 6.53,
+     "y": -7.15,
+     "width": 0.74,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -6.53,
+     "y": -7.27,
+     "width": 0.98,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": 3.34,
+     "y": -5.7,
+     "width": 0.6,
+     "height": 0.68,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -0.66,
+     "y": -5.7,
+     "width": 0.6,
+     "height": 0.68,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-MSD-9-A-9",
+   "description": "Same Sky MSD-9-A push-push microSD card socket, 8 contacts + CD pad + 5 ground pads, surface mount",
+   "note": "MSD-9-A.pdf p.3 Recommended PCB Layout (Top View), p.2. Layout from the PDF vector drawing (scale: 1.10 pitch = 9.93 pt); agreeing with the printed numbers: P8 4.80 left of the centre line (printed 4.80), P1 2.90 right of it (printed 2.90), pitch 1.10 (1.10*7 = 7.70 printed), pads 0.80 x 1.16 (printed 8x0.80, 10x1.16); P11 top-left 1.60 wide, top-right 2.00 wide (printed 1.60, 2.00) both 1.16 tall; P10 and P9 1.05 x 1.25 (printed 2x1.05, 2x1.25) at x -6.88 (printed 2x6.88); P11 lower pads 1.00 wide, 2.20 / 2.50 tall (vector drawing; the print gives 2x2.20) at x +-7.30 (printed 7.30). Pin 10 (cover ground) = P10 + the four P11 pads; pin 9 = P9 (CD). y positions from the vector drawing. Origin: housing 15.00 wide (p.2, centred on the centre line) x 15.15 long (p.2 15.15 +-0.15) with its front edge at the 16.00 (printed) layout line, i.e. its back edge 16.00-15.15 = 0.85 below the contact-pad tops (p.2: tails project 1.00 behind the back edge). The drawing has the contacts at the back and the card entry at the bottom; it is rotated 180 deg here (x and y negated about the body centre) so the card entry faces up (-y). ",
+   "style": "explicit",
+   "pins": 10,
+   "body": {
+    "width": 15.0,
+    "height": 15.15
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -2.9,
+     "y": 7.85,
+     "width": 0.8,
+     "height": 1.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -1.8,
+     "y": 7.85,
+     "width": 0.8,
+     "height": 1.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -0.7,
+     "y": 7.85,
+     "width": 0.8,
+     "height": 1.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 0.4,
+     "y": 7.85,
+     "width": 0.8,
+     "height": 1.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 1.5,
+     "y": 7.85,
+     "width": 0.8,
+     "height": 1.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 2.6,
+     "y": 7.85,
+     "width": 0.8,
+     "height": 1.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 3.7,
+     "y": 7.85,
+     "width": 0.8,
+     "height": 1.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 4.8,
+     "y": 7.85,
+     "width": 0.8,
+     "height": 1.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": 6.24,
+     "y": 7.85,
+     "width": 1.6,
+     "height": 1.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -6.01,
+     "y": 7.85,
+     "width": 2.0,
+     "height": 1.16,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": 6.88,
+     "y": 6.1,
+     "width": 1.05,
+     "height": 1.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": 6.88,
+     "y": -3.02,
+     "width": 1.05,
+     "height": 1.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": 7.3,
+     "y": -5.22,
+     "width": 1.0,
+     "height": 2.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -7.3,
+     "y": -5.07,
+     "width": 1.0,
+     "height": 2.5,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-MSD4-1-A-19",
+   "description": "Same Sky MSD4-1-A microSD 4.0 (UHS-II) card socket, 17 contacts + 5 ground pads/slots, surface mount",
+   "note": "MSD4-1-A.pdf p.3 Recommended PCB Layout (Top View), p.2 for the body. Layout x from the centre line (P8 at -3.70, P1 at +2.60), y from the bottom edge of the top contact row (pad row y -1.50..0). P23..P15 pitch 0.91 (printed 0.91*8 = 7.28), P23 at -5.22 (printed 5.22), P14 at +3.31 (printed 3.31), 0.60 x 1.20 (printed 9x0.60) and P14 1.10 x 1.20 (printed 1.10); P9 at -5.30 (printed 5.30), 0.70 x 1.50; P8..P1 pitch 0.90 (printed 0.9*7 = 6.30), P8 at -3.70 (printed 3.70), 0.60 x 1.50 (printed 8-0.60, 9-1.50). Slots P10..P13 (pin 19, with the P14 pad): pad 1.10 x 1.90 (printed 4-1.10, 4-1.90), slot 0.40 x 1.20 (printed 4-0.40, 4-1.20), centres x +-6.80 (printed 2-6.80), y -0.41 (upper pair) and +8.99 (lower pair; read from the vector drawing, the printed 6.45/9.20/9.40/10.50 locate them from other lines). Holes dia 0.80 at (4.68, -0.21) (printed 4.68, 0.80) and dia 0.70 at (-6.31, 12.39) (printed 0.70), taken as non-plated pegs (not stated). Bottom row y centre 12.39 = 13.14 below the top row centre (vector drawing). Origin: housing 13.70 (p.2) x 15.00 (p.2), x on the centre line, the back edge 0.30 inside the top row tops (tails project 0.30 per p.2 \"0.30+-0.05\"): y -1.20..13.80 -> centre 6.30. The drawing has the contacts at the back and the card entry at the bottom; it is rotated 180 deg here (x and y negated about the body centre) so the card entry faces up (-y). ",
+   "style": "explicit",
+   "pins": 19,
+   "body": {
+    "width": 13.7,
+    "height": 15.0
+   },
+   "pads": [
+    {
+     "pin": 9,
+     "x": 5.3,
+     "y": 7.05,
+     "width": 0.7,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -2.6,
+     "y": 7.05,
+     "width": 0.6,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -1.7,
+     "y": 7.05,
+     "width": 0.6,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -0.8,
+     "y": 7.05,
+     "width": 0.6,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 0.1,
+     "y": 7.05,
+     "width": 0.6,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 1.0,
+     "y": 7.05,
+     "width": 0.6,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 1.9,
+     "y": 7.05,
+     "width": 0.6,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 2.8,
+     "y": 7.05,
+     "width": 0.6,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 3.7,
+     "y": 7.05,
+     "width": 0.6,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": 5.22,
+     "y": -6.09,
+     "width": 0.6,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": 4.31,
+     "y": -6.09,
+     "width": 0.6,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": 3.4,
+     "y": -6.09,
+     "width": 0.6,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": 2.49,
+     "y": -6.09,
+     "width": 0.6,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": 1.58,
+     "y": -6.09,
+     "width": 0.6,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": 0.67,
+     "y": -6.09,
+     "width": 0.6,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -0.24,
+     "y": -6.09,
+     "width": 0.6,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -1.15,
+     "y": -6.09,
+     "width": 0.6,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -2.06,
+     "y": -6.09,
+     "width": 0.6,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": -3.31,
+     "y": -6.09,
+     "width": 1.1,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": 6.8,
+     "y": 6.71,
+     "width": 1.1,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 0.4,
+     "slotLength": 1.2
+    },
+    {
+     "pin": 19,
+     "x": -6.8,
+     "y": 6.71,
+     "width": 1.1,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 0.4,
+     "slotLength": 1.2
+    },
+    {
+     "pin": 19,
+     "x": 6.8,
+     "y": -2.69,
+     "width": 1.1,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 0.4,
+     "slotLength": 1.2
+    },
+    {
+     "pin": 19,
+     "x": -6.8,
+     "y": -2.69,
+     "width": 1.1,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 0.4,
+     "slotLength": 1.2
+    },
+    {
+     "pin": 0,
+     "x": -4.68,
+     "y": 6.51,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "round",
+     "drill": 0.8,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 6.31,
+     "y": -6.09,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "round",
+     "drill": 0.7,
+     "plated": false
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-MSD4-2-A-19",
+   "description": "Same Sky MSD4-2-A microSD 4.0 (UHS-II) card socket, 17 contacts + 5 ground pads/slots, surface mount",
+   "note": "MSD4-2-A.pdf p.3 Recommended PCB Layout (Top View), p.2 for the body. Layout x from the centre line, y from the bottom edge of the top contact row (pad row y -1.10..0). P9 at -5.30 (0.70 x 1.10), P8..P1 pitch 0.90 from -3.70 (printed 5.30, 3.70, 0.90, 6.30), 0.60 x 1.10 (printed 9-1.10); P23..P15 pitch 0.91 from -5.22 (printed 5.22, 0.91, 7.28), 0.60 x 0.80 (printed 9-0.80), P14 at +3.31 1.10 x 1.00 (printed 3.31, 1.10, 1.00); corner pads P10 / P12 0.90 x 1.50 at x +-7.30 (printed 7.30) centred 0.04 above the contact-row bottom edge (vector drawing); slots P11 / P13 pad 1.10 x 1.90, slot 0.40 x 1.20 (printed 2-1.10, 2-1.90, 2-0.40, 2-1.20) at x +-7.20 (printed 7.20), y +9.24 (printed 9.24). The bottom row is 12.79 below the top row bottom edge (vector drawing). No locating holes are drawn. Origin: housing 13.70 x 15.00 (p.2), x on the centre line, back edge 0.30 inside the top row tops (y -0.80..14.20) -> centre 6.70. The drawing has the contacts at the back and the card entry at the bottom; it is rotated 180 deg here (x and y negated about the body centre) so the card entry faces up (-y). ",
+   "style": "explicit",
+   "pins": 19,
+   "body": {
+    "width": 13.7,
+    "height": 15.0
+   },
+   "pads": [
+    {
+     "pin": 9,
+     "x": 5.3,
+     "y": 7.25,
+     "width": 0.7,
+     "height": 1.1,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -2.6,
+     "y": 7.25,
+     "width": 0.6,
+     "height": 1.1,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -1.7,
+     "y": 7.25,
+     "width": 0.6,
+     "height": 1.1,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -0.8,
+     "y": 7.25,
+     "width": 0.6,
+     "height": 1.1,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 0.1,
+     "y": 7.25,
+     "width": 0.6,
+     "height": 1.1,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 1.0,
+     "y": 7.25,
+     "width": 0.6,
+     "height": 1.1,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 1.9,
+     "y": 7.25,
+     "width": 0.6,
+     "height": 1.1,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 2.8,
+     "y": 7.25,
+     "width": 0.6,
+     "height": 1.1,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 3.7,
+     "y": 7.25,
+     "width": 0.6,
+     "height": 1.1,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": 5.22,
+     "y": -6.09,
+     "width": 0.6,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": 4.31,
+     "y": -6.09,
+     "width": 0.6,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": 3.4,
+     "y": -6.09,
+     "width": 0.6,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": 2.49,
+     "y": -6.09,
+     "width": 0.6,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": 1.58,
+     "y": -6.09,
+     "width": 0.6,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": 0.67,
+     "y": -6.09,
+     "width": 0.6,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -0.24,
+     "y": -6.09,
+     "width": 0.6,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -1.15,
+     "y": -6.09,
+     "width": 0.6,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -2.06,
+     "y": -6.09,
+     "width": 0.6,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": -3.31,
+     "y": -6.19,
+     "width": 1.1,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": 7.3,
+     "y": 6.74,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": -7.3,
+     "y": 6.74,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": 7.2,
+     "y": -2.54,
+     "width": 1.1,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 0.4,
+     "slotLength": 1.2
+    },
+    {
+     "pin": 19,
+     "x": -7.2,
+     "y": -2.54,
+     "width": 1.1,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 0.4,
+     "slotLength": 1.2
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-MSD4-3-A-19",
+   "description": "Same Sky MSD4-3-A microSD 4.0 (UHS-II) card socket, 17 contacts + 5 ground pads/slots, surface mount",
+   "note": "MSD4-3-A.pdf p.3 Recommended PCB Layout (Top View), p.2 for the body. Layout x from the centre line, y from the bottom edge of the top contact row (pad row y -1.30..0, height read from the vector drawing). P9 at -5.30 (0.70 x 1.30), P8..P1 pitch 0.90 from -3.70 (printed 5.30, 3.70, 0.90, 6.30), 0.60 x 1.30; P23..P15 pitch 0.91 from -5.22 (printed 5.22, 0.91, 7.28), 0.60 x 1.20 (printed 0.60), P14 at +3.31 1.10 x 1.20 (printed 3.31, 1.10); four slots P10..P13: pad 1.10 x 1.90, slot 0.50 x 1.20 (printed 4-1.10, 4-1.90, 4-0.50, 4-1.20) at x +-6.80 (printed 2-6.80), y -0.20 (upper pair), +9.41 and +12.61 (lower left and lower right; vector drawing). Holes dia 0.80 at (+5.01, -0.20) and (+6.01, +11.01) (printed 2-dia 0.80; positions from the vector drawing), taken as non-plated pegs (not stated). Bottom row 12.31 below the top row bottom edge (vector drawing). Origin: housing 13.70 x 15.00 (p.2), x on the centre line, back edge 0.30 inside the top row tops (y -1.00..14.00) -> centre 6.50. The drawing has the contacts at the back and the card entry at the bottom; it is rotated 180 deg here (x and y negated about the body centre) so the card entry faces up (-y). ",
+   "style": "explicit",
+   "pins": 19,
+   "body": {
+    "width": 13.7,
+    "height": 15.0
+   },
+   "pads": [
+    {
+     "pin": 9,
+     "x": 5.3,
+     "y": 7.15,
+     "width": 0.7,
+     "height": 1.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -2.6,
+     "y": 7.15,
+     "width": 0.6,
+     "height": 1.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -1.7,
+     "y": 7.15,
+     "width": 0.6,
+     "height": 1.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -0.8,
+     "y": 7.15,
+     "width": 0.6,
+     "height": 1.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 0.1,
+     "y": 7.15,
+     "width": 0.6,
+     "height": 1.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 1.0,
+     "y": 7.15,
+     "width": 0.6,
+     "height": 1.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 1.9,
+     "y": 7.15,
+     "width": 0.6,
+     "height": 1.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 2.8,
+     "y": 7.15,
+     "width": 0.6,
+     "height": 1.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 3.7,
+     "y": 7.15,
+     "width": 0.6,
+     "height": 1.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": 5.22,
+     "y": -5.81,
+     "width": 0.6,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": 4.31,
+     "y": -5.81,
+     "width": 0.6,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": 3.4,
+     "y": -5.81,
+     "width": 0.6,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": 2.49,
+     "y": -5.81,
+     "width": 0.6,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": 1.58,
+     "y": -5.81,
+     "width": 0.6,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": 0.67,
+     "y": -5.81,
+     "width": 0.6,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -0.24,
+     "y": -5.81,
+     "width": 0.6,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -1.15,
+     "y": -5.81,
+     "width": 0.6,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -2.06,
+     "y": -5.81,
+     "width": 0.6,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": -3.31,
+     "y": -5.81,
+     "width": 1.1,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": 6.8,
+     "y": 6.7,
+     "width": 1.1,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 0.5,
+     "slotLength": 1.2
+    },
+    {
+     "pin": 19,
+     "x": -6.8,
+     "y": 6.7,
+     "width": 1.1,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 0.5,
+     "slotLength": 1.2
+    },
+    {
+     "pin": 19,
+     "x": 6.8,
+     "y": -2.91,
+     "width": 1.1,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 0.5,
+     "slotLength": 1.2
+    },
+    {
+     "pin": 19,
+     "x": -6.8,
+     "y": -6.11,
+     "width": 1.1,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 0.5,
+     "slotLength": 1.2
+    },
+    {
+     "pin": 0,
+     "x": -5.01,
+     "y": 6.7,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "round",
+     "drill": 0.8,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -6.01,
+     "y": -4.51,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "round",
+     "drill": 0.8,
+     "plated": false
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-MSD7-1-A-23",
+   "description": "Same Sky MSD7-1-A microSD 7.1 (SD Express) card socket, 18 contacts + 5 ground pads, 2 locating holes, surface mount",
+   "note": "MSD7-1-A.pdf p.3 Recommended PCB Layout (Top View), p.2 for the body. Pin numbers are the drawing P numbers. Layout x from the centre line (P4 at -0.10), y from the bottom edge of the top contact row (y -1.50..0). Top row: P18 (CD) at -5.30 (printed 5.30), 0.70 x 1.50; P8..P1 pitch 0.90 (printed 0.90*7 = 6.30), P8 at -3.70 (printed 3.70), 0.60 x 1.50 (printed 8-0.60, 9-1.50). Bottom row left to right P16 P15 P14 P13 P12 P11 P10 P17 P9 (the labels of the drawing, and the same order as MSD4-1-A), pitch 0.91 (printed), P16 at -5.22 (printed 5.22), 0.60 x 1.00 (printed 9-0.60, 10-1.00), P23 (pin 23, GND) 1.10 x 1.00 at +3.31 (printed 3.31, 1.10). Tabs P19 (upper left), P20 (upper right), P22 (lower left), P21 (lower right) 1.25 x 1.40 (printed 4-1.25, 1.40 vertical) at x +-7.175 (printed 7.175), y -0.40 and +9.00 (vector drawing). Holes dia 0.70 (printed 2-dia 0.70) at (-6.32, 11.60) and (+4.64, 11.71) (vector drawing; the print gives 6.32 for the left one), taken as non-plated pegs (not stated). Bottom row y centre 12.41 (vector drawing). Origin: housing 13.70 x 14.20 (p.2), x on the centre line, back edge 0.30 inside the top row tops (y -1.20..13.00) -> centre 5.90. The drawing has the contacts at the back and the card entry at the bottom; it is rotated 180 deg here (x and y negated about the body centre) so the card entry faces up (-y). ",
+   "style": "explicit",
+   "pins": 23,
+   "body": {
+    "width": 13.7,
+    "height": 14.2
+   },
+   "pads": [
+    {
+     "pin": 18,
+     "x": 5.3,
+     "y": 6.65,
+     "width": 0.7,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -2.6,
+     "y": 6.65,
+     "width": 0.6,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -1.7,
+     "y": 6.65,
+     "width": 0.6,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -0.8,
+     "y": 6.65,
+     "width": 0.6,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 0.1,
+     "y": 6.65,
+     "width": 0.6,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 1.0,
+     "y": 6.65,
+     "width": 0.6,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 1.9,
+     "y": 6.65,
+     "width": 0.6,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 2.8,
+     "y": 6.65,
+     "width": 0.6,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 3.7,
+     "y": 6.65,
+     "width": 0.6,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": 5.22,
+     "y": -6.51,
+     "width": 0.6,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": 4.31,
+     "y": -6.51,
+     "width": 0.6,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": 3.4,
+     "y": -6.51,
+     "width": 0.6,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": 2.49,
+     "y": -6.51,
+     "width": 0.6,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": 1.58,
+     "y": -6.51,
+     "width": 0.6,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": 0.67,
+     "y": -6.51,
+     "width": 0.6,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -0.24,
+     "y": -6.51,
+     "width": 0.6,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": -1.15,
+     "y": -6.51,
+     "width": 0.6,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -2.06,
+     "y": -6.51,
+     "width": 0.6,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 23,
+     "x": -3.31,
+     "y": -6.51,
+     "width": 1.1,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": 7.17,
+     "y": 6.3,
+     "width": 1.25,
+     "height": 1.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": -7.17,
+     "y": 6.3,
+     "width": 1.25,
+     "height": 1.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 22,
+     "x": 7.17,
+     "y": -3.1,
+     "width": 1.25,
+     "height": 1.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 21,
+     "x": -7.17,
+     "y": -3.1,
+     "width": 1.25,
+     "height": 1.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 6.32,
+     "y": -5.7,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "round",
+     "drill": 0.7,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -4.64,
+     "y": -5.81,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "round",
+     "drill": 0.7,
+     "plated": false
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-MSIM-1-A-7",
+   "description": "Same Sky MSIM-1-A push-push Micro SIM card socket, 6 contacts + CD pad + 4 shell pads, surface mount",
+   "note": "MSIM-1-A.pdf p.3 Recommended PCB Layout (Top View), p.2 for the body. Layout x from the product centre line (through C3), y from the bottom edge of the contact pads. Pads 0.90 x 1.35 (printed 7-0.90, 7-1.35), pitch 1.27 (printed 6-1.27), left to right C5 C1 C6 C2 C7 C3 CD at (k-5)*1.27 (C5-C3 printed 6.34 = 5*1.27 = 6.35 within 0.01); y -1.35..0 -> centre -0.675. Pins: C1 = 1 VCC, C2 = 2 RST, C3 = 3 CLK, C5 = 4 GND, C6 = 5 VPP, C7 = 6 I/O, CD = 7, shell = 8. Shell pads 1.55 x 2.60 (printed 4-1.55, 4-2.60) at x +-7.90 (printed 7.90); the product front edge is 16.77 (printed) below the contact-pad centre line: -0.675+16.77 = 16.095; upper pads centre 14.27 (printed) above that edge: 1.825; lower pads 1.75 (printed) above it: 14.345. Origin: housing 15.34 wide (p.2) x 17.16 long (p.2 overall) ending at the front edge: back edge 16.095-17.16 = -1.065, y centre 16.095-17.16/2 = 7.515. The six copper-restricted rectangles of the drawing are not pads. The drawing has the contacts at the back and the card entry at the bottom; it is rotated 180 deg here (x and y negated about the body centre) so the card entry faces up (-y). ",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 15.34,
+    "height": 17.16
+   },
+   "pads": [
+    {
+     "pin": 4,
+     "x": 6.35,
+     "y": 8.19,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": 5.08,
+     "y": 8.19,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 3.81,
+     "y": 8.19,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 2.54,
+     "y": 8.19,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 1.27,
+     "y": 8.19,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 0.0,
+     "y": 8.19,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -1.27,
+     "y": 8.19,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 7.9,
+     "y": 5.69,
+     "width": 1.55,
+     "height": 2.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 7.9,
+     "y": -6.83,
+     "width": 1.55,
+     "height": 2.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -7.9,
+     "y": 5.69,
+     "width": 1.55,
+     "height": 2.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -7.9,
+     "y": -6.83,
+     "width": 1.55,
+     "height": 2.6,
+     "shape": "rect"
+    }
+   ]
+  }
+ ]
+}

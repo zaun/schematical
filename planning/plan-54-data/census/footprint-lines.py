@@ -41,13 +41,25 @@ def build(cand, table, ids, fams=(), makers=()):
     stem, status, variant, rows_of_line, spec) for the `add` rows (`candidate` rows when no row is `add` yet)."""
     wanted = ('add',) if any(r['state'] == 'add' for r in cand) else ('candidate',)
     groups = collections.defaultdict(list)
+    held = set()   # groups that only hold rows skipped for want of a footprint: they keep their stem number
     for r in cand:
-        if r['state'] in wanted and (not fams or r['family'] in fams) and (not makers or r['maker'] in makers):
-            groups[(letter(r), r['family'], r['maker'], r['variant'], r['pdf'])].append(r)
+        if (fams and r['family'] not in fams) or (makers and r['maker'] not in makers):
+            continue
+        k = (letter(r), r['family'], r['maker'], r['variant'], r['pdf'])
+        if r['state'] in wanted:
+            groups[k].append(r)
+        elif r['state'] == 'skip' and r['reason'].startswith('footprint'):
+            held.add(k)
     seen = collections.Counter()
     out = []
-    for k in sorted(groups):
-        g = groups[k]
+    for k in sorted(set(groups) | held):
+        g = groups.get(k)
+        first = g[0] if g else None
+        if first is None:
+            # a group with no row left: it still takes its number (stem letter) in its series
+            ex0 = next(r for r in cand if (letter(r), r['family'], r['maker'], r['variant'], r['pdf']) == k)
+            seen[f"{KIND[ex0['family']]}-{MAKER[ex0['maker']]}-{slug(ex0)}"] += 1
+            continue
         ex = max(g, key=lambda r: (int(r['stock'] or 0), r['mpn']))
         _, _, _, spec = specs.verdict(ex, table.get(specs.key(ex)))
         stem = f"{KIND[ex['family']]}-{MAKER[ex['maker']]}-{slug(ex)}"

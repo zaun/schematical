@@ -1,0 +1,3 @@
+stem	positions	footprint	note
+EDGE-AMPHENOL-HPCE-B	164	EDGE-AMPHENOL--164	PCIe x16 164-contact vertical SMT 1.00 mm (10061913): own PDF ssio_pcie_gen3.pdf is a catalog with no land pattern; same PCI Express CEM land pattern as EDGE-AMPHENOL--164 (Gen 6 drawing 10165968 sheet 3, 164 pos; the Gen 4/5 catalog states footprint compatibility with PCIe 3/2/1). Same 164 contacts, pitch 1.00, same key; assumed identical.
+EDGE-AMPHENOL-COOL-EDGE-0-80MM-B	428	EDGE-AMPHENOL-COOL-EDGE-0-80MM-428	same series and drawing (C CEDX1XXX11XXXXX sheet 5, 428 column of the dim table C=92.0, B=94.0): identical pad centres and count

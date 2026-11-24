@@ -1,0 +1,1114 @@
+{
+ "rows": [
+  {
+   "stem": "DIMM-TE-1827236",
+   "positions": [
+    200
+   ],
+   "description": "DDR1/DDR2 SODIMM socket, 200 contacts, 0.6 mm pitch, low profile, latch direct soldering (TE 1827236)",
+   "note": "TE drawing C-1827236 rev R2, datasheets/connector-memory-module/te/1827236.pdf, sheet 2 (reference PCB pattern, connector mounting side; the sheet is drawn rotated 90 degrees, turned back here so pin 1 is at the left, odd pins in the lower row and the card entry/latch tabs up). Pads 0.35 wide (printed 0.35+-0.03) x 2.0 long (2+-0.05); inner edge of each row 2.8 from the centre line (printed 2.8+-0.05), so row centres at +-(2.8+2.0/2) = +-3.8. Pitch 0.6; 0.6x19=11.4 | 4.2 | 0.6x79=47.4 (63 first to last pad of a side, printed), so the key gap after the 20th pad of each side is 4.2-0.6 = 3.6 extra. Pin 1 pad centre = hole 1 + 1.75 (printed) + 0.35/2 = 1.925 from the 1.6 hole: x = -33.4+1.925 = -31.475; 33.4 = 66.8/2. The even row is shifted 0.3 along the row against the odd row: NOT printed on this sheet (measured 0.29 on an 8x enlargement; 0.3 = half the pitch, and printed as 2.05-1.75 on the sibling DDR3 sheet 2013297); used 0.3. hole 1.6 (pin 1 end, left) and hole 1.1 (right) on the pad-row centre line, 33.4 either side of the centre (66.8 printed between them). Solder/latch tabs: 3.9 along the row (printed 3.9+-0.03, 2 places) x 4.6 across (printed 4.6+-0.1), centre 12 from the row centre line (printed 12+-0.05) on the card side (y -12), along the row at hole + 0.55 inside: tab edge 2.5 from the 1.6 hole (printed), centre = 2.5-3.9/2 = 0.55; the other tab 61.8 further (printed): 2.5+61.8+3.9/2 = 66.25 from hole 1 = +32.85. Pad shift of the generator (gap key 0) = half the shift of the row against the centre: odd row centre +0.025, even row +0.325 (pad 1 at -31.475, pad 2 at -31.175). Housing: 71.1 max long (sheet 1 bottom dimension), 8.4 deep = 4.2+4.2 (sheet 1 stack about the centre line), assumed centred on the pad-row centre line.",
+   "numbering": "odd-even",
+   "pitch": 0.6,
+   "dir": "ltr,ltr",
+   "row_y": "3.8,-3.8",
+   "pad_w": 0.35,
+   "pad_h": 2.0,
+   "shape": "rect",
+   "gaps": [
+    {
+     "0": 0.05,
+     "20": 3.6
+    },
+    {
+     "0": 0.65,
+     "20": 3.6
+    }
+   ],
+   "extras": [
+    {
+     "pin": 0,
+     "x": -33.4,
+     "y": 0,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 33.4,
+     "y": 0,
+     "width": 1.1,
+     "height": 1.1,
+     "shape": "round",
+     "drill": 1.1,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -32.85,
+     "y": -12,
+     "width": 3.9,
+     "height": 4.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 32.85,
+     "y": -12,
+     "width": 3.9,
+     "height": 4.6,
+     "shape": "rect"
+    }
+   ],
+   "body_w": 71.1,
+   "body_h": 8.4
+  },
+  {
+   "stem": "DIMM-TE-1827341",
+   "positions": [
+    200
+   ],
+   "description": "DDR1/DDR2 SODIMM socket, 200 contacts, 0.6 mm pitch, 8 mm height, latch direct soldering (TE 1827341)",
+   "note": "TE drawing C-1827341 rev G2, datasheets/connector-memory-module/te/1827341.pdf, sheet 2 (reference PCB pattern for dual use, connector mounting side; drawn with pin 1 at the left, even pins in the upper row, tabs up: used as drawn). Pads 0.35 x 2.0 (printed 0.35+-0.03, 2+-0.05); inner edge of each row 3.1 from the centre line (printed 3.1+-0.05) so row centres at +-(3.1+2.0/2) = +-4.1. Pitch 0.6; 0.6x19=11.4 | 4.2 | 0.6x79=47.4 (63 first to last, printed); key gap 4.2-0.6 = 3.6 extra after the 20th pad of each side. Pin 1 = hole 1 + 1.75 (printed) + 0.35/2 = -33.4+1.925 = -31.475; holes 1.6 (left) and 1.1 (right) on the centre line, 66.8 apart (printed), so +-33.4; even row shifted 0.3 along the row (NOT printed here: measured about 0.25 on the print; 0.3 = half pitch as printed 2.05-1.75 on sibling 2013297). Tabs: 4 along the row (printed 4+-0.03, 2 places) x 6.8 across (printed 6.8+-0.1), centre 11.3 from the centre line (printed 11.3+-0.05) on the card side (y -11.3); inner edges 70+-0.03 apart (printed) so centres at +-(35+2) = +-37. Generator gap key 0 shifts the odd row centre by +0.025 and the even row by +0.325. Housing 71.1 max long (sheet 1), 9.0 deep = 4.5+4.5 (sheet 1 about the centre line), assumed centred on the row centre line.",
+   "numbering": "odd-even",
+   "pitch": 0.6,
+   "dir": "ltr,ltr",
+   "row_y": "4.1,-4.1",
+   "pad_w": 0.35,
+   "pad_h": 2.0,
+   "shape": "rect",
+   "gaps": [
+    {
+     "0": 0.05,
+     "20": 3.6
+    },
+    {
+     "0": 0.65,
+     "20": 3.6
+    }
+   ],
+   "extras": [
+    {
+     "pin": 0,
+     "x": -33.4,
+     "y": 0,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 33.4,
+     "y": 0,
+     "width": 1.1,
+     "height": 1.1,
+     "shape": "round",
+     "drill": 1.1,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -37,
+     "y": -11.3,
+     "width": 4.0,
+     "height": 6.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 37,
+     "y": -11.3,
+     "width": 4.0,
+     "height": 6.8,
+     "shape": "rect"
+    }
+   ],
+   "body_w": 71.1,
+   "body_h": 9.0
+  },
+  {
+   "stem": "DIMM-TE-2013297",
+   "positions": [
+    204
+   ],
+   "description": "DDR3 SODIMM socket, 204 contacts, 0.6 mm pitch, 8.0 mm height (TE 2013297)",
+   "note": "TE drawing C-2013297 rev D, datasheets/connector-memory-module/te/2013297.pdf, sheet 3 (reference PCB pattern, connector mounting side; drawn rotated 90 degrees, turned back here: pin 1 left, odd pins lower row, tabs up). Pads 0.35+-0.03 wide x 2+-0.03 long (204x); row centres at +-4.1 (printed 4.1 | 4.1 either side of the centre line). Pitch 0.6: 0.6x35=21 | 3 | 0.6x65=39 (printed) = 63 first to last of a side; the key gap is 3-0.6 = 2.4 extra after the 36th pad of each side. Pad 1 edge 1.75 and pad 2 edge 2.05 from the 1.6 hole line (both printed) so the even row is shifted 2.05-1.75 = 0.3 (printed); pad 1 centre = 1.75+0.35/2 = 1.925 from the hole: x = -33.4+1.925 = -31.475 (holes 1.6+-0.05 and 1.1+-0.05, 66.8 apart printed, on the centre line). Tabs: 4.7+-0.1 along the row x 6.8+-0.1 across (2x), centre 11.3 from the centre line (printed) on the card side; along the row 3.95 outside the hole (printed 3.95; 74.7 between tab centres, printed) so x = +-(33.4+3.95) = +-37.35. Housing 71 long (sheet 1 bottom), 9.0 deep = 4.5+4.5 (sheet 1), assumed centred on the row centre line.",
+   "numbering": "odd-even",
+   "pitch": 0.6,
+   "dir": "ltr,ltr",
+   "row_y": "4.1,-4.1",
+   "pad_w": 0.35,
+   "pad_h": 2.0,
+   "shape": "rect",
+   "gaps": [
+    {
+     "0": 0.05,
+     "36": 2.4
+    },
+    {
+     "0": 0.65,
+     "36": 2.4
+    }
+   ],
+   "extras": [
+    {
+     "pin": 0,
+     "x": -33.4,
+     "y": 0,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 33.4,
+     "y": 0,
+     "width": 1.1,
+     "height": 1.1,
+     "shape": "round",
+     "drill": 1.1,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -37.35,
+     "y": -11.3,
+     "width": 4.7,
+     "height": 6.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 37.35,
+     "y": -11.3,
+     "width": 4.7,
+     "height": 6.8,
+     "shape": "rect"
+    }
+   ],
+   "body_w": 71.0,
+   "body_h": 9.0
+  },
+  {
+   "stem": "DIMM-TE-1932031",
+   "positions": [
+    240
+   ],
+   "description": "DDR3 DIMM socket, 240 contacts, vertical, through hole, 1.00 mm pitch (TE 1932031)",
+   "note": "TE drawing C-1932031 rev C8, datasheets/connector-memory-module/te/1932031.pdf, sheet 3 (recommended PCB layout viewed from connector side, as drawn: pin 1 at the left, pins 1-120 in the two lower rows, 121-240 in the two upper rows). Four staggered rows of 0.70+-0.08 holes (240x): rows at +-0.95 and +-2.85 from the centre line (printed 0.95 | 0.95 and 2.85 | 2.85); each row pitch 2.00, neighbouring pins 1.00 apart (printed 1.00 TYP, 2X 2.00), so each side steps 1.00 along and 1.90 across (2.85-0.95): pin 1 y +0.95, pin 2 y +2.85, pin 121 y -2.85, pin 122 y -0.95. Key: pin 1 to pin 48 = 47.00, pin 48 to pin 49 = 5.00, pin 49 to pin 120 = 71.00 (printed) = 123 first to last; 5.00-1.00 = 4.0 extra after pin 48 (and 168). Centre of the pad pattern is 12.00 beyond the key line (printed 12.00): pin 1 at -61.5. Guide/retention holes 2.45+-0.05 at 57.00 | 81.00 from the key line (printed), so at 12-57 = -69 and 81-12 = +69 from the pattern centre, on the centre line; plating not stated, drawn non-plated. Pad size is NOT printed: pad 1.0 round for the 0.70 hole (note 3 gives a 0.15 max annular ring; 0.70+2x0.15 = 1.0). The LED target zones (2.1 square) and extractor shadow areas are optional/keep-outs and not drawn. Housing: 138 = 57+81 hole distance (assumed housing length, 141 max with extractors), 7.75 deep (7.75 MAX printed footprint width).",
+   "numbering": "halves",
+   "pitch": 1.0,
+   "dir": "ltr,ltr",
+   "row_y": "0.95,-2.85",
+   "stagger": 1.9,
+   "pad_w": 1.0,
+   "pad_h": 1.0,
+   "shape": "round",
+   "drill": 0.7,
+   "gaps": {
+    "48": 4.0
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": -69,
+     "y": 0,
+     "width": 2.45,
+     "height": 2.45,
+     "shape": "round",
+     "drill": 2.45,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 69,
+     "y": 0,
+     "width": 2.45,
+     "height": 2.45,
+     "shape": "round",
+     "drill": 2.45,
+     "plated": false
+    }
+   ],
+   "body_w": 138.0,
+   "body_h": 7.75
+  },
+  {
+   "stem": "DIMM-TE-2199155",
+   "positions": [
+    288
+   ],
+   "description": "DDR4 DIMM socket, 288 contacts, SMT, 0.85 mm pitch, 3 tab type (TE 2199155)",
+   "note": "TE drawing C-2199155 rev C2, datasheets/connector-memory-module/te/2199155.pdf, sheet 3 (recommended PCB layout for 3 TABS = the third layout, viewed from connector side, pin 1 bottom left as drawn; part 9-2199155-1 is a 3 TAB part, sheet 4 table). Two rows of pads 0.57+-0.03 x 1.80+-0.03 (288x, detail C), rows at +-2.30 from the centre line (printed 2.30 | 2.30); pins 1-144 in the lower row, 145-288 in the upper row. Pitch 0.85: 64.60 (76 spaces, printed) | 4.30+1.65 = 5.95 (printed) | 56.10 (66 spaces, printed) = 126.65 first to last; key gap 5.95-0.85 = 5.10 extra after the 77th pad of each row; pin 1 and pin 145 at x = -126.65/2 = -63.325. Tabs: the 3 TABS layout shows three plated slots at the two ends and the key line; their position is that of the boardlock holes of the first layout: left 74.55 | right 63.40 from the key line J (printed), J = pin 1 + 64.60 + 4.30 = 5.575 from -63.325 (5.575 also printed on sheet 1): slots at -68.975 (=5.575-74.55), 5.575 and 68.975 (=5.575+63.40), y 0. Slot 1.20+-0.05 wide x 2.45+-0.05 long (3X, printed on the layouts and detail C; the long side across the row); the land around it is 1.8 x 3.05 (the ends R0.90 4X and 3.05 2X printed on the side-tab layout, 3.05-2.45 = 1.8-1.2 = 0.6); the print gives no land for the centre slot, the same land assumed. Which of the unlabelled tab layouts belongs to the 3 TAB part is not stated beyond its title; the 2-side-tab drawing carries the dimensions. Housing 142 long (142.00 MAX), 5.8 wide (detail D 5.80 REF), assumed centred on the pad pattern.",
+   "numbering": "halves",
+   "pitch": 0.85,
+   "dir": "ltr,ltr",
+   "row_y": "2.3,-2.3",
+   "pad_w": 0.57,
+   "pad_h": 1.8,
+   "shape": "rect",
+   "gaps": {
+    "77": 5.1
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": -68.975,
+     "y": 0,
+     "width": 1.8,
+     "height": 3.05,
+     "shape": "round",
+     "drill": 1.2,
+     "slotLength": 2.45
+    },
+    {
+     "pin": 0,
+     "x": 5.575,
+     "y": 0,
+     "width": 1.8,
+     "height": 3.05,
+     "shape": "round",
+     "drill": 1.2,
+     "slotLength": 2.45
+    },
+    {
+     "pin": 0,
+     "x": 68.975,
+     "y": 0,
+     "width": 1.8,
+     "height": 3.05,
+     "shape": "round",
+     "drill": 1.2,
+     "slotLength": 2.45
+    }
+   ],
+   "body_w": 142.0,
+   "body_h": 5.8
+  },
+  {
+   "stem": "DIMM-TE-DDECONTROLLER",
+   "positions": [
+    288
+   ],
+   "description": "DDR5 DIMM socket, 288 contacts, SMT, 0.85 mm pitch (TE 2-2355626-1)",
+   "note": "TE application specification 114-115044 rev A1, datasheets/connector-memory-module/te/DDEController.pdf, page 4, Figure 3 (recommended PCB layout viewed from connector side, as drawn: pin 1 bottom left, pins 1-144 lower row, 145-288 upper row); no part-number drawing is in the PDF, the figure is the reference land pattern of the family. Pads 0.52+-0.03 x 1.50+-0.03 (288x), row centres +-2.05 (printed 2.05 | 2.05). Pitch 0.85: 62.90 (74 spaces) | 4.30+1.65 = 5.95 (printed 5.95) | 57.80 (68 spaces) = 126.65 first to last; key gap 5.95-0.85 = 5.10 extra after the 75th pad of each row; pin 1 at -63.325. Holes: 2.45+-0.05 plated through holes (PTH, note 2) at 72.85 | 65.10 from the key line (printed), key line = pin 1 + 62.90 + 4.30 = 3.875, so holes at 3.875-72.85 = -68.975 and 3.875+65.10 = +68.975, on the centre line; the print gives no pad size around them: 3.05 round assumed (2.45 + 2x0.30). Key-line slot 1.20+-0.05 x 2.45+-0.08 (PTH) at x 3.875, long side across the row; land 1.8 x 3.05 assumed as the DDR4 sibling 2199155 (not printed here). Housing 142 long (142.00 MAX PCB footprint), 6.5 wide (6.50 MAX), assumed centred.",
+   "numbering": "halves",
+   "pitch": 0.85,
+   "dir": "ltr,ltr",
+   "row_y": "2.05,-2.05",
+   "pad_w": 0.52,
+   "pad_h": 1.5,
+   "shape": "rect",
+   "gaps": {
+    "75": 5.1
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": -68.975,
+     "y": 0,
+     "width": 3.05,
+     "height": 3.05,
+     "shape": "round",
+     "drill": 2.45
+    },
+    {
+     "pin": 0,
+     "x": 3.875,
+     "y": 0,
+     "width": 1.8,
+     "height": 3.05,
+     "shape": "round",
+     "drill": 1.2,
+     "slotLength": 2.45
+    },
+    {
+     "pin": 0,
+     "x": 68.975,
+     "y": 0,
+     "width": 3.05,
+     "height": 3.05,
+     "shape": "round",
+     "drill": 2.45
+    }
+   ],
+   "body_w": 142.0,
+   "body_h": 6.5
+  },
+  {
+   "stem": "DIMM-TE-2309413",
+   "positions": [
+    260
+   ],
+   "description": "DDR4 SODIMM socket, 260 contacts, 0.5 mm pitch, 9.2 mm height, standard orientation, tabs outside (TE 2309413)",
+   "note": "TE drawing C-2309413 rev 7, datasheets/connector-memory-module/te/2309413.pdf, sheet 2 (recommended PCB layout, drawn pin 1 right, odd pins upper row; turned 180 degrees here so pin 1 is at the left, odd pins in the lower row, tabs up). Pads 0.35+-0.03 x 1.75+-0.03 (detail C, 1.75+-0.03 printed on the layout), row centres at +-4.10 from the centre line (printed 4.10 | 4.10). Pitch 0.5: per row 35.50 (72 pads) | 2.50 pad to pad | 28.50 (58 pads) (printed) = 66.50 first to last; key gap 2.5-0.5 = 2.0 extra after the 72nd pad of each row; the key line is 1.375 beyond pad 143 (printed 1.375). Pin 1 is 1.025 inside its hole (printed 1.025), holes 1.60+-0.05 (pin 1 end) and 1.10+-0.05 on the centre line 68.80+-0.05 apart (printed) -> +-34.4; pin 1 at -34.4+1.025 = -33.375. Pin 2 is 0.25 further along the row than pin 1 (detail D: 1.025 for pin 1 and 1.275 for pin 2, both printed). Generator gap key 0 sets the row centres (odd -0.125, even +0.125). Housing 73.0 long (sheet 1 overall 73.0), 9.2 deep (sheet 1 side view 9.20+-0.25, not certain it is the plan depth), assumed centred on the row centre line. Tabs 2.00+-0.10 along the row x 3.50+-0.10 across (2X), 12.00 from the centre line (detail D) on the card side, along the row 3.35 outside the holes (75.50 overall printed = 68.80+2x3.35): x = +-37.75.",
+   "numbering": "odd-even",
+   "pitch": 0.5,
+   "dir": "ltr,ltr",
+   "row_y": "4.1,-4.1",
+   "pad_w": 0.35,
+   "pad_h": 1.75,
+   "shape": "rect",
+   "gaps": [
+    {
+     "0": -0.25,
+     "72": 2.0
+    },
+    {
+     "0": 0.25,
+     "72": 2.0
+    }
+   ],
+   "extras": [
+    {
+     "pin": 0,
+     "x": -34.4,
+     "y": 0,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 34.4,
+     "y": 0,
+     "width": 1.1,
+     "height": 1.1,
+     "shape": "round",
+     "drill": 1.1,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -37.75,
+     "y": -12,
+     "width": 2.0,
+     "height": 3.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 37.75,
+     "y": -12,
+     "width": 2.0,
+     "height": 3.5,
+     "shape": "rect"
+    }
+   ],
+   "body_w": 73.0,
+   "body_h": 9.2
+  },
+  {
+   "stem": "DIMM-TE-ADVANCEDMC",
+   "positions": [
+    260
+   ],
+   "description": "DDR4 SODIMM socket, 260 contacts, 0.5 mm pitch, 4.0 mm height, standard orientation, tabs inside (TE 2309407)",
+   "note": "TE drawing C-2309407 rev 5, datasheets/connector-memory-module/te/2309407.pdf, sheet 2 (recommended PCB layout, drawn pin 1 right, odd pins upper row; turned 180 degrees here so pin 1 is at the left, odd pins lower row, tabs up). Pads 0.35+-0.03 x 1.75+-0.03 (detail C, 1.75+-0.03 printed on the layout), row centres at +-4.10 from the centre line (printed 4.10 | 4.10). Pitch 0.5: per row 35.50 (72 pads) | 2.50 pad to pad | 28.50 (58 pads) (printed) = 66.50 first to last; key gap 2.5-0.5 = 2.0 extra after the 72nd pad of each row; the key line is 1.375 beyond pad 143 (printed 1.375). Pin 1 is 1.025 inside its hole (printed 1.025), holes 1.60+-0.05 (pin 1 end) and 1.10+-0.05 on the centre line 68.80+-0.05 apart (printed) -> +-34.4; pin 1 at -34.4+1.025 = -33.375. Pin 2 is 0.25 further along the row than pin 1 (detail D: 1.025 for pin 1 and 1.275 for pin 2, both printed). Generator gap key 0 sets the row centres (odd -0.125, even +0.125). Housing 73.0 long (sheet 1 overall 73.0), 9.2 deep (sheet 1 side view 9.20+-0.25, not certain it is the plan depth), assumed centred on the row centre line. Tabs 3.50+-0.10 along the row x 4.60+-0.10 across (2X), 12.00 from the centre line (detail D) on the card side, 0.60 inside the holes (detail D 0.60; 67.60 overall printed = 68.80-2x0.60): x = +-33.8.",
+   "numbering": "odd-even",
+   "pitch": 0.5,
+   "dir": "ltr,ltr",
+   "row_y": "4.1,-4.1",
+   "pad_w": 0.35,
+   "pad_h": 1.75,
+   "shape": "rect",
+   "gaps": [
+    {
+     "0": -0.25,
+     "72": 2.0
+    },
+    {
+     "0": 0.25,
+     "72": 2.0
+    }
+   ],
+   "extras": [
+    {
+     "pin": 0,
+     "x": -34.4,
+     "y": 0,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 34.4,
+     "y": 0,
+     "width": 1.1,
+     "height": 1.1,
+     "shape": "round",
+     "drill": 1.1,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -33.8,
+     "y": -12,
+     "width": 3.5,
+     "height": 4.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 33.8,
+     "y": -12,
+     "width": 3.5,
+     "height": 4.6,
+     "shape": "rect"
+    }
+   ],
+   "body_w": 73.0,
+   "body_h": 9.2
+  },
+  {
+   "stem": "DIMM-TE-ADVANCEDMC-B",
+   "positions": [
+    260
+   ],
+   "description": "DDR4 SODIMM socket, 260 contacts, 0.5 mm pitch, reverse orientation, tabs inside (TE 2309408)",
+   "note": "TE drawing C-2309408, datasheets/connector-memory-module/te/2309408.pdf, sheet 2 (recommended PCB layout). Reverse-mount (mirror image) socket: the sheet is drawn pin 1 left, odd pins lower row, tabs on the odd-row side below; turned 180 degrees here so the tabs are up (y -12): pin 1 is then at the RIGHT (dir rtl), odd pins in the upper row. Pads 0.35+-0.03 x 1.75+-0.03 (detail C, 1.75+-0.03 printed on the layout), row centres at +-4.10 from the centre line (printed 4.10 | 4.10). Pitch 0.5: per row 35.50 (72 pads) | 2.50 pad to pad | 28.50 (58 pads) (printed) = 66.50 first to last; key gap 2.5-0.5 = 2.0 extra after the 72nd pad of each row; the key line is 1.375 beyond pad 143 (printed 1.375). Pin 1 is 1.025 inside its hole (printed 1.025), holes 1.60+-0.05 (pin 1 end) and 1.10+-0.05 on the centre line 68.80+-0.05 apart (printed) -> +-34.4; pin 1 at -34.4+1.025 = -33.375. Pin 2 is 0.25 further along the row than pin 1 (detail D: 1.025 for pin 1 and 1.275 for pin 2, both printed). Generator gap key 0 sets the row centres (odd -0.125, even +0.125). Housing 73.0 long (sheet 1 overall 73.0), 9.2 deep (sheet 1 side view 9.20+-0.25, not certain it is the plan depth), assumed centred on the row centre line. Tabs 3.50+-0.10 along the row x 4.60+-0.10 across (2X), 12.00 from the centre line (detail D) on the card side, 0.60 inside the holes (detail D 0.60; 67.60 overall printed = 68.80-2x0.60): x = +-33.8.",
+   "numbering": "odd-even",
+   "pitch": 0.5,
+   "dir": "rtl,rtl",
+   "row_y": "-4.1,4.1",
+   "pad_w": 0.35,
+   "pad_h": 1.75,
+   "shape": "rect",
+   "gaps": [
+    {
+     "0": -0.25,
+     "72": 2.0
+    },
+    {
+     "0": 0.25,
+     "72": 2.0
+    }
+   ],
+   "extras": [
+    {
+     "pin": 0,
+     "x": 34.4,
+     "y": 0,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -34.4,
+     "y": 0,
+     "width": 1.1,
+     "height": 1.1,
+     "shape": "round",
+     "drill": 1.1,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -33.8,
+     "y": -12,
+     "width": 3.5,
+     "height": 4.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 33.8,
+     "y": -12,
+     "width": 3.5,
+     "height": 4.6,
+     "shape": "rect"
+    }
+   ],
+   "body_w": 73.0,
+   "body_h": 9.2
+  },
+  {
+   "stem": "DIMM-TE-ADVANCEDMC-F",
+   "positions": [
+    260
+   ],
+   "description": "DDR4 SODIMM socket, 260 contacts, 0.5 mm pitch, reverse orientation, tabs outside (TE 2309412)",
+   "note": "TE drawing C-2309412, datasheets/connector-memory-module/te/2309412.pdf, sheet 2 (recommended PCB layout). Reverse-mount (mirror image) socket: the sheet is drawn pin 1 left, odd pins lower row, tabs on the odd-row side below; turned 180 degrees here so the tabs are up (y -12): pin 1 is then at the RIGHT (dir rtl), odd pins in the upper row. Pads 0.35+-0.03 x 1.75+-0.03 (detail C, 1.75+-0.03 printed on the layout), row centres at +-4.10 from the centre line (printed 4.10 | 4.10). Pitch 0.5: per row 35.50 (72 pads) | 2.50 pad to pad | 28.50 (58 pads) (printed) = 66.50 first to last; key gap 2.5-0.5 = 2.0 extra after the 72nd pad of each row; the key line is 1.375 beyond pad 143 (printed 1.375). Pin 1 is 1.025 inside its hole (printed 1.025), holes 1.60+-0.05 (pin 1 end) and 1.10+-0.05 on the centre line 68.80+-0.05 apart (printed) -> +-34.4; pin 1 at -34.4+1.025 = -33.375. Pin 2 is 0.25 further along the row than pin 1 (detail D: 1.025 for pin 1 and 1.275 for pin 2, both printed). Generator gap key 0 sets the row centres (odd -0.125, even +0.125). Housing 73.0 long (sheet 1 overall 73.0), 9.2 deep (sheet 1 side view 9.20+-0.25, not certain it is the plan depth), assumed centred on the row centre line. Tabs 2.00+-0.10 along the row x 3.50+-0.10 across (2X), 12.00 from the centre line (detail D) on the card side, along the row 3.35 outside the holes (75.50 overall printed = 68.80+2x3.35): x = +-37.75.",
+   "numbering": "odd-even",
+   "pitch": 0.5,
+   "dir": "rtl,rtl",
+   "row_y": "-4.1,4.1",
+   "pad_w": 0.35,
+   "pad_h": 1.75,
+   "shape": "rect",
+   "gaps": [
+    {
+     "0": -0.25,
+     "72": 2.0
+    },
+    {
+     "0": 0.25,
+     "72": 2.0
+    }
+   ],
+   "extras": [
+    {
+     "pin": 0,
+     "x": 34.4,
+     "y": 0,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -34.4,
+     "y": 0,
+     "width": 1.1,
+     "height": 1.1,
+     "shape": "round",
+     "drill": 1.1,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -37.75,
+     "y": -12,
+     "width": 2.0,
+     "height": 3.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 37.75,
+     "y": -12,
+     "width": 2.0,
+     "height": 3.5,
+     "shape": "rect"
+    }
+   ],
+   "body_w": 73.0,
+   "body_h": 9.2
+  },
+  {
+   "stem": "DIMM-TE-390111",
+   "positions": [
+    144
+   ],
+   "description": "SODIMM socket, 144 contacts, 0.8 mm pitch, 3.3 V, 3.7 mm profile (TE 390111)",
+   "note": "TE (AMP) drawing C-390111, datasheets/connector-memory-module/te/390111.pdf, sheet 2 (recommended PC board pattern layout, connector mounting side; drawn pin 1 left, odd pins lower row, tabs up: used as drawn). Pads 0.5+-0.03 x 2+-0.05 (144x), inner edge 3.1 and outer edge 5.1 from the centre line (printed 3.1, 5.1): row centres +-4.1. Pitch 0.8: 19.2 (24 spaces) | 4.6 | 36.8 (46 spaces) per row (printed), 60.6 first to last (printed); key gap 4.6-0.8 = 3.8 extra after the 25th pad of each row. Holes on the centre line 63 apart (printed), so +-31.5; pin 1 is 1.0 and pin 143 1.4 from their holes, pin 2 1.4 and pin 144 1.0 (printed 1, 1.4): pin 1 at -30.5, pin 143 at +30.1, pin 2 at -30.1, pin 144 at +30.5; the generator gap key 0 sets the row centres (odd -0.2, even +0.2). Holes 1.1 (left, pin 1 end) and 1.6 (right); plating not stated, drawn non-plated. Tabs 4.5+-0.1 along the row x 4.6+-0.1 across (2 places), centre 1.05 outside each hole (65.1 between the tab centres, printed 65.1 and 1.05) = +-32.55, 16.1 from the centre line (printed 16.1) on the card side (y -16.1). Housing 69.8 long (sheet 1 overall incl. latches), 10.5 deep = 5.6+4.9 REF (sheet 1 side view), assumed centred on the centre line.",
+   "numbering": "odd-even",
+   "pitch": 0.8,
+   "dir": "ltr,ltr",
+   "row_y": "4.1,-4.1",
+   "pad_w": 0.5,
+   "pad_h": 2.0,
+   "shape": "rect",
+   "gaps": [
+    {
+     "0": -0.4,
+     "25": 3.8
+    },
+    {
+     "0": 0.4,
+     "25": 3.8
+    }
+   ],
+   "extras": [
+    {
+     "pin": 0,
+     "x": -31.5,
+     "y": 0,
+     "width": 1.1,
+     "height": 1.1,
+     "shape": "round",
+     "drill": 1.1,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 31.5,
+     "y": 0,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -32.55,
+     "y": -16.1,
+     "width": 4.5,
+     "height": 4.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 32.55,
+     "y": -16.1,
+     "width": 4.5,
+     "height": 4.6,
+     "shape": "rect"
+    }
+   ],
+   "body_w": 69.8,
+   "body_h": 10.5
+  },
+  {
+   "stem": "DIMM-TE-390112",
+   "positions": [
+    144
+   ],
+   "description": "SODIMM socket, 144 contacts, 0.8 mm pitch, 3.3 V, high profile (TE 390112)",
+   "note": "TE (AMP) drawing C-390112, datasheets/connector-memory-module/te/390112.pdf, sheet 2 (recommended PC board pattern layout, connector mounting side; drawn pin 1 left, odd pins lower row, tabs up: used as drawn). Pads 0.5+-0.03 x 2+-0.05 (144x), inner edge 3.1 and outer edge 5.1 from the centre line (printed 3.1, 5.1): row centres +-4.1. Pitch 0.8: 23.2 (29 spaces) | 4.6 | 32.8 (41 spaces) per row (printed), 60.6 first to last (printed); key gap 4.6-0.8 = 3.8 extra after the 30th pad of each row. Holes on the centre line 63 apart (printed), so +-31.5; pin 1 is 1.0 and pin 143 1.4 from their holes, pin 2 1.4 and pin 144 1.0 (printed 1, 1.4): pin 1 at -30.5, pin 143 at +30.1, pin 2 at -30.1, pin 144 at +30.5; the generator gap key 0 sets the row centres (odd -0.2, even +0.2). Holes 1.6 (left, pin 1 end) and 1.1 (right); plating not stated, drawn non-plated. Tabs 4.5+-0.1 along the row x 4.6+-0.1 across (2 places), centre 1.05 outside each hole (65.1 between the tab centres, printed 65.1 and 1.05) = +-32.55, 16.1 from the centre line (printed 16.1) on the card side (y -16.1). Housing 69.9 long (sheet 1 overall incl. latches), 10.5 deep = 5.6+4.9 REF (sheet 1 side view), assumed centred on the centre line.",
+   "numbering": "odd-even",
+   "pitch": 0.8,
+   "dir": "ltr,ltr",
+   "row_y": "4.1,-4.1",
+   "pad_w": 0.5,
+   "pad_h": 2.0,
+   "shape": "rect",
+   "gaps": [
+    {
+     "0": -0.4,
+     "30": 3.8
+    },
+    {
+     "0": 0.4,
+     "30": 3.8
+    }
+   ],
+   "extras": [
+    {
+     "pin": 0,
+     "x": -31.5,
+     "y": 0,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 31.5,
+     "y": 0,
+     "width": 1.1,
+     "height": 1.1,
+     "shape": "round",
+     "drill": 1.1,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -32.55,
+     "y": -16.1,
+     "width": 4.5,
+     "height": 4.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 32.55,
+     "y": -16.1,
+     "width": 4.5,
+     "height": 4.6,
+     "shape": "rect"
+    }
+   ],
+   "body_w": 69.9,
+   "body_h": 10.5
+  },
+  {
+   "stem": "DIMM-TE-440360",
+   "positions": [
+    124
+   ],
+   "description": "0.8 mm pitch fax-modem SODIMM-style socket, 124 contacts (TE 440360)",
+   "note": "TE drawing C-440360 rev N4, datasheets/connector-memory-module/te/440360.pdf, sheet 3 (recommended PCB board pattern layout, connector mounting side; drawn pin 1 left, pins 1/3/... lower row, 2/4/... upper row, tabs up: used as drawn). Pads 0.50+-0.03 wide (printed 0.50+-0.03) x 2.000 long (printed), outer edge 5.100 and inner edge 5.100-2.0 = 3.1 from the centre line (printed 5.100, 2.000): row centres +-4.1. Each row: one lone pad (pin 1 / pin 2) then 4.15+-0.03 to the next pad (printed) and 0.8x60 = 48 (61 pads, pins 3-123 / 4-124); so 52.15 first to last (printed 52.15) and the gap after the first pad is 4.15-0.8 = 3.35 extra. Holes 1.6+-0.1 (left) and 1.1+-0.1 (right) on the centre line 55+-0.03 apart (printed): +-27.5; plating not stated, drawn non-plated. Pin 1 is 1.45+-0.03 from the 1.6 hole (printed): x = -27.5+1.45 = -26.05; pin 2 sits 0.4 further along (not printed; 0.4 = half pitch, measured 0.41): -25.65, so the generator gap key 0 shifts the odd row centre by +0.025 and the even row by +0.425. The 2.35 holes marked 2SIDE are only for P/N 1-0440360-X (note on the sheet), not for this line, not drawn. Tabs 2.500 (along the row) x 4.800 (across), 4.750 from the centre line (printed 2.500, 4.800, 4.750) on the card side; along the row 3.75 outside each hole (60 between tab inner edges printed: 30+2.5/2 = 31.25 from the centre = 27.5+3.75). Housing 64.2 long, 7.95 deep (sheet 1 bottom and side dimensions), assumed centred on the centre line.",
+   "numbering": "odd-even",
+   "pitch": 0.8,
+   "dir": "ltr,ltr",
+   "row_y": "4.1,-4.1",
+   "pad_w": 0.5,
+   "pad_h": 2.0,
+   "shape": "rect",
+   "gaps": [
+    {
+     "0": 0.05,
+     "1": 3.35
+    },
+    {
+     "0": 0.85,
+     "1": 3.35
+    }
+   ],
+   "extras": [
+    {
+     "pin": 0,
+     "x": -27.5,
+     "y": 0,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 27.5,
+     "y": 0,
+     "width": 1.1,
+     "height": 1.1,
+     "shape": "round",
+     "drill": 1.1,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -31.25,
+     "y": -4.75,
+     "width": 2.5,
+     "height": 4.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 31.25,
+     "y": -4.75,
+     "width": 2.5,
+     "height": 4.8,
+     "shape": "rect"
+    }
+   ],
+   "body_w": 64.2,
+   "body_h": 7.95
+  },
+  {
+   "stem": "DIMM-TE-5382483",
+   "positions": [
+    72
+   ],
+   "description": "SIMM II socket, 72 contacts, right angle, 1.27 mm pitch, 4.06 mm height, through hole (TE 5382483)",
+   "note": "TE drawing C-5382483 rev A1, datasheets/connector-memory-module/te/5382483.pdf, sheet 2 (recommended circuit board hole layout and dimension table for 72 positions). Two staggered rows of 0.99+-0.08 holes (0.099 in the print is a typo for 0.99, 0.039 in): pin 1, 3, ... in the upper row, pin 2, 4, ... in the lower row, 1.27 along and 2.54 across per step (printed 1.27 TYP, 2.54), rows at -1.27 and +1.27 from the pattern centre line. Two sections of 36 contacts (DIM C = 44.45 = 35x1.27 each) 6.35 apart pin 36 to pin 37 (printed 6.35), 95.25 first to last (DIM F, printed in the table; 71x1.27+5.08 = 95.25): key gap 6.35-1.27 = 5.08 extra after pad 36. Origin on the key line (pattern symmetric about it). Holes: 1.58+-0.05 (datum A) at 8.26 before pin 1, 2.44+-0.03 (2 places) at the key line and 8.26 after pin 72 (DIM D = 55.88 from the key line, printed), all 1.27 above the upper row = 2.54 above the pattern centre line (printed 1.27 and 2.54); plating not stated, drawn non-plated. The pad (land) around the 0.99 holes is NOT printed: 1.6 round assumed (hole + 0.6). Housing DIM B = 115.57 long, 15.42 deep (sheet 1 top view), assumed centred on the pattern.",
+   "numbering": "single",
+   "pitch": 1.27,
+   "dir": "ltr",
+   "row_y": -1.27,
+   "stagger": 2.54,
+   "pad_w": 1.6,
+   "pad_h": 1.6,
+   "shape": "round",
+   "drill": 0.99,
+   "gaps": {
+    "36": 5.08
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": -55.88,
+     "y": -2.54,
+     "width": 1.58,
+     "height": 1.58,
+     "shape": "round",
+     "drill": 1.58,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 0,
+     "y": -2.54,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 55.88,
+     "y": -2.54,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    }
+   ],
+   "body_w": 115.57,
+   "body_h": 15.42
+  },
+  {
+   "stem": "DIMM-TE-MICRO-EDGE",
+   "positions": [
+    72
+   ],
+   "description": "Micro-Edge SIMM socket, 72 contacts, 1.27 mm pitch, vertical, tin plate, metal latch (TE 5822019)",
+   "note": "TE (AMP) drawing C-5822019, datasheets/connector-memory-module/te/5822019.pdf, sheet 1 (recommended P.C. board hole pattern, socket side). Pin 1 at the RIGHT end in the lower row (PIN #1 on both the top view and the hole pattern, printed); turned as drawn. Two staggered rows of 1.02+-0.08 holes (1.02 in the print; .040+-.003 in), rows 2.54 apart (+-1.27 about the row centre line, printed 2.54 and 1.27 TYP), consecutive pins 1.27 along and alternating rows; two sections of 36 contacts (B or C = 44.45 = 35x1.27) 6.35 apart (A = 95.25 first to last = 71x1.27+5.08; key gap 6.35-1.27 = 5.08 extra after pad 36); the pattern is symmetric about the key line (guide holes D = 111.76 = 55.88 either side, 8.26 beyond pin 1 / pin 72, printed 8.26). Guide holes are on the row centre line, not plated (the print: thru holes for connector guide posts shall not be plated). The pad (land) around the 1.02 holes is NOT printed: 1.6 round assumed (hole + 0.6). The housing perimeter drawn in the pattern is 7.37 deep: 4.19 above and 3.18 below the row centre line (printed 7.37 and 3.18 REF), so the row centre line is 0.505 below the housing centre: rows at y -0.765 and +1.775, guide holes at y +0.505. Guide holes 2.41+-0.03 (left, pin 72 end) and 1.63+-0.03 (right, pin 1 end) (2 PL, printed); no centre hole on this part. Housing 115.32 long (table), 7.37 deep, centred on the pattern.",
+   "numbering": "single",
+   "pitch": 1.27,
+   "dir": "rtl",
+   "row_y": 1.775,
+   "stagger": -2.54,
+   "pad_w": 1.6,
+   "pad_h": 1.6,
+   "shape": "round",
+   "drill": 1.02,
+   "gaps": {
+    "36": 5.08
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": -55.88,
+     "y": 0.505,
+     "width": 2.41,
+     "height": 2.41,
+     "shape": "round",
+     "drill": 2.41,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 55.88,
+     "y": 0.505,
+     "width": 1.63,
+     "height": 1.63,
+     "shape": "round",
+     "drill": 1.63,
+     "plated": false
+    }
+   ],
+   "body_w": 115.32,
+   "body_h": 7.37
+  },
+  {
+   "stem": "DIMM-TE-MICRO-EDGE-B",
+   "positions": [
+    72
+   ],
+   "description": "Micro-Edge SIMM socket, 72 contacts, 1.27 mm pitch, vertical, tin plate, metal latch, centre post (TE 5822021)",
+   "note": "TE (AMP) drawing C-5822021, datasheets/connector-memory-module/te/5822021.pdf, sheet 1 (recommended P.C. board hole pattern, socket side). Pin 1 at the RIGHT end in the lower row (PIN 1 printed at the right end of the hole pattern). Two staggered rows of 1.02+-0.08 holes (1.02 in the print; .040+-.003 in), rows 2.54 apart (+-1.27 about the row centre line, printed 2.54 and 1.27 TYP), consecutive pins 1.27 along and alternating rows; two sections of 36 contacts (B or C = 44.45 = 35x1.27) 6.35 apart (A = 95.25 first to last = 71x1.27+5.08; key gap 6.35-1.27 = 5.08 extra after pad 36); the pattern is symmetric about the key line (guide holes D = 111.76 = 55.88 either side, 8.26 beyond pin 1 / pin 72, printed 8.26). Guide holes are on the row centre line, not plated (the print: thru holes for connector guide posts shall not be plated). The pad (land) around the 1.02 holes is NOT printed: 1.6 round assumed (hole + 0.6). The housing perimeter drawn in the pattern is 7.37 deep: 4.19 above and 3.18 below the row centre line (printed 7.37 and 3.18 REF), so the row centre line is 0.505 below the housing centre: rows at y -0.765 and +1.775, guide holes at y +0.505. Guide holes 2.41+-0.03 (left) and 1.63+-0.03 (2 PLC: the right one and the one at the key line). Housing 115.57 long (table), 7.37 deep, centred on the pattern.",
+   "numbering": "single",
+   "pitch": 1.27,
+   "dir": "rtl",
+   "row_y": 1.775,
+   "stagger": -2.54,
+   "pad_w": 1.6,
+   "pad_h": 1.6,
+   "shape": "round",
+   "drill": 1.02,
+   "gaps": {
+    "36": 5.08
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": -55.88,
+     "y": 0.505,
+     "width": 2.41,
+     "height": 2.41,
+     "shape": "round",
+     "drill": 2.41,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 0,
+     "y": 0.505,
+     "width": 1.63,
+     "height": 1.63,
+     "shape": "round",
+     "drill": 1.63,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 55.88,
+     "y": 0.505,
+     "width": 1.63,
+     "height": 1.63,
+     "shape": "round",
+     "drill": 1.63,
+     "plated": false
+    }
+   ],
+   "body_w": 115.57,
+   "body_h": 7.37
+  },
+  {
+   "stem": "DIMM-TE-MICRO-EDGE-C",
+   "positions": [
+    72
+   ],
+   "description": "Micro-Edge SIMM socket, 72 contacts, 1.27 mm pitch, vertical, tin plate, metal latch, pin 1 left (TE 5822030)",
+   "note": "TE (AMP) drawing C-5822030, datasheets/connector-memory-module/te/5822030.pdf, sheet 1 (recommended P.C. board hole pattern, socket side). Pin 1 at the LEFT end in the upper row (PIN 1 printed at the left end of the hole pattern). Two staggered rows of 1.02+-0.08 holes (1.02 in the print; .040+-.003 in), rows 2.54 apart (+-1.27 about the row centre line, printed 2.54 and 1.27 TYP), consecutive pins 1.27 along and alternating rows; two sections of 36 contacts (B or C = 44.45 = 35x1.27) 6.35 apart (A = 95.25 first to last = 71x1.27+5.08; key gap 6.35-1.27 = 5.08 extra after pad 36); the pattern is symmetric about the key line (guide holes D = 111.76 = 55.88 either side, 8.26 beyond pin 1 / pin 72, printed 8.26). Guide holes are on the row centre line, not plated (the print: thru holes for connector guide posts shall not be plated). The pad (land) around the 1.02 holes is NOT printed: 1.6 round assumed (hole + 0.6). The housing perimeter drawn in the pattern is 7.37 deep: 4.19 above and 3.18 below the row centre line (printed 7.37 and 3.18 REF), so the row centre line is 0.505 below the housing centre: rows at y -0.765 and +1.775, guide holes at y +0.505. Guide holes 2.03+-0.03 (left) and 2.44+-0.03 (2 PL: the right one and the optional centre post hole at the key line). Housing 115.57 long (table), 7.37 deep, centred on the pattern.",
+   "numbering": "single",
+   "pitch": 1.27,
+   "dir": "ltr",
+   "row_y": -0.765,
+   "stagger": 2.54,
+   "pad_w": 1.6,
+   "pad_h": 1.6,
+   "shape": "round",
+   "drill": 1.02,
+   "gaps": {
+    "36": 5.08
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": -55.88,
+     "y": 0.505,
+     "width": 2.03,
+     "height": 2.03,
+     "shape": "round",
+     "drill": 2.03,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 0,
+     "y": 0.505,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 55.88,
+     "y": 0.505,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    }
+   ],
+   "body_w": 115.57,
+   "body_h": 7.37
+  },
+  {
+   "stem": "DIMM-TE-MICRO-EDGE-E",
+   "positions": [
+    72
+   ],
+   "description": "Micro-Edge low-profile SIMM socket, 72 contacts, 1.27 mm pitch, vertical, tin plate, metal latch (TE 5822134)",
+   "note": "TE (AMP) drawing C-5822134, datasheets/connector-memory-module/te/5822134.pdf, sheet 1 (recommended P.C. board hole pattern, socket side). Pin 1 at the RIGHT end in the lower row: the hole-pattern view carries no pin mark, taken from the top view (PIN #1 at the right end). Two staggered rows of 1.02+-0.08 holes (1.02 in the print; .040+-.003 in), rows 2.54 apart (+-1.27 about the row centre line, printed 2.54 and 1.27 TYP), consecutive pins 1.27 along and alternating rows; two sections of 36 contacts (B or C = 44.45 = 35x1.27) 6.35 apart (A = 95.25 first to last = 71x1.27+5.08; key gap 6.35-1.27 = 5.08 extra after pad 36); the pattern is symmetric about the key line (guide holes D = 111.76 = 55.88 either side, 8.26 beyond pin 1 / pin 72, printed 8.26). Guide holes are on the row centre line, not plated (the print: thru holes for connector guide posts shall not be plated). The pad (land) around the 1.02 holes is NOT printed: 1.6 round assumed (hole + 0.6). The housing perimeter drawn in the pattern is 7.37 deep: 4.19 above and 3.18 below the row centre line (printed 7.37 and 3.18 REF), so the row centre line is 0.505 below the housing centre: rows at y -0.765 and +1.775, guide holes at y +0.505. Guide holes 2.44+-0.03 (left), 1.63+-0.03 (key line and right); D = 55.88 (table, 72 positions), so the holes are +-55.88. The housing outline also has end areas 13.72 deep that must be free of components (not drawn). Housing 115.32 long (table), 7.37 deep, centred on the pattern.",
+   "numbering": "single",
+   "pitch": 1.27,
+   "dir": "rtl",
+   "row_y": 1.775,
+   "stagger": -2.54,
+   "pad_w": 1.6,
+   "pad_h": 1.6,
+   "shape": "round",
+   "drill": 1.02,
+   "gaps": {
+    "36": 5.08
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": -55.88,
+     "y": 0.505,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 0,
+     "y": 0.505,
+     "width": 1.63,
+     "height": 1.63,
+     "shape": "round",
+     "drill": 1.63,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 55.88,
+     "y": 0.505,
+     "width": 1.63,
+     "height": 1.63,
+     "shape": "round",
+     "drill": 1.63,
+     "plated": false
+    }
+   ],
+   "body_w": 115.32,
+   "body_h": 7.37
+  },
+  {
+   "stem": "DIMM-TE-MICRO-EDGE-E",
+   "positions": [
+    80
+   ],
+   "description": "Micro-Edge low-profile SIMM socket, 80 contacts, 1.27 mm pitch, vertical, tin plate, metal latch (TE 5822134)",
+   "note": "TE (AMP) drawing C-5822134, datasheets/connector-memory-module/te/5822134.pdf, sheet 1 (recommended P.C. board hole pattern, socket side). Pin 1 at the RIGHT end in the lower row: the hole-pattern view carries no pin mark, taken from the top view (PIN #1 at the right end). Two staggered rows of 1.02+-0.08 holes (1.02 in the print; .040+-.003 in), rows 2.54 apart (+-1.27 about the row centre line, printed 2.54 and 1.27 TYP), consecutive pins 1.27 along and alternating rows; two sections of 36 contacts (B or C = 44.45 = 35x1.27) 6.35 apart (A = 95.25 first to last = 71x1.27+5.08; key gap 6.35-1.27 = 5.08 extra after pad 36); the pattern is symmetric about the key line (guide holes D = 111.76 = 55.88 either side, 8.26 beyond pin 1 / pin 72, printed 8.26). Guide holes are on the row centre line, not plated (the print: thru holes for connector guide posts shall not be plated). The pad (land) around the 1.02 holes is NOT printed: 1.6 round assumed (hole + 0.6). The housing perimeter drawn in the pattern is 7.37 deep: 4.19 above and 3.18 below the row centre line (printed 7.37 and 3.18 REF), so the row centre line is 0.505 below the housing centre: rows at y -0.765 and +1.775, guide holes at y +0.505. Guide holes 2.44+-0.03 (left), 1.63+-0.03 (key line and right); D = 60.96 (table, 80 positions), so the holes are +-60.96. The housing outline also has end areas 13.72 deep that must be free of components (not drawn). Housing 125.48 long (table), 7.37 deep, centred on the pattern.",
+   "numbering": "single",
+   "pitch": 1.27,
+   "dir": "rtl",
+   "row_y": 1.775,
+   "stagger": -2.54,
+   "pad_w": 1.6,
+   "pad_h": 1.6,
+   "shape": "round",
+   "drill": 1.02,
+   "gaps": {
+    "40": 5.08
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": -60.96,
+     "y": 0.505,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 0,
+     "y": 0.505,
+     "width": 1.63,
+     "height": 1.63,
+     "shape": "round",
+     "drill": 1.63,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 60.96,
+     "y": 0.505,
+     "width": 1.63,
+     "height": 1.63,
+     "shape": "round",
+     "drill": 1.63,
+     "plated": false
+    }
+   ],
+   "body_w": 125.48,
+   "body_h": 7.37
+  }
+ ]
+}

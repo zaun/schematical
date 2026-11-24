@@ -1,0 +1,1593 @@
+{
+ "format": "schematical-footprints",
+ "version": 1,
+ "footprints": [
+  {
+   "id": "SOCK-SAMESKY-MSIM-10-B-6",
+   "description": "Same Sky MSIM-10-B micro SIM card socket, SMD right angle, 6 contacts, 4 unnumbered shell pads",
+   "note": "Same Sky MSIM-10-B datasheet (datasheets/connector-card-socket/same-sky/msim-10-b.pdf), page 3 \"Recommended PCB Layout, Top View\" (vector drawing, scale 15.44 pt/mm from 16.40 housing width = 253.24 pt and the 1.00 x 1.50 contact pad). Origin: centre of the 16.40 x 16.30 housing outline drawn in the layout (the 8.15 + 8.15 dimension: x from the outline edges 187.12 / 440.36 pt, y from its edges 394.78 / 646.42 pt), at print point (313.74, 520.60) pt. The layout is a top view with the card entry at the bottom (page 2: the card, dashed, stands out below the housing), so it is turned 180 degrees here to put the card entry at -y: footprint (x, y) = -(layout x, layout y). Every pad centre is x = -(print x - 313.74) / 15.44, y = -(print y - 520.60) / 15.44 in mm (print points read from the vector drawing, rounded to 0.01 mm). Pad sizes: contact pads 1.00 x 1.50 (1.00, 1.50 printed), shell pads 1.50 x 1.60 (1.50, 1.60 printed). Printed: pad pitch 2.54, 6.27 from pad C3 to the right shell pad centre, 2.70 between the shell pads, 4.35 from the top contact row to the upper shell pad, 12.60 between the contact rows, 1.50 shell pad width, 1.50 contact pad height. Layout frame: contact x = -3.90, -1.36, +1.18 (7.45 - 6.27 = 1.18; 1.18 - 2.54 = -1.36; -1.36 - 2.54 = -3.90); top row y = -4.95 and bottom row y = +7.65 (12.60 apart as printed; the 4.95 is measured: 444.19 - 520.60 = -76.41 pt = -4.95 mm); shell pads at x = +-7.45 (8.20 - 1.50 / 2), y = -0.60 (-4.95 + 4.35) and +2.10 (-0.60 + 2.70). The pinout has no shield pin, so the four shell pads are unnumbered (pin 0). Pin order: top row left to right C1 C2 C3 = pins 1 2 3, bottom row left to right C5 C6 C7 = pins 4 5 6.",
+   "style": "explicit",
+   "pins": 6,
+   "body": {
+    "width": 16.4,
+    "height": 16.3
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 3.9,
+     "y": 4.95,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 1.36,
+     "y": 4.95,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -1.18,
+     "y": 4.95,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 3.9,
+     "y": -7.65,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 1.36,
+     "y": -7.65,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -1.18,
+     "y": -7.65,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 7.45,
+     "y": 0.6,
+     "width": 1.5,
+     "height": 1.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 7.45,
+     "y": -2.1,
+     "width": 1.5,
+     "height": 1.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": -7.45,
+     "y": 0.6,
+     "width": 1.5,
+     "height": 1.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": -7.45,
+     "y": -2.1,
+     "width": 1.5,
+     "height": 1.6,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-MSIM-11-A-7",
+   "description": "Same Sky MSIM-11-A micro SIM card socket, push-push, SMD right angle, 6 contacts, card detect, 4 shell pads",
+   "note": "Same Sky MSIM-11-A datasheet (datasheets/connector-card-socket/same-sky/msim-11-a.pdf), page 3 \"Recommended PCB Layout, Top View\" (vector drawing, scale 9.69 pt/mm from 5 x 1.27 = 6.35 (the 5-1.27 pitch) = 61.5 pt between the C7 and C1 pads). Origin: centre of the 15.75 x 17.16 housing (page 2): x = the layout centre line (midway between the GND pad centres, 16.68 apart), y = 8.58 (17.16 / 2) above the housing bottom edge, which is the layout's dashed bottom outline at 542.0 pt (17.11 below the contact row as printed, 9-17.11), at print point (308.30, 458.86) pt. The layout is a top view with the card entry at the bottom (page 2: the card, dashed, stands out below the housing), so it is turned 180 degrees here to put the card entry at -y: footprint (x, y) = -(layout x, layout y). Every pad centre is x = -(print x - 308.30) / 9.69, y = -(print y - 458.86) / 9.69 in mm (print points read from the vector drawing, rounded to 0.01 mm). Pad sizes: contact and CD pads 0.90 x 1.35 (7-0.90, 7-1.35 printed), GND shell pads 1.56 x 2.61 (4-1.56, 4-2.61 printed). The cross-hatched COPPER RESTRICTED squares are not pads and are left out. Printed: 3.59 from the centre line to pad C7, 5 x 1.27 pitch, 7.40 from the centre line to CD, 16.68 between the GND pad centres. Layout frame: C7 C3 C6 C2 C5 C1 at x = -3.59, -2.32, -1.05, +0.22, +1.49, +2.76 (-3.59 + k x 1.27), CD at x = -7.40; contact row at y = -8.53 (the 8.58 half-length less 0.05: row 376.25 pt, housing top edge 17.16 above the bottom edge), GND pads at x = +-8.34 (16.68 / 2), y = -5.66 and +6.98 (measured: (404.05 - 458.86) / 9.69 and (526.45 - 458.86) / 9.69). Pin 7 is CD; the four shell pads are SHIELD (pin 8). Pin order: C1 C2 C3 C5 C6 C7 = pins 1..6.",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 15.75,
+    "height": 17.16
+   },
+   "pads": [
+    {
+     "pin": 6,
+     "x": 3.59,
+     "y": 8.53,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 2.32,
+     "y": 8.53,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 1.05,
+     "y": 8.53,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -0.22,
+     "y": 8.53,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -1.49,
+     "y": 8.53,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -2.76,
+     "y": 8.53,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 7.4,
+     "y": 8.53,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 8.34,
+     "y": 5.66,
+     "width": 1.56,
+     "height": 2.61,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -8.34,
+     "y": 5.66,
+     "width": 1.56,
+     "height": 2.61,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 8.34,
+     "y": -6.98,
+     "width": 1.56,
+     "height": 2.61,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -8.34,
+     "y": -6.98,
+     "width": 1.56,
+     "height": 2.61,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-MSIM-12-A-9",
+   "description": "Same Sky MSIM-12-A micro SIM card socket, push-push, SMD right angle, 8 contacts, card detect, 4 shell pads",
+   "note": "Same Sky MSIM-12-A datasheet (datasheets/connector-card-socket/same-sky/msim-12-a.pdf), page 3 \"Recommended PCB Layout, Top View\" (vector drawing, scale 9.69 pt/mm from 5 x 1.27 = 6.35 (the 5-1.27 pitch) = 61.5 pt between the C7 and C1 pads). Origin: centre of the 15.75 x 17.16 housing (page 2): x = the layout centre line (midway between the GND pad centres, 2-16.68 apart), y = 8.58 (17.16 / 2) above the housing bottom edge, which is the layout's dashed bottom outline at 542.7 pt (17.11 below the contact row as printed, 9-17.11), at print point (308.30, 459.56) pt. The layout is a top view with the card entry at the bottom (page 2: the card, dashed, stands out below the housing), so it is turned 180 degrees here to put the card entry at -y: footprint (x, y) = -(layout x, layout y). Every pad centre is x = -(print x - 308.30) / 9.69, y = -(print y - 459.56) / 9.69 in mm (print points read from the vector drawing, rounded to 0.01 mm). Pad sizes: contact and CD pads 0.90 x 1.35 (9-0.90, 7-1.35 printed), GND shell pads 1.56 x 2.61 (4-1.56, 4-2.61 printed). Same land pattern as MSIM-11-A with the C4 and C8 pads added. The cross-hatched COPPER RESTRICTED rectangles are not pads and are left out. Printed: 5-1.27 pitch, 7.40 from the centre line to CD, 2-8.34 and 2-16.68 for the GND pads. Layout frame: CD C8 C4 C7 C3 C6 C2 C5 C1 at x = -7.40, -6.13, -4.86, -3.59, -2.32, -1.05, +0.22, +1.49, +2.76 (-3.59 + k x 1.27 and -7.40 for CD, as in MSIM-11-A), contact row y = -8.51 (8.58 half-length less 0.07: row 377.10 pt), GND pads at x = +-8.33 (measured, 16.68 / 2 = 8.34 printed), y = -5.64 and +6.98 (measured: (404.95 - 459.56) / 9.69, (527.20 - 459.56) / 9.69). Pin 9 is CD, pins 4 and 8 the reserved C4 and C8; the four shell pads are SHIELD (pin 10). Pin order: C1 C2 C3 C4 C5 C6 C7 C8 = pins 1..8.",
+   "style": "explicit",
+   "pins": 10,
+   "body": {
+    "width": 15.75,
+    "height": 17.16
+   },
+   "pads": [
+    {
+     "pin": 9,
+     "x": 7.39,
+     "y": 8.51,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 6.12,
+     "y": 8.51,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 4.86,
+     "y": 8.51,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 3.59,
+     "y": 8.51,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 2.32,
+     "y": 8.51,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 1.05,
+     "y": 8.51,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -0.22,
+     "y": 8.51,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -1.49,
+     "y": 8.51,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -2.76,
+     "y": 8.51,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": 8.33,
+     "y": 5.64,
+     "width": 1.56,
+     "height": 2.61,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -8.33,
+     "y": 5.64,
+     "width": 1.56,
+     "height": 2.61,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": 8.33,
+     "y": -6.98,
+     "width": 1.56,
+     "height": 2.61,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -8.33,
+     "y": -6.98,
+     "width": 1.56,
+     "height": 2.61,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-MSIM-2-A-6",
+   "description": "Same Sky MSIM-2-A micro SIM card socket, push-push, SMD right angle, 6 contacts, 4 unnumbered shell pads",
+   "note": "Same Sky MSIM-2-A datasheet (datasheets/connector-card-socket/same-sky/msim-2-a.pdf), page 3 \"Recommended PCB Layout, Top View\" (vector drawing, scale 14.76 pt/mm from 5 x 1.27 = 6.35 (the 5-1.27 pitch) = 93.75 pt between the C5 and C3 pads). Origin: centre of the 15.34 x 17.16 housing (page 2): x = the Product Center line (the C3 pad column, 7.90 + 7.90 to the shell pads), y = 8.58 (17.16 / 2) above the housing bottom edge, which is the layout's dashed bottom outline at 642.5 pt (16.77 below the contact row as printed, 6-16.77), at print point (218.40, 515.86) pt. The layout is a top view with the card entry at the bottom (page 2: the card, dashed, stands out below the housing), so it is turned 180 degrees here to put the card entry at -y: footprint (x, y) = -(layout x, layout y). Every pad centre is x = -(print x - 218.40) / 14.76, y = -(print y - 515.86) / 14.76 in mm (print points read from the vector drawing, rounded to 0.01 mm). Pad sizes: contact pads 0.90 x 1.35 (6-0.90, measured 1.35), shell pads 1.55 x 2.60 (4-1.55, 4-2.60 printed). The cross-hatched COPPER RESTRICTED rectangles are not pads and are left out. Layout frame: C5 C1 C6 C2 C7 C3 at x = -6.35, -5.08, -3.81, -2.54, -1.27, 0 (the 5-1.27 pitch, 6.34 / 6.35 to the Product Center line), contact row y = -8.19 (16.77 above the bottom edge as printed: 8.58 - 16.77), shell pads at x = +-7.90 (7.90 + 7.90 printed), y = -5.69 and +6.83 (measured: (431.90 - 515.86) / 14.76 and (616.60 - 515.86) / 14.76). The pinout has no shield pin, so the four shell pads are unnumbered (pin 0). Pin order: C1 C2 C3 C5 C6 C7 = pins 1..6.",
+   "style": "explicit",
+   "pins": 6,
+   "body": {
+    "width": 15.34,
+    "height": 17.16
+   },
+   "pads": [
+    {
+     "pin": 4,
+     "x": 6.35,
+     "y": 8.19,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": 5.08,
+     "y": 8.19,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 3.81,
+     "y": 8.19,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 2.54,
+     "y": 8.19,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 1.27,
+     "y": 8.19,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 0.0,
+     "y": 8.19,
+     "width": 0.9,
+     "height": 1.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 7.9,
+     "y": 5.69,
+     "width": 1.55,
+     "height": 2.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 7.9,
+     "y": -6.83,
+     "width": 1.55,
+     "height": 2.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": -7.9,
+     "y": 5.69,
+     "width": 1.55,
+     "height": 2.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": -7.9,
+     "y": -6.83,
+     "width": 1.55,
+     "height": 2.6,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-MSIM-3-C-8",
+   "description": "Same Sky MSIM-3-C micro SIM card socket, hinged slide, SMD right angle, 8 contacts, 4 unnumbered shell pads",
+   "note": "Same Sky MSIM-3-C datasheet (datasheets/connector-card-socket/same-sky/msim-3-c.pdf), page 3 \"Recommended PCB Layout, Top View\" (vector drawing, scale 19.44 pt/mm from 1.27 x 7 = 8.89 (printed) = 172.8 pt between the C1 and C8 pads). Origin: centre of the 14.90 x 15.90 housing (page 2): x = the layout centre line (midway between the shell pad centres, 16.20 outer to outer), y = the contact row centre line + 7.95 (15.90 / 2): the housing back edge is taken on the contact row, as on the other Same Sky sockets (the layout does not dimension the housing edges), at print point (310.48, 554.10) pt. The layout is a top view with the contact row at the back; it is turned 180 degrees here so the front (cover / card side) is at -y: footprint (x, y) = -(layout x, layout y). Every pad centre is x = -(print x - 310.48) / 19.44, y = -(print y - 554.10) / 19.44 in mm (print points read from the vector drawing, rounded to 0.01 mm). Pad sizes: contact pads 0.90 x 1.30 (0.90, 1.30 printed), shell pads 1.30 x 1.80 (1.30, 1.80 printed). Layout frame: C1 C5 C2 C6 C3 C7 C4 C8 at x = -4.445 + k x 1.27 (k = 0..7; 1.27 x 7 = 8.89 centred on the line), measured -4.45, -3.18, -1.91, -0.64, +0.63, +1.90, +3.17, +4.44, contact row y = -7.95 (housing back edge); shell pads at x = +-7.45 (16.20 / 2 - 1.30 / 2), y = -3.90 (4.70 printed below the contact pad top edge: -7.95 - 0.65 + 4.70) and +5.70 (-3.90 + 9.60, 9.60 printed). The pinout has no shield pin, so the shell pads are unnumbered (pin 0); pins 4 and 8 are the reserved C4 and C8. Pin order: C1 .. C8 = pins 1..8.",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 14.9,
+    "height": 15.9
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 4.44,
+     "y": 7.95,
+     "width": 0.9,
+     "height": 1.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 3.17,
+     "y": 7.95,
+     "width": 0.9,
+     "height": 1.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 1.9,
+     "y": 7.95,
+     "width": 0.9,
+     "height": 1.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 0.63,
+     "y": 7.95,
+     "width": 0.9,
+     "height": 1.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -0.64,
+     "y": 7.95,
+     "width": 0.9,
+     "height": 1.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -1.91,
+     "y": 7.95,
+     "width": 0.9,
+     "height": 1.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -3.18,
+     "y": 7.95,
+     "width": 0.9,
+     "height": 1.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -4.45,
+     "y": 7.95,
+     "width": 0.9,
+     "height": 1.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 7.45,
+     "y": 3.9,
+     "width": 1.3,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": -7.45,
+     "y": 3.9,
+     "width": 1.3,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 7.45,
+     "y": -5.7,
+     "width": 1.3,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": -7.45,
+     "y": -5.7,
+     "width": 1.3,
+     "height": 1.8,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-MSIM-4-A-9",
+   "description": "Same Sky MSIM-4-A micro SIM card socket, push-push, SMD right angle, 8 contacts, 2 detect switches, 6 shell pads",
+   "note": "Same Sky MSIM-4-A datasheet (datasheets/connector-card-socket/same-sky/msim-4-a.pdf), page 3 \"Recommended PCB Layout, Top View\" (vector drawing, scale 12.95 pt/mm from 16.90 outer to outer of the GND pads = 218.9 pt). Origin: centre of the 15.58 x 16.70 housing (page 2): x = the layout centre line (midway between the GND pad centres, 16.90 - 0.90 = 16.00 apart), y = 8.35 (16.70 / 2) above the housing bottom edge, which is 2.58 below the lowest GND pad centre (page 2, 2.58): 618.15 + 2.58 x 12.95 = 651.6 pt, at print point (255.25, 543.47) pt. The layout is a top view with the card entry at the bottom (page 2: CARD PUSH / LOCK / DASHING POSITION below the housing), so it is turned 180 degrees here to put the card entry at -y: footprint (x, y) = -(layout x, layout y). Every pad centre is x = -(print x - 255.25) / 12.95, y = -(print y - 543.47) / 12.95 in mm (print points read from the vector drawing, rounded to 0.01 mm). Pad sizes: small contact pads 0.65 x 0.80 (9-0.65 printed, 0.80 measured), SW1 pad 1.40 x 0.78 (1.40, 0.78 printed), GND shell pads 0.90 x 1.65 (0.90, 1.65 printed). The layout's thin rectangle (about 20.0 x 17.0) is larger than the housing and is not used. Printed: 1.00 pitch of the contact pads, 6.40 between the lower two GND pads, 1.65 and 0.90 for the GND pads. Layout frame (x = (print x - 255.25) / 12.95): C4 -5.22, C8 -4.22, C3 -3.22, C7 -2.22, SW2 -0.88, C2 +0.47, C6 +1.47, C1 +2.47, C5 +3.47, SW1 +5.88 (1.00 pitch, about 1.35 around SW2), contact row at y = -8.41 (measured), GND pads at x = +-8.00 (16.90 - 0.90 = 16.00; / 2), y = -7.93, -0.64, +5.77 (6.40 apart between the lower two, 7.29 measured between the upper two). Pins 4 and 8 are the reserved C4 and C8; pin 9 is SW1, pin 10 SW2; the six shell pads are SHIELD (pin 11). Pin order: C1 C2 C3 C4 C5 C6 C7 C8 = pins 1..8.",
+   "style": "explicit",
+   "pins": 11,
+   "body": {
+    "width": 15.58,
+    "height": 16.7
+   },
+   "pads": [
+    {
+     "pin": 4,
+     "x": 5.22,
+     "y": 8.41,
+     "width": 0.65,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 4.22,
+     "y": 8.41,
+     "width": 0.65,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 3.22,
+     "y": 8.41,
+     "width": 0.65,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 2.22,
+     "y": 8.41,
+     "width": 0.65,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": 0.88,
+     "y": 8.41,
+     "width": 0.65,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -0.475,
+     "y": 8.41,
+     "width": 0.65,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -1.475,
+     "y": 8.41,
+     "width": 0.65,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -2.47,
+     "y": 8.41,
+     "width": 0.65,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -3.47,
+     "y": 8.41,
+     "width": 0.65,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -5.88,
+     "y": 8.35,
+     "width": 1.4,
+     "height": 0.78,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": 8.0,
+     "y": 7.93,
+     "width": 0.9,
+     "height": 1.65,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": 8.0,
+     "y": 0.64,
+     "width": 0.9,
+     "height": 1.65,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": 8.0,
+     "y": -5.77,
+     "width": 0.9,
+     "height": 1.65,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -8.0,
+     "y": 7.93,
+     "width": 0.9,
+     "height": 1.65,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -8.0,
+     "y": 0.64,
+     "width": 0.9,
+     "height": 1.65,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -8.0,
+     "y": -5.77,
+     "width": 0.9,
+     "height": 1.65,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-MSIM-5-B-6",
+   "description": "Same Sky MSIM-5-B micro SIM contact block, SMD, 6 contacts, no shell",
+   "note": "Same Sky MSIM-5-B datasheet (datasheets/connector-card-socket/same-sky/msim-5-b.pdf), page 3 \"Recommended PCB Layout, Top View\" (vector drawing, scale 25.0 pt/mm from 2.54 pitch = 63.5 pt and the 1.00 / 1.50 pad sizes). Origin: centre of the 7.62 x 11.80 contact block (page 2), which is the layout's centre cross (the 4.08 + 4.08 dimension), at print point (209.20, 515.60) pt. The block is a bare contact carrier with no card slot (the card is pressed on from above), so the layout is kept as printed (no turn). Every pad centre is x = (print x - 209.20) / 25.0, y = (print y - 515.60) / 25.0 in mm (print points read from the vector drawing, rounded to 0.01 mm). Pad sizes: pads 1.00 x 1.50 (6-1.00, 1.50 printed). Printed: 2.54 + 2.54 pitch, 4.08 + 4.08 from the pad rows' inner edges to the centre line, 1.50 pad height. Layout frame: x = -2.54, 0, +2.54; rows y = -4.825 and +4.825 (the inner edges are 4.08 + 4.08 = 8.16 apart and the pads 1.50 high, so the rows are 8.16 + 1.50 = 9.66 apart; the vector print gives 241.25 pt / 25.0 = 9.65, used here as 4.825 each side). Pin order: bottom row left to right C3 C2 C1 = pins 3 2 1, top row left to right C7 C6 C5 = pins 6 5 4. There is no shield pin.",
+   "style": "explicit",
+   "pins": 6,
+   "body": {
+    "width": 7.62,
+    "height": 11.8
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 2.54,
+     "y": 4.82,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 0.0,
+     "y": 4.82,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -2.54,
+     "y": 4.82,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 2.54,
+     "y": -4.83,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 0.0,
+     "y": -4.83,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -2.54,
+     "y": -4.83,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-MSIM-6-A-9",
+   "description": "Same Sky MSIM-6-A micro SIM card socket, push-push, SMD right angle, 6 contacts, card detect, 2 SMT + 2 slotted shell pads",
+   "note": "Same Sky MSIM-6-A datasheet (datasheets/connector-card-socket/same-sky/msim-6-a.pdf), page 3 \"Recommended PCB Layout, Top View\" (vector drawing, scale 13.6 pt/mm from 6 x 1.27 pitch = 7.62 and the 17.95 slot-to-slot dimension = 244.1 pt). Origin: centre of the 15.30 x 17.16 housing (page 2): x = the layout centre line (8.48 + 8.48 to the SMT shell pads, 8.98 + 8.98 to the slots), y = 8.58 (17.16 / 2) above the housing bottom edge, which is the layout's outline bottom at 638.6 pt (16.80 below the contact row as printed, 7-16.80), at print point (268.95, 521.91) pt. The layout is a top view with the card entry at the bottom (page 2: the card, dashed, stands out below the housing), so it is turned 180 degrees here to put the card entry at -y: footprint (x, y) = -(layout x, layout y). Every pad centre is x = -(print x - 268.95) / 13.6, y = -(print y - 521.91) / 13.6 in mm (print points read from the vector drawing, rounded to 0.01 mm). Pad sizes: contact pads 0.90 x 1.30 (7-0.90, 7-1.30 printed), SMT shell pads 1.05 x 2.10 (2-1.05, 2-2.10 printed), slotted shell pads 1.05 x 2.18 (2-1.05, 2-2.18 printed) with a 0.45 x 1.58 slot (2-0.45, 2-1.58 printed). Printed: 6-1.27 pitch, 6.65 from the centre line to C5, 8.48 from the centre line to the SMT shell pads, 8.98 to the slot centres (17.95 / 2 = 8.975), 4.30 from the housing bottom edge to the slot centres. Layout frame (x = (print x - 268.95) / 13.60): CD -0.97, C3 +0.30, C7 +1.57, C2 +2.84, C6 +4.11, C1 +5.39, C5 +6.65 (6.65 - k x 1.27, k = 0..6), contact row y = -8.23 (measured (410.0 - 521.9) / 13.6), SMT shell pads at x = +-8.48, y = -3.33 (measured (476.65 - 521.9) / 13.6), slotted pads at x = +-8.975, y = +4.28 (8.58 - 4.30). The slots lie inside SMT SOLDER AREA hatching and are treated as plated. Pin 7 is CD; the four shell pads are SHIELD (pin 8). Pin order: C1 C2 C3 C5 C6 C7 = pins 1..6.",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 15.3,
+    "height": 17.16
+   },
+   "pads": [
+    {
+     "pin": 7,
+     "x": 0.97,
+     "y": 8.23,
+     "width": 0.9,
+     "height": 1.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -0.3,
+     "y": 8.23,
+     "width": 0.9,
+     "height": 1.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -1.57,
+     "y": 8.23,
+     "width": 0.9,
+     "height": 1.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -2.84,
+     "y": 8.23,
+     "width": 0.9,
+     "height": 1.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -4.11,
+     "y": 8.23,
+     "width": 0.9,
+     "height": 1.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -5.39,
+     "y": 8.23,
+     "width": 0.9,
+     "height": 1.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -6.65,
+     "y": 8.23,
+     "width": 0.9,
+     "height": 1.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 8.48,
+     "y": 3.33,
+     "width": 1.05,
+     "height": 2.1,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -8.48,
+     "y": 3.33,
+     "width": 1.05,
+     "height": 2.1,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 8.975,
+     "y": -4.28,
+     "width": 1.05,
+     "height": 2.18,
+     "shape": "round",
+     "drill": 0.45,
+     "slotLength": 1.58
+    },
+    {
+     "pin": 8,
+     "x": -8.975,
+     "y": -4.28,
+     "width": 1.05,
+     "height": 2.18,
+     "shape": "round",
+     "drill": 0.45,
+     "slotLength": 1.58
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-MSIM-7-A-9",
+   "description": "Same Sky MSIM-7-A micro SIM card socket, push-push, SMD right angle, 6 contacts, 2 detect switches, 6 shell pads",
+   "note": "Same Sky MSIM-7-A datasheet (datasheets/connector-card-socket/same-sky/msim-7-a.pdf), page 3 \"Recommended PCB Layout, Top View\" (vector drawing, scale 14.08 pt/mm from 3-15.10 GND-to-GND = 212.5 pt and the 6-1.00 pad width). Origin: centre of the 15.50 x 16.67 housing (page 2): x = the layout centre line (midway between the GND columns, 3-15.10 apart), y = the contact row centre line + 8.335 (16.67 / 2): the housing back edge is taken on the contact row, as on the other Same Sky sockets, at print point (228.95, 537.41) pt. The layout is a top view with the card entry at the bottom (page 2: the card, dashed, stands out below the housing), so it is turned 180 degrees here to put the card entry at -y: footprint (x, y) = -(layout x, layout y). Every pad centre is x = -(print x - 228.95) / 14.08, y = -(print y - 537.41) / 14.08 in mm (print points read from the vector drawing, rounded to 0.01 mm). Pad sizes: contact pads 0.55 x 0.50 (7-0.55, 7-0.50 printed), SW1 pad 0.80 x 1.50 (0.80, 1.50 printed), GND pads 1.00 wide (6-1.00) and 2.40 / 3.40 tall (2-2.40, 4-3.40 printed). The cross-hatched COPPER RESTRICTED rectangles are not pads and are left out. Layout frame (x = (print x - 228.95) / 14.08): C3 -3.89, C7 -2.89, SW2 -1.50, C2 +0.30, C6 +1.30, C1 +2.30, C5 +3.30 (1.00 pitch, 1.40 from C7 to SW2 and 1.80 from SW2 to C2 as printed / measured), contact row y = -8.33 (measured (420.05 - 537.4) / 14.08), SW1 at x = +5.64, y = -7.56, GND pads at x = +-7.55 (15.10 / 2), y = -7.44 (the 2.40 pads), +0.91 and +6.19 (the 3.40 pads), all measured. Pin 7 is SW1, pin 8 SW2; the six GND shell pads are SHIELD (pin 9). Pin order: C1 C2 C3 C5 C6 C7 = pins 1..6.",
+   "style": "explicit",
+   "pins": 9,
+   "body": {
+    "width": 15.5,
+    "height": 16.67
+   },
+   "pads": [
+    {
+     "pin": 3,
+     "x": 3.89,
+     "y": 8.335,
+     "width": 0.55,
+     "height": 0.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 2.89,
+     "y": 8.335,
+     "width": 0.55,
+     "height": 0.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 1.5,
+     "y": 8.335,
+     "width": 0.55,
+     "height": 0.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -0.3,
+     "y": 8.335,
+     "width": 0.55,
+     "height": 0.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -1.3,
+     "y": 8.335,
+     "width": 0.55,
+     "height": 0.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -2.3,
+     "y": 8.335,
+     "width": 0.55,
+     "height": 0.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -3.3,
+     "y": 8.335,
+     "width": 0.55,
+     "height": 0.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -5.64,
+     "y": 7.56,
+     "width": 0.8,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": 7.55,
+     "y": 7.44,
+     "width": 1.0,
+     "height": 2.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": 7.55,
+     "y": -0.91,
+     "width": 1.0,
+     "height": 3.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": 7.55,
+     "y": -6.19,
+     "width": 1.0,
+     "height": 3.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -7.55,
+     "y": 7.44,
+     "width": 1.0,
+     "height": 2.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -7.55,
+     "y": -0.91,
+     "width": 1.0,
+     "height": 3.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -7.55,
+     "y": -6.19,
+     "width": 1.0,
+     "height": 3.4,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-MSIM-8-A-6",
+   "description": "Same Sky MSIM-8-A micro SIM card socket, hinged slide, SMD right angle, 6 contacts, 2 unnumbered shell pads",
+   "note": "Same Sky MSIM-8-A datasheet (datasheets/connector-card-socket/same-sky/msim-8-a.pdf), page 3 \"Recommended PCB Layout, Top View\" (vector drawing, scale 16.56 pt/mm from 14.40 between the shell pad centres = 238.55 pt and the 1.27 pitch = 21.0 pt). Origin: centre of the 14.76 x 16.30 housing (page 2): x = the layout centre line (midway between the two shell pads), y = midway between the layout's housing outline top (403.0 pt) and bottom (672.8 pt), 16.31 apart (5.10 + 10.85 + 0.35 as measured; 16.3 on page 2), at print point (327.03, 537.90) pt. The contact row is at the bottom (back) of the layout and the cover opens upward (OPEN arrow, page 2), so the layout is kept as printed and the card side is at -y. Every pad centre is x = (print x - 327.03) / 16.56, y = (print y - 537.90) / 16.56 in mm (print points read from the vector drawing, rounded to 0.01 mm). Pad sizes: contact pads 1.00 x 1.20 (1.00(6x), 1.20(6x) printed), shell pads 1.50 x 1.70 (1.50(2x), 1.70(2x) printed). Printed: 3.45 from the centre line to pad C5, 1.27 pitch, 14.40 between the shell pad centres (15.90 outer to outer), 5.10 from the housing top edge to the shell pads, 10.85 from the shell pads to the contact row. Layout frame: C5 C1 C6 C2 C7 C3 at x = -3.45 + k x 1.27 = -3.45, -2.18, -0.91, +0.36, +1.63, +2.90, contact row y = +7.81 (measured (667.10 - 537.9) / 16.56), shell pads at x = +-7.20 (14.40 / 2), y = -3.06 (403.0 + 5.10 x 16.56 = 487.46 pt; measured 487.35). The pinout has no shield pin, so the two shell pads are unnumbered (pin 0). Pin order: C1 C2 C3 C5 C6 C7 = pins 1..6.",
+   "style": "explicit",
+   "pins": 6,
+   "body": {
+    "width": 14.76,
+    "height": 16.3
+   },
+   "pads": [
+    {
+     "pin": 4,
+     "x": -3.45,
+     "y": 7.8,
+     "width": 1.0,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -2.18,
+     "y": 7.8,
+     "width": 1.0,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -0.91,
+     "y": 7.8,
+     "width": 1.0,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 0.36,
+     "y": 7.8,
+     "width": 1.0,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 1.63,
+     "y": 7.8,
+     "width": 1.0,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 2.9,
+     "y": 7.8,
+     "width": 1.0,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": -7.2,
+     "y": -3.05,
+     "width": 1.5,
+     "height": 1.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 7.2,
+     "y": -3.05,
+     "width": 1.5,
+     "height": 1.7,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-MSIM-9-B-8",
+   "description": "Same Sky MSIM-9-B micro SIM card socket, SMD right angle, 8 contacts (C1-C4 with two tail pads each), 4 shell pads",
+   "note": "Same Sky MSIM-9-B datasheet (datasheets/connector-card-socket/same-sky/msim-9-b.pdf), page 3 \"Recommended PCB Layout, Top View\" (vector drawing, scale 13.7 pt/mm from 2.54 pitch = 34.8 pt and the 1.00 pad width). Origin: centre of the 13.40 x 14.15 housing outline (the 13.40 and 14.15 dimensions; layout outline x 210.3 .. 393.7 pt, y 435.7 .. 629.5 pt), at print point (302.00, 532.60) pt. The layout is a top view with the card entry at the bottom (page 2: the CARD arrow points in from the bottom), so it is turned 180 degrees here to put the card entry at -y: footprint (x, y) = -(layout x, layout y). Every pad centre is x = -(print x - 302.00) / 13.7, y = -(print y - 532.60) / 13.7 in mm (print points read from the vector drawing, rounded to 0.01 mm). Pad sizes: C5-C8 pads 1.00 x 1.20 (1.00, 1.20), C1-C4 tail pads 0.40 x 1.05 (0.40, 1.25 pair spacing printed; 1.05 measured), shell pads G1-G4 1.75 x 3.00 (1.75, 3.00 printed). The NO PATTERN AREA is a keep-out and is left out. Each of C1-C4 has two tail pads 1.25 apart (1.25 printed) centred on the same 2.54-pitch columns as C8-C5 (7.62 = 3 x 2.54 is measured between the pair midpoints); both pads of a pair carry the same pin. Layout frame (x = (print x - 302.0) / 13.70): columns at x = -3.81, -1.27, +1.27, +3.81 (2.54 pitch), the pair pads 0.625 either side of the column (1.25 / 2), C5-C8 row y = -6.32, tail row y = +5.95, G pads at x = +-6.12, y = -3.92 and +4.27, all measured. The four G pads are SHIELD (pin 9). Pin order: C1 .. C8 = pins 1..8; C4 and C8 are the reserved pads.",
+   "style": "explicit",
+   "pins": 9,
+   "body": {
+    "width": 13.4,
+    "height": 14.15
+   },
+   "pads": [
+    {
+     "pin": 8,
+     "x": 3.81,
+     "y": 6.32,
+     "width": 1.0,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 1.27,
+     "y": 6.32,
+     "width": 1.0,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -1.27,
+     "y": 6.32,
+     "width": 1.0,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -3.81,
+     "y": 6.32,
+     "width": 1.0,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 4.435,
+     "y": -5.95,
+     "width": 0.4,
+     "height": 1.05,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 3.185,
+     "y": -5.95,
+     "width": 0.4,
+     "height": 1.05,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 1.895,
+     "y": -5.95,
+     "width": 0.4,
+     "height": 1.05,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 0.645,
+     "y": -5.95,
+     "width": 0.4,
+     "height": 1.05,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -0.645,
+     "y": -5.95,
+     "width": 0.4,
+     "height": 1.05,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -1.895,
+     "y": -5.95,
+     "width": 0.4,
+     "height": 1.05,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -3.185,
+     "y": -5.95,
+     "width": 0.4,
+     "height": 1.05,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -4.435,
+     "y": -5.95,
+     "width": 0.4,
+     "height": 1.05,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": 6.12,
+     "y": 3.92,
+     "width": 1.75,
+     "height": 3.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": 6.12,
+     "y": -4.27,
+     "width": 1.75,
+     "height": 3.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -6.12,
+     "y": 3.92,
+     "width": 1.75,
+     "height": 3.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -6.12,
+     "y": -4.27,
+     "width": 1.75,
+     "height": 3.0,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-NSIM-1-A-7",
+   "description": "Same Sky NSIM-1-A nano SIM card socket, push-push, SMD right angle, 6 contacts, card detect, 4 shell pads, 2 locating holes",
+   "note": "Same Sky NSIM-1-A datasheet (datasheets/connector-card-socket/same-sky/nsim-1-a.pdf), page 3 \"Recommended PCB Layout, Top View\" (vector drawing, scale 17.21 pt/mm from 5 x 1.27 = 6.35 pitch = 109.25 pt between the C3 and C5 pads and the 2-13.00 shell pad spacing = 223.7 pt). Origin: centre of the 12.29 x 14.23 housing (page 2: 12.29 wide; 14.23 = the layout's 7-14.23 from the contact row to the housing bottom edge): x = the Product Center line (midway between the shell pads, 2-13.00 apart), y = the contact row centre line + 7.115 (14.23 / 2), at print point (218.30, 518.25) pt. The layout is a top view with the card entry at the bottom (page 2: the card tray, dashed, stands out below the housing), so it is turned 180 degrees here to put the card entry at -y: footprint (x, y) = -(layout x, layout y). Every pad centre is x = -(print x - 218.30) / 17.21, y = -(print y - 518.25) / 17.21 in mm (print points read from the vector drawing, rounded to 0.01 mm). Pad sizes: contact and CD pads 0.80 x 1.14 (7-0.80, 7-1.14 printed), shell pads 0.70 x 2.10 (4-0.70, 4-2.10 printed), locating holes diameter 0.75 (2-0.75 printed). The cross-hatched COPPER RESTRICTED rectangles and the six 6-diameter 1.20 contact dimples are not pads and are left out. Printed: 5-1.27 pitch, 8.50 between the two locating holes, 3.50 from the centre line to the right one, 2-13.00 between the shell pad centres. Layout frame (x = (print x - 218.30) / 17.21): C3 -4.83, C7 -3.56, C2 -2.29, C6 -1.02, C1 +0.26, C5 +1.52 (1.27 pitch), CD +2.47, contact row y = -7.11 (measured), shell pads at x = +-6.50 (2-13.00 / 2) and y = -5.64 / +6.36 (measured), the two locating holes (non-plated, pin 0, diameter 0.75 = 2-0.75 printed) at x = -5.00 and +3.50 (8.50 apart, the right one 3.50 right of the centre line, both as printed), y = +5.11 (measured). Pin 7 is CD; the four shell pads are SHIELD (pin 8). Pin order: C1 C2 C3 C5 C6 C7 = pins 1..6.",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 12.29,
+    "height": 14.23
+   },
+   "pads": [
+    {
+     "pin": 3,
+     "x": 4.83,
+     "y": 7.115,
+     "width": 0.8,
+     "height": 1.14,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 3.56,
+     "y": 7.115,
+     "width": 0.8,
+     "height": 1.14,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 2.29,
+     "y": 7.115,
+     "width": 0.8,
+     "height": 1.14,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 1.02,
+     "y": 7.115,
+     "width": 0.8,
+     "height": 1.14,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -0.26,
+     "y": 7.115,
+     "width": 0.8,
+     "height": 1.14,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -1.52,
+     "y": 7.115,
+     "width": 0.8,
+     "height": 1.14,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -2.47,
+     "y": 7.115,
+     "width": 0.8,
+     "height": 1.14,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 6.5,
+     "y": 5.64,
+     "width": 0.7,
+     "height": 2.1,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 6.5,
+     "y": -6.36,
+     "width": 0.7,
+     "height": 2.1,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -6.5,
+     "y": 5.64,
+     "width": 0.7,
+     "height": 2.1,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -6.5,
+     "y": -6.36,
+     "width": 0.7,
+     "height": 2.1,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 5.0,
+     "y": -5.11,
+     "width": 0.75,
+     "height": 0.75,
+     "shape": "round",
+     "drill": 0.75,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -3.5,
+     "y": -5.11,
+     "width": 0.75,
+     "height": 0.75,
+     "shape": "round",
+     "drill": 0.75,
+     "plated": false
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-NSIM-10-B-7",
+   "description": "Same Sky NSIM-10-B nano SIM card socket, SMD right angle, 6 contacts, card detect, 6 shell pads",
+   "note": "Same Sky NSIM-10-B datasheet (datasheets/connector-card-socket/same-sky/nsim-10-b.pdf), page 3 \"Recommended PCB Layout, Top View\" (vector drawing, scale 19.6 pt/mm from 2.54 pitch = 49.8 pt and the 7-0.65 pad width). Origin: centre of the 10.65 x 13.19 housing (page 2: 10.65 wide, 13.19 long; the layout's outline bottom at 643.4 pt and top 13.19 above it, 384.9 pt): x = the Center line (5.03 + 5.03 either side), at print point (194.82, 514.15) pt. The two horizontal shell pads are on the back (hinge) edge, so the card entry is taken at the opposite end; the layout is turned 180 degrees here to put it at -y: footprint (x, y) = -(layout x, layout y). The card-entry side is not stated on the print (assumption). Every pad centre is x = -(print x - 194.82) / 19.6, y = -(print y - 514.15) / 19.6 in mm (print points read from the vector drawing, rounded to 0.01 mm). Pad sizes: contact pads 0.65 x 0.78 (7-0.65, 7-0.78 printed), horizontal shell pads 1.70 x 0.80 and vertical ones 0.80 x 1.70 (6-0.80, 1.70 printed). The cross-hatched COPPER RESTRICTED squares are not pads and are left out. Printed: 2.54 between C7 and C6 and between C3, C2 and C1, 1.90 from C6 to CD, 3.02 from C6 to C5, 6.25 and 3.13 between and about the top shell pads. Layout frame (measured (print - origin) / 19.60): C7 C6 CD C5 at x = -2.54, 0, +1.90, +3.02 on the row y = -0.41; C3 C2 C1 at x = -2.54, 0, +2.54 on y = +1.51; horizontal shell pads at x = +-3.125 (6.25 printed), y = -6.29; vertical shell pads at x = +-5.03 (5.03 + 5.03 printed), y = -2.75 and +3.74. All six shell pads are SHIELD (pin 8); pin 7 is CD. Pin order: C1 C2 C3 C5 C6 C7 = pins 1..6.",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 10.65,
+    "height": 13.19
+   },
+   "pads": [
+    {
+     "pin": 6,
+     "x": 2.54,
+     "y": 0.41,
+     "width": 0.65,
+     "height": 0.78,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 0.0,
+     "y": 0.41,
+     "width": 0.65,
+     "height": 0.78,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -1.9,
+     "y": 0.41,
+     "width": 0.65,
+     "height": 0.78,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -3.02,
+     "y": 0.41,
+     "width": 0.65,
+     "height": 0.78,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 2.54,
+     "y": -1.51,
+     "width": 0.65,
+     "height": 0.78,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 0.0,
+     "y": -1.51,
+     "width": 0.65,
+     "height": 0.78,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -2.54,
+     "y": -1.51,
+     "width": 0.65,
+     "height": 0.78,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 3.125,
+     "y": 6.29,
+     "width": 1.7,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -3.125,
+     "y": 6.29,
+     "width": 1.7,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 5.03,
+     "y": 2.75,
+     "width": 0.8,
+     "height": 1.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 5.03,
+     "y": -3.74,
+     "width": 0.8,
+     "height": 1.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -5.03,
+     "y": 2.75,
+     "width": 0.8,
+     "height": 1.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -5.03,
+     "y": -3.74,
+     "width": 0.8,
+     "height": 1.7,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-NSIM-11-B-6",
+   "description": "Same Sky NSIM-11-B nano SIM card socket, SMD right angle, 6 contacts, 6 shell pads",
+   "note": "Same Sky NSIM-11-B datasheet (datasheets/connector-card-socket/same-sky/nsim-11-b.pdf), page 3 \"Recommended PCB Layout, Top View\" (vector drawing, scale 18.3 pt/mm from 3.64 between the top shell pad centres = 66.55 pt and the 6-1.00 pad width). Origin: centre of the 9.75 x 12.30 housing (page 2: 9.75 wide, 12.30 long): x = the centre line (2-5.60 to each outer pad column), y = 6.15 (12.30 / 2) above the housing bottom edge, which is the layout's dashed housing outline bottom at 645.8 pt, at print point (202.15, 533.25) pt. The two top shell pads are on the back (hinge) edge, so the card entry is taken at the opposite end; the layout is turned 180 degrees here to put it at -y: footprint (x, y) = -(layout x, layout y). The card-entry side is not stated on the print (assumption). Every pad centre is x = -(print x - 202.15) / 18.3, y = -(print y - 533.25) / 18.3 in mm (print points read from the vector drawing, rounded to 0.01 mm). Pad sizes: contact pads 1.00 x 0.80 (6-1.00, 6-0.80 printed), top shell pads 1.10 x 1.00 (2-1.10, 1.00), side shell pads 1.00 x 2.30 (4-1.00, 4-2.30 printed). The cross-hatched COPPER RESTRICTED rectangles are not pads and are left out. Printed: 3.64 (1.82 either side) between the top shell pads, 6-1.00 and 6-0.80 for the contact pads. Layout frame (measured (print - origin) / 18.30): contact columns at x = -4.90 (C7 C6 C3) and +4.90 (C5 C2 C1), rows y = -0.59, +0.61, +1.81 (1.20 pitch); top shell pads at x = +-1.82 (1.82 printed), y = -6.46; side shell pads at x = +-5.10 (outer edge 5.10 + 1.00 / 2 = 5.60, the 2-5.60 printed), y = -2.54 and +4.65. All six shell pads are SHIELD (pin 7). Pin order: C1 C2 C3 C5 C6 C7 = pins 1..6.",
+   "style": "explicit",
+   "pins": 7,
+   "body": {
+    "width": 9.75,
+    "height": 12.3
+   },
+   "pads": [
+    {
+     "pin": 6,
+     "x": 4.9,
+     "y": 0.59,
+     "width": 1.0,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -4.9,
+     "y": 0.59,
+     "width": 1.0,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 4.9,
+     "y": -0.61,
+     "width": 1.0,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -4.9,
+     "y": -0.61,
+     "width": 1.0,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 4.9,
+     "y": -1.81,
+     "width": 1.0,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -4.9,
+     "y": -1.81,
+     "width": 1.0,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 1.82,
+     "y": 6.46,
+     "width": 1.1,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -1.82,
+     "y": 6.46,
+     "width": 1.1,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 5.1,
+     "y": 2.54,
+     "width": 1.0,
+     "height": 2.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 5.1,
+     "y": -4.65,
+     "width": 1.0,
+     "height": 2.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -5.1,
+     "y": 2.54,
+     "width": 1.0,
+     "height": 2.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -5.1,
+     "y": -4.65,
+     "width": 1.0,
+     "height": 2.3,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-MSIM-11-C-8",
+   "description": "Same Sky MSIM-11-C micro SIM card socket, hinged slide, SMD right angle, 6 contacts, 2 unnumbered shell pads",
+   "note": "Same Sky MSIM-11-C datasheet (datasheets/connector-card-socket/same-sky/msim-11-c.pdf), page 3 \"Recommended PCB Layout, Top View\" (vector drawing, scale 11.874 pt/mm from 5 x 1.27 = 6.35 (printed) = 75.4 pt between the C5 and C3 pads). Origin: centre of the 14.20 x 15.50 housing (page 2): x = the layout centre line (midway between the two shell pad centres, 14.40 apart), y = the contact row centre line less 7.75 (15.50 / 2): the housing back edge is taken on the contact row, as on the other Same Sky sockets, at print point (314.48, 483.53) pt. The contact row is at the bottom (back) of the layout, so the layout is kept as printed and the card side is at -y. Every pad centre is x = (print x - 314.48) / 11.874, y = (print y - 483.53) / 11.874 in mm (print points read from the vector drawing, rounded to 0.01 mm). Pad sizes: contact pads 1.00 x 1.20 (6-1.00, 6-1.20 printed), shell pads 1.50 x 1.70 (2-1.50, 2-1.70 printed). The cross-hatched pressing-area rectangles (THIS AREA IS THE PRESSING AREA OF THE TERMINAL HEAD) are not pads and are left out. The socket has six contacts (C4 and C8 have no pad). Printed: 1.27 pitch, 6.35 between C5 and C3, 14.40 between the shell pad centres, 10.85 from the shell pads to the contact row. Layout frame: C5 C1 C6 C2 C7 C3 at x = -3.45 + k x 1.27 = -3.45, -2.18, -0.91, +0.36, +1.63, +2.90 (measured -3.45 .. +2.89), contact row y = +7.75, shell pads at x = +-7.20 (14.40 / 2), y = -3.09 (measured (446.80 - 483.53) / 11.874; 7.75 + 3.09 = 10.84, 10.85 printed). The pinout has no shield pin, so the shell pads are unnumbered (pin 0). Pin order: C1 C2 C3 C5 C6 C7 = pins 1..6.",
+   "style": "explicit",
+   "pins": 6,
+   "body": {
+    "width": 14.2,
+    "height": 15.5
+   },
+   "pads": [
+    {
+     "pin": 4,
+     "x": -3.45,
+     "y": 7.75,
+     "width": 1.0,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -2.18,
+     "y": 7.75,
+     "width": 1.0,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -0.91,
+     "y": 7.75,
+     "width": 1.0,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 0.36,
+     "y": 7.75,
+     "width": 1.0,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 1.63,
+     "y": 7.75,
+     "width": 1.0,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 2.9,
+     "y": 7.75,
+     "width": 1.0,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": -7.2,
+     "y": -3.09,
+     "width": 1.5,
+     "height": 1.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 7.2,
+     "y": -3.09,
+     "width": 1.5,
+     "height": 1.7,
+     "shape": "rect"
+    }
+   ]
+  }
+ ]
+}

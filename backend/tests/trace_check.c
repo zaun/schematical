@@ -55,11 +55,11 @@ static TraceRole trace_role(PinRole role) {
 }
 
 static uint64_t trace_part(const Part *part, FILE *verbose) {
-    TraceRole roles[256];
+    TraceRole roles[1024];   /* 1000 pins is the footprint limit; card-slot parts go to 694 */
     TraceSubject subject = {0};
     size_t i;
 
-    if (part->pin_count > 256) {
+    if (part->pin_count > 1024) {
         fprintf(stderr, "%s: too many pins\n", part->name);
         exit(2);
     }

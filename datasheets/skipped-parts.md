@@ -935,11 +935,14 @@ added. They are still made; a later plan may add them.
 
 | Part(s) | Device | Would have gone into | Why skipped |
 |---|---|---|---|
+| 1010170469#2A | Amphenol ICC, `io_ufs.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | footprint not drawn: no land pattern in the datasheet |
+| 10102166A812A | Amphenol ICC, `io_micro_sd_express.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | footprint not drawn: no land pattern in the datasheet |
 | 10067099-200LF, 10067847-301RLF | Amphenol ICC, `bwb_sdmemorycard.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
 | 1140084168 | Amphenol ICC, `io_micro_sdcard.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
 | G85B21611142HHR, G85B231021B1HR, G85D1171012HHR | Amphenol ICC G85B, `io_simcardsockets.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
 | G85D1160022HHR | Amphenol ICC G85D, `io_simcardsockets.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
 | GTFP08441BEU | Amphenol ICC GFTP08, `io_micro_sdcard.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| GSD090012SEU, GSD09002SEU | Amphenol ICC GSD, `io_micro_sdcard.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | footprint not drawn: no land pattern in the datasheet |
 | GSD09002SDEU, GSD090144HR | Amphenol ICC GSD, `io_micro_sdcard.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
 | GTFP08432B1HR | Amphenol ICC GTFP08, `io_micro_sdcard.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
 | 7334L2620F01LF | Amphenol ICC L26, `vjw54701.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | fact not in datasheet |
@@ -969,6 +972,8 @@ added. They are still made; a later plan may add them.
 | SIM8060-6-0-14-00-A, SIM8060-6-1-14-00-A | GCT SIM8060, `sim8060-spec.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
 | SIM8061-6-1-14-00-A | GCT SIM8061, `sim8061-spec.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
 | SIM8066-6-1-14-01-A | GCT SIM8066, `sim8066-spec.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | not in the datasheet's ordering table |
+| SD7-5-A | Same Sky, `sd7-5-a.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | footprint not drawn: the print's land pattern has no pad for pin 17 (VSS5) |
+| SD7-7-A | Same Sky, `sd7-7-a.pdf` | `connector` / Connector → Card slot → SD / microSD / SIM | footprint not drawn: the print's land pattern has no pad for pin 17 (VSS5) |
 | 10018783-10000TLF, 10018783-10001TLF, 10018783-10002MLF, 10018783-10010TLF, 10018783-10012TLF, 10018783-10101TLF, 10018783-10201MLF, 10018783-10201TLF, 10018783-10203TLF, 10018783-10210TLF, 10018783-11200TLF, 10025026-10000TLF, 10025026-10001TLF, 10025026-10002CLF, 10025026-10101TLF, 10025026-10103TLF, 10025026-10201TLF, 10025026-10202TLF, 10037901-11210TLF, 10039755-10000TLF, 10039755-10103TLF, 10039755-10111TLF, 10057596-10010TLF, 10083987-11023TLF | Amphenol ICC, `ssio_pcie_gen3.pdf` | `connector` / Connector → Card slot → Card edge | not in the datasheet's ordering table |
 | 10018783-10202TLF | Amphenol ICC, `gs-12-233.pdf` | `connector` / Connector → Card slot → Card edge | not in the datasheet's ordering table |
 | 10056847-103LF | Amphenol ICC, `10056847.pdf` | `connector` / Connector → Card slot → Card edge | not in the datasheet's ordering table |
@@ -1010,7 +1015,13 @@ added. They are still made; a later plan may add them.
 | 2369833-1, 2369833-2, 2369833-3 | TE Connectivity Silver 2.0, `108-130021.pdf` | `connector` / Connector → Card slot → Card edge | not in the datasheet's ordering table |
 | 2332141-5 | TE Connectivity Sliver 2.0, `114-130015.pdf` | `connector` / Connector → Card slot → Card edge | not in the datasheet's ordering table |
 | 1-5530843-0, 1-5530843-6, 2-5530843-7, 5530843-1, 7-5530843-0, 7-5530843-6, 7-5530843-7, 8-5530843-6, 8-5530843-8 | TE Connectivity Standard Edge II, `1773096_SEC03_CARD_EDGE.pdf` | `connector` / Connector → Card slot → Card edge | not in the datasheet's ordering table |
+| 10145891-0320J13LF | Amphenol ICC, `ssio_ddr4.pdf` | `connector` / Connector → Card slot → Memory module | footprint not drawn: no land pattern in the datasheet |
+| 10157591-002RHLF, 10160554-004THLF, 10162416-002RHLF, 10162981-002RHLF | Amphenol ICC, `ssio_ddr5_sodimm.pdf` | `connector` / Connector → Card slot → Memory module | footprint not drawn: no land pattern in the datasheet |
 | 10161033-002RHLF, 10161036-002RHLF, 10162866-002RHLF, 10162991-002RHLF | Amphenol ICC, `ssio_ddr5_sodimm.pdf` | `connector` / Connector → Card slot → Memory module | not in the datasheet's ordering table |
+| CMM5C1001001A, CMM5D1001001A | Amphenol ICC CMM, `ssio-ddr5-lpddr5-camm2.pdf` | `connector` / Connector → Card slot → Memory module | footprint not drawn: no land pattern in the datasheet |
+| 1510800101 | Molex 151080, `987650-9721.PDF` | `connector` / Connector → Card slot → Memory module | footprint not drawn: no land pattern in the datasheet |
+| 2-2013022-1, 2-2013289-1, 2-2013290-1, 2-2013290-2, 2013289-1, 2013289-2, 2013290-1 | TE Connectivity, `6-1773454-7.pdf` | `connector` / Connector → Card slot → Memory module | footprint not drawn: no land pattern in the datasheet |
+| 2513069-1 | TE Connectivity, `2513069.pdf` | `connector` / Connector → Card slot → Memory module | footprint not drawn: no land pattern in the datasheet |
 | 1-1473005-1, 1473005-1, 1473005-4 | TE Connectivity, `108-5701.pdf` | `connector` / Connector → Card slot → Memory module | not in the datasheet's ordering table |
 | 2199154-1, 2199154-2, 2199154-7 | TE Connectivity, `1-1773877-7_DDR4_Flyer_ENG.pdf` | `connector` / Connector → Card slot → Memory module | not in the datasheet's ordering table |
 | 8-2355632-1 | TE Connectivity, `DDEController.pdf` | `connector` / Connector → Card slot → Memory module | not in the datasheet's ordering table |

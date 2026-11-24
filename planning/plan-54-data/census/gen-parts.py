@@ -107,7 +107,7 @@ def collect(fams, makers):
             spec = members[0][1]
             maker_slug = SLUG[L['maker']]
             base = L['stem'].split('-', 2)[2].lower()
-            did = f"card-{WORD[L['family']]}-{maker_slug}-{base}" + ('' if k == 0 else '-' + chr(ord('a') + k))
+            did = f"card-{WORD[L['family']]}-{maker_slug}-{base}" + ('' if k == 0 else f'-v{k + 1}')
             card = spec['card']
             pitch = pitch_text(spec)
             if L['family'] == 'edge':

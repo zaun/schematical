@@ -1,0 +1,8 @@
+stem	positions	footprint	note
+DIMM-TE-ADVANCEDMC-C	260	DIMM-TE-ADVANCEDMC-260	same land pattern as 2309407 (compared sheet 2 of 2309409 against 2309407: 68.80 holes, 67.60 tab span, 28.50/35.50/37.90, 4.10 rows, 2X 3.50 x 4.60 tabs all equal)
+DIMM-TE-ADVANCEDMC-D	260	DIMM-TE-ADVANCEDMC-B-260	same land pattern as 2309408 (compared sheet 2 of 2309410 against 2309408: reverse view, 68.80, 67.60, 2X 3.50 x 4.60 equal)
+DIMM-TE-ADVANCEDMC-I	260	DIMM-TE-ADVANCEDMC-B-260	same PDF as line DIMM-TE-ADVANCEDMC-D (2309410): same land pattern as 2309408
+DIMM-TE-ADVANCEDMC-E	260	DIMM-TE-2309413-260	same land pattern as 2309413 (compared sheet 2 of 2309411: 68.80, 75.50 tab span, 3.35, 2X 2.00 x 3.50 equal)
+DIMM-TE-ADVANCEDMC-G	260	DIMM-TE-2309413-260	same PDF 2309413 as line DIMM-TE-2309413
+DIMM-TE-ADVANCEDMC-H	260	DIMM-TE-ADVANCEDMC-F-260	same land pattern as 2309412 (compared sheet 2 of 2309414 against 2309412: reverse view, 68.80, 75.50 tab span, 12.00, 2X 2.00 x 3.50 equal; 2309414 differs from 2309412 only in its tab-height dimension box)
+DIMM-TE-MICRO-EDGE-D	72	DIMM-TE-MICRO-EDGE-B-72	same land pattern as 5822021 (compared the hole pattern of 5822032 with 5822021: pin 1 right lower row, 2.41 left, 1.63 at the key line and right, D, A, B equal; 5822032 is the gold-plated version)

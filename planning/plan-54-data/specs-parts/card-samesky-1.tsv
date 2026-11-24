@@ -17,7 +17,7 @@ card	Same Sky	-	datasheets/connector-card-socket/same-sky/msd7-1-a.pdf	1	MSD7-1-
 card	Same Sky	-	datasheets/connector-card-socket/same-sky/msim-1-a.pdf	1	MSIM-1-A	-	MSIM-1 Micro SIM	Micro SIM	1=VCC,2=RST,3=CLK,5=GND,6=VPP,7=IO,8=CD,9=SHIELD	7	-	active
 card	Same Sky	-	datasheets/connector-card-socket/same-sky/msim-10-b.pdf	1	MSIM-10-B	-	MSIM-10 Micro SIM	Micro SIM	1=VCC,2=RST,3=CLK,5=GND,6=VPP,7=IO	6	-	active
 card	Same Sky	-	datasheets/connector-card-socket/same-sky/msim-11-a.pdf	1	MSIM-11-A	-	MSIM-11 Micro SIM	Micro SIM	1=VCC,2=RST,3=CLK,5=GND,6=VPP,7=IO,8=CD,9=SHIELD	7	-	active
-card	Same Sky	-	datasheets/connector-card-socket/same-sky/msim-11-c.pdf	1	MSIM-11-C	-	MSIM-11 Micro SIM	Micro SIM	1=VCC,2=RST,3=CLK,4=NC,5=GND,6=VPP,7=IO,8=NC	8	-	active;note:hinged; C4 and C8 reserved
+card	Same Sky	-	datasheets/connector-card-socket/same-sky/msim-11-c.pdf	1	MSIM-11-C	-	MSIM-11 Micro SIM	Micro SIM	1=VCC,2=RST,3=CLK,4=GND,5=VPP,6=IO	8	-	active;pins 6, digikey 8;note:hinged; the layout has pads for C1, C2, C3, C5, C6, C7 only (C4 and C8 reserved, no pad)
 card	Same Sky	-	datasheets/connector-card-socket/same-sky/msim-12-a.pdf	1	MSIM-12-A	-	MSIM-12 Micro SIM	Micro SIM	1=VCC,2=RST,3=CLK,4=NC,5=GND,6=VPP,7=IO,8=NC,9=CD,10=SHIELD	9	-	active;note:C4 and C8 reserved
 card	Same Sky	-	datasheets/connector-card-socket/same-sky/msim-2-a.pdf	1	MSIM-2-A	-	MSIM-2 Micro SIM	Micro SIM	1=VCC,2=RST,3=CLK,5=GND,6=VPP,7=IO	6	-	active
 card	Same Sky	-	datasheets/connector-card-socket/same-sky/msim-3-c.pdf	1	MSIM-3-C	-	MSIM-3 Micro SIM	Micro SIM	1=VCC,2=RST,3=CLK,4=NC,5=GND,6=VPP,7=IO,8=NC	8	-	active;note:hinged; C4 and C8 reserved

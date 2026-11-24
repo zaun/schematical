@@ -31,10 +31,10 @@ plan-54-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-54-G complete | `ls planning/completed/plan-54-G-*.md` → exists | NOT MET (2026-11-22: not started) |
-| The format has the opposite-pad and edge-mount keys | `grep -c 'int opposite' backend/include/parts.h` → 1 | NOT MET (2026-11-22: plan-54-E adds it) |
-| The pick of the two families is final | `awk -F'\t' '($4=="card"\|\|$4=="module") && $20=="candidate"' planning/plan-54-data/candidates.tsv \| wc -l` → 0 | NOT MET (2026-11-22: 256 candidates; B Phase 4) |
-| `footprints-needed.txt` has the `H` lines | `awk -F'\t' '$1=="H"' planning/plan-54-data/footprints-needed.txt \| wc -l` → the variants of the pick (83 at planning time, before skips) | NOT MET (2026-11-22: B writes it) |
+| plan-54-G complete | `ls planning/completed/plan-54-G-*.md` → exists | MET (2026-11-23: F and G are committed on worktree-P-54 (814e4406, b80d3818); archived when the plan lands) |
+| The format has the opposite-pad and edge-mount keys | `grep -c 'int opposite' backend/include/parts.h` → 1 | MET (2026-11-23: 1) |
+| The pick of the two families is final | `awk -F'\t' '($4=="card"\|\|$4=="module") && $20=="candidate"' planning/plan-54-data/candidates.tsv \| wc -l` → 0 | MET (2026-11-23: 0) |
+| `footprints-needed.txt` has the `H` lines | `awk -F'\t' '$1=="H"' planning/plan-54-data/footprints-needed.txt \| wc -l` → the variants of the pick (83 at planning time, before skips) | MET (2026-11-23: 144 H lines before the footprint skips, 131 after) |
 | F0 is recorded | `wc -l < backend/tests/golden/footprints.txt` at the start; H uses its own | MET (2026-11-22 at 7b449718: 1895) |
 
 Everything below is written against the world where these hold.
@@ -165,18 +165,22 @@ numbering of an IC; a module's key gap and mixed pegs need `explicit`).
 
 ### Phase 1 — Tools and the map skeleton
 
-- [ ] Copy `planning/plan-44-data/census/fp-skeleton.py`, `fp-check.py`,
+- [x] Copy `planning/plan-44-data/census/fp-skeleton.py`, `fp-check.py`,
       `fp-compare.py`, `fp-load.sh`, `fp-merge.py` to `planning/plan-54-data/census/`
       with `p44` → `p54`; adapt `fp-check.py` to the columns of this plan's
       `footprints-needed.txt` (letter, family, maker, series, mounting, card,
       pitch, positions, parts, example, datasheet, existing, id stem): the map's
       key is (letter, variant), known ids from `footprints-H.json` … `footprints-K.json`
       and `footprints.json`.
-- [ ] Write `census/rowgen.py`, `census/rowgen-check.py` (§ 3.3) and a tiny test
+- [x] Write `census/rowgen.py`, `census/rowgen-check.py` (§ 3.3) and a tiny test
       fixture (`census/rowgen-test.tsv`: a 2 × 4-pad row with a gap) whose output
       is compared by `cmp` with a hand-written `rowgen-test.json`.
-- [ ] `footprint-map-H.tsv` skeleton: one row per `H` line, the footprint column
+- [x] `footprint-map-H.tsv` skeleton: one row per `H` line, the footprint column
       empty.
+
+      Result: tools written for this data layout (fresh, not copies: `fp-check.py`, `fp-brief.py`, `fp-assemble.py`, `fp-skip.py`, `rowgen.py`,
+      `rowgen-check.py`; `fp-merge.py` and `fp-load.sh` copied from plan-44 with the opposite-pad-aware overlap test); `rowgen.py rowgen-test-params.json | cmp - rowgen-test.json` → `ok`
+      (the fixture is JSON, § Corrections); `fp-check.py H` → `147 footprint keys, 147 without a footprint` on the empty map.
 
 Acceptance: the tools run.
   Check: `python3 -I planning/plan-54-data/census/fp-check.py H` → `<n> lines, <n> without a footprint`; `python3 -I planning/plan-54-data/census/rowgen.py planning/plan-54-data/census/rowgen-test.tsv \| cmp - planning/plan-54-data/census/rowgen-test.json && echo ok` → `ok` (est. 30 min).
@@ -184,7 +188,7 @@ Commit: —
 
 ### Phase 2 — Card sockets
 
-- [ ] Draw every card-socket line (the `H` lines of family `card`; 62 at planning
+- [x] Draw every card-socket line (the `H` lines of family `card`; 62 at planning
       time) into `footprints-H.json` from the PDFs of
       `datasheets/connector-card-socket/`, six parallel readers on a share of the
       lines each (pad tables in `fp-parts/<reader>.tsv`, assembled by
@@ -193,8 +197,12 @@ Commit: —
       pad, a rotated slot or a keyhole slot is not drawn: its parts become `skip`
       (`footprint not expressible: <feature>`) in `candidates.tsv` and
       `skipped-parts.md`, and the number goes in § Corrections.
-- [ ] Hand-check one footprint per card type (SD, microSD, SIM, Micro SIM, Nano SIM,
+- [x] Hand-check one footprint per card type (SD, microSD, SIM, Micro SIM, Nano SIM,
       Smart card) against the drawing's dimensions; the arithmetic is in the `note`.
+
+      Result: six readers drew the card-socket footprints pad by pad (`fp-parts/card-1.json` … `card-6.json`, 88 lines); `fp-assemble.py H` → 116 footprints (card and module);
+      lines with no land pattern in the PDF are not drawn: 20 rows `skip` (`no land pattern in the datasheet`) plus SD7-5-A / SD7-7-A (no pad for pin 17); each reader's
+      `fp-load.sh` → `load ok`; the Same Sky MSD-1-A footprint was re-derived by hand from its print's numbers (9 pads 0.70 x 1.60 at 1.10 pitch, § note).
 
 Acceptance: the card-socket lines have footprints that load.
   Check: `python3 -I planning/plan-54-data/census/fp-check.py H` → the card lines have a footprint; `planning/plan-54-data/census/fp-load.sh planning/plan-54-data/footprints-H.json` → `<k> new footprints: load ok` (est. 3 min: it builds `footprint_check` in a copy).
@@ -202,14 +210,18 @@ Commit: —
 
 ### Phase 3 — Module sockets
 
-- [ ] Fill `rowgen-params.tsv` and `rowgen-ref.tsv` for every module line (21 at
+- [x] Fill `rowgen-params.tsv` and `rowgen-ref.tsv` for every module line (21 at
       planning time, 30 keys) from `datasheets/connector-memory-module/`: pitch, row
       y, pad size, key gap, pegs, body; at least two position counts per variant in
       `rowgen-ref.tsv` (a variant with one position count has the drawing's pad-to-pad
       and peg dimensions); run `rowgen-check.py` and `rowgen.py` into
       `footprints-H.json`.
-- [ ] Hand-check one footprint per style (DIMM, SODIMM, SIMM, MiniDIMM, SOCAMM) that is
+- [x] Hand-check one footprint per style (DIMM, SODIMM, SIMM, MiniDIMM, SOCAMM) that is
       in the pick against the drawing.
+
+      Result: two readers filled the module generator rows (`module-1-params.json`, `module-2-params.json` and their refs): `rowgen-check.py` → `257 dimensions, 0 differ` and
+      `241 dimensions, 0 differ`; TE 2309413's footprint checked by hand against the drawing (130 pads a row at 0.50 pitch, rows ±4.10, 73.0 x 9.2 body, 260 pins);
+      `fp-check.py H` → `133 footprint keys, 0 without a footprint` after the skips; `fp-load.sh planning/plan-54-data/footprints-H.json` → `116 new footprints: load ok`.
 
 Acceptance: the module lines have footprints that load, and the reference dimensions hold.
   Check: `python3 -I planning/plan-54-data/census/rowgen-check.py planning/plan-54-data/census/rowgen-ref.tsv` → `<n> dimensions, 0 differ`; `python3 -I planning/plan-54-data/census/fp-check.py H` → `<n> lines, 0 without a footprint`; `planning/plan-54-data/census/fp-load.sh planning/plan-54-data/footprints-H.json` → `<k> new footprints: load ok` (est. 5 min).
@@ -217,10 +229,13 @@ Commit: —
 
 ### Phase 4 — Hand checks and the lines that cannot be drawn
 
-- [ ] Re-run Phase 2's rule for any module line whose drawing needs a feature the
+- [x] Re-run Phase 2's rule for any module line whose drawing needs a feature the
       format lacks (A § 3 rule 9); update § Corrections with the totals.
-- [ ] Record `python3 -I -c "import json;d=json.load(open('planning/plan-54-data/footprints-H.json'))['footprints'];print(len(d), max(len(f.get('pads', [])) for f in d))"`
+- [x] Record `python3 -I -c "import json;d=json.load(open('planning/plan-54-data/footprints-H.json'))['footprints'];print(len(d), max(len(f.get('pads', [])) for f in d))"`
       (footprints, largest explicit pad count) in § Corrections.
+
+      Result: no line needed `footprint not expressible` for a slot; 22 rows are `skip` for want of a land pattern (Amphenol ICC brochures, Molex 151080, TE 2513069 and the
+      catalog 6-1773454-7, the two Same Sky SD7 parts); `python3 -I -c …` → `116 653` (116 footprints, the largest has 653 pads).
 
 Acceptance: every `H` line has a footprint.
   Check: `python3 -I planning/plan-54-data/census/fp-check.py H` → `<n> lines, 0 without a footprint` (est. 1 min).
@@ -245,6 +260,16 @@ Commit: —
   `footprint` is derivable from its row (`<stem>-<positions>`).
 
 ## Corrections
+
+- **The generator parameters are JSON, per variant, with expressions** (`rowgen-test-params.json`, `rowgen-test.json`), not the plan's TSV per footprint key: one row serves every
+  position count of a drawing and an expression of `N` / `L0` gives pegs, body and gaps (`rowgen.py`'s docstring). Added keys beyond the plan: `pins`, `ids`, `x_off`, per-side
+  `stagger`; the readers hand-built the footprints it cannot make (a CAMM2 matrix, irregular pad orders) into their `fp-parts/<name>.json`.
+- **A land pattern is often not in a catalog PDF**: Amphenol ICC's `ssio_*` brochures and Molex's 151080 brochure print no PCB layout; those lines are not drawn and their
+  parts are `skip` (`footprint not drawn: no land pattern in the datasheet`, `fp-notdrawn.tsv`, `fp-skip.py`); a line is mapped to another footprint only where its print or a
+  sibling print shows the same pattern (the map notes say what was compared; three Amphenol / TE maps rest on a catalog's "footprint compatible" statement).
+- **Dimensions a print does not give** are assumptions recorded in the footprint `note`s: hole plating (drawn non-plated), a plated-through pad's land size (drill + 0.5 to 0.6),
+  a housing outline's position against the pads (centred), the card-entry side where unmarked. They are listed in each reader's report; none changes a pad's centre.
+- **`trace_check.c` had a 256-pin buffer** (`TraceRole roles[256]`); the module sockets go to 694 pins, so it is 1024 (the footprint limit is 1000).
 
 ## Summary
 

@@ -1,0 +1,897 @@
+{
+ "rows": [
+  {
+   "stem": "DIMM-AMPHENOL-CDDR506XXXXXXXX",
+   "positions": [
+    288
+   ],
+   "pins": 288,
+   "numbering": "halves",
+   "pitch": 0.85,
+   "dir": "ltr,ltr",
+   "row_y": "2.05,-2.05",
+   "pad_w": 0.52,
+   "pad_h": 1.5,
+   "shape": "rect",
+   "gaps": {
+    "75": 5.1
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": -68.975,
+     "y": 0,
+     "width": 2.45,
+     "height": 2.45,
+     "shape": "round",
+     "drill": 2.45,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 68.975,
+     "y": 0,
+     "width": 2.45,
+     "height": 2.45,
+     "shape": "round",
+     "drill": 2.45,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 3.875,
+     "y": 0,
+     "width": 1.2,
+     "height": 2.45,
+     "shape": "round",
+     "drill": 1.2,
+     "slotLength": 2.45,
+     "plated": false
+    }
+   ],
+   "body_w": 133.75,
+   "body_h": 6.1,
+   "description": "DDR5 288-pin R/LRDIMM socket, surface mount, vertical, 0.85 mm pitch",
+   "note": "cddr506xxxxxxxx.pdf (drawing DDR5-06-X-X-X-XXX-X-X rev 11), sheet 4 (recommended PCB footprint, detail E) and sheet 1: pads 0.52 x 1.50 (288X 0.52+-0.03, 1.50), rows 2.05 from the centreline (detail E: 2.05 each side, 5.60 over the outer pad edges = 2*(2.05+0.75)); pitch 0.85; pad 1 to pad 75 = 62.90 = 74 x 0.85 and pad 76 to pad 144 = 57.80 = 68 x 0.85; key between pad 75 and 76 = 5.95 centre to centre, i.e. an extra 5.95 - 0.85 = 5.10 over the pitch; datum C (key centre) is 3.875 right of the connector centre line (R/LR DIMM 3.875); pad 75 is 4.30 left of the key and pad 76 is 5.95-4.30 = 1.65 right of it; the pad rows are centred on the connector centre line, so pad 1 x = -(62.90+5.95+57.80)/2 = -63.325. End holes 137.95 apart (72.85+65.10), each 68.975 from the connector centre line, dia 2.45; key slot 1.20 x 2.45 on datum C, +3.875 from the centre line. Body 133.75 x 6.1 = housing length and width of the top view (sheet 1); the 142.00 max PCB footprint and 162.00 latch-open outlines are not drawn. Pin numbers 1..288. The drawing calls the end holes and the key slot plated through holes but prints no pad size, so they are drawn as holes of the printed size without copper (plated false). The hatched squares at both ends are the ejector keep-out, not pads. Pin 1 is drawn at the left of side 0 (the bottom row of the print, viewed from the top of the board); side 0 = pins 1..144, side 1 = pins 145..; the card has no entry direction (vertical socket). Option 2 of the print (1.20 slots at the ends instead of dia 2.45 holes) lies inside the dia 2.45 hole."
+  },
+  {
+   "stem": "DIMM-AMPHENOL-CDDR503XXXXXXXX",
+   "positions": [
+    288
+   ],
+   "pins": 288,
+   "numbering": "halves",
+   "pitch": 0.85,
+   "dir": "ltr,ltr",
+   "row_y": "2.05,-2.05",
+   "pad_w": 0.52,
+   "pad_h": 1.5,
+   "shape": "rect",
+   "gaps": {
+    "75": 5.1
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": -68.975,
+     "y": 0,
+     "width": 2.45,
+     "height": 2.45,
+     "shape": "round",
+     "drill": 2.45,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 68.975,
+     "y": 0,
+     "width": 2.45,
+     "height": 2.45,
+     "shape": "round",
+     "drill": 2.45,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 1.425,
+     "y": 0,
+     "width": 1.2,
+     "height": 2.45,
+     "shape": "round",
+     "drill": 1.2,
+     "slotLength": 2.45,
+     "plated": false
+    }
+   ],
+   "body_w": 133.75,
+   "body_h": 6.1,
+   "description": "DDR5 288-pin UDIMM socket, surface mount, vertical, 0.85 mm pitch",
+   "note": "cddr503xxxxxxxx.pdf (drawing DDR503XXXXXXXXD rev C), sheet 4 (recommended PCB footprint, detail E) and sheet 1: pads 0.52 x 1.50 (288X 0.52+-0.03, 1.50), rows 2.05 from the centreline (detail E: 2.05 each side, 5.60 over the outer pad edges = 2*(2.05+0.75)); pitch 0.85; pad 1 to pad 75 = 62.90 = 74 x 0.85 and pad 76 to pad 144 = 57.80 = 68 x 0.85; key between pad 75 and 76 = 5.95 centre to centre, i.e. an extra 5.95 - 0.85 = 5.10 over the pitch; datum C (key centre) is 1.425 right of the connector centre line (U DIMM 1.425); pad 75 is 1.85 left of the key and pad 76 is 5.95-1.85 = 4.10 right of it, so the pad centres are the same as the R/LR DIMM footprint (pad 75 at 1.425-1.85 = -0.425); the pad rows are centred on the connector centre line, so pad 1 x = -(62.90+5.95+57.80)/2 = -63.325. End holes 137.95 apart (72.85+65.10), each 68.975 from the connector centre line, dia 2.45; key slot 1.20 x 2.45 on datum C, +1.425 from the centre line. Body 133.75 x 6.1 = housing length and width of the top view (sheet 1); the 142.00 max PCB footprint and 162.00 latch-open outlines are not drawn. Pin numbers 1..288. The drawing calls the end holes and the key slot plated through holes but prints no pad size, so they are drawn as holes of the printed size without copper (plated false). The hatched squares at both ends are the ejector keep-out, not pads. Pin 1 is drawn at the left of side 0 (the bottom row of the print, viewed from the top of the board); side 0 = pins 1..144, side 1 = pins 145..; the card has no entry direction (vertical socket). Option 2 of the print (1.20 slots at the ends instead of dia 2.45 holes) lies inside the dia 2.45 hole."
+  },
+  {
+   "stem": "DIMM-AMPHENOL-CDDR518XXXXXXXX",
+   "positions": [
+    287
+   ],
+   "pins": 287,
+   "numbering": "halves",
+   "pitch": 0.85,
+   "dir": "ltr,ltr",
+   "row_y": "2.05,-2.05",
+   "pad_w": 0.52,
+   "pad_h": 1.5,
+   "shape": "rect",
+   "gaps": [
+    {
+     "75": 5.1
+    },
+    {
+     "75": 5.95
+    }
+   ],
+   "extras": [
+    {
+     "pin": 0,
+     "x": -68.975,
+     "y": 0,
+     "width": 2.45,
+     "height": 2.45,
+     "shape": "round",
+     "drill": 2.45,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 68.975,
+     "y": 0,
+     "width": 2.45,
+     "height": 2.45,
+     "shape": "round",
+     "drill": 2.45,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 3.875,
+     "y": 0,
+     "width": 1.2,
+     "height": 2.45,
+     "shape": "round",
+     "drill": 1.2,
+     "slotLength": 2.45,
+     "plated": false
+    }
+   ],
+   "body_w": 133.75,
+   "body_h": 6.1,
+   "description": "DDR5 287-pin R/LRDIMM socket, surface mount, vertical, 0.85 mm pitch (position 220 has no contact)",
+   "note": "cddr518xxxxxxxx.pdf (drawing C DDR518XXXXXXXXX rev X1, release level PROPOSAL), sheet 5 (recommended PCB footprint option 1 and detail E) and sheet 1: pads 0.52 x 1.50 (288X 0.52+-0.03, 1.50), rows 2.05 from the centreline (detail E: 2.05 each side, 5.60 over the outer pad edges = 2*(2.05+0.75)); pitch 0.85; pad 1 to pad 75 = 62.90 = 74 x 0.85 and pad 76 to pad 144 = 57.80 = 68 x 0.85; key between pad 75 and 76 = 5.95 centre to centre, i.e. an extra 5.95 - 0.85 = 5.10 over the pitch; datum C (key centre) is 3.875 right of the connector centre line (R/LR DIMM 3.875); pad 75 is 4.30 left of the key and pad 76 is 1.65 right of it; the pad rows are centred on the connector centre line, so pad 1 x = -(62.90+5.95+57.80)/2 = -63.325. End holes 137.95 apart (72.85+65.10), each 68.975 from the connector centre line, dia 2.45; key slot 1.20 x 2.45 on datum C, +3.875 from the centre line. Body 133.75 x 6.1 = housing length and width of the top view (sheet 1); the 142.00 max PCB footprint and 162.00 latch-open outlines are not drawn. 287 contacts: the module position 220 has no contact (print: POS 220 (NC), the top row has no pad right of the key at 1.65 right of datum C), so the footprint has 287 pads numbered 1..287 in the pinout's order; pins 1..144 are side 0 (positions 1..144) and pins 145..287 are side 1 (positions 145..219, 221..288); pin 220 of the pinout is position 221. The missing position is the plain skipped slot after pad 219: side 1 carries an extra gap of 5.10 (key) + 0.85 (the skipped slot) = 5.95 after its 75th pad, so pin 220 is at 6.375 = -63.325 + 75*0.85 + 5.95 from the centre line and pad 287 ends at +63.325 as pad 144 does. The drawing calls the end holes and the key slot plated through holes but prints no pad size, so they are drawn as holes of the printed size without copper (plated false). The hatched squares at both ends are the ejector keep-out, not pads. Pin 1 is drawn at the left of side 0 (the bottom row of the print, viewed from the top of the board); side 0 = pins 1..144, side 1 = pins 145..; the card has no entry direction (vertical socket). Option 2 of the print (1.20 slots at the ends instead of dia 2.45 holes) lies inside the dia 2.45 hole."
+  },
+  {
+   "stem": "DIMM-MOLEX-151105",
+   "positions": [
+    288
+   ],
+   "pins": 288,
+   "numbering": "halves",
+   "pitch": 0.5,
+   "dir": "ltr,ltr",
+   "row_y": "1.4,-1.4",
+   "pad_w": 0.3,
+   "pad_h": 1.5,
+   "shape": "rect",
+   "gaps": {
+    "79": 2.0
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": -37.9,
+     "y": 0,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "round",
+     "drill": 1.2,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 37.9,
+     "y": 0,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 1.5,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 3.5,
+     "y": 0,
+     "width": 1.2,
+     "height": 2.45,
+     "shape": "round",
+     "drill": 1.2,
+     "slotLength": 2.45,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -43.4,
+     "y": 0,
+     "width": 5.1,
+     "height": 5.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 43.4,
+     "y": 0,
+     "width": 5.1,
+     "height": 5.5,
+     "shape": "rect"
+    }
+   ],
+   "body_w": 94.0,
+   "body_h": 6.0,
+   "description": "DDR4 MiniDIMM 288-pin socket, surface mount, vertical, 0.50 mm pitch",
+   "note": "1511050004_sd.pdf (SD-151105-0001 rev C1), sheet 6 (recommended PCB footprint, detail 4) and sheet 2: pads 0.30 x 1.50 (288X), pitch 0.50, rows 1.40 each side of the centreline (detail 4: 1.40 to the pad centres); the pin 1 group is 39.00 = 78 x 0.50 (pads 1..79 and 145..223) and the other 32.00 = 64 x 0.50 (pads 80..144 and 224..288), pad 79 to pad 80 = 2.50 (1.25 each side of the key slot), i.e. an extra 2.50-0.50 = 2.00 over the pitch; the pad rows are centred on the housing centre line: pad 1 x = -(39.00+2.50+32.00)/2 = -36.75, key slot at -36.75+39.00+1.25 = +3.50 (print: 3.50 between the housing centre and the key, sheet 2). Holes: dia 1.20 at 41.40 left of the key slot (= -37.90, 1.15 left of pad 1) and dia 1.50 at 34.40 right of it (= +37.90); the print does not call them plated, so they are non-plated holes; key slot 1.20 x 2.45 (plated through hole in the print, no pad size printed, drawn as a hole without copper). Hold-down pads 5.10 x 5.50 centred 86.80 apart (= +-43.40, 5.50 outside each hole), on the centreline. Body 94.00 x 6.00 = housing length max and width (sheet 2). Pin 1 at the left of side 0 (bottom row of the print), side 0 = pins 1..144, side 1 = pins 145..288; vertical socket, no entry direction."
+  },
+  {
+   "stem": "DIMM-TE-114-115012",
+   "positions": [
+    288
+   ],
+   "pins": 288,
+   "numbering": "halves",
+   "pitch": 0.85,
+   "dir": "ltr,ltr",
+   "row_y": "2.7,-1.1",
+   "stagger": -1.6,
+   "pad_w": 1.17,
+   "pad_h": 1.17,
+   "shape": "round",
+   "drill": 0.66,
+   "gaps": {
+    "77": 5.1
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": -68.975,
+     "y": 0,
+     "width": 2.45,
+     "height": 2.45,
+     "shape": "round",
+     "drill": 2.45,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 68.975,
+     "y": 0,
+     "width": 2.45,
+     "height": 2.45,
+     "shape": "round",
+     "drill": 2.45,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 5.575,
+     "y": 0,
+     "width": 1.2,
+     "height": 2.45,
+     "shape": "round",
+     "drill": 1.2,
+     "slotLength": 2.45,
+     "plated": false
+    }
+   ],
+   "body_w": 142.0,
+   "body_h": 6.5,
+   "description": "DDR4 288-pin DIMM socket, through hole (solder tail), 0.85 mm pitch",
+   "note": "114-115012.pdf (TE product specification 114-115012 Rev A, DDR4 DIMM socket solder tail), page 4, Figure 3 (recommended PCB layout, viewed from the connector side) and page 3 Figure 2 (pad = finished hole + 0.51): 288 plated holes, finished hole dia 0.66+0.08 (drawn 0.66), pad dia 0.66+0.51 = 1.17; each card side is staggered in two hole rows: 1.10 and 2.70 from the centreline (printed 1.10 and 2.70 on both sides), consecutive contacts of a side alternate between the outer and the inner row at the printed 0.85 pitch (so each hole row has pitch 1.70). The print is rotated 90 degrees and low resolution: pin 1 and 2 are in the group at one end, 145/146 on the other side; the outer row for pin 1 and pin 145 is read from the leader lines of the scan, not stated in a dimension. Groups: pins 1..77 = 64.60 = 76 x 0.85, then 4.30 + 1.65 = 5.95 (extra 5.10 over the pitch) to the key and 56.10 = 66 x 0.85 for the 67 pads after it (77 + 67 = 144); pad 1 x = -(64.60+5.95+56.10)/2 = -63.325. Holes dia 2.45 +-0.05 (PTH, drawn as a hole without copper, no pad size printed) 74.55 left of the key slot and 63.40 right (74.55+63.40 = 137.95, each 68.975 from the middle of the two holes; the key is then 74.55-68.975 = 5.575 right of the housing centre: = -63.325 + 64.60 + 4.30); key slot 1.20 x 2.45 (PTH). The print's keep-out areas for the extractors (6.50 max wide) are not drawn. Body 142.00 x 6.50 = the print's max PCB footprint length and the keep-out width (the product's housing size is not on the PDF page). The spec text says 0.80 mm pitch but the drawing prints 0.85. Side 0 = pins 1..144 (the print's lower row after turning pin 1 to the left), side 1 = pins 145..288. Generator encoding: stagger is one value for both sides, so side 0 starts on the outer row (pin 1 at y = +2.70, pin 2 at 2.70-1.60 = +1.10) and side 1 on the inner row (pin 145 at -1.10, pin 146 at -2.70): this is the 180-degree-symmetric arrangement, the inner/outer assignment of pin 145 is an assumption (the scan's leader lines cannot be told apart)."
+  },
+  {
+   "stem": "DIMM-AMPHENOL-10033853",
+   "positions": [
+    200
+   ],
+   "pins": 200,
+   "numbering": "single",
+   "pitch": 0.3,
+   "dir": "ltr",
+   "row_y": 11.6,
+   "stagger": -8.2,
+   "pad_w": 0.35,
+   "pad_h": 2.0,
+   "shape": "rect",
+   "gaps": {
+    "40": 3.6
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": -33.4,
+     "y": 7.5,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 33.4,
+     "y": 7.5,
+     "width": 1.1,
+     "height": 1.1,
+     "shape": "round",
+     "drill": 1.1,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -32.55,
+     "y": -4.5,
+     "width": 4.5,
+     "height": 4.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 32.55,
+     "y": -4.5,
+     "width": 4.5,
+     "height": 4.6,
+     "shape": "rect"
+    }
+   ],
+   "body_w": 70.86,
+   "body_h": 25.2,
+   "description": "200-pin DDR2 SODIMM socket, 0.6 mm pitch, surface mount (FCI standard type)",
+   "note": "10033853.pdf (FCI drawing 10033853 rev D, 50UF SO-DIMM 0.6 mm 200 pos standard type), sheet 2 (recommended mounting PCB layout) and sheet 1: Solder-peg pads: 60.6+-0.03 between their inner edges (30.3 from the middle) and 4.5 long (3.1 from the hole axis inward to their inner edge, 4.5 +-0.03): centre 30.3+4.5/2 = 32.55; 4.6+-0.1 wide; 12+-0.05 from the hole axis. (Printed as a top view with the module going down and pin 1 at the right; turned by 180 degrees here so the module side is up and pin 1 is at the left; the odd row, upper in the print, is then the lower.)  Pads 0.35 x 2.00 (0.35+-0.03, 2+-0.05); the two contact rows of a 200 pin SODIMM are offset by half a pitch, so the footprint is generated as one 200-slot row at 0.30 pitch (odd pins one row, even pins the other, numbering 'single' with the row offset as stagger): pin 1 is 1.75 and pin 2 is 2.05 from the end hole at the pin 1 end (printed 1.75 and 2.05), pad 199 is 2.05 and pad 200 1.75 from the other end hole (mirror of the same print); pins 1..39 / 2..40 = 0.6 x 19 = 11.4, key gap 4.2 centre to centre (pin 39 to 41, pin 40 to 42, extra 4.2-0.6 = 3.6 after pin 40 in the single row), pins 41..199 / 42..200 = 0.6 x 79 = 47.4; first-to-last pad of a row 11.4+4.2+47.4 = 63.0; end holes 66.8 apart (66.8+-0.08, +-33.4 from the middle), dia 1.6+-0.1 at the pin 1 end and dia 1.1+-0.1 at the other, drawn as holes without copper (no pad printed); the footprint is centred on the middle of the two end holes. Rows 4.1 each side of the hole axis (printed 2 long, 3.1 to the pad edge nearest the axis: 3.1+2/2 = 4.1); solder-peg pads 4.5 x 4.6 at +-32.55 along the row and 12.0 from the hole axis on the module side (print). Orientation: the module side (card entry) faces up (-y); pin 1 at the left, odd pins on the lower (rear) row. Body 70.86 x 25.2 (overall plan width and depth of the print), its rear edge placed at the outer edge of the rear pad row (4.1+1.0 = 5.1 from the hole axis; the hole axis is then 7.5 below the body centre = 25.2/2 - 5.1); this edge position is read off the plan view, not printed. Body 70.86 = overall width (sheet 1 plan) and 25.2 = length of the side view (sheet 1); the depth position of the rows in it is read off the plan."
+  },
+  {
+   "stem": "DIMM-TE-1473006",
+   "positions": [
+    200
+   ],
+   "pins": 200,
+   "numbering": "single",
+   "pitch": 0.3,
+   "dir": "rtl",
+   "row_y": 3.8,
+   "stagger": 8.2,
+   "pad_w": 0.35,
+   "pad_h": 2.0,
+   "shape": "rect",
+   "gaps": {
+    "40": 3.6
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": 33.4,
+     "y": 7.9,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -33.4,
+     "y": 7.9,
+     "width": 1.1,
+     "height": 1.1,
+     "shape": "round",
+     "drill": 1.1,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 32.55,
+     "y": -4.1,
+     "width": 4.5,
+     "height": 4.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": -32.55,
+     "y": -4.1,
+     "width": 4.5,
+     "height": 4.6,
+     "shape": "rect"
+    }
+   ],
+   "body_w": 71.5,
+   "body_h": 26.0,
+   "description": "200-pin DDR/DDR2 SODIMM socket, 0.6 mm pitch, surface mount (standard profile, reverse type)",
+   "note": "1473006.pdf (TE drawing 1473006 rev M2, DDR1 & DDR2 SODIMM 200 pos standard profile REVERSE type), sheet 2 (reference PC board pattern layout, connector mounting side) and sheet 1: Solder-peg pads: 60.6+-0.03 between their inner edges (30.3 from the middle) and 4.5 long (3.1 from the hole axis inward to their inner edge, 4.5 +-0.03): centre 30.3+4.5/2 = 32.55; 4.6+-0.1 wide; 12+-0.05 from the hole axis. The layout is printed rotated by 90 degrees; sheet 1's plan (module up) gives the orientation used. The three key variants (2.5V / 1.8V, D3..D5) change only the housing key, not the land pattern.  Pads 0.35 x 2.00 (0.35+-0.03, 2+-0.05); the two contact rows of a 200 pin SODIMM are offset by half a pitch, so the footprint is generated as one 200-slot row at 0.30 pitch (odd pins one row, even pins the other, numbering 'single' with the row offset as stagger): pin 1 is 1.75 and pin 2 is 2.05 from the end hole at the pin 1 end (printed 1.75 and 2.05), pad 199 is 2.05 and pad 200 1.75 from the other end hole (mirror of the same print); pins 1..39 / 2..40 = 0.6 x 19 = 11.4, key gap 4.2 centre to centre (pin 39 to 41, pin 40 to 42, extra 4.2-0.6 = 3.6 after pin 40 in the single row), pins 41..199 / 42..200 = 0.6 x 79 = 47.4; first-to-last pad of a row 11.4+4.2+47.4 = 63.0; end holes 66.8 apart (66.8+-0.08, +-33.4 from the middle), dia 1.6+-0.1 at the pin 1 end and dia 1.1+-0.1 at the other, drawn as holes without copper (no pad printed); the footprint is centred on the middle of the two end holes. Rows 4.1 each side of the hole axis (printed 2 long, 3.1 to the pad edge nearest the axis: 3.1+2/2 = 4.1); solder-peg pads 4.5 x 4.6 at +-32.55 along the row and 12.0 from the hole axis on the module side (print). Orientation: the module side (card entry) faces up (-y); pin 1 at the right (as printed), odd pins on the upper (module side) row. Body 71.5 x 26.0 (overall plan width and depth of the print), its rear edge placed at the outer edge of the rear pad row (4.1+1.0 = 5.1 from the hole axis; the hole axis is then 7.9 below the body centre = 26.0/2 - 5.1); this edge position is read off the plan view, not printed."
+  },
+  {
+   "stem": "DIMM-TE-1473149",
+   "positions": [
+    200
+   ],
+   "pins": 200,
+   "numbering": "single",
+   "pitch": 0.3,
+   "dir": "ltr",
+   "row_y": 12.25,
+   "stagger": -8.2,
+   "pad_w": 0.35,
+   "pad_h": 2.0,
+   "shape": "rect",
+   "gaps": {
+    "40": 3.6
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": -33.4,
+     "y": 8.15,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 33.4,
+     "y": 8.15,
+     "width": 1.1,
+     "height": 1.1,
+     "shape": "round",
+     "drill": 1.1,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -32.55,
+     "y": -3.85,
+     "width": 4.5,
+     "height": 4.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 32.55,
+     "y": -3.85,
+     "width": 4.5,
+     "height": 4.6,
+     "shape": "rect"
+    }
+   ],
+   "body_w": 71.5,
+   "body_h": 26.5,
+   "description": "200-pin DDR/DDR2 SODIMM socket, 0.6 mm pitch, surface mount (standard profile, standard type)",
+   "note": "1473149.pdf (TE drawing 1473149 rev K3, DDR1 & DDR2 SODIMM 200 pos standard profile STANDARD type, new latch), sheet 2 (reference PC board pattern layout) and sheet 1: Solder-peg pads: 60.6+-0.03 between their inner edges (30.3 from the middle) and 4.5 long (3.1 from the hole axis inward to their inner edge, 4.5 +-0.03): centre 30.3+4.5/2 = 32.55; 4.6+-0.1 wide; 12+-0.05 from the hole axis. The layout is printed rotated by 90 degrees; sheet 1's plan (module up, pin 1 at the left) gives the orientation used.  Pads 0.35 x 2.00 (0.35+-0.03, 2+-0.05); the two contact rows of a 200 pin SODIMM are offset by half a pitch, so the footprint is generated as one 200-slot row at 0.30 pitch (odd pins one row, even pins the other, numbering 'single' with the row offset as stagger): pin 1 is 1.75 and pin 2 is 2.05 from the end hole at the pin 1 end (printed 1.75 and 2.05), pad 199 is 2.05 and pad 200 1.75 from the other end hole (mirror of the same print); pins 1..39 / 2..40 = 0.6 x 19 = 11.4, key gap 4.2 centre to centre (pin 39 to 41, pin 40 to 42, extra 4.2-0.6 = 3.6 after pin 40 in the single row), pins 41..199 / 42..200 = 0.6 x 79 = 47.4; first-to-last pad of a row 11.4+4.2+47.4 = 63.0; end holes 66.8 apart (66.8+-0.08, +-33.4 from the middle), dia 1.6+-0.1 at the pin 1 end and dia 1.1+-0.1 at the other, drawn as holes without copper (no pad printed); the footprint is centred on the middle of the two end holes. Rows 4.1 each side of the hole axis (printed 2 long, 3.1 to the pad edge nearest the axis: 3.1+2/2 = 4.1); solder-peg pads 4.5 x 4.6 at +-32.55 along the row and 12.0 from the hole axis on the module side (print). Orientation: the module side (card entry) faces up (-y); pin 1 at the left, odd pins on the lower (rear) row. Body 71.5 x 26.5 (overall plan width and depth of the print), its rear edge placed at the outer edge of the rear pad row (4.1+1.0 = 5.1 from the hole axis; the hole axis is then 8.15 below the body centre = 26.5/2 - 5.1); this edge position is read off the plan view, not printed."
+  },
+  {
+   "stem": "DIMM-TE-1473150",
+   "positions": [
+    200
+   ],
+   "pins": 200,
+   "numbering": "single",
+   "pitch": 0.3,
+   "dir": "rtl",
+   "row_y": 4.05,
+   "stagger": 8.2,
+   "pad_w": 0.35,
+   "pad_h": 2.0,
+   "shape": "rect",
+   "gaps": {
+    "40": 3.6
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": 33.4,
+     "y": 8.15,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -33.4,
+     "y": 8.15,
+     "width": 1.1,
+     "height": 1.1,
+     "shape": "round",
+     "drill": 1.1,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 32.55,
+     "y": -3.85,
+     "width": 4.5,
+     "height": 4.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": -32.55,
+     "y": -3.85,
+     "width": 4.5,
+     "height": 4.6,
+     "shape": "rect"
+    }
+   ],
+   "body_w": 71.5,
+   "body_h": 26.5,
+   "description": "200-pin DDR/DDR2 SODIMM socket, 0.6 mm pitch, surface mount (standard profile, reverse type, new latch)",
+   "note": "1473150.pdf (TE drawing 1473150 rev M2, DDR1 & DDR2 SODIMM 200 pos standard profile REVERSE type, new latch), sheet 2 (reference PC board pattern layout) and sheet 1: Solder-peg pads: 60.6+-0.03 between their inner edges (30.3 from the middle) and 4.5 long (3.1 from the hole axis inward to their inner edge, 4.5 +-0.03): centre 30.3+4.5/2 = 32.55; 4.6+-0.1 wide; 12+-0.05 from the hole axis. The layout is printed rotated by 90 degrees; sheet 1's plan (module up, pin 1 at the right) gives the orientation used.  Pads 0.35 x 2.00 (0.35+-0.03, 2+-0.05); the two contact rows of a 200 pin SODIMM are offset by half a pitch, so the footprint is generated as one 200-slot row at 0.30 pitch (odd pins one row, even pins the other, numbering 'single' with the row offset as stagger): pin 1 is 1.75 and pin 2 is 2.05 from the end hole at the pin 1 end (printed 1.75 and 2.05), pad 199 is 2.05 and pad 200 1.75 from the other end hole (mirror of the same print); pins 1..39 / 2..40 = 0.6 x 19 = 11.4, key gap 4.2 centre to centre (pin 39 to 41, pin 40 to 42, extra 4.2-0.6 = 3.6 after pin 40 in the single row), pins 41..199 / 42..200 = 0.6 x 79 = 47.4; first-to-last pad of a row 11.4+4.2+47.4 = 63.0; end holes 66.8 apart (66.8+-0.08, +-33.4 from the middle), dia 1.6+-0.1 at the pin 1 end and dia 1.1+-0.1 at the other, drawn as holes without copper (no pad printed); the footprint is centred on the middle of the two end holes. Rows 4.1 each side of the hole axis (printed 2 long, 3.1 to the pad edge nearest the axis: 3.1+2/2 = 4.1); solder-peg pads 4.5 x 4.6 at +-32.55 along the row and 12.0 from the hole axis on the module side (print). Orientation: the module side (card entry) faces up (-y); pin 1 at the right (as printed), odd pins on the upper (module side) row. Body 71.5 x 26.5 (overall plan width and depth of the print), its rear edge placed at the outer edge of the rear pad row (4.1+1.0 = 5.1 from the hole axis; the hole axis is then 8.15 below the body centre = 26.5/2 - 5.1); this edge position is read off the plan view, not printed."
+  },
+  {
+   "stem": "DIMM-TE-1565691",
+   "positions": [
+    200
+   ],
+   "pins": 200,
+   "numbering": "single",
+   "pitch": 0.3,
+   "dir": "ltr",
+   "row_y": 12.265,
+   "stagger": -7.6,
+   "pad_w": 0.35,
+   "pad_h": 2.0,
+   "shape": "rect",
+   "gaps": {
+    "40": 3.6
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": -33.4,
+     "y": 8.465,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 33.4,
+     "y": 8.465,
+     "width": 1.1,
+     "height": 1.1,
+     "shape": "round",
+     "drill": 1.1,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -32.85,
+     "y": -3.535,
+     "width": 3.9,
+     "height": 4.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 32.85,
+     "y": -3.535,
+     "width": 3.9,
+     "height": 4.6,
+     "shape": "rect"
+    }
+   ],
+   "body_w": 71.5,
+   "body_h": 26.53,
+   "description": "200-pin DDR/DDR2 SODIMM socket, 0.6 mm pitch, surface mount (low profile, standard type)",
+   "note": "1565691.pdf (TE drawing 1565691 rev G2, DDR1 & DDR2 SODIMM 200 pos LOW profile standard type), sheet 2 (reference PC board pattern layout) and sheet 1: Solder-peg pads: 61.8+-0.03 between their inner edges (30.9 from the middle; 2.5 from the hole axis) and 3.9+-0.03 long: centre 30.9+3.9/2 = 32.85; 4.6+-0.1 wide; 12+-0.05 from the hole axis. Low profile: the pad rows are closer (2.8+-0.05 from the hole axis to the pad edge nearest it, 2 long: rows at 2.8+1.0 = 3.8). The print dimensions pin 1 (1.75) but not pin 2: pin 2 is taken half a pitch further (2.05) like every other drawing of the family (the scan shows about 0.35). The layout is printed rotated by 90 degrees; the plan on sheet 1 gives the orientation.  Pads 0.35 x 2.00 (0.35+-0.03, 2+-0.05); the two contact rows of a 200 pin SODIMM are offset by half a pitch, so the footprint is generated as one 200-slot row at 0.30 pitch (odd pins one row, even pins the other, numbering 'single' with the row offset as stagger): pin 1 is 1.75 and pin 2 is 2.05 from the end hole at the pin 1 end (printed 1.75 and 2.05), pad 199 is 2.05 and pad 200 1.75 from the other end hole (mirror of the same print); pins 1..39 / 2..40 = 0.6 x 19 = 11.4, key gap 4.2 centre to centre (pin 39 to 41, pin 40 to 42, extra 4.2-0.6 = 3.6 after pin 40 in the single row), pins 41..199 / 42..200 = 0.6 x 79 = 47.4; first-to-last pad of a row 11.4+4.2+47.4 = 63.0; end holes 66.8 apart (66.8+-0.08, +-33.4 from the middle), dia 1.6+-0.1 at the pin 1 end and dia 1.1+-0.1 at the other, drawn as holes without copper (no pad printed); the footprint is centred on the middle of the two end holes. Rows 3.8 each side of the hole axis (printed 2 long, 2.8 to the pad edge nearest the axis: 2.8+2/2 = 3.8); solder-peg pads 3.9 x 4.6 at +-32.85 along the row and 12.0 from the hole axis on the module side (print). Orientation: the module side (card entry) faces up (-y); pin 1 at the left, odd pins on the lower (rear) row. Body 71.5 x 26.53 (overall plan width and depth of the print), its rear edge placed at the outer edge of the rear pad row (3.8+1.0 = 4.8 from the hole axis; the hole axis is then 8.465 below the body centre = 26.53/2 - 4.8); this edge position is read off the plan view, not printed. The plan on sheet 1 prints rows 4.2 from the axis (4.2 / 4.2) against the layout's 3.8; the layout drawing is used."
+  },
+  {
+   "stem": "DIMM-TE-1612773",
+   "positions": [
+    200
+   ],
+   "pins": 200,
+   "numbering": "single",
+   "pitch": 0.3,
+   "dir": "rtl",
+   "row_y": 4.05,
+   "stagger": 8.2,
+   "pad_w": 0.35,
+   "pad_h": 2.0,
+   "shape": "rect",
+   "gaps": {
+    "40": 3.6
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": 33.4,
+     "y": 8.15,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -33.4,
+     "y": 8.15,
+     "width": 1.1,
+     "height": 1.1,
+     "shape": "round",
+     "drill": 1.1,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 32.85,
+     "y": -3.85,
+     "width": 3.9,
+     "height": 4.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": -32.85,
+     "y": -3.85,
+     "width": 3.9,
+     "height": 4.6,
+     "shape": "rect"
+    }
+   ],
+   "body_w": 71.5,
+   "body_h": 26.5,
+   "description": "200-pin DDR/DDR2 SODIMM socket, 0.6 mm pitch, surface mount (6.5 mm height, reverse type)",
+   "note": "1612773.pdf (TE drawing 1612773 rev G2, DDR1 & DDR2 SODIMM 200 pos 6.5 height REVERSE type), sheet 2 (reference PC board pattern layout) and sheet 1: Solder-peg pads: 61.8+-0.03 between their inner edges (30.9 from the middle; 2.5 from the hole axis) and 3.9+-0.03 long: centre 30.9+3.9/2 = 32.85; 4.6+-0.1 wide; 12+-0.05 from the hole axis. The layout is printed rotated by 90 degrees; sheet 1's plan (module up, pin 1 at the right) gives the orientation used.  Pads 0.35 x 2.00 (0.35+-0.03, 2+-0.05); the two contact rows of a 200 pin SODIMM are offset by half a pitch, so the footprint is generated as one 200-slot row at 0.30 pitch (odd pins one row, even pins the other, numbering 'single' with the row offset as stagger): pin 1 is 1.75 and pin 2 is 2.05 from the end hole at the pin 1 end (printed 1.75 and 2.05), pad 199 is 2.05 and pad 200 1.75 from the other end hole (mirror of the same print); pins 1..39 / 2..40 = 0.6 x 19 = 11.4, key gap 4.2 centre to centre (pin 39 to 41, pin 40 to 42, extra 4.2-0.6 = 3.6 after pin 40 in the single row), pins 41..199 / 42..200 = 0.6 x 79 = 47.4; first-to-last pad of a row 11.4+4.2+47.4 = 63.0; end holes 66.8 apart (66.8+-0.08, +-33.4 from the middle), dia 1.6+-0.1 at the pin 1 end and dia 1.1+-0.1 at the other, drawn as holes without copper (no pad printed); the footprint is centred on the middle of the two end holes. Rows 4.1 each side of the hole axis (printed 2 long, 3.1 to the pad edge nearest the axis: 3.1+2/2 = 4.1); solder-peg pads 3.9 x 4.6 at +-32.85 along the row and 12.0 from the hole axis on the module side (print). Orientation: the module side (card entry) faces up (-y); pin 1 at the right (as printed), odd pins on the upper (module side) row. Body 71.5 x 26.5 (overall plan width and depth of the print), its rear edge placed at the outer edge of the rear pad row (4.1+1.0 = 5.1 from the hole axis; the hole axis is then 8.15 below the body centre = 26.5/2 - 5.1); this edge position is read off the plan view, not printed."
+  },
+  {
+   "stem": "DIMM-TE-1717254",
+   "positions": [
+    200
+   ],
+   "pins": 200,
+   "numbering": "single",
+   "pitch": 0.3,
+   "dir": "ltr",
+   "row_y": 12.0,
+   "stagger": -8.2,
+   "pad_w": 0.35,
+   "pad_h": 2.0,
+   "shape": "rect",
+   "gaps": {
+    "40": 3.6
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": -33.4,
+     "y": 7.9,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 33.4,
+     "y": 7.9,
+     "width": 1.1,
+     "height": 1.1,
+     "shape": "round",
+     "drill": 1.1,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -32.55,
+     "y": -4.1,
+     "width": 4.5,
+     "height": 4.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 32.55,
+     "y": -4.1,
+     "width": 4.5,
+     "height": 4.6,
+     "shape": "rect"
+    }
+   ],
+   "body_w": 71.5,
+   "body_h": 26.0,
+   "description": "200-pin DDR/DDR2 SODIMM socket, 0.6 mm pitch, surface mount (standard profile, standard type)",
+   "note": "1717254.pdf (TE drawing 1717254 rev D2, DDR1 & DDR2 SODIMM 200 pos standard profile standard type), sheet 2 (reference PC board pattern layout) and sheet 1: Solder-peg pads: 60.6+-0.03 between their inner edges (30.3 from the middle) and 4.5 long (3.1 from the hole axis inward to their inner edge, 4.5 +-0.03): centre 30.3+4.5/2 = 32.55; 4.6+-0.1 wide; 12+-0.05 from the hole axis. The layout is printed rotated by 90 degrees; sheet 1's plan (module up, pin 1 at the left) gives the orientation used.  Pads 0.35 x 2.00 (0.35+-0.03, 2+-0.05); the two contact rows of a 200 pin SODIMM are offset by half a pitch, so the footprint is generated as one 200-slot row at 0.30 pitch (odd pins one row, even pins the other, numbering 'single' with the row offset as stagger): pin 1 is 1.75 and pin 2 is 2.05 from the end hole at the pin 1 end (printed 1.75 and 2.05), pad 199 is 2.05 and pad 200 1.75 from the other end hole (mirror of the same print); pins 1..39 / 2..40 = 0.6 x 19 = 11.4, key gap 4.2 centre to centre (pin 39 to 41, pin 40 to 42, extra 4.2-0.6 = 3.6 after pin 40 in the single row), pins 41..199 / 42..200 = 0.6 x 79 = 47.4; first-to-last pad of a row 11.4+4.2+47.4 = 63.0; end holes 66.8 apart (66.8+-0.08, +-33.4 from the middle), dia 1.6+-0.1 at the pin 1 end and dia 1.1+-0.1 at the other, drawn as holes without copper (no pad printed); the footprint is centred on the middle of the two end holes. Rows 4.1 each side of the hole axis (printed 2 long, 3.1 to the pad edge nearest the axis: 3.1+2/2 = 4.1); solder-peg pads 4.5 x 4.6 at +-32.55 along the row and 12.0 from the hole axis on the module side (print). Orientation: the module side (card entry) faces up (-y); pin 1 at the left, odd pins on the lower (rear) row. Body 71.5 x 26.0 (overall plan width and depth of the print), its rear edge placed at the outer edge of the rear pad row (4.1+1.0 = 5.1 from the hole axis; the hole axis is then 7.9 below the body centre = 26.0/2 - 5.1); this edge position is read off the plan view, not printed."
+  },
+  {
+   "stem": "DIMM-TE-1717468",
+   "positions": [
+    200
+   ],
+   "pins": 200,
+   "numbering": "single",
+   "pitch": 0.3,
+   "dir": "ltr",
+   "row_y": 12.25,
+   "stagger": -8.2,
+   "pad_w": 0.35,
+   "pad_h": 2.0,
+   "shape": "rect",
+   "gaps": {
+    "40": 3.6
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": -33.4,
+     "y": 8.15,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 33.4,
+     "y": 8.15,
+     "width": 1.1,
+     "height": 1.1,
+     "shape": "round",
+     "drill": 1.1,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -32.85,
+     "y": -3.85,
+     "width": 3.9,
+     "height": 4.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 32.85,
+     "y": -3.85,
+     "width": 3.9,
+     "height": 4.6,
+     "shape": "rect"
+    }
+   ],
+   "body_w": 71.5,
+   "body_h": 26.5,
+   "description": "200-pin DDR/DDR2 SODIMM socket, 0.6 mm pitch, surface mount (6.5 mm height, standard type)",
+   "note": "1717468.pdf (TE drawing 1717468 rev E, DDR1 & DDR2 SODIMM 200 pos 6.5 height STANDARD type), sheet 2 (reference PC board pattern layout) and sheet 1: Solder-peg pads: 61.8+-0.03 between their inner edges (30.9 from the middle; 2.5 from the hole axis) and 3.9+-0.03 long: centre 30.9+3.9/2 = 32.85; 4.6+-0.1 wide; 12+-0.05 from the hole axis. The layout is printed rotated by 90 degrees; sheet 1's plan (module up, pin 1 at the left) gives the orientation used.  Pads 0.35 x 2.00 (0.35+-0.03, 2+-0.05); the two contact rows of a 200 pin SODIMM are offset by half a pitch, so the footprint is generated as one 200-slot row at 0.30 pitch (odd pins one row, even pins the other, numbering 'single' with the row offset as stagger): pin 1 is 1.75 and pin 2 is 2.05 from the end hole at the pin 1 end (printed 1.75 and 2.05), pad 199 is 2.05 and pad 200 1.75 from the other end hole (mirror of the same print); pins 1..39 / 2..40 = 0.6 x 19 = 11.4, key gap 4.2 centre to centre (pin 39 to 41, pin 40 to 42, extra 4.2-0.6 = 3.6 after pin 40 in the single row), pins 41..199 / 42..200 = 0.6 x 79 = 47.4; first-to-last pad of a row 11.4+4.2+47.4 = 63.0; end holes 66.8 apart (66.8+-0.08, +-33.4 from the middle), dia 1.6+-0.1 at the pin 1 end and dia 1.1+-0.1 at the other, drawn as holes without copper (no pad printed); the footprint is centred on the middle of the two end holes. Rows 4.1 each side of the hole axis (printed 2 long, 3.1 to the pad edge nearest the axis: 3.1+2/2 = 4.1); solder-peg pads 3.9 x 4.6 at +-32.85 along the row and 12.0 from the hole axis on the module side (print). Orientation: the module side (card entry) faces up (-y); pin 1 at the left, odd pins on the lower (rear) row. Body 71.5 x 26.5 (overall plan width and depth of the print), its rear edge placed at the outer edge of the rear pad row (4.1+1.0 = 5.1 from the hole axis; the hole axis is then 8.15 below the body centre = 26.5/2 - 5.1); this edge position is read off the plan view, not printed."
+  },
+  {
+   "stem": "DIMM-TE-1612618",
+   "positions": [
+    200
+   ],
+   "pins": 200,
+   "numbering": "single",
+   "pitch": 0.3,
+   "dir": "ltr",
+   "row_y": 12.25,
+   "stagger": -8.2,
+   "pad_w": 0.35,
+   "pad_h": 2.0,
+   "shape": "rect",
+   "gaps": {
+    "40": 3.6
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": -33.4,
+     "y": 8.15,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 33.4,
+     "y": 8.15,
+     "width": 1.1,
+     "height": 1.1,
+     "shape": "round",
+     "drill": 1.1,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -33.0,
+     "y": -3.15,
+     "width": 4.0,
+     "height": 6.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 33.0,
+     "y": -3.15,
+     "width": 4.0,
+     "height": 6.8,
+     "shape": "rect"
+    }
+   ],
+   "body_w": 72.7,
+   "body_h": 26.5,
+   "description": "200-pin DDR/DDR2 SODIMM socket, 0.6 mm pitch, surface mount (dual use layout, standard type)",
+   "note": "1612618.pdf (TE drawing 1612618 rev E4, DDR1 & DDR2 SODIMM 200 pos), sheet 2 (reference P.C. board pattern layout for dual use) and sheet 1: solder-peg pads 4.0 (4+-0.03, along the row) x 6.8 (6.8+-0.1), 70+-0.03 over their outer edges (1.6+-0.03 outside each hole axis: 66.8/2+1.6 = 35.0 = 70/2, so the pad centre is 35.0-4.0/2 = 33.0 from the middle), 11.3+-0.05 from the hole axis on the module side. The layout is printed upright with pin 1 at the left and the module side up. Pin 2 is dimensioned 2.05 like the family; the print dimensions pin 1 at 1.75.  Pads 0.35 x 2.00 (0.35+-0.03, 2+-0.05); the two contact rows of a 200 pin SODIMM are offset by half a pitch, so the footprint is generated as one 200-slot row at 0.30 pitch (odd pins one row, even pins the other, numbering 'single' with the row offset as stagger): pin 1 is 1.75 and pin 2 is 2.05 from the end hole at the pin 1 end (printed 1.75 and 2.05), pad 199 is 2.05 and pad 200 1.75 from the other end hole (mirror of the same print); pins 1..39 / 2..40 = 0.6 x 19 = 11.4, key gap 4.2 centre to centre (pin 39 to 41, pin 40 to 42, extra 4.2-0.6 = 3.6 after pin 40 in the single row), pins 41..199 / 42..200 = 0.6 x 79 = 47.4; first-to-last pad of a row 11.4+4.2+47.4 = 63.0; end holes 66.8 apart (66.8+-0.08, +-33.4 from the middle), dia 1.6+-0.1 at the pin 1 end and dia 1.1+-0.1 at the other, drawn as holes without copper (no pad printed); the footprint is centred on the middle of the two end holes. Rows 4.1 each side of the hole axis (printed 2 long, 3.1 to the pad edge nearest the axis: 3.1+2/2 = 4.1); solder-peg pads 4.0 x 6.8 at +-33.0 along the row and 11.3 from the hole axis on the module side (print). Orientation: the module side (card entry) faces up (-y); pin 1 at the left, odd pins on the lower (rear) row. Body 72.7 x 26.5 (overall plan width and depth of the print), its rear edge placed at the outer edge of the rear pad row (4.1+1.0 = 5.1 from the hole axis; the hole axis is then 8.15 below the body centre = 26.5/2 - 5.1); this edge position is read off the plan view, not printed."
+  },
+  {
+   "stem": "DIMM-TE-1735251",
+   "positions": [
+    144
+   ],
+   "pins": 144,
+   "numbering": "single",
+   "pitch": 0.4,
+   "dir": "ltr",
+   "row_y": 13.95,
+   "stagger": -8.2,
+   "pad_w": 0.5,
+   "pad_h": 2.0,
+   "shape": "rect",
+   "gaps": {
+    "38": 3.8
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": -31.5,
+     "y": 9.85,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 31.5,
+     "y": 9.85,
+     "width": 1.1,
+     "height": 1.1,
+     "shape": "round",
+     "drill": 1.1,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -32.55,
+     "y": -6.25,
+     "width": 4.5,
+     "height": 4.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 32.55,
+     "y": -6.25,
+     "width": 4.5,
+     "height": 4.6,
+     "shape": "rect"
+    }
+   ],
+   "body_w": 69.9,
+   "body_h": 29.9,
+   "description": "144-pin DDR/DDR2/DDR3 SODIMM socket, 0.8 mm pitch, surface mount (standard profile)",
+   "note": "1735251.pdf (TE drawing 1735251, S.O. DIMM socket 0.8 mm pitch 144 position standard profile), sheet 3 (recommended P.C. board pattern layout, connector mounting side; low-resolution scan) and sheet 1: pads 0.5+-0.03 x 2+-0.05; the two rows of a 144 pin SODIMM are offset by half a pitch, so the footprint is generated as one 144-slot row at 0.40 pitch (odd pins one row, even pins the other, numbering 'single', row offset as stagger): odd pins 1..37 = 0.8 x 18 = 14.4, then 4.6 centre to centre (printed 4.6, pad 37 to 39; extra 4.6-0.8 = 3.8 after pin 38 in the single row), pins 39..143 = 0.8 x 52 = 41.6; span of the odd row 14.4+4.6+41.6 = 60.6; even pins 2..38 and 40..144 the same groups, pin 2 1.4 and pin 1 1.0 from the left hole axis (printed 1.4 and 1.0, 0.4 = half a pitch apart), pin 144 1.0 from the right hole axis and pin 143 1.4 (mirror, 63 between the hole axes: 63 = 1.0 + 60.6 + 1.4); end holes 63 apart (+-31.5), dia 1.6+-0.05 at the pin 1 end and dia 1.1+-0.05 at the other, drawn as holes without copper (no pad printed). Rows: 3.1 from the hole axis to the pad edge nearest it, 2 long: +-4.1. Peg pads 4.5+-0.1 (along the row) x 4.6, centred 65.1/2 = 32.55 from the middle (1.05 outside each hole axis) and 16.1 from the hole axis on the module side. Module side up, pin 1 left, odd pins on the lower row (as printed). Body 69.9 x 29.9 = overall width and depth (sheet 1 plan: 69.9+-0.7, 29.9), rear edge at the outer edge of the rear pad row (4.1+1.0 = 5.1 from the hole axis, read off the plan), so the hole axis is 29.9/2-5.1 = 9.85 below the body centre."
+  }
+ ]
+}

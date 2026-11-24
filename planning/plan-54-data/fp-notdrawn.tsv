@@ -1,0 +1,5 @@
+stem	reason	drop
+SOCK-SAMESKY-SD7-5-A	the print's land pattern has no pad for pin 17 (VSS5)	0
+SOCK-SAMESKY-SD7-7-A	the print's land pattern has no pad for pin 17 (VSS5)	0
+EDGE-SAMTEC-HSEC6-B	pad length not printed (flyer with no land pattern)	1
+EDGE-AMPHENOL-PCIE-M-2	footprint not expressible: stacked connector with four pad rows and no printed pin-to-pad mapping	0
