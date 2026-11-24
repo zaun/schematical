@@ -20,6 +20,7 @@ plan-54-A § Prerequisites, plus:
 | Must be true | Command | Status |
 |---|---|---|
 | plan-54-O complete | `ls planning/completed/plan-54-O-*.md` → exists, or every O box ticked | MET (2026-11-23: every O box ticked, 487329b1) |
+| `main`'s own kind registry is consistent (the app-test gate lists `PartEditorWindowTests`) | `xcodebuild … test -only-testing:schematicalTests/PartEditorWindowTests` on a clean checkout of `main` → `** TEST SUCCEEDED **` | **NOT MET** (2026-11-23, found at the landing; recorded as the plan's Prerequisites defect): `testKindNamesAreThePartFiles` fails on `main` (b4485998) with no plan-54 code, 40 part files against 38 registered kinds, because plan-56-B added the empty kinds `lcddriver` and `leddriver` (`Parts/lcddriver.json`, `leddriver.json`, `"devices": []`) whose Swift registry entries, schemas and example parts belong to plan-56-G. A trial registration of the two names in `PartKinds.all` and `KindInfo` moved the failure to `testEnabledKinds` and `KindInfoTests` (each kind needs a schema and bundled example parts that do not exist yet), so no plan-54 change can make the gate green; the other gate classes pass |
 
 Everything below is written against the world where these hold.
 
