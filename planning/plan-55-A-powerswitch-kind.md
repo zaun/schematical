@@ -72,13 +72,13 @@ points here.
 
 | Must be true | Command | Status |
 |---|---|---|
-| Backend tests green | `cmake -S backend -B /tmp/logic-p55 && cmake --build /tmp/logic-p55 -j8 && ctest --test-dir /tmp/logic-p55 -j8` → `100% tests passed` | NOT MET (2026-11-22: not run at planning; T0 = 41 programs, `grep -c '^logic_test' backend/CMakeLists.txt` → 41 at 7c7b4d31) |
-| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `traces.txt`; `footprints.txt` | at planning (7c7b4d31): **P0 = 34375**, **R0 = 34375**, **F0 = 1895**; H, I, F and G re-measure them at their start and use their own |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p55-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | NOT MET (2026-11-22: not run at planning) |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p55 && cmake --build /tmp/logic-p55 -j8 && ctest --test-dir /tmp/logic-p55 -j8` → `100% tests passed` | MET (2026-11-23 at e5242c08: `100% tests passed, 0 tests failed out of 42`; T0 = 42 programs, `grep -c '^logic_test' backend/CMakeLists.txt` → 42) |
+| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `traces.txt`; `footprints.txt` | at planning (7c7b4d31): **P0 = 34375**, **R0 = 34375**, **F0 = 1895**; at e5242c08 (2026-11-23): **P0 = 34436**, **R0 = 34436**, **F0 = 1904**; H, I, F and G re-measure them at their start and use their own |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p55-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-23 at e5242c08: `** BUILD SUCCEEDED **`) |
 | The regulator kind this one copies has landed | `ls planning/completed/plan-42-J-*.md` → exists; `grep -c 'REGULATOR_KIND' backend/src/library/kinds.c` → 2 | MET (2026-11-22: plan-42-J is archived; `REGULATOR_KIND` 2 lines in `kinds.c`) |
 | No `powerswitch` kind yet | `grep -c 'PART_POWERSWITCH' backend/include/parts.h` → 0; `ls schematical/schematical/Parts \| grep -c powerswitch` → 0; `ls datasheets \| grep -c powerswitch` → 0 | MET (2026-11-22 at 7c7b4d31: 0, 0, 0) |
 | No other open plan adds these parts | `grep -il 'ideal diode\|load switch\|power switch\|power distribution' planning/plan-*.md \| grep -v plan-55 \| wc -l` → 0 | MET (2026-11-22: 0) |
-| DigiKey credentials and quota (B only) | `grep -cE '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc` → 2; `eval "$(grep -E '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc)" && node scripts/digikey.js --limit 1 "LM66100DCKT"` prints `left` ≥ 40 before each of B's two listings (1000 calls a day, shared with other sessions; it resets at about 00:00 UTC) | NOT MET (2026-11-22: credentials 2 of 2; `left 12` after planning's 14 census calls and other sessions'). A's phases need no quota |
+| DigiKey credentials and quota (B only) | `grep -cE '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc` → 2; `eval "$(grep -E '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc)" && node scripts/digikey.js --limit 1 "LM66100DCKT"` prints `left` ≥ 40 before each of B's two listings (1000 calls a day, shared with other sessions; it resets at about 00:00 UTC). **Owner (2026-11-23): run plan-55 with `--opt2`** (the second key, `DIGIKEY_CLIENT_ID2` / `DIGIKEY_CLIENT_SECRET2`, its own quota; `grep -cE '^export DIGIKEY_CLIENT_(ID2\|SECRET2)=' ~/.zshrc` → 2) | MET (2026-11-23: `node scripts/digikey.js --opt2 --limit 1 "LM66100DCKT"` → `750 left today` with key 2; key 1 was already spent by other sessions). A's phases need no quota |
 
 Everything below is written against the world where these hold; only the quota row is open at
 planning time, and it gates B alone.
@@ -98,7 +98,7 @@ after the last value present. That is one rule, not a dependency: A does not wai
 
 ## 1. Goal
 
-- `powerswitch_test` passes the cases of § 6 (T0 + 1 programs: 42 with T0 = 41).
+- `powerswitch_test` passes the cases of § 6 (T0 + 1 programs: 43 with T0 = 42).
 - `ctest --test-dir /tmp/logic-p55` → `100% tests passed`.
 - `backend/tests/golden/parts.txt`, `traces.txt`, `footprints.txt` are byte-identical (no part
   uses the kind yet).
@@ -170,7 +170,7 @@ calls (`families.js`); the listing is B's.
 | Current-limited and USB switches (726; `Switch Type` Load Switch, Power Switch or USB Switch, High Side, 1 to 4 outputs, `Fault Protection` with "Current Limit") | **1346**; Texas Instruments 363 + National 3 = 366, Microchip 156 + Micrel 17 = 173, Diodes 167, Infineon 130, STMicroelectronics 106, Rohm 88 | same, the `== limited` block |
 | The nine (family, maker) pieces | ideal 44 / 37 / 9; load 140 / 59 / 42; current-limited 366 / 173 / 167 = **1037** (ideal 90, load 241, current-limited 706) | same, the `pick` lines |
 | Distinct DigiKey `Package / Case` labels per piece | ideal 9 / 13 / 2; load 22 / 11 / 9; current-limited 37 / 17 / 17 = **137**; Texas Instruments 68, Microchip 26, Diodes 17, Analog Devices 13, onsemi 11, Monolithic Power Systems 2 | same, `packages(case)` |
-| Backend test programs T0 | 41 | `grep -c '^logic_test' backend/CMakeLists.txt` → 41 (7c7b4d31) |
+| Backend test programs T0 | 42 | `grep -c '^logic_test' backend/CMakeLists.txt` → 42 (e5242c08; 41 at 7c7b4d31) |
 | Golden sizes P0 / R0 / F0 | 34375 / 34375 / 1895 | `wc -l < backend/tests/golden/parts.txt`, `traces.txt`, `footprints.txt` (7c7b4d31) |
 | Files that name the regulator kind (the touch points of a kind) | 10 files | `grep -rIl 'PART_REGULATOR\|\.regulator\b' schematical/schematical schematical/schematicalTests backend/src backend/include backend/tests scripts` (7c7b4d31) |
 
@@ -416,16 +416,17 @@ read through the clash it causes with a 1.2 V supply on the same net, as `regula
 
 ### Phase 1 — The kind, its facts and the model
 
-- [ ] `parts.h`: `PART_POWERSWITCH` after the last `PartKind` present (`grep -n 'PART_'
+- [x] `parts.h`: `PART_POWERSWITCH` after the last `PartKind` present (`grep -n 'PART_'
       backend/include/parts.h`), `PartPowerSwitch`, `Part.powerswitch`.
-- [ ] `models/powerswitch.c`: `POWERSWITCH_KIND` (§ 3.1 keys, roles, errors), `pin_open_drain` (the
+- [x] `models/powerswitch.c`: `POWERSWITCH_KIND` (§ 3.1 keys, roles, errors), `pin_open_drain` (the
       `flag` pins), `pin_analog` (the `"analog"` list), `POWERSWITCH_MODEL` (§ 3.3); the
       `model_pins.h` helpers; one line in `KINDS[]` (`kinds.c`); the file in `backend/CMakeLists.txt`'s
       library sources.
-- [ ] Tests: `tests/support/listing.c` (the kind name and its facts line), `TRACE_LAST_KIND` →
+- [x] Tests: `tests/support/listing.c` (the kind name and its facts line), `TRACE_LAST_KIND` →
       `PART_POWERSWITCH` (`trace_check.c:22`), the two arrays of `listing_check.c` →
       `PART_POWERSWITCH + 1`; `tests/support/powerswitch_fixture.h` (§ 4);
       `tests/powerswitch_test.c` cases (a)–(m); `logic_test(powerswitch_test)` in `CMakeLists.txt`.
+      Observed: `ctest -R 'powerswitch_test|listing_check|trace_check|library_check'` → 4 of 4 passed; `git diff --stat backend/tests/golden` empty.
 
 Acceptance: the kind loads, refuses bad keys and switches its output.
   Check: `cmake --build /tmp/logic-p55 -j8 && ctest --test-dir /tmp/logic-p55 -R 'powerswitch_test|listing_check|trace_check|library_check' --output-on-failure` → 4 of 4 passed, `git diff --stat backend/tests/golden` empty (est. 3 min).
@@ -487,7 +488,8 @@ Author decisions:
 
 ## Corrections
 
-(none yet)
+1. **T0 is 42, not 41; P0 / R0 / F0 are 34436 / 34436 / 1904** (`grep -c '^logic_test' backend/CMakeLists.txt` → 42, `wc -l < backend/tests/golden/parts.txt` → 34436, `traces.txt` → 34436, `footprints.txt` → 1904 at e5242c08, 2026-11-23): other plans landed after 7c7b4d31. Every "T0 + 1" below reads 43 programs. The goldens' growth does not change A's check (byte-identical).
+2. **The DigiKey quota row used key 1; the owner asked for `--opt2`** (2026-11-23): key 1's day was already spent; key 2 has its own quota (750 left). B's two listings run with `--opt2` (B's phases say how).
 
 ## Summary
 

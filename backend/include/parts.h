@@ -27,7 +27,8 @@ typedef enum {
     PART_SHIFT, PART_CPU, PART_CHARLCD, PART_SERIAL, PART_CONNECTOR, PART_PIO, PART_DECODER,
     PART_BUFFER, PART_MUX, PART_HEADER, PART_ARITH, PART_CONVERTER, PART_RTC, PART_DIODE,
     PART_CAPACITOR, PART_REGISTER, PART_MCU, PART_RESISTOR, PART_TRANSISTOR,
-    PART_GENERIC, PART_SERIALMEM, PART_NIXIE, PART_REGULATOR, PART_CRYSTAL, PART_DEKATRON
+    PART_GENERIC, PART_SERIALMEM, PART_NIXIE, PART_REGULATOR, PART_CRYSTAL, PART_DEKATRON,
+    PART_POWERSWITCH
 } PartKind;
 
 /* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */
@@ -223,6 +224,18 @@ typedef struct { const char *type; size_t regulator_count; uint8_t mixed; uint8_
                  uint32_t vout_max_mv, vin_min_mv, vin_max_mv, dropout_mv, iout_ma, iq_ua;
                  uint64_t fsw_hz; } PartRegulator;
 
+/* A power switch part (plan-55-A): one to four switches (elements): a load
+   switch, a current-limited or USB power switch, or an integrated ideal
+   diode. type: "load", "limited" or "ideal-diode". vin_min_mv / vin_max_mv:
+   the input range's ends (the lowest input at which a switch conducts, the
+   highest the voltage check allows on an input or enable pin); iout_ma:
+   the continuous current per switch; ilimit_ma: a current-limited switch's
+   fixed limit; ron_mohm: the on-resistance; iq_ua: the quiescent current.
+   0 = not given. The facts are for the app; the simulation reads only the
+   pins. */
+typedef struct { const char *type; size_t switch_count;
+                 uint32_t vin_min_mv, vin_max_mv, iout_ma, ilimit_ma, ron_mohm, iq_ua; } PartPowerSwitch;
+
 /* A crystal or ceramic resonator (plan-44-E): a two-terminal frequency
    reference and, in the simulation, a clock source on its own two terminals
    (X1 at the level, X2 at the complement, both weak). type: "crystal" or
@@ -348,6 +361,7 @@ typedef struct Part {
     const PartSerialmem *serialmem;
     const PartRegulator *regulator;
     const PartCrystal *crystal;
+    const PartPowerSwitch *powerswitch;
     /* Dual-supply parts (plan-20-F): domain 0 is the A side (its vcc is
        Part.vcc), domain 1 the B side; NULL/0 for single-supply parts. */
     const PartSupplyDomain *domains; size_t domain_count;

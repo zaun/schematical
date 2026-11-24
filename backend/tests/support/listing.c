@@ -43,6 +43,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_REGULATOR: return "regulator";
         case PART_CRYSTAL: return "crystal";
         case PART_DEKATRON: return "dekatron";
+        case PART_POWERSWITCH: return "powerswitch";
     }
     return "?";
 }
@@ -244,6 +245,14 @@ static void print_details(FILE *out, const Part *part) {
             for (i = 0; i < d->guide_count; i++) {
                 fprintf(out, "%s%s", i > 0 ? "," : "", part->pins[d->guide_pins[i]].designator);
             }
+            break;
+        }
+        case PART_POWERSWITCH: {
+            const PartPowerSwitch *w = part->powerswitch;
+
+            fprintf(out, "switches=%zu type=%s vinMin=%u vinMax=%u iout=%u ilimit=%u ron=%u iq=%u", w->switch_count,
+                    w->type, (unsigned)w->vin_min_mv, (unsigned)w->vin_max_mv, (unsigned)w->iout_ma,
+                    (unsigned)w->ilimit_ma, (unsigned)w->ron_mohm, (unsigned)w->iq_ua);
             break;
         }
         case PART_CRYSTAL:

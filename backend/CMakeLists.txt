@@ -35,6 +35,7 @@ add_library(logic STATIC
     src/models/dekatron.c
     src/models/regulator.c
     src/models/crystal.c
+    src/models/powerswitch.c
     src/models/oscillator.c
     src/models/eeprom.c
     src/models/seq.c
@@ -195,6 +196,7 @@ logic_test(nixie_test)
 logic_test(dekatron_test)
 logic_test(regulator_test)
 logic_test(crystal_test)
+logic_test(powerswitch_test)
 
 # Engine speed bench (plan-05-A). Not a ctest: a wall-clock check would be
 # flaky. Build Release to get meaningful numbers.
