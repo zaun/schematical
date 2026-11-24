@@ -100,7 +100,7 @@ Commit: cced7528
 Acceptance: every candidate row of the three families has a verdict; the lines and the folder agree
 with the `add` rows.
   Check (observed: 817 = 32 + 197 + 588 `add` rows; `awk -F'\t' '!/^#/{s+=$5} END{print s}' planning/plan-55-data/footprints-needed.txt` → 817; `add pdfs: 225` and `find datasheets/powerswitch -iname '*.pdf' | wc -l` → 225): `python3 -I planning/plan-55-data/census/verdicts.py --report` → no row without a verdict; `… --verify-skipped` → `0 skip rows missing from skipped-parts.md`; `awk -F'\t' '{s+=$5} END{print s}' planning/plan-55-data/footprints-needed.txt` → the `add` count (the sum of the `add` rows of the report); `verdicts.py --report` prints `add pdfs: <n>` (the distinct PDFs the `add` rows cite) and `find datasheets/powerswitch -iname '*.pdf' \| wc -l` → the same `<n>` (est. 3 min).
-Commit: (filled by the next commit)
+Commit: 7f4dea4b
 
 ## Validation Plan
 
