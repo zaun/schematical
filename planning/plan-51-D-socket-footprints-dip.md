@@ -27,9 +27,9 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-51-C complete | `ls planning/completed/plan-51-C-*.md` → exists | NOT MET (2026-11-21: not started) |
-| `series_check.py` passes | `python3 -I planning/plan-51-data/census/series_check.py` → `ok` | NOT MET (C's output) |
-| The backend builds | `cmake -S backend -B /tmp/logic-p51 -DCMAKE_BUILD_TYPE=Release && cmake --build /tmp/logic-p51 -j8` | MET (2026-11-21) |
+| plan-51-C complete | `ls planning/completed/plan-51-C-*.md` → exists | MET (2026-11-24: `planning/completed/plan-51-C-socket-drawings.md`, commit 913224a4) |
+| `series_check.py` passes | `python3 -I planning/plan-51-data/census/series_check.py` → `ok` | MET (2026-11-24: `ok`) |
+| The backend builds | `cmake -S backend -B /tmp/logic-p51 -DCMAKE_BUILD_TYPE=Release && cmake --build /tmp/logic-p51 -j8` | MET (2026-11-24: built and 61 of 61 in `/tmp/logic-p51-wt`) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > If you stop, report the status of *all* prerequisites.
@@ -114,23 +114,23 @@ catch the impossible ones; the golden (`footprints.txt`, F) records the rest for
 
 ### Phase 1 — the generator and its check
 
-- [ ] `scripts/gen-sockets.js` per § 3.1 (`--letter D`, `--check` stubbed to the DIP rows until F).
-- [ ] `scripts/gen-sockets.test.js` (`node --test`): a one-row `series.tsv` fixture for a 14-pin through-hole socket gives one `dual` object with `pins` 14, `span` 7.62, `pin1Shape` `rect`, the id `SKT-DIP14-300-TH-MM-110`; two rows with equal geometry give one object; a surface-mount row has no `drill` and `rect` pads.
-- [ ] `planning/plan-51-data/census/fp-load.sh` per § 3.2.
+- [x] `scripts/gen-sockets.js` per § 3.1 (`--letter D`, `--check` stubbed to the DIP rows until F). — `--letter D --out FILE [--series FILE] [--skip-generic-check]`; `--write` and `--check` are F's (an unknown option is an error until then, no stub).
+- [x] `scripts/gen-sockets.test.js` (`node --test`): a one-row `series.tsv` fixture for a 14-pin through-hole socket gives one `dual` object with `pins` 14, `span` 7.62, `pin1Shape` `rect`, the id `SKT-DIP14-300-TH-MM-110`; two rows with equal geometry give one object; a surface-mount row has no `drill` and `rect` pads. — 11 cases (also: every pin count, the 600 id, a differing row, round SM pads, the `_` → `-` id rule, a missing `body_len`, the generic check for 11 shapes: missing, supplied twice, a surface-mount generic).
+- [x] `planning/plan-51-data/census/fp-load.sh` per § 3.2. — `fp-load.sh` runs `fp-load.js` (Node, `rsync`, keeps the cmake build in `/tmp/p51-fp/build`); the pad-overlap check is its own (§ Corrections).
 
 Acceptance: the test passes; `fp-load.sh` accepts a known-good side file and rejects one with a footprint of overlapping pads.
-  Check: `node --test scripts/gen-sockets.test.js` → `# pass` and no `# fail` (est. 5 s).
-Commit: —
+  Check: `node --test scripts/gen-sockets.test.js` → `# pass` and no `# fail` (est. 5 s). Measured 2026-11-24: `ℹ pass 11`, `ℹ fail 0`; `fp-load.sh` on a one-footprint good file → `1 new footprints: load ok` (exit 0); on a footprint with 3.2 mm pads on a 2.54 pitch → `SKT-TEST-OVERLAP-8: overlapping pads 1/2, 2/3, 3/4, 5/6, …` (exit 1). VERIFIED.
+Commit: (next commit)
 
 ### Phase 2 — the DIP footprints
 
-- [ ] `node scripts/gen-sockets.js --letter D --out planning/plan-51-data/footprints-D.json`.
-- [ ] `--letter D` exits 1, writing nothing, when one of the 11 DIP shapes of `fits.tsv` has no `generic` through-hole row in `series.tsv` (the Mill-Max 110 rows, plan-51-C § 3.3); its test case is in Phase 1's test file.
-- [ ] `docs/parts-format.md` § The `"footprint"` part key: a rule **R10 — IC sockets** after R9: through-hole sockets R1 or R5 (hole, pad = drill + 0.7 at least 1.5, `pin1Shape` `rect`), surface-mount R1, R2 or R3, body the housing outline, as plan-51-C § 3.1.
+- [x] `node scripts/gen-sockets.js --letter D --out planning/plan-51-data/footprints-D.json`. — `planning/plan-51-data/footprints-D.json: 146 DIP socket footprints from 51 rows`.
+- [x] `--letter D` exits 1, writing nothing, when one of the 11 DIP shapes of `fits.tsv` has no `generic` through-hole row in `series.tsv` (the Mill-Max 110 rows, plan-51-C § 3.3); its test case is in Phase 1's test file. — tested (`without the generic through-hole rows …`); on the real `series.tsv` all 11 are supplied once by Mill-Max 110.
+- [x] `docs/parts-format.md` § The `"footprint"` part key: a rule **R10 — IC sockets** after R9: through-hole sockets R1 or R5 (hole, pad = drill + 0.7 at least 1.5, `pin1Shape` `rect`), surface-mount R1, R2 or R3, body the housing outline, as plan-51-C § 3.1. — added after R9.
 
 Acceptance: the side file loads; its ids are exactly the "new" ids.
-  Check: `planning/plan-51-data/census/fp-load.sh planning/plan-51-data/footprints-D.json` → `<n> new footprints: load ok` (est. 5 min: it builds `footprint_check` in a copy).
-Commit: —
+  Check: `planning/plan-51-data/census/fp-load.sh planning/plan-51-data/footprints-D.json` → `<n> new footprints: load ok` (est. 5 min: it builds `footprint_check` in a copy). Measured 2026-11-24: `146 new footprints: load ok`. VERIFIED.
+Commit: (next commit)
 
 ## Validation Plan
 
@@ -150,6 +150,7 @@ See plan-51-A § Decisions. Author decisions:
 
 ## Corrections
 
+- **2026-11-24, the loader does not reject overlapping pads.** § 3.2 and the Risk paragraph say it does, but `backend/src/library/footprints.c` has no overlap check (`grep -n -i overlap` finds nothing) and `docs/parts-format.md`'s "No overlapping pads" is a drawing guideline. A footprint of 3.2 mm pads on a 2.54 mm pitch loads and `footprint_check` only lists it as new. `fp-load.js` therefore checks overlap itself, from the pads `footprint_check --print` expands (circles when round and square, else boxes; touching is not overlap). What the loader does check is the drill against both pad sides. `footprint_check` prints at most 10 `extra footprint` lines but counts them all, so `fp-load.js` expects exactly `2n` mismatches (n extra + n unused) and the first 10 extras to be new ids.
 - **2026-11-24 (plan-51-C), `series.tsv` differs from the plan's picture.** 55 group rows, of which the DIP ones are 51 (41 through hole, 10 surface mount); the 188 variants of § 2 were a planning-time upper bound (re-measured by the generator: the number of distinct `(row, N)` geometries). Assmann's series are the drawing numbers `ASS_0142`, `ASS_0810`, `ASS_4852`, `ASS_6290`, `ASS_6449`; a footprint id may hold only `A-Z 0-9 . -`, so the generator writes the series with `_` as `-` (`SKT-DIP14-300-TH-AS-ASS-0810`). A pad is round when `pad_w` equals `pad_h` (through hole, and the 114 / 214 surface-mount round pads), else rect. The generic DIP footprints are Mill-Max 110 through hole (`generic` `yes` on its 0.3 and 0.6 rows); `series_check.py` verifies that the 11 DIP shapes are each supplied once.
 
 ## Summary

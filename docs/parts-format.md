@@ -961,6 +961,15 @@ with `"ball"` pads.
 - **R9 — SMD cans (V-chip)** (plan-33-C § 4.1): the datasheet's land
   table for the can size (R1); else R4 on the base plate's terminal
   drawing; body the base plate (A × B, mid-values). Pin 1 is `+`.
+- **R10 — IC sockets** (plan-51-C § 3.1, `scripts/gen-sockets.js`, ids `SKT-…`): a
+  through-hole socket takes the drawing's recommended PC-board hole (R1: drill = that
+  hole, mid-value of a range) or, when it gives only the tail, R5 (drill = the largest
+  tail cross-section + 0.25, up to 0.05; a square post's is its diagonal); round pad =
+  drill + 0.7, at least 1.5; `pin1Shape` `rect`; `span` the row spacing. A surface-mount
+  DIP socket takes the drawing's land pattern (R1: its pad size, pitch and centre-to-centre
+  span), else R2 from the tail; a surface-mount PLCC socket R1 or R3. The body is the
+  housing outline (mid-values), not the chip's. The socket's pad `n` is the chip's pin
+  `n` (a PLCC socket uses the chip's `slots`), so a chip's pins land on the socket's pads.
 - **No overlapping pads.** If a land pattern's max-only pad sizes make
   pads touch (PLCC-32's corner pads at Y1 = .100 in max), shorten the pads
   and keep their centres, and say so in the `note`.
