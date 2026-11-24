@@ -1133,6 +1133,12 @@ private struct SchematicPartsLayer: View {
                             isSelected: document.isSelected(.chip(chip.id)),
                             isHovered: chip.id == hoveredChipID
                         )
+                    case .testPoint:
+                        TestPointSymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID
+                        )
                     case .diode:
                         DiodeSymbolView(
                             chip: chip,

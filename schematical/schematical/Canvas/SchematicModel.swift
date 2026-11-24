@@ -191,6 +191,9 @@ nonisolated enum PartSymbol: Hashable {
     /// A generic pin header (plan-23): pins on the left, and with two rows
     /// the even pins on the right.
     case header
+    /// A test point (plan-57): one pin on the left of a 40 x 20 body, drawn as
+    /// a small circle on the end of its lead (`TestPointSymbolView`).
+    case testPoint
 
     /// Supplies have their pin on the top or bottom edge, so their view needs
     /// room above and below the body for the pin stub.
@@ -301,6 +304,8 @@ nonisolated struct ChipLayout: Hashable {
             self = Self.barrelJack(pins)
         case .header:
             self = Self.header(pins, rows: part.headerSize?.rows ?? 1)
+        case .testPoint:
+            self = Self.testPoint(pins)
         case .diode, .plainDiode:
             self = Self.diode(pins)
         case .capacitor, .resistor:
@@ -583,6 +588,14 @@ nonisolated struct ChipLayout: Hashable {
                     centerY: pitch / 2 + pitch * CGFloat(position / rows))
         }
         return ChipLayout(size: CGSize(width: headerBodyWidth, height: pitch * CGFloat(columns)), slots: slots)
+    }
+
+    /// A test point: its one pin on the left, centred in a header-wide, one-row-tall body.
+    static func testPoint(_ pins: [ChipPin]) -> ChipLayout {
+        let slots = pins.sorted { $0.index < $1.index }.prefix(1).map {
+            PinSlot(pin: $0, side: .left, centerY: pitch / 2)
+        }
+        return ChipLayout(size: CGSize(width: headerBodyWidth, height: pitch), slots: slots)
     }
 
     /// The lever of a switch position (1-based), in body coordinates.

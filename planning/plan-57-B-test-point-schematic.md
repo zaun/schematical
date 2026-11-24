@@ -144,32 +144,33 @@ Behavior only; the symbol is still the block from plan-57-A.
 Acceptance: references and BOM are right with the old block symbol still drawn.
   Observed: `xcodebuild … -derivedDataPath /tmp/plan57/dd test -only-testing:schematicalTests/TestPointTests -only-testing:schematicalTests/BillOfMaterialsTests` → `Executed 13 tests, with 0 failures` and `** TEST SUCCEEDED **` (the new tests are `testReferencesAreTP` and `testTestPointsAreLeftOut`).
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/TestPointTests -only-testing:schematicalTests/BillOfMaterialsTests` → `** TEST SUCCEEDED **` (est. 8 min incl. build).
-Commit: —
+Commit: be3441e6
 
 ### Phase 2 — The circle-on-a-stub symbol
 
-- [ ] `Canvas/SchematicModel.swift`: add `case testPoint` to `PartSymbol` after
+- [x] `Canvas/SchematicModel.swift`: add `case testPoint` to `PartSymbol` after
       `.header` (line 195) with a doc comment (the geometry above);
       `ChipLayout.init(part:symbol:)` (line 300) gets `case .testPoint: self =
       Self.testPoint(pins)`; add `static func testPoint(_ pins: [ChipPin]) ->
       ChipLayout` returning size `CGSize(width: 40, height: pitch)` and one
       `PinSlot(pin:, side: .left, centerY: pitch / 2)` for the first pin.
-- [ ] `Canvas/TestPointSymbolView.swift` (new): `struct TestPointSymbolView:
+- [x] `Canvas/TestPointSymbolView.swift` (new): `struct TestPointSymbolView:
       View` (frame `layout.size.width + 2 × labelMargin` × `layout.size.height`,
       a `Canvas` calling `paint`) and `static func paint<P: SchematicPainter>(
       _ painter: inout P, chip:, isSelected:, isHovered:)` drawing the lead and
       the circle as designed; modelled on `HeaderSymbolView.swift`.
-- [ ] `Canvas/SchematicCanvasView.swift:1124` area: `case .testPoint:
+- [x] `Canvas/SchematicCanvasView.swift:1124` area: `case .testPoint:
       TestPointSymbolView(chip:, isSelected: document.isSelected(.chip(chip.id)),
       isHovered: chip.id == hoveredChipID)` beside the `.header` case.
-- [ ] `Canvas/SchematicExportScene.swift:50` area: `case .testPoint:
+- [x] `Canvas/SchematicExportScene.swift:50` area: `case .testPoint:
       TestPointSymbolView.paint(&placed, chip: chip, isSelected: false,
       isHovered: false)`.
-- [ ] `Canvas/ReferenceLabel.swift:47`: add `.testPoint` to the grouped case that
+- [x] `Canvas/ReferenceLabel.swift:47`: add `.testPoint` to the grouped case that
       returns `CGPoint(x: x, y: -3)` (just above the symbol's frame).
-- [ ] `Backend/PartCatalog.swift` (`symbol(for:)`, the `PART_CONNECTOR` case):
+- [x] `Backend/PartCatalog.swift` (`symbol(for:)`, the `PART_CONNECTOR` case):
       `if part.isTestPoint { return .testPoint }` (replaces plan-57-A's `.block`).
-- [ ] Tests: `TestPointTests` — `symbol(for:) == .testPoint`; the chip's layout
+- [x] `scripts/harness/test-point-app.swift` (new, modelled on `card-slot-app.swift`): the real-app proof the render check below needs (Corrections 1).
+- [x] Tests: `TestPointTests` — `symbol(for:) == .testPoint`; the chip's layout
       has one slot, `.left`, size 40 × 20, and `chip.layout.slots[0]`'s tip is
       `stubLength` left of the body; the part's pin takes a wire (draw one with
       `doc` helpers used in `CardSlotTests`) and the netlist joins `TP1` to it;
@@ -179,6 +180,8 @@ Commit: —
       `symbol(for:) == .block` assertion to `.testPoint`.
 
 Acceptance: the canvas, the export and the reference label draw the circle symbol with `TP1`.
+  Observed: `xcodebuild … -derivedDataPath /tmp/plan57/dd test -only-testing:schematicalTests/TestPointTests -only-testing:schematicalTests/KiCadExportTests -only-testing:schematicalTests/BillOfMaterialsTests` → `Executed 34 tests, with 0 failures` and `** TEST SUCCEEDED **` (new: `testSymbolIsOneLeftPinAndTakesAWire`, `testATestPointExports`).
+  Observed (the render check, by the harness, Corrections 1): `APP=/tmp/plan57/dd/Build/Products/Debug/schematical.app scripts/harness/build.sh scripts/harness/test-point-app.swift /tmp/p57-harness && /tmp/p57-harness/H.app/Contents/MacOS/harness /tmp/plan57/img` → five `ok` lines and `wrote /tmp/plan57/img/p57-schematic.png`; the picture shows two open circles on stubs at the ends of wires from a resistor, `TP1` and `TP2` above them.
   Check: `xcodebuild … test -only-testing:schematicalTests/TestPointTests -only-testing:schematicalTests/KiCadExportTests -only-testing:schematicalTests/BillOfMaterialsTests` (same flags as Phase 1) → `** TEST SUCCEEDED **` (est. 8 min).
   Check: render a schematic with a test point on a wire through the MCP `render` tool (`mcp__schematical__place_part` GENERIC-TESTPOINT, `connect` to a net label, `render` schematic) → the picture shows a circle at the wire's end and `TP1` above it (est. 2 min; the picture is the runtime proof that the three drawing paths agree; the unit tests cannot see pixels).
 Commit: —
@@ -206,7 +209,14 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+1. **The render check ran through the harness, not the MCP `render` tool.** A
+   freshly launched app has the agent server off (`docs/agent-control.md` §
+   Turning it on: Settings ▸ AI Agents, off by default), so `list_windows`
+   answered `ECONNREFUSED`. The repo's own way to see the app's real views is
+   `scripts/harness` (`Harness.renderCanvas` draws `SchematicCanvasView` with the
+   real catalog and document), so the check became `scripts/harness/test-point-app.swift`,
+   which also asserts the drawer leaf, references, wires, pad and BOM. The
+   criterion (a picture of the circle, the stub and `TP1`) is unchanged.
 
 ## Summary
 

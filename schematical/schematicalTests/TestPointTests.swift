@@ -59,14 +59,35 @@ final class TestPointTests: XCTestCase {
         }
     }
 
-    /// The part is placeable, draws as a plain block for now, and the Board
+    /// The part is placeable, draws as a circle on a stub, and the Board
     /// Preview gives it no body.
     func testPlacedTestPointLooksLikeABareBlock() throws {
         let doc = TestSupport.newDocument()
         let chip = try TestSupport.place(doc, "GENERIC-TESTPOINT", at: CGPoint(x: 100, y: 100))
         XCTAssertEqual(chip.footprintID ?? chip.part.footprint?.id, "TESTPOINT-PAD-1.5")
+        XCTAssertEqual(chip.symbol, .testPoint)
         XCTAssertNotNil(chip.board)
         guard case .testPad = PartLook.of(chip).kind else { return XCTFail("a test point has no body: \(PartLook.of(chip).kind)") }
+    }
+
+    /// plan-57-B: the symbol is one left pin on a 40 x 20 body, with the
+    /// same lead tip as a 1x1 header at the same place, and the pin takes a wire.
+    func testSymbolIsOneLeftPinAndTakesAWire() throws {
+        XCTAssertEqual(symbol(for: try testPoint()), .testPoint)
+        let doc = TestSupport.newDocument()
+        let tp = try TestSupport.place(doc, "GENERIC-TESTPOINT", at: CGPoint(x: 100, y: 100))
+        let other = try TestSupport.place(doc, "GENERIC-TESTPOINT", at: CGPoint(x: 300, y: 100))
+        let header = try TestSupport.place(doc, "GENERIC-HEADER-1X01", at: CGPoint(x: 100, y: 300))
+        XCTAssertEqual(tp.layout.size, CGSize(width: 40, height: ChipLayout.pitch))
+        XCTAssertEqual(tp.layout.slots.count, 1)
+        let slot = try XCTUnwrap(tp.layout.slots.first)
+        XCTAssertEqual(slot.side, .left)
+        XCTAssertEqual(slot.centerY, ChipLayout.pitch / 2)
+        let headerSlot = try XCTUnwrap(header.layout.slots.first)
+        XCTAssertEqual(tp.tip(of: slot).x, header.tip(of: headerSlot).x)
+        XCTAssertEqual(tp.tip(of: slot).y - 100, header.tip(of: headerSlot).y - 300)
+        XCTAssertNil(doc.connect(.pin(try TestSupport.pin(tp, "TP")), .pin(try TestSupport.pin(other, "TP"))))
+        XCTAssertEqual(doc.wires.count, 1)
     }
 
     /// plan-57-B: new test points are TP1, TP2, ...; a barrel jack beside

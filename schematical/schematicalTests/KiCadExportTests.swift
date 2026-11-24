@@ -60,6 +60,24 @@ final class KiCadExportTests: XCTestCase {
         }
     }
 
+    /// plan-57-B: a test point (one pin, a bare pad) exports as a schematic
+    /// symbol and a one-pad board footprint, both well formed.
+    func testATestPointExports() throws {
+        let doc = TestSupport.newDocument()
+        let tp = try TestSupport.place(doc, "GENERIC-TESTPOINT", at: CGPoint(x: 100, y: 100))
+        let other = try TestSupport.place(doc, "GENERIC-TESTPOINT", at: CGPoint(x: 300, y: 100))
+        XCTAssertNil(doc.connect(.pin(try TestSupport.pin(tp, "TP")), .pin(try TestSupport.pin(other, "TP"))))
+        let files = KiCadExport.files(for: doc, base: "tp")
+        let schematic = try file(files, "kicad_sch")
+        let board = try file(files, "kicad_pcb")
+        XCTAssertTrue(balanced(schematic))
+        XCTAssertTrue(balanced(board))
+        XCTAssertTrue(schematic.contains("TP1"))
+        XCTAssertTrue(board.contains("TP1"))
+        XCTAssertEqual(count("(footprint ", in: board), 2)
+        XCTAssertEqual(count("(pad ", in: board), 2)
+    }
+
     func testSameDocumentGivesSameBytes() throws {
         let doc = try Fixture.open("AFU")
         XCTAssertEqual(KiCadExport.files(for: doc, base: "x"), KiCadExport.files(for: doc, base: "x"))

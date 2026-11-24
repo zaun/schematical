@@ -1583,8 +1583,8 @@ func symbol(for part: CatalogPart) -> PartSymbol {
         if pull { return level == 0 ? .pullDown : .pullUp }
         return level == 0 ? .ground : .vcc
     case PART_CONNECTOR:
-        // A USB connector, a card slot and a test point are plain blocks of their pins.
-        if part.isTestPoint { return .block }
+        // A test point is a circle on a stub; a USB connector and a card slot are plain blocks of their pins.
+        if part.isTestPoint { return .testPoint }
         if case .connector(_, _, _, _, _?) = part.details { return .block }
         if case .cardSlot = part.details { return .block }
         return .barrelJack
