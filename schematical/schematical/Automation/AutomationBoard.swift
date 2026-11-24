@@ -327,14 +327,15 @@ extension AutomationTools {
         guard !pads.isEmpty else { throw AutomationFailure("\(spec) has no pad on its footprint") }
         let reachable = pads.filter {
             guard let layer else { return true }
-            return $0.drill > 0 || (layer == .top && placement.side == .top) || (layer == .bottom && placement.side == .bottom)
+            return $0.drill > 0 || $0.layerSide(on: placement.side).copperLayer == layer
         }
         guard let pad = reachable.first else {
-            throw AutomationFailure("\(spec) is a surface-mount pad on the \(placement.side.rawValue) side, so a trace "
-                                    + "on \(layer?.rawValue ?? "?") can't reach it; route on \(placement.side.rawValue) "
+            let padSide = pads[0].layerSide(on: placement.side)
+            throw AutomationFailure("\(spec) is a surface-mount pad on the \(padSide.rawValue) side, so a trace "
+                                    + "on \(layer?.rawValue ?? "?") can't reach it; route on \(padSide.rawValue) "
                                     + "or add a via")
         }
-        return (CGPoint(x: pad.rect.midX, y: pad.rect.midY), placement.side, pad.drill > 0)
+        return (CGPoint(x: pad.rect.midX, y: pad.rect.midY), pad.layerSide(on: placement.side), pad.drill > 0)
     }
 
     private static func route(_ context: AutomationContext, _ args: AutomationArgs) throws -> String {

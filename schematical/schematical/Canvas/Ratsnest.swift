@@ -102,7 +102,7 @@ extension SchematicDocument {
                 if let designator = pad.designator {
                     padsOfPin["\(index)/\(designator)", default: []].append(pads.count)
                 }
-                pads.append(Pad(chip: index, pad: pad, side: side,
+                pads.append(Pad(chip: index, pad: pad, side: pad.layerSide(on: side),
                                 label: "\(chip.reference).\(pad.designator ?? "EP")"))
             }
         }
@@ -581,6 +581,8 @@ nonisolated struct BoardConnectivity {
         /// pad or mounting hole of the board.
         let chip: Int
         let pad: PlacedPad
+        /// The side whose copper layer a surface-mount pad is on: its part's
+        /// side, or the other one for an opposite pad (`PlacedPad.layerSide`).
         let side: BoardSide
         /// "U1.3", "U1.EP" for an unnumbered centre pad, "Edge.A1",
         /// "Header.40", "Board hole 1", "H1".

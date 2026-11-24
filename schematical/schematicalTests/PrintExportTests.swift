@@ -247,6 +247,31 @@ final class PrintExportTests: XCTestCase {
         XCTAssertFalse(String(decoding: data, as: UTF8.self).contains("/Subtype /Image"), "line art, not a picture")
     }
 
+    /// plan-54-G: the printed copper pages follow the Gerber artwork, so a
+    /// Top part's opposite pads are on the Bottom page and its own pads on the
+    /// Top page, and the other way round for a Bottom part.
+    func testOppositePadsArePrintedOnTheOtherSidesCopperPage() throws {
+        for side in [BoardSide.top, .bottom] {
+            let (doc, _) = try OppositePadTests.fixture(side: side)
+            let artwork = PrintExport.artwork(for: doc)
+            func pads(_ layer: CopperLayer) -> Int {
+                (artwork.copper[layer] ?? []).filter { $0.dark && $0.function == "SMDPad,CuDef" }.count
+            }
+            let own = side.copperLayer, other = (side == .top ? BoardSide.bottom : .top).copperLayer
+            XCTAssertEqual(pads(own), 12, "\(side) part: its own pads (1 and 4 to 14)")
+            XCTAssertEqual(pads(other), 2, "\(side) part: its opposite pads (2 and 3)")
+        }
+        // The Bottom copper page of a Top part is inked only where pads 2 and 3 are: a 4 × 1 mm box
+        // (the pads are 1 mm square, 3 mm apart); its Top page by pads 1 and 4 to 14: 21 × 1 mm.
+        let (doc, _) = try OppositePadTests.fixture()
+        let pdf = try pdf(doc, only(.copper(.top), .copper(.bottom)))
+        let top = try XCTUnwrap(ink(try XCTUnwrap(pdf.page(at: 0)), paper: .a4))
+        let bottom = try XCTUnwrap(ink(try XCTUnwrap(pdf.page(at: 1)), paper: .a4))
+        XCTAssertEqual(bottom.width, 4, accuracy: 0.3)
+        XCTAssertEqual(bottom.height, 1, accuracy: 0.3)
+        XCTAssertEqual(top.width, 21, accuracy: 0.3)
+    }
+
     func testPartsPageShowsPadsAndTrueDrills() throws {
         let doc = TestSupport.newDocument()
         _ = try TestSupport.place(doc, "SN74HC00N", at: CGPoint(x: 200, y: 200))

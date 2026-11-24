@@ -1,0 +1,574 @@
+--- a/backend/src/models/display_out.c
++++ b/backend/src/models/display_out.c
+@@ -33,6 +33,9 @@
+ typedef struct {
+     unsigned slot;
+     uint32_t frame;
++    /* ports: what each pin was last driven with (value; weak) */
++    LogicValue *port_value;
++    uint8_t *port_weak;
+ } DispState;
+ 
+ /* ---- Decoding --------------------------------------------------------------------------- */
+@@ -125,6 +128,8 @@
+ 
+ /* ---- The drivers ------------------------------------------------------------------------ */
+ 
++static uint32_t digit_value(const CvState *s, const DispCfg *c, unsigned k);
++
+ static void apply_scan(CvState *s, const DispCfg *c, unsigned k) {
+     int shut = holds(s, &c->shutdown);
+     uint32_t pattern = 0;
+@@ -141,7 +146,8 @@
+         pattern = (1u << c->out_count) - 1u;
+     } else if (!holds(s, &c->blank)) {
+         pattern = pattern_of(c, c->driver == DISP_DIGITS && is_decoded(s, c, k, NULL),
+-                             cv_field_get(s, &c->ram[k]), c->out_count);
++                             c->driver == DISP_DIGITS ? digit_value(s, c, k) : cv_field_get(s, &c->ram[k]),
++                             c->out_count);
+     }
+     for (i = 0; i < c->out_count; i++) {
+         int lit = (pattern >> i) & 1u;
+@@ -150,6 +156,51 @@
+     }
+ }
+ 
++/* The value shown for digit k now: its ram field, or its second plane in the second half of a blink
++   period. */
++static uint32_t digit_value(const CvState *s, const DispCfg *c, unsigned k) {
++    const CvField *f = &c->ram[k];
++
++    if (c->has_blink && holds(s, &c->blink_enable)) {
++        uint64_t half = (uint64_t)cv_choice(s, &c->blink_half) * 1000000ull;
++
++        if (half > 0 && ((uint64_t)sim_now(s->sim) / half) % 2 == 1) {
++            f = &c->ram1[k];
++        }
++    }
++    return cv_field_get(s, f);
++}
++
++/* digits with shared digit / data pins: slot k pulls shared pin k to the digit level and puts digit
++   k's segments on the others (lit: the lit level, unlit: released). Shutdown releases every pin. */
++static void apply_shared(CvState *s, const DispCfg *c, unsigned k) {
++    int shut = holds(s, &c->shutdown);
++    uint32_t pattern = 0;
++    size_t q;
++
++    if (!shut) {
++        if (holds(s, &c->test)) {
++            pattern = 0xFFu;
++        } else if (!holds(s, &c->blank)) {
++            pattern = pattern_of(c, is_decoded(s, c, k, NULL), digit_value(s, c, k), 8);
++        }
++    }
++    for (q = 0; q < c->line_count; q++) {
++        LogicValue v = LOGIC_Z;
++
++        if (!shut && q == k) {
++            v = level(c->line_active);
++        } else if (!shut) {
++            size_t j = q > k ? q - 1 : q;
++
++            if ((pattern >> c->seg_of_line[j]) & 1u) {
++                v = level(c->out_active);
++            }
++        }
++        put(s, c->lines[q], v);
++    }
++}
++
+ static void apply_static(CvState *s, const DispCfg *c) {
+     size_t g, j;
+ 
+@@ -164,21 +215,67 @@
+     }
+ }
+ 
++static int in_list(const uint32_t *list, size_t n, uint32_t v) {
++    size_t k;
++
++    for (k = 0; k < n; k++) {
++        if (list[k] == v) {
++            return 1;
++        }
++    }
++    return 0;
++}
++
++/* Drives a port pin (strong or weak) unless it already is. */
++static void drive_port(CvState *s, DispState *st, size_t i, int name, LogicValue v, int weak) {
++    size_t pin = cv_pin(s, name);
++
++    if (pin == SIZE_MAX || (st->port_value[i] == v && st->port_weak[i] == (uint8_t)weak)) {
++        return;
++    }
++    st->port_value[i] = v;
++    st->port_weak[i] = (uint8_t)weak;
++    if (v == LOGIC_1 && s->b->open_drain[pin]) {
++        v = LOGIC_Z;
++    }
++    s->drv[pin] = v;
++    sim_schedule_inertial_drive(s->sim, s->inst, pin, v, weak ? DRIVE_WEAK : DRIVE_STRONG, 0);
++}
++
++static void put_field(CvState *s, const CvField *f, uint32_t value) {
++    uint32_t m = (f->hi - f->lo + 1 >= 32 ? 0xFFFFFFFFu : ((1u << (f->hi - f->lo + 1)) - 1u)) << f->lo;
++
++    s->regs[f->reg] = (s->regs[f->reg] & ~m) | ((value << f->lo) & m);
++}
++
+ static void apply_ports(CvState *s, const DispCfg *c) {
+-    size_t i, k;
++    DispState *st = s->disp;
++    int shut = holds(s, &c->shutdown), test = holds(s, &c->test);
++    size_t i;
+ 
+     for (i = 0; i < c->port_count; i++) {
+         const DispPort *p = &c->ports[i];
+-        int output = !p->has_dir;
++        uint32_t d = p->has_dir ? cv_field_get(s, &p->dir) : 0;
++        int data = cv_field_get(s, &p->data) != 0;
++        int sink = p->has_dir && in_list(p->sinks, p->sink_count, d);
++        int output = !p->has_dir || in_list(p->outputs, p->output_count, d);
++        int pullup = p->has_dir && in_list(p->pullups, p->pullup_count, d);
++        LogicValue v = LOGIC_Z;
++        int weak = 0;
+ 
+-        if (p->has_dir) {
+-            uint32_t d = cv_field_get(s, &p->dir);
+-
+-            for (k = 0; k < p->output_count; k++) {
+-                output |= p->outputs[k] == d;
+-            }
++        if (sink) {
++            v = test ? LOGIC_0 : (shut ? LOGIC_Z : (data ? LOGIC_0 : LOGIC_Z));
++        } else if (!shut && output) {
++            v = level(data != (p->invert != 0));
++        } else if (!shut && pullup) {
++            v = LOGIC_1;
++            weak = 1;
+         }
+-        put(s, p->pin, output ? level((cv_field_get(s, &p->data) != 0) != (p->invert != 0)) : LOGIC_Z);
++        drive_port(s, st, i, p->pin, v, weak);
++        if (p->has_read) {
++            put_field(s, &p->read, (sink || output) ? (uint32_t)data
++                                                     : (uint32_t)(cv_level(s, cv_pin(s, p->pin), LOGIC_0) == LOGIC_1));
++        }
+     }
+ }
+ 
+@@ -207,21 +304,42 @@
+ }
+ 
+ static unsigned slots_of(const DispCfg *c) {
+-    return c->driver == DISP_LCD ? c->bp_count : (unsigned)c->line_count;
++    return c->driver == DISP_LCD ? c->bp_count : c->shared ? c->shared_digits : (unsigned)c->line_count;
+ }
+ 
++/* The slots scanned now: all, or the scan limit's field + 1 digits (a test scans every digit). */
++static unsigned active_slots(const CvState *s, const DispCfg *c) {
++    unsigned n = slots_of(c);
++
++    if (c->has_limit && !holds(s, &c->test)) {
++        uint32_t lim = cv_field_get(s, &c->limit);
++
++        if (lim + 1u < n) {
++            n = lim + 1u;
++        }
++    }
++    return n;
++}
++
+ static int scans(const DispCfg *c) {
+     return c->driver == DISP_DIGITS || c->driver == DISP_MATRIX || c->driver == DISP_LCD;
+ }
+ 
+ static void apply(CvState *s) {
+     const DispCfg *c = s->dev->disp;
+-    const DispState *st = s->disp;
++    DispState *st = s->disp;
+ 
+     switch (c->driver) {
+     case DISP_DIGITS:
+     case DISP_MATRIX:
+-        apply_scan(s, c, st->slot);
++        if (st->slot >= active_slots(s, c)) {
++            st->slot = 0;
++        }
++        if (c->shared) {
++            apply_shared(s, c, st->slot);
++        } else {
++            apply_scan(s, c, st->slot);
++        }
+         break;
+     case DISP_STATIC:
+         apply_static(s, c);
+@@ -244,6 +362,21 @@
+     if (st == NULL) {
+         return;
+     }
++    st->port_value = calloc(c->port_count + 1, sizeof *st->port_value);
++    st->port_weak = calloc(c->port_count + 1, 1);
++    if (st->port_value == NULL || st->port_weak == NULL) {
++        free(st->port_value);
++        free(st->port_weak);
++        free(st);
++        return;
++    }
++    {
++        size_t i;
++
++        for (i = 0; i < c->port_count; i++) {
++            st->port_value[i] = LOGIC_X;    /* never driven yet: the first apply drives */
++        }
++    }
+     s->disp = st;
+     apply(s);
+     if (scans(c)) {
+@@ -259,7 +392,7 @@
+     if (st == NULL || !scans(c)) {
+         return;
+     }
+-    if (++st->slot >= slots_of(c)) {
++    if (++st->slot >= active_slots(s, c)) {
+         st->slot = 0;
+         st->frame++;
+     }
+@@ -274,6 +407,12 @@
+ }
+ 
+ void disp_free(CvState *s) {
++    DispState *st = s->disp;
++
++    if (st != NULL) {
++        free(st->port_value);
++        free(st->port_weak);
++    }
+     free(s->disp);
+     s->disp = NULL;
+ }
+--- a/backend/src/models/display_out.h
++++ b/backend/src/models/display_out.h
+@@ -40,6 +40,16 @@
+     size_t output_count;
+     CvField data;
+     int invert;
++    /* plan-56-D (MAX6957): dir values that make the pin an open-drain LED sink (drives 0 while the
++       data field is nonzero, else released), dir values that make it a pulled-up input (a weak 1),
++       and the field that reads back as the port's register bit: the data bit while the pin is an
++       output or a sink, the pin's level while it is an input. */
++    const uint32_t *sinks;
++    size_t sink_count;
++    const uint32_t *pullups;
++    size_t pullup_count;
++    int has_read;
++    CvField read;
+ } DispPort;
+ 
+ typedef struct DispCfg {
+@@ -78,6 +88,23 @@
+     const uint16_t *bit_field;  /* per RAM bit index: the ram field it lives in */
+     const uint8_t *bit_pos;     /*                   and its bit position there */
+     int bp_major;               /* RAM order: 1 backplane by backplane, 0 segment by segment */
++    /* digits (plan-56-D, MAX6950/51): the digit pins are also the data pins. `lines` holds the
++       line_count shared pins; digit k (k < shared_digits) selects shared pin k at line_active, the
++       other pins carry the digit's 8 segments in order (seg_of_line[j] = the segment, a-g = 0-6
++       and the point = 7, that line j shows); a lit segment drives out_active, an unlit one is
++       released */
++    int shared;
++    unsigned shared_digits;
++    uint8_t seg_of_line[8];
++    /* digits: the number of digits scanned is the field + 1 (test scans all) */
++    int has_limit;
++    CvField limit;
++    /* digits: a second RAM plane (ram1, one field per digit) shown instead of `ram` in the second
++       half of each blink period while blink_enable holds; the half period (in us) is a choice */
++    int has_blink;
++    CvConds blink_enable;
++    const CvField *ram1;
++    CvChoice blink_half;
+     /* pins that drive 0 or release (never 1) */
+     const int *open_drain;
+     size_t open_drain_count;
+--- a/backend/src/models/converter_load.c
++++ b/backend/src/models/converter_load.c
+@@ -2644,12 +2644,108 @@
+     return 0;
+ }
+ 
++/* digits with shared digit / data pins (plan-56-D, MAX6950/51): "sharedPins" names 9 pins; digit k
++   (k < "digits") is selected on pin k, the other 8 pins carry its segments, "segmentLines" naming
++   the segment (a-g, dp) each of them shows in order. Optional "scanLimit" (a field: digits 0 to its
++   value are scanned) and "blink" {"enable", "ram", "halfPeriodUs"}. */
++static int load_display_shared(Dl *dl, const cJSON *o, DispCfg *c) {
++    static const char *const BK[] = {"enable", "ram", "halfPeriodUs", NULL};
++    static const char *const SEGS[] = {"a", "b", "c", "d", "e", "f", "g", "dp", NULL};
++    Ld *ld = dl->ld;
++    const cJSON *v, *e, *b;
++    uint64_t n = 0;
++    size_t count = 0, i, k;
++    unsigned seen = 0;
++
++    if (member(o, "digitPins") != NULL || member(o, "segmentPins") != NULL) {
++        return kind_error(ld->ctx, "\"sharedPins\" replaces \"digitPins\" and \"segmentPins\"");
++    }
++    if (kind_uint(ld->ctx, o, "digits", DISP_MAX_LINES, &n) != 0 || n == 0) {
++        return kind_failed(ld->ctx) ? -1 : kind_error(ld->ctx, "\"digits\" must be 1 to %d", DISP_MAX_LINES);
++    }
++    if (dl_pins(dl, o, "sharedPins", 9, 9, &c->lines, &c->line_count) != 0 ||
++        dl_level(ld, o, "digitActive", &c->line_active) != 0 ||
++        dl_level(ld, o, "segmentActive", &c->out_active) != 0) {
++        return -1;
++    }
++    if (n > c->line_count) {
++        return kind_error(ld->ctx, "\"digits\" is at most the %zu shared pins", c->line_count);
++    }
++    c->shared = 1;
++    c->shared_digits = (unsigned)n;
++    c->out_count = 8;
++    v = member(o, "segmentLines");
++    if (!cJSON_IsArray(v) || cJSON_GetArraySize(v) != 8) {
++        return kind_error(ld->ctx, "\"segmentLines\" names 8 segments (a-g, dp), one per data line");
++    }
++    k = 0;
++    cJSON_ArrayForEach(e, v) {
++        for (i = 0; cJSON_IsString(e) && SEGS[i] != NULL && strcmp(SEGS[i], e->valuestring) != 0; i++) {
++        }
++        if (!cJSON_IsString(e) || SEGS[i] == NULL || (seen & (1u << i))) {
++            return kind_error(ld->ctx, "\"segmentLines\" lists each of a b c d e f g dp once");
++        }
++        seen |= 1u << i;
++        c->seg_of_line[k++] = (uint8_t)i;
++    }
++    if (dl_bits(ld, o, "segmentBits", 8, &c->out_bits) != 0 ||
++        dl_ram(ld, o, n, "digits", &c->ram, &count) != 0 || dl_decode(ld, o, c, 8, n) != 0) {
++        return -1;
++    }
++    if (dl_scan(ld, o, &c->slot_ps) != 0 || dl_cond(ld, o, "blank", &c->blank) != 0 ||
++        dl_cond(ld, o, "test", &c->test) != 0 || dl_cond(ld, o, "shutdown", &c->shutdown) != 0) {
++        return -1;
++    }
++    if (member(o, "scanLimit") != NULL) {
++        if (dl_field_member(ld, o, "scanLimit", &c->limit) != 0) {
++            return -1;
++        }
++        c->has_limit = 1;
++    }
++    if ((b = member(o, "blink")) != NULL) {
++        const cJSON *h;
++
++        kind_push(ld->ctx, "blink");
++        if (check_keys(ld, b, BK) != 0 || dl_cond(ld, b, "enable", &c->blink_enable) != 0) {
++            return -1;
++        }
++        if (member(b, "enable") == NULL || member(b, "ram") == NULL || !cJSON_IsArray(member(b, "ram"))) {
++            return kind_error(ld->ctx, "\"blink\" needs \"enable\" and \"ram\" (an array of one field per digit)");
++        }
++        if (dl_ram(ld, b, n, "digits", &c->ram1, &count) != 0) {
++            return -1;
++        }
++        h = member(b, "halfPeriodUs");
++        if (cJSON_IsNumber(h)) {
++            uint64_t ps;
++            uint32_t *val = kind_alloc(ld->ctx, sizeof *val);
++
++            if (val == NULL || dl_us(ld, h, "\"halfPeriodUs\"", &ps) != 0) {
++                return -1;
++            }
++            *val = (uint32_t)h->valuedouble;
++            memset(&c->blink_half, 0, sizeof c->blink_half);
++            c->blink_half.pin = CV_NONE;
++            c->blink_half.fixed = *val;
++        } else if (cJSON_IsObject(h)) {
++            if (load_choice(ld, h, &c->blink_half, 0) != 0) {
++                return -1;
++            }
++        } else {
++            return kind_error(ld->ctx, "\"halfPeriodUs\" is a time in microseconds or {\"field\", \"values\"}");
++        }
++        c->has_blink = 1;
++        kind_pop(ld->ctx);
++    }
++    return 0;
++}
++
+ /* digits and matrix: a scan line per ram field, the data pins carrying the selected line. */
+ static int load_display_scan(Dl *dl, const cJSON *o, DispCfg *c, int matrix) {
+     static const char *const DIGITS_KEYS[] = {
+         "driver", "digits", "digitPins", "digitActive", "segmentPins", "segmentActive", "segmentBits",
+         "ram", "decode", "decodeField", "decodeActive", "dpBit", "scan", "blank", "test", "shutdown",
+-        "openDrain", NULL
++        "openDrain", "sharedPins", "segmentLines", "scanLimit", "blink", NULL
+     };
+     static const char *const MATRIX_KEYS[] = {
+         "driver", "rows", "rowActive", "columns", "columnActive", "columnBits", "ram", "scan",
+@@ -2664,6 +2760,13 @@
+     if (check_keys(ld, o, matrix ? MATRIX_KEYS : DIGITS_KEYS) != 0) {
+         return -1;
+     }
++    if (!matrix && member(o, "sharedPins") != NULL) {
++        return load_display_shared(dl, o, c);
++    }
++    if (!matrix && (member(o, "segmentLines") != NULL || member(o, "scanLimit") != NULL ||
++                    member(o, "blink") != NULL)) {
++        return kind_error(ld->ctx, "\"segmentLines\", \"scanLimit\" and \"blink\" go with \"sharedPins\"");
++    }
+     if (!matrix && (kind_uint(ld->ctx, o, "digits", DISP_MAX_LINES, &n) != 0 || n == 0)) {
+         return kind_failed(ld->ctx) ? -1 : kind_error(ld->ctx, "\"digits\" must be 1 to %d", DISP_MAX_LINES);
+     }
+@@ -2753,10 +2856,48 @@
+     return 0;
+ }
+ 
++/* A port's optional "<key>": a value or an array of 1 to 64 values (dirField values). */
++static int dl_value_list(Ld *ld, const cJSON *p, const char *key, int has_dir, const uint32_t **out,
++                         size_t *count) {
++    const cJSON *v = member(p, key), *e;
++    uint32_t *vals;
++    size_t n = 0;
++
++    *out = NULL;
++    *count = 0;
++    if (v == NULL) {
++        return 0;
++    }
++    if (!has_dir) {
++        return kind_error(ld->ctx, "\"%s\" needs \"dirField\"", key);
++    }
++    vals = kind_alloc(ld->ctx, 64 * sizeof(*vals));
++    if (vals == NULL) {
++        return -1;
++    }
++    if (cJSON_IsNumber(v)) {
++        if (u32(ld, v, key, &vals[n++]) != 0) {
++            return -1;
++        }
++    } else if (cJSON_IsArray(v) && cJSON_GetArraySize(v) >= 1 && cJSON_GetArraySize(v) <= 64) {
++        cJSON_ArrayForEach(e, v) {
++            if (u32(ld, e, key, &vals[n++]) != 0) {
++                return -1;
++            }
++        }
++    } else {
++        return kind_error(ld->ctx, "\"%s\" is a value or an array of 1 to 64 values", key);
++    }
++    *out = vals;
++    *count = n;
++    return 0;
++}
++
+ /* ports: pins driven per a direction and a data field. */
+ static int load_display_ports(Dl *dl, const cJSON *o, DispCfg *c) {
+-    static const char *const KEYS[] = {"driver", "ports", "openDrain", NULL};
+-    static const char *const PK[] = {"pin", "dirField", "dirOutput", "dataField", "invert", NULL};
++    static const char *const KEYS[] = {"driver", "ports", "openDrain", "shutdown", "test", NULL};
++    static const char *const PK[] = {"pin", "dirField", "dirOutput", "dataField", "invert", "sinkValues",
++                                     "pullupValues", "readField", NULL};
+     Ld *ld = dl->ld;
+     const cJSON *ports = member(o, "ports"), *p;
+     DispPort *out;
+@@ -2820,12 +2961,22 @@
+         if (member(p, "invert") != NULL && kind_bool(ld->ctx, p, "invert", &po->invert) != 0) {
+             return -1;
+         }
++        if (dl_value_list(ld, p, "sinkValues", po->has_dir, &po->sinks, &po->sink_count) != 0 ||
++            dl_value_list(ld, p, "pullupValues", po->has_dir, &po->pullups, &po->pullup_count) != 0) {
++            return -1;
++        }
++        if (member(p, "readField") != NULL) {
++            if (dl_field_member(ld, p, "readField", &po->read) != 0) {
++                return -1;
++            }
++            po->has_read = 1;
++        }
+         kind_pop(ld->ctx);
+         n++;
+     }
+     c->ports = out;
+     c->port_count = n;
+-    return 0;
++    return dl_cond(ld, o, "shutdown", &c->shutdown) != 0 || dl_cond(ld, o, "test", &c->test) != 0 ? -1 : 0;
+ }
+ 
+ /* lcd: backplane and segment waveforms from a display RAM. */
+--- a/backend/tests/display_out_test.c
++++ b/backend/tests/display_out_test.c
+@@ -1048,7 +1048,7 @@
+     free(dev);
+     rejects_led("{'driver':'blink'}", "unknown driver \"blink\"", "an unknown driver is rejected");
+     rejects_led("{'digits':2}", "missing \"driver\"", "a display without a driver is rejected");
+-    rejects_led(REJ_DIGITS(",'blink':1"), "unknown key \"blink\"", "an unknown display key is rejected");
++    rejects_led(REJ_DIGITS(",'sparkle':1"), "unknown key \"sparkle\"", "an unknown display key is rejected");
+     rejects_led("{'driver':'digits','digits':2,'digitPins':['DIG1','DIG2'],'digitActive':'high','segmentPins':["
+                 SEG7_NAMES "],'segmentActive':'high','ram':['DIGIT1','NOPE'],'scan':{'periodUs':100}}",
+                 "unknown register \"NOPE\"", "an unknown register in ram is rejected");
+@@ -1086,6 +1086,22 @@
+                 "\"openDrain\": \"VCC\" is not a pin this driver drives", "openDrain must name driven pins");
+     rejects_led("{'driver':'ports','ports':[{'pin':'SEGA','dataField':'CFG.X','dirOutput':1}]}",
+                 "\"dirOutput\" needs \"dirField\"", "dirOutput needs dirField");
++    /* plan-56-D: shared digit/data pins, scan limit, blink; port sinks, pullups and read-back */
++    rejects_led(REJ_DIGITS(",'sharedPins':['DIG1','DIG2']"), "\"sharedPins\" replaces \"digitPins\"",
++                "sharedPins replaces digitPins and segmentPins");
++    rejects_led("{'driver':'digits','digits':2,'sharedPins':['DIG1','DIG2'],'digitActive':'low','segmentActive':'high',"
++                "'ram':['DIGIT1','DIGIT2'],'scan':{'periodUs':100}}",
++                "\"sharedPins\" must name 9 pins", "sharedPins names exactly nine pins");
++    rejects_led(REJ_DIGITS(",'scanLimit':'CFG.X'"), "go with \"sharedPins\"", "scanLimit needs sharedPins");
++    rejects_led(REJ_DIGITS(",'segmentLines':['a']"), "go with \"sharedPins\"", "segmentLines needs sharedPins");
++    rejects_led("{'driver':'ports','ports':[{'pin':'SEGA','dataField':'CFG.X','sinkValues':0}]}",
++                "\"sinkValues\" needs \"dirField\"", "sinkValues needs dirField");
++    rejects_led("{'driver':'ports','ports':[{'pin':'SEGA','dataField':'CFG.X','dirField':'CFG.X','pullupValues':[]}]}",
++                "\"pullupValues\" is a value or an array", "pullupValues is a value or a list");
++    rejects_led("{'driver':'ports','ports':[{'pin':'SEGA','dataField':'CFG.X','readField':'CFG.NOPE'}]}",
++                "has no field \"NOPE\"", "an unknown readField is rejected");
++    rejects_led("{'driver':'ports','ports':[{'pin':'SEGA','dataField':'CFG.X'}],'shutdown':'CFG.NOPE=1'}",
++                "has no field \"NOPE\"", "an unknown field in a ports shutdown is rejected");
+     rejects_led("{'driver':'static','segmentActive':'high','groups':[{'pins':['SEGA','SEGB'],'ram':'DIGIT1'},"
+                 "{'pins':['SEGC'],'ram':'DIGIT2'}]}",
+                 "every group has the same number of pins", "static groups have equal width");
+--- a/docs/parts-format.md
++++ b/docs/parts-format.md
+@@ -3642,6 +3642,9 @@
+ | `"dpBit"` | optional, default 7: the bit of a decoded value that lights the decimal point (the 8th segment pin) |
+ | `"scan"` | required, above |
+ | `"blank"`, `"test"`, `"shutdown"` | optional conditions, below |
++| `"sharedPins"`, `"segmentLines"` | optional pair, the MAX6950/51 wiring (below): replaces `digitPins` and `segmentPins` |
++| `"scanLimit"` | optional, needs `sharedPins`: a field name; only digits 0 to its value are scanned (a test scans all of them) |
++| `"blink"` | optional, needs `sharedPins`: `{"enable": condition, "ram": [n field names], "halfPeriodUs": n or {"field": "REG.F", "values": {"0": 1000000, "1": 500000}}}`: while `enable` holds, the digit shows its `ram` field in the first half of each blink period and its `blink.ram` field (the second plane) in the second half; the period starts at time 0 |
+ 
+ Decodes (segments a–g; "value" is the digit's value, `ram` register or field):
+ 
+@@ -3662,6 +3665,15 @@
+ let the display test show in shutdown (MAX6951) add `TEST.T=0` to
+ the `shutdown` array. A condition left out never holds. Intensity registers
+ are plain registers: not in `display`.
++
++**Shared digit and segment pins** (`"sharedPins"`: 9 pin names; MAX6950/51). Digit k (k below
++`digits`, at most 9) is selected on shared pin k, which takes the `digitActive` level, and the other
++eight pins carry its segments in column order, `segmentLines` naming the segment each of those eight
++shows (`["dp", "g", "f", "e", "d", "c", "b", "a"]`: a to g and dp, each once). A lit segment drives the
++`segmentActive` level and an unlit one is released (Z), so one chip drives eight single-digit common-
++cathode displays wired as the datasheet's table shows, with no ghost segments. `segmentBits`
++(8 entries, in the order a b c d e f g dp), `decode`, `decodeField` (one per digit), `ram` (one field
++per digit), `scan`, `blank`, `test` and `shutdown` work as above (shutdown releases every shared pin).
+ 
+ ```json
+ "registers": [
+@@ -3727,12 +3739,16 @@
+ 
+ | Key | Value |
+ |---|---|
+-| `"ports"` | 1–256 ports `{"pin", "dataField", "dirField", "dirOutput", "invert"}` |
++| `"ports"` | 1–256 ports `{"pin", "dataField", "dirField", "dirOutput", "invert", "sinkValues", "pullupValues", "readField"}` |
+ | `"pin"` | pin name |
+ | `"dataField"` | field name: the pin drives 1 while the field is nonzero (0 otherwise), or the opposite with `invert` |
+ | `"dirField"` | optional field name: the pin is an output while the field's value is in `dirOutput`, else released. Without it the pin is always an output |
+ | `"dirOutput"` | optional (needs `dirField`): a value or an array of up to 64 values that make the pin an output. Default 1 |
+ | `"invert"` | optional boolean, default false |
++| `"sinkValues"` | optional (needs `dirField`): a value or an array of up to 64 `dirField` values that make the pin an open-drain LED sink: it drives 0 while `dataField` is nonzero and is released otherwise |
++| `"pullupValues"` | optional (needs `dirField`): `dirField` values that make the pin an input with a pullup: a weak 1, so a floating pin reads 1 and an external driver wins |
++| `"readField"` | optional field name: refreshed on every register or pin change with the value a read of the port should return: `dataField` while the pin is an output or a sink, the pin's level (Z and X read 0) while it is an input. The protocol reads it with `[REG.FIELD]` |
++| `"shutdown"`, `"test"` | optional conditions (driver level): while `shutdown` holds every port is released (an input without pullup), except the sink ports while `test` holds; while `test` holds every sink port sinks (drives 0) whatever its data bit; push-pull outputs are not touched by the test |
+ 
+ Open-drain port outputs: list the pin in `display.openDrain` (it then drives 0 or Z).
+ 

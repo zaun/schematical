@@ -1,0 +1,2 @@
+stem	positions	footprint	note
+SOCK-AMPHENOL-L26-B	10	SOCK-AMPHENOL-L26-10	VJW54705 (L26 TYPE F05) sheet 2 RECOMMENDED PCB LAYOUT compared by hand with VJW54701 (F01) sheet 2: same labelled holes (10 holes d1 +0.1: C1-C4, S1, S2, C5-C8), 2.54 pitch (3x2.54 = 7.62, 7x2.54 = 17.78), 11.96 first hole to left peg, 58 and 20 peg spacing (4 holes d3.2 +0.1), 9.05 / 38.1 row offsets, 3.81 C4 to S1, 2.54 S1 to S2, 62 x 40 body, ISO and AFNOR sheets identical; only the keep-out zone drawing and the side-view heights differ

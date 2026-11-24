@@ -1,0 +1,2625 @@
+{
+ "kind": "leddriver",
+ "newDevices": [
+  {
+   "id": "ICM7218A",
+   "function": "8-digit driver",
+   "description": "8-digit common-anode LED display driver: 8-bit bus, MODE/WRITE control word then 8 sequential digit bytes, hex or no decode (Code B not modeled)",
+   "drawer": [
+    "Displays & Indicators",
+    "LED drivers"
+   ],
+   "note": "icm7218-renesas p.1 features and block diagram, p.2 ordering, p.2 pinout (ICM7218A), p.3-4 pin descriptions and notes 2-3, p.5 supply 4-6 V and fMUX 250 Hz per digit, p.6 Fig.2 multiplex timing and Fig.3 segments, p.7 decode/Table 1/Table 2/shutdown/sequential addressing, p.8 Fig.4-5 load sequence; icm7218-icm7228-maxim p.5 Table 1, p.6 Fig.3-6 and the 8-digit update, p.8 Fig.7 font, p.9 digit multiplex order, p.12 packages",
+   "vcc": [
+    4,
+    6
+   ],
+   "pinouts": {
+    "dip28": [
+     {
+      "number": 1,
+      "name": "SEGC",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "SEGE",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "SEGB",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "DP",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "ID6",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "ID5",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "ID7",
+      "role": "input"
+     },
+     {
+      "number": 8,
+      "name": "WRITE",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 9,
+      "name": "MODE",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "ID4",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "ID1",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "ID0",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "ID2",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "ID3",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "DIGIT1",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "DIGIT2",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "DIGIT5",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "DIGIT8",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 20,
+      "name": "DIGIT4",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "DIGIT7",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "DIGIT6",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "DIGIT3",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "SEGF",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "SEGD",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "SEGG",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "SEGA",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "VSS",
+      "role": "ground"
+     }
+    ]
+   },
+   "bus": {
+    "style": "parallel",
+    "data": [
+     "ID7",
+     "ID6",
+     "ID5",
+     "ID4",
+     "ID3",
+     "ID2",
+     "ID1",
+     "ID0"
+    ],
+    "wr": {
+     "pin": "WRITE",
+     "active": 0
+    },
+    "address": [
+     "MODE"
+    ]
+   },
+   "registers": [
+    {
+     "name": "CTRL",
+     "width": 4,
+     "fields": [
+      {
+       "name": "DC",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "HEXA",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "NODEC",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "SD",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "PTR",
+     "width": 4,
+     "fields": [
+      {
+       "name": "N",
+       "bits": [
+        3,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG1",
+     "width": 8,
+     "fields": [
+      {
+       "name": "S",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG2",
+     "width": 8,
+     "fields": [
+      {
+       "name": "S",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG3",
+     "width": 8,
+     "fields": [
+      {
+       "name": "S",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG4",
+     "width": 8,
+     "fields": [
+      {
+       "name": "S",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG5",
+     "width": 8,
+     "fields": [
+      {
+       "name": "S",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG6",
+     "width": 8,
+     "fields": [
+      {
+       "name": "S",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG7",
+     "width": 8,
+     "fields": [
+      {
+       "name": "S",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG8",
+     "width": 8,
+     "fields": [
+      {
+       "name": "S",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    }
+   ],
+   "protocol": {
+    "frame": "fixed",
+    "commands": [
+     {
+      "name": "CONTROL",
+      "in": "1 dhns xxxx",
+      "set": {
+       "CTRL.DC": "d",
+       "CTRL.HEXA": "h",
+       "CTRL.NODEC": "n",
+       "CTRL.SD": "s",
+       "PTR.N": 0
+      }
+     },
+     {
+      "name": "DIGIT1",
+      "in": "0 0 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=0"
+      ],
+      "set": {
+       "DIG1.S": "v",
+       "DIG1.DP": 1,
+       "PTR.N": 1
+      }
+     },
+     {
+      "name": "DIGIT1",
+      "in": "0 1 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=0"
+      ],
+      "set": {
+       "DIG1.S": "v",
+       "DIG1.DP": 0,
+       "PTR.N": 1
+      }
+     },
+     {
+      "name": "DIGIT2",
+      "in": "0 0 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=1"
+      ],
+      "set": {
+       "DIG2.S": "v",
+       "DIG2.DP": 1,
+       "PTR.N": 2
+      }
+     },
+     {
+      "name": "DIGIT2",
+      "in": "0 1 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=1"
+      ],
+      "set": {
+       "DIG2.S": "v",
+       "DIG2.DP": 0,
+       "PTR.N": 2
+      }
+     },
+     {
+      "name": "DIGIT3",
+      "in": "0 0 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=2"
+      ],
+      "set": {
+       "DIG3.S": "v",
+       "DIG3.DP": 1,
+       "PTR.N": 3
+      }
+     },
+     {
+      "name": "DIGIT3",
+      "in": "0 1 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=2"
+      ],
+      "set": {
+       "DIG3.S": "v",
+       "DIG3.DP": 0,
+       "PTR.N": 3
+      }
+     },
+     {
+      "name": "DIGIT4",
+      "in": "0 0 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=3"
+      ],
+      "set": {
+       "DIG4.S": "v",
+       "DIG4.DP": 1,
+       "PTR.N": 4
+      }
+     },
+     {
+      "name": "DIGIT4",
+      "in": "0 1 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=3"
+      ],
+      "set": {
+       "DIG4.S": "v",
+       "DIG4.DP": 0,
+       "PTR.N": 4
+      }
+     },
+     {
+      "name": "DIGIT5",
+      "in": "0 0 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=4"
+      ],
+      "set": {
+       "DIG5.S": "v",
+       "DIG5.DP": 1,
+       "PTR.N": 5
+      }
+     },
+     {
+      "name": "DIGIT5",
+      "in": "0 1 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=4"
+      ],
+      "set": {
+       "DIG5.S": "v",
+       "DIG5.DP": 0,
+       "PTR.N": 5
+      }
+     },
+     {
+      "name": "DIGIT6",
+      "in": "0 0 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=5"
+      ],
+      "set": {
+       "DIG6.S": "v",
+       "DIG6.DP": 1,
+       "PTR.N": 6
+      }
+     },
+     {
+      "name": "DIGIT6",
+      "in": "0 1 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=5"
+      ],
+      "set": {
+       "DIG6.S": "v",
+       "DIG6.DP": 0,
+       "PTR.N": 6
+      }
+     },
+     {
+      "name": "DIGIT7",
+      "in": "0 0 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=6"
+      ],
+      "set": {
+       "DIG7.S": "v",
+       "DIG7.DP": 1,
+       "PTR.N": 7
+      }
+     },
+     {
+      "name": "DIGIT7",
+      "in": "0 1 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=6"
+      ],
+      "set": {
+       "DIG7.S": "v",
+       "DIG7.DP": 0,
+       "PTR.N": 7
+      }
+     },
+     {
+      "name": "DIGIT8",
+      "in": "0 0 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=7"
+      ],
+      "set": {
+       "DIG8.S": "v",
+       "DIG8.DP": 1,
+       "PTR.N": 8
+      }
+     },
+     {
+      "name": "DIGIT8",
+      "in": "0 1 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=7"
+      ],
+      "set": {
+       "DIG8.S": "v",
+       "DIG8.DP": 0,
+       "PTR.N": 8
+      }
+     }
+    ]
+   },
+   "display": {
+    "driver": "digits",
+    "digits": 8,
+    "digitPins": [
+     "DIGIT1",
+     "DIGIT7",
+     "DIGIT8",
+     "DIGIT6",
+     "DIGIT4",
+     "DIGIT3",
+     "DIGIT2",
+     "DIGIT5"
+    ],
+    "digitActive": "high",
+    "segmentPins": [
+     "SEGA",
+     "SEGB",
+     "SEGC",
+     "SEGD",
+     "SEGE",
+     "SEGF",
+     "SEGG",
+     "DP"
+    ],
+    "segmentActive": "low",
+    "segmentBits": [
+     6,
+     5,
+     4,
+     0,
+     3,
+     1,
+     2,
+     7
+    ],
+    "ram": [
+     "DIG1",
+     "DIG7",
+     "DIG8",
+     "DIG6",
+     "DIG4",
+     "DIG3",
+     "DIG2",
+     "DIG5"
+    ],
+    "decode": "hex",
+    "decodeField": "CTRL.NODEC",
+    "decodeActive": 0,
+    "scan": {
+     "periodUs": 500
+    },
+    "blank": [
+     "CTRL.DC=1",
+     "PTR.N!=8"
+    ],
+    "shutdown": "CTRL.SD=0"
+   },
+   "parts": [
+    {
+     "name": "ICM7218AIJI",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7218-renesas",
+     "package": "DIP",
+     "pinout": "dip28",
+     "footprint": "CDIP-28-600",
+     "flags": [
+      "ceramic"
+     ]
+    },
+    {
+     "name": "ICM7218AIJIR5254",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7218-renesas",
+     "package": "DIP",
+     "pinout": "dip28",
+     "footprint": "CDIP-28-600",
+     "flags": [
+      "ceramic"
+     ]
+    },
+    {
+     "name": "ICM7218AIPI",
+     "manufacturer": "Analog Devices",
+     "package": "DIP",
+     "pinout": "dip28",
+     "footprint": "PDIP-28-600"
+    },
+    {
+     "name": "ICM7218AIPI+",
+     "manufacturer": "Analog Devices",
+     "package": "DIP",
+     "pinout": "dip28",
+     "footprint": "PDIP-28-600"
+    },
+    {
+     "name": "ICM7218AIQI",
+     "manufacturer": "Analog Devices",
+     "package": "PLCC",
+     "pinout": "dip28",
+     "footprint": "PLCC-28"
+    },
+    {
+     "name": "ICM7218AIQI+",
+     "manufacturer": "Analog Devices",
+     "package": "PLCC",
+     "pinout": "dip28",
+     "footprint": "PLCC-28"
+    },
+    {
+     "name": "ICM7218AIQI+T",
+     "manufacturer": "Analog Devices",
+     "package": "PLCC",
+     "pinout": "dip28",
+     "footprint": "PLCC-28"
+    }
+   ]
+  },
+  {
+   "id": "ICM7218B",
+   "function": "8-digit driver",
+   "description": "8-digit common-cathode LED display driver: 8-bit bus, MODE/WRITE control word then 8 sequential digit bytes, hex or no decode (Code B not modeled)",
+   "drawer": [
+    "Displays & Indicators",
+    "LED drivers"
+   ],
+   "note": "icm7218-renesas p.1, p.2 ordering and pinout (ICM7218B), p.3-4 pin descriptions, p.5 supply and scan rate, p.6 Fig.2-3, p.7 decode, shutdown, sequential addressing, p.8 Fig.4-5; icm7218-icm7228-maxim p.5 Table 1, p.6, p.9 multiplex order, p.12 packages",
+   "vcc": [
+    4,
+    6
+   ],
+   "pinouts": {
+    "dip28": [
+     {
+      "number": 1,
+      "name": "DIGIT4",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "DIGIT6",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "DIGIT3",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "DIGIT1",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "ID6",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "ID5",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "ID7",
+      "role": "input"
+     },
+     {
+      "number": 8,
+      "name": "WRITE",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 9,
+      "name": "MODE",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "ID4",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "ID1",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "ID0",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "ID2",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "ID3",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "DP",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "SEGA",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "SEGB",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "SEGD",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 20,
+      "name": "SEGC",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "SEGE",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "SEGF",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "SEGG",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "DIGIT8",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "DIGIT2",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "DIGIT5",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "DIGIT7",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "VSS",
+      "role": "ground"
+     }
+    ]
+   },
+   "bus": {
+    "style": "parallel",
+    "data": [
+     "ID7",
+     "ID6",
+     "ID5",
+     "ID4",
+     "ID3",
+     "ID2",
+     "ID1",
+     "ID0"
+    ],
+    "wr": {
+     "pin": "WRITE",
+     "active": 0
+    },
+    "address": [
+     "MODE"
+    ]
+   },
+   "registers": [
+    {
+     "name": "CTRL",
+     "width": 4,
+     "fields": [
+      {
+       "name": "DC",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "HEXA",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "NODEC",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "SD",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "PTR",
+     "width": 4,
+     "fields": [
+      {
+       "name": "N",
+       "bits": [
+        3,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG1",
+     "width": 8,
+     "fields": [
+      {
+       "name": "S",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG2",
+     "width": 8,
+     "fields": [
+      {
+       "name": "S",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG3",
+     "width": 8,
+     "fields": [
+      {
+       "name": "S",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG4",
+     "width": 8,
+     "fields": [
+      {
+       "name": "S",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG5",
+     "width": 8,
+     "fields": [
+      {
+       "name": "S",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG6",
+     "width": 8,
+     "fields": [
+      {
+       "name": "S",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG7",
+     "width": 8,
+     "fields": [
+      {
+       "name": "S",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG8",
+     "width": 8,
+     "fields": [
+      {
+       "name": "S",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    }
+   ],
+   "protocol": {
+    "frame": "fixed",
+    "commands": [
+     {
+      "name": "CONTROL",
+      "in": "1 dhns xxxx",
+      "set": {
+       "CTRL.DC": "d",
+       "CTRL.HEXA": "h",
+       "CTRL.NODEC": "n",
+       "CTRL.SD": "s",
+       "PTR.N": 0
+      }
+     },
+     {
+      "name": "DIGIT1",
+      "in": "0 0 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=0"
+      ],
+      "set": {
+       "DIG1.S": "v",
+       "DIG1.DP": 1,
+       "PTR.N": 1
+      }
+     },
+     {
+      "name": "DIGIT1",
+      "in": "0 1 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=0"
+      ],
+      "set": {
+       "DIG1.S": "v",
+       "DIG1.DP": 0,
+       "PTR.N": 1
+      }
+     },
+     {
+      "name": "DIGIT2",
+      "in": "0 0 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=1"
+      ],
+      "set": {
+       "DIG2.S": "v",
+       "DIG2.DP": 1,
+       "PTR.N": 2
+      }
+     },
+     {
+      "name": "DIGIT2",
+      "in": "0 1 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=1"
+      ],
+      "set": {
+       "DIG2.S": "v",
+       "DIG2.DP": 0,
+       "PTR.N": 2
+      }
+     },
+     {
+      "name": "DIGIT3",
+      "in": "0 0 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=2"
+      ],
+      "set": {
+       "DIG3.S": "v",
+       "DIG3.DP": 1,
+       "PTR.N": 3
+      }
+     },
+     {
+      "name": "DIGIT3",
+      "in": "0 1 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=2"
+      ],
+      "set": {
+       "DIG3.S": "v",
+       "DIG3.DP": 0,
+       "PTR.N": 3
+      }
+     },
+     {
+      "name": "DIGIT4",
+      "in": "0 0 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=3"
+      ],
+      "set": {
+       "DIG4.S": "v",
+       "DIG4.DP": 1,
+       "PTR.N": 4
+      }
+     },
+     {
+      "name": "DIGIT4",
+      "in": "0 1 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=3"
+      ],
+      "set": {
+       "DIG4.S": "v",
+       "DIG4.DP": 0,
+       "PTR.N": 4
+      }
+     },
+     {
+      "name": "DIGIT5",
+      "in": "0 0 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=4"
+      ],
+      "set": {
+       "DIG5.S": "v",
+       "DIG5.DP": 1,
+       "PTR.N": 5
+      }
+     },
+     {
+      "name": "DIGIT5",
+      "in": "0 1 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=4"
+      ],
+      "set": {
+       "DIG5.S": "v",
+       "DIG5.DP": 0,
+       "PTR.N": 5
+      }
+     },
+     {
+      "name": "DIGIT6",
+      "in": "0 0 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=5"
+      ],
+      "set": {
+       "DIG6.S": "v",
+       "DIG6.DP": 1,
+       "PTR.N": 6
+      }
+     },
+     {
+      "name": "DIGIT6",
+      "in": "0 1 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=5"
+      ],
+      "set": {
+       "DIG6.S": "v",
+       "DIG6.DP": 0,
+       "PTR.N": 6
+      }
+     },
+     {
+      "name": "DIGIT7",
+      "in": "0 0 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=6"
+      ],
+      "set": {
+       "DIG7.S": "v",
+       "DIG7.DP": 1,
+       "PTR.N": 7
+      }
+     },
+     {
+      "name": "DIGIT7",
+      "in": "0 1 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=6"
+      ],
+      "set": {
+       "DIG7.S": "v",
+       "DIG7.DP": 0,
+       "PTR.N": 7
+      }
+     },
+     {
+      "name": "DIGIT8",
+      "in": "0 0 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=7"
+      ],
+      "set": {
+       "DIG8.S": "v",
+       "DIG8.DP": 1,
+       "PTR.N": 8
+      }
+     },
+     {
+      "name": "DIGIT8",
+      "in": "0 1 vvvvvvv",
+      "when": [
+       "CTRL.DC=1",
+       "PTR.N=7"
+      ],
+      "set": {
+       "DIG8.S": "v",
+       "DIG8.DP": 0,
+       "PTR.N": 8
+      }
+     }
+    ]
+   },
+   "display": {
+    "driver": "digits",
+    "digits": 8,
+    "digitPins": [
+     "DIGIT1",
+     "DIGIT7",
+     "DIGIT8",
+     "DIGIT6",
+     "DIGIT4",
+     "DIGIT3",
+     "DIGIT2",
+     "DIGIT5"
+    ],
+    "digitActive": "low",
+    "segmentPins": [
+     "SEGA",
+     "SEGB",
+     "SEGC",
+     "SEGD",
+     "SEGE",
+     "SEGF",
+     "SEGG",
+     "DP"
+    ],
+    "segmentActive": "high",
+    "segmentBits": [
+     6,
+     5,
+     4,
+     0,
+     3,
+     1,
+     2,
+     7
+    ],
+    "ram": [
+     "DIG1",
+     "DIG7",
+     "DIG8",
+     "DIG6",
+     "DIG4",
+     "DIG3",
+     "DIG2",
+     "DIG5"
+    ],
+    "decode": "hex",
+    "decodeField": "CTRL.NODEC",
+    "decodeActive": 0,
+    "scan": {
+     "periodUs": 500
+    },
+    "blank": [
+     "CTRL.DC=1",
+     "PTR.N!=8"
+    ],
+    "shutdown": "CTRL.SD=0"
+   },
+   "parts": [
+    {
+     "name": "ICM7218BIJI",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7218-renesas",
+     "package": "DIP",
+     "pinout": "dip28",
+     "footprint": "CDIP-28-600",
+     "flags": [
+      "ceramic"
+     ]
+    },
+    {
+     "name": "ICM7218BIJIR5254",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7218-renesas",
+     "package": "DIP",
+     "pinout": "dip28",
+     "footprint": "CDIP-28-600",
+     "flags": [
+      "ceramic"
+     ]
+    },
+    {
+     "name": "ICM7218BIPI",
+     "manufacturer": "Analog Devices",
+     "package": "DIP",
+     "pinout": "dip28",
+     "footprint": "PDIP-28-600"
+    },
+    {
+     "name": "ICM7218BIPI+",
+     "manufacturer": "Analog Devices",
+     "package": "DIP",
+     "pinout": "dip28",
+     "footprint": "PDIP-28-600"
+    },
+    {
+     "name": "ICM7218BIQI",
+     "manufacturer": "Analog Devices",
+     "package": "PLCC",
+     "pinout": "dip28",
+     "footprint": "PLCC-28"
+    },
+    {
+     "name": "ICM7218BIQI+",
+     "manufacturer": "Analog Devices",
+     "package": "PLCC",
+     "pinout": "dip28",
+     "footprint": "PLCC-28"
+    }
+   ]
+  },
+  {
+   "id": "ICM7218C",
+   "function": "8-digit driver",
+   "description": "8-digit common-anode LED display driver: random-access digit address (DA0-DA2), 4-bit data plus decimal point, hex decode (Code B and shutdown pin not modeled)",
+   "drawer": [
+    "Displays & Indicators",
+    "LED drivers"
+   ],
+   "note": "icm7218-renesas p.1 features and block diagram, p.2 ordering, p.3 pinout (ICM7218C), p.3-4 pin descriptions and notes 1-3, p.5 supply and scan rate, p.7 random access, p.8 Fig.6; icm7218-icm7228-maxim p.6 Table 2, p.8 Fig.7 font and Maxim C/D interface, p.9 Table 3 digit addressing and multiplex order, p.12 packages",
+   "vcc": [
+    4,
+    6
+   ],
+   "pinouts": {
+    "dip28": [
+     {
+      "number": 1,
+      "name": "SEGC",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "SEGE",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "SEGB",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "DP",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "DA0",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "DA1",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "ID7",
+      "role": "input"
+     },
+     {
+      "number": 8,
+      "name": "WRITE",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 9,
+      "name": "HEXA/CODEB/SHUTDOWN",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "DA2",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "ID1",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "ID0",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "ID2",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "ID3",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "DIGIT1",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "DIGIT2",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "DIGIT5",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "DIGIT8",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 20,
+      "name": "DIGIT4",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "DIGIT7",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "DIGIT6",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "DIGIT3",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "SEGF",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "SEGD",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "SEGG",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "SEGA",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "VSS",
+      "role": "ground"
+     }
+    ]
+   },
+   "bus": {
+    "style": "parallel",
+    "data": [
+     "ID7",
+     "ID3",
+     "ID2",
+     "ID1",
+     "ID0"
+    ],
+    "wr": {
+     "pin": "WRITE",
+     "active": 0
+    },
+    "address": [
+     "DA2",
+     "DA1",
+     "DA0"
+    ]
+   },
+   "registers": [
+    {
+     "name": "DIG1",
+     "width": 8,
+     "fields": [
+      {
+       "name": "V",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG2",
+     "width": 8,
+     "fields": [
+      {
+       "name": "V",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG3",
+     "width": 8,
+     "fields": [
+      {
+       "name": "V",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG4",
+     "width": 8,
+     "fields": [
+      {
+       "name": "V",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG5",
+     "width": 8,
+     "fields": [
+      {
+       "name": "V",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG6",
+     "width": 8,
+     "fields": [
+      {
+       "name": "V",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG7",
+     "width": 8,
+     "fields": [
+      {
+       "name": "V",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG8",
+     "width": 8,
+     "fields": [
+      {
+       "name": "V",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    }
+   ],
+   "protocol": {
+    "frame": "fixed",
+    "commands": [
+     {
+      "name": "DIGIT1",
+      "in": "000 0 vvvv",
+      "set": {
+       "DIG1.V": "v",
+       "DIG1.DP": 1
+      }
+     },
+     {
+      "name": "DIGIT1",
+      "in": "000 1 vvvv",
+      "set": {
+       "DIG1.V": "v",
+       "DIG1.DP": 0
+      }
+     },
+     {
+      "name": "DIGIT2",
+      "in": "001 0 vvvv",
+      "set": {
+       "DIG2.V": "v",
+       "DIG2.DP": 1
+      }
+     },
+     {
+      "name": "DIGIT2",
+      "in": "001 1 vvvv",
+      "set": {
+       "DIG2.V": "v",
+       "DIG2.DP": 0
+      }
+     },
+     {
+      "name": "DIGIT3",
+      "in": "010 0 vvvv",
+      "set": {
+       "DIG3.V": "v",
+       "DIG3.DP": 1
+      }
+     },
+     {
+      "name": "DIGIT3",
+      "in": "010 1 vvvv",
+      "set": {
+       "DIG3.V": "v",
+       "DIG3.DP": 0
+      }
+     },
+     {
+      "name": "DIGIT4",
+      "in": "011 0 vvvv",
+      "set": {
+       "DIG4.V": "v",
+       "DIG4.DP": 1
+      }
+     },
+     {
+      "name": "DIGIT4",
+      "in": "011 1 vvvv",
+      "set": {
+       "DIG4.V": "v",
+       "DIG4.DP": 0
+      }
+     },
+     {
+      "name": "DIGIT5",
+      "in": "100 0 vvvv",
+      "set": {
+       "DIG5.V": "v",
+       "DIG5.DP": 1
+      }
+     },
+     {
+      "name": "DIGIT5",
+      "in": "100 1 vvvv",
+      "set": {
+       "DIG5.V": "v",
+       "DIG5.DP": 0
+      }
+     },
+     {
+      "name": "DIGIT6",
+      "in": "101 0 vvvv",
+      "set": {
+       "DIG6.V": "v",
+       "DIG6.DP": 1
+      }
+     },
+     {
+      "name": "DIGIT6",
+      "in": "101 1 vvvv",
+      "set": {
+       "DIG6.V": "v",
+       "DIG6.DP": 0
+      }
+     },
+     {
+      "name": "DIGIT7",
+      "in": "110 0 vvvv",
+      "set": {
+       "DIG7.V": "v",
+       "DIG7.DP": 1
+      }
+     },
+     {
+      "name": "DIGIT7",
+      "in": "110 1 vvvv",
+      "set": {
+       "DIG7.V": "v",
+       "DIG7.DP": 0
+      }
+     },
+     {
+      "name": "DIGIT8",
+      "in": "111 0 vvvv",
+      "set": {
+       "DIG8.V": "v",
+       "DIG8.DP": 1
+      }
+     },
+     {
+      "name": "DIGIT8",
+      "in": "111 1 vvvv",
+      "set": {
+       "DIG8.V": "v",
+       "DIG8.DP": 0
+      }
+     }
+    ]
+   },
+   "display": {
+    "driver": "digits",
+    "digits": 8,
+    "digitPins": [
+     "DIGIT1",
+     "DIGIT7",
+     "DIGIT8",
+     "DIGIT6",
+     "DIGIT4",
+     "DIGIT3",
+     "DIGIT2",
+     "DIGIT5"
+    ],
+    "digitActive": "high",
+    "segmentPins": [
+     "SEGA",
+     "SEGB",
+     "SEGC",
+     "SEGD",
+     "SEGE",
+     "SEGF",
+     "SEGG",
+     "DP"
+    ],
+    "segmentActive": "low",
+    "ram": [
+     "DIG1",
+     "DIG7",
+     "DIG8",
+     "DIG6",
+     "DIG4",
+     "DIG3",
+     "DIG2",
+     "DIG5"
+    ],
+    "decode": "hex",
+    "scan": {
+     "periodUs": 500
+    }
+   },
+   "parts": [
+    {
+     "name": "ICM7218CIJI",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7218-renesas",
+     "package": "DIP",
+     "pinout": "dip28",
+     "footprint": "CDIP-28-600",
+     "flags": [
+      "ceramic"
+     ]
+    },
+    {
+     "name": "ICM7218CIJIR5254",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7218-renesas",
+     "package": "DIP",
+     "pinout": "dip28",
+     "footprint": "CDIP-28-600",
+     "flags": [
+      "ceramic"
+     ]
+    },
+    {
+     "name": "ICM7218CIPI",
+     "manufacturer": "Analog Devices",
+     "package": "DIP",
+     "pinout": "dip28",
+     "footprint": "PDIP-28-600"
+    },
+    {
+     "name": "ICM7218CIPI+",
+     "manufacturer": "Analog Devices",
+     "package": "DIP",
+     "pinout": "dip28",
+     "footprint": "PDIP-28-600"
+    },
+    {
+     "name": "ICM7218CIQI",
+     "manufacturer": "Analog Devices",
+     "package": "PLCC",
+     "pinout": "dip28",
+     "footprint": "PLCC-28"
+    },
+    {
+     "name": "ICM7218CIQI+",
+     "manufacturer": "Analog Devices",
+     "package": "PLCC",
+     "pinout": "dip28",
+     "footprint": "PLCC-28"
+    }
+   ]
+  },
+  {
+   "id": "ICM7218D",
+   "function": "8-digit driver",
+   "description": "8-digit common-cathode LED display driver: random-access digit address (DA0-DA2), 4-bit data plus decimal point, hex decode (Code B and shutdown pin not modeled)",
+   "drawer": [
+    "Displays & Indicators",
+    "LED drivers"
+   ],
+   "note": "icm7218-renesas p.1, p.2 ordering, p.3 pinout (ICM7218D), p.3-4 pin descriptions, p.5 supply and scan rate, p.7 random access, p.8 Fig.6; icm7218-icm7228-maxim p.6 Table 2, p.8 Fig.7, p.9 Table 3 and multiplex order, p.12 packages",
+   "vcc": [
+    4,
+    6
+   ],
+   "pinouts": {
+    "dip28": [
+     {
+      "number": 1,
+      "name": "DIGIT4",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "DIGIT6",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "DIGIT3",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "DIGIT1",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "DA0",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "DA1",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "ID7",
+      "role": "input"
+     },
+     {
+      "number": 8,
+      "name": "WRITE",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 9,
+      "name": "HEXA/CODEB/SHUTDOWN",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "DA2",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "ID1",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "ID0",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "ID2",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "ID3",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "DP",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "SEGA",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "SEGB",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "SEGD",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 20,
+      "name": "SEGC",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "SEGE",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "SEGF",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "SEGG",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "DIGIT8",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "DIGIT2",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "DIGIT5",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "DIGIT7",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "VSS",
+      "role": "ground"
+     }
+    ]
+   },
+   "bus": {
+    "style": "parallel",
+    "data": [
+     "ID7",
+     "ID3",
+     "ID2",
+     "ID1",
+     "ID0"
+    ],
+    "wr": {
+     "pin": "WRITE",
+     "active": 0
+    },
+    "address": [
+     "DA2",
+     "DA1",
+     "DA0"
+    ]
+   },
+   "registers": [
+    {
+     "name": "DIG1",
+     "width": 8,
+     "fields": [
+      {
+       "name": "V",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG2",
+     "width": 8,
+     "fields": [
+      {
+       "name": "V",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG3",
+     "width": 8,
+     "fields": [
+      {
+       "name": "V",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG4",
+     "width": 8,
+     "fields": [
+      {
+       "name": "V",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG5",
+     "width": 8,
+     "fields": [
+      {
+       "name": "V",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG6",
+     "width": 8,
+     "fields": [
+      {
+       "name": "V",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG7",
+     "width": 8,
+     "fields": [
+      {
+       "name": "V",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG8",
+     "width": 8,
+     "fields": [
+      {
+       "name": "V",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    }
+   ],
+   "protocol": {
+    "frame": "fixed",
+    "commands": [
+     {
+      "name": "DIGIT1",
+      "in": "000 0 vvvv",
+      "set": {
+       "DIG1.V": "v",
+       "DIG1.DP": 1
+      }
+     },
+     {
+      "name": "DIGIT1",
+      "in": "000 1 vvvv",
+      "set": {
+       "DIG1.V": "v",
+       "DIG1.DP": 0
+      }
+     },
+     {
+      "name": "DIGIT2",
+      "in": "001 0 vvvv",
+      "set": {
+       "DIG2.V": "v",
+       "DIG2.DP": 1
+      }
+     },
+     {
+      "name": "DIGIT2",
+      "in": "001 1 vvvv",
+      "set": {
+       "DIG2.V": "v",
+       "DIG2.DP": 0
+      }
+     },
+     {
+      "name": "DIGIT3",
+      "in": "010 0 vvvv",
+      "set": {
+       "DIG3.V": "v",
+       "DIG3.DP": 1
+      }
+     },
+     {
+      "name": "DIGIT3",
+      "in": "010 1 vvvv",
+      "set": {
+       "DIG3.V": "v",
+       "DIG3.DP": 0
+      }
+     },
+     {
+      "name": "DIGIT4",
+      "in": "011 0 vvvv",
+      "set": {
+       "DIG4.V": "v",
+       "DIG4.DP": 1
+      }
+     },
+     {
+      "name": "DIGIT4",
+      "in": "011 1 vvvv",
+      "set": {
+       "DIG4.V": "v",
+       "DIG4.DP": 0
+      }
+     },
+     {
+      "name": "DIGIT5",
+      "in": "100 0 vvvv",
+      "set": {
+       "DIG5.V": "v",
+       "DIG5.DP": 1
+      }
+     },
+     {
+      "name": "DIGIT5",
+      "in": "100 1 vvvv",
+      "set": {
+       "DIG5.V": "v",
+       "DIG5.DP": 0
+      }
+     },
+     {
+      "name": "DIGIT6",
+      "in": "101 0 vvvv",
+      "set": {
+       "DIG6.V": "v",
+       "DIG6.DP": 1
+      }
+     },
+     {
+      "name": "DIGIT6",
+      "in": "101 1 vvvv",
+      "set": {
+       "DIG6.V": "v",
+       "DIG6.DP": 0
+      }
+     },
+     {
+      "name": "DIGIT7",
+      "in": "110 0 vvvv",
+      "set": {
+       "DIG7.V": "v",
+       "DIG7.DP": 1
+      }
+     },
+     {
+      "name": "DIGIT7",
+      "in": "110 1 vvvv",
+      "set": {
+       "DIG7.V": "v",
+       "DIG7.DP": 0
+      }
+     },
+     {
+      "name": "DIGIT8",
+      "in": "111 0 vvvv",
+      "set": {
+       "DIG8.V": "v",
+       "DIG8.DP": 1
+      }
+     },
+     {
+      "name": "DIGIT8",
+      "in": "111 1 vvvv",
+      "set": {
+       "DIG8.V": "v",
+       "DIG8.DP": 0
+      }
+     }
+    ]
+   },
+   "display": {
+    "driver": "digits",
+    "digits": 8,
+    "digitPins": [
+     "DIGIT1",
+     "DIGIT7",
+     "DIGIT8",
+     "DIGIT6",
+     "DIGIT4",
+     "DIGIT3",
+     "DIGIT2",
+     "DIGIT5"
+    ],
+    "digitActive": "low",
+    "segmentPins": [
+     "SEGA",
+     "SEGB",
+     "SEGC",
+     "SEGD",
+     "SEGE",
+     "SEGF",
+     "SEGG",
+     "DP"
+    ],
+    "segmentActive": "high",
+    "ram": [
+     "DIG1",
+     "DIG7",
+     "DIG8",
+     "DIG6",
+     "DIG4",
+     "DIG3",
+     "DIG2",
+     "DIG5"
+    ],
+    "decode": "hex",
+    "scan": {
+     "periodUs": 500
+    }
+   },
+   "parts": [
+    {
+     "name": "ICM7218DIJI",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7218-renesas",
+     "package": "DIP",
+     "pinout": "dip28",
+     "footprint": "CDIP-28-600",
+     "flags": [
+      "ceramic"
+     ]
+    },
+    {
+     "name": "ICM7218DIJIR5254",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7218-renesas",
+     "package": "DIP",
+     "pinout": "dip28",
+     "footprint": "CDIP-28-600",
+     "flags": [
+      "ceramic",
+      "obsolete"
+     ]
+    },
+    {
+     "name": "ICM7218DIPI",
+     "manufacturer": "Analog Devices",
+     "package": "DIP",
+     "pinout": "dip28",
+     "footprint": "PDIP-28-600"
+    },
+    {
+     "name": "ICM7218DIPI+",
+     "manufacturer": "Analog Devices",
+     "package": "DIP",
+     "pinout": "dip28",
+     "footprint": "PDIP-28-600"
+    },
+    {
+     "name": "ICM7218DIQI",
+     "manufacturer": "Analog Devices",
+     "package": "PLCC",
+     "pinout": "dip28",
+     "footprint": "PLCC-28"
+    },
+    {
+     "name": "ICM7218DIQI+",
+     "manufacturer": "Analog Devices",
+     "package": "PLCC",
+     "pinout": "dip28",
+     "footprint": "PLCC-28"
+    }
+   ]
+  }
+ ],
+ "datasheets": [
+  {
+   "id": "icm7218-renesas",
+   "url": "https://www.renesas.com/en/document/dst/icm7218-datasheet"
+  }
+ ],
+ "missingFootprints": [],
+ "skipped": [
+  {
+   "part": "ICM7218AI/D, ICM7218BI/D, ICM7218CI/D, ICM7218DI/D",
+   "why": "dice (Maxim p.12): no package, pinout or footprint"
+  },
+  {
+   "part": "ICM7218AIJI / BIJI / CIJI / DIJI listed again in the Maxim table",
+   "why": "same names as the Renesas CERDIP parts: one entry each (manufacturer Renesas Electronics, datasheet icm7218-renesas)"
+  }
+ ],
+ "engineNeeds": [
+  {
+   "need": "decode font chosen by a register field",
+   "keys": "display.decode as an object: {\"field\": \"CTRL.HEXA\", \"values\": {\"1\": \"hex\", \"0\": \"codeB\"}} (a field value not listed uses the first entry), alongside the string form",
+   "why": "ICM7218A/B: ID6 of the control word picks hexadecimal (1) or Code B (0) for the whole display; ICM7218C/D: pin 9 picks them (below). Today the A/B and C/D devices decode hex only (CTRL.HEXA is stored but unused), so Code B codes 10-15 (- E H L P blank) show as hex A-F."
+  },
+  {
+   "need": "three-level input pin",
+   "keys": "pins.levels entry with \"tri\": true, e.g. {\"pin\": \"HEXA/CODEB/SHUTDOWN\", \"field\": \"MODE9.LVL\", \"tri\": true}: the field gets 0 for a driven low, 1 for Z (floating), 2 for a driven high (field 2 bits wide); copied whenever the pin changes and at power-on",
+   "why": "ICM7218C/D pin 9: high = hexadecimal, floating = Code B, low = shutdown (Renesas p.4-5). `levels` reads Z as 0, so a floating pin cannot be told from a low one. With both needs: decode {\"field\": \"MODE9.LVL\", \"values\": {\"2\": \"hex\", \"1\": \"codeB\"}}, shutdown \"MODE9.LVL=0\" (the C/D then need a 2-bit register MODE9 with field LVL, reset 1)"
+  },
+  {
+   "need": "(optional) shutdown to Z",
+   "keys": "display.shutdownZ: true on digits",
+   "why": "the real outputs are high impedance in shutdown (leakage specs, Renesas p.5); today shutdown drives the inactive level, which lights nothing but is not Z"
+  },
+  {
+   "need": "(finding, not a new feature) [NAME] in an input pattern is never applied",
+   "keys": "docs/parts-format.md \u00a7 Patterns says `[NAME]` in `in` puts the bits into the register or field; backend/src/models/converter.c captures() only reads CVT_CAP tokens and nothing writes CVT_REF tokens of `in`",
+   "why": "A write command `\"in\": \"0 [DIG1.V]\"` loads the loader but stores nothing (found by bench). The ICM7218 devices use capture letters and `set` instead (`in` \"vvvv\", `set` {\"DIG1.V\": \"v\"}). The other devices that use `[REG]` in `in` (converter.json CONFIG, DEVICE_CFG, CMR3...) are probably affected."
+  }
+ ],
+ "notes": "Four devices ICM7218A (common anode) / B (common cathode) / C / D, 25 parts. The A/B are NOT serial: ID0-ID7 bytes with MODE (control word) and WRITE, written one after another (the brief's 'serial' is the Maxim cover wording). Modeled: control word (shutdown ID4, decode ID5, data coming ID7), 8 sequential data bytes with blanking while loading and ignored extra writes, hex decode and No Decode (ID6 a, ID5 b, ID4 c, ID3 e, ID2 g, ID1 f, ID0 d), decimal point lit by ID7 low (stored inverted in DIGn.DP), C/D random access DA0-DA2 with ID3-0 and ID7, digit order D1 D7 D8 D6 D4 D3 D2 D5 at 500 us. Not modeled: Code B (engineNeeds), the C/D three-level pin 9 incl. shutdown (engineNeeds), Maxim-only bank select and single digit update of A/B (spec), interdigit blanking, Z outputs in shutdown. Power-up state is not in the sheets (A/B: shutdown, C/D: zeros). Datasheets: icm7218-renesas (verified: the Renesas URL answers a PDF of 759428 bytes = the local file). icm7218-icm7228-maxim has NO entry: analog.com timed out for every request from this machine, including a known-good Analog Devices sheet, so the Maxim parts (ICM7218xIPI, xIQI and their + forms, manufacturer Analog Devices) carry no datasheet key; please check from Safari (Analog Devices' ICM7218 page) and, if hosted, add the id icm7218-icm7228-maxim and the key to those 17 parts, or add the parts to the 'maker no longer hosts' table in docs/parts-format.md. Footprints reused: CDIP-28-600 (CERDIP), PDIP-28-600 (body in the Maxim drawing 13.72 x 37.34 mm vs 13.21 x 36.32 mm in the footprint; leads identical), PLCC-28 (the Maxim sheet has no PLCC drawing; the pin numbers equal the DIP ones). Parts: the Renesas CERDIP names AIJI/BIJI/CIJI/DIJI + R5254 forms (DIJIR5254 flagged obsolete), the Maxim PI/QI names and their + forms (AIQI+T too); main thread prunes by stock. Tests: bench icm7218_test.c (53 checks; needs logic_test(icm7218_test) in CMake); library_check passes; listing_check and trace_check fail only with 'extra part (not in the golden)' for the 25 new parts."
+}

@@ -55,11 +55,11 @@ static TraceRole trace_role(PinRole role) {
 }
 
 static uint64_t trace_part(const Part *part, FILE *verbose) {
-    TraceRole roles[256];
+    TraceRole roles[1024];   /* 1000 pins is the footprint limit; card-slot parts go to 694 */
     TraceSubject subject = {0};
     size_t i;
 
-    if (part->pin_count > 256) {
+    if (part->pin_count > 1024) {
         fprintf(stderr, "%s: too many pins\n", part->name);
         exit(2);
     }
@@ -76,7 +76,7 @@ static uint64_t trace_part(const Part *part, FILE *verbose) {
         subject.switch_positions = part->dip_switch->positions;
     }
     if (part->kind == PART_7SEG || part->kind == PART_NIXIE ||
-        part->kind == PART_DEKATRON) {
+        part->kind == PART_DEKATRON || part->kind == PART_LCD) {
         subject.lights = lights;
     }
     return trace_run(&subject, verbose);

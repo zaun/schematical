@@ -1,0 +1,348 @@
+{
+ "rows": [
+  {
+   "numbering": "halves",
+   "pitch": 1.27,
+   "dir": "rtl,rtl",
+   "row_y": "4.32,-4.32",
+   "pad_w": 0.76,
+   "pad_h": 2.67,
+   "shape": "rect",
+   "body_h": 8.89,
+   "stem": "EDGE-TE-STANDARD-EDGE-050",
+   "positions": [
+    120
+   ],
+   "description": "TE Standard Edge .050 card-edge socket, SMT, {N} contacts, PCI 5 V (1761842)",
+   "note": "TE drawing 1761842 (customer drawing, rev C), datasheets/connector-card-edge/te/1761842.pdf, sheet 2 RECOMMENDED PC BOARD PATTERN (connector side shown). Per row 11 contacts (10 spaces at 1.27), a key gap of 3.81 (1.91 + 1.91 either side of the mounting hole), 49 contacts (48 spaces at 1.27): 12.7 + 3.81 + 60.96. Mounting holes dia 2.44 at the key and 64.77 (printed) from it; housing 84.84 x 8.89 (sheet 1). The sheet draws the right hole 67 mm away but prints 64.77, which agrees with the housing length 2.54 shorter than 5145098. Pads 0.76 x 2.67 (.030 x .105 printed), pitch 1.27, rows at +-4.32 from the mounting-hole line (4.32 [.170] printed 2 PLC), dia 2.44 mounting holes (non-plated assumed: plating is not stated). Pin numbering ASSUMED (not printed on this print): pin 1 at the right end of the lower row, pins 1..N/2 in the lower row (y>0) right to left, then the upper row right to left, as the printed PIN 1 / PIN 60 / PIN 61 / PIN 120 views of the sibling through-hole print 5145154. Origin: the pad span centre, taken as the housing centre (housing length from sheet 1, centred on the pads: ASSUMPTION, the printed margins differ slightly).",
+   "gaps": {
+    "49": 2.54
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": "-L0/2+14.605",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2+14.605+64.77",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    }
+   ],
+   "body_w": 84.84
+  },
+  {
+   "numbering": "halves",
+   "pitch": 1.27,
+   "dir": "rtl,rtl",
+   "row_y": "4.32,-4.32",
+   "pad_w": 0.76,
+   "pad_h": 2.67,
+   "shape": "rect",
+   "body_h": 8.89,
+   "stem": "EDGE-TE-STANDARD-EDGE-050-B",
+   "positions": [
+    120
+   ],
+   "description": "TE Standard Edge .050 card-edge socket, SMT, {N} contacts, PCI (5145098)",
+   "note": "TE drawing 5145098 (customer drawing, rev S), datasheets/connector-card-edge/te/5145098.pdf, sheet 2 RECOMMENDED PC BOARD PATTERN (connector side shown). Per row 11 contacts (10 spaces at .050), a key gap of .150 (.075 + .075 either side of the mounting hole), 49 contacts (48 spaces at .050); mounting holes dia .096 at the key and 2.650 (67.31) from it; housing 3.440 (87.38) x .350 (8.89) (sheet 1). Dimensions in inches on the print, converted (x25.4). Pads 0.76 x 2.67 (.030 x .105 printed), pitch 1.27, rows at +-4.32 from the mounting-hole line (4.32 [.170] printed 2 PLC), dia 2.44 mounting holes (non-plated assumed: plating is not stated). Pin numbering ASSUMED (not printed on this print): pin 1 at the right end of the lower row, pins 1..N/2 in the lower row (y>0) right to left, then the upper row right to left, as the printed PIN 1 / PIN 60 / PIN 61 / PIN 120 views of the sibling through-hole print 5145154. Origin: the pad span centre, taken as the housing centre (housing length from sheet 1, centred on the pads: ASSUMPTION, the printed margins differ slightly).",
+   "gaps": {
+    "49": 2.54
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": "-L0/2+14.605",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2+14.605+67.31",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    }
+   ],
+   "body_w": 87.38
+  },
+  {
+   "numbering": "halves",
+   "pitch": 1.27,
+   "dir": "rtl,rtl",
+   "row_y": "4.32,-4.32",
+   "pad_w": 0.76,
+   "pad_h": 2.67,
+   "shape": "rect",
+   "body_h": 8.89,
+   "stem": "EDGE-TE-STANDARD-EDGE-050-C",
+   "positions": [
+    184
+   ],
+   "description": "TE Standard Edge .050 card-edge socket, SMT, {N} contacts, PCI 5 V 64 bit (5145113)",
+   "note": "TE drawing 5145113 (customer drawing, rev A), datasheets/connector-card-edge/te/5145113.pdf, sheet 2 RECOMMENDED CONNECTOR MOUNTING HOLE PATTERN (connector side shown). Per row left to right: 49 contacts (48 spaces at .050, starting .075 right of the first mounting hole), mounting hole at 2.550 (64.77), 11 contacts (10 spaces) starting .075 right of it, a .150 (3.81) gap, 32 contacts (31 spaces), last one .075 left of the third mounting hole at 2.350 (59.69) from the second (124.46 from the first); 92 per row. Housing 5.04 (128.02) x .350 (8.89) (sheet 1). Pads 0.76 x 2.67 (.030 x .105 printed), pitch 1.27, rows at +-4.32 from the mounting-hole line (4.32 [.170] printed 2 PLC), dia 2.44 mounting holes (non-plated assumed: plating is not stated). Pin numbering ASSUMED (not printed on this print): pin 1 at the right end of the lower row, pins 1..N/2 in the lower row (y>0) right to left, then the upper row right to left, as the printed PIN 1 / PIN 60 / PIN 61 / PIN 120 views of the sibling through-hole print 5145154. Origin: the pad span centre, taken as the housing centre (housing length from sheet 1, centred on the pads: ASSUMPTION, the printed margins differ slightly).",
+   "gaps": {
+    "32": 2.54,
+    "43": 2.54
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": "-L0/2-1.905",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2-1.905+64.77",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2-1.905+124.46",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    }
+   ],
+   "body_w": 128.02
+  },
+  {
+   "numbering": "halves",
+   "pitch": 1.27,
+   "dir": "rtl,rtl",
+   "row_y": "4.32,-4.32",
+   "pad_w": 0.76,
+   "pad_h": 2.67,
+   "shape": "rect",
+   "body_h": 8.89,
+   "stem": "EDGE-TE-STANDARD-EDGE-050-D",
+   "positions": [
+    184
+   ],
+   "description": "TE Standard Edge .050 card-edge socket, SMT, {N} contacts, dual edge (5145246)",
+   "note": "TE drawing 5145246 (customer drawing, rev A), datasheets/connector-card-edge/te/5145246.pdf, sheet 2 RECOMMENDED CONNECTOR MOUNTING HOLE PATTERN (connector side shown). Per row left to right: 11 contacts (10 spaces at 1.27), a key gap of 3.81 around the first mounting hole, 49 contacts (48 spaces) ending 1.91 before the second mounting hole (64.77 printed from the first), a 3.81 gap, 32 contacts (31 spaces), the third mounting hole 107.95 (printed) from the first; 92 per row. Housing 128.02 x 8.89 (sheet 1). Pads 0.76 x 2.67 (.030 x .105 printed), pitch 1.27, rows at +-4.32 from the mounting-hole line (4.32 [.170] printed 2 PLC), dia 2.44 mounting holes (non-plated assumed: plating is not stated). Pin numbering ASSUMED (not printed on this print): pin 1 at the right end of the lower row, pins 1..N/2 in the lower row (y>0) right to left, then the upper row right to left, as the printed PIN 1 / PIN 60 / PIN 61 / PIN 120 views of the sibling through-hole print 5145154. Origin: the pad span centre, taken as the housing centre (housing length from sheet 1, centred on the pads: ASSUMPTION, the printed margins differ slightly).",
+   "gaps": {
+    "32": 2.54,
+    "81": 2.54
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": "-L0/2+14.605",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2+14.605+64.77",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2+14.605+107.95",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    }
+   ],
+   "body_w": 128.02
+  },
+  {
+   "numbering": "halves",
+   "pitch": 1.27,
+   "dir": "rtl,rtl",
+   "row_y": "3.81,-1.27",
+   "stagger": -2.54,
+   "pad_w": 1.3,
+   "pad_h": 1.3,
+   "shape": "round",
+   "drill": 1.02,
+   "body_h": 8.89,
+   "stem": "EDGE-TE-STANDARD-EDGE-050-E",
+   "positions": [
+    120
+   ],
+   "description": "TE Standard Edge .050 card-edge socket, through hole, {N} contacts, PCI (5145154)",
+   "note": "TE drawing 5145154 (customer drawing, rev F), datasheets/connector-card-edge/te/5145154.pdf, sheet 2 RECOMMENDED CONNECTOR MOUNTING HOLE PATTERN (connector side shown). Per row 11 contacts (10 spaces at 1.27), key gap 3.81 (1.91 either side of the mounting hole), 49 contacts (48 spaces); second mounting hole 64.77 (printed) from the first; housing 84.84 x 8.89 (sheet 1). The select-loaded variant of sheets 3/4 (pins 44..49 and 104..109 not loaded) is not drawn: the full 120-pin pattern is used. Through-hole tails: holes dia 1.02 (0.040 printed) staggered on 4 hole rows at +-1.27 and +-3.81 from the mounting-hole line (3.81, 1.27 printed 2 PLC), 2.54 pitch per hole row (adjacent contacts alternate between the two hole rows of their side); land diameter NOT PRINTED: 1.3 assumed (the contact next to a mounting hole is 1.905 from its centre, so a land of 1.52 would overlap the 2.44 hole). Dia 2.44 mounting holes non-plated (plating not stated). Pin numbering ASSUMED as for the PIN 1 / PIN 60 / PIN 61 / PIN 120 views of print 5145154: pin 1 at the right end of the lower row, pins 1..N/2 in the lower row (y>0) right to left, then the upper row; the stagger phase follows the hole pattern (first contact after a mounting hole on the outer-for-upper / inner-for-lower hole row). Origin: the pad span centre = housing centre (ASSUMED).",
+   "gaps": {
+    "49": 2.54
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": "-L0/2+14.605",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2+14.605+64.77",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    }
+   ],
+   "body_w": 84.84
+  },
+  {
+   "numbering": "halves",
+   "pitch": 1.27,
+   "dir": "rtl,rtl",
+   "row_y": "3.81,-1.27",
+   "stagger": -2.54,
+   "pad_w": 1.3,
+   "pad_h": 1.3,
+   "shape": "round",
+   "drill": 1.02,
+   "body_h": 8.89,
+   "stem": "EDGE-TE-STANDARD-EDGE-050-F",
+   "positions": [
+    184
+   ],
+   "description": "TE Standard Edge .050 card-edge socket, through hole, {N} contacts, PCI 3.3 V 64 bit (5145165)",
+   "note": "TE drawing 5145165 (customer drawing, rev D), datasheets/connector-card-edge/te/5145165.pdf, sheet 2 RECOMMENDED CONNECTOR MOUNTING HOLE PATTERN (connector side shown). Per row left to right: 11 contacts, key gap 3.81 around the first mounting hole, 49 contacts, second hole 64.77 from the first, 3.81 gap, 32 contacts, third hole 107.95 (4.250 printed) from the first; 92 per row; housing 128.0 x 8.89 (sheet 1). Through-hole tails: holes dia 1.02 (0.040 printed) staggered on 4 hole rows at +-1.27 and +-3.81 from the mounting-hole line (3.81, 1.27 printed 2 PLC), 2.54 pitch per hole row (adjacent contacts alternate between the two hole rows of their side); land diameter NOT PRINTED: 1.3 assumed (the contact next to a mounting hole is 1.905 from its centre, so a land of 1.52 would overlap the 2.44 hole). Dia 2.44 mounting holes non-plated (plating not stated). Pin numbering ASSUMED as for the PIN 1 / PIN 60 / PIN 61 / PIN 120 views of print 5145154: pin 1 at the right end of the lower row, pins 1..N/2 in the lower row (y>0) right to left, then the upper row; the stagger phase follows the hole pattern (first contact after a mounting hole on the outer-for-upper / inner-for-lower hole row). Origin: the pad span centre = housing centre (ASSUMED).",
+   "gaps": {
+    "32": 2.54,
+    "81": 2.54
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": "-L0/2+14.605",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2+14.605+64.77",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2+14.605+107.95",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    }
+   ],
+   "body_w": 128.02
+  },
+  {
+   "numbering": "halves",
+   "pitch": 1.27,
+   "dir": "rtl,rtl",
+   "row_y": "3.81,-1.27",
+   "stagger": -2.54,
+   "pad_w": 1.3,
+   "pad_h": 1.3,
+   "shape": "round",
+   "drill": 1.02,
+   "body_h": 8.89,
+   "stem": "EDGE-TE-STANDARD-EDGE-050-G",
+   "positions": [
+    184
+   ],
+   "description": "TE Standard Edge .050 card-edge socket, through hole, {N} contacts, PCI 5 V 64 bit (5145166)",
+   "note": "TE drawing 5145166 (customer drawing, rev B), datasheets/connector-card-edge/te/5145166.pdf, sheet 2 RECOMMENDED CONNECTOR MOUNTING HOLE PATTERN (connector side shown). Per row left to right: 49 contacts starting 1.91 right of the first mounting hole, second hole at 64.77, 11 contacts, a 3.81 gap, 32 contacts, third hole 59.69 (2.350 printed) after the second (124.46 from the first); 92 per row; housing 128.02 x 8.89 (sheet 1). Through-hole tails: holes dia 1.02 (0.040 printed) staggered on 4 hole rows at +-1.27 and +-3.81 from the mounting-hole line (3.81, 1.27 printed 2 PLC), 2.54 pitch per hole row (adjacent contacts alternate between the two hole rows of their side); land diameter NOT PRINTED: 1.3 assumed (the contact next to a mounting hole is 1.905 from its centre, so a land of 1.52 would overlap the 2.44 hole). Dia 2.44 mounting holes non-plated (plating not stated). Pin numbering ASSUMED as for the PIN 1 / PIN 60 / PIN 61 / PIN 120 views of print 5145154: pin 1 at the right end of the lower row, pins 1..N/2 in the lower row (y>0) right to left, then the upper row; the stagger phase follows the hole pattern (first contact after a mounting hole on the outer-for-upper / inner-for-lower hole row). Origin: the pad span centre = housing centre (ASSUMED).",
+   "gaps": {
+    "32": 2.54,
+    "43": 2.54
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": "-L0/2-1.905",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2-1.905+64.77",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2-1.905+124.46",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    }
+   ],
+   "body_w": 128.02
+  }
+ ]
+}

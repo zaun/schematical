@@ -478,6 +478,10 @@ nonisolated struct Footprint: Hashable, Sendable {
         var slotLength: Double = 0
         /// False for a non-plated hole: no copper, the pad is the hole itself.
         var plated: Bool = true
+        /// A surface-mount pad on the other face of the board from the
+        /// footprint's own side (plan-54-E); it swaps layers with the part's
+        /// side. See `PlacedPad.layerSide(on:)`.
+        var opposite: Bool = false
     }
 
     let id: String
@@ -485,6 +489,9 @@ nonisolated struct Footprint: Hashable, Sendable {
     let body: CGSize
     let bodyRound: Bool
     let pads: [Pad]
+    /// The housing straddles the board edge (plan-54-E): the placement check
+    /// asks only that its pads are on the board.
+    var edgeMount: Bool = false
 
     // Ids are unique across the library, so a footprint is its id.
     static func == (a: Footprint, b: Footprint) -> Bool { a.id == b.id }
@@ -541,6 +548,11 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// A barrel jack (`usb` nil) or a USB connector (`usb` "A", "B" or
         /// "C"; no centre pin or contacts, ratings 0 when not given).
         case connector(centerPinUM: UInt32, ratedMV: UInt32, ratedMA: UInt32, contacts: Int, usb: String?)
+        /// A card slot (plan-54): a socket for a memory or SIM card, a memory
+        /// module or a card edge; a passive block of pins. `card`: what the
+        /// slot takes ("microSD", "DDR4 SODIMM", "PCI Express"); `pitchUM`:
+        /// the contact pitch in micrometres, 0 when the part gives none.
+        case cardSlot(card: String, pitchUM: UInt32)
         /// A parallel I/O peripheral on the 65xx bus (plan-14): its model
         /// ("pia6521", "via6522"), speed grade and highest clock.
         case pio(model: String, grade: String, maxHz: UInt64)
@@ -684,6 +696,12 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     /// A tactile (momentary push-button) switch, plan-27.
     var isTactileSwitch: Bool {
         if case .tactileSwitch = details { return true }
+        return false
+    }
+
+    /// A card slot: a socket for a memory or SIM card, a module or a card edge (plan-54).
+    var isCardSlot: Bool {
+        if case .cardSlot = details { return true }
         return false
     }
 
@@ -868,12 +886,14 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     }
 
     /// The count shown next to the name in the drawer: gates or flip-flops per
-    /// package, switch positions, display digits. Nil for other parts.
+    /// package, switch positions, display digits, a card slot's pins. Nil for
+    /// other parts.
     var count: Int? {
         switch details {
         case let .logic(_, units): return units
         case let .dipSwitch(positions, _, _): return positions
         case let .display(info): return info.digits
+        case .cardSlot: return pins.count
         default: return nil
         }
     }
@@ -917,6 +937,8 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .connector(centerPinUM, _, ratedMA, contacts, nil):
             return [String(format: "%.1f mm", Double(centerPinUM) / 1000),
                     String(format: "%.1f A", Double(ratedMA) / 1000)] + (contacts > 0 ? ["switched"] : [])
+        case let .cardSlot(card, pitchUM):
+            return [card] + (pitchUM > 0 ? [String(format: "%.2f mm", Double(pitchUM) / 1000)] : [])
         case let .header(rows, perRow, _): return ["\(rows)×\(perRow)"]
         case let .converter(_, bits, channels):
             return ["\(bits)-bit"] + (channels > 1 ? ["\(channels) channels"] : [])
@@ -1009,8 +1031,10 @@ extension Footprint {
                        chamfer: pad.chamfer,
                        corners: Corners(rawValue: Int(pad.corners)),
                        slotLength: pad.slot_length,
-                       plated: pad.npth == 0)
+                       plated: pad.npth == 0,
+                       opposite: pad.opposite != 0)
         }
+        edgeMount = footprint.edge_mount != 0
     }
 }
 
@@ -1152,6 +1176,8 @@ extension CatalogPart {
             let rows = max(Int(header.rows), 1)
             details = .header(rows: rows, perRow: Int(part.pin_count) / rows,
                               genders: (0..<header.gender_count).map { string(header.genders?[$0]) })
+        } else if let connector = part.connector?.pointee, let card = connector.card {
+            details = .cardSlot(card: string(card), pitchUM: connector.card_pitch_um)
         } else if let connector = part.connector?.pointee {
             details = .connector(centerPinUM: connector.center_diameter_um, ratedMV: connector.rated_mv,
                                  ratedMA: connector.rated_ma, contacts: Int(connector.contacts),
@@ -1535,7 +1561,7 @@ func symbol(for part: CatalogPart) -> PartSymbol {
     switch part.kind {
     case PART_SWITCH: return part.isTactileSwitch ? .tactileSwitch : .dipSwitch
     case PART_LED: return .diode
-    case PART_7SEG: return .sevenSegment
+    case PART_7SEG, PART_LCD: return .sevenSegment
     case PART_NIXIE: return .nixie
     case PART_DEKATRON: return .dekatron
     case PART_CHARLCD: return .characterLCD
@@ -1545,8 +1571,9 @@ func symbol(for part: CatalogPart) -> PartSymbol {
         if pull { return level == 0 ? .pullDown : .pullUp }
         return level == 0 ? .ground : .vcc
     case PART_CONNECTOR:
-        // A USB connector is a plain block of its pins.
+        // A USB connector and a card slot are plain blocks of their pins.
         if case .connector(_, _, _, _, _?) = part.details { return .block }
+        if case .cardSlot = part.details { return .block }
         return .barrelJack
     case PART_HEADER: return .header
     case PART_DIODE:
@@ -2404,7 +2431,7 @@ final class PartCatalogStore {
     private static func listsPartsDirectly(_ parts: [CatalogPart]) -> Bool {
         parts.allSatisfy {
             ($0.kind == PART_SWITCH && !$0.isTactileSwitch) || $0.kind == PART_LED || $0.kind == PART_7SEG || $0.kind == PART_CHARLCD
-                || $0.kind == PART_NIXIE || $0.kind == PART_DEKATRON
+                || $0.kind == PART_NIXIE || $0.kind == PART_DEKATRON || $0.kind == PART_LCD
                 || $0.kind == PART_HEADER
         }
     }
@@ -2454,6 +2481,8 @@ final class PartCatalogStore {
                             ? ($0.crystalHz ?? 0) < ($1.crystalHz ?? 0)
                             : rank[$0.name, default: 0] < rank[$1.name, default: 0]
                     }
+                    // The card slots of a leaf go by pin count then name (plan-54-O).
+                    : parts.allSatisfy(\.isCardSlot) ? byCountThenName(parts, rank: rank)
                     : parts
                 return FunctionGroup(function: function, parts: ordered, bitGroups: bitGroups(parts))
             }

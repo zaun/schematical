@@ -5,8 +5,9 @@
  *
  *     footprint_check --print > tests/golden/footprints.txt   regenerates it
  *
- * A pad is `designator:x,y,wxh,shape[,d<drill>][,s<slotLength>][,npth][,r<radius>][,c<chamfer>:<corners>]`,
- * corners joined by '+' in tl, tr, br, bl order.
+ * A pad is `designator:x,y,wxh,shape[,d<drill>][,s<slotLength>][,npth][,opp][,r<radius>][,c<chamfer>:<corners>]`,
+ * corners joined by '+' in tl, tr, br, bl order; `opp` marks a pad on the other face of the board. A footprint
+ * that straddles the board edge ends with `|edge`.
  */
 
 #include <stdio.h>
@@ -64,6 +65,9 @@ static char *footprint_line(const PartFootprint *fp) {
         if (pad->npth) {
             fputs(",npth", out);
         }
+        if (pad->opposite) {
+            fputs(",opp", out);
+        }
         if (pad->radius > 0) {
             fputs(",r", out);
             print_number(out, pad->radius);
@@ -82,6 +86,9 @@ static char *footprint_line(const PartFootprint *fp) {
                 }
             }
         }
+    }
+    if (fp->edge_mount) {
+        fputs("|edge", out);
     }
     fclose(out);
     return text;

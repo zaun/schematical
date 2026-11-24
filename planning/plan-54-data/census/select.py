@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """plan-54 census: candidates.tsv from the listing.
 
-usage: python3 -I select.py raw candidates.tsv [--urls url-check.tsv] [--report]
+usage: python3 -I select.py raw candidates.tsv [--urls url-check.tsv] [--stock stock-check.tsv] [--report]
 One row per listed part. `state` is `candidate` or `out`, `reason` says why. Rules (plan-54-A § 3), in order:
   maker        the maker is not one of the family's three (`common.MAKERS`)
   no stock     the listing gives no quantity (DigiKey's QuantityAvailable is absent or 0)
@@ -10,6 +10,8 @@ One row per listed part. `state` is `candidate` or `out`, `reason` says why. Rul
   duplicate    the MPN is another listed MPN plus `-TR` (the same part on tape and reel)
   no datasheet the part has no usable maker datasheet: no link, no maker URL (`common.src_for`), or, with
                --urls, the download source does not answer a PDF
+  stock check  with --stock (recheck.py's file): a row still `candidate` whose `found` is 0 (not in stock and Active
+               in the fresh listing); every row the file names gets `stock_checked` = its date
 The last columns (pdf, hit, dead, stock_checked) are filled by plan-54-A.
 """
 import collections
@@ -40,6 +42,10 @@ def main():
     if '--urls' in sys.argv:
         for row in csv.DictReader(open(sys.argv[sys.argv.index('--urls') + 1]), delimiter='\t'):
             urls[row['src']] = row['ok'] == '1'
+    stock = {}
+    if '--stock' in sys.argv:
+        for row in csv.DictReader(open(sys.argv[sys.argv.index('--stock') + 1]), delimiter='\t'):
+            stock[row['mpn']] = (row['found'] == '1', row['date'])
     listing = common.read_listing(raw)
     mpns = {(r['category'], r['mpn']) for r in listing}
     rows = []
@@ -63,6 +69,9 @@ def main():
             state, reason = 'out', 'duplicate'
         elif not url or (urls and not urls.get(src, False)):
             state, reason = 'out', 'no datasheet'
+        checked = stock.get(r['mpn'])
+        if checked and state == 'candidate' and not checked[0]:
+            state, reason = 'out', 'stock check'
         rows.append({
             'mpn': r['mpn'], 'maker': maker, 'maker_id': r['makerId'], 'family': family, 'series': r['series'],
             'stock': r.get('stock', ''), 'status': r.get('status', ''), 'positions': common.first_int(p.get('Number of Positions')),
@@ -70,7 +79,7 @@ def main():
             'mounting': p.get('Mounting Type', ''), 'termination': p.get('Termination', ''), 'card_type': card,
             'gender': p.get('Gender', ''), 'features': p.get('Features', ''), 'variant': variant(r, family),
             'datasheet': link, 'url': url, 'src': src, 'state': state, 'reason': reason,
-            'pdf': '', 'hit': '', 'dead': '', 'stock_checked': ''})
+            'pdf': '', 'hit': '', 'dead': '', 'stock_checked': checked[1] if checked else ''})
     with open(out, 'w', newline='') as fh:
         w = csv.DictWriter(fh, COLS, delimiter='\t', lineterminator='\n')
         w.writeheader()

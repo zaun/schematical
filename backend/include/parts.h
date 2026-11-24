@@ -27,8 +27,8 @@ typedef enum {
     PART_SHIFT, PART_CPU, PART_CHARLCD, PART_SERIAL, PART_CONNECTOR, PART_PIO, PART_DECODER,
     PART_BUFFER, PART_MUX, PART_HEADER, PART_ARITH, PART_CONVERTER, PART_RTC, PART_DIODE,
     PART_CAPACITOR, PART_REGISTER, PART_MCU, PART_RESISTOR, PART_TRANSISTOR,
-    PART_GENERIC, PART_SERIALMEM, PART_NIXIE, PART_REGULATOR, PART_CRYSTAL, PART_DEKATRON,
-    PART_POWERSWITCH
+    PART_GENERIC, PART_SERIALMEM, PART_NIXIE, PART_REGULATOR, PART_CRYSTAL, PART_DEKATRON, PART_LCD,
+    PART_LEDDRIVER, PART_LCDDRIVER, PART_POWERSWITCH
 } PartKind;
 
 /* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */
@@ -154,7 +154,10 @@ typedef struct { const char *model; unsigned channels; const char *grade; const 
    for a barrel jack. center_diameter_um is a barrel's mating plug centre-pin
    diameter (0 for USB); contacts is the number of normally-closed contacts
    (0 for USB). rated_mv / rated_ma: 0 = not given (USB only). */
-typedef struct { uint32_t center_diameter_um, rated_mv, rated_ma; unsigned contacts; char usb; } PartConnector;
+/* card: a card slot's card text ("microSD", "DDR4 SODIMM", "PCI Express"; plan-54-L), NULL for a barrel jack and a USB
+   connector; card_pitch_um: its contact pitch in micrometres, 0 when not given (and for barrel and USB). */
+typedef struct { uint32_t center_diameter_um, rated_mv, rated_ma; unsigned contacts; char usb; const char *card;
+                 uint32_t card_pitch_um; } PartConnector;
 /* A supply domain of a dual-supply part (plan-20-F): the pins powered from
    one supply. power_pins: the supply's pins (one name, possibly several
    pins, e.g. two VCCB); pins: every other pin of the domain (not ground or
@@ -293,6 +296,7 @@ typedef struct {
     double radius;           /* rect only: every corner rounded by this radius; 0 = square */
     double chamfer;          /* rect only: `corners` cut at 45 deg, this far along each edge; 0 = none */
     unsigned corners;        /* PAD_CORNER_* bits the chamfer cuts */
+    int opposite;            /* explicit only: 1 = a surface-mount pad on the other face of the board from the footprint's own side */
 } FootprintPad;
 
 /* A footprint, expanded to a flat pad list by the loader. */
@@ -301,6 +305,7 @@ typedef struct {
     unsigned pins;                      /* designated pads */
     double body_width, body_height;
     int body_round;
+    int edge_mount;                     /* 1 = the housing straddles the board edge (plan-54-E) */
     const FootprintPad *pads; size_t pad_count;   /* "1"…"N" order (grid: row-major); a pin with several pads (explicit only) lists them together, in file order; unnumbered last */
 } PartFootprint;
 

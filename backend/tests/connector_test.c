@@ -1,8 +1,28 @@
 #include <stdio.h>
+#include <string.h>
 
 #include "circuit.h"
 #include "parts.h"
 #include "read_file.h"
+
+/* A real library card slot (planning/plan-54-data/examples.tsv): its pins A and B on two nets driven from 5V and GND join nothing. */
+static int card_part_joins_nothing(PartLibrary *library, const char *name, const char *a, const char *b) {
+    Circuit *circuit = circuit_create(library);
+    size_t vcc, gnd, part, na, nb;
+
+    if (circuit == NULL || circuit_add_part(circuit, "5V", &vcc) != 0 || circuit_add_part(circuit, "GND", &gnd) != 0 ||
+        circuit_add_part(circuit, name, &part) != 0 || circuit_add_net(circuit, &na) != 0 ||
+        circuit_add_net(circuit, &nb) != 0 || circuit_connect(circuit, vcc, "1", na) != 0 ||
+        circuit_connect(circuit, part, a, na) != 0 || circuit_connect(circuit, gnd, "1", nb) != 0 ||
+        circuit_connect(circuit, part, b, nb) != 0 || circuit_start(circuit) != 0 ||
+        (circuit_advance(circuit, 1), circuit_shorted_net(circuit, &na))) {
+        fprintf(stderr, "%s: %s\n", name, circuit != NULL ? circuit_error(circuit) : "no circuit");
+        return -1;
+    }
+    circuit_destroy(circuit);
+    printf("PASS: %s (a library card slot) joins nothing\n", name);
+    return 0;
+}
 
 int main(void) {
     PartLibrary *library = part_library_create();
@@ -64,6 +84,48 @@ int main(void) {
         }
         circuit_destroy(circuit);
         puts("PASS: a USB connector loads and joins nothing");
+    }
+
+    /* A card slot is passive too: two of its contacts on two driven nets join nothing. */
+    {
+        static const char CARD[] =
+            "{\"format\":\"schematical-parts\",\"version\":1,\"kind\":\"connector\",\"devices\":["
+            "{\"id\":\"card-test\",\"function\":\"PCI Express\",\"description\":\"d\","
+            "\"drawer\":[\"Connector\",\"Card slot\",\"Card edge\"],\"card\":\"PCI Express\",\"cardPitch\":1.0,"
+            "\"pinouts\":{\"p\":[{\"number\":1,\"name\":\"A1\",\"role\":\"inout\"},"
+            "{\"number\":2,\"name\":\"A2\",\"role\":\"inout\"},{\"number\":3,\"name\":\"A3\",\"role\":\"inout\"},{\"number\":4,\"name\":\"SHIELD\",\"role\":\"inout\"}]},"
+            "\"parts\":[{\"name\":\"CARD-TEST\",\"package\":\"x\",\"pinout\":\"p\",\"footprint\":\"LED-DIP4\"}]}]}";
+        char *error = NULL;
+        size_t card, a, b;
+        const Part *part;
+
+        if (load_parts(library, CARD, "card-test.json", &error) != 0) {
+            fprintf(stderr, "card fixture: %s\n", error != NULL ? error : "?");
+            return 1;
+        }
+        part = part_library_find(library, "CARD-TEST");
+        circuit = circuit_create(library);
+        if (part == NULL || part->connector == NULL || part->connector->card == NULL ||
+            strcmp(part->connector->card, "PCI Express") != 0 || part->connector->card_pitch_um != 1000 ||
+            circuit == NULL ||
+            circuit_add_part(circuit, "5V", &vcc) != 0 || circuit_add_part(circuit, "GND", &gnd) != 0 ||
+            circuit_add_part(circuit, "CARD-TEST", &card) != 0 ||
+            circuit_add_net(circuit, &a) != 0 || circuit_add_net(circuit, &b) != 0 ||
+            circuit_connect(circuit, vcc, "1", a) != 0 || circuit_connect(circuit, card, "1", a) != 0 ||
+            circuit_connect(circuit, gnd, "1", b) != 0 || circuit_connect(circuit, card, "2", b) != 0 ||
+            circuit_start(circuit) != 0 || (circuit_advance(circuit, 1), circuit_shorted_net(circuit, &a))) {
+            fprintf(stderr, "card slot: %s\n", circuit != NULL ? circuit_error(circuit) : "no part");
+            return 1;
+        }
+        circuit_destroy(circuit);
+        puts("PASS: a card slot loads and joins nothing");
+    }
+    /* The most-stocked `add` part of each family and of the straddle-mount kind (examples.tsv). */
+    if (card_part_joins_nothing(library, "MSD-1-A", "1", "2") != 0 ||
+        card_part_joins_nothing(library, "2309413-1", "1", "2") != 0 ||
+        card_part_joins_nothing(library, "7-1734774-7", "1", "2") != 0 ||
+        card_part_joins_nothing(library, "2387405-2", "1", "2") != 0) {   /* a card-edge socket; a straddle-mount one */
+        return 1;
     }
     part_library_destroy(library);
     return 0;

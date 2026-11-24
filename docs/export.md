@@ -71,7 +71,7 @@ schematic, with anything but letters, digits, `-` and `_` turned into `_`
   clear-polarity region, drawn before the layer's traces, pads and vias so these sit on it. A pour on no net is not drawn. Keep-outs are not drawn: they
   are already cut out of the fill.
 
-| `.GTS` / `.GBS` | solder mask (`FilePolarity,Negative`: drawn = opening) | the side's surface-mount pads and fingers, every plated through-hole pad, every bare hole, each grown by the Mask expansion design rule. Vias are tented unless opened (Via ▸ Tented on Top / Bottom): an open side gets an opening the via's metal grown by the Mask expansion |
+| `.GTS` / `.GBS` | solder mask (`FilePolarity,Negative`: drawn = opening) | the side's surface-mount pads (an opposite-side pad is on the side opposite its part's) and fingers, every plated through-hole pad, every bare hole, each grown by the Mask expansion design rule. Vias are tented unless opened (Via ▸ Tented on Top / Bottom): an open side gets an opening the via's metal grown by the Mask expansion |
 | `.GTP` / `.GBP` | paste | the side's surface-mount part pads (not fingers) |
 | `.GTO` / `.GBO` | silkscreen | silkscreen texts, references (1 mm, centred on the body, or where the part's reference was moved to), pin-1 dots (0.4 mm), body outlines and cathode bands (0.15 mm pen), each only when its layer is Silkscreen |
 | `.GKO` | outline (`Profile,NP`) | the board outline, 0.1 mm pen |
@@ -251,7 +251,8 @@ end.
 the page. Footprints are written with the part's reference, value, body outline,
 pin-1 dot and diode band on the layers the part's marks name, pads in the footprint's
 own frame (a turn of `r` degrees clockwise is KiCad's angle `-r`, a Bottom footprint
-has its x mirrored and its pads on `B.*`), traces, vias (each with its two tenting flags, `(tenting (front yes) (back no))`; `front` is Top), Plane layers as unfilled
+has its x mirrored and its pads on `B.*`; an opposite-side pad (`"opposite": true`, plan-54-E) is on the other copper layer, its `(layers …)`
+those of the other side), traces, vias (each with its two tenting flags, `(tenting (front yes) (back no))`; `front` is Top), Plane layers as unfilled
 zones (press B in KiCad to fill), each copper pour on a net as an unfilled zone over its rectangle (`connect_pads` with no keyword is thermal relief,
 `connect_pads yes` solid; `thermal_gap`, `thermal_bridge_width` and `min_thickness` are the pour's gap, spoke width and minimum width; KiCad fills it with Fill All Zones (B),
 so its fill differs from the app's in detail), each keep-out as a rule area on its layers that blocks only copper pour (`(keepout (tracks allowed) (vias allowed) (pads allowed)
@@ -335,7 +336,8 @@ minimum), the design rules' track width, a `NET` for every net a pad carries, th
 (`POLY` on the outline layer), a `POUR` for each inner Plane on a net and for each copper pour on a net (over its rectangle; keep-outs are not exported, the format's keep-out record can't be checked here), a `LINE` per trace
 segment, `VIA`s, a `PAD` for each card finger and hole, `STRING` for board texts, and each
 part as a `COMPONENT` with `Designator`, `Device` and `Footprint` attributes and a
-`PAD_NET` per pad on a net. A net of one pin is left without a net.
+`PAD_NET` per pad on a net. A net of one pin is left without a net. A footprint file is the footprint as seen
+from its own side: its pads are on layer 1, an opposite-side pad (plan-54-E) on layer 2.
 
 **Not exported**: net classes and layer rules, No Connect flags, the schematic's per-part
 silkscreen marks (a footprint's body is on the assembly layer and its pin-1 dot on Top

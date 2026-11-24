@@ -33,6 +33,7 @@ add_library(logic STATIC
     src/models/led.c
     src/models/nixie.c
     src/models/dekatron.c
+    src/models/lcd.c
     src/models/regulator.c
     src/models/crystal.c
     src/models/powerswitch.c
@@ -72,6 +73,9 @@ add_library(logic STATIC
     src/models/converter_load.c
     src/models/converter_par.c
     src/models/rtc.c
+    src/models/display_out.c
+    src/models/leddriver.c
+    src/models/lcddriver.c
     src/models/ns16550_bridge.c
     src/models/ns16550_xr1280.c
     src/models/serial_max3100.c
@@ -184,6 +188,7 @@ logic_test(usbuart_test)
 logic_test(pio_test)
 logic_test(converter_test)
 logic_test(rtc_test)
+logic_test(display_out_test)
 logic_test(tactile_test)
 logic_test(diode_test)
 logic_test(resistor_test)
@@ -194,6 +199,7 @@ logic_test(generic_test)
 logic_test(serialmem_test)
 logic_test(nixie_test)
 logic_test(dekatron_test)
+logic_test(lcd_test)
 logic_test(regulator_test)
 logic_test(crystal_test)
 logic_test(powerswitch_test)

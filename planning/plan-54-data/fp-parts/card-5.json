@@ -1,0 +1,2479 @@
+{
+ "format": "schematical-footprints",
+ "version": 1,
+ "footprints": [
+  {
+   "id": "SOCK-SAMESKY-SD-4-B-11",
+   "description": "Same Sky SD-4-B SD card socket (push-push, SMD right angle), 11 contacts + 4 shell pads",
+   "note": "sd-4-b.pdf p.3 Recommended PCB Layout (top view, card enters from the bottom of the drawing; rotated 180 deg about the housing centre so the opening points up). Contact pads 1.00 x 1.80 (pins 10 and 11: 0.70 x 1.80), all 1.80 high with their inner edge on the housing back edge; x from the card centre line: pin 9 +9.375 (printed 9.375), pins 7..1 at pitch 2.50 from pin 9 -17.50 (printed 17.50, 2.50): pin 7 = 9.375-17.50 = -8.125, pin 1 = -8.125+15.00 = 6.875; pin 8 = pin 7 -1.63 = -9.755, pin 10 = pin 8 -1.30 = -11.055, pin 11 = pin 10 -1.20 = -12.255 (1.63 printed on p.2; 1.30 and 1.20 printed on p.3, read from the drawing, checked to 0.03 mm against the rendered print). Holes: dia 1.10 at -11.50 (11.50 from the centre line) and dia 1.60 at 9.50 (21.00 between them), both 2.05 below the pad row (2.05 printed), non-plated. Shell pads 1.50 x 2.80: bottom pair at +-13.65 (28.80 overall, 14.40 to the centre line, 1.50 wide), y 14.25..17.05 (14.60 from the top pad edge -0.35, 2.80 high; 14.25 = -0.35+14.60); top pair: left 13.64 left of the centre line, right 11.44 right (26.57 overall between their outer edges: 13.64+0.75+11.44+0.75 = 26.58; centres measured from the print, +-0.03 mm), y -0.35..2.45 (2.40 above the hole line +0.40). Body = housing 26.30 wide (p.2) by 16.50 deep (p.2, 16.50), back edge on the pad row inner edge (the front line drawn on p.3 is 16.59 from it: 16.50 used).",
+   "style": "explicit",
+   "pins": 12,
+   "body": {
+    "width": 26.3,
+    "height": 16.5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -6.875,
+     "y": 9.15,
+     "width": 1.0,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -4.375,
+     "y": 9.15,
+     "width": 1.0,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -1.875,
+     "y": 9.15,
+     "width": 1.0,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 0.625,
+     "y": 9.15,
+     "width": 1.0,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 3.125,
+     "y": 9.15,
+     "width": 1.0,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 5.625,
+     "y": 9.15,
+     "width": 1.0,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 8.125,
+     "y": 9.15,
+     "width": 1.0,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 9.755,
+     "y": 9.15,
+     "width": 1.0,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -9.375,
+     "y": 9.15,
+     "width": 1.0,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": 11.055,
+     "y": 9.15,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": 12.255,
+     "y": 9.15,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": 13.64,
+     "y": 7.2,
+     "width": 1.5,
+     "height": 2.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -11.44,
+     "y": 7.2,
+     "width": 1.5,
+     "height": 2.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": 13.65,
+     "y": -7.4,
+     "width": 1.5,
+     "height": 2.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -13.65,
+     "y": -7.4,
+     "width": 1.5,
+     "height": 2.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 11.5,
+     "y": 6.2,
+     "width": 1.1,
+     "height": 1.1,
+     "shape": "round",
+     "drill": 1.1,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -9.5,
+     "y": 6.2,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-SD-5-B-11",
+   "description": "Same Sky SD-5-B SD card socket (SMD right angle, through-hole shell legs), 11 contacts + 4 shell legs",
+   "note": "sd-5-b.pdf p.3 Recommended PCB Layout (top view, card enters from the bottom; rotated 180 deg about the housing centre so the opening points up). Scale of the vector print 8.163 pt/mm (2.15 pitch = 17.55 pt). Contact pads 1.30 x 1.50 (11-1.30, 1.50), pitch 2.15 (2.15x10 = 21.50), pad P4 on the connector centre line; order left to right W/P(10) P8 P7 P6 P5 P4 P3 CD(11) P2 P1 P9, i.e. x = (k-5) x 2.15, k = 0..10. Shell legs: 4 plated slots 0.55 x 1.50 (4-0.55, 4-1.50) at x = +-14.63 (29.26 between slot centres), y 5.69 below the pad top edge (5.69) and 7.85 further (7.85): 5.69 and 13.54. Each leg pad is 1.54 wide (1.54) and 2.10 long (4-2.10) with a 1.70 tall rectangular tail towards the housing (4-1.70); the slot is 0.577 from the outer edge, so it is drawn as two abutting pads of pin 12 (pads of one pin may not overlap): a pad centred on the slot 1.154 x 2.10 (2 x 0.577) and, on the housing side, the rest of the tail 0.381 x 1.70 from 0.587 to 0.968 from the slot centre (1.54 = 0.577+0.968; centre 0.7775; 0.01 clear of the slot pad); the print's tail is 0.693 wide starting 0.274 from the slot centre, the 0.30 under the slot pad is the slot pad. The rounded outer end of the print is square here. Body: housing outline 27.32 wide (27.32) and 14.26 deep (451.44 to 567.83 pt = 116.39 pt / 8.163), back edge 1.80 below the pad top edge (0.30 beyond the pads).",
+   "style": "explicit",
+   "pins": 12,
+   "body": {
+    "width": 27.32,
+    "height": 14.26
+   },
+   "pads": [
+    {
+     "pin": 10,
+     "x": 10.75,
+     "y": 8.18,
+     "width": 1.3,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 8.6,
+     "y": 8.18,
+     "width": 1.3,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 6.45,
+     "y": 8.18,
+     "width": 1.3,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 4.3,
+     "y": 8.18,
+     "width": 1.3,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 2.15,
+     "y": 8.18,
+     "width": 1.3,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 0.0,
+     "y": 8.18,
+     "width": 1.3,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -2.15,
+     "y": 8.18,
+     "width": 1.3,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -4.3,
+     "y": 8.18,
+     "width": 1.3,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -6.45,
+     "y": 8.18,
+     "width": 1.3,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -8.6,
+     "y": 8.18,
+     "width": 1.3,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -10.75,
+     "y": 8.18,
+     "width": 1.3,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": 14.63,
+     "y": 3.24,
+     "width": 1.154,
+     "height": 2.1,
+     "shape": "rect",
+     "drill": 0.55,
+     "slotLength": 1.5
+    },
+    {
+     "pin": 12,
+     "x": 13.853,
+     "y": 3.24,
+     "width": 0.381,
+     "height": 1.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": 14.63,
+     "y": -4.61,
+     "width": 1.154,
+     "height": 2.1,
+     "shape": "rect",
+     "drill": 0.55,
+     "slotLength": 1.5
+    },
+    {
+     "pin": 12,
+     "x": 13.853,
+     "y": -4.61,
+     "width": 0.381,
+     "height": 1.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -14.63,
+     "y": 3.24,
+     "width": 1.154,
+     "height": 2.1,
+     "shape": "rect",
+     "drill": 0.55,
+     "slotLength": 1.5
+    },
+    {
+     "pin": 12,
+     "x": -13.853,
+     "y": 3.24,
+     "width": 0.381,
+     "height": 1.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -14.63,
+     "y": -4.61,
+     "width": 1.154,
+     "height": 2.1,
+     "shape": "rect",
+     "drill": 0.55,
+     "slotLength": 1.5
+    },
+    {
+     "pin": 12,
+     "x": -13.853,
+     "y": -4.61,
+     "width": 0.381,
+     "height": 1.7,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-SD-6-B-10",
+   "description": "Same Sky SD-6-B SD card socket (SMD right angle, no shield pads), 10 contacts",
+   "note": "sd-6-b.pdf p.3 Recommended PCB Layout (top view, card enters from the bottom; rotated 180 deg so the opening points up). Vector print, 15.016 pt/mm (pitch 2.50 = 37.55 pt; 16.00 between holes = 240.26 pt). Contact pads 1.00 x 1.80 (1.80 printed), pad bottom edges on one line; positions from the pad outlines: P8,P7,P6,P5,P4,P3,CD,P2,P1,P9 at x (mm from the centre line 9.20 left of the dia 1.60 hole) -9.78, -8.08 (1.70 from P8), -5.66 (2.43), -3.16 (2.50), -0.66 (2.50), +1.04 (1.70), +2.69 (1.65), +4.34 (1.65), +6.84 (2.50), +9.34 (2.50). Pin 10 = CD pad. Holes dia 1.10 (left) and dia 1.60 (right), 16.00 apart, 2.00 below the pad edge (2.00), non-plated. The 25.91 x 2.70 keep-out below is not a pad and is not drawn. Body = the dashed component outline of the print, 25.91 wide x 11.20 deep (389.1 pt, 168.2 pt), its back edge 0.20 below the pads.",
+   "style": "explicit",
+   "pins": 10,
+   "body": {
+    "width": 25.91,
+    "height": 11.2
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -6.855,
+     "y": 6.701,
+     "width": 1.0,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -4.355,
+     "y": 6.701,
+     "width": 1.0,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -1.054,
+     "y": 6.701,
+     "width": 1.0,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 0.645,
+     "y": 6.701,
+     "width": 1.0,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 3.145,
+     "y": 6.701,
+     "width": 1.0,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 5.645,
+     "y": 6.701,
+     "width": 1.0,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 8.07,
+     "y": 6.701,
+     "width": 1.0,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 9.77,
+     "y": 6.701,
+     "width": 1.0,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -9.355,
+     "y": 6.701,
+     "width": 1.0,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -2.704,
+     "y": 6.701,
+     "width": 1.0,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 6.792,
+     "y": 3.804,
+     "width": 1.1,
+     "height": 1.1,
+     "shape": "round",
+     "drill": 1.1,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -9.208,
+     "y": 3.804,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-SD7-1-B-21",
+   "description": "Same Sky SD7-1-B SD 7.0 card socket (SMD right angle), 21 contacts + 4 shell legs",
+   "note": "sd7-1-b.pdf p.4 Recommended PCB Layout (top view, card enters from the bottom; rotated 180 deg about the housing centre so the opening points up). Contact pads 0.50 x 1.80 (21-0.50, 21-1.80), P1..P21 = pins 1..21 (page 3 table), x from the connector centre line as printed: P21 -10.775, P20 -9.575, P19 -8.725, P18 -7.875, P17 -6.65, P16 -5.45, P15 -4.20, P14 -3.00, P12 -0.90, P11 +0.15, P10 +1.20, P09 +2.25, P08 +3.30, P07 +4.55, P06 +5.80, P05 +7.05, P04 +8.30, P03 +9.55, P02 +10.80, P01 +12.05; P13 -1.95 is read from the print (the stack prints 2.10; the rendered pad edges are 1.05 from P14 and P12: -3.00+1.05). Holes dia 1.70 (2-dia1.70) at +-11.40 (22.80), 1.90 below the pad edge (1.90), non-plated. Shell legs: 4 plated slots 0.50 x 2.10 (4-0.50, 4-2.10) in 1.80 x 3.40 oval pads (4-1.80, 4-3.40) at x +-13.125 (26.25 between), y 3.80 (3.80) and 15.10 (15.10) below the hole line. The 20.44 x 7.30 keep-out is not drawn. Body = housing 26.45 wide x 21.20 deep (p.2), centred on the connector centre line, back edge on the pad row inner edge.",
+   "style": "explicit",
+   "pins": 22,
+   "body": {
+    "width": 26.45,
+    "height": 21.2
+   },
+   "pads": [
+    {
+     "pin": 21,
+     "x": 10.775,
+     "y": 11.5,
+     "width": 0.5,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": 9.575,
+     "y": 11.5,
+     "width": 0.5,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": 8.725,
+     "y": 11.5,
+     "width": 0.5,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": 7.875,
+     "y": 11.5,
+     "width": 0.5,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": 6.65,
+     "y": 11.5,
+     "width": 0.5,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": 5.45,
+     "y": 11.5,
+     "width": 0.5,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": 4.2,
+     "y": 11.5,
+     "width": 0.5,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": 3.0,
+     "y": 11.5,
+     "width": 0.5,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": 1.95,
+     "y": 11.5,
+     "width": 0.5,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": 0.9,
+     "y": 11.5,
+     "width": 0.5,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -0.15,
+     "y": 11.5,
+     "width": 0.5,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -1.2,
+     "y": 11.5,
+     "width": 0.5,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -2.25,
+     "y": 11.5,
+     "width": 0.5,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -3.3,
+     "y": 11.5,
+     "width": 0.5,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -4.55,
+     "y": 11.5,
+     "width": 0.5,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -5.8,
+     "y": 11.5,
+     "width": 0.5,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -7.05,
+     "y": 11.5,
+     "width": 0.5,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -8.3,
+     "y": 11.5,
+     "width": 0.5,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -9.55,
+     "y": 11.5,
+     "width": 0.5,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -10.8,
+     "y": 11.5,
+     "width": 0.5,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -12.05,
+     "y": 11.5,
+     "width": 0.5,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 11.4,
+     "y": 8.7,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.7,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -11.4,
+     "y": 8.7,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.7,
+     "plated": false
+    },
+    {
+     "pin": 22,
+     "x": 13.125,
+     "y": 4.9,
+     "width": 1.8,
+     "height": 3.4,
+     "shape": "round",
+     "drill": 0.5,
+     "slotLength": 2.1
+    },
+    {
+     "pin": 22,
+     "x": 13.125,
+     "y": -6.4,
+     "width": 1.8,
+     "height": 3.4,
+     "shape": "round",
+     "drill": 0.5,
+     "slotLength": 2.1
+    },
+    {
+     "pin": 22,
+     "x": -13.125,
+     "y": 4.9,
+     "width": 1.8,
+     "height": 3.4,
+     "shape": "round",
+     "drill": 0.5,
+     "slotLength": 2.1
+    },
+    {
+     "pin": 22,
+     "x": -13.125,
+     "y": -6.4,
+     "width": 1.8,
+     "height": 3.4,
+     "shape": "round",
+     "drill": 0.5,
+     "slotLength": 2.1
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-SD4-1-A-19",
+   "description": "Same Sky SD4-1-A SD 4.0 (UHS-II) card socket (SMD right angle), 19 contacts + 4 shell pads",
+   "note": "sd4-1-a.pdf p.3 Recommended PCB Layout (top view, card enters from the bottom; rotated 180 deg about the housing centre so the opening points up). Vector print, 4.93 pt/mm (29.65 between the shell pad centres = 146.17 pt; pad height 8.88 pt = 1.80). Contact pads P1..P19 (pin = P number, page 3 table) 0.70 x 1.80 (1.80 printed), P19 at the left to P1 at the right of the print, x from the centre line (the middle of the shell pads, C/L of 29.65) of the pad outlines: P1 +9.85, P2 +8.60, P3 +7.35, P4 +6.10, P5 +4.85, P6 +3.60, P7 +2.35, P8 +1.30, P9 +0.25, P10 -0.80, P11 -1.85, P12 -2.90, P13 -3.95, P14 -5.15, P15 -6.40, P16 -7.60, P17 -8.82, P18 -10.52, P19 -11.72 (pad outline centres in pt / 4.93, rounded to 0.01; the printed stack 9.60, 8.35, 7.10, 5.85, 4.60, 3.35, 2.10 on the right is measured from the P9 pad: 9.85-0.25 = 9.60). Shell pads 1.80 x 2.20 (1.80, 2.20) at x +-14.825 (29.65 between), y 3.80 (3.80) and 23.90 (23.90) below the hole line, which is 1.90 (1.90) below the pad edge: 5.70 and 25.80 below the pad edge. Holes 2-dia1.60 non-plated at x -12.35 and +10.45 (circle centres in pt / 4.93), on the hole line. Body = housing 28.35 wide (p.2 bottom view) x 29.40 deep (p.2), back edge taken on the pad row inner edge (assumed: the print shows leads 1.60 beyond the housing and 1.80 pads), x centred on the centre line.",
+   "style": "explicit",
+   "pins": 20,
+   "body": {
+    "width": 28.35,
+    "height": 29.4
+   },
+   "pads": [
+    {
+     "pin": 19,
+     "x": 11.724,
+     "y": 15.601,
+     "width": 0.7,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": 10.525,
+     "y": 15.601,
+     "width": 0.7,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": 8.824,
+     "y": 15.601,
+     "width": 0.7,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": 7.598,
+     "y": 15.601,
+     "width": 0.7,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": 6.4,
+     "y": 15.601,
+     "width": 0.7,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": 5.15,
+     "y": 15.601,
+     "width": 0.7,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": 3.949,
+     "y": 15.601,
+     "width": 0.7,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": 2.899,
+     "y": 15.601,
+     "width": 0.7,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": 1.85,
+     "y": 15.601,
+     "width": 0.7,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": 0.799,
+     "y": 15.601,
+     "width": 0.7,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -0.252,
+     "y": 15.601,
+     "width": 0.7,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -1.3,
+     "y": 15.601,
+     "width": 0.7,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -2.351,
+     "y": 15.601,
+     "width": 0.7,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -3.602,
+     "y": 15.601,
+     "width": 0.7,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -4.85,
+     "y": 15.601,
+     "width": 0.7,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -6.101,
+     "y": 15.601,
+     "width": 0.7,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -7.351,
+     "y": 15.601,
+     "width": 0.7,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -8.602,
+     "y": 15.601,
+     "width": 0.7,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -9.85,
+     "y": 15.601,
+     "width": 0.7,
+     "height": 1.801,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": 14.825,
+     "y": 9.001,
+     "width": 1.801,
+     "height": 2.201,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": 14.825,
+     "y": -11.101,
+     "width": 1.801,
+     "height": 2.199,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": -14.826,
+     "y": 9.001,
+     "width": 1.799,
+     "height": 2.201,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": -14.826,
+     "y": -11.101,
+     "width": 1.799,
+     "height": 2.199,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 12.35,
+     "y": 12.801,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -10.449,
+     "y": 12.801,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-SD4-4-B-19",
+   "description": "Same Sky SD4-4-B SD 4.0 (UHS-II) card socket (SMD right angle), 19 contacts + 4 shell pads",
+   "note": "sd4-4-b.pdf p.3 Recommended PCB Layout (top view, card enters from the bottom; rotated 180 deg about the housing centre so the opening points up). Vector print, 4.835 pt/mm (27.75 between the shell pad centres = 134.21 pt). Contact pads P1..P19 (pin = P number, page 3 table) 0.70 x 1.80, P19 at the left to P1 at the right of the print; x from the centre line (the middle of the shell pads) = the printed p.2 stack: P1 +10.80, P2 +9.55, P3 +8.30, P4 +7.05, P5 +5.80, P6 +4.55, P7 +3.30, P8 +2.25, P9 +1.20, P10 +0.15, P11 -0.90, P12 -1.95, P13 -3.00, P14 -4.20, P15 -5.45, P16 -6.65, P17 -7.88, P18 -9.58, P19 -10.78 (the pad outlines agree to 0.02). Holes 2-dia1.60 non-plated at +-11.40 (22.80), 1.90 below the pad edge (1.90 printed in p.2). Shell pads 1.80 x 2.20 at x +-13.875 (27.75), y 3.80 (3.80) and 15.10 (15.10) below the hole line: 5.70 and 17.00 below the pad edge. Body = housing 26.45 wide x 21.20 deep (p.2), back edge on the pad row inner edge (assumed), centred on the centre line.",
+   "style": "explicit",
+   "pins": 20,
+   "body": {
+    "width": 26.45,
+    "height": 21.2
+   },
+   "pads": [
+    {
+     "pin": 19,
+     "x": 10.78,
+     "y": 11.5,
+     "width": 0.699,
+     "height": 1.799,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": 9.578,
+     "y": 11.5,
+     "width": 0.699,
+     "height": 1.799,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": 7.88,
+     "y": 11.5,
+     "width": 0.699,
+     "height": 1.799,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": 6.654,
+     "y": 11.5,
+     "width": 0.699,
+     "height": 1.799,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": 5.454,
+     "y": 11.5,
+     "width": 0.699,
+     "height": 1.799,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": 4.203,
+     "y": 11.5,
+     "width": 0.699,
+     "height": 1.799,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": 3.001,
+     "y": 11.5,
+     "width": 0.699,
+     "height": 1.799,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": 1.952,
+     "y": 11.5,
+     "width": 0.699,
+     "height": 1.799,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": 0.904,
+     "y": 11.5,
+     "width": 0.699,
+     "height": 1.799,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -0.149,
+     "y": 11.5,
+     "width": 0.699,
+     "height": 1.799,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -1.198,
+     "y": 11.5,
+     "width": 0.699,
+     "height": 1.799,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -2.248,
+     "y": 11.5,
+     "width": 0.699,
+     "height": 1.799,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -3.299,
+     "y": 11.5,
+     "width": 0.699,
+     "height": 1.799,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -4.55,
+     "y": 11.5,
+     "width": 0.699,
+     "height": 1.799,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -5.801,
+     "y": 11.5,
+     "width": 0.699,
+     "height": 1.799,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -7.051,
+     "y": 11.5,
+     "width": 0.699,
+     "height": 1.799,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -8.3,
+     "y": 11.5,
+     "width": 0.699,
+     "height": 1.799,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -9.551,
+     "y": 11.5,
+     "width": 0.699,
+     "height": 1.799,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -10.8,
+     "y": 11.5,
+     "width": 0.699,
+     "height": 1.799,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": 13.879,
+     "y": 4.899,
+     "width": 1.801,
+     "height": 2.199,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": 13.879,
+     "y": -6.405,
+     "width": 1.801,
+     "height": 2.201,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": -13.879,
+     "y": 4.899,
+     "width": 1.801,
+     "height": 2.199,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": -13.879,
+     "y": -6.405,
+     "width": 1.801,
+     "height": 2.201,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 11.405,
+     "y": 8.699,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -11.4,
+     "y": 8.699,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-SD4-5-B-19",
+   "description": "Same Sky SD4-5-B SD 4.0 (UHS-II) card socket (SMD right angle), 19 contacts + 4 shell pads",
+   "note": "sd4-5-b.pdf p.3 Recommended PCB Layout (top view, card enters from the bottom; rotated 180 deg about the housing centre so the opening points up). Vector print, 6.807 pt/mm (22.80 between the holes = 155.2 pt). Contact pads P1..P19 (pin = P number, page 3 table) 0.70 x 1.80, P1 at the left to P19 at the right of the print (the pads carry the numbers 1..19 left to right); x from the centre line (middle of the holes) = p.2 stack: P1 -10.80, P2 -9.55, P3 -8.30, P4 -7.05, P5 -5.80, P6 -4.55, P7 -3.30, P8 -2.25, P9 -1.20, P10 -0.15, P11 +0.90, P12 +1.95, P13 +3.00, P14 +4.20, P15 +5.45, P16 +6.65, P17 +7.87, P18 +9.07, P19 +10.27 (the pad outlines agree to 0.03). Holes 2-dia1.60 non-plated at +-11.40 (22.80), 1.40 below the pad edge (1.40). Shell pads 1.80 x 2.20 at x +-13.875, y 3.50 (3.50) and 15.40 (15.40) below the hole line: 4.90 and 16.80 below the pad edge. Body = housing 26.45 wide (p.2) x 20.00 deep (p.2 prints 20.00; 16.20 card eject), back edge on the pad row inner edge (assumed), centred on the centre line.",
+   "style": "explicit",
+   "pins": 20,
+   "body": {
+    "width": 26.45,
+    "height": 20.0
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 10.799,
+     "y": 10.9,
+     "width": 0.701,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 9.549,
+     "y": 10.9,
+     "width": 0.701,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 8.297,
+     "y": 10.9,
+     "width": 0.701,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 7.049,
+     "y": 10.9,
+     "width": 0.701,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 5.8,
+     "y": 10.9,
+     "width": 0.701,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 4.548,
+     "y": 10.9,
+     "width": 0.701,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 3.298,
+     "y": 10.9,
+     "width": 0.701,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 2.249,
+     "y": 10.9,
+     "width": 0.701,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": 1.197,
+     "y": 10.9,
+     "width": 0.701,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": 0.148,
+     "y": 10.9,
+     "width": 0.701,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -0.902,
+     "y": 10.9,
+     "width": 0.701,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -1.952,
+     "y": 10.9,
+     "width": 0.701,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": -3.001,
+     "y": 10.9,
+     "width": 0.701,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": -4.202,
+     "y": 10.9,
+     "width": 0.701,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": -5.453,
+     "y": 10.9,
+     "width": 0.701,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": -6.652,
+     "y": 10.9,
+     "width": 0.701,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": -7.877,
+     "y": 10.9,
+     "width": 0.701,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": -9.077,
+     "y": 10.9,
+     "width": 0.701,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": -10.278,
+     "y": 10.9,
+     "width": 0.701,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": 13.875,
+     "y": 5.1,
+     "width": 1.798,
+     "height": 2.199,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": 13.875,
+     "y": -6.801,
+     "width": 1.798,
+     "height": 2.202,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": -13.877,
+     "y": 5.1,
+     "width": 1.8,
+     "height": 2.199,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": -13.877,
+     "y": -6.801,
+     "width": 1.8,
+     "height": 2.202,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 11.4,
+     "y": 8.601,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -11.4,
+     "y": 8.601,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 1.6,
+     "plated": false
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-SD7-3-B-21",
+   "description": "Same Sky SD7-3-B SD 7.0 card socket (SMD right angle), 21 contacts + 4 shell pads",
+   "note": "sd7-3-b.pdf p.4 Recommended PCB Layout (top view, card enters from the bottom; rotated 180 deg about the housing centre so the opening points up). Vector print, 10.747 pt/mm (2-dia1.70 holes 22.80 apart). Contact pads P01..P21 = pins 1..21, 1.80 high (21-1.80), 0.70 wide (18-0.70) except P19 0.48 (0.48), P03 0.61 (0.61) and P02 0.35 (0.35) (widths read from the pad outlines, 0.01 mm); x from the connector centre line as printed: P21 -10.775, P20 -9.575, P19 -8.725, P18 -7.875, P17 -6.65, P16 -5.45, P15 -4.20, P14 -3.00, P13 -1.95, P12 -0.90, P11 +0.15, P10 +1.20, P09 +2.25, P08 +3.30, P07 +4.55, P06 +5.80, P05 +7.05, P04 +8.30, P03 +9.50, P02 +10.18, P01 +10.91. Holes dia 1.70 at +-11.40 (22.80), non-plated, 1.90 below the pad edge (1.90). Shell pads 4-1.80 x 4-2.20 at x +-13.875 (27.75 between centres), 3.80 and 15.10 below the hole line (3.80; 15.10 = 3.80+11.30). The 21.00 x 13.50 no-copper area is not a pad and is not drawn. Body = housing 26.45 wide x 21.20 deep (p.2), centred on the connector centre line, back edge on the pad row inner edge (assumed: leads 1.60 beyond the housing).",
+   "style": "explicit",
+   "pins": 22,
+   "body": {
+    "width": 26.45,
+    "height": 21.2
+   },
+   "pads": [
+    {
+     "pin": 21,
+     "x": 10.775,
+     "y": 11.5,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": 9.575,
+     "y": 11.5,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": 8.725,
+     "y": 11.5,
+     "width": 0.48,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": 7.875,
+     "y": 11.5,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": 6.65,
+     "y": 11.5,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": 5.45,
+     "y": 11.5,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": 4.2,
+     "y": 11.5,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": 3.0,
+     "y": 11.5,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": 1.95,
+     "y": 11.5,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": 0.9,
+     "y": 11.5,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -0.15,
+     "y": 11.5,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -1.2,
+     "y": 11.5,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -2.25,
+     "y": 11.5,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -3.3,
+     "y": 11.5,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -4.55,
+     "y": 11.5,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -5.8,
+     "y": 11.5,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -7.05,
+     "y": 11.5,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -8.3,
+     "y": 11.5,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -9.5,
+     "y": 11.5,
+     "width": 0.61,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -10.18,
+     "y": 11.5,
+     "width": 0.35,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -10.91,
+     "y": 11.5,
+     "width": 0.7,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 11.4,
+     "y": 8.7,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.7,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -11.4,
+     "y": 8.7,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.7,
+     "plated": false
+    },
+    {
+     "pin": 22,
+     "x": 13.875,
+     "y": 4.9,
+     "width": 1.8,
+     "height": 2.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 22,
+     "x": 13.875,
+     "y": -6.4,
+     "width": 1.8,
+     "height": 2.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 22,
+     "x": -13.875,
+     "y": 4.9,
+     "width": 1.8,
+     "height": 2.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 22,
+     "x": -13.875,
+     "y": -6.4,
+     "width": 1.8,
+     "height": 2.2,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-SD7-4-B-21",
+   "description": "Same Sky SD7-4-B SD 7.0 card socket (SMD right angle, through-hole shell legs), 21 contacts + 4 shell legs",
+   "note": "sd7-4-b.pdf p.4 Recommended PCB Layout (top view, card enters from the bottom; rotated 180 deg about the housing centre so the opening points up); P1 is at the left of the print. Vector print, 12.40 pt/mm (dia 0.90 holes 24.50 apart). Contact pads P1..P21 = pins 1..21, 1.65 high (1.65), 0.70 wide (18-0.70) except P18 0.60, P19 0.50, P20 0.60 (printed 0.60, 0.50, 0.60; assigned by the pad outlines); x from the connector centre line as printed: P1 -11.65, P2 -10.60, P3 -9.55, P4 -8.30, P5 -7.05, P6 -5.80, P7 -4.55, P8 -3.30, P9 -2.25, P10 -1.20, P11 -0.15, P12 +0.90, P13 +1.95, P14 +3.00, P15 +4.20, P16 +5.45, P17 +6.65, P18 +7.88, P19 +8.73, P20 +9.58, P21 +10.78. Holes 2 x dia 0.90 non-plated at +-12.25 (24.50), 1.40 below the pad edge (3.05 from the pad top edge minus the 1.65 pad). Shell legs: 4 plated slots 0.70 x 2.10 (4-0.70TPH; length from the outline, 2.10) in 1.30 x 2.70 oval pads (4-1.30, 4-2.70TPH) at x +-12.875 (25.75), 5.30 (5.30) and 11.95 (11.95) further below the hole line. Body = housing 25.95 wide (p.2) x 21.00 deep (p.2; 21.55 to the lead tips), centred on the connector centre line; the leads project 0.55 (21.55-21.00) so the back edge is put 0.90 above the pad row inner edge (pad top + 0.20 + 0.55 = 0.75 below the pad top; assumes the pad ends 0.20 beyond the lead tip): this offset is an assumption.",
+   "style": "explicit",
+   "pins": 22,
+   "body": {
+    "width": 25.95,
+    "height": 21.0
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 11.65,
+     "y": 10.425,
+     "width": 0.7,
+     "height": 1.65,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 10.6,
+     "y": 10.425,
+     "width": 0.7,
+     "height": 1.65,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 9.55,
+     "y": 10.425,
+     "width": 0.7,
+     "height": 1.65,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 8.3,
+     "y": 10.425,
+     "width": 0.7,
+     "height": 1.65,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 7.05,
+     "y": 10.425,
+     "width": 0.7,
+     "height": 1.65,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 5.8,
+     "y": 10.425,
+     "width": 0.7,
+     "height": 1.65,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 4.55,
+     "y": 10.425,
+     "width": 0.7,
+     "height": 1.65,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 3.3,
+     "y": 10.425,
+     "width": 0.7,
+     "height": 1.65,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": 2.25,
+     "y": 10.425,
+     "width": 0.7,
+     "height": 1.65,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": 1.2,
+     "y": 10.425,
+     "width": 0.7,
+     "height": 1.65,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": 0.15,
+     "y": 10.425,
+     "width": 0.7,
+     "height": 1.65,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -0.9,
+     "y": 10.425,
+     "width": 0.7,
+     "height": 1.65,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": -1.95,
+     "y": 10.425,
+     "width": 0.7,
+     "height": 1.65,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": -3.0,
+     "y": 10.425,
+     "width": 0.7,
+     "height": 1.65,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": -4.2,
+     "y": 10.425,
+     "width": 0.7,
+     "height": 1.65,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": -5.45,
+     "y": 10.425,
+     "width": 0.7,
+     "height": 1.65,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": -6.65,
+     "y": 10.425,
+     "width": 0.7,
+     "height": 1.65,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": -7.88,
+     "y": 10.425,
+     "width": 0.6,
+     "height": 1.65,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": -8.73,
+     "y": 10.425,
+     "width": 0.5,
+     "height": 1.65,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": -9.58,
+     "y": 10.425,
+     "width": 0.6,
+     "height": 1.65,
+     "shape": "rect"
+    },
+    {
+     "pin": 21,
+     "x": -10.78,
+     "y": 10.425,
+     "width": 0.7,
+     "height": 1.65,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 12.25,
+     "y": 8.2,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "round",
+     "drill": 0.9,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -12.25,
+     "y": 8.2,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "round",
+     "drill": 0.9,
+     "plated": false
+    },
+    {
+     "pin": 22,
+     "x": 12.875,
+     "y": 2.9,
+     "width": 1.3,
+     "height": 2.7,
+     "shape": "round",
+     "drill": 0.7,
+     "slotLength": 2.1
+    },
+    {
+     "pin": 22,
+     "x": 12.875,
+     "y": -9.05,
+     "width": 1.3,
+     "height": 2.7,
+     "shape": "round",
+     "drill": 0.7,
+     "slotLength": 2.1
+    },
+    {
+     "pin": 22,
+     "x": -12.875,
+     "y": 2.9,
+     "width": 1.3,
+     "height": 2.7,
+     "shape": "round",
+     "drill": 0.7,
+     "slotLength": 2.1
+    },
+    {
+     "pin": 22,
+     "x": -12.875,
+     "y": -9.05,
+     "width": 1.3,
+     "height": 2.7,
+     "shape": "round",
+     "drill": 0.7,
+     "slotLength": 2.1
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-SIM-1-A-8",
+   "description": "Same Sky SIM-1-A SIM card socket (SMD right angle), 8 contacts + 2 unnumbered side pads",
+   "note": "sim-1-a.pdf p.3 Recommended PCB Layout (top view, card enters from the bottom; rotated 180 deg about the outline centre so the opening points up). Vector print, 7.795 pt/mm (7-1.27 pitch = 9.91 pt; 8-1.00 pad width = 7.79 pt). Contact pads 1.00 x 2.30 (8-1.00, 8-2.30), pitch 1.27 (7-1.27), left to right of the print CD2 (pin 8), CD1 (7), C7 (6), C3 (3), C6 (5), C2 (2), C5 (4), C1 (1); pin = the table order VCC C1, RST C2, CLK C3, GND C5, VPP C6, I/O C7, CD1, CD2. Two hatched (SMT solder area) side pads 1.50 x 2.95 (2-1.50, 2-2.95), 20.55 between their centres (20.55), the pinout has no shield pin so they are unnumbered (pin 0). The cross-hatched copper-restricted areas are not pads and are not drawn. Body = the dashed outline of the print: 19.37 wide (959.5 to 1588.5 px at 300 dpi = 150.96 pt), bottom edge 25.95 below the pad centre line (8-25.95), top edge at the higher shoulder (377.3 pt), 26.50 high (206.6 pt / 7.795; read from the print, the left shoulder of the notched outline is 0.85 lower).",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 19.37,
+    "height": 26.5
+   },
+   "pads": [
+    {
+     "pin": 8,
+     "x": 5.901,
+     "y": 12.693,
+     "width": 0.999,
+     "height": 2.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 4.631,
+     "y": 12.693,
+     "width": 0.999,
+     "height": 2.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 3.359,
+     "y": 12.693,
+     "width": 0.999,
+     "height": 2.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 2.089,
+     "y": 12.693,
+     "width": 0.999,
+     "height": 2.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 0.82,
+     "y": 12.693,
+     "width": 0.999,
+     "height": 2.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -0.451,
+     "y": 12.693,
+     "width": 0.999,
+     "height": 2.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -1.722,
+     "y": 12.693,
+     "width": 0.999,
+     "height": 2.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -2.992,
+     "y": 12.693,
+     "width": 0.999,
+     "height": 2.3,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 10.267,
+     "y": -4.612,
+     "width": 1.498,
+     "height": 2.951,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": -10.289,
+     "y": -4.612,
+     "width": 1.5,
+     "height": 2.951,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-SIM-10-A-10",
+   "description": "Same Sky SIM-10-A SIM card socket (SMD right angle), 8 contacts + 2 card-detect pads + 2 unnumbered side pads",
+   "note": "sim-10-a.pdf p.3 Recommended PCB Layout (top view, card enters from the bottom; rotated 180 deg about the outline centre so the opening points up). Vector print, 7.50 pt/mm (7-1.27 pitch = 9.52 pt). Contact pads 1.00 x 3.30 (8-1.00, 8-3.30), pitch 1.27 (7-1.27), left to right C8 (pin 8), C4 (4), C7 (7), C3 (3), C6 (6), C2 (2), C5 (5), C1 (1) (pin = C number). Card-detect pads CD1 (pin 9) and CD2 (pin 10) 0.60 x 2.30 (2-0.60, 2-2.30) to the left of C8 (CD1 outermost: the print labels the leftmost one CD1; CD2 is the unlabelled one next to it). Two hatched side pads 1.50 x 3.20 (2-1.50, 2-3.20), 19.28 between centres (19.28), unnumbered (the pinout has no shield pin). The cross-hatched copper-restricted areas are not pads and are not drawn. Body = the dashed Product profile: 18.69 wide (237.0 to 377.2 pt) x 27.50 high (2-27.50), its bottom edge 28.00 below the contact pad centre line (8-28.00).",
+   "style": "explicit",
+   "pins": 10,
+   "body": {
+    "width": 18.69,
+    "height": 27.5
+   },
+   "pads": [
+    {
+     "pin": 8,
+     "x": 5.649,
+     "y": 14.202,
+     "width": 0.999,
+     "height": 3.297,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 4.381,
+     "y": 14.202,
+     "width": 0.999,
+     "height": 3.297,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 3.111,
+     "y": 14.202,
+     "width": 0.999,
+     "height": 3.297,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 1.842,
+     "y": 14.202,
+     "width": 0.999,
+     "height": 3.297,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 0.573,
+     "y": 14.202,
+     "width": 0.999,
+     "height": 3.297,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -0.698,
+     "y": 14.202,
+     "width": 0.999,
+     "height": 3.297,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -1.967,
+     "y": 14.202,
+     "width": 0.999,
+     "height": 3.297,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -3.237,
+     "y": 14.202,
+     "width": 0.999,
+     "height": 3.297,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": 7.943,
+     "y": 13.703,
+     "width": 0.601,
+     "height": 2.299,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": 6.649,
+     "y": 13.703,
+     "width": 0.6,
+     "height": 2.299,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 9.632,
+     "y": -10.286,
+     "width": 1.499,
+     "height": 3.199,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": -9.643,
+     "y": -10.286,
+     "width": 1.5,
+     "height": 3.199,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-SD7-6-A-21",
+   "description": "Same Sky SD7-6-A SD 7.0 card socket (SMD right angle), 20 contacts + 7 shell pads",
+   "note": "sd7-6-a.pdf p.4 Recommended PCB Layout (top view, card enters from the bottom; rotated 180 deg about the keep-out outline centre so the opening points up). Vector print, 7.571 pt/mm (20.50 between the holes = 155.2 pt, 27.10 = 205.2 pt). Top row: 11 contact pads 0.80 x 1.80 (11-0.80), pitch 1.40 (1.40), left to right #9, #1, #2, #3, #4, [GND pad], #5, CD, #6, #7, #8, WP; the print gives 6.825 from the centre line to #9 and 8.675 to WP (15.50 between), so x from the centre line: #9 -6.825, #1 -5.425, #2 -4.025, #3 -2.625, #4 -1.225, #5 +1.675, CD +3.075, #6 +4.475, #7 +5.875, #8 +7.275, WP +8.675. Pin = # number, CD = pin 19, WP = pin 20. Lower pads 1.60 x 0.80 (9-1.60, 9-0.80): left group #10, #11, #12, #13 and right group #18, #17, #16, #15, #14 from the top of the print down, pitch 1.10 (8.33 pt). Shell pads (pin 21, GND): top-centre 1.40 x 1.70 (0.225 right of the centre line, 0.225), top-left and top-right 1.60 x 1.70 (2-1.60), and four more 1.70 x 1.60 (mid-left, mid-right, lower-left, lower-right), all read from the pad outlines in pt / 7.571 (the print prints 4-1.40, 2-1.60, 5-1.40, 3-1.50 without saying which pad). Holes 2 x dia 0.90 (2-dia0.90), 20.50 and 27.10 apart, taken as non-plated (the print does not say). The 11-0.85 etc. keep-out is not drawn. Body = the dashed keep-out outline, 31.70 wide (31.70 ref.) x 31.40 high (31.40 ref.), centred on its measured centre.",
+   "style": "explicit",
+   "pins": 21,
+   "body": {
+    "width": 31.7,
+    "height": 31.4
+   },
+   "pads": [
+    {
+     "pin": 9,
+     "x": 6.811,
+     "y": 13.957,
+     "width": 0.799,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": 5.411,
+     "y": 13.957,
+     "width": 0.799,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 4.012,
+     "y": 13.957,
+     "width": 0.799,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 2.611,
+     "y": 13.957,
+     "width": 0.799,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 1.212,
+     "y": 13.957,
+     "width": 0.799,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -1.69,
+     "y": 13.957,
+     "width": 0.799,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": -3.089,
+     "y": 13.957,
+     "width": 0.799,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -4.489,
+     "y": 13.957,
+     "width": 0.799,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -5.89,
+     "y": 13.957,
+     "width": 0.799,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -7.289,
+     "y": 13.957,
+     "width": 0.799,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": -8.689,
+     "y": 13.957,
+     "width": 0.799,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 21,
+     "x": 11.761,
+     "y": 14.557,
+     "width": 1.598,
+     "height": 1.699,
+     "shape": "rect"
+    },
+    {
+     "pin": 21,
+     "x": -0.24,
+     "y": 14.557,
+     "width": 1.401,
+     "height": 1.699,
+     "shape": "rect"
+    },
+    {
+     "pin": 21,
+     "x": -11.79,
+     "y": 14.557,
+     "width": 1.601,
+     "height": 1.699,
+     "shape": "rect"
+    },
+    {
+     "pin": 21,
+     "x": 14.01,
+     "y": 7.456,
+     "width": 1.699,
+     "height": 1.601,
+     "shape": "rect"
+    },
+    {
+     "pin": 21,
+     "x": -14.04,
+     "y": 7.456,
+     "width": 1.7,
+     "height": 1.601,
+     "shape": "rect"
+    },
+    {
+     "pin": 21,
+     "x": 14.01,
+     "y": -4.793,
+     "width": 1.699,
+     "height": 1.602,
+     "shape": "rect"
+    },
+    {
+     "pin": 21,
+     "x": -14.04,
+     "y": -6.094,
+     "width": 1.7,
+     "height": 1.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": 14.735,
+     "y": -8.942,
+     "width": 1.601,
+     "height": 0.799,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": 14.735,
+     "y": -10.042,
+     "width": 1.601,
+     "height": 0.799,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": 14.735,
+     "y": -11.144,
+     "width": 1.601,
+     "height": 0.799,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": 14.735,
+     "y": -12.243,
+     "width": 1.601,
+     "height": 0.799,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": -14.764,
+     "y": -7.843,
+     "width": 1.601,
+     "height": 0.799,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": -14.764,
+     "y": -8.942,
+     "width": 1.601,
+     "height": 0.799,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": -14.764,
+     "y": -10.042,
+     "width": 1.601,
+     "height": 0.799,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": -14.764,
+     "y": -11.144,
+     "width": 1.601,
+     "height": 0.799,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": -14.764,
+     "y": -12.243,
+     "width": 1.601,
+     "height": 0.799,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 12.485,
+     "y": -14.891,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "round",
+     "drill": 0.9,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -8.014,
+     "y": 12.208,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "round",
+     "drill": 0.9,
+     "plated": false
+    }
+   ]
+  },
+  {
+   "id": "SOCK-SAMESKY-SD4-3-B-19",
+   "description": "Same Sky SD4-3-B SD 4.0 (UHS-II) card socket (SMD right angle), 19 contacts + 4 shell pads",
+   "note": "sd4-3-b.pdf p.3 Recommended PCB Layout (top view, card enters from the bottom; rotated 180 deg about the housing centre so the opening points up). Vector print, 3.263 pt/mm (28.40 = 2 x 14.20 between the outer edges of the shell pads = 92.67 pt; 20.00 between the dia 0.90 holes in y = 65.28 pt). Top row: 11 pads 0.80 x 1.50 (0.80 (11x); 1.50 from the pad outline), pitch 1.40 (1.40 (9x)), left to right as labelled in the print WP, #8, #7, #6, CD, #5 | #4, #3, #2, #1, #9. Pin numbers: the print's #n is pin n (the pinout lists SD pin numbers 1..17), CD is pin 18 and WP pin 19. x from the centre line (middle of the shell pads): WP -8.60, #8 -7.20, #7 -5.81, #6 -4.41, CD -3.01, #5 -1.62 | #4 +2.53, #3 +3.93, #2 +5.32, #1 +6.72, #9 +8.13 (read from the pad outlines / 3.263; the print gives 2.30/1.40/4.625/3.375 pad-edge stacks without a single pad list). Bottom row: 8 pads 0.80 x 1.60 (0.80 (8x), 8-1.60), pitch 1.50: #17 -5.16, #16 -3.62, #15 -2.13, #14 -0.60 | #13 +2.35, #12 +3.87, #11 +5.36, #10 +6.89 (agree with the printed 5.15, 3.625, 2.125, 0.60 | 2.35, 3.875, 5.375, 6.90 to 0.02). Shell pads 1.60 x 1.50 (4-1.60, 1.50) at x +-13.45 (28.40 overall), y: upper 5.16 and lower 24.29 below the top-row pad outer edge (pad outlines / 3.263). Holes 2 x dia 0.90 (+0.10/-0) at x -12.20 and +11.87 (measured; the print is not symmetric about the centre line), 20.00 apart in y, non-plated. The cross-hatched glue / no-copper areas are not drawn. Body = housing 25.60 wide (p.2) x 21.70 deep (p.2 prints 23.35 from the lead tips, the leads project 1.65), back edge 1.85 below the top-row pad outer edge (pad outer edge + 0.20 lead overhang + 1.65): this offset is an assumption.",
+   "style": "explicit",
+   "pins": 20,
+   "body": {
+    "width": 25.6,
+    "height": 21.7
+   },
+   "pads": [
+    {
+     "pin": 19,
+     "x": 8.599,
+     "y": 11.954,
+     "width": 0.794,
+     "height": 1.492,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": 7.202,
+     "y": 11.954,
+     "width": 0.794,
+     "height": 1.492,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": 5.808,
+     "y": 11.954,
+     "width": 0.794,
+     "height": 1.492,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 4.41,
+     "y": 11.954,
+     "width": 0.794,
+     "height": 1.492,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": 3.016,
+     "y": 11.954,
+     "width": 0.794,
+     "height": 1.492,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 1.621,
+     "y": 11.954,
+     "width": 0.794,
+     "height": 1.492,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -2.538,
+     "y": 11.954,
+     "width": 0.794,
+     "height": 1.492,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -3.932,
+     "y": 11.954,
+     "width": 0.794,
+     "height": 1.492,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -5.329,
+     "y": 11.954,
+     "width": 0.794,
+     "height": 1.492,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": -6.727,
+     "y": 11.954,
+     "width": 0.794,
+     "height": 1.492,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -8.124,
+     "y": 11.954,
+     "width": 0.794,
+     "height": 1.492,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": 5.173,
+     "y": -8.852,
+     "width": 0.794,
+     "height": 1.597,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": 3.616,
+     "y": -8.852,
+     "width": 0.794,
+     "height": 1.597,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": 2.127,
+     "y": -8.852,
+     "width": 0.794,
+     "height": 1.597,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": 0.604,
+     "y": -8.852,
+     "width": 0.794,
+     "height": 1.597,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": -2.348,
+     "y": -8.852,
+     "width": 0.794,
+     "height": 1.597,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -3.871,
+     "y": -8.852,
+     "width": 0.794,
+     "height": 1.597,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -5.363,
+     "y": -8.852,
+     "width": 0.794,
+     "height": 1.597,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -6.883,
+     "y": -8.852,
+     "width": 0.794,
+     "height": 1.597,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": 13.406,
+     "y": 7.544,
+     "width": 1.587,
+     "height": 1.492,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": 13.406,
+     "y": -11.592,
+     "width": 1.587,
+     "height": 1.492,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": -13.391,
+     "y": 7.544,
+     "width": 1.618,
+     "height": 1.492,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": -13.391,
+     "y": -11.592,
+     "width": 1.618,
+     "height": 1.492,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": 12.168,
+     "y": 10.383,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "round",
+     "drill": 0.9,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -11.81,
+     "y": -9.623,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "round",
+     "drill": 0.9,
+     "plated": false
+    }
+   ]
+  }
+ ]
+}

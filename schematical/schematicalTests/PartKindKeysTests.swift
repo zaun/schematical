@@ -20,6 +20,7 @@ final class PartKindKeysTests: XCTestCase {
         "7seg": ["display7.c"], "oscillator": ["oscillator.c"], "supply": ["supply.c"],
         "nixie": ["nixie.c"],
         "dekatron": ["dekatron.c"],
+        "lcd": ["lcd.c"],
         "powerswitch": ["powerswitch.c"],
         "serialmem": ["serialmem.c"],
         "regulator": ["regulator.c"],

@@ -1,0 +1,33 @@
+# plan-56-E: LCD segment drivers on I2C/SPI: PCF8576D, PCF85176, PCA85176, PCA85276, PCF8553, PCA8553, BU91795, BU9796
+
+Last updated: 2026-11-23
+Effort: large (3h–1d)
+Depends on: plan-56-D
+
+Part of plan-56 (display driver ICs; see plan-56-A for the goal, prerequisites and decisions, which apply to every letter). All DigiKey stock lookups use Safari, never `scripts/digikey.js` (owner, § Decisions of plan-56-A): `scripts/safari-digikey.sh` (added in B) loads a DigiKey category URL in a temporary tab of the owner's Safari window and prints the rows.
+
+## 1. Goal
+
+Parts and models for the bus-programmed LCD drivers: NXP PCF8576D, PCF85176, PCA85176 (automotive), PCA85276 (automotive) 40x4 I2C drivers (`pcf8576d.pdf`, `pcf85176.pdf`, `pca85176.pdf`, `pca85276.pdf`), PCF8553 and PCA8553 (I2C or SPI; `pcf8553.pdf`, `pca8553.pdf`), ROHM BU91795MUF-ME2 (`bu91795muf-m-e.pdf`) and BU9796A/BU97960 (`bu9796axxx-e.pdf`). A host sets mode (static, 1:2, 1:3, 1:4 multiplex), loads the display RAM through the bus (with the chip's data-pointer and sub-address rules), and the segment/backplane pins carry the `lcd` driver's slot waveforms; a `GENERIC-LCD-*` glass wired to them shows the RAM.
+
+Measured: 8 PDFs (`ls datasheets/lcd-drivers | grep -cE "pcf8576|pcf85176|pca85176|pca85276|pcf8553|pca8553|bu9|bu91"` → 8).
+
+## Phases
+
+### Phase 1 — specs and stock
+- [ ] Safari stock check (PCF8576DT/2,518 and DU/2DA/2,02, PCF85176T/1Y, PCA85176H/Q900/1,5 (obsolete), BU91795MUF-ME2, BU9796AFS-E2, BU9796AMUV-E2, BU97960MUV-E2 were in stock; PCA85276, PCF8553, PCA8553 had no script hit — re-search Safari). `planning/plan-56-data/specs/lcd-bus.md`: command bytes (mode set, load data pointer, device select, bank select, blink), RAM size and addressing, I2C address straps, SPI framing for 8553/91795, which pins are segments and backplanes per package.
+Acceptance: one section per family. Commit: —
+
+### Phase 2 — devices and parts
+- [ ] `lcddriver.json` devices (driver `lcd`), parts, datasheets, footprints (TQFP-64, VSSOP-56, TSSOP-56, VQFN-24/48, SSOP-32 as the packages need), goldens; benches: PCF8576 writes a digit pattern and a 1:4 `GENERIC-LCD-8D-1:4` glass reports the cells.
+Acceptance: `ctest --test-dir /tmp/logic-build` 100%; goldens additions only. Commit: —
+
+## Decisions
+
+- Real models, not facts-only parts — decided by owner, 2026-11-23.
+- Safari for DigiKey lookups — decided by owner, 2026-11-23.
+- Part names, packages and flags follow AGENTS.md § Datasheets (in stock only; obsolete flagged; PDFs whose parts are all obsolete go to `datasheets/obsolete-not-included.md`).
+
+## Corrections
+
+(none yet)

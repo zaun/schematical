@@ -316,6 +316,69 @@ static void check_rtc_cases(void) {
 #undef CONV_DEVICE
 #undef CONV_REG
 
+/* plan-56-B: the leddriver and lcddriver kinds (the output drivers run in display_out_test). */
+#define DISPLAY_DEVICE(KIND, DISPLAY) \
+    HEAD(KIND) "{'id':'L','function':'driver','description':'d','drawer':['Displays & Indicators']," \
+    "'pinouts':{'p':[{'number':1,'name':'VCC','role':'power'},{'number':2,'name':'CS','role':'input'}," \
+    "{'number':3,'name':'SCLK','role':'input'},{'number':4,'name':'DIN','role':'input'}," \
+    "{'number':5,'name':'O1','role':'output'},{'number':6,'name':'O2','role':'output'}]},'vcc':[4.5,5.5]," \
+    "'bus':{'style':'spi','cs':'CS','sclk':'SCLK','mosi':'DIN','mode':0}," \
+    "'registers':[{'name':'V','address':1,'width':8,'fields':[{'name':'F','bits':[3,0]}]}]," \
+    "'protocol':{'frame':'fixed','commands':[{'name':'W','in':'aaaaaaaa dddddddd','action':'write'," \
+    "'address':'a','data':'d'}]}" DISPLAY \
+    ",'parts':[{'name':'L-1','package':'SOIC','pinout':'p','footprint':'T6'}]}" TAIL
+#define DISPLAY_STATIC(GROUPS) ",'display':{'driver':'static','segmentActive':'high','groups':[" GROUPS "]}"
+#define DISPLAY_GROUP "{'pins':['O1','O2'],'ram':'V'}"
+
+static void check_driver_cases(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    CHECK(load(library, DISPLAY_DEVICE("leddriver", DISPLAY_STATIC(DISPLAY_GROUP)), &error) == 0);
+    part = part_library_find(library, "L-1");
+    CHECK(part != NULL && part->kind == PART_LEDDRIVER && part->vcc != NULL && part->converter == NULL);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   valid leddriver part\n");
+    library = part_library_create();
+    CHECK(load(library, DISPLAY_DEVICE("lcddriver", DISPLAY_STATIC(DISPLAY_GROUP)), &error) == 0);
+    part = part_library_find(library, "L-1");
+    CHECK(part != NULL && part->kind == PART_LCDDRIVER && part->vcc != NULL && part->converter == NULL);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   valid lcddriver part\n");
+
+    expect_fail("leddriver without a display", DISPLAY_DEVICE("leddriver", ""),
+                "devices[0] (L): a display driver needs \"display\"");
+    expect_fail("leddriver unknown driver",
+                DISPLAY_DEVICE("leddriver", ",'display':{'driver':'blink'}"),
+                "devices[0] (L): display: unknown driver \"blink\"");
+    expect_fail("leddriver unknown register in a group",
+                DISPLAY_DEVICE("leddriver", DISPLAY_STATIC("{'pins':['O1','O2'],'ram':'NOPE'}")),
+                "unknown register \"NOPE\"");
+    expect_fail("leddriver unknown field in a decodeField",
+                DISPLAY_DEVICE("leddriver", ",'display':{'driver':'static','segmentActive':'high','decode':'hex',"
+                               "'groups':[{'pins':['O1','O2'],'ram':'V','decodeField':'V.Q'}]}"),
+                "register \"V\" has no field \"Q\"");
+    expect_fail("leddriver pin missing from the pinout",
+                DISPLAY_DEVICE("leddriver", DISPLAY_STATIC("{'pins':['O1','O9'],'ram':'V'}")),
+                "no pin \"O9\" in this pinout");
+    expect_fail("lcddriver unknown key in display",
+                DISPLAY_DEVICE("lcddriver", ",'display':{'driver':'ports','ports':[],'blink':1}"),
+                "unknown key \"blink\"");
+    expect_fail("converter device with a display",
+                DISPLAY_DEVICE("converter", DISPLAY_STATIC(DISPLAY_GROUP)), "unknown key \"display\"");
+    expect_fail("rtc device with a display",
+                DISPLAY_DEVICE("rtc", DISPLAY_STATIC(DISPLAY_GROUP)), "unknown key \"display\"");
+    expect_fail("leddriver device with a conversion",
+                DISPLAY_DEVICE("leddriver", DISPLAY_STATIC(DISPLAY_GROUP) ",'conversion':{}"),
+                "unknown key \"conversion\"");
+}
+#undef DISPLAY_DEVICE
+#undef DISPLAY_STATIC
+#undef DISPLAY_GROUP
+
 /* plan-29-H: the diode kind. */
 #define DIODE_PIN(N, NAME, ROLE) "{'number':" #N ",'name':'" NAME "','role':'" ROLE "'}"
 #define DIODE_DEVICE(TYPE, PINS, DIODES, PART_KEYS) \
@@ -1787,6 +1850,52 @@ static void check_usb_connector(void) {
                 "\"centerPin\"");
 }
 
+/* A card slot device with KEYS (JSON members, each ending in a comma). */
+#define CARD_DEVICE(KEYS) \
+    HEAD("connector") "{'id':'c','function':'microSD','description':'d','drawer':['Connector','Card slot','microSD']," \
+    KEYS "'pinouts':{'p':[{'number':1,'name':'CLK','role':'inout'},{'number':2,'name':'CMD','role':'inout'}," \
+    "{'number':3,'name':'DAT0','role':'inout'},{'number':4,'name':'VSS','role':'inout'}," \
+    "{'number':5,'name':'SHIELD','role':'inout'}]}," \
+    "'parts':[{'name':'CARD-T','manufacturer':'M','package':'SMD right angle','pinout':'p','footprint':'T5'}]}" TAIL
+
+static void check_card_slot_connector(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    CHECK(load(library, CARD_DEVICE("'card':'microSD',"), &error) == 0);
+    part = part_library_find(library, "CARD-T");
+    CHECK(part != NULL && part->kind == PART_CONNECTOR && part->connector->card != NULL &&
+          strcmp(part->connector->card, "microSD") == 0 && part->connector->card_pitch_um == 0 &&
+          part->connector->usb == 0 && part->connector->contacts == 0 && part->connector->rated_ma == 0);
+    free(error);
+    error = NULL;
+    part_library_destroy(library);
+    library = part_library_create();
+    CHECK(load(library, CARD_DEVICE("'card':'PCI Express','cardPitch':1.0,"), &error) == 0);
+    part = part_library_find(library, "CARD-T");
+    CHECK(part != NULL && strcmp(part->connector->card, "PCI Express") == 0 && part->connector->card_pitch_um == 1000);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   card slot connectors load; malformed ones fail\n");
+
+    expect_fail("card: a number", CARD_DEVICE("'card':3,"), "\"card\" must be a string of 1 to 40 characters");
+    expect_fail("card: empty", CARD_DEVICE("'card':'',"), "\"card\" must be a string of 1 to 40 characters");
+    expect_fail("card: 41 bytes", CARD_DEVICE("'card':'12345678901234567890123456789012345678901',"),
+                "\"card\" must be a string of 1 to 40 characters");
+    expect_fail("card: pitch 0", CARD_DEVICE("'card':'M.2','cardPitch':0,"),
+                "\"cardPitch\" must be above 0 and at most 20 mm");
+    expect_fail("card: pitch 21", CARD_DEVICE("'card':'M.2','cardPitch':21,"),
+                "\"cardPitch\" must be above 0 and at most 20 mm");
+    expect_fail("card: pitch without card", CARD_DEVICE("'cardPitch':1.0,"), "\"cardPitch\" is only for card slots");
+    expect_fail("card: usb", CARD_DEVICE("'card':'SD','usb':'A',"), "a card slot has no \"usb\"");
+    expect_fail("card: centre pin", CARD_DEVICE("'card':'SD','centerPin':2,"), "a card slot has no \"centerPin\"");
+    expect_fail("card: contacts", CARD_DEVICE("'card':'SD','contacts':[['CLK','CMD']],"),
+                "a card slot has no \"contacts\"");
+    expect_fail("card: rated volts", CARD_DEVICE("'card':'SD','ratedVolts':5,"), "a card slot has no \"ratedVolts\"");
+    expect_fail("card: rated amps", CARD_DEVICE("'card':'SD','ratedAmps':1,"), "a card slot has no \"ratedAmps\"");
+}
+
 /* DQ_EXTRA, VCC_EXTRA: more keys on DQ0 (pin 2) and VCC (pin 6), such as "side". */
 #define SRAM_PINS_DEVICE(GRADE, DQ_EXTRA, VCC_EXTRA) \
     HEAD("sram") "{'id':'m','function':'1 KB','description':'d','drawer':['Memory','SRAM']," \
@@ -2832,6 +2941,62 @@ static void check_explicit_holes(void) {
                    "a non-plated pad is the hole itself");
 }
 
+/* Opposite-side pads and edge-mounted footprints (plan-54-E). */
+#define OPP_PAD(PIN, X, KEYS) \
+    "{'pin':" PIN ",'x':" X ",'y':0,'width':0.4,'height':1.2,'shape':'rect'" KEYS "}"
+static void check_opposite_pads(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const PartFootprint *fp;
+
+    CHECK(load_fp(library,
+                  FP_EXPLICIT_WITH("'edgeMount':true,'pads':[" OPP_PAD("1", "0", "") "," OPP_PAD("2", "1", ",'opposite':true") "]"),
+                  &error) == 0);
+    fp = part_library_find_footprint(library, "F");
+    CHECK(fp != NULL && fp->pad_count == 2 && fp->edge_mount == 1);
+    CHECK(fp->pads[0].opposite == 0 && fp->pads[1].opposite == 1);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   explicit: opposite-side pads and edge mount load\n");
+
+    library = part_library_create();
+    error = NULL;
+    CHECK(load_fp(library, FP_EXPLICIT_WITH("'pads':[" EPAD("1", "0") "," EPAD("2", "1") "]"), &error) == 0);
+    fp = part_library_find_footprint(library, "F");
+    CHECK(fp != NULL && fp->edge_mount == 0 && fp->pads[0].opposite == 0 && fp->pads[1].opposite == 0);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   explicit: a footprint without the keys has edge_mount 0 and opposite 0\n");
+
+    expect_fp_fail("explicit: opposite false",
+                   FP_EXPLICIT_WITH("'pads':[" OPP_PAD("1", "0", "") "," OPP_PAD("2", "1", ",'opposite':false") "]"),
+                   "\"opposite\" may only be true");
+    expect_fp_fail("explicit: opposite 1",
+                   FP_EXPLICIT_WITH("'pads':[" OPP_PAD("1", "0", "") "," OPP_PAD("2", "1", ",'opposite':1") "]"),
+                   "\"opposite\" may only be true");
+    expect_fp_fail("explicit: opposite with a drill",
+                   FP_EXPLICIT_WITH("'pads':[" OPP_PAD("1", "0", "") "," OPP_PAD("2", "1", ",'drill':0.3,'opposite':true") "]"),
+                   "an opposite pad is surface mount");
+    expect_fp_fail("explicit: opposite with a slot",
+                   FP_EXPLICIT_WITH("'pads':[" OPP_PAD("1", "0", "") ","
+                                    OPP_PAD("2", "1", ",'drill':0.3,'slotLength':0.8,'opposite':true") "]"),
+                   "an opposite pad is surface mount");
+    expect_fp_fail("explicit: opposite non-plated",
+                   FP_EXPLICIT_WITH("'pads':[" EPAD("1", "0") "," EPAD("2", "1") ","
+                                    NPTH_PAD("'width':0.9,'height':0.9,'drill':0.9,'plated':false,'opposite':true") "]"),
+                   "an opposite pad is surface mount");
+    expect_fp_fail("footprint: edgeMount false",
+                   FP_EXPLICIT_WITH("'edgeMount':false,'pads':[" EPAD("1", "0") "," EPAD("2", "1") "]"),
+                   "\"edgeMount\" may only be true");
+    expect_fp_fail("footprint: edgeMount yes",
+                   FP_EXPLICIT_WITH("'edgeMount':'yes','pads':[" EPAD("1", "0") "," EPAD("2", "1") "]"),
+                   "\"edgeMount\" may only be true");
+    expect_fp_fail("footprint: opposite on a dual footprint's pad",
+                   FP_FILE("{'id':'F','description':'d','style':'dual','pins':2,'pitch':1,'span':1,'body':{'width':1,'height':1},"
+                           "'pad':{'width':0.5,'height':0.5,'shape':'rect','opposite':true}}"),
+                   "opposite");
+}
+
 /* An LED with one pinout of PINS whose part names FOOTPRINT (a JSON value). */
 #define FP_LED(PINS, FOOTPRINT) \
     HEAD("led") "{'id':'led-fp','function':'LED','description':'d','drawer':[]," \
@@ -3274,7 +3439,9 @@ int main(void) {
     check_explicit_repeated_pins();
     check_explicit_balls();
     check_explicit_holes();
+    check_opposite_pads();
     check_usb_connector();
+    check_card_slot_connector();
     check_footprint_corners();
     check_footprint_cases();
     check_header_footprints();
@@ -3298,6 +3465,7 @@ int main(void) {
     check_pio();
     check_converter_cases();
     check_rtc_cases();
+    check_driver_cases();
     check_diode_cases();
     check_capacitor_cases();
     check_mcu_cases();

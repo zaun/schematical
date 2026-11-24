@@ -43,6 +43,9 @@ const char *listing_kind_name(PartKind kind) {
         case PART_REGULATOR: return "regulator";
         case PART_CRYSTAL: return "crystal";
         case PART_DEKATRON: return "dekatron";
+        case PART_LCD: return "lcd";
+        case PART_LEDDRIVER: return "leddriver";
+        case PART_LCDDRIVER: return "lcddriver";
         case PART_POWERSWITCH: return "powerswitch";
     }
     return "?";
@@ -135,6 +138,10 @@ static void print_details(FILE *out, const Part *part) {
             break;
         case PART_RTC:
             fputs("clock", out);
+            break;
+        case PART_LEDDRIVER:
+        case PART_LCDDRIVER:
+            fputs("display", out);
             break;
         case PART_DIODE:
             fprintf(out, "type=%s diodes=%zu", part->diode->type, part->diode->diode_count);
@@ -303,6 +310,7 @@ static void print_details(FILE *out, const Part *part) {
             }
             break;
         }
+        case PART_LCD:
         case PART_7SEG: {
             const PartDisplay *d = part->display;
             size_t i;
@@ -380,6 +388,10 @@ static void print_details(FILE *out, const Part *part) {
                     part->serial->channels, part->serial->grade);
             break;
         case PART_CONNECTOR:
+            if (part->connector->card != NULL) {
+                fprintf(out, "card=%s pitch_um=%u", part->connector->card, (unsigned)part->connector->card_pitch_um);
+                break;
+            }
             if (part->connector->usb != 0) {
                 fprintf(out, "usb=%c rated=%uV/%umA", part->connector->usb,
                         (unsigned)(part->connector->rated_mv / 1000), (unsigned)part->connector->rated_ma);

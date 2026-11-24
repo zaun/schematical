@@ -109,6 +109,70 @@ final class GerberExportTests: XCTestCase {
         XCTAssertEqual(try pads(".GBP"), 0)
     }
 
+    /// plan-54-G: the X and Y of a coordinate line (`X12Y34D01*`, `X12Y34I5J6D01*`), Gerber units (1e-6 mm).
+    private func coordinate(_ line: Substring) -> (x: Int, y: Int)? {
+        guard line.hasPrefix("X"), let y = line.firstIndex(of: "Y") else { return nil }
+        let rest = line[line.index(after: y)...].prefix { $0 == "-" || $0.isNumber }
+        guard let x = Int(line[line.index(after: line.startIndex)..<y]), let value = Int(rest) else { return nil }
+        return (x, value)
+    }
+
+    /// The centres of what a layer file draws, as Gerber coordinates: each flash, and each region's box (a
+    /// mask opening is a region, the pad grown and rounded).
+    private func centres(_ text: String) -> [(x: Int, y: Int)] {
+        var result: [(x: Int, y: Int)] = []
+        var region: [(x: Int, y: Int)]?
+        for line in lines(text) {
+            if line == "G36*" { region = []; continue }
+            if line == "G37*" {
+                if let points = region, let first = points.first {
+                    let xs = points.map(\.x) + [first.x], ys = points.map(\.y) + [first.y]
+                    result.append(((xs.min()! + xs.max()!) / 2, (ys.min()! + ys.max()!) / 2))
+                }
+                region = nil
+                continue
+            }
+            guard let point = coordinate(line) else { continue }
+            if region != nil { region?.append(point) } else if line.hasSuffix("D03*") { result.append(point) }
+        }
+        return result
+    }
+
+    /// An opposite-side pad (plan-54-E) is in the other side's copper, mask and
+    /// paste files than its part's, for a part on either side; the part's own
+    /// pads are in its own side's.
+    func testOppositePadsAreInTheOtherSidesFiles() throws {
+        for side in [BoardSide.top, .bottom] {
+            let (doc, id) = try OppositePadTests.fixture(side: side)
+            let placed = try XCTUnwrap(doc.chips.first { $0.id == id })
+            let height = doc.board.height
+            func gerber(_ designator: String) throws -> (x: Int, y: Int) {
+                let rect = try XCTUnwrap(placed.boardPads.first { $0.designator == designator }).rect
+                return (Int((rect.midX * 1e6).rounded()), Int(((height - rect.midY) * 1e6).rounded()))
+            }
+            func has(_ list: [(x: Int, y: Int)], _ point: (x: Int, y: Int)) -> Bool {
+                list.contains { abs($0.x - point.x) <= 2 && abs($0.y - point.y) <= 2 }
+            }
+            let one = try gerber("1"), two = try gerber("2"), three = try gerber("3")
+            let files = GerberExport.files(for: doc, base: "b", rules: rules)
+            let own = side == .top ? [".GTL", ".GTS", ".GTP"] : [".GBL", ".GBS", ".GBP"]
+            let other = side == .top ? [".GBL", ".GBS", ".GBP"] : [".GTL", ".GTS", ".GTP"]
+            for suffix in own {
+                let list = centres(try file(files, suffix))
+                XCTAssertTrue(has(list, one), "\(side) part: pad 1 in \(suffix)")
+                XCTAssertFalse(has(list, two) || has(list, three), "\(side) part: an opposite pad in \(suffix)")
+                // Pads 1 and 4 to 14.
+                XCTAssertEqual(list.count, 12, "\(side) part: \(suffix)")
+            }
+            for suffix in other {
+                let list = centres(try file(files, suffix))
+                XCTAssertTrue(has(list, two) && has(list, three), "\(side) part: pads 2 and 3 in \(suffix)")
+                XCTAssertFalse(has(list, one), "\(side) part: pad 1 in \(suffix)")
+                XCTAssertEqual(list.count, 2, "\(side) part: \(suffix)")
+            }
+        }
+    }
+
     func testMaskOpeningsGrowByTheExpansion() throws {
         let doc = TestSupport.newDocument()
         let via = try XCTUnwrap(doc.addVia(at: CGPoint(x: 5, y: 5)))

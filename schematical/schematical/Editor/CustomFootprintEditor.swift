@@ -19,11 +19,12 @@ struct CustomFootprintEditor: View {
                 Toggle("Round", isOn: $footprint.bodyRound)
             }
         }
+        Toggle("Edge mount (the housing hangs over the board edge)", isOn: $footprint.edgeMount)
         ScrollView(.horizontal) {
             Grid(alignment: .leading, horizontalSpacing: 6, verticalSpacing: 4) {
                 GridRow {
-                    ForEach(["Pin", "x", "y", "Width", "Height", "Shape", "Drill", "Slot", "Plated", "Radius",
-                             "Chamfer", "Corners", ""], id: \.self) { Text($0).font(.caption) }
+                    ForEach(["Pin", "x", "y", "Width", "Height", "Shape", "Drill", "Slot", "Plated", "Opposite",
+                             "Radius", "Chamfer", "Corners", ""], id: \.self) { Text($0).font(.caption) }
                 }
                 ForEach($footprint.pads) { $pad in
                     PadRow(pad: $pad, pinNumbers: pinNumbers) {
@@ -38,7 +39,7 @@ struct CustomFootprintEditor: View {
             Spacer()
             Button("Remove Custom Footprint", role: .destructive, action: onRemove)
         }
-        Text("Pads are in mm, centred on the body (y down). Each pin of the pinout needs a pad with its number; pin 0 is an unnumbered centre pad.")
+        Text("Pads are in mm, centred on the body (y down). Each pin of the pinout needs a pad with its number; pin 0 is an unnumbered centre pad. An opposite pad is a surface-mount pad on the other face of the board.")
             .font(.caption).foregroundStyle(.secondary)
     }
 
@@ -81,6 +82,9 @@ private struct PadRow: View {
             number($pad.drill)
             number($pad.slotLength)
             Toggle("", isOn: $pad.plated).labelsHidden()
+            // Surface mount only: a pad on the other face of the board.
+            Toggle("", isOn: $pad.opposite).labelsHidden()
+                .disabled(pad.drill != 0 || pad.slotLength != 0 || !pad.plated)
             number($pad.radius)
             number($pad.chamfer)
             HStack(spacing: 2) {
