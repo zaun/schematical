@@ -174,6 +174,49 @@ static void check_parts(void) {
     printf("note: %zu shipped glass parts\n", glasses);
 }
 
+/* A wiring string for a 40-pin glass: '-' everywhere but the given pins (1-based). */
+static void wire40(char *out, const char *pins_and_levels) {
+    size_t i;
+
+    memset(out, '-', 40);
+    out[40] = '\0';
+    for (i = 0; pins_and_levels[i] != '\0'; i += 3) {
+        int pin = (pins_and_levels[i] - '0') * 10 + (pins_and_levels[i + 1] - '0');
+
+        out[pin - 1] = pins_and_levels[i + 2];
+    }
+}
+
+static void check_real_glass(void) {
+    char lights[160];
+    char wires[41];
+
+    /* LCD-S401C39TR: COM (pin 1) 0, 1A (pin 35) 1 -> cell 0 (digit 1 A) only. */
+    wire40(wires, "010" "351");
+    expect(glow_of("LCD-S401C39TR", wires, lights, sizeof lights) &&
+               strncmp(lights, "10000000", 8) == 0 && strchr(lights + 1, '1') == NULL,
+           "LCD-S401C39TR: 1A against COM 0 lights digit 1 segment A and nothing else");
+    /* COM is on pins 1 and 40: driving only the far COM works the same. */
+    wire40(wires, "400" "351");
+    expect(glow_of("LCD-S401C39TR", wires, lights, sizeof lights) && lights[0] == '1',
+           "LCD-S401C39TR: the second COM pin (40) is the same backplane");
+    /* The colon (pin 28) lights its two cells at the end of the list. */
+    wire40(wires, "010" "281");
+    expect(glow_of("LCD-S401C39TR", wires, lights, sizeof lights) && strlen(lights) == 33 &&
+               strcmp(lights + 31, "11") == 0 && strchr(lights, '1') == lights + 31,
+           "LCD-S401C39TR: COL lights the colon's two dots");
+    /* A 1:3 glass: BP1 (pin 1) 0, S1A (pin 4) 1: A of digit 1 on BP1 lights; F on BP2 (floating) does not. */
+    wire40(wires, "010" "041");
+    expect(glow_of("GENERIC-LCD-8D-1:3", wires, lights, sizeof lights) && lights[0] == '1' &&
+               lights[1] == '0',
+           "GENERIC-LCD-8D-1:3: a cell lights only on its own, driven backplane");
+    /* Same pin, BP2 (pin 2) at 0 and BP1 at Z: F (the next cell on this pin) lights. */
+    wire40(wires, "020" "041");
+    expect(glow_of("GENERIC-LCD-8D-1:3", wires, lights, sizeof lights) && lights[0] == '0' &&
+               lights[1] == '1',
+           "GENERIC-LCD-8D-1:3: the next slot's cell on the same segment pin lights with BP2");
+}
+
 int main(void) {
     char *error = NULL;
 
@@ -189,6 +232,7 @@ int main(void) {
     check_loader();
     check_model();
     check_parts();
+    check_real_glass();
     part_library_destroy(library);
     if (failures > 0) {
         printf("FAIL: %d checks failed\n", failures);

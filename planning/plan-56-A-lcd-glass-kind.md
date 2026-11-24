@@ -97,9 +97,9 @@ Commit: —
 
 ### Phase 2 — glass parts
 
-- [ ] Footprints: 40-pin glass DIP-style leads on 2.54 mm pitch, 48.26 mm row, from the Lumex drawings (`datasheets/glass/` PDFs filed first): `explicit` footprints per `docs/parts-format.md` § Footprints.
-- [ ] `schematical/schematical/Parts/lcd.json`: the 3 Lumex and 4 generic devices; datasheet entries in `datasheets.json` (lumex.com URLs); drawer `["Displays & Indicators", "LCD glass"]`.
-- [ ] Regenerate `backend/tests/golden/{parts,traces,footprints}.txt` and review the diff (additions only).
+- [x] Footprints: 40-pin glass DIP-style leads on 2.54 mm pitch, 48.26 mm row, from the Lumex drawings (`datasheets/glass/` PDFs filed first): `explicit` footprints per `docs/parts-format.md` § Footprints.
+- [x] `schematical/schematical/Parts/lcd.json`: the 3 Lumex and 4 generic devices (generic glass uses the 40-pin S401 footprint, unused pins `nc`; Lumex footprints `LCD-GLASS-40-S401`, `LCD-GLASS-40-S3X1`, `LCD-GLASS-24-S301`); datasheet entries in `datasheets.json` (lumex.com URLs); drawer `["Displays & Indicators", "LCD glass"]`.
+- [x] Regenerate `backend/tests/golden/{parts,traces,footprints}.txt` and review the diff (additions only).
 
 Acceptance: `ctest --test-dir /tmp/logic-build` 100%; `git diff --stat backend/tests/golden` shows additions only.
 Commit: —

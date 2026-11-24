@@ -56,7 +56,9 @@ typedef struct {
 } LcdDevice;
 
 typedef struct {
-    size_t segment_pin, bp_pin;
+    size_t segment_pin;
+    size_t bp_pins[2];       /* a backplane may be on two pins (COM at both ends of a glass) */
+    size_t bp_count;
 } CellPins;
 
 typedef struct {
@@ -227,16 +229,18 @@ static size_t *expand_side(KindContext *ctx, const char *key, const char *const 
     return out;
 }
 
-static int pin_named(const PartPin *pins, size_t pin_count, const char *name, size_t *out) {
+/* Up to `max` pins with this name, in pin order; returns how many. */
+static size_t pins_named(const PartPin *pins, size_t pin_count, const char *name, size_t *out,
+                         size_t max) {
+    size_t n = 0;
     size_t i;
 
-    for (i = 0; i < pin_count; i++) {
+    for (i = 0; i < pin_count && n < max; i++) {
         if (strcmp(pins[i].name, name) == 0) {
-            *out = i;
-            return 1;
+            out[n++] = i;
         }
     }
-    return 0;
+    return n;
 }
 
 static void *lcd_bind_pinout(KindContext *ctx, const void *raw, const PartPin *pins,
@@ -257,16 +261,25 @@ static void *lcd_bind_pinout(KindContext *ctx, const void *raw, const PartPin *p
     for (i = 0; i < device->cell_count; i++) {
         const CellDef *c = &device->cells[i];
 
+        size_t seg[1];
+        size_t k;
+
         kind_push(ctx, "cells[%zu]", i);
-        if (!pin_named(pins, pin_count, c->pin, &bound->cells[i].segment_pin) ||
-            !pin_named(pins, pin_count, c->bp, &bound->cells[i].bp_pin)) {
+        bound->cells[i].bp_count = pins_named(pins, pin_count, c->bp, bound->cells[i].bp_pins, 2);
+        if (pins_named(pins, pin_count, c->pin, seg, 1) == 0 || bound->cells[i].bp_count == 0) {
             kind_error(ctx, "pin \"%s\" or \"%s\" is not in the pinout", c->pin, c->bp);
             return NULL;
         }
-        if (pins[bound->cells[i].segment_pin].role != PIN_INPUT ||
-            pins[bound->cells[i].bp_pin].role != PIN_INPUT) {
-            kind_error(ctx, "\"%s\" and \"%s\" must have role input", c->pin, c->bp);
+        bound->cells[i].segment_pin = seg[0];
+        if (pins[seg[0]].role != PIN_INPUT) {
+            kind_error(ctx, "\"%s\" must have role input", c->pin);
             return NULL;
+        }
+        for (k = 0; k < bound->cells[i].bp_count; k++) {
+            if (pins[bound->cells[i].bp_pins[k]].role != PIN_INPUT) {
+                kind_error(ctx, "\"%s\" must have role input", c->bp);
+                return NULL;
+            }
         }
         if (!in_list(segment_names, segment_name_count, c->pin)) {
             segment_names[segment_name_count++] = c->pin;
@@ -329,7 +342,12 @@ static void update_cells(Sim *sim, SimInstance *instance, LcdState *state) {
     for (i = 0; i < state->pins->cell_count; i++) {
         const CellPins *c = &state->pins->cells[i];
         LogicValue segment = sim_read_pin(sim, instance, c->segment_pin);
-        LogicValue bp = sim_read_pin(sim, instance, c->bp_pin);
+        LogicValue bp = LOGIC_Z;
+        size_t k;
+
+        for (k = 0; k < c->bp_count && bp == LOGIC_Z; k++) {
+            bp = sim_read_pin(sim, instance, c->bp_pins[k]);
+        }
         int driven = (segment == LOGIC_0 || segment == LOGIC_1) && (bp == LOGIC_0 || bp == LOGIC_1);
 
         lights_set(state->lights, i, driven && segment != bp, now);

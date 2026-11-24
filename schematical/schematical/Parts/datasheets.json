@@ -8568,6 +8568,9 @@
     {"id": "cd74hct4543", "url": "https://www.ti.com/lit/ds/symlink/cd74hct4543.pdf"},
     {"id": "mc14543b-d", "url": "https://www.onsemi.com/pdf/datasheet/mc14543b-d.pdf"},
     {"id": "cd4054b", "url": "https://www.ti.com/lit/ds/symlink/cd4054b.pdf"},
-    {"id": "sn74ls247", "url": "https://www.ti.com/lit/ds/symlink/sn74ls247.pdf"}
+    {"id": "sn74ls247", "url": "https://www.ti.com/lit/ds/symlink/sn74ls247.pdf"},
+    {"id": "lcd-s401c39tr", "url": "https://www.lumex.com/datasheet/files/LCD-S401C39TR.pdf"},
+    {"id": "lcd-s3x1c50tr-b", "url": "https://www.lumex.com/web_files/?func=datasheet&fs=LCD-S3X1C50TR-B.pdf"},
+    {"id": "lcd-s301c31tr", "url": "https://www.lumex.com/datasheet/files/LCD-S301C31TR.pdf"}
   ]
 }
