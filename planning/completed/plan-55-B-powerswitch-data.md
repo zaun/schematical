@@ -190,7 +190,7 @@ Commit: 33ca1d56
 
 Acceptance: every candidate row has a PDF in the tree or is `out`.
   Check: `python3 -I planning/plan-55-data/census/select.py … --report` (as Phase 2) → `candidate` rows all with `pdf` non-empty and `hit` filled (observed: `candidate: 919; out: no datasheet 111, no stock 5, stock check 1`, 919 with pdf, 919 with hit); `find datasheets/powerswitch -iname '*.pdf' \| wc -l` equals `awk -F'\t' 'NR>1 && $1!=""' datasheets/powerswitch/datasheets.tsv \| wc -l` (est. 20 min: the downloads at one request a second per host are the cost, and no smaller check covers a download).
-Commit: (filled by the next commit)
+Commit: 229b52c4
 
 ## Validation Plan
 
