@@ -36,7 +36,13 @@ on run argv
     tell found
       set t to make new tab with properties {URL:theURL}
       delay w
-      set r to do JavaScript js in t
+      try
+        set r to do JavaScript js in t
+      on error m
+        close t
+        set current tab of found to cur
+        error m
+      end try
       close t
       set current tab of found to cur
     end tell

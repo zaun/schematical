@@ -15,12 +15,12 @@ Measured: 6 PDFs (`ls datasheets/led-drivers | grep -cE "max695|max6957|as1115|i
 ## Phases
 
 ### Phase 1 — specs and stock
-- [ ] Safari stock check (MAX6950CEE+, EEE+ (Last Time Buy), MAX6951CEE+T, EEE+, MAX6955AAX+, AAX+T, ATL+, MAX6957AAI+T, AAX+, AAX+T, ATL+, ATL+T, AS1115-BSST, TLC6983ZXLR were in stock; IS31FL3707 had no DigiKey hit with the script — re-search Safari for "IS31FL3707"); `planning/plan-56-data/specs/serial-led.md`: register map, command byte format, decode modes, scan, key-scan registers as pins, per chip.
-Acceptance: one section per chip family in the spec file. Commit: —
+- [x] Safari stock check (MAX6950CEE+, EEE+ (Last Time Buy), MAX6951CEE+T, EEE+, MAX6955AAX+, AAX+T, ATL+, MAX6957AAI+T, AAX+, AAX+T, ATL+, ATL+T, AS1115-BSST, TLC6983ZXLR were in stock; IS31FL3707 had no DigiKey hit with the script — re-search Safari for "IS31FL3707"); `planning/plan-56-data/specs/serial-led.md`: register map, command byte format, decode modes, scan, key-scan registers as pins, per chip.
+Acceptance: one section per chip family in the spec file. Commit: see plan-56-F Corrections
 
 ### Phase 2 — devices and parts
-- [ ] `leddriver.json`: devices (`digits` for 6950/51, 6955, AS1115; `matrix` for IS31FL3707, TLC6983; `ports` for 6957) with the converter `bus`/`registers`/`protocol` from the spec; parts; datasheets; footprints; goldens; a bench per device (write registers over the bus, read the scanned pins; MAX6955's fonts decode `ascii7`; TLC6983's PWM stored only).
-Acceptance: `ctest --test-dir /tmp/logic-build` 100%; goldens additions only. Commit: —
+- [x] `leddriver.json`: devices (`digits` for 6950/51, 6955, AS1115; `matrix` for IS31FL3707, TLC6983; `ports` for 6957) with the converter `bus`/`registers`/`protocol` from the spec; parts; datasheets; footprints; goldens; a bench per device (write registers over the bus, read the scanned pins; MAX6955's fonts decode `ascii7`; TLC6983's PWM stored only).
+Acceptance: `ctest --test-dir /tmp/logic-build` 100%; goldens additions only. Commit: see plan-56-F Corrections
 
 ## Decisions
 
@@ -30,4 +30,5 @@ Acceptance: `ctest --test-dir /tmp/logic-build` 100%; goldens additions only. Co
 
 ## Corrections
 
-(none yet)
+- Shipped: MAX6950 (CEE+, EEE+), MAX6951 (CEE+T, EEE+), MAX6957-20 (AAI+T), AS1115 (BSST). Not shipped: MAX6957 28-port and MAX6955 (AAX and ATL parts are in stock but their packages A36-2/A36-4 and T4066 have no drawing in the sheets and analog.com was not reachable, so there is no footprint); IS31FL3707 (no part in stock: `is31fl3707.pdf` went to not-included.md); TLC6983 (its CCSI interface fits no converter bus style: spec only, `planning/plan-56-data/specs/is31fl3707-tlc6983.md`). The `max695x-display.patch` engine additions (shared digit/segment pins, scan limit, blink, port sink/pull-up/read-back modes) were applied.
+- AS1115 models Code B decode only; MAX6955's 16-segment font is transcribed in `planning/plan-56-data/results/max6955-as1115.json`.

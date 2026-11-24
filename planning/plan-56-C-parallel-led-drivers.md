@@ -19,13 +19,13 @@ plan-56-B's `digits` and `static` output drivers and the parallel `bus` style (`
 ## Phases
 
 ### Phase 1 — specs and stock
-- [ ] Re-check every stock row above in Safari; write `planning/plan-56-data/specs/parallel-led.md`: per chip pins, the write protocol (ICM7218 serial frame / parallel mode+address, ICM7228 mode bits and address, ICM7211 digit-select, ICM7244/45 ASCII memory), decode tables, scan period, supply, package, one citation per number. Datasheets whose parts are all obsolete or out of stock go to `datasheets/obsolete-not-included.md`.
-Acceptance: `grep -c "^## " planning/plan-56-data/specs/parallel-led.md` → one section per device (6 families). Commit: —
+- [x] Re-check every stock row above in Safari; write `planning/plan-56-data/specs/parallel-led.md`: per chip pins, the write protocol (ICM7218 serial frame / parallel mode+address, ICM7228 mode bits and address, ICM7211 digit-select, ICM7244/45 ASCII memory), decode tables, scan period, supply, package, one citation per number. Datasheets whose parts are all obsolete or out of stock go to `datasheets/obsolete-not-included.md`.
+Acceptance: `grep -c "^## " planning/plan-56-data/specs/parallel-led.md` → one section per device (6 families). Commit: see plan-56-F Corrections
 
 ### Phase 2 — devices and parts
-- [ ] `leddriver.json` devices and parts for each family from the spec, datasheet ids/URLs in `datasheets.json`, footprints (PLCC-28/44, DIP-28/40, QFP-44, SOIC-28 exist? missing ones added from the drawings per `parts-format.md` § Footprints), goldens.
-- [ ] Tests: a bench per family writing a digit and reading the scanned pins.
-Acceptance: `ctest --test-dir /tmp/logic-build` 100%; `git diff --stat backend/tests/golden` additions only. Commit: —
+- [x] `leddriver.json` devices and parts for each family from the spec, datasheet ids/URLs in `datasheets.json`, footprints (PLCC-28/44, DIP-28/40, QFP-44, SOIC-28 exist? missing ones added from the drawings per `parts-format.md` § Footprints), goldens.
+- [x] Tests: a bench per family writing a digit and reading the scanned pins.
+Acceptance: `ctest --test-dir /tmp/logic-build` 100%; `git diff --stat backend/tests/golden` additions only. Commit: see plan-56-F Corrections
 
 ## Decisions
 
@@ -35,4 +35,6 @@ Acceptance: `ctest --test-dir /tmp/logic-build` 100%; `git diff --stat backend/t
 
 ## Corrections
 
-(none yet)
+- 2026-11-23: the plan expected 9 PDFs to give parts. Shipped: ICM7218 A–D (12 parts in stock: Maxim `+` parts, Renesas CERDIP BIJI/CIJI/DIJI), ICM7228 A–D (9 in stock + 3 obsolete-with-stock), ICM7211 (5 parts) and ICM7212AM (1 part). ICM7244 and ICM7245: no part in stock that their datasheets list (ICM7244BIM44Z is stocked but is not in the ICM7244 sheet, whose only parts are the obsolete AIM44Z), so `icm7244-renesas.pdf`, `icm7245-renesas.pdf` and `icm7245-intersil.pdf` went to `datasheets/not-included.md`; the 16-segment `ascii16` decode and 17-pin `digits` driver (patch from the transcription) are in the engine anyway.
+- Engine gaps the transcriptions found and that are not modeled (recorded in `planning/plan-56-data/results/*.json` `engineNeeds`): hex versus Code B chosen by a register bit or a three-level pin (ICM7218/7228 decode fixed per device), the second RAM bank (ID3), Z outputs in shutdown, `[REG]` in an `in` pattern does not write the register (docs/parts-format.md says it does; the devices use capture letters and `set`).
+- Stock evidence: Safari category pages answered only some searches (a keyword with one hit opens the product page, and Cloudflare challenges rapid page loads); part of the stock evidence is the `scripts/digikey.js` listing made before the Safari-only instruction (2026-11-23).

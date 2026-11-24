@@ -15,12 +15,12 @@ Measured: 8 PDFs (`ls datasheets/lcd-drivers | grep -cE "pcf8576|pcf85176|pca851
 ## Phases
 
 ### Phase 1 — specs and stock
-- [ ] Safari stock check (PCF8576DT/2,518 and DU/2DA/2,02, PCF85176T/1Y, PCA85176H/Q900/1,5 (obsolete), BU91795MUF-ME2, BU9796AFS-E2, BU9796AMUV-E2, BU97960MUV-E2 were in stock; PCA85276, PCF8553, PCA8553 had no script hit — re-search Safari). `planning/plan-56-data/specs/lcd-bus.md`: command bytes (mode set, load data pointer, device select, bank select, blink), RAM size and addressing, I2C address straps, SPI framing for 8553/91795, which pins are segments and backplanes per package.
-Acceptance: one section per family. Commit: —
+- [x] Safari stock check (PCF8576DT/2,518 and DU/2DA/2,02, PCF85176T/1Y, PCA85176H/Q900/1,5 (obsolete), BU91795MUF-ME2, BU9796AFS-E2, BU9796AMUV-E2, BU97960MUV-E2 were in stock; PCA85276, PCF8553, PCA8553 had no script hit — re-search Safari). `planning/plan-56-data/specs/lcd-bus.md`: command bytes (mode set, load data pointer, device select, bank select, blink), RAM size and addressing, I2C address straps, SPI framing for 8553/91795, which pins are segments and backplanes per package.
+Acceptance: one section per family. Commit: see plan-56-F Corrections
 
 ### Phase 2 — devices and parts
-- [ ] `lcddriver.json` devices (driver `lcd`), parts, datasheets, footprints (TQFP-64, VSSOP-56, TSSOP-56, VQFN-24/48, SSOP-32 as the packages need), goldens; benches: PCF8576 writes a digit pattern and a 1:4 `GENERIC-LCD-8D-1:4` glass reports the cells.
-Acceptance: `ctest --test-dir /tmp/logic-build` 100%; goldens additions only. Commit: —
+- [x] `lcddriver.json` devices (driver `lcd`), parts, datasheets, footprints (TQFP-64, VSSOP-56, TSSOP-56, VQFN-24/48, SSOP-32 as the packages need), goldens; benches: PCF8576 writes a digit pattern and a 1:4 `GENERIC-LCD-8D-1:4` glass reports the cells.
+Acceptance: `ctest --test-dir /tmp/logic-build` 100%; goldens additions only. Commit: see plan-56-F Corrections
 
 ## Decisions
 
@@ -30,4 +30,5 @@ Acceptance: `ctest --test-dir /tmp/logic-build` 100%; goldens additions only. Co
 
 ## Corrections
 
-(none yet)
+- Shipped (lcddriver, one `PCF85176` device covers PCF8576D and PCF85176 TSSOP56/TQFP64): PCF8576DT/2,518, PCF85176T/1Y, PCA85176H/Q900/1,5 (obsolete); BU91795MUF-ME2; BU9796AFS-E2; BU9796AMUV-E2. No part in stock for PCA85276, PCF8553, PCA8553 (their PDFs went to not-included.md); BU97960MUV-E2 is a different sheet (8 backplanes) and is not modeled. `pcf8576-lcd-mode-after-max695x.patch` (mode and load by register, per-mode backplane slots) was applied.
+- Not modeled: blink, bias/VLCD, cascade pins, the I2C NACK of another subaddress; the PCF/PCA 64 Hz frame for every mode.
