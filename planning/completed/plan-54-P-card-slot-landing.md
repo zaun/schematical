@@ -87,7 +87,7 @@ Observed (2026-11-23, on `worktree-P-54` after merging `main` at 9e6b4fd5; the a
 
 Acceptance: every gate's observed value matches (the last column).
   Check: the commands of the table (est. 45 min: a fresh backend build and `ctest` about 8 min, the datasheet URL checks about 10 min, `xcodebuild` build and tests about 25 min, the harness 2 min).
-Commit: —
+Commit: de7d7c50
 
 ## Validation Plan
 
