@@ -341,15 +341,19 @@ Commit: —
 
 ### Phase 2 — The stock re-check (one quota day)
 
-- [ ] `census/recheck.py` (§ 5); run
-      `PIECES="414-2223 414-609 414-664 414-2072 413-17 413-994 413-609 413-23 303-612 303-17 303-994 303-609 303-664" census/list.sh /tmp/p54-raw2`
-      (162 calls; ≥ 220 left before the run, § Prerequisites), then
-      `recheck.py /tmp/p54-raw2 planning/plan-54-data/candidates.tsv > planning/plan-54-data/stock-check.tsv`.
-- [ ] `select.py … --stock planning/plan-54-data/stock-check.tsv --report` writes
-      `candidates.tsv`; record the number of `found` = 0 rows in § Corrections.
+- [x] `census/recheck.py` (§ 5); re-listed the 13 pieces with `scripts/digikey.js --opt2 --category C
+      --manufacturer M --in-stock --active-only --limit 100000 --json` (the second API key; the script splits
+      by facet itself and went through Safari because Cloudflare challenges Node; 94 calls, `998 left` before and
+      `906 left` after, instead of `list.sh`'s 162), then `recheck.py /tmp/p54-raw2 <the 1270-row pick>
+      > planning/plan-54-data/stock-check.tsv`: `recheck: 13 pieces, 1591 parts listed, 1270 candidates, 4 not found`.
+- [x] `select.py … --stock planning/plan-54-data/stock-check.tsv --report` writes
+      `candidates.tsv`: `candidates: 1266; distinct URLs 497`, `out: … stock check 4`. The 4 `found` = 0 rows
+      (each looked up by itself with `digikey.js --opt2 "<mpn>"`: Active, no quantity): ME1016810201031,
+      SAL1-120-01-S-S-A-K-TR, HSEC8-140-01-L-DV-A-BL (edge), CMM5S1001001A (module).
 
 Acceptance: every candidate row is in stock and Active.
   Check: `awk -F'\t' 'NR>1 && $2!=1' planning/plan-54-data/stock-check.tsv \| wc -l` → the `found` = 0 count recorded above, and `awk -F'\t' '$20=="candidate" && $25==""' planning/plan-54-data/candidates.tsv \| wc -l` → 0 (est. 8 min: 162 calls at about 23 a minute plus 1 min of scripts).
+  Result: `4` and `0`; `awk -F'\t' '$20=="candidate"' planning/plan-54-data/candidates.tsv | wc -l` → 1266.
 Commit: —
 
 ### Phase 3 — Download, place and scan the datasheets
@@ -427,6 +431,20 @@ Commit: —
   own URL and a distributor file may be another revision).
 
 ## Corrections
+
+- **Phase 2 ran on `scripts/digikey.js --opt2`, not `list.sh`** (2026-11-23; the owner's instruction at the start of
+  the run, and the first key's quota was spent). `digikey.js` already splits a search above 300 results by facet,
+  so 13 `--category --manufacturer --in-stock --active-only --json` runs re-listed the pieces in 94 calls (the plan
+  estimated 162). It reaches DigiKey through Safari because Cloudflare challenges Node since 2026-11-23.
+  `list.js` and `list.sh` stay as the planning listing's record (`list.sh` got the `PIECES` override the plan asks
+  for). `stock-check.tsv` columns are `mpn`, `found`, `stock`, `status`, `date`.
+- **Phase 2 result: 4 candidates left stock** (§ 5): ME1016810201031, SAL1-120-01-S-S-A-K-TR, HSEC8-140-01-L-DV-A-BL
+  and CMM5S1001001A; the candidates are 1266, not 1270, and the distinct sources 497, not 498. Every count the plan
+  quotes from 1270 (§ 1, § 2, Phase 3's 498 downloads and 523 specs rows) is the planning figure; Phase 3 records the
+  measured ones. The datasheet downloads started before the re-check finished, so the one source only a dropped row
+  cites is downloaded and is not copied by `place.py`.
+- **Prerequisites golden sizes** moved with other plans' landings: P0 = R0 = 34393, F0 = 1904 at 450ab7c3
+  (the plan quoted 34375, 34375, 1895); H, I, J, K, M and N re-measure at their start as written.
 
 ## Summary
 
