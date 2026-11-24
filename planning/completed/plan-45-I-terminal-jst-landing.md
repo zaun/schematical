@@ -121,6 +121,17 @@ Commit: e2dd4de3
   the gates are measured against `main`'s tip (`git show main:backend/tests/golden/...`),
   which is also plan-45's base, so the deltas are exactly 589 parts (88
   generics + 501 `add` rows) and 480 footprints.
+- Landing: the main tree had another session's uncommitted edit to
+  `planning/todo.md` (it deletes the "Examples (8-bit CPU)" section), so
+  `git merge worktree-P-45` refused. The branch got a commit taking
+  `todo.md` back to `main`'s version (`78bc8114`), merged cleanly
+  (fast-forward, `main` had not moved), and the two plan-45 `todo.md` hunks
+  were committed alone on `main` (`9b76c708`, via `git apply --cached`); the
+  other session's deletion is still uncommitted in the main tree, untouched.
+  The worktree and `worktree-P-45` were then removed.
+- Plan A's Prerequisites rows are start-of-plan conditions ("no terminal / JST
+  parts yet" and the like) and are consumed by the landing; the two that stay
+  true (backend tests green, the app builds) were re-run in this letter's gates.
 - `www.phoenixcontact.com` throttles the script (403) after a few runs; the
   host check is recorded as "serves all 68 on a first run".
 
