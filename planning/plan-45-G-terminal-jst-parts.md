@@ -163,18 +163,20 @@ Commit: b9a48fd2
 
 Acceptance: the two makers' parts load.
   Check: `cmake --build /tmp/logic-p45 -j8 && ctest --test-dir /tmp/logic-p45 -R 'library_check|listing_check|trace_check|footprint_check'` → `100% tests passed`; `git diff backend/tests/golden \| grep -c '^-[^-]'` → 0 (est. 15 min). Result: `100% tests passed, 0 tests failed out of 4`; `0`.
-Commit: this commit (hash in the next one)
+Commit: d4d8c847
 
 ### Phase 3 — Würth Elektronik and JST
 
-- [ ] `gen-parts.py` (all makers), `gen-terminals.js --write`; goldens;
+- [x] `gen-parts.py` (all makers), `gen-terminals.js --write`; goldens;
       `node scripts/gen-terminals.js --check` and `python3 -I
       planning/plan-45-data/census/gen-parts.py --check` → both exit 0.
-- [ ] Tests: the same targets as Phase 2.
+      `85 devices, 589 parts, 308 datasheet entries`; `480 TB-/JST- footprints written` (C 135 + D 152 + E 193: every footprint the parts name, all of them); goldens against Phase 2: `parts.txt` +284, `traces.txt` +284, `footprints.txt` +231, 0 deletions; `gen-terminals.js --check` → `ok: 480 TB-/JST- footprints`, `gen-parts.py --check` → exit 0.
+- [x] Tests: the same targets as Phase 2.
+      The whole suite: `100% tests passed, 0 tests failed out of 57`.
 
 Acceptance: every `add` row is a part.
-  Check: `grep -c '|connector|' backend/tests/golden/parts.txt` → 376 + 88 + the `add` rows; `awk -F'\t' '$22=="add"' planning/plan-45-data/candidates.tsv \| wc -l` gives the last term (est. 15 min).
-Commit: —
+  Check: `grep -c '|connector|' backend/tests/golden/parts.txt` → 376 + 88 + the `add` rows; `awk -F'\t' '$22=="add"' planning/plan-45-data/candidates.tsv \| wc -l` gives the last term (est. 15 min). Result: `1541` = 952 + 88 + 501 (the connector kind held 952 parts, not 376: Corrections).
+Commit: this commit (hash in the next one)
 
 ### Phase 4 — Datasheets and docs
 
