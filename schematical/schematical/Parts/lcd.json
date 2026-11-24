@@ -434,6 +434,70 @@
       "parts": [
         {"name":"GENERIC-LCD-8D-1:4","manufacturer":"Generic","package":"LCD","pinout":"p40","footprint":"LCD-GLASS-40-S401"}
       ]
+    },
+    {
+      "id": "GENERIC-LCD-CLOCK-1:2",
+      "function": "4-digit 1:2 clock",
+      "description": "Generic 4-digit duplex (1:2) LCD clock glass with colon, AM and PM, wired as the PCF1179C drives it",
+      "drawer": ["Displays & Indicators", "LCD glass"],
+      "note": "bundled generic glass (plan-56-F); pins named as the PCF1179C's segment pins (pcf1179c.pdf p.4-5 Fig 4); digit 1 is the hour-tens digit with B1, C1 and the tied A1/D1/E1/G1",
+      "pinouts": {
+        "p40": [
+          {"number":1,"name":"BP1","role":"input"},
+          {"number":2,"name":"BP2","role":"input"},
+          {"number":3,"name":"B4/C4","role":"input"},
+          {"number":4,"name":"G4/D4","role":"input"},
+          {"number":5,"name":"F4/E4","role":"input"},
+          {"number":6,"name":"B3/C3","role":"input"},
+          {"number":7,"name":"G3/A3/D3","role":"input"},
+          {"number":8,"name":"F3/E3","role":"input"},
+          {"number":9,"name":"A4/COL","role":"input"},
+          {"number":10,"name":"B2/C2","role":"input"},
+          {"number":11,"name":"G2/D2","role":"input"},
+          {"number":12,"name":"F2/E2","role":"input"},
+          {"number":13,"name":"B1/C1","role":"input"},
+          {"number":14,"name":"A2/A1/D1/E1/G1","role":"input"},
+          {"number":15,"name":"AM/PM","role":"input"},
+          {"number":16,"name":"NC","role":"nc"},
+          {"number":17,"name":"NC","role":"nc"},
+          {"number":18,"name":"NC","role":"nc"},
+          {"number":19,"name":"NC","role":"nc"},
+          {"number":20,"name":"NC","role":"nc"},
+          {"number":21,"name":"NC","role":"nc"},
+          {"number":22,"name":"NC","role":"nc"},
+          {"number":23,"name":"NC","role":"nc"},
+          {"number":24,"name":"NC","role":"nc"},
+          {"number":25,"name":"NC","role":"nc"},
+          {"number":26,"name":"NC","role":"nc"},
+          {"number":27,"name":"NC","role":"nc"},
+          {"number":28,"name":"NC","role":"nc"},
+          {"number":29,"name":"NC","role":"nc"},
+          {"number":30,"name":"NC","role":"nc"},
+          {"number":31,"name":"NC","role":"nc"},
+          {"number":32,"name":"NC","role":"nc"},
+          {"number":33,"name":"NC","role":"nc"},
+          {"number":34,"name":"NC","role":"nc"},
+          {"number":35,"name":"NC","role":"nc"},
+          {"number":36,"name":"NC","role":"nc"},
+          {"number":37,"name":"NC","role":"nc"},
+          {"number":38,"name":"NC","role":"nc"},
+          {"number":39,"name":"NC","role":"nc"},
+          {"number":40,"name":"NC","role":"nc"}
+        ]
+      },
+      "digits": 4,
+      "colonAfter": 2,
+      "dotAfter": 0,
+      "color": "Gray",
+      "size": "0.5 in",
+      "drive": "1:2",
+      "backplanes": ["BP1", "BP2"],
+      "cells": [{"digit":1,"segment":"A","pin":"A2/A1/D1/E1/G1","bp":"BP2"},{"digit":1,"segment":"B","pin":"B1/C1","bp":"BP1"},{"digit":1,"segment":"C","pin":"B1/C1","bp":"BP2"},{"digit":1,"segment":"D","pin":"A2/A1/D1/E1/G1","bp":"BP2"},{"digit":1,"segment":"E","pin":"A2/A1/D1/E1/G1","bp":"BP2"},{"digit":1,"segment":"G","pin":"A2/A1/D1/E1/G1","bp":"BP2"},{"digit":2,"segment":"A","pin":"A2/A1/D1/E1/G1","bp":"BP1"},{"digit":2,"segment":"B","pin":"B2/C2","bp":"BP1"},{"digit":2,"segment":"C","pin":"B2/C2","bp":"BP2"},{"digit":2,"segment":"D","pin":"G2/D2","bp":"BP2"},{"digit":2,"segment":"E","pin":"F2/E2","bp":"BP2"},{"digit":2,"segment":"F","pin":"F2/E2","bp":"BP1"},{"digit":2,"segment":"G","pin":"G2/D2","bp":"BP1"},{"digit":3,"segment":"A","pin":"G3/A3/D3","bp":"BP2"},{"digit":3,"segment":"B","pin":"B3/C3","bp":"BP1"},{"digit":3,"segment":"C","pin":"B3/C3","bp":"BP2"},{"digit":3,"segment":"D","pin":"G3/A3/D3","bp":"BP2"},{"digit":3,"segment":"E","pin":"F3/E3","bp":"BP2"},{"digit":3,"segment":"F","pin":"F3/E3","bp":"BP1"},{"digit":3,"segment":"G","pin":"G3/A3/D3","bp":"BP1"},{"digit":4,"segment":"A","pin":"A4/COL","bp":"BP1"},{"digit":4,"segment":"B","pin":"B4/C4","bp":"BP1"},{"digit":4,"segment":"C","pin":"B4/C4","bp":"BP2"},{"digit":4,"segment":"D","pin":"G4/D4","bp":"BP2"},{"digit":4,"segment":"E","pin":"F4/E4","bp":"BP2"},{"digit":4,"segment":"F","pin":"F4/E4","bp":"BP1"},{"digit":4,"segment":"G","pin":"G4/D4","bp":"BP1"},{"digit":0,"segment":"L1","pin":"A4/COL","bp":"BP2"},{"digit":0,"segment":"L2","pin":"A4/COL","bp":"BP2"},{"digit":0,"segment":"AM","pin":"AM/PM","bp":"BP1"},{"digit":0,"segment":"PM","pin":"AM/PM","bp":"BP2"}],
+      "segmentSide": ["B4/C4", "G4/D4", "F4/E4", "B3/C3", "G3/A3/D3", "F3/E3", "A4/COL", "B2/C2", "G2/D2", "F2/E2", "B1/C1", "A2/A1/D1/E1/G1", "AM/PM"],
+      "backplaneSide": ["BP1", "BP2"],
+      "parts": [
+        {"name":"GENERIC-LCD-CLOCK-1:2","manufacturer":"Generic","package":"LCD","pinout":"p40","footprint":"LCD-GLASS-40-S401"}
+      ]
     }
   ]
 }
