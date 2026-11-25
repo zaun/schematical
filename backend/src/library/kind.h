@@ -47,6 +47,10 @@ typedef struct PartKindOps {
        through an output enable (3-state), for the ERC's pin types
        (plan-63-B). See part_pin_tristate. */
     int (*pin_tristate)(const Part *part, size_t pin);
+    /* Optional (NULL = none): the part's units, the pieces the Schematic can
+       draw as their own symbols (plan-67); *count gets how many. See
+       part_unit_count. */
+    const PartUnit *(*units)(const Part *part, size_t *count);
 } PartKindOps;
 
 /* What Part.internal points to. */

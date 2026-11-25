@@ -72,6 +72,8 @@ typedef struct {
 typedef struct {
     const GatePins *gates;
     size_t gate_count;
+    const PartUnit *units;   /* gates on the same inputs merged (plan-67) */
+    size_t unit_count;
 } GateBound;
 
 static const char *const VOLTAGE_KEYS[] = {"vcc", "inputMax", NULL};
@@ -245,6 +247,101 @@ static void *gate_load_device(KindContext *ctx, const cJSON *json) {
     return device;
 }
 
+/* The shape a gate is drawn with, and whether its output is the inverted one. */
+static PartUnitShape unit_shape(GateOp op, int *inverted) {
+    *inverted = op == OP_NAND || op == OP_NOR || op == OP_XNOR || op == OP_NOT;
+    switch (op) {
+        case OP_AND:
+        case OP_NAND:
+            return UNIT_AND;
+        case OP_OR:
+        case OP_NOR:
+            return UNIT_OR;
+        case OP_XOR:
+        case OP_XNOR:
+            return UNIT_XOR;
+        default:
+            return UNIT_BUFFER;
+    }
+}
+
+static int same_inputs(const GatePins *a, const GatePins *b) {
+    return a->input_count == b->input_count &&
+           memcmp(a->inputs, b->inputs, a->input_count * sizeof(a->inputs[0])) == 0;
+}
+
+/* The units of a bound pinout: one per gate, except that a gate on the same
+   inputs and of the same shape as an earlier one is that unit's second
+   output (CD4068B: NAND + AND). The true output comes first. */
+static int bind_units(KindContext *ctx, const GateDevice *device, const GatePins *gates,
+                      GateBound *bound) {
+    PartUnit *units = kind_alloc(ctx, device->gate_count * sizeof(*units));
+    size_t *first = kind_alloc(ctx, device->gate_count * sizeof(*first));   /* unit -> its first gate */
+    size_t n = 0;
+    size_t g;
+    size_t i;
+
+    if (units == NULL || first == NULL) {
+        return -1;
+    }
+    for (g = 0; g < device->gate_count; g++) {
+        int inverted;
+        PartUnitShape shape = unit_shape(gates[g].op, &inverted);
+        PartUnit *unit = NULL;
+
+        for (i = 0; i < n; i++) {
+            if (units[i].shape == shape && same_inputs(&gates[first[i]], &gates[g])) {
+                unit = &units[i];
+                break;
+            }
+        }
+        if (unit != NULL) {
+            kind_push(ctx, "gates[%zu]", g);
+            if (unit->output_count == 2) {
+                return kind_error(ctx, "more than two gates share these inputs");
+            }
+            if (unit->outputs[0].inverted == (uint8_t)inverted) {
+                return kind_error(ctx,
+                                  "gates on the same inputs must be a true and an inverted output");
+            }
+            kind_pop(ctx);
+            if (inverted) {
+                unit->outputs[1].pin = (uint16_t)gates[g].output;
+                unit->outputs[1].inverted = 1;
+            } else {
+                unit->outputs[1] = unit->outputs[0];
+                unit->outputs[0].pin = (uint16_t)gates[g].output;
+                unit->outputs[0].inverted = 0;
+            }
+            unit->output_count = 2;
+            continue;
+        }
+        {
+            uint16_t *inputs = kind_alloc(ctx, gates[g].input_count * sizeof(*inputs));
+
+            if (inputs == NULL) {
+                return -1;
+            }
+            for (i = 0; i < gates[g].input_count; i++) {
+                inputs[i] = (uint16_t)gates[g].inputs[i];
+            }
+            unit = &units[n];
+            memset(unit, 0, sizeof(*unit));
+            unit->shape = shape;
+            unit->inputs = inputs;
+            unit->input_count = gates[g].input_count;
+            unit->outputs[0].pin = (uint16_t)gates[g].output;
+            unit->outputs[0].inverted = (uint8_t)inverted;
+            unit->output_count = 1;
+            unit->open_drain = device->open_drain ? 1u : 0u;
+            first[n++] = g;
+        }
+    }
+    bound->units = units;
+    bound->unit_count = n;
+    return 0;
+}
+
 static void *gate_bind_pinout(KindContext *ctx, const void *raw, const PartPin *pins,
                               size_t pin_count) {
     const GateDevice *device = raw;
@@ -274,6 +371,9 @@ static void *gate_bind_pinout(KindContext *ctx, const void *raw, const PartPin *
     }
     bound->gates = gates;
     bound->gate_count = device->gate_count;
+    if (bind_units(ctx, device, gates, bound) != 0) {
+        return NULL;
+    }
     return bound;
 }
 
@@ -301,6 +401,14 @@ static int gate_load_part(KindContext *ctx, const void *raw, const void *bound,
 static int gate_pin_open_drain(const Part *part, size_t pin) {
     (void)pin;
     return ((const GateDevice *)part_internal(part)->device)->open_drain;
+}
+
+/* The part's units: the gates of its pinout (part_unit_count). */
+static const PartUnit *gate_units(const Part *part, size_t *count) {
+    const GateBound *bound = part_internal(part)->bound;
+
+    *count = bound->unit_count;
+    return bound->units;
 }
 
 /* ---- Model --------------------------------------------------------------- */
@@ -476,5 +584,6 @@ static const SimComponentType GATE_MODEL = {
 
 const PartKindOps GATE_KIND = {
     PART_GATE, "gate", &GATE_MODEL, DEVICE_KEYS, PART_KEYS,
-    gate_load_device, gate_bind_pinout, gate_load_part, gate_pin_open_drain
+    gate_load_device, gate_bind_pinout, gate_load_part, gate_pin_open_drain,
+    NULL, NULL, gate_units
 };

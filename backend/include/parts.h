@@ -55,6 +55,19 @@ typedef struct {
 
 /* Exactly one of these is set on a Part, matching its kind. */
 typedef struct { const char *family; unsigned units; } PartLogic;         /* gate, dff, jkff */
+
+/* A unit: a piece of a part the Schematic can draw as its own symbol
+   (plan-67): one gate of a gate part. Pins are engine pin indexes. Two gates
+   on the same inputs (CD4068B: NAND and AND) are one unit with two outputs. */
+typedef enum { UNIT_AND, UNIT_OR, UNIT_XOR, UNIT_BUFFER } PartUnitShape;
+typedef struct { uint16_t pin; uint8_t inverted; } PartUnitOutput;
+typedef struct {
+    PartUnitShape shape;
+    const uint16_t *inputs; size_t input_count;      /* in the gate's "inputs" order */
+    PartUnitOutput outputs[2]; size_t output_count;  /* 1 or 2; the true output first */
+    unsigned schmitt;                                /* inputs are Schmitt triggers */
+    unsigned open_drain;                             /* outputs are open drain */
+} PartUnit;
 typedef struct { uint32_t words; unsigned bits; uint64_t access_ps; const char *grade; } PartSram;
 /* rated_mv: the contacts' switching voltage rating. momentary: the button
    springs back (data for the app). normally_closed: positions start closed.
@@ -535,6 +548,11 @@ const Part *part_library_at(const PartLibrary *library, size_t index);
 const Part *part_library_find(const PartLibrary *library, const char *name);
 /* The part load_part_file loaded with this "uuid"; NULL if none. */
 const Part *part_library_find_uuid(const PartLibrary *library, const char *uuid);
+
+/* The part's units (plan-67): its gates, for a gate part; 0 for every part
+   that has none. part_unit_at is NULL past the end. */
+size_t part_unit_count(const Part *part);
+const PartUnit *part_unit_at(const Part *part, size_t index);
 
 /* The contacts a slide switch (plan-58-B) has closed in knob position `state`
    (1 … PartSwitch.states): returns 1 and sets bit c-1 of *mask for contact c;

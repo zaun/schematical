@@ -297,17 +297,17 @@ A hidden pin is never in a unit's `pins`.
 
 The API with no caller; safe alone because nothing reads it yet.
 
-- [ ] `backend/include/parts.h`: add `PartUnitShape`, `PartUnitOutput`,
+- [x] `backend/include/parts.h`: add `PartUnitShape`, `PartUnitOutput`,
       `PartUnit`, `part_unit_count`, `part_unit_at` as in §4.
-- [ ] `backend/src/library/kind.h`: add the `units` member at the end of
+- [x] `backend/src/library/kind.h`: add the `units` member at the end of
       `PartKindOps`, with a comment in the style of `pin_tristate`.
-- [ ] `backend/src/library/kinds.c`: implement the two public functions after
+- [x] `backend/src/library/kinds.c`: implement the two public functions after
       `part_pin_open_drain` (NULL part, NULL `internal` or NULL hook → 0 / NULL).
-- [ ] `backend/src/models/gate.c`: add `PartUnit *units; size_t unit_count;` and
+- [x] `backend/src/models/gate.c`: add `PartUnit *units; size_t unit_count;` and
       the input index storage to `GateBound`; fill them in `gate_bind_pinout`
       by §4's rule with the two load errors; add `gate_units` and name it as
       the last member of `GATE_KIND`.
-- [ ] Tests: new `backend/tests/part_unit_test.c`, registered with
+- [x] Tests: new `backend/tests/part_unit_test.c`, registered with
       `logic_test(part_unit_test)` in `backend/CMakeLists.txt` beside
       `logic_test(listing_check)`. It loads the library the way
       `listing_check.c:40-54` does (`part_library_create`, `load_parts_dir`) and
@@ -322,6 +322,7 @@ The API with no caller; safe alone because nothing reads it yet.
       output pin `PIN_OUTPUT`. Two negative cases through `load_parts` on inline
       JSON: three gates on the same inputs, and two `nand` gates on the same
       inputs, each failing with its message.
+      **Done:** the `SN74HC14N` Schmitt assertion is added in Phase 2 with the key. `ctest` → `100% tests passed, 0 tests failed out of 75`; `listing_check --print | diff - backend/tests/golden/parts.txt` → no output.
 
 Acceptance: the new test passes and no golden moves.
   Check: `CT` → `100% tests passed, 0 tests failed out of 75`; then
@@ -409,6 +410,9 @@ Commit: —
   call, following "a known logic symbol". Settles §5.
 
 ## Corrections
+
+- **The build folder.** `CT` names `/tmp/p67-build`, which was configured from the main checkout while the plan was written; cmake refuses it from the worktree (`The source … does not match the source … used to generate cache`). Every letter's `CT` runs in `/tmp/p67w-build` instead. Nothing else changes.
+- **Prerequisites re-run 2026-11-25 in the worktree, all MET**: rotation commit `08376ba3`, `turnedSide` count 1, tree clean; no `unitPlacements` / `part_unit_count` / `PartUnit`; `ctest` 74 of 74; `kicad-cli version` `10.0.8`; `planning` holds only this plan's 7 files and `plan-67-data`.
 
 ## Summary
 

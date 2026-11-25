@@ -177,6 +177,7 @@ endfunction()
 
 logic_test(library_check)
 logic_test(listing_check)
+logic_test(part_unit_test)
 logic_test(trace_check)
 logic_test(switch_test)
 logic_test(connector_test)
