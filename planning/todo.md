@@ -93,7 +93,7 @@
 - [ ] Add the 555 timer and common op-amps (LM358, TL07x…). (plan-48 written, not built)
 - [x] Add crystals and resonators (oscillators exist, crystals don't). (plan-44:
       Abracon, ECS, Suntsu; SAW, overtone and thermistor parts out of scope)
-- [ ] Add inductors, fuses / polyfuses, relays and buzzers. (plan-47 written, not built)
+- [x] Add inductors, fuses / polyfuses, relays and buzzers. (plan-47: top three makers per type at DigiKey; no generic parts; panel-mount, AC-coil and plug-in parts out of scope)
 - [x] Add screw terminals and JST-XH/PH connectors (check what the 222
       existing connectors already cover first). (plan-45: Phoenix Contact,
       Weidmüller, Würth Elektronik terminal blocks; JST XH, PH, EH, ZH, SH,

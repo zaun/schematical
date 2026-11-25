@@ -121,3 +121,84 @@ a.cite { display: inline-block; margin-left: 2px; padding: 0 5px; border-radius:
   color: var(--accent); font: 10px ui-monospace, Menlo, monospace; text-decoration: none; cursor: pointer;
   white-space: nowrap; vertical-align: baseline; }
 a.cite:hover { background: var(--current); }
+
+/* Verify Datasheet window, edit mode (datasheet-edit.js). */
+:root {
+  --edit: #b8860b;
+  --edit-bg: #fffbe8;
+  --error: #c62828;
+  --warn: #9a6700;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --edit: #e0b040; --edit-bg: #2b2716; --error: #ff6b6b; --warn: #e0b040; }
+}
+
+body.editing .ds-editable { cursor: text; border-radius: 4px; }
+body.editing .ds-editable:hover { background: var(--edit-bg); outline: 1px solid var(--edit); outline-offset: 3px; }
+body.editing .ds-edited { border-left: 3px solid var(--edit); padding-left: 8px; margin-left: -11px; }
+
+.ds-editor { margin: 14px 0; padding: 10px 12px 12px; border: 1px solid var(--accent); border-radius: 8px;
+  background: var(--head); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12); }
+.ds-editor.flash { animation: ds-flash 0.5s; }
+@keyframes ds-flash { 30% { box-shadow: 0 0 0 4px var(--edit); } }
+.ds-ed-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.ds-ed-title { font-weight: 600; }
+.ds-ed-spacer { flex: 1; }
+.ds-editor button { font: inherit; font-size: 12px; padding: 2px 10px; border: 1px solid var(--rule); border-radius: 5px;
+  background: var(--banner); color: var(--text); cursor: pointer; }
+.ds-editor button:hover:not(:disabled) { border-color: var(--accent); }
+.ds-editor button:disabled { opacity: 0.45; cursor: default; }
+.ds-editor button.ds-ed-apply { background: var(--accent); border-color: var(--accent); color: white; }
+.ds-editor button.danger:hover { border-color: var(--error); color: var(--error); }
+.ds-editor button.ds-ed-small { font-size: 11px; padding: 1px 7px; }
+.ds-editor button.ds-ed-tiny { font-size: 10px; padding: 0 4px; min-width: 18px; }
+.ds-editor input, .ds-editor textarea, .ds-editor select { font: inherit; font-size: 12px; color: var(--text);
+  background: var(--bg, Canvas); border: 1px solid var(--rule); border-radius: 4px; padding: 2px 5px; box-sizing: border-box; }
+.ds-editor input:focus, .ds-editor textarea:focus, .ds-editor select:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+.ds-ed-text { width: 100%; resize: vertical; line-height: 1.4; margin: 4px 0; display: block; }
+.ds-ed-text.code { font: 12px ui-monospace, Menlo, monospace; white-space: pre; overflow-x: auto; }
+.ds-ed-note { color: var(--muted); font-size: 11px; margin: 2px 0 4px; }
+.ds-ed-tools { display: flex; flex-wrap: wrap; gap: 3px; align-items: center; margin: 4px 0; }
+.ds-ed-sep { width: 8px; }
+.ds-editor button.ds-ed-tool { min-width: 24px; padding: 1px 5px; }
+.ds-ed-field { display: flex; gap: 8px; align-items: center; margin: 3px 0; }
+.ds-ed-field > span { flex: 0 0 110px; color: var(--muted); font-size: 11px; }
+.ds-ed-field input { flex: 1; }
+.ds-ed-attrs-box { margin-bottom: 6px; }
+.ds-ed-id { color: var(--muted); font: 11px ui-monospace, Menlo, monospace; margin-bottom: 2px; }
+.ds-ed-grid-wrap { overflow-x: auto; margin: 6px 0; padding-bottom: 4px; }
+table.ds-ed-grid { border-collapse: collapse; font-size: 12px; }
+table.ds-ed-grid td, table.ds-ed-grid th { border: none; padding: 1px 2px; vertical-align: middle; background: none; }
+table.ds-ed-grid th { text-align: left; font-size: 11px; color: var(--muted); font-weight: 600; }
+table.ds-ed-grid tr.header input.ds-ed-cell { background: var(--banner); font-weight: 600; }
+table.ds-ed-grid input.ds-ed-cell { min-width: 3em; }
+table.ds-ed-grid input.ds-ed-cell.wide { width: 40em; }
+table.ds-ed-grid input.merge { color: var(--muted); background: var(--head); text-align: center; }
+table.ds-ed-grid tr.ds-ed-coltools td { text-align: center; white-space: nowrap; }
+table.ds-ed-grid tr.ds-ed-delim td { color: var(--muted); font-size: 10px; border-top: 1px dashed var(--rule); padding: 1px 4px; }
+td.ds-ed-rowtools { white-space: nowrap; }
+.ds-ed-notes, .ds-cites { margin-top: 8px; padding-top: 6px; border-top: 1px solid var(--rule); }
+.ds-cites-title { font-size: 11px; font-weight: 600; color: var(--muted); margin-bottom: 4px; }
+.ds-cite-row { display: flex; gap: 6px; align-items: center; margin-bottom: 3px; }
+.ds-cite-label { color: var(--muted); font-size: 11px; }
+.ds-cite-page { width: 3.2em; }
+.ds-cite-ref { flex: 1; min-width: 9em; }
+.ds-ed-noterow { display: flex; gap: 4px; align-items: center; margin-bottom: 3px; }
+.ds-ed-noten { width: 2.4em; text-align: center; }
+.ds-ed-notetext { flex: 1; }
+.ds-ed-item { padding: 6px 0; border-bottom: 1px solid var(--rule); }
+.ds-ed-item-head { display: flex; gap: 6px; align-items: center; }
+.ds-ed-item-n { color: var(--muted); }
+.ds-ed-msgs { margin-top: 8px; }
+.ds-ed-error { color: var(--error); font-size: 12px; }
+.ds-ed-warning { color: var(--warn); font-size: 12px; }
+.ds-ed-error::before { content: "✕ "; }
+.ds-ed-warning::before { content: "⚠ "; }
+.ds-ed-preview { margin-top: 10px; padding-top: 6px; border-top: 1px solid var(--rule); }
+.ds-ed-preview:empty { display: none; }
+.ds-ed-preview-box { opacity: 0.95; }
+
+@media print {
+  .ds-editor { display: none; }
+  body.editing .ds-edited { border-left: none; padding-left: 0; margin-left: 0; }
+}

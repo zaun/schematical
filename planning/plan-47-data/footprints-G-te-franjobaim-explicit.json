@@ -1,0 +1,4643 @@
+{
+ "format": "schematical-footprints",
+ "version": 1,
+ "footprints": [
+  {
+   "id": "RELAY-F32F-4-FRANJOBAIM",
+   "description": "Franjobaim F32F / FR32F 1 Form A relay, 4 holes 12.7 / 15.24 x 7.6 mm",
+   "note": "bottom view mirrored to top view. F32F: Power-Relays-datasheets..pdf p.11 PCB Layout (4-D1.3, 12.7, 2.54, 7.6); FR32F: FRJBM-catalogue-power-relays.pdf p.43 1H layout, same holes (printed 5-D1.3, four holes drawn); origin = centre of the hole pattern; body 18.4 x 10.2 (F32F outline)",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 18.4,
+    "height": 10.2
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 7.62,
+     "y": -3.8,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -5.08,
+     "y": -3.8,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": 7.62,
+     "y": 3.8,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": -7.62,
+     "y": 3.8,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-F33F-4-FRANJOBAIM",
+   "description": "Franjobaim F33F 1 Form A relay, 4 holes 10.2 / 17.8 x 7.6 mm",
+   "note": "bottom view mirrored to top view. Power-Relays-datasheets..pdf p.14 mounting hole dimensions, one group usually open (4-D1.3, 10.2, 7.6, 7.6); origin = centre of the hole pattern; body 20.5 x 10.2",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 20.5,
+    "height": 10.2
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 8.9,
+     "y": -3.8,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -1.3,
+     "y": -3.8,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": -8.9,
+     "y": -3.8,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": 8.9,
+     "y": 3.8,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-F3F-5-FRANJOBAIM",
+   "description": "Franjobaim F3F 1 Form C relay, 5 holes 12.2 x 12 mm",
+   "note": "bottom view mirrored to top view. Power-Relays-datasheets..pdf p.2 PC board layout 1c (12.2, 2, 6 + 6; holes D1.3 on NC, NO and COM, D1.0 on the coil); origin = body centre; body 19.2 x 15.4",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 19.2,
+    "height": 15.4
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 6.1,
+     "y": -6.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -6.1,
+     "y": -6.0,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 3,
+     "x": -8.1,
+     "y": 0.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": 6.1,
+     "y": 6.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 5,
+     "x": -6.1,
+     "y": 6.0,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    }
+   ]
+  },
+  {
+   "id": "RELAY-F3F-4-FRANJOBAIM",
+   "description": "Franjobaim F3F 1 Form A relay, 4 holes 12.2 x 12 mm",
+   "note": "bottom view mirrored to top view. Power-Relays-datasheets..pdf p.2 PC board layout 1a (12.2, 2, 6 + 6; holes D1.3 on NO and COM, D1.0 on the coil); origin = body centre; body 19.2 x 15.4",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 19.2,
+    "height": 15.4
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -6.1,
+     "y": -6.0,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 2,
+     "x": -8.1,
+     "y": 0.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": 6.1,
+     "y": 6.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": -6.1,
+     "y": 6.0,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    }
+   ]
+  },
+  {
+   "id": "RELAY-F3F-4-NC-FRANJOBAIM",
+   "description": "Franjobaim F3F 1 Form B relay, 4 holes 12.2 x 12 mm",
+   "note": "bottom view mirrored to top view. Power-Relays-datasheets..pdf p.2 PC board layout 1b (12.2, 2, 6 + 6; holes D1.3 on NC and COM, D1.0 on the coil); origin = body centre; body 19.2 x 15.4",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 19.2,
+    "height": 15.4
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 6.1,
+     "y": -6.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -6.1,
+     "y": -6.0,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 3,
+     "x": -8.1,
+     "y": 0.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": -6.1,
+     "y": 6.0,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    }
+   ]
+  },
+  {
+   "id": "RELAY-F3U-5-FRANJOBAIM",
+   "description": "Franjobaim F3U 1 Form C relay, 5 holes 12.2 x 12 mm",
+   "note": "bottom view mirrored to top view. Power-Relays-datasheets..pdf p.6 PC board layout 1c (12.2, 2, 6 + 6; holes D1.5 on NC, NO and COM, D1.3 on the coil); origin = body centre; body 21.4 x 15.7. body size scaled from the dashed outline (not dimensioned)",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 21.4,
+    "height": 15.7
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 5.8,
+     "y": -6.0,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 2,
+     "x": -6.4,
+     "y": -6.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": -8.4,
+     "y": 0.0,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 4,
+     "x": 5.8,
+     "y": 6.0,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 5,
+     "x": -6.4,
+     "y": 6.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-F3U-4-FRANJOBAIM",
+   "description": "Franjobaim F3U 1 Form A relay, 4 holes 12.2 x 12 mm",
+   "note": "bottom view mirrored to top view. Power-Relays-datasheets..pdf p.6 PC board layout 1a (12.2, 2, 6 + 6; holes D1.5 on NO and COM, D1.3 on the coil); origin = body centre; body 21.4 x 15.7. body size scaled from the dashed outline (not dimensioned)",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 21.4,
+    "height": 15.7
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -6.4,
+     "y": -6.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -8.4,
+     "y": 0.0,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 3,
+     "x": 5.8,
+     "y": 6.0,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 4,
+     "x": -6.4,
+     "y": 6.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-F90-5-FRANJOBAIM",
+   "description": "Franjobaim F90 1 Form C relay, 5 holes + 6th lead hole",
+   "note": "bottom view mirrored to top view. Power-Relays-datasheets..pdf p.27 mounting hole dimensions: 1 Form C (4xD2.1, 2xD1.1, 17.8, 14, 8.9, 3.8, 7.6, 15.24, 2.54); the 6th-lead hole (cut foot type has none) is an unnamed plated pad; origin = centre of the hole pattern; body 27.2 x 31.5 (L-shaped outline, bounding box)",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 27.2,
+    "height": 31.5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 8.9,
+     "y": -12.69,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    },
+    {
+     "pin": 2,
+     "x": 8.9,
+     "y": -5.09,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    },
+    {
+     "pin": 3,
+     "x": -8.9,
+     "y": -2.55,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    },
+    {
+     "pin": 4,
+     "x": 5.1,
+     "y": 10.15,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 5,
+     "x": -5.1,
+     "y": 10.15,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 0,
+     "x": 0.0,
+     "y": 12.69,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    }
+   ]
+  },
+  {
+   "id": "RELAY-F90-5-NO-FRANJOBAIM",
+   "description": "Franjobaim F90 1 Form A relay, 5 holes",
+   "note": "bottom view mirrored to top view. Power-Relays-datasheets..pdf p.27 mounting hole dimensions: 1 Form A (3xD2.1, 2xD1.1, 17.8, 14, 8.9, 3.8, 15.24, 2.54, 2.54); pin 5 is the 6th (second COM) lead; origin = centre of the hole pattern; body 27.2 x 31.5 (L-shaped outline, bounding box)",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 27.2,
+    "height": 31.5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 8.9,
+     "y": -8.89,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    },
+    {
+     "pin": 2,
+     "x": -8.9,
+     "y": -6.35,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    },
+    {
+     "pin": 3,
+     "x": 5.1,
+     "y": 6.35,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 4,
+     "x": -5.1,
+     "y": 6.35,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 5,
+     "x": 0.0,
+     "y": 8.89,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    }
+   ]
+  },
+  {
+   "id": "RELAY-F90-5-NC-FRANJOBAIM",
+   "description": "Franjobaim F90 1 Form B relay, 5 holes",
+   "note": "bottom view mirrored to top view. Power-Relays-datasheets..pdf p.27 mounting hole dimensions: 1 Form B (3xD2.1, 2xD1.1, 17.8, 14, 8.9, 3.8, 10.2, 12.7, 2.54); pin 5 is the 6th (second COM) lead; origin = centre of the hole pattern; body 27.2 x 31.5 (L-shaped outline, bounding box)",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 27.2,
+    "height": 31.5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 8.9,
+     "y": -12.72,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    },
+    {
+     "pin": 2,
+     "x": -8.9,
+     "y": -2.52,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    },
+    {
+     "pin": 3,
+     "x": 5.1,
+     "y": 10.18,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 4,
+     "x": -5.1,
+     "y": 10.18,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 5,
+     "x": 0.0,
+     "y": 12.72,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    }
+   ]
+  },
+  {
+   "id": "RELAY-FA-5-FRANJOBAIM",
+   "description": "Franjobaim FA 1 Form C relay, 5 holes 10.2 x 10 mm",
+   "note": "bottom view mirrored to top view. Automotive-Relays-FA-FAL-FAF.pdf p.2 PCB layout 1c (5-D1.4, 10.2, 2.5, 10); origin = centre of the hole pattern; body 15.5 x 12.2",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 15.5,
+    "height": 12.2
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 6.35,
+     "y": -5.0,
+     "width": 2.1,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4
+    },
+    {
+     "pin": 2,
+     "x": -3.85,
+     "y": -5.0,
+     "width": 2.1,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4
+    },
+    {
+     "pin": 3,
+     "x": -6.35,
+     "y": 0.0,
+     "width": 2.1,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4
+    },
+    {
+     "pin": 4,
+     "x": 6.35,
+     "y": 5.0,
+     "width": 2.1,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4
+    },
+    {
+     "pin": 5,
+     "x": -3.85,
+     "y": 5.0,
+     "width": 2.1,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4
+    }
+   ]
+  },
+  {
+   "id": "RELAY-FAE-5-FRANJOBAIM",
+   "description": "Franjobaim FAE automotive relay, 5 pins on 8.35 / 17.9 mm",
+   "note": "bottom view mirrored to top view. FAE.pdf p.3 mounting hole dimensions (17.9, 8.35, 16.8, hole D2.6 given for terminal 30 and drawn alike on the others); origin = body centre (10.35 from terminal 87); body 26.0 x 22.7",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 26.0,
+    "height": 22.7
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -7.55,
+     "y": 0.0,
+     "width": 3.3,
+     "height": 3.3,
+     "shape": "round",
+     "drill": 2.6
+    },
+    {
+     "pin": 2,
+     "x": 2.0,
+     "y": -8.4,
+     "width": 3.3,
+     "height": 3.3,
+     "shape": "round",
+     "drill": 2.6
+    },
+    {
+     "pin": 3,
+     "x": 2.0,
+     "y": 8.4,
+     "width": 3.3,
+     "height": 3.3,
+     "shape": "round",
+     "drill": 2.6
+    },
+    {
+     "pin": 4,
+     "x": 10.35,
+     "y": 0.0,
+     "width": 3.3,
+     "height": 3.3,
+     "shape": "round",
+     "drill": 2.6
+    },
+    {
+     "pin": 5,
+     "x": 2.0,
+     "y": 0.0,
+     "width": 3.3,
+     "height": 3.3,
+     "shape": "round",
+     "drill": 2.6
+    }
+   ]
+  },
+  {
+   "id": "RELAY-FAM-4-FRANJOBAIM",
+   "description": "Franjobaim FAM automotive relay, 4 terminals (no PC board pattern in the datasheet)",
+   "note": "bottom view mirrored to top view. FAM.pdf p.3 gives only the terminal outline (6, 8, 9, 4.5, pin D1.4): columns 0 / 6 / 14 mm, rows 0 / 4.5 / 9 mm, terminal numbers read from the bottom-view picture; low confidence. Round holes D1.65 = pin 1.4 + 0.25; body 22.8 x 15.3",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 22.8,
+    "height": 15.3
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 7.0,
+     "y": 4.5,
+     "width": 2.35,
+     "height": 2.35,
+     "shape": "round",
+     "drill": 1.65
+    },
+    {
+     "pin": 2,
+     "x": 7.0,
+     "y": -4.5,
+     "width": 2.35,
+     "height": 2.35,
+     "shape": "round",
+     "drill": 1.65
+    },
+    {
+     "pin": 3,
+     "x": -7.0,
+     "y": 0.0,
+     "width": 2.35,
+     "height": 2.35,
+     "shape": "round",
+     "drill": 1.65
+    },
+    {
+     "pin": 4,
+     "x": 1.0,
+     "y": 0.0,
+     "width": 2.35,
+     "height": 2.35,
+     "shape": "round",
+     "drill": 1.65
+    }
+   ]
+  },
+  {
+   "id": "RELAY-FAW-4-FRANJOBAIM",
+   "description": "Franjobaim FAW 1 Form A relay, 4 holes 12.2 x 12 mm",
+   "note": "bottom view mirrored to top view. FAW.pdf p.2 mounting hole dimensions (4xD1.3, D1.5 for the COM hole, 2, 12.2, 6 + 6); origin = body centre (3.4 from the right-hand column, body 19); body 19 x 15.2",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 19.0,
+    "height": 15.2
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 6.1,
+     "y": -6.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -6.1,
+     "y": -6.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": 8.1,
+     "y": 0.0,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 4,
+     "x": 6.1,
+     "y": 6.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-FR3F-5-FRANJOBAIM",
+   "description": "Franjobaim FR3F 1 Form C relay, 5 holes 12.2 x 12 mm",
+   "note": "bottom view mirrored to top view. FRJBM-catalogue-power-relays.pdf p.39 FR3F 1Z layout (5-D1.3, 2, 12.2, 3.4, 6 + 6); origin = body centre (3.4 from the right-hand column, body 19); body 19 x 15.5",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 19.0,
+    "height": 15.5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 6.1,
+     "y": -6.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -6.1,
+     "y": -6.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": 8.1,
+     "y": 0.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": 6.1,
+     "y": 6.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 5,
+     "x": -6.1,
+     "y": 6.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-FR15F-6-FRANJOBAIM",
+   "description": "Franjobaim FR15F 1 Form C relay, 6 holes (L-shaped pattern)",
+   "note": "bottom view mirrored to top view. FRJBM-catalogue-power-relays.pdf p.40 mounting holes (2-D2.1 printed, 2-D1.1, 6# terminal; same figures as F90: holes D2.1 on the four large ones); origin = centre of the hole pattern; body 27 x 32.2",
+   "style": "explicit",
+   "pins": 6,
+   "body": {
+    "width": 27.0,
+    "height": 32.2
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 8.9,
+     "y": -12.69,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    },
+    {
+     "pin": 2,
+     "x": 8.9,
+     "y": -5.09,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    },
+    {
+     "pin": 3,
+     "x": -8.9,
+     "y": -2.55,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    },
+    {
+     "pin": 4,
+     "x": 5.1,
+     "y": 10.15,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 5,
+     "x": -5.1,
+     "y": 10.15,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 6,
+     "x": 0.0,
+     "y": 12.69,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    }
+   ]
+  },
+  {
+   "id": "RELAY-FR16F-5-FRANJOBAIM",
+   "description": "Franjobaim FR16F 1 Form C relay, 5 holes (L-shaped pattern)",
+   "note": "bottom view mirrored to top view. FRJBM-catalogue-power-relays.pdf p.41 mounting holes (3-D1.1, 2-D1.1, 17.8, 14, 3.8, 7.6, 15.24, 2.54); origin = centre of the hole pattern; body 27.5 x 32.4",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 27.5,
+    "height": 32.4
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 8.9,
+     "y": -11.42,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 2,
+     "x": 8.9,
+     "y": -3.82,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 3,
+     "x": -8.9,
+     "y": -1.28,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 4,
+     "x": 5.1,
+     "y": 11.42,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 5,
+     "x": -5.1,
+     "y": 11.42,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    }
+   ]
+  },
+  {
+   "id": "RELAY-FR18F-5-FRANJOBAIM",
+   "description": "Franjobaim FR18F 1 Form C relay, 5 holes (L-shaped pattern)",
+   "note": "bottom view mirrored to top view. FRJBM-catalogue-power-relays.pdf p.42 mounting holes (3-D2.1, 2-D1.1, 17.8, 14, 3.8, 7.6, 15.24, 2.54); origin = centre of the hole pattern; body 27.8 x 30.0 (height scaled from the drawing)",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 27.8,
+    "height": 30.0
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 8.9,
+     "y": -11.42,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    },
+    {
+     "pin": 2,
+     "x": 8.9,
+     "y": -3.82,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    },
+    {
+     "pin": 3,
+     "x": -8.9,
+     "y": -1.28,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    },
+    {
+     "pin": 4,
+     "x": 5.1,
+     "y": 11.42,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 5,
+     "x": -5.1,
+     "y": 11.42,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    }
+   ]
+  },
+  {
+   "id": "RELAY-FSA-6-FRANJOBAIM",
+   "description": "Franjobaim FSA 1 Form C relay, 6 holes 7.62 / 10.16 x 5.08 mm",
+   "note": "bottom view mirrored to top view. FSA.pdf p.2 PCB layout (6-D0.8, 7.62, 2.54, 5.08); origin = centre of the hole pattern; body 12.3 x 7.4",
+   "style": "explicit",
+   "pins": 6,
+   "body": {
+    "width": 12.3,
+    "height": 7.4
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 5.08,
+     "y": -2.54,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 2,
+     "x": -2.54,
+     "y": -2.54,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 3,
+     "x": -5.08,
+     "y": -2.54,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 4,
+     "x": 5.08,
+     "y": 2.54,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 5,
+     "x": -2.54,
+     "y": 2.54,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 6,
+     "x": -5.08,
+     "y": 2.54,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    }
+   ]
+  },
+  {
+   "id": "RELAY-RT1-8-TE",
+   "description": "TE Schrack RT1 / RZ 1 Form C relay, 16 A, 8 holes on 5.04 mm columns",
+   "note": "bottom view mirrored to top view. RT1.pdf p.5 PCB LAYOUT 16A pinning 5 mm, 1 form C (Dia 1.3 +0.1, 7.5, 5.04, 20.3, 22.65); RT1pb.pdf p.2, RT1_bistable.pdf p.5 (single coil), RT1_Inrush.pdf p.4 and RZ.pdf p.3 (S0418-CA) show the same pattern; terminals doubled (12, 11, 14 on both rows); origin = body centre; body 29.0 x 12.7",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 29.0,
+    "height": 12.7
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 12.15,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -3.11,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": -8.15,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": -13.19,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 5,
+     "x": 12.15,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 6,
+     "x": -3.11,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 7,
+     "x": -8.15,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 8,
+     "x": -13.19,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-RT1-6-TE",
+   "description": "TE Schrack RT1 / RZ 1 Form A relay, 16 A, 6 holes on 5.04 mm columns",
+   "note": "bottom view mirrored to top view. RT1.pdf p.5 PCB LAYOUT 16A pinning 5 mm, 1 form A (Dia 1.3 +0.1, 7.5, 5.04, 20.3, 22.65); RT1_Inrush.pdf p.4, RT1_Inrush_Power.pdf p.5 and RZ.pdf p.3 show the same pattern; origin = body centre; body 29.0 x 12.7",
+   "style": "explicit",
+   "pins": 6,
+   "body": {
+    "width": 29.0,
+    "height": 12.7
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 12.15,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -8.15,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": -13.19,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": 12.15,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 5,
+     "x": -8.15,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 6,
+     "x": -13.19,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-RT1-9-TE",
+   "description": "TE Schrack RT1 bistable 1 Form C relay, two coils, 9 holes",
+   "note": "bottom view mirrored to top view. RT1_bistable.pdf p.5 PCB LAYOUT 16A pinning 5 mm, 1 form C (A1, A3 for the 2-coil version, A2 on the 7.5 mm / 3.75 mm left column); origin = body centre; body 29.0 x 12.7",
+   "style": "explicit",
+   "pins": 9,
+   "body": {
+    "width": 29.0,
+    "height": 12.7
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 12.15,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -3.11,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": -8.15,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": -13.19,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 5,
+     "x": 12.15,
+     "y": 0.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 6,
+     "x": 12.15,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 7,
+     "x": -3.11,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 8,
+     "x": -8.15,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 9,
+     "x": -13.19,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-RT1-7-TE",
+   "description": "TE Schrack RT1 bistable / Inrush 1 Form A relay, two coils, 7 holes",
+   "note": "bottom view mirrored to top view. RT1_Inrush_Power.pdf p.5 terminal assignment (bistable, A3 for the 2-coil version) with RT1_Inrush.pdf p.4 and RT1_bistable.pdf p.5 16A pinning 5 mm 1 form A layout (A3 on the middle left hole); origin = body centre; body 29.0 x 12.7",
+   "style": "explicit",
+   "pins": 7,
+   "body": {
+    "width": 29.0,
+    "height": 12.7
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 12.15,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -8.15,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": -13.19,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": 12.15,
+     "y": 0.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 5,
+     "x": 12.15,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 6,
+     "x": -8.15,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 7,
+     "x": -13.19,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-RT1-5-TE",
+   "description": "TE Schrack RT1 sensitive 1 Form C relay, 3.5 mm pinning, 5 holes",
+   "note": "bottom view mirrored to top view. RT1_sensitive.pdf p.4 PCB LAYOUT 10A pinning 3.5 mm, 1 form C (Dia 1.3 +0.1, 7.5, 3.5, 20.3, 22.65); origin = body centre; body 29.0 x 12.7",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 29.0,
+    "height": 12.7
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -8.15,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -4.65,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": -11.65,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": 12.15,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 5,
+     "x": 12.15,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-RT1-4-TE",
+   "description": "TE Schrack RT1 1 Form A relay, 12 A, 3.5 mm pinning, 4 holes",
+   "note": "bottom view mirrored to top view. RT1pb.pdf p.2 / RT1.pdf p.5 PCB layout 12A pinning 3.5 mm, 1 form A (Dia 1.3 +0.1, 7.5, 3.5, 20.3, 22.65); origin = body centre; body 29.0 x 12.7",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 29.0,
+    "height": 12.7
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -8.15,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -11.65,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": 12.15,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": 12.15,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-RZH-6-TE",
+   "description": "TE Schrack RZH 1 Form A relay, 16 A, 6 holes (pin spacing from the outline)",
+   "note": "bottom view mirrored to top view. RZH.pdf p.4: no PCB layout; pins 5.04 / 20.16 mm from the dimension drawing, rows 7.5 mm, terminals doubled; hole Dia 1.3 from the recommended pcb hole note; origin = body centre; body 29.0 x 12.7",
+   "style": "explicit",
+   "pins": 6,
+   "body": {
+    "width": 29.0,
+    "height": 12.7
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 11.96,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -8.2,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": -13.24,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": 11.96,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 5,
+     "x": -8.2,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 6,
+     "x": -13.24,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-RT2-8-TE",
+   "description": "TE Schrack RT2 2 Form C relay, 8 holes on 5.04 mm columns",
+   "note": "bottom view mirrored to top view. RT2.pdf p.4 PCB LAYOUT (Dia 1.3 +0.1, 7.5, 5.04, 20.3, 22.65); RT2pb.pdf p.2 and RT2_bistable.pdf p.4 (single coil) show the same pattern; origin = body centre; body 29.0 x 12.7",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 29.0,
+    "height": 12.7
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -8.15,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -3.11,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": -13.19,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": -8.15,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 5,
+     "x": -3.11,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 6,
+     "x": -13.19,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 7,
+     "x": 12.15,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 8,
+     "x": 12.15,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-RT2-6-TE",
+   "description": "TE Schrack RT2 2 Form A relay, 6 holes on 5.04 mm columns",
+   "note": "bottom view mirrored to top view. RT2.pdf p.4 PCB LAYOUT with the 2 form A terminal assignment (11, 14 / 21, 24); origin = body centre; body 29.0 x 12.7",
+   "style": "explicit",
+   "pins": 6,
+   "body": {
+    "width": 29.0,
+    "height": 12.7
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -8.15,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -13.19,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": -8.15,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": -13.19,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 5,
+     "x": 12.15,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 6,
+     "x": 12.15,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-RT2-9-TE",
+   "description": "TE Schrack RT2 bistable 2 Form C relay, two coils, 9 holes",
+   "note": "bottom view mirrored to top view. RT2_bistable.pdf p.4 PCB LAYOUT 8A pinning 5 mm (A3 on the middle left hole); origin = body centre; body 29.0 x 12.7",
+   "style": "explicit",
+   "pins": 9,
+   "body": {
+    "width": 29.0,
+    "height": 12.7
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -8.15,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -3.11,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": -13.19,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": -8.15,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 5,
+     "x": -3.11,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 6,
+     "x": -13.19,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 7,
+     "x": 12.15,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 8,
+     "x": 12.15,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 9,
+     "x": 12.15,
+     "y": 0.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-PB-5-TE",
+   "description": "TE Schrack PB 1 Form C relay, 5 holes",
+   "note": "bottom view mirrored to top view. PB.pdf p.4 PCB LAYOUT (Dia 1.3 +0.1; 7.5, 5, 5, 5.0, 6.25, 1.25); PBH.pdf p.4 identical; origin = body centre (2.5 from the coil column); body 15 x 15",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 15.0,
+    "height": 15.0
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -3.75,
+     "y": -5.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -2.5,
+     "y": 0.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": -3.75,
+     "y": 5.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": 2.5,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 5,
+     "x": 2.5,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-PB-4-TE",
+   "description": "TE Schrack PB 1 Form A relay, 4 holes",
+   "note": "bottom view mirrored to top view. PB.pdf p.4 PCB LAYOUT (Dia 1.3 +0.1; 7.5, 5, 5, 5.0, 6.25, 1.25); PBH.pdf p.4 identical; origin = body centre (2.5 from the coil column); body 15 x 15",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 15.0,
+    "height": 15.0
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -3.75,
+     "y": -5.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -3.75,
+     "y": 5.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": 2.5,
+     "y": -3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": 2.5,
+     "y": 3.75,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-PE-5-TE",
+   "description": "TE Schrack PE 1 Form C relay, 5 holes on a 2.52 mm grid",
+   "note": "bottom view mirrored to top view. PE.pdf p.3 PCB LAYOUT 1 form C (Dia 1.3 +0.1, grid 2.5-2.54 taken as the mid-value 2.52: 4 + 3 grid units wide, 3 high, 1.4 edge margin); PE_bistable.pdf p.3 identical; origin = body centre; body 20 x 10",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 20.0,
+    "height": 10.0
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -1.48,
+     "y": -3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -9.04,
+     "y": 3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": -9.04,
+     "y": -3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": 8.6,
+     "y": -3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 5,
+     "x": 8.6,
+     "y": 3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-PE-4-TE",
+   "description": "TE Schrack PE 1 Form A relay, 4 holes on a 2.52 mm grid",
+   "note": "bottom view mirrored to top view. PE.pdf p.3 PCB LAYOUT 1 form A (Dia 1.3 +0.1, grid 2.5-2.54 taken as 2.52); origin = body centre; body 20 x 10",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 20.0,
+    "height": 10.0
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -1.48,
+     "y": -3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -9.04,
+     "y": -3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": 8.6,
+     "y": -3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": 8.6,
+     "y": 3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-RE-4-TE",
+   "description": "TE Schrack RE 1 Form A relay, 4 holes on a 2.52 mm grid",
+   "note": "bottom view mirrored to top view. RE.pdf p.3 PCB LAYOUT (Dia 1.3 +0.1, grid 2.5-2.54 taken as 2.52, 1.2 edge margin); origin = body centre; body 20 x 10",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 20.0,
+    "height": 10.0
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -8.84,
+     "y": -3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -1.28,
+     "y": -3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": 8.8,
+     "y": -3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": 8.8,
+     "y": 3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-RPII2-8-TE",
+   "description": "TE Schrack RP II/2 2 Form C relay, 8 holes on a 2.52 mm grid",
+   "note": "bottom view mirrored to top view. RPII-2.pdf p.2 PCB layout (Dia 1.3 +0.1, grid 2.5-2.54 taken as 2.52: 6 units to the first contact column, 5.0 pitch, 3 units high, 2.4 edge margin); origin = body centre; body 29.0 x 12.6",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 29.0,
+    "height": 12.6
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -8.06,
+     "y": -3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -3.02,
+     "y": -3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": -13.1,
+     "y": -3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": -8.06,
+     "y": 3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 5,
+     "x": -3.02,
+     "y": 3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 6,
+     "x": -13.1,
+     "y": 3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 7,
+     "x": 12.1,
+     "y": -3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 8,
+     "x": 12.1,
+     "y": 3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-RP3SL-4-TE",
+   "description": "TE Schrack RP3SL 1 Form A relay, 6 holes (terminals 11 and 14 doubled)",
+   "note": "bottom view mirrored to top view. RP3SL.pdf p.2 PCB layout (Dia 1.3 +0.1, grid 2.5-2.54 taken as 2.52: 8 units to the first contact column, 5.0 pitch, 3 units high; 2.4 edge margin); the A3 hole of the 2-coil version is left out (pinout has A1, A2); pins 11 and 14 have two pads each; origin = body centre; body 29.0 x 12.6",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 29.0,
+    "height": 12.6
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -8.06,
+     "y": -3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 1,
+     "x": -8.06,
+     "y": 3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -13.1,
+     "y": -3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -13.1,
+     "y": 3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": 12.1,
+     "y": -3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": 12.1,
+     "y": 3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-RY-5-TE",
+   "description": "TE Schrack RY II 1 Form C relay, 3.2 mm pinning, 5 holes",
+   "note": "bottom view mirrored to top view. RYII.pdf p.4 PCB LAYOUT, 1 form C 3.2 mm (Dia 1.3 +0.1, grid 2.5-2.54 taken as 2.52, 1.9, 18.9, 3.2); origin = body centre (1.9 edge margin); body 28.5 x 10.1",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 28.5,
+    "height": 10.1
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -9.75,
+     "y": -3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -6.55,
+     "y": 3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": -12.95,
+     "y": 3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": 12.35,
+     "y": -3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 5,
+     "x": 12.35,
+     "y": 3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-RY-4-TE",
+   "description": "TE Schrack RY II 1 Form A relay, 5 mm pinning, 4 holes",
+   "note": "bottom view mirrored to top view. RYII.pdf p.4 PCB LAYOUT, 1 form A 5 mm (Dia 1.3 +0.1, grid 2.5-2.54 taken as 2.52, 3.25, 18.9, 5.04); origin = body centre (3.25 edge margin); body 28.5 x 10.1",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 28.5,
+    "height": 10.1
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -7.9,
+     "y": -3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -12.94,
+     "y": 3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": 11.0,
+     "y": -3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": 11.0,
+     "y": 3.78,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-SNR-5-TE",
+   "description": "TE Schrack SNR / SNRII slimline 1 Form C relay, 5 holes in one row",
+   "note": "bottom view mirrored to top view. SNR.pdf, SNRnG.pdf p.4 PCB LAYOUT (Dia 1.0 +0.1 coil, Dia 1.3 +0.1 contacts; 3.78, 11.34, 5.04, 5.04, 1.9); origin = body centre; body 28.0 x 5.1",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 28.0,
+    "height": 5.1
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -7.06,
+     "y": 1.25,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -2.02,
+     "y": 1.25,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": -12.1,
+     "y": 1.25,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": 13.1,
+     "y": 1.25,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 5,
+     "x": 9.32,
+     "y": 1.25,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    }
+   ]
+  },
+  {
+   "id": "RELAY-MSR-5-TE",
+   "description": "TE Schrack MSR 1 Form C relay, 3.2 mm pinning, 5 holes",
+   "note": "bottom view mirrored to top view. MSR.pdf p.4 PCB LAYOUT, 1 form C 3.2 mm (Dia 1.3 +0.1, grid 2.54, 2.9, 19, 3.2); origin = body centre; body 30 x 10",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 30.0,
+    "height": 10.0
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -10.1,
+     "y": -3.81,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -6.9,
+     "y": 3.81,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": -13.3,
+     "y": 3.81,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": 12.1,
+     "y": -3.81,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 5,
+     "x": 12.1,
+     "y": 3.81,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-MSR-4-TE",
+   "description": "TE Schrack MSR / Axicom V23061 1 Form A relay, 5 mm pinning, 4 holes",
+   "note": "bottom view mirrored to top view. MSR.pdf p.4 PCB LAYOUT, 1 form A 5 mm (Dia 1.3 +0.1, grid 2.54, 2.9, 19, 5); origin = body centre; body 28.6 x 10",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 28.6,
+    "height": 10.0
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -7.6,
+     "y": -3.81,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -12.6,
+     "y": 3.81,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": 11.4,
+     "y": -3.81,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": 11.4,
+     "y": 3.81,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-PCN-4-TE",
+   "description": "TE Schrack PCN(H) slimline 1 Form A relay, 4 holes in one row",
+   "note": "bottom view mirrored to top view. PCNH_Relay.pdf p.2 PCB layout (Dia 0.9 +0.1 coil, Dia 1.1 +0.1 contacts; 2.54, 7.62, 7.62 from the dimension drawing; grid 1.25-1.27); origin = body centre; body 20 x 5",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 20.0,
+    "height": 5.0
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -8.88,
+     "y": 1.2,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 2,
+     "x": -1.26,
+     "y": 1.2,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 3,
+     "x": 8.9,
+     "y": 1.2,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 0.9
+    },
+    {
+     "pin": 4,
+     "x": 6.36,
+     "y": 1.2,
+     "width": 1.6,
+     "height": 1.6,
+     "shape": "round",
+     "drill": 0.9
+    }
+   ]
+  },
+  {
+   "id": "RELAY-OJ-4-TE",
+   "description": "TE OEG OJ / OJE / OJS / T77 1 Form A relay, 4 holes 12.7 / 15.24 x 7.6 mm",
+   "note": "bottom view mirrored to top view. OJ_OJE_series_relay_data_sheet_E.pdf p.4 PCB LAYOUT (4-D1.3 (.05), 12.7, 2.54, 7.6); 1721260.pdf sheet 1 (4-D1.3, 12.7, 2.54, 7.6), OJS_16A_0821.pdf p.2 HM 10A layout and 1308242_T77.pdf p.3 give the same holes; origin = centre of the hole pattern; body 18.2 x 10.2",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 18.2,
+    "height": 10.2
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 7.62,
+     "y": -3.8,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -5.08,
+     "y": -3.8,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": 7.62,
+     "y": 3.8,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": -7.62,
+     "y": 3.8,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-ORWH-5-TE",
+   "description": "TE OEG ORWH 1 Form C relay, 5 holes 12.2 x 12 mm",
+   "note": "bottom view mirrored to top view. ORWH_series_relay_data_sheet_E.pdf p.3 PCB layout (5-D1.3, 2.0, 12.2, 6.0 + 6.0); origin = body centre (as FR3F-style body 19 x 15.5); body 19.0 x 15.5",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 19.0,
+    "height": 15.5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 6.1,
+     "y": -6.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 2,
+     "x": -6.1,
+     "y": -6.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 3,
+     "x": 8.1,
+     "y": 0.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 4,
+     "x": 6.1,
+     "y": 6.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 5,
+     "x": -6.1,
+     "y": 6.0,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-PCH-4-TE",
+   "description": "TE OEG PCH 1 Form A relay, 4 holes 10.2 / 17.9 x 7.6 mm",
+   "note": "bottom view mirrored to top view. PCH_series_relay_data_sheet_E.pdf p.2 PCB layout 1 form A (2-D1.2 coil, 2-D1.5 contacts, 10.2, 7.7, 7.6); origin = body centre; body 20 x 10",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 20.0,
+    "height": 10.0
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 8.8,
+     "y": -3.8,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 2,
+     "x": -1.4,
+     "y": -3.8,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 3,
+     "x": -9.1,
+     "y": -3.8,
+     "width": 2.2,
+     "height": 2.2,
+     "shape": "round",
+     "drill": 1.5
+    },
+    {
+     "pin": 4,
+     "x": 8.8,
+     "y": 3.8,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    }
+   ]
+  },
+  {
+   "id": "RELAY-PCJ-4-TE",
+   "description": "TE OEG PCJ 1 Form A relay, 4 holes 11.5 / 18.5 x 4.7 mm",
+   "note": "bottom view mirrored to top view. 1721547.pdf sheet 1 drilling diagram (2-D1.1 coil, 2-D1 contacts, 11.5, 7, 4.7; terminal numbers from the circuit diagram: 2 top left, 1 bottom left, 3, 4); origin = body centre; body 20.4 x 7",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 20.4,
+    "height": 7.0
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 9.15,
+     "y": 2.35,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 2,
+     "x": 9.15,
+     "y": -2.35,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 3,
+     "x": -2.35,
+     "y": -2.35,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 4,
+     "x": -9.35,
+     "y": -2.35,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    }
+   ]
+  },
+  {
+   "id": "RELAY-T9A-5-TE",
+   "description": "TE T9A 1 Form C relay, 5 holes (L-shaped pattern)",
+   "note": "bottom view mirrored to top view. T9A.pdf p.3 PCB layout, mounting and termination code 1 (identical to code 2): holes D2.06 (3x), D1.98, D1.09 (2x); 17.78, 13.97, 3.81, 7.62, 2.54, 15.24, 12.7; 1 form C; origin = centre of the hole pattern; body 27.43 x 32.51 (L-shaped outline, bounding box)",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 27.43,
+    "height": 32.51
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 8.89,
+     "y": -11.43,
+     "width": 2.76,
+     "height": 2.76,
+     "shape": "round",
+     "drill": 2.06
+    },
+    {
+     "pin": 2,
+     "x": 8.89,
+     "y": -3.81,
+     "width": 2.76,
+     "height": 2.76,
+     "shape": "round",
+     "drill": 2.06
+    },
+    {
+     "pin": 3,
+     "x": -8.89,
+     "y": -1.27,
+     "width": 2.68,
+     "height": 2.68,
+     "shape": "round",
+     "drill": 1.98
+    },
+    {
+     "pin": 4,
+     "x": 5.08,
+     "y": 11.43,
+     "width": 1.79,
+     "height": 1.79,
+     "shape": "round",
+     "drill": 1.09
+    },
+    {
+     "pin": 5,
+     "x": -5.08,
+     "y": 11.43,
+     "width": 1.79,
+     "height": 1.79,
+     "shape": "round",
+     "drill": 1.09
+    }
+   ]
+  },
+  {
+   "id": "RELAY-T9A-4-TE",
+   "description": "TE T9A 1 Form A relay, 4 holes (L-shaped pattern)",
+   "note": "bottom view mirrored to top view. T9A.pdf p.3 PCB layout, mounting and termination code 1 (identical to code 2): holes D2.06 (3x), D1.98, D1.09 (2x); 17.78, 13.97, 3.81, 7.62, 2.54, 15.24, 12.7; 1 form A (NO hole at the lower of the two left holes); origin = centre of the hole pattern; body 27.43 x 32.51",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 27.43,
+    "height": 32.51
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 8.89,
+     "y": -7.62,
+     "width": 2.76,
+     "height": 2.76,
+     "shape": "round",
+     "drill": 2.06
+    },
+    {
+     "pin": 2,
+     "x": -8.89,
+     "y": -5.08,
+     "width": 2.68,
+     "height": 2.68,
+     "shape": "round",
+     "drill": 1.98
+    },
+    {
+     "pin": 3,
+     "x": 5.08,
+     "y": 7.62,
+     "width": 1.79,
+     "height": 1.79,
+     "shape": "round",
+     "drill": 1.09
+    },
+    {
+     "pin": 4,
+     "x": -5.08,
+     "y": 7.62,
+     "width": 1.79,
+     "height": 1.79,
+     "shape": "round",
+     "drill": 1.09
+    }
+   ]
+  },
+  {
+   "id": "RELAY-T9E-5-TE",
+   "description": "TE T9E 1 Form C relay, 5 holes",
+   "note": "bottom view mirrored to top view. T9E_series_relay_datasheet.pdf p.2 PCB layout S0261-AA (D1.1 coil, D2.0 contacts, 12.7, 2.54, 7.62, 6.35, 3.8, 10.16, 3.8); origin = body centre (32.5 x 27.4 outline); body 32.5 x 27.4",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 32.5,
+    "height": 27.4
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -5.04,
+     "y": -7.35,
+     "width": 2.7,
+     "height": 2.7,
+     "shape": "round",
+     "drill": 2.0
+    },
+    {
+     "pin": 2,
+     "x": -12.66,
+     "y": -7.35,
+     "width": 2.7,
+     "height": 2.7,
+     "shape": "round",
+     "drill": 2.0
+    },
+    {
+     "pin": 3,
+     "x": 10.2,
+     "y": -3.55,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 4,
+     "x": 10.2,
+     "y": 6.61,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 5,
+     "x": -2.5,
+     "y": 10.41,
+     "width": 2.7,
+     "height": 2.7,
+     "shape": "round",
+     "drill": 2.0
+    }
+   ]
+  },
+  {
+   "id": "RELAY-T9S-4-TE",
+   "description": "TE T9S solar 1 Form A relay, 4 holes (two slots)",
+   "note": "bottom view mirrored to top view. T9S_solar_relay_datasheet.pdf p.2 PCB layout (slots 3.92 x 1.95 and 1.78 x 3.33, D1.09 coil, 18.75, 3.43, 15.44, 3.81, 13.97); plated slots drawn with R5 pad = slot + 0.7; origin = centre of the hole pattern; body 27.43 x 32.51",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 27.43,
+    "height": 32.51
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 9.38,
+     "y": -7.72,
+     "width": 4.62,
+     "height": 2.65,
+     "shape": "round",
+     "drill": 1.95,
+     "slotLength": 3.92
+    },
+    {
+     "pin": 2,
+     "x": -9.38,
+     "y": -4.29,
+     "width": 2.48,
+     "height": 4.03,
+     "shape": "round",
+     "drill": 1.78,
+     "slotLength": 3.33
+    },
+    {
+     "pin": 3,
+     "x": 5.56,
+     "y": 7.72,
+     "width": 1.79,
+     "height": 1.79,
+     "shape": "round",
+     "drill": 1.09
+    },
+    {
+     "pin": 4,
+     "x": -4.6,
+     "y": 7.72,
+     "width": 1.79,
+     "height": 1.79,
+     "shape": "round",
+     "drill": 1.09
+    }
+   ]
+  },
+  {
+   "id": "RELAY-T92-8-TE",
+   "description": "TE T92 2 Form C relay, 16 holes (doubled terminals)",
+   "note": "bottom view mirrored to top view. 1308242_T92.pdf p.5 PCB LAYOUT (alternate D1.93 round holes on the printed centre spacing: columns 7.85 / 14.86, pair centres 16.00 apart, 4.70 inside a pair, coil pins 41.10 from the first column and 25.40 apart); each terminal has two holes (two pads on one pin); origin = body centre (scaled from the dashed outline); body 48.0 x 31.3",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 48.0,
+    "height": 31.3
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -15.6,
+     "y": -12.7,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    },
+    {
+     "pin": 1,
+     "x": -20.3,
+     "y": -12.7,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    },
+    {
+     "pin": 2,
+     "x": -15.6,
+     "y": 12.7,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    },
+    {
+     "pin": 2,
+     "x": -20.3,
+     "y": 12.7,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    },
+    {
+     "pin": 3,
+     "x": 20.8,
+     "y": -10.35,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    },
+    {
+     "pin": 3,
+     "x": 20.8,
+     "y": -5.65,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    },
+    {
+     "pin": 4,
+     "x": 5.94,
+     "y": -10.35,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    },
+    {
+     "pin": 4,
+     "x": 5.94,
+     "y": -5.65,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    },
+    {
+     "pin": 5,
+     "x": 12.95,
+     "y": -10.35,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    },
+    {
+     "pin": 5,
+     "x": 12.95,
+     "y": -5.65,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    },
+    {
+     "pin": 6,
+     "x": 20.8,
+     "y": 5.65,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    },
+    {
+     "pin": 6,
+     "x": 20.8,
+     "y": 10.35,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    },
+    {
+     "pin": 7,
+     "x": 5.94,
+     "y": 5.65,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    },
+    {
+     "pin": 7,
+     "x": 5.94,
+     "y": 10.35,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    },
+    {
+     "pin": 8,
+     "x": 12.95,
+     "y": 5.65,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    },
+    {
+     "pin": 8,
+     "x": 12.95,
+     "y": 10.35,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    }
+   ]
+  },
+  {
+   "id": "RELAY-T92-6-TE",
+   "description": "TE T92 2 Form A relay, 12 holes (doubled terminals)",
+   "note": "bottom view mirrored to top view. 1308242_T92.pdf p.5 PCB LAYOUT (alternate D1.93 round holes on the printed centre spacing: columns 7.85 / 14.86, pair centres 16.00 apart, 4.70 inside a pair, coil pins 41.10 from the first column and 25.40 apart); each terminal has two holes (two pads on one pin); origin = body centre (scaled from the dashed outline); body 48.0 x 31.3",
+   "style": "explicit",
+   "pins": 6,
+   "body": {
+    "width": 48.0,
+    "height": 31.3
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -15.6,
+     "y": -12.7,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    },
+    {
+     "pin": 1,
+     "x": -20.3,
+     "y": -12.7,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    },
+    {
+     "pin": 2,
+     "x": -15.6,
+     "y": 12.7,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    },
+    {
+     "pin": 2,
+     "x": -20.3,
+     "y": 12.7,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    },
+    {
+     "pin": 3,
+     "x": 20.8,
+     "y": -10.35,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    },
+    {
+     "pin": 3,
+     "x": 20.8,
+     "y": -5.65,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    },
+    {
+     "pin": 4,
+     "x": 12.95,
+     "y": -10.35,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    },
+    {
+     "pin": 4,
+     "x": 12.95,
+     "y": -5.65,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    },
+    {
+     "pin": 5,
+     "x": 20.8,
+     "y": 5.65,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    },
+    {
+     "pin": 5,
+     "x": 20.8,
+     "y": 10.35,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    },
+    {
+     "pin": 6,
+     "x": 12.95,
+     "y": 5.65,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    },
+    {
+     "pin": 6,
+     "x": 12.95,
+     "y": 10.35,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    }
+   ]
+  },
+  {
+   "id": "RELAY-F4-5-TE",
+   "description": "TE Power Relay F4 (Mini ISO) 1 Form C relay with PCB terminals, 5 slots",
+   "note": "bottom view mirrored to top view. V23134X0000A001.pdf p.3 mounting hole layout TE0907-B1 (rectangular holes 2.6 x 1.4; 8.4, 8.0, 8.45, 16.9; terminals named as in the terminal view TE1655-H1); slots drawn as plated slots with R5 pads (slot + 0.7); origin = centre of the terminals; body 25.9 x 25.9",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 25.9,
+    "height": 25.9
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 8.2,
+     "y": 0.0,
+     "width": 3.3,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4,
+     "slotLength": 2.6
+    },
+    {
+     "pin": 2,
+     "x": -0.2,
+     "y": 8.45,
+     "width": 3.3,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4,
+     "slotLength": 2.6
+    },
+    {
+     "pin": 3,
+     "x": -0.2,
+     "y": -8.45,
+     "width": 3.3,
+     "height": 2.1,
+     "shape": "round",
+     "drill": 1.4,
+     "slotLength": 2.6
+    },
+    {
+     "pin": 4,
+     "x": -8.2,
+     "y": 0.0,
+     "width": 2.1,
+     "height": 3.3,
+     "shape": "round",
+     "drill": 1.4,
+     "slotLength": 2.6
+    },
+    {
+     "pin": 5,
+     "x": -0.2,
+     "y": 0.0,
+     "width": 2.1,
+     "height": 3.3,
+     "shape": "round",
+     "drill": 1.4,
+     "slotLength": 2.6
+    }
+   ]
+  },
+  {
+   "id": "RELAY-F7-4-TE",
+   "description": "TE Power Relay F7 (Maxi ISO) 1 Form A relay with PCB terminals, 8 holes",
+   "note": "bottom view mirrored to top view. V23134X0000A002.pdf p.3 mounting hole layout (6x D2.18, 2x D1.93; 17.0, 8.5, 3.8, 8.4, 17.9; terminal 30 three holes, 87 three holes, 85 / 86 one each per the terminal view); origin = body centre; body 26.2 x 26.2",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 26.2,
+    "height": 26.2
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 0.0,
+     "y": -10.9,
+     "width": 2.88,
+     "height": 2.88,
+     "shape": "round",
+     "drill": 2.18
+    },
+    {
+     "pin": 1,
+     "x": 0.0,
+     "y": -7.1,
+     "width": 2.88,
+     "height": 2.88,
+     "shape": "round",
+     "drill": 2.18
+    },
+    {
+     "pin": 1,
+     "x": 0.0,
+     "y": -3.3,
+     "width": 2.88,
+     "height": 2.88,
+     "shape": "round",
+     "drill": 2.18
+    },
+    {
+     "pin": 2,
+     "x": 8.5,
+     "y": 2.4,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    },
+    {
+     "pin": 3,
+     "x": -8.5,
+     "y": 2.4,
+     "width": 2.63,
+     "height": 2.63,
+     "shape": "round",
+     "drill": 1.93
+    },
+    {
+     "pin": 4,
+     "x": 3.8,
+     "y": 10.8,
+     "width": 2.88,
+     "height": 2.88,
+     "shape": "round",
+     "drill": 2.18
+    },
+    {
+     "pin": 4,
+     "x": 0.0,
+     "y": 10.8,
+     "width": 2.88,
+     "height": 2.88,
+     "shape": "round",
+     "drill": 2.18
+    },
+    {
+     "pin": 4,
+     "x": -3.8,
+     "y": 10.8,
+     "width": 2.88,
+     "height": 2.88,
+     "shape": "round",
+     "drill": 2.18
+    }
+   ]
+  },
+  {
+   "id": "RELAY-V23076-7-TE",
+   "description": "TE Power Relay K (V23076) 1 Form C relay, 7 holes",
+   "note": "bottom view mirrored to top view. V23076-X0000-A001.pdf p.2 mounting hole layout TE0580-X2 (D2.1, D1.3, D2.3; 6.0, 10.2, 16.0, 3.3, 2.2, 12.1, 2.3, 13.3); pad numbers are the bottom-view raster order of the holes (datasheet terminals 3, 4, 5, 1, 2, 4, 4); origin = body centre; body 26.1 x 21.1",
+   "style": "explicit",
+   "pins": 7,
+   "body": {
+    "width": 26.1,
+    "height": 21.1
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 9.65,
+     "y": -7.25,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    },
+    {
+     "pin": 2,
+     "x": -6.35,
+     "y": -6.15,
+     "width": 3.0,
+     "height": 3.0,
+     "shape": "round",
+     "drill": 2.3
+    },
+    {
+     "pin": 3,
+     "x": 9.65,
+     "y": -3.95,
+     "width": 2.8,
+     "height": 2.8,
+     "shape": "round",
+     "drill": 2.1
+    },
+    {
+     "pin": 4,
+     "x": 3.65,
+     "y": -3.95,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 5,
+     "x": -0.55,
+     "y": -3.95,
+     "width": 2.0,
+     "height": 2.0,
+     "shape": "round",
+     "drill": 1.3
+    },
+    {
+     "pin": 6,
+     "x": 7.35,
+     "y": 8.15,
+     "width": 3.0,
+     "height": 3.0,
+     "shape": "round",
+     "drill": 2.3
+    },
+    {
+     "pin": 7,
+     "x": -3.65,
+     "y": 8.15,
+     "width": 3.0,
+     "height": 3.0,
+     "shape": "round",
+     "drill": 2.3
+    }
+   ]
+  },
+  {
+   "id": "RELAY-V23086-4-TE",
+   "description": "TE Micro Relay K (V23086) 1 Form A relay, 4 holes",
+   "note": "bottom view mirrored to top view. V23086X0000A001.pdf p.3 mounting hole layout (D1.2 for terminals 3, 4, 5; 8.5, 7.5, 0.5, 1.37, 3.0, 3.6, 10.2; terminals 1 and 2 are 0.5 mm square pins: R5 hole 1.0); origin = body centre; body 12.0 x 12.9",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 12.0,
+    "height": 12.9
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -3.05,
+     "y": -1.48,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 2,
+     "x": 4.45,
+     "y": 5.12,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 3,
+     "x": -4.05,
+     "y": -5.08,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 4,
+     "x": 3.95,
+     "y": -2.08,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    }
+   ]
+  },
+  {
+   "id": "RELAY-V23700-7-TE",
+   "description": "TE Mini K HV precharge relay, 7 terminals (derived from the terminal view)",
+   "note": "bottom view mirrored to top view. V23700-X0000-A001.pdf p.2 terminal view (no PCB hole layout in the datasheet: positions scaled from the drawing, 9, 4.6, 3.22, 20.7, 25.55; pin D0.9 max, R5 hole 1.15); low confidence; origin = body centre; body 25.55 x 20.7",
+   "style": "explicit",
+   "pins": 7,
+   "body": {
+    "width": 25.55,
+    "height": 20.7
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -5.1,
+     "y": 5.15,
+     "width": 1.85,
+     "height": 1.85,
+     "shape": "round",
+     "drill": 1.15
+    },
+    {
+     "pin": 2,
+     "x": 5.1,
+     "y": 5.15,
+     "width": 1.85,
+     "height": 1.85,
+     "shape": "round",
+     "drill": 1.15
+    },
+    {
+     "pin": 3,
+     "x": 0.0,
+     "y": 5.15,
+     "width": 1.85,
+     "height": 1.85,
+     "shape": "round",
+     "drill": 1.15
+    },
+    {
+     "pin": 4,
+     "x": -4.5,
+     "y": -3.45,
+     "width": 1.85,
+     "height": 1.85,
+     "shape": "round",
+     "drill": 1.15
+    },
+    {
+     "pin": 5,
+     "x": 4.5,
+     "y": -3.45,
+     "width": 1.85,
+     "height": 1.85,
+     "shape": "round",
+     "drill": 1.15
+    },
+    {
+     "pin": 6,
+     "x": 11.2,
+     "y": 1.95,
+     "width": 1.85,
+     "height": 1.85,
+     "shape": "round",
+     "drill": 1.15
+    },
+    {
+     "pin": 7,
+     "x": -11.2,
+     "y": 1.95,
+     "width": 1.85,
+     "height": 1.85,
+     "shape": "round",
+     "drill": 1.15
+    }
+   ]
+  },
+  {
+   "id": "RELAY-IM-8-SMD-TE",
+   "description": "TE Axicom IM 2 Form C relay, gull-wing, 8 pads",
+   "note": "top view as drawn (component side). 108-98001.pdf p.5 PCB LAYOUT SMT Gull wings version (pads 0.7 x 2.0, 3.2, 2.2, 2.2, 6 centres, 4 gap, 8 over); 1-1773734-7_IM_Relay_I_Type.pdf shows the same product; origin = body centre (1.2 edge margin); body 10 x 6",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 10.0,
+    "height": 6.0
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -3.8,
+     "y": 3.0,
+     "width": 0.7,
+     "height": 2.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -0.6,
+     "y": 3.0,
+     "width": 0.7,
+     "height": 2.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 1.6,
+     "y": 3.0,
+     "width": 0.7,
+     "height": 2.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 3.8,
+     "y": 3.0,
+     "width": 0.7,
+     "height": 2.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 3.8,
+     "y": -3.0,
+     "width": 0.7,
+     "height": 2.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 1.6,
+     "y": -3.0,
+     "width": 0.7,
+     "height": 2.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -0.6,
+     "y": -3.0,
+     "width": 0.7,
+     "height": 2.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -3.8,
+     "y": -3.0,
+     "width": 0.7,
+     "height": 2.0,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "RELAY-IM-8-THT-TE",
+   "description": "TE Axicom IM 2 Form C relay, through hole, 8 holes",
+   "note": "top view as drawn (component side). 108-98001.pdf p.5 PCB LAYOUT THT Standard and Short version (D0.75 min x 8, 3.2, 2.2, 2.2, 5.08); same pad numbers as the SMD footprint; origin = body centre (1.2 edge margin); body 10 x 6",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 10.0,
+    "height": 6.0
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -3.8,
+     "y": 2.54,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.75
+    },
+    {
+     "pin": 2,
+     "x": -0.6,
+     "y": 2.54,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.75
+    },
+    {
+     "pin": 3,
+     "x": 1.6,
+     "y": 2.54,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.75
+    },
+    {
+     "pin": 4,
+     "x": 3.8,
+     "y": 2.54,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.75
+    },
+    {
+     "pin": 5,
+     "x": 3.8,
+     "y": -2.54,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.75
+    },
+    {
+     "pin": 6,
+     "x": 1.6,
+     "y": -2.54,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.75
+    },
+    {
+     "pin": 7,
+     "x": -0.6,
+     "y": -2.54,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.75
+    },
+    {
+     "pin": 8,
+     "x": -3.8,
+     "y": -2.54,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.75
+    }
+   ]
+  },
+  {
+   "id": "RELAY-V23079-8-SMD-TE",
+   "description": "TE Axicom P2 (V23079) 2 Form C relay, SMT long terminals, 8 pads",
+   "note": "top view as drawn (component side). P2_Relay.pdf p.5 PCB LAYOUT SMT long terminals (5 x 2.54, pads 0.9 wide, 10.9 over, 5.2 gap -> 2.85 long; pins 6 and 7 of the latching versions left out, the pinout has 8); origin = body centre; body 14.6 x 7.2",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 14.6,
+    "height": 7.2
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -6.4,
+     "y": 4.03,
+     "width": 0.9,
+     "height": 2.85,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -1.32,
+     "y": 4.03,
+     "width": 0.9,
+     "height": 2.85,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 1.22,
+     "y": 4.03,
+     "width": 0.9,
+     "height": 2.85,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": 3.76,
+     "y": 4.03,
+     "width": 0.9,
+     "height": 2.85,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 3.76,
+     "y": -4.03,
+     "width": 0.9,
+     "height": 2.85,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": 1.22,
+     "y": -4.03,
+     "width": 0.9,
+     "height": 2.85,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -1.32,
+     "y": -4.03,
+     "width": 0.9,
+     "height": 2.85,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -6.4,
+     "y": -4.03,
+     "width": 0.9,
+     "height": 2.85,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "RELAY-JWD-8-TE",
+   "description": "TE Potter and Brumfield JWD reed relay, 8 pins on a 14-pin DIP grid",
+   "note": "top view as drawn (component side). 1308242_JWD-JWS.pdf p.2 terminal assignment (top view: 7 6 . . . 2 1 / 8 9 . . . 13 14) with the dimension drawing (pitch 2.54, 6 x 2.54 = 15.24, row spacing .300 = 7.62; pin 0.51, R5 hole 0.8); origin = body centre; body 19.56 x 7.62",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 19.56,
+    "height": 7.62
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 7.62,
+     "y": -3.81,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 2,
+     "x": 5.08,
+     "y": -3.81,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 3,
+     "x": -5.08,
+     "y": -3.81,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 4,
+     "x": -7.62,
+     "y": -3.81,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 5,
+     "x": -7.62,
+     "y": 3.81,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 6,
+     "x": -5.08,
+     "y": 3.81,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 7,
+     "x": 5.08,
+     "y": 3.81,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 8,
+     "x": 7.62,
+     "y": 3.81,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    }
+   ]
+  },
+  {
+   "id": "RELAY-TO5-8-TE",
+   "description": "TE CII TO-5 style 2 Form C relay (HM / JMAD / JMS), 8 pins on a 5.08 mm circle",
+   "note": "bottom view mirrored to top view. HM-26B.pdf bottom view (8 pins 0.017 dia on a .200 dia circle at 36 degrees, tab at the top); JMAWD-26XP.pdf and JMSC-12XL.pdf show the same pin circle; numbers are the bottom-view raster order of the pins (the datasheet prints no pin numbers); pin D0.017 mid 0.45 -> R5 hole 0.70; pads 0.9 x 1.5 ovals (the pins are only 0.92 apart across the 36 degree pitch); origin = circle centre; body round 9.4 (.370 max flange)",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 9.4,
+    "height": 9.4,
+    "round": true
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 1.49,
+     "y": -2.06,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.7
+    },
+    {
+     "pin": 2,
+     "x": -1.49,
+     "y": -2.06,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.7
+    },
+    {
+     "pin": 3,
+     "x": 2.42,
+     "y": -0.79,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.7
+    },
+    {
+     "pin": 4,
+     "x": -2.42,
+     "y": -0.79,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.7
+    },
+    {
+     "pin": 5,
+     "x": 2.42,
+     "y": 0.79,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.7
+    },
+    {
+     "pin": 6,
+     "x": -2.42,
+     "y": 0.79,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.7
+    },
+    {
+     "pin": 7,
+     "x": 1.49,
+     "y": 2.06,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.7
+    },
+    {
+     "pin": 8,
+     "x": -1.49,
+     "y": 2.06,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.7
+    }
+   ]
+  },
+  {
+   "id": "RELAY-MGA-8-TE",
+   "description": "TE CII MGA / MGS 2 Form C relay, 8 pins on a 3 x 3 grid without the centre",
+   "note": "bottom view mirrored to top view. JMGACDD-26MW.pdf bottom view (3 x 3 grid of .100 pitch, centre empty); PRMGSC-18XW.pdf, JMGAPD-26M.pdf and JMGSPD-26P.pdf are the same family; numbers are the bottom-view raster order of the pins (the datasheet prints no pin numbers); pin D0.017 -> R5 hole 0.70; origin = grid centre; body .375 square",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 9.53,
+    "height": 9.53
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 2.54,
+     "y": -2.54,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.7
+    },
+    {
+     "pin": 2,
+     "x": 0.0,
+     "y": -2.54,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.7
+    },
+    {
+     "pin": 3,
+     "x": -2.54,
+     "y": -2.54,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.7
+    },
+    {
+     "pin": 4,
+     "x": 2.54,
+     "y": 0.0,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.7
+    },
+    {
+     "pin": 5,
+     "x": -2.54,
+     "y": 0.0,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.7
+    },
+    {
+     "pin": 6,
+     "x": 2.54,
+     "y": 2.54,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.7
+    },
+    {
+     "pin": 7,
+     "x": 0.0,
+     "y": 2.54,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.7
+    },
+    {
+     "pin": 8,
+     "x": -2.54,
+     "y": 2.54,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.7
+    }
+   ]
+  },
+  {
+   "id": "RELAY-MGA-9-TE",
+   "description": "TE CII MGAD 2 Form C relay, 9 pins on a 3 x 3 grid",
+   "note": "bottom view mirrored to top view. JMGACDG-12LW.pdf bottom view (3 x 3 grid of .100 pitch, centre ground pin); numbers are the bottom-view raster order of the pins (the datasheet prints no pin numbers); pin D0.017 -> R5 hole 0.70; origin = grid centre; body .370 square",
+   "style": "explicit",
+   "pins": 9,
+   "body": {
+    "width": 9.4,
+    "height": 9.4
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 2.54,
+     "y": -2.54,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.7
+    },
+    {
+     "pin": 2,
+     "x": 0.0,
+     "y": -2.54,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.7
+    },
+    {
+     "pin": 3,
+     "x": -2.54,
+     "y": -2.54,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.7
+    },
+    {
+     "pin": 4,
+     "x": 2.54,
+     "y": 0.0,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.7
+    },
+    {
+     "pin": 5,
+     "x": 0.0,
+     "y": 0.0,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.7
+    },
+    {
+     "pin": 6,
+     "x": -2.54,
+     "y": 0.0,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.7
+    },
+    {
+     "pin": 7,
+     "x": 2.54,
+     "y": 2.54,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.7
+    },
+    {
+     "pin": 8,
+     "x": 0.0,
+     "y": 2.54,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.7
+    },
+    {
+     "pin": 9,
+     "x": -2.54,
+     "y": 2.54,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.7
+    }
+   ]
+  },
+  {
+   "id": "RELAY-HFW-8-TE",
+   "description": "TE CII HFW 2 Form C relay, 8 pins in two columns of four",
+   "note": "bottom view mirrored to top view. HFW1201G01M.pdf / HFW1201K46M.pdf bottom view (.200 column spacing, .200 row pitch, .600 over, pin .030 dia -> R5 hole 1.05); pin names placed from the terminal view rotated so that X1 sits at the blue bead (left column, second row): low confidence; origin = pin grid centre; body .410 x .810",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 10.41,
+    "height": 20.57
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -2.54,
+     "y": -7.62,
+     "width": 1.75,
+     "height": 1.75,
+     "shape": "round",
+     "drill": 1.05
+    },
+    {
+     "pin": 2,
+     "x": 2.54,
+     "y": 2.54,
+     "width": 1.75,
+     "height": 1.75,
+     "shape": "round",
+     "drill": 1.05
+    },
+    {
+     "pin": 3,
+     "x": 2.54,
+     "y": -7.62,
+     "width": 1.75,
+     "height": 1.75,
+     "shape": "round",
+     "drill": 1.05
+    },
+    {
+     "pin": 4,
+     "x": 2.54,
+     "y": 7.62,
+     "width": 1.75,
+     "height": 1.75,
+     "shape": "round",
+     "drill": 1.05
+    },
+    {
+     "pin": 5,
+     "x": -2.54,
+     "y": -2.54,
+     "width": 1.75,
+     "height": 1.75,
+     "shape": "round",
+     "drill": 1.05
+    },
+    {
+     "pin": 6,
+     "x": -2.54,
+     "y": 7.62,
+     "width": 1.75,
+     "height": 1.75,
+     "shape": "round",
+     "drill": 1.05
+    },
+    {
+     "pin": 7,
+     "x": 2.54,
+     "y": -2.54,
+     "width": 1.75,
+     "height": 1.75,
+     "shape": "round",
+     "drill": 1.05
+    },
+    {
+     "pin": 8,
+     "x": -2.54,
+     "y": 2.54,
+     "width": 1.75,
+     "height": 1.75,
+     "shape": "round",
+     "drill": 1.05
+    }
+   ]
+  },
+  {
+   "id": "RELAY-3SBC-8-TE",
+   "description": "TE CII 3SBC 2 Form C relay, 8 pins in two columns of four",
+   "note": "bottom view mirrored to top view. 3SBC1542A2.pdf bottom view (.150 column spacing, .150 row pitch, .450 over, pin .020 dia -> R5 hole 0.80); pin names placed from the terminal view with X1 at the blue bead: low confidence; origin = pin grid centre; body .310 x .610",
+   "style": "explicit",
+   "pins": 8,
+   "body": {
+    "width": 7.87,
+    "height": 15.49
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -1.91,
+     "y": -5.71,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 2,
+     "x": 1.91,
+     "y": 1.91,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 3,
+     "x": 1.91,
+     "y": -5.71,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 4,
+     "x": 1.91,
+     "y": 5.71,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 5,
+     "x": -1.91,
+     "y": -1.91,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 6,
+     "x": -1.91,
+     "y": 5.71,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 7,
+     "x": 1.91,
+     "y": -1.91,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 8,
+     "x": -1.91,
+     "y": 1.91,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    }
+   ]
+  },
+  {
+   "id": "RELAY-3SBH-14-TE",
+   "description": "TE CII 3SBH 4 Form C relay, 14 pins on a 4 x 4 grid with two positions empty",
+   "note": "bottom view mirrored to top view. 3SBH1142A2.pdf bottom view (4 x 4 grid of .150 pitch, rows 2 and 3 each miss one position, pin .020 dia -> R5 hole 0.80); pad numbers are the raster order of the pins (1 to 14), which matches the coil pins X1 at the blue bead and the pinout; low confidence for the contact pins; origin = grid centre; body .610 square",
+   "style": "explicit",
+   "pins": 14,
+   "body": {
+    "width": 15.49,
+    "height": 15.49
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 5.71,
+     "y": -5.71,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 2,
+     "x": 1.91,
+     "y": -5.71,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 3,
+     "x": -1.91,
+     "y": -5.71,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 4,
+     "x": -5.71,
+     "y": -5.71,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 5,
+     "x": 5.71,
+     "y": -1.91,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 6,
+     "x": -1.91,
+     "y": -1.91,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 7,
+     "x": -5.71,
+     "y": -1.91,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 8,
+     "x": 5.71,
+     "y": 1.91,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 9,
+     "x": 1.91,
+     "y": 1.91,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 10,
+     "x": -5.71,
+     "y": 1.91,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 11,
+     "x": 5.71,
+     "y": 5.71,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 12,
+     "x": 1.91,
+     "y": 5.71,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 13,
+     "x": -1.91,
+     "y": 5.71,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    },
+    {
+     "pin": 14,
+     "x": -5.71,
+     "y": 5.71,
+     "width": 1.5,
+     "height": 1.5,
+     "shape": "round",
+     "drill": 0.8
+    }
+   ]
+  },
+  {
+   "id": "RELAY-SSRA-4-TE",
+   "description": "TE SSRA solid state relay, 4-SIP",
+   "note": "top view (pins in a row as in the outline drawing). SSRA.pdf p.2 outline dimensions (pin spacing .100 / .500 / .700 = 2.54 / 12.7 / 17.8, pin .030 x .015 -> R5 hole 1.10); origin = centre of the pin row; body 24.1 x 5.1",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 24.1,
+    "height": 5.1
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -8.89,
+     "y": 0.0,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 2,
+     "x": -3.81,
+     "y": 0.0,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 3,
+     "x": 6.35,
+     "y": 0.0,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    },
+    {
+     "pin": 4,
+     "x": 8.89,
+     "y": 0.0,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    }
+   ]
+  },
+  {
+   "id": "RELAY-SSRC-4-TE",
+   "description": "TE SSRC solid state relay, 4-SIP",
+   "note": "top view (pins in a row as in the outline drawing). 8-1773454-2_SSRC_Data_Sheet.pdf p.2 outline dimensions (.200, .700, 1.100 = 5.1, 17.8, 27.9, pin .040 dia (1.0) -> R5 hole 1.25); origin = centre of the pin row; body 43.1 x 7.6",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 43.1,
+    "height": 7.6
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 13.97,
+     "y": 0.0,
+     "width": 1.95,
+     "height": 1.95,
+     "shape": "round",
+     "drill": 1.25
+    },
+    {
+     "pin": 2,
+     "x": 3.81,
+     "y": 0.0,
+     "width": 1.95,
+     "height": 1.95,
+     "shape": "round",
+     "drill": 1.25
+    },
+    {
+     "pin": 3,
+     "x": -8.89,
+     "y": 0.0,
+     "width": 1.95,
+     "height": 1.95,
+     "shape": "round",
+     "drill": 1.25
+    },
+    {
+     "pin": 4,
+     "x": -13.97,
+     "y": 0.0,
+     "width": 1.95,
+     "height": 1.95,
+     "shape": "round",
+     "drill": 1.25
+    }
+   ]
+  },
+  {
+   "id": "RELAY-SSRF-4-TE",
+   "description": "TE SSRF solid state relay, 4-SIP",
+   "note": "top view (pins in a row as in the outline drawing). 8-1773454-3_SSRF_Data_Sheet.pdf p.2 outline dimensions (same pin spacing as SSRC, pin .040 dia -> R5 hole 1.25); origin = centre of the pin row; body 43.1 x 22.8",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 43.1,
+    "height": 22.8
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 13.97,
+     "y": 0.0,
+     "width": 1.95,
+     "height": 1.95,
+     "shape": "round",
+     "drill": 1.25
+    },
+    {
+     "pin": 2,
+     "x": 3.81,
+     "y": 0.0,
+     "width": 1.95,
+     "height": 1.95,
+     "shape": "round",
+     "drill": 1.25
+    },
+    {
+     "pin": 3,
+     "x": -8.89,
+     "y": 0.0,
+     "width": 1.95,
+     "height": 1.95,
+     "shape": "round",
+     "drill": 1.25
+    },
+    {
+     "pin": 4,
+     "x": -13.97,
+     "y": 0.0,
+     "width": 1.95,
+     "height": 1.95,
+     "shape": "round",
+     "drill": 1.25
+    }
+   ]
+  }
+ ]
+}

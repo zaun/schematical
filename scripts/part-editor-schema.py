@@ -38,6 +38,8 @@ KIND_FILES = {
     "lcd": ["lcd.c"],
     "powerswitch": ["powerswitch.c"],
     "socket": ["socket.c"],
+    # plan-47-K, L.
+    "inductor": ["inductor.c"], "fuse": ["fuse.c"], "relay": ["relay.c"], "buzzer": ["buzzer.c"],
 }
 
 NAMES = {
@@ -54,6 +56,10 @@ CV_SHARED_DEVICE = {"vcc", "inputMax", "analog", "bus", "configBus", "timing", "
 CV_SHARED_PART = {"vcc", "inputMax", "i2cAddress", "i2c", "resets"}
 BORROW = {"rtc": ("converter", CV_SHARED_DEVICE, CV_SHARED_PART),
           "converter": ("rtc", CV_SHARED_DEVICE, CV_SHARED_PART)}
+
+# Kinds whose `type` is not a model picker: plan-47-L (relay: three types and
+# no per-type key set beyond the solid-state rules, so no variantKey).
+NO_VARIANT = {"relay"}
 
 PART_VARIANT_KEYS = {"diode": {"vz", "pd"}}
 
@@ -291,6 +297,8 @@ def generate(repo, kind, extra):
             part_device.append(d)
     variant_key = None
     for vk in ("model", "type"):
+        if kind in NO_VARIANT:
+            break
         if all(vk in d for d, _ in devices) and all(isinstance(d[vk], str) for d, _ in devices):
             variant_key = vk
             break

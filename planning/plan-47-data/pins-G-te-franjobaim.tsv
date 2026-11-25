@@ -1,0 +1,104 @@
+type	maker	series	pdf	package	footprint	renumber	pinout
+relay	franjobaim	F32F	datasheets/relay/franjobaim/Power-Relays-datasheets..pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-F32F-4-FRANJOBAIM	-	1=A1,2=COM,3=A2,4=NO
+relay	franjobaim	FR32F	datasheets/relay/franjobaim/FRJBM-catalogue-power-relays.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-F32F-4-FRANJOBAIM	-	1=A1,2=COM,3=A2,4=NO
+relay	franjobaim	F33F	datasheets/relay/franjobaim/Power-Relays-datasheets..pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-F33F-4-FRANJOBAIM	-	1=A1,2=COM,3=NO,4=A2
+relay	franjobaim	F3F	datasheets/relay/franjobaim/Power-Relays-datasheets..pdf	 / SPDT (1 Form C) / Non Latching	RELAY-F3F-5-FRANJOBAIM	-	1=NC,2=A1,3=COM,4=NO,5=A2
+relay	franjobaim	F3F	datasheets/relay/franjobaim/Power-Relays-datasheets..pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-F3F-4-FRANJOBAIM	-	1=A1,2=COM,3=NO,4=A2
+relay	franjobaim	F3F	datasheets/relay/franjobaim/Power-Relays-datasheets..pdf	 / SPST-NC (1 Form B) / Non Latching	RELAY-F3F-4-NC-FRANJOBAIM	-	1=NC,2=A1,3=COM,4=A2
+relay	franjobaim	F3U	datasheets/relay/franjobaim/Power-Relays-datasheets..pdf	 / SPDT (1 Form C) / Non Latching	RELAY-F3U-5-FRANJOBAIM	-	1=NC,2=A1,3=COM,4=NO,5=A2
+relay	franjobaim	F3U	datasheets/relay/franjobaim/Power-Relays-datasheets..pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-F3U-4-FRANJOBAIM	-	1=A1,2=COM,3=NO,4=A2
+relay	franjobaim	F3U	datasheets/relay/franjobaim/Power-Relays-datasheets..pdf	 / SPST-NO (1 Form A) / PC Pin	RELAY-F3U-4-FRANJOBAIM	-	1=A1,2=COM,3=NO,4=A2
+relay	franjobaim	F90	datasheets/relay/franjobaim/Power-Relays-datasheets..pdf	 / SPDT (1 Form C) / Non Latching	RELAY-F90-5-FRANJOBAIM	-	1=NC,2=NO,3=COM,4=A1,5=A2
+relay	franjobaim	F90	datasheets/relay/franjobaim/Power-Relays-datasheets..pdf	 / SPST (1 Form A) / Non Latching	RELAY-F90-5-NO-FRANJOBAIM	-	1=NO,2=COM,3=A1,4=A2,5=COM
+relay	franjobaim	F90	datasheets/relay/franjobaim/Power-Relays-datasheets..pdf	 / SPST-NC (1 Form B) / Non Latching	RELAY-F90-5-NC-FRANJOBAIM	-	1=NC,2=COM,3=A1,4=A2,5=COM
+relay	franjobaim	FA	datasheets/relay/franjobaim/Automotive-Relays-FA-FAL-FAF.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-FA-5-FRANJOBAIM	-	1=NC,2=A1,3=COM,4=NO,5=A2
+relay	franjobaim	FAE	datasheets/relay/franjobaim/FAE.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-FAE-5-FRANJOBAIM	30=1,85=2,86=3,87=4,87a=5	4=NO,2=A1,5=NC,3=A2,1=COM
+relay	franjobaim	FAM	datasheets/relay/franjobaim/FAM.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-FAM-4-FRANJOBAIM	1=1,2=2,3=3,5=4	2=A1,1=A2,4=NO,3=COM
+relay	franjobaim	FAW	datasheets/relay/franjobaim/FAW.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-FAW-4-FRANJOBAIM	-	1=A1,2=NO,3=COM,4=A2
+relay	franjobaim	FR3F	datasheets/relay/franjobaim/FRJBM-catalogue-power-relays.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-FR3F-5-FRANJOBAIM	-	1=A1,2=NO,3=COM,4=A2,5=NC
+relay	franjobaim	FR15F	datasheets/relay/franjobaim/FRJBM-catalogue-power-relays.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-FR15F-6-FRANJOBAIM	-	1=NC,2=NO,3=COM,4=A1,5=A2,6=COM
+relay	franjobaim	FR16F	datasheets/relay/franjobaim/FRJBM-catalogue-power-relays.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-FR16F-5-FRANJOBAIM	-	1=NC,2=NO,3=COM,4=A1,5=A2
+relay	franjobaim	FR18F	datasheets/relay/franjobaim/FRJBM-catalogue-power-relays.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-FR18F-5-FRANJOBAIM	-	1=NC,2=NO,3=COM,4=A1,5=A2
+relay	franjobaim	FSA	datasheets/relay/franjobaim/FSA.pdf	 / SPDT (1 Form C) / PC Pin	RELAY-FSA-6-FRANJOBAIM	-	1=COM,2=A1,3=NO,4=COM,5=A2,6=NC
+relay	te	RT1, SCHRACK	datasheets/relay/te/RT1.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-RT1-8-TE	-	1=A1,2=NC,3=COM,4=NO,5=A2,6=NC,7=COM,8=NO
+relay	te	RT1	datasheets/relay/te/RT1pb.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-RT1-8-TE	-	1=A1,2=NC,3=COM,4=NO,5=A2,6=NC,7=COM,8=NO
+relay	te	RT1 Bistable, SCHRACK	datasheets/relay/te/RT1_bistable.pdf	 / SPDT (1 Form C) / Latching, Single Coil	RELAY-RT1-8-TE	-	1=A1,2=NC,3=COM,4=NO,5=A2,6=NC,7=COM,8=NO
+relay	te	RT1, Inrush, SCHRACK	datasheets/relay/te/RT1_Inrush.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-RT1-8-TE	-	1=A1,2=NC,3=COM,4=NO,5=A2,6=NC,7=COM,8=NO
+relay	te	RZ, SCHRACK	datasheets/relay/te/RZ.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-RT1-8-TE	-	1=A1,2=NC,3=COM,4=NO,5=A2,6=NC,7=COM,8=NO
+relay	te	RT1, SCHRACK	datasheets/relay/te/RT1.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-RT1-6-TE	-	1=A1,2=COM,3=NO,4=A2,5=COM,6=NO
+relay	te	RT1, Inrush, SCHRACK	datasheets/relay/te/RT1_Inrush.pdf	 / SPST-NO (1 Form A) / Latching, Single Coil	RELAY-RT1-6-TE	-	1=A1,2=COM,3=NO,4=A2,5=COM,6=NO
+relay	te	RT1, Inrush, SCHRACK	datasheets/relay/te/RT1_Inrush_Power.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-RT1-6-TE	-	1=A1,2=COM,3=NO,4=A2,5=COM,6=NO
+relay	te	RZ, SCHRACK	datasheets/relay/te/RZ.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-RT1-6-TE	-	1=A1,2=COM,3=NO,4=A2,5=COM,6=NO
+relay	te	RT, SCHRACK	datasheets/relay/te/RT1_bistable.pdf	 / SPDT (1 Form C) / Latching, Dual Coil	RELAY-RT1-9-TE	-	1=R,2=NC,3=COM,4=NO,5=C,6=S,7=NC,8=COM,9=NO
+relay	te	RT1 Bistable, SCHRACK	datasheets/relay/te/RT1_bistable.pdf	 / SPDT (1 Form C) / Latching, Dual Coil	RELAY-RT1-9-TE	-	1=R,2=NC,3=COM,4=NO,5=C,6=S,7=NC,8=COM,9=NO
+relay	te	RT, SCHRACK	datasheets/relay/te/RT1_Inrush_Power.pdf	 / SPST-NO (1 Form A) / Latching, Dual Coil	RELAY-RT1-7-TE	-	1=R,2=COM,3=NO,4=C,5=S,6=COM,7=NO
+relay	te	RT1, Inrush, SCHRACK	datasheets/relay/te/RT1_Inrush.pdf	 / SPST-NO (1 Form A) / Latching, Dual Coil	RELAY-RT1-7-TE	-	1=R,2=COM,3=NO,4=C,5=S,6=COM,7=NO
+relay	te	RT, SCHRACK	datasheets/relay/te/RT1_sensitive.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-RT1-5-TE	11=1,12=2,14=3,A1=4,A2=5	4=A1,2=NC,3=NO,5=A2,1=COM
+relay	te	RT1	datasheets/relay/te/RT1pb.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-RT1-4-TE	11=1,14=2,A1=3,A2=4	3=A1,4=A2,1=COM,2=NO
+relay	te	RZH, SCHRACK	datasheets/relay/te/RZH.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-RZH-6-TE	-	1=A1,2=COM,3=NO,4=A2,5=COM,6=NO
+relay	te	RT2	datasheets/relay/te/RT2pb.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-RT2-8-TE	11=1,12=2,14=3,21=4,22=5,24=6,A1=7,A2=8	7=A1,8=A2,1=COM1,2=NC1,3=NO1,4=COM2,5=NC2,6=NO2
+relay	te	RT2, SCHRACK	datasheets/relay/te/RT2.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-RT2-8-TE	11=1,12=2,14=3,21=4,22=5,24=6,A1=7,A2=8	7=A1,8=A2,1=COM1,2=NC1,3=NO1,4=COM2,5=NC2,6=NO2
+relay	te	RT2, SCHRACK	datasheets/relay/te/RT2_bistable.pdf	 / DPDT (2 Form C) / Latching, Single Coil	RELAY-RT2-8-TE	11=1,12=2,14=3,21=4,22=5,24=6,A1=7,A2=8	7=A1,8=A2,1=COM1,2=NC1,3=NO1,4=COM2,5=NC2,6=NO2
+relay	te	RT2	datasheets/relay/te/RT2pb.pdf	 / DPST-NO (2 Form A) / Non Latching	RELAY-RT2-6-TE	11=1,14=2,21=3,24=4,A1=5,A2=6	5=A1,6=A2,1=COM1,2=NO1,3=COM2,4=NO2
+relay	te	RT2, SCHRACK	datasheets/relay/te/RT2_bistable.pdf	 / DPDT (2 Form C) / Latching, Dual Coil	RELAY-RT2-9-TE	11=1,12=2,14=3,21=4,22=5,24=6,A1=7,A2=8,A3=9	7=R,9=C,8=S,2=NC1,1=COM1,3=NO1,5=NC2,4=COM2,6=NO2
+relay	te	PB, SCHRACK	datasheets/relay/te/PB.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-PB-5-TE	11=1,12=2,14=3,A1=4,A2=5	4=A1,5=A2,1=COM,2=NC,3=NO
+relay	te	PBH, SCHRACK	datasheets/relay/te/PBH.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-PB-5-TE	11=1,12=2,14=3,A1=4,A2=5	4=A1,5=A2,1=COM,2=NC,3=NO
+relay	te	PB, SCHRACK	datasheets/relay/te/PB.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-PB-4-TE	11=1,14=2,A1=3,A2=4	3=A1,4=A2,1=COM,2=NO
+relay	te	PE, SCHRACK	datasheets/relay/te/PE.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-PE-5-TE	11=1,12=2,14=3,A1=4,A2=5	4=A1,1=COM,3=NO,5=A2,2=NC
+relay	te	PE, SCHRACK	datasheets/relay/te/PE_bistable.pdf	 / SPDT (1 Form C) / Latching, Single Coil	RELAY-PE-5-TE	11=1,12=2,14=3,A1=4,A2=5	4=A1,1=COM,3=NO,5=A2,2=NC
+relay	te	PE, SCHRACK	datasheets/relay/te/PE.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-PE-4-TE	11=1,14=2,A1=3,A2=4	3=A1,1=COM,2=NO,4=A2
+relay	te	RE, SCHRACK	datasheets/relay/te/RE.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-RE-4-TE	11=1,14=2,A1=3,A2=4	3=A1,2=NO,1=COM,4=A2
+relay	te	RP II/2, SCHRACK	datasheets/relay/te/RPII-2.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-RPII2-8-TE	11=1,12=2,14=3,21=4,22=5,24=6,A1=7,A2=8	7=A1,8=A2,1=COM1,2=NC1,3=NO1,4=COM2,5=NC2,6=NO2
+relay	te	RP3SL, SCHRACK	datasheets/relay/te/RP3SL.pdf	 / SPST-NO (1 Form A) / Latching, Single Coil	RELAY-RP3SL-4-TE	11=1,14=2,A1=3,A2=4	3=A1,4=A2,1=COM,2=NO
+relay	te	RP3SL, SCHRACK	datasheets/relay/te/RP3SL.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-RP3SL-4-TE	11=1,14=2,A1=3,A2=4	3=A1,4=A2,1=COM,2=NO
+relay	te	RY, SCHRACK	datasheets/relay/te/RYII.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-RY-5-TE	11=1,12=2,14=3,A1=4,A2=5	4=A1,5=A2,1=COM,2=NC,3=NO
+relay	te	RY, SCHRACK	datasheets/relay/te/RYII.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-RY-4-TE	11=1,14=2,A1=3,A2=4	3=A1,4=A2,1=COM,2=NO
+relay	te	SNR, SCHRACK	datasheets/relay/te/SNR.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-SNR-5-TE	11=1,12=2,14=3,A1=4,A2=5	4=A1,5=A2,1=COM,2=NC,3=NO
+relay	te	SNRII, SCHRACK	datasheets/relay/te/SNRnG.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-SNR-5-TE	11=1,12=2,14=3,A1=4,A2=5	4=A1,5=A2,1=COM,2=NC,3=NO
+relay	te	MSR, SCHRACK	datasheets/relay/te/MSR.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-MSR-5-TE	11=1,12=2,14=3,A1=4,A2=5	4=A1,5=A2,1=COM,2=NC,3=NO
+relay	te	MSR, SCHRACK	datasheets/relay/te/MSR.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-MSR-4-TE	11=1,14=2,A1=3,A2=4	3=A1,4=A2,1=COM,2=NO
+relay	te	V23061, AXICOM	datasheets/relay/te/MSR.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-MSR-4-TE	11=1,14=2,A1=3,A2=4	3=A1,4=A2,1=COM,2=NO
+relay	te	PCN, SCHRACK	datasheets/relay/te/PCNH_Relay.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-PCN-4-TE	11=1,14=2,A1=3,A2=4	3=A1,4=A2,2=NO,1=COM
+relay	te	OJ, OEG	datasheets/relay/te/1721260.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-OJ-4-TE	-	1=A1,2=COM,3=A2,4=NO
+relay	te	OJ, OEG	datasheets/relay/te/OJ_OJE_series_relay_data_sheet_E.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-OJ-4-TE	-	1=A1,2=COM,3=A2,4=NO
+relay	te	OJE, OEG	datasheets/relay/te/OJ_OJE_series_relay_data_sheet_E.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-OJ-4-TE	-	1=A1,2=COM,3=A2,4=NO
+relay	te	OJS, OEG	datasheets/relay/te/OJS_16A_0821.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-OJ-4-TE	-	1=A1,2=COM,3=A2,4=NO
+relay	te	T77	datasheets/relay/te/1308242_T77.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-OJ-4-TE	-	1=A1,2=COM,3=A2,4=NO
+relay	te	ORWH, OEG	datasheets/relay/te/ORWH_series_relay_data_sheet_E.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-ORWH-5-TE	-	1=A1,2=NO,3=COM,4=A2,5=NC
+relay	te	PCH, OEG	datasheets/relay/te/PCH_series_relay_data_sheet_E.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-PCH-4-TE	-	1=A1,2=COM,3=NO,4=A2
+relay	te	PCJ, OEG	datasheets/relay/te/1721547.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-PCJ-4-TE	-	1=A1,2=A2,3=COM,4=NO
+relay	te	T9A	datasheets/relay/te/T9A.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-T9A-5-TE	-	1=NC,2=NO,3=COM,4=A1,5=A2
+relay	te	T9A	datasheets/relay/te/T9A.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-T9A-4-TE	-	1=NO,2=COM,3=A1,4=A2
+relay	te	T9E	datasheets/relay/te/T9E_series_relay_datasheet.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-T9E-5-TE	-	1=NO,2=NC,3=A1,4=A2,5=COM
+relay	te	T9S	datasheets/relay/te/T9S_solar_relay_datasheet.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-T9S-4-TE	-	1=COM,2=NO,3=A1,4=A2
+relay	te	T92	datasheets/relay/te/1308242_T92.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-T92-8-TE	0=1,1=2,2=3,3=4,4=5,6=6,7=7,8=8	1=A1,2=A2,3=COM1,5=NO1,4=NC1,6=COM2,8=NO2,7=NC2
+relay	te	T92	datasheets/relay/te/1308242_T92.pdf	 / DPST-NO (2 Form A) / Non Latching	RELAY-T92-6-TE	0=1,1=2,2=3,4=4,6=5,8=6	1=A1,2=A2,3=COM1,4=NO1,5=COM2,6=NO2
+relay	te	F4	datasheets/relay/te/V23134X0000A001.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-F4-5-TE	30=1,85=2,86=3,87=4,87a=5	2=A1,3=A2,1=COM,4=NO,5=NC
+relay	te	-	datasheets/relay/te/V23134X0000A002.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-F7-4-TE	30=1,85=2,86=3,87=4	2=A1,3=A2,1=COM,4=NO
+relay	te	V23076	datasheets/relay/te/V23076-X0000-A001.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-V23076-7-TE	-	1=NC,2=COM,3=NO,4=A1,5=A2,6=COM,7=COM
+relay	te	Micro Relay K	datasheets/relay/te/V23086X0000A001.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-V23086-4-TE	1=1,2=2,4=3,5=4	3=COM,4=NO,1=A1,2=A2
+relay	te	Mini K HV	datasheets/relay/te/V23700-X0000-A001.pdf	 / SPST-NO (DM) (1 Form X) / Non Latching	RELAY-V23700-7-TE	1=1,2=2,4=3,5=4,7=5,8a=6,8b=7	1=A1,2=A2,4=COM,5=NO,3=NC,6=NC,7=NC
+relay	te	IM, AXICOM	datasheets/relay/te/1-1773734-7_IM_Relay_I_Type.pdf	 / DPDT (2 Form C) / Latching, Single Coil	RELAY-IM-8-SMD-TE	-	1=A1,2=NC2,3=COM2,4=NO2,5=NO1,6=COM1,7=NC1,8=A2
+relay	te	IM, AXICOM	datasheets/relay/te/1-1773734-7_IM_Relay_I_Type.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-IM-8-SMD-TE	-	1=A1,2=NC2,3=COM2,4=NO2,5=NO1,6=COM1,7=NC1,8=A2
+relay	te	IM, AXICOM	datasheets/relay/te/108-98001.pdf	 / DPDT (2 Form C) / Latching, Single Coil	RELAY-IM-8-SMD-TE	-	1=A1,2=NC2,3=COM2,4=NO2,5=NO1,6=COM1,7=NC1,8=A2
+relay	te	IM, AXICOM	datasheets/relay/te/108-98001.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-IM-8-SMD-TE	-	1=A1,2=NC2,3=COM2,4=NO2,5=NO1,6=COM1,7=NC1,8=A2
+relay	te	V23079, AXICOM	datasheets/relay/te/P2_Relay.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-V23079-8-SMD-TE	1=1,3=2,4=3,5=4,8=5,9=6,10=7,12=8	8=A2,7=NC1,6=COM1,5=NO1,1=A1,2=NC2,3=COM2,4=NO2
+relay	te	JWD	datasheets/relay/te/1308242_JWD-JWS.pdf	 / SPDT (1 Form C) / Non Latching	RELAY-JWD-8-TE	1=1,2=2,6=3,7=4,8=5,9=6,13=7,14=8	1=COM1,2=A1,3=A2,4=NO1,5=NO1,6=NC,7=NC,8=NC1
+relay	te	JWD	datasheets/relay/te/1308242_JWD-JWS.pdf	 / SPST-NC (1 Form B) / Non Latching	RELAY-JWD-8-TE	1=1,2=2,6=3,7=4,8=5,9=6,13=7,14=8	1=NC1,2=A1,3=A2,4=COM1,5=COM1,6=NC,7=NC,8=NC1
+relay	te	JWD	datasheets/relay/te/1308242_JWD-JWS.pdf	 / SPST-NO (1 Form A) / Non Latching	RELAY-JWD-8-TE	1=1,2=2,6=3,7=4,8=5,9=6,13=7,14=8	1=NO1,2=A1,3=A2,4=COM1,5=COM1,6=NC,7=NC,8=NO1
+relay	te	HM, CII	datasheets/relay/te/HM-26B.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-TO5-8-TE	-	1=A1,2=A2,3=COM1,4=COM2,5=NO1,6=NO2,7=NC1,8=NC2
+relay	te	MAD, CII	datasheets/relay/te/JMAWD-26XP.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-TO5-8-TE	-	1=A2,2=A1,3=COM1,4=COM2,5=NO1,6=NO2,7=NC1,8=NC2
+relay	te	MS, CII	datasheets/relay/te/JMSC-12XL.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-TO5-8-TE	-	1=A1,2=A2,3=COM1,4=COM2,5=NO1,6=NO2,7=NC1,8=NC2
+relay	te	MSD, CII	datasheets/relay/te/JMSWD-5XM.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-TO5-8-TE	-	1=A2,2=A1,3=COM1,4=COM2,5=NO1,6=NO2,7=NC1,8=NC2
+relay	te	MGA, CII	datasheets/relay/te/JMGACDD-26MW.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-MGA-8-TE	-	1=COM1,2=A2,3=COM2,4=NO1,5=NO2,6=NC1,7=A1,8=NC2
+relay	te	MGA, CII	datasheets/relay/te/JMGAPD-26M.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-MGA-8-TE	-	1=COM1,2=A2,3=COM2,4=NO1,5=NO2,6=NC1,7=A1,8=NC2
+relay	te	MGS, CII	datasheets/relay/te/PRMGSC-18XW.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-MGA-8-TE	-	1=COM1,2=A2,3=COM2,4=NO1,5=NO2,6=NC1,7=A1,8=NC2
+relay	te	MGSD, CII	datasheets/relay/te/JMGSPD-26P.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-MGA-8-TE	-	1=COM1,2=A2,3=COM2,4=NO1,5=NO2,6=NC1,7=A1,8=NC2
+relay	te	MGAD, CII	datasheets/relay/te/JMGACDG-12LW.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-MGA-9-TE	-	1=COM1,2=A2,3=COM2,4=NO1,5=NC,6=NO2,7=NC1,8=A1,9=NC2
+relay	te	HFW, CII	datasheets/relay/te/HFW1201G01M.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-HFW-8-TE	A1=1,A2=2,A3=3,B1=4,B2=5,B3=6,X1=7,X2=8	3=NC1,1=NO1,7=A1,5=COM2,2=COM1,8=A2,4=NO2,6=NC2
+relay	te	HFW, CII	datasheets/relay/te/HFW1201K46M.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-HFW-8-TE	A1=1,A2=2,A3=3,B1=4,B2=5,B3=6,X1=7,X2=8	3=NC1,1=NO1,7=A1,5=COM2,2=COM1,8=A2,4=NO2,6=NC2
+relay	te	3SBC, CII	datasheets/relay/te/3SBC1542A2.pdf	 / DPDT (2 Form C) / Non Latching	RELAY-3SBC-8-TE	A1=1,A2=2,A3=3,B1=4,B2=5,B3=6,X1=7,X2=8	3=NC1,1=NO1,7=A1,5=COM2,2=COM1,8=A2,4=NO2,6=NC2
+relay	te	3SBH, CII	datasheets/relay/te/3SBH1142A2.pdf	 / 4PDT (4 Form C) / Non Latching	RELAY-3SBH-14-TE	-	1=NO2,2=COM1,3=A1,4=NC1,5=NC2,6=COM2,7=NO1,8=NO4,9=COM3,10=NC3,11=NC4,12=A2,13=COM4,14=NO3
+relay	te	SSRA	datasheets/relay/te/SSRA.pdf	4-SIP / SPST-NO (1 Form A) / PC Pin	RELAY-SSRA-4-TE	-	1=D1,2=D2,3=A,4=K
+relay	te	SSRC	datasheets/relay/te/8-1773454-2_SSRC_Data_Sheet.pdf	4-SIP / SPST-NO (1 Form A) / PC Pin	RELAY-SSRC-4-TE	-	4=K,3=A,2=D2,1=D1
+relay	te	SSRF	datasheets/relay/te/8-1773454-3_SSRF_Data_Sheet.pdf	4-SIP / SPST-NO (1 Form A) / PC Pin	RELAY-SSRF-4-TE	-	4=K,3=A,2=D2,1=D1

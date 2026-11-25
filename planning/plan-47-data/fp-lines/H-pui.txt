@@ -1,0 +1,66 @@
+# letter	type	company	series	mounting	package	supplier_package	size	detail	parts	example	datasheets	existing
+H	buzzer	pui		Surface Mount			0.126" L x 0.126" W (3.20mm x 3.20mm)	Solder Pads	1	SMT-0340-T-R	1	
+H	buzzer	pui		Surface Mount			0.157" L x 0.157" W (4.00mm x 4.00mm)	Solder Pads	3	SMT-0440-T-HT-R	3	
+H	buzzer	pui		Surface Mount			0.197" L x 0.197" W (5.00mm x 5.00mm)	Solder Pads	6	SMT-0540-S-R	6	
+H	buzzer	pui		Surface Mount			0.295" L x 0.295" W (7.50mm x 7.50mm)	Solder Pads	4	SMT-0727-S-R	4	
+H	buzzer	pui		Surface Mount			0.315" L x 0.299" W (8.00mm x 7.60mm)	Solder Pads	1	SMT-0827-S-10-R	1	
+H	buzzer	pui		Surface Mount			0.315" L x 0.315" W (8.00mm x 8.00mm)	Solder Pads	1	SMT-0826-S-R	1	
+H	buzzer	pui		Surface Mount			0.335" L x 0.335" W (8.50mm x 8.50mm)	Solder Pads	25	SMT-0825-S-4-R	25	
+H	buzzer	pui		Surface Mount			0.354" Dia (9.00mm)	Solder Pads	1	SMT-1127-S-R	1	
+H	buzzer	pui		Surface Mount			0.354" L x 0.354" W (9.00mm x 9.00mm)	Solder Pads	5	SMT-0927-S-7-R	5	
+H	buzzer	pui		Surface Mount			0.362" Dia (9.20mm)	Solder Pads	1	SMT-1027-S-HT-R	1	
+H	buzzer	pui		Surface Mount			0.378" L x 0.378" W (9.60mm x 9.60mm)	Solder Pads	3	SMI-1027-T-5V-R	3	
+H	buzzer	pui		Surface Mount			0.382" L x 0.382" W (9.70mm x 9.70mm)	Solder Pads	1	SMI-1027-TW-3V-R	1	
+H	buzzer	pui		Surface Mount			0.394" Dia (10.00mm)	Solder Pads	1	AT-1052-T	1	
+H	buzzer	pui		Surface Mount			0.394" L x 0.394" W (10.00mm x 10.00mm)	Solder Pads	3	SMT-1028-S-5V-2-R	3	
+H	buzzer	pui		Surface Mount			0.433" L x 0.354" W (11.00mm x 9.00mm)	Solder Pads	1	SMT-1141-T-5-R	1	
+H	buzzer	pui		Surface Mount			0.433" L x 0.551" W (11.00mm x 14.00mm)	Solder Pads	3	SMT-1427-S-3-R	3	
+H	buzzer	pui		Surface Mount			0.433" L x 0.559" W (11.00mm x 14.20mm)	Solder Pads	2	SMT-1427-S-R	2	
+H	buzzer	pui		Surface Mount			0.472" Dia (12.00mm)	Solder Pads	1	SMT-1220-TW-R	1	
+H	buzzer	pui		Surface Mount			0.472" L x 0.472" W (12.00mm x 12.00mm)	Solder Pads	2	SMTB-1240-S-R	2	
+H	buzzer	pui		Surface Mount			0.492" L x 0.492" W (12.50mm x 12.50mm)	Solder Pads	3	SMI-1324-TW-12V-R	3	
+H	buzzer	pui		Surface Mount			0.504" L x 0.504" W (12.80mm x 12.80mm)	Solder Pads	4	SMI-1324-TW-5V-3-R	4	
+H	buzzer	pui		Surface Mount			0.512" L x 0.512" W (13.00mm x 13.00mm)	Solder Pads	4	SMT-1320-T-HT-R	4	
+H	buzzer	pui		Surface Mount			0.551" L x 0.433" W (14.00mm x 11.00mm)	Solder Pads	2	SMT-1427-S-5V-HT-R	2	
+H	buzzer	pui		Surface Mount			0.583" L x 0.583" W (14.80mm x 14.80mm)	Solder Pads	1	SMT-1550-T-HT	1	
+H	buzzer	pui		Surface Mount			0.630" L x 0.630" W (16.00mm x 16.00mm)	Solder Pads	2	SMT-1640-S-2-R	2	
+H	buzzer	pui		Surface Mount			0.661" L x 0.512" W (16.80mm x 13.00mm)	Solder Pads	1	SMT-1341-TW-HT-R	1	
+H	buzzer	pui		Surface Mount			0.669" L x 0.551" W (17.00mm x 14.00mm)	Solder Pads	1	SMT-1720-T-HT	1	
+H	buzzer	pui		Surface Mount			0.709" L x 0.709" W (18.00mm x 18.00mm)	Solder Pads	1	SMT-1830-TW-2-R	1	
+H	buzzer	pui		Surface Mount			0.866" Dia (22.00mm)	Solder Pads	1	SMT-2225-T-R	1	
+H	buzzer	pui		Surface Mount			0.945" Dia (24.00mm)	Solder Pads	1	AT-2441-T-HT-LW95	1	
+H	buzzer	pui		Through Hole			0.264" Dia (6.70mm)	PC Pins	1	AT-0731-TT	1	
+H	buzzer	pui		Through Hole			0.354" Dia (9.00mm)	PC Pins	6	AT-1127-ST-2-R	6	
+H	buzzer	pui		Through Hole			0.374" Dia (9.50mm)	PC Pins	2	AI-1027-TWT-5V-R	2	
+H	buzzer	pui		Through Hole			0.378" Dia (9.60mm)	PC Pins	2	AI-1027-TWT-5V-2-R	2	
+H	buzzer	pui		Through Hole			0.472" Dia (12.00mm)	PC Pins	25	AI-1223-TWT-3V-2-R	25	
+H	buzzer	pui		Through Hole			0.539" Dia (13.70mm)	PC Pins	1	AI-1441-TWT-12V-R	1	
+H	buzzer	pui		Through Hole			0.543" Dia (13.80mm)	PC Pins	8	AI-1440-TWT-12V-R	8	
+H	buzzer	pui		Through Hole			0.543" L x 0.472" W (13.80mm x 12.00mm)	PC Pins	1	AT-1420-ST-R	1	
+H	buzzer	pui		Through Hole			0.551" Dia (14.00mm)	PC Pins	3	AT-1442-T-WP-LW80-R	3	
+H	buzzer	pui		Through Hole			0.630" Dia (16.00mm)	PC Pins	5	AT-1620-TWT-R	5	
+H	buzzer	pui		Through Hole			0.650" Dia (16.50mm)	PC Pins	1	AT-1740-TT-3-R	1	
+H	buzzer	pui		Through Hole			0.669" Dia (17.00mm)	PC Pins	2	AT-1720-TT-R	2	
+H	buzzer	pui		Through Hole			0.866" Dia (22.00mm)	PC Pins	1	AT-2250-T-LW50-R	1	
+H	buzzer	pui		Through Hole			0.866" Dia (22.00mm)	Solder Pads	1	AT-2240-TT-4	1	
+H	buzzer	pui		Through Hole			0.886" L x 0.669" W (22.50mm x 17.00mm)	PC Pins	1	AI-2304-TT-24V-R	1	
+H	buzzer	pui		Through Hole			0.906" Dia (23.00mm)	PC Pins	2	AI-2335-TT	2	
+H	buzzer	pui		Through Hole			0.906" L x 0.669" W (23.00mm x 17.00mm)	PC Pins	1	AI-2304-TT-24V-2-R	1	
+H	buzzer	pui		Through Hole			0.917" Dia (23.30mm)	PC Pins	1	AI-2331-TWT-2-R	1	
+H	buzzer	pui		Through Hole			0.921" Dia (23.40mm)	PC Pins	1	AI-2331-TWT-R	1	
+H	buzzer	pui		Through Hole			0.937" Dia (23.80mm)	PC Pins	6	AI-2429-TWT-R	6	
+H	buzzer	pui		Through Hole			0.945" Dia (24.00mm)	PC Pins	6	AI-2437-TWT-R	6	
+H	buzzer	pui		Through Hole			0.984" Dia (25.00mm)	PC Pins	3	X-2629-TWT-R	3	
+H	buzzer	pui		Through Hole			1.035" Dia (26.30mm)	PC Pins	1	X-2629-TWT-2-R	1	
+H	buzzer	pui		Through Hole			1.043" L x 0.906" W (26.50mm x 23.00mm)	PC Pins	1	AT-2720-TT-R	1	
+H	buzzer	pui		Through Hole			1.122" Dia (28.50mm)	PC Pins	1	AT-2830-TWT-R	1	
+H	buzzer	pui		Through Hole			1.181" Dia (30.00mm)	PC Pins	4	AI-3035-TWT-3V-R	4	
+H	buzzer	pui		Through Hole			1.189" Dia (30.20mm)	PC Pins	1	AI-3035-TT-12V-R	1	
+H	buzzer	pui		Through Hole			1.260" Dia (32.00mm)	PC Pins	1	AI-3239-TF-LW140-R	1	
+H	buzzer	pui		Through Hole			1.323" Dia (33.60mm)	PC Pins	1	AT-3425-TWT-R	1	
+H	buzzer	pui		Through Hole			1.575" Dia (40.00mm)	PC Pins	1	AT-4034-TT-R	1	
+H	buzzer	pui		Through Hole			1.575" L x 1.575" W (40.00mm x 40.00mm)	PC Pins	1	AI-4033-TWT-R	1	
+H	buzzer	pui		Through Hole			1.654" Dia (42.00mm)	PC Pins	2	AI-4228-TWT-R	2	
+H	buzzer	pui		Through Hole			1.787" Dia (45.40mm)	PC Pins	1	AT-4625-TT-HT-R	1	
+H	buzzer	pui		Through Hole			1.890" L x 1.122" W (48.00mm x 28.50mm)	PC Pins	1	AT-1620-TWT-HT-R	1	
+H	buzzer	pui		Through Hole			2.028" Dia (51.50mm)	PC Pins	1	AT-5210-TT-R	1	

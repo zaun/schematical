@@ -111,7 +111,7 @@ nonisolated final class EasyEDAProSchematicWriter {
     @MainActor private static func bodyBox(of chip: PlacedChip) -> CGRect {
         let size = chip.layout.size
         switch chip.symbol {
-        case .diode, .plainDiode, .capacitor, .resistor:
+        case .diode, .plainDiode, .capacitor, .resistor, .inductor, .fuse, .buzzer:
             if chip.rotation == 90 || chip.rotation == 270 {
                 let columns = chip.layout.slots.map(\.centerX)
                 guard let low = columns.min(), let high = columns.max() else { return CGRect(origin: .zero, size: size) }

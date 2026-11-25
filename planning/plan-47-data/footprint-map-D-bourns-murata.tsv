@@ -1,0 +1,130 @@
+letter	type	company	series	mounting	package	supplier_package	size	detail	footprint	label	note	series_split
+D	inductor	bourns		Surface Mount	0201 (0603 Metric)	0201	0.024" L x 0.012" W (0.60mm x 0.30mm)		IND-0603-BOURNS	0201	CE0603G.pdf p.3 (CE0603M.pdf p.3 identical)	
+D	inductor	bourns		Surface Mount	0402 (1005 Metric)	0402 (1005 Metric)	0.039" L x 0.022" W (1.00mm x 0.55mm)		IND-1005-BOURNS	0402	CW100505.pdf p.1	
+D	inductor	bourns		Surface Mount	0603 (1608 Metric)	0603 (1608 Metric)	0.063" L x 0.031" W (1.60mm x 0.80mm)		IND-1608-BOURNS	0603	CS160808.pdf p.1	
+D	inductor	bourns		Surface Mount	0603 (1608 Metric)	0603 (1608 Metric)	0.065" L x 0.041" W (1.65mm x 1.05mm)		IND-1610-BOURNS	0603	cw160808.pdf p.1	
+D	inductor	bourns		Surface Mount	0805 (2012 Metric)	0805 (2012 Metric)	0.079" L x 0.047" W (2.00mm x 1.20mm)		IND-2012-BOURNS	0805	SRN2012T.pdf p.2	
+D	inductor	bourns		Surface Mount	0805 (2012 Metric)	0805 (2012 Metric)	0.079" L x 0.049" W (2.00mm x 1.25mm)		IND-2012-BOURNS-B	0805	CV201210.pdf p.2	
+D	inductor	bourns		Surface Mount	0805 (2012 Metric)	0805 (2012 Metric)	0.083" L x 0.059" W (2.10mm x 1.50mm)		IND-2012-BOURNS	0805	shared with IND-2012-BOURNS (CW201212.pdf p.1: same pads as SRN2012T)	
+D	inductor	bourns		Surface Mount	0806 (2016 Metric)	0806 (2016 Metric)	0.079" L x 0.063" W (2.00mm x 1.60mm)		IND-2016-BOURNS	0806	SRP2010.pdf p.1	
+D	inductor	bourns		Surface Mount	1008 (2520 Metric)	1008	0.098" L x 0.079" W (2.50mm x 2.00mm)		IND-2520-BOURNS	1008	SRP2512.pdf p.1	SRP2512
+D	inductor	bourns		Surface Mount	1008 (2520 Metric)	1008	0.098" L x 0.079" W (2.50mm x 2.00mm)		IND-2520-BOURNS-B	1008	srp2512tma.pdf p.1	SRP2512TMA
+D	inductor	bourns		Surface Mount	1008 (2520 Metric)	1008 (2520 Metric)	0.098" L x 0.079" W (2.50mm x 2.00mm)		IND-2520-BOURNS-C	1008	CVH.pdf p.1	CVH252009
+D	inductor	bourns		Surface Mount	1008 (2520 Metric)	1008 (2520 Metric)	0.098" L x 0.079" W (2.50mm x 2.00mm)		IND-2520-BOURNS-D	1008	SRN2512.pdf p.1	SRN2512
+D	inductor	bourns		Surface Mount	1210 (3225 Metric)	-	0.126" L x 0.098" W (3.20mm x 2.50mm)		IND-3225-BOURNS	1210	srp3212a.pdf p.2	
+D	inductor	bourns		Surface Mount	1210 (3225 Metric)	1210	0.126" L x 0.098" W (3.20mm x 2.50mm)		IND-3225-BOURNS	1210	shared with IND-3225-BOURNS (srp3212.pdf p.2 identical to srp3212a)	SRP3212
+D	inductor	bourns		Surface Mount	1210 (3225 Metric)	1210	0.126" L x 0.098" W (3.20mm x 2.50mm)		IND-3229-BOURNS	1210	pm1210_series.pdf p.1	PM1210
+D	inductor	bourns		Surface Mount	1212 (3030 Metric)	3015	0.118" L x 0.118" W (3.00mm x 3.00mm)		IND-3030-BOURNS	1212	SRN3015BTA.pdf p.1	
+D	inductor	bourns		Surface Mount	1812 (4532 Metric)	1812	0.177" L x 0.126" W (4.50mm x 3.20mm)		IND-4532-BOURNS	1812	CC453232.pdf p.1	CC453232
+D	inductor	bourns		Surface Mount	1812 (4532 Metric)	1812	0.177" L x 0.126" W (4.50mm x 3.20mm)		IND-4532-BOURNS-B	1812	CM.pdf p.1	CM45
+D	inductor	bourns		Surface Mount	1812 (4532 Metric)	1812	0.177" L x 0.126" W (4.50mm x 3.20mm)		IND-4532-BOURNS-C	1812	pm1812_series.pdf p.1	PM1812
+D	inductor	bourns		Surface Mount	1919 (4848 Metric)	-	0.189" L x 0.189" W (4.80mm x 4.80mm)		IND-4848-BOURNS	1919	SRR4028.pdf p.1	
+D	inductor	bourns		Surface Mount	2-SMD	2-SMD	0.138" L x 0.126" W (3.50mm x 3.20mm)		IND-3532-BOURNS	SMD	SRP3012TA.pdf p.1	
+D	inductor	bourns		Surface Mount	2-SMD	2-SMD	0.175" L x 0.160" W (4.45mm x 4.06mm)		IND-4440-BOURNS	SMD	SRP4020TA.pdf p.1	
+D	inductor	bourns		Surface Mount	Nonstandard		0.236" L x 0.236" W (6.00mm x 6.00mm)		IND-6060-BOURNS-SRN6045TA	SMD	datasheets/inductor/bourns/SRN6045TA.pdf p.1	
+D	inductor	bourns		Surface Mount	Nonstandard		0.315" L x 0.315" W (8.00mm x 8.00mm)		IND-8080-BOURNS-SRN8040TA	SMD	datasheets/inductor/bourns/SRN8040TA.pdf p.1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.118" L x 0.110" W (3.00mm x 2.80mm)		IND-3028-BOURNS-SDR0302	SMD	datasheets/inductor/bourns/SDR0302.pdf p.1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.118" L x 0.118" W (3.00mm x 3.00mm)		IND-3030-BOURNS-SRN3015	SMD	datasheets/inductor/bourns/SRN3015.pdf p.1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.126" L x 0.098" W (3.20mm x 2.50mm)		IND-3225-BOURNS-CM322522	SMD	datasheets/inductor/bourns/cm322522.pdf p.1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.145" L x 0.120" W (3.68mm x 3.05mm)		IND-3731-BOURNS-AC3630R	SMD	datasheets/inductor/bourns/AC3630R.pdf p.2	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.157" L x 0.157" W (4.00mm x 4.00mm)		IND-4040-BOURNS-SRN4018	SMD	datasheets/inductor/bourns/SRN4018.pdf p.1; SRN4026.pdf p.1 same layout	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.177" L x 0.157" W (4.50mm x 4.00mm)		IND-4540-BOURNS-SDR0403	SMD	datasheets/inductor/bourns/sdr0403.pdf p.1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.190" L x 0.150" W (4.83mm x 3.81mm)		IND-4838-BOURNS-AC4842R	SMD	datasheets/inductor/bourns/AC4842R.pdf p.2	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.195" L x 0.195" W (4.95mm x 4.95mm)		IND-5050-BOURNS-SRN5040TA	SMD	datasheets/inductor/bourns/SRN5040TA.pdf p.1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.197" L x 0.189" W (5.00mm x 4.80mm)		IND-5048-BOURNS-SDR0503	SMD	datasheets/inductor/bourns/SDR0503.pdf p.1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.197" L x 0.197" W (5.00mm x 5.00mm)		IND-5050-BOURNS-SRN5040	SMD	datasheets/inductor/bourns/SRN5040.pdf p.1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.205" L x 0.205" W (5.20mm x 5.20mm)		IND-5252-BOURNS-SRU5016	SMD	datasheets/inductor/bourns/SRU5016.pdf p.1; sru5028.pdf p.1 same layout	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.217" L x 0.209" W (5.50mm x 5.30mm)		IND-5553-BOURNS-SRP5030CA	SMD	datasheets/inductor/bourns/SRP5030CA.pdf p.1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.224" L x 0.205" W (5.70mm x 5.20mm)		IND-5752-BOURNS-SRP5015TA	SMD	datasheets/inductor/bourns/SRP5015TA.pdf p.1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.228" L x 0.228" W (5.80mm x 5.80mm)		IND-5858-BOURNS-SDR0603	SMD	datasheets/inductor/bourns/SDR0603.pdf p.1	SDR0603
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.228" L x 0.228" W (5.80mm x 5.80mm)		IND-5858-BOURNS-SDR0604	SMD	datasheets/inductor/bourns/SDR0604.pdf p.1; pm54_series.pdf p.1 same layout	SDR0604
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.228" L x 0.228" W (5.80mm x 5.80mm)		IND-5858-BOURNS-SDR0604	SMD	shared with IND-5858-BOURNS-SDR0604 (pm54_series.pdf p.1)	PM54
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.228" L x 0.228" W (5.80mm x 5.80mm)		IND-5858-BOURNS-SRR5018	SMD	datasheets/inductor/bourns/SRR5018.pdf p.1; SRR5028.pdf p.1 same layout	SRR5018
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.228" L x 0.228" W (5.80mm x 5.80mm)		IND-5858-BOURNS-SRR5018	SMD	shared with IND-5858-BOURNS-SRR5018 (SRR5028.pdf p.1)	SRR5028
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.236" L x 0.236" W (6.00mm x 6.00mm)		IND-6060-BOURNS-SRN6045	SMD	datasheets/inductor/bourns/SRN6045.pdf p.1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.268" L x 0.268" W (6.80mm x 6.80mm)		IND-6868-BOURNS-SRR6028	SMD	datasheets/inductor/bourns/SRR6028.pdf p.1; SRR6038.pdf p.1 same layout	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.270" L x 0.120" W (6.86mm x 3.05mm)		IND-6931-BOURNS-AC6830R	SMD	datasheets/inductor/bourns/AC6830R.pdf p.2	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.276" L x 0.276" W (7.00mm x 7.00mm)		IND-7070-BOURNS-SRR7032	SMD	datasheets/inductor/bourns/SRR7032.pdf p.1; SRR7045.pdf p.1 same layout	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.283" L x 0.256" W (7.20mm x 6.50mm)		IND-7265-BOURNS-SRP6540	SMD	datasheets/inductor/bourns/SRP6540.pdf p.1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.287" L x 0.260" W (7.30mm x 6.60mm)		IND-7366-BOURNS-SRP7028A	SMD	datasheets/inductor/bourns/SRP7028A.pdf p.2; SRP7050TA.pdf p.1 same layout	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.307" L x 0.307" W (7.80mm x 7.80mm)		IND-7878-BOURNS-SDR0805	SMD	datasheets/inductor/bourns/SDR0805.pdf p.1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.315" L x 0.315" W (8.00mm x 8.00mm)		IND-8080-BOURNS-SRN8040	SMD	datasheets/inductor/bourns/SRN8040.pdf p.1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.386" L x 0.386" W (9.80mm x 9.80mm)		IND-9898-BOURNS-SDR1006	SMD	datasheets/inductor/bourns/SDR1006.pdf p.1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.394" L x 0.386" W (10.00mm x 9.80mm)		IND-100X98-BOURNS-SRN1060	SMD	datasheets/inductor/bourns/SRN1060.pdf p.1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.394" L x 0.394" W (10.00mm x 10.00mm)		IND-100X100-BOURNS-SDR1030	SMD	datasheets/inductor/bourns/SDR1030.pdf p.1	SDR1030
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.394" L x 0.394" W (10.00mm x 10.00mm)		IND-100X100-BOURNS-SRU1028	SMD	datasheets/inductor/bourns/SRU1028.pdf p.1; SRU1048.pdf p.1 same layout	SRU1028
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.394" L x 0.394" W (10.00mm x 10.00mm)		IND-100X100-BOURNS-SRU1028	SMD	shared with IND-100X100-BOURNS-SRU1028 (SRU1048.pdf p.1)	SRU1048
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.394" L x 0.394" W (10.00mm x 10.00mm)		IND-100X100-BOURNS-SRU1038	SMD	datasheets/inductor/bourns/SRU1038.pdf p.1 (pad 4.0 high, SRU1028/1048 3.6)	SRU1038
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.433" L x 0.394" W (11.00mm x 10.00mm)		IND-110X100-BOURNS-SRP1038A	SMD	datasheets/inductor/bourns/SRP1038A.pdf p.1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.472" L x 0.472" W (12.00mm x 12.00mm)		IND-120X120-BOURNS-SRR1210	SMD	datasheets/inductor/bourns/SRR1210.pdf p.1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.492" L x 0.492" W (12.50mm x 12.50mm)		IND-125X125-BOURNS-SRR1240	SMD	datasheets/inductor/bourns/SRR1240.pdf p.1; SRR1260.pdf p.2, SRR1260A.pdf p.1, SRR1280.pdf p.1 same layout	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.500" L x 0.394" W (12.70mm x 10.00mm)		IND-127X100-BOURNS-SDR1005	SMD	datasheets/inductor/bourns/SDR1005.pdf p.1; pm3316_series.pdf p.1 same layout	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.531" L x 0.492" W (13.50mm x 12.50mm)		IND-135X125-BOURNS-SRP1265A	SMD	datasheets/inductor/bourns/SRP1265A.pdf p.1	
+D	inductor	bourns		Surface Mount	Nonstandard	3015	0.118" L x 0.118" W (3.00mm x 3.00mm)		IND-3030-BOURNS-SRN3015	SMD	shared with IND-3030-BOURNS-SRN3015 (SRN3015C.pdf p.1 same layout)	
+D	inductor	bourns		Surface Mount	Nonstandard, Corner Terminals	-	0.256" L x 0.256" W (6.50mm x 6.50mm)		IND-6565-BOURNS-SRR0604	SMD	datasheets/inductor/bourns/SRR0604.pdf p.1	
+D	inductor	bourns		Through Hole	Axial	-	0.095" Dia x 0.250" L (2.41mm x 6.35mm)		CAP-AX-10.16-L6.1-D3.81	Axial	reuse (pads same as the R7 drawing: 9230_series.pdf p.2, span 10.16, drill 0.8, pad 1.5)	
+D	inductor	bourns		Through Hole	Axial	-	0.110" Dia x 0.280" L (2.79mm x 7.11mm)		CAP-AX-10.16-L6.6-D3.81	Axial	reuse (pads same as the R7 drawing: 78f_series.pdf p.1, span 10.16, drill 0.8, pad 1.5)	
+D	inductor	bourns		Through Hole	Axial	-	0.110" Dia x 0.280" L (2.80mm x 7.11mm)		CAP-AX-10.16-L6.6-D3.81	Axial	reuse (same drawing as the 2.79 line: 78f_series.pdf p.1)	
+D	inductor	bourns		Through Hole	Axial	-	0.120" Dia x 0.300" L (3.05mm x 7.62mm)		IND-AX-76-127-BOURNS	Axial	8230_series.pdf p.2	
+D	inductor	bourns		Through Hole	Axial	-	0.157" Dia x 0.410" L (3.99mm x 10.41mm)		IND-AX-104-152-BOURNS	Axial	77F_series.pdf p.2	
+D	inductor	bourns		Through Hole	Axial	-	0.160" Dia x 0.500" L (4.06mm x 12.70mm)		IND-AX-127-178-BOURNS	Axial	5300_series.pdf p.2	
+D	inductor	bourns		Through Hole	Axial	-	0.162" Dia x 0.410" L (4.11mm x 10.41mm)		IND-AX-104-152-BOURNS-B	Axial	9250a_series.pdf p.2	
+D	inductor	bourns		Through Hole	Axial	-	0.236" Dia x 0.984" L (6.00mm x 25.00mm)		IND-AX-180-229-BOURNS	Axial	lpa.pdf p.1 (LPA0618 row: B 18.0 body; the line size 25.00 L is overall)	
+D	inductor	bourns		Through Hole	Axial	-	0.270" Dia x 0.750" L (6.86mm x 19.05mm)		IND-AX-191-254-BOURNS	Axial	4600_series.pdf p.1	
+D	inductor	bourns		Through Hole	Axial	-	0.275" Dia x 0.700" L (6.99mm x 17.78mm)		IND-AX-178-229-BOURNS	Axial	5800_series.pdf p.1	
+D	inductor	bourns		Through Hole	Axial	-	0.380" Dia x 0.875" L (9.65mm x 22.23mm)		IND-AX-222-254-BOURNS	Axial	5200_series.pdf p.1 (figure B; lead AWG 20)	
+D	inductor	bourns		Through Hole	Axial	-	0.400" Dia x 0.630" L (10.16mm x 16.00mm)		IND-AX-160-203-BOURNS	Axial	70f_series.pdf p.1	
+D	inductor	bourns		Through Hole	Axial	-	0.440" Dia x 1.250" L (11.18mm x 31.75mm)		IND-AX-318-356-BOURNS	Axial	5200_series.pdf p.1 (figure C; lead AWG 20)	
+D	inductor	bourns		Through Hole	Axial	-	0.453" Dia x 0.900" L (11.51mm x 22.86mm)		IND-AX-229-279-BOURNS	Axial	5900_series.pdf p.1	
+D	inductor	bourns		Through Hole	Axial	-	0.500" Dia x 1.250" L (12.70mm x 31.75mm)		IND-AX-318-356-BOURNS-B	Axial	5200_series.pdf p.1 (figure C; lead AWG 20)	
+D	inductor	bourns		Through Hole	Radial, Horizontal (Open)	-	0.860" Dia (21.84mm)		IND-RAD-218-197-BOURNS	Radial	2100_series.pdf p.1 + 2100ll_series.pdf p.1: horizontal toroid, round body, spacing = mid B of the line parts	
+D	inductor	bourns		Through Hole	Radial, Horizontal (Open)	-	0.950" Dia (24.13mm)		IND-RAD-241-221-BOURNS	Radial	2200_series.pdf p.1: horizontal toroid	
+D	inductor	bourns		Through Hole	Radial, Horizontal (Open)	-	1.100" Dia (27.94mm)		IND-RAD-279-262-BOURNS	Radial	2200ll_series.pdf p.1: horizontal toroid	
+D	inductor	bourns		Through Hole	Radial, Horizontal (Open)	-	1.280" Dia (32.51mm)		IND-RAD-325-293-BOURNS	Radial	2300ht_series.pdf p.1 + 2300ll_series.pdf p.1: horizontal toroid	
+D	inductor	bourns		Through Hole	Radial, Vertical (Open)	-	0.860" Dia x 0.450" W (21.84mm x 11.43mm)		IND-RAD-218-94-BOURNS	Radial	2100_series.pdf p.1, 2100ht_series.pdf p.1, 2100ll_series.pdf p.1: vertical toroid	
+D	inductor	bourns		Through Hole	Radial, Vertical (Open)	-	1.280" Dia x 0.650" W (32.51mm x 16.51mm)		IND-RAD-325-138-BOURNS	Radial	2300_series.pdf p.1: vertical toroid	
+D	inductor	bourns		Through Hole	Radial, Vertical Cylinder	-	0.197" Dia (5.00mm)		IND-RAD-50-20-BOURNS	Radial	rlb.pdf p.1 (RLB0608)	
+D	inductor	bourns		Through Hole	Radial, Vertical Cylinder	-	0.335" Dia (8.50mm)		IND-RAD-85-50-BOURNS	Radial	rlb0913.pdf p.1	
+D	inductor	bourns		Through Hole	Radial, Vertical Cylinder	-	0.343" Dia (8.70mm)		IND-RAD-87-50-BOURNS	Radial	rlb.pdf p.1 (RLB0914)	
+D	inductor	bourns		Through Hole	Radial, Vertical Cylinder	-	0.354" Dia (9.00mm)		IND-RAD-90-50-BOURNS	Radial	RLB9012.pdf p.1	
+D	inductor	bourns		Through Hole	Radial, Vertical Cylinder	-	0.413" Dia (10.50mm)		IND-RAD-105-50-BOURNS	Radial	rl181s_series.pdf p.1; RL824_series.pdf p.1 same drawing	
+D	inductor	bourns		Through Hole	Radial, Vertical Cylinder	-	0.810" Dia (20.57mm)		IND-RAD-206-160-BOURNS	Radial	1120_series.pdf p.1	
+D	inductor	bourns		Through Hole	Radial, Vertical Cylinder	-	1.100" Dia (27.94mm)		IND-RAD-279-201-BOURNS	Radial	1130_series.pdf p.1	
+D	inductor	bourns		Through Hole	Radial, Vertical Cylinder	-	1.500" Dia (38.10mm)		IND-RAD-381-292-BOURNS	Radial	1140_series.pdf p.1	
+D	inductor	bourns		Through Hole	Radial, Vertical Cylinder	Radial	0.433" Dia (11.00mm)		IND-RAD-110-60-BOURNS	Radial	6100_series.pdf p.1	
+D	inductor	bourns		Through Hole	Radial, Vertical Cylinder (Open)	-	0.307" Dia (7.80mm)		IND-RAD-78-50-BOURNS	Radial	rl895.pdf p.1	
+D	inductor	murata		Surface Mount	01005 (0402 Metric)	1005	0.016" L x 0.008" W (0.40mm x 0.20mm)		IND-0402-MURATA	SMD	JELF243C-0034_PDF_INDUCTOR.pdf p.9	
+D	inductor	murata		Surface Mount	0201 (0603 Metric)	0201 (0603 Metric)	0.024" L x 0.012" W (0.60mm x 0.30mm)		IND-0603-MURATA	0201	JELF243C-0015_PDF_INDUCTOR.pdf p.10; LQP03HQ (-0021 p.11) lands differ by 0.05 mm (span 0.6, h 0.275); LQP03TN/TG majority used	
+D	inductor	murata		Surface Mount	0402 (1005 Metric)	-	0.039" L x 0.020" W (1.00mm x 0.50mm)		IND-1005-MURATA-B	0402	JELF243A-0050_PDF_INDUCTOR.pdf p.12	
+D	inductor	murata		Surface Mount	0402 (1005 Metric)	-	0.039" L x 0.024" W (1.00mm x 0.60mm)		IND-1006-MURATA	0402	JELF243A-0100_PDF_INDUCTOR.pdf p.13 (-9138 p.13); LQW15 datasheets disagree: -0050/-0051 p.12/9 a0.5 b1.2 c0.65 (13 parts), -0096 p.8 a0.4 b1.4 c0.66 (1 part); -0100/-9138 majority (15 parts) used	
+D	inductor	murata		Surface Mount	0402 (1005 Metric)	0402	0.039" L x 0.020" W (1.00mm x 0.50mm)		IND-1005-MURATA	0402	JELF243B-0009_PDF_INDUCTOR.pdf p.9 (-0010 p.9 equal)	
+D	inductor	murata		Surface Mount	0402 (1005 Metric)	0402 (1005 Metric)	0.039" L x 0.020" W (1.00mm x 0.50mm)		IND-1005-MURATA	0402	shared with IND-1005-MURATA	
+D	inductor	murata		Surface Mount	0603 (1608 Metric)	-	0.063" L x 0.031" W (1.60mm x 0.80mm)		IND-1608-MURATA-B	0603	JELF243A-0024_PDF_INDUCTOR.pdf p.9 (-0026 p.7 equal)	
+D	inductor	murata		Surface Mount	0603 (1608 Metric)	-	0.065" L x 0.039" W (1.65mm x 0.99mm)		IND-1610-MURATA	0603	JELF243A-0102_PDF_INDUCTOR.pdf p.10 (-9133 p.10 equal)	
+D	inductor	murata		Surface Mount	0603 (1608 Metric)	0603	0.063" L x 0.031" W (1.60mm x 0.80mm)		IND-1608-MURATA	0603	JELF243B-0086_PDF_INDUCTOR.pdf p.7 reflow column (-9127 p.7 equal); shared with IND-1608-MURATA	
+D	inductor	murata		Surface Mount	0603 (1608 Metric)	0603 (1608 Metric)	0.063" L x 0.031" W (1.60mm x 0.80mm)		IND-1608-MURATA	0603	JELF243B-0002_PDF_INDUCTOR.pdf p.7	LQG18
+D	inductor	murata		Surface Mount	0603 (1608 Metric)	0603 (1608 Metric)	0.063" L x 0.031" W (1.60mm x 0.80mm)		IND-1608-MURATA	0603	JELF243B-0033/-0047/-9122 p.6/6/7, all a0.7 b2.0 c0.7; shared with IND-1608-MURATA	LQM18
+D	inductor	murata		Surface Mount	0603 (1608 Metric)	0603 (1608 Metric)	0.063" L x 0.031" W (1.60mm x 0.80mm)		IND-1608-MURATA-B	0603	JELF243A-9139_PDF_INDUCTOR.pdf p.9 (LQW18AS, shared with IND-1608-MURATA-B); the other LQW18 part (LQW18CN, -0082 p.7) is IND-1608-MURATA-C (pad 0.75, span 1.45, h 1.0)	LQW18
+D	inductor	murata		Surface Mount	0805 (2012 Metric)	0805	0.079" L x 0.047" W (2.00mm x 1.20mm)		IND-2012-MURATA	0805	JETE243A-0052_PDF_INDUCTOR.pdf p.6	
+D	inductor	murata		Surface Mount	0805 (2012 Metric)	0805 (2012 Metric)	0.079" L x 0.047" W (2.00mm x 1.20mm)		IND-2012-MURATA-B	0805	J-E-TE243A-0029_PDF_INDUCTOR.pdf p.5	
+D	inductor	murata		Surface Mount	0805 (2012 Metric)	0805 (2012 Metric)	0.079" L x 0.049" W (2.00mm x 1.25mm)		IND-2012-MURATA-C	0805	JELF243B-0014_PDF_INDUCTOR.pdf p.6 (-0017, -0026, -0028 p.6 equal)	
+D	inductor	murata		Surface Mount	0805 (2012 Metric)	0806 (2016 Metric)	0.079" L x 0.063" W (2.00mm x 1.60mm)		IND-2016-MURATA	0805	m_dfe201610c.ashx.pdf p.1	
+D	inductor	murata		Surface Mount	0805 (2015 Metric)	-	0.082" L x 0.060" W (2.09mm x 1.53mm)		IND-2115-MURATA	0805	JELF243A-0084_PDF_INDUCTOR.pdf p.8	
+D	inductor	murata		Surface Mount	0805 (2015 Metric)	0805	0.082" L x 0.060" W (2.09mm x 1.53mm)		IND-2115-MURATA	0805	shared with IND-2115-MURATA	
+D	inductor	murata		Surface Mount	0806 (2016 Metric)	0805 (2012 Metric)	0.079" L x 0.063" W (2.00mm x 1.60mm)		IND-2016-MURATA-B	0806	JELF243B-0022_PDF_INDUCTOR.pdf p.6 (a0.8 b2.4 c1.8); shared with IND-2016-MURATA-B	
+D	inductor	murata		Surface Mount	0806 (2016 Metric)	0806	0.079" L x 0.063" W (2.00mm x 1.60mm)		IND-2016-MURATA-B	0806	J-E-TE243A-0006_PDF_INDUCTOR.pdf p.5	
+D	inductor	murata		Surface Mount	0806 (2016 Metric)	0806 (2016 Metric)	0.079" L x 0.063" W (2.00mm x 1.60mm)		IND-2016-MURATA-B	0806	J-E-TE243A-0001_PDF_INDUCTOR.pdf p.5; shared with IND-2016-MURATA-B	DFE201610E
+D	inductor	murata		Surface Mount	0806 (2016 Metric)	0806 (2016 Metric)	0.079" L x 0.063" W (2.00mm x 1.60mm)		IND-2016-MURATA-B	0806	J-E-TE243A-0006_PDF_INDUCTOR.pdf p.5; shared with IND-2016-MURATA-B	DFE201612E
+D	inductor	murata		Surface Mount	0806 (2016 Metric)	0806 (2016 Metric)	0.079" L x 0.063" W (2.00mm x 1.60mm)		IND-2016-MURATA-B	0806	J-E-TE243A-0010_PDF_INDUCTOR.pdf p.5; shared with IND-2016-MURATA-B	DFE201612C
+D	inductor	murata		Surface Mount	0806 (2016 Metric)	0806 (2016 Metric)	0.079" L x 0.063" W (2.00mm x 1.60mm)		IND-2016-MURATA-B	0806	JELF243B-0022_PDF_INDUCTOR.pdf p.6; shared with IND-2016-MURATA-B	LQM2
+D	inductor	murata		Surface Mount	0806 (2016 Metric)	0806 (2016 Metric)	0.079" L x 0.063" W (2.00mm x 1.60mm)		IND-2016-MURATA	0806	m_dfe201610p.ashx.pdf p.1; shared with IND-2016-MURATA	DFE201610P
+D	inductor	murata		Surface Mount	0806 (2016 Metric)	0806 (2016 Metric)	0.079" L x 0.063" W (2.00mm x 1.60mm)		IND-2016-MURATA-C	0806	JELF243A-0053_PDF_INDUCTOR.pdf p.7	LQH2
+D	inductor	murata		Surface Mount	1008 (2520 Metric)	1008 (2520 Metric)	0.098" L x 0.079" W (2.50mm x 2.00mm)		IND-2520-MURATA-B	1008	JELF243B-0019_PDF_INDUCTOR.pdf p.6	LQM2
+D	inductor	murata		Surface Mount	1008 (2520 Metric)	1008 (2520 Metric)	0.098" L x 0.079" W (2.50mm x 2.00mm)		IND-2520-MURATA	1008	J-E-TE243A-0004_PDF_INDUCTOR.pdf p.5; shared with IND-2520-MURATA	DFE252010C
+D	inductor	murata		Surface Mount	1008 (2520 Metric)	1008 (2520 Metric)	0.098" L x 0.079" W (2.50mm x 2.00mm)		IND-2520-MURATA	1008	m_dfe252012c.ashx.pdf p.1; shared with IND-2520-MURATA	DFE252012C
+D	inductor	murata		Surface Mount	1008 (2520 Metric)	1008 (2520 Metric)	0.103" L x 0.096" W (2.62mm x 2.45mm)		IND-2625-MURATA	1008	JELF243A-0085_PDF_INDUCTOR.pdf p.8	
+D	inductor	murata		Surface Mount	1008 (2520 Metric)	2520	0.098" L x 0.079" W (2.50mm x 2.00mm)		IND-2520-MURATA	1008	m_dfe252012f.ashx.pdf p.1 (-252012p, -252010p, J-E-TE243A-0012 p.5, -9102 p.4 equal)	
+D	inductor	murata		Surface Mount	1206 (3216 Metric)	1206	0.126" L x 0.063" W (3.20mm x 1.60mm)		IND-3216-MURATA	1206	JELF243B-0013_PDF_INDUCTOR.pdf p.6	
+D	inductor	murata		Surface Mount	1210 (3225 Metric)	-	0.126" L x 0.098" W (3.20mm x 2.50mm)		IND-3225-MURATA	1210	m_dfe322512c.ashx.pdf p.1	
+D	inductor	murata		Surface Mount	1210 (3225 Metric)	1210	0.126" L x 0.098" W (3.20mm x 2.50mm)		IND-3225-MURATA-B	1210	J-E-TE243A-0019_PDF_INDUCTOR.pdf p.5	
+D	inductor	murata		Surface Mount	Nonstandard	-	0.126" L x 0.118" W (3.20mm x 3.00mm)		IND-3230-MURATA	SMD	J-E-TE243B-0040_DEM2818C_REFERENCE_PDF_INDUCTOR.pdf p.5 (pattern drawn with pads above/below, turned 90 deg)	

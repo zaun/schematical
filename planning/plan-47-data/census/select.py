@@ -23,7 +23,7 @@ import common
 
 COLUMNS = ['mpn', 'company', 'type', 'class', 'series', 'status', 'stock', 'value', 'form', 'package',
            'supplier_package', 'size', 'mounting', 'grade', 'detail', 'category', 'piece', 'cut', 'maker', 'description',
-           'via', 'url', 'state', 'reason', 'rank', 'pdf', 'hit', 'dead', 'stock_checked']
+           'via', 'url', 'state', 'reason', 'rank', 'pdf', 'hit', 'dead', 'stock_checked', 'verdict', 'vreason']
 
 
 def grade(p):
@@ -136,7 +136,7 @@ def main():
                     p.get('Size / Dimension', ''), p.get('Mounting Type', ''), grade(p), detail(r), r['category'], r['piece'],
                     r['cut'], r['maker'], r['description'], r['via'], r['url'], r['state'], r['reason'],
                     r.get('rank', ''), k.get('pdf', ''), k.get('hit', ''), k.get('dead', ''),
-                    ('1' if r['mpn'] in checked else '')]
+                    ('1' if r['mpn'] in checked else ''), k.get('verdict', ''), k.get('vreason', '')]
             f.write('\t'.join(str(v).replace('\t', ' ') for v in vals) + '\n')
     if report:
         print('%d parts listed' % len(rows))

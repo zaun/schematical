@@ -1,0 +1,75 @@
+letter	type	company	series	mounting	package	supplier_package	size	detail	footprint	label	note	series_split
+F	ptc	bourns		Surface Mount	0402 (1005 Metric), Concave		0.039" L x 0.020" W (1.00mm x 0.50mm)		PTC-1005-BOURNS	0402	mf-asmf.pdf p.2	
+F	ptc	bourns		Surface Mount	0603 (1608 Metric), Concave		0.065" L x 0.033" W (1.65mm x 0.85mm)		PTC-1709-BOURNS	0603	mf-fsht.pdf p.2	
+F	ptc	bourns		Surface Mount	0805 (2012 Metric), Concave		0.085" L x 0.053" W (2.15mm x 1.35mm)		PTC-2214-BOURNS	0805	MF-PSML-X.pdf p.2	
+F	ptc	bourns		Surface Mount	1206 (3216 Metric), Concave		0.126" L x 0.063" W (3.20mm x 1.60mm)		PTC-3216-BOURNS	1206	mf-nsht.pdf p.2	
+F	ptc	bourns		Surface Mount	1206 (3216 Metric), Concave		0.128" L x 0.063" W (3.25mm x 1.60mm)		PTC-3216-BOURNS	1206	shared with PTC-3216-BOURNS	
+F	ptc	bourns		Surface Mount	1210 (3225 Metric), Concave		0.126" L x 0.100" W (3.20mm x 2.55mm)		PTC-3226-BOURNS	1210	mf-usht.pdf p.3	
+F	ptc	bourns		Surface Mount	1210 (3225 Metric), Concave		0.127" L x 0.101" W (3.22mm x 2.58mm)		PTC-3226-BOURNS	1210	shared with PTC-3226-BOURNS	
+F	ptc	bourns		Surface Mount	1210 (3225 Metric), Concave		0.127" L x 0.102" W (3.22mm x 2.58mm)		PTC-3226-BOURNS	1210	shared with PTC-3226-BOURNS	
+F	ptc	bourns		Surface Mount	1210 (3225 Metric), Concave		0.135" L x 0.110" W (3.43mm x 2.80mm)		PTC-3226-BOURNS	1210	shared with PTC-3226-BOURNS	
+F	ptc	bourns		Surface Mount	1812 (4532 Metric), Concave		0.179" L x 0.128" W (4.55mm x 3.24mm)		PTC-4632-BOURNS	1812	mf-msht.pdf p.2	
+F	ptc	bourns		Surface Mount	1812 (4532 Metric), Concave		0.181" L x 0.128" W (4.60mm x 3.24mm)		PTC-4632-BOURNS	1812	shared with PTC-4632-BOURNS	
+F	ptc	bourns		Surface Mount	2-SMD		0.287" L x 0.214" W (7.31mm x 5.44mm)		PTC-7454-BOURNS	SMD	mfsm.pdf p.3	
+F	ptc	bourns		Surface Mount	2-SMD		0.344" L x 0.264" W (8.75mm x 6.71mm)		PTC-8867-BOURNS	SMD	mfsm.pdf p.3	
+F	ptc	bourns		Surface Mount	2018 (5045 Metric), Concave		0.200" L x 0.180" W (5.08mm x 4.58mm)		PTC-5146-BOURNS	2018	mfsmdf.pdf p.2	
+F	ptc	bourns		Surface Mount	2920 (7351 Metric), Concave		0.314" L x 0.214" W (7.98mm x 5.44mm)	0.099" (2.51mm)	PTC-7451-BOURNS	2920	mf-lsmf.pdf p.5	
+F	ptc	bourns		Surface Mount	Nonstandard SMD		0.341" L x 0.250" W (8.65mm x 6.35mm)		PTC-8764-BOURNS	SMD	MF-GSMF.pdf p.2	
+F	ptc	bourns		Through Hole	Radial, Disc		0.118" Dia x 0.551" T (3.00mm x 14.00mm)	0.201" (5.10mm)	PTC-RAD-94-51-BOURNS	Radial	mf-rht.pdf p.4 [datasheet used; size DigiKey 3 x 14, datasheet 9.4 x 3]	
+F	ptc	bourns		Through Hole	Radial, Disc		0.270" L x 0.118" W (6.86mm x 3.00mm)	0.114" (2.90mm)	PTC-RAD-69-51-BOURNS	Radial	mf-rht.pdf p.4 [datasheet used; spacing DigiKey 2.9, datasheet 5.1]	
+F	ptc	bourns		Through Hole	Radial, Disc		0.280" L x 0.118" W (7.10mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-71-51-BOURNS	Radial	mf-rg.pdf p.2	
+F	ptc	bourns		Through Hole	Radial, Disc		0.291" Dia x 0.118" T (7.40mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-74-51-BOURNS	Radial	mf-r.pdf p.3	
+F	ptc	bourns		Through Hole	Radial, Disc		0.291" Dia x 0.122" T (7.40mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-74-51-BOURNS-B	Radial	mf-r.pdf p.3	
+F	ptc	bourns		Through Hole	Radial, Disc		0.291" L x 0.118" W (7.40mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-74-51-BOURNS	Radial	shared with PTC-RAD-74-51-BOURNS	
+F	ptc	bourns		Through Hole	Radial, Disc		0.311" Dia x 0.122" T (7.90mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-79-51-BOURNS	Radial	mf-r.pdf p.3	
+F	ptc	bourns		Through Hole	Radial, Disc		0.315" Dia x 0.122" T (8.00mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-80-51-BOURNS	Radial	mf-r.pdf p.3	
+F	ptc	bourns		Through Hole	Radial, Disc		0.327" Dia x 0.150" T (8.30mm x 3.80mm)	0.114" (2.90mm)	PTC-RAD-83-51-BOURNS	Radial	MF-RM.pdf p.3 [datasheet used; spacing DigiKey 2.9, datasheet 5.1]	
+F	ptc	bourns		Through Hole	Radial, Disc		0.346" L x 0.118" W (8.80mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-88-51-BOURNS	Radial	mf-rht.pdf p.4	
+F	ptc	bourns		Through Hole	Radial, Disc		0.350" Dia x 0.118" T (8.90mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-89-51-BOURNS	Radial	mf-r.pdf p.3	
+F	ptc	bourns		Through Hole	Radial, Disc		0.370" Dia x 0.118" T (9.40mm x 3.00mm)	0.114" (2.90mm)	PTC-RAD-94-51-BOURNS	Radial	shared with PTC-RAD-94-51-BOURNS [datasheet used; spacing DigiKey 2.9, datasheet 5.1]	
+F	ptc	bourns		Through Hole	Radial, Disc		0.370" Dia x 0.118" T (9.40mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-94-51-BOURNS	Radial	shared with PTC-RAD-94-51-BOURNS	
+F	ptc	bourns		Through Hole	Radial, Disc		0.382" Dia x 0.122" T (9.70mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-97-51-BOURNS-B	Radial	mf-r.pdf p.3	
+F	ptc	bourns		Through Hole	Radial, Disc		0.382" L x 0.118" W (9.70mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-97-51-BOURNS	Radial	mf-rht.pdf p.4	
+F	ptc	bourns		Through Hole	Radial, Disc		0.390" Dia x 0.150" T (9.90mm x 3.80mm)	0.114" (2.90mm)	PTC-RAD-99-51-BOURNS-B	Radial	MF-RM.pdf p.3 [datasheet used; spacing DigiKey 2.9, datasheet 5.1]	
+F	ptc	bourns		Through Hole	Radial, Disc		0.390" Dia x 0.150" T (9.90mm x 3.80mm)	0.201" (5.10mm)	PTC-RAD-99-51-BOURNS-B	Radial	shared with PTC-RAD-99-51-BOURNS-B	
+F	ptc	bourns		Through Hole	Radial, Disc		0.390" L x 0.118" W (9.90mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-99-51-BOURNS	Radial	mf-rg.pdf p.2	
+F	ptc	bourns		Through Hole	Radial, Disc		0.394" L x 0.118" W (10.00mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-100-51-BOURNS	Radial	mf-rht.pdf p.4	
+F	ptc	bourns		Through Hole	Radial, Disc		0.394" L x 0.150" W (10.00mm x 3.80mm)	0.114" (2.90mm)	PTC-RAD-100-51-BOURNS-B	Radial	MF-RM.pdf p.3 [datasheet used; spacing DigiKey 2.9, datasheet 5.1]	
+F	ptc	bourns		Through Hole	Radial, Disc		0.402" Dia x 0.118" T (10.20mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-102-51-BOURNS	Radial	mf-r.pdf p.3	
+F	ptc	bourns		Through Hole	Radial, Disc		0.409" Dia x 0.122" T (10.40mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-104-51-BOURNS-B	Radial	mf-r.pdf p.3	
+F	ptc	bourns		Through Hole	Radial, Disc		0.409" L x 0.118" W (10.40mm x 3.00mm)	0.114" (2.90mm)	PTC-RAD-104-51-BOURNS	Radial	mf-rg.pdf p.2 [datasheet used; spacing DigiKey 2.9, datasheet 5.1]	
+F	ptc	bourns		Through Hole	Radial, Disc		0.409" L x 0.118" W (10.40mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-104-51-BOURNS	Radial	shared with PTC-RAD-104-51-BOURNS	
+F	ptc	bourns		Through Hole	Radial, Disc		0.427" L x 0.122" W (10.84mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-108-51-BOURNS	Radial	mf-rx72.pdf p.2	
+F	ptc	bourns		Through Hole	Radial, Disc		0.441" Dia x 0.118" T (11.20mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-112-51-BOURNS	Radial	mf-rg.pdf p.2	
+F	ptc	bourns		Through Hole	Radial, Disc		0.441" L x 0.118" W (11.20mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-112-51-BOURNS	Radial	shared with PTC-RAD-112-51-BOURNS	
+F	ptc	bourns		Through Hole	Radial, Disc		0.449" L x 0.150" W (11.40mm x 3.80mm)	0.114" (2.90mm)	PTC-RAD-114-51-BOURNS	Radial	MF-RM.pdf p.3 [datasheet used; spacing DigiKey 2.9, datasheet 5.1]	
+F	ptc	bourns		Through Hole	Radial, Disc		0.453" L x 0.150" W (11.50mm x 3.80mm)	0.114" (2.90mm)	PTC-RAD-115-51-BOURNS	Radial	MF-RM.pdf p.3 [datasheet used; spacing DigiKey 2.9, datasheet 5.1]	
+F	ptc	bourns		Through Hole	Radial, Disc		0.461" Dia x 0.122" T (11.70mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-117-51-BOURNS	Radial	mf-r.pdf p.3	
+F	ptc	bourns		Through Hole	Radial, Disc		0.461" L x 0.122" W (11.70mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-117-51-BOURNS	Radial	shared with PTC-RAD-117-51-BOURNS	
+F	ptc	bourns		Through Hole	Radial, Disc		0.472" Dia x 0.118" T (12.00mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-120-51-BOURNS	Radial	mf-r.pdf p.3	
+F	ptc	bourns		Through Hole	Radial, Disc		0.472" L x 0.118" W (12.00mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-120-51-BOURNS-B	Radial	mf-r.pdf p.3	
+F	ptc	bourns		Through Hole	Radial, Disc		0.483" L x 0.122" W (12.26mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-123-51-BOURNS	Radial	mf-rx72.pdf p.2	
+F	ptc	bourns		Through Hole	Radial, Disc		0.500" L x 0.118" W (12.70mm x 3.00mm)	0.114" (2.90mm)	PTC-RAD-127-51-BOURNS	Radial	mf-rg.pdf p.2 [datasheet used; spacing DigiKey 2.9, datasheet 5.1]	
+F	ptc	bourns		Through Hole	Radial, Disc		0.500" L x 0.118" W (12.70mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-127-51-BOURNS	Radial	shared with PTC-RAD-127-51-BOURNS	
+F	ptc	bourns		Through Hole	Radial, Disc		0.549" L x 0.122" W (13.94mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-139-51-BOURNS	Radial	mf-rx72.pdf p.2	
+F	ptc	bourns		Through Hole	Radial, Disc		0.551" L x 0.118" W (14.00mm x 3.00mm)	0.114" (2.90mm)	PTC-RAD-140-51-BOURNS	Radial	mf-rg.pdf p.2 [datasheet used; spacing DigiKey 2.9, datasheet 5.1]	
+F	ptc	bourns		Through Hole	Radial, Disc		0.551" L x 0.118" W (14.00mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-140-51-BOURNS	Radial	shared with PTC-RAD-140-51-BOURNS	
+F	ptc	bourns		Through Hole	Radial, Disc		0.551" L x 0.161" W (14.00mm x 4.10mm)	0.114" (2.90mm)	PTC-RAD-140-51-BOURNS-B	Radial	MF-RM.pdf p.3 [datasheet used; spacing DigiKey 2.9, datasheet 5.1]	
+F	ptc	bourns		Through Hole	Radial, Disc		0.567" L x 0.118" W (14.40mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-144-51-BOURNS	Radial	mf-r.pdf p.3	
+F	ptc	bourns		Through Hole	Radial, Disc		0.630" L x 0.118" W (16.00mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-165-51-BOURNS	Radial	mf-rg.pdf p.2 [datasheet used; size DigiKey 16 x 3, datasheet 16.5 x 3]	
+F	ptc	bourns		Through Hole	Radial, Disc		0.642" L x 0.122" W (16.30mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-139-51-BOURNS	Radial	shared with PTC-RAD-139-51-BOURNS [datasheet used; size DigiKey 16.3 x 3.1, datasheet 13.94 x 3.1]	
+F	ptc	bourns		Through Hole	Radial, Disc		0.650" L x 0.118" W (16.50mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-165-51-BOURNS	Radial	shared with PTC-RAD-165-51-BOURNS	
+F	ptc	bourns		Through Hole	Radial, Disc		0.685" L x 0.118" W (17.40mm x 3.00mm)	0.402" (10.20mm)	PTC-RAD-174-102-BOURNS	Radial	mf-r.pdf p.3	
+F	ptc	bourns		Through Hole	Radial, Disc		0.689" L x 0.118" W (17.50mm x 3.00mm)	0.201" (5.10mm)	PTC-RAD-175-51-BOURNS	Radial	mf-rg.pdf p.2	
+F	ptc	bourns		Through Hole	Radial, Disc		0.689" L x 0.118" W (17.50mm x 3.00mm)	0.402" (10.20mm)	PTC-RAD-175-102-BOURNS	Radial	mf-rht.pdf p.4	
+F	ptc	bourns		Through Hole	Radial, Disc		0.701" L x 0.122" W (17.80mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-152-51-BOURNS	Radial	mf-rx72.pdf p.2 [datasheet used; size DigiKey 17.8 x 3.1, datasheet 15.18 x 3.1]	
+F	ptc	bourns		Through Hole	Radial, Disc		0.702" L x 0.122" W (17.84mm x 3.10mm)	0.201" (5.10mm)	PTC-RAD-178-102-BOURNS	Radial	mf-rx72.pdf p.2 [datasheet used; spacing DigiKey 5.1, datasheet 10.2] [kinked -14 part: datasheet prints no kinked table]	
+F	ptc	bourns		Through Hole	Radial, Disc		0.702" L x 0.122" W (17.84mm x 3.10mm)	0.402" (10.20mm)	PTC-RAD-178-102-BOURNS	Radial	shared with PTC-RAD-178-102-BOURNS	
+F	ptc	bourns		Through Hole	Radial, Disc		0.760" L x 0.118" W (19.30mm x 3.00mm)	0.402" (10.20mm)	PTC-RAD-193-102-BOURNS	Radial	mf-r.pdf p.3	
+F	ptc	bourns		Through Hole	Radial, Disc		0.814" L x 0.122" W (20.67mm x 3.10mm)	0.402" (10.20mm)	PTC-RAD-207-102-BOURNS	Radial	mf-rx72.pdf p.2	
+F	ptc	bourns		Through Hole	Radial, Disc		0.827" L x 0.118" W (21.00mm x 3.00mm)	0.402" (10.20mm)	PTC-RAD-210-102-BOURNS	Radial	mf-rht.pdf p.4	
+F	ptc	bourns		Through Hole	Radial, Disc		0.870" L x 0.118" W (22.10mm x 3.00mm)	0.402" (10.20mm)	PTC-RAD-221-102-BOURNS	Radial	mf-r.pdf p.3	
+F	ptc	bourns		Through Hole	Radial, Disc		0.925" L x 0.142" W (23.50mm x 3.60mm)	0.215" (5.45mm)	PTC-RAD-235-102-BOURNS-B	Radial	mf-rht.pdf p.4 [datasheet used; spacing DigiKey 5.45, datasheet 10.2]	
+F	ptc	bourns		Through Hole	Radial, Disc		0.926" L x 0.122" W (23.51mm x 3.10mm)	0.402" (10.20mm)	PTC-RAD-235-102-BOURNS	Radial	mf-rx72.pdf p.2	
+F	ptc	bourns		Through Hole	Radial, Disc		0.953" L x 0.118" W (24.20mm x 3.00mm)	0.402" (10.20mm)	PTC-RAD-242-102-BOURNS	Radial	mf-r.pdf p.3	
+F	ptc	bourns		Through Hole	Radial, Disc		0.980" L x 0.122" W (24.90mm x 3.10mm)	0.402" (10.20mm)	PTC-RAD-207-102-BOURNS	Radial	shared with PTC-RAD-207-102-BOURNS [datasheet used; size DigiKey 24.9 x 3.1, datasheet 20.67 x 3.1]	

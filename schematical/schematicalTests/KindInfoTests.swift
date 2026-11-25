@@ -8,7 +8,7 @@ import XCTest
 final class KindInfoTests: XCTestCase {
     func testEveryKindHasAnEntry() {
         XCTAssertEqual(Set(PartKinds.info.keys), Set(PartKinds.all))
-        XCTAssertEqual(PartKinds.info.count, 43)
+        XCTAssertEqual(PartKinds.info.count, 47)
         for (kind, info) in PartKinds.info {
             XCTAssertEqual(info.kind, kind)
             XCTAssertFalse(info.name.isEmpty, kind)

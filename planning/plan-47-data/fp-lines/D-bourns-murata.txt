@@ -1,0 +1,109 @@
+# letter	type	company	series	mounting	package	supplier_package	size	detail	parts	example	datasheets	existing
+D	inductor	bourns		Surface Mount	0201 (0603 Metric)	0201	0.024" L x 0.012" W (0.60mm x 0.30mm)		4	CE0603G-0N3P	2	RES-0201-VIKING,RES-0201-VISHAY,RES-0201-YAGEO
+D	inductor	bourns		Surface Mount	0402 (1005 Metric)	0402 (1005 Metric)	0.039" L x 0.022" W (1.00mm x 0.55mm)		3	CW100505-4N7J	1	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,LED-0402,RES-0402,RES-0402-VIKING,RES-0402-VISHAY
+D	inductor	bourns		Surface Mount	0603 (1608 Metric)	0603 (1608 Metric)	0.063" L x 0.031" W (1.60mm x 0.80mm)		2	CS160808-1R2K	1	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
+D	inductor	bourns		Surface Mount	0603 (1608 Metric)	0603 (1608 Metric)	0.065" L x 0.041" W (1.65mm x 1.05mm)		1	CW160808-8N2J	1	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
+D	inductor	bourns		Surface Mount	0805 (2012 Metric)	0805 (2012 Metric)	0.079" L x 0.047" W (2.00mm x 1.20mm)		1	SRN2012T-2R2K	1	CAP-0805,CAP-0805-AVX,CAP-0805-CALCHIP,CAP-0805-KEMET,DIODE-0805,LED-0805,RES-0805,RES-0805-VIKING
+D	inductor	bourns		Surface Mount	0805 (2012 Metric)	0805 (2012 Metric)	0.079" L x 0.049" W (2.00mm x 1.25mm)		3	CV201210-1R0K	1	CAP-0805,CAP-0805-AVX,CAP-0805-CALCHIP,CAP-0805-KEMET,DIODE-0805,LED-0805,RES-0805,RES-0805-VIKING
+D	inductor	bourns		Surface Mount	0805 (2012 Metric)	0805 (2012 Metric)	0.083" L x 0.059" W (2.10mm x 1.50mm)		1	CW201212-R47J	1	CAP-0805,CAP-0805-AVX,CAP-0805-CALCHIP,CAP-0805-KEMET,DIODE-0805,LED-0805,RES-0805,RES-0805-VIKING
+D	inductor	bourns		Surface Mount	0806 (2016 Metric)	0806 (2016 Metric)	0.079" L x 0.063" W (2.00mm x 1.60mm)		2	SRP2010-2R2M	1	POWERPAK-0806-VISHAY
+D	inductor	bourns		Surface Mount	1008 (2520 Metric)	1008	0.098" L x 0.079" W (2.50mm x 2.00mm)		3	SRP2512-2R2M	2	XTAL-1008-4-ABRACON
+D	inductor	bourns		Surface Mount	1008 (2520 Metric)	1008 (2520 Metric)	0.098" L x 0.079" W (2.50mm x 2.00mm)		3	CVH252009-2R2M	2	XTAL-1008-4-ABRACON
+D	inductor	bourns		Surface Mount	1210 (3225 Metric)	-	0.126" L x 0.098" W (3.20mm x 2.50mm)		2	SRP3212A-1R0M	1	RES-1210-YAGEO,XTAL-1210-2-ECS,XTAL-1210-4-ABRACON,XTAL-1210-4-ECS,XTAL-1210-4-ECS-B
+D	inductor	bourns		Surface Mount	1210 (3225 Metric)	1210	0.126" L x 0.098" W (3.20mm x 2.50mm)		4	SRP3212-4R7M	2	RES-1210-YAGEO,XTAL-1210-2-ECS,XTAL-1210-4-ABRACON,XTAL-1210-4-ECS,XTAL-1210-4-ECS-B
+D	inductor	bourns		Surface Mount	1212 (3030 Metric)	3015	0.118" L x 0.118" W (3.00mm x 3.00mm)		1	SRN3015BTA-100M	1	
+D	inductor	bourns		Surface Mount	1812 (4532 Metric)	1812	0.177" L x 0.126" W (4.50mm x 3.20mm)		5	CM453232-221KL	3	
+D	inductor	bourns		Surface Mount	1919 (4848 Metric)	-	0.189" L x 0.189" W (4.80mm x 4.80mm)		3	SRR4028-2R7Y	1	
+D	inductor	bourns		Surface Mount	2-SMD	2-SMD	0.138" L x 0.126" W (3.50mm x 3.20mm)		1	SRP3012TA-R56M	1	
+D	inductor	bourns		Surface Mount	2-SMD	2-SMD	0.175" L x 0.160" W (4.45mm x 4.06mm)		3	SRP4020TA-3R3M	1	
+D	inductor	bourns		Surface Mount	Nonstandard		0.236" L x 0.236" W (6.00mm x 6.00mm)		3	SRN6045TA-151M	1	
+D	inductor	bourns		Surface Mount	Nonstandard		0.315" L x 0.315" W (8.00mm x 8.00mm)		3	SRN8040TA-4R7M	1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.118" L x 0.110" W (3.00mm x 2.80mm)		1	SDR0302-820KL	1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.118" L x 0.118" W (3.00mm x 3.00mm)		3	SRN3015-2R2M	1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.126" L x 0.098" W (3.20mm x 2.50mm)		2	CM322522-120KL	1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.145" L x 0.120" W (3.68mm x 3.05mm)		2	AC3630R-2N5K	1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.157" L x 0.157" W (4.00mm x 4.00mm)		5	SRN4018-4R7M	2	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.177" L x 0.157" W (4.50mm x 4.00mm)		3	SDR0403-3R3ML	1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.190" L x 0.150" W (4.83mm x 3.81mm)		1	AC4842R-27NK	1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.195" L x 0.195" W (4.95mm x 4.95mm)		1	SRN5040TA-4R7M	1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.197" L x 0.189" W (5.00mm x 4.80mm)		2	SDR0503-153JL	1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.197" L x 0.197" W (5.00mm x 5.00mm)		2	SRN5040-4R7M	1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.205" L x 0.205" W (5.20mm x 5.20mm)		3	SRU5028-3R3Y	2	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.217" L x 0.209" W (5.50mm x 5.30mm)		1	SRP5030CA-2R2M	1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.224" L x 0.205" W (5.70mm x 5.20mm)		1	SRP5015TA-2R2M	1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.228" L x 0.228" W (5.80mm x 5.80mm)		8	PM54-151K-RC	5	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.236" L x 0.236" W (6.00mm x 6.00mm)		3	SRN6045-3R3Y	1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.268" L x 0.268" W (6.80mm x 6.80mm)		2	SRR6028-3R3Y	2	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.270" L x 0.120" W (6.86mm x 3.05mm)		2	AC6830R-43NG	1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.276" L x 0.276" W (7.00mm x 7.00mm)		5	SRR7045-221M	2	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.283" L x 0.256" W (7.20mm x 6.50mm)		1	SRP6540-5R6M	1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.287" L x 0.260" W (7.30mm x 6.60mm)		3	SRP7028A-1R0M	2	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.307" L x 0.307" W (7.80mm x 7.80mm)		3	SDR0805-102KL	1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.315" L x 0.315" W (8.00mm x 8.00mm)		2	SRN8040-101M	1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.386" L x 0.386" W (9.80mm x 9.80mm)		3	SDR1006-221KL	1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.394" L x 0.386" W (10.00mm x 9.80mm)		2	SRN1060-101M	1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.394" L x 0.394" W (10.00mm x 10.00mm)		8	SDR1030-4R7M	4	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.433" L x 0.394" W (11.00mm x 10.00mm)		2	SRP1038A-220M	1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.472" L x 0.472" W (12.00mm x 12.00mm)		3	SRR1210-330M	1	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.492" L x 0.492" W (12.50mm x 12.50mm)		7	SRR1260-101M	4	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.500" L x 0.394" W (12.70mm x 10.00mm)		3	SDR1005-470KL	2	
+D	inductor	bourns		Surface Mount	Nonstandard	-	0.531" L x 0.492" W (13.50mm x 12.50mm)		3	SRP1265A-470M	1	
+D	inductor	bourns		Surface Mount	Nonstandard	3015	0.118" L x 0.118" W (3.00mm x 3.00mm)		3	SRN3015C-2R2M	1	
+D	inductor	bourns		Surface Mount	Nonstandard, Corner Terminals	-	0.256" L x 0.256" W (6.50mm x 6.50mm)		2	SRR0604-100ML	1	
+D	inductor	bourns		Through Hole	Axial	-	0.095" Dia x 0.250" L (2.41mm x 6.35mm)		2	9230-94-TR-RC	1	
+D	inductor	bourns		Through Hole	Axial	-	0.110" Dia x 0.280" L (2.79mm x 7.11mm)		1	78F471J-TR-RC	1	
+D	inductor	bourns		Through Hole	Axial	-	0.110" Dia x 0.280" L (2.80mm x 7.11mm)		2	78F1R0K-TR-RC	1	
+D	inductor	bourns		Through Hole	Axial	-	0.120" Dia x 0.300" L (3.05mm x 7.62mm)		2	8230-56-RC	1	
+D	inductor	bourns		Through Hole	Axial	-	0.157" Dia x 0.410" L (3.99mm x 10.41mm)		3	77F470J-TR-RC	1	
+D	inductor	bourns		Through Hole	Axial	-	0.160" Dia x 0.500" L (4.06mm x 12.70mm)		2	5300-08-RC	1	
+D	inductor	bourns		Through Hole	Axial	-	0.162" Dia x 0.410" L (4.11mm x 10.41mm)		2	9250A-105-RC	1	
+D	inductor	bourns		Through Hole	Axial	-	0.236" Dia x 0.984" L (6.00mm x 25.00mm)		1	LPA0618-102KL	1	
+D	inductor	bourns		Through Hole	Axial	-	0.270" Dia x 0.750" L (6.86mm x 19.05mm)		3	4604-RC	1	
+D	inductor	bourns		Through Hole	Axial	-	0.275" Dia x 0.700" L (6.99mm x 17.78mm)		3	5800-102-RC	1	
+D	inductor	bourns		Through Hole	Axial	-	0.380" Dia x 0.875" L (9.65mm x 22.23mm)		1	5230-RC	1	
+D	inductor	bourns		Through Hole	Axial	-	0.400" Dia x 0.630" L (10.16mm x 16.00mm)		1	70F502AF-RC	1	
+D	inductor	bourns		Through Hole	Axial	-	0.440" Dia x 1.250" L (11.18mm x 31.75mm)		1	5254-RC	1	
+D	inductor	bourns		Through Hole	Axial	-	0.453" Dia x 0.900" L (11.51mm x 22.86mm)		3	5900-100-RC	1	
+D	inductor	bourns		Through Hole	Axial	-	0.500" Dia x 1.250" L (12.70mm x 31.75mm)		1	5258-RC	1	
+D	inductor	bourns		Through Hole	Radial, Horizontal (Open)	-	0.860" Dia (21.84mm)		4	2124-H-RC	2	
+D	inductor	bourns		Through Hole	Radial, Horizontal (Open)	-	0.950" Dia (24.13mm)		2	2212-H-RC	1	
+D	inductor	bourns		Through Hole	Radial, Horizontal (Open)	-	1.100" Dia (27.94mm)		1	2200LL-101-H-RC	1	
+D	inductor	bourns		Through Hole	Radial, Horizontal (Open)	-	1.280" Dia (32.51mm)		2	2300HT-221-H-RC	2	
+D	inductor	bourns		Through Hole	Radial, Vertical (Open)	-	0.860" Dia x 0.450" W (21.84mm x 11.43mm)		2	2116-V-RC	2	
+D	inductor	bourns		Through Hole	Radial, Vertical (Open)	-	1.280" Dia x 0.650" W (32.51mm x 16.51mm)		2	2319-V-RC	1	
+D	inductor	bourns		Through Hole	Radial, Vertical Cylinder	-	0.197" Dia (5.00mm)		1	RLB0608-102KL	1	
+D	inductor	bourns		Through Hole	Radial, Vertical Cylinder	-	0.335" Dia (8.50mm)		2	RLB0913-100K	1	
+D	inductor	bourns		Through Hole	Radial, Vertical Cylinder	-	0.343" Dia (8.70mm)		2	RLB0914-102KL	1	
+D	inductor	bourns		Through Hole	Radial, Vertical Cylinder	-	0.354" Dia (9.00mm)		3	RLB9012-102KL	1	
+D	inductor	bourns		Through Hole	Radial, Vertical Cylinder	-	0.413" Dia (10.50mm)		4	RL181S-104J-RC	2	
+D	inductor	bourns		Through Hole	Radial, Vertical Cylinder	-	0.810" Dia (20.57mm)		1	1120-120K-RC	1	
+D	inductor	bourns		Through Hole	Radial, Vertical Cylinder	-	1.100" Dia (27.94mm)		1	1130-101K-RC	1	
+D	inductor	bourns		Through Hole	Radial, Vertical Cylinder	-	1.500" Dia (38.10mm)		2	1140-471K-RC	1	
+D	inductor	bourns		Through Hole	Radial, Vertical Cylinder	Radial	0.433" Dia (11.00mm)		1	6100-152K-RC	1	
+D	inductor	bourns		Through Hole	Radial, Vertical Cylinder (Open)	-	0.307" Dia (7.80mm)		2	RL895-151K-RC	1	
+D	inductor	murata		Surface Mount	01005 (0402 Metric)	1005	0.016" L x 0.008" W (0.40mm x 0.20mm)		3	LQP02HV0N7B02L	1	RES-01005-VISHAY,RES-01005-YAGEO
+D	inductor	murata		Surface Mount	0201 (0603 Metric)	0201 (0603 Metric)	0.024" L x 0.012" W (0.60mm x 0.30mm)		35	LQP03TN4N7H02D	4	RES-0201-VIKING,RES-0201-VISHAY,RES-0201-YAGEO
+D	inductor	murata		Surface Mount	0402 (1005 Metric)	-	0.039" L x 0.020" W (1.00mm x 0.50mm)		6	LQW15AN56NJ00D	1	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,LED-0402,RES-0402,RES-0402-VIKING,RES-0402-VISHAY
+D	inductor	murata		Surface Mount	0402 (1005 Metric)	-	0.039" L x 0.024" W (1.00mm x 0.60mm)		29	LQW15AN22NG00D	5	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,LED-0402,RES-0402,RES-0402-VIKING,RES-0402-VISHAY
+D	inductor	murata		Surface Mount	0402 (1005 Metric)	0402	0.039" L x 0.020" W (1.00mm x 0.50mm)		8	LQG15HS2N2B02D	2	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,LED-0402,RES-0402,RES-0402-VIKING,RES-0402-VISHAY
+D	inductor	murata		Surface Mount	0402 (1005 Metric)	0402 (1005 Metric)	0.039" L x 0.020" W (1.00mm x 0.50mm)		27	LQG15HN18NJ02D	2	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,LED-0402,RES-0402,RES-0402-VIKING,RES-0402-VISHAY
+D	inductor	murata		Surface Mount	0603 (1608 Metric)	-	0.063" L x 0.031" W (1.60mm x 0.80mm)		22	LQW18AN68NG00D	2	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
+D	inductor	murata		Surface Mount	0603 (1608 Metric)	-	0.065" L x 0.039" W (1.65mm x 0.99mm)		5	LQW18AN15NG80D	2	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
+D	inductor	murata		Surface Mount	0603 (1608 Metric)	0603	0.063" L x 0.031" W (1.60mm x 0.80mm)		2	LQM18DN100M70L	2	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
+D	inductor	murata		Surface Mount	0603 (1608 Metric)	0603 (1608 Metric)	0.063" L x 0.031" W (1.60mm x 0.80mm)		14	LQM18PZ2R2MFHD	6	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
+D	inductor	murata		Surface Mount	0805 (2012 Metric)	0805	0.079" L x 0.047" W (2.00mm x 1.20mm)		1	DFE21CCN2R2MELL	1	CAP-0805,CAP-0805-AVX,CAP-0805-CALCHIP,CAP-0805-KEMET,DIODE-0805,LED-0805,RES-0805,RES-0805-VIKING
+D	inductor	murata		Surface Mount	0805 (2012 Metric)	0805 (2012 Metric)	0.079" L x 0.047" W (2.00mm x 1.20mm)		1	DFE201210U-1R0M=P2	1	CAP-0805,CAP-0805-AVX,CAP-0805-CALCHIP,CAP-0805-KEMET,DIODE-0805,LED-0805,RES-0805,RES-0805-VIKING
+D	inductor	murata		Surface Mount	0805 (2012 Metric)	0805 (2012 Metric)	0.079" L x 0.049" W (2.00mm x 1.25mm)		5	LQM21PN1R0MC0D	4	CAP-0805,CAP-0805-AVX,CAP-0805-CALCHIP,CAP-0805-KEMET,DIODE-0805,LED-0805,RES-0805,RES-0805-VIKING
+D	inductor	murata		Surface Mount	0805 (2012 Metric)	0806 (2016 Metric)	0.079" L x 0.063" W (2.00mm x 1.60mm)		2	1285AS-H-2R2M=P2	1	CAP-0805,CAP-0805-AVX,CAP-0805-CALCHIP,CAP-0805-KEMET,DIODE-0805,LED-0805,RES-0805,RES-0805-VIKING
+D	inductor	murata		Surface Mount	0805 (2015 Metric)	-	0.082" L x 0.060" W (2.09mm x 1.53mm)		2	LQW2BASR47J00L	1	CAP-0805,CAP-0805-AVX,CAP-0805-CALCHIP,CAP-0805-KEMET,DIODE-0805,LED-0805,RES-0805,RES-0805-VIKING
+D	inductor	murata		Surface Mount	0805 (2015 Metric)	0805	0.082" L x 0.060" W (2.09mm x 1.53mm)		1	LQW2BAS1R0J00L	1	CAP-0805,CAP-0805-AVX,CAP-0805-CALCHIP,CAP-0805-KEMET,DIODE-0805,LED-0805,RES-0805,RES-0805-VIKING
+D	inductor	murata		Surface Mount	0806 (2016 Metric)	0805 (2012 Metric)	0.079" L x 0.063" W (2.00mm x 1.60mm)		1	LQM2MPN4R7MG0L	1	POWERPAK-0806-VISHAY
+D	inductor	murata		Surface Mount	0806 (2016 Metric)	0806	0.079" L x 0.063" W (2.00mm x 1.60mm)		2	DFE201612E-R47M=P2	1	POWERPAK-0806-VISHAY
+D	inductor	murata		Surface Mount	0806 (2016 Metric)	0806 (2016 Metric)	0.079" L x 0.063" W (2.00mm x 1.60mm)		9	DFE201612E-1R0M=P2	6	POWERPAK-0806-VISHAY
+D	inductor	murata		Surface Mount	1008 (2520 Metric)	1008 (2520 Metric)	0.098" L x 0.079" W (2.50mm x 2.00mm)		6	LQM2HPN2R2MG0L	3	XTAL-1008-4-ABRACON
+D	inductor	murata		Surface Mount	1008 (2520 Metric)	1008 (2520 Metric)	0.103" L x 0.096" W (2.62mm x 2.45mm)		2	LQW2UASR15J00L	1	XTAL-1008-4-ABRACON
+D	inductor	murata		Surface Mount	1008 (2520 Metric)	2520	0.098" L x 0.079" W (2.50mm x 2.00mm)		13	DFE252012F-1R0M=P2	5	XTAL-1008-4-ABRACON
+D	inductor	murata		Surface Mount	1206 (3216 Metric)	1206	0.126" L x 0.063" W (3.20mm x 1.60mm)		1	LQM31PN3R3M00L	1	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
+D	inductor	murata		Surface Mount	1210 (3225 Metric)	-	0.126" L x 0.098" W (3.20mm x 2.50mm)		1	1277AS-H-1R0M=P2	1	RES-1210-YAGEO,XTAL-1210-2-ECS,XTAL-1210-4-ABRACON,XTAL-1210-4-ECS,XTAL-1210-4-ECS-B
+D	inductor	murata		Surface Mount	1210 (3225 Metric)	1210	0.126" L x 0.098" W (3.20mm x 2.50mm)		1	DFE322512F-100M=P2	1	RES-1210-YAGEO,XTAL-1210-2-ECS,XTAL-1210-4-ABRACON,XTAL-1210-4-ECS,XTAL-1210-4-ECS-B
+D	inductor	murata		Surface Mount	Nonstandard	-	0.126" L x 0.118" W (3.20mm x 3.00mm)		1	1227AS-H-1R0N=P2	1	

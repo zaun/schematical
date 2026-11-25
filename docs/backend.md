@@ -193,6 +193,47 @@ Notes:
   The voltage check does not carry a level through a channel; it refuses a
   channel pin above `vceo` / `vds` and a MOSFET gate above `vgs`
   (`transistor_pin_limit_mv` in `model_pins.h`).
+- **Inductors and fuses** (plan-47-I). An inductor, a fuse and a PTC
+  resettable fuse conduct like a wire: the two terminals are joined by an
+  engine **contact** (`sim_set_contact`) closed in `start`, and every further
+  pin of a terminal's name (a four-pad inductor has two pads per terminal)
+  gets a contact to every pin of the other terminal and to every other pin of
+  its own name, all closed the same way (the engine leaves out a contact whose
+  pin has no net, so a chain through an unwired first pad would drop the rest). An
+  inductor's contact never opens. A fuse's is its **switch position 1**:
+  `circuit_set_switch(c, part, 1, 0)` blows it, `(c, part, 1, 1)` restores
+  it (a fuse blown before `circuit_start` starts open; position 2 and up
+  answer `<name> has no position N`; an inductor answers `part N is not a
+  switch`). A closed contact passes strong values both ways, so a gate output
+  through an inductor lights an LED, and 5V and GND across an intact fuse is
+  `smoke:`. The facts (inductance, currents, ratings) change nothing in the
+  run. The voltage check unions the nets of every part's **fixed contacts**
+  (`part_fixed_contact` in `model_pins.h`, `models/model_pins.c`) in step 1,
+  blown or not, and refuses a fuse or PTC pin above its DC rating, else its
+  AC one (`VOLTAGE_FUSE_OVER`).
+- **Relays** (plan-47-J). A relay is coils plus poles of contacts, all engine
+  **contacts** (`sim_set_contact`): the armature moves 1 ms (`RELAY_DELAY_PS`)
+  after a coil pin last changed (`pin_changed` re-arms a timer of the coil's
+  channel; the timer reads the coil and moves every pole of the channel, the
+  open contacts first, in one event). A coil is driven forward at `a` = 1,
+  `b` = 0 and backward at `a` = 0, `b` = 1 (a polarized coil and a solid-state
+  input forward only); a latching relay keeps its position until driven the
+  other way. `circuit_part_lights` / `circuit_part_light_time` report one
+  light per channel (operated); a buzzer (`buzzer.c`) is one light, on while
+  its positive pin reads 1 and its negative pin 0. The voltage check sees the
+  relay at rest (`relay_fixed_contact`: the normally-closed contacts). What it
+  gives:
+
+  | Circuit | Result |
+  |---|---|
+  | coil between a gate output and GND, 5V on common | NO reads 1 and NC reads Z 1 ms after the output goes to 1; back 1 ms after it goes to 0 |
+  | coil between 5V and an NPN's collector (emitter on GND) | operated while the base reads 1 |
+  | a coil pin floating | at rest |
+  | latching, 1 coil | a 2 ms forward pulse operates it; it stays until a 2 ms backward pulse |
+  | latching, 2 coils | a pulse on the set coil operates it, one on the reset coil releases it |
+  | a 0.5 ms pulse on a coil | nothing moves |
+  | solid-state: anode 1, cathode 0 | the output contact closes after 1 ms; anode 0, cathode 1 does nothing |
+  | a relay feeding its own coil through its normally-closed contact | toggles every 1 ms; the run returns |
 - **Regulators** (plan-42-G). A regulator part is one to four elements,
   each a regulated supply: `regulator.c` schedules a timer 1 ns
   (`REGULATOR_DELAY_PS`) after any change of an element's input or enable
@@ -248,7 +289,8 @@ Notes:
   its part's `vcc` range, input above its part's input max, switch contact
   above its rating, capacitor pin above its rated voltage, transistor
   rating (a channel pin above `vceo` / `vds`, a MOSFET gate above `vgs`),
-  a regulator's or a power switch's input above its maximum, and two
+  a regulator's or a power switch's input above its maximum, a fuse or PTC
+  pin above its voltage rating, and two
   different non-zero supplies on one net (a regulator's regulated level
   counts as one; two power switches' levels never clash, the higher wins).
   `voltage_describe` gives the text, e.g. `voltage: 5 V on pin 14 (VCC) of
@@ -304,7 +346,8 @@ Notes:
     own side's range and input max (`PartSupplyDomain`, docs/parts-format.md
     "Two supply domains"). Every other part takes the single-supply path
     unchanged.
-- Lights (`circuit_part_lights`) are LEDs (one light), 7-segment
+- Lights (`circuit_part_lights`) are LEDs (one light), relays (one light per
+  channel, on while operated), buzzers (one light, on while sounding), 7-segment
   displays (`PartDisplay.leds` order) and character LCD backlights (one
   light per LED in `backlight` order, e.g. three for an RGB backlight,
   each on while its anode reads 1 and its cathode 0; a module without a
@@ -418,6 +461,14 @@ backend/
                            passive model, facts only);
                            socket.c (the IC socket kind: loader, passive
                            model, plan-51-A);
+                           inductor.c, fuse.c, terminals.c + terminals.h and
+                           model_pins.c (the inductor and fuse kinds: loaders,
+                           the closed-contact models, the blowable position, the
+                           shared contact sets and the fixed-contact
+                           dispatch for the voltage check, plan-47-I);
+                           relay.c, buzzer.c (the relay and buzzer kinds:
+                           loaders, the 1 ms armature model, the lights
+                           hooks, plan-47-J);
                            cpu.c + cpu.h (the cpu kind: loader, the model
                            that forwards to a core adapter, input sampling,
                            the instruction tracker), cpu6502.c (the
@@ -506,7 +557,10 @@ A new kind of part is added the same way every time:
    - `python3 scripts/part-editor-schema.py . <kind>` writes
      `Editor/<Kind>Draft.swift` from the sources and the shipped parts (it
      must print `missing []`; a key the sources accept and no shipped part
-     uses goes in `scripts/part-editor-schema-extra.py` `EXTRA`). A kind
+     uses goes in `scripts/part-editor-schema-extra.py` `EXTRA`; the script
+     makes a `model` or `type` key every device has the schema's
+     `variantKey`, which then needs a `variantBlurbs` entry per value, and a
+     kind in its `NO_VARIANT` set, `relay`, gets none). A kind
      with no shipped parts gets a hand-written schema instead (the
      `GenericDraft.swift` precedent);
    - a kind whose device object has a section the loader checks inline (no
@@ -722,6 +776,42 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   GND on a terminal overriding it, a terminal wired to an SN74HC04N input
   (the output is the complement, 20 ± 1 changes in 10 us), 100 MHz for 1 us
   without an error, and an unwired crystal.
+- `inductor_test` — the inductor kind (plan-47-I): the fixture parts of
+  `tests/support/inductor_fixture.h` (a 10 uH inductor with every fact, a 1 nH
+  one with none, a four-pad one) load and their `PartInductor` facts read
+  back; the loader's rejections (a missing or out-of-range `henries`, an
+  unknown shielding, an `amps` out of range, wrong terminals, a terminal that
+  is not `inout`, a non-terminal that is not `nc`, an unlisted key); and the
+  circuits: 5V or GND on pin 1 reads on pin 2, an SN74HC04N output through it
+  lights an LED, 5V and GND across it is `smoke:`, the four pads are one pair
+  of nodes, `circuit_set_switch` is refused, and 12 V through it onto a
+  74HC04's VCC is a `VOLTAGE_POWER_RANGE` problem on the 74HC04.
+- `fuse_test` — the fuse kind (plan-47-I): the fixture parts of
+  `tests/support/fuse_fixture.h` (a 1 A fast fuse and a 6 V PTC) load and
+  their `PartFuse` facts read back; the loader's rejections (an unknown type
+  or speed, a missing `amps`, no voltage key, a key of the other type, `trip`
+  not above `hold`, wrong terminals and pin roles, an unlisted key); and the
+  circuits, for both parts: conducting, an LED behind it blown and restored
+  during a run and blown before the start, position 2 refused, 5V and GND
+  across it (`smoke:` intact, quiet blown), the `VOLTAGE_FUSE_OVER` rating
+  (`voltage: 12 V on pin 1 (1) of TESTPTC; it is rated 6 V`) and the voltage
+  group of a fuse, blown or not.
+- `relay_test` — the relay kind (plan-47-J): the fixture parts of
+  `tests/support/relay_fixture.h` (SPDT, DPDT, polarized, latching with one
+  coil and with two, with a common coil pin, a normally-open-only pole, two pins
+  named COM, a solid-state relay and a two-channel one) load and their
+  `PartRelay` facts read back; the loader's rejections (device, pin and part);
+  and the timed cases on an engine rig: at rest, operate and release at 1 ms, a
+  0.5 ms pulse, reverse drive and a polarized coil, a floating coil pin, both
+  poles of a DPDT in one event, the latching arrangements, the solid-state
+  channels and their lights; and in circuits a tie between pins of one name, a
+  relay that interrupts its own coil, a transistor driving the coil, and the
+  voltage check at rest.
+- `buzzer_test` — the buzzer kind (plan-47-J): the fixture parts of
+  `tests/support/buzzer_fixture.h` (an indicator and a piezo transducer) load
+  and their `PartBuzzer` facts read back; the loader's rejections; the light and
+  its on-time for every combination of the two pins, between two gate outputs,
+  and under a scripted 1 kHz square wave (5 ms of on-time in 10 ms).
 - `capacitor_test` — the capacitor kind (plan-33-E): the fixture
   capacitors (`tests/support/capacitor_fixture.h`, one tantalum and one
   ceramic device) load and their `PartCapacitor` facts read back; a

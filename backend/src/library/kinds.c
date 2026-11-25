@@ -46,6 +46,10 @@ extern const PartKindOps LEDDRIVER_KIND;
 extern const PartKindOps LCDDRIVER_KIND;
 extern const PartKindOps POWERSWITCH_KIND;
 extern const PartKindOps SOCKET_KIND;
+extern const PartKindOps INDUCTOR_KIND;
+extern const PartKindOps FUSE_KIND;
+extern const PartKindOps RELAY_KIND;
+extern const PartKindOps BUZZER_KIND;
 
 /* One line per kind. Adding a kind: docs/backend.md, "Adding a kind". */
 const PartKindOps *const KINDS[] = {
@@ -92,6 +96,10 @@ const PartKindOps *const KINDS[] = {
     &POWERSWITCH_KIND,
     &PLD_KIND,
     &SOCKET_KIND,
+    &INDUCTOR_KIND,
+    &FUSE_KIND,
+    &RELAY_KIND,
+    &BUZZER_KIND,
     NULL
 };
 

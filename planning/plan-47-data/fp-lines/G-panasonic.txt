@@ -1,0 +1,95 @@
+# letter	type	company	series	mounting	package	supplier_package	size	detail	parts	example	datasheets	existing
+G	relay	panasonic	ACJ	Through Hole				SPDT (1 Form C) x 2; Non Latching; PC Pin	2	ACJ2112	1	
+G	relay	panasonic	ACNH	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	2	ACNH3212	1	
+G	relay	panasonic	ACT	Through Hole				SPDT (1 Form C) x 2; Non Latching; PC Pin	1	ACT512	1	
+G	relay	panasonic	ACT	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	1	ACT112	1	
+G	relay	panasonic	ACTP	Through Hole				SPDT (1 Form C) x 2; Non Latching; PC Pin	1	ACTP512	1	
+G	relay	panasonic	ADJ	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	3	ADJ56005	1	
+G	relay	panasonic	ADJ	Through Hole				SPDT (1 Form C); Latching, Dual Coil; PC Pin	1	ADJ14024	1	
+G	relay	panasonic	ADJH	Through Hole				SPST-NO (1 Form A); Latching, Dual Coil; PC Pin	3	ADJH23012	1	
+G	relay	panasonic	ADJH	Through Hole				SPST-NO (1 Form A); Latching, Single Coil; PC Pin	1	ADJH21012	1	
+G	relay	panasonic	ADY	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	3	ADY10005	1	
+G	relay	panasonic	AGN	Surface Mount				DPDT (2 Form C); Non Latching; Gull Wing	3	AGN200A03X	1	
+G	relay	panasonic	AGN	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	3	AGN20012	1	
+G	relay	panasonic	AGQ	Surface Mount				DPDT (2 Form C); Latching, Single Coil; Gull Wing	2	AGQ210S03Z	1	
+G	relay	panasonic	AGQ	Surface Mount				DPDT (2 Form C); Non Latching; Gull Wing	3	AGQ200A24Z	1	
+G	relay	panasonic	AGQ	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	2	AGQ2004H	1	
+G	relay	panasonic	AGQ TH	Surface Mount				DPDT (2 Form C); Latching, Single Coil; Gull Wing	3	AGQ21TS2HX	1	
+G	relay	panasonic	AGQ TH	Surface Mount				DPDT (2 Form C); Non Latching; Gull Wing	3	AGQ20TS12X	1	
+G	relay	panasonic	ALDP	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	4	ALDP105W	1	
+G	relay	panasonic	ALFG	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	3	ALFG1PF24	1	
+G	relay	panasonic	ALQ	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	1	ALQ105	1	
+G	relay	panasonic	ALQ	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	3	ALQ3F12	1	
+G	relay	panasonic	ALZ	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	2	ALZ12F12	1	
+G	relay	panasonic	ALZ	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	2	ALZ51B24	1	
+G	relay	panasonic	APF	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	4	APF30212	1	
+G	relay	panasonic	CB	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	1	CB1F-P-12V	1	
+G	relay	panasonic	CB	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	1	CB1A-P-12V	1	
+G	relay	panasonic	CN-M	Surface Mount				SPST-NO (1 Form A); Non Latching; Gull Wing	1	ACNM7112SAX	1	
+G	relay	panasonic	CN-M	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	1	ACNM1112	1	
+G	relay	panasonic	CP	Surface Mount				SPDT (1 Form C); Non Latching; Gull Wing	1	CP1SA-12V-Z	1	
+G	relay	panasonic	CP	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	1	CP1-12V	1	
+G	relay	panasonic	CQ	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	1	ACQ131	1	
+G	relay	panasonic	DE	Through Hole				DPST-NO (2 Form A); Latching, Dual Coil; PC Pin	1	DE2A-L2-12V	1	
+G	relay	panasonic	DE	Through Hole				DPST-NO (2 Form A); Non Latching; PC Pin	1	DE2A-12V	1	
+G	relay	panasonic	DE	Through Hole				DPST-NO/NC (1 Form A, 1 Form B); Non Latching; PC Pin	2	DE1A1B-12V	1	
+G	relay	panasonic	DK	Through Hole				DPST-NO/NC (1 Form A, 1 Form B); Latching, Dual Coil; PC Pin	2	DK1A1B-L2-3V	1	
+G	relay	panasonic	DK	Through Hole				DPST-NO/NC (1 Form A, 1 Form B); Non Latching; PC Pin	1	DK1A1B-3V	1	
+G	relay	panasonic	DK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	1	DK1A-3V-F	1	
+G	relay	panasonic	DS	Through Hole				SPDT (1 Form C); Latching, Dual Coil; PC Pin	2	DS1E-SL2-DC3V	1	
+G	relay	panasonic	DS	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	4	DS1E-S-DC5V	1	
+G	relay	panasonic	DSP	Through Hole				DPST-NO (2 Form A); Non Latching; PC Pin	2	DSP2A-DC24V	1	
+G	relay	panasonic	DSP	Through Hole				DPST-NO/NC (1 Form A, 1 Form B); Latching, Dual Coil; PC Pin	1	DSP1-L2-DC24V-F	1	
+G	relay	panasonic	DSP	Through Hole				DPST-NO/NC (1 Form A, 1 Form B); Non Latching; PC Pin	1	DSP1-DC12V-F	1	
+G	relay	panasonic	DW	Through Hole				SPST-NO (1 Form A); Latching, Dual Coil; PC Pin	3	ADW1224HTW	1	
+G	relay	panasonic	DW	Through Hole				SPST-NO (1 Form A); Latching, Single Coil; PC Pin	1	ADW1103HLW	1	
+G	relay	panasonic	HE	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	1	HE1AN-P-DC24V	1	
+G	relay	panasonic	HE-A	Through Hole				DPST-NO/NC (1 Form A, 1 Form B); Non Latching; PC Pin	1	AHEA4191	1	
+G	relay	panasonic	HE-A	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	2	AHEA3191	1	
+G	relay	panasonic	HE-N	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	2	HE1AN-W-DC12V-Y7	1	
+G	relay	panasonic	HE-PV	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	4	HE1AN-W-DC12V-Y6	1	
+G	relay	panasonic	HE-R	Through Hole				3PST-2NO/1NC (2 Form A, 1 Form B); Non Latching; PC Pin	1	AHER2282	1	
+G	relay	panasonic	HE-R	Through Hole				5PST-4NO/1NC (4 Form A, 1 Form B); Non Latching; PC Pin	1	AHER4192	1	
+G	relay	panasonic	HE-R	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	1	AHER1281	1	
+G	relay	panasonic	HE-S	Through Hole				3PST-2NO/1NC (2 Form A, 1 Form B); Non Latching; PC Pin	2	AHES4191	1	
+G	relay	panasonic	HE-S	Through Hole				DPST-NO (2 Form A); Non Latching; PC Pin	2	AHES3291	1	
+G	relay	panasonic	HE-V	Through Hole				DPST-NO (2 Form A); Non Latching; PC Pin	3	HEV2AN-P-DC24V	1	
+G	relay	panasonic	JW	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	3	JW1FSN-B-DC12V	1	
+G	relay	panasonic	JW	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	1	JW1AFSN-DC24V-F	1	
+G	relay	panasonic	NC	Through Hole				4PDT (4 Form C); Non Latching; PC Pin	1	NC4D-JP-DC5V	1	
+G	relay	panasonic	NC	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	3	NC2D-P-DC5V	1	
+G	relay	panasonic	PA-N	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	4	APAN3105	1	
+G	relay	panasonic	PhotoMOS™ AQS	Surface Mount	16-SOIC (0.173", 4.40mm Width)	16-SOP		SPST-NO (1 Form A) x 4; Gull Wing	2	AQS221N2SX	2	SOIC-16,SOIC-16-5.59-VISHAY,SOIC16-ONSEMI
+G	relay	panasonic	PhotoMOS™ AQV	Surface Mount	6-SMD (0.300", 7.62mm)	6-SMD		SPST-NO (1 Form A); Gull Wing	2	AQV210EHAX	1	
+G	relay	panasonic	PhotoMOS™ AQV	Surface Mount	6-SOP (0.173", 4.40mm)	6-SOP		SPST-NO (1 Form A); Gull Wing	2	AQV255G3SX	2	
+G	relay	panasonic	PhotoMOS™ AQV	Through Hole	6-DIP (0.300", 7.62mm)	6-DIP		SPST-NO (1 Form A); PC Pin	1	AQV214	1	
+G	relay	panasonic	PhotoMOS™ AQW	Surface Mount	8-SMD (0.300", 7.62mm)	8-SMD		SPST-NO (1 Form A) x 2; Gull Wing	6	AQW212EHAZ	3	
+G	relay	panasonic	PhotoMOS™ AQW	Surface Mount	8-SOP (0.173", 4.40mm Width)	8-SOP		SPST-NO (1 Form A) x 2; Gull Wing	2	AQW214SX	1	SOP-8-DUB,SOP-8-PS,SOP-8-PSA
+G	relay	panasonic	PhotoMOS™ AQW	Through Hole	8-DIP (0.300", 7.62mm)	8-DIP		SPST-NO (1 Form A) x 2; PC Pin	3	AQW214EH	2	CDIP-8-JG,PDIP-8
+G	relay	panasonic	PhotoMOS™ AQY	Surface Mount	4-SMD (0.300", 7.62mm)	4-SMD		SPST-NC (1 Form B); Gull Wing	1	AQY412EHAX	1	
+G	relay	panasonic	PhotoMOS™ AQY	Surface Mount	4-SMD (0.300", 7.62mm)	4-SMD		SPST-NO (1 Form A); Gull Wing	3	AQY210EHAX	2	
+G	relay	panasonic	PhotoMOS™ AQY	Surface Mount	4-SOP (0.173", 4.40mm)	4-SOP		SPST-NO (1 Form A); Gull Wing	4	AQY212SX	3	
+G	relay	panasonic	PhotoMOS™ AQY2	Surface Mount	4-SMD (0.071", 1.80mm)	4-TSON		SPST-NO (1 Form A); SMD (SMT) Tab	2	AQY2C1R2PX	1	
+G	relay	panasonic	PhotoMOS™ AQY2	Surface Mount	4-SMD (0.071", 1.80mm)	4-TSON (1.95x1.8)		SPST-NO (1 Form A); SMD (SMT) Tab	3	AQY2C1R3PX	1	
+G	relay	panasonic	PhotoMOS™ AQY2	Surface Mount	4-SMD (0.071", 1.80mm)	4-VSSOP		SPST-NO (1 Form A); SMD (SMT) Tab	2	AQY221N5TW	2	
+G	relay	panasonic	S	Through Hole				4PST-2NO/2NC (2 Form A, 2 Form B); Non Latching; PC Pin	2	S2EB-24V	1	
+G	relay	panasonic	S	Through Hole				4PST-NO (4 Form A); Non Latching; PC Pin	2	S4EB-12V	1	
+G	relay	panasonic	SP	Through Hole				4PDT (4 Form C); Non Latching; PC Pin	1	SP4-P-DC24V	1	
+G	relay	panasonic	SP	Through Hole				DPDT (2 Form C); Latching, Dual Coil; PC Pin	1	SP2-PL2-DC24V	1	
+G	relay	panasonic	SP	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	1	SP2-P-DC24V	1	
+G	relay	panasonic	TE	Through Hole				SPDT (1 Form C) x 2; Non Latching; PC Pin	1	ACTE3CH2A05V	1	
+G	relay	panasonic	TQ	Through Hole				DPDT (2 Form C); Latching, Dual Coil; PC Pin	2	TQ2-L2-5V	1	
+G	relay	panasonic	TQ	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	4	TQ2-4.5V	1	
+G	relay	panasonic	TQ-SMD	Surface Mount				DPDT (2 Form C); Latching, Dual Coil; Gull Wing	2	TQ2SA-L2-4.5V	1	
+G	relay	panasonic	TQ-SMD	Surface Mount				DPDT (2 Form C); Non Latching; Gull Wing	4	TQ2SS-5V-Z	1	
+G	relay	panasonic	TX	Surface Mount				DPDT (2 Form C); Non Latching; Gull Wing	3	TX2SA-12V-X	1	
+G	relay	panasonic	TX	Through Hole				DPDT (2 Form C); Latching, Dual Coil; PC Pin	1	TX2-LT-5V	1	
+G	relay	panasonic	TX	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	2	TX2-12V	1	
+G	relay	panasonic	TX-D	Surface Mount				DPDT (2 Form C); Non Latching; Gull Wing	2	TXD2SA-5V-Z	1	
+G	relay	panasonic	TX-D	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	4	TXD2-12V	1	
+G	relay	panasonic	TX-S	Surface Mount				DPDT (2 Form C); Latching, Dual Coil; Gull Wing	1	TXS2SA-L2-3V-X	1	
+G	relay	panasonic	TX-S	Surface Mount				DPDT (2 Form C); Non Latching; Gull Wing	3	TXS2SA-4.5V	1	
+G	relay	panasonic	TX-S	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	1	TXS2-4.5V	1	
+G	relay	panasonic	TX-TH	Surface Mount				DPDT (2 Form C); Latching, Dual Coil; Gull Wing	3	TX2SA-LT-12V-TH	1	
+G	relay	panasonic	TX-TH	Through Hole				DPDT (2 Form C); Latching, Dual Coil; PC Pin	1	TX2-LT-9V-TH	1	
+G	relay	panasonic	TX-TH	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	2	TX2-1.5V-TH	1	

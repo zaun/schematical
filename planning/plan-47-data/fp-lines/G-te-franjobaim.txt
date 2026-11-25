@@ -1,0 +1,101 @@
+# letter	type	company	series	mounting	package	supplier_package	size	detail	parts	example	datasheets	existing
+G	relay	franjobaim	F32F	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	11	F32F-SH-106DMH	1	
+G	relay	franjobaim	F33F	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	1	F33F-H-1A-12D	1	
+G	relay	franjobaim	F3F	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	3	F3F-SS-118D	1	
+G	relay	franjobaim	F3F	Through Hole				SPST-NC (1 Form B); Non Latching; PC Pin	1	F3F-SS-124DB	1	
+G	relay	franjobaim	F3F	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	5	F3F-SS-124DMU	1	
+G	relay	franjobaim	F3U	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	5	F3U-SS-112L	1	
+G	relay	franjobaim	F3U	Through Hole				SPST-NO (1 Form A); PC Pin	3	F3U-SS-105LM	1	
+G	relay	franjobaim	F90	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	4	F90-SH-112D2	1	
+G	relay	franjobaim	F90	Through Hole				SPST (1 Form A); Non Latching; PC Pin	6	F90-SH-112DM1(40A)	1	
+G	relay	franjobaim	F90	Through Hole				SPST-NC (1 Form B); Non Latching; PC Pin	9	F90-SH-105DB1(40A)	1	
+G	relay	franjobaim	FA	Through Hole				SPDT (1 Form C); Non Latching	1	FA-SH-112D	1	
+G	relay	franjobaim	FAE	Through Hole				SPDT (1 Form C); Non Latching	2	FAE-SH-112L6	1	
+G	relay	franjobaim	FAM	Through Hole				SPST-NO (1 Form A); Non Latching	2	FAM-SH-112LM	1	
+G	relay	franjobaim	FAW	Through Hole				SPST-NO (1 Form A); Non Latching	2	FAW-SH-124DM	1	
+G	relay	franjobaim	FR15F	Surface Mount				SPDT (1 Form C); Non Latching; PCB	20	FR15F-1Z-15VDC-40A	1	
+G	relay	franjobaim	FR16F	Surface Mount				SPDT (1 Form C); Non Latching; PCB	20	FR16F-1Z-70VDC-30A	1	
+G	relay	franjobaim	FR18F	Surface Mount				SPDT (1 Form C); Non Latching; PCB	20	FR18F-1Z-9VDC-40A	1	
+G	relay	franjobaim	FR32F	Surface Mount				SPST-NO (1 Form A); Non Latching; PCB	14	FR32F-1H-5VDC-10A	1	
+G	relay	franjobaim	FR3F	Surface Mount				SPDT (1 Form C); Non Latching; PCB	16	FR3F-1Z-5VDC-7A	1	
+G	relay	franjobaim	FSA	Through Hole				SPDT (1 Form C); PC Pin	22	FSA-SH-124L	1	
+G	relay	te	-	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	1	3-1415001-2	1	
+G	relay	te	3SBC, CII	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	1	3SBC1542A2	1	
+G	relay	te	3SBH, CII	Through Hole				4PDT (4 Form C); Non Latching; PC Pin	1	3SBH1142A2	1	
+G	relay	te	F4	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	1	2-1393302-3	1	
+G	relay	te	HFW, CII	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	2	HFW1201G01M	2	
+G	relay	te	HM, CII	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	1	HM-26B	1	
+G	relay	te	IM, AXICOM	Surface Mount				DPDT (2 Form C); Latching, Single Coil; Gull Wing	4	3-1462037-1	2	
+G	relay	te	IM, AXICOM	Surface Mount				DPDT (2 Form C); Non Latching; Gull Wing	5	IM02GR	2	
+G	relay	te	IM, AXICOM	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	1	3-1462039-8	1	
+G	relay	te	JWD	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	1	JWD-172-1	1	
+G	relay	te	JWD	Through Hole				SPST-NC (1 Form B); Non Latching; PC Pin	1	JWD-171-12	1	
+G	relay	te	JWD	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	1	JWD-171-5	1	
+G	relay	te	MAD, CII	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	1	JMAWD-26XP	1	
+G	relay	te	MGA, CII	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	2	JMGACDD-26MW	2	
+G	relay	te	MGAD, CII	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	1	JMGACDG-12LW	1	
+G	relay	te	MGS, CII	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	1	PRMGSC-18XW	1	
+G	relay	te	MGSD, CII	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	1	JMGSPD-26P	1	
+G	relay	te	MS, CII	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	1	JMSC-12XL	1	
+G	relay	te	MSD, CII	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	1	JMSWD-5XM	1	
+G	relay	te	MSR, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	2	V23061B1005A301	1	
+G	relay	te	MSR, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	1	V23061A1005A302	1	
+G	relay	te	Micro Relay K	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	1	1393280-5	1	
+G	relay	te	Mini K HV	Through Hole				SPST-NO (DM) (1 Form X); Non Latching; PC Pin	1	2-1904058-5	1	
+G	relay	te	OJ, OEG	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	2	OJ-SH-112LMH2	2	
+G	relay	te	OJE, OEG	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	5	OJE-SH-112LMH,000	1	
+G	relay	te	OJS, OEG	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	1	OJS-SH-112HMF, 00000	1	
+G	relay	te	ORWH, OEG	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	3	ORWH-SH-112D1F,000	1	
+G	relay	te	PB, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	2	PB114005	1	
+G	relay	te	PB, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	2	PB134012	1	
+G	relay	te	PBH, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	1	6-1415356-1	1	
+G	relay	te	PCH, OEG	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	2	1461352-2	1	
+G	relay	te	PCJ, OEG	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	1	1-1721547-4	1	
+G	relay	te	PCN, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	6	PCN-105D3MHZ,000	1	
+G	relay	te	PE, SCHRACK	Through Hole				SPDT (1 Form C); Latching, Single Coil; PC Pin	2	5-1415390-1	1	
+G	relay	te	PE, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	3	PE014005	1	
+G	relay	te	PE, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	1	PE034012	1	
+G	relay	te	RE, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	2	2-1416010-6	1	
+G	relay	te	RP II/2, SCHRACK	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	1	RP821012	1	
+G	relay	te	RP3SL, SCHRACK	Through Hole				SPST-NO (1 Form A); Latching, Single Coil; PC Pin	1	1393230-4	1	
+G	relay	te	RP3SL, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	1	RP3SL024	1	
+G	relay	te	RT, SCHRACK	Through Hole				SPDT (1 Form C); Latching, Dual Coil; PC Pin	1	8-1393239-9	1	
+G	relay	te	RT, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	1	4-1393239-4	1	
+G	relay	te	RT, SCHRACK	Through Hole				SPST-NO (1 Form A); Latching, Dual Coil; PC Pin	1	1415898-4	1	
+G	relay	te	RT1	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	2	RTD14024F	1	
+G	relay	te	RT1	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	1	RTB34012F	1	
+G	relay	te	RT1 Bistable, SCHRACK	Through Hole				SPDT (1 Form C); Latching, Dual Coil; PC Pin	4	RT314F24	1	
+G	relay	te	RT1 Bistable, SCHRACK	Through Hole				SPDT (1 Form C); Latching, Single Coil; PC Pin	2	RT314A24	1	
+G	relay	te	RT1, Inrush, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	1	RT31L024	1	
+G	relay	te	RT1, Inrush, SCHRACK	Through Hole				SPST-NO (1 Form A); Latching, Dual Coil; PC Pin	1	1-1415540-1	1	
+G	relay	te	RT1, Inrush, SCHRACK	Through Hole				SPST-NO (1 Form A); Latching, Single Coil; PC Pin	2	8-1415528-1	1	
+G	relay	te	RT1, Inrush, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	1	RTS3T024	1	
+G	relay	te	RT1, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	4	RT314024	1	
+G	relay	te	RT1, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	1	RTD34012	1	
+G	relay	te	RT2	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	5	RTE24005F	1	
+G	relay	te	RT2	Through Hole				DPST-NO (2 Form A); Non Latching; PC Pin	1	RTE44012F	1	
+G	relay	te	RT2, SCHRACK	Through Hole				DPDT (2 Form C); Latching, Dual Coil; PC Pin	1	RT424F24	1	
+G	relay	te	RT2, SCHRACK	Through Hole				DPDT (2 Form C); Latching, Single Coil; PC Pin	1	RT424A12	1	
+G	relay	te	RT2, SCHRACK	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	3	RT424024	1	
+G	relay	te	RY, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	3	RY211012	1	
+G	relay	te	RY, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	2	RY533012	1	
+G	relay	te	RZ, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	1	RZ03-1C4-D005	1	
+G	relay	te	RZ, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	3	RZ03-1A3-D005-R	1	
+G	relay	te	RZH, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	1	2-1415899-8	1	
+G	relay	te	SNR, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	5	V23092A1024A301	1	
+G	relay	te	SNRII, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	4	1558940-2	1	
+G	relay	te	SSRA	Through Hole	4-SIP	4-SIP		SPST-NO (1 Form A); PC Pin	1	SSRA-240D2R	1	
+G	relay	te	SSRC	Through Hole	4-SIP	4-SIP		SPST-NO (1 Form A); PC Pin	1	SSRC-240D5	1	
+G	relay	te	SSRF	Through Hole	4-SIP	4-SIP		SPST-NO (1 Form A); PC Pin	1	SSRF-240D25	1	
+G	relay	te	T77	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	4	T77V1D10-12	1	
+G	relay	te	T92	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	2	T92S11D12-24	1	
+G	relay	te	T92	Through Hole				DPST-NO (2 Form A); Non Latching; PC Pin	2	T92S7D12-24	1	
+G	relay	te	T9A	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	1	T9AS5D12-12	1	
+G	relay	te	T9A	Through Hole				SPDT (1 Form C); Non Latching; PC Pin, Quick Connect - 0.250" (6.3mm)	2	T9AS5L22-12	1	
+G	relay	te	T9A	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	2	T9AS1D12-24	1	
+G	relay	te	T9A	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin, Quick Connect - 0.250" (6.3mm)	1	T9AS1D22-24	1	
+G	relay	te	T9E	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	1	T9ES5D14-12	1	
+G	relay	te	T9S	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	2	2027395-3	1	
+G	relay	te	V23061, AXICOM	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	1	5-1416200-8	1	
+G	relay	te	V23076	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	1	1393277-4	1	
+G	relay	te	V23079, AXICOM	Surface Mount				DPDT (2 Form C); Non Latching; Gull Wing	1	V23079D1005B301	1	

@@ -18,6 +18,7 @@ final class MarkdownDatasheetTests: XCTestCase {
             XCTAssertNotNil(Bundle.main.url(forResource: base, withExtension: "md"), path)
         }
         XCTAssertNotNil(Bundle.main.url(forResource: "datasheet", withExtension: "html"))
+        XCTAssertNotNil(Bundle.main.url(forResource: "datasheet-edit", withExtension: "js"))
         XCTAssertNotNil(Bundle.main.url(forResource: "load-cmos-50pf", withExtension: "svg"))
     }
 
@@ -41,6 +42,29 @@ final class MarkdownDatasheetTests: XCTestCase {
             try built.json.write(to: url, atomically: true, encoding: .utf8)
             print("payload written to \(url.path)")
         }
+    }
+
+    /// The Verify Datasheet window shows an edited copy in place of the file and keeps the file as
+    /// `original`, so the editor can tell what changed.
+    func testEditedMarkdownIsShownWithTheFileAsOriginal() throws {
+        func object(_ json: String) throws -> [String: Any] {
+            try XCTUnwrap(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
+        }
+        let plain = try object(DatasheetPayload.build(path: "gate-and/sn74hc08.md", partName: "SN74HC08N",
+                                                      catalog: PartCatalogStore.shared).json)
+        XCTAssertNil(plain["original"])
+        XCTAssertEqual(plain["editing"] as? Bool, false)
+        XCTAssertEqual(plain["path"] as? String, "gate-and/sn74hc08.md")
+        let file = try XCTUnwrap(plain["markdown"] as? String)
+
+        let edited = file + "\nAn added paragraph.\n"
+        let shown = try object(DatasheetPayload.build(path: "gate-and/sn74hc08.md", partName: "SN74HC08N",
+                                                      catalog: PartCatalogStore.shared, citations: true,
+                                                      markdown: edited, editing: true).json)
+        XCTAssertEqual(shown["markdown"] as? String, edited)
+        XCTAssertEqual(shown["original"] as? String, file)
+        XCTAssertEqual(shown["editing"] as? Bool, true)
+        XCTAssertEqual(shown["showCitations"] as? Bool, true)
     }
 
     func testMissingFileFails() {

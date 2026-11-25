@@ -1,0 +1,101 @@
+letter	type	company	series	mounting	package	supplier_package	size	detail	footprint	label	note	series_split
+G	relay	franjobaim	F32F	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	RELAY-F32F-4-FRANJOBAIM	THT	drawing Power-Relays-datasheets..pdf p.11	
+G	relay	franjobaim	F33F	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	RELAY-F33F-4-FRANJOBAIM	THT	drawing Power-Relays-datasheets..pdf p.14	
+G	relay	franjobaim	F3F	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	RELAY-F3F-5-FRANJOBAIM	THT	drawing Power-Relays-datasheets..pdf p.2	
+G	relay	franjobaim	F3F	Through Hole				SPST-NC (1 Form B); Non Latching; PC Pin	RELAY-F3F-4-NC-FRANJOBAIM	THT	drawing Power-Relays-datasheets..pdf p.2	
+G	relay	franjobaim	F3F	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	RELAY-F3F-4-FRANJOBAIM	THT	drawing Power-Relays-datasheets..pdf p.2	
+G	relay	franjobaim	F3U	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	RELAY-F3U-5-FRANJOBAIM	THT	drawing Power-Relays-datasheets..pdf p.6	
+G	relay	franjobaim	F3U	Through Hole				SPST-NO (1 Form A); PC Pin	RELAY-F3U-4-FRANJOBAIM	THT	drawing Power-Relays-datasheets..pdf p.6	
+G	relay	franjobaim	F90	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	RELAY-F90-5-FRANJOBAIM	THT	drawing Power-Relays-datasheets..pdf p.27	
+G	relay	franjobaim	F90	Through Hole				SPST (1 Form A); Non Latching; PC Pin	RELAY-F90-5-NO-FRANJOBAIM	THT	drawing Power-Relays-datasheets..pdf p.27	
+G	relay	franjobaim	F90	Through Hole				SPST-NC (1 Form B); Non Latching; PC Pin	RELAY-F90-5-NC-FRANJOBAIM	THT	drawing Power-Relays-datasheets..pdf p.27	
+G	relay	franjobaim	FA	Through Hole				SPDT (1 Form C); Non Latching	RELAY-FA-5-FRANJOBAIM	THT	drawing Automotive-Relays-FA-FAL-FAF.pdf p.2	
+G	relay	franjobaim	FAE	Through Hole				SPDT (1 Form C); Non Latching	RELAY-FAE-5-FRANJOBAIM	THT	drawing FAE.pdf p.3	
+G	relay	franjobaim	FAM	Through Hole				SPST-NO (1 Form A); Non Latching	RELAY-FAM-4-FRANJOBAIM	THT	drawing FAM.pdf p.3	
+G	relay	franjobaim	FAW	Through Hole				SPST-NO (1 Form A); Non Latching	RELAY-FAW-4-FRANJOBAIM	THT	drawing FAW.pdf p.2	
+G	relay	franjobaim	FR15F	Surface Mount				SPDT (1 Form C); Non Latching; PCB	RELAY-FR15F-6-FRANJOBAIM	THT	drawing FRJBM-catalogue-power-relays.pdf p.40	
+G	relay	franjobaim	FR16F	Surface Mount				SPDT (1 Form C); Non Latching; PCB	RELAY-FR16F-5-FRANJOBAIM	THT	drawing FRJBM-catalogue-power-relays.pdf p.41	
+G	relay	franjobaim	FR18F	Surface Mount				SPDT (1 Form C); Non Latching; PCB	RELAY-FR18F-5-FRANJOBAIM	THT	drawing FRJBM-catalogue-power-relays.pdf p.42	
+G	relay	franjobaim	FR32F	Surface Mount				SPST-NO (1 Form A); Non Latching; PCB	RELAY-F32F-4-FRANJOBAIM	THT	shared with RELAY-F32F-4-FRANJOBAIM	
+G	relay	franjobaim	FR3F	Surface Mount				SPDT (1 Form C); Non Latching; PCB	RELAY-FR3F-5-FRANJOBAIM	THT	drawing FRJBM-catalogue-power-relays.pdf p.39	
+G	relay	franjobaim	FSA	Through Hole				SPDT (1 Form C); PC Pin	RELAY-FSA-6-FRANJOBAIM	THT	drawing FSA.pdf p.2	
+G	relay	te	-	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	RELAY-F7-4-TE	THT	drawing V23134X0000A002.pdf p.3	
+G	relay	te	3SBC, CII	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	RELAY-3SBC-8-TE	THT	drawing 3SBC1542A2.pdf	
+G	relay	te	3SBH, CII	Through Hole				4PDT (4 Form C); Non Latching; PC Pin	RELAY-3SBH-14-TE	THT	drawing 3SBH1142A2.pdf	
+G	relay	te	F4	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	RELAY-F4-5-TE	THT	drawing V23134X0000A001.pdf p.3	
+G	relay	te	HFW, CII	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	RELAY-HFW-8-TE	THT	drawing HFW1201G01M.pdf	
+G	relay	te	HM, CII	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	RELAY-TO5-8-TE	THT	drawing HM-26B.pdf	
+G	relay	te	IM, AXICOM	Surface Mount				DPDT (2 Form C); Latching, Single Coil; Gull Wing	RELAY-IM-8-SMD-TE	SMD	drawing 108-98001.pdf p.5	
+G	relay	te	IM, AXICOM	Surface Mount				DPDT (2 Form C); Non Latching; Gull Wing	RELAY-IM-8-SMD-TE	SMD	shared with RELAY-IM-8-SMD-TE	
+G	relay	te	IM, AXICOM	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	RELAY-IM-8-THT-TE	THT	drawing 108-98001.pdf p.5	
+G	relay	te	JWD	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	RELAY-JWD-8-TE	THT	drawing 1308242_JWD-JWS.pdf p.2	
+G	relay	te	JWD	Through Hole				SPST-NC (1 Form B); Non Latching; PC Pin	RELAY-JWD-8-TE	THT	shared with RELAY-JWD-8-TE	
+G	relay	te	JWD	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	RELAY-JWD-8-TE	THT	shared with RELAY-JWD-8-TE	
+G	relay	te	MAD, CII	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	RELAY-TO5-8-TE	THT	shared with RELAY-TO5-8-TE	
+G	relay	te	MGA, CII	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	RELAY-MGA-8-TE	THT	drawing JMGACDD-26MW.pdf	
+G	relay	te	MGAD, CII	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	RELAY-MGA-9-TE	THT	drawing JMGACDG-12LW.pdf	
+G	relay	te	MGS, CII	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	RELAY-MGA-8-TE	THT	shared with RELAY-MGA-8-TE	
+G	relay	te	MGSD, CII	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	RELAY-MGA-8-TE	THT	shared with RELAY-MGA-8-TE	
+G	relay	te	MS, CII	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	RELAY-TO5-8-TE	THT	shared with RELAY-TO5-8-TE	
+G	relay	te	MSD, CII	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	RELAY-TO5-8-TE	THT	shared with RELAY-TO5-8-TE	
+G	relay	te	MSR, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	RELAY-MSR-5-TE	THT	drawing MSR.pdf p.4	
+G	relay	te	MSR, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	RELAY-MSR-4-TE	THT	drawing MSR.pdf p.4	
+G	relay	te	Micro Relay K	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	RELAY-V23086-4-TE	THT	drawing V23086X0000A001.pdf p.3	
+G	relay	te	Mini K HV	Through Hole				SPST-NO (DM) (1 Form X); Non Latching; PC Pin	RELAY-V23700-7-TE	THT	drawing V23700-X0000-A001.pdf p.2	
+G	relay	te	OJ, OEG	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	RELAY-OJ-4-TE	THT	drawing OJ_OJE_series_relay_data_sheet_E.pdf p.4	
+G	relay	te	OJE, OEG	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	RELAY-OJ-4-TE	THT	shared with RELAY-OJ-4-TE	
+G	relay	te	OJS, OEG	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	RELAY-OJ-4-TE	THT	shared with RELAY-OJ-4-TE	
+G	relay	te	ORWH, OEG	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	RELAY-ORWH-5-TE	THT	drawing ORWH_series_relay_data_sheet_E.pdf p.3	
+G	relay	te	PB, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	RELAY-PB-5-TE	THT	drawing PB.pdf p.4	
+G	relay	te	PB, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	RELAY-PB-4-TE	THT	drawing PB.pdf p.4	
+G	relay	te	PBH, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	RELAY-PB-5-TE	THT	shared with RELAY-PB-5-TE	
+G	relay	te	PCH, OEG	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	RELAY-PCH-4-TE	THT	drawing PCH_series_relay_data_sheet_E.pdf p.2	
+G	relay	te	PCJ, OEG	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	RELAY-PCJ-4-TE	THT	drawing 1721547.pdf sheet 1	
+G	relay	te	PCN, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	RELAY-PCN-4-TE	THT	drawing PCNH_Relay.pdf p.2	
+G	relay	te	PE, SCHRACK	Through Hole				SPDT (1 Form C); Latching, Single Coil; PC Pin	RELAY-PE-5-TE	THT	drawing PE.pdf p.3	
+G	relay	te	PE, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	RELAY-PE-5-TE	THT	shared with RELAY-PE-5-TE	
+G	relay	te	PE, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	RELAY-PE-4-TE	THT	drawing PE.pdf p.3	
+G	relay	te	RE, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	RELAY-RE-4-TE	THT	drawing RE.pdf p.3	
+G	relay	te	RP II/2, SCHRACK	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	RELAY-RPII2-8-TE	THT	drawing RPII-2.pdf p.2	
+G	relay	te	RP3SL, SCHRACK	Through Hole				SPST-NO (1 Form A); Latching, Single Coil; PC Pin	RELAY-RP3SL-4-TE	THT	drawing RP3SL.pdf p.2	
+G	relay	te	RP3SL, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	RELAY-RP3SL-4-TE	THT	shared with RELAY-RP3SL-4-TE	
+G	relay	te	RT, SCHRACK	Through Hole				SPDT (1 Form C); Latching, Dual Coil; PC Pin	RELAY-RT1-9-TE	THT	drawing RT1_bistable.pdf p.5	
+G	relay	te	RT, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	RELAY-RT1-5-TE	THT	drawing RT1_sensitive.pdf p.4	
+G	relay	te	RT, SCHRACK	Through Hole				SPST-NO (1 Form A); Latching, Dual Coil; PC Pin	RELAY-RT1-7-TE	THT	drawing RT1_Inrush_Power.pdf p.5	
+G	relay	te	RT1	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	RELAY-RT1-8-TE	THT	drawing RT1.pdf p.5	
+G	relay	te	RT1	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	RELAY-RT1-4-TE	THT	drawing RT1pb.pdf p.2	
+G	relay	te	RT1 Bistable, SCHRACK	Through Hole				SPDT (1 Form C); Latching, Dual Coil; PC Pin	RELAY-RT1-9-TE	THT	shared with RELAY-RT1-9-TE	
+G	relay	te	RT1 Bistable, SCHRACK	Through Hole				SPDT (1 Form C); Latching, Single Coil; PC Pin	RELAY-RT1-8-TE	THT	shared with RELAY-RT1-8-TE	
+G	relay	te	RT1, Inrush, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	RELAY-RT1-8-TE	THT	shared with RELAY-RT1-8-TE	
+G	relay	te	RT1, Inrush, SCHRACK	Through Hole				SPST-NO (1 Form A); Latching, Dual Coil; PC Pin	RELAY-RT1-7-TE	THT	shared with RELAY-RT1-7-TE	
+G	relay	te	RT1, Inrush, SCHRACK	Through Hole				SPST-NO (1 Form A); Latching, Single Coil; PC Pin	RELAY-RT1-6-TE	THT	drawing RT1.pdf p.5	
+G	relay	te	RT1, Inrush, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	RELAY-RT1-6-TE	THT	shared with RELAY-RT1-6-TE	
+G	relay	te	RT1, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	RELAY-RT1-8-TE	THT	shared with RELAY-RT1-8-TE	
+G	relay	te	RT1, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	RELAY-RT1-6-TE	THT	shared with RELAY-RT1-6-TE	
+G	relay	te	RT2	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	RELAY-RT2-8-TE	THT	drawing RT2.pdf p.4	
+G	relay	te	RT2	Through Hole				DPST-NO (2 Form A); Non Latching; PC Pin	RELAY-RT2-6-TE	THT	drawing RT2.pdf p.4	
+G	relay	te	RT2, SCHRACK	Through Hole				DPDT (2 Form C); Latching, Dual Coil; PC Pin	RELAY-RT2-9-TE	THT	drawing RT2_bistable.pdf p.4	
+G	relay	te	RT2, SCHRACK	Through Hole				DPDT (2 Form C); Latching, Single Coil; PC Pin	RELAY-RT2-8-TE	THT	shared with RELAY-RT2-8-TE	
+G	relay	te	RT2, SCHRACK	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	RELAY-RT2-8-TE	THT	shared with RELAY-RT2-8-TE	
+G	relay	te	RY, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	RELAY-RY-5-TE	THT	drawing RYII.pdf p.4	
+G	relay	te	RY, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	RELAY-RY-4-TE	THT	drawing RYII.pdf p.4	
+G	relay	te	RZ, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	RELAY-RT1-8-TE	THT	shared with RELAY-RT1-8-TE	
+G	relay	te	RZ, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	RELAY-RT1-6-TE	THT	shared with RELAY-RT1-6-TE	
+G	relay	te	RZH, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	RELAY-RZH-6-TE	THT	drawing RZH.pdf p.4	
+G	relay	te	SNR, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	RELAY-SNR-5-TE	THT	drawing SNR.pdf	
+G	relay	te	SNRII, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	RELAY-SNR-5-TE	THT	shared with RELAY-SNR-5-TE	
+G	relay	te	SSRA	Through Hole	4-SIP	4-SIP		SPST-NO (1 Form A); PC Pin	RELAY-SSRA-4-TE	SIP	drawing SSRA.pdf p.2	
+G	relay	te	SSRC	Through Hole	4-SIP	4-SIP		SPST-NO (1 Form A); PC Pin	RELAY-SSRC-4-TE	SIP	drawing 8-1773454-2_SSRC_Data_Sheet.pdf p.2	
+G	relay	te	SSRF	Through Hole	4-SIP	4-SIP		SPST-NO (1 Form A); PC Pin	RELAY-SSRF-4-TE	SIP	drawing 8-1773454-3_SSRF_Data_Sheet.pdf p.2	
+G	relay	te	T77	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	RELAY-OJ-4-TE	THT	shared with RELAY-OJ-4-TE	
+G	relay	te	T92	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	RELAY-T92-8-TE	THT	drawing 1308242_T92.pdf p.5	
+G	relay	te	T92	Through Hole				DPST-NO (2 Form A); Non Latching; PC Pin	RELAY-T92-6-TE	THT	drawing 1308242_T92.pdf p.5	
+G	relay	te	T9A	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	RELAY-T9A-5-TE	THT	drawing T9A.pdf p.3	
+G	relay	te	T9A	Through Hole				SPDT (1 Form C); Non Latching; PC Pin, Quick Connect - 0.250" (6.3mm)	RELAY-T9A-5-TE	THT	shared with RELAY-T9A-5-TE	
+G	relay	te	T9A	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	RELAY-T9A-4-TE	THT	drawing T9A.pdf p.3	
+G	relay	te	T9A	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin, Quick Connect - 0.250" (6.3mm)	RELAY-T9A-4-TE	THT	shared with RELAY-T9A-4-TE	
+G	relay	te	T9E	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	RELAY-T9E-5-TE	THT	drawing T9E_series_relay_datasheet.pdf p.2	
+G	relay	te	T9S	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	RELAY-T9S-4-TE	THT	drawing T9S_solar_relay_datasheet.pdf p.2	
+G	relay	te	V23061, AXICOM	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	RELAY-MSR-4-TE	THT	shared with RELAY-MSR-4-TE	
+G	relay	te	V23076	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	RELAY-V23076-7-TE	THT	drawing V23076-X0000-A001.pdf p.2	
+G	relay	te	V23079, AXICOM	Surface Mount				DPDT (2 Form C); Non Latching; Gull Wing	RELAY-V23079-8-SMD-TE	SMD	drawing P2_Relay.pdf p.5	

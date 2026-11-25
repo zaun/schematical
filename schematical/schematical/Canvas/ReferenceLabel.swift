@@ -28,8 +28,9 @@ enum ReferenceLabel {
         case .crystal:
             // Above the plates (their top at y = 13), under the GND stub room.
             return CGPoint(x: x, y: 6 + (chip.hasVerticalPins ? ChipLayout.stubLength : 0))
-        case .resistor:
-            // Above the value (`ResistorSymbolView`: 10 pt, centred on y = 6).
+        case .resistor, .inductor, .fuse, .buzzer:
+            // Above the value (`ResistorSymbolView`: 10 pt, centred on y = 6;
+            // the inductor's and the fuse's value sits there too).
             return CGPoint(x: x, y: -1)
         case .transistor:
             // Above the symbol: over the collector or drain lead (y = 10)
@@ -45,7 +46,7 @@ enum ReferenceLabel {
             // Power symbols have none: their label says what they are.
             return nil
         case .block, .oscillator, .barrelJack, .header, .testPoint, .dipSwitch, .tactileSwitch, .sevenSegment,
-             .nixie, .dekatron, .characterLCD:
+             .nixie, .dekatron, .characterLCD, .relay:
             // Just outside the frame's top edge.
             return CGPoint(x: x, y: -3)
         }

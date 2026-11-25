@@ -52,6 +52,10 @@ extension PartKinds {
             "zener": "A Zener diode: holds a set voltage in reverse, like the 1N4733 or BZX84.",
             "bridge": "A bridge rectifier: four diodes in one package that turn AC into DC.",
         ],
+        "fuse": [
+            "fuse": "A fuse: a one-shot link that blows when too much current flows, like a 5 x 20 mm glass fuse.",
+            "ptc": "A PTC resettable fuse: a polymer link that opens on overcurrent and recovers when it cools, like the Bourns MF series.",
+        ],
         "latch": [
             "transparent": "Follows its data input while its latch-enable is active and holds it otherwise, like the 74HC373 and 74HC573.",
             "addressable": "Eight single-bit latches, one picked by an address, like the 74HC259.",
