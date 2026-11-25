@@ -6,3 +6,7 @@ C&K	V	V(?:802|701|702|801)(?:12|02|13|14)(?:SS|MA|MS|S2)(?:05|02|08)QE?	littelfu
 C&K	TS	(?:TS0[13][ACW]|TS02[CW])[BQGPSR]E	littelfuse-c-k-slide-ts-series-datasheet.pdf p.1 (Ordering Number: function TS01/TS02/TS03, termination A/C/W [A on TS01 and TS03 only], contact B/Q/G/P/S/R, seal E)
 C&K	AYZ	AYZ(?:0102|0103|0202|0203)(?:AG|AU)RLC	littelfuse-c-k-slide-ayz-series-datasheet.pdf p.1 (Ordering Number: AYZ-function 0102/0103/0202/0203-contact AG/AU-RL-C)
 C&K	SS, COMAX	SS-12D07-VG [23467] NS(?: GA)?(?: PA)?	littelfuse-c-k-slide-ss-series-datasheet.pdf p.1 (part number list: SS-12D07-VG NS, knob 2/3/4/6/7 mm); the row's own datasheet is the one-page COMAX drawing SS-12D07-VG_GA_PA.pdf
+NKK	AS	AS(?:1[1-4]|2[2-4])[ABC][PBHV]	Aslides.pdf p.2 (TYPICAL SWITCH ORDERING EXAMPLE: AS, poles 1/2, circuit 1-4, actuator A/B/C, PC terminal P/B/H/V)
+NKK	M	MSN(?:1[234]A|2[234][AB])(?:F[WG]01|N[WG]03|S[WG](?:13|30|40))	MSN_SlidesNonillum_DP.pdf p.2 (ordering example: MSN, poles 1/2, circuit 2/3/4, actuator A/B [B double pole], mounting F with 01, N with 03, S with 13/30/40, contact W/G, terminal)
+NKK	SS	SS(?:12S|22S)[BD][PH][24]|SS14M[BD][PH]2	SSnonilluminated.pdf p.2 (ordering example: SS, poles & circuits 12S/14M/22S, spacing B/D, actuation P/H, contact 2/4; 14M silver only)
+NKK	SS3	SS3(?:12S|14M)AH4(?:-?R)?	SS3surfaceMount.pdf p.2 (ordering example: SS3, 12S/14M, spacing A, actuation H, contact 4, packaging R tape-reel or none)
