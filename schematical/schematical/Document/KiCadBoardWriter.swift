@@ -487,13 +487,18 @@ struct KiCadBoardWriter {
 
     // MARK: Board
 
+    /// The board's edge on `Edge.Cuts`: the outline, then each cutout's loop (plan-65-G), as `gr_line`s.
     private func outline() -> [String] {
-        let points = document.board.outline
-        guard points.count > 1 else { return [] }
-        return points.indices.map { i in
-            let a = points[i], b = points[(i + 1) % points.count]
-            return "\t(gr_line\n\t\t(start \(xy(a)))\n\t\t(end \(xy(b)))\n\t\t(stroke (width 0.1) (type default))\n\t\t(layer \"Edge.Cuts\")\n\t\t(uuid \(KiCad.q(id("edge/\(i)"))))\n\t)"
+        func lines(_ points: [CGPoint], key: String) -> [String] {
+            guard points.count > 1 else { return [] }
+            return points.indices.map { i in
+                let a = points[i], b = points[(i + 1) % points.count]
+                return "\t(gr_line\n\t\t(start \(xy(a)))\n\t\t(end \(xy(b)))\n\t\t(stroke (width 0.1) (type default))\n\t\t(layer \"Edge.Cuts\")\n\t\t(uuid \(KiCad.q(id("\(key)/\(i)"))))\n\t)"
+            }
         }
+        var out = lines(document.board.outline, key: "edge")
+        for (k, cutout) in document.cutouts.enumerated() { out += lines(cutout.shape.loop, key: "cutout/\(k)") }
+        return out
     }
 
     private func texts() -> [String] {

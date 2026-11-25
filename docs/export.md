@@ -69,6 +69,9 @@ schematic, with anything but letters, digits, `-` and `_` turned into `_`
 | `.G1`…`.G4` | inner copper, in stack order | as above for the layer; a Plane is the board pulled back by the min copper-to-edge, less its clearances, as the PCB page draws it; a pour on a Wire layer as on Top |
 | `.GBL` | Bottom copper | as Top, for Bottom |
 
+  A Plane clears every cutout: after the board region, each cutout is a clear-polarity region and a clear stroke twice the min copper-to-edge wide round
+  its loop, so the Plane keeps the copper-to-edge band from a cutout as it does from the outline (plan-65). Nothing else in the set changes for a cutout.
+
   A **copper pour** (plan-52) is its fill as the PCB page computes it (`PourFiller`: the pour's rectangle, less the other nets' copper and the keep-outs
   grown by the clearance, the thermal rings less their spokes): one dark region (`G36`) per kept piece of the fill, then each hole of the piece as a
   clear-polarity region, drawn before the layer's traces, pads and vias so these sit on it. A pour on no net is not drawn. Keep-outs are not drawn: they
@@ -77,7 +80,7 @@ schematic, with anything but letters, digits, `-` and `_` turned into `_`
 | `.GTS` / `.GBS` | solder mask (`FilePolarity,Negative`: drawn = opening) | the side's surface-mount pads (an opposite-side pad is on the side opposite its part's) and fingers, every plated through-hole pad, every bare hole, each grown by the Mask expansion design rule. Vias are tented unless opened (Via ▸ Tented on Top / Bottom): an open side gets an opening the via's metal grown by the Mask expansion |
 | `.GTP` / `.GBP` | paste | the side's surface-mount part pads (not fingers) |
 | `.GTO` / `.GBO` | silkscreen | silkscreen texts, references (1 mm, centred on the body, or where the part's reference was moved to), pin-1 dots (0.4 mm), body outlines and cathode bands (0.15 mm pen), each only when its layer is Silkscreen |
-| `.GKO` | outline (`Profile,NP`) | the board outline, 0.1 mm pen |
+| `.GKO` | outline (`Profile,NP`) | the board outline, 0.1 mm pen, then each [cutout](file-format.md#cutouts) as a closed loop of its own (a fab routes the profile; a cutout is not in the drill files) |
 | `-PTH.drl` | plated drill (Excellon) | through-hole pads, vias, plated holes, header pads |
 | `-NPTH.drl` | non-plated drill (Excellon), only when the board has any | bare holes, a standard's mounting holes, non-plated footprint holes |
 | `-CPL.csv` | pick and place (CSV), only when the board has surface-mount parts | see [Pick and place](#pick-and-place) |
@@ -200,7 +203,7 @@ the same paper there.
 | `<Layer>` copper, one per layer | the layer's artwork as in its Gerber file: planes with their clearances, traces, pads, vias, black on white, seen from the layer's own side (a Bottom page is mirrored against the PCB page). A dot of at most 0.4 mm (`drillDot`) at each hole's centre, in the paper colour, for the bit | yes |
 | `<Side>` parts (footprint check) | pads (light gray, outlined), each drill hole at its true size outlined, and that side's silkscreen: lay a real part on it | yes |
 | `<Side>` silkscreen | the side's silkscreen alone | no |
-| Board outline and drills | the outline (0.2 mm) and every hole at its true size with a centre cross | yes |
+| Board outline and drills | the outline and every cutout's loop (0.2 mm) and every hole at its true size with a centre cross | yes |
 
 - **1:1**: a board page is in mm (72 / 25.4 points per mm), not scaled to fit. Its footer says "1:1, print at 100 %
   (Actual Size)" and draws a 50 mm ruler with ticks every 10 mm (`rulerLength`) to check the printer's scale.
@@ -265,7 +268,7 @@ those of the other side), traces, vias (each with its two tenting flags, `(tenti
 zones (press B in KiCad to fill), each copper pour on a net as an unfilled zone over its rectangle (`connect_pads` with no keyword is thermal relief,
 `connect_pads yes` solid; `thermal_gap`, `thermal_bridge_width` and `min_thickness` are the pour's gap, spoke width and minimum width; KiCad fills it with Fill All Zones (B),
 so its fill differs from the app's in detail), each keep-out as a rule area on its layers that blocks only copper pour (`(keepout (tracks allowed) (vias allowed) (pads allowed)
-(copperpour not_allowed) (footprints allowed))`; a keep-out on no layer is not written), the outline on `Edge.Cuts`, board texts, the card's
+(copperpour not_allowed) (footprints allowed))`; a keep-out on no layer is not written), the outline on `Edge.Cuts` and each cutout's loop beside it (`gr_line`s, uuids `cutout/<n>/<i>`; the Plane zone's polygon stays the outline, and KiCad's fill keeps out of a cutout with its clearance: `planning/plan-65-data/probe_zone_edge_cuts.py`), board texts, the card's
 fingers or header pads, and holes. A 1-layer board has the two copper layers KiCad
 needs. Pads carry the net of their pin, named as KiCad names it: a rail's name, a net
 label as `/NAME` (a `/` in it as `{slash}`), else `Net-(U1-A0)` after the
@@ -342,7 +345,7 @@ symbol beside the drawing with a named stub or a net flag on each pin.
 
 **Board** (`EasyEDAProBoardWriter`): `LAYER`s (a 1-layer board gets Top and Bottom, EasyEDA's
 minimum), the design rules' track width, a `NET` for every net a pad carries, the outline
-(`POLY` on the outline layer), a `POUR` for each inner Plane on a net and for each copper pour on a net (over its rectangle; keep-outs are not exported, the format's keep-out record can't be checked here), a `LINE` per trace
+(`POLY` on the outline layer, then one more `POLY` on the same layer for each cutout), a `POUR` for each inner Plane on a net and for each copper pour on a net (over its rectangle; keep-outs are not exported, the format's keep-out record can't be checked here), a `LINE` per trace
 segment, `VIA`s, a `PAD` for each card finger and hole, `STRING` for board texts, and each
 part as a `COMPONENT` with `Designator`, `Device` and `Footprint` attributes and a
 `PAD_NET` per pad on a net. A net of one pin is left without a net. A footprint file is the footprint as seen
@@ -352,6 +355,11 @@ from its own side: its pads are on layer 1, an opposite-side pad (plan-54-E) on 
 silkscreen marks (a footprint's body is on the assembly layer and its pin-1 dot on Top
 silkscreen whatever the part's marks say), cathode bands, a chamfered pad's chamfer, and
 3D models.
+
+**Cutouts** (plan-65) were checked with KiCad 10.0.8: the app's own `cutouts` board (a circle, a slot and a triangle on a 4-layer board with two Planes; `ExportSamples.cutouts()`,
+printed with `TEST_RUNNER_KICAD_OUT=1` by `CutoutExportTests.testPrintCutoutSamplesWhenAsked`) has the same 3 copper-edge and 2 silkscreen-edge findings from `kicad-cli pcb drc` as the same
+board without cutouts (the sample's own), `kicad-cli pcb export dxf -l Edge.Cuts` gives 73 `LINE`s (4 for the outline, 69 for the three loops: the file's `gr_line` count) and
+KiCad's EasyEDA Pro importer reads 73 `Edge.Cuts` segments from the `.epro`.
 
 **What was checked, and what was not.** `EasyEDAProExportTests` checks the files' shape and
 that every pad, at every turn and side, is where the app puts it. The rest was checked by

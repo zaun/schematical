@@ -101,17 +101,19 @@ Rejected: writing a cutout as an NPTH drill slot (the fab's profile router makes
 Acceptance: the profile and the Plane carry the cutouts, nothing else in the Gerber set moves, and the five existing export classes pass unedited.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/CutoutExportTests -only-testing:schematicalTests/GerberExportTests -only-testing:schematicalTests/GerberJobTests -only-testing:schematicalTests/PourExportTests -only-testing:schematicalTests/PrintExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 5 min).
   Observed: CutoutExportTests 3 + GerberExportTests 24 + GerberJobTests 7 + PourExportTests + PrintExportTests, 0 failures, TEST SUCCEEDED.
-Commit: —
+Commit: dd84b0e5
 
 ### Phase 2 — KiCad and EasyEDA Pro, checked with KiCad
 
-- [ ] `Document/KiCadBoardWriter.swift`: `outline()` over `edge.loops` with the uuid seeds of § 3. `Document/EasyEDAProBoardWriter.swift`: the cutout `POLY`s.
-- [ ] `CutoutExportTests` (KiCad/EasyEDA half): the KiCad text has `gr_line` count = outline segments + the cutouts' segments, all on `Edge.Cuts`; uuids unique; with no cutouts the file equals the file of the same document built before the change (the existing `KiCadExportTests` and `EasyEDAProExportTests` pass unedited); the EasyEDA `PCB/<id>.epcb` has `1 + 3` `POLY` lines on layer 11, the outline's id first.
-- [ ] Real-tool check, run once and recorded in this file's Commit line: `TEST_RUNNER_KICAD_OUT=1 XB -only-testing:schematicalTests/KiCadExportTests/testPrintSamplesWhenAsked` with `ExportSamples.cutouts()` added to the printed set; decode the `cutouts.kicad_pcb` and run `kicad-cli pcb drc --format json` → `violations 0` for the edge group, and `kicad-cli pcb export dxf -l Edge.Cuts` → a DXF whose `LINE` count equals the segment count (4 loops closed); load the EasyEDA project's `.epro` with KiCad's importer (`pcbnew` `PCB_IO_MGR.EASYEDAPRO`, as in `docs/export.md`) → Edge.Cuts holds 4 closed loops.
-- [ ] `docs/export.md`: Gerber (the profile holds the cutouts; a Plane clears them and keeps the copper-to-edge band), PDF and print, KiCad (`Edge.Cuts`, and that the zone's fill keeps out of them, checked with `planning/plan-65-data/probe_zone_edge_cuts.py`), EasyEDA Pro (the extra outline `POLY`s, checked by KiCad's importer), and the keep-outs line left alone.
+- [x] `Document/KiCadBoardWriter.swift`: `outline()` over `edge.loops` with the uuid seeds of § 3. `Document/EasyEDAProBoardWriter.swift`: the cutout `POLY`s.
+- [x] `CutoutExportTests` (KiCad/EasyEDA half): the KiCad text has `gr_line` count = outline segments + the cutouts' segments, all on `Edge.Cuts`; uuids unique; with no cutouts the file equals the file of the same document built before the change (the existing `KiCadExportTests` and `EasyEDAProExportTests` pass unedited); the EasyEDA `PCB/<id>.epcb` has `1 + 3` `POLY` lines on layer 11, the outline's id first.
+- [x] Real-tool check, run once and recorded in this file's Commit line: `TEST_RUNNER_KICAD_OUT=1 XB -only-testing:schematicalTests/KiCadExportTests/testPrintSamplesWhenAsked` with `ExportSamples.cutouts()` added to the printed set; decode the `cutouts.kicad_pcb` and run `kicad-cli pcb drc --format json` → `violations 0` for the edge group, and `kicad-cli pcb export dxf -l Edge.Cuts` → a DXF whose `LINE` count equals the segment count (4 loops closed); load the EasyEDA project's `.epro` with KiCad's importer (`pcbnew` `PCB_IO_MGR.EASYEDAPRO`, as in `docs/export.md`) → Edge.Cuts holds 4 closed loops.
+- [x] `docs/export.md`: Gerber (the profile holds the cutouts; a Plane clears them and keeps the copper-to-edge band), PDF and print, KiCad (`Edge.Cuts`, and that the zone's fill keeps out of them, checked with `planning/plan-65-data/probe_zone_edge_cuts.py`), EasyEDA Pro (the extra outline `POLY`s, checked by KiCad's importer), and the keep-outs line left alone.
 
 Acceptance: KiCad accepts the board with no edge violation and sees every loop; KiCad's EasyEDA importer sees every loop; no-cutout output is unchanged.
   Check: `XB -only-testing:schematicalTests/CutoutExportTests -only-testing:schematicalTests/KiCadExportTests -only-testing:schematicalTests/EasyEDAProExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 5 min), and the real-tool commands above print the numbers they name (est. 3 min).
+  Observed: the seven export classes (CutoutExportTests 7, KiCadExportTests, EasyEDAProExportTests, GerberExportTests, GerberJobTests, PourExportTests, PrintExportTests), 0 failures, TEST SUCCEEDED.
+  Real tools (KICAD_OUT, `plan-65-G` run 2026-11-25): `kicad-cli pcb drc` on the cutouts board: the same copper_edge_clearance ×3 and silk_edge_clearance ×2 as the board without cutouts (the sample's own), nothing new; `kicad-cli pcb export dxf -l Edge.Cuts`: 73 LINE (the board without cutouts: 4), and the .kicad_pcb has 73 `gr_line`; KiCad's EasyEDA Pro importer (`PCB_IO_MGR.EASYEDAPRO`) on the .epro: 73 Edge.Cuts segments.
 Commit: —
 
 ## Validation Plan
@@ -120,7 +122,7 @@ Commit: —
 - Coverage check: the five existing classes build the same files through the changed functions without cutouts, so a changed byte fails there.
 - Runtime proof: the real-tool commands of Phase 2; J opens the exported KiCad board in the real KiCad window only if the owner wants (not a step).
 - Doc sync: `docs/export.md` (four sections) in Phase 2.
-- Final gate (run ONCE, after Phase 2): both phases' test classes (est. 8 min).
+- Final gate (run ONCE, after Phase 2): both phases' test classes (est. 8 min). Observed: the Phase 2 run (it contains both phases' classes), 0 failures.
 
 ## Decisions
 
@@ -129,7 +131,10 @@ Commit: —
 
 ## Corrections
 
-<Filled in during execution.>
+- 2026-11-25: `BoardArtwork` got a `cutouts: [[CGPoint]]` field beside `outline` (the plan said `outline` becomes `loops`); `outline` and `bounds` are as before, so nothing else reading the artwork changed.
+- 2026-11-25: the plan's "each uuid seed `cutout/<k>/<i>`" uses the cutout's index in drawing order; the EasyEDA cutout `POLY` ids come from `ids.id()` straight after the outline's, which shifts the ids of the items after them only when there are cutouts.
+- 2026-11-25: Gerber inner layers are `.G1`/`.G2` (not `.G2`/`.G3`) on a 4-layer board; the test matches `\\.G[0-9]$`.
+- 2026-11-25: the `kicad-cli` DRC of the sample board reports its own findings (shorts, dangling vias, edge clearance at the sample's pads); the check compared the board with and without cutouts, because 'violations 0' is not what the sample gives.
 
 ## Summary
 

@@ -221,6 +221,14 @@ nonisolated final class EasyEDAProBoardWriter {
             for p in outline.dropFirst() + [outline[0]] { points += xy(p) }
             out += EProJSON.line("POLY", .string(ids.id()), 0, "", 11, .num(mil(0.1)), .array(points), 0)
         }
+        // Each cutout is a closed outline of its own on the same layer (plan-65-G).
+        for cutout in document.cutouts {
+            let loop = cutout.shape.loop
+            guard loop.count > 2 else { continue }
+            var points: [EProJSON] = xy(loop[0]) + ["L"]
+            for p in loop.dropFirst() + [loop[0]] { points += xy(p) }
+            out += EProJSON.line("POLY", .string(ids.id()), 0, "", 11, .num(mil(0.1)), .array(points), 0)
+        }
 
         // Planes on a net, as a copper pour over the board.
         for layer in board.copperLayers {
