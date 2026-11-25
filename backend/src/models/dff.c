@@ -470,6 +470,22 @@ static int dff_pin_open_drain(const Part *part, size_t pin) {
     return 0;
 }
 
+/* Every Q/QN pin of a device with an output enable (plan-63-B). */
+static int dff_pin_tristate(const Part *part, size_t pin) {
+    const FfLayout *layout = part_internal(part)->bound;
+    size_t i;
+
+    if (layout->oe == FF_NO_PIN) {
+        return 0;
+    }
+    for (i = 0; i < layout->unit_count; i++) {
+        if (pin == layout->units[i].q || pin == layout->units[i].qn) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 static const SimComponentType DFF_MODEL = {
     "dff", dff_pin_count, dff_create, dff_destroy, dff_start, dff_pin_changed, NULL,
     NULL, NULL, NULL, NULL
@@ -477,5 +493,5 @@ static const SimComponentType DFF_MODEL = {
 
 const PartKindOps DFF_KIND = {
     PART_DFF, "dff", &DFF_MODEL, DEVICE_KEYS, PART_KEYS,
-    dff_load_device, dff_bind_pinout, dff_load_part, dff_pin_open_drain
+    dff_load_device, dff_bind_pinout, dff_load_part, dff_pin_open_drain, NULL, dff_pin_tristate
 };

@@ -528,6 +528,44 @@ Notes:
   one (pulses shorter than the delay vanish), except that a drive of the
   value already pending, no earlier than it, keeps the pending edge.
 
+## ERC pin types
+
+The electrical rules check (plan-63) reasons about KiCad's twelve pin types;
+the part files give a pin one of seven roles. `include/erc.h`'s
+`erc_pin_type(part, pin, &type)` answers, for every pin, the KiCad type it
+stands for, and `erc_pin_drives_power(part, pin)` whether the pin is a supply
+symbol's rail pin (a driver on its own net, as a Power Flag would be). The
+types, in KiCad's pin-map order: `input`, `output`, `bidirectional`,
+`tri_state`, `passive`, `free`, `unspecified`, `power_in`, `power_out`,
+`open_collector`, `open_emitter`, `no_connect`; `erc_pin_type_name` gives
+KiCad's word. `free`, `unspecified` and `open_emitter` are never returned: no
+part file says so.
+
+| Pin | Type |
+|---|---|
+| role `absent` | none (the function returns 0) |
+| role `nc` | `no_connect` |
+| a supply's pull-up / pull-down pin | `passive` |
+| a supply's `power` / `ground` pin | `power_in`, and it drives its own net |
+| `input`, `output`, `inout` of a connector, header, socket, resistor, capacitor, inductor, diode, led, fuse, crystal, relay, buzzer, switch, transistor, 7seg, nixie, dekatron or lcd part | `passive` (KiCad's own symbols for these are all passive) |
+| any other `power` / `ground` | `power_in` |
+| `output` that is a regulator's or a power switch's output name | `power_out` |
+| `output`, open drain (`part_pin_open_drain`) | `open_collector` |
+| `output`, 3-state (`part_pin_tristate`) | `tri_state` |
+| any other `output` | `output` |
+| `inout`, open drain | `open_collector` |
+| any other `inout` | `bidirectional` |
+| `input` | `input` |
+
+`part_pin_tristate` (`models/model_pins.h`) is a kind hook, `PartKindOps.pin_tristate`,
+beside `pin_open_drain`: 1 for an `output`-role pin the part releases to Z
+through an output enable. The `buffer` kind answers for the `tristate` model's
+`y` pins of a unit with an `oe` (a transceiver's and a registered model's ports
+are `inout`, so `bidirectional`); the `latch` kind for the `transparent`
+model's `q` / `qn` of a unit with an `oe` and the `sr` model's `q` when the
+device has an `outputEnable`; the `dff` kind for every `q` / `qn` of a device
+with an `outputEnable`.
+
 ## Layout
 
 ```
@@ -787,6 +825,12 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   a regeneration that should only add flags: it fails unless every changed
   `parts.txt` line differs only by `:low` / `:low=…` and `traces.txt` and
   `footprints.txt` did not move.
+- `erc_pins_test`, `erc_pins_check` — the ERC pin types (§ ERC pin types):
+  named parts, and every part's pin types, one letter per pin, against
+  `tests/golden/erc_pins.txt` (`<name>|<kind>|<letters>`, letters `i o b t p f
+  u P O c e n` in `ErcPinType` order, `-` for an absent pin). After an intended
+  change: `/tmp/logic-build/erc_pins_check --print >
+  backend/tests/golden/erc_pins.txt`, then review the diff.
 - `footprint_check` — every footprint in `footprints.json`, expanded to
   pads, against `tests/golden/footprints.txt` (one line per footprint:
   `id|pins=N|body=WxH|pads=<designator>:x,y,wxh,shape[,d<drill>][,s<slotLength>][,npth][,opp][,r<radius>][,c<chamfer>:<corners>];…[|edge]`,

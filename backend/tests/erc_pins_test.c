@@ -127,6 +127,21 @@ static void check_plain(void) {
     role_is("ATMEGA328P-PU", PIN_GROUND, ERC_POWER_IN);
 }
 
+/* Buffer (3-state), latch and dff parts with an output enable: every output
+   is tri_state, every input an input (plan-63-B phase 2). */
+static void check_tristate(void) {
+    static const char *const NAMES[] = {
+        "SN74HC244N", "SN74HC240N", "SN74HC541N", "SN74HC125N", "SN74HC373N", "SN74HC574N", "SN74LS374N",
+    };
+    size_t i;
+
+    for (i = 0; i < sizeof NAMES / sizeof NAMES[0]; i++) {
+        role_is(NAMES[i], PIN_OUTPUT, ERC_TRI_STATE);
+        role_is(NAMES[i], PIN_INPUT, ERC_INPUT);
+        role_is(NAMES[i], PIN_POWER, ERC_POWER_IN);
+    }
+}
+
 static void check_passive_kinds(void) {
     every_pin_is("GENERIC-LED", ERC_PASSIVE);
     every_pin_is("GENERIC-RESISTOR", ERC_PASSIVE);
@@ -167,6 +182,7 @@ int main(void) {
     }
     check_names();
     check_plain();
+    check_tristate();
     check_passive_kinds();
     check_supplies();
     check_regulator();
