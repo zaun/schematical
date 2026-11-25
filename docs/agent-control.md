@@ -72,7 +72,7 @@ the text form is unchanged. `get_part` prints it after a pin's role and
 group: ` low`, or ` low=CS` (alternatives `;` separated).
 
 **Schematic** — `place_part`, `connect` (pin, net label, bus pin or point on
-a wire; `via` waypoints), `disconnect`, `move_part`, `move`, `flip_part`, `rotate_part` (LEDs, diodes, resistors, capacitors), `set_part`
+a wire; `via` waypoints), `disconnect`, `move_part`, `move`, `flip_part`, `rotate_part` (parts drawn as their own symbol: LEDs, diodes, resistors, capacitors, crystals, inductors, fuses, buzzers, transistors, test points, barrel jacks), `set_part`
 (rename, color, ohms, farads, footprint, gender; `socket_mode` `ic`, `ic+socket` or `socket-only` and `socket`,
 the socket's part name, for a DIP or PLCC chip a socket fits: a mode alone picks the generic socket, and `get_design` shows
 `socket=<name> (<mode>)` on the part), `add_net_label`,

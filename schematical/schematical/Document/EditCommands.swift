@@ -19,7 +19,7 @@ struct EditActions {
     var canFlip: Bool
     /// Rotate, counterclockwise when passed true; `canRotate` with a
     /// rotatable selection (on the PCB a footprint or text; on the Schematic
-    /// an LED, diode, resistor or capacitor).
+    /// a part drawn as its own symbol, `PartSymbol.canRotate`).
     var rotate: (_ counterclockwise: Bool) -> Bool
     var canRotate: Bool
     /// Asks first; see `SchematicDocument.resetReferences`.
@@ -96,7 +96,7 @@ private struct EditMenuItems: View {
                 .keyboardShortcut("a", modifiers: .command)
             Divider()
             // Flip is the Schematic's; Rotate is the PCB's, and the Schematic's
-            // for LEDs, diodes, resistors and capacitors.
+            // for the parts drawn as their own symbol.
             Button("Flip") { _ = target?.flip() }
                 .keyboardShortcut("f", modifiers: .command)
                 .disabled(target?.canFlip != true)

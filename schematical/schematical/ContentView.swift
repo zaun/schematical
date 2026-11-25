@@ -137,8 +137,8 @@ struct ContentView: View {
 
     /// What Rotate would turn. On the PCB: exactly one footprint or board
     /// text selected (plan-15: never a group), not when it is locked; a trace
-    /// doesn't turn. On the Schematic: the sole selected LED, diode, resistor
-    /// or capacitor, while the simulation isn't running.
+    /// doesn't turn. On the Schematic: the sole selected part drawn as its
+    /// own symbol (`PartSymbol.canRotate`), while the simulation isn't running.
     private var canRotate: Bool {
         if page == .schematic { return rotatableChipID != nil }
         if let id = document.selectedTextID { return !document.isLocked(.text(id)) }
@@ -198,7 +198,7 @@ struct ContentView: View {
 
     /// The editing keys, in this window only and never while a text field
     /// is being typed in: ⌘R presses Rotate (when it is enabled: on the PCB,
-    /// or on the Schematic for an LED, diode, resistor or capacitor)
+    /// or on the Schematic for a part drawn as its own symbol)
     /// and ⇧⌘R turns the other way; A steps the Trace tool's angle while
     /// Trace is the PCB tool; ⌘F flips the selected part or net label on the
     /// Schematic; ⌘⌫ deletes the selection (on the PCB only its texts, traces, vias and holes);

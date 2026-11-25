@@ -80,12 +80,25 @@ struct CrystalSymbolView: View {
         painter.stroke(body, with: outline, lineWidth: lineWidth)
 
         let text = PaintedText(label(for: chip), size: 10, weight: .medium, ink: .secondary)
-        if hasGround(chip.part) {
-            // The ground lead runs down the middle: the frequency goes beside it.
-            painter.draw(text, at: point(centre + 5, height - 8), anchor: .leading)
-        } else {
-            let value = chip.symbolLabel(y: height - 8)
-            painter.draw(text, at: value.point, anchor: value.anchor)
+        let value = valueLabel(for: chip)
+        painter.draw(text, at: value.point, anchor: value.anchor)
+    }
+
+    /// Where the frequency goes, in the view's frame, and which point of it
+    /// sits there: below the symbol, as a capacitor's value. A `GND` pin's
+    /// lead runs through that spot, so with one the frequency starts just
+    /// right of the lead, or, with the part on its side (the lead then runs
+    /// left or right), stands on the other side of the symbol from it.
+    static func valueLabel(for chip: PlacedChip) -> (point: CGPoint, anchor: UnitPoint) {
+        let size = chip.unturnedSize
+        guard hasGround(chip.part) else { return chip.symbolLabel(y: size.height - 8) }
+        guard chip.rotation == 90 || chip.rotation == 270 else {
+            let spot = chip.symbolPoint(size.width / 2, size.height - 8)
+            return (CGPoint(x: spot.x + 5, y: spot.y), .leading)
         }
+        let centre = chip.symbolPoint(size.width / 2, ChipLayout.diodeCentreY)
+        let gap: CGFloat = 12
+        return chip.turnedSide(.bottom) == .left ? (CGPoint(x: centre.x + gap, y: centre.y), .leading)
+                                                 : (CGPoint(x: centre.x - gap, y: centre.y), .trailing)
     }
 }

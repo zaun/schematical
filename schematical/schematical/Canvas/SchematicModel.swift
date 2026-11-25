@@ -226,13 +226,18 @@ nonisolated enum PartSymbol: Hashable {
         !hasVerticalPins
     }
 
-    /// Rotate turns LEDs, diodes, resistors and capacitors in quarter turns
-    /// (`PlacedChip.rotation`), which puts their pins on the top and bottom.
-    /// Nothing else on the Schematic rotates.
+    /// Rotate turns every part drawn as its own symbol in quarter turns
+    /// (`PlacedChip.rotation`): LEDs, diodes, resistors, capacitors,
+    /// crystals, inductors, fuses, buzzers, transistors, test points and
+    /// barrel jacks. Parts drawn as a box (logic chips, switches, displays,
+    /// relays, headers) and the supplies don't rotate.
     var canRotate: Bool {
         switch self {
-        case .diode, .plainDiode, .capacitor, .resistor: true
-        default: false
+        case .diode, .plainDiode, .capacitor, .resistor, .crystal, .inductor, .fuse, .buzzer, .transistor,
+             .testPoint, .barrelJack:
+            true
+        default:
+            false
         }
     }
 }
@@ -692,30 +697,41 @@ nonisolated struct ChipLayout: Hashable {
         self.slots = slots
     }
 
-    /// The same body with every pin moved to the opposite side. Pin rows stay
-    /// where they are.
+    /// The same body mirrored left to right: every left or right pin moves to
+    /// the opposite side, its row unchanged, and a top or bottom pin (a
+    /// resonator's `GND`) stays on its edge, mirrored along it.
     func flipped() -> ChipLayout {
         ChipLayout(
             size: size,
             slots: slots.map { slot in
-                PinSlot(
+                let sideways = slot.side == .left || slot.side == .right
+                return PinSlot(
                     pin: slot.pin,
-                    side: slot.side.opposite,
+                    side: sideways ? slot.side.opposite : slot.side,
                     centerY: slot.centerY,
-                    centerX: slot.centerX
+                    centerX: sideways ? slot.centerX : size.width - slot.centerX
                 )
             }
         )
     }
 
+    /// The box a body turns in: its size, each side rounded up to the grid
+    /// (two `pitch` halves), so a pin on the grid stays on it when the part
+    /// turns. Only the switched barrel jack (95 tall) is not its own box.
+    static func turnBox(_ size: CGSize) -> CGSize {
+        let grid = pitch / 2
+        return CGSize(width: (size.width / grid).rounded(.up) * grid, height: (size.height / grid).rounded(.up) * grid)
+    }
+
     /// The same body turned clockwise by `degrees` (0, 90, 180 or 270): the
-    /// size swaps for a quarter turn and every pin moves to the side and
-    /// position its point on the body edge turns to.
+    /// size (its `turnBox`) swaps for a quarter turn and every pin moves to
+    /// the side and position its point on the body edge turns to.
     func rotated(by degrees: Int) -> ChipLayout {
         let turns = ((degrees / 90) % 4 + 4) % 4
         guard turns != 0 else { return self }
-        let width = size.width, height = size.height
-        let newSize = turns == 2 ? size : CGSize(width: height, height: width)
+        let box = Self.turnBox(size)
+        let width = box.width, height = box.height
+        let newSize = turns == 2 ? box : CGSize(width: height, height: width)
         return ChipLayout(
             size: newSize,
             slots: slots.map { slot in
@@ -723,7 +739,7 @@ nonisolated struct ChipLayout: Hashable {
                 let edge: CGPoint
                 switch slot.side {
                 case .left: edge = CGPoint(x: 0, y: slot.centerY)
-                case .right: edge = CGPoint(x: width, y: slot.centerY)
+                case .right: edge = CGPoint(x: size.width, y: slot.centerY)
                 case .top: edge = CGPoint(x: slot.centerX, y: 0)
                 case .bottom: edge = CGPoint(x: slot.centerX, y: height)
                 }
@@ -1020,8 +1036,8 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     /// Flipped parts have their pins on the opposite sides. For an LED the
     /// whole symbol is also mirrored; see `DiodeSymbolView`.
     var isFlipped = false
-    /// How far an LED, diode, resistor or capacitor is turned clockwise on
-    /// the Schematic: 0, 90, 180 or 270 (`PartSymbol.canRotate`; 0 for every
+    /// How far a part drawn as its own symbol is turned clockwise on the
+    /// Schematic: 0, 90, 180 or 270 (`PartSymbol.canRotate`; 0 for every
     /// other part). The flip is applied first, then the turn.
     var rotation = 0
     /// For a DIP switch, whether each position is ON, position 1 first. Empty
@@ -1266,7 +1282,7 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     /// the body, so their view starts one stub higher.
     var viewOrigin: CGPoint {
         CGPoint(
-            x: origin.x - ChipLayout.labelMargin,
+            x: origin.x - sideMargin,
             y: origin.y - (hasVerticalPins ? ChipLayout.stubLength : 0)
         )
     }
@@ -2710,8 +2726,8 @@ final class SchematicDocument {
         }
     }
 
-    /// Turns an LED, diode, resistor or capacitor a quarter turn, clockwise
-    /// or not, and re-fits the wires attached to it.
+    /// Turns a part that can rotate (`PartSymbol.canRotate`) a quarter turn,
+    /// clockwise or not, and re-fits the wires attached to it.
     func rotateChip(_ id: UUID, counterclockwise: Bool = false) {
         recordEdit(.schematic, "Rotate") {
             guard let index = chips.firstIndex(where: { $0.id == id }),
