@@ -258,7 +258,7 @@ Commit: bb26d125
 
 Acceptance: every cutout change undoes and redoes exactly; the whole app target builds with the new `BoardItem` case handled everywhere; existing undo, selection and hole tests still pass.
   Check: `XB -only-testing:schematicalTests/CutoutModelTests -only-testing:schematicalTests/PourModelTests -only-testing:schematicalTests/HoleTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 3 min; `PourModelTests` is the nearest existing test of the same `BoardItem`/undo paths, so a missed case there fails). Observed: `CutoutModelTests` 14 tests, `PourModelTests` 18, `HoleTests` 6, 0 failures, `** TEST SUCCEEDED **`.
-Commit: —
+Commit: 531165ed
 
 ## Validation Plan
 
