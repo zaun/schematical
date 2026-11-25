@@ -20,6 +20,33 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         OptionOnlyMenuItems.install()
     }
 
+    /// A plain launch (the app opened with no file) that restored no
+    /// document shows an Untitled one (plan-61-C): AppKit leaves a launch
+    /// with nothing to show windowless under SwiftUI's app life cycle. The
+    /// open-application Apple event marks a plain launch; a launch with a
+    /// file brings open-documents and no such event. Restored and opened
+    /// documents exist by the next main-queue turn, hence the wait.
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        let event = NSAppleEventManager.shared().currentAppleEvent?.eventID
+        DispatchQueue.main.async {
+            let count = NSDocumentController.shared.documents.count
+            if Self.opensUntitled(launchEvent: event, documentCount: count, isTestHost: Self.isTestHost) {
+                NSDocumentController.shared.newDocument(nil)
+            }
+        }
+    }
+
+    /// The rule of `applicationDidFinishLaunching`. Not in the app that
+    /// hosts the unit tests: they make their own documents.
+    nonisolated static func opensUntitled(launchEvent: AEEventID?, documentCount: Int, isTestHost: Bool) -> Bool {
+        launchEvent == AEEventID(kAEOpenApplication) && documentCount == 0 && !isTestHost
+    }
+
+    /// True in the app XCTest launched to host the unit tests.
+    nonisolated static var isTestHost: Bool {
+        ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+    }
+
     /// False in the unit tests, which open and close windows in the app
     /// that hosts them.
     static var quitsAfterLastWindowCloses = true

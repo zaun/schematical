@@ -156,15 +156,15 @@ Format menu; a new Settings item; Finder offers Schematical for `.schpart`.
 
 Acceptance: the test passes.
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/SchematicNSDocumentTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 5 min). Result: `Executed 11 tests, with 1 test skipped and 0 failures`, `** TEST SUCCEEDED **` (the skip is 61-B's key-window test, which needs the app in front).
-Commit: —
+Commit: 90eb1245
 
 ### Phase 2 — Launch and the blank Untitled
 
-- [ ] `schematicalApp.swift` `AppDelegate`: the plain-launch rule of § 3. `SchematicNSDocument.makeWindowControllers()`: close blank Untitled documents when this one has a file.
-- [ ] Test: two documents, the first blank and untitled, the second read from a file and given its window → `NSDocumentController.shared.documents` holds only the second; the same with one part placed in the first → both stay.
+- [x] `schematicalApp.swift` `AppDelegate`: the plain-launch rule of § 3. `SchematicNSDocument.makeWindowControllers()`: close blank Untitled documents when this one has a file. Done. The rule is `AppDelegate.opensUntitled(launchEvent:documentCount:isTestHost:)`; it never opens one in the app that hosts the unit tests (Corrections 1). "Blank" is `SchematicNSDocument.isBlankUntitled`: no file, not edited, no autosave file, and nothing on either page (not only no parts).
+- [x] Test: two documents, the first blank and untitled, the second read from a file and given its window → `NSDocumentController.shared.documents` holds only the second; the same with one part placed in the first → both stay. Done: `testOpeningAFileReplacesAnUntouchedUntitled`, `testOpeningAFileKeepsAnUntitledWithWork`, and `testAPlainLaunchWithNoDocumentOpensUntitled` for the rule.
 
 Acceptance: the test passes, and the built app started with `open -a` and no file shows one window named Untitled.
-  Check: the test as in phase 1 (est. 5 min); `open -a <Debug app>; osascript -e 'tell application "System Events" to tell process "schematical" to get name of every window'` → `Untitled` (est. 1 min; with the owner's installed app closed).
+  Check: the test as in phase 1 (est. 5 min); `open -a <Debug app>; osascript -e 'tell application "System Events" to tell process "schematical" to get name of every window'` → `Untitled` (est. 1 min; with the owner's installed app closed). Result: `SchematicNSDocumentTests` with `AutomationTests`: `Executed 47 tests, with 2 tests skipped and 0 failures`, `** TEST SUCCEEDED **`. The built app, with no other copy running, read by pid through the Accessibility API (System Events cannot tell two builds apart): started with no file → `windows: ['Untitled']`; started with `examples/6502.schematical` → `windows: ['6502.schematical' document=6502.schematical]` (no Untitled).
 Commit: —
 
 ### Phase 3 — Export
@@ -216,7 +216,7 @@ Commit: —
 
 ## Corrections
 
-Filled in during execution.
+1. The plain-launch rule would also fire in the app XCTest starts to host the unit tests (it is launched plain), putting an Untitled document among the open documents of every test. The rule takes `isTestHost` (the `XCTestConfigurationFilePath` environment variable) and opens nothing there; `testAPlainLaunchWithNoDocumentOpensUntitled` covers the rule's four inputs.
 
 ## Summary
 

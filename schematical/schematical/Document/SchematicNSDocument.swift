@@ -159,6 +159,24 @@ extension SchematicNSDocument {
         addWindowController(controller)
         model.file.window = window
         offerPendingParts()
+        // Opening a file replaces an untouched Untitled document (the one a
+        // plain launch shows): AppKit leaves that to the app.
+        if fileURL != nil {
+            for case let other as SchematicNSDocument in NSDocumentController.shared.documents
+            where other !== self && other.isBlankUntitled {
+                other.close()
+            }
+        }
+    }
+
+    /// A new document nothing was done to: never saved, not edited, not
+    /// autosaved, and with nothing on either page.
+    var isBlankUntitled: Bool {
+        guard fileURL == nil, !isDocumentEdited, autosavedContentsFileURL == nil else { return false }
+        let state = model.document.state
+        return state.chips.isEmpty && state.wires.isEmpty && state.junctions.isEmpty && state.buses.isEmpty
+            && state.notes.isEmpty && state.netLabels.isEmpty && state.texts.isEmpty && state.traces.isEmpty
+            && state.vias.isEmpty && state.holes.isEmpty && state.pours.isEmpty && state.keepouts.isEmpty
     }
 
     /// Closing a document stops its simulation and closes the windows it

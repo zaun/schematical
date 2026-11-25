@@ -427,4 +427,80 @@ final class SchematicNSDocumentTests: XCTestCase {
         XCTAssertEqual(window.tabbingMode, .automatic)
         document.close()
     }
+
+    // MARK: plan-61-C phase 2 — launch and the blank Untitled
+
+    func testAPlainLaunchWithNoDocumentOpensUntitled() {
+        let plain = AEEventID(kAEOpenApplication)
+        XCTAssertTrue(AppDelegate.opensUntitled(launchEvent: plain, documentCount: 0, isTestHost: false))
+        XCTAssertFalse(AppDelegate.opensUntitled(launchEvent: plain, documentCount: 1, isTestHost: false),
+                       "a document was restored")
+        XCTAssertFalse(AppDelegate.opensUntitled(launchEvent: nil, documentCount: 0, isTestHost: false),
+                       "the app was launched to open a file")
+        XCTAssertFalse(AppDelegate.opensUntitled(launchEvent: AEEventID(kAEOpenDocuments), documentCount: 0, isTestHost: false))
+        XCTAssertFalse(AppDelegate.opensUntitled(launchEvent: plain, documentCount: 0, isTestHost: true))
+        XCTAssertTrue(AppDelegate.isTestHost, "these tests run in the app")
+    }
+
+    /// A schematic file on disk with one part.
+    private func savedFile(in folder: URL) throws -> URL {
+        let source = newDocument()
+        _ = try place("SN74HC00N", in: source, at: p(200, 200))
+        let url = folder.appendingPathComponent("design.schematical")
+        try source.writeSafely(to: url, ofType: Self.type, for: .saveAsOperation)
+        return url
+    }
+
+    /// An open, untitled document; out of the open documents when the test ends.
+    private func openUntitled() -> SchematicNSDocument {
+        let document = newDocument()
+        NSDocumentController.shared.addDocument(document)
+        addTeardownBlock { @MainActor in NSDocumentController.shared.removeDocument(document) }
+        return document
+    }
+
+    /// A document opened from `url` and given its window, as File › Open does.
+    private func openFile(_ url: URL) throws -> SchematicNSDocument {
+        let document = TestSupport.keep(try SchematicNSDocument(contentsOf: url, ofType: Self.type))
+        NSDocumentController.shared.addDocument(document)
+        addTeardownBlock { @MainActor in document.close() }
+        document.makeWindowControllers()
+        return document
+    }
+
+    func testOpeningAFileReplacesAnUntouchedUntitled() throws {
+        let url = try savedFile(in: temporaryFolder())
+        let blank = openUntitled()
+        XCTAssertTrue(blank.isBlankUntitled)
+        blank.makeWindowControllers()
+        let opened = try openFile(url)
+        XCTAssertEqual(opened.fileURL, url)
+        XCTAssertFalse(opened.isBlankUntitled)
+        let open = NSDocumentController.shared.documents
+        XCTAssertFalse(open.contains(blank), "the blank Untitled closed")
+        XCTAssertTrue(open.contains(opened))
+        XCTAssertTrue(blank.windowControllers.isEmpty)
+    }
+
+    func testOpeningAFileKeepsAnUntitledWithWork() throws {
+        let url = try savedFile(in: temporaryFolder())
+        let untitled = openUntitled()
+        untitled.makeWindowControllers()
+        addTeardownBlock { @MainActor in untitled.close() }
+        _ = try place("SN74HC00N", in: untitled, at: p(200, 200))
+        XCTAssertFalse(untitled.isBlankUntitled)
+        let opened = try openFile(url)
+        let open = NSDocumentController.shared.documents
+        XCTAssertTrue(open.contains(untitled), "an Untitled with a part stays")
+        XCTAssertTrue(open.contains(opened))
+
+        // A new Untitled document never closes another one.
+        let second = openUntitled()
+        second.makeWindowControllers()
+        addTeardownBlock { @MainActor in second.close() }
+        let third = openUntitled()
+        third.makeWindowControllers()
+        addTeardownBlock { @MainActor in third.close() }
+        XCTAssertTrue(NSDocumentController.shared.documents.contains(second))
+    }
 }
