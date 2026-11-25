@@ -23,7 +23,7 @@ Stated in plan-61-A. In addition:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-61-C is complete | `rg -c '^- \[ \]' planning/plan-61-C-document-app-behavior.md` → no output | NOT MET until C lands |
+| plan-61-C is complete | `rg -c '^- \[ \]' planning/plan-61-C-document-app-behavior.md` → no output | MET (no output, 2026-11-24, after 5f2e130a) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run before you continue and before you stop; report all prerequisites if
@@ -94,10 +94,10 @@ seam keeps that).
 
 ### Phase 1 — Tool tests
 
-- [ ] New `schematicalTests/AutomationWindowToolsTests.swift`: with a temporary folder set as the shared folder, `AutomationTools.call("new_window")` adds a document; `call("open", ["path": …])` opens an example copied there and a second call does not add a document; `call("save")` on an untitled document fails with `This window has no file yet; pass a path.`; `call("save", ["path": …])` writes the file; `call("list_windows")` lists every open document with `unsaved` only on an edited one.
+- [x] New `schematicalTests/AutomationWindowToolsTests.swift`: with a temporary folder set as the shared folder, `AutomationTools.call("new_window")` adds a document; `call("open", ["path": …])` opens an example copied there and a second call does not add a document; `call("save")` on an untitled document fails with `This window has no file yet; pass a path.`; `call("save", ["path": …])` writes the file; `call("list_windows")` lists every open document with `unsaved` only on an edited one. Done: 5 tests, one per tool (`focus_window` too), also the refusals (a missing file, a path outside the folder, an unknown window id). `AutomationFolder.shareTemporarily(_:)` shares the temporary folder with no bookmark saved and puts the user's back.
 
 Acceptance: the tests pass.
-  Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/AutomationWindowToolsTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 5 min).
+  Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/AutomationWindowToolsTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 5 min). Result, with `AutomationTests`: `Executed 38 tests, with 1 test skipped and 0 failures`, `** TEST SUCCEEDED **`.
 Commit: —
 
 ### Phase 2 — The exporter's name
@@ -133,7 +133,8 @@ Commit: —
 
 ## Corrections
 
-Filled in during execution.
+1. § 2 said `new_window` and `open` worked as 61-B left them. They needed a window to run in (`needsWindow`, from when a new tab was opened from an existing window), so with no document open both failed with `no schematic window is open (use new_window)`, `new_window` among them. Both are `needsWindow: false` now and take no `window` argument (one still passed is ignored). `open` of a file that is already open answered `opened (in window <the caller's>)`; it now names the window that holds the file.
+2. `save` right after an edit left the document marked Edited (`testSaveNeedsAPathForAnUntitledDocumentAndWritesTheFile`, first run: `XCTAssertFalse failed` on `isDocumentEdited`): the document takes in an edit one run loop turn after it (plan-61-A Corrections 8), so the mark arrived after the save. The tool waits 50 ms before saving.
 
 ## Summary
 

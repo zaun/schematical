@@ -60,6 +60,20 @@ final class AutomationFolder {
         url = folder
     }
 
+    /// Shares `folder` for now, saving no bookmark (the unit tests use a
+    /// temporary folder). Call the returned closure to put back what was
+    /// shared before.
+    func shareTemporarily(_ folder: URL) -> () -> Void {
+        load()
+        let before = (url, isAccessing)
+        url = folder
+        isAccessing = false
+        return { [weak self] in
+            self?.url = before.0
+            self?.isAccessing = before.1
+        }
+    }
+
     private func close() {
         if isAccessing { url?.stopAccessingSecurityScopedResource() }
         isAccessing = false

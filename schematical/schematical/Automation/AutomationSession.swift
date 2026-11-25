@@ -56,6 +56,7 @@ extension AutomationTools {
         AutomationTool(
             name: "new_window",
             summary: "Open a new blank schematic as a tab of the frontmost window. Returns its id.",
+            needsWindow: false,
             run: { _, _ in
                 let known = Set(sessions().map(\.id))
                 NSDocumentController.shared.newDocument(nil)
@@ -72,7 +73,8 @@ extension AutomationTools {
             summary: "Open a .schematical file (in a new tab, or this window if it is blank). Only files in the "
                 + "folder the user shared in Settings ▸ AI Agents ▸ Files; see list_files.",
             properties: ["path": Schema.string("File name or path inside the shared folder")], required: ["path"],
-            run: { context, args in
+            needsWindow: false,
+            run: { _, args in
                 let url = try AutomationFolder.shared.resolve(try args.string("path"))
                 do { _ = try SchematicFile.decode(try Data(contentsOf: url)) }
                 catch { throw AutomationFailure("can't open \(url.lastPathComponent): \(error.localizedDescription)") }
@@ -80,8 +82,12 @@ extension AutomationTools {
                 do { _ = try await NSDocumentController.shared.openDocument(withContentsOf: url, display: true) }
                 catch { throw AutomationFailure("can't open \(url.lastPathComponent): \(error.localizedDescription)") }
                 try await Task.sleep(nanoseconds: 400_000_000)
-                let fresh = sessions().first { !known.contains($0.id) }
-                return Out.text(fresh.map { "opened in window \($0.shortID)" } ?? "opened (in window \(context!.shortID))")
+                // A file that is already open is not opened twice: its window comes forward.
+                let window = sessions().first { !known.contains($0.id) }
+                    ?? sessions().first { $0.model?.fileURL?.standardizedFileURL == url.standardizedFileURL }
+                let fresh = window.map { !known.contains($0.id) } ?? false
+                return Out.text(window.map { fresh ? "opened in window \($0.shortID)" : "opened (in window \($0.shortID))" }
+                                ?? "opened")
             }),
         AutomationTool(
             name: "save",
@@ -97,6 +103,10 @@ extension AutomationTools {
                 guard let target = url ?? document.fileURL else {
                     throw AutomationFailure("This window has no file yet; pass a path.")
                 }
+                // The document takes in an edit (its Edited mark) one run loop turn after
+                // the edit. Let an edit made just before this call land first, or the
+                // mark would arrive after the save and stay.
+                try await Task.sleep(nanoseconds: 50_000_000)
                 // With a path it is a Save As: the document is at the new file afterwards.
                 let type = document.fileType ?? SchematicFile.contentType.identifier
                 let failure: Error? = await withCheckedContinuation { continuation in
