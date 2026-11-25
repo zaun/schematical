@@ -537,6 +537,16 @@ enum ExportSamples {
         return doc
     }
 
+    /// The `fourLayer()` board (inner Planes on ground and 5 V) with three cutouts in its far corners: a 6 mm circle, a 10 × 2 mm slot and a
+    /// triangle (plan-65-G).
+    static func cutouts() throws -> SchematicDocument {
+        let doc = try fourLayer()
+        _ = try XCTUnwrap(doc.addCutout(.circle(centre: CGPoint(x: 88, y: 12), diameter: 6)))
+        _ = try XCTUnwrap(doc.addCutout(.slot(rect: CGRect(x: 80, y: 40, width: 10, height: 2))))
+        _ = try XCTUnwrap(doc.addCutout(.polygon([CGPoint(x: 85, y: 60), CGPoint(x: 95, y: 60), CGPoint(x: 90, y: 70)])))
+        return doc
+    }
+
     /// Two gates on the board wired together by a trace, the first on ground and 5 V, a ground pour over the whole Top (thermal, gap 0.6,
     /// spokes 0.4, minimum width 0.25, clearance 0.3), a solid 5 V pour on Bottom, and a keep-out on Top only.
     static func pours() throws -> SchematicDocument {

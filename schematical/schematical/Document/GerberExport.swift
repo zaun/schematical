@@ -97,7 +97,8 @@ enum GerberExport {
         }
         var profile = writer("Profile,NP")
         profile.setFunction("Profile")
-        profile.stroke(board.outline, width: profileWidth, closed: true)
+        // The outline, then every cutout (plan-65-G): a fab routes the profile.
+        for loop in document.boardEdge.loops { profile.stroke(loop, width: profileWidth, closed: true) }
         files.append(File(name: "\(base).GKO", data: profile.data(), function: "Profile,NP", polarity: "Positive"))
         let holes = DrillExport.holes(copper)
         let software = "Schematical,\(version)"
@@ -141,6 +142,11 @@ enum GerberExport {
             file.region(board.outline)
             file.setDark(false)
             if edge > 0 { file.stroke(board.outline, width: 2 * edge, closed: true) }
+            // Each cutout: no copper in it, and none within the copper-to-edge band round it.
+            for loop in document.boardEdge.cutouts {
+                file.region(loop)
+                if edge > 0 { file.stroke(loop, width: 2 * edge, closed: true) }
+            }
             let cleared = copper.planeClearances(on: layer)
             for p in cleared.pads {
                 let pad = copper.pads[p].pad

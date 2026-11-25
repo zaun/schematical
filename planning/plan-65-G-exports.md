@@ -28,7 +28,7 @@ The shared gate is in plan-65-A. This sub-plan adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-65-F is complete | `ls planning/completed \| grep -c '^plan-65-F'` → 1 | NOT MET (2026-11-25: F is written, not landed) |
+| plan-65-F is complete | `ls planning/completed \| grep -c '^plan-65-F'` → 1 | MET (2026-11-25: F landed, 1) |
 
 Everything below is written against the world where these hold.
 
@@ -94,12 +94,13 @@ Rejected: writing a cutout as an NPTH drill slot (the fab's profile router makes
 
 ### Phase 1 — Gerber and print
 
-- [ ] `Document/GerberExport.swift`: the profile loop and the Plane clearing of § 3. `Document/PrintExport.swift`: `BoardArtwork.loops`, its construction and the Board page.
-- [ ] `schematicalTests/KiCadExportTests.swift`: `ExportSamples.cutouts()` (a 60 × 40 board, a 6 mm circle, a 10 × 2 slot, a 4-point polygon, and one inner Plane on GND).
-- [ ] Tests `schematicalTests/CutoutExportTests.swift` (Gerber half): the `.GKO` text has `1 + 3` `D02` moves (`stroke` writes one per loop) and each loop closes (last `D01` returns to the first point); a Plane layer's data holds a clear-polarity region for each cutout and a clear stroke of width `2 × minCopperToEdge` for each loop; the other Gerber files (copper without a Plane, mask, silkscreen, drill) are identical bytes to those of the same document with `cutouts` empty; `GerberJob`'s size is unchanged; the PDF's Board page (`PrintExportTests`' way of reading the pages) has 4 closed subpaths; `PrintExportTests` itself passes unedited.
+- [x] `Document/GerberExport.swift`: the profile loop and the Plane clearing of § 3. `Document/PrintExport.swift`: `BoardArtwork.loops`, its construction and the Board page.
+- [x] `schematicalTests/KiCadExportTests.swift`: `ExportSamples.cutouts()` (a 60 × 40 board, a 6 mm circle, a 10 × 2 slot, a 4-point polygon, and one inner Plane on GND).
+- [x] Tests `schematicalTests/CutoutExportTests.swift` (Gerber half): the `.GKO` text has `1 + 3` `D02` moves (`stroke` writes one per loop) and each loop closes (last `D01` returns to the first point); a Plane layer's data holds a clear-polarity region for each cutout and a clear stroke of width `2 × minCopperToEdge` for each loop; the other Gerber files (copper without a Plane, mask, silkscreen, drill) are identical bytes to those of the same document with `cutouts` empty; `GerberJob`'s size is unchanged; the PDF's Board page (`PrintExportTests`' way of reading the pages) has 4 closed subpaths; `PrintExportTests` itself passes unedited.
 
 Acceptance: the profile and the Plane carry the cutouts, nothing else in the Gerber set moves, and the five existing export classes pass unedited.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/CutoutExportTests -only-testing:schematicalTests/GerberExportTests -only-testing:schematicalTests/GerberJobTests -only-testing:schematicalTests/PourExportTests -only-testing:schematicalTests/PrintExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 5 min).
+  Observed: CutoutExportTests 3 + GerberExportTests 24 + GerberJobTests 7 + PourExportTests + PrintExportTests, 0 failures, TEST SUCCEEDED.
 Commit: —
 
 ### Phase 2 — KiCad and EasyEDA Pro, checked with KiCad
