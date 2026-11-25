@@ -26,7 +26,7 @@ The shared gate is in plan-65-A. This sub-plan adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-65-D is complete | `ls planning/completed \| grep -c '^plan-65-D'` → 1 | NOT MET (2026-11-25: D is written, not landed) |
+| plan-65-D is complete | `ls planning/completed \| grep -c '^plan-65-D'` → 1 | MET (2026-11-25: D landed, 1) |
 
 Everything below is written against the world where these hold.
 
@@ -92,11 +92,12 @@ Byte-identity is not a gate here (behaviour is added); the no-cutout check is th
 
 ### Phase 1 — Drawing
 
-- [ ] `Canvas/PCBCanvasView.swift`: `boardShape` from `document.boardEdge.path`; `FillStyle(eoFill: true)` on the board fill and in `drawPlane`; the selection ring for `.cutout` (bounds, as keep-out); a static `PCBCanvasView.boardPath(_ edge: BoardEdge) -> Path` that tests call.
-- [ ] Tests `schematicalTests/CutoutCanvasTests.swift` (first half): `boardPath` of an edge with a 10 × 10 cutout contains (even-odd) a material point and not the cutout's centre; with no cutouts it equals the outline path (`Path` equality of the two); a rendered image of a board with a cutout (`ImageRenderer` of the canvas view with `exporting`) has no opaque pixel at the cutout's centre and an opaque board-coloured pixel 3 mm outside it (`ImageExport.data(for:options)` with the PCB view and a transparent background, sampled with `NSBitmapImageRep`, as `PourCanvasTests.testImageExportShowsPoursButNotKeepouts` does).
+- [x] `Canvas/PCBCanvasView.swift`: `boardShape` from `document.boardEdge.path`; `FillStyle(eoFill: true)` on the board fill and in `drawPlane`; the selection ring for `.cutout` (bounds, as keep-out); a static `PCBCanvasView.boardPath(_ edge: BoardEdge) -> Path` that tests call.
+- [x] Tests `schematicalTests/CutoutCanvasTests.swift` (first half): `boardPath` of an edge with a 10 × 10 cutout contains (even-odd) a material point and not the cutout's centre; with no cutouts it equals the outline path (`Path` equality of the two); a rendered image of a board with a cutout (`ImageRenderer` of the canvas view with `exporting`) has no opaque pixel at the cutout's centre and an opaque board-coloured pixel 3 mm outside it (`ImageExport.data(for:options)` with the PCB view and a transparent background, sampled with `NSBitmapImageRep`, as `PourCanvasTests.testImageExportShowsPoursButNotKeepouts` does).
 
 Acceptance: a cutout is a hole in the drawing; a board without one draws as before.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/CutoutCanvasTests -only-testing:schematicalTests/PourCanvasTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 4 min; `PourCanvasTests` draws boards without cutouts, so it is the no-cutout check).
+  Observed: CutoutCanvasTests 3 + PourCanvasTests 19, 0 failures, TEST SUCCEEDED.
 Commit: —
 
 ### Phase 2 — The Cutout tool, selection, move and resize

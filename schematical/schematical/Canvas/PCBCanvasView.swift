@@ -345,8 +345,9 @@ struct PCBCanvasView: View {
         // The board, under the grid so the dots show on it: a rectangle,
         // or a card's outline with its edge tab. With the PCB layer hidden,
         // only its outline, so the Planes' shading shows on the canvas.
-        let boardShape = Path { path in path.addLines(board.outline); path.closeSubpath() }
-        if visible.shows(.board) { context.fill(boardShape, with: .color(colour.fill)) }
+        // The outline and every cutout, filled even-odd so a cutout is a hole (plan-65-E).
+        let boardShape = Self.boardPath(document.boardEdge)
+        if visible.shows(.board) { context.fill(boardShape, with: .color(colour.fill), style: FillStyle(eoFill: true)) }
         context.stroke(boardShape, with: .color(colour.silkscreen), lineWidth: 0.2)
         if !exporting { drawGrid(in: context, size: size) }
 
@@ -502,6 +503,10 @@ struct PCBCanvasView: View {
         }
     }
 
+    /// The board's shape: its outline and every cutout's loop, to be filled
+    /// even-odd so the cutouts are holes (plan-65-E).
+    static func boardPath(_ edge: BoardEdge) -> Path { Path(edge.path) }
+
     /// Each pour on a shown layer of the board with the path of its fill
     /// (empty with no net or no copper), for drawing.
     static func pourPaths(pours: [BoardPour], visible: BoardVisibility, board: BoardSettings,
@@ -593,7 +598,7 @@ struct PCBCanvasView: View {
                            clearance: Double, edge: Double, opacity: Double, in context: inout GraphicsContext) {
         let cuts = Self.planeCuts(on: layer, copper: copper)
         context.drawLayer { plane in
-            plane.fill(shape, with: .color(colour.opacity(opacity)))
+            plane.fill(shape, with: .color(colour.opacity(opacity)), style: FillStyle(eoFill: true))
             plane.blendMode = .clear
             // A clearance is the cut's outline grown by it all round: a
             // stroke twice as wide, with round joins, over the filled cut.
