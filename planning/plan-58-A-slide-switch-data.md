@@ -57,12 +57,12 @@ Every other letter points here.
 
 | Must be true | Command | Status |
 |---|---|---|
-| Backend tests green | `cmake -S backend -B /tmp/logic-p58 -DCMAKE_BUILD_TYPE=Release && cmake --build /tmp/logic-p58 -j8 && ctest --test-dir /tmp/logic-p58 -j8` → `100% tests passed` | MET at planning (2026-11-24): plan-51-J's gate on this tree was `100% tests passed, 0 tests failed out of 61`; **T0 = 61** (`grep -c '^logic_test' backend/CMakeLists.txt` → 61) |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p58 -DCMAKE_BUILD_TYPE=Release && cmake --build /tmp/logic-p58 -j8 && ctest --test-dir /tmp/logic-p58 -j8` → `100% tests passed` | MET (re-run 2026-11-24 in P-58: `100% tests passed, 0 tests failed out of 61`; planning-time note:): plan-51-J's gate on this tree was `100% tests passed, 0 tests failed out of 61`; **T0 = 61** (`grep -c '^logic_test' backend/CMakeLists.txt` → 61) |
 | Switch baseline recorded | `grep -c '|switch|' backend/tests/golden/parts.txt` → 2070 parts; `grep -c '"id"' schematical/schematical/Parts/switch.json` → 186 devices | MET: **S0 = 2070** parts, 186 devices (2026-11-24) |
 | Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt` / `traces.txt` / `footprints.txt` → 37090 / 37090 / 2929 | MET: **P0 = R0 = 37090**, **F0 = 2929** (2026-11-24) |
 | The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p58-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET at plan-51-J (297 app tests green, 2026-11-24); not re-run at planning |
 | No slide-switch support yet | `grep -c 'states' backend/src/models/switch.c` → 0; `ls planning/plan-58-[B-H]-* \| wc -l` → 7 (this plan's files) | MET (2026-11-24) |
-| Safari has a DigiKey page open and passes Cloudflare | `scripts/safari-digikey.sh "https://www.digikey.com/en/products/filter/slide-switches/213" 8 'document.title'` → `Slide Switches \| Switches \| DigiKey` | MET during the planning census (2026-11-24); about 100 page loads later Cloudflare challenged the window (`Just a moment...`): tick "Verify you are human" once in the DigiKey tab, then re-run this command |
+| Safari has a DigiKey page open and passes Cloudflare | `scripts/safari-digikey.sh "https://www.digikey.com/en/products/filter/slide-switches/213" 8 'document.title'` → `Slide Switches \| Switches \| DigiKey` | **NOT MET (re-run 2026-11-24 at P-58 start, twice 20 s apart: `Just a moment...`)** — Cloudflare is challenging the Safari DigiKey tab; it passed during the planning census, then about 100 page loads later Cloudflare challenged the window (`Just a moment...`): tick "Verify you are human" once in the DigiKey tab, then re-run this command |
 | Tools exist | `pdftotext -v`, `pdfinfo -v`, `python3 --version`, `node --version` each exit 0 | MET (2026-11-24: all used during planning) |
 
 Everything below is written against the world where these hold.
