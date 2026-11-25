@@ -100,6 +100,12 @@ struct KiCadSchematicWriter {
         var drawing: [String] = []
         let edge = edgeConnector(symbols: &symbols, powerNumber: &powerNumber, flagged: &flagged)
         body += edge.symbol
+        // The drawing's own Power Flags (plan-63-A), numbered after the rails'.
+        var flagNumber = flagged.count
+        for label in document.netLabels where label.isPowerFlag {
+            flagNumber += 1
+            body.append(flagInstance(at: label.tip, number: flagNumber, rail: "label/\(label.id)", symbols: &symbols))
+        }
         drawing += edge.drawing
         drawing += wires()
         drawing += labels()
@@ -492,6 +498,7 @@ struct KiCadSchematicWriter {
     }
 
     /// A power flag (`#FLG<n>`) with its pin at `point`, on the net of `rail`.
+    /// For a Power Flag label (plan-63-A) `rail` is `label/<its id>`, only a seed for the ids.
     private func flagInstance(at point: CGPoint, number: Int, rail: String, symbols: inout SymbolLibrary) -> String {
         let name = "PWR_FLAG"
         if symbols.names.insert(name).inserted {
@@ -586,7 +593,7 @@ struct KiCadSchematicWriter {
                 \t\t(uuid \(KiCad.q(id("label/\(label.id)"))))
                 \t)
                 """)
-            } else {
+            } else if label.isNoConnect {
                 out.append("\t(no_connect\n\t\t(at \(xy(label.tip)))\n\t\t(uuid \(KiCad.q(id("nc/\(label.id)"))))\n\t)")
             }
         }

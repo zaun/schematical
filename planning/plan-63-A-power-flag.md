@@ -200,11 +200,11 @@ Acceptance: a flag can be placed, saved, reopened and undone; no net changes;
 a No Connect still joins nothing.
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/PowerFlagTests -only-testing:schematicalTests/NetLabelTests -only-testing:schematicalTests/SchematicClipboardTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 7 min, most of it the build).
   Result: `PowerFlagTests` 6 tests, `NetLabelTests` 18, `SchematicClipboardTests` 14: `Executed 38 tests, with 0 failures`, `** TEST SUCCEEDED **` (2026-11-25, in the worktree; a flag's rect is the stem, pennant and the No Connect's square together, so a click on the drawn flag hits it).
-Commit: — (this commit: see Phase 2's ledger line)
+Commit: c8ed577c
 
 ### Phase 2 — The exports
 
-- [ ] `Document/KiCadSchematicWriter.swift`: each flag is written as a power
+- [x] `Document/KiCadSchematicWriter.swift`: each flag is written as a power
       symbol of library name `PWR_FLAG`, value `PWR_FLAG`, reference
       `#FLG<n>` (numbered from 1 in the order of `netLabels`), with one
       hidden `power_out` pin at the flag's point and a flag drawing; defined once
@@ -212,20 +212,21 @@ Commit: — (this commit: see Phase 2's ledger line)
       (`:432-480`). In `labels()` (`:575-590`) the `else` branch that writes
       `(no_connect …)` becomes `else if label.isNoConnect`, so a flag is not
       written as a `(no_connect` or a `(label`.
-- [ ] No change in `Document/KiCadExport.swift:221,244` (the label ranking and the
+- [x] No change in `Document/KiCadExport.swift:221,244` (the label ranking and the
       `labelled` set take `isNet` labels, which a flag is not) or in
       `Document/EasyEDAProSchematicWriter.swift:290` (it takes `label.isNet`
       too, so a flag is skipped); the tests below pin both. `Help/KeyboardHelp.swift:100`
       names no label type, so it needs no change either.
-- [ ] `docs/export.md` § KiCad: a flag becomes `PWR_FLAG`.
-- [ ] Tests in `KiCadExportTests`: a two-pin net with a flag exports one `PWR_FLAG`
+- [x] `docs/export.md` § KiCad: a flag becomes `PWR_FLAG`.
+- [x] Tests in `KiCadExportTests`: a two-pin net with a flag exports one `PWR_FLAG`
       library symbol and one `#FLG1` instance, a `(pin power_out`, no `(label` for the flag;
       the export of a design with no flag is unchanged (an existing test
       asserting it stays green); in `EasyEDAProExportTests`: a drawing with a flag exports the same as without.
 
 Acceptance: the KiCad export carries each flag as `PWR_FLAG`; nothing else in any export changes.
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/KiCadExportTests -only-testing:schematicalTests/EasyEDAProExportTests -only-testing:schematicalTests/PowerFlagTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 7 min).
-Commit: —
+  Result: `KiCadExportTests` 21, `EasyEDAProExportTests` 11, `PowerFlagTests` 6: `Executed 38 tests, with 0 failures`, `** TEST SUCCEEDED **` (2026-11-25). The KiCad test: the flag is one `(lib_id "Schematical:PWR_FLAG")`, one `(pin power_out line`, reference `#FLG01`, no `(no_connect`, no `(label `; the EasyEDA test: an unwired flag leaves every `.esch` and `.epcb` file byte-equal.
+Commit: — (recorded in the next commit)
 
 ## Validation Plan
 
@@ -245,6 +246,8 @@ Commit: —
 
 1. **Build directory.** Every cmake command of plan 63 names `/tmp/logic-build`; its cache was made from the main checkout (`CMake Error: … does not match the source`), so in the integration worktree they run with `/tmp/logic-build-wt63` instead (`cmake -S backend -B /tmp/logic-build-wt63`). Same commands, other directory.
 2. **Phase 1's "same `connections` as without the flag" test.** With the flag wired to a pin that already has a wire, `connections` and `netCount` are unchanged (`testAFlagOnAWireChangesNoNet`); the "a No Connect on the same wire still splits it" claim only holds when the flag is a joint between two pins, so the test for it is `testAFlagJoinsItsWiresAndANoConnectDoesNot` (K and A wired to one flag: one net; as a No Connect: two).
+
+3. **The KiCad export already wrote `PWR_FLAG`s.** § 2 said the writer has supply symbols and pins; it also writes one `PWR_FLAG` per rail (`KiCadSchematicWriter.flagInstance`, `power()` in `text()`: "one power flag on each rail"), numbered `#FLG01…` by rail. A drawing's own flags reuse that symbol and `flagInstance` and are numbered after the rails' (`flagged.count` + 1…); the test asserts `#FLG01` on a drawing with no rail. Consequence for plan-63-G (§ 2: "a rail symbol gets `power_pin_not_driven` in KiCad unless a PWR_FLAG is on the net"): an exported design already has a flag per rail, so KiCad does not report it, and instead reports `pin_to_pin` power_out + power_out where that flag shares a net with a regulator's output pin. G's comparison is re-planned in G's Corrections when G starts.
 
 ## Summary
 

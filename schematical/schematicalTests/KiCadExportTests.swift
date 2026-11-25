@@ -45,6 +45,25 @@ final class KiCadExportTests: XCTestCase {
         text.components(separatedBy: needle).count - 1
     }
 
+    /// plan-63-A: a Power Flag net label is a `PWR_FLAG` power symbol with a `power_out` pin.
+    func testAPowerFlagExportsAsPWR_FLAG() throws {
+        let doc = TestSupport.newDocument()
+        let one = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 100))
+        let flag = doc.addNetLabel(at: CGPoint(x: 300, y: 100), style: .powerFlag)
+        XCTAssertNil(doc.connect(.pin(try TestSupport.pin(one, "K")), .label(flag)))
+        let plain = try file(KiCadExport.files(for: TestSupport.newDocument(), base: "p"), "kicad_sch")
+        XCTAssertEqual(count("lib_id \"Schematical:PWR_FLAG\"", in: plain), 0)
+
+        let text = try file(KiCadExport.files(for: doc, base: "flag"), "kicad_sch")
+        XCTAssertTrue(balanced(text))
+        XCTAssertEqual(count("(lib_id \"Schematical:PWR_FLAG\")", in: text), 1)
+        XCTAssertEqual(count("(pin power_out line", in: text), 1)
+        XCTAssertEqual(count("(reference \"#FLG01\")", in: text), 1)
+        // Not a label and not a No Connect.
+        XCTAssertEqual(count("(no_connect", in: text), 0)
+        XCTAssertEqual(count("(label ", in: text), 0)
+    }
+
     func testThreeFilesNamedAfterTheProject() throws {
         let (_, files) = try files("AFU")
         XCTAssertEqual(files.map(\.name), ["AFU.kicad_pro", "AFU.kicad_sch", "AFU.kicad_pcb"])

@@ -249,7 +249,9 @@ end.
   symbol of its rail.
 - Wires (one per straight run), junctions where 3 or more runs meet, net labels
   (local labels; the flag shape is not kept), No Connects and text blocks (framed
-  ones with a box). Buses are drawn as KiCad buses with each port as a box, and every
+  ones with a box). A Power Flag net label (plan-63-A) becomes a `PWR_FLAG` power
+  symbol (`#FLG<n>`, pin type `power_out`) at its point; EasyEDA Pro has no such
+  symbol, so the flag is left out there. Buses are drawn as KiCad buses with each port as a box, and every
   wired port pin carries a net label of its bus wire's name, so the nets are the
   same as the app's (linked buses share the label; unrelated wires of one name get
   `D0`, `D0_2`).

@@ -55,6 +55,18 @@ final class EasyEDAProExportTests: XCTestCase {
         }
     }
 
+    /// plan-63-A: a Power Flag has no EasyEDA symbol; an unwired one changes nothing.
+    func testAPowerFlagIsLeftOut() throws {
+        let doc = try Fixture.open("AFU")
+        let before = EasyEDAProExport.entries(for: doc, base: "AFU")
+        _ = doc.addNetLabel(at: CGPoint(x: 5000, y: 5000), style: .powerFlag)
+        let after = EasyEDAProExport.entries(for: doc, base: "AFU")
+        XCTAssertEqual(before.map(\.name), after.map(\.name))
+        for (b, a) in zip(before, after) where b.name.hasSuffix(".esch") || b.name.hasSuffix(".epcb") {
+            XCTAssertEqual(b.data, a.data, b.name)
+        }
+    }
+
     func testSameDocumentGivesSameBytes() throws {
         let doc = try Fixture.open("LFU")
         XCTAssertEqual(EasyEDAProExport.data(for: doc, base: "x"), EasyEDAProExport.data(for: doc, base: "x"))
