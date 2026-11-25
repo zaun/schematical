@@ -2,6 +2,7 @@
 """plan-48-A phase 3: copy the datasheet PDFs of the picked rows into the tree.
 usage: python3 -I place.py <candidates.tsv> <pdf cache dir>   copy, write datasheets.tsv, set `pdf` to the path
        python3 -I place.py --verify <candidates.tsv>          every cited PDF is placed; no unused PDF
+       python3 -I place.py --prune <candidates.tsv>           delete the PDFs no picked row cites (and their datasheets.tsv lines)
 
 A PDF is needed when a row of state `candidate` (after phase 3, every one is
 an `add` row) names its cache file in `pdf`. Each distinct file (by SHA-256,
@@ -61,7 +62,7 @@ def place(tsv, cache):
     rows = read(tsv)
     groups = collections.defaultdict(list)  # (type, company, sha) -> rows
     for r in rows:
-        if r['state'] == 'candidate' and r['pdf'] and not r['pdf'].startswith('datasheets/'):
+        if r['state'] in ('candidate', 'add') and r['pdf'] and not r['pdf'].startswith('datasheets/'):
             groups[(r['type'], r['company'], sha256(os.path.join(cache, r['pdf'])))].append(r)
     taken, lines, path_of = {}, collections.defaultdict(list), {}
     for key in sorted(groups, key=lambda k: sorted(x['final'] for x in groups[k])[0]):
@@ -94,7 +95,7 @@ def place(tsv, cache):
 
 def verify(tsv):
     rows = read(tsv)
-    need = {r['pdf'] for r in rows if r['state'] == 'candidate' and r['pdf']}
+    need = {r['pdf'] for r in rows if r['state'] in ('candidate', 'add') and r['pdf']}
     have, listed = set(), set()
     for t in ('timer', 'opamp'):
         base = os.path.join(ROOT, 'datasheets', t)
@@ -118,7 +119,30 @@ def verify(tsv):
     return 1 if missing or unused else 0
 
 
+def prune(tsv):
+    need = {r['pdf'] for r in read(tsv) if r['state'] in ('candidate', 'add') and r['pdf']}
+    for t in ('timer', 'opamp'):
+        base = os.path.join(ROOT, 'datasheets', t)
+        for c in sorted(os.listdir(base)) if os.path.isdir(base) else []:
+            d = os.path.join(base, c)
+            for f in sorted(os.listdir(d)):
+                rel = os.path.join('datasheets', t, c, f)
+                if f.endswith('.pdf') and rel not in need:
+                    os.remove(os.path.join(d, f))
+                    print('deleted', rel)
+            ds = os.path.join(d, 'datasheets.tsv')
+            if os.path.exists(ds):
+                keep = [r for r in read(ds) if os.path.exists(os.path.join(d, r['file']))]
+                with open(ds, 'w', encoding='utf-8', newline='') as out:
+                    out.write('\t'.join(COLS) + '\n')
+                    for r in keep:
+                        out.write('\t'.join(r[c] for c in COLS) + '\n')
+
+
 if __name__ == '__main__':
+    if sys.argv[1] == '--prune':
+        prune(sys.argv[2])
+        sys.exit(0)
     if sys.argv[1] == '--verify':
         sys.exit(verify(sys.argv[2]))
     place(sys.argv[1], sys.argv[2])

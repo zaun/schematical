@@ -38,7 +38,7 @@ def main():
     new = {}
     if True:
         for r in csv.DictReader(open(cand, encoding='utf-8'), delimiter='\t', quoting=csv.QUOTE_NONE):
-            if r['state'] != 'candidate':
+            if r['state'] not in ('candidate', 'add'):
                 continue
             s = scan.get(r['mpn'])
             if s is None:

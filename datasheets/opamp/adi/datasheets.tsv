@@ -25,7 +25,7 @@ file	url	bytes	sha256
 ad797.pdf	https://www.analog.com/media/en/technical-documentation/data-sheets/AD797.pdf	344953	122b0a0611b5f64a1ee0a7298885c4ab9beea122436a4b50de33c303d95c7520
 ad820.pdf	https://www.analog.com/media/en/technical-documentation/data-sheets/AD820.pdf	431767	fb2c28aa128b3e0d43a2185012cca6cb36f81ea19052365b2d35f68fcfcdc521
 ad823.pdf	https://www.analog.com/media/en/technical-documentation/data-sheets/AD823.pdf	414895	429d5e1c0f9ff7deef96cb9b66d7a1836a9bf3934e74fa01f2d8ff386d2e8565
-ad8244.pdf	https://www.analog.com/media/en/technical-documentation/data-sheets/AD8244.pdf	555519	d959302a1a81a4642dc8fa8c7741698c2115ac694aa602c73d5ec24ef521a7bc
+ad823a.pdf	https://www.analog.com/media/en/technical-documentation/data-sheets/AD823A.pdf	520702	b4e30ce5d30e46cce0cc05f4a26e6e1a7e8fcf601dd2d25b3b2e7a0eef268797
 ad825.pdf	https://www.analog.com/media/en/technical-documentation/data-sheets/AD825.pdf	319460	d6571dd5ec0ed4863811e8515d3462f53146a40a9afff27c38c7c387f49a4375
 ad8500.pdf	https://www.analog.com/media/en/technical-documentation/data-sheets/AD8500.pdf	462024	00ca1787314ebb5201b9d130eef69d52d4c0d4cab07c7f163dbf233ac6517bbf
 ad8502_8504.pdf	https://www.analog.com/media/en/technical-documentation/data-sheets/AD8502_8504.pdf	524690	61c2c89c257696bf424a50247cdfdfaedca560d607c49703023f16d7e5c1a386
@@ -83,7 +83,6 @@ max4330-max4334.pdf	https://www.analog.com/media/en/technical-documentation/data
 max4400-max4403.pdf	https://www.analog.com/media/en/technical-documentation/data-sheets/max4400-max4403.pdf	2409629	c633a0d5efcdb5bdfa6fcfb52cdc4c7efd716f98364928d2b5071c9e6b17e99e
 max44241-max44246.pdf	https://www.analog.com/media/en/technical-documentation/data-sheets/max44241-max44246.pdf	889399	d832fc617cc1ceeaa3f848b26af3b74933e4d554828b1016cdf0afdda256f8b9
 max44280.pdf	https://www.analog.com/media/en/technical-documentation/data-sheets/max44280.pdf	2192744	04256cb5e1425bb71348f1f54d4bd60d61d42f436f89ad48d8963bff2b3f7294
-max44281.pdf	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX44281.pdf	878256	0beb2fa85b2ed983dcc0a57b1d6b9e9a8e7f6475a521feb048521d39a0a4a609
 max44290.pdf	https://www.analog.com/media/en/technical-documentation/data-sheets/max44290.pdf	1525189	f7b242b0479183cacbace2fa65cbe4810e0956bfb44ab5d9ca8e7d4eeaeb0a2f
 max4464-max4474.pdf	https://www.analog.com/media/en/technical-documentation/data-sheets/max4464-max4474.pdf	641050	23dad23272985f10a513a733e8060da7ffe5eb3c00c5937e40dae4b56637e640
 max4475-max4489.pdf	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX4475-MAX4489.pdf	2529316	221f44dfcfbbd4fbc94caddbb030f4ce082fec5f347bfc95e606652d66df5fd7

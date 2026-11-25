@@ -27,8 +27,8 @@ plan-48-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-48-A complete | `ls planning/completed/plan-48-A-*.md` → exists, or every A box ticked | NOT MET (2026-11-16: not started) |
-| The spec skeleton exists | `head -1 planning/plan-48-data/specs.tsv` → the header | NOT MET (A Phase 3 writes it) |
+| plan-48-A complete | `ls planning/completed/plan-48-A-*.md` → exists, or every A box ticked | NOT MET (2026-11-24: Phases 2 and 3 done, Phase 1 `[~]`: 11 picked rows still need their stock lookup, both DigiKey keys are spent until 2026-11-26 00:00 UTC; the lookups can only drop rows or move a reserve row up, and B's steps are rerun for those (Corrections 5)) |
+| The spec skeleton exists | `head -1 planning/plan-48-data/specs.tsv` → the header | MET (2026-11-24: `type company pdf package supplier_package circuits rows example scheme label pinout facts`; B adds `label` and `scheme` before `pinout`) |
 
 Everything below is written against the world where these hold.
 
@@ -159,39 +159,50 @@ one `V-`; `vcc` is `min-max` with 0 < min < max ≤ 100; a timer's `process`,
 
 ### Phase 1 — Timers
 
-- [ ] `census/pinout-check.py` per § 3.2.
-- [ ] Fill the timer spec rows from the 14 PDFs under `datasheets/timer/`:
+- [x] `census/pinout-check.py` per § 3.2 (`planning/plan-48-data/census/pinout-check.py`; `--unfilled` lists rows with no scheme yet).
+- [x] Fill the timer spec rows from the 14 PDFs under `datasheets/timer/`:
       `scheme` / `pinout`, `label`, `process`, `maxHz`, `tpd`, `vcc` (one row
       per package; a grade with its own supply range, e.g. the `-Q1` parts,
-      has its own PDF and so its own rows).
+      has its own PDF and so its own rows). Read by one subagent from the PDFs (`/tmp/p48/brief.md`),
+      merged with `census/specs-fill.py`; evidence per row in the slice's `note` column.
 
 Acceptance: the timer rows are complete and consistent.
   Check: `python3 -I planning/plan-48-data/census/pinout-check.py --type timer` → `<n> rows, 0 errors` (est. < 1 min).
+  Result: `34 rows, 0 errors`. MET.
 Commit: —
 
 ### Phase 2 — Op-amps
 
-- [ ] Fill the op-amp spec rows, one maker at a time (TI, ADI, ST): `scheme`
+- [x] Fill the op-amp spec rows, one maker at a time (TI, ADI, ST): `scheme`
       / `pinout`, `label`, `vcc` (and `inputMax` where given). The reading
-      order is the `rows` column, largest first.
+      order is the `rows` column, largest first. Twelve subagents read slices of about 42 rows
+      (whole PDFs per slice, `census/slice-specs.py`), the checker was run by each on its slice; a blind
+      second reading of 60 random rows (`census/audit-slices.py`, `census/audit-compare.py`) found
+      **0 pin differences in 60 rows** and 4 judgement differences in facts (`inputMax` 0.05 vs 0.1,
+      `vcc` 2-16.5 vs 2-18, 2.5-5.5 vs 2.7-5.5, 3.6-12 vs 4-12: Corrections 3).
 
 Acceptance: the op-amp rows are complete and consistent.
   Check: `python3 -I planning/plan-48-data/census/pinout-check.py --type opamp` → `<n> rows, 0 errors` (est. < 1 min).
+  Result: `469 rows, 0 errors` (after the refill of Phase 3). MET.
 Commit: —
 
 ### Phase 3 — The final pick, the two lists, the final package lines
 
-- [ ] `census/final.py` per § 3.3: the `-` rows skipped and refilled, then
+- [x] `census/final.py` per § 3.3: the `-` rows skipped and refilled, then
       `state` = `add`; `--write-skipped`, `--write-obsolete`;
-      `place.py --prune`.
-- [ ] `python3 -I census/footprint-lines.py candidates.tsv
+      `place.py --prune`. `final.py --pinouts` → 6 rows (`MAX44281OANS+T`, `AD8244BRMZ-R7`,
+      `INA330AIDGST`, `TL084CN`, `TL084BCN`, `TL084ACN`); `/tmp/p48/refill.sh` → 6 reserve rows moved up
+      (their 5 spec rows read); `final.py --apply` → `656 rows are state add`; `--write-skipped` → `59 skip rows in 9 table rows`;
+      `--write-obsolete` → `0 PDFs added` (no PDF has only obsolete parts); `place.py --prune` deleted 4 PDFs.
+- [x] `python3 -I census/footprint-lines.py candidates.tsv
       ../../schematical/schematical/Parts/footprints.json --add >
       footprints-needed.txt`.
-- [ ] Record in § Corrections: the `add` count per type and maker, the skip
+- [x] Record in § Corrections: the `add` count per type and maker, the skip
       count per reason, the PDF count, the package-line count per letter.
 
 Acceptance: the pick is final and both lists are written.
   Check: `python3 -I planning/plan-48-data/census/final.py --verify-skipped` → `<n> skip rows, 0 missing from skipped-parts.md`; `python3 -I planning/plan-48-data/census/place.py --verify planning/plan-48-data/candidates.tsv` → `0 missing, 0 unused`; `awk -F'\t' 'NR>1 && $22=="add"' planning/plan-48-data/candidates.tsv | wc -l` → at most 662, with at most 200 per op-amp maker (est. 2 min).
+  Result: `59 skip rows, 0 missing from skipped-parts.md`; `0 missing, 0 unused`; 656 `add` rows (op-amp TI 200, ADI 200, ST 200; timer TI 48, ADI 5, Renesas 3). MET.
 Commit: —
 
 ## Validation Plan
@@ -212,6 +223,52 @@ Commit: —
   parameters**; the supply span and the pinout come from the datasheet.
 
 ## Corrections
+
+1. **Scheme and label columns.** `specs.tsv` gained `label` and the column
+   order is `scheme label pinout facts` (the skeleton had `pinout scheme
+   facts`). A named scheme leaves `pinout` empty; an `explicit` pinout equal
+   to a named scheme is rewritten to it (`census/normalize-specs.py`).
+2. **Extra pin names.** `ISET` (TS27x programmable bias-current pin), `BAL1`,
+   `BAL2` and `FLAG` (OPA452's thermal-shutdown output) are also allowed in
+   an explicit pinout, besides the plan's list. A numbered exposed pad is
+   written `n+1=EP`; an unnumbered pad is no pin. 101 of 503 spec rows are
+   `explicit` (offset-null and shutdown pins, QFN/DFN/CSP packages,
+   non-standard SOT-23-5 orders), 402 use a named scheme
+   (`dual-8` 166, `quad-14` 72, `single-5a` 63, `single-8` 37, `single-5b` 32,
+   `555-8` 21, `556-14` 11).
+3. **Facts are judgement calls, recorded in each row's reading** (the slice
+   `note` column is not kept in specs.tsv). Timers: `maxHz` is the datasheet's
+   maximum astable frequency where it gives one, else its 100 kHz advice or
+   the axis end of its nomograph (LM555, NE555, NE556 → 100000); `tpd` is
+   the typical trigger-to-output delay where the datasheet has one (LMC555
+   150 ns, TLC3555 75 ns), else the typical output rise time. Op-amps: `vcc`
+   is the datasheet's operating total supply span; `inputMax` only where the
+   datasheet states inputs beyond V+ (volts above V+). The blind re-read of
+   60 rows differed only in four such numbers; neither reading is
+   authoritative, the part files (G) take the first. The model uses `vcc`
+   only for the voltage check's supply span, `inputMax` not at all in play mode.
+4. **Rows with no pinout (skip, `no pinout in the datasheet`): 6** —
+   `MAX44281OANS+T` (fixed-gain amp, one input), `AD8244BRMZ-R7` (quad
+   unity-gain buffer, no IN-), `INA330AIDGST` (thermistor current conveyor),
+   and `TL084CN`, `TL084BCN`, `TL084ACN` (the TL084 PDF draws no DIP-14:
+   its revision history says that package information was removed). Six
+   reserve rows moved up (ADI `AD823AARZ-RL`, `MAX4493AUK+T`; TI `TL031IP`,
+   `TLV2322IDR`, `LMV341IDCKR`, `MC33078DGKR`); their 5 new spec rows were
+   read in a second slice.
+5. **The pick is final except for the DigiKey lookups A could not finish.**
+   11 `add` rows have no stock lookup (`census/to-check.py raw candidates.tsv
+   stock-check.tsv candidate verdicts.tsv`): `TLC3555IDR`, `TLC555CPWR`,
+   `TLC555CPSR`, `NE555PS`, `LM555CMM/NOPB` (timers) and `AD823AARZ-RL`,
+   `MAX4493AUK+T`, `TL031IP`, `TLV2322IDR`, `LMV341IDCKR`, `MC33078DGKR`
+   (op-amps moved up in B). After 2026-11-26 00:00 UTC run A's loop again;
+   a row that fails drops (op-amp: the next reserve row moves up, is
+   scanned, read here and placed; `final.py` is run again).
+6. **Counts.** `add` 656: op-amp TI 200, ADI 200, ST 200; timer TI 48, ADI 5,
+   Renesas 3. `out`/`skip`: legacy label 55, maker 16, ordering table 48,
+   no pinout 6, no datasheet 5, stock check 4. PDFs: 292 (timer 13, op-amp
+   279). Package lines of `footprints-needed.txt --add`: C 58, D 28; four of
+   them have no existing footprint of the same family and pin count (C:
+   `SC-70-8`, `TO-263 (DDPAK-7)`; D: `14-WLCSP`, `6-UTLGA`).
 
 ## Summary
 

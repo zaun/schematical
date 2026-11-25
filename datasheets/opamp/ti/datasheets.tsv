@@ -1,5 +1,4 @@
 file	url	bytes	sha256
-ina330.pdf	https://www.ti.com/lit/ds/symlink/ina330.pdf	627015	9ef8743c2578d867b7a91b535d379defcb35487dfc81b2b0eb5844875fb10ec7
 lf411.pdf	https://www.ti.com/lit/ds/symlink/lf411.pdf	817866	a0240b42c30a83c2c0223a0a004e887c325d4d0328314151b959aa4a5d496e10
 lm158-n.pdf	https://www.ti.com/lit/ds/symlink/lm158-n.pdf	2070371	61eab9008e5a0055af503e88a3360377651b6694769593a198ae32d379e2dfeb
 lm224.pdf	https://www.ti.com/lit/ds/symlink/lm224.pdf	3960059	8161ad748420ae0594ad1919a34b34acd4858b822c04a8066b5fc95ddbda8963
@@ -22,6 +21,7 @@ lmv321.pdf	https://www.ti.com/lit/ds/symlink/lmv321.pdf	2605711	bbc9d98468479352
 lmv321.pdf	https://www.ti.com/lit/ds/symlink/lmv324.pdf	2605711	bbc9d98468479352d7db0ab090e6a0bf81e92585e07947d2a3fc158d6c508a49
 lmv321.pdf	https://www.ti.com/lit/ds/symlink/lmv358.pdf	2605711	bbc9d98468479352d7db0ab090e6a0bf81e92585e07947d2a3fc158d6c508a49
 lmv321a.pdf	https://www.ti.com/lit/ds/symlink/lmv321a.pdf	3345597	99d9fa9b2de484501c5103436c1e95c42a6d9f8d9223d396c4f77ed330962bd8
+lmv341.pdf	https://www.ti.com/lit/ds/symlink/lmv341.pdf	2399140	344d6663776e458cbfce188e3ccb96fc59020959e9178ba6baaab4ff13113a17
 lmv551-q1.pdf	https://www.ti.com/lit/ds/symlink/lmv551-q1.pdf	715155	f98cdc87cf40bc896d0e1f6985c680b8889b3d4f879ca4945c7ee02078c72dc3
 lmv551.pdf	https://www.ti.com/lit/ds/symlink/lmv551.pdf	1229204	fb004dc5376d10fa56a7f6e79ac6d30944a41bb5ed445d7da7574b934f788f19
 lmv651.pdf	https://www.ti.com/lit/ds/symlink/lmv651.pdf	1220256	329416d3b17fa64e2b120de6c9e13f2318d6e1df41528d49122d6a4daf1df930
@@ -33,6 +33,7 @@ lmv932-n-q1.pdf	https://www.ti.com/lit/ds/symlink/lmv932-n-q1.pdf	1590537	ff7f6c
 lmv981-n.pdf	https://www.ti.com/lit/ds/symlink/lmv981-n.pdf	1710920	d745648d42bfe7b81e037725d12591586afbc54c84d6526e6a44f768108e5de5
 lpv542.pdf	https://www.ti.com/lit/ds/symlink/lpv542.pdf	1060316	f5c8ff6bfc76d18544a8752e36bdfa7f75f9ec625085f3b24593a3bd1027d3cc
 lt1014d.pdf	https://www.ti.com/lit/ds/symlink/lt1014d.pdf	1995230	260389c50d4c82e0b8e3eb7705ae748e2c0e90485a86ee7317d3f7993328469e
+mc33078.pdf	https://www.ti.com/lit/ds/symlink/mc33078.pdf	910818	49532d4c67f977b8029957df1479a2d2054aa27f1182e3640eccb7d5bbcd5e44
 op07.pdf	https://www.ti.com/lit/ds/symlink/op07.pdf	1140721	bb2cdba2c104ade54ed6e0c19d4605425fd83e5f37419b913b93fa48f814482f
 opa137.pdf	https://www.ti.com/lit/ds/symlink/opa137.pdf	1257068	8a061890565319a406146683a5453f53917a58b7e600bee5fd06fb8edf22ff16
 opa137.pdf	https://www.ti.com/lit/ds/symlink/opa2137.pdf	1257068	8a061890565319a406146683a5453f53917a58b7e600bee5fd06fb8edf22ff16
@@ -93,7 +94,6 @@ tl061.pdf	https://www.ti.com/lit/ds/symlink/tl061.pdf	3392475	3a259204ff3e129fb2
 tl061.pdf	https://www.ti.com/lit/ds/symlink/tl062a.pdf	3392475	3a259204ff3e129fb23b5ead54e1c61cee75bb5aac7bbdabc7b8781550532399
 tl071.pdf	https://www.ti.com/lit/ds/symlink/tl071.pdf	6081648	d6e672f79ba4941d864de72e5d93983e5fd3dbe50f3bcbaac3d83d5007333689
 tl071.pdf	https://www.ti.com/lit/ds/symlink/tl071h.pdf	6081648	d6e672f79ba4941d864de72e5d93983e5fd3dbe50f3bcbaac3d83d5007333689
-tl084.pdf	https://www.ti.com/lit/ds/symlink/tl084.pdf	5554404	6583b204b17b5ec4b9a03d54759abe47310373a8f82be8d37191ea51fb2cc106
 tl092.pdf	https://www.ti.com/lit/ds/symlink/tl092.pdf	317151	4b48cfb0473171b5798e9248e1554528925510639b07c79430cc88cc10c5b3e4
 tl3472.pdf	https://www.ti.com/lit/ds/symlink/tl3472.pdf	883854	d336c82277cfbb671e1dbb3d3b392659b7ae6838c13cede281d9c37041d34e1c
 tl3474a.pdf	https://www.ti.com/lit/ds/symlink/tl3474a.pdf	1416825	ece5567064891617fc46ffe3285553f68a89b4928f8e175f4e5d8b970733b033

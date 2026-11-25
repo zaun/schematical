@@ -1356,3 +1356,23 @@ one-of-a-kind and variant-quota rules are in plan-45-A § 3 and are not skips.
 | 5430904 | Phoenix Contact BCH 3.50 mm shrouded header | `connector` / Connector → Terminal block | not in stock at DigiKey on 2026-11-24 |
 | 2473010000, 1124280000 | Weidmüller Omnimate LLFS 7.50 mm push-in; Omnimate SL 7.62 mm header | `connector` / Connector → Terminal block | not in stock at DigiKey on 2026-11-24 |
 | 691412120005B, 691412120006B, 691412120008B, 691412120009B | Würth WR-TBL 412B 3.50 mm spring | `connector` / Connector → Terminal block | not in stock at DigiKey on 2026-11-24 |
+
+## Timers and op-amps (plan-48)
+
+In-stock Active / Last Time Buy 555-type timers and common op-amps of the top three
+makers of each type at DigiKey (timers: Texas Instruments, Analog Devices / Maxim,
+Renesas; op-amps: Texas Instruments, Analog Devices / Maxim, STMicroelectronics) that
+were picked but left out for their datasheet. The next most-stocked part of the maker
+took the place of an op-amp. Written by `planning/plan-48-data/census/final.py --write-skipped`.
+
+| Part(s) | Device | Would have gone into | Why skipped |
+|---|---|---|---|
+| ADA4622-1ARJZ-R2, MAX74825ARTZ-R7 | Analog Devices / Maxim op-amps | `opamp` / Analog → Op-amps | no datasheet on the maker's site (the DigiKey link is a Rochester Electronics copy, the guessed ti.com / analog.com link answers 404, or there is no link) |
+| AD8244BRMZ-R7, MAX44281OANS+T | Analog Devices / Maxim op-amps | `opamp` / Analog → Op-amps | the datasheet shows no pinout for the package, or the device is not a plain op-amp (no IN+ / IN- / OUT) |
+| ADA4062-2ARMZ-R7, LT1001CS8#PBF, LT1001CS8#TRPBF, LT1012S8#TRPBF, LT1077S8#TRPBF, LT1078CN8#PBF, LT1112IS8#PBF, LT1490CS8#TRPBF, LT1494CS8#TRPBF, LT1495IS8#TRPBF, LT1635CS8#TRPBF, LT1803CS5#TRMPBF, LT1884IS8#PBF, LT6000CDCB#TRPBF, MAX4041ESA+T, MAX4042EUA+T, MAX4092ASA+T, MAX4122EUK+T, MAX4126EUA+T, MAX492ESA+T, MAX9911EWT+T | Analog Devices / Maxim op-amps | `opamp` / Analog → Op-amps | the part number is not in the datasheet's ordering table (plan-48-A § 4 rule 2) |
+| ICM7555ESA+T, ICM7555ISA+T, ICM7556ISD+T | Analog Devices / Maxim 555-type timers | `timer` / Analog → Timers | the part number is not in the datasheet's ordering table (plan-48-A § 4 rule 2) |
+| L272D013TR, LF247DT, LF347DT, LM258PT, MC3303PT, MC33171DT, MC33174DT, TS27L2CDT, TS27L2IDT, TSH24IDT | STMicroelectronics op-amps | `opamp` / Analog → Op-amps | the part number is not in the datasheet's ordering table (plan-48-A § 4 rule 2) |
+| OPA234EA, OPA234U-TI, TL322CP | Texas Instruments op-amps | `opamp` / Analog → Op-amps | no datasheet on the maker's site (the DigiKey link is a Rochester Electronics copy, the guessed ti.com / analog.com link answers 404, or there is no link) |
+| INA330AIDGST, TL084ACN, TL084BCN, TL084CN | Texas Instruments op-amps | `opamp` / Analog → Op-amps | the datasheet shows no pinout for the package, or the device is not a plain op-amp (no IN+ / IN- / OUT) |
+| LM6142BIMX-TI, LMV324M-TI, LMV721M5-TI, LMV821M7-TI, LMV931MF-TI, LT1013CPE4, TL33072ADR, TLC27L1ACP, TLC27L1CDR, TLC27L7IDR, TLC27M4IDR, TLC27M4IPWR | Texas Instruments op-amps | `opamp` / Analog → Op-amps | the part number is not in the datasheet's ordering table (plan-48-A § 4 rule 2) |
+| TLC3555QDDFRQ1, TLC555IP-P2 | Texas Instruments 555-type timers | `timer` / Analog → Timers | the part number is not in the datasheet's ordering table (plan-48-A § 4 rule 2) |

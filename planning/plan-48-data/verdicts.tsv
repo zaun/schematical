@@ -1,9 +1,10 @@
 mpn	verdict	reason	pdf
 AD797ARZ	add		06291fabb17abfd6dff0ba8e8ef433d6.pdf
 AD820ARZ-REEL	add		3f00ee38340a1d29d7c0c347e4650692.pdf
+AD823AARZ-RL	add		72c548233dad725257ecfd52ff229dc8.pdf
 AD823ARZ	add		61422199805f87444ad9286a7ee3eb08.pdf
 AD823ARZ-RL	add		61422199805f87444ad9286a7ee3eb08.pdf
-AD8244BRMZ-R7	add		d609aa59cb2931f98b6f69eec1aa1c4c.pdf
+AD8244BRMZ-R7	skip	no pinout in the datasheet	d609aa59cb2931f98b6f69eec1aa1c4c.pdf
 AD825ARZ	add		06cadb0083ee563e99abf134e7ef4f8f.pdf
 AD825ARZ-REEL7	add		06cadb0083ee563e99abf134e7ef4f8f.pdf
 AD8500AKSZ-REEL7	add		b63a29007c33806a1c983798bd0ed144.pdf
@@ -106,7 +107,7 @@ ICM7555ISA+T	skip	not in the datasheet's ordering table	436b921db45a83f0a0117d3e
 ICM7556IPD+	add		436b921db45a83f0a0117d3e1734acdc.pdf
 ICM7556ISD+	add		436b921db45a83f0a0117d3e1734acdc.pdf
 ICM7556ISD+T	skip	not in the datasheet's ordering table	436b921db45a83f0a0117d3e1734acdc.pdf
-INA330AIDGST	add		47803fe8966420ce991854c1c8a191bb.pdf
+INA330AIDGST	skip	no pinout in the datasheet	47803fe8966420ce991854c1c8a191bb.pdf
 L272D	add		e9e429cf55321099158dd5f792854a86.pdf
 L272D013TR	skip	not in the datasheet's ordering table	e9e429cf55321099158dd5f792854a86.pdf
 LF247DT	skip	not in the datasheet's ordering table	8ba063691cc82b392a595c9e07807b6b.pdf
@@ -202,6 +203,7 @@ LMV324IYPT	add		a84e931bed160b5792b1636bb1a8b1b4.pdf
 LMV324M-TI	skip	not in the datasheet's ordering table	03e0501675956be9f8561a43bf72e69f.pdf
 LMV324Q3MA/NOPB	add		263cb26bbefa960e03dcfd0ed4bdfbb0.pdf
 LMV324Q3MT/NOPB	add		263cb26bbefa960e03dcfd0ed4bdfbb0.pdf
+LMV341IDCKR	add		079f336c8531ce2f1cf4943e01483458.pdf
 LMV358LIPT	add		78b8a038747558fe10d2844b3c386f6a.pdf
 LMV358LIST	add		78b8a038747558fe10d2844b3c386f6a.pdf
 LMV358Q3MM/NOPB	add		dbfa16109e5adac09adf54e659b32d8c.pdf
@@ -321,7 +323,7 @@ MAX4330EUK+T	add		8d669cafb6f4a3e921abd44cbd4ffbe1.pdf
 MAX4402AKA+T	add		6bb873b8bdc66c4cb4b700aa258a9298.pdf
 MAX44246AUA+T	add		e57f738a86815517bc991cd6a466fe32.pdf
 MAX44280AYT+T	add		e9d5c803546324fbc5aa0f3d769deed9.pdf
-MAX44281OANS+T	add		6a7894798d1a10d26c4d79d10ccf3557.pdf
+MAX44281OANS+T	skip	no pinout in the datasheet	6a7894798d1a10d26c4d79d10ccf3557.pdf
 MAX44290ANT+T	add		d97d9a4876cfcfff2ce192f06febe0b2.pdf
 MAX4464EUK+T	add		d2e2cc33473b7eb48ed30f7a89d6dcbe.pdf
 MAX4471EKA+T	add		d2e2cc33473b7eb48ed30f7a89d6dcbe.pdf
@@ -331,6 +333,7 @@ MAX4478ASD+T	add		f5611b75d1aacc93ef7822362c8185eb.pdf
 MAX4478AUD+T	add		f5611b75d1aacc93ef7822362c8185eb.pdf
 MAX4489AUA+	add		f5611b75d1aacc93ef7822362c8185eb.pdf
 MAX4490AUK+T	add		42b98dba8bf7f22112eda7b4adc5d4a4.pdf
+MAX4493AUK+T	add		017b6db7a4afa45a3b0b50108d167c26.pdf
 MAX4494AKA+T	add		017b6db7a4afa45a3b0b50108d167c26.pdf
 MAX492ESA+T	skip	not in the datasheet's ordering table	eb920999c9e76f051decd1de83723e7d.pdf
 MAX9613AXT+T	add		7e467043d4d60a720040c81ae2feae28.pdf
@@ -344,6 +347,7 @@ MAX9914EXK+T	add		d20bd669a3d3bcaf41eb7adc3475bf62.pdf
 MAX9915EXT+T	add		d20bd669a3d3bcaf41eb7adc3475bf62.pdf
 MAX9916EKA+T	add		d20bd669a3d3bcaf41eb7adc3475bf62.pdf
 MC3303PT	skip	not in the datasheet's ordering table	2c65f1feb3e80f00837dbbe5438a2ac2.pdf
+MC33078DGKR	add		7ddc3cd61518ce1b1e32c14d3210b4f6.pdf
 MC33078DT	add		0155ab6da280fb9d099282d2b1c39eff.pdf
 MC33078YDT	add		0155ab6da280fb9d099282d2b1c39eff.pdf
 MC33171DT	skip	not in the datasheet's ordering table	a50d2ce321bab70863abecc860d8f4e6.pdf
@@ -427,6 +431,7 @@ SA556N	add		e6d36a9c2027982eeb10e7ca323a049e.pdf
 SE555P	add		676025a236f8fdb27e7271f378def166.pdf
 SM73302MFX/NOPB	add		08273d0bc8a15859f25b018c94e8203e.pdf
 TL031CP	add		cf54e7bb6bfb535bfb77a42efab58c28.pdf
+TL031IP	add		cf54e7bb6bfb535bfb77a42efab58c28.pdf
 TL032AIP	add		cf54e7bb6bfb535bfb77a42efab58c28.pdf
 TL032CP	add		cf54e7bb6bfb535bfb77a42efab58c28.pdf
 TL032IP	add		cf54e7bb6bfb535bfb77a42efab58c28.pdf
@@ -467,14 +472,14 @@ TL082CPT	add		cd5f353e3dd7b26a19f772c8f31c7078.pdf
 TL082IDT	add		cd5f353e3dd7b26a19f772c8f31c7078.pdf
 TL082IPT	add		cd5f353e3dd7b26a19f772c8f31c7078.pdf
 TL084ACDT	add		d28c5b3f6f041b2624f4202820a6bda6.pdf
-TL084ACN	add		edba9f6b727c594f64a6c9bd99fba716.pdf
+TL084ACN	skip	no pinout in the datasheet	edba9f6b727c594f64a6c9bd99fba716.pdf
 TL084AIDT	add		d28c5b3f6f041b2624f4202820a6bda6.pdf
 TL084BCDT	add		d28c5b3f6f041b2624f4202820a6bda6.pdf
-TL084BCN	add		edba9f6b727c594f64a6c9bd99fba716.pdf
+TL084BCN	skip	no pinout in the datasheet	edba9f6b727c594f64a6c9bd99fba716.pdf
 TL084BIDT	add		d28c5b3f6f041b2624f4202820a6bda6.pdf
 TL084CD	add		260374a717ec8f846dff0535602e2a12.pdf
 TL084CDT	add		d28c5b3f6f041b2624f4202820a6bda6.pdf
-TL084CN	add		edba9f6b727c594f64a6c9bd99fba716.pdf
+TL084CN	skip	no pinout in the datasheet	edba9f6b727c594f64a6c9bd99fba716.pdf
 TL084CPT	add		d28c5b3f6f041b2624f4202820a6bda6.pdf
 TL084IDT	add		d28c5b3f6f041b2624f4202820a6bda6.pdf
 TL084IYDT	add		d28c5b3f6f041b2624f4202820a6bda6.pdf
@@ -536,6 +541,7 @@ TLE2037CD	add		cb3e0b71638d1f29cf5876fd26d16a0d.pdf
 TLE2161AIDR	add		8515822d9f57cd8efc99ca8b49f99ed9.pdf
 TLV2264AIPWR	add		44088dd1f7a4977d726e3c5c9c211a20.pdf
 TLV2264AQPWRQ1	add		a2fd57058ce14afaad39d2255c03707a.pdf
+TLV2322IDR	add		2761a4da1a83638de45c7cbeccb2a560.pdf
 TLV2324IPWR	add		2761a4da1a83638de45c7cbeccb2a560.pdf
 TLV2361IDBVR	add		e723850d878ff4304062bd9a8267a3ae.pdf
 TLV2361IDBVT	add		e723850d878ff4304062bd9a8267a3ae.pdf

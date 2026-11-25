@@ -2,7 +2,7 @@
 """plan-48-A phase 2: for each picked row (state `candidate`), whether its
 datasheet prints the part number, and whether a status word stands next to it.
 usage: python3 -I textscan.py <candidates.tsv> <pdf cache dir> <textscan.tsv> [states]
-`states` (default `candidate`) is a comma list of candidates.tsv states to scan.
+`states` (default `candidate,add`) is a comma list of candidates.tsv states to scan.
 
 Text = `pdftotext -layout` of the cached PDF (`<md5 of url>.txt`), whitespace
 removed, upper case (the same as select.py's `hit`). Columns:
@@ -146,7 +146,7 @@ def scan(text, company, mpn, slash=None):
 
 def main():
     cand, cache, out = sys.argv[1:4]
-    states = set((sys.argv[4] if len(sys.argv) > 4 else 'candidate').split(','))
+    states = set((sys.argv[4] if len(sys.argv) > 4 else 'candidate,add').split(','))
     texts, slashes = {}, {}
     n = 0
     with open(out, 'w', encoding='utf-8', newline='') as f:

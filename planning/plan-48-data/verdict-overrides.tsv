@@ -8,3 +8,9 @@ ICM7555ISA+	add		same
 ICM7555IPA+	add		same
 ICM7556ISD+	add		same
 ICM7556IPD+	add		same
+MAX44281OANS+T	skip	no pinout in the datasheet	specs.tsv row max44281.pdf | 4-UFBGA, WLBGA | 1 circuits has pinout -
+AD8244BRMZ-R7	skip	no pinout in the datasheet	specs.tsv row ad8244.pdf | 10-TFSOP, 10-MSOP (0.118", 3.00mm Width) | 4 circuits has pinout -
+INA330AIDGST	skip	no pinout in the datasheet	specs.tsv row ina330.pdf | 10-TFSOP, 10-MSOP (0.118", 3.00mm Width) | 1 circuits has pinout -
+TL084CN	skip	no pinout in the datasheet	specs.tsv row tl084.pdf | 14-DIP (0.300", 7.62mm) | 4 circuits has pinout -
+TL084BCN	skip	no pinout in the datasheet	specs.tsv row tl084.pdf | 14-DIP (0.300", 7.62mm) | 4 circuits has pinout -
+TL084ACN	skip	no pinout in the datasheet	specs.tsv row tl084.pdf | 14-DIP (0.300", 7.62mm) | 4 circuits has pinout -
