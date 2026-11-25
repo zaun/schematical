@@ -9,6 +9,10 @@
 //  here, the datasheet shows its citations (planning/spike-datasheet-format/
 //  format.md § Citations); clicking one scrolls the PDF to that spot.
 //
+//  Edit turns the datasheet pane into an inline editor (Renderer/datasheet-edit.js):
+//  click a block, change it within the format, Apply. Edits stay in memory
+//  (`edits`, by datasheet path) and are written nowhere yet.
+//
 
 import AppKit
 import PDFKit
@@ -207,6 +211,13 @@ final class VerifyDatasheetModel {
     private(set) var pdf = PDFPhase.none
     /// What the last citation click did, for the line under the search field.
     private(set) var status = ""
+    /// The datasheet pane is an editor.
+    private(set) var isEditing = false
+    /// The edited text of every datasheet changed in this window, by its path. Not saved anywhere.
+    private(set) var edits: [String: String] = [:]
+    /// The blocks of the shown datasheet that differ from its file, and the edits that can be undone.
+    private(set) var editedBlocks = 0
+    private(set) var undoDepth = 0
 
     @ObservationIgnored private var documents: [URL: PDFDocument] = [:]
     @ObservationIgnored private var loading: Task<Void, Never>?
@@ -216,6 +227,33 @@ final class VerifyDatasheetModel {
             .filter { $0.datasheetMarkdown != nil }
             .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
         page.onCitation = { [weak self] click in self?.show(click) }
+        page.onEdit = { [weak self] state in self?.record(state) }
+        page.onPDFPageRequest = { [weak self] in
+            if let number = self?.currentPDFPage() { self?.page.deliverPDFPage(number) }
+        }
+    }
+
+    func setEditing(_ on: Bool) {
+        isEditing = on
+        page.setEditing(on)
+    }
+
+    func undo() { page.undo() }
+    func revertAll() { page.revertAll() }
+
+    /// What the page's editor reported. A report for a datasheet that is no longer shown is dropped.
+    private func record(_ state: DatasheetEditState) {
+        guard state.path == selected?.datasheetMarkdown else { return }
+        edits[state.path] = state.modified ? state.markdown : nil
+        editedBlocks = state.edited
+        undoDepth = state.undo
+    }
+
+    /// The page the PDF shows (from 1), for a citation's "Use PDF page".
+    func currentPDFPage() -> Int? {
+        guard let view = finder.view, let document = view.document, let current = view.currentPage else { return nil }
+        let index = document.index(for: current)
+        return index == NSNotFound ? nil : index + 1
     }
 
     /// The candidates matching what was typed: every word in the name,
@@ -236,8 +274,11 @@ final class VerifyDatasheetModel {
     func select(_ part: CatalogPart) {
         selected = part
         status = ""
+        editedBlocks = 0
+        undoDepth = 0
         if let path = part.datasheetMarkdown {
-            page.load(MarkdownDatasheetTarget(path: path, partName: part.name))
+            page.load(MarkdownDatasheetTarget(path: path, partName: part.name),
+                      markdown: edits[path], editing: isEditing)
         }
         loadPDF(for: part)
     }
@@ -348,11 +389,35 @@ struct VerifyDatasheetWindowView: View {
                 .foregroundStyle(.secondary)
                 .lineLimit(1)
             Spacer(minLength: 0)
+            if model.selected != nil { editControls }
             Text("\(model.candidates.count) parts")
                 .font(.caption)
                 .foregroundStyle(.tertiary)
         }
         .padding(10)
+    }
+
+    private var editControls: some View {
+        HStack(spacing: 8) {
+            if model.isEditing, model.editedBlocks > 0 {
+                Text(model.editedBlocks == 1 ? "1 block edited" : "\(model.editedBlocks) blocks edited")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            if model.isEditing {
+                Button("Undo") { model.undo() }
+                    .disabled(model.undoDepth == 0)
+                    .help("Undo the last applied edit")
+                Button("Revert All") { model.revertAll() }
+                    .disabled(model.editedBlocks == 0)
+                    .help("Go back to the datasheet as it is in the app (Undo brings the edits back)")
+            }
+            Toggle(isOn: Binding(get: { model.isEditing }, set: { model.setEditing($0) })) {
+                Label("Edit", systemImage: "pencil")
+            }
+            .toggleStyle(.button)
+            .help("Edit the datasheet in place. Edits are not saved yet.")
+        }
     }
 
     private var results: some View {

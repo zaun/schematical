@@ -90,6 +90,10 @@ final class DatasheetPage: NSObject, WKNavigationDelegate {
     @ObservationIgnored private let showsCitations: Bool
     /// A click on a citation (Verify Datasheet window only).
     @ObservationIgnored var onCitation: ((CitationClick) -> Void)?
+    /// The editor's state after every render and edit (Verify Datasheet window only).
+    @ObservationIgnored var onEdit: ((DatasheetEditState) -> Void)?
+    /// The editor asked which page the PDF is showing.
+    @ObservationIgnored var onPDFPageRequest: (() -> Void)?
 
     init(showsCitations: Bool = false) {
         self.showsCitations = showsCitations
@@ -99,15 +103,19 @@ final class DatasheetPage: NSObject, WKNavigationDelegate {
         webView.setValue(false, forKey: "drawsBackground")
         if showsCitations {
             webView.configuration.userContentController.add(CitationMessages(page: self), name: "cite")
+            webView.configuration.userContentController.add(EditMessages(page: self), name: "edit")
         }
     }
 
-    func load(_ target: MarkdownDatasheetTarget) {
+    /// `markdown` is an edited copy of the file to show instead of it; `editing` opens the page in
+    /// edit mode (Verify Datasheet window only).
+    func load(_ target: MarkdownDatasheetTarget, markdown: String? = nil, editing: Bool = false) {
         failure = nil
         do {
             let built = try DatasheetPayload.build(path: target.path, partName: target.partName,
                                                    catalog: PartCatalogStore.shared,
-                                                   citations: showsCitations)
+                                                   citations: showsCitations, markdown: markdown,
+                                                   editing: showsCitations && editing)
             payload = built.json
             title = built.title
             guard let html = Bundle.main.url(forResource: "datasheet", withExtension: "html"),
@@ -119,6 +127,17 @@ final class DatasheetPage: NSObject, WKNavigationDelegate {
         } catch {
             failure = error.localizedDescription
         }
+    }
+
+    // The editor in the page (datasheet-edit.js).
+
+    func setEditing(_ on: Bool) { run("dsEdit.setEditing(\(on))") }
+    func undo() { run("dsEdit.undo()") }
+    func revertAll() { run("dsEdit.revertAll()") }
+    func deliverPDFPage(_ number: Int) { run("dsEdit.setPdfPage(\(number))") }
+
+    private func run(_ script: String) {
+        webView.evaluateJavaScript("window.dsEdit && \(script)", completionHandler: nil)
     }
 
     func print() {
@@ -178,6 +197,44 @@ private final class CitationMessages: NSObject, WKScriptMessageHandler {
     }
 }
 
+/// What the page's editor reports: the datasheet's text as it stands, whether it differs from the file,
+/// how many blocks differ, and how many edits can be undone.
+struct DatasheetEditState: Equatable {
+    let path: String
+    let markdown: String
+    let modified: Bool
+    let edited: Int
+    let undo: Int
+}
+
+/// Receives the editor's "edit" messages without the web view's content controller keeping the
+/// datasheet page alive.
+private final class EditMessages: NSObject, WKScriptMessageHandler {
+    weak var page: DatasheetPage?
+
+    init(page: DatasheetPage) { self.page = page }
+
+    func userContentController(_ controller: WKUserContentController, didReceive message: WKScriptMessage) {
+        guard let body = message.body as? [String: Any], let type = body["type"] as? String else { return }
+        switch type {
+        case "state":
+            guard let markdown = body["markdown"] as? String else { return }
+            let state = DatasheetEditState(
+                path: body["path"] as? String ?? "",
+                markdown: markdown,
+                modified: body["modified"] as? Bool ?? false,
+                edited: (body["edited"] as? NSNumber)?.intValue ?? 0,
+                undo: (body["undo"] as? NSNumber)?.intValue ?? 0
+            )
+            MainActor.assumeIsolated { page?.onEdit?(state) }
+        case "pdfPage":
+            MainActor.assumeIsolated { page?.onPDFPageRequest?() }
+        default:
+            break
+        }
+    }
+}
+
 /// WKWebView in SwiftUI.
 struct DatasheetWebView: NSViewRepresentable {
     let page: DatasheetPage
@@ -213,13 +270,16 @@ enum DatasheetPayload {
 
     @MainActor
     static func build(path: String, partName: String, catalog: PartCatalogStore,
-                      citations: Bool = false) throws -> (json: String, title: String) {
+                      citations: Bool = false, markdown edited: String? = nil,
+                      editing: Bool = false) throws -> (json: String, title: String) {
         let name = (path as NSString).lastPathComponent
         guard let url = Bundle.main.url(forResource: (name as NSString).deletingPathExtension,
                                         withExtension: "md"),
-              let markdown = try? String(contentsOf: url, encoding: .utf8) else {
+              let original = try? String(contentsOf: url, encoding: .utf8) else {
             throw Failure(errorDescription: "The datasheet file \(path) is missing from the app.")
         }
+        // An edited copy (Verify Datasheet window) is shown in place of the file.
+        let markdown = edited ?? original
         let front = frontMatter(markdown)
 
         var devices: [[String: Any]] = []
@@ -280,14 +340,17 @@ enum DatasheetPayload {
             }
         }
 
-        let payload: [String: Any] = [
+        var payload: [String: Any] = [
             "markdown": markdown,
             "part": partName,
+            "path": path,
             "devices": devices,
             "footprints": footprints,
             "figures": figures,
             "showCitations": citations,
+            "editing": editing,
         ]
+        if edited != nil { payload["original"] = original }
         let data = try JSONSerialization.data(withJSONObject: payload)
         return (String(decoding: data, as: UTF8.self), front["title"] as? String ?? "")
     }
