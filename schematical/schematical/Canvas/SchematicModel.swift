@@ -1635,9 +1635,9 @@ final class SchematicDocument {
     /// The last `connectivity()` and `ratsnest()`, and the `copperRevision`
     /// they were built at (see Ratsnest.swift).
     @ObservationIgnored var keptConnectivity: (revision: Int, copper: BoardConnectivity)?
-    /// The last pour fills, with the pours and keep-outs they were made for (plan-52-D).
+    /// The last pour fills, with the pours, keep-outs and board edge they were made for (plan-52-D, plan-65-C).
     @ObservationIgnored var keptPourFills: (revision: Int, pours: [BoardPour], keepouts: [BoardKeepout],
-                                            fills: [UUID: PourFill])?
+                                            edge: BoardEdge, fills: [UUID: PourFill])?
     @ObservationIgnored var keptRatsnest: (revision: Int, lines: [(CGPoint, CGPoint)])?
     @ObservationIgnored private var keptChipPads: (revision: Int, pads: [[PlacedPad]])?
     @ObservationIgnored private var keptVoltageIssues: (revision: Int, issues: Set<VoltageIssue>)?

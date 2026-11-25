@@ -40,14 +40,16 @@ extension SchematicDocument {
     /// ones stand, so a drag does not pay for a refill each frame
     /// (`endGesture` makes the next build refill). Builds that leave copper
     /// out or add a trace being drawn use the kept fills when they are for
-    /// the same pours and keep-outs.
+    /// the same pours, keep-outs and board edge (a moved cutout or a new
+    /// outline refills).
     func pourFills(for copper: BoardConnectivity, plain: Bool) -> [UUID: PourFill] {
         guard !pours.isEmpty else { return [:] }
-        let same = keptPourFills.map { $0.pours == pours && $0.keepouts == keepouts } ?? false
+        let edge = boardEdge
+        let same = keptPourFills.map { $0.pours == pours && $0.keepouts == keepouts && $0.edge == edge } ?? false
         if plain {
             if isGestureOpen, same, let kept = keptPourFills { return kept.fills }
             let fills = computePourFills(for: copper)
-            keptPourFills = (copperRevision, pours, keepouts, fills)
+            keptPourFills = (copperRevision, pours, keepouts, edge, fills)
             return fills
         }
         if same, let kept = keptPourFills { return kept.fills }
@@ -60,6 +62,6 @@ extension SchematicDocument {
             if let name = pour.net, let net = copper.net(of: name) { nets[pour.id] = net }
         }
         return PourFiller.fill(pours: pours, nets: nets, keepouts: keepouts, copper: pourCopper(for: copper),
-                               outline: board.outline, edge: board.rules.minCopperToEdge, rules: board.rules)
+                               board: boardEdge, edge: board.rules.minCopperToEdge, rules: board.rules)
     }
 }

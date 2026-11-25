@@ -28,7 +28,7 @@ The shared gate is in plan-65-A. This sub-plan adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-65-B is complete | `ls planning/completed \| grep -c '^plan-65-B'` → 1 | NOT MET (2026-11-25: B is written, not landed) |
+| plan-65-B is complete | `ls planning/completed \| grep -c '^plan-65-B'` → 1 | MET (2026-11-25: B landed, 1) |
 
 Everything below is written against the world where these hold.
 
@@ -98,13 +98,14 @@ Rejected: a new `Kind.cutout` (it would renumber every golden's group order for 
 
 ### Phase 1 — The pour fill
 
-- [ ] `Canvas/PourFill.swift`: `fill(…board: BoardEdge, edge:…)`; the `inner` of § 3; the guard is `board.outline.count >= 3`.
-- [ ] `Canvas/PourConnectivity.swift`: `computePourFills` passes `boardEdge`; `keptPourFills` (in `SchematicModel.swift:1639`) and `pourFills(for:plain:)` carry and compare `edge`.
-- [ ] Update every caller of `PourFiller.fill` (the document; the tests that call it directly, with `BoardEdge(outline:cutouts: [])`).
-- [ ] Tests `schematicalTests/CutoutPourTests.swift`: a 40 × 40 pour on a 60 × 40 board with a 10 × 10 cutout inside it has no fill point inside the cutout or within `minCopperToEdge` of its edge (sample 2000 points against `BoardEdge.contains` and the segment distance) and has fill 5 mm from it; a round 6 mm cutout likewise; a cutout that crosses the outline still gives a fill; the cache: with `PourFiller.fillCount` set to 0, `connectivity()` twice with no change fills once (`fillCount == 1`), and after `moveCutout` a third call fills again (`fillCount == 2`) and its fill has the hole at the new place and none at the old one (the pattern of `PourConnectivityTests.swift:113`–`:124`); a free-form L-shaped outline keeps the fill out of the notch.
+- [x] `Canvas/PourFill.swift`: `fill(…board: BoardEdge, edge:…)`; the `inner` of § 3; the guard is `board.outline.count >= 3`.
+- [x] `Canvas/PourConnectivity.swift`: `computePourFills` passes `boardEdge`; `keptPourFills` (in `SchematicModel.swift:1639`) and `pourFills(for:plain:)` carry and compare `edge`.
+- [x] Update every caller of `PourFiller.fill` (the document; the tests that call it directly, with `BoardEdge(outline:cutouts: [])`).
+- [x] Tests `schematicalTests/CutoutPourTests.swift`: a 40 × 40 pour on a 60 × 40 board with a 10 × 10 cutout inside it has no fill point inside the cutout or within `minCopperToEdge` of its edge (sample 2000 points against `BoardEdge.contains` and the segment distance) and has fill 5 mm from it; a round 6 mm cutout likewise; a cutout that crosses the outline still gives a fill; the cache: with `PourFiller.fillCount` set to 0, `connectivity()` twice with no change fills once (`fillCount == 1`), and after `moveCutout` a third call fills again (`fillCount == 2`) and its fill has the hole at the new place and none at the old one (the pattern of `PourConnectivityTests.swift:113`–`:124`); a free-form L-shaped outline keeps the fill out of the notch.
 
 Acceptance: the fill has a clean hole round a cutout, follows a moved one, and the existing fill tests pass unedited.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/CutoutPourTests -only-testing:schematicalTests/PourFillTests -only-testing:schematicalTests/PourConnectivityTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 4 min; the two existing classes are the no-cutout byte-identity check for the fill).
+  Observed: CutoutPourTests 5 + PourFillTests 16 + PourConnectivityTests 11, 0 failures, TEST SUCCEEDED.
 Commit: —
 
 ### Phase 2 — The design rule check
