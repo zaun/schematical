@@ -31,8 +31,8 @@ Stated in plan-61-A. In addition:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-61-A is complete | `rg -c '^- \[ \]' planning/plan-61-A-document-undo-manager.md` → no output | NOT MET until A lands |
-| The print entitlement is in the project | `rg -c 'ENABLE_RESOURCE_ACCESS_PRINTING = YES' schematical/schematical.xcodeproj/project.pbxproj` → `2` | MET (2) |
+| plan-61-A is complete | `rg -c '^- \[ \]' planning/plan-61-A-document-undo-manager.md` → no output | MET (no output, 2026-11-24, after 304b545d) |
+| The print entitlement is in the project | `rg -c 'ENABLE_RESOURCE_ACCESS_PRINTING = YES' schematical/schematical.xcodeproj/project.pbxproj` → `2` | MET (`2`, re-run at execution) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run before you continue and before you stop; report all prerequisites if
@@ -207,11 +207,11 @@ follow the system tab setting until 61-C adds the app's own setting.
 
 ### Phase 1 — The model object, with today's window
 
-- [ ] New `Document/SchematicEditorModel.swift` as in § 3 piece 1; `ContentView.init(model:)` takes it; `schematicalApp.swift` builds one per window (`ContentView(model: SchematicEditorModel())` behind a small wrapper view holding it in `@State`).
-- [ ] The 9 test constructor sites keep compiling: the controller's initializer is unchanged in this phase.
+- [x] New `Document/SchematicEditorModel.swift` as in § 3 piece 1; `ContentView.init(model:)` takes it; `schematicalApp.swift` builds one per window (`ContentView(model: SchematicEditorModel())` behind a small wrapper view holding it in `@State`). Done: `ContentView` reads the document, simulation and exporter through the model (no `@State` copies); `SchematicWindowRoot` in `schematicalApp.swift` holds the model.
+- [x] The 9 test constructor sites keep compiling: the controller's initializer is unchanged in this phase. Done: the test target built and ran.
 
 Acceptance: the app behaves as before with the model in between.
-  Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/SchematicExportActionTests -only-testing:schematicalTests/FileDesignRulesTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 5 min).
+  Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/SchematicExportActionTests -only-testing:schematicalTests/FileDesignRulesTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 5 min). Result: `Executed 21 tests, with 0 failures`, `** TEST SUCCEEDED **`.
 Commit: —
 
 ### Phase 2 — The document class, read and write

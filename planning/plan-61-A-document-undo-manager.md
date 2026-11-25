@@ -226,7 +226,7 @@ Commit: 0f559d4c
 
 Acceptance: no per-page undo API is left and every test class that used it passes.
   Check: `rg -c 'undo\(on|redo\(on|undoName\(on|redoName\(on|UndoHistory\(' schematical` → no output; then the 42 classes: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical $(rg -l 'undo\(\)|redo\(\)' schematical/schematicalTests | sed -E 's#.*/(.*)\.swift#-only-testing:schematicalTests/\1#' | tr '\n' ' ') 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 12 min: 42 classes is the set this phase edits, and a rename can only be proved by running each renamed file; a full Debug suite stalls in `AutorouteModelTests testTheSummaryOnAFU`, so the list is explicit). Result: the old-API search prints nothing; 43 classes (the 42, plus `DocumentUndoTests`): `Executed 564 tests, with 2 tests skipped and 0 failures`, `** TEST SUCCEEDED **`.
-Commit: —
+Commit: 304b545d
 
 ## Validation Plan
 
@@ -234,7 +234,7 @@ Commit: —
 - Coverage check: the `rg -c` in phase 3 returning nothing is the denominator: no caller of the old API remains.
 - Runtime proof: plan-59's U1–U5 evidence is the reference behavior; phase 1's tests restate it without a window.
 - Doc sync: `docs/agent-control.md` (the `undo` and `redo` tools).
-- Final gate (run once, after phase 3): the phase 3 command (est. 12 min).
+- Final gate (run once, after phase 3): the phase 3 command (est. 12 min). Run 2026-11-24 at 304b545d: 43 classes, `Executed 564 tests, with 2 tests skipped and 0 failures`, `** TEST SUCCEEDED **`.
 
 ## Decisions
 

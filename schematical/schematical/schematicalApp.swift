@@ -31,6 +31,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 }
 
+/// A schematic window's root: holds the window's model for its life
+/// (plan-61-B phase 1; the document class takes this over).
+private struct SchematicWindowRoot: View {
+    @State private var model = SchematicEditorModel()
+
+    var body: some View {
+        ContentView(model: model)
+    }
+}
+
 @main
 struct schematicalApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
@@ -46,7 +56,7 @@ struct schematicalApp: App {
         // Opening a file from a window that isn't blank opens a new one of
         // these, as a tab of that window.
         WindowGroup(id: "schematic") {
-            ContentView()
+            SchematicWindowRoot()
         }
         .windowToolbarStyle(.unifiedCompact(showsTitle: false))
         .commands {

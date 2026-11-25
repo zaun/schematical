@@ -26,7 +26,9 @@ nonisolated enum EditorPage: String, CaseIterable, Identifiable, Codable, Sendab
 struct ContentView: View {
     /// The app-wide catalog, loaded once at launch.
     private let catalog = PartCatalogStore.shared
-    @State private var document: SchematicDocument
+    /// What this window edits (plan-61-B): made by the window's owner.
+    private let model: SchematicEditorModel
+    private var document: SchematicDocument { model.document }
     /// The schematic's pan and zoom. Its 100 % draws at 0.75 points per
     /// schematic unit (what used to be 75 %).
     @State private var viewport = CanvasViewport(baseScale: 0.75)
@@ -51,8 +53,8 @@ struct ContentView: View {
     /// Whether the sidebar is shown: the parts drawer on the Schematic page,
     /// the inspector on the PCB page. One flag for both pages.
     @State private var isSidebarShown = true
-    @State private var simulation: SimulationController
-    @State private var file: SchematicFileController
+    private var simulation: SimulationController { model.simulation }
+    private var file: SchematicFileController { model.file }
     /// Identifies this window to the memory windows it opens.
     @State private var sessionID = UUID()
     @Environment(\.openWindow) private var openWindow
@@ -95,22 +97,8 @@ struct ContentView: View {
     /// The supply the VCC tool places (a `SupplyChoice` name), an app preference.
     @AppStorage("supplyVoltage") private var supplyVoltage = SupplyChoice.defaultName
 
-    init() {
-        let catalog = PartCatalogStore.shared
-        let document = SchematicDocument(library: catalog.library)
-        // A new schematic starts with Power (5V, 3V3, 12V, 24V) and Logic classes
-        // (an opened file replaces them with its own).
-        document.addStandardNetClasses()
-        let simulation = SimulationController(library: catalog.library)
-        _document = State(initialValue: document)
-        _simulation = State(initialValue: simulation)
-        // Opening a file stops any running simulation first, since the
-        // simulation was built from the old schematic.
-        _file = State(initialValue: SchematicFileController(
-            document: document,
-            catalog: catalog,
-            willReplaceDocument: { simulation.stop() }
-        ))
+    init(model: SchematicEditorModel) {
+        self.model = model
     }
 
     /// The zoom controls act on the page being shown.
@@ -869,7 +857,7 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    ContentView(model: SchematicEditorModel())
 }
 
 /// "running at 0.078×" while the simulation runs below 90 % of the chosen speed.
