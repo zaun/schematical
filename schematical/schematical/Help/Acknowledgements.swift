@@ -37,6 +37,11 @@ struct Acknowledgement: Equatable {
                 + "Modified for this app.",
             licenceFile: "LICENSE-jsmooch"),
         Acknowledgement(
+            name: "avr8js",
+            use: "AVR microcontroller simulation, by Uri Shaked and contributors. "
+                + "Ported to C for this app. https://github.com/wokwi/avr8js",
+            licenceFile: "LICENSE-avr8js"),
+        Acknowledgement(
             name: "markdown-it",
             use: "Markdown parser, by Vitaly Puzrin and Alex Kocharin. Renders datasheets.",
             licenceFile: "markdown-it-LICENSE.txt"),

@@ -23,6 +23,21 @@ add_library(logic STATIC
     src/models/diode.c
     src/models/capacitor.c
     src/models/mcu.c
+    src/models/mcu_avr.c
+    src/models/mcu_avr_serial.c
+    src/models/avr_cpu.c
+    src/models/avr_instruction.c
+    src/models/avr_dasm.c
+    src/models/avr_gpio.c
+    src/models/avr_clock.c
+    src/models/avr_timer.c
+    src/models/avr_usart.c
+    src/models/avr_spi.c
+    src/models/avr_twi.c
+    src/models/avr_adc.c
+    src/models/avr_eeprom.c
+    src/models/avr_watchdog.c
+    src/models/avr_chip.c
     src/models/pld.c
     src/models/resistor.c
     src/models/transistor.c
@@ -193,6 +208,11 @@ if(LOGIC_NODE)
         JSMOOCH_TMP="${CMAKE_CURRENT_BINARY_DIR}")
 endif()
 logic_test(cpu_test)
+# plan-62: the AVR core (a C port of avr8js) against avr8js itself. With node,
+# the tests run tools/avr8js-oracle/oracle.js and compare line by line;
+# without it they compare with the hashes in tests/avr/golden.txt.
+logic_test(avr_core_test)
+logic_test(avr_periph_test)
 logic_test(charlcd_test)
 logic_test(serial_test)
 logic_test(usbuart_test)
@@ -220,6 +240,18 @@ logic_test(resistor_test)
 logic_test(transistor_test)
 logic_test(capacitor_test)
 logic_test(mcu_test)
+logic_test(avr_serial_test)
+logic_test(avr_board_test)
+foreach(AVR_TEST avr_core_test avr_periph_test mcu_test avr_serial_test avr_board_test)
+    target_compile_definitions(${AVR_TEST} PRIVATE
+        AVR_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/avr"
+        AVR_TMP="${CMAKE_CURRENT_BINARY_DIR}")
+    if(LOGIC_NODE)
+        target_compile_definitions(${AVR_TEST} PRIVATE
+            AVR_NODE="${LOGIC_NODE}"
+            AVR_ORACLE="${CMAKE_CURRENT_SOURCE_DIR}/tools/avr8js-oracle/oracle.js")
+    endif()
+endforeach()
 logic_test(generic_test)
 logic_test(pld_test)
 logic_test(socket_test)

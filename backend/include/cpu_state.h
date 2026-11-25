@@ -23,7 +23,7 @@ typedef enum {
 /* One register: its name ("A", "PC", "AF'"), value and width in bits. */
 typedef struct { const char *name; uint32_t value; unsigned bits; } CpuRegister;
 
-enum { CPU_MAX_REGISTERS = 24 };
+enum { CPU_MAX_REGISTERS = 40 };   /* an AVR has 35: PC, SP, SREG, R0-R31 */
 
 typedef struct CpuState {
     CpuStatus status;

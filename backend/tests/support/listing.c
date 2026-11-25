@@ -174,6 +174,9 @@ static void print_details(FILE *out, const Part *part) {
             fprintf(out, "core=%s clock=%llu flash=%u ram=%u", part->mcu->core,
                     (unsigned long long)part->mcu->max_hz, (unsigned)part->mcu->flash,
                     (unsigned)part->mcu->ram);
+            if (part->mcu->model != NULL) {
+                fprintf(out, " model=%s", part->mcu->model);
+            }
             if (part->mcu->eeprom != 0) {
                 fprintf(out, " eeprom=%u", (unsigned)part->mcu->eeprom);
             }

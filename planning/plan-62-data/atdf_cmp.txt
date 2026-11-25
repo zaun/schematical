@@ -1,0 +1,57 @@
+328P mem {'FLASH': (0, 32768), 'BOOT_SECTION_1': (32256, 512), 'BOOT_SECTION_2': (31744, 1024), 'BOOT_SECTION_3': (30720, 2048), 'BOOT_SECTION_4': (28672, 4096), 'SIGNATURES': (0, 3), 'FUSES': (0, 3), 'LOCKBITS': (0, 1), 'REGISTERS': (0, 32), 'MAPPED_IO': (32, 224), 'IRAM': (256, 2048), 'EEPROM': (0, 1024), 'OSCCAL': (0, 1)}
+328P ints {0: 'RESET', 1: 'INT0', 2: 'INT1', 3: 'PCINT0', 4: 'PCINT1', 5: 'PCINT2', 6: 'WDT', 7: 'TIMER2_COMPA', 8: 'TIMER2_COMPB', 9: 'TIMER2_OVF', 10: 'TIMER1_CAPT', 11: 'TIMER1_COMPA', 12: 'TIMER1_COMPB', 13: 'TIMER1_OVF', 14: 'TIMER0_COMPA', 15: 'TIMER0_COMPB', 16: 'TIMER0_OVF', 17: 'SPI_STC', 18: 'USART_RX', 19: 'USART_UDRE', 20: 'USART_TX', 21: 'ADC', 22: 'EE_READY', 23: 'ANALOG_COMP', 24: 'TWI', 25: 'SPM_Ready'}
+328P regs 83
+== ATmega48 flash (0, 4096) iram (256, 512) eeprom (0, 256) boot []
+   ints differ: {} missing: {}
+   regs differ/extra: {'EEARL': (65, 1)} missing: ['EEAR']
+== ATmega48A flash (0, 4096) iram (256, 512) eeprom (0, 256) boot []
+   ints differ: {} missing: {}
+   regs differ/extra: {'EEARL': (65, 1), 'EEARH': (66, 1)} missing: ['EEAR']
+== ATmega48P flash (0, 4096) iram (256, 512) eeprom (0, 256) boot []
+   ints differ: {} missing: {}
+   regs differ/extra: {'EEARL': (65, 1)} missing: ['EEAR']
+== ATmega48PA flash (0, 4096) iram (256, 512) eeprom (0, 256) boot []
+   ints differ: {} missing: {}
+   regs differ/extra: {'EEARL': (65, 1), 'EEARH': (66, 1)} missing: ['EEAR']
+== ATmega48PB flash (0, 4096) iram (256, 512) eeprom (0, 256) boot []
+   ints differ: {26: 'USART_START'} missing: {}
+   regs differ/extra: {'PINE': (44, 1), 'DDRE': (45, 1), 'PORTE': (46, 1), 'EEARL': (65, 1), 'ACSRB': (79, 1), 'UCSR0D': (195, 1), 'DEVID0': (240, 1), 'DEVID1': (241, 1), 'DEVID2': (242, 1), 'DEVID3': (243, 1), 'DEVID4': (244, 1), 'DEVID5': (245, 1), 'DEVID6': (246, 1), 'DEVID7': (247, 1), 'DEVID8': (248, 1)} missing: ['EEAR']
+== ATmega88 flash (0, 8192) iram (256, 1024) eeprom (0, 512) boot ['BOOT_SECTION_1']
+   ints differ: {} missing: {}
+   regs differ/extra: {} missing: []
+== ATmega88A flash (0, 8192) iram (256, 1024) eeprom (0, 512) boot ['BOOT_SECTION_1']
+   ints differ: {} missing: {}
+   regs differ/extra: {} missing: []
+== ATmega88P flash (0, 8192) iram (256, 1024) eeprom (0, 512) boot ['BOOT_SECTION_1']
+   ints differ: {} missing: {}
+   regs differ/extra: {} missing: []
+== ATmega88PA flash (0, 8192) iram (256, 1024) eeprom (0, 512) boot ['BOOT_SECTION_1']
+   ints differ: {} missing: {}
+   regs differ/extra: {} missing: []
+== ATmega88PB flash (0, 8192) iram (256, 1024) eeprom (0, 512) boot ['BOOT_SECTION_1']
+   ints differ: {26: 'USART_START'} missing: {}
+   regs differ/extra: {'PINE': (44, 1), 'DDRE': (45, 1), 'PORTE': (46, 1), 'ACSRB': (79, 1), 'UCSR0D': (195, 1), 'DEVID0': (240, 1), 'DEVID1': (241, 1), 'DEVID2': (242, 1), 'DEVID3': (243, 1), 'DEVID4': (244, 1), 'DEVID5': (245, 1), 'DEVID6': (246, 1), 'DEVID7': (247, 1), 'DEVID8': (248, 1)} missing: []
+== ATmega168 flash (0, 16384) iram (256, 1024) eeprom (0, 512) boot ['BOOT_SECTION_1']
+   ints differ: {25: 'SPM_READY'} missing: {}
+   regs differ/extra: {} missing: []
+== ATmega168A flash (0, 16384) iram (256, 1024) eeprom (0, 512) boot ['BOOT_SECTION_1']
+   ints differ: {} missing: {}
+   regs differ/extra: {} missing: []
+== ATmega168P flash (0, 16384) iram (256, 1024) eeprom (0, 512) boot ['BOOT_SECTION_1']
+   ints differ: {} missing: {}
+   regs differ/extra: {} missing: []
+== ATmega168PA flash (0, 16384) iram (256, 1024) eeprom (0, 512) boot ['BOOT_SECTION_1']
+   ints differ: {} missing: {}
+   regs differ/extra: {} missing: []
+== ATmega168PB flash (0, 16384) iram (256, 1024) eeprom (0, 512) boot ['BOOT_SECTION_1']
+   ints differ: {26: 'USART_START'} missing: {}
+   regs differ/extra: {'PINE': (44, 1), 'DDRE': (45, 1), 'PORTE': (46, 1), 'ACSRB': (79, 1), 'UCSR0D': (195, 1), 'DEVID0': (240, 1), 'DEVID1': (241, 1), 'DEVID2': (242, 1), 'DEVID3': (243, 1), 'DEVID4': (244, 1), 'DEVID5': (245, 1), 'DEVID6': (246, 1), 'DEVID7': (247, 1), 'DEVID8': (248, 1)} missing: []
+== ATmega328 flash (0, 32768) iram (256, 2048) eeprom (0, 1024) boot ['BOOT_SECTION_1']
+   ints differ: {25: 'SPM_READY'} missing: {}
+   regs differ/extra: {} missing: []
+== ATmega328P flash (0, 32768) iram (256, 2048) eeprom (0, 1024) boot ['BOOT_SECTION_1']
+   ints differ: {} missing: {}
+   regs differ/extra: {} missing: []
+== ATmega328PB flash (0, 32768) iram (256, 2048) eeprom (0, 1024) boot ['BOOT_SECTION_1']
+   ints differ: {17: 'SPI0_STC', 18: 'USART0_RX', 19: 'USART0_UDRE', 20: 'USART0_TX', 24: 'TWI0', 26: 'USART0_START', 27: 'PCINT3', 28: 'USART1_RX', 29: 'USART1_UDRE', 30: 'USART1_TX', 31: 'USART1_START', 32: 'TIMER3_CAPT', 33: 'TIMER3_COMPA', 34: 'TIMER3_COMPB', 35: 'TIMER3_OVF', 36: 'CFD', 37: 'PTC_EOC', 38: 'PTC_WCOMP', 39: 'SPI1_STC', 40: 'TWI1', 41: 'TIMER4_CAPT', 42: 'TIMER4_COMPA', 43: 'TIMER4_COMPB', 44: 'TIMER4_OVF'} missing: {}
+   regs differ/extra: {'PINE': (44, 1), 'DDRE': (45, 1), 'PORTE': (46, 1), 'TIFR3': (56, 1), 'TIFR4': (57, 1), 'SPCR0': (76, 1), 'SPSR0': (77, 1), 'SPDR0': (78, 1), 'ACSRB': (79, 1), 'ACSRA': (80, 1), 'XFDCSR': (98, 1), 'PRR0': (100, 1), 'PRR1': (101, 1), 'TIMSK3': (113, 1), 'TIMSK4': (114, 1), 'PCMSK3': (115, 1), 'TCCR3A': (144, 1), 'TCCR3B': (145, 1), 'TCCR3C': (146, 1), 'TCNT3': (148, 2), 'ICR3': (150, 2), 'OCR3A': (152, 2), 'OCR3B': (154, 2), 'TCCR4A': (160, 1), 'TCCR4B': (161, 1), 'TCCR4C': (162, 1), 'TCNT4': (164, 2), 'ICR4': (166, 2), 'OCR4A': (168, 2), 'OCR4B': (170, 2), 'SPCR1': (172, 1), 'SPSR1': (173, 1), 'SPDR1': (174, 1), 'TWBR0': (184, 1), 'TWSR0': (185, 1), 'TWAR0': (186, 1), 'TWDR0': (187, 1), 'TWCR0': (188, 1), 'TWAMR0': (189, 1), 'UCSR0D': (195, 1), 'UCSR1A': (200, 1), 'UCSR1B': (201, 1), 'UCSR1C': (202, 1), 'UCSR1D': (203, 1), 'UBRR1': (204, 2), 'UDR1': (206, 1), 'TWBR1': (216, 1), 'TWSR1': (217, 1), 'TWAR1': (218, 1), 'TWDR1': (219, 1), 'TWCR1': (220, 1), 'TWAMR1': (221, 1)} missing: ['PRR', 'SPDR', 'TWAMR', 'TWAR', 'TWBR', 'TWCR', 'TWDR', 'TWSR']

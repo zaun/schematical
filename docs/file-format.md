@@ -134,6 +134,16 @@ An EEPROM can name the file loaded into it when the simulation starts:
   "memoryFile": { "path": "roms/boot.bin", "bookmark": "Ym9va21hcms..." } }
 ```
 
+A simulated microcontroller names its firmware the same way; the file is
+loaded into its flash:
+
+```json
+{ "id": "...", "reference": "U1", "partNumber": "ATMEGA328P-PU",
+  "x": 420, "y": 300, "flipped": false,
+  "pcb": { "x": 40.64, "y": 0, "rotation": 0 },
+  "memoryFile": { "path": "firmware/blink.hex", "bookmark": "Ym9va21hcms..." } }
+```
+
 | Field        | Type    | Meaning                                                                 |
 |--------------|---------|-------------------------------------------------------------------------|
 | `id`         | UUID    | Unique within the file.                                                 |
@@ -152,7 +162,7 @@ An EEPROM can name the file loaded into it when the simulation starts:
 | `gender`     | string  | Headers only (`GENERIC-HEADER-…`): one of the part's genders, `"Male"` or `"Female"`. The symbol draws pins or sockets; the footprint doesn't change. Always written for a header; missing means the part's default (`Male`). Ignored on other parts. An optional field, so the version stays 4 (a file with headers names parts an older build doesn't have, which it refuses anyway). |
 | `socket`     | object  | A DIP or PLCC chip in a socket mode only (plan-51): `{"part": "GENERIC-SOCKET-DIP-14-300", "mode": "withSocket"}`. `part` is the name of a bundled `socket` part whose `fits` hold the chip's footprint; `mode` is `"withSocket"` (the chip sits in the socket: the PCB carries the socket's footprint and the Bill of Materials lists the chip and the socket) or `"socketOnly"` (the socket is on the board, the chip is not inserted: the Bill of Materials lists the socket only). Run ignores the mode. Left out for a plain IC, so a file with no socket is byte for byte what it was. An optional field, so the version stays 4. |
 | `partUUID`   | string  | Version 5. Custom parts only: the part's `uuid`, one of the file's `customParts`. The placed part resolves by it, not by `partNumber`; `partNumber` is the name the part had when saved (with its suffix, such as `SN74HC00N.2`), so a reader that ignores custom parts still sees a name. Written exactly for custom parts. |
-| `memoryFile` | object  | EEPROMs only, optional: the file (raw binary, or Intel HEX for `.hex`/`.ihx`/`.ihex`) loaded into the chip at every start; without it the chip starts erased (every byte FF). `path` (string) is the file's path relative to the folder of the file being written (`../roms/boot.bin`): each write (Save, Save As or Duplicate into another folder, an autosave) uses its own destination, so the path is right wherever the file lands. It is absolute for a schematic with no place of its own yet: one never saved, which AppKit autosaves into its `Autosave Information` folder. Read back, a relative path is resolved against the file's folder, and a file in that autosave folder is read with absolute paths. `bookmark` (base64 string, optional) is an app-scoped security bookmark; on the Mac that wrote it, it is tried first, so the sandboxed app can read the file after a restart, and `path` is the fallback. Ignored on other parts. |
+| `memoryFile` | object  | EEPROMs and simulated microcontrollers only (the ATmega48/88/168/328 family: the firmware, loaded into flash), optional: the file (raw binary, or Intel HEX for `.hex`/`.ihx`/`.ihex`) loaded into the chip at every start; without it the chip starts erased (every byte FF). `path` (string) is the file's path relative to the folder of the file being written (`../roms/boot.bin`): each write (Save, Save As or Duplicate into another folder, an autosave) uses its own destination, so the path is right wherever the file lands. It is absolute for a schematic with no place of its own yet: one never saved, which AppKit autosaves into its `Autosave Information` folder. Read back, a relative path is resolved against the file's folder, and a file in that autosave folder is read with absolute paths. `bookmark` (base64 string, optional) is an app-scoped security bookmark; on the Mac that wrote it, it is tried first, so the sandboxed app can read the file after a restart, and `path` is the fallback. Ignored on other parts. |
 
 ## Board
 
@@ -749,8 +759,9 @@ Opening fails, and the canvas is left unchanged, if:
   - `port <id> does not fit on its line` (off the line, overlapping another
     port on the same side, or over a T).
 
-A missing or unreadable EEPROM load file (`memoryFile`) does not fail Open:
-the memory window shows the problem, and Run stops with it
+A missing or unreadable load file (`memoryFile`: an EEPROM's contents, a
+microcontroller's firmware) does not fail Open: the part's memory or
+processor window shows the problem, and Run stops with it
 (`"U4: can't read boot.bin: …"`).
 
 ## Board design rules

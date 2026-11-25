@@ -348,37 +348,6 @@ private struct MemoryInspector: View {
     }
 }
 
-/// An EEPROM's "Load file on start" setting. It can change only while the
-/// simulation is stopped.
-private struct LoadFileBar: View {
-    let file: MemoryFile?
-    let isRunning: Bool
-    let choose: () -> Void
-    let clear: () -> Void
-
-    var body: some View {
-        HStack(spacing: 8) {
-            Text("Load file on start:")
-            Text(file?.name ?? "None — starts erased (FF)")
-                .foregroundStyle(file == nil ? .secondary : .primary)
-                .lineLimit(1)
-                .truncationMode(.middle)
-                .help(file?.url.path ?? "The chip starts with every byte FF")
-            Spacer()
-            Button("Choose…", action: choose)
-                .disabled(isRunning)
-                .help(isRunning ? "Stop the simulation to change the load file"
-                                : "Choose a binary or Intel HEX file to load at every start")
-            Button("Clear", action: clear)
-                .disabled(isRunning || file == nil)
-                .help(isRunning ? "Stop the simulation to change the load file"
-                                : "Start erased (every byte FF)")
-        }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 8)
-    }
-}
-
 /// The words of one page: an address column, the words in hex (X for any
 /// unknown bit in a digit), and for 8-bit memories the bytes as text.
 private struct MemoryPageGrid: View, Equatable {

@@ -897,8 +897,20 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     /// SRAM or EEPROM: a part with a memory window.
     var isMemory: Bool { kind == PART_SRAM || kind == PART_EEPROM }
 
-    /// A processor: a part with a processor window.
+    /// A processor (the cpu kind: a CPU on a bus).
     var isCpu: Bool { kind == PART_CPU }
+
+    /// A microcontroller the backend runs (plan-62): it takes firmware and
+    /// has a processor window. One with no simulation model is facts only.
+    var isSimulatedMcu: Bool { kind == PART_MCU && isSimulated }
+
+    /// A part with a processor window: a processor, or a simulated
+    /// microcontroller.
+    var hasProcessorWindow: Bool { isCpu || isSimulatedMcu }
+
+    /// A part that takes a "load file on start": an EEPROM, or a simulated
+    /// microcontroller (its firmware).
+    var hasLoadFile: Bool { kind == PART_EEPROM || isSimulatedMcu }
 
     /// A converter, RTC or display driver: a part with a register window
     /// (plan-24-I, plan-56-G).
@@ -1029,6 +1041,16 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .eeprom(words, bits, _, _, _, _): return MemorySize(words: words, bits: bits)
         default: return nil
         }
+    }
+
+    /// The memory a load file fills: an EEPROM's words, or a simulated
+    /// microcontroller's flash in bytes. Nil for a part with no load file.
+    var loadFileSize: MemorySize? {
+        if kind == PART_EEPROM { return memorySize }
+        if isSimulatedMcu, case let .mcu(_, _, flash, _, _, _) = details {
+            return MemorySize(words: Int(flash), bits: 8)
+        }
+        return nil
     }
 
     var logicFamily: String? {

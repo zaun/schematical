@@ -1,0 +1,1 @@
+{"layout": "atmega168pb", "flash": 16384, "sram": 1024, "eeprom": 512, "steps": 400, "stimuli": [[20, "pin", "E", 1, 1], [60, "pin", "E", 3, 1], [100, "pin", "E", 1, 0], [200, "pin", "E", 0, 1]]}

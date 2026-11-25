@@ -2,10 +2,12 @@
 //  CpuWindow.swift
 //  schematical
 //
-//  A read-only window showing one processor part (cpu kind) while the
-//  simulation runs: its status, registers, flags, the last instruction it
-//  completed and its cycle count. It reads the state again after every
-//  simulation step, as the memory window does.
+//  A window showing one processor part while the simulation runs: a cpu
+//  kind part, or a simulated microcontroller (plan-62-H). It shows the
+//  status, registers, flags, the last instruction completed and the cycle
+//  count, and reads the state again after every simulation step, as the
+//  memory window does. A microcontroller's window also has its firmware:
+//  the "Load file on start" bar, as an EEPROM's memory window has.
 //
 
 import AppKit
@@ -112,9 +114,10 @@ nonisolated struct CpuSnapshot: Equatable, Sendable {
     }
 
     /// The flag cells: (label, set), most significant bit first. The 6502
-    /// family's P, or the low byte of the Z80's AF; empty otherwise. The
-    /// 65816 (it has an E register) labels P by mode: native `N V M X D I Z
-    /// C`, emulation as the 65C02 (bit 5 reads 1, bit 4 is B).
+    /// family's P, the low byte of the Z80's AF, or an AVR's SREG (`I T H S
+    /// V N Z C`); empty otherwise. The 65816 (it has an E register) labels P
+    /// by mode: native `N V M X D I Z C`, emulation as the 65C02 (bit 5
+    /// reads 1, bit 4 is B).
     var flags: [(label: String, set: Bool)] {
         let labels: [String]
         let value: UInt32
@@ -128,6 +131,9 @@ nonisolated struct CpuSnapshot: Equatable, Sendable {
         } else if let af = register("AF") {
             labels = ["S", "Z", "Y", "H", "X", "P/V", "N", "C"]
             value = af.value & 0xFF
+        } else if let sreg = register("SREG") {
+            labels = ["I", "T", "H", "S", "V", "N", "Z", "C"]
+            value = sreg.value
         } else {
             return []
         }
@@ -171,6 +177,12 @@ struct CpuInspector: View {
     let document: SchematicDocument
     let simulation: SimulationController
 
+    /// The window, for the firmware's Choose… panel.
+    @State private var window: NSWindow?
+    /// Why a microcontroller's firmware can't be loaded, checked while the
+    /// simulation is stopped; nil when it can (or there is none).
+    @State private var loadError: String?
+
     private var chip: PlacedChip? {
         document.chips.first { $0.id == chipID }
     }
@@ -178,8 +190,35 @@ struct CpuInspector: View {
     var body: some View {
         Group {
             if let chip {
-                content
-                    .navigationTitle("\(chip.reference) — \(chip.partNumber)")
+                VStack(spacing: 0) {
+                    if chip.part.hasLoadFile {
+                        // A microcontroller's firmware (plan-62-H).
+                        LoadFileBar(
+                            file: chip.memoryFile,
+                            isRunning: simulation.isRunning,
+                            choose: {
+                                Task {
+                                    if let file = await MemoryFileAccess.choose(attachedTo: window) {
+                                        document.setMemoryFile(chipID, file)
+                                    }
+                                }
+                            },
+                            clear: { document.setMemoryFile(chipID, nil) }
+                        )
+                        Divider()
+                    }
+                    if chip.part.hasLoadFile, !simulation.isRunning, let loadError {
+                        ContentUnavailableView(
+                            "Can't Load File",
+                            systemImage: "exclamationmark.triangle",
+                            description: Text(loadError + " Choose the file again.")
+                        )
+                        .frame(maxHeight: .infinity)
+                    } else {
+                        content
+                    }
+                }
+                .navigationTitle("\(chip.reference) — \(chip.partNumber)")
             } else {
                 ContentUnavailableView(
                     "Part Removed",
@@ -190,6 +229,33 @@ struct CpuInspector: View {
             }
         }
         .frame(minWidth: 420, minHeight: 360)
+        .background(WindowReader { window = $0 })
+        .onAppear { refreshLoadFile() }
+        .onChange(of: simulation.isRunning) {
+            if !simulation.isRunning {
+                refreshLoadFile()
+            }
+        }
+        .onChange(of: chip?.memoryFile) { refreshLoadFile() }
+    }
+
+    /// Parses the firmware again (as the start will), to show a problem
+    /// before Run does.
+    private func refreshLoadFile() {
+        loadError = CpuInspector.loadProblem(of: chip)
+    }
+
+    /// Why a part's load file can't be loaded, or nil: no such part, a part
+    /// with no load file, no file chosen, or a file that reads and fits.
+    static func loadProblem(of chip: PlacedChip?) -> String? {
+        guard let chip, chip.part.hasLoadFile, let size = chip.part.loadFileSize,
+              chip.memoryFile != nil else { return nil }
+        do {
+            _ = try MemoryFileAccess.image(chip.memoryFile, size: size)
+            return nil
+        } catch {
+            return error.localizedDescription
+        }
     }
 
     /// The state now: read in the body, so every new `stateVersion` redraws.

@@ -373,12 +373,81 @@ Notes:
   the last `circuit_advance`, so multiplexed digits show.
 - Memory contents (SRAM, EEPROM, serial memories): `circuit_memory_size`,
   `circuit_memory_read` (a 0 bit in `known` is X).
+- **Microcontrollers** (plan-62). An `mcu` device with a `"model"` runs
+  firmware: the model names a register layout of the AVR core
+  (`avr_chip.h`: `atmega328`, `atmega168pb`, `atmega328pb`), a C port of
+  avr8js 0.21.1, and `mcu_avr.c` puts it on the engine.
+  - **Firmware.** The part's memory is its flash, in bytes:
+    `circuit_memory_size` gives the flash size and 8 bits,
+    `circuit_memory_load` writes it before `circuit_start` (build the image
+    with `memory_image_parse` from an Intel HEX or binary file), and
+    `circuit_memory_read` reads it back. An unloaded flash is FF; FF words
+    are no instruction and run as no-ops.
+  - **Startup.** For 1 ms after `circuit_start` the chip is in reset, every
+    port pin Z.
+  - **Clock**, chosen once at the end of startup (a real chip chooses with
+    fuses, which do not exist here). With 2 or more rising edges on PB6
+    (XTAL1) during startup the chip takes that clock: one CPU cycle per
+    rising edge, PB6 and PB7 are clock pins (never driven; they read 0 in
+    PINB), CLKPR resets to 0. Otherwise it runs on its internal 8 MHz
+    oscillator divided by 8 (CLKPR resets to 3, the CKDIV8 fuse): 1 us per
+    cycle until the firmware writes CLKPR, and PB6 and PB7 are port pins.
+  - **Reset.** PC6 is the reset pin, never a port pin: the chip pulls it up
+    (weak 1), and while it reads 0 or X the chip is in reset, every port pin
+    Z; back at 1 the program starts over (flash and SRAM kept). A watchdog
+    reset restarts the chip the same way.
+  - **Pins.** An output drives strong 0 or 1; an input is Z, or weak 1 with
+    its pull-up. An input reads 1 for a 1 and 0 for 0, X and Z. A pin write
+    lands at the time of the instruction that made it. A timer's compare
+    output, and a pin toggled from a timer interrupt, change between
+    instructions, so one edge can be a CPU cycle early or late; a whole
+    period is exact (blink's 1000-cycle toggle comes at 1001, 999, 1001 …
+    cycles in avr8js too).
+  - **ADC.** There are no analog levels: an ADC input is 5 V when its net
+    reads 1 and 0 V otherwise, against AVCC = AREF = 5 V, so a conversion
+    gives 1023 or 0 (PC0–PC5; `ADC6`/`ADC7`, or PE2/PE3 on a PB device).
+  - **Serial pins** (plan-62-F, `mcu_avr_serial.c`). avr8js stops at the
+    byte; this layer, ours, puts the bytes on pins, in engine time (a bit is
+    the peripheral's bit time in CPU cycles times the cycle's length).
+    *USART*: while TXEN is set TXD is 1 when idle and carries each byte
+    written to UDR as a frame (start, 5–9 data bits LSB first, parity, 1 or
+    2 stop bits); while RXEN is set a 1-to-0 change on RXD starts a frame,
+    sampled mid-bit, delivered after a stop bit that reads 1. *SPI*: master
+    only; a byte written to SPDR is clocked out on MOSI and SCK and in from
+    MISO in SPCR's mode and bit order, SCK idling at CPOL; SCK and MOSI are
+    driven only where their DDR bit is set, and SS is an ordinary port pin.
+    *TWI*: master only; while TWEN is set SDA and SCL are open drain (pulled
+    low or released: the bus needs pull-ups, resistors or the port's own),
+    with SDA changing a quarter bit away from every SCL edge and SCL waited
+    for after a release (a target may stretch it). Pins: USART0 RXD PD0, TXD
+    PD1; SPI SS PB2, MOSI PB3, MISO PB4, SCK PB5; TWI SDA PC4, SCL PC5; on
+    the ATmega328PB also USART1 RXD PB4, TXD PB3, SPI1 MISO PC0, SCK PC1,
+    MOSI PE3, and TWI1 SDA PE0, SCL PE1. Not modeled, as in avr8js: the
+    USART's synchronous mode and its frame, parity and overrun errors (a
+    frame with a bad stop bit is dropped), SPI slave mode (with MSTR clear a
+    transfer completes with 0 and no pin moves), TWI slave mode and
+    arbitration. A chip has no terminal of its own
+    (`circuit_serial_channels` is 0): wire a USB-to-UART bridge to TXD/RXD.
+  - **State.** `circuit_cpu_state` reports it as it does a processor:
+    `CPU_RESET` (startup, or the reset pin held) or `CPU_RUNNING`; the
+    cycles since reset; 35 registers: `PC` (the byte address), `SP`, `SREG`,
+    `R0`…`R31`; and the last instruction (byte address, its 2 or 4 bytes as
+    in the HEX file, `avr_dasm`'s text, e.g. `004C  RJMP .-2`).
+  - **Not modeled.** Fuses, lock bits, brown-out, sleep modes (SLEEP is a
+    no-op), self-programming (SPM), the analog comparator, timer 2's
+    asynchronous clock, the supply (the chip runs whatever VCC reads; the
+    voltage check judges it). Where avr8js's CPU disagrees with Microchip's instruction set
+    manual the simulator follows the manual (7 places, each commented in
+    `avr_instruction.c` / `avr_cpu.c`; `avr_core_test` § fixes).
+  - **Speed.** A chip on a 16 MHz crystal costs an engine event per clock
+    edge, and the crystal toggles its two nets besides.
 - Processors (`cpu` kind): `circuit_cpu_state` fills a `CpuState`
   (`cpu_state.h`): status (running, lost, reset, waiting, stopped, halted,
   jammed, bus released), cycles since the last reset ended, the registers
   (none while lost or in reset) and the last completed instruction
-  (address, bytes, disassembly). Any other kind: -1, `part N is not a
-  processor`. The app's processor window reads it on every simulation
+  (address, bytes, disassembly). A simulated microcontroller answers too
+  (above; up to `CPU_MAX_REGISTERS` = 40 registers). Any other part: -1,
+  `part N is not a processor`. The app's processor window reads it on every simulation
   frame, as the memory window reads `circuit_memory_read`.
 - Character LCDs (`charlcd` kind): `circuit_lcd_state` fills an
   `LcdState` (`lcd_state.h`): the dot image the display shows now
@@ -414,9 +483,9 @@ Notes:
   does not exist or is not asynchronous, and while another part's output,
   in/out or strong supply pin is on the RX net (pull parts are fine); the
   messages are in `circuit.h`. The app's terminal window is built on these.
-- Memory load: `circuit_memory_load` writes words into an EEPROM or serial memory before
-  `circuit_start` (refused after it, and on every other kind but a
-  simulated `serialmem` part, SRAM included); words it does not write stay
+- Memory load: `circuit_memory_load` writes words into an EEPROM, a serial
+  memory or a simulated microcontroller's flash before `circuit_start`
+  (refused after it, and on every other part, SRAM included); words it does not write stay
   erased (FF; an F-RAM's stay unknown). Build the words with
   `memory_image_parse` (`memory_image.h`): every rule and message is in
   `planning/completed/plan-04-B-memory-load.md` §4.3.
@@ -477,6 +546,14 @@ backend/
                            clock-on-both-terminals model, plan-44-E);
                            pld.c (the programmable logic kind: loader,
                            passive model, facts only);
+                           mcu.c + mcu.h (the mcu kind: loader, the
+                           "model" key, the engine model that is passive
+                           for a device without a model and forwards to
+                           the adapter for one with), mcu_avr.c (the AVR
+                           engine adapter: startup, the clock, reset,
+                           GPIO, ADC, flash, the processor state),
+                           mcu_avr_serial.c (the USART, the SPI master and
+                           the TWI master on their pins);
                            socket.c (the IC socket kind: loader, passive
                            model, plan-51-A);
                            inductor.c, fuse.c, terminals.c + terminals.h and
@@ -508,6 +585,24 @@ backend/
                            table, the model that forwards to a pio model),
                            bus65.c + bus65.h (the 65xx peripheral bus the
                            pio models share)
+                           avr.h, avr_cpu.c, avr_instruction.c (plan-62: the
+                           AVR microcontroller core, a C port of avr8js
+                           0.21.1, MIT, LICENSE-avr8js; the CPU, its
+                           interrupt queue and clock events, and every
+                           instruction), avr_gpio.c (a port's PIN/DDR/PORT,
+                           external and pin-change interrupts), avr_clock.c
+                           (CLKPR), avr_timer.c (the 8- and 16-bit timers),
+                           avr_usart.c, avr_spi.c, avr_twi.c (the serial
+                           peripherals at register level: a byte out and a
+                           byte in through callbacks, no pins), avr_adc.c,
+                           avr_eeprom.c, avr_watchdog.c; avr_dasm.c (our
+                           disassembler, for the processor window);
+                           avr_chip.c + avr_chip.h (a chip: a CPU and the
+                           peripherals of a register layout; the tables
+                           of the layouts atmega328, atmega168pb and
+                           atmega328pb, with vectors as numbers that
+                           avr_layout_scale turns into word addresses for
+                           a chip's vector size);
                            buffer.c + buffer.h (the buffer kind: models
                            tristate, transceiver and translator, supply
                            domains; the port read-back rule),
@@ -536,6 +631,12 @@ backend/
                            and run.js, which regenerates
                            wdc65816_generated_opcodes.c (`node run.js`);
                            outside src/, so the app does not bundle it
+  tools/avr8js/            avr8js 0.21.1's JavaScript (MIT), unmodified:
+                           the oracle the AVR core is checked against;
+                           README.md names the tarball and its hash
+  tools/avr8js-oracle/     oracle.js, which runs it and prints its behavior
+                           in the tests' text formats; outside src/, so the
+                           app bundles neither
   tests/                   CTest programs; golden/ holds the regression
                            fixtures (one listing line and one trace hash
                            per part); cpu/ holds the SingleStepTests
@@ -617,7 +718,8 @@ guide has device.<key>`: add the key to a step of
 `Guides/<Kind>Guide.swift` (and a `FieldGuide` for it; a required key must
 say where to find it).
 
-A kind with no simulation model (plan-36's `mcu`, plan-46's `generic`, `pld`)
+A kind with no simulation model (plan-46's `generic`, `pld`; an `mcu`
+device without a `"model"`, plan-36)
 sets `"simulated": false` on its devices, so `circuit_add_part` refuses its parts, and still
 ships a passive model (no callbacks, the `header.c` shape) so the engine
 never sees a NULL model.
@@ -845,6 +947,38 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   read back (the part's clock over the device's), its listing line ends
   `|unsimulated`, and `circuit_add_part` refuses it with `part "TESTMCU"
   is not simulated`. The kind's loader errors are in `library_check`.
+  Then the model devices (plan-62-E): `TESTAVR` and `TESTAVR48` (model
+  `atmega328`, the p28 pinout) run firmware from `tests/avr/<name>.hex`
+  (sources in `tests/avr/src/`, built by `build.sh`) in circuits of library
+  parts, with times in picoseconds: every port pin Z during the 1 ms
+  startup and PC6 at 1; `blink` toggling PB5 every 1000 cycles on average on
+  the internal clock (1 us per cycle), on a `GENERIC-CRYSTAL-16M` (62.5 ns)
+  and after CLKPR = 0 (125 ns), an LED on PB5 lit 50 ms of 100; a switch on
+  PD2 against the pull-up; OC0A high 64 and low 192 of 256 cycles; INT0 on
+  the falling edge; PC6 to GND releasing every pin and the program starting
+  over; one-word vectors on the 4 KB chip; the flash through
+  `circuit_memory_size` / `_read` / `_load` and an erased chip running; the
+  ADC reading 1023 and 0; `circuit_cpu_state` in reset and running.
+- `avr_serial_test` — the AVR's serial peripherals on their pins
+  (plan-62-F), against library parts that speak the same buses; each case
+  asserts on the partner's own state. USART with an `MCP2200-I/SO` bridge:
+  the bridge receives "HI", a typed 'a' comes back as 'b', the edges of 'H'
+  are 104 us x 4, 1, 2, 1, 1 apart (9600 baud on the 1 MHz clock), and a 7E2
+  frame of 0x55 has its parity and stop bits. SPI with an `AT25320B-SSHL-B`
+  EEPROM: A1 B2 C3 written at 0x0010 and read back in mode 0; mode 3 idles
+  SCK high with 16 edges per byte; with the DDR bits clear SCK and MOSI stay
+  Z. TWI with a `PCF8563T/5,518` clock: SDA falls while SCL is high, 0x25
+  written to the seconds register and read back, 9 clocks per byte (132 SCL
+  changes for the transaction), an address nobody answers (status 0x20),
+  and the same through TWI1 of the fixture `TESTAVR328PB`. The rig is
+  `tests/support/avr_rig.h` (also `mcu_test`'s).
+- `avr_board_test` — the shipped ATmega48/88/168/328 parts (plan-62-G): an
+  `ATMEGA328P-PU` with a `GENERIC-CRYSTAL-16M` on PB6/PB7 blinks a
+  `GENERIC-LED` on PB5 (lit 10 ms of 20, PB5 changing every 62500000 ps on
+  average); an `ATMEGA48PA-PU` with no crystal runs the one-word-vector
+  build on its internal clock; an `ATMEGA328PB-AU` toggles PE0; and every
+  mcu part with a model, alone with its supply, loads blink, starts and runs
+  2 ms (`ok 126 parts run`).
 - `pld_test` — the pld kind: the shipped ATF22V10C, ATF750C and ATF16V8B
   parts read back their `PartPld` facts (macrocells, the part's tpd, a
   commercial part's own `vcc`), single part files cover every loader rule
@@ -883,6 +1017,65 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   `tools/jsmooch-gen/run.js` reproduces the committed
   `wdc65816_generated_opcodes.c` (`65816: generator reproduces …`). Set
   `SST65816="<test name>"` to print one test's cycles side by side.
+- `avr_core_test` — the AVR CPU core (plan-62-A; `avr_cpu.c`,
+  `avr_instruction.c`) against avr8js. **step**: every opcode word 0…65535 in
+  4 random states each (one xorshift32 seed, the same in the test and in
+  `tools/avr8js-oracle/oracle.js step`), one instruction per state, one line
+  per vector (opcode, pc, cycles, SREG, SP, a hash of the data memory). The
+  lines must hash to the `step` line of `tests/avr/golden.txt` and, when
+  CMake found `node`, equal avr8js's own lines; the first difference prints
+  as `step: opcode XXXX state N: avr8js "…" ours "…"`. It prints `step:
+  262144 vectors match avr8js` and `step: 99 of 99 decode branches ran`. The
+  core runs in *exact* mode there (`AvrCpu.exact`): avr8js's behavior
+  everywhere. **fixes**: the 7 places where the simulator follows Microchip's
+  instruction set manual instead of avr8js, each against a reference written
+  from the manual: H from the low nibble's carry (ADD, ADC, SUB, SUBI, SBC,
+  SBCI, CP, CPC, CPI, NEG; avr8js uses bit 0), SBIW leaving H alone, Z of
+  CPC/SBC/SBCI when the result wraps to 0, V of NEG, Z of FMULSU, CBI's 2
+  cycles, an interrupt's 4 cycles (`fixes: 7 ok`). **unit**: clock events
+  (order, one per tick, update, clear, more than avr8js's pool of 10) and the
+  interrupt queue. `avr_core_test --print-golden` prints the golden line from
+  the oracle's output.
+- `avr_periph_test` — the AVR peripherals and the chip assembly (plan-62-B)
+  against avr8js. **layout**: the `atmega328` layout printed as JSON
+  (`avr_periph_test --layout atmega328 32768`) must equal avr8js's own
+  ATmega328P configs (`oracle.js layout-check`; `layout atmega328 equal`).
+  **scenarios**: `tests/avr/<name>.json` holds a program and pin stimuli; the
+  C chip runs it in exact mode and prints a trace, one line per instruction
+  (`i <pc> <cycles> <SREG> <SP> <hash of the data memory>`) and one per port
+  output change (`p <cycles> <port> <value> <DDR>`). The trace must hash to
+  the scenario's `run` line in `tests/avr/golden.txt` and, with `node`,
+  equal the trace `oracle.js run` prints from avr8js on the same layout; the
+  first differing line prints with its number. It prints `ok <name> (<lines>
+  lines, <n> port events, <n> interrupts, <n> serial events)`. Scenarios:
+  `gpio_out`, `gpio_int`, `clkpr`, `timer0`, `timer1`, `timer2`, `timer_ext`,
+  `usart`, `spi`, `twi`, `adc`, `eeprom`, `watchdog`, and for the other
+  devices `m48_vectors` (4 KB of flash: one word per vector), `m168pb_porte`
+  (layout `atmega168pb`: port E) and `m328pb_extras` (layout `atmega328pb`:
+  timers 3 and 4, USART1, SPI1, TWI1, PCINT3). A scenario may list vector
+  numbers that must be taken (`m328pb_extras`: 27, 28, 30, 33, 35, 39, 40,
+  42, 44). The serial peripherals'
+  outside is scripted the same way on both sides: a USART byte prints `u
+  <cycles> <n> <byte>`; an SPI byte prints `s …` and comes back XOR 0xA5
+  after the transfer time; a TWI request prints `t <cycles> <n> <event>
+  <argument>` and is answered 40 cycles later (address 0x50 acknowledges,
+  reads return 0x10, 0x11, …). Stimuli: `pin`, `rx` (a byte arrives at a
+  USART), `adc` (a channel's millivolts). One case runs outside exact mode:
+  `ok watchdog_full_reset` (a watchdog reset restarts the whole chip; avr8js
+  resets only the CPU). A scenario
+  is built from `tests/avr/src/<name>.asm` (avr8js's assembler: `_LOC
+  <byte address>`, labels, `;` comments) and `<name>.meta.json` (written by
+  `src/make_meta.py`: layout, sizes, steps, stimuli); `sh
+  backend/tests/avr/src/build.sh` rebuilds them all, `python3
+  backend/tests/avr/src/regen_golden.py <build dir>` rewrites the `run`
+  lines from the oracle, and with `node` the test fails when a committed
+  `.json` is not what `oracle.js build` makes of its sources.
+  `avr_periph_test --trace <name>` prints the C trace. **dasm**: `avr_dasm`'s
+  text for every opcode word (`avr_periph_test --dasm`) must assemble back to
+  the same word(s) in avr8js's assembler (`oracle.js dasm-check`) and hash to
+  the `dasm` golden line: `dasm: 63902 words round-trip` (1570 words are no
+  instruction and print `.DW 0x....`, erased flash 0xFFFF among them; 64 are
+  a JMP or CALL above the assembler's 4 MB limit and are not checked).
 - `cpu_test` — the cpu kind's bus adapters on inline fixture devices (the
   W65C02S and MOS 6502 data of `cpu.json`) and a bench that clocks the CPU
   at 1 MHz and serves a 64 KB memory (X where it was given nothing): the

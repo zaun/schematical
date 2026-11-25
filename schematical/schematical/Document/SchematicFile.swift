@@ -1045,9 +1045,10 @@ extension SchematicFile {
                 }
                 socket = ChipSocket(part: socketPart, mode: mode)
             }
-            // A load file counts only on an EEPROM.
+            // A load file counts only on an EEPROM or a simulated
+            // microcontroller (its firmware).
             var memoryFile: MemoryFile?
-            if catalogPart.kind == PART_EEPROM, let entry = part.memoryFile {
+            if catalogPart.hasLoadFile, let entry = part.memoryFile {
                 memoryFile = MemoryFileAccess.file(path: entry.path, bookmark: entry.bookmark, schematic: fileURL)
             }
             // Built before its placement, which is snapped with the chosen footprint.

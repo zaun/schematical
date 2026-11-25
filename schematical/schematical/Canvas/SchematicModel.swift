@@ -1087,7 +1087,7 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         self.isFlipped = isFlipped
         self.rotation = symbol.canRotate ? PlacedChip.normalized(rotation) : 0
         self.board = part.footprint == nil ? nil : board
-        self.memoryFile = part.kind == PART_EEPROM ? memoryFile : nil
+        self.memoryFile = part.hasLoadFile ? memoryFile : nil
         // A nil or unknown option is the part's default; parts without the
         // option have none.
         if part.kind == PART_LED, !part.colors.isEmpty {
@@ -5226,12 +5226,14 @@ final class SchematicDocument {
         return pourItem(at: point, tolerance: tolerance, visible: visible)
     }
 
-    /// Sets or clears an EEPROM's load file. Does nothing for other parts.
-    /// The memory window calls it only while the simulation is stopped.
+    /// Sets or clears a part's load file: an EEPROM's contents, or a
+    /// simulated microcontroller's firmware (plan-62-H). Does nothing for
+    /// other parts. The memory and processor windows call it only while the
+    /// simulation is stopped.
     func setMemoryFile(_ id: UUID, _ file: MemoryFile?) {
         recordEdit(.schematic, "Change Load File") {
             guard let index = chips.firstIndex(where: { $0.id == id }),
-                  chips[index].part.kind == PART_EEPROM else { return }
+                  chips[index].part.hasLoadFile else { return }
             chips[index].memoryFile = file
         }
     }
