@@ -254,7 +254,7 @@ Commit: 68871ba5
       toggles every 1 ms, so the voice is within 2 % of 500 Hz. Renders a placed
       relay (at rest and operated), a solid-state relay and a buzzer to
       `/tmp`.
-- [ ] NOT DONE by the implementing agent (it cannot hear and drove no audio; § Corrections "runtime proof by ear") Runtime proof by ear and eye, once, in the built app
+- [~] (2026-11-25: NOT DONE, left to the owner: the agent that landed the plan cannot hear and made no sound on the owner's machine; what ran instead is in § Corrections "runtime proof by ear": the harness, `testToneRenderer`, `testTheSourceNodeRendersTheToneOffline`, and on the merged tree the harness again, 13 `ok` lines) Runtime proof by ear and eye, once, in the built app
       (`open /tmp/p47-dd/Build/Products/Debug/schematical.app`): build the
       first harness circuit by hand, press play, hear the tone, toggle the
       setting off and hear it stop; move the pointer to (0, 0) afterwards
