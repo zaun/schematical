@@ -428,7 +428,8 @@ extension AutomationTools {
         let document = context.document
         let board = document.board
         var out = ["BOARD type=\(board.type.rawValue) size=\(num(board.width))x\(num(board.height))mm "
-                   + "layers=\(board.layers) grid=\(num(board.grid))mm units=\(board.units.rawValue) color=\(board.color.rawValue)"]
+                   + "layers=\(board.layers) grid=\(num(board.grid))mm units=\(board.units.rawValue) color=\(board.color.rawValue)"
+                   + (board.isFreeForm ? " outline=free-form" : "")]
         out.append("LAYERS")
         for layer in board.copperLayers {
             let style = board.style(of: layer)
@@ -475,6 +476,17 @@ extension AutomationTools {
                        + "\(num(keepout.rect.width))x\(num(keepout.rect.height)) layers="
                        + (keepout.layers.map { $0.map(\.rawValue).sorted().joined(separator: ",") } ?? "all")
                        + (keepout.locked ? " locked" : ""))
+        }
+        out.append("CUTOUTS")
+        for cutout in document.cutouts {
+            let box = cutout.shape.bounds
+            var line = "  \(context.short(cutout.id)) \(cutout.kind.rawValue) (\(num(box.minX)),\(num(box.minY))) "
+                + "\(num(box.width))x\(num(box.height))"
+            switch cutout.shape {
+            case let .rounded(_, radius): if cutout.kind == .rectangle, radius > 0 { line += " radius=\(num(radius))" }
+            case let .polygon(points): line += " points=\(points.count)"
+            }
+            out.append(line + (cutout.locked ? " locked" : ""))
         }
         out.append("TEXTS")
         for text in document.texts {

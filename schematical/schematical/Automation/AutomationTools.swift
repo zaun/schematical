@@ -362,7 +362,9 @@ enum AutomationGuide {
     grid (0.635 mm by default). Every part starts with a footprint auto-placed in a row; use move_footprint \
     to lay them out inside the board (get_board shows its size). Flood a rectangle with copper on one net \
     with add_pour (thermal reliefs by default; it keeps clear of other nets) and keep pours out of an area with \
-    add_keepout. Route copper with route(from, to) between \
+    add_keepout. Cut a region out of the board with add_cutout (a rectangle, slot, circle or polygon: the \
+    board has no material there and copper keeps its distance from its edge), and give the board a free-form \
+    edge with set_board outline=[[x, y], …]. Route copper with route(from, to) between \
     pads ("U1.3" → "R1.1"); it uses 45°/90° legs. Through-hole pads reach every layer; surface-mount pads \
     only their side. The ratsnest (unrouted nets) shows in run_drc as "unrouted".
 

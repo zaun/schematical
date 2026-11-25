@@ -23,7 +23,7 @@ The shared gate is in plan-65-A. This sub-plan adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-65-I is complete | `ls planning/completed \| grep -c '^plan-65-I'` → 1 | NOT MET (2026-11-25: I is written, not landed) |
+| plan-65-I is complete | `ls planning/completed \| grep -c '^plan-65-I'` → 1 | MET (2026-11-25: I landed, 1) |
 
 Everything below is written against the world where these hold.
 
@@ -83,13 +83,14 @@ Where the risk concentrates: nothing structural; the real-app pass is where a dr
 
 ### Phase 1 — The tools and `get_board`
 
-- [ ] `Automation/AutomationBoard.swift`: `add_cutout`, `set_cutout`, their functions and `describe(_ cutout:)`; `set_board`'s `outline` and `rectangle` and the new "nothing to change" text.
-- [ ] `Automation/AutomationRead.swift`: `outline=free-form` on the `BOARD` line and the `CUTOUTS` block after `KEEPOUTS`.
-- [ ] `Automation/AutomationTools.swift`: the PCB paragraph of `AutomationGuide.text` names `add_cutout` and the free-form outline.
-- [ ] Tests `schematicalTests/CutoutAutomationTests.swift` (the `call` pattern of `AutomationTests`): each shape through `add_cutout` and the kind it reports; a circle's centre; a bad shape (side 0.1) is an error naming the 0.5 mm minimum; `set_cutout` of x/y/width/radius/locked and the locked refusal; a polygon accepts `x`, `y`, `locked` and refuses `width`; `get_board` lists them and the `outline=free-form` marker; `set_board outline` with an L-shape sets width/height to its bounds and `rectangle: true` resets; `delete cutout:ID`; `run_drc` on a board with a pad in a cutout reports `Copper is in a cutout`; `AutomationTests` passes unedited.
+- [x] `Automation/AutomationBoard.swift`: `add_cutout`, `set_cutout`, their functions and `describe(_ cutout:)`; `set_board`'s `outline` and `rectangle` and the new "nothing to change" text.
+- [x] `Automation/AutomationRead.swift`: `outline=free-form` on the `BOARD` line and the `CUTOUTS` block after `KEEPOUTS`.
+- [x] `Automation/AutomationTools.swift`: the PCB paragraph of `AutomationGuide.text` names `add_cutout` and the free-form outline.
+- [x] Tests `schematicalTests/CutoutAutomationTests.swift` (the `call` pattern of `AutomationTests`): each shape through `add_cutout` and the kind it reports; a circle's centre; a bad shape (side 0.1) is an error naming the 0.5 mm minimum; `set_cutout` of x/y/width/radius/locked and the locked refusal; a polygon accepts `x`, `y`, `locked` and refuses `width`; `get_board` lists them and the `outline=free-form` marker; `set_board outline` with an L-shape sets width/height to its bounds and `rectangle: true` resets; `delete cutout:ID`; `run_drc` on a board with a pad in a cutout reports `Copper is in a cutout`; `AutomationTests` passes unedited.
 
 Acceptance: an agent can make, change, list and delete cutouts and set the outline, in one undo step per call.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/CutoutAutomationTests -only-testing:schematicalTests/AutomationTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 4 min; `AutomationTests` is the no-cutout check).
+  Observed: CutoutAutomationTests 8 + AutomationTests 33, 0 failures, TEST SUCCEEDED.
 Commit: —
 
 ### Phase 2 — Docs and the todo

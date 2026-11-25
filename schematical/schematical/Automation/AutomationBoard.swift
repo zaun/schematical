@@ -14,16 +14,45 @@ extension AutomationTools {
         AutomationTool(
             name: "set_board",
             summary: "Change the board: width and height (mm), type (a free rectangle or a standard card; see "
-                + "get_board), copper layers (1, 2, 4 or 6), grid (mm), units (mm or in), color.",
+                + "get_board), copper layers (1, 2, 4 or 6), grid (mm), units (mm or in), color; outline = a "
+                + "free-form edge as [[x, y], …] in mm (a simple polygon whose bounds start at 0, 0, each side 1 to "
+                + "1000 mm; the board becomes Custom and its size the outline's bounds); rectangle = true takes the "
+                + "free-form edge off again.",
             properties: [
                 "width": Schema.number("mm"), "height": Schema.number("mm"),
                 "type": Schema.string("Board type id, e.g. custom"),
                 "layers": Schema.integer("1, 2, 4 or 6"), "grid": Schema.number("Component grid, mm"),
                 "units": Schema.string("mm or in", options: ["mm", "in"]),
                 "color": Schema.string("Solder mask color", options: BoardColor.allCases.map(\.rawValue)),
+                "outline": Schema.points("Free-form board edge, mm"), "rectangle": Schema.boolean("Back to the rectangle"),
             ],
             edits: true,
             run: { context, args in Out.text(try setBoard(context!, args)) }),
+        AutomationTool(
+            name: "add_cutout",
+            summary: "PCB: cut a region out of the board (no material, copper keeps its distance from its edge). shape is "
+                + "rectangle (default; x, y, width, height in mm, optional radius for round corners), slot (x, y, width, "
+                + "height, ends rounded), circle (x, y = its centre, diameter) or polygon (points = [[x, y], …]).",
+            properties: [
+                "shape": Schema.string("rectangle, slot, circle or polygon", options: ["rectangle", "slot", "circle", "polygon"]),
+                "x": Schema.number("mm"), "y": Schema.number("mm"), "width": Schema.number("mm"),
+                "height": Schema.number("mm"), "radius": Schema.number("Corner radius, mm (rectangle)"),
+                "diameter": Schema.number("mm (circle)"), "points": Schema.points("Corners, mm (polygon)"),
+            ],
+            edits: true,
+            run: { context, args in Out.text(try addCutout(context!, args)) }),
+        AutomationTool(
+            name: "set_cutout",
+            summary: "PCB: change a cutout: id (from get_board, or cutout:ID), then any of x, y (its top-left), width, "
+                + "height, radius, locked. A polygon takes only x, y and locked. A locked cutout must be unlocked "
+                + "(locked: false) in the same call to change.",
+            properties: [
+                "id": Schema.string("cutout:ID or the id"), "x": Schema.number("mm"), "y": Schema.number("mm"),
+                "width": Schema.number("mm"), "height": Schema.number("mm"), "radius": Schema.number("mm"),
+                "locked": Schema.boolean("Lock position"),
+            ],
+            required: ["id"], edits: true,
+            run: { context, args in Out.text(try setCutout(context!, args)) }),
         AutomationTool(
             name: "set_layer",
             summary: "Configure a copper layer. An inner layer (inner2…inner5) is a plane or wire layer. A plane "
@@ -216,9 +245,23 @@ extension AutomationTools {
                 if let parsed = BoardColor(rawValue: color) { document.setBoardColor(parsed); done.append("color") }
                 else { problem = "color must be one of " + BoardColor.allCases.map(\.rawValue).joined(separator: ", ") }
             }
+            if args.raw["outline"] != nil {
+                if let points = try? args.points("outline") {
+                    if document.setBoardOutline(points) { done.append("outline") }
+                    else { problem = "outline " + (BoardSettings.problem(outline: points) ?? "was refused") }
+                } else {
+                    problem = "outline must be [[x, y], …]"
+                }
+            }
+            if args.optBool("rectangle") == true {
+                document.resetBoardOutline()
+                done.append("rectangle")
+            }
         }
         if let problem { throw AutomationFailure(problem) }
-        guard !done.isEmpty else { throw AutomationFailure("nothing to change: pass width, height, type, layers, grid, units or color") }
+        guard !done.isEmpty else {
+            throw AutomationFailure("nothing to change: pass width, height, type, layers, grid, units, color, outline or rectangle")
+        }
         let board = document.board
         return "board is now \(num(board.width))x\(num(board.height)) mm, \(board.layers) layers (changed \(done.joined(separator: ", ")))"
     }
@@ -562,6 +605,70 @@ extension AutomationTools {
         "keepout \(context.short(keepout.id)) at (\(num(keepout.rect.minX)),\(num(keepout.rect.minY))) "
             + "\(num(keepout.rect.width))x\(num(keepout.rect.height)) layers "
             + (keepout.layers.map { $0.map(\.rawValue).sorted().joined(separator: ",") } ?? "all")
+    }
+
+    private static func describe(_ cutout: BoardCutout, _ context: AutomationContext) -> String {
+        let box = cutout.shape.bounds
+        var line = "cutout \(context.short(cutout.id)) \(cutout.kind.rawValue) at (\(num(box.minX)),\(num(box.minY))) "
+            + "\(num(box.width))x\(num(box.height))"
+        switch cutout.shape {
+        case let .rounded(_, radius): if cutout.kind == .rectangle, radius > 0 { line += " radius=\(num(radius))" }
+        case let .polygon(points): line += " points=\(points.count)"
+        }
+        return line + (cutout.locked ? " locked" : "")
+    }
+
+    private static func addCutout(_ context: AutomationContext, _ args: AutomationArgs) throws -> String {
+        let document = context.document
+        let shape: BoardCutout.Shape
+        switch try args.choice("shape", among: ["rectangle", "slot", "circle", "polygon"], default: "rectangle") {
+        case "polygon":
+            shape = .polygon(try args.points("points"))
+        case "circle":
+            shape = .circle(centre: CGPoint(x: try args.double("x"), y: try args.double("y")), diameter: try args.double("diameter"))
+        case "slot":
+            shape = .slot(rect: CGRect(x: try args.double("x"), y: try args.double("y"), width: try args.double("width"),
+                                       height: try args.double("height")))
+        default:
+            shape = .rounded(rect: CGRect(x: try args.double("x"), y: try args.double("y"), width: try args.double("width"),
+                                          height: try args.double("height")), radius: args.optDouble("radius") ?? 0)
+        }
+        guard let id = document.addCutout(shape) else {
+            throw AutomationFailure("cutout " + (BoardCutout.problem(shape) ?? "was refused"))
+        }
+        document.clearAllSelections()
+        guard let cutout = document.cutouts.first(where: { $0.id == id }) else { throw AutomationFailure("no cutout added") }
+        return describe(cutout, context)
+    }
+
+    private static func setCutout(_ context: AutomationContext, _ args: AutomationArgs) throws -> String {
+        let document = context.document
+        var spec = try args.string("id")
+        if spec.lowercased().hasPrefix("cutout:") { spec = String(spec.dropFirst(7)) }
+        let id = try context.find(document.cutouts, spec, kind: "cutout").id
+        guard let before = document.cutouts.first(where: { $0.id == id }) else { throw AutomationFailure("no such cutout") }
+        let wantsGeometry = ["x", "y", "width", "height", "radius"].contains { args.raw[$0] != nil }
+        if case .polygon = before.shape, ["width", "height", "radius"].contains(where: { args.raw[$0] != nil }) {
+            throw AutomationFailure("a polygon cutout takes only x, y and locked")
+        }
+        if before.locked, wantsGeometry, args.optBool("locked") != false {
+            throw AutomationFailure("the cutout is locked: pass locked: false to change it")
+        }
+        document.recordEdit(.pcb, "Change Cutout") {
+            if let locked = args.optBool("locked") { document.setLocked(.cutout(id), locked) }
+            let box = document.cutouts.first(where: { $0.id == id })?.shape.bounds ?? before.shape.bounds
+            if args.raw["x"] != nil || args.raw["y"] != nil {
+                document.moveCutout(id, to: CGPoint(x: args.optDouble("x") ?? box.minX, y: args.optDouble("y") ?? box.minY))
+            }
+            if args.raw["width"] != nil || args.raw["height"] != nil {
+                let now = document.cutouts.first(where: { $0.id == id })?.shape.bounds ?? box
+                document.setCutoutRect(id, CGRect(x: now.minX, y: now.minY, width: args.optDouble("width") ?? now.width,
+                                                  height: args.optDouble("height") ?? now.height))
+            }
+            if let radius = args.optDouble("radius") { document.setCutoutRadius(id, radius) }
+        }
+        guard let cutout = document.cutouts.first(where: { $0.id == id }) else { throw AutomationFailure("no such cutout") }
+        return describe(cutout, context)
     }
 
     private static func addKeepout(_ context: AutomationContext, _ args: AutomationArgs) throws -> String {
