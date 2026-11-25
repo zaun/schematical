@@ -184,7 +184,7 @@ Acceptance: 16 scenarios equal avr8js; the 328 layout still equals
 avr8js's configs.
   Check: `ctest --test-dir /tmp/sim-rel -R avr_periph_test --output-on-failure` → `layout atmega328 equal`, 16 `ok` lines (est. 1 min).
   Observed: 2026-11-24: `layout atmega328 equal`, 16 `ok <scenario>` lines against the live oracle.
-Commit: —
+Commit: de782de2
 
 ### Phase 2 — the disassembler
 
@@ -197,7 +197,7 @@ Commit: —
 Acceptance: every named word round-trips.
   Check: `ctest --test-dir /tmp/sim-rel -R avr_periph_test --output-on-failure` → `dasm: <N> words round-trip` with N above 60000 (est. 1 min).
   Observed: 2026-11-24: `dasm: 63902 words round-trip`; `ctest -R avr_` 2 of 2 passed.
-Commit: —
+Commit: de782de2
 
 ## Validation Plan
 
