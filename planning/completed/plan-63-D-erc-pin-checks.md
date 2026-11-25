@@ -142,7 +142,7 @@ Acceptance: it builds and links into the library and the app's bridging header
 exposes it (`erc.h` was added to `schematical-Bridging-Header.h` in 63-B).
   Check: `cmake -S backend -B /tmp/logic-build && cmake --build /tmp/logic-build --target logic 2>&1 | tail -2` → `[100%] Built target logic` (est. 3 min).
   Result (2026-11-25, `/tmp/logic-build-wt63`): `cmake --build … --target logic erc_test voltage_test` ends `[100%] Built target voltage_test`; the app's own build with `erc.h` in the bridging header is run in plan-63-E Phase 1's xcodebuild.
-Commit: BATCH
+Commit: 38d94fdc
 
 ### Phase 2 — Tests against KiCad's own answers
 
@@ -168,7 +168,7 @@ Commit: BATCH
 Acceptance: `erc_test` passes; its 90 table rows equal KiCad's reports.
   Check: `cmake --build /tmp/logic-build --target erc_test && /tmp/logic-build/erc_test | tail -3` → `FAIL` absent and the last line `0 failures` (est. 5 min).
   Result (2026-11-25): `erc_test: 0 failures`: all 90 rows of `erc_pair_table.h` (78 pairs and 12 lone pins) equal KiCad's reports on the first run, and `ctest -R 'erc_|voltage'` → `100% tests passed, 0 tests failed out of 4` (3.7 s). One expectation of mine in the test was wrong (a problem count in `check_order_and_cap`), not the check.
-Commit: BATCH
+Commit: 38d94fdc
 
 ## Validation Plan
 
