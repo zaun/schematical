@@ -1375,14 +1375,6 @@ extension SchematicFile {
         return result
     }
 
-    /// A date as the file writes it: ISO 8601, UTC, whole seconds.
-    private static func dateText(_ date: Date) -> String {
-        let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = [.withInternetDateTime]
-        formatter.timeZone = TimeZone(identifier: "UTC")
-        return formatter.string(from: date)
-    }
-
     /// The file form of the document info: empty text, unset dates, automatic
     /// dates and a hidden title block are left out.
     private static func entry(_ info: DocumentInfo) -> DocumentInfoEntry {
@@ -1391,8 +1383,8 @@ extension SchematicFile {
             author: info.author.isEmpty ? nil : info.author,
             revision: info.revision.isEmpty ? nil : info.revision,
             description: info.description.isEmpty ? nil : info.description,
-            created: info.created.map(dateText),
-            updated: info.updated.map(dateText),
+            created: info.created.map(DocumentInfo.isoText),
+            updated: info.updated.map(DocumentInfo.isoText),
             automaticDates: info.automaticDates ? nil : false,
             titleBlock: info.titleBlock.map { Point(x: $0.x, y: $0.y) })
     }
@@ -1408,9 +1400,7 @@ extension SchematicFile {
         info.description = entry.description ?? ""
         func date(_ text: String?, _ key: String) throws -> Date? {
             guard let text else { return nil }
-            let formatter = ISO8601DateFormatter()
-            formatter.formatOptions = [.withInternetDateTime]
-            guard let parsed = formatter.date(from: text) else {
+            guard let parsed = DocumentInfo.isoDate(text) else {
                 throw SchematicFileError.badDocumentInfo("\(key) \"\(text)\" is not a date")
             }
             return parsed

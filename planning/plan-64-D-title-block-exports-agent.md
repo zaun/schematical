@@ -127,21 +127,21 @@ Commit: —
 
 ### Phase 2 — Agent tools
 
-- [ ] `AutomationSchematic.swift`: `AutomationTool(name: "set_document_info", …)` next to `set_note` (:86) with the
+- [x] `AutomationSchematic.swift`: `AutomationTool(name: "set_document_info", …)` next to `set_note` (:86) with the
       properties in § 3, `edits: true`; its `run` is one `document.recordEdit(.schematic, "Edit Document Info")` that
       applies the given fields through A's setters and `setTitleBlockShown`, refusing dates under automatic dates;
       `item(_:)` (:845): `spec.lowercased() == "titleblock"` (before the no-colon part lookup) → `.schematic(.titleBlock)`
-      or the error in § 3; the unknown-item message (:862) lists `titleblock`.
-- [ ] `AutomationRead.swift`: the `DOCUMENT` section in the text form (:171 area) and `"document"` in the JSON form
-      (:279 area).
-- [ ] `AutomationTools.swift`: one sentence in the `instructions` text (:348): the title block is addressed as
-      `titleblock`, and `set_document_info` edits the information.
-- [ ] Tests (`AutomationTests`, following the `add_note` tests at :309-366): `set_document_info` with title, author,
+      or the error in § 3; the unknown-item message (:862) lists `titleblock`. — done (DocumentInfo.isoText/isoDate are shared with the file writer)
+- [x] `AutomationRead.swift`: the `DOCUMENT` section in the text form (:171 area) and `"document"` in the JSON form
+      (:279 area). — done
+- [x] `AutomationTools.swift`: one sentence in the `instructions` text (:348): the title block is addressed as
+      `titleblock`, and `set_document_info` edits the information. — done
+- [x] Tests (`AutomationTests`, following the `add_note` tests at :309-366): `set_document_info` with title, author,
       revision, description and `title_block: true` → `get_design` shows them and the block's bounds; the same call
       is one undo step (`undo` restores the defaults); `created` with automatic dates on is an error;
       `automatic_dates: false` + `created` stores it; `move` with `titleblock` and `dx`/`dy` moves it; `delete`
       with `titleblock` hides it and leaves the information; `select titleblock` with the block off is the error;
-      `get_design` JSON has `"title_block": null` when off.
+      `get_design` JSON has `"title_block": null` when off. — done: AutomationTests.testDocumentInfoAndTheTitleBlock; xcodebuild test AutomationTests AutomationWindowToolsTests DocumentInfoTests -> ** TEST SUCCEEDED **, 54 tests 0 failures
 
 Acceptance: an agent can read and set everything the window can, and address the block.
   Check: `xcodebuild … test -only-testing:schematicalTests/AutomationTests -only-testing:schematicalTests/AutomationWindowToolsTests` → `** TEST SUCCEEDED **` (est. 9 min).

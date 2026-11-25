@@ -32,6 +32,22 @@ nonisolated struct DocumentInfo: Equatable, Sendable {
         return formatter.string(from: date)
     }
 
+    /// `date` as the file and the agent tools write it: ISO 8601, UTC, whole
+    /// seconds (`2026-11-25T14:07:00Z`).
+    static func isoText(_ date: Date) -> String {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime]
+        formatter.timeZone = TimeZone(identifier: "UTC")
+        return formatter.string(from: date)
+    }
+
+    /// The date `isoText` writes, nil when `text` is not one.
+    static func isoDate(_ text: String) -> Date? {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime]
+        return formatter.date(from: text)
+    }
+
     /// What a save does to the dates: with `automaticDates` on, `created`
     /// is set once and `updated` every time; off, nothing.
     mutating func stamp(now: Date) {

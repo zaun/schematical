@@ -93,6 +93,23 @@ extension AutomationTools {
             required: ["note"], edits: true,
             run: { context, args in Out.text(try setNote(context!, args)) }),
         AutomationTool(
+            name: "set_document_info",
+            summary: "Change the schematic's Document Info (Window > Document Info): title, author, revision, "
+                + "description, created and updated dates (ISO 8601, e.g. 2026-11-25T14:07:00Z; only with "
+                + "automatic_dates false, since saves set them while it is on), and title_block true/false to show or "
+                + "hide the title block on the schematic (bottom-right of the drawing; it is item \"titleblock\" for "
+                + "move, select and delete, and delete only hides it). One undo step.",
+            properties: [
+                "title": Schema.string("Title"), "author": Schema.string("Author"), "revision": Schema.string("Revision (free text)"),
+                "description": Schema.string("Description; may have line breaks"),
+                "created": Schema.string("Created date, ISO 8601; empty clears it"),
+                "updated": Schema.string("Updated date, ISO 8601; empty clears it"),
+                "automatic_dates": Schema.boolean("Saves set the dates (default for a new document)"),
+                "title_block": Schema.boolean("Show (true) or hide (false) the title block on the schematic"),
+            ],
+            required: [], edits: true,
+            run: { context, args in Out.text(try setDocumentInfo(context!, args)) }),
+        AutomationTool(
             name: "set_wire_route",
             summary: "Re-route an existing wire through waypoints, keeping its ends: via is a list of [x,y] "
                 + "points it passes through, joined with right angles as connect's via is. An empty via gives "
@@ -485,6 +502,48 @@ extension AutomationTools {
         return "note \(context.short(id)): size \(note.size), \(note.framed ? "framed" : "no frame")"
     }
 
+    private static func setDocumentInfo(_ context: AutomationContext, _ args: AutomationArgs) throws -> String {
+        let document = context.document
+        let title = args.optString("title"), author = args.optString("author")
+        let revision = args.optString("revision"), description = args.optString("description")
+        let created = args.optString("created"), updated = args.optString("updated")
+        let automatic = args.optBool("automatic_dates"), block = args.optBool("title_block")
+        guard [title, author, revision, description, created, updated].contains(where: { $0 != nil })
+                || automatic != nil || block != nil else {
+            throw AutomationFailure("nothing to change: give title, author, revision, description, created, updated, "
+                                    + "automatic_dates or title_block")
+        }
+        if created != nil || updated != nil, automatic ?? document.documentInfo.automaticDates {
+            throw AutomationFailure("dates are set automatically on save; pass automatic_dates=false to set them")
+        }
+        func date(_ text: String?, _ key: String) throws -> Date?? {
+            guard let text else { return .none }
+            if text.isEmpty { return .some(nil) }
+            guard let parsed = DocumentInfo.isoDate(text) else {
+                throw AutomationFailure("\(key) \"\(text)\" isn't an ISO 8601 date, e.g. 2026-11-25T14:07:00Z")
+            }
+            return .some(parsed)
+        }
+        let newCreated = try date(created, "created"), newUpdated = try date(updated, "updated")
+        document.recordEdit(.schematic, "Edit Document Info") {
+            document.editDocumentInfo("Edit Document Info") { info in
+                if let title { info.title = title }
+                if let author { info.author = author }
+                if let revision { info.revision = revision }
+                if let description { info.description = description }
+                if let automatic { info.automaticDates = automatic }
+                if let newCreated { info.created = newCreated }
+                if let newUpdated { info.updated = newUpdated }
+            }
+            if let block { document.setTitleBlockShown(block) }
+        }
+        document.endCoalescing()
+        let info = document.documentInfo
+        return "document info: title \"\(info.title)\", author \"\(info.author)\", revision \"\(info.revision)\", "
+            + "dates \(info.automaticDates ? "automatic" : "manual"), title block "
+            + (info.titleBlock.map { "at (\(num($0.x)),\(num($0.y)))" } ?? "off")
+    }
+
     private static func setWireRoute(_ context: AutomationContext, _ args: AutomationArgs) throws -> String {
         let document = context.document
         var spec = try args.string("wire")
@@ -843,6 +902,12 @@ extension AutomationTools {
 
     static func item(_ spec: String, _ context: AutomationContext, forDelete: Bool) throws -> Item {
         let document = context.document
+        if spec.lowercased() == "titleblock" {
+            guard document.documentInfo.titleBlock != nil else {
+                throw AutomationFailure("the title block is not on the schematic: set_document_info title_block=true")
+            }
+            return .schematic(.titleBlock)
+        }
         guard let colon = spec.firstIndex(of: ":") else {
             return .schematic(.chip(try context.chip(spec).id))
         }
@@ -871,7 +936,7 @@ extension AutomationTools {
             return .board(.footprint(try context.chip(rest).id))
         default:
             throw AutomationFailure("unknown item “\(spec)”: use a reference (U1), wire:ID, label:NAME, note:ID, "
-                                    + "bus:NAME, junction:ID, trace:ID, via:ID, hole:ID, pour:ID, keepout:ID, text:ID or fp:U1")
+                                    + "titleblock, bus:NAME, junction:ID, trace:ID, via:ID, hole:ID, pour:ID, keepout:ID, text:ID or fp:U1")
         }
     }
 
