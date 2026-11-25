@@ -231,20 +231,20 @@ Acceptance: `candidates.tsv` has a header and one row per part; every row's
 `decision` is `add`, `out` or `check`; each (maker, circuit) page's count equals
 its row count.
   Check: `awk -F'\t' 'NR>1{n++; d[$18]++} END{print n, d["add"], d["out"], d["check"]}' planning/plan-58-data/candidates.tsv` prints the four counts, and `awk -F'\t' 'NR>1 && $18!="add" && $18!="out" && $18!="check"' planning/plan-58-data/candidates.tsv | wc -l` → 0 (est. 6 min). Measured: `423 296 127 ` (check column empty) and `0`.
-Commit: — (recorded in the next commit)
+Commit: ca7a70d3
 
 ### Phase 2 — download the datasheets
 
-- [ ] `census/fetch.py <candidates.tsv> /tmp/p58/pdf` : the distinct `datasheet`
+- [x] `census/fetch.py <candidates.tsv> /tmp/p58/pdf` → `40 urls; 40 are PDFs; 0 missing`, exit 0 (the 2 `mm.digikey.com` ones through Safari) : the distinct `datasheet`
       URLs of the `add` rows (a `//host/…` URL gets `https:`). Headers: Safari
       18.6's full set for `www.littelfuse.com`; plain `curl`-style for the
       others; `mm.digikey.com` through `scripts/safari-digikey-pdf.sh`, one at a
       time. A body that does not start with `%PDF-` is not kept; `pdfinfo` must
       open the file. Writes `/tmp/p58/pdf/index.tsv` (md5 of URL, status, bytes,
       `%PDF`, url). Exit 1 lists missing files.
-- [ ] `census/textscan.py <candidates.tsv> /tmp/p58/pdf /tmp/p58/scan.tsv`: adds `pdf`,
+- [x] `census/textscan.py <candidates.tsv> /tmp/p58/pdf /tmp/p58/scan.tsv` → 296 `add` rows with `pdf` = 1, `hit` = 1 on 93 (C&K 54, NKK 19, E-Switch 20, CIT 0), `dead` = 1 on 0: adds `pdf`,
       `hit`, `dead` (§ 4.1) with `pdftotext -layout`.
-- [ ] Tests: `fetch.py --selftest` (header set, `%PDF-` check, protocol-relative
+- [x] Tests (both print `ok`): `fetch.py --selftest` (header set, `%PDF-` check, protocol-relative
       URL) and `textscan.py --selftest` (verbatim / spaced / obsolete cases on
       three inline strings).
 
@@ -252,7 +252,7 @@ Acceptance: every `add` row has `pdf` and `hit` filled; the number of distinct
 downloaded PDFs equals the number of distinct URLs minus the ones listed as
 missing.
   Check: `python3 -I planning/plan-58-data/census/textscan.py --selftest` →
-  `ok`, and `awk -F'\t' 'NR>1 && $18=="add" && $20==""' /tmp/p58/scan.tsv | wc -l` → 0 (est. 5 min).
+  `ok`, and `awk -F'\t' 'NR>1 && $18=="add" && $20==""' /tmp/p58/scan.tsv | wc -l` → 0 (est. 5 min). Measured: `ok`, `ok`, `0`.
 Commit: —
 
 ### Phase 3 — decide, place, document
@@ -317,6 +317,7 @@ Commit: —
 ## Corrections
 
 - **2026-11-24, Phase 1: the census differs from the planning-time one by two parts.** `build.py` on the fresh pages gives 423 parts (planning-time 422): `diff <(cut -f1,2 old) <(cut -f1,2 new)` shows `C&K S802C21S207DQ` (new, Panel Mount, Snap-In: `out`) and `NKK AS12AP` (new, `add`) and `NKK MSN13ASG40` gone (out of stock since). `add` stays 296; by action SPDT On-On is 131 (was 130) and SPDT On-Off-On 23 (was 24); `out` is 127 (was 126). No later letter's scope is derived from these counts, so none is re-scoped. § 2's table carries both numbers.
+- **2026-11-24, Phase 2: `hit` is 93 of 296, not 102; CIT has 0 hits, not 10.** The planning probe was a case-blind substring test; `textscan.py` also requires the number to stand on its own (plan-27-A Correction 6). The 10 CIT "hits" of the probe (`MS1202L6`, `MS1206L6`, `MS1247L4`, `MS2201L3`, `MS2205L6`, `MS2208L4`, `MS2210L4`, `MS2211L4`, `MS2219L4`, `MS2241L9`) are not part numbers in the PDF: `pdftotext -layout` of `Switch-MS1202.pdf` line 17 reads `1. Series  MS1202   L6`, the series and the actuator length printed in separate cells of the ordering-key table, which the substring test joined. They are `pending` like the other 203 (C–F read the key). C&K 54, NKK 19 (probe 18: `AS12AP` is new), E-Switch 20 match the probe. § 2's table row "`add` rows whose part number is verbatim" is 93 of 296 (C&K 54 of 119, NKK 19 of 71, E-Switch 20 of 63, CIT 0 of 43), so `pending` will be 203 (was 194).
 
 ## Summary
 
