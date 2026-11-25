@@ -26,8 +26,8 @@ Stated in plan-59-A § Prerequisites. In addition:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-59-B is complete | `rg -c '^- \[ \]' planning/plan-59-B-spike-documentgroup-app.md` → no output | NOT MET until B lands |
-| Every G probe has a verdict | `rg -c '^\| [FUA][0-9]+ \| [^|]+\| (works\|workaround\|blocked) \|' planning/plan-59-data/findings.md` → `27` (F1–F7, U1–U5, A1–A15) | NOT MET until B lands |
+| plan-59-B is complete | `rg -c '^- \[ \]' planning/plan-59-B-spike-documentgroup-app.md` → no output | MET (no output) |
+| Every G probe has a verdict | `rg -c '^\| [FUA][0-9]+ \| [^|]+\| (works\|workaround\|blocked) \|' planning/plan-59-data/findings.md` → `27` (F1–F7, U1–U5, A1–A15) | MET (`27`) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run before you continue and before you stop; report all prerequisites if
@@ -124,30 +124,30 @@ be independent evidence).
 
 ### Phase 1 — The H worktree and document
 
-- [ ] `git worktree add --detach /Users/justinzaun/Development/logic/.claude/worktrees/spike-59-H 2d10a029` (script file in the scratchpad); apply the same product name, module name, bundle id (`jgz.schematical.spike59h`) and ad-hoc signing edits as plan-59-A phase 1, in this worktree's `project.pbxproj`; build to `<scratch>/dd-H`.
-- [ ] Add `SchematicNSDocument`, the window controller and `Info.plist` document types (§ 4); wire the App.
-- [ ] Build and launch; open `examples/6502.schematical` with `open -a`.
+- [x] `git worktree add --detach /Users/justinzaun/Development/logic/.claude/worktrees/spike-59-H 2d10a029` (script file in the scratchpad); apply the same product name, module name, bundle id (`jgz.schematical.spike59h`) and ad-hoc signing edits as plan-59-A phase 1, in this worktree's `project.pbxproj`; build to `<scratch>/dd-H`. — `scripts/mk-H.sh` → `2d10a029bb47…`; bundle id `jgz.schematical.spike59h`; `** BUILD SUCCEEDED **` in `<scratch>/dd-H`. The worktree starts from `spike-G-app.patch` (Corrections 1).
+- [x] Add `SchematicNSDocument`, the window controller and `Info.plist` document types (§ 4); wire the App. — `scripts/patch-H.py` → `15 edits applied`; `scripts/overlay-H/SchematicNSDocument.swift`.
+- [x] Build and launch; open `examples/6502.schematical` with `open -a`. — `docs` → `[0] SchematicNSDocument name=6502.schematical … parts=103`.
 
 Acceptance: H shows 6502 in a window named after the file.
-  Check: `osascript -e 'tell application "System Events" to tell process "SchematicalSpike59" to get name of every window'` (the process name is the product name; both worktrees use it, so run one app at a time) → contains `6502` (est. 15 min build, 3 min check).
-Commit: —
+  Check: `osascript -e 'tell application "System Events" to tell process "SchematicalSpike59" to get name of every window'` (the process name is the product name; both worktrees use it, so run one app at a time) → contains `6502` (est. 15 min build, 3 min check). — ran: `6502.schematical`.
+Commit: (this commit; hash in the next)
 
 ### Phase 2 — File and undo probes (F1–F7, U1–U5)
 
-- [ ] Run F1–F7 and U1–U5 against H exactly as `probes.md` defines them (the fixture, the harness mains and the baselines from plan-59-A are reused from `planning/plan-59-data/`). Record verdicts and evidence in the H columns.
+- [x] Run F1–F7 and U1–U5 against H exactly as `probes.md` defines them (the fixture, the harness mains and the baselines from plan-59-A are reused from `planning/plan-59-data/`). Record verdicts and evidence in the H columns. — 12 rows; all `works` but U5 (`workaround`).
 
 Acceptance: 12 H verdicts.
-  Check: `rg -c '^\| (F[1-7]|U[1-5]) \| [^|]+\| [^|]+\| [^|]+\| (works|workaround|blocked) \|' planning/plan-59-data/findings.md` → `12` (est. 4 h).
-Commit: —
+  Check: `rg -c '^\| (F[1-7]|U[1-5]) \| [^|]+\| [^|]+\| [^|]+\| (works|workaround|blocked) \|' planning/plan-59-data/findings.md` → `12` (est. 4 h). — ran: `12`.
+Commit: (this commit; hash in the next)
 
 ### Phase 3 — App probes (A1–A16)
 
-- [ ] Run A1–A15 against H as `probes.md` defines them; fill the A16 table's H seams. Record verdicts and evidence.
-- [ ] `git -C <wt-H> diff 2d10a029 > planning/plan-59-data/spike-H.patch`.
+- [x] Run A1–A15 against H as `probes.md` defines them; fill the A16 table's H seams. Record verdicts and evidence. — 15 rows and 8 seams; A6 and A7 are `blocked`.
+- [x] `git -C <wt-H> diff 2d10a029 > planning/plan-59-data/spike-H.patch`. — 2573 lines.
 
 Acceptance: 15 H verdicts for A1–A15, the A16 table has an H seam per row, the patch exists.
-  Check: `rg -c '^\| A[0-9]+ \| [^|]+\| [^|]+\| [^|]+\| (works|workaround|blocked) \|' planning/plan-59-data/findings.md` → `15`; `git apply --check planning/plan-59-data/spike-H.patch` in a throwaway detached worktree of `2d10a029` → exit 0 (est. 5–6 h).
-Commit: —
+  Check: `rg -c '^\| A[0-9]+ \| [^|]+\| [^|]+\| [^|]+\| (works|workaround|blocked) \|' planning/plan-59-data/findings.md` → `15`; `git apply --check planning/plan-59-data/spike-H.patch` in a throwaway detached worktree of `2d10a029` → exit 0 (est. 5–6 h). — ran: `15`; `git apply --check spike-H.patch -> exit 0`.
+Commit: (this commit; hash in the next)
 
 ## Validation Plan
 
@@ -164,7 +164,13 @@ Commit: —
 
 ## Corrections
 
-Filled in during execution.
+1. **H's worktree was started from G's patch, not written from nothing.** § 3 says the 59-A pieces are copied, not shared. `mk-H.sh` applies `spike-G-app.patch` to a fresh detached worktree and `patch-H.py` then removes the `DocumentGroup` scene and the seven child-window scenes and adds the `NSDocument` class. The two worktrees share no file; `spike-H.patch` is a whole diff against the base and applies by itself.
+2. **§ 4's `NSDocumentController` bootstrap was not needed.** With `NSDocumentClass` in Info.plist the shared controller opens documents with no code in the app delegate.
+3. **§ 4 puts Commands on `NSApp.sendAction`.** Only the document items the menu lacked are sent that way (Save, Duplicate, Rename…, Move To…, Revert). The existing `Commands` keep `@FocusedValue`, which works from the hosted view (A2).
+4. **`NSDocumentClass` is `SchematicNSDocument`, not `$(PRODUCT_MODULE_NAME).SchematicNSDocument`:** the class is declared `@objc(SchematicNSDocument)`.
+5. **Three things the probes made H add:** Close, Close All and Save As… items (the first A1 listing had none); closing a blank Untitled document when a file opens (A8); the hosted view emptied at close (A6, which did not free the model).
+6. **The reference tracing tool froze the spike app** (`leaks` suspends its target) and the owner saw a spinner; it was used twice and dropped. A6's lifetime evidence is the in-app weak references.
+7. **A8 with the tab setting at always, and a Dock drop, were not run for H.** The G run of the first is in `findings.md`; both are AppKit behavior for any `NSDocument` window.
 
 ## Summary
 

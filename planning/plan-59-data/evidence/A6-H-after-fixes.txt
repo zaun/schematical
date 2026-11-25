@@ -1,0 +1,4 @@
+run 1 (): NSDocument: freed SchematicDocument: alive SimulationController: alive model: alive 
+run 2 (): NSDocument: freed SchematicDocument: alive SimulationController: alive model: alive 
+run 1 (play 0 child 0 memory child 0 bom): NSDocument: freed SchematicDocument: alive SimulationController: alive model: alive 
+run 2 (play 0 child 0 memory child 0 bom): NSDocument: freed SchematicDocument: alive SimulationController: alive model: alive 
