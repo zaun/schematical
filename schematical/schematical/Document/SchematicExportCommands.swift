@@ -7,7 +7,7 @@ import SwiftUI
 /// KiCad project (three files, into a folder) or an EasyEDA Pro project.
 /// `SchematicFileCommands` puts it in the File menu.
 struct SchematicExportMenu: View {
-    let file: SchematicFileController?
+    let file: SchematicExporter?
 
     var body: some View {
         Menu("Export") {

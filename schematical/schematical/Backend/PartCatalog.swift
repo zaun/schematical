@@ -2538,7 +2538,7 @@ final class PartCatalogStore {
 
     /// Called after a User Library part is replaced in place (plan-53-D), with
     /// its uuid and the new part, so open schematics can follow. Set by
-    /// `SchematicFileController`.
+    /// `SchematicEditorModel` (to `SchematicNSDocument.updateOpenDocuments`).
     @ObservationIgnored var partUpdated: ((String, CatalogPart) -> Void)?
 
     /// Replaces a User Library part's content under the same uuid, now

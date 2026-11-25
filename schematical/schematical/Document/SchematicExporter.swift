@@ -10,7 +10,7 @@ import UniformTypeIdentifiers
 /// and tabs). Built by the document's `SchematicEditorModel`.
 @MainActor
 @Observable
-final class SchematicFileController {
+final class SchematicExporter {
     /// As `SchematicDocument`'s: an isolated deinit aborts the runtime when
     /// a closing document frees this.
     nonisolated deinit {}
@@ -492,7 +492,7 @@ struct PartFileMenuItems: View {
 
 extension FocusedValues {
     /// The focused window's exporter, for the File menu.
-    @Entry var schematicFile: SchematicFileController?
+    @Entry var schematicExporter: SchematicExporter?
 }
 
 /// The File menu's items that are the app's own, around the document items
@@ -500,7 +500,7 @@ extension FocusedValues {
 /// and Print… after the document's Save group. In a Part Editor window
 /// (plan-32-C) ⌘O and ⌘S are that window's Open Part… and Save Part….
 struct SchematicFileCommands: Commands {
-    @FocusedValue(\.schematicFile) private var file
+    @FocusedValue(\.schematicExporter) private var file
     @FocusedValue(\.partEditor) private var editor
 
     var body: some Commands {
@@ -538,73 +538,6 @@ struct SchematicFileCommands: Commands {
             }
             .keyboardShortcut("p", modifiers: .command)
             .disabled(file == nil)
-        }
-    }
-}
-
-// MARK: - Window close
-
-/// Sits in front of SwiftUI's own window delegate so it can answer
-/// `windowShouldClose`. Every other delegate message is passed straight through
-/// to SwiftUI's delegate.
-final class WindowCloseGuard: NSObject, NSWindowDelegate {
-    private let shouldClose: (NSWindow) -> Bool
-    private weak var original: NSWindowDelegate?
-    private weak var window: NSWindow?
-
-    init(shouldClose: @escaping (NSWindow) -> Bool) {
-        self.shouldClose = shouldClose
-    }
-
-    func attach(to newWindow: NSWindow?) {
-        guard newWindow !== window else { return }
-        if let window, window.delegate === self {
-            window.delegate = original
-        }
-        window = newWindow
-        original = newWindow?.delegate
-        newWindow?.delegate = self
-    }
-
-    func windowShouldClose(_ sender: NSWindow) -> Bool {
-        if original?.windowShouldClose?(sender) == false {
-            return false
-        }
-        return shouldClose(sender)
-    }
-
-    override func responds(to selector: Selector!) -> Bool {
-        super.responds(to: selector) || (original?.responds(to: selector) ?? false)
-    }
-
-    override func forwardingTarget(for selector: Selector!) -> Any? {
-        original?.responds(to: selector) == true ? original : super.forwardingTarget(for: selector)
-    }
-}
-
-/// Reports the window a view is in, once it's added to one.
-struct WindowReader: NSViewRepresentable {
-    let onWindow: (NSWindow) -> Void
-
-    func makeNSView(context: Context) -> NSView {
-        ReaderView(onWindow: onWindow)
-    }
-
-    func updateNSView(_ nsView: NSView, context: Context) {}
-
-    private final class ReaderView: NSView {
-        let onWindow: (NSWindow) -> Void
-
-        init(onWindow: @escaping (NSWindow) -> Void) {
-            self.onWindow = onWindow
-            super.init(frame: .zero)
-        }
-
-        required init?(coder: NSCoder) { nil }
-
-        override func viewDidMoveToWindow() {
-            super.viewDidMoveToWindow()
-            if let window { onWindow(window) }
         }
     }
 }

@@ -311,7 +311,7 @@ final class SchematicNSDocumentTests: XCTestCase {
         weak var model: SchematicEditorModel?
         weak var schematic: SchematicDocument?
         weak var simulation: SimulationController?
-        weak var exporter: SchematicFileController?
+        weak var exporter: SchematicExporter?
         weak var system: SchematicNSDocument?
         weak var window: NSWindow?
         var wasKey = false

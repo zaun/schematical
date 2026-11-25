@@ -16,7 +16,7 @@ final class SchematicExportActionTests: XCTestCase {
         return TestSupport.systemDocument(of: doc)
     }
 
-    private func controller(empty: Bool = false) throws -> (file: SchematicFileController, document: SchematicDocument) {
+    private func controller(empty: Bool = false) throws -> (file: SchematicExporter, document: SchematicDocument) {
         let system = try system(empty: empty)
         return (system.model.file, system.model.document)
     }

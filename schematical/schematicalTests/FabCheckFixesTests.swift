@@ -135,8 +135,8 @@ final class FabCheckFixesTests: XCTestCase {
         func issue(_ kind: DesignRuleIssue.Kind) -> DesignRuleIssue {
             DesignRuleIssue(kind: kind, reference: "", issue: "", items: [])
         }
-        XCTAssertEqual(SchematicFileController.problemSummary([issue(.short)]), "The check found 1 short circuit.")
-        XCTAssertEqual(SchematicFileController.problemSummary([issue(.short), issue(.unrouted), issue(.unrouted), issue(.edge)]),
+        XCTAssertEqual(SchematicExporter.problemSummary([issue(.short)]), "The check found 1 short circuit.")
+        XCTAssertEqual(SchematicExporter.problemSummary([issue(.short), issue(.unrouted), issue(.unrouted), issue(.edge)]),
                        "The check found 1 short circuit, 2 unrouted connections and 1 other problem.")
     }
 }

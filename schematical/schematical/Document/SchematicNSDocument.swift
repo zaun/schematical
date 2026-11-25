@@ -262,7 +262,7 @@ extension SchematicNSDocument {
 /// standard action down the responder chain, where `NSDocument` and
 /// `NSDocumentController` answer it.
 struct DocumentMenuCommands: Commands {
-    @FocusedValue(\.schematicFile) private var file
+    @FocusedValue(\.schematicExporter) private var file
     @FocusedValue(\.partEditor) private var editor
 
     private func send(_ selector: String) {

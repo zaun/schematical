@@ -63,7 +63,7 @@ struct ContentView: View {
     /// the inspector on the PCB page. One flag for both pages.
     @State private var isSidebarShown = true
     private var simulation: SimulationController { model.simulation }
-    private var file: SchematicFileController { model.file }
+    private var file: SchematicExporter { model.file }
     /// Identifies this window's document to the child windows it opens.
     private var documentID: UUID { model.id }
     /// The child windows are AppKit windows of the document
@@ -820,7 +820,7 @@ struct ContentView: View {
             }
             // The canvases install their key monitors through the model's.
             .environment(\.editorEventMonitors, model.eventMonitors)
-            .focusedSceneValue(\.schematicFile, file)
+            .focusedSceneValue(\.schematicExporter, file)
             // The menus read the page, the selection and the rest through
             // the model (`EditorMenus`), not through values published here.
             .focusedSceneValue(\.schematicEditor, model)

@@ -98,14 +98,14 @@ seam keeps that).
 
 Acceptance: the tests pass.
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/AutomationWindowToolsTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 5 min). Result, with `AutomationTests`: `Executed 38 tests, with 1 test skipped and 0 failures`, `** TEST SUCCEEDED **`.
-Commit: —
+Commit: c3cc4c6e
 
 ### Phase 2 — The exporter's name
 
-- [ ] `git mv schematical/schematical/Document/SchematicFileController.swift schematical/schematical/Document/SchematicExporter.swift`; rename the type in the app and the 8 test files; move `WindowReader` and `WindowCloseGuard` to `Document/WindowHelpers.swift`; `FocusedValues.schematicFile` becomes `schematicExporter`.
+- [x] `git mv schematical/schematical/Document/SchematicFileController.swift schematical/schematical/Document/SchematicExporter.swift`; rename the type in the app and the 8 test files; move `WindowReader` and `WindowCloseGuard` to `Document/WindowHelpers.swift`; `FocusedValues.schematicFile` becomes `schematicExporter`. Done: 10 Swift files changed by the rename (7 in the app, 3 in the tests: Corrections 3).
 
 Acceptance: the name is gone and the A16 classes pass.
-  Check: `rg -c 'SchematicFileController' schematical` → no output; `xcodebuild test … -only-testing:schematicalTests/EasyEDAProExportTests -only-testing:schematicalTests/KiCadExportTests -only-testing:schematicalTests/SchematicExportActionTests -only-testing:schematicalTests/GerberExportTests -only-testing:schematicalTests/FileDesignRulesTests -only-testing:schematicalTests/PartEditorLibraryTests -only-testing:schematicalTests/UserLibraryEndToEndTests -only-testing:schematicalTests/UserLibraryUpdateTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 7 min).
+  Check: `rg -c 'SchematicFileController' schematical` → no output; `xcodebuild test … -only-testing:schematicalTests/EasyEDAProExportTests -only-testing:schematicalTests/KiCadExportTests -only-testing:schematicalTests/SchematicExportActionTests -only-testing:schematicalTests/GerberExportTests -only-testing:schematicalTests/FileDesignRulesTests -only-testing:schematicalTests/PartEditorLibraryTests -only-testing:schematicalTests/UserLibraryEndToEndTests -only-testing:schematicalTests/UserLibraryUpdateTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 7 min). Result: `grep -rc 'SchematicFileController' schematical` → no file above 0; the 8 classes with `FabCheckFixesTests` and `PartEditorWindowTests`: `Executed 112 tests, with 0 failures`, `** TEST SUCCEEDED **`.
 Commit: —
 
 ### Phase 3 — Docs and close-out
@@ -135,6 +135,7 @@ Commit: —
 
 1. § 2 said `new_window` and `open` worked as 61-B left them. They needed a window to run in (`needsWindow`, from when a new tab was opened from an existing window), so with no document open both failed with `no schematic window is open (use new_window)`, `new_window` among them. Both are `needsWindow: false` now and take no `window` argument (one still passed is ignored). `open` of a file that is already open answered `opened (in window <the caller's>)`; it now names the window that holds the file.
 2. `save` right after an edit left the document marked Edited (`testSaveNeedsAPathForAnUntitledDocumentAndWritesTheFile`, first run: `XCTAssertFalse failed` on `isDocumentEdited`): the document takes in an edit one run loop turn after it (plan-61-A Corrections 8), so the mark arrived after the save. The tool waits 50 ms before saving.
+3. § 2 counted 8 test files constructing the controller. After 61-B phase 3 none constructs it (they build a `SchematicNSDocument` and use its `model.file`, plan-61-B Corrections 2), so the rename touched 3 test files that name the type (`FabCheckFixesTests`, `SchematicExportActionTests`, `SchematicNSDocumentTests`), not 8. § 2 also expected `updateOpenDocuments` and the custom-parts offer's trigger in the controller; `updateOpenDocuments` is `SchematicNSDocument`'s (same Corrections 2) and the offer is made by the document when its window is made.
 
 ## Summary
 

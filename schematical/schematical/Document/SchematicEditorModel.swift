@@ -18,7 +18,7 @@ final class SchematicEditorModel {
     @ObservationIgnored let document: SchematicDocument
     @ObservationIgnored let simulation: SimulationController
     /// Exports and print for this document.
-    @ObservationIgnored let file: SchematicFileController
+    @ObservationIgnored let file: SchematicExporter
     /// The catalog the document's parts come from.
     @ObservationIgnored let catalog: PartCatalogStore
     /// The system document this is the model of.
@@ -56,7 +56,7 @@ final class SchematicEditorModel {
         self.catalog = catalog
         self.document = document
         self.simulation = SimulationController(library: catalog.library)
-        self.file = SchematicFileController(document: document, catalog: catalog)
+        self.file = SchematicExporter(document: document, catalog: catalog)
         // A User Library part edited in place reaches every open document
         // (plan-53-D).
         catalog.partUpdated = { [weak catalog] uuid, part in

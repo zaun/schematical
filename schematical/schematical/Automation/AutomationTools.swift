@@ -26,7 +26,7 @@ struct AutomationContext {
     let id: UUID
     let document: SchematicDocument
     let simulation: SimulationController
-    let file: SchematicFileController?
+    let file: SchematicExporter?
     /// The window's model, and through it its system document.
     var model: SchematicEditorModel?
 
