@@ -73,12 +73,14 @@ the socket's part name, for a DIP or PLCC chip a socket fits: a mode alone picks
 `socket=<name> (<mode>)` on the part), `add_net_label`,
 `add_note`, `set_net_label`, `set_note`, `set_wire_route`, `add_bus`, `set_bus`, `add_bus_port`, `set_bus_port`, `delete`, `select`.
 
-**PCB** — `set_board` (size, type, layers, grid, units, color), `set_layer`
+**PCB** — `set_board` (size, type, layers, grid, units, color, `outline` for a free-form edge, `rectangle` to take it off), `set_layer`
 (plane or wire layers, plane net, clearance), `move_footprint` (position,
 rotation, side), `route` (pad to pad, with warnings when it crosses another
 pad), `add_trace`, `set_trace`, `add_via`, `add_hole`, `add_pour` (flood a rectangle with
 copper on one net, thermal reliefs or solid), `set_pour`, `add_keepout` (a rectangle the pours stay
-out of), `set_keepout`, `add_board_text`, `lock`. `get_board` lists `POURS` and `KEEPOUTS`.
+out of), `set_keepout`, `add_cutout` (a rectangle, slot, circle or polygon cut out of the board; copper keeps its
+distance from its edge), `set_cutout`, `add_board_text`, `lock`. `get_board` lists `POURS`, `KEEPOUTS` and `CUTOUTS`,
+and marks a free-form board `outline=free-form`.
 
 **Simulation** — `simulation_start`, `simulation_stop`, `simulation_status`,
 `wait`*(no window)*, `set_switch` (a DIP position on or off; a tactile button pressed or released; a slide switch's knob moved to `position` 1 … N, `on` not used), `read_pins` (levels and LED brightness),
@@ -114,7 +116,7 @@ The server sends these as MCP `instructions` on connect
 (`AutomationGuide.text`); keep the two in step.
 
 - Parts by reference (`U1`), pins by designator or name (`U1.14`, `D1.K`).
-  Wires, labels, notes, traces, vias, holes, pours (`pour:ID`), keep-outs (`keepout:ID`), texts by the 8-hex-digit id the
+  Wires, labels, notes, traces, vias, holes, pours (`pour:ID`), keep-outs (`keepout:ID`), cutouts (`cutout:ID`), texts by the 8-hex-digit id the
   read tools print.
 - Schematic: canvas units, y down, 10-unit grid, parts placed by centre.
   Wires take the shortest right-angle route and do not avoid parts: pass

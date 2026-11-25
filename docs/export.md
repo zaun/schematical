@@ -374,6 +374,21 @@ that is a pin lands on that pin's place under the convention above. **No file ha
 Pro itself**, so a field the spec and KiCad's importer leave open may still differ
 (text alignment codes, which the spec and KiCad number differently, are the likely one).
 
+## Import
+
+**File › Import › DXF…** reads a 2D drawing and makes the board's edge and cutouts from its closed loops (plan-65). It asks for a `.dxf` file, then shows a sheet with a
+preview of the loops, which layers to use, the drawing's units (from `$INSUNITS`; the board's units when the file has none), and one of two modes:
+
+- **Board outline and cutouts**: the largest outer loop becomes the board's edge (a free-form Custom board whose width and height are its bounds), the loops inside it become cutouts, and
+  the board's old cutouts are replaced. The drawing is flipped (a DXF's y goes up) and moved so the outline's top-left is (0, 0). Parts and traces stay where they are.
+- **Cutouts only**: every outer loop is added as a cutout of the board the document has. The drawing's origin lands at the X and Y the sheet shows (mm from the board's
+  top-left; by default the board's bottom-left corner, so a drawing with its origin at the board's corner lines up).
+
+It is one undo step. What it reads: ASCII DXF with `LINE`, `ARC`, `CIRCLE`, `LWPOLYLINE`, `POLYLINE`, `ELLIPSE` and `SPLINE` entities; curves are cut into segments no more than 0.01 mm from the true
+curve, and pieces whose ends are within 0.01 mm are joined into loops. Everything else (`TEXT`, `HATCH`, `DIMENSION`, `INSERT` blocks, 3D) is left out and the sheet says how many; so are
+open chains, loops that cross themselves or another loop, loops outside the outline and loops inside a cutout. A binary DXF is refused. It was checked with files written by ezdxf (areas and
+bounding boxes match ezdxf's own) and by KiCad (`kicad-cli pcb export dxf` of the app's own board reads back as the same four loops): `planning/plan-65-data/`.
+
 ## Black line art
 
 Drawing code never names a color. It names an `Ink` role, and the painter

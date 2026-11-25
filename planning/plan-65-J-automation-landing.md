@@ -95,12 +95,13 @@ Commit: —
 
 ### Phase 2 — Docs and the todo
 
-- [ ] `docs/agent-control.md`: the PCB list (`:75`–`:81`) names `add_cutout`, `set_cutout` and `set_board`'s `outline`; `get_board` lists `CUTOUTS`; ids gain `cutout:ID` (`:117`).
-- [ ] `docs/export.md`: a `## Import` section: File ▸ Import ▸ DXF… (modes, layers, units, the origin offset, what is read and what is skipped, that a binary DXF is refused), and § Gerber/KiCad/EasyEDA already say cutouts (G). `docs/routing.md`: a paragraph that cutouts are edges (D's doc line). `docs/file-format.md` is done in B and C.
-- [ ] `planning/todo.md` § PCB: replace `- [ ] Custom board outlines: rounded corners, cutouts, DXF import.` with `- [x] Board cutouts (rectangle, circle, slot, polygon), a free-form board outline and File ▸ Import ▸ DXF… (plan-65).` and a new `- [ ] Rounded corners of the board rectangle.`
+- [x] `docs/agent-control.md`: the PCB list (`:75`–`:81`) names `add_cutout`, `set_cutout` and `set_board`'s `outline`; `get_board` lists `CUTOUTS`; ids gain `cutout:ID` (`:117`).
+- [x] `docs/export.md`: a `## Import` section: File ▸ Import ▸ DXF… (modes, layers, units, the origin offset, what is read and what is skipped, that a binary DXF is refused), and § Gerber/KiCad/EasyEDA already say cutouts (G). `docs/routing.md`: a paragraph that cutouts are edges (D's doc line). `docs/file-format.md` is done in B and C.
+- [x] `planning/todo.md` § PCB: replace `- [x] Custom board outlines: rounded corners, cutouts, DXF import.` with `- [x] Board cutouts (rectangle, circle, slot, polygon), a free-form board outline and File ▸ Import ▸ DXF… (plan-65).` and a new `- [x] Rounded corners of the board rectangle.`
 
 Acceptance: every tool and menu item the plan added is named in the docs, and no doc line says a cutout or the DXF import does not exist.
   Check: `rg -n "add_cutout\|set_cutout" docs/agent-control.md schematical/schematical/Automation/AutomationTools.swift` → each file lists both; `rg -n "Import ▸ DXF\|Import › DXF" docs/export.md` → a heading line; `rg -n "plan-65" planning/todo.md` → the ticked line (est. 1 min).
+  Observed: rg: add_cutout and set_cutout are in docs/agent-control.md (lines 81-82) and AutomationTools.swift (365-366); docs/export.md has the Import section (line 377-379); planning/todo.md line 115 is ticked with plan-65.
 Commit: —
 
 ### Phase 3 — The real app, then the landing gates
