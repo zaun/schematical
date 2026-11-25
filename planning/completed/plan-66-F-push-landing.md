@@ -195,18 +195,19 @@ Acceptance: every box above ticked with its observed output recorded beside it.
   Thorough on LFU 5 min — nothing smaller runs Balanced on the fixtures, since a
   Debug build is some 50 times slower; the real-app pass 10 min).
   Measured: see each box. Not met as written: the Release `testLFU` (pre-existing) and the window drive (screen locked).
-Commit: — (recorded in the next commit)
+Commit: e3c0f715
 
 ### Phase 4 — close-out
 
-- [ ] Fill every phase's `Commit:` in A–F and tick every box; move
+- [x] (done except the F Phase 4 hash, which the next commit records; three F boxes stay `[~]` with what remains, above) Fill every phase's `Commit:` in A–F and tick every box; move
       `planning/plan-66-[A-F]-*.md` to `planning/completed/` (A–E as each
       completed; F last); keep any `planning/plan-66-data/` in place.
 
 Acceptance: `ls planning/plan-66-*.md 2>/dev/null | wc -l` → 0; `ls
 planning/completed/plan-66-* | wc -l` → 6.
-  Check: the two commands (est. 1 min).
-Commit: —
+  Check: the two commands (est. 1 min). Measured: `ls planning/plan-66-*.md 2>/dev/null | wc -l` → 0;
+  `ls planning/completed/plan-66-* | wc -l` → 6.
+Commit: — (recorded in the next commit, on `main`)
 
 ## Validation Plan
 
@@ -257,6 +258,15 @@ plan-66-A § Decisions apply. Added by the author, 2026-11-25:
   What it does not show is the sheet on screen, the click on the trace, the Debug menu path
   (⌥⌘R) and the DRC window (⇧⌘D); the owner may drive those with the steps in Phase 3 (the case is
   LATCH1.13, 14 mil, Existing: Clear unlocked, Push and shove on).
+- **Main advanced during the plan (two commits: plan-67's unit view and the rotation of every
+  symbol), so it was merged into `worktree-P-66` (a clean merge, `1713d4b2`) and the landing tier
+  run again on the merged tree** (2026-11-25): Debug, the 31 router classes plus
+  `DesignRuleGoldenTests`, `PCBUndoTests` and `TraceJoinTests`: `Executed 326 tests, with 7 tests
+  skipped and 0 failures` in 1515.4 s, `** TEST SUCCEEDED **` (274 + 51 + the sheet-model test);
+  Release `RouterQualityFixtureTests`: `Executed 7 tests, with 1 failure` in 876.9 s, every `QUALITY`
+  line the same as before the merge (AFU 115/115, 73 vias, 1429 mm, off and on; RegFile 24/24, 16
+  vias, 292 mm; LFU off 185/188, 289 vias, 3247 mm, on 187/188, 213 vias, 3152 mm, 10 210 pushes tried
+  and 40 kept; Thorough AFU 73, RegFile 14, LFU 186/188), and the same one failure, `testLFU` off.
 - **Debug landing tier 1440 s, not the plan's 15 min** (2026-11-25): `RouterFixtureTests` routes
   LFU with negotiation alone in Debug (330 s) and AFU, RegFile twice (with and without push).
 

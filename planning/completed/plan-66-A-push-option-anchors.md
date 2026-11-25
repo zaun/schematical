@@ -279,7 +279,7 @@ shows the toggle, and the anchors still pass (nothing reads the option).
   (est. 2 min).
   Measured: `Executed 23 tests, with 0 failures` (RoutingOptionsTests 5, AutorouteModelTests 9,
   RoutingAnchorTests 9 in 48.2 s — every anchor literal unchanged), `** TEST SUCCEEDED **`.
-Commit: — (recorded in the next commit)
+Commit: 37d3e22c
 
 ## Validation Plan
 
