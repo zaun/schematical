@@ -251,20 +251,20 @@ the AVCC or AREF reference and 1023 or 0 with the 1.1 V reference.
 
 ### Phase 1 — the loader
 
-- [ ] `backend/include/parts.h`: `PartMcu.model`.
-- [ ] `backend/src/models/mcu.c`: `"model"` in `DEVICE_KEYS`, the rules of
+- [x] `backend/include/parts.h`: `PartMcu.model`.
+- [x] `backend/src/models/mcu.c`: `"model"` in `DEVICE_KEYS`, the rules of
       § 3.1, `mcu_bind_pinout` for a model device (result type in a new
       `backend/src/models/mcu.h`).
-- [ ] `backend/tests/support/listing.c`: ` model=`.
-- [ ] `backend/tests/support/mcu_fixture.h`: a second device `mfx328`
+- [x] `backend/tests/support/listing.c`: ` model=`.
+- [x] `backend/tests/support/mcu_fixture.h`: a second device `mfx328`
       (model `atmega328`, flash 32768, RAM 2048, EEPROM 1024, pinout `p28`
       copied from `mcu.json`'s `atmega328p` `p28`, part `TESTAVR`, footprint
       of `ATMEGA328P-PU`) and a third `mfx48` (flash 4096, RAM 512, EEPROM
       256, part `TESTAVR48`).
-- [ ] `backend/tests/library_check.c`: the valid model device, and the four
+- [x] `backend/tests/library_check.c`: the valid model device, and the four
       rejections (`needs core "avr"`, `unknown mcu model`, the `"simulated":
       false` clash, a pin the layout lacks).
-- [ ] `scripts/part-editor-schema-extra.py`: `("device", "model",
+- [x] `scripts/part-editor-schema-extra.py`: `("device", "model",
       ("string",), [])` in `EXTRA["mcu"]`; `scripts/part-editor-schema.py`:
       `"mcu"` in `NO_VARIANT`; run `python3 scripts/part-editor-schema.py .
       mcu` and commit the regenerated
@@ -273,20 +273,21 @@ the AVCC or AREF reference and 1023 or 0 with the 1.1 V reference.
 Acceptance: the loader accepts and rejects as specified; goldens hold; the
 Part Editor schema has the key.
   Check: `ctest --test-dir /tmp/sim-rel -R 'library_check|listing_check|trace_check|mcu_test' --output-on-failure` → 4 tests passed; `git diff --stat backend/tests/golden` → no output; `python3 scripts/part-editor-schema.py . mcu` → prints `missing []` (est. 2 min).
+  Observed: 2026-11-24: 4 tests passed; no change under backend/tests/golden; `part-editor-schema.py . mcu` printed `missing []`.
 Commit: —
 
 ### Phase 2 — the model: clock, reset, GPIO, flash
 
-- [ ] `backend/src/models/mcu_avr.c`: create/destroy (an `AvrChip` per
+- [x] `backend/src/models/mcu_avr.c`: create/destroy (an `AvrChip` per
       instance), `start`, `pin_changed`, `timer`, §§ 3.2–3.4, the memory
       hooks; `mcu.c`: the forwarding hooks; `backend/CMakeLists.txt`.
-- [ ] `backend/tests/avr/src/` + `backend/tests/avr/*.hex`: the test
+- [x] `backend/tests/avr/src/` + `backend/tests/avr/*.hex`: the test
       firmware `blink` (toggle PB5 every 1000 cycles by a timer 1 compare
       interrupt), `button` (PD2 input with pull-up copied to PB0), `pwm`
       (OC0A fast PWM, duty 64/256), `int0` (falling edge on PD2 toggles
       PB1), each built with `oracle.js asm`; `avr_periph_test` checks, with
       `node`, that each `.hex` equals `oracle.js asm` of its `.asm`.
-- [ ] `backend/tests/mcu_test.c`: circuits of `TESTAVR`, `5V`, `GND`,
+- [x] `backend/tests/mcu_test.c`: circuits of `TESTAVR`, `5V`, `GND`,
       `GENERIC-LED`, `GENERIC-CRYSTAL-16M`, a tactile switch, loading each
       `.hex` with `memory_image_parse` + `circuit_memory_load`:
       - before 1 ms every port pin's net is Z; PC6 reads 1;
@@ -309,20 +310,21 @@ Commit: —
 
 Acceptance: the cases above pass with the stated picosecond values.
   Check: `ctest --test-dir /tmp/sim-rel -R 'mcu_test|avr_' --output-on-failure` → 3 tests passed (est. 2 min).
+  Observed: 2026-11-24: `mcu_test: all passed` with the period cases as corrected below (average 1000000000, 62500000 and 125000000 ps); `ok firmware (7 files equal their sources)`.
 Commit: —
 
 ### Phase 3 — ADC and `circuit_cpu_state`
 
-- [ ] `mcu_avr.c`: § 3.5 and the `cpu_state` hook of § 3.6;
+- [x] `mcu_avr.c`: § 3.5 and the `cpu_state` hook of § 3.6;
       `backend/include/cpu_state.h`: `CPU_MAX_REGISTERS = 40`.
-- [ ] Test firmware `adc` (read channel 0, write the high bits to PORTB).
-- [ ] `mcu_test.c`: `adc` with PC0 on 5 V gives 1023, on GND 0, left open
+- [x] Test firmware `adc` (read channel 0, write the high bits to PORTB).
+- [x] `mcu_test.c`: `adc` with PC0 on 5 V gives 1023, on GND 0, left open
       0; `circuit_cpu_state` during startup is `CPU_RESET` with no
       registers; while running it is `CPU_RUNNING` with 35 registers, `PC`
       even, `SP` inside SRAM, and the last instruction's text equal to
       `avr_dasm` of the bytes it reports; on `TESTMCU` (no model) it is
       still refused with `is not a processor`.
-- [ ] `docs/backend.md`: the notes on `circuit_cpu_state` and memory load
+- [x] `docs/backend.md`: the notes on `circuit_cpu_state` and memory load
       name the mcu; § Layout lists `mcu_avr.c`, `mcu.h`; § Tests updates
       `mcu_test`; a new note "Microcontrollers" states §§ 3.2–3.6 in user
       terms. `docs/parts-format.md` § `mcu`: the `"model"` key and its
@@ -331,6 +333,7 @@ Commit: —
 Acceptance: the ADC and state cases pass; the cpu kind's tests still pass
 with the larger register array.
   Check: `ctest --test-dir /tmp/sim-rel -R 'mcu_test|cpu_test|circuit_check' --output-on-failure` → 3 tests passed (est. 3 min).
+  Observed: 2026-11-24: `mcu_test`, `cpu_test`, `circuit_check` passed (8 of 8 with the avr and library tests); last instruction shown: `004C  RJMP .-2`.
 Commit: —
 
 ## Validation Plan
@@ -350,6 +353,37 @@ Commit: —
 plan-62-A § Decisions (the clock rule). None added.
 
 ## Corrections
+
+- § 3.2, Phase 2 (a miscalibrated prediction): a pin toggled from a timer
+  interrupt does not change every 1000 cycles exactly. One gap is a CPU
+  cycle long or short, and a whole period (two changes) is exact. Root cause,
+  on one fixture: `oracle.js run` of `blink` in avr8js itself prints PB5
+  changes at cycles 0x3fd, 0x7e6, 0xbcd, 0xfb6 (1021, 2022, 3021, 4022: gaps
+  1001, 999, 1001), because avr8js brings a timer up to date between
+  instructions; the C core is equal to it by the plan-62-B scenarios. The
+  engine clock is exact: measured PB5 gaps of 1001 and 999 us on the internal
+  clock and of 62562500 and 62437500 ps on the 16 MHz crystal, each pair
+  summing to 2000 cycles. The acceptance is strengthened to what
+  can be exact: the average over a whole period equals 1000 cycles to the
+  picosecond (`toggle_period`: 1000000000, 62500000 and 125000000 ps), each
+  gap within one cycle of it. The compare output itself is exact: OC0A is
+  high 64 and low 192 cycles.
+- § 3.1: two more loader rules: a model device's `"flash"` must be 512 bytes
+  or more and even, and a part of a model device cannot override `"flash"`
+  (the chip is built from the device's size). Both have `library_check`
+  cases.
+- § 3.2: `avr_chip_set_base_hz` already existed (plan-62-C). The chip is
+  created with the instance, and `AvrChip.clock.reset_index` is set to 3 or
+  0 at the end of startup, before `avr_chip_reset`.
+- Phase 3: `circuit_cpu_state`'s refusal is checked on a `5V` supply part:
+  `TESTMCU` cannot be added to a circuit at all (it is not simulated).
+- Phases 1 to 3 landed in one commit: `mcu.c` forwards to `mcu_avr.c`, so
+  the loader could not be built and tested without the adapter.
+- The firmware files are `backend/tests/avr/<name>.hex`, built by
+  `build.sh` from `tests/avr/src/<name>.asm` (a program with no settings
+  file); `avr_periph_test` prints `ok firmware (7 files equal their
+  sources)`. `blink_fast` (CLKPR = 0 first) and `blink48` (one-word vectors)
+  were added to the four the plan named.
 
 ## Summary
 

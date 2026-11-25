@@ -2746,12 +2746,13 @@ Not modeled: the read data hold `tDHR`; timing at supply columns other than
 
 ### `mcu`
 
-Microcontrollers (plan-36; `backend/src/models/mcu.c`): 8-bit AVR, ESP32
-modules, RP2040. **Facts only**: no model of the core or its peripherals,
-so every `mcu` device says `"simulated": false` and a circuit refuses its
-parts; the app disables Simulation › Run while one is placed. The engine
-model is passive (no callbacks, like `header`), so the kind needs no
-special case anywhere the engine is used directly.
+Microcontrollers (plan-36, plan-62; `backend/src/models/mcu.c`): 8-bit AVR,
+ESP32 modules, RP2040. A device with a `"model"` is simulated: it runs
+firmware loaded into its flash (docs/backend.md § Microcontrollers). A
+device without one has **facts only**: no model of the core or its
+peripherals, so it says `"simulated": false` and a circuit refuses its
+parts; the app disables Simulation › Run while one is placed, and its
+engine model is passive (no callbacks, like `header`).
 
 ```json
 "simulated": false,
@@ -2761,7 +2762,8 @@ special case anywhere the engine is used directly.
 
 | Key | Value |
 |---|---|
-| `"simulated"` | required, `false` (`an mcu has no simulation model: "simulated" must be false`) |
+| `"simulated"` | without a `"model"`: required, `false` (`an mcu has no simulation model: "simulated" must be false`). With one: absent or `true` (`an mcu with a "model" is simulated: remove "simulated": false`) |
+| `"model"` | optional: the simulation model, a register layout of the AVR core. `"atmega328"` (the ATmega48/88/168/328 and their A, P and PA versions), `"atmega168pb"` (the ATmega48PB/88PB/168PB: the same plus port E), `"atmega328pb"` (the ATmega328PB: port E with PCINT3, timers 3 and 4, USART1, SPI1, TWI1); else `unknown mcu model "X"`. Needs core `"avr"` (`"model" needs core "avr"`) and a `"flash"` of 512 bytes or more, an even number. The sizes come from `"flash"`, `"ram"` and `"eeprom"`; a flash of 8192 bytes or less has one-word interrupt vectors, a larger one two-word vectors |
 | `"core"` | `"avr"`, `"avrrc"`, `"avrxt"`, `"avrxm"` (the AVR instruction-set variants), `"cortex-m0plus"`, `"xtensa-lx6"`, `"xtensa-lx7"` or `"riscv"`; else `unknown mcu core "X"` |
 | `"clock"` | the highest clock, Hz, above 0 (`"clock" must be above 0`) |
 | `"flash"`, `"ram"` | bytes, 0 to 4294967295. Flash 0 = external (RP2040) |
@@ -2774,12 +2776,17 @@ Part keys:
 |---|---|
 | `"vcc"`, `"inputMax"` | override the device's. Every part must end up with a `vcc` (`missing "vcc"`) |
 | `"clock"` | overrides the device's (a 10 MHz `V` grade, a 16 MHz ESP32 part of a 240 MHz device) |
-| `"flash"` | bytes, overrides the device's (an ESP32 module's `N4` / `N8` / `N16` flash) |
+| `"flash"` | bytes, overrides the device's (an ESP32 module's `N4` / `N8` / `N16` flash). Not on a part of a device with a `"model"` (`a part of an mcu with a "model" cannot override "flash"`) |
 | `"psram"` | bytes (an ESP32 module's `R2` / `R8` PSRAM); default 0 |
 
 Pins: any count, any roles and names; no key names a pin. Each pinout
 needs at least one `power` and one `ground` pin (`an mcu pinout needs a
-power pin` / `… a ground pin`).
+power pin` / `… a ground pin`). A device with a `"model"` is wired by pin
+name: `P<letter><bit>` (`PB0` … `PD7`, `PE0` … `PE3`) is that port pin and
+must be a port the model has (`mcu model "atmega328" has no pin "PE0"`);
+`ADC6` and `ADC7` are the two ADC-only inputs. `PB6`/`PB7` are also the
+clock pins XTAL1/XTAL2 and `PC6` is the reset pin. Every other pin (`VCC`,
+`AVCC`, `AREF`, `GND`, `nc`) takes no part in the simulation.
 
 **Voltage.** The parts carry `vcc`, so the voltage check judges their
 supply pins and input levels as for any chip (a 3.3 V ESP32 module's `3V3`

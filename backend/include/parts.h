@@ -318,7 +318,12 @@ typedef struct { const char *driver, *technology; uint32_t hz, rated_mv, min_mv,
    "cortex-m0plus", "xtensa-lx6", "xtensa-lx7" or "riscv". max_hz: the
    highest clock. Sizes in bytes; 0 = none (eeprom, psram) or external
    (RP2040 flash). A part may override clock, flash and psram. */
-typedef struct { const char *core; uint64_t max_hz; uint32_t flash, ram, eeprom, psram; } PartMcu;
+typedef struct {
+    const char *core; uint64_t max_hz; uint32_t flash, ram, eeprom, psram;
+    /* The simulation model's name ("atmega328", "atmega168pb", "atmega328pb";
+       plan-62-E), or NULL for a part with facts only (Part.simulated is 0). */
+    const char *model;
+} PartMcu;
 
 /* A programmable logic device (pld kind): facts only, no simulation model
    yet (its device says "simulated": false). macrocells: the device's output

@@ -1,7 +1,9 @@
 #!/bin/sh
 # Rebuilds the scenario files backend/tests/avr/<name>.json from their
 # sources here (<name>.asm and <name>.meta.json, the latter written by
-# make_meta.py), with avr8js's assembler (plan-62). Needs node and python3.
+# make_meta.py), with avr8js's assembler (plan-62). A program without a
+# settings file becomes backend/tests/avr/<name>.hex, firmware the engine
+# tests load. Needs node and python3.
 #
 #   sh backend/tests/avr/src/build.sh
 #
@@ -16,5 +18,9 @@ for source in "$here"/*.asm; do
     if [ -f "$here/$name.meta.json" ]; then
         node "$oracle" build "$source" "$here/$name.meta.json" > "$here/../$name.json"
         echo "built $name.json"
+    else
+        # No settings file: firmware for the engine tests (mcu_test and others).
+        node "$oracle" asm "$source" > "$here/../$name.hex"
+        echo "built $name.hex"
     fi
 done

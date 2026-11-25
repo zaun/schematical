@@ -23,6 +23,7 @@ add_library(logic STATIC
     src/models/diode.c
     src/models/capacitor.c
     src/models/mcu.c
+    src/models/mcu_avr.c
     src/models/avr_cpu.c
     src/models/avr_instruction.c
     src/models/avr_dasm.c
@@ -211,16 +212,6 @@ logic_test(cpu_test)
 # without it they compare with the hashes in tests/avr/golden.txt.
 logic_test(avr_core_test)
 logic_test(avr_periph_test)
-foreach(AVR_TEST avr_core_test avr_periph_test)
-    target_compile_definitions(${AVR_TEST} PRIVATE
-        AVR_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/avr"
-        AVR_TMP="${CMAKE_CURRENT_BINARY_DIR}")
-    if(LOGIC_NODE)
-        target_compile_definitions(${AVR_TEST} PRIVATE
-            AVR_NODE="${LOGIC_NODE}"
-            AVR_ORACLE="${CMAKE_CURRENT_SOURCE_DIR}/tools/avr8js-oracle/oracle.js")
-    endif()
-endforeach()
 logic_test(charlcd_test)
 logic_test(serial_test)
 logic_test(usbuart_test)
@@ -248,6 +239,16 @@ logic_test(resistor_test)
 logic_test(transistor_test)
 logic_test(capacitor_test)
 logic_test(mcu_test)
+foreach(AVR_TEST avr_core_test avr_periph_test mcu_test)
+    target_compile_definitions(${AVR_TEST} PRIVATE
+        AVR_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/avr"
+        AVR_TMP="${CMAKE_CURRENT_BINARY_DIR}")
+    if(LOGIC_NODE)
+        target_compile_definitions(${AVR_TEST} PRIVATE
+            AVR_NODE="${LOGIC_NODE}"
+            AVR_ORACLE="${CMAKE_CURRENT_SOURCE_DIR}/tools/avr8js-oracle/oracle.js")
+    endif()
+endforeach()
 logic_test(generic_test)
 logic_test(pld_test)
 logic_test(socket_test)

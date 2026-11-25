@@ -952,6 +952,39 @@ static void dasm_case(void) {
     free(ours.text);
 }
 
+/* The firmware the engine tests load (tests/avr/<name>.hex) must be what
+   avr8js's assembler makes of tests/avr/src/<name>.asm. */
+static void firmware_case(void) {
+#ifdef AVR_NODE
+    static const char *const NAMES[] = {"blink", "blink48", "blink_fast", "button", "pwm", "int0",
+                                        "adc_port"};
+    size_t i, bad = 0;
+
+    for (i = 0; i < sizeof NAMES / sizeof NAMES[0]; i++) {
+        char asm_path[1024], hex_path[1024], arguments[1100];
+        char *built, *committed;
+        int status;
+
+        snprintf(asm_path, sizeof asm_path, "%s/src/%s.asm", AVR_DIR, NAMES[i]);
+        snprintf(arguments, sizeof arguments, "asm \"%s\"", asm_path);
+        built = oracle_output(arguments, &status);
+        committed = read_file(scenario_path(NAMES[i], ".hex", hex_path, sizeof hex_path));
+        if (built == NULL || status != 0 || committed == NULL || strcmp(built, committed) != 0) {
+            printf("FAIL: firmware: %s is not `oracle.js asm` of src/%s.asm\n", hex_path, NAMES[i]);
+            failures++;
+            bad++;
+        }
+        free(built);
+        free(committed);
+    }
+    if (bad == 0) {
+        printf("ok firmware (%zu files equal their sources)\n", sizeof NAMES / sizeof NAMES[0]);
+    }
+#else
+    printf("firmware: not checked (node not found)\n");
+#endif
+}
+
 static int print_golden(void) {
 #ifdef AVR_NODE
     size_t i;
@@ -1048,6 +1081,7 @@ int main(int argc, char **argv) {
     }
     full_reset_case();
     dasm_case();
+    firmware_case();
     if (failures != 0) {
         printf("%d failure(s)\n", failures);
         return 1;

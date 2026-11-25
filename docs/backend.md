@@ -373,12 +373,60 @@ Notes:
   the last `circuit_advance`, so multiplexed digits show.
 - Memory contents (SRAM, EEPROM, serial memories): `circuit_memory_size`,
   `circuit_memory_read` (a 0 bit in `known` is X).
+- **Microcontrollers** (plan-62). An `mcu` device with a `"model"` runs
+  firmware: the model names a register layout of the AVR core
+  (`avr_chip.h`: `atmega328`, `atmega168pb`, `atmega328pb`), a C port of
+  avr8js 0.21.1, and `mcu_avr.c` puts it on the engine.
+  - **Firmware.** The part's memory is its flash, in bytes:
+    `circuit_memory_size` gives the flash size and 8 bits,
+    `circuit_memory_load` writes it before `circuit_start` (build the image
+    with `memory_image_parse` from an Intel HEX or binary file), and
+    `circuit_memory_read` reads it back. An unloaded flash is FF; FF words
+    are no instruction and run as no-ops.
+  - **Startup.** For 1 ms after `circuit_start` the chip is in reset, every
+    port pin Z.
+  - **Clock**, chosen once at the end of startup (a real chip chooses with
+    fuses, which do not exist here). With 2 or more rising edges on PB6
+    (XTAL1) during startup the chip takes that clock: one CPU cycle per
+    rising edge, PB6 and PB7 are clock pins (never driven; they read 0 in
+    PINB), CLKPR resets to 0. Otherwise it runs on its internal 8 MHz
+    oscillator divided by 8 (CLKPR resets to 3, the CKDIV8 fuse): 1 us per
+    cycle until the firmware writes CLKPR, and PB6 and PB7 are port pins.
+  - **Reset.** PC6 is the reset pin, never a port pin: the chip pulls it up
+    (weak 1), and while it reads 0 or X the chip is in reset, every port pin
+    Z; back at 1 the program starts over (flash and SRAM kept). A watchdog
+    reset restarts the chip the same way.
+  - **Pins.** An output drives strong 0 or 1; an input is Z, or weak 1 with
+    its pull-up. An input reads 1 for a 1 and 0 for 0, X and Z. A pin write
+    lands at the time of the instruction that made it. A timer's compare
+    output, and a pin toggled from a timer interrupt, change between
+    instructions, so one edge can be a CPU cycle early or late; a whole
+    period is exact (blink's 1000-cycle toggle comes at 1001, 999, 1001 …
+    cycles in avr8js too).
+  - **ADC.** There are no analog levels: an ADC input is 5 V when its net
+    reads 1 and 0 V otherwise, against AVCC = AREF = 5 V, so a conversion
+    gives 1023 or 0 (PC0–PC5; `ADC6`/`ADC7`, or PE2/PE3 on a PB device).
+  - **State.** `circuit_cpu_state` reports it as it does a processor:
+    `CPU_RESET` (startup, or the reset pin held) or `CPU_RUNNING`; the
+    cycles since reset; 35 registers: `PC` (the byte address), `SP`, `SREG`,
+    `R0`…`R31`; and the last instruction (byte address, its 2 or 4 bytes as
+    in the HEX file, `avr_dasm`'s text, e.g. `004C  RJMP .-2`).
+  - **Not modeled.** Fuses, lock bits, brown-out, sleep modes (SLEEP is a
+    no-op), self-programming (SPM), the analog comparator, timer 2's
+    asynchronous clock, the supply (the chip runs whatever VCC reads; the
+    voltage check judges it). The serial peripherals' pins come with
+    plan-62-F. Where avr8js's CPU disagrees with Microchip's instruction set
+    manual the simulator follows the manual (7 places, each commented in
+    `avr_instruction.c` / `avr_cpu.c`; `avr_core_test` § fixes).
+  - **Speed.** A chip on a 16 MHz crystal costs an engine event per clock
+    edge, and the crystal toggles its two nets besides.
 - Processors (`cpu` kind): `circuit_cpu_state` fills a `CpuState`
   (`cpu_state.h`): status (running, lost, reset, waiting, stopped, halted,
   jammed, bus released), cycles since the last reset ended, the registers
   (none while lost or in reset) and the last completed instruction
-  (address, bytes, disassembly). Any other kind: -1, `part N is not a
-  processor`. The app's processor window reads it on every simulation
+  (address, bytes, disassembly). A simulated microcontroller answers too
+  (above; up to `CPU_MAX_REGISTERS` = 40 registers). Any other part: -1,
+  `part N is not a processor`. The app's processor window reads it on every simulation
   frame, as the memory window reads `circuit_memory_read`.
 - Character LCDs (`charlcd` kind): `circuit_lcd_state` fills an
   `LcdState` (`lcd_state.h`): the dot image the display shows now
@@ -414,9 +462,9 @@ Notes:
   does not exist or is not asynchronous, and while another part's output,
   in/out or strong supply pin is on the RX net (pull parts are fine); the
   messages are in `circuit.h`. The app's terminal window is built on these.
-- Memory load: `circuit_memory_load` writes words into an EEPROM or serial memory before
-  `circuit_start` (refused after it, and on every other kind but a
-  simulated `serialmem` part, SRAM included); words it does not write stay
+- Memory load: `circuit_memory_load` writes words into an EEPROM, a serial
+  memory or a simulated microcontroller's flash before `circuit_start`
+  (refused after it, and on every other part, SRAM included); words it does not write stay
   erased (FF; an F-RAM's stay unknown). Build the words with
   `memory_image_parse` (`memory_image.h`): every rule and message is in
   `planning/completed/plan-04-B-memory-load.md` §4.3.
@@ -477,6 +525,12 @@ backend/
                            clock-on-both-terminals model, plan-44-E);
                            pld.c (the programmable logic kind: loader,
                            passive model, facts only);
+                           mcu.c + mcu.h (the mcu kind: loader, the
+                           "model" key, the engine model that is passive
+                           for a device without a model and forwards to
+                           the adapter for one with), mcu_avr.c (the AVR
+                           engine adapter: startup, the clock, reset,
+                           GPIO, ADC, flash, the processor state);
                            socket.c (the IC socket kind: loader, passive
                            model, plan-51-A);
                            inductor.c, fuse.c, terminals.c + terminals.h and
@@ -641,7 +695,8 @@ guide has device.<key>`: add the key to a step of
 `Guides/<Kind>Guide.swift` (and a `FieldGuide` for it; a required key must
 say where to find it).
 
-A kind with no simulation model (plan-36's `mcu`, plan-46's `generic`, `pld`)
+A kind with no simulation model (plan-46's `generic`, `pld`; an `mcu`
+device without a `"model"`, plan-36)
 sets `"simulated": false` on its devices, so `circuit_add_part` refuses its parts, and still
 ships a passive model (no callbacks, the `header.c` shape) so the engine
 never sees a NULL model.
@@ -869,6 +924,18 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   read back (the part's clock over the device's), its listing line ends
   `|unsimulated`, and `circuit_add_part` refuses it with `part "TESTMCU"
   is not simulated`. The kind's loader errors are in `library_check`.
+  Then the model devices (plan-62-E): `TESTAVR` and `TESTAVR48` (model
+  `atmega328`, the p28 pinout) run firmware from `tests/avr/<name>.hex`
+  (sources in `tests/avr/src/`, built by `build.sh`) in circuits of library
+  parts, with times in picoseconds: every port pin Z during the 1 ms
+  startup and PC6 at 1; `blink` toggling PB5 every 1000 cycles on average on
+  the internal clock (1 us per cycle), on a `GENERIC-CRYSTAL-16M` (62.5 ns)
+  and after CLKPR = 0 (125 ns), an LED on PB5 lit 50 ms of 100; a switch on
+  PD2 against the pull-up; OC0A high 64 and low 192 of 256 cycles; INT0 on
+  the falling edge; PC6 to GND releasing every pin and the program starting
+  over; one-word vectors on the 4 KB chip; the flash through
+  `circuit_memory_size` / `_read` / `_load` and an erased chip running; the
+  ADC reading 1023 and 0; `circuit_cpu_state` in reset and running.
 - `pld_test` — the pld kind: the shipped ATF22V10C, ATF750C and ATF16V8B
   parts read back their `PartPld` facts (macrocells, the part's tpd, a
   commercial part's own `vcc`), single part files cover every loader rule
