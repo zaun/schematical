@@ -315,44 +315,46 @@ Commit: —
 
 ### Phase 2 — the CPU core
 
-- [ ] `backend/src/models/avr.h`: the types and functions of § 3.2.
-- [ ] `backend/src/models/avr_cpu.c`: `cpu.ts` and `interrupt.ts`, with the
+- [x] `backend/src/models/avr.h`: the types and functions of § 3.2.
+- [x] `backend/src/models/avr_cpu.c`: `cpu.ts` and `interrupt.ts`, with the
       interrupt fix and its comment.
-- [ ] `backend/src/models/avr_instruction.c`: `instruction.ts`, all 99
+- [x] `backend/src/models/avr_instruction.c`: `instruction.ts`, all 99
       branches in the same order, with fixes 1–6 and their comments.
-- [ ] `backend/src/models/LICENSE-avr8js`: avr8js's MIT licence text, and a
+- [x] `backend/src/models/LICENSE-avr8js`: avr8js's MIT licence text, and a
       line that `avr_*.c` are C ports of avr8js 0.21.1. Each `avr_*.c` and
       `avr.h` starts with a comment naming the avr8js file it ports and the
       licence file.
-- [ ] `backend/CMakeLists.txt`: add `src/models/avr_cpu.c` and
+- [x] `backend/CMakeLists.txt`: add `src/models/avr_cpu.c` and
       `src/models/avr_instruction.c` to the `logic` library.
 
 Acceptance: the library builds with the two files.
   Check: `cmake --build /tmp/sim-rel --target logic 2>&1 | grep -c 'warning\|error'` → `0` (est. 1 min).
+  Observed 2026-11-24: `0`.
 Commit: —
 
 ### Phase 3 — `avr_core_test`
 
-- [ ] `backend/tests/avr_core_test.c`: the step comparison of § 3.4 (golden
+- [x] `backend/tests/avr_core_test.c`: the step comparison of § 3.4 (golden
       hash always; the live oracle when `AVR_NODE` is defined), the fix tests
       of § 3.5, and three unit cases for the parts the step test cannot
       reach: clock events fire in cycle order with a same-cycle event added
       later firing first; `avr_update_clock_event` moves an event and
       `avr_clear_clock_event` removes one; with two interrupts queued the
       lower address is taken first and a `constant` interrupt stays queued.
-- [ ] `backend/tests/avr/golden.txt`: the `step` line, hash computed from
+- [x] `backend/tests/avr/golden.txt`: the `step` line, hash computed from
       `oracle.js step 305419896 4`.
-- [ ] `backend/CMakeLists.txt`: `logic_test(avr_core_test)` with
+- [x] `backend/CMakeLists.txt`: `logic_test(avr_core_test)` with
       `AVR_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/avr"` and, inside the
       existing `if(LOGIC_NODE)`, `AVR_NODE` and
       `AVR_ORACLE="${CMAKE_CURRENT_SOURCE_DIR}/tools/avr8js-oracle/oracle.js"`.
-- [ ] `docs/backend.md`: § Layout gains `tools/avr8js/`,
+- [x] `docs/backend.md`: § Layout gains `tools/avr8js/`,
       `tools/avr8js-oracle/` and the `avr_*.c` files; § Tests gains
       `avr_core_test`.
 
 Acceptance: the C core equals avr8js on every opcode word, and the 7 fixes
 hold.
   Check: `cmake --build /tmp/sim-rel -j8 && ctest --test-dir /tmp/sim-rel -R avr_core_test --output-on-failure` → `step: 262144 vectors match avr8js`, `fixes: 7 ok`, `1/1 Test … Passed` (est. 1 min).
+  Observed 2026-11-24: `step: 262144 vectors match avr8js`, `step: 99 of 99 decode branches ran`, `fixes: 7 ok`, `unit: ok`; golden line `step 305419896 4 262144 7780baee2f7b9ffa` from `avr_core_test --print-golden`.
 Commit: —
 
 ## Validation Plan
@@ -388,6 +390,20 @@ Commit: —
   oracle — decided by the owner, 2026-11-24.
 
 ## Corrections
+
+- § 3.2: the three pairs of adjacent decode branches RET/RETI, SBC/SBCI and
+  SUB/SUBI share one block of C each; the order of the tests and the 99
+  branch ids are unchanged (`step: 99 of 99 decode branches ran`).
+- § 3.2: a clock event's cycle is a `double`, as avr8js's is a JavaScript
+  number (B's timers pass computed values). Nodes avr8js would leave to the
+  garbage collector go to a spare list (`spare_events`) that new nodes are
+  taken from, so memory does not grow.
+- § 3.2: a jump below address 0 wraps to the top of the flash in C; avr8js
+  keeps a negative pc there and never recovers. The step vectors keep the pc
+  where this cannot happen, so the comparison is unaffected.
+- Phase 3: `avr_core_test --print-golden` writes the golden line (it was not
+  named in the plan); the unit cases also cover one event per tick and 20
+  events through avr8js's pool of 10.
 
 ## Summary
 

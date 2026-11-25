@@ -23,6 +23,8 @@ add_library(logic STATIC
     src/models/diode.c
     src/models/capacitor.c
     src/models/mcu.c
+    src/models/avr_cpu.c
+    src/models/avr_instruction.c
     src/models/pld.c
     src/models/resistor.c
     src/models/transistor.c
@@ -193,6 +195,17 @@ if(LOGIC_NODE)
         JSMOOCH_TMP="${CMAKE_CURRENT_BINARY_DIR}")
 endif()
 logic_test(cpu_test)
+# plan-62: the AVR core (a C port of avr8js) against avr8js itself. With node,
+# the tests run tools/avr8js-oracle/oracle.js and compare line by line;
+# without it they compare with the hashes in tests/avr/golden.txt.
+logic_test(avr_core_test)
+target_compile_definitions(avr_core_test PRIVATE
+    AVR_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/avr")
+if(LOGIC_NODE)
+    target_compile_definitions(avr_core_test PRIVATE
+        AVR_NODE="${LOGIC_NODE}"
+        AVR_ORACLE="${CMAKE_CURRENT_SOURCE_DIR}/tools/avr8js-oracle/oracle.js")
+endif()
 logic_test(charlcd_test)
 logic_test(serial_test)
 logic_test(usbuart_test)

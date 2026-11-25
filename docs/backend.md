@@ -508,6 +508,11 @@ backend/
                            table, the model that forwards to a pio model),
                            bus65.c + bus65.h (the 65xx peripheral bus the
                            pio models share)
+                           avr.h, avr_cpu.c, avr_instruction.c (plan-62: the
+                           AVR microcontroller core, a C port of avr8js
+                           0.21.1, MIT, LICENSE-avr8js; the CPU, its
+                           interrupt queue and clock events, and every
+                           instruction);
                            buffer.c + buffer.h (the buffer kind: models
                            tristate, transceiver and translator, supply
                            domains; the port read-back rule),
@@ -536,6 +541,12 @@ backend/
                            and run.js, which regenerates
                            wdc65816_generated_opcodes.c (`node run.js`);
                            outside src/, so the app does not bundle it
+  tools/avr8js/            avr8js 0.21.1's JavaScript (MIT), unmodified:
+                           the oracle the AVR core is checked against;
+                           README.md names the tarball and its hash
+  tools/avr8js-oracle/     oracle.js, which runs it and prints its behavior
+                           in the tests' text formats; outside src/, so the
+                           app bundles neither
   tests/                   CTest programs; golden/ holds the regression
                            fixtures (one listing line and one trace hash
                            per part); cpu/ holds the SingleStepTests
@@ -883,6 +894,25 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   `tools/jsmooch-gen/run.js` reproduces the committed
   `wdc65816_generated_opcodes.c` (`65816: generator reproduces …`). Set
   `SST65816="<test name>"` to print one test's cycles side by side.
+- `avr_core_test` — the AVR CPU core (plan-62-A; `avr_cpu.c`,
+  `avr_instruction.c`) against avr8js. **step**: every opcode word 0…65535 in
+  4 random states each (one xorshift32 seed, the same in the test and in
+  `tools/avr8js-oracle/oracle.js step`), one instruction per state, one line
+  per vector (opcode, pc, cycles, SREG, SP, a hash of the data memory). The
+  lines must hash to the `step` line of `tests/avr/golden.txt` and, when
+  CMake found `node`, equal avr8js's own lines; the first difference prints
+  as `step: opcode XXXX state N: avr8js "…" ours "…"`. It prints `step:
+  262144 vectors match avr8js` and `step: 99 of 99 decode branches ran`. The
+  core runs in *exact* mode there (`AvrCpu.exact`): avr8js's behavior
+  everywhere. **fixes**: the 7 places where the simulator follows Microchip's
+  instruction set manual instead of avr8js, each against a reference written
+  from the manual: H from the low nibble's carry (ADD, ADC, SUB, SUBI, SBC,
+  SBCI, CP, CPC, CPI, NEG; avr8js uses bit 0), SBIW leaving H alone, Z of
+  CPC/SBC/SBCI when the result wraps to 0, V of NEG, Z of FMULSU, CBI's 2
+  cycles, an interrupt's 4 cycles (`fixes: 7 ok`). **unit**: clock events
+  (order, one per tick, update, clear, more than avr8js's pool of 10) and the
+  interrupt queue. `avr_core_test --print-golden` prints the golden line from
+  the oracle's output.
 - `cpu_test` — the cpu kind's bus adapters on inline fixture devices (the
   W65C02S and MOS 6502 data of `cpu.json`) and a bench that clocks the CPU
   at 1 MHz and serves a 64 KB memory (X where it was given nothing): the

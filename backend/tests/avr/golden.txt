@@ -1,0 +1,4 @@
+# plan-62: hashes of the avr8js oracle's output (backend/tools/avr8js-oracle/oracle.js).
+# Each line is written from the oracle's output, never from the C side's:
+#   step <seed> <states> <lines> <FNV-1a 64 of the lines>    avr_core_test --print-golden
+step 305419896 4 262144 7780baee2f7b9ffa
