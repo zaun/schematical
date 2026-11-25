@@ -514,7 +514,11 @@ backend/
                            interrupt queue and clock events, and every
                            instruction), avr_gpio.c (a port's PIN/DDR/PORT,
                            external and pin-change interrupts), avr_clock.c
-                           (CLKPR), avr_timer.c (the 8- and 16-bit timers);
+                           (CLKPR), avr_timer.c (the 8- and 16-bit timers),
+                           avr_usart.c, avr_spi.c, avr_twi.c (the serial
+                           peripherals at register level: a byte out and a
+                           byte in through callbacks, no pins), avr_adc.c,
+                           avr_eeprom.c, avr_watchdog.c;
                            avr_chip.c + avr_chip.h (a chip: a CPU and the
                            peripherals of a register layout; the layouts'
                            tables, with vectors as numbers that
@@ -931,8 +935,17 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   the scenario's `run` line in `tests/avr/golden.txt` and, with `node`,
   equal the trace `oracle.js run` prints from avr8js on the same layout; the
   first differing line prints with its number. It prints `ok <name> (<lines>
-  lines, <n> port events, <n> interrupts)`. Scenarios: `gpio_out`,
-  `gpio_int`, `clkpr`, `timer0`, `timer1`, `timer2`, `timer_ext`. A scenario
+  lines, <n> port events, <n> interrupts, <n> serial events)`. Scenarios:
+  `gpio_out`, `gpio_int`, `clkpr`, `timer0`, `timer1`, `timer2`, `timer_ext`,
+  `usart`, `spi`, `twi`, `adc`, `eeprom`, `watchdog`. The serial peripherals'
+  outside is scripted the same way on both sides: a USART byte prints `u
+  <cycles> <n> <byte>`; an SPI byte prints `s …` and comes back XOR 0xA5
+  after the transfer time; a TWI request prints `t <cycles> <n> <event>
+  <argument>` and is answered 40 cycles later (address 0x50 acknowledges,
+  reads return 0x10, 0x11, …). Stimuli: `pin`, `rx` (a byte arrives at a
+  USART), `adc` (a channel's millivolts). One case runs outside exact mode:
+  `ok watchdog_full_reset` (a watchdog reset restarts the whole chip; avr8js
+  resets only the CPU). A scenario
   is built from `tests/avr/src/<name>.asm` (avr8js's assembler: `_LOC
   <byte address>`, labels, `;` comments) and `<name>.meta.json` (written by
   `src/make_meta.py`: layout, sizes, steps, stimuli); `sh

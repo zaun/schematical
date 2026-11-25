@@ -28,6 +28,12 @@ add_library(logic STATIC
     src/models/avr_gpio.c
     src/models/avr_clock.c
     src/models/avr_timer.c
+    src/models/avr_usart.c
+    src/models/avr_spi.c
+    src/models/avr_twi.c
+    src/models/avr_adc.c
+    src/models/avr_eeprom.c
+    src/models/avr_watchdog.c
     src/models/avr_chip.c
     src/models/pld.c
     src/models/resistor.c

@@ -29,7 +29,13 @@ enum {
     PIND = 0x29, DDRD = 0x2a, PORTD = 0x2b,
     PCIFR = 0x3b, EIFR = 0x3c, EIMSK = 0x3d,
     CLKPR = 0x61, PCICR = 0x68, EICRA = 0x69,
-    PCMSK0 = 0x6b, PCMSK1 = 0x6c, PCMSK2 = 0x6d
+    PCMSK0 = 0x6b, PCMSK1 = 0x6c, PCMSK2 = 0x6d,
+    EECR = 0x3f, EEDR = 0x40, EEARL = 0x41, EEARH = 0x42,
+    SPCR = 0x4c, SPSR = 0x4d, SPDR = 0x4e,
+    MCUSR = 0x54, WDTCSR = 0x60,
+    ADCL = 0x78, ADCH = 0x79, ADCSRA = 0x7a, ADCSRB = 0x7b, ADMUX = 0x7c, DIDR0 = 0x7e,
+    TWBR = 0xb8, TWSR = 0xb9, TWAR = 0xba, TWDR = 0xbb, TWCR = 0xbc, TWAMR = 0xbd,
+    UCSR0A = 0xc0, UCSR0B = 0xc1, UCSR0C = 0xc2, UBRR0L = 0xc4, UBRR0H = 0xc5, UDR0 = 0xc6
 };
 
 #define PIN_CHANGE(PCIE_BIT, PCMSK_ADDR, VECTOR) \
@@ -72,12 +78,37 @@ enum {
     PORTB, 3, PORTD, 3, 0, 0, /* OC2A PB3, OC2B PD3 */ \
     0, 0 }
 
+#define USART0 {V_USART_RX, V_USART_UDRE, V_USART_TX, UCSR0A, UCSR0B, UCSR0C, UBRR0L, UBRR0H, UDR0}
+#define SPI0 {V_SPI_STC, SPCR, SPSR, SPDR}
+#define TWI0 {V_TWI, TWBR, TWSR, TWAR, TWDR, TWCR, TWAMR}
+
+#define SINGLE(CHANNEL) {1, AVR_ADC_SINGLE_ENDED, CHANNEL, 0, 0, 0, 0}
+#define CONSTANT(VOLTS) {1, AVR_ADC_CONSTANT, 0, VOLTS, 0, 0, 0}
+#define NO_INPUT {0, AVR_ADC_CONSTANT, 0, 0, 0, 0, 0}
+/* The ATmega328's ADC: channels 0-7, the temperature sensor at 8, the
+   1.1 V band gap at 14, ground at 15; references AREF, AVCC, -, 1.1 V. */
+#define ADC_328 { \
+    ADMUX, ADCSRA, ADCSRB, ADCL, ADCH, DIDR0, V_ADC, 8, 0xf, \
+    {SINGLE(0), SINGLE(1), SINGLE(2), SINGLE(3), SINGLE(4), SINGLE(5), SINGLE(6), SINGLE(7), \
+     {1, AVR_ADC_TEMPERATURE, 0, 0, 0, 0, 0}, NO_INPUT, NO_INPUT, NO_INPUT, NO_INPUT, NO_INPUT, \
+     CONSTANT(1.1), CONSTANT(0)}, \
+    {AVR_ADC_AREF, AVR_ADC_AVCC, AVR_ADC_RESERVED, AVR_ADC_INTERNAL_1V1}, 4}
+
+#define EEPROM_328 {V_EE_READY, EECR, EEDR, EEARL, EEARH, 0, 0}
+#define WATCHDOG_328 {V_WDT, MCUSR, WDTCSR}
+
 static const AvrLayout LAYOUTS[] = {
     {
         "atmega328",
         3, {PORT_B, PORT_C, PORT_D},
         {CLKPR},
         3, {TIMER0, TIMER1, TIMER2},
+        1, {USART0},
+        1, {SPI0},
+        1, {TWI0},
+        ADC_328,
+        EEPROM_328,
+        WATCHDOG_328,
     },
 };
 
@@ -119,6 +150,40 @@ void avr_layout_scale(const AvrLayout *layout, uint32_t flash_bytes, AvrLayout *
         timer->comp_c_interrupt *= words;
         timer->ovf_interrupt *= words;
     }
+    for (i = 0; i < out->usart_count; i++) {
+        out->usarts[i].rx_complete_interrupt *= words;
+        out->usarts[i].data_register_empty_interrupt *= words;
+        out->usarts[i].tx_complete_interrupt *= words;
+    }
+    for (i = 0; i < out->spi_count; i++) {
+        out->spis[i].spi_interrupt *= words;
+    }
+    for (i = 0; i < out->twi_count; i++) {
+        out->twis[i].twi_interrupt *= words;
+    }
+    out->adc.adc_interrupt *= words;
+    out->eeprom.eeprom_ready_interrupt *= words;
+    out->watchdog.watchdog_interrupt *= words;
+}
+
+uint32_t avr_eeprom_cycles(uint32_t hz) {
+    return (uint32_t)((double)hz * 0.0018 + 0.5);
+}
+
+static void chip_reset_event(void *ctx) {
+    AvrChip *chip = ctx;
+
+    avr_chip_reset(chip);
+    if (chip->after_reset.fn != NULL) {
+        chip->after_reset.fn(chip->after_reset.ctx);
+    }
+}
+
+void avr_chip_set_base_hz(AvrChip *chip, uint32_t hz) {
+    chip->base_hz = hz;
+    chip->clock.base_hz = hz;
+    chip->eeprom.config.erase_cycles = avr_eeprom_cycles(hz);
+    chip->eeprom.config.write_cycles = avr_eeprom_cycles(hz);
 }
 
 AvrChip *avr_chip_create(const AvrLayout *layout, uint32_t flash_bytes, uint32_t sram_bytes,
@@ -126,7 +191,6 @@ AvrChip *avr_chip_create(const AvrLayout *layout, uint32_t flash_bytes, uint32_t
     AvrChip *chip = calloc(1, sizeof(*chip));
     size_t i;
 
-    (void)eeprom_bytes;
     if (chip == NULL) {
         return NULL;
     }
@@ -137,8 +201,10 @@ AvrChip *avr_chip_create(const AvrLayout *layout, uint32_t flash_bytes, uint32_t
         free(chip);
         return NULL;
     }
-    /* The order avr8js's users build a chip in: ports, clock, timers. A
-       later peripheral's hook on a shared register replaces an earlier one. */
+    /* One order on both sides (oracle.js run builds avr8js's objects in
+       it too): ports, clock, timers, USARTs, SPIs, TWIs, ADC, EEPROM,
+       watchdog. A later peripheral's hook on a shared register replaces an
+       earlier one. */
     chip->port_count = chip->layout.port_count;
     for (i = 0; i < chip->port_count; i++) {
         avr_port_init(&chip->ports[i], chip->cpu, &chip->layout.ports[i].config);
@@ -148,6 +214,29 @@ AvrChip *avr_chip_create(const AvrLayout *layout, uint32_t flash_bytes, uint32_t
     for (i = 0; i < chip->timer_count; i++) {
         avr_timer_init(&chip->timers[i], chip->cpu, &chip->layout.timers[i]);
     }
+    chip->usart_count = chip->layout.usart_count;
+    for (i = 0; i < chip->usart_count; i++) {
+        avr_usart_init(&chip->usarts[i], chip->cpu, &chip->layout.usarts[i], base_hz);
+    }
+    chip->spi_count = chip->layout.spi_count;
+    for (i = 0; i < chip->spi_count; i++) {
+        avr_spi_init(&chip->spis[i], chip->cpu, &chip->layout.spis[i], base_hz);
+    }
+    chip->twi_count = chip->layout.twi_count;
+    for (i = 0; i < chip->twi_count; i++) {
+        avr_twi_init(&chip->twis[i], chip->cpu, &chip->layout.twis[i], base_hz);
+    }
+    avr_adc_init(&chip->adc, chip->cpu, &chip->layout.adc);
+    chip->layout.eeprom.erase_cycles = avr_eeprom_cycles(base_hz);
+    chip->layout.eeprom.write_cycles = avr_eeprom_cycles(base_hz);
+    if (avr_eeprom_init(&chip->eeprom, chip->cpu, eeprom_bytes, &chip->layout.eeprom) != 0) {
+        avr_cpu_destroy(chip->cpu);
+        free(chip);
+        return NULL;
+    }
+    avr_watchdog_init(&chip->watchdog, chip->cpu, &chip->layout.watchdog, &chip->clock);
+    chip->cpu->on_reset.fn = chip_reset_event;
+    chip->cpu->on_reset.ctx = chip;
     return chip;
 }
 
@@ -155,6 +244,7 @@ void avr_chip_destroy(AvrChip *chip) {
     if (chip == NULL) {
         return;
     }
+    avr_eeprom_free(&chip->eeprom);
     avr_cpu_destroy(chip->cpu);
     free(chip);
 }
@@ -197,6 +287,18 @@ void avr_chip_reset(AvrChip *chip) {
     for (i = 0; i < chip->timer_count; i++) {
         avr_timer_reset(&chip->timers[i]);
     }
+    for (i = 0; i < chip->usart_count; i++) {
+        avr_usart_reset(&chip->usarts[i]);
+    }
+    for (i = 0; i < chip->spi_count; i++) {
+        avr_spi_reset(&chip->spis[i]);
+    }
+    for (i = 0; i < chip->twi_count; i++) {
+        avr_twi_reset(&chip->twis[i]);
+    }
+    avr_adc_reset(&chip->adc);
+    avr_eeprom_reset(&chip->eeprom);
+    avr_watchdog_reset(&chip->watchdog);
     avr_cpu_reset(cpu);
     cpu->cycles = 0;
     avr_clock_reset(&chip->clock);

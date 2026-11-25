@@ -184,33 +184,35 @@ None outside `backend/tests/avr/` and `backend/tools/`.
 
 ### Phase 1 — USART, SPI, TWI
 
-- [ ] `backend/src/models/avr_usart.c`, `avr_spi.c`, `avr_twi.c` and their
+- [x] `backend/src/models/avr_usart.c`, `avr_spi.c`, `avr_twi.c` and their
       declarations in `avr.h`; `backend/CMakeLists.txt`.
-- [ ] `avr_chip.c`: USART0, SPI and TWI in the `atmega328` layout and in
+- [x] `avr_chip.c`: USART0, SPI and TWI in the `atmega328` layout and in
       `--layout`'s JSON; `oracle.js`: build them from the layout, the
       scripted answers of § 3.2, `layout-check` covers them.
-- [ ] `avr_periph_test.c`: the same scripted answers and the `rx` stimulus.
-- [ ] Scenarios `usart`, `spi`, `twi`.
+- [x] `avr_periph_test.c`: the same scripted answers and the `rx` stimulus.
+- [x] Scenarios `usart`, `spi`, `twi`.
 
 Acceptance: 10 scenarios equal avr8js.
   Check: `ctest --test-dir /tmp/sim-rel -R avr_periph_test --output-on-failure` → `layout atmega328 equal` and 10 `ok` lines (est. 1 min).
+  Observed: 2026-11-24: `layout atmega328 equal` with USART0, SPI, TWI in the layout; `ok usart`, `ok spi`, `ok twi` and the 7 earlier scenarios against the live oracle.
 Commit: —
 
 ### Phase 2 — ADC, EEPROM, watchdog
 
-- [ ] `backend/src/models/avr_adc.c`, `avr_eeprom.c`, `avr_watchdog.c`;
+- [x] `backend/src/models/avr_adc.c`, `avr_eeprom.c`, `avr_watchdog.c`;
       `backend/CMakeLists.txt`.
-- [ ] `avr_chip.c`: the three in the layout, the EEPROM times from
+- [x] `avr_chip.c`: the three in the layout, the EEPROM times from
       `base_hz`, `on_reset`; `oracle.js` and `avr_periph_test.c`: the `adc`
       stimulus.
-- [ ] Scenarios `adc`, `eeprom`, `watchdog`.
-- [ ] A C-only case in `avr_periph_test`: with `exact` 0, a watchdog reset
+- [x] Scenarios `adc`, `eeprom`, `watchdog`.
+- [x] A C-only case in `avr_periph_test`: with `exact` 0, a watchdog reset
       leaves the USART's UCSR0B and the timers' registers cleared
       (`avr_chip_reset` ran); prints `ok watchdog_full_reset`.
-- [ ] `docs/backend.md`: § Layout, § Tests.
+- [x] `docs/backend.md`: § Layout, § Tests.
 
 Acceptance: 13 scenarios equal avr8js; the full reset holds.
   Check: `ctest --test-dir /tmp/sim-rel -R 'avr_' --output-on-failure` → 13 `ok <scenario>` lines, `ok watchdog_full_reset`, 2 tests passed (est. 1 min).
+  Observed: 2026-11-24: 13 `ok <scenario>` lines against the live oracle, `ok watchdog_full_reset`; `ctest -R avr_` 2 of 2 passed.
 Commit: —
 
 ## Validation Plan
@@ -227,6 +229,26 @@ Commit: —
 plan-62-A § Decisions. None added.
 
 ## Corrections
+
+- Both phases landed in one commit: the six files share the chip assembly,
+  the layout JSON and the scenario runner, and `layout atmega328 equal`
+  needs all six in the layout at once.
+- § 3.2 / Phase 1: adding a peripheral changes the reset values of its
+  registers (UCSR0A 0x20, UCSR0C 0x06, TWSR 0xF8, TWCR 0x80), so every
+  scenario's data-memory hash moved. The 7 `run` lines of plan-62-B were
+  regenerated from the oracle (`regen_golden.py`); before regenerating, each
+  C trace equalled the live oracle's line for line (the only failures
+  printed were the stale hashes).
+- § 3.1: `avr_usart_char_cycles` (avr8js's `cyclesPerChar`) is exported next
+  to `avr_usart_bit_cycles`. The TWI keeps its waiting requests in a ring of
+  8 (the written value, the status and TWDR that avr8js's closure captures).
+- § 3.1: `avr_chip_set_base_hz` (planned in E § 3.2) was added here with the
+  EEPROM times, and `AvrChip.after_reset` lets the engine adapter hear a
+  watchdog reset.
+- § 3.3: measured per scenario (lines, interrupts, serial events): `usart`
+  20017, 10, 17; `spi` 6014, 3, 14; `twi` 8025, 4, 25; `adc` 14000, 3, 0;
+  `eeprom` 170000, 1, 0; `watchdog` 9000, 4, 0. The watchdog scenario
+  divides the clock by 256 first (CLKPR) so a 16 ms timeout is 1000 cycles.
 
 ## Summary
 

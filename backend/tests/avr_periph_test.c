@@ -38,17 +38,24 @@ static int failures;
 typedef struct {
     const char *name;
     int needs_port_events;   /* the trace must hold a port output change */
-    int needs_interrupts;    /* ... and a taken interrupt */
+    int needs_interrupts;    /* ... a taken interrupt */
+    int needs_serial;        /* ... a USART, SPI or TWI event */
 } Scenario;
 
 static const Scenario SCENARIOS[] = {
-    {"gpio_out", 1, 0},
-    {"gpio_int", 0, 1},
-    {"clkpr", 0, 0},
-    {"timer0", 1, 1},
-    {"timer1", 1, 1},
-    {"timer2", 1, 1},
-    {"timer_ext", 1, 1},
+    {"gpio_out", 1, 0, 0},
+    {"gpio_int", 0, 1, 0},
+    {"clkpr", 0, 0, 0},
+    {"timer0", 1, 1, 0},
+    {"timer1", 1, 1, 0},
+    {"timer2", 1, 1, 0},
+    {"timer_ext", 1, 1, 0},
+    {"usart", 0, 1, 1},
+    {"spi", 0, 1, 1},
+    {"twi", 0, 1, 1},
+    {"adc", 0, 1, 0},
+    {"eeprom", 0, 1, 0},
+    {"watchdog", 0, 1, 0},
 };
 
 #define SCENARIO_COUNT (sizeof SCENARIOS / sizeof SCENARIOS[0])
@@ -175,7 +182,70 @@ static void layout_json(const AvrLayout *base, uint32_t flash_bytes, FILE *out) 
                 t->OCIEB, t->OCIEC, t->comp_port_a, t->comp_pin_a, t->comp_port_b, t->comp_pin_b,
                 t->comp_port_c, t->comp_pin_c, t->external_clock_port, t->external_clock_pin);
     }
-    fprintf(out, "]}\n");
+    fprintf(out, "],\n \"usarts\":[");
+    for (i = 0; i < layout.usart_count; i++) {
+        const AvrUsartConfig *u = &layout.usarts[i];
+
+        fprintf(out,
+                "%s\n  {\"rxCompleteInterrupt\":%u,\"dataRegisterEmptyInterrupt\":%u,"
+                "\"txCompleteInterrupt\":%u,\"UCSRA\":%u,\"UCSRB\":%u,\"UCSRC\":%u,"
+                "\"UBRRL\":%u,\"UBRRH\":%u,\"UDR\":%u}",
+                i ? "," : "", u->rx_complete_interrupt, u->data_register_empty_interrupt,
+                u->tx_complete_interrupt, u->UCSRA, u->UCSRB, u->UCSRC, u->UBRRL, u->UBRRH, u->UDR);
+    }
+    fprintf(out, "],\n \"spis\":[");
+    for (i = 0; i < layout.spi_count; i++) {
+        const AvrSpiConfig *sp = &layout.spis[i];
+
+        fprintf(out, "%s\n  {\"spiInterrupt\":%u,\"SPCR\":%u,\"SPSR\":%u,\"SPDR\":%u}",
+                i ? "," : "", sp->spi_interrupt, sp->SPCR, sp->SPSR, sp->SPDR);
+    }
+    fprintf(out, "],\n \"twis\":[");
+    for (i = 0; i < layout.twi_count; i++) {
+        const AvrTwiConfig *tw = &layout.twis[i];
+
+        fprintf(out,
+                "%s\n  {\"twiInterrupt\":%u,\"TWBR\":%u,\"TWSR\":%u,\"TWAR\":%u,\"TWDR\":%u,"
+                "\"TWCR\":%u,\"TWAMR\":%u}",
+                i ? "," : "", tw->twi_interrupt, tw->TWBR, tw->TWSR, tw->TWAR, tw->TWDR, tw->TWCR,
+                tw->TWAMR);
+    }
+    fprintf(out,
+            "],\n \"adc\":{\"ADMUX\":%u,\"ADCSRA\":%u,\"ADCSRB\":%u,\"ADCL\":%u,\"ADCH\":%u,"
+            "\"DIDR0\":%u,\"adcInterrupt\":%u,\"numChannels\":%u,\"muxInputMask\":%u,"
+            "\"muxChannels\":{",
+            layout.adc.ADMUX, layout.adc.ADCSRA, layout.adc.ADCSRB, layout.adc.ADCL, layout.adc.ADCH,
+            layout.adc.DIDR0, layout.adc.adc_interrupt, layout.adc.num_channels,
+            layout.adc.mux_input_mask);
+    for (k = 0, last = 0; k < AVR_ADC_MUX_INPUTS; k++) {
+        const AvrAdcInput *input = &layout.adc.mux_channels[k];
+
+        if (!input->present) {
+            continue;
+        }
+        fprintf(out, "%s\"%d\":{\"type\":%d", last++ ? "," : "", k, (int)input->type);
+        if (input->type == AVR_ADC_SINGLE_ENDED) {
+            fprintf(out, ",\"channel\":%u", input->channel);
+        } else if (input->type == AVR_ADC_CONSTANT) {
+            fprintf(out, ",\"voltage\":%.17g", input->voltage);
+        } else if (input->type == AVR_ADC_DIFFERENTIAL) {
+            fprintf(out, ",\"positiveChannel\":%u,\"negativeChannel\":%u,\"gain\":%.17g",
+                    input->positive_channel, input->negative_channel, input->gain);
+        }
+        fprintf(out, "}");
+    }
+    fprintf(out, "},\"adcReferences\":[");
+    for (k = 0; k < layout.adc.reference_count; k++) {
+        fprintf(out, "%s%d", k ? "," : "", (int)layout.adc.adc_references[k]);
+    }
+    fprintf(out,
+            "]},\n \"eeprom\":{\"eepromReadyInterrupt\":%u,\"EECR\":%u,\"EEDR\":%u,\"EEARL\":%u,"
+            "\"EEARH\":%u,\"eraseCycles\":%u,\"writeCycles\":%u},\n"
+            " \"watchdog\":{\"watchdogInterrupt\":%u,\"MCUSR\":%u,\"WDTCSR\":%u}}\n",
+            layout.eeprom.eeprom_ready_interrupt, layout.eeprom.EECR, layout.eeprom.EEDR,
+            layout.eeprom.EEARL, layout.eeprom.EEARH, (unsigned)avr_eeprom_cycles(RUN_HZ),
+            (unsigned)avr_eeprom_cycles(RUN_HZ), layout.watchdog.watchdog_interrupt,
+            layout.watchdog.MCUSR, layout.watchdog.WDTCSR);
 }
 
 /* ---- Running a scenario on the C chip ----------------------------------------- */
@@ -195,8 +265,91 @@ static void port_listener(void *ctx, uint8_t value, uint8_t old_value) {
              trace->letter, value, trace->chip->cpu->data[trace->ddr]);
 }
 
+/* The scripted outside of a serial peripheral: the same on both sides
+   (oracle.js run), so the traces can be compared. */
 typedef struct {
-    unsigned long port_events, interrupts;
+    Text *out;
+    AvrChip *chip;
+    int index;
+    /* TWI: the answer the handler gives 40 cycles after the request. */
+    int twi_kind;        /* 's'tart, sto'p', 'c'onnect, 'w'rite, 'r'ead */
+    int twi_ack;
+    uint8_t twi_value;
+    uint8_t twi_next;    /* the next byte a read returns: 0x10, 0x11, ... */
+    uint8_t spi_reply;
+} SerialTrace;
+
+static void usart_transmit(void *ctx, uint8_t value) {
+    SerialTrace *trace = ctx;
+
+    text_add(trace->out, "u %llx %d %02x\n", (unsigned long long)trace->chip->cpu->cycles,
+             trace->index, value);
+}
+
+static void spi_complete(void *ctx) {
+    SerialTrace *trace = ctx;
+
+    avr_spi_complete_transfer(&trace->chip->spis[trace->index], trace->spi_reply);
+}
+
+static void spi_byte(void *ctx, uint8_t value) {
+    SerialTrace *trace = ctx;
+    AvrSpi *spi = &trace->chip->spis[trace->index];
+
+    text_add(trace->out, "s %llx %d %02x\n", (unsigned long long)trace->chip->cpu->cycles,
+             trace->index, value);
+    trace->spi_reply = value ^ 0xa5;
+    avr_add_clock_event(trace->chip->cpu, spi_complete, trace, avr_spi_transfer_cycles(spi));
+}
+
+static void twi_answer(void *ctx) {
+    SerialTrace *trace = ctx;
+    AvrTwi *twi = &trace->chip->twis[trace->index];
+
+    switch (trace->twi_kind) {
+        case 's': avr_twi_complete_start(twi); break;
+        case 'p': avr_twi_complete_stop(twi); break;
+        case 'c': avr_twi_complete_connect(twi, trace->twi_ack); break;
+        case 'w': avr_twi_complete_write(twi, 1); break;
+        case 'r': avr_twi_complete_read(twi, trace->twi_value); break;
+    }
+}
+
+static void twi_request(SerialTrace *trace, int kind, const char *name, unsigned argument) {
+    text_add(trace->out, "t %llx %d %s %02x\n", (unsigned long long)trace->chip->cpu->cycles,
+             trace->index, name, argument);
+    trace->twi_kind = kind;
+    avr_add_clock_event(trace->chip->cpu, twi_answer, trace, 40);
+}
+
+static void twi_start(void *ctx, int repeated) {
+    twi_request(ctx, 's', "start", (unsigned)repeated);
+}
+
+static void twi_stop(void *ctx) {
+    twi_request(ctx, 'p', "stop", 0);
+}
+
+static void twi_connect(void *ctx, uint8_t address, int write) {
+    SerialTrace *trace = ctx;
+
+    trace->twi_ack = address == 0x50;
+    twi_request(trace, 'c', "connect", (unsigned)((address << 1) | (write ? 0 : 1)));
+}
+
+static void twi_write(void *ctx, uint8_t value) {
+    twi_request(ctx, 'w', "write", value);
+}
+
+static void twi_read(void *ctx, int ack) {
+    SerialTrace *trace = ctx;
+
+    trace->twi_value = trace->twi_next++;
+    twi_request(trace, 'r', "read", (unsigned)ack);
+}
+
+typedef struct {
+    unsigned long port_events, interrupts, serial_events;
 } RunCounts;
 
 static char *scenario_path(const char *name, const char *suffix, char *out, size_t cap) {
@@ -214,6 +367,7 @@ static int run_scenario(const char *name, Text *out, RunCounts *counts, char *la
     const AvrLayout *layout;
     AvrChip *chip;
     PortTrace traces[AVR_LAYOUT_PORTS];
+    SerialTrace usarts[AVR_LAYOUT_SERIALS], spis[AVR_LAYOUT_SERIALS], twis[AVR_LAYOUT_SERIALS];
     uint32_t flash, sram, eeprom, *image;
     char *error = NULL;
     const char *program;
@@ -223,6 +377,7 @@ static int run_scenario(const char *name, Text *out, RunCounts *counts, char *la
 
     counts->port_events = 0;
     counts->interrupts = 0;
+    counts->serial_events = 0;
     if (json == NULL) {
         printf("FAIL: %s: cannot read or parse %s\n", name, path);
         free(json_text);
@@ -271,6 +426,35 @@ static int run_scenario(const char *name, Text *out, RunCounts *counts, char *la
         chip->ports[i].listener.fn = port_listener;
         chip->ports[i].listener.ctx = &traces[i];
     }
+    for (i = 0; i < chip->usart_count; i++) {
+        memset(&usarts[i], 0, sizeof usarts[i]);
+        usarts[i].out = out;
+        usarts[i].chip = chip;
+        usarts[i].index = (int)i;
+        chip->usarts[i].on_transmit.fn = usart_transmit;
+        chip->usarts[i].on_transmit.ctx = &usarts[i];
+    }
+    for (i = 0; i < chip->spi_count; i++) {
+        memset(&spis[i], 0, sizeof spis[i]);
+        spis[i].out = out;
+        spis[i].chip = chip;
+        spis[i].index = (int)i;
+        chip->spis[i].on_byte.fn = spi_byte;
+        chip->spis[i].on_byte.ctx = &spis[i];
+    }
+    for (i = 0; i < chip->twi_count; i++) {
+        memset(&twis[i], 0, sizeof twis[i]);
+        twis[i].out = out;
+        twis[i].chip = chip;
+        twis[i].index = (int)i;
+        twis[i].twi_next = 0x10;
+        chip->twis[i].handler.start = twi_start;
+        chip->twis[i].handler.stop = twi_stop;
+        chip->twis[i].handler.connect = twi_connect;
+        chip->twis[i].handler.write_byte = twi_write;
+        chip->twis[i].handler.read_byte = twi_read;
+        chip->twis[i].handler.ctx = &twis[i];
+    }
 
     for (step = 0; step < steps; step++) {
         AvrCpu *cpu = chip->cpu;
@@ -296,6 +480,21 @@ static int run_scenario(const char *name, Text *out, RunCounts *counts, char *la
                 }
                 avr_port_set_pin(port, (int)cJSON_GetNumberValue(cJSON_GetArrayItem(stimulus, 3)),
                                  cJSON_GetNumberValue(cJSON_GetArrayItem(stimulus, 4)) != 0);
+            } else if (kind != NULL && strcmp(kind, "rx") == 0) {
+                size_t usart = (size_t)cJSON_GetNumberValue(cJSON_GetArrayItem(stimulus, 2));
+
+                if (usart < chip->usart_count) {
+                    avr_usart_write_byte(&chip->usarts[usart],
+                                         (uint8_t)cJSON_GetNumberValue(cJSON_GetArrayItem(stimulus, 3)),
+                                         0);
+                }
+            } else if (kind != NULL && strcmp(kind, "adc") == 0) {
+                size_t channel = (size_t)cJSON_GetNumberValue(cJSON_GetArrayItem(stimulus, 2));
+
+                if (channel < AVR_ADC_CHANNELS) {
+                    chip->adc.channel_volts[channel] =
+                        cJSON_GetNumberValue(cJSON_GetArrayItem(stimulus, 3)) / 1000;
+                }
             } else {
                 printf("FAIL: %s: unknown stimulus %d\n", name, next - 1);
                 failures++;
@@ -316,6 +515,7 @@ static int run_scenario(const char *name, Text *out, RunCounts *counts, char *la
 
         for (p = out->text; p != NULL && *p != '\0'; p = strchr(p, '\n'), p = p ? p + 1 : NULL) {
             counts->port_events += *p == 'p';
+            counts->serial_events += *p == 'u' || *p == 's' || *p == 't';
         }
     }
     return 0;
@@ -517,12 +717,91 @@ static void scenario_case(const Scenario *scenario) {
         printf("FAIL: %s: the trace has no taken interrupt\n", name);
         failures++;
     }
+    if (scenario->needs_serial && counts.serial_events == 0) {
+        printf("FAIL: %s: the trace has no USART, SPI or TWI event\n", name);
+        failures++;
+    }
     if (failures == before) {
-        printf("ok %s (%lu lines, %lu port events, %lu interrupts%s)\n", name, lines,
-               counts.port_events, counts.interrupts,
+        printf("ok %s (%lu lines, %lu port events, %lu interrupts, %lu serial events%s)\n", name,
+               lines, counts.port_events, counts.interrupts, counts.serial_events,
                live ? "" : "; golden hash only, node not found");
     }
     free(ours.text);
+}
+
+/* Loads a scenario's program into a chip's flash. 0 on success. */
+static int load_program(const char *name, AvrChip *chip) {
+    char path[1024];
+    char *json_text = read_file(scenario_path(name, ".json", path, sizeof path));
+    cJSON *json = json_text != NULL ? cJSON_Parse(json_text) : NULL;
+    const char *program = json != NULL
+        ? cJSON_GetStringValue(cJSON_GetObjectItemCaseSensitive(json, "program")) : NULL;
+    uint32_t flash = chip->cpu->flash_bytes;
+    uint32_t *image = malloc(flash * sizeof *image);
+    char *error = NULL;
+    int result = -1;
+    uint32_t i;
+
+    if (program != NULL && memory_image_parse((const unsigned char *)program, strlen(program),
+                                              MEMORY_IMAGE_INTEL_HEX, flash, 8, image,
+                                              &error) == 0) {
+        for (i = 0; i < flash; i++) {
+            chip->cpu->flash[i] = (uint8_t)image[i];
+        }
+        result = 0;
+    }
+    free(error);
+    free(image);
+    cJSON_Delete(json);
+    free(json_text);
+    return result;
+}
+
+/*
+ * Outside exact mode a watchdog reset restarts the whole chip, where avr8js
+ * resets only the CPU. The `watchdog` program runs until it has started
+ * twice; registers of other peripherals set before must be back at their
+ * reset values, and the program must have seen WDRF.
+ */
+static void full_reset_case(void) {
+    AvrChip *chip = avr_chip_create(avr_layout_find("atmega328"), 32768, 2048, 1024, RUN_HZ, 0);
+    AvrCpu *cpu = chip->cpu;
+    long step;
+    int ok;
+
+    if (load_program("watchdog", chip) != 0) {
+        printf("FAIL: watchdog_full_reset: cannot load the program\n");
+        failures++;
+        avr_chip_destroy(chip);
+        return;
+    }
+    avr_write_data(cpu, 0xc1, 0x18, 0xff);   /* UCSR0B: RXEN, TXEN */
+    avr_write_data(cpu, 0x24, 0xff, 0xff);   /* DDRB: outputs */
+    avr_write_data(cpu, 0x25, 0xaa, 0xff);   /* PORTB */
+    avr_write_data(cpu, 0x44, 0x42, 0xff);   /* TCCR0A: CTC, OC0A toggles */
+    avr_write_data(cpu, 0x45, 0x01, 0xff);   /* TCCR0B: running */
+    for (step = 0; step < 200000 && cpu->data[21] < 2; step++) {
+        avr_chip_step(chip);
+    }
+    /* A few instructions into the second start: r20 holds MCUSR as it was. */
+    for (step = 0; step < 4; step++) {
+        avr_chip_step(chip);
+    }
+    ok = cpu->data[21] == 2 && (cpu->data[20] & 0x08) != 0 && cpu->data[0xc1] == 0 &&
+         cpu->data[0x24] == 0 && cpu->data[0x25] == 0 && cpu->data[0x44] == 0 &&
+         cpu->data[0x45] == 0 && chip->ports[0].last_value == 0 &&
+         avr_port_pin_state(&chip->ports[0], 1) == AVR_PIN_INPUT &&
+         chip->timers[0].divider == 0 && cpu->data[0xc0] == 0x20;
+    if (ok) {
+        printf("ok watchdog_full_reset\n");
+    } else {
+        printf("FAIL: watchdog_full_reset: starts %u, MCUSR seen %02x, UCSR0B %02x, DDRB %02x, "
+               "PORTB %02x, TCCR0A %02x, TCCR0B %02x, UCSR0A %02x\n",
+               cpu->data[21], cpu->data[20], cpu->data[0xc1], cpu->data[0x24], cpu->data[0x25],
+               cpu->data[0x44], cpu->data[0x45], cpu->data[0xc0]);
+        failures++;
+    }
+    avr_chip_destroy(chip);
 }
 
 static int print_golden(void) {
@@ -593,6 +872,7 @@ int main(int argc, char **argv) {
     for (i = 0; i < SCENARIO_COUNT; i++) {
         scenario_case(&SCENARIOS[i]);
     }
+    full_reset_case();
     if (failures != 0) {
         printf("%d failure(s)\n", failures);
         return 1;

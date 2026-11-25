@@ -12,7 +12,8 @@
 
 enum {
     AVR_LAYOUT_PORTS = 5,
-    AVR_LAYOUT_TIMERS = 5
+    AVR_LAYOUT_TIMERS = 5,
+    AVR_LAYOUT_SERIALS = 2    /* USARTs, SPIs and TWIs each */
 };
 
 typedef struct {
@@ -32,6 +33,15 @@ typedef struct AvrLayout {
     AvrClockConfig clock;
     size_t timer_count;
     AvrTimerConfig timers[AVR_LAYOUT_TIMERS];
+    size_t usart_count;
+    AvrUsartConfig usarts[AVR_LAYOUT_SERIALS];
+    size_t spi_count;
+    AvrSpiConfig spis[AVR_LAYOUT_SERIALS];
+    size_t twi_count;
+    AvrTwiConfig twis[AVR_LAYOUT_SERIALS];
+    AvrAdcConfig adc;
+    AvrEepromConfig eeprom;      /* erase_cycles and write_cycles are set per chip */
+    AvrWatchdogConfig watchdog;
 } AvrLayout;
 
 typedef struct AvrChip {
@@ -43,6 +53,17 @@ typedef struct AvrChip {
     AvrClock clock;
     size_t timer_count;
     AvrTimer timers[AVR_LAYOUT_TIMERS];
+    size_t usart_count;
+    AvrUsart usarts[AVR_LAYOUT_SERIALS];
+    size_t spi_count;
+    AvrSpi spis[AVR_LAYOUT_SERIALS];
+    size_t twi_count;
+    AvrTwi twis[AVR_LAYOUT_SERIALS];
+    AvrAdc adc;
+    AvrEeprom eeprom;
+    AvrWatchdog watchdog;
+    /* Runs after avr_chip_reset when the chip reset itself (the watchdog). */
+    AvrCallback after_reset;
 } AvrChip;
 
 /* "atmega328": the ATmega48/88/168/328 (and A, P, PA) registers. NULL when unknown. */
@@ -69,6 +90,14 @@ void avr_chip_reset(AvrChip *chip);
 
 /* One instruction, then avr8js's tick (a due clock event, a pending interrupt). */
 void avr_chip_step(AvrChip *chip);
+
+/* The EEPROM's erase time and its write time, in CPU cycles, at a clock of
+   hz: 1.8 ms each (avr8js's 28800 cycles at 16 MHz). */
+uint32_t avr_eeprom_cycles(uint32_t hz);
+
+/* Tells the chip its clock's frequency once it is known (plan-62-E): the
+   EEPROM's write times and the watchdog's timeout follow it. */
+void avr_chip_set_base_hz(AvrChip *chip, uint32_t hz);
 
 /* The port with this letter, or NULL. */
 AvrPort *avr_chip_port(AvrChip *chip, char letter);

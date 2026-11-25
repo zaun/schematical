@@ -3,10 +3,16 @@
 #   step <seed> <states> <lines> <FNV-1a 64 of the lines>    avr_core_test --print-golden
 step 305419896 4 262144 7780baee2f7b9ffa
 #   run <scenario> <lines> <FNV-1a 64 of the trace>            avr_periph_test --print-golden
-run gpio_out 521 93d2a2f2c13d5dba
-run gpio_int 6000 74830bd3bc5f4b5e
-run clkpr 160 58af1eb45b335360
-run timer0 60199 e9a65e136d9b63fc
-run timer1 45271 b1f5ab4aefc23730
-run timer2 56198 e9d5be76b066594b
-run timer_ext 2613 414c022443666f54
+run gpio_out 521 0e890defcbd42bfb
+run gpio_int 6000 b645b22cd4f27140
+run clkpr 160 90b38e467460d16f
+run timer0 60199 cca0aa5ec7df63d5
+run timer1 45271 c326c0a71a4b1fb6
+run timer2 56198 4a72fb50f4df32c3
+run timer_ext 2613 b2b02e0bddc5aa4d
+run usart 20017 5de77ca4777ec8c8
+run spi 6014 86d7ea4e42209bcd
+run twi 8025 a8e58d379aeafef7
+run adc 14000 d0344e84293ca351
+run eeprom 170000 41b9c5fe5a10123f
+run watchdog 9000 ff02978873d457da

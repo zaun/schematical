@@ -87,6 +87,10 @@ struct AvrCpu {
     AvrClockEvent *spare_events;    /* nodes avr8js would have left to the garbage collector */
 
     AvrCallback watchdog_reset;     /* the WDR instruction */
+    /* A reset from inside the chip (the watchdog). When set and `exact` is
+       0 it runs in place of avr8js's bare CPU reset, so the whole chip
+       restarts (avr_chip_reset). */
+    AvrCallback on_reset;
 
     struct AvrPort *ports[12];      /* avr8js's gpioPorts, in the order they were made */
     size_t port_count;
@@ -301,5 +305,208 @@ typedef struct {
 
 void avr_timer_init(AvrTimer *timer, AvrCpu *cpu, const AvrTimerConfig *config);
 void avr_timer_reset(AvrTimer *timer);
+
+/* ---- avr_usart.c: src/peripherals/usart.ts (plan-62-C) --------------------- */
+
+typedef struct {
+    /* Vector word addresses. */
+    uint8_t rx_complete_interrupt, data_register_empty_interrupt, tx_complete_interrupt;
+    uint16_t UCSRA, UCSRB, UCSRC, UBRRL, UBRRH, UDR;
+} AvrUsartConfig;
+
+typedef struct {
+    AvrCpu *cpu;
+    AvrUsartConfig config;
+    uint32_t freq_hz;
+    /* A byte written to UDR leaves the chip (the frame is the listener's to time). */
+    struct { void (*fn)(void *ctx, uint8_t value); void *ctx; } on_transmit;
+    AvrCallback on_rx_complete;
+    AvrCallback on_config;       /* the format or the baud rate changed */
+    int rx_busy;
+    uint8_t rx_byte;
+    uint8_t rx_pending;          /* the byte a delayed avr_usart_write_byte delivers */
+    AvrInterrupt RXC, UDRE, TXC;
+} AvrUsart;
+
+void avr_usart_init(AvrUsart *usart, AvrCpu *cpu, const AvrUsartConfig *config, uint32_t freq_hz);
+void avr_usart_reset(AvrUsart *usart);
+/* A received byte. immediate: it is in UDR now; else after one character
+   time, with the receiver busy meanwhile. 0 when the receiver is busy or
+   off (the byte is lost). */
+int avr_usart_write_byte(AvrUsart *usart, uint8_t value, int immediate);
+static inline int avr_usart_rx_busy(const AvrUsart *usart) { return usart->rx_busy; }
+int avr_usart_rx_enabled(const AvrUsart *usart);
+int avr_usart_tx_enabled(const AvrUsart *usart);
+int avr_usart_bits(const AvrUsart *usart);        /* 5 to 9 */
+int avr_usart_stop_bits(const AvrUsart *usart);   /* 1 or 2 */
+int avr_usart_parity(const AvrUsart *usart);      /* 0 none, 1 even, 2 odd */
+/* CPU cycles per bit: (UBRR + 1) x 16, or x 8 with U2X. Not in avr8js's
+   interface; the pin-level layer (plan-62-F) times its frames with it. */
+uint32_t avr_usart_bit_cycles(const AvrUsart *usart);
+/* avr8js's cyclesPerChar: a whole frame. */
+uint32_t avr_usart_char_cycles(const AvrUsart *usart);
+
+/* ---- avr_spi.c: src/peripherals/spi.ts -------------------------------------- */
+
+typedef struct {
+    uint8_t spi_interrupt;       /* vector word address */
+    uint16_t SPCR, SPSR, SPDR;
+} AvrSpiConfig;
+
+typedef struct AvrSpi {
+    AvrCpu *cpu;
+    AvrSpiConfig config;
+    uint32_t freq_hz;
+    /* A byte written to SPDR starts a transfer; the listener must call
+       avr_spi_complete_transfer within avr_spi_transfer_cycles. NULL: the
+       transfer completes by itself with 0 received. */
+    struct { void (*fn)(void *ctx, uint8_t value); void *ctx; } on_byte;
+    int transmission_active;
+    AvrInterrupt SPI;
+} AvrSpi;
+
+void avr_spi_init(AvrSpi *spi, AvrCpu *cpu, const AvrSpiConfig *config, uint32_t freq_hz);
+void avr_spi_reset(AvrSpi *spi);
+void avr_spi_complete_transfer(AvrSpi *spi, uint8_t received);
+int avr_spi_is_master(const AvrSpi *spi);
+int avr_spi_lsb_first(const AvrSpi *spi);
+int avr_spi_mode(const AvrSpi *spi);              /* 0-3: bit 0 CPOL, bit 1 CPHA */
+int avr_spi_clock_divider(const AvrSpi *spi);
+int avr_spi_transfer_cycles(const AvrSpi *spi);
+
+/* ---- avr_twi.c: src/peripherals/twi.ts (master mode only, as avr8js) --------- */
+
+typedef struct {
+    uint8_t twi_interrupt;       /* vector word address */
+    uint16_t TWBR, TWSR, TWAR, TWDR, TWCR, TWAMR;
+} AvrTwiConfig;
+
+/* The bus side of the master. Each call must be answered, now or later, by
+   the avr_twi_complete_* of the same name. */
+typedef struct {
+    void (*start)(void *ctx, int repeated);
+    void (*stop)(void *ctx);
+    void (*connect)(void *ctx, uint8_t address, int write);
+    void (*write_byte)(void *ctx, uint8_t value);
+    void (*read_byte)(void *ctx, int ack);
+    void *ctx;
+} AvrTwiHandler;
+
+typedef struct { uint8_t value, status, twdr; } AvrTwiRequest;
+
+typedef struct AvrTwi {
+    AvrCpu *cpu;
+    AvrTwiConfig config;
+    uint32_t freq_hz;
+    AvrTwiHandler handler;       /* start NULL: every request is refused (no acknowledge) */
+    int busy;
+    AvrTwiRequest requests[8];   /* TWCR writes waiting for their clock event */
+    unsigned request_head, request_count;
+    AvrInterrupt TWI;
+} AvrTwi;
+
+void avr_twi_init(AvrTwi *twi, AvrCpu *cpu, const AvrTwiConfig *config, uint32_t freq_hz);
+void avr_twi_reset(AvrTwi *twi);
+void avr_twi_complete_start(AvrTwi *twi);
+void avr_twi_complete_stop(AvrTwi *twi);
+void avr_twi_complete_connect(AvrTwi *twi, int ack);
+void avr_twi_complete_write(AvrTwi *twi, int ack);
+void avr_twi_complete_read(AvrTwi *twi, uint8_t value);
+int avr_twi_prescaler(const AvrTwi *twi);
+/* CPU cycles per SCL period: 16 + 2 x TWBR x prescaler. Not in avr8js's
+   interface; the pin-level layer (plan-62-F) uses it. */
+uint32_t avr_twi_bit_cycles(const AvrTwi *twi);
+
+/* ---- avr_adc.c: src/peripherals/adc.ts ---------------------------------------- */
+
+typedef enum { AVR_ADC_AVCC, AVR_ADC_AREF, AVR_ADC_INTERNAL_1V1, AVR_ADC_INTERNAL_2V56,
+               AVR_ADC_RESERVED } AvrAdcReference;
+typedef enum { AVR_ADC_SINGLE_ENDED, AVR_ADC_DIFFERENTIAL, AVR_ADC_CONSTANT,
+               AVR_ADC_TEMPERATURE } AvrAdcInputType;
+
+typedef struct {
+    int present;
+    AvrAdcInputType type;
+    uint8_t channel;             /* single ended */
+    double voltage;              /* constant */
+    uint8_t positive_channel, negative_channel;   /* differential */
+    double gain;
+} AvrAdcInput;
+
+enum { AVR_ADC_MUX_INPUTS = 64, AVR_ADC_CHANNELS = 16 };
+
+typedef struct {
+    uint16_t ADMUX, ADCSRA, ADCSRB, ADCL, ADCH, DIDR0;
+    uint8_t adc_interrupt;       /* vector word address */
+    uint8_t num_channels;
+    uint8_t mux_input_mask;
+    AvrAdcInput mux_channels[AVR_ADC_MUX_INPUTS];
+    AvrAdcReference adc_references[8];
+    uint8_t reference_count;
+} AvrAdcConfig;
+
+typedef struct AvrAdc {
+    AvrCpu *cpu;
+    AvrAdcConfig config;
+    double channel_volts[AVR_ADC_CHANNELS];
+    double avcc, aref;
+    /* A conversion starts; the listener must call avr_adc_complete_read.
+       NULL: the value comes from channel_volts after avr_adc_sample_cycles. */
+    struct { void (*fn)(void *ctx, const AvrAdcInput *input); void *ctx; } on_read;
+    int converting;
+    int conversion_cycles;
+    int pending_result;
+    AvrInterrupt ADC;
+} AvrAdc;
+
+void avr_adc_init(AvrAdc *adc, AvrCpu *cpu, const AvrAdcConfig *config);
+void avr_adc_reset(AvrAdc *adc);
+void avr_adc_complete_read(AvrAdc *adc, int value);
+int avr_adc_sample_cycles(const AvrAdc *adc);
+
+/* ---- avr_eeprom.c: src/peripherals/eeprom.ts ----------------------------------- */
+
+typedef struct {
+    uint8_t eeprom_ready_interrupt;   /* vector word address */
+    uint16_t EECR, EEDR, EEARL, EEARH;
+    uint32_t erase_cycles, write_cycles;
+} AvrEepromConfig;
+
+typedef struct {
+    AvrCpu *cpu;
+    AvrEepromConfig config;
+    uint8_t *memory;             /* erased: 0xFF */
+    uint32_t size;
+    double write_enabled_cycles;
+    double write_complete_cycles;
+    AvrInterrupt EER;
+} AvrEeprom;
+
+/* 0 on success, -1 when out of memory. */
+int avr_eeprom_init(AvrEeprom *eeprom, AvrCpu *cpu, uint32_t size, const AvrEepromConfig *config);
+void avr_eeprom_free(AvrEeprom *eeprom);
+void avr_eeprom_reset(AvrEeprom *eeprom);   /* the contents are kept */
+
+/* ---- avr_watchdog.c: src/peripherals/watchdog.ts -------------------------------- */
+
+typedef struct {
+    uint8_t watchdog_interrupt;  /* vector word address */
+    uint16_t MCUSR, WDTCSR;
+} AvrWatchdogConfig;
+
+typedef struct {
+    AvrCpu *cpu;
+    AvrWatchdogConfig config;
+    AvrClock *clock;
+    double change_enabled_cycles;
+    double watchdog_timeout;
+    int enabled_value;
+    int scheduled;
+    AvrInterrupt Watchdog;
+} AvrWatchdog;
+
+void avr_watchdog_init(AvrWatchdog *watchdog, AvrCpu *cpu, const AvrWatchdogConfig *config,
+                       AvrClock *clock);
+void avr_watchdog_reset(AvrWatchdog *watchdog);
 
 #endif

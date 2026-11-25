@@ -7,6 +7,8 @@ memory sizes, how many instructions to run, and the stimuli. A stimulus is
 after that cycle:
 
     [cycle, "pin", port letter, bit, value]    the outside drives a pin
+    [cycle, "rx", usart index, byte]           a byte arrives at a USART
+    [cycle, "adc", channel, millivolts]        an ADC input's voltage
 
 Run from this folder: python3 make_meta.py. Then rebuild each scenario file:
 
@@ -60,3 +62,15 @@ meta("timer0", 60000, [])
 meta("timer1", 45000, [])
 meta("timer2", 56000, [])
 meta("timer_ext", 2500, toggles("D", 4, 23, 30000) + toggles("D", 5, 31, 30000))
+
+meta("usart", 20000,
+     [[20500, "rx", 0, 0x41]] + [[22000 + 1000 * i, "rx", 0, 0x42 + i] for i in range(4)] +
+     [[27000, "rx", 0, 0x46]])
+meta("spi", 6000, [])
+meta("twi", 8000, [])
+meta("adc", 14000,
+     [[0, "adc", channel, millivolts] for channel, millivolts in
+      enumerate([0, 500, 1000, 2500, 3300, 4999, 5000, 6000])] +
+     [[3000, "adc", 0, 2500], [3000, "adc", 3, 1100], [6000, "adc", 3, 600]])
+meta("eeprom", 170000, [])
+meta("watchdog", 9000, [])

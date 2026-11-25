@@ -202,6 +202,13 @@ function layoutCheck(layoutFile) {
   layout.timers.forEach((timer, index) => {
     pairs.push(['timer' + index, timer, avr8js['timer' + index + 'Config']]);
   });
+  // The first of each serial peripheral is the ATmega328P's only one.
+  pairs.push(['usart0', layout.usarts[0], avr8js.usart0Config]);
+  pairs.push(['spi', layout.spis[0], avr8js.spiConfig]);
+  pairs.push(['twi', layout.twis[0], avr8js.twiConfig]);
+  pairs.push(['adc', layout.adc, avr8js.adcConfig]);
+  pairs.push(['eeprom', layout.eeprom, avr8js.eepromConfig]);
+  pairs.push(['watchdog', layout.watchdog, avr8js.watchdogConfig]);
   for (const [name, ours, theirs] of pairs) {
     if (!theirs) {
       fail('layout ' + layout.name + ': avr8js has no config for ' + name);
@@ -235,10 +242,48 @@ function run(scenarioFile, layoutFile) {
       out.push('p ' + cpu.cycles.toString(16) + ' ' + port.letter + ' ' + hex(value, 2) + ' ' + hex(cpu.data[port.DDR], 2));
     });
   }
-  new avr8js.AVRClock(cpu, RUN_HZ, layout.clock);
+  const clock = new avr8js.AVRClock(cpu, RUN_HZ, layout.clock);
   for (const timer of layout.timers) {
     new avr8js.AVRTimer(cpu, timer);
   }
+  // The scripted outside of the serial peripherals: the C test's is the same.
+  const usarts = layout.usarts.map((config, index) => {
+    const usart = new avr8js.AVRUSART(cpu, config, RUN_HZ);
+    usart.onByteTransmit = (value) => {
+      out.push('u ' + cpu.cycles.toString(16) + ' ' + index + ' ' + hex(value, 2));
+    };
+    return usart;
+  });
+  layout.spis.forEach((config, index) => {
+    const spi = new avr8js.AVRSPI(cpu, config, RUN_HZ);
+    spi.onByte = (value) => {
+      out.push('s ' + cpu.cycles.toString(16) + ' ' + index + ' ' + hex(value, 2));
+      cpu.addClockEvent(() => spi.completeTransfer(value ^ 0xa5), spi.transferCycles);
+    };
+  });
+  layout.twis.forEach((config, index) => {
+    const twi = new avr8js.AVRTWI(cpu, config, RUN_HZ);
+    let nextRead = 0x10;
+    const request = (name, argument, answer) => {
+      out.push('t ' + cpu.cycles.toString(16) + ' ' + index + ' ' + name + ' ' + hex(argument, 2));
+      cpu.addClockEvent(answer, 40);
+    };
+    twi.eventHandler = {
+      start: (repeated) => request('start', repeated ? 1 : 0, () => twi.completeStart()),
+      stop: () => request('stop', 0, () => twi.completeStop()),
+      connectToSlave: (address, write) =>
+        request('connect', (address << 1) | (write ? 0 : 1), () => twi.completeConnect(address === 0x50)),
+      writeByte: (value) => request('write', value, () => twi.completeWrite(true)),
+      readByte: (ack) => {
+        const value = nextRead;
+        nextRead = (nextRead + 1) & 0xff;
+        request('read', ack ? 1 : 0, () => twi.completeRead(value));
+      },
+    };
+  });
+  const adc = new avr8js.AVRADC(cpu, layout.adc);
+  new avr8js.AVREEPROM(cpu, new avr8js.EEPROMMemoryBackend(scenario.eeprom), layout.eeprom);
+  new avr8js.AVRWatchdog(cpu, layout.watchdog, clock);
 
   const stimuli = scenario.stimuli || [];
   let next = 0;
@@ -247,6 +292,10 @@ function run(scenarioFile, layoutFile) {
       const stimulus = stimuli[next++];
       if (stimulus[1] === 'pin') {
         ports[stimulus[2]].setPin(stimulus[3], !!stimulus[4]);
+      } else if (stimulus[1] === 'rx') {
+        usarts[stimulus[2]].writeByte(stimulus[3]);
+      } else if (stimulus[1] === 'adc') {
+        adc.channelValues[stimulus[2]] = stimulus[3] / 1000;
       } else {
         fail('unknown stimulus ' + JSON.stringify(stimulus));
       }
