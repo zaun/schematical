@@ -105,21 +105,22 @@ Acceptance: no E-Switch row is `pending`; each `skip` reason is listed in
 `datasheets/skipped-parts.md`.
   Check: `awk -F'\t' '$1=="E-Switch" && $18=="pending"' planning/plan-58-data/candidates.tsv \| wc -l` → 0 (est. 3 min).
   Measured: `scheme-check.py --maker 'E-Switch'` → `E-Switch 56 add, 7 skip, 0 pending`; `awk` pending count → 0; `decide.py --verify-skipped` exit 0
-Commit: —
+Commit: 18db34d0
 
 ### Phase 2 — footprints and specs
 
-- [ ] For each of E-Switch's (series, mounting, circuit) lines (23 at planning): read
+- [x] For each of E-Switch's (series, mounting, circuit) lines (23 at planning): read
       the PDF drawing, write the footprint (plan-58-C § 4.3) as a ready object in
       `planning/plan-58-data/footprints-E.json` and its `specs.tsv` row (§ 4.2).
-- [ ] `python3 -I planning/plan-58-data/census/specs-check.py --maker 'E-Switch'` and
+- [x] `python3 -I planning/plan-58-data/census/specs-check.py --maker 'E-Switch'` and
       `planning/plan-58-data/census/fp-load.sh planning/plan-58-data/footprints-E.json`.
-- [ ] For every new footprint: a rendered image beside the datasheet page, read
+- [x] For every new footprint: a rendered image beside the datasheet page, read
       pair by pair, fixing any mismatch.
 
 Acceptance: every E-Switch row has a spec whose footprint is staged and has its
 pads; the staged footprints load; each image matches its drawing.
   Check: `python3 -I planning/plan-58-data/census/specs-check.py --maker 'E-Switch' && planning/plan-58-data/census/fp-load.sh planning/plan-58-data/footprints-E.json` → `specs ok`, then only `unused footprint` lines for the staged ids and `load ok` (est. 6 min).
+  Measured: `specs-check.py --maker 'E-Switch'` → `specs ok (56 rows, 33 specs)`; `fp-load.sh footprints-E.json` → `33 footprints appended`, `33 new footprints: load ok`
 Commit: —
 
 ### Phase 3 — parts
@@ -156,6 +157,7 @@ Commit: —
 
 - **2026-11-24, Phase 1: 7 pending rows do not fit their key and are `skip`** (EG: EG1249, EG1257, EG1270, EG1271, EG1271A, EG2210A-REDACTUATOR, EG2219); E-Switch has 56 `add` rows after Phase 1. `schemes.tsv` regexes are written from each datasheet's ordering key (positions and listed letters only).
 - **2026-11-24, Phase 1: `EG_Series.pdf` (DigiKey's copy of the EG datasheet) is deleted.** Its only two rows (`EG1257`, `EG2210A-REDACTUATOR`) are `skip` (no EG datasheet prints their numbers and the EG family has no key), so no `add` / `pending` row needs the PDF any more: `place.py --prune` (new) removed it and its `datasheets.tsv` line, and its `maker-urls.tsv` row (the S3 `EG.pdf` mapping) went with it; `place.py --verify` → `39 URLs, 39 PDFs, 0 problems`, `maker-urls.py --verify` → `1 non-maker URLs, 0 with a maker URL, 0 missing`. The `EG` scheme keeps only `EG1215AA`: the EG datasheet (EG.pdf) lists the part numbers it prints and gives no ordering key, so every other pending EG number (`EG1249`, `EG1270`, `EG1271`, `EG1271A`, `EG2219`) is `skip` as well (7 skips: those 5, `EG1257`, `EG2210A-REDACTUATOR`).
+- **2026-11-24, Phase 2: the footprints were drawn by parallel sub-agents, one per group of series** (500; 500A + 500R + 600; EG + EGJ1210), each reading its PDFs' drawings as page images, rendering every footprint with `census/fp-render.py` and comparing it with the drawing; the lead merged the fragments (`merge-specs.py`, `fp-load.sh`: 33 footprints, 33 spec rows for 56 `add` rows). Open questions of each sub-agent are in the footprints' `note` fields (top vs bottom view, the body outline's position against the pads where the drawing gives no tie, terminals renumbered to 1..n where a datasheet skips numbers). Images are rendered from the JSON (see plan-58-C Corrections), not by the app.
 
 ## Summary
 

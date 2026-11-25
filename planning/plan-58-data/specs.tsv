@@ -72,29 +72,39 @@ CIT	MS2210	Through Hole, Right Angle	DPDT		PC Pin
 CIT	MS2211	Through Hole, Right Angle	DPDT		PC Pin			
 CIT	MS2219	Through Hole, Right Angle	DPDT		PC Pin			
 CIT	MS2241	Through Hole, Right Angle	DPDT		PC Pin			
-E-Switch	500	Through Hole	DPDT		PC Pin			
-E-Switch	500	Through Hole	SPDT		PC Pin; Wire Wrap			
-E-Switch	500	Through Hole, Right Angle	DPDT		PC Pin			
-E-Switch	500	Through Hole, Right Angle	SPDT		PC Pin			
-E-Switch	500	Through Hole, Right Angle, Vertical	DPDT		PC Pin			
-E-Switch	500	Through Hole, Right Angle, Vertical	SPDT		PC Pin			
-E-Switch	500A	Surface Mount, Right Angle	SPDT		Gull Wing			
-E-Switch	500A	Through Hole	SPDT		PC Pin			
-E-Switch	500A	Through Hole, Right Angle	SPDT		PC Pin			
-E-Switch	500R	Through Hole	DPDT		PC Pin			
-E-Switch	500R	Through Hole	SPDT		PC Pin			
-E-Switch	500R	Through Hole, Right Angle	SPDT		PC Pin			
-E-Switch	600	Through Hole	DPDT		PC Pin			
-E-Switch	600	Through Hole	SPDT		PC Pin			
-E-Switch	EG	Surface Mount, Right Angle	SPDT		Gull Wing			
-E-Switch	EG	Through Hole	DPDT		PC Pin			
-E-Switch	EG	Through Hole	SPDT		PC Pin			
-E-Switch	EG	Through Hole, Right Angle	DPDT		PC Pin			
-E-Switch	EG	Through Hole, Right Angle	SPDT		PC Pin			
-E-Switch	EGJ1210	Surface Mount	SPDT		Gull Wing			
-E-Switch	EGJ1210	Surface Mount, Right Angle	SPDT		Gull Wing			
-E-Switch	EGJ1210	Through Hole	SPDT		PC Pin			
-E-Switch	EGJ1210	Through Hole, Right Angle	SPDT		PC Pin			
+E-Switch	500	Through Hole	DPDT	500SDP[13]S[1-4]M2[QR]E[AB]	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-ESW-500-THT-6P	500.pdf p.2 DPDT schematic, p.2 M2 terminal (DPDT: POS 1 joins 2-1 and 5-4, POS 3 joins 2-3 and 5-6; commons 2 and 5); no PC layout drawn, holes at the terminal positions
+E-Switch	500	Through Hole	SPDT	500SSP[123]S[1-4](?:M2|M5[1-4])[QR]E[AB]	PC Pin; Wire Wrap	2=C;1=A;3=B	SW-SLIDE-ESW-500-THT-3P	500.pdf p.2 SPDT schematic, p.2 M2/M5 terminals (SPDT: POS 1 joins 2-1 = A, POS 3 joins 2-3 = B; common 2); no PC layout drawn, holes at the terminal positions (M5x assumed same as M2)
+E-Switch	500	Through Hole, Right Angle	DPDT	500SDP[13]S[1-4]M6[QR]E[AB]	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-ESW-500-THTRA-6P	500.pdf p.3 M6 DPDT P.C. MOUNTING (DPDT: POS 1 joins 2-1 and 5-4, POS 3 joins 2-3 and 5-6; commons 2 and 5)
+E-Switch	500	Through Hole, Right Angle	SPDT	500SSP[123]S[1-4]M6[QR]E[AB]	PC Pin	2=C;1=A;3=B	SW-SLIDE-ESW-500-THTRA-3P	500.pdf p.3 M6 SPDT P.C. MOUNTING (SPDT: POS 1 joins 2-1 = A, POS 3 joins 2-3 = B; common 2)
+E-Switch	500	Through Hole, Right Angle, Vertical	DPDT	500SDP[13]S[1-4]M7[QR]E[AB]	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-ESW-500-THTRAV-6P	500.pdf p.3 M7 DPDT P.C. MOUNTING (DPDT: POS 1 joins 2-1 and 5-4, POS 3 joins 2-3 and 5-6; commons 2 and 5)
+E-Switch	500	Through Hole, Right Angle, Vertical	SPDT	500SSP[123]S[1-4]M7[QR]E[AB]	PC Pin	2=C;1=A;3=B	SW-SLIDE-ESW-500-THTRAV-3P	500.pdf p.3 M7 SPDT P.C. MOUNTING (SPDT: POS 1 joins 2-1 = A, POS 3 joins 2-3 = B; common 2)
+E-Switch	500A	Surface Mount, Right Angle	SPDT	500ASSP[13]SM6[QR]E	Gull Wing	2=C;1=A;3=B	SW-SLIDE-ESW-500A-SMDRA-3P	500A.pdf p.2 SM6 P.C. MOUNTING + schematic; common = terminal 2, A = 1 (Term. Comm. 2-1 in POS. 1), B = 3; terminals 1 2 3 left to right in the front view
+E-Switch	500A	Through Hole	SPDT	500ASSP[13]M2[QR]E	PC Pin	2=C;1=A;3=B	SW-SLIDE-ESW-500A-THT-3P	500A.pdf p.1-2 M2 PC PIN; common = terminal 2, A = 1 (SSP-1/SSP-3 Term. Comm. 2-1 in POS. 1), B = 3
+E-Switch	500A	Through Hole, Right Angle	SPDT	500ASSP[13]M6[QR]E	PC Pin	2=C;1=A;3=B	SW-SLIDE-ESW-500A-THTRA-3P	500A.pdf p.1-2 M6; common = terminal 2, A = 1 (Term. Comm. 2-1 in POS. 1), B = 3; pin 1 on the POS. 1 side
+E-Switch	500R	Through Hole	DPDT	500RDP[13]S1M2RE	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-ESW-500R-THT-6P	500R.pdf p.3-4 M2 double pole layout + DP schematic; Term. Comm. 2-1,5-4 in POS. 1: pole 1 common 2, A1 = 1, B1 = 3; pole 2 common 5, A2 = 4, B2 = 6
+E-Switch	500R	Through Hole	SPDT	500RSP[13]S1M2RE	PC Pin	2=C;1=A;3=B	SW-SLIDE-ESW-500R-THT-3P	500R.pdf p.3-4 M2 single pole layout + SP schematic; Term. Comm. 2-1 in POS. 1: common 2, A = 1, B = 3
+E-Switch	500R	Through Hole, Right Angle	SPDT	500RSP[13]S1M6RE	PC Pin	2=C;1=A;3=B	SW-SLIDE-ESW-500R-THTRA-3P	500R.pdf p.4 M6 single pole layout + SP schematic; Term. Comm. 2-1 in POS. 1: common 2, A = 1, B = 3
+E-Switch	600	Through Hole	DPDT	600DP[13]S[1-4]M4[QR]	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-ESW-600-THT-6P	600.pdf p.1-2 M4 layout (unnumbered; numbered left to right then top to bottom, pole 1 = top row) + DPDT schematic; Term. Comm. 2-1,5-4 in POS. 1: common 2 and 5, A1 = 1, B1 = 3, A2 = 4, B2 = 6
+E-Switch	600	Through Hole	SPDT	600SP[13]S[1-4]M1[QR]	PC Pin	2=C;1=A;3=B	SW-SLIDE-ESW-600-THT-3P	600.pdf p.1-2 M1 layout (unnumbered; numbered left to right) + SPDT schematic; Term. Comm. 2-1 in POS. 1: common 2, A = 1, B = 3
+E-Switch	EG	Surface Mount, Right Angle	SPDT	EG1215AA	Gull Wing	2=C;1=A;3=B	SW-SLIDE-ESW-EG-SMDRA-3P	EG1215.pdf p.2 schematic: common = 2; POS. 1 terminal closure 1-2 (A = 1), POS. 2 closure 2-3 (B = 3); Surface Mount PCB Layout p.2
+E-Switch	EG	Through Hole	DPDT	EG2201[AB]?	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-ESW-EG-THT-6P	EG.pdf p.6 EG 2201 schematic: commons 2 and 5; shown position joins 1-2 and 4-5, so A1 = 1, A2 = 4, B1 = 3, B2 = 6; PC MOUNTING p.6
+E-Switch	EG	Through Hole	DPDT	EG2207	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-ESW-EG-THT-6P-B	EG.pdf p.7 EG 2207 schematic: commons 2 and 5; solid link 1-2 and 4-5, dashed 2-3 and 5-6, so A1 = 1, A2 = 4, B1 = 3, B2 = 6; PC MOUNTING p.7
+E-Switch	EG	Through Hole	DPDT	EG2209A?	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-ESW-EG-THT-6P-C	EG.pdf p.8 EG 2209 schematic: commons 2 and 5; solid link 1-2 and 4-5, dashed 2-3 and 5-6, so A1 = 1, A2 = 4, B1 = 3, B2 = 6; P.C. MOUNTING p.8
+E-Switch	EG	Through Hole	SPDT	EG1218	PC Pin	2=C;1=A;3=B	SW-SLIDE-ESW-EG-THT-3P	EG.pdf p.2 EG 1218 schematic: 02 Comm. = 2 (middle, terminals numbered left to right as the drawing does not number them), shown position joins 1-2, so A = 1, B = 3; PC MOUNTING p.2
+E-Switch	EG	Through Hole	SPDT	EG1248	PC Pin	2=C;1=A;3=B	SW-SLIDE-ESW-EG-THT-3P-B	EG.pdf p.3 EG 1248 schematic: common = 2 (Com), shown position joins 1-2, so A = 1, B = 3; PC MOUNTING p.3
+E-Switch	EG	Through Hole, Right Angle	DPDT	EG2208A?	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-ESW-EG-THTRA-6P	EG.pdf p.8 EG 2208 schematic: commons 2 and 5; the schematic shows the three contact pads only (both links drawn), A = 1 / 4 assumed as in the sibling series (POS 1 joins 1-2, 4-5); PC MOUNTING p.8
+E-Switch	EG	Through Hole, Right Angle	DPDT	EG2210A?	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-ESW-EG-THTRA-6P-B	EG.pdf p.8 EG 2210 schematic: commons 2 and 5; solid link 1-2 and 4-5, dashed 2-3 and 5-6, so A1 = 1, A2 = 4, B1 = 3, B2 = 6; PC MOUNTING p.8
+E-Switch	EG	Through Hole, Right Angle	DPDT	EG2211	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-ESW-EG-THTRA-6P-C	EG.pdf p.9 EG 2211: schematic and layout carry no terminal numbers; numbered left to right, top to bottom as drawn; commons = the middle terminal of each row; the links drawn as in EG2208, A = 1 / 4 (left terminals) assumed; PC MOUNTING p.9
+E-Switch	EG	Through Hole, Right Angle	DPDT	EG2214	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-ESW-EG-THTRA-6P-D	EG.pdf p.9 EG 2214 schematic: commons 2 and 5; solid link 1-2 and 4-5, dashed 2-3 and 5-6, so A1 = 1, A2 = 4, B1 = 3, B2 = 6; PC MOUNTING p.9
+E-Switch	EG	Through Hole, Right Angle	DPDT	EG2215	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-ESW-EG-THTRA-6P-E	EG.pdf p.9 EG 2215: schematic and layout carry no terminal numbers; numbered left to right, top to bottom as drawn; the contact bar joins the left two terminals of each row in the position shown (middle terminal = common), so A1 = 1, A2 = 4; PC MOUNTING p.9
+E-Switch	EG	Through Hole, Right Angle	SPDT	EG1206A?	PC Pin	2=C;1=A;3=B	SW-SLIDE-ESW-EG-THTRA-3P	EG.pdf p.2 EG 1206 schematic: common = 2 (Com); shown position joins 1-2, so A = 1, B = 3; PC MOUNTING p.2
+E-Switch	EG	Through Hole, Right Angle	SPDT	EG1213	PC Pin	2=C;3=A;1=B	SW-SLIDE-ESW-EG-THTRA-3P-B	EG.pdf p.2 EG 1213 schematic: common = 2 (Com); shown position joins 2-3, so A = 3, B = 1; PC MOUNTING p.2
+E-Switch	EG	Through Hole, Right Angle	SPDT	EG1224	PC Pin	2=C;3=A;1=B	SW-SLIDE-ESW-EG-THTRA-3P-C	EG.pdf p.3 EG 1224 schematic: common = 2 (Com); shown position joins 2-3, so A = 3, B = 1; PC MOUNTING p.3
+E-Switch	EG	Through Hole, Right Angle	SPDT	EG1247	PC Pin	2=C;3=A;1=B	SW-SLIDE-ESW-EG-THTRA-3P-D	EG.pdf p.3 EG 1247 schematic (terminals unnumbered, numbered 1 2 3 left to right): common = the middle terminal (COM), shown position joins middle-right, so A = 3, B = 1; PC MOUNTING p.3
+E-Switch	EGJ1210	Surface Mount	SPDT	EGJ1210AAG1	Gull Wing	1=C;3=A;2=B	SW-SLIDE-ESW-EGJ1210-SMD-3P	EGJ1210.pdf p.4 schematic: pivot (common) = terminal 1, drawn closed to 3, so A = 3, B = 2; Surface Mount PCB Layout p.4
+E-Switch	EGJ1210	Surface Mount, Right Angle	SPDT	EGJ1210AAG2	Gull Wing	1=C;3=A;2=B	SW-SLIDE-ESW-EGJ1210-SMDRA-3P	EGJ1210.pdf p.5 schematic: pivot (common) = terminal 1, drawn closed to 3, so A = 3, B = 2; Surface Mount PCB Layout p.5
+E-Switch	EGJ1210	Through Hole	SPDT	EGJ1210AAT1	PC Pin	1=C;3=A;2=B	SW-SLIDE-ESW-EGJ1210-THT-3P	EGJ1210.pdf p.2 schematic: pivot (common) = terminal 1, drawn closed to 3, so A = 3, B = 2 (the datasheet gives no position-to-terminal table); Through Hole PCB Layout p.2
+E-Switch	EGJ1210	Through Hole, Right Angle	SPDT	EGJ1210AAT2	PC Pin	1=C;3=A;2=B	SW-SLIDE-ESW-EGJ1210-THTRA-3P	EGJ1210.pdf p.3 schematic: pivot (common) = terminal 1, drawn closed to 3, so A = 3, B = 2; Through Hole PCB Layout p.3
 NKK	AS	Through Hole	DPDT	AS2[23]AP|AS22BP	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-NKK-AS-THT-6P	Aslides.pdf p.4 (H7) Straight PC double pole layout and p.3 schematics; common 2 / 5, left position (listed first) joins 2-1 and 5-4: A1=1, B1=3, A2=4, B2=6
 NKK	AS	Through Hole	DPDT	AS2[23][AB]B	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-NKK-AS-THT-6P-B	Aslides.pdf p.5 (H8) Straight PC bracket double pole layout (AS22AB) and p.3 schematics; common 2 / 5, left position joins 2-1 and 5-4: A1=1, B1=3, A2=4, B2=6
 NKK	AS	Through Hole	SPDT	AS1[23][AC]P	PC Pin; Wire Wrap	2=C;1=A;3=B	SW-SLIDE-NKK-AS-THT-3P	Aslides.pdf p.4 (H7) Straight PC single pole layout and p.3 schematics; common 2, left position (listed first) joins 2-1: A=1, B=3
