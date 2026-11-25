@@ -229,7 +229,7 @@ plan-66-F's landing tier.
   Measured: `testPushOnTheFixtures` and `testNegotiationOnTheFixtures` `Executed 2 tests, with 0 failures` (403.7 s: the
   off test routes LFU too, 330 s of it); `RoutingPushIntegrationTests` `Executed 7 tests, with 0 failures` in 180.6 s
   (the document test 32 cases, each routed with push on and off); `** TEST SUCCEEDED **`.
-Commit: — (recorded in the next commit)
+Commit: 6357ddf6
 
 ## Validation Plan
 

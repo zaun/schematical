@@ -134,4 +134,15 @@ final class AutorouteModelTests: XCTestCase {
         XCTAssertFalse(RouteActions.available(page: .schematic, isPlaying: false))
         XCTAssertFalse(RouteActions.available(page: .pcb, isPlaying: true))
     }
+
+    /// plan-66-F: what a run moved of the board's existing copper, in the sheet's words.
+    func testTheMovedLine() {
+        XCTAssertNil(AutorouteModel.movedLine(traces: 0, vias: 0))
+        XCTAssertEqual(AutorouteModel.movedLine(traces: 1, vias: 0), "Moved 1 trace aside")
+        XCTAssertEqual(AutorouteModel.movedLine(traces: 3, vias: 1), "Moved 3 traces and 1 via aside")
+        XCTAssertEqual(AutorouteModel.movedLine(traces: 0, vias: 2), "Moved 2 vias aside")
+        // And from a run: none moved, so no line.
+        let model = AutorouteModel(document: TestSupport.newDocument(), defaults: defaults())
+        XCTAssertNil(model.movedLine)
+    }
 }

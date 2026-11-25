@@ -28,8 +28,8 @@ The gate for the whole feature is in plan-66-A § Prerequisites. This letter add
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-66-E is complete and archived | `ls planning/completed/plan-66-E-* \| wc -l` → 1 | NOT MET (2026-11-25: 0) |
-| A–D are archived | `ls planning/completed/plan-66-[A-D]-* \| wc -l` → 4 | NOT MET (2026-11-25: 0) |
+| plan-66-E is complete and archived | `ls planning/completed/plan-66-E-* \| wc -l` → 1 | MET (2026-11-25, in `worktree-P-66`: 1) |
+| A–D are archived | `ls planning/completed/plan-66-[A-D]-* \| wc -l` → 4 | MET (2026-11-25, in `worktree-P-66`: 4) |
 
 If plan-66-E is not complete, this plan cannot start, full stop.
 
@@ -90,19 +90,20 @@ real-app pass; numbers are **recorded**, with the bounds the tests hold.
 
 ### Phase 1 — the sheet line
 
-- [ ] `Routing/AutorouteModel.swift`: `var movedLine: String?` from
+- [x] (done; `AutorouteModel.movedLine(traces:vias:)` is the static the instance property calls) `Routing/AutorouteModel.swift`: `var movedLine: String?` from
       `session.result?.stats`: "Moved 3 traces and 1 via aside", singular/plural as
       the sheet's other lines, nil when both counts are 0.
-- [ ] `Routing/AutorouteSheet.swift`: in `results`, under the "Routed N of M"
+- [x] (done) `Routing/AutorouteSheet.swift`: in `results`, under the "Routed N of M"
       text, `if let line = model.movedLine { Text(line).foregroundStyle(.secondary) }`.
-- [ ] `schematicalTests/AutorouteModelTests.swift`: `testTheMovedLine`
+- [x] (done) `schematicalTests/AutorouteModelTests.swift`: `testTheMovedLine`
       (counts 0/0 → nil; 1/0 → "Moved 1 trace aside"; 3/1 → "Moved 3 traces and 1
       via aside"; 0/2 → "Moved 2 vias aside").
 
 Acceptance: the test passes; the sheet compiles.
   Check: `XB -only-testing:schematicalTests/AutorouteModelTests`
   → `** TEST SUCCEEDED **` (est. 2 min).
-Commit: —
+  Measured: `AutorouteModelTests` `Executed 10 tests, with 0 failures` (230.3 s: its AFU summary test is the long one), `** TEST SUCCEEDED **`.
+Commit: — (recorded in the next commit)
 
 ### Phase 2 — the documents
 
