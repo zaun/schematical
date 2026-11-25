@@ -353,18 +353,20 @@ Acceptance: exactly the 20 devices carry the key and the library still loads.
   Check: `python3 -c 'import json;d=json.load(open("schematical/schematical/Parts/gate.json"))["devices"];print(sum(1 for x in d if x.get("input")=="schmitt"), sum(1 for x in d if ("chmitt" in x["description"])!=(x.get("input")=="schmitt")))'`
   → `20 0`; `CT` → `100% tests passed`; `git diff --stat backend/tests/golden`
   → no output (est. 1 min).
-Commit: —
+Commit: d063ee1f
 
 ### Phase 3 — the app's unit list
 
-- [ ] `schematical/schematical/Backend/PartCatalog.swift`: add `GateShape`,
+- [x] `schematical/schematical/Backend/PartCatalog.swift`: add `GateShape`,
       `UnitShape`, `PartUnit` (§6) above `CatalogPart`; add `let units` and
       `unitViewName`; build `units` in `init(_ part: Part, …)` after `pins` from
       `part_unit_count` / `part_unit_at`. Every other `CatalogPart` initializer
       in the file passes `units: []`.
-- [ ] `docs/backend.md`: one paragraph on the unit API under the public API
+      **Done:** the file has one `CatalogPart` initializer (the extension's `init(_ part: Part, …)`), so no other initializer needed `units: []`. Also `PartUnit.key(forGate:)` and `PartUnit.blockKey`.
+- [x] `docs/backend.md`: one paragraph on the unit API under the public API
       section, naming plan-67.
-- [ ] Tests: new `schematical/schematicalTests/PartUnitTests.swift`, using the
+      **Done:** a `## Units` section before `## ERC pin types`.
+- [x] Tests: new `schematical/schematicalTests/PartUnitTests.swift`, using the
       catalog the way `SchematicRotateTests` gets its parts. Cases:
       `testQuadNand` (`SN74HC00N`: keys `["A","B","C","D","P"]`; `A` is `.gate`
       with body `.and`, one inverted output, pins named `1A`, `1B`, `1Y`; `P`
@@ -376,6 +378,7 @@ Commit: —
       `"P"`, the union of `units.pins` equals the set of non-hidden pin indexes,
       and no index is in two units); `testOtherPartsHaveNone` (`SN74HC74N`:
       `units.isEmpty`, `unitViewName == nil`).
+      **Done:** six cases (the five named plus `testGateKeysSkipP`). `XB -only-testing:schematicalTests/PartUnitTests` → `Executed 6 tests, with 0 failures`, `** TEST SUCCEEDED **`.
 
 Acceptance: the catalog holds a unit list for every gate part and for nothing else.
   Check: `XB -only-testing:schematicalTests/PartUnitTests` → `** TEST SUCCEEDED **`
@@ -415,6 +418,8 @@ Commit: —
   call, following "a known logic symbol". Settles §5.
 
 ## Corrections
+
+- **How many gate parts the app's test sweeps.** `testEveryGatePart` walks `TestSupport.allParts`, the drawer's default listing: 2158 gate parts, not all 3564 (`XCTAssertGreaterThan failed: ("2158") is not greater than ("3000")` on the first run). The backend's `part_unit_test` sweeps every `PART_GATE` part in the library, so the whole population is still covered; the Swift assertion is `> 2000`.
 
 - **The Part Editor needs the key.** The plan's non-goal said the editor gets no Schmitt control. False: `Editor/GateDraft.swift` holds the gate kind's `KindSchema`, the list of device keys the editor reads and writes (`grep -n 'key: "output"' schematical/schematical/Editor/GateDraft.swift`), so a key missing there is a key the editor cannot keep when a bundled Schmitt part is copied into the user library. One `Field(key: "input", …choice…)` was added in Phase 2. No design rested on the non-goal.
 
