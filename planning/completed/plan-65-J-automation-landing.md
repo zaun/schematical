@@ -24,6 +24,7 @@ The shared gate is in plan-65-A. This sub-plan adds:
 | Must be true | Command | Status |
 |---|---|---|
 | plan-65-I is complete | `ls planning/completed \| grep -c '^plan-65-I'` → 1 | MET (2026-11-25: I landed, 1) |
+| (added 2026-11-25, a prerequisite Phase 3 needed and the plan missed) a copy of the app can be made frontmost and driven: its File menu clicked, its open panel and sheet seen | `osascript -e 'tell application "System Events" to tell (first process whose unix id is <pid>) to get frontmost'` after `set frontmost to true` and `NSRunningApplication(processIdentifier: <pid>).activate()` → `true`; and no other copy of the app holds port 47800 | NOT MET (2026-11-25: `frontmost` stays `false`, `activate` returns `false`, and the owner's Xcode-run copy, pid 62930, holds port 47800; this session has no desktop-control tool: `ToolSearch` finds only browser-preview and mobile-device screenshots) |
 
 Everything below is written against the world where these hold.
 
