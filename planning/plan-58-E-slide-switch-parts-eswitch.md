@@ -155,6 +155,7 @@ Commit: —
 ## Corrections
 
 - **2026-11-24, Phase 1: 7 pending rows do not fit their key and are `skip`** (EG: EG1249, EG1257, EG1270, EG1271, EG1271A, EG2210A-REDACTUATOR, EG2219); E-Switch has 56 `add` rows after Phase 1. `schemes.tsv` regexes are written from each datasheet's ordering key (positions and listed letters only).
+- **2026-11-24, Phase 1: `EG_Series.pdf` (DigiKey's copy of the EG datasheet) is deleted.** Its only two rows (`EG1257`, `EG2210A-REDACTUATOR`) are `skip` (no EG datasheet prints their numbers and the EG family has no key), so no `add` / `pending` row needs the PDF any more: `place.py --prune` (new) removed it and its `datasheets.tsv` line, and its `maker-urls.tsv` row (the S3 `EG.pdf` mapping) went with it; `place.py --verify` → `39 URLs, 39 PDFs, 0 problems`, `maker-urls.py --verify` → `1 non-maker URLs, 0 with a maker URL, 0 missing`. The `EG` scheme keeps only `EG1215AA`: the EG datasheet (EG.pdf) lists the part numbers it prints and gives no ordering key, so every other pending EG number (`EG1249`, `EG1270`, `EG1271`, `EG1271A`, `EG2219`) is `skip` as well (7 skips: those 5, `EG1257`, `EG2210A-REDACTUATOR`).
 
 ## Summary
 

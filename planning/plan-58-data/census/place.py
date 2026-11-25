@@ -3,6 +3,9 @@
 usage: python3 -I place.py <candidates.tsv> <pdf-dir>   copy and write datasheets.tsv
        python3 -I place.py --verify                      every needed URL is placed, hashes match, no unused PDF
        python3 -I place.py --path                        print "maker<TAB>mpn<TAB>file" per needed row
+       python3 -I place.py --prune                       drop the datasheets.tsv lines and the PDFs that no add /
+                                                         pending row needs any more (a letter that skipped the
+                                                         last rows of a PDF)
        python3 -I place.py --selftest
 
 A PDF is needed when a row of planning/plan-58-data/candidates.tsv with
@@ -134,9 +137,33 @@ def verify():
     return 1 if bad else 0
 
 
+def prune():
+    _, urls = needed(CAND)
+    p = placed()
+    keep_rows = sorted((r for u, r in p.items() if u in urls), key=lambda r: (r["file"], r["url"]))
+    with open(TSV, "w") as out:
+        out.write("file\turl\tbytes\tsha256\n")
+        for r in keep_rows:
+            out.write("\t".join([r["file"], r["url"], r["bytes"], r["sha256"]]) + "\n")
+    keep = {r["file"] for r in keep_rows}
+    gone = []
+    for dirpath, _, names in os.walk(os.path.join(ROOT, BASE)):
+        for f in names:
+            rel = os.path.relpath(os.path.join(dirpath, f), ROOT)
+            if f.endswith(".pdf") and rel not in keep:
+                os.remove(os.path.join(ROOT, rel))
+                gone.append(rel)
+    for g in sorted(gone):
+        print("deleted", g)
+    print(f"{len(gone)} PDFs deleted, {len(keep)} kept")
+    return 0
+
+
 def main(argv):
     if argv == ["--verify"]:
         return verify()
+    if argv == ["--prune"]:
+        return prune()
     if argv == ["--path"]:
         rows, urls = needed(CAND)
         p = placed()
