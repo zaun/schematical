@@ -204,8 +204,9 @@ Commit: 3a2b41ef
       **Done:** re-read against `SchematicFile.swift` as landed: keys, defaults, the unmatched-list rule and the older-build note all match. No drift. The doc writes the key as `` `units` ``, so the check is `grep -c '`units`' docs/file-format.md` → 2 (see Corrections).
 - [x] `docs/export.md`: the same re-read for letter F's paragraphs.
       **Done:** matches the writers as landed. `grep -ci 'multi-unit\|drawn as units' docs/export.md` → 3.
-- [ ] `planning/todo.md` § Schematic (line 121): add and tick
+- [x] `planning/todo.md` § Schematic (line 121): add and tick
       `- [x] Gate view: a gate IC drawn as separate gates (plan-67).`
+      **Done:** added in the main checkout after the merge, under § Schematic, and left uncommitted: the file already carries an uncommitted edit that is not this plan's (see Corrections), so the line waits there for the owner's commit of that file.
 - [x] Move `planning/plan-67-A…G` to `planning/completed/` (each letter as it
       completes; this box covers the ones still in `planning/`).
       **Done:** all seven letters moved together with `git mv` once the last one's gate had passed; `planning/plan-67-data/` stays where the other plans' data folders are.
@@ -285,6 +286,8 @@ Commit: 1f5ed38a (the gate); the archive, the full-suite record and the todo lin
   one symbol should be told so rather than lose five.
 
 ## Corrections
+
+- **The merge.** `main` had not moved since the worktree was made (`git log --oneline HEAD..main` → no output), so `git merge worktree-P-67` in the main checkout was a fast-forward from `aefaebcd` to `891a2e3c`, 13 commits, no conflict. The main checkout's uncommitted files (five `examples/*.schematical`, the deleted `examples/slow PCB.schematical`, `planning/todo.md`, two untracked CSV files) are none of the branch's files and were not touched. The follow-plan skill's formatter step names `cargo fmt`; this repository has no Rust, so there was nothing to run.
 
 - **The plan files were archived on the branch, before the merge.** The follow-plan sequence archives after the work is integrated. The seven files were moved to `planning/completed/` in a commit on `worktree-P-67` once the landing gate had passed, so the merge brings the archive with it and main never holds the plan in both places. The two boxes still open at that moment (the full-suite record and the todo line) were finished in the archived file.
 
