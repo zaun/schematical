@@ -241,6 +241,7 @@ Commit: —
 
 ## Corrections
 
+- **2026-11-25, regenerated for the final pick** (plan-47-C Phase 3): `relay.json` 504 parts in 120 devices, `buzzer.json` 510 in 10 devices (the provisional pick had 513). `--check` → `0 differences`; the backend tests pass (`100% tests passed, 0 tests failed out of 45`). Parts out: `ACQ131`, `AQW254AZ`, `PCH-112L2M-WG`, `PCN-104D3MHZ,001`, `TQ2-5V` (stock check), `CMI-1265-88-SMT-TR`, `CMI-1295-05TH`, `PT-1241PFQ`, `PT-1540PQ`, `SMT-1341-T-HT-2` (stock check). In: `ACTP112`, `AQW216AZ`, `RTD34012F`, `TQ2-L2-24V`, `V23092-A1012-A201`, `CMT-1614-85T`, `CPT-2475-92T`. The four footprints no part uses any more (`PTC-RAD-102-51-BELFUSE-B`, `RELAY-CQ-5-PANASONIC`, `BUZZER-RAD-125-50-MALLORY`, `BUZZER-130X130-2-PUI-C`) were removed from `Parts/footprints.json` (`footprint_check`'s "unused footprint").
 - **2026-11-22, `add` rows.** As in plan-47-K § Corrections: `candidates.tsv`
   has `candidate` rows (600 relay, 553 buzzer) and no `add` yet, so the
   `$23=="add"` commands print nothing; the part files hold 504 relays and 513

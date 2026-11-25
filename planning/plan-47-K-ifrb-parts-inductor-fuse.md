@@ -291,6 +291,7 @@ Commit: —
 
 ## Corrections
 
+- **2026-11-25, regenerated for the final pick** (plan-47-C Phase 3). `gen-parts.py inductor fuse ptc relay buzzer` over the `add` rows: `inductor.json` 600 parts (unchanged), `fuse.json` 1199 parts (600 fuses, 599 PTCs), `--check` → `0 differences`. The fuse and PTC lines differ from the provisional pick in a few parts (the parts `stock check` removed and their refill rows: `BK/GDB-V-1.6A`, `049403.5NRHF`, `0ZRP0135FF1A` out; `049401.5NRHF`, `0ZRP0400FF1A`, `BK-AHC-V-3-15-R` in, among others). Goldens regenerated (`parts.txt`, `traces.txt`, `footprints.txt`: the diff is small, 26 lines added and 34 removed over the three files, so the "0 removed lines" gate of plan-47-O is read against plan-47's own earlier lines).
 - **2026-11-22, `add` rows.** `candidates.tsv` column 23 holds `candidate`
   (2953 rows: 600 inductor, 600 fuse, 600 ptc, 600 relay, 553 buzzer) and no
   `add` yet (the pick is provisional until the final pick), so the `$23=="add"`

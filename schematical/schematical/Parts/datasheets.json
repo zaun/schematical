@@ -9823,6 +9823,9 @@
     {"id": "v23086x0000a001", "url": "https://www.te.com/commerce/DocumentDelivery/DDEController?Action=srchrtrv&DocNm=V23086X0000A001&DocType=Data+Sheet&DocLang=English&DocFormat=pdf&PartCntxt=1393280-5"},
     {"id": "v23134x0000a001", "url": "https://www.te.com/commerce/DocumentDelivery/DDEController?Action=srchrtrv&DocNm=V23134X0000A001&DocType=Data%20Sheet&DocLang=English&DocFormat=pdf&PartCntxt=2-1393302-3"},
     {"id": "v23134x0000a002", "url": "https://www.te.com/commerce/DocumentDelivery/DDEController?Action=srchrtrv&DocNm=V23134X0000A002&DocType=Data%20Sheet&DocLang=English&DocFormat=pdf&PartCntxt=1-1414610-0"},
-    {"id": "v23700-x0000-a001", "url": "https://www.te.com/commerce/DocumentDelivery/DDEController?Action=srchrtrv&DocNm=V23700-X0000-A001&DocType=Data%20Sheet&DocLang=English&PartCntxt=2-1904058-5&DocFormat=pdf"}
+    {"id": "v23700-x0000-a001", "url": "https://www.te.com/commerce/DocumentDelivery/DDEController?Action=srchrtrv&DocNm=V23700-X0000-A001&DocType=Data%20Sheet&DocLang=English&PartCntxt=2-1904058-5&DocFormat=pdf"},
+    {"id": "cmt-1614-85t", "url": "https://www.sameskydevices.com/product/resource/cmt-1614-85t.pdf"},
+    {"id": "cpt-2475-92t", "url": "https://www.sameskydevices.com/product/resource/cpt-2475-92t.pdf"},
+    {"id": "littelfuse-ptc-radial-leaded-agrf-datasheet-littelfuse", "url": "https://www.littelfuse.com/assetdocs/littelfuse-ptc-radial-leaded-agrf-datasheet?assetguid=45e27ef1-22ad-49b7-a813-98765621292f"}
   ]
 }

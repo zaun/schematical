@@ -466,20 +466,6 @@
      "db": 87
     },
     {
-     "name": "CMI-1265-88-SMT-TR",
-     "manufacturer": "Same Sky",
-     "datasheet": "cmi-1265-88-smt-tr",
-     "package": "SMD",
-     "pinout": "plus-minus",
-     "footprint": "BUZZER-128X128-2-SAMESKY-B",
-     "hz": 2400,
-     "volts": 5,
-     "voltsMin": 4,
-     "voltsMax": 7,
-     "ma": 30,
-     "db": 88
-    },
-    {
      "name": "CMI-1275-03TH",
      "manufacturer": "Same Sky",
      "datasheet": "cmi-1275-03th",
@@ -573,20 +559,6 @@
      "hz": 2300,
      "volts": 5,
      "voltsMin": 4,
-     "voltsMax": 7,
-     "ma": 30,
-     "db": 85
-    },
-    {
-     "name": "CMI-1295-05TH",
-     "manufacturer": "Same Sky",
-     "datasheet": "cmi-1295-05th",
-     "package": "THT",
-     "pinout": "plus-minus",
-     "footprint": "BUZZER-RAD-120-76-SAMESKY-C",
-     "hz": 2400,
-     "volts": 5,
-     "voltsMin": 3,
      "voltsMax": 7,
      "ma": 30,
      "db": 85
@@ -3625,6 +3597,20 @@
      "db": 85
     },
     {
+     "name": "CMT-1614-85T",
+     "manufacturer": "Same Sky",
+     "datasheet": "cmt-1614-85t",
+     "package": "THT",
+     "pinout": "plus-minus",
+     "footprint": "BUZZER-RAD-160-50-SAMESKY",
+     "hz": 2048,
+     "volts": 12,
+     "voltsMin": 9,
+     "voltsMax": 15,
+     "ma": 40,
+     "db": 85
+    },
+    {
      "name": "CMT-322-65-SMT-TR",
      "manufacturer": "Same Sky",
      "datasheet": "cmt-322-65-smt-tr",
@@ -6361,6 +6347,20 @@
      "db": 88
     },
     {
+     "name": "CPT-2475-92T",
+     "manufacturer": "Same Sky",
+     "datasheet": "cpt-2475-92t",
+     "package": "THT",
+     "pinout": "plus-minus",
+     "footprint": "BUZZER-RAD-240-100-SAMESKY-B",
+     "hz": 4000,
+     "volts": 10,
+     "voltsMin": 1,
+     "voltsMax": 30,
+     "ma": 8,
+     "db": 92
+    },
+    {
      "name": "CPT-3075-90T",
      "manufacturer": "Same Sky",
      "datasheet": "cpt-3075-90t",
@@ -6506,18 +6506,6 @@
      "db": 80
     },
     {
-     "name": "PT-1241PFQ",
-     "manufacturer": "Mallory Sonalert",
-     "datasheet": "pt-1241pfq",
-     "package": "THT",
-     "pinout": "plus-minus",
-     "footprint": "BUZZER-RAD-125-50-MALLORY",
-     "hz": 4000,
-     "volts": 3,
-     "ma": 1.5,
-     "db": 80
-    },
-    {
      "name": "PT-1245P-PQ",
      "manufacturer": "Mallory Sonalert",
      "datasheet": "pt-1245p-pq",
@@ -6564,18 +6552,6 @@
      "volts": 3,
      "ma": 1.5,
      "db": 72
-    },
-    {
-     "name": "PT-1540PQ",
-     "manufacturer": "Mallory Sonalert",
-     "datasheet": "pt-1540pq",
-     "package": "THT",
-     "pinout": "plus-minus",
-     "footprint": "BUZZER-RAD-170-100-MALLORY",
-     "hz": 4000,
-     "volts": 5,
-     "ma": 1.5,
-     "db": 85
     },
     {
      "name": "PT-1620PAQ",
@@ -6870,20 +6846,6 @@
      "voltsMax": 25,
      "ma": 5,
      "db": 75
-    },
-    {
-     "name": "SMT-1341-T-HT-2",
-     "manufacturer": "PUI Audio",
-     "datasheet": "specs-smt-1341-t-ht-2",
-     "package": "SMD",
-     "pinout": "plus-minus",
-     "footprint": "BUZZER-130X130-2-PUI-C",
-     "hz": 4100,
-     "volts": 5,
-     "voltsMin": 1,
-     "voltsMax": 25,
-     "ma": 3,
-     "db": 85
     },
     {
      "name": "SMT-1341-T-HT-R",

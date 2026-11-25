@@ -2708,7 +2708,7 @@
     "Fuses",
     "Surface mount"
    ],
-   "note": "Facts, pinouts and ordering codes from the maker datasheets: 0603HV eaton-0603hv-fast-acting-chip-surface-mount-fuse-data-sheet.pdf p.3; 1145HV eaton-1145hv-high-voltage-fast-acting-brick-fuse-data-sheet-elx1039-en.pdf p.2; 1145HVA eaton-1145hva-automotive-high-voltage-fast-acting-brick-fuse-elx1040-en.pdf p.2; 1350HV eaton-1350hv-high-voltage-fast-acting-brick-fuse-data-sheet-elx1041-en.pdf p.2; 2410TD eaton-2410td-high-current-fast-acting-smt-brick-fuse-data-sheet-elx1195-en.pdf p.2; 3250HVA eaton-3250hva-automotive-high-voltage-smd-brick-fuse-data-sheet-elx1440.pdf p.2; 407A littelfuse-fuse-407a-series-datasheet.pdf p.3; 437 fuse-437-datasheet.pdf p.3; 438 fuse-438-datasheet.pdf p.3; 438A littelfuse-fuse-438a-datasheet.pdf p.3; 440 fuse-440-datasheet.pdf p.3; 467 fuse-467-datasheet.pdf p.3; and 24 more.",
+   "note": "Facts, pinouts and ordering codes from the maker datasheets: 0603HV eaton-0603hv-fast-acting-chip-surface-mount-fuse-data-sheet.pdf p.3; 1145HV eaton-1145hv-high-voltage-fast-acting-brick-fuse-data-sheet-elx1039-en.pdf p.2; 1145HVA eaton-1145hva-automotive-high-voltage-fast-acting-brick-fuse-elx1040-en.pdf p.2; 1350HV eaton-1350hv-high-voltage-fast-acting-brick-fuse-data-sheet-elx1041-en.pdf p.2; 2410TD eaton-2410td-high-current-fast-acting-smt-brick-fuse-data-sheet-elx1195-en.pdf p.2; 3250HVA eaton-3250hva-automotive-high-voltage-smd-brick-fuse-data-sheet-elx1440.pdf p.2; 407A littelfuse-fuse-407a-series-datasheet.pdf p.3; 437 fuse-437-datasheet.pdf p.3; 438 fuse-438-datasheet.pdf p.3; 438A littelfuse-fuse-438a-datasheet.pdf p.3; 440 fuse-440-datasheet.pdf p.3; 467 fuse-467-datasheet.pdf p.3; and 25 more.",
    "pinouts": {
     "1-2": [
      {
@@ -2908,6 +2908,19 @@
      "voltsAc": 125,
      "voltsDc": 125,
      "breaking": 50
+    },
+    {
+     "name": "049401.5NRHF",
+     "manufacturer": "Littelfuse",
+     "datasheet": "fuse-494-datasheet",
+     "package": "0603",
+     "pinout": "1-2",
+     "footprint": "FUSE-1608-LITTELFUSE",
+     "amps": 1.5,
+     "speed": "fast",
+     "voltsAc": 32,
+     "voltsDc": 32,
+     "breaking": 35
     },
     {
      "name": "3-103-107",
@@ -3937,19 +3950,6 @@
      "pinout": "1-2",
      "footprint": "FUSE-1608-LITTELFUSE",
      "amps": 2.5,
-     "speed": "fast",
-     "voltsAc": 32,
-     "voltsDc": 32,
-     "breaking": 35
-    },
-    {
-     "name": "049403.5NRHF",
-     "manufacturer": "Littelfuse",
-     "datasheet": "fuse-494-datasheet",
-     "package": "0603",
-     "pinout": "1-2",
-     "footprint": "FUSE-1608-LITTELFUSE",
-     "amps": 3.5,
      "speed": "fast",
      "voltsAc": 32,
      "voltsDc": 32,
@@ -5855,18 +5855,6 @@
      "breaking": 35
     },
     {
-     "name": "BK/GDB-V-1.6A",
-     "manufacturer": "Eaton",
-     "datasheet": "eaton-gdb-fast-acting-glass-tube-fuses-data-sheet",
-     "package": "Axial",
-     "pinout": "1-2",
-     "footprint": "FUSE-AX-211-254-EATON",
-     "amps": 1.6,
-     "speed": "fast",
-     "voltsAc": 250,
-     "breaking": 35
-    },
-    {
      "name": "BK/GMD-V-1.5-R",
      "manufacturer": "Eaton",
      "datasheet": "eaton-gmd-time-delay-glass-tube-fuses-data-sheet",
@@ -6494,7 +6482,7 @@
     "Fuses",
     "Through hole"
    ],
-   "note": "Facts, pinouts and ordering codes from the maker datasheets: 220 littelfuse-fuse-220-datasheet.pdf p.3; 230 fuse-229-and-230-datasheet.pdf p.4; 977 fuse-977-datasheet.pdf p.4; AGC eaton-agc-fast-acting-glass-tube-fuses-data-sheet.pdf p.2; C310T-SC eaton-c310t-sc-time-delay-axial-lead-ceramic-tube-fuses-data-sheet.pdf p.6; FRT 250F typ_FRT_250F.pdf p.3; FRT 250T typ_FRT_250T.pdf p.3; FST 5x20 typ_FST_5x20_Pigtail.pdf p.3; GMD eaton-gmd-time-delay-glass-tube-fuses-data-sheet.pdf p.1; PC-Tron® eaton-pc-tron-subminiature-radial-leaded-fuses-data-sheet.pdf p.1; PICO® II 471 littelfuse_fuse_471_datasheet.pdf p.3; PICO® II 473 fuse-473-datasheet.pdf p.3; and 22 more.",
+   "note": "Facts, pinouts and ordering codes from the maker datasheets: 220 littelfuse-fuse-220-datasheet.pdf p.3; 230 fuse-229-and-230-datasheet.pdf p.4; 977 fuse-977-datasheet.pdf p.4; AGC eaton-agc-fast-acting-glass-tube-fuses-data-sheet.pdf p.2; AHC eaton-ahc-3ab-high-voltage-fuse-data-sheet-elx1121-en.pdf p.2; C310T-SC eaton-c310t-sc-time-delay-axial-lead-ceramic-tube-fuses-data-sheet.pdf p.6; FRT 250F typ_FRT_250F.pdf p.3; FRT 250T typ_FRT_250T.pdf p.3; FST 5x20 typ_FST_5x20_Pigtail.pdf p.3; GMD eaton-gmd-time-delay-glass-tube-fuses-data-sheet.pdf p.1; PC-Tron® eaton-pc-tron-subminiature-radial-leaded-fuses-data-sheet.pdf p.1; PICO® II 471 littelfuse_fuse_471_datasheet.pdf p.3; and 23 more.",
    "pinouts": {
     "1-2": [
      {
@@ -6903,6 +6891,17 @@
      "speed": "fast",
      "voltsAc": 500,
      "voltsDc": 400
+    },
+    {
+     "name": "BK-AHC-V-3-15-R",
+     "manufacturer": "Eaton",
+     "datasheet": "eaton-ahc-3ab-high-voltage-fuse-data-sheet-elx1121-en",
+     "package": "Axial",
+     "pinout": "1-2",
+     "footprint": "FUSE-AX-327-381-EATON",
+     "amps": 3.15,
+     "speed": "fast",
+     "voltsAc": 600
     },
     {
      "name": "BK-S505SCH-3-15-R",
@@ -12826,21 +12825,6 @@
      ]
     },
     {
-     "name": "0ZRP0135FF1A",
-     "manufacturer": "Bel Fuse",
-     "datasheet": "ds-cp-0zrp-series",
-     "package": "Radial",
-     "pinout": "1-2",
-     "footprint": "PTC-RAD-102-51-BELFUSE-B",
-     "hold": 1.35,
-     "trip": 2.7,
-     "volts": 60,
-     "imax": 40,
-     "flags": [
-      "automotive"
-     ]
-    },
-    {
      "name": "0ZRP0160FF1A",
      "manufacturer": "Bel Fuse",
      "datasheet": "ds-cp-0zrp-series",
@@ -13452,6 +13436,21 @@
      ]
     },
     {
+     "name": "0ZRP0400FF1A",
+     "manufacturer": "Bel Fuse",
+     "datasheet": "ds-cp-0zrp-series",
+     "package": "Radial",
+     "pinout": "1-2",
+     "footprint": "PTC-RAD-210-102-BELFUSE",
+     "hold": 4,
+     "trip": 8,
+     "volts": 60,
+     "imax": 40,
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
      "name": "0ZRR0250FF2A",
      "manufacturer": "Bel Fuse",
      "datasheet": "ds-cp-0zrr-series",
@@ -13556,7 +13555,7 @@
     {
      "name": "AGRF400-2",
      "manufacturer": "Littelfuse",
-     "datasheet": "littelfuse-ptc-radial-leaded-agrf-datasheet",
+     "datasheet": "littelfuse-ptc-radial-leaded-agrf-datasheet-littelfuse",
      "package": "Radial",
      "pinout": "1-2",
      "footprint": "PTC-RAD-89-51-LITTELFUSE",
@@ -15164,7 +15163,7 @@
     {
      "name": "AGRF500-2",
      "manufacturer": "Littelfuse",
-     "datasheet": "littelfuse-ptc-radial-leaded-agrf-datasheet",
+     "datasheet": "littelfuse-ptc-radial-leaded-agrf-datasheet-littelfuse",
      "package": "Radial",
      "pinout": "1-2",
      "footprint": "PTC-RAD-104-51-LITTELFUSE",
@@ -15179,7 +15178,7 @@
     {
      "name": "AGRF700-2",
      "manufacturer": "Littelfuse",
-     "datasheet": "littelfuse-ptc-radial-leaded-agrf-datasheet",
+     "datasheet": "littelfuse-ptc-radial-leaded-agrf-datasheet-littelfuse",
      "package": "Radial",
      "pinout": "1-2",
      "footprint": "PTC-RAD-112-51-LITTELFUSE-B",
@@ -15194,7 +15193,7 @@
     {
      "name": "AGRF800-2",
      "manufacturer": "Littelfuse",
-     "datasheet": "littelfuse-ptc-radial-leaded-agrf-datasheet",
+     "datasheet": "littelfuse-ptc-radial-leaded-agrf-datasheet-littelfuse",
      "package": "Radial",
      "pinout": "1-2",
      "footprint": "PTC-RAD-127-51-LITTELFUSE",

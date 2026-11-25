@@ -132,7 +132,7 @@
     "Relay",
     "Automotive"
    ],
-   "note": "Facts, pinouts and ordering codes from the maker datasheets: ACT mech_eng_ct.pdf p.2; CQ mech_eng_cq.pdf p.2.",
+   "note": "Facts, pinouts and ordering codes from the maker datasheets: ACT mech_eng_ct.pdf p.2; ACTP mech_eng_ctp.pdf p.2.",
    "pinouts": {
     "a1-no-com-a2-nc": [
      {
@@ -178,20 +178,6 @@
    ],
    "parts": [
     {
-     "name": "ACQ131",
-     "manufacturer": "Panasonic",
-     "datasheet": "mech-eng-cq",
-     "package": "THT",
-     "pinout": "a1-no-com-a2-nc",
-     "footprint": "RELAY-CQ-5-PANASONIC",
-     "coilVolts": 12,
-     "coilOhms": 225,
-     "contactAmps": 20,
-     "contactVolts": 14,
-     "operateMs": 10,
-     "releaseMs": 10
-    },
-    {
      "name": "ACT112",
      "manufacturer": "Panasonic",
      "datasheet": "mech-eng-ct",
@@ -201,6 +187,20 @@
      "coilVolts": 12,
      "coilOhms": 180,
      "contactAmps": 20,
+     "contactVolts": 14,
+     "operateMs": 10,
+     "releaseMs": 10
+    },
+    {
+     "name": "ACTP112",
+     "manufacturer": "Panasonic",
+     "datasheet": "mech-eng-ctp",
+     "package": "THT",
+     "pinout": "a1-no-com-a2-nc",
+     "footprint": "RELAY-ACT-5-PANASONIC",
+     "coilVolts": 12,
+     "coilOhms": 144,
+     "contactAmps": 30,
      "contactVolts": 14,
      "operateMs": 10,
      "releaseMs": 10
@@ -7141,6 +7141,19 @@
      "releaseMs": 5
     },
     {
+     "name": "V23092-A1012-A201",
+     "manufacturer": "TE Connectivity",
+     "datasheet": "snr",
+     "package": "THT",
+     "pinout": "com-nc-no-a1-a2",
+     "footprint": "RELAY-SNR-5-TE",
+     "coilVolts": 12,
+     "coilOhms": 848,
+     "contactAmps": 6,
+     "operateMs": 12,
+     "releaseMs": 5
+    },
+    {
      "name": "V23092-A1024-A801",
      "manufacturer": "TE Connectivity",
      "datasheet": "snr",
@@ -8865,20 +8878,6 @@
      "contactAmps": 20,
      "operateMs": 10,
      "releaseMs": 5
-    },
-    {
-     "name": "PCH-112L2M-WG",
-     "manufacturer": "TE Connectivity",
-     "datasheet": "pch-series-relay-data-sheet-e",
-     "package": "THT",
-     "pinout": "a1-com-no-a2",
-     "footprint": "RELAY-PCH-4-TE",
-     "coilVolts": 12,
-     "coilOhms": 720,
-     "contactAmps": 5,
-     "contactVolts": 30,
-     "operateMs": 10,
-     "releaseMs": 5
     }
    ]
   },
@@ -9973,6 +9972,18 @@
      "releaseMs": 6
     },
     {
+     "name": "RTD34012F",
+     "manufacturer": "TE Connectivity",
+     "datasheet": "rt1pb",
+     "package": "THT",
+     "pinout": "com-no-a1-a2",
+     "footprint": "RELAY-RT1-4-TE",
+     "coilVolts": 12,
+     "contactAmps": 16,
+     "operateMs": 8,
+     "releaseMs": 6
+    },
+    {
      "name": "RY533012",
      "manufacturer": "TE Connectivity",
      "datasheet": "ryii",
@@ -10139,18 +10150,6 @@
     }
    ],
    "parts": [
-    {
-     "name": "PCN-104D3MHZ,001",
-     "manufacturer": "TE Connectivity",
-     "datasheet": "pcnh-relay",
-     "package": "THT",
-     "pinout": "com-no-a1-a2",
-     "footprint": "RELAY-PCN-4-TE",
-     "coilVolts": 4.5,
-     "coilOhms": 169,
-     "contactAmps": 3,
-     "contactVolts": 125
-    },
     {
      "name": "PCN-105D3MHZ,000",
      "manufacturer": "TE Connectivity",
@@ -11476,20 +11475,6 @@
      "footprint": "RELAY-TQ-10-PANASONIC",
      "coilVolts": 4.5,
      "coilOhms": 101,
-     "contactAmps": 1,
-     "contactVolts": 110,
-     "operateMs": 3,
-     "releaseMs": 3
-    },
-    {
-     "name": "TQ2-5V",
-     "manufacturer": "Panasonic",
-     "datasheet": "mech-eng-tq",
-     "package": "THT",
-     "pinout": "a1-nc1-com1-no1-nc-nc-no2-com2-nc2-a2",
-     "footprint": "RELAY-TQ-10-PANASONIC",
-     "coilVolts": 5,
-     "coilOhms": 125,
      "contactAmps": 1,
      "contactVolts": 110,
      "operateMs": 3,
@@ -13332,6 +13317,20 @@
    ],
    "parts": [
     {
+     "name": "TQ2-L2-24V",
+     "manufacturer": "Panasonic",
+     "datasheet": "mech-eng-tq",
+     "package": "THT",
+     "pinout": "s1-nc1-com1-no1-s2-r2-no2-com2-nc2-r1",
+     "footprint": "RELAY-TQ-10-PANASONIC",
+     "coilVolts": 24,
+     "coilOhms": 1920,
+     "contactAmps": 1,
+     "contactVolts": 110,
+     "operateMs": 3,
+     "releaseMs": 3
+    },
+    {
      "name": "TQ2-L2-3V",
      "manufacturer": "Panasonic",
      "datasheet": "mech-eng-tq",
@@ -14172,15 +14171,15 @@
      "onOhms": 50
     },
     {
-     "name": "AQW254AZ",
+     "name": "AQW216AZ",
      "manufacturer": "Panasonic",
-     "datasheet": "semi-eng-he2a-aqw25",
+     "datasheet": "semi-eng-gu2a-aqw21",
      "package": "SMD",
      "pinout": "a1-k1-a2-k2-d2a-d2b-d1a-d1b",
      "footprint": "RELAY-SMD-8-PANASONIC",
-     "contactAmps": 0.12,
-     "contactVolts": 400,
-     "onOhms": 16
+     "contactAmps": 0.04,
+     "contactVolts": 600,
+     "onOhms": 120
     }
    ]
   },

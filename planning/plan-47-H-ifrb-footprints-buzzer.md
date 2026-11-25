@@ -164,6 +164,7 @@ Commit: 6a053e7a
 
 ## Corrections
 
+- **2026-11-25, `CPT-2475-92T`** (Same Sky, 24 mm piezo, in the final pick; the `CEP` and `CPE` rows of the 24 mm line did not cover series `CPT`): `gen-parts.py` stopped with "no footprint in the map". New `BUZZER-RAD-240-100-SAMESKY-B`, drawn from `cpt-2475-92t.pdf` p.2 "Recommended PCB Layout" (2 x 2.5 pads, 2 x 1.0 holes, 10 apart); pad 1 = the + terminal (the dark dot of the top view). It is in `footprints-H-samesky.json`, mapped by a `CPT` row of `footprint-map-H-samesky.tsv`, and merged (`fp-merge.py --only`). `fp-check.py` checks a line, not a series within it, so it could not have caught this; `gen-parts.py` is the check.
 - **2026-11-25, the final pick's lines.** `census/footprint-lines.py … --add` → D 208, E 91, F 250, G 194, H 179 = 922 lines (the provisional pick had 923 lines; 2 lines new, 3 gone: the F and G ones above, a Mallory 12.5 mm buzzer line, a Panasonic CQ relay line, a Bel Fuse 10.2 mm PTC line). `fp-check.py D E F G H` → `922 lines, 0 without a footprint`; `fp-load.sh footprints-*.json` → load ok. `PTC-RAD-210-102-BELFUSE` was merged into `Parts/footprints.json` (`fp-merge.py --only`).
 - **2026-11-23.** Done in the wave described in plan-47-D § Corrections, slices `fp-lines/*-H-*` / `H-*.txt`; `fp-check.py H` → `0 without a footprint`. The lines are the provisional pick's (planning/plan-47-data/footprints-needed.txt is the PROVISIONAL pick's (candidates-provisional.tsv: C's dry run); the final pick follows A's last quota day).
 

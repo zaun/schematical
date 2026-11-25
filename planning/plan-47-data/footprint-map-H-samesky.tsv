@@ -78,6 +78,7 @@ H	buzzer	samesky		Through Hole			0.937" Dia (23.80mm)	PC Pins	BUZZER-RAD-238-120
 H	buzzer	samesky		Through Hole			0.937" Dia (23.80mm)	PC Pins	BUZZER-RAD-238-150-SAMESKY	THT	datasheets/buzzer/samesky/cpt-2416-85t.pdf	CPT
 H	buzzer	samesky		Through Hole			0.945" Dia (24.00mm)	PC Pins	BUZZER-RAD-240-150-SAMESKY	THT	datasheets/buzzer/samesky/cep-2224.pdf	CEP
 H	buzzer	samesky		Through Hole			0.945" Dia (24.00mm)	PC Pins	BUZZER-RAD-240-100-SAMESKY	THT	datasheets/buzzer/samesky/cpe-122.pdf	CPE
+H	buzzer	samesky		Through Hole			0.945" Dia (24.00mm)	PC Pins	BUZZER-RAD-240-100-SAMESKY-B	THT	datasheets/buzzer/samesky/cpt-2475-92t.pdf	CPT
 H	buzzer	samesky		Through Hole			0.945" L x 0.394" W (24.00mm x 10.00mm)	PC Pins	BUZZER-RAD-240X100-125-SAMESKY	THT	datasheets/buzzer/samesky/cpe-522.pdf p.2	
 H	buzzer	samesky		Through Hole			0.953" Dia (24.20mm)	PC Pins	BUZZER-RAD-242-150-SAMESKY	THT	datasheets/buzzer/samesky/cep-2202a.pdf p.2	
 H	buzzer	samesky		Through Hole			0.965" Dia (24.50mm)	PC Pins	BUZZER-RAD-245-120-SAMESKY	THT	datasheets/buzzer/samesky/cpe-203.pdf p.2	
