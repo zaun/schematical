@@ -39,10 +39,10 @@ letters point here.
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-59 is complete and archived | `ls planning/plan-59-*.md` → no matches; `ls planning/completed/plan-59-*.md \| wc -l` → `4` | MET (`4`, 2026-11-24) |
-| The spike's reference code is in the tree | `ls planning/plan-59-data/spike-H.patch planning/plan-59-data/findings.md` → both listed | MET |
-| Xcode 26 toolchain | `xcodebuild -version \| head -1` → `Xcode 26.3` | MET |
-| The undo tests pass before the change | `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/SchematicUndoTests -only-testing:schematicalTests/PCBUndoTests 2>&1 \| tail -3` → `** TEST SUCCEEDED **` | NOT RUN (run at the start of execution) |
+| plan-59 is complete and archived | `ls planning/plan-59-*.md` → no matches; `ls planning/completed/plan-59-*.md \| wc -l` → `4` | MET (`4`, re-run 2026-11-24 at execution) |
+| The spike's reference code is in the tree | `ls planning/plan-59-data/spike-H.patch planning/plan-59-data/findings.md` → both listed | MET (re-run at execution) |
+| Xcode 26 toolchain | `xcodebuild -version \| head -1` → `Xcode 26.3` | MET (re-run at execution) |
+| The undo tests pass before the change | `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/SchematicUndoTests -only-testing:schematicalTests/PCBUndoTests 2>&1 \| tail -3` → `** TEST SUCCEEDED **` | MET (`** TEST SUCCEEDED **`, 87 tests, 2026-11-24, before any change) |
 
 Everything below is written against these holding.
 
@@ -201,11 +201,11 @@ changes here).
 
 Adds the per-document path with nothing using it yet.
 
-- [ ] `Canvas/SchematicModel.swift`: add `SchematicUndoManager` and `undoManager`, `openStep`, `undoRevision`, `register(_:backwards:)`, `undo()`, `redo()`, `undoName`, `redoName`, `willSave()`; `finishRecording` registers on the manager as well as pushing to `history`; `endCoalescing()` clears `openStep`; both `history.clear()` sites also call `undoManager.removeAllActions()`.
-- [ ] New `schematicalTests/DocumentUndoTests.swift`: (1) Schematic, PCB, Schematic edits, three `undo()` then three `redo()`, state and `undoName` after each; (2) six `setNetLabelName` calls are one undo; (3) `beginGesture`, five `moveFootprint`, `endGesture` is one undo; (4) `undo()` returns false, `undoManager.canUndo` is false and nothing changes while `isPlaying`; (5) a step whose item was deleted outside undo is skipped; (6) `willSave()` between two typed characters gives two undos; (7) applying a file empties the manager.
+- [x] `Canvas/SchematicModel.swift`: add `SchematicUndoManager` and `undoManager`, `openStep`, `undoRevision`, `register(_:backwards:)`, `undo()`, `redo()`, `undoName`, `redoName`, `willSave()`; `finishRecording` registers on the manager as well as pushing to `history`; `endCoalescing()` clears `openStep`; both `history.clear()` sites also call `undoManager.removeAllActions()`. Done: the class is in `Canvas/UndoHistory.swift` (Corrections 1, 2); `isLocked` follows `isPlaying` through its `didSet`.
+- [x] New `schematicalTests/DocumentUndoTests.swift`: (1) Schematic, PCB, Schematic edits, three `undo()` then three `redo()`, state and `undoName` after each; (2) six `setNetLabelName` calls are one undo; (3) `beginGesture`, five `moveFootprint`, `endGesture` is one undo; (4) `undo()` returns false, `undoManager.canUndo` is false and nothing changes while `isPlaying`; (5) a step whose item was deleted outside undo is skipped; (6) `willSave()` between two typed characters gives two undos; (7) applying a file empties the manager. Done: 7 tests; `Executed 7 tests, with 0 failures`.
 
 Acceptance: the seven new tests pass and the two old suites still pass.
-  Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/DocumentUndoTests -only-testing:schematicalTests/SchematicUndoTests -only-testing:schematicalTests/PCBUndoTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 6 min, most of it the build).
+  Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/DocumentUndoTests -only-testing:schematicalTests/SchematicUndoTests -only-testing:schematicalTests/PCBUndoTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 6 min, most of it the build). Result: `Executed 94 tests, with 0 failures`, `** TEST SUCCEEDED **`.
 Commit: —
 
 ### Phase 2 — The app and automation use it
@@ -244,7 +244,10 @@ Commit: —
 
 ## Corrections
 
-Filled in during execution.
+1. `SchematicUndoManager` lives in `Canvas/UndoHistory.swift`, beside the step types, not in `SchematicModel.swift`. It is `nonisolated` like `UndoStep`: `UndoManager` is not a main-actor class.
+2. The skip of a step that no longer applies is in the manager's own `undo()` and `redo()` overrides (they loop until a handler sets `applied`), not in `SchematicDocument.undo()`. Reason: from 61-B the system's Undo item calls the manager directly, and a loop in the document would not run then. A skipped step registers nothing, so it leaves both stacks (test 5 asserts it).
+3. Phase 1 registers a second `UndoStep` object with the same contents on the manager, not the one pushed to `history`: both paths merge typed characters into their top step, and merging the same object twice restores a key the first merge had removed. Phase 3 deletes the `history` copy.
+4. Test 5 as written ("a step whose item was deleted outside undo") deletes a part while playing, the only edit that records no step. The step skipped is the footprint Move; the Add Part step under it still applies, because it also holds the reference counter, so the test asserts the step under the Move is the one undone.
 
 ## Summary
 

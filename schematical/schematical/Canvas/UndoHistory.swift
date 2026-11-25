@@ -369,3 +369,36 @@ struct UndoHistory {
         coalescingOpen = false
     }
 }
+
+// MARK: - The document's undo manager
+
+/// A document's undo manager (plan-61-A). One recorded step is one group
+/// (`groupsByEvent` is off, so no run loop turn is needed to close one). While
+/// the simulation runs it is locked: `canUndo` and `canRedo` are false, which
+/// disables any menu item validated against it. `undo()` and `redo()` skip a
+/// step that no longer changes anything and go on to the next.
+nonisolated final class SchematicUndoManager: UndoManager, @unchecked Sendable {
+    /// True while the simulation runs.
+    var isLocked = false
+    /// Set by a step's handler when it changed the document.
+    var applied = false
+
+    override init() {
+        super.init()
+        groupsByEvent = false
+        levelsOfUndo = 500
+    }
+
+    override var canUndo: Bool { !isLocked && super.canUndo }
+    override var canRedo: Bool { !isLocked && super.canRedo }
+
+    override func undo() {
+        applied = false
+        while !isLocked, !applied, super.canUndo { super.undo() }
+    }
+
+    override func redo() {
+        applied = false
+        while !isLocked, !applied, super.canRedo { super.redo() }
+    }
+}
