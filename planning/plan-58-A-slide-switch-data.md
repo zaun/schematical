@@ -62,7 +62,7 @@ Every other letter points here.
 | Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt` / `traces.txt` / `footprints.txt` → 37090 / 37090 / 2929 | MET: **P0 = R0 = 37090**, **F0 = 2929** (2026-11-24) |
 | The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p58-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET at plan-51-J (297 app tests green, 2026-11-24); not re-run at planning |
 | No slide-switch support yet | `grep -c 'states' backend/src/models/switch.c` → 0; `ls planning/plan-58-[B-H]-* \| wc -l` → 7 (this plan's files) | MET (2026-11-24) |
-| Safari has a DigiKey page open and passes Cloudflare | `scripts/safari-digikey.sh "https://www.digikey.com/en/products/filter/slide-switches/213" 8 'document.title'` → `Slide Switches \| Switches \| DigiKey` | **NOT MET (re-run 2026-11-24 at P-58 start, twice 20 s apart: `Just a moment...`)** — Cloudflare is challenging the Safari DigiKey tab; it passed during the planning census, then about 100 page loads later Cloudflare challenged the window (`Just a moment...`): tick "Verify you are human" once in the DigiKey tab, then re-run this command |
+| Safari has a DigiKey page open and passes Cloudflare | `scripts/safari-digikey.sh "https://www.digikey.com/en/products/filter/slide-switches/213" 8 'document.title'` → `Slide Switches \| Switches \| DigiKey` | MET again (2026-11-24 at P-58: the first four runs returned `Just a moment...`; after the owner ticked the box, `Slide Switches | Switches | DigiKey`); it passed during the planning census, then about 100 page loads later Cloudflare challenged the window (`Just a moment...`): tick "Verify you are human" once in the DigiKey tab, then re-run this command |
 | Tools exist | `pdftotext -v`, `pdfinfo -v`, `python3 --version`, `node --version` each exit 0 | MET (2026-11-24: all used during planning) |
 
 Everything below is written against the world where these hold.
@@ -105,11 +105,11 @@ planning-time `candidates.tsv`.
 |---|---|---|
 | Slide Switches at DigiKey (category 213), all | 3601 | `scripts/safari-digikey.sh "https://www.digikey.com/en/products/filter/slide-switches/213" 10 'document.body.innerText.match(/Results:\s*[\d,]+/)[0]'` → `Results: 3,601` |
 | …In Stock + Active | 940 | same URL with `?s=N4IgjCBcpgnAHLKoDGUBmBDANgZwKYA0IA9lANogAMIAugL7EC0ATMiGpFnkaRSAFY69EUA` → `Results: 940` |
-| Parts of the four makers, SPST/SPDT/DPST/DPDT, In Stock + Active (distinct maker + part number) | 422 | `census/list.sh /tmp/p58/raw && python3 -I census/build.py /tmp/p58/raw planning/plan-58-data/candidates.tsv` → `422 parts` (16 DigiKey pages) |
-| …by maker | C&K 185 (DigiKey names it `C&K` and `Littelfuse/C&K`), NKK 91, CIT 75, E-Switch 71 | `awk -F'\t' 'NR>1{print $1}' planning/plan-58-data/candidates.tsv \| sort \| uniq -c` |
+| Parts of the four makers, SPST/SPDT/DPST/DPDT, In Stock + Active (distinct maker + part number) | 422 | `census/list.sh /tmp/p58/raw && python3 -I census/build.py /tmp/p58/raw planning/plan-58-data/candidates.tsv` → `422 parts` (16 DigiKey pages); re-run at P-58, 2026-11-24: **423 parts** (see Corrections) |
+| …by maker | C&K 185 → 186 at P-58 (DigiKey names it `C&K` and `Littelfuse/C&K`), NKK 91, CIT 75, E-Switch 71 | `awk -F'\t' 'NR>1{print $1}' planning/plan-58-data/candidates.tsv \| sort \| uniq -c` |
 | `add` after DigiKey rules | 296 (C&K 119, NKK 71, E-Switch 63, CIT 43) | `awk -F'\t' '$18=="add"' planning/plan-58-data/candidates.tsv \| wc -l` → 296 |
-| `out`: panel mount 90, no DigiKey stock 21, line-voltage selector 7, On-Mom 3, illuminated 3, On-Off-On/On-On-On 2 | 126 (C&K 66, CIT 32, NKK 20, E-Switch 8) | `awk -F'\t' '$18=="out"{print $19}' planning/plan-58-data/candidates.tsv \| cut -c1-30 \| sort \| uniq -c` |
-| `add` by circuit and action | SPDT On-On 130, DPDT On-On 103, SPDT On-Off-On 24, DPDT On-Off-On 18, SPST On-Off 15, DPST On-Off 6 | `awk -F'\t' '$18=="add"{print $4, $5}' … \| sort \| uniq -c` |
+| `out`: panel mount 90, no DigiKey stock 21, line-voltage selector 7, On-Mom 3, illuminated 3, On-Off-On/On-On-On 2 | 126 (C&K 66, CIT 32, NKK 20, E-Switch 8); at P-58 **127** (panel mount 91, C&K 67) | `awk -F'\t' '$18=="out"{print $19}' planning/plan-58-data/candidates.tsv \| cut -c1-30 \| sort \| uniq -c` |
+| `add` by circuit and action | SPDT On-On 130, DPDT On-On 103, SPDT On-Off-On 24, DPDT On-Off-On 18, SPST On-Off 15, DPST On-Off 6; at P-58 SPDT On-On 131, SPDT On-Off-On 23, the rest the same (296 total, C&K 119, NKK 71, E-Switch 63, CIT 43) | `awk -F'\t' '$18=="add"{print $4, $5}' … \| sort \| uniq -c` |
 | Distinct (maker, series) / (series, mounting) / (series, mounting, circuit) of `add` rows | 36 / 66 / 108 | a python count over `candidates.tsv` (planning-time probe) |
 | Distinct datasheet URLs of `add` rows | 40 (littelfuse.com 12 + 1 DigiKey, nkkswitches.com 8, citrelay.com 11, E-Switch 7 on `configured-product-images.s3.amazonaws.com` + 1 DigiKey) | `awk -F'\t' '$18=="add"{print $16}' … \| sort -u \| wc -l` → 40 |
 | …that download as a PDF with Safari's request headers | 38 of 40 (the 2 `mm.digikey.com` ones, protocol-relative `//mm.digikey.com/…`, fail from `curl`: Cloudflare; `scripts/safari-digikey-pdf.sh` fetches them) | planning-time probe: `curl -sL --http2 --compressed` with the plan-27 header set → `%PDF-` for 38 |
@@ -219,19 +219,19 @@ circuit digits); `pins` is `designator=name;…` using the names of § 4 of plan
 
 ### Phase 1 — re-run the census
 
-- [ ] Re-run every Prerequisites command; update the Status column.
-- [ ] `census/list.sh /tmp/p58/raw` (16 pages; the planning-time run took 4 min, Safari) → one line per
-      page, no `FAILED`; if a page fails after its 5 tries, re-run just it:
+- [x] Re-run every Prerequisites command; update the Status column. (backend `100% tests passed, 0 tests failed out of 61`; S0 2070 / 186; P0 = R0 37090, F0 2929; `states` 0; 7 other plan files; Safari `Slide Switches | Switches | DigiKey`; tools exit 0. The app-build row was not re-run: plan-51-J's gate stands.)
+- [x] `census/list.sh /tmp/p58/raw` (16 pages; the planning-time run took 4 min, Safari) → one line per
+      page, no `FAILED` (16 lines, `count N rows N` equal on each, e.g. `C&K SPDT count 88 rows 88`); if a page fails after its 5 tries, re-run just it:
       `census/list.sh /tmp/p58/raw <maker> <circuit>`.
-- [ ] `python3 -I census/build.py /tmp/p58/raw planning/plan-58-data/candidates.tsv`.
-- [ ] Record the new populations in § 2's table (and in Corrections where a
+- [x] `python3 -I census/build.py /tmp/p58/raw planning/plan-58-data/candidates.tsv` → `423 parts`.
+- [x] Record the new populations in § 2's table (and in Corrections where a
       count differs from the planning-time one).
 
 Acceptance: `candidates.tsv` has a header and one row per part; every row's
 `decision` is `add`, `out` or `check`; each (maker, circuit) page's count equals
 its row count.
-  Check: `awk -F'\t' 'NR>1{n++; d[$18]++} END{print n, d["add"], d["out"], d["check"]}' planning/plan-58-data/candidates.tsv` prints the four counts, and `awk -F'\t' 'NR>1 && $18!="add" && $18!="out" && $18!="check"' planning/plan-58-data/candidates.tsv | wc -l` → 0 (est. 6 min).
-Commit: —
+  Check: `awk -F'\t' 'NR>1{n++; d[$18]++} END{print n, d["add"], d["out"], d["check"]}' planning/plan-58-data/candidates.tsv` prints the four counts, and `awk -F'\t' 'NR>1 && $18!="add" && $18!="out" && $18!="check"' planning/plan-58-data/candidates.tsv | wc -l` → 0 (est. 6 min). Measured: `423 296 127 ` (check column empty) and `0`.
+Commit: — (recorded in the next commit)
 
 ### Phase 2 — download the datasheets
 
@@ -316,7 +316,7 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- **2026-11-24, Phase 1: the census differs from the planning-time one by two parts.** `build.py` on the fresh pages gives 423 parts (planning-time 422): `diff <(cut -f1,2 old) <(cut -f1,2 new)` shows `C&K S802C21S207DQ` (new, Panel Mount, Snap-In: `out`) and `NKK AS12AP` (new, `add`) and `NKK MSN13ASG40` gone (out of stock since). `add` stays 296; by action SPDT On-On is 131 (was 130) and SPDT On-Off-On 23 (was 24); `out` is 127 (was 126). No later letter's scope is derived from these counts, so none is re-scoped. § 2's table carries both numbers.
 
 ## Summary
 
