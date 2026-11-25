@@ -99,7 +99,7 @@ MainActor.assumeIsolated { runCapacitorChecks() }
         return value == 4.7e-9 ? nil : "reopened \(CapacitorValue.text(value))"
     }
     check("3 undo: 0.1 µF") {
-        guard gdoc.undo(on: .schematic) else { return "nothing to undo" }
+        guard gdoc.undo() else { return "nothing to undo" }
         return gdoc.chips.first?.farads == 1e-7 ? nil : "after undo \(gdoc.chips.first?.farads ?? 0)"
     }
 

@@ -113,7 +113,7 @@ MainActor.assumeIsolated { runResistorChecks() }
         return reopened.chips.first?.ohms == 4700 ? nil : "reopened \(reopened.chips.first?.ohms ?? 0)"
     }
     check("3 undo: 1 kΩ") {
-        guard gdoc.undo(on: .schematic) else { return "nothing to undo" }
+        guard gdoc.undo() else { return "nothing to undo" }
         return gdoc.chips.first?.ohms == 1000 ? nil : "after undo \(gdoc.chips.first?.ohms ?? 0)"
     }
 

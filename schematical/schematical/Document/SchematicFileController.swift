@@ -10,8 +10,9 @@ import UniformTypeIdentifiers
 @MainActor
 @Observable
 final class SchematicFileController {
-    /// The file the schematic was last saved to or opened from.
-    private(set) var fileURL: URL?
+    /// The file the schematic was last saved to or opened from. Set by the
+    /// window's document (plan-61-B).
+    var fileURL: URL?
 
     /// The window showing this schematic. Sheets attach to it, and closing it
     /// asks about unsaved changes first.
@@ -303,7 +304,7 @@ final class SchematicFileController {
 
     /// The offer to add a just-opened schematic's custom parts to the User
     /// Library (plan-53-C). Asked at every open; "Not Now" changes nothing.
-    private func offerToAdd(_ parts: [CatalogPart]) async {
+    func offerToAdd(_ parts: [CatalogPart]) async {
         let alert = UserLibraryPrompts.fileOpenAlert(names: parts.map(\.name))
         guard await run(alert) == .alertFirstButtonReturn else { return }
         await UserLibraryPrompts.addShowingFailures(parts, catalog: catalog, on: window)

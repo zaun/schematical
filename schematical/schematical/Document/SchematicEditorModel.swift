@@ -33,6 +33,10 @@ final class SchematicEditorModel {
                                             willReplaceDocument: { [weak simulation] in simulation?.stop() })
     }
 
-    /// The file the schematic was last saved to or opened from.
-    var fileURL: URL? { file.fileURL }
+    /// The document's file, nil for one never saved. Set by the window's
+    /// `SchematicNSDocument`; the exporter names its files after it.
+    var fileURL: URL? {
+        get { file.fileURL }
+        set { file.fileURL = newValue }
+    }
 }

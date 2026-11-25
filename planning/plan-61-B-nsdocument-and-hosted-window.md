@@ -32,7 +32,7 @@ Stated in plan-61-A. In addition:
 | Must be true | Command | Status |
 |---|---|---|
 | plan-61-A is complete | `rg -c '^- \[ \]' planning/plan-61-A-document-undo-manager.md` → no output | MET (no output, 2026-11-24, after 304b545d) |
-| The print entitlement is in the project | `rg -c 'ENABLE_RESOURCE_ACCESS_PRINTING = YES' schematical/schematical.xcodeproj/project.pbxproj` → `2` | NOT MET in the committed tree: `0` in the worktree at ba3d7e4d+ (2026-11-24). `2` only in the main checkout, where `project.pbxproj` has the owner's uncommitted change that adds it (Corrections 1) |
+| The print entitlement is in the project | `rg -c 'ENABLE_RESOURCE_ACCESS_PRINTING = YES' schematical/schematical.xcodeproj/project.pbxproj` → `2` | MET (`2`, 2026-11-24, after the owner committed it on `main` as 7f51ec52 and `main` was merged into the worktree, 77c59719). It was `0` in the worktree before that (Corrections 1) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run before you continue and before you stop; report all prerequisites if
@@ -212,15 +212,15 @@ follow the system tab setting until 61-C adds the app's own setting.
 
 Acceptance: the app behaves as before with the model in between.
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/SchematicExportActionTests -only-testing:schematicalTests/FileDesignRulesTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 5 min). Result: `Executed 21 tests, with 0 failures`, `** TEST SUCCEEDED **`.
-Commit: —
+Commit: 8f33d65b
 
 ### Phase 2 — The document class, read and write
 
-- [ ] New `Document/SchematicNSDocument.swift`: the class with `read`, `writeSafely`, `data(ofType:)`, the autosave rule, `fileURL` forwarding to the model, `undoManager` from the model's document. No window yet.
-- [ ] New `schematicalTests/SchematicNSDocumentTests.swift`: (1) for each of the 10 examples, `read(from:ofType:)` then `data(ofType:)` decodes equal to what `SchematicFile.apply` + `SchematicFile(document:fileURL:)` writes; (2) a design with a load file in `…/A` written with `writeSafely(to: …/B/design.schematical)` stores `../A/rom.bin`, and with a destination under `Autosave Information` stores the absolute path; (3) reading from an autosave location resolves an absolute path; (4) an edit sets `isDocumentEdited`, undo clears it, `data(ofType:)` between two typed characters gives two undos.
+- [x] New `Document/SchematicNSDocument.swift`: the class with `read`, `writeSafely`, `data(ofType:)`, the autosave rule, `fileURL` forwarding to the model, `undoManager` from the model's document. No window yet. Done. `SchematicFileController.fileURL` became settable and `offerToAdd` internal here (the model forwards the URL to it); the custom-parts offer is made from `read`, and only once the document has a window.
+- [x] New `schematicalTests/SchematicNSDocumentTests.swift`: (1) for each of the 10 examples, `read(from:ofType:)` then `data(ofType:)` decodes equal to what `SchematicFile.apply` + `SchematicFile(document:fileURL:)` writes; (2) a design with a load file in `…/A` written with `writeSafely(to: …/B/design.schematical)` stores `../A/rom.bin`, and with a destination under `Autosave Information` stores the absolute path; (3) reading from an autosave location resolves an absolute path; (4) an edit sets `isDocumentEdited`, undo clears it, `data(ofType:)` between two typed characters gives two undos. Done: the four, plus `testReadingAgainStopsTheSimulationAndClearsUndo` (Revert's read). In (4) `isDocumentEdited` is read after a run loop turn (plan-61-A Corrections 8). `Executed 5 tests, with 0 failures`.
 
 Acceptance: the four tests pass.
-  Check: `xcodebuild test … -only-testing:schematicalTests/SchematicNSDocumentTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 5 min).
+  Check: `xcodebuild test … -only-testing:schematicalTests/SchematicNSDocumentTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 5 min). Result: `Executed 5 tests, with 0 failures`, `** TEST SUCCEEDED **`.
 Commit: —
 
 ### Phase 3 — The hosted window, the menu, the scene removed
@@ -271,7 +271,7 @@ Commit: —
 
 ## Corrections
 
-1. The print-entitlement prerequisite was written as MET from the main checkout, whose `project.pbxproj` is modified and not committed (`git status` at the start of execution: ` M schematical/schematical.xcodeproj/project.pbxproj`). `diff` of the worktree's file against it: the main checkout adds `ENABLE_RESOURCE_ACCESS_PRINTING = YES` (and seven `ENABLE_RESOURCE_ACCESS_* = NO` lines, and `ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO`) to both configurations. The committed project has none of it. Commit 8f33d65b recorded this row as `MET (2, re-run at execution)` before the command's output was read; that status was wrong and is corrected here. Phase 1 had landed by then; it does not touch printing.
+1. The print-entitlement prerequisite was written as MET from the main checkout, whose `project.pbxproj` is modified and not committed (`git status` at the start of execution: ` M schematical/schematical.xcodeproj/project.pbxproj`). `diff` of the worktree's file against it: the main checkout adds `ENABLE_RESOURCE_ACCESS_PRINTING = YES` (and seven `ENABLE_RESOURCE_ACCESS_* = NO` lines, and `ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO`) to both configurations. The committed project has none of it. Commit 8f33d65b recorded this row as `MET (2, re-run at execution)` before the command's output was read; that status was wrong and is corrected here. Phase 1 had landed by then; it does not touch printing. Asked, the owner committed the setting on `main` (7f51ec52); `main` was merged into `worktree-P-61` (77c59719, which also brought plan-58) before phase 2 started.
 
 ## Summary
 

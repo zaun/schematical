@@ -657,7 +657,7 @@ final class AutomationTests: XCTestCase {
         XCTAssertEqual(result.text, "S1 position 3")
         XCTAssertEqual(doc.chips[0].slidePosition, 3)
         XCTAssertEqual(doc.chips[0].switchesOn, [false, true])
-        XCTAssertEqual(doc.undoName(on: .schematic), "Move Switch")
+        XCTAssertEqual(doc.undoName, "Move Switch")
         result = await call("set_switch", id, ["reference": "S1", "position": 1, "on": true])
         XCTAssertFalse(result.isError, result.text)
         XCTAssertEqual(doc.chips[0].slidePosition, 1)

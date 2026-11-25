@@ -23,7 +23,7 @@ struct ExportMenuHarnessApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(model: SchematicEditorModel())
         }
         .commands {
             SchematicFileCommands()
