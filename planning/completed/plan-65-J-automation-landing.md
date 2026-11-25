@@ -50,7 +50,7 @@ Everything below is written against the world where these hold.
 - The tools are `AutomationTool(name:summary:properties:required:edits:run:)` entries in `AutomationBoard.swift` (`add_keepout` at `:131`), each backed by a `private static func` that reads `AutomationArgs` and calls the document; edits run `document.recordEdit` (`setKeepout`, `:578`); `context.find(items, spec, kind:)` resolves an id or `keepout:ID`.
 - `boardText` writes `BOARD type=… size=…` then `LAYERS`, `POURS`, `KEEPOUTS`, `TEXTS` blocks (`AutomationRead.swift:427`–`:480`).
 - `AutomationGuide.text` has the PCB paragraph (`AutomationTools.swift:360`–`:368`); `docs/agent-control.md` keeps the same list and says "keep the two in step" (`:114`).
-- `todo.md:115`: `- [ ] Custom board outlines: rounded corners, cutouts, DXF import.`
+- `todo.md:115` was the open item "Custom board outlines: rounded corners, cutouts, DXF import."
 
 ### Measured populations
 
@@ -117,7 +117,7 @@ Acceptance: the pictures show what the tests assert; any defect found is fixed w
   rounded rectangle: the fill has a clear band round each cutout. Board preview (front and angled): the three cutouts are holes showing the backdrop; the board's edge wall is drawn, a hole's wall is too thin to see at this angle.
   Autoroute (`Router.route`, fast strategy): D1 to D2 around a 10 × 20 rounded cutout, one trace of 5 segments; closest copper to the cutout 0.254 mm against `minCopperToEdge` 0.25; `run_drc` lists only
   two unrelated silkscreen lines. DXF sheet on KiCad's board: the 40 × 30 outline blue, the circle and half-disc red, `1 outline, 2 cutouts`. Gerber and KiCad were checked with the real tools in plan-65-G. No defect found.
-Commit: —
+Commit: eb245b81
 
 ## Validation Plan
 
