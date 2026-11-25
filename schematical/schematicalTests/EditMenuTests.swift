@@ -1,3 +1,4 @@
+import AppKit
 import CoreGraphics
 import Foundation
 import XCTest
@@ -7,6 +8,29 @@ import XCTest
 @MainActor
 final class EditMenuTests: XCTestCase {
     private func p(_ x: CGFloat, _ y: CGFloat) -> CGPoint { CGPoint(x: x, y: y) }
+
+    /// Selected text that can't be edited (a name in the sidebar) is what
+    /// Copy copies; the other items, and Copy with no text selected, stay
+    /// the schematic's. A field being edited gets every item.
+    func testCopyGoesToSelectedReadOnlyText() {
+        let text = NSTextView(frame: NSRect(x: 0, y: 0, width: 100, height: 20))
+        text.string = "SN74HC00N"
+        text.isEditable = false
+        text.isSelectable = true
+        XCTAssertFalse(EditMenuItem.copy.goesToText(text))
+        text.setSelectedRange(NSRange(location: 0, length: 4))
+        XCTAssertTrue(EditMenuItem.copy.goesToText(text))
+        for item in EditMenuItem.allCases where item != .copy {
+            XCTAssertFalse(item.goesToText(text), "\(item)")
+        }
+        text.isEditable = true
+        text.setSelectedRange(NSRange(location: 0, length: 0))
+        for item in EditMenuItem.allCases {
+            XCTAssertTrue(item.goesToText(text), "\(item)")
+        }
+        XCTAssertFalse(EditMenuItem.copy.goesToText(nil))
+        XCTAssertFalse(EditMenuItem.copy.goesToText(NSView()))
+    }
 
     func testSelectAllSchematicTakesEverything() throws {
         let doc = TestSupport.newDocument()

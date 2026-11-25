@@ -45,6 +45,17 @@ enum EditMenuItem: CaseIterable {
         case .selectAll: #selector(NSText.selectAll(_:))
         }
     }
+
+    /// Whether the focused text gets this item instead of the schematic: a
+    /// field being edited gets them all; text that can only be selected (a
+    /// name in the sidebar, which SwiftUI shows in a text view that isn't
+    /// editable) gets Copy while some of it is selected.
+    @MainActor
+    func goesToText(_ firstResponder: NSResponder?) -> Bool {
+        guard let text = firstResponder as? NSText else { return false }
+        if text.isEditable { return true }
+        return self == .copy && text.isSelectable && text.selectedRange.length > 0
+    }
 }
 
 /// Replaces the Edit menu's pasteboard items. As with Undo, they are never
@@ -102,8 +113,7 @@ private struct EditMenuItems: View {
     }
 
     private func perform(_ item: EditMenuItem, _ target: EditActions?) {
-        let textIsEditing = (NSApp.keyWindow?.firstResponder as? NSTextView)?.isEditable == true
-        guard !textIsEditing, let target else {
+        guard !item.goesToText(NSApp.keyWindow?.firstResponder), let target else {
             NSApp.sendAction(item.selector, to: nil, from: nil)
             return
         }
