@@ -20,17 +20,27 @@ struct RouteActions {
     }
 }
 
-extension FocusedValues {
-    @Entry var routeActions: RouteActions?
-}
 
 /// Route ▸ Autoroute… (⌥⌘R), Route Selected Nets (⌥⇧⌘R), Unroute Selected
 /// (⌥⌘U), Unroute All Autorouted, Select Autorouted Copper.
 struct RouteCommands: Commands {
-    @FocusedValue(\.routeActions) private var actions
+    @FocusedValue(\.schematicEditor) private var editor
 
     var body: some Commands {
         CommandMenu("Route") {
+            RouteMenuItems(editor: editor)
+        }
+    }
+}
+
+/// A view, so the items are rendered again when what they read (the page, a
+/// run, the selection) changes (`EditorMenus`).
+private struct RouteMenuItems: View {
+    let editor: SchematicEditorModel?
+
+    var body: some View {
+        let actions = editor?.menus.route?()
+        Group {
             Button("Autoroute…") { actions?.autoroute() }
                 .keyboardShortcut("r", modifiers: [.command, .option])
                 .disabled(actions == nil || actions?.isRouting == true)

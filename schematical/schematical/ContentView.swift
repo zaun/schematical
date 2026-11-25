@@ -35,7 +35,12 @@ struct ContentView: View {
     /// The PCB page's own pan and zoom. It opens at 25 %, so a whole board
     /// fits.
     @State private var boardViewport = CanvasViewport(zoom: 0.25)
-    @State private var page = EditorPage.schematic
+    /// The page shown: the model's, so the menus and the document (which
+    /// restores it with the window) see it.
+    private var page: EditorPage {
+        get { model.page }
+        nonmutating set { model.page = newValue }
+    }
     @State private var tool: SchematicTool = .pointer
     @State private var pcbTool = PCBTool.select
     /// Layers the PCB page doesn't draw (the View popover). The hidden set,
@@ -45,9 +50,13 @@ struct ContentView: View {
     /// The net Board Details' Nets tab highlights on the canvas.
     /// Per window; not saved, not undone.
     @State private var highlightedNet: PlaneNet?
-    /// Route ▸ Autoroute…'s sheet, and its model (made on first use).
+    /// Route ▸ Autoroute…'s sheet, and its model (made on first use; kept by
+    /// the window's model, where the Route menu can follow it).
     @State private var isAutorouteOpen = false
-    @State private var autoroute: AutorouteModel?
+    private var autoroute: AutorouteModel? {
+        get { model.autoroute }
+        nonmutating set { model.autoroute = newValue }
+    }
     /// The layer the PCB Trace tool draws on (the trace layer menu).
     @State private var traceLayer: CopperLayer = .top
     /// Whether the sidebar is shown: the parts drawer on the Schematic page,
@@ -326,6 +335,24 @@ struct ContentView: View {
                     canResetReferences: !document.chips.isEmpty && !simulation.isRunning)
     }
 
+    /// Gives the app's menus this window's actions (`EditorMenus`). Each
+    /// closure reads the editor's state when a menu asks, so the menus
+    /// follow it; the document removes them when it closes.
+    private func installMenus() {
+        let menus = model.menus
+        menus.edit = { editActions }
+        menus.simulation = { simulationTarget }
+        menus.route = { RouteActions.available(page: page, isPlaying: document.isPlaying) ? routeActions : nil }
+        menus.openBillOfMaterials = {
+            isBillOfMaterialsOpen = true
+            openWindow(id: "bom", value: BillOfMaterialsTarget(documentID: documentID))
+        }
+        menus.openDesignRuleCheck = {
+            isDesignRuleCheckOpen = true
+            openWindow(id: "drc", value: DesignRuleCheckTarget(documentID: documentID))
+        }
+    }
+
     private func removeEditKeyMonitor() {
         model.eventMonitors.remove(editKeyMonitor)
         editKeyMonitor = nil
@@ -457,8 +484,6 @@ struct ContentView: View {
     var body: some View {
         editor
             // Edit › Cut, Copy, Paste, Delete, Select All, Reset References.
-            .focusedSceneValue(\.schematicEdit, editActions)
-            .focusedSceneValue(\.schematicSimulation, simulationTarget)
             // The speed is an app preference: every window runs at it.
             .onChange(of: simulationSpeed) { _, speed in simulation.setSpeed(speed) }
             .alert("Reset References?", isPresented: $isConfirmingResetReferences) {
@@ -485,7 +510,6 @@ struct ContentView: View {
                                })
                 .interactiveDismissDisabled(autoroute?.session.isRunning == true)
             }
-            .focusedSceneValue(\.routeActions, RouteActions.available(page: page, isPlaying: document.isPlaying) ? routeActions : nil)
     }
 
     /// The window's Autoroute model, made the first time it is needed.
@@ -549,7 +573,7 @@ struct ContentView: View {
             .toolbar {
                 // The page picker on the left; the tools stay centred.
                 ToolbarItem(placement: .navigation) {
-                    Picker("Page", selection: $page) {
+                    Picker("Page", selection: Binding(get: { page }, set: { page = $0 })) {
                         ForEach(EditorPage.allCases) { page in
                             Text(page.title).tag(page)
                         }
@@ -758,9 +782,11 @@ struct ContentView: View {
             .onAppear {
                 simulation.setSpeed(simulationSpeed)
                 installEditKeyMonitor()
+                installMenus()
             }
             .onDisappear {
                 removeEditKeyMonitor()
+                model.menus.removeAll()
                 for target in memoryWindows {
                     dismissWindow(id: "memory", value: target)
                 }
@@ -793,16 +819,9 @@ struct ContentView: View {
             // The canvases install their key monitors through the model's.
             .environment(\.editorEventMonitors, model.eventMonitors)
             .focusedSceneValue(\.schematicFile, file)
-            .focusedSceneValue(\.editorPage, page)
-            .focusedSceneValue(\.openBillOfMaterials) {
-                isBillOfMaterialsOpen = true
-                openWindow(id: "bom", value: BillOfMaterialsTarget(documentID: documentID))
-            }
-            // The check is of the PCB, so it opens from the PCB page only.
-            .focusedSceneValue(\.openDesignRuleCheck, page == .pcb ? {
-                isDesignRuleCheckOpen = true
-                openWindow(id: "drc", value: DesignRuleCheckTarget(documentID: documentID))
-            } : nil)
+            // The menus read the page, the selection and the rest through
+            // the model (`EditorMenus`), not through values published here.
+            .focusedSceneValue(\.schematicEditor, model)
     }
 
     /// A segmented picker over some of the schematic tools.

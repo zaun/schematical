@@ -184,9 +184,11 @@ extension SchematicNSDocument {
     override func close() {
         model.simulation.stop()
         ChildWindowCenter.shared.closeAll(model.id)
-        // The editor's key monitors hold its views, and so the model.
+        // The editor's key monitors and its menu closures hold its views,
+        // and so the model.
         model.eventMonitors.removeAll()
         model.editKeyMonitor = nil
+        model.menus.removeAll()
         let windows = windowControllers.compactMap(\.window)
         // Empty the hosted tree while the window is still up, so SwiftUI
         // withdraws what the editor published (its focused values).

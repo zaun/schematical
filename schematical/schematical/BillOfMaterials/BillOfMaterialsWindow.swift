@@ -186,22 +186,28 @@ nonisolated enum BillOfMaterials {
 
 // MARK: - Menu command
 
-extension FocusedValues {
-    /// Opens the focused schematic window's Bill of Materials.
-    @Entry var openBillOfMaterials: (() -> Void)?
-}
-
 /// Window > Bill of Materials (⇧⌘B).
 struct BillOfMaterialsCommands: Commands {
-    @FocusedValue(\.openBillOfMaterials) private var open
+    @FocusedValue(\.schematicEditor) private var editor
 
     var body: some Commands {
         CommandGroup(before: .windowList) {
-            Button("Bill of Materials") { open?() }
-                .keyboardShortcut("b", modifiers: [.command, .shift])
-                .disabled(open == nil)
+            BillOfMaterialsMenuItem(editor: editor)
             Divider()
         }
+    }
+}
+
+/// A view, so it is rendered again when the editor's menus change
+/// (`EditorMenus`).
+private struct BillOfMaterialsMenuItem: View {
+    let editor: SchematicEditorModel?
+
+    var body: some View {
+        let open = editor?.menus.openBillOfMaterials
+        Button("Bill of Materials") { open?() }
+            .keyboardShortcut("b", modifiers: [.command, .shift])
+            .disabled(open == nil)
     }
 }
 

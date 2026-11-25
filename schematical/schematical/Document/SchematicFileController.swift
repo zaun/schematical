@@ -37,25 +37,91 @@ final class SchematicFileController {
 
     // MARK: Actions
 
-    /// Writes the KiCad project (`KiCadExport`) next to `url`: three files
-    /// named after it, whatever extension the panel gave it. Like any
-    /// export, not a save.
-    func exportKiCad(to url: URL) {
+    /// File › Export › KiCad Project…: asks for a folder, then writes the
+    /// project's three files into it, named after the schematic
+    /// (`KiCadExport`). A folder, not a file name: the sandbox lets the app
+    /// write only the one file a save panel names, and the project is
+    /// three. Like any export, not a save.
+    func exportKiCadProject() async {
+        let panel = kiCadFolderPanel()
+        guard await run(panel) == .OK, let folder = panel.url else { return }
+        let existing = kiCadFiles(in: folder).filter { FileManager.default.fileExists(atPath: $0.path) }
+        if !existing.isEmpty {
+            let alert = NSAlert()
+            alert.alertStyle = .warning
+            alert.messageText = "Replace the KiCad project “\(kiCadBaseName)” in “\(folder.lastPathComponent)”?"
+            alert.informativeText = "The folder already has "
+                + existing.map { "“\($0.lastPathComponent)”" }.formatted(.list(type: .and))
+                + ". Exporting replaces \(existing.count == 1 ? "it" : "them")."
+            alert.addButton(withTitle: "Replace")
+            alert.addButton(withTitle: "Cancel")
+            guard await run(alert) == .alertFirstButtonReturn else { return }
+        }
         do {
-            try writeKiCad(to: url)
+            try writeKiCadProject(into: folder)
         } catch {
             present(error, title: "Couldn't export “\(displayName)”")
         }
     }
 
-    /// Writes the EasyEDA Pro project (`EasyEDAProExport`) to `url`, which is
-    /// the file the panel chose. Like any export, not a save.
-    func exportEasyEDAPro(to url: URL) {
+    /// The folder chooser of `exportKiCadProject()`.
+    func kiCadFolderPanel() -> NSOpenPanel {
+        let panel = NSOpenPanel()
+        panel.canChooseDirectories = true
+        panel.canChooseFiles = false
+        panel.allowsMultipleSelection = false
+        panel.canCreateDirectories = true
+        panel.prompt = "Export"
+        panel.message = "Choose the folder for "
+            + KiCadExport.extensions.map { "\(kiCadBaseName).\($0)" }.formatted(.list(type: .and)) + "."
+        if let fileURL {
+            panel.directoryURL = fileURL.deletingLastPathComponent()
+        }
+        return panel
+    }
+
+    /// The schematic's name as the KiCad files are named.
+    var kiCadBaseName: String { KiCadExport.baseName(displayName) }
+
+    /// The three files `writeKiCadProject(into:)` writes.
+    func kiCadFiles(in folder: URL) -> [URL] {
+        KiCadExport.extensions.map { folder.appendingPathComponent("\(kiCadBaseName).\($0)") }
+    }
+
+    /// Writes `<name>.kicad_pro`, `.kicad_sch` and `.kicad_pcb` into
+    /// `folder`, `<name>` being the schematic's. The folder is one the user
+    /// chose: its security scope is held for the write. Throws for a
+    /// failed write.
+    func writeKiCadProject(into folder: URL) throws {
+        let scoped = folder.startAccessingSecurityScopedResource()
+        defer { if scoped { folder.stopAccessingSecurityScopedResource() } }
+        try writeKiCad(to: folder.appendingPathComponent("\(kiCadBaseName).kicad_pro"))
+    }
+
+    /// File › Export › EasyEDA Pro Project…: where to save, then the one
+    /// `.epro` file (`EasyEDAProExport`). Like any export, not a save.
+    func exportEasyEDAProProject() async {
+        let panel = exportPanel(.easyEDAPro)
+        guard await run(panel) == .OK, let url = panel.url else { return }
         do {
             try writeEasyEDAPro(to: url)
         } catch {
             present(error, title: "Couldn't export “\(displayName)”")
         }
+    }
+
+    /// A save panel for one exported file of `format`, named after the
+    /// schematic and starting in its folder. It has no Format menu: each
+    /// format is its own item under File › Export.
+    func exportPanel(_ format: SaveFormat) -> NSSavePanel {
+        let panel = NSSavePanel()
+        panel.allowedContentTypes = [format.contentType]
+        panel.canCreateDirectories = true
+        panel.nameFieldStringValue = "\(displayName).\(format.fileExtension)"
+        if let fileURL {
+            panel.directoryURL = fileURL.deletingLastPathComponent()
+        }
+        return panel
     }
 
     /// Writes the project as `url`, one `.epro` file named for its folder and

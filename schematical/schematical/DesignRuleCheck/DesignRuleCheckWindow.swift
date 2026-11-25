@@ -19,21 +19,28 @@ nonisolated struct DesignRuleCheckTarget: Codable, Hashable, Sendable {
 
 // MARK: - Menu command
 
-extension FocusedValues {
-    /// Opens the focused window's Design Rule Check; nil off the PCB page.
-    @Entry var openDesignRuleCheck: (() -> Void)?
-}
-
 /// Window › Design Rule Check (⇧⌘D), enabled on the PCB page only.
 struct DesignRuleCheckCommands: Commands {
-    @FocusedValue(\.openDesignRuleCheck) private var open
+    @FocusedValue(\.schematicEditor) private var editor
 
     var body: some Commands {
         CommandGroup(before: .windowList) {
-            Button("Design Rule Check") { open?() }
-                .keyboardShortcut("d", modifiers: [.command, .shift])
-                .disabled(open == nil)
+            DesignRuleCheckMenuItem(editor: editor)
         }
+    }
+}
+
+/// A view, so it is rendered again when the page it read changes
+/// (`EditorMenus`).
+private struct DesignRuleCheckMenuItem: View {
+    let editor: SchematicEditorModel?
+
+    var body: some View {
+        // The check is of the PCB, so it opens from the PCB page only.
+        let open = editor?.page == .pcb ? editor?.menus.openDesignRuleCheck : nil
+        Button("Design Rule Check") { open?() }
+            .keyboardShortcut("d", modifiers: [.command, .shift])
+            .disabled(open == nil)
     }
 }
 

@@ -28,17 +28,27 @@ final class DesignRuleCheckWizardTests: XCTestCase {
     /// A menu item of the app's menu bar, by its menu's and its own title.
     private func menuItem(_ menu: String, _ title: String) throws -> NSMenuItem {
         let top = try XCTUnwrap(NSApp.mainMenu?.items.first { $0.title == menu }?.submenu, "no \(menu) menu")
+        // As opening the menu does: SwiftUI brings a hosted window's menu
+        // items up to date when the menu is about to show, not before.
+        top.delegate?.menuNeedsUpdate?(top)
         top.update()
         return try XCTUnwrap(top.items.first { $0.title == title }, "no \(title) in \(top.items.map(\.title))")
     }
 
     /// The running app itself (the tests' host is the app): on the PCB page
-    /// of its schematic window, Window ▸ Design Rule Check opens the check
-    /// on step 1, and Run Check goes to step 2.
+    /// of a new document's window, Window ▸ Design Rule Check opens the
+    /// check on step 1, and Run Check goes to step 2.
     func testTheMenuCommandOpensStepOneInTheRunningApp() throws {
         enableAccessibility()
-        let main = try XCTUnwrap(NSApp.windows.first { $0.title == "Untitled" && $0.isVisible },
-                                 "the app's schematic window: \(NSApp.windows.map(\.title))")
+        // A new, untitled document in its window, as File › New makes.
+        AppDelegate.quitsAfterLastWindowCloses = false
+        let document = TestSupport.keep(SchematicNSDocument())
+        NSDocumentController.shared.addDocument(document)
+        document.makeWindowControllers()
+        document.showWindows()
+        defer { document.close() }
+        let main = try XCTUnwrap(document.windowControllers.first?.window, "the document's window")
+        XCTAssertEqual(main.title, "Untitled")
         NSApp.activate(ignoringOtherApps: true)
         main.makeKeyAndOrderFront(nil)
         window = main
@@ -50,14 +60,6 @@ final class DesignRuleCheckWizardTests: XCTestCase {
                                 "no PCB page control: \(Set(elements().filter { role($0) == "AXRadioButton" || role($0) == "AXButton" }.map(label)))")
         _ = pcb.perform(NSSelectorFromString("accessibilityPerformPress"))
         settle(1)
-        // Leave the app's window as it was for the tests that follow.
-        defer {
-            window = main
-            if let schematic = elements().first(where: { role($0) == "AXRadioButton" && label($0).hasPrefix("Schematic") }) {
-                _ = schematic.perform(NSSelectorFromString("accessibilityPerformPress"))
-                settle(0.3)
-            }
-        }
         // The menu command follows the key window. A locked screen, or
         // another app kept in front, stops the window becoming key, and
         // then there is nothing to test here.

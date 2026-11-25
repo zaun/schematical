@@ -165,17 +165,18 @@ Commit: 90eb1245
 
 Acceptance: the test passes, and the built app started with `open -a` and no file shows one window named Untitled.
   Check: the test as in phase 1 (est. 5 min); `open -a <Debug app>; osascript -e 'tell application "System Events" to tell process "schematical" to get name of every window'` → `Untitled` (est. 1 min; with the owner's installed app closed). Result: `SchematicNSDocumentTests` with `AutomationTests`: `Executed 47 tests, with 2 tests skipped and 0 failures`, `** TEST SUCCEEDED **`. The built app, with no other copy running, read by pid through the Accessibility API (System Events cannot tell two builds apart): started with no file → `windows: ['Untitled']`; started with `examples/6502.schematical` → `windows: ['6502.schematical' document=6502.schematical]` (no Untitled).
-Commit: —
+Commit: d9ce2e06
 
 ### Phase 3 — Export
 
-- [ ] `Document/SchematicExportCommands.swift`: KiCad Project… and EasyEDA Pro Project…; the exporter gains `exportKiCadProject()` (folder chooser, security scope around the write) and `exportEasyEDAProProject()` (from `spike-H.patch`).
-- [ ] Delete `SaveFormatPicker` (the class) from `Document/SaveFormatPicker.swift`.
-- [ ] `KiCadExportTests.swift`, `EasyEDAProExportTests.swift`: the tests that went through the Format picker call the new functions' write halves (`writeKiCad(to:)`, `writeEasyEDAPro(to:)` are unchanged).
-- [ ] `docs/export.md`: KiCad and EasyEDA Pro are under File › Export; KiCad writes three files into the chosen folder.
+- [x] `Document/SchematicExportCommands.swift`: KiCad Project… and EasyEDA Pro Project…; the exporter gains `exportKiCadProject()` (folder chooser, security scope around the write) and `exportEasyEDAProProject()` (from `spike-H.patch`). Done. The KiCad item asks before replacing files already in the folder (a folder chooser gives no such warning). `exportKiCad(to:)` and `exportEasyEDAPro(to:)`, the Save As panel's halves, are gone with it.
+- [x] Delete `SaveFormatPicker` (the class) from `Document/SaveFormatPicker.swift`. Done: the file is `Document/SaveFormat.swift` now (`git mv`), holding the enum's extension and content type; its menu title and note went with the picker.
+- [x] `KiCadExportTests.swift`, `EasyEDAProExportTests.swift`: the tests that went through the Format picker call the new functions' write halves (`writeKiCad(to:)`, `writeEasyEDAPro(to:)` are unchanged). Done: `testSaveFormatPickerSwitchesTypeAndExtension` is replaced by `testKiCadProjectIsWrittenIntoTheChosenFolder` (the folder panel's settings, the three names, the write, a second write) and `testEasyEDAProExportPanel` (name, type, no accessory view).
+- [x] `docs/export.md`: KiCad and EasyEDA Pro are under File › Export; KiCad writes three files into the chosen folder. Done; also the in-app help's Window section (`Help/KeyboardHelp.swift`): ⌘S, ⇧⌘S / ⌥⇧⌘S Duplicate / Save As, ⌘W / ⌥⌘W, undo "on either page".
 
 Acceptance: the two export suites pass and the doc names the new path.
-  Check: `xcodebuild test … -only-testing:schematicalTests/KiCadExportTests -only-testing:schematicalTests/EasyEDAProExportTests 2>&1 | tail -3` → `** TEST SUCCEEDED **`; `rg -c 'File › Export' docs/export.md` → at least `1` (est. 5 min).
+  Check: `xcodebuild test … -only-testing:schematicalTests/KiCadExportTests -only-testing:schematicalTests/EasyEDAProExportTests 2>&1 | tail -3` → `** TEST SUCCEEDED **`; `rg -c 'File › Export' docs/export.md` → at least `1` (est. 5 min). Result: `Executed 36 tests, with 0 failures`, `** TEST SUCCEEDED **`; `grep -c 'File › Export' docs/export.md` → `3`.
+- [x] Added during execution (Corrections 2): new `Document/EditorMenus.swift`; `EditCommands`, `SimulationCommands`, `RouteCommands`, `BillOfMaterialsCommands`, `DesignRuleCheckCommands` and `KeyboardHelpCommands` read the focused `SchematicEditorModel`; `ContentView` installs its closures in `model.menus`, its page and Autoroute model live in the model, and it publishes two focused values (`schematicFile`, `schematicEditor`) where it published seven. `DesignRuleCheckWizardTests.testTheMenuCommandOpensStepOneInTheRunningApp` makes its own document window. Result, in the built app by pid through the Accessibility API: before, after pressing the PCB page control, `Autoroute… (disabled)`, `Run` (enabled), `Design Rule Check (disabled)`; after the change `Autoroute…`, `Unroute All Autorouted`, `Select Autorouted Copper`, `Run (disabled)`, `Design Rule Check`. `DesignRuleCheckWizardTests`, `SchematicNSDocumentTests` and `EditMenuTests` with the app in front: `Executed 25 tests, with 0 failures`, none skipped.
 Commit: —
 
 ### Phase 4 — Print and part files
@@ -217,6 +218,8 @@ Commit: —
 ## Corrections
 
 1. The plain-launch rule would also fire in the app XCTest starts to host the unit tests (it is launched plain), putting an Untitled document among the open documents of every test. The rule takes `isTestHost` (the `XCTestConfigurationFilePath` environment variable) and opens nothing there; `testAPlainLaunchWithNoDocumentOpensUntitled` covers the rule's four inputs.
+2. **A defect of 61-B found here, outside this phase's list.** plan-59 A2 ("`.focusedSceneValue` from the hosted editor reaches `Commands`", 61-B § 2) was checked with one item whose value never changes. From a view hosted in a document's window SwiftUI delivers a focused scene value when the window becomes key and not again. The editor published its menu state as values that change (the page, `EditActions`, `SimulationTarget`, `RouteActions`), so after 61-B phase 3 the menus were stale: on the PCB page Route and Window ▸ Design Rule Check stayed disabled and Simulation ▸ Run stayed enabled, with the menu open too. Found because `DesignRuleCheckWizardTests.testTheMenuCommandOpensStepOneInTheRunningApp` (not in any of this plan's gates; it had used the window the old scene opened at launch, and skips unless its window is key) failed once the app was in front. Fix: the menus get the key window's model as the focused value (one object, never changing) and read the changing state through closures the editor installs in `model.menus`, called in the bodies of small views inside each `CommandGroup`, so observation re-renders an item when what it read changes. The closures hold the editor view; `close()` removes them (61-B's lifetime tests pass with them, key window included). The page (61-C phase 5 needed it there anyway) and the Autoroute model moved from view state to the model so the menus can observe them.
+3. The folder chooser replaces files without the warning a save panel gives; `exportKiCadProject()` asks first when any of the three files exists.
 
 ## Summary
 

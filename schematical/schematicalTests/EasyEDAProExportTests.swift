@@ -1,8 +1,9 @@
 import Foundation
+import UniformTypeIdentifiers
 import XCTest
 @testable import schematical
 
-/// File > Save As…, format EasyEDA Pro Project (`EasyEDAProExport`). The
+/// File › Export › EasyEDA Pro Project… (`EasyEDAProExport`). The
 /// files are checked for shape and for where things land here; that EasyEDA's
 /// format is what KiCad's EasyEDA Pro importer reads, with the same pads, nets,
 /// copper and zones, was checked by loading the output with it (see
@@ -210,6 +211,23 @@ final class EasyEDAProExportTests: XCTestCase {
         }
         XCTAssertGreaterThan(expected, 100)
         XCTAssertEqual(found, expected)
+    }
+
+    /// File › Export › EasyEDA Pro Project…'s save panel: one `.epro` file
+    /// named after the schematic, and no Format menu.
+    func testEasyEDAProExportPanel() throws {
+        let doc = try Fixture.open("AFU")
+        let document = TestSupport.systemDocument(of: doc)
+        let exporter = document.model.file
+        var panel = exporter.exportPanel(.easyEDAPro)
+        XCTAssertEqual(panel.nameFieldStringValue, "Untitled.epro")
+        XCTAssertEqual(panel.allowedContentTypes.first?.preferredFilenameExtension, "epro")
+        XCTAssertNil(panel.accessoryView, "no Format menu")
+        let folder = FileManager.default.temporaryDirectory
+        document.fileURL = folder.appendingPathComponent("My Board.schematical")
+        panel = exporter.exportPanel(.easyEDAPro)
+        XCTAssertEqual(panel.nameFieldStringValue, "My Board.epro")
+        XCTAssertEqual(panel.directoryURL?.standardizedFileURL, folder.standardizedFileURL)
     }
 
     func testSaveAsEasyEDAProWritesOneFileAndLeavesTheWindowAlone() throws {

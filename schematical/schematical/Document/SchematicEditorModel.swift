@@ -27,6 +27,13 @@ final class SchematicEditorModel {
     /// The page the editor shows.
     var page = EditorPage.schematic
 
+    /// What the editor gives the app's menus (`EditorMenus`).
+    @ObservationIgnored let menus = EditorMenus()
+    /// Route ▸ Autoroute…'s model, made the first time it is needed. Here
+    /// and observed, not in the editor's view state, so the Route menu
+    /// follows a run.
+    var autoroute: AutorouteModel?
+
     /// The editor's `NSEvent` monitors (the Edit keys, the canvases' drawing
     /// keys). Their closures hold the editor's views, and through them this
     /// model, for as long as they are installed: the document empties this
