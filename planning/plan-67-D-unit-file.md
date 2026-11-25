@@ -30,7 +30,7 @@ letter adds one:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-67-C has landed | `grep -c 'func setPartSplit' schematical/schematical/Canvas/SchematicModel.swift` → 1 | NOT MET (2026-11-25: 0) |
+| plan-67-C has landed | `grep -c 'func setPartSplit' schematical/schematical/Canvas/SchematicModel.swift` → 1 | MET (2026-11-25: 1, `893423e1`) |
 
 ## 1. Goal
 
@@ -137,19 +137,22 @@ Rejected:
 
 ### Phase 1 — write and read
 
-- [ ] `Document/SchematicFile.swift`: add
+- [x] `Document/SchematicFile.swift`: add
       `struct Unit: Codable, Equatable, Sendable { var unit: String; var x: Double; var y: Double; var flipped: Bool?; var rotation: Int? }`
       inside `Part`, and `var units: [Unit]? = nil` with a doc comment in the
       style of `rotation`'s.
-- [ ] Writing (825-858): `units` = nil when `!chip.isSplit`, else one entry per
+      **Done:** `Unit` is a sibling of `Part` inside `SchematicFile` (not nested in `Part`).
+- [x] Writing (825-858): `units` = nil when `!chip.isSplit`, else one entry per
       `chip.unitPlacements` (`flipped` nil unless true, `rotation` nil when 0);
       for a split chip write `flipped: false` and no `rotation`.
-- [ ] Reading (1131-1145): after the chip is built, when `part.units` is not
+- [x] Reading (1131-1145): after the chip is built, when `part.units` is not
       nil, `chip.setPlacements(…)` from it; the result is not an error either way.
-- [ ] `docs/file-format.md`: a `units` row in the Parts table after `rotation`,
+      **Done:** unit positions are snapped to the grid, as a part's `x`, `y` are.
+- [x] `docs/file-format.md`: a `units` row in the Parts table after `rotation`,
       the sub-table of a unit's keys, the rule for `x`/`y`/`flipped` when it is
       present, what an older build does, and what an unmatched list does.
-- [ ] Tests: new `schematicalTests/SplitPartFileTests.swift` —
+      **Done:** one table row after `rotation` holding the sub-keys and every rule.
+- [x] Tests: new `schematicalTests/SplitPartFileTests.swift` —
       `testSaveAndOpen` (a split `SN74HC00N` with B moved, flipped and turned
       to 90, wired to an LED: after encode and decode the placements are equal,
       the wire's end tip is equal); `testKeyOmittedForABlock` (the encoded JSON
@@ -164,6 +167,7 @@ Rejected:
       `.schematical` under `examples/`, open and encode: the bytes equal a
       second open-and-encode of that result, and no encoding contains
       `"units"`).
+      **Done:** `XB -only-testing:schematicalTests/SplitPartFileTests -only-testing:schematicalTests/SchematicFileV5Tests -only-testing:schematicalTests/SchematicRotateTests` → `Executed 25 tests, with 0 failures` (7 + 10 + 8), `** TEST SUCCEEDED **`. `testExamplesAreUnchanged` walked the 10 files under `examples/` in the worktree.
 
 Acceptance: a split part survives a save, and files without one are untouched.
   Check: `XB -only-testing:schematicalTests/SplitPartFileTests -only-testing:schematicalTests/SchematicFileV5Tests -only-testing:schematicalTests/SchematicRotateTests`
@@ -187,6 +191,10 @@ Commit: —
   are never converted). Settles that absence of `units` means a block.
 
 ## Corrections
+
+- **"The file has no `\"units\"`" cannot be checked as text.** The first run failed 12 assertions: every file already contains a `units` key, the board's length unit, outside the parts. The tests count the `units` keys of the objects in `parts` (`JSONSerialization`) instead. The writer was right; the check was wrong.
+- **A stronger identity check than planned.** `testKeyOmittedForABlock` also splits a part and joins it again and compares the bytes with the first save: equal.
+- **Examples under `examples/`: 10 in the worktree, not 9.** The plan counted the main checkout, where `examples/slow PCB.schematical` is deleted in the working tree but still committed. The test requires at least 9.
 
 ## Summary
 

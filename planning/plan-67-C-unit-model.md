@@ -284,7 +284,7 @@ Acceptance: a split part answers every geometry question from its pieces, and
 an unsplit part answers exactly as before.
   Check: `XB -only-testing:schematicalTests/SplitPartModelTests -only-testing:schematicalTests/SchematicRotateTests`
   → `** TEST SUCCEEDED **` (est. 5 min).
-Commit: —
+Commit: 893423e1
 
 ### Phase 2 — edits and wires
 
@@ -312,7 +312,7 @@ Acceptance: splitting, joining and editing one unit keep every wire on its pin
 and are each one undo step.
   Check: `XB -only-testing:schematicalTests/SplitPartEditTests -only-testing:schematicalTests/SchematicClipboardTests -only-testing:schematicalTests/SchematicUndoTests`
   → `** TEST SUCCEEDED **` (est. 5 min).
-Commit: —
+Commit: 893423e1
 
 ### Phase 3 — picks and group drags
 
@@ -337,7 +337,7 @@ Commit: —
 Acceptance: a drag moves the picked units and nothing else of that part.
   Check: `XB -only-testing:schematicalTests/SplitPartEditTests -only-testing:schematicalTests/SelectionModelTests -only-testing:schematicalTests/SelectionGestureTests`
   → `** TEST SUCCEEDED **` (est. 5 min).
-Commit: —
+Commit: 893423e1
 
 ## Validation Plan
 

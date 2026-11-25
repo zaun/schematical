@@ -67,6 +67,19 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         var y: Double
     }
 
+    /// One unit of a part drawn as its units (`Part.units`).
+    struct Unit: Codable, Equatable, Sendable {
+        /// The unit's key: "A", "B", … or "P".
+        var unit: String
+        /// Top-left corner of the unit's body, in canvas units.
+        var x: Double
+        var y: Double
+        /// Left out unless true.
+        var flipped: Bool? = nil
+        /// 90, 180 or 270, gates only. Left out when 0.
+        var rotation: Int? = nil
+    }
+
     struct Part: Codable, Equatable, Sendable {
         var id: UUID
         var reference: String
@@ -78,6 +91,12 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         /// Parts drawn as their own symbol only (`PartSymbol.canRotate`): how far the part is
         /// turned clockwise on the Schematic, 0, 90, 180 or 270. Left out when 0.
         var rotation: Int? = nil
+        /// A part drawn as its units only (plan-67; a gate IC in Gate view):
+        /// where each unit is, every unit of the part once. Then `x`, `y` are
+        /// the corner of the box around them, `flipped` is false and
+        /// `rotation` is left out. Left out for a part drawn as one block; a
+        /// list that does not name exactly the part's units is ignored.
+        var units: [Unit]? = nil
         /// DIP switches only: whether each position is ON, position 1 first.
         /// Left out for other parts.
         var switches: [Bool]? = nil
@@ -829,8 +848,12 @@ extension SchematicFile {
                 partNumber: chip.partNumber,
                 x: chip.origin.x,
                 y: chip.origin.y,
-                flipped: chip.isFlipped,
-                rotation: chip.rotation == 0 ? nil : chip.rotation,
+                flipped: chip.isFlipped && !chip.isSplit,
+                rotation: chip.rotation == 0 || chip.isSplit ? nil : chip.rotation,
+                units: chip.isSplit ? chip.unitPlacements.map {
+                    Unit(unit: $0.key, x: $0.origin.x, y: $0.origin.y, flipped: $0.isFlipped ? true : nil,
+                         rotation: $0.rotation == 0 ? nil : $0.rotation)
+                } : nil,
                 // DIP and slide switches save their contacts; a tactile switch never does.
                 switches: chip.switchesOn.isEmpty || chip.part.isTactileSwitch ? nil : chip.switchesOn,
                 pcb: chip.board.map {
@@ -1146,6 +1169,14 @@ extension SchematicFile {
                 socket: socket
             )
             chip.showsReference = part.showReference ?? true
+            // Drawn as its units (plan-67) when the list names exactly the
+            // part's units; any other list is ignored and the part is a block.
+            if let units = part.units {
+                chip.setPlacements(units.map {
+                    UnitPlacement(key: $0.unit, origin: SchematicGrid.snap(CGPoint(x: $0.x, y: $0.y)),
+                                  isFlipped: $0.flipped ?? false, rotation: $0.rotation ?? 0)
+                })
+            }
             // A stored placement counts only for a part with a footprint.
             var board: BoardPlacement?
             if let pcb = part.pcb, catalogPart.footprint != nil {
