@@ -311,7 +311,7 @@ None. No public header, part file, document format or golden changes.
 Acceptance: the oracle prints the step lines.
   Check: `node backend/tools/avr8js-oracle/oracle.js step 305419896 4 | wc -l` → `262144` (est. 5 s).
   Observed 2026-11-24: `262144`; sha256 of the tarball equal; 18 `.js` files; no `nan`/`undefined` in the output.
-Commit: —
+Commit: b1932c90
 
 ### Phase 2 — the CPU core
 
@@ -330,7 +330,7 @@ Commit: —
 Acceptance: the library builds with the two files.
   Check: `cmake --build /tmp/sim-rel --target logic 2>&1 | grep -c 'warning\|error'` → `0` (est. 1 min).
   Observed 2026-11-24: `0`.
-Commit: —
+Commit: 67ce943d
 
 ### Phase 3 — `avr_core_test`
 
@@ -355,7 +355,7 @@ Acceptance: the C core equals avr8js on every opcode word, and the 7 fixes
 hold.
   Check: `cmake --build /tmp/sim-rel -j8 && ctest --test-dir /tmp/sim-rel -R avr_core_test --output-on-failure` → `step: 262144 vectors match avr8js`, `fixes: 7 ok`, `1/1 Test … Passed` (est. 1 min).
   Observed 2026-11-24: `step: 262144 vectors match avr8js`, `step: 99 of 99 decode branches ran`, `fixes: 7 ok`, `unit: ok`; golden line `step 305419896 4 262144 7780baee2f7b9ffa` from `avr_core_test --print-golden`.
-Commit: —
+Commit: 67ce943d
 
 ## Validation Plan
 
