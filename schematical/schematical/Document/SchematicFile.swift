@@ -212,6 +212,13 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         /// Keep-outs the pours stay out of. Written only when there are
         /// some; missing means none.
         var keepouts: [KeepoutEntry]? = nil
+        /// A Custom board's free-form outline (plan-65): clockwise or not, its
+        /// bounds' top-left at (0, 0). Written only for such a board; it wins
+        /// over `width` and `height`.
+        var outline: [Point]? = nil
+        /// Cutouts of the board, in drawing order. Written only when there
+        /// are some; missing means none.
+        var cutouts: [CutoutEntry]? = nil
         /// Net classes, in priority order. Written only when there are
         /// some; missing means none (every net in the Default class).
         var netClasses: [NetClassEntry]? = nil
@@ -371,6 +378,21 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
             var width: Double
             var height: Double
             var layers: [String]? = nil
+            var locked: Bool? = nil
+        }
+
+        /// A cutout (plan-65): `shape` "rounded" has `x`, `y`, `width`,
+        /// `height` and `radius` (mm; a missing radius is 0), "polygon" has
+        /// `points`.
+        struct CutoutEntry: Codable, Equatable, Sendable {
+            var id: UUID
+            var shape: String
+            var x: Double? = nil
+            var y: Double? = nil
+            var width: Double? = nil
+            var height: Double? = nil
+            var radius: Double? = nil
+            var points: [Point]? = nil
             var locked: Bool? = nil
         }
 
@@ -881,6 +903,17 @@ extension SchematicFile {
                                    layers: keepout.layers.map { $0.map(\.rawValue).sorted() },
                                    locked: keepout.locked ? true : nil)
             },
+            outline: settings.isFreeForm ? settings.customOutline?.map { Point(x: $0.x, y: $0.y) } : nil,
+            cutouts: document.cutouts.isEmpty ? nil : document.cutouts.map { cutout in
+                switch cutout.shape {
+                case let .rounded(rect, radius):
+                    Board.CutoutEntry(id: cutout.id, shape: "rounded", x: rect.minX, y: rect.minY, width: rect.width,
+                                      height: rect.height, radius: radius, locked: cutout.locked ? true : nil)
+                case let .polygon(points):
+                    Board.CutoutEntry(id: cutout.id, shape: "polygon", points: points.map { Point(x: $0.x, y: $0.y) },
+                                      locked: cutout.locked ? true : nil)
+                }
+            },
             netClasses: settings.netClasses.isEmpty ? nil : settings.netClasses.map { netClass in
                 Board.NetClassEntry(id: netClass.id, name: netClass.name, width: netClass.width,
                                     clearance: netClass.clearance, viaDrill: netClass.viaDrill,
@@ -1279,6 +1312,12 @@ extension SchematicFile {
             keepouts.append(try Self.boardKeepout(entry))
         }
 
+        var cutouts: [BoardCutout] = []
+        for entry in board?.cutouts ?? [] {
+            try claim(entry.id)
+            cutouts.append(try Self.boardCutout(entry))
+        }
+
         var placedNotes: [SchematicNote] = []
         for entry in notes ?? [] {
             try claim(entry.id)
@@ -1306,6 +1345,7 @@ extension SchematicFile {
             holes: holes,
             pours: pours,
             keepouts: keepouts,
+            cutouts: cutouts,
             notes: placedNotes,
             netLabels: placedLabels
         )
@@ -1426,6 +1466,20 @@ extension SchematicFile {
             // A card's height is its standard's; its length is at least the least.
             settings.height = card.height
             settings.width = min(max(settings.width, card.minimumLength), card.maximumLength)
+        }
+        if let entries = board.outline {
+            guard settings.type == .custom else {
+                throw SchematicFileError.badPCB("board outline needs the board type custom")
+            }
+            let points = entries.map { CGPoint(x: $0.x, y: $0.y) }
+            if let problem = BoardSettings.problem(outline: points) {
+                throw SchematicFileError.badPCB("board outline \(problem)")
+            }
+            // The outline wins over the width and height the file also has.
+            let bounds = BoardSettings.bounds(of: points)
+            settings.customOutline = BoardGeometry.clockwise(points)
+            settings.width = bounds.width
+            settings.height = bounds.height
         }
         return settings
     }
@@ -1682,6 +1736,29 @@ extension SchematicFile {
             throw SchematicFileError.badPCB("\(name) \(problem)")
         }
         return keepout
+    }
+
+    /// A stored cutout (plan-65). A polygon is kept clockwise.
+    private static func boardCutout(_ entry: Board.CutoutEntry) throws -> BoardCutout {
+        let name = "cutout \(entry.id.uuidString)"
+        let shape: BoardCutout.Shape
+        switch entry.shape {
+        case "rounded":
+            guard let x = entry.x, let y = entry.y, let width = entry.width, let height = entry.height else {
+                throw SchematicFileError.badPCB("\(name) needs x, y, width and height")
+            }
+            shape = .rounded(rect: CGRect(x: x, y: y, width: width, height: height), radius: entry.radius ?? 0)
+        case "polygon":
+            guard let points = entry.points else { throw SchematicFileError.badPCB("\(name) needs points") }
+            shape = .polygon(points.map { CGPoint(x: $0.x, y: $0.y) })
+        default:
+            throw SchematicFileError.badPCB("\(name) shape \"\(entry.shape)\" must be rounded or polygon")
+        }
+        if let problem = BoardCutout.problem(shape) { throw SchematicFileError.badPCB("\(name) \(problem)") }
+        var cutout = BoardCutout(id: entry.id, shape: shape)
+        if case let .polygon(points) = shape { cutout.shape = .polygon(BoardGeometry.clockwise(points)) }
+        cutout.locked = entry.locked ?? false
+        return cutout
     }
 
     /// A stored footprint placement, with defaults for missing keys.

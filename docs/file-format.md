@@ -192,6 +192,8 @@ loaded into its flash:
 | `holes`  | array   | Drilled holes (mounting holes and others), in drawing order ([Holes](#holes)). Written only when there are some; missing means none. Older builds ignore it. |
 | `pours`  | array   | Copper pours, in drawing order ([Pours](#pours)). Written only when there are some; missing means none. Older builds ignore it. |
 | `keepouts` | array | Keep-outs the pours stay out of ([Keep-outs](#keep-outs)). Written only when there are some; missing means none. Older builds ignore it. |
+| `outline` | array | Optional. A Custom board's free-form edge (plan-65): a list of `{ "x", "y" }` points in mm, a simple polygon (at least 3 points, no crossing, either winding; opening stores it clockwise) whose bounds' top-left is (0, 0), each side 1 to 1000 mm. Only with `type` `"custom"` (or no `type`). It wins over `width` and `height`: they become its bounds. Written only for such a board. Older builds ignore it and draw the `width` × `height` rectangle. |
+| `cutouts` | array | Cutouts: regions with no material ([Cutouts](#cutouts)). Written only when there are some; missing means none. Older builds ignore it, and their next save drops it. |
 | `netClasses` | array | Net classes, in priority order ([Net classes](#net-classes)). Written only when there are some; missing means none, every net in the Default class. Older builds ignore it. |
 | `netLayerRules` | array | Layer rules set on single nets ([Net layer rules](#net-layer-rules)). Written only when there are some. Older builds ignore it. |
 | `netGroups` | array | Equal-length groups and differential pairs ([Net groups](#net-groups)). Written only when there are some. Older builds ignore it. |
@@ -322,6 +324,26 @@ A rectangle that pours stay out of. It blocks copper pours only: traces, vias an
 | `x`, `y`, `width`, `height` | number | The rectangle in mm, as a pour's. |
 | `layers`   | array   | The layers it applies to, named as a pour's `layer`. A layer the board doesn't have is kept and ignored. Missing means every layer; an empty array means none (it blocks nothing). |
 | `locked`   | boolean | Lock Position. Default `false`. Written only when `true`. |
+
+### Cutouts
+
+```json
+"cutouts": [ { "id": "...", "shape": "rounded", "x": 10, "y": 8, "width": 6, "height": 2, "radius": 1 },
+             { "id": "...", "shape": "polygon", "points": [ {"x": 30, "y": 10}, {"x": 34, "y": 10}, {"x": 32, "y": 14} ], "locked": true } ]
+```
+
+A region of the board with no material: a window, a round hole too big to drill, a milled slot. It goes through the whole board, so it has no layer and no net. Copper (pads, traces, vias, holes, pours) keeps the board-edge clearance from it; a part's body may overhang it.
+
+| Field      | Type    | Meaning |
+|------------|---------|---------|
+| `id`       | UUID    | Unique within the file, across every other ID. |
+| `shape`    | string  | `"rounded"`: a rectangle with a corner radius (radius 0 a rectangle; a square with a radius of half its side a circle; a longer box with a radius of half its short side a slot). `"polygon"`: a closed loop. |
+| `x`, `y`, `width`, `height` | number | Only `"rounded"`: the box in mm from the top-left; each side at least 0.5. |
+| `radius`   | number  | Only `"rounded"`: the corner radius in mm, 0 to half the short side. Missing means 0. |
+| `points`   | array   | Only `"polygon"`: `{ "x", "y" }` points in mm, at least 3, no crossing, either winding (opening stores it clockwise). |
+| `locked`   | boolean | Lock Position. Default `false`. Written only when `true`. |
+
+A cutout may lie anywhere, overlap another or cross the board's edge: the file does not say it is wrong, the design rule check does.
 
 ### Net classes
 
@@ -735,6 +757,11 @@ Opening fails, and the canvas is left unchanged, if:
   - `pour <id> thermalGap 9 must be 0.1 to 5 mm` (same for `spokeWidth`; `minWidth` 0.05 to 2);
   - `keepout <id> layer "middle" must be top, inner2 to inner5, or bottom`;
   - `keepout <id> width 0.1 must be at least 0.5 mm` (same for `height`);
+  - `board outline needs the board type custom`, `board outline needs at least 3 points`, `board outline crosses itself`,
+    `board outline must start at (0, 0): its top-left is (5, 0)`, `board outline is 1200 mm wide; sizes are 1 to 1000 mm` (likewise `high`);
+  - `cutout <id> shape "oval" must be rounded or polygon`, `cutout <id> needs x, y, width and height`, `cutout <id> width 0.1 must be at least 0.5 mm`
+    (same for `height`), `cutout <id> radius 5 must be 0 to 2 mm`, `cutout <id> needs points`, `cutout <id> needs at least 3 points`,
+    `cutout <id> crosses itself`;
   - `board stackup copper has 2 entries; a 4-layer board needs 4` (likewise `dielectrics`);
   - `board stackup copper thickness 0.001 must be 0.005 to 0.2 mm`, `dielectric thickness … must be 0.02 to 5 mm`,
     `dielectric er … must be 1 to 20`, `temperatureRise … must be 1 to 100 °C`;
@@ -792,6 +819,9 @@ save. An older build ignores the key, uses its own Settings, and drops the
 key when it saves.
 
 ## Older versions
+
+A build from before cutouts (plan-65) opens a file with `board.cutouts` or `board.outline` and ignores both: it shows the board as its
+`width` × `height` rectangle with no cutouts, and its next save leaves them out. The file version did not change.
 
 Version 3 is version 4 without the part keys `color` and `footprint`. Its
 LEDs were separate parts per color and package; they open as described in

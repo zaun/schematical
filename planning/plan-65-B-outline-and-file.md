@@ -149,12 +149,13 @@ Commit: —
 
 ### Phase 2 — The file
 
-- [ ] `Document/SchematicFile.swift`: `Board.outline`, `Board.cutouts`, `Board.CutoutEntry`; the encode of both (only when used); `boardSettings()` reads and validates `outline`; a `boardCutout(_:)` reader beside `boardKeepout`; `claim(entry.id)` for cutouts; `replaceContents(… cutouts:)`.
-- [ ] `docs/file-format.md`: rows for `outline` and `cutouts` in the Board table (`:167`–`:200`); a `### Cutouts` section after `### Keep-outs` (`:311`) with the JSON above, the shapes, ranges and "bounds start at (0, 0)"; the error list (`:725`–`:737`) gains every message in § 4.3; § Older versions (`:794`) gets the paragraph in § 5.
-- [ ] Tests `schematicalTests/CutoutFileTests.swift`: a document with a rounded and a locked polygon cutout and a free-form outline saves and opens to an equal `cutouts` array and `board.outline`; a document with neither writes JSON containing neither key (`XCTAssertFalse(json.contains("\"cutouts\""))` and `"outline"`); each row of the error table fails with exactly that message (ids filled in); `width`/`height` in the file are overridden by the outline's bounds; two cutouts with one id are refused (the existing duplicate-id message).
+- [x] `Document/SchematicFile.swift`: `Board.outline`, `Board.cutouts`, `Board.CutoutEntry`; the encode of both (only when used); `boardSettings()` reads and validates `outline`; a `boardCutout(_:)` reader beside `boardKeepout`; `claim(entry.id)` for cutouts; `replaceContents(… cutouts:)`.
+- [x] `docs/file-format.md`: rows for `outline` and `cutouts` in the Board table (`:167`–`:200`); a `### Cutouts` section after `### Keep-outs` (`:311`) with the JSON above, the shapes, ranges and "bounds start at (0, 0)"; the error list (`:725`–`:737`) gains every message in § 4.3; § Older versions (`:794`) gets the paragraph in § 5.
+- [x] Tests `schematicalTests/CutoutFileTests.swift`: a document with a rounded and a locked polygon cutout and a free-form outline saves and opens to an equal `cutouts` array and `board.outline`; a document with neither writes JSON containing neither key (`XCTAssertFalse(json.contains("\"cutouts\""))` and `"outline"`); each row of the error table fails with exactly that message (ids filled in); `width`/`height` in the file are overridden by the outline's bounds; two cutouts with one id are refused (the existing duplicate-id message).
 
 Acceptance: round trip is exact; every error message in the table is produced; documents without the keys are unchanged.
   Check: `XB -only-testing:schematicalTests/CutoutFileTests -only-testing:schematicalTests/PourFileTests -only-testing:schematicalTests/SchematicFileV5Tests -only-testing:schematicalTests/FileDesignRulesTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 3 min; the three existing classes are the check that files without the keys are unchanged).
+  Observed: CutoutFileTests 10 + PourFileTests 13 + SchematicFileV5Tests 8 + FileDesignRulesTests 7, 0 failures, TEST SUCCEEDED.
 Commit: —
 
 ## Validation Plan
