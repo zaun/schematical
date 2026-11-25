@@ -1938,6 +1938,8 @@ final class SchematicDocument {
         for keepout in keepouts where keepoutIsShown(keepout, visible) && rect.contains(keepout.rect) {
             items.insert(.keepout(keepout.id))
         }
+        // A cutout likewise: its bounds inside the box.
+        for cutout in cutouts where rect.contains(cutout.shape.bounds) { items.insert(.cutout(cutout.id)) }
         return items
     }
 
@@ -1989,6 +1991,7 @@ final class SchematicDocument {
         }
         for pour in pours where visible.shows(.copper(pour.layer)) { items.insert(.pour(pour.id)) }
         for keepout in keepouts where keepoutIsShown(keepout, visible) { items.insert(.keepout(keepout.id)) }
+        for cutout in cutouts { items.insert(.cutout(cutout.id)) }
         if items != boardSelection.items { boardSelection.set(items) }
     }
 
@@ -2027,7 +2030,7 @@ final class SchematicDocument {
         }
         let footprints = Set(chips.filter { $0.board != nil }.map(\.id))
         let traceIDs = Set(traces.map(\.id)), viaIDs = Set(vias.map(\.id)), holeIDs = Set(holes.map(\.id))
-        let pourIDs = Set(pours.map(\.id)), keepoutIDs = Set(keepouts.map(\.id))
+        let pourIDs = Set(pours.map(\.id)), keepoutIDs = Set(keepouts.map(\.id)), cutoutIDs = Set(cutouts.map(\.id))
         boardSelection.filter { item in
             switch item {
             case let .footprint(id): footprints.contains(id)
@@ -2037,6 +2040,7 @@ final class SchematicDocument {
             case let .hole(id): holeIDs.contains(id)
             case let .pour(id): pourIDs.contains(id)
             case let .keepout(id): keepoutIDs.contains(id)
+            case let .cutout(id): cutoutIDs.contains(id)
             }
         }
     }
@@ -2058,6 +2062,14 @@ final class SchematicDocument {
     private(set) var pours: [BoardPour] = [] { didSet { copperRevision &+= 1 } }
     /// Keep-outs (plan-52): rectangles the pours stay out of.
     private(set) var keepouts: [BoardKeepout] = [] { didSet { copperRevision &+= 1 } }
+    /// Cutouts (plan-65): regions of the board with no material, in drawing order.
+    private(set) var cutouts: [BoardCutout] = [] { didSet { copperRevision &+= 1 } }
+
+    /// The board's edge: its outline and every cutout's loop (plan-65). What
+    /// every reader of the edge asks.
+    var boardEdge: BoardEdge {
+        BoardEdge(outline: board.outline, cutouts: cutouts.map { $0.shape.loop })
+    }
 
     /// Lowest number tried for the next part's reference ("U" plus a number).
     private(set) var nextReference = 1
@@ -2092,7 +2104,7 @@ final class SchematicDocument {
     func replaceContents(chips: [PlacedChip], wires: [Wire], junctions: [Junction], buses: [Bus],
                          nextReference: Int, board: BoardSettings, texts: [BoardText],
                          traces: [BoardTrace], vias: [BoardVia] = [], holes: [BoardHole] = [],
-                         pours: [BoardPour] = [], keepouts: [BoardKeepout] = [],
+                         pours: [BoardPour] = [], keepouts: [BoardKeepout] = [], cutouts: [BoardCutout] = [],
                          notes: [SchematicNote] = [], netLabels: [NetLabel] = []) {
         self.chips = chips
         self.notes = notes
@@ -2115,6 +2127,7 @@ final class SchematicDocument {
         self.holes = holes
         self.pours = pours
         self.keepouts = keepouts
+        self.cutouts = cutouts
         editingNoteID = nil
         clearAllSelections()
         editorMessage = nil
@@ -2161,7 +2174,7 @@ final class SchematicDocument {
     var state: DocumentState {
         DocumentState(chips: chips, wires: wires, junctions: junctions, buses: buses, notes: notes,
                       netLabels: netLabels, nextReference: nextReference, board: board, texts: texts, traces: traces, vias: vias, holes: holes,
-                      pours: pours, keepouts: keepouts)
+                      pours: pours, keepouts: keepouts, cutouts: cutouts)
     }
 
     /// Writes a state back (undo, redo), then drops selections and editor
@@ -2181,6 +2194,7 @@ final class SchematicDocument {
         if holes != s.holes { holes = s.holes }
         if pours != s.pours { pours = s.pours }
         if keepouts != s.keepouts { keepouts = s.keepouts }
+        if cutouts != s.cutouts { cutouts = s.cutouts }
         pruneSelection()
         if let id = editingNoteID, !notes.contains(where: { $0.id == id }) { editingNoteID = nil }
         if let id = selectedBusID, bus(id) == nil { selectedBusID = nil }
@@ -4081,7 +4095,7 @@ final class SchematicDocument {
     @discardableResult
     func deleteBoardSelection() -> Bool {
         var textIDs: Set<UUID> = [], traceIDs: Set<UUID> = [], viaIDs: Set<UUID> = [], holeIDs: Set<UUID> = []
-        var pourIDs: Set<UUID> = [], keepoutIDs: Set<UUID> = []
+        var pourIDs: Set<UUID> = [], keepoutIDs: Set<UUID> = [], cutoutIDs: Set<UUID> = []
         for item in boardSelection.items {
             switch item {
             case let .text(id): textIDs.insert(id)
@@ -4090,11 +4104,12 @@ final class SchematicDocument {
             case let .hole(id): holeIDs.insert(id)
             case let .pour(id): pourIDs.insert(id)
             case let .keepout(id): keepoutIDs.insert(id)
+            case let .cutout(id): cutoutIDs.insert(id)
             case .footprint: break
             }
         }
         guard !textIDs.isEmpty || !traceIDs.isEmpty || !viaIDs.isEmpty || !holeIDs.isEmpty || !pourIDs.isEmpty
-                || !keepoutIDs.isEmpty else { return false }
+                || !keepoutIDs.isEmpty || !cutoutIDs.isEmpty else { return false }
         recordEdit(.pcb, "Delete") {
             texts.removeAll { textIDs.contains($0.id) }
             traces.removeAll { traceIDs.contains($0.id) }
@@ -4102,6 +4117,7 @@ final class SchematicDocument {
             holes.removeAll { holeIDs.contains($0.id) }
             pours.removeAll { pourIDs.contains($0.id) }
             keepouts.removeAll { keepoutIDs.contains($0.id) }
+            cutouts.removeAll { cutoutIDs.contains($0.id) }
             pruneSelection()
         }
         return true
@@ -4789,6 +4805,72 @@ final class SchematicDocument {
         }
     }
 
+    // MARK: Cutouts (PCB)
+
+    /// Adds a cutout of `shape` and selects it. A rounded shape's box is
+    /// snapped to the trace grid (and kept within the allowed sizes); a polygon
+    /// is stored clockwise. Nil, with no undo step, when `BoardCutout.problem`
+    /// refuses the shape.
+    @discardableResult
+    func addCutout(_ shape: BoardCutout.Shape) -> UUID? {
+        guard BoardCutout.problem(shape) == nil else { return nil }
+        return recordEdit(.pcb, "Add Cutout") { () -> UUID in
+            let stored: BoardCutout.Shape
+            switch shape {
+            case let .rounded(rect, radius):
+                let fitted = BoardCutout.normalized(snappedRect(rect), radius: radius)
+                stored = .rounded(rect: fitted.rect, radius: fitted.radius)
+            case let .polygon(points):
+                stored = .polygon(BoardGeometry.clockwise(points))
+            }
+            let cutout = BoardCutout(id: UUID(), shape: stored)
+            cutouts.append(cutout)
+            boardSelection.replace(with: .cutout(cutout.id))
+            return cutout.id
+        }
+    }
+
+    /// Moves a cutout so its bounds' top-left corner is at `origin`, snapped to the trace grid.
+    func moveCutout(_ id: UUID, to origin: CGPoint) {
+        recordEdit(.pcb, "Move") {
+            guard let index = cutouts.firstIndex(where: { $0.id == id }), !cutouts[index].locked else { return }
+            let target = BoardGrid.snap(origin, spacing: board.traceGrid)
+            let from = cutouts[index].shape.bounds.origin
+            let moved = cutouts[index].shape.translated(by: CGSize(width: target.x - from.x, height: target.y - from.y))
+            if cutouts[index].shape != moved { cutouts[index].shape = moved }
+        }
+    }
+
+    /// Sets a rounded cutout's box (snapped to the trace grid, at least 0.5 mm a side); its radius
+    /// stays within the new box. Does nothing to a polygon or a locked cutout.
+    func setCutoutRect(_ id: UUID, _ rect: CGRect, name: String = "Resize") {
+        recordEdit(.pcb, name) {
+            guard let index = cutouts.firstIndex(where: { $0.id == id }), !cutouts[index].locked,
+                  case let .rounded(_, radius) = cutouts[index].shape else { return }
+            let fitted = BoardCutout.normalized(snappedRect(rect), radius: radius)
+            let target = BoardCutout.Shape.rounded(rect: fitted.rect, radius: fitted.radius)
+            if cutouts[index].shape != target { cutouts[index].shape = target }
+        }
+    }
+
+    /// Sets a rounded cutout's corner radius, within 0 to half its short side.
+    func setCutoutRadius(_ id: UUID, _ radius: Double) {
+        recordEdit(.pcb, "Change Cutout") {
+            guard let index = cutouts.firstIndex(where: { $0.id == id }), !cutouts[index].locked,
+                  case let .rounded(rect, _) = cutouts[index].shape else { return }
+            let fitted = BoardCutout.normalized(rect, radius: radius)
+            let target = BoardCutout.Shape.rounded(rect: fitted.rect, radius: fitted.radius)
+            if cutouts[index].shape != target { cutouts[index].shape = target }
+        }
+    }
+
+    func deleteCutout(_ id: UUID) {
+        recordEdit(.pcb, "Delete") {
+            cutouts.removeAll { $0.id == id }
+            pruneSelection()
+        }
+    }
+
     /// Whether a keep-out is drawn with `visible`: any layer it applies to shows.
     func keepoutIsShown(_ keepout: BoardKeepout, _ visible: BoardVisibility) -> Bool {
         guard let layers = keepout.layers else { return visible.showsAnyCopper }
@@ -5014,6 +5096,7 @@ final class SchematicDocument {
         case let .hole(id): holes.first { $0.id == id }?.locked ?? false
         case let .pour(id): pours.first { $0.id == id }?.locked ?? false
         case let .keepout(id): keepouts.first { $0.id == id }?.locked ?? false
+        case let .cutout(id): cutouts.first { $0.id == id }?.locked ?? false
         }
     }
 
@@ -5038,6 +5121,8 @@ final class SchematicDocument {
                 if let index = pours.firstIndex(where: { $0.id == id }) { pours[index].locked = locked }
             case let .keepout(id):
                 if let index = keepouts.firstIndex(where: { $0.id == id }) { keepouts[index].locked = locked }
+            case let .cutout(id):
+                if let index = cutouts.firstIndex(where: { $0.id == id }) { cutouts[index].locked = locked }
             }
         }
     }
@@ -5087,6 +5172,8 @@ final class SchematicDocument {
                 if let rect = pours.first(where: { $0.id == id })?.rect { base.pours[id] = rect }
             case let .keepout(id):
                 if let rect = keepouts.first(where: { $0.id == id })?.rect { base.keepouts[id] = rect }
+            case let .cutout(id):
+                if let shape = cutouts.first(where: { $0.id == id })?.shape { base.cutouts[id] = shape }
             }
         }
         return base
@@ -5130,6 +5217,7 @@ final class SchematicDocument {
                 if let (id, centre) = base.holes.first { moveHole(id, to: moved(centre, by: delta)) }
                 if let (id, rect) = base.pours.first { movePour(id, to: moved(rect.origin, by: delta)) }
                 if let (id, rect) = base.keepouts.first { moveKeepout(id, to: moved(rect.origin, by: delta)) }
+                if let (id, shape) = base.cutouts.first { moveCutout(id, to: moved(shape.bounds.origin, by: delta)) }
                 return
             }
             for index in pours.indices {
@@ -5141,6 +5229,11 @@ final class SchematicDocument {
                 guard let rect = base.keepouts[keepouts[index].id] else { continue }
                 let target = CGRect(origin: moved(rect.origin, by: offset), size: rect.size)
                 if keepouts[index].rect != target { keepouts[index].rect = target }
+            }
+            for index in cutouts.indices {
+                guard let shape = base.cutouts[cutouts[index].id] else { continue }
+                let target = shape.translated(by: offset)
+                if cutouts[index].shape != target { cutouts[index].shape = target }
             }
             for index in holes.indices {
                 guard let centre = base.holes[holes[index].id] else { continue }

@@ -80,7 +80,21 @@ enum SelectionRows {
             rows.append(SelectionRow(item: .keepout(keepout.id), title: "Keep-out",
                                      detail: keepout.layers == nil ? "All layers" : "Some layers"))
         }
+        for cutout in document.cutouts where selection.contains(.cutout(cutout.id)) {
+            rows.append(SelectionRow(item: .cutout(cutout.id), title: "Cutout", detail: cutoutDetail(cutout)))
+        }
         return rows
+    }
+
+    /// A cutout's line in the list: "Rectangle 10 × 5 mm", "Circle ⌀3.2 mm", "Slot 8 × 2 mm", "Polygon, 24 points".
+    static func cutoutDetail(_ cutout: BoardCutout) -> String {
+        func n(_ value: CGFloat) -> String { String(format: "%g", (Double(value) * 100).rounded() / 100) }
+        let box = cutout.shape.bounds
+        switch cutout.kind {
+        case .circle: return "Circle ⌀\(n(box.width)) mm"
+        case .rectangle, .slot: return "\(cutout.kind.title) \(n(box.width)) × \(n(box.height)) mm"
+        case .polygon: return "Polygon, \(cutout.shape.loop.count) points"
+        }
     }
 
     /// "U1 K", "junction (250, 100)", "bus port B0".

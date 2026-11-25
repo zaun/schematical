@@ -245,19 +245,19 @@ inside the box) and select-all, `pruneSelection`, and the selection list rows (`
 
 Acceptance: the types exist, are `Sendable` (the build has no concurrency diagnostics) and the tests pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/BoardCutoutTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 2 min: a build and one fast test class). Observed: `Executed 17 tests, with 0 failures`, `** TEST SUCCEEDED **`.
-Commit: —
+Commit: bb26d125
 
 ### Phase 2 — Document state, undo, selection and the edit API
 
-- [ ] `Canvas/SchematicModel.swift`: `private(set) var cutouts: [BoardCutout] = [] { didSet { copperRevision &+= 1 } }` beside `keepouts`; `var boardEdge: BoardEdge`; `replaceContents(…)` (`:2092`, what opening a file calls) takes `cutouts: [BoardCutout] = []` after `keepouts`; `state` (`:2161`) and `setState` (`:2168`) carry `cutouts`; the `// MARK: Cutouts (PCB)` functions of § 4.4; `isLocked`/`setLocked`, `boardGroupBase`, `moveBoardGroup`, `deleteBoardSelection`, rubber-band, select-all and `pruneSelection` handle `.cutout`.
-- [ ] `Canvas/Selection.swift`: `BoardItem.cutout(UUID)`; `BoardGroupBase.cutouts`, counted.
-- [ ] `Canvas/UndoHistory.swift`: `DocumentState.cutouts`, `UndoKey.cutout`, `UndoValue.cutout`, the diff and place lines; `Document/SchematicNSDocument.swift:231` (the "state is empty" test) counts `cutouts`.
-- [ ] `Canvas/SelectionList.swift`: the cutout rows of § 4.4. `Automation/AutomationSchematic.swift`, `Automation/AutomationRead.swift`: the item name `cutout:ID` where `keepout:ID` is handled.
-- [ ] `Canvas/PCBCanvasView.swift`, `Canvas/PCBSidebarView.swift`, `Canvas/PourSection.swift`: the minimal `.cutout` cases so every `switch` over `BoardItem` compiles (the compiler lists them; the census bound is the 31 lines above).
-- [ ] Tests `schematicalTests/CutoutModelTests.swift`: each API call is one named step (`document.undoManager` step name) and undo/redo restores `cutouts` exactly; a locked cutout ignores move, rect and radius; `addCutout` refuses a bad shape and leaves no step; the grid snap of a rounded cutout; group move of a cutout with a hole and a keep-out moves each by the same snapped delta; deleting a selection holding a cutout removes it; `copperRevision` rises on add and on move; `isLocked`/`setLocked`; a document with no cutouts has `boardEdge.cutouts` empty and `boardEdge.outline == board.outline`.
+- [x] `Canvas/SchematicModel.swift`: `private(set) var cutouts: [BoardCutout] = [] { didSet { copperRevision &+= 1 } }` beside `keepouts`; `var boardEdge: BoardEdge`; `replaceContents(…)` (`:2092`, what opening a file calls) takes `cutouts: [BoardCutout] = []` after `keepouts`; `state` (`:2161`) and `setState` (`:2168`) carry `cutouts`; the `// MARK: Cutouts (PCB)` functions of § 4.4; `isLocked`/`setLocked`, `boardGroupBase`, `moveBoardGroup`, `deleteBoardSelection`, rubber-band, select-all and `pruneSelection` handle `.cutout`.
+- [x] `Canvas/Selection.swift`: `BoardItem.cutout(UUID)`; `BoardGroupBase.cutouts`, counted.
+- [x] `Canvas/UndoHistory.swift`: `DocumentState.cutouts`, `UndoKey.cutout`, `UndoValue.cutout`, the diff and place lines; `Document/SchematicNSDocument.swift:231` (the "state is empty" test) counts `cutouts`.
+- [x] `Canvas/SelectionList.swift`: the cutout rows of § 4.4. `Automation/AutomationSchematic.swift`, `Automation/AutomationRead.swift`: the item name `cutout:ID` where `keepout:ID` is handled.
+- [x] `Canvas/PCBCanvasView.swift`, `Canvas/PCBSidebarView.swift`, `Canvas/PourSection.swift`: the minimal `.cutout` cases so every `switch` over `BoardItem` compiles (the compiler lists them; the census bound is the 31 lines above).
+- [x] Tests `schematicalTests/CutoutModelTests.swift`: each API call is one named step (`document.undoManager` step name) and undo/redo restores `cutouts` exactly; a locked cutout ignores move, rect and radius; `addCutout` refuses a bad shape and leaves no step; the grid snap of a rounded cutout; group move of a cutout with a hole and a keep-out moves each by the same snapped delta; deleting a selection holding a cutout removes it; `copperRevision` rises on add and on move; `isLocked`/`setLocked`; a document with no cutouts has `boardEdge.cutouts` empty and `boardEdge.outline == board.outline`.
 
 Acceptance: every cutout change undoes and redoes exactly; the whole app target builds with the new `BoardItem` case handled everywhere; existing undo, selection and hole tests still pass.
-  Check: `XB -only-testing:schematicalTests/CutoutModelTests -only-testing:schematicalTests/PourModelTests -only-testing:schematicalTests/HoleTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 3 min; `PourModelTests` is the nearest existing test of the same `BoardItem`/undo paths, so a missed case there fails).
+  Check: `XB -only-testing:schematicalTests/CutoutModelTests -only-testing:schematicalTests/PourModelTests -only-testing:schematicalTests/HoleTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 3 min; `PourModelTests` is the nearest existing test of the same `BoardItem`/undo paths, so a missed case there fails). Observed: `CutoutModelTests` 14 tests, `PourModelTests` 18, `HoleTests` 6, 0 failures, `** TEST SUCCEEDED **`.
 Commit: —
 
 ## Validation Plan
@@ -266,7 +266,7 @@ Commit: —
 - Coverage check: the new files are in the app target (`PBXFileSystemSynchronizedRootGroup` picks them up) and the test files in the test target; the Phase 2 check runs both.
 - Runtime proof: none beyond the tests; no UI exists yet (plan-65-E is the first sub-plan a person can see).
 - Doc sync: none here; the file format and the agent tools are documented in B and J.
-- Final gate (run ONCE, after Phase 2): the two Phase checks' classes together plus `-only-testing:schematicalTests/KeyboardHelpTests` (`BoardItem` is read by the help text) (est. 4 min). The full unit bundle is not a plan step.
+- Final gate (run ONCE, after Phase 2): the two Phase checks' classes together plus `-only-testing:schematicalTests/KeyboardHelpTests` (`BoardItem` is read by the help text) (est. 4 min). The full unit bundle is not a plan step. Observed (BoardCutoutTests 17, CutoutModelTests 14, KeyboardHelpTests 6): 0 failures, `** TEST SUCCEEDED **`.
 
 ## Decisions
 
@@ -277,6 +277,8 @@ Commit: —
 ## Corrections
 
 - 2026-11-25: the plan said to run checks under `timeout 1800`; `timeout` does not exist on this Mac (`zsh: command not found: timeout`). Checks run with the Bash tool's own `timeout` parameter instead (plan-65-J's `timeout 3000` likewise).
+- 2026-11-25: `Shape.polygon` (the flattened loop, plan text in § 3, 4.1, 4.4 and plans C, D, G, I) is named `Shape.loop` in the code, because `.polygon` is an enum case of `Shape`; wherever a later plan says `shape.polygon`, read `shape.loop`.
+- 2026-11-25: the selection ring for `.cutout` (plan-65-E Phase 1) was written in A Phase 2 because the exhaustive `switch` needed a case anyway; E keeps its test and the rest of its drawing.
 - 2026-11-25: the plan counted a 3.2 mm circle as a 29-gon, using the segments per full circle; the rule it states (at least 4 per quarter turn, `ceil((π/2)/(2·acos(1 − 0.01/r)))` per quarter) gives 8 per quarter, 32 in all (`python3 -c "import math; print(max(4, math.ceil((math.pi/2)/(2*math.acos(1-0.01/1.6)))))"` → 8). A, C and § 2 corrected: 16, 32, 52, 160 segments for radii 0.5, 1.6, 5, 50 mm.
 
 ## Summary

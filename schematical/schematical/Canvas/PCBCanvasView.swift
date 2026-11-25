@@ -492,6 +492,8 @@ struct PCBCanvasView: View {
                 selected = document.pours.first(where: { $0.id == id && visible.shows(.copper($0.layer)) })?.rect
             case let .keepout(id):
                 selected = document.keepouts.first(where: { $0.id == id })?.rect
+            case let .cutout(id):
+                selected = document.cutouts.first(where: { $0.id == id })?.shape.bounds
             }
             if let selected {
                 context.stroke(Path(selected.insetBy(dx: -margin, dy: -margin)),

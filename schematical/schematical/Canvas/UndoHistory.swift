@@ -22,6 +22,7 @@ struct DocumentState: Equatable {
     var holes: [BoardHole] = []
     var pours: [BoardPour] = []
     var keepouts: [BoardKeepout] = []
+    var cutouts: [BoardCutout] = []
 }
 
 /// One thing a step can change. A part is split three ways, so a step holds
@@ -30,7 +31,7 @@ struct DocumentState: Equatable {
 enum UndoKey: Hashable {
     case part(UUID), reference(UUID), footprint(UUID)
     case wire(UUID), junction(UUID), bus(UUID), note(UUID), label(UUID), nextReference
-    case text(UUID), trace(UUID), via(UUID), hole(UUID), pour(UUID), keepout(UUID), board
+    case text(UUID), trace(UUID), via(UUID), hole(UUID), pour(UUID), keepout(UUID), cutout(UUID), board
 }
 
 /// One key's value on one side of a step. Items carry their array index so a
@@ -42,7 +43,7 @@ enum UndoValue: Equatable {
     case bus(Bus, index: Int), note(SchematicNote, index: Int), label(NetLabel, index: Int)
     case text(BoardText, index: Int), trace(BoardTrace, index: Int), via(BoardVia, index: Int)
     case hole(BoardHole, index: Int)
-    case pour(BoardPour, index: Int), keepout(BoardKeepout, index: Int)
+    case pour(BoardPour, index: Int), keepout(BoardKeepout, index: Int), cutout(BoardCutout, index: Int)
     case nextReference(Int), board(BoardSettings)
 }
 
@@ -121,6 +122,7 @@ enum UndoDiff {
         diff(old.holes, new.holes, key: UndoKey.hole, wrap: UndoValue.hole, into: &changes)
         diff(old.pours, new.pours, key: UndoKey.pour, wrap: UndoValue.pour, into: &changes)
         diff(old.keepouts, new.keepouts, key: UndoKey.keepout, wrap: UndoValue.keepout, into: &changes)
+        diff(old.cutouts, new.cutouts, key: UndoKey.cutout, wrap: UndoValue.cutout, into: &changes)
         if old.nextReference != new.nextReference {
             changes[.nextReference] = UndoChange(before: .nextReference(old.nextReference),
                                                  after: .nextReference(new.nextReference))
@@ -169,7 +171,7 @@ enum UndoDiff {
         var texts: [(UUID, UndoValue?)] = [], traces: [(UUID, UndoValue?)] = []
         var vias: [(UUID, UndoValue?)] = [], labels: [(UUID, UndoValue?)] = []
         var holes: [(UUID, UndoValue?)] = []
-        var pours: [(UUID, UndoValue?)] = [], keepouts: [(UUID, UndoValue?)] = []
+        var pours: [(UUID, UndoValue?)] = [], keepouts: [(UUID, UndoValue?)] = [], cutouts: [(UUID, UndoValue?)] = []
         for (key, change) in changes {
             let value = target(change)
             switch key {
@@ -189,6 +191,7 @@ enum UndoDiff {
             case let .hole(id): holes.append((id, value))
             case let .pour(id): pours.append((id, value))
             case let .keepout(id): keepouts.append((id, value))
+            case let .cutout(id): cutouts.append((id, value))
             case .nextReference:
                 if case let .nextReference(n)? = value { state.nextReference = n }
             case .board:
@@ -227,6 +230,7 @@ enum UndoDiff {
         place(holes, in: &state.holes, unwrap: { if case let .hole(h, i) = $0 { (h, i) } else { nil } })
         place(pours, in: &state.pours, unwrap: { if case let .pour(p, i) = $0 { (p, i) } else { nil } })
         place(keepouts, in: &state.keepouts, unwrap: { if case let .keepout(k, i) = $0 { (k, i) } else { nil } })
+        place(cutouts, in: &state.cutouts, unwrap: { if case let .cutout(c, i) = $0 { (c, i) } else { nil } })
         return state != original
     }
 

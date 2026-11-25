@@ -228,7 +228,7 @@ extension SchematicNSDocument {
         let state = model.document.state
         return state.chips.isEmpty && state.wires.isEmpty && state.junctions.isEmpty && state.buses.isEmpty
             && state.notes.isEmpty && state.netLabels.isEmpty && state.texts.isEmpty && state.traces.isEmpty
-            && state.vias.isEmpty && state.holes.isEmpty && state.pours.isEmpty && state.keepouts.isEmpty
+            && state.vias.isEmpty && state.holes.isEmpty && state.pours.isEmpty && state.keepouts.isEmpty && state.cutouts.isEmpty
     }
 
     /// Closing a document stops its simulation and closes the windows it

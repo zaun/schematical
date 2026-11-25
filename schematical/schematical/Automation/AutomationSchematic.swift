@@ -864,13 +864,14 @@ extension AutomationTools {
         case "hole": return .board(.hole(try context.find(document.holes, rest, kind: "hole").id))
         case "pour": return .board(.pour(try context.find(document.pours, rest, kind: "pour").id))
         case "keepout": return .board(.keepout(try context.find(document.keepouts, rest, kind: "keep-out").id))
+        case "cutout": return .board(.cutout(try context.find(document.cutouts, rest, kind: "cutout").id))
         case "text": return .board(.text(try context.find(document.texts, rest, kind: "board text").id))
         case "fp", "footprint":
             if forDelete { throw AutomationFailure("a footprint goes with its part: delete \(rest)") }
             return .board(.footprint(try context.chip(rest).id))
         default:
             throw AutomationFailure("unknown item “\(spec)”: use a reference (U1), wire:ID, label:NAME, note:ID, "
-                                    + "bus:NAME, junction:ID, trace:ID, via:ID, hole:ID, pour:ID, keepout:ID, text:ID or fp:U1")
+                                    + "bus:NAME, junction:ID, trace:ID, via:ID, hole:ID, pour:ID, keepout:ID, cutout:ID, text:ID or fp:U1")
         }
     }
 
@@ -904,6 +905,7 @@ extension AutomationTools {
                 case let .board(.hole(id)): document.deleteHole(id); removed += 1
                 case let .board(.pour(id)): document.deletePour(id); removed += 1
                 case let .board(.keepout(id)): document.deleteKeepout(id); removed += 1
+                case let .board(.cutout(id)): document.deleteCutout(id); removed += 1
                 case let .board(.text(id)): document.deleteText(id); removed += 1
                 case .board: break
                 }

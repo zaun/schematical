@@ -27,6 +27,8 @@ nonisolated enum BoardItem: Hashable, Sendable {
     /// A copper pour or a keep-out (plan-52).
     case pour(UUID)
     case keepout(UUID)
+    /// A cutout of the board (plan-65).
+    case cutout(UUID)
 }
 
 // MARK: - Selection set
@@ -178,13 +180,15 @@ nonisolated struct BoardGroupBase: Equatable {
     /// Selected pours' and keep-outs' rectangles.
     var pours: [UUID: CGRect] = [:]
     var keepouts: [UUID: CGRect] = [:]
+    /// Selected cutouts' shapes (plan-65).
+    var cutouts: [UUID: BoardCutout.Shape] = [:]
     /// Where the drag took hold (board mm), if known. A lone trace snaps
     /// the end nearest it to the trace grid.
     var grab: CGPoint?
 
     var isEmpty: Bool { count == 0 }
     var count: Int {
-        footprints.count + texts.count + traces.count + vias.count + holes.count + pours.count + keepouts.count
+        footprints.count + texts.count + traces.count + vias.count + holes.count + pours.count + keepouts.count + cutouts.count
     }
 }
 
