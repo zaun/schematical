@@ -30,7 +30,7 @@ The gate for the whole feature is in plan-62-A § Prerequisites. This letter add
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-62-F is complete | `ls planning/completed/plan-62-F-* \| wc -l` → 1 | NOT MET (2026-11-24: F not started) |
+| plan-62-F is complete | `ls planning/completed/plan-62-F-* \| wc -l` → 1 | MET (2026-11-24: 1, archived after 0d7abab4) |
 | The app builds for testing | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p62-dd CODE_SIGNING_ALLOWED=NO build-for-testing 2>&1 \| tail -1` → `** TEST BUILD SUCCEEDED **` | not run (2026-11-24; first needed here) |
 
 If plan-62-F is not complete, this plan cannot start, full stop.

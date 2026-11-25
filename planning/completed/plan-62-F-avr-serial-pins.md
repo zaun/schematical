@@ -218,7 +218,7 @@ None: no file format, public header or golden changes.
 Acceptance: the USART cases pass.
   Check: `ctest --test-dir /tmp/sim-rel -R avr_serial_test --output-on-failure` → `ok usart_hi`, `ok usart_echo`, `ok usart_bit_time`, `ok usart_7e2` (est. 2 min).
   Observed: 2026-11-24: `ok usart_hi`, `ok usart_type`, `ok usart_echo`, `ok usart_bit_time`, `ok usart_7e2`.
-Commit: —
+Commit: 0d7abab4
 
 ### Phase 2 — SPI master
 
@@ -234,7 +234,7 @@ Commit: —
 Acceptance: the SPI cases pass.
   Check: `ctest --test-dir /tmp/sim-rel -R avr_serial_test --output-on-failure` → 4 USART lines plus `ok spi_eeprom`, `ok spi_mode3`, `ok spi_ddr` (est. 2 min).
   Observed: 2026-11-24: `ok spi_eeprom`, `ok spi_mode3`, `ok spi_ddr`.
-Commit: —
+Commit: 0d7abab4
 
 ### Phase 3 — TWI master
 
@@ -257,7 +257,7 @@ Acceptance: the TWI cases pass and plan-62-C's scenarios still equal
 avr8js.
   Check: `ctest --test-dir /tmp/sim-rel -R 'avr_|mcu_test' --output-on-failure` → 4 tests passed, `avr_serial_test` printing `ok twi_rtc`, `ok twi_waveform`, `ok twi_nack`, `ok twi1_rtc` (est. 3 min).
   Observed: 2026-11-24: `ok twi_start`, `ok twi_rtc`, `ok twi_waveform`, `ok twi_nack`, `ok twi1_rtc`; `avr_serial_test: all passed`; the 16 scenarios still equal avr8js.
-Commit: —
+Commit: 0d7abab4
 
 ## Validation Plan
 
