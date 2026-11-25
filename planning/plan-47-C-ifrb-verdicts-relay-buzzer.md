@@ -249,7 +249,7 @@ Commit: c74d17b3
 
 Acceptance: the PDFs in the tree are exactly the ones the pick uses, plus the clips'.
   Check: `python3 -I planning/plan-47-data/census/place.py --verify` → `0 missing, 0 unused`; `awk -F'\t' '!/^#/{n[$1]++} END{for(k in n) print k, n[k]}' planning/plan-47-data/footprints-needed.txt` → the recorded counts; `grep -c 'plan-47' datasheets/obsolete-not-included.md` → the PDFs deleted for status (est. 3 min).
-Commit: —
+Commit: 548cb234
 
 ## Validation Plan
 
