@@ -91,7 +91,7 @@ Byte-identity is not a gate; the no-cutout check is the existing preview tests. 
 Acceptance: every panel field changes the model as one named undo step and the free-form reset works.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/CutoutPanelTests -only-testing:schematicalTests/PourPanelTests -only-testing:schematicalTests/BoardDetailsSheetTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 4 min; the two existing classes are the no-cutout check for the panels).
   Observed: CutoutPanelTests 5 + PourPanelTests 5 + BoardDetailsSheetTests 4, 0 failures, TEST SUCCEEDED.
-Commit: —
+Commit: 18d5f400
 
 ### Phase 2 — The board preview
 
@@ -101,7 +101,7 @@ Commit: —
 Acceptance: the preview shows a hole; existing preview tests pass unedited.
   Check: `XB -only-testing:schematicalTests/BoardPreviewTests -only-testing:schematicalTests/CutoutPanelTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 5 min; `BoardPreviewTests` also renders boards without cutouts).
   Observed: BoardPreviewTests 13 (2 new) + CutoutPanelTests 5, 0 failures, TEST SUCCEEDED.
-Commit: —
+Commit: 261ac03e
 
 ## Validation Plan
 
@@ -109,7 +109,7 @@ Commit: —
 - Coverage check: the new panel is reached from `PCBSidebarView`, which `PourPanelTests` already builds for keep-outs.
 - Runtime proof: J opens the app, selects a cutout, edits it and looks at the angled preview.
 - Doc sync: none (the sidebar is not documented in `docs/`).
-- Final gate (run ONCE, after Phase 2): the Phase 2 check plus `-only-testing:schematicalTests/CutoutCanvasTests` (est. 6 min).
+- Final gate (run ONCE, after Phase 2): the Phase 2 check plus `-only-testing:schematicalTests/CutoutCanvasTests` (est. 6 min). Observed: BoardPreviewTests 13, CutoutPanelTests 5, CutoutCanvasTests 10 (28 in all), 0 failures, `** TEST SUCCEEDED **`.
 
 ## Decisions
 
@@ -118,7 +118,9 @@ Commit: —
 
 ## Corrections
 
-<Filled in during execution.>
+- 2026-11-25: `MultiPositionSection` needed no change (it locks by `isLocked`/`setLocked`, which A made handle `.cutout`), so that task is done by A's work: `PCBSidebarView.swift` only got the `.cutout` content, `selectedCutoutID` and the panel route.
+- 2026-11-25: the reset button's "visibility predicate" is `BoardSettings.isFreeForm` itself (the view reads it directly); `CutoutPanelTests.testResetToRectangleOnAFreeFormBoard` checks it is false on a plain board and true on a free-form one.
+- 2026-11-25: the panel's field closures are `CutoutPanelActions` (in `CutoutSection.swift`), so tests call what the fields call; the plan did not name that type.
 
 ## Summary
 
