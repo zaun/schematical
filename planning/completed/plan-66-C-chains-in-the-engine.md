@@ -322,7 +322,7 @@ Acceptance: the seven tests pass, plus the existing `RoutingApplyTests`.
   → `** TEST SUCCEEDED **` (est. 3 min).
   Measured: `RoutingApplyTests` `Executed 17 tests, with 0 failures` (9 existing + 8) in 43.8 s. Final gate, once, all three Checks together:
   `Executed 68 tests` in RouterTests+RoutingRepairTests+RoutingCleanupTests+RoutingStateTests+RoutingGridTests+RoutingChainEngineTests+RoutingAnchorTests+RoutingApplyTests (the 17 apply, 10 engine, 9 anchors included), `** TEST SUCCEEDED **`.
-Commit: — (recorded in the next commit)
+Commit: 8fe2f7e6
 
 ## Validation Plan
 

@@ -30,8 +30,8 @@ The gate for the whole feature is in plan-66-A § Prerequisites. This letter add
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-66-C is complete and archived | `ls planning/completed/plan-66-C-* \| wc -l` → 1 | NOT MET (2026-11-25: 0) |
-| Chains are entries and a chain is never ripped | `grep -c 'var chain' schematical/schematical/Routing/RoutingState.swift` → at least 1 | NOT MET (2026-11-25: 0) |
+| plan-66-C is complete and archived | `ls planning/completed/plan-66-C-* \| wc -l` → 1 | MET (2026-11-25, in `worktree-P-66`: 1) |
+| Chains are entries and a chain is never ripped | `grep -c 'var chain' schematical/schematical/Routing/RoutingState.swift` → at least 1 | MET (2026-11-25, in `worktree-P-66`: 1) |
 
 If plan-66-C is not complete, this plan cannot start, full stop.
 
