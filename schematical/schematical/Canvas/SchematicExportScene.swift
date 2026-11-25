@@ -49,6 +49,8 @@ struct SchematicScene {
             placed.translateBy(x: chip.viewOrigin.x, y: chip.viewOrigin.y)
             // No `default`: a new symbol must say how it exports.
             switch chip.symbol {
+            case .gate:
+                GateSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
             case .block, .oscillator:
                 ChipBlockView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired)
             case .barrelJack:

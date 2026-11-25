@@ -16,6 +16,7 @@ enum ReferenceLabel {
     static func anchor(for chip: PlacedChip) -> CGPoint? {
         guard chip.showsReference, !chip.reference.isEmpty else { return nil }
         let x = chip.sideMargin + chip.layout.size.width / 2
+        if chip.symbol == .gate { return GateSymbolView.referenceLabel(for: chip).point }
         if chip.symbol.canRotate, chip.rotation != 0 { return turnedAnchor(for: chip, x: x) }
         switch chip.symbol {
         case .diode, .plainDiode:
@@ -45,6 +46,8 @@ enum ReferenceLabel {
         case .vcc, .ground:
             // Power symbols have none: their label says what they are.
             return nil
+        case .gate:
+            return GateSymbolView.referenceLabel(for: chip).point
         case .block, .oscillator, .barrelJack, .header, .testPoint, .dipSwitch, .tactileSwitch, .slideSwitch, .sevenSegment,
              .nixie, .dekatron, .characterLCD, .relay:
             // Just outside the frame's top edge.
@@ -110,6 +113,7 @@ enum ReferenceLabel {
     /// Which point of the text sits on `anchor`: its bottom centre, or for
     /// a pull resistor its bottom left, over the resistance.
     static func textAnchor(for chip: PlacedChip) -> UnitPoint {
+        if chip.symbol == .gate { return GateSymbolView.referenceLabel(for: chip).anchor }
         if chip.symbol.canRotate, chip.rotation != 0 {
             if isBesideCircle(chip) { return .bottomLeading }
             if hasLeadOnTop(chip) { return .bottomTrailing }
@@ -128,7 +132,7 @@ enum ReferenceLabel {
     static func paint<P: SchematicPainter>(_ painter: inout P, chip: PlacedChip, isHighlighted: Bool) {
         guard let anchor = anchor(for: chip) else { return }
         painter.draw(
-            PaintedText(chip.reference, size: fontSize, weight: .semibold, monospaced: true,
+            PaintedText(chip.drawnReference, size: fontSize, weight: .semibold, monospaced: true,
                         ink: isHighlighted ? .accent : .primary),
             at: anchor,
             anchor: textAnchor(for: chip)

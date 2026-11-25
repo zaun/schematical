@@ -1215,6 +1215,12 @@ private struct SchematicPartsLayer: View {
             ForEach(document.chips) { chip in
                 Group {
                     switch chip.symbol {
+                    case .gate:
+                        GateSymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID
+                        )
                     case .block, .oscillator:
                         ChipBlockView(
                             chip: chip,

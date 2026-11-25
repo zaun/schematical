@@ -383,7 +383,7 @@ Commit: d063ee1f
 Acceptance: the catalog holds a unit list for every gate part and for nothing else.
   Check: `XB -only-testing:schematicalTests/PartUnitTests` → `** TEST SUCCEEDED **`
   (est. 4 min, most of it the build).
-Commit: —
+Commit: b8c8c903
 
 ## Validation Plan
 

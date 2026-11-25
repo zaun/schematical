@@ -18,10 +18,11 @@ extension PlacedChip {
 
     /// Room on each side of the body, inside the view's frame:
     /// `ChipLayout.labelMargin`, and more for a transistor or barrel jack on
-    /// its side, whose part name stands beside the symbol.
+    /// its side, whose part name stands beside the symbol, and for a gate on
+    /// its side, whose reference does.
     var sideMargin: CGFloat {
         let onItsSide = rotation == 90 || rotation == 270
-        return onItsSide && (symbol == .transistor || symbol == .barrelJack) ? 90 : ChipLayout.labelMargin
+        return onItsSide && (symbol == .transistor || symbol == .barrelJack || symbol == .gate) ? 90 : ChipLayout.labelMargin
     }
 
     /// The side of the view a side of the unturned symbol faces.

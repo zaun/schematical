@@ -213,6 +213,10 @@ nonisolated enum PartSymbol: Hashable {
     /// A test point (plan-57): one pin on the left of a 40 x 20 body, drawn as
     /// a small circle on the end of its lead (`TestPointSymbolView`).
     case testPoint
+    /// One gate of a part drawn as its units (plan-67): the standard logic
+    /// symbol, `GateSymbolView`. Only a piece (`PlacedChip.piece`) has it; no
+    /// whole part does.
+    case gate
 
     /// Supplies have their pin on the top or bottom edge, so their view needs
     /// room above and below the body for the pin stub.
@@ -229,12 +233,13 @@ nonisolated enum PartSymbol: Hashable {
     /// Rotate turns every part drawn as its own symbol in quarter turns
     /// (`PlacedChip.rotation`): LEDs, diodes, resistors, capacitors,
     /// crystals, inductors, fuses, buzzers, transistors, test points and
-    /// barrel jacks. Parts drawn as a box (logic chips, switches, displays,
-    /// relays, headers) and the supplies don't rotate.
+    /// barrel jacks, and a gate of a part drawn as its units. Parts drawn as a
+    /// box (logic chips, switches, displays, relays, headers) and the supplies
+    /// don't rotate.
     var canRotate: Bool {
         switch self {
         case .diode, .plainDiode, .capacitor, .resistor, .crystal, .inductor, .fuse, .buzzer, .transistor,
-             .testPoint, .barrelJack:
+             .testPoint, .barrelJack, .gate:
             true
         default:
             false
@@ -322,7 +327,8 @@ nonisolated struct ChipLayout: Hashable {
     init(part: CatalogPart, symbol: PartSymbol) {
         let pins = part.pins.filter { !$0.isHidden }
         switch symbol {
-        case .block, .oscillator:
+        case .block, .oscillator, .gate:
+            // A whole part is never a gate; a gate piece's layout is `init(gate:pins:)`.
             self = ChipLayout(pins: pins)
         case .barrelJack:
             self = Self.barrelJack(pins)
@@ -899,6 +905,44 @@ nonisolated struct ChipLayout: Hashable {
         )
     }
 
+    /// A gate symbol's body is 60 wide and 20 per input tall, at least 40.
+    static let gateWidth: CGFloat = 60
+
+    static func gateHeight(inputs: Int) -> CGFloat {
+        max(40, pitch * CGFloat(inputs))
+    }
+
+    /// Where a gate's output `index` of `count` leaves, down the body: one in
+    /// the middle; two a grid step above (the true one) and below it.
+    static func gateOutputY(_ index: Int, of count: Int, height: CGFloat) -> CGFloat {
+        count == 1 ? height / 2 : height / 2 - 10 + 20 * CGFloat(index)
+    }
+
+    /// Where a gate's input `index` of `count` enters: 20 apart, centred.
+    static func gateInputY(_ index: Int, of count: Int, height: CGFloat) -> CGFloat {
+        height / 2 - 10 * CGFloat(count - 1) + 20 * CGFloat(index)
+    }
+
+    /// One gate (plan-67): its inputs down the left side, its one or two
+    /// outputs on the right. `pins` are the part's; a pin of the shape that is
+    /// not among them is left out.
+    init(gate shape: GateShape, pins: [ChipPin]) {
+        let inputs = shape.inputs.compactMap { index in pins.first { $0.index == index } }
+        let outputs = shape.outputs.compactMap { output in pins.first { $0.index == output.pin } }
+        let height = Self.gateHeight(inputs: inputs.count)
+        var slots: [PinSlot] = []
+        for (index, pin) in inputs.enumerated() {
+            slots.append(PinSlot(pin: pin, side: .left,
+                                 centerY: Self.gateInputY(index, of: inputs.count, height: height)))
+        }
+        for (index, pin) in outputs.enumerated() {
+            slots.append(PinSlot(pin: pin, side: .right,
+                                 centerY: Self.gateOutputY(index, of: outputs.count, height: height)))
+        }
+        self.slots = slots
+        self.size = CGSize(width: Self.gateWidth, height: height)
+    }
+
     init(pins allPins: [ChipPin]) {
         func pins(_ roles: ChipPinRole...) -> [ChipPin] {
             allPins.filter { roles.contains($0.role) }.sorted(by: Self.byName)
@@ -1030,7 +1074,10 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     var reference: String
     /// The library part, copied from the backend at launch.
     let part: CatalogPart
-    let symbol: PartSymbol
+    private(set) var symbol: PartSymbol
+    /// Set on a piece only (`piece`): which unit of the part it stands for
+    /// ("A", "P"). Nil for a whole part, and for every chip a document holds.
+    private(set) var unitKey: String?
     /// Top-left corner of the body. Always on the grid.
     var origin: CGPoint
     /// Flipped parts have their pins on the opposite sides. For an LED the
@@ -1074,7 +1121,7 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     /// sidebar's Display Reference. On unless turned off.
     var showsReference = true
 
-    private let baseLayout: ChipLayout
+    private var baseLayout: ChipLayout
 
     init(
         id: UUID = UUID(),
@@ -1159,6 +1206,39 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
 
     /// The orderable part number, as saved in a file.
     var partNumber: String { part.name }
+
+    /// The reference as the Schematic draws it: a piece adds its unit ("U1-A").
+    var drawnReference: String {
+        unitKey.map { "\(reference)-\($0)" } ?? reference
+    }
+
+    /// The unit a piece stands for; nil for a whole part.
+    var unit: PartUnit? {
+        guard let unitKey else { return nil }
+        return part.units.first { $0.key == unitKey }
+    }
+
+    /// One unit of the part as its own chip value (plan-67): the same part
+    /// and id, a layout of only that unit's pins, the gate symbol for a gate
+    /// and a plain block otherwise. For drawing and geometry only: no
+    /// document stores a piece. A turn is kept only where the symbol turns.
+    func piece(_ unit: PartUnit, origin: CGPoint, isFlipped: Bool, rotation: Int) -> PlacedChip {
+        var piece = self
+        let pins = part.pins.filter { unit.pins.contains($0.index) && !$0.isHidden }
+        switch unit.shape {
+        case let .gate(shape):
+            piece.symbol = .gate
+            piece.baseLayout = ChipLayout(gate: shape, pins: pins)
+        case .block:
+            piece.symbol = .block
+            piece.baseLayout = ChipLayout(pins: pins)
+        }
+        piece.unitKey = unit.key
+        piece.origin = origin
+        piece.isFlipped = isFlipped
+        piece.rotation = piece.symbol.canRotate ? Self.normalized(rotation) : 0
+        return piece
+    }
 
     /// A slide switch's contacts closed by the knob position whose mask is `mask`,
     /// contact 1 first.
