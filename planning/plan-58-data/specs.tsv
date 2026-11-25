@@ -57,21 +57,21 @@ C&K	V	Through Hole	DPDT	V80202MS02Q|V80213MS02Q	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;
 C&K	V	Through Hole	DPST	V80102MS02Q	PC Pin	1=A1;2=B1;3=A2;4=B2	SW-SLIDE-CK-V-THT-4P	littelfuse-c-k-slide-v-series-datasheet.pdf p.2 (S801 schematic 1A 1 / 2A 2) and p.3-4 (MS 02 layout); datasheet terminals 1A 1 2A 2 are designators 1..4 in that order; the dark bar joins 1A-1 and 2A-2 (A1 = 1A, A2 = 2A)
 C&K	V	Through Hole, Right Angle	DPDT	V80213MA08Q	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-CK-V-THTRA-6P	littelfuse-c-k-slide-v-series-datasheet.pdf p.2 (S802 schematic) and p.3-4 (MA 08 layout); datasheet terminals 1A 1 1B 2A 2 2B are designators 1..6 in that order; common 1 and 2, the dark bar joins 1A-1 and 2A-2 in the first position
 C&K	V	Through Hole, Right Angle	SPDT	V70214MA08Q	PC Pin	2=C;1=A;3=B	SW-SLIDE-CK-V-THTRA-3P	littelfuse-c-k-slide-v-series-datasheet.pdf p.2 (V702 schematic 1A 1 1B) and p.3-4 (MA 08 layout, row 1 assumed); designators 1 2 3 = 1A 1 1B; common 1, the dark bar joins 1A-1 (A = 1A), the other position 1-1B (B = 1B)
-CIT	1000	Through Hole	DPDT		PC Pin			
-CIT	1000	Through Hole	SPDT		PC Pin			
-CIT	1000	Through Hole, Right Angle	SPDT		PC Pin			
-CIT	1000	Through Hole, Right Angle, Vertical	DPDT		PC Pin			
-CIT	1000	Through Hole, Right Angle, Vertical	SPDT		PC Pin			
-CIT	MS1202	Through Hole	SPDT		PC Pin			
-CIT	MS1206	Through Hole, Right Angle	SPDT		PC Pin			
-CIT	MS1247	Through Hole, Right Angle	SPDT		PC Pin			
-CIT	MS2201	Through Hole	DPDT		PC Pin			
-CIT	MS2205	Through Hole	DPDT		PC Pin			
-CIT	MS2208	Through Hole, Right Angle	DPDT		PC Pin			
-CIT	MS2210	Through Hole, Right Angle	DPDT		PC Pin			
-CIT	MS2211	Through Hole, Right Angle	DPDT		PC Pin			
-CIT	MS2219	Through Hole, Right Angle	DPDT		PC Pin			
-CIT	MS2241	Through Hole, Right Angle	DPDT		PC Pin			
+CIT	1000	Through Hole	DPDT	12\d\d[AD]\dC[QRG]EA	PC Pin	2=C1;3=A1;1=B1;5=C2;6=A2;4=B2	SW-SLIDE-CIT-1000-THT-6P	Switch-1000.pdf p.2 C double pole PC layout and p.2 function table: common terminals 2 and 5; position 1 joins 2-3 and 5-6 (A1=3, A2=6), position 2 joins 2-1 and 5-4 (B1=1, B2=4). C layout carries no numbers, numbering assumed as p.3 H/V drawings
+CIT	1000	Through Hole	SPDT	11\d\d[AD]\dC[QRG]EA	PC Pin	2=C;3=A;1=B	SW-SLIDE-CIT-1000-THT-3P	Switch-1000.pdf p.2 C single pole PC layout and p.2 function table: common terminal 2, position 1 joins 2-3 (A=3), position 2 joins 2-1 (B=1). C layout carries no numbers, numbering assumed as p.3 H/V drawings
+CIT	1000	Through Hole, Right Angle	SPDT	11\d\d[AD]\dH[QRG]EA	PC Pin	2=C;3=A;1=B	SW-SLIDE-CIT-1000-THTRA-3P	Switch-1000.pdf p.3 H single pole layout and p.2 function table: common terminal 2, position 1 joins 2-3 (A=3), position 2 joins 2-1 (B=1)
+CIT	1000	Through Hole, Right Angle, Vertical	DPDT	12\d\d[AD]\dV[QRG]EA	PC Pin	2=C1;3=A1;1=B1;5=C2;6=A2;4=B2	SW-SLIDE-CIT-1000-THTRAV-6P	Switch-1000.pdf p.3 V double pole layout and p.2 function table: common terminals 2 and 5; position 1 joins 2-3 and 5-6 (A1=3, A2=6), position 2 joins 2-1 and 5-4 (B1=1, B2=4)
+CIT	1000	Through Hole, Right Angle, Vertical	SPDT	11\d\d[AD]\dV[QRG]EA	PC Pin	2=C;3=A;1=B	SW-SLIDE-CIT-1000-THTRAV-3P	Switch-1000.pdf p.3 V single pole layout and p.2 function table: common terminal 2, position 1 joins 2-3 (A=3), position 2 joins 2-1 (B=1)
+CIT	MS1202	Through Hole	SPDT	MS1202L(?:4|6)	PC Pin	2=C;1=A;3=B	SW-SLIDE-CIT-MS1202-THT-3P	Switch-MS1202.pdf p.1: schematic bridges 1-2 in the sheet's position shown, so common = middle terminal 2, A = 1, B = 3; terminals 4 and 5 are frame pins (unnumbered pads)
+CIT	MS1206	Through Hole, Right Angle	SPDT	MS1206L(?:3|6)	PC Pin	2=C;1=A;3=B	SW-SLIDE-CIT-MS1206-THTRA-3P	MS1206.pdf p.1: schematic bridges 1-2, common = middle terminal 2, A = 1, B = 3; terminals 4 and 5 are frame pins (unnumbered pads)
+CIT	MS1247	Through Hole, Right Angle	SPDT	MS1247L(?:2|4|6)	PC Pin	2=C;1=A;3=B	SW-SLIDE-CIT-MS1247-THTRA-3P	Switch-MS1247.pdf p.1: schematic bridges 1-2, common = middle terminal 2, A = 1, B = 3; terminals 4 and 5 are frame pins (unnumbered pads)
+CIT	MS2201	Through Hole	DPDT	MS2201L(?:3|4\.5|6|9|12)	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-CIT-MS2201-THT-6P	Switch-MS2201.pdf p.1: schematic bridges 1-2 and 4-5; commons are the middle terminals 2 and 5, A = 1 / 4, B = 3 / 6; terminals 7-10 are frame pins (unnumbered pads)
+CIT	MS2205	Through Hole	DPDT	MS2205L(?:2|4|6)	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-CIT-MS2205-THT-6P	Switch-MS2205.pdf p.1: schematic bridges 1-2 and 4-5; commons 2 and 5, A = 1 / 4, B = 3 / 6; terminals 7 and 8 are frame pins (unnumbered pads)
+CIT	MS2208	Through Hole, Right Angle	DPDT	MS2208L4	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-CIT-MS2208-THTRA-6P	Switch-MS2208.pdf p.1: schematic bridges 1-2 and 4-5; commons 2 and 5, A = 1 / 4, B = 3 / 6; terminals 7 and 8 are frame pins (unnumbered pads)
+CIT	MS2210	Through Hole, Right Angle	DPDT	MS2210L(?:4|6)	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-CIT-MS2210-THTRA-6P	Switch-MS2210.pdf p.1: schematic bridges 1-2 and 4-5; commons 2 and 5, A = 1 / 4, B = 3 / 6; terminals 7 and 8 are frame pins (unnumbered pads)
+CIT	MS2211	Through Hole, Right Angle	DPDT	MS2211L4	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-CIT-MS2211-THTRA-6P	Switch-MS2211.pdf p.1: schematic bridges 1-2 and 4-5; commons 2 and 5, A = 1 / 4, B = 3 / 6; terminals 7 and 8 are frame pins (unnumbered pads)
+CIT	MS2219	Through Hole, Right Angle	DPDT	MS2219L4	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-CIT-MS2219-THTRA-6P	Switch-MS2219.pdf p.1: schematic bridges 1-2 and 4-5; commons 2 and 5, A = 1 / 4, B = 3 / 6; terminals 7-10 are frame pins (unnumbered pads)
+CIT	MS2241	Through Hole, Right Angle	DPDT	MS2241L(?:3|6|9)	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-CIT-MS2241-THTRA-6P	Switch-MS2241.pdf p.1: schematic bridges 1-2 and 4-5; commons 2 and 5, A = 1 / 4, B = 3 / 6; terminals 7-10 are frame pins (unnumbered pads)
 E-Switch	500	Through Hole	DPDT	500SDP[13]S[1-4]M2[QR]E[AB]	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-ESW-500-THT-6P	500.pdf p.2 DPDT schematic, p.2 M2 terminal (DPDT: POS 1 joins 2-1 and 5-4, POS 3 joins 2-3 and 5-6; commons 2 and 5); no PC layout drawn, holes at the terminal positions
 E-Switch	500	Through Hole	SPDT	500SSP[123]S[1-4](?:M2|M5[1-4])[QR]E[AB]	PC Pin; Wire Wrap	2=C;1=A;3=B	SW-SLIDE-ESW-500-THT-3P	500.pdf p.2 SPDT schematic, p.2 M2/M5 terminals (SPDT: POS 1 joins 2-1 = A, POS 3 joins 2-3 = B; common 2); no PC layout drawn, holes at the terminal positions (M5x assumed same as M2)
 E-Switch	500	Through Hole, Right Angle	DPDT	500SDP[13]S[1-4]M6[QR]E[AB]	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-ESW-500-THTRA-6P	500.pdf p.3 M6 DPDT P.C. MOUNTING (DPDT: POS 1 joins 2-1 and 5-4, POS 3 joins 2-3 and 5-6; commons 2 and 5)
