@@ -206,14 +206,15 @@ Commit: 3a2b41ef
       **Done:** matches the writers as landed. `grep -ci 'multi-unit\|drawn as units' docs/export.md` → 3.
 - [ ] `planning/todo.md` § Schematic (line 121): add and tick
       `- [x] Gate view: a gate IC drawn as separate gates (plan-67).`
-- [ ] Move `planning/plan-67-A…G` to `planning/completed/` (each letter as it
+- [x] Move `planning/plan-67-A…G` to `planning/completed/` (each letter as it
       completes; this box covers the ones still in `planning/`).
+      **Done:** all seven letters moved together with `git mv` once the last one's gate had passed; `planning/plan-67-data/` stays where the other plans' data folders are.
 
 Acceptance: the docs name every new address, property and key.
   Check: `grep -c 'U1-A' docs/agent-control.md` → at least 4;
   `grep -c '"units"' docs/file-format.md` → at least 1;
   `grep -ci 'multi-unit\|drawn as units' docs/export.md` → at least 1 (est. 1 min).
-Commit: —
+Commit: 3a2b41ef (the docs); the archive and the todo line follow the landing gate
 
 ### Phase 3 — landing
 
@@ -256,7 +257,7 @@ agent, and nothing that does not use it changed.
   Check: the three commands above → their stated results (est. 25 min for the
   20 app classes in Debug; no smaller check covers "nothing else changed"
   across the model, the file, the canvas, the exports and the tools at once).
-Commit: —
+Commit: 1f5ed38a (the gate); the archive, the full-suite record and the todo line follow it
 
 ## Validation Plan
 
