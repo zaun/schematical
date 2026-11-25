@@ -61,6 +61,8 @@ struct SchematicCanvasView: View {
     var onOpenCpu: (UUID) -> Void = { _ in }
     var onOpenTerminal: (UUID) -> Void = { _ in }
     var onOpenRegisters: (UUID) -> Void = { _ in }
+    /// Called when the title block is double-clicked, to show Document Info.
+    var onOpenDocumentInfo: () -> Void = {}
     /// Where the pointer is over the canvas (canvas units), for ⌘V; set as
     /// it moves.
     var pointer: BoardPointer?
@@ -84,6 +86,7 @@ struct SchematicCanvasView: View {
     @State private var hoveredBusID: UUID?
     @State private var hoveredPortID: UUID?
     @State private var hoveredNoteID: UUID?
+    @State private var isTitleBlockHovered = false
     @State private var hoveredLabelID: UUID?
     /// The connection point under the pointer in Line mode, when not drawing.
     @State private var hoverAnchor: LineAnchor?
@@ -213,6 +216,14 @@ struct SchematicCanvasView: View {
                         document.editingNoteID = note.id
                         return
                     }
+                    // The title block opens Document Info.
+                    if document.chip(at: point) == nil, document.netLabel(at: point) == nil,
+                       document.segmentHit(at: point, tolerance: lineTolerance) == nil,
+                       document.titleBlock(at: point) {
+                        document.select(.titleBlock)
+                        onOpenDocumentInfo()
+                        return
+                    }
                     document.insertNode(at: point, tolerance: lineTolerance)
                 }
             )
@@ -258,7 +269,9 @@ struct SchematicCanvasView: View {
                 .equatable()
 
             // The title block is under the text blocks, so a note can sit on it.
-            TitleBlockLayer(layout: document.titleBlockLayout, area: gridRect)
+            TitleBlockLayer(layout: document.titleBlockLayout,
+                            isSelected: document.schematicSelection.contains(.titleBlock),
+                            isHovered: isTitleBlockHovered, area: gridRect)
 
             // Under everything else: wires and parts stay visible over a block.
             NoteLayer(
@@ -724,6 +737,7 @@ struct SchematicCanvasView: View {
         hoveredBusID = nil
         hoveredPortID = nil
         hoveredNoteID = nil
+        isTitleBlockHovered = false
         hoveredLabelID = nil
         hoverAnchor = nil
     }
@@ -747,8 +761,10 @@ struct SchematicCanvasView: View {
             hoveredWireID = wire
         } else if let bus = document.busHit(at: point, tolerance: busTolerance)?.bus {
             hoveredBusID = bus
+        } else if let note = document.note(at: point) {
+            hoveredNoteID = note.id
         } else {
-            hoveredNoteID = document.note(at: point)?.id
+            isTitleBlockHovered = document.titleBlock(at: point)
         }
     }
 
@@ -799,6 +815,9 @@ struct SchematicCanvasView: View {
                 : .dragBusLine(bus: line.bus, base: base, line: line.line, done: .zero)
         } else if let note = document.note(at: point) {
             selectionPress = document.pressSelection(.note(note.id), shift: shift)
+            interaction = .moveGroup(base: document.schematicGroupBase(), lever: nil)
+        } else if document.titleBlock(at: point) {
+            selectionPress = document.pressSelection(.titleBlock, shift: shift)
             interaction = .moveGroup(base: document.schematicGroupBase(), lever: nil)
         } else if shift {
             interaction = .boxSelect(base: document.schematicSelection.items, from: screen, to: screen)

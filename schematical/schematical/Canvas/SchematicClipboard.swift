@@ -72,6 +72,7 @@ extension SchematicDocument {
             case let .junction(id): junctionIDs.insert(id)
             case let .wire(id): wireIDs.insert(id)
             case let .bus(id): busIDs.insert(id)
+            case .titleBlock: break // one per document: never copied
             }
         }
         let copiedBuses = buses.filter { busIDs.contains($0.id) }

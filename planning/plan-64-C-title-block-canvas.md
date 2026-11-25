@@ -167,35 +167,35 @@ Commit: —
 
 ### Phase 2 — Selecting, moving, hiding, sidebar
 
-- [ ] `Selection.swift`: `case titleBlock` on `SchematicItem` (doc comment: "the Document Info title block");
-      `SchematicGroupBase.titleBlock: CGPoint?`.
-- [ ] `SchematicModel.swift`: handle the new case in every switch the compiler flags, with: `pruneSelection` — kept
+- [x] `Selection.swift`: `case titleBlock` on `SchematicItem` (doc comment: "the Document Info title block");
+      `SchematicGroupBase.titleBlock: CGPoint?`. — done
+- [x] `SchematicModel.swift`: handle the new case in every switch the compiler flags, with: `pruneSelection` — kept
       only while `documentInfo.titleBlock != nil`; `schematicItems(in:)` (:1888) and `selectAllSchematic` (:1963) — include it
       when its rect meets the box / when shown; `schematicGroupBase` — records `documentInfo.titleBlock`;
       `moveSchematicGroup` (:2751) — moves `documentInfo.titleBlock` by the snapped delta; `deleteSchematicSelection`
       (:6712) — sets `documentInfo.titleBlock = nil` and counts as something deleted; its Eraser path (:6685)
-      likewise; add `deleteSchematicSelection(named:, includingTitleBlock: Bool = true)`.
-- [ ] `SchematicClipboard.swift:68`: `case .titleBlock: break` (not copied). `ContentView.cutSelection` (:267):
-      `document.deleteSchematicSelection(named: "Cut", includingTitleBlock: false)`.
-- [ ] `SchematicCanvasView.swift`: a press on the block (after the `note(at:)` branch, :797) →
+      likewise; add `deleteSchematicSelection(named:, includingTitleBlock: Bool = true)`. — done (box select, select all, prune, group base, move, delete, eraser; includingTitleBlock added)
+- [x] `SchematicClipboard.swift:68`: `case .titleBlock: break` (not copied). `ContentView.cutSelection` (:267):
+      `document.deleteSchematicSelection(named: "Cut", includingTitleBlock: false)`. — done
+- [x] `SchematicCanvasView.swift`: a press on the block (after the `note(at:)` branch, :797) →
       `pressSelection(.titleBlock, shift:)` and `.moveGroup`; the double-click branch (:207) → select it and call
       `onOpenDocumentInfo()` (a new `var onOpenDocumentInfo: () -> Void = {}` beside `onOpenRegisters`, :63);
       `hoveredTitleBlock` state like `hoveredNoteID` (:86, :748); `selectedNoteIDs`-style `isTitleBlockSelected`.
-      `ContentView.swift` passes `onOpenDocumentInfo: { menus.openDocumentInfo?() }` next to `onOpenRegisters` (:430).
-- [ ] `AutomationSchematic.swift` `position` (:399): `case .titleBlock: return document.documentInfo.titleBlock`;
+      `ContentView.swift` passes `onOpenDocumentInfo: { menus.openDocumentInfo?() }` next to `onOpenRegisters` (:430). — done
+- [x] `AutomationSchematic.swift` `position` (:399): `case .titleBlock: return document.documentInfo.titleBlock`;
       `AutomationRead.swift` `selectionText` name (:404): `case .titleBlock: return "titleblock"`. (Only to keep the
-      switches exhaustive; D adds the tool surface.)
-- [ ] `SelectionList.swift:36`: a `SelectionRow(item: .titleBlock, title: "Title Block", detail: preview(title))`.
-- [ ] `SchematicSidebarView.swift`: `Content.titleBlock`; `content(for:)` returns it when `document.selectedTitleBlock`
+      switches exhaustive; D adds the tool surface.) — done
+- [x] `SelectionList.swift:36`: a `SelectionRow(item: .titleBlock, title: "Title Block", detail: preview(title))`. — done
+- [x] `SchematicSidebarView.swift`: `Content.titleBlock`; `content(for:)` returns it when `document.selectedTitleBlock`
       (after the note check); the body shows `Form { DocumentInfoForm(document:, isLocked: simulation.isRunning) }
-      .formStyle(.grouped)` for it; update the type's doc comment (:3-8).
-- [ ] Tests (`TitleBlockTests`): hit test — a point inside selects through `pressSelection(.titleBlock…)`, outside
+      .formStyle(.grouped)` for it; update the type's doc comment (:3-8). — done
+- [x] Tests (`TitleBlockTests`): hit test — a point inside selects through `pressSelection(.titleBlock…)`, outside
       does not; a note over the block is hit first; box select and Select All include it only when shown; a group
       drag of the block plus a part moves both by the snapped delta and undoes in one step; ⌘⌫ with block + part
       selected removes the part and hides the block (info kept); the Eraser at a point in the block hides it;
       cut with block + part leaves the block shown and removes the part; copy of the block alone is nil; the sidebar
       `content(for:)` is `.titleBlock` for a lone selection and `.selection` for block + part; `SelectionRows` has the
-      row; hiding with the block selected clears the selection.
+      row; hiding with the block selected clears the selection. — done: xcodebuild test TitleBlockTests SelectionModelTests SelectionSidebarTests SchematicClipboardTests EditMenuTests -> ** TEST SUCCEEDED **
 
 Acceptance: every way of selecting, moving and deleting the block behaves as § 3 says, and undo restores it.
   Check: `xcodebuild … test -only-testing:schematicalTests/TitleBlockTests -only-testing:schematicalTests/SelectionModelTests -only-testing:schematicalTests/SelectionSidebarTests -only-testing:schematicalTests/SchematicClipboardTests -only-testing:schematicalTests/EditMenuTests` → `** TEST SUCCEEDED **` (est. 12 min: five test classes over the changed selection code).

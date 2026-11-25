@@ -402,6 +402,7 @@ extension AutomationTools {
             case let .wire(id): return "wire:\(context.short(id))"
             case let .junction(id): return "junction:\(context.short(id))"
             case let .note(id): return "note:\(context.short(id))"
+            case .titleBlock: return "titleblock"
             case let .label(id): return "label:" + (document.netLabels.first { $0.id == id }?.name ?? context.short(id))
             case let .bus(id): return "bus:" + (document.bus(id)?.name ?? context.short(id))
             }

@@ -1789,6 +1789,9 @@ final class SchematicDocument {
         return nil
     }
 
+    /// Whether the title block is the only thing selected on the Schematic page.
+    var selectedTitleBlock: Bool { schematicSelection.sole == .titleBlock }
+
     /// The text block, when it is the only thing selected on the Schematic page.
     var selectedNoteID: UUID? {
         if case let .note(id)? = schematicSelection.sole { return id }
@@ -1899,6 +1902,7 @@ final class SchematicDocument {
         for note in notes where note.rect.intersects(rect) {
             items.insert(.note(note.id))
         }
+        if let block = titleBlockRect, block.intersects(rect) { items.insert(.titleBlock) }
         for label in netLabels where label.rect.intersects(rect) {
             items.insert(.label(label.id))
         }
@@ -1971,6 +1975,7 @@ final class SchematicDocument {
         items.formUnion(notes.map { .note($0.id) })
         items.formUnion(netLabels.map { .label($0.id) })
         items.formUnion(buses.map { .bus($0.id) })
+        if documentInfo.titleBlock != nil { items.insert(.titleBlock) }
         if items != schematicSelection.items { schematicSelection.set(items) }
     }
 
@@ -2025,6 +2030,7 @@ final class SchematicDocument {
             case let .note(id): noteIDs.contains(id)
             case let .label(id): labelIDs.contains(id)
             case let .bus(id): busIDs.contains(id)
+            case .titleBlock: documentInfo.titleBlock != nil
             }
         }
         let footprints = Set(chips.filter { $0.board != nil }.map(\.id))
@@ -2700,6 +2706,8 @@ final class SchematicDocument {
                 if let note = notes.first(where: { $0.id == id }) { base.notes[id] = note.origin }
             case let .label(id):
                 if let label = netLabels.first(where: { $0.id == id }) { base.labels[id] = label.origin }
+            case .titleBlock:
+                base.titleBlock = documentInfo.titleBlock
             case let .bus(id):
                 if let bus = bus(id) {
                     base.buses[id] = bus
@@ -2785,6 +2793,10 @@ final class SchematicDocument {
                 guard let origin = base.labels[netLabels[index].id] else { continue }
                 let moved = shifted(origin)
                 if netLabels[index].origin != moved { netLabels[index].origin = moved }
+            }
+            if let origin = base.titleBlock {
+                let moved = shifted(origin)
+                if documentInfo.titleBlock != moved { documentInfo.titleBlock = moved }
             }
             for index in wires.indices {
                 guard let route = base.paths[wires[index].id],
@@ -6774,6 +6786,11 @@ final class SchematicDocument {
             } else if let hit = note(at: point) {
                 deleteNote(hit.id)
                 return
+            } else if titleBlock(at: point) {
+                // Only switches it off: the information stays.
+                documentInfo.titleBlock = nil
+                pruneSelection()
+                return
             } else {
                 return
             }
@@ -6790,8 +6807,11 @@ final class SchematicDocument {
     /// (`editorMessage` says why). Returns whether anything was deleted or
     /// asked.
     /// ⌘X passes `name` "Cut" (with no port selected: a port isn't copied).
+    /// A selected title block is only switched off (the information stays),
+    /// unless `includingTitleBlock` is false: ⌘X doesn't take it, so it stays
+    /// shown.
     @discardableResult
-    func deleteSchematicSelection(named name: String = "Delete") -> Bool {
+    func deleteSchematicSelection(named name: String = "Delete", includingTitleBlock: Bool = true) -> Bool {
         guard pendingRemoval == nil else { return false }
         if let portID = selectedPortID {
             recordEdit(.schematic, "Delete") {
@@ -6808,6 +6828,7 @@ final class SchematicDocument {
         }
         var chipIDs: Set<UUID> = [], wireIDs: Set<UUID> = [], noteIDs: Set<UUID> = []
         var labelIDs: Set<UUID> = [], busIDs: Set<UUID> = []
+        var hidesTitleBlock = false
         for item in schematicSelection.items {
             switch item {
             case let .chip(id): chipIDs.insert(id)
@@ -6815,6 +6836,7 @@ final class SchematicDocument {
             case let .note(id): noteIDs.insert(id)
             case let .label(id): labelIDs.insert(id)
             case let .bus(id): busIDs.insert(id)
+            case .titleBlock: hidesTitleBlock = includingTitleBlock
             case .junction: break
             }
         }
@@ -6823,7 +6845,8 @@ final class SchematicDocument {
             busIDs.remove(edge)
             message = edgeBusUndeletable(bus)
         }
-        guard !chipIDs.isEmpty || !wireIDs.isEmpty || !noteIDs.isEmpty || !labelIDs.isEmpty || !busIDs.isEmpty else {
+        guard !chipIDs.isEmpty || !wireIDs.isEmpty || !noteIDs.isEmpty || !labelIDs.isEmpty || !busIDs.isEmpty
+            || hidesTitleBlock else {
             if let message { editorMessage = message }
             return false
         }
@@ -6843,6 +6866,7 @@ final class SchematicDocument {
             netLabels.removeAll { labelIDs.contains($0.id) }
             notes.removeAll { noteIDs.contains($0.id) }
             if let editing = editingNoteID, noteIDs.contains(editing) { editingNoteID = nil }
+            if hidesTitleBlock { documentInfo.titleBlock = nil }
             pruneJunctions()
         }
         return true

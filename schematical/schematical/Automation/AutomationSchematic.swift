@@ -401,6 +401,7 @@ extension AutomationTools {
         case let .label(id): return document.netLabels.first { $0.id == id }?.origin
         case let .note(id): return document.notes.first { $0.id == id }?.origin
         case let .junction(id): return document.junctions.first { $0.id == id }?.point
+        case .titleBlock: return document.documentInfo.titleBlock
         case .wire, .bus: return nil
         }
     }

@@ -268,7 +268,7 @@ struct ContentView: View {
     private func cutSelection() -> Bool {
         if page == .schematic {
             guard !simulation.isRunning, copySelection() else { return false }
-            return document.deleteSchematicSelection(named: "Cut")
+            return document.deleteSchematicSelection(named: "Cut", includingTitleBlock: false)
         }
         guard copySelection() else { return false }
         return document.cutBoardSelection()
@@ -437,6 +437,7 @@ struct ContentView: View {
                     registerWindows.insert(target)
                     openWindow(id: "registers", value: target)
                 },
+                onOpenDocumentInfo: { model.menus.openDocumentInfo?() },
                 pointer: schematicPointer
             ) {
                 // Placing a part from the drawer returns to the Pointer tool.

@@ -126,6 +126,136 @@ final class TitleBlockTests: XCTestCase {
         XCTAssertEqual(doc.undoName, name)
     }
 
+    // MARK: Selecting, moving, deleting (Phase 2)
+
+    private func shownDocument(with part: Bool = false) throws -> (SchematicDocument, PlacedChip?) {
+        let doc = newDocument()
+        let chip = part ? try TestSupport.place(doc, try TestSupport.firstDip().name, at: p(200, 200)) : nil
+        doc.setInfoTitle("Clock board")
+        doc.endCoalescing()
+        doc.setTitleBlockShown(true)
+        return (doc, chip)
+    }
+
+    func testAPointInsideHitsTheBlockAndOutsideDoesNot() throws {
+        let (doc, _) = try shownDocument()
+        let rect = try XCTUnwrap(doc.titleBlockRect)
+        XCTAssertTrue(doc.titleBlock(at: p(rect.midX, rect.midY)))
+        XCTAssertFalse(doc.titleBlock(at: p(rect.maxX + 5, rect.midY)))
+        doc.setTitleBlockShown(false)
+        XCTAssertFalse(doc.titleBlock(at: p(rect.midX, rect.midY)), "hidden: nothing there")
+    }
+
+    func testBoxSelectAndSelectAllIncludeItOnlyWhenShown() throws {
+        let doc = newDocument()
+        doc.selectAllSchematic()
+        XCTAssertFalse(doc.schematicSelection.contains(.titleBlock))
+        doc.setTitleBlockShown(true)
+        let rect = try XCTUnwrap(doc.titleBlockRect)
+        XCTAssertTrue(doc.schematicItems(in: rect.insetBy(dx: 20, dy: 20)).contains(.titleBlock))
+        XCTAssertFalse(doc.schematicItems(in: CGRect(x: rect.maxX + 50, y: 0, width: 10, height: 10)).contains(.titleBlock))
+        doc.selectAllSchematic()
+        XCTAssertTrue(doc.schematicSelection.contains(.titleBlock))
+    }
+
+    func testPressSelectsAndAGroupDragMovesItWithAPartAndUndoesInOneStep() throws {
+        let (doc, chip) = try shownDocument(with: true)
+        let part = try XCTUnwrap(chip)
+        let before = try XCTUnwrap(doc.documentInfo.titleBlock)
+        _ = doc.pressSelection(.titleBlock, shift: false)
+        XCTAssertTrue(doc.selectedTitleBlock)
+        _ = doc.pressSelection(.chip(part.id), shift: true)
+        let base = doc.schematicGroupBase()
+        XCTAssertEqual(base.titleBlock, before)
+        doc.beginGesture(.schematic)
+        doc.moveSchematicGroup(base, by: CGSize(width: 44, height: -33))
+        doc.moveSchematicGroup(base, by: CGSize(width: 54, height: -28))
+        doc.endGesture()
+        XCTAssertEqual(doc.documentInfo.titleBlock, p(before.x + 50, before.y - 30))
+        XCTAssertEqual(doc.chips.first?.origin, p(part.origin.x + 50, part.origin.y - 30))
+        XCTAssertEqual(doc.undoName, "Move")
+        XCTAssertTrue(doc.undo())
+        XCTAssertEqual(doc.documentInfo.titleBlock, before)
+        XCTAssertEqual(doc.chips.first?.origin, part.origin)
+        XCTAssertEqual(doc.undoName, "Show Title Block", "the whole drag was one step")
+    }
+
+    func testDeleteWithAPartSelectedRemovesThePartAndHidesTheBlockKeepingTheInfo() throws {
+        let (doc, chip) = try shownDocument(with: true)
+        doc.selectAllSchematic()
+        XCTAssertTrue(doc.deleteSchematicSelection())
+        XCTAssertTrue(doc.chips.isEmpty)
+        XCTAssertNil(doc.documentInfo.titleBlock)
+        XCTAssertEqual(doc.documentInfo.title, "Clock board")
+        XCTAssertFalse(doc.schematicSelection.contains(.titleBlock))
+        XCTAssertNotNil(chip)
+        XCTAssertTrue(doc.undo())
+        XCTAssertNotNil(doc.documentInfo.titleBlock)
+        XCTAssertEqual(doc.chips.count, 1)
+    }
+
+    func testDeleteOnTheBlockAloneHidesIt() throws {
+        let (doc, _) = try shownDocument()
+        doc.select(.titleBlock)
+        XCTAssertTrue(doc.deleteSchematicSelection())
+        XCTAssertNil(doc.documentInfo.titleBlock)
+        XCTAssertEqual(doc.documentInfo.title, "Clock board")
+        XCTAssertTrue(doc.schematicSelection.isEmpty)
+    }
+
+    func testTheEraserHidesTheBlock() throws {
+        let (doc, _) = try shownDocument()
+        let rect = try XCTUnwrap(doc.titleBlockRect)
+        doc.erase(at: p(rect.midX, rect.midY))
+        XCTAssertNil(doc.documentInfo.titleBlock)
+        XCTAssertEqual(doc.documentInfo.title, "Clock board")
+    }
+
+    func testANoteOverTheBlockIsHitFirst() throws {
+        let (doc, _) = try shownDocument()
+        let rect = try XCTUnwrap(doc.titleBlockRect)
+        let id = doc.addNote(at: p(rect.minX + 20, rect.minY + 20))
+        XCTAssertEqual(doc.note(at: p(rect.minX + 25, rect.minY + 25))?.id, id)
+        XCTAssertTrue(doc.titleBlock(at: p(rect.minX + 25, rect.minY + 25)), "both are under the point; the canvas takes the note first")
+    }
+
+    func testCutLeavesTheBlockAndCopyIgnoresIt() throws {
+        let (doc, chip) = try shownDocument(with: true)
+        doc.select(.titleBlock)
+        XCTAssertNil(doc.schematicCopy(), "the block alone is not copyable")
+        doc.selectAllSchematic()
+        let copy = try XCTUnwrap(doc.schematicCopy())
+        XCTAssertEqual(copy.chips.count, 1)
+        XCTAssertNotNil(chip)
+        XCTAssertTrue(doc.deleteSchematicSelection(named: "Cut", includingTitleBlock: false))
+        XCTAssertTrue(doc.chips.isEmpty)
+        XCTAssertNotNil(doc.documentInfo.titleBlock, "cut does not take the block")
+    }
+
+    func testTheSidebarAndTheSelectionList() throws {
+        let (doc, chip) = try shownDocument(with: true)
+        doc.select(.titleBlock)
+        XCTAssertEqual(SchematicSidebarView.content(for: doc), .titleBlock)
+        _ = doc.pressSelection(.chip(try XCTUnwrap(chip).id), shift: true)
+        XCTAssertEqual(SchematicSidebarView.content(for: doc), .selection)
+        let rows = SelectionRows.schematic(doc)
+        XCTAssertTrue(rows.contains { $0.item == .titleBlock && $0.title == "Title Block" && $0.detail == "Clock board" })
+        // Hidden with the block selected: the selection clears of it.
+        doc.select(.titleBlock)
+        doc.setTitleBlockShown(false)
+        XCTAssertTrue(doc.schematicSelection.isEmpty)
+        XCTAssertEqual(SchematicSidebarView.content(for: doc), .library)
+    }
+
+    func testTheBlockSurvivesTheFile() throws {
+        let (doc, _) = try shownDocument()
+        let data = try SchematicFile(document: doc, fileURL: nil).encoded()
+        let opened = newDocument()
+        try SchematicFile.decode(data).apply(to: opened, catalog: TestSupport.catalog, fileURL: nil)
+        XCTAssertEqual(opened.documentInfo.titleBlock, doc.documentInfo.titleBlock)
+        XCTAssertEqual(opened.titleBlockLayout, doc.titleBlockLayout)
+    }
+
     // MARK: Drawing
 
     func testThePaintedTextHasTheTitleLabelsAndDates() {
