@@ -30,7 +30,7 @@ Stated in plan-61-A. In addition:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-61-B is complete | `rg -c '^- \[ \]' planning/plan-61-B-nsdocument-and-hosted-window.md` → no output | NOT MET until B lands |
+| plan-61-B is complete | `rg -c '^- \[ \]' planning/plan-61-B-nsdocument-and-hosted-window.md` → no output | MET (no output, 2026-11-24, after 073adb69) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run before you continue and before you stop; report all prerequisites if
@@ -150,12 +150,12 @@ Format menu; a new Settings item; Finder offers Schematical for `.schpart`.
 
 ### Phase 1 — Title and tab setting
 
-- [ ] `Document/SchematicNSDocument.swift`: `titleVisibility = .visible`; `tabbingMode` from `DocumentTabs.current`.
-- [ ] `Preferences/PreferencesView.swift`: `PreferenceKey.documentTabs`, `enum DocumentTabs`, the picker **Open documents in** on the General Defaults page; on change, set `tabbingMode` on every open document window.
-- [ ] `schematicalTests/SchematicNSDocumentTests.swift`: with the key unset a new document's window has `tabbingMode == .preferred`; set to `windows`, `.disallowed`; set to `system`, `.automatic`; `titleVisibility == .visible`.
+- [x] `Document/SchematicNSDocument.swift`: `titleVisibility = .visible`; `tabbingMode` from `DocumentTabs.current`. Done.
+- [x] `Preferences/PreferencesView.swift`: `PreferenceKey.documentTabs`, `enum DocumentTabs`, the picker **Open documents in** on the General Defaults page; on change, set `tabbingMode` on every open document window. Done: a Documents section at the top of the page; `DocumentTabs.applyToOpenDocuments()` on change.
+- [x] `schematicalTests/SchematicNSDocumentTests.swift`: with the key unset a new document's window has `tabbingMode == .preferred`; set to `windows`, `.disallowed`; set to `system`, `.automatic`; `titleVisibility == .visible`. Done: `testTheWindowShowsItsTitleAndFollowsTheTabSetting` (also: an unknown stored value means Tabs) and `testChangingTheTabSettingReachesOpenDocuments`. The tests set the real key and put back what was there.
 
 Acceptance: the test passes.
-  Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/SchematicNSDocumentTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 5 min).
+  Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/SchematicNSDocumentTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 5 min). Result: `Executed 11 tests, with 1 test skipped and 0 failures`, `** TEST SUCCEEDED **` (the skip is 61-B's key-window test, which needs the app in front).
 Commit: —
 
 ### Phase 2 — Launch and the blank Untitled

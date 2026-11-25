@@ -375,4 +375,56 @@ final class SchematicNSDocumentTests: XCTestCase {
         try XCTSkipUnless(result.wasKey, "the app hosting the tests is not in front, so its window was never key")
         XCTAssertEqual(result.alive, [], "still alive two seconds after the close")
     }
+
+    // MARK: plan-61-C phase 1 — title and tab setting
+
+    /// Sets (or, with nil, clears) the Open documents in setting for this
+    /// test, and puts back what was there.
+    private func setDocumentTabs(_ value: String?) {
+        let defaults = UserDefaults.standard
+        let old = defaults.object(forKey: PreferenceKey.documentTabs)
+        addTeardownBlock { defaults.set(old, forKey: PreferenceKey.documentTabs) }
+        defaults.set(value, forKey: PreferenceKey.documentTabs)
+    }
+
+    /// The window a new document makes; closed when the test ends.
+    private func windowOfANewDocument() throws -> NSWindow {
+        let document = newDocument()
+        document.makeWindowControllers()
+        let window = try XCTUnwrap(document.windowControllers.first?.window)
+        addTeardownBlock { @MainActor in document.close() }
+        return window
+    }
+
+    func testTheWindowShowsItsTitleAndFollowsTheTabSetting() throws {
+        setDocumentTabs(nil)
+        XCTAssertEqual(DocumentTabs.current(), .tabs, "unset means tabs")
+        let byDefault = try windowOfANewDocument()
+        XCTAssertEqual(byDefault.tabbingMode, .preferred)
+        XCTAssertEqual(byDefault.titleVisibility, .visible)
+        XCTAssertEqual(byDefault.toolbarStyle, .unifiedCompact)
+
+        UserDefaults.standard.set(DocumentTabs.windows.rawValue, forKey: PreferenceKey.documentTabs)
+        XCTAssertEqual(try windowOfANewDocument().tabbingMode, .disallowed)
+        UserDefaults.standard.set(DocumentTabs.system.rawValue, forKey: PreferenceKey.documentTabs)
+        XCTAssertEqual(try windowOfANewDocument().tabbingMode, .automatic)
+        UserDefaults.standard.set("nonsense", forKey: PreferenceKey.documentTabs)
+        XCTAssertEqual(try windowOfANewDocument().tabbingMode, .preferred, "an unknown value means tabs")
+    }
+
+    /// Changing the setting reaches the document windows already open.
+    func testChangingTheTabSettingReachesOpenDocuments() throws {
+        setDocumentTabs(nil)
+        let document = openDocument()
+        document.makeWindowControllers()
+        let window = try XCTUnwrap(document.windowControllers.first?.window)
+        XCTAssertEqual(window.tabbingMode, .preferred)
+        UserDefaults.standard.set(DocumentTabs.windows.rawValue, forKey: PreferenceKey.documentTabs)
+        DocumentTabs.applyToOpenDocuments()
+        XCTAssertEqual(window.tabbingMode, .disallowed)
+        UserDefaults.standard.set(DocumentTabs.system.rawValue, forKey: PreferenceKey.documentTabs)
+        DocumentTabs.applyToOpenDocuments()
+        XCTAssertEqual(window.tabbingMode, .automatic)
+        document.close()
+    }
 }

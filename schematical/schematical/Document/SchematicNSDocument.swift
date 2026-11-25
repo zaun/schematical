@@ -146,7 +146,12 @@ extension SchematicNSDocument {
         let window = NSWindow(contentViewController: host)
         window.setContentSize(NSSize(width: 1100, height: 700))
         window.toolbarStyle = .unifiedCompact
-        window.titleVisibility = .hidden
+        // The document's name, its Edited mark, the title menu and the
+        // proxy icon, beside the toolbar (plan-61-C).
+        window.titleVisibility = .visible
+        // A tab of the window in front, or a window of its own
+        // (Settings ▸ General Defaults ▸ Open documents in).
+        window.tabbingMode = DocumentTabs.current().tabbingMode
         window.isRestorable = true
         window.setFrameAutosaveName("SchematicDocument")
         let controller = NSWindowController(window: window)

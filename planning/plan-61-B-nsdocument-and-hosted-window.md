@@ -255,7 +255,7 @@ Commit: aaf1974e
 
 Acceptance: the test passes.
   Check: `xcodebuild test … -only-testing:schematicalTests/SchematicNSDocumentTests/testClosingFreesTheDocument 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 4 min per run). By the owner's decision this acceptance is not weakened: with (a)–(c) in and the test still failing, the phase is reported to the owner with the test's output and the plan stops there. Result: `testClosingFreesTheDocument` `passed (4.539 seconds)`; `testClosingAKeyWindowFreesTheDocument` `passed (5.453 seconds)`, not skipped, with the test host brought to the front from the shell; `** TEST SUCCEEDED **`. The criterion is stronger than written: it also asserts the exporter, the system document and the window are freed, and that a key window's document is.
-Commit: —
+Commit: 073adb69
 
 ## Validation Plan
 
