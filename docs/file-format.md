@@ -7,7 +7,19 @@ schematic with no custom part is still written as version 4. Version 1, 2
 and 3 files open too (see [Older versions](#older-versions)).
 
 Code: `schematical/schematical/Document/SchematicFile.swift` (the format) and
-`SchematicFileController.swift` (Save, Save As, Open). Save As can also write a KiCad project or an EasyEDA Pro project instead (see [export.md](export.md#kicad) and [export.md](export.md#easyeda-pro)); that is an export and writes no `.schematical` file.
+`SchematicNSDocument.swift` (who reads and writes it).
+
+A schematic is a system document (`SchematicNSDocument`, an `NSDocument`):
+AppKit does Open, Save, Duplicate, Save As, Rename, Move To and Revert To,
+keeps the file's versions and the recent files, and asks at close or quit
+only about a schematic that has never been saved. A schematic with a file
+**autosaves in place**: edits are written to the file as you work, with no
+Save needed, and File › Revert To goes back to an earlier version. The
+document's `read(from:ofType:)` decodes the file and applies it
+(`SchematicFile.apply`); `data(ofType:)` encodes `SchematicFile(document:fileURL:)`.
+A KiCad or EasyEDA Pro project is an export, under File › Export (see
+[export.md](export.md#kicad) and [export.md](export.md#easyeda-pro)), and
+writes no `.schematical` file.
 
 ## Design rules
 
@@ -140,7 +152,7 @@ An EEPROM can name the file loaded into it when the simulation starts:
 | `gender`     | string  | Headers only (`GENERIC-HEADER-…`): one of the part's genders, `"Male"` or `"Female"`. The symbol draws pins or sockets; the footprint doesn't change. Always written for a header; missing means the part's default (`Male`). Ignored on other parts. An optional field, so the version stays 4 (a file with headers names parts an older build doesn't have, which it refuses anyway). |
 | `socket`     | object  | A DIP or PLCC chip in a socket mode only (plan-51): `{"part": "GENERIC-SOCKET-DIP-14-300", "mode": "withSocket"}`. `part` is the name of a bundled `socket` part whose `fits` hold the chip's footprint; `mode` is `"withSocket"` (the chip sits in the socket: the PCB carries the socket's footprint and the Bill of Materials lists the chip and the socket) or `"socketOnly"` (the socket is on the board, the chip is not inserted: the Bill of Materials lists the socket only). Run ignores the mode. Left out for a plain IC, so a file with no socket is byte for byte what it was. An optional field, so the version stays 4. |
 | `partUUID`   | string  | Version 5. Custom parts only: the part's `uuid`, one of the file's `customParts`. The placed part resolves by it, not by `partNumber`; `partNumber` is the name the part had when saved (with its suffix, such as `SN74HC00N.2`), so a reader that ignores custom parts still sees a name. Written exactly for custom parts. |
-| `memoryFile` | object  | EEPROMs only, optional: the file (raw binary, or Intel HEX for `.hex`/`.ihx`/`.ihex`) loaded into the chip at every start; without it the chip starts erased (every byte FF). `path` (string) is the file's path relative to the schematic's folder (`../roms/boot.bin`), or absolute for a schematic that had never been saved. `bookmark` (base64 string, optional) is an app-scoped security bookmark; on the Mac that wrote it, it is tried first, so the sandboxed app can read the file after a restart, and `path` is the fallback. Ignored on other parts. |
+| `memoryFile` | object  | EEPROMs only, optional: the file (raw binary, or Intel HEX for `.hex`/`.ihx`/`.ihex`) loaded into the chip at every start; without it the chip starts erased (every byte FF). `path` (string) is the file's path relative to the folder of the file being written (`../roms/boot.bin`): each write (Save, Save As or Duplicate into another folder, an autosave) uses its own destination, so the path is right wherever the file lands. It is absolute for a schematic with no place of its own yet: one never saved, which AppKit autosaves into its `Autosave Information` folder. Read back, a relative path is resolved against the file's folder, and a file in that autosave folder is read with absolute paths. `bookmark` (base64 string, optional) is an app-scoped security bookmark; on the Mac that wrote it, it is tried first, so the sandboxed app can read the file after a restart, and `path` is the fallback. Ignored on other parts. |
 
 ## Board
 

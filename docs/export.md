@@ -7,6 +7,8 @@ panel has no Format menu. **Image…** (⇧⌘E), a
 picture of the focused window's schematic, PCB page or made board, and
 **PDF…**, the schematic and each PCB layer at 1:1 (see [PDF and print](#pdf-and-print)), and
 **Gerber PCB…**, its board as Gerber files (see Gerber below). **File > Print…** (⌘P) prints the same pages.
+The exports and Print are `SchematicExporter`'s, one per document; an export is never a save, and
+does not mark the document edited.
 
 ## Image
 
@@ -181,7 +183,10 @@ References, Part Number, Package, Value, Color, Description) and **Export JLCPCB
 
 **File > Print…** (⌘P) and **File > Export > PDF…** open one options sheet over the window, with a live
 preview of the PDF; its button is **Print…** (the system print panel, for the same PDF) or **Save PDF…** (the save
-panel, `<window name>.pdf`). Simulation's Run / Stop is ⌥⌘P. The paper, Mirror, Negative and Registration marks
+panel, `<window name>.pdf`). Printing goes through the document: after the sheet, Print… asks the document to
+print (`NSDocument.print`), and the document's `printOperation(withSettings:)` makes the operation from
+`PrintExport`'s PDF with the sheet's choices. The system's own print action (with no sheet) reaches the same
+method and prints every page with the saved paper and marks. Simulation's Run / Stop is ⌥⌘P. The paper, Mirror, Negative and Registration marks
 are remembered between prints (`PrintOptions.saved`); the page choices are not (a board's layers differ).
 
 **Paper** is Letter, Legal, Tabloid, A4 or A3 (Letter where the system measures in inches, else A4). Every page is
@@ -422,7 +427,8 @@ PNG puts them; the padding keeps a wider font from clipping. A turned label
 | `PrintPaper`, `PrintPageKind`, `PrintOptions`, `PrintPage`, `BoardArtwork`, `PrintExport` (pages, tiles, the PDF, the print operation) | `schematical/schematical/Document/PrintExport.swift` |
 | `PrintDialog` (the options sheet with its PDF preview) | `schematical/schematical/Document/PrintDialog.swift` |
 | `SchematicExportMenu` (the submenu; `SchematicFileCommands` adds it to File, with Print…) | `schematical/schematical/Document/SchematicExportCommands.swift` |
-| `exportImage()`, `writeImage(_:to:)`, `printPages()`, `exportPDF()`, `writePDF(_:to:)`, `exportGerber()`, `writeGerber(to:)`, `exportKiCadProject()`, `writeKiCadProject(into:)`, `writeKiCad(to:)`, `exportEasyEDAProProject()`, `writeEasyEDAPro(to:)` | `schematical/schematical/Document/SchematicFileController.swift` |
+| `exportImage()`, `writeImage(_:to:)`, `printPages()`, `exportPDF()`, `writePDF(_:to:)`, `exportGerber()`, `writeGerber(to:)`, `exportKiCadProject()`, `writeKiCadProject(into:)`, `writeKiCad(to:)`, `exportEasyEDAProProject()`, `writeEasyEDAPro(to:)`, `printOperation(_:jobTitle:)` (`SchematicExporter`) | `schematical/schematical/Document/SchematicExporter.swift` |
+| `printOperation(withSettings:)` (the document's print) | `schematical/schematical/Document/SchematicNSDocument.swift` |
 | `SaveFormat` (each written format's extension and content type) | `schematical/schematical/Document/SaveFormat.swift` |
 | `KiCadExport` (the three files, project file, shared names), `KiCad` (number, string, uuid formats) | `schematical/schematical/Document/KiCadExport.swift` |
 | `KiCadSchematicWriter` | `schematical/schematical/Document/KiCadSchematicWriter.swift` |

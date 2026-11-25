@@ -523,6 +523,17 @@ final class SchematicNSDocumentTests: XCTestCase {
         XCTAssertEqual(operation.jobTitle, document.displayName)
         XCTAssertEqual(operation.jobTitle, "Untitled")
         XCTAssertTrue(document.model.file.systemDocument === document)
+
+        // The pages sheet's choices go to the one print it starts.
+        var chosen = PrintOptions.saved()
+        chosen.mirror.toggle()
+        document.model.file.optionsForNextPrint = chosen
+        XCTAssertEqual(document.model.file.takePrintOptions().mirror, chosen.mirror)
+        XCTAssertNil(document.model.file.optionsForNextPrint)
+        XCTAssertEqual(document.model.file.takePrintOptions().mirror, PrintOptions.saved().mirror)
+        document.model.file.optionsForNextPrint = chosen
+        _ = try document.printOperation(withSettings: [:])
+        XCTAssertNil(document.model.file.optionsForNextPrint, "taken by the print it was for")
     }
 
     /// The unit tests never autosave: a test's document must not be written

@@ -227,6 +227,9 @@ final class SchematicExporter {
         guard let options = await runPrintOptions(PrintOptions.saved(), action: .print) else { return }
         options.save()
         if let systemDocument {
+            // The pages chosen in the sheet are not among what is saved (a
+            // board's layers differ): they go to this one print.
+            optionsForNextPrint = options
             systemDocument.print(withSettings: [:], showPrintPanel: true, delegate: nil, didPrint: nil, contextInfo: nil)
             return
         }
@@ -241,6 +244,18 @@ final class SchematicExporter {
         } catch {
             present(error, title: "Couldn't print “\(displayName)”")
         }
+    }
+
+    /// What the pages sheet chose, for the print it leads to; taken once.
+    @ObservationIgnored
+    var optionsForNextPrint: PrintOptions?
+
+    /// The options the document prints with: the pages sheet's, for the
+    /// print it started, else the saved ones (the system's print action,
+    /// with no sheet).
+    func takePrintOptions() -> PrintOptions {
+        defer { optionsForNextPrint = nil }
+        return optionsForNextPrint ?? PrintOptions.saved()
     }
 
     /// The print operation for the pages `options` choose: `PrintExport`'s PDF, each page at its own size.

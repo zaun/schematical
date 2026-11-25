@@ -178,11 +178,12 @@ extension SchematicNSDocument {
 // MARK: - Printing
 
 extension SchematicNSDocument {
-    /// What the system prints for this document (File › Print… after its
-    /// pages sheet, and AppKit's own print action): `PrintExport`'s pages
-    /// with the choices last made in that sheet.
+    /// What the system prints for this document: `PrintExport`'s pages.
+    /// File › Print… comes here after its pages sheet, with the sheet's
+    /// choices; AppKit's own print action comes here with none, and gets
+    /// the saved paper and marks and every page.
     override func printOperation(withSettings printSettings: [NSPrintInfo.AttributeKey: Any]) throws -> NSPrintOperation {
-        try model.file.printOperation(PrintOptions.saved(), jobTitle: displayName)
+        try model.file.printOperation(model.file.takePrintOptions(), jobTitle: displayName)
     }
 }
 
