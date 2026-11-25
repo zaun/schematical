@@ -257,4 +257,31 @@ extension RoutingTestBoard {
         }
         return board
     }
+
+    /// One layer, no vias. Net 2 from (3, 6) to (17, 6) must cross a wall of net 9 at x = 10 through a
+    /// gap (y 9.4 to 10.6) that the existing copper of net 5, from (3, 10) to (17, 10), sits in (plan-66-D).
+    /// The wall's copper ends at 9.527 and 10.473, so a trace centre may sit between 9.754 and 10.246 (width
+    /// 0.254, clearance 0.1); two traces need centres 0.354 apart. The chain at y = 10 leaves none; moved to
+    /// 10.2 it leaves 9.8. Net 5 is a chain of existing copper (`ledgerShoveGap` has the run route it).
+    /// Net 2's pads are both on one side of net 5's line: on one layer a net that has to cross it could
+    /// never be laid beside it.
+    static func shoveGap(gap: ClosedRange<Double> = 9.4...10.6) -> RoutingTestBoard {
+        var board = ledgerShoveGap(gap: gap)
+        board.chain([CGPoint(x: 3, y: 10), CGPoint(x: 17, y: 10)], net: 5, from: 2, to: 3)
+        return board
+    }
+
+    /// `shoveGap` with net 5 routed by the run (its pads two components of a net the run routes), no chain.
+    static func ledgerShoveGap(gap: ClosedRange<Double> = 9.4...10.6) -> RoutingTestBoard {
+        var board = RoutingTestBoard(width: 20, height: 20, layers: [.top])
+        board.options.grid = 0.1
+        board.options.vias = .none
+        board.pad(3, 6, 1, 1, net: 2)
+        board.pad(17, 6, 1, 1, net: 2)
+        board.pad(3, 10, 1, 1, net: 5)
+        board.pad(17, 10, 1, 1, net: 5)
+        board.trace([CGPoint(x: 10, y: 0), CGPoint(x: 10, y: gap.lowerBound)], net: 9)
+        board.trace([CGPoint(x: 10, y: gap.upperBound), CGPoint(x: 10, y: 20)], net: 9)
+        return board
+    }
 }

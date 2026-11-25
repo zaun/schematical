@@ -237,22 +237,22 @@ Acceptance: the four test groups pass and the A anchors still pass.
   -only-testing:schematicalTests/RoutingAnchorTests` → `** TEST SUCCEEDED **`
   (est. 3 min).
   Measured: `Executed 29 tests, with 0 failures` (RoutingSearchTests 13, RoutingGridTests 7, RoutingAnchorTests 9), `** TEST SUCCEEDED **`.
-Commit: — (recorded in the next commit)
+Commit: cbc2b774
 
 ### Phase 2 — the transaction
 
-- [ ] `Routing/RoutingState.swift`: `chainTerminals: [Int: (a: [RoutingTerminal],
+- [x] (done; each tie is the end's own point, see Corrections) `Routing/RoutingState.swift`: `chainTerminals: [Int: (a: [RoutingTerminal],
       b: [RoutingTerminal])]`, built in `init` from each chain's two `ends`
       (their `anchor` components through `grid.terminals`).
-- [ ] `Routing/Router.swift`: factor `join`'s "add the found path as copper" into
+- [x] (done: `Run.addConnection`; `join` calls it) `Routing/Router.swift`: factor `join`'s "add the found path as copper" into
       `Run.addConnection(_:found:net:main:target:rules:)`; `join` calls it,
       unchanged in effect (the A anchors and the whole router suite prove it).
-- [ ] `Routing/RoutingPush.swift` (new, `extension Router.Run`): `tryPush`,
+- [x] (done, with `RoutingCorridor.makeAvoiding`/`forbid` as support; see Corrections) `Routing/RoutingPush.swift` (new, `extension Router.Run`): `tryPush`,
       `pushRoute`, the eligibility and accept rules, the describe-victim record,
       the `.connection`/`.victim` commit, per § 3. `Router.Run` gains
       `var corridor = RoutingCorridor()` and `var pushTried`, `pushKept` counters
       copied to `RoutingStats` in `result(…)`.
-- [ ] `schematicalTests/RoutingTestBoard.swift`: `static func shoveGap()`: one
+- [x] (done, with a different board: see Corrections) `schematicalTests/RoutingTestBoard.swift`: `static func shoveGap()`: one
       layer `[.top]`, `options.grid = 0.1`, `options.vias = .none`, pads of net 2 at
       (3, 6) and (17, 14), pads of net 5 at (3, 10) and (17, 10) (all 1 × 1, net 5
       in `unrouted`), a wall of net 9 as `trace([(10, 0), (10, 9.4)], net: 9)` and
@@ -264,7 +264,7 @@ Commit: — (recorded in the next commit)
       none, and moved to 9.8 it leaves 10.2.
       `static func ledgerShoveGap()`: the same with net 5 routed by the run (its two
       pads as net 5 components, not `unrouted`, no chain, wall unchanged).
-- [ ] `schematicalTests/RoutingPushTests.swift` (new), each using `Router.Run`
+- [x] (done: 10 tests) `schematicalTests/RoutingPushTests.swift` (new), each using `Router.Run`
       directly and `RoutingCheck`:
       `testAChainInAGapIsPushedAside` (`shoveGap()`; `tryPush` for net 2 → `true`;
       net 2 is joined; the chain entry has `touched` and its new points start and
@@ -295,7 +295,11 @@ Acceptance: all `RoutingPushTests` pass, the A anchors and C's identity tests to
   -only-testing:schematicalTests/RoutingChainEngineTests
   -only-testing:schematicalTests/RoutingNegotiationTests` → `** TEST SUCCEEDED **`
   (est. 4 min: RoutingNegotiationTests alone took 26 s in the baseline run).
-Commit: —
+  Measured: `RoutingPushTests` `Executed 10 tests, with 0 failures`. Final gate, once, both Checks together with the Router
+  suites that `join`'s refactor touches: `Executed 86 tests, with 0 failures` in RoutingSearchTests 13, RoutingGridTests 7,
+  RoutingPushTests 10, RoutingAnchorTests 9, RoutingChainEngineTests 10, RoutingNegotiationTests 10,
+  RouterTests 7, RoutingPolishTests 11, RoutingRepairTests 5, RoutingStateTests 4, `** TEST SUCCEEDED **`.
+Commit: — (recorded in the next commit)
 
 ## Validation Plan
 
@@ -330,6 +334,42 @@ plan-66-A § Decisions apply. Added by the author, 2026-11-25:
   search turns it into a buffer inside its own pointer nest as it does for `history`
   and the plan's arrays. No corridor is an empty array there, so `hasCorridor` is
   false and the price is unchanged: the A anchors (9) pass.
+- **The plan's `shoveGap()` board is impossible on one layer** (2026-11-25). It puts net
+  2's pads at (3, 6) and (17, 14) and the chain of net 5 along y = 10 from edge to edge:
+  net 2 must cross that line, which a single layer forbids, so no push can ever lay both
+  (the first run failed at the victim's re-lay with the connection already laid). Net 2's
+  pads are now (3, 6) and (17, 6), both on one side; the arithmetic in the plan holds
+  (the gap's centre range 9.754…10.246 holds one trace at y = 10 and two at 9.8 and 10.2,
+  so the chain moves to 10.2 and net 2 lays at 9.8 or the other way about). `ledgerShoveGap`
+  is the same board with net 5 laid by hand (a straight trace at y = 10, through
+  `state.add`), since the run's own route for it is at 9.8 and leaves room.
+- **A connection laid by a push keeps off where the victims were** (2026-11-25).
+  Laid first, in the cheapest place, the connection takes the middle of the gap and
+  leaves the victim no room on either side (net 2 at y = 10 leaves none). The second hard
+  search therefore runs under `avoid`, a price field (`RoutingCorridor.makeAvoiding`)
+  around the victims' old copper, so the connection is laid at the edge of the room and the
+  victims beside it. Only the top-level connection uses it; a victim's re-lay is under its
+  own corridor.
+- **A victim may not cross what the push has laid** (2026-11-25): the relaxed search
+  prices another net's ledger copper and a chain alike, so a victim looking for room took
+  the cheapest crossing, which was the connection just laid (an entry in `added`, refused);
+  every cascade failed. `RoutingCorridor.forbid` takes out of a victim's corridor the nodes
+  within `gap + the laid copper's half width + the victim's half width` of anything this
+  transaction laid, which is what the grid's own stamp of that copper covers. (The first
+  version used the victim's via radius: it blocked the room the victim needed.)
+- **A chain's re-laid ends are its recorded points, not the pad's centre**
+  (2026-11-25): `RoutingState.chainTerminals` tie every terminal cell of an end to the
+  chain's own end point, so a push never moves an anchor. § 3 had the pad's centre; a
+  hand-drawn vertex inside the pad would then move, and one that is the middle of a trace
+  (shared with the next chain) would have made `applyRouting` skip the chain after the
+  engine had laid the connection over it.
+- **The cascade board**: found by trying layouts (a probe, removed): the chains of nets 5
+  and 6 at y = 9.7 and 10.1 in a gap of 9.2 to 10.8 (centres 9.554…10.446), pads 0.2 mm
+  so they do not touch each other; net 2 must push 5, and 5 must push 6: depth 1 → false,
+  depth 2 → true, legal, both chains listed as moved. Three-chain layouts tried (a fourth
+  trace at 0.4 mm steps) failed at every depth and are not tested.
+- **`corridor:` is `[Float]?`** (Phase 1 correction, restated): `tryPush` hands the
+  scratch field's array to the search without a copy.
 
 ## Summary
 

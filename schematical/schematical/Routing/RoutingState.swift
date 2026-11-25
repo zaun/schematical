@@ -46,6 +46,10 @@ nonisolated struct RoutingState: Sendable {
     /// The nets that only hold existing copper (`problem.bystanders`): never
     /// routed, never ripped up.
     let bystanders: Set<Int>
+    /// Where each chain may start and end when it is laid again (plan-66-D), by
+    /// `MovableChain.id`: the cells of each end's anchor, every one tied to the
+    /// end's own point, so a chain re-laid keeps its ends exactly where they are.
+    let chainTerminals: [Int: (a: [RoutingTerminal], b: [RoutingTerminal])]
     /// By node: how contested each cell has been (plan-38-F § 3); a relaxed
     /// search pays `present × (1 + history)` to cross other nets' copper.
     var history: [Float]
@@ -75,6 +79,17 @@ nonisolated struct RoutingState: Sendable {
         }
         self.componentOfNode = componentOfNode
         for net in problem.bystanders { nets[net.id] = net }
+        var chainTerminals: [Int: (a: [RoutingTerminal], b: [RoutingTerminal])] = [:]
+        for chain in problem.movable {
+            guard let net = nets[chain.net], chain.ends.count == 2 else { continue }
+            let rules = SearchRules(net: net, grid: grid, problem: problem)
+            let ends = chain.ends.map { end in
+                grid.terminals(of: end.anchor, net: chain.net, profile: rules.profile, allowed: rules.allowed)
+                    .map { RoutingTerminal(node: $0.node, tie: end.point) }
+            }
+            chainTerminals[chain.id] = (ends[0], ends[1])
+        }
+        self.chainTerminals = chainTerminals
         netsByID = nets
         bystanders = Set(problem.bystanders.map(\.id))
         history = Array(repeating: 0, count: grid.cellCount * grid.layers.count)

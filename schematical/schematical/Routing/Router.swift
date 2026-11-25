@@ -273,6 +273,11 @@ nonisolated enum Router {
         /// Improvement moves tried and kept.
         var polishTried = 0
         var polishKept = 0
+        /// Pushes tried and kept (plan-66-D), and the scratch fields they search under.
+        var pushTried = 0
+        var pushKept = 0
+        var corridor = RoutingCorridor()
+        var avoid = RoutingCorridor(background: 0)
         var grid: RoutingGrid { state.grid }
 
         init(problem: RoutingProblem, strategy: Strategy = .of(.balanced), seed: UInt64 = 1) {
@@ -545,10 +550,7 @@ nonisolated enum Router {
                     skipped.insert(target.0[0])
                     continue
                 }
-                let startTie = state.tie(found[0], net: net.id, components: main.0)
-                let endTie = state.tie(found[found.count - 1], net: net.id, components: target.0)
-                let copper = Router.copper(found, startTie: startTie, endTie: endTie, net: net, grid: grid)
-                state.add(net: net.id, path: found, traces: copper.traces, vias: copper.vias, allowed: hard.allowed)
+                addConnection(found, net: net, mainComponents: main.0, targetComponents: target.0, allowed: hard.allowed)
                 report(progress, round: round, net: net.name)
             }
             return Array(Set(lost)).sorted()
@@ -578,11 +580,23 @@ nonisolated enum Router {
             progress(report)
         }
 
+        /// Puts the connection a search found on the ledger: its path as copper, tied to the
+        /// terminals at both ends. Returns the entry's id.
+        @discardableResult
+        mutating func addConnection(_ found: [Int], net: RoutingNet, mainComponents: [Int], targetComponents: [Int],
+                                    allowed: [Bool]) -> Int {
+            let startTie = state.tie(found[0], net: net.id, components: mainComponents)
+            let endTie = state.tie(found[found.count - 1], net: net.id, components: targetComponents)
+            let copper = Router.copper(found, startTie: startTie, endTie: endTie, net: net, grid: grid)
+            return state.add(net: net.id, path: found, traces: copper.traces, vias: copper.vias, allowed: allowed)
+        }
+
         mutating func find(_ rules: SearchRules, sources: [Int], targets: [Int], plan: RoutingPlanCosts? = nil,
-                           isCancelled: () -> Bool) -> [Int]? {
+                           corridor: [Float]? = nil, isCancelled: () -> Bool) -> [Int]? {
             guard !sources.isEmpty, !targets.isEmpty else { return nil }
             switch search.search(grid, rules: rules, sources: sources, targets: targets, goal: grid.cellBox(targets),
-                                 history: rules.present > 0 ? state.history : nil, plan: plan, isCancelled: isCancelled) {
+                                 history: rules.present > 0 ? state.history : nil, plan: plan, corridor: corridor,
+                                 isCancelled: isCancelled) {
             case let .success(path): return path
             case .failure(.cancelled): stopped = true; return nil
             case .failure: return nil
@@ -684,6 +698,8 @@ nonisolated enum Router {
             result.stats.planOveruse = plan?.overuse ?? 0
             result.stats.polishTried = polishTried
             result.stats.polishKept = polishKept
+            result.stats.pushTried = pushTried
+            result.stats.pushKept = pushKept
             return result
         }
 
