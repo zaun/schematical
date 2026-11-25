@@ -41,6 +41,14 @@ nonisolated struct BoardPour: Identifiable, Hashable, Sendable {
     var locked = false
 
     static let minimumSide = 0.5
+    /// What the first pour drawn on a board starts with, KiCad's zone
+    /// defaults (clearance 0.5 mm, minimum width 0.25 mm; the thermal gap
+    /// and spoke width above are its 0.5 mm too). Later pours copy the one
+    /// before. The values a file leaves out stay as they were (no
+    /// clearance means the DRC's minimum, `minWidth` 0.2), so a saved
+    /// design doesn't change.
+    static let startClearance = 0.5
+    static let startMinWidth = 0.25
     static let gapRange: ClosedRange<Double> = 0.1...5
     static let spokeRange: ClosedRange<Double> = 0.1...5
     static let minWidthRange: ClosedRange<Double> = 0.05...2

@@ -279,11 +279,11 @@ fills nothing. Pours fill in drawing order; a later pour of another net gives wa
 | `x`, `y`, `width`, `height` | number | The rectangle in mm, `x`, `y` its top-left corner; `width` and `height` each at least 0.5. |
 | `layer`    | string  | The copper layer: `"top"`, `"inner2"` to `"inner5"` or `"bottom"`. It must be on the board and not a Plane. |
 | `net`      | string  | The pour's net, as a Plane layer's (`"ground"`, `"power:<mV>"` or `"pin:<part UUID>/<designator>"`). Missing is none. A net the schematic no longer has joins nothing. |
-| `clearance` | number | The gap to copper on other nets, in mm, 0.05 to 10. Missing is the DRC's min clearance. |
+| `clearance` | number | The gap to copper on other nets, in mm, 0.05 to 10. Missing is the DRC's min clearance. (The first pour drawn on a board starts at 0.5, KiCad's zone default, and is saved with it.) |
 | `connection` | string | `"thermal"` (default) or `"solid"`: how the pour joins the pads of its net. Vias of its net always join solid. |
 | `thermalGap` | number | The ring cut round a pad in thermal mode, in mm, 0.1 to 5. Default 0.5. |
 | `spokeWidth` | number | The width of the four spokes, in mm, 0.1 to 5. Default 0.5. |
-| `minWidth` | number  | In mm, 0.05 to 2. Default 0.2. |
+| `minWidth` | number  | In mm, 0.05 to 2. Default 0.2 when missing; the first pour drawn on a board starts at 0.25, KiCad's. |
 | `locked`   | boolean | Lock Position. Default `false`. Written only when `true`. |
 
 ### Keep-outs

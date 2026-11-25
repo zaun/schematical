@@ -125,6 +125,20 @@ final class PourModelTests: XCTestCase {
 
     // MARK: Edit API
 
+    /// The first pour drawn starts with KiCad's zone defaults; the type's
+    /// own defaults (what a file that leaves them out reads as) are unchanged.
+    func testFirstPourStartsWithKiCadsDefaults() throws {
+        let doc = TestSupport.newDocument()
+        let id = try XCTUnwrap(doc.addPour(rect: r(10, 10, 20, 15), layer: .top))
+        let pour = try XCTUnwrap(doc.pours.first { $0.id == id })
+        XCTAssertEqual(pour.clearance, 0.5)
+        XCTAssertEqual(pour.minWidth, 0.25)
+        XCTAssertEqual(pour.thermalGap, 0.5)
+        XCTAssertEqual(pour.spokeWidth, 0.5)
+        let later = try XCTUnwrap(doc.addPour(rect: r(40, 10, 10, 10), layer: .bottom))
+        XCTAssertEqual(doc.pours.first { $0.id == later }?.clearance, 0.5)
+    }
+
     func testNewPourTakesTheLastPoursSettingsAndNet() throws {
         let doc = TestSupport.newDocument()
         _ = try TestSupport.place(doc, "GND", at: CGPoint(x: 100, y: 100))

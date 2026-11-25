@@ -4411,8 +4411,10 @@ final class SchematicDocument {
                 pour.thermalGap = like.thermalGap
                 pour.spokeWidth = like.spokeWidth
                 pour.minWidth = like.minWidth
-            } else if planeNetChoices().contains(where: { $0.net == .ground }) {
-                pour.net = .ground
+            } else {
+                pour.clearance = BoardPour.startClearance
+                pour.minWidth = BoardPour.startMinWidth
+                if planeNetChoices().contains(where: { $0.net == .ground }) { pour.net = .ground }
             }
             pours.append(pour)
             boardSelection.replace(with: .pour(pour.id))
