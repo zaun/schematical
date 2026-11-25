@@ -120,7 +120,7 @@ Rejected alternatives:
 
 Acceptance: the opener makes, re-uses and closes the window.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p64-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/SchematicNSDocumentTests` → `** TEST SUCCEEDED **` (est. 8 min).
-Commit: —
+Commit: ab34dfd0
 
 ### Phase 2 — ⌘I, the menu, the help line
 

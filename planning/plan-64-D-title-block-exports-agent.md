@@ -102,24 +102,24 @@ Rejected alternatives:
 
 ### Phase 1 — Exports
 
-- [ ] `KiCadSchematicWriter.swift`: `extent(of:)` adds `document.titleBlockRect` when shown; a `titleBlock()`
+- [x] `KiCadSchematicWriter.swift`: `extent(of:)` adds `document.titleBlockRect` when shown; a `titleBlock()`
       beside `notes()` (:657) returns the frame (`polyline`, keys `titleblock/frame`), each separator
       (`titleblock/sep<i>`) and each cell line (`text(…, key: "titleblock/<cell>/<line>", justify: "left top")`);
-      add it to `drawing` after `notes()` (:107); the `(title_block` (:117) gets the fields in § 3.
-- [ ] `EasyEDAProSchematicWriter.swift`: after the notes loop (:352), the frame and separators as `poly` (open,
-      `wireStyle`) and each cell line as `TEXT` with `noteStyle`, from `TitleBlockLayout`.
-- [ ] `SchematicScene` already paints it (C); no change to `ImageExport`/`PrintExport`.
-- [ ] Tests: `KiCadExportTests` — a document with a title block and info → the `.kicad_sch` text contains the title
+      add it to `drawing` after `notes()` (:107); the `(title_block` (:117) gets the fields in § 3. — done
+- [x] `EasyEDAProSchematicWriter.swift`: after the notes loop (:352), the frame and separators as `poly` (open,
+      `wireStyle`) and each cell line as `TEXT` with `noteStyle`, from `TitleBlockLayout`. — done
+- [x] `SchematicScene` already paints it (C); no change to `ImageExport`/`PrintExport`. — done: no change to ImageExport/PrintExport; SVG test and PrintExportTests pass
+- [x] Tests: `KiCadExportTests` — a document with a title block and info → the `.kicad_sch` text contains the title
       and the author as `text` entries, `(title_block` has `(rev "B")` `(company "…")` and `(date "…")`, parens still
       balance (`testFilesAreWellFormed`'s check), two exports of one document are the same bytes (as
       `testSameDocumentGivesSameBytes`), and a document with no title block and default info exports exactly as
       before (`(title "<base>")` only); `EasyEDAProExportTests` — the `.epro` text contains the title; 
       `SchematicSVGTests` — the SVG of a document with a title block contains the title text; `SchematicSceneTests` —
-      a scene with only a title block is not `isEmpty` and its ink bounds equal the block's rect.
-- [ ] Real-tool check: add a `titleblock` sample to `KiCadExportTests.testPrintSamplesWhenAsked` (a document with two
+      a scene with only a title block is not `isEmpty` and its ink bounds equal the block's rect. — done: KiCadExportTests.testDocumentInfoAndTitleBlock + testHiddenTitleBlockIsNotDrawnButTheInfoIsKept, EasyEDAProExportTests.testTitleBlockIsOnTheSheet, SchematicSVGTests.testTitleBlockIsInTheSVG; xcodebuild test KiCadExportTests EasyEDAProExportTests SchematicSVGTests SchematicSceneTests PrintExportTests -> ** TEST SUCCEEDED **, 73 tests 0 failures
+- [x] Real-tool check: add a `titleblock` sample to `KiCadExportTests.testPrintSamplesWhenAsked` (a document with two
       parts, a filled-in info and the block shown) printing `KICAD_FILE titleblock/<name>.kicad_sch`; run it with
       `TEST_RUNNER_KICAD_OUT=1`, decode the file, run `~/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli sch export
-      pdf` on it, the exit code must be 0 and the PDF's text must contain the title and author (`pdftotext <pdf> - | grep -c '<title>\|<author>'` → 2).
+      pdf` on it, the exit code must be 0 and the PDF's text must contain the title and author (`pdftotext <pdf> - | grep -c '<title>\|<author>'` → 2). — done: TEST_RUNNER_KICAD_OUT=1 test run printed titleblock.kicad_sch (9732 bytes); kicad-cli sch export pdf exit 0; pdftotext shows Title: Clock board, J. Smith, Revision, the description (grep -c -> 4 lines; the plan said 2: the title and author appear in both the drawn block and KiCads own title block)
 
 Acceptance: the exports carry the block; KiCad opens the file and prints the title.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p64-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/KiCadExportTests -only-testing:schematicalTests/EasyEDAProExportTests -only-testing:schematicalTests/SchematicSVGTests -only-testing:schematicalTests/SchematicSceneTests -only-testing:schematicalTests/PrintExportTests` → `** TEST SUCCEEDED **` (est. 12 min: five classes that exercise every changed exporter); then the `kicad-cli` run above → exit 0 and the title in the PDF text (est. 5 min).

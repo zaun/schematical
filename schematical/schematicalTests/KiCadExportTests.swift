@@ -78,6 +78,44 @@ final class KiCadExportTests: XCTestCase {
         XCTAssertEqual(count("(pad ", in: board), 2)
     }
 
+    /// plan-64-D: the Document Info goes into KiCad's own title block, and the
+    /// title block on the schematic is lines and text; a document with no
+    /// information exports as it did.
+    func testDocumentInfoAndTitleBlock() throws {
+        let doc = try ExportSamples.titled()
+        let sch = try file(KiCadExport.files(for: doc, base: "tb"), "kicad_sch")
+        XCTAssertTrue(balanced(sch))
+        for field in ["(title \"Clock board\")", "(rev \"B\")", "(company \"J. Smith\")",
+                      "(comment 1 \"Divides the 4 MHz clock by 8. Drives the counter.\")",
+                      "(date \"\(String(DocumentInfo.dateText(doc.documentInfo.updated).prefix(10)))\")"] {
+            XCTAssertTrue(sch.contains(field), field)
+        }
+        for words in ["Clock board", "J. Smith", "Author", "Revision", "Description", "Divides the 4 MHz clock by 8."] {
+            XCTAssertTrue(sch.contains("(text \"\(words)\""), words)
+        }
+        // The frame, and the lines inside it: 3 between rows and 2 between cells.
+        XCTAssertEqual(count("(polyline", in: sch), 1 + 5)
+        let again = try file(KiCadExport.files(for: doc, base: "tb"), "kicad_sch")
+        XCTAssertEqual(sch, again, "the same bytes twice")
+
+        let plain = TestSupport.newDocument()
+        let bare = try file(KiCadExport.files(for: plain, base: "tb"), "kicad_sch")
+        XCTAssertTrue(bare.contains("(title \"tb\")"))
+        for absent in ["(rev ", "(company ", "(comment ", "(date ", "(polyline"] {
+            XCTAssertFalse(bare.contains(absent), absent)
+        }
+    }
+
+    /// Hidden, the block is not drawn, but the information still goes to KiCad.
+    func testHiddenTitleBlockIsNotDrawnButTheInfoIsKept() throws {
+        let doc = try ExportSamples.titled()
+        doc.setTitleBlockShown(false)
+        let sch = try file(KiCadExport.files(for: doc, base: "tb"), "kicad_sch")
+        XCTAssertFalse(sch.contains("(polyline"))
+        XCTAssertFalse(sch.contains("(text \"Clock board\""))
+        XCTAssertTrue(sch.contains("(title \"Clock board\")"))
+    }
+
     func testSameDocumentGivesSameBytes() throws {
         let doc = try Fixture.open("AFU")
         XCTAssertEqual(KiCadExport.files(for: doc, base: "x"), KiCadExport.files(for: doc, base: "x"))
@@ -391,6 +429,9 @@ final class KiCadExportTests: XCTestCase {
             }
         }
         try printRouted()
+        for file in KiCadExport.files(for: try ExportSamples.titled(), base: "titleblock") {
+            print("KICAD_FILE titleblock/\(file.name) \(file.data.base64EncodedString())")
+        }
         let doc = try ExportSamples.turned()
         // Every pad's box as the app has it, for the SVG check.
         for chip in doc.chips {
@@ -454,6 +495,21 @@ final class KiCadExportTests: XCTestCase {
 /// Boards the export tests (and `kicad-cli` / EasyEDA importer checks) use.
 @MainActor
 enum ExportSamples {
+    /// plan-64-D: two gates, a filled-in Document Info and its title block.
+    static func titled() throws -> SchematicDocument {
+        let doc = TestSupport.newDocument()
+        _ = try TestSupport.place(doc, "SN74HC00N", at: CGPoint(x: 100, y: 100))
+        _ = try TestSupport.place(doc, "SN74HC00N", at: CGPoint(x: 400, y: 100))
+        doc.setInfoTitle("Clock board")
+        doc.setInfoAuthor("J. Smith")
+        doc.setInfoRevision("B")
+        doc.setInfoDescription("Divides the 4 MHz clock by 8.\nDrives the counter.")
+        doc.setInfoCreated(Date(timeIntervalSince1970: 1_795_615_629))
+        doc.setInfoUpdated(Date(timeIntervalSince1970: 1_795_619_999))
+        doc.setTitleBlockShown(true)
+        return doc
+    }
+
     /// A board with a DIP at each turn on Top and on Bottom.
     static func turned() throws -> SchematicDocument {
         let doc = TestSupport.newDocument()

@@ -163,7 +163,7 @@ Rejected alternatives:
 
 Acceptance: the toggle shows and hides the block with the right placement, steps and drawn text.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p64-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/TitleBlockTests -only-testing:schematicalTests/SchematicSceneTests -only-testing:schematicalTests/SchematicNoteTests` → `** TEST SUCCEEDED **` (est. 9 min; the two existing classes prove the note metrics change and the scene still behave).
-Commit: —
+Commit: b03f4c91
 
 ### Phase 2 — Selecting, moving, hiding, sidebar
 
@@ -199,7 +199,7 @@ Commit: —
 
 Acceptance: every way of selecting, moving and deleting the block behaves as § 3 says, and undo restores it.
   Check: `xcodebuild … test -only-testing:schematicalTests/TitleBlockTests -only-testing:schematicalTests/SelectionModelTests -only-testing:schematicalTests/SelectionSidebarTests -only-testing:schematicalTests/SchematicClipboardTests -only-testing:schematicalTests/EditMenuTests` → `** TEST SUCCEEDED **` (est. 12 min: five test classes over the changed selection code).
-Commit: —
+Commit: ac6f2db8
 
 ### Phase 3 — Real-window pass
 

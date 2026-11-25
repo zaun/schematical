@@ -55,6 +55,19 @@ final class EasyEDAProExportTests: XCTestCase {
         }
     }
 
+    /// plan-64-D: the title block is lines and text on the sheet.
+    func testTitleBlockIsOnTheSheet() throws {
+        let doc = try ExportSamples.titled()
+        let entries = EasyEDAProExport.entries(for: doc, base: "tb")
+        let sheet = try entry(entries, suffix: "/1.esch").text
+        for line in try lines(sheet) { XCTAssertTrue(line.first is String) }
+        for words in ["Clock board", "J. Smith", "Revision", "Divides the 4 MHz clock by 8."] {
+            XCTAssertTrue(sheet.contains("\"\(words)\""), words)
+        }
+        let plain = try entry(EasyEDAProExport.entries(for: TestSupport.newDocument(), base: "tb"), suffix: "/1.esch").text
+        XCTAssertFalse(plain.contains("Revision"))
+    }
+
     func testSameDocumentGivesSameBytes() throws {
         let doc = try Fixture.open("LFU")
         XCTAssertEqual(EasyEDAProExport.data(for: doc, base: "x"), EasyEDAProExport.data(for: doc, base: "x"))
