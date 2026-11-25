@@ -101,8 +101,12 @@ nonisolated struct RoutingGroup: Identifiable, Hashable, Sendable {
 nonisolated struct RoutingProblem: Hashable, Sendable {
     /// The board's outline, clockwise, mm.
     var outline: [CGPoint]
+    /// The board's cutouts, each a loop, mm (plan-65-D): edges the copper stays out of and away from.
+    var cutouts: [[CGPoint]] = []
     /// The board's copper layers in stack order.
     var layers: [CopperLayer]
+    /// The outline and the cutouts as one `BoardEdge`: what the grid, the verifier and the cleanup read.
+    var edge: BoardEdge { BoardEdge(outline: outline, cutouts: cutouts) }
     /// The layers traces may go on this run (no Planes, only enabled ones).
     var routable: [CopperLayer]
     /// Each Plane layer's net, for those that have one.

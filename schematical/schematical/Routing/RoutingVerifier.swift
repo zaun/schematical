@@ -75,14 +75,14 @@ nonisolated enum RoutingVerifier {
         }
 
         // Copper to the board's edge.
-        let outline = problem.outline
-        let edges = zip(outline, outline.dropFirst() + outline.prefix(1)).map {
+        let boardEdge = problem.edge
+        let edges = boardEdge.segments.map {
             CopperShape(core: .segment($0, $1), radius: 0, layers: nil, node: -1)
         }
         for shape in shapes.prefix(newCount) {
             let gap = edges.map { shape.gap(to: $0) }.min() ?? .infinity
             let centre = CGPoint(x: shape.bounds.midX, y: shape.bounds.midY)
-            guard !inside(centre, outline) || gap < rules.minCopperToEdge - tolerance else { continue }
+            guard !boardEdge.contains(centre) || gap < rules.minCopperToEdge - tolerance else { continue }
             let owner = owners[shape.node]
             violations.append(Violation(kind: .edge, traces: owner.trace.map { [$0] } ?? [], vias: owner.via.map { [$0] } ?? [],
                                         detail: String(format: "%.4f mm from the edge", gap)))
@@ -186,18 +186,5 @@ nonisolated enum RoutingVerifier {
             }
         }
         return violations
-    }
-
-    static func inside(_ point: CGPoint, _ outline: [CGPoint]) -> Bool {
-        var inside = false
-        var j = outline.count - 1
-        for i in outline.indices {
-            let a = outline[i], b = outline[j]
-            if (a.y > point.y) != (b.y > point.y), point.x < (b.x - a.x) * (point.y - a.y) / (b.y - a.y) + a.x {
-                inside.toggle()
-            }
-            j = i
-        }
-        return inside
     }
 }

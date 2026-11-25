@@ -99,7 +99,7 @@ nonisolated struct RoutingGrid: Sendable {
                   layers: layerIndices(obstacle.shape.layers))
             if let drill = obstacle.drill { stampHole(drill.core, radius: drill.radius) }
         }
-        stampEdge(problem.outline)
+        stampEdge(problem.edge)
         fixedTraceMaps = traceMaps
         fixedViaMaps = viaMaps
     }
@@ -225,21 +225,31 @@ nonisolated struct RoutingGrid: Sendable {
     /// distance of it. This holds at edge fingers too: the DRC exempts only
     /// the finger pad itself, never the trace that enters it (`checkEdge`),
     /// so a net reaches a finger through its inner part.
-    private mutating func stampEdge(_ outline: [CGPoint]) {
-        guard outline.count >= 3 else { return }
+    private mutating func stampEdge(_ boardEdge: BoardEdge) {
+        guard boardEdge.outline.count >= 3 else { return }
         let count = layers.count
-        let edges = Array(zip(outline, outline.dropFirst() + outline.prefix(1)))
-        // Outside: per row, the spans between the outline's crossings.
+        let edges = boardEdge.segments
+        let outlineEdges = Array(zip(boardEdge.outline, boardEdge.outline.dropFirst() + boardEdge.outline.prefix(1)))
+        let cutoutEdges = boardEdge.cutouts.filter { $0.count >= 3 }.map { loop in
+            Array(zip(loop, loop.dropFirst() + loop.prefix(1)))
+        }
+        /// The sorted x where a loop's edges cross the row at `py`.
+        func crossingsOf(_ loop: [(CGPoint, CGPoint)], at py: Double) -> [Double] {
+            var result: [Double] = []
+            for (a, b) in loop where (a.y > py) != (b.y > py) {
+                result.append(a.x + (py - a.y) * (b.x - a.x) / (b.y - a.y))
+            }
+            return result.sorted()
+        }
+        // Off the material: per row, the spans outside the outline and inside any cutout (plan-65-D).
         for y in 0..<ny {
             let py = origin.y + Double(y) * pitch
-            var crossings: [Double] = []
-            for (a, b) in edges where (a.y > py) != (b.y > py) {
-                crossings.append(a.x + (py - a.y) * (b.x - a.x) / (b.y - a.y))
-            }
-            crossings.sort()
+            let crossings = crossingsOf(outlineEdges, at: py)
+            let cutoutCrossings = cutoutEdges.map { crossingsOf($0, at: py) }
             for x in 0..<nx {
                 let px = origin.x + Double(x) * pitch
                 let inside = crossings.filter { $0 < px }.count % 2 == 1
+                    && !cutoutCrossings.contains { $0.filter { $0 < px }.count % 2 == 1 }
                 guard !inside else { continue }
                 let c = cell(x, y)
                 for map in 0..<(traceMaps.count / cellCount) {

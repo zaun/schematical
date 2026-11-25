@@ -149,8 +149,9 @@ extension SchematicDocument {
                                              drill: CopperShape(core: .segment(via.centre, via.centre),
                                                                 radius: via.drill / 2, layers: nil, node: node)))
         }
-        let outline = board.outline
-        for (a, b) in zip(outline, outline.dropFirst() + outline.prefix(1)) {
+        let boardEdge = self.boardEdge
+        let outline = boardEdge.outline
+        for (a, b) in boardEdge.segments {
             obstacles.append(RoutingObstacle(shape: CopperShape(core: .segment(a, b), radius: 0, layers: nil, node: -1),
                                              net: nil, kind: .outline))
         }
@@ -160,7 +161,7 @@ extension SchematicDocument {
                          nets: group.members.compactMap { copper.net(of: $0) }, tolerance: group.tolerance,
                          gap: group.gap, maxUncoupled: group.maxUncoupled, maxMeander: group.maxMeander)
         }
-        return RoutingProblem(outline: outline, layers: board.copperLayers, routable: routable, planes: planes,
+        return RoutingProblem(outline: outline, cutouts: boardEdge.cutouts, layers: board.copperLayers, routable: routable, planes: planes,
                               rules: rules, options: options, nets: nets, obstacles: obstacles, groups: groups,
                               removedTraces: removedTraces, removedVias: removedVias)
     }

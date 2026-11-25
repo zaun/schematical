@@ -38,6 +38,8 @@ struct RoutingTestBoard {
 
     var pads: [Pad] = []
     var holes: [(centre: CGPoint, drill: Double)] = []
+    /// Cutouts of the board, each a loop (mm).
+    var cutouts: [[CGPoint]] = []
     /// Extra obstacles (kept traces of other nets and so on).
     var obstacles: [RoutingObstacle] = []
     /// Per-net rule changes: width (mm), clearance, via, layers.
@@ -106,7 +108,7 @@ struct RoutingTestBoard {
                                                                 radius: hole.drill / 2, layers: nil, node: 5_000 + h)))
         }
         obstacles += self.obstacles
-        for (a, b) in zip(outline, outline.dropFirst() + outline.prefix(1)) {
+        for (a, b) in BoardEdge(outline: outline, cutouts: cutouts).segments {
             obstacles.append(RoutingObstacle(shape: CopperShape(core: .segment(a, b), radius: 0, layers: nil, node: -1),
                                              net: nil, kind: .outline))
         }
@@ -129,7 +131,7 @@ struct RoutingTestBoard {
                               group: groupOf[id], impossible: impossible[id],
                               pins: pads.filter { $0.net == id }.count)
         }
-        return RoutingProblem(outline: outline, layers: layers, routable: routable, planes: planes, rules: rules,
+        return RoutingProblem(outline: outline, cutouts: cutouts, layers: layers, routable: routable, planes: planes, rules: rules,
                               options: options, nets: nets, obstacles: obstacles, groups: groups,
                               removedTraces: [], removedVias: [])
     }

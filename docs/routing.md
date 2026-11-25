@@ -150,7 +150,11 @@ One run:
    clearance, via radius, via drill) a trace map and a via map: free, one
    net's, or blocked. Stamped by exact distance to each copper shape
    (`CopperGeometry`), plus the copper-to-edge distance and the
-   hole-to-hole distance for vias.
+   hole-to-hole distance for vias. The board's edge is its outline and every
+   cutout (`BoardEdge`, plan-65): a cell inside a cutout is blocked on every
+   layer and a cell within the copper-to-edge distance of a cutout's edge is
+   blocked as it is at the outline; the verifier and the cleanup hold to the
+   same edge, and a shortcut that crosses a cutout is never taken.
 3. **Search** (`RoutingSearch`): A* over layer × cell, octilinear or
    orthogonal moves, via cost, bend cost, direction and preference
    penalties; a connection joins one copper group to the rest of its net

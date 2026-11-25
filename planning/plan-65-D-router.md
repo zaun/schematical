@@ -25,7 +25,7 @@ The shared gate is in plan-65-A. This sub-plan adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-65-C is complete | `ls planning/completed \| grep -c '^plan-65-C'` → 1 | NOT MET (2026-11-25: C is written, not landed) |
+| plan-65-C is complete | `ls planning/completed \| grep -c '^plan-65-C'` → 1 | MET (2026-11-25: C landed, 1) |
 
 Everything below is written against the world where these hold.
 
@@ -91,13 +91,14 @@ Rejected: converting each cutout into a set of pad-like `RoutingObstacle` shapes
 
 ### Phase 1 — Problem, grid, verifier and cleanup
 
-- [ ] `Routing/RoutingProblem.swift`: `cutouts` and `edge`. `Routing/RoutingProblemBuilder.swift`: fill `cutouts`, segments from `edge`.
-- [ ] `Routing/RoutingGrid.swift`: `stampEdge(_ edge: BoardEdge)` per § 3. `Routing/RoutingVerifier.swift`, `Routing/RoutingCleanup.swift`: `edge` per § 3 (`RoutingVerifier.inside(_:_:)` stays, as `BoardEdge.contains(_:in:)`'s caller, if tests use it; otherwise it is removed with its tests moved).
-- [ ] `schematicalTests/RoutingTestBoard.swift`: `var cutouts: [[CGPoint]] = []`, passed into the problem.
-- [ ] Tests `schematicalTests/CutoutRoutingTests.swift`: grid cells inside a 6 × 6 cutout are blocked on every layer and cells 0.2 mm outside its edge are blocked for a trace of `minCopperToEdge` 0.3 (and free at 0.6 mm); a clockwise and a counter-clockwise cutout stamp the same cells; two pads 10 mm apart with a 6 × 6 cutout between them route (`RoutingOptions.fixture`) and the result's trace points are all `edge.contains` and ≥ `minCopperToEdge` from every cutout segment; the verifier reports a hand-made trace through a cutout as `.edge`; cleanup does not replace a bend by a straight shortcut that crosses a 0.8 mm-wide cutout when the shortcut's midpoint is not inside the cutout; a builder test: a document with a cutout gives `problem.cutouts.count == 1` and `.outline` obstacles for its segments.
+- [x] `Routing/RoutingProblem.swift`: `cutouts` and `edge`. `Routing/RoutingProblemBuilder.swift`: fill `cutouts`, segments from `edge`.
+- [x] `Routing/RoutingGrid.swift`: `stampEdge(_ edge: BoardEdge)` per § 3. `Routing/RoutingVerifier.swift`, `Routing/RoutingCleanup.swift`: `edge` per § 3 (`RoutingVerifier.inside(_:_:)` stays, as `BoardEdge.contains(_:in:)`'s caller, if tests use it; otherwise it is removed with its tests moved).
+- [x] `schematicalTests/RoutingTestBoard.swift`: `var cutouts: [[CGPoint]] = []`, passed into the problem.
+- [x] Tests `schematicalTests/CutoutRoutingTests.swift`: grid cells inside a 6 × 6 cutout are blocked on every layer and cells 0.2 mm outside its edge are blocked for a trace of `minCopperToEdge` 0.3 (and free at 0.6 mm); a clockwise and a counter-clockwise cutout stamp the same cells; two pads 10 mm apart with a 6 × 6 cutout between them route (`RoutingOptions.fixture`) and the result's trace points are all `edge.contains` and ≥ `minCopperToEdge` from every cutout segment; the verifier reports a hand-made trace through a cutout as `.edge`; cleanup does not replace a bend by a straight shortcut that crosses a 0.8 mm-wide cutout when the shortcut's midpoint is not inside the cutout; a builder test: a document with a cutout gives `problem.cutouts.count == 1` and `.outline` obstacles for its segments.
 
 Acceptance: the router goes round a cutout, the verifier and cleanup agree, and the five existing classes pass unedited.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/CutoutRoutingTests -only-testing:schematicalTests/RoutingGridTests -only-testing:schematicalTests/RoutingVerifierTests -only-testing:schematicalTests/RoutingCleanupTests -only-testing:schematicalTests/RoutingProblemTests -only-testing:schematicalTests/RoutingPlanTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min: the six classes use small hand-built boards; the fixture classes are not run).
+  Observed: CutoutRoutingTests 6 + RoutingGridTests + RoutingVerifierTests + RoutingCleanupTests + RoutingProblemTests + RoutingPlanTests (the six classes: 85 tests total), 0 failures, TEST SUCCEEDED.
 Commit: —
 
 ## Validation Plan
