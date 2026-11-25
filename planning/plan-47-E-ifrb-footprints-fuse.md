@@ -164,7 +164,7 @@ Commit: 6a053e7a
 - [x] (2026-11-23: by the slice agent) Hand-check each pair: the hole pattern against the clip drawing, the
       spacing against the fuse length.
 
-- [ ] After A's last refill and C's final pick: regenerate `footprints-needed.txt` (`footprint-lines.py … --add`), `fp-check.py E` for lines new to the final pick (draw them), `fp-load.sh` over `footprints-*.json`, re-record the counts.
+- [x] (2026-11-25: E 91 lines, none new; `fp-check.py E` → `0 without a footprint`; five drawn FUSE footprints are used by no part of the final pick) After A's last refill and C's final pick: regenerate `footprints-needed.txt` (`footprint-lines.py … --add`), `fp-check.py E` for lines new to the final pick (draw them), `fp-load.sh` over `footprints-*.json`, re-record the counts.
 Acceptance: every E line has a footprint that loads.
   Check: `python3 -I planning/plan-47-data/census/fp-check.py E` → `<n> lines, 0 without a footprint`; `planning/plan-47-data/census/fp-load.sh planning/plan-47-data/footprints-E.json planning/plan-47-data/footprints-E-explicit.json` → `<k> new footprints: load ok`; `python3 -I -c "import json;print(sum(f['id'].startswith('FUSE-CLIP-') for f in json.load(open('planning/plan-47-data/footprints-E-explicit.json'))['footprints']))"` → 6 (est. 4 min).
 Commit: 6a053e7a
@@ -188,6 +188,7 @@ Commit: 6a053e7a
 
 ## Corrections
 
+- **2026-11-25, the final pick's lines.** `census/footprint-lines.py … --add` → D 208, E 91, F 250, G 194, H 179 = 922 lines (the provisional pick had 923 lines; 2 lines new, 3 gone: the F and G ones above, a Mallory 12.5 mm buzzer line, a Panasonic CQ relay line, a Bel Fuse 10.2 mm PTC line). `fp-check.py D E F G H` → `922 lines, 0 without a footprint`; `fp-load.sh footprints-*.json` → load ok. `PTC-RAD-210-102-BELFUSE` was merged into `Parts/footprints.json` (`fp-merge.py --only`).
 - **2026-11-23.** Done in the wave described in plan-47-D § Corrections, slices `fp-lines/*-E-*` / `E-*.txt`; `fp-check.py E` → `0 without a footprint`. The lines are the provisional pick's (planning/plan-47-data/footprints-needed.txt is the PROVISIONAL pick's (candidates-provisional.tsv: C's dry run); the final pick follows A's last quota day).
 
 ## Summary

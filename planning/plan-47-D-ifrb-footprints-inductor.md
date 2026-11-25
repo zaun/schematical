@@ -233,7 +233,7 @@ Commit: 95a174b4
       3.2).
 - [x] (2026-11-23: the arithmetic is in each dims row and `note`) Hand-check one footprint per series; the arithmetic is in `arith`.
 
-- [ ] After A's last refill and C's final pick: regenerate `footprints-needed.txt` (`footprint-lines.py … --add`), `fp-check.py D` for lines new to the final pick (draw them), `fp-load.sh` over `footprints-*.json`, re-record the counts.
+- [x] (2026-11-25: D 208 lines, none new to the final pick; `fp-check.py D` → `0 without a footprint`) After A's last refill and C's final pick: regenerate `footprints-needed.txt` (`footprint-lines.py … --add`), `fp-check.py D` for lines new to the final pick (draw them), `fp-load.sh` over `footprints-*.json`, re-record the counts.
 Acceptance: every D line has a footprint that loads.
   Check: `python3 -I planning/plan-47-data/census/fp-check.py D` → `<n> lines, 0 without a footprint`, and `planning/plan-47-data/census/fp-load.sh planning/plan-47-data/footprints-D.json planning/plan-47-data/footprints-D-explicit.json` → `<k> new footprints: load ok` (est. 4 min).
 Commit: 6a053e7a
@@ -264,6 +264,7 @@ Commit: 6a053e7a
 
 ## Corrections
 
+- **2026-11-25, the final pick's lines.** `census/footprint-lines.py … --add` → D 208, E 91, F 250, G 194, H 179 = 922 lines (the provisional pick had 923 lines; 2 lines new, 3 gone: the F and G ones above, a Mallory 12.5 mm buzzer line, a Panasonic CQ relay line, a Bel Fuse 10.2 mm PTC line). `fp-check.py D E F G H` → `922 lines, 0 without a footprint`; `fp-load.sh footprints-*.json` → load ok. `PTC-RAD-210-102-BELFUSE` was merged into `Parts/footprints.json` (`fp-merge.py --only`).
 - **2026-11-23, order and method.** The footprint letters D to H were worked in one
   wave on the provisional pick (`census/verdicts.py --out candidates-provisional.tsv`;
   `footprints-needed.txt` is its lines: D 208, E 91, F 250, G 194, H 180 = 923), because A's

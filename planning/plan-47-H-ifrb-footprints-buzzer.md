@@ -139,7 +139,7 @@ Commit: 95a174b4
 - [x] (2026-11-23: R4 outline pads where no land pattern is printed) The surface-mount lines (79 at planning time) as Phase 1 (§ 3).
 - [x] (2026-11-23: BUZZER footprints in the library: 273 (113 Same Sky, 100 PUI, 60 Mallory drawn; 3 PUI lines reuse CAPE-RAD footprints)) Record the number of distinct buzzer footprints in § Corrections.
 
-- [ ] After A's last refill and C's final pick: regenerate `footprints-needed.txt` (`footprint-lines.py … --add`), `fp-check.py H` for lines new to the final pick (draw them), `fp-load.sh` over `footprints-*.json`, re-record the counts.
+- [x] (2026-11-25: H 179 lines, none new; one gone (Mallory 12.5 mm through hole)) After A's last refill and C's final pick: regenerate `footprints-needed.txt` (`footprint-lines.py … --add`), `fp-check.py H` for lines new to the final pick (draw them), `fp-load.sh` over `footprints-*.json`, re-record the counts.
 Acceptance: every H line, and every line of the plan, has a footprint that loads.
   Check: `python3 -I planning/plan-47-data/census/fp-check.py H` → `<n> lines, 0 without a footprint`; `python3 -I planning/plan-47-data/census/fp-check.py D E F G H` → `<N> lines, 0 without a footprint`; `planning/plan-47-data/census/fp-load.sh planning/plan-47-data/footprints-[D-H]*.json` → `<K> new footprints: load ok` (all of plan-47's objects in one copy: no id clash, no overlap); `python3 -I planning/plan-47-data/census/fp-pins.py H` → `0 errors` (est. 5 min).
 Commit: 6a053e7a
@@ -164,6 +164,7 @@ Commit: 6a053e7a
 
 ## Corrections
 
+- **2026-11-25, the final pick's lines.** `census/footprint-lines.py … --add` → D 208, E 91, F 250, G 194, H 179 = 922 lines (the provisional pick had 923 lines; 2 lines new, 3 gone: the F and G ones above, a Mallory 12.5 mm buzzer line, a Panasonic CQ relay line, a Bel Fuse 10.2 mm PTC line). `fp-check.py D E F G H` → `922 lines, 0 without a footprint`; `fp-load.sh footprints-*.json` → load ok. `PTC-RAD-210-102-BELFUSE` was merged into `Parts/footprints.json` (`fp-merge.py --only`).
 - **2026-11-23.** Done in the wave described in plan-47-D § Corrections, slices `fp-lines/*-H-*` / `H-*.txt`; `fp-check.py H` → `0 without a footprint`. The lines are the provisional pick's (planning/plan-47-data/footprints-needed.txt is the PROVISIONAL pick's (candidates-provisional.tsv: C's dry run); the final pick follows A's last quota day).
 
 ## Summary

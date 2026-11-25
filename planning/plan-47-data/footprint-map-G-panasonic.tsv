@@ -4,6 +4,7 @@ G	relay	panasonic	ACNH	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	
 G	relay	panasonic	ACT	Through Hole				SPDT (1 Form C) x 2; Non Latching; PC Pin	RELAY-ACT-10-PANASONIC	THT	mech_eng_ct.pdf p.6	
 G	relay	panasonic	ACT	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	RELAY-ACT-5-PANASONIC	THT	mech_eng_ct.pdf p.6	
 G	relay	panasonic	ACTP	Through Hole				SPDT (1 Form C) x 2; Non Latching; PC Pin	RELAY-ACTP-10-PANASONIC	THT	mech_eng_ctp.pdf p.6	
+G	relay	panasonic	ACTP	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	RELAY-ACT-5-PANASONIC	THT	mech_eng_ctp.pdf p.6 slim type (1 Form C), PC board pattern: the same 3 x 1.4 + 2 x 1.1 holes, 15 / 9.5 / 6 / 3.15 / 0.65 / 4.3 as RELAY-ACT-5-PANASONIC (mech_eng_ct.pdf p.6); body 17.4 x 7.2; added 2026-11-25 for the final pick (ACTP112)	
 G	relay	panasonic	ADJ	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	RELAY-ADJ-8-PANASONIC	THT	mech_eng_dj.pdf p.9	
 G	relay	panasonic	ADJ	Through Hole				SPDT (1 Form C); Latching, Dual Coil; PC Pin	RELAY-ADJ-6-PANASONIC	THT	mech_eng_dj.pdf p.6	
 G	relay	panasonic	ADJH	Through Hole				SPST-NO (1 Form A); Latching, Dual Coil; PC Pin	RELAY-ADJH-5-PANASONIC	THT	mech_eng_djh.pdf p.5	

@@ -184,7 +184,7 @@ Commit: 95a174b4
 - [x] (2026-11-23: slice G-te-franjobaim; `fp-pins.py --apply` run once for both slices) The TE lines (118 electromechanical and reed at planning time) as
       Phase 2; `fp-pins.py --apply`, then `pinout-check.py relay` again.
 
-- [ ] After A's last refill and C's final pick: regenerate `footprints-needed.txt` (`footprint-lines.py … --add`), `fp-check.py G` for lines new to the final pick (draw them), `fp-load.sh` over `footprints-*.json`, re-record the counts.
+- [x] (2026-11-25: G 194 lines; one new: Panasonic ACTP112 (1 Form C slim), the same pattern as `RELAY-ACT-5-PANASONIC` (mech_eng_ctp.pdf p.6 against mech_eng_ct.pdf p.6), mapped to it; one gone (CQ)) After A's last refill and C's final pick: regenerate `footprints-needed.txt` (`footprint-lines.py … --add`), `fp-check.py G` for lines new to the final pick (draw them), `fp-load.sh` over `footprints-*.json`, re-record the counts.
 Acceptance: every G line has a footprint that loads and matches its pinout.
   Check: `python3 -I planning/plan-47-data/census/fp-check.py G` → `<n> lines, 0 without a footprint`; `planning/plan-47-data/census/fp-load.sh planning/plan-47-data/footprints-G.json` → `<k> new footprints: load ok`; `python3 -I planning/plan-47-data/census/fp-pins.py G` → `0 errors`; `python3 -I planning/plan-47-data/census/pinout-check.py relay` → `0 errors` (est. 5 min).
 Commit: 6a053e7a
@@ -210,6 +210,7 @@ Commit: 6a053e7a
 
 ## Corrections
 
+- **2026-11-25, the final pick's lines.** `census/footprint-lines.py … --add` → D 208, E 91, F 250, G 194, H 179 = 922 lines (the provisional pick had 923 lines; 2 lines new, 3 gone: the F and G ones above, a Mallory 12.5 mm buzzer line, a Panasonic CQ relay line, a Bel Fuse 10.2 mm PTC line). `fp-check.py D E F G H` → `922 lines, 0 without a footprint`; `fp-load.sh footprints-*.json` → load ok. `PTC-RAD-210-102-BELFUSE` was merged into `Parts/footprints.json` (`fp-merge.py --only`).
 - **2026-11-23.** Done in the wave described in plan-47-D § Corrections, slices `fp-lines/*-G-*` / `G-*.txt`; `fp-check.py G` → `0 without a footprint`. The lines are the provisional pick's (planning/plan-47-data/footprints-needed.txt is the PROVISIONAL pick's (candidates-provisional.tsv: C's dry run); the final pick follows A's last quota day).
 
 ## Summary

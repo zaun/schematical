@@ -98,6 +98,12 @@ def place(tsv, clips_path, pdf_dir):
     for family in sc.FAMILIES:
         if not lines[family]:
             continue
+        old = os.path.join(sc.ROOT, 'datasheets', family, 'datasheets.tsv')
+        if os.path.exists(old):
+            have = {line[0] for line in lines[family]}
+            lines[family] += [x for x in (r for r in
+                              (line.rstrip('\n').split('\t') for line in open(old, encoding='utf-8')
+                               if not line.startswith('path\t'))) if x[0] not in have and len(x) == len(COLS)]
         with open(os.path.join(sc.ROOT, 'datasheets', family, 'datasheets.tsv'), 'w', encoding='utf-8') as out:
             out.write('\t'.join(COLS) + '\n')
             for line in sorted(lines[family]):
@@ -149,7 +155,7 @@ def decided(r):
 
 
 def prune(tsv, keep_extra=()):
-    need = {r['pdf'] for r in sc.read(tsv) if decided(r) and r['pdf']} | set(keep_extra)
+    need = {r['pdf'] for r in sc.read(tsv) if decided(r) and r['pdf']} | set(keep_extra) | clip_pdf_paths()
     for p in sorted(tree_files() - need):
         os.remove(os.path.join(sc.ROOT, p))
         print('deleted', p)
@@ -160,18 +166,31 @@ def prune(tsv, keep_extra=()):
             open(p, 'w', encoding='utf-8').writelines(kept)
 
 
+FINAL = False       # main() sets it: the file carries the final pick (`add` rows)
+
+
 def in_download_set(r):
-    return sc.in_set(r)
+    return r['state'] == 'add' if FINAL else sc.in_set(r)
+
+
+def clip_pdf_paths():
+    """The fuse clips' PDFs: in datasheets.tsv, not in any row's `pdf`."""
+    urls = {u for _, u, _ in sc.clips(os.path.join(sc.DATA, 'clips', 'clips.jsonl'))}
+    p = os.path.join(sc.ROOT, 'datasheets', 'fuse', 'datasheets.tsv')
+    return {r['path'] for r in sc.read(p) if r['url'] in urls} if os.path.exists(p) else set()
 
 
 def main():
+    global FINAL
+    if sys.argv[1] in ('--verify', '--prune'):
+        FINAL = any(r['state'] == 'add' for r in sc.read(sys.argv[2]))
     if sys.argv[1] == '--verify':
         # the clips' PDFs are needed too: they are in datasheets.tsv, not in a row's `pdf`
         clip_paths = {r['path'] for r in sc.read(os.path.join(sc.ROOT, 'datasheets', 'fuse', 'datasheets.tsv'))
                       if r['url'] in {u for _, u, _ in sc.clips(os.path.join(sc.DATA, 'clips', 'clips.jsonl'))}}
         rows = sc.read(sys.argv[2])
         for p in sorted(clip_paths):
-            rows.append({'state': 'candidate', 'pdf': p})
+            rows.append({'state': 'add' if FINAL else 'candidate', 'pdf': p})
         tmp = os.path.join(os.path.dirname(os.path.abspath(sys.argv[2])), '.verify.tmp')
         sc.write(tmp, [{'state': r['state'], 'pdf': r['pdf']} for r in rows])
         try:

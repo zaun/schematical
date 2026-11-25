@@ -235,16 +235,16 @@ Commit: 041f158f
 
 Acceptance: the pick is final and every non-`add` download-set row has a reason.
   Check: `python3 -I planning/plan-47-data/census/scheme-check.py` → `<n> rows: <k> ok, 0 unchecked`; `awk -F'\t' '$23=="add"{print $3}' planning/plan-47-data/candidates.tsv \| sort \| uniq -c` → the recorded pick; `awk -F'\t' 'NR>1 && ($23=="skip" \|\| $23=="out") && $24==""' planning/plan-47-data/candidates.tsv \| wc -l` → 0; `grep -c 'plan-47' datasheets/skipped-parts.md` → at least 1 (est. 2 min).
-Commit: —
+Commit: c74d17b3
 
 ### Phase 4 — Obsolete PDFs, pruning, the final footprint lines
 
-- [ ] Delete and record the all-obsolete PDFs (§ 3.4); `place.py --prune`;
+- [x] (2026-11-25: 9 PDFs, all Bourns inductors, 17 parts, deleted and listed in `datasheets/obsolete-not-included.md`; `place.py --prune` deleted the PDFs no `add` row cites; `place.py --verify` → `0 missing, 0 unused`; the prune first deleted the five clip PDFs too (it did not know them), so `place.py` now spares them and `--verify` / `--prune` read the final pick's `add` rows; the clips were re-placed) Delete and record the all-obsolete PDFs (§ 3.4); `place.py --prune`;
       `place.py --verify` → `0 missing, 0 unused`.
-- [ ] Regenerate `footprints-needed.txt` with `--add`; record the line
+- [x] (2026-11-25: D 208, E 91, F 250, G 194, H 179 = 922 lines; 2 lines new to the final pick (a Bel Fuse PTC 21.0 mm disc, the Panasonic ACTP 1 Form C) and 3 gone (a Bel Fuse PTC 10.2 mm disc, the Panasonic CQ, a Mallory 12.5 mm buzzer)) Regenerate `footprints-needed.txt` with `--add`; record the line
       counts per letter here and in D, E, F, G and H § 2 (each re-measures at
       its start).
-- [ ] Commit the PDFs of the four families with their `datasheets.tsv`
+- [x] (2026-11-25: inductor 354 PDFs, fuse 276 (271 + 5 clips), relay 124, buzzer 510; 211M, 159M, 171M, 172M) Commit the PDFs of the four families with their `datasheets.tsv`
       (the first commit that carries them).
 
 Acceptance: the PDFs in the tree are exactly the ones the pick uses, plus the clips'.

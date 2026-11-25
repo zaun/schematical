@@ -1,8 +1,8 @@
 # letter	type	company	series	mounting	package	supplier_package	size	detail	parts	example	datasheets	existing
 D	inductor	bourns		Surface Mount	0201 (0603 Metric)	0201	0.024" L x 0.012" W (0.60mm x 0.30mm)		4	CE0603G-0N3P	2	RES-0201-VIKING,RES-0201-VISHAY,RES-0201-YAGEO
-D	inductor	bourns		Surface Mount	0402 (1005 Metric)	0402 (1005 Metric)	0.039" L x 0.022" W (1.00mm x 0.55mm)		3	CW100505-4N7J	1	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,LED-0402,RES-0402,RES-0402-VIKING,RES-0402-VISHAY
-D	inductor	bourns		Surface Mount	0603 (1608 Metric)	0603 (1608 Metric)	0.063" L x 0.031" W (1.60mm x 0.80mm)		2	CS160808-1R2K	1	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
-D	inductor	bourns		Surface Mount	0603 (1608 Metric)	0603 (1608 Metric)	0.065" L x 0.041" W (1.65mm x 1.05mm)		1	CW160808-8N2J	1	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
+D	inductor	bourns		Surface Mount	0402 (1005 Metric)	0402 (1005 Metric)	0.039" L x 0.022" W (1.00mm x 0.55mm)		3	CW100505-4N7J	1	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,IND-0402-MURATA,LED-0402,RES-0402,RES-0402-VIKING
+D	inductor	bourns		Surface Mount	0603 (1608 Metric)	0603 (1608 Metric)	0.063" L x 0.031" W (1.60mm x 0.80mm)		2	CS160808-1R2K	1	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,IND-0603-BOURNS,IND-0603-MURATA,LED-0603
+D	inductor	bourns		Surface Mount	0603 (1608 Metric)	0603 (1608 Metric)	0.065" L x 0.041" W (1.65mm x 1.05mm)		1	CW160808-8N2J	1	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,IND-0603-BOURNS,IND-0603-MURATA,LED-0603
 D	inductor	bourns		Surface Mount	0805 (2012 Metric)	0805 (2012 Metric)	0.079" L x 0.047" W (2.00mm x 1.20mm)		1	SRN2012T-2R2K	1	CAP-0805,CAP-0805-AVX,CAP-0805-CALCHIP,CAP-0805-KEMET,DIODE-0805,LED-0805,RES-0805,RES-0805-VIKING
 D	inductor	bourns		Surface Mount	0805 (2012 Metric)	0805 (2012 Metric)	0.079" L x 0.049" W (2.00mm x 1.25mm)		3	CV201210-1R0K	1	CAP-0805,CAP-0805-AVX,CAP-0805-CALCHIP,CAP-0805-KEMET,DIODE-0805,LED-0805,RES-0805,RES-0805-VIKING
 D	inductor	bourns		Surface Mount	0805 (2012 Metric)	0805 (2012 Metric)	0.083" L x 0.059" W (2.10mm x 1.50mm)		1	CW201212-R47J	1	CAP-0805,CAP-0805-AVX,CAP-0805-CALCHIP,CAP-0805-KEMET,DIODE-0805,LED-0805,RES-0805,RES-0805-VIKING
@@ -83,14 +83,14 @@ D	inductor	bourns		Through Hole	Radial, Vertical Cylinder	Radial	0.433" Dia (11.
 D	inductor	bourns		Through Hole	Radial, Vertical Cylinder (Open)	-	0.307" Dia (7.80mm)		2	RL895-151K-RC	1	
 D	inductor	murata		Surface Mount	01005 (0402 Metric)	1005	0.016" L x 0.008" W (0.40mm x 0.20mm)		3	LQP02HV0N7B02L	1	RES-01005-VISHAY,RES-01005-YAGEO
 D	inductor	murata		Surface Mount	0201 (0603 Metric)	0201 (0603 Metric)	0.024" L x 0.012" W (0.60mm x 0.30mm)		35	LQP03TN4N7H02D	4	RES-0201-VIKING,RES-0201-VISHAY,RES-0201-YAGEO
-D	inductor	murata		Surface Mount	0402 (1005 Metric)	-	0.039" L x 0.020" W (1.00mm x 0.50mm)		6	LQW15AN56NJ00D	1	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,LED-0402,RES-0402,RES-0402-VIKING,RES-0402-VISHAY
-D	inductor	murata		Surface Mount	0402 (1005 Metric)	-	0.039" L x 0.024" W (1.00mm x 0.60mm)		29	LQW15AN22NG00D	5	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,LED-0402,RES-0402,RES-0402-VIKING,RES-0402-VISHAY
-D	inductor	murata		Surface Mount	0402 (1005 Metric)	0402	0.039" L x 0.020" W (1.00mm x 0.50mm)		8	LQG15HS2N2B02D	2	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,LED-0402,RES-0402,RES-0402-VIKING,RES-0402-VISHAY
-D	inductor	murata		Surface Mount	0402 (1005 Metric)	0402 (1005 Metric)	0.039" L x 0.020" W (1.00mm x 0.50mm)		27	LQG15HN18NJ02D	2	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,LED-0402,RES-0402,RES-0402-VIKING,RES-0402-VISHAY
-D	inductor	murata		Surface Mount	0603 (1608 Metric)	-	0.063" L x 0.031" W (1.60mm x 0.80mm)		22	LQW18AN68NG00D	2	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
-D	inductor	murata		Surface Mount	0603 (1608 Metric)	-	0.065" L x 0.039" W (1.65mm x 0.99mm)		5	LQW18AN15NG80D	2	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
-D	inductor	murata		Surface Mount	0603 (1608 Metric)	0603	0.063" L x 0.031" W (1.60mm x 0.80mm)		2	LQM18DN100M70L	2	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
-D	inductor	murata		Surface Mount	0603 (1608 Metric)	0603 (1608 Metric)	0.063" L x 0.031" W (1.60mm x 0.80mm)		14	LQM18PZ2R2MFHD	6	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
+D	inductor	murata		Surface Mount	0402 (1005 Metric)	-	0.039" L x 0.020" W (1.00mm x 0.50mm)		6	LQW15AN56NJ00D	1	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,IND-0402-MURATA,LED-0402,RES-0402,RES-0402-VIKING
+D	inductor	murata		Surface Mount	0402 (1005 Metric)	-	0.039" L x 0.024" W (1.00mm x 0.60mm)		29	LQW15AN22NG00D	5	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,IND-0402-MURATA,LED-0402,RES-0402,RES-0402-VIKING
+D	inductor	murata		Surface Mount	0402 (1005 Metric)	0402	0.039" L x 0.020" W (1.00mm x 0.50mm)		8	LQG15HS2N2B02D	2	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,IND-0402-MURATA,LED-0402,RES-0402,RES-0402-VIKING
+D	inductor	murata		Surface Mount	0402 (1005 Metric)	0402 (1005 Metric)	0.039" L x 0.020" W (1.00mm x 0.50mm)		27	LQG15HN18NJ02D	2	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,IND-0402-MURATA,LED-0402,RES-0402,RES-0402-VIKING
+D	inductor	murata		Surface Mount	0603 (1608 Metric)	-	0.063" L x 0.031" W (1.60mm x 0.80mm)		22	LQW18AN68NG00D	2	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,IND-0603-BOURNS,IND-0603-MURATA,LED-0603
+D	inductor	murata		Surface Mount	0603 (1608 Metric)	-	0.065" L x 0.039" W (1.65mm x 0.99mm)		5	LQW18AN15NG80D	2	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,IND-0603-BOURNS,IND-0603-MURATA,LED-0603
+D	inductor	murata		Surface Mount	0603 (1608 Metric)	0603	0.063" L x 0.031" W (1.60mm x 0.80mm)		2	LQM18DN100M70L	2	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,IND-0603-BOURNS,IND-0603-MURATA,LED-0603
+D	inductor	murata		Surface Mount	0603 (1608 Metric)	0603 (1608 Metric)	0.063" L x 0.031" W (1.60mm x 0.80mm)		14	LQM18PZ2R2MFHD	6	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,IND-0603-BOURNS,IND-0603-MURATA,LED-0603
 D	inductor	murata		Surface Mount	0805 (2012 Metric)	0805	0.079" L x 0.047" W (2.00mm x 1.20mm)		1	DFE21CCN2R2MELL	1	CAP-0805,CAP-0805-AVX,CAP-0805-CALCHIP,CAP-0805-KEMET,DIODE-0805,LED-0805,RES-0805,RES-0805-VIKING
 D	inductor	murata		Surface Mount	0805 (2012 Metric)	0805 (2012 Metric)	0.079" L x 0.047" W (2.00mm x 1.20mm)		1	DFE201210U-1R0M=P2	1	CAP-0805,CAP-0805-AVX,CAP-0805-CALCHIP,CAP-0805-KEMET,DIODE-0805,LED-0805,RES-0805,RES-0805-VIKING
 D	inductor	murata		Surface Mount	0805 (2012 Metric)	0805 (2012 Metric)	0.079" L x 0.049" W (2.00mm x 1.25mm)		5	LQM21PN1R0MC0D	4	CAP-0805,CAP-0805-AVX,CAP-0805-CALCHIP,CAP-0805-KEMET,DIODE-0805,LED-0805,RES-0805,RES-0805-VIKING
@@ -108,11 +108,11 @@ D	inductor	murata		Surface Mount	1210 (3225 Metric)	-	0.126" L x 0.098" W (3.20m
 D	inductor	murata		Surface Mount	1210 (3225 Metric)	1210	0.126" L x 0.098" W (3.20mm x 2.50mm)		1	DFE322512F-100M=P2	1	RES-1210-YAGEO,XTAL-1210-2-ECS,XTAL-1210-4-ABRACON,XTAL-1210-4-ECS,XTAL-1210-4-ECS-B
 D	inductor	murata		Surface Mount	Nonstandard	-	0.126" L x 0.118" W (3.20mm x 3.00mm)		1	1227AS-H-1R0N=P2	1	
 D	inductor	wurth		Surface Mount	0201 (0603 Metric)	0201 (0603 Metric)	0.024" L x 0.012" W (0.60mm x 0.30mm)		4	744900014	4	RES-0201-VIKING,RES-0201-VISHAY,RES-0201-YAGEO
-D	inductor	wurth		Surface Mount	0402 (1005 Metric)	0402	0.039" L x 0.020" W (1.00mm x 0.50mm)		6	744901030	6	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,LED-0402,RES-0402,RES-0402-VIKING,RES-0402-VISHAY
-D	inductor	wurth		Surface Mount	0402 (1005 Metric)	0402	0.039" L x 0.022" W (1.00mm x 0.55mm)		12	7447650130	12	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,LED-0402,RES-0402,RES-0402-VIKING,RES-0402-VISHAY
-D	inductor	wurth		Surface Mount	0402 (1005 Metric)	0402 (1005 Metric)	0.039" L x 0.020" W (1.00mm x 0.50mm)		13	744784147A	13	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,LED-0402,RES-0402,RES-0402-VIKING,RES-0402-VISHAY
-D	inductor	wurth		Surface Mount	0402 (1005 Metric)	0402 (1005 Metric)	0.039" L x 0.022" W (1.00mm x 0.55mm)		2	744765056A	2	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,LED-0402,RES-0402,RES-0402-VIKING,RES-0402-VISHAY
-D	inductor	wurth		Surface Mount	0603 (1608 Metric)	0603 (1608 Metric)	0.063" L x 0.031" W (1.60mm x 0.80mm)		1	744786115A	1	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
+D	inductor	wurth		Surface Mount	0402 (1005 Metric)	0402	0.039" L x 0.020" W (1.00mm x 0.50mm)		6	744901030	6	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,IND-0402-MURATA,LED-0402,RES-0402,RES-0402-VIKING
+D	inductor	wurth		Surface Mount	0402 (1005 Metric)	0402	0.039" L x 0.022" W (1.00mm x 0.55mm)		12	7447650130	12	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,IND-0402-MURATA,LED-0402,RES-0402,RES-0402-VIKING
+D	inductor	wurth		Surface Mount	0402 (1005 Metric)	0402 (1005 Metric)	0.039" L x 0.020" W (1.00mm x 0.50mm)		13	744784147A	13	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,IND-0402-MURATA,LED-0402,RES-0402,RES-0402-VIKING
+D	inductor	wurth		Surface Mount	0402 (1005 Metric)	0402 (1005 Metric)	0.039" L x 0.022" W (1.00mm x 0.55mm)		2	744765056A	2	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,IND-0402-MURATA,LED-0402,RES-0402,RES-0402-VIKING
+D	inductor	wurth		Surface Mount	0603 (1608 Metric)	0603 (1608 Metric)	0.063" L x 0.031" W (1.60mm x 0.80mm)		1	744786115A	1	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,IND-0603-BOURNS,IND-0603-MURATA,LED-0603
 D	inductor	wurth		Surface Mount	0805 (2012 Metric)		0.079" L x 0.047" W (2.00mm x 1.20mm)		2	74479275210	2	CAP-0805,CAP-0805-AVX,CAP-0805-CALCHIP,CAP-0805-KEMET,DIODE-0805,LED-0805,RES-0805,RES-0805-VIKING
 D	inductor	wurth		Surface Mount	0805 (2012 Metric)	0805	0.079" L x 0.047" W (2.00mm x 1.20mm)		1	74479775247	1	CAP-0805,CAP-0805-AVX,CAP-0805-CALCHIP,CAP-0805-KEMET,DIODE-0805,LED-0805,RES-0805,RES-0805-VIKING
 D	inductor	wurth		Surface Mount	0805 (2012 Metric)	0805	0.079" L x 0.049" W (2.00mm x 1.25mm)		1	74479777310A	1	CAP-0805,CAP-0805-AVX,CAP-0805-CALCHIP,CAP-0805-KEMET,DIODE-0805,LED-0805,RES-0805,RES-0805-VIKING
@@ -209,8 +209,8 @@ D	inductor	wurth		Through Hole	Radial, Vertical Cylinder (Open)	-	0.413" Dia (10
 D	inductor	wurth		Through Hole	Vertical, No Base, 2 PC Pin	Vertical, No Base, 2 PC Pin	0.669" Dia (17.00mm)		1	744131	1	
 E	fuse	eaton		Requires Holder	3AB, 3AG, 1/4" x 1-1/4"		0.250" Dia x 1.250" L (6.35mm x 31.75mm)		25	BK/AGC-2-R	6	
 E	fuse	eaton		Requires Holder	5mm x 20mm		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		45	BK1/GMA-2-R	9	
-E	fuse	eaton		Surface Mount	0603 (1608 Metric)		0.063" L x 0.032" W x 0.019" H (1.60mm x 0.81mm x 0.48mm)		13	TR/0603FA5-R	4	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
-E	fuse	eaton		Surface Mount	0603 (1608 Metric)		0.063" L x 0.032" W x 0.019" H (1.60mm x 0.82mm x 0.48mm)		2	CC06FA1A-TR	1	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
+E	fuse	eaton		Surface Mount	0603 (1608 Metric)		0.063" L x 0.032" W x 0.019" H (1.60mm x 0.81mm x 0.48mm)		13	TR/0603FA5-R	4	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,IND-0603-BOURNS,IND-0603-MURATA,LED-0603
+E	fuse	eaton		Surface Mount	0603 (1608 Metric)		0.063" L x 0.032" W x 0.019" H (1.60mm x 0.82mm x 0.48mm)		2	CC06FA1A-TR	1	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,IND-0603-BOURNS,IND-0603-MURATA,LED-0603
 E	fuse	eaton		Surface Mount	1206 (3216 Metric)		0.126" L x 0.063" W x 0.024" H (3.20mm x 1.60mm x 0.60mm)		2	CC12H5A-TR	1	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
 E	fuse	eaton		Surface Mount	1206 (3216 Metric)		0.126" L x 0.063" W x 0.035" H (3.20mm x 1.60mm x 0.90mm)		8	TR/3216FF750-R	2	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
 E	fuse	eaton		Surface Mount	1206 (3216 Metric)		0.126" L x 0.063" W x 0.039" H (3.20mm x 1.60mm x 1.00mm)		4	TR/3216TD12-R	1	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
@@ -226,10 +226,10 @@ E	fuse	eaton		Surface Mount	2-SMD, Square End Block		0.520" L x 0.199" W x 0.199
 E	fuse	eaton		Surface Mount	2-SMD, Square End Block		1.268" L x 0.198" W x 0.198" H (32.20mm x 5.03mm x 5.03mm)		6	3250HV2-5-R	2	
 E	fuse	eaton		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.266" Dia x 1.292" L (6.76mm x 32.82mm)		10	BK/AGC-V-8-R	5	
 E	fuse	eaton		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.268" Dia x 1.291" L (6.81mm x 32.79mm)		2	BK-ADC-V2-12-R	1	
-E	fuse	eaton		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.275" Dia x 1.288" L (6.99mm x 32.72mm)		1	BK-AHC-V-1-6-R	1	
+E	fuse	eaton		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.275" Dia x 1.288" L (6.99mm x 32.72mm)		2	BK-AHC-V-1-6-R	1	
 E	fuse	eaton		Through Hole	5mm x 20mm (Axial)		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		2	BK-S505SC-8-R	1	
 E	fuse	eaton		Through Hole	5mm x 20mm (Axial)		0.205" Dia x 0.807" L (5.20mm x 20.50mm)		3	BK/S505SCH-5-R	1	
-E	fuse	eaton		Through Hole	5mm x 20mm (Axial)		0.218" Dia x 0.831" L (5.54mm x 21.10mm)		20	TR2-S505H-V-2.5-R	7	
+E	fuse	eaton		Through Hole	5mm x 20mm (Axial)		0.218" Dia x 0.831" L (5.54mm x 21.10mm)		19	TR2-S505H-V-2.5-R	7	
 E	fuse	eaton		Through Hole	5mm x 20mm (Axial)		0.236" Dia x 0.831" L (6.00mm x 21.10mm)		1	BK/S520-V-15-R	1	
 E	fuse	eaton		Through Hole	Cartridge, Non-Standard (Axial)		0.142" Dia x 0.394" L (3.60mm x 10.00mm)		3	C310T-SC-2-5-R-TR1	1	
 E	fuse	eaton		Through Hole	Radial, Box		0.335" Dia x 0.362" H (8.50mm x 9.20mm)		1	SS-5FH-3.15A-AP	1	
@@ -240,10 +240,10 @@ E	fuse	eaton		Through Hole	Radial, Can, Vertical		0.335" Dia x 0.319" H (8.50mm 
 E	fuse	littelfuse		Requires Holder	3AB, 3AG, 1/4" x 1-1/4"		0.248" Dia x 1.260" L (6.30mm x 32.00mm)		3	0508001.MXP	2	
 E	fuse	littelfuse		Requires Holder	3AB, 3AG, 1/4" x 1-1/4"		0.250" Dia x 1.250" L (6.35mm x 31.75mm)		20	0314015.MXP	5	
 E	fuse	littelfuse		Requires Holder	5mm x 20mm		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		47	0217005.MXP	14	
-E	fuse	littelfuse		Surface Mount	0402 (1005 Metric)		0.039" L x 0.020" W x 0.013" H (1.00mm x 0.51mm x 0.33mm)		2	0435.500KR	1	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,LED-0402,RES-0402,RES-0402-VIKING,RES-0402-VISHAY
-E	fuse	littelfuse		Surface Mount	0603 (1608 Metric)		0.061" L x 0.033" W x 0.020" H (1.54mm x 0.85mm x 0.50mm)		8	0438002.WRGT	4	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
-E	fuse	littelfuse		Surface Mount	0603 (1608 Metric)		0.062" L x 0.033" W x 0.024" H (1.58mm x 0.85mm x 0.61mm)		2	0438.500WRA	1	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
-E	fuse	littelfuse		Surface Mount	0603 (1608 Metric)		0.063" L x 0.032" W x 0.012" H (1.60mm x 0.81mm x 0.31mm)		4	0467.250NR	2	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
+E	fuse	littelfuse		Surface Mount	0402 (1005 Metric)		0.039" L x 0.020" W x 0.013" H (1.00mm x 0.51mm x 0.33mm)		2	0435.500KR	1	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,IND-0402-MURATA,LED-0402,RES-0402,RES-0402-VIKING
+E	fuse	littelfuse		Surface Mount	0603 (1608 Metric)		0.061" L x 0.033" W x 0.020" H (1.54mm x 0.85mm x 0.50mm)		8	0438002.WRGT	4	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,IND-0603-BOURNS,IND-0603-MURATA,LED-0603
+E	fuse	littelfuse		Surface Mount	0603 (1608 Metric)		0.062" L x 0.033" W x 0.024" H (1.58mm x 0.85mm x 0.61mm)		2	0438.500WRA	1	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,IND-0603-BOURNS,IND-0603-MURATA,LED-0603
+E	fuse	littelfuse		Surface Mount	0603 (1608 Metric)		0.063" L x 0.032" W x 0.012" H (1.60mm x 0.81mm x 0.31mm)		4	0467.250NR	2	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,IND-0603-BOURNS,IND-0603-MURATA,LED-0603
 E	fuse	littelfuse		Surface Mount	1206 (3216 Metric)		-		1	0483005.DR	1	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
 E	fuse	littelfuse		Surface Mount	1206 (3216 Metric)		0.124" L x 0.059" W x 0.045" H (3.15mm x 1.50mm x 1.15mm)		2	0470001.DRSNP	1	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
 E	fuse	littelfuse		Surface Mount	1206 (3216 Metric)		0.125" L x 0.060" W x 0.023" H (3.18mm x 1.52mm x 0.58mm)		4	0466.125NRHF	2	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
@@ -282,8 +282,8 @@ E	fuse	schurter		Requires Holder	3AB, 3AG, 1/4" x 1-1/4"		0.250" Dia x 1.252" L 
 E	fuse	schurter		Requires Holder	5mm x 20mm		0.197" Dia x 0.787" L (5.00mm x 20.00mm)		4	7010.3410	1	
 E	fuse	schurter		Requires Holder	5mm x 20mm		0.201" Dia x 0.787" L (5.10mm x 20.00mm)		4	0034.0903	1	
 E	fuse	schurter		Requires Holder	5mm x 20mm		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		36	0034.1524	8	
-E	fuse	schurter		Surface Mount	0402 (1005 Metric)		0.040" L x 0.020" W x 0.019" H (1.00mm x 0.50mm x 0.48mm)		4	3414.0123.26	1	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,LED-0402,RES-0402,RES-0402-VIKING,RES-0402-VISHAY
-E	fuse	schurter		Surface Mount	0603 (1608 Metric)		0.063" L x 0.031" W x 0.024" H (1.60mm x 0.80mm x 0.60mm)		5	3412.0121.22	2	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
+E	fuse	schurter		Surface Mount	0402 (1005 Metric)		0.040" L x 0.020" W x 0.019" H (1.00mm x 0.50mm x 0.48mm)		4	3414.0123.26	1	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,IND-0402-MURATA,LED-0402,RES-0402,RES-0402-VIKING
+E	fuse	schurter		Surface Mount	0603 (1608 Metric)		0.063" L x 0.031" W x 0.024" H (1.60mm x 0.80mm x 0.60mm)		5	3412.0121.22	2	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,IND-0603-BOURNS,IND-0603-MURATA,LED-0603
 E	fuse	schurter		Surface Mount	1206 (3216 Metric)		0.126" L x 0.063" W x 0.024" H (3.20mm x 1.60mm x 0.60mm)		12	3413.0328.22	3	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
 E	fuse	schurter		Surface Mount	1206 (3216 Metric)		0.126" L x 0.063" W x 0.063" H (3.20mm x 1.60mm x 1.60mm)		4	3413.0002.11	1	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
 E	fuse	schurter		Surface Mount	2-SMD, J-Lead		0.291" L x 0.122" W x 0.102" H (7.40mm x 3.10mm x 2.60mm)		10	3404.0117.22	3	
@@ -298,7 +298,7 @@ E	fuse	schurter		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.270" Dia x 1.29
 E	fuse	schurter		Through Hole	5mm x 20mm (Axial)		0.213" Dia x 0.886" L (5.40mm x 22.50mm)		21	0001.2513.TR	3	
 E	fuse	schurter		Through Hole	Cartridge, Non-Standard (Axial)		0.154" Dia x 0.433" L (3.90mm x 11.00mm)		7	8020.0514.PT	1	
 E	fuse	schurter		Through Hole	Radial, Box		0.453" L x 0.197" W x 0.315" H (11.50mm x 5.00mm x 8.00mm)		12	7100.1167.96	2	
-F	ptc	belfuse		Surface Mount	0603 (1608 Metric), Concave		0.063" L x 0.029" W (1.60mm x 0.73mm)		11	0ZCM0010FF2G	1	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
+F	ptc	belfuse		Surface Mount	0603 (1608 Metric), Concave		0.063" L x 0.029" W (1.60mm x 0.73mm)		11	0ZCM0010FF2G	1	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,IND-0603-BOURNS,IND-0603-MURATA,LED-0603
 F	ptc	belfuse		Surface Mount	0805 (2012 Metric), Concave		0.085" L x 0.053" W (2.15mm x 1.35mm)		7	0ZCK0020FF2G	2	CAP-0805,CAP-0805-AVX,CAP-0805-CALCHIP,CAP-0805-KEMET,DIODE-0805,LED-0805,RES-0805,RES-0805-VIKING
 F	ptc	belfuse		Surface Mount	0805 (2012 Metric), Concave		0.087" L x 0.053" W (2.20mm x 1.35mm)		1	0ZCK0050AF2E	1	CAP-0805,CAP-0805-AVX,CAP-0805-CALCHIP,CAP-0805-KEMET,DIODE-0805,LED-0805,RES-0805,RES-0805-VIKING
 F	ptc	belfuse		Surface Mount	1206 (3216 Metric), Concave		0.128" L x 0.065" W (3.25mm x 1.65mm)		20	0ZCJ0035AF2E	2	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
@@ -335,7 +335,6 @@ F	ptc	belfuse		Through Hole	Radial, Disc		0.382" L x 0.122" W (9.70mm x 3.10mm)	
 F	ptc	belfuse		Through Hole	Radial, Disc		0.390" L x 0.150" W (9.90mm x 3.80mm)	0.201" (5.10mm)	1	0ZRE0016FF1C	1	
 F	ptc	belfuse		Through Hole	Radial, Disc		0.394" L x 0.118" W (10.00mm x 3.00mm)	0.201" (5.10mm)	1	0ZRN0400FF1E	1	
 F	ptc	belfuse		Through Hole	Radial, Disc		0.402" L x 0.118" W (10.20mm x 3.00mm)	0.201" (5.10mm)	1	0ZRB0185FF1E	1	
-F	ptc	belfuse		Through Hole	Radial, Disc		0.402" L x 0.142" W (10.20mm x 3.60mm)	0.201" (5.10mm)	1	0ZRP0135FF1A	1	
 F	ptc	belfuse		Through Hole	Radial, Disc		0.409" Dia x 0.122" T (10.40mm x 3.10mm)	0.201" (5.10mm)	1	0ZRR0075FF1E	1	
 F	ptc	belfuse		Through Hole	Radial, Disc		0.409" L x 0.122" W (10.40mm x 3.10mm)	0.201" (5.10mm)	1	0ZRC0075FF1E	1	
 F	ptc	belfuse		Through Hole	Radial, Disc		0.417" Dia x 0.150" T (10.60mm x 3.80mm)	0.201" (5.10mm)	1	0ZRM0075FF1E	1	
@@ -363,6 +362,7 @@ F	ptc	belfuse		Through Hole	Radial, Disc		0.689" L x 0.118" W (17.50mm x 3.00mm)
 F	ptc	belfuse		Through Hole	Radial, Disc		0.701" L x 0.122" W (17.80mm x 3.10mm)	0.201" (5.10mm)	1	0ZRC0185FF1A	1	
 F	ptc	belfuse		Through Hole	Radial, Disc		0.736" Dia x 0.201" T (18.70mm x 5.10mm)	0.402" (10.20mm)	1	0ZRE0100FF1A	1	
 F	ptc	belfuse		Through Hole	Radial, Disc		0.752" L x 0.118" W (19.10mm x 3.00mm)	0.402" (10.20mm)	1	0ZRB0700FF1A	1	
+F	ptc	belfuse		Through Hole	Radial, Disc		0.827" L x 0.142" W (21.00mm x 3.60mm)	0.402" (10.20mm)	1	0ZRP0400FF1A	1	
 F	ptc	belfuse		Through Hole	Radial, Disc		0.831" L x 0.150" W (21.10mm x 3.80mm)	0.402" (10.20mm)	1	0ZRS0750FF1A	1	
 F	ptc	belfuse		Through Hole	Radial, Disc		0.839" Dia x 0.122" T (21.30mm x 3.10mm)	0.402" (10.20mm)	1	0ZRR0250FF2A	1	
 F	ptc	belfuse		Through Hole	Radial, Disc		0.850" L x 0.118" W (21.60mm x 3.00mm)	0.402" (10.20mm)	1	0ZRB0800FF1A	1	
@@ -373,8 +373,8 @@ F	ptc	belfuse		Through Hole	Radial, Disc		0.949" L x 0.142" W (24.10mm x 3.60mm)
 F	ptc	belfuse		Through Hole	Radial, Disc		0.980" Dia x 0.122" T (24.90mm x 3.10mm)	0.402" (10.20mm)	1	0ZRR0300FF1A	1	
 F	ptc	belfuse		Through Hole	Radial, Disc		0.980" L x 0.240" W (24.90mm x 6.10mm)	0.402" (10.20mm)	1	0ZRE0200FF1A	1	
 F	ptc	belfuse		Through Hole	Radial, Disc		1.161" Dia x 0.161" T (29.50mm x 4.10mm)	0.402" (10.20mm)	1	0ZRM0375FF1A	1	
-F	ptc	bourns		Surface Mount	0402 (1005 Metric), Concave		0.039" L x 0.020" W (1.00mm x 0.50mm)		7	MF-ASML050/6-2	2	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,LED-0402,RES-0402,RES-0402-VIKING,RES-0402-VISHAY
-F	ptc	bourns		Surface Mount	0603 (1608 Metric), Concave		0.065" L x 0.033" W (1.65mm x 0.85mm)		14	MF-FSMF020X-2	3	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
+F	ptc	bourns		Surface Mount	0402 (1005 Metric), Concave		0.039" L x 0.020" W (1.00mm x 0.50mm)		7	MF-ASML050/6-2	2	CAP-0402,CAP-0402-AVX,CAP-0402-CALCHIP,CAP-0402-KEMET,IND-0402-MURATA,LED-0402,RES-0402,RES-0402-VIKING
+F	ptc	bourns		Surface Mount	0603 (1608 Metric), Concave		0.065" L x 0.033" W (1.65mm x 0.85mm)		14	MF-FSMF020X-2	3	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,IND-0603-BOURNS,IND-0603-MURATA,LED-0603
 F	ptc	bourns		Surface Mount	0805 (2012 Metric), Concave		0.085" L x 0.053" W (2.15mm x 1.35mm)		18	MF-PSMF110X-2	3	CAP-0805,CAP-0805-AVX,CAP-0805-CALCHIP,CAP-0805-KEMET,DIODE-0805,LED-0805,RES-0805,RES-0805-VIKING
 F	ptc	bourns		Surface Mount	1206 (3216 Metric), Concave		0.126" L x 0.063" W (3.20mm x 1.60mm)		17	MF-NSMF020-2	2	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
 F	ptc	bourns		Surface Mount	1206 (3216 Metric), Concave		0.128" L x 0.063" W (3.25mm x 1.60mm)		7	MF-NSML350/12-2	2	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
@@ -447,8 +447,8 @@ F	ptc	bourns		Through Hole	Radial, Disc		0.925" L x 0.142" W (23.50mm x 3.60mm)	
 F	ptc	bourns		Through Hole	Radial, Disc		0.926" L x 0.122" W (23.51mm x 3.10mm)	0.402" (10.20mm)	1	MF-RX375/72-0	1	
 F	ptc	bourns		Through Hole	Radial, Disc		0.953" L x 0.118" W (24.20mm x 3.00mm)	0.402" (10.20mm)	3	MF-R900	1	
 F	ptc	bourns		Through Hole	Radial, Disc		0.980" L x 0.122" W (24.90mm x 3.10mm)	0.402" (10.20mm)	1	MF-RX300/72-0	1	
-F	ptc	littelfuse		Surface Mount	0603 (1608 Metric), Concave		0.063" L x 0.031" W (1.60mm x 0.80mm)		2	0603L002/60YR	1	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
-F	ptc	littelfuse		Surface Mount	0603 (1608 Metric), Concave		0.063" L x 0.032" W (1.60mm x 0.80mm)		9	0603L004YR	3	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,LED-0603,RES-0603,RES-0603-VIKING
+F	ptc	littelfuse		Surface Mount	0603 (1608 Metric), Concave		0.063" L x 0.031" W (1.60mm x 0.80mm)		2	0603L002/60YR	1	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,IND-0603-BOURNS,IND-0603-MURATA,LED-0603
+F	ptc	littelfuse		Surface Mount	0603 (1608 Metric), Concave		0.063" L x 0.032" W (1.60mm x 0.80mm)		9	0603L004YR	3	CAP-0603,CAP-0603-AVX,CAP-0603-CALCHIP,CAP-0603-KEMET,DIODE-0603,IND-0603-BOURNS,IND-0603-MURATA,LED-0603
 F	ptc	littelfuse		Surface Mount	0805 (2012 Metric), Concave		0.083" L x 0.053" W (2.10mm x 1.35mm)		6	0805L010/24YR	2	CAP-0805,CAP-0805-AVX,CAP-0805-CALCHIP,CAP-0805-KEMET,DIODE-0805,LED-0805,RES-0805,RES-0805-VIKING
 F	ptc	littelfuse		Surface Mount	0805 (2012 Metric), Concave		0.083" L x 0.055" W (2.10mm x 1.40mm)		8	PICOSMDC035S-2	3	CAP-0805,CAP-0805-AVX,CAP-0805-CALCHIP,CAP-0805-KEMET,DIODE-0805,LED-0805,RES-0805,RES-0805-VIKING
 F	ptc	littelfuse		Surface Mount	1206 (3216 Metric), Concave		-		1	NANOASMDCH020F-2	1	CAP-1206,CAP-1206-CALCHIP,CAP-1206-KEMET,CHIPFET-1206-8-VISHAY,DIODE-1206,LED-1206,RES-1206,RES-1206-VISHAY
@@ -573,6 +573,7 @@ G	relay	panasonic	ACNH	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	
 G	relay	panasonic	ACT	Through Hole				SPDT (1 Form C) x 2; Non Latching; PC Pin	1	ACT512	1	
 G	relay	panasonic	ACT	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	1	ACT112	1	
 G	relay	panasonic	ACTP	Through Hole				SPDT (1 Form C) x 2; Non Latching; PC Pin	1	ACTP512	1	
+G	relay	panasonic	ACTP	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	1	ACTP112	1	
 G	relay	panasonic	ADJ	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	3	ADJ56005	1	
 G	relay	panasonic	ADJ	Through Hole				SPDT (1 Form C); Latching, Dual Coil; PC Pin	1	ADJ14024	1	
 G	relay	panasonic	ADJH	Through Hole				SPST-NO (1 Form A); Latching, Dual Coil; PC Pin	3	ADJH23012	1	
@@ -598,7 +599,6 @@ G	relay	panasonic	CN-M	Surface Mount				SPST-NO (1 Form A); Non Latching; Gull W
 G	relay	panasonic	CN-M	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	1	ACNM1112	1	
 G	relay	panasonic	CP	Surface Mount				SPDT (1 Form C); Non Latching; Gull Wing	1	CP1SA-12V-Z	1	
 G	relay	panasonic	CP	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	1	CP1-12V	1	
-G	relay	panasonic	CQ	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	1	ACQ131	1	
 G	relay	panasonic	DE	Through Hole				DPST-NO (2 Form A); Latching, Dual Coil; PC Pin	1	DE2A-L2-12V	1	
 G	relay	panasonic	DE	Through Hole				DPST-NO (2 Form A); Non Latching; PC Pin	1	DE2A-12V	1	
 G	relay	panasonic	DE	Through Hole				DPST-NO/NC (1 Form A, 1 Form B); Non Latching; PC Pin	2	DE1A1B-12V	1	
@@ -632,7 +632,7 @@ G	relay	panasonic	PhotoMOS™ AQS	Surface Mount	16-SOIC (0.173", 4.40mm Width)	1
 G	relay	panasonic	PhotoMOS™ AQV	Surface Mount	6-SMD (0.300", 7.62mm)	6-SMD		SPST-NO (1 Form A); Gull Wing	2	AQV210EHAX	1	
 G	relay	panasonic	PhotoMOS™ AQV	Surface Mount	6-SOP (0.173", 4.40mm)	6-SOP		SPST-NO (1 Form A); Gull Wing	2	AQV255G3SX	2	
 G	relay	panasonic	PhotoMOS™ AQV	Through Hole	6-DIP (0.300", 7.62mm)	6-DIP		SPST-NO (1 Form A); PC Pin	1	AQV214	1	
-G	relay	panasonic	PhotoMOS™ AQW	Surface Mount	8-SMD (0.300", 7.62mm)	8-SMD		SPST-NO (1 Form A) x 2; Gull Wing	6	AQW212EHAZ	3	
+G	relay	panasonic	PhotoMOS™ AQW	Surface Mount	8-SMD (0.300", 7.62mm)	8-SMD		SPST-NO (1 Form A) x 2; Gull Wing	6	AQW212EHAZ	2	
 G	relay	panasonic	PhotoMOS™ AQW	Surface Mount	8-SOP (0.173", 4.40mm Width)	8-SOP		SPST-NO (1 Form A) x 2; Gull Wing	2	AQW214SX	1	SOP-8-DUB,SOP-8-PS,SOP-8-PSA
 G	relay	panasonic	PhotoMOS™ AQW	Through Hole	8-DIP (0.300", 7.62mm)	8-DIP		SPST-NO (1 Form A) x 2; PC Pin	3	AQW214EH	2	CDIP-8-JG,PDIP-8
 G	relay	panasonic	PhotoMOS™ AQY	Surface Mount	4-SMD (0.300", 7.62mm)	4-SMD		SPST-NC (1 Form B); Gull Wing	1	AQY412EHAX	1	
@@ -647,8 +647,8 @@ G	relay	panasonic	SP	Through Hole				4PDT (4 Form C); Non Latching; PC Pin	1	SP4
 G	relay	panasonic	SP	Through Hole				DPDT (2 Form C); Latching, Dual Coil; PC Pin	1	SP2-PL2-DC24V	1	
 G	relay	panasonic	SP	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	1	SP2-P-DC24V	1	
 G	relay	panasonic	TE	Through Hole				SPDT (1 Form C) x 2; Non Latching; PC Pin	1	ACTE3CH2A05V	1	
-G	relay	panasonic	TQ	Through Hole				DPDT (2 Form C); Latching, Dual Coil; PC Pin	2	TQ2-L2-5V	1	
-G	relay	panasonic	TQ	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	4	TQ2-4.5V	1	
+G	relay	panasonic	TQ	Through Hole				DPDT (2 Form C); Latching, Dual Coil; PC Pin	3	TQ2-L2-5V	1	
+G	relay	panasonic	TQ	Through Hole				DPDT (2 Form C); Non Latching; PC Pin	3	TQ2-4.5V	1	
 G	relay	panasonic	TQ-SMD	Surface Mount				DPDT (2 Form C); Latching, Dual Coil; Gull Wing	2	TQ2SA-L2-4.5V	1	
 G	relay	panasonic	TQ-SMD	Surface Mount				DPDT (2 Form C); Non Latching; Gull Wing	4	TQ2SS-5V-Z	1	
 G	relay	panasonic	TX	Surface Mount				DPDT (2 Form C); Non Latching; Gull Wing	3	TX2SA-12V-X	1	
@@ -692,9 +692,9 @@ G	relay	te	ORWH, OEG	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	3	ORW
 G	relay	te	PB, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	2	PB114005	1	
 G	relay	te	PB, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	2	PB134012	1	
 G	relay	te	PBH, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	1	6-1415356-1	1	
-G	relay	te	PCH, OEG	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	2	1461352-2	1	
+G	relay	te	PCH, OEG	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	1	1461352-2	1	
 G	relay	te	PCJ, OEG	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	1	1-1721547-4	1	
-G	relay	te	PCN, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	6	PCN-105D3MHZ,000	1	
+G	relay	te	PCN, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	5	PCN-105D3MHZ,000	1	
 G	relay	te	PE, SCHRACK	Through Hole				SPDT (1 Form C); Latching, Single Coil; PC Pin	2	5-1415390-1	1	
 G	relay	te	PE, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	3	PE014005	1	
 G	relay	te	PE, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	1	PE034012	1	
@@ -706,7 +706,7 @@ G	relay	te	RT, SCHRACK	Through Hole				SPDT (1 Form C); Latching, Dual Coil; PC 
 G	relay	te	RT, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	1	4-1393239-4	1	
 G	relay	te	RT, SCHRACK	Through Hole				SPST-NO (1 Form A); Latching, Dual Coil; PC Pin	1	1415898-4	1	
 G	relay	te	RT1	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	2	RTD14024F	1	
-G	relay	te	RT1	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	1	RTB34012F	1	
+G	relay	te	RT1	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	2	RTB34012F	1	
 G	relay	te	RT1 Bistable, SCHRACK	Through Hole				SPDT (1 Form C); Latching, Dual Coil; PC Pin	4	RT314F24	1	
 G	relay	te	RT1 Bistable, SCHRACK	Through Hole				SPDT (1 Form C); Latching, Single Coil; PC Pin	2	RT314A24	1	
 G	relay	te	RT1, Inrush, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	1	RT31L024	1	
@@ -725,7 +725,7 @@ G	relay	te	RY, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	
 G	relay	te	RZ, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	1	RZ03-1C4-D005	1	
 G	relay	te	RZ, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	3	RZ03-1A3-D005-R	1	
 G	relay	te	RZH, SCHRACK	Through Hole				SPST-NO (1 Form A); Non Latching; PC Pin	1	2-1415899-8	1	
-G	relay	te	SNR, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	5	V23092A1024A301	1	
+G	relay	te	SNR, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	6	V23092A1024A301	1	
 G	relay	te	SNRII, SCHRACK	Through Hole				SPDT (1 Form C); Non Latching; PC Pin	4	1558940-2	1	
 G	relay	te	SSRA	Through Hole	4-SIP	4-SIP		SPST-NO (1 Form A); PC Pin	1	SSRA-240D2R	1	
 G	relay	te	SSRC	Through Hole	4-SIP	4-SIP		SPST-NO (1 Form A); PC Pin	1	SSRC-240D5	1	
@@ -768,12 +768,11 @@ H	buzzer	mallory		Surface Mount			2.146" Dia (54.50mm)	Solder Pads	1	PT-593SQ	1
 H	buzzer	mallory		Through Hole			0.354" Dia (9.00mm)	PC Pins	3	PB-09N23P-03Q	3	
 H	buzzer	mallory		Through Hole			0.413" Dia (10.50mm)	PC Pins	2	PK-09N50PQ	2	
 H	buzzer	mallory		Through Hole			0.472" Dia (12.00mm)	PC Pins	14	PB-1226PEAQ	14	
-H	buzzer	mallory		Through Hole			0.492" Dia (12.50mm)	PC Pins	1	PT-1241PFQ	1	
 H	buzzer	mallory		Through Hole			0.496" Dia (12.60mm)	PC Pins	1	PT-1245P-PQ	1	
 H	buzzer	mallory		Through Hole			0.543" Dia (13.80mm)	PC Pins	6	PK-12N40PEQ	6	
 H	buzzer	mallory		Through Hole			0.551" Dia (14.00mm)	PC Pins	1	PT-1340P-P10-PQ	1	
 H	buzzer	mallory		Through Hole			0.630" Dia (16.00mm)	PC Pins	3	PB-1621PQ	3	
-H	buzzer	mallory		Through Hole			0.669" Dia (17.00mm)	PC Pins	2	PT-1540PQ	2	
+H	buzzer	mallory		Through Hole			0.669" Dia (17.00mm)	PC Pins	1	PT-1520PQ	1	
 H	buzzer	mallory		Through Hole			0.866" Dia (22.00mm)	PC Pins	1	PT-2040PQ	1	
 H	buzzer	mallory		Through Hole			0.866" L x 0.283" W (22.00mm x 7.20mm)	PC Pins	1	PT-2020PQ	1	
 H	buzzer	mallory		Through Hole			0.906" Dia (23.00mm)	PC Pins	13	PK-20A38PQ	13	
@@ -813,7 +812,7 @@ H	buzzer	pui		Surface Mount			0.472" Dia (12.00mm)	Solder Pads	1	SMT-1220-TW-R	1
 H	buzzer	pui		Surface Mount			0.472" L x 0.472" W (12.00mm x 12.00mm)	Solder Pads	2	SMTB-1240-S-R	2	
 H	buzzer	pui		Surface Mount			0.492" L x 0.492" W (12.50mm x 12.50mm)	Solder Pads	3	SMI-1324-TW-12V-R	3	
 H	buzzer	pui		Surface Mount			0.504" L x 0.504" W (12.80mm x 12.80mm)	Solder Pads	4	SMI-1324-TW-5V-3-R	4	
-H	buzzer	pui		Surface Mount			0.512" L x 0.512" W (13.00mm x 13.00mm)	Solder Pads	4	SMT-1320-T-HT-R	4	
+H	buzzer	pui		Surface Mount			0.512" L x 0.512" W (13.00mm x 13.00mm)	Solder Pads	3	SMT-1320-T-HT-R	3	
 H	buzzer	pui		Surface Mount			0.551" L x 0.433" W (14.00mm x 11.00mm)	Solder Pads	2	SMT-1427-S-5V-HT-R	2	
 H	buzzer	pui		Surface Mount			0.583" L x 0.583" W (14.80mm x 14.80mm)	Solder Pads	1	SMT-1550-T-HT	1	
 H	buzzer	pui		Surface Mount			0.630" L x 0.630" W (16.00mm x 16.00mm)	Solder Pads	2	SMT-1640-S-2-R	2	
@@ -873,7 +872,7 @@ H	buzzer	samesky		Surface Mount			0.394" L x 0.394" W (10.00mm x 10.00mm)	Solder
 H	buzzer	samesky		Surface Mount			0.433" L x 0.354" W (11.00mm x 9.00mm)	Solder Pads	2	CPT-1117-83-SMT-TR	2	
 H	buzzer	samesky		Surface Mount			0.472" Dia (12.00mm)	Solder Pads	1	CD-1206-SMT	1	
 H	buzzer	samesky		Surface Mount			0.472" L x 0.472" W (12.00mm x 12.00mm)	Solder Pads	4	CMT-1203-SMT-TR	4	
-H	buzzer	samesky		Surface Mount			0.504" L x 0.504" W (12.80mm x 12.80mm)	Solder Pads	8	CT-1205H-SMT-TR	8	
+H	buzzer	samesky		Surface Mount			0.504" L x 0.504" W (12.80mm x 12.80mm)	Solder Pads	7	CT-1205H-SMT-TR	7	
 H	buzzer	samesky		Surface Mount			0.512" L x 0.512" W (13.00mm x 13.00mm)	Solder Pads	1	CPT-1625-80-SMT-TR	1	
 H	buzzer	samesky		Surface Mount			0.551" L x 0.433" W (14.00mm x 11.00mm)	Solder Pads	1	CSS-H5B43-SMT-TR	1	
 H	buzzer	samesky		Surface Mount			0.630" L x 0.630" W (16.00mm x 16.00mm)	Solder Pads	5	CMT-1603-SMT-TR	5	
@@ -886,7 +885,7 @@ H	buzzer	samesky		Through Hole			0.264" Dia (6.70mm)	PC Pins	1	CMT-6736-80T	1
 H	buzzer	samesky		Through Hole			0.354" Dia (9.00mm)	PC Pins	10	CST-951AP	10	
 H	buzzer	samesky		Through Hole			0.362" Dia (9.20mm)	PC Pins	3	CMI-0955-03TH	3	
 H	buzzer	samesky		Through Hole			0.378" Dia (9.60mm)	PC Pins	7	CX-0905C	7	
-H	buzzer	samesky		Through Hole			0.472" Dia (12.00mm)	PC Pins	32	CEM-1212S	32	
+H	buzzer	samesky		Through Hole			0.472" Dia (12.00mm)	PC Pins	31	CEM-1212S	31	
 H	buzzer	samesky		Through Hole			0.488" Dia (12.40mm)	PC Pins	1	CPT-1206-3TH-T	1	
 H	buzzer	samesky		Through Hole			0.492" Dia (12.50mm)	PC Pins	3	CPT-1207-3TH	3	
 H	buzzer	samesky		Through Hole			0.539" Dia (13.70mm)	PC Pins	1	CPE-164	1	
@@ -894,7 +893,7 @@ H	buzzer	samesky		Through Hole			0.543" Dia (13.80mm)	PC Pins	3	CPI-1375IC-80T	3
 H	buzzer	samesky		Through Hole			0.547" Dia (13.90mm)	PC Pins	3	CPI-137-83T	3	
 H	buzzer	samesky		Through Hole			0.551" Dia (14.00mm)	PC Pins	5	CPT-1404-85T	5	
 H	buzzer	samesky		Through Hole			0.606" Dia (15.40mm)	PC Pins	1	CPI-1514-12-95T	1	
-H	buzzer	samesky		Through Hole			0.630" Dia (16.00mm)	PC Pins	9	CEM-1606	9	
+H	buzzer	samesky		Through Hole			0.630" Dia (16.00mm)	PC Pins	10	CEM-1606	10	
 H	buzzer	samesky		Through Hole			0.650" Dia (16.50mm)	PC Pins	1	CPT-1667-85T	1	
 H	buzzer	samesky		Through Hole			0.669" Dia (17.00mm)	PC Pins	3	CPT-1796-3TH	3	
 H	buzzer	samesky		Through Hole			0.866" Dia (22.00mm)	PC Pins	5	CPT-2210-3TH	5	
@@ -905,7 +904,7 @@ H	buzzer	samesky		Through Hole			0.917" Dia (23.30mm)	PC Pins	1	CPE-222H	1
 H	buzzer	samesky		Through Hole			0.921" Dia (23.40mm)	PC Pins	1	CPI-2397-85T	1	
 H	buzzer	samesky		Through Hole			0.925" Dia (23.50mm)	PC Pins	2	CPI-2316-5-85T	2	
 H	buzzer	samesky		Through Hole			0.937" Dia (23.80mm)	PC Pins	2	CPE-223	2	
-H	buzzer	samesky		Through Hole			0.945" Dia (24.00mm)	PC Pins	2	CEP-2224	2	
+H	buzzer	samesky		Through Hole			0.945" Dia (24.00mm)	PC Pins	3	CEP-2224	3	
 H	buzzer	samesky		Through Hole			0.945" L x 0.394" W (24.00mm x 10.00mm)	PC Pins	1	CPE-522	1	
 H	buzzer	samesky		Through Hole			0.953" Dia (24.20mm)	PC Pins	2	CEP-2202AS	2	
 H	buzzer	samesky		Through Hole			0.965" Dia (24.50mm)	PC Pins	1	CPE-203	1	
