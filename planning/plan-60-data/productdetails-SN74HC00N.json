@@ -1,0 +1,99 @@
+{
+  "Product": {
+    "Manufacturer": {
+      "Id": 296,
+      "Name": "Texas Instruments"
+    },
+    "ManufacturerProductNumber": "SN74HC00N",
+    "ProductUrl": "https://www.digikey.com/en/products/detail/texas-instruments/SN74HC00N/277209",
+    "ProductVariations": [
+      {
+        "DigiKeyProductNumber": "2156-SN74HC00N-ND",
+        "PackageType": {
+          "Id": 3,
+          "Name": "Bulk"
+        },
+        "StandardPricing": [],
+        "MyPricing": [],
+        "MarketPlace": true,
+        "TariffActive": false,
+        "Supplier": {
+          "Id": 2156,
+          "Name": "Rochester Electronics, LLC"
+        },
+        "QuantityAvailableforPackageType": 0,
+        "DigiReelFee": 0
+      },
+      {
+        "DigiKeyProductNumber": "296-1563-5-ND",
+        "PackageType": {
+          "Id": 6,
+          "Name": "Tube"
+        },
+        "StandardPricing": [
+          {
+            "BreakQuantity": 1,
+            "UnitPrice": 0.78,
+            "TotalPrice": 0.78
+          },
+          {
+            "BreakQuantity": 10,
+            "UnitPrice": 0.558,
+            "TotalPrice": 5.58
+          },
+          {
+            "BreakQuantity": 25,
+            "UnitPrice": 0.5016,
+            "TotalPrice": 12.54
+          },
+          {
+            "BreakQuantity": 100,
+            "UnitPrice": 0.4397,
+            "TotalPrice": 43.97
+          },
+          {
+            "BreakQuantity": 250,
+            "UnitPrice": 0.41028,
+            "TotalPrice": 102.57
+          },
+          {
+            "BreakQuantity": 500,
+            "UnitPrice": 0.3925,
+            "TotalPrice": 196.25
+          },
+          {
+            "BreakQuantity": 1000,
+            "UnitPrice": 0.37788,
+            "TotalPrice": 377.88
+          },
+          {
+            "BreakQuantity": 2500,
+            "UnitPrice": 0.36244,
+            "TotalPrice": 906.1
+          },
+          {
+            "BreakQuantity": 5000,
+            "UnitPrice": 0.35313,
+            "TotalPrice": 1765.65
+          }
+        ],
+        "MyPricing": [],
+        "MarketPlace": false,
+        "TariffActive": false,
+        "Supplier": {
+          "Id": 296,
+          "Name": "Texas Instruments"
+        },
+        "QuantityAvailableforPackageType": 292,
+        "MaxQuantityForDistribution": 999999999,
+        "MinimumOrderQuantity": 1,
+        "DigiReelFee": 0
+      }
+    ],
+    "QuantityAvailable": 292,
+    "ProductStatus": {
+      "Id": 0,
+      "Status": "Active"
+    }
+  }
+}
