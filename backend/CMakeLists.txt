@@ -12,6 +12,7 @@ add_library(logic STATIC
     src/memory_image.c
     src/voltage.c
     src/erc_pins.c
+    src/erc_check.c
     src/library/library.c
     src/library/kinds.c
     src/library/kind_util.c
@@ -198,6 +199,7 @@ logic_test(memory_image_test)
 logic_test(voltage_test)
 logic_test(erc_pins_test)
 logic_test(erc_pins_check)
+logic_test(erc_test)
 logic_test(buffer_test)
 logic_test(cpu_core_test)
 target_compile_definitions(cpu_core_test PRIVATE

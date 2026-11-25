@@ -4,7 +4,10 @@
 Writes one schematic with a 1-pin symbol per KiCad pin type (12 types), and for every
 pair (A, B) of types (78 pairs, A <= B) one wire joining a pin of A to a pin of B on a
 net of its own, then runs the ERC and prints, per pair, what `pin_to_pin` reported:
-ok / warning / error. Usage: python3 -I probe_pin_matrix.py <outdir>
+ok / warning / error. Usage: python3 -I probe_pin_matrix.py <outdir> [--c-table]
+
+--c-table prints, instead, the C initialisers of backend/tests/erc_pair_table.h (plan-63-D): one row
+per pair and per lone pin, with the pin_to_pin level and the pin-level rules KiCad reported.
 """
 import json, subprocess, sys, os
 
@@ -13,6 +16,8 @@ TYPES = ["input", "output", "bidirectional", "tri_state", "passive", "free", "un
          "power_in", "power_out", "open_collector", "open_emitter", "no_connect"]
 
 out = sys.argv[1]
+CTABLE = "--c-table" in sys.argv[2:]
+say = (lambda *a, **k: print(*a, file=sys.stderr, **k)) if CTABLE else print
 os.makedirs(out, exist_ok=True)
 lib = []
 for t in TYPES:
@@ -67,25 +72,50 @@ for sheet in data.get("sheets", []):
             continue
         ys = [round(i["pos"]["y"] * 1.0, 2) for i in v["items"]]
         found[round(ys[0], 2)] = v["severity"]
-print("type counts:", {t: sum(1 for s in data["sheets"] for v in s["violations"] if v["type"] == t)
+say("type counts:", {t: sum(1 for s in data["sheets"] for v in s["violations"] if v["type"] == t)
                        for t in sorted({v["type"] for s in data["sheets"] for v in s["violations"]})})
 matrix = {}
 for k, (a, b) in enumerate(pairs):
     y = round(20 + 10.16 * k, 2)
     sev = next((s for yy, s in found.items() if abs(yy - y) < 0.01), "ok")
     matrix[(a, b)] = matrix[(b, a)] = {"ok": 0, "warning": 1, "error": 2}[sev]
-print("row/col order:", TYPES)
+say("row/col order:", TYPES)
 for a in TYPES:
-    print(f"{a:15s}", [matrix[(a, b)] for b in TYPES])
+    say(f"{a:15s}", [matrix[(a, b)] for b in TYPES])
 
 SKIP = {"endpoint_off_grid", "lib_symbol_issues", "pin_to_pin"}
-print("\nper pair (net of 2 pins): rules other than pin_to_pin")
+say("\nper pair (net of 2 pins): rules other than pin_to_pin")
 for k, (a, b) in enumerate(pairs):
     y = round(20 + 10.16 * k, 2)
     r = {x: v for x, v in at.get(y, {}).items() if x not in SKIP}
     if r:
-        print(f"  {a} + {b}: {r}")
-print("\nper single pin, no wire:")
+        say(f"  {a} + {b}: {r}")
+say("\nper single pin, no wire:")
 for t, y in singles:
     r = {x: v for x, v in at.get(round(y, 2), {}).items() if x not in SKIP}
-    print(f"  {t}: {r}")
+    say(f"  {t}: {r}")
+
+if CTABLE:
+    RULES = {"pin_to_pin": "ERC_PIN_TO_PIN", "pin_not_connected": "ERC_PIN_NOT_CONNECTED",
+             "pin_not_driven": "ERC_PIN_NOT_DRIVEN", "power_pin_not_driven": "ERC_POWER_PIN_NOT_DRIVEN",
+             "no_connect_connected": "ERC_NO_CONNECT_CONNECTED"}
+    LEVEL = {"warning": 1, "error": 2}
+
+    def row(a, b, y):
+        got = at.get(round(y, 2), {})
+        mask = " | ".join(f"R({RULES[x]})" for x in RULES if x in got and x != "pin_to_pin") or "0"
+        level = LEVEL.get(got.get("pin_to_pin"), 0)
+        second = "ERC_" + b.upper() if b else "ERC_PIN_TYPE_COUNT"
+        return f"    {{ERC_{a.upper()}, {second}, {level}, {mask}}},"
+
+    print("/* What kicad-cli 10.0.8 reports on a net of two pins of every pair of types (a, b), and on")
+    print("   each pin alone (b = ERC_PIN_TYPE_COUNT): the pin_to_pin level and the other pin-level rules.")
+    print("   Generated: python3 -I planning/plan-63-data/probe_pin_matrix.py <dir> --c-table (plan-63-D). */")
+    print("#define R(rule) (1u << (rule))")
+    print("typedef struct { ErcPinType a, b; int level; unsigned rules; } ErcPairRow;")
+    print("static const ErcPairRow ERC_PAIRS[] = {")
+    for k, (a, b) in enumerate(pairs):
+        print(row(a, b, 20 + 10.16 * k))
+    for t, y in singles:
+        print(row(t, None, y))
+    print("};")
