@@ -203,24 +203,24 @@ field). An older build ignores the key (`docs/file-format.md:198`: "Older builds
 Acceptance: settings edit, undo, save and reopen.
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/ErcSettingsTests -only-testing:schematicalTests/UndoHistoryTests -only-testing:schematicalTests/SchematicUndoTests -only-testing:schematicalTests/FileDesignRulesTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 8 min).
   Result (2026-11-25, in the worktree): `ErcSettingsTests` 9, `UndoHistoryTests` 13, `SchematicUndoTests` 50, `FileDesignRulesTests` 22: `Executed 94 tests, with 0 failures`, `** TEST SUCCEEDED **`; the app also compiles `erc.h` / `erc_pins.c` / `erc_check.c` (the 63-B and 63-D backend files) in this build.
-Commit: (recorded in the next commit)
+Commit: 8d2a1677
 
 ### Phase 2 — The pin rules on a drawing
 
-- [ ] New `ElectricalRulesCheck/ErcChecker.swift`: `ErcViolation`, the wire-group
+- [x] New `ElectricalRulesCheck/ErcChecker.swift`: `ErcViolation`, the wire-group
       union-find, and the call to `erc_check` per § 3 (types from `erc_pin_type`;
       the pin map from the settings), mapping each problem to a violation with
       KiCad's message (README § messages). `SchematicDocument.electricalRulesCheck()`
       returns them ordered by severity (errors first), then rule, then position
       (y, then x), and drops `ignore` rules and excluded keys.
-- [ ] New `schematicalTests/ErcCases.swift`: one named function per case, each returning
+- [x] New `schematicalTests/ErcCases.swift`: one named function per case, each returning
       a `SchematicDocument` built with `TestSupport`; 63-G exports the same 15. This
       phase adds the five pin cases (`pinConflict`, `pinNotConnected`, `pinNotDriven`,
       `powerPinNotDriven`, `noConnectConnected`); Phase 3 adds the ten others
       (`noConnectDangling`, `wireDangling`, `labelDangling`, `isolatedPinLabel`,
       `multipleNetNames`, `similarLabels`, `similarLabelAndPower`, `singleLabel`,
       `fourWayJunction`, `duplicateReference`). The tests below use them.
-- [ ] Tests (new `schematicalTests/ErcPinChecksTests.swift`): drawings built with
+- [x] Tests (new `schematicalTests/ErcPinChecksTests.swift`): drawings built with
       `TestSupport`, the five cases above among them: an unwired `SN74HC00N` input reports `pin_not_connected`; a
       `5V` + `SN74HC00N` VCC wire reports nothing for VCC; a `SN74HC00N` output
       wired to a second output reports `pin_to_pin` (error); two `SN74HC244N`
@@ -235,7 +235,8 @@ Commit: (recorded in the next commit)
 
 Acceptance: pin rules agree with the README on the drawings above.
   Check: `xcodebuild test … -only-testing:schematicalTests/ErcPinChecksTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+  Result (2026-11-25, in the worktree): `ErcPinChecksTests` `Executed 9 tests, with 0 failures`, `** TEST SUCCEEDED **` on the first run (the pin rules, through the app: real part library, `erc_pin_type` per pin, `erc_check` over them). Notes in Corrections 1-3.
+Commit: (recorded in the next commit)
 
 ### Phase 3 — The drawing rules
 
@@ -280,7 +281,10 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+1. `electricalRulesCheck` takes `library:` (default the document's own) and `includeExcluded:` (default false; true returns the excluded violations marked `isExcluded`, which the window of 63-F needs). `SchematicDocument.library` was `private`; it is now internal (the checker reads it).
+2. Tests need a document with the part library (`TestSupport.newDocument(library: TestSupport.catalog.library)`): `ErcCases.newDocument()`. `TestSupport.newDocument()` has none, so there pin types come from the pin roles (`fallbackType`).
+3. A pin's "No Connect flag" is the group of wires that end on a No Connect marker (`WireGroups.hasNoConnect`), not the whole wire-connected group: a pin wired to a flag, and to another pin, flags only the first. The plan said "its wire group holds a No Connect marker".
+4. `§ Phase 2` tests: the plan's "a 12 V connector pin to an IC's VCC" is a header pin on VCC with no rail (a 12 V rail would be refused by the voltage check at `connect`); and an unwired gate reports `pin_not_driven` for each of its 8 inputs and `power_pin_not_driven` for GND as well as VCC (every unwired pin is a net of its own), so tests count by reference (`U1.14`) rather than by rule.
 
 ## Summary
 

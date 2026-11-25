@@ -2073,7 +2073,8 @@ final class SchematicDocument {
 
     /// The part library, for the voltage check. With none, no edit is
     /// refused.
-    private let library: PartLibraryHandle?
+    /// The backend library (nil in some tests); the voltage check and the ERC read it.
+    let library: PartLibraryHandle?
 
     init(library: PartLibraryHandle? = nil) {
         self.library = library
