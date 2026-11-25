@@ -1,0 +1,27 @@
+> folder
+shared folder: exp
+> tool list_windows
+2FCBADFE  6502  parts=103 wires=411  (frontmost)
+> tool new_window
+opened window 928AA2CD
+> tool list_windows
+2FCBADFE  6502  parts=103 wires=411
+928AA2CD  Untitled  parts=0 wires=0  (frontmost)
+> tool open {"path":"AFU.schematical"}
+opened in window 33AB3762
+> tool list_windows
+2FCBADFE  6502  parts=103 wires=411
+928AA2CD  Untitled  parts=0 wires=0
+33AB3762  AFU  parts=55 wires=193  (frontmost)
+> edit 0 label
+added label F6154BE5-B568-472D-814E-B6FDD973047D labels=83
+> tool save
+saved to /tmp/claude-501/-Users-justinzaun-Development-logic/25d6966b-8d6c-486f-ab21-71f7a42e95b5/scratchpad/exp/AFU.schematical
+> tool save {"path":"copy.schematical"}
+saved to /tmp/claude-501/-Users-justinzaun-Development-logic/25d6966b-8d6c-486f-ab21-71f7a42e95b5/scratchpad/exp/copy.schematical
+> tool list_windows
+2FCBADFE  6502  parts=103 wires=411  unsaved
+928AA2CD  Untitled  parts=0 wires=0
+33AB3762  copy  parts=55 wires=193  (frontmost)
+> tool focus_window
+window 33AB3762 is frontmost

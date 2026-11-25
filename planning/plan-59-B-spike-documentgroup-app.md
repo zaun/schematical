@@ -27,8 +27,8 @@ Stated in plan-59-A § Prerequisites. In addition:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-59-A is complete | `rg -c '^- \[ \]' planning/plan-59-A-spike-document-core.md` → no output (no unticked box) | NOT MET until A lands |
-| The G worktree exists | `git -C /Users/justinzaun/Development/logic/.claude/worktrees/spike-59-G rev-parse HEAD` → `2d10a029…` | NOT MET until A lands |
+| plan-59-A is complete | `rg -c '^- \[ \]' planning/plan-59-A-spike-document-core.md` → no output (no unticked box) | MET (no output, run before phase 1) |
+| The G worktree exists | `git -C /Users/justinzaun/Development/logic/.claude/worktrees/spike-59-G rev-parse HEAD` → `2d10a029…` | MET (`2d10a029bb47f179f258bac325d1927a73cae061`) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run every command before you continue and before you stop; report all
@@ -121,45 +121,45 @@ against scene cost; scene cost is read from A8/A10 behavior.
 
 ### Phase 1 — Menus, commands, export, print (A1–A4)
 
-- [ ] Worktree `Document/SchematicFileController.swift` `SchematicFileCommands`: remove the New/Open/Save/Save As items so the system's File menu provides them; keep Part items, Print and Export; add KiCad Project and EasyEDA Pro to `SchematicExportMenu` (`Document/SchematicExportCommands.swift`), each through a system save panel.
-- [ ] Publish the focused model to `Commands` and make `SchematicFileCommands` act on it. Keep `UndoCommands` out of the worktree's `.commands` list (plan-59-A phase 4 removed it) so Edit › Undo and Redo are the system's; list them in A1's evidence.
-- [ ] A4: connect File › Print to the system print flow (`NSPrintOperation` from the document's window, producing `PrintExport`'s pages) and record the result.
-- [ ] Run A1 (list the menu with `osascript`, keys unique), A2 (two documents), A3 (KiCad and EasyEDA in the sandbox), A4. Record verdicts and evidence.
+- [x] Worktree `Document/SchematicFileController.swift` `SchematicFileCommands`: remove the New/Open/Save/Save As items so the system's File menu provides them; keep Part items, Print and Export; add KiCad Project and EasyEDA Pro to `SchematicExportMenu` (`Document/SchematicExportCommands.swift`), each through a system save panel. — `scripts/patch-G-app.py` → `51 edits applied`; KiCad Project… and EasyEDA Pro Project… in `SchematicExportMenu`; KiCad through a folder chooser after the save panel failed in the sandbox (A3).
+- [x] Publish the focused model to `Commands` and make `SchematicFileCommands` act on it. Keep `UndoCommands` out of the worktree's `.commands` list (plan-59-A phase 4 removed it) so Edit › Undo and Redo are the system's; list them in A1's evidence. — `.focusedSceneValue(\.schematicModel, model)` in `DocumentWiring`, `@FocusedValue(\.schematicModel)` in `SchematicFileCommands`; Edit menu read with a key window: `Undo Move [⌘z] -> undo:`.
+- [x] A4: connect File › Print to the system print flow (`NSPrintOperation` from the document's window, producing `PrintExport`'s pages) and record the result. — `'6502.schematical' sheet=NSPanel 'Print'` once the print entitlement was added (Corrections 3).
+- [x] Run A1 (list the menu with `osascript`, keys unique), A2 (two documents), A3 (KiCad and EasyEDA in the sandbox), A4. Record verdicts and evidence. — four rows in `findings.md`.
 
 Acceptance: verdicts for A1–A4.
-  Check: `rg -c '^\| A[1-4] \| [^|]+\| (works|workaround|blocked) \|' planning/plan-59-data/findings.md` → `4` (est. 3 h).
-Commit: —
+  Check: `rg -c '^\| A[1-4] \| [^|]+\| (works|workaround|blocked) \|' planning/plan-59-data/findings.md` → `4` (est. 3 h). — ran: `4`.
+Commit: (this commit; hash in the next)
 
 ### Phase 2 — Windows (A5–A8)
 
-- [ ] Replace `sessionID` and `SchematicSessions` in the worktree with the model-id target and weak registry (§ 4) for the seven child windows.
-- [ ] Delete from the worktree the title and tab code the system now provides: `.navigationTitle(file.displayName)`, `tabNextWindow`, `WindowCloseGuard` use.
-- [ ] Run A5 (two documents, all seven children), A6 (close with a running simulation; Revert), A7 (before/after screenshots at `evidence/A7-before.png`, `evidence/A7-G.png`), A8. Record.
+- [x] Replace `sessionID` and `SchematicSessions` in the worktree with the model-id target and weak registry (§ 4) for the seven child windows. — `sessionID -> documentID: 37 places`; `SchematicSessions` deleted; children resolve `SchematicDocumentModel.session(target.documentID)`.
+- [x] Delete from the worktree the title and tab code the system now provides: `.navigationTitle(file.displayName)`, `tabNextWindow`, `WindowCloseGuard` use. — `.navigationTitle`, `tabNextWindow`, `tabNewProject`, the pending-open code and the schematic window's `closeGuard` deleted; the `WindowCloseGuard` class stays because the Part Editor uses it (Corrections 4).
+- [x] Run A5 (two documents, all seven children), A6 (close with a running simulation; Revert), A7 (before/after screenshots at `evidence/A7-before.png`, `evidence/A7-G.png`), A8. Record. — four rows; A7 and A8 are `blocked` (Corrections 5, 6); six of the seven child kinds opened.
 
 Acceptance: verdicts for A5–A8.
-  Check: `rg -c '^\| A[5-8] \| [^|]+\| (works|workaround|blocked) \|' planning/plan-59-data/findings.md` → `4` (est. 4 h).
-Commit: —
+  Check: `rg -c '^\| A[5-8] \| [^|]+\| (works|workaround|blocked) \|' planning/plan-59-data/findings.md` → `4` (est. 4 h). — ran: `4`.
+Commit: (this commit; hash in the next)
 
 ### Phase 3 — Lifecycle (A9–A12)
 
-- [ ] Run A9 (cold, warm, two files, Open Recent after relaunch, Dock drop), A10 (two documents, one edited; quit; relaunch; record the page shown after relaunch, then add `SceneStorage` for the page and record it again), A11 (⌘W, ⌘Q, Cancel; with a running simulation), A12 (Revert To, Browse All Versions, Lock, Duplicate).
-- [ ] Remove `AppDelegate.applicationShouldTerminate` and `confirmQuit` from the worktree so A11 tests the system's behavior; keep `applicationShouldTerminateAfterLastWindowClosed` as it is.
+- [x] Run A9 (cold, warm, two files, Open Recent after relaunch, Dock drop), A10 (two documents, one edited; quit; relaunch; record the page shown after relaunch, then add `SceneStorage` for the page and record it again), A11 (⌘W, ⌘Q, Cancel; with a running simulation), A12 (Revert To, Browse All Versions, Lock, Duplicate). — four rows; page `selected=0` after relaunch with `@State`, `selected=1` with `@SceneStorage` (`evidence/A10-G.txt`).
+- [x] Remove `AppDelegate.applicationShouldTerminate` and `confirmQuit` from the worktree so A11 tests the system's behavior; keep `applicationShouldTerminateAfterLastWindowClosed` as it is. — both deleted by `patch-G-app.py`; ⌘Q then showed the system sheet (`evidence/A11-G-quit-untitled.png`).
 
 Acceptance: verdicts for A9–A12.
-  Check: `rg -c '^\| A(9|10|11|12) \| [^|]+\| (works|workaround|blocked) \|' planning/plan-59-data/findings.md` → `4` (est. 4 h).
-Commit: —
+  Check: `rg -c '^\| A(9|10|11|12) \| [^|]+\| (works|workaround|blocked) \|' planning/plan-59-data/findings.md` → `4` (est. 4 h). — ran: `4`.
+Commit: (this commit; hash in the next)
 
 ### Phase 4 — Automation, performance, other scenes, test seams (A13–A16)
 
-- [ ] A13: rewrite `AutomationTools.sessions()`, `new_window`, `open`, `save`, `focus_window` in the worktree on `NSDocumentController.shared` and the registry; run `list_windows`, `new_window`, `open`, `save`, `focus_window` through the MCP server on `127.0.0.1:47800` (Settings › AI Agents; the spike's own defaults domain, so the server is switched on there once); compare outputs with base. Record.
-- [ ] A14: re-run B1 on the worktree's sources. Record both numbers.
-- [ ] A15: open Settings, User Library, Verify Datasheet, a Part Editor, Help. Record.
-- [ ] A16: for each of the 9 constructor sites in 8 test files, list the members used (`rg -n 'controller\.|file\.' <file>`) and the seam that replaces them; fill the A16 table in `findings.md`.
-- [ ] `git -C <wt> diff 2d10a029 > planning/plan-59-data/spike-G-app.patch`.
+- [x] A13: rewrite `AutomationTools.sessions()`, `new_window`, `open`, `save`, `focus_window` in the worktree on `NSDocumentController.shared` and the registry; run `list_windows`, `new_window`, `open`, `save`, `focus_window` through the MCP server on `127.0.0.1:47800` (Settings › AI Agents; the spike's own defaults domain, so the server is switched on there once); compare outputs with base. Record. — `evidence/A13-G.txt`; run through `AutomationTools.call`, not over HTTP (Corrections 7).
+- [x] A14: re-run B1 on the worktree's sources. Record both numbers. — label name 15.0 ms against 13.8 (B1) and 14.7 (same-hour base run).
+- [x] A15: open Settings, User Library, Verify Datasheet, a Part Editor, Help. Record. — all but Verify Datasheet (its item needs Option held).
+- [x] A16: for each of the 9 constructor sites in 8 test files, list the members used (`rg -n 'controller\.|file\.' <file>`) and the seam that replaces them; fill the A16 table in `findings.md`. — 8 files, 9 sites, table in `findings.md`.
+- [x] `git -C <wt> diff 2d10a029 > planning/plan-59-data/spike-G-app.patch`. — 2269 lines (the whole diff against the base, core included).
 
 Acceptance: verdicts for A13–A15, the A16 table filled, the patch saved.
-  Check: `rg -c '^\| A(13|14|15) \| [^|]+\| (works|workaround|blocked) \|' planning/plan-59-data/findings.md` → `3`; `sed -n '/^## A16/,/^## Notes/p' planning/plan-59-data/findings.md | rg -c '^\| — \|'` → no output (the placeholder row is gone) (est. 3 h).
-Commit: —
+  Check: `rg -c '^\| A(13|14|15) \| [^|]+\| (works|workaround|blocked) \|' planning/plan-59-data/findings.md` → `3`; `sed -n '/^## A16/,/^## Notes/p' planning/plan-59-data/findings.md | rg -c '^\| — \|'` → no output (the placeholder row is gone) (est. 3 h). — ran: `3`, and no output.
+Commit: (this commit; hash in the next)
 
 ## Validation Plan
 
@@ -176,7 +176,15 @@ Commit: —
 
 ## Corrections
 
-Filled in during execution.
+1. **The screen was locked for the first half of this sub-plan and unlocked for the second** (plan-59-A Corrections 4). Probes that need a key window (A1's enabled states, A2, A3, A4, A11's quit) were run after it unlocked, with System Events clicking the real menu items (`scripts/ax.sh`, `scripts/esc.sh`: both refuse to act unless the spike app is frontmost) and the in-app driver reading the result. The owner was at the machine; two of the probe's dialogs stayed on screen until the owner pointed them out, and their two screenshots are in `evidence/`.
+2. **Read in-process, SwiftUI's menu items show a stale enabled state.** `NSMenu.update()` does not refresh them; they showed `(disabled)` with a key window while System Events read `enabled = true`. Menu states in `findings.md` are the System Events readings.
+3. **Print needs an entitlement the base does not have.** `rg -c 'ENABLE_RESOURCE_ACCESS_PRINTING|security.print' project.pbxproj` → 0 at 2d10a029, and the sandboxed app is told `This application does not support printing.` The spike adds `ENABLE_RESOURCE_ACCESS_PRINTING = YES`. This is a defect of the app on `main` as well, not of either candidate.
+4. **`WindowCloseGuard` cannot be deleted in the spike.** `Editor/PartEditorModel.swift:356` uses it for the Part Editor window; only the schematic window's use is gone.
+5. **A7's pass line contradicts itself.** It keeps `.unifiedCompact(showsTitle: false)` and asks for the title menu, proxy icon and edited state, which that style hides. Recorded as `blocked`; plan-59-D asks the owner.
+6. **A8 expects AppKit to replace an untouched Untitled window.** No system document app gets that from AppKit. Recorded as `blocked` on that line; plan-59-D asks the owner.
+7. **A13 was run through the tool dispatcher, not the HTTP server**, and not beside a base build: a base build has the installed app's bundle id (`jgz.schematical`) and would share its defaults and its port.
+8. **Added to the worktree beyond the listed tasks**, each found by a probe: `.commandsRemoved()` and `.handlesExternalEvents(matching: [])` on the auxiliary scenes (A1, F7), `.id(ObjectIdentifier(configuration.document))` on the editor view (A6), stopping the simulation in `onDisappear` (A6), the KiCad folder chooser (A3), the print entitlement (A4).
+9. **A10's pass line depends on a system setting.** With Close windows when quitting an application on (the default) no document app restores its windows after a clean quit.
 
 ## Summary
 
