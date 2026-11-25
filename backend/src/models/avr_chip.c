@@ -2,7 +2,8 @@
  * AVR chips: the register layouts and the assembly of a CPU with its
  * peripherals (plan-62-B). The peripherals are C ports of avr8js (avr.h);
  * the "atmega328" tables equal avr8js's own ATmega328P configs, which
- * avr_periph_test checks against avr8js (`layout atmega328 equal`).
+ * avr_periph_test checks against avr8js (`layout atmega328 equal`), and
+ * "attiny85"'s Timer1 table equals avr8js's attinyTimer1Config.
  */
 
 #include <stdlib.h>
@@ -145,7 +146,98 @@ enum { PINE = 0x2c, DDRE = 0x2d, PORTE = 0x2e, PCMSK3 = 0x73 };
 #define SPI1_PINS {{'E', 3}, {'C', 0}, {'C', 1}}         /* MOSI1 PE3, MISO1 PC0, SCK1 PC1 */
 #define TWI1_PINS {{'E', 0}, {'E', 1}}                   /* SDA1 PE0, SCL1 PE1 */
 
+/* The ADC's pins: ADC0-ADC5 are PC0-PC5. ADC6 and ADC7 are pins of their
+   own (found by name, mcu.c), or PE2 and PE3 on the PB devices. */
+#define ADC_PINS_C {{'C', 0}, {'C', 1}, {'C', 2}, {'C', 3}, {'C', 4}, {'C', 5}}
+#define ADC_PINS_C_E {{'C', 0}, {'C', 1}, {'C', 2}, {'C', 3}, {'C', 4}, {'C', 5}, {'E', 2}, {'E', 3}}
+
+/* ---- The ATtiny25/45/85 (ATtiny85.atdf, datasheet Atmel 2586) ---------------- */
+
+enum {
+    T_INT0 = 1, T_PCINT0 = 2, T_TIMER1_COMPA = 3, T_TIMER1_OVF = 4, T_TIMER0_OVF = 5,
+    T_EE_RDY = 6, T_ANA_COMP = 7, T_ADC = 8, T_TIMER1_COMPB = 9, T_TIMER0_COMPA = 10,
+    T_TIMER0_COMPB = 11, T_WDT = 12, T_USI_START = 13, T_USI_OVF = 14
+};
+
+enum {
+    T_ADCSRB = 0x23, T_ADCL = 0x24, T_ADCH = 0x25, T_ADCSRA = 0x26, T_ADMUX = 0x27,
+    T_USICR = 0x2d, T_USISR = 0x2e, T_USIDR = 0x2f, T_USIBR = 0x30,
+    T_DIDR0 = 0x34, T_PCMSK = 0x35, T_PINB = 0x36, T_DDRB = 0x37, T_PORTB = 0x38,
+    T_EECR = 0x3c, T_EEDR = 0x3d, T_EEARL = 0x3e, T_EEARH = 0x3f,
+    T_WDTCR = 0x41, T_CLKPR = 0x46, T_PLLCSR = 0x47,
+    T_OCR0B = 0x48, T_OCR0A = 0x49, T_TCCR0A = 0x4a, T_OCR1B = 0x4b, T_GTCCR = 0x4c,
+    T_OCR1C = 0x4d, T_OCR1A = 0x4e, T_TCNT1 = 0x4f, T_TCCR1 = 0x50,
+    T_TCNT0 = 0x52, T_TCCR0B = 0x53, T_MCUSR = 0x54, T_MCUCR = 0x55,
+    T_TIFR = 0x58, T_TIMSK = 0x59, T_GIFR = 0x5a, T_GIMSK = 0x5b
+};
+
+/* Port B, PB0-PB5: one pin-change interrupt (PCIE is GIMSK bit 5) and INT0
+   on PB2 (GIMSK bit 6, sense control in MCUCR). */
+#define TINY_PORT_B {'B', {T_PINB, T_DDRB, T_PORTB, \
+                           1, {5, T_GIMSK, T_GIFR, T_PCMSK, T_PCINT0, 0x3f, 0}, \
+                           {NO_EXTERNAL, NO_EXTERNAL, {1, T_MCUCR, T_GIMSK, T_GIFR, 0, 6, T_INT0}}}}
+
+/* Timer0: the ATmega's 8-bit timer, with its flags and enables in the TIFR
+   and TIMSK it shares with Timer1. */
+#define TINY_TIMER0 { \
+    8, TIMER01_DIVIDERS, \
+    0, T_TIMER0_COMPA, T_TIMER0_COMPB, 0, T_TIMER0_OVF, \
+    /* TIFR OCRA OCRB OCRC ICR TCNT TCCRA TCCRB TCCRC TIMSK */ \
+    T_TIFR, T_OCR0A, T_OCR0B, 0, 0, T_TCNT0, T_TCCR0A, T_TCCR0B, 0, T_TIMSK, \
+    /* TOV0 OCF0A OCF0B -, TOIE0 OCIE0A OCIE0B - */ \
+    0x02, 0x10, 0x08, 0, 0x02, 0x10, 0x08, 0, \
+    T_PORTB, 0, T_PORTB, 1, 0, 0, /* OC0A PB0, OC0B PB1 */ \
+    T_PORTB, 2 /* T0 PB2 */ }
+
+/* Timer1: avr8js's attinyTimer1Config, plus /OC1A (PB0), /OC1B (PB3) and
+   PLLCSR, which avr8js does not have. */
+#define TINY_TIMER1 { \
+    T_TCCR1, T_GTCCR, T_TCNT1, T_OCR1A, T_OCR1B, T_OCR1C, T_TIFR, T_TIMSK, \
+    T_TIMER1_OVF, T_TIMER1_COMPA, T_TIMER1_COMPB, \
+    /* TOV1 OCF1A OCF1B, TOIE1 OCIE1A OCIE1B */ \
+    0x04, 0x40, 0x20, 0x04, 0x40, 0x20, \
+    T_PORTB, 1, 4, /* OC1A PB1, OC1B PB4 */ \
+    {0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384}, \
+    0, 3, T_PLLCSR }
+
+#define DIFFERENTIAL(POSITIVE, NEGATIVE, GAIN) \
+    {1, AVR_ADC_DIFFERENTIAL, 0, 0, POSITIVE, NEGATIVE, GAIN}
+/* The ADC (datasheet tables 17-3 and 17-4): ADC0-ADC3, the differential
+   pairs at gain 1 and 20, the 1.1 V band gap at 12, ground at 13, the
+   temperature sensor at 15; references VCC, AREF, 1.1 V, and 2.56 V with
+   REFS2 (ADMUX bit 4). */
+#define TINY_ADC { \
+    T_ADMUX, T_ADCSRA, T_ADCSRB, T_ADCL, T_ADCH, T_DIDR0, T_ADC, 4, 0xf, \
+    {SINGLE(0), SINGLE(1), SINGLE(2), SINGLE(3), \
+     DIFFERENTIAL(2, 2, 1), DIFFERENTIAL(2, 2, 20), DIFFERENTIAL(2, 3, 1), DIFFERENTIAL(2, 3, 20), \
+     DIFFERENTIAL(0, 0, 1), DIFFERENTIAL(0, 0, 20), DIFFERENTIAL(0, 1, 1), DIFFERENTIAL(0, 1, 20), \
+     CONSTANT(1.1), CONSTANT(0), NO_INPUT, {1, AVR_ADC_TEMPERATURE, 0, 0, 0, 0, 0}}, \
+    {AVR_ADC_AVCC, AVR_ADC_AREF, AVR_ADC_INTERNAL_1V1, AVR_ADC_RESERVED}, 4, 0x10}
+
+/* The USI: DI/SDA PB0, DO PB1, USCK/SCL PB2. */
+#define TINY_USI {T_USICR, T_USISR, T_USIDR, T_USIBR, T_USI_START, T_USI_OVF, T_PORTB, 0, 1, 2}
+
 static const AvrLayout LAYOUTS[] = {
+    {
+        "attiny85",
+        1, {TINY_PORT_B},
+        {T_CLKPR},
+        1, {TINY_TIMER0},
+        0, {{0}},
+        0, {{0}},
+        0, {{0}},
+        TINY_ADC,
+        {T_EE_RDY, T_EECR, T_EEDR, T_EEARL, T_EEARH, 0, 0},
+        {T_WDT, T_MCUSR, T_WDTCR},
+        {{{0, 0}, {0, 0}}},
+        {{{0, 0}, {0, 0}, {0, 0}}},
+        {{{0, 0}, {0, 0}}},
+        {'B', 3}, {'B', 4}, {'B', 5},   /* CLKI/XTAL1 PB3, XTAL2 PB4, RESET PB5 */
+        {{'B', 5}, {'B', 2}, {'B', 4}, {'B', 3}},   /* ADC0 PB5, ADC1 PB2, ADC2 PB4, ADC3 PB3 */
+        0x60,
+        1, TINY_TIMER1,
+        1, TINY_USI,
+    },
     {
         "atmega168pb",
         4, {PORT_B, PORT_C, PORT_D, PORT_E},
@@ -160,6 +252,9 @@ static const AvrLayout LAYOUTS[] = {
         {USART0_PINS},
         {SPI0_PINS},
         {TWI0_PINS},
+        {'B', 6}, {'B', 7}, {'C', 6},   /* XTAL1 PB6, XTAL2 PB7, RESET PC6 */
+        ADC_PINS_C_E,
+        0x100,
     },
     {
         "atmega328pb",
@@ -175,6 +270,9 @@ static const AvrLayout LAYOUTS[] = {
         {USART0_PINS, USART1_PINS},
         {SPI0_PINS, SPI1_PINS},
         {TWI0_PINS, TWI1_PINS},
+        {'B', 6}, {'B', 7}, {'C', 6},   /* XTAL1 PB6, XTAL2 PB7, RESET PC6 */
+        ADC_PINS_C_E,
+        0x100,
     },
     {
         "atmega328",
@@ -190,6 +288,9 @@ static const AvrLayout LAYOUTS[] = {
         {USART0_PINS},
         {SPI0_PINS},
         {TWI0_PINS},
+        {'B', 6}, {'B', 7}, {'C', 6},   /* XTAL1 PB6, XTAL2 PB7, RESET PC6 */
+        ADC_PINS_C,
+        0x100,
     },
 };
 
@@ -245,6 +346,11 @@ void avr_layout_scale(const AvrLayout *layout, uint32_t flash_bytes, AvrLayout *
     out->adc.adc_interrupt *= words;
     out->eeprom.eeprom_ready_interrupt *= words;
     out->watchdog.watchdog_interrupt *= words;
+    out->tiny_timer1.ovf_interrupt *= words;
+    out->tiny_timer1.comp_a_interrupt *= words;
+    out->tiny_timer1.comp_b_interrupt *= words;
+    out->usi.start_interrupt *= words;
+    out->usi.overflow_interrupt *= words;
 }
 
 uint32_t avr_eeprom_cycles(uint32_t hz) {
@@ -277,15 +383,16 @@ AvrChip *avr_chip_create(const AvrLayout *layout, uint32_t flash_bytes, uint32_t
     }
     avr_layout_scale(layout, flash_bytes, &chip->layout);
     chip->base_hz = base_hz;
-    chip->cpu = avr_cpu_create(flash_bytes, sram_bytes);
+    chip->cpu = avr_cpu_create_data(flash_bytes, sram_bytes + chip->layout.sram_start);
     if (chip->cpu == NULL) {
         free(chip);
         return NULL;
     }
     /* One order on both sides (oracle.js run builds avr8js's objects in
-       it too): ports, clock, timers, USARTs, SPIs, TWIs, ADC, EEPROM,
-       watchdog. A later peripheral's hook on a shared register replaces an
-       earlier one. */
+       it too): ports, clock, timers, the ATtiny Timer1, USARTs, SPIs, TWIs,
+       ADC, EEPROM, watchdog. A later peripheral's hook on a shared register
+       replaces an earlier one (the ATtiny Timer1 calls Timer0's first). The
+       USI is ours alone and shares no register. */
     chip->port_count = chip->layout.port_count;
     for (i = 0; i < chip->port_count; i++) {
         avr_port_init(&chip->ports[i], chip->cpu, &chip->layout.ports[i].config);
@@ -294,6 +401,12 @@ AvrChip *avr_chip_create(const AvrLayout *layout, uint32_t flash_bytes, uint32_t
     chip->timer_count = chip->layout.timer_count;
     for (i = 0; i < chip->timer_count; i++) {
         avr_timer_init(&chip->timers[i], chip->cpu, &chip->layout.timers[i]);
+    }
+    if (chip->layout.has_tiny_timer1) {
+        avr_tiny_timer1_init(&chip->tiny_timer1, chip->cpu, &chip->layout.tiny_timer1);
+    }
+    if (chip->layout.has_usi) {
+        avr_usi_init(&chip->usi, chip->cpu, &chip->layout.usi);
     }
     chip->usart_count = chip->layout.usart_count;
     for (i = 0; i < chip->usart_count; i++) {
@@ -353,6 +466,13 @@ void avr_chip_reset(AvrChip *chip) {
         avr_write_data(cpu, timer->TCCRA, 0, 0xff);
         avr_write_data(cpu, timer->TCCRB, 0, 0xff);
     }
+    if (chip->layout.has_tiny_timer1) {
+        avr_write_data(cpu, chip->layout.tiny_timer1.TCCR1, 0, 0xff);
+        avr_write_data(cpu, chip->layout.tiny_timer1.GTCCR, 0, 0xff);
+    }
+    if (chip->layout.has_usi) {
+        avr_write_data(cpu, chip->layout.usi.USICR, 0, 0xff);
+    }
     for (i = 0; i < chip->port_count; i++) {
         const AvrPortConfig *port = &chip->layout.ports[i].config;
 
@@ -360,13 +480,19 @@ void avr_chip_reset(AvrChip *chip) {
         avr_write_data(cpu, port->PORT, 0, 0xff);
     }
     /* Every I/O register to 0 (SREG and SP included; the CPU reset sets SP). */
-    memset(cpu->data + 32, 0, AVR_REGISTER_SPACE - 32);
+    memset(cpu->data + 32, 0, chip->layout.sram_start - 32);
     for (i = 0; i < chip->port_count; i++) {
         /* PINx keeps showing what the outside drives. */
         avr_port_set_pin(&chip->ports[i], 0, chip->ports[i].pin_value & 1);
     }
     for (i = 0; i < chip->timer_count; i++) {
         avr_timer_reset(&chip->timers[i]);
+    }
+    if (chip->layout.has_tiny_timer1) {
+        avr_tiny_timer1_reset(&chip->tiny_timer1);
+    }
+    if (chip->layout.has_usi) {
+        avr_usi_reset(&chip->usi);
     }
     for (i = 0; i < chip->usart_count; i++) {
         avr_usart_reset(&chip->usarts[i]);

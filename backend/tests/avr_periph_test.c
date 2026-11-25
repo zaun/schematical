@@ -4,7 +4,8 @@
  * avr8js, their oracle.
  *
  *   layout     The "atmega328" register layout, printed as JSON, must equal
- *              avr8js's own ATmega328P configs (oracle.js layout-check).
+ *              avr8js's own ATmega328P configs (oracle.js layout-check), and
+ *              the "attiny85" layout's Timer1 avr8js's attinyTimer1Config.
  *   scenarios  tests/avr/<name>.json: a program (tests/avr/src/<name>.asm,
  *              assembled by avr8js's assembler) and pin stimuli. The C chip
  *              runs it in exact mode and prints a trace: a line per
@@ -65,6 +66,12 @@ static const Scenario SCENARIOS[] = {
     {"m48_vectors", 1, 1, 1, "1,16,18"},
     {"m168pb_porte", 1, 0, 0, NULL},
     {"m328pb_extras", 1, 1, 1, "27,28,30,33,35,39,40,42,44"},
+    /* The ATtiny25/45/85 (layout "attiny85"). */
+    {"t85_gpio", 1, 1, 0, "1,2"},
+    {"t85_timer0", 1, 1, 0, "5,10,11"},
+    {"t85_timer1", 1, 1, 0, "3,4,5,9"},
+    {"t85_periph", 0, 1, 0, "6,8,12"},
+    {"t25_small", 1, 1, 0, "4"},
 };
 
 #define SCENARIO_COUNT (sizeof SCENARIOS / sizeof SCENARIOS[0])
@@ -250,11 +257,33 @@ static void layout_json(const AvrLayout *base, uint32_t flash_bytes, FILE *out) 
     fprintf(out,
             "]},\n \"eeprom\":{\"eepromReadyInterrupt\":%u,\"EECR\":%u,\"EEDR\":%u,\"EEARL\":%u,"
             "\"EEARH\":%u,\"eraseCycles\":%u,\"writeCycles\":%u},\n"
-            " \"watchdog\":{\"watchdogInterrupt\":%u,\"MCUSR\":%u,\"WDTCSR\":%u}}\n",
+            " \"watchdog\":{\"watchdogInterrupt\":%u,\"MCUSR\":%u,\"WDTCSR\":%u},\n"
+            " \"sramStart\":%u",
             layout.eeprom.eeprom_ready_interrupt, layout.eeprom.EECR, layout.eeprom.EEDR,
             layout.eeprom.EEARL, layout.eeprom.EEARH, (unsigned)avr_eeprom_cycles(RUN_HZ),
             (unsigned)avr_eeprom_cycles(RUN_HZ), layout.watchdog.watchdog_interrupt,
-            layout.watchdog.MCUSR, layout.watchdog.WDTCSR);
+            layout.watchdog.MCUSR, layout.watchdog.WDTCSR, layout.sram_start);
+    if (layout.has_tiny_timer1) {
+        /* avr8js's ATtinyTimer1Config. The inverted outputs and PLLCSR are
+           not in it. */
+        const AvrTinyTimer1Config *t = &layout.tiny_timer1;
+
+        fprintf(out,
+                ",\n \"tinyTimer1\":{\"TCCR1\":%u,\"GTCCR\":%u,\"TCNT1\":%u,\"OCR1A\":%u,"
+                "\"OCR1B\":%u,\"OCR1C\":%u,\"TIFR\":%u,\"TIMSK\":%u,\"ovfInterrupt\":%u,"
+                "\"compAInterrupt\":%u,\"compBInterrupt\":%u,\"TOV1\":%u,\"OCF1A\":%u,"
+                "\"OCF1B\":%u,\"TOIE1\":%u,\"OCIE1A\":%u,\"OCIE1B\":%u,\"compPortB\":%u,"
+                "\"compPinA\":%u,\"compPinB\":%u,\"dividers\":[",
+                t->TCCR1, t->GTCCR, t->TCNT1, t->OCR1A, t->OCR1B, t->OCR1C, t->TIFR, t->TIMSK,
+                t->ovf_interrupt, t->comp_a_interrupt, t->comp_b_interrupt, t->TOV1, t->OCF1A,
+                t->OCF1B, t->TOIE1, t->OCIE1A, t->OCIE1B, t->comp_port_b, t->comp_pin_a,
+                t->comp_pin_b);
+        for (k = 0; k < 16; k++) {
+            fprintf(out, "%s%u", k ? "," : "", t->dividers[k]);
+        }
+        fprintf(out, "]}");
+    }
+    fprintf(out, "}\n");
 }
 
 /* ---- Running a scenario on the C chip ----------------------------------------- */
@@ -959,7 +988,8 @@ static void firmware_case(void) {
     static const char *const NAMES[] = {"blink", "blink48", "blink_fast", "button", "pwm", "int0",
                                         "adc_port", "usart_hi", "usart_7e2", "spi_eeprom",
                                         "spi_mode3", "spi_noddr", "twi_rtc", "twi_nack", "twi1_rtc",
-                                        "pe0"};
+                                        "pe0", "t85_blink", "t85_pwm", "t85_gifr", "t85_adc",
+                                        "t85_usi_spi", "t85_usi_i2c"};
     size_t i, bad = 0;
 
     for (i = 0; i < sizeof NAMES / sizeof NAMES[0]; i++) {
@@ -1078,6 +1108,7 @@ int main(int argc, char **argv) {
     }
 
     layout_case("atmega328", 32768);
+    layout_case("attiny85", 8192);
     for (i = 0; i < SCENARIO_COUNT; i++) {
         scenario_case(&SCENARIOS[i]);
     }

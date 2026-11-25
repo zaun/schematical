@@ -4,7 +4,8 @@
  * the voltage check.
  *
  * A device with a "model" is simulated: the model names a register layout
- * of the AVR core (avr_chip.h), and mcu_avr.c runs it on the engine. A
+ * of the AVR core (avr_chip.h: the ATmega48/88/168/328 and the
+ * ATtiny25/45/85), and mcu_avr.c runs it on the engine. A
  * device without one has no model of its core, must say "simulated": false,
  * and circuit_add_part refuses its parts; its engine model is passive (the
  * header.c shape), which is what trace_check's bare engine harness, the one

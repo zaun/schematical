@@ -11,12 +11,17 @@
 #include "avr.h"
 
 AvrCpu *avr_cpu_create(uint32_t flash_bytes, uint32_t sram_bytes) {
+    return avr_cpu_create_data(flash_bytes, sram_bytes + AVR_REGISTER_SPACE);
+}
+
+AvrCpu *avr_cpu_create_data(uint32_t flash_bytes, uint32_t data_size) {
     AvrCpu *cpu = calloc(1, sizeof(*cpu));
 
-    if (cpu == NULL) {
+    if (cpu == NULL || data_size <= AVR_SREG) {
+        free(cpu);
         return NULL;
     }
-    cpu->data_size = sram_bytes + AVR_REGISTER_SPACE;
+    cpu->data_size = data_size;
     cpu->flash_bytes = flash_bytes;
     cpu->flash_words = flash_bytes / 2;
     cpu->pc22 = flash_bytes > 0x20000;

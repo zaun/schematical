@@ -1,5 +1,6 @@
 /*
- * avr_board_test (plan-62-G): the shipped ATmega48/88/168/328 parts run.
+ * avr_board_test (plan-62-G): the shipped ATmega48/88/168/328 and
+ * ATtiny25/45/85 parts run.
  *
  *   An ATMEGA328P-PU with a GENERIC-CRYSTAL-16M on PB6/PB7 and a GENERIC-LED
  *   on PB5 blinks: the LED is lit half of the time (blink toggles PB5 every
@@ -8,8 +9,8 @@
  *   blink48 on its internal clock: PB5 changes every 1000 us on average.
  *   An ATMEGA328PB-AU toggles PE0, a pin of port E.
  *   Every mcu part with a model, alone with its supply, loads blink (the
- *   build for its vector size), starts and runs 2 ms without an error:
- *   126 parts.
+ *   build for its vector size, or t85_blink for an ATtiny), starts and runs
+ *   2 ms without an error: 168 parts (126 ATmega, 42 ATtiny).
  */
 
 #include <stdio.h>
@@ -91,20 +92,25 @@ static void pb_case(void) {
 
 /* Every part with a model runs. */
 static void every_part_case(void) {
-    size_t count = part_library_count(library), i, ran = 0, bad = 0;
+    size_t count = part_library_count(library), i, ran = 0, bad = 0, tinies = 0;
 
     for (i = 0; i < count; i++) {
         const Part *part = part_library_at(library, i);
         Rig r;
         CpuState state;
+        int tiny;
 
         if (part->kind != PART_MCU || part->mcu == NULL || part->mcu->model == NULL) {
             continue;
         }
-        rig_new(&r, part->name, part->mcu->flash <= 8192 ? "blink48" : "blink");
+        /* The pin the program makes an output: PB5, or PB0 on an ATtiny. */
+        tiny = strcmp(part->mcu->model, "attiny85") == 0;
+        tinies += (size_t)tiny;
+        rig_new(&r, part->name, tiny ? "t85_blink" : part->mcu->flash <= 8192 ? "blink48" : "blink");
         if (circuit_start(r.c) != 0 || circuit_advance(r.c, 2 * MS) == 0 || circuit_error(r.c) != NULL ||
             circuit_cpu_state(r.c, r.avr, &state) != 0 || state.status != CPU_RUNNING ||
-            state.cycles == 0 || circuit_net_value(r.c, rig_net(&r, "PB5")) == CIRCUIT_Z) {
+            state.cycles == 0 ||
+            circuit_net_value(r.c, rig_net(&r, tiny ? "PB0" : "PB5")) == CIRCUIT_Z) {
             printf("FAIL: %s: %s\n", part->name,
                    circuit_error(r.c) != NULL ? circuit_error(r.c) : "did not run");
             bad++;
@@ -113,9 +119,9 @@ static void every_part_case(void) {
         circuit_destroy(r.c);
     }
     failures += (int)bad;
-    check(ran == 126 && bad == 0, "126 parts run");
-    if (ran != 126) {
-        printf("     %zu parts have a model\n", ran);
+    check(ran == 168 && tinies == 42 && bad == 0, "168 parts run (126 ATmega, 42 ATtiny)");
+    if (ran != 168 || tinies != 42) {
+        printf("     %zu parts have a model, %zu of them ATtiny\n", ran, tinies);
     }
 }
 

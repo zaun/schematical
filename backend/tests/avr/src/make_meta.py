@@ -85,3 +85,15 @@ meta("m328pb_extras", 4000,
      toggles("E", 0, 301, 9000) + toggles("E", 2, 517, 9000) + toggles("E", 3, 733, 9000) +
      [[400, "rx", 1, 0x41], [2000, "rx", 1, 0x42]],
      layout="atmega328pb")
+
+# The ATtiny25/45/85. "sram" is the chip's SRAM; it starts at 0x60.
+TINY85 = dict(layout="attiny85", flash=8192, sram=512, eeprom=512)
+meta("t85_gpio", 1500,
+     toggles("B", 2, 37, 8000) + toggles("B", 3, 53, 8000) + toggles("B", 4, 71, 8000) +
+     toggles("B", 5, 97, 8000), **TINY85)
+meta("t85_timer0", 20000, toggles("B", 2, 19, 60000), **TINY85)
+meta("t85_timer1", 60000, [], **TINY85)
+meta("t85_periph", 60000,
+     [[0, "adc", channel, millivolts] for channel, millivolts in enumerate([300, 1100, 2500, 2400])] +
+     [[400, "adc", 1, 4000]], **TINY85)
+meta("t25_small", 4000, [], layout="attiny85", flash=2048, sram=128, eeprom=128)
