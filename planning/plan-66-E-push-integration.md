@@ -186,11 +186,11 @@ tests still pass.
   -only-testing:schematicalTests/RoutingPolishTests` → `** TEST SUCCEEDED **`
   (est. 4 min).
   Measured: `Executed 45 tests, with 0 failures` (RoutingPushIntegrationTests 6, RoutingAnchorTests 9, RoutingPushTests 10, RoutingChainEngineTests 10, RoutingPolishTests 10), `** TEST SUCCEEDED **`.
-Commit: — (recorded in the next commit)
+Commit: 1d1af049
 
 ### Phase 2 — the fixtures
 
-- [ ] `schematicalTests/RouterFixtureTests.swift`: `testPushOnTheFixtures`: for AFU
+- [x] (done: `PUSH AFU routed 115/115, pushTried 0`; `PUSH RegFile routed 24/24, pushTried 28, pushKept 0, rips 33, vias 26, wire 311.7 mm`, `** TEST SUCCEEDED **`) `schematicalTests/RouterFixtureTests.swift`: `testPushOnTheFixtures`: for AFU
       and RegFile, the loop of `testNegotiationOnTheFixtures` (negotiation alone in
       Debug, Balanced in Release) with `options.pushAndShove = true`; asserts
       `result.stats.routed ≥ floors[name]` (the same floors), the
@@ -198,7 +198,7 @@ Commit: — (recorded in the next commit)
       router-caused DRC issue after `applyRouting`, `unrouted` equal to
       `connections − routed`, and prints `PUSH <name> routed …, pushTried …,
       pushKept …`.
-- [ ] A document-level test, `RoutingPushIntegrationTests.testPushOnARoutedBoardKeepsItsConnections`:
+- [x] (done, at 12–18 mil: see Corrections; `PUSHCASES 8 of 32`) A document-level test, `RoutingPushIntegrationTests.testPushOnARoutedBoardKeepsItsConnections`:
       open RegFile, route it (Fast), apply, and record each net's group count from
       `connectivity().netGroups()`; then for each net in key order and each `width`
       in `[20, 30, 40]` (mil): on a fresh copy of that routed document build the
@@ -211,7 +211,7 @@ Commit: — (recorded in the next commit)
       summary.movedVias > 0`, and print each such case as `PUSHCASE net=<name>
       width=<mil> moved=<traces>+<vias>` (plan-66-F's real-app pass reproduces the
       first one).
-- [ ] `schematicalTests/RouterQualityFixtureTests.swift`: `testPushAFU`,
+- [x] (written, compiled in Debug (they skip there); run in plan-66-F's landing tier, whose Release numbers go into the bounds) `schematicalTests/RouterQualityFixtureTests.swift`: `testPushAFU`,
       `testPushRegFile`, `testPushLFU` (Release only, the file's own `#if DEBUG`
       skip): `run(name)` with `options.pushAndShove = true`; the same assertions as
       the off versions for `routed`, and bounds a little over the measured `vias`,
@@ -226,7 +226,10 @@ plan-66-F's landing tier.
   the figures plan-38's table gives for negotiation alone, and up to 3 × the nets of
   RegFile Fast runs on a 32-pad board for the document test; the Release tests are
   not run here because their build is 8 min and they are the landing tier).
-Commit: —
+  Measured: `testPushOnTheFixtures` and `testNegotiationOnTheFixtures` `Executed 2 tests, with 0 failures` (403.7 s: the
+  off test routes LFU too, 330 s of it); `RoutingPushIntegrationTests` `Executed 7 tests, with 0 failures` in 180.6 s
+  (the document test 32 cases, each routed with push on and off); `** TEST SUCCEEDED **`.
+Commit: — (recorded in the next commit)
 
 ## Validation Plan
 
@@ -259,6 +262,21 @@ plan-66-A § Decisions apply. Added by the author, 2026-11-25:
   the hook passes `blocked: true` and the push's own first hard search is skipped.
 - **Measured-count mislabels in the archived A and D** were corrected: RoutingNegotiationTests
   has 11 tests and RoutingPolishTests 10 (the plans had them the other way about).
+- **The document test's widths are 12, 14, 16 and 18 mil, not 20, 30 and 40** (2026-11-25).
+  The first run with the plan's widths had 24 cases and no case that routed completely by
+  moving copper: on this card a net re-routed at 20 mil or more routes 1 of 3 connections with
+  or without push (24 mil: 0 of 3 for LATCH1.18). A probe of 6 widths × 8 nets × push off and on
+  (48 pairs) showed pushing never routes less and, between 12 and 18 mil, gets 8 of 32 cases to
+  3 of 3 where off left 1 or 2: `PUSHCASE net=LATCH1.13 width=14 moved=2+1`, `LATCH1.14 14 1+0`,
+  `LATCH1.17 12/14/16 3+1`, `LATCH1.18 16/18 3+1`, `LATCH1.19 18 6+3` (the first is the case
+  plan-66-F's real-app pass reproduces). The test asserts, for each case, that push routed at
+  least as many connections as off.
+- **The fixtures never push anything that matters** (2026-11-25): with the option on, AFU
+  routes 115 of 115 with `pushTried 0` (every first search found a way), and RegFile 24 of 24
+  with `pushTried 28, pushKept 0` and the same 26 vias, 312 mm and 33 rips as off; the fixtures
+  hold no copper, so only the run's own connections could be pushed. The Release tests'
+  bounds are therefore the off tests' (`testPushAFU`/`RegFile`/`LFU`) until the landing tier
+  gives the numbers.
 
 ## Summary
 

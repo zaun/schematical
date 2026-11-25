@@ -48,20 +48,23 @@ final class RouterQualityFixtureTests: XCTestCase {
     /// The DRC kinds the router can cause.
     static let routerKinds = RouterFixtureTests.routerKinds
 
-    private func run(_ name: String, strategy: RoutingOptions.Strategy = .balanced) throws -> Measure {
+    private func run(_ name: String, strategy: RoutingOptions.Strategy = .balanced, push: Bool = false) throws -> Measure {
         #if DEBUG
         throw XCTSkip("Balanced and Thorough on the fixtures need an optimised build (see the type's comment).")
         #else
         var options = RoutingOptions.standard
         options.strategy = strategy
+        options.pushAndShove = push
         let doc = try Fixture.open(name)
         let problem = doc.routingProblem(options: options, rules: .customDefault)
         let result = Router.route(problem)
         XCTAssertEqual(RoutingCheck.violations(result, problem).count, 0, name)
         let m = Self.measure(result)
         XCTAssertEqual(result.stats.bends, m.bends, name)
-        print(String(format: "QUALITY %@ %@: routed %d/%d, %d vias, %d bends (%d off 45°/90°, %d jogs), %.0f mm, %.1f s",
-                     name, "\(strategy)", m.routed, m.connections, m.vias, m.bends, m.oddBends, m.jogs, m.wire, m.seconds))
+        print(String(format: "QUALITY %@ %@%@: routed %d/%d, %d vias, %d bends (%d off 45°/90°, %d jogs), %.0f mm, %.1f s",
+                     name, "\(strategy)", push ? " push" : "", m.routed, m.connections, m.vias, m.bends, m.oddBends, m.jogs, m.wire,
+                     m.seconds))
+        if push { print("PUSHQ \(name): pushTried \(result.stats.pushTried), pushKept \(result.stats.pushKept), moved \(result.stats.movedTraces)+\(result.stats.movedVias)") }
         // Applied, the DRC finds nothing the router caused, and an unrouted line for each connection left.
         doc.applyRouting(result, problem: problem)
         let issues = doc.designRuleCheck(rules: .customDefault)
@@ -92,6 +95,31 @@ final class RouterQualityFixtureTests: XCTestCase {
 
     func testLFU() throws {
         let m = try run("LFU")
+        XCTAssertGreaterThanOrEqual(m.routed, 186)
+        XCTAssertLessThanOrEqual(m.vias, 320)
+        XCTAssertLessThanOrEqual(m.oddBends, 5)
+    }
+
+    /// plan-66-E: with push and shove on, no worse than with it off. The fixtures hold no copper, so
+    /// what a push can move is what the run laid itself; the bounds are the off tests'.
+    func testPushAFU() throws {
+        let m = try run("AFU", push: true)
+        XCTAssertEqual(m.routed, 115)
+        XCTAssertLessThanOrEqual(m.vias, 80)
+        XCTAssertLessThanOrEqual(m.oddBends, 3)
+        XCTAssertLessThanOrEqual(m.wire, 1500)
+    }
+
+    func testPushRegFile() throws {
+        let m = try run("RegFile", push: true)
+        XCTAssertEqual(m.routed, 24)
+        XCTAssertLessThanOrEqual(m.vias, 18)
+        XCTAssertLessThanOrEqual(m.oddBends, 1)
+        XCTAssertLessThanOrEqual(m.wire, 320)
+    }
+
+    func testPushLFU() throws {
+        let m = try run("LFU", push: true)
         XCTAssertGreaterThanOrEqual(m.routed, 186)
         XCTAssertLessThanOrEqual(m.vias, 320)
         XCTAssertLessThanOrEqual(m.oddBends, 5)

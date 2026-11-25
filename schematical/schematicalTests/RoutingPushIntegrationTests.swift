@@ -101,4 +101,65 @@ final class RoutingPushIntegrationTests: XCTestCase {
         b.stats.movedTraces = 0
         XCTAssertTrue(Router.better(a, than: b, strategy: strategy, pitch: 0.127))
     }
+
+    // MARK: On a routed document
+
+    /// Each net's number of pieces of copper, by net, in the document as it stands.
+    @MainActor
+    private func pieces(_ doc: SchematicDocument) -> [Int: Int] {
+        let copper = doc.connectivity()
+        var roots: [Int: Set<Int>] = [:]
+        for (pad, net) in copper.netOfPad { roots[net, default: []].insert(copper.root[pad]) }
+        return roots.mapValues(\.count)
+    }
+
+    /// RegFile routed and applied; then each net in turn re-routed at 12, 14, 16 and 18 mil with push and shove on and the
+    /// other nets' copper in the way (existing, unlocked, so pushable): nothing the router caused in the DRC, the other
+    /// nets as connected as they were, and one undo restores every trace and via bit for bit.
+    @MainActor
+    func testPushOnARoutedBoardKeepsItsConnections() throws {
+        let doc = try Fixture.open("RegFile")
+        let first = doc.routingProblem(options: .fixture, rules: .customDefault)
+        doc.applyRouting(Router.route(first), problem: first)
+        let traces = doc.traces, vias = doc.vias
+        XCTAssertFalse(traces.isEmpty)
+        let before = pieces(doc)
+        var cases = 0, pushed = 0
+        for net in first.nets.sorted(by: { $0.key.fileValue < $1.key.fileValue }) {
+            for width in [12, 14, 16, 18] {
+                var options = RoutingOptions.fixture
+                options.pushAndShove = true
+                options.scope = .nets([net.key])
+                options.existing = .clearUnlocked
+                options.widthOverride = width
+                let problem = doc.routingProblem(options: options, rules: .customDefault)
+                let result = Router.route(problem)
+                let summary = doc.applyRouting(result, problem: problem)
+                let label = "\(net.name) \(width) mil"
+                let issues = doc.designRuleCheck(rules: .customDefault)
+                let caused = issues.filter { RouterFixtureTests.routerKinds.contains($0.kind) }
+                XCTAssertEqual(caused.map { "\($0.kind) \($0.reference): \($0.issue)" }, [], label)
+                XCTAssertEqual(issues.filter { $0.kind == .unrouted }.count, result.stats.connections - result.stats.routed, label)
+                var others = pieces(doc)
+                var original = before
+                others[problem.nets.first.flatMap { doc.connectivity().net(of: $0.key) } ?? -1] = nil
+                original[doc.connectivity().net(of: net.key) ?? -1] = nil
+                XCTAssertEqual(others, original, "\(label): the other nets stay as connected")
+                cases += 1
+                if result.stats.routed == result.stats.connections, summary.movedTraces + summary.movedVias > 0 {
+                    pushed += 1
+                    print("PUSHCASE net=\(net.name) width=\(width) moved=\(summary.movedTraces)+\(summary.movedVias)")
+                }
+                XCTAssertTrue(doc.undo(), label)
+                XCTAssertEqual(doc.traces, traces, "\(label): undo restores every trace")
+                XCTAssertEqual(doc.vias, vias, "\(label): and every via")
+                // Pushing never routes less than leaving the copper where it is.
+                options.pushAndShove = false
+                let off = Router.route(doc.routingProblem(options: options, rules: .customDefault))
+                XCTAssertGreaterThanOrEqual(result.stats.routed, off.stats.routed, label)
+            }
+        }
+        print("PUSHCASES \(pushed) of \(cases)")
+        XCTAssertGreaterThan(pushed, 0, "at least one case routes completely by moving existing copper")
+    }
 }
