@@ -4044,6 +4044,19 @@ final class SchematicDocument {
         }
     }
 
+    /// Replaces the vertices of an unlocked trace with `points` (legal: at
+    /// least two, none of zero length), keeping its id, layer, width and
+    /// flags; the router's push moves existing copper this way (plan-66-C).
+    /// Not joined to anything: the caller keeps the trace's contacts.
+    @discardableResult
+    func setTracePoints(_ id: UUID, _ points: [CGPoint]) -> Bool {
+        guard let index = traces.firstIndex(where: { $0.id == id }), !traces[index].locked,
+              TraceRoute.isLegal(points) else { return false }
+        guard traces[index].points != points else { return true }
+        recordEdit(.pcb, "Move Trace") { traces[index].points = points }
+        return true
+    }
+
     /// The traces on the same layer reachable from `id` through shared
     /// vertices, `id` first.
     func connectedRun(of id: UUID) -> [UUID] {

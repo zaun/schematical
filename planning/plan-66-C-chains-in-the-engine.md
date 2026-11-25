@@ -290,13 +290,13 @@ Acceptance: the five tests pass; the A anchors and every router test still pass.
   -only-testing:schematicalTests/RoutingCleanupTests` → `** TEST SUCCEEDED **`
   (est. 4 min).
   Measured: `Executed 41 tests, with 0 failures` (RoutingChainEngineTests 10, RoutingAnchorTests 9, RouterTests 7 + RoutingRepairTests 5 + RoutingCleanupTests 10), `** TEST SUCCEEDED **`.
-Commit: — (recorded in the next commit)
+Commit: 8ae90e7e
 
 ### Phase 3 — apply (the splice)
 
-- [ ] `Routing/RoutingApply.swift`: the splice of § 3 inside `applyRouting`;
+- [x] (done; `SchematicDocument.setTracePoints` is the document-side primitive) `Routing/RoutingApply.swift`: the splice of § 3 inside `applyRouting`;
       `RoutingSummary.movedTraces`, `movedVias`.
-- [ ] `schematicalTests/RoutingApplyTests.swift`: on the RegFile fixture with its
+- [x] (done: 8 tests — the plan's 7 plus a routed-RegFile one; the seven are on a two-LED board with a trunk and a branch, the real board only for connectivity and undo) `schematicalTests/RoutingApplyTests.swift`: on the RegFile fixture with its
       copper routed and applied, `routingProblem` with the option on for a scope of
       one net; take one chain, build a `RoutingResult` whose `moved` has that chain
       with its middle vertices shifted 0.2 mm sideways (ends unchanged) and call
@@ -320,11 +320,13 @@ Commit: — (recorded in the next commit)
 Acceptance: the seven tests pass, plus the existing `RoutingApplyTests`.
   Check: `XB -only-testing:schematicalTests/RoutingApplyTests`
   → `** TEST SUCCEEDED **` (est. 3 min).
-Commit: —
+  Measured: `RoutingApplyTests` `Executed 17 tests, with 0 failures` (9 existing + 8) in 43.8 s. Final gate, once, all three Checks together:
+  `Executed 68 tests` in RouterTests+RoutingRepairTests+RoutingCleanupTests+RoutingStateTests+RoutingGridTests+RoutingChainEngineTests+RoutingAnchorTests+RoutingApplyTests (the 17 apply, 10 engine, 9 anchors included), `** TEST SUCCEEDED **`.
+Commit: — (recorded in the next commit)
 
 ## Validation Plan
 
-- Tests: `RoutingChainEngineTests` (new, 8), `RoutingRepairTests` (+1), `RoutingApplyTests` (+7),
+- Tests: `RoutingChainEngineTests` (new, 10), `RoutingRepairTests` (+1), `RoutingApplyTests` (+8),
   `RouterTests` (helper), plus the existing router suites unchanged.
 - Coverage check: the three phases' tests call `RoutingState.init`,
   `finishedCopper`, `applyRouting` — the code C changes — and the A anchors run
@@ -393,6 +395,17 @@ plan-66-A § Decisions apply. Added by the author, 2026-11-25:
   that result is the kept one. A chain goes back to its original only when it is
   illegal even raw (`testAChainThatStaysIllegalGoesBack`, over a big pad that no
   straightening clears).
+- **The apply splice works from the chains' recorded copper, in descending order
+  along each trace** (2026-11-25). Two chains of one trace share the vertex between
+  them, and a splice changes the vertex count, so the recorded `first...last` of
+  the second would be stale after the first. Splices are checked against the
+  document as it stands, then applied from the far end of each trace back; an end
+  that is not its trace's own end must stay where it is (it is the next chain's
+  too), else the chain is skipped. `SchematicDocument.setTracePoints` is new.
+- **The Phase 3 tests run on a hand-built two-LED board** (a trunk with a branch,
+  and a via chain), not on a routed RegFile, which would take ~50 s a test; the
+  routed board is used by one test (`testAMoveOnARoutedBoardKeepsConnectivity`:
+  every chain nudged, pads' groups equal, one undo).
 
 ## Summary
 
