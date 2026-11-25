@@ -1,7 +1,7 @@
 # plan-48-data
 
 Data and scripts of plan-48 (555-type timers and common op-amps from the top
-three makers of each type at DigiKey). Written at planning time, 2026-11-16.
+three makers of each type at DigiKey). Written at planning time, 2026-11-16; extended while plan-48 A–H were followed (2026-11-24).
 
 | Path | What |
 |---|---|
@@ -20,6 +20,10 @@ three makers of each type at DigiKey). Written at planning time, 2026-11-16.
 | `census/verdicts.py`, `verdicts.tsv`, `verdict-overrides.tsv` | phase 3: `mpn`, `verdict` (`add`, `skip`, `out`), `reason`, `pdf`; a ledger (a row that left the pick keeps its `skip` / `out` line); the overrides are verdicts read by hand (`mpn`, `verdict`, `reason`, `why`) |
 | `census/place.py` | copies each PDF an `add` row cites to `datasheets/<timer\|opamp>/<ti\|adi\|st\|renesas>/<name>.pdf` and writes each folder's `datasheets.tsv` (`file`, `url`, `bytes`, `sha256`); `--verify`: `0 missing, 0 unused` |
 | `census/specs-skeleton.py`, `specs.tsv` | one row per (`type`, `company`, `pdf`, `package`, `supplier_package`, `circuits`) of the `add` rows: `rows`, `example`, and the empty `pinout`, `scheme`, `facts` that plan-48-B fills |
+| `census/pinout-check.py`, `census/specs-fill.py`, `census/slice-specs.py`, `census/normalize-specs.py`, `census/audit-slices.py`, `census/audit-compare.py` | plan-48-B: the structure check of `specs.tsv` (`scheme`, `label`, `pinout`, `facts`; `--unfilled`), the merge of hand-read slices, the slicing of the unfilled rows for readers, the rewrite of an explicit pinout equal to a named scheme, and the blind re-read of a random sample with its comparison |
+| `census/final.py` | plan-48-B: `--pinouts` (rows whose spec row has pinout `-` become `skip` overrides), `--apply` (`state` `candidate` → `add`), `--write-skipped`, `--write-obsolete`, `--verify-skipped` |
+| `census/fp-work.py`, `fp-collect.py`, `fp-check.py`, `fp-show.py`, `fp-load.sh`, `fp-merge.py`, `footprints-C.json`, `footprints-D.json`, `footprint-map.tsv` | plan-48-C and D: the per-line work list of the footprint readers, the collection of their slices into the two object files and the map (`letter company package supplier footprint note pdf`), the check that every line is mapped and every spec row's pin designators equal its footprint's pads, the pad listing of a footprint, and the load of the objects through `footprint_check` |
+| `census/gen-parts.py` | plan-48-G: writes `Parts/timer.json` and `Parts/opamp.json` from the `add` rows, specs, the footprint map and the folders' `datasheets.tsv`; adds the datasheet entries; `--generics`, `--type`, `--verify` |
 | `census/footprint-lines.py`, `footprints-needed.txt` | one line per distinct package of the download set (`--add`: of the final pick), the plan-48 letter that draws it (C leaded, D leadless and ball) and the existing footprints of the same family and pin count |
 
 `candidates.tsv` columns, in order (the plans' `awk` commands use these
