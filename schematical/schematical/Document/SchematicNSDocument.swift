@@ -141,6 +141,8 @@ final class SchematicNSDocument: NSDocument {
     /// ends up. A save also ends a typing step, so undo never splits one.
     private func snapshot() -> SchematicFile {
         model.document.willSave()
+        // Every write of the file, an autosave too, dates it (plan-64).
+        model.document.stampDates()
         return SchematicFile(document: model.document, fileURL: Self.relativeBase(destination ?? fileURL))
     }
 }

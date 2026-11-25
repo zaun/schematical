@@ -23,6 +23,23 @@ final class UndoHistoryTests: XCTestCase {
         BoardTrace(id: UUID(), layer: .top, width: 10, points: [p(x, 0), p(x, 10)])
     }
 
+    // MARK: plan-64 — document info
+
+    func testDocumentInfoDiffsAndAppliesAsOneKey() {
+        var info = DocumentInfo()
+        info.title = "Clock"
+        info.titleBlock = p(100, 200)
+        let changes = UndoDiff.changes(from: DocumentState(), to: DocumentState(documentInfo: info))
+        XCTAssertEqual(Set(changes.keys), [.documentInfo])
+        var state = DocumentState(documentInfo: info)
+        XCTAssertTrue(UndoDiff.apply(changes, backwards: true, to: &state))
+        XCTAssertEqual(state, DocumentState())
+        XCTAssertTrue(UndoDiff.apply(changes, backwards: false, to: &state))
+        XCTAssertEqual(state.documentInfo, info)
+        XCTAssertTrue(UndoDiff.changes(from: DocumentState(documentInfo: info),
+                                       to: DocumentState(documentInfo: info)).isEmpty)
+    }
+
     // MARK: Phase 1 — diff
 
     func testMovedChipIsPartOnly() throws {

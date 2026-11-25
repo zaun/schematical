@@ -13,6 +13,8 @@ struct SchematicScene {
     /// Every junction that shows a dot (`showsDot`), none selected.
     var junctions: [JunctionDot]
     var notes: [SchematicNote]
+    /// The title block, when it is on the schematic (plan-64-C).
+    var titleBlock: TitleBlockLayout?
     var netLabels: [NetLabel]
     /// Per chip, the pins with a wire on them (no pin number drawn).
     var connectedPins: [UUID: Set<Int>]
@@ -24,15 +26,17 @@ struct SchematicScene {
         // A loose end gets a dot only where it branches, and it exports black.
         junctions = document.junctions.filter(document.showsDot).map { JunctionDot(point: $0.point) }
         notes = document.notes
+        titleBlock = document.titleBlockLayout
         netLabels = document.netLabels
         connectedPins = document.connectedPins
     }
 
     var isEmpty: Bool {
-        chips.isEmpty && buses.isEmpty && routes.isEmpty && notes.isEmpty && netLabels.isEmpty
+        chips.isEmpty && buses.isEmpty && routes.isEmpty && notes.isEmpty && netLabels.isEmpty && titleBlock == nil
     }
 
     func paint<P: SchematicPainter>(into painter: inout P) {
+        if let titleBlock { TitleBlockLayer.paint(&painter, layout: titleBlock) }
         NoteLayer.paint(&painter, notes: notes, selectedNoteIDs: [], hoveredNoteID: nil)
         BusLayer.paint(&painter, buses: buses, selectedBusIDs: [], hoveredBusID: nil, preview: nil)
         PortLayer.paint(&painter, buses: buses, selectedPortID: nil, hoveredPortID: nil)

@@ -57,6 +57,7 @@ struct KiCadSchematicWriter {
         }
         for label in document.netLabels { add(label.tip); add(CGPoint(x: label.tip.x + NetLabel.length, y: label.tip.y)) }
         for note in document.notes { add(note.rect) }
+        if let block = document.titleBlockRect { add(block) }
         for bus in document.buses {
             for line in bus.lines {
                 add(line.a); add(line.b)
@@ -111,6 +112,7 @@ struct KiCadSchematicWriter {
         drawing += labels()
         drawing += buses()
         drawing += notes()
+        drawing += titleBlock()
 
         let page = KiCad.paper(width: sheet.width, height: sheet.height)
         var out = """
@@ -121,7 +123,7 @@ struct KiCadSchematicWriter {
         \t(uuid \(KiCad.q(context.rootUUID)))
         \t\(page)
         \t(title_block
-        \t\t(title \(KiCad.q(context.base)))
+        \(titleBlockFields())
         \t)
         \t(lib_symbols
 
@@ -671,6 +673,47 @@ struct KiCadSchematicWriter {
         \t\t(uuid \(KiCad.q(id(key))))
         \t)
         """
+    }
+
+    /// The fields of KiCad's own title block (plan-64-D): the document's title
+    /// (the file's name when it has none), updated date, revision, author as
+    /// the company, and description as the first comment. Empty ones are left
+    /// out.
+    private func titleBlockFields() -> String {
+        let info = document.documentInfo
+        var fields = ["\t\t(title \(KiCad.q(info.title.isEmpty ? context.base : info.title)))"]
+        if let updated = info.updated {
+            fields.append("\t\t(date \(KiCad.q(String(DocumentInfo.dateText(updated).prefix(10)))))")
+        }
+        if !info.revision.isEmpty { fields.append("\t\t(rev \(KiCad.q(info.revision)))") }
+        if !info.author.isEmpty { fields.append("\t\t(company \(KiCad.q(info.author)))") }
+        if !info.description.isEmpty {
+            let flat = info.description.replacingOccurrences(of: "\n", with: " ")
+            fields.append("\t\t(comment 1 \(KiCad.q(flat)))")
+        }
+        return fields.joined(separator: "\n")
+    }
+
+    /// The title block, when it is on the schematic: its frame and lines, and
+    /// each cell's label and wrapped value, from the canvas's layout.
+    private func titleBlock() -> [String] {
+        guard let layout = document.titleBlockLayout else { return [] }
+        let rect = layout.rect
+        var out = [polyline([CGPoint(x: rect.minX, y: rect.minY), CGPoint(x: rect.maxX, y: rect.minY),
+                             CGPoint(x: rect.maxX, y: rect.maxY), CGPoint(x: rect.minX, y: rect.maxY),
+                             CGPoint(x: rect.minX, y: rect.minY)], key: "titleblock/frame")]
+        for (index, line) in layout.separators.enumerated() {
+            out.append(polyline([line.0, line.1], key: "titleblock/line/\(index)"))
+        }
+        for cell in layout.cells {
+            out.append(text(cell.label, at: cell.labelOrigin, size: CGFloat(TitleBlockLayout.labelSize),
+                            key: "titleblock/\(cell.label)/label", justify: "left top"))
+            for (index, line) in cell.lines.enumerated() where !line.isEmpty {
+                out.append(text(line, at: CGPoint(x: cell.textOrigin.x, y: cell.textOrigin.y + CGFloat(index) * cell.lineHeight),
+                                size: CGFloat(cell.size), key: "titleblock/\(cell.label)/\(index)", justify: "left top"))
+            }
+        }
+        return out
     }
 
     /// Text blocks: the words, and a frame round them when the app draws one.

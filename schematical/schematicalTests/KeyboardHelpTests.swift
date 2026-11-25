@@ -23,11 +23,16 @@ final class KeyboardHelpTests: XCTestCase {
 
     func testSchematicKeys() {
         let keys = keys(.schematic)
-        for key in ["⌘F", "⌘⌫", "⌘A", "⌘X", "⌘C", "⌘V", "Space", "/", "Esc", "⌘P", "⌘?", "⌥⌘E"] {
+        for key in ["⌘F", "⌘⌫", "⌘A", "⌘X", "⌘C", "⌘V", "Space", "/", "Esc", "⌘P", "⌘?", "⌥⌘E", "⌘I"] {
             XCTAssertTrue(keys.contains(key), key)
         }
         // The PCB's keys are not on the schematic sheet.
         XCTAssertFalse(keys.contains("A"))
+    }
+
+    /// plan-64-B: ⌘I is a window command, listed on both pages.
+    func testPCBListsDocumentInfo() {
+        XCTAssertTrue(keys(.pcb).contains("⌘I"))
     }
 
     /// plan-47-M: a click on a fuse in play mode blows or restores it.

@@ -24,6 +24,7 @@ struct DocumentState: Equatable {
     var keepouts: [BoardKeepout] = []
     /// The electrical rules check's settings (plan-63-E).
     var erc = ErcSettings()
+    var documentInfo = DocumentInfo()
 }
 
 /// One thing a step can change. A part is split three ways, so a step holds
@@ -32,7 +33,7 @@ struct DocumentState: Equatable {
 enum UndoKey: Hashable {
     case part(UUID), reference(UUID), footprint(UUID)
     case wire(UUID), junction(UUID), bus(UUID), note(UUID), label(UUID), nextReference
-    case text(UUID), trace(UUID), via(UUID), hole(UUID), pour(UUID), keepout(UUID), board, erc
+    case text(UUID), trace(UUID), via(UUID), hole(UUID), pour(UUID), keepout(UUID), board, erc, documentInfo
 }
 
 /// One key's value on one side of a step. Items carry their array index so a
@@ -45,7 +46,7 @@ enum UndoValue: Equatable {
     case text(BoardText, index: Int), trace(BoardTrace, index: Int), via(BoardVia, index: Int)
     case hole(BoardHole, index: Int)
     case pour(BoardPour, index: Int), keepout(BoardKeepout, index: Int)
-    case nextReference(Int), board(BoardSettings), erc(ErcSettings)
+    case nextReference(Int), board(BoardSettings), erc(ErcSettings), documentInfo(DocumentInfo)
 }
 
 /// A key's value before and after a step. Nil is "not there".
@@ -133,6 +134,10 @@ enum UndoDiff {
         if old.erc != new.erc {
             changes[.erc] = UndoChange(before: .erc(old.erc), after: .erc(new.erc))
         }
+        if old.documentInfo != new.documentInfo {
+            changes[.documentInfo] = UndoChange(before: .documentInfo(old.documentInfo),
+                                                after: .documentInfo(new.documentInfo))
+        }
         return changes
     }
 
@@ -200,6 +205,8 @@ enum UndoDiff {
                 if case let .board(b)? = value { state.board = b }
             case .erc:
                 if case let .erc(e)? = value { state.erc = e }
+            case .documentInfo:
+                if case let .documentInfo(i)? = value { state.documentInfo = i }
             }
         }
 

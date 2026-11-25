@@ -14,6 +14,8 @@ nonisolated enum SchematicItem: Hashable, Sendable {
     case label(UUID)
     /// A whole bus (`Bus`): its lines and ports.
     case bus(UUID)
+    /// The Document Info title block (plan-64-C): one per document.
+    case titleBlock
 }
 
 /// One thing that can be selected on the PCB page: a part's footprint (by
@@ -159,9 +161,12 @@ nonisolated struct SchematicGroupBase: Equatable {
     var buses: [UUID: Bus] = [:]
     /// The ports of those buses: wire ends on their pins move with them.
     var ports: Set<UUID> = []
+    /// The title block's top-left, when it is selected.
+    var titleBlock: CGPoint?
 
     var isEmpty: Bool {
         chips.isEmpty && junctions.isEmpty && wires.isEmpty && notes.isEmpty && labels.isEmpty && buses.isEmpty
+            && titleBlock == nil
     }
 }
 

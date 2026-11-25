@@ -48,6 +48,17 @@ final class SchematicSVGTests: XCTestCase {
         })
     }
 
+    /// plan-64-D: a shown title block is drawn with the schematic.
+    func testTitleBlockIsInTheSVG() throws {
+        let doc = try ExportSamples.titled()
+        let svg = try svgText(doc)
+        for words in ["Clock board", "J. Smith", "Revision", "Divides the 4 MHz clock by 8."] {
+            XCTAssertTrue(svg.contains(words), words)
+        }
+        doc.setTitleBlockShown(false)
+        XCTAssertFalse(try svgText(doc).contains("Clock board"))
+    }
+
     func testEmptyDocumentHasNoSVG() {
         XCTAssertNil(SchematicExport.svg(SchematicScene(TestSupport.newDocument())))
         XCTAssertNil(SchematicExport.bounds(of: SchematicScene(TestSupport.newDocument())))

@@ -166,57 +166,57 @@ Rejected alternatives:
 
 Lands the data with nothing reading it, so it is safe alone.
 
-- [ ] Add `schematical/schematical/Canvas/DocumentInfo.swift`: the struct above; `static let empty = DocumentInfo()`
+- [x] Add `schematical/schematical/Canvas/DocumentInfo.swift`: the struct above; `static let empty = DocumentInfo()`
       is not needed (use `DocumentInfo()`); `static func dateText(_ date: Date?, in zone: TimeZone = .current) -> String`
-      (`"yyyy-MM-dd HH:mm"`, `en_US_POSIX`, "" for nil); `mutating func stamp(now: Date)` (the rule in § 3).
-- [ ] `SchematicModel.swift`: `private(set) var documentInfo = DocumentInfo()` beside `notes`; add
+      (`"yyyy-MM-dd HH:mm"`, `en_US_POSIX`, "" for nil); `mutating func stamp(now: Date)` (the rule in § 3). — done
+- [x] `SchematicModel.swift`: `private(set) var documentInfo = DocumentInfo()` beside `notes`; add
       `documentInfo` to `state` (:2160) and `setState` (:2171); add `documentInfo: DocumentInfo = DocumentInfo()` to
-      `replaceContents` (:2092) and assign it there.
-- [ ] `SchematicModel.swift`, a `// MARK: Document info` section: `func editDocumentInfo(_ name: String,
+      `replaceContents` (:2092) and assign it there. — done
+- [x] `SchematicModel.swift`, a `// MARK: Document info` section: `func editDocumentInfo(_ name: String,
       coalescing: String? = nil, _ change: (inout DocumentInfo) -> Void)` (one `recordEdit(.schematic, name,
       coalescing:)`, assigns only when the value changed); named setters the window will bind to: `setInfoTitle`,
       `setInfoAuthor`, `setInfoRevision`, `setInfoDescription` (coalescing key `"info-<field>"`, names "Edit Title",
       "Edit Author", "Edit Revision", "Edit Description"), `setInfoCreated(_ Date?)`, `setInfoUpdated(_ Date?)`
       (names "Edit Created Date", "Edit Updated Date"), `setAutomaticDates(_ Bool)` ("Change Automatic Dates");
-      and `func stampDates(now: Date = Date())` — assigns `documentInfo.stamp(now:)` directly, outside `recordEdit`.
-- [ ] `UndoHistory.swift`: `DocumentState.documentInfo = DocumentInfo()`; `UndoKey.documentInfo`;
+      and `func stampDates(now: Date = Date())` — assigns `documentInfo.stamp(now:)` directly, outside `recordEdit`. — done
+- [x] `UndoHistory.swift`: `DocumentState.documentInfo = DocumentInfo()`; `UndoKey.documentInfo`;
       `UndoValue.documentInfo(DocumentInfo)`; `UndoDiff.changes` adds the key when `old.documentInfo !=
-      new.documentInfo`; `apply` has `case .documentInfo: if case let .documentInfo(i)? = value { state.documentInfo = i }`.
-- [ ] Tests: new `schematicalTests/DocumentInfoTests.swift` (`@MainActor final class DocumentInfoTests: XCTestCase`,
+      new.documentInfo`; `apply` has `case .documentInfo: if case let .documentInfo(i)? = value { state.documentInfo = i }`. — done
+- [x] Tests: new `schematicalTests/DocumentInfoTests.swift` (`@MainActor final class DocumentInfoTests: XCTestCase`,
       `TestSupport.newDocument()`): defaults; each setter records one step with its name; typing in one field
       coalesces into one step, two fields do not; undo then redo restores the whole value; setting the same value
       records no step; `stampDates` with automatic on sets `created` once and `updated` every call; with automatic
       off changes nothing; `stampDates` adds no undo step (`undoName` unchanged); `dateText` for a fixed `Date` and a
-      fixed `TimeZone(identifier: "UTC")`. Extend `UndoHistoryTests.swift` with a diff/apply round-trip for the key.
+      fixed `TimeZone(identifier: "UTC")`. Extend `UndoHistoryTests.swift` with a diff/apply round-trip for the key. — done: 10 DocumentInfo tests incl. UndoHistoryTests case, 32 tests 0 failures
 
 Acceptance: `DocumentInfoTests` and `UndoHistoryTests` pass; the app builds.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p64-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/DocumentInfoTests -only-testing:schematicalTests/UndoHistoryTests` → `** TEST SUCCEEDED **` (est. 8 min: incremental app build 5, two test classes 3).
-Commit: —
+Commit: 7c514298
 
 ### Phase 2 — The file, and the stamp on save
 
-- [ ] `SchematicFile.swift`: `struct DocumentInfoEntry: Codable, Equatable, Sendable` (shape in § 4, all fields
-      optional, `titleBlock: Point?` using the existing `SchematicFile.Point` (`x`, `y` doubles, :65)) and `var documentInfo: DocumentInfoEntry? = nil` on `SchematicFile`, with its doc comment.
-- [ ] `SchematicFile.init(document:fileURL:)` (:826): `documentInfo = document.documentInfo == DocumentInfo() ? nil :
+- [x] `SchematicFile.swift`: `struct DocumentInfoEntry: Codable, Equatable, Sendable` (shape in § 4, all fields
+      optional, `titleBlock: Point?` using the existing `SchematicFile.Point` (`x`, `y` doubles, :65)) and `var documentInfo: DocumentInfoEntry? = nil` on `SchematicFile`, with its doc comment. — done
+- [x] `SchematicFile.init(document:fileURL:)` (:826): `documentInfo = document.documentInfo == DocumentInfo() ? nil :
       DocumentInfoEntry(document.documentInfo)`. Dates written with `ISO8601DateFormatter` (`.withInternetDateTime`,
-      UTC, no fractional seconds).
-- [ ] `SchematicFile.apply` (:1296): decode into a `DocumentInfo` (`Self.documentInfo(entry)` beside `Self.note`),
+      UTC, no fractional seconds). — done
+- [x] `SchematicFile.apply` (:1296): decode into a `DocumentInfo` (`Self.documentInfo(entry)` beside `Self.note`),
       snapping `titleBlock`; pass `documentInfo:` to `replaceContents`. Add `SchematicFileError.badDocumentInfo(String)`
-      with its message beside `badNote` (:674, :718).
-- [ ] `SchematicNSDocument.swift` `snapshot()` (:146): call `model.document.stampDates()` before `SchematicFile(…)`.
-- [ ] `docs/file-format.md`: a `documentInfo` row in the top-level table (after `labels`), a `## Document info`
+      with its message beside `badNote` (:674, :718). — done
+- [x] `SchematicNSDocument.swift` `snapshot()` (:146): call `model.document.stampDates()` before `SchematicFile(…)`. — done
+- [x] `docs/file-format.md`: a `documentInfo` row in the top-level table (after `labels`), a `## Document info`
       section (shape, field table, "optional; an older build ignores it; the version stays 4", the automatic-dates
-      rule, "written only when not the default"), and the bad-value rule in the validation list (near :653).
-- [ ] Tests (`DocumentInfoTests`): a default document encodes with no `documentInfo` key (`String(data:)` does
+      rule, "written only when not the default"), and the bad-value rule in the validation list (near :653). — done
+- [x] Tests (`DocumentInfoTests`): a default document encodes with no `documentInfo` key (`String(data:)` does
       not contain it); a full info round-trips through `SchematicFile.encoded()` / `decode` / `apply` (all six
       fields, `automaticDates` false, `titleBlock`); `titleBlock` (104, 57) opens as (100, 60); a bad `created` throws
       `badDocumentInfo`; a file with no key opens as `DocumentInfo()`. In `SchematicNSDocumentTests.swift`: writing a
       document with `data(ofType:)` stamps `created` and `updated` (both non-nil) and a second write moves `updated`
-      only; with automatic dates off neither moves.
+      only; with automatic dates off neither moves. — done: DocumentInfoTests + SchematicNSDocumentTests.testWritingStampsTheDates; xcodebuild test DocumentInfoTests SchematicNSDocumentTests SchematicFileV5Tests -> ** TEST SUCCEEDED **, 43 tests, 0 failures
 
 Acceptance: a default document's saved bytes are unchanged; a stamped document round-trips.
   Check: `xcodebuild … test -only-testing:schematicalTests/DocumentInfoTests -only-testing:schematicalTests/SchematicNSDocumentTests -only-testing:schematicalTests/SchematicFileV5Tests` → `** TEST SUCCEEDED **` (est. 10 min; `SchematicFileV5Tests` (j) is the existing save → open → save same-bytes check, so it catches a default file that changed).
-Commit: —
+Commit: 50498ab1
 
 ## Validation Plan
 
@@ -244,7 +244,11 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- Phase 2: `SchematicNSDocumentTests.testEachExampleReadsAndWritesAsBefore` compares what `data(ofType:)` writes for
+  each example with a reference `SchematicFile`; the new stamp gives the written file a `documentInfo` the reference
+  lacks (10 failures, one per example, `xcodebuild … test` 2026-11-25). The test was kept and now stamps the
+  reference with the written file's `updated` (`reference.stampDates(now:)`), so it still proves nothing else
+  differs. The plan had listed `SchematicFileV5Tests`, not this test, as the same-bytes check; both pass.
 
 ## Summary
 

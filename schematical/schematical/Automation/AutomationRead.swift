@@ -208,6 +208,17 @@ extension AutomationTools {
                 }
             }
         }
+        out.append("DOCUMENT")
+        let info = document.documentInfo
+        out.append("title: \(info.title)  author: \(info.author)  revision: \(info.revision)")
+        out.append("created: \(info.created.map(DocumentInfo.isoText) ?? "-")  updated: \(info.updated.map(DocumentInfo.isoText) ?? "-")"
+                   + "  dates: \(info.automaticDates ? "automatic" : "manual")")
+        if !info.description.isEmpty { out.append("description: " + info.description.replacingOccurrences(of: "\n", with: " ⏎ ")) }
+        if let rect = document.titleBlockRect {
+            out.append("title block: titleblock at (\(num(rect.minX)),\(num(rect.minY))) bounds=\(box(rect))")
+        } else {
+            out.append("title block: off")
+        }
         return out.joined(separator: "\n")
     }
 
@@ -290,6 +301,16 @@ extension AutomationTools {
                  "x": $0.origin.x, "y": $0.origin.y, "flipped": $0.isFlipped,
                  "bounds": rectJSON($0.rect)] as [String: Any]
             },
+            "document": [
+                "title": document.documentInfo.title, "author": document.documentInfo.author,
+                "revision": document.documentInfo.revision, "description": document.documentInfo.description,
+                "created": document.documentInfo.created.map(DocumentInfo.isoText) as Any? ?? NSNull(),
+                "updated": document.documentInfo.updated.map(DocumentInfo.isoText) as Any? ?? NSNull(),
+                "automatic_dates": document.documentInfo.automaticDates,
+                "title_block": document.titleBlockRect.map { rect -> [String: Any] in
+                    ["x": rect.minX, "y": rect.minY, "bounds": rectJSON(rect)]
+                } as Any? ?? NSNull(),
+            ] as [String: Any],
             "notes": document.notes.map {
                 ["id": context.short($0.id), "text": $0.text, "x": $0.origin.x, "y": $0.origin.y,
                  "size": $0.size, "framed": $0.framed, "bounds": rectJSON($0.rect)] as [String: Any]
@@ -416,6 +437,7 @@ extension AutomationTools {
             case let .wire(id): return "wire:\(context.short(id))"
             case let .junction(id): return "junction:\(context.short(id))"
             case let .note(id): return "note:\(context.short(id))"
+            case .titleBlock: return "titleblock"
             case let .label(id): return "label:" + (document.netLabels.first { $0.id == id }?.name ?? context.short(id))
             case let .bus(id): return "bus:" + (document.bus(id)?.name ?? context.short(id))
             }

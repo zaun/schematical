@@ -1680,6 +1680,8 @@ final class SchematicDocument {
     }
     /// Text blocks, in drawing order. Drawn under everything else.
     private(set) var notes: [SchematicNote] = []
+    /// The document's title, author, dates and title block (plan-64).
+    private(set) var documentInfo = DocumentInfo()
     /// Net labels, in drawing order. Labels with the same name are one net.
     private(set) var netLabels: [NetLabel] = [] { didSet { copperRevision &+= 1 } }
     /// A text block whose words the sidebar should start editing: one just
@@ -1786,6 +1788,9 @@ final class SchematicDocument {
         if case let .footprint(id)? = boardSelection.sole { return id }
         return nil
     }
+
+    /// Whether the title block is the only thing selected on the Schematic page.
+    var selectedTitleBlock: Bool { schematicSelection.sole == .titleBlock }
 
     /// The text block, when it is the only thing selected on the Schematic page.
     var selectedNoteID: UUID? {
@@ -1897,6 +1902,7 @@ final class SchematicDocument {
         for note in notes where note.rect.intersects(rect) {
             items.insert(.note(note.id))
         }
+        if let block = titleBlockRect, block.intersects(rect) { items.insert(.titleBlock) }
         for label in netLabels where label.rect.intersects(rect) {
             items.insert(.label(label.id))
         }
@@ -1974,6 +1980,7 @@ final class SchematicDocument {
         items.formUnion(notes.map { .note($0.id) })
         items.formUnion(netLabels.map { .label($0.id) })
         items.formUnion(buses.map { .bus($0.id) })
+        if documentInfo.titleBlock != nil { items.insert(.titleBlock) }
         if items != schematicSelection.items { schematicSelection.set(items) }
     }
 
@@ -2028,6 +2035,7 @@ final class SchematicDocument {
             case let .note(id): noteIDs.contains(id)
             case let .label(id): labelIDs.contains(id)
             case let .bus(id): busIDs.contains(id)
+            case .titleBlock: documentInfo.titleBlock != nil
             }
         }
         let footprints = Set(chips.filter { $0.board != nil }.map(\.id))
@@ -2119,10 +2127,12 @@ final class SchematicDocument {
                          traces: [BoardTrace], vias: [BoardVia] = [], holes: [BoardHole] = [],
                          pours: [BoardPour] = [], keepouts: [BoardKeepout] = [],
                          notes: [SchematicNote] = [], netLabels: [NetLabel] = [],
-                         erc: ErcSettings = ErcSettings()) {
+                         erc: ErcSettings = ErcSettings(),
+                         documentInfo: DocumentInfo = DocumentInfo()) {
         self.erc = erc
         self.chips = chips
         self.notes = notes
+        self.documentInfo = documentInfo
         self.netLabels = netLabels
         self.wires = wires
         self.junctions = junctions
@@ -2188,7 +2198,7 @@ final class SchematicDocument {
     var state: DocumentState {
         DocumentState(chips: chips, wires: wires, junctions: junctions, buses: buses, notes: notes,
                       netLabels: netLabels, nextReference: nextReference, board: board, texts: texts, traces: traces, vias: vias, holes: holes,
-                      pours: pours, keepouts: keepouts, erc: erc)
+                      pours: pours, keepouts: keepouts, erc: erc, documentInfo: documentInfo)
     }
 
     /// Writes a state back (undo, redo), then drops selections and editor
@@ -2209,6 +2219,7 @@ final class SchematicDocument {
         if pours != s.pours { pours = s.pours }
         if keepouts != s.keepouts { keepouts = s.keepouts }
         if erc != s.erc { erc = s.erc }
+        if documentInfo != s.documentInfo { documentInfo = s.documentInfo }
         pruneSelection()
         if let id = editingNoteID, !notes.contains(where: { $0.id == id }) { editingNoteID = nil }
         if let id = selectedBusID, bus(id) == nil { selectedBusID = nil }
@@ -2723,6 +2734,8 @@ final class SchematicDocument {
                 if let note = notes.first(where: { $0.id == id }) { base.notes[id] = note.origin }
             case let .label(id):
                 if let label = netLabels.first(where: { $0.id == id }) { base.labels[id] = label.origin }
+            case .titleBlock:
+                base.titleBlock = documentInfo.titleBlock
             case let .bus(id):
                 if let bus = bus(id) {
                     base.buses[id] = bus
@@ -2808,6 +2821,10 @@ final class SchematicDocument {
                 guard let origin = base.labels[netLabels[index].id] else { continue }
                 let moved = shifted(origin)
                 if netLabels[index].origin != moved { netLabels[index].origin = moved }
+            }
+            if let origin = base.titleBlock {
+                let moved = shifted(origin)
+                if documentInfo.titleBlock != moved { documentInfo.titleBlock = moved }
             }
             for index in wires.indices {
                 guard let route = base.paths[wires[index].id],
@@ -3077,6 +3094,90 @@ final class SchematicDocument {
 
     func netLabelTip(_ id: UUID) -> CGPoint? {
         netLabels.first { $0.id == id }?.tip
+    }
+
+    // MARK: Document info (plan-64)
+
+    /// Runs `change` on the document info as one undo step named `name`.
+    /// Nothing is recorded when it changes nothing. Typing in one field
+    /// merges into one step through `coalescing`.
+    func editDocumentInfo(_ name: String, coalescing: String? = nil, _ change: (inout DocumentInfo) -> Void) {
+        recordEdit(.schematic, name, coalescing: coalescing) {
+            var edited = documentInfo
+            change(&edited)
+            if edited != documentInfo { documentInfo = edited }
+        }
+    }
+
+    func setInfoTitle(_ value: String) {
+        editDocumentInfo("Edit Title", coalescing: "info-title") { $0.title = value }
+    }
+
+    func setInfoAuthor(_ value: String) {
+        editDocumentInfo("Edit Author", coalescing: "info-author") { $0.author = value }
+    }
+
+    func setInfoRevision(_ value: String) {
+        editDocumentInfo("Edit Revision", coalescing: "info-revision") { $0.revision = value }
+    }
+
+    func setInfoDescription(_ value: String) {
+        editDocumentInfo("Edit Description", coalescing: "info-description") { $0.description = value }
+    }
+
+    func setInfoCreated(_ date: Date?) {
+        editDocumentInfo("Edit Created Date") { $0.created = date }
+    }
+
+    func setInfoUpdated(_ date: Date?) {
+        editDocumentInfo("Edit Updated Date") { $0.updated = date }
+    }
+
+    func setAutomaticDates(_ on: Bool) {
+        editDocumentInfo("Change Automatic Dates") { $0.automaticDates = on }
+    }
+
+    /// What a write of the file does to the dates (`DocumentInfo.stamp`).
+    /// Not an undo step, and it does not mark the document edited.
+    func stampDates(now: Date = Date()) {
+        var stamped = documentInfo
+        stamped.stamp(now: now)
+        if stamped != documentInfo { documentInfo = stamped }
+    }
+
+    // MARK: Title block (plan-64-C)
+
+    /// The title block as drawn, nil when it is not on the schematic.
+    var titleBlockLayout: TitleBlockLayout? {
+        documentInfo.titleBlock.map { TitleBlockLayout(documentInfo, origin: $0) }
+    }
+
+    /// The title block's frame, nil when it is not on the schematic.
+    var titleBlockRect: CGRect? { titleBlockLayout?.rect }
+
+    /// Whether the title block is shown and covers `point`.
+    func titleBlock(at point: CGPoint) -> Bool {
+        titleBlockRect?.contains(point) ?? false
+    }
+
+    /// Shows or hides the title block (one undo step). Turned on, it goes at
+    /// the bottom-right of the drawing: its right edge on the drawing's, a
+    /// little below it; an empty schematic puts it at (0, 0). Turned off, the
+    /// information stays. It is not selected when shown.
+    func setTitleBlockShown(_ on: Bool) {
+        guard on != (documentInfo.titleBlock != nil) else { return }
+        if !on {
+            editDocumentInfo("Hide Title Block") { $0.titleBlock = nil }
+            pruneSelection()
+            return
+        }
+        var origin = CGPoint.zero
+        var painter = BoundsPainter()
+        SchematicScene(self).paint(into: &painter)
+        if let bounds = painter.bounds {
+            origin = SchematicGrid.snap(CGPoint(x: bounds.maxX - TitleBlockLayout.width, y: bounds.maxY + 20))
+        }
+        editDocumentInfo("Show Title Block") { $0.titleBlock = origin }
     }
 
     // MARK: Text blocks (Schematic)
@@ -6776,6 +6877,11 @@ final class SchematicDocument {
             } else if let hit = note(at: point) {
                 deleteNote(hit.id)
                 return
+            } else if titleBlock(at: point) {
+                // Only switches it off: the information stays.
+                documentInfo.titleBlock = nil
+                pruneSelection()
+                return
             } else {
                 return
             }
@@ -6792,8 +6898,11 @@ final class SchematicDocument {
     /// (`editorMessage` says why). Returns whether anything was deleted or
     /// asked.
     /// ⌘X passes `name` "Cut" (with no port selected: a port isn't copied).
+    /// A selected title block is only switched off (the information stays),
+    /// unless `includingTitleBlock` is false: ⌘X doesn't take it, so it stays
+    /// shown.
     @discardableResult
-    func deleteSchematicSelection(named name: String = "Delete") -> Bool {
+    func deleteSchematicSelection(named name: String = "Delete", includingTitleBlock: Bool = true) -> Bool {
         guard pendingRemoval == nil else { return false }
         if let portID = selectedPortID {
             recordEdit(.schematic, "Delete") {
@@ -6810,6 +6919,7 @@ final class SchematicDocument {
         }
         var chipIDs: Set<UUID> = [], wireIDs: Set<UUID> = [], noteIDs: Set<UUID> = []
         var labelIDs: Set<UUID> = [], busIDs: Set<UUID> = []
+        var hidesTitleBlock = false
         for item in schematicSelection.items {
             switch item {
             case let .chip(id): chipIDs.insert(id)
@@ -6817,6 +6927,7 @@ final class SchematicDocument {
             case let .note(id): noteIDs.insert(id)
             case let .label(id): labelIDs.insert(id)
             case let .bus(id): busIDs.insert(id)
+            case .titleBlock: hidesTitleBlock = includingTitleBlock
             case .junction: break
             }
         }
@@ -6825,7 +6936,8 @@ final class SchematicDocument {
             busIDs.remove(edge)
             message = edgeBusUndeletable(bus)
         }
-        guard !chipIDs.isEmpty || !wireIDs.isEmpty || !noteIDs.isEmpty || !labelIDs.isEmpty || !busIDs.isEmpty else {
+        guard !chipIDs.isEmpty || !wireIDs.isEmpty || !noteIDs.isEmpty || !labelIDs.isEmpty || !busIDs.isEmpty
+            || hidesTitleBlock else {
             if let message { editorMessage = message }
             return false
         }
@@ -6845,6 +6957,7 @@ final class SchematicDocument {
             netLabels.removeAll { labelIDs.contains($0.id) }
             notes.removeAll { noteIDs.contains($0.id) }
             if let editing = editingNoteID, noteIDs.contains(editing) { editingNoteID = nil }
+            if hidesTitleBlock { documentInfo.titleBlock = nil }
             pruneJunctions()
         }
         return true

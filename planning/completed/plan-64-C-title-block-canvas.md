@@ -24,7 +24,7 @@ Stated once in plan-64-A; re-run its commands. In addition:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-64-B is complete | `grep -c "^Commit: —" planning/plan-64-B-document-info-window.md planning/completed/plan-64-B-document-info-window.md 2>/dev/null` → `0` for whichever file exists | NOT MET (2026-11-25: B not started) |
+| plan-64-B is complete | `grep -c "^Commit: —" planning/plan-64-B-document-info-window.md planning/completed/plan-64-B-document-info-window.md 2>/dev/null` → `0` for whichever file exists | MET (2026-11-25: 0 unticked boxes, 0 pending Commit lines) |
 
 ## 1. Goal
 
@@ -136,83 +136,83 @@ Rejected alternatives:
 
 ### Phase 1 — Layout, drawing, model API
 
-- [ ] `SchematicNote.swift`: change `private static func width(of:in:)` and `private static func metrics(_:)`
-      to internal (`static`), keeping their lock and doc comments; no behavior change.
-- [ ] New `Canvas/TitleBlockLayout.swift`: `nonisolated struct TitleBlockLayout` with `init(_ info: DocumentInfo,
+- [x] `SchematicNote.swift`: change `private static func width(of:in:)` and `private static func metrics(_:)`
+      to internal (`static`), keeping their lock and doc comments; no behavior change. — done
+- [x] New `Canvas/TitleBlockLayout.swift`: `nonisolated struct TitleBlockLayout` with `init(_ info: DocumentInfo,
       origin: CGPoint)`; `rect`, `cells: [Cell]` (`rect`, `label`, `lines`, `size`, `weight`, `monospaced`, `textOrigin`),
       `separators: [(CGPoint, CGPoint)]`; `static let width: CGFloat = 360`; the wrap as § 3; heights rounded up to
-      `SchematicGrid.spacing`.
-- [ ] `SchematicCanvasView.swift`: `struct TitleBlockLayer: View` (like `NoteLayer`) with `static paint(_ painter:
+      `SchematicGrid.spacing`. — done
+- [x] `SchematicCanvasView.swift`: `struct TitleBlockLayer: View` (like `NoteLayer`) with `static paint(_ painter:
       inout P, info:, isSelected:, isHovered:)`: frame filled `.paper`, stroked `.primary` 1.5 (accent 2 when
       selected), separators `.secondary` 1, hovered underlay `Ink.accent.opacity(0.35)` 5 as a note's; text per cell.
-      Insert it in `worldLayer` between `GridBackground` and `NoteLayer` (:259-266), shown when `titleBlock != nil`.
-- [ ] `SchematicExportScene.swift`: `var titleBlock: DocumentInfo?` (set when shown); `isEmpty` is false when it is
-      set; `paint` calls `TitleBlockLayer.paint` before `NoteLayer.paint`.
-- [ ] `SchematicModel.swift`, in § Document info (A): `var titleBlockRect: CGRect?`; `func titleBlock(at:) -> Bool`
+      Insert it in `worldLayer` between `GridBackground` and `NoteLayer` (:259-266), shown when `titleBlock != nil`. — done
+- [x] `SchematicExportScene.swift`: `var titleBlock: DocumentInfo?` (set when shown); `isEmpty` is false when it is
+      set; `paint` calls `TitleBlockLayer.paint` before `NoteLayer.paint`. — done (stored as the layout: `TitleBlockLayout?`)
+- [x] `SchematicModel.swift`, in § Document info (A): `var titleBlockRect: CGRect?`; `func titleBlock(at:) -> Bool`
       (point in rect); `func setTitleBlockShown(_ on: Bool)` (rules in § 3; uses `SchematicScene(self)` and
-      `BoundsPainter`); `var selectedTitleBlock: Bool`.
-- [ ] `DocumentInfoWindow.swift` (B): in `DocumentInfoForm`, a first `Section` with `Toggle("Include on Schematic",
-      isOn: Binding(get: { document.documentInfo.titleBlock != nil }, set: { document.setTitleBlockShown($0) }))`.
-- [ ] Tests: new `schematicalTests/TitleBlockTests.swift` (`@MainActor`, `TestSupport.newDocument()`): layout —
+      `BoundsPainter`); `var selectedTitleBlock: Bool`. — done; selectedTitleBlock moves to Phase 2 (it needs the new SchematicItem case)
+- [x] `DocumentInfoWindow.swift` (B): in `DocumentInfoForm`, a first `Section` with `Toggle("Include on Schematic",
+      isOn: Binding(get: { document.documentInfo.titleBlock != nil }, set: { document.setTitleBlockShown($0) }))`. — done
+- [x] Tests: new `schematicalTests/TitleBlockTests.swift` (`@MainActor`, `TestSupport.newDocument()`): layout —
       width 360, every cell/separator coordinate a multiple of 10 relative to `origin`, a 200-character description
       wraps to more than 5 lines and a 40-character unbroken word breaks by characters, an empty info has the four-row
       minimum height; show/hide — empty doc shows at (0, 0), a doc with a part shows with `maxX` equal to the drawing's
       ink `maxX`, hide keeps `title`, each is one undo step named "Show Title Block" / "Hide Title Block", undo/redo
       restore; painting — with a `RecordingPainter` (`SchematicSceneTests.swift:10-35`) the text calls include the
-      title, the six labels, and the formatted dates.
+      title, the six labels, and the formatted dates. — done: xcodebuild test TitleBlockTests SchematicSceneTests SchematicNoteTests -> ** TEST SUCCEEDED **, 29 tests 0 failures
 
 Acceptance: the toggle shows and hides the block with the right placement, steps and drawn text.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p64-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/TitleBlockTests -only-testing:schematicalTests/SchematicSceneTests -only-testing:schematicalTests/SchematicNoteTests` → `** TEST SUCCEEDED **` (est. 9 min; the two existing classes prove the note metrics change and the scene still behave).
-Commit: —
+Commit: b03f4c91
 
 ### Phase 2 — Selecting, moving, hiding, sidebar
 
-- [ ] `Selection.swift`: `case titleBlock` on `SchematicItem` (doc comment: "the Document Info title block");
-      `SchematicGroupBase.titleBlock: CGPoint?`.
-- [ ] `SchematicModel.swift`: handle the new case in every switch the compiler flags, with: `pruneSelection` — kept
+- [x] `Selection.swift`: `case titleBlock` on `SchematicItem` (doc comment: "the Document Info title block");
+      `SchematicGroupBase.titleBlock: CGPoint?`. — done
+- [x] `SchematicModel.swift`: handle the new case in every switch the compiler flags, with: `pruneSelection` — kept
       only while `documentInfo.titleBlock != nil`; `schematicItems(in:)` (:1888) and `selectAllSchematic` (:1963) — include it
       when its rect meets the box / when shown; `schematicGroupBase` — records `documentInfo.titleBlock`;
       `moveSchematicGroup` (:2751) — moves `documentInfo.titleBlock` by the snapped delta; `deleteSchematicSelection`
       (:6712) — sets `documentInfo.titleBlock = nil` and counts as something deleted; its Eraser path (:6685)
-      likewise; add `deleteSchematicSelection(named:, includingTitleBlock: Bool = true)`.
-- [ ] `SchematicClipboard.swift:68`: `case .titleBlock: break` (not copied). `ContentView.cutSelection` (:267):
-      `document.deleteSchematicSelection(named: "Cut", includingTitleBlock: false)`.
-- [ ] `SchematicCanvasView.swift`: a press on the block (after the `note(at:)` branch, :797) →
+      likewise; add `deleteSchematicSelection(named:, includingTitleBlock: Bool = true)`. — done (box select, select all, prune, group base, move, delete, eraser; includingTitleBlock added)
+- [x] `SchematicClipboard.swift:68`: `case .titleBlock: break` (not copied). `ContentView.cutSelection` (:267):
+      `document.deleteSchematicSelection(named: "Cut", includingTitleBlock: false)`. — done
+- [x] `SchematicCanvasView.swift`: a press on the block (after the `note(at:)` branch, :797) →
       `pressSelection(.titleBlock, shift:)` and `.moveGroup`; the double-click branch (:207) → select it and call
       `onOpenDocumentInfo()` (a new `var onOpenDocumentInfo: () -> Void = {}` beside `onOpenRegisters`, :63);
       `hoveredTitleBlock` state like `hoveredNoteID` (:86, :748); `selectedNoteIDs`-style `isTitleBlockSelected`.
-      `ContentView.swift` passes `onOpenDocumentInfo: { menus.openDocumentInfo?() }` next to `onOpenRegisters` (:430).
-- [ ] `AutomationSchematic.swift` `position` (:399): `case .titleBlock: return document.documentInfo.titleBlock`;
+      `ContentView.swift` passes `onOpenDocumentInfo: { menus.openDocumentInfo?() }` next to `onOpenRegisters` (:430). — done
+- [x] `AutomationSchematic.swift` `position` (:399): `case .titleBlock: return document.documentInfo.titleBlock`;
       `AutomationRead.swift` `selectionText` name (:404): `case .titleBlock: return "titleblock"`. (Only to keep the
-      switches exhaustive; D adds the tool surface.)
-- [ ] `SelectionList.swift:36`: a `SelectionRow(item: .titleBlock, title: "Title Block", detail: preview(title))`.
-- [ ] `SchematicSidebarView.swift`: `Content.titleBlock`; `content(for:)` returns it when `document.selectedTitleBlock`
+      switches exhaustive; D adds the tool surface.) — done
+- [x] `SelectionList.swift:36`: a `SelectionRow(item: .titleBlock, title: "Title Block", detail: preview(title))`. — done
+- [x] `SchematicSidebarView.swift`: `Content.titleBlock`; `content(for:)` returns it when `document.selectedTitleBlock`
       (after the note check); the body shows `Form { DocumentInfoForm(document:, isLocked: simulation.isRunning) }
-      .formStyle(.grouped)` for it; update the type's doc comment (:3-8).
-- [ ] Tests (`TitleBlockTests`): hit test — a point inside selects through `pressSelection(.titleBlock…)`, outside
+      .formStyle(.grouped)` for it; update the type's doc comment (:3-8). — done
+- [x] Tests (`TitleBlockTests`): hit test — a point inside selects through `pressSelection(.titleBlock…)`, outside
       does not; a note over the block is hit first; box select and Select All include it only when shown; a group
       drag of the block plus a part moves both by the snapped delta and undoes in one step; ⌘⌫ with block + part
       selected removes the part and hides the block (info kept); the Eraser at a point in the block hides it;
       cut with block + part leaves the block shown and removes the part; copy of the block alone is nil; the sidebar
       `content(for:)` is `.titleBlock` for a lone selection and `.selection` for block + part; `SelectionRows` has the
-      row; hiding with the block selected clears the selection.
+      row; hiding with the block selected clears the selection. — done: xcodebuild test TitleBlockTests SelectionModelTests SelectionSidebarTests SchematicClipboardTests EditMenuTests -> ** TEST SUCCEEDED **
 
 Acceptance: every way of selecting, moving and deleting the block behaves as § 3 says, and undo restores it.
   Check: `xcodebuild … test -only-testing:schematicalTests/TitleBlockTests -only-testing:schematicalTests/SelectionModelTests -only-testing:schematicalTests/SelectionSidebarTests -only-testing:schematicalTests/SchematicClipboardTests -only-testing:schematicalTests/EditMenuTests` → `** TEST SUCCEEDED **` (est. 12 min: five test classes over the changed selection code).
-Commit: —
+Commit: ac6f2db8
 
 ### Phase 3 — Real-window pass
 
-- [ ] Build and launch the app; open `examples/6502.schematical` (its drawing is large, so the placement is
+- [x] Build and launch the app; open `examples/6502.schematical` (its drawing is large, so the placement is
       visible). ⌘I → tick *Include on Schematic* → the block appears under the bottom-right of the drawing;
       click it → the sidebar shows the form and typing a title redraws the block; drag it → one Undo moves it back;
       ⌘⌫ → it disappears and the window's toggle is off, the title is still there; untick/tick → it returns
       bottom-right; double-click it → the Document Info window comes to the front. Record what each step showed
-      under this phase. Quit the app, move the pointer to (0, 0), and do not save the example (AGENTS.md).
+      under this phase. Quit the app, move the pointer to (0, 0), and do not save the example (AGENTS.md). — done 2026-11-25 (a copy of the example in /tmp, so autosave could not touch the repo): Include on Schematic put the block under the right end of the drawing (its right edge in line with the drawing right edge, screenshot at 25%); on an empty document it appears at the origin; a click selected it (blue frame) and the sidebar showed Include on Schematic, the fields and the dates; typing in the fields redrew the block live; a drag moved it and one Edit > Undo put it back; Cmd+Delete hid it, the Document Info toggle went off and the title, author and revision were still there; the toggle on again brought it back; a double-click on it brought the Document Info window to the front. The edited copy was autosaved and showed both dates stamped. App quit, pointer parked
 
 Acceptance: the pass above, each step's observed result written in this phase.
   Check: the real-window pass (est. 15 min); no automated check can see the drawn result.
-Commit: —
+Commit: 686fe631
 
 ## Validation Plan
 
@@ -233,7 +233,11 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- Phase 1: `selectedTitleBlock` (listed with the Phase 1 model API) needs the new `SchematicItem.titleBlock` case, so
+  it was added in Phase 2 with the case. `SchematicScene` stores the title block as its `TitleBlockLayout?`
+  (the layout the painter needs) rather than the `DocumentInfo` the plan named.
+- Phase 3: the pass on the 6502 example showed the block at the bottom-right of the drawing; on an empty document the
+  block appears at the origin, as decided. Autosave of the edited copy stamped Created and Updated on it, as designed.
 
 ## Summary
 

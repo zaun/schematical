@@ -33,6 +33,9 @@ enum SelectionRows {
             rows.append(SelectionRow(item: .wire(wire.id), title: "Wire",
                                      detail: "\(end(wire.start, in: document)) – \(end(wire.end, in: document))"))
         }
+        if selection.contains(.titleBlock) {
+            rows.append(SelectionRow(item: .titleBlock, title: "Title Block", detail: preview(document.documentInfo.title)))
+        }
         for note in document.notes where selection.contains(.note(note.id)) {
             rows.append(SelectionRow(item: .note(note.id), title: "Text", detail: preview(note.text)))
         }

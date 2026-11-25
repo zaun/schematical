@@ -344,6 +344,72 @@ final class AutomationTests: XCTestCase {
         XCTAssertTrue(result.isError, "B3 has no port pin")
     }
 
+    /// plan-64-D: the Document Info and its title block through the tools.
+    func testDocumentInfoAndTheTitleBlock() async throws {
+        let (id, doc) = newWindow()
+        var result = await call("set_document_info", id, [:])
+        XCTAssertTrue(result.isError, "nothing to change")
+        result = await call("set_document_info", id, ["title": "Clock board", "author": "J. Smith", "revision": "B",
+                                                     "description": "Divides the clock.\nDrives the counter.",
+                                                     "title_block": true])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(doc.documentInfo.title, "Clock board")
+        XCTAssertEqual(doc.documentInfo.description, "Divides the clock.\nDrives the counter.")
+        XCTAssertNotNil(doc.documentInfo.titleBlock)
+        XCTAssertEqual(doc.undoName, "Edit Document Info")
+
+        var text = await call("get_design", id).text
+        XCTAssertTrue(text.contains("DOCUMENT"), text)
+        XCTAssertTrue(text.contains("title: Clock board  author: J. Smith  revision: B"), text)
+        XCTAssertTrue(text.contains("description: Divides the clock. ⏎ Drives the counter."), text)
+        XCTAssertTrue(text.contains("title block: titleblock at ("), text)
+        let jsonText = await call("get_design", id, ["format": "json"]).text
+        let json = try XCTUnwrap(JSONSerialization.jsonObject(with: Data(jsonText.utf8)) as? [String: Any])
+        let info = try XCTUnwrap(json["document"] as? [String: Any])
+        XCTAssertEqual(info["title"] as? String, "Clock board")
+        XCTAssertEqual(info["automatic_dates"] as? Bool, true)
+        XCTAssertNotNil((info["title_block"] as? [String: Any])?["bounds"])
+
+        // The whole call is one undo step.
+        result = await call("undo", id)
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(doc.documentInfo, DocumentInfo())
+
+        // Dates: refused while automatic, kept when manual, checked for shape.
+        result = await call("set_document_info", id, ["created": "2026-11-25T14:07:00Z"])
+        XCTAssertTrue(result.isError, "dates are automatic")
+        XCTAssertTrue(result.text.contains("automatic_dates=false"), result.text)
+        result = await call("set_document_info", id, ["automatic_dates": false, "created": "yesterday"])
+        XCTAssertTrue(result.isError, "not a date")
+        XCTAssertTrue(doc.documentInfo.automaticDates, "a refused call changes nothing")
+        result = await call("set_document_info", id, ["automatic_dates": false, "created": "2026-11-25T14:07:00Z"])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(doc.documentInfo.created, DocumentInfo.isoDate("2026-11-25T14:07:00Z"))
+        XCTAssertFalse(doc.documentInfo.automaticDates)
+
+        // The block is an item: it moves, selects and deletes (hides).
+        result = await call("select", id, ["items": ["titleblock"]])
+        XCTAssertTrue(result.isError, "it is not on the schematic")
+        XCTAssertTrue(result.text.contains("title_block=true"), result.text)
+        _ = await call("set_document_info", id, ["title": "T", "title_block": true])
+        let before = try XCTUnwrap(doc.documentInfo.titleBlock)
+        result = await call("move", id, ["items": ["titleblock"], "dx": 40, "dy": -20])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(doc.documentInfo.titleBlock, CGPoint(x: before.x + 40, y: before.y - 20))
+        result = await call("select", id, ["items": ["titleblock"]])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertTrue(doc.selectedTitleBlock)
+        result = await call("delete", id, ["items": ["titleblock"]])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertNil(doc.documentInfo.titleBlock)
+        XCTAssertEqual(doc.documentInfo.title, "T", "delete only hides it")
+        text = await call("get_design", id).text
+        XCTAssertTrue(text.contains("title block: off"), text)
+        let offText = await call("get_design", id, ["format": "json"]).text
+        let off = try XCTUnwrap(JSONSerialization.jsonObject(with: Data(offText.utf8)) as? [String: Any])
+        XCTAssertTrue(((off["document"] as? [String: Any])?["title_block"]) is NSNull)
+    }
+
     func testMovingAndEditingLabelsNotesAndWireRoutes() async {
         let (id, doc) = newWindow()
         _ = await call("place_part", id, ["part": "GENERIC-LED", "x": 200, "y": 200])
