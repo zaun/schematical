@@ -71,7 +71,10 @@ struct ErcChecker {
     }
 
     mutating func run(includeExcluded: Bool) -> [ErcViolation] {
-        checkPins()
+        let netlist = NetlistBuilder.build(chips: chips, wires: wires, buses: buses, labels: labels)
+        let groups = WireGroups(wires: wires, labels: labels)
+        checkPins(netlist: netlist, groups: groups)
+        checkDrawing(netlist: netlist, groups: groups)
         // Errors first, then by rule, then top to bottom, left to right.
         let ruleOrder = Dictionary(uniqueKeysWithValues: ErcRule.allCases.enumerated().map { ($1, $0) })
         var found = violations.filter { includeExcluded || !settings.exclusions.contains($0.key) }
@@ -123,12 +126,10 @@ struct ErcChecker {
 
     private static func typeIndex(_ type: ErcPinType) -> Int { Int(type.rawValue) }
 
-    private mutating func checkPins() {
-        let netlist = NetlistBuilder.build(chips: chips, wires: wires, buses: buses, labels: labels)
+    private mutating func checkPins(netlist: SchematicNetlist, groups: WireGroups) {
         var netOfPin: [String: Int] = [:]
         for connection in netlist.connections { netOfPin["\(connection.part)/\(connection.pin)"] = connection.net }
 
-        let groups = WireGroups(wires: wires, labels: labels)
         let labelsByID = Dictionary(labels.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
         var pins: [ErcPin] = []
         var slots: [Slot] = []
