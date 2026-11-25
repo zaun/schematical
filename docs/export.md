@@ -268,6 +268,28 @@ end.
 - A card board's connector (`EDGE1`, `HEADER1`) is a symbol beside the drawing,
   one pin per connector pin, each on its net by a label or a power symbol.
 
+**Parts drawn as units** (plan-67). A part in Gate view (a gate IC drawn as
+separate gates) is written as a real KiCad multi-unit symbol: one library
+symbol, named after the part plus `_units` and each unit's flip and turn
+(`SN74HC00N_units_An0_Bf90_Cn0_Dn0_Pn0`), with one KiCad unit per drawn piece
+(`…_1_1`, `…_2_1`, …; no common `_0_1` graphics), each holding that piece's
+body rectangle and its pins. The sheet gets one instance per piece at the
+piece's place, `(unit 1)`, `(unit 2)`, … in the order of the part's units, all
+with the part's one reference, so KiCad shows `U1A`, `U1B`, … and still sees
+one part with one footprint. The first instance carries the part's own uuid,
+which the board's footprint points at. The block of leftover pins (`U1-P`
+here: power, ground, NC) is the last unit, so a quad gate's power unit reads
+`U1E` in KiCad. As for every part, each unit is a rectangle with pins: the
+gate outlines are not written. Checked with KiCad 10.0.8 on the app's own
+`ExportSamples.split()` (a quad NAND with one gate moved, flipped and turned):
+`kicad-cli sch export netlist` lists one component `U1` (SN74HC00N, footprint
+`Schematical:PDIP-14`) with units A–E holding pins 1 2 3 / 4 5 6 / 8 9 10 /
+11 12 13 / 7 14, and its pins on the app's nets (pin 3 with pin 4 and the
+LED, 14 on `5V`, 7 on `GND`, the ten unused pins each on their own
+`unconnected-(…)` net); `kicad-cli sch erc` reports none of `missing_unit`,
+`extra_units`, `different_unit_net` or `different_unit_footprint`. The outputs
+are in `planning/plan-67-data/kicad/`.
+
 **Board** (`KiCadBoardWriter`). Millimetres as on the PCB page, moved 30 mm inside
 the page. Footprints are written with the part's reference, value, body outline,
 pin-1 dot and diode band on the layers the part's marks name, pads in the footprint's
@@ -352,6 +374,14 @@ label), a bus pin's wire name, or after its first pin. Bus lines and ports are p
 text blocks and a shown title block are `TEXT` (framed ones with a box), and a card board's connector is a
 symbol beside the drawing with a named stub or a net flag on each pin.
 
+**Parts drawn as units** (plan-67). A part in Gate view stays one `COMPONENT`
+with one Designator. Its generated symbol holds one `RECT` per drawn piece and
+every pin where the app draws it, measured from the corner of the box around
+the pieces, so every wire still ends on its pin and the board link is
+unchanged. The pieces cannot be moved apart in EasyEDA: there is no
+multi-part symbol. The symbol's key includes each unit's place, flip and
+turn, so two differently arranged parts never share one.
+
 **Board** (`EasyEDAProBoardWriter`): `LAYER`s (a 1-layer board gets Top and Bottom, EasyEDA's
 minimum), the design rules' track width, a `NET` for every net a pad carries, the outline
 (`POLY` on the outline layer, then one more `POLY` on the same layer for each cutout), a `POUR` for each inner Plane on a net and for each copper pour on a net (over its rectangle; keep-outs are not exported, the format's keep-out record can't be checked here), a `LINE` per trace
@@ -421,6 +451,10 @@ export every drawn thing is black at an alpha, or not drawn (`ExportPalette`).
 
 An ink's `opacity` multiplies the role's alpha (`Ink.secondary.opacity(0.5)`
 exports at 0.3).
+
+A part drawn as its units (plan-67, Gate view) is drawn in every picture export as it is on the canvas: each
+gate with its own symbol and label (`U1-A`, `U1-B`, …) and the block of leftover pins (`U1-P`); the export
+scene paints `PlacedChip.pieces`.
 
 ## Adding a part symbol
 

@@ -267,6 +267,12 @@ struct KiCadSchematicWriter {
     private func libraryName(of chip: PlacedChip) -> String {
         var name = KiCad.libraryName(chip.partNumber)
         if chip.part.uuid != nil { name += "_" + String((chip.part.uuid ?? "").prefix(8)) }
+        if chip.isSplit {
+            // Drawn as its units (plan-67): a multi-unit symbol, each unit's
+            // flip and turn baked in, so two arrangements never share one.
+            return name + "_units" + chip.unitPlacements
+                .map { "_\($0.key)\($0.isFlipped ? "f" : "n")\($0.rotation)" }.joined()
+        }
         if chip.isFlipped { name += "_flipped" }
         if chip.rotation != 0 { name += "_r\(chip.rotation)" }
         return name
@@ -323,6 +329,92 @@ struct KiCadSchematicWriter {
         let justification = justify.map { " (justify \($0))" } ?? ""
         return "\t\t(property \(KiCad.q(name)) \(KiCad.q(value)) (at \(KiCad.n(point.x)) \(KiCad.n(point.y)) 0)\n"
             + "\t\t\t(effects (font (size \(KiCad.n(size)) \(KiCad.n(size))))\(justification)\(hide ? " hide" : ""))\n\t\t)"
+    }
+
+    /// The library definition of a part drawn as its units (plan-67): one
+    /// KiCad unit per piece (`<name>_<n>_1`), each with its own body
+    /// rectangle and its own pins, placed from that piece's corner. No common
+    /// `_0_1` graphics. Written once.
+    private func defineUnits(_ chip: PlacedChip, name: String, in symbols: inout SymbolLibrary) {
+        guard symbols.names.insert(name).inserted else { return }
+        let pieces = chip.pieces
+        var units: [String] = []
+        for (index, piece) in pieces.enumerated() {
+            let box = bodyBox(of: piece)
+            let pins = piece.layout.slots.map { slot -> String in
+                let tip = piece.tip(of: slot)
+                return pin(type: pinType(of: piece, slot.pin),
+                           at: CGPoint(x: tip.x - piece.origin.x, y: tip.y - piece.origin.y),
+                           side: slot.side, name: KiCad.pinName(slot.pin), number: slot.pin.designator)
+            }
+            units.append("""
+            \t\t\t(symbol \(KiCad.q("\(name)_\(index + 1)_1"))
+            \t\t\t\t(rectangle
+            \t\t\t\t\t(start \(local(CGPoint(x: box.minX, y: box.minY))))
+            \t\t\t\t\t(end \(local(CGPoint(x: box.maxX, y: box.maxY))))
+            \t\t\t\t\t(stroke (width 0.254) (type default))
+            \t\t\t\t\t(fill (type background))
+            \t\t\t\t)
+            \(pins.joined(separator: "\n"))
+            \t\t\t)
+            """)
+        }
+        let height = pieces.first?.layout.size.height ?? 0
+        symbols.definitions.append("""
+        \t\t(symbol \(KiCad.q("\(KiCadExport.library):\(name)"))
+        \t\t\t(pin_names (offset 0.508))
+        \t\t\t(exclude_from_sim no)
+        \t\t\t(in_bom yes)
+        \t\t\t(on_board yes)
+        \(property("Reference", referencePrefix(of: chip), at: CGPoint(x: 0, y: 1.27)))
+        \(property("Value", chip.partNumber, at: CGPoint(x: 0, y: -(height * k + 1.27))))
+        \(property("Footprint", "", at: .zero, hide: true))
+        \(property("Datasheet", "", at: .zero, hide: true))
+        \(units.joined(separator: "\n"))
+        \t\t)
+        """)
+    }
+
+    /// The instances of a part drawn as its units: one per piece, all with
+    /// the part's reference, KiCad unit 1, 2, … in the order of the pieces.
+    /// The first carries the part's own uuid, which the board's footprint
+    /// points at.
+    private func unitInstances(of chip: PlacedChip, symbols: inout SymbolLibrary) -> String {
+        let name = libraryName(of: chip)
+        defineUnits(chip, name: name, in: &symbols)
+        let footprint = chip.footprint.map { "\(KiCadExport.library):\(KiCad.libraryName($0.id))" } ?? ""
+        var out: [String] = []
+        for (index, piece) in chip.pieces.enumerated() {
+            let unit = index + 1
+            let origin = CGPoint(x: (piece.origin.x + shift.x) * k, y: (piece.origin.y + shift.y) * k)
+            let box = bodyBox(of: piece)
+            let referenceAt = CGPoint(x: origin.x, y: origin.y + (box.minY - 20) * k)
+            let valueAt = CGPoint(x: origin.x, y: origin.y + (box.maxY + 20) * k)
+            let uuid = index == 0 ? chip.id.uuidString.lowercased() : id("unit/\(chip.id)/\(piece.unitKey ?? "")")
+            var text = """
+            \t(symbol
+            \t\t(lib_id \(KiCad.q("\(KiCadExport.library):\(name)")))
+            \t\t(at \(KiCad.n(origin.x)) \(KiCad.n(origin.y)) 0)
+            \t\t(unit \(unit))
+            \t\t(exclude_from_sim no)
+            \t\t(in_bom yes)
+            \t\t(on_board \(chip.footprint == nil ? "no" : "yes"))
+            \t\t(dnp no)
+            \t\t(uuid \(KiCad.q(uuid)))
+            \(property("Reference", chip.reference, at: referenceAt, hide: !chip.showsReference, justify: "left bottom"))
+            \(property("Value", chip.partNumber, at: valueAt, justify: "left top"))
+            \(property("Footprint", footprint, at: origin, hide: true))
+            \(property("Datasheet", chip.part.datasheetURL?.absoluteString ?? "", at: origin, hide: true))
+
+            """
+            for slot in piece.layout.slots {
+                text += "\t\t(pin \(KiCad.q(slot.pin.designator)) (uuid \(KiCad.q(id("pin/\(chip.id)/\(slot.pin.designator)")))))\n"
+            }
+            text += instances(reference: chip.reference, unit: unit)
+            text += "\t)"
+            out.append(text)
+        }
+        return out.joined(separator: "\n")
     }
 
     /// The library definition of a part's symbol, written once.
@@ -394,6 +486,7 @@ struct KiCadSchematicWriter {
 
     /// A part's instance on the sheet.
     private func instance(of chip: PlacedChip, symbols: inout SymbolLibrary) -> String {
+        if chip.isSplit { return unitInstances(of: chip, symbols: &symbols) }
         let name = libraryName(of: chip)
         define(chip, name: name, in: &symbols)
         let value: String
@@ -436,12 +529,12 @@ struct KiCadSchematicWriter {
         return out
     }
 
-    private func instances(reference: String) -> String {
+    private func instances(reference: String, unit: Int = 1) -> String {
         """
         \t\t(instances
         \t\t\t(project \(KiCad.q(context.base))
         \t\t\t\t(path \(KiCad.q("/" + context.rootUUID))
-        \t\t\t\t\t(reference \(KiCad.q(reference))) (unit 1)
+        \t\t\t\t\t(reference \(KiCad.q(reference))) (unit \(unit))
         \t\t\t\t)
         \t\t\t)
         \t\t)

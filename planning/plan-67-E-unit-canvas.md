@@ -242,7 +242,7 @@ Acceptance: a gate IC can be switched to Gate view in the sidebar and is drawn
 as five symbols with their labels.
   Check: `XB -only-testing:schematicalTests/SplitPartCanvasTests -only-testing:schematicalTests/SelectionSidebarTests`
   → `** TEST SUCCEEDED **` (est. 5 min).
-Commit: —
+Commit: 64c0fe43
 
 ### Phase 2 — picking, dragging, Rotate and Flip
 
@@ -265,7 +265,7 @@ Acceptance: a piece can be picked, dragged, turned and flipped on its own, and
 unsplit parts behave as before.
   Check: `XB -only-testing:schematicalTests/SplitPartCanvasTests -only-testing:schematicalTests/SelectionGestureTests -only-testing:schematicalTests/SelectionModelTests -only-testing:schematicalTests/SchematicRotateTests`
   → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+Commit: 64c0fe43
 
 ### Phase 3 — the delete confirm
 
@@ -293,7 +293,7 @@ Acceptance: a split part is never removed without the question; everything
 else is removed as before.
   Check: `XB -only-testing:schematicalTests/SplitPartCanvasTests -only-testing:schematicalTests/AutomationTests`
   → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+Commit: 64c0fe43
 
 ## Validation Plan
 

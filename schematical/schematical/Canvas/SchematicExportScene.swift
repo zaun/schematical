@@ -43,7 +43,8 @@ struct SchematicScene {
         WireLayer.paint(&painter, routes: routes, junctions: junctions, selectedWireIDs: [],
                         hoveredWireID: nil, preview: nil)
         NetLabelLayer.paint(&painter, labels: netLabels, selectedIDs: [], hoveredID: nil)
-        for chip in chips {
+        // Each part, or each unit of a part drawn as its units (plan-67).
+        for chip in chips.flatMap(\.pieces) {
             var placed = painter
             let wired = connectedPins[chip.id] ?? []
             placed.translateBy(x: chip.viewOrigin.x, y: chip.viewOrigin.y)

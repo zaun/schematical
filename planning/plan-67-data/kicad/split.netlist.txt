@@ -1,0 +1,22 @@
+components: 3; with ref U1: 1
+  value SN74HC00N  footprint Schematical:PDIP-14
+  unit A: pins 1 2 3
+  unit B: pins 4 5 6
+  unit C: pins 8 9 10
+  unit D: pins 11 12 13
+  unit E: pins 7 14
+net 5V: U1.14
+net GND: R1.2 U1.7
+net Net-(D1-A): D1.2 U1.3 U1.4
+net Net-(D1-K): D1.1 R1.1
+net unconnected-(U1A-1A-Pad1): U1.1
+net unconnected-(U1A-1B-Pad2): U1.2
+net unconnected-(U1B-2B-Pad5): U1.5
+net unconnected-(U1B-2Y-Pad6): U1.6
+net unconnected-(U1C-3A-Pad9): U1.9
+net unconnected-(U1C-3B-Pad10): U1.10
+net unconnected-(U1C-3Y-Pad8): U1.8
+net unconnected-(U1D-4A-Pad12): U1.12
+net unconnected-(U1D-4B-Pad13): U1.13
+net unconnected-(U1D-4Y-Pad11): U1.11
+U1 pins on nets: 14 (1 2 3 4 5 6 7 8 9 10 11 12 13 14)
