@@ -101,6 +101,9 @@ struct SerialModel {
                      const SerialPortSettings *port);
     /* Optional: the host-side interface (PartSerial.host) when no "bus" style names it. */
     const char *host;
+    /* Optional: 1 when the output pin is released to Z through an output
+       enable (plan-63-C): the ns16550's "tristate" pin floats every output. */
+    int (*pin_tristate)(const void *data, const void *pins, const void *options, size_t pin);
 };
 
 typedef struct {

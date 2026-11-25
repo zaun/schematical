@@ -240,8 +240,14 @@ static int st_open_drain(const void *bound, size_t pin) {
     return mux_select_open_drain(&((const StBound *)bound)->sel, pin);
 }
 
+static int st_tristate(const void *bound, size_t pin) {
+    const StBound *b = bound;
+
+    return mux_select_tristate(&b->sel, b->oe_count > 0, pin);
+}
+
 const MuxModel MUX_STORED = {
-    "stored", STORED_KEYS, st_load, st_bind, st_create, st_eval, st_open_drain
+    "stored", STORED_KEYS, st_load, st_bind, st_create, st_eval, st_open_drain, st_tristate
 };
 
 /* ---- regfile --------------------------------------------------------------- */
@@ -466,6 +472,19 @@ static int rf_open_drain(const void *bound, size_t pin) {
     return 0;
 }
 
+/* The read data outputs: a file's read enable releases them. */
+static int rf_tristate(const void *bound, size_t pin) {
+    const RfBound *b = bound;
+    size_t i;
+
+    for (i = 0; i < b->file_count; i++) {
+        if (b->files[i].re.pin != SEQ_NO_PIN && mux_pin_in(pin, b->files[i].q, b->bits)) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 const MuxModel MUX_REGFILE = {
-    "regfile", REGFILE_KEYS, rf_load, rf_bind, rf_create, rf_eval, rf_open_drain
+    "regfile", REGFILE_KEYS, rf_load, rf_bind, rf_create, rf_eval, rf_open_drain, rf_tristate
 };

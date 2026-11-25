@@ -1862,6 +1862,12 @@ int cv_pin_open_drain(const Part *part, size_t pin) {
     return pin < b->pin_count && b->open_drain[pin];
 }
 
+int cv_pin_tristate(const Part *part, size_t pin) {
+    const CvBound *b = part_internal(part)->bound;
+
+    return pin < b->pin_count && b->tristate[pin];
+}
+
 int cv_pin_analog(const Part *part, size_t pin) {
     const CvBound *b = part_internal(part)->bound;
 
@@ -1870,5 +1876,5 @@ int cv_pin_analog(const Part *part, size_t pin) {
 
 const PartKindOps CONVERTER_KIND = {
     PART_CONVERTER, "converter", &CONVERTER_COMPONENT, DEVICE_KEYS, PART_KEYS,
-    conv_load_device, cv_bind_pinout, cv_load_part, cv_pin_open_drain, cv_pin_analog
+    conv_load_device, cv_bind_pinout, cv_load_part, cv_pin_open_drain, cv_pin_analog, cv_pin_tristate
 };

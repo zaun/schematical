@@ -160,6 +160,35 @@ static void check_sequential_tristate(void) {
     named_pin("SN74ALS561AN", "CCO", ERC_OUTPUT, 0);
 }
 
+/* mux, converter and serial parts with an output enable (plan-63-C phase 2). */
+static void check_other_tristate(void) {
+    role_is("CD74AC251M96", PIN_OUTPUT, ERC_TRI_STATE);
+    role_is("TL16C552FN", PIN_OUTPUT, ERC_TRI_STATE);
+    /* The ADC's data outputs are gated by its "oe" pin; its other outputs are not. */
+    {
+        const Part *part = find("ADC08B200CIVS/NOPB");
+        size_t i, tri = 0, plain = 0;
+
+        for (i = 0; part != NULL && i < part->pin_count; i++) {
+            ErcPinType type;
+
+            if (part->pins[i].role != PIN_OUTPUT || !erc_pin_type(part, i, &type)) {
+                continue;
+            }
+            if (type == ERC_TRI_STATE) {
+                tri++;
+            } else {
+                plain++;
+            }
+        }
+        expect(tri > 0, "ADC08B200CIVS/NOPB has tri_state data outputs");
+        (void)plain;
+    }
+    /* A decoder, and an HD-6406 (its OE names an output pin, not an enable) are not 3-state. */
+    role_is("HD3-6406-5", PIN_OUTPUT, ERC_OUTPUT);
+    role_is("SN74HC138N", PIN_OUTPUT, ERC_OUTPUT);
+}
+
 static void check_passive_kinds(void) {
     every_pin_is("GENERIC-LED", ERC_PASSIVE);
     every_pin_is("GENERIC-RESISTOR", ERC_PASSIVE);
@@ -202,6 +231,7 @@ int main(void) {
     check_plain();
     check_tristate();
     check_sequential_tristate();
+    check_other_tristate();
     check_passive_kinds();
     check_supplies();
     check_regulator();

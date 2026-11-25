@@ -564,7 +564,20 @@ through an output enable. The `buffer` kind answers for the `tristate` model's
 are `inout`, so `bidirectional`); the `latch` kind for the `transparent`
 model's `q` / `qn` of a unit with an `oe` and the `sr` model's `q` when the
 device has an `outputEnable`; the `dff` kind for every `q` / `qn` of a device
-with an `outputEnable`.
+with an `outputEnable`. The other kinds that gate outputs (plan-63-C), by the
+part-file key that does it:
+
+| Kind | Key | Pins it makes tri-state |
+|---|---|---|
+| `register` | `groups[].outputs[].oe` | the bank's `q` pins |
+| `shift` | `units[].storage.outputEnable` (the `shift` model); the `fifo` and `serial-in` models' `outputEnable` | the storage outputs; the FIFO's four data outputs; the eight parallel outputs |
+| `counter` | `units[].outputEnable`, `units[].register.outputEnable` (the `sync` model) | the `q` pins; the register's outputs (a carry is not gated) |
+| `mux` | `units[].oe`, a stored mux's common `oes`, a unit's strobe with `"disabled": "z"`, a register file's `re` | the unit's `y` and `w`; the file's read data |
+| `converter`, `lcddriver`, `leddriver` | `bus.oe` | the parallel bus's data pins |
+| `serial` | `tristate` (the `ns16550` model's TRI pin) | every output pin of the part |
+
+The HD-6406's `hd6406.oe` names an output pin (the chip's own OE strobe), not
+an enable, so it gates nothing.
 
 ## Layout
 

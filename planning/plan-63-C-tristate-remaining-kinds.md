@@ -113,28 +113,29 @@ Rejected: the same as 63-B (names; engine probing).
 Acceptance: the three kinds answer by their data.
   Check: `cmake --build /tmp/logic-build --target erc_pins_test listing_check trace_check && /tmp/logic-build/erc_pins_test && /tmp/logic-build/trace_check | tail -1` → every line `PASS`; `trace_check` as before (est. 8 min).
   Result (2026-11-25, `/tmp/logic-build-wt63`): `erc_pins_test: all passed`; `trace_check` and `listing_check` last line `40174 parts compared, 0 skipped`. The golden was regenerated here, not in Phase 2, because `erc_pins_check` is a ctest and must pass at every commit: 321 lines changed (`register` 162, `shift` 126, `counter` 33), each only `o` → `t` (`ot.py` over the old and new file: `changed lines 321 not an o->t only change 0`). The counts equal the parts that name an output enable for `register` (162) and `counter` (33); `shift` is 126 of 170 (the rest are open-drain TPIC parts, which answer `open_collector`, and parts whose enable gates only an `inout` bus).
-Commit: (recorded in the next commit)
+Commit: f9514cba
 
 ### Phase 2 — mux, converter, serial
 
-- [ ] `backend/src/models/mux.c` (+ `mux_stored.c`): outputs gated by
+- [x] `backend/src/models/mux.c` (+ `mux_stored.c`): outputs gated by
       `units[].oe`. `converter.c` / `converter_load.c`: the data outputs gated
       by `bus.oe`. `serial.c` and the models that bind `tristate` / `hd6406.oe`
       (`ns16550.c`, `serial_hs82c52.c`; the same `tristate` callback beside `open_drain`): with `tristate`, every `output` pin; with
       `hd6406.oe`, the pins the OE pin releases. Each kind's table sets `pin_tristate`.
-- [ ] `erc_pins_test`: `CD74AC251M96`: Y outputs tri_state; `ADC08B200CIVS/NOPB`:
+- [x] `erc_pins_test`: `CD74AC251M96`: Y outputs tri_state; `ADC08B200CIVS/NOPB`:
       the data outputs tri_state; `TL16C552FN`: every `output` pin tri_state.
-- [ ] Regenerate the golden: `/tmp/logic-build/erc_pins_check --print >
+- [x] Regenerate the golden: `/tmp/logic-build/erc_pins_check --print >
       backend/tests/golden/erc_pins.txt`; `git diff --stat` shows only
       `erc_pins.txt`; every changed line differs by `o` → `t` only
       (`git diff -U0 backend/tests/golden/erc_pins.txt | grep '^[-+][^-+]' | awk -F'|' '{print $2}' | sort | uniq -c`
       lists only the six kinds, and a script check that each +/- pair differs
       only at `o`/`t` positions is run once and its output recorded).
-- [ ] `docs/backend.md` § ERC pin types: the table of § 2 (kind, key).
+- [x] `docs/backend.md` § ERC pin types: the table of § 2 (kind, key).
 
 Acceptance: the six kinds answer; the golden is final.
   Check: `cmake --build /tmp/logic-build --target erc_pins_test erc_pins_check listing_check trace_check voltage_test && /tmp/logic-build/erc_pins_test && /tmp/logic-build/erc_pins_check && /tmp/logic-build/listing_check | tail -1 && /tmp/logic-build/trace_check | tail -1 && /tmp/logic-build/voltage_test | tail -1` → all pass, the last three as before (est. 9 min).
-Commit: —
+  Result (2026-11-25, `/tmp/logic-build-wt63`): `erc_pins_test: all passed`; `erc_pins_check: 40174 parts match the golden`; `listing_check` and `trace_check` last line `40174 parts compared, 0 skipped`; `voltage_test: all passed`. This phase's golden change: 210 lines, each only `o` → `t` (`ot.py`: `changed lines 210 not an o->t only change 0`): `mux` 141, `converter` 63, `serial` 6. Golden `t` lines per kind (`awk -F'|' '$3 ~ /t/ {c[$2]++} END {for (k in c) print k, c[k]}'`): buffer 1324, counter 33, converter 63, dff 238, latch 623, mux 141, register 162, serial 6, shift 126.
+Commit: (recorded in the next commit)
 
 ### Phase 3 — Compare with KiCad's symbols
 
@@ -173,6 +174,7 @@ Commit: —
 ## Corrections
 
 1. Phase 1 changed `shift.c`, `shift_special.c` (the `fifo` and `serial-in` models, the only ones there that bind an `outputEnable`), `counter.c` (the `sync` model: a unit's `q` with its `outputEnable`, and its register's outputs with the register's) and `register.c`; `counter_div.c` and the other shift models name no output enable and are unchanged (the plan listed `shift_special.c` and `counter_div.c` as files "that bind an output enable"). `SN74ALS561AN`'s carries `RCO` and `CCO` are not gated by `OE` (the model drives them with `counter_drive` outside `drive_bits`), so the test names the `Q` pins and asserts the carries are `output`, not "every `output` pin tri_state" as § Phase 1 had it.
+3. Phase 2 differs from § 2's table in three places. (a) `mux`: besides `units[].oe` the hook covers a stored mux's common `oes`, a unit whose strobe releases its outputs (`"disabled": "z"`: the '253, '257, '258 families) and a register file's read enable `re` (the '670), because the model drives those outputs to Z; that is 141 parts, not the 25 that name `oe`. (b) `serial`: 6 parts, not 7: `hd6406.oe` names an output pin (the chip's own OE strobe, listed in the pinout as an `output`, `docs/parts-format.md` § hs82c52), not an enable; only the `ns16550` `tristate` pin gates outputs (TL16C552, TL16C552A and their 4 variants). (c) `converter`: the `lcddriver` and `leddriver` kinds share the engine and take the same hook (`cv_pin_tristate`); the converter's per-pin flag array is built at bind (`CvBound.tristate`). 63 parts, as § 2 counted.
 2. The counter and shift models' hook is a field `tristate` of their own model structs (`CounterModel.tristate(bound, pin)`, `ShiftModel.tristate(dev, bound, pin)`), beside `open_drain`; the plan's `seq.h` is not involved.
 
 ## Summary
