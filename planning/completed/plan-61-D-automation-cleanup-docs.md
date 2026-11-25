@@ -113,11 +113,11 @@ Commit: 61ef29b2
 - [x] `docs/file-format.md`: who reads and writes the file (`SchematicNSDocument`), autosave in place, load-file paths relative to the destination of each write and absolute for a document with no place yet. Done.
 - [x] `docs/agent-control.md`: the window tools act on documents; `save` with a path is Save As; `undo` and `redo` act on the document. Done, with the hooks list (the open documents, `NSDocumentController`, `SchematicExporter`).
 - [x] `docs/export.md`: the exporter's name; printing goes through the document. Done. Writing it showed a defect of 61-C phase 4 (Corrections 4), fixed here.
-- [ ] `git mv` the four `planning/plan-61-*.md` files to `planning/completed/`.
+- [x] `git mv` the four `planning/plan-61-*.md` files to `planning/completed/`. Done in this commit.
 
 Acceptance: no doc names the controller.
-  Check: `rg -c 'SchematicFileController' docs schematical` → no output (est. 1 min).
-Commit: —
+  Check: `rg -c 'SchematicFileController' docs schematical` → no output (est. 1 min). Result: `grep -rc 'SchematicFileController' docs schematical` → no file above 0.
+Commit: 39c335b2 (the docs and the print fix); the move of the four files is the commit after it.
 
 ## Validation Plan
 
@@ -138,6 +138,7 @@ Commit: —
 3. § 2 counted 8 test files constructing the controller. After 61-B phase 3 none constructs it (they build a `SchematicNSDocument` and use its `model.file`, plan-61-B Corrections 2), so the rename touched 3 test files that name the type (`FabCheckFixesTests`, `SchematicExportActionTests`, `SchematicNSDocumentTests`), not 8. § 2 also expected `updateOpenDocuments` and the custom-parts offer's trigger in the controller; `updateOpenDocuments` is `SchematicNSDocument`'s (same Corrections 2) and the offer is made by the document when its window is made.
 4. **A defect of 61-C phase 4, found while writing `docs/export.md`.** The pages chosen in the Print sheet are not among the options that are saved (the doc says so: "the page choices are not (a board's layers differ)"), and phase 4 had the document print with `PrintOptions.saved()`, so File › Print… would have printed every page whatever the sheet chose. The exporter now hands the sheet's options to the one print it starts (`optionsForNextPrint`, taken by the document's `printOperation(withSettings:)`); the system's own print action, with no sheet, still gets the saved ones. `testThePrintOperationIsTheDocuments` covers the hand-over.
 5. § Non-goals: `planning/todo.md` has the owner's uncommitted changes in the main checkout (`git status` at the start: ` M planning/todo.md`), so this plan's commits do not touch it.
+6. **The whole suite was run once, beyond the gate § Validation Plan names**, because this plan changed the app's scenes, menus and object lifetimes and one test outside the gates had already been broken by it (plan-61-C Corrections 2). `xcodebuild test … -skip-testing:schematicalTests/AutorouteModelTests` (the class that stalls in Debug), the app in front: `Executed 1658 tests, with 5 tests skipped and 12 failures`, 1006 s. The 12 failures are in 6 classes that read part data and goldens: `CustomFootprintDraftTests` (1691 explicit footprints, the test expects 954), `ParametricFootprintDraftTests` (3959 and 2268, expects 2929 and 1710), `CustomSupplyTests` (4 tests expect a 300 V limit; `SupplyChoice.maxVolts` is 500), `DrawerCategoriesTests.testDisplaysAndIndicators`, `MarkdownDatasheetTests.testConvertedPartHasMarkdownDatasheet`, `DesignRuleGoldenTests` (AFU, AFU-copper, LFU). They are not this plan's: the same 6 classes run on `main` at 7f51ec52, in a detached checkout, give the same result, `Executed 29 tests, with 12 failures`, the same 12 lines. They were left as found (a golden or a count is its owning plan's to re-measure) and reported to the owner. The 5 skips: `AutomationTests.testFileToolsAreOffWithoutASharedFolder` (a folder is shared on this Mac) and the four `RouterQualityFixtureTests` (opt-in).
 
 ## Summary
 
