@@ -1208,5 +1208,6 @@ Rows left out by rule (panel mount, momentary, line-voltage, illuminated, no Dig
 | 1101M2S3WBE2 | C&K 1000 | `switch` / Switches & Relays → Slide | number does not fit the datasheet's part-number key |
 | L101011ML04Q, L102011ML04Q, L102021ML04Q, L201011MS02Q, L201011MS02QE, L202011MS02G, L202021MA04Q, L202021MA04QE, L202031MS02Q, L202121MA04Q, L202121MS02Q, L202121MS02QE | C&K L | `switch` / Switches & Relays → Slide | number does not fit the datasheet's part-number key |
 | V80201MS02Q | C&K V | `switch` / Switches & Relays → Slide | number does not fit the datasheet's part-number key |
+| EG1249, EG1257, EG1270, EG1271, EG1271A, EG2210A-REDACTUATOR, EG2219 | E-Switch EG | `switch` / Switches & Relays → Slide | number does not fit the datasheet's part-number key |
 | AS11BW, AS12CV/A, AS13AW | NKK AS | `switch` / Switches & Relays → Slide | number does not fit the datasheet's part-number key |
 | MSN12ANA03 | NKK M | `switch` / Switches & Relays → Slide | number does not fit the datasheet's part-number key |

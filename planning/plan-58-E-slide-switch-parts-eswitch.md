@@ -29,9 +29,9 @@ The gate for the whole feature is in plan-58-A § Prerequisites. This letter add
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-58-D is complete | `ls planning/completed/plan-58-D-* \| wc -l` → 1 | NOT MET until D lands |
-| The generator exists | `ls planning/plan-58-data/gen-parts.py planning/plan-58-data/census/scheme-check.py planning/plan-58-data/census/specs-check.py planning/plan-58-data/census/fp-load.sh \| wc -l` → 4 | NOT MET until C lands |
-| E-Switch's PDFs are placed | `ls datasheets/switch/slide/eswitch/*.pdf \| wc -l` → 8 (or fewer, when A skipped a PDF's rows) | NOT MET until A lands |
+| plan-58-D is complete | `ls planning/completed/plan-58-D-* \| wc -l` → 1 | MET (2026-11-24, P-58) |
+| The generator exists | `ls planning/plan-58-data/gen-parts.py planning/plan-58-data/census/scheme-check.py planning/plan-58-data/census/specs-check.py planning/plan-58-data/census/fp-load.sh \| wc -l` → 4 | MET (2026-11-24, P-58: plan-58-C archived, 98c5cefb; plan-58-D archived, 7b2c459b) |
+| E-Switch's PDFs are placed | `ls datasheets/switch/slide/eswitch/*.pdf \| wc -l` → 8 (or fewer, when A skipped a PDF's rows) | MET (2026-11-24) |
 | No E-Switch slide parts yet | `python3 -I -c "import csv;t=open('schematical/schematical/Parts/switch.json').read();m=[r['mpn'] for r in csv.DictReader(open('planning/plan-58-data/candidates.tsv'),delimiter='\t') if r['maker']=='E-Switch' and r['decision']=='add'];print(sum(('\"name\":\"'+x+'\"') in t for x in m))"` → 0 | MET (2026-11-24) |
 
 If plan-58-D is not complete, this plan cannot start, full stop.
@@ -96,14 +96,15 @@ data; the image-against-drawing comparison catches it) and the same gate
 
 ### Phase 1 — decide the pending rows
 
-- [ ] Read each E-Switch PDF's part-number key; add the E-Switch rows to
+- [x] Read each E-Switch PDF's part-number key; add the E-Switch rows to
       `planning/plan-58-data/schemes.tsv` (plan-58-C § 4.1).
-- [ ] `python3 -I planning/plan-58-data/census/scheme-check.py --maker 'E-Switch'`; commit
+- [x] `python3 -I planning/plan-58-data/census/scheme-check.py --maker 'E-Switch'`; commit
       `candidates.tsv` and the skipped-parts section.
 
 Acceptance: no E-Switch row is `pending`; each `skip` reason is listed in
 `datasheets/skipped-parts.md`.
   Check: `awk -F'\t' '$1=="E-Switch" && $18=="pending"' planning/plan-58-data/candidates.tsv \| wc -l` → 0 (est. 3 min).
+  Measured: `scheme-check.py --maker 'E-Switch'` → `E-Switch 56 add, 7 skip, 0 pending`; `awk` pending count → 0; `decide.py --verify-skipped` exit 0
 Commit: —
 
 ### Phase 2 — footprints and specs
@@ -153,7 +154,7 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- **2026-11-24, Phase 1: 7 pending rows do not fit their key and are `skip`** (EG: EG1249, EG1257, EG1270, EG1271, EG1271A, EG2210A-REDACTUATOR, EG2219); E-Switch has 56 `add` rows after Phase 1. `schemes.tsv` regexes are written from each datasheet's ordering key (positions and listed letters only).
 
 ## Summary
 
