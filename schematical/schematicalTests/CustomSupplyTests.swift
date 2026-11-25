@@ -15,9 +15,12 @@ final class CustomSupplyTests: XCTestCase {
         XCTAssertEqual(SupplyChoice.name(volts: 1.25), "1V25")
         XCTAssertEqual(SupplyChoice.name(volts: 0.9), "0V9")
         XCTAssertEqual(SupplyChoice.name(volts: 300), "300V")
+        // The highest rail is `SupplyChoice.maxVolts`, 500 V since the dekatrons' supplies.
+        XCTAssertEqual(SupplyChoice.maxVolts, 500)
+        XCTAssertEqual(SupplyChoice.name(volts: 500), "500V")
         XCTAssertNil(SupplyChoice.name(volts: 0))
         XCTAssertNil(SupplyChoice.name(volts: -5))
-        XCTAssertNil(SupplyChoice.name(volts: 300.5))
+        XCTAssertNil(SupplyChoice.name(volts: 500.5))
         XCTAssertNil(SupplyChoice.name(volts: .nan))
         // Every menu rail is its own voltage's name.
         for name in SupplyChoice.names {
@@ -30,7 +33,7 @@ final class CustomSupplyTests: XCTestCase {
         XCTAssertEqual(SupplyChoice.millivolts(name: "170V"), 170_000)
         XCTAssertEqual(SupplyChoice.millivolts(name: "3V3"), 3300)
         XCTAssertEqual(SupplyChoice.millivolts(name: "1V25"), 1250)
-        for bad in ["VCC", "GND", "V", "3V30", "301V", "0V", "PULLUP-5V", "5 V", "3.3V", "SN74HC00N", ""] {
+        for bad in ["VCC", "GND", "V", "3V30", "501V", "0V", "PULLUP-5V", "5 V", "3.3V", "SN74HC00N", ""] {
             XCTAssertNil(SupplyChoice.millivolts(name: bad), bad)
         }
     }
@@ -43,7 +46,7 @@ final class CustomSupplyTests: XCTestCase {
         XCTAssertEqual(SupplyChoice.name(typed: "3,3"), "3V3")
         XCTAssertEqual(SupplyChoice.name(typed: "3V3"), "3V3")
         XCTAssertEqual(SupplyChoice.name(typed: "5.0"), "5V")
-        for bad in ["", "abc", "0", "-5", "301", "1e2", "12 volts"] {
+        for bad in ["", "abc", "0", "-5", "501", "1e2", "12 volts"] {
             XCTAssertNil(SupplyChoice.name(typed: bad), bad)
         }
     }
@@ -75,7 +78,7 @@ final class CustomSupplyTests: XCTestCase {
 
     func testOnlyRailNamesAreMade() {
         let catalog = TestSupport.catalog
-        for name in ["301V", "0V", "PULLUP-", "PULLUP-VCC", "NOSUCHPART", "PULLDOWN-5V"] {
+        for name in ["501V", "0V", "PULLUP-", "PULLUP-VCC", "NOSUCHPART", "PULLDOWN-5V"] {
             XCTAssertNil(catalog.part(named: name), name)
         }
         // Bundled rails stay the bundled parts.
