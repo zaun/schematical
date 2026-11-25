@@ -28,6 +28,7 @@ struct PCBSidebarView: View {
         case hole(UUID)
         case pour(UUID)
         case keepout(UUID)
+        case cutout(UUID)
         case selection
     }
 
@@ -52,6 +53,9 @@ struct PCBSidebarView: View {
         }
         if let id = document.selectedKeepoutID, document.keepouts.contains(where: { $0.id == id }) {
             return .keepout(id)
+        }
+        if let id = document.selectedCutoutID, document.cutouts.contains(where: { $0.id == id }) {
+            return .cutout(id)
         }
         return document.boardSelection.isEmpty ? .board : .selection
     }
@@ -114,6 +118,11 @@ struct PCBSidebarView: View {
                 if let keepout = document.keepouts.first(where: { $0.id == id }) {
                     KeepoutPanel(document: document, keepout: keepout)
                         .id(keepout.id)
+                }
+            case let .cutout(id):
+                if let cutout = document.cutouts.first(where: { $0.id == id }) {
+                    CutoutPanel(document: document, cutout: cutout)
+                        .id(cutout.id)
                 }
             case .selection:
                 let textIDs = Self.textIDs(of: document)
@@ -527,7 +536,14 @@ private struct BoardPanel: View {
                 .pickerStyle(.menu)
                 .help("Buses with \(document.board.pinCount) wires, one per pin of this card")
             }
-            if document.board.card?.isFixedSize == true {
+            if document.board.isFreeForm {
+                // A free-form outline fixes the size: it is the outline's bounds (plan-65-F).
+                LabeledContent("Width") {
+                    Text(LengthField.format(document.board.width, units: document.board.units)
+                         + " " + document.board.units.title)
+                }
+                .help("Fixed by the board outline")
+            } else if document.board.card?.isFixedSize == true {
                 // A cartridge's size is fixed by its shell, a HAT's or shield's by its standard.
                 LabeledContent("Width") {
                     Text(LengthField.format(document.board.width, units: document.board.units)
@@ -540,7 +556,15 @@ private struct BoardPanel: View {
                     return document.board.width
                 }
             }
-            if document.board.type == .custom || document.board.type == .customCard {
+            if document.board.isFreeForm {
+                LabeledContent("Height") {
+                    Text(LengthField.format(document.board.height, units: document.board.units)
+                         + " " + document.board.units.title)
+                }
+                .help("Fixed by the board outline")
+                Button("Reset to Rectangle") { document.resetBoardOutline() }
+                    .help("Drop the free-form outline: the board becomes a rectangle of the same width and height")
+            } else if document.board.type == .custom || document.board.type == .customCard {
                 LengthField(title: "Height", millimetres: document.board.height, units: document.board.units) {
                     document.setBoardSize(width: document.board.width, height: $0)
                     return document.board.height

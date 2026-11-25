@@ -104,6 +104,12 @@ extension SchematicDocument {
         return nil
     }
 
+    /// The cutout, when it is the only thing selected on the PCB page (plan-65-F).
+    var selectedCutoutID: UUID? {
+        if case let .cutout(id)? = boardSelection.sole { return id }
+        return nil
+    }
+
     /// Sets a pour to the bounds of the board's outline.
     func fitPourToBoard(_ id: UUID) {
         guard let rect = boardOutlineBounds else { return }

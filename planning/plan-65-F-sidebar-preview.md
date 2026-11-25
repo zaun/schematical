@@ -25,7 +25,7 @@ The shared gate is in plan-65-A. This sub-plan adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-65-E is complete | `ls planning/completed \| grep -c '^plan-65-E'` → 1 | NOT MET (2026-11-25: E is written, not landed) |
+| plan-65-E is complete | `ls planning/completed \| grep -c '^plan-65-E'` → 1 | MET (2026-11-25: E landed, 1) |
 
 Everything below is written against the world where these hold.
 
@@ -84,12 +84,13 @@ Byte-identity is not a gate; the no-cutout check is the existing preview tests. 
 
 ### Phase 1 — Panels
 
-- [ ] `Canvas/CutoutSection.swift` (new): `CutoutPanel`; `PCBSidebarView.swift`: the `.cutout(UUID)` item case, `selectedCutoutID` (beside `selectedKeepoutID`, `PourSection.swift:94`), the panel route, the multi-selection Lock.
-- [ ] `PCBSidebarView.swift` `BoardPanel`: the free-form branch of § 3.
-- [ ] Tests `schematicalTests/CutoutPanelTests.swift`: for a 10 × 4 rounded cutout the panel's setters (the closures the fields call, as `PourPanelTests` tests the keep-out panel's) change rect and radius as named undo steps and refuse a radius over 2 mm by clamping; a locked cutout's setters change nothing; a polygon's X/Y move it and its size is unchanged; `BoardPanel`'s reset on a free-form board gives a rectangle of the old bounds and one undo step restores the polygon; on a plain board no reset button is offered (the visibility predicate the view reads, tested as a static function).
+- [x] `Canvas/CutoutSection.swift` (new): `CutoutPanel`; `PCBSidebarView.swift`: the `.cutout(UUID)` item case, `selectedCutoutID` (beside `selectedKeepoutID`, `PourSection.swift:94`), the panel route, the multi-selection Lock.
+- [x] `PCBSidebarView.swift` `BoardPanel`: the free-form branch of § 3.
+- [x] Tests `schematicalTests/CutoutPanelTests.swift`: for a 10 × 4 rounded cutout the panel's setters (the closures the fields call, as `PourPanelTests` tests the keep-out panel's) change rect and radius as named undo steps and refuse a radius over 2 mm by clamping; a locked cutout's setters change nothing; a polygon's X/Y move it and its size is unchanged; `BoardPanel`'s reset on a free-form board gives a rectangle of the old bounds and one undo step restores the polygon; on a plain board no reset button is offered (the visibility predicate the view reads, tested as a static function).
 
 Acceptance: every panel field changes the model as one named undo step and the free-form reset works.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/CutoutPanelTests -only-testing:schematicalTests/PourPanelTests -only-testing:schematicalTests/BoardDetailsSheetTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 4 min; the two existing classes are the no-cutout check for the panels).
+  Observed: CutoutPanelTests 5 + PourPanelTests 5 + BoardDetailsSheetTests 4, 0 failures, TEST SUCCEEDED.
 Commit: —
 
 ### Phase 2 — The board preview
