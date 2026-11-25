@@ -29,7 +29,7 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-63-F is complete | `grep -c 'run_erc' schematical/schematical/Automation/AutomationRead.swift` → a number above 0 | NOT MET until F lands |
+| plan-63-F is complete | `grep -c 'run_erc' schematical/schematical/Automation/AutomationRead.swift` → a number above 0 | MET (`1`, 2026-11-25) |
 | The rest as plan-63-A § Prerequisites | its four commands | MET (2026-11-25) |
 
 If plan-63-F is not complete, this plan cannot start, full stop.
@@ -117,23 +117,24 @@ symbols by name, so every symbol of one rail would conflict).
 
 ### Phase 1 — The KiCad export writes the ERC pin types
 
-- [ ] `Document/KiCadSchematicWriter.swift`: `pinType(of chip:, slot:)` returns the
+- [x] `Document/KiCadSchematicWriter.swift`: `pinType(of chip:, slot:)` returns the
       KiCad word from `erc_pin_type` + `erc_pin_type_name` (the library part found as
       `VoltageCheck` does, `part_library_find`), `no_connect` for a no_connect pin, and
       `passive` for a pin the part gives no type (absent); the `define(_:name:in:)`
       call at `:315` uses it. The far pin and the connector's pins stay `passive`;
       rail symbols stay `power_in`.
-- [ ] Tests in `KiCadExportTests`: a `SN74HC244N` exports its `Y` pins as `tri_state`
+- [x] Tests in `KiCadExportTests`: a `SN74HC244N` exports its `Y` pins as `tri_state`
       and its `A` pins as `input`; a `SN74LS07N` output as `open_collector`;
       a `GENERIC-RESISTOR` / `GENERIC-LED` / a header pin as `passive`; an
       `ATMEGA328P-PU` GPIO as `bidirectional`; a `LM7805MPX/NOPB` output as `power_out`;
       the fixtures still export (the existing tests pass).
-- [ ] `docs/export.md` § KiCad: a pin's type is the ERC pin type (the table of
+- [x] `docs/export.md` § KiCad: a pin's type is the ERC pin type (the table of
       `docs/backend.md` § ERC pin types).
 
 Acceptance: the export carries the ERC pin types.
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/KiCadExportTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 7 min).
-Commit: —
+  Result (2026-11-25, in the worktree): `KiCadExportTests` `Executed 22 tests, with 0 failures`, `** TEST SUCCEEDED **` (the new `testLibraryPinsCarryTheErcPinTypes`: `SN74HC244N` 8 `tri_state`, 10 `input`, 2 `power_in`; `SN74LS07N` `open_collector`; resistor and header `passive`; `ATMEGA328P-PU` `bidirectional`; `LM7805` `power_out`; with no library the pins keep their roles).
+Commit: (recorded in the next commit)
 
 ### Phase 2 — The comparison
 

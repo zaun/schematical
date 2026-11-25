@@ -45,6 +45,32 @@ final class KiCadExportTests: XCTestCase {
         text.components(separatedBy: needle).count - 1
     }
 
+    /// plan-63-G: a library pin's type is the ERC pin type (`erc_pin_type`), so KiCad's own
+    /// ERC on the export sees what the app's sees.
+    func testLibraryPinsCarryTheErcPinTypes() throws {
+        func schematic(placing name: String) throws -> String {
+            let doc = TestSupport.newDocument(library: TestSupport.catalog.library)
+            try TestSupport.place(doc, name, at: CGPoint(x: 200, y: 200))
+            return try file(KiCadExport.files(for: doc, base: "t"), "kicad_sch")
+        }
+        let buffer = try schematic(placing: "SN74HC244N")
+        XCTAssertEqual(count("(pin tri_state line", in: buffer), 8, "the eight Y pins")
+        XCTAssertEqual(count("(pin input line", in: buffer), 10, "eight A pins and two OE pins")
+        XCTAssertEqual(count("(pin power_in line", in: buffer), 2)
+        XCTAssertEqual(count("(pin bidirectional line", in: buffer), 0)
+        XCTAssertTrue(try schematic(placing: "SN74LS07N").contains("(pin open_collector line"))
+        XCTAssertTrue(try schematic(placing: "GENERIC-RESISTOR").contains("(pin passive line"))
+        XCTAssertFalse(try schematic(placing: "GENERIC-RESISTOR").contains("(pin bidirectional line"))
+        XCTAssertTrue(try schematic(placing: "GENERIC-HEADER-1X02").contains("(pin passive line"))
+        XCTAssertTrue(try schematic(placing: "ATMEGA328P-PU").contains("(pin bidirectional line"))
+        XCTAssertTrue(try schematic(placing: "LM7805MPX/NOPB").contains("(pin power_out line"))
+        // Without the library, the pin's role: an output is an output.
+        let bare = TestSupport.newDocument()
+        try TestSupport.place(bare, "SN74HC244N", at: CGPoint(x: 200, y: 200))
+        let plain = try file(KiCadExport.files(for: bare, base: "t"), "kicad_sch")
+        XCTAssertEqual(count("(pin output line", in: plain), 8)
+    }
+
     /// plan-63-A: a Power Flag net label is a `PWR_FLAG` power symbol with a `power_out` pin.
     func testAPowerFlagExportsAsPWR_FLAG() throws {
         let doc = TestSupport.newDocument()

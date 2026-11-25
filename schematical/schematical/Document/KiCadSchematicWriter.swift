@@ -270,6 +270,19 @@ struct KiCadSchematicWriter {
         return name
     }
 
+    /// The KiCad pin type of a part's pin: the electrical rules check's type
+    /// (`erc_pin_type`: passive, tri_state, open_collector, power_out, …) when the
+    /// document has the part library, else the pin's role.
+    private func pinType(of chip: PlacedChip, _ pin: ChipPin) -> String {
+        if let library = document.library, let part = part_library_find(library.pointer, chip.partNumber) {
+            var type = ERC_INPUT
+            if erc_pin_type(part, pin.index, &type) != 0 {
+                return String(cString: erc_pin_type_name(type))
+            }
+        }
+        return pinType(pin.role)
+    }
+
     private func pinType(_ role: ChipPinRole) -> String {
         switch role {
         case .input: "input"
@@ -318,7 +331,7 @@ struct KiCadSchematicWriter {
         var pins: [String] = []
         for slot in chip.layout.slots {
             let tip = chip.tip(of: slot)
-            pins.append(pin(type: pinType(slot.pin.role), at: CGPoint(x: tip.x - chip.origin.x, y: tip.y - chip.origin.y),
+            pins.append(pin(type: pinType(of: chip, slot.pin), at: CGPoint(x: tip.x - chip.origin.x, y: tip.y - chip.origin.y),
                             side: slot.side, name: KiCad.pinName(slot.pin), number: slot.pin.designator))
         }
         if let far = farPin(of: chip) {

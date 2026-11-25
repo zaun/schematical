@@ -239,8 +239,12 @@ end.
 - Each part is a generated symbol in the file's own `Schematical` library: a
   rectangle with the pins on the sides the app draws them (a flipped or turned part is its
   own symbol; a two-terminal part's rectangle is just its pins' span). Pin names
-  keep their active-low bars (`~{CE}`), pin types follow the roles, and power and
-  ground pins are power inputs. Value is the part number (a resistor's or generic
+  keep their active-low bars (`~{CE}`), and a pin's type is the electrical rules
+  check's (plan-63; `docs/backend.md` § ERC pin types): `passive` for a resistor,
+  connector or transistor, `tri_state` for a 3-state output, `open_collector`,
+  `power_out` for a regulator's output, `bidirectional`, `input`, `output`, and
+  `power_in` for power and ground pins, so KiCad's own ERC on the export sees what
+  the app's sees (the pin's role when the document has no part library). Value is the part number (a resistor's or generic
   capacitor's value), Footprint is `Schematical:<footprint id>`, Datasheet is the
   datasheet URL.
 - VCC and GND symbols are power symbols named for the rail (`5V`, `3V3`, `GND`),
