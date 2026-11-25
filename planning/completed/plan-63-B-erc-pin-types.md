@@ -225,7 +225,7 @@ Commit: 4b64f493
 Acceptance: all 2950 parts of the three kinds answer by their data; the golden is the library.
   Check: `cmake --build /tmp/logic-build --target erc_pins_test erc_pins_check listing_check trace_check && /tmp/logic-build/erc_pins_test && /tmp/logic-build/erc_pins_check && /tmp/logic-build/listing_check | tail -1 && /tmp/logic-build/trace_check | tail -1` → all pass, the last two as before (est. 8 min; `trace_check` runs the engine over every part, which is why this is the one check that proves no model changed).
   Result (recorded when run): the golden lines with a `t`, per kind, `awk -F'|' '$3 ~ /t/ {c[$2]++} END {for (k in c) print k, c[k]}' backend/tests/golden/erc_pins.txt` → `buffer 1324`, `dff 238`, `latch 623` (no other kind). Checks (2026-11-25, `/tmp/logic-build-wt63`): `erc_pins_test: all passed` (7 tri-state parts, 3 roles each); `erc_pins_check: 40174 parts match the golden`; `listing_check` and `trace_check` last line `40174 parts compared, 0 skipped` (trace_check 8.4 s); `voltage_test: all passed`; passive-kind lines with a non-passive type: 0 (`awk` over the golden). `dff` and `latch` equal their parts that name an output enable (238, 623); `buffer` 1324 of the 2089 that name one (the rest are transceiver, registered and level-translator parts, whose ports are `inout`).
-Commit: —
+Commit: 78440066
 
 ## Validation Plan
 
@@ -233,7 +233,7 @@ Commit: —
 - Coverage check: `backend/CMakeLists.txt` lists `erc_pins.c` in the library and both tests as `logic_test`; `ctest --test-dir /tmp/logic-build -R erc_pins` lists 2 tests.
 - Runtime proof: none beyond the tests (nothing calls it yet).
 - Doc sync: `docs/backend.md` (Phase 2).
-- Final gate (once, after Phase 2): `ctest --test-dir /tmp/logic-build -R 'erc_pins|voltage|listing|trace'` → 100% passed (est. 8 min).
+- Final gate (once, after Phase 2): `ctest --test-dir /tmp/logic-build -R 'erc_pins|voltage|listing|trace'` → 100% passed (est. 8 min). Result (2026-11-25, `/tmp/logic-build-wt63`): `100% tests passed, 0 tests failed out of 5` (12 s); and the app builds with `erc.h` in the bridging header: `xcodebuild build` → `** BUILD SUCCEEDED **`.
 
 ## Decisions
 
