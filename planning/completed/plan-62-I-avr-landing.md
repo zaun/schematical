@@ -136,7 +136,7 @@ Acceptance: `ls planning/plan-62-*.md | wc -l` → 0; `ls
 planning/completed/plan-62-* | wc -l` → 9.
   Check: the two commands (est. 1 min).
   Observed: 2026-11-24: `ls planning/plan-62-*.md | wc -l` → 0; `ls planning/completed/plan-62-* | wc -l` → 9.
-Commit: PHASE2
+Commit: d6f7ecf3
 
 ## Validation Plan
 
