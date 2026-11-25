@@ -444,7 +444,7 @@ Commit: 84d1c019
 
 Acceptance: every download-set row either has a PDF or a reason it has none.
   Check: `awk -F'\t' 'NR>1 && ($23=="candidate" \|\| $23=="reserve") && $26==""' planning/plan-47-data/candidates.tsv \| wc -l` → the rows B and C will `skip` for no maker datasheet (recorded here); for each family `find datasheets/<family> -iname '*.pdf' \| wc -l` = `tail -n +2 datasheets/<family>/datasheets.tsv \| cut -f1 \| sort -u \| wc -l` (est. 30 min: the PDFs `urlcheck.py` already fetched are reused; a cold cache is 1466 downloads, about 45 min).
-Commit: —
+Commit: d14157a5
 
 ## Validation Plan
 
