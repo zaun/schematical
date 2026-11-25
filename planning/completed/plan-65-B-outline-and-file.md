@@ -145,7 +145,7 @@ Unchanged: every existing key, `version`, and the bytes of any document without 
 Acceptance: a free-form outline is set, reset and undone exactly, and every reader of `BoardSettings.outline` sees it (asserted through `BoardEdge`).
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/FreeFormOutlineTests -only-testing:schematicalTests/BoardCutoutTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 2 min).
   Observed: FreeFormOutlineTests 7 + BoardCutoutTests 17, 0 failures, TEST SUCCEEDED.
-Commit: —
+Commit: c28b558b
 
 ### Phase 2 — The file
 
@@ -156,7 +156,7 @@ Commit: —
 Acceptance: round trip is exact; every error message in the table is produced; documents without the keys are unchanged.
   Check: `XB -only-testing:schematicalTests/CutoutFileTests -only-testing:schematicalTests/PourFileTests -only-testing:schematicalTests/SchematicFileV5Tests -only-testing:schematicalTests/FileDesignRulesTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 3 min; the three existing classes are the check that files without the keys are unchanged).
   Observed: CutoutFileTests 10 + PourFileTests 13 + SchematicFileV5Tests 8 + FileDesignRulesTests 7, 0 failures, TEST SUCCEEDED.
-Commit: —
+Commit: 092e431f
 
 ## Validation Plan
 
@@ -164,7 +164,7 @@ Commit: —
 - Coverage check: both new classes are in the test target; the Phase 2 check also runs `PourFileTests`, `SchematicFileV5Tests` and `FileDesignRulesTests`, which exercise the same `Board` encode and `boardSettings()`.
 - Runtime proof: none beyond the tests (no UI before E).
 - Doc sync: `docs/file-format.md` (Board table, Cutouts, validation list, Older versions).
-- Final gate (run ONCE, after Phase 2): `-only-testing:schematicalTests/FreeFormOutlineTests -only-testing:schematicalTests/CutoutFileTests -only-testing:schematicalTests/CutoutModelTests -only-testing:schematicalTests/PourFileTests -only-testing:schematicalTests/BoardCatalogTests -only-testing:schematicalTests/BoardCardTests` → `** TEST SUCCEEDED **` (est. 4 min; the last two cover `setBoardType`'s card paths).
+- Final gate (run ONCE, after Phase 2): `-only-testing:schematicalTests/FreeFormOutlineTests -only-testing:schematicalTests/CutoutFileTests -only-testing:schematicalTests/CutoutModelTests -only-testing:schematicalTests/PourFileTests -only-testing:schematicalTests/BoardCatalogTests -only-testing:schematicalTests/BoardCardTests` → `** TEST SUCCEEDED **` (est. 4 min; the last two cover `setBoardType`'s card paths). Observed: all six classes, 0 failures, `** TEST SUCCEEDED **`.
 
 ## Decisions
 
