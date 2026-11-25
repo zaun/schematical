@@ -155,7 +155,7 @@ Commit: 59d923a2
 Acceptance: the script runs on a real log and prints the comparison.
   Check: `TEST_RUNNER_ERC_OUT=1 xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/ErcCompareTests > /tmp/erc.log 2>&1; python3 scripts/erc-compare.py /tmp/erc.log | tail -25` → the table (est. 9 min).
   Result (2026-11-25): `TEST_RUNNER_ERC_OUT=1 xcodebuild test … -only-testing:schematicalTests/ErcCompareTests` → `** TEST SUCCEEDED **`, 19 `ERC_RESULT` lines and 38 `KICAD_FILE` lines (.kicad_pro and .kicad_sch of 19 designs); `python3 scripts/erc-compare.py /tmp/erc.log` printed the comparison table of 304 rows.
-Commit: BATCHG
+Commit: 3cd00f8e
 
 ### Phase 3 — Reconcile
 
@@ -167,7 +167,7 @@ Commit: BATCHG
 Acceptance: the script exits 0.
   Check: `python3 scripts/erc-compare.py /tmp/erc.log; echo $?` (the log re-made after the fixes by Phase 2's command) → ends with `0 differences` and `0` (est. 10 min with the rebuild).
   Result (2026-11-25): `python3 scripts/erc-compare.py /tmp/erc.log` → `designs: 19; rows compared: 304`, `0 differences`, exit 0. Violations over the 19 designs, the app's ERC / `kicad-cli`: pin_not_connected 351 / 351, pin_not_driven 194 / 194, power_pin_not_driven 51 / 51, pin_to_pin 3 / 3, no_connect_connected 1 / 1, no_connect_dangling 1 / 1, wire_dangling 1 / 1, unconnected_wire_endpoint 3 / 3, label_dangling 1 / 1, isolated_pin_label 6 / 6, similar_labels 1 / 1, similar_label_and_power 1 / 1; the rest are the `DELIBERATE` entries: duplicate_reference 1 / 0 (`kicad-cli` does not report it), single_global_label 8 / 0 (the export writes local labels), multiple_net_names 1 / 5 (4 labels the export adds for bus wires named like a rail: AFU 2, LFU 2), four_way_junction 1 / 2 (AFU: a wire bends at a junction). Total 625 / 621. What had to change in the app to get there is in Corrections 1–3.
-Commit: BATCHG
+Commit: 3cd00f8e
 
 ### Phase 4 — Landing
 
