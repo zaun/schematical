@@ -130,7 +130,7 @@ be independent evidence).
 
 Acceptance: H shows 6502 in a window named after the file.
   Check: `osascript -e 'tell application "System Events" to tell process "SchematicalSpike59" to get name of every window'` (the process name is the product name; both worktrees use it, so run one app at a time) → contains `6502` (est. 15 min build, 3 min check). — ran: `6502.schematical`.
-Commit: (this commit; hash in the next)
+Commit: df545c33
 
 ### Phase 2 — File and undo probes (F1–F7, U1–U5)
 
@@ -138,7 +138,7 @@ Commit: (this commit; hash in the next)
 
 Acceptance: 12 H verdicts.
   Check: `rg -c '^\| (F[1-7]|U[1-5]) \| [^|]+\| [^|]+\| [^|]+\| (works|workaround|blocked) \|' planning/plan-59-data/findings.md` → `12` (est. 4 h). — ran: `12`.
-Commit: (this commit; hash in the next)
+Commit: df545c33
 
 ### Phase 3 — App probes (A1–A16)
 
@@ -147,7 +147,7 @@ Commit: (this commit; hash in the next)
 
 Acceptance: 15 H verdicts for A1–A15, the A16 table has an H seam per row, the patch exists.
   Check: `rg -c '^\| A[0-9]+ \| [^|]+\| [^|]+\| [^|]+\| (works|workaround|blocked) \|' planning/plan-59-data/findings.md` → `15`; `git apply --check planning/plan-59-data/spike-H.patch` in a throwaway detached worktree of `2d10a029` → exit 0 (est. 5–6 h). — ran: `15`; `git apply --check spike-H.patch -> exit 0`.
-Commit: (this commit; hash in the next)
+Commit: df545c33
 
 ## Validation Plan
 
