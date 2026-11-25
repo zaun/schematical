@@ -82,7 +82,7 @@ tier is not a plan step (it runs in the background per write-bug's Test tiers).
 Acceptance: every line above ticked with its result.
   Check: the lines above, each its own command (est. 65 min in all; the app tests dominate).
   Measured: main had advanced 60 commits, so `git merge main` was done first (merge d55b515a: goldens regenerated, `footprints.json` / docs unioned, three Swift conflicts resolved) and every gate ran on the merged tree. Backend: `ctest -N | tail -1` → `Total Tests: 66`, `ctest -j8` → `100% tests passed, 0 tests failed out of 66`. Goldens: main's lines plus exactly 271 / 271 / 134 added (parts / traces / footprints), 0 removed; `grep -c 'states=' parts.txt` → 271 = `awk '$18=="add"' candidates.tsv | wc -l` → 271; slide devices `grep -c '"id": *"slide_'` → 34. Generator: `gen-parts.py --maker 'C&K' --maker NKK --maker E-Switch --maker CIT --dry-run` → `no changes`. Specs: `specs ok (105 rows, 58 specs)`, `(67 rows, 29 specs)`, `(56 rows, 33 specs)`, `(43 rows, 15 specs)`. Datasheets: `www.littelfuse.com` 193 of 193, `www.nkkswitches.com` 12 of 12, `www.citrelay.com` 12 of 12, `configured-product-images.s3.amazonaws.com` 69 of 69 URLs serve a PDF, 0 failed. App tests: the plan's 16 classes → `** TEST SUCCEEDED **`, 233 tests, 0 failures. Harness: `slide-switch.swift` → 8 `ok` lines, `all checks ok`, exit 0; `/tmp/p58g-gallery-1.png` and `-2.png` read: every circuit and position draws as intended (SPST on/off; SPDT 1/2 and 1/2/3; DPST on/off; DPDT 1/2 and 1/2/3, knob and blade agree). Docs: `grep -c slide` → parts-format.md 7, file-format.md 1, agent-control.md 1, backend.md 5.
-Commit: —
+Commit: 9dc8e4ea
 
 ### Phase 2 — close the plan
 
