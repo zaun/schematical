@@ -29,7 +29,7 @@ The shared gate is in plan-65-A. This sub-plan adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-65-A is complete | `ls planning/completed \| grep -c '^plan-65-A'` → 1 | NOT MET (2026-11-25: A is written, not landed) |
+| plan-65-A is complete | `ls planning/completed \| grep -c '^plan-65-A'` → 1 | MET (2026-11-25: A landed, 1) |
 
 Everything below is written against the world where these hold.
 
@@ -138,12 +138,13 @@ Unchanged: every existing key, `version`, and the bytes of any document without 
 
 ### Phase 1 — The free-form outline in the model
 
-- [ ] `Canvas/BoardSettings.swift`: `customOutline`, `isFreeForm`, the new `outline`, `problem(outline:)`. `BoardSettings.problem(outline:)` calls A's `BoardGeometry.crossesItself`.
-- [ ] `Canvas/SchematicModel.swift`: `setBoardOutline`, `resetBoardOutline`; the early return in `setBoardSize`; the drop in `setBoardType`.
-- [ ] Tests `schematicalTests/FreeFormOutlineTests.swift`: `outline` is the polygon while Custom and the rectangle after `resetBoardOutline`; width and height equal the bounds after `setBoardOutline` with a counter-clockwise L-shape starting at (0, 0) (stored clockwise by `BoardGeometry.clockwise`, A); `setBoardOutline` refuses a bow-tie, a 2-point list, an outline whose top-left is (5, 0) and one 1200 mm wide, each leaving no undo step; `setBoardSize` on a free-form board changes nothing; `setBoardType(.customCard)` drops the outline and a later `.custom` is a rectangle; undo and redo of `setBoardOutline` restore type, outline, width and height exactly; cutouts and part positions are unchanged by `setBoardOutline`.
+- [x] `Canvas/BoardSettings.swift`: `customOutline`, `isFreeForm`, the new `outline`, `problem(outline:)`. `BoardSettings.problem(outline:)` calls A's `BoardGeometry.crossesItself`.
+- [x] `Canvas/SchematicModel.swift`: `setBoardOutline`, `resetBoardOutline`; the early return in `setBoardSize`; the drop in `setBoardType`.
+- [x] Tests `schematicalTests/FreeFormOutlineTests.swift`: `outline` is the polygon while Custom and the rectangle after `resetBoardOutline`; width and height equal the bounds after `setBoardOutline` with a counter-clockwise L-shape starting at (0, 0) (stored clockwise by `BoardGeometry.clockwise`, A); `setBoardOutline` refuses a bow-tie, a 2-point list, an outline whose top-left is (5, 0) and one 1200 mm wide, each leaving no undo step; `setBoardSize` on a free-form board changes nothing; `setBoardType(.customCard)` drops the outline and a later `.custom` is a rectangle; undo and redo of `setBoardOutline` restore type, outline, width and height exactly; cutouts and part positions are unchanged by `setBoardOutline`.
 
 Acceptance: a free-form outline is set, reset and undone exactly, and every reader of `BoardSettings.outline` sees it (asserted through `BoardEdge`).
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/FreeFormOutlineTests -only-testing:schematicalTests/BoardCutoutTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 2 min).
+  Observed: FreeFormOutlineTests 7 + BoardCutoutTests 17, 0 failures, TEST SUCCEEDED.
 Commit: —
 
 ### Phase 2 — The file

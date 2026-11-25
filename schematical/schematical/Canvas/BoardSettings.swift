@@ -275,6 +275,11 @@ nonisolated struct BoardSettings: Hashable, Sendable {
     /// A custom card's edge connector; used only when `type` is
     /// `.customCard`, but kept so it comes back.
     var customCard = CustomCard()
+    /// A Custom board's free-form outline (plan-65): clockwise (y down), at
+    /// least 3 points, no crossing, its bounds' top-left at (0, 0). While it
+    /// is set `width` and `height` are its bounds. Used only while `type` is
+    /// `.custom`, and dropped when the type changes.
+    var customOutline: [CGPoint]? = nil
     /// The settings of the board types that have them (`boards.json`
     /// options: PCI Express lanes, M.2 key, …); kept across type changes.
     var cardOptions = CardOptions()
@@ -345,11 +350,39 @@ nonisolated struct BoardSettings: Hashable, Sendable {
     /// The board's copper layers in stack order.
     var copperLayers: [CopperLayer] { CopperLayer.allCases(for: layers) }
 
-    /// The board's outline, clockwise from the top-left (mm): the
-    /// rectangle, or a card's shape with its edge tab and key notches.
+    /// The board's outline, clockwise from the top-left (mm): a card's shape
+    /// with its edge tab and key notches, a Custom board's free-form
+    /// outline, or the rectangle.
     var outline: [CGPoint] {
-        card?.outline ?? [CGPoint(x: 0, y: 0), CGPoint(x: width, y: 0), CGPoint(x: width, y: height),
-                          CGPoint(x: 0, y: height)]
+        card?.outline ?? (type == .custom ? customOutline : nil)
+            ?? [CGPoint(x: 0, y: 0), CGPoint(x: width, y: 0), CGPoint(x: width, y: height), CGPoint(x: 0, y: height)]
+    }
+
+    /// Whether the board's edge is a free-form polygon (plan-65): Custom with an outline.
+    var isFreeForm: Bool { type == .custom && customOutline != nil }
+
+    /// Why this polygon can't be a board outline, as a file error detail after
+    /// "board outline ", or nil: at least 3 points, no crossing, its bounds'
+    /// top-left at (0, 0) and each side within `sizeRange`.
+    static func problem(outline: [CGPoint]) -> String? {
+        func n(_ value: Double) -> String { String(format: "%g", (value * 1000).rounded() / 1000) }
+        guard outline.count >= 3 else { return "needs at least 3 points" }
+        if outline.contains(where: { !$0.x.isFinite || !$0.y.isFinite }) { return "has a value that is not a number" }
+        if BoardGeometry.crossesItself(outline) { return "crosses itself" }
+        let bounds = BoardSettings.bounds(of: outline)
+        if abs(bounds.minX) > 1e-6 || abs(bounds.minY) > 1e-6 {
+            return "must start at (0, 0): its top-left is (\(n(bounds.minX)), \(n(bounds.minY)))"
+        }
+        if !sizeRange.contains(bounds.width) { return "is \(n(bounds.width)) mm wide; sizes are 1 to 1000 mm" }
+        if !sizeRange.contains(bounds.height) { return "is \(n(bounds.height)) mm high; sizes are 1 to 1000 mm" }
+        return nil
+    }
+
+    /// The box round `points`.
+    static func bounds(of points: [CGPoint]) -> CGRect {
+        guard let minX = points.map(\.x).min(), let maxX = points.map(\.x).max(),
+              let minY = points.map(\.y).min(), let maxY = points.map(\.y).max() else { return .zero }
+        return CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
     }
 
     /// The connector's pins: a card's gold fingers, or a HAT's or

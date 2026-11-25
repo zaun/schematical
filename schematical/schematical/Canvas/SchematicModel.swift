@@ -3281,6 +3281,8 @@ final class SchematicDocument {
     /// Sets the board's size in mm, each side clamped to `BoardSettings.sizeRange`.
     func setBoardSize(width: Double, height: Double) {
         recordEdit(.pcb, "Change Board Size") {
+            // A free-form outline fixes the size: it is the outline's bounds.
+            if board.isFreeForm { return }
             let range = BoardSettings.sizeRange
             if board.type == .customCard {
                 // A custom card is as high as you like above its tab, and at
@@ -3336,6 +3338,8 @@ final class SchematicDocument {
         recordEdit(.pcb, "Change Board Type") {
             guard board.type != type else { return }
             board.type = type
+            // A free-form outline belongs to the Custom type alone.
+            board.customOutline = nil
             if type != .customCard, let card = board.card {
                 board.width = card.length
                 board.height = card.height
@@ -3347,6 +3351,34 @@ final class SchematicDocument {
                 board.height = max(board.height, card.depth + 1)
             }
             if board.needsTwoLayers, board.layers < 2 { board.layers = 2 }
+        }
+    }
+
+    /// Makes the board a free-form Custom board with this outline (plan-65):
+    /// its bounds' top-left at (0, 0), no crossing, each side 1 to 1000 mm. It
+    /// is stored clockwise and sets the board's width and height to its
+    /// bounds; parts, cutouts and everything else stay where they are.
+    /// False, with no undo step, when `BoardSettings.problem(outline:)` refuses it.
+    @discardableResult
+    func setBoardOutline(_ points: [CGPoint]) -> Bool {
+        guard BoardSettings.problem(outline: points) == nil else { return false }
+        recordEdit(.pcb, "Change Board Outline") {
+            let outline = BoardGeometry.clockwise(points)
+            let bounds = BoardSettings.bounds(of: outline)
+            board.type = .custom
+            board.customOutline = outline
+            board.width = bounds.width
+            board.height = bounds.height
+        }
+        return true
+    }
+
+    /// Puts the rectangle back: the free-form outline is dropped and the
+    /// board keeps its width and height (the old bounds).
+    func resetBoardOutline() {
+        recordEdit(.pcb, "Reset Board Outline") {
+            guard board.customOutline != nil else { return }
+            board.customOutline = nil
         }
     }
 
