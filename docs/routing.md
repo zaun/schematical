@@ -17,7 +17,9 @@ Plan: `planning/completed/plan-38-*.md`; the prototype it was measured
 against and the three fixture boards: `planning/plan-38-data/`. The
 planning, improvement and straight-pad-exit stages, the runs Balanced and
 Thorough choose between, and the Default class from the design rules came
-later (2026-11); what they measure is in [Results](#results).
+later (2026-11); what they measure is in [Results](#results). Push and
+shove, an option that moves other nets' unlocked copper aside instead of
+ripping up, is `planning/completed/plan-66-*.md`.
 
 ## Commands
 
@@ -48,7 +50,9 @@ improving. **Stop** keeps what is routed (a legal partial result);
 **Cancel** puts nothing down. When it finishes it lists each net still
 unrouted with how many connections and why ("no legal way found", "run
 stopped first", an impossible net's reason, a pair's or group's outcome),
-and a **Design Rule Check** button. Clicking a listed net highlights it.
+and a **Design Rule Check** button. A run that moved existing copper (Push
+and shove) says so under the first line ("Moved 3 traces and 1 via aside").
+Clicking a listed net highlights it.
 The whole run is one undo step. If the board changes while it runs, the
 result is discarded ("The board changed while routing").
 
@@ -70,6 +74,7 @@ Every option is `RoutingOptions` (`Routing/RoutingOptions.swift`); all but
 | Fan out to Planes (`fanoutPlanes`) | on/off | on | A pad of a net that a Plane layer carries gets a short trace and a via to the plane instead of a route. A pad a copper pour joins (its net, touched by the pour's fill) is already connected and needs no route either. |
 | Tune length groups (`tuneGroups`) | on/off | on | Length-match groups are tuned after routing. |
 | Route pairs side by side (`routePairs`) | on/off | on | Differential pairs are routed coupled. |
+| Push and shove (`pushAndShove`) | on/off | off | When a connection has no legal way, move the unlocked traces and vias of other nets aside, hand-drawn or not (locked copper never moves), instead of ripping up and giving up ([Push](#the-engine), step 6). Off by default because it can move copper you drew. |
 | — (`seed`) | integer, not in the sheet | 1 | Kept in saved options; it no longer changes the result (the runs of Balanced and Thorough differ by what a via costs the first routing, not by seed). Same board and options, same copper. |
 | Time limit (`timeLimit`) | seconds (60 when switched on), or off | off | Stop on its own after this long (as Stop): what is routed and improved so far is kept. |
 
@@ -174,7 +179,38 @@ One run:
    (present cost × history), and the nets it crosses are ripped up and
    re-queued, within a rip budget per connection and the strategy's
    rounds. The ledger un-stamps exactly what it stamped.
-6. **Improvement** (`RoutingPolish`; not Fast): once everything that can
+6. **Push** (`RoutingPush`, `MovableChains`; with the option `pushAndShove`, in
+   every strategy): a connection that has no legal way gets a way through
+   copper that can move before anything is ripped up. A relaxed search
+   finds a path through other nets' copper at a push price, and that copper
+   is taken up, the connection laid (as far from where the copper was as
+   the room allows, so there is room beside it) and each piece laid
+   again at once inside a corridor `pushReach` (1.0 mm) round where it
+   was, priced to stay near its old line, with the same ends, the same
+   layers in the same order and no more vias than it had. A piece that
+   needs room may push one more level (`pushDepth` 2), at most 12 pieces
+   (`pushMaxVictims`), each search at most 200 000 nodes; nothing laid by
+   the push is pushed again by it. All or nothing: if any piece finds no
+   place the state goes back exactly as it was (a value copy, as the
+   improvement's moves), and negotiation does what it does without the
+   option. What can be pushed: the run's own connections (a connection
+   that ends on another one of its net, a branch, is ripped instead) and
+   the board's existing copper of nets the run does not route, cut into
+   **chains** (`RoutingProblem.movable`): the stretch of trace and via
+   from one anchor to the next, an anchor being a pad, a junction, a free
+   end, the meeting of two traces or a via with other than two ends. A
+   chain stays an ordinary obstacle when any piece of it is locked, it has
+   two widths or via sizes, it is on a layer the run leaves out, other
+   copper touches it away from its anchors, it has no two anchors, or it
+   differs in width or via size from the net's first chain (a net has one
+   routing profile). Chains are entries of the ledger under their own
+   ("bystander") nets: stamped like routed copper, crossed only at a push
+   price, never ripped up, and left exactly as they are by the cleanup
+   unless a push touched them; a rule the user's own untouched copper
+   already breaks is not repaired. A pushed chain is cleaned like new
+   copper, checked, and either kept moved or put back as it was. Coupled
+   pairs and Plane fan-outs are never pushed.
+7. **Improvement** (`RoutingPolish`; not Fast): once everything that can
    be routed is, each connection is taken up again and routed afresh with
    a via priced at 80 cells and a corner at 1 — on its own; if it has a
    via, also through other nets' copper, which is then routed again too;
@@ -186,7 +222,7 @@ One run:
    has changed. Passes repeat until one keeps nothing. A net still
    unrouted is tried again each pass, in the room the moves have made. A
    coupled pair's copper is never taken up.
-7. **Cleanup** (`RoutingCleanup`): each new trace as chains between
+8. **Cleanup** (`RoutingCleanup`): each new trace as chains between
    anchors (ends, where other copper attaches, via centres); straightened
    into octilinear runs; each end made to leave its pad at 0°, 45° or 90°
    (the leg from an off-grid pad centre to the first grid point runs at
@@ -197,19 +233,22 @@ One run:
    change is checked exactly against other nets' copper and the edge, and
    but for those end legs none lengthens a trace. A coupled pair's copper
    is frozen: no pass changes it.
-8. **Verification and repair** (`RoutingVerifier`, `RoutingRepair`): the
+9. **Verification and repair** (`RoutingVerifier`, `RoutingRepair`): the
    result is checked with the DRC's own geometry and tolerance (clearance,
    edge, width, via size, hole to hole, every end joined); copper that
    fails goes back to its raw route, else is re-routed with a margin (3
    tries); a net that still fails is left unrouted with the reason.
    Parity tests hold the verifier to the DRC.
-9. **Tuning and pairs** (`RoutingTuning`, `RoutingPair`, `PairGeometry`):
+10. **Tuning and pairs** (`RoutingTuning`, `RoutingPair`, `PairGeometry`):
    as above. Pairs are routed first and kept through every later stage;
    length groups are tuned last, on the improved and cleaned copper of
    each run.
-10. **Apply** (`RoutingApply`, `RoutingSession`): the result goes into the
+11. **Apply** (`RoutingApply`, `RoutingSession`): the result goes into the
    document as one undo step, marked `auto`; Stop applies what is legal so
-   far, Cancel nothing.
+   far, Cancel nothing. A moved chain's new points replace its vertices in
+   the trace they came from (same id, width, layer and flags; its ends stay
+   where they were, so its contacts do) and a moved via's centre is set;
+   a chain the board has changed since the problem was made is skipped.
 
 **Guarantees.** What is applied passes the DRC's copper kinds (clearance,
 edge, trace width, via, hole to hole, short) — measured on the three
@@ -220,8 +259,16 @@ partial result (the best of the runs as they stood), which then depends
 on when it was stopped.
 
 **Limits.** Through vias only (no blind or buried). Groups take two-pin
-nets only. No push-and-shove: kept copper never moves (a deliberate scope
-decision). No impedance control (the pair's gap is the user's). The pair
+nets only. Push and shove lays copper again on the grid rather than
+nudging it: a hand-drawn trace that is pushed comes out cleaned
+(straightened, chamfered) within `pushReach` of its old line, with its ends
+where they were; the run's own nets' existing copper stays where it is
+(its terminals come from it), so only other nets' copper and the run's new
+connections move; a piece never gains a via or changes layer; locked
+copper, copper something else touches away from its ends and copper on a
+disabled layer never move; a branch is ripped, not pushed; the Trace
+tool's Assist does not push. No teardrops (a board option, not planned).
+No impedance control (the pair's gap is the user's). The pair
 breakout is a short leg (above). No copper pours. The improvement moves
 one connection or one net at a time, so vias that only a rearrangement of
 several nets at once would remove stay; and it never moves a part: on a
@@ -297,6 +344,37 @@ What is not good yet, and what was not measured:
   Fast, for comparison: AFU 115 / 115, 141 vias, 0.3 s; RegFile 24 / 24,
   29 vias, 3.8 s; LFU 168 / 188, 414 vias, 15 s.
 
+### Push and shove (plan-66, 2026-11-25)
+
+The same build and options as above (Release, `RoutingOptions.standard`, Balanced, a 12-core Mac), with
+`pushAndShove` off and on, printed by `RouterQualityFixtureTests` (`testPushAFU`, `testPushRegFile`,
+`testPushLFU` beside the off tests). The fixtures hold no copper, so what a push can move is what the run laid
+itself; "pushes" are `RoutingStats.pushTried` and `pushKept`.
+
+| Board | Option | Routed | Vias | Corners | Off 45°/90° | Wire | Time | Pushes tried / kept |
+|---|---|---|---|---|---|---|---|---|
+| AFU | off | 115 / 115 | 73 | 434 | 0 | 1429 mm | 11.6 s | 0 / 0 |
+| AFU | on | 115 / 115 | 73 | 434 | 0 | 1429 mm | 10.9 s | 93 / 0 |
+| RegFile | off | 24 / 24 | 16 | 99 | 0 | 292 mm | 2.1 s | 0 / 0 |
+| RegFile | on | 24 / 24 | 16 | 99 | 0 | 292 mm | 2.0 s | 29 / 0 |
+| LFU | off | 185 / 188 | 289 | 1083 | 0 | 3247 mm | 248 s | 0 / 0 |
+| LFU | on | 187 / 188 | 213 | 916 | 1 | 3152 mm | 213 s | 10210 / 40 |
+
+On AFU and RegFile every first search found a way or no push fitted, so the result is the off result,
+copper for copper. On LFU, where negotiation rips up most, 40 of 10 210 pushes were kept and the run routes 2
+more connections with 76 fewer vias and 95 mm less wire, in less time. The off rows are not the "Now" table's
+LFU (188 / 188, 254 vias, 168 s): main at the commit before plan-66, built and run the same way, gives the
+off row above exactly (185 / 188, 289 vias, 1083 corners, 3247 mm), so the difference came with other changes
+to the router since "Now" was measured. Thorough off, the same day: AFU 115 / 115, 73 vias, 20 s; RegFile
+24 / 24, 14 vias, 303 mm, 2.3 s; LFU 186 / 188, 280 vias, 3221 mm, 365 s.
+
+On a board that already has copper (RegFile routed, then each of its 8 nets routed again at 12 to 18 mil with
+the other nets' copper in the way, `RoutingPushIntegrationTests`): 8 of the 32 cases route all 3 connections
+by moving the other nets' existing traces, where the same run without the option leaves 1 or 2 unrouted
+(`LATCH1.13` at 14 mil: 2 / 3 off, 3 / 3 on, 2 traces and a via moved; `LATCH1.19` at 18 mil: 1 / 3 off, 3 / 3 on,
+6 traces and 3 vias); none routes fewer than off, and every case is DRC-clean and undone exactly by one Undo.
+At 20 mil and wider the card has no room for the net with or without the option.
+
 ### plan-38 (as landed), for the record
 
 Debug build (the test target's configuration), `RoutingOptions.standard`
@@ -338,6 +416,7 @@ vias, 1582 mm.
 | `Router.swift`, `RoutingState.swift`, `RoutingResult.swift` | The runs and the choice between them; a run: order, negotiation, the ledger, the result. |
 | `RoutingPlan.swift` | The plan before routing: the soft demand map and the negotiated passes. |
 | `RoutingPolish.swift` | The improvement passes after routing. |
+| `RoutingPush.swift`, `RoutingCorridor.swift`, `MovableChains.swift` | Push and shove: the transaction, the corridor and avoid fields it searches under, and cutting the board's existing copper into chains. |
 | `RoutingCleanup.swift`, `RoutingVerifier.swift`, `RoutingRepair.swift` | Cleanup, verification, repair. |
 | `RoutingLength.swift`, `Meander.swift`, `RoutingTuning.swift` | Length and length matching. |
 | `PairGeometry.swift`, `RoutingPair.swift` | Differential pairs. |
@@ -354,7 +433,9 @@ sidebar), `Canvas/PCBCanvasView.swift` (`PCBTool.route`, `RouteTool`,
 Tests (`schematical/schematicalTests/`): `Routing*Tests`, `Router*Tests`,
 `Meander`, `PairGeometry`, `Net*Tests`, `AutorouteModelTests`,
 `RouteToolTests`, `AssistRouterTests`, `TraceToolTests`,
-`DesignRuleGoldenTests`; `RouterFixtureTests` runs the three fixtures
+`DesignRuleGoldenTests`; push and shove: `RoutingAnchorTests` (the output with
+the option off, pinned), `RoutingChainTests`, `RoutingChainEngineTests`,
+`RoutingPushTests`, `RoutingPushIntegrationTests`; `RouterFixtureTests` runs the three fixtures
 (with Fast in an unoptimised build, `RoutingOptions.fixture`), and
 `RouterQualityFixtureTests` Balanced and Thorough on them, in an
 optimised build only:

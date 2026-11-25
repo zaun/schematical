@@ -103,11 +103,11 @@ Acceptance: the test passes; the sheet compiles.
   Check: `XB -only-testing:schematicalTests/AutorouteModelTests`
   → `** TEST SUCCEEDED **` (est. 2 min).
   Measured: `AutorouteModelTests` `Executed 10 tests, with 0 failures` (230.3 s: its AFU summary test is the long one), `** TEST SUCCEEDED **`.
-Commit: — (recorded in the next commit)
+Commit: ab912759
 
 ### Phase 2 — the documents
 
-- [ ] `docs/routing.md`: (a) the option table gets "Push and shove
+- [x] (done: the option row, engine step 6 with the chains, the apply step, the Limits sentence, the lead, the code map, the test classes) `docs/routing.md`: (a) the option table gets "Push and shove
       (`pushAndShove`) | On / Off | Off | When a connection has no legal way, move
       the unlocked traces and vias of other nets aside, hand-drawn or not (locked
       copper never moves), instead of ripping up and giving up."; (b) § The engine
@@ -124,11 +124,11 @@ Commit: — (recorded in the next commit)
       Assist does not push; (d) the lead paragraph and "Plan:" line mention plan-66;
       (e) § Code map lists `RoutingPush.swift`, `RoutingCorridor.swift`,
       `MovableChains.swift`; § Tests lists the five new classes.
-- [ ] `docs/routing.md` § Results: a "Push and shove" table of AFU, RegFile and LFU
+- [x] (done: the table is from the Release run of Phase 3, recorded there) `docs/routing.md` § Results: a "Push and shove" table of AFU, RegFile and LFU
       with the option on and off — routed, vias, corners, wire, seconds, pushes
       tried and kept, pieces moved — from the Phase 3 Release runs (the same
       layout as "Now (2026-11)"); one sentence on what the three boards show.
-- [ ] `planning/todo.md`, by hunk (the file has the owner's uncommitted edits):
+- [~] (remaining: the edit itself, after the merge — see Corrections) `planning/todo.md`, by hunk (the file has the owner's uncommitted edits):
       replace line 118 with two lines — `- [x] Push-and-shove routing in the
       autorouter. (plan-66)` and `- [ ] Later: teardrops (a board option, not an
       autorouter option; not planned yet).` Commit only those hunks: copy `git show
@@ -144,7 +144,8 @@ test classes each appear (`grep -c 'RoutingPush\|RoutingCorridor\|MovableChains'
 docs/routing.md` → at least 3); `git diff --cached --stat` before the commit shows
 only `planning/todo.md`.
   Check: the four commands (est. 2 min).
-Commit: —
+  Measured: `grep -c 'No push-and-shove' docs/routing.md` → 0; `grep -c 'pushAndShove'` → 3; `grep -c 'RoutingPush\|RoutingCorridor\|MovableChains'` → 4; each of the five test classes → 1 or 2.
+Commit: — (recorded in the next commit)
 
 ### Phase 3 — the landing tier (once, on the finished tree)
 
@@ -223,8 +224,23 @@ plan-66-A § Decisions apply. Added by the author, 2026-11-25:
 
 ## Corrections
 
-<!-- Filled during execution: each gate's observed output, and any defect found
-     and the letter that owned its fix. -->
+- **`planning/todo.md` is edited after the merge, not in the worktree** (2026-11-25). The plan
+  commits it by hunk because the main tree has the owner's uncommitted edits in that file. A
+  commit on the plan's branch that changes the file would make the merge into that tree refuse
+  ("local changes would be overwritten"), and the guard against stashing or resetting forbids
+  clearing them. So the two-line edit is made on `main` after `git merge worktree-P-66`, as one
+  hunk-only commit, and this box is ticked then.
+- **Release `RouterQualityFixtureTests`: 6 of 7 pass; `testLFU` (option off) fails the same way on
+  main without this plan** (2026-11-25). Output: `QUALITY LFU balanced: routed 185/188, 289 vias,
+  1083 bends, 3247 mm, 248.2 s` against the test's `routed >= 186`; built and run the same way on
+  a detached checkout of `2cc13337` (main before plan-66), `QUALITY LFU balanced: routed 185/188,
+  289 vias, 1083 bends (0 off 45°/90°, 148 jogs), 3247 mm, 247.0 s` — the same numbers, so the
+  option-off router is unchanged by plan-66 on a board where negotiation rips up most (the A
+  anchors prove it on four small boards and RegFile, AFU and RegFile off equal the docs'
+  "Now" row). `docs/routing.md` says LFU routes 188 / 188, 254 vias in 168 s ("Now (2026-11)");
+  the router commits since that measurement are `7ade3de0` (plan-65-D, the board edge) and the
+  pour work of plan-52-D, neither bisected here. The bound is not changed: the failure belongs
+  to whichever change took LFU from 188 to 185 and is for the owner. The three push tests pass.
 
 ## Summary
 
