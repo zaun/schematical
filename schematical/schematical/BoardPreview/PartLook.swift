@@ -325,8 +325,9 @@ struct PartLook {
                     leg = CGRect(x: c.x - across / 2, y: min(s * h2, end), width: across, height: abs(end - s * h2))
                 }
                 guard let leg else { continue }
-                let exit = horizontalSide(of: c) ? CGPoint(x: c.x > 0 ? w2 : -w2, y: c.y)
-                    : CGPoint(x: c.x, y: c.y > 0 ? h2 : -h2)
+                // The side's midpoint, not where along the side the lead is: the sort is by which side.
+                let exit = horizontalSide(of: c) ? CGPoint(x: c.x > 0 ? w2 : -w2, y: 0)
+                    : CGPoint(x: 0, y: c.y > 0 ? h2 : -h2)
                 let depth = leadDepth(exit: exit)
                 box(leg, 0, throughHole ? shoulder : z1, .tin, top: Tint.tin.shaded(1.15), depth: depth)
                 if !throughHole {

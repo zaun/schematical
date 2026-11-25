@@ -199,11 +199,20 @@ final class BoardPreviewTests: XCTestCase {
             let bodyDepth = projection.depth(placement.board(.zero))
             let body = try XCTUnwrap(solids.last, "rotation \(rotation)")
             XCTAssertEqual(body.height, look.height, "the body is the last solid")
-            let before = solids.dropLast().filter { $0.depth < bodyDepth }.count
-            let after = solids.dropLast().filter { $0.depth > bodyDepth }.count
-            // Half the leads on each side, none left at the body's own depth.
-            XCTAssertEqual(before, after, "rotation \(rotation)")
-            XCTAssertEqual(before + after, solids.count - 1, "rotation \(rotation)")
+            // One lead per pad, in pad order, then the body.
+            let pads = look.pads
+            XCTAssertEqual(solids.count, pads.count + 1, "rotation \(rotation)")
+            // Each row of leads is painted wholly on one side of the body, the two rows on opposite sides.
+            let horizontal = chip.footprint!.body.width >= chip.footprint!.body.height
+            var rows: [Bool: Set<Bool>] = [:]
+            for (pad, solid) in zip(pads, solids) {
+                let row = horizontal ? pad.centre.y > 0 : pad.centre.x > 0
+                XCTAssertNotEqual(solid.depth, bodyDepth, "rotation \(rotation)")
+                rows[row, default: []].insert(solid.depth < bodyDepth)
+            }
+            XCTAssertEqual(rows.count, 2, "rotation \(rotation)")
+            XCTAssertTrue(rows.values.allSatisfy { $0.count == 1 }, "a row of leads is split around the body at rotation \(rotation)")
+            XCTAssertEqual(Set(rows.values.flatMap { $0 }).count, 2, "both rows on one side at rotation \(rotation)")
         }
     }
 
