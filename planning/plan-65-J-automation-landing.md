@@ -91,7 +91,7 @@ Where the risk concentrates: nothing structural; the real-app pass is where a dr
 Acceptance: an agent can make, change, list and delete cutouts and set the outline, in one undo step per call.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/CutoutAutomationTests -only-testing:schematicalTests/AutomationTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 4 min; `AutomationTests` is the no-cutout check).
   Observed: CutoutAutomationTests 8 + AutomationTests 33, 0 failures, TEST SUCCEEDED.
-Commit: —
+Commit: 317f062c
 
 ### Phase 2 — Docs and the todo
 
@@ -102,17 +102,21 @@ Commit: —
 Acceptance: every tool and menu item the plan added is named in the docs, and no doc line says a cutout or the DXF import does not exist.
   Check: `rg -n "add_cutout\|set_cutout" docs/agent-control.md schematical/schematical/Automation/AutomationTools.swift` → each file lists both; `rg -n "Import ▸ DXF\|Import › DXF" docs/export.md` → a heading line; `rg -n "plan-65" planning/todo.md` → the ticked line (est. 1 min).
   Observed: rg: add_cutout and set_cutout are in docs/agent-control.md (lines 81-82) and AutomationTools.swift (365-366); docs/export.md has the Import section (line 377-379); planning/todo.md line 115 is ticked with plan-65.
-Commit: —
+Commit: 97aa521a
 
 ### Phase 3 — The real app, then the landing gates
 
-- [ ] Build the Debug app (`xcodebuild … build`), start it with an empty untitled window, and drive it with the live automation tools (not the owner's open documents): `set_board` 60 × 40, `place_part` a through-hole part, `add_cutout` a 6 mm circle, a 10 × 2 slot and a rectangle, `render` the PCB (front) and the board preview (angled) and look at both pictures (holes visible, the preview's hole wall visible); `run_drc` → no issue for a part whose body overhangs a cutout, `Copper is in a cutout` after moving a pad into one; `add_pour` on GND with a net → the render's fill has a hole round each cutout; `export_gerber` → the zip's `.GKO` has 4 loops; `undo` once per edit.
-- [ ] Through the real File menu: File ▸ Import ▸ DXF… with `planning/plan-65-data/kicad_edge_probe.dxf` in *Board outline and cutouts* mode: the sheet's preview shows the 40 × 30 outline in the accent colour and the circle and half disc in red; Import; the PCB page shows the 40 × 30 board with the two holes; ⌘Z once restores the previous board. Then *Cutouts only* with a fresh board: one cutout (the rectangle) and `2 inside a cutout` ignored. Screenshots of the sheet and the PCB page are looked at; the app is killed at the end of each command; no dialog is left up; the pointer is moved to (0, 0) at the end (`AGENTS.md`).
-- [ ] Autoroute a board with one cutout between two pads through `route`/the autoroute tool the tools expose (or `Route` in the window) and look at the picture: the trace goes round the cutout.
-- [ ] Record in this phase's Commit line: what was driven, the pictures' findings in one line each, and any fix made (a fix is its own commit with a test).
+- [~] (Done in the app's own test host, not through the live MCP server: the owner's app, an older Xcode build, is running (pid 62930) and holds port 47800 with the same bundle id, so a second copy could not be driven without taking over their session. What was done: the tools through `AutomationTools.call` in `CutoutAutomationTests`, and the pictures below through `ImageExport` and `ImageRenderer` by `CutoutPicturesTests` with `TEST_RUNNER_CUTOUT_PICS=1`.) Build the Debug app (`xcodebuild … build`), start it with an empty untitled window, and drive it with the live automation tools (not the owner's open documents): `set_board` 60 × 40, `place_part` a through-hole part, `add_cutout` a 6 mm circle, a 10 × 2 slot and a rectangle, `render` the PCB (front) and the board preview (angled) and look at both pictures (holes visible, the preview's hole wall visible); `run_drc` → no issue for a part whose body overhangs a cutout, `Copper is in a cutout` after moving a pad into one; `add_pour` on GND with a net → the render's fill has a hole round each cutout; `export_gerber` → the zip's `.GKO` has 4 loops; `undo` once per edit.
+- [~] (The menu's shape is checked in the test host: `CutoutPicturesTests.testTheFileMenuHasImportDXF` reads `NSApp.mainMenu` and finds File ▸ Import ▸ [`DXF…`] before Export. The click, the open panel and the sheet as a window were not driven, for the reason above; the sheet was rendered with `ImageRenderer`, which draws its AppKit controls as placeholders.) Through the real File menu: File ▸ Import ▸ DXF… with `planning/plan-65-data/kicad_edge_probe.dxf` in *Board outline and cutouts* mode: the sheet's preview shows the 40 × 30 outline in the accent colour and the circle and half disc in red; Import; the PCB page shows the 40 × 30 board with the two holes; ⌘Z once restores the previous board. Then *Cutouts only* with a fresh board: one cutout (the rectangle) and `2 inside a cutout` ignored. Screenshots of the sheet and the PCB page are looked at; the app is killed at the end of each command; no dialog is left up; the pointer is moved to (0, 0) at the end (`AGENTS.md`).
+- [x] Autoroute a board with one cutout between two pads through `route`/the autoroute tool the tools expose (or `Route` in the window) and look at the picture: the trace goes round the cutout.
+- [x] Record in this phase's Commit line: what was driven, the pictures' findings in one line each, and any fix made (a fix is its own commit with a test).
 
 Acceptance: the pictures show what the tests assert; any defect found is fixed with a test before the landing gate.
   Check: the three tasks' observed results, written in the Commit line (est. 40 min of driving; no smaller check covers the real window and the real File menu, which no test reaches).
+  Observed (2026-11-25, pictures looked at): PCB page of `ExportSamples.cutouts()`: a circle, a slot and a triangle are holes in the board. A GND pour on a 60 × 40 board with a circle and a
+  rounded rectangle: the fill has a clear band round each cutout. Board preview (front and angled): the three cutouts are holes showing the backdrop; the board's edge wall is drawn, a hole's wall is too thin to see at this angle.
+  Autoroute (`Router.route`, fast strategy): D1 to D2 around a 10 × 20 rounded cutout, one trace of 5 segments; closest copper to the cutout 0.254 mm against `minCopperToEdge` 0.25; `run_drc` lists only
+  two unrelated silkscreen lines. DXF sheet on KiCad's board: the 40 × 30 outline blue, the circle and half-disc red, `1 outline, 2 cutouts`. Gerber and KiCad were checked with the real tools in plan-65-G. No defect found.
 Commit: —
 
 ## Validation Plan
@@ -121,7 +125,7 @@ Commit: —
 - Coverage check: `AutomationTests` runs the same `AutomationBoard`/`AutomationRead` paths without cutouts.
 - Runtime proof: Phase 3.
 - Doc sync: Phase 2 (`docs/agent-control.md`, `docs/export.md`, `docs/routing.md`, the todo); the keyboard help was E's (`Help/` has only `KeyboardHelp.swift` and `Acknowledgements.swift`).
-- Final gate (run ONCE, after Phase 3 — the landing tier for plan-65, the targeted gates of every area it touched): `xcodebuild … test` with `-only-testing:` for `BoardCutoutTests`, `CutoutModelTests`, `FreeFormOutlineTests`, `CutoutFileTests`, `CutoutPourTests`, `CutoutDesignRuleTests`, `CutoutRoutingTests`, `CutoutCanvasTests`, `CutoutPanelTests`, `CutoutExportTests`, `DXFReaderTests`, `DXFLoopTests`, `DXFImportTests`, `CutoutAutomationTests`, and the no-cutout classes `PourFillTests`, `PourConnectivityTests`, `PourDesignRuleTests`, `PourCanvasTests`, `DesignRuleCheckTests`, `DesignRuleGoldenTests`, `RoutingGridTests`, `RoutingVerifierTests`, `RoutingPlanTests`, `GerberExportTests`, `KiCadExportTests`, `EasyEDAProExportTests`, `PrintExportTests`, `BoardPreviewTests`, `PourFileTests`, `AutomationTests`, `KeyboardHelpTests` → `** TEST SUCCEEDED **` (est. 15 min; run with the Bash tool's `timeout` set to 3000 s so a hung host is killed). The full unit bundle (about 18 min) is not a plan step: it runs in the background per the project's policy.
+- Final gate (run ONCE, after Phase 3 — the landing tier for plan-65, the targeted gates of every area it touched): `xcodebuild … test` with `-only-testing:` for `BoardCutoutTests`, `CutoutModelTests`, `FreeFormOutlineTests`, `CutoutFileTests`, `CutoutPourTests`, `CutoutDesignRuleTests`, `CutoutRoutingTests`, `CutoutCanvasTests`, `CutoutPanelTests`, `CutoutExportTests`, `DXFReaderTests`, `DXFLoopTests`, `DXFImportTests`, `CutoutAutomationTests`, and the no-cutout classes `PourFillTests`, `PourConnectivityTests`, `PourDesignRuleTests`, `PourCanvasTests`, `DesignRuleCheckTests`, `DesignRuleGoldenTests`, `RoutingGridTests`, `RoutingVerifierTests`, `RoutingPlanTests`, `GerberExportTests`, `KiCadExportTests`, `EasyEDAProExportTests`, `PrintExportTests`, `BoardPreviewTests`, `PourFileTests`, `AutomationTests`, `KeyboardHelpTests` → `** TEST SUCCEEDED **` (est. 15 min; run with the Bash tool's `timeout` set to 3000 s so a hung host is killed). The full unit bundle (about 18 min) is not a plan step: it runs in the background per the project's policy. Observed (2026-11-25, 33 classes): `Executed 363 tests, with 0 failures`, `** TEST SUCCEEDED **`, 29 s.
 
 ## Decisions
 
@@ -132,7 +136,9 @@ Commit: —
 
 ## Corrections
 
-<Filled in during execution.>
+- 2026-11-25: Phase 3 was not done through the live MCP tools or the real File menu click: see the two `[~]` lines. Evidence: `pgrep -fl schematical` → pid 62930, `~/Library/Developer/Xcode/DerivedData/schematical-*/Build/Products/Debug/schematical.app` (the owner's Xcode run), and `AutomationServer.port` is the fixed 47800; the plan did not know the owner's app would be running.
+- 2026-11-25: the plan's final-gate list is run as 33 test classes in one `xcodebuild` (the plan's list plus `CutoutPicturesTests`, which this phase added).
+- 2026-11-25: `CutoutPicturesTests` is new (not in the plan): it holds the File-menu check and the env-gated picture dump the Phase 3 pictures came from.
 
 ## Summary
 
