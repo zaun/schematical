@@ -347,6 +347,122 @@ static void case_voltage(void) {
     circuit_destroy(c);
 }
 
+/* ---- The library's slide switches (plan-58-C) ---------------------------- */
+
+static int pin_named(const Part *part, const char *name) {
+    size_t i;
+
+    for (i = 0; i < part->pin_count; i++) {
+        if (strcmp(part->pins[i].name, name) == 0) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+static int has_pad(const PartFootprint *fp, const char *designator) {
+    size_t i;
+
+    for (i = 0; i < fp->pad_count; i++) {
+        if (fp->pads[i].designator != NULL && strcmp(fp->pads[i].designator, designator) == 0) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+/* Checks one library part against plan-58-B § 4.3: its circuit (by pin names), states, rest,
+   contacts' count, and a footprint whose numbered pads are exactly the pinout's designators. */
+static int library_part_ok(const Part *part, char *why, size_t why_size) {
+    const PartSwitch *sw = part->dip_switch;
+    unsigned s;
+    uint32_t m[3] = {0, 0, 0};
+    uint32_t want[3];
+    unsigned want_rest = 0, want_states = 0, want_contacts = 0;
+    size_t i;
+
+    for (s = 1; s <= sw->states; s++) {
+        part_switch_state_contacts(part, s, &m[s - 1]);
+    }
+    if (part->pin_count == 2 && pin_named(part, "A") && pin_named(part, "B")) {   /* SPST On-Off */
+        want_contacts = 1; want_states = 2; want_rest = 2; want[0] = 1; want[1] = 0;
+    } else if (part->pin_count == 3 && pin_named(part, "C") && pin_named(part, "A") && pin_named(part, "B")) {
+        want_contacts = 2;
+        if (sw->states == 2) { want_states = 2; want_rest = 1; want[0] = 1; want[1] = 2; }
+        else { want_states = 3; want_rest = 2; want[0] = 1; want[1] = 0; want[2] = 2; }
+    } else if (part->pin_count == 4 && pin_named(part, "A1") && pin_named(part, "B1") && pin_named(part, "A2") &&
+               pin_named(part, "B2")) {                                           /* DPST On-Off */
+        want_contacts = 2; want_states = 2; want_rest = 2; want[0] = 3; want[1] = 0;
+    } else if (part->pin_count == 6 && pin_named(part, "C1") && pin_named(part, "A1") && pin_named(part, "B1") &&
+               pin_named(part, "C2") && pin_named(part, "A2") && pin_named(part, "B2")) {
+        want_contacts = 4;
+        if (sw->states == 2) { want_states = 2; want_rest = 1; want[0] = 5; want[1] = 10; }
+        else { want_states = 3; want_rest = 2; want[0] = 5; want[1] = 0; want[2] = 10; }
+    } else {
+        snprintf(why, why_size, "%s: pins are not an SPST, SPDT, DPST or DPDT slide switch's", part->name);
+        return 0;
+    }
+    if (sw->states != want_states || sw->rest != want_rest || sw->positions != want_contacts) {
+        snprintf(why, why_size, "%s: states %u rest %u contacts %u, wanted %u %u %u", part->name, sw->states, sw->rest,
+                 sw->positions, want_states, want_rest, want_contacts);
+        return 0;
+    }
+    for (s = 0; s < want_states; s++) {
+        if (m[s] != want[s]) {
+            snprintf(why, why_size, "%s: state %u closes %u, wanted %u", part->name, s + 1, (unsigned)m[s], (unsigned)want[s]);
+            return 0;
+        }
+    }
+    if (part->footprint == NULL || part->footprint->pins != part->pin_count) {
+        snprintf(why, why_size, "%s: footprint missing or its pin count is not the pinout's", part->name);
+        return 0;
+    }
+    for (i = 0; i < part->pin_count; i++) {
+        if (!has_pad(part->footprint, part->pins[i].designator)) {
+            snprintf(why, why_size, "%s: footprint %s has no pad %s", part->name, part->footprint->id,
+                     part->pins[i].designator);
+            return 0;
+        }
+    }
+    for (i = 0; i < part->footprint->pad_count; i++) {
+        const char *d = part->footprint->pads[i].designator;
+        size_t k;
+        int found = d == NULL;
+
+        for (k = 0; k < part->pin_count && !found; k++) {
+            found = strcmp(part->pins[k].designator, d) == 0;
+        }
+        if (!found) {
+            snprintf(why, why_size, "%s: footprint %s has a numbered pad %s the pinout lacks", part->name,
+                     part->footprint->id, d);
+            return 0;
+        }
+    }
+    return 1;
+}
+
+/* 9. Every slide switch of the real library: 2 or 3 states, rest in range, contacts and pins as
+   plan-58-B § 4.3 says for its circuit, a footprint with the pinout's pads. */
+static void case_library(void) {
+    size_t i, count = 0, bad = 0;
+    char why[256];
+
+    for (i = 0; i < part_library_count(library); i++) {
+        const Part *part = part_library_at(library, i);
+
+        if (part->kind != PART_SWITCH || part->dip_switch->states == 0 || strncmp(part->name, "SLIDE-", 6) == 0) {
+            continue;
+        }
+        count++;
+        if (!library_part_ok(part, why, sizeof why)) {
+            printf("     %s\n", why);
+            bad++;
+        }
+    }
+    printf("     %zu library slide switches checked\n", count);
+    CHECK(count > 0 && bad == 0, "library: every slide switch has 2-3 states, a rest, its circuit's contacts and pads");
+}
+
 int main(void) {
     char *text = unquote(FIXTURE);
     char *error = NULL;
@@ -369,6 +485,7 @@ int main(void) {
     case_unwired();
     case_refused();
     case_voltage();
+    case_library();
     part_library_destroy(library);
     if (failures) {
         printf("FAIL: %d checks failed\n", failures);

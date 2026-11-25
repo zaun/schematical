@@ -1654,6 +1654,22 @@ The DIP switches before that region are hand-written devices, one per
 (series, position count): `te_<series>_<NN>` (TE Connectivity) and
 `cts_219_08` (CTS 219, plan-43).
 
+The library's slide switches are the devices whose id starts `slide_`, a
+contiguous run just before the first `tact_` device, written by
+`planning/plan-58-data/gen-parts.py` (plan-58-C, for C&K / Littelfuse; later
+letters add NKK, E-Switch and CIT Relay & Switch). One device per (circuit,
+action, rated volts, actuator): id `slide_<spst|spdt|dpst|dpdt>_<onon|onoffon|onoff>_<V>v_<actuator>`,
+function `<circuit> <action>`, drawer `["Switches & Relays","Slide"]`,
+`ratedVolts` DigiKey's DC voltage rating (else its AC rating), `contacts`,
+`states` and `rest` from the table above, one pinout per distinct terminal
+numbering (`p<N>`, `p<N>_2`, …); the part's `footprint` is an `explicit`
+`SW-SLIDE-<MAKER>-<SERIES>-<mount>-<N>P` footprint drawn from the datasheet.
+Its inputs are `planning/plan-58-data/candidates.tsv`, `specs.tsv` and
+`schemes.tsv` (the datasheets' part-number keys); it also adds the
+`datasheets.json` entries and moves each footprint its parts name from
+`planning/plan-58-data/footprints-*.json` into `footprints.json`. Edit those
+inputs and re-run it rather than editing the generated devices.
+
 ### `connector`
 
 Barrel power connectors, USB connectors (below), card slots, test points, PCB terminal blocks and JST board headers
