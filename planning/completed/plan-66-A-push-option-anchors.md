@@ -246,7 +246,7 @@ letter, and their literals are in the file.
   (est. 3 min: the 1 m 52 s measured for four classes, plus RegFile at Fast in
   Debug, about 50 s, the figure plan-38's table gives).
   Measured: `Executed 30 tests, with 0 failures in 100.3 s`, `** TEST SUCCEEDED **`
-  (anchors 9 in 47.6 s, Negotiation 10 in 27.1 s, Polish 11 in 25.6 s). The nine
+  (anchors 9 in 47.6 s, Negotiation 11 in 25.6 s, Polish 10 in 27.1 s). The nine
   anchors are 8 board tests (four boards × Fast, Balanced) plus RegFile.
 Commit: b827d66a
 

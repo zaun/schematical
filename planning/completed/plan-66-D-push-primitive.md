@@ -297,8 +297,8 @@ Acceptance: all `RoutingPushTests` pass, the A anchors and C's identity tests to
   (est. 4 min: RoutingNegotiationTests alone took 26 s in the baseline run).
   Measured: `RoutingPushTests` `Executed 10 tests, with 0 failures`. Final gate, once, both Checks together with the Router
   suites that `join`'s refactor touches: `Executed 86 tests, with 0 failures` in RoutingSearchTests 13, RoutingGridTests 7,
-  RoutingPushTests 10, RoutingAnchorTests 9, RoutingChainEngineTests 10, RoutingNegotiationTests 10,
-  RouterTests 7, RoutingPolishTests 11, RoutingRepairTests 5, RoutingStateTests 4, `** TEST SUCCEEDED **`.
+  RoutingPushTests 10, RoutingAnchorTests 9, RoutingChainEngineTests 10, RoutingNegotiationTests 11,
+  RouterTests 7, RoutingPolishTests 10, RoutingRepairTests 5, RoutingStateTests 4, `** TEST SUCCEEDED **`.
 Commit: c360e36a
 
 ## Validation Plan

@@ -154,10 +154,10 @@ ripped up. A diff on a board where no hard search fails is a bug.
 
 ### Phase 1 — the hook, the tie-break, the counters
 
-- [ ] `Routing/Router.swift`: the hook of § 3 in `join`; `better` gains the
+- [x] (done; `tryPush` gains `blocked:` so the failed hard search is not repeated: see Corrections) `Routing/Router.swift`: the hook of § 3 in `join`; `better` gains the
       moved-copper tie-break; `route` sums `pushTried`/`pushKept` into the kept
       result's stats.
-- [ ] `schematicalTests/RoutingPushIntegrationTests.swift` (new):
+- [x] (done: 6 tests) `schematicalTests/RoutingPushIntegrationTests.swift` (new):
       `testPushRoutesWhatOffCannot` (`shoveGap()`; for `.fast`, `.balanced`,
       `.thorough`: option off → `routed == 0` of 1, `moved` empty, `pushTried == 0`;
       option on → `routed == 1`, `moved.count == 1`, `pushKept ≥ 1`,
@@ -174,7 +174,7 @@ ripped up. A diff on a board where no hard search fails is a bug.
       connection: `RoutingCheck.violations == []`);
       `testBetterPrefersLessMovedCopperOnATie` (two results with equal routed and
       score, one with `movedTraces: 3`: the other is better).
-- [ ] `schematicalTests/RoutingPolishTests.swift`: `testBetterPrefersMoreRoutedThenFewerViasAndBends`
+- [x] (done: unchanged; it passes, `RoutingPolishTests` 10) `schematicalTests/RoutingPolishTests.swift`: `testBetterPrefersMoreRoutedThenFewerViasAndBends`
       still passes (the new step is last); no edit unless the helper changes.
 
 Acceptance: the six tests pass and the A anchors, C's identity tests and D's push
@@ -185,7 +185,8 @@ tests still pass.
   -only-testing:schematicalTests/RoutingChainEngineTests
   -only-testing:schematicalTests/RoutingPolishTests` → `** TEST SUCCEEDED **`
   (est. 4 min).
-Commit: —
+  Measured: `Executed 45 tests, with 0 failures` (RoutingPushIntegrationTests 6, RoutingAnchorTests 9, RoutingPushTests 10, RoutingChainEngineTests 10, RoutingPolishTests 10), `** TEST SUCCEEDED **`.
+Commit: — (recorded in the next commit)
 
 ### Phase 2 — the fixtures
 
@@ -253,7 +254,11 @@ plan-66-A § Decisions apply. Added by the author, 2026-11-25:
 
 ## Corrections
 
-<!-- Filled during execution. -->
+- **`tryPush` takes `blocked:`** (2026-11-25): `join` has just searched for a legal way and
+  found none, and a failed search is the expensive kind (it visits everything reachable), so
+  the hook passes `blocked: true` and the push's own first hard search is skipped.
+- **Measured-count mislabels in the archived A and D** were corrected: RoutingNegotiationTests
+  has 11 tests and RoutingPolishTests 10 (the plans had them the other way about).
 
 ## Summary
 

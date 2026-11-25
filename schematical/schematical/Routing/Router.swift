@@ -144,6 +144,9 @@ nonisolated enum Router {
                     best = result
                 }
                 best?.stats.seconds = Date().timeIntervalSince(start)
+                // The pushes every run tried, not only the kept run's.
+                best?.stats.pushTried = results.compactMap { $0?.stats.pushTried }.reduce(0, +)
+                best?.stats.pushKept = results.compactMap { $0?.stats.pushKept }.reduce(0, +)
                 return best ?? RoutingResult()
             }
         }
@@ -207,7 +210,11 @@ nonisolated enum Router {
         func score(_ r: RoutingResult) -> Double {
             r.stats.wireLength + pitch * (strategy.polishVia * Double(r.stats.vias) + strategy.polishBend * Double(r.stats.bends))
         }
-        return a.stats.routed != b.stats.routed ? a.stats.routed > b.stats.routed : score(a) < score(b) - 1e-9
+        if a.stats.routed != b.stats.routed { return a.stats.routed > b.stats.routed }
+        let (sa, sb) = (score(a), score(b))
+        if abs(sa - sb) > 1e-9 { return sa < sb }
+        // Equal: the run that moved less existing copper (plan-66-E).
+        return a.stats.movedTraces + a.stats.movedVias < b.stats.movedTraces + b.stats.movedVias
     }
 
     /// The corners in `traces`: vertices where a trace changes direction.
@@ -510,6 +517,13 @@ nonisolated enum Router {
                 let targets = state.nodes(components: target.0, entries: target.1, net: net.id)
                 if isCancelled() { stopped = true; break }
                 var path = find(hard, sources: sources, targets: targets, plan: prices, isCancelled: isCancelled)
+                // No legal way: with push and shove, the copper in the way gives way before anything is ripped up.
+                if path == nil, problem.options.pushAndShove, !stopped, !pairNets.contains(net.id), !pinned.contains(net.id),
+                   tryPush(net, sources: sources, targets: targets, mainComponents: main.0, targetComponents: target.0,
+                           plan: prices, blocked: true, isCancelled: isCancelled) {
+                    report(progress, round: round, net: net.name)
+                    continue
+                }
                 // An improvement move (`shove`) also looks through other nets'
                 // copper when the legal way needs a via, and takes that way
                 // when it needs fewer.
