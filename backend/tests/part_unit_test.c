@@ -143,6 +143,7 @@ static void test_wide_and_marks(const PartLibrary *library) {
 
         CHECK(part_unit_count(part) == 6, "SN74HC14N has %zu units", part_unit_count(part));
         for (i = 0; i < part_unit_count(part); i++) {
+            CHECK(part_unit_at(part, i)->schmitt == 1, "SN74HC14N unit %zu is Schmitt", i);
             CHECK(part_unit_at(part, i)->shape == UNIT_BUFFER &&
                       part_unit_at(part, i)->outputs[0].inverted == 1,
                   "SN74HC14N unit %zu is an inverter", i);
@@ -219,6 +220,11 @@ static void test_load_errors(PartLibrary *library) {
                            "\"gates\":[{\"op\":\"nand\",\"inputs\":[\"A\",\"B\"],\"output\":\"Y\"},"
                            "{\"op\":\"nand\",\"inputs\":[\"A\",\"B\"],\"output\":\"Y\"}]"),
                  "gates on the same inputs must be a true and an inverted output");
+    expect_error(library,
+                 FILE_WITH("UNIT-INPUT",
+                           "\"gates\":[{\"op\":\"nand\",\"inputs\":[\"A\",\"B\"],\"output\":\"Y\"}],"
+                           "\"input\":\"slow\""),
+                 "\"input\" must be \"standard\" or \"schmitt\"");
 }
 
 int main(void) {

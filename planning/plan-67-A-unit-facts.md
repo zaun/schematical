@@ -101,8 +101,8 @@ design here rests on either, and neither rests on this.
 - No catalog part is added or removed, so the in-stock rule of `AGENTS.md`
   § Datasheets does not come into play.
 - `PartLogic.units` (the drawer's count) keeps its meaning and its value.
-- The Part Editor (`Editor/GateDraft.swift`) gets no Schmitt control; a
-  user-library gate part has plain inputs unless its file is edited by hand.
+- ~~The Part Editor gets no Schmitt control~~ — corrected: it gets one choice
+  field (see Corrections).
 - Nothing is drawn, placed, saved or exported differently in this letter.
 
 ## 2. Current State
@@ -328,21 +328,26 @@ Acceptance: the new test passes and no golden moves.
   Check: `CT` → `100% tests passed, 0 tests failed out of 75`; then
   `/tmp/p67-build/listing_check --print | diff - backend/tests/golden/parts.txt`
   → no output (est. 1 min).
-Commit: —
+Commit: d180c8e2
 
 ### Phase 2 — the Schmitt key
 
-- [ ] `backend/src/models/gate.c`: `"input"` in `DEVICE_KEYS`; parse it in
+- [x] `backend/src/models/gate.c`: `"input"` in `DEVICE_KEYS`; parse it in
       `gate_load_device` next to `"output"` (§5); `int schmitt` on `GateDevice`;
       copy it onto each unit in `gate_bind_pinout`. Update the file's header
       comment ("Two device options" becomes three).
-- [ ] `schematical/schematical/Parts/gate.json`: add `"input": "schmitt"` to the
+- [x] `schematical/schematical/Parts/gate.json`: add `"input": "schmitt"` to the
       20 devices listed in §2, directly after each device's `"gates"` key.
-- [ ] `docs/parts-format.md` § `gate`: a row for `"input"` in the device-key
+      **Done:** `/tmp/p67/schmitt.py` (line-based, layout kept) printed `20 20 0`: 20 lines added, 20 devices carry the key, 0 devices where the key and the description disagree.
+- [x] `docs/parts-format.md` § `gate`: a row for `"input"` in the device-key
       table after `"output"`, and the key in the example.
-- [ ] Tests: in `part_unit_test.c`: `SN74HC14N` → `schmitt` 1 on all 6 units;
+      **Done:** also a **Units** paragraph on the merge rule and its two load errors.
+- [x] Tests: in `part_unit_test.c`: `SN74HC14N` → `schmitt` 1 on all 6 units;
       `SN74HC00N` → 0; a negative inline case `"input": "slow"` failing with
       `"input" must be "standard" or "schmitt"`.
+      **Done:** `ctest` → `100% tests passed, 0 tests failed out of 75`; `git diff --stat backend/tests/golden` → no output.
+
+- [x] Added: `schematical/schematical/Editor/GateDraft.swift` gets an `input` field (choice `standard` / `schmitt`) so the Part Editor's schema knows the key (see Corrections).
 
 Acceptance: exactly the 20 devices carry the key and the library still loads.
   Check: `python3 -c 'import json;d=json.load(open("schematical/schematical/Parts/gate.json"))["devices"];print(sum(1 for x in d if x.get("input")=="schmitt"), sum(1 for x in d if ("chmitt" in x["description"])!=(x.get("input")=="schmitt")))'`
@@ -410,6 +415,8 @@ Commit: —
   call, following "a known logic symbol". Settles §5.
 
 ## Corrections
+
+- **The Part Editor needs the key.** The plan's non-goal said the editor gets no Schmitt control. False: `Editor/GateDraft.swift` holds the gate kind's `KindSchema`, the list of device keys the editor reads and writes (`grep -n 'key: "output"' schematical/schematical/Editor/GateDraft.swift`), so a key missing there is a key the editor cannot keep when a bundled Schmitt part is copied into the user library. One `Field(key: "input", …choice…)` was added in Phase 2. No design rested on the non-goal.
 
 - **The build folder.** `CT` names `/tmp/p67-build`, which was configured from the main checkout while the plan was written; cmake refuses it from the worktree (`The source … does not match the source … used to generate cache`). Every letter's `CT` runs in `/tmp/p67w-build` instead. Nothing else changes.
 - **Prerequisites re-run 2026-11-25 in the worktree, all MET**: rotation commit `08376ba3`, `turnedSide` count 1, tree clean; no `unitPlacements` / `part_unit_count` / `PartUnit`; `ctest` 74 of 74; `kicad-cli version` `10.0.8`; `planning` holds only this plan's 7 files and `plan-67-data`.

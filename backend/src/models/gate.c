@@ -8,9 +8,12 @@
  * delay for 0, or the longer of the two for X. `start` evaluates every gate;
  * a changed pin re-evaluates every gate it feeds.
  *
- * Two device options:
+ * Three device options:
  *   "output": "open-drain"  a 1 releases the pin (Z) after the rise delay
  *                           (74x266).
+ *   "input": "schmitt"      the inputs are Schmitt triggers (74x14). A fact
+ *                           for the Schematic's gate symbol (plan-67); the
+ *                           model does not read it.
  *   timing {otherLow, otherHigh}  2-input gates whose delays depend on the
  *                           input that did not change (74x86): 0 -> otherLow,
  *                           1 -> otherHigh, X (and at start) -> the longer of
@@ -25,7 +28,7 @@
 
 #define GATE_MAX_INPUTS 13
 
-static const char *const DEVICE_KEYS[] = {"gates", "output", "timing", "units", NULL};
+static const char *const DEVICE_KEYS[] = {"gates", "input", "output", "timing", "units", NULL};
 static const char *const PART_KEYS[] = {"family", "vcc", "inputMax", NULL};
 
 typedef enum { OP_AND, OP_NAND, OP_OR, OP_NOR, OP_XOR, OP_XNOR, OP_NOT, OP_BUF } GateOp;
@@ -57,6 +60,7 @@ typedef struct {
     GateDef *gates;
     size_t gate_count;
     int open_drain;
+    int schmitt;             /* "input": "schmitt"; drawn, not simulated */
     const char **families;   /* timing keys, canonical spelling */
     GateTiming *timings;
     size_t timing_count;
@@ -166,6 +170,7 @@ static void *gate_load_device(KindContext *ctx, const cJSON *json) {
     GateDevice *device = kind_alloc(ctx, sizeof(*device));
     const cJSON *gates = kind_member(ctx, json, "gates", 1);
     const cJSON *output = cJSON_GetObjectItemCaseSensitive(json, "output");
+    const cJSON *input = cJSON_GetObjectItemCaseSensitive(json, "input");
     const cJSON *timing = kind_member(ctx, json, "timing", 1);
     const cJSON *item;
     uint64_t units;
@@ -204,6 +209,14 @@ static void *gate_load_device(KindContext *ctx, const cJSON *json) {
             return NULL;
         }
         device->open_drain = strcmp(output->valuestring, "open-drain") == 0;
+    }
+    if (input != NULL) {
+        if (!cJSON_IsString(input) || (strcmp(input->valuestring, "standard") != 0 &&
+                                       strcmp(input->valuestring, "schmitt") != 0)) {
+            kind_error(ctx, "\"input\" must be \"standard\" or \"schmitt\"");
+            return NULL;
+        }
+        device->schmitt = strcmp(input->valuestring, "schmitt") == 0;
     }
 
     /* units: logic gates per package as shown; default the number of gates. */
@@ -334,6 +347,7 @@ static int bind_units(KindContext *ctx, const GateDevice *device, const GatePins
             unit->outputs[0].inverted = (uint8_t)inverted;
             unit->output_count = 1;
             unit->open_drain = device->open_drain ? 1u : 0u;
+            unit->schmitt = device->schmitt ? 1u : 0u;
             first[n++] = g;
         }
     }

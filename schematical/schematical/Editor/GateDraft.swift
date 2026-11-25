@@ -43,6 +43,8 @@ enum GateDraft {
             ]), required: true),
             Field(key: "output", label: "Output type", type: .choice(["push-pull", "open-drain"]),
                   help: "Left out: push-pull"),
+            Field(key: "input", label: "Input type", type: .choice(["standard", "schmitt"]),
+                  help: "Schmitt-trigger inputs draw the hysteresis mark in Gate view. Left out: standard"),
             Field(key: "timing", label: "Timing", type: .map(keyLabel: "Family", [
                 Field(key: "rise", label: "Rise", type: .number(unit: "ns")),
                 Field(key: "fall", label: "Fall", type: .number(unit: "ns")),

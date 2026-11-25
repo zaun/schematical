@@ -1723,6 +1723,7 @@ than the delay are filtered out.
 ```json
 "gates": [{"op": "nand", "inputs": ["1A", "1B"], "output": "1Y"}],
 "output": "push-pull",
+"input": "standard",
 "units": 1,
 "timing": {
   "HC": {"rise": 9, "fall": 9, "note": "Typical at 4.5 V, 50 pF"},
@@ -1736,8 +1737,19 @@ Device keys:
 |---|---|
 | `"gates"` | array of gates: `op` (`and`, `nand`, `or`, `nor`, `xor` = odd parity, `xnor` = even parity, `not` = inverter and `buf` = buffer (Y = A; X or Z in gives X), each exactly 1 input), `inputs` (1–13 pin names), `output` (a pin name). Each name must be exactly one pin in every pinout. |
 | `"output"` | optional: `push-pull` (default) or `open-drain` (a 1 releases the pin to Z after the rise delay; an external pull-up takes it high; 74x266, 74x05/06) |
+| `"input"` | optional: `standard` (default) or `schmitt` (the inputs are Schmitt triggers: 74x14, 74x17, CD4093B, CD40106B). A fact for the Schematic's gate symbol, which draws the hysteresis mark; the simulated gate is the same. Anything else: `"input" must be "standard" or "schmitt"` |
 | `"units"` | optional: gates per package as shown in the drawer (`PartLogic.units`); default the number of `gates`. Differs only where one gate has two outputs (CD4068B: NAND and AND of the same 8 inputs, 1 unit). |
 | `"timing"` | object: logic family → `{rise, fall}` (ns), or `{otherLow: {rise, fall}, otherHigh: {rise, fall}}`; either form also takes `vcc` and `inputMax` at its top level (not inside `otherLow`/`otherHigh`) |
+
+**Units** (plan-67). The gates are also the part's *units*, the pieces the
+Schematic can draw as separate gate symbols (`part_unit_count` /
+`part_unit_at`, `docs/backend.md`): one unit per gate, in file order. Two
+gates of the same shape on the same inputs, one true and one inverted
+(CD4068B: NAND and AND; CD4041UB: buffer and inverter), are one unit with two
+outputs, the true output first. A third gate on those inputs is `more than two
+gates share these inputs`; two that are both true or both inverted is `gates on
+the same inputs must be a true and an inverted output`. The number of units is
+what `"units"` says for every bundled device.
 
 `otherLow`/`otherHigh` (74x86): the delays depend on the input that did not
 change — 0 picks `otherLow`, 1 picks `otherHigh`, and X (also at start, when
