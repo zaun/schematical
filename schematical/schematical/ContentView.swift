@@ -746,13 +746,8 @@ struct ContentView: View {
                     simulation.stop()
                 }
             }
-            .task {
-                // A file opened from another window lands here, in a new tab.
-                file.loadClaimedOpen()
-            }
             .onAppear {
-                file.openNewWindow = { openWindow(id: "schematic") }
-                SchematicSessions.shared.register(sessionID, document: document, simulation: simulation, file: file)
+                SchematicSessions.shared.register(sessionID, document: document, simulation: simulation, model: model)
                 simulation.setSpeed(simulationSpeed)
                 installEditKeyMonitor()
             }
@@ -789,8 +784,6 @@ struct ContentView: View {
             }
             .focusedSceneValue(\.schematicFile, file)
             .focusedSceneValue(\.editorPage, page)
-            // Edit › Undo / Redo act on the page shown (plan-31-D).
-            .focusedSceneValue(\.schematicUndo, UndoTarget(document: document))
             .focusedSceneValue(\.openBillOfMaterials) {
                 isBillOfMaterialsOpen = true
                 openWindow(id: "bom", value: BillOfMaterialsTarget(sessionID: sessionID))
@@ -800,8 +793,6 @@ struct ContentView: View {
                 isDesignRuleCheckOpen = true
                 openWindow(id: "drc", value: DesignRuleCheckTarget(sessionID: sessionID))
             } : nil)
-            .background(WindowReader { file.window = $0 })
-            .navigationTitle(file.displayName)
     }
 
     /// A segmented picker over some of the schematic tools.

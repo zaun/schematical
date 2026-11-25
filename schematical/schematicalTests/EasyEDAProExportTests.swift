@@ -214,17 +214,19 @@ final class EasyEDAProExportTests: XCTestCase {
 
     func testSaveAsEasyEDAProWritesOneFileAndLeavesTheWindowAlone() throws {
         let doc = try Fixture.open("AFU")
-        let controller = SchematicFileController(document: doc, catalog: TestSupport.catalog, willReplaceDocument: {})
-        Self.kept.append(controller)
+        let document = TestSupport.systemDocument(of: doc)
+        let controller = document.model.file
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent("epro-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: directory) }
-        let before = controller.hasUnsavedChanges
+        TestSupport.turnRunLoop()
+        let before = document.isDocumentEdited
         try controller.writeEasyEDAPro(to: directory.appendingPathComponent("Board.epro"))
         XCTAssertEqual(try FileManager.default.contentsOfDirectory(atPath: directory.path), ["Board.epro"])
+        XCTAssertNil(document.fileURL)
         XCTAssertNil(controller.fileURL)
-        XCTAssertEqual(controller.hasUnsavedChanges, before)
+        TestSupport.turnRunLoop()
+        XCTAssertEqual(document.isDocumentEdited, before, "an export is not a save, and not an edit")
+        XCTAssertFalse(doc.undoManager.canUndo)
     }
-
-    private static var kept: [SchematicFileController] = []
 }

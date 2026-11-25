@@ -142,20 +142,22 @@ final class KiCadExportTests: XCTestCase {
 
     func testSaveAsKiCadWritesNextToTheChosenFileAndLeavesTheWindowAlone() throws {
         let doc = try Fixture.open("AFU")
-        let controller = SchematicFileController(document: doc, catalog: TestSupport.catalog, willReplaceDocument: {})
-        Self.kept.append(controller)
+        let document = TestSupport.systemDocument(of: doc)
+        let controller = document.model.file
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent("kicad-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: directory) }
-        let before = controller.hasUnsavedChanges
+        TestSupport.turnRunLoop()
+        let before = document.isDocumentEdited
         try controller.writeKiCad(to: directory.appendingPathComponent("Board.kicad_pro"))
         let written = try FileManager.default.contentsOfDirectory(atPath: directory.path).sorted()
         XCTAssertEqual(written, ["Board.kicad_pcb", "Board.kicad_pro", "Board.kicad_sch"])
+        XCTAssertNil(document.fileURL)
         XCTAssertNil(controller.fileURL)
-        XCTAssertEqual(controller.hasUnsavedChanges, before)
+        TestSupport.turnRunLoop()
+        XCTAssertEqual(document.isDocumentEdited, before, "an export is not a save, and not an edit")
+        XCTAssertFalse(doc.undoManager.canUndo)
     }
-
-    private static var kept: [SchematicFileController] = []
 
     private func printRouted() throws {
         let doc = try ExportSamples.routed()

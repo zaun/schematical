@@ -7,6 +7,7 @@
 
 import AppKit
 import Foundation
+import UniformTypeIdentifiers
 
 extension AutomationTools {
     /// Tools that may not run inside a `batch`: they wait, open windows, or
@@ -28,7 +29,7 @@ extension AutomationTools {
                 let lines = all.map { window in
                     "\(window.shortID)  \(window.file?.displayName ?? "?")"
                         + "  parts=\(window.document.chips.count) wires=\(window.document.wires.count)"
-                        + (window.file?.hasUnsavedChanges == true ? "  unsaved" : "")
+                        + (window.model?.platformDocument?.isDocumentEdited == true ? "  unsaved" : "")
                         + (window.simulation.isRunning ? "  simulating" : "")
                         + (window.id == front ? "  (frontmost)" : "")
                 }
@@ -55,11 +56,9 @@ extension AutomationTools {
         AutomationTool(
             name: "new_window",
             summary: "Open a new blank schematic as a tab of the frontmost window. Returns its id.",
-            run: { context, _ in
-                guard let file = context?.file else { throw AutomationFailure("no window to open a tab from") }
+            run: { _, _ in
                 let known = Set(sessions().map(\.id))
-                SchematicFileController.tabNewProject(focused: file)
-                file.openNewWindow?()
+                NSDocumentController.shared.newDocument(nil)
                 for _ in 0..<40 {
                     try await Task.sleep(nanoseconds: 50_000_000)
                     if let fresh = sessions().first(where: { !known.contains($0.id) }) {
@@ -75,11 +74,11 @@ extension AutomationTools {
             properties: ["path": Schema.string("File name or path inside the shared folder")], required: ["path"],
             run: { context, args in
                 let url = try AutomationFolder.shared.resolve(try args.string("path"))
-                guard let file = context?.file else { throw AutomationFailure("no window to open it from") }
                 do { _ = try SchematicFile.decode(try Data(contentsOf: url)) }
                 catch { throw AutomationFailure("can't open \(url.lastPathComponent): \(error.localizedDescription)") }
                 let known = Set(sessions().map(\.id))
-                await file.open(url)
+                do { _ = try await NSDocumentController.shared.openDocument(withContentsOf: url, display: true) }
+                catch { throw AutomationFailure("can't open \(url.lastPathComponent): \(error.localizedDescription)") }
                 try await Task.sleep(nanoseconds: 400_000_000)
                 let fresh = sessions().first { !known.contains($0.id) }
                 return Out.text(fresh.map { "opened in window \($0.shortID)" } ?? "opened (in window \(context!.shortID))")
@@ -92,9 +91,23 @@ extension AutomationTools {
             readOnly: false,
             run: { context, args in
                 let url = try args.optString("path").map { try AutomationFolder.shared.resolve($0) }
-                guard let file = context?.file else { throw AutomationFailure("no file controller for this window") }
-                if let problem = file.saveWithoutPanel(to: url) { throw AutomationFailure(problem) }
-                return Out.text("saved to \(file.fileURL?.path ?? "?")")
+                guard let document = context?.model?.platformDocument else {
+                    throw AutomationFailure("no document for this window")
+                }
+                guard let target = url ?? document.fileURL else {
+                    throw AutomationFailure("This window has no file yet; pass a path.")
+                }
+                // With a path it is a Save As: the document is at the new file afterwards.
+                let type = document.fileType ?? SchematicFile.contentType.identifier
+                let failure: Error? = await withCheckedContinuation { continuation in
+                    document.save(to: target, ofType: type, for: url == nil ? .saveOperation : .saveAsOperation) {
+                        continuation.resume(returning: $0)
+                    }
+                }
+                if let failure {
+                    throw AutomationFailure("Couldn't save “\(target.lastPathComponent)”: \(failure.localizedDescription)")
+                }
+                return Out.text("saved to \(target.path)")
             }),
         AutomationTool(
             name: "export_gerber",

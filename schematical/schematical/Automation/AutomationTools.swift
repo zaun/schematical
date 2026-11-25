@@ -27,6 +27,8 @@ struct AutomationContext {
     let document: SchematicDocument
     let simulation: SimulationController
     let file: SchematicFileController?
+    /// The window's model, and through it its system document.
+    var model: SchematicEditorModel?
 
     /// The window's id as agents see it.
     var shortID: String { String(id.uuidString.prefix(8)) }
@@ -227,7 +229,7 @@ enum AutomationTools {
 
     static func sessions() -> [AutomationContext] {
         SchematicSessions.shared.identifiedSessions.map {
-            AutomationContext(id: $0.id, document: $0.document, simulation: $0.simulation, file: $0.file)
+            AutomationContext(id: $0.id, document: $0.document, simulation: $0.simulation, file: $0.model?.file, model: $0.model)
         }
     }
 

@@ -15,22 +15,35 @@ final class SchematicEditorModel {
     @ObservationIgnored let simulation: SimulationController
     /// Exports and print for this document.
     @ObservationIgnored let file: SchematicFileController
+    /// The catalog the document's parts come from.
+    @ObservationIgnored let catalog: PartCatalogStore
+    /// The system document this is the model of.
+    @ObservationIgnored weak var platformDocument: SchematicNSDocument?
 
     /// The page the editor shows.
     var page = EditorPage.schematic
 
     /// A new, blank schematic with the standard net classes (Power: 5V, 3V3,
-    /// 12V, 24V; and Logic). An opened file replaces them with its own.
-    init(catalog: PartCatalogStore = .shared) {
-        let document = SchematicDocument(library: catalog.library)
-        document.addStandardNetClasses()
-        let simulation = SimulationController(library: catalog.library)
+    /// 12V, 24V; and Logic); an opened file replaces them with its own. Or,
+    /// for a test, the model of an existing `document`.
+    init(catalog: PartCatalogStore = .shared, document existing: SchematicDocument? = nil) {
+        let document: SchematicDocument
+        if let existing {
+            document = existing
+        } else {
+            document = SchematicDocument(library: catalog.library)
+            document.addStandardNetClasses()
+        }
+        self.catalog = catalog
         self.document = document
-        self.simulation = simulation
-        // Replacing the canvas stops any running simulation first, since
-        // the simulation was built from the old schematic.
-        self.file = SchematicFileController(document: document, catalog: catalog,
-                                            willReplaceDocument: { [weak simulation] in simulation?.stop() })
+        self.simulation = SimulationController(library: catalog.library)
+        self.file = SchematicFileController(document: document, catalog: catalog)
+        // A User Library part edited in place reaches every open document
+        // (plan-53-D).
+        catalog.partUpdated = { [weak catalog] uuid, part in
+            guard let catalog else { return }
+            SchematicNSDocument.updateOpenDocuments(uuid: uuid, to: part, catalog: catalog)
+        }
     }
 
     /// The document's file, nil for one never saved. Set by the window's

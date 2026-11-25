@@ -207,15 +207,9 @@ final class UserLibraryUpdateTests: XCTestCase {
         return try PartFileObject(text: draft.fileText()).canonicalText
     }
 
-    private final class StopCounter { var count = 0 }
-
-    private static var keptControllers: [SchematicFileController] = []
-
-    private func controller(_ doc: SchematicDocument, _ store: PartCatalogStore,
-                            stops: StopCounter) -> SchematicFileController {
-        let controller = SchematicFileController(document: doc, catalog: store, willReplaceDocument: { stops.count += 1 })
-        Self.keptControllers.append(controller)
-        return controller
+    /// `doc` as one of the app's open documents, until the test ends.
+    private func open(_ doc: SchematicDocument, _ store: PartCatalogStore) -> SchematicNSDocument {
+        TestSupport.openSystemDocument(of: doc, catalog: store, until: self)
     }
 
     private func place(_ doc: SchematicDocument, _ part: CatalogPart, at point: CGPoint) throws -> PlacedChip {
@@ -230,11 +224,10 @@ final class UserLibraryUpdateTests: XCTestCase {
         XCTAssertEqual(v1.pins.count, 5)
 
         // Two documents place the part; one has wires on its pins 1 and 5.
-        let stopsA = StopCounter(), stopsB = StopCounter(), stopsC = StopCounter()
         let docA = TestSupport.newDocument(), docB = TestSupport.newDocument(), docC = TestSupport.newDocument()
-        _ = controller(docA, store, stops: stopsA)
-        _ = controller(docB, store, stops: stopsB)
-        _ = controller(docC, store, stops: stopsC)
+        _ = open(docA, store)
+        _ = open(docB, store)
+        _ = open(docC, store)
         let chipA = try place(docA, v1, at: CGPoint(x: 200, y: 200))
         let other = try TestSupport.place(docA, "SN74HC00N", at: CGPoint(x: 500, y: 200))
         let pin1 = PinRef(chipID: chipA.id, index: 0), pin5 = PinRef(chipID: chipA.id, index: 4)
@@ -270,15 +263,38 @@ final class UserLibraryUpdateTests: XCTestCase {
         XCTAssertEqual(loose.count, 1)
         XCTAssertEqual(loose.first?.isLoose, true)
         XCTAssertEqual(loose.first?.point, tip5)
-        // The undo history ends at the update; each affected window's simulation was stopped once.
+        // The undo history ends at the update (`testAnUpdateStopsARunningDocument`
+        // has the simulation; this part is not simulated).
         XCTAssertNil(docA.undoName)
         XCTAssertNil(docB.undoName)
-        XCTAssertEqual(stopsA.count, 1)
-        XCTAssertEqual(stopsB.count, 1)
         // A document without the part is untouched.
-        XCTAssertEqual(stopsC.count, 0)
         XCTAssertEqual(docC.chips.map(\.id), chipsC)
         XCTAssertNotNil(docC.undoName)
+    }
+
+    /// A document that is running when its part is updated is stopped first
+    /// (the simulation was built from the old part); an open document
+    /// without the part runs on.
+    func testAnUpdateStopsARunningDocument() throws {
+        let store = makeStore()
+        let uuid = "E3000000-0000-4000-8000-000000000001"
+        let v1 = try store.addToUserLibrary(fileText: text(uuid, "UP-NAND"), source: "n")
+        let docA = TestSupport.newDocument(), docC = TestSupport.newDocument()
+        let openA = open(docA, store), openC = open(docC, store)
+        _ = try place(docA, v1, at: CGPoint(x: 200, y: 200))
+        _ = try place(docC, try XCTUnwrap(store.part(named: "SN74HC00N")), at: CGPoint(x: 200, y: 200))
+        for open in [openA, openC] {
+            open.model.simulation.start(document: open.model.document)
+            XCTAssertTrue(open.model.simulation.isRunning, open.model.simulation.errorMessage ?? "")
+        }
+        XCTAssertTrue(docA.isPlaying)
+
+        try store.updateUserLibraryPart(uuid: uuid, fileText: try described(store, uuid, "A changed NAND gate"))
+        XCTAssertEqual(docA.chips.first?.part.description, "A changed NAND gate")
+        XCTAssertFalse(openA.model.simulation.isRunning, "stopped before its part changed")
+        XCTAssertFalse(docA.isPlaying)
+        XCTAssertTrue(openC.model.simulation.isRunning, "a document without the part runs on")
+        openC.model.simulation.stop()
     }
 
     func testTheUpdatedChipKeepsItsBoardPad1() throws {
@@ -286,7 +302,7 @@ final class UserLibraryUpdateTests: XCTestCase {
         let uuid = "E2000000-0000-4000-8000-000000000001"
         let v1 = try store.addToUserLibrary(fileText: try genericText(uuid, "UP-GEN2", pins: 5), source: "g")
         let doc = TestSupport.newDocument()
-        _ = controller(doc, store, stops: StopCounter())
+        _ = open(doc, store)
         let chip = try place(doc, v1, at: CGPoint(x: 200, y: 200))
         let board = try XCTUnwrap(chip.board, "a placed part has a board placement")
         let pad1 = try XCTUnwrap(chip.footprint?.pads.first { $0.designator == chip.part.firstPinDesignator })

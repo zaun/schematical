@@ -28,15 +28,15 @@ final class SchematicSessions {
     private struct Entry {
         weak var document: SchematicDocument?
         weak var simulation: SimulationController?
-        weak var file: SchematicFileController?
+        weak var model: SchematicEditorModel?
     }
 
     private var entries: [UUID: Entry] = [:]
 
     func register(_ id: UUID, document: SchematicDocument, simulation: SimulationController,
-                  file: SchematicFileController? = nil) {
+                  model: SchematicEditorModel? = nil) {
         entries = entries.filter { $0.value.document != nil }
-        entries[id] = Entry(document: document, simulation: simulation, file: file)
+        entries[id] = Entry(document: document, simulation: simulation, model: model)
     }
 
     /// Every open window's document and simulation. Used by the headless
@@ -48,13 +48,13 @@ final class SchematicSessions {
         }
     }
 
-    /// Every open window with its session id and file controller
+    /// Every open window with its session id and model
     /// (automation: addresses a window).
     var identifiedSessions: [(id: UUID, document: SchematicDocument, simulation: SimulationController,
-                              file: SchematicFileController?)] {
+                              model: SchematicEditorModel?)] {
         entries.compactMap { id, entry in
             guard let document = entry.document, let simulation = entry.simulation else { return nil }
-            return (id, document, simulation, entry.file)
+            return (id, document, simulation, entry.model)
         }
     }
 

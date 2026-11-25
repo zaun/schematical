@@ -8,16 +8,17 @@ import XCTest
 /// without the sheet or the save panel.
 @MainActor
 final class SchematicExportActionTests: XCTestCase {
-    /// Kept for the life of the test process, like `TestSupport`'s documents:
-    /// freeing a main-actor object in a test aborts the host.
-    private static var kept: [SchematicFileController] = []
-
-    private func controller(empty: Bool = false) throws -> (file: SchematicFileController, document: SchematicDocument) {
+    /// A system document, with one part unless `empty`; its exporter is
+    /// what File › Export uses.
+    private func system(empty: Bool = false) throws -> SchematicNSDocument {
         let doc = TestSupport.newDocument()
         if !empty { try TestSupport.place(doc, "SN74HC00N", at: CGPoint(x: 200, y: 200)) }
-        let file = SchematicFileController(document: doc, catalog: TestSupport.catalog, willReplaceDocument: {})
-        Self.kept.append(file)
-        return (file, doc)
+        return TestSupport.systemDocument(of: doc)
+    }
+
+    private func controller(empty: Bool = false) throws -> (file: SchematicFileController, document: SchematicDocument) {
+        let system = try system(empty: empty)
+        return (system.model.file, system.model.document)
     }
 
     private func temporaryURL(_ name: String) -> URL {
@@ -29,8 +30,11 @@ final class SchematicExportActionTests: XCTestCase {
     }
 
     func testEveryViewAndFormatWritesItsFile() throws {
-        let (file, document) = try controller()
-        let unsavedBefore = file.hasUnsavedChanges
+        let system = try system()
+        let file = system.model.file, document = system.model.document
+        TestSupport.turnRunLoop()
+        let editedBefore = system.isDocumentEdited
+        let undoBefore = document.undoName
         let magic: [ImageExportFormat: [UInt8]] = [.png: [0x89, 0x50, 0x4E, 0x47], .jpg: [0xFF, 0xD8]]
         for view in ImageExportView.allCases {
             for format in view.formats {
@@ -54,8 +58,11 @@ final class SchematicExportActionTests: XCTestCase {
                 try? FileManager.default.removeItem(at: url)
             }
         }
-        XCTAssertNil(file.fileURL, "an export is not a save")
-        XCTAssertEqual(file.hasUnsavedChanges, unsavedBefore)
+        XCTAssertNil(system.fileURL, "an export is not a save")
+        XCTAssertNil(file.fileURL)
+        TestSupport.turnRunLoop()
+        XCTAssertEqual(system.isDocumentEdited, editedBefore)
+        XCTAssertEqual(document.undoName, undoBefore, "and not an edit")
     }
 
     func testScaleSetsThePixelSize() throws {

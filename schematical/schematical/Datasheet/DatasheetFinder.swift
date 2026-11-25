@@ -8,6 +8,12 @@ import PDFKit
 @MainActor
 @Observable
 final class DatasheetFinder {
+    /// Nothing here needs the main actor. An isolated deinit, nested in its
+    /// owner's (`VerifyDatasheetModel`, freed by SwiftUI whenever it
+    /// rebuilds the scene list), aborts in the concurrency runtime (a
+    /// task-local scope freed twice, `StopLookupScope`).
+    nonisolated deinit {}
+
     /// The loaded PDF; nil until one loads.
     var document: PDFDocument? {
         didSet {

@@ -5,150 +5,33 @@ import PDFKit
 import SwiftUI
 import UniformTypeIdentifiers
 
-/// Save and Open for one window. Tracks which file the window's schematic came
-/// from and whether it has changed since it was last saved or opened.
+/// Exports and print for one schematic document (plan-61-B: the document
+/// class, `SchematicNSDocument`, does Save, Open, the close and quit prompts
+/// and tabs). Built by the document's `SchematicEditorModel`.
 @MainActor
 @Observable
 final class SchematicFileController {
-    /// The file the schematic was last saved to or opened from. Set by the
-    /// window's document (plan-61-B).
+    /// The document's file, nil for one never saved. Set by the document;
+    /// exports are named after it and start in its folder.
     var fileURL: URL?
 
-    /// The window showing this schematic. Sheets attach to it, and closing it
-    /// asks about unsaved changes first.
+    /// The window showing this schematic: sheets attach to it.
     @ObservationIgnored
-    weak var window: NSWindow? {
-        didSet {
-            closeGuard.attach(to: window)
-            if oldValue == nil { claimPendingOpen() }
-        }
-    }
-
-    /// Opens a new, blank schematic window. Set by the window's view, which
-    /// has SwiftUI's `openWindow`.
-    @ObservationIgnored
-    var openNewWindow: (() -> Void)?
-
-    /// A file read by one window to open in a new tab: the next new window
-    /// takes it.
-    private struct PendingOpen {
-        let url: URL
-        let file: SchematicFile
-    }
-
-    @ObservationIgnored
-    private static var pendingOpens: [PendingOpen] = []
-
-    /// The file this new window claimed, loaded once the catalog is.
-    @ObservationIgnored
-    private var claimedOpen: PendingOpen?
-
-    /// Every open window's controller, so quitting can check them all.
-    @ObservationIgnored
-    private static let all = NSHashTable<SchematicFileController>.weakObjects()
-
-    @ObservationIgnored
-    private lazy var closeGuard = WindowCloseGuard { [weak self] window in
-        guard let self else { return true }
-        guard self.hasUnsavedChanges else { return true }
-        Task {
-            if await self.confirmDiscardingChanges() {
-                window.close()
-            }
-        }
-        return false
-    }
+    weak var window: NSWindow?
 
     private let document: SchematicDocument
     private let catalog: PartCatalogStore
-    /// Called before an opened file replaces the canvas, for example to stop
-    /// a running simulation.
-    private let willReplaceDocument: () -> Void
 
-    /// The document as it was last saved or opened. A new window starts empty,
-    /// which also counts as saved.
-    private var savedSnapshot: SchematicFile
-
-    init(document: SchematicDocument, catalog: PartCatalogStore, willReplaceDocument: @escaping () -> Void) {
+    init(document: SchematicDocument, catalog: PartCatalogStore) {
         self.document = document
         self.catalog = catalog
-        self.willReplaceDocument = willReplaceDocument
-        self.savedSnapshot = SchematicFile(document: document, fileURL: nil)
-        Self.all.add(self)
-        // A User Library part edited in place reaches every open window
-        // (plan-53-D).
-        catalog.partUpdated = { uuid, part in
-            Self.updateOpenDocuments(uuid: uuid, to: part, catalog: catalog)
-        }
-    }
-
-    /// Every open window whose schematic places the custom part `uuid` (of
-    /// `catalog`) switches to `newPart`: its simulation is stopped first, then
-    /// `SchematicDocument.updatePart` swaps the chips. Returns how many
-    /// windows changed.
-    @discardableResult
-    static func updateOpenDocuments(uuid: String, to newPart: CatalogPart, catalog: PartCatalogStore) -> Int {
-        var changed = 0
-        for controller in all.allObjects where controller.catalog === catalog {
-            guard controller.document.chips.contains(where: { $0.part.uuid == uuid }) else { continue }
-            controller.willReplaceDocument()
-            if controller.document.updatePart(uuid: uuid, to: newPart) { changed += 1 }
-        }
-        return changed
-    }
-
-    /// Asks about each open window with unsaved changes, one at a time.
-    /// Returns false as soon as the user cancels one. Closed windows are
-    /// skipped: closing the last window quits the app, and that window was
-    /// already asked about.
-    static func confirmQuit() async -> Bool {
-        for controller in all.allObjects where controller.hasUnsavedChanges {
-            guard let window = controller.window, window.isVisible else { continue }
-            window.makeKeyAndOrderFront(nil)
-            guard await controller.confirmDiscardingChanges() else { return false }
-        }
-        return true
     }
 
     var displayName: String {
         fileURL?.deletingPathExtension().lastPathComponent ?? "Untitled"
     }
 
-    var hasUnsavedChanges: Bool {
-        SchematicFile(document: document, fileURL: fileURL) != savedSnapshot
-    }
-
     // MARK: Actions
-
-    /// Saves to the current file, or asks where to save if there isn't one.
-    func save() async {
-        if let fileURL {
-            write(to: fileURL)
-        } else {
-            await saveAs()
-        }
-    }
-
-    /// Asks where to save, then saves there. The panel's Format menu picks
-    /// a Schematical file (a save), or a KiCad or EasyEDA Pro project (an
-    /// export: the window's file and saved state do not change).
-    func saveAs() async {
-        let panel = NSSavePanel()
-        panel.canCreateDirectories = true
-        let picker = SaveFormatPicker(panel: panel, baseName: displayName)
-        if let fileURL {
-            panel.directoryURL = fileURL.deletingLastPathComponent()
-        }
-        guard await run(panel) == .OK, let url = panel.url else { return }
-        switch picker.format {
-        case .schematical:
-            write(to: url)
-        case .kicad:
-            exportKiCad(to: url)
-        case .easyEDAPro:
-            exportEasyEDAPro(to: url)
-        }
-    }
 
     /// Writes the KiCad project (`KiCadExport`) next to `url`: three files
     /// named after it, whatever extension the panel gave it. Like any
@@ -184,122 +67,6 @@ final class SchematicFileController {
     func writeKiCad(to url: URL) throws {
         let base = KiCadExport.baseName(url.deletingPathExtension().lastPathComponent)
         try KiCadExport.write(document, base: base, to: url.deletingLastPathComponent())
-    }
-
-    /// True for a new window's untitled schematic that is still empty.
-    var isBlank: Bool {
-        fileURL == nil && !hasUnsavedChanges
-    }
-
-    /// Asks for a schematic and opens it. A blank untitled window loads it in
-    /// place; any other window opens it in a new tab. A file that is already
-    /// open brings its window to the front instead.
-    func open() async {
-        let panel = NSOpenPanel()
-        panel.allowedContentTypes = SchematicFile.openableTypes
-        panel.allowsMultipleSelection = false
-        panel.canChooseDirectories = false
-        guard await run(panel) == .OK, let url = panel.url else { return }
-        await open(url)
-    }
-
-    /// Opens the schematic at `url` as `open()` does after its panel.
-    func open(_ url: URL) async {
-        if let existing = Self.all.allObjects.first(where: { $0.fileURL?.standardizedFileURL == url.standardizedFileURL }),
-           let window = existing.window, window.isVisible {
-            window.makeKeyAndOrderFront(nil)
-            return
-        }
-
-        let file: SchematicFile
-        do {
-            file = try SchematicFile.decode(try Data(contentsOf: url))
-        } catch {
-            present(error, title: "Couldn't open “\(url.lastPathComponent)”")
-            return
-        }
-
-        if isBlank || openNewWindow == nil {
-            guard await confirmDiscardingChanges() else { return }
-            load(file, from: url)
-        } else {
-            Self.pendingOpens.append(PendingOpen(url: url, file: file))
-            if let window { Self.tabNextWindow(into: window) }
-            openNewWindow?()
-        }
-    }
-
-    /// A new window takes the next file another window read for it. Its tab
-    /// is set up by `tabNextWindow(into:)`, before this runs.
-    private func claimPendingOpen() {
-        guard isBlank, !Self.pendingOpens.isEmpty else { return }
-        claimedOpen = Self.pendingOpens.removeFirst()
-    }
-
-    /// File › New Project: the window about to open becomes a tab of the
-    /// focused schematic window, or else of the frontmost schematic window.
-    /// With none open it is a window of its own.
-    static func tabNewProject(focused: SchematicFileController?) {
-        let visible = all.allObjects.compactMap(\.window).filter(\.isVisible)
-        let front = NSApp.orderedWindows.first { visible.contains($0) }
-        guard let group = focused?.window ?? front else { return }
-        tabNextWindow(into: group)
-    }
-
-    /// Makes the next schematic window that opens a tab of `group`, the way
-    /// document apps open a file: straight into a tab, never as a window of
-    /// its own first. It is caught as it becomes key, which is before its
-    /// first layout and drawing. Later, from the window's own view, is
-    /// too late: that runs inside SwiftUI's layout pass, where joining a tab
-    /// group lays the window out again (AppKit's layout recursion warning),
-    /// and anything after that shows a separate window for a frame.
-    private static func tabNextWindow(into group: NSWindow) {
-        final class Observer { var token: NSObjectProtocol? }
-        let observer = Observer()
-        observer.token = NotificationCenter.default.addObserver(
-            forName: NSWindow.didBecomeKeyNotification, object: nil, queue: nil
-        ) { [weak group] note in
-            MainActor.assumeIsolated {
-                guard let group else {
-                    observer.token.map(NotificationCenter.default.removeObserver)
-                    return
-                }
-                guard let window = note.object as? NSWindow, window !== group,
-                      window.tabbingIdentifier == group.tabbingIdentifier else { return }
-                observer.token.map(NotificationCenter.default.removeObserver)
-                observer.token = nil
-                window.tabbingMode = .preferred
-                if window.tabGroup !== group.tabGroup {
-                    group.addTabbedWindow(window, ordered: .above)
-                }
-            }
-        }
-    }
-
-    /// Loads the file this window claimed, if any. Call once the catalog is
-    /// loaded.
-    func loadClaimedOpen() {
-        guard let pending = claimedOpen else { return }
-        claimedOpen = nil
-        load(pending.file, from: pending.url)
-    }
-
-    private func load(_ file: SchematicFile, from url: URL) {
-        do {
-            willReplaceDocument()
-            let embedded = try file.apply(to: document, catalog: catalog, fileURL: url)
-            fileURL = url
-            // Taken after apply, so a refreshed bookmark is not a change.
-            savedSnapshot = SchematicFile(document: document, fileURL: url)
-            // Custom parts that came with the file and are not in the User
-            // Library: offer to add them (plan-53-C). The open is already done.
-            let offered = UserLibraryPrompts.offerable(embedded, catalog: catalog)
-            if !offered.isEmpty {
-                Task { await offerToAdd(offered) }
-            }
-        } catch {
-            present(error, title: "Couldn't open “\(url.lastPathComponent)”")
-        }
     }
 
     /// The offer to add a just-opened schematic's custom parts to the User
@@ -509,56 +276,7 @@ final class SchematicFileController {
         }
     }
 
-    /// Saves to `url` (or the window's file) with no panel and no alert, for
-    /// the agent-control tools. Returns why it failed, or nil.
-    func saveWithoutPanel(to url: URL?) -> String? {
-        guard let target = url ?? fileURL else { return "This window has no file yet; pass a path." }
-        let snapshot = SchematicFile(document: document, fileURL: target)
-        do {
-            try snapshot.encoded().write(to: target, options: .atomic)
-            fileURL = target
-            savedSnapshot = snapshot
-            return nil
-        } catch {
-            return "Couldn't save “\(target.lastPathComponent)”: \(error.localizedDescription)"
-        }
-    }
-
     // MARK: Helpers
-
-    private func write(to url: URL) {
-        let snapshot = SchematicFile(document: document, fileURL: url)
-        do {
-            try snapshot.encoded().write(to: url, options: .atomic)
-            fileURL = url
-            savedSnapshot = snapshot
-        } catch {
-            present(error, title: "Couldn't save “\(url.lastPathComponent)”")
-        }
-    }
-
-    /// True if it's fine to throw away the current canvas: it has no unsaved
-    /// changes, the user saved it, or the user chose not to.
-    func confirmDiscardingChanges() async -> Bool {
-        guard hasUnsavedChanges else { return true }
-
-        let alert = NSAlert()
-        alert.messageText = "Do you want to save the changes to “\(displayName)”?"
-        alert.informativeText = "Your changes will be lost if you don't save them."
-        alert.addButton(withTitle: "Save")
-        alert.addButton(withTitle: "Cancel")
-        alert.addButton(withTitle: "Don't Save")
-
-        switch await run(alert) {
-        case .alertFirstButtonReturn:
-            await save()
-            return !hasUnsavedChanges
-        case .alertThirdButtonReturn:
-            return true
-        default:
-            return false
-        }
-    }
 
     private func present(_ error: Error, title: String) {
         let alert = NSAlert()
@@ -684,84 +402,44 @@ struct PartFileMenuItems: View {
 // MARK: - Menu commands
 
 extension FocusedValues {
-    /// The focused window's Save and Open handler, for the File menu.
+    /// The focused window's exporter, for the File menu.
     @Entry var schematicFile: SchematicFileController?
 }
 
-/// File › New Project (⌘N): a new, empty schematic, as a tab of the
-/// schematic window in front.
-struct NewProjectMenuItem: View {
-    let file: SchematicFileController?
-    @Environment(\.openWindow) private var openWindow
-
-    var body: some View {
-        Button("New Project") {
-            SchematicFileController.tabNewProject(focused: file)
-            openWindow(id: "schematic")
-        }
-        .keyboardShortcut("n", modifiers: .command)
-    }
-}
-
-/// File menu items for the focused window's schematic. In a Part Editor
-/// window (plan-32-C) Open… and Save are that window's Open Part… and Save
-/// Part…, so each key has one item.
+/// The File menu's items that are the app's own, around the document items
+/// (`DocumentMenuCommands`): the part items after Open Recent, then Export
+/// and Print… after the document's Save group. In a Part Editor window
+/// (plan-32-C) ⌘O and ⌘S are that window's Open Part… and Save Part….
 struct SchematicFileCommands: Commands {
     @FocusedValue(\.schematicFile) private var file
     @FocusedValue(\.partEditor) private var editor
 
     var body: some Commands {
-        // SwiftUI fills File › New with a submenu naming every WindowGroup
-        // (Memory, Processor, Terminal, …); those open from their parts, so
-        // the File menu offers only a new schematic window.
-        CommandGroup(replacing: .newItem) {
-            NewProjectMenuItem(file: file)
-        }
-
         CommandGroup(after: .newItem) {
             PartEditorCommands(editor: editor)
-
-            Divider()
 
             if let editor {
                 Button("Open Part…") {
                     Task { await editor.open() }
                 }
                 .keyboardShortcut("o", modifiers: .command)
-            } else {
-                Button("Open…") {
-                    Task { await file?.open() }
-                }
-                .keyboardShortcut("o", modifiers: .command)
-                .disabled(file == nil)
             }
 
             PartFileMenuItems()
+        }
 
-            // Here rather than in a `.saveItem` group: the File menu of a
-            // WindowGroup app never showed that group (only New, Open… and
-            // Close appeared, and ⌘S did nothing).
-            Divider()
-
+        CommandGroup(after: .saveItem) {
             if let editor {
                 Button("Save Part…") {
                     Task { await editor.save() }
                 }
                 .keyboardShortcut("s", modifiers: .command)
                 .disabled(!editor.isValid)
-            } else {
-                Button("Save") {
-                    Task { await file?.save() }
-                }
-                .keyboardShortcut("s", modifiers: .command)
-                .disabled(file == nil)
             }
 
-            Button("Save As…") {
-                Task { await file?.saveAs() }
-            }
-            .keyboardShortcut("s", modifiers: [.command, .shift])
-            .disabled(file == nil)
+            Divider()
+
+            SchematicExportMenu(file: file)
 
             Divider()
 
@@ -771,8 +449,6 @@ struct SchematicFileCommands: Commands {
             }
             .keyboardShortcut("p", modifiers: .command)
             .disabled(file == nil)
-
-            SchematicExportMenu(file: file)
         }
     }
 }
