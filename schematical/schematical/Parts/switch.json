@@ -1132,6 +1132,14 @@
           {"number":4,"name":"A2","role":"inout"},
           {"number":5,"name":"C2","role":"inout"},
           {"number":6,"name":"B2","role":"inout"}
+        ],
+        "p6_231564": [
+          {"number":1,"name":"B1","role":"inout"},
+          {"number":2,"name":"C1","role":"inout"},
+          {"number":3,"name":"A1","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"},
+          {"number":5,"name":"C2","role":"inout"},
+          {"number":6,"name":"A2","role":"inout"}
         ]
       },
       "actuator": "Standard",
@@ -1145,6 +1153,10 @@
       "rest": 2,
       "ratedVolts": 28,
       "parts": [
+        {"name":"1203A1CQEA","manufacturer":"CIT Relay & Switch","datasheet":"switch-1000","package":"THT","pinout":"p6_231564","footprint":"SW-SLIDE-CIT-1000-THT-6P"},
+        {"name":"1203A1VQEA","manufacturer":"CIT Relay & Switch","datasheet":"switch-1000","package":"THT right angle","pinout":"p6_231564","footprint":"SW-SLIDE-CIT-1000-THTRAV-6P"},
+        {"name":"1203A2CQEA","manufacturer":"CIT Relay & Switch","datasheet":"switch-1000","package":"THT","pinout":"p6_231564","footprint":"SW-SLIDE-CIT-1000-THT-6P"},
+        {"name":"1203A4CQEA","manufacturer":"CIT Relay & Switch","datasheet":"switch-1000","package":"THT","pinout":"p6_231564","footprint":"SW-SLIDE-CIT-1000-THT-6P"},
         {"name":"AS23AB","manufacturer":"NKK Switches","datasheet":"aslides","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-NKK-AS-THT-6P-B"},
         {"name":"AS23AH","manufacturer":"NKK Switches","datasheet":"aslides","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-NKK-AS-THTRA-6P"},
         {"name":"AS23AP","manufacturer":"NKK Switches","datasheet":"aslides","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-NKK-AS-THT-6P"},
@@ -1260,6 +1272,7 @@
       "rest": 1,
       "ratedVolts": 20,
       "parts": [
+        {"name":"1201A1VREA","manufacturer":"CIT Relay & Switch","datasheet":"switch-1000","package":"THT right angle","pinout":"p6_231564","footprint":"SW-SLIDE-CIT-1000-THTRAV-6P"},
         {"name":"1201M2S3ABE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-CK-1000-THTRA-6P"},
         {"name":"1201M2S3CBE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-CK-1000-THT-6P"},
         {"name":"1201M2S3V3BE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-CK-1000-THT-6P-B"},
@@ -1313,6 +1326,14 @@
           {"number":4,"name":"A2","role":"inout"},
           {"number":5,"name":"C2","role":"inout"},
           {"number":6,"name":"B2","role":"inout"}
+        ],
+        "p6_231564": [
+          {"number":1,"name":"B1","role":"inout"},
+          {"number":2,"name":"C1","role":"inout"},
+          {"number":3,"name":"A1","role":"inout"},
+          {"number":4,"name":"B2","role":"inout"},
+          {"number":5,"name":"C2","role":"inout"},
+          {"number":6,"name":"A2","role":"inout"}
         ]
       },
       "actuator": "Standard",
@@ -1326,6 +1347,9 @@
       "rest": 1,
       "ratedVolts": 28,
       "parts": [
+        {"name":"1201A1VQEA","manufacturer":"CIT Relay & Switch","datasheet":"switch-1000","package":"THT right angle","pinout":"p6_231564","footprint":"SW-SLIDE-CIT-1000-THTRAV-6P"},
+        {"name":"1201A2CQEA","manufacturer":"CIT Relay & Switch","datasheet":"switch-1000","package":"THT","pinout":"p6_231564","footprint":"SW-SLIDE-CIT-1000-THT-6P"},
+        {"name":"1201A4CQEA","manufacturer":"CIT Relay & Switch","datasheet":"switch-1000","package":"THT","pinout":"p6_231564","footprint":"SW-SLIDE-CIT-1000-THT-6P"},
         {"name":"1201M2S1CQE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-CK-1000-THT-6P"},
         {"name":"1201M2S3AQE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-CK-1000-THTRA-6P"},
         {"name":"1201M2S3CQE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-CK-1000-THT-6P"},
@@ -1447,6 +1471,22 @@
         {"name":"EG2211","manufacturer":"E-Switch","datasheet":"eg","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-ESW-EG-THTRA-6P-C"},
         {"name":"EG2214","manufacturer":"E-Switch","datasheet":"eg","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-ESW-EG-THTRA-6P-D"},
         {"name":"EG2215","manufacturer":"E-Switch","datasheet":"eg","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-ESW-EG-THTRA-6P-E"},
+        {"name":"MS2201L12","manufacturer":"CIT Relay & Switch","datasheet":"switch-ms2201","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-CIT-MS2201-THT-6P"},
+        {"name":"MS2201L3","manufacturer":"CIT Relay & Switch","datasheet":"switch-ms2201","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-CIT-MS2201-THT-6P"},
+        {"name":"MS2201L4.5","manufacturer":"CIT Relay & Switch","datasheet":"switch-ms2201","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-CIT-MS2201-THT-6P"},
+        {"name":"MS2201L6","manufacturer":"CIT Relay & Switch","datasheet":"switch-ms2201","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-CIT-MS2201-THT-6P"},
+        {"name":"MS2201L9","manufacturer":"CIT Relay & Switch","datasheet":"switch-ms2201","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-CIT-MS2201-THT-6P"},
+        {"name":"MS2205L2","manufacturer":"CIT Relay & Switch","datasheet":"switch-ms2205","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-CIT-MS2205-THT-6P"},
+        {"name":"MS2205L4","manufacturer":"CIT Relay & Switch","datasheet":"switch-ms2205","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-CIT-MS2205-THT-6P"},
+        {"name":"MS2205L6","manufacturer":"CIT Relay & Switch","datasheet":"switch-ms2205","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-CIT-MS2205-THT-6P"},
+        {"name":"MS2208L4","manufacturer":"CIT Relay & Switch","datasheet":"switch-ms2208","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-CIT-MS2208-THTRA-6P"},
+        {"name":"MS2210L4","manufacturer":"CIT Relay & Switch","datasheet":"switch-ms2210","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-CIT-MS2210-THTRA-6P"},
+        {"name":"MS2210L6","manufacturer":"CIT Relay & Switch","datasheet":"switch-ms2210","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-CIT-MS2210-THTRA-6P"},
+        {"name":"MS2211L4","manufacturer":"CIT Relay & Switch","datasheet":"switch-ms2211","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-CIT-MS2211-THTRA-6P"},
+        {"name":"MS2219L4","manufacturer":"CIT Relay & Switch","datasheet":"switch-ms2219","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-CIT-MS2219-THTRA-6P"},
+        {"name":"MS2241L3","manufacturer":"CIT Relay & Switch","datasheet":"switch-ms2241","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-CIT-MS2241-THTRA-6P"},
+        {"name":"MS2241L6","manufacturer":"CIT Relay & Switch","datasheet":"switch-ms2241","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-CIT-MS2241-THTRA-6P"},
+        {"name":"MS2241L9","manufacturer":"CIT Relay & Switch","datasheet":"switch-ms2241","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-CIT-MS2241-THTRA-6P"},
         {"name":"OS202011MV4QN1","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-os-series-datasheet","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-CK-OS-THT-6P-B"},
         {"name":"OS202011MV4QS1","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-os-series-datasheet","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-CK-OS-THT-6P-B"},
         {"name":"OS202013MT5QN1","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-os-series-datasheet","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-CK-OS-THT-6P-C"},
@@ -1648,6 +1688,11 @@
           {"number":1,"name":"A","role":"inout"},
           {"number":2,"name":"C","role":"inout"},
           {"number":3,"name":"B","role":"inout"}
+        ],
+        "p3_231": [
+          {"number":1,"name":"B","role":"inout"},
+          {"number":2,"name":"C","role":"inout"},
+          {"number":3,"name":"A","role":"inout"}
         ]
       },
       "actuator": "Standard",
@@ -1659,6 +1704,9 @@
       "rest": 2,
       "ratedVolts": 28,
       "parts": [
+        {"name":"1103A1VQEA","manufacturer":"CIT Relay & Switch","datasheet":"switch-1000","package":"THT right angle","pinout":"p3_231","footprint":"SW-SLIDE-CIT-1000-THTRAV-3P"},
+        {"name":"1103A2CQEA","manufacturer":"CIT Relay & Switch","datasheet":"switch-1000","package":"THT","pinout":"p3_231","footprint":"SW-SLIDE-CIT-1000-THT-3P"},
+        {"name":"1103A4CQEA","manufacturer":"CIT Relay & Switch","datasheet":"switch-1000","package":"THT","pinout":"p3_231","footprint":"SW-SLIDE-CIT-1000-THT-3P"},
         {"name":"1103M2S3CQE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-CK-1000-THT-3P"},
         {"name":"500ASSP3M2QE","manufacturer":"E-Switch","datasheet":"500a","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-ESW-500A-THT-3P"},
         {"name":"500SSP3S1M2QEA","manufacturer":"E-Switch","datasheet":"500","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-ESW-500-THT-3P"},
@@ -1791,6 +1839,10 @@
       "rest": 1,
       "ratedVolts": 20,
       "parts": [
+        {"name":"1101A1VREA","manufacturer":"CIT Relay & Switch","datasheet":"switch-1000","package":"THT right angle","pinout":"p3_231","footprint":"SW-SLIDE-CIT-1000-THTRAV-3P"},
+        {"name":"1101A2HREA","manufacturer":"CIT Relay & Switch","datasheet":"switch-1000","package":"THT right angle","pinout":"p3_231","footprint":"SW-SLIDE-CIT-1000-THTRA-3P"},
+        {"name":"1101A2VREA","manufacturer":"CIT Relay & Switch","datasheet":"switch-1000","package":"THT right angle","pinout":"p3_231","footprint":"SW-SLIDE-CIT-1000-THTRAV-3P"},
+        {"name":"1101A3VREA","manufacturer":"CIT Relay & Switch","datasheet":"switch-1000","package":"THT right angle","pinout":"p3_231","footprint":"SW-SLIDE-CIT-1000-THTRAV-3P"},
         {"name":"1101M2S2CBE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-CK-1000-THT-3P"},
         {"name":"1101M2S3ABE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-CK-1000-THTRA-3P"},
         {"name":"1101M2S3AV2BE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-CK-1000-THTRAV-3P"},
@@ -1905,6 +1957,11 @@
       "rest": 1,
       "ratedVolts": 28,
       "parts": [
+        {"name":"1101A1VQEA","manufacturer":"CIT Relay & Switch","datasheet":"switch-1000","package":"THT right angle","pinout":"p3_231","footprint":"SW-SLIDE-CIT-1000-THTRAV-3P"},
+        {"name":"1101A2CQEA","manufacturer":"CIT Relay & Switch","datasheet":"switch-1000","package":"THT","pinout":"p3_231","footprint":"SW-SLIDE-CIT-1000-THT-3P"},
+        {"name":"1101A2HQEA","manufacturer":"CIT Relay & Switch","datasheet":"switch-1000","package":"THT right angle","pinout":"p3_231","footprint":"SW-SLIDE-CIT-1000-THTRA-3P"},
+        {"name":"1101A2VQEA","manufacturer":"CIT Relay & Switch","datasheet":"switch-1000","package":"THT right angle","pinout":"p3_231","footprint":"SW-SLIDE-CIT-1000-THTRAV-3P"},
+        {"name":"1101A4CQEA","manufacturer":"CIT Relay & Switch","datasheet":"switch-1000","package":"THT","pinout":"p3_231","footprint":"SW-SLIDE-CIT-1000-THT-3P"},
         {"name":"1101M2S2CQE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-CK-1000-THT-3P"},
         {"name":"1101M2S3AQE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-CK-1000-THTRA-3P"},
         {"name":"1101M2S3AV2QE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-CK-1000-THTRAV-3P"},
@@ -2001,6 +2058,13 @@
         {"name":"EG1213","manufacturer":"E-Switch","datasheet":"eg","package":"THT right angle","pinout":"p3_231","footprint":"SW-SLIDE-ESW-EG-THTRA-3P-B"},
         {"name":"EG1218","manufacturer":"E-Switch","datasheet":"eg","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-ESW-EG-THT-3P"},
         {"name":"EG1247","manufacturer":"E-Switch","datasheet":"eg","package":"THT right angle","pinout":"p3_231","footprint":"SW-SLIDE-ESW-EG-THTRA-3P-D"},
+        {"name":"MS1202L4","manufacturer":"CIT Relay & Switch","datasheet":"switch-ms1202","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-CIT-MS1202-THT-3P"},
+        {"name":"MS1202L6","manufacturer":"CIT Relay & Switch","datasheet":"switch-ms1202","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-CIT-MS1202-THT-3P"},
+        {"name":"MS1206L3","manufacturer":"CIT Relay & Switch","datasheet":"ms1206","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-CIT-MS1206-THTRA-3P"},
+        {"name":"MS1206L6","manufacturer":"CIT Relay & Switch","datasheet":"ms1206","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-CIT-MS1206-THTRA-3P"},
+        {"name":"MS1247L2","manufacturer":"CIT Relay & Switch","datasheet":"switch-ms1247","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-CIT-MS1247-THTRA-3P"},
+        {"name":"MS1247L4","manufacturer":"CIT Relay & Switch","datasheet":"switch-ms1247","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-CIT-MS1247-THTRA-3P"},
+        {"name":"MS1247L6","manufacturer":"CIT Relay & Switch","datasheet":"switch-ms1247","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-CIT-MS1247-THTRA-3P"},
         {"name":"SK-12D07-VG 4 NS PA","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-sk-series-datasheet","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-CK-SK-THTRA-3P"},
         {"name":"SK-12F17-G 7","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-sk-series-datasheet","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-CK-SK-THTRA-3P-B"},
         {"name":"SS-12D07-VG 4 NS GA PA","manufacturer":"Littelfuse","datasheet":"ss-12d07-vg_ga_pa","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-CK-SS-THT-3P"},

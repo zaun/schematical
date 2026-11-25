@@ -121,20 +121,21 @@ Acceptance: every CIT Relay & Switch row has a spec whose footprint is staged an
 pads; the staged footprints load; each image matches its drawing.
   Check: `python3 -I planning/plan-58-data/census/specs-check.py --maker 'CIT' && planning/plan-58-data/census/fp-load.sh planning/plan-58-data/footprints-F.json` → `specs ok`, then only `unused footprint` lines for the staged ids and `load ok` (est. 6 min).
   Measured: `specs-check.py --maker 'CIT'` → `specs ok (43 rows, 15 specs)`; `fp-load.sh footprints-F.json` → `15 footprints appended`, `15 new footprints: load ok`
-Commit: —
+Commit: f4630bba
 
 ### Phase 3 — parts
 
-- [ ] `python3 -I planning/plan-58-data/gen-parts.py --maker 'CIT'` (the earlier
+- [x] `python3 -I planning/plan-58-data/gen-parts.py --maker 'CIT'` (the earlier
       makers' parts stay: the generator rebuilds every maker already in the region).
-- [ ] Regenerate the goldens (`listing_check --print`, `trace_check --print`,
+- [x] Regenerate the goldens (`listing_check --print`, `trace_check --print`,
       `footprint_check --print`) and review: only added lines, in each file.
-- [ ] `node scripts/check-datasheets.js --host www.citrelay.com` → exit 0.
+- [x] `node scripts/check-datasheets.js --host www.citrelay.com` → exit 0.
 
 Acceptance: `grep -c 'states=' backend/tests/golden/parts.txt` equals the previous
 total plus the number of CIT Relay & Switch `add` rows; the generator run is idempotent; `ctest`
 passes (the library pass of `slide_test` covers the new devices).
   Check: `python3 -I planning/plan-58-data/gen-parts.py --maker 'CIT' --dry-run && cmake --build /tmp/logic-p58 -j8 && ctest --test-dir /tmp/logic-p58 -j8 -R 'slide_test|listing_check|trace_check|footprint_check|library_check'` → no change, `100% tests passed` (est. 12 min).
+  Measured: `gen-parts.py --maker 'CIT'` written, then `--dry-run` → `no changes`; goldens regenerated: no golden line removed, `grep -c 'states=' backend/tests/golden/parts.txt` → 271; `ctest -j8` → `100% tests passed, 0 tests failed out of 62`; `check-datasheets.js --host www.citrelay.com` → `0 failed`
 Commit: —
 
 ## Validation Plan
@@ -157,6 +158,7 @@ Commit: —
 
 - **2026-11-24, Phase 1: 0 pending rows do not fit their key and are `skip`** (none); CIT has 43 `add` rows after Phase 1. `schemes.tsv` regexes are written from each datasheet's ordering key (positions and listed letters only).
 - **2026-11-24, Phase 2: the footprints were drawn by parallel sub-agents, one per group of series** (1000; MS1202-MS2241), each reading its PDFs' drawings as page images, rendering every footprint with `census/fp-render.py` and comparing it with the drawing; the lead merged the fragments (`merge-specs.py`, `fp-load.sh`: 15 footprints, 15 spec rows for 43 `add` rows). Open questions of each sub-agent are in the footprints' `note` fields (top vs bottom view, the body outline's position against the pads where the drawing gives no tie, terminals renumbered to 1..n where a datasheet skips numbers). Images are rendered from the JSON (see plan-58-C Corrections), not by the app.
+- **2026-11-24, Phase 3: all 43 CIT rows were `add` after Phase 1** (every number fits its datasheet's ordering key; the MS series' `L<length>` and the 1000 series' key). `grep -c 'states=' backend/tests/golden/parts.txt` is now the sum of the four makers' `add` rows (C&K 105, NKK 67, E-Switch 56, CIT 43 = 271).
 
 ## Summary
 
