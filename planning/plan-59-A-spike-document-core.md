@@ -230,58 +230,59 @@ Delivers the place everything else runs and the numbers everything is judged aga
 - [x] Build signed: `xcodebuild -project <wt>/schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath <scratch>/dd-G CODE_SIGNING_ALLOWED=YES build`. — `** BUILD SUCCEEDED **`; `codesign -dv` → `Identifier=jgz.schematical.spike59`, `Signature=adhoc`.
 - [x] Launch it once and record that the sandbox is on. — `lsappinfo list` → `bundleID="jgz.schematical.spike59" … Arch=ARM64 sandboxed`; `ls ~/Library/Containers | grep spike59` → `jgz.schematical.spike59`; `codesign -d --entitlements -` → `[Key] com.apple.security.app-sandbox`.
 
-Acceptance: B1–B3 are in `findings.md`; the renamed app builds, runs, and has its own sandbox container.
+Acceptance: B1–B3 are in `findings.md`; the renamed app builds, runs, and has its own sandbox container. — met: the three checks returned `0`, `[Key] com.apple.security.app-sandbox`, `jgz.schematical.spike59`.
   Check: `rg '^\| B[123].*\| — \|' planning/plan-59-data/findings.md | wc -l` → `0`; `codesign -d --entitlements - <scratch>/dd-G/Build/Products/Debug/SchematicalSpike59.app 2>&1 | rg app-sandbox` → one line; `ls ~/Library/Containers | rg spike59` → `jgz.schematical.spike59` (est. first build 10–15 min: the whole app plus the C backend, nothing smaller builds the app; baselines 5 min).
-Commit: —
+Commit: 3640db49
 
 ### Phase 2 — The `DocumentGroup` document
 
 Delivers G as a running app that opens and saves files; no probes yet.
 
-- [ ] Worktree `schematical/Info.plist`: add `CFBundleDocumentTypes` for the two types.
-- [ ] Add `Document/SchematicDocumentModel.swift` as designed in § 4.
-- [ ] Worktree `ContentView.swift`: `init(model:fileURL:)`; set `model.fileURL` from the view on appear and on change of `fileURL`.
-- [ ] Worktree `schematicalApp.swift`: the `DocumentGroup` scene as in § 4.
-- [ ] Build; fix compile errors only; record in `findings.md` § Notes per candidate how many lines the spike changed (`git -C <wt> diff --stat 2d10a029 | tail -1`).
+- [x] Worktree `schematical/Info.plist`: add `CFBundleDocumentTypes` for the two types. — `CFBundleDocumentTypes`: `jgz.schematical.schematic` Editor, `jgz.schematical.part` Viewer (`scripts/patch-G-phase2.py` → `8 edits applied`).
+- [x] Add `Document/SchematicDocumentModel.swift` as designed in § 4. — added; it differs from § 4 in three ways the SDK forced (Corrections 6).
+- [x] Worktree `ContentView.swift`: `init(model:fileURL:)`; set `model.fileURL` from the view on appear and on change of `fileURL`. — `init(model:fileURL:)` calls `model.attach(fileURL:)`; the on-change call sits in a `DocumentWiring` modifier (Corrections 7).
+- [x] Worktree `schematicalApp.swift`: the `DocumentGroup` scene as in § 4. — `DocumentGroup(newDocument: { SchematicDocumentModel() }) { configuration in ContentView(model: configuration.document, fileURL: configuration.fileURL) }`.
+- [x] Build; fix compile errors only; record in `findings.md` § Notes per candidate how many lines the spike changed (`git -C <wt> diff --stat 2d10a029 | tail -1`). — `** BUILD SUCCEEDED **` on the first build; `git diff --stat 2d10a029 | tail -1` → `9 files changed, 873 insertions(+), 44 deletions(-)` at the end of this sub-plan (421 of them the probe driver), in `findings.md` § Notes.
 
 Acceptance: the app starts with an Untitled document, and a file passed with `open -a` opens in a window named after it.
   Check: `open -a <spike.app> examples/6502.schematical; osascript -e 'tell application "System Events" to tell process "SchematicalSpike59" to get name of every window'` → output contains `6502` (est. 3 min incl. incremental build).
-Commit: —
+  Result: file open met: probe `docs` → `window '6502.schematical' visible=true … model … parts=103` after `open -a <spike.app> examples/6502.schematical` (System Events lists no window while the screen is locked, Corrections 4). File › New (`newDocument:`) → `name=Untitled url=nil … window 'Untitled'`. **Not met while locked:** a cold launch with no file and no saved state shows no document at all (`documents=0`), as the base app shows no window (Corrections 8); the Untitled-at-launch half of this acceptance is in `findings.md` § Checks that need the unlocked screen.
+Commit: (this commit; hash in the next)
 
 ### Phase 3 — File probes F1–F7 on G
 
-- [ ] Add `planning/plan-59-data/scripts/make-fixture.swift` (harness main) that writes `fixtures/eeprom-rel/design.schematical` (one EEPROM whose `memoryFile.path` is `rom.bin`) and a `rom.bin` beside it.
-- [ ] F1: open the fixture in the spike app; read the chip's load file (Memory window shows its bytes). Record the verdict.
-- [ ] F2: Save As into a second folder, Duplicate, and wait for autosave; compare each written `memoryFile.path` with B2. Record.
-- [ ] F3: add `planning/plan-59-data/scripts/roundtrip.swift` (harness main) that, for each of the 9 examples, runs `SchematicDocumentModel.load` then `encodedSnapshot()` and compares `SchematicFile.decode` of both with `==`. Record.
-- [ ] F4: time the snapshot step 20 times on 6502 in the app with autosave on, and type 30 characters in a net label. Record.
-- [ ] F5: quit; `open -a` 6502 cold; compare the window's part count with the file's `parts` length. Record.
-- [ ] F6: save the fixture, relaunch, open it, edit it from the shell, press Save. Record.
-- [ ] F7: double-click-equivalent (`open -a`) a `.schpart`; record.
-- [ ] Each verdict row: G cell, evidence cell (command and output, or screenshot under `evidence/`).
+- [x] Add `planning/plan-59-data/scripts/make-fixture.swift` (harness main) that writes `fixtures/eeprom-rel/design.schematical` (one EEPROM whose `memoryFile.path` is `rom.bin`) and a `rom.bin` beside it. — `wrote …/fixtures/eeprom-rel/design.schematical: part AT28C64B-15JU, memoryFile.path rom.bin, bookmark none`.
+- [x] F1: open the fixture in the spike app; read the chip's load file (Memory window shows its bytes). Record the verdict. — workaround; `mem 0` → `url=…/fx/A/rom.bin … read=256 bytes first=00010203`.
+- [x] F2: Save As into a second folder, Duplicate, and wait for autosave; compare each written `memoryFile.path` with B2. Record. — blocked; Save As wrote `"path":"rom.bin"` where B2 is `../A/rom.bin` (`evidence/F2-G.txt`).
+- [x] F3: add `planning/plan-59-data/scripts/roundtrip.swift` (harness main) that, for each of the 9 examples, runs `SchematicDocumentModel.load` then `encodedSnapshot()` and compares `SchematicFile.decode` of both with `==`. Record. — works; `F3: candidate==original 8 of 10; candidate==base 10 of 10` (10 examples, not 9: Corrections 9).
+- [x] F4: time the snapshot step 20 times on 6502 in the app with autosave on, and type 30 characters in a net label. Record. — workaround; `snapshot ms: median 13.903 …`; `30 keystrokes, 30 accepted` (Corrections 10).
+- [x] F5: quit; `open -a` 6502 cold; compare the window's part count with the file's `parts` length. Record. — works; `parts=103 catalog=loaded`, file has 103.
+- [x] F6: save the fixture, relaunch, open it, edit it from the shell, press Save. Record. — works; bookmark read after relaunch, system alert on Save (`evidence/F6-G.txt`).
+- [x] F7: double-click-equivalent (`open -a`) a `.schpart`; record. — workaround; an empty Memory window opened until the auxiliary scenes got `.handlesExternalEvents(matching: [])`.
+- [x] Each verdict row: G cell, evidence cell (command and output, or screenshot under `evidence/`). — seven rows in `findings.md`.
 
 Acceptance: seven verdict rows for G.
-  Check: `rg -c '^\| F[1-7] \| [^|]+\| (works|workaround|blocked) \|' planning/plan-59-data/findings.md` → `7` (est. 2–3 h of driving; the probes are the work).
-Commit: —
+  Check: `rg -c '^\| F[1-7] \| [^|]+\| (works|workaround|blocked) \|' planning/plan-59-data/findings.md` → `7` (est. 2–3 h of driving; the probes are the work). — ran: `7`.
+Commit: (this commit; hash in the next)
 
 ### Phase 4 — Undo and dirty probes U1–U5 on G
 
-- [ ] Add a hook in the worktree's `SchematicDocument` (`Canvas/SchematicModel.swift`, where `recordEdit` pushes a step, `:2021–2090`): `var onStep: ((UndoStep, EditorPage) -> Void)?`.
-- [ ] U3: in `ContentView`, take `@Environment(\.undoManager)` and hand it to the model; on each step (`onStep`) register one undo on that manager whose handler applies the step's diff (the apply code `undo(on:)` uses, `SchematicModel.swift:2096–2125`) and registers the redo, with `setActionName(step.name)`. Remove the `UndoCommands` replacement from the worktree's `.commands` list so Edit › Undo and Redo are the system's. Run U3, then U1, U2, U4, U5 on it.
-- [ ] Record the verdicts and the API names used.
+- [x] Add a hook in the worktree's `SchematicDocument` (`Canvas/SchematicModel.swift`, where `recordEdit` pushes a step, `:2021–2090`): `var onStep: ((UndoStep, EditorPage) -> Void)?`. — `onStep`, plus `onEndCoalescing`, `onHistoryCleared` and `applyStep(_:backwards:)` (`scripts/patch-G-undo.py` → `7 edits applied`).
+- [x] U3: in `ContentView`, take `@Environment(\.undoManager)` and hand it to the model; on each step (`onStep`) register one undo on that manager whose handler applies the step's diff (the apply code `undo(on:)` uses, `SchematicModel.swift:2096–2125`) and registers the redo, with `setActionName(step.name)`. Remove the `UndoCommands` replacement from the worktree's `.commands` list so Edit › Undo and Redo are the system's. Run U3, then U1, U2, U4, U5 on it. — `SchematicUndoBridge` on the manager from `DocumentWiring`; `UndoCommands()` removed from `.commands`; U3, U1, U2, U4, U5 run (`evidence/U1-U3-G.txt`, `evidence/U5-G.txt`).
+- [x] Record the verdicts and the API names used. — five rows in `findings.md`; U3 names `EnvironmentValues.undoManager`, `UndoManager.registerUndo(withTarget:handler:)`, `setActionName`.
 
 Acceptance: five verdict rows (U1–U5) for G.
-  Check: `rg -c '^\| U[1-5] \| [^|]+\| (works|workaround|blocked) \|' planning/plan-59-data/findings.md` → `5` (est. 3 h; the undo bridge is the work).
-Commit: —
+  Check: `rg -c '^\| U[1-5] \| [^|]+\| (works|workaround|blocked) \|' planning/plan-59-data/findings.md` → `5` (est. 3 h; the undo bridge is the work). — ran: `5`.
+Commit: (this commit; hash in the next)
 
 ### Phase 5 — Save the evidence
 
-- [ ] `git -C <wt> diff 2d10a029 > planning/plan-59-data/spike-G-core.patch` (the worktree stays for plan-59-B).
-- [ ] Fill this plan's `Commit:` lines and tick its boxes.
+- [x] `git -C <wt> diff 2d10a029 > planning/plan-59-data/spike-G-core.patch` (the worktree stays for plan-59-B). — 1197 lines, taken with `git add -N .` first so the three new files are in it.
+- [~] Fill this plan's `Commit:` lines and tick its boxes. — boxes ticked; the hashes of this commit go in with the next one.
 
 Acceptance: the patch applies to a clean checkout of the base commit.
-  Check: `git apply --check planning/plan-59-data/spike-G-core.patch` run in a second throwaway `git worktree add --detach <scratch>/chk 2d10a029` → exit 0, then `git worktree remove <scratch>/chk` (est. 2 min).
-Commit: —
+  Check: `git apply --check planning/plan-59-data/spike-G-core.patch` run in a second throwaway `git worktree add --detach <scratch>/chk 2d10a029` → exit 0, then `git worktree remove <scratch>/chk` (est. 2 min). — ran `scripts/chk.sh spike-G-core.patch`: `git apply --check spike-G-core.patch -> exit 0`.
+Commit: (this commit; hash in the next)
 
 ## Validation Plan
 
@@ -307,6 +308,13 @@ Commit: —
 3. **`probes.md` says B1 is a Release harness build; `build.sh` has no Release mode.** It copies the Debug app and compiles with `swiftc` and no `-O`. B1, B3 and their re-runs (F4, A14) all use that same unoptimized build, so each comparison is like for like. The absolute numbers are slower than the shipped app (B3 14.7 ms here).
 4. **The screen was locked for the whole run** (`ioreg -n Root -d1 | grep CGSSessionScreenIsLocked` → `Yes`). While locked, a launched app gets no window-server windows (`CGWindowListCopyWindowInfo` lists none for it), System Events sees no windows, and the app cannot become active, so no key window exists. `osascript` driving and `screencapture` as `probes.md` § Driving the real app describes cannot run. The missing affordance was built: `SpikeProbe.swift` in the worktree, an in-app driver that polls `<container>/spike-cmd.txt`, runs each command through public AppKit API (`NSDocumentController`, `NSDocument`, `NSMenu.performActionForItem`, the responder chain, `cacheDisplay` for pictures) and appends to `<container>/spike-out.txt`; `scripts/sp.sh` sends commands. Evidence cells quote its output. What it cannot show is named per probe.
 5. **The session cannot write into the spike worktrees with its file tools** (the P-59 worktree isolation refuses paths outside it). Spike sources are written in the scratchpad (`overlay-G/`) and copied or patched in by script (`scripts/patchlib.py`: every replacement must match exactly once). The patches under `plan-59-data/` remain the record.
+6. **`SchematicDocumentModel` is not `@MainActor`, and it does not apply the file in `init(configuration:)`.** § 4 says `@MainActor` and that `init(configuration:)` calls `load`. `ReferenceFileDocument` is `Sendable` with nonisolated requirements, and SwiftUI calls `init(configuration:)` and `init()` off the main thread (log: `model.init(configuration:) main=false`), where a `SchematicDocument` (main-actor) cannot be built and no URL is known. The model is a nonisolated class with main-actor members: `init(configuration:)` only decodes, and `attach(fileURL:)`, called by the editor view, builds the document and applies the file with the URL. `snapshot(contentType:)` is called on a background queue with the main thread parked (F4).
+7. **The URL and undo-manager wiring is a `ViewModifier` (`DocumentWiring`) on the scene's view, not `onChange` calls inside `ContentView`.** Two more modifiers on `ContentView.body` made the build fail: `ContentView.swift:543:9: error: the compiler is unable to type-check this expression in reasonable time`.
+8. **Launch behavior cannot be seen with the screen locked.** With no file and no saved state the app starts with no document and no window (`documents=0`); the base build also shows no window then. `NSDocumentController.newDocument` (File › New) makes the Untitled document. A relaunch after a kill restored the documents that were open, the unsaved duplicate included.
+9. **There are 10 example schematics at 2d10a029, not 9.** `ls examples/*.schematical examples/*/*.schematical | wc -l` → `10` on an export of the base commit (`examples/slow PCB.schematical` is the tenth). F3 ran all 10. F3's pass line (`decode(written) == decode(original)`) holds for 8; the other two are changed the same way by the unmodified app, so the check that is the candidate's own is `candidate == base` for 10 of 10. plan-59-C runs the same 10.
+10. **F4 asks for 30 characters in a net label; a name holds 8** (`NetLabel.maxNameLength`). The probe makes 30 name changes, retyping the name, with an autosave started at keystrokes 5, 15 and 25.
+11. **plan-59-B phase 1's menu task was started here.** F2 needs the system's Save, Save As and Duplicate, which `SchematicFileCommands` replaced or shadowed (its own Save took ⌘S). Its New Project, Open…, Save and Save As… items were removed in phase 2; the rest of that task stays in 59-B.
+12. **The by-event undo group needs an event.** With the app inactive, a step registered from a timer left `groupingLevel` at 1 and `isDocumentEdited` false until an undo closed it. AppKit closes the group when an `NSEvent` has been handled; the probe driver posts one application-defined event after each command (`SpikeProbe.endEvent`). A user action is always an event, so this is the driver's concern only.
 
 ## Summary
 

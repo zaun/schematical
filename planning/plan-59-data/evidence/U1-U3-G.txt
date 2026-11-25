@@ -1,0 +1,49 @@
+== U1: one edit
+   labels=82 last=/EX6 ROM1@149,71 edited=false equalsSavedFile=true undo='Undo' redo='Redo' registrations=0 merges=0 groupingLevel=0
+> edit 0 pcbmove
+   labels=82 last=/EX6 ROM1@154,71 edited=true equalsSavedFile=false undo='Undo Move' redo='Redo' registrations=1 merges=0 groupingLevel=0
+== U2: undo back to clean; edit, save, edit, undo; redo
+> docundo 0
+   labels=82 last=/EX6 ROM1@149,71 edited=false equalsSavedFile=true undo='Undo' redo='Redo Move' registrations=2 merges=0 groupingLevel=0
+> edit 0 label
+> save 0
+   labels=83 last=N3 ROM1@149,71 edited=false equalsSavedFile=true undo='Undo Add Net Label' redo='Redo' registrations=3 merges=0 groupingLevel=0
+> edit 0 pcbmove
+   labels=83 last=N3 ROM1@154,71 edited=true equalsSavedFile=false undo='Undo Move' redo='Redo' registrations=4 merges=0 groupingLevel=0
+> docundo 0
+   labels=83 last=N3 ROM1@149,71 edited=false equalsSavedFile=true undo='Undo Add Net Label' redo='Redo Move' registrations=5 merges=0 groupingLevel=0
+> docredo 0
+   labels=83 last=N3 ROM1@154,71 edited=true equalsSavedFile=false undo='Undo Move' redo='Redo' registrations=6 merges=0 groupingLevel=0
+> docundo 0
+   labels=83 last=N3 ROM1@149,71 edited=false equalsSavedFile=true undo='Undo Add Net Label' redo='Redo Move' registrations=7 merges=0 groupingLevel=0
+== U3: schematic edit, PCB edit, schematic edit; undo x3; redo x3
+> edit 0 label
+   labels=84 last=N4 ROM1@149,71 edited=true equalsSavedFile=false undo='Undo Add Net Label' redo='Redo' registrations=8 merges=0 groupingLevel=0
+> edit 0 pcbmove
+   labels=84 last=N4 ROM1@154,71 edited=true equalsSavedFile=false undo='Undo Move' redo='Redo' registrations=9 merges=0 groupingLevel=0
+> edit 0 label
+   labels=85 last=N5 ROM1@154,71 edited=true equalsSavedFile=false undo='Undo Add Net Label' redo='Redo' registrations=10 merges=0 groupingLevel=0
+> docundo 0
+   labels=84 last=N4 ROM1@154,71 edited=true equalsSavedFile=false undo='Undo Move' redo='Redo Add Net Label' registrations=11 merges=0 groupingLevel=0
+> docundo 0
+   labels=84 last=N4 ROM1@149,71 edited=true equalsSavedFile=false undo='Undo Add Net Label' redo='Redo Move' registrations=12 merges=0 groupingLevel=0
+> docundo 0
+   labels=83 last=N3 ROM1@149,71 edited=false equalsSavedFile=true undo='Undo Add Net Label' redo='Redo Add Net Label' registrations=13 merges=0 groupingLevel=0
+> docredo 0
+   labels=84 last=N4 ROM1@149,71 edited=true equalsSavedFile=false undo='Undo Add Net Label' redo='Redo Move' registrations=14 merges=0 groupingLevel=0
+> docredo 0
+   labels=84 last=N4 ROM1@154,71 edited=true equalsSavedFile=false undo='Undo Move' redo='Redo Add Net Label' registrations=15 merges=0 groupingLevel=0
+> docredo 0
+   labels=85 last=N5 ROM1@154,71 edited=true equalsSavedFile=false undo='Undo Add Net Label' redo='Redo' registrations=16 merges=0 groupingLevel=0
+== U3: coalescing: typing 6 characters is one step; a 5-frame drag is one step
+> edit 0 rename ABCDEF
+   labels=85 last=ABCDEF ROM1@154,71 edited=true equalsSavedFile=false undo='Undo Rename Net Label' redo='Redo' registrations=17 merges=5 groupingLevel=0
+> docundo 0
+   labels=85 last=N5 ROM1@154,71 edited=true equalsSavedFile=false undo='Undo Add Net Label' redo='Redo Rename Net Label' registrations=18 merges=5 groupingLevel=0
+> docredo 0
+   labels=85 last=ABCDEF ROM1@154,71 edited=true equalsSavedFile=false undo='Undo Rename Net Label' redo='Redo' registrations=19 merges=5 groupingLevel=0
+> edit 0 endcoalescing
+> edit 0 pcbdrag
+   labels=85 last=ABCDEF ROM1@165,71 edited=true equalsSavedFile=false undo='Undo Move' redo='Redo' registrations=20 merges=5 groupingLevel=0
+> docundo 0
+   labels=85 last=ABCDEF ROM1@154,71 edited=true equalsSavedFile=false undo='Undo Rename Net Label' redo='Redo Move' registrations=21 merges=5 groupingLevel=0
