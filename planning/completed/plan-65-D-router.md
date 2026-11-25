@@ -98,8 +98,8 @@ Rejected: converting each cutout into a set of pad-like `RoutingObstacle` shapes
 
 Acceptance: the router goes round a cutout, the verifier and cleanup agree, and the five existing classes pass unedited.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/CutoutRoutingTests -only-testing:schematicalTests/RoutingGridTests -only-testing:schematicalTests/RoutingVerifierTests -only-testing:schematicalTests/RoutingCleanupTests -only-testing:schematicalTests/RoutingProblemTests -only-testing:schematicalTests/RoutingPlanTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min: the six classes use small hand-built boards; the fixture classes are not run).
-  Observed: CutoutRoutingTests 6 + RoutingGridTests + RoutingVerifierTests + RoutingCleanupTests + RoutingProblemTests + RoutingPlanTests (the six classes: 85 tests total), 0 failures, TEST SUCCEEDED.
-Commit: —
+  Observed: CutoutRoutingTests 6 + RoutingGridTests + RoutingVerifierTests + RoutingCleanupTests + RoutingProblemTests + RoutingPlanTests (the six classes together), 0 failures, TEST SUCCEEDED.
+Commit: 7ade3de0
 
 ## Validation Plan
 
@@ -107,7 +107,7 @@ Commit: —
 - Coverage check: `RoutingGridTests` and `RoutingVerifierTests` call the changed `stampEdge` and verifier paths, so a break of the no-cutout path fails there.
 - Runtime proof: J autoroutes a real board with a cutout in the app.
 - Doc sync: `docs/routing.md` — one paragraph: cutouts are edges (copper-to-edge, blocked inside).
-- Final gate (run ONCE, after Phase 1): the six classes of the check (est. 6 min).
+- Final gate (run ONCE, after Phase 1): the six classes of the check (est. 6 min). Observed: the same run as the Phase 1 check (`CutoutRoutingTests` 6 tests, the five existing classes), 0 failures; it took under a minute warm.
 
 ## Decisions
 
@@ -115,7 +115,8 @@ Commit: —
 
 ## Corrections
 
-<Filled in during execution.>
+- 2026-11-25: `RoutingVerifier.inside(_:_:)`, the verifier's own even-odd copy, was removed (nothing else called it: `rg -n "RoutingVerifier.inside" schematical` found none after the cleanup moved to `BoardEdge.contains`).
+- 2026-11-25: `RoutingTestBoard.problem()` builds its `.outline` obstacles from `BoardEdge(...).segments` too, so a hand-built board with `cutouts` has the same obstacles the builder gives.
 
 ## Summary
 
