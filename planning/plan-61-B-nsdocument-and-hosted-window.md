@@ -32,7 +32,7 @@ Stated in plan-61-A. In addition:
 | Must be true | Command | Status |
 |---|---|---|
 | plan-61-A is complete | `rg -c '^- \[ \]' planning/plan-61-A-document-undo-manager.md` → no output | MET (no output, 2026-11-24, after 304b545d) |
-| The print entitlement is in the project | `rg -c 'ENABLE_RESOURCE_ACCESS_PRINTING = YES' schematical/schematical.xcodeproj/project.pbxproj` → `2` | MET (`2`, re-run at execution) |
+| The print entitlement is in the project | `rg -c 'ENABLE_RESOURCE_ACCESS_PRINTING = YES' schematical/schematical.xcodeproj/project.pbxproj` → `2` | NOT MET in the committed tree: `0` in the worktree at ba3d7e4d+ (2026-11-24). `2` only in the main checkout, where `project.pbxproj` has the owner's uncommitted change that adds it (Corrections 1) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 > Re-run before you continue and before you stop; report all prerequisites if
@@ -271,7 +271,7 @@ Commit: —
 
 ## Corrections
 
-Filled in during execution.
+1. The print-entitlement prerequisite was written as MET from the main checkout, whose `project.pbxproj` is modified and not committed (`git status` at the start of execution: ` M schematical/schematical.xcodeproj/project.pbxproj`). `diff` of the worktree's file against it: the main checkout adds `ENABLE_RESOURCE_ACCESS_PRINTING = YES` (and seven `ENABLE_RESOURCE_ACCESS_* = NO` lines, and `ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO`) to both configurations. The committed project has none of it. Commit 8f33d65b recorded this row as `MET (2, re-run at execution)` before the command's output was read; that status was wrong and is corrected here. Phase 1 had landed by then; it does not touch printing.
 
 ## Summary
 
