@@ -112,8 +112,7 @@
 
 - [x] Add copper pours on the top/bottom layers (e.g. a GND pour with
       thermal reliefs), not only whole-layer planes. (plan-52)
-- [x] Board cutouts (rectangle, circle, slot, polygon), a free-form board outline and File ▸ Import ▸ DXF… (plan-65).
-- [ ] Rounded corners of the board rectangle.
+- [ ] Custom board outlines: rounded corners, cutouts, DXF import.
 - [x] Per-net trace widths (net classes): power nets wider by default. (plan-38)
 - [ ] Import footprints from KiCad's footprint libraries.
 - [ ] Later: teardrops, push-and-shove routing. (autorouter: plan-38)
