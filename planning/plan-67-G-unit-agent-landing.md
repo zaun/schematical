@@ -189,7 +189,7 @@ them one at a time. Pins are still `U1.3`. Deleting takes the whole part."
 Acceptance: an agent can do with tools everything the window can.
   Check: `XB -only-testing:schematicalTests/SplitPartAutomationTests -only-testing:schematicalTests/AutomationTests`
   → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+Commit: 3a2b41ef
 
 ### Phase 2 — docs
 
@@ -219,10 +219,11 @@ Commit: —
 
 The one landing gate of plan-67. Run once, after everything above.
 
-- [ ] Backend: `CT` → `100% tests passed, 0 tests failed out of 75`, and
+- [x] Backend: `CT` → `100% tests passed, 0 tests failed out of 75`, and
       `git diff --stat backend/tests/golden` against the commit before
       plan-67-A → no output.
-- [ ] App, every class this feature added or touched, one `-only-testing:`
+      **Done:** 2026-11-25, in `/tmp/p67w-build`: `100% tests passed, 0 tests failed out of 75`; `git diff --stat aefaebcd -- backend/tests/golden` (the commit before plan-67-A) → no output.
+- [x] App, every class this feature added or touched, one `-only-testing:`
       each: `PartUnitTests`, `GateSymbolTests`, `SplitPartModelTests`,
       `SplitPartEditTests`, `SplitPartFileTests`, `SplitPartCanvasTests`,
       `SplitPartExportTests`, `SplitPartAutomationTests`, `SchematicRotateTests`,
@@ -230,7 +231,8 @@ The one landing gate of plan-67. Run once, after everything above.
       `SelectionGestureTests`, `SelectionSidebarTests`, `SchematicFileV5Tests`,
       `DisplayReferenceTests`, `KiCadExportTests`, `EasyEDAProExportTests`,
       `AutomationTests`, `ErcCompareTests` → `** TEST SUCCEEDED **`.
-- [ ] End to end through the tools, in one test
+      **Done:** 2026-11-25, one `xcodebuild … test` with the 20 `-only-testing:` classes → `Executed 263 tests, with 0 failures (0 unexpected)`, `** TEST SUCCEEDED **`; no restart of the test host (log `/tmp/p67/landing.log`).
+- [x] End to end through the tools, in one test
       (`SplitPartAutomationTests.testEndToEnd`): `place_part SN74HC00N`,
       `set_part view=gate`, `move_part U1-B` to a new centre,
       `rotate_part U1-B`, `connect U1-B.6` to an LED, save to data, open the
@@ -239,11 +241,15 @@ The one landing gate of plan-67. Run once, after everything above.
       test prints the PNG as one `P67_PNG <base64>` line; decode it to
       `/tmp/p67-render.png`, open it, and record in this line what it shows
       (five symbols, B turned, the wire on B's output pin, the labels).
-- [ ] Every example still opens and saves unchanged:
+      **Done:** `SplitPartAutomationTests.testEndToEnd` passes: `place_part` ×3, `set_part view=gate`, `move_part U1-B`, `rotate_part U1-B`, three `connect`s (one `U1-A.3` → `U1-B.4`), save to data, open in a second window, `get_design geometry=true` equal apart from the window line, unit placements equal, `render` returns one PNG. With `TEST_RUNNER_P67_OUT=1` the PNG was decoded to `/tmp/p67-render.png` (1476 × 794) and looked at: five symbols — `U1-A`, `U1-C`, `U1-D` as NAND gates in a column with their pin numbers, the `U1-P` block reading SN74HC00N with VCC (14) and GND (7), and `U1-B` moved right, turned to 90° with its inputs (5, 4) on top and its bubbled output (6) below, its label beside it; the wire from pin 3 of `U1-A` ends on pin 4 of `U1-B`, the wire from pin 6 runs to the LED's anode, the LED's cathode to the resistor. The wire from pin 6 crosses gate B's own body on its way up, as any wire that is not given waypoints may cross a part.
+- [x] Every example still opens and saves unchanged:
       `XB -only-testing:schematicalTests/SplitPartFileTests/testExamplesAreUnchanged`
       → pass.
+      **Done:** `SplitPartFileTests` is one of the 20 classes above: 7 tests, 0 failures, `testExamplesAreUnchanged` among them (10 files under `examples/`).
 - [ ] The full app suite runs in the background per the project's practice; it
       is not a step of this plan. Record its result here when it finishes.
+
+- [x] Added: `main` compared with the branch's base before the gate: `git log --oneline HEAD..main` → no output (main is still `aefaebcd`, the plan's own commit), so the gate above stands for the merge and nothing was merged in.
 
 Acceptance: the feature works end to end through save, open, export and the
 agent, and nothing that does not use it changed.
