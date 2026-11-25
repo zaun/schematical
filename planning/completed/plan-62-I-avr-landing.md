@@ -124,18 +124,19 @@ to it.
   min of it and no smaller run exercises the Swift side; the sanitizer
   build is 5 min and is the only run that catches a read past `data`).
   Observed: 2026-11-24: all nine gates pass; the outputs are in Corrections.
-Commit: —
+Commit: f4f6a5d1
 
 ### Phase 2 — close-out
 
-- [ ] Move `planning/plan-62-I-avr-landing.md` to `planning/completed/`
+- [x] Move `planning/plan-62-I-avr-landing.md` to `planning/completed/`
       (A–H were archived as they completed); keep `planning/plan-62-data/`.
-- [ ] Record the Phase 1 commit hash here.
+- [x] Record the Phase 1 commit hash here. Phase 1: f4f6a5d1.
 
 Acceptance: `ls planning/plan-62-*.md | wc -l` → 0; `ls
 planning/completed/plan-62-* | wc -l` → 9.
   Check: the two commands (est. 1 min).
-Commit: —
+  Observed: 2026-11-24: `ls planning/plan-62-*.md | wc -l` → 0; `ls planning/completed/plan-62-* | wc -l` → 9.
+Commit: PHASE2
 
 ## Validation Plan
 
