@@ -29,7 +29,7 @@ typedef enum {
     PART_CAPACITOR, PART_REGISTER, PART_MCU, PART_RESISTOR, PART_TRANSISTOR,
     PART_GENERIC, PART_SERIALMEM, PART_NIXIE, PART_REGULATOR, PART_CRYSTAL, PART_DEKATRON, PART_LCD,
     PART_LEDDRIVER, PART_LCDDRIVER, PART_POWERSWITCH, PART_PLD, PART_SOCKET,
-    PART_INDUCTOR, PART_FUSE, PART_RELAY, PART_BUZZER
+    PART_INDUCTOR, PART_FUSE, PART_RELAY, PART_BUZZER, PART_TIMER
 } PartKind;
 
 /* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */
@@ -308,6 +308,12 @@ typedef struct { const char *type; unsigned poles, coils; int latching; unsigned
 typedef struct { const char *driver, *technology; uint32_t hz, rated_mv, min_mv, max_mv, ua,
                  spl_cdb; } PartBuzzer;
 
+/* A 555-type timer (plan-48-E): timer_count sections (1, or 2 for a 556);
+   process: "bipolar" or "cmos"; max_hz: the highest astable frequency;
+   tpd_ps: the trigger-to-output delay. The timing of a placed timer comes
+   from the resistors and capacitors wired to it (timer_state.h). */
+typedef struct { size_t timer_count; const char *process; uint64_t max_hz, tpd_ps; } PartTimer;
+
 /* A microcontroller (plan-36-F): facts only, no simulation model (its
    device says "simulated": false). core: "avr", "avrrc", "avrxt", "avrxm",
    "cortex-m0plus", "xtensa-lx6", "xtensa-lx7" or "riscv". max_hz: the
@@ -450,6 +456,7 @@ typedef struct Part {
     const PartFuse *fuse;
     const PartRelay *relay;
     const PartBuzzer *buzzer;
+    const PartTimer *timer;
     /* Dual-supply parts (plan-20-F): domain 0 is the A side (its vcc is
        Part.vcc), domain 1 the B side; NULL/0 for single-supply parts. */
     const PartSupplyDomain *domains; size_t domain_count;

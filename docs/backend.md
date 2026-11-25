@@ -327,6 +327,18 @@ Notes:
     1e9; `part N is not a generic resistor`, `the resistance is out of
     range`); it changes only the voltage check, the engine's resistor stays
     a weak link.
+  - `circuit_set_part_value(circuit, part, value)` sets a placed value for a
+    resistor (milliohms), a pull-up or pull-down part (milliohms; without
+    one it counts as 1 kilohm) or a capacitor (femtofarads), more than 0,
+    before `circuit_start` (`part N has no value`, `the value must be above
+    0`). Only the 555 timer analysis reads it (plan-48-E): when
+    `circuit_start` has passed the voltage check it looks at every section
+    of every `timer` part, finds the circuit wired to it and hands the model
+    its mode and times. `circuit_timer_state(circuit, part, section, &state)`
+    reads them back after the start (`state.mode` latch / astable / one-shot
+    / stopped, `state.reason` and `timer_reason_text` for a stopped section,
+    `first_ps`, `high_ps`, `low_ps`; `part N is not a timer`, `timer S of
+    part N does not exist`, `the circuit is not running`).
   - `circuit_start` runs it first and refuses a circuit with a problem
     (-1, `circuit_error` = the text; building calls stay usable).
   - A switch that closes during a run and makes the circuit fail stops the
@@ -469,6 +481,14 @@ backend/
                            relay.c, buzzer.c (the relay and buzzer kinds:
                            loaders, the 1 ms armature model, the lights
                            hooks, plan-47-J);
+                           timer.c + timer.h (the timer kind: loader, the
+                           555 / 556 model with its latch, astable, one-shot
+                           and stopped modes, the section pins and the hook
+                           that hands a section its timing, plan-48-E),
+                           ../timer_rc.c + timer_rc.h (the timing analysis of
+                           the wiring: the four circuits, their times and the
+                           reasons a section is stopped), and the public
+                           include/timer_state.h (TimerState, TimerReason);
                            cpu.c + cpu.h (the cpu kind: loader, the model
                            that forwards to a core adapter, input sampling,
                            the instruction tracker), cpu6502.c (the
@@ -676,6 +696,14 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   enable bit releases every pin), then the `display` section's rejections
   (unknown driver, register, field or pin; counts; a `display` on a
   `converter` or `rtc`). A few of the same rejections are in `library_check`.
+- `timer_test` — the `timer` kind (plan-48-E) on fixture 555 and 556 parts
+  next to the real part files: the facts and the loader's rejections, the
+  latch mode on logic levels (a set/reset latch with no capacitor on the
+  timing pins), the four recognized circuits (astable, with a diode, 50 %
+  and one-shot) with their nominal times from the wired resistors and
+  capacitors (parallel parts combine, a pull-up part is a resistor to the
+  supply), RESET, a button trigger, every reason a section is stopped
+  (shape, supply, CONT, speed, no value) and the two circuit calls.
 - `dekatron_test` — the `dekatron` kind: the loader's rules and rejections
   (on fixture tubes), the model on the real GC10B and OG-8 (a glow that
   steps one position for two overlapping guide pulses, counts backward for

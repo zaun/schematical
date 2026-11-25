@@ -10,6 +10,8 @@
 #include "net.h"
 #include "serial.h"
 #include "sim.h"
+#include "timer.h"
+#include "timer_rc.h"
 #include "voltage.h"
 
 int connector_contact_pins(const Part *part, unsigned position, size_t *a, size_t *b);
@@ -25,6 +27,8 @@ struct Circuit {
     size_t instance_capacity;
     uint64_t *milliohms;      /* per part: a placed resistor's value in milliohms, 0 = the part's own (plan-42-G) */
     size_t milliohms_capacity;
+    uint64_t *values;         /* per part: circuit_set_part_value, 0 = the library part's own (plan-48-E) */
+    size_t values_capacity;
     SimNet **nets;
     size_t net_count;
     size_t net_capacity;
@@ -106,6 +110,7 @@ void circuit_destroy(Circuit *circuit) {
     free(circuit->parts);
     free(circuit->instances);
     free(circuit->milliohms);
+    free(circuit->values);
     free(circuit->nets);
     free(circuit->connections);
     free(circuit->closed);
@@ -148,10 +153,13 @@ int circuit_add_part(Circuit *circuit, const char *part_name, size_t *index) {
         grow((void **)&circuit->instances, &circuit->instance_capacity, circuit->part_count,
              sizeof(*circuit->instances)) != 0 ||
         grow((void **)&circuit->milliohms, &circuit->milliohms_capacity, circuit->part_count,
-             sizeof(*circuit->milliohms)) != 0) {
+             sizeof(*circuit->milliohms)) != 0 ||
+        grow((void **)&circuit->values, &circuit->values_capacity, circuit->part_count,
+             sizeof(*circuit->values)) != 0) {
         return fail(circuit, "out of memory");
     }
     circuit->milliohms[circuit->part_count] = 0;
+    circuit->values[circuit->part_count] = 0;
     snprintf(name, sizeof name, "U%zu", circuit->part_count);
     instance = sim_add_instance(circuit->sim, kind_model(part), name, part);
     if (instance == NULL) {
@@ -360,6 +368,24 @@ int circuit_set_resistance(Circuit *circuit, size_t part, double ohms) {
     return 0;
 }
 
+int circuit_set_part_value(Circuit *circuit, size_t part, uint64_t value) {
+    const Part *info;
+
+    if (check_building(circuit) != 0 || check_part(circuit, part) != 0) {
+        return -1;
+    }
+    info = circuit->parts[part];
+    if (info->kind != PART_RESISTOR && info->kind != PART_CAPACITOR &&
+        !(info->kind == PART_SUPPLY && info->supply->pull)) {
+        return fail(circuit, "part %zu has no value", part);
+    }
+    if (value == 0) {
+        return fail(circuit, "the value must be above 0");
+    }
+    circuit->values[part] = value;
+    return 0;
+}
+
 int circuit_set_connector_plug(Circuit *circuit, size_t part, int inserted) {
     SimInstance *instance;
     const SimComponentType *type;
@@ -412,6 +438,46 @@ static int wire_joined_pins(Circuit *circuit) {
     return 0;
 }
 
+/* Finds every timer section's mode and times from the wiring and hands them to the models
+   (plan-48-E section 4). A placed resistor's value is circuit_set_part_value's, else
+   circuit_set_resistance's, else the library's. */
+static int analyze_timers(Circuit *circuit) {
+    uint64_t *values = NULL;
+    size_t part;
+
+    for (part = 0; part < circuit->part_count; part++) {
+        if (circuit->parts[part]->kind == PART_TIMER) {
+            break;
+        }
+    }
+    if (part == circuit->part_count) {
+        return 0;
+    }
+    values = malloc((circuit->part_count + 1) * sizeof(*values));
+    if (values == NULL) {
+        return fail(circuit, "out of memory");
+    }
+    for (part = 0; part < circuit->part_count; part++) {
+        values[part] = circuit->values[part] != 0 ? circuit->values[part] : circuit->milliohms[part];
+    }
+    for (part = 0; part < circuit->part_count; part++) {
+        unsigned section;
+
+        if (circuit->parts[part]->kind != PART_TIMER) {
+            continue;
+        }
+        for (section = 0; section < circuit->parts[part]->timer->timer_count; section++) {
+            TimerState timing;
+
+            timer_rc_analyze(circuit->parts, values, circuit->part_count, circuit->connections,
+                             circuit->connection_count, part, section, &timing);
+            timer_model_set(sim_instance_state(circuit->instances[part]), section, &timing);
+        }
+    }
+    free(values);
+    return 0;
+}
+
 int circuit_start(Circuit *circuit) {
     size_t part;
     if (check_building(circuit) != 0 || wire_joined_pins(circuit) != 0) {
@@ -450,6 +516,10 @@ int circuit_start(Circuit *circuit) {
         return -1;
     }
     circuit->started = 1;
+    if (analyze_timers(circuit) != 0) {
+        circuit->started = 0;
+        return -1;
+    }
     if (!sim_start(circuit->sim)) {
         engine_failed(circuit);
         return -1;
@@ -681,6 +751,24 @@ int circuit_converter_registers(const Circuit *circuit, size_t part, ConverterRe
     }
     count = type->registers(sim_instance_state(circuit->instances[part]), out, out != NULL ? max : 0);
     return (int)count;
+}
+
+int circuit_timer_state(const Circuit *circuit, size_t part, unsigned section, TimerState *out) {
+    Circuit *writable = (Circuit *)circuit;   /* only the error text changes */
+
+    if (check_part(writable, part) != 0) {
+        return -1;
+    }
+    if (circuit->parts[part]->kind != PART_TIMER || out == NULL) {
+        return fail(writable, "part %zu is not a timer", part);
+    }
+    if (section >= circuit->parts[part]->timer->timer_count) {
+        return fail(writable, "timer %u of part %zu does not exist", section, part);
+    }
+    if (!circuit->started || !timer_model_get(sim_instance_state(circuit->instances[part]), section, out)) {
+        return fail(writable, "the circuit is not running");
+    }
+    return 0;
 }
 
 int circuit_rtc_time(const Circuit *circuit, size_t part, RtcTime *out) {

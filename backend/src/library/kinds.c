@@ -50,6 +50,7 @@ extern const PartKindOps INDUCTOR_KIND;
 extern const PartKindOps FUSE_KIND;
 extern const PartKindOps RELAY_KIND;
 extern const PartKindOps BUZZER_KIND;
+extern const PartKindOps TIMER_KIND;
 
 /* One line per kind. Adding a kind: docs/backend.md, "Adding a kind". */
 const PartKindOps *const KINDS[] = {
@@ -100,6 +101,7 @@ const PartKindOps *const KINDS[] = {
     &FUSE_KIND,
     &RELAY_KIND,
     &BUZZER_KIND,
+    &TIMER_KIND,
     NULL
 };
 

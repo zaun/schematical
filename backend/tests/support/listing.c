@@ -53,6 +53,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_FUSE: return "fuse";
         case PART_RELAY: return "relay";
         case PART_BUZZER: return "buzzer";
+        case PART_TIMER: return "timer";
     }
     return "?";
 }
@@ -312,6 +313,11 @@ static void print_details(FILE *out, const Part *part) {
                     part->buzzer->technology, (unsigned)part->buzzer->hz, (unsigned)part->buzzer->rated_mv,
                     (unsigned)part->buzzer->min_mv, (unsigned)part->buzzer->max_mv,
                     (unsigned)part->buzzer->ua, (unsigned)part->buzzer->spl_cdb);
+            break;
+        case PART_TIMER:
+            fprintf(out, "timers=%zu process=%s maxhz=%llu tpd=%llu", part->timer->timer_count,
+                    part->timer->process, (unsigned long long)part->timer->max_hz,
+                    (unsigned long long)part->timer->tpd_ps);
             break;
         case PART_TRANSISTOR:
             fprintf(out,

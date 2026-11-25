@@ -1,7 +1,7 @@
 # Part file format
 
 Every orderable part (gate, flip-flop, latch, decoder, counter, shift register, SRAM, EEPROM, switch, LED,
-diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character LCD module, oscillator, crystal, inductor, fuse, relay, buzzer, supply, microprocessor, microcontroller, serial controller, serial memory, LED and LCD driver, programmable logic device, IC socket) is described in a JSON part file in
+diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character LCD module, oscillator, crystal, inductor, fuse, relay, buzzer, 555 timer, supply, microprocessor, microcontroller, serial controller, serial memory, LED and LCD driver, programmable logic device, IC socket) is described in a JSON part file in
 `schematical/schematical/Parts/`, one file per kind:
 
 | File | Kind |
@@ -20,6 +20,7 @@ diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character
 | `fuse.json` | `fuse` |
 | `relay.json` | `relay` |
 | `buzzer.json` | `buzzer` |
+| `timer.json` | `timer` |
 | `supply.json` | `supply` |
 | `latch.json` | `latch` |
 | `decoder.json` | `decoder` |
@@ -1153,6 +1154,63 @@ are left out where the datasheet gives no figure.
  "parts": [{"name": "AI-1027-TWT-5V-R", "manufacturer": "PUI Audio", "package": "THT",
             "datasheet": "specs-ai-1027-twt-5v-r", "pinout": "plus-minus", "footprint": "CAPE-RAD-10-5-L0.6",
             "hz": 2700, "volts": 5, "voltsMin": 3, "voltsMax": 7, "ma": 30, "db": 80}]}
+```
+
+### `timer`
+
+555-type timers (plan-48): `"kind": "timer"`, run by `backend/src/models/timer.c`,
+`timer_rc.c` and the two calls `circuit_set_part_value` and `circuit_timer_state`
+(`backend/include/circuit.h`, `timer_state.h`). A device is a bipolar or CMOS
+555 (one timer section) or 556 (two). In a circuit the timer runs from what is
+wired to it, found once by `circuit_start`:
+
+- no capacitor on its TRIG, THRES or DISCH pins: a **latch** (TRIG low sets
+  OUT, TRIG high with THRES high resets it, RESET low clears it) on logic levels;
+- the **astable** circuit (TRIG and THRES on the timing node C, RB from C to
+  DISCH, RA from DISCH to the supply or a pull-up, a capacitor from C to
+  ground), with a diode from DISCH to C, the **50 % astable** circuit (one
+  resistor from C to OUT) and the **one-shot** (THRES and DISCH on C, one
+  resistor from C to the supply, TRIG on its own net): OUT toggles with the
+  datasheet's nominal times (ln 3 for the first period, ln 2 after);
+- any other wiring (series resistors, a modulated CONT pin, a driver on the
+  timing node, a missing supply, a 0 ohm part, a faster circuit than `maxHz`) keeps OUT low,
+  and `circuit_timer_state` says why (`timer_reason_text`).
+
+Resistor, pull-up and capacitor values are the library part's, or the placed
+value set with `circuit_set_part_value`. The voltage check ignores the timing
+network. DISCH is an open-drain output (`part_pin_open_drain`) and CONT is
+analog (`part_pin_analog`).
+
+Device keys:
+
+| Key | Value |
+|---|---|
+| `"process"` | `"bipolar"` or `"cmos"` (`unknown timer process "X"`) |
+| `"timers"` | one or two sections (`"timers" must have 1 or 2 entries`), each `{"trigger", "threshold", "discharge", "output"}` (required pin names) and optional `"reset"`, `"control"` |
+| `"maxHz"` | the highest astable frequency in hertz, 1 to 100000000 (`"maxHz" must be a whole number from 1 to 100000000`) |
+| `"tpd"` | trigger-to-output propagation delay in ns, above 0 (`"tpd" must be above 0`) |
+| `"vcc"`, `"inputMax"` | as every kind |
+
+Pin rules: each named pin exists once; trigger, threshold, reset and control
+pins have the role `input`, output and discharge pins `output` (`timer pin
+"TRIG" must be an input`, `timer pin "OUT" must be an output`); no pin is
+named twice (`timer pin "OUT" is named twice`); the pinout has exactly one
+`power` and one `ground` pin (`a timer has one power pin and one ground pin`).
+Part keys: `"vcc"`, `"inputMax"` (a part ends with a range). The listing line
+(`tests/golden/parts.txt`) ends `timers=<n> process=<p> maxhz=<n> tpd=<ps>`.
+
+```json
+{"id": "timer_555_bipolar", "function": "555 timer", "description": "Bipolar 555 timer",
+ "drawer": ["Analog", "Timers"],
+ "pinouts": {"555-8": [{"number":1,"name":"GND","role":"ground"}, {"number":2,"name":"TRIG","role":"input"},
+   {"number":3,"name":"OUT","role":"output"}, {"number":4,"name":"RESET","role":"input"},
+   {"number":5,"name":"CONT","role":"input"}, {"number":6,"name":"THRES","role":"input"},
+   {"number":7,"name":"DISCH","role":"output"}, {"number":8,"name":"VCC","role":"power"}]},
+ "process": "bipolar", "maxHz": 100000, "tpd": 100, "vcc": [4.5, 16],
+ "timers": [{"trigger": "TRIG", "threshold": "THRES", "discharge": "DISCH", "output": "OUT",
+             "reset": "RESET", "control": "CONT"}],
+ "parts": [{"name": "NE555P", "manufacturer": "Texas Instruments", "package": "DIP", "pinout": "555-8",
+            "footprint": "PDIP-8"}]}
 ```
 
 ### `diode`

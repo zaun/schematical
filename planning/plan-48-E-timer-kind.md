@@ -27,9 +27,9 @@ plan-48-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-48-D complete | `ls planning/completed/plan-48-D-*.md` → exists, or every D box ticked | NOT MET (2026-11-16: not started) |
-| The kind is absent | `grep -c 'PART_TIMER' backend/include/parts.h` → 0; `ls backend/src/models/timer.c backend/src/timer_rc.c` → no such file | MET (2026-11-16) |
-| The two circuit calls are absent | `grep -c 'circuit_set_part_value\|circuit_timer_state' backend/include/circuit.h` → 0 | MET (2026-11-16: 0) |
+| plan-48-D complete | `ls planning/completed/plan-48-D-*.md` → exists, or every D box ticked | MET (2026-11-24: every D box ticked) |
+| The kind is absent | `grep -c 'PART_TIMER' backend/include/parts.h` → 0; `ls backend/src/models/timer.c backend/src/timer_rc.c` → no such file | MET (2026-11-16; again 2026-11-24 before this letter: 0, no file) |
+| The two circuit calls are absent | `grep -c 'circuit_set_part_value\|circuit_timer_state' backend/include/circuit.h` → 0 | MET (2026-11-16: 0; 2026-11-24: 0) |
 
 Everything below is written against the world where these hold.
 
@@ -271,54 +271,58 @@ not modelled: the formulas are the datasheets' nominal ones (thresholds at
 
 ### Phase 1 — The kind: loader, facts, latch mode
 
-- [ ] `backend/include/parts.h`: `PART_TIMER` after the current last
+- [x] `backend/include/parts.h`: `PART_TIMER` after the current last
       `PartKind` (`grep -n 'PART_' backend/include/parts.h`: `PART_GENERIC`
       at planning time; after whatever plan-42, -44 or -47 added since),
-      `PartTimer`, `const PartTimer *timer;` on `Part`.
-- [ ] `backend/src/models/timer.c`, `timer.h`: `TIMER_KIND` (`load_device`,
+      `PartTimer`, `const PartTimer *timer;` on `Part`. (`PART_BUZZER` was last; `PART_TIMER` follows it.)
+- [x] `backend/src/models/timer.c`, `timer.h`: `TIMER_KIND` (`load_device`,
       `bind_pinout`, `load_part`, `pin_open_drain`, `pin_analog`) per § 3.1
       and `TIMER_MODEL` with latch mode and stopped mode per § 3.2;
       `timer_section_pins`, `timer_model_set`, `timer_model_get`.
-- [ ] `backend/src/library/kinds.c`: `extern const PartKindOps TIMER_KIND;`
+- [x] `backend/src/library/kinds.c`: `extern const PartKindOps TIMER_KIND;`
       and `&TIMER_KIND` at the end of `KINDS[]` (`grep -c 'TIMER_KIND'
       backend/src/library/kinds.c` → 0 before, 2 after);
       `backend/CMakeLists.txt`: `src/models/timer.c` in `logic` and
       `logic_test(timer_test)`.
-- [ ] `backend/tests/support/listing.c`: `case PART_TIMER: return "timer"`
+- [x] `backend/tests/support/listing.c`: `case PART_TIMER: return "timer"`
       and the facts line `timers=%zu process=%s maxhz=%llu tpd=%llu`;
       `tests/trace_check.c` `TRACE_LAST_KIND` and `tests/listing_check.c`'s
       two array sizes → `PART_TIMER` (moot when a later kind already sizes
       them: `grep -c 'PART_TIMER' backend/tests/trace_check.c
       backend/tests/listing_check.c` → 1 each after this step, or the later
-      kind's name with `PART_TIMER` before it in the enum).
-- [ ] `backend/tests/support/timer_fixture.h` and `backend/tests/timer_test.c`:
+      kind's name with `PART_TIMER` before it in the enum). (`trace_check.c`'s `TRACE_LAST_KIND`
+      and `listing_check.c`'s two array sizes name `PART_TIMER` now.)
+- [x] `backend/tests/support/timer_fixture.h` and `backend/tests/timer_test.c`:
       cases (a)–(j) of § 6.
 
 Acceptance: the kind loads, the latch works, goldens unchanged.
   Check: `cmake -S backend -B /tmp/logic-p48-e && cmake --build /tmp/logic-p48-e -j8 && /tmp/logic-p48-e/timer_test` → every line `PASS`, and `/tmp/logic-p48-e/listing_check` and `/tmp/logic-p48-e/trace_check` → exit 0 (est. 4 min: a build from scratch).
+  Result (2026-11-24): `timer_test` cases (a)–(j) all `PASS`; `listing_check` → `39903 parts compared, 0 skipped` (exit 0); `trace_check` → `39903 parts compared, 0 skipped` (exit 0); `footprint_check` and `library_check` exit 0. MET.
 Commit: —
 
 ### Phase 2 — Part values, the analysis, astable and one-shot modes
 
-- [ ] `backend/include/timer_state.h`; `circuit.h` / `circuit.c`:
+- [x] `backend/include/timer_state.h`; `circuit.h` / `circuit.c`:
       `circuit_set_part_value`, `circuit_timer_state`, `Circuit.values`
-      (each added only if absent: the prerequisite's grep).
-- [ ] `backend/src/timer_rc.c`, `timer_rc.h` per § 4; `CMakeLists.txt`:
+      (each added only if absent: the prerequisite's grep). `timer_reason_text` is in `timer_rc.c`.
+- [x] `backend/src/timer_rc.c`, `timer_rc.h` per § 4; `CMakeLists.txt`:
       `src/timer_rc.c` in `logic`; `circuit_start` calls the analysis and
-      `timer_model_set` between the voltage check and `sim_start`.
-- [ ] `timer.c`: astable and one-shot modes per § 3.2.
-- [ ] `timer_test.c`: cases (k)–(z) of § 6.
+      `timer_model_set` between the voltage check and `sim_start` (`analyze_timers` in `circuit.c`).
+- [x] `timer.c`: astable and one-shot modes per § 3.2.
+- [x] `timer_test.c`: cases (k)–(z) of § 6.
 
 Acceptance: the four circuits time as computed; every reason is reachable.
   Check: `cmake --build /tmp/logic-p48-e -j8 && /tmp/logic-p48-e/timer_test` → every line `PASS`; `ctest --test-dir /tmp/logic-p48-e -j8` → `100% tests passed`, T0 + 1 programs (est. 3 min).
+  Result: `timer_test: all passed` (every case a–z); `ctest --test-dir /tmp/logic-p48-e -j8` → `100% tests passed, 0 tests failed out of 66` (T0 = 65, plus `timer_test`). MET.
 Commit: —
 
 ### Phase 3 — Docs
 
-- [ ] `docs/parts-format.md` and `docs/backend.md` per § 5.
+- [x] `docs/parts-format.md` and `docs/backend.md` per § 5.
 
 Acceptance: the docs name the kind and the two calls.
   Check: `grep -n '^### `timer`' docs/parts-format.md` → 1 line; `grep -c 'circuit_set_part_value\|circuit_timer_state' docs/backend.md` → above 0 (est. < 1 min).
+  Result: `1159:### `timer``; `2`. MET.
 Commit: —
 
 ## 6. `timer_test` cases
@@ -454,6 +458,26 @@ Calls:
 - Author: **nominal formulas only**: no diode drop, no tolerance.
 
 ## Corrections
+
+1. **`circuit_set_resistance` already exists** (plan-42-G landed first): it sets a generic resistor's
+   value for the voltage check (`Circuit.milliohms`). The analysis reads `circuit_set_part_value`'s
+   value first, then `circuit_set_resistance`'s, then the library's, so a resistor placed through
+   either call times a timer (`analyze_timers` builds the effective array). `circuit_set_part_value`
+   also takes pull-up and pull-down parts and capacitors, which `circuit_set_resistance` does not.
+2. **The first evaluation is an engine event.** A part's pins read Z at its own `start` callback
+   (the supplies' time-0 drives have not applied), so a timer started with RESET tied low glitched
+   OUT high for 100 ns. `timer_start` schedules one delay-0 timer event per section (`START_ID`) and
+   `begin_section` runs there; pin changes before it are ignored. Times are unchanged (the event is at
+   time 0).
+3. **Net changes.** The plan's "`circuit_net_changes(OUT)` 0" in (o) and the stopped cases
+   (u–y) is `<= 1` in the tests: the first drive of OUT (Z to 0) is one change.
+4. **Test parts.** (y) uses the library's `CRCW06030000Z0EBC` (0 ohm) instead of a `TESTJUMPER`
+   fixture; (r)–(t) use a fixture switch `TESTTACT` (`timer_fixture.h`). Test (l) accepts 25–27
+   changes in 20 ms (plan: 26 ± 1).
+5. **`timer_rc_analyze` builds its pin→net table, diode, capacitor and link lists on every call**
+   (O(connections) per section) instead of once per start; a circuit has a handful of timers.
+6. **Prerequisite values moved** (main advanced): T0 = 65 (was 37); the goldens are 39903 parts (was
+   32897) and unchanged by this letter.
 
 ## Summary
 

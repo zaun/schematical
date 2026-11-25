@@ -26,6 +26,7 @@
 #include "lcd_state.h"
 #include "converter_state.h"
 #include "parts.h"
+#include "timer_state.h"
 #include "voltage.h"
 
 typedef struct Circuit Circuit;
@@ -55,6 +56,14 @@ int circuit_set_switch(Circuit *circuit, size_t part, unsigned position, int on)
    adjustable regulator (plan-42-G); the engine's resistor stays a weak link
    and a maker resistor keeps its own value. */
 int circuit_set_resistance(Circuit *circuit, size_t part, double ohms);
+
+/* The placed value of a part the timer analysis reads (plan-48-E): a
+   resistor's or a pull-up's or pull-down's in milliohms, or a capacitor's in
+   femtofarads, in place of the library part's own (a pull part without a value
+   counts as 1 kilohm). Only the timer analysis reads it. Before
+   circuit_start. -1 with circuit_error "part N has no value" (any other
+   part), "the value must be above 0", or the building error. */
+int circuit_set_part_value(Circuit *circuit, size_t part, uint64_t value);
 
 /* Barrel connector plug state. A switched connector's normally-closed
    contact is closed while unplugged (inserted = 0) and open while a plug is
@@ -99,6 +108,13 @@ int circuit_cpu_state(const Circuit *circuit, size_t part, CpuState *out);
    0, or -1 with circuit_error "part N is not a character LCD" for any other
    kind. */
 int circuit_lcd_state(const Circuit *circuit, size_t part, LcdState *out);
+
+/* A 555 timer section's mode, reason and times (timer_state.h), found by
+   circuit_start from the resistors, capacitors, diodes and pull-ups wired to
+   it. 0, or -1 with circuit_error "part N is not a timer", "timer S of part
+   N does not exist" (section counts from 0) or "the circuit is not running"
+   (before circuit_start). */
+int circuit_timer_state(const Circuit *circuit, size_t part, unsigned section, TimerState *out);
 
 /* Registers of a converter or rtc part (plan-24-I): copies up to max
    registers into out (converter_state.h) and returns the part's register
