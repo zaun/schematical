@@ -40,7 +40,7 @@ The gate for the whole feature is in plan-62-A § Prerequisites. This letter add
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-62-G is complete | `ls planning/completed/plan-62-G-* \| wc -l` → 1 | NOT MET (2026-11-24: G not started) |
+| plan-62-G is complete | `ls planning/completed/plan-62-G-* \| wc -l` → 1 | MET (2026-11-24: 1, archived after 4f7dee9c) |
 
 If plan-62-G is not complete, this plan cannot start, full stop.
 

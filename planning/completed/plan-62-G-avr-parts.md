@@ -159,7 +159,7 @@ Acceptance: goldens moved only for the 126 parts; all backend tests pass;
 the four app test classes pass.
   Check: `python3 planning/plan-62-data/golden_check.py` → `126 parts.txt lines, N traces.txt lines, all within the 126 parts`; `ctest --test-dir /tmp/sim-rel -j8` → `100% tests passed` (est. 1 min); `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p62-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/SimulationAvailabilityTests -only-testing:schematicalTests/McuTests -only-testing:schematicalTests/PartKindKeysTests -only-testing:schematicalTests/PartKindRoundTripTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 15 min: the app builds once; no smaller check runs the Swift tests).
   Observed: 2026-11-24: `18 devices changed` (18 insertions, 18 deletions in mcu.json); `126 parts.txt lines, 126 traces.txt lines, all within the 126 parts`; `ctest` 100% of 70; `avr_board_test` `ok 126 parts run`; `part-editor-schema.py . mcu` `missing []`; the four app classes: 59 tests, 0 failures, `** TEST SUCCEEDED **`.
-Commit: —
+Commit: 4f7dee9c
 
 ## Validation Plan
 
