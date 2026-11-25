@@ -267,6 +267,10 @@ plan-66-A § Decisions apply. Added by the author, 2026-11-25:
   line the same as before the merge (AFU 115/115, 73 vias, 1429 mm, off and on; RegFile 24/24, 16
   vias, 292 mm; LFU off 185/188, 289 vias, 3247 mm, on 187/188, 213 vias, 3152 mm, 10 210 pushes tried
   and 40 kept; Thorough AFU 73, RegFile 14, LFU 186/188), and the same one failure, `testLFU` off.
+- **Main advanced again (plan-67 landed in full), so it was merged a second time (`a3f80249`, clean) and the tier run once
+  more** (2026-11-25): Debug `Executed 326 tests, with 7 tests skipped and 0 failures` in 1485.5 s; Release
+  `Executed 7 tests, with 1 failure` in 859.1 s, every `QUALITY` line identical to the earlier runs and the same single
+  failure, `testLFU` off.
 - **Debug landing tier 1440 s, not the plan's 15 min** (2026-11-25): `RouterFixtureTests` routes
   LFU with negotiation alone in Debug (330 s) and AFU, RegFile twice (with and without push).
 
