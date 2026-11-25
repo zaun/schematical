@@ -274,7 +274,7 @@ Acceptance: the loader accepts and rejects as specified; goldens hold; the
 Part Editor schema has the key.
   Check: `ctest --test-dir /tmp/sim-rel -R 'library_check|listing_check|trace_check|mcu_test' --output-on-failure` → 4 tests passed; `git diff --stat backend/tests/golden` → no output; `python3 scripts/part-editor-schema.py . mcu` → prints `missing []` (est. 2 min).
   Observed: 2026-11-24: 4 tests passed; no change under backend/tests/golden; `part-editor-schema.py . mcu` printed `missing []`.
-Commit: —
+Commit: 4b51faa0
 
 ### Phase 2 — the model: clock, reset, GPIO, flash
 
@@ -311,7 +311,7 @@ Commit: —
 Acceptance: the cases above pass with the stated picosecond values.
   Check: `ctest --test-dir /tmp/sim-rel -R 'mcu_test|avr_' --output-on-failure` → 3 tests passed (est. 2 min).
   Observed: 2026-11-24: `mcu_test: all passed` with the period cases as corrected below (average 1000000000, 62500000 and 125000000 ps); `ok firmware (7 files equal their sources)`.
-Commit: —
+Commit: 4b51faa0
 
 ### Phase 3 — ADC and `circuit_cpu_state`
 
@@ -334,7 +334,7 @@ Acceptance: the ADC and state cases pass; the cpu kind's tests still pass
 with the larger register array.
   Check: `ctest --test-dir /tmp/sim-rel -R 'mcu_test|cpu_test|circuit_check' --output-on-failure` → 3 tests passed (est. 3 min).
   Observed: 2026-11-24: `mcu_test`, `cpu_test`, `circuit_check` passed (8 of 8 with the avr and library tests); last instruction shown: `004C  RJMP .-2`.
-Commit: —
+Commit: 4b51faa0
 
 ## Validation Plan
 
