@@ -153,6 +153,22 @@ enum { PINE = 0x2c, DDRE = 0x2d, PORTE = 0x2e, PCMSK3 = 0x73 };
 
 /* ---- The ATtiny25/45/85 (ATtiny85.atdf, datasheet Atmel 2586) ---------------- */
 
+/*
+ * Not modeled on these chips:
+ *   - The 64 MHz PLL as Timer1's clock (PLLCSR's PCKE): Timer1 always counts
+ *     the CPU clock, so PWM that firmware clocks from the PLL runs at the
+ *     wrong frequency. PLOCK reads 1 once PLLE is set, so firmware that
+ *     waits for the lock goes on (avr_timer_tiny.c).
+ *   - Timer1's dead time generator (DTPS1, DT1A, DT1B).
+ *   - The analog comparator (ACSR): no register behavior, no interrupt.
+ *   - The USI clocked by Timer0's compare match (USICS1:0 = 01): the shift
+ *     register gets no clock in that setting (avr_usi.c).
+ *   - Bipolar ADC conversions (ADCSRB's BIN) and the ADC's auto trigger.
+ *   - The fuses. PB5 is always the reset pin (RSTDISBL is never set), so
+ *     PB5 is never a port pin and ADC0 cannot be used; the clock is chosen
+ *     as mcu_avr.c describes, not by CKSEL.
+ */
+
 enum {
     T_INT0 = 1, T_PCINT0 = 2, T_TIMER1_COMPA = 3, T_TIMER1_OVF = 4, T_TIMER0_OVF = 5,
     T_EE_RDY = 6, T_ANA_COMP = 7, T_ADC = 8, T_TIMER1_COMPB = 9, T_TIMER0_COMPA = 10,
