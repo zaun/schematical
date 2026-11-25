@@ -14,7 +14,10 @@ import SwiftUI
 /// the selection. A press hits only what is drawn.
 ///
 /// With the Select tool, press on a text, trace or footprint (in that order)
-/// to select it and drag to move it (snapped to the grid). Shift-click adds an item to the
+/// to select it and drag to move it (snapped to the grid). A plain drag on a
+/// lone trace slides the segment under the pointer sideways and the trace
+/// follows, its ends and joins staying put; ⌘-drag moves the whole trace as
+/// one piece. Shift-click adds an item to the
 /// selection or takes it out (plan-15); Shift-drag, or a drag on an item of a
 /// larger selection, moves every selected item by one snapped step. Press on
 /// empty space to pan, which also clears the selection; Shift-drag empty
@@ -116,6 +119,9 @@ struct PCBCanvasView: View {
         /// Moves every selected footprint, text and trace from where they
         /// were at the press.
         case moveGroup(base: BoardGroupBase)
+        /// Plain drag on a lone trace: slides the segment under the pointer
+        /// (`SchematicDocument.dragTraceSegment`).
+        case editTrace(base: TraceSegmentBase)
         case pan(startOffset: CGSize)
         /// Cmd-drag on a reference's text: moves only that reference (of
         /// footprint `id`), from where its centre was at the press (board mm).
@@ -916,6 +922,8 @@ struct PCBCanvasView: View {
         switch current {
         case let .moveGroup(base):
             document.moveBoardGroup(base, by: offset)
+        case let .editTrace(base):
+            document.dragTraceSegment(base, by: offset)
         case let .moveReference(id, from):
             ReferenceDragging.drag(document, id: id, from: from, by: offset)
         case let .pan(startOffset):
@@ -1001,7 +1009,14 @@ struct PCBCanvasView: View {
                 return .resize(item: hit.item, handle: hit.handle)
             }
             if let item = document.boardItem(at: point, tolerance: TraceDrawing.tolerance / scale, visible: shown) {
-                selectionPress = document.pressSelection(item, shift: shift)
+                let press = document.pressSelection(item, shift: shift)
+                selectionPress = press
+                // A plain drag on a lone trace edits it, sliding the segment
+                // under the pointer; Cmd-drag moves the trace as one piece.
+                if case let .trace(id) = item, !press.dragsGroup, !NSEvent.modifierFlags.contains(.command),
+                   let base = document.traceSegmentBase(id, at: point) {
+                    return .editTrace(base: base)
+                }
                 return .moveGroup(base: document.boardGroupBase(grab: point))
             }
             if shift {
@@ -1027,6 +1042,9 @@ struct PCBCanvasView: View {
         drawingLayer = nil
         if case let .moveGroup(base) = interaction {
             document.settleBoardGroup(base)
+        }
+        if case let .editTrace(base) = interaction {
+            document.settleTraceSegment(base)
         }
         if let press = selectionPress {
             document.releaseSelection(press, wasClick: hypot(translation.width, translation.height) < 3)

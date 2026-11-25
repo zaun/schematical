@@ -188,6 +188,17 @@ nonisolated struct BoardGroupBase: Equatable {
     }
 }
 
+/// What a plain drag on one trace segment holds: the trace, the segment
+/// (it runs from `points[segment]` to the next point), the trace's points at
+/// the press, and the indexes of the points that stay where they are
+/// (`TraceRoute.slide`).
+nonisolated struct TraceSegmentBase: Equatable {
+    let id: UUID
+    let segment: Int
+    let points: [CGPoint]
+    let anchored: Set<Int>
+}
+
 extension OrthogonalRoute {
     /// Whether every segment of a path is horizontal or vertical.
     nonisolated static func isOrthogonal(_ path: [CGPoint]) -> Bool {

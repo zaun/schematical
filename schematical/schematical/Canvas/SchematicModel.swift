@@ -4934,6 +4934,60 @@ final class SchematicDocument {
         }
     }
 
+    // MARK: Segment drags (PCB)
+
+    /// What a plain Select drag on trace `id` at `point` (board mm) takes
+    /// hold of: the segment nearest the press, the trace's points now and
+    /// which of them must stay where they are. Nil for a locked trace or
+    /// none.
+    func traceSegmentBase(_ id: UUID, at point: CGPoint) -> TraceSegmentBase? {
+        guard let trace = traces.first(where: { $0.id == id }), !trace.locked,
+              let segment = trace.segments.indices.min(by: {
+                  Self.distance(from: point, toSegment: trace.segments[$0].0, trace.segments[$0].1)
+                      < Self.distance(from: point, toSegment: trace.segments[$1].0, trace.segments[$1].1)
+              }) else { return nil }
+        var anchored: Set<Int> = []
+        let others = traces.filter { $0.id != id && $0.layer == trace.layer }
+        let padRects = pads(on: trace.layer).map(\.1.rect) + board.fingers.filter { $0.isOn(trace.layer) }.map(\.rect)
+            + board.extraPads.filter { $0.isOn(trace.layer) }.map(\.rect)
+        for (index, vertex) in trace.points.enumerated() {
+            let shared = others.contains { $0.points.contains { TraceRoute.same($0, vertex) } }
+            let viaHere = vias.contains { Self.distance(from: $0.centre, to: vertex) <= $0.diameter / 2 }
+            if shared || viaHere || padRects.contains(where: { $0.contains(vertex) }) { anchored.insert(index) }
+        }
+        return TraceSegmentBase(id: id, segment: segment, points: trace.points, anchored: anchored)
+    }
+
+    /// One frame of a plain drag on a trace segment: the segment slides
+    /// sideways by the part of `delta` (mm) at right angles to it, snapped
+    /// to the trace grid, and the rest of the trace follows (`TraceRoute.slide`).
+    func dragTraceSegment(_ base: TraceSegmentBase, by delta: CGSize) {
+        recordEdit(.pcb, "Move Segment") {
+            guard let index = traces.firstIndex(where: { $0.id == base.id }) else { return }
+            let a = base.points[base.segment], b = base.points[base.segment + 1]
+            let length = Self.distance(from: a, to: b)
+            guard length > TraceRoute.epsilon else { return }
+            let normal = CGPoint(x: -(b.y - a.y) / length, y: (b.x - a.x) / length)
+            var distance = delta.width * normal.x + delta.height * normal.y
+            let spacing = board.traceGrid
+            if abs(normal.x) < 1e-9 || abs(normal.y) < 1e-9 {
+                // Along an axis: the segment lands on a trace grid line.
+                let axis: CGFloat = abs(normal.x) > abs(normal.y) ? a.x : a.y
+                let direction: CGFloat = abs(normal.x) > abs(normal.y) ? normal.x : normal.y
+                distance = (BoardGrid.snap(axis + distance * direction, spacing: spacing) - axis) * direction
+            } else {
+                distance = BoardGrid.snap(distance, spacing: spacing)
+            }
+            let target = TraceRoute.slide(base.points, segment: base.segment, by: distance, anchored: base.anchored)
+            if traces[index].points != target { traces[index].points = target }
+        }
+    }
+
+    /// The end of a segment drag: the trace joins what it now touches.
+    func settleTraceSegment(_ base: TraceSegmentBase) {
+        recordEdit(.pcb, "Move Segment") { join(base.id) }
+    }
+
     /// What a Select press at `point` (board mm) picks: a text, else a via,
     /// else a trace (within `tolerance` of its edge), else a footprint; Top
     /// before Bottom within each. Only drawn items count.

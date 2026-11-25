@@ -124,6 +124,57 @@ nonisolated enum TraceRoute {
     static func same(_ a: CGPoint, _ b: CGPoint) -> Bool {
         abs(a.x - b.x) < epsilon && abs(a.y - b.y) < epsilon
     }
+
+    /// The points of a trace with segment `segment` (from `points[segment]`
+    /// to the next point) slid `distance` mm sideways, to the left of its
+    /// direction when positive. The segment keeps its angle. At each end the
+    /// neighbouring segment is stretched or shortened along its own line to
+    /// meet it, so its angle stays too. A vertex in `anchored` (a trace's
+    /// end, a pad, a via or another trace's corner is there) stays where it
+    /// is: a short leg is added from it to the slid segment instead, and so
+    /// does an end with no neighbour, or one that is parallel to the segment
+    /// or would be stretched back over its own start. Nothing moves for a
+    /// distance of nothing.
+    static func slide(_ points: [CGPoint], segment: Int, by distance: CGFloat,
+                      anchored: Set<Int>) -> [CGPoint] {
+        guard points.indices.contains(segment), points.indices.contains(segment + 1),
+              abs(distance) > epsilon else { return points }
+        let a = points[segment], b = points[segment + 1]
+        let length = hypot(b.x - a.x, b.y - a.y)
+        guard length > epsilon else { return points }
+        let u = CGPoint(x: (b.x - a.x) / length, y: (b.y - a.y) / length)
+        let offset = CGPoint(x: -u.y * distance, y: u.x * distance)
+        let newA = CGPoint(x: a.x + offset.x, y: a.y + offset.y)
+        let newB = CGPoint(x: b.x + offset.x, y: b.y + offset.y)
+
+        /// Where the line through `corner` and its neighbour `other` meets
+        /// the slid line (through `through`, along `u`), when that stays on
+        /// the corner's side of `other`.
+        func meeting(corner: CGPoint, other: CGPoint, through: CGPoint) -> CGPoint? {
+            let w = CGPoint(x: corner.x - other.x, y: corner.y - other.y)
+            let denominator = w.x * u.y - w.y * u.x
+            guard abs(denominator) > 1e-9 * hypot(w.x, w.y) else { return nil }
+            let t = ((through.x - other.x) * u.y - (through.y - other.y) * u.x) / denominator
+            guard t > 1e-6 else { return nil }
+            return CGPoint(x: other.x + t * w.x, y: other.y + t * w.y)
+        }
+
+        var result = Array(points[..<segment])
+        if segment > 0, !anchored.contains(segment),
+           let corner = meeting(corner: a, other: points[segment - 1], through: newA) {
+            result.append(corner)
+        } else {
+            result += [a, newA]
+        }
+        if segment + 2 < points.count, !anchored.contains(segment + 1),
+           let corner = meeting(corner: b, other: points[segment + 2], through: newB) {
+            result.append(corner)
+        } else {
+            result += [newB, b]
+        }
+        result += points[(segment + 2)...]
+        return clean(result)
+    }
 }
 
 /// A trace being drawn: locked legs, then a live leg to the cursor, as the
