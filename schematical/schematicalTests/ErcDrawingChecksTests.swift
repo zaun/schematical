@@ -77,6 +77,12 @@ final class ErcDrawingChecksTests: XCTestCase {
         XCTAssertTrue(doc.setNetLabelName(label, "SIG"))
         ErcCases.wire(doc, .pin(try ErcCases.pin(other, "1Y")), .label(label))
         XCTAssertTrue(found(doc, .isolatedPinLabel).isEmpty)
+        // A second label of the name, even on a group with no pin, is enough (as KiCad's).
+        let lone = try ErcCases.isolatedPinLabel()
+        let unwired = lone.addNetLabel(at: CGPoint(x: 900, y: 900))
+        XCTAssertTrue(lone.setNetLabelName(unwired, "SIG"))
+        XCTAssertTrue(found(lone, .isolatedPinLabel).isEmpty)
+        XCTAssertEqual(found(lone, .labelDangling).count, 1, "the unwired one is dangling")
     }
 
     func testTwoNamesOnOneWire() throws {
@@ -155,6 +161,10 @@ final class ErcDrawingChecksTests: XCTestCase {
         let all = doc.electricalRulesCheck(library: TestSupport.catalog.library)
         let seconds = Date().timeIntervalSince(start)
         XCTAssertTrue(all.filter { $0.rule == .duplicateReference }.isEmpty)
+        // A card's edge connector drives and connects the nets of the edge bus's ports (KiCad's export
+        // writes it as passive pins), so no input on them is "not driven" and no label on them is isolated.
+        XCTAssertTrue(all.filter { $0.rule == .pinNotDriven || $0.rule == .isolatedPinLabel }.isEmpty,
+                      "\(all.filter { $0.rule == .pinNotDriven || $0.rule == .isolatedPinLabel }.map(\.reference))")
         XCTAssertEqual(all.map(\.index), Array(1...max(all.count, 1)).prefix(all.count).map { $0 })
         var counts: [String: Int] = [:]
         for violation in all { counts[violation.rule.rawValue, default: 0] += 1 }

@@ -52,7 +52,7 @@ extension ErcChecker {
 
         checkNoConnectMarkers(groups: groups, contents: contents)
         checkWireEnds(junctionEnds: junctionEnds)
-        checkLabels(netlist: netlist, groups: groups, contents: contents, group: group(of:))
+        checkLabels(groups: groups, contents: contents, group: group(of:))
         checkNames(groups: groups, contents: contents, chipsByID: chipsByID)
         checkFourWayJunctions(junctionEnds: junctionEnds)
         checkReferences()
@@ -97,19 +97,19 @@ extension ErcChecker {
     // MARK: Labels
 
     /// `label_dangling`, `isolated_pin_label`, `single_global_label`.
-    private mutating func checkLabels(netlist: SchematicNetlist, groups: WireGroups,
-                                      contents: [WireEnd: GroupContents],
+    private mutating func checkLabels(groups: WireGroups, contents: [WireEnd: GroupContents],
                                       group: (NetLabel) -> GroupContents) {
-        // The pins on each net (labels of one name merged).
-        var pinsOnNet: [Int: Set<String>] = [:]
-        for connection in netlist.connections { pinsOnNet[connection.net, default: []].insert("\(connection.part)/\(connection.pin)") }
-        var netOfLabel: [UUID: Int] = [:]
-        for wire in wires {
-            guard let net = netlist.netOfWire[wire.id] else { continue }
-            for end in [wire.start, wire.end] { if case let .label(id) = end { netOfLabel[id] = net } }
-        }
+        // How many labels carry each name. A bus wire with a wired port pin is a label of its name too
+        // (the netlist joins them, and the KiCad export writes it as one).
         var uses: [String: Int] = [:]
         for label in labels where label.isNet { uses[label.name, default: 0] += 1 }
+        var wiredBusWires = Set<UUID>()
+        for wire in wires {
+            for end in [wire.start, wire.end] { if case let .busPin(ref) = end { wiredBusWires.insert(ref.wireID) } }
+        }
+        for bus in buses {
+            for busWire in bus.wires where wiredBusWires.contains(busWire.id) { uses[busWire.name, default: 0] += 1 }
+        }
 
         for label in labels where label.isNet {
             let held = group(label)
@@ -117,7 +117,8 @@ extension ErcChecker {
             if held.pins.isEmpty && held.busPins == 0 {
                 add(.labelDangling, message: "Label not connected", reference: label.name, items: [.label(label.id)],
                     point: label.tip, ids: [id])
-            } else if let net = netOfLabel[label.id], pinsOnNet[net]?.count == 1 {
+            } else if uses[label.name] == 1 && Set(held.pins).count == 1 {
+                // KiCad: a label on a lone pin, with no other label of its name anywhere.
                 add(.isolatedPinLabel, message: "Label connected to only one pin", reference: label.name,
                     items: [.label(label.id)], point: label.tip, ids: [id])
             }

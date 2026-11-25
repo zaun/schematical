@@ -34,7 +34,7 @@ rule the templates do not list, `isolated_pin_label` (warning).
 | `wire_dangling` | error | A wire with neither end connected to anything. |
 | `unconnected_wire_endpoint` | warning | Each wire end connected to nothing (a wire with both ends free reports this twice, and `wire_dangling` once). |
 | `label_dangling` | error | A label whose wire-connected group (wires and labels, not merging labels of one name) has no pin. Two same-name labels on pinless groups are each dangling. |
-| `isolated_pin_label` | warning | A label on a net (labels of one name merged) that has exactly one pin. |
+| `isolated_pin_label` | warning | A label whose wire-connected group has exactly one pin and whose name no other label has (two labels of one name, even on groups with no pin, report nothing: measured on the fixtures' exports, plan-63-G). |
 | `multiple_net_names` | warning | Two labels of different names, or two power symbols of different names, on one wire-connected group. A label and a power symbol of different names: nothing (`probe_names.txt`). |
 | `similar_labels` | warning | Two labels whose names differ only in case. |
 | `similar_label_and_power` | warning | A label whose name differs only in case from a power symbol's. |

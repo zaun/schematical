@@ -132,7 +132,7 @@ struct ErcChecker {
 
         let labelsByID = Dictionary(labels.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
         var pins: [ErcPin] = []
-        var slots: [Slot] = []
+        var slots: [Slot?] = []
         for (ci, chip) in chips.enumerated() {
             let part: UnsafePointer<Part>? = library.flatMap { part_library_find($0.pointer, chip.partNumber) }
             for pin in chip.part.pins where !pin.isHidden {
@@ -155,6 +155,20 @@ struct ErcChecker {
             pins.append(ErcPin(net: wire.flatMap { netlist.netOfWire[$0.id] } ?? -1, type: ERC_POWER_OUT,
                                drives_power: 0, no_connect_mark: 0))
             slots.append(.flag(label.id))
+        }
+        // A card's edge connector is not a part here, but KiCad's export writes it as a symbol of
+        // passive pins on the nets of the edge bus's ports: they drive and connect those nets.
+        if let edgeID = document.edgeBusID, let edgeBus = buses.first(where: { $0.id == edgeID }) {
+            let ports = Set(edgeBus.ports.map(\.id))
+            var seen = Set<BusPinRef>()
+            for wire in wires {
+                for end in [wire.start, wire.end] {
+                    guard case let .busPin(ref) = end, ports.contains(ref.portID), seen.insert(ref).inserted,
+                          let net = netlist.netOfWire[wire.id] else { continue }
+                    pins.append(ErcPin(net: net, type: ERC_PASSIVE, drives_power: 0, no_connect_mark: 0))
+                    slots.append(nil)
+                }
+            }
         }
         // A label or a bus port on a net connects it.
         var nets = [ErcNet](repeating: ErcNet(has_attachment: 0), count: max(netlist.netCount, 1))
@@ -200,10 +214,11 @@ struct ErcChecker {
             }
         }
         for problem in problems {
-            let slot = slots[problem.pin]
+            // A card edge's pins are not in the schematic: nothing is reported on them.
+            guard let slot = slots[problem.pin] else { continue }
             switch problem.kind {
             case ERC_PIN_TO_PIN:
-                let other = slots[problem.other]
+                guard let other = slots[problem.other] else { continue }
                 let a = Self.typeIndex(pins[problem.other].type), b = Self.typeIndex(pins[problem.pin].type)
                 add(.pinToPin, severity: problem.level >= 2 ? .error : .warning,
                     message: "Pins of type \(ErcPinTypes.titles[a]) and \(ErcPinTypes.titles[b]) are connected",
