@@ -406,6 +406,28 @@ Notes:
   - **ADC.** There are no analog levels: an ADC input is 5 V when its net
     reads 1 and 0 V otherwise, against AVCC = AREF = 5 V, so a conversion
     gives 1023 or 0 (PC0–PC5; `ADC6`/`ADC7`, or PE2/PE3 on a PB device).
+  - **Serial pins** (plan-62-F, `mcu_avr_serial.c`). avr8js stops at the
+    byte; this layer, ours, puts the bytes on pins, in engine time (a bit is
+    the peripheral's bit time in CPU cycles times the cycle's length).
+    *USART*: while TXEN is set TXD is 1 when idle and carries each byte
+    written to UDR as a frame (start, 5–9 data bits LSB first, parity, 1 or
+    2 stop bits); while RXEN is set a 1-to-0 change on RXD starts a frame,
+    sampled mid-bit, delivered after a stop bit that reads 1. *SPI*: master
+    only; a byte written to SPDR is clocked out on MOSI and SCK and in from
+    MISO in SPCR's mode and bit order, SCK idling at CPOL; SCK and MOSI are
+    driven only where their DDR bit is set, and SS is an ordinary port pin.
+    *TWI*: master only; while TWEN is set SDA and SCL are open drain (pulled
+    low or released: the bus needs pull-ups, resistors or the port's own),
+    with SDA changing a quarter bit away from every SCL edge and SCL waited
+    for after a release (a target may stretch it). Pins: USART0 RXD PD0, TXD
+    PD1; SPI SS PB2, MOSI PB3, MISO PB4, SCK PB5; TWI SDA PC4, SCL PC5; on
+    the ATmega328PB also USART1 RXD PB4, TXD PB3, SPI1 MISO PC0, SCK PC1,
+    MOSI PE3, and TWI1 SDA PE0, SCL PE1. Not modeled, as in avr8js: the
+    USART's synchronous mode and its frame, parity and overrun errors (a
+    frame with a bad stop bit is dropped), SPI slave mode (with MSTR clear a
+    transfer completes with 0 and no pin moves), TWI slave mode and
+    arbitration. A chip has no terminal of its own
+    (`circuit_serial_channels` is 0): wire a USB-to-UART bridge to TXD/RXD.
   - **State.** `circuit_cpu_state` reports it as it does a processor:
     `CPU_RESET` (startup, or the reset pin held) or `CPU_RUNNING`; the
     cycles since reset; 35 registers: `PC` (the byte address), `SP`, `SREG`,
@@ -414,8 +436,7 @@ Notes:
   - **Not modeled.** Fuses, lock bits, brown-out, sleep modes (SLEEP is a
     no-op), self-programming (SPM), the analog comparator, timer 2's
     asynchronous clock, the supply (the chip runs whatever VCC reads; the
-    voltage check judges it). The serial peripherals' pins come with
-    plan-62-F. Where avr8js's CPU disagrees with Microchip's instruction set
+    voltage check judges it). Where avr8js's CPU disagrees with Microchip's instruction set
     manual the simulator follows the manual (7 places, each commented in
     `avr_instruction.c` / `avr_cpu.c`; `avr_core_test` § fixes).
   - **Speed.** A chip on a 16 MHz crystal costs an engine event per clock
@@ -530,7 +551,9 @@ backend/
                            for a device without a model and forwards to
                            the adapter for one with), mcu_avr.c (the AVR
                            engine adapter: startup, the clock, reset,
-                           GPIO, ADC, flash, the processor state);
+                           GPIO, ADC, flash, the processor state),
+                           mcu_avr_serial.c (the USART, the SPI master and
+                           the TWI master on their pins);
                            socket.c (the IC socket kind: loader, passive
                            model, plan-51-A);
                            inductor.c, fuse.c, terminals.c + terminals.h and
@@ -936,6 +959,19 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   over; one-word vectors on the 4 KB chip; the flash through
   `circuit_memory_size` / `_read` / `_load` and an erased chip running; the
   ADC reading 1023 and 0; `circuit_cpu_state` in reset and running.
+- `avr_serial_test` — the AVR's serial peripherals on their pins
+  (plan-62-F), against library parts that speak the same buses; each case
+  asserts on the partner's own state. USART with an `MCP2200-I/SO` bridge:
+  the bridge receives "HI", a typed 'a' comes back as 'b', the edges of 'H'
+  are 104 us x 4, 1, 2, 1, 1 apart (9600 baud on the 1 MHz clock), and a 7E2
+  frame of 0x55 has its parity and stop bits. SPI with an `AT25320B-SSHL-B`
+  EEPROM: A1 B2 C3 written at 0x0010 and read back in mode 0; mode 3 idles
+  SCK high with 16 edges per byte; with the DDR bits clear SCK and MOSI stay
+  Z. TWI with a `PCF8563T/5,518` clock: SDA falls while SCL is high, 0x25
+  written to the seconds register and read back, 9 clocks per byte (132 SCL
+  changes for the transaction), an address nobody answers (status 0x20),
+  and the same through TWI1 of the fixture `TESTAVR328PB`. The rig is
+  `tests/support/avr_rig.h` (also `mcu_test`'s).
 - `pld_test` — the pld kind: the shipped ATF22V10C, ATF750C and ATF16V8B
   parts read back their `PartPld` facts (macrocells, the part's tpd, a
   commercial part's own `vcc`), single part files cover every loader rule

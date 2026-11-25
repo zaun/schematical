@@ -200,13 +200,13 @@ None: no file format, public header or golden changes.
 
 ### Phase 1 — overrides and the USART
 
-- [ ] `backend/src/models/mcu_avr_serial.c` (+ `mcu.h`): the override
+- [x] `backend/src/models/mcu_avr_serial.c` (+ `mcu.h`): the override
       table, § 3.2, § 3.5; `mcu_avr.c`: the drive rule of § 3.1, the
       callbacks installed for every USART of the layout;
       `backend/CMakeLists.txt`.
-- [ ] Test firmware `usart_hi` (9600 baud at 1 MHz with U2X, UBRR 12; send
+- [x] Test firmware `usart_hi` (9600 baud at 1 MHz with U2X, UBRR 12; send
       "HI", then echo each received byte + 1).
-- [ ] `backend/tests/avr_serial_test.c` (`logic_test`): `TESTAVR` with TXD
+- [x] `backend/tests/avr_serial_test.c` (`logic_test`): `TESTAVR` with TXD
       on the `MCP2200-I/SO`'s `Rx` and RXD on its `Tx`, the bridge
       configured to 9600 8N1: the bridge's sent log is "HI"
       (`circuit_serial_sent`); typing 'a' (`circuit_serial_send`) brings
@@ -217,14 +217,15 @@ None: no file format, public header or golden changes.
 
 Acceptance: the USART cases pass.
   Check: `ctest --test-dir /tmp/sim-rel -R avr_serial_test --output-on-failure` → `ok usart_hi`, `ok usart_echo`, `ok usart_bit_time`, `ok usart_7e2` (est. 2 min).
+  Observed: 2026-11-24: `ok usart_hi`, `ok usart_type`, `ok usart_echo`, `ok usart_bit_time`, `ok usart_7e2`.
 Commit: —
 
 ### Phase 2 — SPI master
 
-- [ ] `mcu_avr_serial.c`: § 3.3 for every SPI of the layout.
-- [ ] Test firmware `spi_eeprom` (SS on PB2 as GPIO; WREN, WRITE 3 bytes at
+- [x] `mcu_avr_serial.c`: § 3.3 for every SPI of the layout.
+- [x] Test firmware `spi_eeprom` (SS on PB2 as GPIO; WREN, WRITE 3 bytes at
       0x0010, poll RDSR until ready, READ them back to PORTD).
-- [ ] `avr_serial_test.c`: `TESTAVR` with an `AT25320B-SSHL-B`: after the
+- [x] `avr_serial_test.c`: `TESTAVR` with an `AT25320B-SSHL-B`: after the
       run `circuit_memory_read` of the EEPROM shows the 3 bytes and PORTD's
       nets show the last one read back; SCK has 8 pulses per byte at the
       programmed divider in mode 0 and, with a mode 3 variant, idles high;
@@ -232,28 +233,30 @@ Commit: —
 
 Acceptance: the SPI cases pass.
   Check: `ctest --test-dir /tmp/sim-rel -R avr_serial_test --output-on-failure` → 4 USART lines plus `ok spi_eeprom`, `ok spi_mode3`, `ok spi_ddr` (est. 2 min).
+  Observed: 2026-11-24: `ok spi_eeprom`, `ok spi_mode3`, `ok spi_ddr`.
 Commit: —
 
 ### Phase 3 — TWI master
 
-- [ ] `mcu_avr_serial.c`: § 3.4 for every TWI of the layout.
-- [ ] Test firmware `twi_rtc` (write 0x25 to register 0x02 of address 0x51,
+- [x] `mcu_avr_serial.c`: § 3.4 for every TWI of the layout.
+- [x] Test firmware `twi_rtc` (write 0x25 to register 0x02 of address 0x51,
       repeated start, read it back to PORTB, stop) and `twi_nack` (address
       0x20: no target; writes TWSR's status to PORTB).
-- [ ] `avr_serial_test.c`: `TESTAVR` with a `PCF8563T/5,518` and the port
+- [x] `avr_serial_test.c`: `TESTAVR` with a `PCF8563T/5,518` and the port
       pull-ups enabled by the firmware: PORTB shows 0x25
       (`circuit_converter_registers` on the RTC shows seconds 0x25); the
       SDA/SCL change log is a start (SDA falls while SCL is 1), 9 clocks per
       byte, and a stop; `twi_nack` shows status 0x20; a `TESTAVR328PB`
       fixture (added to `mcu_fixture.h`, pinout `quad32` of `atmega328pb`)
       runs `twi_rtc` on TWI1 (PE0/PE1).
-- [ ] `docs/backend.md`: the Microcontrollers note gains the serial pins
+- [x] `docs/backend.md`: the Microcontrollers note gains the serial pins
       (what is driven when, what is not modeled); § Layout; § Tests
       (`avr_serial_test`).
 
 Acceptance: the TWI cases pass and plan-62-C's scenarios still equal
 avr8js.
   Check: `ctest --test-dir /tmp/sim-rel -R 'avr_|mcu_test' --output-on-failure` → 4 tests passed, `avr_serial_test` printing `ok twi_rtc`, `ok twi_waveform`, `ok twi_nack`, `ok twi1_rtc` (est. 3 min).
+  Observed: 2026-11-24: `ok twi_start`, `ok twi_rtc`, `ok twi_waveform`, `ok twi_nack`, `ok twi1_rtc`; `avr_serial_test: all passed`; the 16 scenarios still equal avr8js.
 Commit: —
 
 ## Validation Plan
@@ -271,6 +274,32 @@ Commit: —
 plan-62-A § Decisions (serial pins in this plan). None added.
 
 ## Corrections
+
+- § 3.4 (a bug found by the partner part, fixed in the design): the first
+  version changed SDA at the instant SCL fell (half-bit steps), which a
+  target reads as SDA moving while SCL is high: a start or stop. Traced on
+  the `twi_rtc` rig: `1071 us SDA 0 SCL 0` (both in one step), and the
+  PCF8563 did not acknowledge (SDA 1 on the ninth clock). A bit is now four
+  quarters: SCL low for two with SDA changing between them, SCL high for
+  two. After the fix the clock acknowledges and SCL changes 132 times for the
+  transaction, the count derived in the test (1 + 7 x 9 x 2 + 2 x 2 + 1).
+- § 3.2: the transmitter sends bit by bit with a timer per bit (not a whole
+  frame scheduled at once), so a reset cancels a frame. Bytes written while a
+  frame is going out wait in a queue of 8.
+- § 3.3: the SPI transfer is completed by the adapter's last clock-edge
+  timer (edge 16), not by a CPU clock event: with CPHA set the last sample is
+  at that same time, and the two would race. With MSTR clear the transfer
+  completes with 0 through a clock event.
+- § 3.1: the peripherals' pins are tables of the layout
+  (`AvrLayout.usart_pins`, `spi_pins`, `twi_pins`). The adapter hears SPCR
+  and TWCR writes by chaining its own write hook in front of the
+  peripheral's; `avr_usart.c`, `avr_spi.c` and `avr_twi.c` are unchanged (the
+  16 scenarios still equal avr8js).
+- The rig moved to `tests/support/avr_rig.h` and finds nets by pin name, so
+  it takes any pinout; the fixture `TESTAVR328PB` (quad32) was added.
+- Phase 2: the mode 3 case is its own firmware (`spi_mode3`: WREN, RDSR, the
+  status 0x02 on PORTD), and the no-DDR case is `spi_noddr`.
+- All three phases landed in one commit (one file, one test).
 
 ## Summary
 

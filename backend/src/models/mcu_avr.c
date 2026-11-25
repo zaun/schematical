@@ -26,6 +26,9 @@
  *
  * ADC. The engine has no analog levels: an ADC input is 5 V when its net
  * reads 1 and 0 V otherwise, against AVCC = AREF = 5 V.
+ *
+ * Serial pins. The USART, SPI and TWI put their bytes on pins in
+ * mcu_avr_serial.c, which takes a pin from its port with an override here.
  */
 
 #include <stdlib.h>
@@ -37,63 +40,7 @@
 #define AVR_RC_CYCLE_PS 125000ull       /* the internal oscillator: 8 MHz */
 #define AVR_RC_HZ 8000000u
 
-enum { TIMER_STARTUP = 1, TIMER_STEP = 2 };
 #define TIMER_ID(KIND, GENERATION) ((uint32_t)(KIND) | ((uint32_t)(GENERATION) << 8))
-
-typedef enum { MCU_STARTUP, MCU_IN_RESET, MCU_RUNNING } McuState;
-
-/* What a part pin is to the chip. */
-typedef enum { PIN_OTHER, PIN_PORT, PIN_RESET, PIN_ADC_ONLY } McuPinKind;
-
-typedef struct {
-    McuPinKind kind;
-    uint8_t port;        /* layout port index */
-    uint8_t bit;
-    int8_t adc_channel;  /* -1: not an ADC input */
-} McuPin;
-
-/* What the chip last put on a pin. */
-typedef struct {
-    uint8_t value;       /* LogicValue */
-    uint8_t strength;    /* DriveStrength */
-} McuDrive;
-
-typedef struct {
-    McuAvr *mcu;
-    size_t port;
-} McuPortListener;
-
-struct McuAvr {
-    const Part *part;
-    const McuAvrPins *pins;
-    AvrChip *chip;
-    Sim *sim;
-    SimInstance *instance;
-
-    McuPin *pin_map;             /* part->pin_count entries */
-    McuDrive *driven;            /* part->pin_count entries */
-    McuPortListener listeners[AVR_LAYOUT_PORTS];
-    size_t xtal1, xtal2, reset_pin;   /* part pins, or MCU_NO_PIN */
-
-    McuState state;
-    uint32_t generation;         /* stale timers carry an older one */
-
-    /* The clock. */
-    int external_clock;
-    uint64_t startup_edges;
-    SimTime last_edge;           /* the last rising edge of XTAL1 */
-    SimTime period_ps;           /* between the last two */
-    int edge_wait;               /* external: edges until the next CPU cycle */
-    uint64_t clock_cycles;       /* external: CPU cycles since the run began */
-    uint64_t due;                /* external: the cycle the next instruction starts at */
-    int chip_was_reset;          /* the chip reset itself during the last step */
-
-    /* The last instruction, for the processor window. */
-    int has_instruction;
-    uint32_t instruction_pc;
-    uint16_t instruction_words[2];
-    unsigned instruction_length;
-};
 
 /* ---- Pins ------------------------------------------------------------------ */
 
@@ -112,10 +59,48 @@ static void drive(McuAvr *mcu, size_t pin, LogicValue value, DriveStrength stren
 /* 1 when the chip owns the pin as a port pin now (not the reset pin, not a
    clock pin of an external clock). */
 static int is_port_pin(const McuAvr *mcu, size_t pin) {
-    if (mcu->pin_map[pin].kind != PIN_PORT) {
+    if (mcu->pin_map[pin].kind != MCU_PIN_PORT) {
         return 0;
     }
     return !(mcu->external_clock && (pin == mcu->xtal1 || pin == mcu->xtal2));
+}
+
+/* Puts on a port pin what the chip does with it now: a serial peripheral's
+   override if it has the pin, else the port's state. */
+static void update_pin(McuAvr *mcu, size_t pin) {
+    const McuPin *map = &mcu->pin_map[pin];
+    const AvrPort *port = &mcu->chip->ports[map->port];
+
+    if (!is_port_pin(mcu, pin)) {
+        return;
+    }
+    if (mcu->state != MCU_RUNNING) {
+        drive(mcu, pin, LOGIC_Z, DRIVE_STRONG);
+        return;
+    }
+    switch ((McuOverride)mcu->override[pin]) {
+        case MCU_OVERRIDE_LOW:
+            drive(mcu, pin, LOGIC_0, DRIVE_STRONG);
+            return;
+        case MCU_OVERRIDE_HIGH:
+            drive(mcu, pin, LOGIC_1, DRIVE_STRONG);
+            return;
+        case MCU_OVERRIDE_RELEASE:
+            if (mcu->chip->cpu->data[port->config.PORT] & (1 << map->bit)) {
+                drive(mcu, pin, LOGIC_1, DRIVE_WEAK);   /* the pull-up */
+            } else {
+                drive(mcu, pin, LOGIC_Z, DRIVE_STRONG);
+            }
+            return;
+        case MCU_OVERRIDE_NONE:
+            break;
+    }
+    switch (avr_port_pin_state(port, map->bit)) {
+        case AVR_PIN_LOW: drive(mcu, pin, LOGIC_0, DRIVE_STRONG); break;
+        case AVR_PIN_HIGH: drive(mcu, pin, LOGIC_1, DRIVE_STRONG); break;
+        case AVR_PIN_INPUT: drive(mcu, pin, LOGIC_Z, DRIVE_STRONG); break;
+        case AVR_PIN_INPUT_PULLUP: drive(mcu, pin, LOGIC_1, DRIVE_WEAK); break;
+    }
 }
 
 /* Puts a port's state on its pins. */
@@ -125,20 +110,44 @@ static void update_port_pins(McuAvr *mcu, size_t port) {
     for (bit = 0; bit < 8; bit++) {
         size_t pin = mcu->pins->port[port][bit];
 
-        if (pin == MCU_NO_PIN || !is_port_pin(mcu, pin)) {
-            continue;
-        }
-        if (mcu->state != MCU_RUNNING) {
-            drive(mcu, pin, LOGIC_Z, DRIVE_STRONG);
-            continue;
-        }
-        switch (avr_port_pin_state(&mcu->chip->ports[port], bit)) {
-            case AVR_PIN_LOW: drive(mcu, pin, LOGIC_0, DRIVE_STRONG); break;
-            case AVR_PIN_HIGH: drive(mcu, pin, LOGIC_1, DRIVE_STRONG); break;
-            case AVR_PIN_INPUT: drive(mcu, pin, LOGIC_Z, DRIVE_STRONG); break;
-            case AVR_PIN_INPUT_PULLUP: drive(mcu, pin, LOGIC_1, DRIVE_WEAK); break;
+        if (pin != MCU_NO_PIN) {
+            update_pin(mcu, pin);
         }
     }
+}
+
+size_t mcu_avr_pin(const McuAvr *mcu, AvrPinName name) {
+    const AvrLayout *layout = mcu->pins->layout;
+    size_t port;
+
+    for (port = 0; port < layout->port_count; port++) {
+        if (layout->ports[port].letter == name.port && name.bit < 8) {
+            return mcu->pins->port[port][name.bit];
+        }
+    }
+    return MCU_NO_PIN;
+}
+
+void mcu_avr_set_override(McuAvr *mcu, size_t pin, McuOverride override) {
+    if (pin == MCU_NO_PIN || mcu->override[pin] == (uint8_t)override) {
+        return;
+    }
+    mcu->override[pin] = (uint8_t)override;
+    update_pin(mcu, pin);
+}
+
+int mcu_avr_pin_is_output(const McuAvr *mcu, size_t pin) {
+    const McuPin *map;
+
+    if (pin == MCU_NO_PIN) {
+        return 0;
+    }
+    map = &mcu->pin_map[pin];
+    return (mcu->chip->cpu->data[mcu->chip->ports[map->port].config.DDR] & (1 << map->bit)) != 0;
+}
+
+int mcu_avr_pin_high(const McuAvr *mcu, size_t pin) {
+    return pin != MCU_NO_PIN && sim_read_pin(mcu->sim, mcu->instance, pin) == LOGIC_1;
 }
 
 static void update_all_pins(McuAvr *mcu) {
@@ -173,7 +182,7 @@ static void read_all_pins(McuAvr *mcu) {
     size_t pin;
 
     for (pin = 0; pin < mcu->part->pin_count; pin++) {
-        if (mcu->pin_map[pin].kind == PIN_PORT || mcu->pin_map[pin].kind == PIN_ADC_ONLY) {
+        if (mcu->pin_map[pin].kind == MCU_PIN_PORT || mcu->pin_map[pin].kind == MCU_PIN_ADC_ONLY) {
             read_pin(mcu, pin, sim_read_pin(mcu->sim, mcu->instance, pin));
         }
     }
@@ -181,8 +190,14 @@ static void read_all_pins(McuAvr *mcu) {
 
 /* ---- Running ------------------------------------------------------------------ */
 
-static SimTime cycle_ps(const McuAvr *mcu) {
-    return AVR_RC_CYCLE_PS * (SimTime)avr_clock_prescaler(&mcu->chip->clock);
+SimTime mcu_avr_cycle_ps(const McuAvr *mcu) {
+    SimTime base = mcu->external_clock ? mcu->period_ps : AVR_RC_CYCLE_PS;
+
+    return base * (SimTime)avr_clock_prescaler(&mcu->chip->clock);
+}
+
+void mcu_avr_schedule(McuAvr *mcu, unsigned kind, SimTime delay) {
+    sim_schedule_timer(mcu->sim, mcu->instance, TIMER_ID(kind, mcu->generation), delay);
 }
 
 /* One instruction. Returns the CPU cycles it took. */
@@ -209,15 +224,21 @@ static uint64_t step(McuAvr *mcu) {
 }
 
 static void schedule_step(McuAvr *mcu, uint64_t cycles) {
-    sim_schedule_timer(mcu->sim, mcu->instance, TIMER_ID(TIMER_STEP, mcu->generation),
-                       cycles * cycle_ps(mcu));
+    mcu_avr_schedule(mcu, MCU_TIMER_STEP, cycles * mcu_avr_cycle_ps(mcu));
 }
 
 /* The chip leaves reset: the first instruction runs one cycle from now. */
+/* The serial peripherals let go of everything. */
+static void forget_serial(McuAvr *mcu) {
+    memset(mcu->override, MCU_OVERRIDE_NONE, mcu->part->pin_count);
+    mcu_avr_serial_reset(mcu);
+}
+
 static void begin_run(McuAvr *mcu) {
     mcu->generation++;
     mcu->state = MCU_RUNNING;
     mcu->has_instruction = 0;
+    forget_serial(mcu);
     avr_chip_reset(mcu->chip);
     read_all_pins(mcu);
     update_all_pins(mcu);
@@ -232,6 +253,7 @@ static void begin_run(McuAvr *mcu) {
 static void enter_reset(McuAvr *mcu) {
     mcu->generation++;
     mcu->state = MCU_IN_RESET;
+    forget_serial(mcu);
     avr_chip_reset(mcu->chip);
     update_all_pins(mcu);
 }
@@ -253,6 +275,10 @@ static void chip_reset_itself(void *ctx) {
     McuAvr *mcu = ctx;
 
     mcu->chip_was_reset = 1;
+    /* Serial timers of before the reset are stale: a new generation. The
+       step timer is rescheduled by its own handler, with the new one. */
+    mcu->generation++;
+    forget_serial(mcu);
     read_all_pins(mcu);
     update_all_pins(mcu);
     if (mcu->external_clock) {
@@ -312,7 +338,7 @@ void mcu_avr_start(McuAvr *mcu, Sim *sim, SimInstance *instance) {
     }
     /* The reset pin's pull-up. */
     drive(mcu, mcu->reset_pin, LOGIC_1, DRIVE_WEAK);
-    sim_schedule_timer(sim, instance, TIMER_ID(TIMER_STARTUP, mcu->generation), AVR_STARTUP_PS);
+    sim_schedule_timer(sim, instance, TIMER_ID(MCU_TIMER_STARTUP, mcu->generation), AVR_STARTUP_PS);
 }
 
 void mcu_avr_pin_changed(McuAvr *mcu, size_t pin, LogicValue old_value, LogicValue new_value) {
@@ -333,6 +359,12 @@ void mcu_avr_pin_changed(McuAvr *mcu, size_t pin, LogicValue old_value, LogicVal
         }
         if (mcu->external_clock) {
             if (rising) {
+                SimTime now = sim_now(mcu->sim);
+
+                if (now > mcu->last_edge) {
+                    mcu->period_ps = now - mcu->last_edge;
+                }
+                mcu->last_edge = now;
                 clock_edge(mcu);
             }
             return;
@@ -351,9 +383,10 @@ void mcu_avr_pin_changed(McuAvr *mcu, size_t pin, LogicValue old_value, LogicVal
         }
         return;
     }
-    if (mcu->pin_map[pin].kind == PIN_PORT || mcu->pin_map[pin].kind == PIN_ADC_ONLY) {
+    if (mcu->pin_map[pin].kind == MCU_PIN_PORT || mcu->pin_map[pin].kind == MCU_PIN_ADC_ONLY) {
         if (mcu->state == MCU_RUNNING) {
             read_pin(mcu, pin, new_value);
+            mcu_avr_serial_pin(mcu, pin, old_value, new_value);
         }
     }
 }
@@ -363,12 +396,21 @@ void mcu_avr_timer(McuAvr *mcu, uint32_t timer_id) {
         return;   /* from before a reset */
     }
     switch (timer_id & 0xff) {
-        case TIMER_STARTUP:
+        case MCU_TIMER_STARTUP:
             end_startup(mcu);
             break;
-        case TIMER_STEP:
+        case MCU_TIMER_STEP:
             if (mcu->state == MCU_RUNNING && !mcu->external_clock) {
-                schedule_step(mcu, step(mcu));
+                uint64_t cycles = step(mcu);
+
+                /* After the step: a watchdog reset inside it starts a new
+                   generation, and this timer must belong to it. */
+                schedule_step(mcu, cycles);
+            }
+            break;
+        default:
+            if (mcu->state == MCU_RUNNING) {
+                mcu_avr_serial_timer(mcu, timer_id & 0xff);
             }
             break;
     }
@@ -467,7 +509,8 @@ McuAvr *mcu_avr_create(const Part *part, const McuAvrPins *pins) {
                                 AVR_RC_HZ, 3);
     mcu->pin_map = calloc(part->pin_count > 0 ? part->pin_count : 1, sizeof(*mcu->pin_map));
     mcu->driven = calloc(part->pin_count > 0 ? part->pin_count : 1, sizeof(*mcu->driven));
-    if (mcu->chip == NULL || mcu->pin_map == NULL || mcu->driven == NULL) {
+    mcu->override = calloc(part->pin_count > 0 ? part->pin_count : 1, 1);
+    if (mcu->chip == NULL || mcu->pin_map == NULL || mcu->driven == NULL || mcu->override == NULL) {
         mcu_avr_destroy(mcu);
         return NULL;
     }
@@ -485,7 +528,7 @@ McuAvr *mcu_avr_create(const Part *part, const McuAvrPins *pins) {
             if (pin == MCU_NO_PIN) {
                 continue;
             }
-            mcu->pin_map[pin].kind = PIN_PORT;
+            mcu->pin_map[pin].kind = MCU_PIN_PORT;
             mcu->pin_map[pin].port = (uint8_t)port;
             mcu->pin_map[pin].bit = (uint8_t)bit;
             /* On every device of the three layouts XTAL1 is PB6, XTAL2 is
@@ -496,7 +539,7 @@ McuAvr *mcu_avr_create(const Part *part, const McuAvrPins *pins) {
                 mcu->xtal2 = pin;
             } else if (letter == 'C' && bit == 6) {
                 mcu->reset_pin = pin;
-                mcu->pin_map[pin].kind = PIN_RESET;
+                mcu->pin_map[pin].kind = MCU_PIN_RESET;
             } else if (letter == 'C' && bit <= 5) {
                 mcu->pin_map[pin].adc_channel = (int8_t)bit;   /* ADC0-ADC5 */
             } else if (letter == 'E' && (bit == 2 || bit == 3)) {
@@ -509,16 +552,17 @@ McuAvr *mcu_avr_create(const Part *part, const McuAvrPins *pins) {
         mcu->chip->ports[port].listener.ctx = &mcu->listeners[port];
     }
     if (pins->adc6 != MCU_NO_PIN) {
-        mcu->pin_map[pins->adc6].kind = PIN_ADC_ONLY;
+        mcu->pin_map[pins->adc6].kind = MCU_PIN_ADC_ONLY;
         mcu->pin_map[pins->adc6].adc_channel = 6;
     }
     if (pins->adc7 != MCU_NO_PIN) {
-        mcu->pin_map[pins->adc7].kind = PIN_ADC_ONLY;
+        mcu->pin_map[pins->adc7].kind = MCU_PIN_ADC_ONLY;
         mcu->pin_map[pins->adc7].adc_channel = 7;
     }
     mcu->chip->after_reset.fn = chip_reset_itself;
     mcu->chip->after_reset.ctx = mcu;
     mcu->state = MCU_STARTUP;
+    mcu_avr_serial_init(mcu);
     return mcu;
 }
 
@@ -529,5 +573,6 @@ void mcu_avr_destroy(McuAvr *mcu) {
     avr_chip_destroy(mcu->chip);
     free(mcu->pin_map);
     free(mcu->driven);
+    free(mcu->override);
     free(mcu);
 }

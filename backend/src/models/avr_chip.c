@@ -137,6 +137,14 @@ enum { PINE = 0x2c, DDRE = 0x2d, PORTE = 0x2e, PCMSK3 = 0x73 };
 #define SPI1 {V_SPI1_STC, 0xac, 0xad, 0xae}
 #define TWI1 {V_TWI1, 0xd8, 0xd9, 0xda, 0xdb, 0xdc, 0xdd}
 
+/* The serial peripherals' pins (planning/plan-62-data/atdf_signals.txt). */
+#define USART0_PINS {{'D', 0}, {'D', 1}}                 /* RXD PD0, TXD PD1 */
+#define SPI0_PINS {{'B', 3}, {'B', 4}, {'B', 5}}         /* MOSI PB3, MISO PB4, SCK PB5 */
+#define TWI0_PINS {{'C', 4}, {'C', 5}}                   /* SDA PC4, SCL PC5 */
+#define USART1_PINS {{'B', 4}, {'B', 3}}                 /* RXD1 PB4, TXD1 PB3 */
+#define SPI1_PINS {{'E', 3}, {'C', 0}, {'C', 1}}         /* MOSI1 PE3, MISO1 PC0, SCK1 PC1 */
+#define TWI1_PINS {{'E', 0}, {'E', 1}}                   /* SDA1 PE0, SCL1 PE1 */
+
 static const AvrLayout LAYOUTS[] = {
     {
         "atmega168pb",
@@ -149,6 +157,9 @@ static const AvrLayout LAYOUTS[] = {
         ADC_328,
         EEPROM_328,
         WATCHDOG_328,
+        {USART0_PINS},
+        {SPI0_PINS},
+        {TWI0_PINS},
     },
     {
         "atmega328pb",
@@ -161,6 +172,9 @@ static const AvrLayout LAYOUTS[] = {
         ADC_328,
         EEPROM_328,
         WATCHDOG_328,
+        {USART0_PINS, USART1_PINS},
+        {SPI0_PINS, SPI1_PINS},
+        {TWI0_PINS, TWI1_PINS},
     },
     {
         "atmega328",
@@ -173,6 +187,9 @@ static const AvrLayout LAYOUTS[] = {
         ADC_328,
         EEPROM_328,
         WATCHDOG_328,
+        {USART0_PINS},
+        {SPI0_PINS},
+        {TWI0_PINS},
     },
 };
 

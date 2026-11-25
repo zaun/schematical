@@ -21,6 +21,16 @@ typedef struct {
     AvrPortConfig config;
 } AvrLayoutPort;
 
+/* A port pin by name: PD1 is {'D', 1}. */
+typedef struct { char port; uint8_t bit; } AvrPinName;
+
+/* The pins of the serial peripherals (the ATDF's signals), for the layer
+   that puts their bytes on pins (plan-62-F). avr8js has no such tables: its
+   serial peripherals stop at the byte. */
+typedef struct { AvrPinName rxd, txd; } AvrUsartPins;
+typedef struct { AvrPinName mosi, miso, sck; } AvrSpiPins;
+typedef struct { AvrPinName sda, scl; } AvrTwiPins;
+
 /*
  * A register layout. Every interrupt field holds the VECTOR NUMBER (the
  * ATDF's index: RESET is 0, INT0 is 1); avr_layout_scale turns them into
@@ -42,6 +52,9 @@ typedef struct AvrLayout {
     AvrAdcConfig adc;
     AvrEepromConfig eeprom;      /* erase_cycles and write_cycles are set per chip */
     AvrWatchdogConfig watchdog;
+    AvrUsartPins usart_pins[AVR_LAYOUT_SERIALS];
+    AvrSpiPins spi_pins[AVR_LAYOUT_SERIALS];
+    AvrTwiPins twi_pins[AVR_LAYOUT_SERIALS];
 } AvrLayout;
 
 typedef struct AvrChip {

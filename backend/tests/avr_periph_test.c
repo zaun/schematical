@@ -957,7 +957,8 @@ static void dasm_case(void) {
 static void firmware_case(void) {
 #ifdef AVR_NODE
     static const char *const NAMES[] = {"blink", "blink48", "blink_fast", "button", "pwm", "int0",
-                                        "adc_port"};
+                                        "adc_port", "usart_hi", "usart_7e2", "spi_eeprom",
+                                        "spi_mode3", "spi_noddr", "twi_rtc", "twi_nack", "twi1_rtc"};
     size_t i, bad = 0;
 
     for (i = 0; i < sizeof NAMES / sizeof NAMES[0]; i++) {

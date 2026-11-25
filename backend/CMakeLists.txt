@@ -24,6 +24,7 @@ add_library(logic STATIC
     src/models/capacitor.c
     src/models/mcu.c
     src/models/mcu_avr.c
+    src/models/mcu_avr_serial.c
     src/models/avr_cpu.c
     src/models/avr_instruction.c
     src/models/avr_dasm.c
@@ -239,7 +240,8 @@ logic_test(resistor_test)
 logic_test(transistor_test)
 logic_test(capacitor_test)
 logic_test(mcu_test)
-foreach(AVR_TEST avr_core_test avr_periph_test mcu_test)
+logic_test(avr_serial_test)
+foreach(AVR_TEST avr_core_test avr_periph_test mcu_test avr_serial_test)
     target_compile_definitions(${AVR_TEST} PRIVATE
         AVR_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/avr"
         AVR_TMP="${CMAKE_CURRENT_BINARY_DIR}")
