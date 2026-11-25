@@ -39,7 +39,7 @@ letters point here.
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-59 is complete and archived | `ls planning/plan-59-*.md` → no matches; `ls planning/completed/plan-59-*.md \| wc -l` → `4` | MET when plan-59-D phase 4 lands |
+| plan-59 is complete and archived | `ls planning/plan-59-*.md` → no matches; `ls planning/completed/plan-59-*.md \| wc -l` → `4` | MET (`4`, 2026-11-24) |
 | The spike's reference code is in the tree | `ls planning/plan-59-data/spike-H.patch planning/plan-59-data/findings.md` → both listed | MET |
 | Xcode 26 toolchain | `xcodebuild -version \| head -1` → `Xcode 26.3` | MET |
 | The undo tests pass before the change | `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/SchematicUndoTests -only-testing:schematicalTests/PCBUndoTests 2>&1 \| tail -3` → `** TEST SUCCEEDED **` | NOT RUN (run at the start of execution) |

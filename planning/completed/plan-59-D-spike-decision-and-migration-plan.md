@@ -132,11 +132,11 @@ Commit: c7430d52
 - [x] Remove both worktrees with the scratchpad script: `git worktree remove --force /Users/justinzaun/Development/logic/.claude/worktrees/spike-59-G` and `…/spike-59-H`; `git worktree prune`. — `scripts/closeout.sh` → `spike worktrees left: 0`.
 - [x] Delete the spike apps' sandbox data that can be removed: `ls ~/Library/Containers | rg 'spike59'`, remove what the system allows and name what it does not. — contents removed; the two empty folders `~/Library/Containers/jgz.schematical.spike59` and `…spike59h` remain (`rm: … Operation not permitted`), as does `jgz.sbxprobe` from planning.
 - [x] `git mv planning/plan-59-A-spike-document-core.md planning/plan-59-B-spike-documentgroup-app.md planning/plan-59-C-spike-hosted-nsdocument.md planning/plan-59-D-spike-decision-and-migration-plan.md planning/completed/`; `planning/plan-59-data/` stays beside the migration plan that cites it. — done in this commit.
-- [x] Tick every box in the four files and fill every `Commit:` line. — A, B, C filled when they landed; this file's phase 4 line is filled in the next commit.
+- [x] Tick every box in the four files and fill every `Commit:` line. — A, B, C filled when they landed; this file's phase 4 line: `ea4f8aa7`.
 
 Acceptance: no spike worktree remains; the four plans are archived.
   Check: `git worktree list | rg spike-59 | wc -l` → `0`; `ls planning/completed/plan-59-*.md | wc -l` → `4` (est. 10 min). — ran: `0` and `4`.
-Commit: (this commit; hash in the next)
+Commit: ea4f8aa7
 
 ## Validation Plan
 
