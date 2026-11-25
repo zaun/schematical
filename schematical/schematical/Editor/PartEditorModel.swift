@@ -630,6 +630,12 @@ final class PartEditorModel {
         panel.allowsMultipleSelection = false
         panel.canChooseDirectories = false
         guard await run(panel) == .OK, let url = panel.url else { return }
+        await open(url)
+    }
+
+    /// Opens the part file at `url` in this window, as `open()` does after
+    /// its panel. A file that cannot be read shows why; the draft is kept.
+    func open(_ url: URL) async {
         do {
             try load(text: try PartFileReader.read(url: url), from: url)
         } catch {

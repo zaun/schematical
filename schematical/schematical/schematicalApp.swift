@@ -133,14 +133,14 @@ struct schematicalApp: App {
         // One Part Editor per part being made (plan-32-C). File › New Part…
         // opens one on the Part Wizard's first step (plan-46-F).
         WindowGroup("Part Editor", id: PartEditorScene.id, for: PartEditorTarget.self) { $target in
-            if let target {
-                PartEditorWindowView(target: target)
-            }
+            PartEditorSceneRoot(target: $target)
         }
         // Wide enough for the Part Wizard's step list, step and preview.
         .defaultSize(width: 1120, height: 760)
         .restorationBehavior(.disabled)
-        .handlesExternalEvents(matching: [])
+        // The one scene that takes a file sent to the app: a `.schpart`
+        // opens in a Part Editor (plan-61-C). Schematics are documents and
+        // go to `SchematicNSDocument`.
         .commandsRemoved()
         .defaultLaunchBehavior(.suppressed)
 

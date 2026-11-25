@@ -345,7 +345,9 @@ final class GerberExportTests: XCTestCase {
         XCTAssertNil(document.fileURL, "an export is not a save")
         XCTAssertNil(controller.fileURL)
         // The exporter names its files after the document's file.
-        document.fileURL = URL(fileURLWithPath: "/tmp/My Board.schematical")
+        // The model's URL, which names the exports. Not the system document's:
+        // AppKit would then autosave this edited document to a file that is not there.
+        document.model.fileURL = URL(fileURLWithPath: "/tmp/My Board.schematical")
         XCTAssertEqual(controller.gerberBaseName, "My_Board")
     }
 

@@ -85,16 +85,24 @@ final class SchematicNSDocumentTests: XCTestCase {
     func testEachExampleReadsAndWritesAsBefore() throws {
         let files = try Self.exampleFiles()
         XCTAssertEqual(files.count, 10, "the examples: \(files.map(\.lastPathComponent))")
+        // The document is never given the example's URL: nothing here may
+        // lead AppKit to write into the repository.
+        let output = try temporaryFolder()
         for url in files {
             let document = newDocument()
             try document.read(from: url, ofType: Self.type)
-            document.fileURL = url
-            let written = try SchematicFile.decode(document.data(ofType: Self.type))
+            XCTAssertNil(document.fileURL)
+            // Written beside the example (in name only: `data(ofType:)` is
+            // given the destination by `writeSafely`), so load-file paths
+            // are relative to the example's folder, as the reference's are.
+            let copy = output.appendingPathComponent(url.lastPathComponent)
+            try document.writeSafely(to: copy, ofType: Self.type, for: .saveToOperation)
+            let written = try SchematicFile.decode(Data(contentsOf: copy))
 
             let reference = TestSupport.newDocument(library: PartCatalogStore.shared.library)
             _ = try SchematicFile.decode(Data(contentsOf: url))
                 .apply(to: reference, catalog: PartCatalogStore.shared, fileURL: url)
-            XCTAssertEqual(written, SchematicFile(document: reference, fileURL: url), url.lastPathComponent)
+            XCTAssertEqual(written, SchematicFile(document: reference, fileURL: copy), url.lastPathComponent)
             XCTAssertFalse(document.model.document.undoManager.canUndo, "an opened file has no undo history")
             XCTAssertFalse(document.isDocumentEdited, url.lastPathComponent)
         }
@@ -502,5 +510,32 @@ final class SchematicNSDocumentTests: XCTestCase {
         third.makeWindowControllers()
         addTeardownBlock { @MainActor in third.close() }
         XCTAssertTrue(NSDocumentController.shared.documents.contains(second))
+    }
+
+    // MARK: plan-61-C phase 4 — print
+
+    /// The document's own print operation (what File › Print… and the
+    /// system's print action run) is `PrintExport`'s pages, named after it.
+    func testThePrintOperationIsTheDocuments() throws {
+        let document = newDocument()
+        _ = try place("SN74HC00N", in: document, at: p(200, 200))
+        let operation = try document.printOperation(withSettings: [:])
+        XCTAssertEqual(operation.jobTitle, document.displayName)
+        XCTAssertEqual(operation.jobTitle, "Untitled")
+        XCTAssertTrue(document.model.file.systemDocument === document)
+    }
+
+    /// The unit tests never autosave: a test's document must not be written
+    /// to disk, or asked about, behind the test's back.
+    func testDocumentsDoNotAutosaveInTheTestHost() {
+        XCTAssertTrue(AppDelegate.isTestHost)
+        XCTAssertTrue(SchematicNSDocument.autosavesInPlace, "the app's documents autosave in place")
+        let document = newDocument()
+        _ = document.model.document.addNetLabel(at: p(100, 100))
+        TestSupport.turnRunLoop()
+        XCTAssertTrue(document.isDocumentEdited)
+        document.scheduleAutosaving()
+        XCTAssertFalse(document.hasUnautosavedChanges && document.autosavedContentsFileURL != nil)
+        XCTAssertNil(document.autosavedContentsFileURL)
     }
 }

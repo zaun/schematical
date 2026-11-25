@@ -224,7 +224,9 @@ final class EasyEDAProExportTests: XCTestCase {
         XCTAssertEqual(panel.allowedContentTypes.first?.preferredFilenameExtension, "epro")
         XCTAssertNil(panel.accessoryView, "no Format menu")
         let folder = FileManager.default.temporaryDirectory
-        document.fileURL = folder.appendingPathComponent("My Board.schematical")
+        // The model's URL, which names the exports. Not the system document's:
+        // AppKit would then autosave this edited document to a file that is not there.
+        document.model.fileURL = folder.appendingPathComponent("My Board.schematical")
         panel = exporter.exportPanel(.easyEDAPro)
         XCTAssertEqual(panel.nameFieldStringValue, "My Board.epro")
         XCTAssertEqual(panel.directoryURL?.standardizedFileURL, folder.standardizedFileURL)

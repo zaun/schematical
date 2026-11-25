@@ -33,6 +33,15 @@ final class SchematicNSDocument: NSDocument {
 
     nonisolated override class var autosavesInPlace: Bool { true }
 
+    /// Not in the app that hosts the unit tests: a test's document is edited
+    /// and kept for the life of the process, and AppKit would autosave it,
+    /// to a file the test never wrote or has already removed (it then asks
+    /// the user about a file they never saw).
+    override func scheduleAutosaving() {
+        guard !AppDelegate.isTestHost else { return }
+        super.scheduleAutosaving()
+    }
+
     override init() {
         model = SchematicEditorModel()
         super.init()
@@ -51,6 +60,7 @@ final class SchematicNSDocument: NSDocument {
         // items, and the Edited state, follow the document's own.
         undoManager = model.document.undoManager
         model.platformDocument = self
+        model.file.systemDocument = self
     }
 
     /// A file in AppKit's autosave folder belongs to a document with no place
@@ -132,6 +142,17 @@ final class SchematicNSDocument: NSDocument {
     private func snapshot() -> SchematicFile {
         model.document.willSave()
         return SchematicFile(document: model.document, fileURL: Self.relativeBase(destination ?? fileURL))
+    }
+}
+
+// MARK: - Printing
+
+extension SchematicNSDocument {
+    /// What the system prints for this document (File › Print… after its
+    /// pages sheet, and AppKit's own print action): `PrintExport`'s pages
+    /// with the choices last made in that sheet.
+    override func printOperation(withSettings printSettings: [NSPrintInfo.AttributeKey: Any]) throws -> NSPrintOperation {
+        try model.file.printOperation(PrintOptions.saved(), jobTitle: displayName)
     }
 }
 

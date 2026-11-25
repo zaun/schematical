@@ -4,6 +4,37 @@ import SwiftUI
 /// The Part Editor window (plan-32-C): a form for one custom part, checked by
 /// the backend's own loader as it is edited, saved as a `.schpart` file or
 /// added to the User Library.
+/// The Part Editor scene's root (plan-61-C). A window opened from the app
+/// has its target. A `.schpart` file sent to the app (a double-click in
+/// Finder, a drop on the Dock icon, `open -a`) arrives here as a URL, in a
+/// window SwiftUI made for it with no target, or in a Part Editor window
+/// already open: the first becomes an editor on that file, the second
+/// opens another window for it and keeps its own part.
+struct PartEditorSceneRoot: View {
+    @Binding var target: PartEditorTarget?
+    @Environment(\.openWindow) private var openWindow
+
+    var body: some View {
+        Group {
+            if let target {
+                PartEditorWindowView(target: target)
+                    .id(target.id)
+            } else {
+                Color.clear
+                    .frame(minWidth: 820, minHeight: 480)
+            }
+        }
+        .onOpenURL { url in
+            let opened = PartEditorTarget(source: .file(url))
+            if target == nil {
+                target = opened
+            } else {
+                openWindow(id: PartEditorScene.id, value: opened)
+            }
+        }
+    }
+}
+
 struct PartEditorWindowView: View {
     let target: PartEditorTarget
     @State private var model: PartEditorModel

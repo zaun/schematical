@@ -23,6 +23,11 @@ final class SchematicFileController {
     @ObservationIgnored
     weak var window: NSWindow?
 
+    /// The system document this exports and prints, set by it: Print… goes
+    /// through it.
+    @ObservationIgnored
+    weak var systemDocument: NSDocument?
+
     private let document: SchematicDocument
     private let catalog: PartCatalogStore
 
@@ -215,25 +220,39 @@ final class SchematicFileController {
     }
 
     /// File > Print…: the pages sheet (`PrintDialog`), then the system print panel for the PDF of those pages.
-    /// Pages are laid out for the sheet's paper and printed at their own size.
+    /// Pages are laid out for the sheet's paper and printed at their own size. The sheet saves its choices
+    /// and the document prints with them, the way the system's own print action does
+    /// (`SchematicNSDocument.printOperation(withSettings:)`).
     func printPages() async {
         guard let options = await runPrintOptions(PrintOptions.saved(), action: .print) else { return }
         options.save()
+        if let systemDocument {
+            systemDocument.print(withSettings: [:], showPrintPanel: true, delegate: nil, didPrint: nil, contextInfo: nil)
+            return
+        }
+        // With no system document (a window of its own): the operation, run here.
+        do {
+            let operation = try printOperation(options, jobTitle: displayName)
+            if let window {
+                operation.runModal(for: window, delegate: nil, didRun: nil, contextInfo: nil)
+            } else {
+                operation.run()
+            }
+        } catch {
+            present(error, title: "Couldn't print “\(displayName)”")
+        }
+    }
+
+    /// The print operation for the pages `options` choose: `PrintExport`'s PDF, each page at its own size.
+    /// Throws when no page is chosen or none has anything to draw.
+    func printOperation(_ options: PrintOptions, jobTitle: String) throws -> NSPrintOperation {
         guard let data = PrintExport.pdf(for: document, name: displayName, options),
-              let pdf = PDFDocument(data: data) else {
-            present(ExportError.nothingToPrint, title: "Couldn't print “\(displayName)”")
-            return
+              let pdf = PDFDocument(data: data),
+              let operation = PrintExport.printOperation(for: pdf, paper: options.paper) else {
+            throw ExportError.nothingToPrint
         }
-        guard let operation = PrintExport.printOperation(for: pdf, paper: options.paper) else {
-            present(ExportError.nothingToPrint, title: "Couldn't print “\(displayName)”")
-            return
-        }
-        operation.jobTitle = displayName
-        if let window {
-            operation.runModal(for: window, delegate: nil, didRun: nil, contextInfo: nil)
-        } else {
-            operation.run()
-        }
+        operation.jobTitle = jobTitle
+        return operation
     }
 
     /// File > Export > PDF…: the pages sheet, then where to save, then the file.

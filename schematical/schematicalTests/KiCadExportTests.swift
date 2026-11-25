@@ -194,7 +194,9 @@ final class KiCadExportTests: XCTestCase {
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent("kicad-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: directory) }
-        document.fileURL = directory.appendingPathComponent("My Board.schematical")
+        // The model's URL, which names the exports. Not the system document's:
+        // AppKit would then autosave this edited document to a file that is not there.
+        document.model.fileURL = directory.appendingPathComponent("My Board.schematical")
         XCTAssertEqual(exporter.kiCadFiles(in: directory).map(\.lastPathComponent),
                        ["My Board.kicad_pro", "My Board.kicad_sch", "My Board.kicad_pcb"])
         XCTAssertEqual(exporter.kiCadFolderPanel().directoryURL?.standardizedFileURL, directory.standardizedFileURL)
