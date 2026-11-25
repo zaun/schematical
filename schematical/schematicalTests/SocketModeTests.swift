@@ -104,13 +104,13 @@ final class SocketModeTests: XCTestCase {
     func testASocketThatDoesNotFitIsRefused() throws {
         let doc = TestSupport.newDocument()
         let placed = try gate(doc)
-        let undoName = doc.undoName(on: .schematic)
+        let undoName = doc.undoName
         doc.setPartSocket(placed.id, mode: .withSocket, socket: try socketPart("GENERIC-SOCKET-DIP-28-300"))
         doc.setPartSocket(placed.id, mode: .withSocket, socket: try socketPart("GENERIC-SOCKET-PLCC-44"))
         doc.setPartSocket(placed.id, mode: .withSocket, socket: try TestSupport.part("SN74HC00N"))
         doc.setPartSocket(placed.id, mode: .withSocket, socket: nil)
         XCTAssertNil(try chip(doc, placed.id).socket)
-        XCTAssertEqual(doc.undoName(on: .schematic), undoName)
+        XCTAssertEqual(doc.undoName, undoName)
     }
 
     func testAChipASocketCannotTakeKeepsNoSocket() throws {
@@ -192,17 +192,17 @@ final class SocketModeTests: XCTestCase {
         let boardBefore = try chip(doc, placed.id).board
         doc.setPartSocket(placed.id, mode: .withSocket, socket: try socketPart(generic14))
         doc.endCoalescing()
-        XCTAssertEqual(doc.undoName(on: .schematic), "Change Socket")
+        XCTAssertEqual(doc.undoName, "Change Socket")
         let after = try chip(doc, placed.id)
         XCTAssertNotNil(after.socket)
 
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertTrue(doc.undo())
         var now = try chip(doc, placed.id)
         XCTAssertNil(now.socket)
         XCTAssertEqual(now.footprint?.id, pdip14)
         XCTAssertEqual(now.board, boardBefore)
 
-        XCTAssertTrue(doc.redo(on: .schematic))
+        XCTAssertTrue(doc.redo())
         now = try chip(doc, placed.id)
         XCTAssertEqual(now.socket, after.socket)
         XCTAssertEqual(now.board, after.board)
@@ -210,7 +210,7 @@ final class SocketModeTests: XCTestCase {
         // The mode alone is one step too.
         doc.setPartSocket(placed.id, mode: .socketOnly, socket: nil)
         doc.endCoalescing()
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(try chip(doc, placed.id).socket?.mode, .withSocket)
     }
 

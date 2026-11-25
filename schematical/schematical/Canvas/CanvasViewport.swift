@@ -8,6 +8,10 @@ import Observation
 @MainActor
 @Observable
 final class CanvasViewport {
+    /// As `SchematicDocument`'s: an isolated deinit aborts the runtime when
+    /// a closing document frees this.
+    nonisolated deinit {}
+
     static let zoomLevels: [CGFloat] = [0.25, 0.5, 0.75, 1, 1.5, 2, 3]
 
     private(set) var zoom: CGFloat = 1

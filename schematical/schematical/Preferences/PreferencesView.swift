@@ -1,3 +1,4 @@
+import AppKit
 import SwiftUI
 
 /// UserDefaults keys for the app's preferences. `@AppStorage` saves changes as
@@ -47,6 +48,55 @@ nonisolated enum PreferenceKey {
     /// The last Autoroute options, as JSON (`RoutingOptions`, scope left
     /// out: it comes from the selection each time).
     static let autorouteOptions = "autorouteOptions"
+    /// Where new and opened documents go (a `DocumentTabs` raw value;
+    /// unset means tabs).
+    static let documentTabs = "documentTabs"
+}
+
+/// Settings ▸ General Defaults ▸ Open documents in (plan-61-C): whether a
+/// new or opened schematic is a tab of the window in front or a window of
+/// its own.
+enum DocumentTabs: String, CaseIterable, Identifiable {
+    /// Follow System Settings ▸ Desktop & Dock ▸ Prefer tabs when opening documents.
+    case system
+    case tabs
+    case windows
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .system: "System Setting"
+        case .tabs: "Tabs"
+        case .windows: "Windows"
+        }
+    }
+
+    /// What a document window is given.
+    var tabbingMode: NSWindow.TabbingMode {
+        switch self {
+        case .system: .automatic
+        case .tabs: .preferred
+        case .windows: .disallowed
+        }
+    }
+
+    /// The setting: Tabs while the key is unset.
+    static func current(defaults: UserDefaults = .standard) -> DocumentTabs {
+        defaults.string(forKey: PreferenceKey.documentTabs).flatMap(DocumentTabs.init(rawValue:)) ?? .tabs
+    }
+
+    /// Gives every open document window the setting, so the next document
+    /// opened follows it. Windows already open stay as they are arranged.
+    @MainActor
+    static func applyToOpenDocuments(defaults: UserDefaults = .standard) {
+        let mode = current(defaults: defaults).tabbingMode
+        for document in NSDocumentController.shared.documents where document is SchematicNSDocument {
+            for controller in document.windowControllers {
+                controller.window?.tabbingMode = mode
+            }
+        }
+    }
 }
 
 /// Settings ▸ General Defaults ▸ Names: how net label and bus wire names
@@ -222,11 +272,26 @@ private struct DefaultsPreferencesView: View {
     @AppStorage(PreferenceKey.pullResistorFootprint) private var pullFootprint = ""
     @AppStorage(PreferenceKey.uppercaseNames) private var uppercaseNames = true
     @AppStorage(PreferenceKey.playBuzzerSounds) private var playBuzzerSounds = true
+    @AppStorage(PreferenceKey.documentTabs) private var documentTabs = DocumentTabs.tabs.rawValue
     /// The app-wide catalog, loaded once at launch.
     private let catalog = PartCatalogStore.shared
 
     var body: some View {
         Form {
+            Section {
+                Picker("Open documents in", selection: $documentTabs) {
+                    ForEach(DocumentTabs.allCases) { choice in
+                        Text(choice.title).tag(choice.rawValue)
+                    }
+                }
+                .onChange(of: documentTabs) { DocumentTabs.applyToOpenDocuments() }
+            } header: {
+                Text("Documents")
+            } footer: {
+                Text("Tabs: a new or opened schematic is a tab of the window in front. Windows: each has a window of its own. System Setting follows Desktop & Dock ▸ Prefer tabs when opening documents.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
             Section {
                 Toggle("Play buzzer sounds", isOn: $playBuzzerSounds)
             } header: {

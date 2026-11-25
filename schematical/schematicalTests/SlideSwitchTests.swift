@@ -358,17 +358,17 @@ final class SlideSwitchTests: XCTestCase {
         let chip = try place(doc, "1101M2S3CQE2")
         let before = doc.state
         XCTAssertEqual(doc.setSlideState(chip.id, to: 2), 2)
-        XCTAssertEqual(doc.undoName(on: .schematic), "Move Switch")
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertEqual(doc.undoName, "Move Switch")
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.state, before)
         XCTAssertEqual(doc.chips[0].switchesOn, [true, false])
-        XCTAssertTrue(doc.redo(on: .schematic))
+        XCTAssertTrue(doc.redo())
         XCTAssertEqual(doc.chips[0].slidePosition, 2)
         // In play mode it is an input, not a step.
         doc.isPlaying = true
         XCTAssertEqual(doc.setSlideState(chip.id, to: 1), 1)
         doc.isPlaying = false
-        XCTAssertEqual(doc.undoName(on: .schematic), "Move Switch")
+        XCTAssertEqual(doc.undoName, "Move Switch")
     }
 
     /// A placed part drawn in every position keeps the netlist's closed

@@ -73,7 +73,10 @@ final class CustomFootprintDraftTests: XCTestCase {
         // dekatron base footprints and the crystal packages';
         // 932 with the card-slot footprints of plan-54-H to K (SOCK-, DIMM-, EDGE-; 294 more); 944 with the power switches of plan-55 (12 explicit).
         // 954 with the display-driver footprints of plan-56 that are explicit (10 more).
-        XCTAssertEqual(ids.count, 954)
+        // 1691, measured 2026-11-24 from `Parts/footprints.json` (3959 entries, 2268 of them parametric):
+        // the count had not been re-measured since 954 while plan-47 (relays, buzzers, inductors, fuses),
+        // plan-51 (sockets) and plan-58 (slide switches) added their explicit footprints.
+        XCTAssertEqual(ids.count, 1691)
         XCTAssertEqual(mismatched, [])
         XCTAssertEqual(rejected, [:])
     }

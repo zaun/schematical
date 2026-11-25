@@ -94,7 +94,7 @@ MainActor.assumeIsolated { run() }
             if i % 2 == 0 {
                 _ = document.connect(.point(CGPoint(x: -400, y: y)), .point(CGPoint(x: -200, y: y)))
             } else {
-                _ = document.undo(on: .schematic)
+                _ = document.undo()
             }
         }
         // The model alone, with no views hosted work to wait for.
@@ -105,7 +105,7 @@ MainActor.assumeIsolated { run() }
             _ = document.connect(.point(CGPoint(x: -400, y: y)), .point(CGPoint(x: -200, y: y)))
             connectMs.append((CACurrentMediaTime() - t) * 1000)
             t = CACurrentMediaTime()
-            _ = document.undo(on: .schematic)
+            _ = document.undo()
             undoMs.append((CACurrentMediaTime() - t) * 1000)
         }
         print(String(format: "  model only: connect %.1f ms, undo %.1f ms", connectMs.sorted()[5], undoMs.sorted()[5]))

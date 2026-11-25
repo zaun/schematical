@@ -88,6 +88,20 @@ out of), `set_keepout`, `add_board_text`, `lock`. `get_board` lists `POURS` and 
 `open`, `save`, `export_gerber`, `export_pdf`, `list_files`*(no window)*, `undo`, `redo`,
 `batch`.
 
+A window is a document (`SchematicNSDocument`): `list_windows` lists the
+open documents, with `unsaved` on one whose changes are not in its file
+(a schematic with a file saves itself as it is edited, so this is mostly
+one never saved). `new_window` makes a new untitled document and `open`
+opens a file as the app's File › Open does; neither needs a window to be
+open, and a file that is already open is not opened twice (`open` names
+its window). `save` with no path saves the document to its own file, and
+fails for one that has none (`This window has no file yet; pass a path.`).
+`save` with a path is a **Save As**: the file is written there and the
+window is that file's from then on.
+
+`undo` and `redo` act on the document: they undo or redo its last edit,
+whichever page made it, and take no page.
+
 `batch` runs a list of tool calls as **one undo step** (it wraps them in the
 model's gesture), stops at the first error and reports which call failed.
 
@@ -121,9 +135,11 @@ The server sends these as MCP `instructions` on connect
 | `AutomationFolder.swift` | The shared folder and path containment |
 | `Preferences/PreferencesView.swift` | Settings ▸ AI Agents |
 
-Hooks outside that folder: `SchematicSessions` (Memory/MemoryWindow.swift)
-lists windows with their file controller; `SchematicFileController` has
-`open(_:)` and `saveWithoutPanel(to:)`; `SimulationController.level(ofPin:on:)`;
+Hooks outside that folder: the open documents are
+`NSDocumentController.shared.documents`, each a `SchematicNSDocument` with
+its `SchematicEditorModel` (document, simulation, exporter); `new_window`,
+`open` and `save` call `NSDocumentController` and `NSDocument.save(to:ofType:for:)`;
+`SchematicExporter` writes the exports; `SimulationController.level(ofPin:on:)`;
 `PartCatalogStore.allParts`; the build setting
 `ENABLE_INCOMING_NETWORK_CONNECTIONS = YES` (the sandbox's server
 entitlement).

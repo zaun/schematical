@@ -2,7 +2,7 @@ import CoreGraphics
 import CryptoKit
 import Foundation
 
-/// File > Save As…, format EasyEDA Pro Project: the schematic and its board
+/// File › Export › EasyEDA Pro Project…: the schematic and its board
 /// as an EasyEDA Pro (JLCEDA Pro) project archive, `.epro`. See
 /// `docs/export.md` § EasyEDA Pro.
 ///

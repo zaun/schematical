@@ -1,126 +1,157 @@
-1	XOR2.1, XOR2.2, XOR2.3, XOR2.5 +34 more	Short circuit: copper joins 38 different nets
-2	BUS1.19, BUS1.20	Short circuit: copper joins 2 different nets
-3	R1.1, R1.2	Short circuit: copper joins 2 different nets
-4	BUS1.12, BUS1.13, BUS1.14, BUS1.15 +3 more	Short circuit: copper joins 7 different nets
-5	ADDR1.4 – NOR1.2	Unrouted: no copper joins these pads
-6	ADDR1.1 – NOR1.3	Unrouted: no copper joins these pads
-7	ADDR2.4 – NOR1.8	Unrouted: no copper joins these pads
-8	ADDR2.10 – BUS1.9	Unrouted: no copper joins these pads
-9	ADDR1.6 – XOR1.3	Unrouted: no copper joins these pads
-10	XOR1.4 – Edge.5	Unrouted: no copper joins these pads
-11	BUS1.19 – R1.1	Unrouted: no copper joins these pads
-12	ADDR1.5 – Edge.13	Unrouted: no copper joins these pads
-13	Edge.15 – ADDR1.14	Unrouted: no copper joins these pads
-14	ADDR2.6 – XOR2.3	Unrouted: no copper joins these pads
-15	ADDR2.15 – XOR2.8	Unrouted: no copper joins these pads
-16	ADDR2.5 – Edge.17	Unrouted: no copper joins these pads
-17	ADDR2.9 – Edge.9	Unrouted: no copper joins these pads
-18	Edge.35 – BUS1.12	Unrouted: no copper joins these pads
-19	BUS1.11 – Edge.36	Unrouted: no copper joins these pads
-20	R2.2 – C7.2	Unrouted: no copper joins these pads
-21	C7.2 – U44.3	Unrouted: no copper joins these pads
-22	U44.3 – C9.2	Unrouted: no copper joins these pads
-23	C7.2 – C5.2	Unrouted: no copper joins these pads
-24	C5.2 – NOR1.7	Unrouted: no copper joins these pads
+1	XOR2.6, XOR2.7, XOR1.6, XOR1.11 +3 more	Short circuit: copper joins 7 different nets
+2	XOR2.12, XOR2.13, XOR2.14, ADDR2.1 +11 more	Short circuit: copper joins 15 different nets
+3	ADDR2.7, ADDR2.8, ADDR1.10, ADDR1.13	Short circuit: copper joins 4 different nets
+4	C8.2, Edge.5	Short circuit: copper joins 2 different nets
+5	Edge.7, Edge.9	Short circuit: copper joins 2 different nets
+6	Edge.10, Edge.14	Short circuit: copper joins 2 different nets
+7	Edge.31, Edge.32	Short circuit: copper joins 2 different nets
+8	C9.1, C5.2, U44.4	Short circuit: copper joins 3 different nets
+9	ADDR1.4 – NOR1.2	Unrouted: no copper joins these pads
+10	ADDR1.1 – NOR1.3	Unrouted: no copper joins these pads
+11	NOR1.5 – ADDR1.13	Unrouted: no copper joins these pads
+12	NOR1.6 – ADDR1.10	Unrouted: no copper joins these pads
+13	ADDR2.4 – NOR1.8	Unrouted: no copper joins these pads
+14	ADDR2.10 – BUS1.9	Unrouted: no copper joins these pads
+15	R2.2 – C7.2	Unrouted: no copper joins these pads
+16	U44.3 – C9.2	Unrouted: no copper joins these pads
+17	C5.2 – NOR1.7	Unrouted: no copper joins these pads
+18	C2.2 – XOR2.7	Unrouted: no copper joins these pads
+19	C1.2 – C4.2	Unrouted: no copper joins these pads
+20	ADDR1.8 – AND1.10	Unrouted: no copper joins these pads
+21	AND1.10 – AND1.12	Unrouted: no copper joins these pads
+22	AND1.13 – C6.2	Unrouted: no copper joins these pads
+23	XOR1.7 – Edge.10	Unrouted: no copper joins these pads
+24	Edge.10 – Edge.8	Unrouted: no copper joins these pads
 25	Edge.6 – Edge.3	Unrouted: no copper joins these pads
 26	Edge.3 – Edge.4	Unrouted: no copper joins these pads
-27	Edge.3 – C8.2	Unrouted: no copper joins these pads
-28	XOR2.7 – C2.2	Unrouted: no copper joins these pads
-29	C2.2 – C3.2	Unrouted: no copper joins these pads
-30	C2.2 – BUS1.10	Unrouted: no copper joins these pads
-31	XOR2.7 – C1.2	Unrouted: no copper joins these pads
-32	C1.2 – C4.2	Unrouted: no copper joins these pads
-33	C1.2 – XOR1.7	Unrouted: no copper joins these pads
-34	C4.2 – ADDR1.8	Unrouted: no copper joins these pads
-35	ADDR1.8 – AND1.10	Unrouted: no copper joins these pads
-36	AND1.10 – AND1.9	Unrouted: no copper joins these pads
-37	AND1.10 – AND1.12	Unrouted: no copper joins these pads
-38	AND1.12 – AND1.13	Unrouted: no copper joins these pads
-39	AND1.13 – C6.2	Unrouted: no copper joins these pads
-40	AND1.9 – AND1.7	Unrouted: no copper joins these pads
-41	AND1.6 – Edge.11	Unrouted: no copper joins these pads
-42	D1.2 – U44.4	Unrouted: no copper joins these pads
-43	D1.1 – R2.1	Unrouted: no copper joins these pads
-44	AND1.14 – C6.1	Unrouted: no copper joins these pads
-45	AND1.14 – ADDR1.16	Unrouted: no copper joins these pads
-46	ADDR1.16 – C4.1	Unrouted: no copper joins these pads
-47	C4.1 – C1.1	Unrouted: no copper joins these pads
-48	C1.1 – XOR1.14	Unrouted: no copper joins these pads
-49	BUS1.1 – ADDR2.16	Unrouted: no copper joins these pads
-50	ADDR2.16 – C3.1	Unrouted: no copper joins these pads
-51	C3.1 – C2.1	Unrouted: no copper joins these pads
-52	C2.1 – XOR2.14	Unrouted: no copper joins these pads
-53	BUS1.1 – U44.5	Unrouted: no copper joins these pads
-54	U44.5 – C9.1	Unrouted: no copper joins these pads
-55	U44.5 – C7.1	Unrouted: no copper joins these pads
-56	C7.1 – NOR1.14	Unrouted: no copper joins these pads
-57	NOR1.14 – C5.1	Unrouted: no copper joins these pads
-58	C4.1 – R1.2	Unrouted: no copper joins these pads
-59	R1.2 – C8.1	Unrouted: no copper joins these pads
-60	C8.1 – Edge.1	Unrouted: no copper joins these pads
-61	Edge.1 – Edge.2	Unrouted: no copper joins these pads
-62	AND1.1 – NOR1.1	Unrouted: no copper joins these pads
-63	AND1.2 – NOR1.4	Unrouted: no copper joins these pads
-64	AND1.4 – NOR1.10	Unrouted: no copper joins these pads
-65	AND1.5 – NOR1.13	Unrouted: no copper joins these pads
-66	Trace 2	Not connected to any pad
-67	Trace 4	Not connected to any pad
-68	Trace 6	End at (36.195 mm, 15.3 mm) is not connected to anything
-69	Trace 8	Start at (14.605 mm, 21.91 mm) is not connected to anything
-70	Trace 8	End at (36.195 mm, 15.95 mm) is not connected to anything
-71	Trace 10	Start at (29.845 mm, 16.51 mm) is not connected to anything
-72	Trace 10	End at (41.995 mm, 16.6 mm) is not connected to anything
-73	Trace 12	Start at (33.655 mm, 16.51 mm) is not connected to anything
-74	Trace 12	End at (41.995 mm, 15.95 mm) is not connected to anything
-75	Trace 14	Start at (29.845 mm, 21.91 mm) is not connected to anything
-76	Trace 14	End at (37.465 mm, 28.575 mm) is not connected to anything
-77	Trace 16	Start at (26.035 mm, 21.91 mm) is not connected to anything
-78	Trace 16	End at (37.465 mm, 29.845 mm) is not connected to anything
-79	Trace 18	End at (15.875 mm, 16.51 mm) is not connected to anything
-80	Trace 20	Start at (26.755 mm, 31.84 mm) is not connected to anything
-81	Trace 20	End at (20.955 mm, 21.91 mm) is not connected to anything
-82	Trace 22	Start at (29.21 mm, 27.94 mm) is not connected to anything
-83	Trace 22	End at (29.21 mm, 29.89 mm) is not connected to anything
-84	Trace 24	Start at (26.755 mm, 29.24 mm) is not connected to anything
-85	Trace 26	Start at (35.01 mm, 29.24 mm) is not connected to anything
-86	Trace 26	End at (35.01 mm, 31.19 mm) is not connected to anything
-87	Trace 28	End at (20.955 mm, 27.94 mm) is not connected to anything
-88	Trace 32	Start at (9.525 mm, 31.115 mm) is not connected to anything
-89	Trace 32	End at (46.765 mm, 20.955 mm) is not connected to anything
-90	Trace 34	Start at (17.145 mm, 16.51 mm) is not connected to anything
-91	Trace 36	Start at (19.685 mm, 21.91 mm) is not connected to anything
-92	Trace 38	End at (27.305 mm, 16.51 mm) is not connected to anything
-93	Trace 40	Start at (35.01 mm, 31.84 mm) is not connected to anything
-94	Trace 40	End at (32.385 mm, 21.91 mm) is not connected to anything
-95	Trace 42	Start at (28.575 mm, 16.51 mm) is not connected to anything
-96	Trace 44	Start at (31.115 mm, 21.91 mm) is not connected to anything
-97	Trace 54	Start at (24.765 mm, 21.91 mm) is not connected to anything
-98	Trace 56	Start at (46.765 mm, 23.495 mm) is not connected to anything
-99	Trace 58	Start at (46.765 mm, 26.035 mm) is not connected to anything
-100	Trace 60	Start at (46.765 mm, 28.575 mm) is not connected to anything
-101	Trace 61	Not connected to any pad
-102	Via 4	Goes nowhere: only one trace or pad touches it
-103	Via 7	Goes nowhere: only one trace or pad touches it
-104	XOR1.7, Trace 47	Copper touches copper of another net
-105	ADDR1.14, Trace 35	Copper touches copper of another net
-106	BUS1.11, Trace 59	Copper touches copper of another net
-107	C4.2, Trace 19	Clearance 0.0415 mm; min 0.1 mm
-108	Edge.36, Trace 60	Copper touches copper of another net
-109	Trace 61	Copper 0 mm from the board edge; min 0.25 mm
-110	Via 16	Drill 0.15 mm under the 0.2 mm minimum
-111	C1	Pin-1 mark 0.0914 mm from pad XOR1.14; min silkscreen to pad 0.1524 mm
-112	C1	Reference over pad C1.2; min silkscreen to pad 0.1524 mm
-113	C2	Pin-1 mark 0.0914 mm from pad XOR2.14; min silkscreen to pad 0.1524 mm
-114	C2	Reference over pad C2.2; min silkscreen to pad 0.1524 mm
-115	C3	Reference over pad C3.2; min silkscreen to pad 0.1524 mm
-116	C4	Reference over pad C4.2; min silkscreen to pad 0.1524 mm
-117	C5	Pin-1 mark 0.0914 mm from pad NOR1.14; min silkscreen to pad 0.1524 mm
-118	C5	Reference over pad C5.2; min silkscreen to pad 0.1524 mm
-119	C6	Reference over pad C6.2; min silkscreen to pad 0.1524 mm
-120	C7	Reference over pad C7.1; min silkscreen to pad 0.1524 mm
-121	C8	Reference over pad C8.1; min silkscreen to pad 0.1524 mm
-122	C9	Reference over pad C9.2; min silkscreen to pad 0.1524 mm
-123	D1	Pin-1 mark 0.0753 mm from pad D1.1; min silkscreen to pad 0.1524 mm
-124	D1	Pin-1 mark over pad R2.1; min silkscreen to pad 0.1524 mm
-125	R1	Reference over pad R1.1; min silkscreen to pad 0.1524 mm
-126	U44	Reference over pad U44.2; min silkscreen to pad 0.1524 mm
+27	AND1.14 – C6.1	Unrouted: no copper joins these pads
+28	AND1.14 – ADDR1.16	Unrouted: no copper joins these pads
+29	ADDR1.16 – C4.1	Unrouted: no copper joins these pads
+30	C1.1 – XOR1.14	Unrouted: no copper joins these pads
+31	C2.1 – XOR2.14	Unrouted: no copper joins these pads
+32	R1.2 – C8.1	Unrouted: no copper joins these pads
+33	BUS1.1 – U44.5	Unrouted: no copper joins these pads
+34	C5.1 – NOR1.14	Unrouted: no copper joins these pads
+35	C9.1 – BUS1.20	Unrouted: no copper joins these pads
+36	XOR1.3 – ADDR1.6	Unrouted: no copper joins these pads
+37	XOR1.6 – ADDR1.2	Unrouted: no copper joins these pads
+38	XOR1.8 – ADDR1.15	Unrouted: no copper joins these pads
+39	XOR1.11 – ADDR1.11	Unrouted: no copper joins these pads
+40	XOR2.1 – XOR2.4	Unrouted: no copper joins these pads
+41	XOR2.4 – XOR1.12	Unrouted: no copper joins these pads
+42	XOR1.12 – XOR1.9	Unrouted: no copper joins these pads
+43	XOR1.12 – XOR1.4	Unrouted: no copper joins these pads
+44	XOR1.4 – XOR1.1	Unrouted: no copper joins these pads
+45	XOR2.4 – XOR2.12	Unrouted: no copper joins these pads
+46	XOR2.12 – XOR2.9	Unrouted: no copper joins these pads
+47	XOR1.1 – ADDR1.7	Unrouted: no copper joins these pads
+48	XOR1.4 – Edge.5	Unrouted: no copper joins these pads
+49	R1.1 – Edge.7	Unrouted: no copper joins these pads
+50	R1.1 – BUS1.19	Unrouted: no copper joins these pads
+51	BUS1.19 – U44.2	Unrouted: no copper joins these pads
+52	ADDR1.5 – Edge.13	Unrouted: no copper joins these pads
+53	ADDR1.3 – Edge.14	Unrouted: no copper joins these pads
+54	ADDR1.14 – Edge.15	Unrouted: no copper joins these pads
+55	ADDR1.12 – Edge.16	Unrouted: no copper joins these pads
+56	XOR2.3 – ADDR2.6	Unrouted: no copper joins these pads
+57	XOR2.6 – ADDR2.2	Unrouted: no copper joins these pads
+58	XOR2.8 – ADDR2.15	Unrouted: no copper joins these pads
+59	XOR2.11 – ADDR2.11	Unrouted: no copper joins these pads
+60	ADDR2.5 – Edge.17	Unrouted: no copper joins these pads
+61	ADDR2.3 – Edge.18	Unrouted: no copper joins these pads
+62	ADDR2.14 – Edge.19	Unrouted: no copper joins these pads
+63	ADDR2.12 – Edge.20	Unrouted: no copper joins these pads
+64	XOR1.2 – Edge.21	Unrouted: no copper joins these pads
+65	XOR1.5 – Edge.22	Unrouted: no copper joins these pads
+66	XOR1.10 – Edge.23	Unrouted: no copper joins these pads
+67	XOR1.13 – Edge.24	Unrouted: no copper joins these pads
+68	XOR2.2 – Edge.25	Unrouted: no copper joins these pads
+69	XOR2.5 – Edge.26	Unrouted: no copper joins these pads
+70	XOR2.10 – Edge.27	Unrouted: no copper joins these pads
+71	XOR2.13 – Edge.28	Unrouted: no copper joins these pads
+72	ADDR2.9 – Edge.9	Unrouted: no copper joins these pads
+73	BUS1.18 – Edge.29	Unrouted: no copper joins these pads
+74	BUS1.17 – Edge.30	Unrouted: no copper joins these pads
+75	BUS1.16 – Edge.31	Unrouted: no copper joins these pads
+76	BUS1.15 – Edge.32	Unrouted: no copper joins these pads
+77	BUS1.14 – Edge.33	Unrouted: no copper joins these pads
+78	BUS1.13 – Edge.34	Unrouted: no copper joins these pads
+79	BUS1.12 – Edge.35	Unrouted: no copper joins these pads
+80	BUS1.11 – Edge.36	Unrouted: no copper joins these pads
+81	AND1.6 – Edge.11	Unrouted: no copper joins these pads
+82	D1.2 – U44.4	Unrouted: no copper joins these pads
+83	D1.1 – R2.1	Unrouted: no copper joins these pads
+84	AND1.1 – NOR1.1	Unrouted: no copper joins these pads
+85	AND1.2 – NOR1.4	Unrouted: no copper joins these pads
+86	AND1.4 – NOR1.10	Unrouted: no copper joins these pads
+87	AND1.5 – NOR1.13	Unrouted: no copper joins these pads
+88	Trace 2	Not connected to any pad
+89	Trace 4	Not connected to any pad
+90	Trace 6	Not connected to any pad
+91	Trace 8	Not connected to any pad
+92	Trace 10	Not connected to any pad
+93	Trace 12	Not connected to any pad
+94	Trace 14	Start at (29.845 mm, 21.91 mm) is not connected to anything
+95	Trace 14	End at (37.465 mm, 28.575 mm) is not connected to anything
+96	Trace 16	Start at (26.035 mm, 21.91 mm) is not connected to anything
+97	Trace 16	End at (37.465 mm, 29.845 mm) is not connected to anything
+98	Trace 18	Not connected to any pad
+99	Trace 20	Start at (46.99 mm, 13.34 mm) is not connected to anything
+100	Trace 20	End at (44.705 mm, 17.78 mm) is not connected to anything
+101	Trace 22	Not connected to any pad
+102	Trace 24	Start at (32.005 mm, 24.13 mm) is not connected to anything
+103	Trace 26	End at (29.21 mm, 31.84 mm) is not connected to anything
+104	Trace 28	Not connected to any pad
+105	Trace 30	Not connected to any pad
+106	Trace 32	Start at (13.335 mm, 16.51 mm) is not connected to anything
+107	Trace 34	End at (10.48 mm, 15.24 mm) is not connected to anything
+108	Trace 36	Not connected to any pad
+109	Trace 38	Start at (20.955 mm, 31.84 mm) is not connected to anything
+110	Trace 43	Not connected to any pad
+111	Trace 46	Not connected to any pad
+112	Trace 48	Not connected to any pad
+113	Trace 50	Not connected to any pad
+114	Trace 52	Not connected to any pad
+115	Trace 54	Not connected to any pad
+116	Trace 56	Not connected to any pad
+117	Trace 58	Start at (45.085 mm, 12.065 mm) is not connected to anything
+118	Trace 58	End at (41.995 mm, 12.7 mm) is not connected to anything
+119	Trace 59	Not connected to any pad
+120	Via 1	Goes nowhere: only one trace or pad touches it
+121	Via 4	Goes nowhere: only one trace or pad touches it
+122	Via 8	Goes nowhere: only one trace or pad touches it
+123	Via 10	Goes nowhere: only one trace or pad touches it
+124	Via 11	Goes nowhere: only one trace or pad touches it
+125	Via 13	Goes nowhere: only one trace or pad touches it
+126	XOR2.5, Trace 27	Copper touches copper of another net
+127	XOR1.5, Trace 29	Copper touches copper of another net
+128	ADDR2.15, Trace 23	Copper touches copper of another net
+129	ADDR1.11, Trace 1	Clearance 0.0998 mm; min 0.1 mm
+130	ADDR1.14, Trace 31	Clearance 0.0691 mm; min 0.1 mm
+131	C3.2, Trace 49	Copper touches copper of another net
+132	C4.2, Trace 45	Clearance 0.0701 mm; min 0.1 mm
+133	Trace 4, Trace 30	Copper touches copper of another net
+134	Trace 10, Trace 54	Copper touches copper of another net
+135	Trace 14, Trace 24	Copper touches copper of another net
+136	Trace 14, Trace 52	Copper touches copper of another net
+137	Trace 16, Trace 52	Copper touches copper of another net
+138	Trace 23, Trace 49	Clearance 0.0559 mm; min 0.1 mm
+139	Trace 30, Trace 46	Copper touches copper of another net
+140	Trace 59	Copper 0 mm from the board edge; min 0.25 mm
+141	Via 16	Drill 0.15 mm under the 0.2 mm minimum
+142	C1	Pin-1 mark 0.0914 mm from pad XOR1.14; min silkscreen to pad 0.1524 mm
+143	C1	Reference over pad C1.2; min silkscreen to pad 0.1524 mm
+144	C2	Pin-1 mark 0.0914 mm from pad XOR2.14; min silkscreen to pad 0.1524 mm
+145	C2	Reference over pad C2.2; min silkscreen to pad 0.1524 mm
+146	C3	Reference over pad C3.2; min silkscreen to pad 0.1524 mm
+147	C4	Reference over pad C4.2; min silkscreen to pad 0.1524 mm
+148	C5	Pin-1 mark 0.0914 mm from pad NOR1.14; min silkscreen to pad 0.1524 mm
+149	C5	Reference over pad C5.2; min silkscreen to pad 0.1524 mm
+150	C6	Reference over pad C6.2; min silkscreen to pad 0.1524 mm
+151	C7	Reference over pad C7.1; min silkscreen to pad 0.1524 mm
+152	C8	Reference over pad C8.1; min silkscreen to pad 0.1524 mm
+153	C9	Reference over pad C9.2; min silkscreen to pad 0.1524 mm
+154	D1	Pin-1 mark 0.0753 mm from pad D1.1; min silkscreen to pad 0.1524 mm
+155	D1	Pin-1 mark over pad R2.1; min silkscreen to pad 0.1524 mm
+156	R1	Reference over pad R1.1; min silkscreen to pad 0.1524 mm
+157	U44	Reference over pad U44.2; min silkscreen to pad 0.1524 mm

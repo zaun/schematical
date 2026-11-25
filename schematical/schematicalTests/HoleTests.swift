@@ -16,7 +16,7 @@ final class HoleTests: XCTestCase {
     func testPlacingTakesTheLastHolesSettings() throws {
         let doc = TestSupport.newDocument()
         let first = doc.addHole(at: p(10.01, 10))
-        XCTAssertEqual(doc.undoName(on: .pcb), "Add Hole")
+        XCTAssertEqual(doc.undoName, "Add Hole")
         XCTAssertEqual(doc.selectedHoleID, first)
         var one = try hole(doc, first)
         XCTAssertEqual(one.size, .m3)
@@ -42,7 +42,7 @@ final class HoleTests: XCTestCase {
         doc.setHoleSize(id, .m2_5)
         XCTAssertEqual(try hole(doc, id).drill, 2.7)
         XCTAssertEqual(try hole(doc, id).diameter, 5.0)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Change Hole Size")
+        XCTAssertEqual(doc.undoName, "Change Hole Size")
 
         // Editing a size makes it Custom; the land keeps a ring round it.
         doc.setHoleDrill(id, 6)
@@ -147,7 +147,7 @@ final class HoleTests: XCTestCase {
 
         XCTAssertTrue(doc.deleteBoardSelection())
         XCTAssertTrue(doc.holes.isEmpty)
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.holes.map(\.id), [id])
         XCTAssertTrue(doc.deleteBoardItem(at: p(25, 20), tolerance: 0.1))
         XCTAssertTrue(doc.holes.isEmpty)

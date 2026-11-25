@@ -29,10 +29,6 @@ struct EditActions {
     var canResetReferences: Bool
 }
 
-extension FocusedValues {
-    /// Set by each schematic window while it is key.
-    @Entry var schematicEdit: EditActions?
-}
 
 /// One of the text-editing Edit menu items.
 enum EditMenuItem: CaseIterable {
@@ -58,19 +54,34 @@ enum EditMenuItem: CaseIterable {
 /// takes these keys first while no text field is being edited, so the
 /// items here run from a menu click, or for a text field.
 struct EditCommands: Commands {
-    @FocusedValue(\.schematicEdit) private var target
+    @FocusedValue(\.schematicEditor) private var editor
 
     var body: some Commands {
         CommandGroup(replacing: .pasteboard) {
-            Button("Cut") { perform(.cut) }
+            EditMenuItems(editor: editor)
+        }
+        // No Find, Spelling, Substitutions, Transformations or Speech.
+        CommandGroup(replacing: .textEditing) {}
+    }
+}
+
+/// A view, so Flip, Rotate and Reset References are rendered again when the
+/// selection, the page or the simulation they read changes (`EditorMenus`).
+private struct EditMenuItems: View {
+    let editor: SchematicEditorModel?
+
+    var body: some View {
+        let target = editor?.menus.edit?()
+        Group {
+            Button("Cut") { perform(.cut, target) }
                 .keyboardShortcut("x", modifiers: .command)
-            Button("Copy") { perform(.copy) }
+            Button("Copy") { perform(.copy, target) }
                 .keyboardShortcut("c", modifiers: .command)
-            Button("Paste") { perform(.paste) }
+            Button("Paste") { perform(.paste, target) }
                 .keyboardShortcut("v", modifiers: .command)
-            Button("Delete") { perform(.delete) }
+            Button("Delete") { perform(.delete, target) }
                 .keyboardShortcut(.delete, modifiers: .command)
-            Button("Select All") { perform(.selectAll) }
+            Button("Select All") { perform(.selectAll, target) }
                 .keyboardShortcut("a", modifiers: .command)
             Divider()
             // Flip is the Schematic's; Rotate is the PCB's, and the Schematic's
@@ -88,11 +99,9 @@ struct EditCommands: Commands {
             Button("Reset References…") { target?.resetReferences() }
                 .disabled(target?.canResetReferences != true)
         }
-        // No Find, Spelling, Substitutions, Transformations or Speech.
-        CommandGroup(replacing: .textEditing) {}
     }
 
-    private func perform(_ item: EditMenuItem) {
+    private func perform(_ item: EditMenuItem, _ target: EditActions?) {
         let textIsEditing = (NSApp.keyWindow?.firstResponder as? NSTextView)?.isEditable == true
         guard !textIsEditing, let target else {
             NSApp.sendAction(item.selector, to: nil, from: nil)

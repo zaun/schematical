@@ -22,19 +22,19 @@ final class SchematicUndoTests: XCTestCase {
     }
 
     /// Runs `edit`, which must change the file, then checks it is one step
-    /// named `name` on `page`: undo gives the file before, redo the file after.
-    private func assertStep(_ doc: SchematicDocument, _ name: String, page: EditorPage = .schematic,
+    /// named `name`: undo gives the file before, redo the file after.
+    private func assertStep(_ doc: SchematicDocument, _ name: String,
                             file: StaticString = #filePath, line: UInt = #line,
                             _ edit: () throws -> Void) rethrows {
         let before = self.file(doc)
         try edit()
         let after = self.file(doc)
         XCTAssertNotEqual(before, after, "the edit changed nothing", file: file, line: line)
-        XCTAssertEqual(doc.undoName(on: page), name, file: file, line: line)
-        XCTAssertTrue(doc.undo(on: page), file: file, line: line)
+        XCTAssertEqual(doc.undoName, name, file: file, line: line)
+        XCTAssertTrue(doc.undo(), file: file, line: line)
         XCTAssertEqual(self.file(doc), before, "undo", file: file, line: line)
-        XCTAssertEqual(doc.redoName(on: page), name, file: file, line: line)
-        XCTAssertTrue(doc.redo(on: page), file: file, line: line)
+        XCTAssertEqual(doc.redoName, name, file: file, line: line)
+        XCTAssertTrue(doc.redo(), file: file, line: line)
         XCTAssertEqual(self.file(doc), after, "redo", file: file, line: line)
     }
 
@@ -66,12 +66,11 @@ final class SchematicUndoTests: XCTestCase {
     func testPlaceChip() throws {
         let doc = TestSupport.newDocument()
         try assertStep(doc, "Add Part") { try TestSupport.place(doc, "SN74HC00N", at: p(200, 200)) }
-        XCTAssertEqual(doc.undoName(on: .pcb), "Add Part")
-        // Undone from the PCB, it leaves the Schematic list too.
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertEqual(doc.undoName, "Add Part")
+        XCTAssertTrue(doc.undo())
         XCTAssertTrue(doc.chips.isEmpty)
-        XCTAssertNil(doc.undoName(on: .schematic))
-        XCTAssertEqual(doc.redoName(on: .schematic), "Add Part")
+        XCTAssertNil(doc.undoName)
+        XCTAssertEqual(doc.redoName, "Add Part")
     }
 
     func testSetPartColor() throws {
@@ -79,7 +78,9 @@ final class SchematicUndoTests: XCTestCase {
         let led = try TestSupport.place(doc, "GENERIC-LED", at: p(100, 100))
         let other = try XCTUnwrap(led.part.colors.first { $0 != led.color })
         assertStep(doc, "Change Color") { doc.setPartColor(led.id, other) }
-        XCTAssertEqual(doc.undoName(on: .pcb), "Add Part", "a colour is not on the PCB list")
+        XCTAssertEqual(doc.undoName, "Change Color")
+        XCTAssertTrue(doc.undo())
+        XCTAssertEqual(doc.undoName, "Add Part")
     }
 
     func testSetPartGender() throws {
@@ -94,7 +95,7 @@ final class SchematicUndoTests: XCTestCase {
         let header = try TestSupport.place(doc, "GENERIC-HEADER-1X08", at: p(200, 200))
         let smaller = try TestSupport.part("GENERIC-HEADER-1X04")
         assertStep(doc, "Change Size") { doc.setHeaderSize(header.id, to: smaller) }
-        XCTAssertEqual(doc.undoName(on: .pcb), "Change Size")
+        XCTAssertEqual(doc.undoName, "Change Size")
     }
 
     func testSetPartOhms() throws {
@@ -107,30 +108,32 @@ final class SchematicUndoTests: XCTestCase {
         let doc = TestSupport.newDocument()
         let pull = try TestSupport.place(doc, "PULLUP-5V", at: p(100, 100))
         assertStep(doc, "Change Footprint") { doc.setPartFootprint(pull.id, "RES-0805") }
-        XCTAssertEqual(doc.undoName(on: .pcb), "Change Footprint")
+        XCTAssertEqual(doc.undoName, "Change Footprint")
     }
 
     func testRenameChip() throws {
         let doc = TestSupport.newDocument()
         let part = try TestSupport.place(doc, "SN74HC00N", at: p(200, 200))
         assertStep(doc, "Rename") { XCTAssertNil(doc.renameChip(part.id, prefix: "U", number: 7, page: .schematic)) }
-        XCTAssertEqual(doc.undoName(on: .pcb), "Rename")
+        XCTAssertEqual(doc.undoName, "Rename")
     }
 
-    func testRenameChipFromThePCBIsOnBoth() throws {
+    func testRenameChipFromThePCB() throws {
         let doc = TestSupport.newDocument()
         let part = try TestSupport.place(doc, "SN74HC00N", at: p(200, 200))
-        assertStep(doc, "Rename", page: .pcb) {
+        assertStep(doc, "Rename") {
             XCTAssertNil(doc.renameChip(part.id, prefix: "IC", number: 3, page: .pcb))
         }
-        XCTAssertEqual(doc.undoName(on: .schematic), "Rename")
+        XCTAssertEqual(doc.undoName, "Rename")
     }
 
     func testFlipChip() throws {
         let doc = TestSupport.newDocument()
         let part = try TestSupport.place(doc, "SN74HC00N", at: p(200, 200))
         assertStep(doc, "Flip") { doc.flipChip(part.id) }
-        XCTAssertEqual(doc.undoName(on: .pcb), "Add Part")
+        XCTAssertEqual(doc.undoName, "Flip")
+        XCTAssertTrue(doc.undo())
+        XCTAssertEqual(doc.undoName, "Add Part")
     }
 
     func testMoveSchematicGroup() throws {
@@ -345,25 +348,27 @@ final class SchematicUndoTests: XCTestCase {
         c.doc.erase(at: CGPoint(x: body.midX, y: body.midY))
         XCTAssertNotNil(c.doc.pendingRemoval)
         assertStep(c.doc, "Delete") { c.doc.confirmPendingRemoval() }
-        XCTAssertNotEqual(c.doc.undoName(on: .pcb), "Delete", "ports are Schematic only")
+        XCTAssertEqual(c.doc.undoName, "Delete")
     }
 
     func testEraseAPart() throws {
         let c = try wiredPair()
         assertStep(c.doc, "Delete") { c.doc.erase(at: centre(c.right)) }
-        XCTAssertEqual(c.doc.undoName(on: .pcb), "Delete")
-        // Undone from the PCB, it leaves the Schematic list too.
-        XCTAssertTrue(c.doc.undo(on: .pcb))
+        XCTAssertEqual(c.doc.undoName, "Delete")
+        XCTAssertTrue(c.doc.undo())
         XCTAssertNotNil(c.doc.chips.first { $0.id == c.right.id })
-        XCTAssertNotEqual(c.doc.undoName(on: .schematic), "Delete")
+        XCTAssertEqual(c.doc.undoName, "Add Wire")
+        XCTAssertEqual(c.doc.redoName, "Delete")
     }
 
-    func testEraseAWireIsSchematicOnly() throws {
+    func testEraseAWire() throws {
         let c = try wiredPair()
         let path = c.doc.path(forWire: c.wire)
         let a = path[0], b = path[1]
         assertStep(c.doc, "Delete") { c.doc.erase(at: p((a.x + b.x) / 2, (a.y + b.y) / 2)) }
-        XCTAssertEqual(c.doc.undoName(on: .pcb), "Add Part")
+        XCTAssertEqual(c.doc.undoName, "Delete")
+        XCTAssertTrue(c.doc.undo())
+        XCTAssertEqual(c.doc.undoName, "Add Wire")
     }
 
     // MARK: plan-30 cases
@@ -384,13 +389,13 @@ final class SchematicUndoTests: XCTestCase {
         c.doc.settleSchematicGroup(base)
         c.doc.endGesture()
         XCTAssertFalse(c.doc.hasLooseEnd(try XCTUnwrap(c.doc.wires.first)), "connected on drop")
-        XCTAssertEqual(c.doc.undoName(on: .schematic), "Move")
-        XCTAssertTrue(c.doc.undo(on: .schematic))
+        XCTAssertEqual(c.doc.undoName, "Move")
+        XCTAssertTrue(c.doc.undo())
         XCTAssertEqual(c.doc.state, placed)
         XCTAssertTrue(c.doc.hasLooseEnd(try XCTUnwrap(c.doc.wires.first)))
         XCTAssertEqual(try chip(c.doc, new.id).origin, new.origin)
-        XCTAssertEqual(c.doc.undoName(on: .schematic), "Add Part")
-        XCTAssertTrue(c.doc.undo(on: .schematic))
+        XCTAssertEqual(c.doc.undoName, "Add Part")
+        XCTAssertTrue(c.doc.undo())
         XCTAssertEqual(c.doc.state, loose)
     }
 
@@ -407,7 +412,7 @@ final class SchematicUndoTests: XCTestCase {
         let wires = doc.wires
         doc.erase(at: centre(left))
         XCTAssertTrue(doc.junctions.contains(where: \.isLoose))
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.wires, wires)
         XCTAssertTrue(doc.wires.allSatisfy { $0.start == .pin(y) })
         XCTAssertFalse(doc.junctions.contains(where: \.isLoose))
@@ -427,10 +432,10 @@ final class SchematicUndoTests: XCTestCase {
         }
         c.doc.settleSchematicGroup(base)
         c.doc.endGesture()
-        XCTAssertEqual(c.doc.undoName(on: .schematic), "Move")
-        XCTAssertTrue(c.doc.undo(on: .schematic))
+        XCTAssertEqual(c.doc.undoName, "Move")
+        XCTAssertTrue(c.doc.undo())
         XCTAssertEqual(c.doc.state, before)
-        XCTAssertEqual(c.doc.undoName(on: .schematic), "Add Wire")
+        XCTAssertEqual(c.doc.undoName, "Add Wire")
     }
 
     /// The lever click path: a zero-delta move, then the flip.
@@ -445,8 +450,8 @@ final class SchematicUndoTests: XCTestCase {
         XCTAssertEqual(doc.toggleSwitch(dip.id, position: 1), true)
         doc.settleSchematicGroup(base)
         doc.endGesture()
-        XCTAssertEqual(doc.undoName(on: .schematic), "Flip Switch")
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertEqual(doc.undoName, "Flip Switch")
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.state, before)
     }
 
@@ -459,8 +464,8 @@ final class SchematicUndoTests: XCTestCase {
         doc.moveSchematicGroup(base, by: CGSize(width: 2, height: 1))   // under half a grid step
         doc.settleSchematicGroup(base)
         doc.endGesture()
-        XCTAssertEqual(doc.undoName(on: .schematic), "Add Part")
-        XCTAssertNil(doc.redoName(on: .schematic))
+        XCTAssertEqual(doc.undoName, "Add Part")
+        XCTAssertNil(doc.redoName)
     }
 
     /// A gesture SwiftUI never ended is closed by the next one, as its own step.
@@ -475,10 +480,10 @@ final class SchematicUndoTests: XCTestCase {
         doc.flipChip(part.id)
         doc.endGesture()
         XCTAssertFalse(doc.isGestureOpen)
-        XCTAssertEqual(doc.undoName(on: .schematic), "Flip")
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertEqual(doc.undoName, "Flip")
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.state, moved)
-        XCTAssertEqual(doc.undoName(on: .schematic), "Move")
+        XCTAssertEqual(doc.undoName, "Move")
     }
 
     /// Undo closes an open gesture first, so it is never blocked.
@@ -488,7 +493,7 @@ final class SchematicUndoTests: XCTestCase {
         let before = doc.state
         doc.beginGesture(.schematic)
         doc.flipChip(part.id)
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertTrue(doc.undo())
         XCTAssertFalse(doc.isGestureOpen)
         XCTAssertEqual(doc.state, before)
     }
@@ -503,12 +508,12 @@ final class SchematicUndoTests: XCTestCase {
         doc.setNoteText(id, "Clo")
         doc.endCoalescing()
         doc.setNoteText(id, "Clock")
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.notes.first?.text, "Clo")
-        XCTAssertEqual(doc.undoName(on: .schematic), "Edit Text")
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertEqual(doc.undoName, "Edit Text")
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.notes.first?.text, SchematicNote.placeholder)
-        XCTAssertEqual(doc.undoName(on: .schematic), "Add Text")
+        XCTAssertEqual(doc.undoName, "Add Text")
     }
 
     func testPlayingSwitchFlipIsNotAStep() throws {
@@ -517,7 +522,7 @@ final class SchematicUndoTests: XCTestCase {
         doc.isPlaying = true
         XCTAssertEqual(doc.toggleSwitch(dip.id, position: 1), true)
         doc.isPlaying = false
-        XCTAssertEqual(doc.undoName(on: .schematic), "Add Part")
+        XCTAssertEqual(doc.undoName, "Add Part")
     }
 
     /// The simulation sets `isPlaying` for the run and clears it on Stop.

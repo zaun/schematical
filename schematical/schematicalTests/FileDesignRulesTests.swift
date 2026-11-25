@@ -1,4 +1,5 @@
 import Foundation
+import UniformTypeIdentifiers
 import XCTest
 @testable import schematical
 
@@ -9,7 +10,6 @@ import XCTest
 final class FileDesignRulesTests: XCTestCase {
     /// Kept for the life of the test process: freeing a main-actor object in
     /// a test aborts the host.
-    private static var kept: [SchematicFileController] = []
 
     /// Rules unlike any manufacturer's and unlike the app's defaults.
     private var odd: DesignRules {
@@ -110,10 +110,10 @@ final class FileDesignRulesTests: XCTestCase {
         let doc = TestSupport.newDocument()
         let before = doc.board
         doc.setDesignRules(odd, manufacturer: .jlcpcb)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Change Design Rules")
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertEqual(doc.undoName, "Change Design Rules")
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.board, before)
-        XCTAssertTrue(doc.redo(on: .pcb))
+        XCTAssertTrue(doc.redo())
         XCTAssertEqual(doc.board.rules, odd)
     }
 
@@ -127,31 +127,35 @@ final class FileDesignRulesTests: XCTestCase {
         XCTAssertEqual(doc.board.rules.minClearance, 0)
     }
 
-    /// Through the window's own file code, on disk: a rule change makes
-    /// the window unsaved, Save writes it, and Open in a blank window on
-    /// the same Mac reads the file's rules, not the app's.
-    func testSaveAndOpenThroughTheWindowsFileCode() async throws {
+    /// Through the document's own file code, on disk: a rule change marks
+    /// the document edited, Save writes it, and a document opened on the
+    /// same Mac reads the file's rules, not the app's.
+    func testSaveAndOpenThroughTheDocument() async throws {
         let url = FileManager.default.temporaryDirectory
             .appendingPathComponent("plan49-\(UUID().uuidString).schematical")
         defer { try? FileManager.default.removeItem(at: url) }
+        let type = SchematicFile.contentType.identifier
         let doc = TestSupport.newDocument()
-        let window = SchematicFileController(document: doc, catalog: TestSupport.catalog, willReplaceDocument: {})
-        Self.kept.append(window)
-        XCTAssertFalse(window.hasUnsavedChanges)
+        let document = TestSupport.systemDocument(of: doc)
+        XCTAssertFalse(document.isDocumentEdited)
         doc.setDesignRules(odd, manufacturer: .jlcpcb)
-        XCTAssertTrue(window.hasUnsavedChanges, "a rule change is a change to the file")
-        XCTAssertNil(window.saveWithoutPanel(to: url))
-        XCTAssertFalse(window.hasUnsavedChanges)
+        TestSupport.turnRunLoop()
+        XCTAssertTrue(document.isDocumentEdited, "a rule change is a change to the file")
+        let failure: Error? = await withCheckedContinuation { continuation in
+            document.save(to: url, ofType: type, for: .saveAsOperation) { continuation.resume(returning: $0) }
+        }
+        XCTAssertNil(failure)
+        XCTAssertEqual(document.fileURL, url)
+        XCTAssertFalse(document.isDocumentEdited)
         XCTAssertTrue(String(decoding: try Data(contentsOf: url), as: UTF8.self).contains("\"minClearance\" : 0.37"))
 
-        let other = TestSupport.newDocument()
-        let blank = SchematicFileController(document: other, catalog: TestSupport.catalog, willReplaceDocument: {})
-        Self.kept.append(blank)
-        await blank.open(url)
-        XCTAssertEqual(blank.fileURL, url)
+        let opened = TestSupport.keep(SchematicNSDocument())
+        try opened.read(from: url, ofType: type)
+        let other = opened.model.document
         XCTAssertEqual(other.board.rules, odd)
         XCTAssertEqual(other.board.rulesTitle, "JLCPCB (modified)")
-        XCTAssertFalse(blank.hasUnsavedChanges)
+        XCTAssertFalse(opened.isDocumentEdited)
+        XCTAssertFalse(other.undoManager.canUndo)
     }
 
     // MARK: Readers

@@ -104,8 +104,10 @@ struct PCBCanvasView: View {
     @State private var pressLocation: CGPoint = .zero
     /// What the current press did to the selection; a click finishes it.
     @State private var selectionPress: SelectionPress<BoardItem>?
-    /// Space, `/` and Esc while a trace is being drawn.
-    @State private var drawingKeyMonitor: Any?
+    /// Space, `/` and Esc while a trace is being drawn. Installed through
+    /// the editor's monitors, which the document empties when it closes.
+    @State private var drawingKeyMonitor: UUID?
+    @Environment(\.editorEventMonitors) private var eventMonitors
     /// The Trace assist for the trace being drawn, built at its press.
     @State private var assist: AssistRouter?
     /// The layer the trace being drawn is on: `traceLayer` at the press,
@@ -244,13 +246,13 @@ struct PCBCanvasView: View {
 
     private func installDrawingKeyMonitor() {
         guard drawingKeyMonitor == nil else { return }
-        drawingKeyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+        drawingKeyMonitor = eventMonitors.add(matching: .keyDown) { event in
             handleDrawingKey(event) ? nil : event
         }
     }
 
     private func removeDrawingKeyMonitor() {
-        if let drawingKeyMonitor { NSEvent.removeMonitor(drawingKeyMonitor) }
+        eventMonitors.remove(drawingKeyMonitor)
         drawingKeyMonitor = nil
     }
 
@@ -1164,6 +1166,9 @@ enum ReferenceDragging {
 @MainActor
 final class BoardPointer {
     var point: CGPoint?
+
+    /// As `TraceKeyContext`'s: an isolated deinit aborts the runtime.
+    nonisolated deinit {}
 }
 
 /// The Trace tool's layer and angle as they are now. The canvas's key

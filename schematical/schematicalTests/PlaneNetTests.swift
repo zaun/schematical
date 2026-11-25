@@ -75,8 +75,8 @@ final class PlaneNetTests: XCTestCase {
     func testNetIsOneUndoStepOnThePCB() throws {
         let (doc, _, _) = try board()
         doc.setLayerNet(.inner(2), .rail(mv: 5000))
-        XCTAssertEqual(doc.undoName(on: .pcb), "Change Plane Net")
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertEqual(doc.undoName, "Change Plane Net")
+        XCTAssertTrue(doc.undo())
         XCTAssertNil(doc.board.style(of: .inner(2)).net)
     }
 

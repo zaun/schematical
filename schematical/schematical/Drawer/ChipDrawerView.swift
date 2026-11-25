@@ -639,6 +639,10 @@ private struct ScrollWindow: Equatable {
 /// class, not observed: `ChipDrawerView.body` reads and fills it.
 @MainActor
 private final class DrawerMemo {
+    /// As `SchematicDocument`'s: an isolated deinit aborts the runtime when
+    /// a closing document frees this.
+    nonisolated deinit {}
+
     private struct GroupsKey: Equatable {
         let filter: DrawerFilter
         let partCount: Int

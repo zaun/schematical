@@ -34,7 +34,7 @@ final class BusTypeTests: XCTestCase {
         let second = try XCTUnwrap(doc.addBus(from: p(100, 400), to: p(300, 400)))
         XCTAssertNil(doc.setBusName(first, "  ISA slot  "))
         XCTAssertEqual(try bus(doc, first).name, "ISA slot")
-        XCTAssertEqual(doc.undoName(on: .schematic), "Rename Bus")
+        XCTAssertEqual(doc.undoName, "Rename Bus")
         XCTAssertEqual(doc.setBusName(second, "isa SLOT"), "isa SLOT is already used by another bus.")
         XCTAssertEqual(doc.setBusName(second, " "), "A bus name can't be empty.")
         XCTAssertEqual(try bus(doc, second).name, "BUS 2")
@@ -56,7 +56,7 @@ final class BusTypeTests: XCTestCase {
         XCTAssertEqual(isa.wires[31].name, "B1")
         XCTAssertEqual(isa.wires.last?.name, "B31")
         XCTAssertEqual(Array(isa.wires.prefix(8).map(\.id)), before.map(\.id), "existing wires keep their ids")
-        XCTAssertEqual(doc.undoName(on: .schematic), "Change Bus Type")
+        XCTAssertEqual(doc.undoName, "Change Bus Type")
 
         // The type sets the wires: no count or name edits.
         XCTAssertNotNil(doc.setBusWireCount(id, 10))
@@ -90,8 +90,8 @@ final class BusTypeTests: XCTestCase {
         XCTAssertEqual(try bus(doc, id).wires.count, 12)
 
         // Undo goes back a step at a time.
-        XCTAssertTrue(doc.undo(on: .schematic))
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertTrue(doc.undo())
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(try bus(doc, id).card.type, .atari8bit)
     }
 
@@ -186,7 +186,7 @@ final class BusTypeTests: XCTestCase {
         XCTAssertNil(doc.edgeBusID, "the wrong count is ignored")
         doc.setEdgeBus(isaBus)
         XCTAssertEqual(doc.edgeBusID, isaBus)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Change Card Bus")
+        XCTAssertEqual(doc.undoName, "Change Card Bus")
 
         // Its count is locked; its names aren't.
         XCTAssertEqual(doc.setBusWireCount(isaBus, 64), "BUS 1 is in use as the card edge; its wire count is locked.")
@@ -219,8 +219,8 @@ final class BusTypeTests: XCTestCase {
         doc.setBoardType(.isa8)
         XCTAssertNil(doc.edgeBusID, "not brought back")
         // Undo brings back the card and its link together.
-        XCTAssertTrue(doc.undo(on: .pcb))
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.edgeBusID, isaBus)
         doc.setEdgeBus(nil)
         XCTAssertNil(doc.board.edgeBus)
@@ -327,7 +327,7 @@ final class BusTypeTests: XCTestCase {
         // Linked: the other's exact name, type and wires; its own wire ids.
         let before = try bus(doc, second.bus).wires.map(\.id)
         XCTAssertNil(doc.setBusName(second.bus, "DATA", link: true))
-        XCTAssertEqual(doc.undoName(on: .schematic), "Rename Bus")
+        XCTAssertEqual(doc.undoName, "Rename Bus")
         let linked = try bus(doc, second.bus)
         XCTAssertEqual(linked.name, "Data")
         XCTAssertEqual(linked.card, card)
@@ -358,7 +358,7 @@ final class BusTypeTests: XCTestCase {
         XCTAssertNotEqual(nets().0, nets().1)
 
         // Undo links them again.
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(nets().0, nets().1)
     }
 
@@ -500,7 +500,7 @@ final class BusTypeTests: XCTestCase {
         // The wire keeps its id and name and takes the new place; its port
         // wire stays on it.
         XCTAssertNil(doc.moveBusWire(bus: first.bus, wire: wired.id, to: 5))
-        XCTAssertEqual(doc.undoName(on: .schematic), "Reorder Bus Wires")
+        XCTAssertEqual(doc.undoName, "Reorder Bus Wires")
         let moved = try bus(doc, first.bus).wires
         XCTAssertEqual(moved[5], wired)
         XCTAssertEqual(moved.map(\.name), ["B0", "B1", "B3", "B4", "B5", "B2", "B6", "B7"])
@@ -513,8 +513,8 @@ final class BusTypeTests: XCTestCase {
         XCTAssertNil(doc.moveBusWire(bus: first.bus, wire: wired.id, to: -3))
         XCTAssertEqual(try bus(doc, first.bus).wires.first, wired)
 
-        XCTAssertTrue(doc.undo(on: .schematic))
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertTrue(doc.undo())
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(try bus(doc, first.bus).wires, before)
 
         // A card type sets the order.

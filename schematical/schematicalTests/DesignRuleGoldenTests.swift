@@ -7,6 +7,16 @@ import XCTest
 /// moved the DRC's copper geometry into `Routing/CopperGeometry.swift`, and
 /// never regenerated to make a change pass). A missing golden is written
 /// and the test fails, so a new one is looked at before it is committed.
+///
+/// Regenerated once, 2026-11-24, for a change of order and not of findings.
+/// f972c269 (a bus wire named like a supply is on that rail) renumbered the
+/// nets, and the check lists the unrouted lines in net order: the test
+/// passed at the commit before and failed at it, and the DRC code was not
+/// in that commit. On AFU, LFU and RegFile the lines were the same as the
+/// goldens' as a set (0 only in the golden, 0 only in the output; RegFile's
+/// file did not change), so AFU and LFU are the same lines renumbered.
+/// AFU-copper lays its copper along the first 60 unrouted lines, so the new
+/// order makes it a different board, and its golden is a new one.
 @MainActor
 final class DesignRuleGoldenTests: XCTestCase {
     static func render(_ issues: [DesignRuleIssue]) -> String {

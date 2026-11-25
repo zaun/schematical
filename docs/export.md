@@ -1,11 +1,14 @@
 # Export
 
-**File > Save As…** (and Save of a window with no file yet) has a **Format**
-menu: Schematical, **KiCad Project** ([KiCad](#kicad)) or **EasyEDA Pro
-Project** ([EasyEDA Pro](#easyeda-pro)). **File > Export** (after Save As…) has two items: **Image…** (⇧⌘E), a
+**File › Export** (after the document's Save, Duplicate, Rename…, Move To… and Revert To
+items) has five items. **KiCad Project…** ([KiCad](#kicad)) and **EasyEDA Pro
+Project…** ([EasyEDA Pro](#easyeda-pro)) write the whole design for another tool; the Save
+panel has no Format menu. **Image…** (⇧⌘E), a
 picture of the focused window's schematic, PCB page or made board, and
 **PDF…**, the schematic and each PCB layer at 1:1 (see [PDF and print](#pdf-and-print)), and
 **Gerber PCB…**, its board as Gerber files (see Gerber below). **File > Print…** (⌘P) prints the same pages.
+The exports and Print are `SchematicExporter`'s, one per document; an export is never a save, and
+does not mark the document edited.
 
 ## Image
 
@@ -180,7 +183,10 @@ References, Part Number, Package, Value, Color, Description) and **Export JLCPCB
 
 **File > Print…** (⌘P) and **File > Export > PDF…** open one options sheet over the window, with a live
 preview of the PDF; its button is **Print…** (the system print panel, for the same PDF) or **Save PDF…** (the save
-panel, `<window name>.pdf`). Simulation's Run / Stop is ⌥⌘P. The paper, Mirror, Negative and Registration marks
+panel, `<window name>.pdf`). Printing goes through the document: after the sheet, Print… asks the document to
+print (`NSDocument.print`), and the document's `printOperation(withSettings:)` makes the operation from
+`PrintExport`'s PDF with the sheet's choices. The system's own print action (with no sheet) reaches the same
+method and prints every page with the saved paper and marks. Simulation's Run / Stop is ⌥⌘P. The paper, Mirror, Negative and Registration marks
 are remembered between prints (`PrintOptions.saved`); the page choices are not (a board's layers differ).
 
 **Paper** is Letter, Legal, Tabloid, A4 or A3 (Letter where the system measures in inches, else A4). Every page is
@@ -216,12 +222,15 @@ board, `mirror`, `negative`, `marks`), see [agent-control.md](agent-control.md).
 
 ## KiCad
 
-**File > Save As…**, Format **KiCad Project**, writes the schematic and its
-board as a KiCad 8 project (KiCad 8 and later open it): next to the chosen
-file, `<name>.kicad_pro`, `<name>.kicad_sch` and `<name>.kicad_pcb`
-(`KiCadExport`). The panel's Format menu changes the file type and the
-extension of the name. Like any export it is not a save: the window's file and
-its unsaved-changes state do not change.
+**File › Export › KiCad Project…** writes the schematic and its
+board as a KiCad 8 project (KiCad 8 and later open it). It asks for a
+**folder** and writes three files into it, named after the schematic:
+`<name>.kicad_pro`, `<name>.kicad_sch` and `<name>.kicad_pcb`
+(`KiCadExport`). A folder, not a file name, because the app is sandboxed: a
+save panel lets it write only the one file named in it, and the other two
+were refused. When the folder already has any of the three, the app asks
+before replacing them. Like any export it is not a save: the document's file and
+its Edited state do not change.
 
 **Schematic** (`KiCadSchematicWriter`). One sheet, 0.127 mm per canvas unit, so
 the app's 10-unit grid is KiCad's 1.27 mm grid and every wire end lands on a pin
@@ -283,7 +292,7 @@ file turns off KiCad's missing-library checks). Design rules go to the project's
 design settings.
 
 **Checking it.** `KiCadExportTests` checks the files' shape, that a footprint's pads
-land where the app puts them at every turn and side, and the Format menu. The rest was
+land where the app puts them at every turn and side, and the folder chooser and the three files it leads to. The rest was
 checked with KiCad 10's `kicad-cli`: `sch export netlist` gives the same pin groups
 and the same net names as the pads on the board (on `AFU`, `LFU` and `RegFile`), `pcb
 drc` finds no schematic parity difference, a board of DIP and SOIC parts at every
@@ -294,10 +303,10 @@ written (a track's or via's net is `(net <code>)`, not code and name, which KiCa
 
 ## EasyEDA Pro
 
-**File > Save As…**, Format **EasyEDA Pro Project**, writes the schematic and its
+**File › Export › EasyEDA Pro Project…** asks where to save and writes the schematic and its
 board as one `.epro` file (`EasyEDAProExport`), which EasyEDA Pro takes with **File ▸
 Import ▸ EasyEDA Professional**. Like the KiCad project it is an export: the
-window's file and its unsaved-changes state do not change.
+document's file and its Edited state do not change.
 
 The format is EasyEDA Pro's "V2" project archive (the one its published spec and
 KiCad's importer describe; EasyEDA Pro 3 still imports it, and older Pro versions open it,
@@ -418,8 +427,9 @@ PNG puts them; the padding keeps a wider font from clipping. A turned label
 | `PrintPaper`, `PrintPageKind`, `PrintOptions`, `PrintPage`, `BoardArtwork`, `PrintExport` (pages, tiles, the PDF, the print operation) | `schematical/schematical/Document/PrintExport.swift` |
 | `PrintDialog` (the options sheet with its PDF preview) | `schematical/schematical/Document/PrintDialog.swift` |
 | `SchematicExportMenu` (the submenu; `SchematicFileCommands` adds it to File, with Print…) | `schematical/schematical/Document/SchematicExportCommands.swift` |
-| `exportImage()`, `writeImage(_:to:)`, `printPages()`, `exportPDF()`, `writePDF(_:to:)`, `exportGerber()`, `writeGerber(to:)`, `saveAs()`, `exportKiCad(to:)`, `writeKiCad(to:)` | `schematical/schematical/Document/SchematicFileController.swift` |
-| `SaveFormat`, `SaveFormatPicker` (Save As's Format menu) | `schematical/schematical/Document/SaveFormatPicker.swift` |
+| `exportImage()`, `writeImage(_:to:)`, `printPages()`, `exportPDF()`, `writePDF(_:to:)`, `exportGerber()`, `writeGerber(to:)`, `exportKiCadProject()`, `writeKiCadProject(into:)`, `writeKiCad(to:)`, `exportEasyEDAProProject()`, `writeEasyEDAPro(to:)`, `printOperation(_:jobTitle:)` (`SchematicExporter`) | `schematical/schematical/Document/SchematicExporter.swift` |
+| `printOperation(withSettings:)` (the document's print) | `schematical/schematical/Document/SchematicNSDocument.swift` |
+| `SaveFormat` (each written format's extension and content type) | `schematical/schematical/Document/SaveFormat.swift` |
 | `KiCadExport` (the three files, project file, shared names), `KiCad` (number, string, uuid formats) | `schematical/schematical/Document/KiCadExport.swift` |
 | `KiCadSchematicWriter` | `schematical/schematical/Document/KiCadSchematicWriter.swift` |
 | `KiCadBoardWriter` | `schematical/schematical/Document/KiCadBoardWriter.swift` |

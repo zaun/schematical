@@ -6,9 +6,6 @@ import XCTest
 /// The agent-control server's request checks and its tools (docs/agent-control.md).
 @MainActor
 final class AutomationTests: XCTestCase {
-    /// Simulations made by tests, kept like `TestSupport`'s documents.
-    private static var kept: [SimulationController] = []
-
     private struct Result {
         let text: String
         let isError: Bool
@@ -16,12 +13,10 @@ final class AutomationTests: XCTestCase {
     }
 
     private func newWindow() -> (id: String, doc: SchematicDocument) {
+        // An open document, as a window's is; gone from the list when the test ends.
         let doc = TestSupport.newDocument(library: TestSupport.catalog.library)
-        let simulation = SimulationController(library: TestSupport.catalog.library)
-        Self.kept.append(simulation)
-        let id = UUID()
-        SchematicSessions.shared.register(id, document: doc, simulation: simulation)
-        return (id.uuidString, doc)
+        let open = TestSupport.openSystemDocument(of: doc, catalog: TestSupport.catalog, until: self)
+        return (open.model.id.uuidString, doc)
     }
 
     private func call(_ tool: String, _ window: String, _ args: [String: Any] = [:]) async -> Result {
@@ -657,7 +652,7 @@ final class AutomationTests: XCTestCase {
         XCTAssertEqual(result.text, "S1 position 3")
         XCTAssertEqual(doc.chips[0].slidePosition, 3)
         XCTAssertEqual(doc.chips[0].switchesOn, [false, true])
-        XCTAssertEqual(doc.undoName(on: .schematic), "Move Switch")
+        XCTAssertEqual(doc.undoName, "Move Switch")
         result = await call("set_switch", id, ["reference": "S1", "position": 1, "on": true])
         XCTAssertFalse(result.isError, result.text)
         XCTAssertEqual(doc.chips[0].slidePosition, 1)
@@ -732,7 +727,7 @@ final class AutomationTests: XCTestCase {
         XCTAssertEqual(doc.pours.first?.layer, .top)
         let bounds = doc.boardOutlineBounds
         XCTAssertEqual(doc.pours.first?.rect.width ?? 0, bounds?.width ?? -1, accuracy: doc.board.traceGrid)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Add Pour")
+        XCTAssertEqual(doc.undoName, "Add Pour")
         let board = await call("get_board", id)
         XCTAssertTrue(board.text.contains("POURS"), board.text)
         XCTAssertTrue(board.text.contains("net=ground"), board.text)
@@ -777,7 +772,7 @@ final class AutomationTests: XCTestCase {
         result = await call("delete", id, ["items": ["pour:" + pour, "keepout:" + keepout]])
         XCTAssertFalse(result.isError, result.text)
         XCTAssertTrue(doc.pours.isEmpty && doc.keepouts.isEmpty)
-        XCTAssertTrue(doc.undo(on: .schematic) || doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.pours.count + doc.keepouts.count, 2, "undo of the delete restores both")
     }
 }

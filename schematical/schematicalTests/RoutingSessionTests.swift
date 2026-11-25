@@ -28,7 +28,7 @@ final class RoutingSessionTests: XCTestCase {
         XCTAssertGreaterThan(summary.addedTraces, 0)
         XCTAssertTrue(doc.traces.allSatisfy(\.auto))
         XCTAssertTrue(doc.ratsnest().isEmpty)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Autoroute")
+        XCTAssertEqual(doc.undoName, "Autoroute")
     }
 
     func testStopKeepsALegalPartialResult() async throws {

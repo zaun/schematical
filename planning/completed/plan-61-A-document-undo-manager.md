@@ -39,10 +39,10 @@ letters point here.
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-59 is complete and archived | `ls planning/plan-59-*.md` → no matches; `ls planning/completed/plan-59-*.md \| wc -l` → `4` | MET (`4`, 2026-11-24) |
-| The spike's reference code is in the tree | `ls planning/plan-59-data/spike-H.patch planning/plan-59-data/findings.md` → both listed | MET |
-| Xcode 26 toolchain | `xcodebuild -version \| head -1` → `Xcode 26.3` | MET |
-| The undo tests pass before the change | `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/SchematicUndoTests -only-testing:schematicalTests/PCBUndoTests 2>&1 \| tail -3` → `** TEST SUCCEEDED **` | NOT RUN (run at the start of execution) |
+| plan-59 is complete and archived | `ls planning/plan-59-*.md` → no matches; `ls planning/completed/plan-59-*.md \| wc -l` → `4` | MET (`4`, re-run 2026-11-24 at execution) |
+| The spike's reference code is in the tree | `ls planning/plan-59-data/spike-H.patch planning/plan-59-data/findings.md` → both listed | MET (re-run at execution) |
+| Xcode 26 toolchain | `xcodebuild -version \| head -1` → `Xcode 26.3` | MET (re-run at execution) |
+| The undo tests pass before the change | `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/SchematicUndoTests -only-testing:schematicalTests/PCBUndoTests 2>&1 \| tail -3` → `** TEST SUCCEEDED **` | MET (`** TEST SUCCEEDED **`, 87 tests, 2026-11-24, before any change) |
 
 Everything below is written against these holding.
 
@@ -110,7 +110,7 @@ The owner decided undo is per document on one `NSUndoManager`
 |---|---|
 | One registration per `UndoStep`, whose handler applies the diff and registers the other direction, undoes and redoes Schematic, PCB, Schematic edits in strict reverse order with the titles `Undo Add Net Label`, `Undo Move` | plan-59 probe U3 on both spike builds: `planning/plan-59-data/evidence/U1-U3-H.txt` |
 | Typing merges into the registered step with no second registration (6 characters: 1 registration, 5 merges); a 5-frame drag is one step | the same evidence file, the `coalescing` block |
-| With `groupsByEvent = false` and one `beginUndoGrouping` / `endUndoGrouping` pair per step, undo, redo and the action names are right with no run loop, and an `NSDocument` using that manager reports `isDocumentEdited` true after an edit | Probe `planning/plan-59-data/scripts/probe-undo-groups.swift` (an `NSDocument` subclass, a target, three edits; built with `swiftc`, run from the shell): `edit 2: … Undo Add Wire`, `undo: value 1 … Undo Move / Redo Add Wire`, `redo: value 1`, `cleared, edit, no run loop: edited true` |
+| With `groupsByEvent = false` and one `beginUndoGrouping` / `endUndoGrouping` pair per step, undo, redo and the action names are right with no run loop, and an `NSDocument` using that manager reports `isDocumentEdited` true after an edit, one run loop turn later (Corrections 8) | Probe `planning/plan-59-data/scripts/probe-undo-groups.swift` (an `NSDocument` subclass, a target, three edits; built with `swiftc`, run from the shell): `edit 2: … Undo Add Wire`, `undo: value 1 … Undo Move / Redo Add Wire`, `redo: value 1`, `cleared, edit, no run loop: edited true` |
 | By-event grouping needs an `NSEvent` to close a group: a step registered from a timer left `groupingLevel` at 1 | plan-59-A Corrections 12 |
 | A text field's field editor has its own undo manager, so typing in a field does not land on the document's | plan-59 probe U4: `responderUndoManagerIsDocuments=false … title='Undo Typing'` |
 | An `UndoManager` subclass whose `canUndo` and `canRedo` are false while locked disables a document window's Undo item and blanks its title | Probe `planning/plan-59-data/scripts/probe-undo-lock.swift`: `window.undoManager is the document's: true`, `unlocked: validate = true title: Undo Move`, `locked:   validate = false title: Undo` |
@@ -201,32 +201,32 @@ changes here).
 
 Adds the per-document path with nothing using it yet.
 
-- [ ] `Canvas/SchematicModel.swift`: add `SchematicUndoManager` and `undoManager`, `openStep`, `undoRevision`, `register(_:backwards:)`, `undo()`, `redo()`, `undoName`, `redoName`, `willSave()`; `finishRecording` registers on the manager as well as pushing to `history`; `endCoalescing()` clears `openStep`; both `history.clear()` sites also call `undoManager.removeAllActions()`.
-- [ ] New `schematicalTests/DocumentUndoTests.swift`: (1) Schematic, PCB, Schematic edits, three `undo()` then three `redo()`, state and `undoName` after each; (2) six `setNetLabelName` calls are one undo; (3) `beginGesture`, five `moveFootprint`, `endGesture` is one undo; (4) `undo()` returns false, `undoManager.canUndo` is false and nothing changes while `isPlaying`; (5) a step whose item was deleted outside undo is skipped; (6) `willSave()` between two typed characters gives two undos; (7) applying a file empties the manager.
+- [x] `Canvas/SchematicModel.swift`: add `SchematicUndoManager` and `undoManager`, `openStep`, `undoRevision`, `register(_:backwards:)`, `undo()`, `redo()`, `undoName`, `redoName`, `willSave()`; `finishRecording` registers on the manager as well as pushing to `history`; `endCoalescing()` clears `openStep`; both `history.clear()` sites also call `undoManager.removeAllActions()`. Done: the class is in `Canvas/UndoHistory.swift` (Corrections 1, 2); `isLocked` follows `isPlaying` through its `didSet`.
+- [x] New `schematicalTests/DocumentUndoTests.swift`: (1) Schematic, PCB, Schematic edits, three `undo()` then three `redo()`, state and `undoName` after each; (2) six `setNetLabelName` calls are one undo; (3) `beginGesture`, five `moveFootprint`, `endGesture` is one undo; (4) `undo()` returns false, `undoManager.canUndo` is false and nothing changes while `isPlaying`; (5) a step whose item was deleted outside undo is skipped; (6) `willSave()` between two typed characters gives two undos; (7) applying a file empties the manager. Done: 7 tests; `Executed 7 tests, with 0 failures`.
 
 Acceptance: the seven new tests pass and the two old suites still pass.
-  Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/DocumentUndoTests -only-testing:schematicalTests/SchematicUndoTests -only-testing:schematicalTests/PCBUndoTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 6 min, most of it the build).
-Commit: —
+  Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/DocumentUndoTests -only-testing:schematicalTests/SchematicUndoTests -only-testing:schematicalTests/PCBUndoTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 6 min, most of it the build). Result: `Executed 94 tests, with 0 failures`, `** TEST SUCCEEDED **`.
+Commit: b08d9519
 
 ### Phase 2 — The app and automation use it
 
-- [ ] `Document/UndoCommands.swift`: `UndoTarget` holds only the document; `UndoRouting.route` returns `.document` in place of `.page`; the two buttons call `document.undo()` / `redo()`, take their titles from `undoName` / `redoName`, and are `.disabled(target?.document.isPlaying == true)`. `ContentView.swift`: `.focusedSceneValue(\.schematicUndo, UndoTarget(document: document))`. `schematicalTests/UndoCommandsTests.swift` (the tests of `UndoRouting`) follows the new cases.
-- [ ] `Automation/AutomationSession.swift` `undo` / `redo` tools: call `document.undo()` / `redo()` and `undoName` / `redoName`; drop the page from the code path. `docs/agent-control.md`: the two tools act on the document.
+- [x] `Document/UndoCommands.swift`: `UndoTarget` holds only the document; `UndoRouting.route` returns `.document` in place of `.page`; the two buttons call `document.undo()` / `redo()`, take their titles from `undoName` / `redoName`, and are `.disabled(target?.document.isPlaying == true)`. `ContentView.swift`: `.focusedSceneValue(\.schematicUndo, UndoTarget(document: document))`. `schematicalTests/UndoCommandsTests.swift` (the tests of `UndoRouting`) follows the new cases. Done; `UndoCommandsTests`: `Executed 6 tests, with 0 failures`.
+- [x] `Automation/AutomationSession.swift` `undo` / `redo` tools: call `document.undo()` / `redo()` and `undoName` / `redoName`; drop the page from the code path. `docs/agent-control.md`: the two tools act on the document. Done: the tools declare no `page` (one still passed is ignored); `AutomationTests`: `Executed 31 tests, with 1 test skipped and 0 failures`.
 
 Acceptance: the menu's title and action follow the document, not the page.
-  Check: new test `DocumentUndoTests.testMenuTitlesFollowTheDocument` (a PCB move, then `UndoRouting.undoTitle(UndoTarget(document:))` is `Undo Move`; with `isPlaying` it is `Undo`) passes: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/DocumentUndoTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 4 min).
-Commit: —
+  Check: new test `DocumentUndoTests.testMenuTitlesFollowTheDocument` (a PCB move, then `UndoRouting.undoTitle(UndoTarget(document:))` is `Undo Move`; with `isPlaying` it is `Undo`) passes: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/DocumentUndoTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 4 min). Result: `DocumentUndoTests` `Executed 8 tests, with 0 failures`, `** TEST SUCCEEDED **` (run with `UndoCommandsTests` and `AutomationTests`).
+Commit: 0f559d4c
 
 ### Phase 3 — The tests move; the lists go
 
-- [ ] In the 42 test files, replace `undo(on: .schematic)`, `undo(on: .pcb)`, `redo(on: …)`, `undoName(on: …)`, `redoName(on: …)` with the per-document calls (274 lines; `rg -c` from § 2 → no output afterwards).
-- [ ] `PCBUndoTests.swift`: read each of the 37 tests; a test that edits both pages and undoes one now asserts strict reverse order over the document. Record in this line how many of the 37 changed their assertions.
-- [ ] `SchematicUndoTests.swift`: the same read for its 50 tests.
-- [ ] Delete `Canvas/UndoHistory.swift`'s `UndoHistory` struct (keep `DocumentState`, `UndoKey`, `UndoValue`, `UndoChange`, `UndoStep`, `UndoDiff`), `history`, `undo(on:)`, `redo(on:)`, `undoName(on:)`, `redoName(on:)`, and `UndoKey.pages` and `UndoStep.pages` once nothing reads them (`rg -n '\.pages' schematical/schematical/Canvas` names the readers).
+- [x] In the 42 test files, replace `undo(on: .schematic)`, `undo(on: .pcb)`, `redo(on: …)`, `undoName(on: …)`, `redoName(on: …)` with the per-document calls (274 lines; `rg -c` from § 2 → no output afterwards). Done: 273 lines in 41 files by one regular expression (Corrections 5); `grep -rcE 'undo\(on|redo\(on|undoName\(on|redoName\(on' schematical/schematicalTests` → no file above 0.
+- [x] `PCBUndoTests.swift`: read each of the 37 tests; a test that edits both pages and undoes one now asserts strict reverse order over the document. Record in this line how many of the 37 changed their assertions. Done: 3 of the 37 changed their assertions (`testBothSidesOfAPartUndoInReverseOrder`, `testPCBStepsAreOnTheDocumentsList`, `testAPCBStepIsUndoneBeforeItsPartIsRemoved`, all renamed), and the shared `assertStep` helper (used by the other 33) lost its "not on the Schematic list" assertion and gained "the step under it is back on top after undo".
+- [x] `SchematicUndoTests.swift`: the same read for its 50 tests. Done: 4 of the 50 changed their assertions (`testSetPartColor`, `testFlipChip`, `testConfirmPendingRemoval`, `testEraseAWire`: each asserted the other page's list was untouched and now asserts the step is the document's top step); 3 more lost a comment or a `page:` argument only (`testPlaceChip`, `testRenameChipFromThePCB`, `testEraseAPart`).
+- [x] Delete `Canvas/UndoHistory.swift`'s `UndoHistory` struct (keep `DocumentState`, `UndoKey`, `UndoValue`, `UndoChange`, `UndoStep`, `UndoDiff`), `history`, `undo(on:)`, `redo(on:)`, `undoName(on:)`, `redoName(on:)`, and `UndoKey.pages` and `UndoStep.pages` once nothing reads them (`rg -n '\.pages' schematical/schematical/Canvas` names the readers). Done: also `recordingPage` (its only reader was the page set). `grep -rn '\.pages' schematical/schematical/Canvas` → no output.
 
 Acceptance: no per-page undo API is left and every test class that used it passes.
-  Check: `rg -c 'undo\(on|redo\(on|undoName\(on|redoName\(on|UndoHistory\(' schematical` → no output; then the 42 classes: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical $(rg -l 'undo\(\)|redo\(\)' schematical/schematicalTests | sed -E 's#.*/(.*)\.swift#-only-testing:schematicalTests/\1#' | tr '\n' ' ') 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 12 min: 42 classes is the set this phase edits, and a rename can only be proved by running each renamed file; a full Debug suite stalls in `AutorouteModelTests testTheSummaryOnAFU`, so the list is explicit).
-Commit: —
+  Check: `rg -c 'undo\(on|redo\(on|undoName\(on|redoName\(on|UndoHistory\(' schematical` → no output; then the 42 classes: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical $(rg -l 'undo\(\)|redo\(\)' schematical/schematicalTests | sed -E 's#.*/(.*)\.swift#-only-testing:schematicalTests/\1#' | tr '\n' ' ') 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 12 min: 42 classes is the set this phase edits, and a rename can only be proved by running each renamed file; a full Debug suite stalls in `AutorouteModelTests testTheSummaryOnAFU`, so the list is explicit). Result: the old-API search prints nothing; 43 classes (the 42, plus `DocumentUndoTests`): `Executed 564 tests, with 2 tests skipped and 0 failures`, `** TEST SUCCEEDED **`.
+Commit: 304b545d
 
 ## Validation Plan
 
@@ -234,7 +234,7 @@ Commit: —
 - Coverage check: the `rg -c` in phase 3 returning nothing is the denominator: no caller of the old API remains.
 - Runtime proof: plan-59's U1–U5 evidence is the reference behavior; phase 1's tests restate it without a window.
 - Doc sync: `docs/agent-control.md` (the `undo` and `redo` tools).
-- Final gate (run once, after phase 3): the phase 3 command (est. 12 min).
+- Final gate (run once, after phase 3): the phase 3 command (est. 12 min). Run 2026-11-24 at 304b545d: 43 classes, `Executed 564 tests, with 2 tests skipped and 0 failures`, `** TEST SUCCEEDED **`.
 
 ## Decisions
 
@@ -244,7 +244,15 @@ Commit: —
 
 ## Corrections
 
-Filled in during execution.
+1. `SchematicUndoManager` lives in `Canvas/UndoHistory.swift`, beside the step types, not in `SchematicModel.swift`. It is `nonisolated` like `UndoStep`: `UndoManager` is not a main-actor class.
+2. The skip of a step that no longer applies is in the manager's own `undo()` and `redo()` overrides (they loop until a handler sets `applied`), not in `SchematicDocument.undo()`. Reason: from 61-B the system's Undo item calls the manager directly, and a loop in the document would not run then. A skipped step registers nothing, so it leaves both stacks (test 5 asserts it).
+3. Phase 1 registers a second `UndoStep` object with the same contents on the manager, not the one pushed to `history`: both paths merge typed characters into their top step, and merging the same object twice restores a key the first merge had removed. Phase 3 deletes the `history` copy.
+4. Test 5 as written ("a step whose item was deleted outside undo") deletes a part while playing, the only edit that records no step. The step skipped is the footprint Move; the Add Part step under it still applies, because it also holds the reference counter, so the test asserts the step under the Move is the one undone.
+5. § 2's count of test lines was 274 in 42 files with a pattern that also matches the new API (`undoName`). Measured with the old-API-only pattern before the rename: 273 lines in 41 files, plus `UndoCommandsTests.swift` (changed by hand in phase 2). `UndoHistoryTests.swift` (22 tests) was not in the plan: 7 of its tests built an `UndoHistory` directly. They are replaced by 4 tests of the same rules on the document (`testANewStepClearsRedo`, `testCoalescingMergesUntilEnded`, `testCoalescingBackToTheStartDropsTheStep`, `testThe501stStepDropsTheOldest`); the three about a step shared by two pages' lists have nothing left to test. `testUndoSkipsAStepThatChangesNothing` there now deletes its part while playing, as test 5.
+6. A typing step whose merged changes become empty (typed back to the start) was removed by `UndoHistory.merge`. On the manager it is taken off with `SchematicUndoManager.dropTop()` (one `super.undo()`; the handler changes and registers nothing), so the menu never names an empty step.
+7. The 500-step limit of `UndoHistory.limit` is `levelsOfUndo = 500` on the manager (`UndoHistoryTests.testThe501stStepDropsTheOldest`).
+8. § 2 said an `NSDocument` reports `isDocumentEdited` true after an edit "with no run loop". The probe's own first lines say otherwise: re-run 2026-11-24, `probe-undo-groups.swift` prints `edit 1: edited false`, `edit 2: edited false`, then `after a run loop turn: edited true` (the quoted `cleared, edit, no run loop: edited true` followed an earlier turn). A second probe (an `UndoManager` subclass handed to the document through `undoManager =`, as 61-B does) gives `edit: true undo: false redo: true` with a turn after each. So the Edited state follows the manager one run loop turn late, for the document's own manager and for a set one alike. Nothing in the design rested on it being immediate; tests that read `isDocumentEdited` turn the run loop first.
+9. Merging `main` (plan-58 landed there during execution) brought 5 more old-API lines in 2 test files (`SlideSwitchTests.swift`, `AutomationTests.swift`); the same regular expression renamed them. `scripts/harness` (outside this plan's `schematical` search) had 6 old-API lines in 4 scripts (`capacitor-app`, `edit-lag`, `resistor-app`, `socket-mode-ui`); renamed too, since the harness compiles the app's sources.
 
 ## Summary
 

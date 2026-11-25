@@ -12,7 +12,6 @@ final class UserLibraryEndToEndTests: XCTestCase {
     private var scratch: URL!
     private static var keptStores: [PartCatalogStore] = []
     private static var keptModels: [PartEditorModel] = []
-    private static var keptControllers: [SchematicFileController] = []
 
     override func setUp() async throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent("plan53-\(UUID().uuidString)")
@@ -79,7 +78,7 @@ final class UserLibraryEndToEndTests: XCTestCase {
 
         // 5. Place it on a schematic and save the schematic.
         let doc = TestSupport.newDocument()
-        Self.keptControllers.append(SchematicFileController(document: doc, catalog: store, willReplaceDocument: {}))
+        TestSupport.openSystemDocument(of: doc, catalog: store, until: self)
         doc.placeChip(part: kept, symbol: symbol(for: kept), centeredAt: CGPoint(x: 200, y: 200))
         let chipID = try XCTUnwrap(doc.chips.last?.id)
         let schematic = try SchematicFile(document: doc, fileURL: nil, catalog: store).encoded()

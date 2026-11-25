@@ -43,8 +43,8 @@ final class CapacitorTests: XCTestCase {
         let cap = try TestSupport.place(doc, "GENERIC-CAPACITOR", at: CGPoint(x: 100, y: 100))
         doc.setPartFarads(cap.id, 4.7e-9)
         XCTAssertEqual(doc.chips[0].farads, 4.7e-9)
-        XCTAssertEqual(doc.undoName(on: .schematic), "Change Capacitance")
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertEqual(doc.undoName, "Change Capacitance")
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.chips[0].farads, 1e-7)
         for bad in [0, -1, Double.infinity, 2, 1e-14] {
             doc.setPartFarads(cap.id, bad)

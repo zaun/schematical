@@ -128,12 +128,12 @@ MainActor.assumeIsolated { runSocketModeUIChecks() }
 
     check("9 one undo steps back a switch, and IC takes the socket off") {
         doc.endCoalescing()
-        if !doc.undo(on: .schematic) { return "nothing to undo" }
+        if !doc.undo() { return "nothing to undo" }
         if chip(gateID).socket?.mode != .withSocket { return "after undo: \(String(describing: chip(gateID).socket?.mode))" }
         PartOptionsSection.choose(.ic, for: chip(gateID), in: doc, catalog: catalog)
         doc.endCoalescing()
         if chip(gateID).socket != nil || chip(gateID).footprint?.id != "PDIP-14" { return "not back to PDIP-14" }
-        if !doc.undo(on: .schematic) || chip(gateID).socket == nil { return "undo of IC did not restore the socket" }
+        if !doc.undo() || chip(gateID).socket == nil { return "undo of IC did not restore the socket" }
         return nil
     }
 

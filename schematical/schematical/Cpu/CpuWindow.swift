@@ -15,7 +15,7 @@ import SwiftUI
 
 /// Which processor window to open: a part in one schematic window.
 nonisolated struct CpuWindowTarget: Codable, Hashable, Sendable {
-    let sessionID: UUID
+    let documentID: UUID
     let chipID: UUID
 }
 
@@ -157,7 +157,7 @@ struct CpuWindowView: View {
     let target: CpuWindowTarget
 
     var body: some View {
-        if let session = SchematicSessions.shared.session(target.sessionID) {
+        if let session = SchematicEditorModel.session(target.documentID) {
             CpuInspector(chipID: target.chipID, document: session.document,
                          simulation: session.simulation)
         } else {

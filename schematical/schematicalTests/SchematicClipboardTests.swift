@@ -75,8 +75,8 @@ final class SchematicClipboardTests: XCTestCase {
         XCTAssertFalse(selected.contains(.chip(one.id)))
 
         // One undo step takes it all back.
-        XCTAssertEqual(doc.undoName(on: .schematic), "Paste")
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertEqual(doc.undoName, "Paste")
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.chips.count, 2)
         XCTAssertEqual(doc.wires.count, 1)
         XCTAssertEqual(doc.netLabels.count, 1)
@@ -201,7 +201,7 @@ final class SchematicClipboardTests: XCTestCase {
         XCTAssertTrue(doc.isSelected(.bus(pasted.id)))
         XCTAssertEqual(doc.schematicSelection.count, 3)
 
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.buses.count, 1)
     }
 

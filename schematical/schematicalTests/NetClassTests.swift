@@ -42,7 +42,7 @@ final class NetClassTests: XCTestCase {
         XCTAssertTrue(doc.board.netClasses.isEmpty, "a document made in code has none")
         doc.addStandardNetClasses()
         XCTAssertEqual(doc.board.netClasses.count, 5)
-        XCTAssertNil(doc.undoName(on: .pcb))
+        XCTAssertNil(doc.undoName)
         let before = doc.board
         doc.addStandardNetClasses()
         XCTAssertEqual(doc.board, before)
@@ -95,7 +95,7 @@ final class NetClassTests: XCTestCase {
     func testAddRenameRemoveAreEachOneUndoStep() throws {
         let doc = TestSupport.newDocument()
         let id = doc.addNetClass(named: "  Power  ")
-        XCTAssertEqual(doc.undoName(on: .pcb), "Add Net Class")
+        XCTAssertEqual(doc.undoName, "Add Net Class")
         let added = try netClass(doc, id)
         XCTAssertEqual(added.name, "Power")
         // A new class starts as the Default class: the design rules' minimums.
@@ -108,21 +108,21 @@ final class NetClassTests: XCTestCase {
 
         doc.renameNetClass(id, to: "Supply")
         XCTAssertEqual(try netClass(doc, id).name, "Supply")
-        XCTAssertEqual(doc.undoName(on: .pcb), "Rename Net Class")
+        XCTAssertEqual(doc.undoName, "Rename Net Class")
         doc.renameNetClass(id, to: "   ")
         XCTAssertEqual(try netClass(doc, id).name, "Supply", "a blank name is ignored")
         doc.renameNetClass(id, to: String(repeating: "x", count: 50))
         XCTAssertEqual(try netClass(doc, id).name.count, 40)
-        XCTAssertTrue(doc.undo(on: .pcb))
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(try netClass(doc, id).name, "Power")
 
         doc.removeNetClass(id)
         XCTAssertTrue(doc.board.netClasses.isEmpty)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Delete Net Class")
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertEqual(doc.undoName, "Delete Net Class")
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.board.netClasses.map(\.id), [id])
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertTrue(doc.board.netClasses.isEmpty)
     }
 
@@ -135,8 +135,8 @@ final class NetClassTests: XCTestCase {
         XCTAssertEqual(try netClass(doc, id).width, 100)
         doc.setNetClassWidth(id, 20)
         XCTAssertEqual(try netClass(doc, id).width, 20)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Change Net Class Width")
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertEqual(doc.undoName, "Change Net Class Width")
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(try netClass(doc, id).width, 100)
 
         doc.setNetClassClearance(id, 0.01)
@@ -145,7 +145,7 @@ final class NetClassTests: XCTestCase {
         XCTAssertEqual(try netClass(doc, id).clearance, 10)
         doc.setNetClassClearance(id, nil)
         XCTAssertNil(try netClass(doc, id).clearance)
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(try netClass(doc, id).clearance, 10)
 
         doc.setNetClassVia(id, drill: 0.6, diameter: 0.6)
@@ -157,8 +157,8 @@ final class NetClassTests: XCTestCase {
         XCTAssertEqual(via.viaDrill, 0.1)
         XCTAssertEqual(via.viaDiameter, 10)
         XCTAssertNil(via.problem)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Change Net Class Via")
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertEqual(doc.undoName, "Change Net Class Via")
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(try netClass(doc, id).viaDrill, 0.6)
     }
 
@@ -173,12 +173,12 @@ final class NetClassTests: XCTestCase {
         doc.assignNet(.ground, to: b)
         XCTAssertEqual(try netClass(doc, a).members, [pin])
         XCTAssertEqual(try netClass(doc, b).members, [.ground])
-        XCTAssertEqual(doc.undoName(on: .pcb), "Change Net Class")
+        XCTAssertEqual(doc.undoName, "Change Net Class")
         doc.assignNet(.ground, to: nil)
         XCTAssertTrue(try netClass(doc, b).members.isEmpty)
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(try netClass(doc, b).members, [.ground])
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(try netClass(doc, a).members, [.ground, pin])
         XCTAssertTrue(try netClass(doc, b).members.isEmpty)
     }
@@ -213,12 +213,12 @@ final class NetClassTests: XCTestCase {
         XCTAssertEqual(doc.traces.first { $0.id == trace }?.width, 40)
         XCTAssertEqual(doc.vias.first { $0.id == via }?.drill, 0.6)
         XCTAssertEqual(doc.vias.first { $0.id == via }?.diameter, 1.2)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Change Net Class")
+        XCTAssertEqual(doc.undoName, "Change Net Class")
 
         doc.assignNet(key, to: nil)
         XCTAssertEqual(doc.traces.first { $0.id == trace }?.width, before.width)
         XCTAssertEqual(doc.vias.first { $0.id == via }?.diameter, before.viaDiameter)
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.traces.first { $0.id == trace }?.width, 40, "one undo step restores the width")
     }
 
@@ -229,10 +229,10 @@ final class NetClassTests: XCTestCase {
         let c = doc.addNetClass(named: "C")
         doc.moveNetClass(c, to: 0)
         XCTAssertEqual(doc.board.netClasses.map(\.id), [c, a, b])
-        XCTAssertEqual(doc.undoName(on: .pcb), "Move Net Class")
+        XCTAssertEqual(doc.undoName, "Move Net Class")
         doc.moveNetClass(c, to: 99)
         XCTAssertEqual(doc.board.netClasses.map(\.id), [a, b, c])
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.board.netClasses.map(\.id), [c, a, b])
     }
 

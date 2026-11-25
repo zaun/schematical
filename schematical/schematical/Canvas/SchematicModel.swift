@@ -1607,6 +1607,12 @@ nonisolated enum OrthogonalRoute {
 @MainActor
 @Observable
 final class SchematicDocument {
+    /// Not isolated: closing a document frees this while SwiftUI tears the
+    /// editor down, and an isolated deinit there aborts in the concurrency
+    /// runtime (`StopLookupScope`; see `VerifyDatasheetLifetimeTests`).
+    /// Nothing here needs the main actor to be freed.
+    nonisolated deinit {}
+
     private(set) var chips: [PlacedChip] = [] {
         didSet {
             chipsRevision &+= 1
@@ -2112,7 +2118,7 @@ final class SchematicDocument {
         editingNoteID = nil
         clearAllSelections()
         editorMessage = nil
-        history.clear()
+        clearUndoManager()
         recordingDepth = 0
         recordingStart = nil
         recordingName = nil
@@ -2122,14 +2128,19 @@ final class SchematicDocument {
 
     // MARK: Undo
 
-    /// Each page's undo and redo lists (plan-31). Observed, so the Edit
-    /// menu's titles follow it.
-    private var history = UndoHistory()
+    /// The document's one undo manager (plan-61-A). One recorded step is one
+    /// undo group on it. An `NSDocument` showing this document is given it.
+    @ObservationIgnored let undoManager = SchematicUndoManager()
+    /// The step on top of the manager's undo stack while typing may still
+    /// merge into it (`UndoStep.coalescing`).
+    @ObservationIgnored private var openStep: UndoStep?
+    /// Bumped when the manager's stacks change, so views reading `undoName`
+    /// and `redoName` follow (an `UndoManager` is not observable).
+    private var undoRevision = 0
     /// How many `recordEdit` calls (and an open gesture) are running. Only
     /// the outermost records.
     private var recordingDepth = 0
     private var recordingStart: DocumentState?
-    private var recordingPage: EditorPage = .schematic
     /// The name of the step: of the outermost edit that changed something,
     /// the first one (a gesture's edits are siblings, the first names it).
     private var recordingName: String?
@@ -2140,7 +2151,9 @@ final class SchematicDocument {
     private var outerCoalescing: String?
     /// True while the simulation runs: edits are not recorded and undo/redo
     /// do nothing. Set by `SimulationController`.
-    var isPlaying = false
+    var isPlaying = false {
+        didSet { undoManager.isLocked = isPlaying }
+    }
     /// A mouse drag is being recorded as one step.
     private(set) var isGestureOpen = false
 
@@ -2174,8 +2187,9 @@ final class SchematicDocument {
         if let id = selectedPortID, portLocation(id) == nil { selectedPortID = nil }
     }
 
-    /// Runs `body` as one undo step named `name` on `page` (and on every page
-    /// that shows what it changed). Nested calls are part of the outermost
+    /// Runs `body` as one undo step named `name` on the document's undo
+    /// manager (`page` says where the edit was made; the step is the
+    /// document's). Nested calls are part of the outermost
     /// one. The step is named by the outermost call that changed something
     /// (the first such, among a gesture's calls). An edit
     /// that changes nothing records nothing. Pushes with the same
@@ -2184,7 +2198,7 @@ final class SchematicDocument {
     func recordEdit<T>(_ page: EditorPage, _ name: String, coalescing: String? = nil,
                        _ body: () throws -> T) rethrows -> T {
         guard !isPlaying else { return try body() }
-        if recordingDepth == 0 { startRecording(page, coalescing: coalescing) }
+        if recordingDepth == 0 { startRecording(coalescing: coalescing) }
         recordingDepth += 1
         let before = state
         defer {
@@ -2199,9 +2213,8 @@ final class SchematicDocument {
         return try body()
     }
 
-    private func startRecording(_ page: EditorPage, coalescing: String?) {
+    private func startRecording(coalescing: String?) {
         recordingStart = state
-        recordingPage = page
         recordingName = nil
         recordingCoalescing = nil
         outerCoalescing = coalescing
@@ -2221,9 +2234,102 @@ final class SchematicDocument {
         if board.edgeBus != nil, edgeBusID == nil { board.edgeBus = nil }
         let changes = UndoDiff.changes(from: start, to: state)
         guard !changes.isEmpty else { return }
-        let pages = changes.keys.reduce(into: Set([recordingPage])) { $0.formUnion($1.pages) }
-        history.push(UndoStep(name: recordingName ?? "Edit", coalescing: outerCoalescing ?? recordingCoalescing,
-                              changes: changes, pages: pages))
+        record(UndoStep(name: recordingName ?? "Edit", coalescing: outerCoalescing ?? recordingCoalescing,
+                        changes: changes))
+    }
+
+    /// Puts a recorded step on the undo manager, or folds it into the step
+    /// on top while typing with the same coalescing key.
+    private func record(_ step: UndoStep) {
+        if let key = step.coalescing, let top = openStep, top.coalescing == key {
+            // The registered handler reads `top.changes` when it runs, so
+            // nothing new is registered.
+            for (item, change) in step.changes {
+                if let older = top.changes[item] {
+                    top.changes[item] = UndoChange(before: older.before, after: change.after)
+                } else {
+                    top.changes[item] = change
+                }
+            }
+            top.changes = top.changes.filter { $0.value.before != $0.value.after }
+            if top.changes.isEmpty {
+                // Typed back to where it started: the step goes, as its
+                // handler registers nothing for a step that changes nothing.
+                openStep = nil
+                undoManager.dropTop()
+                undoRevision &+= 1
+            }
+            return
+        }
+        openStep = step.coalescing == nil ? nil : step
+        register(step, backwards: true)
+    }
+
+    /// One undo group holding one action: apply the step's diff `backwards`
+    /// (undo) or forwards (redo), then register the other direction. A step
+    /// that changes nothing any more (its items are gone) registers nothing,
+    /// so it leaves the stacks.
+    private func register(_ step: UndoStep, backwards: Bool) {
+        undoManager.beginUndoGrouping()
+        undoManager.registerUndo(withTarget: self) { document in
+            document.openStep = nil
+            var s = document.state
+            guard UndoDiff.apply(step.changes, backwards: backwards, to: &s) else { return }
+            document.setState(s)
+            document.undoManager.applied = true
+            document.register(step, backwards: !backwards)
+        }
+        undoManager.setActionName(step.name)
+        undoManager.endUndoGrouping()
+        undoRevision &+= 1
+    }
+
+    private func clearUndoManager() {
+        undoManager.removeAllActions()
+        openStep = nil
+        undoRevision &+= 1
+    }
+
+    /// Undoes the document's last step, whichever page made it. A step that
+    /// changes nothing any more is dropped and the next one undone. False
+    /// when there is nothing to undo, or while playing.
+    @discardableResult
+    func undo() -> Bool {
+        if isGestureOpen { endGesture() }
+        openStep = nil
+        guard !isPlaying, undoManager.canUndo else { return false }
+        undoManager.undo()
+        undoRevision &+= 1
+        return undoManager.applied
+    }
+
+    /// Redoes the last undone step, as `undo()`.
+    @discardableResult
+    func redo() -> Bool {
+        if isGestureOpen { endGesture() }
+        openStep = nil
+        guard !isPlaying, undoManager.canRedo else { return false }
+        undoManager.redo()
+        undoRevision &+= 1
+        return undoManager.applied
+    }
+
+    /// The name of the step `undo()` would undo ("Move"), or nil.
+    var undoName: String? {
+        _ = undoRevision
+        return undoManager.canUndo ? undoManager.undoActionName : nil
+    }
+
+    /// The name of the step `redo()` would redo, or nil.
+    var redoName: String? {
+        _ = undoRevision
+        return undoManager.canRedo ? undoManager.redoActionName : nil
+    }
+
+    /// The document is about to be written: the next typed character starts
+    /// a new step, so a save never splits a step in two states.
+    func willSave() {
+        openStep = nil
     }
 
     /// Starts recording a whole mouse drag on `page` as one step. A gesture
@@ -2232,7 +2338,7 @@ final class SchematicDocument {
         guard !isPlaying else { return }
         if isGestureOpen { endGesture() }
         isGestureOpen = true
-        if recordingDepth == 0 { startRecording(page, coalescing: nil) }
+        if recordingDepth == 0 { startRecording(coalescing: nil) }
         recordingDepth += 1
     }
 
@@ -2249,51 +2355,7 @@ final class SchematicDocument {
     /// The next edit starts a new step even with the same coalescing key
     /// (a note editor lost focus).
     func endCoalescing() {
-        history.endCoalescing()
-    }
-
-    /// Undoes the last step on `page`. A step that changes nothing any more
-    /// (its items are gone) is dropped and the next one undone. False when
-    /// there is nothing to undo, or while playing.
-    @discardableResult
-    func undo(on page: EditorPage) -> Bool {
-        if isGestureOpen { endGesture() }
-        guard !isPlaying else { return false }
-        while let step = history.popUndo(on: page) {
-            var s = state
-            if UndoDiff.apply(step.changes, backwards: true, to: &s) {
-                setState(s)
-                history.pushRedo(step)
-                return true
-            }
-        }
-        return false
-    }
-
-    /// Redoes the last undone step on `page`, as `undo(on:)`.
-    @discardableResult
-    func redo(on page: EditorPage) -> Bool {
-        if isGestureOpen { endGesture() }
-        guard !isPlaying else { return false }
-        while let step = history.popRedo(on: page) {
-            var s = state
-            if UndoDiff.apply(step.changes, backwards: false, to: &s) {
-                setState(s)
-                history.pushUndo(step)
-                return true
-            }
-        }
-        return false
-    }
-
-    /// The name of the step `undo(on:)` would undo ("Move"), or nil.
-    func undoName(on page: EditorPage) -> String? {
-        history.undoTop(on: page)?.name
-    }
-
-    /// The name of the step `redo(on:)` would redo, or nil.
-    func redoName(on page: EditorPage) -> String? {
-        history.redoTop(on: page)?.name
+        openStep = nil
     }
 
     // MARK: Chips
@@ -2443,7 +2505,7 @@ final class SchematicDocument {
         guard !ids.isEmpty else { return false }
         let newSymbol = symbol(for: newPart)
         for id in ids { swapPart(of: id, to: newPart, symbol: newSymbol) }
-        history.clear()
+        clearUndoManager()
         return true
     }
 

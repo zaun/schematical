@@ -2,7 +2,7 @@ import CoreGraphics
 import CryptoKit
 import Foundation
 
-/// File > Save As… (and Save of an untitled window), format KiCad Project:
+/// File › Export › KiCad Project…:
 /// the schematic and its board as a KiCad 8 project, three files that
 /// KiCad 8 and later open. See `docs/export.md` § KiCad.
 ///

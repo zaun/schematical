@@ -56,8 +56,8 @@ final class EditMenuTests: XCTestCase {
         XCTAssertTrue(doc.cutBoardSelection())
         XCTAssertFalse(doc.traces.contains { $0.id == trace })
         XCTAssertTrue(doc.chips.contains { $0.id == led.id })
-        XCTAssertEqual(doc.undoName(on: .pcb), "Cut")
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertEqual(doc.undoName, "Cut")
+        XCTAssertTrue(doc.undo())
         XCTAssertTrue(doc.traces.contains { $0.id == trace })
     }
 
@@ -85,8 +85,8 @@ final class EditMenuTests: XCTestCase {
         XCTAssertEqual(pasted.boardRect.midX, 60, accuracy: doc.board.grid, "centred on the pointer")
         XCTAssertEqual(pasted.boardRect.midY, 40, accuracy: doc.board.grid)
         XCTAssertEqual(doc.boardSelection.items, [.text(pasted.id)], "the copy is the selection")
-        XCTAssertEqual(doc.undoName(on: .pcb), "Paste")
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertEqual(doc.undoName, "Paste")
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.texts.map(\.id), [id])
     }
 
@@ -112,8 +112,8 @@ final class EditMenuTests: XCTestCase {
         XCTAssertEqual(pasted.centre.x, 60, accuracy: doc.board.traceGrid)
         XCTAssertEqual(pasted.centre.y, 40, accuracy: doc.board.traceGrid)
         XCTAssertEqual(doc.boardSelection.items, [.via(pasted.id)])
-        XCTAssertEqual(doc.undoName(on: .pcb), "Paste")
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertEqual(doc.undoName, "Paste")
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.vias.map(\.id), [id])
     }
 
@@ -138,7 +138,7 @@ final class EditMenuTests: XCTestCase {
         XCTAssertFalse(doc.vias.contains { $0.id == via })
         XCTAssertFalse(doc.texts.contains { $0.id == text })
         XCTAssertFalse(doc.traces.contains { $0.id == trace })
-        XCTAssertEqual(doc.undoName(on: .pcb), "Cut")
+        XCTAssertEqual(doc.undoName, "Cut")
     }
 
     func testCutSchematicIsNamedCut() throws {
@@ -149,7 +149,7 @@ final class EditMenuTests: XCTestCase {
         XCTAssertNotNil(doc.schematicCopy())
         XCTAssertTrue(doc.deleteSchematicSelection(named: "Cut"))
         XCTAssertTrue(doc.chips.isEmpty)
-        XCTAssertEqual(doc.undoName(on: .schematic), "Cut")
+        XCTAssertEqual(doc.undoName, "Cut")
     }
 
     func testResetReferencesRenumbersInReadingOrder() throws {
@@ -175,12 +175,12 @@ final class EditMenuTests: XCTestCase {
         XCTAssertEqual(reference(cap), "C1")
         // No part has the Integrated Circuit prefix, so U numbers start over.
         XCTAssertEqual(doc.nextReference, 1)
-        XCTAssertEqual(doc.undoName(on: .schematic), "Reset References")
+        XCTAssertEqual(doc.undoName, "Reset References")
 
         // Again changes nothing, and records nothing.
         XCTAssertFalse(doc.resetReferences(page: .schematic))
 
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(reference(lower), "D7")
         XCTAssertEqual(reference(pull), "R9")
     }

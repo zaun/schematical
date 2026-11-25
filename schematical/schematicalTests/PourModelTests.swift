@@ -76,25 +76,25 @@ final class PourModelTests: XCTestCase {
         let doc = TestSupport.newDocument()
         XCTAssertTrue(doc.pours.isEmpty)
         let id = try XCTUnwrap(doc.addPour(rect: r(10, 10, 20, 15), layer: .top))
-        XCTAssertEqual(doc.undoName(on: .pcb), "Add Pour")
+        XCTAssertEqual(doc.undoName, "Add Pour")
         XCTAssertEqual(doc.pours.map(\.id), [id])
         XCTAssertEqual(doc.boardSelection.sole, .pour(id))
         let added = doc.pours
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertTrue(doc.pours.isEmpty)
-        XCTAssertTrue(doc.redo(on: .pcb))
+        XCTAssertTrue(doc.redo())
         XCTAssertEqual(doc.pours, added)
     }
 
     func testAddedKeepoutUndoesAndRedoes() {
         let doc = TestSupport.newDocument()
         let id = doc.addKeepout(rect: r(5, 5, 10, 10), layers: [.top])
-        XCTAssertEqual(doc.undoName(on: .pcb), "Add Keep-out")
+        XCTAssertEqual(doc.undoName, "Add Keep-out")
         XCTAssertEqual(doc.keepouts.map(\.id), [id])
         let added = doc.keepouts
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertTrue(doc.keepouts.isEmpty)
-        XCTAssertTrue(doc.redo(on: .pcb))
+        XCTAssertTrue(doc.redo())
         XCTAssertEqual(doc.keepouts, added)
     }
 
@@ -105,9 +105,9 @@ final class PourModelTests: XCTestCase {
             doc.setPourConnection(id, .solid)
             doc.addHole(at: CGPoint(x: 50, y: 50))
         }
-        XCTAssertEqual(doc.undoName(on: .pcb), "Both")
+        XCTAssertEqual(doc.undoName, "Both")
         XCTAssertEqual(doc.holes.count, 1)
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertTrue(doc.holes.isEmpty)
         XCTAssertEqual(doc.pours.first?.connection, .thermal)
     }
@@ -189,15 +189,15 @@ final class PourModelTests: XCTestCase {
         XCTAssertEqual(try pour().spokeWidth, 0.1)
         doc.setPourMinWidth(id, 99)
         XCTAssertEqual(try pour().minWidth, 2)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Change Pour")
+        XCTAssertEqual(doc.undoName, "Change Pour")
         doc.setPourNet(id, .ground)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Change Pour Net")
-        let steps = doc.undoName(on: .pcb)
+        XCTAssertEqual(doc.undoName, "Change Pour Net")
+        let steps = doc.undoName
         doc.setPourNet(id, .ground)
-        XCTAssertEqual(doc.undoName(on: .pcb), steps)
+        XCTAssertEqual(doc.undoName, steps)
         doc.setPourConnection(id, .solid)
         doc.setPourConnection(id, .solid)
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(try pour().connection, .thermal, "the repeated set was not a second step")
     }
 
@@ -205,18 +205,18 @@ final class PourModelTests: XCTestCase {
         let doc = TestSupport.newDocument()
         let id = try XCTUnwrap(doc.addPour(rect: r(10, 10, 20, 15), layer: .top))
         doc.movePour(id, to: CGPoint(x: 40, y: 30))
-        XCTAssertEqual(doc.undoName(on: .pcb), "Move")
+        XCTAssertEqual(doc.undoName, "Move")
         let size = try XCTUnwrap(doc.pours.first?.rect.size)
         XCTAssertEqual(size.width, 20, accuracy: doc.board.traceGrid, "edges snap to the trace grid")
         XCTAssertEqual(size.height, 15, accuracy: doc.board.traceGrid)
         XCTAssertEqual(doc.pours.first?.rect.origin, BoardGrid.snap(CGPoint(x: 40, y: 30), spacing: doc.board.traceGrid))
         doc.setPourRect(id, r(5, 5, 0.1, 40))
-        XCTAssertEqual(doc.undoName(on: .pcb), "Resize")
+        XCTAssertEqual(doc.undoName, "Resize")
         XCTAssertEqual(doc.pours.first?.rect.width, CGFloat(BoardPour.minimumSide))
         doc.setPourLayer(id, .inner(3))
         XCTAssertEqual(doc.pours.first?.layer, .top, "not a layer of this 2-layer board")
         doc.setPourLayer(id, .bottom)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Change Pour Layer")
+        XCTAssertEqual(doc.undoName, "Change Pour Layer")
         XCTAssertEqual(doc.pours.first?.layer, .bottom)
     }
 
@@ -245,11 +245,11 @@ final class PourModelTests: XCTestCase {
         XCTAssertNil(doc.keepouts.first?.layers)
         doc.setKeepoutLayers(id, [.bottom])
         XCTAssertEqual(doc.keepouts.first?.layers, [.bottom])
-        XCTAssertEqual(doc.undoName(on: .pcb), "Change Keep-out")
+        XCTAssertEqual(doc.undoName, "Change Keep-out")
         doc.deleteKeepout(id)
         XCTAssertTrue(doc.keepouts.isEmpty)
         XCTAssertNil(doc.boardSelection.sole)
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.keepouts.count, 1)
     }
 
@@ -261,7 +261,7 @@ final class PourModelTests: XCTestCase {
         XCTAssertTrue(doc.deleteBoardSelection())
         XCTAssertTrue(doc.pours.isEmpty)
         XCTAssertTrue(doc.keepouts.isEmpty)
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.pours.count, 1)
         XCTAssertEqual(doc.keepouts.count, 1)
     }

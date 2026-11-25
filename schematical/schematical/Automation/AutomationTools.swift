@@ -26,7 +26,9 @@ struct AutomationContext {
     let id: UUID
     let document: SchematicDocument
     let simulation: SimulationController
-    let file: SchematicFileController?
+    let file: SchematicExporter?
+    /// The window's model, and through it its system document.
+    var model: SchematicEditorModel?
 
     /// The window's id as agents see it.
     var shortID: String { String(id.uuidString.prefix(8)) }
@@ -225,9 +227,12 @@ enum AutomationTools {
 
     // MARK: Windows
 
+    /// The open documents, in the order they were opened.
     static func sessions() -> [AutomationContext] {
-        SchematicSessions.shared.identifiedSessions.map {
-            AutomationContext(id: $0.id, document: $0.document, simulation: $0.simulation, file: $0.file)
+        NSDocumentController.shared.documents.compactMap { document in
+            guard let model = (document as? SchematicNSDocument)?.model else { return nil }
+            return AutomationContext(id: model.id, document: model.document, simulation: model.simulation,
+                                     file: model.file, model: model)
         }
     }
 

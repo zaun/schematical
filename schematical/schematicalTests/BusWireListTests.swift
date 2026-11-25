@@ -32,7 +32,7 @@ final class BusWireListTests: XCTestCase {
         var wires = try XCTUnwrap(doc.bus(id)).wires
         XCTAssertEqual(wires.map(\.name), ["X", "Y", "Z"])
         XCTAssertEqual(wires.prefix(3).map(\.id), before.prefix(3).map(\.id))
-        XCTAssertEqual(doc.undoName(on: .schematic), "Import Bus Wires")
+        XCTAssertEqual(doc.undoName, "Import Bus Wires")
         XCTAssertNil(doc.setBusWireNames(id, ["P", "Q"]))
         wires = try XCTUnwrap(doc.bus(id)).wires
         XCTAssertEqual(wires.map(\.name), ["P", "Q"])

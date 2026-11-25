@@ -88,7 +88,10 @@ struct SchematicCanvasView: View {
     /// The connection point under the pointer in Line mode, when not drawing.
     @State private var hoverAnchor: LineAnchor?
     /// Watches for Space, Esc and `/` while a wire or bus is being drawn.
-    @State private var drawingKeyMonitor: Any?
+    /// Installed through the editor's monitors, which the document empties
+    /// when it closes.
+    @State private var drawingKeyMonitor: UUID?
+    @Environment(\.editorEventMonitors) private var eventMonitors
 
     private enum Interaction {
         /// Moves every selected part, junction and wire bend from `base`.
@@ -406,15 +409,13 @@ struct SchematicCanvasView: View {
 
     private func installDrawingKeyMonitor() {
         guard drawingKeyMonitor == nil else { return }
-        drawingKeyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+        drawingKeyMonitor = eventMonitors.add(matching: .keyDown) { event in
             handleDrawingKey(event) ? nil : event
         }
     }
 
     private func removeDrawingKeyMonitor() {
-        if let drawingKeyMonitor {
-            NSEvent.removeMonitor(drawingKeyMonitor)
-        }
+        eventMonitors.remove(drawingKeyMonitor)
         drawingKeyMonitor = nil
     }
 

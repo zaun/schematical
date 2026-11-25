@@ -7,6 +7,7 @@
 
 import AppKit
 import Foundation
+import UniformTypeIdentifiers
 
 extension AutomationTools {
     /// Tools that may not run inside a `batch`: they wait, open windows, or
@@ -28,7 +29,7 @@ extension AutomationTools {
                 let lines = all.map { window in
                     "\(window.shortID)  \(window.file?.displayName ?? "?")"
                         + "  parts=\(window.document.chips.count) wires=\(window.document.wires.count)"
-                        + (window.file?.hasUnsavedChanges == true ? "  unsaved" : "")
+                        + (window.model?.platformDocument?.isDocumentEdited == true ? "  unsaved" : "")
                         + (window.simulation.isRunning ? "  simulating" : "")
                         + (window.id == front ? "  (frontmost)" : "")
                 }
@@ -55,11 +56,10 @@ extension AutomationTools {
         AutomationTool(
             name: "new_window",
             summary: "Open a new blank schematic as a tab of the frontmost window. Returns its id.",
-            run: { context, _ in
-                guard let file = context?.file else { throw AutomationFailure("no window to open a tab from") }
+            needsWindow: false,
+            run: { _, _ in
                 let known = Set(sessions().map(\.id))
-                SchematicFileController.tabNewProject(focused: file)
-                file.openNewWindow?()
+                NSDocumentController.shared.newDocument(nil)
                 for _ in 0..<40 {
                     try await Task.sleep(nanoseconds: 50_000_000)
                     if let fresh = sessions().first(where: { !known.contains($0.id) }) {
@@ -73,16 +73,21 @@ extension AutomationTools {
             summary: "Open a .schematical file (in a new tab, or this window if it is blank). Only files in the "
                 + "folder the user shared in Settings ▸ AI Agents ▸ Files; see list_files.",
             properties: ["path": Schema.string("File name or path inside the shared folder")], required: ["path"],
-            run: { context, args in
+            needsWindow: false,
+            run: { _, args in
                 let url = try AutomationFolder.shared.resolve(try args.string("path"))
-                guard let file = context?.file else { throw AutomationFailure("no window to open it from") }
                 do { _ = try SchematicFile.decode(try Data(contentsOf: url)) }
                 catch { throw AutomationFailure("can't open \(url.lastPathComponent): \(error.localizedDescription)") }
                 let known = Set(sessions().map(\.id))
-                await file.open(url)
+                do { _ = try await NSDocumentController.shared.openDocument(withContentsOf: url, display: true) }
+                catch { throw AutomationFailure("can't open \(url.lastPathComponent): \(error.localizedDescription)") }
                 try await Task.sleep(nanoseconds: 400_000_000)
-                let fresh = sessions().first { !known.contains($0.id) }
-                return Out.text(fresh.map { "opened in window \($0.shortID)" } ?? "opened (in window \(context!.shortID))")
+                // A file that is already open is not opened twice: its window comes forward.
+                let window = sessions().first { !known.contains($0.id) }
+                    ?? sessions().first { $0.model?.fileURL?.standardizedFileURL == url.standardizedFileURL }
+                let fresh = window.map { !known.contains($0.id) } ?? false
+                return Out.text(window.map { fresh ? "opened in window \($0.shortID)" : "opened (in window \($0.shortID))" }
+                                ?? "opened")
             }),
         AutomationTool(
             name: "save",
@@ -92,9 +97,27 @@ extension AutomationTools {
             readOnly: false,
             run: { context, args in
                 let url = try args.optString("path").map { try AutomationFolder.shared.resolve($0) }
-                guard let file = context?.file else { throw AutomationFailure("no file controller for this window") }
-                if let problem = file.saveWithoutPanel(to: url) { throw AutomationFailure(problem) }
-                return Out.text("saved to \(file.fileURL?.path ?? "?")")
+                guard let document = context?.model?.platformDocument else {
+                    throw AutomationFailure("no document for this window")
+                }
+                guard let target = url ?? document.fileURL else {
+                    throw AutomationFailure("This window has no file yet; pass a path.")
+                }
+                // The document takes in an edit (its Edited mark) one run loop turn after
+                // the edit. Let an edit made just before this call land first, or the
+                // mark would arrive after the save and stay.
+                try await Task.sleep(nanoseconds: 50_000_000)
+                // With a path it is a Save As: the document is at the new file afterwards.
+                let type = document.fileType ?? SchematicFile.contentType.identifier
+                let failure: Error? = await withCheckedContinuation { continuation in
+                    document.save(to: target, ofType: type, for: url == nil ? .saveOperation : .saveAsOperation) {
+                        continuation.resume(returning: $0)
+                    }
+                }
+                if let failure {
+                    throw AutomationFailure("Couldn't save “\(target.lastPathComponent)”: \(failure.localizedDescription)")
+                }
+                return Out.text("saved to \(target.path)")
             }),
         AutomationTool(
             name: "export_gerber",
@@ -158,14 +181,14 @@ extension AutomationTools {
             }),
         AutomationTool(
             name: "undo",
-            summary: "Undo the last edit on a page (schematic or pcb), exactly as the user's Undo would.",
-            properties: ["page": Schema.string("schematic (default) or pcb", options: ["schematic", "pcb"])],
+            summary: "Undo the document's last edit, whichever page made it, exactly as the user's Undo would.",
+            properties: [:],
             edits: true,
             run: { context, args in Out.text(try undoRedo(context!, args, redo: false)) }),
         AutomationTool(
             name: "redo",
-            summary: "Redo the last undone edit on a page.",
-            properties: ["page": Schema.string("schematic (default) or pcb", options: ["schematic", "pcb"])],
+            summary: "Redo the document's last undone edit.",
+            properties: [:],
             edits: true,
             run: { context, args in Out.text(try undoRedo(context!, args, redo: true)) }),
         AutomationTool(
@@ -187,11 +210,10 @@ extension AutomationTools {
     ]
 
     private static func undoRedo(_ context: AutomationContext, _ args: AutomationArgs, redo: Bool) throws -> String {
-        let page = EditorPage(rawValue: try args.choice("page", among: ["schematic", "pcb"], default: "schematic")) ?? .schematic
         let document = context.document
-        let name = redo ? document.redoName(on: page) : document.undoName(on: page)
-        let done = redo ? document.redo(on: page) : document.undo(on: page)
-        guard done else { throw AutomationFailure("nothing to \(redo ? "redo" : "undo") on the \(page.rawValue) page") }
+        let name = redo ? document.redoName : document.undoName
+        let done = redo ? document.redo() : document.undo()
+        guard done else { throw AutomationFailure("nothing to \(redo ? "redo" : "undo")") }
         return "\(redo ? "redid" : "undid") \(name ?? "an edit")"
     }
 

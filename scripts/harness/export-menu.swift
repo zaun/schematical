@@ -20,10 +20,12 @@ import SwiftUI
 
 struct ExportMenuHarnessApp: App {
     @NSApplicationDelegateAdaptor(ExportMenuDriver.self) private var driver
+    /// The one window's model.
+    static let model = SchematicEditorModel()
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(model: Self.model)
         }
         .commands {
             SchematicFileCommands()
@@ -140,10 +142,7 @@ final class ExportMenuDriver: NSObject, NSApplicationDelegate {
         }
 
         // Load be-6502 into the window's document, as File > Open does.
-        guard let document = SchematicSessions.shared.allSessions.first?.document else {
-            check(false, "the window's document is registered")
-            return finish()
-        }
+        let document = ExportMenuHarnessApp.model.document
         do {
             let url = URL(fileURLWithPath: "be-6502.schematical")
             let file = try SchematicFile.decode(Data(contentsOf: url))

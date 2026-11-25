@@ -102,10 +102,10 @@ final class ReferenceDragTests: XCTestCase {
 
     func testAPressWithNoMovementLeavesTheReference() throws {
         let c = try twoParts()
-        let setup = c.doc.undoName(on: .pcb)
+        let setup = c.doc.undoName
         XCTAssertEqual(cmdDrag(c.doc, at: try centre(c.doc, c.a), by: .zero), c.a)
         XCTAssertEqual(try chip(c.doc, c.a).board?.referenceOffset, .zero)
-        XCTAssertEqual(c.doc.undoName(on: .pcb), setup, "no step recorded")
+        XCTAssertEqual(c.doc.undoName, setup, "no step recorded")
     }
 
     func testPressSelectsThePartAndKeepsAMultiSelection() throws {
@@ -123,7 +123,7 @@ final class ReferenceDragTests: XCTestCase {
     func testTheWholePressIsOneUndoStep() throws {
         let c = try twoParts()
         let from = try centre(c.doc, c.a)
-        let setup = c.doc.undoName(on: .pcb)
+        let setup = c.doc.undoName
         // Several frames of one press.
         c.doc.beginGesture(.pcb)
         let press = try XCTUnwrap(ReferenceDragging.press(c.doc, at: from, scale: scale, visible: BoardVisibility()))
@@ -131,10 +131,10 @@ final class ReferenceDragTests: XCTestCase {
             ReferenceDragging.drag(c.doc, id: press.id, from: press.from, by: CGSize(width: Double(step), height: Double(step) / 2))
         }
         c.doc.endGesture()
-        XCTAssertEqual(c.doc.undoName(on: .pcb), "Move Reference")
-        XCTAssertTrue(c.doc.undo(on: .pcb))
+        XCTAssertEqual(c.doc.undoName, "Move Reference")
+        XCTAssertTrue(c.doc.undo())
         XCTAssertEqual(try chip(c.doc, c.a).board?.referenceOffset, .zero)
-        XCTAssertEqual(c.doc.undoName(on: .pcb), setup, "one step, not five")
+        XCTAssertEqual(c.doc.undoName, setup, "one step, not five")
     }
 
     func testALockedPartsReferenceMoves() throws {

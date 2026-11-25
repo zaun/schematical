@@ -4,7 +4,7 @@ import UniformTypeIdentifiers
 import XCTest
 @testable import schematical
 
-/// File > Save As… with Format KiCad Project: the three files
+/// File › Export › KiCad Project…: the three files
 /// (`KiCadExport`). The files are checked for shape here; that KiCad itself
 /// reads them and finds the schematic's nets on the board is checked by
 /// running `kicad-cli` over the output (see `docs/export.md` § KiCad).
@@ -142,20 +142,22 @@ final class KiCadExportTests: XCTestCase {
 
     func testSaveAsKiCadWritesNextToTheChosenFileAndLeavesTheWindowAlone() throws {
         let doc = try Fixture.open("AFU")
-        let controller = SchematicFileController(document: doc, catalog: TestSupport.catalog, willReplaceDocument: {})
-        Self.kept.append(controller)
+        let document = TestSupport.systemDocument(of: doc)
+        let controller = document.model.file
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent("kicad-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: directory) }
-        let before = controller.hasUnsavedChanges
+        TestSupport.turnRunLoop()
+        let before = document.isDocumentEdited
         try controller.writeKiCad(to: directory.appendingPathComponent("Board.kicad_pro"))
         let written = try FileManager.default.contentsOfDirectory(atPath: directory.path).sorted()
         XCTAssertEqual(written, ["Board.kicad_pcb", "Board.kicad_pro", "Board.kicad_sch"])
+        XCTAssertNil(document.fileURL)
         XCTAssertNil(controller.fileURL)
-        XCTAssertEqual(controller.hasUnsavedChanges, before)
+        TestSupport.turnRunLoop()
+        XCTAssertEqual(document.isDocumentEdited, before, "an export is not a save, and not an edit")
+        XCTAssertFalse(doc.undoManager.canUndo)
     }
-
-    private static var kept: [SchematicFileController] = []
 
     private func printRouted() throws {
         let doc = try ExportSamples.routed()
@@ -174,45 +176,40 @@ final class KiCadExportTests: XCTestCase {
         print("EPRO_FILE routed.epro \(EasyEDAProExport.data(for: doc, base: "routed").base64EncodedString())")
     }
 
-    /// The Save As panel's Format menu changes the file type and the extension of the name,
-    /// and keeps what was typed.
-    func testSaveFormatPickerSwitchesTypeAndExtension() throws {
-        let panel = NSSavePanel()
-        let picker = SaveFormatPicker(panel: panel, baseName: "Board")
-        XCTAssertEqual(picker.format, .schematical)
-        XCTAssertEqual(panel.nameFieldStringValue, "Board.schematical")
-        XCTAssertNotNil(panel.accessoryView)
-        panel.nameFieldStringValue = "Renamed.schematical"
-        let popup = try XCTUnwrap(findPopup(in: try XCTUnwrap(panel.accessoryView)))
-        XCTAssertEqual(popup.itemTitles, ["Schematical", "KiCad Project", "EasyEDA Pro Project"])
-        popup.selectItem(at: 1)
-        _ = popup.target?.perform(popup.action, with: popup)
-        XCTAssertEqual(picker.format, .kicad)
-        XCTAssertEqual(panel.nameFieldStringValue, "Renamed.kicad_pro")
-        XCTAssertEqual(panel.allowedContentTypes.first?.preferredFilenameExtension, "kicad_pro")
-        popup.selectItem(at: 2)
-        _ = popup.target?.perform(popup.action, with: popup)
-        XCTAssertEqual(picker.format, .easyEDAPro)
-        XCTAssertEqual(panel.nameFieldStringValue, "Renamed.epro")
-        popup.selectItem(at: 0)
-        _ = popup.target?.perform(popup.action, with: popup)
-        XCTAssertEqual(picker.format, .schematical)
-        XCTAssertEqual(panel.nameFieldStringValue, "Renamed.schematical")
-        // A dot in the name is not an extension.
-        let dotted = NSSavePanel()
-        let other = SaveFormatPicker(panel: dotted, baseName: "v1.2")
-        XCTAssertEqual(dotted.nameFieldStringValue, "v1.2.schematical")
-        let menu = try XCTUnwrap(findPopup(in: try XCTUnwrap(dotted.accessoryView)))
-        menu.selectItem(at: 1)
-        _ = menu.target?.perform(menu.action, with: menu)
-        XCTAssertEqual(dotted.nameFieldStringValue, "v1.2.kicad_pro")
-        XCTAssertEqual(other.format, .kicad)
-    }
+    /// File › Export › KiCad Project… asks for a folder (the sandbox lets the
+    /// app write only the one file a save panel names) and writes the three
+    /// files into it, named after the schematic.
+    func testKiCadProjectIsWrittenIntoTheChosenFolder() throws {
+        let doc = try Fixture.open("AFU")
+        let document = TestSupport.systemDocument(of: doc)
+        let exporter = document.model.file
+        let panel = exporter.kiCadFolderPanel()
+        XCTAssertTrue(panel.canChooseDirectories)
+        XCTAssertFalse(panel.canChooseFiles)
+        XCTAssertTrue(panel.canCreateDirectories)
+        XCTAssertEqual(panel.prompt, "Export")
+        XCTAssertNil(panel.accessoryView, "no Format menu")
+        XCTAssertEqual(panel.message, "Choose the folder for Untitled.kicad_pro, Untitled.kicad_sch, and Untitled.kicad_pcb.")
 
-    private func findPopup(in view: NSView) -> NSPopUpButton? {
-        if let popup = view as? NSPopUpButton { return popup }
-        for sub in view.subviews { if let found = findPopup(in: sub) { return found } }
-        return nil
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent("kicad-\(UUID().uuidString)")
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        // The model's URL, which names the exports. Not the system document's:
+        // AppKit would then autosave this edited document to a file that is not there.
+        document.model.fileURL = directory.appendingPathComponent("My Board.schematical")
+        XCTAssertEqual(exporter.kiCadFiles(in: directory).map(\.lastPathComponent),
+                       ["My Board.kicad_pro", "My Board.kicad_sch", "My Board.kicad_pcb"])
+        XCTAssertEqual(exporter.kiCadFolderPanel().directoryURL?.standardizedFileURL, directory.standardizedFileURL)
+        TestSupport.turnRunLoop()
+        let before = document.isDocumentEdited
+        try exporter.writeKiCadProject(into: directory)
+        let written = try FileManager.default.contentsOfDirectory(atPath: directory.path).sorted()
+        XCTAssertEqual(written, ["My Board.kicad_pcb", "My Board.kicad_pro", "My Board.kicad_sch"])
+        TestSupport.turnRunLoop()
+        XCTAssertEqual(document.isDocumentEdited, before, "an export is not a save, and not an edit")
+        // A second export replaces the files.
+        try exporter.writeKiCadProject(into: directory)
+        XCTAssertEqual(try FileManager.default.contentsOfDirectory(atPath: directory.path).count, 3)
     }
 
     /// A pad's place in the file, turned the way KiCad turns it, is where

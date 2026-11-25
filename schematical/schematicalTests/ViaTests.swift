@@ -27,11 +27,11 @@ final class ViaTests: XCTestCase {
         XCTAssertNil(BoardVia.problem(drill: added.drill, diameter: added.diameter))
         XCTAssertEqual(doc.selectedViaID, id)
         XCTAssertEqual(PCBSidebarView.content(for: doc), .via(id))
-        XCTAssertEqual(doc.undoName(on: .pcb), "Add Via")
+        XCTAssertEqual(doc.undoName, "Add Via")
 
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertTrue(doc.vias.isEmpty)
-        XCTAssertTrue(doc.redo(on: .pcb))
+        XCTAssertTrue(doc.redo())
         XCTAssertEqual(doc.vias.map(\.id), [id])
     }
 
@@ -97,12 +97,12 @@ final class ViaTests: XCTestCase {
         XCTAssertEqual(try via(doc, id).drill, 0.7, accuracy: 1e-9, "0.8 metal leaves 0.05 a side")
         doc.setViaDrill(id, 0.75)
         XCTAssertEqual(try via(doc, id).drill, 0.7, accuracy: 1e-9)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Change Via Hole")
+        XCTAssertEqual(doc.undoName, "Change Via Hole")
         doc.setViaDiameter(id, 0.5)
         XCTAssertEqual(try via(doc, id).diameter, 0.8, accuracy: 1e-9, "can't shrink past the hole")
         doc.setViaDiameter(id, 20)
         XCTAssertEqual(try via(doc, id).diameter, 10)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Change Via Size")
+        XCTAssertEqual(doc.undoName, "Change Via Size")
         doc.setViaDrill(id, 0.01)
         XCTAssertEqual(try via(doc, id).drill, 0.1)
         doc.setViaCentre(id, p(1.234, 5.678))
@@ -236,18 +236,18 @@ final class ViaTests: XCTestCase {
         doc.setViaTenting(id, .top, false)
         XCTAssertFalse(try via(doc, id).isTented(on: .top))
         XCTAssertTrue(try via(doc, id).isTented(on: .bottom))
-        XCTAssertEqual(doc.undoName(on: .pcb), "Change Via Tenting")
+        XCTAssertEqual(doc.undoName, "Change Via Tenting")
         doc.setViaTenting(id, .bottom, false)
         XCTAssertFalse(try via(doc, id).isTented(on: .bottom))
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertTrue(try via(doc, id).isTented(on: .bottom))
         XCTAssertFalse(try via(doc, id).isTented(on: .top))
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertTrue(try via(doc, id).isTented(on: .top))
         // The same value records no step.
-        let name = doc.undoName(on: .pcb)
+        let name = doc.undoName
         doc.setViaTenting(id, .top, true)
-        XCTAssertEqual(doc.undoName(on: .pcb), name)
+        XCTAssertEqual(doc.undoName, name)
     }
 
     func testTentingInTheFile() throws {

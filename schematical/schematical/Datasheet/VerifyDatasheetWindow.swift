@@ -55,7 +55,7 @@ enum OptionOnlyMenuItems {
         ) { note in
             let menu = note.object as? NSMenu
             MainActor.assumeIsolated {
-                guard let menu, menu === NSApp.windowsMenu else { return }
+                guard let menu, menu === NSApp.windowsMenu || menu.title == "File" else { return }
                 DispatchQueue.main.async { apply(optionDown: false) }
             }
         })
@@ -79,11 +79,24 @@ enum OptionOnlyMenuItems {
         apply(optionDown: false)
     }
 
-    /// Shows the items when Option is down, hides them otherwise.
+    /// Shows the items when Option is down, hides them otherwise. In the
+    /// File menu Save As… takes Duplicate's place while Option is down, as
+    /// in any document app (plan-61-B).
     static func apply(optionDown: Bool) {
-        guard let menu = NSApp.windowsMenu else { return }
-        for item in menu.items where titles.contains(item.title) {
-            if item.isHidden == optionDown { item.isHidden = !optionDown }
+        if let menu = NSApp.windowsMenu {
+            for item in menu.items where titles.contains(item.title) {
+                if item.isHidden == optionDown { item.isHidden = !optionDown }
+            }
+        }
+        if let menu = NSApp.mainMenu?.items.first(where: { $0.title == "File" })?.submenu {
+            for item in menu.items {
+                let isSaveAs = item.title == DocumentMenuCommands.saveAsTitle
+                guard isSaveAs || item.title == DocumentMenuCommands.duplicateTitle else { continue }
+                // Each keeps its key (⇧⌘S, ⌥⇧⌘S) while the other is shown.
+                if !item.allowsKeyEquivalentWhenHidden { item.allowsKeyEquivalentWhenHidden = true }
+                let hidden = isSaveAs ? !optionDown : optionDown
+                if item.isHidden != hidden { item.isHidden = hidden }
+            }
         }
     }
 }
@@ -195,6 +208,9 @@ enum CitationLocator {
 @MainActor
 @Observable
 final class VerifyDatasheetModel {
+    /// As `DatasheetFinder`'s: an isolated deinit aborts the runtime.
+    nonisolated deinit {}
+
     enum PDFPhase {
         case none
         case loading

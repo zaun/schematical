@@ -37,7 +37,9 @@ final class ParametricFootprintDraftTests: XCTestCase {
         // 2293 with the display-driver footprints of plan-56 and the four PLD packages (PDIP-20/24-MC, CDIP-24-MC-24D3, PLCC-20-MC-20J).
         // 2929 = 2775 on main (this count was last updated at 2293 and had gone stale) + the 154 `SKT-` socket
         // footprints of plan-51 (146 dual, 8 quad).
-        XCTAssertEqual(Self.entries.count, 2929)
+        // 3959 = 2268 parametric + 1691 explicit, measured 2026-11-24 from `Parts/footprints.json`: the count
+        // had gone stale again at 2929 while plan-47 and plan-58 (slide switches) added theirs.
+        XCTAssertEqual(Self.entries.count, 3959)
         for style in ["dual", "quad", "grid", "header"] {
             let entry = try Self.sample(style)
             let draft = try XCTUnwrap(ParametricFootprintDraft(json: entry), style)
@@ -61,7 +63,8 @@ final class ParametricFootprintDraftTests: XCTestCase {
             count += 1
         }
         // 1710 = 1556 on main (stale at 1339 here) + the 154 parametric `SKT-` footprints of plan-51.
-        XCTAssertEqual(count, 1710)
+        // 2268, measured 2026-11-24 (stale at 1710; see `testEachStyleReadsAndWritesItsEntry`).
+        XCTAssertEqual(count, 2268)
     }
 
     /// A generic part with the footprint's pins, naming an inline copy of it.

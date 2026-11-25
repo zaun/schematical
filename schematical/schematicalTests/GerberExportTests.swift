@@ -5,7 +5,6 @@ import XCTest
 /// File > Export > Gerber PCB: the layer files and their zip.
 @MainActor
 final class GerberExportTests: XCTestCase {
-    private static var kept: [SchematicFileController] = []
 
     private let rules = DesignRules.pcbway
 
@@ -335,15 +334,21 @@ final class GerberExportTests: XCTestCase {
 
     func testControllerWritesTheZipNamedAfterTheFile() throws {
         let doc = TestSupport.newDocument()
-        let controller = SchematicFileController(document: doc, catalog: TestSupport.catalog, willReplaceDocument: {})
-        Self.kept.append(controller)
+        let document = TestSupport.systemDocument(of: doc)
+        let controller = document.model.file
         XCTAssertEqual(controller.gerberBaseName, "Untitled")
         let url = FileManager.default.temporaryDirectory.appendingPathComponent("gerber-\(UUID().uuidString).zip")
         try controller.writeGerber(to: url)
         defer { try? FileManager.default.removeItem(at: url) }
         let data = try Data(contentsOf: url)
         XCTAssertEqual(Array(data.prefix(4)), [0x50, 0x4B, 0x03, 0x04])
-        XCTAssertNil(controller.fileURL, "an export is not a save")
+        XCTAssertNil(document.fileURL, "an export is not a save")
+        XCTAssertNil(controller.fileURL)
+        // The exporter names its files after the document's file.
+        // The model's URL, which names the exports. Not the system document's:
+        // AppKit would then autosave this edited document to a file that is not there.
+        document.model.fileURL = URL(fileURLWithPath: "/tmp/My Board.schematical")
+        XCTAssertEqual(controller.gerberBaseName, "My_Board")
     }
 
     /// The centre of the bounding box of every filled region (glyph) in a
