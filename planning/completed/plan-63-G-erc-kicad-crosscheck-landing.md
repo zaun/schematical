@@ -179,7 +179,7 @@ Commit: 3cd00f8e
 Acceptance: the final gate passes.
   Check: see Validation Plan (est. 35 min).
   Result (2026-11-25): see the Validation Plan's final gate.
-Commit: (this file's last commit, with the archive)
+Commit: d92e2c09 (archive and gate), d2511e6e (the todo tick)
 
 ## Validation Plan
 
