@@ -23,7 +23,7 @@ The shared gate is in plan-65-A. This sub-plan adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-65-G is complete | `ls planning/completed \| grep -c '^plan-65-G'` → 1 | NOT MET (2026-11-25: G is written, not landed) |
+| plan-65-G is complete | `ls planning/completed \| grep -c '^plan-65-G'` → 1 | MET (2026-11-25: G landed, 1) |
 | the fixtures exist | `ls planning/plan-65-data/DXFFixtures.swift planning/plan-65-data/fixtures/expected.json` → both listed | MET (2026-11-25) |
 
 Everything below is written against the world where these hold.
@@ -101,12 +101,13 @@ Rejected: a third-party DXF library (none is in the project and the entity set i
 
 ### Phase 1 — Parse and flatten
 
-- [ ] Copy `planning/plan-65-data/DXFFixtures.swift` to `schematical/schematicalTests/DXFFixtures.swift` (unchanged).
-- [ ] `Document/DXFReader.swift`: `DXFDrawing`, `DXFEntity`, `DXFUnits`, `DXFError`, `DXFReader.parse`; `Document/DXFLoops.swift`: the flatteners (bulge, ellipse, NURBS).
-- [ ] Tests `schematicalTests/DXFReaderTests.swift`: every fixture parses; entity types and counts per fixture (`chainBoard`: 4 `LINE` + 1 `ARC`; `curves`: 1 `SPLINE` + 1 `ELLIPSE`; `inchBoard`: `POLYLINE` + `CIRCLE`, units 1; `roundedBoard`: `LWPOLYLINE` ×2, `CIRCLE`, `skipped == ["TEXT": 1]`; `openChain` units code 0 → `DXFUnits` nil; `kicadEdgeProbe`: 5 `LINE`, 1 `CIRCLE`, 1 `ARC`, units 4); a binary-DXF header throws `.binary`; a text file with an odd line count throws `.truncated`; a file with no `ENTITIES` throws `.noEntities`; Latin-1 layer name reads; a quarter-circle bulge `b = tan(π/8)` from (10, 0) to (0, 10) has every flattened point 10 ± 0.01 from the origin and a negative bulge goes the other way; the degree-2 NURBS quarter circle (control points (1,0), (1,1), (0,1), weights 1, √2/2, 1, knots 0,0,0,1,1,1) has every flattened point 1 ± 0.01 from the origin; an ellipse with major (5, 0), ratio 0.6 has area 47.06 ± 1 %.
+- [x] Copy `planning/plan-65-data/DXFFixtures.swift` to `schematical/schematicalTests/DXFFixtures.swift` (unchanged).
+- [x] `Document/DXFReader.swift`: `DXFDrawing`, `DXFEntity`, `DXFUnits`, `DXFError`, `DXFReader.parse`; `Document/DXFLoops.swift`: the flatteners (bulge, ellipse, NURBS).
+- [x] Tests `schematicalTests/DXFReaderTests.swift`: every fixture parses; entity types and counts per fixture (`chainBoard`: 4 `LINE` + 1 `ARC`; `curves`: 1 `SPLINE` + 1 `ELLIPSE`; `inchBoard`: `POLYLINE` + `CIRCLE`, units 1; `roundedBoard`: `LWPOLYLINE` ×2, `CIRCLE`, `skipped == ["TEXT": 1]`; `openChain` units code 0 → `DXFUnits` nil; `kicadEdgeProbe`: 5 `LINE`, 1 `CIRCLE`, 1 `ARC`, units 4); a binary-DXF header throws `.binary`; a text file with an odd line count throws `.truncated`; a file with no `ENTITIES` throws `.noEntities`; Latin-1 layer name reads; a quarter-circle bulge `b = tan(π/8)` from (10, 0) to (0, 10) has every flattened point 10 ± 0.01 from the origin and a negative bulge goes the other way; the degree-2 NURBS quarter circle (control points (1,0), (1,1), (0,1), weights 1, √2/2, 1, knots 0,0,0,1,1,1) has every flattened point 1 ± 0.01 from the origin; an ellipse with major (5, 0), ratio 0.6 has area 47.06 ± 1 %.
 
 Acceptance: every fixture parses to the entities above and each flattener is within the 0.01 mm rule.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/DXFReaderTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 2 min).
+  Observed: DXFReaderTests 13, 0 failures, TEST SUCCEEDED.
 Commit: —
 
 ### Phase 2 — Loops and the import plan
