@@ -6,3 +6,7 @@ step 305419896 4 262144 7780baee2f7b9ffa
 run gpio_out 521 93d2a2f2c13d5dba
 run gpio_int 6000 74830bd3bc5f4b5e
 run clkpr 160 58af1eb45b335360
+run timer0 60199 e9a65e136d9b63fc
+run timer1 45271 b1f5ab4aefc23730
+run timer2 56198 e9d5be76b066594b
+run timer_ext 2613 414c022443666f54

@@ -55,3 +55,8 @@ meta("gpio_int", 6000,
      toggles("C", 1, 97, 30000) + toggles("D", 7, 113, 30000) + toggles("B", 1, 41, 30000))
 
 meta("clkpr", 160, [])
+
+meta("timer0", 60000, [])
+meta("timer1", 45000, [])
+meta("timer2", 56000, [])
+meta("timer_ext", 2500, toggles("D", 4, 23, 30000) + toggles("D", 5, 31, 30000))

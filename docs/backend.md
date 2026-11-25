@@ -512,7 +512,14 @@ backend/
                            AVR microcontroller core, a C port of avr8js
                            0.21.1, MIT, LICENSE-avr8js; the CPU, its
                            interrupt queue and clock events, and every
-                           instruction);
+                           instruction), avr_gpio.c (a port's PIN/DDR/PORT,
+                           external and pin-change interrupts), avr_clock.c
+                           (CLKPR), avr_timer.c (the 8- and 16-bit timers);
+                           avr_chip.c + avr_chip.h (a chip: a CPU and the
+                           peripherals of a register layout; the layouts'
+                           tables, with vectors as numbers that
+                           avr_layout_scale turns into word addresses for
+                           a chip's vector size);
                            buffer.c + buffer.h (the buffer kind: models
                            tristate, transceiver and translator, supply
                            domains; the port read-back rule),
@@ -913,6 +920,27 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   (order, one per tick, update, clear, more than avr8js's pool of 10) and the
   interrupt queue. `avr_core_test --print-golden` prints the golden line from
   the oracle's output.
+- `avr_periph_test` — the AVR peripherals and the chip assembly (plan-62-B)
+  against avr8js. **layout**: the `atmega328` layout printed as JSON
+  (`avr_periph_test --layout atmega328 32768`) must equal avr8js's own
+  ATmega328P configs (`oracle.js layout-check`; `layout atmega328 equal`).
+  **scenarios**: `tests/avr/<name>.json` holds a program and pin stimuli; the
+  C chip runs it in exact mode and prints a trace, one line per instruction
+  (`i <pc> <cycles> <SREG> <SP> <hash of the data memory>`) and one per port
+  output change (`p <cycles> <port> <value> <DDR>`). The trace must hash to
+  the scenario's `run` line in `tests/avr/golden.txt` and, with `node`,
+  equal the trace `oracle.js run` prints from avr8js on the same layout; the
+  first differing line prints with its number. It prints `ok <name> (<lines>
+  lines, <n> port events, <n> interrupts)`. Scenarios: `gpio_out`,
+  `gpio_int`, `clkpr`, `timer0`, `timer1`, `timer2`, `timer_ext`. A scenario
+  is built from `tests/avr/src/<name>.asm` (avr8js's assembler: `_LOC
+  <byte address>`, labels, `;` comments) and `<name>.meta.json` (written by
+  `src/make_meta.py`: layout, sizes, steps, stimuli); `sh
+  backend/tests/avr/src/build.sh` rebuilds them all, `python3
+  backend/tests/avr/src/regen_golden.py <build dir>` rewrites the `run`
+  lines from the oracle, and with `node` the test fails when a committed
+  `.json` is not what `oracle.js build` makes of its sources.
+  `avr_periph_test --trace <name>` prints the C trace.
 - `cpu_test` — the cpu kind's bus adapters on inline fixture devices (the
   W65C02S and MOS 6502 data of `cpu.json`) and a bench that clocks the CPU
   at 1 MHz and serves a 64 KB memory (X where it was given nothing): the

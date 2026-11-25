@@ -241,14 +241,15 @@ Commit: —
 
 ### Phase 2 — timers
 
-- [ ] `backend/src/models/avr_timer.c`: `timer.ts`.
-- [ ] `avr_chip.c`: timers 0, 1, 2 in the `atmega328` layout;
+- [x] `backend/src/models/avr_timer.c`: `timer.ts`.
+- [x] `avr_chip.c`: timers 0, 1, 2 in the `atmega328` layout;
       `backend/CMakeLists.txt`: the source.
-- [ ] Scenarios `timer0`, `timer1`, `timer2`, `timer_ext`.
-- [ ] `docs/backend.md`: § Layout (the new files), § Tests (`avr_periph_test`).
+- [x] Scenarios `timer0`, `timer1`, `timer2`, `timer_ext`.
+- [x] `docs/backend.md`: § Layout (the new files), § Tests (`avr_periph_test`).
 
 Acceptance: all 7 scenarios equal avr8js.
   Check: `ctest --test-dir /tmp/sim-rel -R 'avr_' --output-on-failure` → 7 `ok <scenario>` lines, 2 tests passed (est. 1 min).
+  Observed: 2026-11-24: 7 `ok` lines against the live oracle (`timer0` 60199 lines, 199 port events, 229 interrupts; `timer1` 45271, 271, 278; `timer2` 56198, 198, 151; `timer_ext` 2613, 113, 242); every program reaches its `end` label; `ctest -R avr_` 2 of 2 passed.
 Commit: —
 
 ## Validation Plan
@@ -267,6 +268,29 @@ Commit: —
 plan-62-A § Decisions. None added.
 
 ## Corrections
+
+- Phase 1 also landed `avr_timer.c` and the three timers of the layout
+  (Phase 2's first two tasks): `layout-check` compares the whole layout, so
+  the timer tables had to exist for `layout atmega328 equal`. Phase 2 is the
+  four timer scenarios and the docs.
+- § 3.2 / plan-62-D § 3.1: the layout already holds vector numbers, and
+  `avr_layout_scale(layout, flash_bytes, out)` turns them into word
+  addresses (one word per vector for 8192 bytes of flash or less).
+  `avr_periph_test --layout <name> <flash bytes>` prints the scaled layout.
+  D's Phase 1 keeps only the PB layouts, the peripheral lists and the
+  scenarios.
+- § 3.2: `avr_chip_create` takes `clkpr_reset` as a sixth argument (the
+  CLKPR reset value E needs); `AvrChip` is a public struct.
+- § 3.3: a scenario file is built by a new `oracle.js build <name>.asm
+  <name>.meta.json`; the settings files come from
+  `tests/avr/src/make_meta.py`, `build.sh` rebuilds every scenario and
+  `regen_golden.py` rewrites the `run` golden lines from the oracle. With
+  `node` the test also checks each committed `.json` equals its build.
+- § 3.3: the oracle and the C runner fill the flash with 0xFF before loading
+  the program (avr8js's `Uint16Array` would start at 0).
+- § 3.4: `gpio_int` drives no output, so its trace has no port event; the
+  test requires a taken interrupt there and a port event in `gpio_out` and
+  the timer scenarios (measured: `gpio_int` 1489 interrupts, 0 port events).
 
 ## Summary
 

@@ -45,6 +45,10 @@ static const Scenario SCENARIOS[] = {
     {"gpio_out", 1, 0},
     {"gpio_int", 0, 1},
     {"clkpr", 0, 0},
+    {"timer0", 1, 1},
+    {"timer1", 1, 1},
+    {"timer2", 1, 1},
+    {"timer_ext", 1, 1},
 };
 
 #define SCENARIO_COUNT (sizeof SCENARIOS / sizeof SCENARIOS[0])
