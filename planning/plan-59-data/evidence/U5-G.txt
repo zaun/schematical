@@ -1,0 +1,24 @@
+> edit 0 label
+added label BF335D72-F87F-4D60-A5CC-34A017BE7FD9 labels=84
+> state 0
+   labels=84 last=N3 edited=true equalsSavedFile=false undo='Undo Add Net Label' redo='Redo' registrations=9 merges=27 groupingLevel=0
+> play 0
+running=true playing=true
+> edit 0 label
+added label D7844E3C-E1DD-4B04-AD62-33A5149E5047 labels=85
+> state 0
+   labels=85 last=N4 edited=true equalsSavedFile=false undo='Undo Add Net Label' redo='Redo' registrations=9 merges=27 groupingLevel=0
+> chain 0 undo:
+tryToPerform(undo:) from AppKitWindow: true (NSApp target with no key window: nil)
+> state 0
+   labels=85 last=N4 edited=true equalsSavedFile=false undo='Undo Add Net Label' redo='Redo' registrations=10 merges=27 groupingLevel=0
+> chain 0 redo:
+tryToPerform(redo:) from AppKitWindow: true (NSApp target with no key window: nil)
+> state 0
+   labels=85 last=N4 edited=true equalsSavedFile=false undo='Undo Add Net Label' redo='Redo' registrations=10 merges=27 groupingLevel=0
+> stop 0
+running=false playing=false
+> chain 0 undo:
+tryToPerform(undo:) from AppKitWindow: true (NSApp target with no key window: nil)
+> state 0
+   labels=84 last=N4 edited=false equalsSavedFile=false undo='Undo Rename Net Label' redo='Redo Add Net Label' registrations=11 merges=27 groupingLevel=0

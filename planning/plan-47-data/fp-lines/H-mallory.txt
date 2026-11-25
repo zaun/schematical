@@ -1,0 +1,51 @@
+# letter	type	company	series	mounting	package	supplier_package	size	detail	parts	example	datasheets	existing
+H	buzzer	mallory		Surface Mount			0.157" L x 0.157" W (4.00mm x 4.00mm)	Solder Pads	1	AST0440MFD-03TRQ	1	
+H	buzzer	mallory		Surface Mount			0.197" L x 0.197" W (5.00mm x 5.00mm)	Solder Pads	2	AST0540MW-3.6TRQ	2	
+H	buzzer	mallory		Surface Mount			0.295" L x 0.295" W (7.50mm x 7.50mm)	Solder Pads	2	AST7525MATRQ	2	
+H	buzzer	mallory		Surface Mount			0.335" L x 0.335" W (8.50mm x 8.50mm)	Solder Pads	3	AST0827MW-03TRQ	3	
+H	buzzer	mallory		Surface Mount			0.339" L x 0.335" W (8.60mm x 8.50mm)	Solder Pads	1	AST0840MFD-4.4TRQ	1	
+H	buzzer	mallory		Surface Mount			0.343" L x 0.343" W (8.70mm x 8.70mm)	Solder Pads	1	AST200Q	1	
+H	buzzer	mallory		Surface Mount			0.354" Dia (9.00mm)	PC Pins	1	PB-0940PW-03Q	1	
+H	buzzer	mallory		Surface Mount			0.354" Dia (9.00mm)	Solder Pads	2	AST0927MW-03TRQ	2	
+H	buzzer	mallory		Surface Mount			0.354" L x 0.354" W (9.00mm x 9.00mm)	Solder Pads	1	AST0940MCTRQ	1	
+H	buzzer	mallory		Surface Mount			0.374" L x 0.374" W (9.50mm x 9.50mm)	Solder Pads	1	ASI09N27M-05Q	1	
+H	buzzer	mallory		Surface Mount			0.378" L x 0.378" W (9.60mm x 9.60mm)	Solder Pads	2	ASI09N27MFD-05TRQ	2	
+H	buzzer	mallory		Surface Mount			0.394" L x 0.394" W (10.00mm x 10.00mm)	Solder Pads	1	AST1027MW-03TRQ	1	
+H	buzzer	mallory		Surface Mount			0.413" L x 0.413" W (10.50mm x 10.50mm)	Solder Pads	1	ASI09N40MTRQ	1	
+H	buzzer	mallory		Surface Mount			0.433" L x 0.354" W (11.00mm x 9.00mm)	Solder Pads	1	AST1109MLTRQ	1	
+H	buzzer	mallory		Surface Mount			0.472" L x 0.472" W (12.00mm x 12.00mm)	Solder Pads	1	AST1240MLTRQ	1	
+H	buzzer	mallory		Surface Mount			0.496" L x 0.496" W (12.60mm x 12.60mm)	Solder Pads	4	ASI301Q	4	
+H	buzzer	mallory		Surface Mount			0.512" L x 0.512" W (13.00mm x 13.00mm)	Solder Pads	1	AST1341MCTRQ	1	
+H	buzzer	mallory		Surface Mount			0.551" L x 0.433" W (14.00mm x 11.00mm)	Solder Pads	2	AST1427M-05TRQ	2	
+H	buzzer	mallory		Surface Mount			0.555" L x 0.555" W (14.10mm x 14.10mm)	Solder Pads	1	AST1440MATRQ	1	
+H	buzzer	mallory		Surface Mount			0.630" L x 0.630" W (16.00mm x 16.00mm)	Solder Pads	2	AST1640MACTRQ	2	
+H	buzzer	mallory		Surface Mount			0.669" Dia (17.00mm)	Solder Pads	1	AST100Q	1	
+H	buzzer	mallory		Surface Mount			1.811" L x 1.260" W (46.00mm x 32.00mm)	PC Pins	1	PS-733PYQ	1	
+H	buzzer	mallory		Surface Mount			2.146" Dia (54.50mm)	Solder Pads	1	PT-593SQ	1	
+H	buzzer	mallory		Through Hole			0.354" Dia (9.00mm)	PC Pins	3	PB-09N23P-03Q	3	
+H	buzzer	mallory		Through Hole			0.413" Dia (10.50mm)	PC Pins	2	PK-09N50PQ	2	
+H	buzzer	mallory		Through Hole			0.472" Dia (12.00mm)	PC Pins	14	PB-1226PEAQ	14	
+H	buzzer	mallory		Through Hole			0.492" Dia (12.50mm)	PC Pins	1	PT-1241PFQ	1	
+H	buzzer	mallory		Through Hole			0.496" Dia (12.60mm)	PC Pins	1	PT-1245P-PQ	1	
+H	buzzer	mallory		Through Hole			0.543" Dia (13.80mm)	PC Pins	6	PK-12N40PEQ	6	
+H	buzzer	mallory		Through Hole			0.551" Dia (14.00mm)	PC Pins	1	PT-1340P-P10-PQ	1	
+H	buzzer	mallory		Through Hole			0.630" Dia (16.00mm)	PC Pins	3	PB-1621PQ	3	
+H	buzzer	mallory		Through Hole			0.669" Dia (17.00mm)	PC Pins	2	PT-1540PQ	2	
+H	buzzer	mallory		Through Hole			0.866" Dia (22.00mm)	PC Pins	1	PT-2040PQ	1	
+H	buzzer	mallory		Through Hole			0.866" L x 0.283" W (22.00mm x 7.20mm)	PC Pins	1	PT-2020PQ	1	
+H	buzzer	mallory		Through Hole			0.906" Dia (23.00mm)	PC Pins	13	PK-20A38PQ	13	
+H	buzzer	mallory		Through Hole			0.906" L x 0.906" W (23.00mm x 23.00mm)	PC Pins	13	MSO206NR	13	
+H	buzzer	mallory		Through Hole			0.921" Dia (23.40mm)	PC Pins	1	MCP320B2Q	1	
+H	buzzer	mallory		Through Hole			0.945" Dia (24.00mm)	PC Pins	10	MCP320Q	10	
+H	buzzer	mallory		Through Hole			1.024" Dia (26.00mm)	PC Pins	2	MAS800Q	2	
+H	buzzer	mallory		Through Hole			1.181" Dia (30.00mm)	PC Pins	15	PK-27N26PSQ	15	
+H	buzzer	mallory		Through Hole			1.201" L x 0.315" W (30.50mm x 8.00mm)	PC Pins	1	PT-2728FPQ	1	
+H	buzzer	mallory		Through Hole			1.299" Dia (33.00mm)	PC Pins	1	PS-953Q	1	
+H	buzzer	mallory		Through Hole			1.358" Dia (34.50mm)	PC Pins	2	PT-3110P-05Q	2	
+H	buzzer	mallory		Through Hole			1.535" Dia (39.00mm)	PC Pins	1	PT-3534FPQ	1	
+H	buzzer	mallory		Through Hole			1.654" Dia (42.00mm)	PC Pins	1	PT-3529PQ	1	
+H	buzzer	mallory		Through Hole			1.687" Dia (42.85mm)	PC Pins	1	SBM428R	1	
+H	buzzer	mallory		Through Hole			1.732" Dia (44.00mm)	PC Pins	1	PT-4175PQ	1	
+H	buzzer	mallory		Through Hole			1.750" Dia (44.45mm)	PC Pins	2	SBS12M0PC	2	
+H	buzzer	mallory		Through Hole			1.752" Dia (44.50mm)	PC Pins	2	SBS300PC	2	
+H	buzzer	mallory		Through Hole			1.772" Dia (45.00mm)	PC Pins	1	PT-4532PLQ	1	

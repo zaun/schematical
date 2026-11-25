@@ -166,6 +166,21 @@ nonisolated enum PartSymbol: Hashable {
     /// (left) and pin 2 (right), its value above (`ResistorSymbolView`).
     /// Resistor arrays are blocks.
     case resistor
+    /// A fixed inductor (plan-47-M): four humps between pin 1 (left) and
+    /// pin 2 (right), its inductance above (`InductorSymbolView`).
+    case inductor
+    /// A fuse or PTC resettable fuse (plan-47-M): a rectangle with the lead
+    /// through it between pin 1 (left) and pin 2 (right), its rated current
+    /// above; a PTC adds the thermistor stroke (`FuseSymbolView`). A blown
+    /// fuse (play mode) draws with a gap in the lead.
+    case fuse
+    /// A relay (plan-47-N): the coil (a solid-state relay's LED) on the left,
+    /// each pole's `NO`, `COM` and `NC` terminals on the right with an arm
+    /// that swings to `NO` while the relay is operated (`RelaySymbolView`).
+    case relay
+    /// A buzzer (plan-47-N): a half disc between `+` (left) and `-` (right);
+    /// sound waves while it is on (`BuzzerSymbolView`).
+    case buzzer
     /// A single transistor (plan-40-H): the BJT or MOSFET symbol, the base
     /// or gate on the left, the collector or drain at the top right and the
     /// emitter or source at the bottom right (`TransistorSymbolView`).
@@ -316,6 +331,12 @@ nonisolated struct ChipLayout: Hashable {
             self = Self.capacitor(pins)
         case .crystal:
             self = Self.crystal(pins)
+        case .inductor, .fuse:
+            self = Self.twoTerminals(pins)
+        case .relay:
+            self = Self.relay(part)
+        case .buzzer:
+            self = Self.buzzer(pins)
         case .transistor:
             self = Self.transistor(pins)
         case .vcc:
@@ -764,6 +785,67 @@ nonisolated struct ChipLayout: Hashable {
             slots.append(PinSlot(pin: ground, side: .bottom, centerY: 0, centerX: diodeSize.width / 2))
         }
         return ChipLayout(size: diodeSize, slots: slots)
+    }
+
+    /// An inductor or a fuse (plan-47-M): pin `1` on the left, pin `2` on the
+    /// right, the diode's box. Every other pin (an `NC` pad, a further pad
+    /// of the same name, joined to its twin inside the part) is not drawn.
+    /// Falls back to the block layout if a terminal is missing.
+    private static func twoTerminals(_ pins: [ChipPin]) -> ChipLayout {
+        guard let first = pins.first(where: { $0.name == "1" }),
+              let second = pins.first(where: { $0.name == "2" }) else {
+            return ChipLayout(pins: pins)
+        }
+        return ChipLayout(
+            size: diodeSize,
+            slots: [
+                PinSlot(pin: first, side: .left, centerY: diodeCentreY),
+                PinSlot(pin: second, side: .right, centerY: diodeCentreY),
+            ]
+        )
+    }
+
+    /// A relay (plan-47-N): the coil pins on the left and each pole's `NO`,
+    /// `COM` and `NC` pins on the right (`RelayShape` says which row each is
+    /// on), under a header with the part number. The body is `relayBodyWidth`
+    /// wide and a half row taller than its lowest pin row, which leaves room
+    /// for the coil voltage. A relay whose pins do not read as one
+    /// (`RelayShape` is nil) falls back to the block layout.
+    static let relayBodyWidth: CGFloat = 140
+
+    private static func relay(_ part: CatalogPart) -> ChipLayout {
+        guard let shape = RelayShape(part: part) else {
+            return ChipLayout(pins: part.pins.filter { !$0.isHidden })
+        }
+        var slots: [PinSlot] = []
+        for item in shape.leftPins {
+            slots.append(PinSlot(pin: item.pin, side: .left, centerY: centerY(forRow: item.row)))
+        }
+        for item in shape.rightPins {
+            slots.append(PinSlot(pin: item.pin, side: .right, centerY: centerY(forRow: item.row)))
+        }
+        return ChipLayout(
+            size: CGSize(width: relayBodyWidth, height: headerHeight + pitch * CGFloat(shape.rowCount) + pitch / 2),
+            slots: slots
+        )
+    }
+
+    /// A buzzer (plan-47-N): `+` on the left, `-` on the right, on the
+    /// diode's centre line; any other pin (a feedback electrode, a mounting
+    /// pad) is not drawn. Falls back to the block layout if a terminal is
+    /// missing.
+    private static func buzzer(_ pins: [ChipPin]) -> ChipLayout {
+        guard let plus = pins.first(where: { $0.name == "+" }),
+              let minus = pins.first(where: { $0.name == "-" }) else {
+            return ChipLayout(pins: pins)
+        }
+        return ChipLayout(
+            size: diodeSize,
+            slots: [
+                PinSlot(pin: plus, side: .left, centerY: diodeCentreY),
+                PinSlot(pin: minus, side: .right, centerY: diodeCentreY),
+            ]
+        )
     }
 
     /// A transistor (plan-40-H): the base (`B`) or gate (`G`) on the left

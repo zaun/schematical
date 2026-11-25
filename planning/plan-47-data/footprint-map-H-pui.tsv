@@ -1,0 +1,78 @@
+letter	type	company	series	mounting	package	supplier_package	size	detail	footprint	label	note	series_split
+H	buzzer	pui		Surface Mount			0.126" L x 0.126" W (3.20mm x 3.20mm)	Solder Pads	BUZZER-3232-2-PUI	SMD	specs-SMT-0340-T-R.pdf p.4	
+H	buzzer	pui		Surface Mount			0.157" L x 0.157" W (4.00mm x 4.00mm)	Solder Pads	BUZZER-4040-2-PUI	SMD	specs-SMT-0440-T-2-R.pdf p.4; PARTS DIFFER: BUZZER-4040-2-PUI: SMT-0440-T-2-R,SMT-0440-S-R | BUZZER-4040-2-PUI-B: SMT-0440-T-HT-R	
+H	buzzer	pui		Surface Mount			0.197" L x 0.197" W (5.00mm x 5.00mm)	Solder Pads	BUZZER-5050-3-PUI-B	SMD	specs-SMT-0540-S-R.pdf p.5; PARTS DIFFER: BUZZER-5050-3-PUI: SMT-0540-S-2-R | BUZZER-5050-3-PUI-B: SMT-0540-S-R,SMT-0540-T-7-R,SMT-0540-T-2-R | BUZZER-5050-3-PUI-C: SMT-0540-T-10-R | BUZZER-5050-3-PUI-D: SMT-0540-T-9-R	
+H	buzzer	pui		Surface Mount			0.295" L x 0.295" W (7.50mm x 7.50mm)	Solder Pads	BUZZER-7575-4-PUI	SMD	specs-SMT-0727-S-R.pdf p.4; PARTS DIFFER: BUZZER-7575-2-PUI: SMT-0760-T-R | BUZZER-7575-4-PUI: SMT-0727-S-R | BUZZER-7575-4-PUI-B: SMT-0823-S-HT | BUZZER-7575-4-PUI-C: SMT-0827-S-9-R	
+H	buzzer	pui		Surface Mount			0.315" L x 0.299" W (8.00mm x 7.60mm)	Solder Pads	BUZZER-8076-4-PUI	SMD	specs-SMT-0827-S-10-R.pdf p.3	
+H	buzzer	pui		Surface Mount			0.315" L x 0.315" W (8.00mm x 8.00mm)	Solder Pads	BUZZER-8076-4-PUI-B	SMD	specs-SMT-0826-S-R.pdf p.3	
+H	buzzer	pui		Surface Mount			0.335" L x 0.335" W (8.50mm x 8.50mm)	Solder Pads	BUZZER-8585-4-PUI	SMD	specs-SMT-0825-S-4-R.pdf p.4; PARTS DIFFER: BUZZER-8585-2-PUI: SMT-0824-TW-5V-R,SMT-0827-SW-3V-R,SMT-0827-TW-3V-R,SMT-0827-TW-5V-R,SMT-0827-SW-5V-R | BUZZER-8585-4-PUI: SMT-0825-S-4-R,SMT-0827-S-2-R,SMT-0825-T-R,SMT-0927-S-14-R,SMT-0830-T-R,SMT-0820-S-R,SMT-0825-S-2-R,SMT-0825-T-2-R,SMT-0821-S-R | BUZZER-8585-4-PUI-B: SMT-0827-T-HT-R,SMT-0927-S-HT-R,SMT-0830-T-HT-R,SMT-0825-T-HT-R,SMT-0824-S-2-R | BUZZER-8585-4-PUI-C: SMT-0827-S-HT-R,SMT-0825-S-HT-R | BUZZER-8585-4-PUI-D: SMT-0840-T | BUZZER-8585-4-PUI-E: SMT-0927-S-11-R	SMT
+H	buzzer	pui		Surface Mount			0.335" L x 0.335" W (8.50mm x 8.50mm)	Solder Pads	BUZZER-8585-4-PUI-G	SMD	specs-SMT-0931-S-R.pdf p.3; PARTS DIFFER: BUZZER-8585-4-PUI-F: SMT-0927-S-8-R | BUZZER-8585-4-PUI-G: SMT-0931-S-R	SMT-09
+H	buzzer	pui		Surface Mount			0.354" Dia (9.00mm)	Solder Pads	BUZZER-9090-2-PUI	SMD	specs-SMT-1127-S-R.pdf p.4	
+H	buzzer	pui		Surface Mount			0.354" L x 0.354" W (9.00mm x 9.00mm)	Solder Pads	BUZZER-9090-2-PUI-B	SMD	specs-SMT-0927-S-7-R.pdf p.1	SMT
+H	buzzer	pui		Surface Mount			0.354" L x 0.354" W (9.00mm x 9.00mm)	Solder Pads	BUZZER-9090-2-PUI-C	SMD	specs-SMT-0940-T-3V-R.pdf p.4	SMT-09
+H	buzzer	pui		Surface Mount			0.354" L x 0.354" W (9.00mm x 9.00mm)	Solder Pads	BUZZER-9090-2-PUI-D	SMD	specs-SMTB-0940-T-3V-R.pdf p.3	SMTB
+H	buzzer	pui		Surface Mount			0.362" Dia (9.20mm)	Solder Pads	BUZZER-9292-2-PUI	SMD	specs-SMT-1027-S-HT-R.pdf p.3	
+H	buzzer	pui		Surface Mount			0.378" L x 0.378" W (9.60mm x 9.60mm)	Solder Pads	BUZZER-9696-2-PUI-B	SMD	specs-SMI-1027-TW-5V-R.pdf p.4; PARTS DIFFER: BUZZER-9696-2-PUI: SMI-1027-T-5V-R | BUZZER-9696-2-PUI-B: SMI-1027-TW-5V-R,SMI-1027-TW-12V-R	
+H	buzzer	pui		Surface Mount			0.382" L x 0.382" W (9.70mm x 9.70mm)	Solder Pads	BUZZER-9797-2-PUI	SMD	specs-SMI-1027-TW-3V-R.pdf p.4	
+H	buzzer	pui		Surface Mount			0.394" Dia (10.00mm)	Solder Pads	BUZZER-100X100-2-PUI	SMD	AT-1052-T.pdf p.4	
+H	buzzer	pui		Surface Mount			0.394" L x 0.394" W (10.00mm x 10.00mm)	Solder Pads	BUZZER-100X100-4-PUI-B	SMD	specs-SMT-1035-S-2-R.pdf p.2	
+H	buzzer	pui		Surface Mount			0.433" L x 0.354" W (11.00mm x 9.00mm)	Solder Pads	BUZZER-110X90-2-PUI	SMD	specs-SMT-1141-T-5-R.pdf p.3	
+H	buzzer	pui		Surface Mount			0.433" L x 0.551" W (11.00mm x 14.00mm)	Solder Pads	BUZZER-105X140-4-PUI	SMD	specs-SMT-1427-S-3-R.pdf p.1	
+H	buzzer	pui		Surface Mount			0.433" L x 0.559" W (11.00mm x 14.20mm)	Solder Pads	BUZZER-110X142-4-PUI	SMD	specs-SMT-1427-S-R.pdf p.4	
+H	buzzer	pui		Surface Mount			0.472" Dia (12.00mm)	Solder Pads	BUZZER-120X120-2-PUI	SMD	specs-SMT-1220-TW-R.pdf p.1	
+H	buzzer	pui		Surface Mount			0.472" L x 0.472" W (12.00mm x 12.00mm)	Solder Pads	BUZZER-120X120-2-PUI-B	SMD	specs-SMT-1227-T.pdf p.4	SMT
+H	buzzer	pui		Surface Mount			0.472" L x 0.472" W (12.00mm x 12.00mm)	Solder Pads	BUZZER-120X120-2-PUI-C	SMD	specs-SMTB-1240-S-R.pdf p.5	SMTB
+H	buzzer	pui		Surface Mount			0.492" L x 0.492" W (12.50mm x 12.50mm)	Solder Pads	BUZZER-125X125-2-PUI	SMD	specs-SMI-1324-TW-12V-R.pdf p.4	SMI
+H	buzzer	pui		Surface Mount			0.492" L x 0.492" W (12.50mm x 12.50mm)	Solder Pads	BUZZER-125X125-2-PUI-B	SMD	specs-SMT-1324-TW-5V-R.pdf p.1	SMT
+H	buzzer	pui		Surface Mount			0.504" L x 0.504" W (12.80mm x 12.80mm)	Solder Pads	BUZZER-128X128-2-PUI	SMD	specs-SMI-1324-TW-3V-R.pdf p.4; PARTS DIFFER: BUZZER-128X128-2-PUI: SMI-1324-TW-3V-R,SMI-1324-TW-5V-2-R | BUZZER-128X128-2-PUI-B: SMI-1324-TW-5V-3-R | BUZZER-128X128-2-PUI-C: SMI-1324-TW-5V-HT-R	
+H	buzzer	pui		Surface Mount			0.512" L x 0.512" W (13.00mm x 13.00mm)	Solder Pads	BUZZER-130X130-2-PUI	SMD	specs-SMT-1320-T-HT-R.pdf p.3; PARTS DIFFER: BUZZER-130X130-2-PUI: SMT-1320-T-HT-R | BUZZER-130X130-2-PUI-B: SMT-1341-T-2-R | BUZZER-130X130-2-PUI-C: SMT-1341-T-HT-2 | BUZZER-130X130-2-PUI-D: SMT-1341-T-HT-R	
+H	buzzer	pui		Surface Mount			0.551" L x 0.433" W (14.00mm x 11.00mm)	Solder Pads	BUZZER-140X110-4-PUI	SMD	specs-SMT-1427-S-5V-HT-R.pdf p.3; PARTS DIFFER: BUZZER-140X110-4-PUI: SMT-1427-S-5V-HT-R | BUZZER-140X110-4-PUI-B: SMT-1427-S-7-R	
+H	buzzer	pui		Surface Mount			0.583" L x 0.583" W (14.80mm x 14.80mm)	Solder Pads	BUZZER-148X148-2-PUI	SMD	specs-SMT-1550-T-HT.pdf p.4	
+H	buzzer	pui		Surface Mount			0.630" L x 0.630" W (16.00mm x 16.00mm)	Solder Pads	BUZZER-160X160-2-PUI	SMD	specs-SMT-1640-S-2-R.pdf p.3; PARTS DIFFER: BUZZER-160X160-2-PUI: SMT-1640-S-2-R | BUZZER-160X160-2-PUI-B: SMT-1640-S-4-R	
+H	buzzer	pui		Surface Mount			0.661" L x 0.512" W (16.80mm x 13.00mm)	Solder Pads	BUZZER-130X130-2-PUI-E	SMD	specs-SMT-1341-TW-HT-R.pdf p.3	
+H	buzzer	pui		Surface Mount			0.669" L x 0.551" W (17.00mm x 14.00mm)	Solder Pads	BUZZER-148X170-4-PUI	SMD	specs-SMT-1720-T-HT.pdf p.4	
+H	buzzer	pui		Surface Mount			0.709" L x 0.709" W (18.00mm x 18.00mm)	Solder Pads	BUZZER-180X180-2-PUI	SMD	specs-SMT-1830-TW-2-R.pdf p.4	
+H	buzzer	pui		Surface Mount			0.866" Dia (22.00mm)	Solder Pads	BUZZER-220X220-2-PUI	SMD	specs-SMT-2225-T-R.pdf p.1	
+H	buzzer	pui		Surface Mount			0.945" Dia (24.00mm)	Solder Pads	BUZZER-240X240-2-PUI	SMD	AT-2441-T-HT-LW95.pdf p.3	
+H	buzzer	pui		Through Hole			0.264" Dia (6.70mm)	PC Pins	BUZZER-RAD-67-30-PUI	THT	specs-AT-0731-TT.pdf p.3	
+H	buzzer	pui		Through Hole			0.354" Dia (9.00mm)	PC Pins	BUZZER-RAD-90-40-PUI	THT	specs-AT-0927-TT-6-R.pdf p.1; PARTS DIFFER: BUZZER-RAD-90-40-PUI: AT-0927-TT-6-R,AT-0927-TT-2-R,AT-0927-TT-3-R,AT-0927-TT-5V,AT-1127-ST-HT-R | BUZZER-RAD-92-40-PUI: AT-1127-ST-2-R	
+H	buzzer	pui		Through Hole			0.374" Dia (9.50mm)	PC Pins	CAPE-RAD-10-5-L0.6	THT	reuse; PARTS DIFFER: BUZZER-RAD-95-50-PUI: AI-1027-TWT-3V-R | BUZZER-RAD-96-50-PUI: AI-1027-TWT-5V-R	
+H	buzzer	pui		Through Hole			0.378" Dia (9.60mm)	PC Pins	CAPE-RAD-10-5-L0.6	THT	reuse	
+H	buzzer	pui		Through Hole			0.472" Dia (12.00mm)	PC Pins	BUZZER-RAD-120-76-PUI	THT	specs-AI-1223-TWT-3V-2-R.pdf p.4	AI
+H	buzzer	pui		Through Hole			0.472" Dia (12.00mm)	PC Pins	BUZZER-RAD-120-65-PUI	THT	specs-AT-1220-TWT-5V-R.pdf p.3	AT
+H	buzzer	pui		Through Hole			0.539" Dia (13.70mm)	PC Pins	BUZZER-RAD-137-76-PUI	THT	specs-AI-1441-TWT-12V-R.pdf p.3	
+H	buzzer	pui		Through Hole			0.543" Dia (13.80mm)	PC Pins	BUZZER-RAD-138-76-PUI	THT	specs-AI-1440-TWT-12V-R.pdf p.3	
+H	buzzer	pui		Through Hole			0.543" L x 0.472" W (13.80mm x 12.00mm)	PC Pins	BUZZER-RAD-138X120-65-PUI	THT	specs-AT-1420-ST-R.pdf p.1	
+H	buzzer	pui		Through Hole			0.551" Dia (14.00mm)	PC Pins	BUZZER-RAD-140-76-PUI	THT	specs-AI-1450-TWT-WP-R.pdf p.3; PARTS DIFFER: BUZZER-RAD-140-56-PUI: AI-1450-T-WP-LW80-R | BUZZER-RAD-140-76-PUI: AI-1450-TWT-WP-R	AI
+H	buzzer	pui		Through Hole			0.551" Dia (14.00mm)	PC Pins	BUZZER-RAD-140-56-PUI	THT	specs-AT-1442-T-WP-LW80-R.pdf p.2	AT
+H	buzzer	pui		Through Hole			0.630" Dia (16.00mm)	PC Pins	BUZZER-RAD-160-76-PUI	THT	specs-AI-1622-TWT-12V-R.pdf p.3; PARTS DIFFER: BUZZER-RAD-160-76-PUI: AI-1622-TWT-12V-R | BUZZER-RAD-160-76-PUI-B: AI-1622-TWT-5V-R	AI
+H	buzzer	pui		Through Hole			0.630" Dia (16.00mm)	PC Pins	BUZZER-RAD-160-76-PUI-B	THT	specs-AT-1620-TWT-R.pdf p.3	AT
+H	buzzer	pui		Through Hole			0.650" Dia (16.50mm)	PC Pins	BUZZER-RAD-165-110-PUI	THT	specs-AT-1740-TT-3-R.pdf p.3	
+H	buzzer	pui		Through Hole			0.669" Dia (17.00mm)	PC Pins	BUZZER-RAD-170-100-PUI	THT	specs-AT-1720-TT-R.pdf p.1	
+H	buzzer	pui		Through Hole			0.866" Dia (22.00mm)	PC Pins	BUZZER-RAD-220-43-PUI	THT	specs-AT-2250-T-LW50-R.pdf p.1	
+H	buzzer	pui		Through Hole			0.866" Dia (22.00mm)	Solder Pads	CAPE-RAD-22-10-L0.8	THT	reuse	
+H	buzzer	pui		Through Hole			0.886" L x 0.669" W (22.50mm x 17.00mm)	PC Pins	BUZZER-RAD-170X225-76-PUI	THT	specs-AI-2304-TT-24V-R.pdf p.1	
+H	buzzer	pui		Through Hole			0.906" Dia (23.00mm)	PC Pins	BUZZER-RAD-230-150-PUI	THT	specs-AI-2335-TT.pdf p.2	AI
+H	buzzer	pui		Through Hole			0.906" Dia (23.00mm)	PC Pins	BUZZER-RAD-225-199-PUI-3	THT	specs-AT-2336-TWT-R.pdf p.1	AT
+H	buzzer	pui		Through Hole			0.906" L x 0.669" W (23.00mm x 17.00mm)	PC Pins	BUZZER-RAD-170X230-76-PUI	THT	specs-AI-2304-TT-24V-2-R.pdf p.1	
+H	buzzer	pui		Through Hole			0.917" Dia (23.30mm)	PC Pins	BUZZER-RAD-233-150-PUI	THT	specs-AI-2331-TWT-2-R.pdf p.2	
+H	buzzer	pui		Through Hole			0.921" Dia (23.40mm)	PC Pins	BUZZER-RAD-234-150-PUI	THT	specs-AI-2331-TWT-R.pdf p.3	
+H	buzzer	pui		Through Hole			0.937" Dia (23.80mm)	PC Pins	BUZZER-RAD-238-150-PUI	THT	specs-AI-2429-TWT-R.pdf p.3; PARTS DIFFER: BUZZER-RAD-238-150-PUI: AI-2429-TWT-R,AI-2429-TWT-12V-3-R,AI-2429-TWT-12V-2-R,AI-2429-TT-12V-R | BUZZER-RAD-238-150-PUI-3: AI-2429-TWT-3P-R	
+H	buzzer	pui		Through Hole			0.945" Dia (24.00mm)	PC Pins	BUZZER-RAD-240-150-PUI	THT	specs-AI-2437-TWT-R.pdf p.3	AI
+H	buzzer	pui		Through Hole			0.945" Dia (24.00mm)	PC Pins	BUZZER-RAD-240-100-PUI	THT	specs-AT-2440-TWT-R.pdf p.3; PARTS DIFFER: BUZZER-RAD-240-100-PUI: AT-2440-TWT-R | BUZZER-RAD-240-100-PUI-B: AT-2460-TWT-R | BUZZER-RAD-240-125-PUI-3: AT-2428-TWT-R	AT
+H	buzzer	pui		Through Hole			0.984" Dia (25.00mm)	PC Pins	BUZZER-RAD-250-102-PUI	THT	specs-AT-2510-TWT-2-R.pdf p.3	AT
+H	buzzer	pui		Through Hole			0.984" Dia (25.00mm)	PC Pins	BUZZER-RAD-260-150-PUI	THT	specs-X-2629-TWT-R.pdf p.3	X
+H	buzzer	pui		Through Hole			1.035" Dia (26.30mm)	PC Pins	BUZZER-RAD-263-150-PUI	THT	specs-X-2629-TWT-2-R.pdf p.2	
+H	buzzer	pui		Through Hole			1.043" L x 0.906" W (26.50mm x 23.00mm)	PC Pins	BUZZER-RAD-265X230-225-PUI	THT	specs-AT-2720-TT-R.pdf p.1	
+H	buzzer	pui		Through Hole			1.122" Dia (28.50mm)	PC Pins	BUZZER-RAD-285-260-PUI-3	THT	specs-AT-2830-TWT-R.pdf p.3	
+H	buzzer	pui		Through Hole			1.181" Dia (30.00mm)	PC Pins	BUZZER-RAD-300-150-PUI	THT	specs-AI-3035-TWT-3V-R.pdf p.3	
+H	buzzer	pui		Through Hole			1.189" Dia (30.20mm)	PC Pins	BUZZER-RAD-302-150-PUI	THT	specs-AI-3035-TT-12V-R.pdf p.3	
+H	buzzer	pui		Through Hole			1.260" Dia (32.00mm)	PC Pins	BUZZER-RAD-450X320-380-PUI	THT	specs-AI-3239-TF-LW140-R.pdf p.3	
+H	buzzer	pui		Through Hole			1.323" Dia (33.60mm)	PC Pins	BUZZER-RAD-336-303-PUI-3	THT	specs-AT-3425-TWT-R.pdf p.3	
+H	buzzer	pui		Through Hole			1.575" Dia (40.00mm)	PC Pins	BUZZER-RAD-400-372-PUI	THT	specs-AT-4034-TT-R.pdf p.3	
+H	buzzer	pui		Through Hole			1.575" L x 1.575" W (40.00mm x 40.00mm)	PC Pins	BUZZER-RAD-400-254-PUI-3	THT	specs-AI-4033-TWT-R.pdf p.2	
+H	buzzer	pui		Through Hole			1.654" Dia (42.00mm)	PC Pins	BUZZER-RAD-420-254-PUI	THT	specs-AI-4228-TWT-R.pdf p.3	AI
+H	buzzer	pui		Through Hole			1.654" Dia (42.00mm)	PC Pins	BUZZER-RAD-420-226-PUI-3	THT	specs-AT-4228-TWT-F-R.pdf p.3	AT
+H	buzzer	pui		Through Hole			1.787" Dia (45.40mm)	PC Pins	BUZZER-RAD-454-449-PUI	THT	specs-AT-4625-TT-HT-R.pdf p.3	
+H	buzzer	pui		Through Hole			1.890" L x 1.122" W (48.00mm x 28.50mm)	PC Pins	BUZZER-RAD-163-76-PUI	THT	specs-AT-1620-TWT-HT-R.pdf p.3	
+H	buzzer	pui		Through Hole			2.028" Dia (51.50mm)	PC Pins	BUZZER-RAD-515-459-PUI	THT	specs-AT-5210-TT-R.pdf p.1	

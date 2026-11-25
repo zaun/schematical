@@ -1,0 +1,32 @@
+page in @State:
+== system default (NSQuitAlwaysKeepsWindows unset: windows are closed when quitting)
+NSQuitAlwaysKeepsWindows = unset
+   before quit: 2 documents; 6502: labels=84 page segment selected=1; untitled: labels=1; windows: 3
+   quit is waiting:  TIMEOUT waiting for the app
+== NSQuitAlwaysKeepsWindows = true for the spike app
+NSQuitAlwaysKeepsWindows = 1
+   before quit: 2 documents; 6502: labels=84 page segment selected=1; untitled: labels=1; windows: 3
+   quit: no prompt; 6502 on disk has 0 netLabels key, N-labels: 11
+   after relaunch:
+      [0] FileWrapperPlatformDocument name=Untitled url=nil
+          window 'Untitled'
+      [1] FileWrapperPlatformDocument name=6502.schematical url=fx/6502.schematical
+          window '6502.schematical'
+      #494821 AppKitWindow 'Untitled'
+      #494822 AppKitWindow '6502.schematical'
+      #494823 TUINSWindow ''
+      parts=0 labels=1 lastLabel=N1 page selected=0 ["Schematic", "PCB"] 
+      parts=103 labels=84 lastLabel=N4 page selected=0 ["Schematic", "PCB"] 
+
+page in @SceneStorage (second round only):
+   quit: no prompt; 6502 on disk has 0 netLabels key, N-labels: 11
+   after relaunch:
+      [0] FileWrapperPlatformDocument name=Untitled url=nil
+          window 'Untitled'
+      [1] FileWrapperPlatformDocument name=6502.schematical url=fx/6502.schematical
+          window '6502.schematical'
+      #494840 AppKitWindow 'Untitled'
+      #494841 AppKitWindow '6502.schematical'
+      #494842 TUINSWindow ''
+      parts=0 labels=1 lastLabel=N1 page selected=0 ["Schematic", "PCB"] 
+      parts=103 labels=84 lastLabel=N4 page selected=1 ["Schematic", "PCB"] 

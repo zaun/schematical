@@ -1,0 +1,25 @@
+run 1 (): NSDocument: freed SchematicDocument: alive SimulationController: alive model: alive 
+run 2 (): NSDocument: freed SchematicDocument: alive SimulationController: alive model: alive 
+run 1 (play 0 child 0 memory child 0 bom): NSDocument: freed SchematicDocument: alive SimulationController: alive model: alive 
+run 2 (play 0 child 0 memory child 0 bom): NSDocument: freed SchematicDocument: alive SimulationController: alive model: alive 
+   Simulation threads after the last close: 0
+== revert
+> edit 0 label
+> save 0
+> edit 0 label
+> edit 0 label
+   labels=85 last=N5 edited=true equalsSavedFile=false undo='Undo Add Net Label' redo='Redo' registrations=3 merges=0 groupingLevel=0
+    window '6502.schematical' visible=true key=true main=true edited=false represented=6502.schematical tabs=1 tabbingMode=0 sheet=none #495652
+    model id=15DC10AA-603C-45D9-9FED-83425680429E parts=103 labels=85 playing=false sameUndoManager=true
+> play 0
+running=true playing=true
+> action 0 revertDocumentToSaved:
+> sheet 0
+sheet _NSAlertPanel texts=["Do you want to revert the document “6502.schematical” to a previous state?", "You can revert it to the state it was in when you last saved it, or browse older versions. Recent change
+> sheet 0 Last Saved Version
+pressed Last Saved Version
+    window '6502.schematical' visible=true key=true main=true edited=false represented=6502.schematical tabs=1 tabbingMode=0 sheet=none #495652
+    model id=15DC10AA-603C-45D9-9FED-83425680429E parts=103 labels=83 playing=false sameUndoManager=true
+   labels=83 last=N3 edited=false equalsSavedFile=true undo='Undo' redo='Redo' registrations=3 merges=0 groupingLevel=0
+   Simulation threads: 0
+H read main=true url=fx/6502.schematical base=/Users/justinzaun/Libr

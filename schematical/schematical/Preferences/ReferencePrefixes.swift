@@ -87,6 +87,10 @@ nonisolated enum ReferenceCategory: String, CaseIterable, Identifiable, Sendable
         case PART_OSCILLATOR: return .oscillator
         case PART_CRYSTAL: return .crystal
         case PART_SOCKET: return .socket
+        case PART_INDUCTOR: return .inductor
+        case PART_FUSE: return .fuse
+        case PART_RELAY: return .relay
+        case PART_BUZZER: return .speaker
         case PART_SWITCH: return .switchPart
         case PART_CONNECTOR: return part.isTestPoint ? .testPoint : .femaleConnector
         case PART_HEADER:

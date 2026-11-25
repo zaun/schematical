@@ -133,6 +133,9 @@ extension PartKinds {
             KindInfo(kind: "dekatron", name: "Dekatron",
                      blurb: "Cold-cathode decade counting tubes: a glow that steps round ten cathodes as the guides are pulsed (GC10B, OG-4, Z504S).",
                      examples: ["GC10B", "Z504S"], group: .displays),
+            KindInfo(kind: "buzzer", name: "Buzzer",
+                     blurb: "A sounder that plays while its + pin is high and its − pin low: piezo and magnetic buzzers.",
+                     examples: ["AI-1027-TWT-5V-R", "SMT-0825-S-4-R"], group: .displays),
 
             // Passives and discretes
             KindInfo(kind: "resistor", name: "Resistor",
@@ -147,6 +150,12 @@ extension PartKinds {
             KindInfo(kind: "transistor", name: "Transistor",
                      blurb: "Bipolar transistors, MOSFETs and transistor arrays: 2N2222, 2N7000.",
                      examples: ["PBSS4330PASX", "GENERIC-NMOS"], group: .discretes),
+            KindInfo(kind: "inductor", name: "Inductor",
+                     blurb: "Coils and chokes: two terminals that conduct like a wire in the simulation.",
+                     examples: ["LQG15HN18NJ02D", "RLB0914-102KL"], group: .discretes),
+            KindInfo(kind: "fuse", name: "Fuse",
+                     blurb: "Fuses and resettable PTC fuses: a link you can blow in play mode.",
+                     examples: ["SS-5F-10A-AP", "0ZCM0010FF2G"], group: .discretes),
 
             // Connectors and switches
             KindInfo(kind: "connector", name: "Connector",
@@ -161,6 +170,9 @@ extension PartKinds {
             KindInfo(kind: "switch", name: "Switch",
                      blurb: "DIP switches, slide switches and push buttons you operate while the simulation runs.",
                      examples: ["TE-GDS0204", "PTS645VK58-2 LFS"], group: .connectors),
+            KindInfo(kind: "relay", name: "Relay",
+                     blurb: "A coil that moves contacts: electromechanical, reed and solid-state relays.",
+                     examples: ["IM02GR", "RZ03-1A3-D005-R"], group: .connectors),
 
             // Power and clocks
             KindInfo(kind: "supply", name: "Supply",
@@ -198,9 +210,9 @@ extension PartKinds {
         "mux", "decoder", "arith", "counter", "shift", "register", "pld",
         "sram", "eeprom", "serialmem",
         "cpu", "mcu", "pio", "serial", "converter", "rtc",
-        "led", "7seg", "lcd", "leddriver", "lcddriver", "charlcd", "nixie", "dekatron",
-        "resistor", "capacitor", "diode", "transistor",
-        "connector", "header", "socket", "switch",
+        "led", "buzzer", "7seg", "lcd", "leddriver", "lcddriver", "charlcd", "nixie", "dekatron",
+        "resistor", "capacitor", "diode", "transistor", "inductor", "fuse",
+        "connector", "header", "socket", "switch", "relay",
         "supply", "oscillator", "crystal", "regulator", "powerswitch",
         "generic",
     ]

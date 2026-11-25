@@ -1,0 +1,9 @@
+    model id=7109F878-8885-42B5-9E96-9E24DFF46E07 parts=103 labels=83 playing=false sameUndoManager=true
+   labels=83 last=N3 edited=false equalsSavedFile=true undo='Undo' redo='Redo' registrations=0 merges=0 groupingLevel=0
+   Simulation threads: 0
+model.fileWrapper main=true existing=6502.schematical
+model.init(configuration:) main=true bytes=220872 filename=6502.schematical id=7109F878-8885-42B5-9E96-9E24DFF46E07
+model.attach applied file url=fx/6502.schematical parts=103 catalog=l
+undo bridge connected manager=0x0000000139c58550 groupsByEvent=true levels=0
+editor disappeared: dismissing 0 child windows of 4F009CC2
+editor disappeared: simulation stopped

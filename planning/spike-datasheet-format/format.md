@@ -619,7 +619,12 @@ A file points back to the page of its PDF each part comes from. The
 pointers are in the Markdown and the renderer drops them, except in the
 app's Verify Datasheet window (Window menu, only while Option is held),
 which shows each as a chip beside the PDF; a click scrolls the PDF to the
-spot. Pages are PDF pages, counted from the first page (as Conversion
+spot. The same window has an **Edit** switch: with it on, a click on a block
+opens an inline editor for that block (a paragraph, a list, a table as a grid,
+`pins` and `ordering` rows, WaveDrom and curve text) with its citations as
+fields (page, reference, "Use PDF page", "Show in PDF"). Apply puts the block's
+lines back into the file's text, only where they changed. The edited text is
+kept in memory only; nothing is written. Pages are PDF pages, counted from the first page (as Conversion
 notes count them), and citations are relative to the source PDF.
 
 | Write | Names |

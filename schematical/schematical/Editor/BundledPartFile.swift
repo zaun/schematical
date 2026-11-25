@@ -128,6 +128,10 @@ extension PartKinds {
         case PART_LCD: "lcd"
         case PART_POWERSWITCH: "powerswitch"
         case PART_SOCKET: "socket"
+        case PART_INDUCTOR: "inductor"
+        case PART_FUSE: "fuse"
+        case PART_RELAY: "relay"
+        case PART_BUZZER: "buzzer"
         default: nil
         }
     }

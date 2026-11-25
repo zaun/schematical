@@ -12,6 +12,9 @@
 //   figures    shared figure and sidecar SVG text by ref / src
 //   showCitations  true only in the Verify Datasheet window: citations show as chips, and a click
 //              posts {page, ref, text} to the "cite" message handler
+//   editing    true only in the Verify Datasheet window, in edit mode: each top-level block carries its
+//              source lines (data-l0, data-l1) and datasheet-edit.js (window.dsEdit) edits them
+//   original   the file as shipped, when `markdown` is an edited copy of it
 //
 // markdown-it (markdown-it.min.js) renders the prose; WaveDrom
 // (wavedrom.min.js) draws the timing diagrams. Everything else is drawn here.
@@ -159,6 +162,33 @@
       const title = tokens[i + 1].content.trim();
       const id = tokens[i].tag === "h2" && SECTION_ANCHORS[title] ? SECTION_ANCHORS[title] : slug(title);
       tokens[i].attrSet("id", id);
+    }
+  });
+
+  // The top-level blocks of the body with their source lines [l0, l1); in edit mode each rendered
+  // block carries them (data-l0 / data-l1) so a click finds its lines. Fences are marked in the fence
+  // rule. A parse with env.noBlocks (the editor's previews) leaves the list alone.
+  let lastBlocks = [];
+
+  function topBlocks(tokens) {
+    const out = [];
+    for (const t of tokens) {
+      if (t.level === 0 && t.map && t.nesting !== -1) out.push({ l0: t.map[0], l1: t.map[1], type: t.type, token: t });
+    }
+    return out;
+  }
+
+  md.core.ruler.push("ds_blocks", function (state) {
+    // renderInline (table cells, captions) runs the core rules too.
+    if (state.inlineMode || (state.env && state.env.noBlocks)) return;
+    lastBlocks = [];
+    if (!ctx || !ctx.editing) return;
+    for (const b of topBlocks(state.tokens)) {
+      lastBlocks.push({ l0: b.l0, l1: b.l1, type: b.type });
+      if (b.type !== "fence") {
+        b.token.attrSet("data-l0", String(b.l0));
+        b.token.attrSet("data-l1", String(b.l1));
+      }
     }
   });
 
@@ -730,10 +760,7 @@
       .map((l) => '<div class="equation">' + inline(l, null) + "</div>").join("") + "</div>";
   }
 
-  md.renderer.rules.fence = function (tokens, i) {
-    const token = tokens[i];
-    const { kind, attrs } = parseAttrs(token.info);
-    const body = token.content.replace(/\n$/, "");
+  function renderBlock(kind, body, attrs) {
     switch (kind) {
       case "table": return renderTable(body, attrs);
       case "pins": return renderPins(body);
@@ -746,6 +773,34 @@
       case "equation": return renderEquation(body);
       default: return "<pre><code>" + esc(body) + "</code></pre>";
     }
+  }
+
+  md.renderer.rules.fence = function (tokens, i) {
+    const token = tokens[i];
+    const { kind, attrs } = parseAttrs(token.info);
+    const html = renderBlock(kind, token.content.replace(/\n$/, ""), attrs);
+    if (!ctx || !ctx.editing || !token.map) return html;
+    return '<div class="ds-blk" data-l0="' + token.map[0] + '" data-l1="' + token.map[1] + '">' + html + "</div>";
+  };
+
+  // What the editor (datasheet-edit.js) draws with. A preview renders with its own counters, so the
+  // page's tables and diagrams keep their numbers.
+  let previewWave = 5000;
+  window.dsRender = {
+    md,
+    ctx: () => ctx,
+    parseBlocks: (body) => topBlocks(md.parse(body, { noBlocks: true })).map((b) => ({ l0: b.l0, l1: b.l1, type: b.type })),
+    renderBlock(kind, body, attrs) {
+      const wave = waveIndex;
+      const table = tableIndex;
+      waveIndex = previewWave++;
+      try {
+        return renderBlock(kind, body, attrs);
+      } finally {
+        waveIndex = wave;
+        tableIndex = table;
+      }
+    },
   };
 
   // ---- Page --------------------------------------------------------------
@@ -817,6 +872,7 @@
         footprints: payload.footprints || {},
         figures: payload.figures || {},
         showCitations: !!payload.showCitations,
+        editing: !!payload.editing,
       };
       ctx.parts = claimedParts(front, ctx.devices);
       waveIndex = 0;
@@ -827,6 +883,8 @@
       page.innerHTML = outline(html) + '<article>' + head + html + "</article>";
       document.title = front.title || "";
       if (ctx.showCitations) page.onclick = citeClick;
+      document.body.classList.toggle("editing", ctx.editing);
+      if (window.dsEdit) window.dsEdit.rendered(payload, { front, blocks: lastBlocks });
     } catch (e) {
       page.innerHTML = '<pre class="error">This datasheet could not be shown: ' + esc(String(e)) + "</pre>";
     }

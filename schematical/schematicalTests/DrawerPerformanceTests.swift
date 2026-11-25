@@ -48,11 +48,13 @@ final class DrawerPerformanceTests: XCTestCase {
         for category in catalog.groups(matching: everything()) {
             for function in category.functions + category.subcategories.flatMap(\.functions) {
                 let names = function.parts.map(\.name)
-                if function.parts.allSatisfy({ $0.crystalHz != nil }) {
-                    // A crystal leaf goes by frequency, then by name (plan-44-G).
+                if function.parts.allSatisfy({ $0.drawerValue != nil }) {
+                    // A crystal leaf goes by frequency, an inductor leaf by inductance, a fuse
+                    // leaf by rated current, a buzzer leaf by frequency and a relay leaf by
+                    // coil voltage, then by name (plan-44-G, plan-47-M).
                     let want = function.parts.sorted {
-                        ($0.crystalHz ?? 0) != ($1.crystalHz ?? 0)
-                            ? ($0.crystalHz ?? 0) < ($1.crystalHz ?? 0)
+                        ($0.drawerValue ?? 0) != ($1.drawerValue ?? 0)
+                            ? ($0.drawerValue ?? 0) < ($1.drawerValue ?? 0)
                             : $0.name.localizedStandardCompare($1.name) == .orderedAscending
                     }.map(\.name)
                     XCTAssertEqual(names, want, function.function)

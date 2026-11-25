@@ -239,6 +239,86 @@ nonisolated struct CrystalInfo: Hashable, Sendable {
     static func ppmText(_ ppm: UInt32) -> String { ppm > 0 ? "±\(ppm) ppm" : "" }
 }
 
+/// An inductor part's facts (plan-47-M), from the backend's `PartInductor`.
+/// A value is 0 (or nil) when not given.
+nonisolated struct InductorInfo: Hashable, Sendable {
+    /// The inductance in picohenries.
+    let pH: UInt64
+    /// As the datasheet prints it ("±20%"); nil when not given.
+    let tolerance: String?
+    /// The rated (heating) and the saturation current, in milliamps.
+    let ratedMA: UInt32
+    let isatMA: UInt32
+    /// The maximum DC resistance, in micro-ohms.
+    let dcrMicroOhm: UInt64
+    /// "shielded", "semi-shielded" or "unshielded"; nil when not given.
+    let shielding: String?
+}
+
+/// A fuse or PTC resettable fuse part's facts (plan-47-M), from the backend's
+/// `PartFuse`. A value is 0 (or nil) when not given.
+nonisolated struct FuseInfo: Hashable, Sendable {
+    /// "fuse" or "ptc".
+    let type: String
+    /// A fuse's rated current; a PTC's hold current, in milliamps.
+    let ratedMA: UInt32
+    /// A PTC's trip current, in milliamps (0 for a fuse).
+    let tripMA: UInt32
+    /// The voltage ratings, in millivolts (a PTC's maximum voltage is `dcMV`).
+    let acMV: UInt32
+    let dcMV: UInt32
+    /// A fuse's "fast", "medium" or "slow"; nil for a PTC.
+    let speed: String?
+    /// A fuse's breaking capacity, a PTC's maximum fault current, in amps.
+    let breakingA: UInt32
+
+    var isPTC: Bool { type == "ptc" }
+}
+
+/// A relay part's facts (plan-47-M), from the backend's `PartRelay`. A value
+/// is 0 when not given.
+nonisolated struct RelayInfo: Hashable, Sendable {
+    /// "electromechanical", "reed" or "solid-state".
+    let type: String
+    /// Contacts (poles) and coils in the package; `channels`: armatures.
+    let poles: Int
+    let coils: Int
+    let latching: Bool
+    let channels: Int
+    /// The nominal coil voltage in millivolts (0 for a solid-state relay) and
+    /// the coil resistance in milliohms.
+    let coilMV: UInt32
+    let coilMOhm: UInt64
+    /// The contact (load) current in milliamps and the maximum switching
+    /// voltage in millivolts.
+    let contactMA: UInt32
+    let contactMV: UInt32
+    /// The datasheet's operate and release times in microseconds.
+    let operateUS: UInt32
+    let releaseUS: UInt32
+    /// A solid-state relay's maximum on-resistance, in milliohms.
+    let onMOhm: UInt64
+}
+
+/// A buzzer part's facts (plan-47-M), from the backend's `PartBuzzer`. A
+/// value is 0 (or empty) when not given.
+nonisolated struct BuzzerInfo: Hashable, Sendable {
+    /// "indicator" (built-in driver) or "transducer" (external drive).
+    let driver: String
+    /// "piezo" or "magnetic".
+    let technology: String
+    /// The rated (resonant) frequency in hertz.
+    let hz: UInt32
+    /// The rated voltage and the operating range, in millivolts.
+    let ratedMV: UInt32
+    let minMV: UInt32
+    let maxMV: UInt32
+    /// The supply current in microamperes.
+    let uA: UInt32
+    /// The sound pressure level in hundredths of a dB.
+    let splCDB: UInt32
+}
+
 nonisolated struct DisplayInfo: Hashable, Sendable {
     /// One LED: a segment of a digit (1 = leftmost), or a colon or dot LED
     /// (digit 0; segment "L1", "L2" or "L3").
@@ -629,6 +709,15 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// "tin-lead"), nil when not given. The chip footprints it holds are
         /// `CatalogPart.fits`.
         case socket(family: String, rowUM: UInt32, mounting: String, finish: String?)
+        /// A fixed inductor (plan-47): a two-terminal part, its facts
+        /// (`InductorInfo`).
+        case inductor(InductorInfo)
+        /// A fuse or PTC resettable fuse (plan-47), its facts (`FuseInfo`).
+        case fuse(FuseInfo)
+        /// A relay (plan-47), its facts (`RelayInfo`).
+        case relay(RelayInfo)
+        /// A buzzer (plan-47), its facts (`BuzzerInfo`).
+        case buzzer(BuzzerInfo)
     }
 
     let name: String
@@ -882,6 +971,45 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     /// The frequency of a crystal part, in hertz; nil for every other kind.
     var crystalHz: UInt64? { crystal?.hz }
 
+    /// An inductor part's facts (plan-47-M); nil for every other kind.
+    var inductor: InductorInfo? {
+        if case let .inductor(info) = details { return info }
+        return nil
+    }
+
+    /// A fuse or PTC part's facts (plan-47-M); nil for every other kind.
+    var fuse: FuseInfo? {
+        if case let .fuse(info) = details { return info }
+        return nil
+    }
+
+    /// A relay part's facts (plan-47-M); nil for every other kind.
+    var relay: RelayInfo? {
+        if case let .relay(info) = details { return info }
+        return nil
+    }
+
+    /// A buzzer part's facts (plan-47-M); nil for every other kind.
+    var buzzer: BuzzerInfo? {
+        if case let .buzzer(info) = details { return info }
+        return nil
+    }
+
+    /// The number the drawer sorts the parts of a leaf by (plan-47-M): a
+    /// crystal's frequency, an inductor's inductance, a fuse's rated (a PTC's
+    /// hold) current, a buzzer's frequency, a relay's coil voltage; nil for
+    /// every other kind.
+    var drawerValue: Double? {
+        switch details {
+        case let .crystal(info): return Double(info.hz)
+        case let .inductor(info): return Double(info.pH)
+        case let .fuse(info): return Double(info.ratedMA)
+        case let .buzzer(info): return Double(info.hz)
+        case let .relay(info): return Double(info.coilMV)
+        default: return nil
+        }
+    }
+
     /// The capacitance of a capacitor part; nil for every other kind.
     var capacitorFarads: Double? {
         if case let .capacitor(_, _, farads, _, _, _) = details { return farads }
@@ -979,6 +1107,16 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         }
         if case let .characterLCD(info) = details { return "\(info.columns)×\(info.rows)" }
         if let hz = crystalHz { return PartFacts.hertz(hz) }
+        switch details {
+        case let .inductor(info): return InductorValue.text(pH: info.pH)
+        case let .fuse(info): return info.ratedMA > 0 ? PartFacts.amps(mA: info.ratedMA) : nil
+        case let .relay(info):
+            // The coil voltage; a solid-state relay has no coil, its load current instead.
+            if info.coilMV > 0 { return PartFacts.volts(mV: info.coilMV) }
+            return info.type == "solid-state" && info.contactMA > 0 ? PartFacts.amps(mA: info.contactMA) : nil
+        case let .buzzer(info): return info.hz > 0 ? PartFacts.hertz(UInt64(info.hz)) : nil
+        default: break
+        }
         if let count, count > 0 { return "(\(count))" }
         return nil
     }
@@ -1061,6 +1199,28 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .socket(_, _, mounting, finish):
             // The mounting and the contact finish: "through hole", "gold".
             return [mounting == "surface-mount" ? "surface mount" : "through hole"] + (finish.map { [$0] } ?? [])
+        case let .inductor(info):
+            // The rated current and the shielding (plan-47-M).
+            return (info.ratedMA > 0 ? [PartFacts.amps(mA: info.ratedMA)] : [])
+                + (info.shielding.map { [PartFacts.capitalized($0)] } ?? [])
+        case let .fuse(info):
+            if info.isPTC {
+                // Trip current and maximum voltage.
+                return (info.tripMA > 0 ? ["\(PartFacts.amps(mA: info.tripMA)) trip"] : [])
+                    + (info.dcMV > 0 ? [PartFacts.volts(mV: info.dcMV)] : [])
+            }
+            // Speed and voltage (DC rating, else AC).
+            let volts = info.dcMV > 0 ? info.dcMV : info.acMV
+            return (info.speed.map { [PartFacts.capitalized($0)] } ?? [])
+                + (volts > 0 ? [PartFacts.volts(mV: volts)] : [])
+        case let .relay(info):
+            // The contact current, and "latching" when it is.
+            return (info.contactMA > 0 ? [PartFacts.amps(mA: info.contactMA)] : [])
+                + (info.latching ? ["latching"] : [])
+        case let .buzzer(info):
+            // The rated voltage and the technology.
+            return (info.ratedMV > 0 ? [PartFacts.volts(mV: info.ratedMV)] : [])
+                + (info.technology.isEmpty ? [] : [PartFacts.capitalized(info.technology)])
         }
     }
 }
@@ -1355,6 +1515,27 @@ extension CatalogPart {
         } else if let socket = part.socket?.pointee {
             details = .socket(family: string(socket.family), rowUM: socket.row_um,
                               mounting: string(socket.mounting), finish: socket.finish.map { String(cString: $0) })
+        } else if let inductor = part.inductor?.pointee {
+            details = .inductor(InductorInfo(
+                pH: inductor.ph, tolerance: inductor.tolerance.map { String(cString: $0) },
+                ratedMA: inductor.rated_ma, isatMA: inductor.isat_ma, dcrMicroOhm: inductor.dcr_uohm,
+                shielding: inductor.shielding.map { String(cString: $0) }))
+        } else if let fuse = part.fuse?.pointee {
+            details = .fuse(FuseInfo(
+                type: string(fuse.type), ratedMA: fuse.rated_ma, tripMA: fuse.trip_ma,
+                acMV: fuse.ac_mv, dcMV: fuse.dc_mv, speed: fuse.speed.map { String(cString: $0) },
+                breakingA: fuse.breaking_a))
+        } else if let relay = part.relay?.pointee {
+            details = .relay(RelayInfo(
+                type: string(relay.type), poles: Int(relay.poles), coils: Int(relay.coils),
+                latching: relay.latching != 0, channels: Int(relay.channels), coilMV: relay.coil_mv,
+                coilMOhm: relay.coil_mohm, contactMA: relay.contact_ma, contactMV: relay.contact_mv,
+                operateUS: relay.operate_us, releaseUS: relay.release_us, onMOhm: relay.on_mohm))
+        } else if let buzzer = part.buzzer?.pointee {
+            details = .buzzer(BuzzerInfo(
+                driver: string(buzzer.driver), technology: string(buzzer.technology), hz: buzzer.hz,
+                ratedMV: buzzer.rated_mv, minMV: buzzer.min_mv, maxMV: buzzer.max_mv, uA: buzzer.ua,
+                splCDB: buzzer.spl_cdb))
         } else {
             details = .supply(level: 0, mv: 0, pull: false)
         }
@@ -1723,6 +1904,20 @@ func symbol(for part: CatalogPart) -> PartSymbol {
         // plate-rectangle-plate symbol (plan-44-G); anything else as a block.
         return part.pins.contains(where: { $0.name == "X1" }) && part.pins.contains(where: { $0.name == "X2" })
             ? .crystal : .block
+    case PART_INDUCTOR, PART_FUSE:
+        // A fixed inductor or a fuse with its two terminals (pins named 1 and
+        // 2) draws as the coil or the rectangle (plan-47-M); else as a block.
+        guard part.pins.contains(where: { $0.name == "1" }), part.pins.contains(where: { $0.name == "2" })
+        else { return .block }
+        return part.kind == PART_INDUCTOR ? .inductor : .fuse
+    case PART_RELAY:
+        // A relay whose pins read as a coil and poles (`RelayShape`) draws
+        // as a relay (plan-47-N); anything else as a block.
+        return RelayShape(part: part) == nil ? .block : .relay
+    case PART_BUZZER:
+        // A buzzer with its `+` and `-` pins draws as the half disc.
+        return part.pins.contains(where: { $0.name == "+" }) && part.pins.contains(where: { $0.name == "-" })
+            ? .buzzer : .block
     default: return .block
     }
 }
@@ -2618,15 +2813,21 @@ final class PartCatalogStore {
     /// resistor leaves ("< 1 kΩ" … "≥ 1 MΩ") by resistance (plan-34-G).
     private static func functionGroups(_ parts: [CatalogPart], rank: [String: Int] = [:]) -> [FunctionGroup] {
         let groups = Dictionary(grouping: parts, by: \.drawerLeaf)
+        // The kind the leaf's parts share, if every part has a `drawerValue`
+        // (crystal, inductor, fuse, buzzer, relay).
+        let sharesDrawerValue = !parts.isEmpty && parts.allSatisfy { $0.drawerValue != nil }
+        let relays = !parts.isEmpty && parts.allSatisfy { $0.relay != nil }
         let value: (CatalogPart) -> Double? =
             !parts.isEmpty && parts.allSatisfy({ $0.capacitorFarads != nil }) ? { $0.capacitorFarads }
             : !parts.isEmpty && parts.allSatisfy({ $0.resistorOhms != nil }) ? { $0.resistorOhms }
-            : !parts.isEmpty && parts.allSatisfy({ $0.crystalHz != nil }) ? { $0.crystalHz.map(Double.init) }
+            // Relay leaves keep the name order: only their parts go by value.
+            : sharesDrawerValue && !relays ? { $0.drawerValue }
             : { _ in nil }
         // Crystal leaves ("Under 4 MHz" … "32 MHz and over", "32 kHz" …) go
         // by the frequency of their lowest part (plan-44-G), the parts in a
-        // leaf by frequency then name.
-        let crystals = !parts.isEmpty && parts.allSatisfy { $0.crystalHz != nil }
+        // leaf by frequency then name; inductor, fuse and buzzer leaves the
+        // same by inductance, rated current and frequency, and a relay's
+        // parts by coil voltage then name (plan-47-M).
         let byValue = !parts.isEmpty && parts.allSatisfy { value($0) != nil }
         func smallest(_ parts: [CatalogPart]) -> Double {
             parts.compactMap(value).min() ?? 0
@@ -2640,10 +2841,10 @@ final class PartCatalogStore {
                 return $0.key.localizedStandardCompare($1.key) == .orderedAscending
             }
             .map { function, parts in
-                let ordered = crystals
+                let ordered = sharesDrawerValue
                     ? parts.sorted {
-                        ($0.crystalHz ?? 0) != ($1.crystalHz ?? 0)
-                            ? ($0.crystalHz ?? 0) < ($1.crystalHz ?? 0)
+                        ($0.drawerValue ?? 0) != ($1.drawerValue ?? 0)
+                            ? ($0.drawerValue ?? 0) < ($1.drawerValue ?? 0)
                             : rank[$0.name, default: 0] < rank[$1.name, default: 0]
                     }
                     // The card slots of a leaf go by pin count then name (plan-54-O),

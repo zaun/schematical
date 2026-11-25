@@ -1,0 +1,70 @@
+letter	type	company	series	mounting	package	supplier_package	size	detail	footprint	label	note	series_split
+H	buzzer	mallory		Surface Mount			0.157" L x 0.157" W (4.00mm x 4.00mm)	Solder Pads	BUZZER-4040-2-MALLORY	SMD	datasheets/buzzer/mallory/AST0440MFD-03TRQ.pdf p.1	
+H	buzzer	mallory		Surface Mount			0.197" L x 0.197" W (5.00mm x 5.00mm)	Solder Pads	BUZZER-5050-3-MALLORY	SMD	datasheets/buzzer/mallory/AST0540MW-03TRQ.pdf p.1	
+H	buzzer	mallory		Surface Mount			0.295" L x 0.295" W (7.50mm x 7.50mm)	Solder Pads	BUZZER-7575-2-MALLORY	SMD	datasheets/buzzer/mallory/AST0760MCTRQ.pdf p.1	
+H	buzzer	mallory		Surface Mount			0.295" L x 0.295" W (7.50mm x 7.50mm)	Solder Pads	BUZZER-7575-4-MALLORY	SMD	datasheets/buzzer/mallory/AST7525MATRQ.pdf p.1; only for AST7525MATRQ (its drawing differs from the rest of the line)	AST7525MATRQ
+H	buzzer	mallory		Surface Mount			0.335" L x 0.335" W (8.50mm x 8.50mm)	Solder Pads	BUZZER-8585-4-MALLORY	SMD	datasheets/buzzer/mallory/AST0827MW-03TRQ.pdf p.1	
+H	buzzer	mallory		Surface Mount			0.339" L x 0.335" W (8.60mm x 8.50mm)	Solder Pads	BUZZER-8685-4-MALLORY	SMD	datasheets/buzzer/mallory/AST0840MFD-4.4TRQ.pdf p.1	
+H	buzzer	mallory		Surface Mount			0.343" L x 0.343" W (8.70mm x 8.70mm)	Solder Pads	BUZZER-8787-4-MALLORY	SMD	datasheets/buzzer/mallory/AST200Q.pdf p.1	
+H	buzzer	mallory		Surface Mount			0.354" Dia (9.00mm)	PC Pins	BUZZER-RAD-90-40-MALLORY	THT	shared with BUZZER-RAD-90-40-MALLORY	
+H	buzzer	mallory		Surface Mount			0.354" Dia (9.00mm)	Solder Pads	BUZZER-D90-2-MALLORY	SMD	datasheets/buzzer/mallory/AST0927MW-03TRQ.pdf p.1	
+H	buzzer	mallory		Surface Mount			0.354" Dia (9.00mm)	Solder Pads	BUZZER-D90-2-MALLORY-B	SMD	datasheets/buzzer/mallory/AST0927MW-3.6TRQ.pdf p.1; only for AST0927MW-3.6TRQ (its drawing differs from the rest of the line)	AST0927MW-3.6TRQ
+H	buzzer	mallory		Surface Mount			0.354" L x 0.354" W (9.00mm x 9.00mm)	Solder Pads	BUZZER-D90-2-MALLORY-C	SMD	datasheets/buzzer/mallory/AST0940MCTRQ.pdf p.1	
+H	buzzer	mallory		Surface Mount			0.374" L x 0.374" W (9.50mm x 9.50mm)	Solder Pads	BUZZER-9595-2-MALLORY	SMD	datasheets/buzzer/mallory/ASI09N27M-05Q.pdf p.1	
+H	buzzer	mallory		Surface Mount			0.378" L x 0.378" W (9.60mm x 9.60mm)	Solder Pads	BUZZER-9696-2-MALLORY	SMD	datasheets/buzzer/mallory/ASI09N27MFD-03TRQ.pdf p.1	
+H	buzzer	mallory		Surface Mount			0.394" L x 0.394" W (10.00mm x 10.00mm)	Solder Pads	BUZZER-100X100-4-MALLORY	SMD	datasheets/buzzer/mallory/AST1027MW-03TRQ.pdf p.1	
+H	buzzer	mallory		Surface Mount			0.413" L x 0.413" W (10.50mm x 10.50mm)	Solder Pads	BUZZER-105X105-2-MALLORY	SMD	datasheets/buzzer/mallory/ASI09N40MTRQ.pdf p.1	
+H	buzzer	mallory		Surface Mount			0.433" L x 0.354" W (11.00mm x 9.00mm)	Solder Pads	BUZZER-110X90-2-MALLORY	SMD	datasheets/buzzer/mallory/AST1109MLTRQ.pdf p.1	
+H	buzzer	mallory		Surface Mount			0.472" L x 0.472" W (12.00mm x 12.00mm)	Solder Pads	BUZZER-120X120-2-MALLORY	SMD	datasheets/buzzer/mallory/AST1240MLTRQ.pdf p.1	
+H	buzzer	mallory		Surface Mount			0.496" L x 0.496" W (12.60mm x 12.60mm)	Solder Pads	BUZZER-126X126-2-MALLORY	SMD	datasheets/buzzer/mallory/ASI301Q.pdf p.1	
+H	buzzer	mallory		Surface Mount			0.512" L x 0.512" W (13.00mm x 13.00mm)	Solder Pads	BUZZER-130X130-2-MALLORY	SMD	datasheets/buzzer/mallory/AST1341MCTRQ.pdf p.1	
+H	buzzer	mallory		Surface Mount			0.551" L x 0.433" W (14.00mm x 11.00mm)	Solder Pads	BUZZER-140X110-4-MALLORY	SMD	datasheets/buzzer/mallory/AST1427M-03TRQ.pdf p.1	
+H	buzzer	mallory		Surface Mount			0.555" L x 0.555" W (14.10mm x 14.10mm)	Solder Pads	BUZZER-141X141-2-MALLORY	SMD	datasheets/buzzer/mallory/AST1440MATRQ.pdf p.1	
+H	buzzer	mallory		Surface Mount			0.630" L x 0.630" W (16.00mm x 16.00mm)	Solder Pads	BUZZER-160X160-2-MALLORY	SMD	datasheets/buzzer/mallory/AST1628MATRQ.pdf p.1	
+H	buzzer	mallory		Surface Mount			0.630" L x 0.630" W (16.00mm x 16.00mm)	Solder Pads	BUZZER-160X160-2-MALLORY-B	SMD	datasheets/buzzer/mallory/AST1640MACTRQ.pdf p.1; only for AST1640MACTRQ (its drawing differs from the rest of the line)	AST1640MACTRQ
+H	buzzer	mallory		Surface Mount			0.669" Dia (17.00mm)	Solder Pads	BUZZER-D170-2-MALLORY	SMD	datasheets/buzzer/mallory/AST100Q.pdf p.1	
+H	buzzer	mallory		Surface Mount			1.811" L x 1.260" W (46.00mm x 32.00mm)	PC Pins	BUZZER-RAD-460X320-150-MALLORY	THT	datasheets/buzzer/mallory/PS-733PYQ.pdf p.1	
+H	buzzer	mallory		Surface Mount			2.146" Dia (54.50mm)	Solder Pads	BUZZER-D545-2-MALLORY	SMD	datasheets/buzzer/mallory/PT-593SQ.pdf p.1	
+H	buzzer	mallory		Through Hole			0.354" Dia (9.00mm)	PC Pins	BUZZER-RAD-90-40-MALLORY	THT	datasheets/buzzer/mallory/PB-09N23P-03Q.pdf p.1	
+H	buzzer	mallory		Through Hole			0.413" Dia (10.50mm)	PC Pins	BUZZER-RAD-105-60-MALLORY	THT	datasheets/buzzer/mallory/PK-09N50PQ.pdf p.1	
+H	buzzer	mallory		Through Hole			0.472" Dia (12.00mm)	PC Pins	BUZZER-RAD-120-76-MALLORY	THT	datasheets/buzzer/mallory/PB-12N23P-03Q.pdf p.1	
+H	buzzer	mallory		Through Hole			0.472" Dia (12.00mm)	PC Pins	BUZZER-RAD-120-65-MALLORY	THT	datasheets/buzzer/mallory/PB-1220PQ.pdf p.1; only for PB-1220P-05Q (its drawing differs from the rest of the line)	PB-1220P-05Q
+H	buzzer	mallory		Through Hole			0.472" Dia (12.00mm)	PC Pins	BUZZER-RAD-120-65-MALLORY	THT	datasheets/buzzer/mallory/PB-1220PQ.pdf p.1; only for PB-1220PQ (its drawing differs from the rest of the line)	PB-1220PQ
+H	buzzer	mallory		Through Hole			0.472" Dia (12.00mm)	PC Pins	BUZZER-RAD-120-65-MALLORY	THT	datasheets/buzzer/mallory/PB-1220PQ.pdf p.1; only for PB-1221PQ (its drawing differs from the rest of the line)	PB-1221PQ
+H	buzzer	mallory		Through Hole			0.472" Dia (12.00mm)	PC Pins	BUZZER-RAD-120-65-MALLORY	THT	datasheets/buzzer/mallory/PB-1220PQ.pdf p.1; only for PB-1226PEAQ (its drawing differs from the rest of the line)	PB-1226PEAQ
+H	buzzer	mallory		Through Hole			0.472" Dia (12.00mm)	PC Pins	BUZZER-RAD-120-65-MALLORY	THT	datasheets/buzzer/mallory/PB-1220PQ.pdf p.1; only for PT-1140PEQ (its drawing differs from the rest of the line)	PT-1140PEQ
+H	buzzer	mallory		Through Hole			0.492" Dia (12.50mm)	PC Pins	BUZZER-RAD-125-50-MALLORY	THT	datasheets/buzzer/mallory/PT-1241PFQ.pdf p.1	
+H	buzzer	mallory		Through Hole			0.496" Dia (12.60mm)	PC Pins	BUZZER-RAD-126-76-MALLORY	THT	datasheets/buzzer/mallory/PT-1245P-PQ.pdf p.1	
+H	buzzer	mallory		Through Hole			0.543" Dia (13.80mm)	PC Pins	BUZZER-RAD-138-76-MALLORY	THT	datasheets/buzzer/mallory/PK-12N40PEQ.pdf p.1	
+H	buzzer	mallory		Through Hole			0.543" Dia (13.80mm)	PC Pins	BUZZER-RAD-138-3-MALLORY	THT	datasheets/buzzer/mallory/PT-1240FEQ.pdf p.1; only for PT-1240FEQ (its drawing differs from the rest of the line)	PT-1240FEQ
+H	buzzer	mallory		Through Hole			0.551" Dia (14.00mm)	PC Pins	BUZZER-RAD-140-100-MALLORY	THT	datasheets/buzzer/mallory/PT-1340P-P10-PQ.pdf p.1	
+H	buzzer	mallory		Through Hole			0.630" Dia (16.00mm)	PC Pins	BUZZER-RAD-160-76-MALLORY	THT	datasheets/buzzer/mallory/PT-1620PAQ.pdf p.1	
+H	buzzer	mallory		Through Hole			0.669" Dia (17.00mm)	PC Pins	BUZZER-RAD-170-100-MALLORY	THT	datasheets/buzzer/mallory/PT-1540PQ.pdf p.1	
+H	buzzer	mallory		Through Hole			0.866" Dia (22.00mm)	PC Pins	BUZZER-RAD-220-100-MALLORY	THT	datasheets/buzzer/mallory/PT-2040PQ.pdf p.1	
+H	buzzer	mallory		Through Hole			0.866" L x 0.283" W (22.00mm x 7.20mm)	PC Pins	BUZZER-RAD-220X72-125-MALLORY	THT	datasheets/buzzer/mallory/PT-2020PQ.pdf p.1	
+H	buzzer	mallory		Through Hole			0.906" Dia (23.00mm)	PC Pins	BUZZER-RAD-230-150-MALLORY	THT	datasheets/buzzer/mallory/MSR320R.pdf p.1	
+H	buzzer	mallory		Through Hole			0.906" L x 0.906" W (23.00mm x 23.00mm)	PC Pins	BUZZER-SQ-230-150-MALLORY	THT	datasheets/buzzer/mallory/MSE14LCH2.pdf p.1	
+H	buzzer	mallory		Through Hole			0.921" Dia (23.40mm)	PC Pins	BUZZER-RAD-234-150-MALLORY	THT	datasheets/buzzer/mallory/MCP320B2Q.pdf p.1	
+H	buzzer	mallory		Through Hole			0.945" Dia (24.00mm)	PC Pins	BUZZER-RAD-240-150-MALLORY	THT	datasheets/buzzer/mallory/MCP320Q.pdf p.1	
+H	buzzer	mallory		Through Hole			0.945" Dia (24.00mm)	PC Pins	BUZZER-RAD-240-100-MALLORY	THT	datasheets/buzzer/mallory/PT-2060PQ.pdf p.1; only for PT-2060PQ (its drawing differs from the rest of the line)	PT-2060PQ
+H	buzzer	mallory		Through Hole			0.945" Dia (24.00mm)	PC Pins	BUZZER-RAD-240-120-MALLORY	THT	datasheets/buzzer/mallory/PT-2130PSQ.pdf p.1; only for PT-2130PSQ (its drawing differs from the rest of the line)	PT-2130PSQ
+H	buzzer	mallory		Through Hole			0.945" Dia (24.00mm)	PC Pins	BUZZER-RAD-240-3-MALLORY	THT	datasheets/buzzer/mallory/PT-2130FPQ.pdf p.1; only for PT-2130FPQ (its drawing differs from the rest of the line)	PT-2130FPQ
+H	buzzer	mallory		Through Hole			1.024" Dia (26.00mm)	PC Pins	BUZZER-RAD-260-150-MALLORY	THT	datasheets/buzzer/mallory/MAS800Q.pdf p.1	
+H	buzzer	mallory		Through Hole			1.181" Dia (30.00mm)	PC Pins	BUZZER-RAD-300-150-MALLORY	THT	datasheets/buzzer/mallory/PK-27N26PSQ.pdf p.1	
+H	buzzer	mallory		Through Hole			1.181" Dia (30.00mm)	PC Pins	BUZZER-RAD-300-180-MALLORY	THT	datasheets/buzzer/mallory/PK-27H35PQ.pdf p.1; only for PK-27H25PQ (its drawing differs from the rest of the line)	PK-27H25PQ
+H	buzzer	mallory		Through Hole			1.181" Dia (30.00mm)	PC Pins	BUZZER-RAD-300-180-MALLORY	THT	datasheets/buzzer/mallory/PK-27H35PQ.pdf p.1; only for PK-27H35P-24VQ (its drawing differs from the rest of the line)	PK-27H35P-24VQ
+H	buzzer	mallory		Through Hole			1.181" Dia (30.00mm)	PC Pins	BUZZER-RAD-300-180-MALLORY	THT	datasheets/buzzer/mallory/PK-27H35PQ.pdf p.1; only for PK-27H35PQ (its drawing differs from the rest of the line)	PK-27H35PQ
+H	buzzer	mallory		Through Hole			1.181" Dia (30.00mm)	PC Pins	BUZZER-RAD-300-180-MALLORY	THT	datasheets/buzzer/mallory/PK-27H35PQ.pdf p.1; only for PT-2736PQ (its drawing differs from the rest of the line)	PT-2736PQ
+H	buzzer	mallory		Through Hole			1.181" Dia (30.00mm)	PC Pins	BUZZER-RAD-300-3-MALLORY	THT	datasheets/buzzer/mallory/PT-2726FPQ.pdf p.1; only for PT-2726FPQ (its drawing differs from the rest of the line)	PT-2726FPQ
+H	buzzer	mallory		Through Hole			1.181" Dia (30.00mm)	PC Pins	BUZZER-RAD-300-3-MALLORY	THT	datasheets/buzzer/mallory/PT-2726FPQ.pdf p.1; only for PT-2736FPQ (its drawing differs from the rest of the line)	PT-2736FPQ
+H	buzzer	mallory		Through Hole			1.181" Dia (30.00mm)	PC Pins	BUZZER-RAD-300-3L-MALLORY	THT	datasheets/buzzer/mallory/PT-2725FPQ.pdf p.1; only for PT-2725FPQ (its drawing differs from the rest of the line)	PT-2725FPQ
+H	buzzer	mallory		Through Hole			1.201" L x 0.315" W (30.50mm x 8.00mm)	PC Pins	BUZZER-RAD-305X80-3-MALLORY	THT	datasheets/buzzer/mallory/PT-2728FPQ.pdf p.1	
+H	buzzer	mallory		Through Hole			1.299" Dia (33.00mm)	PC Pins	BUZZER-RAD-330-200-MALLORY	THT	datasheets/buzzer/mallory/PS-953Q.pdf p.1	
+H	buzzer	mallory		Through Hole			1.358" Dia (34.50mm)	PC Pins	BUZZER-RAD-345-254-MALLORY	THT	datasheets/buzzer/mallory/PK-31H40PQ.pdf p.1	
+H	buzzer	mallory		Through Hole			1.535" Dia (39.00mm)	PC Pins	BUZZER-RAD-390-3-MALLORY	THT	datasheets/buzzer/mallory/PT-3534FPQ.pdf p.1	
+H	buzzer	mallory		Through Hole			1.654" Dia (42.00mm)	PC Pins	BUZZER-RAD-420-254-MALLORY	THT	datasheets/buzzer/mallory/PT-3529PQ.pdf p.1	
+H	buzzer	mallory		Through Hole			1.687" Dia (42.85mm)	PC Pins	BUZZER-RAD-4285-254-MALLORY	THT	datasheets/buzzer/mallory/SBM428R.pdf p.1	
+H	buzzer	mallory		Through Hole			1.732" Dia (44.00mm)	PC Pins	BUZZER-RAD-440-254-MALLORY	THT	datasheets/buzzer/mallory/PT-4175PQ.pdf p.1	
+H	buzzer	mallory		Through Hole			1.750" Dia (44.45mm)	PC Pins	BUZZER-RAD-4445-84-MALLORY	THT	datasheets/buzzer/mallory/SBS12M0PC.pdf p.1	
+H	buzzer	mallory		Through Hole			1.752" Dia (44.50mm)	PC Pins	BUZZER-RAD-445-340-MALLORY	THT	datasheets/buzzer/mallory/SBS300PC.pdf p.1	
+H	buzzer	mallory		Through Hole			1.772" Dia (45.00mm)	PC Pins	BUZZER-RAD-450-460-MALLORY	THT	datasheets/buzzer/mallory/PT-4532PLQ.pdf p.1	

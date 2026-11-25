@@ -1,0 +1,129 @@
+letter	type	company	series	mounting	package	supplier_package	size	detail	footprint	label	note	series_split
+E	fuse	eaton		Requires Holder	3AB, 3AG, 1/4" x 1-1/4"		0.250" Dia x 1.250" L (6.35mm x 31.75mm)		FUSE-CLIP-6X32-EATON	Axial	clip pair BK/1A1907-06-R (1A1907): eaton-1axxxx-pcb-fuse-clips-atc-atm-blade-data-sheet.pdf p.9	ABC
+E	fuse	eaton		Requires Holder	3AB, 3AG, 1/4" x 1-1/4"		0.250" Dia x 1.250" L (6.35mm x 31.75mm)		FUSE-CLIP-6X32-EATON	Axial	clip pair BK/1A1907-06-R (1A1907): eaton-1axxxx-pcb-fuse-clips-atc-atm-blade-data-sheet.pdf p.9	AGC
+E	fuse	eaton		Requires Holder	3AB, 3AG, 1/4" x 1-1/4"		0.250" Dia x 1.250" L (6.35mm x 31.75mm)		FUSE-CLIP-6X32-EATON	Axial	clip pair BK/1A1907-06-R (1A1907): eaton-1axxxx-pcb-fuse-clips-atc-atm-blade-data-sheet.pdf p.9	GBB
+E	fuse	eaton		Requires Holder	3AB, 3AG, 1/4" x 1-1/4"		0.250" Dia x 1.250" L (6.35mm x 31.75mm)		FUSE-CLIP-6X32-EATON	Axial	clip pair BK/1A1907-06-R (1A1907): eaton-1axxxx-pcb-fuse-clips-atc-atm-blade-data-sheet.pdf p.9	MDA
+E	fuse	eaton		Requires Holder	3AB, 3AG, 1/4" x 1-1/4"		0.250" Dia x 1.250" L (6.35mm x 31.75mm)		FUSE-CLIP-6X32-EATON	Axial	clip pair BK/1A1907-06-R (1A1907): eaton-1axxxx-pcb-fuse-clips-atc-atm-blade-data-sheet.pdf p.9	MDL
+E	fuse	eaton		Requires Holder	3AB, 3AG, 1/4" x 1-1/4"		0.250" Dia x 1.250" L (6.35mm x 31.75mm)		FUSE-CLIP-6X32-EATON	Cartridge	clip pair BK/1A1907-06-R (1A1907): eaton-1axxxx-pcb-fuse-clips-atc-atm-blade-data-sheet.pdf p.9	MDP
+E	fuse	eaton		Requires Holder	5mm x 20mm		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		FUSE-CLIP-5X20-EATON	Axial	clip pair BK/1A5018-10-R (1A5018): eaton-1axxxx-pcb-fuse-clips-atc-atm-blade-data-sheet.pdf p.9	
+E	fuse	eaton		Surface Mount	0603 (1608 Metric)		0.063" L x 0.032" W x 0.019" H (1.60mm x 0.81mm x 0.48mm)		FUSE-1608-EATON	0603	eaton-0603fa-fast-acting-chip-surface-mount-fuse-data-sheet.pdf p.2	
+E	fuse	eaton		Surface Mount	0603 (1608 Metric)		0.063" L x 0.032" W x 0.019" H (1.60mm x 0.82mm x 0.48mm)		FUSE-1608-EATON	0603	shared with FUSE-1608-EATON	
+E	fuse	eaton		Surface Mount	1206 (3216 Metric)		0.063" L x 0.126" W x 0.024" H (1.60mm x 3.20mm x 0.60mm)		FUSE-3216-EATON-C	1206	eaton-cc12h-high-i2t-chip-fuses-data-sheet.pdf p.3	
+E	fuse	eaton		Surface Mount	1206 (3216 Metric)		0.126" L x 0.063" W x 0.024" H (3.20mm x 1.60mm x 0.60mm)		FUSE-3216-EATON-C	1206	shared with FUSE-3216-EATON-C	
+E	fuse	eaton		Surface Mount	1206 (3216 Metric)		0.126" L x 0.063" W x 0.035" H (3.20mm x 1.60mm x 0.90mm)		FUSE-3216-EATON	1206	eaton-3216ff-surface-mount-fuse-data-sheet.pdf p.2	
+E	fuse	eaton		Surface Mount	1206 (3216 Metric)		0.126" L x 0.063" W x 0.039" H (3.20mm x 1.60mm x 1.00mm)		FUSE-3216-EATON-B	1206	eaton-3216td-time-delay-chip-surface-mount-fuse-data-sheet.pdf p.2	
+E	fuse	eaton		Surface Mount	2-SMD, J-Lead		0.299" L x 0.236" W x 0.173" H (7.60mm x 6.00mm x 4.40mm)		FUSE-7660-EATON	SMD	eaton-2822hc-high-current-brick-fuse-data-sheet-elx1147-en.pdf p.2	
+E	fuse	eaton		Surface Mount	2-SMD, J-Lead		0.303" L x 0.236" W x 0.181" H (7.70mm x 6.00mm x 4.60mm)		FUSE-7760-EATON	SMD	eaton-2822hc-high-current-brick-fuse-data-sheet-elx1147-en.pdf p.2	
+E	fuse	eaton		Surface Mount	2-SMD, Square End Block		0.177" Dia x 0.488" L (4.50mm x 12.40mm)		FUSE-124X45-EATON	SMD	eaton-1025hc-fuse-product-aid.pdf p.2	
+E	fuse	eaton		Surface Mount	2-SMD, Square End Block		0.240" L x 0.101" W x 0.101" H (6.10mm x 2.57mm x 2.57mm)		FUSE-6126-EATON	SMD	eaton-cb61f-surface-mount-brick-fuses-data-sheet.pdf p.2	
+E	fuse	eaton		Surface Mount	2-SMD, Square End Block		0.240" L x 0.107" W x 0.107" H (6.10mm x 2.72mm x 2.72mm)		FUSE-6127-EATON	SMD	eaton-2410td-high-current-fast-acting-smt-brick-fuse-data-sheet-elx1195-en.pdf p.2	
+E	fuse	eaton		Surface Mount	2-SMD, Square End Block		0.256" L x 0.122" W x 0.122" H (6.50mm x 3.10mm x 3.10mm)		FUSE-6531-EATON	SMD	eaton-2410fa-high-current-fast-acting-smt-brick-fuse-data-sheet-elx1196-en.pdf p.2	
+E	fuse	eaton		Surface Mount	2-SMD, Square End Block		0.405" L x 0.109" W x 0.109" H (10.29mm x 2.77mm x 2.77mm)		FUSE-103X28-EATON	SMD	eaton-1025fa-surface-mount-fuse-data-sheet.pdf p.2	
+E	fuse	eaton		Surface Mount	2-SMD, Square End Block		0.441" L x 0.199" W x 0.199" H (11.20mm x 5.05mm x 5.05mm)		FUSE-112X51-EATON	SMD	eaton-1145hv-high-voltage-fast-acting-brick-fuse-data-sheet-elx1039-en.pdf p.2	
+E	fuse	eaton		Surface Mount	2-SMD, Square End Block		0.472" L x 0.177" W x 0.177" H (12.00mm x 4.50mm x 4.50mm)		FUSE-120X45-EATON	SMD	eaton-1245umff-universal-modular-fuse-fast-acting-smt-data-sheet-elx1120-en.pdf p.2	
+E	fuse	eaton		Surface Mount	2-SMD, Square End Block		0.484" L x 0.177" W x 0.177" H (12.30mm x 4.50mm x 4.50mm)		FUSE-123X45-EATON	SMD	eaton-1245hc-fast-acting-brick-fuse-data-sheet.pdf p.2	
+E	fuse	eaton		Surface Mount	2-SMD, Square End Block		0.520" L x 0.199" W x 0.199" H (13.20mm x 5.05mm x 5.05mm)		FUSE-132X51-EATON	SMD	eaton-1350hv-high-voltage-fast-acting-brick-fuse-data-sheet-elx1041-en.pdf p.2	
+E	fuse	eaton		Surface Mount	2-SMD, Square End Block		1.268" L x 0.198" W x 0.198" H (32.20mm x 5.03mm x 5.03mm)		FUSE-322X50-EATON	SMD	eaton-3250hv-high-voltage-smd-brick-fuse-data-sheet-elx1439.pdf p.2	
+E	fuse	eaton		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.266" Dia x 1.292" L (6.76mm x 32.82mm)		FUSE-AX-328-381-EATON	Axial	eaton-agc-fast-acting-glass-tube-fuses-data-sheet.pdf p.3	
+E	fuse	eaton		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.268" Dia x 1.291" L (6.81mm x 32.79mm)		FUSE-AX-328-381-EATON-B	Axial	eaton-adc-3ab-high-voltage-fuse-data-sheet-elx1122-en.pdf p.2	
+E	fuse	eaton		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.275" Dia x 1.288" L (6.99mm x 32.72mm)		FUSE-AX-327-381-EATON	Cartridge	eaton-mdh-r-ferrule-and-axial-lead-i2t-ceramic-tube-fuses-data-sheet.pdf p.2	
+E	fuse	eaton		Through Hole	5mm x 20mm (Axial)		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		FUSE-AX-200-254-EATON	Axial	eaton-s505sc-time-delay-axial-lead-ceramic-tube-fuses-data-sheet.pdf p.2	
+E	fuse	eaton		Through Hole	5mm x 20mm (Axial)		0.205" Dia x 0.807" L (5.20mm x 20.50mm)		FUSE-AX-205-254-EATON	Axial	eaton-s505sch-time-delay-axial-lead-ceramic-tube-fuses-data-sheet.pdf p.2	
+E	fuse	eaton		Through Hole	5mm x 20mm (Axial)		0.218" Dia x 0.831" L (5.54mm x 21.10mm)		FUSE-AX-211-254-EATON	Axial	eaton-gma-time-delay-glass-tube-fuses-data-sheet.pdf p.2	
+E	fuse	eaton		Through Hole	5mm x 20mm (Axial)		0.236" Dia x 0.831" L (6.00mm x 21.10mm)		FUSE-AX-211-254-EATON-B	Axial	eaton-s520-fast-acting-ceramic-tube-fuse-data-sheet.pdf p.2	
+E	fuse	eaton		Through Hole	Cartridge, Non-Standard (Axial)		0.142" Dia x 0.394" L (3.60mm x 10.00mm)		FUSE-AX-100-152-EATON	Axial	eaton-c310t-sc-time-delay-axial-lead-ceramic-tube-fuses-data-sheet.pdf p.2	
+E	fuse	eaton		Through Hole	Radial, Box		0.335" Dia x 0.362" H (8.50mm x 9.20mm)		FUSE-RAD-85-51-EATON	Radial	eaton-ss-5fh-subminiature-fast-acting-fuses-data-sheet.pdf p.2	
+E	fuse	eaton		Through Hole	Radial, Box		0.335" L x 0.169" W x 0.329" H (8.50mm x 4.30mm x 8.35mm)		FUSE-RAD-85-51-EATON-B	Radial	eaton-ss-5-radial-leaded-time-delay-fuses-data-sheet.pdf p.2	
+E	fuse	eaton		Through Hole	Radial, Box		0.335" L x 0.170" W x 0.337" H (8.50mm x 4.30mm x 8.55mm)		FUSE-RAD-85-51-EATON-B	Radial	shared with FUSE-RAD-85-51-EATON-B	
+E	fuse	eaton		Through Hole	Radial, Box		0.350" L x 0.184" W x 0.345" H (8.89mm x 4.67mm x 8.76mm)		FUSE-RAD-89-51-EATON	Radial	eaton-pc-tron-subminiature-radial-leaded-fuses-data-sheet.pdf p.2	
+E	fuse	eaton		Through Hole	Radial, Can, Vertical		0.335" Dia x 0.319" H (8.50mm x 8.10mm)		FUSE-RAD-85-51-EATON-C	Radial	eaton-sr-5-subminiature-time-delay-fuses-data-sheet.pdf p.2	
+E	fuse	littelfuse		Requires Holder	3AB, 3AG, 1/4" x 1-1/4"		0.248" Dia x 1.260" L (6.30mm x 32.00mm)		FUSE-CLIP-6X32-LITTELFUSE	Axial	clip pair 01020071Z (102 071): 102-bt-series-datasheet.pdf p.1	
+E	fuse	littelfuse		Requires Holder	3AB, 3AG, 1/4" x 1-1/4"		0.250" Dia x 1.250" L (6.35mm x 31.75mm)		FUSE-CLIP-6X32-LITTELFUSE	Cartridge	clip pair 01020071Z (102 071): 102-bt-series-datasheet.pdf p.1	312
+E	fuse	littelfuse		Requires Holder	3AB, 3AG, 1/4" x 1-1/4"		0.250" Dia x 1.250" L (6.35mm x 31.75mm)		FUSE-CLIP-6X32-LITTELFUSE	Cartridge	clip pair 01020071Z (102 071): 102-bt-series-datasheet.pdf p.1	313
+E	fuse	littelfuse		Requires Holder	3AB, 3AG, 1/4" x 1-1/4"		0.250" Dia x 1.250" L (6.35mm x 31.75mm)		FUSE-CLIP-6X32-LITTELFUSE	Axial	clip pair 01020071Z (102 071): 102-bt-series-datasheet.pdf p.1	314
+E	fuse	littelfuse		Requires Holder	3AB, 3AG, 1/4" x 1-1/4"		0.250" Dia x 1.250" L (6.35mm x 31.75mm)		FUSE-CLIP-6X32-LITTELFUSE	Cartridge	clip pair 01020071Z (102 071): 102-bt-series-datasheet.pdf p.1	326
+E	fuse	littelfuse		Requires Holder	3AB, 3AG, 1/4" x 1-1/4"		0.250" Dia x 1.250" L (6.35mm x 31.75mm)		FUSE-CLIP-6X32-LITTELFUSE	Axial	clip pair 01020071Z (102 071): 102-bt-series-datasheet.pdf p.1	505
+E	fuse	littelfuse		Requires Holder	5mm x 20mm		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		FUSE-CLIP-5X20-LITTELFUSE	Axial	clip pair 01110501Z (111 501): littelfuse-fuse-clip-111-datasheet.pdf p.1	213
+E	fuse	littelfuse		Requires Holder	5mm x 20mm		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		FUSE-CLIP-5X20-LITTELFUSE	Axial	clip pair 01110501Z (111 501): littelfuse-fuse-clip-111-datasheet.pdf p.1	215
+E	fuse	littelfuse		Requires Holder	5mm x 20mm		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		FUSE-CLIP-5X20-LITTELFUSE	Axial	clip pair 01110501Z (111 501): littelfuse-fuse-clip-111-datasheet.pdf p.1	216
+E	fuse	littelfuse		Requires Holder	5mm x 20mm		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		FUSE-CLIP-5X20-LITTELFUSE	Axial	clip pair 01110501Z (111 501): littelfuse-fuse-clip-111-datasheet.pdf p.1	217
+E	fuse	littelfuse		Requires Holder	5mm x 20mm		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		FUSE-CLIP-5X20-LITTELFUSE	Axial	clip pair 01110501Z (111 501): littelfuse-fuse-clip-111-datasheet.pdf p.1	218
+E	fuse	littelfuse		Requires Holder	5mm x 20mm		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		FUSE-CLIP-5X20-LITTELFUSE	Cartridge	clip pair 01110501Z (111 501): littelfuse-fuse-clip-111-datasheet.pdf p.1	219XA
+E	fuse	littelfuse		Requires Holder	5mm x 20mm		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		FUSE-CLIP-5X20-LITTELFUSE	Cartridge	clip pair 01110501Z (111 501): littelfuse-fuse-clip-111-datasheet.pdf p.1	232
+E	fuse	littelfuse		Requires Holder	5mm x 20mm		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		FUSE-CLIP-5X20-LITTELFUSE	Cartridge	clip pair 01110501Z (111 501): littelfuse-fuse-clip-111-datasheet.pdf p.1	233
+E	fuse	littelfuse		Requires Holder	5mm x 20mm		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		FUSE-CLIP-5X20-LITTELFUSE	Axial	clip pair 01110501Z (111 501): littelfuse-fuse-clip-111-datasheet.pdf p.1	234
+E	fuse	littelfuse		Requires Holder	5mm x 20mm		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		FUSE-CLIP-5X20-LITTELFUSE	Cartridge	clip pair 01110501Z (111 501): littelfuse-fuse-clip-111-datasheet.pdf p.1	235
+E	fuse	littelfuse		Requires Holder	5mm x 20mm		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		FUSE-CLIP-5X20-LITTELFUSE	Cartridge	clip pair 01110501Z (111 501): littelfuse-fuse-clip-111-datasheet.pdf p.1	239
+E	fuse	littelfuse		Requires Holder	5mm x 20mm		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		FUSE-CLIP-5X20-LITTELFUSE	Axial	clip pair 01110501Z (111 501): littelfuse-fuse-clip-111-datasheet.pdf p.1	477
+E	fuse	littelfuse		Requires Holder	5mm x 20mm		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		FUSE-CLIP-5X20-LITTELFUSE	Axial	clip pair 01110501Z (111 501): littelfuse-fuse-clip-111-datasheet.pdf p.1	977
+E	fuse	littelfuse		Surface Mount	0402 (1005 Metric)		0.039" L x 0.020" W x 0.013" H (1.00mm x 0.51mm x 0.33mm)		FUSE-1005-LITTELFUSE	0402	fuse-435-datasheet.pdf p.3	
+E	fuse	littelfuse		Surface Mount	0603 (1608 Metric)		0.061" L x 0.033" W x 0.020" H (1.54mm x 0.85mm x 0.50mm)		FUSE-1509-LITTELFUSE	0603	fuse-438-datasheet.pdf p.3	
+E	fuse	littelfuse		Surface Mount	0603 (1608 Metric)		0.062" L x 0.033" W x 0.024" H (1.58mm x 0.85mm x 0.61mm)		FUSE-1509-LITTELFUSE	0603	shared with FUSE-1509-LITTELFUSE	
+E	fuse	littelfuse		Surface Mount	0603 (1608 Metric)		0.063" L x 0.032" W x 0.012" H (1.60mm x 0.81mm x 0.31mm)		FUSE-1608-LITTELFUSE	0603	fuse-467-datasheet.pdf p.3	
+E	fuse	littelfuse		Surface Mount	1206 (3216 Metric)		-		FUSE-3216-LITTELFUSE	1206	fuse-458-nano2-datasheet.pdf p.3	
+E	fuse	littelfuse		Surface Mount	1206 (3216 Metric)		0.124" L x 0.059" W x 0.045" H (3.15mm x 1.50mm x 1.15mm)		FUSE-3216-LITTELFUSE	1206	shared with FUSE-3216-LITTELFUSE	
+E	fuse	littelfuse		Surface Mount	1206 (3216 Metric)		0.125" L x 0.060" W x 0.023" H (3.18mm x 1.52mm x 0.58mm)		FUSE-3215-LITTELFUSE	1206	fuse-466-datasheet.pdf p.3	
+E	fuse	littelfuse		Surface Mount	1206 (3216 Metric)		0.125" L x 0.062" W x 0.062" H (3.18mm x 1.58mm x 1.58mm)		FUSE-3216-LITTELFUSE	1206	shared with FUSE-3216-LITTELFUSE	
+E	fuse	littelfuse		Surface Mount	1206 (3216 Metric)		0.126" L x 0.064" W (3.20mm x 1.63mm)		FUSE-3216-EATON	1206	shared with FUSE-3216-EATON	
+E	fuse	littelfuse		Surface Mount	1206 (3216 Metric)		0.126" L x 0.064" W x 0.032" H (3.20mm x 1.63mm x 0.82mm)		FUSE-3216-EATON	1206	shared with FUSE-3216-EATON	
+E	fuse	littelfuse		Surface Mount	1206 (3216 Metric)		0.126" L x 0.064" W x 0.033" H (3.20mm x 1.63mm x 0.84mm)		FUSE-3216-EATON	1206	shared with FUSE-3216-EATON	
+E	fuse	littelfuse		Surface Mount	1206 (3216 Metric)		0.130" L x 0.062" W x 0.056" H (3.30mm x 1.58mm x 1.42mm)		FUSE-3216-LITTELFUSE	1206	shared with FUSE-3216-LITTELFUSE	
+E	fuse	littelfuse		Surface Mount	2-SMD, J-Lead		0.285" L x 0.170" W x 0.120" H (7.24mm x 4.32mm x 3.05mm)		FUSE-7243-LITTELFUSE	SMD	fuse-459-pico-smf-datasheet.pdf p.2	
+E	fuse	littelfuse		Surface Mount	2-SMD, J-Lead		0.394" L x 0.441" W x 0.268" H (10.00mm x 11.20mm x 6.80mm)		FUSE-112X100-LITTELFUSE	SMD	littelfuse-fuse-881-datasheet.pdf p.3	
+E	fuse	littelfuse		Surface Mount	2-SMD, Square End Block		0.240" L x 0.106" W x 0.106" H (6.10mm x 2.69mm x 2.69mm)		FUSE-6127-EATON	SMD	shared with FUSE-6127-EATON	
+E	fuse	littelfuse		Surface Mount	2-SMD, Square End Block		0.397" L x 0.120" W x 0.120" H (10.08mm x 3.05mm x 3.05mm)		FUSE-101X31-LITTELFUSE	SMD	fuse-443-datasheet.pdf p.3	
+E	fuse	littelfuse		Surface Mount	2-SMD, Square End Block		0.398" L x 0.123" W x 0.123" H (10.10mm x 3.12mm x 3.12mm)		FUSE-101X31-LITTELFUSE	SMD	shared with FUSE-101X31-LITTELFUSE	
+E	fuse	littelfuse		Surface Mount	2-SMD, Square End Block		0.428" L x 0.188" W x 0.188" H (10.86mm x 4.78mm x 4.78mm)		FUSE-109X48-LITTELFUSE	SMD	littelfuse-fuse-885-datasheet.pdf p.3	
+E	fuse	littelfuse		Surface Mount	2-SMD, Square End Block		0.476" L x 0.177" W x 0.177" H (12.10mm x 4.50mm x 4.50mm)		FUSE-120X45-EATON	SMD	shared with FUSE-120X45-EATON	
+E	fuse	littelfuse		Surface Mount	2-SMD, Square End Block		0.480" L x 0.177" W x 0.177" H (12.20mm x 4.50mm x 4.50mm)		FUSE-125X45-LITTELFUSE	SMD	fuse-456-datasheet.pdf p.3	
+E	fuse	littelfuse		Surface Mount	2-SMD, Square End Block		0.492" L x 0.175" W x 0.175" H (12.50mm x 4.45mm x 4.45mm)		FUSE-125X45-LITTELFUSE	SMD	shared with FUSE-125X45-LITTELFUSE	
+E	fuse	littelfuse		Surface Mount	2-SMD, Square End Block with Holder		0.383" L x 0.198" W x 0.150" H (9.73mm x 5.03mm x 3.81mm)		FUSE-9750-LITTELFUSE	SMD	littelfuse-fuse-154-series-data-sheet.pdf p.2	
+E	fuse	littelfuse		Surface Mount	Nonstandard SMD		0.413" L x 0.177" W x 0.177" H (10.50mm x 4.50mm x 4.50mm)		FUSE-105X45-LITTELFUSE	SMD	fuse-462-datasheet.pdf p.3	
+E	fuse	littelfuse		Through Hole	2AG, 5mm x 15mm (Axial)		0.177" Dia x 0.571" L (4.50mm x 14.50mm)		FUSE-AX-145-203-LITTELFUSE	Axial	littelfuse-fuse-220-datasheet.pdf p.3	
+E	fuse	littelfuse		Through Hole	2AG, 5mm x 15mm (Axial)		0.185" Dia x 0.570" L (4.70mm x 14.48mm)		FUSE-AX-145-203-LITTELFUSE	Axial	shared with FUSE-AX-145-203-LITTELFUSE	
+E	fuse	littelfuse		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.275" Dia x 1.288" L (6.99mm x 32.72mm)		FUSE-AX-327-381-LITTELFUSE	Axial	fuse-314-and-324-datasheet.pdf p.3	324
+E	fuse	littelfuse		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.275" Dia x 1.288" L (6.99mm x 32.72mm)		FUSE-AX-327-381-LITTELFUSE	Cartridge	fuse-314-and-324-datasheet.pdf p.3	325
+E	fuse	littelfuse		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.275" Dia x 1.288" L (6.99mm x 32.72mm)		FUSE-AX-327-381-LITTELFUSE	Axial	fuse-314-and-324-datasheet.pdf p.3	505
+E	fuse	littelfuse		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.275" Dia x 1.288" L (6.99mm x 32.72mm)		FUSE-AX-327-381-LITTELFUSE	Axial	fuse-314-and-324-datasheet.pdf p.3	508
+E	fuse	littelfuse		Through Hole	5mm x 20mm (Axial)		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		FUSE-AX-200-254-LITTELFUSE	Axial	fuse-215sp-datasheet.pdf p.3	
+E	fuse	littelfuse		Through Hole	5mm x 20mm (Axial)		0.217" Dia x 0.846" L (5.50mm x 21.50mm)		FUSE-AX-215-279-LITTELFUSE	Axial	fuse-477-datasheet.pdf p.3	
+E	fuse	littelfuse		Through Hole	5mm x 20mm (Axial)		0.228" Dia x 0.886" L (5.80mm x 22.50mm)		FUSE-AX-215-279-LITTELFUSE-B	Axial	fuse-215-datasheet.pdf p.4	
+E	fuse	littelfuse		Through Hole	5mm x 20mm (Axial)		0.236" Dia x 0.886" L (6.00mm x 22.50mm)		FUSE-AX-215-279-LITTELFUSE-C	Axial	fuse-216-lead-free-datasheet.pdf p.3	
+E	fuse	littelfuse		Through Hole	Axial		0.110" Dia x 0.280" L (2.80mm x 7.11mm)		FUSE-AX-71-102-LITTELFUSE	Axial	fuse-251-datasheet.pdf p.3	
+E	fuse	littelfuse		Through Hole	Axial		0.133" Dia x 0.310" L (3.38mm x 7.87mm)		FUSE-AX-79-127-LITTELFUSE	Axial	fuse-275-and-276-datasheet.pdf p.3	
+E	fuse	littelfuse		Through Hole	Axial		0.135" Dia x 0.280" L (3.43mm x 7.11mm)		FUSE-AX-71-102-LITTELFUSE	Axial	shared with FUSE-AX-71-102-LITTELFUSE	
+E	fuse	littelfuse		Through Hole	Axial		0.135" Dia x 0.315" L (3.42mm x 8.00mm)		FUSE-AX-80-127-LITTELFUSE	Axial	littelfuse-fuse-pico-521-datasheet.pdf p.3	
+E	fuse	littelfuse		Through Hole	Axial		0.155" Dia x 0.280" L (3.94mm x 7.11mm)		FUSE-AX-71-102-LITTELFUSE	Axial	shared with FUSE-AX-71-102-LITTELFUSE	
+E	fuse	littelfuse		Through Hole	Cartridge, Non-Standard (Axial)		0.142" Dia x 0.394" L (3.60mm x 10.00mm)		FUSE-AX-100-152-LITTELFUSE	Axial	fuse-875-datasheet.pdf p.3	
+E	fuse	littelfuse		Through Hole	Cartridge, Non-Standard (Axial)		0.177" Dia x 0.571" L (4.50mm x 14.50mm)		FUSE-AX-145-203-LITTELFUSE	Axial	shared with FUSE-AX-145-203-LITTELFUSE	
+E	fuse	littelfuse		Through Hole	Radial Bend Cylinder		0.482" Dia x 1.315" L (12.25mm x 33.40mm)		FUSE-334X123-4-LITTELFUSE	Radial	littelfuse-fuse-607-series-datasheet.pdf p.3	
+E	fuse	littelfuse		Through Hole	Radial, Box		0.335" L x 0.157" W x 0.315" H (8.50mm x 4.00mm x 8.00mm)		FUSE-RAD-85-51-LITTELFUSE	Radial	fuse-369-datasheet.pdf p.3	
+E	fuse	littelfuse		Through Hole	Radial, Can, Vertical		0.250" Dia x 0.350" H (6.35mm x 8.89mm)		FUSE-RAD-64-25-LITTELFUSE	Radial	fuse-272-and-279-datasheet.pdf p.3	
+E	fuse	littelfuse		Through Hole	Radial, Can, Vertical		0.335" Dia x 0.315" H (8.50mm x 8.00mm)		FUSE-RAD-85-51-LITTELFUSE-B	Radial	fuse-370-datasheet.pdf p.3	
+E	fuse	schurter		Requires Holder	3AB, 3AG, 1/4" x 1-1/4"		0.250" Dia x 1.252" L (6.35mm x 31.80mm)		FUSE-CLIP-6X32-SCHURTER	Cartridge	clip pair 0751.0056 (OG 5x20 / 6.3x32): typ_OG__Clip__5x20___6.3x32.pdf p.2	
+E	fuse	schurter		Requires Holder	5mm x 20mm		0.197" Dia x 0.787" L (5.00mm x 20.00mm)		FUSE-CLIP-5X20-SCHURTER	Cartridge	clip pair 0751.0052 (OG 5x20): typ_OG__Clip__5x20.pdf p.2	
+E	fuse	schurter		Requires Holder	5mm x 20mm		0.201" Dia x 0.787" L (5.10mm x 20.00mm)		FUSE-CLIP-5X20-SCHURTER	Cartridge	clip pair 0751.0052 (OG 5x20): typ_OG__Clip__5x20.pdf p.2	
+E	fuse	schurter		Requires Holder	5mm x 20mm		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		FUSE-200X52-SCHURTER	Cartridge	typ_SMD-FST_5x20.pdf p.2	SMD-SPT
+E	fuse	schurter		Requires Holder	5mm x 20mm		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		FUSE-200X52-SCHURTER	Cartridge	shared with FUSE-200X52-SCHURTER	SMD-FST
+E	fuse	schurter		Requires Holder	5mm x 20mm		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		FUSE-CLIP-5X20-SCHURTER	Cartridge	clip pair 0751.0052 (OG 5x20): typ_OG__Clip__5x20.pdf p.2	FSF 5x20
+E	fuse	schurter		Requires Holder	5mm x 20mm		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		FUSE-CLIP-5X20-SCHURTER	Cartridge	clip pair 0751.0052 (OG 5x20): typ_OG__Clip__5x20.pdf p.2	SPT 5x20
+E	fuse	schurter		Requires Holder	5mm x 20mm		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		FUSE-CLIP-5X20-SCHURTER	Cartridge	clip pair 0751.0052 (OG 5x20): typ_OG__Clip__5x20.pdf p.2	FST 5x20
+E	fuse	schurter		Requires Holder	5mm x 20mm		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		FUSE-CLIP-5X20-SCHURTER	Cartridge	clip pair 0751.0052 (OG 5x20): typ_OG__Clip__5x20.pdf p.2	SP 5x20
+E	fuse	schurter		Requires Holder	5mm x 20mm		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		FUSE-CLIP-5X20-SCHURTER	Cartridge	clip pair 0751.0052 (OG 5x20): typ_OG__Clip__5x20.pdf p.2	FSM 5x20
+E	fuse	schurter		Requires Holder	5mm x 20mm		0.205" Dia x 0.787" L (5.20mm x 20.00mm)		FUSE-CLIP-5X20-SCHURTER	Cartridge	clip pair 0751.0052 (OG 5x20): typ_OG__Clip__5x20.pdf p.2	FTT 5x20
+E	fuse	schurter		Surface Mount	0402 (1005 Metric)		0.040" L x 0.020" W x 0.019" H (1.00mm x 0.50mm x 0.48mm)		FUSE-1005-SCHURTER	0402	typ_USF_0402.pdf p.2	
+E	fuse	schurter		Surface Mount	0603 (1608 Metric)		0.063" L x 0.031" W x 0.024" H (1.60mm x 0.80mm x 0.60mm)		FUSE-1608-SCHURTER	0603	typ_USF_0603.pdf p.2	
+E	fuse	schurter		Surface Mount	1206 (3216 Metric)		0.126" L x 0.063" W x 0.024" H (3.20mm x 1.60mm x 0.60mm)		FUSE-3216-SCHURTER	1206	typ_USF_1206.pdf p.2	
+E	fuse	schurter		Surface Mount	1206 (3216 Metric)		0.126" L x 0.063" W x 0.063" H (3.20mm x 1.60mm x 1.60mm)		FUSE-3216-SCHURTER	1206	shared with FUSE-3216-SCHURTER	
+E	fuse	schurter		Surface Mount	2-SMD, J-Lead		0.291" L x 0.122" W x 0.102" H (7.40mm x 3.10mm x 2.60mm)		FUSE-7431-SCHURTER	SMD	typ_OMF_125.pdf p.2	
+E	fuse	schurter		Surface Mount	2-SMD, J-Lead		0.370" L x 0.331" W x 0.185" H (9.40mm x 8.40mm x 4.70mm)		FUSE-9484-SCHURTER	SMD	typ_UHS.pdf p.2	
+E	fuse	schurter		Surface Mount	2-SMD, J-Lead		0.433" L x 0.181" W x 0.154" H (11.00mm x 4.60mm x 3.90mm)		FUSE-110X46-SCHURTER	SMD	typ_OMF_250.pdf p.2	
+E	fuse	schurter		Surface Mount	2-SMD, Square End Block		0.126" L x 0.061" W x 0.061" H (3.20mm x 1.55mm x 1.55mm)		FUSE-3216-SCHURTER	SMD	shared with FUSE-3216-SCHURTER	
+E	fuse	schurter		Surface Mount	2-SMD, Square End Block		0.398" L x 0.118" W x 0.118" H (10.10mm x 3.00mm x 3.00mm)		FUSE-101X30-SCHURTER	SMD	typ_UMF_250.pdf p.2	
+E	fuse	schurter		Surface Mount	2-SMD, Square End Block		0.606" L x 0.211" W x 0.211" H (15.40mm x 5.35mm x 5.35mm)		FUSE-154X54-SCHURTER	SMD	typ_UMT-W.pdf p.2	
+E	fuse	schurter		Surface Mount	2-SMD, Square End Block with Clip		0.445" L x 0.165" W x 0.157" H (11.30mm x 4.20mm x 4.00mm)		FUSE-113X42-SCHURTER	SMD	typ_UMK_250.pdf p.2	
+E	fuse	schurter		Surface Mount	2410 (6125 Metric), Concave		0.240" L x 0.098" W x 0.087" H (6.10mm x 2.50mm x 2.20mm)		FUSE-6125-SCHURTER	2410	typ_USE_2410.pdf p.2	
+E	fuse	schurter		Through Hole	3AB, 3AG, 1/4" x 1-1/4" (Axial)		0.270" Dia x 1.291" L (6.85mm x 32.80mm)		FUSE-AX-328-381-SCHURTER	Axial	typ_SHF_6.3x32_Pigtail.pdf p.2	
+E	fuse	schurter		Through Hole	5mm x 20mm (Axial)		0.213" Dia x 0.886" L (5.40mm x 22.50mm)		FUSE-AX-225-279-SCHURTER	Axial	typ_FST_5x20_Pigtail.pdf p.2	
+E	fuse	schurter		Through Hole	Cartridge, Non-Standard (Axial)		0.154" Dia x 0.433" L (3.90mm x 11.00mm)		FUSE-AX-110-152-SCHURTER	Axial	typ_SPT_3.6x10.pdf p.2	
+E	fuse	schurter		Through Hole	Radial, Box		0.453" L x 0.197" W x 0.315" H (11.50mm x 5.00mm x 8.00mm)		FUSE-RAD-115-75-SCHURTER	Radial	typ_FRT_250F.pdf p.2	

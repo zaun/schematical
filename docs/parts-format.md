@@ -1,7 +1,7 @@
 # Part file format
 
 Every orderable part (gate, flip-flop, latch, decoder, counter, shift register, SRAM, EEPROM, switch, LED,
-diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character LCD module, oscillator, crystal, supply, microprocessor, microcontroller, serial controller, serial memory, LED and LCD driver, programmable logic device, IC socket) is described in a JSON part file in
+diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character LCD module, oscillator, crystal, inductor, fuse, relay, buzzer, supply, microprocessor, microcontroller, serial controller, serial memory, LED and LCD driver, programmable logic device, IC socket) is described in a JSON part file in
 `schematical/schematical/Parts/`, one file per kind:
 
 | File | Kind |
@@ -16,6 +16,10 @@ diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character
 | `7seg.json` | `7seg` |
 | `oscillator.json` | `oscillator` |
 | `crystal.json` | `crystal` |
+| `inductor.json` | `inductor` |
+| `fuse.json` | `fuse` |
+| `relay.json` | `relay` |
+| `buzzer.json` | `buzzer` |
 | `supply.json` | `supply` |
 | `latch.json` | `latch` |
 | `decoder.json` | `decoder` |
@@ -259,8 +263,10 @@ Flags:
 
 - `obsolete`: the datasheet's ordering table lists the part as Obsolete.
 - `military`: SN54/SNJ54/SNV54/CD54 names, 5962- and (J)M38510/ numbers, SMD
-  drawing numbers, CD4000 …F3A parts.
-- `automotive`: AEC-Q100 qualified (-Q1) parts, and AEC-Q200 qualified crystals.
+  drawing numbers, CD4000 …F3A parts, and MIL-qualified relays (DigiKey grade
+  Military, MIL-PRF-39016 and the like).
+- `automotive`: AEC-Q100 or AEC-Q200 qualified parts: -Q1 parts, and the
+  crystals, inductors, fuses and PTC resettable fuses DigiKey lists as AEC-Q200.
 - `enhanced`: Enhanced Product (-EP) parts, V62/ numbers.
 - `ceramic`: a ceramic package body (CDIP, CFP, LCCC, CPGA, ceramic SMD
   oscillators). Ceramic and plastic DIPs share the package name `"DIP"`, so
@@ -523,6 +529,24 @@ for a while (a later run: 20 of 68 passed, the next 0 of 68, and `curl` got
 `www.jst.com` answers a script `HTTP 403` for both its entries
 (`eSR_SZ`, `eSR_SZ-new`), though the URLs open in a browser, so treat those two
 as expected.
+
+The inductor, fuse, PTC, relay and buzzer entries (plan-47-K, L) were checked
+on 2026-11-22, host by host, with the new entries' ids (1264 entries, 16
+hosts). Fifteen hosts answered every URL with a PDF: `www.bourns.com`,
+`pim.murata.com`, `www.murata.com`, `www.we-online.com`, `www.littelfuse.com`,
+`www.eaton.com`, `www.schurter.com`, `www.belfuse.com`, `www.te.com`,
+`assets.franjobaim.com`, `industry.panasonic.com`,
+`mediap.industry.panasonic.eu`, `www.sameskydevices.com`, `puiaudio.com` and
+`api.puiaudio.com` (`www.littelfuse.com` dropped one URL, `fuse-208-datasheet`,
+in the first run with `fetch failed` and served it on the retry: re-run a
+failure there before believing it). None of them refuses the checker's client.
+`mspindy.com` (Mallory Sonalert) answered 128 of its 136 entries and then
+stopped answering this machine altogether (every request, the site's home page
+included, timed out minutes later); the other 8 (`pt-4175pq`, `pt-4532plq`,
+`pt-593sq`, `sbm428r`, `sbs12m0pc`, `sbt200pc`, `sbt12ghpc`, `sbs300pc`) report
+`fetch failed`, which is the checker's word for a connection that was reset or
+never opened, not an HTTP status. Run `mspindy.com` with `--jobs 1` and read
+those 8 as unconfirmed rather than dead.
 
 A part whose maker no longer hosts its datasheet has a `"manufacturer"`
 but no `"datasheet"`; `listing_check` prints how many there are. They are:
@@ -1076,6 +1100,61 @@ Parts carry no kind keys. The library has one LED part, `GENERIC-LED`, whose
 `footprintChoices` list the eleven LED footprints (0402 … Radial; default
 `LED-RADIAL-5MM`).
 
+### `buzzer`
+
+Board-mount buzzers (plan-47): `"kind": "buzzer"`, run by
+`backend/src/models/buzzer.c`. A buzzer is a two-terminal sounder with a built-in
+driver (an **indicator**) or without one (a **transducer**), piezo or magnetic.
+It drives nothing. It is **on** while its positive pin reads 1 and its
+negative pin reads 0, tracked and reported through the lights hooks exactly as an
+LED is: `circuit_part_lights` (on at any time during the last step) and
+`circuit_part_light_time` (the cumulative on-time), so the app can draw it and
+play a tone (a transducer driven by a square wave is on for the wave's high
+time). The facts are for the app. The voltage check ignores a buzzer. A
+buzzer has no `vcc`.
+
+Device keys:
+
+| Key | Value |
+|---|---|
+| `"driver"` | `"indicator"` or `"transducer"` (`unknown buzzer driver "X"`) |
+| `"technology"` | `"piezo"` or `"magnetic"` (`unknown buzzer technology "X"`) |
+| `"positive"`, `"negative"` | pin names, exactly one pin each (different pins) |
+
+The two named pins have the role `input` (`buzzer pin "+" must be input`);
+every other pin (a feedback electrode, a mounting pad) has the role `nc`
+(`buzzer pin "X" must be nc`).
+
+Part keys (`"hz"` is required):
+
+| Key | Value |
+|---|---|
+| `"hz"` | the rated (resonant) frequency in whole hertz, 1 to 100000 (`"hz" must be at least 1`) |
+| `"volts"`, `"voltsMin"`, `"voltsMax"` | optional: the rated voltage and the operating range, above 0 and at most 1000; `voltsMin` at most `voltsMax` (`"voltsMin" must be at most "voltsMax"`) |
+| `"ma"` | optional: the supply current in milliamperes, above 0 and at most 10000 (`PartBuzzer.ua`, microamperes) |
+| `"db"` | optional: the sound pressure level in dB, above 0 and at most 200 (`PartBuzzer.spl_cdb`, hundredths of a dB) |
+
+The library's `buzzer.json` (plan-47-L, `gen-parts.py … buzzer`) holds Same
+Sky, PUI Audio and Mallory Sonalert buzzers, one device per (driver,
+technology, pinout), under **Displays & Indicators → Buzzers**. The device
+`function` is `Indicator (built-in driver)` or `Transducer (external drive)`;
+`id` is `buzzer_<driver>_<technology>_<pinout key>`; `description` is `Piezo
+buzzer` or `Magnetic buzzer`. The pins are `+` and `-` (`"positive": "+"`,
+`"negative": "-"`), and every other pin is `NC` (a case or mounting pad) or
+`F` (a feedback electrode). `package` is `THT` or `SMD`. The optional keys
+are left out where the datasheet gives no figure.
+
+```json
+{"id": "buzzer_indicator_magnetic_plus-minus", "function": "Indicator (built-in driver)",
+ "description": "Magnetic buzzer", "drawer": ["Displays & Indicators", "Buzzers"],
+ "note": "Facts, pinouts and ordering codes from the maker datasheets: AI specs-AI-1027-TWT-5V-R.pdf p.1; …",
+ "pinouts": {"plus-minus": [{"number":1,"name":"+","role":"input"},{"number":2,"name":"-","role":"input"}]},
+ "driver": "indicator", "technology": "magnetic", "positive": "+", "negative": "-",
+ "parts": [{"name": "AI-1027-TWT-5V-R", "manufacturer": "PUI Audio", "package": "THT",
+            "datasheet": "specs-ai-1027-twt-5v-r", "pinout": "plus-minus", "footprint": "CAPE-RAD-10-5-L0.6",
+            "hz": 2700, "volts": 5, "voltsMin": 3, "voltsMax": 7, "ma": 30, "db": 80}]}
+```
+
 ### `diode`
 
 Diodes (plan-29): rectifier, fast recovery, switching, Schottky and Zener
@@ -1208,6 +1287,149 @@ the file's `ohms`).
             "pinout": "two-pin", "footprint": "RES-0603-YAGEO", "datasheet": "yageo-rc",
             "ohms": 4700, "tolerance": 1, "power": 0.1}]}
 ```
+
+### `inductor`
+
+Fixed two-terminal inductors (plan-47): `"kind": "inductor"`, run by
+`backend/src/models/inductor.c`. In the logic simulation an inductor
+**conducts like a wire**: its two terminals are joined by an engine contact
+(`sim_set_contact`) that is closed from the start and never opens, so the
+nets on both terminals act as one net, a gate driving one terminal drives
+the other, and 5 V and GND across it is `smoke:`. The facts below are for
+the app and change nothing in the simulation: no inductance, no current, no
+energy, no filter, no flyback. The voltage check treats the two terminals as
+one group (a 12 V supply on one terminal puts 12 V on whatever the other is
+wired to). An inductor has no `vcc` and no voltage rating.
+
+Device keys:
+
+| Key | Value |
+|---|---|
+| `"terminals"` | the two terminal pin names, e.g. `["1", "2"]` (`"terminals" must name 2 pins`, `"terminals" must name 2 different pins`) |
+
+Each terminal name names at least one pin of every pinout; a name that
+several pins carry (a four-pad inductor has two pads per terminal) makes
+those pins one node. The engine leaves out a contact whose pin has no net, so
+the part gets one contact between every pin of one terminal and every pin of
+the other (the terminal contacts) and one between every two pins of a name
+(the ties), all closed in `start`: any pads the circuit wires are joined.
+Every pin with a terminal name has the role `inout` (`inductor pin "1" must
+be inout`); every other pin (a shielded part's dummy pads) has the role `nc`
+(`inductor pin "3" must be nc`).
+
+Part keys (`"henries"` is required):
+
+| Key | Value |
+|---|---|
+| `"henries"` | the inductance in henries, above 0 and at most 100 (`"henries" must be above 0 and at most 100`); `PartInductor.ph`, picohenries, at least 1 |
+| `"tolerance"` | optional: a string as the datasheet prints it, `"+-20%"` |
+| `"amps"`, `"isat"` | optional: the rated (heating) current and the saturation current in amperes, above 0 and at most 1000 (`PartInductor.rated_ma`, `isat_ma`, milliamperes) |
+| `"dcr"` | optional: the maximum DC resistance in ohms, above 0 and at most 100000 (`PartInductor.dcr_uohm`, micro-ohms) |
+| `"shielding"` | optional: `"shielded"`, `"semi-shielded"` or `"unshielded"` (`unknown shielding "X"`) |
+
+The library's `inductor.json` (plan-47-K, written by
+`planning/plan-47-data/census/gen-parts.py inductor`) holds Bourns, Murata
+Electronics and Würth Elektronik fixed inductors from their datasheets,
+chip (`0201` … `2323`, `SMD`), axial and radial, one device per (mounting
+class, pinout, value band), under **Discrete → Inductors → Surface mount /
+Through hole**. The band is the device's `function`, the inductance with its
+lower bound inclusive: `< 10 nH`, `10 nH – 100 nH`, `100 nH – 1 µH`,
+`1 µH – 10 µH`, `10 µH – 100 µH`, `100 µH – 1 mH`, `≥ 1 mH`. The device
+`id` is `ind_<smd|tht>_<pinout key>_<band>`; the pinout key is the pin names
+joined by `-` (`1-2`; `1-2-nc`, `1-nc-2-nc` and `1-nc-nc-2` for the shielded
+parts' extra pads, whose pin name is `NC`). Values are base units with the
+digits DigiKey gives (`4.7 µH` is `4.7e-06`); a key whose fact DigiKey leaves
+blank is left out. `"flags": ["automotive"]` marks an AEC-Q200 part. The
+device `note` names the datasheet and page each series was read from.
+
+```json
+{"id": "ind_smd_1-2_10-nh-100-nh", "function": "10 nH – 100 nH", "description": "Fixed inductor",
+ "drawer": ["Discrete", "Inductors", "Surface mount"],
+ "note": "Facts, pinouts and ordering codes from the maker datasheets: LQG15 JELF243B-0009_PDF_INDUCTOR.pdf p.1; …",
+ "pinouts": {"1-2": [{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}]},
+ "terminals": ["1", "2"],
+ "parts": [{"name": "LQG15HN18NJ02D", "manufacturer": "Murata Electronics", "package": "0402",
+            "datasheet": "jelf243b-0009-pdf-inductor", "pinout": "1-2", "footprint": "IND-1005-MURATA",
+            "henries": 1.8e-08, "tolerance": "±5%", "amps": 0.35, "dcr": 0.51, "shielding": "unshielded"}]}
+```
+
+### `fuse`
+
+Board-mount fuses and polymeric PTC resettable fuses (plan-47):
+`"kind": "fuse"`, run by `backend/src/models/fuse.c`. An intact fuse or PTC
+**conducts like a wire**, as an inductor does: its two terminals are joined
+by an engine contact. The contact is the part's **switch position 1**:
+`circuit_set_switch(circuit, part, 1, 0)` blows the fuse (the contact
+opens: the two terminals are separate nets and an LED behind it goes dark)
+and `circuit_set_switch(circuit, part, 1, 1)` restores it; a fuse blown
+before the run starts open. Any other position is `<name> has no position
+N`. A fuse never blows by itself (the logic simulation has no current) and a
+PTC never trips; the schematic file does not record a blown fuse (it is
+play-mode state). The ties between pins of one terminal's name stay closed
+whatever the fuse does. The voltage check counts a fuse as closed whether it
+is blown or not (it answers "may this board be powered"; a blown fuse is
+replaced) and adds one rating test: a terminal pin above the part's DC
+voltage rating (else its AC rating) is refused, `voltage: 12 V on pin 1 (1)
+of TESTPTC; it is rated 6 V` (`VOLTAGE_FUSE_OVER`).
+
+Device keys:
+
+| Key | Value |
+|---|---|
+| `"type"` | `"fuse"` or `"ptc"` (`unknown fuse type "X"`) |
+| `"terminals"` | the two terminal pin names (as for `inductor`) |
+
+The pin rules are the inductor's, with `fuse pin "X"` in the messages.
+
+Part keys, by type (a key of the other type is an error: `"hold" is only for
+a ptc`, `"amps" is not a ptc key`):
+
+| Key | Types | Value |
+|---|---|---|
+| `"amps"` | `fuse`, required | rated current in amperes, above 0 and at most 1000 (`PartFuse.rated_ma`) |
+| `"speed"` | `fuse`, required | `"fast"`, `"medium"` or `"slow"` (`unknown fuse speed "X"`) |
+| `"voltsAc"`, `"voltsDc"` | `fuse`, at least one (`a fuse needs "voltsAc" or "voltsDc"`) | volts, above 0 and at most 100000 (`ac_mv`, `dc_mv`) |
+| `"breaking"` | `fuse`, optional | breaking capacity in amperes, above 0 and at most 1000000 (`breaking_a`) |
+| `"hold"`, `"trip"` | `ptc`, required | hold and trip current in amperes, above 0 and at most 1000; `"trip"` above `"hold"` (`rated_ma`, `trip_ma`) |
+| `"volts"` | `ptc`, required | the maximum voltage, above 0 and at most 100000 (`dc_mv`) |
+| `"imax"` | `ptc`, optional | maximum fault current in amperes, above 0 and at most 1000000 (`breaking_a`) |
+
+The library's `fuse.json` (plan-47-K, `gen-parts.py inductor fuse ptc`) holds
+Bel Fuse, Bourns, Eaton, Littelfuse and SCHURTER fuses and PTC resettable
+fuses: both types in one file, one device per (mounting class, pinout, value
+band), the pinout always `1-2`. The drawer paths are **Discrete → Fuses →
+Surface mount / Through hole / Cartridge** for `"type": "fuse"` and
+**Discrete → Resettable fuses → Surface mount / Through hole** for `"ptc"`.
+The band is the `function`, a current with its lower bound inclusive: a fuse's
+rated current `< 500 mA`, `500 mA – 1 A`, `1 A – 2 A`, `2 A – 5 A`,
+`5 A – 10 A`, `≥ 10 A`; a PTC's hold current `< 200 mA`,
+`200 mA – 500 mA`, `500 mA – 1 A`, `1 A – 2 A`, `2 A – 5 A`, `≥ 5 A`. The
+device `id` is `fuse_<smd|tht|cart>_1-2_<band>` or `ptc_<smd|tht>_1-2_<band>`,
+`description` `Fuse` or `PTC resettable fuse`. Values are base units;
+`"flags": ["automotive"]` marks an AEC-Q200 part.
+
+A **cartridge** fuse (a 5 × 20 mm or 6.3 × 32 mm glass or ceramic tube) has
+`"package": "Cartridge"` and sits on a pair of PCB fuse clips, so its
+`footprint` is its maker's clip pair, not the fuse: `FUSE-CLIP-5X20-` or
+`FUSE-CLIP-6X32-` with `LITTELFUSE`, `EATON` or `SCHURTER`; the device `note`
+ends by saying so. The clip's own part number is in the footprint's
+`description` (`01110501Z`, `BK/1A5018-10-R`, `0751.0052` for the 5 × 20 mm
+clips).
+
+```json
+{"id": "ptc_smd_1-2_200-ma", "function": "< 200 mA", "description": "PTC resettable fuse",
+ "drawer": ["Discrete", "Resettable fuses", "Surface mount"],
+ "note": "Facts, pinouts and ordering codes from the maker datasheets: 0ZCM ds-cp-0zcm-series.pdf p.1; …",
+ "pinouts": {"1-2": [{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}]},
+ "type": "ptc", "terminals": ["1", "2"],
+ "parts": [{"name": "0ZCM0010FF2G", "manufacturer": "Bel Fuse", "package": "0603",
+            "datasheet": "ds-cp-0zcm-series", "pinout": "1-2", "footprint": "PTC-1608-BELFUSE",
+            "hold": 0.1, "trip": 0.25, "volts": 15, "imax": 40}]}
+```
+
+A fuse device looks the same with `"type": "fuse"` and the part keys `"amps"`,
+`"speed"`, `"voltsAc"` or `"voltsDc"` and `"breaking"` (the library's
+`SS-5F-10A-AP`: `"amps": 10, "speed": "fast", "voltsAc": 125, "breaking": 50`).
 
 ### `transistor`
 
@@ -1669,6 +1891,109 @@ Its inputs are `planning/plan-58-data/candidates.tsv`, `specs.tsv` and
 `datasheets.json` entries and moves each footprint its parts name from
 `planning/plan-58-data/footprints-*.json` into `footprints.json`. Edit those
 inputs and re-run it rather than editing the generated devices.
+
+### `relay`
+
+Electromechanical, reed and solid-state relays (plan-47): `"kind": "relay"`,
+run by `backend/src/models/relay.c`. A relay has **coils** (a solid-state
+relay's input LEDs) and **poles** of contacts; each pole has a `common` pin
+with a normally-open `no` pin, a normally-closed `nc` pin, or both. A coil
+entry `{a, b}` is **driven forward** when `a` reads 1 and `b` reads 0 and
+**driven backward** when `a` reads 0 and `b` reads 1 (a `"polarized"` coil, and
+every solid-state input, is driven forward only); X or Z on either pin is not
+driven. A non-latching relay has one **channel** per coil: the channel is
+*operated* while its coil is driven. A **latching** relay has one channel and
+keeps its position until driven the other way: with one coil forward operates
+it and backward releases it; with two coils the first operates it, the second
+releases it, and both or neither change nothing (the two entries may share a
+pin: a coil with a common). The armature moves **1 ms after the coil last
+changed** (the same for every relay, both ways; a shorter pulse moves nothing):
+every pole of the channel opens its old contacts and closes its new ones in one
+event, as a switch's contact. A coil is not a conductor, and a flyback diode
+across it is inert. Each pole's `common` pin is joined to every pin of its `no`
+or `nc` name by a contact (and the pins of one name to each other), so any wired
+pin of a name works. `circuit_part_lights` reports one light per channel (on
+while operated); `circuit_set_switch` does not address a relay. The voltage
+check sees the relay **at rest**: the normally-closed contacts join their nets
+and the normally-open ones do not, and it does not follow the relay during a
+run. Not modeled: coil current, pick-up and drop-out voltage, bounce, back-EMF,
+a solid-state relay's on-resistance, leakage and zero-cross timing; the
+datasheet's operate and release times are facts only.
+
+Device keys:
+
+| Key | Value |
+|---|---|
+| `"type"` | `"electromechanical"`, `"reed"` or `"solid-state"` (`unknown relay type "X"`) |
+| `"coils"` | 1 to 8 entries `{"a": <pin name>, "b": <pin name>}` (`"coils" must have 1 to 8 entries`; `a` and `b` differ), each optionally `"polarized": true` |
+| `"latching"` | optional, default `false`: one channel and 1 or 2 coils (`a latching relay has 1 or 2 coils`); `"polarized"` is an error on a single coil (`a single-coil latching relay is not "polarized"`); a solid-state relay is not latching (`a solid-state relay is not latching`) |
+| `"contacts"` | 1 to 8 entries `{"common", "no", "nc"}`, one per pole: `no`, `nc` or both (`a contact needs "no" or "nc"`), the names different; optional `"coil": <n>` (1-based, default 1): the channel that moves the pole (`"coil" must be 1 to <coils>`, an error on a latching relay); every channel has a pole (`coil 2 has no contact`) |
+
+A coil pin has the role `input` (`relay pin "A1" must be input`), a contact
+pin `inout`, every other pin `nc`; no pin is in two entries (`pin "COM" is in
+two entries`), except the shared pin of a latching relay's two coils; every
+`input` and `inout` pin is in an entry (`pin "X" is in no entry`).
+
+Part keys (`"contactAmps"` is always required):
+
+| Key | Types | Value |
+|---|---|---|
+| `"coilVolts"` | electromechanical, reed (required) | the nominal coil voltage, above 0 and at most 1000 (`"coilVolts" is not a solid-state relay key`) |
+| `"coilOhms"` | electromechanical, reed (optional) | above 0 and at most 10000000 (`PartRelay.coil_mohm`, milliohms) |
+| `"contactAmps"` | all | the contact (load) current, above 0 and at most 1000 (`contact_ma`) |
+| `"contactVolts"` | all (optional) | the maximum switching voltage, DC, above 0 and at most 100000 (`contact_mv`) |
+| `"operateMs"`, `"releaseMs"` | all (optional) | above 0 and at most 10000 (`operate_us`, `release_us`, microseconds) |
+| `"onOhms"` | solid-state (optional) | the maximum on-resistance, above 0 and at most 100000 (`"onOhms" is only for a solid-state relay`; `on_mohm`) |
+
+The library's `relay.json` (plan-47-L, written by
+`planning/plan-47-data/census/gen-parts.py … relay`) holds TE Connectivity
+(its Potter & Brumfield, AMP and Aerospace Defense and Marine lines too),
+Franjobaim and Panasonic relays, one device per (class, type, coils,
+`polarized`, `latching`, contacts, pinout), under
+**Switches & Relays → Relay → Signal / Power / Reed / Solid state /
+Automotive**. The leaf is the
+contact arrangement, the device's `function`: `SPST-NO`, `SPST-NC`, `SPDT`,
+`DPST-NO`, `DPDT`, `4PDT`, `4PST-NO`; a mix as `1 NO + 1 NC` or `2 NO + 2 NC`;
+several channels as `2 × SPST-NO`, `2 × SPDT`, `4 × SPST-NO`; a latching
+device appends ` latching` (`DPDT latching`), because it is wired
+differently. The device `id` is `relay_<class>_<function>_<pinout key>`, with
+a counter on a clash; `description` is `Signal relay`, `Power relay`,
+`Reed relay`, `Solid-state relay` or `Automotive relay`.
+
+Pin names, the datasheet's own: a coil is `A1`, `A2` (`A1` the `+` terminal of
+a polarized coil, including a relay with a built-in diode); a single-coil
+latching relay `A1`, `A2`; a dual-coil latching relay `S1`, `S2` (set) and
+`R1`, `R2` (reset), a three-terminal coil `S`, `C`, `R`; the contacts `COM`,
+`NO`, `NC`, numbered `COM1`, `NO1`, `NC1`, `COM2`, … for several poles (a Form
+A pole has no `NC`, a Form B pole no `NO`); two pins on one contact (a power
+relay's doubled terminals) carry the same name; a solid-state relay's input
+is `A`, `K` and its output `D1`, `D2` (`D1A`, `D1B`, … and `A1`, `K1`, … for
+several channels, with `"coil": <n>` on each contact); every other pin
+(no-connect, case, test, mounting) is `NC`. Pad numbers are `1…n`: a relay
+whose datasheet numbers its terminals with gaps (1, 2, 5, 6, 9, 10; 11, 12,
+14, A1, A2) is **renumbered** `1…n` in ascending order of the datasheet's
+terminal names, digits before letters, and the footprint's `note` gives the
+datasheet's own numbers (`terminals 30 85 86 87 87a renumbered 1..5`) and
+whether its drawing is a bottom view that was mirrored. `"flags":
+["military"]` marks the MIL-qualified relays (DigiKey grade Military).
+
+```json
+{"id": "relay_signal_dpdt_a1-nc2-com2-no2-no1-com1-nc1-a2", "function": "DPDT", "description": "Signal relay",
+ "drawer": ["Switches & Relays", "Relay", "Signal"],
+ "note": "Facts, pinouts and ordering codes from the maker datasheets: IM, AXICOM 1-1773734-7_IM_Relay_I_Type.pdf p.2.",
+ "pinouts": {"a1-nc2-com2-no2-no1-com1-nc1-a2": [
+   {"number":1,"name":"A1","role":"input"},{"number":2,"name":"NC2","role":"inout"},
+   {"number":3,"name":"COM2","role":"inout"},{"number":4,"name":"NO2","role":"inout"},
+   {"number":5,"name":"NO1","role":"inout"},{"number":6,"name":"COM1","role":"inout"},
+   {"number":7,"name":"NC1","role":"inout"},{"number":8,"name":"A2","role":"input"}]},
+ "type": "electromechanical",
+ "coils": [{"a": "A1", "b": "A2", "polarized": true}],
+ "contacts": [{"common": "COM1", "no": "NO1", "nc": "NC1"}, {"common": "COM2", "no": "NO2", "nc": "NC2"}],
+ "parts": [{"name": "IM02GR", "manufacturer": "TE Connectivity", "package": "SMD",
+            "datasheet": "1-1773734-7-im-relay-i-type", "pinout": "a1-nc2-com2-no2-no1-com1-nc1-a2",
+            "footprint": "RELAY-IM-8-SMD-TE", "coilVolts": 4.5, "contactAmps": 2, "contactVolts": 220,
+            "operateMs": 3, "releaseMs": 3}]}
+```
 
 ### `connector`
 

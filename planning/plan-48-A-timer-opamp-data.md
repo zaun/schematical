@@ -72,7 +72,7 @@ References:
 - `planning/completed/plan-40-A-transistor-data.md` and
   `planning/plan-40-data/census/` (`textscan.py`, `place.py`,
   `specs-skeleton.py`, `verdicts.py`: the scripts A adapts);
-  `planning/plan-47-A-ifrb-data.md` (the same census method).
+  `planning/completed/plan-47-A-ifrb-data.md` (the same census method).
 
 ## Prerequisites
 

@@ -1,0 +1,11 @@
+6502.schematical: parts 103 candidate==original true candidate==base true base==original true
+nixie-clock.schematical: parts 35 candidate==original false candidate==base true base==original false
+numitron-counter.schematical: parts 21 candidate==original false candidate==base true base==original false
+slow PCB.schematical: parts 61 candidate==original true candidate==base true base==original true
+vfd-test-pattern.schematical: parts 23 candidate==original true candidate==base true base==original true
+AFU.schematical: parts 55 candidate==original true candidate==base true base==original true
+FUNC-BUS Tester.schematical: parts 54 candidate==original true candidate==base true base==original true
+LFU.schematical: parts 60 candidate==original true candidate==base true base==original true
+RegFile.schematical: parts 45 candidate==original true candidate==base true base==original true
+Selector.schematical: parts 26 candidate==original true candidate==base true base==original true
+F3: candidate==original 8 of 10; candidate==base 10 of 10

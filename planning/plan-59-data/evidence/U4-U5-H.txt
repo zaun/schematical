@@ -1,0 +1,56 @@
+== U4: type in the net-label name field, undo twice with the field editing, once with it closed
+> edit 0 label
+added label 9D03C82E-9194-4D95-9778-4171BB52DB70 labels=83
+> edit 0 rename T12345
+renamed to T12345 in 6 keystrokes
+> edit 0 endcoalescing
+ended coalescing
+> save 0
+save: ok -> /Users/justinzaun/Library/Containers/jgz.schematical.spike59h/Data/fx/6502.schematical
+> select 0
+selected label T12345
+> fields 0
+[0] AppKitTextField placeholder='Search parts' value=''
+[1] AppKitTextField placeholder='' value='T12345'
+> focus 0 1
+makeFirstResponder=true firstResponder=_SystemTextFieldFieldEditor text='T12345' responderUndoManagerIsDocuments=false canUndo=true title='Undo Rename Net Label'
+> type 0 AB
+typed AB; editor text='AB' firstResponder=_SystemTextFieldFieldEditor text='AB' responderUndoManagerIsDocuments=false canUndo=true title='Undo Typing'
+> state 0
+   labels=83 last=AB edited=true equalsSavedFile=false undo='Undo Rename Net Label' redo='Redo' registrations=3 merges=6 groupingLevel=0
+> chain 0 undo:
+tryToPerform(undo:) from _SystemTextFieldFieldEditor: true (NSApp target with no key window: NSWindow)
+> responder 0
+firstResponder=_SystemTextFieldFieldEditor text='T12345' responderUndoManagerIsDocuments=false canUndo=true title='Undo Rename Net Label'
+> state 0
+   labels=83 last=T12345 edited=true equalsSavedFile=true undo='Undo Rename Net Label' redo='Redo' registrations=3 merges=7 groupingLevel=0
+> chain 0 undo:
+tryToPerform(undo:) from _SystemTextFieldFieldEditor: true (NSApp target with no key window: NSWindow)
+> responder 0
+firstResponder=_SystemTextFieldFieldEditor text='T12345' responderUndoManagerIsDocuments=false canUndo=true title='Undo Rename Net Label'
+> state 0
+   labels=83 last=T12345 edited=false equalsSavedFile=true undo='Undo Rename Net Label' redo='Redo' registrations=3 merges=7 groupingLevel=0
+> unfocus 0
+makeFirstResponder(nil)=true firstResponder=NSWindow text='-' responderUndoManagerIsDocuments=true canUndo=true title='Undo Rename Net Label'
+> chain 0 undo:
+tryToPerform(undo:) from NSWindow: true (NSApp target with no key window: NSWindow)
+> state 0
+   labels=83 last=N3 edited=true equalsSavedFile=false undo='Undo Add Net Label' redo='Redo Rename Net Label' registrations=4 merges=7 groupingLevel=0
+== U5: undo while the simulation runs
+> edit 0 label
+added label 229A5B1E-1068-4ADF-B950-23F0D5FF7147 labels=84
+> state 0
+   labels=84 last=N4 edited=true equalsSavedFile=false undo='Undo Add Net Label' redo='Redo' registrations=5 merges=7 groupingLevel=0
+> play 0
+running=true playing=true
+> chain 0 undo:
+tryToPerform(undo:) from NSWindow: true (NSApp target with no key window: NSWindow)
+> state 0
+   labels=84 last=N4 edited=true equalsSavedFile=false undo='Undo Add Net Label' redo='Redo' registrations=6 merges=7 groupingLevel=0
+> stop 0
+running=false playing=false
+> chain 0 undo:
+tryToPerform(undo:) from NSWindow: true (NSApp target with no key window: NSWindow)
+> state 0
+   labels=83 last=N3 edited=true equalsSavedFile=false undo='Undo Add Net Label' redo='Redo Add Net Label' registrations=7 merges=7 groupingLevel=0
+undo refused while playing: Add Net Label
