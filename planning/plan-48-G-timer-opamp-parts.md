@@ -25,10 +25,10 @@ plan-48-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-48-F complete | `ls planning/completed/plan-48-F-*.md` → exists, or every F box ticked | NOT MET (2026-11-16: not started) |
-| Every `add` row is mapped to a footprint and a pinout | `python3 -I planning/plan-48-data/census/fp-check.py C` and `… D` → `0 without a footprint`; `python3 -I planning/plan-48-data/census/pinout-check.py` → `0 errors` | NOT MET (B, C, D) |
-| Golden sizes at G's start | `wc -l backend/tests/golden/parts.txt backend/tests/golden/traces.txt backend/tests/golden/footprints.txt` | recorded here at G's start as **P1**, **R1**, **F1** (P0 32897, R0 32897, F0 1646 at planning; other plans may have landed parts) |
-| The part files are absent | `ls schematical/schematical/Parts/{timer,opamp}.json` → no such file | MET (2026-11-16) |
+| plan-48-F complete | `ls planning/completed/plan-48-F-*.md` → exists, or every F box ticked | MET (2026-11-24: every F box ticked) |
+| Every `add` row is mapped to a footprint and a pinout | `python3 -I planning/plan-48-data/census/fp-check.py C` and `… D` → `0 without a footprint`; `python3 -I planning/plan-48-data/census/pinout-check.py` → `0 errors` | MET (2026-11-24: `fp-check.py C` → `58 lines, 0 without a footprint`, `fp-check.py D` → `28 lines, 0 without a footprint` (and `0 spec rows whose pin designators differ`); `pinout-check.py` → `503 rows, 0 errors`) |
+| Golden sizes at G's start | `wc -l backend/tests/golden/parts.txt backend/tests/golden/traces.txt backend/tests/golden/footprints.txt` | recorded here at G's start as **P1**, **R1**, **F1** (P0 32897, R0 32897, F0 1646 at planning; other plans may have landed parts): **P1 = 39903, R1 = 39903, F1 = 3825** (2026-11-24, at 0b5788f5 + plan-48 A–F) |
+| The part files are absent | `ls schematical/schematical/Parts/{timer,opamp}.json` → no such file | MET (2026-11-16; 2026-11-24 before this letter) |
 
 Everything below is written against the world where these hold.
 
@@ -170,43 +170,46 @@ schematical/schematical/Editor/KindInfo.swift` → 0 before):
 
 ### Phase 1 — The generics and the editor's kind lists
 
-- [ ] `census/gen-parts.py` per § 3.1–3.3; `--generics` writes the two files
-      with only the generic devices.
-- [ ] The editor steps of § 3.4.
-- [ ] Regenerate the goldens (`listing_check --print >
+- [x] `census/gen-parts.py` per § 3.1–3.3; `--generics` writes the two files
+      with only the generic devices (`gen-parts.py --generics` → `1 device, 1 part (the generic)` per file; the full run followed at once).
+- [x] The editor steps of § 3.4 (Corrections 4).
+- [x] Regenerate the goldens (`listing_check --print >
       backend/tests/golden/parts.txt`, `trace_check --print > …/traces.txt`)
       and review `git diff --stat`.
 
 Acceptance: the two generics load; goldens grow by 2 and 2 lines; the editor
 round-trips both.
   Check: `cmake -S backend -B /tmp/logic-p48-g && cmake --build /tmp/logic-p48-g -j8 && ctest --test-dir /tmp/logic-p48-g -j8` → `100% tests passed`; `git diff --stat backend/tests/golden` → `+2`, `+2`; `git diff backend/tests/golden | grep -c '^-[^-]'` → 0; `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p48-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/PartKindRoundTripTests -only-testing:schematicalTests/PartKindKeysTests -only-testing:schematicalTests/WizardStepsTests -only-testing:schematicalTests/KindGuideTests` → `** TEST SUCCEEDED **` (est. 14 min: backend build 4, app build and four test classes 10).
+  Result: the generics, the timers and the op-amps were generated together (one run per kind), so the goldens grew once, by the whole pick (see Phase 3); `ctest` → `100% tests passed, 0 tests failed out of 67`; the app: `PartKindRoundTripTests`, `PartKindKeysTests`, `WizardStepsTests`, `KindGuideTests`, `PartEditorWindowTests` → `** TEST SUCCEEDED **` (after Corrections 4's count updates). MET.
 Commit: —
 
 ### Phase 2 — Timers
 
-- [ ] `gen-parts.py --type timer`: the timer `add` rows, their
+- [x] `gen-parts.py --type timer`: the timer `add` rows, their
       `datasheets.json` entries, `fp-merge.py --only` the footprints they
       name; regenerate the three goldens (`footprint_check --print >
       …/footprints.txt`).
 
 Acceptance: the timers load and the goldens grow by exactly them.
   Check: `ctest --test-dir /tmp/logic-p48-g -j8` after a rebuild → `100% tests passed`; `grep -c '|timer|' backend/tests/golden/parts.txt` → 1 + the timer `add` rows (`awk -F'\t' 'NR>1 && $22=="add" && $3=="timer"' planning/plan-48-data/candidates.tsv | wc -l`); `git diff backend/tests/golden | grep -c '^-[^-]'` → 0 (est. 6 min).
+  Result: `gen-parts.py --type timer` → `15 devices, 57 parts; 13 datasheets used, 13 added to datasheets.json`; `gen-parts.py --verify` → `timer: 56 add rows, 57 parts (1 generic)`; `grep -c '|timer|' parts.txt` → 57; removed or changed golden lines 0. MET.
 Commit: —
 
 ### Phase 3 — Op-amps and the docs
 
-- [ ] `gen-parts.py --type opamp`: the op-amp `add` rows, their datasheet
+- [x] `gen-parts.py --type opamp`: the op-amp `add` rows, their datasheet
       entries, the remaining footprints; regenerate the goldens.
-- [ ] `node scripts/check-datasheets.js --host www.ti.com`, `--host
+- [x] `node scripts/check-datasheets.js --host www.ti.com`, `--host
       www.analog.com`, `--host www.st.com`, `--host www.renesas.com` → no
-      failure for the new entries.
-- [ ] `PartKindRoundTripTests`: the two counts re-set to the shipped ones.
-- [ ] Docs: `docs/parts-format.md` — the `### timer` and `### opamp`
+      failure for the new entries (run once on the 292 new ids: `node scripts/check-datasheets.js --jobs 4 <ids>` → `292 of 292 URLs serve a PDF; 0 failed`).
+- [x] `PartKindRoundTripTests`: the two counts re-set to the shipped ones.
+- [x] Docs: `docs/parts-format.md` — the `### timer` and `### opamp`
       sections gain their library paragraphs (counts, drawer paths, the
       generics and their footprint choices).
 
 Acceptance: the whole pick loads; goldens grow by exactly it; docs name it.
   Check: `ctest --test-dir /tmp/logic-p48-g -j8` after a rebuild → `100% tests passed`; `grep -c '|opamp|' backend/tests/golden/parts.txt` → 1 + the op-amp `add` rows; `wc -l < backend/tests/golden/footprints.txt` → F1 + the objects merged; `git diff <G's first commit>^ -- backend/tests/golden | grep -c '^-[^-]'` → 0; `xcodebuild … test -only-testing:schematicalTests/PartKindRoundTripTests -only-testing:schematicalTests/PartEditorWindowTests -only-testing:schematicalTests/DatasheetCatalogTests -only-testing:schematicalTests/DrawerPerformanceTests` → `** TEST SUCCEEDED **` (est. 14 min: backend build 4, app tests 10).
+  Result: `gen-parts.py --type opamp` → `378 devices, 601 parts; 279 datasheets used, 279 added`; `gen-parts.py --verify` → `opamp: 600 add rows, 601 parts (1 generic)`; `grep -c '|opamp|' parts.txt` → 601; `wc -l`: parts 40561 (P1 39903 + 658), traces 40561, footprints 3859 (F1 3825 + 34); removed or changed golden lines 0 in all three; `ctest` → `100% tests passed, 0 tests failed out of 67`; `xcodebuild … test` with the four classes named here (and the Phase 1 five): `** TEST SUCCEEDED **`. MET.
 Commit: —
 
 ## Validation Plan
@@ -235,6 +238,28 @@ Commit: —
   "Other"**.
 
 ## Corrections
+
+1. **Counts.** 56 timer and 600 op-amp `add` rows (B's final pick), not 62 and 600; 15 and 378 devices
+   (generics included); 292 datasheet ids added (13 timer, 279 op-amp; plan: 330 of 331 PDFs). The three goldens grow by
+   658, 658 and 34 lines (56 + 600 + 2 generics; the 34 footprints of `footprints-C.json` / `-D.json`, none of whose ids
+   was already in `footprints.json`).
+2. **`gen-parts.py` rules measured, not designed.** A device's timers/op-amp facts come from its most-stocked
+   spec row; a part gets its own `vcc` (and an op-amp its `inputMax`, `vosMv`) where its spec row or DigiKey's offset differs. A timer device is split on `process`, `maxHz`
+   and `tpd`. `railOut` is DigiKey's `Output Type` containing Rail-to-Rail; DigiKey's descriptions say nothing of
+   rail-to-rail inputs, so `railIn` is set where B's reading of the datasheet allowed the inputs beyond `V+`
+   (`inputMax`). `inputMax` = `vcc` max + that margin (dropped above 100 V). `FLAG` pins are `output`,
+   `ISET`, `BAL1/2`, `OFFSET*`, `SHDN*`, `COMP`, `REF` `input`.
+3. **Footprints.** `fp-merge.py` (without `--only`) appended all 34 objects: every one is used by a part.
+4. **The editor (§ 3.4) needed more than the plan listed.** `scripts/part-editor-schema-extra.py` gets `timer`'s
+   `inputMax` (device and part); the op-amp kind's `type` is a model variant, so
+   `PartKinds.variantBlurbs` gets an `opamp` entry (general, jfet, cmos); and four tests hold counts of the
+   kinds: `KindGuideTests` (75 models, 18 kinds), `PartEditorWindowTests` (49 enabled kinds), `WizardStepsTests`
+   (106 combinations, 31 without a model, 75 with one). `PartKinds.all`, the schemas array and `infoOrder` name `timer`
+   and `opamp` (`timer` in "Power and clocks" after `crystal`, `opamp` in "Other" before `generic`).
+5. **Examples.** The editor's example parts are `GENERIC-555` / `NE555P` and `GENERIC-OPAMP` / `LM358DR`
+   (`LM358P` is not in the pick).
+6. **Open item from A and B**: 11 `add` rows still wait for their DigiKey stock lookup (A Phase 1); if one fails it
+   leaves `candidates.tsv`'s `add` set, and `gen-parts.py`, the goldens and `datasheets.json` are rerun.
 
 ## Summary
 

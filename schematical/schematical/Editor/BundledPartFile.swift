@@ -132,6 +132,8 @@ extension PartKinds {
         case PART_FUSE: "fuse"
         case PART_RELAY: "relay"
         case PART_BUZZER: "buzzer"
+        case PART_TIMER: "timer"
+        case PART_OPAMP: "opamp"
         default: nil
         }
     }

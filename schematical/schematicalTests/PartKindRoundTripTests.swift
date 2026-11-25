@@ -28,7 +28,7 @@ final class PartKindRoundTripTests: XCTestCase {
         "lcddriver": 22,
         "pld": 25,
         "socket": 575,
-    ].merging(shippedCounts(["inductor", "fuse", "relay", "buzzer"])) { current, _ in current }
+    ].merging(shippedCounts(["inductor", "fuse", "relay", "buzzer", "timer", "opamp"])) { current, _ in current }
 
     /// plan-47-K, L: the four kinds' counts are read from the shipped part
     /// files (`grep -o '"manufacturer"' Parts/<kind>.json | wc -l`), so a
@@ -100,4 +100,6 @@ final class PartKindRoundTripTests: XCTestCase {
     func testFuse() { check("fuse") }
     func testRelay() { check("relay") }
     func testBuzzer() { check("buzzer") }
+    func testTimer() { check("timer") }
+    func testOpamp() { check("opamp") }
 }

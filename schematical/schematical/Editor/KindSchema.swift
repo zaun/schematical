@@ -207,6 +207,8 @@ enum PartKinds {
         "transistor",
         // plan-47-K, L.
         "buzzer", "fuse", "inductor", "relay",
+        // plan-48-G.
+        "opamp", "timer",
     ]
 
     // The names shown for the kinds, their blurbs and example parts are in
@@ -238,6 +240,7 @@ enum PartKinds {
             PldDraft.schema,
             LeddriverDraft.schema, LcddriverDraft.schema,
             InductorDraft.schema, FuseDraft.schema, RelayDraft.schema, BuzzerDraft.schema,
+            TimerDraft.schema, OpampDraft.schema,
         ] {
             schemas[schema.kind] = schema
         }

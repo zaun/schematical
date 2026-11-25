@@ -1,0 +1,2738 @@
+{
+ "format": "schematical-parts",
+ "version": 1,
+ "kind": "timer",
+ "devices": [
+  {
+   "id": "icm7555-icm7556-1",
+   "function": "Single (555)",
+   "description": "ICM7555-ICM7556 timer, cmos",
+   "drawer": [
+    "Analog",
+    "Timers"
+   ],
+   "pinouts": {
+    "soic-8": [
+     {
+      "number": 1,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 2,
+      "name": "TRIG",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "CONT",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "THRES",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "DISCH",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VCC",
+      "role": "power"
+     }
+    ],
+    "dip-8": [
+     {
+      "number": 1,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 2,
+      "name": "TRIG",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "CONT",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "THRES",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "DISCH",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VCC",
+      "role": "power"
+     }
+    ]
+   },
+   "process": "cmos",
+   "maxHz": 500000,
+   "tpd": 40,
+   "vcc": [
+    2,
+    16.5
+   ],
+   "timers": [
+    {
+     "trigger": "TRIG",
+     "threshold": "THRES",
+     "discharge": "DISCH",
+     "output": "OUT",
+     "reset": "RESET",
+     "control": "CONT"
+    }
+   ],
+   "parts": [
+    {
+     "name": "ICM7555ESA+",
+     "manufacturer": "Analog Devices",
+     "datasheet": "icm7555-icm7556",
+     "package": "SOIC",
+     "pinout": "soic-8",
+     "footprint": "SOIC-8-MAXIM-S8"
+    },
+    {
+     "name": "ICM7555IPA+",
+     "manufacturer": "Analog Devices",
+     "datasheet": "icm7555-icm7556",
+     "package": "DIP",
+     "pinout": "dip-8",
+     "footprint": "PDIP-8"
+    },
+    {
+     "name": "ICM7555ISA+",
+     "manufacturer": "Analog Devices",
+     "datasheet": "icm7555-icm7556",
+     "package": "SOIC",
+     "pinout": "soic-8",
+     "footprint": "SOIC-8-MAXIM-S8"
+    }
+   ]
+  },
+  {
+   "id": "icm7555-icm7556-2",
+   "function": "Dual (556)",
+   "description": "ICM7555-ICM7556 dual timer, cmos",
+   "drawer": [
+    "Analog",
+    "Timers"
+   ],
+   "pinouts": {
+    "soic-14": [
+     {
+      "number": 1,
+      "name": "DISCH1",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "THRES1",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "CONT1",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "RESET1",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "OUT1",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "TRIG1",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 8,
+      "name": "TRIG2",
+      "role": "input"
+     },
+     {
+      "number": 9,
+      "name": "OUT2",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "RESET2",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "CONT2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "THRES2",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "DISCH2",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "VCC",
+      "role": "power"
+     }
+    ],
+    "dip-14": [
+     {
+      "number": 1,
+      "name": "DISCH1",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "THRES1",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "CONT1",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "RESET1",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "OUT1",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "TRIG1",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 8,
+      "name": "TRIG2",
+      "role": "input"
+     },
+     {
+      "number": 9,
+      "name": "OUT2",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "RESET2",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "CONT2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "THRES2",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "DISCH2",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "VCC",
+      "role": "power"
+     }
+    ]
+   },
+   "process": "cmos",
+   "maxHz": 500000,
+   "tpd": 40,
+   "vcc": [
+    2,
+    16.5
+   ],
+   "timers": [
+    {
+     "trigger": "TRIG1",
+     "threshold": "THRES1",
+     "discharge": "DISCH1",
+     "output": "OUT1",
+     "reset": "RESET1",
+     "control": "CONT1"
+    },
+    {
+     "trigger": "TRIG2",
+     "threshold": "THRES2",
+     "discharge": "DISCH2",
+     "output": "OUT2",
+     "reset": "RESET2",
+     "control": "CONT2"
+    }
+   ],
+   "parts": [
+    {
+     "name": "ICM7556IPD+",
+     "manufacturer": "Analog Devices",
+     "datasheet": "icm7555-icm7556",
+     "package": "DIP",
+     "pinout": "dip-14",
+     "footprint": "PDIP-14"
+    },
+    {
+     "name": "ICM7556ISD+",
+     "manufacturer": "Analog Devices",
+     "datasheet": "icm7555-icm7556",
+     "package": "SOIC",
+     "pinout": "soic-14",
+     "footprint": "SOIC-14"
+    }
+   ]
+  },
+  {
+   "id": "icm7555-icm7556-datasheet-1",
+   "function": "Single (555)",
+   "description": "ICM7555-ICM7556-DATASHEET timer, cmos",
+   "drawer": [
+    "Analog",
+    "Timers"
+   ],
+   "pinouts": {
+    "dip-8": [
+     {
+      "number": 1,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 2,
+      "name": "TRIG",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "CONT",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "THRES",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "DISCH",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VCC",
+      "role": "power"
+     }
+    ],
+    "soic-8": [
+     {
+      "number": 1,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 2,
+      "name": "TRIG",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "CONT",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "THRES",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "DISCH",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VCC",
+      "role": "power"
+     }
+    ]
+   },
+   "process": "cmos",
+   "maxHz": 1000000,
+   "tpd": 75,
+   "vcc": [
+    2,
+    18
+   ],
+   "timers": [
+    {
+     "trigger": "TRIG",
+     "threshold": "THRES",
+     "discharge": "DISCH",
+     "output": "OUT",
+     "reset": "RESET",
+     "control": "CONT"
+    }
+   ],
+   "parts": [
+    {
+     "name": "ICM7555CBAZ",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7555-icm7556-datasheet",
+     "package": "SOIC",
+     "pinout": "soic-8",
+     "footprint": "SOIC-8-RENESAS-M8.15"
+    },
+    {
+     "name": "ICM7555CBAZ-T",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7555-icm7556-datasheet",
+     "package": "SOIC",
+     "pinout": "soic-8",
+     "footprint": "SOIC-8-RENESAS-M8.15"
+    },
+    {
+     "name": "ICM7555IPAZ",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7555-icm7556-datasheet",
+     "package": "DIP",
+     "pinout": "dip-8",
+     "footprint": "PDIP-8"
+    }
+   ]
+  },
+  {
+   "id": "lm555-1",
+   "function": "Single (555)",
+   "description": "LM555 timer, bipolar",
+   "drawer": [
+    "Analog",
+    "Timers"
+   ],
+   "pinouts": {
+    "vssop-8": [
+     {
+      "number": 1,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 2,
+      "name": "TRIG",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "CONT",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "THRES",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "DISCH",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VCC",
+      "role": "power"
+     }
+    ],
+    "dip-8": [
+     {
+      "number": 1,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 2,
+      "name": "TRIG",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "CONT",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "THRES",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "DISCH",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VCC",
+      "role": "power"
+     }
+    ],
+    "soic-8": [
+     {
+      "number": 1,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 2,
+      "name": "TRIG",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "CONT",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "THRES",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "DISCH",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VCC",
+      "role": "power"
+     }
+    ]
+   },
+   "process": "bipolar",
+   "maxHz": 100000,
+   "tpd": 100,
+   "vcc": [
+    4.5,
+    16
+   ],
+   "timers": [
+    {
+     "trigger": "TRIG",
+     "threshold": "THRES",
+     "discharge": "DISCH",
+     "output": "OUT",
+     "reset": "RESET",
+     "control": "CONT"
+    }
+   ],
+   "parts": [
+    {
+     "name": "LM555CM/NOPB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "lm555",
+     "package": "SOIC",
+     "pinout": "soic-8",
+     "footprint": "SOIC-8"
+    },
+    {
+     "name": "LM555CMM/NOPB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "lm555",
+     "package": "VSSOP",
+     "pinout": "vssop-8",
+     "footprint": "VSSOP-8-DGK"
+    },
+    {
+     "name": "LM555CMMX/NOPB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "lm555",
+     "package": "VSSOP",
+     "pinout": "vssop-8",
+     "footprint": "VSSOP-8-DGK"
+    },
+    {
+     "name": "LM555CMX/NOPB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "lm555",
+     "package": "SOIC",
+     "pinout": "soic-8",
+     "footprint": "SOIC-8"
+    },
+    {
+     "name": "LM555CN/NOPB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "lm555",
+     "package": "DIP",
+     "pinout": "dip-8",
+     "footprint": "PDIP-8"
+    }
+   ]
+  },
+  {
+   "id": "lmc555-1",
+   "function": "Single (555)",
+   "description": "LMC555 timer, cmos",
+   "drawer": [
+    "Analog",
+    "Timers"
+   ],
+   "pinouts": {
+    "dsbga-8": [
+     {
+      "ball": "A1",
+      "name": "DISCH",
+      "role": "output"
+     },
+     {
+      "ball": "A2",
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "ball": "A3",
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "ball": "B1",
+      "name": "THRES",
+      "role": "input"
+     },
+     {
+      "ball": "B3",
+      "name": "TRIG",
+      "role": "input"
+     },
+     {
+      "ball": "C1",
+      "name": "CONT",
+      "role": "input"
+     },
+     {
+      "ball": "C2",
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "ball": "C3",
+      "name": "OUT",
+      "role": "output"
+     }
+    ],
+    "soic-8": [
+     {
+      "number": 1,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 2,
+      "name": "TRIG",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "CONT",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "THRES",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "DISCH",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VCC",
+      "role": "power"
+     }
+    ],
+    "dip-8": [
+     {
+      "number": 1,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 2,
+      "name": "TRIG",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "CONT",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "THRES",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "DISCH",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VCC",
+      "role": "power"
+     }
+    ],
+    "vssop-8": [
+     {
+      "number": 1,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 2,
+      "name": "TRIG",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "CONT",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "THRES",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "DISCH",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VCC",
+      "role": "power"
+     }
+    ]
+   },
+   "process": "cmos",
+   "maxHz": 2400000,
+   "tpd": 150,
+   "vcc": [
+    1.5,
+    12
+   ],
+   "timers": [
+    {
+     "trigger": "TRIG",
+     "threshold": "THRES",
+     "discharge": "DISCH",
+     "output": "OUT",
+     "reset": "RESET",
+     "control": "CONT"
+    }
+   ],
+   "parts": [
+    {
+     "name": "LMC555CMMX/NOPB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "lmc555",
+     "package": "VSSOP",
+     "pinout": "vssop-8",
+     "footprint": "VSSOP-8-DGK"
+    },
+    {
+     "name": "LMC555CMX/NOPB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "lmc555",
+     "package": "SOIC",
+     "pinout": "soic-8",
+     "footprint": "SOIC-8"
+    },
+    {
+     "name": "LMC555CN/NOPB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "lmc555",
+     "package": "DIP",
+     "pinout": "dip-8",
+     "footprint": "PDIP-8"
+    },
+    {
+     "name": "LMC555CTP/NOPB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "lmc555",
+     "package": "DSBGA",
+     "pinout": "dsbga-8",
+     "footprint": "DSBGA-8-TI-YPB0008"
+    },
+    {
+     "name": "LMC555CTPX/NOPB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "lmc555",
+     "package": "DSBGA",
+     "pinout": "dsbga-8",
+     "footprint": "DSBGA-8-TI-YPB0008"
+    },
+    {
+     "name": "LMC555IMX/NOPB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "lmc555",
+     "package": "SOIC",
+     "pinout": "soic-8",
+     "footprint": "SOIC-8"
+    }
+   ]
+  },
+  {
+   "id": "na555-1",
+   "function": "Single (555)",
+   "description": "NA555 timer, bipolar",
+   "drawer": [
+    "Analog",
+    "Timers"
+   ],
+   "pinouts": {
+    "soic-8": [
+     {
+      "number": 1,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 2,
+      "name": "TRIG",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "CONT",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "THRES",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "DISCH",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VCC",
+      "role": "power"
+     }
+    ],
+    "dip-8": [
+     {
+      "number": 1,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 2,
+      "name": "TRIG",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "CONT",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "THRES",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "DISCH",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VCC",
+      "role": "power"
+     }
+    ],
+    "tssop-8": [
+     {
+      "number": 1,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 2,
+      "name": "TRIG",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "CONT",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "THRES",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "DISCH",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VCC",
+      "role": "power"
+     }
+    ],
+    "sop-8": [
+     {
+      "number": 1,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 2,
+      "name": "TRIG",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "CONT",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "THRES",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "DISCH",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VCC",
+      "role": "power"
+     }
+    ]
+   },
+   "process": "bipolar",
+   "maxHz": 100000,
+   "tpd": 100,
+   "vcc": [
+    4.5,
+    16
+   ],
+   "timers": [
+    {
+     "trigger": "TRIG",
+     "threshold": "THRES",
+     "discharge": "DISCH",
+     "output": "OUT",
+     "reset": "RESET",
+     "control": "CONT"
+    }
+   ],
+   "parts": [
+    {
+     "name": "NA555DR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "na555",
+     "package": "SOIC",
+     "pinout": "soic-8",
+     "footprint": "SOIC-8"
+    },
+    {
+     "name": "NA555P",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "na555",
+     "package": "DIP",
+     "pinout": "dip-8",
+     "footprint": "PDIP-8"
+    },
+    {
+     "name": "NE555DR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "na555",
+     "package": "SOIC",
+     "pinout": "soic-8",
+     "footprint": "SOIC-8"
+    },
+    {
+     "name": "NE555P",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "na555",
+     "package": "DIP",
+     "pinout": "dip-8",
+     "footprint": "PDIP-8"
+    },
+    {
+     "name": "NE555PS",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "na555",
+     "package": "SOP",
+     "pinout": "sop-8",
+     "footprint": "SOP-8-PS"
+    },
+    {
+     "name": "NE555PSR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "na555",
+     "package": "SOP",
+     "pinout": "sop-8",
+     "footprint": "SOP-8-PS"
+    },
+    {
+     "name": "NE555PWR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "na555",
+     "package": "TSSOP",
+     "pinout": "tssop-8",
+     "footprint": "TSSOP-8"
+    },
+    {
+     "name": "SA555P",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "na555",
+     "package": "DIP",
+     "pinout": "dip-8",
+     "footprint": "PDIP-8"
+    },
+    {
+     "name": "SE555P",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "na555",
+     "package": "DIP",
+     "pinout": "dip-8",
+     "footprint": "PDIP-8"
+    }
+   ]
+  },
+  {
+   "id": "na556-2",
+   "function": "Dual (556)",
+   "description": "NA556 dual timer, bipolar",
+   "drawer": [
+    "Analog",
+    "Timers"
+   ],
+   "pinouts": {
+    "soic-14": [
+     {
+      "number": 1,
+      "name": "DISCH1",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "THRES1",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "CONT1",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "RESET1",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "OUT1",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "TRIG1",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 8,
+      "name": "TRIG2",
+      "role": "input"
+     },
+     {
+      "number": 9,
+      "name": "OUT2",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "RESET2",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "CONT2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "THRES2",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "DISCH2",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "VCC",
+      "role": "power"
+     }
+    ],
+    "sop-14": [
+     {
+      "number": 1,
+      "name": "DISCH1",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "THRES1",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "CONT1",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "RESET1",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "OUT1",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "TRIG1",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 8,
+      "name": "TRIG2",
+      "role": "input"
+     },
+     {
+      "number": 9,
+      "name": "OUT2",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "RESET2",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "CONT2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "THRES2",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "DISCH2",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "VCC",
+      "role": "power"
+     }
+    ],
+    "ssop-14": [
+     {
+      "number": 1,
+      "name": "DISCH1",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "THRES1",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "CONT1",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "RESET1",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "OUT1",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "TRIG1",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 8,
+      "name": "TRIG2",
+      "role": "input"
+     },
+     {
+      "number": 9,
+      "name": "OUT2",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "RESET2",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "CONT2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "THRES2",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "DISCH2",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "VCC",
+      "role": "power"
+     }
+    ],
+    "dip-14": [
+     {
+      "number": 1,
+      "name": "DISCH1",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "THRES1",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "CONT1",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "RESET1",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "OUT1",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "TRIG1",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 8,
+      "name": "TRIG2",
+      "role": "input"
+     },
+     {
+      "number": 9,
+      "name": "OUT2",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "RESET2",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "CONT2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "THRES2",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "DISCH2",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "VCC",
+      "role": "power"
+     }
+    ]
+   },
+   "process": "bipolar",
+   "maxHz": 100000,
+   "tpd": 100,
+   "vcc": [
+    4.5,
+    16
+   ],
+   "timers": [
+    {
+     "trigger": "TRIG1",
+     "threshold": "THRES1",
+     "discharge": "DISCH1",
+     "output": "OUT1",
+     "reset": "RESET1",
+     "control": "CONT1"
+    },
+    {
+     "trigger": "TRIG2",
+     "threshold": "THRES2",
+     "discharge": "DISCH2",
+     "output": "OUT2",
+     "reset": "RESET2",
+     "control": "CONT2"
+    }
+   ],
+   "parts": [
+    {
+     "name": "NA556DR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "na556",
+     "package": "SOIC",
+     "pinout": "soic-14",
+     "footprint": "SOIC-14"
+    },
+    {
+     "name": "NA556N",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "na556",
+     "package": "DIP",
+     "pinout": "dip-14",
+     "footprint": "PDIP-14"
+    },
+    {
+     "name": "NE556DBR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "na556",
+     "package": "SSOP",
+     "pinout": "ssop-14",
+     "footprint": "SSOP-14"
+    },
+    {
+     "name": "NE556DR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "na556",
+     "package": "SOIC",
+     "pinout": "soic-14",
+     "footprint": "SOIC-14"
+    },
+    {
+     "name": "NE556N",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "na556",
+     "package": "DIP",
+     "pinout": "dip-14",
+     "footprint": "PDIP-14"
+    },
+    {
+     "name": "NE556NS",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "na556",
+     "package": "SOP",
+     "pinout": "sop-14",
+     "footprint": "SOP-14"
+    },
+    {
+     "name": "NE556NSR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "na556",
+     "package": "SOP",
+     "pinout": "sop-14",
+     "footprint": "SOP-14"
+    },
+    {
+     "name": "SA556N",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "na556",
+     "package": "DIP",
+     "pinout": "dip-14",
+     "footprint": "PDIP-14"
+    }
+   ]
+  },
+  {
+   "id": "tlc3555-q1-1",
+   "function": "Single (555)",
+   "description": "TLC3555-Q1 timer, cmos",
+   "drawer": [
+    "Analog",
+    "Timers"
+   ],
+   "pinouts": {
+    "soic-8": [
+     {
+      "number": 1,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 2,
+      "name": "TRIG",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "CONT",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "THRES",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "DISCH",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VCC",
+      "role": "power"
+     }
+    ]
+   },
+   "process": "cmos",
+   "maxHz": 3100000,
+   "tpd": 75,
+   "vcc": [
+    1.5,
+    18
+   ],
+   "timers": [
+    {
+     "trigger": "TRIG",
+     "threshold": "THRES",
+     "discharge": "DISCH",
+     "output": "OUT",
+     "reset": "RESET",
+     "control": "CONT"
+    }
+   ],
+   "parts": [
+    {
+     "name": "TLC3555QDRQ1",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tlc3555-q1",
+     "package": "SOIC",
+     "pinout": "soic-8",
+     "footprint": "SOIC-8",
+     "flags": [
+      "automotive"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "tlc3555-1",
+   "function": "Single (555)",
+   "description": "TLC3555 timer, cmos",
+   "drawer": [
+    "Analog",
+    "Timers"
+   ],
+   "pinouts": {
+    "soic-8": [
+     {
+      "number": 1,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 2,
+      "name": "TRIG",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "CONT",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "THRES",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "DISCH",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VCC",
+      "role": "power"
+     }
+    ]
+   },
+   "process": "cmos",
+   "maxHz": 3100000,
+   "tpd": 75,
+   "vcc": [
+    1.5,
+    18
+   ],
+   "timers": [
+    {
+     "trigger": "TRIG",
+     "threshold": "THRES",
+     "discharge": "DISCH",
+     "output": "OUT",
+     "reset": "RESET",
+     "control": "CONT"
+    }
+   ],
+   "parts": [
+    {
+     "name": "TLC3555IDR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tlc3555",
+     "package": "SOIC",
+     "pinout": "soic-8",
+     "footprint": "SOIC-8"
+    }
+   ]
+  },
+  {
+   "id": "tlc551-1",
+   "function": "Single (555)",
+   "description": "TLC551 timer, cmos",
+   "drawer": [
+    "Analog",
+    "Timers"
+   ],
+   "pinouts": {
+    "soic-8": [
+     {
+      "number": 1,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 2,
+      "name": "TRIG",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "CONT",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "THRES",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "DISCH",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VCC",
+      "role": "power"
+     }
+    ]
+   },
+   "process": "cmos",
+   "maxHz": 1800000,
+   "tpd": 20,
+   "vcc": [
+    1,
+    15
+   ],
+   "timers": [
+    {
+     "trigger": "TRIG",
+     "threshold": "THRES",
+     "discharge": "DISCH",
+     "output": "OUT",
+     "reset": "RESET",
+     "control": "CONT"
+    }
+   ],
+   "parts": [
+    {
+     "name": "TLC551CD",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tlc551",
+     "package": "SOIC",
+     "pinout": "soic-8",
+     "footprint": "SOIC-8"
+    }
+   ]
+  },
+  {
+   "id": "tlc552-2",
+   "function": "Dual (556)",
+   "description": "TLC552 dual timer, cmos",
+   "drawer": [
+    "Analog",
+    "Timers"
+   ],
+   "pinouts": {
+    "dip-14": [
+     {
+      "number": 1,
+      "name": "DISCH1",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "THRES1",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "CONT1",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "RESET1",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "OUT1",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "TRIG1",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 8,
+      "name": "TRIG2",
+      "role": "input"
+     },
+     {
+      "number": 9,
+      "name": "OUT2",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "RESET2",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "CONT2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "THRES2",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "DISCH2",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "VCC",
+      "role": "power"
+     }
+    ],
+    "soic-14": [
+     {
+      "number": 1,
+      "name": "DISCH1",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "THRES1",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "CONT1",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "RESET1",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "OUT1",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "TRIG1",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 8,
+      "name": "TRIG2",
+      "role": "input"
+     },
+     {
+      "number": 9,
+      "name": "OUT2",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "RESET2",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "CONT2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "THRES2",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "DISCH2",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "VCC",
+      "role": "power"
+     }
+    ]
+   },
+   "process": "cmos",
+   "maxHz": 2800000,
+   "tpd": 20,
+   "vcc": [
+    1,
+    18
+   ],
+   "timers": [
+    {
+     "trigger": "TRIG1",
+     "threshold": "THRES1",
+     "discharge": "DISCH1",
+     "output": "OUT1",
+     "reset": "RESET1",
+     "control": "CONT1"
+    },
+    {
+     "trigger": "TRIG2",
+     "threshold": "THRES2",
+     "discharge": "DISCH2",
+     "output": "OUT2",
+     "reset": "RESET2",
+     "control": "CONT2"
+    }
+   ],
+   "parts": [
+    {
+     "name": "TLC552CD",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tlc552",
+     "package": "SOIC",
+     "pinout": "soic-14",
+     "footprint": "SOIC-14"
+    },
+    {
+     "name": "TLC552CN",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tlc552",
+     "package": "DIP",
+     "pinout": "dip-14",
+     "footprint": "PDIP-14"
+    }
+   ]
+  },
+  {
+   "id": "tlc555-q1-1",
+   "function": "Single (555)",
+   "description": "TLC555-Q1 timer, cmos",
+   "drawer": [
+    "Analog",
+    "Timers"
+   ],
+   "pinouts": {
+    "soic-8": [
+     {
+      "number": 1,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 2,
+      "name": "TRIG",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "CONT",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "THRES",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "DISCH",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VCC",
+      "role": "power"
+     }
+    ]
+   },
+   "process": "cmos",
+   "maxHz": 2100000,
+   "tpd": 20,
+   "vcc": [
+    2,
+    15
+   ],
+   "timers": [
+    {
+     "trigger": "TRIG",
+     "threshold": "THRES",
+     "discharge": "DISCH",
+     "output": "OUT",
+     "reset": "RESET",
+     "control": "CONT"
+    }
+   ],
+   "parts": [
+    {
+     "name": "TLC555QDRQ1",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tlc555-q1",
+     "package": "SOIC",
+     "pinout": "soic-8",
+     "footprint": "SOIC-8",
+     "flags": [
+      "automotive"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "tlc555-1",
+   "function": "Single (555)",
+   "description": "TLC555 timer, cmos",
+   "drawer": [
+    "Analog",
+    "Timers"
+   ],
+   "pinouts": {
+    "soic-8": [
+     {
+      "number": 1,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 2,
+      "name": "TRIG",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "CONT",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "THRES",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "DISCH",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VCC",
+      "role": "power"
+     }
+    ],
+    "tssop-14": [
+     {
+      "number": 1,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 2,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 3,
+      "name": "TRIG",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 5,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 7,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 8,
+      "name": "CONT",
+      "role": "input"
+     },
+     {
+      "number": 9,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 10,
+      "name": "THRES",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 12,
+      "name": "DISCH",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 14,
+      "name": "VCC",
+      "role": "power"
+     }
+    ],
+    "dip-8": [
+     {
+      "number": 1,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 2,
+      "name": "TRIG",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "CONT",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "THRES",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "DISCH",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VCC",
+      "role": "power"
+     }
+    ],
+    "sop-8": [
+     {
+      "number": 1,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 2,
+      "name": "TRIG",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "CONT",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "THRES",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "DISCH",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VCC",
+      "role": "power"
+     }
+    ]
+   },
+   "process": "cmos",
+   "maxHz": 2100000,
+   "tpd": 20,
+   "vcc": [
+    5,
+    15
+   ],
+   "timers": [
+    {
+     "trigger": "TRIG",
+     "threshold": "THRES",
+     "discharge": "DISCH",
+     "output": "OUT",
+     "reset": "RESET",
+     "control": "CONT"
+    }
+   ],
+   "parts": [
+    {
+     "name": "TLC555CP",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tlc555",
+     "package": "DIP",
+     "pinout": "dip-8",
+     "footprint": "PDIP-8",
+     "vcc": [
+      2,
+      15
+     ]
+    },
+    {
+     "name": "TLC555CPSR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tlc555",
+     "package": "SOP",
+     "pinout": "sop-8",
+     "footprint": "SOP-8-PS",
+     "vcc": [
+      2,
+      15
+     ]
+    },
+    {
+     "name": "TLC555CPW",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tlc555",
+     "package": "TSSOP",
+     "pinout": "tssop-14",
+     "footprint": "TSSOP-14",
+     "vcc": [
+      2,
+      15
+     ]
+    },
+    {
+     "name": "TLC555CPWR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tlc555",
+     "package": "TSSOP",
+     "pinout": "tssop-14",
+     "footprint": "TSSOP-14",
+     "vcc": [
+      2,
+      15
+     ]
+    },
+    {
+     "name": "TLC555IDR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tlc555",
+     "package": "SOIC",
+     "pinout": "soic-8",
+     "footprint": "SOIC-8"
+    },
+    {
+     "name": "TLC555IP",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tlc555",
+     "package": "DIP",
+     "pinout": "dip-8",
+     "footprint": "PDIP-8",
+     "vcc": [
+      2,
+      15
+     ]
+    },
+    {
+     "name": "TLC555QDR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tlc555",
+     "package": "SOIC",
+     "pinout": "soic-8",
+     "footprint": "SOIC-8"
+    }
+   ]
+  },
+  {
+   "id": "tlc556m-2",
+   "function": "Dual (556)",
+   "description": "TLC556M dual timer, cmos",
+   "drawer": [
+    "Analog",
+    "Timers"
+   ],
+   "pinouts": {
+    "dip-14": [
+     {
+      "number": 1,
+      "name": "DISCH1",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "THRES1",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "CONT1",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "RESET1",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "OUT1",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "TRIG1",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 8,
+      "name": "TRIG2",
+      "role": "input"
+     },
+     {
+      "number": 9,
+      "name": "OUT2",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "RESET2",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "CONT2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "THRES2",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "DISCH2",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "VCC",
+      "role": "power"
+     }
+    ],
+    "soic-14": [
+     {
+      "number": 1,
+      "name": "DISCH1",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "THRES1",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "CONT1",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "RESET1",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "OUT1",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "TRIG1",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 8,
+      "name": "TRIG2",
+      "role": "input"
+     },
+     {
+      "number": 9,
+      "name": "OUT2",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "RESET2",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "CONT2",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "THRES2",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "DISCH2",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "VCC",
+      "role": "power"
+     }
+    ]
+   },
+   "process": "cmos",
+   "maxHz": 2100000,
+   "tpd": 20,
+   "vcc": [
+    2,
+    15
+   ],
+   "timers": [
+    {
+     "trigger": "TRIG1",
+     "threshold": "THRES1",
+     "discharge": "DISCH1",
+     "output": "OUT1",
+     "reset": "RESET1",
+     "control": "CONT1"
+    },
+    {
+     "trigger": "TRIG2",
+     "threshold": "THRES2",
+     "discharge": "DISCH2",
+     "output": "OUT2",
+     "reset": "RESET2",
+     "control": "CONT2"
+    }
+   ],
+   "parts": [
+    {
+     "name": "TLC556CD",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tlc556m",
+     "package": "SOIC",
+     "pinout": "soic-14",
+     "footprint": "SOIC-14"
+    },
+    {
+     "name": "TLC556CDR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tlc556m",
+     "package": "SOIC",
+     "pinout": "soic-14",
+     "footprint": "SOIC-14"
+    },
+    {
+     "name": "TLC556ID",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tlc556m",
+     "package": "SOIC",
+     "pinout": "soic-14",
+     "footprint": "SOIC-14"
+    },
+    {
+     "name": "TLC556IDR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tlc556m",
+     "package": "SOIC",
+     "pinout": "soic-14",
+     "footprint": "SOIC-14"
+    },
+    {
+     "name": "TLC556IN",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tlc556m",
+     "package": "DIP",
+     "pinout": "dip-14",
+     "footprint": "PDIP-14"
+    },
+    {
+     "name": "TLC556MD",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tlc556m",
+     "package": "SOIC",
+     "pinout": "soic-14",
+     "footprint": "SOIC-14"
+    },
+    {
+     "name": "TLC556MDR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "tlc556m",
+     "package": "SOIC",
+     "pinout": "soic-14",
+     "footprint": "SOIC-14"
+    }
+   ]
+  },
+  {
+   "id": "timer-generic",
+   "function": "Generic",
+   "description": "Generic 555 timer",
+   "drawer": [
+    "Analog",
+    "Timers"
+   ],
+   "pinouts": {
+    "dip-8": [
+     {
+      "number": 1,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 2,
+      "name": "TRIG",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "OUT",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "RESET",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "CONT",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "THRES",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "DISCH",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VCC",
+      "role": "power"
+     }
+    ]
+   },
+   "process": "bipolar",
+   "maxHz": 500000,
+   "tpd": 100,
+   "vcc": [
+    4.5,
+    16
+   ],
+   "timers": [
+    {
+     "trigger": "TRIG",
+     "threshold": "THRES",
+     "discharge": "DISCH",
+     "output": "OUT",
+     "reset": "RESET",
+     "control": "CONT"
+    }
+   ],
+   "parts": [
+    {
+     "name": "GENERIC-555",
+     "manufacturer": "Generic",
+     "package": "DIP",
+     "pinout": "dip-8",
+     "footprint": "PDIP-8",
+     "footprintChoices": [
+      {
+       "package": "DIP",
+       "footprint": "PDIP-8"
+      },
+      {
+       "package": "SOIC",
+       "footprint": "SOIC-8"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

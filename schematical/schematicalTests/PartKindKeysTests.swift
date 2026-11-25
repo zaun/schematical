@@ -43,6 +43,8 @@ final class PartKindKeysTests: XCTestCase {
         "mcu": ["mcu.c"], "pld": ["pld.c"], "generic": ["generic.c"],
         // plan-47-K, L.
         "inductor": ["inductor.c"], "fuse": ["fuse.c"], "relay": ["relay.c"], "buzzer": ["buzzer.c"],
+        // plan-48-G.
+        "timer": ["timer.c"], "opamp": ["opamp.c"],
     ]
 
     static var models: URL {

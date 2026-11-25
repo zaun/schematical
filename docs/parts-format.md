@@ -257,7 +257,7 @@ one device with one of these parts (see [Single part files](#single-part-files))
 | `"connectorFootprint"` | optional: a second footprint, the `id` of one in `footprints.json`, that the PCB Style option switches to (**Connector Only**). Same rules as `footprint`. Character LCD modules use it (§ `charlcd`) |
 | `"footprintChoices"` | optional: the footprints a placed part may use, each `{"package": …, "footprint": …}`, in picker order. The part's own `footprint` is one of them (the default), with the part's `package`. `GENERIC-LED` uses it (§ `led`; rules in [The `"footprint"` part key](#the-footprint-part-key)) |
 | `"fits"` | a socket part only (required there, rejected on every other kind: `"fits" is only for a socket`): the chip footprints the socket holds, a non-empty array of footprint ids. Each id must exist (`unknown fits footprint "X"`), be listed once (`fits footprint "X" listed twice`), have as many pins as the part (`fits footprint "X" has 12 pins; the part has 14`) and a pad for every pin (`pin "7" has no pad in fits footprint "X"`). § `socket` |
-| `"vcc"`, `"inputMax"` | on gate, dff, jkff, sram, eeprom, serialmem and oscillator parts only: the part's own supply range / input limit, replacing the one it inherits (see [Supply voltage](#supply-voltage-vcc-and-inputmax)) |
+| `"vcc"`, `"inputMax"` | on gate, dff, jkff, sram, eeprom, serialmem, oscillator, timer and opamp parts only: the part's own supply range / input limit, replacing the one it inherits (see [Supply voltage](#supply-voltage-vcc-and-inputmax)) |
 
 Every other key belongs to the kind.
 
@@ -1200,6 +1200,17 @@ named twice (`timer pin "OUT" is named twice`); the pinout has exactly one
 Part keys: `"vcc"`, `"inputMax"` (a part ends with a range). The listing line
 (`tests/golden/parts.txt`) ends `timers=<n> process=<p> maxhz=<n> tpd=<ps>`.
 
+The library's `timer.json` (plan-48) holds 56 timers from Texas Instruments
+(48), Analog Devices / Maxim (5) and Renesas (3): the 555, 556 and their CMOS
+and automotive forms, one device per datasheet and number of timers, under
+**Analog → Timers** (`function` `Single (555)` or `Dual (556)`; `id`
+`<datasheet id>-<timers>`, e.g. `na555-1`), plus `GENERIC-555` (device
+`timer-generic`, a bipolar 555 in `PDIP-8` with a `DIP` / `SOIC` footprint
+choice, no datasheet). A device's pinouts are the packages its datasheet draws,
+keyed `<package>-<pins>`; `maxHz`, `tpd` and `vcc` are read from the
+datasheet; a part whose grade has another supply range (the `-Q1` parts) has
+its own `vcc`. `-Q1` parts carry the `automotive` flag.
+
 ```json
 {"id": "timer_555_bipolar", "function": "555 timer", "description": "Bipolar 555 timer",
  "drawer": ["Analog", "Timers"],
@@ -1246,6 +1257,19 @@ pin (`an op-amp needs a power pin and a ground pin`). Every other pin is an
 (a numbered exposed pad) or `nc`. Part keys: `"vcc"`, `"inputMax"`, `"vosMv"` (a
 grade's own offset); a part ends with a range. The listing line ends `type=<t> amps=<n>
 gbw=<hz> slew=<mV/us> vos=<uV> rin=<0|1> rout=<0|1>`.
+
+The library's `opamp.json` (plan-48) holds 600 op-amps, the 200 most-stocked
+of Texas Instruments, Analog Devices / Maxim and STMicroelectronics (DigiKey's
+Standard (General Purpose), J-FET and CMOS types, one, two or four amplifiers),
+one device per datasheet, number of amplifiers and type, under **Analog →
+Op-amps → Single / Dual / Quad** (`function` `General purpose`, `JFET input`
+or `CMOS`; `id` `<datasheet id>-<amplifiers>`), plus `GENERIC-OPAMP` (device
+`opamp-generic`, a dual op-amp in `PDIP-8` with a `DIP` / `SOIC` footprint
+choice). `gbwHz`, `slewVus` and `vosMv` are DigiKey's figures, `railOut` is
+DigiKey's Rail-to-Rail output type, `railIn` is set where the datasheet lets
+the inputs go beyond the supply (`inputMax`), `vcc` and `inputMax` are the
+datasheet's. A part whose grade has another range, or another offset, carries
+its own. `-Q1` parts carry the `automotive` flag.
 
 ```json
 {"id": "opamp_dual_general", "function": "General purpose op-amp", "description": "Dual op-amp",

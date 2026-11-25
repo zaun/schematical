@@ -75,8 +75,13 @@ extension PartKinds {
         "register": [
             "parallel": "A row of D flip-flops loaded together on a clock edge, like the 74HC273, 74HC374 and 74HC574.",
         ],
+        "opamp": [
+            "general": "A general-purpose bipolar op-amp, like the LM358 and LM324: single-supply, 3 to 32 V.",
+            "jfet": "An op-amp with JFET inputs (very high input impedance), like the TL072 and TL084.",
+            "cmos": "A CMOS op-amp, usually low voltage and rail to rail, like the MCP6002 and TLV9002.",
+        ],
         "crystal": [
-            "crystal": "A quartz crystal: two terminals that give a clock input its frequency, like an HC-49 crystal.",
+            "crystal":"A quartz crystal: two terminals that give a clock input its frequency, like an HC-49 crystal.",
             "resonator": "A ceramic resonator with built-in load capacitors and a third, common pin.",
         ],
         "powerswitch": [

@@ -190,8 +190,14 @@ extension PartKinds {
             KindInfo(kind: "powerswitch", name: "Power Switch",
                      blurb: "Load switches, current-limited and USB power switches and integrated ideal diodes: an input passed to an output, gated by an enable pin.",
                      examples: ["LM66200DRLR", "TPS22922YFPR"], group: .power),
+            KindInfo(kind: "timer", name: "555 Timer",
+                     blurb: "555-type timers with one or two timer sections that take their timing from the resistors and capacitors wired to them: NE555, LMC555, NE556.",
+                     examples: ["GENERIC-555", "NE555P"], group: .power),
 
             // Other
+            KindInfo(kind: "opamp", name: "Op-amp",
+                     blurb: "Operational amplifiers with one, two or four amplifiers: LM358, TL072. They drive nothing in play mode; the voltage check watches their supply.",
+                     examples: ["GENERIC-OPAMP", "LM358DR"], group: .other),
             KindInfo(kind: "generic", name: "Other part (no simulation)",
                      blurb: "Anything else: just a symbol and a footprint. It has pins you can wire, but it is not simulated.",
                      examples: [], group: .other, simulated: false),
@@ -213,7 +219,7 @@ extension PartKinds {
         "led", "buzzer", "7seg", "lcd", "leddriver", "lcddriver", "charlcd", "nixie", "dekatron",
         "resistor", "capacitor", "diode", "transistor", "inductor", "fuse",
         "connector", "header", "socket", "switch", "relay",
-        "supply", "oscillator", "crystal", "regulator", "powerswitch",
-        "generic",
+        "supply", "oscillator", "crystal", "timer", "regulator", "powerswitch",
+        "opamp", "generic",
     ]
 }

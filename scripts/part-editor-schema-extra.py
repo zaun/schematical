@@ -62,4 +62,7 @@ EXTRA = {
     "serialmem": [("device", "inputMax", ("number", "V"), []), ("part", "inputMax", ("number", "V"), []),
                   ("device", "outputValid", ("number", "ns"), []),
                   ("device", "outputDisable", ("number", "ns"), [])],
+    # timer.c DEVICE_KEYS and PART_KEYS "inputMax" (kind_voltage / kind_part_voltage): no shipped timer sets it
+    # (plan-48-G).
+    "timer": [("device", "inputMax", ("number", "V"), []), ("part", "inputMax", ("number", "V"), [])],
 }
