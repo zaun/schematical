@@ -10,12 +10,13 @@ final class RoutingSearchTests: XCTestCase {
         var grid: RoutingGrid
         var result: Result<[Int], SearchFailure>
         var expansions: Int
+        var cost: Float = 0
         var path: [Int] { (try? result.get()) ?? [] }
     }
 
     /// Searches net `net`'s first component to its second.
     private func run(_ board: RoutingTestBoard, net: Int = 1, change: (inout SearchRules) -> Void = { _ in },
-                     isCancelled: () -> Bool = { false }) throws -> Run {
+                     corridor: ((RoutingGrid) -> [Float])? = nil, isCancelled: () -> Bool = { false }) throws -> Run {
         let problem = board.problem()
         let grid = RoutingGrid(problem: problem)
         let routing = try XCTUnwrap(problem.nets.first { $0.id == net })
@@ -27,8 +28,8 @@ final class RoutingSearchTests: XCTestCase {
         XCTAssertFalse(to.isEmpty)
         var search = RoutingSearch(nodes: grid.cellCount * grid.layers.count)
         let result = search.search(grid, rules: rules, sources: from.map(\.node), targets: to.map(\.node),
-                                   goal: grid.cellBox(to.map(\.node)), isCancelled: isCancelled)
-        return Run(grid: grid, result: result, expansions: search.expansions)
+                                   goal: grid.cellBox(to.map(\.node)), corridor: corridor?(grid), isCancelled: isCancelled)
+        return Run(grid: grid, result: result, expansions: search.expansions, cost: search.lastCost)
     }
 
     private func layer(_ run: Run, _ node: Int) -> Int { node / run.grid.cellCount }
@@ -220,5 +221,71 @@ final class RoutingSearchTests: XCTestCase {
         XCTAssertEqual(run.result, .failure(.cancelled))
         XCTAssertEqual(asked, 1)
         XCTAssertLessThanOrEqual(run.expansions, 4096)
+    }
+
+    // MARK: Corridors (plan-66-D)
+
+    /// One layer, no vias, net 1 from (3, 10) to (17, 12).
+    private func corridorBoard() -> RoutingTestBoard {
+        var board = RoutingTestBoard(width: 20, height: 20, layers: [.top])
+        board.options.grid = 0.1
+        board.options.vias = .none
+        board.pad(3, 10, 1, 1, net: 1)
+        board.pad(17, 12, 1, 1, net: 1)
+        return board
+    }
+
+    func testNoCorridorIsTheSameSearch() throws {
+        let board = corridorBoard()
+        let plain = try run(board)
+        let zeros = try run(board, corridor: { Array(repeating: 0, count: $0.cellCount * $0.layers.count) })
+        XCTAssertFalse(plain.path.isEmpty)
+        XCTAssertEqual(zeros.path, plain.path)
+        XCTAssertEqual(zeros.cost, plain.cost)
+        XCTAssertEqual(zeros.expansions, plain.expansions)
+    }
+
+    func testACorridorKeepsAPathInsideIt() throws {
+        // Net 1 from (3, 10) to (17, 10); a corridor one cell wide along that row.
+        var board = corridorBoard()
+        board.pads.removeLast()
+        board.pad(17, 10, 1, 1, net: 1)
+        func line(_ grid: RoutingGrid, until: Int? = nil) -> [Float] {
+            var values = [Float](repeating: -1, count: grid.cellCount * grid.layers.count)
+            let row = Int(((10 - grid.origin.y) / grid.pitch).rounded())
+            for x in 0..<(until ?? grid.nx) { values[grid.cell(x, row)] = 0 }
+            return values
+        }
+        let inside = try run(board, corridor: { line($0) })
+        XCTAssertFalse(inside.path.isEmpty)
+        let row = Int(((10 - inside.grid.origin.y) / inside.grid.pitch).rounded())
+        XCTAssertTrue(inside.path.allSatisfy { xy(inside, $0).1 == row }, "every node on the row")
+        // A corridor that stops short of the target finds nothing.
+        let short = try run(board, corridor: { line($0, until: $0.nx / 2) })
+        XCTAssertEqual(short.result, .failure(.noPath))
+    }
+
+    func testADeviationPriceKeepsAPathNearTheOldLine() throws {
+        // From (3, 10) to (17, 12): free to go diagonal first or last; the old line is the row y = 10.
+        let board = corridorBoard()
+        func around(_ deviation: Double) -> (RoutingGrid) -> [Float] {
+            { grid in
+                var values = [Float](repeating: -1, count: grid.cellCount * grid.layers.count)
+                for y in 0..<grid.ny {
+                    let d = abs(Double(y) * grid.pitch + grid.origin.y - 10)
+                    guard d <= 3 else { continue }
+                    for x in 0..<grid.nx { values[grid.cell(x, y)] = Float(deviation * d / grid.pitch) }
+                }
+                return values
+            }
+        }
+        let near = try run(board, corridor: around(1))
+        XCTAssertFalse(near.path.isEmpty)
+        let row = Int(((10 - near.grid.origin.y) / near.grid.pitch).rounded())
+        let first = near.path.prefix(near.path.count / 2).map { xy(near, $0).1 }
+        XCTAssertTrue(first.allSatisfy { $0 == row }, "stays on the old line until it must leave: \(first)")
+        let deviation = { (run: Run) in run.path.reduce(0) { $0 + abs(self.xy(run, $1).1 - row) } }
+        let free = try run(board, corridor: around(0))
+        XCTAssertLessThanOrEqual(deviation(near), deviation(free))
     }
 }

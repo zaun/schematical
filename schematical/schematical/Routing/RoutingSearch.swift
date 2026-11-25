@@ -158,7 +158,7 @@ nonisolated struct RoutingSearch {
     /// (Dijkstra). `isCancelled` is polled every 4096 expansions.
     mutating func search(_ grid: RoutingGrid, rules: SearchRules, sources: [Int], targets: [Int],
                          goal: (x: ClosedRange<Int>, y: ClosedRange<Int>)?, history: [Float]? = nil, startCosts: [Int: Float]? = nil, targetCosts: [Int: Float]? = nil,
-                         plan: RoutingPlanCosts? = nil,
+                         plan: RoutingPlanCosts? = nil, corridor: [Float]? = nil,
                          isCancelled: () -> Bool) -> Result<[Int], SearchFailure> {
         for node in touched {
             cost[node] = .infinity
@@ -187,6 +187,7 @@ nonisolated struct RoutingSearch {
         let history = history ?? []
         let planDemand = plan?.demand ?? [], planHistory = plan?.history ?? []
         let planLambda = Float(plan?.lambda ?? 0)
+        let corridor = corridor ?? []
         let outcome: Result<[Int], SearchFailure> = cost.withUnsafeMutableBufferPointer { cost in
             came.withUnsafeMutableBufferPointer { came in
                 marks.withUnsafeBufferPointer { marks in
@@ -199,14 +200,17 @@ nonisolated struct RoutingSearch {
                                             history.withUnsafeBufferPointer { history in
                                                 planDemand.withUnsafeBufferPointer { planDemand in
                                                     planHistory.withUnsafeBufferPointer { planHistory in
+                                                        corridor.withUnsafeBufferPointer { corridor in
                                                         Self.explore(grid, rules: rules, sources: sources, startCosts: startCosts, targetCosts: targetCosts, goal: goal, cost: cost,
                                                                      came: came, marks: marks, generation: generation,
                                                                      maps: Maps(trace: traceMaps, via: viaMaps, fixedTrace: fixedTrace,
                                                                                 fixedVia: fixedVia, traceMask: traceMask, viaMask: viaMask,
                                                                                 history: history, planDemand: planDemand,
-                                                                                planHistory: planHistory, planLambda: planLambda),
+                                                                                planHistory: planHistory, planLambda: planLambda,
+                                                                                corridor: corridor),
                                                                      touched: &touched, expanded: &local, found: &found,
                                                                      isCancelled: isCancelled)
+                                                        }
                                                     }
                                                 }
                                             }
@@ -239,6 +243,8 @@ nonisolated struct RoutingSearch {
         let planDemand: UnsafeBufferPointer<Int16>
         let planHistory: UnsafeBufferPointer<Float>
         let planLambda: Float
+        /// A corridor's price by node (`RoutingCorridor`): negative is off limits; empty is none.
+        let corridor: UnsafeBufferPointer<Float>
     }
 
     private static func explore(_ grid: RoutingGrid, rules: SearchRules, sources: [Int], startCosts: [Int: Float]?, targetCosts: [Int: Float]?,
@@ -268,7 +274,14 @@ nonisolated struct RoutingSearch {
         /// it is free or the net's own; in a relaxed search, the price of a
         /// cell only other nets' routed copper covers; -1 when it can't be
         /// entered at all (fixed copper, two nets, the edge).
+        let hasCorridor = maps.corridor.count == layerCount * cells
         @inline(__always) func price(_ layer: Int, _ cell: Int) -> Float {
+            let own = tracePrice(layer, cell)
+            guard hasCorridor, own >= 0 else { return own }
+            let inside = maps.corridor[layer * cells + cell]
+            return inside < 0 ? -1 : own + inside
+        }
+        @inline(__always) func tracePrice(_ layer: Int, _ cell: Int) -> Float {
             let index = base + layer * cells + cell
             let value = traceMaps[index]
             if value == -1 || value == net { return 0 }

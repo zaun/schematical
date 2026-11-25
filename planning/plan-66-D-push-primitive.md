@@ -213,16 +213,16 @@ behaviour is tested, not diffed.
 
 ### Phase 1 — the corridor in the search
 
-- [ ] `Routing/RoutingSearch.swift`: `search(…, corridor: UnsafeBufferPointer<Float>?
+- [x] (done; the parameter is `corridor: [Float]?`, not an unsafe buffer: see Corrections) `Routing/RoutingSearch.swift`: `search(…, corridor: UnsafeBufferPointer<Float>?
       = nil)`; `Maps.corridor`; `price` as in § 3 (a `hasCorridor` constant so the
       no-corridor path is unchanged).
-- [ ] `Routing/RoutingCorridor.swift` (new): `struct RoutingCorridor` holding the
+- [x] (done) `Routing/RoutingCorridor.swift` (new): `struct RoutingCorridor` holding the
       scratch `[Float]` and the list of cells set; `mutating func make(for copper:
       (traces: [RoutedTrace], vias: [RoutedVia]), grid: RoutingGrid, reach:
       Double, deviation: Double)` and `mutating func clear()`.
-- [ ] `Routing/Router.swift`: `Strategy.pushReach`, `pushDeviation`, `pushDepth`,
+- [x] (done) `Routing/Router.swift`: `Strategy.pushReach`, `pushDeviation`, `pushDepth`,
       `pushMaxVictims`, `pushMaxExpansions` with the defaults of § 3 (every strategy).
-- [ ] `schematicalTests/RoutingSearchTests.swift`: `testNoCorridorIsTheSameSearch`
+- [x] (done: 3 search tests and 1 grid test) `schematicalTests/RoutingSearchTests.swift`: `testNoCorridorIsTheSameSearch`
       (a corridor of all zeros gives the same path and cost as `nil`);
       `testACorridorKeepsAPathInsideIt` (a board with a straight run; a corridor
       one cell wide on its line returns that line, a corridor missing the targets
@@ -236,7 +236,8 @@ Acceptance: the four test groups pass and the A anchors still pass.
   -only-testing:schematicalTests/RoutingGridTests
   -only-testing:schematicalTests/RoutingAnchorTests` → `** TEST SUCCEEDED **`
   (est. 3 min).
-Commit: —
+  Measured: `Executed 29 tests, with 0 failures` (RoutingSearchTests 13, RoutingGridTests 7, RoutingAnchorTests 9), `** TEST SUCCEEDED **`.
+Commit: — (recorded in the next commit)
 
 ### Phase 2 — the transaction
 
@@ -324,7 +325,11 @@ plan-66-A § Decisions apply. Added by the author, 2026-11-25:
 
 ## Corrections
 
-<!-- Filled during execution. -->
+- **The search takes the corridor as `[Float]?`** (2026-11-25), not an
+  `UnsafeBufferPointer`: the array is not copied (a read-only argument), and the
+  search turns it into a buffer inside its own pointer nest as it does for `history`
+  and the plan's arrays. No corridor is an empty array there, so `hasCorridor` is
+  false and the price is unchanged: the A anchors (9) pass.
 
 ## Summary
 

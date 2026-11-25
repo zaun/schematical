@@ -54,6 +54,16 @@ nonisolated enum Router {
         var polishBend = 1.0
         /// The price per cell, while improving, of a way through other nets' copper (they are then routed again); 0 never tries one.
         var polishPresent = 3.0
+        /// Push and shove (plan-66-D): how far, mm, copper that gives way may move from where it was.
+        var pushReach = 1.0
+        /// The price, per cell of travel, of each cell of distance from the old line while a piece is re-laid.
+        var pushDeviation = 1.0
+        /// How deep pushes nest: the connection pushes copper, and that copper may push once more at 2.
+        var pushDepth = 2
+        /// The most pieces of copper one connection may push.
+        var pushMaxVictims = 12
+        /// Each search inside a push gives up after this many expansions.
+        var pushMaxExpansions = 200_000
 
         static func of(_ strategy: RoutingOptions.Strategy) -> Strategy {
             switch strategy {
