@@ -180,6 +180,33 @@ final class BoardPreviewTests: XCTestCase {
         }
     }
 
+    /// In the angled view a DIP's leads on the far side of the body are painted before it, and the near side's
+    /// after, whatever the chip's rotation: sorting each lead by its own centre painted far-row leads at the
+    /// body's near end over the top of the body.
+    func testDipLeadsSortBySideOfTheBody() throws {
+        let doc = TestSupport.newDocument()
+        let id = try place(doc, footprint: "PDIP-").id
+        let outline = [CGPoint.zero, CGPoint(x: 100, y: 0), CGPoint(x: 100, y: 50), CGPoint(x: 0, y: 50)]
+        let projection = RenderProjection.fitting(outline, face: .front, angle: .angled, size: CGSize(width: 800, height: 600),
+                                                  height: 5, below: 2)
+        for rotation in stride(from: 0, to: 360, by: 90) {
+            if rotation > 0 { doc.rotateFootprint(id) }
+            let chip = try XCTUnwrap(doc.chips.first { $0.id == id })
+            let placement = try XCTUnwrap(chip.board)
+            XCTAssertEqual(placement.rotation, rotation)
+            let look = PartLook.of(chip)
+            let solids = look.solids(painter: SolidPainter(projection: projection))
+            let bodyDepth = projection.depth(placement.board(.zero))
+            let body = try XCTUnwrap(solids.last, "rotation \(rotation)")
+            XCTAssertEqual(body.height, look.height, "the body is the last solid")
+            let before = solids.dropLast().filter { $0.depth < bodyDepth }.count
+            let after = solids.dropLast().filter { $0.depth > bodyDepth }.count
+            // Half the leads on each side, none left at the body's own depth.
+            XCTAssertEqual(before, after, "rotation \(rotation)")
+            XCTAssertEqual(before + after, solids.count - 1, "rotation \(rotation)")
+        }
+    }
+
     /// A card slot on a board shows in the render: the front view differs from the bare board's.
     func testCardSlotShowsInTheRender() throws {
         let bare = TestSupport.newDocument()

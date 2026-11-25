@@ -257,11 +257,11 @@ struct PartLook {
         /// A box over a footprint-frame rectangle; `decorate` draws on its
         /// top in the footprint frame.
         func box(_ rect: CGRect, _ z0: CGFloat, _ z1: CGFloat, _ tint: Tint, top: Tint? = nil, radius: CGFloat = 0,
-                 decorate: ((inout GraphicsContext) -> Void)? = nil) {
+                 depth: CGFloat? = nil, decorate: ((inout GraphicsContext) -> Void)? = nil) {
             let r = board(rect)
             let centre = board(CGPoint(x: rect.midX, y: rect.midY))
             let shape = radius > 0 ? Path(roundedRect: r, cornerRadius: radius) : Path(r)
-            out.append(RenderSolid(depth: projection.depth(centre) + z0 * 0.001, height: z1, shadow: shape) { context in
+            out.append(RenderSolid(depth: depth ?? (projection.depth(centre) + z0 * 0.001), height: z1, shadow: shape) { context in
                 painter.box(r, from: z0, to: z1, tint: tint, top: top, radius: radius, in: &context,
                             decorate: decorate.map { draw in { layer in
                                 layer.concatenate(local)
@@ -301,6 +301,15 @@ struct PartLook {
 
         /// Leads from the body's edge out to each pad beyond it.
         func leads(foot z1: CGFloat, shoulder: CGFloat, width: CGFloat, throughHole: Bool) {
+            // A lead is sorted against the body by the side it leaves from, not
+            // by its own centre: on a long body turned in the view a far-side
+            // lead near the body's near end is nearer than the body's centre
+            // and would be painted over the body.
+            let bodyDepth = projection.depth(board(.zero))
+            func leadDepth(exit: CGPoint) -> CGFloat {
+                let d = projection.depth(board(exit)) - bodyDepth
+                return bodyDepth + (d < 0 ? -0.02 : 0.02)
+            }
             for pad in pads {
                 let c = pad.centre, w2 = body.width / 2, h2 = body.height / 2
                 var leg: CGRect?
@@ -316,14 +325,17 @@ struct PartLook {
                     leg = CGRect(x: c.x - across / 2, y: min(s * h2, end), width: across, height: abs(end - s * h2))
                 }
                 guard let leg else { continue }
-                box(leg, 0, throughHole ? shoulder : z1, .tin, top: Tint.tin.shaded(1.15))
+                let exit = horizontalSide(of: c) ? CGPoint(x: c.x > 0 ? w2 : -w2, y: c.y)
+                    : CGPoint(x: c.x, y: c.y > 0 ? h2 : -h2)
+                let depth = leadDepth(exit: exit)
+                box(leg, 0, throughHole ? shoulder : z1, .tin, top: Tint.tin.shaded(1.15), depth: depth)
                 if !throughHole {
                     // The shoulder where the lead leaves the body.
                     let s = horizontalSide(of: c)
                     let shoulderRect = s
                         ? CGRect(x: c.x > 0 ? body.width / 2 : -body.width / 2 - 0.25, y: leg.minY, width: 0.25, height: leg.height)
                         : CGRect(x: leg.minX, y: c.y > 0 ? body.height / 2 : -body.height / 2 - 0.25, width: leg.width, height: 0.25)
-                    box(shoulderRect, 0, shoulder, .tin)
+                    box(shoulderRect, 0, shoulder, .tin, depth: depth)
                 }
             }
         }
