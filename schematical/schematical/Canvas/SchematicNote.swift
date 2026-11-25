@@ -43,7 +43,7 @@ nonisolated struct SchematicNote: Identifiable, Hashable, Sendable {
     /// measured with CoreText, which is thread-safe.
     private static let metricsCache = Mutex<[Int: (font: NSFont, lineHeight: CGFloat)]>([:])
 
-    private static func metrics(_ size: Int) -> (font: NSFont, lineHeight: CGFloat) {
+    static func metrics(_ size: Int) -> (font: NSFont, lineHeight: CGFloat) {
         metricsCache.withLock { cache in
             if let found = cache[size] { return found }
             let font = NSFont.monospacedSystemFont(ofSize: CGFloat(size), weight: .regular)
@@ -54,7 +54,7 @@ nonisolated struct SchematicNote: Identifiable, Hashable, Sendable {
     }
 
     /// How wide `line` is in `font`, the same as AppKit's measure.
-    private static func width(of line: String, in font: NSFont) -> CGFloat {
+    static func width(of line: String, in font: NSFont) -> CGFloat {
         let typeset = CTLineCreateWithAttributedString(
             CFAttributedStringCreate(nil, line as CFString, [kCTFontAttributeName: font] as CFDictionary))
         return CGFloat(CTLineGetTypographicBounds(typeset, nil, nil, nil))

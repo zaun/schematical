@@ -3105,6 +3105,41 @@ final class SchematicDocument {
         if stamped != documentInfo { documentInfo = stamped }
     }
 
+    // MARK: Title block (plan-64-C)
+
+    /// The title block as drawn, nil when it is not on the schematic.
+    var titleBlockLayout: TitleBlockLayout? {
+        documentInfo.titleBlock.map { TitleBlockLayout(documentInfo, origin: $0) }
+    }
+
+    /// The title block's frame, nil when it is not on the schematic.
+    var titleBlockRect: CGRect? { titleBlockLayout?.rect }
+
+    /// Whether the title block is shown and covers `point`.
+    func titleBlock(at point: CGPoint) -> Bool {
+        titleBlockRect?.contains(point) ?? false
+    }
+
+    /// Shows or hides the title block (one undo step). Turned on, it goes at
+    /// the bottom-right of the drawing: its right edge on the drawing's, a
+    /// little below it; an empty schematic puts it at (0, 0). Turned off, the
+    /// information stays. It is not selected when shown.
+    func setTitleBlockShown(_ on: Bool) {
+        guard on != (documentInfo.titleBlock != nil) else { return }
+        if !on {
+            editDocumentInfo("Hide Title Block") { $0.titleBlock = nil }
+            pruneSelection()
+            return
+        }
+        var origin = CGPoint.zero
+        var painter = BoundsPainter()
+        SchematicScene(self).paint(into: &painter)
+        if let bounds = painter.bounds {
+            origin = SchematicGrid.snap(CGPoint(x: bounds.maxX - TitleBlockLayout.width, y: bounds.maxY + 20))
+        }
+        editDocumentInfo("Show Title Block") { $0.titleBlock = origin }
+    }
+
     // MARK: Text blocks (Schematic)
 
     /// Adds a text block with its top-left at `point` (snapped), selects it

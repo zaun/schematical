@@ -72,6 +72,10 @@ struct DocumentInfoForm: View {
     var body: some View {
         let info = document.documentInfo
         Group {
+            Section {
+                Toggle("Include on Schematic", isOn: Binding(get: { document.documentInfo.titleBlock != nil },
+                                                             set: { document.setTitleBlockShown($0) }))
+            }
             Section("Document") {
                 TextField("Title", text: Binding(get: { document.documentInfo.title },
                                                  set: { document.setInfoTitle($0) }))

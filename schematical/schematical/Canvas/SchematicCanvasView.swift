@@ -257,6 +257,9 @@ struct SchematicCanvasView: View {
             GridBackground(rect: gridRect, step: gridStep)
                 .equatable()
 
+            // The title block is under the text blocks, so a note can sit on it.
+            TitleBlockLayer(layout: document.titleBlockLayout, area: gridRect)
+
             // Under everything else: wires and parts stay visible over a block.
             NoteLayer(
                 notes: document.notes,
@@ -1074,6 +1077,54 @@ struct NoteLayer: View {
             }
             for (index, line) in note.lines.enumerated() where !line.isEmpty {
                 painter.draw(PaintedText(line, size: CGFloat(note.size), monospaced: true), at: note.lineOrigin(index),
+                             anchor: .topLeading)
+            }
+        }
+    }
+}
+
+/// Draws the title block (plan-64-C): a framed table of the document's
+/// information. A selected block's frame is accent; the hovered one gets a
+/// soft accent underlay. Not private, so the export can draw it too.
+struct TitleBlockLayer: View {
+    let layout: TitleBlockLayout?
+    var isSelected = false
+    var isHovered = false
+    /// The visible world area; drawing outside it is not shown.
+    let area: CGRect
+
+    var body: some View {
+        Canvas { context, _ in
+            guard let layout else { return }
+            var shifted = context
+            shifted.shiftToWorld(area)
+            var painter = ScreenPainter(shifted)
+            Self.paint(&painter, layout: layout, isSelected: isSelected, isHovered: isHovered)
+        }
+        .worldCanvas(area)
+    }
+
+    /// Draws the block in world coordinates.
+    static func paint<P: SchematicPainter>(_ painter: inout P, layout: TitleBlockLayout,
+                                           isSelected: Bool = false, isHovered: Bool = false) {
+        let frame = Path(layout.rect)
+        if isHovered, !isSelected {
+            painter.stroke(frame, with: Ink.accent.opacity(0.35), lineWidth: 5)
+        }
+        painter.fill(frame, with: .paper)
+        for (a, b) in layout.separators {
+            var line = Path()
+            line.move(to: a)
+            line.addLine(to: b)
+            painter.stroke(line, with: .secondary, lineWidth: 1)
+        }
+        painter.stroke(frame, with: isSelected ? .accent : .primary, lineWidth: isSelected ? 2 : 1.5)
+        for cell in layout.cells {
+            painter.draw(PaintedText(cell.label, size: CGFloat(TitleBlockLayout.labelSize), ink: .secondary),
+                         at: cell.labelOrigin, anchor: .topLeading)
+            for (index, line) in cell.lines.enumerated() where !line.isEmpty {
+                painter.draw(PaintedText(line, size: CGFloat(cell.size), weight: cell.weight, monospaced: true),
+                             at: CGPoint(x: cell.textOrigin.x, y: cell.textOrigin.y + CGFloat(index) * cell.lineHeight),
                              anchor: .topLeading)
             }
         }

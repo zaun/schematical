@@ -136,30 +136,30 @@ Rejected alternatives:
 
 ### Phase 1 — Layout, drawing, model API
 
-- [ ] `SchematicNote.swift`: change `private static func width(of:in:)` and `private static func metrics(_:)`
-      to internal (`static`), keeping their lock and doc comments; no behavior change.
-- [ ] New `Canvas/TitleBlockLayout.swift`: `nonisolated struct TitleBlockLayout` with `init(_ info: DocumentInfo,
+- [x] `SchematicNote.swift`: change `private static func width(of:in:)` and `private static func metrics(_:)`
+      to internal (`static`), keeping their lock and doc comments; no behavior change. — done
+- [x] New `Canvas/TitleBlockLayout.swift`: `nonisolated struct TitleBlockLayout` with `init(_ info: DocumentInfo,
       origin: CGPoint)`; `rect`, `cells: [Cell]` (`rect`, `label`, `lines`, `size`, `weight`, `monospaced`, `textOrigin`),
       `separators: [(CGPoint, CGPoint)]`; `static let width: CGFloat = 360`; the wrap as § 3; heights rounded up to
-      `SchematicGrid.spacing`.
-- [ ] `SchematicCanvasView.swift`: `struct TitleBlockLayer: View` (like `NoteLayer`) with `static paint(_ painter:
+      `SchematicGrid.spacing`. — done
+- [x] `SchematicCanvasView.swift`: `struct TitleBlockLayer: View` (like `NoteLayer`) with `static paint(_ painter:
       inout P, info:, isSelected:, isHovered:)`: frame filled `.paper`, stroked `.primary` 1.5 (accent 2 when
       selected), separators `.secondary` 1, hovered underlay `Ink.accent.opacity(0.35)` 5 as a note's; text per cell.
-      Insert it in `worldLayer` between `GridBackground` and `NoteLayer` (:259-266), shown when `titleBlock != nil`.
-- [ ] `SchematicExportScene.swift`: `var titleBlock: DocumentInfo?` (set when shown); `isEmpty` is false when it is
-      set; `paint` calls `TitleBlockLayer.paint` before `NoteLayer.paint`.
-- [ ] `SchematicModel.swift`, in § Document info (A): `var titleBlockRect: CGRect?`; `func titleBlock(at:) -> Bool`
+      Insert it in `worldLayer` between `GridBackground` and `NoteLayer` (:259-266), shown when `titleBlock != nil`. — done
+- [x] `SchematicExportScene.swift`: `var titleBlock: DocumentInfo?` (set when shown); `isEmpty` is false when it is
+      set; `paint` calls `TitleBlockLayer.paint` before `NoteLayer.paint`. — done (stored as the layout: `TitleBlockLayout?`)
+- [x] `SchematicModel.swift`, in § Document info (A): `var titleBlockRect: CGRect?`; `func titleBlock(at:) -> Bool`
       (point in rect); `func setTitleBlockShown(_ on: Bool)` (rules in § 3; uses `SchematicScene(self)` and
-      `BoundsPainter`); `var selectedTitleBlock: Bool`.
-- [ ] `DocumentInfoWindow.swift` (B): in `DocumentInfoForm`, a first `Section` with `Toggle("Include on Schematic",
-      isOn: Binding(get: { document.documentInfo.titleBlock != nil }, set: { document.setTitleBlockShown($0) }))`.
-- [ ] Tests: new `schematicalTests/TitleBlockTests.swift` (`@MainActor`, `TestSupport.newDocument()`): layout —
+      `BoundsPainter`); `var selectedTitleBlock: Bool`. — done; selectedTitleBlock moves to Phase 2 (it needs the new SchematicItem case)
+- [x] `DocumentInfoWindow.swift` (B): in `DocumentInfoForm`, a first `Section` with `Toggle("Include on Schematic",
+      isOn: Binding(get: { document.documentInfo.titleBlock != nil }, set: { document.setTitleBlockShown($0) }))`. — done
+- [x] Tests: new `schematicalTests/TitleBlockTests.swift` (`@MainActor`, `TestSupport.newDocument()`): layout —
       width 360, every cell/separator coordinate a multiple of 10 relative to `origin`, a 200-character description
       wraps to more than 5 lines and a 40-character unbroken word breaks by characters, an empty info has the four-row
       minimum height; show/hide — empty doc shows at (0, 0), a doc with a part shows with `maxX` equal to the drawing's
       ink `maxX`, hide keeps `title`, each is one undo step named "Show Title Block" / "Hide Title Block", undo/redo
       restore; painting — with a `RecordingPainter` (`SchematicSceneTests.swift:10-35`) the text calls include the
-      title, the six labels, and the formatted dates.
+      title, the six labels, and the formatted dates. — done: xcodebuild test TitleBlockTests SchematicSceneTests SchematicNoteTests -> ** TEST SUCCEEDED **, 29 tests 0 failures
 
 Acceptance: the toggle shows and hides the block with the right placement, steps and drawn text.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p64-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/TitleBlockTests -only-testing:schematicalTests/SchematicSceneTests -only-testing:schematicalTests/SchematicNoteTests` → `** TEST SUCCEEDED **` (est. 9 min; the two existing classes prove the note metrics change and the scene still behave).
