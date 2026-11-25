@@ -31,7 +31,7 @@ The gate for the whole feature is in plan-62-A § Prerequisites. This letter add
 | Must be true | Command | Status |
 |---|---|---|
 | plan-62-F is complete | `ls planning/completed/plan-62-F-* \| wc -l` → 1 | MET (2026-11-24: 1, archived after 0d7abab4) |
-| The app builds for testing | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p62-dd CODE_SIGNING_ALLOWED=NO build-for-testing 2>&1 \| tail -1` → `** TEST BUILD SUCCEEDED **` | not run (2026-11-24; first needed here) |
+| The app builds for testing | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p62-dd CODE_SIGNING_ALLOWED=NO build-for-testing 2>&1 \| tail -1` → `** TEST BUILD SUCCEEDED **` | MET (2026-11-24: `** TEST BUILD SUCCEEDED **`) |
 
 If plan-62-F is not complete, this plan cannot start, full stop.
 
@@ -129,10 +129,10 @@ JSON re-dump).
 One phase: the data change, the goldens and the tests that depend on it
 cannot land apart.
 
-- [ ] `planning/plan-62-data/set_models.py` (as § 3); run it;
+- [x] `planning/plan-62-data/set_models.py` (as § 3); run it;
       `git diff --stat schematical/schematical/Parts/mcu.json` → 18
       insertions, 18 deletions.
-- [ ] Regenerate `backend/tests/golden/parts.txt` and `traces.txt`
+- [x] Regenerate `backend/tests/golden/parts.txt` and `traces.txt`
       (`docs/backend.md` § Tests); write
       `planning/plan-62-data/golden_check.py [base]` (it compares the
       working tree's goldens with the ones at commit `base`, `HEAD` by
@@ -140,17 +140,17 @@ cannot land apart.
       changed line of both files starts with one of the 126 part names and
       each changed `parts.txt` line differs only by the removed
       `|unsimulated` and the added ` model=<layout>`; run it.
-- [ ] `backend/tests/avr_board_test.c`, `backend/CMakeLists.txt`.
-- [ ] `scripts/part-editor-schema-extra.py`: remove the `model` line E
+- [x] `backend/tests/avr_board_test.c`, `backend/CMakeLists.txt`.
+- [x] `scripts/part-editor-schema-extra.py`: remove the `model` line E
       added (shipped devices use the key now); regenerate
       `Editor/McuDraft.swift` (`python3 scripts/part-editor-schema.py . mcu`
       → `missing []`); `simulated` becomes an optional field.
-- [ ] `schematicalTests/SimulationAvailabilityTests.swift`: `ATTINY85-20PU`
+- [x] `schematicalTests/SimulationAvailabilityTests.swift`: `ATTINY85-20PU`
       in place of `ATMEGA328P-PU` (and in the expected strings);
       `schematicalTests/McuTests.swift`: `testAtmega328pFacts` asserts
       `part.isSimulated` and no `"Simulation"` row, and a new
       `testAttiny85IsNotSimulated` keeps the unsimulated assertions.
-- [ ] `docs/parts-format.md` § `mcu`: the kind is no longer facts-only for
+- [x] `docs/parts-format.md` § `mcu`: the kind is no longer facts-only for
       a device with a `"model"`; the example; which devices have one.
       `docs/backend.md`: § Adding a kind's sentence on kinds with no model
       (`mcu` now has one for some devices); § Tests gains `avr_board_test`.
@@ -158,6 +158,7 @@ cannot land apart.
 Acceptance: goldens moved only for the 126 parts; all backend tests pass;
 the four app test classes pass.
   Check: `python3 planning/plan-62-data/golden_check.py` → `126 parts.txt lines, N traces.txt lines, all within the 126 parts`; `ctest --test-dir /tmp/sim-rel -j8` → `100% tests passed` (est. 1 min); `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p62-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/SimulationAvailabilityTests -only-testing:schematicalTests/McuTests -only-testing:schematicalTests/PartKindKeysTests -only-testing:schematicalTests/PartKindRoundTripTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 15 min: the app builds once; no smaller check runs the Swift tests).
+  Observed: 2026-11-24: `18 devices changed` (18 insertions, 18 deletions in mcu.json); `126 parts.txt lines, 126 traces.txt lines, all within the 126 parts`; `ctest` 100% of 70; `avr_board_test` `ok 126 parts run`; `part-editor-schema.py . mcu` `missing []`; the four app classes: 59 tests, 0 failures, `** TEST SUCCEEDED **`.
 Commit: —
 
 ## Validation Plan
@@ -175,6 +176,19 @@ Commit: —
 plan-62-A § Decisions (the 18 devices; the plan includes the app). None added.
 
 ## Corrections
+
+- The golden check's first run printed a failure for each of the 126
+  `traces.txt` lines: the script split a line on `|`, and `traces.txt` is
+  tab-separated, so the part name came out wrong. Root cause was the script,
+  not the data; with the separator fixed: `126 parts.txt lines, 126
+  traces.txt lines, all within the 126 parts`.
+- § 3: the LED case measures 20 ms (lit 10 ms), not 100 ms: at 16 MHz the
+  crystal makes 32 engine events per microsecond, and 20 ms proves the same.
+  The PB case uses a new firmware `pe0` (toggle PE0; 250 changes in 1 ms).
+  The every-part case also requires `CPU_RUNNING`, a cycle count above 0 and
+  PB5 driven.
+- The second prerequisite (the app builds for testing) was met before the
+  data changed: `** TEST BUILD SUCCEEDED **` (2026-11-24).
 
 ## Summary
 

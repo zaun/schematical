@@ -2760,6 +2760,20 @@ engine model is passive (no callbacks, like `header`).
 "vcc": [1.8, 5.5]
 ```
 
+and a simulated one (the ATmega328P):
+
+```json
+"model": "atmega328",
+"core": "avr", "clock": 20000000, "flash": 32768, "ram": 2048, "eeprom": 1024,
+"vcc": [1.8, 5.5]
+```
+
+The shipped devices with a model are the ATmega48/88/168/328 family, 18
+devices and 126 parts: `atmega328` on the 48, 88, 168 and 328 and their A, P
+and PA versions, `atmega168pb` on the 48PB, 88PB and 168PB, `atmega328pb` on
+the 328PB (`planning/plan-62-data/set_models.py`). Every other `mcu` device
+is facts only.
+
 | Key | Value |
 |---|---|
 | `"simulated"` | without a `"model"`: required, `false` (`an mcu has no simulation model: "simulated" must be false`). With one: absent or `true` (`an mcu with a "model" is simulated: remove "simulated": false`) |

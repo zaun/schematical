@@ -972,6 +972,13 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   changes for the transaction), an address nobody answers (status 0x20),
   and the same through TWI1 of the fixture `TESTAVR328PB`. The rig is
   `tests/support/avr_rig.h` (also `mcu_test`'s).
+- `avr_board_test` — the shipped ATmega48/88/168/328 parts (plan-62-G): an
+  `ATMEGA328P-PU` with a `GENERIC-CRYSTAL-16M` on PB6/PB7 blinks a
+  `GENERIC-LED` on PB5 (lit 10 ms of 20, PB5 changing every 62500000 ps on
+  average); an `ATMEGA48PA-PU` with no crystal runs the one-word-vector
+  build on its internal clock; an `ATMEGA328PB-AU` toggles PE0; and every
+  mcu part with a model, alone with its supply, loads blink, starts and runs
+  2 ms (`ok 126 parts run`).
 - `pld_test` — the pld kind: the shipped ATF22V10C, ATF750C and ATF16V8B
   parts read back their `PartPld` facts (macrocells, the part's tpd, a
   commercial part's own `vcc`), single part files cover every loader rule
