@@ -8,10 +8,11 @@ import XCTest
 /// (`pointer being freed was not allocated`, in the Swift runtime's
 /// isolated-deinit path, `StopLookupScope`): the model's isolated deinit
 /// freed its `DatasheetFinder`, whose own isolated deinit was nested in it,
-/// on a thread that had a task-local value bound outside any task (XCTest
-/// binds one around a test; nothing stops app code doing the same).
+/// with a task-local scope open on the thread. SwiftUI's own updates open
+/// one (the crash reports show the free under `AppDelegate.scenesDidChange`
+/// and under `NSHostingView.deinit`); `withValue` below does the same.
 /// Found by plan-61-B: with no schematic scene, the scene list is rebuilt
-/// while the tests run.
+/// while the tests run. The fix is `nonisolated deinit {}` on both classes.
 @MainActor
 final class VerifyDatasheetLifetimeTests: XCTestCase {
     @TaskLocal private static var marker = 0

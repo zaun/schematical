@@ -321,6 +321,10 @@ enum WireStyle: Equatable {
 @MainActor
 @Observable
 final class SimulationController {
+    /// As `SchematicDocument`'s: an isolated deinit aborts the runtime when
+    /// a closing document frees this.
+    nonisolated deinit {}
+
     /// True while in play mode, including after the simulation has stopped with
     /// an error. Stop leaves play mode.
     private(set) var isRunning = false

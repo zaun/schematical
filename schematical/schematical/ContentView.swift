@@ -73,7 +73,14 @@ struct ContentView: View {
     /// angle and ⌘X / ⌘C / ⌘V cut, copy and paste traces on the PCB, ⌘F
     /// flips on the Schematic, ⌘X / ⌘C / ⌘V cut, copy and paste its
     /// selection, ⌘⌫ deletes and ⌘A selects all on both.
-    @State private var editKeyMonitor: Any?
+    /// Kept by the model, not in view state, and installed through the
+    /// model's monitors: the document empties those when it closes (a
+    /// hosted view gets no `onDisappear` then), and the monitor's closure
+    /// holds this view and so the model.
+    private var editKeyMonitor: UUID? {
+        get { model.editKeyMonitor }
+        nonmutating set { model.editKeyMonitor = newValue }
+    }
     /// Edit › Reset References is asking whether to go on.
     @State private var isConfirmingResetReferences = false
     /// The supply menu's Custom…: the dialog, what is typed in it, and
@@ -191,7 +198,7 @@ struct ContentView: View {
     /// is left alone.
     private func installEditKeyMonitor() {
         guard editKeyMonitor == nil else { return }
-        editKeyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+        editKeyMonitor = model.eventMonitors.add(matching: .keyDown) { event in
             guard let window = file.window, event.window === window, !(window.firstResponder is NSText),
                   let key = Self.editKey(keyCode: event.keyCode, event.charactersIgnoringModifiers,
                                          event.modifierFlags, isRepeat: event.isARepeat) else { return event }
@@ -320,7 +327,7 @@ struct ContentView: View {
     }
 
     private func removeEditKeyMonitor() {
-        if let editKeyMonitor { NSEvent.removeMonitor(editKeyMonitor) }
+        model.eventMonitors.remove(editKeyMonitor)
         editKeyMonitor = nil
     }
 
@@ -783,6 +790,8 @@ struct ContentView: View {
                     isBoardPreviewOpen = false
                 }
             }
+            // The canvases install their key monitors through the model's.
+            .environment(\.editorEventMonitors, model.eventMonitors)
             .focusedSceneValue(\.schematicFile, file)
             .focusedSceneValue(\.editorPage, page)
             .focusedSceneValue(\.openBillOfMaterials) {

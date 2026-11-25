@@ -8,6 +8,10 @@ import Observation
 @MainActor
 @Observable
 final class SchematicEditorModel {
+    /// As `SchematicDocument`'s: an isolated deinit aborts the runtime when
+    /// a closing document frees this.
+    nonisolated deinit {}
+
     /// Identifies this document to the child windows it opens and to the
     /// agent-control tools.
     @ObservationIgnored let id = UUID()
@@ -22,6 +26,14 @@ final class SchematicEditorModel {
 
     /// The page the editor shows.
     var page = EditorPage.schematic
+
+    /// The editor's `NSEvent` monitors (the Edit keys, the canvases' drawing
+    /// keys). Their closures hold the editor's views, and through them this
+    /// model, for as long as they are installed: the document empties this
+    /// when it closes.
+    @ObservationIgnored let eventMonitors = EditorEventMonitors()
+    /// The Edit keys' monitor (`ContentView.installEditKeyMonitor`).
+    @ObservationIgnored var editKeyMonitor: UUID?
 
     /// A new, blank schematic with the standard net classes (Power: 5V, 3V3,
     /// 12V, 24V; and Logic); an opened file replaces them with its own. Or,

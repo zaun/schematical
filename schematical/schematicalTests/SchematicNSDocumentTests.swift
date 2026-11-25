@@ -271,4 +271,108 @@ final class SchematicNSDocumentTests: XCTestCase {
         XCTAssertEqual(opened.count, 1, "windows: \(NSApp.windows.filter(\.isVisible).map(\.title))")
         opened.forEach { $0.close() }
     }
+
+    // MARK: Phase 5 — a closed document is freed
+
+    private func spin(_ seconds: Double) {
+        let end = Date().addingTimeInterval(seconds)
+        while Date() < end {
+            autoreleasepool { RunLoop.main.run(until: Date().addingTimeInterval(0.1)) }
+        }
+    }
+
+    /// Waits up to eight seconds for the app that hosts the tests to be the
+    /// active app. It cannot take the front by itself while another app
+    /// holds it (`NSApp.activate` is then refused): run from Xcode it is in
+    /// front already; run from a shell, `open -a <the Debug app>` from that
+    /// shell brings it forward while this waits.
+    private func waitForTheAppToBeActive() {
+        let end = Date().addingTimeInterval(8)
+        while !NSApp.isActive, Date() < end {
+            NSApp.activate(ignoringOtherApps: true)
+            spin(0.25)
+        }
+    }
+
+    /// Makes a document with its window on screen, its simulation running
+    /// and a Memory window open, closes it, and gives the run loop two
+    /// seconds. Returns weak references to what the document edited, and
+    /// whether its window was key when it closed.
+    private func closeADocument(key: Bool) throws
+        -> (alive: [String], wasKey: Bool) {
+        weak var model: SchematicEditorModel?
+        weak var schematic: SchematicDocument?
+        weak var simulation: SimulationController?
+        weak var exporter: SchematicFileController?
+        weak var system: SchematicNSDocument?
+        weak var window: NSWindow?
+        var wasKey = false
+        try autoreleasepool {
+            let document = SchematicNSDocument()
+            NSDocumentController.shared.addDocument(document)
+            model = document.model
+            schematic = document.model.document
+            simulation = document.model.simulation
+            exporter = document.model.file
+            system = document
+            _ = try place("SN74HC00N", in: document, at: p(200, 200))
+            let eeprom = try place("AT28C256-15PU", in: document, at: p(500, 300))
+            document.makeWindowControllers()
+            document.showWindows()
+            window = document.windowControllers.first?.window
+            XCTAssertEqual(window?.isVisible, true)
+            if key { waitForTheAppToBeActive() }
+            spin(0.5)
+            // The editor's key monitors are installed: they are what kept a
+            // closed document alive.
+            XCTAssertGreaterThanOrEqual(document.model.eventMonitors.count, 2)
+
+            document.model.simulation.start(document: document.model.document)
+            XCTAssertTrue(document.model.simulation.isRunning, document.model.simulation.errorMessage ?? "")
+            let id = document.model.id
+            ChildWindowOpener(documentID: id)(id: "memory", value: MemoryWindowTarget(documentID: id, chipID: eeprom.id))
+            XCTAssertEqual(ChildWindowCenter.shared.windows(of: id).count, 1)
+            spin(0.5)
+            // Back to the document's window, which the user closes.
+            window?.makeKeyAndOrderFront(nil)
+            spin(0.5)
+            wasKey = window?.isKeyWindow == true && NSApp.isActive
+
+            document.close()
+            XCTAssertTrue(ChildWindowCenter.shared.windows(of: id).isEmpty)
+            XCTAssertFalse(NSDocumentController.shared.documents.contains(document))
+        }
+        spin(2)
+        var alive: [String] = []
+        if simulation != nil { alive.append("simulation") }
+        if schematic != nil { alive.append("schematic") }
+        if exporter != nil { alive.append("exporter") }
+        if model != nil { alive.append("model") }
+        if system != nil { alive.append("system document") }
+        if window != nil { alive.append("window") }
+        return (alive, wasKey)
+    }
+
+    /// The owner's must-fix (plan-59 A6): closing a document frees what it
+    /// edited: its model, schematic, simulation and exporter, the system
+    /// document and the window.
+    func testClosingFreesTheDocument() throws {
+        let result = try closeADocument(key: false)
+        XCTAssertEqual(result.alive, [], "still alive two seconds after the close")
+    }
+
+    /// The same with the window key in the active app, as when the user
+    /// closes it: only then does SwiftUI publish the editor's focused values
+    /// to the menus, and they must not keep the closed document either.
+    /// Skipped when the app is not in front (see `waitForTheAppToBeActive`);
+    /// what was in front before gets the front back.
+    func testClosingAKeyWindowFreesTheDocument() throws {
+        let front = NSWorkspace.shared.frontmostApplication
+        defer {
+            if let front, front != NSRunningApplication.current { front.activate() }
+        }
+        let result = try closeADocument(key: true)
+        try XCTSkipUnless(result.wasKey, "the app hosting the tests is not in front, so its window was never key")
+        XCTAssertEqual(result.alive, [], "still alive two seconds after the close")
+    }
 }

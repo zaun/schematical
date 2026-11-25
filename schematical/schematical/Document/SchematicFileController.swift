@@ -11,6 +11,10 @@ import UniformTypeIdentifiers
 @MainActor
 @Observable
 final class SchematicFileController {
+    /// As `SchematicDocument`'s: an isolated deinit aborts the runtime when
+    /// a closing document frees this.
+    nonisolated deinit {}
+
     /// The document's file, nil for one never saved. Set by the document;
     /// exports are named after it and start in its folder.
     var fileURL: URL?

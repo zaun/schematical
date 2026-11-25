@@ -1607,6 +1607,12 @@ nonisolated enum OrthogonalRoute {
 @MainActor
 @Observable
 final class SchematicDocument {
+    /// Not isolated: closing a document frees this while SwiftUI tears the
+    /// editor down, and an isolated deinit there aborts in the concurrency
+    /// runtime (`StopLookupScope`; see `VerifyDatasheetLifetimeTests`).
+    /// Nothing here needs the main actor to be freed.
+    nonisolated deinit {}
+
     private(set) var chips: [PlacedChip] = [] {
         didSet {
             chipsRevision &+= 1
