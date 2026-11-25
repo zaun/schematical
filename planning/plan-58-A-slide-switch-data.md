@@ -253,27 +253,27 @@ downloaded PDFs equals the number of distinct URLs minus the ones listed as
 missing.
   Check: `python3 -I planning/plan-58-data/census/textscan.py --selftest` →
   `ok`, and `awk -F'\t' 'NR>1 && $18=="add" && $20==""' /tmp/p58/scan.tsv | wc -l` → 0 (est. 5 min). Measured: `ok`, `ok`, `0`.
-Commit: —
+Commit: 54cf8eee
 
 ### Phase 3 — decide, place, document
 
-- [ ] `census/decide.py <candidates.tsv> /tmp/p58/pdf`: § 4.1's rules;
+- [x] `census/decide.py <candidates.tsv> /tmp/p58/pdf` (after copying `scan.tsv` over `candidates.tsv`, which adds `pdf`, `hit`, `dead`) → `93 add`, `127 out`, `203 pending`, no `skip`: § 4.1's rules;
       `--skipped` writes the "Slide switches (plan-58)" section of
       `datasheets/skipped-parts.md` (one line per `skip` row: maker, part
-      number, reason); `--verify-skipped` re-reads that section.
-- [ ] `census/place.py <candidates.tsv> /tmp/p58/pdf`: copies the PDFs the
+      number, reason); `--verify-skipped` re-reads that section (`0 skip rows written`; the section says `None: every kept row's datasheet downloaded as a PDF.`; `--verify-skipped` → `0 skip rows missing …`, exit 0).
+- [x] `census/place.py <candidates.tsv> /tmp/p58/pdf` → `40 PDFs placed for 40 URLs`; `--verify` → `40 URLs, 40 PDFs, 0 problems`: copies the PDFs the
       `add` / `pending` rows need to `datasheets/switch/slide/<maker>/`,
       writes `datasheets/switch/slide/datasheets.tsv`; `--verify` recomputes
       the hashes.
-- [ ] `census/maker-urls.py --list`: the datasheet URLs not on the maker's own
-      site (E-Switch's 8); for each, find the same document on the maker's site
+- [x] `census/maker-urls.py --list` → 2 URLs (see Corrections: not 8; the S3 bucket is E-Switch's own host): the datasheet URLs not on the maker's own
+      site; for each, find the same document on the maker's site
       and write `planning/plan-58-data/maker-urls.tsv` (`url`, `maker_url`, empty
       `maker_url` when the maker's site has none: the DigiKey URL then stays).
-      `--verify` fetches each `maker_url` and requires `%PDF-`.
-- [ ] `census/specs-skeleton.py <candidates.tsv> planning/plan-58-data/specs.tsv`.
-- [ ] Obsolete check (AGENTS.md): any PDF whose every row has `dead` = 1 →
-      delete it, add its line to `datasheets/obsolete-not-included.md`.
-- [ ] Update `planning/plan-58-data/README.md` with the scripts of Phase 2–3.
+      `--verify` fetches each `maker_url` and requires `%PDF-` (`2 non-maker URLs, 1 with a maker URL, 0 missing, 0 not PDFs`).
+- [x] `census/specs-skeleton.py <candidates.tsv> planning/plan-58-data/specs.tsv` → `108 rows` (= distinct (maker, series, mounting, circuit) of the 296 `add` + `pending` rows).
+- [x] Obsolete check (AGENTS.md): any PDF whose every row has `dead` = 1 →
+      delete it, add its line to `datasheets/obsolete-not-included.md`. None: `dead` = 0 on all 296 rows (`awk -F'\t' 'NR>1 && $18=="add"{d[$22]++} END{for(k in d)print k,d[k]}' /tmp/p58/scan.tsv` → `0 296`), so no PDF is deleted and `obsolete-not-included.md` is untouched.
+- [x] Update `planning/plan-58-data/README.md` with the scripts of Phase 2–3.
 
 Acceptance: `decision` has no `check`; `decide.py --verify-skipped` and
 `place.py --verify` and `maker-urls.py --verify` all exit 0; `specs.tsv` has
@@ -281,7 +281,7 @@ one row per distinct (maker, series, mounting, circuit) of the `add` and
 `pending` rows.
   Check: `python3 -I planning/plan-58-data/census/place.py --verify && python3 -I
   planning/plan-58-data/census/decide.py --verify-skipped && python3 -I
-  planning/plan-58-data/census/maker-urls.py --verify` → each exits 0 (est. 6 min).
+  planning/plan-58-data/census/maker-urls.py --verify` → each exits 0 (est. 6 min). Measured: `40 URLs, 40 PDFs, 0 problems` / `0 skip rows missing from skipped-parts.md, 0 rows `check`` / `2 non-maker URLs, 1 with a maker URL, 0 missing, 0 not PDFs`, all exit 0.
 Commit: —
 
 ## Validation Plan
@@ -317,7 +317,9 @@ Commit: —
 ## Corrections
 
 - **2026-11-24, Phase 1: the census differs from the planning-time one by two parts.** `build.py` on the fresh pages gives 423 parts (planning-time 422): `diff <(cut -f1,2 old) <(cut -f1,2 new)` shows `C&K S802C21S207DQ` (new, Panel Mount, Snap-In: `out`) and `NKK AS12AP` (new, `add`) and `NKK MSN13ASG40` gone (out of stock since). `add` stays 296; by action SPDT On-On is 131 (was 130) and SPDT On-Off-On 23 (was 24); `out` is 127 (was 126). No later letter's scope is derived from these counts, so none is re-scoped. § 2's table carries both numbers.
-- **2026-11-24, Phase 2: `hit` is 93 of 296, not 102; CIT has 0 hits, not 10.** The planning probe was a case-blind substring test; `textscan.py` also requires the number to stand on its own (plan-27-A Correction 6). The 10 CIT "hits" of the probe (`MS1202L6`, `MS1206L6`, `MS1247L4`, `MS2201L3`, `MS2205L6`, `MS2208L4`, `MS2210L4`, `MS2211L4`, `MS2219L4`, `MS2241L9`) are not part numbers in the PDF: `pdftotext -layout` of `Switch-MS1202.pdf` line 17 reads `1. Series  MS1202   L6`, the series and the actuator length printed in separate cells of the ordering-key table, which the substring test joined. They are `pending` like the other 203 (C–F read the key). C&K 54, NKK 19 (probe 18: `AS12AP` is new), E-Switch 20 match the probe. § 2's table row "`add` rows whose part number is verbatim" is 93 of 296 (C&K 54 of 119, NKK 19 of 71, E-Switch 20 of 63, CIT 0 of 43), so `pending` will be 203 (was 194).
+- **2026-11-24, Phase 2: `hit` is 93 of 296, not 102; CIT has 0 hits, not 10.** The planning probe was a case-blind substring test; `textscan.py` also requires the number to stand on its own (plan-27-A Correction 6). The 10 CIT "hits" of the probe (`MS1202L6`, `MS1206L6`, `MS1247L4`, `MS2201L3`, `MS2205L6`, `MS2208L4`, `MS2210L4`, `MS2211L4`, `MS2219L4`, `MS2241L9`) are not part numbers in the PDF: `pdftotext -layout` of `Switch-MS1202.pdf` line 17 reads `1. Series  MS1202   L6`, the series and the actuator length printed in separate cells of the ordering-key table, which the substring test joined. They are `pending` like the other 203 (C–F read the key). C&K 54, NKK 19 (probe 18: `AS12AP` is new), E-Switch 20 match the probe. § 2's table row "`add` rows whose part number is verbatim" is 93 of 296 (C&K 54 of 119, NKK 19 of 71, E-Switch 20 of 63, CIT 0 of 43), so `pending` is 203 (was 194).
+- **2026-11-24, Phase 3: 2 datasheet URLs are not the maker's, not 8.** § 2 and Phase 3 counted E-Switch's S3 bucket (`configured-product-images.s3.amazonaws.com`, 7 URLs) as not the maker's site. It is: E-Switch's own product pages link their datasheets there (`curl` of `e-switch.com/product/500-series-miniature-slide-switch/`, `…/500a-…`, `…/500r-…`, `…/eg-series-subminiature-slide-switch/` shows `https://configured-product-images.s3.amazonaws.com/Datasheets/500.pdf`, `500A.pdf`, `500R.pdf`, `EG.pdf`), and plan-27 treated the bucket as the maker's host too. So only the two `mm.digikey.com` URLs need `maker-urls.tsv`: E-Switch EG → `S3 Datasheets/EG.pdf` (same 15-page document, newer revision); C&K `SS-12D07-VG 4 NS GA PA` → no maker copy (DigiKey's file is a one-page 2006 COMAX customer drawing; the SS series datasheet on littelfuse.com is a different document, left to plan-58-C: the one row is `pending`). The S3 `EG.pdf` and DigiKey's `EG_Series.pdf` are both placed (rows name both URLs).
+- **2026-11-24, Phase 3: `decide.py --skipped` wiped `skipped-parts.md` on its first run** (it opened the file for writing before reading it: 1192 lines deleted). Restored from the last commit, the read moved ahead of the open, re-run: `datasheets/skipped-parts.md | 10 ++++++++++`. No other file was touched by it.
 
 ## Summary
 

@@ -1,0 +1,109 @@
+maker	series	mounting	circuit	mpn_regex	terminals	pins	footprint	note
+C&K	1000	Through Hole	DPDT		PC Pin			
+C&K	1000	Through Hole	SPDT		PC Pin; Wire Wrap			
+C&K	1000	Through Hole, Right Angle	DPDT		PC Pin			
+C&K	1000	Through Hole, Right Angle	SPDT		PC Pin			
+C&K	1000	Through Hole, Right Angle, Vertical	SPDT		PC Pin			
+C&K	AYZ	Surface Mount	DPDT		Gull Wing			
+C&K	AYZ	Surface Mount, Right Angle	SPDT		Gull Wing			
+C&K	ES	Surface Mount, Right Angle	SPDT		Gull Wing			
+C&K	ES	Surface Mount, Right Angle	SPST		Gull Wing			
+C&K	ES	Through Hole	DPDT		PC Pin			
+C&K	ES	Through Hole	DPST		PC Pin			
+C&K	ES	Through Hole	SPST		PC Pin			
+C&K	ES	Through Hole, Right Angle	DPDT		PC Pin			
+C&K	ES	Through Hole, Right Angle	DPST		PC Pin			
+C&K	ES	Through Hole, Right Angle, Vertical	SPDT		PC Pin			
+C&K	GS	Surface Mount, Right Angle	SPST		Gull Wing			
+C&K	GS	Through Hole	SPDT		PC Pin			
+C&K	GS	Through Hole	SPST		PC Pin			
+C&K	GS	Through Hole, Right Angle	SPDT		PC Pin			
+C&K	JS	Surface Mount	DPDT		Gull Wing; J Lead			
+C&K	JS	Surface Mount	SPDT		Gull Wing			
+C&K	JS	Surface Mount, Right Angle	DPDT		J Lead			
+C&K	JS	Surface Mount, Right Angle	SPDT		Gull Wing; J Lead			
+C&K	JS	Through Hole	DPDT		PC Pin			
+C&K	JS	Through Hole	SPDT		PC Pin			
+C&K	JS	Through Hole, Right Angle	DPDT		PC Pin			
+C&K	L	Through Hole	DPDT		PC Pin			
+C&K	L	Through Hole	DPST		PC Pin			
+C&K	L	Through Hole	SPDT		PC Pin			
+C&K	L	Through Hole	SPST		PC Pin			
+C&K	L	Through Hole, Right Angle	DPDT		PC Pin			
+C&K	L	Through Hole, Right Angle	SPDT		PC Pin			
+C&K	L	Through Hole, Right Angle	SPST		PC Pin			
+C&K	OS	Through Hole	DPDT		PC Pin			
+C&K	OS	Through Hole	SPDT		PC Pin			
+C&K	OS	Through Hole, Right Angle	DPDT		PC Pin			
+C&K	OS	Through Hole, Right Angle	SPDT		PC Pin			
+C&K	S	Through Hole	DPDT		PC Pin			
+C&K	S	Through Hole	DPST		PC Pin			
+C&K	S	Through Hole	SPDT		PC Pin			
+C&K	S	Through Hole	SPST		PC Pin			
+C&K	SK, COMAX	Through Hole, Right Angle	DPDT		PC Pin			
+C&K	SK, COMAX	Through Hole, Right Angle	SPDT		PC Pin			
+C&K	SS, COMAX	Through Hole	SPDT		PC Pin			
+C&K	TS	Through Hole	SPDT		PC Pin			
+C&K	TS	Through Hole	SPST		PC Pin			
+C&K	TS	Through Hole, Right Angle	SPDT		PC Pin			
+C&K	V	Through Hole	DPDT		PC Pin			
+C&K	V	Through Hole	DPST		PC Pin			
+C&K	V	Through Hole, Right Angle	DPDT		PC Pin			
+C&K	V	Through Hole, Right Angle	SPDT		PC Pin			
+CIT	1000	Through Hole	DPDT		PC Pin			
+CIT	1000	Through Hole	SPDT		PC Pin			
+CIT	1000	Through Hole, Right Angle	SPDT		PC Pin			
+CIT	1000	Through Hole, Right Angle, Vertical	DPDT		PC Pin			
+CIT	1000	Through Hole, Right Angle, Vertical	SPDT		PC Pin			
+CIT	MS1202	Through Hole	SPDT		PC Pin			
+CIT	MS1206	Through Hole, Right Angle	SPDT		PC Pin			
+CIT	MS1247	Through Hole, Right Angle	SPDT		PC Pin			
+CIT	MS2201	Through Hole	DPDT		PC Pin			
+CIT	MS2205	Through Hole	DPDT		PC Pin			
+CIT	MS2208	Through Hole, Right Angle	DPDT		PC Pin			
+CIT	MS2210	Through Hole, Right Angle	DPDT		PC Pin			
+CIT	MS2211	Through Hole, Right Angle	DPDT		PC Pin			
+CIT	MS2219	Through Hole, Right Angle	DPDT		PC Pin			
+CIT	MS2241	Through Hole, Right Angle	DPDT		PC Pin			
+E-Switch	500	Through Hole	DPDT		PC Pin			
+E-Switch	500	Through Hole	SPDT		PC Pin; Wire Wrap			
+E-Switch	500	Through Hole, Right Angle	DPDT		PC Pin			
+E-Switch	500	Through Hole, Right Angle	SPDT		PC Pin			
+E-Switch	500	Through Hole, Right Angle, Vertical	DPDT		PC Pin			
+E-Switch	500	Through Hole, Right Angle, Vertical	SPDT		PC Pin			
+E-Switch	500A	Surface Mount, Right Angle	SPDT		Gull Wing			
+E-Switch	500A	Through Hole	SPDT		PC Pin			
+E-Switch	500A	Through Hole, Right Angle	SPDT		PC Pin			
+E-Switch	500R	Through Hole	DPDT		PC Pin			
+E-Switch	500R	Through Hole	SPDT		PC Pin			
+E-Switch	500R	Through Hole, Right Angle	SPDT		PC Pin			
+E-Switch	600	Through Hole	DPDT		PC Pin			
+E-Switch	600	Through Hole	SPDT		PC Pin			
+E-Switch	EG	Surface Mount, Right Angle	SPDT		Gull Wing			
+E-Switch	EG	Through Hole	DPDT		PC Pin			
+E-Switch	EG	Through Hole	SPDT		PC Pin			
+E-Switch	EG	Through Hole, Right Angle	DPDT		PC Pin			
+E-Switch	EG	Through Hole, Right Angle	SPDT		PC Pin			
+E-Switch	EGJ1210	Surface Mount	SPDT		Gull Wing			
+E-Switch	EGJ1210	Surface Mount, Right Angle	SPDT		Gull Wing			
+E-Switch	EGJ1210	Through Hole	SPDT		PC Pin			
+E-Switch	EGJ1210	Through Hole, Right Angle	SPDT		PC Pin			
+NKK	AS	Through Hole	DPDT		PC Pin			
+NKK	AS	Through Hole	SPDT		PC Pin; Wire Wrap			
+NKK	AS	Through Hole	SPST		PC Pin; Wire Wrap			
+NKK	AS	Through Hole, Right Angle	DPDT		PC Pin			
+NKK	AS	Through Hole, Right Angle	SPDT		PC Pin			
+NKK	AS	Through Hole, Right Angle	SPST		PC Pin			
+NKK	AS	Through Hole, Right Angle, Vertical	DPDT		PC Pin			
+NKK	AS	Through Hole, Right Angle, Vertical	SPDT		PC Pin			
+NKK	CS	Through Hole	DPDT		PC Pin			
+NKK	CS	Through Hole	SPDT		PC Pin			
+NKK	FS	Through Hole	DPDT		PC Pin			
+NKK	M	Through Hole	DPDT		PC Pin			
+NKK	M	Through Hole	SPDT		PC Pin			
+NKK	SM	Through Hole	SPDT		PC Pin			
+NKK	SS	Through Hole	DPDT		PC Pin			
+NKK	SS	Through Hole	SPDT		PC Pin			
+NKK	SS	Through Hole, Right Angle	DPDT		PC Pin			
+NKK	SS	Through Hole, Right Angle	SPDT		PC Pin			
+NKK	SS3	Surface Mount, Right Angle	SPDT		Gull Wing			

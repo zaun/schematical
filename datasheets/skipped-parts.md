@@ -1194,3 +1194,13 @@ one-of-a-kind and variant-quota rules are in plan-45-A § 3 and are not skips.
 | 5430904 | Phoenix Contact BCH 3.50 mm shrouded header | `connector` / Connector → Terminal block | not in stock at DigiKey on 2026-11-24 |
 | 2473010000, 1124280000 | Weidmüller Omnimate LLFS 7.50 mm push-in; Omnimate SL 7.62 mm header | `connector` / Connector → Terminal block | not in stock at DigiKey on 2026-11-24 |
 | 691412120005B, 691412120006B, 691412120008B, 691412120009B | Würth WR-TBL 412B 3.50 mm spring | `connector` / Connector → Terminal block | not in stock at DigiKey on 2026-11-24 |
+
+## Slide switches (plan-58)
+
+In-stock Active SPST / SPDT / DPST / DPDT slide switches of C&K / Littelfuse, NKK, CIT Relay &
+Switch and E-Switch (`planning/plan-58-data/candidates.tsv`, DigiKey category Slide Switches)
+left out for want of a datasheet PDF. Written by `planning/plan-58-data/census/decide.py --skipped`.
+Rows left out by rule (panel mount, momentary, line-voltage, illuminated, no DigiKey stock) are
+`out` in that file and are not listed here.
+
+None: every kept row's datasheet downloaded as a PDF.
