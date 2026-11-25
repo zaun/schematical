@@ -133,7 +133,7 @@ parts) last.
 | Microcontroller | AVR › AT90 / ATmega / ATtiny / Dx / Ex / Lx/Sx / XMEGA / megaAVR 0 / tinyAVR 0/1/2; ESP32; RP2040 |
 | Power | Regulators › Linear / Switching |
 | Processor | the bus CPUs (6502, 65816, Z80, …) |
-| Switches & Relays | DIP; Tactile; Relay (plan-47) |
+| Switches & Relays | DIP; Tactile; Relay (plan-47); Slide |
 | Vintage | Display tubes › Nixie / Numitron / VFD / Neon / Dekatron; Support ICs |
 
 **Vintage** is old technology that is no longer made, kept as its own

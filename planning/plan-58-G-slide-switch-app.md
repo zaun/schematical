@@ -246,18 +246,18 @@ Measured: 2026-11-24, `** TEST SUCCEEDED **`: SlideSwitchTests 22 tests, DrawerP
 `/tmp/p58g-gallery-1.png` (SPST On/Off, SPDT On-On 1/2, SPDT On-Off-On 1/2/3) and `/tmp/p58g-gallery-2.png`
 (DPST On/Off, DPDT On-On 1/2, DPDT On-Off-On 1/2/3) were read: the blade, the green on a closed pole, the dashed link of
 the two poles and the knob are right in every position, and the pins sit where § 4.4 puts them.
-Commit: —
+Commit: 763fd8ab
 
 ### Phase 3 — automation, BOM, docs, harness
 
-- [ ] `AutomationSimulation.swift` `set_switch` (§ 4.5) and its test
+- [x] `AutomationSimulation.swift` `set_switch` (§ 4.5) and its test
       (`AutomationTests`: position select, missing position refused, `on=false` refused).
-- [ ] BOM: a slide switch lists with its part number and `function`
+- [x] BOM: a slide switch lists with its part number and `function`
       (`BillOfMaterialsTests` case).
-- [ ] Docs: `docs/file-format.md` `switches` row ("DIP and slide switches"),
+- [x] Docs: `docs/file-format.md` `switches` row ("DIP and slide switches"),
       `docs/agent-control.md` (`set_switch`), `docs/parts-format.md` § drawer
       categories (`Switches & Relays | DIP; Tactile; Relay (plan-47); Slide`).
-- [ ] `scripts/harness/slide-switch.swift` (model: `tactile-switch.swift`): on the real
+- [x] `scripts/harness/slide-switch.swift` (model: `tactile-switch.swift`): on the real
       catalog places an SPDT On-On, an SPDT On-Off-On and a DPDT On-On slide
       switch, wires 5 V → switch → `GENERIC-LED`s, checks the drawer leaves,
       the click order, the simulation's LEDs, the file round trip and writes the
@@ -266,6 +266,11 @@ Commit: —
 Acceptance: `AutomationTests` and `BillOfMaterialsTests` pass with the new cases;
 the harness prints only `ok` lines and its images show the knob positions.
   Check: `rm -rf /tmp/p58-h && scripts/harness/build.sh scripts/harness/slide-switch.swift /tmp/p58-h && /tmp/p58-h/H.app/Contents/MacOS/harness /tmp` → every line `ok`, exit 0 (est. 6 min), and `$XC test -only-testing:schematicalTests/AutomationTests -only-testing:schematicalTests/BillOfMaterialsTests` → `** TEST SUCCEEDED **` (est. 12 min).
+Measured: 2026-11-24. Harness (built with `APP=/tmp/p58-dd/Build/Products/Debug/schematical.app`, which is the `$XC` build the script
+would otherwise repeat in `/tmp/p58-h/dd`): 8 checks, every line `ok`, `all checks ok`, exit 0; images `/tmp/p58g-circuit.png`,
+`/tmp/p58g-sidebar.png`, `/tmp/p58g-gallery-1.png`, `/tmp/p58g-gallery-2.png` read (knob positions, blades and the sidebar's
+Circuit / Action / Position / Actuator rows are right). `$XC test` AutomationTests (33 tests, incl. the two new) and
+BillOfMaterialsTests (8, incl. the new): `** TEST SUCCEEDED **`, 41 tests, 0 failures.
 Commit: —
 
 ## Validation Plan
@@ -326,6 +331,16 @@ Commit: —
   `circuit_set_switch_state` for them and `positionCounts` is 0 for a slide
   switch (the contacts are `switchesOn`, for the voltage check). Test
   `testSimulation` starts a run in position 2 to prove it.
+- **Phase 3 — the BOM line has no `function` field.** `BillOfMaterialsLine` is
+  part number, package, value, color and description; a slide switch's
+  description is its circuit and action (`SPDT slide switch, On-Off-On`), so the
+  line lists it by part number and, in the description, its function. The
+  `BillOfMaterialsTests` case checks that for every slide part (the description
+  names both words of `function`) rather than adding a column.
+- **Validation Plan coverage check.** `for f in $(grep -rl 'tactileSwitch' …); do grep -L 'slideSwitch' $f; done`
+  lists only `Simulation/Simulation.swift`: `NetlistBuilder` reads the tactile
+  switch's `.tactileSwitch` details and handles a slide switch by `chip.slidePosition`
+  (it never names the symbol or details case). Every other file that names it also names `.slideSwitch`.
 - **Phase 2 — the BoardPreview look.** A slide part would have drawn as a DIP
   package (`PartLook` read `PART_SWITCH` as `.dipSwitch(positions:)`); it is now
   `.block(height: 5)`.

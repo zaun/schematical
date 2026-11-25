@@ -81,7 +81,7 @@ copper on one net, thermal reliefs or solid), `set_pour`, `add_keepout` (a recta
 out of), `set_keepout`, `add_board_text`, `lock`. `get_board` lists `POURS` and `KEEPOUTS`.
 
 **Simulation** — `simulation_start`, `simulation_stop`, `simulation_status`,
-`wait`*(no window)*, `set_switch`, `read_pins` (levels and LED brightness),
+`wait`*(no window)*, `set_switch` (a DIP position on or off; a tactile button pressed or released; a slide switch's knob moved to `position` 1 … N, `on` not used), `read_pins` (levels and LED brightness),
 `read_memory`.
 
 **Session** — `list_windows`*(no window)*, `focus_window`, `new_window`,

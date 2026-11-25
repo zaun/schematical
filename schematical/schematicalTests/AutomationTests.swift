@@ -634,6 +634,64 @@ final class AutomationTests: XCTestCase {
         XCTAssertTrue(status.text.hasPrefix("not running"), status.text)
     }
 
+    /// plan-58-G: `set_switch` puts a slide switch's knob in a position.
+    func testSetSwitchOnASlideSwitch() async {
+        let (id, doc) = newWindow()
+        var result = await call("place_part", id, ["part": "1103M2S3CBE2", "x": 300, "y": 200])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(doc.chips[0].slidePosition, 2)
+        // A position is required; a slide switch has no on / off.
+        result = await call("set_switch", id, ["reference": "S1"])
+        XCTAssertTrue(result.isError)
+        XCTAssertTrue(result.text.contains("S1 is a slide switch: give position 1 … 3"), result.text)
+        result = await call("set_switch", id, ["reference": "S1", "position": 4])
+        XCTAssertTrue(result.isError)
+        XCTAssertTrue(result.text.contains("S1 is a slide switch: give position 1 … 3"), result.text)
+        result = await call("set_switch", id, ["reference": "S1", "position": 1, "on": false])
+        XCTAssertTrue(result.isError)
+        XCTAssertTrue(result.text.contains("a slide switch is always in one position"), result.text)
+        XCTAssertEqual(doc.chips[0].slidePosition, 2, "refused calls change nothing")
+        // Selecting a position is an edit outside the simulation.
+        result = await call("set_switch", id, ["reference": "S1", "position": 3])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(result.text, "S1 position 3")
+        XCTAssertEqual(doc.chips[0].slidePosition, 3)
+        XCTAssertEqual(doc.chips[0].switchesOn, [false, true])
+        XCTAssertEqual(doc.undoName(on: .schematic), "Move Switch")
+        result = await call("set_switch", id, ["reference": "S1", "position": 1, "on": true])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(doc.chips[0].slidePosition, 1)
+        // The tool says so.
+        let summary = AutomationTools.all.first { $0.name == "set_switch" }?.summary ?? ""
+        XCTAssertTrue(summary.contains("slide switch"), summary)
+    }
+
+    /// While the simulation runs the move is an input, put back when it stops.
+    func testSetSwitchOnASlideSwitchWhileRunning() async {
+        let (id, doc) = newWindow()
+        for (part, x, y) in [("5V", 60, 60), ("1101M2S3CQE2", 250, 100), ("GENERIC-LED", 500, 60),
+                             ("GENERIC-LED", 500, 160), ("GND", 700, 120)] {
+            let result = await call("place_part", id, ["part": part, "x": x, "y": y])
+            XCTAssertFalse(result.isError, result.text)
+        }
+        for (from, to) in [("PWR1.VCC", "S1.C"), ("S1.A", "D1.A"), ("S1.B", "D2.A"), ("D1.K", "PWR2.GND"), ("D2.K", "PWR2.GND")] {
+            let result = await call("connect", id, ["from": from, "to": to])
+            XCTAssertFalse(result.isError, "\(from)→\(to): \(result.text)")
+        }
+        var result = await call("simulation_start", id)
+        XCTAssertFalse(result.isError, result.text)
+        result = await call("set_switch", id, ["reference": "S1", "position": 2])
+        XCTAssertEqual(result.text, "S1 position 2")
+        XCTAssertEqual(doc.chips.first { $0.reference == "S1" }?.slidePosition, 2)
+        _ = await call("wait", id, ["milliseconds": 600])
+        result = await call("read_pins", id, ["reference": "D2", "pins": ["A"]])
+        XCTAssertTrue(result.text.contains("A=1"), result.text)
+        result = await call("read_pins", id, ["reference": "D1", "pins": ["A"]])
+        XCTAssertFalse(result.text.contains("A=1"), result.text)
+        _ = await call("simulation_stop", id)
+        XCTAssertEqual(doc.chips.first { $0.reference == "S1" }?.slidePosition, 1, "Stop puts the knob back")
+    }
+
     // MARK: Windows
 
     func testWindowAddressing() async {

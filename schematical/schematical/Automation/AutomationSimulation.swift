@@ -52,12 +52,14 @@ extension AutomationTools {
             }),
         AutomationTool(
             name: "set_switch",
-            summary: "Set a switch: a DIP switch position (1-based) ON or OFF, or press (on=true) / release a "
-                + "tactile button. Works while the simulation runs; outside it the DIP position is an edit. "
+            summary: "Set a switch: a DIP switch position (1-based) ON or OFF, press (on=true) / release a "
+                + "tactile button, or put a slide switch's knob in a position (1 … 3, required; on is not used). "
+                + "Works while the simulation runs; outside it the DIP position or the knob is an edit. "
                 + "(While running, flips are inputs to that run and are undone when it stops.)",
             properties: [
-                "reference": Schema.string("e.g. SW1"), "position": Schema.integer("1-based position (default 1)"),
-                "on": Schema.boolean("ON / pressed (default true)"),
+                "reference": Schema.string("e.g. SW1"),
+                "position": Schema.integer("1-based position (default 1); a slide switch's knob position (required)"),
+                "on": Schema.boolean("ON / pressed (default true); not for a slide switch"),
             ],
             required: ["reference"],
             run: { context, args in Out.text(try setSwitch(context!, args)) }),
@@ -96,6 +98,18 @@ extension AutomationTools {
         let document = context.document
         let chip = try context.chip(try args.string("reference"))
         guard !chip.switchesOn.isEmpty else { throw AutomationFailure("\(chip.reference) isn't a switch") }
+        if let slide = chip.part.slideStates {
+            // A slide switch is always in one position (plan-58-G).
+            guard let position = args.optInt("position"), (1...slide.positions).contains(position) else {
+                throw AutomationFailure("\(chip.reference) is a slide switch: give position 1 … \(slide.positions)")
+            }
+            if args.optBool("on") == false { throw AutomationFailure("a slide switch is always in one position") }
+            guard let state = document.setSlideState(chip.id, to: position) else {
+                throw AutomationFailure(document.editorMessage ?? "the switch change was refused")
+            }
+            context.simulation.setSlide(chip.id, state: state)
+            return "\(chip.reference) position \(state)"
+        }
         let on = args.optBool("on") ?? true
         let position = args.optInt("position") ?? 1
         guard (1...chip.switchesOn.count).contains(position) else {
