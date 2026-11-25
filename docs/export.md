@@ -19,7 +19,7 @@ the PCB layers.
 
 | Image | Formats | Backgrounds (first is the default) | 1× is | Extra options |
 |---|---|---|---|---|
-| Schematic | PNG, JPG, SVG | Transparent, White | 1 px per canvas point | — |
+| Schematic | PNG, JPG, SVG | Transparent, White | 1 px per canvas point | — (a shown title block, Window ▸ Document Info, is drawn with it) |
 | PCB | PNG, JPG | Dark (the PCB page's canvas), White, Transparent | 1 px per PCB page point (20 per mm) | Layers: PCB, each copper layer, Silkscreen, Document, Ratsnest (off by default) |
 | Front Render / Back Render | PNG, JPG | Backdrop (Board Preview's), White, Transparent | 1 px per render point (10 per mm) | View (Top, Angled) |
 
@@ -196,7 +196,7 @@ the same paper there.
 
 | Page | What is on it | On by default |
 |---|---|---|
-| Schematic | the schematic as the black line-art image (vector), scaled down to fit one sheet, never up past 1×; the footer says the scale | yes |
+| Schematic | the schematic as the black line-art image (vector, with its title block when shown), scaled down to fit one sheet, never up past 1×; the footer says the scale | yes |
 | `<Layer>` copper, one per layer | the layer's artwork as in its Gerber file: planes with their clearances, traces, pads, vias, black on white, seen from the layer's own side (a Bottom page is mirrored against the PCB page). A dot of at most 0.4 mm (`drillDot`) at each hole's centre, in the paper colour, for the bit | yes |
 | `<Side>` parts (footprint check) | pads (light gray, outlined), each drill hole at its true size outlined, and that side's silkscreen: lay a real part on it | yes |
 | `<Side>` silkscreen | the side's silkscreen alone | no |
@@ -249,7 +249,10 @@ end.
   symbol of its rail.
 - Wires (one per straight run), junctions where 3 or more runs meet, net labels
   (local labels; the flag shape is not kept), No Connects and text blocks (framed
-  ones with a box). Buses are drawn as KiCad buses with each port as a box, and every
+  ones with a box). A shown title block (Window ▸ Document Info) is lines and text the same way,
+  in the canvas's layout; and KiCad's own `(title_block …)` always carries the Document Info: its
+  title (the file's name when it has none), the updated date, revision, the author as the company
+  and the description as comment 1. Buses are drawn as KiCad buses with each port as a box, and every
   wired port pin carries a net label of its bus wire's name, so the nets are the
   same as the app's (linked buses share the label; unrelated wires of one name get
   `D0`, `D0_2`).
@@ -337,7 +340,7 @@ with its device, designator, footprint and value; VCC and GND are net-flag symbo
 (`Global Net Name`), and a pull resistor has its far pin on a flag of its rail. Each wire is
 one `WIRE` with a `NET` attribute: a rail's name, a net label's text (shown at the
 label), a bus pin's wire name, or after its first pin. Bus lines and ports are plain lines,
-text blocks are `TEXT` (framed ones with a box), and a card board's connector is a
+text blocks and a shown title block are `TEXT` (framed ones with a box), and a card board's connector is a
 symbol beside the drawing with a named stub or a net flag on each pin.
 
 **Board** (`EasyEDAProBoardWriter`): `LAYER`s (a 1-layer board gets Top and Bottom, EasyEDA's

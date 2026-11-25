@@ -57,7 +57,9 @@ Every tool except the few marked *(no window)* takes an optional `window`
 **Read** — `get_design` (text, or `format=json`; `geometry=true` adds pin tips), `get_nets`,
 `search_parts`*(no window)*, `get_part`*(no window)*, `get_selection`,
 `get_board`, `run_drc`, `render` (schematic, pcb, front, back; `region`
-crops to zoom in).
+crops to zoom in). `get_design` ends with a `DOCUMENT` section (JSON: `"document"`):
+title, author, revision, description, created and updated (ISO 8601), whether the dates are automatic,
+and the title block's place and bounds (`title_block` is `null` when it is off).
 
 A pin's active-low flag (the part file's `"activeLow"`, `docs/parts-format.md`
 § Pinouts and pins) is in `get_design`'s JSON: a pin dictionary has
@@ -71,7 +73,9 @@ a wire; `via` waypoints), `disconnect`, `move_part`, `move`, `flip_part`, `rotat
 (rename, color, ohms, farads, footprint, gender; `socket_mode` `ic`, `ic+socket` or `socket-only` and `socket`,
 the socket's part name, for a DIP or PLCC chip a socket fits: a mode alone picks the generic socket, and `get_design` shows
 `socket=<name> (<mode>)` on the part), `add_net_label`,
-`add_note`, `set_net_label`, `set_note`, `set_wire_route`, `add_bus`, `set_bus`, `add_bus_port`, `set_bus_port`, `delete`, `select`.
+`add_note`, `set_net_label`, `set_note`, `set_document_info` (title, author, revision, description, `created`/`updated`
+(ISO 8601, only with `automatic_dates` false: saves set them while it is on), `title_block` true/false to show or hide the
+title block), `set_wire_route`, `add_bus`, `set_bus`, `add_bus_port`, `set_bus_port`, `delete`, `select`.
 
 **PCB** — `set_board` (size, type, layers, grid, units, color), `set_layer`
 (plane or wire layers, plane net, clearance), `move_footprint` (position,
@@ -115,7 +119,8 @@ The server sends these as MCP `instructions` on connect
 
 - Parts by reference (`U1`), pins by designator or name (`U1.14`, `D1.K`).
   Wires, labels, notes, traces, vias, holes, pours (`pour:ID`), keep-outs (`keepout:ID`), texts by the 8-hex-digit id the
-  read tools print.
+  read tools print. The Document Info title block is the item `titleblock` (for `select`, `move`, `delete`; `delete`
+  only hides it, and it is an error while it is off: `set_document_info title_block=true` shows it).
 - Schematic: canvas units, y down, 10-unit grid, parts placed by centre.
   Wires take the shortest right-angle route and do not avoid parts: pass
   `via` waypoints, and `render` to check.
