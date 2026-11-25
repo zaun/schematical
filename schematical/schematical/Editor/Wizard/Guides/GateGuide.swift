@@ -1,7 +1,7 @@
 import Foundation
 
 /// The gate kind's curated wizard screens (plan-46-L): the worked example of
-/// a guide. Three steps cover the gate's ten top-level keys; the field guides
+/// a guide. Three steps cover the gate's eleven top-level keys; the field guides
 /// say what each one is and where a logic datasheet prints it.
 enum GateGuide {
     static let guide = KindGuide(
@@ -15,7 +15,7 @@ enum GateGuide {
             WizardStep(id: "kind.gates", title: "Gates",
                        intro: "One entry per gate in the package: what it does and which pins are its inputs "
                            + "and its output. A 74HC00 has four NAND gates, so it has four entries.",
-                       page: .kindFields, keys: ["device.gates", "device.output", "device.units"],
+                       page: .kindFields, keys: ["device.gates", "device.output", "device.input", "device.units"],
                        searchTerms: ["Function Tables", "Function Table", "Truth Table", "Logic Diagram",
                                      "Description"]),
             WizardStep(id: "kind.timing", title: "Logic family and timing",
@@ -53,6 +53,13 @@ enum GateGuide {
                     + "Open-drain only pulls low and needs a pull-up resistor (a 74HC03, a 7405).",
                 whereToFind: ["Description", "Features"],
                 alsoCalled: ["Open-drain", "Open-collector", "Totem-pole"]),
+            "device.input": FieldGuide(
+                label: "Input type",
+                help: "Standard is what most gates have: leave this out. Schmitt-trigger inputs switch at two "
+                    + "different levels, so a slow or noisy signal makes one clean edge (a 74HC14, a 74HC132). "
+                    + "Gate view draws the hysteresis mark in the gate; the simulation is the same.",
+                whereToFind: ["Description", "Features"],
+                alsoCalled: ["Schmitt trigger", "Hysteresis"]),
             "device.units": FieldGuide(
                 label: "Gates counted in the drawer",
                 help: "The number the drawer shows beside the part. Leave it out: it is the number of gates.",

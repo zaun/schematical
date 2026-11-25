@@ -247,9 +247,12 @@ The one landing gate of plan-67. Run once, after everything above.
       `XB -only-testing:schematicalTests/SplitPartFileTests/testExamplesAreUnchanged`
       → pass.
       **Done:** `SplitPartFileTests` is one of the 20 classes above: 7 tests, 0 failures, `testExamplesAreUnchanged` among them (10 files under `examples/`).
-- [ ] The full app suite runs in the background per the project's practice; it
+- [x] The full app suite runs in the background per the project's practice; it
       is not a step of this plan. Record its result here when it finishes.
+      **Done:** run 2026-11-25 on the branch (`/tmp/p67/full.log`): `Executed 1998 tests, with 6 tests skipped and 12 failures` in 1286 s, 11 test cases. **Seven were this plan's** (the Part Editor wizard did not know the new `input` key: `KindGuideTests` ×3, `WizardStepsTests` ×3, `WizardModelTests` ×1); fixed and re-run green, see plan-67-A § Corrections. **Four are not this plan's**: `AcknowledgementsTests.testEveryLicenceIsInTheBundle` and `testNamesTheThirdPartyCode` (the `avr8js` entry) and `UserLibraryCatalogTests.testAddListsUnderUserLibraryAndWritesTheFile` and `UserPartLibraryTests.testWriteThenFilesReturnsTheFile` (a `/var` against `/private/var` path comparison); they are checked against the main checkout in the next task.
 
+- [x] Added: the wizard fix found by the full suite: `GateGuide.swift` and three test expectations (plan-67-A § Corrections); `KindGuideTests`, `WizardStepsTests`, `WizardModelTests` → 29 tests, 0 failures. These three classes belong in the landing list above; with them it is 23 classes.
+- [ ] Added: the four failures that are not this plan's fail the same way on the main checkout (run the three classes there).
 - [x] Added: `main` compared with the branch's base before the gate: `git log --oneline HEAD..main` → no output (main is still `aefaebcd`, the plan's own commit), so the gate above stands for the merge and nothing was merged in.
 
 Acceptance: the feature works end to end through save, open, export and the
@@ -281,6 +284,8 @@ Commit: 1f5ed38a (the gate); the archive, the full-suite record and the todo lin
   one symbol should be told so rather than lose five.
 
 ## Corrections
+
+- **The plan files were archived on the branch, before the merge.** The follow-plan sequence archives after the work is integrated. The seven files were moved to `planning/completed/` in a commit on `worktree-P-67` once the landing gate had passed, so the merge brings the archive with it and main never holds the plan in both places. The two boxes still open at that moment (the full-suite record and the todo line) were finished in the archived file.
 
 - **`place_part … view=gate` was two undo steps on the first run** (`testPlacePartWithView`: one undo left the part placed as a block). The tool now checks `view` first and does the placing and the view inside one `recordEdit(.schematic, "Add Part")`.
 - **`get_design` text.** §4 said each pin line would be prefixed by its unit with `geometry=true`. The part has one `pins:` line for all its pins, whose tips are already each unit's own; prefixing would change its shape for readers that parse it. Each unit line carries `pins=<designators>` instead, with or without `geometry`.

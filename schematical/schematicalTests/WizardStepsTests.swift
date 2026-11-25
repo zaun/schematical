@@ -65,7 +65,7 @@ final class WizardStepsTests: XCTestCase {
         let byID = Dictionary(uniqueKeysWithValues: steps.map { ($0.id, $0) })
         XCTAssertEqual(byID["kind.supply"]?.keys, ["part.vcc", "part.inputMax"])
         XCTAssertEqual(byID["kind.essentials"]?.keys, ["device.gates", "device.timing", "part.family"])
-        XCTAssertEqual(byID["kind.other"]?.keys, ["device.output", "device.units"])
+        XCTAssertEqual(byID["kind.other"]?.keys, ["device.output", "device.input", "device.units"])
         XCTAssertEqual(steps.filter(\.optional).map(\.id), ["kind.other"])
         XCTAssertEqual(steps.map(\.title), ["Supply voltage", "Essentials", "Other settings"])
     }
