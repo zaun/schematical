@@ -219,7 +219,7 @@ Commit: c0e91c98
 Acceptance: `run_erc` returns the list the window shows.
   Check: `xcodebuild test … -only-testing:schematicalTests/AutomationTests -only-testing:schematicalTests/AutomationWindowToolsTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 7 min).
   Result (2026-11-25): `AutomationTests` 34 (1 skipped: `testFileToolsAreOffWithoutASharedFolder`, a folder is shared on this Mac) and `AutomationWindowToolsTests` 5: `Executed 39 tests, with 1 test skipped and 0 failures`, `** TEST SUCCEEDED **`; the new `testRunErcListsTheViolations`: an empty document says `no violations`, a placed `SN74HC00N` lists `[error] [pin_not_connected] U1.1: Pin not connected`, an ignored rule is gone.
-Commit: BATCHF
+Commit: 75f5db38
 
 ## Validation Plan
 
