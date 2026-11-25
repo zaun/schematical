@@ -34,7 +34,7 @@ letter adds one:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-67-A has landed | `grep -c 'let units: \[PartUnit\]' schematical/schematical/Backend/PartCatalog.swift` → 1 | NOT MET (2026-11-25: 0) |
+| plan-67-A has landed | `grep -c 'let units: \[PartUnit\]' schematical/schematical/Backend/PartCatalog.swift` → 1 | MET (2026-11-25: 1, `b8c8c903`) |
 
 ## 1. Goal
 
@@ -234,24 +234,28 @@ None. No stored or exported form changes; no existing part is drawn differently.
 
 Geometry only; nothing draws it yet.
 
-- [ ] `Canvas/SchematicModel.swift` `PartSymbol`: add `case gate` with a doc
+- [x] `Canvas/SchematicModel.swift` `PartSymbol`: add `case gate` with a doc
       comment; add it to `canRotate`.
-- [ ] `ChipLayout`: add `static let gateWidth: CGFloat = 60` and
+- [x] `ChipLayout`: add `static let gateWidth: CGFloat = 60` and
       `init(gate:pins:)` per §4. In `init(part:symbol:)` (the `switch` at 324),
       `.gate` falls to `init(pins:)` (a whole part is never a gate; the case
       exists for exhaustiveness).
-- [ ] `PlacedChip`: the three member changes, `drawnReference` and `piece(…)`
+      **Done:** plus `gateHeight(inputs:)`, `gateInputY`, `gateOutputY`, shared with the drawing.
+- [x] `PlacedChip`: the three member changes, `drawnReference` and `piece(…)`
       of §5.
-- [ ] `ReferenceLabel.swift`: add `.gate` to the three switches (20, 59, 99)
+      **Done:** also `var unit: PartUnit?` (the unit a piece stands for).
+- [x] `ReferenceLabel.swift`: add `.gate` to the three switches (20, 59, 99)
       per §6; `paint` (128) and `ReferenceLabelView` print `drawnReference`.
-- [ ] `SchematicCanvasView.swift:1217` and `SchematicExportScene.swift:51`:
+      **Done:** `anchor` and `textAnchor` return `GateSymbolView.referenceLabel(for:)` for a gate before any other rule; the switches at 59 and 99 have a `default` and needed no case. See Corrections for where the label goes on a turned gate.
+- [x] `SchematicCanvasView.swift:1217` and `SchematicExportScene.swift:51`:
       a `.gate` case calling `GateSymbolView` / `GateSymbolView.paint`
       (the view is Phase 2; in this phase the case calls `ChipBlockView` so the
       build stays green, replaced in Phase 2).
-- [ ] `KiCadSchematicWriter.swift:374` and `EasyEDAProSchematicWriter.swift:113`
+      **Done:** written straight to `GateSymbolView`; Phase 1 and Phase 2 landed in one commit (see Corrections).
+- [x] ~~`KiCadSchematicWriter.swift:374` and `EasyEDAProSchematicWriter.swift:113`
       (`bodyBox(of:)`): `.gate` returns the layout's full size box, the same
-      branch `.block` takes.
-- [ ] Tests: new `schematicalTests/GateSymbolTests.swift`:
+      branch `.block` takes.~~ — moot: both switches end in `default: return CGRect(origin: .zero, size: size)` (read at 384 and 125), so `.gate` already takes that branch and the build is exhaustive without an edit.
+- [x] Tests: new `schematicalTests/GateSymbolTests.swift`:
       `testLayout` (pieces of `SN74HC00N` unit A, `SN74HC04N` unit A, `CD4068BE` unit A, `SN74ALS133N` unit A: sizes 60×40, 60×40,
       60×160, 60×260; the pin offsets of §4; sides left for inputs, right for
       outputs); `testPieceIdentity` (`unitKey`, `drawnReference == "U1-A"`,
@@ -259,20 +263,22 @@ Geometry only; nothing draws it yet.
       rotation forced to 0 when 90 is asked); `testTipsOnGridAtEveryTurn` (for
       those four pieces, every flip × 0/90/180/270: each `tip(of:)` has x and y
       that are multiples of 10 when the origin is).
+      **Done:** `XB -only-testing:schematicalTests/GateSymbolTests` → `Executed 8 tests, with 0 failures`.
 
 Acceptance: a piece's geometry is right at every orientation.
   Check: `XB -only-testing:schematicalTests/GateSymbolTests` → `** TEST SUCCEEDED **` (est. 4 min).
-Commit: —
+Commit: 9241a814
 
 ### Phase 2 — the drawing
 
-- [ ] New `Canvas/GateSymbolView.swift` per §6 (the view, `paint`, private
+- [x] New `Canvas/GateSymbolView.swift` per §6 (the view, `paint`, private
       `backX`, `frontX`, and one outline function per body returning a `Path`).
-- [ ] `SchematicCanvasView.swift:1217` and `SchematicExportScene.swift:51`:
+      **Done:** the geometry is `GateSymbolView.Geometry` (`backX`, `frontX`, `bodyBox`); the body outlines are built inline in `paint`.
+- [x] `SchematicCanvasView.swift:1217` and `SchematicExportScene.swift:51`:
       the `.gate` case now uses `GateSymbolView`.
-- [ ] `Canvas/ChipBlockView.swift`: `isSibling` parameter (view and `paint`,
+- [x] `Canvas/ChipBlockView.swift`: `isSibling` parameter (view and `paint`,
       default false) and no function words when `chip.unitKey != nil`.
-- [ ] Tests in `GateSymbolTests`: `testLeadsEndOnTheirPins` (a recording
+- [x] Tests in `GateSymbolTests`: `testLeadsEndOnTheirPins` (a recording
       `SchematicPainter` that keeps every stroked path's end points; for each
       of the four pieces at every flip and turn, each `tip(of: slot) −
       viewOrigin` is an end point of some stroked path);
@@ -284,18 +290,20 @@ Commit: —
       non-empty box); `testReferenceAboveTheBody` (`ReferenceLabel.anchor` of a
       2-input piece at 0° is above y = 0 and inside the frame's width at all
       four turns).
-- [ ] Look at it once: a temporary test writes
+      **Done:** plus `testLeftoverBlockHasNoFunctionWords`; `testEveryShapeDraws` also checks every lead of every catalog shape. `XB -only-testing:schematicalTests/GateSymbolTests -only-testing:schematicalTests/SchematicRotateTests -only-testing:schematicalTests/PartUnitTests` → `Executed 22 tests, with 0 failures`, `** TEST SUCCEEDED **`.
+- [x] Look at it once: a temporary test writes
       `SchematicExport.png` of a scratch scene holding the pieces of
       `SN74HC00N`, `SN74HC86N`, `SN74HC32N`, `SN74HC14N`,
       `CD4068BE`, `SN74ALS133N` and `SN74HC266N`, each at 0° and 90°, to its
       container; open the picture, compare each shape with §6, fix what is
       off, then delete the temporary test. Record in this task line what was
       looked at and what was corrected.
+      **Done:** a temporary `TempGatePictureTests` printed the SVG (`SchematicExport.svg` of a scene holding pieces) as a `P67_SVG <base64>` line; decoded and converted with `rsvg-convert` to `/tmp/p67/gates.png`. Looked at unit A of SN74HC00N, SN74HC86N, SN74HC32N, SN74HC14N, CD4068BE, SN74ALS133N, SN74HC266N, CD4041UBE, SN74HC08N, SN74HC02N, SN74HC04N at 0°, 90° and flipped at 180°, and the SN74HC00N `P` block. Seen: the AND / OR / XOR / buffer bodies, bubbles on inverted outputs, the wide input edge on the 8- and 13-input gates, both outputs on the CD4068BE and CD4041UBE, the hysteresis and open-drain marks, pin numbers at every lead, the `U1-A` labels above (beside when on its side), the `P` block with the part number, VCC and GND and no function word. Nothing needed correcting. The temporary test is deleted.
 
 Acceptance: every catalog gate shape draws, every lead reaches its pin.
   Check: `XB -only-testing:schematicalTests/GateSymbolTests -only-testing:schematicalTests/SchematicRotateTests`
   → `** TEST SUCCEEDED **` (est. 5 min).
-Commit: —
+Commit: 9241a814
 
 ## Validation Plan
 
@@ -318,6 +326,13 @@ Commit: —
 - **Unit references read `U1-A`** — see plan-67-A § Decisions.
 
 ## Corrections
+
+- **Where a turned gate's reference goes.** §6 put it above the turned body at every turn. At 90° and 270° the leads run up and down through that spot, so there the label stands right of the body, level with its middle (`GateSymbolView.referenceLabel`: `.bottomLeading` at `rect.maxX + 6`), and a gate on its side gets the wide side margin a transistor on its side has (`PlacedChip.sideMargin` 90) so the text is inside the frame. At 0° and 180° it is above the body as written.
+- **Pin numbers.** §6 placed them with `symbolText` over the lead. They are placed where the lead leaves the symbol, on the side the lead runs to (`turnedSide`): above the lead for a left or right lead, right of it for one that runs up or down. Size 8.
+- **A second, inverted output's bubble** sits where the front edge is at that height (`frontX(y) + 4`), as §6 says; the lead then runs from the bubble to the pin. On a buffer (CD4041UB) the two leads leave the triangle's sloping sides at x = 30.
+- **The open-drain mark on a buffer** is at x = 36, not 30, so it clears the Schmitt mark on a part that has both (1G16).
+- **Phase 1 and Phase 2 landed in one commit.** The drawing switches (canvas, export scene) must name a view for `.gate` to compile; the interim `ChipBlockView` case would have drawn a gate piece as a block of the whole frame. The phases' tests are all in `GateSymbolTests`.
+- **A test painter's box must be `nonisolated`.** The first run crashed the test host three times (`malloc: pointer being freed was not allocated`) in the cases using the recording painter: a class nested in a `@MainActor` test class gets an isolated deinit, which aborts on this macOS (the note on `BoundsPainter.Box`). Declared `nonisolated`, all 8 pass.
 
 ## Summary
 

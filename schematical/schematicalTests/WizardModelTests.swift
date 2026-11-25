@@ -214,7 +214,7 @@ final class WizardModelTests: XCTestCase {
     func testKindFieldsSectionPicksAStepsKeys() throws {
         let schema = try XCTUnwrap(PartKinds.schemas["gate"])
         let all = KindFieldsSection.fields(schema: schema, variant: nil, keys: nil)
-        XCTAssertEqual(all.device.map(\.key), ["gates", "output", "timing", "units"])
+        XCTAssertEqual(all.device.map(\.key), ["gates", "output", "input", "timing", "units"])
         XCTAssertEqual(all.part.map(\.key), ["family"], "the form's Supply section has vcc and inputMax")
         let essentials = KindFieldsSection.fields(schema: schema, variant: nil,
                                                   keys: ["device.gates", "device.timing", "part.family"])

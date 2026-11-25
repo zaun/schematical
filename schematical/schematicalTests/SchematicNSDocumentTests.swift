@@ -249,6 +249,21 @@ final class SchematicNSDocumentTests: XCTestCase {
         XCTAssertTrue(window.isVisible)
         ChildWindowOpener(documentID: id)(id: "documentInfo", value: DocumentInfoTarget(documentID: id))
         XCTAssertEqual(center.windows(of: id).count, 1)
+
+        // The description's text view must not register undo steps of its own
+        // on the document's undo manager (it has no open group and AppKit
+        // raises); typing into it is recorded by the model instead.
+        RunLoop.main.run(until: Date().addingTimeInterval(0.5))
+        func textViews(_ view: NSView) -> [NSTextView] {
+            ((view as? NSTextView).map { [$0] } ?? []) + view.subviews.flatMap(textViews)
+        }
+        let editors = textViews(try XCTUnwrap(window.contentView))
+        XCTAssertFalse(editors.isEmpty)
+        XCTAssertFalse(editors.last?.allowsUndo ?? true)
+        editors.last?.insertText("typed", replacementRange: NSRange(location: 0, length: 0))
+        RunLoop.main.run(until: Date().addingTimeInterval(0.1))
+        XCTAssertEqual(a.model.document.documentInfo.description, "typed")
+
         a.close()
         XCTAssertTrue(center.windows(of: id).isEmpty)
         XCTAssertFalse(window.isVisible)

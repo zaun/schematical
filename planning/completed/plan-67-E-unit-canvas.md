@@ -36,7 +36,7 @@ letter adds one:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-67-D has landed | `grep -c 'var units: \[Unit\]?' schematical/schematical/Document/SchematicFile.swift` → 1 | NOT MET (2026-11-25: 0) |
+| plan-67-D has landed | `grep -c 'var units: \[Unit\]?' schematical/schematical/Document/SchematicFile.swift` → 1 | MET (2026-11-25: 1, `ec716949`) |
 
 ## 1. Goal
 
@@ -224,12 +224,14 @@ None: no file, export or agent contract changes in this letter.
 
 ### Phase 1 — the View option and drawing pieces
 
-- [ ] `Canvas/SchematicModel.swift`: `PlacedChip.drawID`.
-- [ ] `Canvas/SchematicCanvasView.swift` `SchematicPartsLayer`: iterate pieces,
+- [x] `Canvas/SchematicModel.swift`: `PlacedChip.drawID`.
+- [x] `Canvas/SchematicCanvasView.swift` `SchematicPartsLayer`: iterate pieces,
       `isSelected` / `isSibling` / `isHovered` per §4; `hoveredUnitKey` state
       set and cleared beside `hoveredChipID` (744, 764) and passed to the layer.
-- [ ] `Drawer/PartOptionsSection.swift`: the View picker and `applies` (§6).
-- [ ] Tests: new `schematicalTests/SplitPartCanvasTests.swift` —
+      **Done:** the layer asks the document: `isPicked(_:)`, `isSibling(_:)`.
+- [x] `Drawer/PartOptionsSection.swift`: the View picker and `applies` (§6).
+      **Done:** not disabled while the simulation runs: no control of this section is (see Corrections).
+- [x] Tests: new `schematicalTests/SplitPartCanvasTests.swift` —
       `testViewOptionApplies` (`PartOptionsSection.applies(to:)` true for
       `SN74HC00N`, unchanged (false) for `SN74HC74N`); `testPiecesAreDrawnOnce`
       (for a document with a split 7400 and a resistor,
@@ -240,37 +242,42 @@ Acceptance: a gate IC can be switched to Gate view in the sidebar and is drawn
 as five symbols with their labels.
   Check: `XB -only-testing:schematicalTests/SplitPartCanvasTests -only-testing:schematicalTests/SelectionSidebarTests`
   → `** TEST SUCCEEDED **` (est. 5 min).
-Commit: —
+Commit: 64c0fe43
 
 ### Phase 2 — picking, dragging, Rotate and Flip
 
-- [ ] `SchematicCanvasView.beginPointerInteraction` per §5.
-- [ ] `SchematicDocument.boxSelectSchematic` per §5.
-- [ ] `ContentView`: `EditTarget`, `rotateTarget`, `flipTarget`,
+- [x] `SchematicCanvasView.beginPointerInteraction` per §5.
+      **Done:** it calls one document function, `pressPiece(_:shift:)`, which holds the whole rule (see Corrections).
+- [x] `SchematicDocument.boxSelectSchematic` per §5.
+- [x] `ContentView`: `EditTarget`, `rotateTarget`, `flipTarget`,
       `rotateSelection`, `flipSelection`, `canRotate`, `canFlip` per §6.
-- [ ] Tests in `SplitPartCanvasTests`, driving the document functions the
+      **Done:** `EditTarget`, `rotateTarget` and `flipTarget` are on `SchematicDocument` (testable); `ContentView` adds the page and simulation conditions.
+- [x] Tests in `SplitPartCanvasTests`, driving the document functions the
       gestures call — `testPressPicksThePiece` (`piece(at:)` on unit C,
       `pressSelection` then `pick`: the part is selected, `picked` is `["C"]`);
       `testShiftPressAddsAPiece`; `testMarqueePicksTouchedPieces` (a box over
       B and C: selection has the chip, `picked` is B and C);
       `testSelectAllPicksEverything`; `testUnsplitPressIsUnchanged` (a resistor:
       the same selection and group base as before, no pick entry).
+      **Done:** plus `testRotateAndFlipTargets`.
 
 Acceptance: a piece can be picked, dragged, turned and flipped on its own, and
 unsplit parts behave as before.
   Check: `XB -only-testing:schematicalTests/SplitPartCanvasTests -only-testing:schematicalTests/SelectionGestureTests -only-testing:schematicalTests/SelectionModelTests -only-testing:schematicalTests/SchematicRotateTests`
   → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+Commit: 64c0fe43
 
 ### Phase 3 — the delete confirm
 
-- [ ] `Canvas/SchematicModel.swift`: `PendingRemoval.Action.parts(name:)`, the
+- [x] `Canvas/SchematicModel.swift`: `PendingRemoval.Action.parts(name:)`, the
       two messages, the `confirmed` parameter, `confirmPendingRemoval`'s new
       case, and `erase(at:)` per §7.
-- [ ] `Automation/AutomationSchematic.swift` `delete`: confirm a pending
+      **Done:** the action carries the selected items too, so the confirm deletes what was asked about even if the selection changed while the question was up.
+- [x] `Automation/AutomationSchematic.swift` `delete`: confirm a pending
       removal after the item loop's `deleteSchematicSelection` as it does for
       ports.
-- [ ] Tests in `SplitPartCanvasTests` — `testDeleteAsksForASplitPart` (select a
+      **Done:** the tool passes `confirmed: true`, so no question is ever raised for it.
+- [x] Tests in `SplitPartCanvasTests` — `testDeleteAsksForASplitPart` (select a
       split 7400, `deleteSchematicSelection()`: the chip is still there,
       `pendingRemoval?.message == "Delete U1 and all 5 of its symbols?"`;
       `confirmPendingRemoval()`: gone, its wires have loose ends, one undo step
@@ -280,12 +287,13 @@ Commit: —
       (the step is named "Cut"); `testEraserAsks` (`erase(at:)` on unit B).
       In `AutomationTests`: `testDeleteSplitPartDoesNotWait` (the tool removes
       the part and leaves `pendingRemoval` nil).
+      **Done:** the agent case is `SplitPartCanvasTests.testAgentCanDeleteWithoutTheQuestion` (the document call the tool makes); the tool itself is exercised end to end in plan-67-G. `XB` over `SplitPartCanvasTests`, `SplitPartEditTests`, `SelectionSidebarTests`, `SelectionGestureTests`, `SelectionModelTests`, `SchematicRotateTests`, `AutomationTests`, `SocketPickerTests`, `TestPointTests` → `Executed 113 tests, with 0 failures`, `** TEST SUCCEEDED **` (16 of them `SplitPartCanvasTests`).
 
 Acceptance: a split part is never removed without the question; everything
 else is removed as before.
   Check: `XB -only-testing:schematicalTests/SplitPartCanvasTests -only-testing:schematicalTests/AutomationTests`
   → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+Commit: 64c0fe43
 
 ## Validation Plan
 
@@ -316,6 +324,12 @@ Commit: —
   following the existing rule for ports with wires.
 
 ## Corrections
+
+- **A Shift-press on a unit of an already selected part.** §5 said `pressSelection(.chip(id), shift:)` then `pick(…, extend: shift)`. `ItemSelection.press` with Shift on a selected item arms "a click removes it", so Shift-clicking a second gate would have dropped the whole IC from the selection. The rule lives in `SchematicDocument.pressPiece(_:shift:)` instead: Shift on a unit of a selected part adds or removes that unit; only Shift-clicking the last picked unit takes the part out. A plain press on one of several picked things drags them all, and a click keeps only that unit (`pendingPick`, finished in `releaseSelection`), the same rule a multi-item selection has.
+- **A box select leaves alone the picks of a part that was selected before the box** (a Shift-drag that extends the selection); it sets the picks only of parts the box itself brings in.
+- **The View picker is not disabled while the simulation runs.** §6 said "as the other schematic edits are". No control of `PartOptionsSection` is disabled then (read the section: Gender, Color, Footprint, Mounting have no such modifier), so the picker follows its neighbours.
+- **The three phases landed in one commit**, verified by one run (113 tests).
+- **Where the agent delete case is.** The plan put `testDeleteSplitPartDoesNotWait` in `AutomationTests`; the document-level call the tool makes is covered here, and the tool is driven for real in plan-67-G's `SplitPartAutomationTests`.
 
 ## Summary
 

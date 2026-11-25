@@ -34,7 +34,7 @@ letter adds one:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-67-F has landed | `grep -c 'instances(reference: String, unit: Int' schematical/schematical/Document/KiCadSchematicWriter.swift` → 1 | NOT MET (2026-11-25: 0) |
+| plan-67-F has landed | `grep -c 'instances(reference: String, unit: Int' schematical/schematical/Document/KiCadSchematicWriter.swift` → 1 | MET (2026-11-25: 1, `74fcd97f`) |
 
 ## 1. Goal
 
@@ -161,14 +161,17 @@ them one at a time. Pins are still `U1.3`. Deleting takes the whole part."
 
 ### Phase 1 — the tools
 
-- [ ] `Automation/AutomationTools.swift`: `unit(_:)` (§3); `pin(_:)` through it.
-- [ ] `Automation/AutomationSchematic.swift`: `set_part` and `place_part`
+- [x] `Automation/AutomationTools.swift`: `unit(_:)` (§3); `pin(_:)` through it.
+      **Done:** also `unitNames(_:)`. A part with no units answers `R1 has no units: it is one symbol`.
+- [x] `Automation/AutomationSchematic.swift`: `set_part` and `place_part`
       `view`; `movePart`; the `flip_part` and `rotate_part` closures;
       `item(_:_:forDelete:)`; `select` picking (§4).
-- [ ] `Automation/AutomationRead.swift`: `designText`, `designJSON`,
+      **Done:** `place_part` checks `view` before placing and wraps the placing and the view in one `Add Part` step (the first run showed two steps). `view=units` is accepted for any part with units.
+- [x] `Automation/AutomationRead.swift`: `designText`, `designJSON`,
       `selectionText` (§4).
-- [ ] `AutomationGuide.text` (§4).
-- [ ] Tests: new `schematicalTests/SplitPartAutomationTests.swift`, in the
+      **Done:** as landed the text form keeps the part's one `pins:` line (its tips are already each unit's) and adds one line per unit ending in `pins=<designators>`; a JSON unit also has `reference`.
+- [x] `AutomationGuide.text` (§4).
+- [x] Tests: new `schematicalTests/SplitPartAutomationTests.swift`, in the
       style of `AutomationTests` — `testSetPartView` (gate, then block; one
       undo step each; `R1` refused with its message); `testPlacePartWithView`;
       `testMoveOneUnit` and `testMoveWholeSplitPart`; `testFlipAndRotateAUnit`
@@ -181,41 +184,48 @@ them one at a time. Pins are still `U1.3`. Deleting takes the whole part."
       `testUnsplitOutputIsUnchanged` (the `get_design` text and JSON of a
       document with a resistor and an LED have no `view` and no `units`);
       `testBlockViewGateICSaysBlock` (JSON `"view": "block"`).
+      **Done:** 12 cases with `testEndToEnd`. `XB -only-testing:schematicalTests/SplitPartAutomationTests -only-testing:schematicalTests/AutomationTests` → `Executed 47 tests, with 0 failures` (12 + 35), `** TEST SUCCEEDED **`.
 
 Acceptance: an agent can do with tools everything the window can.
   Check: `XB -only-testing:schematicalTests/SplitPartAutomationTests -only-testing:schematicalTests/AutomationTests`
   → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+Commit: 3a2b41ef
 
 ### Phase 2 — docs
 
-- [ ] `docs/agent-control.md`: the `view` property in the `set_part` and
+- [x] `docs/agent-control.md`: the `view` property in the `set_part` and
       `place_part` rows; the unit address in the `move_part`, `flip_part`,
       `rotate_part`, `select` and `delete` rows; the `get_design` additions;
       a bullet under "Conventions an agent needs" matching
       `AutomationGuide.text` word for word.
-- [ ] `docs/file-format.md`: re-read the `units` section written in letter D
+      **Done:** the doc lists tools in paragraphs, not rows: a **Gate view** paragraph after the Schematic tools, and the convention bullet with the guide's words. `grep -c 'U1-A' docs/agent-control.md` → 9.
+- [x] `docs/file-format.md`: re-read the `units` section written in letter D
       against the code as landed; correct any drift.
-- [ ] `docs/export.md`: the same re-read for letter F's paragraphs.
-- [ ] `planning/todo.md` § Schematic (line 121): add and tick
+      **Done:** re-read against `SchematicFile.swift` as landed: keys, defaults, the unmatched-list rule and the older-build note all match. No drift. The doc writes the key as `` `units` ``, so the check is `grep -c '`units`' docs/file-format.md` → 2 (see Corrections).
+- [x] `docs/export.md`: the same re-read for letter F's paragraphs.
+      **Done:** matches the writers as landed. `grep -ci 'multi-unit\|drawn as units' docs/export.md` → 3.
+- [x] `planning/todo.md` § Schematic (line 121): add and tick
       `- [x] Gate view: a gate IC drawn as separate gates (plan-67).`
-- [ ] Move `planning/plan-67-A…G` to `planning/completed/` (each letter as it
+      **Done:** added in the main checkout after the merge, under § Schematic, and left uncommitted: the file already carries an uncommitted edit that is not this plan's (see Corrections), so the line waits there for the owner's commit of that file.
+- [x] Move `planning/plan-67-A…G` to `planning/completed/` (each letter as it
       completes; this box covers the ones still in `planning/`).
+      **Done:** all seven letters moved together with `git mv` once the last one's gate had passed; `planning/plan-67-data/` stays where the other plans' data folders are.
 
 Acceptance: the docs name every new address, property and key.
   Check: `grep -c 'U1-A' docs/agent-control.md` → at least 4;
   `grep -c '"units"' docs/file-format.md` → at least 1;
   `grep -ci 'multi-unit\|drawn as units' docs/export.md` → at least 1 (est. 1 min).
-Commit: —
+Commit: 3a2b41ef (the docs); the archive and the todo line follow the landing gate
 
 ### Phase 3 — landing
 
 The one landing gate of plan-67. Run once, after everything above.
 
-- [ ] Backend: `CT` → `100% tests passed, 0 tests failed out of 75`, and
+- [x] Backend: `CT` → `100% tests passed, 0 tests failed out of 75`, and
       `git diff --stat backend/tests/golden` against the commit before
       plan-67-A → no output.
-- [ ] App, every class this feature added or touched, one `-only-testing:`
+      **Done:** 2026-11-25, in `/tmp/p67w-build`: `100% tests passed, 0 tests failed out of 75`; `git diff --stat aefaebcd -- backend/tests/golden` (the commit before plan-67-A) → no output.
+- [x] App, every class this feature added or touched, one `-only-testing:`
       each: `PartUnitTests`, `GateSymbolTests`, `SplitPartModelTests`,
       `SplitPartEditTests`, `SplitPartFileTests`, `SplitPartCanvasTests`,
       `SplitPartExportTests`, `SplitPartAutomationTests`, `SchematicRotateTests`,
@@ -223,7 +233,8 @@ The one landing gate of plan-67. Run once, after everything above.
       `SelectionGestureTests`, `SelectionSidebarTests`, `SchematicFileV5Tests`,
       `DisplayReferenceTests`, `KiCadExportTests`, `EasyEDAProExportTests`,
       `AutomationTests`, `ErcCompareTests` → `** TEST SUCCEEDED **`.
-- [ ] End to end through the tools, in one test
+      **Done:** 2026-11-25, one `xcodebuild … test` with the 20 `-only-testing:` classes → `Executed 263 tests, with 0 failures (0 unexpected)`, `** TEST SUCCEEDED **`; no restart of the test host (log `/tmp/p67/landing.log`).
+- [x] End to end through the tools, in one test
       (`SplitPartAutomationTests.testEndToEnd`): `place_part SN74HC00N`,
       `set_part view=gate`, `move_part U1-B` to a new centre,
       `rotate_part U1-B`, `connect U1-B.6` to an LED, save to data, open the
@@ -232,18 +243,26 @@ The one landing gate of plan-67. Run once, after everything above.
       test prints the PNG as one `P67_PNG <base64>` line; decode it to
       `/tmp/p67-render.png`, open it, and record in this line what it shows
       (five symbols, B turned, the wire on B's output pin, the labels).
-- [ ] Every example still opens and saves unchanged:
+      **Done:** `SplitPartAutomationTests.testEndToEnd` passes: `place_part` ×3, `set_part view=gate`, `move_part U1-B`, `rotate_part U1-B`, three `connect`s (one `U1-A.3` → `U1-B.4`), save to data, open in a second window, `get_design geometry=true` equal apart from the window line, unit placements equal, `render` returns one PNG. With `TEST_RUNNER_P67_OUT=1` the PNG was decoded to `/tmp/p67-render.png` (1476 × 794) and looked at: five symbols — `U1-A`, `U1-C`, `U1-D` as NAND gates in a column with their pin numbers, the `U1-P` block reading SN74HC00N with VCC (14) and GND (7), and `U1-B` moved right, turned to 90° with its inputs (5, 4) on top and its bubbled output (6) below, its label beside it; the wire from pin 3 of `U1-A` ends on pin 4 of `U1-B`, the wire from pin 6 runs to the LED's anode, the LED's cathode to the resistor. The wire from pin 6 crosses gate B's own body on its way up, as any wire that is not given waypoints may cross a part.
+- [x] Every example still opens and saves unchanged:
       `XB -only-testing:schematicalTests/SplitPartFileTests/testExamplesAreUnchanged`
       → pass.
-- [ ] The full app suite runs in the background per the project's practice; it
+      **Done:** `SplitPartFileTests` is one of the 20 classes above: 7 tests, 0 failures, `testExamplesAreUnchanged` among them (10 files under `examples/`).
+- [x] The full app suite runs in the background per the project's practice; it
       is not a step of this plan. Record its result here when it finishes.
+      **Done:** run 2026-11-25 on the branch (`/tmp/p67/full.log`): `Executed 1998 tests, with 6 tests skipped and 12 failures` in 1286 s, 11 test cases. **Seven were this plan's** (the Part Editor wizard did not know the new `input` key: `KindGuideTests` ×3, `WizardStepsTests` ×3, `WizardModelTests` ×1); fixed and re-run green, see plan-67-A § Corrections. **Four are not this plan's**: `AcknowledgementsTests.testEveryLicenceIsInTheBundle` and `testNamesTheThirdPartyCode` (the `avr8js` entry) and `UserLibraryCatalogTests.testAddListsUnderUserLibraryAndWritesTheFile` and `UserPartLibraryTests.testWriteThenFilesReturnsTheFile` (a `/var` against `/private/var` path comparison); they are checked against the main checkout in the next task.
+
+- [x] Added: the wizard fix found by the full suite: `GateGuide.swift` and three test expectations (plan-67-A § Corrections); `KindGuideTests`, `WizardStepsTests`, `WizardModelTests` → 29 tests, 0 failures. These three classes belong in the landing list above; with them it is 23 classes.
+- [x] Added: the four failures that are not this plan's fail the same way on the main checkout (run the three classes there).
+      **Done:** `xcodebuild -project /Users/justinzaun/Development/logic/schematical/schematical.xcodeproj … -derivedDataPath /tmp/p67-main-dd test -only-testing:schematicalTests/AcknowledgementsTests -only-testing:schematicalTests/UserLibraryCatalogTests -only-testing:schematicalTests/UserPartLibraryTests` → `Executed 22 tests, with 4 failures`: the same four cases with the same messages (`avr8js`; `file:///var/…` against `file:///private/var/…`). They are main's own and are left as they are.
+- [x] Added: `main` compared with the branch's base before the gate: `git log --oneline HEAD..main` → no output (main is still `aefaebcd`, the plan's own commit), so the gate above stands for the merge and nothing was merged in.
 
 Acceptance: the feature works end to end through save, open, export and the
 agent, and nothing that does not use it changed.
   Check: the three commands above → their stated results (est. 25 min for the
   20 app classes in Debug; no smaller check covers "nothing else changed"
   across the model, the file, the canvas, the exports and the tools at once).
-Commit: —
+Commit: 1f5ed38a (the gate); the archive, the full-suite record and the todo line follow it
 
 ## Validation Plan
 
@@ -267,6 +286,15 @@ Commit: —
   one symbol should be told so rather than lose five.
 
 ## Corrections
+
+- **The merge.** `main` had not moved since the worktree was made (`git log --oneline HEAD..main` → no output), so `git merge worktree-P-67` in the main checkout was a fast-forward from `aefaebcd` to `891a2e3c`, 13 commits, no conflict. The main checkout's uncommitted files (five `examples/*.schematical`, the deleted `examples/slow PCB.schematical`, `planning/todo.md`, two untracked CSV files) are none of the branch's files and were not touched. The follow-plan skill's formatter step names `cargo fmt`; this repository has no Rust, so there was nothing to run.
+
+- **The plan files were archived on the branch, before the merge.** The follow-plan sequence archives after the work is integrated. The seven files were moved to `planning/completed/` in a commit on `worktree-P-67` once the landing gate had passed, so the merge brings the archive with it and main never holds the plan in both places. The two boxes still open at that moment (the full-suite record and the todo line) were finished in the archived file.
+
+- **`place_part … view=gate` was two undo steps on the first run** (`testPlacePartWithView`: one undo left the part placed as a block). The tool now checks `view` first and does the placing and the view inside one `recordEdit(.schematic, "Add Part")`.
+- **`get_design` text.** §4 said each pin line would be prefixed by its unit with `geometry=true`. The part has one `pins:` line for all its pins, whose tips are already each unit's own; prefixing would change its shape for readers that parse it. Each unit line carries `pins=<designators>` instead, with or without `geometry`.
+- **The doc check for the file format.** `grep -c '"units"' docs/file-format.md` → 0: the table writes keys in backticks. The check that measures the same thing is `grep -c '`units`' docs/file-format.md` → 2.
+- **`planning/todo.md` is edited in the main checkout, not on the branch.** The main working tree has an uncommitted edit of `planning/todo.md` that is not this plan's (`git status` in the main checkout: ` M planning/todo.md`). A commit of that file on `worktree-P-67` would make the merge into main refuse (`Your local changes to the following files would be overwritten`). The line is therefore added to the main checkout's file after the merge and left for the owner to commit with their own change.
 
 ## Summary
 

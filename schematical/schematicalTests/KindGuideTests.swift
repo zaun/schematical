@@ -282,7 +282,8 @@ final class KindGuideTests: XCTestCase {
         XCTAssertEqual(steps.map(\.id), ["kind", "identity", "datasheet", "pinout", "kind.supply", "kind.gates",
                                          "kind.timing", "footprint", "review"])
         XCTAssertTrue(steps.allSatisfy { $0.intro != nil }, "every step of a gate has an intro")
-        XCTAssertEqual(steps.first { $0.id == "kind.gates" }?.keys, ["device.gates", "device.output", "device.units"])
+        XCTAssertEqual(steps.first { $0.id == "kind.gates" }?.keys,
+                       ["device.gates", "device.output", "device.input", "device.units"])
     }
 
     /// A key added to a curated kind's schema with no step fails (1), naming

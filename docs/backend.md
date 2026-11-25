@@ -528,6 +528,22 @@ Notes:
   one (pulses shorter than the delay vanish), except that a drive of the
   value already pending, no earlier than it, keeps the pending edge.
 
+## Units
+
+A part can have *units* (plan-67): the pieces the Schematic may draw as
+separate symbols instead of one block. `part_unit_count(part)` and
+`part_unit_at(part, i)` (`parts.h`) return them as `PartUnit`: the shape
+(`UNIT_AND`, `UNIT_OR`, `UNIT_XOR`, `UNIT_BUFFER`), the input pins, one or two
+outputs each marked inverted or not (the true output first), and the device's
+`schmitt` and `open_drain` marks. Pins are engine pin indexes. It is a kind
+hook, `PartKindOps.units` (NULL = the part has none); only the gate kind has
+one, built when a pinout is bound (`gate.c` `bind_units`): one unit per gate,
+two gates of the same shape on the same inputs merged into one unit with two
+outputs. The count equals `PartLogic.units` for every bundled gate part
+(`tests/part_unit_test.c` sweeps them all). The app adds one more unit, the
+block `P` of the pins no gate owns (`CatalogPart.units`). Nothing in the
+engine reads units.
+
 ## ERC pin types
 
 The electrical rules check (plan-63) reasons about KiCad's twelve pin types;

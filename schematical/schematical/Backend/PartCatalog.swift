@@ -579,6 +579,59 @@ nonisolated struct Footprint: Hashable, Sendable {
 }
 
 /// One orderable part, copied from the backend's `Part` once at load.
+/// How one gate is drawn (plan-67): the body, which pins come in on the left
+/// and which leave on the right, and its marks. `PartUnit` in `parts.h`.
+nonisolated struct GateShape: Hashable, Sendable {
+    /// The outline. NAND is `.and` with an inverted output, an inverter is
+    /// `.buffer` with one.
+    enum Body: Hashable, Sendable { case and, or, xor, buffer }
+
+    struct Output: Hashable, Sendable {
+        /// `ChipPin.index`.
+        let pin: Int
+        /// Drawn with the inversion bubble.
+        let inverted: Bool
+    }
+
+    let body: Body
+    /// `ChipPin.index` of each input, top to bottom.
+    let inputs: [Int]
+    /// One or two; the true output first (CD4068B has both).
+    let outputs: [Output]
+    /// Schmitt-trigger inputs: the hysteresis mark.
+    let schmitt: Bool
+    /// Open-drain outputs: the diamond mark.
+    let openDrain: Bool
+}
+
+/// What a unit of a part is drawn as.
+nonisolated enum UnitShape: Hashable, Sendable {
+    case gate(GateShape)
+    /// A plain block of its pins, like a whole part's.
+    case block
+}
+
+/// One piece of a part the Schematic can draw as its own symbol (plan-67):
+/// a gate of a gate IC, or the block of the pins no gate owns.
+nonisolated struct PartUnit: Hashable, Sendable, Identifiable {
+    /// "A", "B", …; "P" for the block of leftover pins.
+    let key: String
+    /// `ChipPin.index` of every pin the unit draws. Never a hidden pin.
+    let pins: [Int]
+    let shape: UnitShape
+    var id: String { key }
+
+    /// The key of the block that holds the pins no gate owns.
+    static let blockKey = "P"
+
+    /// The key of gate unit `index`: A, B, … skipping P.
+    static func key(forGate index: Int) -> String {
+        let letters = "ABCDEFGHIJKLMNOQRSTUVWXYZ"
+        guard index < letters.count else { return "U\(index + 1)" }
+        return String(letters[letters.index(letters.startIndex, offsetBy: index)])
+    }
+}
+
 nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     /// One of a part's `footprintChoices`: the package name shown for it and
     /// its footprint.
@@ -744,6 +797,10 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     /// datasheet hasn't been converted.
     let datasheetMarkdown: String?
     let pins: [ChipPin]
+    /// The pieces the Schematic can draw the part as (plan-67): a gate IC's
+    /// gates, then the block `P` of the pins no gate owns. Empty for a part
+    /// with no unit view.
+    let units: [PartUnit]
     let details: Details
     /// False for a part the backend has no model for (plan-36: the
     /// microcontrollers). Run is off while one is on the schematic.
@@ -1304,6 +1361,45 @@ extension Footprint {
 }
 
 extension CatalogPart {
+    /// What the sidebar's View option calls the unit view: "Gate" for a part
+    /// whose units are gates; nil for a part with no unit view.
+    var unitViewName: String? {
+        units.contains { if case .gate = $0.shape { true } else { false } } ? "Gate" : nil
+    }
+
+    /// The part's units: the backend's (`part_unit_count`), keyed A, B, …,
+    /// then one block keyed P for every drawn pin none of them owns.
+    private nonisolated static func units(of part: Part, pins: [ChipPin]) -> [PartUnit] {
+        var units: [PartUnit] = []
+        withUnsafePointer(to: part) { pointer in
+            for index in 0..<part_unit_count(pointer) {
+                guard let unit = part_unit_at(pointer, index)?.pointee else { continue }
+                let body: GateShape.Body = switch unit.shape {
+                case UNIT_AND: .and
+                case UNIT_OR: .or
+                case UNIT_XOR: .xor
+                default: .buffer
+                }
+                let hidden = Set(pins.filter(\.isHidden).map(\.index))
+                let inputs = (0..<unit.input_count).compactMap { unit.inputs?[$0] }.map(Int.init)
+                    .filter { !hidden.contains($0) }
+                let both = [unit.outputs.0, unit.outputs.1]
+                let outputs = both.prefix(Int(unit.output_count))
+                    .map { GateShape.Output(pin: Int($0.pin), inverted: $0.inverted != 0) }
+                    .filter { !hidden.contains($0.pin) }
+                units.append(PartUnit(
+                    key: PartUnit.key(forGate: units.count), pins: inputs + outputs.map(\.pin),
+                    shape: .gate(GateShape(body: body, inputs: inputs, outputs: outputs,
+                                           schmitt: unit.schmitt != 0, openDrain: unit.open_drain != 0))))
+            }
+        }
+        guard !units.isEmpty else { return [] }
+        let owned = Set(units.flatMap(\.pins))
+        let rest = pins.filter { !$0.isHidden && !owned.contains($0.index) }.map(\.index)
+        if !rest.isEmpty { units.append(PartUnit(key: PartUnit.blockKey, pins: rest, shape: .block)) }
+        return units
+    }
+
     /// Copies one part out of the library. `footprint` and
     /// `connectorFootprint` are the Swift copies of `part.footprint` and
     /// `part.connector_footprint`, shared by every part that uses them.
@@ -1344,6 +1440,7 @@ extension CatalogPart {
                            role: pinRole(pin.role), group: string(pin.group),
                            side: pinSide(pin.side), activeLowMask: pin.active_low)
         }
+        units = Self.units(of: part, pins: pins)
 
         if let logic = part.logic?.pointee {
             details = .logic(family: string(logic.family), units: Int(logic.units))

@@ -116,8 +116,12 @@ extension AutomationTools {
         if let socket = chip.socket {
             parts.append("socket=\(socket.part.name) (\(socket.mode == .withSocket ? "ic+socket" : "socket-only"))")
         }
-        if chip.isFlipped { parts.append("flipped") }
-        if chip.rotation != 0 { parts.append("rotation=\(chip.rotation)") }
+        if chip.isSplit {
+            parts.append("view=\((chip.part.unitViewName ?? "units").lowercased())")
+        } else {
+            if chip.isFlipped { parts.append("flipped") }
+            if chip.rotation != 0 { parts.append("rotation=\(chip.rotation)") }
+        }
         if !chip.switchesOn.isEmpty {
             parts.append("switches=" + chip.switchesOn.map { $0 ? "on" : "off" }.joined(separator: ","))
         }
@@ -161,6 +165,16 @@ extension AutomationTools {
             if !extra.isEmpty { line += " " + extra }
             out.append(line)
             out.append("    pins: \(pins)")
+            // A part drawn as its units (plan-67): where each unit is, and its pins.
+            for piece in chip.pieces where piece.unitKey != nil {
+                let spot = context.centre(of: piece)
+                var unit = "    \(piece.drawnReference) centre=(\(num(spot.x)),\(num(spot.y))) "
+                    + "size=\(num(piece.layout.size.width))x\(num(piece.layout.size.height)) body=\(box(bounds(of: piece)))"
+                if piece.isFlipped { unit += " flipped" }
+                if piece.rotation != 0 { unit += " rotation=\(piece.rotation)" }
+                unit += " pins=" + piece.layout.slots.map(\.pin.designator).joined(separator: ",")
+                out.append(unit)
+            }
         }
         out.append("WIRES")
         for wire in document.wires {
@@ -257,7 +271,7 @@ extension AutomationTools {
                 "reference": chip.reference, "part": chip.part.name,
                 "x": centre.x, "y": centre.y,
                 "width": chip.layout.size.width, "height": chip.layout.size.height,
-                "flipped": chip.isFlipped, "rotation": chip.rotation,
+                "flipped": chip.isFlipped && !chip.isSplit, "rotation": chip.isSplit ? 0 : chip.rotation,
                 "bounds": rectJSON(bounds(of: chip)),
                 "pins": chip.part.pins.filter { !$0.isHidden }.map { pin -> [String: Any] in
                     var entry: [String: Any] = ["designator": pin.designator, "name": pin.name,
@@ -276,6 +290,21 @@ extension AutomationTools {
             if let board = chip.board {
                 part["pcb"] = ["x": board.centre.x, "y": board.centre.y, "rotation": board.rotation,
                                "side": board.side.rawValue, "locked": board.locked]
+            }
+            // A part with units (plan-67): how it is drawn, and each unit when drawn as its units.
+            if !chip.part.units.isEmpty {
+                part["view"] = chip.isSplit ? (chip.part.unitViewName ?? "units").lowercased() : "block"
+            }
+            if chip.isSplit {
+                part["units"] = chip.pieces.map { piece -> [String: Any] in
+                    let spot = context.centre(of: piece)
+                    return ["unit": piece.unitKey ?? "", "reference": piece.drawnReference,
+                            "x": spot.x, "y": spot.y,
+                            "width": piece.layout.size.width, "height": piece.layout.size.height,
+                            "flipped": piece.isFlipped, "rotation": piece.rotation,
+                            "bounds": rectJSON(bounds(of: piece)),
+                            "pins": piece.layout.slots.map(\.pin.designator)] as [String: Any]
+                }
             }
             if let color = chip.color { part["color"] = color }
             if let ohms = chip.ohms { part["ohms"] = ohms }
@@ -433,7 +462,13 @@ extension AutomationTools {
         let document = context.document
         func name(_ item: SchematicItem) -> String {
             switch item {
-            case let .chip(id): return document.chips.first { $0.id == id }?.reference ?? "part"
+            case let .chip(id):
+                guard let chip = document.chips.first(where: { $0.id == id }) else { return "part" }
+                // A part drawn as its units says which are picked, unless all are.
+                let picked = document.picked(chip)
+                guard chip.isSplit, picked.count < chip.unitPlacements.count else { return chip.reference }
+                let names = chip.unitPlacements.filter { picked.contains($0.key) }.map { "\(chip.reference)-\($0.key)" }
+                return "\(chip.reference) (\(names.joined(separator: " ")))"
             case let .wire(id): return "wire:\(context.short(id))"
             case let .junction(id): return "junction:\(context.short(id))"
             case let .note(id): return "note:\(context.short(id))"

@@ -477,6 +477,10 @@ final class KiCadExportTests: XCTestCase {
         for file in KiCadExport.files(for: try ExportSamples.titled(), base: "titleblock") {
             print("KICAD_FILE titleblock/\(file.name) \(file.data.base64EncodedString())")
         }
+        // plan-67-F: a part drawn as its units, a multi-unit symbol in KiCad.
+        for file in KiCadExport.files(for: try ExportSamples.split(), base: "split") {
+            print("KICAD_FILE split/\(file.name) \(file.data.base64EncodedString())")
+        }
         let doc = try ExportSamples.turned()
         // Every pad's box as the app has it, for the SVG check.
         for chip in doc.chips {
@@ -540,6 +544,33 @@ final class KiCadExportTests: XCTestCase {
 /// Boards the export tests (and `kicad-cli` / EasyEDA importer checks) use.
 @MainActor
 enum ExportSamples {
+    /// plan-67-F: a quad NAND drawn as its units. Unit B is moved, flipped and turned to 90;
+    /// 1Y drives an LED through a resistor to ground and unit B's 2A; VCC and GND are on rails.
+    static func split() throws -> SchematicDocument {
+        let doc = TestSupport.newDocument()
+        let gate = try TestSupport.place(doc, "SN74HC00N", at: CGPoint(x: 300, y: 300))
+        let led = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 700, y: 200))
+        let resistor = try TestSupport.place(doc, "GENERIC-RESISTOR", at: CGPoint(x: 900, y: 200))
+        let vcc = try TestSupport.place(doc, "5V", at: CGPoint(x: 100, y: 100))
+        let gnd = try TestSupport.place(doc, "GND", at: CGPoint(x: 1100, y: 400))
+        let low = try TestSupport.place(doc, "GND", at: CGPoint(x: 100, y: 700))
+        func pin(_ chip: PlacedChip, _ name: String) throws -> LineAnchor { .pin(try TestSupport.pin(chip, name)) }
+        doc.setPartSplit(gate.id, true)
+        let b = UnitRef(chipID: gate.id, key: "B")
+        let corner = try XCTUnwrap(doc.chips.first { $0.id == gate.id }?.unitPlacements.first { $0.key == "B" }).origin
+        doc.moveUnit(b, to: CGPoint(x: corner.x + 200, y: corner.y + 100))
+        doc.flipUnit(b)
+        doc.rotateUnit(b)
+        XCTAssertNil(doc.connect(try pin(gate, "1Y"), try pin(led, "A")))
+        XCTAssertNil(doc.connect(try pin(led, "K"), try pin(resistor, "1")))
+        XCTAssertNil(doc.connect(try pin(resistor, "2"), try pin(gnd, "GND")))
+        XCTAssertNil(doc.connect(try pin(gate, "1Y"), try pin(gate, "2A")))
+        XCTAssertNil(doc.connect(try pin(gate, "VCC"), try pin(vcc, "VCC")))
+        XCTAssertNil(doc.connect(try pin(gate, "GND"), try pin(low, "GND")))
+        doc.endCoalescing()
+        return doc
+    }
+
     /// plan-64-D: two gates, a filled-in Document Info and its title block.
     static func titled() throws -> SchematicDocument {
         let doc = TestSupport.newDocument()

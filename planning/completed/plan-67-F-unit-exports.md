@@ -42,7 +42,7 @@ command-line tool among them); re-run them. This letter adds one:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-67-E has landed | `grep -c 'case parts(name: String)' schematical/schematical/Canvas/SchematicModel.swift` → 1 | NOT MET (2026-11-25: 0) |
+| plan-67-E has landed | `grep -c 'case parts(items: Set<SchematicItem>, name: String' schematical/schematical/Canvas/SchematicModel.swift` → 1 (the case as it landed: it also carries the selected items) | MET (2026-11-25: 1, `64c0fe43`) |
 
 ## 1. Goal
 
@@ -190,15 +190,16 @@ For a split chip:
 
 ### Phase 1 — picture exports
 
-- [ ] `Canvas/SchematicExportScene.swift`: `paint(into:)` loops
+- [x] `Canvas/SchematicExportScene.swift`: `paint(into:)` loops
       `chips.flatMap(\.pieces)`; `connectedPins` is still looked up by the
       part's id.
-- [ ] `schematicalTests/KiCadExportTests.swift` `ExportSamples`: add
+- [x] `schematicalTests/KiCadExportTests.swift` `ExportSamples`: add
       `static func split() throws -> SchematicDocument` — an `SN74HC00N` at
       (200, 200) split, unit B moved to (400, 200), flipped and turned to 90,
       `1Y` wired to an LED and a resistor to ground, `VCC` and `GND` on supply
       symbols, the unused inputs wired to ground.
-- [ ] Tests: new `schematicalTests/SplitPartExportTests.swift` —
+      **Done:** as landed: the gate at (300, 300), unit B moved by (200, 100), flipped and turned to 90; `1Y` to the LED and to unit B's `2A`, the LED through a resistor to ground, VCC and GND on rails. The other inputs are left unwired.
+- [x] Tests: new `schematicalTests/SplitPartExportTests.swift` —
       `testSVGNamesEveryPiece` (the SVG text of `ExportSamples.split()`
       contains `>U1-A<` … `>U1-P<` and no `>U1<`); `testBoundsCoverEveryPiece`
       (`SchematicExport.bounds` contains each piece's `bodyRect`);
@@ -208,18 +209,19 @@ For a split chip:
 
 Acceptance: the picture exports show the pieces.
   Check: `XB -only-testing:schematicalTests/SplitPartExportTests` → `** TEST SUCCEEDED **` (est. 4 min).
-Commit: —
+Commit: 74fcd97f
 
 ### Phase 2 — KiCad
 
-- [ ] `Document/KiCadSchematicWriter.swift`: the split branches of
+- [x] `Document/KiCadSchematicWriter.swift`: the split branches of
       `libraryName(of:)`, `define` and `instance`, and
       `instances(reference:unit:)` with a default `unit: 1` so the four other
       callers are unchanged (§4).
-- [ ] `KiCadExportTests.testPrintSamplesWhenAsked`: also print
+      **Done:** `defineUnits` and `unitInstances`, reached from `instance(of:)`.
+- [x] `KiCadExportTests.testPrintSamplesWhenAsked`: also print
       `KiCadExport.files(for: ExportSamples.split(), base: "split")` under the
       folder `split`.
-- [ ] Tests in `SplitPartExportTests` — `testKiCadUnits` (the schematic text of
+- [x] Tests in `SplitPartExportTests` — `testKiCadUnits` (the schematic text of
       `ExportSamples.split()`: one `(symbol "Schematical:SN74HC00N_units_…"`
       definition with sub-symbols `_1_1` … `_5_1` and no `_0_1`; exactly five
       instances with that `lib_id`, with `(unit 1)` … `(unit 5)`, each with
@@ -229,7 +231,7 @@ Commit: —
       sub-symbol); `testKiCadUnsplitUnchanged` (for every `Fixture.names`
       entry the schematic text has no `_units` and every part instance has
       `(unit 1)`).
-- [ ] Check with KiCad: run
+- [x] Check with KiCad: run
       `TEST_RUNNER_KICAD_OUT=1 XB -only-testing:schematicalTests/KiCadExportTests/testPrintSamplesWhenAsked`,
       decode the `KICAD_FILE split/…` lines into `/tmp/p67-kicad/split/`, then
       `KC sch export netlist -o /tmp/p67-kicad/split.net /tmp/p67-kicad/split/split.kicad_sch`
@@ -241,6 +243,7 @@ Commit: —
       `different_unit_footprint` lines in the ERC report (each must be 0).
       Save the netlist, the report and the commands in
       `planning/plan-67-data/kicad/` with a short `README.md`.
+      **Done:** run 2026-11-25 with KiCad 10.0.8. Netlist: `components: 3; with ref U1: 1`; units A–E with pins 1 2 3 / 4 5 6 / 8 9 10 / 11 12 13 / 7 14; nets `5V: U1.14`, `GND: R1.2 U1.7`, `Net-(D1-A): D1.2 U1.3 U1.4`, ten `unconnected-(…)` nets, `U1 pins on nets: 14`: the app's nets for the sample (1Y with 2A and the LED, VCC on 5V, GND on GND). ERC: `Found 18 violations`; `grep -cE 'missing_unit|extra_units|different_unit' split.rpt` → 0 (10 `pin_not_connected`, 7 `pin_not_driven`, 1 `pin_to_pin`). The netlist is KiCad's multi-line form, so the count is taken by `planning/plan-67-data/kicad/check_netlist.py`, not by `grep '(comp (ref "U1")'` (see Corrections). Outputs and commands: `planning/plan-67-data/kicad/`.
 
 Acceptance: KiCad loads the file and sees one part with five units on the
 right nets.
@@ -248,14 +251,15 @@ right nets.
   → `** TEST SUCCEEDED **`; `grep -c '(comp (ref "U1")' /tmp/p67-kicad/split.net`
   → 1; `grep -cE 'missing_unit|extra_units|different_unit' /tmp/p67-kicad/split.rpt`
   → 0 (est. 8 min).
-Commit: —
+Commit: 74fcd97f
 
 ### Phase 3 — EasyEDA Pro
 
-- [ ] `Document/EasyEDAProSchematicWriter.swift`: the split branches of
+- [x] `Document/EasyEDAProSchematicWriter.swift`: the split branches of
       `symbolID`'s key and `partSymbolFile`; the Designator position in `sheet`
       from the union box (§5).
-- [ ] Tests in `SplitPartExportTests` — `testEasyEDAOneComponent` (the sheet
+      **Done:** `bodyBox(of:)` returns the box around the units for a split part, so the sheet's Designator and the symbol's `PART` box needed no edit of their own; `unitBoxes(of:)` gives each unit's rectangle.
+- [x] Tests in `SplitPartExportTests` — `testEasyEDAOneComponent` (the sheet
       of `ExportSamples.split()` has one `COMPONENT` for U1 with Designator
       `U1`); `testEasyEDASymbolHoldsEveryPiece` (its `.esym` has 5 `RECT`
       lines and 14 pins; each pin's position plus the component's origin is
@@ -263,17 +267,19 @@ Commit: —
       `testEasyEDAUnsplitUnchanged` (for every `Fixture.names` entry no symbol
       key contains `_units`; the existing `EasyEDAProExportTests`, which pin
       the files' shape, pass unedited).
-- [ ] `docs/export.md`: under § KiCad a paragraph "Parts drawn as units"
+      **Done:** `testEasyEDAUnsplitUnchanged` as landed: no fixture has a split part, and a part split and joined again makes the same single-rectangle symbol as one never split.
+- [x] `docs/export.md`: under § KiCad a paragraph "Parts drawn as units"
       (multi-unit symbol, one reference, the first unit carries the part's
       uuid, the leftover block is the last unit, what was checked with
       `kicad-cli` and the numbers recorded in Phase 2); under the EasyEDA
       section the composite symbol and its limit; under the picture exports
       one sentence.
+      **Done:** `TEST_RUNNER_KICAD_OUT=1 XB -only-testing:schematicalTests/SplitPartExportTests -only-testing:schematicalTests/KiCadExportTests -only-testing:schematicalTests/EasyEDAProExportTests` → `Executed 45 tests, with 0 failures` (9 + 24 + 12), `** TEST SUCCEEDED **`.
 
 Acceptance: EasyEDA sees one component with every pin where the wires end.
   Check: `XB -only-testing:schematicalTests/SplitPartExportTests -only-testing:schematicalTests/EasyEDAProExportTests`
   → `** TEST SUCCEEDED **` (est. 5 min).
-Commit: —
+Commit: 74fcd97f
 
 ## Validation Plan
 
@@ -295,6 +301,10 @@ Commit: —
   the gate outline is a drawing detail of this app.
 
 ## Corrections
+
+- **The netlist check command.** The plan's check was `grep -c '(comp (ref "U1")' split.net` → 1. KiCad 10 writes the netlist with one token per line (`(comp` and `(ref "U1")` on separate lines), so that grep prints 0 on a correct file. The check is `python3 planning/plan-67-data/kicad/check_netlist.py /tmp/p67-kicad/split.net U1`, whose first line must read `components: 3; with ref U1: 1`. It does. The acceptance (one component, five units, the app's nets, no unit ERC error) is unchanged and met.
+- **The three phases landed in one commit**, verified by one run (45 tests) and the KiCad check.
+- **`testKiCadUnsplitUnchanged` and `testEasyEDAUnsplitUnchanged`** check the fixtures for the absence of the split path (no `_units`, every instance `(unit 1)`, no split part) rather than comparing bytes with a build from before the change, which a test cannot produce; the unsplit code path is the untouched one, and the existing `KiCadExportTests` (24) and `EasyEDAProExportTests` (12), which pin those files' shape, pass unedited.
 
 ## Summary
 

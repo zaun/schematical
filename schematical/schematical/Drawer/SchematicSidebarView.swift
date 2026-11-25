@@ -153,6 +153,7 @@ private struct NotePanel: View {
             TextEditor(text: $words)
                 .font(.body.monospaced())
                 .frame(minHeight: 80, maxHeight: 240)
+                .modelRecordsUndo()
                 .focused($isEditing)
                 .accessibilityLabel("Text")
                 .onChange(of: words) { _, value in

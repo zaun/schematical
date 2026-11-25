@@ -43,12 +43,15 @@ struct SchematicScene {
         WireLayer.paint(&painter, routes: routes, junctions: junctions, selectedWireIDs: [],
                         hoveredWireID: nil, preview: nil)
         NetLabelLayer.paint(&painter, labels: netLabels, selectedIDs: [], hoveredID: nil)
-        for chip in chips {
+        // Each part, or each unit of a part drawn as its units (plan-67).
+        for chip in chips.flatMap(\.pieces) {
             var placed = painter
             let wired = connectedPins[chip.id] ?? []
             placed.translateBy(x: chip.viewOrigin.x, y: chip.viewOrigin.y)
             // No `default`: a new symbol must say how it exports.
             switch chip.symbol {
+            case .gate:
+                GateSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
             case .block, .oscillator:
                 ChipBlockView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired)
             case .barrelJack:
