@@ -215,9 +215,9 @@ today's: an equality test); the option on changes the problem by design, and the
 
 ### Phase 1 — the types, and the problem unchanged
 
-- [ ] `Routing/RoutingProblem.swift`: add `MovableChain` as in § 3, and the two
+- [x] (done) `Routing/RoutingProblem.swift`: add `MovableChain` as in § 3, and the two
       fields `movable`, `bystanders` (defaults `[]`) on `RoutingProblem`.
-- [ ] `schematicalTests/RoutingProblemTests.swift`: `testAProblemWithoutChainsIsAsBefore`:
+- [x] (done; see Corrections: the fixtures carry no copper, so a bent trace and a via are added to a two-LED board as well) `schematicalTests/RoutingProblemTests.swift`: `testAProblemWithoutChainsIsAsBefore`:
       the RegFile fixture's `routingProblem(options: .standard, rules: .customDefault)`
       has `movable.isEmpty`, `bystanders.isEmpty`, and `obstacles.count` equal to
       pads + trace segments + vias + holes + outline edges counted from
@@ -226,7 +226,8 @@ today's: an equality test); the option on changes the problem by design, and the
 Acceptance: the project builds, and the test passes with the option off.
   Check: `XB -only-testing:schematicalTests/RoutingProblemTests`
   → `** TEST SUCCEEDED **` (est. 2 min: build 50 s, tests seconds).
-Commit: —
+  Measured: `Executed 11 tests, with 0 failures`, `** TEST SUCCEEDED **`.
+Commit: — (recorded in the next commit)
 
 ### Phase 2 — the extraction
 
@@ -298,7 +299,12 @@ plan-66-A § Decisions apply. Added by the author, 2026-11-25:
 
 ## Corrections
 
-<!-- Filled during execution. -->
+- **The example fixtures carry no copper** (2026-11-25). Phase 1 says the RegFile
+  fixture's obstacle count is pads + trace segments + vias + …; measured, none of
+  `AFU`, `LFU`, `RegFile` has a trace or a via as committed (the first run of the
+  test failed on `segments > 0`). `testAProblemWithoutChainsIsAsBefore` therefore
+  checks all three fixtures at zero copper *and* a two-LED board with a bent trace
+  (2 segments) and a via, so the count means something.
 
 ## Summary
 

@@ -120,7 +120,62 @@ nonisolated struct RoutingProblem: Hashable, Sendable {
     /// deletes it); absent from `nets` and `obstacles`.
     var removedTraces: Set<UUID>
     var removedVias: Set<UUID>
+    /// Existing copper of nets this run does not route that push and shove
+    /// may move (plan-66-B): stretches of trace and via between anchors.
+    /// Empty unless `options.pushAndShove`. Their traces and vias are not in
+    /// `obstacles`.
+    var movable: [MovableChain] = []
+    /// One `RoutingNet` of rules (no components) for each net with a chain.
+    var bystanders: [RoutingNet] = []
 
     /// Connections to make, over every net.
     var connections: Int { nets.reduce(0) { $0 + $1.connections } }
+}
+
+/// A stretch of one net's existing copper from one anchor to the next (a
+/// pad, a junction, a free end, a via with other than two ends), through
+/// bends and two-ended vias: the unit push and shove moves (plan-66).
+nonisolated struct MovableChain: Hashable, Sendable, Identifiable {
+    /// Index into `RoutingProblem.movable`.
+    let id: Int
+    /// The net, as `BoardConnectivity` numbers it.
+    var net: Int
+    /// mm: every run's width.
+    var width: Double
+    /// mm; both 0 when the chain has no via.
+    var viaDrill: Double
+    var viaDiameter: Double
+    /// End A to end B.
+    var runs: [Run]
+    /// `runs.count - 1` of them: via `i` joins runs `i` and `i + 1`.
+    var vias: [Via]
+    /// Exactly two: A (the start of `runs[0]`) and B (the end of `runs.last`).
+    var ends: [End]
+
+    struct Run: Hashable, Sendable {
+        /// The `BoardTrace` the run lies in.
+        var trace: UUID
+        var layer: CopperLayer
+        /// Vertex indices into that trace's points, `first < last`.
+        var first: Int
+        var last: Int
+        /// The chain runs from `last` down to `first`.
+        var reversed: Bool
+        /// In chain order, mm.
+        var points: [CGPoint]
+    }
+
+    struct Via: Hashable, Sendable {
+        var id: UUID
+        var centre: CGPoint
+    }
+
+    struct End: Hashable, Sendable {
+        /// The anchor's exact point.
+        var point: CGPoint
+        /// The layer of the run that ends here.
+        var layer: CopperLayer
+        /// What a search starts from.
+        var anchor: RoutingComponent
+    }
 }

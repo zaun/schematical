@@ -169,6 +169,28 @@ final class RoutingProblemTests: XCTestCase {
         XCTAssertTrue(problem(doc) { $0.scope = .connection(from: line.0, to: CGPoint(x: -50, y: -50)) }.nets.isEmpty)
     }
 
+    /// plan-66-B: with the option off the problem has no chains and the
+    /// obstacles are exactly pads + trace segments + vias + holes + outline edges.
+    func testAProblemWithoutChainsIsAsBefore() throws {
+        func check(_ doc: SchematicDocument, _ name: String) {
+            let routing = problem(doc)
+            XCTAssertTrue(routing.movable.isEmpty, name)
+            XCTAssertTrue(routing.bystanders.isEmpty, name)
+            let copper = doc.connectivity()
+            let pads = copper.pads.filter { $0.pad.plated || $0.pad.holeSegment != nil }.count
+            let segments = copper.traces.reduce(0) { $0 + $1.segments.count }
+            XCTAssertEqual(routing.obstacles.count, pads + segments + copper.vias.count + doc.boardEdge.segments.count, name)
+        }
+        for name in Fixture.names { check(try Fixture.open(name), name) }
+        // The fixtures have no copper yet: a board with a bent trace and a via.
+        let (doc, k, a, _) = try wiredPair()
+        XCTAssertNotNil(doc.addTrace(points: [k, CGPoint(x: (k.x + a.x) / 2, y: k.y + 3), a], layer: .top, width: 10))
+        XCTAssertNotNil(doc.addVia(at: CGPoint(x: 45, y: 60)))
+        XCTAssertEqual(doc.connectivity().traces.reduce(0) { $0 + $1.segments.count }, 2)
+        XCTAssertEqual(doc.connectivity().vias.count, 1)
+        check(doc, "a bent trace and a via")
+    }
+
     func testObstaclesCarryTheirNetsAndBoardPadsAreExempt() throws {
         let routing = problem(try Fixture.open("RegFile"))
         XCTAssertTrue(routing.obstacles.contains { $0.exemptFromEdge }, "the card's fingers")
