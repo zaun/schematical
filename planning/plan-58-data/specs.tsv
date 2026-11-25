@@ -1,55 +1,62 @@
 maker	series	mounting	circuit	mpn_regex	terminals	pins	footprint	note
-C&K	1000	Through Hole	DPDT		PC Pin			
-C&K	1000	Through Hole	SPDT		PC Pin; Wire Wrap			
-C&K	1000	Through Hole, Right Angle	DPDT		PC Pin			
-C&K	1000	Through Hole, Right Angle	SPDT		PC Pin			
-C&K	1000	Through Hole, Right Angle, Vertical	SPDT		PC Pin			
-C&K	AYZ	Surface Mount	DPDT		Gull Wing			
-C&K	AYZ	Surface Mount, Right Angle	SPDT		Gull Wing			
-C&K	ES	Surface Mount, Right Angle	SPDT		Gull Wing			
-C&K	ES	Surface Mount, Right Angle	SPST		Gull Wing			
-C&K	ES	Through Hole	DPDT		PC Pin			
-C&K	ES	Through Hole	DPST		PC Pin			
-C&K	ES	Through Hole	SPST		PC Pin			
-C&K	ES	Through Hole, Right Angle	DPDT		PC Pin			
-C&K	ES	Through Hole, Right Angle	DPST		PC Pin			
-C&K	ES	Through Hole, Right Angle, Vertical	SPDT		PC Pin			
-C&K	GS	Surface Mount, Right Angle	SPST		Gull Wing			
-C&K	GS	Through Hole	SPDT		PC Pin			
-C&K	GS	Through Hole	SPST		PC Pin			
-C&K	GS	Through Hole, Right Angle	SPDT		PC Pin			
-C&K	JS	Surface Mount	DPDT		Gull Wing; J Lead			
-C&K	JS	Surface Mount	SPDT		Gull Wing			
-C&K	JS	Surface Mount, Right Angle	DPDT		J Lead			
-C&K	JS	Surface Mount, Right Angle	SPDT		Gull Wing; J Lead			
-C&K	JS	Through Hole	DPDT		PC Pin			
-C&K	JS	Through Hole	SPDT		PC Pin			
-C&K	JS	Through Hole, Right Angle	DPDT		PC Pin			
-C&K	L	Through Hole	DPDT		PC Pin			
-C&K	L	Through Hole	DPST		PC Pin			
-C&K	L	Through Hole	SPDT		PC Pin			
-C&K	L	Through Hole	SPST		PC Pin			
-C&K	L	Through Hole, Right Angle	DPDT		PC Pin			
-C&K	L	Through Hole, Right Angle	SPDT		PC Pin			
-C&K	L	Through Hole, Right Angle	SPST		PC Pin			
-C&K	OS	Through Hole	DPDT		PC Pin			
-C&K	OS	Through Hole	SPDT		PC Pin			
-C&K	OS	Through Hole, Right Angle	DPDT		PC Pin			
-C&K	OS	Through Hole, Right Angle	SPDT		PC Pin			
-C&K	S	Through Hole	DPDT		PC Pin			
-C&K	S	Through Hole	DPST		PC Pin			
-C&K	S	Through Hole	SPDT		PC Pin			
-C&K	S	Through Hole	SPST		PC Pin			
-C&K	SK, COMAX	Through Hole, Right Angle	DPDT		PC Pin			
-C&K	SK, COMAX	Through Hole, Right Angle	SPDT		PC Pin			
-C&K	SS, COMAX	Through Hole	SPDT		PC Pin			
-C&K	TS	Through Hole	SPDT		PC Pin			
-C&K	TS	Through Hole	SPST		PC Pin			
-C&K	TS	Through Hole, Right Angle	SPDT		PC Pin			
-C&K	V	Through Hole	DPDT		PC Pin			
-C&K	V	Through Hole	DPST		PC Pin			
-C&K	V	Through Hole, Right Angle	DPDT		PC Pin			
-C&K	V	Through Hole, Right Angle	SPDT		PC Pin			
+C&K	1000	Through Hole	DPDT	120[13]M2S\dC[BGQ]E2	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-CK-1000-THT-6P	littelfuse-c-k-slide-1000-series-datasheet.pdf p.3 switch function table (POS.1 joins 2-1 and 5-4, POS.2 joins 2-3 and 5-6) and p.4 C PC mounting; poles 1 = terminals 1-3 (common 2), 2 = 4-6 (common 5); A1 = 1, A2 = 4; terminals not numbered on the PC drawing (assumed as AV2).
+C&K	1000	Through Hole	DPDT	120[13]M2S\dV[34][BGQ]E2	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-CK-1000-THT-6P-B	littelfuse-c-k-slide-1000-series-datasheet.pdf p.6 V3/V4 V-bracket PC mounting; function table p.3: pole 1 = terminals 1-3 (common 2, A1 = 1), pole 2 = 4-6 (common 5, A2 = 4); terminals not numbered on the PC drawing (assumed as AV2).
+C&K	1000	Through Hole	SPDT	110[13]M2S\dC[BGQ]E2	PC Pin; Wire Wrap	2=C;1=A;3=B	SW-SLIDE-CK-1000-THT-3P	littelfuse-c-k-slide-1000-series-datasheet.pdf p.2 switch function table (POS.1 joins 1-2, POS.2 joins 2-3) and p.4 C PC mounting; common = terminal 2, A = 1, B = 3; terminals not numbered on the PC drawing (3 top, 1 bottom assumed).
+C&K	1000	Through Hole	SPDT	110[13]M2S\dV[34][BGQ]E2	PC Pin; Wire Wrap	2=C;1=A;3=B	SW-SLIDE-CK-1000-THT-3P-B	littelfuse-c-k-slide-1000-series-datasheet.pdf p.6 V3/V4 V-bracket PC mounting; function table p.2: common = terminal 2, A = 1 (POS.1 joins 1-2), B = 3; terminals not numbered on the PC drawing (3 top, 1 bottom assumed).
+C&K	1000	Through Hole, Right Angle	DPDT	120[13]M2S\dA[BGQ]E2	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-CK-1000-THTRA-6P	littelfuse-c-k-slide-1000-series-datasheet.pdf p.5 A right angle DPDT PC mounting (terminals numbered on the drawing); function table p.3: commons 2 and 5, A1 = 1, A2 = 4, B1 = 3, B2 = 6.
+C&K	1000	Through Hole, Right Angle	SPDT	110[13]M2S\dA[BGQ]E2	PC Pin	2=C;1=A;3=B	SW-SLIDE-CK-1000-THTRA-3P	littelfuse-c-k-slide-1000-series-datasheet.pdf p.4 A right angle PC mounting (terminals 3 2 1 numbered on the drawing); function table p.2: common = 2, A = 1, B = 3.
+C&K	1000	Through Hole, Right Angle, Vertical	SPDT	110[13]M2S\dAV2[BGQ]E2	PC Pin	2=C;1=A;3=B	SW-SLIDE-CK-1000-THTRAV-3P	littelfuse-c-k-slide-1000-series-datasheet.pdf p.5 AV2 SPDT PC mounting (terminals numbered on the drawing); function table p.2: common = 2, A = 1, B = 3.
+C&K	AYZ	Surface Mount	DPDT	AYZ0202AGRLC	Gull Wing	1=A1;2=C1;3=B1;4=A2;5=C2;6=B2	SW-SLIDE-CK-AYZ-SMD-6P	littelfuse-c-k-slide-ayz-series-datasheet.pdf p.2 (AYZ0202AGRLC): POS.1 joins 1-2 and 4-5, POS.2 joins 2-3 and 5-6; common = 2 and 5; A1=1 B1=3 A2=4 B2=6
+C&K	AYZ	Surface Mount, Right Angle	SPDT	AYZ0102A[GU]RLC	Gull Wing	1=A;2=C;3=B	SW-SLIDE-CK-AYZ-SMDRA-3P	littelfuse-c-k-slide-ayz-series-datasheet.pdf p.2 (AYZ0102AGRLC): POS.1 joins 1-2, POS.2 joins 2-3; common = 2; A=1 B=3
+C&K	ES	Surface Mount, Right Angle	SPDT	ES0[13]MSABE	Gull Wing	2=C;3=A;1=B	SW-SLIDE-CK-ES-SMDRA-3P	littelfuse-c-k-slide-es-series-datasheet.pdf p.3 (ES01MSABE PC Mounting); POS. 1 joins terminals 2-3 so A=3, B=1, C=2; pad 3 left, 1 right
+C&K	ES	Surface Mount, Right Angle	SPST	ES02MSABE	Gull Wing	1=A;2=B	SW-SLIDE-CK-ES-SMDRA-2P	littelfuse-c-k-slide-es-series-datasheet.pdf p.3 (ES02 = ES01MSABE minus terminal 2); terminals 1 and 3 (3-1 closed) renumbered 1,2: A=terminal 1, B=terminal 3
+C&K	ES	Through Hole	DPDT	ES2[13]MCBE	PC Pin	2=C1;3=A1;1=B1;5=C2;6=A2;4=B2	SW-SLIDE-CK-ES-THT-6P	littelfuse-c-k-slide-es-series-datasheet.pdf p.2 (ES21MCBE PC Mounting); POS. 1 joins 2-3 and 5-6 so A1=3, B1=1, A2=6, B2=4, commons 2 and 5
+C&K	ES	Through Hole	DPST	ES22MCBE	PC Pin	1=A1;2=B1;3=A2;4=B2	SW-SLIDE-CK-ES-THT-4P	littelfuse-c-k-slide-es-series-datasheet.pdf p.2 (ES22 omits holes 2 and 5); terminals 1,3,4,6 renumbered 1,2,3,4; closed 3-1 and 6-4: A1=terminal 1, B1=terminal 3, A2=terminal 4, B2=terminal 6
+C&K	ES	Through Hole	SPST	ES02MCBE	PC Pin	1=A;2=B	SW-SLIDE-CK-ES-THT-2P	littelfuse-c-k-slide-es-series-datasheet.pdf p.4 (ES02 omits hole 2); terminals 1 and 3 (3-1 closed) renumbered 1,2: A=terminal 1, B=terminal 3; holes 4 and 6 are unnumbered posts
+C&K	ES	Through Hole, Right Angle	DPDT	ES2[13]MABE	PC Pin	2=C1;3=A1;1=B1;5=C2;6=A2;4=B2	SW-SLIDE-CK-ES-THTRA-6P	littelfuse-c-k-slide-es-series-datasheet.pdf p.2 (ES21MABE PC Mounting); POS. 1 joins 2-3 and 5-6 so A1=3, B1=1, A2=6, B2=4, commons 2 and 5
+C&K	ES	Through Hole, Right Angle	DPST	ES22MABE	PC Pin	1=A1;2=B1;3=A2;4=B2	SW-SLIDE-CK-ES-THTRA-4P	littelfuse-c-k-slide-es-series-datasheet.pdf p.2 (ES22 omits holes 2 and 5); terminals 1,3,4,6 renumbered 1,2,3,4; closed 3-1 and 6-4: A1=terminal 1, B1=terminal 3, A2=terminal 4, B2=terminal 6
+C&K	ES	Through Hole, Right Angle, Vertical	SPDT	ES0[13]MAVBE	PC Pin	2=C;3=A;1=B	SW-SLIDE-CK-ES-THTRAV-3P	littelfuse-c-k-slide-es-series-datasheet.pdf p.3 (ES01MAVBE PC Mounting); POS. 1 joins 2-3 so A=3, B=1, C=2
+C&K	GS	Surface Mount, Right Angle	SPST	GS02MSABE	Gull Wing	1=A;2=B	SW-SLIDE-CK-GS-SMDRA-2P	littelfuse-c-k-slide-gs-series-datasheet.pdf p.2 (MSA PC Mounting, GS02 omits pad 2); terminals 1 and 3 (3-1 closed) renumbered 1,2: A=terminal 1, B=terminal 3
+C&K	GS	Through Hole	SPDT	GS01MCBE	PC Pin	2=C;1=A;3=B	SW-SLIDE-CK-GS-THT-3P	littelfuse-c-k-slide-gs-series-datasheet.pdf p.2 (MC PC Mounting); POS. 1 joins 2-1 so A=1, B=3, C=2
+C&K	GS	Through Hole	SPST	GS02MCBE	PC Pin	1=A;2=B	SW-SLIDE-CK-GS-THT-2P	littelfuse-c-k-slide-gs-series-datasheet.pdf p.2 (MC PC Mounting, GS02 omits hole 2); terminals 1 and 3 (3-1 closed) renumbered 1,2: A=terminal 1, B=terminal 3
+C&K	GS	Through Hole, Right Angle	SPDT	GS01MABE	PC Pin	2=C;1=A;3=B	SW-SLIDE-CK-GS-THTRA-3P	littelfuse-c-k-slide-gs-series-datasheet.pdf p.2 (MA PC Mounting); POS. 1 joins 2-1 so A=1, B=3, C=2
+C&K	JS	Surface Mount	DPDT	JS202011JCQN	Gull Wing; J Lead	1=A1;2=C1;3=B1;4=A2;5=C2;6=B2	SW-SLIDE-CK-JS-SMD-6P-B	littelfuse-c-k-slide-js-series-datasheet.pdf p.9 (JS202011JCQN): common = 2 and 6 in the drawing's numbering 1,2,3,5,6,7; drawing terminals 5,6,7 are designators 4,5,6; A1=1 B1=3 A2=4 B2=6 (no switch-function table, A = the shown side)
+C&K	JS	Surface Mount	DPDT	JS202011SCQN	Gull Wing; J Lead	1=A1;2=C1;3=B1;4=A2;5=C2;6=B2	SW-SLIDE-CK-JS-SMD-6P	littelfuse-c-k-slide-js-series-datasheet.pdf p.4 (JS202011SCQN): circuit diagram, common = 2 and 5; bar over 1-2 / 4-5 when shown (position B); no switch-function table, A = the shown side (as AYZ POS.1): A1=1 B1=3 A2=4 B2=6
+C&K	JS	Surface Mount	SPDT	JS102011SCQN	Gull Wing	1=A;2=C;3=B	SW-SLIDE-CK-JS-SMD-3P	littelfuse-c-k-slide-js-series-datasheet.pdf p.5 (JS102011SCQN): schematic common = 2, bar over 1-2 when shown (position B); A=1 B=3 (no switch-function table)
+C&K	JS	Surface Mount, Right Angle	DPDT	JS202011JAQN	J Lead	1=A1;2=C1;3=B1;4=A2;5=C2;6=B2	SW-SLIDE-CK-JS-SMDRA-6P	littelfuse-c-k-slide-js-series-datasheet.pdf p.8 (JS202011JAQN): common = 2 and 6 in the drawing's numbering 1,2,3,5,6,7; drawing terminals 5,6,7 are designators 4,5,6; A1=1 B1=3 A2=4 B2=6 (no switch-function table)
+C&K	JS	Surface Mount, Right Angle	SPDT	JS102000SAQN	Gull Wing; J Lead	1=A;2=C;3=B	SW-SLIDE-CK-JS-SMDRA-3P-C	littelfuse-c-k-slide-js-series-datasheet.pdf p.15 (JS102000SAQN): schematic 1 2 3, common = 2; A=1 B=3
+C&K	JS	Surface Mount, Right Angle	SPDT	JS102011JAQN	Gull Wing; J Lead	1=A;2=C;3=B	SW-SLIDE-CK-JS-SMDRA-3P-B	littelfuse-c-k-slide-js-series-datasheet.pdf p.7 (JS102011JAQN): common = 2; A=1 B=3; which pads of the 6-pad layout are 1,2,3 is assumed (see footprint)
+C&K	JS	Surface Mount, Right Angle	SPDT	JS102011SAQN	Gull Wing; J Lead	1=A;2=C;3=B	SW-SLIDE-CK-JS-SMDRA-3P	littelfuse-c-k-slide-js-series-datasheet.pdf p.4 (JS102011SAQN): schematic common = 2, bar over 1-2 when shown (position B); A=1 B=3
+C&K	JS	Through Hole	DPDT	JS202011CQN	PC Pin	1=A1;2=C1;3=B1;4=A2;5=C2;6=B2	SW-SLIDE-CK-JS-THT-6P	littelfuse-c-k-slide-js-series-datasheet.pdf p.3 (JS202011CQN): common = 2 and 5; bar over 1-2 / 4-5 when shown (position B); A1=1 B1=3 A2=4 B2=6
+C&K	JS	Through Hole	SPDT	JS102011CQN	PC Pin	1=A;2=C;3=B	SW-SLIDE-CK-JS-THT-3P	littelfuse-c-k-slide-js-series-datasheet.pdf p.5 (JS102011CQN): schematic common = 2, bar over 1-2 when shown (position B); A=1 B=3
+C&K	JS	Through Hole, Right Angle	DPDT	JS202011AQN	PC Pin	1=A1;2=C1;3=B1;4=A2;5=C2;6=B2	SW-SLIDE-CK-JS-THTRA-6P	littelfuse-c-k-slide-js-series-datasheet.pdf p.2 (JS202011AQN): common = 2 and 5; bar over 1-2 / 4-5 when shown (position B); A1=1 B1=3 A2=4 B2=6
+C&K	L	Through Hole	DPDT	L202011MS02QE?	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-CK-L-THT-6P	c-amp-k-slide-switch-l-series-datasheet.pdf p.2 (MS PC thru-hole, L202011MS02Q); schematic terminals 1 2 3 / 4 5 6, common 2 and 5, the dark bar joins 1-2 and 4-5 (A1=1, A2=4), the other position 2-3 and 5-6
+C&K	L	Through Hole	SPDT	L1020[12]1MS02Q	PC Pin	2=C;1=A;3=B	SW-SLIDE-CK-L-THT-3P	c-amp-k-slide-switch-l-series-datasheet.pdf p.2 (L102 schematic); common 2, the dark bar joins 1-2 (A=1), the other position 2-3 (B=3); PC layout assumed from the DPDT's first row
+C&K	L	Through Hole	SPST	L101011MS02Q	PC Pin	1=A;2=B	SW-SLIDE-CK-L-THT-2P	c-amp-k-slide-switch-l-series-datasheet.pdf p.2 (L101 schematic '1 2'); On-Off, the dark bar joins 1-2 in the first position; PC layout assumed from the DPDT's first row
+C&K	OS	Through Hole	DPDT	OS202011MS2QS1	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-CK-OS-THT-6P	littelfuse-c-k-slide-os-series-datasheet.pdf p.4; common terminals 2 and 5, POS.1 joins 1-2 and 4-5 (A1=1, A2=4), POS.2 joins 2-3 and 5-6
+C&K	OS	Through Hole	DPDT	OS202011MV4Q[NS]1	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-CK-OS-THT-6P-B	littelfuse-c-k-slide-os-series-datasheet.pdf p.9; common 2 and 5, POS.1 1-2 / 4-5
+C&K	OS	Through Hole	DPDT	OS202013MT5QN1	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-CK-OS-THT-6P-C	littelfuse-c-k-slide-os-series-datasheet.pdf p.5; common 2 and 5, POS.1 1-2 / 4-5
+C&K	OS	Through Hole	DPDT	OS202013MT8QN1	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-CK-OS-THT-6P-D	littelfuse-c-k-slide-os-series-datasheet.pdf p.6; common 2 and 5, POS.1 1-2 / 4-5
+C&K	OS	Through Hole	SPDT	OS102011MS2Q[NS]1C?	PC Pin	2=C;1=A;3=B	SW-SLIDE-CK-OS-THT-3P	littelfuse-c-k-slide-os-series-datasheet.pdf p.3; common terminal 2, POS.1 joins 1-2 (A=1), POS.2 joins 2-3
+C&K	OS	Through Hole, Right Angle	DPDT	OS202011MA0Q[NS]1	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-CK-OS-THTRA-6P	littelfuse-c-k-slide-os-series-datasheet.pdf p.11; common 2 and 5, POS.1 1-2 / 4-5
+C&K	OS	Through Hole, Right Angle	SPDT	OS102011MA1Q[NS]1C?	PC Pin	2=C;1=A;3=B	SW-SLIDE-CK-OS-THTRA-3P	littelfuse-c-k-slide-os-series-datasheet.pdf p.10; common terminal 2, POS.1 joins 1-2 (A=1)
+C&K	S	Through Hole	DPDT	S[26]02031MS02(?:G|Q|QE)	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-CK-S-THT-6P	littelfuse-c-k-slide-s-series-datasheet.pdf p.2 (switch function table) and p.4-5 (MS 02 layout); common 2 and 5, the dark bar joins 1-2 and 4-5 (A1=1, A2=4), the other position 2-3 and 5-6
+C&K	S	Through Hole	DPST	S201031MS02Q	PC Pin	1=A1;2=B1;3=A2;4=B2	SW-SLIDE-CK-S-THT-4P	littelfuse-c-k-slide-s-series-datasheet.pdf p.2 (S201 schematic 1 2 / 4 5) and p.4-5 (MS 02 layout); datasheet terminals 1 2 / 4 5 are designators 1 2 / 3 4 (renumbered 1..4); the dark bar joins 1-2 and 4-5 in the first position (A1 = terminal 1, A2 = terminal 4)
+C&K	S	Through Hole	SPDT	S102031MS02Q	PC Pin	2=C;1=A;3=B	SW-SLIDE-CK-S-THT-3P	littelfuse-c-k-slide-s-series-datasheet.pdf p.2 (S102 schematic 1 2 3) and p.4-5 (MS 02 layout, assumed from the DPDT); common 2, the dark bar joins 1-2 (A=1), the other position 2-3 (B=3)
+C&K	S	Through Hole	SPST	S101031MS02Q	PC Pin	1=A;2=B	SW-SLIDE-CK-S-THT-2P	littelfuse-c-k-slide-s-series-datasheet.pdf p.2 (S101 schematic '1 2') and p.4-5 (MS 02 layout, assumed from the DPDT); On-Off, terminals 1 and 2
+C&K	SK, COMAX	Through Hole, Right Angle	DPDT	SK-22D01-MG\s5\sNS	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-CK-SK-THTRA-6P	littelfuse-c-k-slide-sk-series-datasheet.pdf p.7; terminals not numbered: left to right, top row 1 2 3, bottom row 4 5 6; common = middle of each row (2 and 5); Schematic position 1 joins left+middle (A1=1, A2=4)
+C&K	SK, COMAX	Through Hole, Right Angle	DPDT	SK-22D07-VG\s4\sNS\sPA	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-CK-SK-THTRA-6P-B	littelfuse-c-k-slide-sk-series-datasheet.pdf p.8; terminals not numbered: left to right, top row 1 2 3, bottom row 4 5 6; common = middle of each row; position 1 joins left+middle
+C&K	SK, COMAX	Through Hole, Right Angle	SPDT	SK-12D07-VG\s4\sNS\sPA	PC Pin	2=C;1=A;3=B	SW-SLIDE-CK-SK-THTRA-3P	littelfuse-c-k-slide-sk-series-datasheet.pdf p.3; terminals not numbered: left to right 1 2 3; common = middle (2); Schematic position 1 joins left+middle (A=1)
+C&K	SK, COMAX	Through Hole, Right Angle	SPDT	SK-12F17-G\s7	PC Pin	2=C;1=A;3=B	SW-SLIDE-CK-SK-THTRA-3P-B	littelfuse-c-k-slide-sk-series-datasheet.pdf p.14; terminals not numbered: left to right 1 2 3; common = middle (2); position 1 joins left+middle (A=1)
+C&K	SS, COMAX	Through Hole	SPDT	SS-12D07-VG\s4\sNS\sGA\sPA	PC Pin	2=C;1=A;3=B	SW-SLIDE-CK-SS-THT-3P	SS-12D07-VG_GA_PA.pdf (Piercing Plan, Schematic); terminals not numbered: left to right 1 2 3; common = middle (2); position 1 joins left+middle (A=1)
+C&K	SS, COMAX	Through Hole	SPDT	SS-12D1505-G\s2	PC Pin	2=C;1=A;3=B	SW-SLIDE-CK-SS-THT-3P-B	littelfuse-c-k-slide-ss-series-datasheet.pdf p.4; terminals not numbered: left to right 1 2 3 as drawn (1 and 3 on the row of two holes, 2 the single hole); common = middle (2); position 1 joins left+middle (A=1)
+C&K	TS	Through Hole	SPDT	TS01C[BQ]E|TS03CBE	PC Pin	2=C;1=A;3=B	SW-SLIDE-CK-TS-THT-3P	littelfuse-c-k-slide-ts-series-datasheet.pdf p.2 (switch function table and C PC Mounting): POS. 1 connects 1-2 (A=1), POS. 3 connects 2-3 (B=3), common terminal 2 (COMM); TS03 has an OFF centre position
+C&K	TS	Through Hole	SPST	TS02C[BQ]E	PC Pin	1=A;2=B	SW-SLIDE-CK-TS-THT-2P	littelfuse-c-k-slide-ts-series-datasheet.pdf p.2 (TS02 row, SPST schematic 1 and 3, centre terminal omitted): designator 1 is datasheet terminal 1, designator 2 is datasheet terminal 3; POS. 3 connects 3-1, POS. 1 is open
+C&K	TS	Through Hole, Right Angle	SPDT	TS0[13]A(?:BE|GE|QE)	PC Pin	2=C;1=A;3=B	SW-SLIDE-CK-TS-THTRA-3P	littelfuse-c-k-slide-ts-series-datasheet.pdf p.2 (A right angle TS01ABE, PC Mounting 3 2 1): POS. 1 connects 1-2 (A=1), POS. 3 connects 2-3 (B=3), common terminal 2; TS03 has an OFF centre position
+C&K	V	Through Hole	DPDT	V80202MS02Q|V80213MS02Q	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-CK-V-THT-6P	littelfuse-c-k-slide-v-series-datasheet.pdf p.2 (S802 schematic 1A 1 1B / 2A 2 2B) and p.3-4 (MS 02 layout); datasheet terminals 1A 1 1B 2A 2 2B are designators 1..6 in that order; common 1 and 2, the dark bar joins 1A-1 and 2A-2 in the first position
+C&K	V	Through Hole	DPST	V80102MS02Q	PC Pin	1=A1;2=B1;3=A2;4=B2	SW-SLIDE-CK-V-THT-4P	littelfuse-c-k-slide-v-series-datasheet.pdf p.2 (S801 schematic 1A 1 / 2A 2) and p.3-4 (MS 02 layout); datasheet terminals 1A 1 2A 2 are designators 1..4 in that order; the dark bar joins 1A-1 and 2A-2 (A1 = 1A, A2 = 2A)
+C&K	V	Through Hole, Right Angle	DPDT	V80213MA08Q	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-CK-V-THTRA-6P	littelfuse-c-k-slide-v-series-datasheet.pdf p.2 (S802 schematic) and p.3-4 (MA 08 layout); datasheet terminals 1A 1 1B 2A 2 2B are designators 1..6 in that order; common 1 and 2, the dark bar joins 1A-1 and 2A-2 in the first position
+C&K	V	Through Hole, Right Angle	SPDT	V70214MA08Q	PC Pin	2=C;1=A;3=B	SW-SLIDE-CK-V-THTRA-3P	littelfuse-c-k-slide-v-series-datasheet.pdf p.2 (V702 schematic 1A 1 1B) and p.3-4 (MA 08 layout, row 1 assumed); designators 1 2 3 = 1A 1 1B; common 1, the dark bar joins 1A-1 (A = 1A), the other position 1-1B (B = 1B)
 CIT	1000	Through Hole	DPDT		PC Pin			
 CIT	1000	Through Hole	SPDT		PC Pin			
 CIT	1000	Through Hole, Right Angle	SPDT		PC Pin			

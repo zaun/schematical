@@ -209,27 +209,27 @@ with the same arguments changes nothing.
 Acceptance: no C&K row is `pending`; each `skip` reason is listed in
 `datasheets/skipped-parts.md`.
   Check: `awk -F'\t' '$1=="C&K" && $18=="pending"' planning/plan-58-data/candidates.tsv \| wc -l` → 0 and `python3 -I planning/plan-58-data/census/scheme-check.py --selftest` → `ok` (est. 3 min). Measured: `0`, `ok`; `decide.py --verify-skipped` → exit 0.
-Commit: —
+Commit: 04452919
 
 ### Phase 2 — footprints and specs
 
-- [ ] For each of C&K's (series, mounting, circuit) lines (51 at planning): read
+- [x] For each of C&K's (series, mounting, circuit) lines (57 after Phase 1: `awk -F'\t' '$1=="C&K"' planning/plan-58-data/specs.tsv | wc -l` → 57 filled rows' lines; 58 footprints, 58 spec rows for 105 `add` rows): read
       the PDF drawing (open the page; the layout is usually a drawing, not text),
       write the footprint (§ 4.3) as a ready object in
       `planning/plan-58-data/footprints-C.json` (`{"footprints":[…]}`) and its
       `specs.tsv` row (§ 4.2). Footprints shared by several lines are written once.
-- [ ] Write `census/specs-check.py` (with `--selftest`) and `census/fp-load.sh <footprints-X.json>`,
+- [x] Write `census/specs-check.py` (with `--selftest`; also `census/merge-specs.py`, `census/fp-merge.py`, `census/fp-render.py`) and `census/fp-load.sh <footprints-X.json>` (`58 new footprints: load ok`),
       then run both on `footprints-C.json`: `fp-load.sh` copies the tree's `Parts/` to a
       temp dir, appends the staged footprints, runs `footprint_check` there; the
       only failures allowed are `unused footprint` for exactly the staged ids, and
       there is no load error.
-- [ ] For every new footprint: a rendered image (the app's footprint renderer
+- [x] For every new footprint: a rendered image (`census/fp-render.py` from the JSON, see Corrections; the app's footprint renderer
       through the harness, as `scripts/harness/tactile-footprints.swift` does for the
       tactile ones) beside the datasheet page; read each pair and fix any mismatch.
 
 Acceptance: every C&K row has a spec whose footprint is staged and has its
 pads; the staged footprints load; each image matches its drawing.
-  Check: `python3 -I planning/plan-58-data/census/specs-check.py --maker 'C&K' && planning/plan-58-data/census/fp-load.sh planning/plan-58-data/footprints-C.json` → `specs ok`, then only `unused footprint` lines for the staged ids and `load ok` (est. 8 min).
+  Check: `python3 -I planning/plan-58-data/census/specs-check.py --maker 'C&K' && planning/plan-58-data/census/fp-load.sh planning/plan-58-data/footprints-C.json` → `specs ok`, then only `unused footprint` lines for the staged ids and `load ok` (est. 8 min). Measured: `specs ok (105 rows, 58 specs)` and `58 new footprints: load ok`.
 Commit: —
 
 ### Phase 3 — generator and parts
@@ -279,6 +279,9 @@ Commit: —
 
 ## Corrections
 
+- **2026-11-24, Phase 2: the footprints were drawn by five parallel sub-agents, one per group of series, each reading its PDFs' drawings as page images.** Groups: 1000; ES + GS; JS + AYZ; OS + SK + SS; L + S + V + TS. Each wrote a footprints file and a specs fragment (`planning/plan-58-data/work-C/`, removed after the merge), ran `specs-check.py --specs <fragment>` and rendered and read each image beside its drawing. The lead merged them (`census/merge-specs.py`: `58 fragment rows merged`, `--prune 'C&K'`: 4 empty skeleton rows of lines whose `pending` rows were skipped dropped) and looked at the rendered contact sheets for plausibility (pads, numbering, holes); not every footprint again against its PDF page. The sub-agents' open questions are in the footprints' `note` fields: top vs bottom view of drawings that do not say (taken as the component side), the body outline's position against the pads where the drawing gives no tie, SPDT / SPST / DPST footprints taken as subsets of the series' DPDT layout where the datasheet draws only the DPDT (L, S, V), and datasheet terminals renumbered to 1..n where they skip numbers (ES SPST / DPST, S201, TS02, V).
+- **2026-11-24, Phase 2: images are rendered from the JSON (`census/fp-render.py`, PIL), not by the app's renderer.** `scripts/harness/tactile-footprints.swift` lists parts by the app's `isTactileSwitch`; the slide classification is plan-58-G's, so the app-side look at every slide footprint is G's (and H's) runtime proof.
+- **2026-11-24, Phase 2: `fp-merge.py`'s overlap test is circle-aware.** plan-27's test compared bounding boxes, which flagged a 0.9 mm non-plated peg hole at (±3.4, 0) beside a 1.0 x 1.6 land at (±2.5, ±1.2) (`JS-SMDRA-3P-B`, `JS-SMDRA-6P`: the boxes overlap by 0.05 mm at the corner, the shapes do not: the corner is 0.57 mm from the hole's centre, its radius 0.45). A round pad with width = height is now a circle in the test.
 - **2026-11-24, Phase 1: 14 of the 65 pending rows do not fit their key and are `skip`.** `1101M2S3WBE2` (the 1000 series key lists terminations A, C, AV2, Z, V3, V4; `W` appears only as `W3` in a seal note); L series: the key (p.1) allows function L101/L102/L103/L202, actuator 01/02/11, mounting MS, termination 02, contact Q, so the right-angle `ML04` / `MA04` parts, the 03 / 12 actuators, L201 and the G contact do not fit (12 rows); `V80201MS02Q` (V key actuators 12, 02, 13, 14). The other 51 fit (1000: 27 of 28, L: 4 of 16, S: 6 of 6, V: 5 of 6, TS: 7 of 7, AYZ: 1, SS: 1). `schemes.tsv` regexes are written from the keys' positions and listed letters only; the 1000 series' S2 / S1 actuators are tied to the 110X / 120X functions as the key's notes say.
 - **2026-11-24, Phase 1: the C&K `add` count is 105, not 119.** `add` after Phase 1 is the 54 verbatim rows plus 51 key-fitting rows; § 2's 119 counted the 14 skipped rows. Later checks use 105: `grep -c 'states=' backend/tests/golden/parts.txt` = 105 after Phase 3.
 
