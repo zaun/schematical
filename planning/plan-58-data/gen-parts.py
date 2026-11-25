@@ -16,7 +16,9 @@ Device = (circuit, action, rated volts, actuator):
   function    "<circuit> <action>" (SPDT On-On); drawer ["Switches & Relays","Slide"]
   ratedVolts  DigiKey's DC voltage rating, else its AC rating, in volts
   contacts, states, rest   plan-58-B section 4.3 (by circuit and action)
-  pinouts     one per distinct specs.tsv `pins` string, p<N>, then p<N>_2, ... (sorted strings)
+  pinouts     one per distinct specs.tsv `pins` string, named p<N>_<the designators of the pin names
+              in the order of plan-58-B section 4.3> (SPDT `2=C;1=A;3=B` -> p3_213), so adding another
+              part's numbering never renames a pinout an earlier part uses
 Part = {"name", "manufacturer", "datasheet", "package" (from mounting), "pinout",
 "footprint" (specs.tsv)}.  Every datasheet the parts name gets an entry in
 Parts/datasheets.json (id = the placed PDF's name, lower case, no .pdf; url =
@@ -264,16 +266,19 @@ def build(p, makers):
                              "datasheet": sheets[r["datasheet"]][0], "package": PACKAGES[r["mounting"]],
                              "pins": spec["pins"], "footprint": spec["footprint"]})
     for dev in devices.values():
-        names = {}
-        for i, pins in enumerate(sorted(dev["pinouts"])):
-            n = len(CIRCUITS[dev["circuit"]][0])
-            pname = f"p{n}" if i == 0 else f"p{n}_{i + 1}"
-            names[pins] = pname
+        names, final = {}, {}
+        for pins in sorted(dev["pinouts"]):
+            order = CIRCUITS[dev["circuit"]][0]
             pl = {}
             for item in pins.split(";"):
                 d, _, name = item.partition("=")
                 pl[int(d)] = name
-            dev["pinouts"][pins] = (pname, [(d, pl[d]) for d in sorted(pl)])
+            by_name = {name: d for d, name in pl.items()}
+            # p<N>_<designators in pin-name order>: stable when another part's numbering is added
+            pname = f"p{len(order)}_" + "".join(str(by_name[n]) for n in order)
+            names[pins] = pname
+            final[pname] = (pname, [(d, pl[d]) for d in sorted(pl)])   # two spellings of one numbering share it
+        dev["pinouts"] = final
         dev["parts"] = [{"name": x["name"], "manufacturer": x["manufacturer"], "datasheet": x["datasheet"],
                          "package": x["package"], "pinout": names[x["pins"]], "footprint": x["footprint"]}
                         for x in dev["parts"]]
@@ -473,10 +478,10 @@ def selftest():
         next(i for i in ids if i.startswith("tact_"))), "text before the region is unchanged; slide_ devices sit just before tact_")
     spdt = next(d for d in devs if d["id"].startswith("slide_spdt"))
     check(spdt["contacts"] == [["C", "A"], ["C", "B"]] and spdt["states"] == [[1], [2]] and spdt["rest"] == 1
-          and [x["name"] for x in spdt["pinouts"]["p3"]] == ["A", "C", "B"] and [x["number"] for x in spdt["pinouts"]["p3"]] == [1, 2, 3],
+          and [x["name"] for x in spdt["pinouts"]["p3_213"]] == ["A", "C", "B"] and [x["number"] for x in spdt["pinouts"]["p3_213"]] == [1, 2, 3],
           "contacts, states, rest and pin names of an SPDT On-On")
     dpdt = next(d for d in devs if d["id"].startswith("slide_dpdt"))
-    check(dpdt["states"] == [[1, 3], [], [2, 4]] and dpdt["rest"] == 2 and len(dpdt["pinouts"]["p6"]) == 6,
+    check(dpdt["states"] == [[1, 3], [], [2, 4]] and dpdt["rest"] == 2 and len(dpdt["pinouts"]["p6_213546"]) == 6,
           "an On-Off-On DPDT starts in its middle position")
     check(spdt["parts"][0]["package"] == "THT" and dpdt["parts"][0]["package"] == "THT right angle"
           and spdt["parts"][0]["manufacturer"] == "Test Maker" and spdt["parts"][0]["datasheet"] == "selftest-sheet"

@@ -1662,7 +1662,7 @@ action, rated volts, actuator): id `slide_<spst|spdt|dpst|dpdt>_<onon|onoffon|on
 function `<circuit> <action>`, drawer `["Switches & Relays","Slide"]`,
 `ratedVolts` DigiKey's DC voltage rating (else its AC rating), `contacts`,
 `states` and `rest` from the table above, one pinout per distinct terminal
-numbering (`p<N>`, `p<N>_2`, …); the part's `footprint` is an `explicit`
+numbering (`p<N>_<designators>`: SPDT `2=C;1=A;3=B` is `p3_213`); the part's `footprint` is an `explicit`
 `SW-SLIDE-<MAKER>-<SERIES>-<mount>-<N>P` footprint drawn from the datasheet.
 Its inputs are `planning/plan-58-data/candidates.tsv`, `specs.tsv` and
 `schemes.tsv` (the datasheets' part-number keys); it also adds the
