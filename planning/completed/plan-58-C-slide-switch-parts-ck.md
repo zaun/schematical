@@ -250,7 +250,7 @@ Commit: ab839757
 Acceptance: `grep -c 'states=' backend/tests/golden/parts.txt` equals the number
 of C&K `add` rows; the generator run is idempotent; `ctest` passes.
   Check: `python3 -I planning/plan-58-data/gen-parts.py --selftest && python3 -I planning/plan-58-data/gen-parts.py --maker 'C&K' --dry-run && cmake --build /tmp/logic-p58 -j8 && ctest --test-dir /tmp/logic-p58 -j8 -R 'slide_test|listing_check|trace_check|footprint_check|library_check'` → `ok`, no change, `100% tests passed` (est. 12 min). Measured: `grep -c 'states=' backend/tests/golden/parts.txt` → 105; generator `--dry-run` → `no changes`; `ctest -j8` → `100% tests passed, 0 tests failed out of 62`.
-Commit: —
+Commit: ebcbe22e
 
 ## Validation Plan
 
