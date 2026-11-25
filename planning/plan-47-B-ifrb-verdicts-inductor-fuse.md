@@ -219,7 +219,7 @@ Commit: 1804f8be
 - [x] (2026-11-23: 117 PTC specs rows) The 122 PTC rows of `specs.tsv` as Phase 1, then the three checks, the
       sample and the `dead` rows.
 
-- [ ] After A's last refill (A Phase 2, then Phase 3's re-run): run `specs-skeleton.py`, fill the specs rows the refill added (`scheme-check.py --list` prints them as `unchecked`; `frag-check.py` checks a fragment), re-run `scheme-check.py inductor fuse ptc --facts --apply` and `pinout-check.py inductor fuse ptc`, and re-record the counts below.
+- [x] (2026-11-25: specs-skeleton.py after A's last refill → 1618 rows; one new row (Panasonic TQ2-2M, C's) filled; `scheme-check.py inductor fuse ptc --facts --apply` → `2210 rows: 2145 ok, 0 unchecked`; `pinout-check.py inductor fuse ptc` → `761 specs rows: 0 errors`; inductor: 17 out (obsolete), 2 out (more than two terminals); the nine refill rows were in groups B had already checked) After A's last refill (A Phase 2, then Phase 3's re-run): run `specs-skeleton.py`, fill the specs rows the refill added (`scheme-check.py --list` prints them as `unchecked`; `frag-check.py` checks a fragment), re-run `scheme-check.py inductor fuse ptc --facts --apply` and `pinout-check.py inductor fuse ptc`, and re-record the counts below.
 
 Acceptance: every PTC row of the download set has its verdicts.
   Check: `python3 -I planning/plan-47-data/census/scheme-check.py ptc` → `<n> rows: <k> ok, 0 unchecked`; `…/pinout-check.py ptc` → `0 errors`; and for the letter `python3 -I planning/plan-47-data/census/scheme-check.py inductor fuse ptc` → `<n> rows: <k> ok, 0 unchecked` with `<n>` the three types' download-set rows (est. 3 min).
@@ -249,6 +249,8 @@ Commit: 1804f8be
   without coming back.
 
 ## Corrections
+
+- **2026-11-25, the re-run after A's last refill.** The stock check ended with 19 `found` = 0 rows and nine refill rows (all in stock); none of the nine needed a new B group (their series and PDFs were checked). `scheme-check.py inductor fuse ptc --facts --apply` → `2210 rows: 2145 ok, 0 unchecked`; `pinout-check.py inductor fuse ptc` → `761 specs rows: 0 errors`.
 
 - **2026-11-23, the tools were written before B's prerequisites held.** Their
   first task needs no stock-check result, so `census/scheme-check.py`,

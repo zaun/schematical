@@ -45,7 +45,7 @@ def skips():
     for r in rows_of('skip'):
         groups[(r['type'], r['company'], r['series'], r['reason'])].append(r['mpn'])
     print('## Inductors, fuses, relays and buzzers (plan-47)\n')
-    print('In-stock parts of the top three makers of each type (DigiKey, 2026-11-16 to 2026-11-26) that passed the '
+    print('In-stock parts of the top three makers of each type (DigiKey, 2026-11-16 to 2026-11-25) that passed the '
           'selection rules but not the datasheet checks of plan-47-B and C. They are still made; a later plan may '
           "add them. Their PDFs are not in the tree unless another part of the same datasheet is added.\n")
     print('| Part(s) | Device | Would have gone into | Why skipped |')

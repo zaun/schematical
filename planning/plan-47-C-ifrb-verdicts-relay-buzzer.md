@@ -228,10 +228,10 @@ Commit: 041f158f
 
 ### Phase 3 — The final pick and the skip list
 
-- [ ] After A's last refill (A Phase 2, Phase 3's re-run) and B's re-run task: run `specs-skeleton.py`, fill the specs rows the refill added (`census/frag-check.py` checks a fragment), re-run `scheme-check.py inductor fuse ptc relay buzzer --facts --apply` and `pinout-check.py` over all five types.
-- [ ] `census/verdicts.py` (§ 3.4): `add` rows for all five types; record
+- [x] (2026-11-25: `specs-skeleton.py` → 1618 rows, one new group, Panasonic TQ2-2M (2 Form D, make-before-break), filled from its TQ2 non-latching sibling (same ten pins); `scheme-check.py inductor fuse ptc relay buzzer --facts --apply` → `3513 rows: 3245 ok, 0 unchecked`; `pinout-check.py` over all five types → `1618 specs rows: 0 errors`) After A's last refill (A Phase 2, Phase 3's re-run) and B's re-run task: run `specs-skeleton.py`, fill the specs rows the refill added (`census/frag-check.py` checks a fragment), re-run `scheme-check.py inductor fuse ptc relay buzzer --facts --apply` and `pinout-check.py` over all five types.
+- [x] (2026-11-25: `census/verdicts.py --apply`: add inductor 600, fuse 600, PTC 599, relay 504, buzzer 510 = 2813; reserve 318; skip 341; shortfalls in § Corrections) `census/verdicts.py` (§ 3.4): `add` rows for all five types; record
       the pick per (type, maker, class) and each shortfall in § Corrections.
-- [ ] `datasheets/skipped-parts.md`: the plan-47 section (§ 3.4).
+- [x] (2026-11-25: `census/skip-list.py skips` → the section `## Inductors, fuses, relays and buzzers (plan-47)`, appended to `datasheets/skipped-parts.md`) `datasheets/skipped-parts.md`: the plan-47 section (§ 3.4).
 
 Acceptance: the pick is final and every non-`add` download-set row has a reason.
   Check: `python3 -I planning/plan-47-data/census/scheme-check.py` → `<n> rows: <k> ok, 0 unchecked`; `awk -F'\t' '$23=="add"{print $3}' planning/plan-47-data/candidates.tsv \| sort \| uniq -c` → the recorded pick; `awk -F'\t' 'NR>1 && ($23=="skip" \|\| $23=="out") && $24==""' planning/plan-47-data/candidates.tsv \| wc -l` → 0; `grep -c 'plan-47' datasheets/skipped-parts.md` → at least 1 (est. 2 min).
@@ -281,6 +281,8 @@ Commit: —
   hundreds of skipped rows would bury the file.
 
 ## Corrections
+
+- **2026-11-25, the final pick.** After A's last refill (19 `found` = 0 rows, nine refill rows, `stock-check.tsv` complete) and B's re-run: `census/verdicts.py --apply` → **add 2813** (inductor 600, fuse 600, PTC 599, relay 504, buzzer 510), reserve 318, skip 341, out 4603 (the provisional pick had 2816: buzzers 513, now 510; the others did not change). Shortfalls (quota, add): buzzers Mallory indicator 82/66, Mallory transducer 69/68, PUI indicator 67/59, PUI transducer 133/123, Same Sky indicator 71/65; PTC Bourns through-hole 90/89; relays Franjobaim auto 15/7, power 151/138, signal 34/22, Panasonic SSR 40/33, TE auto 14/5, power 117/115, reed 5/3, signal 60/18, SSR 4/3. No group is empty. The skip list is in `datasheets/skipped-parts.md` § plan-47 (`census/skip-list.py skips`: 161 lines). The date range in its text is 2026-11-16 to 2026-11-25.
 
 - **2026-11-23, the verdict data was entered before C's prerequisites held**
   (the quota days of A), for the current download set; Phase 3 (the final pick
