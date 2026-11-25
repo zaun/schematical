@@ -43,6 +43,10 @@ typedef struct PartKindOps {
        analog supplies, references, analog inputs and outputs); the voltage
        check skips it. See part_pin_analog. */
     int (*pin_analog)(const Part *part, size_t pin);
+    /* Optional (NULL = never): 1 when pin is an output the part releases to Z
+       through an output enable (3-state), for the ERC's pin types
+       (plan-63-B). See part_pin_tristate. */
+    int (*pin_tristate)(const Part *part, size_t pin);
 } PartKindOps;
 
 /* What Part.internal points to. */

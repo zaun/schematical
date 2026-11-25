@@ -4,7 +4,7 @@ Last updated: 2026-11-25
 Effort: large (3h–1d)
 Depends on: plan-63-E
 
-Plan 63's overview and Prerequisites are in `planning/plan-63-A-power-flag.md`.
+Plan 63's overview and Prerequisites are in `planning/completed/plan-63-A-power-flag.md`.
 
 The outcome of 63-F: **Window › Electrical Rules Check (⌥⌘E), on the Schematic
 page, opens a window with two steps, as the Design Rule Check has.** Step 1 shows the

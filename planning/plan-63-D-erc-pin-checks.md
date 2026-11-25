@@ -4,7 +4,7 @@ Last updated: 2026-11-25
 Effort: medium (1h–2h)
 Depends on: plan-63-C
 
-Plan 63's overview and Prerequisites are in `planning/plan-63-A-power-flag.md`.
+Plan 63's overview and Prerequisites are in `planning/completed/plan-63-A-power-flag.md`.
 
 The outcome of 63-D: **`erc_check` reports the five rules of KiCad's ERC that
 read pin types, on a netlist of typed pins**: `pin_to_pin` (by a 12×12 pin map

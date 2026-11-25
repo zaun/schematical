@@ -4,7 +4,7 @@ Last updated: 2026-11-25
 Effort: medium (1h–2h)
 Depends on: plan-63-B
 
-Plan 63's overview and Prerequisites are in `planning/plan-63-A-power-flag.md`.
+Plan 63's overview and Prerequisites are in `planning/completed/plan-63-A-power-flag.md`.
 
 63-B made `erc_pin_type` and the `pin_tristate` kind hook, and answered it for
 the `buffer`, `latch` and `dff` kinds. The outcome of 63-C: **every kind that

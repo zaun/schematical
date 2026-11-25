@@ -226,7 +226,7 @@ Commit: c8ed577c
 Acceptance: the KiCad export carries each flag as `PWR_FLAG`; nothing else in any export changes.
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/KiCadExportTests -only-testing:schematicalTests/EasyEDAProExportTests -only-testing:schematicalTests/PowerFlagTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 7 min).
   Result: `KiCadExportTests` 21, `EasyEDAProExportTests` 11, `PowerFlagTests` 6: `Executed 38 tests, with 0 failures`, `** TEST SUCCEEDED **` (2026-11-25). The KiCad test: the flag is one `(lib_id "Schematical:PWR_FLAG")`, one `(pin power_out line`, reference `#FLG01`, no `(no_connect`, no `(label `; the EasyEDA test: an unwired flag leaves every `.esch` and `.epcb` file byte-equal.
-Commit: — (recorded in the next commit)
+Commit: abf06e54
 
 ## Validation Plan
 

@@ -11,6 +11,7 @@ add_library(logic STATIC
     src/circuit.c
     src/memory_image.c
     src/voltage.c
+    src/erc_pins.c
     src/library/library.c
     src/library/kinds.c
     src/library/kind_util.c
@@ -195,6 +196,7 @@ logic_test(counter_sn74143_test)
 logic_test(shift_test)
 logic_test(memory_image_test)
 logic_test(voltage_test)
+logic_test(erc_pins_test)
 logic_test(buffer_test)
 logic_test(cpu_core_test)
 target_compile_definitions(cpu_core_test PRIVATE

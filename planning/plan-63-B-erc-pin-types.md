@@ -5,7 +5,7 @@ Effort: large (3h–1d)
 Depends on: nothing (it lands after plan-63-A by letter order; it reads nothing A adds)
 
 Plan 63's overview, the sub-plan list and the Prerequisites are in
-`planning/plan-63-A-power-flag.md`; they hold for this plan.
+`planning/completed/plan-63-A-power-flag.md`; they hold for this plan.
 
 KiCad's ERC reasons about twelve pin types; the parts here carry seven roles
 (`input`, `output`, `inout`, `power`, `ground`, `nc`, `absent`). The outcome of

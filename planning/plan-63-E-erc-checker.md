@@ -4,7 +4,7 @@ Last updated: 2026-11-25
 Effort: large (3h–1d)
 Depends on: plan-63-A, plan-63-D
 
-Plan 63's overview and Prerequisites are in `planning/plan-63-A-power-flag.md`.
+Plan 63's overview and Prerequisites are in `planning/completed/plan-63-A-power-flag.md`.
 
 The outcome of 63-E: **`document.electricalRulesCheck()` returns the violations
 of a schematic drawing, by KiCad's rules**: the five pin rules from the backend
