@@ -118,6 +118,35 @@ extension SchematicDocument {
                 group: group(ofNet: net, in: copper)?.id, impossible: impossible, pins: copper.pinCount(ofNet: net)))
         }
 
+        // The existing copper push and shove may move (plan-66-B): chains of nets
+        // the run does not route, taken out of the obstacles below.
+        var movable: [MovableChain] = [], bystanders: [RoutingNet] = []
+        var chainSegments: [UUID: Set<Int>] = [:], chainVias = Set<UUID>()
+        if options.pushAndShove {
+            let kept = Set(nets.map(\.id)).union(netOfRoot.values.filter { copper.planeNet(ofNet: $0) == nil })
+            movable = movableChains(in: copper, netOfRoot: netOfRoot, excluding: kept, routable: routable, grid: options.grid)
+            for chain in movable {
+                for run in chain.runs { chainSegments[run.trace, default: []].formUnion(run.first..<run.last) }
+                for via in chain.vias { chainVias.insert(via.id) }
+            }
+            for net in Set(movable.map(\.net)).sorted() {
+                let mine = movable.filter { $0.net == net }
+                guard let key = copper.planeNet(ofNet: net) else { continue }
+                let netClass = netClass(ofNet: net, in: copper)
+                let effective = effectiveLayers(ofNet: net, in: copper)
+                let layers = Set(mine.flatMap { $0.runs.map(\.layer) })
+                let allowed = Set(effective.allowed).intersection(routable).union(layers)
+                let viaChain = mine.first { !$0.vias.isEmpty }
+                bystanders.append(RoutingNet(
+                    id: net, name: copper.netNames[net] ?? "Net \(net + 1)", key: key, width: mine[0].width,
+                    clearance: max(netClass?.clearance ?? rules.minClearance, rules.minClearance),
+                    viaDrill: viaChain?.viaDrill ?? netClass?.viaDrill ?? standard.viaDrill,
+                    viaDiameter: viaChain?.viaDiameter ?? netClass?.viaDiameter ?? standard.viaDiameter,
+                    allowed: allowed, preferred: Set(effective.preferred).intersection(allowed), components: [],
+                    planeLayer: nil, group: nil, impossible: nil, pins: copper.pinCount(ofNet: net)))
+            }
+        }
+
         // Every piece of copper and every keep-out, tagged with its net.
         var obstacles: [RoutingObstacle] = []
         for (p, pad) in copper.pads.enumerated() {
@@ -135,13 +164,14 @@ extension SchematicDocument {
         }
         for (t, trace) in copper.traces.enumerated() {
             let node = copper.traceNode(t)
-            for (a, b) in trace.segments {
+            let covered = chainSegments[trace.id]
+            for (s, (a, b)) in trace.segments.enumerated() where covered?.contains(s) != true {
                 obstacles.append(RoutingObstacle(shape: CopperShape(core: .segment(a, b), radius: trace.widthMM / 2,
                                                                     layers: [trace.layer], node: node),
                                                  net: netOfRoot[copper.root[node]], kind: .trace))
             }
         }
-        for (v, via) in copper.vias.enumerated() {
+        for (v, via) in copper.vias.enumerated() where !chainVias.contains(via.id) {
             let node = copper.viaNode(v)
             obstacles.append(RoutingObstacle(shape: CopperShape(core: .segment(via.centre, via.centre),
                                                                 radius: via.diameter / 2, layers: nil, node: node),
@@ -163,7 +193,8 @@ extension SchematicDocument {
         }
         return RoutingProblem(outline: outline, cutouts: boardEdge.cutouts, layers: board.copperLayers, routable: routable, planes: planes,
                               rules: rules, options: options, nets: nets, obstacles: obstacles, groups: groups,
-                              removedTraces: removedTraces, removedVias: removedVias)
+                              removedTraces: removedTraces, removedVias: removedVias,
+                              movable: movable, bystanders: bystanders)
     }
 
     /// The nets `scope` names in `copper`.

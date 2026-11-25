@@ -227,11 +227,11 @@ Acceptance: the project builds, and the test passes with the option off.
   Check: `XB -only-testing:schematicalTests/RoutingProblemTests`
   → `** TEST SUCCEEDED **` (est. 2 min: build 50 s, tests seconds).
   Measured: `Executed 11 tests, with 0 failures`, `** TEST SUCCEEDED **`.
-Commit: — (recorded in the next commit)
+Commit: 0bb9e5e0
 
 ### Phase 2 — the extraction
 
-- [ ] `Routing/MovableChains.swift` (new): `extension SchematicDocument`
+- [x] (done; the signature takes `grid:` and `excluding:` instead of `rules:` and `scope` — see Corrections) `Routing/MovableChains.swift` (new): `extension SchematicDocument`
       `func movableChains(in copper: BoardConnectivity, netOfRoot: [Int: Int],
       excluding scope: Set<Int>, routable: [CopperLayer], rules: DesignRules) ->
       [MovableChain]` implementing § 3: a per-layer table of vertices keyed by the
@@ -239,12 +239,12 @@ Commit: — (recorded in the next commit)
       is the identity), the classification, the walk from each anchor along
       unvisited segments, the six fixed-chain rules, ids in order of the first
       segment's trace index.
-- [ ] `RoutingProblemBuilder.swift`: when `options.pushAndShove`, call it after
+- [x] (done; the loops skip covered segments and vias instead of filtering afterwards — same set) `RoutingProblemBuilder.swift`: when `options.pushAndShove`, call it after
       `obstacles` is built; remove from `obstacles` exactly the segments and vias
       the chains cover (match by trace id and vertex range, via id), fill
       `problem.movable`, and build `problem.bystanders` as in § 3. With the
       option off nothing is called and nothing changes.
-- [ ] `schematicalTests/RoutingChainTests.swift` (new), on documents built from
+- [x] (done: 12 tests on a two-LED board; see Corrections) `schematicalTests/RoutingChainTests.swift` (new), on documents built from
       the RegFile fixture with `unrouteAll(onlyAuto: false)` and traces added
       with `addTrace(points:layer:width:)` between pad centres read from
       `doc.connectivity().pads` (the test picks two pads of one net by label):
@@ -256,13 +256,13 @@ Commit: — (recorded in the next commit)
       locked trace, a net in the run's scope, two widths in one chain, a pad
       touching a middle segment, and a run on a layer the options disable each
       leave the copper in `obstacles` and `movable` empty.
-- [ ] The same file, `testEveryExistingSegmentIsInExactlyOneChainOrOneObstacle`:
+- [x] (done) The same file, `testEveryExistingSegmentIsInExactlyOneChainOrOneObstacle`:
       route RegFile with `Router.route` at `RoutingOptions.fixture`, apply it
       (`doc.applyRouting`), build the problem for the scope `.nets([one key])` with
       the option on, and for every net other than that one count its trace
       segments and vias in `obstacles` + `movable` and compare with the same count
       from `connectivity()` — equal per net, and no segment counted twice.
-- [ ] `testTheOptionOffGivesTheSameObstaclesAsBefore`: the problem with the option
+- [x] (done) `testTheOptionOffGivesTheSameObstaclesAsBefore`: the problem with the option
       off equals the problem the same document gives with every `pushAndShove`
       line of the builder bypassed — expressed as: `obstacles` (as a `Set`) with
       the option on, plus the chains' own segments and vias, equals `obstacles`
@@ -273,7 +273,9 @@ Acceptance: all `RoutingChainTests` and `RoutingProblemTests` pass.
   -only-testing:schematicalTests/RoutingProblemTests` → `** TEST SUCCEEDED **`
   (est. 3 min; the RegFile route at Fast in Debug is the long part, about the
   52 s the fixtures took in plan-38).
-Commit: —
+  Measured: `RoutingChainTests` 14 tests, 0 failures (78.4 s), `RoutingProblemTests` 11, 0 failures; with the anchors:
+  `Executed 20 tests, with 0 failures`, `** TEST SUCCEEDED **`.
+Commit: — (recorded in the next commit)
 
 ## Validation Plan
 
@@ -305,6 +307,38 @@ plan-66-A § Decisions apply. Added by the author, 2026-11-25:
   test failed on `segments > 0`). `testAProblemWithoutChainsIsAsBefore` therefore
   checks all three fixtures at zero copper *and* a two-LED board with a bent trace
   (2 segments) and a via, so the count means something.
+- **`movableChains` takes `grid:` and `excluding:`, not `rules:` and `scope`**
+  (2026-11-25). The extraction needs the grid (a junction's anchor shape has
+  radius one pitch) and no rules; `excluding` is the set of nets never chained: the
+  routed nets plus nets with no stable key (`planeNet(ofNet:) == nil`), which could
+  not host a bystander `RoutingNet`.
+- **Two traces meeting end to end are a junction, not a bend** (2026-11-25). § 3
+  calls a point with "exactly two segment ends" interior. Run/via structure
+  (`vias.count == runs.count - 1`) has no place for two runs joined on one layer
+  without a via, so an interior vertex here is one with a *single trace occurrence*
+  (a bend of one trace); the meeting of two traces is an anchor and the chains on
+  either side move on their own.
+- **A bystander's `allowed` also holds its chains' layers** (2026-11-25). § 3 says
+  `effectiveLayers ∩ the run's layers`; a net's own drawn copper may lie on a layer
+  its rule does not list, and pushing must not force it off that layer, so the run
+  layers of its chains are added (they are all enabled, by rule 3).
+- **Rule 4's "touch" is measured on the segment, not only at vertices**
+  (2026-11-25): a pad touching a segment where neither end is in the pad, a via's
+  metal touching a segment with no end at its centre, and a vertex of any trace
+  on the middle of a segment (as `BoardConnectivity` joins them) each mark that
+  segment, so its chain stays. Found while testing: `addTrace` joins a second trace
+  into the first with a shared vertex, so the "pad touching a middle segment" test
+  needs the second trace to start at the first's *end*.
+- **A scoped net that is already whole is not routed, so its copper can be chained**
+  (2026-11-25): `testEveryExistingSegmentIsInExactlyOneChainOrOneObstacle` first
+  asserted that no chain is of the scope net; on the routed RegFile the scope net
+  has one component, so the run does not route it. The assertion is removed; the
+  per-net partition equality covers every net.
+- **The chain tests are 14, not 8** (2026-11-25): one per rule (locked trace, locked
+  via, net in the run, two widths, pad over a middle segment, disabled layer,
+  closed loop, a net's first chain sets the width) beside the three positive shapes,
+  the reversed direction and the two partition tests; the Validation Plan's "8" was
+  a floor.
 
 ## Summary
 
