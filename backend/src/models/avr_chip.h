@@ -66,7 +66,11 @@ typedef struct AvrChip {
     AvrCallback after_reset;
 } AvrChip;
 
-/* "atmega328": the ATmega48/88/168/328 (and A, P, PA) registers. NULL when unknown. */
+/* A layout by name, NULL when unknown:
+     "atmega328"    the ATmega48/88/168/328 and their A, P and PA versions
+     "atmega168pb"  the ATmega48PB/88PB/168PB: the same plus port E (PE0-PE3)
+     "atmega328pb"  the ATmega328PB: port E with PCINT3, timers 3 and 4,
+                    USART1, SPI1 and TWI1 */
 const AvrLayout *avr_layout_find(const char *name);
 
 /* Words per interrupt vector: 1 for a flash of 8192 bytes or less (the

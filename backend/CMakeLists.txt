@@ -25,6 +25,7 @@ add_library(logic STATIC
     src/models/mcu.c
     src/models/avr_cpu.c
     src/models/avr_instruction.c
+    src/models/avr_dasm.c
     src/models/avr_gpio.c
     src/models/avr_clock.c
     src/models/avr_timer.c

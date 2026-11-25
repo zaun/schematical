@@ -74,3 +74,14 @@ meta("adc", 14000,
      [[3000, "adc", 0, 2500], [3000, "adc", 3, 1100], [6000, "adc", 3, 600]])
 meta("eeprom", 170000, [])
 meta("watchdog", 9000, [])
+
+meta("m48_vectors", 2500,
+     toggles("D", 2, 211, 6000) + [[300, "rx", 0, 0x61], [1500, "rx", 0, 0x62]],
+     flash=4096, sram=512, eeprom=256)
+meta("m168pb_porte", 400,
+     [[20, "pin", "E", 1, 1], [60, "pin", "E", 3, 1], [100, "pin", "E", 1, 0], [200, "pin", "E", 0, 1]],
+     layout="atmega168pb", flash=16384, sram=1024, eeprom=512)
+meta("m328pb_extras", 4000,
+     toggles("E", 0, 301, 9000) + toggles("E", 2, 517, 9000) + toggles("E", 3, 733, 9000) +
+     [[400, "rx", 1, 0x41], [2000, "rx", 1, 0x42]],
+     layout="atmega328pb")

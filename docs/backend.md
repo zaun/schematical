@@ -518,10 +518,12 @@ backend/
                            avr_usart.c, avr_spi.c, avr_twi.c (the serial
                            peripherals at register level: a byte out and a
                            byte in through callbacks, no pins), avr_adc.c,
-                           avr_eeprom.c, avr_watchdog.c;
+                           avr_eeprom.c, avr_watchdog.c; avr_dasm.c (our
+                           disassembler, for the processor window);
                            avr_chip.c + avr_chip.h (a chip: a CPU and the
-                           peripherals of a register layout; the layouts'
-                           tables, with vectors as numbers that
+                           peripherals of a register layout; the tables
+                           of the layouts atmega328, atmega168pb and
+                           atmega328pb, with vectors as numbers that
                            avr_layout_scale turns into word addresses for
                            a chip's vector size);
                            buffer.c + buffer.h (the buffer kind: models
@@ -937,7 +939,12 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   first differing line prints with its number. It prints `ok <name> (<lines>
   lines, <n> port events, <n> interrupts, <n> serial events)`. Scenarios:
   `gpio_out`, `gpio_int`, `clkpr`, `timer0`, `timer1`, `timer2`, `timer_ext`,
-  `usart`, `spi`, `twi`, `adc`, `eeprom`, `watchdog`. The serial peripherals'
+  `usart`, `spi`, `twi`, `adc`, `eeprom`, `watchdog`, and for the other
+  devices `m48_vectors` (4 KB of flash: one word per vector), `m168pb_porte`
+  (layout `atmega168pb`: port E) and `m328pb_extras` (layout `atmega328pb`:
+  timers 3 and 4, USART1, SPI1, TWI1, PCINT3). A scenario may list vector
+  numbers that must be taken (`m328pb_extras`: 27, 28, 30, 33, 35, 39, 40,
+  42, 44). The serial peripherals'
   outside is scripted the same way on both sides: a USART byte prints `u
   <cycles> <n> <byte>`; an SPI byte prints `s …` and comes back XOR 0xA5
   after the transfer time; a TWI request prints `t <cycles> <n> <event>
@@ -953,7 +960,12 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   backend/tests/avr/src/regen_golden.py <build dir>` rewrites the `run`
   lines from the oracle, and with `node` the test fails when a committed
   `.json` is not what `oracle.js build` makes of its sources.
-  `avr_periph_test --trace <name>` prints the C trace.
+  `avr_periph_test --trace <name>` prints the C trace. **dasm**: `avr_dasm`'s
+  text for every opcode word (`avr_periph_test --dasm`) must assemble back to
+  the same word(s) in avr8js's assembler (`oracle.js dasm-check`) and hash to
+  the `dasm` golden line: `dasm: 63902 words round-trip` (1570 words are no
+  instruction and print `.DW 0x....`, erased flash 0xFFFF among them; 64 are
+  a JMP or CALL above the assembler's 4 MB limit and are not checked).
 - `cpu_test` — the cpu kind's bus adapters on inline fixture devices (the
   W65C02S and MOS 6502 data of `cpu.json`) and a bench that clocks the CPU
   at 1 MHz and serves a 64 KB memory (X where it was given nothing): the

@@ -173,28 +173,30 @@ None outside `backend/tests/avr/` and `backend/tools/`.
 
 ### Phase 1 — vector size and the PB layouts
 
-- [ ] `avr_chip.h` / `avr_chip.c`: interrupt fields as vector indices,
+- [x] `avr_chip.h` / `avr_chip.c`: interrupt fields as vector indices,
       `vector_words`, the lists of timers, USARTs, SPIs and TWIs, the
       layouts `atmega168pb` and `atmega328pb` from § 2's values.
-- [ ] `avr_periph_test.c`: `--layout <name> <flash>`; `oracle.js`: lists in
+- [x] `avr_periph_test.c`: `--layout <name> <flash>`; `oracle.js`: lists in
       `run` and `layout-check`.
-- [ ] Scenarios `m48_vectors`, `m168pb_porte`, `m328pb_extras`.
+- [x] Scenarios `m48_vectors`, `m168pb_porte`, `m328pb_extras`.
 
 Acceptance: 16 scenarios equal avr8js; the 328 layout still equals
 avr8js's configs.
   Check: `ctest --test-dir /tmp/sim-rel -R avr_periph_test --output-on-failure` → `layout atmega328 equal`, 16 `ok` lines (est. 1 min).
+  Observed: 2026-11-24: `layout atmega328 equal`, 16 `ok <scenario>` lines against the live oracle.
 Commit: —
 
 ### Phase 2 — the disassembler
 
-- [ ] `backend/src/models/avr_dasm.c`, its declaration in `avr.h`,
+- [x] `backend/src/models/avr_dasm.c`, its declaration in `avr.h`,
       `backend/CMakeLists.txt`.
-- [ ] `avr_periph_test.c`: `--dasm`, the hash check, the live round trip;
+- [x] `avr_periph_test.c`: `--dasm`, the hash check, the live round trip;
       `oracle.js`: `dasm-check`; `golden.txt`: the `dasm` line.
-- [ ] `docs/backend.md`: § Layout, § Tests.
+- [x] `docs/backend.md`: § Layout, § Tests.
 
 Acceptance: every named word round-trips.
   Check: `ctest --test-dir /tmp/sim-rel -R avr_periph_test --output-on-failure` → `dasm: <N> words round-trip` with N above 60000 (est. 1 min).
+  Observed: 2026-11-24: `dasm: 63902 words round-trip`; `ctest -R avr_` 2 of 2 passed.
 Commit: —
 
 ## Validation Plan
@@ -212,6 +214,27 @@ Commit: —
 plan-62-A § Decisions. None added.
 
 ## Corrections
+
+- Phase 1's first task was half done already: plan-62-B landed the vector
+  numbers in the layout, `avr_layout_scale` and `--layout <name> <flash>`
+  (plan-62-B § Corrections), and plan-62-C the lists of USARTs, SPIs and
+  TWIs. Phase 1 here added the two PB layouts and the three scenarios.
+- § 3.4: `m328pb_extras` runs timer 3 in CTC first and then in normal mode
+  with TCNT3 at 0xFF00: a CTC timer never sets TOV, and the coverage check
+  needs vector 35. Measured: `m48_vectors` 2512 lines, 23 interrupts;
+  `m168pb_porte` 561 lines, 161 port events; `m328pb_extras` 4064 lines, 108
+  interrupts, all nine listed vectors taken. The 13 earlier `run` lines did
+  not move.
+- The vector check is a field of every scenario (`vectors`), so `usart`
+  (18, 19, 20), `spi` (17), `twi` (24), `watchdog` (6) and `m48_vectors` (1,
+  16, 18) are checked too.
+- § 3.3: `BREAK` (0x9598) prints as `BREAK`, not `.DW`: it is a real
+  instruction, and the assembler has it. Measured round trip: 63902 words
+  assemble back to themselves; 1570 words are `.DW` (0xFFFF, erased flash,
+  is one of them: no decode branch matches it, so the core runs it as a
+  no-op); 64 JMP and CALL words name a target above 0x400000, which
+  avr8js's assembler refuses (`constValue(k, 0, 0x400000)`), and are counted
+  but not assembled. 63902 + 1570 + 64 = 65536.
 
 ## Summary
 

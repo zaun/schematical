@@ -13,6 +13,10 @@
 //       Compares a register layout printed by the C side
 //       (avr_periph_test --layout atmega328 32768) with avr8js's own
 //       ATmega328P configs. Prints "layout <name> equal".
+//   node oracle.js dasm-check <file>
+//       Each line is "<word> <next word> <text>" from the C disassembler
+//       (avr_periph_test --dasm). Every text that is not ".DW" must
+//       assemble back to its word(s). Prints "dasm: N words round-trip".
 //   node oracle.js run <scenario.json> <layout.json>
 //       Runs a scenario's program on avr8js peripherals built from the
 //       layout; prints the trace.
@@ -314,6 +318,47 @@ function run(scenarioFile, layoutFile) {
   }
 }
 
+// ---- dasm-check -------------------------------------------------------------
+
+// avr8js's assembler refuses a JMP or CALL target above this byte address.
+const ASSEMBLER_FAR_LIMIT = 0x400000;
+
+function dasmCheck(file) {
+  let checked = 0;
+  let unnamed = 0;
+  let beyond = 0;
+  for (const line of fs.readFileSync(file, 'utf8').split('\n')) {
+    if (line === '') {
+      continue;
+    }
+    const word = parseInt(line.substr(0, 4), 16);
+    const next = parseInt(line.substr(5, 4), 16);
+    const text = line.substr(10);
+    if (text.startsWith('.DW')) {
+      unnamed++;
+      continue;
+    }
+    const far = /^(JMP|CALL) (0x[0-9A-F]+)$/.exec(text);
+    if (far && parseInt(far[2], 16) > ASSEMBLER_FAR_LIMIT) {
+      beyond++;
+      continue;
+    }
+    // The assembler takes a relative target as a plain byte offset.
+    const source = text.replace(/ \.\+(\d+)$/, ' $1').replace(/ \.-(\d+)$/, ' -$1');
+    const result = assemble(source);
+    const bytes = result.bytes;
+    const got = bytes.length >= 2 ? bytes[0] | (bytes[1] << 8) : -1;
+    const gotNext = bytes.length >= 4 ? bytes[2] | (bytes[3] << 8) : next;
+    if (result.errors.length > 0 || got !== word || gotNext !== next || bytes.length > 4) {
+      fail('dasm: ' + hex(word, 4) + ' "' + text + '" assembles to ' +
+        (result.errors.length > 0 ? result.errors.join('; ') : Buffer.from(bytes).toString('hex')));
+    }
+    checked++;
+  }
+  process.stdout.write('dasm: ' + checked + ' words round-trip (' + unnamed + ' are .DW, ' + beyond +
+    ' are a JMP or CALL above the assembler\'s 0x400000)\n');
+}
+
 // ---- main ---------------------------------------------------------------
 
 function usage() {
@@ -322,6 +367,7 @@ function usage() {
       '       node oracle.js asm <file.asm>\n' +
       '       node oracle.js build <name.asm> <name.meta.json>\n' +
       '       node oracle.js layout-check <layout.json>\n' +
+      '       node oracle.js dasm-check <file>\n' +
       '       node oracle.js run <scenario.json> <layout.json>\n',
   );
   process.exit(2);
@@ -337,6 +383,8 @@ function main(argv) {
     build(argv[1], argv[2]);
   } else if (command === 'layout-check' && argv.length === 2) {
     layoutCheck(argv[1]);
+  } else if (command === 'dasm-check' && argv.length === 2) {
+    dasmCheck(argv[1]);
   } else if (command === 'run' && argv.length === 3) {
     run(argv[1], argv[2]);
   } else {

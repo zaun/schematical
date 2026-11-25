@@ -97,7 +97,71 @@ enum {
 #define EEPROM_328 {V_EE_READY, EECR, EEDR, EEARL, EEARH, 0, 0}
 #define WATCHDOG_328 {V_WDT, MCUSR, WDTCSR}
 
+/* ---- The PB devices (ATmega48PB/88PB/168PB.atdf, ATmega328PB.atdf) ---------- */
+
+enum {
+    V_PCINT3 = 27, V_USART1_RX = 28, V_USART1_UDRE = 29, V_USART1_TX = 30,
+    V_TIMER3_CAPT = 32, V_TIMER3_COMPA = 33, V_TIMER3_COMPB = 34, V_TIMER3_OVF = 35,
+    V_SPI1_STC = 39, V_TWI1 = 40,
+    V_TIMER4_CAPT = 41, V_TIMER4_COMPA = 42, V_TIMER4_COMPB = 43, V_TIMER4_OVF = 44
+};
+
+enum { PINE = 0x2c, DDRE = 0x2d, PORTE = 0x2e, PCMSK3 = 0x73 };
+
+/* Port E has four pins, PE0-PE3. On the 48PB/88PB/168PB it has no interrupt;
+   on the 328PB it is PCINT24-27 (PCIE3, PCMSK3). */
+#define PORT_E {'E', {PINE, DDRE, PORTE, 0, {0, 0, 0, 0, 0, 0, 0}, {NO_EXTERNAL}}}
+#define PORT_E_PCINT3 {'E', {PINE, DDRE, PORTE, 1, {3, PCICR, PCIFR, PCMSK3, V_PCINT3, 0x0f, 0}, \
+                             {NO_EXTERNAL}}}
+
+/* Timers 3 and 4 of the 328PB: timer 1's shape. Their external clock pins
+   (T3, T4) are not modeled: clock select 6 and 7 stop the timer. */
+#define TIMER34_DIVIDERS {0, 1, 8, 64, 256, 1024, 0, 0}
+#define TIMER3 { \
+    16, TIMER34_DIVIDERS, \
+    V_TIMER3_CAPT, V_TIMER3_COMPA, V_TIMER3_COMPB, 0, V_TIMER3_OVF, \
+    /* TIFR OCRA OCRB OCRC ICR TCNT TCCRA TCCRB TCCRC TIMSK */ \
+    0x38, 0x98, 0x9a, 0, 0x96, 0x94, 0x90, 0x91, 0x92, 0x71, \
+    TIMER_BITS, \
+    PORTD, 0, PORTD, 2, 0, 0, /* OC3A PD0, OC3B PD2 */ \
+    0, 0 }
+#define TIMER4 { \
+    16, TIMER34_DIVIDERS, \
+    V_TIMER4_CAPT, V_TIMER4_COMPA, V_TIMER4_COMPB, 0, V_TIMER4_OVF, \
+    0x39, 0xa8, 0xaa, 0, 0xa6, 0xa4, 0xa0, 0xa1, 0xa2, 0x72, \
+    TIMER_BITS, \
+    PORTD, 1, PORTD, 2, 0, 0, /* OC4A PD1, OC4B PD2 */ \
+    0, 0 }
+
+#define USART1 {V_USART1_RX, V_USART1_UDRE, V_USART1_TX, 0xc8, 0xc9, 0xca, 0xcc, 0xcd, 0xce}
+#define SPI1 {V_SPI1_STC, 0xac, 0xad, 0xae}
+#define TWI1 {V_TWI1, 0xd8, 0xd9, 0xda, 0xdb, 0xdc, 0xdd}
+
 static const AvrLayout LAYOUTS[] = {
+    {
+        "atmega168pb",
+        4, {PORT_B, PORT_C, PORT_D, PORT_E},
+        {CLKPR},
+        3, {TIMER0, TIMER1, TIMER2},
+        1, {USART0},
+        1, {SPI0},
+        1, {TWI0},
+        ADC_328,
+        EEPROM_328,
+        WATCHDOG_328,
+    },
+    {
+        "atmega328pb",
+        4, {PORT_B, PORT_C, PORT_D, PORT_E_PCINT3},
+        {CLKPR},
+        5, {TIMER0, TIMER1, TIMER2, TIMER3, TIMER4},
+        2, {USART0, USART1},
+        2, {SPI0, SPI1},
+        2, {TWI0, TWI1},
+        ADC_328,
+        EEPROM_328,
+        WATCHDOG_328,
+    },
     {
         "atmega328",
         3, {PORT_B, PORT_C, PORT_D},

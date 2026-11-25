@@ -16,6 +16,11 @@
  *
  *   avr_periph_test                       run the checks
  *   avr_periph_test --layout <name> <flash bytes>   print a layout as JSON
+ *   dasm       avr_dasm's text for every opcode word must assemble back to
+ *              the same word(s) in avr8js's assembler (oracle.js dasm-check),
+ *              and hash to the `dasm` line of golden.txt.
+ *
+ *   avr_periph_test --dasm                print the disassembly of every word
  *   avr_periph_test --trace <scenario>    print the C side's trace
  *   avr_periph_test --print-golden        print every `run` golden line from
  *                                         the oracle's output (needs node)
@@ -40,22 +45,26 @@ typedef struct {
     int needs_port_events;   /* the trace must hold a port output change */
     int needs_interrupts;    /* ... a taken interrupt */
     int needs_serial;        /* ... a USART, SPI or TWI event */
+    const char *vectors;     /* the vector numbers that must be taken, e.g. "1,16", or NULL */
 } Scenario;
 
 static const Scenario SCENARIOS[] = {
-    {"gpio_out", 1, 0, 0},
-    {"gpio_int", 0, 1, 0},
-    {"clkpr", 0, 0, 0},
-    {"timer0", 1, 1, 0},
-    {"timer1", 1, 1, 0},
-    {"timer2", 1, 1, 0},
-    {"timer_ext", 1, 1, 0},
-    {"usart", 0, 1, 1},
-    {"spi", 0, 1, 1},
-    {"twi", 0, 1, 1},
-    {"adc", 0, 1, 0},
-    {"eeprom", 0, 1, 0},
-    {"watchdog", 0, 1, 0},
+    {"gpio_out", 1, 0, 0, NULL},
+    {"gpio_int", 0, 1, 0, NULL},
+    {"clkpr", 0, 0, 0, NULL},
+    {"timer0", 1, 1, 0, NULL},
+    {"timer1", 1, 1, 0, NULL},
+    {"timer2", 1, 1, 0, NULL},
+    {"timer_ext", 1, 1, 0, NULL},
+    {"usart", 0, 1, 1, "18,19,20"},
+    {"spi", 0, 1, 1, "17"},
+    {"twi", 0, 1, 1, "24"},
+    {"adc", 0, 1, 0, NULL},
+    {"eeprom", 0, 1, 0, NULL},
+    {"watchdog", 0, 1, 0, "6"},
+    {"m48_vectors", 1, 1, 1, "1,16,18"},
+    {"m168pb_porte", 1, 0, 0, NULL},
+    {"m328pb_extras", 1, 1, 1, "27,28,30,33,35,39,40,42,44"},
 };
 
 #define SCENARIO_COUNT (sizeof SCENARIOS / sizeof SCENARIOS[0])
@@ -350,6 +359,7 @@ static void twi_read(void *ctx, int ack) {
 
 typedef struct {
     unsigned long port_events, interrupts, serial_events;
+    unsigned char vector_taken[AVR_MAX_INTERRUPTS];   /* by vector number */
 } RunCounts;
 
 static char *scenario_path(const char *name, const char *suffix, char *out, size_t cap) {
@@ -378,6 +388,7 @@ static int run_scenario(const char *name, Text *out, RunCounts *counts, char *la
     counts->port_events = 0;
     counts->interrupts = 0;
     counts->serial_events = 0;
+    memset(counts->vector_taken, 0, sizeof counts->vector_taken);
     if (json == NULL) {
         printf("FAIL: %s: cannot read or parse %s\n", name, path);
         free(json_text);
@@ -503,7 +514,13 @@ static int run_scenario(const char *name, Text *out, RunCounts *counts, char *la
         avr_instruction(cpu);
         pc_before_tick = cpu->pc;
         avr_cpu_tick(cpu);
-        counts->interrupts += cpu->pc != pc_before_tick;
+        if (cpu->pc != pc_before_tick) {
+            /* An interrupt was taken: pc is its vector's word address. */
+            counts->interrupts++;
+            if (cpu->pc / avr_vector_words(flash) < AVR_MAX_INTERRUPTS) {
+                counts->vector_taken[cpu->pc / avr_vector_words(flash)] = 1;
+            }
+        }
         text_add(out, "i %x %llx %02x %04x %08x\n", (unsigned)cpu->pc, (unsigned long long)cpu->cycles,
                  cpu->data[AVR_SREG], avr_get16(cpu, AVR_SP), fnv32(cpu->data, cpu->data_size));
     }
@@ -717,6 +734,20 @@ static void scenario_case(const Scenario *scenario) {
         printf("FAIL: %s: the trace has no taken interrupt\n", name);
         failures++;
     }
+    if (scenario->vectors != NULL) {
+        const char *p = scenario->vectors;
+
+        while (*p != '\0') {
+            char *end;
+            unsigned long vector = strtoul(p, &end, 10);
+
+            if (vector >= AVR_MAX_INTERRUPTS || !counts.vector_taken[vector]) {
+                printf("FAIL: %s: vector %lu was never taken\n", name, vector);
+                failures++;
+            }
+            p = *end == ',' ? end + 1 : end;
+        }
+    }
     if (scenario->needs_serial && counts.serial_events == 0) {
         printf("FAIL: %s: the trace has no USART, SPI or TWI event\n", name);
         failures++;
@@ -804,6 +835,123 @@ static void full_reset_case(void) {
     avr_chip_destroy(chip);
 }
 
+/* ---- The disassembler ---------------------------------------------------------- */
+
+#define DASM_NEXT 0x1234
+#define DASM_ADDRESS 0x100
+
+/* One line per opcode word: the word, the next word, the text. */
+static void dasm_text(Text *out) {
+    unsigned word;
+    char text[64];
+
+    for (word = 0; word < 0x10000; word++) {
+        avr_dasm((uint16_t)word, DASM_NEXT, DASM_ADDRESS, text, sizeof text);
+        text_add(out, "%04x %04x %s\n", word, DASM_NEXT, text);
+    }
+}
+
+static int read_dasm_golden(unsigned long *words, unsigned long long *hash) {
+    char path[1024], line[256];
+    FILE *file = fopen(scenario_path("golden", ".txt", path, sizeof path), "r");
+    int found = 0;
+
+    if (file == NULL) {
+        return 0;
+    }
+    while (fgets(line, sizeof line, file) != NULL) {
+        if (sscanf(line, "dasm %lu %llx", words, hash) == 2) {
+            found = 1;
+            break;
+        }
+    }
+    fclose(file);
+    return found;
+}
+
+#ifdef AVR_NODE
+/* The oracle's answer for our disassembly: "dasm: N words round-trip ..." */
+static char *dasm_oracle(const char *ours, int *status) {
+    char file_name[1024], arguments[1100];
+    FILE *file;
+
+    snprintf(file_name, sizeof file_name, "%s/avr-dasm.txt", AVR_TMP);
+    file = fopen(file_name, "w");
+    if (file == NULL) {
+        *status = -1;
+        return NULL;
+    }
+    fputs(ours, file);
+    fclose(file);
+    snprintf(arguments, sizeof arguments, "dasm-check \"%s\" 2>&1", file_name);
+    return oracle_output(arguments, status);
+}
+#endif
+
+static void dasm_case(void) {
+    Text ours = {0};
+    unsigned long golden_words = 0, words = 0;
+    unsigned long long golden_hash = 0;
+    int before = failures;
+    int live = 0;
+    char sample[64];
+
+    text_add(&ours, "%s", "");
+    dasm_text(&ours);
+#ifdef AVR_NODE
+    {
+        int status;
+        char *answer = dasm_oracle(ours.text, &status);
+
+        live = 1;
+        if (answer == NULL || status != 0 || sscanf(answer, "dasm: %lu words round-trip", &words) != 1) {
+            printf("FAIL: dasm: %s", answer != NULL ? answer : "the oracle did not run\n");
+            failures++;
+        }
+        free(answer);
+    }
+#endif
+    if (!read_dasm_golden(&golden_words, &golden_hash)) {
+        printf("FAIL: dasm: no `dasm` line in golden.txt\n");
+        failures++;
+    } else if (golden_hash != fnv64(ours.text) || (live && golden_words != words)) {
+        printf("FAIL: dasm: %lu words hash %016llx; the golden says %lu words hash %016llx\n", words,
+               (unsigned long long)fnv64(ours.text), golden_words, golden_hash);
+        failures++;
+    }
+    /* A few fixed texts, so a reader sees the format. */
+    avr_dasm(0xe5fa, 0, 0, sample, sizeof sample);
+    if (strcmp(sample, "LDI R31, 0x5A") != 0) {
+        printf("FAIL: dasm: e5fa is \"%s\"\n", sample);
+        failures++;
+    }
+    avr_dasm(0xcffd, 0, 0, sample, sizeof sample);
+    if (strcmp(sample, "RJMP .-6") != 0) {
+        printf("FAIL: dasm: cffd is \"%s\"\n", sample);
+        failures++;
+    }
+    if (avr_dasm(0x940c, 0x0080, 0, sample, sizeof sample) != 2 || strcmp(sample, "JMP 0x0100") != 0) {
+        printf("FAIL: dasm: 940c 0080 is \"%s\"\n", sample);
+        failures++;
+    }
+    avr_dasm(0xfff7, 0, 0, sample, sizeof sample);
+    if (strcmp(sample, "SBRS R31, 7") != 0) {
+        printf("FAIL: dasm: fff7 is \"%s\"\n", sample);
+        failures++;
+    }
+    /* Erased flash (0xFFFF) is no instruction: the core runs it as a no-op. */
+    avr_dasm(0xffff, 0, 0, sample, sizeof sample);
+    if (strcmp(sample, ".DW 0xFFFF") != 0) {
+        printf("FAIL: dasm: ffff is \"%s\"\n", sample);
+        failures++;
+    }
+    if (failures == before) {
+        printf("dasm: %lu words round-trip%s\n", live ? words : golden_words,
+               live ? "" : " (golden hash only, node not found)");
+    }
+    free(ours.text);
+}
+
 static int print_golden(void) {
 #ifdef AVR_NODE
     size_t i;
@@ -829,6 +977,24 @@ static int print_golden(void) {
         printf("run %s %lu %016llx\n", SCENARIOS[i].name, count_lines(theirs),
                (unsigned long long)fnv64(theirs));
         free(theirs);
+        free(ours.text);
+    }
+    {
+        Text ours = {0};
+        unsigned long words = 0;
+        char *answer;
+        int status;
+
+        text_add(&ours, "%s", "");
+        dasm_text(&ours);
+        answer = dasm_oracle(ours.text, &status);
+        if (answer == NULL || status != 0 || sscanf(answer, "dasm: %lu words round-trip", &words) != 1) {
+            fprintf(stderr, "dasm: %s", answer != NULL ? answer : "the oracle did not run\n");
+            return 1;
+        }
+        /* The count is the oracle's; the hash is of the text it accepted. */
+        printf("dasm %lu %016llx\n", words, (unsigned long long)fnv64(ours.text));
+        free(answer);
         free(ours.text);
     }
     return 0;
@@ -867,12 +1033,21 @@ int main(int argc, char **argv) {
     if (argc == 2 && strcmp(argv[1], "--print-golden") == 0) {
         return print_golden();
     }
+    if (argc == 2 && strcmp(argv[1], "--dasm") == 0) {
+        Text ours = {0};
+
+        text_add(&ours, "%s", "");
+        dasm_text(&ours);
+        fputs(ours.text, stdout);
+        return 0;
+    }
 
     layout_case("atmega328", 32768);
     for (i = 0; i < SCENARIO_COUNT; i++) {
         scenario_case(&SCENARIOS[i]);
     }
     full_reset_case();
+    dasm_case();
     if (failures != 0) {
         printf("%d failure(s)\n", failures);
         return 1;

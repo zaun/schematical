@@ -158,6 +158,13 @@ void avr_interrupt(AvrCpu *cpu, uint8_t addr);
 /* Executes the instruction at pc. */
 void avr_instruction(AvrCpu *cpu);
 
+/* ---- avr_dasm.c (plan-62-D) ------------------------------------------------ */
+
+/* Disassembles the instruction whose first word is `word` (`next` is the
+   word after it) at byte address `address` into out (cap bytes, at most 24
+   are written). Returns its length in words, 1 or 2. */
+unsigned avr_dasm(uint16_t word, uint16_t next, uint32_t address, char *out, size_t cap);
+
 /* ---- avr_gpio.c: avr8js's src/peripherals/gpio.ts (plan-62-B) ------------- */
 
 typedef struct AvrPort AvrPort;

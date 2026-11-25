@@ -16,3 +16,7 @@ run twi 8025 a8e58d379aeafef7
 run adc 14000 d0344e84293ca351
 run eeprom 170000 41b9c5fe5a10123f
 run watchdog 9000 ff02978873d457da
+run m48_vectors 2512 816031013b2e7ec6
+run m168pb_porte 561 277b08b30adfee24
+run m328pb_extras 4064 b03f2c6209a8109e
+dasm 63902 ddc4f5879f07bbcb
