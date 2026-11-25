@@ -1,0 +1,105 @@
+ATmega328P:
+  AC       AIN0     PD6
+  AC       AIN1     PD7
+  ADC      ADC0     PC0
+  ADC      ADC1     PC1
+  ADC      ADC2     PC2
+  ADC      ADC3     PC3
+  ADC      ADC4     PC4
+  ADC      ADC5     PC5
+  CPU      XTAL1    PB6
+  CPU      XTAL2    PB7
+  EXINT    INT0     PD2
+  EXINT    INT1     PD3
+  EXINT    PCINT0   PB0
+  EXINT    PCINT1   PB1
+  EXINT    PCINT10  PC2
+  EXINT    PCINT11  PC3
+  EXINT    PCINT12  PC4
+  EXINT    PCINT13  PC5
+  EXINT    PCINT14  PC6
+  EXINT    PCINT16  PD0
+  EXINT    PCINT17  PD1
+  EXINT    PCINT18  PD2
+  EXINT    PCINT19  PD3
+  EXINT    PCINT2   PB2
+  EXINT    PCINT20  PD4
+  EXINT    PCINT21  PD5
+  EXINT    PCINT22  PD6
+  EXINT    PCINT23  PD7
+  EXINT    PCINT3   PB3
+  EXINT    PCINT4   PB4
+  EXINT    PCINT5   PB5
+  EXINT    PCINT6   PB6
+  EXINT    PCINT7   PB7
+  EXINT    PCINT8   PC0
+  EXINT    PCINT9   PC1
+  SPI      MISO     PB4
+  SPI      MOSI     PB3
+  SPI      SCK      PB5
+  SPI      SS       PB2
+  TC0      OCA      PD6
+  TC0      OCB      PD5
+  TC1      ICP      PB0
+  TC1      OCA      PB1
+  TC1      OCB      PB2
+  TC2      OCA      PB3
+  TC2      OCB      PD3
+  TWI      SCL      PC5
+  TWI      SDA      PC4
+  USART0   RXD      PD0
+  USART0   TXD      PD1
+  USART0   XCK      PD4
+ATmega48 differs/extra: 0 missing: 0
+ATmega48A differs/extra: 0 missing: 0
+ATmega48P differs/extra: 0 missing: 0
+ATmega48PA differs/extra: 0 missing: 0
+ATmega88 differs/extra: 0 missing: 0
+ATmega88A differs/extra: 0 missing: 0
+ATmega88P differs/extra: 0 missing: 0
+ATmega88PA differs/extra: 0 missing: 0
+ATmega168 differs/extra: 0 missing: 0
+ATmega168A differs/extra: 0 missing: 0
+ATmega168P differs/extra: 0 missing: 0
+ATmega168PA differs/extra: 0 missing: 0
+ATmega328 differs/extra: 0 missing: 0
+ATmega48PB differs/extra: 2 missing: 0
+  ADC      ADC6     PE2
+  ADC      ADC7     PE3
+  missing []
+ATmega88PB differs/extra: 2 missing: 0
+  ADC      ADC6     PE2
+  ADC      ADC7     PE3
+  missing []
+ATmega168PB differs/extra: 2 missing: 0
+  ADC      ADC6     PE2
+  ADC      ADC7     PE3
+  missing []
+ATmega328PB differs/extra: 26 missing: 6
+  ADC      ADC6     PE2
+  ADC      ADC7     PE3
+  EXINT    PCINT24  PE0
+  EXINT    PCINT25  PE1
+  EXINT    PCINT27  PE2
+  SPI0     MISO     PB4
+  SPI0     MOSI     PB3
+  SPI0     SCK      PB5
+  SPI0     SS       PB2
+  SPI1     MISO     PC0
+  SPI1     MOSI     PE3
+  SPI1     SCK      PC1
+  SPI1     SS       PE2
+  TC3      ICP      PE2
+  TC3      OCA      PD0
+  TC3      OCB      PD2
+  TC4      ICP      PE0
+  TC4      OCA      PD1
+  TC4      OCB      PD2
+  TWI0     SCL      PC5
+  TWI0     SDA      PC4
+  TWI1     SCL      PE1
+  TWI1     SDA      PE0
+  USART1   RXD      PB4
+  USART1   TXD      PB3
+  USART1   XCK      PB5
+  missing [('SPI', 'MISO'), ('SPI', 'MOSI'), ('SPI', 'SCK'), ('SPI', 'SS'), ('TWI', 'SCL'), ('TWI', 'SDA')]
