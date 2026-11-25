@@ -287,7 +287,9 @@ struct BoardRenderer {
                                                   margin: margin)
         let painter = SolidPainter(projection: projection)
         let outline = board.outline
-        let boardShape = Path { path in path.addLines(outline); path.closeSubpath() }
+        // The outline and every cutout: filled even-odd, a cutout is a hole (plan-65-F).
+        let boardEdge = document.boardEdge
+        let boardShape = PCBCanvasView.boardPath(boardEdge)
         let mask = Tint(board.color.fill)
         let finishTint: Tint
         switch finish {
@@ -304,7 +306,7 @@ struct BoardRenderer {
                 : CGSize(width: 6, height: 10)
             layer.translateBy(x: offset.width, y: offset.height)
             layer.concatenate(projection.flat)
-            layer.fill(boardShape, with: .color(.black.opacity(0.55)))
+            layer.fill(boardShape, with: .color(.black.opacity(0.55)), style: FillStyle(eoFill: true))
         }
 
         // The board's edge: FR-4 under a thin skin of mask.
@@ -312,6 +314,14 @@ struct BoardRenderer {
             painter.walls(outline, from: -Self.thickness, to: 0, tint: Tint.fr4.mixed(with: mask, 0.25), in: &context)
             painter.walls(outline, from: -0.08, to: 0, tint: mask, in: &context)
             painter.walls(outline, from: -Self.thickness, to: -Self.thickness + 0.08, tint: mask, in: &context)
+            // A cutout's walls face into the hole: `walls` reads the winding from the polygon, so
+            // the loop goes in reversed (the board's loops are clockwise, `BoardCutout.Shape.loop`).
+            for loop in boardEdge.cutouts {
+                let hole = BoardGeometry.area(loop) > 0 ? Array(loop.reversed()) : loop
+                painter.walls(hole, from: -Self.thickness, to: 0, tint: Tint.fr4.mixed(with: mask, 0.25), in: &context)
+                painter.walls(hole, from: -0.08, to: 0, tint: mask, in: &context)
+                painter.walls(hole, from: -Self.thickness, to: -Self.thickness + 0.08, tint: mask, in: &context)
+            }
         }
 
         // The surface, flat.
@@ -351,7 +361,8 @@ struct BoardRenderer {
         let bounds = shape.boundingRect
         context.fill(shape, with: .linearGradient(
             Gradient(colors: [mask.shaded(1.06).color, mask.color, mask.shaded(0.88).color]),
-            startPoint: CGPoint(x: bounds.minX, y: bounds.minY), endPoint: CGPoint(x: bounds.maxX, y: bounds.maxY)))
+            startPoint: CGPoint(x: bounds.minX, y: bounds.minY), endPoint: CGPoint(x: bounds.maxX, y: bounds.maxY)),
+                     style: FillStyle(eoFill: true))
 
         // Copper under the mask shows as a lighter tint of it.
         let underMask = mask.mixed(with: Tint(0.85, 0.70, 0.40), 0.18).shaded(1.05).color
@@ -485,7 +496,7 @@ struct BoardRenderer {
         let cuts = PCBCanvasView.planeCuts(on: layer, copper: document.connectivity())
         let clearance = style.clearance(rules: rules), edge = rules.minCopperToEdge
         context.drawLayer { plane in
-            plane.fill(shape, with: .color(colour))
+            plane.fill(shape, with: .color(colour), style: FillStyle(eoFill: true))
             plane.blendMode = .clear
             func clear(_ path: Path, by distance: Double) {
                 guard !path.isEmpty else { return }

@@ -95,11 +95,12 @@ Commit: —
 
 ### Phase 2 — The board preview
 
-- [ ] `BoardPreview/BoardRenderer.swift`: `boardShape` from `document.boardEdge.path`; the shadow and surface fills even-odd; walls for each cutout loop reversed, with the same three tints as the outline.
-- [ ] Tests `schematicalTests/BoardPreviewTests.swift` (add): a 60 × 40 board with a 20 × 20 cutout at its middle rendered Front (`ImageRenderer`, as `pixels` does) has a centre pixel that differs from the same pixel of the render without the cutout by at least 100 in the sum of the channel differences (the board colour against the backdrop), and a pixel 3 mm outside the cutout that is identical between the two renders; an angled render of the same document completes and differs from the render without the cutout.
+- [x] `BoardPreview/BoardRenderer.swift`: `boardShape` from `document.boardEdge.path`; the shadow and surface fills even-odd; walls for each cutout loop reversed, with the same three tints as the outline.
+- [x] Tests `schematicalTests/BoardPreviewTests.swift` (add): a 60 × 40 board with a 20 × 20 cutout at its middle rendered Front (`ImageRenderer`, as `pixels` does) has a centre pixel that differs from the same pixel of the render without the cutout by at least 100 in the sum of the channel differences (the board colour against the backdrop), and a pixel 3 mm outside the cutout that is identical between the two renders; an angled render of the same document completes and differs from the render without the cutout.
 
 Acceptance: the preview shows a hole; existing preview tests pass unedited.
   Check: `XB -only-testing:schematicalTests/BoardPreviewTests -only-testing:schematicalTests/CutoutPanelTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 5 min; `BoardPreviewTests` also renders boards without cutouts).
+  Observed: BoardPreviewTests 13 (2 new) + CutoutPanelTests 5, 0 failures, TEST SUCCEEDED.
 Commit: —
 
 ## Validation Plan
