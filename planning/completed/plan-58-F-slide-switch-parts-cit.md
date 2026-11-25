@@ -136,7 +136,7 @@ total plus the number of CIT Relay & Switch `add` rows; the generator run is ide
 passes (the library pass of `slide_test` covers the new devices).
   Check: `python3 -I planning/plan-58-data/gen-parts.py --maker 'CIT' --dry-run && cmake --build /tmp/logic-p58 -j8 && ctest --test-dir /tmp/logic-p58 -j8 -R 'slide_test|listing_check|trace_check|footprint_check|library_check'` → no change, `100% tests passed` (est. 12 min).
   Measured: `gen-parts.py --maker 'CIT'` written, then `--dry-run` → `no changes`; goldens regenerated: no golden line removed, `grep -c 'states=' backend/tests/golden/parts.txt` → 271; `ctest -j8` → `100% tests passed, 0 tests failed out of 62`; `check-datasheets.js --host www.citrelay.com` → `0 failed`
-Commit: —
+Commit: 36139930
 
 ## Validation Plan
 
