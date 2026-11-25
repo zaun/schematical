@@ -1323,7 +1323,7 @@ extension SchematicFile {
         var style = NetLabel.Style.input
         if let type = entry.type {
             guard let parsed = NetLabel.Style(rawValue: type) else {
-                throw SchematicFileError.badLabel("\(name) type \"\(type)\" must be input, output, inout, passive or noConnect")
+                throw SchematicFileError.badLabel("\(name) type \"\(type)\" must be input, output, inout, passive, noConnect or powerFlag")
             }
             style = parsed
         }

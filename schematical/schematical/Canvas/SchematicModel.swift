@@ -3007,7 +3007,7 @@ final class SchematicDocument {
             var changed = netLabels
             changed[index].style = style
             // Only becoming or leaving No Connect changes what joins what.
-            if netLabels[index].isNet != style.isNet, let library,
+            if netLabels[index].isNoConnect != style.isNoConnect, let library,
                let issue = VoltageCheck.firstNew(before: chips, wires, after: chips, wires, buses: buses,
                                                  labels: netLabels, afterLabels: changed,
                                                  known: currentVoltageIssues(library), library: library) {

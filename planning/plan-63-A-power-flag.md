@@ -40,10 +40,10 @@ These are a precondition on the whole of plan 63, stated once here; B–G point 
 
 | Must be true | Command | Status |
 |---|---|---|
-| KiCad 10.0.8 is installed | `~/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli version` → `10.0.8` | MET (`10.0.8`, 2026-11-25) |
-| Xcode 26 | `xcodebuild -version \| head -1` → `Xcode 26.3` | MET (2026-11-25) |
-| The backend configures | `cmake -S backend -B /tmp/logic-build >/dev/null && echo ok` → `ok` | MET (`configure-ok`, 2026-11-25) |
-| No other plan 63 is on main | `git log origin/main --oneline -- 'planning/plan-63*' \| head -1` → no output until this plan's own commit | MET (before this plan's commit) |
+| KiCad 10.0.8 is installed | `~/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli version` → `10.0.8` | MET (`10.0.8`, re-run 2026-11-25 at execution) |
+| Xcode 26 | `xcodebuild -version \| head -1` → `Xcode 26.3` | MET (`Xcode 26.3`, re-run at execution) |
+| The backend configures | `cmake -S backend -B /tmp/logic-build >/dev/null && echo ok` → `ok` | MET (`ok`, re-run at execution, in `/tmp/logic-build-wt63`: see Corrections 1) |
+| No other plan 63 is on main | `git log origin/main --oneline -- 'planning/plan-63*' \| head -1` → no output until this plan's own commit | MET (no output, re-run at execution) |
 
 Everything below is written against the world where these hold.
 
@@ -166,29 +166,29 @@ references; a design without a flag exports as before.
 
 The flag exists in the editor and the file; the exports do not know it yet.
 
-- [ ] `Canvas/NetLabel.swift`: add `case powerFlag` to `Style` (title "Power
+- [x] `Canvas/NetLabel.swift`: add `case powerFlag` to `Style` (title "Power
       Flag"); add `isNoConnect` and `isPowerFlag` on `Style` and on `NetLabel`;
       make `Style.isNet` `self != .noConnect && self != .powerFlag`. Draw a
       flag as § 3 says in the code paths at `:86` (bounds), `:129` (outline)
       and `:173` (drawing), beside the No Connect's X; a flag's `bounds` is
       the stem and pennant, its hit area the No Connect's square.
-- [ ] `Simulation/Simulation.swift:95`: `noConnects` is the labels with
+- [x] `Simulation/Simulation.swift:95`: `noConnects` is the labels with
       `isNoConnect`.
-- [ ] `Canvas/SchematicModel.swift:3010`: compare `isNoConnect`, not `isNet`
+- [x] `Canvas/SchematicModel.swift:3010`: compare `isNoConnect`, not `isNet`
       (turning a net label into a flag does not join or split nets, so it needs
       no voltage check; turning a No Connect into a flag joins its wire's two ends,
       so it does).
-- [ ] `Drawer/NetLabelPanel.swift:21,23,51`: the title is "Power Flag" for a flag;
+- [x] `Drawer/NetLabelPanel.swift:21,23,51`: the title is "Power Flag" for a flag;
       a flag shows no name field, no flip, and no "joins N labels" line.
-- [ ] `Canvas/SelectionList.swift:40,99`: the row text of a flag is "power
+- [x] `Canvas/SelectionList.swift:40,99`: the row text of a flag is "power
       flag" (a No Connect's is "no connect").
-- [ ] `Document/SchematicFile.swift:1316-1330`: accept `powerFlag`; the error text
+- [x] `Document/SchematicFile.swift:1316-1330`: accept `powerFlag`; the error text
       lists all six types.
-- [ ] `docs/file-format.md` § Net labels: the `type` row gains `"powerFlag"`; a
+- [x] `docs/file-format.md` § Net labels: the `type` row gains `"powerFlag"`; a
       paragraph after the `"noConnect"` one says a flag is drawn as a flag,
       names nothing, joins nothing but its own wire, marks a net as driven for
       the ERC (63-D), and that an older build refuses the file.
-- [ ] Tests, new `schematicalTests/PowerFlagTests.swift` (conventions:
+- [x] Tests, new `schematicalTests/PowerFlagTests.swift` (conventions:
       `TestSupport`, as `NetLabelTests`): placing a flag; moving, deleting,
       copy and paste, undo and redo keep it; `SchematicFile` round trip writes
       `"type": "powerFlag"` and reads it back; a bad type's message names all six;
@@ -199,7 +199,8 @@ The flag exists in the editor and the file; the exports do not know it yet.
 Acceptance: a flag can be placed, saved, reopened and undone; no net changes;
 a No Connect still joins nothing.
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/PowerFlagTests -only-testing:schematicalTests/NetLabelTests -only-testing:schematicalTests/SchematicClipboardTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 7 min, most of it the build).
-Commit: —
+  Result: `PowerFlagTests` 6 tests, `NetLabelTests` 18, `SchematicClipboardTests` 14: `Executed 38 tests, with 0 failures`, `** TEST SUCCEEDED **` (2026-11-25, in the worktree; a flag's rect is the stem, pennant and the No Connect's square together, so a click on the drawn flag hits it).
+Commit: — (this commit: see Phase 2's ledger line)
 
 ### Phase 2 — The exports
 
@@ -242,7 +243,8 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+1. **Build directory.** Every cmake command of plan 63 names `/tmp/logic-build`; its cache was made from the main checkout (`CMake Error: … does not match the source`), so in the integration worktree they run with `/tmp/logic-build-wt63` instead (`cmake -S backend -B /tmp/logic-build-wt63`). Same commands, other directory.
+2. **Phase 1's "same `connections` as without the flag" test.** With the flag wired to a pin that already has a wire, `connections` and `netCount` are unchanged (`testAFlagOnAWireChangesNoNet`); the "a No Connect on the same wire still splits it" claim only holds when the flag is a joint between two pins, so the test for it is `testAFlagJoinsItsWiresAndANoConnectDoesNot` (K and A wired to one flag: one net; as a No Connect: two).
 
 ## Summary
 
