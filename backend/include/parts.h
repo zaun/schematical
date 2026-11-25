@@ -66,6 +66,11 @@ typedef struct {
     unsigned positions; const char *actuator; uint32_t rated_mv;
     unsigned momentary; unsigned normally_closed; unsigned joined;
     uint32_t body_um[2];
+    /* Slide switches (plan-58-B): "states" and "rest". states = the knob
+       positions (2 or 3), 0 for a switch without "states"; rest = the position
+       a new circuit starts in (1-based, 0 when states == 0); state_mask[n-1] =
+       the contacts closed in position n, bit c-1 for contact c. */
+    unsigned states; unsigned rest; uint8_t state_mask[3];
 } PartSwitch;
 /* colors: the LED's colors, in file order; colors[0] is the default. */
 typedef struct { const char *const *colors; size_t color_count; } PartLed;
@@ -525,5 +530,10 @@ const Part *part_library_at(const PartLibrary *library, size_t index);
 const Part *part_library_find(const PartLibrary *library, const char *name);
 /* The part load_part_file loaded with this "uuid"; NULL if none. */
 const Part *part_library_find_uuid(const PartLibrary *library, const char *uuid);
+
+/* The contacts a slide switch (plan-58-B) has closed in knob position `state`
+   (1 … PartSwitch.states): returns 1 and sets bit c-1 of *mask for contact c;
+   0 for any other part, a switch without "states" or a state out of range. */
+int part_switch_state_contacts(const Part *part, unsigned state, uint32_t *mask);
 
 #endif

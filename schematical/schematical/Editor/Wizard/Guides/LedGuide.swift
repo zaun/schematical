@@ -39,7 +39,7 @@ enum SwitchGuide {
                            + "say whether it is a push button that springs back.",
                        page: .kindFields,
                        keys: ["device.actuator", "device.contacts", "device.momentary", "device.normallyClosed",
-                              "device.joined"],
+                              "device.joined", "device.states", "device.rest"],
                        searchTerms: ["Circuit Diagram", "Schematic", "Specifications", "Features", "Dimensions"]),
             WizardStep(id: "kind.ratings", title: "Ratings and size",
                        intro: "The voltage the contacts may switch, and the body size the drawer files a push "
@@ -78,6 +78,21 @@ enum SwitchGuide {
                     + "two legs on each side of its contact.",
                 whereToFind: ["Circuit Diagram", "Schematic", "Dimensions"],
                 alsoCalled: ["Common terminals"]),
+            "device.states": FieldGuide(
+                label: "Knob positions (slide switch)",
+                help: "For a slide switch: one entry per knob position, position 1 first, each listing the "
+                    + "contact numbers (1 for the first entry of the contacts) that are closed there. An "
+                    + "On-Off-On switch has three, the middle one empty. Leave it out for a DIP or push button.",
+                whereToFind: ["Circuit Diagram", "Schematic", "Specifications"],
+                alsoCalled: ["Circuit", "Switch action", "On-On", "On-Off-On"],
+                example: "[1], [2]"),
+            "device.rest": FieldGuide(
+                label: "Starting position (slide switch)",
+                help: "The knob position a new switch starts in, 1 for the first. A switch with an Off "
+                    + "position starts Off. Leave it out to start in position 1.",
+                whereToFind: ["Circuit Diagram", "Features"],
+                alsoCalled: ["Default position"],
+                example: "1"),
             "device.ratedVolts": FieldGuide(
                 label: "Switching voltage rating",
                 help: "The highest voltage the contacts may switch (the switching rating, not the higher "

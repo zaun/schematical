@@ -29,9 +29,9 @@ The gate for the whole feature is in plan-58-A § Prerequisites. This letter add
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-58-C is complete | `ls planning/completed/plan-58-C-* \| wc -l` → 1 | NOT MET until C lands |
-| The generator exists | `ls planning/plan-58-data/gen-parts.py planning/plan-58-data/census/scheme-check.py planning/plan-58-data/census/specs-check.py planning/plan-58-data/census/fp-load.sh \| wc -l` → 4 | NOT MET until C lands |
-| NKK's PDFs are placed | `ls datasheets/switch/slide/nkk/*.pdf \| wc -l` → 8 (or fewer, when A skipped a PDF's rows) | NOT MET until A lands |
+| plan-58-C is complete | `ls planning/completed/plan-58-C-* \| wc -l` → 1 | MET (2026-11-24, P-58: plan-58-C archived, 98c5cefb) |
+| The generator exists | `ls planning/plan-58-data/gen-parts.py planning/plan-58-data/census/scheme-check.py planning/plan-58-data/census/specs-check.py planning/plan-58-data/census/fp-load.sh \| wc -l` → 4 | MET (2026-11-24, P-58: plan-58-C archived, 98c5cefb) |
+| NKK's PDFs are placed | `ls datasheets/switch/slide/nkk/*.pdf \| wc -l` → 8 (or fewer, when A skipped a PDF's rows) | MET (2026-11-24) |
 | No NKK slide parts yet | `python3 -I -c "import csv;t=open('schematical/schematical/Parts/switch.json').read();m=[r['mpn'] for r in csv.DictReader(open('planning/plan-58-data/candidates.tsv'),delimiter='\t') if r['maker']=='NKK' and r['decision']=='add'];print(sum(('\"name\":\"'+x+'\"') in t for x in m))"` → 0 | MET (2026-11-24) |
 
 If plan-58-C is not complete, this plan cannot start, full stop.
@@ -97,44 +97,47 @@ data; the image-against-drawing comparison catches it) and the same gate
 
 ### Phase 1 — decide the pending rows
 
-- [ ] Read each NKK PDF's part-number key; add the NKK rows to
+- [x] Read each NKK PDF's part-number key; add the NKK rows to
       `planning/plan-58-data/schemes.tsv` (plan-58-C § 4.1).
-- [ ] `python3 -I planning/plan-58-data/census/scheme-check.py --maker 'NKK'`; commit
+- [x] `python3 -I planning/plan-58-data/census/scheme-check.py --maker 'NKK'`; commit
       `candidates.tsv` and the skipped-parts section.
 
 Acceptance: no NKK row is `pending`; each `skip` reason is listed in
 `datasheets/skipped-parts.md`.
   Check: `awk -F'\t' '$1=="NKK" && $18=="pending"' planning/plan-58-data/candidates.tsv \| wc -l` → 0 (est. 3 min).
-Commit: —
+  Measured: `scheme-check.py --maker 'NKK'` → `NKK 67 add, 4 skip, 0 pending`; `awk` pending count → 0; `decide.py --verify-skipped` exit 0
+Commit: 5cba86ae
 
 ### Phase 2 — footprints and specs
 
-- [ ] For each of NKK's (series, mounting, circuit) lines (19 at planning): read
+- [x] For each of NKK's (series, mounting, circuit) lines (19 at planning): read
       the PDF drawing, write the footprint (plan-58-C § 4.3) as a ready object in
       `planning/plan-58-data/footprints-D.json` and its `specs.tsv` row (§ 4.2).
-- [ ] `python3 -I planning/plan-58-data/census/specs-check.py --maker 'NKK'` and
+- [x] `python3 -I planning/plan-58-data/census/specs-check.py --maker 'NKK'` and
       `planning/plan-58-data/census/fp-load.sh planning/plan-58-data/footprints-D.json`.
-- [ ] For every new footprint: a rendered image beside the datasheet page, read
+- [x] For every new footprint: a rendered image beside the datasheet page, read
       pair by pair, fixing any mismatch.
 
 Acceptance: every NKK row has a spec whose footprint is staged and has its
 pads; the staged footprints load; each image matches its drawing.
   Check: `python3 -I planning/plan-58-data/census/specs-check.py --maker 'NKK' && planning/plan-58-data/census/fp-load.sh planning/plan-58-data/footprints-D.json` → `specs ok`, then only `unused footprint` lines for the staged ids and `load ok` (est. 6 min).
-Commit: —
+  Measured: `specs-check.py --maker 'NKK'` → `specs ok (67 rows, 29 specs)`; `fp-load.sh footprints-D.json` → `28 footprints appended`, `28 new footprints: load ok`
+Commit: 4b53e1be
 
 ### Phase 3 — parts
 
-- [ ] `python3 -I planning/plan-58-data/gen-parts.py --maker 'NKK'` (the earlier
+- [x] `python3 -I planning/plan-58-data/gen-parts.py --maker 'NKK'` (the earlier
       makers' parts stay: the generator rebuilds every maker already in the region).
-- [ ] Regenerate the goldens (`listing_check --print`, `trace_check --print`,
+- [x] Regenerate the goldens (`listing_check --print`, `trace_check --print`,
       `footprint_check --print`) and review: only added lines, in each file.
-- [ ] `node scripts/check-datasheets.js --host www.nkkswitches.com` → exit 0.
+- [x] `node scripts/check-datasheets.js --host www.nkkswitches.com` → exit 0.
 
 Acceptance: `grep -c 'states=' backend/tests/golden/parts.txt` equals the previous
 total plus the number of NKK `add` rows; the generator run is idempotent; `ctest`
 passes (the library pass of `slide_test` covers the new devices).
   Check: `python3 -I planning/plan-58-data/gen-parts.py --maker 'NKK' --dry-run && cmake --build /tmp/logic-p58 -j8 && ctest --test-dir /tmp/logic-p58 -j8 -R 'slide_test|listing_check|trace_check|footprint_check|library_check'` → no change, `100% tests passed` (est. 12 min).
-Commit: —
+  Measured: `gen-parts.py --maker 'NKK'` written, then `--dry-run` → `no changes`; goldens regenerated: no golden line removed, `grep -c 'states=' backend/tests/golden/parts.txt` → 172; `ctest -j8` → `100% tests passed, 0 tests failed out of 62`; `check-datasheets.js --host www.nkkswitches.com` → `0 failed`
+Commit: cea7de97
 
 ## Validation Plan
 
@@ -154,7 +157,9 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- **2026-11-24, Phase 1: 4 pending rows do not fit their key and are `skip`** (AS: AS11BW, AS12CV/A, AS13AW; M: MSN12ANA03); NKK has 67 `add` rows after Phase 1. `schemes.tsv` regexes are written from each datasheet's ordering key (positions and listed letters only).
+- **2026-11-24, Phase 2: the footprints were drawn by parallel sub-agents, one per group of series** (AS; M + FS + CS; SS + SS3 + SM), each reading its PDFs' drawings as page images, rendering every footprint with `census/fp-render.py` and comparing it with the drawing; the lead merged the fragments (`merge-specs.py`, `fp-load.sh`: 28 footprints, 29 spec rows for 67 `add` rows). Open questions of each sub-agent are in the footprints' `note` fields (top vs bottom view, the body outline's position against the pads where the drawing gives no tie, terminals renumbered to 1..n where a datasheet skips numbers). Images are rendered from the JSON (see plan-58-C Corrections), not by the app.
+- **2026-11-24, Phase 3: pinout names are now `p<N>_<designators>` and every C&K device's pinouts were renamed once.** plan-58-C named a device's pinouts `p<N>`, `p<N>_2`, … in the sorted order of the `pins` strings, so adding NKK's numbering renamed C&K parts' pinouts (5 devices at the first run). `gen-parts.py` now names a pinout by the designators of its pin names in plan-58-B § 4.3 order (SPDT `2=C;1=A;3=B` → `p3_213`; DPDT `2=C1;1=A1;3=B1;5=C2;4=A2;6=B2` → `p6_213546`), and two spellings of one numbering share it. The rename touched C&K's devices in this commit only (`pinout` keys; no golden line changed: `removed golden lines: 0`); it cannot happen again. `docs/parts-format.md` has the new naming.
 
 ## Summary
 
