@@ -237,7 +237,7 @@ Acceptance: the three scenarios equal avr8js and the layout equals
 avr8js's configs.
   Check: `ctest --test-dir /tmp/sim-rel -R avr_periph_test --output-on-failure` → `layout atmega328 equal`, `ok gpio_out`, `ok gpio_int`, `ok clkpr` (est. 1 min).
   Observed: 2026-11-24: `layout atmega328 equal`, `ok gpio_out (521 lines, 121 port events, 0 interrupts)`, `ok gpio_int (6000 lines, 0 port events, 1489 interrupts)`, `ok clkpr (160 lines, 0 port events, 0 interrupts)`, each against the live oracle.
-Commit: —
+Commit: 699698df
 
 ### Phase 2 — timers
 
@@ -250,7 +250,7 @@ Commit: —
 Acceptance: all 7 scenarios equal avr8js.
   Check: `ctest --test-dir /tmp/sim-rel -R 'avr_' --output-on-failure` → 7 `ok <scenario>` lines, 2 tests passed (est. 1 min).
   Observed: 2026-11-24: 7 `ok` lines against the live oracle (`timer0` 60199 lines, 199 port events, 229 interrupts; `timer1` 45271, 271, 278; `timer2` 56198, 198, 151; `timer_ext` 2613, 113, 242); every program reaches its `end` label; `ctest -R avr_` 2 of 2 passed.
-Commit: —
+Commit: 9948b775
 
 ## Validation Plan
 
