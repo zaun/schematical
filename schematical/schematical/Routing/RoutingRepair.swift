@@ -17,6 +17,13 @@ nonisolated extension Router.Run {
         // of it would break the coupling.
         cleanup.frozen = Set(traces.indices.filter { traces[$0].net.map(pairNets.contains) ?? false })
         cleanup.frozenVias = Set(vias.indices.filter { vias[$0].net.map(pairNets.contains) ?? false })
+        // Existing copper no push has touched stays exactly as it is.
+        for t in traces.indices where state.entries[traceEntry[t]].map({ $0.chain != nil && !$0.touched }) ?? false {
+            cleanup.frozen.insert(t)
+        }
+        for v in vias.indices where state.entries[viaEntry[v]].map({ $0.chain != nil && !$0.touched }) ?? false {
+            cleanup.frozenVias.insert(v)
+        }
         return cleanup
     }
 
@@ -36,7 +43,10 @@ nonisolated extension Router.Run {
             while true {
                 let violations = RoutingVerifier.verify(problem, traces: copper.traces, vias: copper.vias)
                 guard !violations.isEmpty else { break }
-                let bad = Set(violations.flatMap { v in v.traces.map { copper.traceEntry[$0] } + v.vias.map { copper.viaEntry[$0] } })
+                // A violation is the new or touched copper's: existing copper no push has touched
+                // may already break a rule, and the router does not repair the user's board.
+                let bad = Set(violations.flatMap { v in v.traces.map { copper.traceEntry[$0] } + v.vias.map { copper.viaEntry[$0] } }
+                    .filter { state.entries[$0].map { $0.chain == nil || $0.touched } ?? true })
                 let fresh = bad.subtracting(raw)
                 if fresh.isEmpty {
                     illegal = bad.sorted()
@@ -45,7 +55,12 @@ nonisolated extension Router.Run {
                 raw.formUnion(fresh)
                 copper = Self.reverting(copper, entries: fresh, ledger: state.entries)
             }
-            guard !illegal.isEmpty else { return (copper.traces, copper.vias) }
+            guard !illegal.isEmpty else {
+                // The copper the run laid; existing copper is already on the board.
+                let keepT = copper.traces.indices.filter { state.entries[copper.traceEntry[$0]]?.chain == nil }
+                let keepV = copper.vias.indices.filter { state.entries[copper.viaEntry[$0]]?.chain == nil }
+                return (keepT.map { copper.traces[$0] }, keepV.map { copper.vias[$0] })
+            }
             attempt += 1
             let nets = Set(illegal.compactMap { state.entries[$0]?.net })
             if attempt > Self.repairAttempts || stopped {

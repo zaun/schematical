@@ -84,7 +84,7 @@ nonisolated struct RoutingCleanup {
         self.traceEntry = traceEntry
         self.viaEntry = viaEntry
         var clearance: [Int: Double] = [:]
-        for net in problem.nets { clearance[net.id] = max(net.clearance, problem.rules.minClearance) }
+        for net in problem.nets + problem.bystanders { clearance[net.id] = max(net.clearance, problem.rules.minClearance) }
         clearanceOf = clearance
         maxClearance = max(clearance.values.max() ?? 0, problem.rules.minClearance)
         boardEdge = problem.edge

@@ -207,20 +207,20 @@ differences: none until D.
 
 ### Phase 1 — chains as entries; crossing off
 
-- [ ] `Routing/RoutingState.swift`: `LedgerEntry.chain: Int?`, `touched: Bool`;
+- [x] (done) `Routing/RoutingState.swift`: `LedgerEntry.chain: Int?`, `touched: Bool`;
       `add(…, chain: Int? = nil)`; `replace(_:traces:vias:touched:)`;
       `init` seeds one entry per `problem.movable` as in § 3 and puts
       `problem.bystanders` in `netsByID`.
-- [ ] `Routing/RoutingGrid.swift`: profiles and `clearanceOfNet` over `nets +
+- [x] (done; a per-cell mask instead of `isBystander` — see Corrections) `Routing/RoutingGrid.swift`: profiles and `clearanceOfNet` over `nets +
       bystanders`; `let isBystander: [Bool]`.
-- [ ] `Routing/RoutingState.swift`, `reach` (`:134`): the `largest` term runs over
+- [x] (done) `Routing/RoutingState.swift`, `reach` (`:134`): the `largest` term runs over
       `problem.nets + problem.bystanders`, so un-stamping a wide chain restores the
       whole area it covered.
-- [ ] `Routing/RoutingSearch.swift`: `SearchRules.pushPrice`; `Maps` carries an
+- [x] (done; `Maps` carries the two masks, not a Bool buffer) `Routing/RoutingSearch.swift`: `SearchRules.pushPrice`; `Maps` carries an
       `UnsafeBufferPointer<Bool>` for `grid.isBystander`; `price` as in § 3.
-- [ ] `Routing/Router.swift`, `RoutingPolish.swift`: the three "never ripped"
+- [x] (done: `rip` skips chain entries, `join` refuses a way through one, `polishable`, the polish loop, the snapshot and `Run.result`) `Routing/Router.swift`, `RoutingPolish.swift`: the three "never ripped"
       rules of § 3.
-- [ ] `schematicalTests/RoutingTestBoard.swift`: `mutating func chain(_ points:
+- [x] (done; plus `tracesAsChains()`) `schematicalTests/RoutingTestBoard.swift`: `mutating func chain(_ points:
       [CGPoint], width: Double = 0.254, layer: CopperLayer = .top, net: Int,
       from: Int? = nil, to: Int? = nil)` adding a `MovableChain` of one run whose
       ends are the pads `from` and `to` (indices into `pads`), or a free end at
@@ -228,7 +228,7 @@ differences: none until D.
       record for its net; `problem()` fills `movable` and `bystanders`, and leaves the chain out of
       `obstacles`. `static func chainAsObstacle(_ board:)` returns the same board
       with `trace(points, net:)` instead, for the identity tests.
-- [ ] `schematicalTests/RoutingChainEngineTests.swift` (new):
+- [x] (done: 6 tests) `schematicalTests/RoutingChainEngineTests.swift` (new):
       `testTheGridWithChainsEqualsTheGridWithObstacles` (`RoutingState(problem:).grid
       .traceMaps` and `viaMaps` equal `RoutingGrid(problem:)` of the obstacle form,
       for the `twoGaps` board with its wall as a chain);
@@ -248,7 +248,8 @@ Acceptance: the four tests pass and the A anchors still pass.
   -only-testing:schematicalTests/RoutingStateTests
   -only-testing:schematicalTests/RoutingGridTests` → `** TEST SUCCEEDED **`
   (est. 3 min).
-Commit: —
+  Measured: `Executed 25 tests, with 0 failures` (RoutingChainEngineTests 6, RoutingAnchorTests 9, RoutingStateTests 4, RoutingGridTests 6), `** TEST SUCCEEDED **`.
+Commit: — (recorded in the next commit)
 
 ### Phase 2 — cleanup, the result
 
@@ -347,7 +348,31 @@ plan-66-A § Decisions apply. Added by the author, 2026-11-25:
 
 ## Corrections
 
-<!-- Filled during execution. -->
+- **A per-cell mask replaces `grid.isBystander`** (2026-11-25). § 3 keys "is this
+  cell a chain's" on the live owner being a bystander's net id. A cell with *two*
+  owners holds `blocked` (-2) and has no owner id, so a chain overlapped by a
+  routed net's copper would read as "another net's routed copper" and be crossable
+  at `present` while the same copper as an obstacle is not: the identity this
+  letter is gated on would break exactly there. `RoutingGrid.traceMask`/`viaMask`
+  (a byte per map cell, set by the same stamps — `stamp`, `stampHole` — when the
+  copper is a chain's, and cleared by `restoreFixed`) mark every cell a chain
+  touched; the search prices such a cell at `pushPrice` (plus `present` when
+  another net is also there) and at -1 when `pushPrice` is 0. Memory: a byte per
+  profile × layer × cell on each of two maps, and none without bystanders.
+- **`RoutingState.rip` ignores chain entries** (2026-11-25), besides `join`
+  refusing a way whose victims include one: a ripped chain is the user's copper
+  lost, so the guarantee is in the one function every rip goes through.
+- **Phase 1 needed part of Phase 2's `finishedCopper`** (2026-11-25): `Router.route`
+  runs it, and with chains seeded as entries the cleanup input and the verifier
+  would have chain copper in them. Untouched chain entries are frozen, a violation
+  is blamed only on new or touched entries (else a stub or a clearance the user's
+  own board already breaks would loop the repair forever, since `rip` now refuses
+  chains), and only non-chain copper is returned. `FinishedCopper`, `moved` and the
+  restore of a chain that stays illegal are Phase 2.
+- **`RoutingCleanup` and `RoutingVerifier` read the bystanders' clearance** too
+  (2026-11-25): `clearanceOf` over `nets + bystanders`, as the grid's.
+- **Six tests in Phase 1, not four**: the grid-equality test is joined by the
+  un-stamp, `replace` and (in the tests) mask checks.
 
 ## Summary
 

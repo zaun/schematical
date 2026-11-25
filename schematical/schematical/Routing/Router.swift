@@ -484,6 +484,10 @@ nonisolated enum Router {
                         all += state.ledger.filter { group.nets.contains($0.net) && !all.contains($0.id) }.map(\.id)
                     }
                     let nets = Set(all.compactMap { state.entries[$0]?.net })
+                    // Existing copper that may move is never ripped up: a way through it is no way.
+                    if all.contains(where: { state.entries[$0]?.chain != nil }) {
+                        all = []
+                    }
                     if polishing {
                         // A move is kept or undone whole (`attempt`): no budget, no
                         // history, and never a coupled pair's copper.
@@ -531,8 +535,9 @@ nonisolated enum Router {
             if now.timeIntervalSince(lastSnapshot) >= Self.snapshotInterval {
                 lastSnapshot = now
                 let ledger = state.ledger
-                report.traces = ledger.flatMap(\.traces)
-                report.vias = ledger.flatMap(\.vias)
+                // The copper the run laid; existing copper is already on the board.
+                report.traces = ledger.filter { $0.chain == nil }.flatMap(\.traces)
+                report.vias = ledger.filter { $0.chain == nil }.flatMap(\.vias)
             }
             progress(report)
         }
@@ -616,7 +621,7 @@ nonisolated enum Router {
         /// net's outcome.
         var result: RoutingResult {
             var traces: [RoutedTrace] = [], vias: [RoutedVia] = []
-            for entry in state.ledger {
+            for entry in state.ledger where entry.chain == nil {
                 traces += entry.traces
                 vias += entry.vias
             }

@@ -58,6 +58,8 @@ struct RoutingTestBoard {
     var unrouted: Set<Int> = []
     var impossible: [Int: String] = [:]
     var nameOf: [Int: String] = [:]
+    /// Existing copper push and shove may move (plan-66-C): see `chain`.
+    var chains: [MovableChain] = []
 
     init(width: Double = 20, height: Double = 20, layers: [CopperLayer] = [.top, .bottom]) {
         boardWidth = width
@@ -85,6 +87,56 @@ struct RoutingTestBoard {
                                                                 layers: [layer], node: 10_000 + obstacles.count),
                                              net: net, kind: .trace))
         }
+    }
+
+    /// A movable chain of one run on `layer` along `points`: its ends are the
+    /// pads `from` and `to` (indices into `pads`), or a free end at the first
+    /// or last point when nil. The net is never routed (as the copper of a net
+    /// the run leaves alone), and has a bystander net of this width.
+    mutating func chain(_ points: [CGPoint], width: Double = 0.254, layer: CopperLayer = .top, net: Int,
+                        from: Int? = nil, to: Int? = nil) {
+        func end(_ point: CGPoint, _ pad: Int?) -> MovableChain.End {
+            var anchor = RoutingComponent()
+            if let pad {
+                anchor.pads = [shape(pads[pad], node: pad)]
+                anchor.padLabels = [pads[pad].label]
+            } else {
+                anchor.pads = [CopperShape(core: .segment(point, point), radius: options.grid, layers: [layer], node: -2)]
+                anchor.padLabels = ["junction"]
+            }
+            return MovableChain.End(point: point, layer: layer, anchor: anchor)
+        }
+        let run = MovableChain.Run(trace: UUID(), layer: layer, first: 0, last: points.count - 1, reversed: false, points: points)
+        chains.append(MovableChain(id: chains.count, net: net, width: width, viaDrill: 0, viaDiameter: 0, runs: [run], vias: [],
+                                   ends: [end(points[0], from), end(points[points.count - 1], to)]))
+        unrouted.insert(net)
+    }
+
+    /// This board with each of its chains as a kept trace instead (the
+    /// copper as fixed obstacles, as push and shove leaves it off).
+    static func chainAsObstacle(_ board: RoutingTestBoard) -> RoutingTestBoard {
+        var result = board
+        result.chains = []
+        for chain in board.chains {
+            for run in chain.runs { result.trace(run.points, width: chain.width, layer: run.layer, net: chain.net) }
+        }
+        return result
+    }
+
+    /// This board with each of its kept traces (of a net) as a chain with
+    /// free ends instead, one per segment.
+    func tracesAsChains() -> RoutingTestBoard {
+        var result = self
+        result.obstacles = []
+        for obstacle in obstacles {
+            guard obstacle.kind == .trace, let net = obstacle.net, case let .segment(a, b) = obstacle.shape.core,
+                  let layer = obstacle.shape.layers?.first else {
+                result.obstacles.append(obstacle)
+                continue
+            }
+            result.chain([a, b], width: obstacle.shape.radius * 2, layer: layer, net: net)
+        }
+        return result
     }
 
     func shape(_ pad: Pad, node: Int) -> CopperShape {
@@ -131,9 +183,19 @@ struct RoutingTestBoard {
                               group: groupOf[id], impossible: impossible[id],
                               pins: pads.filter { $0.net == id }.count)
         }
+        // A bystander net of rules for every net that has a chain.
+        var bystanders: [RoutingNet] = []
+        for id in Set(chains.map(\.net)).sorted() {
+            let mine = chains.filter { $0.net == id }
+            bystanders.append(RoutingNet(id: id, name: nameOf[id] ?? "N\(id)", key: .pin(chip: UUID(), designator: "\(id)"),
+                                         width: mine[0].width, clearance: clearance[id] ?? rules.minClearance,
+                                         viaDrill: viaDrill[id] ?? 0.4, viaDiameter: viaDiameter[id] ?? 0.8,
+                                         allowed: Set(routable), preferred: [], components: [], planeLayer: nil, group: nil,
+                                         impossible: nil, pins: pads.filter { $0.net == id }.count))
+        }
         return RoutingProblem(outline: outline, cutouts: cutouts, layers: layers, routable: routable, planes: planes, rules: rules,
                               options: options, nets: nets, obstacles: obstacles, groups: groups,
-                              removedTraces: [], removedVias: [])
+                              removedTraces: [], removedVias: [], movable: chains, bystanders: bystanders)
     }
 }
 

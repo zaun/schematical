@@ -31,7 +31,7 @@ nonisolated enum RoutingVerifier {
     static func verify(_ problem: RoutingProblem, traces: [RoutedTrace], vias: [RoutedVia]) -> [Violation] {
         let rules = problem.rules
         var clearanceOf: [Int: Double] = [:]
-        for net in problem.nets { clearanceOf[net.id] = max(net.clearance, rules.minClearance) }
+        for net in problem.nets + problem.bystanders { clearanceOf[net.id] = max(net.clearance, rules.minClearance) }
         func clearance(_ net: Int?) -> Double { net.flatMap { clearanceOf[$0] } ?? rules.minClearance }
 
         // Every piece of copper; `node` indexes `owners`. New copper first.

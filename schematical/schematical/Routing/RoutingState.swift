@@ -15,6 +15,11 @@ nonisolated struct LedgerEntry: Hashable, Sendable {
     /// Every node the copper offers a later connection of its net to start
     /// from or end at: the path, and each via's cell on every allowed layer.
     var nodes: [Int]
+    /// The `MovableChain.id` this entry is, for the existing copper of a
+    /// bystander net (plan-66-C); nil for copper the run lays.
+    var chain: Int? = nil
+    /// Whether a push has moved this chain's copper.
+    var touched = false
 }
 
 /// The routing state: the grid, every routed connection in a ledger, the
@@ -38,6 +43,9 @@ nonisolated struct RoutingState: Sendable {
     /// Each net's entries, by id, oldest first.
     private var entriesOfNet: [Int: [Int]] = [:]
     let netsByID: [Int: RoutingNet]
+    /// The nets that only hold existing copper (`problem.bystanders`): never
+    /// routed, never ripped up.
+    let bystanders: Set<Int>
     /// By node: how contested each cell has been (plan-38-F § 3); a relaxed
     /// search pays `present × (1 + history)` to cross other nets' copper.
     var history: [Float]
@@ -66,8 +74,23 @@ nonisolated struct RoutingState: Sendable {
             componentOfNode[net] = byNode
         }
         self.componentOfNode = componentOfNode
+        for net in problem.bystanders { nets[net.id] = net }
         netsByID = nets
+        bystanders = Set(problem.bystanders.map(\.id))
         history = Array(repeating: 0, count: grid.cellCount * grid.layers.count)
+        // The existing copper push and shove may move, held as entries: stamped
+        // like routed copper, and crossable only at a push price.
+        let everywhere = grid.layers.map { _ in true }
+        for chain in problem.movable {
+            let nodes = chain.ends.map { (grid.layerIndex($0.layer) ?? 0) * grid.cellCount + grid.nearestCell($0.point) }
+            let traces = chain.runs.map {
+                RoutedTrace(layer: $0.layer, width: chain.width, points: $0.points, net: chain.net)
+            }
+            let vias = chain.vias.map {
+                RoutedVia(centre: $0.centre, drill: chain.viaDrill, diameter: chain.viaDiameter, net: chain.net)
+            }
+            add(net: chain.net, path: nodes, traces: traces, vias: vias, allowed: everywhere, chain: chain.id)
+        }
     }
 
     // MARK: Negotiation
@@ -111,6 +134,8 @@ nonisolated struct RoutingState: Sendable {
     /// one end; returns the nets that lost copper, sorted.
     @discardableResult
     mutating func rip(_ ids: [Int]) -> [Int] {
+        // Existing copper is never ripped up, whatever asks (plan-66-C).
+        let ids = ids.filter { entries[$0]?.chain == nil }
         let nets = Set(ids.compactMap { entries[$0]?.net })
         remove(ids)
         var changed = true
@@ -132,8 +157,8 @@ nonisolated struct RoutingState: Sendable {
 
     /// How far any copper's stamp can reach past its core, mm.
     var reach: Double {
-        let largest = problem.nets.map { max($0.clearance, problem.rules.minClearance) + max($0.width, $0.viaDiameter) / 2 }
-            .max() ?? 0
+        let largest = (problem.nets + problem.bystanders)
+            .map { max($0.clearance, problem.rules.minClearance) + max($0.width, $0.viaDiameter) / 2 }.max() ?? 0
         let profiles = grid.profiles.map { max($0.clearance, problem.rules.minClearance) + max($0.halfWidth, $0.viaRadius) }
             .max() ?? 0
         // A via's hole keeps the hole-to-hole distance from other holes.
@@ -145,18 +170,17 @@ nonisolated struct RoutingState: Sendable {
 
     /// Records and stamps a connection's copper; returns its id.
     @discardableResult
-    mutating func add(net: Int, path: [Int], traces: [RoutedTrace], vias: [RoutedVia], allowed: [Bool]) -> Int {
-        var points: [CGPoint] = traces.flatMap(\.points) + vias.map(\.centre)
-        if points.isEmpty, let first = path.first { points = [grid.point(first % grid.cellCount)] }
-        let xs = points.map(\.x), ys = points.map(\.y)
-        let box = CGRect(x: xs.min() ?? 0, y: ys.min() ?? 0, width: (xs.max() ?? 0) - (xs.min() ?? 0),
-                         height: (ys.max() ?? 0) - (ys.min() ?? 0))
+    mutating func add(net: Int, path: [Int], traces: [RoutedTrace], vias: [RoutedVia], allowed: [Bool],
+                      chain: Int? = nil, touched: Bool = false) -> Int {
+        let box = copperBox(path: path, traces: traces, vias: vias)
         var nodes = path
         for via in vias {
             let c = grid.nearestCell(via.centre)
             nodes += grid.layers.indices.filter { allowed[$0] }.map { $0 * grid.cellCount + c }
         }
-        let entry = LedgerEntry(id: nextID, net: net, path: path, traces: traces, vias: vias, box: box, nodes: nodes)
+        var entry = LedgerEntry(id: nextID, net: net, path: path, traces: traces, vias: vias, box: box, nodes: nodes)
+        entry.chain = chain
+        entry.touched = touched
         nextID += 1
         entries[entry.id] = entry
         entriesOfNet[net, default: []].append(entry.id)
@@ -165,12 +189,45 @@ nonisolated struct RoutingState: Sendable {
         return entry.id
     }
 
+    /// The box of centrelines and via centres (a lone path cell when there is no copper).
+    private func copperBox(path: [Int], traces: [RoutedTrace], vias: [RoutedVia]) -> CGRect {
+        var points: [CGPoint] = traces.flatMap(\.points) + vias.map(\.centre)
+        if points.isEmpty, let first = path.first { points = [grid.point(first % grid.cellCount)] }
+        let xs = points.map(\.x), ys = points.map(\.y)
+        return CGRect(x: xs.min() ?? 0, y: ys.min() ?? 0, width: (xs.max() ?? 0) - (xs.min() ?? 0),
+                      height: (ys.max() ?? 0) - (ys.min() ?? 0))
+    }
+
     private mutating func stamp(_ entry: LedgerEntry) {
+        let bystander = entry.chain != nil
         for trace in entry.traces {
             guard let layer = grid.layerIndex(trace.layer) else { continue }
-            grid.stampTrace(trace.points, width: trace.width, layer: layer, net: entry.net)
+            grid.stampTrace(trace.points, width: trace.width, layer: layer, net: entry.net, bystander: bystander)
         }
-        for via in entry.vias { grid.stampVia(via.centre, diameter: via.diameter, drill: via.drill, net: entry.net) }
+        for via in entry.vias {
+            grid.stampVia(via.centre, diameter: via.diameter, drill: via.drill, net: entry.net, bystander: bystander)
+        }
+    }
+
+    /// Swaps an entry's copper for other copper exactly (un-stamp, stamp),
+    /// keeping its id, net, path, nodes and chain (plan-66-C). The entry
+    /// stays where it was in its net's order.
+    mutating func replace(_ id: Int, traces: [RoutedTrace], vias: [RoutedVia], touched: Bool) {
+        guard var entry = entries[id] else { return }
+        let position = entriesOfNet[entry.net]?.firstIndex(of: id)
+        remove([id])
+        entry.traces = traces
+        entry.vias = vias
+        entry.box = copperBox(path: entry.path, traces: traces, vias: vias)
+        entry.touched = touched
+        entries[id] = entry
+        if let position, position <= entriesOfNet[entry.net]?.count ?? 0 {
+            entriesOfNet[entry.net]?.insert(id, at: position)
+        } else {
+            entriesOfNet[entry.net, default: []].append(id)
+        }
+        for tile in tileKeys(entry.box) { tiles[tile, default: []].append(id) }
+        stamp(entry)
     }
 
     /// Removes entries and their copper from the grid exactly.
@@ -273,6 +330,7 @@ nonisolated extension RoutingGrid {
     /// every map.
     mutating func restoreFixed(in box: CGRect) {
         guard let range = cellRange(box, margin: 0) else { return }
+        clearMasks(in: range)
         let maps = traceMaps.count / cellCount
         for map in 0..<maps {
             let base = map * cellCount
