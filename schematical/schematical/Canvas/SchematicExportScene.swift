@@ -72,6 +72,8 @@ struct SchematicScene {
                 DipSwitchSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired)
             case .tactileSwitch:
                 TactileSwitchSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired)
+            case .slideSwitch:
+                SlideSwitchSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired)
             case .sevenSegment:
                 SevenSegmentSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired, levels: [])
             case .nixie:

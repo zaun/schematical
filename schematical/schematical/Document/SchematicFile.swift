@@ -769,6 +769,7 @@ extension SchematicFile {
                 y: chip.origin.y,
                 flipped: chip.isFlipped,
                 rotation: chip.rotation == 0 ? nil : chip.rotation,
+                // DIP and slide switches save their contacts; a tactile switch never does.
                 switches: chip.switchesOn.isEmpty || chip.part.isTactileSwitch ? nil : chip.switchesOn,
                 pcb: chip.board.map {
                     Placement(x: $0.centre.x, y: $0.centre.y, rotation: $0.rotation,

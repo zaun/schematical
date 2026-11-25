@@ -44,7 +44,7 @@ enum ReferenceLabel {
         case .vcc, .ground:
             // Power symbols have none: their label says what they are.
             return nil
-        case .block, .oscillator, .barrelJack, .header, .testPoint, .dipSwitch, .tactileSwitch, .sevenSegment,
+        case .block, .oscillator, .barrelJack, .header, .testPoint, .dipSwitch, .tactileSwitch, .slideSwitch, .sevenSegment,
              .nixie, .dekatron, .characterLCD:
             // Just outside the frame's top edge.
             return CGPoint(x: x, y: -3)

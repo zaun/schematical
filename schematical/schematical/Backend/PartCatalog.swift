@@ -528,6 +528,11 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// four-terminal switch, 0 on a two-terminal one); `body`: its
         /// nominal size, the drawer group it is listed under.
         case tactileSwitch(actuator: String, ratedMV: UInt32, normallyClosed: Bool, joined: Int, body: BodySize?)
+        /// A slide switch (plan-58): `circuit` the first word of its function
+        /// ("SPST", "SPDT", "DPST", "DPDT"); `positions` the knob positions
+        /// (2 or 3); `rest` the one a new chip starts in (1-based); `masks`
+        /// the contacts closed in each position, bit c - 1 for contact c.
+        case slideSwitch(circuit: String, positions: Int, rest: Int, masks: [UInt32], actuator: String, ratedMV: UInt32)
         /// An LED: the colors a placed one may have; the first is the default.
         case led(colors: [String])
         case display(DisplayInfo)
@@ -710,7 +715,8 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .dekatron(info):
             return "\(VoltageCheck.volts(info.strikeMV)) V min"
         case let .dipSwitch(_, _, ratedMV) where ratedMV > 0,
-             let .tactileSwitch(_, ratedMV, _, _, _) where ratedMV > 0:
+             let .tactileSwitch(_, ratedMV, _, _, _) where ratedMV > 0,
+             let .slideSwitch(_, _, _, _, _, ratedMV) where ratedMV > 0:
             return "\(VoltageCheck.volts(ratedMV)) V max"
         case let .connector(_, ratedMV, _, _, _) where ratedMV > 0,
              let .wireConnector(_, _, _, ratedMV, _) where ratedMV > 0:
@@ -724,6 +730,31 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     var isTactileSwitch: Bool {
         if case .tactileSwitch = details { return true }
         return false
+    }
+
+    /// A slide switch (plan-58): a latching switch whose knob sits in one of
+    /// two or three positions.
+    var isSlideSwitch: Bool {
+        if case .slideSwitch = details { return true }
+        return false
+    }
+
+    /// A slide switch's circuit ("SPDT"), knob positions, starting position
+    /// (both 1-based counts) and the contacts closed in each position (bit
+    /// c - 1 for contact c); nil for other parts.
+    var slideStates: (circuit: String, positions: Int, rest: Int, masks: [UInt32])? {
+        if case let .slideSwitch(circuit, positions, rest, masks, _, _) = details {
+            return (circuit, positions, rest, masks)
+        }
+        return nil
+    }
+
+    /// How many contacts a slide switch has (`PlacedChip.switchesOn` has one
+    /// entry for each): the highest contact any of its positions closes; 0 for
+    /// other parts.
+    var slideContacts: Int {
+        guard let slide = slideStates else { return 0 }
+        return UInt32.bitWidth - slide.masks.reduce(0, |).leadingZeroBitCount
     }
 
     /// A terminal block or a JST board header (plan-45).
@@ -960,6 +991,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .sram(_, _, accessNs, _): return ["\(accessNs) ns"]
         case let .eeprom(_, _, accessNs, _, _, _): return ["\(accessNs) ns"]
         case let .dipSwitch(_, actuator, _): return [actuator]
+        case let .slideSwitch(_, _, _, _, actuator, _): return [actuator]
         case let .tactileSwitch(actuator, _, normallyClosed, _, _):
             return [actuator] + (normallyClosed ? ["Normal close"] : [])
         case let .led(colors): return colors.count == 1 ? colors : ["\(colors.count) colors"]
@@ -1141,6 +1173,16 @@ extension CatalogPart {
                               accessNs: Int(eeprom.access_ps / 1000), grade: string(eeprom.grade),
                               pageBytes: Int(eeprom.page_bytes),
                               writeCycleUs: Int(eeprom.write_cycle_ps / 1_000_000))
+        } else if let dip = part.dip_switch?.pointee, dip.states > 0 {
+            // The contacts each knob position closes, from the backend (plan-58-B).
+            let masks: [UInt32] = (1...dip.states).map { state in
+                var mask: UInt32 = 0
+                let found = withUnsafePointer(to: part) { part_switch_state_contacts($0, state, &mask) }
+                return found != 0 ? mask : 0
+            }
+            details = .slideSwitch(circuit: String(string(part.function).prefix { $0 != " " }),
+                                   positions: Int(dip.states), rest: Int(dip.rest), masks: masks,
+                                   actuator: string(dip.actuator), ratedMV: dip.rated_mv)
         } else if let dip = part.dip_switch?.pointee, dip.momentary != 0 {
             details = .tactileSwitch(actuator: string(dip.actuator), ratedMV: dip.rated_mv,
                                      normallyClosed: dip.normally_closed != 0, joined: Int(dip.joined),
@@ -1629,7 +1671,7 @@ struct PartVisibility: Equatable {
 /// How a part is drawn on the canvas.
 func symbol(for part: CatalogPart) -> PartSymbol {
     switch part.kind {
-    case PART_SWITCH: return part.isTactileSwitch ? .tactileSwitch : .dipSwitch
+    case PART_SWITCH: return part.isTactileSwitch ? .tactileSwitch : part.isSlideSwitch ? .slideSwitch : .dipSwitch
     case PART_LED: return .diode
     case PART_7SEG, PART_LCD: return .sevenSegment
     case PART_NIXIE: return .nixie
@@ -1889,7 +1931,7 @@ final class PartCatalogStore {
                     if let family = part.logicFamily { familiesByCategory[category, default: []].insert(family) }
                     if let count = part.count { logicCountsByCategory[category, default: []].insert(count) }
                 }
-                if part.kind == PART_SWITCH, !part.isTactileSwitch, let count = part.count {
+                if part.kind == PART_SWITCH, !part.isTactileSwitch, !part.isSlideSwitch, let count = part.count {
                     switchPositionsByCategory[category, default: []].insert(count)
                 }
                 if !part.colors.isEmpty { colorsByCategory[category, default: []].formUnion(part.colors) }
@@ -2447,7 +2489,7 @@ final class PartCatalogStore {
                 return false
             }
         }
-        if part.kind == PART_SWITCH, !part.isTactileSwitch, let count = filter.switchPositions, part.count != count {
+        if part.kind == PART_SWITCH, !part.isTactileSwitch, !part.isSlideSwitch, let count = filter.switchPositions, part.count != count {
             return false
         }
         if case let .converter(type, _, channels) = part.details,
@@ -2462,6 +2504,9 @@ final class PartCatalogStore {
                 return false
             }
             if case let .tactileSwitch(_, ratedMV, _, _, _) = part.details, ratedMV > 0, ratedMV < mv {
+                return false
+            }
+            if case let .slideSwitch(_, _, _, _, _, ratedMV) = part.details, ratedMV > 0, ratedMV < mv {
                 return false
             }
         }
@@ -2538,10 +2583,11 @@ final class PartCatalogStore {
 
     /// DIP switches, LEDs, 7-segment displays, character LCDs, nixie tubes and
     /// the generic header are listed with no function level. Tactile switches are grouped
-    /// by body size instead (`drawerLeaf`).
+    /// by body size instead (`drawerLeaf`), slide switches by circuit and action
+    /// (`SPDT On-On`, their function).
     private static func listsPartsDirectly(_ parts: [CatalogPart]) -> Bool {
         parts.allSatisfy {
-            ($0.kind == PART_SWITCH && !$0.isTactileSwitch) || $0.kind == PART_LED || $0.kind == PART_7SEG || $0.kind == PART_CHARLCD
+            ($0.kind == PART_SWITCH && !$0.isTactileSwitch && !$0.isSlideSwitch) || $0.kind == PART_LED || $0.kind == PART_7SEG || $0.kind == PART_CHARLCD
                 || $0.kind == PART_NIXIE || $0.kind == PART_DEKATRON || $0.kind == PART_LCD
                 || $0.kind == PART_HEADER
         }

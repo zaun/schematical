@@ -42,10 +42,10 @@ The gate for the whole feature is in plan-58-A § Prerequisites. This letter add
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-58-F is complete | `ls planning/completed/plan-58-F-* \| wc -l` → 1 | NOT MET until F lands |
-| Slide parts are in the library | `grep -c 'states=' backend/tests/golden/parts.txt` → ≥ 1 | NOT MET until C lands |
-| No slide code in the app yet | `grep -rc 'slideSwitch' schematical/schematical --include='*.swift' \| grep -v ':0' \| wc -l` → 0 | MET (2026-11-24) |
-| The drawer's Switches & Relays group exists | `grep -c 'Switches & Relays' schematical/schematical/Parts/switch.json` → ≥ 1 | MET (2026-11-24) |
+| plan-58-F is complete | `ls planning/completed/plan-58-F-* \| wc -l` → 1 | MET (2026-11-24; re-run: 1) |
+| Slide parts are in the library | `grep -c 'states=' backend/tests/golden/parts.txt` → ≥ 1 | MET (2026-11-24; re-run: 271) |
+| No slide code in the app yet | `grep -rc 'slideSwitch' schematical/schematical --include='*.swift' \| grep -v ':0' \| wc -l` → 0 | MET (2026-11-24; re-run before any edit: 0) |
+| The drawer's Switches & Relays group exists | `grep -c 'Switches & Relays' schematical/schematical/Parts/switch.json` → ≥ 1 | MET (2026-11-24; re-run: 220) |
 
 If plan-58-F is not complete, this plan cannot start, full stop.
 
@@ -204,13 +204,15 @@ In the checks below `XC` = `xcodebuild -project schematical/schematical.xcodepro
 
 ### Phase 1 — catalog, drawer, chip state, file
 
-- [ ] Re-run the measured list (§ 2) and record the files; `PartCatalog.swift`:
+- [x] Re-run the measured list (§ 2) and record the files (33 lines in the same 10 files: AutomationSimulation 1,
+      PartCatalog 15, PartFacts 2, PartLook 1, ReferenceLabel 1, SchematicCanvasView 1, SchematicExportScene 1,
+      SchematicModel 8, SchematicFile 1, Simulation 2); `PartCatalog.swift`:
       `Details.slideSwitch`, `isSlideSwitch`, loader, `symbol(for:)`, drawer row detail,
       the three DIP-count guards (§ 4.1). `PartSymbol.slideSwitch` with pin layout
       (`ChipLayout`) from the pinout; `PartFacts.swift` kind name and rows (§ 4.4).
-- [ ] `SchematicModel.swift` / `SchematicFile.swift`: `PlacedChip` init rest
+- [x] `SchematicModel.swift` / `SchematicFile.swift`: `PlacedChip` init rest
       mask, `slidePosition`, saved `switches` (§ 4.2).
-- [ ] Tests: `schematical/schematicalTests/SlideSwitchTests.swift` — drawer path and leaves
+- [x] Tests: `schematical/schematicalTests/SlideSwitchTests.swift` — drawer path and leaves
       (`Switches & Relays/Slide/SPDT On-On`), details of an SPDT On-On, an SPDT On-Off-On
       and a DPDT part (masks, rest), symbol, kind name and sidebar rows, DIP count menu
       absent for a slide leaf, file round-trip of the position, a file with a bad
@@ -219,6 +221,7 @@ In the checks below `XC` = `xcodebuild -project schematical/schematical.xcodepro
 Acceptance: the catalog and file tests pass; the three existing switch test
 classes still pass.
   Check: `$XC test -only-testing:schematicalTests/SlideSwitchTests -only-testing:schematicalTests/TactileSwitchTests -only-testing:schematicalTests/PlaySwitchResetTests -only-testing:schematicalTests/PowerSwitchTests` → `** TEST SUCCEEDED **` (est. 12 min: build plus four small classes).
+Measured: 2026-11-24, `** TEST SUCCEEDED **`: SlideSwitchTests 12 tests, TactileSwitchTests 11, PlaySwitchResetTests 1, PowerSwitchTests 7 (31 tests, 0 failures).
 Commit: —
 
 ### Phase 2 — symbol, click, simulation
@@ -286,7 +289,22 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- **Phase 1 — the symbol cases land with `PartSymbol.slideSwitch`.** Swift's
+  `switch` over `PartSymbol` is exhaustive (`SchematicCanvasView`,
+  `SchematicExportScene`, `ReferenceLabel`, `ChipLayout`), so the case, the layout
+  and the canvas / export / label cases compile only together. Phase 1 therefore
+  carries `SlideSwitchSymbolView` as far as the box, header and pin stubs; Phase 2
+  adds the blades, knob and the click.
+- **Phase 1 — `SchematicFile.swift:772` needed no code change.** It already saves
+  `switches` for every part except a tactile switch, so a slide switch saves like
+  a DIP switch (only a comment was added). Its `isTactileSwitch` is not a
+  `.tactileSwitch` pattern, so the Validation Plan's coverage grep does not list it.
+- **Phase 1 — `TactileSwitchTests.firstDip` named every non-tactile switch a DIP
+  switch** (`kind == PART_SWITCH && !isTactileSwitch`) and picked a slide part
+  (`1101M2S3CQE2` sorts first), so `testDipSwitchUnchanged` failed. The helper now
+  also says `!isSlideSwitch` (one line; no assertion changed). `PlaySwitchResetTests`
+  and `TestSupport.firstDip` already require `count >= 2`, which a slide part
+  (count nil) never has.
 
 ## Summary
 

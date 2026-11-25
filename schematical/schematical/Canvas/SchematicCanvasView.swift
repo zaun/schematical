@@ -1197,6 +1197,13 @@ private struct SchematicPartsLayer: View {
                             isHovered: chip.id == hoveredChipID,
                             connectedPins: connectedPins[chip.id] ?? []
                         )
+                    case .slideSwitch:
+                        SlideSwitchSymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID,
+                            connectedPins: connectedPins[chip.id] ?? []
+                        )
                     case .sevenSegment:
                         SevenSegmentSymbolView(
                             chip: chip,
