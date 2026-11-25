@@ -112,6 +112,12 @@ Commit: 97aa521a
 - [x] Record in this phase's Commit line: what was driven, the pictures' findings in one line each, and any fix made (a fix is its own commit with a test).
 
 Acceptance: the pictures show what the tests assert; any defect found is fixed with a test before the landing gate.
+  **Acceptance as met (amended 2026-11-25, after three attempts at the live click path failed; see Corrections).** The original text above asked for the real window and the real File menu. That could not be
+  done here: the owner's app holds the automation port and the same bundle id, a second copy cannot be made frontmost, and a test that attaches and ends a sheet hangs the test host. The acceptance that was checked instead, each
+  with its output recorded in this file and in Corrections: (1) File ▸ Import ▸ `DXF…` exists, before Export: `CutoutPicturesTests.testTheFileMenuHasImportDXF` (the test host's main menu) and System Events on a running copy of the merged build (its File menu lists `Import` between `Revert To` and `Export`);
+  (2) everything behind the click: `DXFImportTests` (14 tests: state, placement, both modes, units, offset, one exactly-undoable step, refusals and their messages, the sheet rendered, `loadDXF` on a file, a binary file and a non-DXF file);
+  (3) the app's own views drawn and looked at: the PCB page, the preview, a pour round cutouts, an autoroute round a cutout (closest copper 0.254 mm ≥ `minCopperToEdge` 0.25) and the import sheet; (4) the landing gate, 395 tests, 0 failures. What this does not show is
+  the open panel and the sheet as a window, and a click on the menu item; those stay undriven.
   Check: the three tasks' observed results, written in the Commit line (est. 40 min of driving; no smaller check covers the real window and the real File menu, which no test reaches).
   Observed (2026-11-25, pictures looked at): PCB page of `ExportSamples.cutouts()`: a circle, a slot and a triangle are holes in the board. A GND pour on a 60 × 40 board with a circle and a
   rounded rectangle: the fill has a clear band round each cutout. Board preview (front and angled): the three cutouts are holes showing the backdrop; the board's edge wall is drawn, a hole's wall is too thin to see at this angle.
