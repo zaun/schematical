@@ -209,7 +209,7 @@ For a split chip:
 
 Acceptance: the picture exports show the pieces.
   Check: `XB -only-testing:schematicalTests/SplitPartExportTests` → `** TEST SUCCEEDED **` (est. 4 min).
-Commit: —
+Commit: 74fcd97f
 
 ### Phase 2 — KiCad
 
@@ -251,7 +251,7 @@ right nets.
   → `** TEST SUCCEEDED **`; `grep -c '(comp (ref "U1")' /tmp/p67-kicad/split.net`
   → 1; `grep -cE 'missing_unit|extra_units|different_unit' /tmp/p67-kicad/split.rpt`
   → 0 (est. 8 min).
-Commit: —
+Commit: 74fcd97f
 
 ### Phase 3 — EasyEDA Pro
 
@@ -279,7 +279,7 @@ Commit: —
 Acceptance: EasyEDA sees one component with every pin where the wires end.
   Check: `XB -only-testing:schematicalTests/SplitPartExportTests -only-testing:schematicalTests/EasyEDAProExportTests`
   → `** TEST SUCCEEDED **` (est. 5 min).
-Commit: —
+Commit: 74fcd97f
 
 ## Validation Plan
 

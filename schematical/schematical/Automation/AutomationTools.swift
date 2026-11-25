@@ -269,18 +269,49 @@ extension AutomationContext {
         return chip
     }
 
-    /// "U1.14" or "D1.K": a part's pin by designator, else by name.
+    /// "U1", or "U1-A": one unit of a part drawn as its units (plan-67; a
+    /// gate of a gate IC in Gate view, or "U1-P", the block of its power
+    /// pins). A reference is letters then a number, so the first "-" starts
+    /// the unit. `key` is nil for a whole part.
+    func unit(_ spec: String) throws -> (chip: PlacedChip, key: String?) {
+        guard let dash = spec.firstIndex(of: "-"), dash != spec.startIndex else { return (try chip(spec), nil) }
+        let chip = try chip(String(spec[..<dash]))
+        let wanted = String(spec[spec.index(after: dash)...])
+        let keys = chip.part.units.map(\.key)
+        guard let key = keys.first(where: { $0.caseInsensitiveCompare(wanted) == .orderedSame }) else {
+            throw AutomationFailure(keys.isEmpty
+                ? "\(chip.reference) has no units: it is one symbol"
+                : "\(chip.reference) has no unit \(wanted); units: \(keys.joined(separator: " "))")
+        }
+        guard chip.isSplit else {
+            let view = (chip.part.unitViewName ?? "units").lowercased()
+            throw AutomationFailure("\(chip.reference) is in Block view; set_part reference=\(chip.reference) view=\(view) first")
+        }
+        return (chip, key)
+    }
+
+    /// The units of a part drawn as its units, as addresses: "U1-A U1-B …".
+    func unitNames(_ chip: PlacedChip) -> String {
+        chip.unitPlacements.map { "\(chip.reference)-\($0.key)" }.joined(separator: " ")
+    }
+
+    /// "U1.14" or "D1.K": a part's pin by designator, else by name. The part
+    /// may name a unit ("U1-A.3"): the pin must then be one of that unit's.
     func pin(_ spec: String) throws -> (chip: PlacedChip, pin: ChipPin) {
         guard let dot = spec.firstIndex(of: "."), dot != spec.startIndex else {
             throw AutomationFailure("a pin looks like U1.14 or D1.K, got “\(spec)”")
         }
-        let chip = try chip(String(spec[..<dot]))
+        let (chip, key) = try unit(String(spec[..<dot]))
         let name = String(spec[spec.index(after: dot)...])
-        let pins = chip.part.pins
+        var pins = chip.part.pins
+        if let key, let unit = chip.part.units.first(where: { $0.key == key }) {
+            pins = pins.filter { unit.pins.contains($0.index) }
+        }
         let hit = pins.first { $0.designator == name }
             ?? pins.first { $0.name.caseInsensitiveCompare(name) == .orderedSame }
         guard let hit else {
-            throw AutomationFailure("\(chip.reference) has no pin \(name); pins: "
+            let owner = key.map { "\(chip.reference)-\($0)" } ?? chip.reference
+            throw AutomationFailure("\(owner) has no pin \(name); \(key == nil ? "pins" : "its pins"): "
                                     + pins.map { "\($0.designator)=\($0.name)" }.joined(separator: " "))
         }
         return (chip, hit)
@@ -345,6 +376,10 @@ enum AutomationGuide {
     Look at your work with render often; it returns a picture.
 
     Addressing: parts by reference ("U1", "R2"); pins by designator or name ("U1.14", "D1.K", "U1.VCC"). \
+    A gate IC can be drawn as separate gates: set_part view=gate. \
+    Its gates are then "U1-A", "U1-B", …, and "U1-P" is the block with its power pins; move, flip and rotate them \
+    one at a time (move_part, flip_part, rotate_part). Pins are still "U1.3" ("U1-A.3" also works). Deleting takes \
+    the whole part. \
     Everything else (wires, labels, notes, traces, vias, holes, pours, keep-outs, board texts) by the short id get_design / \
     get_board prints; the Document Info title block is "titleblock" (set_document_info edits the information and shows or hides it). Net labels connect by name: "label:CLK". A point on an existing wire is "@x,y".
 

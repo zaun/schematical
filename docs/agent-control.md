@@ -80,6 +80,23 @@ the socket's part name, for a DIP or PLCC chip a socket fits: a mode alone picks
 (ISO 8601, only with `automatic_dates` false: saves set them while it is on), `title_block` true/false to show or hide the
 title block), `set_wire_route`, `add_bus`, `set_bus`, `add_bus_port`, `set_bus_port`, `delete`, `select`.
 
+**Gate view** (plan-67). A part with units (a gate IC, Logic → Gates) is drawn as one block or as its
+units: `set_part reference=U1 view=gate` (back: `view=block`; `place_part` takes `view` too, in the same
+undo step). Its units are then addressed `U1-A`, `U1-B`, … (the gates, in the order of the part's gates)
+and `U1-P` (the block of the pins no gate owns: power, ground, NC). `move_part` moves one unit (`U1-A`)
+or the whole part (`U1`); `flip_part` and `rotate_part` take a unit (the `P` block flips but does not
+turn; a whole part in Gate view is refused with the list of its units); `select U1-A` selects the part
+with that unit picked, and `get_selection` then prints `U1 (U1-A)`. A pin is still `U1.3`; `U1-A.3` is
+accepted too and refused when the pin is not that unit's (`U1-A has no pin 6; its pins: 1=1A 2=1B 3=1Y`).
+`delete U1-A` is refused (`U1-A is one symbol of U1; delete U1 to remove the part`); `delete U1` removes
+the whole part without the question the app asks a person. `get_design` shows `view=gate` on the part's
+line and one indented line per unit (`U1-A centre=… size=… body=… [flipped] [rotation=90] pins=1,2,3`);
+its JSON has `"view"` (`"gate"` or `"block"`, on every part that has units) and, for a part in Gate view,
+`"units"`: `unit`, `reference`, `x`, `y` (centre), `width`, `height`, `flipped`, `rotation`, `bounds`
+and `pins` (designators). The part's own `x`, `y`, `width`, `height` and `bounds` are then the box around
+all its units, and each pin's tip is where its unit draws it. Nets, ERC, DRC and every PCB tool keep
+writing `U1.3`: the part is one part.
+
 **PCB** — `set_board` (size, type, layers, grid, units, color, `outline` for a free-form edge, `rectangle` to take it off), `set_layer`
 (plane or wire layers, plane net, clearance), `move_footprint` (position,
 rotation, side), `route` (pad to pad, with warnings when it crosses another
@@ -123,6 +140,9 @@ The server sends these as MCP `instructions` on connect
 (`AutomationGuide.text`); keep the two in step.
 
 - Parts by reference (`U1`), pins by designator or name (`U1.14`, `D1.K`).
+  A gate IC can be drawn as separate gates: `set_part` `view=gate`. Its gates are then `U1-A`, `U1-B`, …,
+  and `U1-P` is the block with its power pins; move, flip and rotate them one at a time (`move_part`,
+  `flip_part`, `rotate_part`). Pins are still `U1.3` (`U1-A.3` also works). Deleting takes the whole part.
   Wires, labels, notes, traces, vias, holes, pours (`pour:ID`), keep-outs (`keepout:ID`), cutouts (`cutout:ID`), texts by the 8-hex-digit id the
   read tools print. The Document Info title block is the item `titleblock` (for `select`, `move`, `delete`; `delete`
   only hides it, and it is an error while it is off: `set_document_info title_block=true` shows it).

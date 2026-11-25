@@ -23,6 +23,7 @@ extension AutomationTools {
                 "farads": Schema.number("Capacitance in farads, for capacitors"),
                 "footprint": Schema.string("PCB footprint: a package name or id from get_part"),
                 "gender": Schema.string("Header gender (see get_part)"),
+                "view": Schema.string("block (default) or gate: a gate IC as separate gates U1-A, U1-B, … (see set_part)"),
             ],
             required: ["part", "x", "y"], edits: true,
             run: { context, args in Out.text(try placePart(context!, args)) }),
@@ -50,9 +51,11 @@ extension AutomationTools {
             run: { context, args in Out.text(try disconnect(context!, args)) }),
         AutomationTool(
             name: "move_part",
-            summary: "Move a part on the schematic: its centre to x,y, or by dx,dy. Its wires follow.",
+            summary: "Move a part on the schematic: its centre to x,y, or by dx,dy. Its wires follow. "
+                + "A part in Gate view moves whole (U1), or one gate at a time (U1-A).",
             properties: [
-                "reference": Schema.string("e.g. U1"), "x": Schema.number("New centre x"),
+                "reference": Schema.string("e.g. U1, or one gate of a part in Gate view: U1-A"),
+                "x": Schema.number("New centre x"),
                 "y": Schema.number("New centre y"), "dx": Schema.number("Move right by"),
                 "dy": Schema.number("Move down by"),
             ],
@@ -120,9 +123,17 @@ extension AutomationTools {
         AutomationTool(
             name: "flip_part",
             summary: "Mirror a part left to right on the schematic (swaps which side its pins are on).",
-            properties: ["reference": Schema.string("e.g. U1")], required: ["reference"], edits: true,
+            properties: ["reference": Schema.string("e.g. U1, or one gate of a part in Gate view: U1-A")],
+            required: ["reference"], edits: true,
             run: { context, args in
-                let chip = try context!.chip(try args.string("reference"))
+                let (chip, key) = try context!.unit(try args.string("reference"))
+                if let key {
+                    context!.document.flipUnit(UnitRef(chipID: chip.id, key: key))
+                    return Out.text("flipped \(chip.reference)-\(key)")
+                }
+                guard !chip.isSplit else {
+                    throw AutomationFailure("\(chip.reference) is drawn as units; name one: \(context!.unitNames(chip))")
+                }
                 guard chip.symbol.canFlip else { throw AutomationFailure("\(chip.reference) can't be flipped") }
                 context!.document.flipChip(chip.id)
                 return Out.text("flipped \(chip.reference)")
@@ -131,26 +142,41 @@ extension AutomationTools {
             name: "rotate_part",
             summary: "Turn a part drawn as its own symbol a quarter turn on the schematic: an LED, diode, resistor, "
                 + "capacitor, crystal, inductor, fuse, buzzer, transistor, test point or barrel jack (its left and "
-                + "right pins go to the top and bottom). Clockwise unless counterclockwise is true.",
-            properties: ["reference": Schema.string("e.g. D1"),
+                + "right pins go to the top and bottom), or one gate of a part in Gate view (U1-A). "
+                + "Clockwise unless counterclockwise is true.",
+            properties: ["reference": Schema.string("e.g. D1, or U1-A"),
                          "counterclockwise": Schema.boolean("Turn it the other way")],
             required: ["reference"], edits: true,
             run: { context, args in
-                let chip = try context!.chip(try args.string("reference"))
+                let (chip, key) = try context!.unit(try args.string("reference"))
+                let counterclockwise = args.optBool("counterclockwise") == true
+                if let key {
+                    guard chip.piece(forUnit: key)?.symbol.canRotate == true else {
+                        throw AutomationFailure("\(chip.reference)-\(key) can't be rotated: it is a block")
+                    }
+                    context!.document.rotateUnit(UnitRef(chipID: chip.id, key: key), counterclockwise: counterclockwise)
+                    let turned = context!.document.chips.first { $0.id == chip.id }?
+                        .unitPlacements.first { $0.key == key }?.rotation ?? 0
+                    return Out.text("rotated \(chip.reference)-\(key) to \(turned)°")
+                }
+                guard !chip.isSplit else {
+                    throw AutomationFailure("\(chip.reference) is drawn as units; name one: \(context!.unitNames(chip))")
+                }
                 guard chip.symbol.canRotate else {
                     throw AutomationFailure("\(chip.reference) can't be rotated: only parts drawn as their own symbol turn "
                         + "(LEDs, diodes, resistors, capacitors, crystals, inductors, fuses, buzzers, transistors, "
                         + "test points, barrel jacks)")
                 }
-                context!.document.rotateChip(chip.id, counterclockwise: args.optBool("counterclockwise") == true)
+                context!.document.rotateChip(chip.id, counterclockwise: counterclockwise)
                 let turned = context!.document.chips.first { $0.id == chip.id }?.rotation ?? 0
                 return Out.text("rotated \(chip.reference) to \(turned)°")
             }),
         AutomationTool(
             name: "set_part",
             summary: "Change a placed part: new_reference (\"U5\"), color, ohms, farads, footprint, gender, "
-                + "show_reference, socket_mode (ic, ic+socket, socket-only) and socket (a socket part name; "
-                + "see search_parts).",
+                + "show_reference, socket_mode (ic, ic+socket, socket-only), socket (a socket part name; "
+                + "see search_parts) and view (a gate IC as one block or as separate gates U1-A, U1-B, … plus "
+                + "U1-P for its power pins; the wires stay on their pins).",
             properties: [
                 "reference": Schema.string("e.g. R1"),
                 "new_reference": Schema.string("Rename, e.g. R7 (a letter prefix and a number)"),
@@ -160,6 +186,7 @@ extension AutomationTools {
                 "show_reference": Schema.boolean("Show the reference label"),
                 "socket_mode": Schema.string("ic, ic+socket or socket-only (a DIP or PLCC chip a socket fits)"),
                 "socket": Schema.string("The socket part's name (a mode without it picks the generic socket)"),
+                "view": Schema.string("block or gate (gate ICs only)"),
             ],
             required: ["reference"], edits: true,
             run: { context, args in Out.text(try setPart(context!, args)) }),
@@ -242,7 +269,8 @@ extension AutomationTools {
             run: { context, args in Out.text(try setBusPort(context!, args)) }),
         AutomationTool(
             name: "delete",
-            summary: "Delete items: parts by reference (\"U1\"; wires on its pins stay, with loose ends), "
+            summary: "Delete items: parts by reference (\"U1\"; wires on its pins stay, with loose ends; a part in "
+                + "Gate view goes whole, never one gate), "
                 + "\"wire:ID\", \"label:NAME\" or \"label:ID\", \"note:ID\", \"junction:ID\", \"bus:NAME\", \"port:BUS:N\" (a bus port, numbered from 1 in get_design; "
                 + "wires on its pins stay, with loose ends), and on the PCB "
                 + "\"trace:ID\", \"via:ID\", \"hole:ID\", \"text:ID\". Ids are printed by get_design and get_board.",
@@ -251,7 +279,8 @@ extension AutomationTools {
         AutomationTool(
             name: "select",
             summary: "Select items so the user sees them (and later tools can act on the selection). Same item "
-                + "names as delete, plus \"fp:U1\" for a footprint. An empty list clears the selection.",
+                + "names as delete, plus \"fp:U1\" for a footprint and \"U1-A\" for one gate of a part in "
+                + "Gate view. An empty list clears the selection.",
             properties: [
                 "items": Schema.strings("Items to select"),
                 "add": Schema.boolean("Add to the selection instead of replacing it"),
@@ -283,21 +312,46 @@ extension AutomationTools {
         }
         let footprint = try args.optString("footprint").map { try footprintID(part, $0) }
         let document = context.document
+        // Checked before anything is placed, so a wrong view places nothing.
+        let wantsSplit = try args.optString("view").map { try wantsUnits(part, named: part.name, $0) } ?? false
         let before = document.chips.count
-        document.placeChip(part: part, symbol: symbol(for: part), centeredAt: point,
-                           color: args.optString("color"), footprintID: footprint,
-                           gender: args.optString("gender"), ohms: args.optDouble("ohms"),
-                           farads: args.optDouble("farads"))
-        guard document.chips.count > before, let placed = document.chips.last else {
-            throw AutomationFailure("the part was not placed")
+        var units = ""
+        // One undo step: the part, and its view when one is asked for.
+        let added: PlacedChip? = document.recordEdit(.schematic, "Add Part") {
+            document.placeChip(part: part, symbol: symbol(for: part), centeredAt: point,
+                               color: args.optString("color"), footprintID: footprint,
+                               gender: args.optString("gender"), ohms: args.optDouble("ohms"),
+                               farads: args.optDouble("farads"))
+            guard document.chips.count > before, var placed = document.chips.last else { return nil }
+            if wantsSplit {
+                document.setPartSplit(placed.id, true)
+                placed = document.chips.first { $0.id == placed.id } ?? placed
+                units = "; units: " + context.unitNames(placed)
+            }
+            return placed
         }
+        guard let placed = added else { throw AutomationFailure("the part was not placed") }
         let centre = context.centre(of: placed)
         let pins = placed.part.pins.filter { !$0.isHidden }
         let listing = pins.count <= 16
             ? "; pins: " + pins.map { "\($0.designator)=\($0.name)" }.joined(separator: " ")
             : "; \(pins.count) pins (see get_part)"
         return "placed \(placed.reference) (\(part.name)) centre=(\(num(centre.x)),\(num(centre.y))) "
-            + "size=\(num(placed.layout.size.width))x\(num(placed.layout.size.height))" + listing
+            + "size=\(num(placed.layout.size.width))x\(num(placed.layout.size.height))" + listing + units
+    }
+
+    /// `view`'s meaning for a part: false for "block", true for the part's
+    /// unit view ("gate" for a gate IC; "units" always works). A part with no
+    /// units has no other view.
+    private static func wantsUnits(_ part: CatalogPart, named label: String, _ view: String) throws -> Bool {
+        let wanted = view.lowercased()
+        if wanted == "block" { return false }
+        guard !part.units.isEmpty else { throw AutomationFailure("\(label) has no other view") }
+        let name = (part.unitViewName ?? "units").lowercased()
+        guard wanted == name || wanted == "units" else {
+            throw AutomationFailure("view is block or \(name), got “\(view)”")
+        }
+        return true
     }
 
     // MARK: Wiring
@@ -575,7 +629,26 @@ extension AutomationTools {
 
     private static func movePart(_ context: AutomationContext, _ args: AutomationArgs) throws -> String {
         let document = context.document
-        let chip = try context.chip(try args.string("reference"))
+        let (whole, key) = try context.unit(try args.string("reference"))
+        if let key, let piece = whole.piece(forUnit: key) {
+            // One unit of a part drawn as its units (plan-67).
+            let size = piece.layout.size
+            let target: CGPoint
+            if let x = args.optDouble("x"), let y = args.optDouble("y") {
+                target = CGPoint(x: x - size.width / 2, y: y - size.height / 2)
+            } else if let dx = args.optDouble("dx"), let dy = args.optDouble("dy") {
+                target = CGPoint(x: piece.origin.x + dx, y: piece.origin.y + dy)
+            } else {
+                throw AutomationFailure("give x and y (the new centre), or dx and dy")
+            }
+            document.moveUnit(UnitRef(chipID: whole.id, key: key), to: target)
+            guard let moved = document.chips.first(where: { $0.id == whole.id })?.piece(forUnit: key) else {
+                throw AutomationFailure("\(whole.reference)-\(key) was not moved")
+            }
+            let centre = context.centre(of: moved)
+            return "\(moved.drawnReference) now centred at (\(num(centre.x)),\(num(centre.y)))"
+        }
+        let chip = whole
         let size = chip.layout.size
         let target: CGPoint
         if let x = args.optDouble("x"), let y = args.optDouble("y") {
@@ -630,6 +703,11 @@ extension AutomationTools {
                 try setSocket(document, chip, mode: args.optString("socket_mode"), socketName: socketName)
                 done.append("socket")
             }
+            if let view = args.optString("view") {
+                let split = try wantsUnits(chip.part, named: chip.reference, view)
+                document.setPartSplit(chip.id, split)
+                done.append("view \(split ? (chip.part.unitViewName ?? "units").lowercased() : "block")")
+            }
             if let name = args.optString("new_reference") {
                 guard let match = name.wholeMatch(of: /([A-Za-z]+)(\d+)/), let number = Int(match.2) else {
                     throw AutomationFailure("a reference is letters then a number, like U5")
@@ -641,7 +719,7 @@ extension AutomationTools {
             }
         }
         guard !done.isEmpty else {
-            throw AutomationFailure("nothing to change: pass new_reference, color, ohms, farads, footprint, gender, show_reference, socket_mode or socket")
+            throw AutomationFailure("nothing to change: pass new_reference, color, ohms, farads, footprint, gender, show_reference, socket_mode, socket or view")
         }
         return "\(chip.reference): changed \(done.joined(separator: ", "))"
     }
@@ -912,7 +990,11 @@ extension AutomationTools {
             return .schematic(.titleBlock)
         }
         guard let colon = spec.firstIndex(of: ":") else {
-            return .schematic(.chip(try context.chip(spec).id))
+            let (chip, key) = try context.unit(spec)
+            if let key, forDelete {
+                throw AutomationFailure("\(chip.reference)-\(key) is one symbol of \(chip.reference); delete \(chip.reference) to remove the part")
+            }
+            return .schematic(.chip(chip.id))
         }
         let kind = String(spec[..<colon]).lowercased()
         let rest = String(spec[spec.index(after: colon)...])
@@ -1006,6 +1088,12 @@ extension AutomationTools {
             case let .board(item): if !document.isSelected(item) { document.toggleSelection(item) }
             }
         }
+        // "U1-A": that unit of the part is the picked one (several: all of them).
+        var picks = Set<UnitRef>()
+        for spec in try args.strings("items") where !spec.contains(":") {
+            if let found = try? context.unit(spec), let key = found.key { picks.insert(UnitRef(chipID: found.chip.id, key: key)) }
+        }
+        if !picks.isEmpty { document.pickUnits(picks) }
         return "selected \(items.count) item\(items.count == 1 ? "" : "s")"
     }
 }

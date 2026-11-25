@@ -34,7 +34,7 @@ letter adds one:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-67-F has landed | `grep -c 'instances(reference: String, unit: Int' schematical/schematical/Document/KiCadSchematicWriter.swift` → 1 | NOT MET (2026-11-25: 0) |
+| plan-67-F has landed | `grep -c 'instances(reference: String, unit: Int' schematical/schematical/Document/KiCadSchematicWriter.swift` → 1 | MET (2026-11-25: 1, `74fcd97f`) |
 
 ## 1. Goal
 
@@ -161,14 +161,17 @@ them one at a time. Pins are still `U1.3`. Deleting takes the whole part."
 
 ### Phase 1 — the tools
 
-- [ ] `Automation/AutomationTools.swift`: `unit(_:)` (§3); `pin(_:)` through it.
-- [ ] `Automation/AutomationSchematic.swift`: `set_part` and `place_part`
+- [x] `Automation/AutomationTools.swift`: `unit(_:)` (§3); `pin(_:)` through it.
+      **Done:** also `unitNames(_:)`. A part with no units answers `R1 has no units: it is one symbol`.
+- [x] `Automation/AutomationSchematic.swift`: `set_part` and `place_part`
       `view`; `movePart`; the `flip_part` and `rotate_part` closures;
       `item(_:_:forDelete:)`; `select` picking (§4).
-- [ ] `Automation/AutomationRead.swift`: `designText`, `designJSON`,
+      **Done:** `place_part` checks `view` before placing and wraps the placing and the view in one `Add Part` step (the first run showed two steps). `view=units` is accepted for any part with units.
+- [x] `Automation/AutomationRead.swift`: `designText`, `designJSON`,
       `selectionText` (§4).
-- [ ] `AutomationGuide.text` (§4).
-- [ ] Tests: new `schematicalTests/SplitPartAutomationTests.swift`, in the
+      **Done:** as landed the text form keeps the part's one `pins:` line (its tips are already each unit's) and adds one line per unit ending in `pins=<designators>`; a JSON unit also has `reference`.
+- [x] `AutomationGuide.text` (§4).
+- [x] Tests: new `schematicalTests/SplitPartAutomationTests.swift`, in the
       style of `AutomationTests` — `testSetPartView` (gate, then block; one
       undo step each; `R1` refused with its message); `testPlacePartWithView`;
       `testMoveOneUnit` and `testMoveWholeSplitPart`; `testFlipAndRotateAUnit`
@@ -181,6 +184,7 @@ them one at a time. Pins are still `U1.3`. Deleting takes the whole part."
       `testUnsplitOutputIsUnchanged` (the `get_design` text and JSON of a
       document with a resistor and an LED have no `view` and no `units`);
       `testBlockViewGateICSaysBlock` (JSON `"view": "block"`).
+      **Done:** 12 cases with `testEndToEnd`. `XB -only-testing:schematicalTests/SplitPartAutomationTests -only-testing:schematicalTests/AutomationTests` → `Executed 47 tests, with 0 failures` (12 + 35), `** TEST SUCCEEDED **`.
 
 Acceptance: an agent can do with tools everything the window can.
   Check: `XB -only-testing:schematicalTests/SplitPartAutomationTests -only-testing:schematicalTests/AutomationTests`
@@ -189,14 +193,17 @@ Commit: —
 
 ### Phase 2 — docs
 
-- [ ] `docs/agent-control.md`: the `view` property in the `set_part` and
+- [x] `docs/agent-control.md`: the `view` property in the `set_part` and
       `place_part` rows; the unit address in the `move_part`, `flip_part`,
       `rotate_part`, `select` and `delete` rows; the `get_design` additions;
       a bullet under "Conventions an agent needs" matching
       `AutomationGuide.text` word for word.
-- [ ] `docs/file-format.md`: re-read the `units` section written in letter D
+      **Done:** the doc lists tools in paragraphs, not rows: a **Gate view** paragraph after the Schematic tools, and the convention bullet with the guide's words. `grep -c 'U1-A' docs/agent-control.md` → 9.
+- [x] `docs/file-format.md`: re-read the `units` section written in letter D
       against the code as landed; correct any drift.
-- [ ] `docs/export.md`: the same re-read for letter F's paragraphs.
+      **Done:** re-read against `SchematicFile.swift` as landed: keys, defaults, the unmatched-list rule and the older-build note all match. No drift. The doc writes the key as `` `units` ``, so the check is `grep -c '`units`' docs/file-format.md` → 2 (see Corrections).
+- [x] `docs/export.md`: the same re-read for letter F's paragraphs.
+      **Done:** matches the writers as landed. `grep -ci 'multi-unit\|drawn as units' docs/export.md` → 3.
 - [ ] `planning/todo.md` § Schematic (line 121): add and tick
       `- [x] Gate view: a gate IC drawn as separate gates (plan-67).`
 - [ ] Move `planning/plan-67-A…G` to `planning/completed/` (each letter as it
@@ -267,6 +274,11 @@ Commit: —
   one symbol should be told so rather than lose five.
 
 ## Corrections
+
+- **`place_part … view=gate` was two undo steps on the first run** (`testPlacePartWithView`: one undo left the part placed as a block). The tool now checks `view` first and does the placing and the view inside one `recordEdit(.schematic, "Add Part")`.
+- **`get_design` text.** §4 said each pin line would be prefixed by its unit with `geometry=true`. The part has one `pins:` line for all its pins, whose tips are already each unit's own; prefixing would change its shape for readers that parse it. Each unit line carries `pins=<designators>` instead, with or without `geometry`.
+- **The doc check for the file format.** `grep -c '"units"' docs/file-format.md` → 0: the table writes keys in backticks. The check that measures the same thing is `grep -c '`units`' docs/file-format.md` → 2.
+- **`planning/todo.md` is edited in the main checkout, not on the branch.** The main working tree has an uncommitted edit of `planning/todo.md` that is not this plan's (`git status` in the main checkout: ` M planning/todo.md`). A commit of that file on `worktree-P-67` would make the merge into main refuse (`Your local changes to the following files would be overwritten`). The line is therefore added to the main checkout's file after the merge and left for the owner to commit with their own change.
 
 ## Summary
 
