@@ -104,6 +104,101 @@ final class RoutingChainEngineTests: XCTestCase {
                        .failure(.noPath))
     }
 
+    // MARK: Cleanup and the result
+
+    /// One layer, a chain of net 7 between its pads at (5, 5) and (15, 9), and a lone pad of net 3 at `pad`.
+    private func open(pad: CGPoint? = nil) -> RoutingTestBoard {
+        var board = RoutingTestBoard(width: 20, height: 20, layers: [.top])
+        board.options.grid = 0.1
+        board.options.vias = .none
+        board.pad(5, 5, 1, 1, net: 7)
+        board.pad(15, 9, 1, 1, net: 7)
+        board.chain([CGPoint(x: 5, y: 5), CGPoint(x: 15, y: 9)], net: 7, from: 0, to: 1)
+        if let pad { board.pad(pad.x, pad.y, 1, 1, net: 3) }
+        return board
+    }
+
+    private func finish(_ run: inout Router.Run, _ problem: RoutingProblem) -> (FinishedCopper, RoutingResult) {
+        let copper = run.finishedCopper()
+        var result = run.result(traces: copper.traces, vias: copper.vias)
+        result.moved = copper.moved
+        return (copper, result)
+    }
+
+    func testAnUntouchedChainIsFrozenAndUnlisted() throws {
+        let board = RoutingTestBoard.twoGaps().tracesAsChains()
+        let problem = board.problem()
+        var run = Router.Run(problem: problem)
+        run.routeAll(progress: { _ in }, isCancelled: { false })
+        let (copper, result) = finish(&run, problem)
+        XCTAssertTrue(copper.moved.isEmpty)
+        XCTAssertTrue(result.moved.isEmpty)
+        XCTAssertEqual(copper.chainTraces.map(\.points), problem.movable.flatMap { $0.runs.map(\.points) }, "the wall as it was")
+        XCTAssertFalse(result.traces.contains { $0.net == 9 }, "the new copper has none of it")
+        XCTAssertEqual(result.stats.routed, result.stats.connections)
+        XCTAssertEqual(result.stats.movedTraces + result.stats.movedVias, 0)
+        XCTAssertEqual(RoutingCheck.violations(result, problem), [])
+    }
+
+    func testATouchedChainIsCleanedAndListed() throws {
+        let problem = open().problem()
+        var run = Router.Run(problem: problem)
+        let id = try XCTUnwrap(run.state.ledger.first { $0.chain == 0 }?.id)
+        let staircase = [CGPoint(x: 5, y: 5), CGPoint(x: 7, y: 5), CGPoint(x: 7, y: 6), CGPoint(x: 9, y: 6),
+                         CGPoint(x: 9, y: 7), CGPoint(x: 15, y: 7), CGPoint(x: 15, y: 9)]
+        run.state.replace(id, traces: [RoutedTrace(layer: .top, width: 0.254, points: staircase, net: 7)], vias: [], touched: true)
+        let (copper, result) = finish(&run, problem)
+        let moved = try XCTUnwrap(copper.moved.first)
+        XCTAssertEqual(copper.moved.count, 1)
+        XCTAssertEqual(moved.chain, 0)
+        XCTAssertEqual(moved.runs.count, 1)
+        XCTAssertLessThan(moved.runs[0].count, staircase.count, "cleaned")
+        XCTAssertEqual(moved.runs[0].first, CGPoint(x: 5, y: 5), "its ends stay")
+        XCTAssertEqual(moved.runs[0].last, CGPoint(x: 15, y: 9))
+        XCTAssertNotEqual(moved.runs[0], [CGPoint(x: 5, y: 5), CGPoint(x: 15, y: 9)])
+        XCTAssertEqual(copper.chainTraces.map(\.points), moved.runs)
+        XCTAssertTrue(copper.traces.isEmpty, "the chain is not new copper")
+        XCTAssertEqual(RoutingCheck.violations(result, problem), [])
+    }
+
+    func testAChainThatStaysIllegalGoesBack() throws {
+        // A chain from (5, 5) to (15, 5) that goes round a big pad of net 3 above it...
+        var board = RoutingTestBoard(width: 20, height: 20, layers: [.top])
+        board.options.grid = 0.1
+        board.options.vias = .none
+        board.pad(5, 5, 1, 1, net: 7)
+        board.pad(15, 5, 1, 1, net: 7)
+        board.pad(10, 5, 2, 2, net: 3)
+        board.chain([CGPoint(x: 5, y: 5), CGPoint(x: 8, y: 3), CGPoint(x: 12, y: 3), CGPoint(x: 15, y: 5)], net: 7, from: 0, to: 1)
+        let problem = board.problem()
+        var run = Router.Run(problem: problem)
+        let id = try XCTUnwrap(run.state.ledger.first { $0.chain == 0 }?.id)
+        let original = try XCTUnwrap(run.state.entries[id]).traces
+        // ... pushed straight over it: no cleaning can make that legal.
+        let over = [CGPoint(x: 5, y: 5), CGPoint(x: 10, y: 5), CGPoint(x: 15, y: 5)]
+        run.state.replace(id, traces: [RoutedTrace(layer: .top, width: 0.254, points: over, net: 7)], vias: [], touched: true)
+        let (copper, result) = finish(&run, problem)
+        XCTAssertTrue(copper.moved.isEmpty, "nothing moved")
+        XCTAssertEqual(run.state.entries[id]?.traces, original, "the original copper is back")
+        XCTAssertEqual(run.state.entries[id]?.touched, false)
+        XCTAssertEqual(copper.chainTraces.map(\.points), original.map(\.points))
+        XCTAssertEqual(RoutingCheck.violations(result, problem), [])
+    }
+
+    func testAnIllegalUntouchedChainIsNotRepaired() throws {
+        // The user's own chain already runs through net 3's pad.
+        let problem = open(pad: CGPoint(x: 10, y: 7)).problem()
+        var run = Router.Run(problem: problem)
+        XCTAssertFalse(RoutingVerifier.verify(problem, traces: run.state.ledger.flatMap(\.traces), vias: []).isEmpty,
+                       "the board is already illegal")
+        let (copper, result) = finish(&run, problem)
+        XCTAssertTrue(copper.moved.isEmpty)
+        XCTAssertEqual(run.state.ledger.filter { $0.chain != nil }.count, 1, "not ripped")
+        XCTAssertTrue(run.illegalNets.isEmpty)
+        XCTAssertEqual(run.rips, 0)
+        XCTAssertTrue(result.traces.isEmpty)
+    }
+
     // MARK: The router
 
     private func compare(_ a: RoutingResult, _ b: RoutingResult, _ message: String, file: StaticString = #filePath, line: UInt = #line) {

@@ -109,8 +109,11 @@ nonisolated enum Router {
                     }, isCancelled: stop)
                     let copper = run.finishedCopper()
                     var result = run.result(traces: copper.traces, vias: copper.vias)
+                    result.moved = copper.moved
+                    result.stats.movedTraces = copper.moved.reduce(0) { $0 + $1.runs.count }
+                    result.stats.movedVias = copper.moved.reduce(0) { $0 + $1.vias.count }
                     if !problem.groups.isEmpty {
-                        result = Self.tuned(result, problem: problem, pairs: run.pairStatus)
+                        result = Self.tuned(result, problem: Self.withChainsAsObstacles(problem, copper), pairs: run.pairStatus)
                     }
                     result.stats.bends = Self.bends(result.traces)
                     result.stats.seconds = Date().timeIntervalSince(start)
@@ -134,6 +137,29 @@ nonisolated enum Router {
                 return best ?? RoutingResult()
             }
         }
+    }
+
+    /// `problem` with every chain of existing copper, as it stands after the run, among the obstacles
+    /// (what the tuning and its check must keep clear of).
+    static func withChainsAsObstacles(_ problem: RoutingProblem, _ copper: FinishedCopper) -> RoutingProblem {
+        guard !problem.movable.isEmpty else { return problem }
+        var problem = problem
+        for trace in copper.chainTraces {
+            for (a, b) in zip(trace.points, trace.points.dropFirst()) {
+                problem.obstacles.append(RoutingObstacle(shape: CopperShape(core: .segment(a, b), radius: trace.width / 2,
+                                                                            layers: [trace.layer], node: 30_000_000 + problem.obstacles.count),
+                                                         net: trace.net, kind: .trace))
+            }
+        }
+        for via in copper.chainVias {
+            let core = CopperShape.Core.segment(via.centre, via.centre)
+            problem.obstacles.append(RoutingObstacle(shape: CopperShape(core: core, radius: via.diameter / 2, layers: nil,
+                                                                        node: 30_000_000 + problem.obstacles.count),
+                                                     net: via.net, kind: .via,
+                                                     drill: CopperShape(core: core, radius: via.drill / 2, layers: nil, node: 0)))
+        }
+        problem.movable = []
+        return problem
     }
 
     /// `result` with its length-match groups tuned (plan-38-I): any tuned

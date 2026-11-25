@@ -249,27 +249,27 @@ Acceptance: the four tests pass and the A anchors still pass.
   -only-testing:schematicalTests/RoutingGridTests` → `** TEST SUCCEEDED **`
   (est. 3 min).
   Measured: `Executed 25 tests, with 0 failures` (RoutingChainEngineTests 6, RoutingAnchorTests 9, RoutingStateTests 4, RoutingGridTests 6), `** TEST SUCCEEDED **`.
-Commit: — (recorded in the next commit)
+Commit: e20e9922
 
 ### Phase 2 — cleanup, the result
 
-- [ ] `RoutingRepair.swift`: `cleanupInput()` freezes untouched chain entries;
+- [x] (done; `FinishedCopper` also carries `chainTraces`/`chainVias`) `RoutingRepair.swift`: `cleanupInput()` freezes untouched chain entries;
       `finishedCopper()` returns `FinishedCopper` (`traces`, `vias`, `moved`),
       attributes violations as in § 3, restores a chain that stays illegal.
-- [ ] `RoutingRepair.swift`, `reroute(_:margin:)` (`:87-130`): its temporary run is
+- [x] (done) `RoutingRepair.swift`, `reroute(_:margin:)` (`:87-130`): its temporary run is
       built from `wide = problem` and then fed the real ledger; with chains that
       would seed every chain twice and lose a touched chain's new geometry. Set
       `wide.movable = []` and `wide.options.pushAndShove = false`, and copy every
       ledger entry with `chain: entry.chain, touched: entry.touched` (`add` takes
       both); entries it adds back to the real state are the new ones as before.
-- [ ] `RoutingResult.swift`: `MovedChain`, `RoutingResult.moved`.
-- [ ] `Router.swift`: `Router.route` builds the result with `moved` and the two
+- [x] (done) `RoutingResult.swift`: `MovedChain`, `RoutingResult.moved`.
+- [x] (done) `Router.swift`: `Router.route` builds the result with `moved` and the two
       stats; `Run.result` and the progress snapshot skip chain entries.
-- [ ] `schematicalTests/RouterTests.swift` (`RoutingCheck`): `violations(result,
+- [x] (done) `schematicalTests/RouterTests.swift` (`RoutingCheck`): `violations(result,
       problem)` also treats every chain of `problem.movable` as an obstacle at its
       final geometry (moved copper if listed in `result.moved`, else original) and
       checks `moved` against the other copper.
-- [ ] Tests in `RoutingChainEngineTests`: `testAnUntouchedChainIsFrozenAndUnlisted`;
+- [x] (done: 4 in `RoutingChainEngineTests`, 1 in `RoutingRepairTests`) Tests in `RoutingChainEngineTests`: `testAnUntouchedChainIsFrozenAndUnlisted`;
       `testATouchedChainIsCleanedAndListed` (the test calls `state.replace` with a
       staircase path between the chain's ends and `touched: true`, runs
       `finishedCopper`, and expects one `MovedChain` whose run has fewer vertices);
@@ -289,7 +289,8 @@ Acceptance: the five tests pass; the A anchors and every router test still pass.
   -only-testing:schematicalTests/RoutingRepairTests
   -only-testing:schematicalTests/RoutingCleanupTests` → `** TEST SUCCEEDED **`
   (est. 4 min).
-Commit: —
+  Measured: `Executed 41 tests, with 0 failures` (RoutingChainEngineTests 10, RoutingAnchorTests 9, RouterTests 7 + RoutingRepairTests 5 + RoutingCleanupTests 10), `** TEST SUCCEEDED **`.
+Commit: — (recorded in the next commit)
 
 ### Phase 3 — apply (the splice)
 
@@ -373,6 +374,25 @@ plan-66-A § Decisions apply. Added by the author, 2026-11-25:
   (2026-11-25): `clearanceOf` over `nets + bystanders`, as the grid's.
 - **Six tests in Phase 1, not four**: the grid-equality test is joined by the
   un-stamp, `replace` and (in the tests) mask checks.
+- **A chain's free end is a stub, and cleanup removes stubs** (2026-11-25). The
+  first Phase 2 tests gave their chains free ends; cleanup took them out as stubs
+  and the verifier flagged "joins nothing", so a touched chain went back to its
+  original and `moved` stayed empty. A real chain ends on a pad, a junction with
+  other copper, or a via; the Phase 2 test boards give theirs pads, and
+  `tracesAsChains()` (free-ended walls) is used only where nothing is touched.
+  Related, found while writing it: cleanup can change a touched chain's *shape*
+  (a stub or a via hop removed), which the document's chain cannot follow, so
+  `finishedCopper` sends such a chain back to the copper the push left
+  (`sameShape`), and `finished` skips a chain whose run or via count differs.
+- **`FinishedCopper` also returns the chains' copper as it stands** (`chainTraces`,
+  `chainVias`) (2026-11-25): length-match tuning verifies its result against
+  `problem.obstacles`, which no longer holds the chains; `Router.route` hands
+  `tuned` a problem with the chains as obstacles (`withChainsAsObstacles`).
+- **A chain cleanup repairs on its own is listed as moved** (2026-11-25): a push
+  that left a chain illegal can be made legal by cleanup (straightened off a pad);
+  that result is the kept one. A chain goes back to its original only when it is
+  illegal even raw (`testAChainThatStaysIllegalGoesBack`, over a big pad that no
+  straightening clears).
 
 ## Summary
 

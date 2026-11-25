@@ -50,6 +50,29 @@ final class RoutingRepairTests: XCTestCase {
         XCTAssertNil(result.nets.first { $0.net == 1 }?.reason)
     }
 
+    /// plan-66-C: a repair that routes a net again (`reroute`) copies the ledger into a run of its own;
+    /// the chains in it must not be seeded twice, and keep what a push made of them.
+    func testRepairRerouteKeepsChainEntries() throws {
+        var board = board()
+        board.pad(2, 18, 1, 1, net: 7)
+        board.pad(6, 18, 1, 1, net: 7)
+        board.chain([p(2, 18), p(6, 18)], net: 7, from: 3, to: 4)
+        var run = try illegalRun(board)
+        let chain = try XCTUnwrap(run.state.ledger.first { $0.chain != nil })
+        let moved = [RoutedTrace(layer: .top, width: 0.254, points: [p(2, 18), p(4, 18.5), p(6, 18)], net: 7)]
+        run.state.replace(chain.id, traces: moved, vias: [], touched: true)
+        let copper = run.finishedCopper()
+        XCTAssertGreaterThan(run.rips, 0, "the illegal connection was routed again")
+        let entries = run.state.ledger.filter { $0.chain != nil }
+        XCTAssertEqual(entries.count, 1, "each chain entry once")
+        XCTAssertEqual(entries[0].chain, 0)
+        XCTAssertEqual(entries[0].id, chain.id)
+        XCTAssertTrue(entries[0].touched, "its flag survives")
+        XCTAssertEqual(entries[0].traces, moved, "and its copper")
+        XCTAssertEqual(RoutingVerifier.verify(run.problem, traces: copper.traces + copper.chainTraces,
+                                              vias: copper.vias + copper.chainVias), [])
+    }
+
     func testAConnectionThatCantBeMadeLegalIsReportedWithTheReason() throws {
         let board = board(walled: true)
         var run = try illegalRun(board)

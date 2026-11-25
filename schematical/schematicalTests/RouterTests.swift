@@ -25,9 +25,25 @@ enum RoutingCheck {
     /// routed against the problem's obstacles) closer than the larger of
     /// their nets' clearances, less the DRC's 1e-4 mm tolerance.
     static func violations(_ result: RoutingResult, _ problem: RoutingProblem) -> [String] {
-        let clearance = Dictionary(uniqueKeysWithValues: problem.nets.map { ($0.id, $0.clearance) })
+        let clearance = Dictionary(uniqueKeysWithValues: (problem.nets + problem.bystanders).map { ($0.id, $0.clearance) })
         func c(_ net: Int?) -> Double { net.flatMap { clearance[$0] } ?? problem.rules.minClearance }
-        let routed = shapes(result)
+        var routed = shapes(result)
+        // Existing chains stand as copper too, as moved if the result says so (plan-66-C).
+        for chain in problem.movable {
+            let moved = result.moved.first { $0.chain == chain.id }
+            for (k, run) in chain.runs.enumerated() {
+                let points = moved?.runs[k] ?? run.points
+                for (a, b) in zip(points, points.dropFirst()) {
+                    routed.append((CopperShape(core: .segment(a, b), radius: chain.width / 2, layers: [run.layer],
+                                               node: 200_000 + routed.count), chain.net))
+                }
+            }
+            for (v, via) in chain.vias.enumerated() {
+                let centre = moved?.vias[v] ?? via.centre
+                routed.append((CopperShape(core: .segment(centre, centre), radius: chain.viaDiameter / 2, layers: nil,
+                                           node: 300_000 + routed.count), chain.net))
+            }
+        }
         var found: [String] = []
         for i in routed.indices {
             for j in routed.indices where j > i && routed[i].net != routed[j].net && routed[i].shape.shares(routed[j].shape) {

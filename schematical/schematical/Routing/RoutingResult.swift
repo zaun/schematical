@@ -56,11 +56,24 @@ nonisolated struct RoutingStats: Hashable, Sendable {
     var stopped = false
 }
 
+/// A chain of existing copper that push and shove moved (plan-66-C): its new
+/// geometry, with its ends where they were.
+nonisolated struct MovedChain: Hashable, Sendable {
+    /// `MovableChain.id`.
+    var chain: Int
+    /// The new points of each run, in chain order (the chain's own direction).
+    var runs: [[CGPoint]]
+    /// The new centre of each via, in chain order.
+    var vias: [CGPoint]
+}
+
 /// What a run produced: new copper (every piece tagged with its net) and
 /// how each net came out.
 nonisolated struct RoutingResult: Hashable, Sendable {
     var traces: [RoutedTrace] = []
     var vias: [RoutedVia] = []
+    /// The existing chains the run moved, in chain order (plan-66).
+    var moved: [MovedChain] = []
     var nets: [NetOutcome] = []
     var stats = RoutingStats()
     /// Each length-match group's outcome (plan-38-I).
