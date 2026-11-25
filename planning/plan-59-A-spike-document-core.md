@@ -42,9 +42,9 @@ letters point here.
 
 | Must be true | Command | Status |
 |---|---|---|
-| The base commit exists | `git cat-file -t 2d10a029` → `commit` | MET |
-| Xcode 26 toolchain | `xcodebuild -version \| head -1` → `Xcode 26.3` | MET |
-| System Events scripting works | `osascript -e 'tell application "System Events" to count processes'` → a number | MET (125) |
+| The base commit exists | `git cat-file -t 2d10a029` → `commit` | MET (`commit`, re-run at execution) |
+| Xcode 26 toolchain | `xcodebuild -version \| head -1` → `Xcode 26.3` | MET (`Xcode 26.3`, re-run at execution) |
+| System Events scripting works | `osascript -e 'tell application "System Events" to count processes'` → a number | MET (120, re-run 2026-11-24 at execution) |
 
 Everything below is written against these holding.
 
@@ -223,12 +223,12 @@ Viewer); the file format is unchanged.
 
 Delivers the place everything else runs and the numbers everything is judged against.
 
-- [ ] Create the worktree from a script file in the scratchpad: `git worktree add --detach /Users/justinzaun/Development/logic/.claude/worktrees/spike-59-G 2d10a029`.
-- [ ] Baselines B1, before any rename: from the worktree, `scripts/harness/build.sh scripts/harness/edit-lag.swift <scratch>/h-edit`, then run `<scratch>/h-edit/H.app/Contents/MacOS/harness examples/6502.schematical both` three times; the same with `drag-timing.swift`. Record median and p90 (median of the three runs) in `findings.md` § Baselines.
-- [ ] Add `planning/plan-59-data/scripts/baselines.swift` (a harness main): prints B3 (median of 20 timings of `SchematicFile(document:fileURL:)` on `examples/6502.schematical`) and B2 (encode a design with an EEPROM whose load file is `…/A/rom.bin`, with `fileURL` `…/B/design.schematical`, and print the chip's `memoryFile.path`). Run it through `build.sh`; record B2 and B3.
-- [ ] In the worktree's `schematical.xcodeproj/project.pbxproj`, app target, Debug and Release: `PRODUCT_NAME = SchematicalSpike59`, `PRODUCT_MODULE_NAME = schematical`, `PRODUCT_BUNDLE_IDENTIFIER = jgz.schematical.spike59`, `CODE_SIGN_STYLE = Manual`, `CODE_SIGN_IDENTITY = "-"`, `DEVELOPMENT_TEAM = ""`.
-- [ ] Build signed: `xcodebuild -project <wt>/schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath <scratch>/dd-G CODE_SIGNING_ALLOWED=YES build`.
-- [ ] Launch it once and record that the sandbox is on.
+- [x] Create the worktree from a script file in the scratchpad: `git worktree add --detach /Users/justinzaun/Development/logic/.claude/worktrees/spike-59-G 2d10a029`. — `git worktree list | grep spike` → `…/spike-59-G  2d10a029 (detached HEAD)`.
+- [x] Baselines B1, before any rename: from the worktree, `scripts/harness/build.sh scripts/harness/edit-lag.swift <scratch>/h-edit`, then run `<scratch>/h-edit/H.app/Contents/MacOS/harness examples/6502.schematical both` three times; the same with `drag-timing.swift`. Record median and p90 (median of the three runs) in `findings.md` § Baselines. — done: edit-lag `label name: median 13.8 ms  p90 14.3 ms` (run 3), drag-timing `moveChip: median 23.08 ms  p90 24.97 ms` (run 2); full output in `evidence/B1-*.txt`. Drag-timing was built from an export of 2d10a029 (Corrections 2).
+- [x] Add `planning/plan-59-data/scripts/baselines.swift` (a harness main): prints B3 (median of 20 timings of `SchematicFile(document:fileURL:)` on `examples/6502.schematical`) and B2 (encode a design with an EEPROM whose load file is `…/A/rom.bin`, with `fileURL` `…/B/design.schematical`, and print the chip's `memoryFile.path`). Run it through `build.sh`; record B2 and B3. — `B3 snapshot ms: median 14.726 …`, `B2 part AT28C64B-15JU memoryFile.path: ../A/rom.bin`.
+- [x] In the worktree's `schematical.xcodeproj/project.pbxproj`, app target, Debug and Release: `PRODUCT_NAME = SchematicalSpike59`, `PRODUCT_MODULE_NAME = schematical`, `PRODUCT_BUNDLE_IDENTIFIER = jgz.schematical.spike59`, `CODE_SIGN_STYLE = Manual`, `CODE_SIGN_IDENTITY = "-"`, `DEVELOPMENT_TEAM = ""`. — `python3 scripts/rename.py <pbxproj> jgz.schematical.spike59` → `edited 2 configurations`.
+- [x] Build signed: `xcodebuild -project <wt>/schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath <scratch>/dd-G CODE_SIGNING_ALLOWED=YES build`. — `** BUILD SUCCEEDED **`; `codesign -dv` → `Identifier=jgz.schematical.spike59`, `Signature=adhoc`.
+- [x] Launch it once and record that the sandbox is on. — `lsappinfo list` → `bundleID="jgz.schematical.spike59" … Arch=ARM64 sandboxed`; `ls ~/Library/Containers | grep spike59` → `jgz.schematical.spike59`; `codesign -d --entitlements -` → `[Key] com.apple.security.app-sandbox`.
 
 Acceptance: B1–B3 are in `findings.md`; the renamed app builds, runs, and has its own sandbox container.
   Check: `rg '^\| B[123].*\| — \|' planning/plan-59-data/findings.md | wc -l` → `0`; `codesign -d --entitlements - <scratch>/dd-G/Build/Products/Debug/SchematicalSpike59.app 2>&1 | rg app-sandbox` → one line; `ls ~/Library/Containers | rg spike59` → `jgz.schematical.spike59` (est. first build 10–15 min: the whole app plus the C backend, nothing smaller builds the app; baselines 5 min).
@@ -302,7 +302,11 @@ Commit: —
 
 ## Corrections
 
-Filled in during execution.
+1. **The integration worktree has a branch.** § Non-goals says no branch is created. The `follow-plan` skill, which executes this plan, makes one integration worktree `.claude/worktrees/P-59` on branch `worktree-P-59` and deletes both when the plan lands; that is the skill's stated exception to AGENTS.md § Git (the same as `worktree-P-42` … `worktree-P-57`: `git log --merges`). The two spike worktrees are detached, as written.
+2. **Baselines are built from an export of the base commit, not from the spike worktree.** `build.sh` compiles the tree it sits in for about 15 minutes; the worktree is edited during that time. `git archive 2d10a029 schematical backend scripts examples | tar -x -C <scratch>/base` gives a tree no later edit can reach; drag-timing, `baselines.swift` and `make-fixture.swift` were built there. Edit-lag was built from the worktree before any edit (`git status --short` was empty).
+3. **`probes.md` says B1 is a Release harness build; `build.sh` has no Release mode.** It copies the Debug app and compiles with `swiftc` and no `-O`. B1, B3 and their re-runs (F4, A14) all use that same unoptimized build, so each comparison is like for like. The absolute numbers are slower than the shipped app (B3 14.7 ms here).
+4. **The screen was locked for the whole run** (`ioreg -n Root -d1 | grep CGSSessionScreenIsLocked` → `Yes`). While locked, a launched app gets no window-server windows (`CGWindowListCopyWindowInfo` lists none for it), System Events sees no windows, and the app cannot become active, so no key window exists. `osascript` driving and `screencapture` as `probes.md` § Driving the real app describes cannot run. The missing affordance was built: `SpikeProbe.swift` in the worktree, an in-app driver that polls `<container>/spike-cmd.txt`, runs each command through public AppKit API (`NSDocumentController`, `NSDocument`, `NSMenu.performActionForItem`, the responder chain, `cacheDisplay` for pictures) and appends to `<container>/spike-out.txt`; `scripts/sp.sh` sends commands. Evidence cells quote its output. What it cannot show is named per probe.
+5. **The session cannot write into the spike worktrees with its file tools** (the P-59 worktree isolation refuses paths outside it). Spike sources are written in the scratchpad (`overlay-G/`) and copied or patched in by script (`scripts/patchlib.py`: every replacement must match exactly once). The patches under `plan-59-data/` remain the record.
 
 ## Summary
 

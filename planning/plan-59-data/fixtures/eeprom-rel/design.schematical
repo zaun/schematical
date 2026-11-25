@@ -1,0 +1,149 @@
+{
+  "board" : {
+    "color" : "green",
+    "designRules" : {
+      "manufacturer" : "custom",
+      "minAnnularRing" : 0.15,
+      "minClearance" : 0.1,
+      "minCopperToEdge" : 0.25,
+      "minDrill" : 0.2,
+      "minHoleToHole" : 0.4064,
+      "minSilkscreenHeight" : 0.8,
+      "minSilkscreenToPad" : 0.1524,
+      "minSilkscreenWidth" : 0.15,
+      "minSolderMaskDam" : 0.1,
+      "minTraceWidth" : 0.1,
+      "minViaDiameter" : 0.5,
+      "minViaDrill" : 0.2,
+      "solderMaskExpansion" : 0.05
+    },
+    "grid" : 0.635,
+    "height" : 80,
+    "layerStyles" : [
+      {
+        "color" : "#C83737",
+        "layer" : "top",
+        "type" : "component"
+      },
+      {
+        "color" : "#3A6FD8",
+        "layer" : "bottom",
+        "type" : "component"
+      }
+    ],
+    "layers" : 2,
+    "netClasses" : [
+      {
+        "id" : "DC6D54A3-2D67-4139-BB66-7C797536592D",
+        "members" : [
+          "power:5000"
+        ],
+        "name" : "Power 5V",
+        "viaDiameter" : 0.8,
+        "viaDrill" : 0.4,
+        "width" : 20
+      },
+      {
+        "id" : "1BB2AA11-6991-42CA-B500-93D3F5E44F0C",
+        "members" : [
+          "power:3300"
+        ],
+        "name" : "Power 3V3",
+        "viaDiameter" : 0.8,
+        "viaDrill" : 0.4,
+        "width" : 20
+      },
+      {
+        "id" : "7C93298A-E857-4305-B199-D9A08022A610",
+        "members" : [
+          "power:12000"
+        ],
+        "name" : "Power 12V",
+        "viaDiameter" : 0.8,
+        "viaDrill" : 0.4,
+        "width" : 20
+      },
+      {
+        "id" : "416EA65F-79AF-4AC3-AC09-84EA7DC0DCC4",
+        "members" : [
+          "power:24000"
+        ],
+        "name" : "Power 24V",
+        "viaDiameter" : 0.8,
+        "viaDrill" : 0.4,
+        "width" : 20
+      },
+      {
+        "id" : "1C3087C1-3A11-4081-A58D-82C5CEAD91CA",
+        "members" : [
+
+        ],
+        "name" : "Logic",
+        "viaDiameter" : 0.5,
+        "viaDrill" : 0.2,
+        "width" : 5
+      }
+    ],
+    "stackup" : {
+      "copper" : [
+        0.035,
+        0.035
+      ],
+      "dielectrics" : [
+        {
+          "er" : 4.5,
+          "thickness" : 1.51,
+          "type" : "core"
+        }
+      ],
+      "finish" : "leadFreeHasl",
+      "temperatureRise" : 10
+    },
+    "texts" : [
+
+    ],
+    "traces" : [
+
+    ],
+    "units" : "mm",
+    "width" : 100
+  },
+  "buses" : [
+
+  ],
+  "format" : "schematical",
+  "junctions" : [
+
+  ],
+  "nextReference" : 2,
+  "notes" : [
+
+  ],
+  "parts" : [
+    {
+      "flipped" : false,
+      "id" : "1D8A964D-8EAB-4961-AE3E-892BC9A963C5",
+      "memoryFile" : {
+        "path" : "rom.bin"
+      },
+      "partNumber" : "AT28C64B-15JU",
+      "pcb" : {
+        "origin" : "pad1Center",
+        "outline" : "document",
+        "pin1" : "silkscreen",
+        "reference" : "silkscreen",
+        "rotation" : 0,
+        "side" : "top",
+        "x" : 0,
+        "y" : 0.3050000000000006
+      },
+      "reference" : "U1",
+      "x" : 240,
+      "y" : 30
+    }
+  ],
+  "version" : 4,
+  "wires" : [
+
+  ]
+}
