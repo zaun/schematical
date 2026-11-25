@@ -1231,6 +1231,14 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     /// The orderable part number, as saved in a file.
     var partNumber: String { part.name }
 
+    /// What tells drawn things apart: a part's id, and a piece's unit.
+    struct DrawID: Hashable {
+        let id: UUID
+        let unitKey: String?
+    }
+
+    var drawID: DrawID { DrawID(id: id, unitKey: unitKey) }
+
     /// The reference as the Schematic draws it: a piece adds its unit ("U1-A").
     var drawnReference: String {
         unitKey.map { "\(reference)-\($0)" } ?? reference
@@ -2115,6 +2123,9 @@ final class SchematicDocument {
 
     func releaseSelection(_ press: SelectionPress<SchematicItem>, wasClick: Bool) {
         schematicSelection.release(press, wasClick: wasClick)
+        // A click on one of several picked units keeps only that one.
+        if wasClick, let pick = pendingPick, isSelected(.chip(pick.chipID)) { pickedUnits[pick.chipID] = [pick.key] }
+        pendingPick = nil
     }
 
     func releaseSelection(_ press: SelectionPress<BoardItem>, wasClick: Bool) {
@@ -2201,6 +2212,12 @@ final class SchematicDocument {
     func boxSelectSchematic(_ rect: CGRect, base: Set<SchematicItem>) {
         let items = base.union(schematicItems(in: rect))
         if items != schematicSelection.items { schematicSelection.set(items) }
+        // Of a part drawn as its units, the box picks the units it touches
+        // (plan-67). A part that was selected before the box keeps its picks.
+        for chip in chips where chip.isSplit && items.contains(.chip(chip.id)) && !base.contains(.chip(chip.id)) {
+            let touched = Set(chip.pieces(in: rect).compactMap(\.unitKey))
+            if pickedUnits[chip.id] != touched { pickedUnits[chip.id] = touched }
+        }
     }
 
     /// A Shift-drag on empty board: as `boxSelectSchematic`, on the PCB page.
@@ -3024,6 +3041,29 @@ final class SchematicDocument {
         }
     }
 
+    /// What Rotate or Flip acts on: a part, or one unit of a part drawn as
+    /// its units.
+    enum EditTarget: Equatable {
+        case chip(UUID)
+        case unit(UnitRef)
+    }
+
+    /// What Rotate would turn on the Schematic: the sole selected part when
+    /// its symbol turns, or, of a part drawn as its units, the one picked
+    /// unit when that turns (a gate; not the block of leftover pins).
+    var rotateTarget: EditTarget? { editTarget { $0.symbol.canRotate } }
+
+    /// What Flip would mirror: as `rotateTarget`, for symbols that flip.
+    var flipTarget: EditTarget? { editTarget { $0.symbol.canFlip } }
+
+    private func editTarget(_ can: (PlacedChip) -> Bool) -> EditTarget? {
+        guard let id = selectedChipID, let chip = chips.first(where: { $0.id == id }) else { return nil }
+        guard chip.isSplit else { return can(chip) ? .chip(id) : nil }
+        let keys = picked(chip)
+        guard keys.count == 1, let key = keys.first, let piece = chip.piece(forUnit: key), can(piece) else { return nil }
+        return .unit(UnitRef(chipID: id, key: key))
+    }
+
     /// Which units of selected parts drawn as their units are picked: the
     /// ones a drag, Flip or Rotate acts on, drawn fully marked (their
     /// siblings faintly). A part with no entry has every unit picked. Editor
@@ -3046,6 +3086,66 @@ final class SchematicDocument {
         }
         if some.contains(ref.key) { some.remove(ref.key) } else { some.insert(ref.key) }
         pickedUnits[ref.chipID] = some.isEmpty ? nil : some
+    }
+
+    /// Whether a drawn thing is shown selected: a selected part, or a picked
+    /// unit of one (`piece` is a part or a piece of one).
+    func isPicked(_ piece: PlacedChip) -> Bool {
+        guard isSelected(.chip(piece.id)) else { return false }
+        guard let key = piece.unitKey, let some = pickedUnits[piece.id], !some.isEmpty else { return true }
+        return some.contains(key)
+    }
+
+    /// A unit of a selected part that is not itself picked: shown faintly,
+    /// so it reads as part of the same IC.
+    func isSibling(_ piece: PlacedChip) -> Bool {
+        piece.unitKey != nil && isSelected(.chip(piece.id)) && !isPicked(piece)
+    }
+
+    /// The unit a click will leave as the only picked one, when the press
+    /// was on one of several picked things (see `pressPiece`).
+    private var pendingPick: UnitRef?
+
+    /// A Select press on what is drawn at a point (`piece(at:)`): a part, as
+    /// `pressSelection`; or a unit of a part drawn as its units, which picks
+    /// that unit.
+    ///
+    /// - No Shift: the unit becomes the only picked one, unless it is one of
+    ///   several picked things: then the drag moves them all and a click
+    ///   keeps only it.
+    /// - Shift: the unit joins the picked ones; a click on a picked unit
+    ///   takes it out again, and the part with it when it was the last.
+    func pressPiece(_ piece: PlacedChip, shift: Bool) -> SelectionPress<SchematicItem> {
+        guard let key = piece.unitKey, let chip = chips.first(where: { $0.id == piece.id }) else {
+            return pressSelection(.chip(piece.id), shift: shift)
+        }
+        let item = SchematicItem.chip(piece.id)
+        let wasSelected = isSelected(item)
+        let before = picked(chip)
+        pendingPick = nil
+        if shift {
+            if !wasSelected {
+                let press = schematicSelection.press(item, shift: true)
+                pickedUnits[piece.id] = [key]
+                return press
+            }
+            if before == [key] {
+                // The last picked unit: a click takes the part out of the selection.
+                return schematicSelection.press(item, shift: true)
+            }
+            var some = before
+            if some.contains(key) { some.remove(key) } else { some.insert(key) }
+            pickedUnits[piece.id] = some
+            return SelectionPress(dragsGroup: true, onClick: .none)
+        }
+        if wasSelected, before.contains(key), before.count > 1 || schematicSelection.count > 1 {
+            pendingPick = UnitRef(chipID: piece.id, key: key)
+            let press = schematicSelection.press(item, shift: false)
+            return SelectionPress(dragsGroup: true, onClick: press.onClick)
+        }
+        let press = schematicSelection.press(item, shift: false)
+        pickedUnits[piece.id] = [key]
+        return press
     }
 
     /// Picks exactly these units of their parts (a box select).
@@ -7238,6 +7338,9 @@ final class SchematicDocument {
             case port(UUID)
             case busLine(bus: UUID, line: UUID)
             case untick(port: UUID, keeping: Set<UUID>)
+            /// A selection with a part drawn as its units (plan-67): the
+            /// items, and what `deleteSchematicSelection` was asked.
+            case parts(items: Set<SchematicItem>, name: String, includingTitleBlock: Bool)
         }
     }
 
@@ -7246,6 +7349,12 @@ final class SchematicDocument {
     private(set) var pendingRemoval: PendingRemoval?
 
     func confirmPendingRemoval() {
+        if case let .parts(items, name, includingTitleBlock)? = pendingRemoval?.action {
+            pendingRemoval = nil
+            if items != schematicSelection.items { schematicSelection.set(items) }
+            deleteSchematicSelection(named: name, includingTitleBlock: includingTitleBlock, confirmed: true)
+            return
+        }
         recordEdit(.schematic, "Delete") {
             guard let pending = pendingRemoval else { return }
             pendingRemoval = nil
@@ -7253,8 +7362,25 @@ final class SchematicDocument {
             case let .port(id): removePort(id)
             case let .busLine(bus, line): removeBusLine(bus: bus, line: line)
             case let .untick(port, keeping): _ = setPortWires(port, keeping)
+            case .parts: break
             }
         }
+    }
+
+    /// What the confirm asks before parts drawn as several symbols go: a
+    /// click on one gate would otherwise take the whole IC unannounced.
+    /// `split` are those parts, of `count` selected parts.
+    static func removalQuestion(split: [PlacedChip], of count: Int) -> String {
+        if count == 1, let chip = split.first {
+            return "Delete \(chip.reference) and all \(chip.unitPlacements.count) of its symbols?"
+        }
+        let names = split.map(\.reference).sorted { $0.localizedStandardCompare($1) == .orderedAscending }
+        let shown = names.prefix(3)
+        var list = shown.dropLast().joined(separator: ", ")
+        if let last = shown.last { list = list.isEmpty ? last : "\(list) and \(last)" }
+        if names.count > shown.count { list = shown.joined(separator: ", ") + " and \(names.count - shown.count) more" }
+        let verb = names.count == 1 ? "is" : "are"
+        return "Delete the \(count) selected parts? \(list) \(verb) drawn as several symbols; all of them go."
     }
 
     func cancelPendingRemoval() {
@@ -7376,6 +7502,14 @@ final class SchematicDocument {
         recordEdit(.schematic, "Delete") {
             guard pendingRemoval == nil else { return }
             if let hit = chip(at: point) {
+                if hit.isSplit {
+                    // Every symbol of the part would go: ask first (plan-67).
+                    schematicSelection.replace(with: .chip(hit.id))
+                    pendingRemoval = PendingRemoval(
+                        message: Self.removalQuestion(split: [hit], of: 1),
+                        action: .parts(items: [.chip(hit.id)], name: "Delete", includingTitleBlock: true))
+                    return
+                }
                 loosen { attaches($0, to: hit.id) }
                 chips.removeAll { $0.id == hit.id }
             } else if let hit = netLabel(at: point) {
@@ -7435,8 +7569,12 @@ final class SchematicDocument {
     /// A selected title block is only switched off (the information stays),
     /// unless `includingTitleBlock` is false: ⌘X doesn't take it, so it stays
     /// shown.
+    /// A selection with a part drawn as its units asks first
+    /// (`pendingRemoval`), unless `confirmed`: the agent's delete, and the
+    /// confirm itself.
     @discardableResult
-    func deleteSchematicSelection(named name: String = "Delete", includingTitleBlock: Bool = true) -> Bool {
+    func deleteSchematicSelection(named name: String = "Delete", includingTitleBlock: Bool = true,
+                                  confirmed: Bool = false) -> Bool {
         guard pendingRemoval == nil else { return false }
         if let portID = selectedPortID {
             recordEdit(.schematic, "Delete") {
@@ -7474,6 +7612,13 @@ final class SchematicDocument {
             || hidesTitleBlock else {
             if let message { editorMessage = message }
             return false
+        }
+        let split = chips.filter { chipIDs.contains($0.id) && $0.isSplit }
+        if !confirmed, !split.isEmpty {
+            pendingRemoval = PendingRemoval(
+                message: Self.removalQuestion(split: split, of: chipIDs.count),
+                action: .parts(items: schematicSelection.items, name: name, includingTitleBlock: includingTitleBlock))
+            return true
         }
         let portIDs = Set(buses.filter { busIDs.contains($0.id) }.flatMap { $0.ports.map(\.id) })
         recordEdit(.schematic, name) {

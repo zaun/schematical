@@ -980,7 +980,8 @@ extension AutomationTools {
                 }
             }
             let schematicCount = items.filter { if case .schematic = $0 { true } else { false } }.count
-            if schematicCount > 0, document.deleteSchematicSelection() { removed += schematicCount }
+            // The app asks before a part drawn as several symbols goes; the agent has said to delete.
+            if schematicCount > 0, document.deleteSchematicSelection(confirmed: true) { removed += schematicCount }
             document.clearAllSelections()
         }
         guard removed > 0 else { throw AutomationFailure(document.editorMessage ?? "nothing was deleted") }

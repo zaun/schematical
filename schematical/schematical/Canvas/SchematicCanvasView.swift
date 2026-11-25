@@ -82,6 +82,8 @@ struct SchematicCanvasView: View {
     @State private var selectionPress: SelectionPress<SchematicItem>?
     @State private var isDropTargeted = false
     @State private var hoveredChipID: UUID?
+    /// The unit of `hoveredChipID` under the pointer, for a part drawn as its units.
+    @State private var hoveredUnitKey: String?
     @State private var hoveredWireID: UUID?
     @State private var hoveredBusID: UUID?
     @State private var hoveredPortID: UUID?
@@ -319,7 +321,8 @@ struct SchematicCanvasView: View {
                 area: gridRect
             )
 
-            SchematicPartsLayer(document: document, simulation: simulation, hoveredChipID: hoveredChipID)
+            SchematicPartsLayer(document: document, simulation: simulation, hoveredChipID: hoveredChipID,
+                                hoveredUnitKey: hoveredUnitKey)
 
             PinMarkerLayer(
                 tips: tool == .line ? document.pinTips : [],
@@ -742,6 +745,7 @@ struct SchematicCanvasView: View {
     /// In play mode, nothing is highlighted.
     private func clearHover() {
         hoveredChipID = nil
+        hoveredUnitKey = nil
         hoveredWireID = nil
         hoveredBusID = nil
         hoveredPortID = nil
@@ -760,8 +764,9 @@ struct SchematicCanvasView: View {
             hoverAnchor = lineAnchor(at: point)
             return
         }
-        if let chip = document.chip(at: point) {
+        if let chip = document.piece(at: point) {
             hoveredChipID = chip.id
+            hoveredUnitKey = chip.unitKey
         } else if let label = document.netLabel(at: point) {
             hoveredLabelID = label.id
         } else if let port = document.portHit(at: point) {
@@ -781,8 +786,9 @@ struct SchematicCanvasView: View {
     /// start of the press. `screen` is the press in screen points.
     private func beginPointerInteraction(at point: CGPoint, screen: CGPoint) {
         let shift = NSEvent.modifierFlags.contains(.shift)
-        if let hit = document.chip(at: point) {
-            selectionPress = document.pressSelection(.chip(hit.id), shift: shift)
+        if let hit = document.piece(at: point) {
+            // A unit of a part drawn as its units is picked; the drag then moves the picked units.
+            selectionPress = document.pressPiece(hit, shift: shift)
             interaction = .moveGroup(base: document.schematicGroupBase(), lever: shift ? nil : hit.id)
         } else if let label = document.netLabel(at: point) {
             selectionPress = document.pressSelection(.label(label.id), shift: shift)
@@ -1208,166 +1214,177 @@ private struct SchematicPartsLayer: View {
     let document: SchematicDocument
     let simulation: SimulationController
     let hoveredChipID: UUID?
+    /// The unit under the pointer, when `hoveredChipID` is drawn as its units.
+    let hoveredUnitKey: String?
+
+    /// Whether the pointer is over this part, or this piece of one.
+    private func isHovered(_ chip: PlacedChip) -> Bool {
+        chip.id == hoveredChipID && (chip.unitKey == nil || chip.unitKey == hoveredUnitKey)
+    }
 
     var body: some View {
         Group {
             let connectedPins = document.connectedPins
-            ForEach(document.chips) { chip in
+            // What is drawn: each part, or each unit of a part drawn as its units (plan-67).
+            let pieces = document.chips.flatMap(\.pieces)
+            ForEach(pieces, id: \.drawID) { chip in
                 Group {
                     switch chip.symbol {
                     case .gate:
                         GateSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip),
+                            isSibling: document.isSibling(chip)
                         )
                     case .block, .oscillator:
                         ChipBlockView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
-                            connectedPins: connectedPins[chip.id] ?? []
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip),
+                            connectedPins: connectedPins[chip.id] ?? [],
+                            isSibling: document.isSibling(chip)
                         )
                     case .barrelJack:
                         BarrelJackSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip)
                         )
                     case .header:
                         HeaderSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip)
                         )
                     case .testPoint:
                         TestPointSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip)
                         )
                     case .diode:
                         DiodeSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip),
                             level: simulation.lights[chip.id]?.first ?? 0
                         )
                     case .plainDiode:
                         DiodeSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip),
                             mark: DiodeMark(part: chip.part)
                         )
                     case .capacitor:
                         CapacitorSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip)
                         )
                     case .crystal:
                         CrystalSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip)
                         )
                     case .resistor:
                         ResistorSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip)
                         )
                     case .inductor:
                         InductorSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip)
                         )
                     case .fuse:
                         FuseSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip),
                             isBlown: simulation.blownFuses.contains(chip.id)
                         )
                     case .relay:
                         RelaySymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip),
                             connectedPins: connectedPins[chip.id] ?? [],
                             levels: simulation.lights[chip.id] ?? []
                         )
                     case .buzzer:
                         BuzzerSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip),
                             level: simulation.lights[chip.id]?.first ?? 0
                         )
                     case .transistor:
                         TransistorSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip)
                         )
                     case .vcc, .ground, .pullUp, .pullDown:
                         SupplySymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip)
                         )
                     case .dipSwitch:
                         DipSwitchSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip),
                             connectedPins: connectedPins[chip.id] ?? []
                         )
                     case .tactileSwitch:
                         TactileSwitchSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip),
                             connectedPins: connectedPins[chip.id] ?? []
                         )
                     case .slideSwitch:
                         SlideSwitchSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip),
                             connectedPins: connectedPins[chip.id] ?? []
                         )
                     case .sevenSegment:
                         SevenSegmentSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip),
                             connectedPins: connectedPins[chip.id] ?? [],
                             levels: simulation.lights[chip.id] ?? []
                         )
                     case .nixie:
                         NixieSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip),
                             connectedPins: connectedPins[chip.id] ?? [],
                             levels: simulation.lights[chip.id] ?? []
                         )
                     case .dekatron:
                         DekatronSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip),
                             connectedPins: connectedPins[chip.id] ?? [],
                             levels: simulation.lights[chip.id] ?? []
                         )
                     case .characterLCD:
                         CharacterLCDSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip),
                             connectedPins: connectedPins[chip.id] ?? [],
                             frame: simulation.lcdFrames[chip.id],
                             backlights: simulation.lights[chip.id] ?? []
@@ -1378,11 +1395,11 @@ private struct SchematicPartsLayer: View {
             }
 
             // Every part's reference above it (Display Reference).
-            ForEach(document.chips) { chip in
+            ForEach(pieces, id: \.drawID) { chip in
                 if let top = ReferenceLabelView.offsetY(for: chip) {
                     ReferenceLabelView(
                         chip: chip,
-                        isHighlighted: document.isSelected(.chip(chip.id)) || chip.id == hoveredChipID
+                        isHighlighted: document.isPicked(chip) || isHovered(chip)
                     )
                     .offset(x: chip.viewOrigin.x, y: chip.viewOrigin.y + top)
                 }

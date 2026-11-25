@@ -172,7 +172,7 @@ Rejected:
 Acceptance: a split part survives a save, and files without one are untouched.
   Check: `XB -only-testing:schematicalTests/SplitPartFileTests -only-testing:schematicalTests/SchematicFileV5Tests -only-testing:schematicalTests/SchematicRotateTests`
   → `** TEST SUCCEEDED **` (est. 5 min).
-Commit: —
+Commit: ec716949
 
 ## Validation Plan
 

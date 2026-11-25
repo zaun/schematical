@@ -140,7 +140,7 @@ struct ContentView: View {
     /// doesn't turn. On the Schematic: the sole selected part drawn as its
     /// own symbol (`PartSymbol.canRotate`), while the simulation isn't running.
     private var canRotate: Bool {
-        if page == .schematic { return rotatableChipID != nil }
+        if page == .schematic { return rotateTarget != nil }
         if let id = document.selectedTextID { return !document.isLocked(.text(id)) }
         guard let id = document.selectedFootprintID,
               let board = document.chips.first(where: { $0.id == id })?.board else { return false }
@@ -153,8 +153,11 @@ struct ContentView: View {
     @discardableResult
     private func rotateSelection(counterclockwise: Bool = false) -> Bool {
         guard canRotate else { return false }
-        if page == .schematic, let id = rotatableChipID {
-            document.rotateChip(id, counterclockwise: counterclockwise)
+        if page == .schematic, let target = rotateTarget {
+            switch target {
+            case let .chip(id): document.rotateChip(id, counterclockwise: counterclockwise)
+            case let .unit(ref): document.rotateUnit(ref, counterclockwise: counterclockwise)
+            }
         } else if let id = document.selectedTextID {
             document.rotateText(id, counterclockwise: counterclockwise)
         } else if let id = document.selectedFootprintID {
@@ -170,30 +173,33 @@ struct ContentView: View {
             document.flipNetLabel(id)
             return true
         }
-        guard let id = flippableChipID else { return false }
-        document.flipChip(id)
+        guard let target = flipTarget else { return false }
+        switch target {
+        case let .chip(id): document.flipChip(id)
+        case let .unit(ref): document.flipUnit(ref)
+        }
         return true
     }
 
     /// Whether ⌘F has something to flip.
     private var canFlip: Bool {
-        (page == .schematic && !simulation.isRunning && document.selectedNetLabelID != nil) || flippableChipID != nil
+        (page == .schematic && !simulation.isRunning && document.selectedNetLabelID != nil) || flipTarget != nil
     }
 
-    /// The part Rotate would turn on the Schematic: the sole selected part,
-    /// when it can rotate and the simulation isn't running.
-    private var rotatableChipID: UUID? {
-        guard page == .schematic, !simulation.isRunning, let id = document.selectedChipID,
-              document.chips.first(where: { $0.id == id })?.symbol.canRotate == true else { return nil }
-        return id
+    /// What Rotate would turn on the Schematic: the sole selected part, or
+    /// the one picked unit of a part drawn as its units (plan-67), when it
+    /// can rotate and the simulation isn't running.
+    private var rotateTarget: SchematicDocument.EditTarget? {
+        guard page == .schematic, !simulation.isRunning else { return nil }
+        return document.rotateTarget
     }
 
-    /// The part Flip would turn: the sole selected part on the Schematic,
-    /// when it can flip and the simulation isn't running.
-    private var flippableChipID: UUID? {
-        guard page == .schematic, !simulation.isRunning, let id = document.selectedChipID,
-              document.chips.first(where: { $0.id == id })?.symbol.canFlip == true else { return nil }
-        return id
+    /// What Flip would mirror: the sole selected part on the Schematic, or
+    /// the one picked unit of a part drawn as its units, when it can flip
+    /// and the simulation isn't running.
+    private var flipTarget: SchematicDocument.EditTarget? {
+        guard page == .schematic, !simulation.isRunning else { return nil }
+        return document.flipTarget
     }
 
     /// The editing keys, in this window only and never while a text field
