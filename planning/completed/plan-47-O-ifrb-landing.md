@@ -93,7 +93,7 @@ Acceptance: every gate's observed value matches.
   tests and the two harnesses; this is the plan's one landing run, and
   nothing smaller covers the backend, the four part files and the app
   together).
-Commit: —
+Commit: 1db5cff6
 
 ## Validation Plan
 

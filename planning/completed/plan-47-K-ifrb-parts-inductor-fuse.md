@@ -222,7 +222,7 @@ one file, as `diode.json` holds every diode type).
 
 Acceptance: the inductors load with their footprints and datasheets; goldens grow by exactly the new lines.
   Check: `cmake -S backend -B /tmp/logic-p47-k && cmake --build /tmp/logic-p47-k -j8 && ctest --test-dir /tmp/logic-p47-k -j8` → `100% tests passed`; `grep -c '|inductor|' backend/tests/golden/parts.txt` = `awk -F'\t' '$23=="add" && $3=="inductor"' planning/plan-47-data/candidates.tsv \| wc -l`; `git diff backend/tests/golden \| grep -c '^-[^-]'` → 0; `python3 -I planning/plan-47-data/census/gen-parts.py inductor --check` → `0 differences` (est. 8 min: a build from scratch and the full `ctest`, which is the only check that loads every part).
-Commit: —
+Commit: 39268151, eb821989
 
 ### Phase 2 — The fuses
 
@@ -232,7 +232,7 @@ Commit: —
 
 Acceptance: the fuses load; goldens grow by exactly the new lines.
   Check: `cmake --build /tmp/logic-p47-k -j8 && ctest --test-dir /tmp/logic-p47-k -j8` → `100% tests passed`; `grep -c '|fuse|' backend/tests/golden/parts.txt` = the fuse `add` rows; `git diff backend/tests/golden \| grep -c '^-[^-]'` → 0 (est. 4 min).
-Commit: —
+Commit: 39268151, eb821989
 
 ### Phase 3 — The PTCs, the editor lists for `fuse`
 
@@ -243,7 +243,7 @@ Commit: —
 
 Acceptance: the PTCs load; the editor knows both kinds.
   Check: `ctest --test-dir /tmp/logic-p47-k -j8` after a build → `100% tests passed`; `grep -c '|fuse|' backend/tests/golden/parts.txt` = the fuse + PTC `add` rows; `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p47-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/PartKindRoundTripTests -only-testing:schematicalTests/PartKindKeysTests -only-testing:schematicalTests/PartEditorWindowTests` → `** TEST SUCCEEDED **` (est. 12 min: the backend tests, an app build and three test classes).
-Commit: —
+Commit: 39268151, 95fed13f, eb821989
 
 ### Phase 4 — Docs, the datasheet URL check
 
@@ -257,7 +257,7 @@ Commit: —
 
 Acceptance: the docs describe the library's inductors and fuses and the URL check's expected failures.
   Check: `grep -c 'Discrete → Inductors\|Discrete → Fuses\|Discrete → Resettable fuses' docs/parts-format.md` → at least 3; `grep -c 'we-online.com' docs/parts-format.md` → at least 1 (est. 10 min: the URL checks, 4 at a time).
-Commit: —
+Commit: 95fed13f
 
 ## Validation Plan
 

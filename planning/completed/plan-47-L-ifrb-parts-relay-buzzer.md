@@ -190,7 +190,7 @@ is on the drawer row, plan-47-M).
 
 Acceptance: the relays load; goldens grow by exactly the new lines.
   Check: `cmake -S backend -B /tmp/logic-p47-l && cmake --build /tmp/logic-p47-l -j8 && ctest --test-dir /tmp/logic-p47-l -j8` → `100% tests passed`; `grep -c '|relay|' backend/tests/golden/parts.txt` = the relay `add` rows; `git diff backend/tests/golden \| grep -c '^-[^-]'` → 0; `python3 -I planning/plan-47-data/census/gen-parts.py relay --check` → `0 differences` (est. 8 min).
-Commit: —
+Commit: 39268151, eb821989
 
 ### Phase 2 — The buzzers
 
@@ -201,7 +201,7 @@ Commit: —
 
 Acceptance: the buzzers load; every part of plan-47 is in the library; the editor knows all four kinds.
   Check: `cmake --build /tmp/logic-p47-l -j8 && ctest --test-dir /tmp/logic-p47-l -j8` → `100% tests passed`; `grep -c '|inductor|\||fuse|\||relay|\||buzzer|' backend/tests/golden/parts.txt` = `awk -F'\t' '$23=="add"' planning/plan-47-data/candidates.tsv \| wc -l`; `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p47-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/PartKindRoundTripTests -only-testing:schematicalTests/PartKindKeysTests -only-testing:schematicalTests/PartEditorWindowTests` → `** TEST SUCCEEDED **` (est. 12 min).
-Commit: —
+Commit: 39268151, eb821989
 
 ### Phase 3 — Docs, the datasheet URL check
 
@@ -214,7 +214,7 @@ Commit: —
 
 Acceptance: the docs describe the library's relays and buzzers.
   Check: `grep -c 'Relay → \|Displays & Indicators → Buzzers' docs/parts-format.md` → at least 2; `grep -c 'www.te.com' docs/parts-format.md` → at least 1 (est. 10 min).
-Commit: —
+Commit: 95fed13f, b7598fa6
 
 ## Validation Plan
 
