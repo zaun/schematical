@@ -108,24 +108,25 @@ Rejected: a third-party DXF library (none is in the project and the entity set i
 Acceptance: every fixture parses to the entities above and each flattener is within the 0.01 mm rule.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/DXFReaderTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 2 min).
   Observed: DXFReaderTests 13, 0 failures, TEST SUCCEEDED.
-Commit: —
+Commit: d371d501
 
 ### Phase 2 — Loops and the import plan
 
-- [ ] `Document/DXFLoops.swift`: `DXFLoop`, `DXFLoopSet`, `DXFLoops.build` (join, chain, drop), `DXFLayerPick`; `Document/DXFImportPlan.swift`: `DXFImportMode` (`outlineAndCutouts`, `cutoutsOnly`), `DXFIgnored`, `DXFImportPlan.make`.
-- [ ] Tests `schematicalTests/DXFLoopTests.swift`, against `DXFFixtures.expectedJSON`: for each fixture, `build(layers: all, scale: scale_to_mm)` gives the expected number of loops and each loop's area within 1 % and bounding box within 0.02 mm (matched by area order); `openChain` gives 1 loop and `openChains == 1`; `chainBoard` (ends 1e-4 apart, one reversed, out of order) is 1 loop; `kicadEdgeProbe` is 3 loops, from `LINE`s, a `CIRCLE` and an `ARC` plus `LINE`; `roundedBoard` with layers `["Dims"]` has no loops; two lines whose ends are 0.05 mm apart do not join; a bow-tie made of 4 lines is dropped as `crossesItself`; plan tests: `roundedBoard` in `outlineAndCutouts` gives the 60 × 40 outline and 2 cutouts and no ignored; the same loops plus a separate far square give `ignored == [(.outsideTheOutline, 1)]`; a loop inside a cutout is `.insideACutout`; two loops that cross are `.crossesAnotherLoop`; `cutoutsOnly` on `roundedBoard` gives the outline's loop and the other two as depth-0 and depth-1 → the 60 × 40 as a cutout and the two inside it ignored `.insideACutout`; `DXFLayerPick`: a drawing with layers `Edge`, `Dims` picks `["Edge"]`, with `A`, `B` picks both.
+- [x] `Document/DXFLoops.swift`: `DXFLoop`, `DXFLoopSet`, `DXFLoops.build` (join, chain, drop), `DXFLayerPick`; `Document/DXFImportPlan.swift`: `DXFImportMode` (`outlineAndCutouts`, `cutoutsOnly`), `DXFIgnored`, `DXFImportPlan.make`.
+- [x] Tests `schematicalTests/DXFLoopTests.swift`, against `DXFFixtures.expectedJSON`: for each fixture, `build(layers: all, scale: scale_to_mm)` gives the expected number of loops and each loop's area within 1 % and bounding box within 0.02 mm (matched by area order); `openChain` gives 1 loop and `openChains == 1`; `chainBoard` (ends 1e-4 apart, one reversed, out of order) is 1 loop; `kicadEdgeProbe` is 3 loops, from `LINE`s, a `CIRCLE` and an `ARC` plus `LINE`; `roundedBoard` with layers `["Dims"]` has no loops; two lines whose ends are 0.05 mm apart do not join; a bow-tie made of 4 lines is dropped as `crossesItself`; plan tests: `roundedBoard` in `outlineAndCutouts` gives the 60 × 40 outline and 2 cutouts and no ignored; the same loops plus a separate far square give `ignored == [(.outsideTheOutline, 1)]`; a loop inside a cutout is `.insideACutout`; two loops that cross are `.crossesAnotherLoop`; `cutoutsOnly` on `roundedBoard` gives the outline's loop and the other two as depth-0 and depth-1 → the 60 × 40 as a cutout and the two inside it ignored `.insideACutout`; `DXFLayerPick`: a drawing with layers `Edge`, `Dims` picks `["Edge"]`, with `A`, `B` picks both.
 
 Acceptance: the loop numbers of all six fixtures match the oracle and the plan sorts them as above.
   Check: `xcodebuild … test -only-testing:schematicalTests/DXFLoopTests -only-testing:schematicalTests/DXFReaderTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 3 min).
+  Observed: DXFLoopTests 15 + DXFReaderTests 13 (28 in all), 0 failures, TEST SUCCEEDED; all six fixtures' loop counts, areas (1 %) and boxes (0.02 mm) match ezdxf's.
 Commit: —
 
 ## Validation Plan
 
 - Tests: `DXFReaderTests`, `DXFLoopTests` (the negative cases: binary, truncated, no entities, open chain, a gap too wide to join, a bow-tie, crossing loops).
 - Coverage check: the reader files are in the app target; the tests are in the test target; nothing else in the app calls them yet, which is the point of this sub-plan.
-- Runtime proof: round trip with a real tool, run once and recorded in the Commit line: export the app's own `cutouts.kicad_pcb` sample (G) with `kicad-cli pcb export dxf -l Edge.Cuts --output-units mm`, and feed that DXF to `DXFLoops.build` in a test that has its text inlined: it gives the same loop count and areas (within 1 %) as the document's outline and cutouts. (est. 5 min)
+- Runtime proof (done: `DXFLoopTests.testTheAppsCutoutsBoardComesBackFromKiCadsDXF`, from `kicad-cli pcb export dxf` of the cutouts sample, 2026-11-25: 4 loops, areas within 1 % of the document's, read as an outline with 3 cutouts): round trip with a real tool, run once and recorded in the Commit line: export the app's own `cutouts.kicad_pcb` sample (G) with `kicad-cli pcb export dxf -l Edge.Cuts --output-units mm`, and feed that DXF to `DXFLoops.build` in a test that has its text inlined: it gives the same loop count and areas (within 1 %) as the document's outline and cutouts. (est. 5 min)
 - Doc sync: `docs/file-format.md` is B's; the import is documented in I and J.
-- Final gate (run ONCE, after Phase 2): both phases' test classes (est. 4 min).
+- Final gate (run ONCE, after Phase 2): both phases' test classes (est. 4 min). Observed: the Phase 2 run (both classes), 0 failures.
 
 ## Decisions
 
@@ -134,7 +135,10 @@ Commit: —
 
 ## Corrections
 
-<Filled in during execution.>
+- 2026-11-25: the chain walk also grows a chain at its head (the plan said tail only): a chain started on a piece in the middle of a run would otherwise be counted as two open chains. The tie rule (nearest, then drawing order) is as written.
+- 2026-11-25: a POLYLINE with flag bit 64 (polyface mesh) is skipped as well as 8, 16 and 32. `LWPOLYLINE` and `POLYLINE` both become `DXFEntity.polyline`, so a fixture count reads `POLYLINE`.
+- 2026-11-25: the layer default is `DXFLayerPick.defaultSelection(layers:)` in `DXFLoops.swift`, as the plan names it; `DXFImportPlan.make` takes `loops:` and `mode:`; `DXFLoopSet` has `crossingSelf` for the loops dropped as `crossesItself`.
+- 2026-11-25: the round-trip check from the plan's Validation Plan is a test with the KiCad DXF's Edge.Cuts LINEs inlined (`DXFKiCadRoundTrip.swift`, 73 entities; the drill circles KiCad also plots into that file were left out), not a one-off run.
 
 ## Summary
 
