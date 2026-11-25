@@ -28,8 +28,8 @@ The gate for the whole feature is in plan-66-A § Prerequisites. This letter add
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-66-D is complete and archived | `ls planning/completed/plan-66-D-* \| wc -l` → 1 | NOT MET (2026-11-25: 0) |
-| `tryPush` exists | `grep -c 'func tryPush' schematical/schematical/Routing/RoutingPush.swift` → 1 | NOT MET (2026-11-25: 0) |
+| plan-66-D is complete and archived | `ls planning/completed/plan-66-D-* \| wc -l` → 1 | MET (2026-11-25, in `worktree-P-66`: 1) |
+| `tryPush` exists | `grep -c 'func tryPush' schematical/schematical/Routing/RoutingPush.swift` → 1 | MET (2026-11-25, in `worktree-P-66`: 1) |
 
 If plan-66-D is not complete, this plan cannot start, full stop.
 

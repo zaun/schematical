@@ -299,7 +299,7 @@ Acceptance: all `RoutingPushTests` pass, the A anchors and C's identity tests to
   suites that `join`'s refactor touches: `Executed 86 tests, with 0 failures` in RoutingSearchTests 13, RoutingGridTests 7,
   RoutingPushTests 10, RoutingAnchorTests 9, RoutingChainEngineTests 10, RoutingNegotiationTests 10,
   RouterTests 7, RoutingPolishTests 11, RoutingRepairTests 5, RoutingStateTests 4, `** TEST SUCCEEDED **`.
-Commit: — (recorded in the next commit)
+Commit: c360e36a
 
 ## Validation Plan
 
