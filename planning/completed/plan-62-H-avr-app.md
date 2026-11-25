@@ -220,7 +220,7 @@ the same picker, bookmark, path rules and messages.
 Acceptance: the five tests pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p62-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/AvrAppTests -only-testing:schematicalTests/SchematicUndoTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 10 min, an incremental app build).
   Observed: 2026-11-24: `AvrAppTests` 10 tests, `SchematicUndoTests` 50, `KindInfoTests` 5, `McuTests` 4: 69 tests, 0 failures, `** TEST SUCCEEDED **`.
-Commit: —
+Commit: ca385021
 
 ### Phase 2 — the Processor window
 
@@ -247,7 +247,7 @@ three images show the bar, the file name, and the registers with the flag
 row.
   Check: the Phase 1 `xcodebuild` line with `-only-testing:schematicalTests/AvrAppTests -only-testing:schematicalTests/KindInfoTests` → `** TEST SUCCEEDED **` (est. 10 min); `rm -rf /tmp/p62-h && APP=/tmp/p62-dd/Build/Products/Debug/schematical.app scripts/harness/build.sh scripts/harness/avr-app.swift /tmp/p62-h && /tmp/p62-h/H.app/Contents/MacOS/harness /tmp/p62-h` → every line `ok`, exit 0, then view the three PNGs (est. 5 min).
   Observed: 2026-11-24: the same run (69 tests, 0 failures); the harness printed 9 `ok` lines and no FAIL, exit 0; the three PNGs viewed (see Corrections).
-Commit: —
+Commit: ca385021
 
 ## Validation Plan
 

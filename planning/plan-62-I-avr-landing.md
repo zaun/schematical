@@ -26,7 +26,7 @@ The gate for the whole feature is in plan-62-A § Prerequisites. This letter add
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-62-H is complete | `ls planning/completed/plan-62-H-* \| wc -l` → 1 | NOT MET (2026-11-24: H not started) |
+| plan-62-H is complete | `ls planning/completed/plan-62-H-* \| wc -l` → 1 | MET (2026-11-24: 1, archived after ca385021) |
 | A–G are archived | `ls planning/completed/plan-62-[A-G]-* \| wc -l` → 7 | NOT MET (2026-11-24: 0) |
 
 If plan-62-H is not complete, this plan cannot start, full stop.
