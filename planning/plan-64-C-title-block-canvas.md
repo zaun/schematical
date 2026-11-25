@@ -24,7 +24,7 @@ Stated once in plan-64-A; re-run its commands. In addition:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-64-B is complete | `grep -c "^Commit: —" planning/plan-64-B-document-info-window.md planning/completed/plan-64-B-document-info-window.md 2>/dev/null` → `0` for whichever file exists | NOT MET (2026-11-25: B not started) |
+| plan-64-B is complete | `grep -c "^Commit: —" planning/plan-64-B-document-info-window.md planning/completed/plan-64-B-document-info-window.md 2>/dev/null` → `0` for whichever file exists | MET (2026-11-25: 0 unticked boxes, 0 pending Commit lines) |
 
 ## 1. Goal
 
@@ -203,12 +203,12 @@ Commit: ac6f2db8
 
 ### Phase 3 — Real-window pass
 
-- [ ] Build and launch the app; open `examples/6502.schematical` (its drawing is large, so the placement is
+- [x] Build and launch the app; open `examples/6502.schematical` (its drawing is large, so the placement is
       visible). ⌘I → tick *Include on Schematic* → the block appears under the bottom-right of the drawing;
       click it → the sidebar shows the form and typing a title redraws the block; drag it → one Undo moves it back;
       ⌘⌫ → it disappears and the window's toggle is off, the title is still there; untick/tick → it returns
       bottom-right; double-click it → the Document Info window comes to the front. Record what each step showed
-      under this phase. Quit the app, move the pointer to (0, 0), and do not save the example (AGENTS.md).
+      under this phase. Quit the app, move the pointer to (0, 0), and do not save the example (AGENTS.md). — done 2026-11-25 (a copy of the example in /tmp, so autosave could not touch the repo): Include on Schematic put the block under the right end of the drawing (its right edge in line with the drawing right edge, screenshot at 25%); on an empty document it appears at the origin; a click selected it (blue frame) and the sidebar showed Include on Schematic, the fields and the dates; typing in the fields redrew the block live; a drag moved it and one Edit > Undo put it back; Cmd+Delete hid it, the Document Info toggle went off and the title, author and revision were still there; the toggle on again brought it back; a double-click on it brought the Document Info window to the front. The edited copy was autosaved and showed both dates stamped. App quit, pointer parked
 
 Acceptance: the pass above, each step's observed result written in this phase.
   Check: the real-window pass (est. 15 min); no automated check can see the drawn result.
@@ -233,7 +233,11 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- Phase 1: `selectedTitleBlock` (listed with the Phase 1 model API) needs the new `SchematicItem.titleBlock` case, so
+  it was added in Phase 2 with the case. `SchematicScene` stores the title block as its `TitleBlockLayout?`
+  (the layout the painter needs) rather than the `DocumentInfo` the plan named.
+- Phase 3: the pass on the 6502 example showed the block at the bottom-right of the drawing; on an empty document the
+  block appears at the origin, as decided. Autosave of the edited copy stamped Created and Updated on it, as designed.
 
 ## Summary
 

@@ -138,11 +138,11 @@ Commit: ab34dfd0
       `testPCBListsDocumentInfo` assertion for `.pcb`); `SchematicNSDocumentTests.swift` — `model.menus.
       openDocumentInfo` assigned a closure is nil again after `model.menus.removeAll()`. (No test renders the
       editor view, so `installMenus` itself is proven by the real-window pass below.) — done: testPCBListsDocumentInfo and testDocumentInfoMenuClosureIsRemoved passed
-- [ ] Real-window pass (the owner's rule: the GUI is the proof for a menu): build, launch, open a schematic,
+- [x] Real-window pass (the owner's rule: the GUI is the proof for a menu): build, launch, open a schematic,
       press ⌘I → one "Document Info" window; type a title → Edit menu shows "Undo Edit Title"; tick/untick *Set
       dates automatically* → the date rows lock/unlock; ⌘S → *Updated* shows the save time; ⌘I again → still one
       window. Quit the app afterwards and move the pointer to (0, 0) (AGENTS.md; see memory *GUI probe etiquette*:
-      no modal left up, kill the app after each command).
+      no modal left up, kill the app after each command). — done 2026-11-25 on a Debug build driven through the Accessibility API and real events: Window > Document Info (menu item enabled, shortcut I) opens one window; pressing it again, and the real ⌘I key, brought the same window forward (2 windows in all); typing in Title/Author/Revision changed the document live; Edit > Undo then Redo reverted and restored the title (the Edit menu reads plain "Undo", the app does not put step names in it, so the check is the effect, not the name); turning Set dates automatically off made both date rows "Set to Now" buttons and on made them "Set when the file is saved"; File > Save then showed Created and Updated as 2026-11-25 08:51 and the saved file has documentInfo with both dates (UTC). The app was quit afterwards and the pointer parked at (0,0)
 
 Acceptance: ⌘I opens the one window, on both pages, and the menu item is disabled with no editor.
   Check: `xcodebuild … test -only-testing:schematicalTests/KeyboardHelpTests -only-testing:schematicalTests/SchematicNSDocumentTests` → `** TEST SUCCEEDED **` (est. 10 min), plus the real-window pass above, whose observed results are written under this phase when done.
@@ -165,7 +165,15 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- Phase 2, real-window pass: the plan said the Edit menu would show "Undo Edit Title". The app's Edit menu reads
+  plain "Undo" / "Redo" for every step (`EditCommands` does not carry step names), so the pass proved undo by its
+  effect: Edit > Undo cleared the Title field and Edit > Redo restored it. Nothing in the plan's behavior changed.
+- The pass was started while the screen was locked (the owner away; `CGSSessionScreenIsLocked` = Yes), so the
+  first part was done, the app killed, and the rest done after the screen unlocked. The plan-64-C work was begun in
+  between; its prerequisite (B complete) was met again before C's own boxes were closed.
+- Probe note (not an app defect): setting a SwiftUI text field's value through the Accessibility API commits only
+  the focused field's binding; Author and Revision showed their text but the model kept the old value until the
+  pass typed into them with real key events, after which the title block redrew live.
 
 ## Summary
 

@@ -23,7 +23,7 @@ Stated once in plan-64-A; re-run its commands. In addition:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-64-C is complete | `grep -c "^Commit: —" planning/plan-64-C-title-block-canvas.md planning/completed/plan-64-C-title-block-canvas.md 2>/dev/null` → `0` for whichever file exists | NOT MET (2026-11-25: C not started) |
+| plan-64-C is complete | `grep -c "^Commit: —" planning/plan-64-C-title-block-canvas.md planning/completed/plan-64-C-title-block-canvas.md 2>/dev/null` → `0` for whichever file exists | MET (2026-11-25: 0 unticked boxes, 0 pending Commit lines) |
 
 ## 1. Goal
 
@@ -149,14 +149,14 @@ Commit: —
 
 ### Phase 3 — Docs and landing
 
-- [ ] `docs/export.md`: in § KiCad (:250-252) add the title block to the list ("the Document Info's title block,
+- [x] `docs/export.md`: in § KiCad (:250-252) add the title block to the list ("the Document Info's title block,
       when shown, as lines and text; KiCad's own title block carries the title, date, revision, author and
       description"); in § EasyEDA Pro (:340) "the title block is lines and `TEXT`"; in § Image and § PDF and print one
-      sentence that a shown title block is drawn with the schematic.
-- [ ] `docs/agent-control.md`: `set_document_info` in the schematic tools list (:74); `titleblock` in the item
-      conventions (§ Conventions, near `Wires, labels, notes…`, :117); one line on get_design's `DOCUMENT` section.
-- [ ] `docs/file-format.md`: bring A's `## Document info` section to the shape that shipped (the `titleBlock` position,
-      the defaults, the dates rule) and record any difference from the plan under Corrections.
+      sentence that a shown title block is drawn with the schematic. — done
+- [x] `docs/agent-control.md`: `set_document_info` in the schematic tools list (:74); `titleblock` in the item
+      conventions (§ Conventions, near `Wires, labels, notes…`, :117); one line on get_design's `DOCUMENT` section. — done
+- [x] `docs/file-format.md`: bring A's `## Document info` section to the shape that shipped (the `titleBlock` position,
+      the defaults, the dates rule) and record any difference from the plan under Corrections. — done: the shipped file shape (ISO 8601 UTC dates, automaticDates only as false, titleBlock snapped) is what A described; no difference
 - [ ] Landing gate — see Validation Plan. Archive plan-64-A…D to `planning/completed/` (`git mv`) in the landing commit.
 
 Acceptance: the docs describe the shipped behavior; the landing gate passes.
@@ -193,7 +193,10 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- Phase 1: the real-tool check's grep (`pdftotext … | grep -c '<title>\|<author>'` → 2) counts matching lines, and the
+  PDF has four: the title and author are both in the drawn block and in KiCad's own title block (`Title: Clock board`,
+  the author as the company). The check's intent (title and author reach KiCad's output) is met; the expected
+  count was wrong.
 
 ## Summary
 
