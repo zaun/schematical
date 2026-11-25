@@ -216,7 +216,7 @@ Commit: 7c514298
 
 Acceptance: a default document's saved bytes are unchanged; a stamped document round-trips.
   Check: `xcodebuild … test -only-testing:schematicalTests/DocumentInfoTests -only-testing:schematicalTests/SchematicNSDocumentTests -only-testing:schematicalTests/SchematicFileV5Tests` → `** TEST SUCCEEDED **` (est. 10 min; `SchematicFileV5Tests` (j) is the existing save → open → save same-bytes check, so it catches a default file that changed).
-Commit: —
+Commit: 50498ab1
 
 ## Validation Plan
 

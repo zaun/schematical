@@ -77,6 +77,7 @@ struct ContentView: View {
     @State private var terminalWindows: Set<TerminalWindowTarget> = []
     @State private var isBillOfMaterialsOpen = false
     @State private var isDesignRuleCheckOpen = false
+    @State private var isDocumentInfoOpen = false
     @State private var isBoardPreviewOpen = false
     /// Watches for the editing keys: ⌘R / ⇧⌘R rotate, A changes the trace
     /// angle and ⌘X / ⌘C / ⌘V cut, copy and paste traces on the PCB, ⌘F
@@ -346,6 +347,10 @@ struct ContentView: View {
         menus.openBillOfMaterials = {
             isBillOfMaterialsOpen = true
             openWindow(id: "bom", value: BillOfMaterialsTarget(documentID: documentID))
+        }
+        menus.openDocumentInfo = {
+            isDocumentInfoOpen = true
+            openWindow(id: "documentInfo", value: DocumentInfoTarget(documentID: documentID))
         }
         menus.openDesignRuleCheck = {
             isDesignRuleCheckOpen = true
@@ -812,6 +817,10 @@ struct ContentView: View {
                 if isDesignRuleCheckOpen {
                     dismissWindow(id: "drc", value: DesignRuleCheckTarget(documentID: documentID))
                     isDesignRuleCheckOpen = false
+                }
+                if isDocumentInfoOpen {
+                    dismissWindow(id: "documentInfo", value: DocumentInfoTarget(documentID: documentID))
+                    isDocumentInfoOpen = false
                 }
                 if isBoardPreviewOpen {
                     dismissWindow(id: "board-preview", value: BoardPreviewTarget(documentID: documentID))

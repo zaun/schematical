@@ -23,7 +23,7 @@ Stated once in plan-64-A; re-run its commands. In addition:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-64-A is complete | `grep -c "^Commit: —" planning/plan-64-A-document-info-model.md planning/completed/plan-64-A-document-info-model.md 2>/dev/null` → `0` for whichever file exists | NOT MET (2026-11-25: A not started) |
+| plan-64-A is complete | `grep -c "^Commit: —" planning/plan-64-A-document-info-model.md planning/completed/plan-64-A-document-info-model.md 2>/dev/null` → `0` for whichever file exists | MET (2026-11-25: 0 unticked boxes, 0 pending Commit lines) |
 
 ## 1. Goal
 
@@ -102,21 +102,21 @@ Rejected alternatives:
 
 ### Phase 1 — The window
 
-- [ ] New folder `schematical/schematical/DocumentInfo/`, file `DocumentInfoWindow.swift`:
+- [x] New folder `schematical/schematical/DocumentInfo/`, file `DocumentInfoWindow.swift`:
       `nonisolated struct DocumentInfoTarget: Codable, Hashable, Sendable { let documentID: UUID }`;
       `struct DocumentInfoForm: View` (fields and rules in § 3; takes `document: SchematicDocument` and
       `isLocked: Bool`, applies `.disabled(isLocked)`); `struct DocumentInfoWindowView: View` (session lookup,
       `isLocked: session.simulation.isRunning`, fallback `ContentUnavailableView("Schematic Closed",
       systemImage: "info.circle", description: Text("The schematic this information belongs to is no longer open."))`,
-      `.frame(minWidth: 380, minHeight: 440)`).
-- [ ] `ChildWindows.swift`: a `case let target as DocumentInfoTarget:` in `ChildWindowOpener` →
+      `.frame(minWidth: 380, minHeight: 440)`). — done
+- [x] `ChildWindows.swift`: a `case let target as DocumentInfoTarget:` in `ChildWindowOpener` →
       `center.open(target, document: documentID, title: "Document Info", size: NSSize(width: 420, height: 520))`
       hosting `DocumentInfoWindowView`; update the header comment's list (:3-5) and `ChildWindowOpener`'s "seven"
-      (:93) to eight.
-- [ ] Tests: in `schematicalTests/SchematicNSDocumentTests.swift`, beside `testChildWindowsBelongToTheirDocument`
+      (:93) to eight. — done
+- [x] Tests: in `schematicalTests/SchematicNSDocumentTests.swift`, beside `testChildWindowsBelongToTheirDocument`
       (:213), `testDocumentInfoWindow` using that file's `openDocument()`: `ChildWindowOpener(documentID:)(id:
       "documentInfo", value: DocumentInfoTarget(documentID:))` makes one window titled "Document Info" in
-      `ChildWindowCenter.shared.windows(of:)`, not restorable; a second open keeps the count at 1; `a.close()` closes it.
+      `ChildWindowCenter.shared.windows(of:)`, not restorable; a second open keeps the count at 1; `a.close()` closes it. — done: testDocumentInfoWindow passed (xcodebuild test SchematicNSDocumentTests KeyboardHelpTests -> ** TEST SUCCEEDED **, 27 tests 0 failures)
 
 Acceptance: the opener makes, re-uses and closes the window.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p64-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/SchematicNSDocumentTests` → `** TEST SUCCEEDED **` (est. 8 min).
@@ -124,20 +124,20 @@ Commit: —
 
 ### Phase 2 — ⌘I, the menu, the help line
 
-- [ ] `EditorMenus.swift`: `var openDocumentInfo: (() -> Void)?` (doc comment `/// Window › Document Info.`); set
-      it to nil in `removeAll()`.
-- [ ] `ContentView.swift`: `@State private var isDocumentInfoOpen = false` (:78); in `installMenus()` (:346)
+- [x] `EditorMenus.swift`: `var openDocumentInfo: (() -> Void)?` (doc comment `/// Window › Document Info.`); set
+      it to nil in `removeAll()`. — done
+- [x] `ContentView.swift`: `@State private var isDocumentInfoOpen = false` (:78); in `installMenus()` (:346)
       `menus.openDocumentInfo = { isDocumentInfoOpen = true; openWindow(id: "documentInfo", value:
-      DocumentInfoTarget(documentID: documentID)) }`; in `.onDisappear` (:808) dismiss it like BOM.
-- [ ] `DocumentInfoWindow.swift`: `struct DocumentInfoCommands: Commands` (`@FocusedValue(\.schematicEditor)`,
+      DocumentInfoTarget(documentID: documentID)) }`; in `.onDisappear` (:808) dismiss it like BOM. — done
+- [x] `DocumentInfoWindow.swift`: `struct DocumentInfoCommands: Commands` (`@FocusedValue(\.schematicEditor)`,
       `CommandGroup(before: .windowList)`, a `DocumentInfoMenuItem` view reading `editor?.menus.openDocumentInfo`,
       `Button("Document Info") { open?() }.keyboardShortcut("i", modifiers: .command).disabled(open == nil)`);
-      register `DocumentInfoCommands()` in `schematicalApp.swift` after `BillOfMaterialsCommands()` (:92).
-- [ ] `KeyboardHelp.swift`: after the ⇧⌘B entry (:60) add `entry("⌘I", "Document Info: title, author, revision, dates and description")`.
-- [ ] Tests: `KeyboardHelpTests.swift` — both pages list `⌘I` (add it to `testSchematicKeys`' list and a
+      register `DocumentInfoCommands()` in `schematicalApp.swift` after `BillOfMaterialsCommands()` (:92). — done
+- [x] `KeyboardHelp.swift`: after the ⇧⌘B entry (:60) add `entry("⌘I", "Document Info: title, author, revision, dates and description")`. — done
+- [x] Tests: `KeyboardHelpTests.swift` — both pages list `⌘I` (add it to `testSchematicKeys`' list and a
       `testPCBListsDocumentInfo` assertion for `.pcb`); `SchematicNSDocumentTests.swift` — `model.menus.
       openDocumentInfo` assigned a closure is nil again after `model.menus.removeAll()`. (No test renders the
-      editor view, so `installMenus` itself is proven by the real-window pass below.)
+      editor view, so `installMenus` itself is proven by the real-window pass below.) — done: testPCBListsDocumentInfo and testDocumentInfoMenuClosureIsRemoved passed
 - [ ] Real-window pass (the owner's rule: the GUI is the proof for a menu): build, launch, open a schematic,
       press ⌘I → one "Document Info" window; type a title → Edit menu shows "Undo Edit Title"; tick/untick *Set
       dates automatically* → the date rows lock/unlock; ⌘S → *Updated* shows the save time; ⌘I again → still one

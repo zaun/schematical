@@ -236,6 +236,33 @@ final class SchematicNSDocumentTests: XCTestCase {
                                        catalog: TestSupport.catalog, until: self)
     }
 
+    /// plan-64-B: one Document Info window per document, opened again it
+    /// comes forward, and it closes with its document.
+    func testDocumentInfoWindow() throws {
+        let center = ChildWindowCenter.shared
+        let a = openDocument()
+        let id = a.model.id
+        ChildWindowOpener(documentID: id)(id: "documentInfo", value: DocumentInfoTarget(documentID: id))
+        let window = try XCTUnwrap(center.windows(of: id).first)
+        XCTAssertEqual(window.title, "Document Info")
+        XCTAssertFalse(window.isRestorable)
+        XCTAssertTrue(window.isVisible)
+        ChildWindowOpener(documentID: id)(id: "documentInfo", value: DocumentInfoTarget(documentID: id))
+        XCTAssertEqual(center.windows(of: id).count, 1)
+        a.close()
+        XCTAssertTrue(center.windows(of: id).isEmpty)
+        XCTAssertFalse(window.isVisible)
+    }
+
+    /// The editor's menu closure goes when the document's menus are cleared.
+    func testDocumentInfoMenuClosureIsRemoved() {
+        let menus = EditorMenus()
+        menus.openDocumentInfo = {}
+        XCTAssertNotNil(menus.openDocumentInfo)
+        menus.removeAll()
+        XCTAssertNil(menus.openDocumentInfo)
+    }
+
     /// Each document has its own Bill of Materials window, and closing a
     /// document closes only its own.
     func testChildWindowsBelongToTheirDocument() throws {
