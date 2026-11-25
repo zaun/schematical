@@ -146,7 +146,7 @@ Commit: ab34dfd0
 
 Acceptance: ⌘I opens the one window, on both pages, and the menu item is disabled with no editor.
   Check: `xcodebuild … test -only-testing:schematicalTests/KeyboardHelpTests -only-testing:schematicalTests/SchematicNSDocumentTests` → `** TEST SUCCEEDED **` (est. 10 min), plus the real-window pass above, whose observed results are written under this phase when done.
-Commit: —
+Commit: ab34dfd0 (code), 686fe631 (real-window pass)
 
 ## Validation Plan
 

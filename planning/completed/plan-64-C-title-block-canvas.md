@@ -212,7 +212,7 @@ Commit: ac6f2db8
 
 Acceptance: the pass above, each step's observed result written in this phase.
   Check: the real-window pass (est. 15 min); no automated check can see the drawn result.
-Commit: —
+Commit: 686fe631
 
 ## Validation Plan
 

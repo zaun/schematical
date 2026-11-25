@@ -123,7 +123,7 @@ Rejected alternatives:
 
 Acceptance: the exports carry the block; KiCad opens the file and prints the title.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p64-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/KiCadExportTests -only-testing:schematicalTests/EasyEDAProExportTests -only-testing:schematicalTests/SchematicSVGTests -only-testing:schematicalTests/SchematicSceneTests -only-testing:schematicalTests/PrintExportTests` → `** TEST SUCCEEDED **` (est. 12 min: five classes that exercise every changed exporter); then the `kicad-cli` run above → exit 0 and the title in the PDF text (est. 5 min).
-Commit: —
+Commit: 99a0000f
 
 ### Phase 2 — Agent tools
 
@@ -145,7 +145,7 @@ Commit: —
 
 Acceptance: an agent can read and set everything the window can, and address the block.
   Check: `xcodebuild … test -only-testing:schematicalTests/AutomationTests -only-testing:schematicalTests/AutomationWindowToolsTests` → `** TEST SUCCEEDED **` (est. 9 min).
-Commit: —
+Commit: 7c81f150
 
 ### Phase 3 — Docs and landing
 
@@ -157,11 +157,11 @@ Commit: —
       conventions (§ Conventions, near `Wires, labels, notes…`, :117); one line on get_design's `DOCUMENT` section. — done
 - [x] `docs/file-format.md`: bring A's `## Document info` section to the shape that shipped (the `titleBlock` position,
       the defaults, the dates rule) and record any difference from the plan under Corrections. — done: the shipped file shape (ISO 8601 UTC dates, automaticDates only as false, titleBlock snapped) is what A described; no difference
-- [ ] Landing gate — see Validation Plan. Archive plan-64-A…D to `planning/completed/` (`git mv`) in the landing commit.
+- [x] Landing gate — see Validation Plan. Archive plan-64-A…D to `planning/completed/` (`git mv`) in the landing commit. — done 2026-11-25: the 18-class gate passed (303 tests, 0 failures, 1 skipped) before the merge; after merging main (plans 63, 65, 66 had landed) the same gate plus PCBUndoTests passed again: ** TEST SUCCEEDED **, 341 tests, 0 failures. Plans archived to planning/completed/ in the landing commit
 
 Acceptance: the docs describe the shipped behavior; the landing gate passes.
   Check: `grep -n "titleblock\|title block" docs/export.md docs/agent-control.md docs/file-format.md | wc -l` → at least 8 lines naming it across the three docs (est. 1 min); the Validation Plan's final gate.
-Commit: —
+Commit: 5feaba84 (docs); landing: see the merge commit
 
 ## Validation Plan
 
