@@ -14,7 +14,7 @@ import SwiftUI
 
 /// Which schematic window's check to open.
 nonisolated struct DesignRuleCheckTarget: Codable, Hashable, Sendable {
-    let sessionID: UUID
+    let documentID: UUID
 }
 
 // MARK: - Menu command
@@ -43,7 +43,7 @@ struct DesignRuleCheckWindowView: View {
     let target: DesignRuleCheckTarget
 
     var body: some View {
-        if let session = SchematicSessions.shared.session(target.sessionID) {
+        if let session = SchematicEditorModel.session(target.documentID) {
             DesignRuleCheckWizard(document: session.document)
         } else {
             ContentUnavailableView(

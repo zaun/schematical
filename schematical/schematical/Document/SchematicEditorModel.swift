@@ -46,6 +46,22 @@ final class SchematicEditorModel {
         }
     }
 
+    /// The open document with this id: what its child windows show. Found
+    /// among the app's open documents; nothing else keeps a list.
+    static func open(_ id: UUID) -> SchematicEditorModel? {
+        for case let document as SchematicNSDocument in NSDocumentController.shared.documents
+        where document.model.id == id {
+            return document.model
+        }
+        return nil
+    }
+
+    /// A child window's document and simulation, by its document's id; nil
+    /// once that document is closed.
+    static func session(_ id: UUID) -> (document: SchematicDocument, simulation: SimulationController)? {
+        open(id).map { ($0.document, $0.simulation) }
+    }
+
     /// The document's file, nil for one never saved. Set by the window's
     /// `SchematicNSDocument`; the exporter names its files after it.
     var fileURL: URL? {

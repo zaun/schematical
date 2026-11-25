@@ -13,14 +13,14 @@ import UniformTypeIdentifiers
 
 /// Which schematic window's board to preview.
 nonisolated struct BoardPreviewTarget: Codable, Hashable, Sendable {
-    let sessionID: UUID
+    let documentID: UUID
 }
 
 struct BoardPreviewWindowView: View {
     let target: BoardPreviewTarget
 
     var body: some View {
-        if let session = SchematicSessions.shared.session(target.sessionID) {
+        if let session = SchematicEditorModel.session(target.documentID) {
             BoardPreviewView(document: session.document)
         } else {
             ContentUnavailableView(

@@ -16,7 +16,7 @@ import UniformTypeIdentifiers
 
 /// Which schematic window's Bill of Materials to open.
 nonisolated struct BillOfMaterialsTarget: Codable, Hashable, Sendable {
-    let sessionID: UUID
+    let documentID: UUID
 }
 
 /// One line of the Bill of Materials.
@@ -212,7 +212,7 @@ struct BillOfMaterialsWindowView: View {
     let target: BillOfMaterialsTarget
 
     var body: some View {
-        if let session = SchematicSessions.shared.session(target.sessionID) {
+        if let session = SchematicEditorModel.session(target.documentID) {
             BillOfMaterialsTable(document: session.document)
         } else {
             ContentUnavailableView(

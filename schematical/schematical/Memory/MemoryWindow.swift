@@ -14,55 +14,8 @@ import SwiftUI
 
 /// Which memory window to open: a part in one schematic window.
 nonisolated struct MemoryWindowTarget: Codable, Hashable, Sendable {
-    let sessionID: UUID
+    let documentID: UUID
     let chipID: UUID
-}
-
-/// The open schematic windows, so a memory window can find the document and
-/// simulation its part belongs to. Held weakly: closing the schematic window
-/// frees them.
-@MainActor
-final class SchematicSessions {
-    static let shared = SchematicSessions()
-
-    private struct Entry {
-        weak var document: SchematicDocument?
-        weak var simulation: SimulationController?
-        weak var model: SchematicEditorModel?
-    }
-
-    private var entries: [UUID: Entry] = [:]
-
-    func register(_ id: UUID, document: SchematicDocument, simulation: SimulationController,
-                  model: SchematicEditorModel? = nil) {
-        entries = entries.filter { $0.value.document != nil }
-        entries[id] = Entry(document: document, simulation: simulation, model: model)
-    }
-
-    /// Every open window's document and simulation. Used by the headless
-    /// harness that drives a window in the plan proofs.
-    var allSessions: [(document: SchematicDocument, simulation: SimulationController)] {
-        entries.values.compactMap { entry in
-            guard let document = entry.document, let simulation = entry.simulation else { return nil }
-            return (document, simulation)
-        }
-    }
-
-    /// Every open window with its session id and model
-    /// (automation: addresses a window).
-    var identifiedSessions: [(id: UUID, document: SchematicDocument, simulation: SimulationController,
-                              model: SchematicEditorModel?)] {
-        entries.compactMap { id, entry in
-            guard let document = entry.document, let simulation = entry.simulation else { return nil }
-            return (id, document, simulation, entry.model)
-        }
-    }
-
-    func session(_ id: UUID) -> (document: SchematicDocument, simulation: SimulationController)? {
-        guard let entry = entries[id], let document = entry.document,
-              let simulation = entry.simulation else { return nil }
-        return (document, simulation)
-    }
 }
 
 /// Root of a memory window.
@@ -70,7 +23,7 @@ struct MemoryWindowView: View {
     let target: MemoryWindowTarget
 
     var body: some View {
-        if let session = SchematicSessions.shared.session(target.sessionID) {
+        if let session = SchematicEditorModel.session(target.documentID) {
             MemoryInspector(
                 chipID: target.chipID,
                 document: session.document,

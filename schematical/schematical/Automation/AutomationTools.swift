@@ -227,9 +227,12 @@ enum AutomationTools {
 
     // MARK: Windows
 
+    /// The open documents, in the order they were opened.
     static func sessions() -> [AutomationContext] {
-        SchematicSessions.shared.identifiedSessions.map {
-            AutomationContext(id: $0.id, document: $0.document, simulation: $0.simulation, file: $0.model?.file, model: $0.model)
+        NSDocumentController.shared.documents.compactMap { document in
+            guard let model = (document as? SchematicNSDocument)?.model else { return nil }
+            return AutomationContext(id: model.id, document: model.document, simulation: model.simulation,
+                                     file: model.file, model: model)
         }
     }
 

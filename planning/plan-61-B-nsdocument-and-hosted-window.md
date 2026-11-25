@@ -234,16 +234,16 @@ Commit: e4f5ea83
 
 Acceptance: a file opened from the shell shows in a document window, and the menu has the document items.
   Check: build, then `open -a <Debug app> examples/6502.schematical; osascript -e 'tell application "System Events" to tell process "schematical" to get {name of window 1, name of every menu item of menu "File" of menu bar 1}'` → `6502.schematical` and a list holding `Save`, `Duplicate`, `Rename…`, `Move To…`, `Revert To` (est. 8 min with the build; run with the owner's installed app closed: both have the bundle id `jgz.schematical`). Result, read by pid through the Accessibility API (`AXUIElementCreateApplication(pid)`; System Events cannot tell two builds apart) with no other copy of the app running: `windows: ['6502.schematical' document=6502.schematical]`; File: `New`, `Open…`, `Open Recent ▸`, `New Part…`, `Load Part…`, `User Library…`, `Close`, `Close All`, `Save`, `Duplicate`, `Save As…`, `Rename…`, `Move To…`, `Revert To ▸ [Last Saved, Browse All Versions…]`, `Export ▸ [Image…, PDF…, Gerber PCB…]`, `Print…`; Edit starts `Undo (disabled)`, `Redo (disabled)`.
-Commit: —
+Commit: c397e9e3
 
 ### Phase 4 — Child windows
 
-- [ ] `ChildWindowCenter`, `ChildWindowOpener`, `ChildWindowCloser` (from `spike-H.patch`); `ContentView`'s `openWindow` and `dismissWindow` become the stand-ins.
-- [ ] `sessionID` → `documentID` in the 8 files (27 lines); delete `SchematicSessions`; the seven views call `SchematicEditorModel.session`; delete the 7 child scenes from `schematicalApp.swift`.
-- [ ] `SchematicNSDocumentTests`: opening a Bill of Materials child for two documents gives two windows; closing one document closes only its own.
+- [x] `ChildWindowCenter`, `ChildWindowOpener`, `ChildWindowCloser` (from `spike-H.patch`); `ContentView`'s `openWindow` and `dismissWindow` become the stand-ins. Done, in new `Document/ChildWindows.swift` (Corrections 9).
+- [x] `sessionID` → `documentID` in the 8 files (27 lines); delete `SchematicSessions`; the seven views call `SchematicEditorModel.session`; delete the 7 child scenes from `schematicalApp.swift`. Done. `AutomationTools.sessions()` walks the open documents too, and `AutomationTests`' windows are system documents listed with `NSDocumentController` (it had registered with `SchematicSessions`); `scripts/harness/export-menu.swift` follows.
+- [x] `SchematicNSDocumentTests`: opening a Bill of Materials child for two documents gives two windows; closing one document closes only its own. Done: `testChildWindowsBelongToTheirDocument`, and `testAHostedViewOpensTheAppsSceneWindows` (Corrections 10).
 
 Acceptance: the new test passes and no `sessionID` is left.
-  Check: `rg -c 'sessionID|SchematicSessions' schematical/schematical` → no output; `xcodebuild test … -only-testing:schematicalTests/SchematicNSDocumentTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 5 min).
+  Check: `rg -c 'sessionID|SchematicSessions' schematical/schematical` → no output; `xcodebuild test … -only-testing:schematicalTests/SchematicNSDocumentTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 5 min). Result: the search prints nothing; `SchematicNSDocumentTests` with `AutomationTests` and the three library classes: `Executed 62 tests, with 1 test skipped and 0 failures`, `** TEST SUCCEEDED **`.
 Commit: —
 
 ### Phase 5 — A closed document is freed (owner's must-fix)
@@ -280,6 +280,9 @@ Commit: —
 6. The custom-parts offer is made when the document's window is made (or at once for a Revert), not from `read`: `read` runs before there is a window to put the sheet on.
 7. Between this phase and phase 4 the seven child windows do not open: the hosted editor still calls SwiftUI's `openWindow`, which has no scene behind it. Phase 4 replaces the calls.
 8. A crash of the test host blocked this phase's test run and no task covered it. With the schematic scene gone, SwiftUI rebuilds the scene list while tests run (`AppDelegate.scenesDidChange`, from a run loop observer) and frees the spare `VerifyDatasheetWindowView` it had built, with the `VerifyDatasheetModel` in its `@State`. That model's isolated deinit frees its `DatasheetFinder`, whose isolated deinit is nested in it, and the Swift runtime aborts (`StopLookupScope`, `pointer being freed was not allocated`) when the thread has a task-local value bound, as XCTest's has. Two of two runs of `AutomationTests` died in `testActiveLowIsReported` (crash reports `schematical-2026-11-24-203005.ips`, `…-203331.ips`). It is not new: reports from 2026-11-23 (`…-175423.ips`, `…-182532.ips`, `…-213921.ips`, other builds) have the same stack; the missing scene made it frequent. Fixed as the code base already does for `RoutingSession`, `AssistRouter` and `AutorouteModel` (`nonisolated deinit {}`), with a test that reproduces the abort. This matters to phase 5: freeing a main-actor class with an isolated deinit nested in another's is the same hazard.
+9. Beyond the spike's `ChildWindowCenter`: a child window has a delegate (its own `NSWindowDelegate`, on a window the app makes; not a proxy on SwiftUI's) that forgets the window when it closes and empties its hosted view, so a child the user closed is built again when asked for and does not keep the document. The hosting controller bridges `.title` as well as `.toolbars`, so the views' `.navigationTitle` (`ROM1 · AT28C256-15PU`) still names the window. A child is never a tab (`tabbingMode = .disallowed`).
+10. § 3 said a hosted editor has no scene to open windows from. That holds for windows of its own; the app's remaining scenes (Datasheet, Part Editor, Help) still open from views inside the hosted editor with SwiftUI's `openWindow` (`ChipDrawerView`, `DatasheetWindow.swift`, `MarkdownDatasheetWindow.swift`). Measured by `testAHostedViewOpensTheAppsSceneWindows`: a view in an `NSHostingController` window calls `openWindow(id: "help", value: .pcb)` and a window titled `PCB Help` appears.
+11. The app quits when its last window closes (`applicationShouldTerminateAfterLastWindowClosed`, unchanged). With no schematic window open in the test host, a test that closed a window ended the test run (`Restarting after unexpected exit`, no crash report). `AppDelegate.quitsAfterLastWindowCloses` (true in the app) is set false by the tests that close windows.
 
 ## Summary
 

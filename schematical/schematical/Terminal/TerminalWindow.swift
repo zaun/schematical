@@ -20,7 +20,7 @@ import SwiftUI
 
 /// Which terminal window to open: a serial part in one schematic window.
 nonisolated struct TerminalWindowTarget: Codable, Hashable, Sendable {
-    let sessionID: UUID
+    let documentID: UUID
     let chipID: UUID
 }
 
@@ -104,7 +104,7 @@ struct TerminalWindowView: View {
     let target: TerminalWindowTarget
 
     var body: some View {
-        if let session = SchematicSessions.shared.session(target.sessionID) {
+        if let session = SchematicEditorModel.session(target.documentID) {
             TerminalInspector(chipID: target.chipID, document: session.document,
                               simulation: session.simulation)
         } else {

@@ -156,9 +156,11 @@ extension SchematicNSDocument {
         offerPendingParts()
     }
 
-    /// Closing a document stops its simulation.
+    /// Closing a document stops its simulation and closes the windows it
+    /// opened (Memory, Bill of Materials, …).
     override func close() {
         model.simulation.stop()
+        ChildWindowCenter.shared.closeAll(model.id)
         super.close()
     }
 }

@@ -55,10 +55,12 @@ struct ContentView: View {
     @State private var isSidebarShown = true
     private var simulation: SimulationController { model.simulation }
     private var file: SchematicFileController { model.file }
-    /// Identifies this window to the memory windows it opens.
-    @State private var sessionID = UUID()
-    @Environment(\.openWindow) private var openWindow
-    @Environment(\.dismissWindow) private var dismissWindow
+    /// Identifies this window's document to the child windows it opens.
+    private var documentID: UUID { model.id }
+    /// The child windows are AppKit windows of the document
+    /// (`ChildWindowCenter`); these two have SwiftUI's call syntax.
+    private var openWindow: ChildWindowOpener { ChildWindowOpener(documentID: model.id) }
+    private var dismissWindow: ChildWindowCloser { ChildWindowCloser(documentID: model.id) }
     /// Memory windows opened from this window, closed along with it.
     @State private var memoryWindows: Set<MemoryWindowTarget> = []
     @State private var cpuWindows: Set<CpuWindowTarget> = []
@@ -377,22 +379,22 @@ struct ContentView: View {
                 supplyVoltage: supplyVoltage,
                 simulation: simulation,
                 onOpenMemory: { chipID in
-                    let target = MemoryWindowTarget(sessionID: sessionID, chipID: chipID)
+                    let target = MemoryWindowTarget(documentID: documentID, chipID: chipID)
                     memoryWindows.insert(target)
                     openWindow(id: "memory", value: target)
                 },
                 onOpenCpu: { chipID in
-                    let target = CpuWindowTarget(sessionID: sessionID, chipID: chipID)
+                    let target = CpuWindowTarget(documentID: documentID, chipID: chipID)
                     cpuWindows.insert(target)
                     openWindow(id: "cpu", value: target)
                 },
                 onOpenTerminal: { chipID in
-                    let target = TerminalWindowTarget(sessionID: sessionID, chipID: chipID)
+                    let target = TerminalWindowTarget(documentID: documentID, chipID: chipID)
                     terminalWindows.insert(target)
                     openWindow(id: "terminal", value: target)
                 },
                 onOpenRegisters: { chipID in
-                    let target = RegisterWindowTarget(sessionID: sessionID, chipID: chipID)
+                    let target = RegisterWindowTarget(documentID: documentID, chipID: chipID)
                     registerWindows.insert(target)
                     openWindow(id: "registers", value: target)
                 },
@@ -472,7 +474,7 @@ struct ContentView: View {
                                onHighlight: { highlightedNet = $0 },
                                onOpenDesignRuleCheck: {
                                    isDesignRuleCheckOpen = true
-                                   openWindow(id: "drc", value: DesignRuleCheckTarget(sessionID: sessionID))
+                                   openWindow(id: "drc", value: DesignRuleCheckTarget(documentID: documentID))
                                })
                 .interactiveDismissDisabled(autoroute?.session.isRunning == true)
             }
@@ -651,7 +653,7 @@ struct ContentView: View {
                     ToolbarItem(placement: .primaryAction) {
                         Button {
                             isBoardPreviewOpen = true
-                            openWindow(id: "board-preview", value: BoardPreviewTarget(sessionID: sessionID))
+                            openWindow(id: "board-preview", value: BoardPreviewTarget(documentID: documentID))
                         } label: {
                             Label("Preview", systemImage: "photo")
                         }
@@ -747,7 +749,6 @@ struct ContentView: View {
                 }
             }
             .onAppear {
-                SchematicSessions.shared.register(sessionID, document: document, simulation: simulation, model: model)
                 simulation.setSpeed(simulationSpeed)
                 installEditKeyMonitor()
             }
@@ -770,15 +771,15 @@ struct ContentView: View {
                 }
                 terminalWindows = []
                 if isBillOfMaterialsOpen {
-                    dismissWindow(id: "bom", value: BillOfMaterialsTarget(sessionID: sessionID))
+                    dismissWindow(id: "bom", value: BillOfMaterialsTarget(documentID: documentID))
                     isBillOfMaterialsOpen = false
                 }
                 if isDesignRuleCheckOpen {
-                    dismissWindow(id: "drc", value: DesignRuleCheckTarget(sessionID: sessionID))
+                    dismissWindow(id: "drc", value: DesignRuleCheckTarget(documentID: documentID))
                     isDesignRuleCheckOpen = false
                 }
                 if isBoardPreviewOpen {
-                    dismissWindow(id: "board-preview", value: BoardPreviewTarget(sessionID: sessionID))
+                    dismissWindow(id: "board-preview", value: BoardPreviewTarget(documentID: documentID))
                     isBoardPreviewOpen = false
                 }
             }
@@ -786,12 +787,12 @@ struct ContentView: View {
             .focusedSceneValue(\.editorPage, page)
             .focusedSceneValue(\.openBillOfMaterials) {
                 isBillOfMaterialsOpen = true
-                openWindow(id: "bom", value: BillOfMaterialsTarget(sessionID: sessionID))
+                openWindow(id: "bom", value: BillOfMaterialsTarget(documentID: documentID))
             }
             // The check is of the PCB, so it opens from the PCB page only.
             .focusedSceneValue(\.openDesignRuleCheck, page == .pcb ? {
                 isDesignRuleCheckOpen = true
-                openWindow(id: "drc", value: DesignRuleCheckTarget(sessionID: sessionID))
+                openWindow(id: "drc", value: DesignRuleCheckTarget(documentID: documentID))
             } : nil)
     }
 

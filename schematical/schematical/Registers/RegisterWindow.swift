@@ -13,7 +13,7 @@ import SwiftUI
 
 /// Which register window to open: a part in one schematic window.
 nonisolated struct RegisterWindowTarget: Codable, Hashable, Sendable {
-    let sessionID: UUID
+    let documentID: UUID
     let chipID: UUID
 }
 
@@ -91,7 +91,7 @@ struct RegisterWindowView: View {
     let target: RegisterWindowTarget
 
     var body: some View {
-        if let session = SchematicSessions.shared.session(target.sessionID) {
+        if let session = SchematicEditorModel.session(target.documentID) {
             RegisterInspector(chipID: target.chipID, document: session.document,
                               simulation: session.simulation)
         } else {

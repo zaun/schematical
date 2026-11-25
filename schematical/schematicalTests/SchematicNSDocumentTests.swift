@@ -1,6 +1,7 @@
 import AppKit
 import CoreGraphics
 import Foundation
+import SwiftUI
 import UniformTypeIdentifiers
 import XCTest
 @testable import schematical
@@ -15,6 +16,11 @@ final class SchematicNSDocumentTests: XCTestCase {
     private static let type = SchematicFile.contentType.identifier
 
     private func p(_ x: CGFloat, _ y: CGFloat) -> CGPoint { CGPoint(x: x, y: y) }
+
+    /// These tests close windows; the app would quit after the last one.
+    override func setUp() {
+        AppDelegate.quitsAfterLastWindowCloses = false
+    }
 
     private func newDocument() -> SchematicNSDocument {
         let document = SchematicNSDocument()
@@ -186,5 +192,83 @@ final class SchematicNSDocumentTests: XCTestCase {
         XCTAssertTrue(document.model.document.netLabels.isEmpty)
         XCTAssertEqual(document.model.document.chips.count, 1)
         XCTAssertFalse(document.model.document.undoManager.canUndo)
+    }
+
+    // MARK: Phase 4 — child windows
+
+    /// A document listed among the app's open documents until the test ends.
+    private func openDocument() -> SchematicNSDocument {
+        TestSupport.openSystemDocument(of: TestSupport.newDocument(library: TestSupport.catalog.library),
+                                       catalog: TestSupport.catalog, until: self)
+    }
+
+    /// Each document has its own Bill of Materials window, and closing a
+    /// document closes only its own.
+    func testChildWindowsBelongToTheirDocument() throws {
+        let center = ChildWindowCenter.shared
+        let a = openDocument(), b = openDocument()
+        let idA = a.model.id, idB = b.model.id
+        XCTAssertNotNil(SchematicEditorModel.session(idA))
+        ChildWindowOpener(documentID: idA)(id: "bom", value: BillOfMaterialsTarget(documentID: idA))
+        ChildWindowOpener(documentID: idB)(id: "bom", value: BillOfMaterialsTarget(documentID: idB))
+        let windowA = try XCTUnwrap(center.windows(of: idA).first)
+        let windowB = try XCTUnwrap(center.windows(of: idB).first)
+        XCTAssertEqual(center.windows(of: idA).count, 1)
+        XCTAssertEqual(center.windows(of: idB).count, 1)
+        XCTAssertFalse(windowA === windowB)
+        XCTAssertTrue(windowA.isVisible && windowB.isVisible)
+        XCTAssertEqual(windowA.title, "Bill of Materials")
+        XCTAssertFalse(windowA.isRestorable)
+
+        // Asked again, the same window comes forward; a second target is a second window.
+        ChildWindowOpener(documentID: idA)(id: "bom", value: BillOfMaterialsTarget(documentID: idA))
+        XCTAssertEqual(center.windows(of: idA).count, 1)
+        ChildWindowOpener(documentID: idA)(id: "drc", value: DesignRuleCheckTarget(documentID: idA))
+        XCTAssertEqual(center.windows(of: idA).count, 2)
+        let both = center.windows(of: idA)
+
+        a.close()
+        XCTAssertTrue(center.windows(of: idA).isEmpty)
+        XCTAssertTrue(both.allSatisfy { !$0.isVisible })
+        XCTAssertNil(SchematicEditorModel.session(idA), "a closed document is no longer found")
+        XCTAssertEqual(center.windows(of: idB).count, 1)
+        XCTAssertTrue(windowB.isVisible, "the other document's window stays")
+
+        // The user closing a child window forgets it; opening it again makes a new one.
+        windowB.close()
+        XCTAssertTrue(center.windows(of: idB).isEmpty)
+        ChildWindowOpener(documentID: idB)(id: "bom", value: BillOfMaterialsTarget(documentID: idB))
+        XCTAssertEqual(center.windows(of: idB).count, 1)
+        ChildWindowCloser(documentID: idB)(id: "bom", value: BillOfMaterialsTarget(documentID: idB))
+        XCTAssertTrue(center.windows(of: idB).isEmpty)
+        b.close()
+    }
+
+    /// The editor is hosted in its document's window, not in a scene. Its
+    /// views still open the app's scene windows (Datasheet, Part Editor,
+    /// Help) with SwiftUI's `openWindow`.
+    func testAHostedViewOpensTheAppsSceneWindows() throws {
+        final class Box { var open: OpenWindowAction? }
+        struct Probe: View {
+            @Environment(\.openWindow) private var openWindow
+            let box: Box
+            var body: some View {
+                Color.clear.frame(width: 50, height: 50).onAppear { box.open = openWindow }
+            }
+        }
+        let box = Box()
+        let window = NSWindow(contentViewController: NSHostingController(rootView: Probe(box: box)))
+        window.isReleasedWhenClosed = false
+        window.makeKeyAndOrderFront(nil)
+        defer { window.close() }
+        RunLoop.main.run(until: Date().addingTimeInterval(0.3))
+        let open = try XCTUnwrap(box.open, "the hosted view appeared")
+        func helpWindows() -> [NSWindow] { NSApp.windows.filter { $0.isVisible && $0.title == "PCB Help" } }
+        XCTAssertTrue(helpWindows().isEmpty)
+        open(id: "help", value: EditorPage.pcb)
+        RunLoop.main.run(until: Date().addingTimeInterval(1.0))
+        let opened = helpWindows()
+        XCTAssertEqual(opened.count, 1, "windows: \(NSApp.windows.filter(\.isVisible).map(\.title))")
+        opened.forEach { $0.close() }
     }
 }

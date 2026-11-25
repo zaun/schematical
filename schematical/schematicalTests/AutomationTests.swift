@@ -6,9 +6,6 @@ import XCTest
 /// The agent-control server's request checks and its tools (docs/agent-control.md).
 @MainActor
 final class AutomationTests: XCTestCase {
-    /// Simulations made by tests, kept like `TestSupport`'s documents.
-    private static var kept: [SimulationController] = []
-
     private struct Result {
         let text: String
         let isError: Bool
@@ -16,12 +13,10 @@ final class AutomationTests: XCTestCase {
     }
 
     private func newWindow() -> (id: String, doc: SchematicDocument) {
+        // An open document, as a window's is; gone from the list when the test ends.
         let doc = TestSupport.newDocument(library: TestSupport.catalog.library)
-        let simulation = SimulationController(library: TestSupport.catalog.library)
-        Self.kept.append(simulation)
-        let id = UUID()
-        SchematicSessions.shared.register(id, document: doc, simulation: simulation)
-        return (id.uuidString, doc)
+        let open = TestSupport.openSystemDocument(of: doc, catalog: TestSupport.catalog, until: self)
+        return (open.model.id.uuidString, doc)
     }
 
     private func call(_ tool: String, _ window: String, _ args: [String: Any] = [:]) async -> Result {
