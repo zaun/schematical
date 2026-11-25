@@ -271,7 +271,7 @@ would otherwise repeat in `/tmp/p58-h/dd`): 8 checks, every line `ok`, `all chec
 `/tmp/p58g-sidebar.png`, `/tmp/p58g-gallery-1.png`, `/tmp/p58g-gallery-2.png` read (knob positions, blades and the sidebar's
 Circuit / Action / Position / Actuator rows are right). `$XC test` AutomationTests (33 tests, incl. the two new) and
 BillOfMaterialsTests (8, incl. the new): `** TEST SUCCEEDED **`, 41 tests, 0 failures.
-Commit: —
+Commit: 747044c7
 
 ## Validation Plan
 
@@ -287,6 +287,7 @@ Commit: —
   plus `PartKindKeysTests`, `PartKindRoundTripTests`, `KindInfoTests`, `KindGuideTests`,
   `SchematicFileV5Tests`, `PCBUndoTests`, `KiCadExportTests`, `EasyEDAProExportTests`,
   `ReferencePrefixTests` → `** TEST SUCCEEDED **` (est. 40 min).
+  Measured (2026-11-24, after the Part Editor fix of Corrections): `** TEST SUCCEEDED **`, 229 tests, 0 failures (16 classes, about 2 min of test time).
 
 ## Decisions
 
@@ -344,6 +345,17 @@ Commit: —
 - **Phase 2 — the BoardPreview look.** A slide part would have drawn as a DIP
   package (`PartLook` read `PART_SWITCH` as `.dipSwitch(positions:)`); it is now
   `.block(height: 5)`.
+- **Final gate — the Part Editor knew nothing of `states` / `rest`.** The first
+  gate run failed `PartKindKeysTests` (`switch: ["rest", "states"]` have no
+  control in the form), `PartKindRoundTripTests.testSwitch` (the 271 slide parts
+  came back with extras `device.rest` / `device.states`; its shipped count was
+  still 2070, now 2341) and, after the form was fixed, `KindGuideTests` (no step
+  of the guide had the two keys). Without them, opening a slide part in the Part
+  Editor and saving it would drop its states. `Editor/SwitchDraft.swift` gained
+  `rest` (integer) and `states` (list of number lists), `SwitchGuide`
+  (`Editor/Wizard/Guides/LedGuide.swift`) gained the two keys in the "The switch"
+  step with field help, and `PartKindRoundTripTests.expected["switch"]` is 2341
+  (commit a8552549). Plans B–F did not touch the editor, and none of them ran these classes.
 
 ## Summary
 
