@@ -29,6 +29,8 @@ final class EditorMenus {
     var openBillOfMaterials: (() -> Void)?
     /// Window › Design Rule Check (the PCB page's).
     var openDesignRuleCheck: (() -> Void)?
+    /// Window › Electrical Rules Check (the Schematic page's, plan-63-F).
+    var openElectricalRulesCheck: (() -> Void)?
 
     /// As `SchematicDocument`'s: an isolated deinit aborts the runtime when
     /// a closing document frees this.
@@ -42,6 +44,7 @@ final class EditorMenus {
         route = nil
         openBillOfMaterials = nil
         openDesignRuleCheck = nil
+        openElectricalRulesCheck = nil
     }
 }
 

@@ -114,6 +114,10 @@ struct ChildWindowOpener {
             center.open(target, document: documentID, title: "Design Rule Check", size: NSSize(width: 720, height: 420)) {
                 DesignRuleCheckWindowView(target: target)
             }
+        case let target as ElectricalRulesCheckTarget:
+            center.open(target, document: documentID, title: "Electrical Rules Check", size: NSSize(width: 760, height: 440)) {
+                ElectricalRulesCheckWindowView(target: target)
+            }
         case let target as BoardPreviewTarget:
             center.open(target, document: documentID, title: "Board Preview", size: NSSize(width: 1000, height: 720)) {
                 BoardPreviewWindowView(target: target)

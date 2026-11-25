@@ -23,7 +23,7 @@ final class KeyboardHelpTests: XCTestCase {
 
     func testSchematicKeys() {
         let keys = keys(.schematic)
-        for key in ["⌘F", "⌘⌫", "⌘A", "⌘X", "⌘C", "⌘V", "Space", "/", "Esc", "⌘P", "⌘?"] {
+        for key in ["⌘F", "⌘⌫", "⌘A", "⌘X", "⌘C", "⌘V", "Space", "/", "Esc", "⌘P", "⌘?", "⌥⌘E"] {
             XCTAssertTrue(keys.contains(key), key)
         }
         // The PCB's keys are not on the schematic sheet.

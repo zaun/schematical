@@ -91,6 +91,7 @@ struct schematicalApp: App {
             SchematicFileCommands()
             BillOfMaterialsCommands()
             DesignRuleCheckCommands()
+            ElectricalRulesCheckCommands()
             RouteCommands()
             EditCommands()
             SimulationCommands()

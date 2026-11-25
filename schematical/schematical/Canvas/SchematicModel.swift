@@ -1959,6 +1959,11 @@ final class SchematicDocument {
         if items != boardSelection.items { boardSelection.set(items) }
     }
 
+    /// Selects exactly `items` on the Schematic page (an Electrical Rules Check line).
+    func selectSchematicItems(_ items: Set<SchematicItem>) {
+        if items != schematicSelection.items { schematicSelection.set(items) }
+    }
+
     /// Edit › Select All on the Schematic: every part, wire, junction, text
     /// block, net label and bus.
     func selectAllSchematic() {

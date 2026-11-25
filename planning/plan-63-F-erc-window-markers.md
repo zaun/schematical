@@ -18,7 +18,7 @@ in an export). The automation tool `run_erc` returns the same list.
 
 References:
 
-- `planning/plan-63-E-erc-checker.md` (`ErcViolation`, `ErcSettings`, the document API).
+- `planning/completed/plan-63-E-erc-checker.md` (`ErcViolation`, `ErcSettings`, the document API).
 - `schematical/schematical/DesignRuleCheck/DesignRuleCheckWindow.swift` (the two-step
   window this mirrors), `Document/ChildWindows.swift`, `Document/EditorMenus.swift`,
   `Canvas/SchematicCanvasView.swift` (`worldLayer`), `Canvas/CanvasViewport.swift`,
@@ -29,7 +29,7 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-63-E is complete | `grep -c 'func electricalRulesCheck' schematical/schematical/ElectricalRulesCheck/ErcChecker.swift` → 1 | NOT MET until E lands |
+| plan-63-E is complete | `grep -c 'func electricalRulesCheck' schematical/schematical/ElectricalRulesCheck/ErcChecker.swift` → 1 | MET (`1`, 2026-11-25) |
 | The rest as plan-63-A § Prerequisites | its four commands | MET (2026-11-25) |
 
 If plan-63-E is not complete, this plan cannot start, full stop.
@@ -145,12 +145,12 @@ window, and the owner chose parity); drawing markers into the export scene.
 
 ### Phase 1 — The results model, the window and the menu
 
-- [ ] New `ElectricalRulesCheck/ErcResultsModel.swift`: `violations`, `excluded`,
+- [x] New `ElectricalRulesCheck/ErcResultsModel.swift`: `violations`, `excluded`,
       `selection`, `run()` (the document's `electricalRulesCheck()` split by
       exclusion), `exclude(rows:)`, `include(rows:)` (both through the document's
       `excludeErc` / `includeErc`), `items(of:)` → the union of the rows' items and the
       first row's point.
-- [ ] New `ElectricalRulesCheck/ElectricalRulesCheckWindow.swift` as § 3:
+- [x] New `ElectricalRulesCheck/ElectricalRulesCheckWindow.swift` as § 3:
       menu command `Button("Electrical Rules Check")` with
       `.keyboardShortcut("e", modifiers: [.command, .option])`, disabled unless
       `editor?.page == .schematic`; the wizard; step 1 (severity pickers, pin map
@@ -159,19 +159,19 @@ window, and the owner chose parity); drawing markers into the export scene.
       copy as the DRC's; `.task(id:)` rerun 150 ms after an edit; the subtitle
       `Step 2 of 2 · n errors, m warnings`; the empty state `No Violations`).
       A row's reference is the part and pin ("U1.14"), the label name, or "Wire".
-- [ ] `Document/ChildWindows.swift`: a `case let target as ElectricalRulesCheckTarget`
+- [x] `Document/ChildWindows.swift`: a `case let target as ElectricalRulesCheckTarget`
       beside the DRC's (title "Electrical Rules Check", 760×440). `Document/EditorMenus.swift`:
       `openElectricalRulesCheck`, cleared in `removeAll()`. `ContentView.swift`:
       install it beside `openDesignRuleCheck` (`:350`), an `isElectricalRulesCheckOpen`
       state and its dismissal where `isDesignRuleCheckOpen` is dismissed (`:812`).
       `schematicalApp.swift`: `ElectricalRulesCheckCommands()` beside
       `DesignRuleCheckCommands()` (`:93`).
-- [ ] `Canvas/SchematicModel.swift`: `selectSchematicItems(_ items: Set<SchematicItem>)`
+- [x] `Canvas/SchematicModel.swift`: `selectSchematicItems(_ items: Set<SchematicItem>)`
       beside `selectBoardItems` (`:1958`).
-- [ ] `Help/KeyboardHelp.swift`: `entry("⌥⌘E", "Electrical Rules Check")` beside
+- [x] `Help/KeyboardHelp.swift`: `entry("⌥⌘E", "Electrical Rules Check")` beside
       `entry("⇧⌘B", "Bill of Materials")` (`:60`, the Schematic's window commands; the
       DRC's own line is in the PCB help's Checks section, `:171`).
-- [ ] Tests (new `schematicalTests/ErcResultsModelTests.swift`): `run()` lists and
+- [x] Tests (new `schematicalTests/ErcResultsModelTests.swift`): `run()` lists and
       numbers; exclude moves a row to the excluded list and survives an unrelated edit;
       include puts it back; selecting rows selects exactly their items; step 1's edits
       reach `document.erc` as undo steps; the pin map cell edit writes both halves;
@@ -179,7 +179,8 @@ window, and the owner chose parity); drawing markers into the export scene.
 
 Acceptance: the window opens from the menu on the Schematic page, lists, selects, excludes.
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/ErcResultsModelTests -only-testing:schematicalTests/KeyboardHelpTests -only-testing:schematicalTests/DesignRuleCheckTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 8 min).
-Commit: —
+  Result (2026-11-25, in the worktree): `ErcResultsModelTests` 7, `KeyboardHelpTests` 6, `DesignRuleCheckTests` 17: `Executed 30 tests, with 0 failures`, `** TEST SUCCEEDED **`; the window, the menu command and the child-window wiring compile in the app target. The real-window pass (⌥⌘E on the Schematic page) is the owner's (plan-63-G Validation Plan).
+Commit: (recorded in the next commit)
 
 ### Phase 2 — Markers and bringing a line into view
 
