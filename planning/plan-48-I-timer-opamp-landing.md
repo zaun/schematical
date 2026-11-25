@@ -21,7 +21,7 @@ plan-48-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-48-H complete | `ls planning/completed/plan-48-H-*.md` → exists, or every H box ticked | NOT MET (2026-11-16: not started) |
+| plan-48-H complete | `ls planning/completed/plan-48-H-*.md` → exists, or every H box ticked | MET (2026-11-24: every H box ticked) |
 
 Everything below is written against the world where these hold.
 
@@ -45,8 +45,20 @@ Every gate of Phase 1's table shows its expected value in one run.
 
 ### Phase 1 — Landing tier
 
-- [ ] Run every gate of the table on a fresh build dir
+- [~] Run every gate of the table on a fresh build dir
       (`/tmp/logic-p48-land`) and record the observed values here.
+      First run, 2026-11-25 on the `worktree-P-48` tree (not yet merged; `/tmp/p48/landing.sh`):
+      backend `100% tests passed, 0 tests failed out of 67` (T0 65 + 2); goldens: 0 removed or changed lines since
+      the first plan-48-E commit `52fdcecb`; `grep -c '|timer|'` 57 (56 + 1) and `'|opamp|'` 601 (600 + 1);
+      per-maker `ti 200`, `adi 200`, `st 200`; `parts.txt` 40561 (P1 39903 + 658); `footprints.txt` 3859 (F1 3825 + 34);
+      PDFs 292 = 292 cited; datasheet URLs `292 of 292 URLs serve a PDF; 0 failed` (G); skipped `59 skip rows, 0 missing`;
+      no excluded part (0; 0 and 0 flags); app tests, the harness and the app build ran per letter (G, H) and are rerun
+      after the lookups. **Not met: Stock check** — `awk … $27==""` → **11** (the five timers and six op-amps of A Phase 1);
+      both DigiKey keys read `0 left today` until 2026-11-26 00:00 UTC.
+      **Remains:** (1) after the reset run A's loop for the 11 rows (`census/stock-check.sh`; `select.py`, `textscan.py`,
+      `verdicts.py` for any failure, `place.py`, `specs-skeleton.py`, read new spec rows, `final.py --apply`,
+      `gen-parts.py`, goldens and datasheets if the pick changed); (2) rerun this table once on the final tree;
+      (3) merge `worktree-P-48` into `main`.
 - [ ] `planning/todo.md`: mark `Add the 555 timer and common op-amps (LM358,
       TL07x…).` done (`[x]`) with a note on the same item: "(plan-48: Texas
       Instruments, Analog Devices, STMicroelectronics, Renesas; op-amps are
