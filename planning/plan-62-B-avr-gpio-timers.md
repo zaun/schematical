@@ -222,20 +222,21 @@ None outside `backend/tests/avr/` and `backend/tools/`.
 
 ### Phase 1 — GPIO, clock and the chip
 
-- [ ] `backend/src/models/avr_gpio.c` (+ declarations in `avr.h`): `gpio.ts`.
-- [ ] `backend/src/models/avr_clock.c`: `clock.ts`, with `reset_index`.
-- [ ] `backend/src/models/avr_chip.h`, `avr_chip.c`: § 3.2 with the
+- [x] `backend/src/models/avr_gpio.c` (+ declarations in `avr.h`): `gpio.ts`.
+- [x] `backend/src/models/avr_clock.c`: `clock.ts`, with `reset_index`.
+- [x] `backend/src/models/avr_chip.h`, `avr_chip.c`: § 3.2 with the
       `atmega328` layout's ports B, C, D and clock.
-- [ ] `oracle.js`: `asm`, `layout-check`, `run` (§ 3.3).
-- [ ] `backend/tests/avr_periph_test.c`: `--layout`, the scenario runner,
+- [x] `oracle.js`: `asm`, `layout-check`, `run` (§ 3.3).
+- [x] `backend/tests/avr_periph_test.c`: `--layout`, the scenario runner,
       the golden and live comparisons; `backend/CMakeLists.txt`: the four
       new sources and `logic_test(avr_periph_test)` with `AVR_DIR`,
       `AVR_NODE`, `AVR_ORACLE`.
-- [ ] Scenarios `gpio_out`, `gpio_int`, `clkpr`: `.asm`, `.json`, golden lines.
+- [x] Scenarios `gpio_out`, `gpio_int`, `clkpr`: `.asm`, `.json`, golden lines.
 
 Acceptance: the three scenarios equal avr8js and the layout equals
 avr8js's configs.
   Check: `ctest --test-dir /tmp/sim-rel -R avr_periph_test --output-on-failure` → `layout atmega328 equal`, `ok gpio_out`, `ok gpio_int`, `ok clkpr` (est. 1 min).
+  Observed: 2026-11-24: `layout atmega328 equal`, `ok gpio_out (521 lines, 121 port events, 0 interrupts)`, `ok gpio_int (6000 lines, 0 port events, 1489 interrupts)`, `ok clkpr (160 lines, 0 port events, 0 interrupts)`, each against the live oracle.
 Commit: —
 
 ### Phase 2 — timers

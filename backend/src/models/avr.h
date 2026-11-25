@@ -88,6 +88,9 @@ struct AvrCpu {
 
     AvrCallback watchdog_reset;     /* the WDR instruction */
 
+    struct AvrPort *ports[12];      /* avr8js's gpioPorts, in the order they were made */
+    size_t port_count;
+
     /* 0 (the simulator): the manual's behavior where avr8js differs from it.
        1 (the oracle tests): avr8js's behavior everywhere. */
     int exact;
@@ -150,5 +153,153 @@ void avr_interrupt(AvrCpu *cpu, uint8_t addr);
 
 /* Executes the instruction at pc. */
 void avr_instruction(AvrCpu *cpu);
+
+/* ---- avr_gpio.c: avr8js's src/peripherals/gpio.ts (plan-62-B) ------------- */
+
+typedef struct AvrPort AvrPort;
+
+/* An external interrupt pin (INT0, INT1). `present` 0 = the pin has none. */
+typedef struct {
+    int present;
+    uint16_t EICR;       /* the register with the pin's ISCx1:0 bits */
+    uint16_t EIMSK;
+    uint16_t EIFR;
+    uint8_t isc_offset;  /* of ISCx0 in EICR */
+    uint8_t index;       /* bit in EIMSK / EIFR */
+    uint8_t interrupt;   /* vector word address */
+} AvrExternalInterruptConfig;
+
+typedef struct {
+    uint8_t PCIE;        /* bit in PCICR / PCIFR */
+    uint16_t PCICR;
+    uint16_t PCIFR;
+    uint16_t PCMSK;
+    uint8_t pin_change_interrupt;   /* vector word address */
+    uint8_t mask;
+    uint8_t offset;
+} AvrPinChangeConfig;
+
+typedef struct {
+    uint16_t PIN, DDR, PORT;
+    int has_pin_change;
+    AvrPinChangeConfig pin_change;
+    AvrExternalInterruptConfig external[8];
+} AvrPortConfig;
+
+typedef enum { AVR_PIN_LOW, AVR_PIN_HIGH, AVR_PIN_INPUT, AVR_PIN_INPUT_PULLUP } AvrPinState;
+
+/* How a timer's compare output takes a pin (avr8js's PinOverrideMode). */
+typedef enum {
+    AVR_OVERRIDE_NONE,
+    AVR_OVERRIDE_ENABLE,
+    AVR_OVERRIDE_SET,
+    AVR_OVERRIDE_CLEAR,
+    AVR_OVERRIDE_TOGGLE
+} AvrPinOverride;
+
+typedef void (*AvrPortListenerFn)(void *ctx, uint8_t value, uint8_t old_value);
+typedef void (*AvrExternalClockFn)(void *ctx, int pin_value);
+
+typedef struct { AvrPort *port; uint16_t reg; int type; } AvrPortHook;
+
+struct AvrPort {
+    AvrCpu *cpu;
+    AvrPortConfig config;
+    AvrInterrupt external_ints[8];   /* valid where config.external[i].present */
+    AvrInterrupt low_level[8];       /* the low-level interrupt queued while the pin is low */
+    AvrInterrupt pcint;              /* valid when config.has_pin_change */
+    struct { AvrPortListenerFn fn; void *ctx; } listener;
+    struct { AvrExternalClockFn fn; void *ctx; } external_clock[8];
+    AvrPortHook hooks[10];
+    size_t hook_count;
+    uint8_t pin_value;
+    uint8_t override_mask;
+    uint8_t override_value;
+    uint8_t last_value;
+    uint8_t last_ddr;
+    uint8_t last_pin;
+    uint8_t open_collector;
+};
+
+enum { AVR_MAX_PORTS = 12 };
+
+/* Installs the port on the CPU (its hooks, and the CPU's port list). */
+void avr_port_init(AvrPort *port, AvrCpu *cpu, const AvrPortConfig *config);
+/* The outside world drives pin `index` (0-7): what PINx reads on an input. */
+void avr_port_set_pin(AvrPort *port, int index, int value);
+/* What the chip does with the pin. */
+AvrPinState avr_port_pin_state(const AvrPort *port, int index);
+/* A timer's compare output takes, drives or releases a pin. */
+void avr_port_override_pin(AvrPort *port, int pin, AvrPinOverride mode);
+/* The port whose PORT register is at `port_address`, or NULL. */
+AvrPort *avr_cpu_port_at(AvrCpu *cpu, uint16_t port_address);
+
+/* ---- avr_clock.c: src/peripherals/clock.ts -------------------------------- */
+
+typedef struct { uint16_t CLKPR; } AvrClockConfig;
+
+typedef struct {
+    AvrCpu *cpu;
+    uint32_t base_hz;
+    AvrClockConfig config;
+    uint8_t reset_index;           /* CLKPR after reset (not in avr8js: always 0 there) */
+    double clock_enabled_cycles;
+    int prescaler_value;
+    double cycles_delta;
+} AvrClock;
+
+void avr_clock_init(AvrClock *clock, AvrCpu *cpu, uint32_t base_hz, const AvrClockConfig *config,
+                    uint8_t reset_index);
+/* CLKPR and the prescaler back to the reset value. */
+void avr_clock_reset(AvrClock *clock);
+static inline int avr_clock_prescaler(const AvrClock *clock) { return clock->prescaler_value; }
+/* avr8js's AVRClock.frequency: the CPU's clock in Hz. */
+static inline double avr_clock_frequency(const AvrClock *clock) {
+    return (double)clock->base_hz / clock->prescaler_value;
+}
+double avr_clock_time_nanos(const AvrClock *clock);
+
+/* ---- avr_timer.c: src/peripherals/timer.ts -------------------------------- */
+
+typedef struct {
+    int bits;                 /* 8 or 16 */
+    uint16_t dividers[8];     /* by CS2:0; 0 = stopped or external clock */
+    /* Vector word addresses (0 = not available). */
+    uint8_t capture_interrupt, comp_a_interrupt, comp_b_interrupt, comp_c_interrupt, ovf_interrupt;
+    /* Register addresses (0 = not available). */
+    uint16_t TIFR, OCRA, OCRB, OCRC, ICR, TCNT, TCCRA, TCCRB, TCCRC, TIMSK;
+    /* TIFR bits, then TIMSK bits. */
+    uint8_t TOV, OCFA, OCFB, OCFC;
+    uint8_t TOIE, OCIEA, OCIEB, OCIEC;
+    /* Compare output pins: the port's PORT address and the bit. */
+    uint16_t comp_port_a; uint8_t comp_pin_a;
+    uint16_t comp_port_b; uint8_t comp_pin_b;
+    uint16_t comp_port_c; uint8_t comp_pin_c;
+    /* The external clock pin (port 0 = none). */
+    uint16_t external_clock_port; uint8_t external_clock_pin;
+} AvrTimerConfig;
+
+typedef struct {
+    AvrCpu *cpu;
+    AvrTimerConfig config;
+    int max;                  /* 0xff or 0xffff */
+    double last_cycle;
+    int ocr_a, next_ocr_a, ocr_b, next_ocr_b, ocr_c, next_ocr_c;
+    int has_ocr_c;
+    int ocr_update_mode, tov_update_mode;
+    int icr;
+    int timer_mode, top_value;
+    int tcnt, tcnt_next;
+    int comp_a, comp_b, comp_c;
+    int tcnt_updated, update_divider, counting_up;
+    int divider;
+    AvrPort *external_clock_port;
+    int external_clock_rising_edge;
+    uint8_t high_byte_temp;
+    AvrInterrupt OVF, OCFA, OCFB, OCFC;
+} AvrTimer;
+
+void avr_timer_init(AvrTimer *timer, AvrCpu *cpu, const AvrTimerConfig *config);
+void avr_timer_reset(AvrTimer *timer);
 
 #endif

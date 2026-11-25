@@ -2,3 +2,7 @@
 # Each line is written from the oracle's output, never from the C side's:
 #   step <seed> <states> <lines> <FNV-1a 64 of the lines>    avr_core_test --print-golden
 step 305419896 4 262144 7780baee2f7b9ffa
+#   run <scenario> <lines> <FNV-1a 64 of the trace>            avr_periph_test --print-golden
+run gpio_out 521 93d2a2f2c13d5dba
+run gpio_int 6000 74830bd3bc5f4b5e
+run clkpr 160 58af1eb45b335360

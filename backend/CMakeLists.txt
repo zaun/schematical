@@ -25,6 +25,10 @@ add_library(logic STATIC
     src/models/mcu.c
     src/models/avr_cpu.c
     src/models/avr_instruction.c
+    src/models/avr_gpio.c
+    src/models/avr_clock.c
+    src/models/avr_timer.c
+    src/models/avr_chip.c
     src/models/pld.c
     src/models/resistor.c
     src/models/transistor.c
@@ -199,13 +203,17 @@ logic_test(cpu_test)
 # the tests run tools/avr8js-oracle/oracle.js and compare line by line;
 # without it they compare with the hashes in tests/avr/golden.txt.
 logic_test(avr_core_test)
-target_compile_definitions(avr_core_test PRIVATE
-    AVR_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/avr")
-if(LOGIC_NODE)
-    target_compile_definitions(avr_core_test PRIVATE
-        AVR_NODE="${LOGIC_NODE}"
-        AVR_ORACLE="${CMAKE_CURRENT_SOURCE_DIR}/tools/avr8js-oracle/oracle.js")
-endif()
+logic_test(avr_periph_test)
+foreach(AVR_TEST avr_core_test avr_periph_test)
+    target_compile_definitions(${AVR_TEST} PRIVATE
+        AVR_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/avr"
+        AVR_TMP="${CMAKE_CURRENT_BINARY_DIR}")
+    if(LOGIC_NODE)
+        target_compile_definitions(${AVR_TEST} PRIVATE
+            AVR_NODE="${LOGIC_NODE}"
+            AVR_ORACLE="${CMAKE_CURRENT_SOURCE_DIR}/tools/avr8js-oracle/oracle.js")
+    endif()
+endforeach()
 logic_test(charlcd_test)
 logic_test(serial_test)
 logic_test(usbuart_test)
