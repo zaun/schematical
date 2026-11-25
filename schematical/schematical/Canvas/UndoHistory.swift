@@ -22,6 +22,7 @@ struct DocumentState: Equatable {
     var holes: [BoardHole] = []
     var pours: [BoardPour] = []
     var keepouts: [BoardKeepout] = []
+    var documentInfo = DocumentInfo()
 }
 
 /// One thing a step can change. A part is split three ways, so a step holds
@@ -30,7 +31,7 @@ struct DocumentState: Equatable {
 enum UndoKey: Hashable {
     case part(UUID), reference(UUID), footprint(UUID)
     case wire(UUID), junction(UUID), bus(UUID), note(UUID), label(UUID), nextReference
-    case text(UUID), trace(UUID), via(UUID), hole(UUID), pour(UUID), keepout(UUID), board
+    case text(UUID), trace(UUID), via(UUID), hole(UUID), pour(UUID), keepout(UUID), board, documentInfo
 }
 
 /// One key's value on one side of a step. Items carry their array index so a
@@ -43,7 +44,7 @@ enum UndoValue: Equatable {
     case text(BoardText, index: Int), trace(BoardTrace, index: Int), via(BoardVia, index: Int)
     case hole(BoardHole, index: Int)
     case pour(BoardPour, index: Int), keepout(BoardKeepout, index: Int)
-    case nextReference(Int), board(BoardSettings)
+    case nextReference(Int), board(BoardSettings), documentInfo(DocumentInfo)
 }
 
 /// A key's value before and after a step. Nil is "not there".
@@ -128,6 +129,10 @@ enum UndoDiff {
         if old.board != new.board {
             changes[.board] = UndoChange(before: .board(old.board), after: .board(new.board))
         }
+        if old.documentInfo != new.documentInfo {
+            changes[.documentInfo] = UndoChange(before: .documentInfo(old.documentInfo),
+                                                after: .documentInfo(new.documentInfo))
+        }
         return changes
     }
 
@@ -193,6 +198,8 @@ enum UndoDiff {
                 if case let .nextReference(n)? = value { state.nextReference = n }
             case .board:
                 if case let .board(b)? = value { state.board = b }
+            case .documentInfo:
+                if case let .documentInfo(i)? = value { state.documentInfo = i }
             }
         }
 

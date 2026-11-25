@@ -1680,6 +1680,8 @@ final class SchematicDocument {
     }
     /// Text blocks, in drawing order. Drawn under everything else.
     private(set) var notes: [SchematicNote] = []
+    /// The document's title, author, dates and title block (plan-64).
+    private(set) var documentInfo = DocumentInfo()
     /// Net labels, in drawing order. Labels with the same name are one net.
     private(set) var netLabels: [NetLabel] = [] { didSet { copperRevision &+= 1 } }
     /// A text block whose words the sidebar should start editing: one just
@@ -2093,9 +2095,11 @@ final class SchematicDocument {
                          nextReference: Int, board: BoardSettings, texts: [BoardText],
                          traces: [BoardTrace], vias: [BoardVia] = [], holes: [BoardHole] = [],
                          pours: [BoardPour] = [], keepouts: [BoardKeepout] = [],
-                         notes: [SchematicNote] = [], netLabels: [NetLabel] = []) {
+                         notes: [SchematicNote] = [], netLabels: [NetLabel] = [],
+                         documentInfo: DocumentInfo = DocumentInfo()) {
         self.chips = chips
         self.notes = notes
+        self.documentInfo = documentInfo
         self.netLabels = netLabels
         self.wires = wires
         self.junctions = junctions
@@ -2161,7 +2165,7 @@ final class SchematicDocument {
     var state: DocumentState {
         DocumentState(chips: chips, wires: wires, junctions: junctions, buses: buses, notes: notes,
                       netLabels: netLabels, nextReference: nextReference, board: board, texts: texts, traces: traces, vias: vias, holes: holes,
-                      pours: pours, keepouts: keepouts)
+                      pours: pours, keepouts: keepouts, documentInfo: documentInfo)
     }
 
     /// Writes a state back (undo, redo), then drops selections and editor
@@ -2181,6 +2185,7 @@ final class SchematicDocument {
         if holes != s.holes { holes = s.holes }
         if pours != s.pours { pours = s.pours }
         if keepouts != s.keepouts { keepouts = s.keepouts }
+        if documentInfo != s.documentInfo { documentInfo = s.documentInfo }
         pruneSelection()
         if let id = editingNoteID, !notes.contains(where: { $0.id == id }) { editingNoteID = nil }
         if let id = selectedBusID, bus(id) == nil { selectedBusID = nil }
@@ -3049,6 +3054,55 @@ final class SchematicDocument {
 
     func netLabelTip(_ id: UUID) -> CGPoint? {
         netLabels.first { $0.id == id }?.tip
+    }
+
+    // MARK: Document info (plan-64)
+
+    /// Runs `change` on the document info as one undo step named `name`.
+    /// Nothing is recorded when it changes nothing. Typing in one field
+    /// merges into one step through `coalescing`.
+    func editDocumentInfo(_ name: String, coalescing: String? = nil, _ change: (inout DocumentInfo) -> Void) {
+        recordEdit(.schematic, name, coalescing: coalescing) {
+            var edited = documentInfo
+            change(&edited)
+            if edited != documentInfo { documentInfo = edited }
+        }
+    }
+
+    func setInfoTitle(_ value: String) {
+        editDocumentInfo("Edit Title", coalescing: "info-title") { $0.title = value }
+    }
+
+    func setInfoAuthor(_ value: String) {
+        editDocumentInfo("Edit Author", coalescing: "info-author") { $0.author = value }
+    }
+
+    func setInfoRevision(_ value: String) {
+        editDocumentInfo("Edit Revision", coalescing: "info-revision") { $0.revision = value }
+    }
+
+    func setInfoDescription(_ value: String) {
+        editDocumentInfo("Edit Description", coalescing: "info-description") { $0.description = value }
+    }
+
+    func setInfoCreated(_ date: Date?) {
+        editDocumentInfo("Edit Created Date") { $0.created = date }
+    }
+
+    func setInfoUpdated(_ date: Date?) {
+        editDocumentInfo("Edit Updated Date") { $0.updated = date }
+    }
+
+    func setAutomaticDates(_ on: Bool) {
+        editDocumentInfo("Change Automatic Dates") { $0.automaticDates = on }
+    }
+
+    /// What a write of the file does to the dates (`DocumentInfo.stamp`).
+    /// Not an undo step, and it does not mark the document edited.
+    func stampDates(now: Date = Date()) {
+        var stamped = documentInfo
+        stamped.stamp(now: now)
+        if stamped != documentInfo { documentInfo = stamped }
     }
 
     // MARK: Text blocks (Schematic)
