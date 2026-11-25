@@ -400,10 +400,10 @@ Commit: 19c545ea
 
 ### Phase 2 — The part-by-part stock check (four quota days)
 
-- [ ] `census/stock-check.sh` (§ 5); run it for every row of the download
+- [x] (2026-11-22 to 2026-11-25: 3538 look-ups (3528 rows and clips, the 9 refill rows and one repeated test) on 3 days, with the primary key and, by the owner's order, the second one (`--opt2`); no clip failed) `census/stock-check.sh` (§ 5); run it for every row of the download
       set and the six clips of § 6 (3528 calls; ≥ 900 left before each day's
       run, § Prerequisites); a run cut by the quota goes on the next day.
-- [ ] `select.py … --stock planning/plan-47-data/stock-check.tsv --keep
+- [x] (2026-11-25: 19 `found` = 0 rows; the 9 refill rows checked, all in stock; `to-check.py` → `0 unchecked`) `select.py … --stock planning/plan-47-data/stock-check.tsv --keep
       planning/plan-47-data/candidates.tsv --report` writes `candidates.tsv`;
       a row that went `out` leaves the set and the next row of its (type,
       maker, class) enters it; check every new row the same way until no row
@@ -559,6 +559,27 @@ Author decisions (no user-visible fork; recorded so nobody re-litigates):
   need every download-set row checked and A complete (their prerequisites);
   D-H need C's final pick; K-O need those. Plan-47-I and J (backend, no census
   input) were therefore worked first.
+
+- **2026-11-25, Phase 2 done.** All 3528 look-ups ran in four runs (about 940 on
+  2026-11-23, 950 on 2026-11-24, 328 more on the second API key on the owner's
+  order, and the rest of the set on 2026-11-25 with both keys, each key in turn),
+  plus 9 for the rows the 19 misses let in. `found` = 0: 19 (`stock-check.tsv` has
+  3538 rows: the 3519 download-set rows and clips plus the 19 that left); they went `out`, reason `stock check`
+  (`768772331`, `BK/GDB-V-1.6A`,
+  `049403.5NRHF`, `0ZRP0135FF1A`, `0ZRR0160FF1A`, `0ZRR0090FF1E`, `AGRF800S-1`, `ACQ131`, `TQ2-5V`,
+  `TQ2SS-24V`, `AQW254AZ`, `PCH-112L2M-WG`, `PCN-104D3MHZ,001`, `PT-1241PFQ`, `PT-1540PQ`,
+  `SMT-1341-T-HT-2`, `CMI-1265-88-SMT-TR`, `CMI-1295-05TH`, `CPT-3016C-120`); the 9 refill rows were all in stock
+  (`SS-5-2A-AP`, `049401.5NRHF`, `LVR016K-2`, `ACNM3112`, `TQ2SA-9V-Z`, `TQ2-2M-5V`, `AQW216AZ`,
+  `V23092-A1012-A201`, `RTD34012F`), so one refill round was enough: extra calls 9.
+  The download set is now **3513 rows**, with **2951 candidates and 562 reserve** (planning figure: 2953
+  and 569). No clip failed (§ 6's table stands).
+- **2026-11-24, DigiKey went behind a Cloudflare challenge** (`login failed (403)`, then
+  `POST /search/keyword failed (403)` "Just a moment…") for this machine: neither the Chrome nor
+  the Safari user agent passed, nor did `curl_cffi`'s 53 browser profiles. The owner's other thread
+  made `scripts/digikey.js` send the requests through a Safari window (`osascript` + XHR) once Node is
+  challenged; `stock-check.sh` takes `DIGIKEY_JS` (that script's path) and `STOCK_CHECK_OPT2=1` (the second
+  API key, own quota). It also stops on any 4xx (an early run wrote a false `found` = 0 row for a part
+  whose login failed, removed) and no longer mistakes `429 left today` for a 429.
 
 ## Summary
 
