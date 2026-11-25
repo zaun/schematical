@@ -39,10 +39,10 @@ Letters B–F point here.
 
 | Must be true | Command | Status |
 |---|---|---|
-| The cutouts plan's router letter has landed | `ls planning/completed \| grep -c '^plan-65-D'` → 1. It edits `RoutingProblem.swift`, `RoutingProblemBuilder.swift`, `RoutingGrid.swift` (`stampEdge`), `RoutingVerifier.swift`, `RoutingCleanup.swift` and `RoutingTestBoard.swift`, files this plan edits too; two plans may not braid, so this one starts after it | NOT MET (2026-11-25, re-run when /follow-plan 66 was invoked: `ls planning/completed \| grep -c '^plan-65-D'` → 0; `planning/plan-65-D-router.md` is still unlanded) |
-| No other unfinished plan edits the router | `grep -ln 'Routing/' planning/plan-*.md \| grep -v 'plan-66\|plan-65'` → no output; `git log --oneline -3 -- schematical/schematical/Routing` shows only commits already on `main` | MET (2026-11-25 re-run: the grep names only `plan-63-F-erc-window-markers.md`, whose match is a `DesignRuleCheck/` path, not a routing file; newest routing commit `03aadf24`) |
-| The router's own tests pass on the tree this plan starts from | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p66-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/RoutingNegotiationTests -only-testing:schematicalTests/RoutingPolishTests -only-testing:schematicalTests/RoutingApplyTests -only-testing:schematicalTests/RoutingOptionsTests` → `** TEST SUCCEEDED **` | MET (2026-11-25, re-run: `Executed 34 tests, with 0 failures` in 58.9 s, `** TEST SUCCEEDED **`) |
-| The option does not exist yet | `grep -rn 'pushAndShove' schematical docs planning --include='*.swift' --include='*.md' -l \| grep -v plan-66` → no output | MET (2026-11-25: no output) |
+| The cutouts plan's router letter has landed | `ls planning/completed \| grep -c '^plan-65-D'` → 1. It edits `RoutingProblem.swift`, `RoutingProblemBuilder.swift`, `RoutingGrid.swift` (`stampEdge`), `RoutingVerifier.swift`, `RoutingCleanup.swift` and `RoutingTestBoard.swift`, files this plan edits too; two plans may not braid, so this one starts after it | MET (2026-11-25, re-run on the second `/follow-plan 66`: `ls planning/completed \| grep -c '^plan-65-D'` → 1; plan-65-A…J are all in `planning/completed/`; router commit `7ade3de0` "plan-65-D: the autorouter reads the board edge"). The first invocation found it NOT MET (→ 0) and stopped |
+| No other unfinished plan edits the router | `grep -ln 'Routing/' planning/plan-*.md \| grep -v 'plan-66\|plan-65'` → no output; `git log --oneline -3 -- schematical/schematical/Routing` shows only commits already on `main` | MET (2026-11-25 re-run: the grep → no output (`plan-63-F` is no longer listed); newest routing commit `7ade3de0`, on `main`) |
+| The router's own tests pass on the tree this plan starts from | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p66-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/RoutingNegotiationTests -only-testing:schematicalTests/RoutingPolishTests -only-testing:schematicalTests/RoutingApplyTests -only-testing:schematicalTests/RoutingOptionsTests` → `** TEST SUCCEEDED **` | MET (2026-11-25, re-run in `worktree-P-66` on `main` at `2cc13337` (plan-65 landed): `Executed 34 tests, with 0 failures` in 58.1 s, `** TEST SUCCEEDED **`; the test files had the Phase 1 board move applied mid-build — a pure move, same 34 tests) |
+| The option does not exist yet | `grep -rn 'pushAndShove' schematical docs planning --include='*.swift' --include='*.md' -l \| grep -v plan-66` → no output | MET (2026-11-25, re-run: no output) |
 
 Everything below is written against the world where these hold. There is no
 fallback for a world where they don't. Line numbers in this plan are from the
@@ -215,7 +215,7 @@ No premise waits on a later measurement.
 
 Pin today's output first, so the pin is recorded against the code that exists.
 
-- [ ] `schematicalTests/RoutingTestBoard.swift`: move the three boards `twoGaps`,
+- [x] (`RoutingTestBoard.swift` now has the `extension RoutingTestBoard` with the four boards; the call sites read `RoutingTestBoard.twoGaps()` etc.; the Check below passes) `schematicalTests/RoutingTestBoard.swift`: move the three boards `twoGaps`,
       `reversedChannel` (from `RoutingNegotiationTests.swift`) and `crossing`
       (from `RoutingPolishTests.swift`) out of those classes, unchanged, as
       `static func twoGaps() / reversedChannel() / crossing() -> RoutingTestBoard`
@@ -225,7 +225,7 @@ Pin today's output first, so the pin is recorded against the code that exists.
       two 1 × 1 mm pads: net 1 at (3, 10) and (17, 10), net 2 at (3, 6) and
       (17, 6), net 3 at (3, 14) and (17, 14). Nothing blocks any of them, so the
       first pass routes all three and nothing is ever ripped up.
-- [ ] `schematicalTests/RoutingAnchorTests.swift` (new): for each of the four
+- [x] (eight board tests, literals filled from the unmodified tree; a second build and run reproduced every value: `Executed 9 tests, with 0 failures`) `schematicalTests/RoutingAnchorTests.swift` (new): for each of the four
       boards, `Router.route` at `.fast` and at `.balanced`, with the option
       untouched, then assert `routed`, `vias`, `bends`, `rips`, `wireLength` (to 1e-6) and
       `geometryHash`, a helper that rounds every point of every result trace and
@@ -234,7 +234,7 @@ Pin today's output first, so the pin is recorded against the code that exists.
       from the run on this unmodified tree (the test prints them with a
       `ANCHOR <board> <strategy> …` line when the literals are `nil`; the
       first run fills them in and the file is committed with the literals).
-- [ ] A fifth test, `testRegFileFastIsPinned`: `Fixture.open("RegFile")`,
+- [x] (`ANCHOR RegFile fast routed 24 vias 29 bends 87 rips 54 wire 301.450727907`, passes in Debug) A fifth test, `testRegFileFastIsPinned`: `Fixture.open("RegFile")`,
       `RoutingOptions.fixture` (Fast in Debug), the same assertions on the result,
       skipped in a Release build where `fixture` is Balanced.
 
@@ -245,7 +245,10 @@ letter, and their literals are in the file.
   -only-testing:schematicalTests/RoutingPolishTests` → `** TEST SUCCEEDED **`
   (est. 3 min: the 1 m 52 s measured for four classes, plus RegFile at Fast in
   Debug, about 50 s, the figure plan-38's table gives).
-Commit: —
+  Measured: `Executed 30 tests, with 0 failures in 100.3 s`, `** TEST SUCCEEDED **`
+  (anchors 9 in 47.6 s, Negotiation 10 in 27.1 s, Polish 11 in 25.6 s). The nine
+  anchors are 8 board tests (four boards × Fast, Balanced) plus RegFile.
+Commit: — (recorded in the next commit)
 
 ### Phase 2 — the option and the counters
 
@@ -278,7 +281,7 @@ Commit: —
 
 ## Validation Plan
 
-- Tests: `RoutingAnchorTests` (new, five), `RoutingOptionsTests` (+1, 1 edited),
+- Tests: `RoutingAnchorTests` (new, nine), `RoutingOptionsTests` (+1, 1 edited),
   `AutorouteModelTests` (1 edited).
 - Coverage check: the anchors call `Router.route` at both strategies on four
   boards plus RegFile, so every stage of the engine (plan, negotiation,
@@ -309,7 +312,13 @@ Commit: —
 
 ## Corrections
 
-<!-- Filled during execution. -->
+- **The anchor count is nine, not five** (2026-11-25). The plan says "five tests"
+  and "(new, five)": four boards, each at Fast *and* Balanced, is eight board
+  tests, plus the RegFile one. Measured: `Executed 9 tests` in `RoutingAnchorTests`.
+  Validation Plan corrected below.
+- **The Prerequisites gate was first NOT MET** (plan-65-D unlanded), the run
+  stopped, and was repeated after the cutouts plan landed; the table above holds
+  the later measurements.
 
 ## Summary
 

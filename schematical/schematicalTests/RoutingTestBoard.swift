@@ -136,3 +136,63 @@ struct RoutingTestBoard {
                               removedTraces: [], removedVias: [])
     }
 }
+
+/// Boards shared by the router's tests and the regression anchors.
+extension RoutingTestBoard {
+    /// Two gaps in a wall of net 9, one layer, no vias: A (y 9.4–10.6) fits
+    /// either net, B (y 3.6–4.4) only net 1, since net 2 keeps a 0.2 mm
+    /// clearance. The single pass routes net 1 first (shorter), through A;
+    /// net 2 can then only be routed by moving net 1 to B.
+    static func twoGaps() -> RoutingTestBoard {
+        var board = RoutingTestBoard(width: 20, height: 20, layers: [.top])
+        board.options.grid = 0.1
+        board.options.vias = .none
+        board.pad(3, 10, 1, 1, net: 1)
+        board.pad(17, 10, 1, 1, net: 1)
+        board.pad(3, 13, 1, 1, net: 2)
+        board.pad(17, 16, 1, 1, net: 2)
+        board.clearance[2] = 0.2
+        board.trace([CGPoint(x: 10, y: 0), CGPoint(x: 10, y: 3.6)], net: 9)
+        board.trace([CGPoint(x: 10, y: 4.4), CGPoint(x: 10, y: 9.4)], net: 9)
+        board.trace([CGPoint(x: 10, y: 10.6), CGPoint(x: 10, y: 20)], net: 9)
+        return board
+    }
+
+    /// Six nets from the left to the right in reversed order, two layers.
+    static func reversedChannel() -> RoutingTestBoard {
+        var board = RoutingTestBoard(width: 20, height: 20)
+        board.options.grid = 0.1
+        for i in 0..<6 {
+            board.pad(2, 4 + Double(i) * 2.4, 1, 1, net: i + 1)
+            board.pad(18, 4 + Double(5 - i) * 2.4, 1, 1, net: i + 1)
+        }
+        // Walls above and below the channel.
+        board.trace([CGPoint(x: 5, y: 2), CGPoint(x: 15, y: 2)], width: 0.5, net: 9)
+        board.trace([CGPoint(x: 5, y: 18), CGPoint(x: 15, y: 18)], width: 0.5, net: 9)
+        return board
+    }
+
+    /// Eight nets from a left column to a right column in the opposite
+    /// order: every pair crosses.
+    static func crossing() -> RoutingTestBoard {
+        var board = RoutingTestBoard(width: 30, height: 24)
+        board.options.grid = 0.127
+        for i in 0..<8 {
+            board.pad(4, 5 + 2 * Double(i), 1.2, 0.8, net: i + 1)
+            board.pad(26, 19 - 2 * Double(i), 1.2, 0.8, net: i + 1)
+        }
+        return board
+    }
+
+    /// Three straight, unobstructed nets on Top: the first pass routes all of
+    /// them and nothing is ever ripped up.
+    static func parallelRows() -> RoutingTestBoard {
+        var board = RoutingTestBoard(width: 20, height: 20)
+        board.options.grid = 0.127
+        for (net, y) in [(1, 10.0), (2, 6.0), (3, 14.0)] {
+            board.pad(3, y, 1, 1, net: net)
+            board.pad(17, y, 1, 1, net: net)
+        }
+        return board
+    }
+}
