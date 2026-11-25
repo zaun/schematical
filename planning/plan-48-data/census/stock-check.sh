@@ -24,7 +24,7 @@ python3 -I $here/to-check.py $raw $cand $out $state ${VERDICTS:-} | while IFS=$'
     print -r -- "stock-check: stopped with $left calls left today (reserve ${STOCK_CHECK_RESERVE:-20}); run again tomorrow"
     stop=1
   fi
-  if grep -q 'rate limited\|429' $raw/stock-check.last; then
+  if grep -q 'rate limited' $raw/stock-check.last; then
     cat $raw/stock-check.last; exit 1
   fi
   if [[ -z $json ]] && ! grep -q '^digikey:' $raw/stock-check.last; then

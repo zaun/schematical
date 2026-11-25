@@ -1,0 +1,503 @@
+type	company	pdf	package	supplier_package	circuits	rows	example	pinout	scheme	facts
+opamp	adi	datasheets/opamp/adi/1028fd.pdf	8-SOIC (0.154", 3.90mm Width)	8-SO	1	1	LT1028CS8#TRPBF			
+opamp	adi	datasheets/opamp/adi/10556fd.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	1	1	LT1055CN8#PBF			
+opamp	adi	datasheets/opamp/adi/10556fd.pdf	8-SOIC (0.154", 3.90mm Width)	8-SO	1	1	LT1055S8#TRPBF			
+opamp	adi	datasheets/opamp/adi/1366fb.pdf	8-SOIC (0.154", 3.90mm Width)	8-SO	2	3	LT1366CS8#PBF			
+opamp	adi	datasheets/opamp/adi/14901afd.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	2	1	LT1490AIMS8#TRPBF			
+opamp	adi	datasheets/opamp/adi/16389fg.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	2	1	LT1638CMS8#TRPBF			
+opamp	adi	datasheets/opamp/adi/1782fc.pdf	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	1	3	LT1782CS5#TRMPBF			
+opamp	adi	datasheets/opamp/adi/1783fd.pdf	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	1	1	LT1783IS5#TRMPBF			
+opamp	adi	datasheets/opamp/adi/1783fd.pdf	SOT-23-6 Thin, TSOT-23-6	TSOT-23-6	1	1	LT1783IS6#TRMPBF			
+opamp	adi	datasheets/opamp/adi/1797fc.pdf	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	1	1	LT1797IS5#TRMPBF			
+opamp	adi	datasheets/opamp/adi/1800fa.pdf	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	1	1	LT1800CS5#TRMPBF			
+opamp	adi	datasheets/opamp/adi/1880fa.pdf	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	1	1	LT1880IS5#TRMPBF			
+opamp	adi	datasheets/opamp/adi/600345fd.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	2	1	LT6004IMS8#TRPBF			
+opamp	adi	datasheets/opamp/adi/600345fd.pdf	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	1	1	LT6003CS5#TRPBF			
+opamp	adi	datasheets/opamp/adi/60112fc.pdf	14-SOIC (0.154", 3.90mm Width)	14-SO	4	1	LT6012CS#TRPBF			
+opamp	adi	datasheets/opamp/adi/601567ff.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	2	2	LT6016IMS8#TRPBF			
+opamp	adi	datasheets/opamp/adi/601567ff.pdf	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	1	1	LT6015MPS5#TRMPBF			
+opamp	adi	datasheets/opamp/adi/60812fd.pdf	10-WFDFN Exposed Pad	10-DFN (3x3)	2	1	LTC6081IDD#TRPBF			
+opamp	adi	datasheets/opamp/adi/60878fd.pdf	16-SSOP (0.154", 3.90mm Width)	16-SSOP	4	1	LTC6088CGN#PBF			
+opamp	adi	datasheets/opamp/adi/62001ff.pdf	SOT-23-6 Thin, TSOT-23-6	TSOT-23-6	1	1	LT6200CS6#TRMPBF			
+opamp	adi	datasheets/opamp/adi/620234fd.pdf	8-WFDFN Exposed Pad	8-DFN (3x3)	2	2	LT6203CDD#TRPBF			
+opamp	adi	datasheets/opamp/adi/622012fc.pdf	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	1	3	LT6220CS5#TRPBF			
+opamp	adi	datasheets/opamp/adi/623012fc.pdf	8-SOIC (0.154", 3.90mm Width)	8-SO	2	1	LT6231IS8#PBF			
+opamp	adi	datasheets/opamp/adi/623012fc.pdf	8-WFDFN Exposed Pad	8-DFN (3x3)	2	1	LT6231CDD#TRPBF			
+opamp	adi	datasheets/opamp/adi/623012fc.pdf	SOT-23-6 Thin, TSOT-23-6	TSOT-23-6	1	4	LT6230CS6#TRMPBF			
+opamp	adi	datasheets/opamp/adi/623345fc.pdf	8-SOIC (0.154", 3.90mm Width)	8-SO	2	1	LT6234IS8#PBF			
+opamp	adi	datasheets/opamp/adi/623345fc.pdf	8-WFDFN Exposed Pad	8-DFN (3x3)	2	1	LT6234IDD#TRPBF			
+opamp	adi	datasheets/opamp/adi/623345fc.pdf	SOT-23-6 Thin, TSOT-23-6	TSOT-23-6	1	2	LT6233IS6#TRMPBF			
+opamp	adi	datasheets/opamp/adi/623637fb.pdf	SOT-23-6 Thin, TSOT-23-6	TSOT-23-6	1	1	LT6236IS6#TRMPBF			
+opamp	adi	datasheets/opamp/adi/624012fe.pdf	8-SOIC (0.154", 3.90mm Width)	8-SO	1	1	LTC6240HVCS8#PBF			
+opamp	adi	datasheets/opamp/adi/624012fe.pdf	8-SOIC (0.154", 3.90mm Width)	8-SO	2	1	LTC6241HVCS8#TRPBF			
+opamp	adi	datasheets/opamp/adi/624012fe.pdf	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	1	5	LTC6240HVIS5#TRMPBF			
+opamp	adi	datasheets/opamp/adi/6244fb.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	2	1	LTC6244IMS8#TRPBF			
+opamp	adi	datasheets/opamp/adi/ad797.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	AD797ARZ			
+opamp	adi	datasheets/opamp/adi/ad820.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	AD820ARZ-REEL			
+opamp	adi	datasheets/opamp/adi/ad823.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	2	AD823ARZ-RL			
+opamp	adi	datasheets/opamp/adi/ad8244.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	10-MSOP	4	1	AD8244BRMZ-R7			
+opamp	adi	datasheets/opamp/adi/ad825.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	2	AD825ARZ			
+opamp	adi	datasheets/opamp/adi/ad8500.pdf	5-TSSOP, SC-70-5, SOT-353	SC-70-5	1	1	AD8500AKSZ-REEL7			
+opamp	adi	datasheets/opamp/adi/ad8502_8504.pdf	SOT-23-8	SOT-23-8	2	1	AD8502ARJZ-REEL7			
+opamp	adi	datasheets/opamp/adi/ad8505_8506_8508.pdf	SC-74A, SOT-753	SOT-23-5	1	1	AD8505ARJZ-R7			
+opamp	adi	datasheets/opamp/adi/ad8510_8512_8513.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	AD8510ARZ			
+opamp	adi	datasheets/opamp/adi/ad8510_8512_8513.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	1	1	AD8510ARMZ-REEL			
+opamp	adi	datasheets/opamp/adi/ad8515.pdf	5-TSSOP, SC-70-5, SOT-353	SC-70-5	1	2	AD8515AKSZ-REEL			
+opamp	adi	datasheets/opamp/adi/ad8515.pdf	SC-74A, SOT-753	SOT-23-5	1	2	AD8515ARTZ-REEL7			
+opamp	adi	datasheets/opamp/adi/ad8519_8529.pdf	5-TSSOP, SC-70-5, SOT-353	SC-70-5	1	1	AD8519AKSZ-REEL7			
+opamp	adi	datasheets/opamp/adi/ad8519_8529.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	2	1	AD8529ARMZ-REEL			
+opamp	adi	datasheets/opamp/adi/ad8531_8532_8534.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	AD8534ARUZ			
+opamp	adi	datasheets/opamp/adi/ad8531_8532_8534.pdf	5-TSSOP, SC-70-5, SOT-353	SC-70-5	1	1	AD8531AKSZ-REEL7			
+opamp	adi	datasheets/opamp/adi/ad8531_8532_8534.pdf	SC-74A, SOT-753	SOT-23-5	1	1	AD8531ARTZ-REEL7			
+opamp	adi	datasheets/opamp/adi/ad8541_8542_8544.pdf	14-SOIC (0.154", 3.90mm Width)	14-SOIC	4	3	AD8544ARZ			
+opamp	adi	datasheets/opamp/adi/ad8541_8542_8544.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	2	AD8544ARUZ-REEL			
+opamp	adi	datasheets/opamp/adi/ad8541_8542_8544.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	AD8541ARZ-REEL7			
+opamp	adi	datasheets/opamp/adi/ad8565_8566_8567.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	AD8567ARUZ-REEL			
+opamp	adi	datasheets/opamp/adi/ad8565_8566_8567.pdf	5-TSSOP, SC-70-5, SOT-353	SC-70-5	1	1	AD8565AKSZ-REEL7			
+opamp	adi	datasheets/opamp/adi/ad8565_8566_8567.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	2	1	AD8566WARMZ-REEL			
+opamp	adi	datasheets/opamp/adi/ad8591_8592_8594.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	10-MSOP	2	1	AD8592ARMZ-REEL			
+opamp	adi	datasheets/opamp/adi/ad8601_8602_8604.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	AD8602DRZ-REEL			
+opamp	adi	datasheets/opamp/adi/ad8601_8602_8604.pdf	SC-74A, SOT-753	SOT-23-5	1	3	AD8601ARTZ-REEL7			
+opamp	adi	datasheets/opamp/adi/ad8603_8607_8609.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	AD8607ARZ-REEL			
+opamp	adi	datasheets/opamp/adi/ad8603_8607_8609.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	2	1	AD8607ARMZ-REEL			
+opamp	adi	datasheets/opamp/adi/ad8603_8607_8609.pdf	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	1	1	AD8603AUJZ-REEL			
+opamp	adi	datasheets/opamp/adi/ad8605_8606_8608.pdf	5-UFBGA, WLCSP	5-WLCSP (0.9x1.29)	1	1	AD8605ACBZ-REEL7			
+opamp	adi	datasheets/opamp/adi/ad8605_8606_8608.pdf	8-WFBGA, WLCSP	8-WLCSP (1.43x1.775)	2	1	AD8606ACBZ-REEL7			
+opamp	adi	datasheets/opamp/adi/ad8610_8620.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	AD8610ARZ			
+opamp	adi	datasheets/opamp/adi/ad8613_8617_8619.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	AD8619ARUZ-REEL			
+opamp	adi	datasheets/opamp/adi/ad8613_8617_8619.pdf	5-TSSOP, SC-70-5, SOT-353	SC-70-5	1	1	AD8613AKSZ-REEL			
+opamp	adi	datasheets/opamp/adi/ad8613_8617_8619.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	2	1	AD8617ARMZ-REEL			
+opamp	adi	datasheets/opamp/adi/ad8615_8616_8618.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	AD8616ARZ-REEL			
+opamp	adi	datasheets/opamp/adi/ad8615_8616_8618.pdf	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	1	2	AD8615AUJZ-REEL7			
+opamp	adi	datasheets/opamp/adi/ad8625_8626_8627.pdf	5-TSSOP, SC-70-5, SOT-353	SC-70-5	1	2	AD8627AKSZ-REEL7			
+opamp	adi	datasheets/opamp/adi/ad8625_8626_8627.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	AD8627ARZ			
+opamp	adi	datasheets/opamp/adi/ad8625_8626_8627.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	2	1	AD8626ARMZ-REEL			
+opamp	adi	datasheets/opamp/adi/ad8641_8642_8643.pdf	16-WFQFN Exposed Pad, CSP	16-LFCSP-WQ (3x3)	4	1	AD8643ACPZ-REEL7			
+opamp	adi	datasheets/opamp/adi/ad8641_8642_8643.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	2	1	AD8642ARMZ-REEL			
+opamp	adi	datasheets/opamp/adi/ad8646_8647_8648.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	10-MSOP	2	2	AD8647ARMZ-REEL			
+opamp	adi	datasheets/opamp/adi/ad8646_8647_8648.pdf	14-SOIC (0.154", 3.90mm Width)	14-SOIC	4	2	AD8648ARZ			
+opamp	adi	datasheets/opamp/adi/ad8655_8656.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	AD8655ARZ-REEL7			
+opamp	adi	datasheets/opamp/adi/ad8655_8656.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	AD8656ARZ-REEL			
+opamp	adi	datasheets/opamp/adi/ad8655_8656.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	1	1	AD8655ARMZ-REEL			
+opamp	adi	datasheets/opamp/adi/ad8663_8667_8669.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	2	1	AD8667ARMZ-REEL			
+opamp	adi	datasheets/opamp/adi/ad8665_ad8666_ad8668.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	2	AD8666ARZ			
+opamp	adi	datasheets/opamp/adi/ad8665_ad8666_ad8668.pdf	SC-74A, SOT-753	SOT-23-5	1	1	AD8665ARJZ-REEL7			
+opamp	adi	datasheets/opamp/adi/ad8671_8672_8674.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	AD8674ARUZ-REEL			
+opamp	adi	datasheets/opamp/adi/ad8675.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	AD8675ARZ-REEL7			
+opamp	adi	datasheets/opamp/adi/ad8677.pdf	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	1	1	AD8677AUJZ-REEL7			
+opamp	adi	datasheets/opamp/adi/ad8691_8692_8694.pdf	5-TSSOP, SC-70-5, SOT-353	SC-70-5	1	1	AD8691AKSZ-REEL7			
+opamp	adi	datasheets/opamp/adi/ad8691_8692_8694.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	2	1	AD8692ARMZ-REEL			
+opamp	adi	datasheets/opamp/adi/ada4000-1_4000-2_4000-4.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	2	1	ADA4000-2ARMZ-RL			
+opamp	adi	datasheets/opamp/adi/ada4000-1_4000-2_4000-4.pdf	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	1	1	ADA4000-1AUJZ-R7			
+opamp	adi	datasheets/opamp/adi/ada4004-1_4004-2_4004-4.pdf	16-WQFN Exposed Pad, CSP	16-LFCSP (4x4)	4	1	ADA4004-4ACPZ-R7			
+opamp	adi	datasheets/opamp/adi/ada4004-1_4004-2_4004-4.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	ADA4004-1ARZ-R7			
+opamp	adi	datasheets/opamp/adi/ada4004-1_4004-2_4004-4.pdf	SC-74A, SOT-753	SOT-23-5	1	1	ADA4004-1ARJZ-R7			
+opamp	adi	datasheets/opamp/adi/ada4062-2_4062-4.pdf	10-UFQFN, CSP	10-LFCSP-UQ (1.6x1.3)	2	1	ADA4062-2ACPZ-R7			
+opamp	adi	datasheets/opamp/adi/ada4062-2_4062-4.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	ADA4062-2ARZ-R7			
+opamp	adi	datasheets/opamp/adi/ada4084-1_4084-2_4084-4.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	ADA4084-2ARZ-RL			
+opamp	adi	datasheets/opamp/adi/ada4084-1_4084-2_4084-4.pdf	8-WFDFN Exposed Pad, CSP	8-LFCSP-WD (3x3)	2	1	ADA4084-2ACPZ-R7			
+opamp	adi	datasheets/opamp/adi/ada4084-1_4084-2_4084-4.pdf	SC-74A, SOT-753	SOT-23-5	1	1	ADA4084-1ARJZ-R7			
+opamp	adi	datasheets/opamp/adi/ada4096-2_4096-4.pdf	16-WFQFN Exposed Pad, CSP	16-LFCSP-WQ (3x3)	4	1	ADA4096-4ACPZ-R7			
+opamp	adi	datasheets/opamp/adi/ada4098-1_ada4098-2.pdf	SOT-23-6 Thin, TSOT-23-6	TSOT-6	1	1	ADA4098-1BUJZ-RL7			
+opamp	adi	datasheets/opamp/adi/ada4177-1_4177-2_4177-4.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	ADA4177-2ARZ-R7			
+opamp	adi	datasheets/opamp/adi/ada4505-1_4505-2_4505-4.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	2	1	ADA4505-2ARMZ-RL			
+opamp	adi	datasheets/opamp/adi/ada4610-1_4610-2_4610-4.pdf	SC-74A, SOT-753	SOT-23-5	1	2	ADA4610-1ARJZ-RL			
+opamp	adi	datasheets/opamp/adi/ada4661-2.pdf	8-WFDFN Exposed Pad, CSP	8-LFCSP-WD (3x3)	2	1	ADA4661-2ACPZ-RL			
+opamp	adi	datasheets/opamp/adi/ada4666-2.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	2	1	ADA4666-2ARMZ-RL			
+opamp	adi	datasheets/opamp/adi/ada4666-2.pdf	8-WFDFN Exposed Pad, CSP	8-LFCSP-WD (3x3)	2	1	ADA4666-2ACPZ-R7			
+opamp	adi	datasheets/opamp/adi/ada4691-2_4691-4_4692-2_4692-4.pdf	8-UFDFN, CSP	8-LFCSP-UD (2x2)	2	1	ADA4692-2ACPZ-R7			
+opamp	adi	datasheets/opamp/adi/ada4691-2_4691-4_4692-2_4692-4.pdf	9-UFBGA, WLCSP	9-WLCSP (1.21x1.22)	2	1	ADA4691-2ACBZ-R7			
+opamp	adi	datasheets/opamp/adi/ada4841-1_4841-2.pdf	8-WFDFN Exposed Pad, CSP	8-LFCSP-WD (3x3)	2	1	ADA4841-2YCPZ-R7			
+opamp	adi	datasheets/opamp/adi/ada4891-1_4891-2_4891-3_4891-4.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	2	2	ADA4891-2WARMZ-R7			
+opamp	adi	datasheets/opamp/adi/ada4891-1_4891-2_4891-3_4891-4.pdf	SC-74A, SOT-753	SOT-23-5	1	2	ADA4891-1ARJZ-R7			
+opamp	adi	datasheets/opamp/adi/max40007.pdf	6-XFBGA, WLPBGA	6-WLP (1.08x0.73)	1	1	MAX40007ANT+T			
+opamp	adi	datasheets/opamp/adi/max40023-max40024.pdf	6-XFBGA, WLBGA	6-WLP (1.23x.83)	1	1	MAX40023ANT+T			
+opamp	adi	datasheets/opamp/adi/max40023-max40024.pdf	9-XFBGA, WLBGA	9-WLP (1.23x1.23)	2	1	MAX40024ANL+T			
+opamp	adi	datasheets/opamp/adi/max4036-max4039.pdf	5-TSSOP, SC-70-5, SOT-353	SC-70-5	1	1	MAX4036EXK+T			
+opamp	adi	datasheets/opamp/adi/max4040-max4044.pdf	SC-74A, SOT-753	SOT-23-5	1	1	MAX4040EUK+T			
+opamp	adi	datasheets/opamp/adi/max4130-max4134.pdf	SC-74A, SOT-753	SOT-23-5	1	1	MAX4130EUK+T			
+opamp	adi	datasheets/opamp/adi/max4162-max4164.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-uMAX/uSOP	2	1	MAX4163EUA+T			
+opamp	adi	datasheets/opamp/adi/max4162-max4164.pdf	SC-74A, SOT-753	SOT-23-5	1	1	MAX4162EUK+T			
+opamp	adi	datasheets/opamp/adi/max4230-max4234.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	10-uMAX/uSOP	2	1	MAX4233AUB+T			
+opamp	adi	datasheets/opamp/adi/max4230-max4234.pdf	5-TSSOP, SC-70-5, SOT-353	SC-70-5	1	1	MAX4230AXK+T			
+opamp	adi	datasheets/opamp/adi/max4230-max4234.pdf	6-UFLGA	6-UTLGA (1.5x1.0)	1	1	MAX4231AYT+T			
+opamp	adi	datasheets/opamp/adi/max4236-max4237.pdf	SOT-23-6	SOT-23-6	1	1	MAX4236EUT+T			
+opamp	adi	datasheets/opamp/adi/max4238-max4239.pdf	6-WDFN Exposed Pad	6-TDFN (3x3)	1	1	MAX4238ATT+T			
+opamp	adi	datasheets/opamp/adi/max4238-max4239.pdf	SOT-23-6	SOT-23-6	1	1	MAX4238AUT+T			
+opamp	adi	datasheets/opamp/adi/max4245-max4247.pdf	SOT-23-8	SOT-23-8	2	1	MAX4246AKA+T			
+opamp	adi	datasheets/opamp/adi/max4249-max4257.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-uMAX/uSOP	2	1	MAX4252EUA+T			
+opamp	adi	datasheets/opamp/adi/max4249-max4257.pdf	8-WFBGA, CSPBGA	8-UCSP (1.6x1.6)	2	1	MAX4252EBL+T			
+opamp	adi	datasheets/opamp/adi/max4249-max4257.pdf	SC-74A, SOT-753	SOT-23-5	1	1	MAX4250EUK+T			
+opamp	adi	datasheets/opamp/adi/max4291-max4294.pdf	5-TSSOP, SC-70-5, SOT-353	SC-70-5	1	1	MAX4291EXK+T			
+opamp	adi	datasheets/opamp/adi/max4291-max4294.pdf	SC-74A, SOT-753	SOT-23-5	1	1	MAX4291EUK+T			
+opamp	adi	datasheets/opamp/adi/max4330-max4334.pdf	SC-74A, SOT-753	SOT-23-5	1	1	MAX4330EUK+T			
+opamp	adi	datasheets/opamp/adi/max4400-max4403.pdf	SOT-23-8	SOT-23-8	2	1	MAX4402AKA+T			
+opamp	adi	datasheets/opamp/adi/max44241-max44246.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-uMAX/uSOP	2	1	MAX44246AUA+T			
+opamp	adi	datasheets/opamp/adi/max44280.pdf	6-UFLGA	6-UTLGA (1.5x1.0)	1	1	MAX44280AYT+T			
+opamp	adi	datasheets/opamp/adi/max44281.pdf	4-UFBGA, WLBGA	4-WLP (0.84x0.84)	1	1	MAX44281OANS+T			
+opamp	adi	datasheets/opamp/adi/max44290.pdf	6-XFBGA, WLPBGA	6-WLP (1.24x0.84)	1	1	MAX44290ANT+T			
+opamp	adi	datasheets/opamp/adi/max4464-max4474.pdf	SC-74A, SOT-753	SOT-23-5	1	1	MAX4464EUK+T			
+opamp	adi	datasheets/opamp/adi/max4464-max4474.pdf	SOT-23-8	SOT-23-8	2	1	MAX4471EKA+T			
+opamp	adi	datasheets/opamp/adi/max4475-max4489.pdf	14-SOIC (0.154", 3.90mm Width)	14-SOIC	4	1	MAX4478ASD+T			
+opamp	adi	datasheets/opamp/adi/max4475-max4489.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	MAX4478AUD+T			
+opamp	adi	datasheets/opamp/adi/max4475-max4489.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-uMAX/uSOP	2	2	MAX4477AUA+T			
+opamp	adi	datasheets/opamp/adi/max4475-max4489.pdf	SOT-23-6	SOT-23-6	1	1	MAX4475AUT+T			
+opamp	adi	datasheets/opamp/adi/max4490-max4492.pdf	SC-74A, SOT-753	SOT-23-5	1	1	MAX4490AUK+T			
+opamp	adi	datasheets/opamp/adi/max4493-max4495.pdf	SOT-23-8	SOT-23-8	2	1	MAX4494AKA+T			
+opamp	adi	datasheets/opamp/adi/max9613-max9615.pdf	6-TSSOP, SC-88, SOT-363	SC-70-6	1	1	MAX9613AXT+T			
+opamp	adi	datasheets/opamp/adi/max9613-max9615.pdf	8-TFSOP (0.049", 1.25mm Width)	SC-70-8	2	1	MAX9615AXA+T			
+opamp	adi	datasheets/opamp/adi/max9636-max9638.pdf	6-TSSOP, SC-88, SOT-363	SC-70-6	1	1	MAX9636AXT+T			
+opamp	adi	datasheets/opamp/adi/max9636-max9638.pdf	8-TFSOP (0.049", 1.25mm Width)	SC-70-8	2	1	MAX9637AXA+T			
+opamp	adi	datasheets/opamp/adi/max9910-max9913.pdf	5-TSSOP, SC-70-5, SOT-353	SC-70-5	1	1	MAX9910EXK+T			
+opamp	adi	datasheets/opamp/adi/max9910-max9913.pdf	6-TSSOP, SC-88, SOT-363	SC-70-6	1	1	MAX9911EXT+T			
+opamp	adi	datasheets/opamp/adi/max9914-max9917.pdf	5-TSSOP, SC-70-5, SOT-353	SC-70-5	1	1	MAX9914EXK+T			
+opamp	adi	datasheets/opamp/adi/max9914-max9917.pdf	6-TSSOP, SC-88, SOT-363	SC-70-6	1	1	MAX9915EXT+T			
+opamp	adi	datasheets/opamp/adi/max9914-max9917.pdf	SOT-23-8	SOT-23-8	2	1	MAX9916EKA+T			
+opamp	adi	datasheets/opamp/adi/op162_262_462.pdf	8-TSSOP (0.173", 4.40mm Width)	8-TSSOP	2	1	OP262HRUZ-REEL			
+opamp	adi	datasheets/opamp/adi/op196_296_496.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	OP296GSZ-REEL			
+opamp	adi	datasheets/opamp/adi/op196_296_496.pdf	8-TSSOP (0.173", 4.40mm Width)	8-TSSOP	2	1	OP296HRUZ-REEL			
+opamp	adi	datasheets/opamp/adi/op27.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	3	OP27GSZ-REEL			
+opamp	adi	datasheets/opamp/adi/op282_482.pdf	14-SOIC (0.154", 3.90mm Width)	14-SOIC	4	2	OP482GSZ-REEL7			
+opamp	adi	datasheets/opamp/adi/op282_482.pdf	14-UFBGA, WLCSP	14-WLCSP (1.128x2.123)	4	1	OP482ACBZ-R7			
+opamp	adi	datasheets/opamp/adi/op295_495.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	OP295GSZ			
+opamp	adi	datasheets/opamp/adi/op777_727_747.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	OP777ARZ-REEL			
+opamp	adi	datasheets/opamp/adi/op777_727_747.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	1	1	OP777ARMZ-REEL			
+opamp	st	datasheets/opamp/st/en.cd00000054.pdf	16-SOIC (0.154", 3.90mm Width)	16-SO	2	1	L272D			
+opamp	st	datasheets/opamp/st/en.cd00000453.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	LF351DT			
+opamp	st	datasheets/opamp/st/en.cd00000454.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	LF353DT			
+opamp	st	datasheets/opamp/st/en.cd00000464.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	6	LM158DT			
+opamp	st	datasheets/opamp/st/en.cd00000464.pdf	8-TSSOP (0.173", 4.40mm Width)	8-TSSOP	2	2	LM358PT			
+opamp	st	datasheets/opamp/st/en.cd00000464.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MiniSO	2	2	LM358AST			
+opamp	st	datasheets/opamp/st/en.cd00000464.pdf	8-UFDFN Exposed Pad	8-DFN (2x2)	2	1	LM358QT			
+opamp	st	datasheets/opamp/st/en.cd00000474.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	2	MC33078DT			
+opamp	st	datasheets/opamp/st/en.cd00000478.pdf	8-TSSOP (0.173", 4.40mm Width)	8-TSSOP	2	1	MC4558CPT			
+opamp	st	datasheets/opamp/st/en.cd00000485.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	2	TL061CDT			
+opamp	st	datasheets/opamp/st/en.cd00000486.pdf	8-SOIC (0.154", 3.90mm Width)	8-SO	2	1	TL062ACDT			
+opamp	st	datasheets/opamp/st/en.cd00000486.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	TL062IDT			
+opamp	st	datasheets/opamp/st/en.cd00000487.pdf	14-SOIC (0.154", 3.90mm Width)	14-SO	4	3	TL064CDT			
+opamp	st	datasheets/opamp/st/en.cd00000488.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	TL071IDT			
+opamp	st	datasheets/opamp/st/en.cd00000489.pdf	14-SOIC (0.154", 3.90mm Width)	14-SO	4	4	TL074CDT			
+opamp	st	datasheets/opamp/st/en.cd00000490.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	4	TL072CDT			
+opamp	st	datasheets/opamp/st/en.cd00000491.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	TL081CDT			
+opamp	st	datasheets/opamp/st/en.cd00000492.pdf	8-SOIC (0.154", 3.90mm Width)	8-SO	2	1	TL082ACDT			
+opamp	st	datasheets/opamp/st/en.cd00000492.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	3	TL082BIYDT			
+opamp	st	datasheets/opamp/st/en.cd00000492.pdf	8-TSSOP (0.173", 4.40mm Width)	8-TSSOP	2	2	TL082IPT			
+opamp	st	datasheets/opamp/st/en.cd00000494.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	TS271CDT			
+opamp	st	datasheets/opamp/st/en.cd00000496.pdf	14-SOIC (0.154", 3.90mm Width)	14-SO	4	1	TS274IDT			
+opamp	st	datasheets/opamp/st/en.cd00000498.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	2	TS27M2CDT			
+opamp	st	datasheets/opamp/st/en.cd00000501.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	3	TS912BIDT			
+opamp	st	datasheets/opamp/st/en.cd00000533.pdf	14-SOIC (0.154", 3.90mm Width)	14-SO	4	2	LM2902DT			
+opamp	st	datasheets/opamp/st/en.cd00000533.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	2	LM2902PT			
+opamp	st	datasheets/opamp/st/en.cd00000533.pdf	16-VFQFN Exposed Pad	16-QFN (3x3)	4	1	LM2902Q4T			
+opamp	st	datasheets/opamp/st/en.cd00000535.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	LM2904DT			
+opamp	st	datasheets/opamp/st/en.cd00000535.pdf	8-TSSOP (0.173", 4.40mm Width)	8-TSSOP	2	1	LM2904YPT			
+opamp	st	datasheets/opamp/st/en.cd00000535.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MiniSO	2	1	LM2904ST			
+opamp	st	datasheets/opamp/st/en.cd00000535.pdf	8-UFDFN Exposed Pad	8-DFN (2x2)	2	1	LM2904Q2T			
+opamp	st	datasheets/opamp/st/en.cd00001046.pdf	14-SOIC (0.154", 3.90mm Width)	14-SO	4	5	LM324DT			
+opamp	st	datasheets/opamp/st/en.cd00001046.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	2	LM224PT			
+opamp	st	datasheets/opamp/st/en.cd00001046.pdf	16-VFQFN Exposed Pad	16-QFN (3x3)	4	1	LM224QT			
+opamp	st	datasheets/opamp/st/en.cd00001161.pdf	14-SOIC (0.154", 3.90mm Width)	14-SO	4	1	TS924IDT			
+opamp	st	datasheets/opamp/st/en.cd00001161.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	TS924AIPT			
+opamp	st	datasheets/opamp/st/en.cd00001188.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	2	TS922IDT			
+opamp	st	datasheets/opamp/st/en.cd00001188.pdf	8-TSSOP (0.173", 4.40mm Width)	8-TSSOP	2	2	TS922IYPT			
+opamp	st	datasheets/opamp/st/en.cd00001252.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	2	UA741CDT			
+opamp	st	datasheets/opamp/st/en.cd00001337.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	TS921IDT			
+opamp	st	datasheets/opamp/st/en.cd00001338.pdf	14-SOIC (0.154", 3.90mm Width)	14-SO	4	1	TS954IDT			
+opamp	st	datasheets/opamp/st/en.cd00001338.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	TS954IPT			
+opamp	st	datasheets/opamp/st/en.cd00001338.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	TS952IDT			
+opamp	st	datasheets/opamp/st/en.cd00001338.pdf	8-TSSOP (0.173", 4.40mm Width)	8-TSSOP	2	2	TS952IYPT			
+opamp	st	datasheets/opamp/st/en.cd00001338.pdf	SC-74A, SOT-753	SOT-23-5	1	1	TS951ILT			
+opamp	st	datasheets/opamp/st/en.cd00001507.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	TS464CPT			
+opamp	st	datasheets/opamp/st/en.cd00001507.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	TS462CDT			
+opamp	st	datasheets/opamp/st/en.cd00001508.pdf	14-SOIC (0.154", 3.90mm Width)	14-SO	4	1	TS974IDT			
+opamp	st	datasheets/opamp/st/en.cd00001508.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	TS974IPT			
+opamp	st	datasheets/opamp/st/en.cd00001508.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	TS971IDT			
+opamp	st	datasheets/opamp/st/en.cd00001508.pdf	8-TSSOP (0.173", 4.40mm Width)	8-TSSOP	2	1	TS972IPT			
+opamp	st	datasheets/opamp/st/en.cd00001508.pdf	SC-74A, SOT-753	SOT-23-5	1	1	TS971ILT			
+opamp	st	datasheets/opamp/st/en.cd00001647.pdf	SC-74A, SOT-753	SOT-23-5	1	3	TS321AILT			
+opamp	st	datasheets/opamp/st/en.cd00001973.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	TS932IDT			
+opamp	st	datasheets/opamp/st/en.cd00001973.pdf	SC-74A, SOT-753	SOT-23-5	1	2	TS931ILT			
+opamp	st	datasheets/opamp/st/en.cd00002000.pdf	14-SOIC (0.154", 3.90mm Width)	14-SO	4	1	TS944AIDT			
+opamp	st	datasheets/opamp/st/en.cd00002000.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	TS944IPT			
+opamp	st	datasheets/opamp/st/en.cd00002011.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	TS1852IDT			
+opamp	st	datasheets/opamp/st/en.cd00003160.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	2	LM358WDT			
+opamp	st	datasheets/opamp/st/en.cd00003160.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MiniSO	2	2	LM358WST			
+opamp	st	datasheets/opamp/st/en.cd00003594.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MiniSO	2	1	LM2904WHYST			
+opamp	st	datasheets/opamp/st/en.cd00003601.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	LM2904WYDT			
+opamp	st	datasheets/opamp/st/en.cd00003624.pdf	14-SOIC (0.154", 3.90mm Width)	14-SO	4	1	LM2902WDT			
+opamp	st	datasheets/opamp/st/en.cd00045727.pdf	SC-74A, SOT-753	SOT-23-5	1	1	TS507CLT			
+opamp	st	datasheets/opamp/st/en.cd00063292.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	TSV324IPT			
+opamp	st	datasheets/opamp/st/en.cd00063292.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	2	TSV358IYDT			
+opamp	st	datasheets/opamp/st/en.cd00063292.pdf	SC-74A, SOT-753	SOT-23-5	1	2	TSV321RILT			
+opamp	st	datasheets/opamp/st/en.cd00079372.pdf	14-SOIC (0.154", 3.90mm Width)	14-SO	4	1	LMV324IYDT			
+opamp	st	datasheets/opamp/st/en.cd00079372.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	2	LMV324IYPT			
+opamp	st	datasheets/opamp/st/en.cd00079372.pdf	SC-74A, SOT-753	SOT-23-5	1	2	LMV321RILT			
+opamp	st	datasheets/opamp/st/en.cd00127596.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	TSV914AIPT			
+opamp	st	datasheets/opamp/st/en.cd00127596.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	TSV911IDT			
+opamp	st	datasheets/opamp/st/en.cd00127596.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	TSV912AIDT			
+opamp	st	datasheets/opamp/st/en.cd00127596.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MiniSO	2	4	TSV912IYST			
+opamp	st	datasheets/opamp/st/en.cd00127596.pdf	8-UFDFN Exposed Pad	8-DFN (2x2)	2	1	TSV912IQ2T			
+opamp	st	datasheets/opamp/st/en.cd00127596.pdf	SC-74A, SOT-753	SOT-23-5	1	3	TSV911AIYLT			
+opamp	st	datasheets/opamp/st/en.cd00144611.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	TSV994IPT			
+opamp	st	datasheets/opamp/st/en.cd00144611.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	TSV992IYDT			
+opamp	st	datasheets/opamp/st/en.cd00144611.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MiniSO	2	1	TSV992IST			
+opamp	st	datasheets/opamp/st/en.cd00144611.pdf	SC-74A, SOT-753	SOT-23-5	1	3	TSV991ILT			
+opamp	st	datasheets/opamp/st/en.cd00219052.pdf	6-TSSOP, SC-88, SOT-363	SC-70-6	1	1	TSV630ICT			
+opamp	st	datasheets/opamp/st/en.cd00219052.pdf	SC-74A, SOT-753	SOT-23-5	1	1	TSV631AILT			
+opamp	st	datasheets/opamp/st/en.cd00233973.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	TSV632IYDT			
+opamp	st	datasheets/opamp/st/en.cd00233973.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MiniSO	2	1	TSV632AIST			
+opamp	st	datasheets/opamp/st/en.cd00234048.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	TSV622IDT			
+opamp	st	datasheets/opamp/st/en.cd00234048.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MiniSO	2	1	TSV622AIST			
+opamp	st	datasheets/opamp/st/en.cd00234934.pdf	SC-74A, SOT-753	SOT-23-5	1	1	TS9511ILT			
+opamp	st	datasheets/opamp/st/en.cd00235458.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	TS9224IYPT			
+opamp	st	datasheets/opamp/st/en.cd00235458.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	TS9222IYDT			
+opamp	st	datasheets/opamp/st/en.cd00235458.pdf	8-TSSOP (0.173", 4.40mm Width)	8-TSSOP	2	1	TS9222IPT			
+opamp	st	datasheets/opamp/st/en.cd00236374.pdf	5-TSSOP, SC-70-5, SOT-353	SC-70-5	1	1	TSV611AICT			
+opamp	st	datasheets/opamp/st/en.cd00236374.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MiniSO	2	1	TSV612AIST			
+opamp	st	datasheets/opamp/st/en.cd00236374.pdf	SC-74A, SOT-753	SOT-23-5	1	1	TSV611ILT			
+opamp	st	datasheets/opamp/st/en.cd00285562.pdf	5-TSSOP, SC-70-5, SOT-353	SC-70-5	1	1	TSV6191AICT			
+opamp	st	datasheets/opamp/st/en.dm00041851.pdf	14-SOIC (0.154", 3.90mm Width)	14-SO	4	1	LMV824AIYDT			
+opamp	st	datasheets/opamp/st/en.dm00041851.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MiniSO	2	1	LMV822IST			
+opamp	st	datasheets/opamp/st/en.dm00041851.pdf	8-UFDFN Exposed Pad	8-DFN (2x2)	2	1	LMV822IQ2T			
+opamp	st	datasheets/opamp/st/en.dm00041851.pdf	SC-74A, SOT-753	SOT-23-5	1	2	LMV821AILT			
+opamp	st	datasheets/opamp/st/en.dm00047334.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	TSV524AIPT			
+opamp	st	datasheets/opamp/st/en.dm00047334.pdf	16-VFQFN Exposed Pad	16-QFN (3x3)	4	1	TSV524IQ4T			
+opamp	st	datasheets/opamp/st/en.dm00050849.pdf	5-TSSOP, SC-70-5, SOT-353	SC-70-5	1	1	LMX321ICT			
+opamp	st	datasheets/opamp/st/en.dm00050849.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MiniSO	2	1	LMX358IST			
+opamp	st	datasheets/opamp/st/en.dm00050849.pdf	8-UFDFN Exposed Pad	8-DFN (2x2)	2	1	LMX358IQ2T			
+opamp	st	datasheets/opamp/st/en.dm00052423.pdf	5-TSSOP, SC-70-5, SOT-353	SC-70-5	1	1	LMV321LICT			
+opamp	st	datasheets/opamp/st/en.dm00052423.pdf	8-TSSOP (0.173", 4.40mm Width)	8-TSSOP	2	1	LMV358LIPT			
+opamp	st	datasheets/opamp/st/en.dm00052423.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MiniSO	2	1	LMV358LIST			
+opamp	st	datasheets/opamp/st/en.dm00052423.pdf	SC-74A, SOT-753	SOT-23-5	1	1	LMV321LILT			
+opamp	st	datasheets/opamp/st/en.dm00056850.pdf	16-UFQFN	16-QFN (3x3)	4	1	TSX564IQ4T			
+opamp	st	datasheets/opamp/st/en.dm00056850.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MiniSO	2	2	TSX562AIYST			
+opamp	st	datasheets/opamp/st/en.dm00056850.pdf	SC-74A, SOT-753	SOT-23-5	1	1	TSX561AILT			
+opamp	st	datasheets/opamp/st/en.dm00078052.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MiniSO	2	1	TSX632IYST			
+opamp	st	datasheets/opamp/st/en.dm00078052.pdf	8-WFDFN	8-DFN (2x2)	2	1	TSX632IQ2T			
+opamp	st	datasheets/opamp/st/en.dm00078379.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	10-MiniSO	2	1	TSX923IST			
+opamp	st	datasheets/opamp/st/en.dm00078379.pdf	8-WFDFN	8-DFN (2x2)	2	1	TSX922IQ2T			
+opamp	st	datasheets/opamp/st/en.dm00078536.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	TSU104IPT			
+opamp	st	datasheets/opamp/st/en.dm00078536.pdf	16-VFQFN Exposed Pad	16-QFN (3x3)	4	1	TSU104IQ4T			
+opamp	st	datasheets/opamp/st/en.dm00078536.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MiniSO	2	1	TSU102IST			
+opamp	st	datasheets/opamp/st/en.dm00109017.pdf	16-VFQFN Exposed Pad	16-QFN (3x3)	4	1	OA4NP33Q			
+opamp	st	datasheets/opamp/st/en.dm00213256.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MiniSO	2	1	TSB612IYST			
+opamp	st	datasheets/opamp/st/en.dm00213256.pdf	SC-74A, SOT-753	SOT-23-5	1	1	TSB611IYLT			
+opamp	st	datasheets/opamp/st/en.dm00515911.pdf	SC-74A, SOT-753	SOT-23-5	1	1	TSB7191ILT			
+opamp	st	datasheets/opamp/st/en.dm00737848.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MiniSO	2	1	TSV792IYST			
+opamp	st	datasheets/opamp/st/en.dm00737848.pdf	SC-74A, SOT-753	SOT-23-5	1	1	TSV791ILT			
+opamp	st	datasheets/opamp/st/en.dm00760331.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	10-MiniSO	2	1	TSV7723IST			
+opamp	st	datasheets/opamp/st/en.dm00760331.pdf	8-SOIC (0.154", 3.90mm Width)	8-SO	2	1	TSV7722IYDT			
+opamp	st	datasheets/opamp/st/en.dm00760331.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MiniSO	2	1	TSV7722IYST			
+opamp	st	datasheets/opamp/st/lm2902b.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	LM2902BYPT			
+opamp	st	datasheets/opamp/st/lm2904b.pdf	8-SOIC (0.154", 3.90mm Width)	8-SO	2	1	LM2904BYDT			
+opamp	st	datasheets/opamp/st/lmc6482.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MiniSO	2	1	LMC6482IST			
+opamp	st	datasheets/opamp/st/lmc7101.pdf	SC-74A, SOT-753	SOT-23-5	1	1	LMC7101ILT			
+opamp	st	datasheets/opamp/st/tl084.pdf	14-SOIC (0.154", 3.90mm Width)	14-SO	4	8	TL084BCDT			
+opamp	st	datasheets/opamp/st/tl084.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	TL084CPT			
+opamp	st	datasheets/opamp/st/tsb571.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MiniSO	2	1	TSB572IYST			
+opamp	st	datasheets/opamp/st/tsb571.pdf	SC-74A, SOT-753	SOT-23-5	1	1	TSB571IYLT			
+opamp	st	datasheets/opamp/st/tsb622.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MiniSO	2	1	TSB622IST			
+opamp	st	datasheets/opamp/st/tsb711a.pdf	8-SOIC (0.154", 3.90mm Width)	8-SO	2	1	TSB712IYDT			
+opamp	st	datasheets/opamp/st/tsb711a.pdf	SC-74A, SOT-753	SOT-23-5	1	2	TSB711AIYLT			
+opamp	st	datasheets/opamp/st/tsl6001.pdf	5-TSSOP, SC-70-5, SOT-353	SC-70-5	1	1	TSL6001ICT			
+opamp	st	datasheets/opamp/st/tsv771.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MiniSO	2	1	TSV772IYST			
+opamp	st	datasheets/opamp/st/tsv771.pdf	SC-74A, SOT-753	SOT-23-5	1	1	TSV771ILT			
+opamp	ti	datasheets/opamp/ti/ina330.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	10-VSSOP	1	1	INA330AIDGST			
+opamp	ti	datasheets/opamp/ti/lf411.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	LF411CDR			
+opamp	ti	datasheets/opamp/ti/lm158-n.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	2	1	LM358N/NOPB			
+opamp	ti	datasheets/opamp/ti/lm158-n.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	LM358MX/NOPB			
+opamp	ti	datasheets/opamp/ti/lm224.pdf	14-SOIC (0.154", 3.90mm Width)	14-SOIC	4	3	LM324DR			
+opamp	ti	datasheets/opamp/ti/lm224.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	LM324PWR			
+opamp	ti	datasheets/opamp/ti/lm2904-q1.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	LM2904AVQDRG4Q1			
+opamp	ti	datasheets/opamp/ti/lm2904lv-q1.pdf	14-SOIC (0.154", 3.90mm Width)	14-SOIC	4	1	LM2902LVQDRQ1			
+opamp	ti	datasheets/opamp/ti/lm2904v.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	2	1	LM2904P			
+opamp	ti	datasheets/opamp/ti/lm2904v.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	4	LM358DR			
+opamp	ti	datasheets/opamp/ti/lm321.pdf	SC-74A, SOT-753	SOT-23-5	1	1	LM321MFX/NOPB			
+opamp	ti	datasheets/opamp/ti/lm348.pdf	14-SOIC (0.154", 3.90mm Width)	14-SOIC	4	1	LM348DR			
+opamp	ti	datasheets/opamp/ti/lm7301.pdf	SC-74A, SOT-753	SOT-23-5	1	1	LM7301IM5X/NOPB			
+opamp	ti	datasheets/opamp/ti/lm741.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	1	1	LM741CN/NOPB			
+opamp	ti	datasheets/opamp/ti/lm8261.pdf	SC-74A, SOT-753	SOT-23-5	1	1	LM8261M5X/NOPB			
+opamp	ti	datasheets/opamp/ti/lmc6032.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	LMC6032IMX/NOPB			
+opamp	ti	datasheets/opamp/ti/lmp2234.pdf	14-SOIC (0.154", 3.90mm Width)	14-SOIC	4	1	LMP2234AMAX/NOPB			
+opamp	ti	datasheets/opamp/ti/lmp7701.pdf	14-SOIC (0.154", 3.90mm Width)	14-SOIC	4	1	LMP7704MAX/NOPB			
+opamp	ti	datasheets/opamp/ti/lmv321-n.pdf	14-SOIC (0.154", 3.90mm Width)	14-SOIC	4	1	LMV324Q3MA/NOPB			
+opamp	ti	datasheets/opamp/ti/lmv321-n.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	LMV324Q3MT/NOPB			
+opamp	ti	datasheets/opamp/ti/lmv321-n.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-VSSOP	2	1	LMV358Q3MM/NOPB			
+opamp	ti	datasheets/opamp/ti/lmv321-n.pdf	SC-74A, SOT-753	SOT-23-5	1	2	LMV321Q3M5/NOPB			
+opamp	ti	datasheets/opamp/ti/lmv321.pdf	14-SOIC (0.154", 3.90mm Width)	14-SOIC	4	1	LMV324IDR			
+opamp	ti	datasheets/opamp/ti/lmv321.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	LMV358QDR			
+opamp	ti	datasheets/opamp/ti/lmv321.pdf	SC-74A, SOT-753	SOT-23-5	1	1	LMV321IDBVR			
+opamp	ti	datasheets/opamp/ti/lmv321a.pdf	5-TSSOP, SC-70-5, SOT-353	SC-70-5	1	1	LMV321AIDCKR			
+opamp	ti	datasheets/opamp/ti/lmv551-q1.pdf	5-TSSOP, SC-70-5, SOT-353	SC-70-5	1	1	LMV551QDCKRQ1			
+opamp	ti	datasheets/opamp/ti/lmv551.pdf	SC-74A, SOT-753	SOT-23-5	1	1	LMV551MFX/NOPB			
+opamp	ti	datasheets/opamp/ti/lmv651.pdf	5-TSSOP, SC-70-5, SOT-353	SC-70-5	1	1	LMV651MGX/NOPB			
+opamp	ti	datasheets/opamp/ti/lmv771.pdf	5-TSSOP, SC-70-5, SOT-353	SC-70-5	1	1	LMV771MG/NOPB			
+opamp	ti	datasheets/opamp/ti/lmv824-n.pdf	14-TFSOP (0.173", 4.40mm Width)	14-TVSOP	4	1	LMV824NDGVR			
+opamp	ti	datasheets/opamp/ti/lmv831.pdf	5-TSSOP, SC-70-5, SOT-353	SC-70-5	1	1	LMV831MGX/NOPB			
+opamp	ti	datasheets/opamp/ti/lmv881.pdf	6-UFDFN	6-USON (1.5x1)	1	1	LMV881LE/NOPB			
+opamp	ti	datasheets/opamp/ti/lmv932-n-q1.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	LMV932Q1MA/NOPB			
+opamp	ti	datasheets/opamp/ti/lmv981-n.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	10-VSSOP	2	1	LMV982MMX/NOPB			
+opamp	ti	datasheets/opamp/ti/lpv542.pdf	8-XFDFN Exposed Pad	8-X1SON (3x3)	2	2	LPV542DNXR			
+opamp	ti	datasheets/opamp/ti/lt1014d.pdf	14-DIP (0.300", 7.62mm)	14-PDIP	4	1	LT1014DN			
+opamp	ti	datasheets/opamp/ti/op07.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	OP07DDR			
+opamp	ti	datasheets/opamp/ti/opa137.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	OPA137U			
+opamp	ti	datasheets/opamp/ti/opa137.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	OPA2137UA/2K5			
+opamp	ti	datasheets/opamp/ti/opa170.pdf	SC-74A, SOT-753	SOT-23-5	1	1	OPA170AIDBVR			
+opamp	ti	datasheets/opamp/ti/opa2237.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	OPA237UA/2K5			
+opamp	ti	datasheets/opamp/ti/opa2347.pdf	5-TSSOP, SC-70-5, SOT-353	SC-70-5	1	1	OPA347SA/3K			
+opamp	ti	datasheets/opamp/ti/opa2347.pdf	8-XFBGA, DSBGA	8-DSBGA (1.9x0.9)	2	1	OPA2347YZDR			
+opamp	ti	datasheets/opamp/ti/opa2348.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	2	OPA348AID			
+opamp	ti	datasheets/opamp/ti/opa2349.pdf	5-TSSOP, SC-70-5, SOT-353	SC-70-5	1	1	OPA349SA/250			
+opamp	ti	datasheets/opamp/ti/opa2349.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	OPA349UA/2K5			
+opamp	ti	datasheets/opamp/ti/opa2349.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	OPA2349UA/2K5			
+opamp	ti	datasheets/opamp/ti/opa2363.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	10-VSSOP	2	2	OPA2363AIDGSR			
+opamp	ti	datasheets/opamp/ti/opa2363.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	2	OPA364AIDR			
+opamp	ti	datasheets/opamp/ti/opa2363.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	2	OPA2364AIDR			
+opamp	ti	datasheets/opamp/ti/opa2363.pdf	SC-74A, SOT-753	SOT-23-5	1	1	OPA364AIDBVR			
+opamp	ti	datasheets/opamp/ti/opa2363.pdf	SOT-23-6	SOT-23-6	1	2	OPA363AIDBVR			
+opamp	ti	datasheets/opamp/ti/opa2373.pdf	10-VFDFN Exposed Pad	10-VSON (3x3)	2	1	OPA2373AIDRCR			
+opamp	ti	datasheets/opamp/ti/opa2373.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	OPA373AID			
+opamp	ti	datasheets/opamp/ti/opa341.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	10-VSSOP	2	1	OPA2341DGSA/250			
+opamp	ti	datasheets/opamp/ti/opa341.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	OPA341UA			
+opamp	ti	datasheets/opamp/ti/opa345.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	OPA345UA			
+opamp	ti	datasheets/opamp/ti/opa348-q1.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	OPA348AQDRQ1			
+opamp	ti	datasheets/opamp/ti/opa4132.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	2	2	OPA2132P			
+opamp	ti	datasheets/opamp/ti/opa4172.pdf	14-SOIC (0.154", 3.90mm Width)	14-SOIC	4	1	OPA4172IDR			
+opamp	ti	datasheets/opamp/ti/opa4353.pdf	14-SOIC (0.154", 3.90mm Width)	14-SOIC	4	1	OPA4353UA/2K5			
+opamp	ti	datasheets/opamp/ti/opa445.pdf	8-PowerSOIC (0.154", 3.90mm Width)	8-SO PowerPad	1	1	OPA445ADDA			
+opamp	ti	datasheets/opamp/ti/opa452.pdf	TO-263-8, D2PAK (7 Leads + Tab), TO-263CA	TO-263 (DDPAK-7)	1	1	OPA452FA/500			
+opamp	ti	datasheets/opamp/ti/opa4743.pdf	14-SOIC (0.154", 3.90mm Width)	14-SOIC	4	1	OPA4743UA/2K5			
+opamp	ti	datasheets/opamp/ti/opa4743.pdf	SC-74A, SOT-753	SOT-23-5	1	1	OPA743NA/250			
+opamp	ti	datasheets/opamp/ti/opa703.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	OPA703UA/2K5			
+opamp	ti	datasheets/opamp/ti/opa703.pdf	SC-74A, SOT-753	SOT-23-5	1	1	OPA704NA/250			
+opamp	ti	datasheets/opamp/ti/opa725.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	OPA725AID			
+opamp	ti	datasheets/opamp/ti/opa991.pdf	SC-74A, SOT-753	SOT-23-5	1	1	OPA991IDBVR			
+opamp	ti	datasheets/opamp/ti/rc4136.pdf	14-DIP (0.300", 7.62mm)	14-PDIP	4	1	RC4136N			
+opamp	ti	datasheets/opamp/ti/rc4558.pdf	8-TSSOP (0.173", 4.40mm Width)	8-TSSOP	2	1	RC4558PWR			
+opamp	ti	datasheets/opamp/ti/sbos068c.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	OPA336UA/2K5			
+opamp	ti	datasheets/opamp/ti/sbos068c.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	OPA2336UA/2K5			
+opamp	ti	datasheets/opamp/ti/sbos077b.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	2	1	OPA2337PA			
+opamp	ti	datasheets/opamp/ti/sbos077b.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	OPA338UA			
+opamp	ti	datasheets/opamp/ti/sbos077b.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	OPA2338UA/2K5			
+opamp	ti	datasheets/opamp/ti/slos049d.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	TLE2161AIDR			
+opamp	ti	datasheets/opamp/ti/slos168g.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	TLV2434IPWR			
+opamp	ti	datasheets/opamp/ti/slos169h.pdf	14-SOIC (0.154", 3.90mm Width)	14-SOIC	4	1	TLV2444CDR			
+opamp	ti	datasheets/opamp/ti/slos176d.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	2	2	TLC2252CP			
+opamp	ti	datasheets/opamp/ti/slos176d.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	TLC2252AQDR			
+opamp	ti	datasheets/opamp/ti/slos177d.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	2	1	TLC2262IP			
+opamp	ti	datasheets/opamp/ti/slos186c.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	TLV2264AIPWR			
+opamp	ti	datasheets/opamp/ti/slos190h.pdf	14-SOIC (0.154", 3.90mm Width)	14-SOIC	4	1	TLC2274AID			
+opamp	ti	datasheets/opamp/ti/slos190h.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	2	1	TLC2272IP			
+opamp	ti	datasheets/opamp/ti/slos190h.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	TLC2272MDR			
+opamp	ti	datasheets/opamp/ti/slos195h.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	2	1	TLV2362IP			
+opamp	ti	datasheets/opamp/ti/slos195h.pdf	SC-74A, SOT-753	SOT-23-5	1	2	TLV2361IDBVR			
+opamp	ti	datasheets/opamp/ti/slos199c.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	TLV2422CD			
+opamp	ti	datasheets/opamp/ti/slos209g.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	TLV2774IPWR			
+opamp	ti	datasheets/opamp/ti/slos209g.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	2	1	TLV2772IP			
+opamp	ti	datasheets/opamp/ti/slos209g.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	2	TLV2771CD			
+opamp	ti	datasheets/opamp/ti/slos209g.pdf	8-TSSOP (0.173", 4.40mm Width)	8-TSSOP	2	1	TLV2772AQPW			
+opamp	ti	datasheets/opamp/ti/slos209g.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-VSSOP	2	1	TLV2772CDGKR			
+opamp	ti	datasheets/opamp/ti/slos218f.pdf	14-DIP (0.300", 7.62mm)	14-PDIP	2	1	TLV2453CN			
+opamp	ti	datasheets/opamp/ti/slos218f.pdf	16-TSSOP (0.173", 4.40mm Width)	16-TSSOP	4	1	TLV2455AIPWR			
+opamp	ti	datasheets/opamp/ti/slos218f.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	1	2	TLV2451IP			
+opamp	ti	datasheets/opamp/ti/slos218f.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	2	1	TLV2452AIP			
+opamp	ti	datasheets/opamp/ti/slos218f.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	TLV2452CDR			
+opamp	ti	datasheets/opamp/ti/slos219f.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	1	1	TLC071IP			
+opamp	ti	datasheets/opamp/ti/slos220j.pdf	14-DIP (0.300", 7.62mm)	14-PDIP	4	1	TLV2464CN			
+opamp	ti	datasheets/opamp/ti/slos220j.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	1	1	TLV2461CP			
+opamp	ti	datasheets/opamp/ti/slos220j.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	2	2	TLV2462IP			
+opamp	ti	datasheets/opamp/ti/slos220j.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	TLV2460ID			
+opamp	ti	datasheets/opamp/ti/slos221b.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	TLC4501AIDR			
+opamp	ti	datasheets/opamp/ti/slos232e.pdf	10-PowerTFSOP, 10-MSOP (0.118", 3.00mm Width)	10-HVSSOP	2	2	TLV2473CDGQR			
+opamp	ti	datasheets/opamp/ti/slos232e.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	1	1	TLV2471IP			
+opamp	ti	datasheets/opamp/ti/slos232e.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	4	TLV2470ID			
+opamp	ti	datasheets/opamp/ti/slos251d.pdf	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	10-VSSOP	2	1	TLV2623IDGS			
+opamp	ti	datasheets/opamp/ti/slos251d.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	TLV2624IPWR			
+opamp	ti	datasheets/opamp/ti/slos254f.pdf	14-SOIC (0.154", 3.90mm Width)	14-SOIC	2	1	TLC083CDR			
+opamp	ti	datasheets/opamp/ti/slos254f.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	1	1	TLC081IP			
+opamp	ti	datasheets/opamp/ti/slos254f.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	2	1	TLC082IP			
+opamp	ti	datasheets/opamp/ti/slos254f.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	TLC080ID			
+opamp	ti	datasheets/opamp/ti/slos254f.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-HVSSOP	1	1	TLC081IDGNR			
+opamp	ti	datasheets/opamp/ti/slos289e.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	1	1	TLV4110IP			
+opamp	ti	datasheets/opamp/ti/slos289e.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	2	TLV4111IDR			
+opamp	ti	datasheets/opamp/ti/slos289e.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	TLV4112IDR			
+opamp	ti	datasheets/opamp/ti/slos326f.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	TLV2760ID			
+opamp	ti	datasheets/opamp/ti/slos351e.pdf	14-SOIC (0.154", 3.90mm Width)	14-SOIC	4	1	TLV274ID			
+opamp	ti	datasheets/opamp/ti/sm73302.pdf	SC-74A, SOT-753	SOT-23-5	1	1	SM73302MFX/NOPB			
+opamp	ti	datasheets/opamp/ti/tl031.pdf	14-DIP (0.300", 7.62mm)	14-PDIP	4	1	TL034AIN			
+opamp	ti	datasheets/opamp/ti/tl031.pdf	14-SOIC (0.154", 3.90mm Width)	14-SOIC	4	1	TL034CDR			
+opamp	ti	datasheets/opamp/ti/tl031.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	1	1	TL031CP			
+opamp	ti	datasheets/opamp/ti/tl031.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	2	3	TL032CP			
+opamp	ti	datasheets/opamp/ti/tl051a.pdf	14-SOIC (0.154", 3.90mm Width)	14-SOIC	4	1	TL054CDR			
+opamp	ti	datasheets/opamp/ti/tl061.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	1	3	TL061CP			
+opamp	ti	datasheets/opamp/ti/tl061.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	2	1	TL062BCP			
+opamp	ti	datasheets/opamp/ti/tl071.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	1	1	TL071ACP			
+opamp	ti	datasheets/opamp/ti/tl071.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	2	TL071BCDR			
+opamp	ti	datasheets/opamp/ti/tl071.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	3	TL072CDR			
+opamp	ti	datasheets/opamp/ti/tl084.pdf	14-DIP (0.300", 7.62mm)	14-PDIP	4	3	TL084CN			
+opamp	ti	datasheets/opamp/ti/tl092.pdf	8-SOIC (0.209", 5.30mm Width)	8-SO	2	1	TL092CPSR			
+opamp	ti	datasheets/opamp/ti/tl3472.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	TL3472CDR			
+opamp	ti	datasheets/opamp/ti/tl3474a.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	TL3474CPWR			
+opamp	ti	datasheets/opamp/ti/tl972-q1.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	TL972QDRQ1			
+opamp	ti	datasheets/opamp/ti/tlc072-q1.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	TLC072QDRQ1			
+opamp	ti	datasheets/opamp/ti/tlc082-q1.pdf	20-PowerTSSOP (0.173", 4.40mm Width)	20-HTSSOP	4	1	TLC084QPWPRQ1			
+opamp	ti	datasheets/opamp/ti/tlc272a.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	2	2	TLC272IP			
+opamp	ti	datasheets/opamp/ti/tlc274.pdf	14-DIP (0.300", 7.62mm)	14-PDIP	4	2	TLC274CN			
+opamp	ti	datasheets/opamp/ti/tlc27m2a.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	2	1	TLC27M2AIP			
+opamp	ti	datasheets/opamp/ti/tle2027.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	2	TLE2037CD			
+opamp	ti	datasheets/opamp/ti/tlv2264a-q1.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	TLV2264AQPWRQ1			
+opamp	ti	datasheets/opamp/ti/tlv2322.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	TLV2324IPWR			
+opamp	ti	datasheets/opamp/ti/tlv2370.pdf	14-SOIC (0.154", 3.90mm Width)	14-SOIC	2	1	TLV2373IDR			
+opamp	ti	datasheets/opamp/ti/tlv2370.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	1	1	TLV2370IP			
+opamp	ti	datasheets/opamp/ti/tlv2381.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	TLV2381ID			
+opamp	ti	datasheets/opamp/ti/tlv2401.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	TLV2404CPWR			
+opamp	ti	datasheets/opamp/ti/tlv2462-q1.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	TLV2462QDRG4Q1			
+opamp	ti	datasheets/opamp/ti/tlv272-q1.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	TLV272QDRG4Q1			
+opamp	ti	datasheets/opamp/ti/tlv2721.pdf	SC-74A, SOT-753	SOT-23-5	1	1	TLV2721CDBVR			
+opamp	ti	datasheets/opamp/ti/tlv2731.pdf	SC-74A, SOT-753	SOT-23-5	1	1	TLV2731IDBVR			
+opamp	ti	datasheets/opamp/ti/tlv2782a.pdf	14-SOIC (0.154", 3.90mm Width)	14-SOIC	4	1	TLV2784AIDR			
+opamp	ti	datasheets/opamp/ti/tlv2782a.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	TLV2781ID			
+opamp	ti	datasheets/opamp/ti/tlv313-q1.pdf	5-TSSOP, SC-70-5, SOT-353	SC-70-5	1	1	TLV313QDCKTQ1			
+opamp	ti	datasheets/opamp/ti/tlv341.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	2	1	TLV342IDR			
+opamp	ti	datasheets/opamp/ti/tlv6742.pdf	8-TSSOP (0.173", 4.40mm Width)	8-TSSOP	2	1	TLV6742IPWR			
+opamp	ti	datasheets/opamp/ti/tlv8811.pdf	SC-74A, SOT-753	SOT-23-5	1	1	TLV8811DBVR			
+opamp	ti	datasheets/opamp/ti/tlv9001.pdf	SC-74A, SOT-753	SOT-23-5	1	1	TLV9001IDBVR			
+opamp	ti	datasheets/opamp/ti/tlv9051.pdf	8-WFDFN Exposed Pad	8-WSON (2x2)	2	1	TLV9052IDSGR			
+opamp	ti	datasheets/opamp/ti/tlv9051.pdf	SC-74A, SOT-753	SOT-23-5	1	1	TLV9051IDBVR			
+opamp	ti	datasheets/opamp/ti/tlv9064.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	4	1	TLV9064IPWR			
+opamp	ti	datasheets/opamp/ti/tlv9151.pdf	SC-74A, SOT-753	SOT-23-5	1	1	TLV9151IDBVR			
+opamp	ti	datasheets/opamp/ti/ua741.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	1	1	UA741CP			
+timer	adi	datasheets/timer/adi/icm7555-icm7556.pdf	14-DIP (0.300", 7.62mm)	14-PDIP	2	1	ICM7556IPD+			
+timer	adi	datasheets/timer/adi/icm7555-icm7556.pdf	14-SOIC (0.154", 3.90mm Width)	14-SOIC	2	1	ICM7556ISD+			
+timer	adi	datasheets/timer/adi/icm7555-icm7556.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	1	1	ICM7555IPA+			
+timer	adi	datasheets/timer/adi/icm7555-icm7556.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	2	ICM7555ISA+			
+timer	renesas	datasheets/timer/renesas/icm7555-icm7556-datasheet.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	1	1	ICM7555IPAZ			
+timer	renesas	datasheets/timer/renesas/icm7555-icm7556-datasheet.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	2	ICM7555CBAZ			
+timer	ti	datasheets/timer/ti/lm555.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	1	1	LM555CN/NOPB			
+timer	ti	datasheets/timer/ti/lm555.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	2	LM555CMX/NOPB			
+timer	ti	datasheets/timer/ti/lm555.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-VSSOP	1	2	LM555CMMX/NOPB			
+timer	ti	datasheets/timer/ti/lmc555.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	1	1	LMC555CN/NOPB			
+timer	ti	datasheets/timer/ti/lmc555.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	2	LMC555CMX/NOPB			
+timer	ti	datasheets/timer/ti/lmc555.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-VSSOP	1	1	LMC555CMMX/NOPB			
+timer	ti	datasheets/timer/ti/lmc555.pdf	8-UFBGA	8-uSMD (1.41x1.44)	1	2	LMC555CTPX/NOPB			
+timer	ti	datasheets/timer/ti/na555.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	1	4	NE555P			
+timer	ti	datasheets/timer/ti/na555.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	2	NE555DR			
+timer	ti	datasheets/timer/ti/na555.pdf	8-SOIC (0.209", 5.30mm Width)	8-SO	1	2	NE555PSR			
+timer	ti	datasheets/timer/ti/na555.pdf	8-TSSOP (0.173", 4.40mm Width)	8-TSSOP	1	1	NE555PWR			
+timer	ti	datasheets/timer/ti/na556.pdf	14-DIP (0.300", 7.62mm)	14-PDIP	2	3	NE556N			
+timer	ti	datasheets/timer/ti/na556.pdf	14-SOIC (0.154", 3.90mm Width)	14-SOIC	2	2	NE556DR			
+timer	ti	datasheets/timer/ti/na556.pdf	14-SOIC (0.209", 5.30mm Width)	14-SO	2	1	NE556NSR			
+timer	ti	datasheets/timer/ti/na556.pdf	14-SOIC (0.209", 5.30mm Width)	14-SOP	2	1	NE556NS			
+timer	ti	datasheets/timer/ti/na556.pdf	14-SSOP (0.209", 5.30mm Width)	14-SSOP	2	1	NE556DBR			
+timer	ti	datasheets/timer/ti/tlc3555-q1.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	TLC3555QDRQ1			
+timer	ti	datasheets/timer/ti/tlc3555.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	TLC3555IDR			
+timer	ti	datasheets/timer/ti/tlc551.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	TLC551CD			
+timer	ti	datasheets/timer/ti/tlc552.pdf	14-DIP (0.300", 7.62mm)	14-PDIP	2	1	TLC552CN			
+timer	ti	datasheets/timer/ti/tlc552.pdf	14-SOIC (0.154", 3.90mm Width)	14-SOIC	2	1	TLC552CD			
+timer	ti	datasheets/timer/ti/tlc555-q1.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	1	TLC555QDRQ1			
+timer	ti	datasheets/timer/ti/tlc555.pdf	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	1	2	TLC555CPW			
+timer	ti	datasheets/timer/ti/tlc555.pdf	8-DIP (0.300", 7.62mm)	8-PDIP	1	2	TLC555CP			
+timer	ti	datasheets/timer/ti/tlc555.pdf	8-SOIC (0.154", 3.90mm Width)	8-SOIC	1	2	TLC555QDR			
+timer	ti	datasheets/timer/ti/tlc555.pdf	8-SOIC (0.209", 5.30mm Width)	8-SO	1	1	TLC555CPSR			
+timer	ti	datasheets/timer/ti/tlc556m.pdf	14-DIP (0.300", 7.62mm)	14-PDIP	2	1	TLC556IN			
+timer	ti	datasheets/timer/ti/tlc556m.pdf	14-SOIC (0.154", 3.90mm Width)	14-SOIC	2	6	TLC556CD			

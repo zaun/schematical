@@ -87,7 +87,7 @@ Every other letter points here.
 | Neither kind exists | `grep -c 'PART_TIMER\|PART_OPAMP' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/{timer,opamp}.json` → no such file; `ls datasheets/timer datasheets/opamp` → no such directory | MET (2026-11-16 and again 2026-11-24: 0; no file; no directory. `datasheets/instrumentation-op-amps-buffer-amps/` and `datasheets/audio-amplifiers/` exist, empty and untracked; plan-48 does not use them) |
 | No other open plan adds these parts or kinds | `grep -l -i 'PART_TIMER\|PART_OPAMP\|Parts/timer\.json\|Parts/opamp\.json\|datasheets/timer\|datasheets/opamp' planning/plan-*.md \| grep -v plan-48 \| wc -l` → 0 | MET (2026-11-16 and 2026-11-24: 0). plan-42 (regulators, `PART_REGULATOR`), plan-44 (crystals, `PART_CRYSTAL`), plan-45 (terminal blocks, the existing `connector` kind) and plan-47 (`PART_INDUCTOR`, `PART_FUSE`, `PART_RELAY`, `PART_BUZZER`) are open: the lines several plans touch (`PartKind`, `KINDS[]`, `TRACE_LAST_KIND`, the listing arrays, the editor's kind lists, `SimComponentType`, `circuit.h`) are added only if absent and after whatever is last; each such step greps first (E Phase 1, F Phase 1, G Phase 1, H Phase 1) |
 | Shared footprint ids are added only once | before adding an id: `grep -c '"id": *"<id>"' schematical/schematical/Parts/footprints.json planning/plan-*-data/footprints-*.json` | rule, applied per footprint in C and D (§ 3.1 of C): plan-42 names `TSOT-5-ADI-UJ` and `LFCSP-6-ADI-CP-6-3` (`grep -o 'TSOT-5-ADI-UJ\|LFCSP-6-ADI-CP-6-3' planning/plan-42-*.md \| sort -u` → 2), which C and D reuse when present |
-| DigiKey credentials and quota | `grep -cE '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc` → 2; `eval "$(grep -E '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc)" && node scripts/digikey.js --in-stock --pages 1 --limit 1 --category 689 --manufacturer 20` prints `left today` ≥ 700 before Phase 1's run (about 1000 a day, shared with other sessions; it resets at about 00:00 UTC) | NOT MET (2026-11-24 05:24 UTC: credentials 2 of 2 for key 1 and key 2 (`~/.zshrc` lines 130–135); key 1 (`--opt2` absent) printed `20 left today`, key 2 (`--opt2`) `646 left today` (other sessions share both); the Safari route answers; the next reset is 2026-11-25 00:00 UTC. Phase 1 needs 662+ calls and the row asks for ≥ 700 on the key it uses) |
+| DigiKey credentials and quota | `grep -cE '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc` → 2; `eval "$(grep -E '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc)" && node scripts/digikey.js --in-stock --pages 1 --limit 1 --category 689 --manufacturer 20` prints `left today` ≥ 700 before Phase 1's run (about 1000 a day, shared with other sessions; it resets at about 00:00 UTC) | NOT MET (2026-11-24 05:24 UTC: credentials 2 of 2 for key 1 and key 2 (`~/.zshrc` lines 130–135); key 1 (`--opt2` absent) printed `20 left today`, key 2 (`--opt2`) `646 left today` (other sessions share both); the Safari route answers; the next reset is 2026-11-25 00:00 UTC. Phase 1 needs 662+ calls and the row asks for ≥ 700 on the key it uses). **Owner, 2026-11-24 (chat): "just use the API calls you have… 666 total"**: the gate is waived for the calls on hand (key 1 20, key 2 646); both keys read `0 left today` at 05:50 UTC after Phase 1 (other sessions share them) |
 | The maker sites answer Python's `urllib` | `python3 -I planning/plan-48-data/census/urlcheck.py planning/plan-48-data/raw /tmp/p48/pdf \| awk -F'\t' 'NR>1{n[$4]++} END{print n[1], n[0]}'` → `424 3` | MET (2026-11-16 and 2026-11-24: `424 3`; `/tmp/p48/pdf` 646 MB) |
 | `pdftotext`, `pdfinfo` | `which pdftotext pdfinfo` → two paths | MET (2026-11-24: `/Users/justinzaun/local/brew/bin/pdftotext`, `…/pdfinfo`) |
 
@@ -264,16 +264,21 @@ whose listed rows are all `out` by rule 3 is not placed and goes to
 
 ### Phase 1 — Part-by-part stock check
 
-- [ ] `cd planning/plan-48-data && census/stock-check.sh raw candidates.tsv
+- [~] `cd planning/plan-48-data && DK_OPT2=1 VERDICTS=verdicts.tsv census/stock-check.sh raw candidates.tsv
       stock-check.tsv candidate` (one `node scripts/digikey.js` call per
-      picked row: 662; it stops by itself with 20 calls left and resumes on
-      the next run).
-- [ ] `python3 -I census/select.py raw candidates.tsv --urls url-check.tsv
-      --pdf /tmp/p48/pdf --stock stock-check.tsv --report`; rerun
-      `stock-check.sh` (it only looks up the rows that moved up) until
-      `python3 -I census/to-check.py raw candidates.tsv stock-check.tsv
-      candidate` prints `0 unchecked`.
-- [ ] Record in § Corrections: the rows that failed and the calls used.
+      picked row; Corrections 1: only the rows whose datasheet lists them).
+      Result: 651 of 656 picked rows checked (`stock-check.tsv` 664 rows: key 2 for 644, key 1 for 20); both
+      keys ran dry. **Remains:** 5 TI timers (`TLC3555IDR`, `TLC555CPWR`,
+      `TLC555CPSR`, `NE555PS`, `LM555CMM/NOPB`): run `census/stock-check.sh`
+      again after the reset (2026-11-25 00:00 UTC); a failing timer has no
+      reserve row, it only drops out.
+- [~] `python3 -I census/select.py raw candidates.tsv --urls url-check.tsv
+      --pdf /tmp/p48/pdf --stock stock-check.tsv --verdicts verdicts.tsv --report` (the refill loop, Phase 3):
+      4 rows failed the lookup (`LTC6241HVIS8#TRPBF`, `TLV2450ID`, `TLV9102IDR`
+      op-amps, replaced from reserve; `LMC555CMM/NOPB` timer, dropped); `python3 -I census/to-check.py raw
+      candidates.tsv stock-check.tsv candidate verdicts.tsv` → `656 candidate rows, 5 unchecked`
+      (the five above).
+- [x] Record in § Corrections: the rows that failed and the calls used (Corrections 4).
 
 Acceptance: every picked row passed its own lookup.
   Check: `awk -F'\t' 'NR>1 && $22=="candidate" && $27==""' planning/plan-48-data/candidates.tsv | wc -l` → 0, and `awk -F'\t' 'NR>1 && $2!="1"' planning/plan-48-data/stock-check.tsv | cut -f1 | while read m; do awk -F'\t' -v m="$m" '$1==m{print $22}' planning/plan-48-data/candidates.tsv; done | sort -u` → `out` or nothing (est. 45 min of calls at about 23 a minute).
@@ -281,48 +286,61 @@ Commit: —
 
 ### Phase 2 — The PDFs and the text scan
 
-- [ ] `python3 -I census/urlcheck.py raw /tmp/p48/pdf > url-check.tsv` on a
-      cold cache (it keeps cached PDFs): the count of `ok` 1 stays 424; a URL
+- [x] `python3 -I census/urlcheck.py raw /tmp/p48/pdf > /tmp/p48/urlcheck.tsv` on a
+      cold cache (`/tmp/p48/pdf` was empty; 646 MB downloaded): `awk -F'\t' 'NR>1{n[$4]++} END{print n[1], n[0]}'` → `424 3`;
+      its columns 1–4 equal `url-check.tsv`'s (`diff` empty), so that file stays.
+      The count of `ok` 1 stays 424; a URL
       that stopped answering makes its rows `no datasheet` on the next
       `select.py` run.
-- [ ] `census/textscan.py` (from `planning/plan-40-data/census/textscan.py`,
+- [x] `census/textscan.py` (from `planning/plan-40-data/census/textscan.py`,
       with § 4's packing rules and status words): for every picked row
       `hit` (verbatim), `scheme` (matched by a packing rule) and `dead`;
       writes `textscan.tsv` (`mpn`, `hit`, `scheme`, `dead`, `context`: the
-      80 characters around the match).
-- [ ] Read `context` for every `scheme` row and every `dead` row (the rule
+      80 characters around the match). Written (`planning/plan-48-data/census/textscan.py`;
+      `python3 -I census/textscan.py candidates.tsv /tmp/p48/pdf textscan.tsv` → `656 rows scanned`);
+      rule 3's window and rule 2's `dash` and `slash` forms are Corrections 2 and 3.
+- [x] Read `context` for every `scheme` row and every `dead` row (the rule
       must have matched an ordering-table line, not prose); a wrong match is
       listed in `verdict-overrides.tsv` (`mpn`, `verdict`, `reason`, `why`).
+      Read: the 25 `scheme` rows of the first scan are all ordering-table lines
+      (`pbf` 13: `LT…#PBF`/`#TRPBF` lines; `tr` 12: `MAX….+` lines); the 4 `dead`
+      rows were all false (an `OBSOLETE PACKAGE` heading of the next group, two
+      revision-history lines) and are `add` overrides; 5 ADI timers are overrides (Corrections 3).
 
 Acceptance: every picked row has a scan result.
   Check: `awk -F'\t' 'NR>1' planning/plan-48-data/textscan.tsv | wc -l` → the picked count (`awk -F'\t' 'NR>1 && $22=="candidate"' planning/plan-48-data/candidates.tsv | wc -l`) (est. 15 min: 418 `pdftotext` runs are cached in `/tmp/p48/pdf`).
+  Result: 656 lines of data; picked 656. MET.
 Commit: —
 
 ### Phase 3 — Verdicts, the refill, placement, the specs skeleton
 
-- [ ] `census/verdicts.py` (from plan-40's): `verdicts.tsv` (`mpn`,
+- [x] `census/verdicts.py` (from plan-40's): `verdicts.tsv` (`mpn`,
       `verdict`, `reason`, `pdf`) by § 4, with `verdict-overrides.tsv`
-      applied last.
-- [ ] `select.py … --stock stock-check.tsv --verdicts verdicts.tsv --report`
+      applied last. Written; `python3 -I census/verdicts.py candidates.tsv textscan.tsv verdicts.tsv` → `200 opamp adi add`, `200 opamp st add`, `200 opamp ti add`, `5 timer adi add`, `3 timer renesas add`, `48 timer ti add`.
+- [x] `select.py … --stock stock-check.tsv --verdicts verdicts.tsv --report`
       moves reserve rows up; run Phase 1's check and Phase 2's scan for
       them and `verdicts.py` again, until every picked row is `add` (a maker
-      whose reserve runs out stays below 200).
-- [ ] `census/place.py` (from plan-40's): copy each distinct PDF (by SHA-256)
+      whose reserve runs out stays below 200). `/tmp/p48/refill.sh` (select → textscan →
+      verdicts) ran 4 passes until `non-add groups 0`: 48 rows are `skip` (not in the
+      datasheet's ordering table), 0 `out` by status; no maker's reserve ran out (reserve left: TI 82, ADI 76, ST 90).
+- [x] `census/place.py` (from plan-40's): copy each distinct PDF (by SHA-256)
       an `add` row cites from `/tmp/p48/pdf` to
       `datasheets/<timer|opamp>/<ti|adi|st|renesas>/<name>.pdf` (`<name>` =
       the last path segment of `final`, lower case; the Renesas document
       `icm7555-icm7556-datasheet` gets `.pdf` appended), write each
       folder's `datasheets.tsv` (`file`, `url`, `bytes`, `sha256`) and set
-      `pdf` in `candidates.tsv` to the path.
-- [ ] `census/specs-skeleton.py` (from plan-40's): `specs.tsv`, one row per
+      `pdf` in `candidates.tsv` to the path. `place.py candidates.tsv /tmp/p48/pdf` → `293 PDFs placed for 656 rows`
+      (timer: adi 1, renesas 1, ti 11; the rest op-amp; `du -sh` timer 18M, op-amp 389M).
+- [x] `census/specs-skeleton.py` (from plan-40's): `specs.tsv`, one row per
       (type, company, pdf, package, supplier_package, circuits) of the `add`
       rows: `rows`, `example` (the most-stocked part), and empty `pinout`,
-      `scheme`, `facts` columns.
-- [ ] Update `planning/plan-48-data/README.md` (the new files and columns).
+      `scheme`, `facts` columns. → `502 rows`.
+- [x] Update `planning/plan-48-data/README.md` (the new files and columns).
 
 Acceptance: every picked row is `add`, its PDF is in the tree, and each has a
 spec row.
   Check: `python3 -I planning/plan-48-data/census/place.py --verify planning/plan-48-data/candidates.tsv` → `0 missing, 0 unused`; `awk -F'\t' 'NR>1 && $2=="add"' planning/plan-48-data/verdicts.tsv | wc -l` equals `awk -F'\t' 'NR>1 && $22=="candidate"' planning/plan-48-data/candidates.tsv | wc -l`; `awk -F'\t' 'NR>1{s+=$7} END{print s}' planning/plan-48-data/specs.tsv` (the `rows` column) equals the same count (est. 10 min).
+  Result: `0 missing, 0 unused`; add 656, picked 656; `rows` sum 656. MET for the 656 rows; the 5 unchecked timers can only remove rows (then `select.py` → `textscan.py` → `verdicts.py` → `place.py` → `specs-skeleton.py` again).
 Commit: —
 
 ## Validation Plan
@@ -366,6 +384,52 @@ Commit: —
   obsolete mark removes it** (§ 4 rule 3).
 
 ## Corrections
+
+1. **Verdicts before stock checks (measured 2026-11-24).** The calls on hand
+   were 666 (key 1 20, key 2 646) against 662 picked rows plus the refill, and
+   66 picked rows were `skip` by the text rules anyway. The stock check
+   therefore runs on the rows whose verdict is `add` (`to-check.py … <verdicts.tsv>`,
+   `stock-check.sh` with `VERDICTS=`), after the select → textscan → verdicts
+   loop has settled the pick; the result is the same set of checked rows with
+   no call on a row the datasheet does not list. Before this was found the
+   first (full-order) run had spent about 110 calls on the most-stocked rows,
+   some of them rows that are now `skip`.
+2. **Rule 3 (status words) is read at the part, not within 300 characters,
+   for TI.** A TI orderable-addendum row reads `<part>[.A]<STATUS>PRODUCTION`;
+   the 300-character window matched the next row's `OBSOLETE` (47 `dead` rows
+   of 662, nearly all false). `textscan.py` takes a TI status only right after the
+   part (`<part>[.A]<STATUS>`); ADI and ST keep the 300 characters. 4 `dead`
+   rows remained, all false (`verdict-overrides.tsv`).
+3. **Rule 2 had two gaps (measured: 76 of 662 first-scan rows `skip`).**
+   (a) ADI / Maxim `+T`: the datasheets print `MAX4040EUK-T` (same part,
+   tape and reel); `textscan.py` scheme `dash` accepts a printed `<base>-T`
+   for `<base>+T` (8 picked rows). (b) ST prints order codes as
+   `TL061CD/CDT` (the later code repeats the tail of the first): scheme
+   `slash` expands them (13 picked rows). The plan's claim that the Maxim
+   timer table "prints `ICM7555ISA+` with a space" is **false**: it prints
+   `ICM7555ISA` and a note that a `+`, `#` or `-` in the package code is RoHS
+   status. The 5 `+` rows (`ICM7555ESA+`, `ICM7555ISA+`, `ICM7555IPA+`,
+   `ICM7556ISD+`, `ICM7556IPD+`) are `add` by override (the ordering table
+   lists the base number); the 3 `+T` rows (`ICM7555ESA+T`, `ICM7555ISA+T`,
+   `ICM7556ISD+T`) stay `skip`: the document never says what `T` means.
+   The 48 rows left as `skip` by the rules (TI `-TI` and `TLC27L…` rows, LT
+   parts whose PDF prints a family name, ADI `MAX` rows with no `-T` form, …)
+   go to `datasheets/skipped-parts.md` in B.
+4. **Stock check outcome.** `stock-check.tsv` has 664 rows (2026-11-24); 4 of
+   the picked rows failed the lookup: `LTC6241HVIS8#TRPBF`, `TLV2450ID`,
+   `TLV9102IDR` (op-amps, the next reserve rows moved up and passed) and
+   `LMC555CMM/NOPB` (timer, no reserve). Calls: planning 27, this run about
+   675 (key 2 646 → 0, key 1 20 → 0); both keys were at 0 at 05:50 UTC, so
+   5 rows are unchecked (Phase 1). `stock-check.sh` had a bug that stopped the
+   run on the text `429 left today` (it grepped for `429`); fixed to
+   `rate limited`.
+5. **Final pick (2026-11-24, before the 5 timers are checked).** 656 rows:
+   op-amp 600 (TI 200, ADI 200, ST 200), timer 56 (TI 48, ADI 5, Renesas 3);
+   293 distinct PDFs placed, 502 spec rows. The plan's 662 → 656: 8 ADI timer
+   rows → 5 add, 2 TI timers (`TLC555IP-P2`, `TLC3555QDDFRQ1`) are `skip`,
+   `LMC555CMM/NOPB` is out by stock.
+6. **Prerequisite values moved** (main advanced since planning): T0 = 65
+   (was 37), P0 = R0 = 39903, F0 = 3825.
 
 ## Summary
 

@@ -8,7 +8,7 @@ Per row of state `candidate`, in this order:
   otherwise                     -> add
 The file is a ledger: a row that left
 `candidate` because of its verdict (select.py moved the next reserve row up)
-keeps its line; a row in the scan is decided again. `verdict-overrides.tsv` (mpn, verdict, reason, why) is applied last: a row
+keeps its line (an `add` line of a row that is no longer picked goes); a row in the scan is decided again. `verdict-overrides.tsv` (mpn, verdict, reason, why) is applied last: a row
 the text rules get wrong, read by hand (a status word of the next row, a
 revision-history line). Writes mpn, verdict, reason, pdf and prints the
 counts."""
@@ -56,6 +56,8 @@ def main():
             counts[(r['type'], r['company'], v, why)] += 1
             new[r['mpn']] = {'mpn': r['mpn'], 'verdict': v, 'reason': why, 'pdf': r['pdf']}
     ledger.update(new)
+    # an `add` of a row that is no longer picked (its stock check failed)
+    ledger = {m: v for m, v in ledger.items() if v['verdict'] != 'add' or m in new}
     for m, o in manual.items():
         if m in ledger:
             ledger[m].update(verdict=o['verdict'], reason=o['reason'])

@@ -15,6 +15,11 @@ three makers of each type at DigiKey). Written at planning time, 2026-11-16.
 | `census/select.py` | `candidates.tsv` from the listing (`--urls`, `--pdf`; later `--stock` and `--verdicts`): scope, datasheet, the 200-per-maker quota, the literal part-number scan of each PDF |
 | `candidates.tsv` | one row per listed part (1032): `state` `candidate` 662 (timer 62, op-amp 600), `reserve` 294, `out` 76 with its `reason`; `rank` inside its (type, company) |
 | `census/to-check.py`, `census/stock-check.sh` | plan-48-A phase 1: the part-by-part stock check with `node scripts/digikey.js` (one call per part), into `stock-check.tsv` |
+| `stock-check.tsv` | phase 1 result: `mpn`, `found` (1 = DigiKey has a product with exactly that number, stock above 0, status Active or Last Time Buy), `stock`, `status`, `checked` (date). One DigiKey call per row |
+| `census/textscan.py`, `textscan.tsv` | phase 2: per picked row, `hit` (the number stands in the PDF's text, whitespace removed), `scheme` (the maker's packing rule that matched instead: `tr`, `pbf`, `nopb`, `dash`, `slash`), `dead` (a status word next to it), `context` |
+| `census/verdicts.py`, `verdicts.tsv`, `verdict-overrides.tsv` | phase 3: `mpn`, `verdict` (`add`, `skip`, `out`), `reason`, `pdf`; a ledger (a row that left the pick keeps its `skip` / `out` line); the overrides are verdicts read by hand (`mpn`, `verdict`, `reason`, `why`) |
+| `census/place.py` | copies each PDF an `add` row cites to `datasheets/<timer\|opamp>/<ti\|adi\|st\|renesas>/<name>.pdf` and writes each folder's `datasheets.tsv` (`file`, `url`, `bytes`, `sha256`); `--verify`: `0 missing, 0 unused` |
+| `census/specs-skeleton.py`, `specs.tsv` | one row per (`type`, `company`, `pdf`, `package`, `supplier_package`, `circuits`) of the `add` rows: `rows`, `example`, and the empty `pinout`, `scheme`, `facts` that plan-48-B fills |
 | `census/footprint-lines.py`, `footprints-needed.txt` | one line per distinct package of the download set (`--add`: of the final pick), the plan-48 letter that draws it (C leaded, D leadless and ball) and the existing footprints of the same family and pin count |
 
 `candidates.tsv` columns, in order (the plans' `awk` commands use these
@@ -43,6 +48,8 @@ python3 -I census/urlcheck.py raw /tmp/p48/pdf > url-check.tsv        # about 10
 python3 -I census/select.py raw candidates.tsv --urls url-check.tsv --pdf /tmp/p48/pdf --report
 python3 -I census/footprint-lines.py candidates.tsv ../../schematical/schematical/Parts/footprints.json > footprints-needed.txt
 ```
+
+`stock-check.sh` takes `DK_OPT2=1` (the second API key), `STOCK_CHECK_RESERVE=<n>` and `VERDICTS=<verdicts.tsv>` (leaves out the rows that are not `add`: a part its datasheet does not list needs no stock call). Order of phase 1–3: `select.py … --stock --verdicts`, `textscan.py`, `verdicts.py` until every picked row is `add`, then `stock-check.sh` on those rows, then the same loop for the rows that failed; `place.py`, `specs-skeleton.py` last.
 
 `list.sh`, `count.js` and `stock-check.sh` need `DIGIKEY_CLIENT_ID` /
 `DIGIKEY_CLIENT_SECRET` (`eval "$(grep -E '^export DIGIKEY_CLIENT_(ID|SECRET)=' ~/.zshrc)"`).
