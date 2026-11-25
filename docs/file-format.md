@@ -288,7 +288,8 @@ of and above the hole. In lists it is `H1`, `H2`, … in drawing order.
 ```
 
 A copper pour: a rectangle on one trace layer that is flooded with copper on one net. The app computes the fill
-(it is not stored): the rectangle, pulled back from the board's edge by the DRC's min copper to edge, less every pad,
+(it is not stored): the rectangle, pulled back from the board's edge by the DRC's min copper to edge (and from every
+[cutout](#cutouts) by the same distance), less every pad,
 via and trace on that layer that is not on the pour's net, grown by the pour's clearance; less every non-plated
 hole, grown by the min copper to edge; less every [keep-out](#keep-outs) that applies to the layer; less the
 rectangle (grown by the clearance) of an earlier pour of another net on the layer. Each pad of the pour's net gets
@@ -344,6 +345,10 @@ A region of the board with no material: a window, a round hole too big to drill,
 | `locked`   | boolean | Lock Position. Default `false`. Written only when `true`. |
 
 A cutout may lie anywhere, overlap another or cross the board's edge: the file does not say it is wrong, the design rule check does.
+The check lists, under Edge: `Copper is in a cutout` (a pad, trace, via or pour edge whose centre is in one), `Copper 0.1 mm from the board edge; min 0.3 mm`
+(the board's min copper to edge, held from a cutout's edge as from the outline), `Cutout 1: Crosses the board edge` and `Cutouts 1, 2: Overlap`
+(numbered in drawing order). A part's body may overhang a cutout; only its copper may not be in one. Pour fills stay out of cutouts by the
+min copper to edge, as they do from the outline.
 
 ### Net classes
 

@@ -110,12 +110,13 @@ Commit: —
 
 ### Phase 2 — The design rule check
 
-- [ ] `DesignRuleCheck/DesignRuleCheck.swift`: hold `edge: BoardEdge` and the outline-only segments; rename `inside` to `insideOutline` for placement; `checkEdge` uses `edge.segments`, `edge.contains`, the `Copper is in a cutout` message and the bounds prefilter of § 3; add `checkCutouts()` and call it after `checkEdge()` in `run()`.
-- [ ] Tests `schematicalTests/CutoutDesignRuleTests.swift`: a pad in a cutout → `Copper is in a cutout`; a trace 0.1 mm from a cutout's edge with `minCopperToEdge` 0.3 → `Copper 0.1 mm from the board edge; min 0.3 mm`; the same trace 0.5 mm away → no issue; a body (an `R` footprint with no pad near it) over a cutout → no issue; a pad off the outline → `Copper is off the board` (unchanged text); a cutout with a corner outside the outline → `Cutout 1 crosses the board edge` selecting `.cutout(id)`; two overlapping cutouts → `Cutouts 1 and 2 overlap`; two apart → none; no cutouts → `designRuleCheck` equals the result with `cutouts` never set (empty).
-- [ ] The edge-check speed: a test that builds a board with 40 round cutouts (32 segments each) and 400 pads, runs `designRuleCheck` once and prints the elapsed seconds; the phase is not done while it is over 10 s in the Debug test build (record the observed time in Corrections).
+- [x] `DesignRuleCheck/DesignRuleCheck.swift`: hold `edge: BoardEdge` and the outline-only segments; rename `inside` to `insideOutline` for placement; `checkEdge` uses `edge.segments`, `edge.contains`, the `Copper is in a cutout` message and the bounds prefilter of § 3; add `checkCutouts()` and call it after `checkEdge()` in `run()`.
+- [x] Tests `schematicalTests/CutoutDesignRuleTests.swift`: a pad in a cutout → `Copper is in a cutout`; a trace 0.1 mm from a cutout's edge with `minCopperToEdge` 0.3 → `Copper 0.1 mm from the board edge; min 0.3 mm`; the same trace 0.5 mm away → no issue; a body (an `R` footprint with no pad near it) over a cutout → no issue; a pad off the outline → `Copper is off the board` (unchanged text); a cutout with a corner outside the outline → `Cutout 1 crosses the board edge` selecting `.cutout(id)`; two overlapping cutouts → `Cutouts 1 and 2 overlap`; two apart → none; no cutouts → `designRuleCheck` equals the result with `cutouts` never set (empty).
+- [x] The edge-check speed: a test that builds a board with 40 round cutouts (32 segments each) and 400 pads, runs `designRuleCheck` once and prints the elapsed seconds; the phase is not done while it is over 10 s in the Debug test build (record the observed time in Corrections).
 
 Acceptance: the cutout cases above give exactly those messages and the existing DRC tests and goldens pass unedited.
   Check: `XB -only-testing:schematicalTests/CutoutDesignRuleTests -only-testing:schematicalTests/DesignRuleCheckTests -only-testing:schematicalTests/DesignRuleGoldenTests -only-testing:schematicalTests/PourDesignRuleTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 4 min; `DesignRuleGoldenTests` is the no-cutout byte-identity check, and nothing smaller covers it).
+  Observed: CutoutDesignRuleTests 8 + DesignRuleCheckTests + DesignRuleGoldenTests + PourDesignRuleTests (the whole phase-1+2 set: 63 tests), 0 failures, TEST SUCCEEDED.
 Commit: —
 
 ## Validation Plan
@@ -133,7 +134,8 @@ Commit: —
 
 ## Corrections
 
-<Filled in during execution.>
+- 2026-11-25: the two new issues are written as `reference` `Cutout 1` with `issue` `Crosses the board edge`, and `Cutouts 1, 2` with `Overlap`: the list shows the reference and the issue side by side, so the plan's `Cutout N crosses the board edge` would repeat the name. The ids and kind (`.edge`, `.cutout(id)` items) are as the plan says.
+- 2026-11-25: the 40-cutout / 300-via speed test took 0.22 s (`CUTOUT_DRC_SECONDS 0.22043299674987793` in the test log), far under the 10 s bound; it has more than 300 vias (asserted), not 400 pads.
 
 ## Summary
 
