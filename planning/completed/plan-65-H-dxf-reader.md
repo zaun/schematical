@@ -118,7 +118,7 @@ Commit: d371d501
 Acceptance: the loop numbers of all six fixtures match the oracle and the plan sorts them as above.
   Check: `xcodebuild … test -only-testing:schematicalTests/DXFLoopTests -only-testing:schematicalTests/DXFReaderTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 3 min).
   Observed: DXFLoopTests 15 + DXFReaderTests 13 (28 in all), 0 failures, TEST SUCCEEDED; all six fixtures' loop counts, areas (1 %) and boxes (0.02 mm) match ezdxf's.
-Commit: —
+Commit: be8e61e7
 
 ## Validation Plan
 
