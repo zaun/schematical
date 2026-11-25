@@ -2771,13 +2771,14 @@ and a simulated one (the ATmega328P):
 The shipped devices with a model are the ATmega48/88/168/328 family, 18
 devices and 126 parts: `atmega328` on the 48, 88, 168 and 328 and their A, P
 and PA versions, `atmega168pb` on the 48PB, 88PB and 168PB, `atmega328pb` on
-the 328PB (`planning/plan-62-data/set_models.py`). Every other `mcu` device
-is facts only.
+the 328PB (`planning/plan-62-data/set_models.py`); and the ATtiny25, 45 and
+85, 3 devices and 42 parts, on `attiny85`. Every other `mcu` device is facts
+only.
 
 | Key | Value |
 |---|---|
 | `"simulated"` | without a `"model"`: required, `false` (`an mcu has no simulation model: "simulated" must be false`). With one: absent or `true` (`an mcu with a "model" is simulated: remove "simulated": false`) |
-| `"model"` | optional: the simulation model, a register layout of the AVR core. `"atmega328"` (the ATmega48/88/168/328 and their A, P and PA versions), `"atmega168pb"` (the ATmega48PB/88PB/168PB: the same plus port E), `"atmega328pb"` (the ATmega328PB: port E with PCINT3, timers 3 and 4, USART1, SPI1, TWI1); else `unknown mcu model "X"`. Needs core `"avr"` (`"model" needs core "avr"`) and a `"flash"` of 512 bytes or more, an even number. The sizes come from `"flash"`, `"ram"` and `"eeprom"`; a flash of 8192 bytes or less has one-word interrupt vectors, a larger one two-word vectors |
+| `"model"` | optional: the simulation model, a register layout of the AVR core. `"atmega328"` (the ATmega48/88/168/328 and their A, P and PA versions), `"atmega168pb"` (the ATmega48PB/88PB/168PB: the same plus port E), `"atmega328pb"` (the ATmega328PB: port E with PCINT3, timers 3 and 4, USART1, SPI1, TWI1), `"attiny85"` (the ATtiny25/45/85: port B's six pins, Timer0, Timer1, the USI, a 4-channel ADC); else `unknown mcu model "X"`. Needs core `"avr"` (`"model" needs core "avr"`) and a `"flash"` of 512 bytes or more, an even number. The sizes come from `"flash"`, `"ram"` and `"eeprom"`; a flash of 8192 bytes or less has one-word interrupt vectors, a larger one two-word vectors |
 | `"core"` | `"avr"`, `"avrrc"`, `"avrxt"`, `"avrxm"` (the AVR instruction-set variants), `"cortex-m0plus"`, `"xtensa-lx6"`, `"xtensa-lx7"` or `"riscv"`; else `unknown mcu core "X"` |
 | `"clock"` | the highest clock, Hz, above 0 (`"clock" must be above 0`) |
 | `"flash"`, `"ram"` | bytes, 0 to 4294967295. Flash 0 = external (RP2040) |
@@ -2799,7 +2800,8 @@ power pin` / `… a ground pin`). A device with a `"model"` is wired by pin
 name: `P<letter><bit>` (`PB0` … `PD7`, `PE0` … `PE3`) is that port pin and
 must be a port the model has (`mcu model "atmega328" has no pin "PE0"`);
 `ADC6` and `ADC7` are the two ADC-only inputs. `PB6`/`PB7` are also the
-clock pins XTAL1/XTAL2 and `PC6` is the reset pin. Every other pin (`VCC`,
+clock pins XTAL1/XTAL2 and `PC6` is the reset pin; on `attiny85` those are
+`PB3`/`PB4` and `PB5`. Every other pin (`VCC`,
 `AVCC`, `AREF`, `GND`, `nc`) takes no part in the simulation.
 
 **Voltage.** The parts carry `vcc`, so the voltage check judges their

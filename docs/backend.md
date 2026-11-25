@@ -375,7 +375,8 @@ Notes:
   `circuit_memory_read` (a 0 bit in `known` is X).
 - **Microcontrollers** (plan-62). An `mcu` device with a `"model"` runs
   firmware: the model names a register layout of the AVR core
-  (`avr_chip.h`: `atmega328`, `atmega168pb`, `atmega328pb`), a C port of
+  (`avr_chip.h`: `atmega328`, `atmega168pb`, `atmega328pb` for the
+  ATmega48/88/168/328, `attiny85` for the ATtiny25/45/85), a C port of
   avr8js 0.21.1, and `mcu_avr.c` puts it on the engine.
   - **Firmware.** The part's memory is its flash, in bytes:
     `circuit_memory_size` gives the flash size and 8 bits,
@@ -386,16 +387,17 @@ Notes:
   - **Startup.** For 1 ms after `circuit_start` the chip is in reset, every
     port pin Z.
   - **Clock**, chosen once at the end of startup (a real chip chooses with
-    fuses, which do not exist here). With 2 or more rising edges on PB6
-    (XTAL1) during startup the chip takes that clock: one CPU cycle per
-    rising edge, PB6 and PB7 are clock pins (never driven; they read 0 in
-    PINB), CLKPR resets to 0. Otherwise it runs on its internal 8 MHz
-    oscillator divided by 8 (CLKPR resets to 3, the CKDIV8 fuse): 1 us per
-    cycle until the firmware writes CLKPR, and PB6 and PB7 are port pins.
-  - **Reset.** PC6 is the reset pin, never a port pin: the chip pulls it up
-    (weak 1), and while it reads 0 or X the chip is in reset, every port pin
-    Z; back at 1 the program starts over (flash and SRAM kept). A watchdog
-    reset restarts the chip the same way.
+    fuses, which do not exist here). With 2 or more rising edges on XTAL1
+    (PB6; PB3 on an ATtiny25/45/85) during startup the chip takes that
+    clock: one CPU cycle per rising edge, XTAL1 and XTAL2 (PB7; PB4) are
+    clock pins (never driven; they read 0 in PINB), CLKPR resets to 0.
+    Otherwise it runs on its internal 8 MHz oscillator divided by 8 (CLKPR
+    resets to 3, the CKDIV8 fuse): 1 us per cycle until the firmware writes
+    CLKPR, and the two pins are port pins.
+  - **Reset.** The reset pin (PC6; PB5 on an ATtiny25/45/85) is never a
+    port pin: the chip pulls it up (weak 1), and while it reads 0 or X the
+    chip is in reset, every port pin Z; back at 1 the program starts over
+    (flash and SRAM kept). A watchdog reset restarts the chip the same way.
   - **Pins.** An output drives strong 0 or 1; an input is Z, or weak 1 with
     its pull-up. An input reads 1 for a 1 and 0 for 0, X and Z. A pin write
     lands at the time of the instruction that made it. A timer's compare
@@ -405,7 +407,35 @@ Notes:
     cycles in avr8js too).
   - **ADC.** There are no analog levels: an ADC input is 5 V when its net
     reads 1 and 0 V otherwise, against AVCC = AREF = 5 V, so a conversion
-    gives 1023 or 0 (PC0–PC5; `ADC6`/`ADC7`, or PE2/PE3 on a PB device).
+    gives 1023 or 0 (PC0–PC5; `ADC6`/`ADC7`, or PE2/PE3 on a PB device; on
+    an ATtiny25/45/85 ADC1 PB2, ADC2 PB4, ADC3 PB3, and ADC0 is the reset
+    pin).
+  - **ATtiny25/45/85** (`attiny85`). One port, PB0–PB5; the data space is
+    0x60 bytes of registers and then the SRAM. Timer0 is the ATmega's 8-bit
+    timer (OC0A PB0, OC0B PB1, T0 PB2). Timer1 (`avr_timer_tiny.c`, a port of
+    avr8js's `timer-attiny.ts`) is the 8-bit timer with prescalers from CK
+    to CK/16384, TOP in OCR1C, OC1A on PB1 and OC1B on PB4. The USI
+    (`avr_usi.c`) is **not** an avr8js port: avr8js's `usi.ts` reads the
+    clock source and wire mode from the wrong bits of USICR, so ours is
+    written from the datasheet and works on pins. Three-wire mode: DO (PB1)
+    shows the shift register's top bit, DI (PB0) is sampled, USCK is PB2.
+    Two-wire mode: SDA (PB0) and SCL (PB2) are open drain with no pull-up
+    (the bus needs resistors), with the start and stop detectors and the
+    SCL hold after a start (and, in mode 11, after a counter overflow). The
+    clock is the software strobe (USICLK), or the clock pin's edges with
+    the counter on the edges or on USITC writes; USITC toggles the clock
+    pin. Where avr8js disagrees with the datasheet the simulator follows
+    the datasheet, with a comment at each place and `exact` for the oracle
+    tests: Timer1's PWM mode counts 0 to OCR1C and starts over (avr8js
+    counts up and down, half the frequency), OCR1A and OCR1B are latched at
+    the end of a PWM period, /OC1A (PB0) and /OC1B (PB3) carry the inverse
+    with COM1x = 01, a 1 written to INTF0 in GIFR clears it (in avr8js the
+    pin-change hook on the shared register swallows the write), and REFS2
+    selects the 2.56 V reference. Not modeled: the 64 MHz PLL as Timer1's
+    clock (the timer counts the CPU clock; PLOCK reads 1 once PLLE is set,
+    so firmware waiting for the lock goes on), the dead time generator, the
+    analog comparator, the USI clocked by Timer0's compare match, bipolar
+    ADC conversions (BIN), and the fuses (RSTDISBL: PB5 is always reset).
   - **Serial pins** (plan-62-F, `mcu_avr_serial.c`). avr8js stops at the
     byte; this layer, ours, puts the bytes on pins, in engine time (a bit is
     the peripheral's bit time in CPU cycles times the cycle's length).
@@ -592,6 +622,9 @@ backend/
                            instruction), avr_gpio.c (a port's PIN/DDR/PORT,
                            external and pin-change interrupts), avr_clock.c
                            (CLKPR), avr_timer.c (the 8- and 16-bit timers),
+                           avr_timer_tiny.c (the ATtiny25/45/85's Timer1),
+                           avr_usi.c (its USI: ours, from the datasheet,
+                           on pins),
                            avr_usart.c, avr_spi.c, avr_twi.c (the serial
                            peripherals at register level: a byte out and a
                            byte in through callbacks, no pins), avr_adc.c,
@@ -599,8 +632,9 @@ backend/
                            disassembler, for the processor window);
                            avr_chip.c + avr_chip.h (a chip: a CPU and the
                            peripherals of a register layout; the tables
-                           of the layouts atmega328, atmega168pb and
-                           atmega328pb, with vectors as numbers that
+                           of the layouts atmega328, atmega168pb,
+                           atmega328pb and attiny85, with vectors as
+                           numbers that
                            avr_layout_scale turns into word addresses for
                            a chip's vector size);
                            buffer.c + buffer.h (the buffer kind: models
@@ -972,13 +1006,26 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   changes for the transaction), an address nobody answers (status 0x20),
   and the same through TWI1 of the fixture `TESTAVR328PB`. The rig is
   `tests/support/avr_rig.h` (also `mcu_test`'s).
+- `avr_tiny_test` — the ATtiny25/45/85 on the engine, as the shipped
+  `ATTINY85-20PU` and `ATTINY25-20PU`: the facts and the flash sizes; every
+  port pin Z during startup with the reset pin PB5 at 1; `t85_blink`
+  toggling PB0 every 1000 cycles by the Timer1 compare interrupt, on the
+  internal clock, on a 16 MHz crystal across PB3/PB4, and on the ATtiny25
+  (its stack at 0x00DF); PB5 to GND holding the chip in reset; and what
+  avr8js cannot check: Timer1's PWM as the datasheet has it (OC1A high 26
+  and OC1B high 60 of every 100 cycles, /OC1A the inverse) after a wait for
+  PLOCK, INTF0 cleared through GIFR, the ADC's pins (ADC1 PB2, ADC3 PB3),
+  the USI in three-wire mode writing A1 B2 C3 to an `AT25320B-SSHL-B`
+  EEPROM and reading them back, and in two-wire mode writing and reading a
+  `PCF8563T/5,518` clock's register on a bus with two resistors.
 - `avr_board_test` — the shipped ATmega48/88/168/328 parts (plan-62-G): an
   `ATMEGA328P-PU` with a `GENERIC-CRYSTAL-16M` on PB6/PB7 blinks a
   `GENERIC-LED` on PB5 (lit 10 ms of 20, PB5 changing every 62500000 ps on
   average); an `ATMEGA48PA-PU` with no crystal runs the one-word-vector
   build on its internal clock; an `ATMEGA328PB-AU` toggles PE0; and every
-  mcu part with a model, alone with its supply, loads blink, starts and runs
-  2 ms (`ok 126 parts run`).
+  mcu part with a model, alone with its supply, loads blink (`t85_blink`
+  on an ATtiny), starts and runs 2 ms (`ok 168 parts run (126 ATmega, 42
+  ATtiny)`).
 - `pld_test` — the pld kind: the shipped ATF22V10C, ATF750C and ATF16V8B
   parts read back their `PartPld` facts (macrocells, the part's tpd, a
   commercial part's own `vcc`), single part files cover every loader rule
@@ -1039,7 +1086,8 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
 - `avr_periph_test` — the AVR peripherals and the chip assembly (plan-62-B)
   against avr8js. **layout**: the `atmega328` layout printed as JSON
   (`avr_periph_test --layout atmega328 32768`) must equal avr8js's own
-  ATmega328P configs (`oracle.js layout-check`; `layout atmega328 equal`).
+  ATmega328P configs (`oracle.js layout-check`; `layout atmega328 equal`),
+  and the `attiny85` layout's Timer1 avr8js's `attinyTimer1Config`.
   **scenarios**: `tests/avr/<name>.json` holds a program and pin stimuli; the
   C chip runs it in exact mode and prints a trace, one line per instruction
   (`i <pc> <cycles> <SREG> <SP> <hash of the data memory>`) and one per port
@@ -1054,7 +1102,14 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   (layout `atmega168pb`: port E) and `m328pb_extras` (layout `atmega328pb`:
   timers 3 and 4, USART1, SPI1, TWI1, PCINT3). A scenario may list vector
   numbers that must be taken (`m328pb_extras`: 27, 28, 30, 33, 35, 39, 40,
-  42, 44). The serial peripherals'
+  42, 44). The ATtiny25/45/85 (layout `attiny85`; the oracle builds avr8js's
+  `ATtinyTimer1` after Timer0 and a CPU whose SRAM starts at 0x60): `t85_gpio`
+  (port B, INT0 in its four modes, the pin-change interrupt), `t85_timer0`,
+  `t85_timer1` (normal, CTC and PWM modes, every prescaler, both compare
+  outputs, the three interrupts, with Timer0 on the shared TIFR and TIMSK),
+  `t85_periph` (ADC, EEPROM, CLKPR, the watchdog's interrupt and reset) and
+  `t25_small` (an ATtiny25: 128 bytes of SRAM, the stack at 0xDF). The USI
+  has no scenario: avr8js is not its oracle. The serial peripherals'
   outside is scripted the same way on both sides: a USART byte prints `u
   <cycles> <n> <byte>`; an SPI byte prints `s …` and comes back XOR 0xA5
   after the transfer time; a TWI request prints `t <cycles> <n> <event>
