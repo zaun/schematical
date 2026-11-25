@@ -30,14 +30,25 @@ final class McuTests: XCTestCase {
         XCTAssertNil(rows["Simulation"], "a simulated part has no Simulation row")
     }
 
-    /// An AVR outside the ATmega48/88/168/328 family has no model yet.
-    func testAttiny85IsNotSimulated() throws {
-        let part = try TestSupport.part("ATTINY85-20PU")
+    /// An AVR outside the simulated families (the ATmega48/88/168/328 and
+    /// the ATtiny25/45/85) has no model yet.
+    func testAttiny13IsNotSimulated() throws {
+        let part = try TestSupport.part("ATTINY13A-PU")
         XCTAssertEqual(part.kind, PART_MCU)
         XCTAssertFalse(part.isSimulated)
         let rows = try facts(part)
         XCTAssertEqual(rows["Core"], "AVR")
         XCTAssertEqual(rows["Simulation"], "Not simulated")
+    }
+
+    func testAttiny85IsSimulated() throws {
+        let part = try TestSupport.part("ATTINY85-20PU")
+        XCTAssertEqual(part.kind, PART_MCU)
+        XCTAssertTrue(part.isSimulated)
+        let rows = try facts(part)
+        XCTAssertEqual(rows["Core"], "AVR")
+        XCTAssertEqual(rows["Flash"], "8 KB")
+        XCTAssertNil(rows["Simulation"], "a simulated part has no Simulation row")
     }
 
     /// The plan named ESP32-S3-WROOM-1-N8R8, which is not in stock; its

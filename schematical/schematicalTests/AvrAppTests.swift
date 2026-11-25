@@ -72,10 +72,16 @@ final class AvrAppTests: XCTestCase {
         XCTAssertFalse(mega.isMemory, "no memory window for a microcontroller")
 
         let tiny = try TestSupport.part("ATTINY85-20PU")
-        XCTAssertFalse(tiny.isSimulatedMcu)
-        XCTAssertFalse(tiny.hasLoadFile)
-        XCTAssertFalse(tiny.hasProcessorWindow)
-        XCTAssertNil(tiny.loadFileSize)
+        XCTAssertTrue(tiny.isSimulatedMcu)
+        XCTAssertTrue(tiny.hasLoadFile)
+        XCTAssertTrue(tiny.hasProcessorWindow)
+        XCTAssertEqual(tiny.loadFileSize, MemorySize(words: 8192, bits: 8))
+
+        let facts = try TestSupport.part("ATTINY13A-PU")
+        XCTAssertFalse(facts.isSimulatedMcu)
+        XCTAssertFalse(facts.hasLoadFile)
+        XCTAssertFalse(facts.hasProcessorWindow)
+        XCTAssertNil(facts.loadFileSize)
 
         let cpu = try TestSupport.part("W65C02S6TPG-14")
         XCTAssertTrue(cpu.hasProcessorWindow)
@@ -104,6 +110,32 @@ final class AvrAppTests: XCTestCase {
         XCTAssertTrue(simulation.isRunning, simulation.errorMessage ?? "")
         settle()
         XCTAssertFalse(lit(simulation, led.id), "led_off drives nothing: the LED is dark")
+        simulation.stop()
+    }
+
+    /// An ATtiny85: 5V, GND and an LED from PB0 to ground. Its firmware is
+    /// `sbi DDRB,0; sbi PORTB,0; loop: rjmp loop` at the ATtiny's port
+    /// addresses (DDRB 0x17, PORTB 0x18).
+    func testAttiny85FirmwareRuns() throws {
+        let doc = TestSupport.newDocument()
+        let supply = try TestSupport.place(doc, "5V", at: CGPoint(x: 60, y: 60))
+        let ground = try TestSupport.place(doc, "GND", at: CGPoint(x: 60, y: 600))
+        let mcu = try TestSupport.place(doc, "ATTINY85-20PU", at: CGPoint(x: 400, y: 300))
+        let led = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 800, y: 300))
+        try wire(doc, supply, "VCC", mcu, "VCC")
+        try wire(doc, ground, "GND", mcu, "GND")
+        try wire(doc, mcu, "PB0", led, "A")
+        try wire(doc, led, "K", ground, "GND")
+        doc.setMemoryFile(mcu.id, try firmware("tiny_led_on.hex", ":06000000B89AC09AFFCF80\n:00000001FF\n"))
+        let simulation = simulation()
+        simulation.start(document: doc)
+        XCTAssertTrue(simulation.isRunning, simulation.errorMessage ?? "")
+        settle()
+        XCTAssertTrue(lit(simulation, led.id), "the firmware drives PB0 high: the LED is lit")
+        let state = try XCTUnwrap(simulation.cpuState(of: mcu.id))
+        XCTAssertEqual(state.status, .running)
+        XCTAssertEqual(state.registers.count, 35)
+        XCTAssertTrue(state.instructionText.hasSuffix("RJMP .-2"), state.instructionText)
         simulation.stop()
     }
 
@@ -153,7 +185,7 @@ final class AvrAppTests: XCTestCase {
         XCTAssertEqual(doc.chips.first { $0.id == mcu.id }?.memoryFile, file, "redo sets it again")
 
         // A microcontroller with no simulation model takes no load file.
-        let tiny = try TestSupport.place(doc, "ATTINY85-20PU", at: CGPoint(x: 400, y: 700))
+        let tiny = try TestSupport.place(doc, "ATTINY13A-PU", at: CGPoint(x: 400, y: 700))
         doc.setMemoryFile(tiny.id, file)
         XCTAssertNil(doc.chips.first { $0.id == tiny.id }?.memoryFile)
     }
