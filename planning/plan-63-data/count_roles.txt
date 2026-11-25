@@ -1,0 +1,49 @@
+kind: parts | pin roles (pin entries over every pinout) | parts naming an output enable
+7seg: 60 | {'input': 808, 'nc': 58, 'absent': 14} | oe 0
+arith: 107 | {'input': 215, 'output': 40, 'ground': 16, 'power': 16, 'nc': 1, 'inout': 2} | oe 0
+buffer: 2137 | {'input': 1276, 'ground': 491, 'output': 777, 'power': 333, 'nc': 37, 'inout': 1548} | oe 2089
+buzzer: 510 | {'input': 20, 'nc': 8} | oe 0
+capacitor: 1032 | {'input': 276} | oe 0
+charlcd: 72 | {'ground': 74, 'power': 72, 'input': 444, 'inout': 576, 'nc': 22} | oe 0
+connector: 1541 | {'inout': 39724, 'nc': 28} | oe 0
+converter: 1914 | {'power': 3258, 'ground': 2868, 'input': 7721, 'output': 4212, 'nc': 1527, 'inout': 1012} | oe 63
+counter: 733 | {'input': 538, 'ground': 69, 'output': 453, 'power': 69, 'nc': 66, 'inout': 9} | oe 33
+cpu: 21 | {'output': 182, 'inout': 68, 'input': 48, 'power': 10, 'ground': 13, 'nc': 15} | oe 0
+crystal: 604 | {'inout': 72, 'nc': 37} | oe 0
+decoder: 352 | {'input': 239, 'output': 327, 'ground': 45, 'power': 44, 'nc': 5, 'inout': 2} | oe 0
+dekatron: 13 | {'input': 125, 'nc': 14} | oe 0
+dff: 867 | {'input': 168, 'output': 116, 'ground': 31, 'power': 31, 'nc': 16} | oe 238
+diode: 11166 | {'inout': 235, 'nc': 20} | oe 0
+eeprom: 174 | {'nc': 60, 'input': 488, 'inout': 216, 'ground': 27, 'power': 27} | oe 174
+fuse: 1199 | {'inout': 60} | oe 0
+gate: 3564 | {'input': 853, 'output': 524, 'ground': 202, 'power': 201, 'nc': 192} | oe 0
+generic: 0 | {} | oe 0
+header: 80 | {'inout': 2460} | oe 0
+inductor: 600 | {'inout': 32, 'nc': 7} | oe 0
+jkff: 186 | {'input': 76, 'power': 8, 'output': 32, 'ground': 8, 'nc': 8} | oe 0
+latch: 768 | {'input': 364, 'output': 303, 'ground': 104, 'power': 57, 'nc': 12, 'inout': 36} | oe 623
+lcd: 8 | {'input': 200, 'nc': 104} | oe 0
+lcddriver: 22 | {'power': 26, 'output': 594, 'inout': 18, 'input': 161, 'ground': 21, 'nc': 32} | oe 0
+led: 1 | {'input': 2} | oe 0
+leddriver: 41 | {'power': 28, 'output': 390, 'input': 157, 'ground': 52, 'nc': 13, 'inout': 100} | oe 0
+mcu: 1424 | {'nc': 504, 'inout': 11990, 'input': 408, 'power': 1055, 'ground': 1166, 'output': 225} | oe 0
+mux: 346 | {'input': 253, 'output': 69, 'ground': 28, 'power': 26, 'nc': 16} | oe 25
+nixie: 22 | {'input': 209, 'nc': 40, 'absent': 1} | oe 0
+oscillator: 1145 | {'nc': 47, 'ground': 171, 'output': 198, 'power': 168, 'input': 166, 'inout': 8, 'absent': 66} | oe 0
+pio: 7 | {'ground': 7, 'inout': 185, 'input': 70, 'power': 7, 'output': 11, 'nc': 12} | oe 0
+pld: 25 | {'input': 58, 'ground': 11, 'inout': 48, 'power': 7} | oe 0
+powerswitch: 817 | {'ground': 438, 'power': 693, 'input': 749, 'output': 1362, 'nc': 188, 'inout': 74} | oe 0
+register: 220 | {'input': 395, 'output': 311, 'ground': 96, 'power': 58, 'nc': 28} | oe 162
+regulator: 603 | {'output': 782, 'input': 1080, 'inout': 263, 'ground': 694, 'power': 591, 'nc': 215, 'absent': 5} | oe 0
+relay: 504 | {'input': 272, 'inout': 500, 'nc': 18} | oe 0
+resistor: 1975 | {'inout': 288} | oe 0
+rtc: 16 | {'input': 58, 'output': 29, 'power': 17, 'ground': 12, 'inout': 47, 'nc': 5} | oe 0
+serial: 247 | {'inout': 1143, 'output': 1392, 'ground': 261, 'input': 2301, 'power': 255, 'nc': 360} | oe 7
+serialmem: 92 | {'input': 194, 'output': 40, 'ground': 40, 'power': 40, 'inout': 6} | oe 0
+shift: 597 | {'input': 396, 'output': 537, 'ground': 88, 'power': 59, 'nc': 74, 'inout': 50} | oe 170
+socket: 575 | {'inout': 454} | oe 0
+sram: 172 | {'nc': 105, 'input': 826, 'inout': 448, 'ground': 74, 'power': 73} | oe 172
+supply: 18 | {'ground': 1, 'power': 8, 'output': 9} | oe 0
+switch: 2341 | {'inout': 1059} | oe 0
+transistor: 1256 | {'inout': 425, 'input': 142, 'nc': 1} | oe 0
+all kinds, pin entries by role: {'input': 21756, 'nc': 3895, 'absent': 86, 'output': 12915, 'ground': 7108, 'power': 7237, 'inout': 63158}
