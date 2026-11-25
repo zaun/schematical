@@ -43,6 +43,10 @@ struct BufModel {
     void (*eval)(Sim *sim, SimInstance *inst, BufHeader *state, int at_start);
     /* 1 when pin is an output (or port) of the part; NULL = no outputs listed. */
     int (*is_output)(const void *dev, const void *bound, size_t pin);
+    /* 1 when pin is an output the model releases to Z through an output
+       enable (plan-63-B); NULL = none (a transceiver's or registered model's
+       ports are bidirectional, not 3-state outputs). */
+    int (*is_tristate)(const void *dev, const void *bound, size_t pin);
 };
 
 /* A list of 0..BUF_MAX_OE controls that must all be asserted. */

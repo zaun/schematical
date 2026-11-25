@@ -457,6 +457,15 @@ static int serial_pin_open_drain(const Part *part, size_t pin) {
                                                 pin);
 }
 
+static int serial_pin_tristate(const Part *part, size_t pin) {
+    const PartInternal *internal = part_internal(part);
+    const SerialBound *bound = internal->bound;
+    const SerialPartData *data = internal->data;
+
+    return bound->device->model->pin_tristate != NULL &&
+           bound->device->model->pin_tristate(bound->device->data, bound->pins, data->options, pin);
+}
+
 /* ---- The model: one type, forwarding to the part's model ---------------------- */
 
 static size_t serial_pin_count(const void *config) {
@@ -561,5 +570,6 @@ static const SimComponentType SERIAL_COMPONENT = {
 
 const PartKindOps SERIAL_KIND = {
     PART_SERIAL, "serial", &SERIAL_COMPONENT, DEVICE_KEYS, PART_KEYS,
-    serial_load_device, serial_bind_pinout, serial_load_part, serial_pin_open_drain
+    serial_load_device, serial_bind_pinout, serial_load_part, serial_pin_open_drain, NULL,
+    serial_pin_tristate
 };

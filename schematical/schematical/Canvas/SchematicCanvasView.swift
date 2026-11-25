@@ -61,6 +61,8 @@ struct SchematicCanvasView: View {
     var onOpenCpu: (UUID) -> Void = { _ in }
     var onOpenTerminal: (UUID) -> Void = { _ in }
     var onOpenRegisters: (UUID) -> Void = { _ in }
+    /// Called when the title block is double-clicked, to show Document Info.
+    var onOpenDocumentInfo: () -> Void = {}
     /// Where the pointer is over the canvas (canvas units), for ⌘V; set as
     /// it moves.
     var pointer: BoardPointer?
@@ -84,6 +86,7 @@ struct SchematicCanvasView: View {
     @State private var hoveredBusID: UUID?
     @State private var hoveredPortID: UUID?
     @State private var hoveredNoteID: UUID?
+    @State private var isTitleBlockHovered = false
     @State private var hoveredLabelID: UUID?
     /// The connection point under the pointer in Line mode, when not drawing.
     @State private var hoverAnchor: LineAnchor?
@@ -153,6 +156,10 @@ struct SchematicCanvasView: View {
             } action: { newSize in
                 viewport.updateSize(newSize)
             }
+            .onChange(of: document.ercFocus) { _, focus in
+                // A line selected in the Electrical Rules Check: bring its mark into view.
+                if let focus { viewport.reveal(focus.point) }
+            }
             .gesture(canvasGesture)
             .simultaneousGesture(pinchGesture)
             .scrollPans(viewport) { scrolledMidPress(by: $0) }
@@ -213,6 +220,14 @@ struct SchematicCanvasView: View {
                         document.editingNoteID = note.id
                         return
                     }
+                    // The title block opens Document Info.
+                    if document.chip(at: point) == nil, document.netLabel(at: point) == nil,
+                       document.segmentHit(at: point, tolerance: lineTolerance) == nil,
+                       document.titleBlock(at: point) {
+                        document.select(.titleBlock)
+                        onOpenDocumentInfo()
+                        return
+                    }
                     document.insertNode(at: point, tolerance: lineTolerance)
                 }
             )
@@ -256,6 +271,11 @@ struct SchematicCanvasView: View {
         ZStack(alignment: .topLeading) {
             GridBackground(rect: gridRect, step: gridStep)
                 .equatable()
+
+            // The title block is under the text blocks, so a note can sit on it.
+            TitleBlockLayer(layout: document.titleBlockLayout,
+                            isSelected: document.schematicSelection.contains(.titleBlock),
+                            isHovered: isTitleBlockHovered, area: gridRect)
 
             // Under everything else: wires and parts stay visible over a block.
             NoteLayer(
@@ -306,6 +326,11 @@ struct SchematicCanvasView: View {
                 highlight: highlightPoint,
                 area: gridRect
             )
+
+            // The Electrical Rules Check's marks: on screen only, never in an export.
+            if !document.ercMarkers.isEmpty {
+                ErcMarkerLayer(markers: document.ercMarkers, selected: document.ercSelectedKeys, area: gridRect)
+            }
         }
         .scaleEffect(zoom, anchor: .topLeading)
         .offset(viewport.offset)
@@ -721,6 +746,7 @@ struct SchematicCanvasView: View {
         hoveredBusID = nil
         hoveredPortID = nil
         hoveredNoteID = nil
+        isTitleBlockHovered = false
         hoveredLabelID = nil
         hoverAnchor = nil
     }
@@ -744,8 +770,10 @@ struct SchematicCanvasView: View {
             hoveredWireID = wire
         } else if let bus = document.busHit(at: point, tolerance: busTolerance)?.bus {
             hoveredBusID = bus
+        } else if let note = document.note(at: point) {
+            hoveredNoteID = note.id
         } else {
-            hoveredNoteID = document.note(at: point)?.id
+            isTitleBlockHovered = document.titleBlock(at: point)
         }
     }
 
@@ -796,6 +824,9 @@ struct SchematicCanvasView: View {
                 : .dragBusLine(bus: line.bus, base: base, line: line.line, done: .zero)
         } else if let note = document.note(at: point) {
             selectionPress = document.pressSelection(.note(note.id), shift: shift)
+            interaction = .moveGroup(base: document.schematicGroupBase(), lever: nil)
+        } else if document.titleBlock(at: point) {
+            selectionPress = document.pressSelection(.titleBlock, shift: shift)
             interaction = .moveGroup(base: document.schematicGroupBase(), lever: nil)
         } else if shift {
             interaction = .boxSelect(base: document.schematicSelection.items, from: screen, to: screen)
@@ -1074,6 +1105,54 @@ struct NoteLayer: View {
             }
             for (index, line) in note.lines.enumerated() where !line.isEmpty {
                 painter.draw(PaintedText(line, size: CGFloat(note.size), monospaced: true), at: note.lineOrigin(index),
+                             anchor: .topLeading)
+            }
+        }
+    }
+}
+
+/// Draws the title block (plan-64-C): a framed table of the document's
+/// information. A selected block's frame is accent; the hovered one gets a
+/// soft accent underlay. Not private, so the export can draw it too.
+struct TitleBlockLayer: View {
+    let layout: TitleBlockLayout?
+    var isSelected = false
+    var isHovered = false
+    /// The visible world area; drawing outside it is not shown.
+    let area: CGRect
+
+    var body: some View {
+        Canvas { context, _ in
+            guard let layout else { return }
+            var shifted = context
+            shifted.shiftToWorld(area)
+            var painter = ScreenPainter(shifted)
+            Self.paint(&painter, layout: layout, isSelected: isSelected, isHovered: isHovered)
+        }
+        .worldCanvas(area)
+    }
+
+    /// Draws the block in world coordinates.
+    static func paint<P: SchematicPainter>(_ painter: inout P, layout: TitleBlockLayout,
+                                           isSelected: Bool = false, isHovered: Bool = false) {
+        let frame = Path(layout.rect)
+        if isHovered, !isSelected {
+            painter.stroke(frame, with: Ink.accent.opacity(0.35), lineWidth: 5)
+        }
+        painter.fill(frame, with: .paper)
+        for (a, b) in layout.separators {
+            var line = Path()
+            line.move(to: a)
+            line.addLine(to: b)
+            painter.stroke(line, with: .secondary, lineWidth: 1)
+        }
+        painter.stroke(frame, with: isSelected ? .accent : .primary, lineWidth: isSelected ? 2 : 1.5)
+        for cell in layout.cells {
+            painter.draw(PaintedText(cell.label, size: CGFloat(TitleBlockLayout.labelSize), ink: .secondary),
+                         at: cell.labelOrigin, anchor: .topLeading)
+            for (index, line) in cell.lines.enumerated() where !line.isEmpty {
+                painter.draw(PaintedText(line, size: CGFloat(cell.size), weight: cell.weight, monospaced: true),
+                             at: CGPoint(x: cell.textOrigin.x, y: cell.textOrigin.y + CGFloat(index) * cell.lineHeight),
                              anchor: .topLeading)
             }
         }

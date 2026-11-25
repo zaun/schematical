@@ -20,5 +20,6 @@ static void *lcddriver_load_device(KindContext *ctx, const cJSON *json) {
 
 const PartKindOps LCDDRIVER_KIND = {
     PART_LCDDRIVER, "lcddriver", &CONVERTER_COMPONENT, DEVICE_KEYS, PART_KEYS,
-    lcddriver_load_device, cv_bind_pinout, cv_load_part, cv_pin_open_drain, cv_pin_analog
+    lcddriver_load_device, cv_bind_pinout, cv_load_part, cv_pin_open_drain, cv_pin_analog,
+    cv_pin_tristate
 };

@@ -4,7 +4,7 @@ Last updated: 2026-11-25
 Effort: large (3h–1d)
 Depends on: plan-63-A, plan-63-D
 
-Plan 63's overview and Prerequisites are in `planning/plan-63-A-power-flag.md`.
+Plan 63's overview and Prerequisites are in `planning/completed/plan-63-A-power-flag.md`.
 
 The outcome of 63-E: **`document.electricalRulesCheck()` returns the violations
 of a schematic drawing, by KiCad's rules**: the five pin rules from the backend
@@ -29,8 +29,8 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-63-D is complete | `cmake --build /tmp/logic-build --target erc_test >/dev/null && /tmp/logic-build/erc_test \| tail -1` → `0 failures` | NOT MET until D lands |
-| plan-63-A is complete | `grep -c powerFlag schematical/schematical/Canvas/NetLabel.swift` → a number above 0 | NOT MET until A lands |
+| plan-63-D is complete | `cmake --build /tmp/logic-build --target erc_test >/dev/null && /tmp/logic-build/erc_test \| tail -1` → `0 failures` | MET (`erc_test: 0 failures`, 2026-11-25, in `/tmp/logic-build-wt63`) |
+| plan-63-A is complete | `grep -c powerFlag schematical/schematical/Canvas/NetLabel.swift` → a number above 0 | MET (`4`, 2026-11-25) |
 | The rest as plan-63-A § Prerequisites | its four commands | MET (2026-11-25) |
 
 If plan-63-A or plan-63-D is not complete, this plan cannot start, full stop.
@@ -174,7 +174,7 @@ field). An older build ignores the key (`docs/file-format.md:198`: "Older builds
 
 ### Phase 1 — Settings, undo and the file
 
-- [ ] New `schematical/schematical/ElectricalRulesCheck/ErcSettings.swift`:
+- [x] New `schematical/schematical/ElectricalRulesCheck/ErcSettings.swift`:
       `ErcRule` (16 cases, `title`, `defaultSeverity`: error for `pin_not_connected`,
       `pin_not_driven`, `power_pin_not_driven`, `wire_dangling`, `label_dangling`,
       `duplicate_reference`; warning for `no_connect_connected`, `no_connect_dangling`,
@@ -183,18 +183,18 @@ field). An older build ignores the key (`docs/file-format.md:198`: "Older builds
       map's cell is the severity, 1 warning and 2 error, 0 off; ignore for `single_global_label` and
       `four_way_junction`), `ErcSeverity`, `ErcSettings`, and the default pin map as
       `[[UInt8]]` read from `ERC_DEFAULT_PIN_MAP`.
-- [ ] `Canvas/UndoHistory.swift`: `erc` in `DocumentState`; `UndoKey.erc`,
+- [x] `Canvas/UndoHistory.swift`: `erc` in `DocumentState`; `UndoKey.erc`,
       `UndoValue.erc(ErcSettings)`; the diff and the apply, as `.board` has them.
       `Canvas/SchematicModel.swift`: `private(set) var erc = ErcSettings()`, in
       `state` / `setState` / `replaceContents(…, erc: ErcSettings = ErcSettings())`;
       `setErcSeverity(_:_:)`, `setErcPinMap(_:)`, `resetErcSettings()`,
       `excludeErc(_ key:)`, `includeErc(_ key:)`, each `recordEdit(.schematic, "Change
       ERC Settings" / "Exclude Violation")`.
-- [ ] `Document/SchematicFile.swift`: the `erc` key per § Compatibility, read and
+- [x] `Document/SchematicFile.swift`: the `erc` key per § Compatibility, read and
       written (default settings write nothing); `badErc`. `docs/file-format.md`: a
       section "Electrical rules check" beside "Board design rules", and the top-level
       table row.
-- [ ] Tests (new `schematicalTests/ErcSettingsTests.swift`): defaults for the 16 rules
+- [x] Tests (new `schematicalTests/ErcSettingsTests.swift`): defaults for the 16 rules
       match the README table; an edit is one undo step and redo restores it; the file
       round trip keeps severities, a changed pin map and exclusions; a default
       document writes no `erc` key (the JSON has none); each bad input is refused
@@ -202,24 +202,25 @@ field). An older build ignores the key (`docs/file-format.md:198`: "Older builds
 
 Acceptance: settings edit, undo, save and reopen.
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/ErcSettingsTests -only-testing:schematicalTests/UndoHistoryTests -only-testing:schematicalTests/SchematicUndoTests -only-testing:schematicalTests/FileDesignRulesTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 8 min).
-Commit: —
+  Result (2026-11-25, in the worktree): `ErcSettingsTests` 9, `UndoHistoryTests` 13, `SchematicUndoTests` 50, `FileDesignRulesTests` 22: `Executed 94 tests, with 0 failures`, `** TEST SUCCEEDED **`; the app also compiles `erc.h` / `erc_pins.c` / `erc_check.c` (the 63-B and 63-D backend files) in this build.
+Commit: 8d2a1677
 
 ### Phase 2 — The pin rules on a drawing
 
-- [ ] New `ElectricalRulesCheck/ErcChecker.swift`: `ErcViolation`, the wire-group
+- [x] New `ElectricalRulesCheck/ErcChecker.swift`: `ErcViolation`, the wire-group
       union-find, and the call to `erc_check` per § 3 (types from `erc_pin_type`;
       the pin map from the settings), mapping each problem to a violation with
       KiCad's message (README § messages). `SchematicDocument.electricalRulesCheck()`
       returns them ordered by severity (errors first), then rule, then position
       (y, then x), and drops `ignore` rules and excluded keys.
-- [ ] New `schematicalTests/ErcCases.swift`: one named function per case, each returning
+- [x] New `schematicalTests/ErcCases.swift`: one named function per case, each returning
       a `SchematicDocument` built with `TestSupport`; 63-G exports the same 15. This
       phase adds the five pin cases (`pinConflict`, `pinNotConnected`, `pinNotDriven`,
       `powerPinNotDriven`, `noConnectConnected`); Phase 3 adds the ten others
       (`noConnectDangling`, `wireDangling`, `labelDangling`, `isolatedPinLabel`,
       `multipleNetNames`, `similarLabels`, `similarLabelAndPower`, `singleLabel`,
       `fourWayJunction`, `duplicateReference`). The tests below use them.
-- [ ] Tests (new `schematicalTests/ErcPinChecksTests.swift`): drawings built with
+- [x] Tests (new `schematicalTests/ErcPinChecksTests.swift`): drawings built with
       `TestSupport`, the five cases above among them: an unwired `SN74HC00N` input reports `pin_not_connected`; a
       `5V` + `SN74HC00N` VCC wire reports nothing for VCC; a `SN74HC00N` output
       wired to a second output reports `pin_to_pin` (error); two `SN74HC244N`
@@ -234,14 +235,15 @@ Commit: —
 
 Acceptance: pin rules agree with the README on the drawings above.
   Check: `xcodebuild test … -only-testing:schematicalTests/ErcPinChecksTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+  Result (2026-11-25, in the worktree): `ErcPinChecksTests` `Executed 9 tests, with 0 failures`, `** TEST SUCCEEDED **` on the first run (the pin rules, through the app: real part library, `erc_pin_type` per pin, `erc_check` over them). Notes in Corrections 1-3.
+Commit: f5af17b5
 
 ### Phase 3 — The drawing rules
 
-- [ ] `ErcChecker.swift`: the eleven drawing rules of § 3, with KiCad's messages
+- [x] `ErcChecker.swift`: the eleven drawing rules of § 3, with KiCad's messages
       (`duplicate_reference`: `Duplicate reference <R>`), the points and items each
       names, and the keys.
-- [ ] Tests (new `schematicalTests/ErcDrawingChecksTests.swift`): one case per
+- [x] Tests (new `schematicalTests/ErcDrawingChecksTests.swift`): one case per
       rule from `probe_wires_labels.txt`, `probe_names.txt` and `probe_nets.txt`:
       a wire loose at both ends (`wire_dangling` + 2 `unconnected_wire_endpoint`);
       a pin → wire → loose end (`unconnected_wire_endpoint`); a label alone and a
@@ -259,9 +261,9 @@ Commit: —
       recorded in the Result line below.
 
 Acceptance: each rule fires on its case and not on its near miss; the example runs.
-  Result (recorded when run): the `AFU` fixture: violations by rule, and seconds: (filled when run).
+  Result (2026-11-25): `ErcDrawingChecksTests` 13 tests, 0 failures; the `AFU` fixture (`Fixture.open("AFU")`): 21 violations in 0.01 s: pin_not_driven 17, isolated_pin_label 4, no duplicate_reference.
   Check: `xcodebuild test … -only-testing:schematicalTests/ErcDrawingChecksTests -only-testing:schematicalTests/ErcPinChecksTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 8 min).
-Commit: —
+Commit: 3055f601
 
 ## Validation Plan
 
@@ -269,7 +271,7 @@ Commit: —
 - Coverage check: `grep -c 'case ' schematical/schematical/ElectricalRulesCheck/ErcSettings.swift` shows 16 rules and each has a test case (one assertion per rule in `ErcDrawingChecksTests`/`ErcPinChecksTests`).
 - Runtime proof: the AFU fixture run of Phase 3 (the owner's real-window pass is 63-F's).
 - Doc sync: `docs/file-format.md`.
-- Final gate (once, after Phase 3): the three new classes with `UndoHistoryTests`, `SchematicUndoTests`, `FileDesignRulesTests`, `NetLabelTests`, `PowerFlagTests` → `** TEST SUCCEEDED **` (est. 14 min).
+- Final gate (once, after Phase 3): the three new classes with `UndoHistoryTests`, `SchematicUndoTests`, `FileDesignRulesTests`, `NetLabelTests`, `PowerFlagTests` → `** TEST SUCCEEDED **` (est. 14 min). Result (2026-11-25): `Executed 140 tests, with 0 failures`, `** TEST SUCCEEDED **` (the 8 classes).
 
 ## Decisions
 
@@ -279,7 +281,12 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+1. `electricalRulesCheck` takes `library:` (default the document's own) and `includeExcluded:` (default false; true returns the excluded violations marked `isExcluded`, which the window of 63-F needs). `SchematicDocument.library` was `private`; it is now internal (the checker reads it).
+2. Tests need a document with the part library (`TestSupport.newDocument(library: TestSupport.catalog.library)`): `ErcCases.newDocument()`. `TestSupport.newDocument()` has none, so there pin types come from the pin roles (`fallbackType`).
+3. A pin's "No Connect flag" is the group of wires that end on a No Connect marker (`WireGroups.hasNoConnect`), not the whole wire-connected group: a pin wired to a flag, and to another pin, flags only the first. The plan said "its wire group holds a No Connect marker".
+5. Phase 3: the drawing rules live in `ErcDrawingRules.swift` (an extension of `ErcChecker`), not in `ErcChecker.swift`. A wire cannot be drawn to a free point (`connect(.point(p), …)` on empty space makes no wire; `endpoint(for:)` returns nil), so the loose-end cases are made by erasing a block (`erase(at:)`, plan-30): two gates wired then both erased is `wire_dangling`; one erased is a single `unconnected_wire_endpoint`. `duplicate_reference` is made by editing a saved file's reference text and opening it (the test's document is built that way, `ErcCases.duplicateReference`). `multiple_net_names` also fires for two power symbols of different names on one wire group (README), implemented beside the labels case; a label and a power symbol of different names report nothing, as KiCad does.
+6. The `AFU` fixture: 17 `pin_not_driven` and 4 `isolated_pin_label`, no pin, power or wire violations (0.01 s). Whether KiCad agrees is plan-63-G's comparison.
+4. `§ Phase 2` tests: the plan's "a 12 V connector pin to an IC's VCC" is a header pin on VCC with no rail (a 12 V rail would be refused by the voltage check at `connect`); and an unwired gate reports `pin_not_driven` for each of its 8 inputs and `power_pin_not_driven` for GND as well as VCC (every unwired pin is a net of its own), so tests count by reference (`U1.14`) rather than by rule.
 
 ## Summary
 

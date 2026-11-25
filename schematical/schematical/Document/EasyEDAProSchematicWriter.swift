@@ -359,6 +359,24 @@ nonisolated final class EasyEDAProSchematicWriter {
             out += EProJSON.line("TEXT", .string(ids.id()), .num(rect.minX + SchematicNote.padding),
                                  .num(-(rect.minY + SchematicNote.padding)), 0, .string(note.text), .string(Self.noteStyle), 0)
         }
+        // The title block (plan-64-D): the frame, the lines inside it, and each cell's label and value.
+        if let layout = document.titleBlockLayout {
+            let rect = layout.rect
+            out += poly([CGPoint(x: rect.minX, y: rect.minY), CGPoint(x: rect.maxX, y: rect.minY),
+                         CGPoint(x: rect.maxX, y: rect.maxY), CGPoint(x: rect.minX, y: rect.maxY)],
+                        closed: true, style: Self.wireStyle)
+            for line in layout.separators { out += poly([line.0, line.1], closed: false, style: Self.wireStyle) }
+            func text(_ string: String, at point: CGPoint) -> String {
+                EProJSON.line("TEXT", .string(ids.id()), .num(point.x), .num(-point.y), 0, .string(string),
+                              .string(Self.noteStyle), 0)
+            }
+            for cell in layout.cells {
+                out += text(cell.label, at: cell.labelOrigin)
+                for (index, line) in cell.lines.enumerated() where !line.isEmpty {
+                    out += text(line, at: CGPoint(x: cell.textOrigin.x, y: cell.textOrigin.y + CGFloat(index) * cell.lineHeight))
+                }
+            }
+        }
         return out
     }
 

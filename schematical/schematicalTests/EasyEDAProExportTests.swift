@@ -55,6 +55,31 @@ final class EasyEDAProExportTests: XCTestCase {
         }
     }
 
+    /// plan-63-A: a Power Flag has no EasyEDA symbol; an unwired one changes nothing.
+    func testAPowerFlagIsLeftOut() throws {
+        let doc = try Fixture.open("AFU")
+        let before = EasyEDAProExport.entries(for: doc, base: "AFU")
+        _ = doc.addNetLabel(at: CGPoint(x: 5000, y: 5000), style: .powerFlag)
+        let after = EasyEDAProExport.entries(for: doc, base: "AFU")
+        XCTAssertEqual(before.map(\.name), after.map(\.name))
+        for (b, a) in zip(before, after) where b.name.hasSuffix(".esch") || b.name.hasSuffix(".epcb") {
+            XCTAssertEqual(b.data, a.data, b.name)
+        }
+    }
+
+    /// plan-64-D: the title block is lines and text on the sheet.
+    func testTitleBlockIsOnTheSheet() throws {
+        let doc = try ExportSamples.titled()
+        let entries = EasyEDAProExport.entries(for: doc, base: "tb")
+        let sheet = try entry(entries, suffix: "/1.esch").text
+        for line in try lines(sheet) { XCTAssertTrue(line.first is String) }
+        for words in ["Clock board", "J. Smith", "Revision", "Divides the 4 MHz clock by 8."] {
+            XCTAssertTrue(sheet.contains("\"\(words)\""), words)
+        }
+        let plain = try entry(EasyEDAProExport.entries(for: TestSupport.newDocument(), base: "tb"), suffix: "/1.esch").text
+        XCTAssertFalse(plain.contains("Revision"))
+    }
+
     func testSameDocumentGivesSameBytes() throws {
         let doc = try Fixture.open("LFU")
         XCTAssertEqual(EasyEDAProExport.data(for: doc, base: "x"), EasyEDAProExport.data(for: doc, base: "x"))

@@ -4,7 +4,7 @@ Last updated: 2026-11-25
 Effort: medium (1h–2h)
 Depends on: plan-63-C
 
-Plan 63's overview and Prerequisites are in `planning/plan-63-A-power-flag.md`.
+Plan 63's overview and Prerequisites are in `planning/completed/plan-63-A-power-flag.md`.
 
 The outcome of 63-D: **`erc_check` reports the five rules of KiCad's ERC that
 read pin types, on a netlist of typed pins**: `pin_to_pin` (by a 12×12 pin map
@@ -27,7 +27,7 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-63-C is complete | `cmake --build /tmp/logic-build --target erc_pins_test >/dev/null && /tmp/logic-build/erc_pins_test \| grep -c 'TL16C552FN'` → a number above 0 (C's last kind is asserted and passes) | NOT MET until C lands |
+| plan-63-C is complete | `cmake --build /tmp/logic-build --target erc_pins_test >/dev/null && /tmp/logic-build/erc_pins_test \| grep -c 'TL16C552FN'` → a number above 0 (C's last kind is asserted and passes) | MET (`1`, 2026-11-25, in `/tmp/logic-build-wt63`) |
 | The rest as plan-63-A § Prerequisites | its four commands | MET (2026-11-25) |
 
 If plan-63-C is not complete, this plan cannot start, full stop.
@@ -131,28 +131,29 @@ pin for the driven rules (KiCad reports one per net, `probe_nets.txt`).
 
 ### Phase 1 — The check
 
-- [ ] `backend/include/erc.h`: the declarations of § 3 beside 63-B's.
+- [x] `backend/include/erc.h`: the declarations of § 3 beside 63-B's.
       `backend/src/erc_check.c` (listed in `add_library(logic …)` in
       `backend/CMakeLists.txt` after `src/erc_pins.c`): `ERC_DEFAULT_PIN_MAP`
       (the 12×12 of `README.md`, rows in `ErcPinType` order) and `erc_check` per § 3.
-- [ ] `docs/backend.md` § ERC pin types: the check, its input, the four rules and the
+- [x] `docs/backend.md` § ERC pin types: the check, its input, the four rules and the
       level.
 
 Acceptance: it builds and links into the library and the app's bridging header
 exposes it (`erc.h` was added to `schematical-Bridging-Header.h` in 63-B).
   Check: `cmake -S backend -B /tmp/logic-build && cmake --build /tmp/logic-build --target logic 2>&1 | tail -2` → `[100%] Built target logic` (est. 3 min).
-Commit: —
+  Result (2026-11-25, `/tmp/logic-build-wt63`): `cmake --build … --target logic erc_test voltage_test` ends `[100%] Built target voltage_test`; the app's own build with `erc.h` in the bridging header is run in plan-63-E Phase 1's xcodebuild.
+Commit: 38d94fdc
 
 ### Phase 2 — Tests against KiCad's own answers
 
-- [ ] `planning/plan-63-data/probe_pin_matrix.py`: add `--c-table`, which prints
+- [x] `planning/plan-63-data/probe_pin_matrix.py`: add `--c-table`, which prints
       the 78 pairs and 12 singles as C initialisers
       `{TYPE_A, TYPE_B, pin_to_pin_level, rules_mask}` (a bit per rule of § 3,
       taken from what `kicad-cli` reported, the five pin-level rules only), and
       generate `backend/tests/erc_pair_table.h` from it: `python3 -I
       planning/plan-63-data/probe_pin_matrix.py --c-table /tmp/pm >
       backend/tests/erc_pair_table.h`.
-- [ ] `backend/tests/erc_test.c` (`logic_test(erc_test)`): (1) every pair of
+- [x] `backend/tests/erc_test.c` (`logic_test(erc_test)`): (1) every pair of
       `erc_pair_table.h`: build a two-pin net of the types (a wire between them,
       no attachment), run `erc_check` with `ERC_DEFAULT_PIN_MAP`, and compare the set of rules and the
       `pin_to_pin` level; the 12 singles unwired; (2) `probe_nets.txt`'s six
@@ -166,7 +167,8 @@ Commit: —
 
 Acceptance: `erc_test` passes; its 90 table rows equal KiCad's reports.
   Check: `cmake --build /tmp/logic-build --target erc_test && /tmp/logic-build/erc_test | tail -3` → `FAIL` absent and the last line `0 failures` (est. 5 min).
-Commit: —
+  Result (2026-11-25): `erc_test: 0 failures`: all 90 rows of `erc_pair_table.h` (78 pairs and 12 lone pins) equal KiCad's reports on the first run, and `ctest -R 'erc_|voltage'` → `100% tests passed, 0 tests failed out of 4` (3.7 s). One expectation of mine in the test was wrong (a problem count in `check_order_and_cap`), not the check.
+Commit: 38d94fdc
 
 ## Validation Plan
 
@@ -174,7 +176,7 @@ Commit: —
 - Coverage check: `ctest --test-dir /tmp/logic-build -R erc_` lists `erc_pins_test`, `erc_pins_check` and `erc_test`.
 - Runtime proof: the table is KiCad's own output, regenerable with `kicad-cli`.
 - Doc sync: `docs/backend.md`.
-- Final gate (once, after Phase 2): `ctest --test-dir /tmp/logic-build -R 'erc_|voltage'` → 100% passed (est. 8 min).
+- Final gate (once, after Phase 2): `ctest --test-dir /tmp/logic-build -R 'erc_|voltage'` → 100% passed (est. 8 min). Result (2026-11-25): `100% tests passed, 0 tests failed out of 4` (3.7 s).
 
 ## Decisions
 
@@ -184,7 +186,9 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+1. Phases 1 and 2 landed in one commit (the check and its test were written together and the table passed on the first run), so both phases' `Commit:` lines carry the same hash.
+2. `probe_pin_matrix.py --c-table` sends the probe's usual tables to stderr and writes only the C initialisers to stdout, so `> backend/tests/erc_pair_table.h` is the whole command (the plan's command had no stderr note).
+3. § 2's Measured populations quoted `python3 -I -c` over a template path under `<KiCad>`; that is a placeholder for `~/Applications/KiCad/KiCad.app/Contents`, as the earlier probe commands use.
 
 ## Summary
 

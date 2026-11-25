@@ -57,6 +57,7 @@ struct KiCadSchematicWriter {
         }
         for label in document.netLabels { add(label.tip); add(CGPoint(x: label.tip.x + NetLabel.length, y: label.tip.y)) }
         for note in document.notes { add(note.rect) }
+        if let block = document.titleBlockRect { add(block) }
         for bus in document.buses {
             for line in bus.lines {
                 add(line.a); add(line.b)
@@ -100,11 +101,18 @@ struct KiCadSchematicWriter {
         var drawing: [String] = []
         let edge = edgeConnector(symbols: &symbols, powerNumber: &powerNumber, flagged: &flagged)
         body += edge.symbol
+        // The drawing's own Power Flags (plan-63-A), numbered after the rails'.
+        var flagNumber = flagged.count
+        for label in document.netLabels where label.isPowerFlag {
+            flagNumber += 1
+            body.append(flagInstance(at: label.tip, number: flagNumber, rail: "label/\(label.id)", symbols: &symbols))
+        }
         drawing += edge.drawing
         drawing += wires()
         drawing += labels()
         drawing += buses()
         drawing += notes()
+        drawing += titleBlock()
 
         let page = KiCad.paper(width: sheet.width, height: sheet.height)
         var out = """
@@ -115,7 +123,7 @@ struct KiCadSchematicWriter {
         \t(uuid \(KiCad.q(context.rootUUID)))
         \t\(page)
         \t(title_block
-        \t\t(title \(KiCad.q(context.base)))
+        \(titleBlockFields())
         \t)
         \t(lib_symbols
 
@@ -264,6 +272,19 @@ struct KiCadSchematicWriter {
         return name
     }
 
+    /// The KiCad pin type of a part's pin: the electrical rules check's type
+    /// (`erc_pin_type`: passive, tri_state, open_collector, power_out, …) when the
+    /// document has the part library, else the pin's role.
+    private func pinType(of chip: PlacedChip, _ pin: ChipPin) -> String {
+        if let library = document.library, let part = part_library_find(library.pointer, chip.partNumber) {
+            var type = ERC_INPUT
+            if erc_pin_type(part, pin.index, &type) != 0 {
+                return String(cString: erc_pin_type_name(type))
+            }
+        }
+        return pinType(pin.role)
+    }
+
     private func pinType(_ role: ChipPinRole) -> String {
         switch role {
         case .input: "input"
@@ -312,7 +333,7 @@ struct KiCadSchematicWriter {
         var pins: [String] = []
         for slot in chip.layout.slots {
             let tip = chip.tip(of: slot)
-            pins.append(pin(type: pinType(slot.pin.role), at: CGPoint(x: tip.x - chip.origin.x, y: tip.y - chip.origin.y),
+            pins.append(pin(type: pinType(of: chip, slot.pin), at: CGPoint(x: tip.x - chip.origin.x, y: tip.y - chip.origin.y),
                             side: slot.side, name: KiCad.pinName(slot.pin), number: slot.pin.designator))
         }
         if let far = farPin(of: chip) {
@@ -492,6 +513,7 @@ struct KiCadSchematicWriter {
     }
 
     /// A power flag (`#FLG<n>`) with its pin at `point`, on the net of `rail`.
+    /// For a Power Flag label (plan-63-A) `rail` is `label/<its id>`, only a seed for the ids.
     private func flagInstance(at point: CGPoint, number: Int, rail: String, symbols: inout SymbolLibrary) -> String {
         let name = "PWR_FLAG"
         if symbols.names.insert(name).inserted {
@@ -586,7 +608,7 @@ struct KiCadSchematicWriter {
                 \t\t(uuid \(KiCad.q(id("label/\(label.id)"))))
                 \t)
                 """)
-            } else {
+            } else if label.isNoConnect {
                 out.append("\t(no_connect\n\t\t(at \(xy(label.tip)))\n\t\t(uuid \(KiCad.q(id("nc/\(label.id)"))))\n\t)")
             }
         }
@@ -651,6 +673,47 @@ struct KiCadSchematicWriter {
         \t\t(uuid \(KiCad.q(id(key))))
         \t)
         """
+    }
+
+    /// The fields of KiCad's own title block (plan-64-D): the document's title
+    /// (the file's name when it has none), updated date, revision, author as
+    /// the company, and description as the first comment. Empty ones are left
+    /// out.
+    private func titleBlockFields() -> String {
+        let info = document.documentInfo
+        var fields = ["\t\t(title \(KiCad.q(info.title.isEmpty ? context.base : info.title)))"]
+        if let updated = info.updated {
+            fields.append("\t\t(date \(KiCad.q(String(DocumentInfo.dateText(updated).prefix(10)))))")
+        }
+        if !info.revision.isEmpty { fields.append("\t\t(rev \(KiCad.q(info.revision)))") }
+        if !info.author.isEmpty { fields.append("\t\t(company \(KiCad.q(info.author)))") }
+        if !info.description.isEmpty {
+            let flat = info.description.replacingOccurrences(of: "\n", with: " ")
+            fields.append("\t\t(comment 1 \(KiCad.q(flat)))")
+        }
+        return fields.joined(separator: "\n")
+    }
+
+    /// The title block, when it is on the schematic: its frame and lines, and
+    /// each cell's label and wrapped value, from the canvas's layout.
+    private func titleBlock() -> [String] {
+        guard let layout = document.titleBlockLayout else { return [] }
+        let rect = layout.rect
+        var out = [polyline([CGPoint(x: rect.minX, y: rect.minY), CGPoint(x: rect.maxX, y: rect.minY),
+                             CGPoint(x: rect.maxX, y: rect.maxY), CGPoint(x: rect.minX, y: rect.maxY),
+                             CGPoint(x: rect.minX, y: rect.minY)], key: "titleblock/frame")]
+        for (index, line) in layout.separators.enumerated() {
+            out.append(polyline([line.0, line.1], key: "titleblock/line/\(index)"))
+        }
+        for cell in layout.cells {
+            out.append(text(cell.label, at: cell.labelOrigin, size: CGFloat(TitleBlockLayout.labelSize),
+                            key: "titleblock/\(cell.label)/label", justify: "left top"))
+            for (index, line) in cell.lines.enumerated() where !line.isEmpty {
+                out.append(text(line, at: CGPoint(x: cell.textOrigin.x, y: cell.textOrigin.y + CGFloat(index) * cell.lineHeight),
+                                size: CGFloat(cell.size), key: "titleblock/\(cell.label)/\(index)", justify: "left top"))
+            }
+        }
+        return out
     }
 
     /// Text blocks: the words, and a frame round them when the app draws one.

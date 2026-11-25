@@ -79,6 +79,8 @@ struct ContentView: View {
     @State private var terminalWindows: Set<TerminalWindowTarget> = []
     @State private var isBillOfMaterialsOpen = false
     @State private var isDesignRuleCheckOpen = false
+    @State private var isElectricalRulesCheckOpen = false
+    @State private var isDocumentInfoOpen = false
     @State private var isBoardPreviewOpen = false
     /// Watches for the editing keys: ⌘R / ⇧⌘R rotate, A changes the trace
     /// angle and ⌘X / ⌘C / ⌘V cut, copy and paste traces on the PCB, ⌘F
@@ -269,7 +271,7 @@ struct ContentView: View {
     private func cutSelection() -> Bool {
         if page == .schematic {
             guard !simulation.isRunning, copySelection() else { return false }
-            return document.deleteSchematicSelection(named: "Cut")
+            return document.deleteSchematicSelection(named: "Cut", includingTitleBlock: false)
         }
         guard copySelection() else { return false }
         return document.cutBoardSelection()
@@ -349,9 +351,17 @@ struct ContentView: View {
             isBillOfMaterialsOpen = true
             openWindow(id: "bom", value: BillOfMaterialsTarget(documentID: documentID))
         }
+        menus.openDocumentInfo = {
+            isDocumentInfoOpen = true
+            openWindow(id: "documentInfo", value: DocumentInfoTarget(documentID: documentID))
+        }
         menus.openDesignRuleCheck = {
             isDesignRuleCheckOpen = true
             openWindow(id: "drc", value: DesignRuleCheckTarget(documentID: documentID))
+        }
+        menus.openElectricalRulesCheck = {
+            isElectricalRulesCheckOpen = true
+            openWindow(id: "erc", value: ElectricalRulesCheckTarget(documentID: documentID))
         }
     }
 
@@ -434,6 +444,7 @@ struct ContentView: View {
                     registerWindows.insert(target)
                     openWindow(id: "registers", value: target)
                 },
+                onOpenDocumentInfo: { model.menus.openDocumentInfo?() },
                 pointer: schematicPointer
             ) {
                 // Placing a part from the drawer returns to the Pointer tool.
@@ -826,6 +837,14 @@ struct ContentView: View {
                 if isDesignRuleCheckOpen {
                     dismissWindow(id: "drc", value: DesignRuleCheckTarget(documentID: documentID))
                     isDesignRuleCheckOpen = false
+                }
+                if isElectricalRulesCheckOpen {
+                    dismissWindow(id: "erc", value: ElectricalRulesCheckTarget(documentID: documentID))
+                    isElectricalRulesCheckOpen = false
+                }
+                if isDocumentInfoOpen {
+                    dismissWindow(id: "documentInfo", value: DocumentInfoTarget(documentID: documentID))
+                    isDocumentInfoOpen = false
                 }
                 if isBoardPreviewOpen {
                     dismissWindow(id: "board-preview", value: BoardPreviewTarget(documentID: documentID))

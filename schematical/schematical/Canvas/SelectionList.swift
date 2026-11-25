@@ -33,13 +33,16 @@ enum SelectionRows {
             rows.append(SelectionRow(item: .wire(wire.id), title: "Wire",
                                      detail: "\(end(wire.start, in: document)) – \(end(wire.end, in: document))"))
         }
+        if selection.contains(.titleBlock) {
+            rows.append(SelectionRow(item: .titleBlock, title: "Title Block", detail: preview(document.documentInfo.title)))
+        }
         for note in document.notes where selection.contains(.note(note.id)) {
             rows.append(SelectionRow(item: .note(note.id), title: "Text", detail: preview(note.text)))
         }
         for label in document.netLabels where selection.contains(.label(label.id)) {
             rows.append(label.isNet
                 ? SelectionRow(item: .label(label.id), title: "Net Label", detail: "\(label.name) (\(label.style.title))")
-                : SelectionRow(item: .label(label.id), title: "No Connect", detail: ""))
+                : SelectionRow(item: .label(label.id), title: label.style.title, detail: ""))
         }
         for bus in document.buses where selection.contains(.bus(bus.id)) {
             rows.append(SelectionRow(item: .bus(bus.id), title: "Bus", detail: "\(bus.name), \(bus.wires.count) wires"))
@@ -110,7 +113,7 @@ enum SelectionRows {
             let name = document.port(ref.portID)?.bus.wires.first { $0.id == ref.wireID }?.name
             return name.map { "bus port \($0)" } ?? "bus port"
         case let .label(id):
-            return document.netLabels.first { $0.id == id }.map { $0.isNet ? "net \($0.name)" : "no connect" }
+            return document.netLabels.first { $0.id == id }.map { $0.isNet ? "net \($0.name)" : ($0.isPowerFlag ? "power flag" : "no connect") }
                 ?? "net label"
         }
     }

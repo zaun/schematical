@@ -92,7 +92,7 @@ enum NetlistBuilder {
             }
         }
 
-        let noConnects = Set(labels.filter { !$0.isNet }.map(\.id))
+        let noConnects = Set(labels.filter(\.isNoConnect).map(\.id))
         func isNoConnect(_ end: WireEnd) -> Bool {
             if case let .label(id) = end { return noConnects.contains(id) }
             return false

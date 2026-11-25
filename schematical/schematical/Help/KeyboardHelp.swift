@@ -58,6 +58,8 @@ nonisolated enum KeyboardHelp {
         entry("⌘= / ⌘-", "Zoom in / out"),
         entry("⌘0", "Actual size (100 %)"),
         entry("⇧⌘B", "Bill of Materials"),
+        entry("⌥⌘E", "Electrical Rules Check (the Schematic page)"),
+        entry("⌘I", "Document Info: title, author, revision, dates and description"),
         entry("⌘?", "This help, for the page shown"),
     ])
 

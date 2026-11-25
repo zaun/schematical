@@ -23,7 +23,7 @@ Stated once in plan-64-A; re-run its commands. In addition:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-64-C is complete | `grep -c "^Commit: —" planning/plan-64-C-title-block-canvas.md planning/completed/plan-64-C-title-block-canvas.md 2>/dev/null` → `0` for whichever file exists | NOT MET (2026-11-25: C not started) |
+| plan-64-C is complete | `grep -c "^Commit: —" planning/plan-64-C-title-block-canvas.md planning/completed/plan-64-C-title-block-canvas.md 2>/dev/null` → `0` for whichever file exists | MET (2026-11-25: 0 unticked boxes, 0 pending Commit lines) |
 
 ## 1. Goal
 
@@ -102,66 +102,66 @@ Rejected alternatives:
 
 ### Phase 1 — Exports
 
-- [ ] `KiCadSchematicWriter.swift`: `extent(of:)` adds `document.titleBlockRect` when shown; a `titleBlock()`
+- [x] `KiCadSchematicWriter.swift`: `extent(of:)` adds `document.titleBlockRect` when shown; a `titleBlock()`
       beside `notes()` (:657) returns the frame (`polyline`, keys `titleblock/frame`), each separator
       (`titleblock/sep<i>`) and each cell line (`text(…, key: "titleblock/<cell>/<line>", justify: "left top")`);
-      add it to `drawing` after `notes()` (:107); the `(title_block` (:117) gets the fields in § 3.
-- [ ] `EasyEDAProSchematicWriter.swift`: after the notes loop (:352), the frame and separators as `poly` (open,
-      `wireStyle`) and each cell line as `TEXT` with `noteStyle`, from `TitleBlockLayout`.
-- [ ] `SchematicScene` already paints it (C); no change to `ImageExport`/`PrintExport`.
-- [ ] Tests: `KiCadExportTests` — a document with a title block and info → the `.kicad_sch` text contains the title
+      add it to `drawing` after `notes()` (:107); the `(title_block` (:117) gets the fields in § 3. — done
+- [x] `EasyEDAProSchematicWriter.swift`: after the notes loop (:352), the frame and separators as `poly` (open,
+      `wireStyle`) and each cell line as `TEXT` with `noteStyle`, from `TitleBlockLayout`. — done
+- [x] `SchematicScene` already paints it (C); no change to `ImageExport`/`PrintExport`. — done: no change to ImageExport/PrintExport; SVG test and PrintExportTests pass
+- [x] Tests: `KiCadExportTests` — a document with a title block and info → the `.kicad_sch` text contains the title
       and the author as `text` entries, `(title_block` has `(rev "B")` `(company "…")` and `(date "…")`, parens still
       balance (`testFilesAreWellFormed`'s check), two exports of one document are the same bytes (as
       `testSameDocumentGivesSameBytes`), and a document with no title block and default info exports exactly as
       before (`(title "<base>")` only); `EasyEDAProExportTests` — the `.epro` text contains the title; 
       `SchematicSVGTests` — the SVG of a document with a title block contains the title text; `SchematicSceneTests` —
-      a scene with only a title block is not `isEmpty` and its ink bounds equal the block's rect.
-- [ ] Real-tool check: add a `titleblock` sample to `KiCadExportTests.testPrintSamplesWhenAsked` (a document with two
+      a scene with only a title block is not `isEmpty` and its ink bounds equal the block's rect. — done: KiCadExportTests.testDocumentInfoAndTitleBlock + testHiddenTitleBlockIsNotDrawnButTheInfoIsKept, EasyEDAProExportTests.testTitleBlockIsOnTheSheet, SchematicSVGTests.testTitleBlockIsInTheSVG; xcodebuild test KiCadExportTests EasyEDAProExportTests SchematicSVGTests SchematicSceneTests PrintExportTests -> ** TEST SUCCEEDED **, 73 tests 0 failures
+- [x] Real-tool check: add a `titleblock` sample to `KiCadExportTests.testPrintSamplesWhenAsked` (a document with two
       parts, a filled-in info and the block shown) printing `KICAD_FILE titleblock/<name>.kicad_sch`; run it with
       `TEST_RUNNER_KICAD_OUT=1`, decode the file, run `~/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli sch export
-      pdf` on it, the exit code must be 0 and the PDF's text must contain the title and author (`pdftotext <pdf> - | grep -c '<title>\|<author>'` → 2).
+      pdf` on it, the exit code must be 0 and the PDF's text must contain the title and author (`pdftotext <pdf> - | grep -c '<title>\|<author>'` → 2). — done: TEST_RUNNER_KICAD_OUT=1 test run printed titleblock.kicad_sch (9732 bytes); kicad-cli sch export pdf exit 0; pdftotext shows Title: Clock board, J. Smith, Revision, the description (grep -c -> 4 lines; the plan said 2: the title and author appear in both the drawn block and KiCads own title block)
 
 Acceptance: the exports carry the block; KiCad opens the file and prints the title.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p64-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/KiCadExportTests -only-testing:schematicalTests/EasyEDAProExportTests -only-testing:schematicalTests/SchematicSVGTests -only-testing:schematicalTests/SchematicSceneTests -only-testing:schematicalTests/PrintExportTests` → `** TEST SUCCEEDED **` (est. 12 min: five classes that exercise every changed exporter); then the `kicad-cli` run above → exit 0 and the title in the PDF text (est. 5 min).
-Commit: —
+Commit: 99a0000f
 
 ### Phase 2 — Agent tools
 
-- [ ] `AutomationSchematic.swift`: `AutomationTool(name: "set_document_info", …)` next to `set_note` (:86) with the
+- [x] `AutomationSchematic.swift`: `AutomationTool(name: "set_document_info", …)` next to `set_note` (:86) with the
       properties in § 3, `edits: true`; its `run` is one `document.recordEdit(.schematic, "Edit Document Info")` that
       applies the given fields through A's setters and `setTitleBlockShown`, refusing dates under automatic dates;
       `item(_:)` (:845): `spec.lowercased() == "titleblock"` (before the no-colon part lookup) → `.schematic(.titleBlock)`
-      or the error in § 3; the unknown-item message (:862) lists `titleblock`.
-- [ ] `AutomationRead.swift`: the `DOCUMENT` section in the text form (:171 area) and `"document"` in the JSON form
-      (:279 area).
-- [ ] `AutomationTools.swift`: one sentence in the `instructions` text (:348): the title block is addressed as
-      `titleblock`, and `set_document_info` edits the information.
-- [ ] Tests (`AutomationTests`, following the `add_note` tests at :309-366): `set_document_info` with title, author,
+      or the error in § 3; the unknown-item message (:862) lists `titleblock`. — done (DocumentInfo.isoText/isoDate are shared with the file writer)
+- [x] `AutomationRead.swift`: the `DOCUMENT` section in the text form (:171 area) and `"document"` in the JSON form
+      (:279 area). — done
+- [x] `AutomationTools.swift`: one sentence in the `instructions` text (:348): the title block is addressed as
+      `titleblock`, and `set_document_info` edits the information. — done
+- [x] Tests (`AutomationTests`, following the `add_note` tests at :309-366): `set_document_info` with title, author,
       revision, description and `title_block: true` → `get_design` shows them and the block's bounds; the same call
       is one undo step (`undo` restores the defaults); `created` with automatic dates on is an error;
       `automatic_dates: false` + `created` stores it; `move` with `titleblock` and `dx`/`dy` moves it; `delete`
       with `titleblock` hides it and leaves the information; `select titleblock` with the block off is the error;
-      `get_design` JSON has `"title_block": null` when off.
+      `get_design` JSON has `"title_block": null` when off. — done: AutomationTests.testDocumentInfoAndTheTitleBlock; xcodebuild test AutomationTests AutomationWindowToolsTests DocumentInfoTests -> ** TEST SUCCEEDED **, 54 tests 0 failures
 
 Acceptance: an agent can read and set everything the window can, and address the block.
   Check: `xcodebuild … test -only-testing:schematicalTests/AutomationTests -only-testing:schematicalTests/AutomationWindowToolsTests` → `** TEST SUCCEEDED **` (est. 9 min).
-Commit: —
+Commit: 7c81f150
 
 ### Phase 3 — Docs and landing
 
-- [ ] `docs/export.md`: in § KiCad (:250-252) add the title block to the list ("the Document Info's title block,
+- [x] `docs/export.md`: in § KiCad (:250-252) add the title block to the list ("the Document Info's title block,
       when shown, as lines and text; KiCad's own title block carries the title, date, revision, author and
       description"); in § EasyEDA Pro (:340) "the title block is lines and `TEXT`"; in § Image and § PDF and print one
-      sentence that a shown title block is drawn with the schematic.
-- [ ] `docs/agent-control.md`: `set_document_info` in the schematic tools list (:74); `titleblock` in the item
-      conventions (§ Conventions, near `Wires, labels, notes…`, :117); one line on get_design's `DOCUMENT` section.
-- [ ] `docs/file-format.md`: bring A's `## Document info` section to the shape that shipped (the `titleBlock` position,
-      the defaults, the dates rule) and record any difference from the plan under Corrections.
-- [ ] Landing gate — see Validation Plan. Archive plan-64-A…D to `planning/completed/` (`git mv`) in the landing commit.
+      sentence that a shown title block is drawn with the schematic. — done
+- [x] `docs/agent-control.md`: `set_document_info` in the schematic tools list (:74); `titleblock` in the item
+      conventions (§ Conventions, near `Wires, labels, notes…`, :117); one line on get_design's `DOCUMENT` section. — done
+- [x] `docs/file-format.md`: bring A's `## Document info` section to the shape that shipped (the `titleBlock` position,
+      the defaults, the dates rule) and record any difference from the plan under Corrections. — done: the shipped file shape (ISO 8601 UTC dates, automaticDates only as false, titleBlock snapped) is what A described; no difference
+- [x] Landing gate — see Validation Plan. Archive plan-64-A…D to `planning/completed/` (`git mv`) in the landing commit. — done 2026-11-25: the 18-class gate passed (303 tests, 0 failures, 1 skipped) before the merge; after merging main (plans 63, 65, 66 had landed) the same gate plus PCBUndoTests passed again: ** TEST SUCCEEDED **, 341 tests, 0 failures. Plans archived to planning/completed/ in the landing commit
 
 Acceptance: the docs describe the shipped behavior; the landing gate passes.
   Check: `grep -n "titleblock\|title block" docs/export.md docs/agent-control.md docs/file-format.md | wc -l` → at least 8 lines naming it across the three docs (est. 1 min); the Validation Plan's final gate.
-Commit: —
+Commit: 5feaba84 (docs); landing: see the merge commit
 
 ## Validation Plan
 
@@ -193,7 +193,10 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- Phase 1: the real-tool check's grep (`pdftotext … | grep -c '<title>\|<author>'` → 2) counts matching lines, and the
+  PDF has four: the title and author are both in the drawn block and in KiCad's own title block (`Title: Clock board`,
+  the author as the company). The check's intent (title and author reach KiCad's output) is met; the expected
+  count was wrong.
 
 ## Summary
 

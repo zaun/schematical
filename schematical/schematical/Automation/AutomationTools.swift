@@ -341,12 +341,12 @@ enum AutomationGuide {
     everything you do shows on screen and is undoable (undo/redo), one step per call (or per batch).
 
     Workflow: search_parts → place_part → connect (draw the schematic) → get_design / get_nets / render to \
-    check → run_drc → move_footprint / route (lay out the PCB) → run_drc → render (pcb, front). \
+    check → run_erc → run_drc → move_footprint / route (lay out the PCB) → run_drc → render (pcb, front). \
     Look at your work with render often; it returns a picture.
 
     Addressing: parts by reference ("U1", "R2"); pins by designator or name ("U1.14", "D1.K", "U1.VCC"). \
     Everything else (wires, labels, notes, traces, vias, holes, pours, keep-outs, board texts) by the short id get_design / \
-    get_board prints. Net labels connect by name: "label:CLK". A point on an existing wire is "@x,y".
+    get_board prints; the Document Info title block is "titleblock" (set_document_info edits the information and shows or hides it). Net labels connect by name: "label:CLK". A point on an existing wire is "@x,y".
 
     Power symbols are parts too, placed by name: GND, 5V, 3V3, 2V5, 1V8, 1V2, 12V, or a rail of any voltage up to 500 V named like 170V or 3V6 (pin "VCC"/"GND"), and \
     PULLDOWN / PULLUP-5V (a resistor to a rail). They aren't listed by search_parts. Their references look \

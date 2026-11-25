@@ -45,6 +45,51 @@ final class KiCadExportTests: XCTestCase {
         text.components(separatedBy: needle).count - 1
     }
 
+    /// plan-63-G: a library pin's type is the ERC pin type (`erc_pin_type`), so KiCad's own
+    /// ERC on the export sees what the app's sees.
+    func testLibraryPinsCarryTheErcPinTypes() throws {
+        func schematic(placing name: String) throws -> String {
+            let doc = TestSupport.newDocument(library: TestSupport.catalog.library)
+            try TestSupport.place(doc, name, at: CGPoint(x: 200, y: 200))
+            return try file(KiCadExport.files(for: doc, base: "t"), "kicad_sch")
+        }
+        let buffer = try schematic(placing: "SN74HC244N")
+        XCTAssertEqual(count("(pin tri_state line", in: buffer), 8, "the eight Y pins")
+        XCTAssertEqual(count("(pin input line", in: buffer), 10, "eight A pins and two OE pins")
+        XCTAssertEqual(count("(pin power_in line", in: buffer), 2)
+        XCTAssertEqual(count("(pin bidirectional line", in: buffer), 0)
+        XCTAssertTrue(try schematic(placing: "SN74LS07N").contains("(pin open_collector line"))
+        XCTAssertTrue(try schematic(placing: "GENERIC-RESISTOR").contains("(pin passive line"))
+        XCTAssertFalse(try schematic(placing: "GENERIC-RESISTOR").contains("(pin bidirectional line"))
+        XCTAssertTrue(try schematic(placing: "GENERIC-HEADER-1X02").contains("(pin passive line"))
+        XCTAssertTrue(try schematic(placing: "ATMEGA328P-PU").contains("(pin bidirectional line"))
+        XCTAssertTrue(try schematic(placing: "LM7805MPX/NOPB").contains("(pin power_out line"))
+        // Without the library, the pin's role: an output is an output.
+        let bare = TestSupport.newDocument()
+        try TestSupport.place(bare, "SN74HC244N", at: CGPoint(x: 200, y: 200))
+        let plain = try file(KiCadExport.files(for: bare, base: "t"), "kicad_sch")
+        XCTAssertEqual(count("(pin output line", in: plain), 8)
+    }
+
+    /// plan-63-A: a Power Flag net label is a `PWR_FLAG` power symbol with a `power_out` pin.
+    func testAPowerFlagExportsAsPWR_FLAG() throws {
+        let doc = TestSupport.newDocument()
+        let one = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 100))
+        let flag = doc.addNetLabel(at: CGPoint(x: 300, y: 100), style: .powerFlag)
+        XCTAssertNil(doc.connect(.pin(try TestSupport.pin(one, "K")), .label(flag)))
+        let plain = try file(KiCadExport.files(for: TestSupport.newDocument(), base: "p"), "kicad_sch")
+        XCTAssertEqual(count("lib_id \"Schematical:PWR_FLAG\"", in: plain), 0)
+
+        let text = try file(KiCadExport.files(for: doc, base: "flag"), "kicad_sch")
+        XCTAssertTrue(balanced(text))
+        XCTAssertEqual(count("(lib_id \"Schematical:PWR_FLAG\")", in: text), 1)
+        XCTAssertEqual(count("(pin power_out line", in: text), 1)
+        XCTAssertEqual(count("(reference \"#FLG01\")", in: text), 1)
+        // Not a label and not a No Connect.
+        XCTAssertEqual(count("(no_connect", in: text), 0)
+        XCTAssertEqual(count("(label ", in: text), 0)
+    }
+
     func testThreeFilesNamedAfterTheProject() throws {
         let (_, files) = try files("AFU")
         XCTAssertEqual(files.map(\.name), ["AFU.kicad_pro", "AFU.kicad_sch", "AFU.kicad_pcb"])
@@ -76,6 +121,44 @@ final class KiCadExportTests: XCTestCase {
         XCTAssertTrue(board.contains("TP1"))
         XCTAssertEqual(count("(footprint ", in: board), 2)
         XCTAssertEqual(count("(pad ", in: board), 2)
+    }
+
+    /// plan-64-D: the Document Info goes into KiCad's own title block, and the
+    /// title block on the schematic is lines and text; a document with no
+    /// information exports as it did.
+    func testDocumentInfoAndTitleBlock() throws {
+        let doc = try ExportSamples.titled()
+        let sch = try file(KiCadExport.files(for: doc, base: "tb"), "kicad_sch")
+        XCTAssertTrue(balanced(sch))
+        for field in ["(title \"Clock board\")", "(rev \"B\")", "(company \"J. Smith\")",
+                      "(comment 1 \"Divides the 4 MHz clock by 8. Drives the counter.\")",
+                      "(date \"\(String(DocumentInfo.dateText(doc.documentInfo.updated).prefix(10)))\")"] {
+            XCTAssertTrue(sch.contains(field), field)
+        }
+        for words in ["Clock board", "J. Smith", "Author", "Revision", "Description", "Divides the 4 MHz clock by 8."] {
+            XCTAssertTrue(sch.contains("(text \"\(words)\""), words)
+        }
+        // The frame, and the lines inside it: 3 between rows and 2 between cells.
+        XCTAssertEqual(count("(polyline", in: sch), 1 + 5)
+        let again = try file(KiCadExport.files(for: doc, base: "tb"), "kicad_sch")
+        XCTAssertEqual(sch, again, "the same bytes twice")
+
+        let plain = TestSupport.newDocument()
+        let bare = try file(KiCadExport.files(for: plain, base: "tb"), "kicad_sch")
+        XCTAssertTrue(bare.contains("(title \"tb\")"))
+        for absent in ["(rev ", "(company ", "(comment ", "(date ", "(polyline"] {
+            XCTAssertFalse(bare.contains(absent), absent)
+        }
+    }
+
+    /// Hidden, the block is not drawn, but the information still goes to KiCad.
+    func testHiddenTitleBlockIsNotDrawnButTheInfoIsKept() throws {
+        let doc = try ExportSamples.titled()
+        doc.setTitleBlockShown(false)
+        let sch = try file(KiCadExport.files(for: doc, base: "tb"), "kicad_sch")
+        XCTAssertFalse(sch.contains("(polyline"))
+        XCTAssertFalse(sch.contains("(text \"Clock board\""))
+        XCTAssertTrue(sch.contains("(title \"Clock board\")"))
     }
 
     func testSameDocumentGivesSameBytes() throws {
@@ -391,6 +474,9 @@ final class KiCadExportTests: XCTestCase {
             }
         }
         try printRouted()
+        for file in KiCadExport.files(for: try ExportSamples.titled(), base: "titleblock") {
+            print("KICAD_FILE titleblock/\(file.name) \(file.data.base64EncodedString())")
+        }
         let doc = try ExportSamples.turned()
         // Every pad's box as the app has it, for the SVG check.
         for chip in doc.chips {
@@ -454,6 +540,21 @@ final class KiCadExportTests: XCTestCase {
 /// Boards the export tests (and `kicad-cli` / EasyEDA importer checks) use.
 @MainActor
 enum ExportSamples {
+    /// plan-64-D: two gates, a filled-in Document Info and its title block.
+    static func titled() throws -> SchematicDocument {
+        let doc = TestSupport.newDocument()
+        _ = try TestSupport.place(doc, "SN74HC00N", at: CGPoint(x: 100, y: 100))
+        _ = try TestSupport.place(doc, "SN74HC00N", at: CGPoint(x: 400, y: 100))
+        doc.setInfoTitle("Clock board")
+        doc.setInfoAuthor("J. Smith")
+        doc.setInfoRevision("B")
+        doc.setInfoDescription("Divides the 4 MHz clock by 8.\nDrives the counter.")
+        doc.setInfoCreated(Date(timeIntervalSince1970: 1_795_615_629))
+        doc.setInfoUpdated(Date(timeIntervalSince1970: 1_795_619_999))
+        doc.setTitleBlockShown(true)
+        return doc
+    }
+
     /// A board with a DIP at each turn on Top and on Bottom.
     static func turned() throws -> SchematicDocument {
         let doc = TestSupport.newDocument()

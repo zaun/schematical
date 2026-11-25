@@ -239,6 +239,21 @@ int mux_select_open_drain(const MuxSelectBound *b, size_t pin) {
     return 0;
 }
 
+int mux_select_tristate(const MuxSelectBound *b, int shared, size_t pin) {
+    size_t i;
+
+    for (i = 0; i < b->unit_count; i++) {
+        const MuxUnit *u = &b->units[i];
+        int releases = shared || u->oe.pin != SEQ_NO_PIN ||
+                       (b->disabled_z && u->strobe.pin != SEQ_NO_PIN);
+
+        if (releases && ((u->y != SEQ_NO_PIN && pin == u->y) || (u->w != SEQ_NO_PIN && pin == u->w))) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 /* ---- select ------------------------------------------------------------------ */
 
 static const char *const SELECT_KEYS[] = {
@@ -343,8 +358,12 @@ static int sel_open_drain(const void *bound, size_t pin) {
 
 /* ---- The kind ------------------------------------------------------------- */
 
+static int sel_tristate(const void *bound, size_t pin) {
+    return mux_select_tristate(&((const SelBound *)bound)->sel, 0, pin);
+}
+
 static const MuxModel MUX_SELECT = {
-    "select", SELECT_KEYS, sel_load, sel_bind, sel_create, sel_eval, sel_open_drain
+    "select", SELECT_KEYS, sel_load, sel_bind, sel_create, sel_eval, sel_open_drain, sel_tristate
 };
 
 static const MuxModel *const MODELS[] = {&MUX_SELECT, &MUX_STORED, &MUX_REGFILE};
@@ -414,6 +433,13 @@ static int mux_pin_open_drain(const Part *part, size_t pin) {
     return dev->model->open_drain(internal->bound, pin);
 }
 
+static int mux_pin_tristate(const Part *part, size_t pin) {
+    const PartInternal *internal = part_internal(part);
+    const MuxDevice *dev = internal->device;
+
+    return dev->model->tristate != NULL && dev->model->tristate(internal->bound, pin);
+}
+
 /* ---- Engine callbacks ----------------------------------------------------- */
 
 static size_t mux_pin_count(const void *config) {
@@ -460,5 +486,5 @@ static const SimComponentType MUX_SIM = {
 
 const PartKindOps MUX_KIND = {
     PART_MUX, "mux", &MUX_SIM, DEVICE_KEYS, PART_KEYS,
-    mux_load_device, mux_bind_pinout, mux_load_part, mux_pin_open_drain
+    mux_load_device, mux_bind_pinout, mux_load_part, mux_pin_open_drain, NULL, mux_pin_tristate
 };

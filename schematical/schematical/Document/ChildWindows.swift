@@ -2,8 +2,8 @@ import AppKit
 import SwiftUI
 
 // The windows a schematic document opens beside its own (plan-61-B): Memory,
-// Processor, Registers, Terminal, Bill of Materials, Design Rule Check and
-// Board Preview. Each is an AppKit window hosting its SwiftUI view. They are
+// Processor, Registers, Terminal, Bill of Materials, Design Rule Check,
+// Document Info and Board Preview. Each is an AppKit window hosting its SwiftUI view. They are
 // not scenes: the editor is hosted in its document's window and has no scene
 // to open one from, and a child belongs to its document, not to the app.
 
@@ -82,7 +82,7 @@ final class ChildWindowCenter {
 }
 
 /// Stands where `@Environment(\.openWindow)` stood in `ContentView`, with its
-/// call syntax, for the seven child windows.
+/// call syntax, for the eight child windows.
 @MainActor
 struct ChildWindowOpener {
     let documentID: UUID
@@ -113,6 +113,14 @@ struct ChildWindowOpener {
         case let target as DesignRuleCheckTarget:
             center.open(target, document: documentID, title: "Design Rule Check", size: NSSize(width: 720, height: 420)) {
                 DesignRuleCheckWindowView(target: target)
+            }
+        case let target as ElectricalRulesCheckTarget:
+            center.open(target, document: documentID, title: "Electrical Rules Check", size: NSSize(width: 760, height: 440)) {
+                ElectricalRulesCheckWindowView(target: target)
+            }
+        case let target as DocumentInfoTarget:
+            center.open(target, document: documentID, title: "Document Info", size: NSSize(width: 420, height: 520)) {
+                DocumentInfoWindowView(target: target)
             }
         case let target as BoardPreviewTarget:
             center.open(target, document: documentID, title: "Board Preview", size: NSSize(width: 1000, height: 720)) {

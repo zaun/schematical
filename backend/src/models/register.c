@@ -501,7 +501,31 @@ static const SimComponentType REGISTER_MODEL = {
     .pin_changed = register_pin_changed,
 };
 
+/* The q pins of every bank that has an "oe" (plan-63-C). */
+static int register_pin_tristate(const Part *part, size_t pin) {
+    const PartInternal *internal = part_internal(part);
+    const RegDevice *dev = internal->device;
+    const RegBound *b = internal->bound;
+    size_t gi, k, i;
+
+    for (gi = 0; gi < dev->group_count; gi++) {
+        const RegGroupDef *g = &dev->groups[gi];
+
+        for (k = 0; k < g->bank_count; k++) {
+            if (b->groups[gi].banks[k].oe.count == 0) {
+                continue;
+            }
+            for (i = 0; i < g->bits; i++) {
+                if (b->groups[gi].banks[k].q[i] == pin) {
+                    return 1;
+                }
+            }
+        }
+    }
+    return 0;
+}
+
 const PartKindOps REGISTER_KIND = {
     PART_REGISTER, "register", &REGISTER_MODEL, DEVICE_KEYS, PART_KEYS,
-    register_load_device, register_bind_pinout, register_load_part, NULL
+    register_load_device, register_bind_pinout, register_load_part, NULL, NULL, register_pin_tristate
 };

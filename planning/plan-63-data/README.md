@@ -34,7 +34,7 @@ rule the templates do not list, `isolated_pin_label` (warning).
 | `wire_dangling` | error | A wire with neither end connected to anything. |
 | `unconnected_wire_endpoint` | warning | Each wire end connected to nothing (a wire with both ends free reports this twice, and `wire_dangling` once). |
 | `label_dangling` | error | A label whose wire-connected group (wires and labels, not merging labels of one name) has no pin. Two same-name labels on pinless groups are each dangling. |
-| `isolated_pin_label` | warning | A label on a net (labels of one name merged) that has exactly one pin. |
+| `isolated_pin_label` | warning | A label whose wire-connected group has exactly one pin and whose name no other label has (two labels of one name, even on groups with no pin, report nothing: measured on the fixtures' exports, plan-63-G). |
 | `multiple_net_names` | warning | Two labels of different names, or two power symbols of different names, on one wire-connected group. A label and a power symbol of different names: nothing (`probe_names.txt`). |
 | `similar_labels` | warning | Two labels whose names differ only in case. |
 | `similar_label_and_power` | warning | A label whose name differs only in case from a power symbol's. |
@@ -126,3 +126,30 @@ dekatron, lcd. Their `inout`, `input` and `output` pins are `passive`; their `nc
 | `single_global_label` | `Global label only appears once in the schematic` |
 | `four_way_junction` | `Four items connected at <x>, <y>` |
 | `duplicate_reference` | not reported by `kicad-cli` 10.0.8 in the probe; this app's text is `Duplicate reference <R>` |
+
+## Results: the app's ERC against `kicad-cli` (plan-63-G)
+
+`python3 scripts/erc-compare.py <log>` on the three fixtures (AFU, LFU, RegFile) and 16 drawings built to trip each rule
+(`ErcCases`), 2026-11-25, KiCad 10.0.8: 19 designs, 304 (design, rule) rows, **0 differences**. Violations over the 19
+designs, the app's ERC against `kicad-cli sch erc` on the app's own KiCad export:
+
+| Rule | ERC (app) | kicad-cli |
+|---|---|---|
+| `pin_not_connected` | 351 | 351 |
+| `pin_not_driven` | 194 | 194 |
+| `power_pin_not_driven` | 51 | 51 |
+| `pin_to_pin` | 3 | 3 |
+| `no_connect_connected` | 1 | 1 |
+| `no_connect_dangling` | 1 | 1 |
+| `wire_dangling` | 1 | 1 |
+| `unconnected_wire_endpoint` | 3 | 3 |
+| `label_dangling` | 1 | 1 |
+| `isolated_pin_label` | 6 | 6 |
+| `similar_labels` | 1 | 1 |
+| `similar_label_and_power` | 1 | 1 |
+| `duplicate_reference` | 1 | 0 (not reported by `kicad-cli`) |
+| `single_global_label` | 8 | 0 (the export writes local labels) |
+| `multiple_net_names` | 1 | 5 (4 are labels the export adds for bus wires named like a rail) |
+| `four_way_junction` | 1 | 2 (AFU: a wire bends at a junction) |
+
+The last four rows are the script's `DELIBERATE` list, with reasons in `scripts/erc-compare.py`.

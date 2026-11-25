@@ -319,6 +319,25 @@ static int tri_is_output(const void *raw, const void *bound, size_t pin) {
     return 0;
 }
 
+/* A unit with an "oe" releases its y pins to Z; a unit without one always drives. */
+static int tri_is_tristate(const void *raw, const void *bound, size_t pin) {
+    const TriDevice *dev = raw;
+    const TriBound *b = bound;
+    size_t i, j;
+
+    for (i = 0; i < dev->unit_count; i++) {
+        if (b->units[i].oe.count == 0) {
+            continue;
+        }
+        for (j = 0; j < dev->units[i].bits; j++) {
+            if (b->units[i].y[j] == pin) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
 /* ---- transceiver ---------------------------------------------------------- */
 
 static const char *const TRANSCEIVER_KEYS[] = {"units", "invert", "output", NULL};
@@ -568,7 +587,7 @@ static int xcvr_is_output(const void *raw, const void *bound, size_t pin) {
 /* ---- Models ---------------------------------------------------------------- */
 
 static const BufModel TRISTATE_MODEL = {
-    "tristate", TRISTATE_KEYS, tri_load, tri_bind, tri_create, tri_eval, tri_is_output
+    "tristate", TRISTATE_KEYS, tri_load, tri_bind, tri_create, tri_eval, tri_is_output, tri_is_tristate
 };
 static const BufModel TRANSCEIVER_MODEL = {
     "transceiver", TRANSCEIVER_KEYS, xcvr_load, xcvr_bind, xcvr_create, xcvr_eval, xcvr_is_output
@@ -628,9 +647,15 @@ static int trans_is_output(const void *raw, const void *bound, size_t pin) {
     return t->inner->is_output(t->dev, bound, pin);
 }
 
+static int trans_is_tristate(const void *raw, const void *bound, size_t pin) {
+    const TransDevice *t = raw;
+
+    return t->inner->is_tristate != NULL && t->inner->is_tristate(t->dev, bound, pin);
+}
+
 static const BufModel TRANSLATOR_MODEL = {
     "translator", TRANSLATOR_KEYS, trans_load, trans_bind, trans_create, trans_eval,
-    trans_is_output
+    trans_is_output, trans_is_tristate
 };
 
 /* ---- The kind ------------------------------------------------------------- */
@@ -998,7 +1023,16 @@ static const SimComponentType BUFFER_MODEL = {
     .timer = buffer_timer,
 };
 
+static int buffer_pin_tristate(const Part *part, size_t pin) {
+    const PartInternal *internal = part_internal(part);
+    const BufDevice *dev = internal->device;
+    const BufBound *b = internal->bound;
+
+    return dev->model->is_tristate != NULL && dev->model->is_tristate(dev->dev, b->model, pin);
+}
+
 const PartKindOps BUFFER_KIND = {
     PART_BUFFER, "buffer", &BUFFER_MODEL, DEVICE_KEYS, PART_KEYS,
-    buffer_load_device, buffer_bind_pinout, buffer_load_part, buffer_pin_open_drain
+    buffer_load_device, buffer_bind_pinout, buffer_load_part, buffer_pin_open_drain, NULL,
+    buffer_pin_tristate
 };

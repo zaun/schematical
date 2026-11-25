@@ -528,6 +528,87 @@ Notes:
   one (pulses shorter than the delay vanish), except that a drive of the
   value already pending, no earlier than it, keeps the pending edge.
 
+## ERC pin types
+
+The electrical rules check (plan-63) reasons about KiCad's twelve pin types;
+the part files give a pin one of seven roles. `include/erc.h`'s
+`erc_pin_type(part, pin, &type)` answers, for every pin, the KiCad type it
+stands for, and `erc_pin_drives_power(part, pin)` whether the pin is a supply
+symbol's rail pin (a driver on its own net, as a Power Flag would be). The
+types, in KiCad's pin-map order: `input`, `output`, `bidirectional`,
+`tri_state`, `passive`, `free`, `unspecified`, `power_in`, `power_out`,
+`open_collector`, `open_emitter`, `no_connect`; `erc_pin_type_name` gives
+KiCad's word. `free`, `unspecified` and `open_emitter` are never returned: no
+part file says so.
+
+| Pin | Type |
+|---|---|
+| role `absent` | none (the function returns 0) |
+| role `nc` | `no_connect` |
+| a supply's pull-up / pull-down pin | `passive` |
+| a supply's `power` / `ground` pin | `power_in`, and it drives its own net |
+| `input`, `output`, `inout` of a connector, header, socket, resistor, capacitor, inductor, diode, led, fuse, crystal, relay, buzzer, switch, transistor, 7seg, nixie, dekatron or lcd part | `passive` (KiCad's own symbols for these are all passive) |
+| any other `power` / `ground` | `power_in` |
+| `output` that is a regulator's or a power switch's output name | `power_out` |
+| `output`, open drain (`part_pin_open_drain`) | `open_collector` |
+| `output`, 3-state (`part_pin_tristate`) | `tri_state` |
+| any other `output` | `output` |
+| `inout`, open drain | `open_collector` |
+| any other `inout` | `bidirectional` |
+| `input` | `input` |
+
+`part_pin_tristate` (`models/model_pins.h`) is a kind hook, `PartKindOps.pin_tristate`,
+beside `pin_open_drain`: 1 for an `output`-role pin the part releases to Z
+through an output enable. The `buffer` kind answers for the `tristate` model's
+`y` pins of a unit with an `oe` (a transceiver's and a registered model's ports
+are `inout`, so `bidirectional`); the `latch` kind for the `transparent`
+model's `q` / `qn` of a unit with an `oe` and the `sr` model's `q` when the
+device has an `outputEnable`; the `dff` kind for every `q` / `qn` of a device
+with an `outputEnable`. The other kinds that gate outputs (plan-63-C), by the
+part-file key that does it:
+
+| Kind | Key | Pins it makes tri-state |
+|---|---|---|
+| `register` | `groups[].outputs[].oe` | the bank's `q` pins |
+| `shift` | `units[].storage.outputEnable` (the `shift` model); the `fifo` and `serial-in` models' `outputEnable` | the storage outputs; the FIFO's four data outputs; the eight parallel outputs |
+| `counter` | `units[].outputEnable`, `units[].register.outputEnable` (the `sync` model) | the `q` pins; the register's outputs (a carry is not gated) |
+| `mux` | `units[].oe`, a stored mux's common `oes`, a unit's strobe with `"disabled": "z"`, a register file's `re` | the unit's `y` and `w`; the file's read data |
+| `converter`, `lcddriver`, `leddriver` | `bus.oe` | the parallel bus's data pins |
+| `serial` | `tristate` (the `ns16550` model's TRI pin) | every output pin of the part |
+
+`python3 scripts/kicad-pin-types.py` compares these types with the pin types of
+KiCad's stock symbols for the parts that have one (`--pair OURS:KICAD` lists
+examples of a pair); its result is in `planning/completed/plan-63-C-tristate-remaining-kinds.md`.
+
+The HD-6406's `hd6406.oe` names an output pin (the chip's own OE strobe), not
+an enable, so it gates nothing.
+
+### The pin checks
+
+`erc_check(pins, pin_count, net_count, nets, pin_map, out, cap)` (`erc.h`,
+plan-63-D) reports five of KiCad's rules over typed pins, the way `voltage_check`
+works over parts: it returns the number of problems and writes up to `cap`,
+ordered by net (unwired pins last), then pin. Each `ErcPin` has its net
+(`SIZE_MAX` when no wire reaches it), its type, `drives_power` (a supply
+symbol's rail pin), and `no_connect_mark` (a No Connect flag on its wire group);
+a Power Flag is a pin of type `power_out` with no part; `ErcNet.has_attachment`
+says a label or a bus port is on the net. A net's members are its wired pins
+but not a `no_connect`-typed pin (never a connection).
+
+| Kind | Reported when |
+|---|---|
+| `ERC_NO_CONNECT_CONNECTED` | a wired pin of type `no_connect`; a pin with a No Connect flag whose net has another member |
+| `ERC_PIN_NOT_CONNECTED` | a pin (not `no_connect` or `free`, no flag) that is unwired, or alone on a net with no attachment |
+| `ERC_PIN_TO_PIN` | each member of a net that conflicts, by `pin_map`, with an earlier one, against the first earlier one it conflicts with; `level` 1 warning, 2 error |
+| `ERC_POWER_PIN_NOT_DRIVEN` | a net with a `power_in` member and no `power_out` (nor `drives_power`): one, on the first `power_in` |
+| `ERC_PIN_NOT_DRIVEN` | else a net with an `input` member and no `output`, `bidirectional`, `tri_state`, `passive` or `power_out` (nor `drives_power`): one, on the first input |
+
+An unwired pin is a net of its own; a net with a flagged pin is not checked for
+"not driven". `ERC_DEFAULT_PIN_MAP` is KiCad 10.0.8's. The counting is what
+`kicad-cli sch erc` reported (`planning/plan-63-data/`): `erc_test` checks all
+78 pairs of types and the 12 types alone against `tests/erc_pair_table.h`,
+generated by `python3 -I planning/plan-63-data/probe_pin_matrix.py <dir> --c-table`.
+
 ## Layout
 
 ```
@@ -787,6 +868,16 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   a regeneration that should only add flags: it fails unless every changed
   `parts.txt` line differs only by `:low` / `:low=…` and `traces.txt` and
   `footprints.txt` did not move.
+- `erc_pins_test`, `erc_pins_check` — the ERC pin types (§ ERC pin types):
+  named parts, and every part's pin types, one letter per pin, against
+  `tests/golden/erc_pins.txt` (`<name>|<kind>|<letters>`, letters `i o b t p f
+  u P O c e n` in `ErcPinType` order, `-` for an absent pin). After an intended
+  change: `/tmp/logic-build/erc_pins_check --print >
+  backend/tests/golden/erc_pins.txt`, then review the diff.
+- `erc_test` — `erc_check` (§ The pin checks): all 78 pairs of pin types and
+  the 12 types alone against what KiCad reported (`tests/erc_pair_table.h`),
+  three-pin nets, No Connect flags, attachments, Power Flags, rail pins, edits
+  of the pin map.
 - `footprint_check` — every footprint in `footprints.json`, expanded to
   pads, against `tests/golden/footprints.txt` (one line per footprint:
   `id|pins=N|body=WxH|pads=<designator>:x,y,wxh,shape[,d<drill>][,s<slotLength>][,npth][,opp][,r<radius>][,c<chamfer>:<corners>];…[|edge]`,

@@ -5,7 +5,7 @@ Effort: large (3h–1d)
 Depends on: nothing (it lands after plan-63-A by letter order; it reads nothing A adds)
 
 Plan 63's overview, the sub-plan list and the Prerequisites are in
-`planning/plan-63-A-power-flag.md`; they hold for this plan.
+`planning/completed/plan-63-A-power-flag.md`; they hold for this plan.
 
 KiCad's ERC reasons about twelve pin types; the parts here carry seven roles
 (`input`, `output`, `inout`, `power`, `ground`, `nc`, `absent`). The outcome of
@@ -161,12 +161,12 @@ per-kind harness anyway. `power_out` for supplies: above.
 
 Outputs are `output` until a kind answers the hook; safe to land alone.
 
-- [ ] `backend/src/library/kind.h`: `pin_tristate` last in `PartKindOps`, with
+- [x] `backend/src/library/kind.h`: `pin_tristate` last in `PartKindOps`, with
       the comment style of `pin_open_drain`. `backend/src/library/kinds.c`:
       `part_pin_tristate`, built like `part_pin_open_drain` (0 unless role
       `output`). `backend/src/models/model_pins.h`: declare it beside
       `part_pin_open_drain` (`:117`).
-- [ ] New `backend/include/erc.h` and `backend/src/erc_pins.c` as § 1 and § 3:
+- [x] New `backend/include/erc.h` and `backend/src/erc_pins.c` as § 1 and § 3:
       `ErcPinType`, `int erc_pin_type(const Part *, size_t pin, ErcPinType *)`
       (0 for an absent pin or `pin >= pin_count`), `int erc_pin_drives_power(const
       Part *, size_t pin)`, `const char *erc_pin_type_name(ErcPinType)` returning
@@ -174,7 +174,7 @@ Outputs are `output` until a kind answers the hook; safe to land alone.
       `add_library(logic …)` in `backend/CMakeLists.txt` (next to `src/voltage.c`,
       line 13) and `#include "erc.h"` to
       `schematical/schematical/schematical-Bridging-Header.h`.
-- [ ] `backend/tests/erc_pins_test.c` (`logic_test(erc_pins_test)` in
+- [x] `backend/tests/erc_pins_test.c` (`logic_test(erc_pins_test)` in
       `CMakeLists.txt`, beside `voltage_test`): the named parts below. Parts
       that do not use a hook (all but the tri-state ones) are asserted now.
 
@@ -192,39 +192,40 @@ Outputs are `output` until a kind answers the hook; safe to land alone.
 
 Acceptance: the table holds; no existing check changes.
   Check: `cmake -S backend -B /tmp/logic-build && cmake --build /tmp/logic-build --target erc_pins_test voltage_test listing_check && /tmp/logic-build/erc_pins_test && /tmp/logic-build/voltage_test | tail -1 && /tmp/logic-build/listing_check | tail -1` → every `erc_pins_test` line `PASS`; `voltage_test` and `listing_check` end as before this change (record their last lines in the Result) (est. 6 min, most of it the first build).
-Commit: —
+  Result: in `/tmp/logic-build-wt63` (plan-63-A Corrections 1): `erc_pins_test` every line PASS, `erc_pins_test: all passed`; `voltage_test: all passed`; `listing_check` last line `40174 parts compared, 0 skipped` (2026-11-25).
+Commit: 4b64f493
 
 ### Phase 2 — The hook for buffer, latch and dff
 
-- [ ] `backend/src/models/buffer.c` (and `buffer_reg.c`): `buffer_pin_tristate`
+- [x] `backend/src/models/buffer.c` (and `buffer_reg.c`): `buffer_pin_tristate`
       in the kind table, beside `buffer_pin_open_drain` (`:919`): 1 for an
       output-role pin that the model gates with an output enable (a `tristate`
       unit with `oe`, a `registered` unit with an output enable), using the
       model's own `is_output` and enable binding; 0 for a unit with no enable.
-- [ ] `backend/src/models/latch.c` and `dff.c`: the same for a unit whose
+- [x] `backend/src/models/latch.c` and `dff.c`: the same for a unit whose
       device or unit names `outputEnable`: its Q / QN output pins.
-- [ ] Extend `erc_pins_test`: `SN74HC244N`, `SN74HC240N`, `SN74HC541N`,
+- [x] Extend `erc_pins_test`: `SN74HC244N`, `SN74HC240N`, `SN74HC541N`,
       `SN74HC125N` (buffer), `SN74HC373N` (latch), `SN74HC574N`, `SN74LS374N`
       (dff): every `output`-role pin → tri_state, every `input` pin → input.
-- [ ] New `backend/tests/erc_pins_check.c` (`logic_test(erc_pins_check)`),
+- [x] New `backend/tests/erc_pins_check.c` (`logic_test(erc_pins_check)`),
       built like `listing_check.c`: loads `PARTS_DIR`, and for every part writes
       `<name>|<kind>|<letters>` where `letters` has one character per pin in
       pin order, from `i o b t p f u P O c e n` for the twelve types in
       `ErcPinType` order and `-` for an absent pin; compares with
       `tests/golden/erc_pins.txt`; `--print` writes the file (like
       `listing_check --print`).
-- [ ] Generate and review `backend/tests/golden/erc_pins.txt`: `diff` against
+- [x] Generate and review `backend/tests/golden/erc_pins.txt`: `diff` against
       the table's expectations by kind: no `t` in any kind but buffer, latch, dff;
       no `b` for a connector, header, socket, resistor … part (passive list).
-- [ ] `docs/backend.md`: a section "ERC pin types" after the voltage check's:
+- [x] `docs/backend.md`: a section "ERC pin types" after the voltage check's:
       the table of § 3, the hook, and `erc_pins_check --print >
       backend/tests/golden/erc_pins.txt` beside the other goldens' lines
       (line 780 on).
 
 Acceptance: all 2950 parts of the three kinds answer by their data; the golden is the library.
   Check: `cmake --build /tmp/logic-build --target erc_pins_test erc_pins_check listing_check trace_check && /tmp/logic-build/erc_pins_test && /tmp/logic-build/erc_pins_check && /tmp/logic-build/listing_check | tail -1 && /tmp/logic-build/trace_check | tail -1` → all pass, the last two as before (est. 8 min; `trace_check` runs the engine over every part, which is why this is the one check that proves no model changed).
-  Result (recorded when run): the golden lines with a `t`, per kind, `awk -F'|' '$3 ~ /t/ {c[$2]++} END {for (k in c) print k, c[k]}' backend/tests/golden/erc_pins.txt` → buffer, dff and latch only.
-Commit: —
+  Result (recorded when run): the golden lines with a `t`, per kind, `awk -F'|' '$3 ~ /t/ {c[$2]++} END {for (k in c) print k, c[k]}' backend/tests/golden/erc_pins.txt` → `buffer 1324`, `dff 238`, `latch 623` (no other kind). Checks (2026-11-25, `/tmp/logic-build-wt63`): `erc_pins_test: all passed` (7 tri-state parts, 3 roles each); `erc_pins_check: 40174 parts match the golden`; `listing_check` and `trace_check` last line `40174 parts compared, 0 skipped` (trace_check 8.4 s); `voltage_test: all passed`; passive-kind lines with a non-passive type: 0 (`awk` over the golden). `dff` and `latch` equal their parts that name an output enable (238, 623); `buffer` 1324 of the 2089 that name one (the rest are transceiver, registered and level-translator parts, whose ports are `inout`).
+Commit: 78440066
 
 ## Validation Plan
 
@@ -232,7 +233,7 @@ Commit: —
 - Coverage check: `backend/CMakeLists.txt` lists `erc_pins.c` in the library and both tests as `logic_test`; `ctest --test-dir /tmp/logic-build -R erc_pins` lists 2 tests.
 - Runtime proof: none beyond the tests (nothing calls it yet).
 - Doc sync: `docs/backend.md` (Phase 2).
-- Final gate (once, after Phase 2): `ctest --test-dir /tmp/logic-build -R 'erc_pins|voltage|listing|trace'` → 100% passed (est. 8 min).
+- Final gate (once, after Phase 2): `ctest --test-dir /tmp/logic-build -R 'erc_pins|voltage|listing|trace'` → 100% passed (est. 8 min). Result (2026-11-25, `/tmp/logic-build-wt63`): `100% tests passed, 0 tests failed out of 5` (12 s); and the app builds with `erc.h` in the bridging header: `xcodebuild build` → `** BUILD SUCCEEDED **`.
 
 ## Decisions
 
@@ -242,7 +243,9 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+1. Phase 1's tick marks and Result landed in the commit after its code (4b64f493): a compound shell command that did both was refused by the worktree guard and the commit ran without them. No code differs from what the plan said.
+2. § 2 said the hook is declared in `backend/include/parts.h` "beside `part_pin_open_drain`"; `part_pin_open_drain` is declared in `backend/src/models/model_pins.h:117`, so `part_pin_tristate` is declared there.
+3. The buffer hook is on `BufModel` as a new last field `is_tristate` (the `tristate` model and, forwarded, the `translator`), and the latch hook on `LatchModel.tristate` (the `transparent` and `sr` models); the plan said "buffer_reg.c" and "the `latch` and `dff` kinds' `outputEnable`" generally. `buffer_reg.c`'s registered model has only bidirectional ports (`inout` roles), so it needs no answer and is unchanged; the latch kind's `addressable`, `bcd7seg` and `bus-mux` models have no output enable on a `q`/`out` pin and answer 0.
 
 ## Summary
 

@@ -45,6 +45,9 @@ struct LatchModel {
     /* at_start: only the asynchronous controls change state. */
     void (*eval)(Sim *sim, SimInstance *inst, LatchHeader *state, int at_start);
     int (*open_drain)(const void *dev, const void *bound, size_t pin);
+    /* 1 when pin is an output the model releases to Z through an output
+       enable (plan-63-B); NULL = none. */
+    int (*tristate)(const void *dev, const void *bound, size_t pin);
 };
 
 typedef struct {
@@ -339,6 +342,20 @@ static int tl_open_drain(const void *dev, const void *bound, size_t pin) {
     }
     for (i = 0; i < b->unit_count; i++) {
         if (pin == b->units[i].q || pin == b->units[i].qn) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+/* The q and qn pins of a unit that has an "oe" are released to Z by it. */
+static int tl_tristate(const void *dev, const void *bound, size_t pin) {
+    const TlBound *b = bound;
+    size_t i;
+
+    (void)dev;
+    for (i = 0; i < b->unit_count; i++) {
+        if (b->units[i].oe.pin != SEQ_NO_PIN && (pin == b->units[i].q || pin == b->units[i].qn)) {
             return 1;
         }
     }
@@ -675,6 +692,23 @@ static void sr_eval(Sim *sim, SimInstance *inst, LatchHeader *h, int at_start) {
     }
 }
 
+/* Every q pin, when the device names an "outputEnable". */
+static int sr_tristate(const void *dev, const void *bound, size_t pin) {
+    const SrBound *b = bound;
+    size_t i;
+
+    (void)dev;
+    if (b->oe.pin == SEQ_NO_PIN) {
+        return 0;
+    }
+    for (i = 0; i < b->unit_count; i++) {
+        if (pin == b->units[i].q) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 /* ---- bcd7seg -------------------------------------------------------------- */
 
 static const char *const BCD_KEYS[] = {
@@ -983,9 +1017,9 @@ static void mux_eval(Sim *sim, SimInstance *inst, LatchHeader *h, int at_start) 
 /* ---- The kind ------------------------------------------------------------- */
 
 static const LatchModel MODELS[] = {
-    {"transparent", TRANSPARENT_KEYS, tl_load, tl_bind, tl_create, tl_eval, tl_open_drain},
+    {"transparent", TRANSPARENT_KEYS, tl_load, tl_bind, tl_create, tl_eval, tl_open_drain, tl_tristate},
     {"addressable", ADDRESSABLE_KEYS, ad_load, ad_bind, ad_create, ad_eval, ad_open_drain},
-    {"sr", SR_KEYS, sr_load, sr_bind, sr_create, sr_eval, NULL},
+    {"sr", SR_KEYS, sr_load, sr_bind, sr_create, sr_eval, NULL, sr_tristate},
     {"bcd7seg", BCD_KEYS, bcd_load, bcd_bind, bcd_create, bcd_eval, NULL},
     {"bus-mux", MUX_KEYS, mux_load, mux_bind, mux_create, mux_eval, NULL},
 };
@@ -1059,6 +1093,13 @@ static int latch_pin_open_drain(const Part *part, size_t pin) {
            dev->model->open_drain(dev->dev, internal->bound, pin);
 }
 
+static int latch_pin_tristate(const Part *part, size_t pin) {
+    const PartInternal *internal = part_internal(part);
+    const LatchDevice *dev = internal->device;
+
+    return dev->model->tristate != NULL && dev->model->tristate(dev->dev, internal->bound, pin);
+}
+
 /* ---- Engine callbacks ----------------------------------------------------- */
 
 static size_t latch_pin_count(const void *config) {
@@ -1108,5 +1149,6 @@ static const SimComponentType LATCH_MODEL = {
 
 const PartKindOps LATCH_KIND = {
     PART_LATCH, "latch", &LATCH_MODEL, DEVICE_KEYS, PART_KEYS,
-    latch_load_device, latch_bind_pinout, latch_load_part, latch_pin_open_drain
+    latch_load_device, latch_bind_pinout, latch_load_part, latch_pin_open_drain, NULL,
+    latch_pin_tristate
 };

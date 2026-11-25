@@ -45,6 +45,8 @@ struct ShiftModel {
     void (*timer)(Sim *sim, SimInstance *inst, ShiftHeader *state, uint32_t id);   /* may be NULL */
     int (*open_drain)(const void *dev, const void *bound, size_t pin);              /* may be NULL */
     int (*analog)(const void *dev, const void *bound, size_t pin);                  /* may be NULL */
+    /* 1 when pin is an output released to Z through an output enable (plan-63-C); may be NULL */
+    int (*tristate)(const void *dev, const void *bound, size_t pin);
 };
 
 /* The models of shift_special.c (plan-10-H); shift.c lists them in its table. */

@@ -126,6 +126,17 @@ int part_pin_analog(const Part *part, size_t pin) {
     return internal->ops->pin_analog != NULL && internal->ops->pin_analog(part, pin);
 }
 
+int part_pin_tristate(const Part *part, size_t pin) {
+    const PartInternal *internal;
+
+    if (part == NULL || part->internal == NULL || pin >= part->pin_count ||
+        part->pins[pin].role != PIN_OUTPUT) {
+        return 0;
+    }
+    internal = part_internal(part);
+    return internal->ops->pin_tristate != NULL && internal->ops->pin_tristate(part, pin);
+}
+
 int part_pin_open_drain(const Part *part, size_t pin) {
     const PartInternal *internal;
 

@@ -467,6 +467,21 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         var framed: Bool? = nil
     }
 
+    /// The document's information (plan-64): every key optional. Dates are
+    /// ISO 8601, UTC. `titleBlock` is present exactly when the title block
+    /// is on the schematic.
+    struct DocumentInfoEntry: Codable, Equatable, Sendable {
+        var title: String? = nil
+        var author: String? = nil
+        var revision: String? = nil
+        var description: String? = nil
+        var created: String? = nil
+        var updated: String? = nil
+        /// Written only as `false`.
+        var automaticDates: Bool? = nil
+        var titleBlock: Point? = nil
+    }
+
     /// A net label: its point (`x`, `y`, canvas units), net name, type
     /// (`"input"`, `"output"`, `"inout"`, `"passive"` or `"noConnect"`)
     /// and whether it runs left.
@@ -616,10 +631,27 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
     /// Net labels, in drawing order. Written only when there are some;
     /// missing means none.
     var labels: [Label]? = nil
+    /// The document's title, author, dates and title block (plan-64).
+    /// Written only when it is not the default; missing means the default.
+    var documentInfo: DocumentInfoEntry? = nil
     /// Version 5: the single part files (plan-32-A) of the custom parts the
     /// schematic places, once each, in order of first placement. Written only
     /// when there are some.
     var customParts: [JSONValue]? = nil
+    /// The electrical rules check's settings (plan-63-E): written only when a
+    /// severity, the pin map or an exclusion differs from KiCad's defaults;
+    /// missing means the defaults.
+    var erc: ErcEntry? = nil
+
+    /// `erc`: what differs from the defaults. `severities` maps a rule name to
+    /// `error`, `warning` or `ignore`; `pinMap` is 12 rows of 12 numbers
+    /// 0 (ok), 1 (warning) or 2 (error), symmetric, in KiCad's pin-type order;
+    /// `exclusions` are `ErcViolation.key` strings.
+    struct ErcEntry: Codable, Equatable, Sendable {
+        var severities: [String: String]?
+        var pinMap: [[Int]]?
+        var exclusions: [String]?
+    }
 }
 
 /// Any JSON value, for the custom parts a schematic embeds whole.
@@ -688,12 +720,16 @@ nonisolated enum SchematicFileError: LocalizedError {
     case missingLabel(wire: UUID, label: UUID)
     /// A net label that isn't valid; the detail names it.
     case badLabel(String)
+    /// The electrical rules check's settings that aren't valid; the detail names the field.
+    case badErc(String)
     case badRotation(reference: String, rotation: Int)
     /// A board setting, footprint origin or mark, or board text that isn't
     /// valid; the detail names it.
     case badPCB(String)
     /// A schematic text block that isn't valid; the detail names it.
     case badNote(String)
+    /// A date in the document info that isn't ISO 8601; the detail names it.
+    case badDocumentInfo(String)
     /// A bus whose lines, joints or wires aren't valid; the detail names it.
     case badBus(String)
     /// A part's color, footprint or gender that the part doesn't offer.
@@ -731,6 +767,8 @@ nonisolated enum SchematicFileError: LocalizedError {
             "Wire \(wire.uuidString) connects to net label \(label.uuidString), which is not in the file."
         case let .badLabel(detail):
             "The net label is not valid: \(detail)."
+        case let .badErc(detail):
+            "The electrical rules check settings are not valid: \(detail)."
         case let .badRotation(reference, rotation):
             "\(reference) has PCB rotation \(rotation); it must be 0, 90, 180 or 270."
         case let .badPCB(detail):
@@ -739,6 +777,8 @@ nonisolated enum SchematicFileError: LocalizedError {
             "The bus is not valid: \(detail)."
         case let .badNote(detail):
             "The text block is not valid: \(detail)."
+        case let .badDocumentInfo(detail):
+            "The document info is not valid: \(detail)."
         case let .badPartOption(reference, detail):
             "\(reference): \(detail)"
         case let .badOhms(reference, ohms):
@@ -849,10 +889,12 @@ extension SchematicFile {
             Note(id: note.id, text: note.text, x: note.origin.x, y: note.origin.y,
                  size: note.size, framed: note.framed)
         }
+        documentInfo = document.documentInfo == DocumentInfo() ? nil : Self.entry(document.documentInfo)
         labels = document.netLabels.isEmpty ? nil : document.netLabels.map { label in
             Label(id: label.id, name: label.name, x: label.origin.x, y: label.origin.y,
                   type: label.style.rawValue, flipped: label.isFlipped ? true : nil)
         }
+        erc = Self.entry(document.erc)
         let settings = document.board
         board = Board(
             width: settings.width,
@@ -1002,6 +1044,7 @@ extension SchematicFile {
         }
 
         let settings = try boardSettings()
+        let ercSettings = try Self.ercSettings(erc)
 
         // Custom parts first (plan-32-B), so placed parts can resolve to them.
         // Registering one is for the session, like File › Load Part….
@@ -1347,9 +1390,49 @@ extension SchematicFile {
             keepouts: keepouts,
             cutouts: cutouts,
             notes: placedNotes,
-            netLabels: placedLabels
+            netLabels: placedLabels,
+            erc: ercSettings,
+            documentInfo: try Self.documentInfo(documentInfo)
         )
         return embedded
+    }
+
+    // MARK: Electrical rules check (plan-63-E)
+
+    /// The file form of a document's ERC settings; nil when they are the defaults.
+    private static func entry(_ settings: ErcSettings) -> ErcEntry? {
+        guard !settings.isDefault else { return nil }
+        return ErcEntry(
+            severities: settings.severities.isEmpty
+                ? nil : Dictionary(uniqueKeysWithValues: settings.severities.map { ($0.key.rawValue, $0.value.rawValue) }),
+            pinMap: settings.pinMap.map { $0.map { $0.map(Int.init) } },
+            exclusions: settings.exclusions.isEmpty ? nil : settings.exclusions.sorted())
+    }
+
+    /// The settings a file's `erc` says; the defaults when it has none. Throws
+    /// `badErc` for a rule or severity the app does not know, or a pin map that is
+    /// not 12 rows of 12 numbers 0 to 2, symmetric.
+    private static func ercSettings(_ entry: ErcEntry?) throws -> ErcSettings {
+        var settings = ErcSettings()
+        guard let entry else { return settings }
+        for (name, word) in entry.severities ?? [:] {
+            guard let rule = ErcRule(rawValue: name), rule.hasSeverity else {
+                throw SchematicFileError.badErc("erc.severities: \"\(name)\" is not a rule with a severity")
+            }
+            guard let severity = ErcSeverity(rawValue: word) else {
+                throw SchematicFileError.badErc("erc.severities.\(name): \"\(word)\" must be error, warning or ignore")
+            }
+            settings.set(severity, for: rule)
+        }
+        if let rows = entry.pinMap {
+            let map = rows.map { $0.map { UInt8(clamping: $0) } }
+            guard rows.allSatisfy({ $0.allSatisfy { (0...2).contains($0) } }), ErcSettings.isValid(pinMap: map) else {
+                throw SchematicFileError.badErc("erc.pinMap must be 12 rows of 12 numbers 0, 1 or 2, the same either side of the diagonal")
+            }
+            settings.setPinMap(map)
+        }
+        settings.exclusions = Set(entry.exclusions ?? [])
+        return settings
     }
 
     /// A stored net label, with defaults for missing keys. Its point is
@@ -1363,7 +1446,7 @@ extension SchematicFile {
         var style = NetLabel.Style.input
         if let type = entry.type {
             guard let parsed = NetLabel.Style(rawValue: type) else {
-                throw SchematicFileError.badLabel("\(name) type \"\(type)\" must be input, output, inout, passive or noConnect")
+                throw SchematicFileError.badLabel("\(name) type \"\(type)\" must be input, output, inout, passive, noConnect or powerFlag")
             }
             style = parsed
         }
@@ -1389,6 +1472,43 @@ extension SchematicFile {
         }
         result.framed = entry.framed ?? result.framed
         return result
+    }
+
+    /// The file form of the document info: empty text, unset dates, automatic
+    /// dates and a hidden title block are left out.
+    private static func entry(_ info: DocumentInfo) -> DocumentInfoEntry {
+        DocumentInfoEntry(
+            title: info.title.isEmpty ? nil : info.title,
+            author: info.author.isEmpty ? nil : info.author,
+            revision: info.revision.isEmpty ? nil : info.revision,
+            description: info.description.isEmpty ? nil : info.description,
+            created: info.created.map(DocumentInfo.isoText),
+            updated: info.updated.map(DocumentInfo.isoText),
+            automaticDates: info.automaticDates ? nil : false,
+            titleBlock: info.titleBlock.map { Point(x: $0.x, y: $0.y) })
+    }
+
+    /// The stored document info, with defaults for missing keys. The title
+    /// block's top-left is snapped to the grid.
+    private static func documentInfo(_ entry: DocumentInfoEntry?) throws -> DocumentInfo {
+        var info = DocumentInfo()
+        guard let entry else { return info }
+        info.title = entry.title ?? ""
+        info.author = entry.author ?? ""
+        info.revision = entry.revision ?? ""
+        info.description = entry.description ?? ""
+        func date(_ text: String?, _ key: String) throws -> Date? {
+            guard let text else { return nil }
+            guard let parsed = DocumentInfo.isoDate(text) else {
+                throw SchematicFileError.badDocumentInfo("\(key) \"\(text)\" is not a date")
+            }
+            return parsed
+        }
+        info.created = try date(entry.created, "created")
+        info.updated = try date(entry.updated, "updated")
+        info.automaticDates = entry.automaticDates ?? true
+        info.titleBlock = entry.titleBlock.map { SchematicGrid.snap(CGPoint(x: $0.x, y: $0.y)) }
+        return info
     }
 
     // MARK: PCB values
