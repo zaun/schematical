@@ -233,7 +233,7 @@ Commit: 10553879
 Acceptance: `slide_test` prints only `ok` lines; `tactile_test` and `switch_test`
 still pass; the three golden files are unchanged.
   Check: `cmake --build /tmp/logic-p58 -j8 && ctest --test-dir /tmp/logic-p58 -R 'slide_test|tactile_test|switch_test|listing_check|trace_check' --output-on-failure` → `100% tests passed` (est. 6 min). Measured: `100% tests passed, 0 tests failed out of 6`; `slide_test` 42 `ok` lines + `PASS`; `listing_check --print | diff - parts.txt` → 0 lines; `git status --short backend/tests/golden` → empty. Final gate: `ctest -N | tail -1` → `Total Tests: 62`, `ctest -j8` (Release) → `100% tests passed, 0 tests failed out of 62`.
-Commit: —
+Commit: bbd4433f
 
 ## Validation Plan
 
