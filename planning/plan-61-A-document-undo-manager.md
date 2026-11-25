@@ -206,15 +206,15 @@ Adds the per-document path with nothing using it yet.
 
 Acceptance: the seven new tests pass and the two old suites still pass.
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/DocumentUndoTests -only-testing:schematicalTests/SchematicUndoTests -only-testing:schematicalTests/PCBUndoTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 6 min, most of it the build). Result: `Executed 94 tests, with 0 failures`, `** TEST SUCCEEDED **`.
-Commit: —
+Commit: b08d9519
 
 ### Phase 2 — The app and automation use it
 
-- [ ] `Document/UndoCommands.swift`: `UndoTarget` holds only the document; `UndoRouting.route` returns `.document` in place of `.page`; the two buttons call `document.undo()` / `redo()`, take their titles from `undoName` / `redoName`, and are `.disabled(target?.document.isPlaying == true)`. `ContentView.swift`: `.focusedSceneValue(\.schematicUndo, UndoTarget(document: document))`. `schematicalTests/UndoCommandsTests.swift` (the tests of `UndoRouting`) follows the new cases.
-- [ ] `Automation/AutomationSession.swift` `undo` / `redo` tools: call `document.undo()` / `redo()` and `undoName` / `redoName`; drop the page from the code path. `docs/agent-control.md`: the two tools act on the document.
+- [x] `Document/UndoCommands.swift`: `UndoTarget` holds only the document; `UndoRouting.route` returns `.document` in place of `.page`; the two buttons call `document.undo()` / `redo()`, take their titles from `undoName` / `redoName`, and are `.disabled(target?.document.isPlaying == true)`. `ContentView.swift`: `.focusedSceneValue(\.schematicUndo, UndoTarget(document: document))`. `schematicalTests/UndoCommandsTests.swift` (the tests of `UndoRouting`) follows the new cases. Done; `UndoCommandsTests`: `Executed 6 tests, with 0 failures`.
+- [x] `Automation/AutomationSession.swift` `undo` / `redo` tools: call `document.undo()` / `redo()` and `undoName` / `redoName`; drop the page from the code path. `docs/agent-control.md`: the two tools act on the document. Done: the tools declare no `page` (one still passed is ignored); `AutomationTests`: `Executed 31 tests, with 1 test skipped and 0 failures`.
 
 Acceptance: the menu's title and action follow the document, not the page.
-  Check: new test `DocumentUndoTests.testMenuTitlesFollowTheDocument` (a PCB move, then `UndoRouting.undoTitle(UndoTarget(document:))` is `Undo Move`; with `isPlaying` it is `Undo`) passes: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/DocumentUndoTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 4 min).
+  Check: new test `DocumentUndoTests.testMenuTitlesFollowTheDocument` (a PCB move, then `UndoRouting.undoTitle(UndoTarget(document:))` is `Undo Move`; with `isPlaying` it is `Undo`) passes: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/DocumentUndoTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 4 min). Result: `DocumentUndoTests` `Executed 8 tests, with 0 failures`, `** TEST SUCCEEDED **` (run with `UndoCommandsTests` and `AutomationTests`).
 Commit: —
 
 ### Phase 3 — The tests move; the lists go

@@ -150,6 +150,22 @@ final class DocumentUndoTests: XCTestCase {
         XCTAssertEqual(doc.undoName, "Add Net Label")
     }
 
+    /// Edit › Undo's title and action follow the document, not the page.
+    func testMenuTitlesFollowTheDocument() throws {
+        let doc = TestSupport.newDocument()
+        let target = UndoTarget(document: doc)
+        let chip = try TestSupport.place(doc, "SN74HC00N", at: p(200, 200))
+        doc.moveFootprint(chip.id, to: p(60, 40))
+        XCTAssertEqual(UndoRouting.undoTitle(target), "Undo Move")
+        XCTAssertEqual(UndoRouting.route(textIsEditing: false, target: target), .document)
+        doc.isPlaying = true
+        XCTAssertEqual(UndoRouting.undoTitle(target), "Undo")
+        doc.isPlaying = false
+        XCTAssertTrue(doc.undo())
+        XCTAssertEqual(UndoRouting.undoTitle(target), "Undo Add Part")
+        XCTAssertEqual(UndoRouting.redoTitle(target), "Redo Move")
+    }
+
     /// A file applied to the document ends its undo history.
     func testApplyingAFileEmptiesTheManager() throws {
         let source = TestSupport.newDocument()

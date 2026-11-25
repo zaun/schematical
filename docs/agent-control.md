@@ -88,6 +88,9 @@ out of), `set_keepout`, `add_board_text`, `lock`. `get_board` lists `POURS` and 
 `open`, `save`, `export_gerber`, `export_pdf`, `list_files`*(no window)*, `undo`, `redo`,
 `batch`.
 
+`undo` and `redo` act on the document: they undo or redo its last edit,
+whichever page made it, and take no page.
+
 `batch` runs a list of tool calls as **one undo step** (it wraps them in the
 model's gesture), stops at the first error and reports which call failed.
 

@@ -158,14 +158,14 @@ extension AutomationTools {
             }),
         AutomationTool(
             name: "undo",
-            summary: "Undo the last edit on a page (schematic or pcb), exactly as the user's Undo would.",
-            properties: ["page": Schema.string("schematic (default) or pcb", options: ["schematic", "pcb"])],
+            summary: "Undo the document's last edit, whichever page made it, exactly as the user's Undo would.",
+            properties: [:],
             edits: true,
             run: { context, args in Out.text(try undoRedo(context!, args, redo: false)) }),
         AutomationTool(
             name: "redo",
-            summary: "Redo the last undone edit on a page.",
-            properties: ["page": Schema.string("schematic (default) or pcb", options: ["schematic", "pcb"])],
+            summary: "Redo the document's last undone edit.",
+            properties: [:],
             edits: true,
             run: { context, args in Out.text(try undoRedo(context!, args, redo: true)) }),
         AutomationTool(
@@ -187,11 +187,10 @@ extension AutomationTools {
     ]
 
     private static func undoRedo(_ context: AutomationContext, _ args: AutomationArgs, redo: Bool) throws -> String {
-        let page = EditorPage(rawValue: try args.choice("page", among: ["schematic", "pcb"], default: "schematic")) ?? .schematic
         let document = context.document
-        let name = redo ? document.redoName(on: page) : document.undoName(on: page)
-        let done = redo ? document.redo(on: page) : document.undo(on: page)
-        guard done else { throw AutomationFailure("nothing to \(redo ? "redo" : "undo") on the \(page.rawValue) page") }
+        let name = redo ? document.redoName : document.undoName
+        let done = redo ? document.redo() : document.undo()
+        guard done else { throw AutomationFailure("nothing to \(redo ? "redo" : "undo")") }
         return "\(redo ? "redid" : "undid") \(name ?? "an edit")"
     }
 
