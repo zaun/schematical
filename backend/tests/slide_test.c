@@ -145,6 +145,208 @@ static void case_errors(void) {
           "error: states with joined");
 }
 
+/* ---- A slide switch in a circuit ---------------------------------------- */
+
+static Circuit *make(void) {
+    Circuit *c = circuit_create(library);
+
+    if (c == NULL) {
+        fprintf(stderr, "out of memory\n");
+        exit(1);
+    }
+    return c;
+}
+
+static size_t add(Circuit *c, const char *name) {
+    size_t index = 0;
+
+    if (circuit_add_part(c, name, &index) != 0) {
+        fprintf(stderr, "add %s: %s\n", name, circuit_error(c));
+        exit(1);
+    }
+    return index;
+}
+
+static size_t net(Circuit *c) {
+    size_t index = 0;
+
+    if (circuit_add_net(c, &index) != 0) {
+        fprintf(stderr, "net: %s\n", circuit_error(c));
+        exit(1);
+    }
+    return index;
+}
+
+static void wire(Circuit *c, size_t part, const char *pin, size_t n) {
+    if (circuit_connect(c, part, pin, n) != 0) {
+        fprintf(stderr, "connect %s: %s\n", pin, circuit_error(c));
+        exit(1);
+    }
+}
+
+/* A 5V supply on its own net, returned. */
+static size_t supply(Circuit *c) {
+    size_t vcc = add(c, "5V");
+    size_t n = net(c);
+
+    wire(c, vcc, "1", n);
+    return n;
+}
+
+static CircuitValue after(Circuit *c, size_t n) {
+    circuit_advance(c, 1000);
+    return circuit_net_value(c, n);
+}
+
+static int error_has(const Circuit *c, const char *text) {
+    const char *e = circuit_error(c);
+
+    return e != NULL && strstr(e, text) != NULL;
+}
+
+/* A light is on when it was on at any time during the last circuit_advance, so the advance
+   right after a move still contains the old state: settle runs a second one. */
+static int settle(Circuit *c) {
+    return circuit_advance(c, 1000) != 0 && circuit_advance(c, 1000) != 0;
+}
+
+static int lit(Circuit *c, size_t part) {
+    unsigned char on = 0;
+
+    return circuit_part_lights(c, part, &on, 1) == 1 ? on : -1;
+}
+
+/* 3. SPDT On-On between a 5 V supply and two LEDs: the knob moves the 5 V from LED 1 to LED 2. */
+static void case_leds(void) {
+    Circuit *c = make();
+    size_t top = supply(c), gnd = add(c, "GND"), low = net(c), sw = add(c, "SLIDE-SPDT");
+    size_t led1 = add(c, "GENERIC-LED"), led2 = add(c, "GENERIC-LED"), a = net(c), b = net(c);
+
+    wire(c, gnd, "1", low);
+    wire(c, sw, "1", top);   /* C */
+    wire(c, sw, "2", a);     /* A */
+    wire(c, sw, "3", b);     /* B */
+    wire(c, led1, "2", a);
+    wire(c, led1, "1", low);
+    wire(c, led2, "2", b);
+    wire(c, led2, "1", low);
+    CHECK(circuit_start(c) == 0 && circuit_advance(c, 1000) != 0 && lit(c, led1) == 1 && lit(c, led2) == 0,
+          "SLIDE-SPDT: at start LED 1 is lit (common-A joined) and LED 2 is dark");
+    CHECK(circuit_set_switch_state(c, sw, 2) == 0 && settle(c) && lit(c, led1) == 0 &&
+              lit(c, led2) == 1,
+          "SLIDE-SPDT: state 2 moves the 5 V to LED 2 (common-B joined, common-A open)");
+    CHECK(circuit_set_switch_state(c, sw, 1) == 0 && settle(c) && lit(c, led1) == 1 &&
+              lit(c, led2) == 0,
+          "SLIDE-SPDT: state 1 moves it back to LED 1");
+    CHECK(circuit_set_switch_state(c, sw, 1) == 0 && settle(c) && lit(c, led1) == 1 &&
+              lit(c, led2) == 0,
+          "SLIDE-SPDT: state 1 again changes nothing");
+    circuit_destroy(c);
+}
+
+/* 4. DPDT On-Off-On: starts in the middle (all four contacts open); state 1 closes
+   contacts 1 and 3 (C1-A1, C2-A2), state 3 contacts 2 and 4 (C1-B1, C2-B2). */
+static void case_dpdt3(void) {
+    Circuit *c = make();
+    size_t top = supply(c), sw = add(c, "SLIDE-DPDT3");
+    size_t a1 = net(c), b1 = net(c), a2 = net(c), b2 = net(c);
+
+    wire(c, sw, "1", top);   /* C1 */
+    wire(c, sw, "2", a1);
+    wire(c, sw, "3", b1);
+    wire(c, sw, "4", top);   /* C2 */
+    wire(c, sw, "5", a2);
+    wire(c, sw, "6", b2);
+    CHECK(circuit_start(c) == 0 && after(c, a1) != CIRCUIT_1 && circuit_net_value(c, b1) != CIRCUIT_1 &&
+              circuit_net_value(c, a2) != CIRCUIT_1 && circuit_net_value(c, b2) != CIRCUIT_1,
+          "SLIDE-DPDT3: starts in its middle position, all four contacts open");
+    CHECK(circuit_set_switch_state(c, sw, 1) == 0 && after(c, a1) == CIRCUIT_1 && circuit_net_value(c, a2) == CIRCUIT_1 &&
+              circuit_net_value(c, b1) != CIRCUIT_1 && circuit_net_value(c, b2) != CIRCUIT_1,
+          "SLIDE-DPDT3: state 1 closes contacts 1 and 3 (A1 and A2 are 1)");
+    CHECK(circuit_set_switch_state(c, sw, 3) == 0 && after(c, b1) == CIRCUIT_1 && circuit_net_value(c, b2) == CIRCUIT_1 &&
+              circuit_net_value(c, a1) != CIRCUIT_1 && circuit_net_value(c, a2) != CIRCUIT_1,
+          "SLIDE-DPDT3: state 3 closes contacts 2 and 4 and opens 1 and 3");
+    CHECK(circuit_set_switch_state(c, sw, 2) == 0 && after(c, b1) != CIRCUIT_1 && circuit_net_value(c, b2) != CIRCUIT_1 &&
+              circuit_net_value(c, a1) != CIRCUIT_1 && circuit_net_value(c, a2) != CIRCUIT_1,
+          "SLIDE-DPDT3: state 2 opens all four again");
+    circuit_destroy(c);
+}
+
+/* 5. SPST On-Off starts open (rest 2); state 1 closes it, state 2 opens it. */
+static void case_spst(void) {
+    Circuit *c = make();
+    size_t top = supply(c), sw = add(c, "SLIDE-SPST"), b = net(c);
+
+    wire(c, sw, "1", top);
+    wire(c, sw, "2", b);
+    CHECK(circuit_start(c) == 0 && after(c, b) != CIRCUIT_1, "SLIDE-SPST: open at start (rest 2)");
+    CHECK(circuit_set_switch_state(c, sw, 1) == 0 && after(c, b) == CIRCUIT_1, "SLIDE-SPST: state 1 closes it, B is 1");
+    CHECK(circuit_set_switch_state(c, sw, 2) == 0 && after(c, b) == CIRCUIT_Z, "SLIDE-SPST: state 2 opens it, B is Z");
+    circuit_destroy(c);
+}
+
+/* 6. An unwired common pin does not break start-up; the contacts also work before circuit_start. */
+static void case_unwired(void) {
+    Circuit *c = make();
+    size_t sw = add(c, "SLIDE-SPDT"), a = net(c);
+
+    wire(c, sw, "2", a);   /* A only: C and B are unwired */
+    CHECK(circuit_start(c) == 0 && circuit_advance(c, 1000) != 0, "SLIDE-SPDT: unwired common and B pins, the circuit starts and runs");
+    circuit_destroy(c);
+
+    c = make();
+    {
+        size_t top = supply(c), sw3 = add(c, "SLIDE-SPDT3"), b = net(c);
+
+        wire(c, sw3, "1", top);
+        wire(c, sw3, "3", b);
+        CHECK(circuit_set_switch_state(c, sw3, 3) == 0 && circuit_start(c) == 0 && after(c, b) == CIRCUIT_1,
+              "SLIDE-SPDT3: moved to state 3 before circuit_start, B is 1 once started");
+    }
+    circuit_destroy(c);
+}
+
+/* 7. A bad state, a part that is not a slide switch. */
+static void case_refused(void) {
+    Circuit *c = make();
+    size_t sw = add(c, "SLIDE-SPDT3"), vcc = add(c, "5V");
+
+    CHECK(circuit_set_switch_state(c, sw, 0) == -1 && error_has(c, "SLIDE-SPDT3 has no position 0 (1 \xE2\x80\xA6 3)"),
+          "state 0 is refused (has no position 0 (1 … 3))");
+    CHECK(circuit_set_switch_state(c, sw, 4) == -1 && error_has(c, "SLIDE-SPDT3 has no position 4 (1 \xE2\x80\xA6 3)"),
+          "state 4 is refused (has no position 4 (1 … 3))");
+    CHECK(circuit_set_switch_state(c, vcc, 1) == -1 && error_has(c, "5V is not a slide switch"),
+          "a supply is refused (is not a slide switch)");
+    CHECK(circuit_set_switch_state(c, 99, 1) == -1, "a part index past the last is refused");
+    circuit_destroy(c);
+}
+
+/* 8. The voltage check sees the closed contacts: SLIDE-LV (3 V) is downstream of the switch under test. */
+static void case_voltage(void) {
+    Circuit *c = make();
+    size_t top = supply(c), sw = add(c, "SLIDE-SPDT3"), x = net(c), lv = add(c, "SLIDE-LV");
+
+    wire(c, sw, "1", top);
+    wire(c, sw, "2", x);
+    wire(c, lv, "2", x);
+    CHECK(circuit_start(c) == 0 && circuit_advance(c, 1000) != 0, "voltage: SLIDE-SPDT3 open at start, the run starts");
+    CHECK(circuit_set_switch_state(c, sw, 1) == 0 && circuit_advance(c, 1000) == 0 && error_has(c, "rated 3 V"),
+          "voltage: moving SLIDE-SPDT3 to state 1 joins 5 V to SLIDE-LV and stops the run (rated 3 V)");
+    circuit_destroy(c);
+
+    c = make();
+    top = supply(c);
+    sw = add(c, "SLIDE-SPDT");
+    x = net(c);
+    lv = add(c, "SLIDE-LV");
+    wire(c, sw, "1", top);
+    wire(c, sw, "2", x);
+    wire(c, lv, "2", x);
+    CHECK(circuit_start(c) == -1 && error_has(c, "rated 3 V"),
+          "voltage: SLIDE-SPDT starts with common-A joined, circuit_start refuses (rated 3 V)");
+    circuit_destroy(c);
+}
+
 int main(void) {
     char *text = unquote(FIXTURE);
     char *error = NULL;
@@ -161,11 +363,17 @@ int main(void) {
     free(text);
     case_loader();
     case_errors();
+    case_leds();
+    case_dpdt3();
+    case_spst();
+    case_unwired();
+    case_refused();
+    case_voltage();
     part_library_destroy(library);
     if (failures) {
         printf("FAIL: %d checks failed\n", failures);
         return 1;
     }
-    puts("PASS: slide switches (states, rest) load, and a bad fixture is refused with its message");
+    puts("PASS: slide switches (states, rest): the loader, the knob in a circuit, the voltage check");
     return 0;
 }

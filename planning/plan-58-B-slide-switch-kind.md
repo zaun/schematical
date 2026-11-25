@@ -212,14 +212,14 @@ Position 1 is the one the datasheet's circuit table or diagram lists first
 Acceptance: the fixture loads; each bad fixture fails with its message; the
 golden files do not change.
   Check: `cmake -S backend -B /tmp/logic-p58 && cmake --build /tmp/logic-p58 -j8 --target slide_test listing_check && /tmp/logic-p58/slide_test && /tmp/logic-p58/listing_check --print | diff - backend/tests/golden/parts.txt` → every line `ok`, empty diff (est. 4 min). Measured: 22 `ok` lines and `PASS`, `slide_test` exit 0, empty diff of `listing_check --print` against `parts.txt`.
-Commit: —
+Commit: 10553879
 
 ### Phase 2 — circuit behavior
 
-- [ ] `backend/src/circuit.c`: the rest-state recording in `circuit_add_part`, the
+- [x] `backend/src/circuit.c`: the rest-state recording in `circuit_add_part`, the
       `circuit_start` condition, `circuit_set_switch_state` (§ 4.2);
       `backend/include/circuit.h` declaration.
-- [ ] `slide_test.c`: SPDT On-On between a 5 V supply and two `GENERIC-LED`s:
+- [x] `slide_test.c` (cases `case_leds`, `case_dpdt3`, `case_spst`, `case_unwired`, `case_refused`, `case_voltage`): SPDT On-On between a 5 V supply and two `GENERIC-LED`s:
       LED 1 lit at start, `circuit_set_switch_state(…, 2)` → LED 2 lit and LED 1
       dark; DPDT On-Off-On starts all-open, state 1 closes contacts 1 and 3,
       state 3 closes 2 and 4; SPST On-Off starts open, state 1 closes, state 2
@@ -227,12 +227,12 @@ Commit: —
       and a non-slide part fail with the messages of § 4.2; `SLIDE-LV` (3 V) on
       a 5 V net: moving the knob that would join the 5 V net to its terminals
       is refused by the voltage check the way `tactile_test` checks it.
-- [ ] `docs/backend.md`: `circuit_set_switch_state` in § Using it, the slide
+- [x] `docs/backend.md`: `circuit_set_switch_state` in § Using it, the slide
       switch under the voltage check's list of closed contacts.
 
 Acceptance: `slide_test` prints only `ok` lines; `tactile_test` and `switch_test`
 still pass; the three golden files are unchanged.
-  Check: `cmake --build /tmp/logic-p58 -j8 && ctest --test-dir /tmp/logic-p58 -R 'slide_test|tactile_test|switch_test|listing_check|trace_check' --output-on-failure` → `100% tests passed` (est. 6 min).
+  Check: `cmake --build /tmp/logic-p58 -j8 && ctest --test-dir /tmp/logic-p58 -R 'slide_test|tactile_test|switch_test|listing_check|trace_check' --output-on-failure` → `100% tests passed` (est. 6 min). Measured: `100% tests passed, 0 tests failed out of 6`; `slide_test` 42 `ok` lines + `PASS`; `listing_check --print | diff - parts.txt` → 0 lines; `git status --short backend/tests/golden` → empty. Final gate: `ctest -N | tail -1` → `Total Tests: 62`, `ctest -j8` (Release) → `100% tests passed, 0 tests failed out of 62`.
 Commit: —
 
 ## Validation Plan
@@ -256,6 +256,7 @@ Commit: —
 
 ## Corrections
 
+- **2026-11-24, Phase 2: a light needs two advances after a move.** `circuit_part_lights` reports a light that was on at any time during the last `circuit_advance`, so the advance right after `circuit_set_switch_state(…, 2)` still shows LED 1 (the contact opens inside that advance: measured `led1=1 led2=1`, then `led1=0 led2=1` after a second advance). `slide_test` settles with two advances after each move (`settle`) and `docs/backend.md` says so. The nets (`circuit_net_value`) are already right after one.
 - **2026-11-24, Phase 1: § 4.1 lists one error too many.** `"states" needs "rest" no later than state K` and `"rest" must be 1 … K` describe the same condition (`rest` above the number of states; `rest` is optional, default 1, so it can never be missing). The loader has the second only, and `slide_test` checks it for `rest` = 3 and `rest` = 0. The other five § 4.1 errors, the three `cannot be combined with` errors and `"rest" needs "states"` are each refused with their message by a bad fixture in `slide_test.c` (`case_errors`).
 
 ## Summary
