@@ -128,7 +128,7 @@ against scene cost; scene cost is read from A8/A10 behavior.
 
 Acceptance: verdicts for A1–A4.
   Check: `rg -c '^\| A[1-4] \| [^|]+\| (works|workaround|blocked) \|' planning/plan-59-data/findings.md` → `4` (est. 3 h). — ran: `4`.
-Commit: (this commit; hash in the next)
+Commit: 61ddecb4
 
 ### Phase 2 — Windows (A5–A8)
 
@@ -138,7 +138,7 @@ Commit: (this commit; hash in the next)
 
 Acceptance: verdicts for A5–A8.
   Check: `rg -c '^\| A[5-8] \| [^|]+\| (works|workaround|blocked) \|' planning/plan-59-data/findings.md` → `4` (est. 4 h). — ran: `4`.
-Commit: (this commit; hash in the next)
+Commit: 61ddecb4
 
 ### Phase 3 — Lifecycle (A9–A12)
 
@@ -147,7 +147,7 @@ Commit: (this commit; hash in the next)
 
 Acceptance: verdicts for A9–A12.
   Check: `rg -c '^\| A(9|10|11|12) \| [^|]+\| (works|workaround|blocked) \|' planning/plan-59-data/findings.md` → `4` (est. 4 h). — ran: `4`.
-Commit: (this commit; hash in the next)
+Commit: 61ddecb4
 
 ### Phase 4 — Automation, performance, other scenes, test seams (A13–A16)
 
@@ -159,7 +159,7 @@ Commit: (this commit; hash in the next)
 
 Acceptance: verdicts for A13–A15, the A16 table filled, the patch saved.
   Check: `rg -c '^\| A(13|14|15) \| [^|]+\| (works|workaround|blocked) \|' planning/plan-59-data/findings.md` → `3`; `sed -n '/^## A16/,/^## Notes/p' planning/plan-59-data/findings.md | rg -c '^\| — \|'` → no output (the placeholder row is gone) (est. 3 h). — ran: `3`, and no output.
-Commit: (this commit; hash in the next)
+Commit: 61ddecb4
 
 ## Validation Plan
 
