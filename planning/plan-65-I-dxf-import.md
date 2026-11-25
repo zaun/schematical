@@ -94,16 +94,17 @@ Rejected: importing straight after the panel with default choices (the layer and
 Acceptance: both modes place loops as above and each import is one exactly-undoable step.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/DXFImportTests -only-testing:schematicalTests/CutoutModelTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 3 min).
   Observed: DXFImportTests 9 (this phase's) + CutoutModelTests 14, 0 failures, TEST SUCCEEDED.
-Commit: —
+Commit: 7544702e
 
 ### Phase 2 — The sheet and the menu
 
-- [ ] `Document/DXFImportSheet.swift` (SwiftUI): the controls and preview of § 1, bound to `DXFImportState`; a `Canvas` that draws the loops scaled to fit (outline accent, cutouts red, ignored gray, the existing outline dashed in mode 2).
-- [ ] `Document/SchematicExporter.swift`: `importDXF()` and `loadDXF(from:)`; `Document/SchematicExportCommands.swift`: `SchematicImportMenu` (`Menu("Import") { Button("DXF…") }`, disabled with no file); `SchematicFileCommands` shows it before `SchematicExportMenu`.
-- [ ] Tests `DXFImportTests` (second half): `loadDXF(from:)` of a temp file with `DXFFixtures.roundedBoard` gives its entities; a temp file holding binary DXF's header or random bytes throws and the message names "Binary DXF" or "isn't a DXF drawing" respectively; the state's summary line for `roundedBoard` reads `1 outline, 2 cutouts`; for `kicadEdgeProbe` in mode 2 the summary reads `1 cutout` plus an ignored line `2 inside a cutout` (the rectangle is the one depth-0 loop, the circle and half disc are inside it).
+- [x] `Document/DXFImportSheet.swift` (SwiftUI): the controls and preview of § 1, bound to `DXFImportState`; a `Canvas` that draws the loops scaled to fit (outline accent, cutouts red, ignored gray, the existing outline dashed in mode 2).
+- [x] `Document/SchematicExporter.swift`: `importDXF()` and `loadDXF(from:)`; `Document/SchematicExportCommands.swift`: `SchematicImportMenu` (`Menu("Import") { Button("DXF…") }`, disabled with no file); `SchematicFileCommands` shows it before `SchematicExportMenu`.
+- [x] Tests `DXFImportTests` (second half): `loadDXF(from:)` of a temp file with `DXFFixtures.roundedBoard` gives its entities; a temp file holding binary DXF's header or random bytes throws and the message names "Binary DXF" or "isn't a DXF drawing" respectively; the state's summary line for `roundedBoard` reads `1 outline, 2 cutouts`; for `kicadEdgeProbe` in mode 2 the summary reads `1 cutout` plus an ignored line `2 inside a cutout` (the rectangle is the one depth-0 loop, the circle and half disc are inside it).
 
 Acceptance: the file panel and the sheet open from the menu, the summary and reasons match the plan, and a parse error shows an alert and changes nothing.
   Check: `xcodebuild … test -only-testing:schematicalTests/DXFImportTests -only-testing:schematicalTests/SchematicExportActionTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 4 min); the real menu is driven in J.
+  Observed: DXFImportTests 12 + SchematicExportActionTests 8, 0 failures, TEST SUCCEEDED.
 Commit: —
 
 ## Validation Plan
@@ -112,7 +113,7 @@ Commit: —
 - Coverage check: the sheet and menu are compiled into the app target, and `SchematicExportActionTests` builds the same `SchematicExporter`.
 - Runtime proof: J chooses the real KiCad DXF in the real File menu and watches the PCB page.
 - Doc sync: the import is documented in J (`docs/export.md` § Import, the in-app help); `docs/file-format.md` is B's.
-- Final gate (run ONCE, after Phase 2): the Phase 2 check plus `-only-testing:schematicalTests/DXFReaderTests` (est. 6 min).
+- Final gate (run ONCE, after Phase 2): the Phase 2 check plus `-only-testing:schematicalTests/DXFReaderTests` (est. 6 min). Observed: DXFImportTests 12, SchematicExportActionTests 8, DXFReaderTests 13 (33 in all), 0 failures, `** TEST SUCCEEDED **`.
 
 ## Decisions
 
@@ -121,7 +122,9 @@ Commit: —
 
 ## Corrections
 
-<Filled in during execution.>
+- 2026-11-25: `DXFImportState` needed `nonisolated deinit {}`: a main-actor `@Observable` class freed in the test host aborted it with `malloc: pointer being freed was not allocated` (the same cause `SchematicExporter` documents); with it the tests run.
+- 2026-11-25: the summary for an outline with no loops inside is `1 outline, 0 cutouts` (the plan's example text named only the two-cutout case).
+- 2026-11-25: `DXFImportSheet`'s buttons were tested by calling its closures and rendering it through `ImageRenderer`; the File menu item, the file panel and the sheet as a real window are driven in plan-65-J Phase 3.
 
 ## Summary
 

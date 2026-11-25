@@ -1,5 +1,6 @@
 import CoreGraphics
 import Foundation
+import SwiftUI
 import XCTest
 @testable import schematical
 
@@ -169,5 +170,57 @@ final class DXFImportTests: XCTestCase {
         XCTAssertEqual(state.previewLoops.map(\.role).sorted { "\($0)" < "\($1)" }, [.cutout, .cutout, .outline])
         state.mode = .cutoutsOnly
         XCTAssertEqual(state.previewLoops.filter { $0.role == .ignored }.count, 2)
+    }
+
+    // MARK: Phase 2 — the file, the sheet and the menu
+
+    private func exporter() -> (SchematicExporter, SchematicDocument) {
+        let system = TestSupport.systemDocument(of: TestSupport.newDocument())
+        return (system.model.file, system.model.document)
+    }
+
+    private func temporaryFile(_ data: Data, name: String = "t.dxf") throws -> URL {
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("dxf-\(UUID().uuidString)-\(name)")
+        try data.write(to: url)
+        addTeardownBlock { try? FileManager.default.removeItem(at: url) }
+        return url
+    }
+
+    func testLoadDXFReadsAFile() throws {
+        let (file, _) = exporter()
+        let url = try temporaryFile(Data(DXFFixtures.roundedBoard.utf8))
+        let drawing = try file.loadDXF(from: url)
+        XCTAssertEqual(drawing.entities.count, 3)
+        XCTAssertEqual(drawing.skipped, ["TEXT": 1])
+    }
+
+    func testABinaryOrNotDXFFileThrowsAndChangesNothing() throws {
+        let (file, document) = exporter()
+        let before = document.state
+        let binary = try temporaryFile(Data("AutoCAD Binary DXF\r\n\u{1A}\u{0}".utf8))
+        XCTAssertThrowsError(try file.loadDXF(from: binary)) {
+            XCTAssertTrue($0.localizedDescription.contains("Binary DXF"), $0.localizedDescription)
+        }
+        let random = try temporaryFile(Data((0..<512).map { UInt8(($0 * 37 + 11) % 256) }))
+        XCTAssertThrowsError(try file.loadDXF(from: random)) {
+            XCTAssertTrue($0.localizedDescription.contains("isn't a DXF drawing"), $0.localizedDescription)
+        }
+        XCTAssertThrowsError(try file.loadDXF(from: URL(fileURLWithPath: "/nonexistent/none.dxf")))
+        XCTAssertEqual(document.state, before)
+        XCTAssertNil(document.undoName)
+    }
+
+    func testTheSheetRendersAndTheMenuIsBuilt() throws {
+        let (state, _) = try makeState(DXFFixtures.roundedBoard)
+        var imported = 0, cancelled = 0
+        let sheet = DXFImportSheet(state: state, onCancel: { cancelled += 1 }, onImport: { imported += 1 })
+        let renderer = ImageRenderer(content: sheet)
+        let image = try XCTUnwrap(renderer.cgImage)
+        XCTAssertGreaterThan(image.width, 300)
+        XCTAssertGreaterThan(image.height, 300)
+        sheet.onImport()
+        sheet.onCancel()
+        XCTAssertEqual([imported, cancelled], [1, 1])
+        _ = SchematicImportMenu(file: nil).body
     }
 }
