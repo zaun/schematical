@@ -116,7 +116,8 @@
 - [ ] Rounded corners of the board rectangle.
 - [x] Per-net trace widths (net classes): power nets wider by default. (plan-38)
 - [ ] Import footprints from KiCad's footprint libraries.
-- [ ] Later: teardrops, push-and-shove routing. (autorouter: plan-38)
+- [x] Push-and-shove routing in the autorouter. (plan-66)
+- [ ] Later: teardrops (a board option, not an autorouter option; not planned yet).
 
 ## Schematic
 
