@@ -1577,7 +1577,7 @@ timing entries are `{rise, fall}` plus `vcc` and `inputMax`. Part keys:
 
 ### `switch`
 
-DIP switches and tactile (push-button) switches. A switch drives nothing;
+DIP switches, tactile (push-button) switches and slide switches. A switch drives nothing;
 each position is a contact between two pins. While a position is ON the
 nets on its two pins act as one net (both ways; strong drivers that disagree
 across it short). Every position starts OFF, except on a normally-closed
@@ -1599,6 +1599,8 @@ closed).
 | `"normallyClosed"` | optional, default `false`, needs `"momentary": true`: the contact is closed at rest and opens while pressed. The circuit starts it closed. `PartSwitch.normally_closed` |
 | `"joined"` | optional, a non-empty array of `[pin name, pin name]`: pins connected inside the part (a four-terminal tactile switch's two pins per side). Always closed; numbered after the positions, not addressable by `circuit_set_switch`. `PartSwitch.joined` is their count |
 | `"bodySize"` | optional, `[length, width]`: the nominal body size in mm, the larger side first, each above 0 and at most 100. The drawer lists a tactile switch under its size (Switches & Relays → Tactile → 6 × 6 mm) and the sidebar shows it as Body. `PartSwitch.body_um` |
+| `"states"` | optional (plan-58-B): makes the device a **slide switch**. An array of 2 or 3 arrays, one per knob position (position 1 first); each lists the contact numbers (1 … the number of `"contacts"`, at most 8, each at most once) that are closed in that position, possibly none (the middle of an On-Off-On switch). `PartSwitch.states` is the count (0 without the key) and `part_switch_state_contacts` reads a position's contacts. Cannot be combined with `"momentary"`, `"normallyClosed"` or `"joined"`. Errors: `"states" must be 2 or 3 arrays of contact numbers`, `states[i]: contact N does not exist (the device has M contacts)`, `states[i]: contact N twice`. |
+| `"rest"` | optional, needs `"states"`: the knob position (1-based, at most the number of states, default 1) a new circuit starts in. `PartSwitch.rest`. Errors: `"rest" needs "states"`, `"rest" must be 1 … K`. |
 
 ```json
 "actuator": "Standard",
@@ -1612,6 +1614,27 @@ closed).
 
 `PartSwitch.positions` is the number of contacts (not counting joined
 pairs). Parts carry no kind keys.
+
+**Slide switches** (plan-58). A slide switch has one latching knob with two or
+three positions; each position closes the contacts `"states"` lists, so the
+contacts stay the primitive (`circuit_set_switch` still closes and opens
+one) and `circuit_set_switch_state(circuit, part, state)` moves the knob: it
+opens the contacts the position does not list, then closes the ones it does
+(break before make). A new circuit starts the knob in `"rest"`. The library's
+slide switches use these pin and contact names and states (position 1 is the
+one the datasheet's circuit table or diagram lists first, the `A` side; a
+switch with an Off position starts Off):
+
+| Circuit | Pins | `"contacts"` | `"states"` On-On | `"states"` On-Off-On | `"states"` On-Off | `"rest"` |
+|---|---|---|---|---|---|---|
+| SPST | `A`, `B` | `[["A","B"]]` | | | `[[1],[]]` | 2 |
+| SPDT | `C`, `A`, `B` | `[["C","A"],["C","B"]]` | `[[1],[2]]` | `[[1],[],[2]]` | | 1 (On-On), 2 (On-Off-On) |
+| DPST | `A1`, `B1`, `A2`, `B2` | `[["A1","B1"],["A2","B2"]]` | | | `[[1,2],[]]` | 2 |
+| DPDT | `C1`, `A1`, `B1`, `C2`, `A2`, `B2` | `[["C1","A1"],["C1","B1"],["C2","A2"],["C2","B2"]]` | `[[1,3],[2,4]]` | `[[1,3],[],[2,4]]` | | 1 (On-On), 2 (On-Off-On) |
+
+The drawer is `["Switches & Relays","Slide"]` (then the circuit and action,
+e.g. `SPDT On-On`). A slide switch's contact timing (DigiKey's "Shorting
+(MBB)" / "Non-Shorting (BBM)") is not modelled beyond break before make.
 
 The library's tactile switches are written by
 `planning/plan-27-data/gen-parts.py` (plan-27-E), which owns `switch.json`
