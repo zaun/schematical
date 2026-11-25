@@ -267,7 +267,7 @@ Geometry only; nothing draws it yet.
 
 Acceptance: a piece's geometry is right at every orientation.
   Check: `XB -only-testing:schematicalTests/GateSymbolTests` → `** TEST SUCCEEDED **` (est. 4 min).
-Commit: —
+Commit: 9241a814
 
 ### Phase 2 — the drawing
 
@@ -303,7 +303,7 @@ Commit: —
 Acceptance: every catalog gate shape draws, every lead reaches its pin.
   Check: `XB -only-testing:schematicalTests/GateSymbolTests -only-testing:schematicalTests/SchematicRotateTests`
   → `** TEST SUCCEEDED **` (est. 5 min).
-Commit: —
+Commit: 9241a814
 
 ## Validation Plan
 

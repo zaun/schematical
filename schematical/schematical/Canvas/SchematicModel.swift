@@ -698,7 +698,7 @@ nonisolated struct ChipLayout: Hashable {
         )
     }
 
-    private init(size: CGSize, slots: [PinSlot]) {
+    fileprivate init(size: CGSize, slots: [PinSlot]) {
         self.size = size
         self.slots = slots
     }
@@ -1067,6 +1067,25 @@ nonisolated struct ChipSocket: Hashable, Sendable {
     }
 }
 
+/// Where one unit of a part drawn as its units is (plan-67): its own
+/// position, flip and turn.
+nonisolated struct UnitPlacement: Hashable, Sendable {
+    /// `PartUnit.key`.
+    let key: String
+    /// Top-left corner of the unit's body. Always on the grid.
+    var origin: CGPoint
+    var isFlipped = false
+    /// 0, 90, 180 or 270; 0 unless the unit's symbol turns (a gate does, a
+    /// block does not).
+    var rotation = 0
+}
+
+/// One unit of a placed part.
+nonisolated struct UnitRef: Hashable, Sendable {
+    let chipID: UUID
+    let key: String
+}
+
 nonisolated struct PlacedChip: Identifiable, Hashable {
     let id: UUID
     /// "U1", "R3": letters then a number. Changed through
@@ -1078,8 +1097,13 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     /// Set on a piece only (`piece`): which unit of the part it stands for
     /// ("A", "P"). Nil for a whole part, and for every chip a document holds.
     private(set) var unitKey: String?
-    /// Top-left corner of the body. Always on the grid.
-    var origin: CGPoint
+    /// Top-left corner of the body while the part is one block. Always on
+    /// the grid.
+    private var blockOrigin: CGPoint
+    /// Where each unit is, in `part.units` order, when the part is drawn as
+    /// its units (plan-67); empty = one block. Changed through `split`,
+    /// `join`, `setPlacements` and `updatePlacement`.
+    private(set) var unitPlacements: [UnitPlacement] = []
     /// Flipped parts have their pins on the opposite sides. For an LED the
     /// whole symbol is also mirrored; see `DiodeSymbolView`.
     var isFlipped = false
@@ -1146,7 +1170,7 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         self.part = part
         self.symbol = symbol
         self.baseLayout = ChipLayout(part: part, symbol: symbol)
-        self.origin = origin
+        self.blockOrigin = origin
         self.isFlipped = isFlipped
         self.rotation = symbol.canRotate ? PlacedChip.normalized(rotation) : 0
         self.board = part.footprint == nil ? nil : board
@@ -1234,7 +1258,8 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
             piece.baseLayout = ChipLayout(pins: pins)
         }
         piece.unitKey = unit.key
-        piece.origin = origin
+        piece.unitPlacements = []
+        piece.blockOrigin = origin
         piece.isFlipped = isFlipped
         piece.rotation = piece.symbol.canRotate ? Self.normalized(rotation) : 0
         return piece
@@ -1278,6 +1303,8 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
                               memoryFile: memoryFile, color: color, footprintID: footprint, gender: gender,
                               ohms: ohms, farads: farads, socket: socket)
         chip.showsReference = showsReference
+        // Still drawn as its units when the new part has the same ones.
+        if isSplit { chip.setPlacements(unitPlacements) }
         return chip
     }
 
@@ -1322,8 +1349,122 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     }
 
     var layout: ChipLayout {
+        if isSplit {
+            let pieces = pieces
+            return ChipLayout(size: Self.union(pieces.map(\.bodyRect)).size, slots: pieces.flatMap { $0.layout.slots })
+        }
         let flipped = isFlipped ? baseLayout.flipped() : baseLayout
         return rotation == 0 ? flipped : flipped.rotated(by: rotation)
+    }
+
+    // MARK: Units (plan-67)
+
+    /// Drawn as its units rather than one block.
+    var isSplit: Bool { !unitPlacements.isEmpty }
+
+    /// Top-left corner of the body, always on the grid. For a part drawn as
+    /// its units, the corner of the box around them: setting it moves every
+    /// unit together.
+    var origin: CGPoint {
+        get { isSplit ? Self.union(pieces.map(\.bodyRect)).origin : blockOrigin }
+        set {
+            guard isSplit else {
+                blockOrigin = newValue
+                return
+            }
+            let old = origin
+            let dx = newValue.x - old.x, dy = newValue.y - old.y
+            for index in unitPlacements.indices {
+                unitPlacements[index].origin.x += dx
+                unitPlacements[index].origin.y += dy
+            }
+        }
+    }
+
+    private static func union(_ rects: [CGRect]) -> CGRect {
+        guard let first = rects.first else { return .zero }
+        return rects.dropFirst().reduce(first) { $0.union($1) }
+    }
+
+    /// What the Schematic draws: the part itself, or one piece per unit.
+    var pieces: [PlacedChip] {
+        guard isSplit else { return [self] }
+        return unitPlacements.compactMap { placement in
+            guard let unit = part.units.first(where: { $0.key == placement.key }) else { return nil }
+            return piece(unit, origin: placement.origin, isFlipped: placement.isFlipped, rotation: placement.rotation)
+        }
+    }
+
+    /// The piece a unit is drawn as; nil when the part is not split or has
+    /// no such unit.
+    func piece(forUnit key: String) -> PlacedChip? {
+        pieces.first { $0.unitKey == key }
+    }
+
+    /// The key of the unit that draws a pin (`ChipPin.index`).
+    func unitKey(ofPin index: Int) -> String? {
+        part.units.first { $0.pins.contains(index) }?.key
+    }
+
+    /// The last-drawn piece under a point (body and pin stubs).
+    func piece(at point: CGPoint) -> PlacedChip? {
+        pieces.last { $0.hitRect.contains(point) }
+    }
+
+    /// The pieces a box touches.
+    func pieces(in rect: CGRect) -> [PlacedChip] {
+        pieces.filter { $0.hitRect.intersects(rect) }
+    }
+
+    /// Draws the part as its units, in a column from where the block was:
+    /// each unit a grid step below the one before. Nothing for a part with
+    /// no units or one already split.
+    mutating func split() {
+        guard !isSplit, !part.units.isEmpty else { return }
+        var placements: [UnitPlacement] = []
+        var corner = SchematicGrid.snap(blockOrigin)
+        for unit in part.units {
+            placements.append(UnitPlacement(key: unit.key, origin: corner))
+            let size = piece(unit, origin: corner, isFlipped: false, rotation: 0).layout.size
+            corner.y = SchematicGrid.snap(corner.y + size.height + 2 * SchematicGrid.spacing)
+        }
+        unitPlacements = placements
+    }
+
+    /// Back to one block, at the corner of the box around the units.
+    mutating func join() {
+        guard isSplit else { return }
+        let corner = SchematicGrid.snap(origin)
+        unitPlacements = []
+        blockOrigin = corner
+    }
+
+    /// Takes a whole arrangement (a file's, a copy's): accepted only when it
+    /// names every unit of the part exactly once. Kept in unit order; a turn
+    /// is kept only where the unit's symbol turns. Returns whether it was
+    /// accepted; a refused list changes nothing.
+    @discardableResult
+    mutating func setPlacements(_ placements: [UnitPlacement]) -> Bool {
+        let keys = part.units.map(\.key)
+        guard !keys.isEmpty, placements.count == keys.count, Set(placements.map(\.key)) == Set(keys) else { return false }
+        unitPlacements = part.units.compactMap { unit in
+            guard var placement = placements.first(where: { $0.key == unit.key }) else { return nil }
+            let turns = if case .gate = unit.shape { true } else { false }
+            placement.rotation = turns ? Self.normalized(placement.rotation) : 0
+            return placement
+        }
+        return true
+    }
+
+    /// Changes one unit's placement; nothing when the part is not split or
+    /// has no such unit. A turn is kept only where the unit's symbol turns.
+    mutating func updatePlacement(_ key: String, _ body: (inout UnitPlacement) -> Void) {
+        guard let index = unitPlacements.firstIndex(where: { $0.key == key }) else { return }
+        var placement = unitPlacements[index]
+        body(&placement)
+        let turns = if case .gate? = part.units.first(where: { $0.key == key })?.shape { true } else { false }
+        placement.rotation = turns ? Self.normalized(placement.rotation) : 0
+        unitPlacements[index] = placement
     }
 
     /// 0, 90, 180 or 270 for any whole number of degrees.
@@ -1344,6 +1485,14 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
 
     /// Where a pin's wire leaves the body: the end of its stub.
     func tip(of slot: ChipLayout.PinSlot) -> CGPoint {
+        if isSplit {
+            // The unit that draws the pin says where it is.
+            for piece in pieces {
+                if let own = piece.layout.slots.first(where: { $0.pin.index == slot.pin.index }) {
+                    return piece.tip(of: own)
+                }
+            }
+        }
         let stub = ChipLayout.stubLength
         let size = layout.size
         switch slot.side {
@@ -1375,6 +1524,7 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     /// The body plus its pin stubs, used for hit testing and hover. Vertical
     /// supplies also have stubs above and below, so those are included too.
     var hitRect: CGRect {
+        if isSplit { return Self.union(pieces.map(\.hitRect)) }
         let stub = ChipLayout.stubLength
         let verticalStub = hasVerticalPins ? stub : 0
         return bodyRect.insetBy(dx: -stub, dy: -verticalStub)
@@ -1789,6 +1939,7 @@ final class SchematicDocument {
     private(set) var schematicSelection = ItemSelection<SchematicItem>() {
         didSet {
             if !schematicSelection.isEmpty { clearSelection(except: .items) }
+            prunePicks()
             mirrorSchematicSelectionToBoard()
         }
     }
@@ -1989,7 +2140,7 @@ final class SchematicDocument {
     /// is.
     func schematicItems(in rect: CGRect) -> Set<SchematicItem> {
         var items = Set<SchematicItem>()
-        for chip in chips where chip.hitRect.intersects(rect) {
+        for chip in chips where !chip.pieces(in: rect).isEmpty {
             items.insert(.chip(chip.id))
         }
         for junction in junctions where rect.contains(junction.point) {
@@ -2799,7 +2950,7 @@ final class SchematicDocument {
     func flipChip(_ id: UUID) {
         recordEdit(.schematic, "Flip") {
             guard let index = chips.firstIndex(where: { $0.id == id }),
-                  chips[index].symbol.canFlip else { return }
+                  chips[index].symbol.canFlip, !chips[index].isSplit else { return }
             chips[index].isFlipped.toggle()
             settleWires(attachedTo: id)
             adoptLooseEnds(chips: [id])
@@ -2811,15 +2962,116 @@ final class SchematicDocument {
     func rotateChip(_ id: UUID, counterclockwise: Bool = false) {
         recordEdit(.schematic, "Rotate") {
             guard let index = chips.firstIndex(where: { $0.id == id }),
-                  chips[index].symbol.canRotate else { return }
+                  chips[index].symbol.canRotate, !chips[index].isSplit else { return }
             chips[index].rotation = PlacedChip.normalized(chips[index].rotation + (counterclockwise ? 270 : 90))
             settleWires(attachedTo: id)
             adoptLooseEnds(chips: [id])
         }
     }
 
+    // MARK: Units (plan-67)
+
+    /// The sidebar's View option: draws a part as its units (a gate IC as
+    /// separate gates) or as one block again. The wires stay on their pins.
+    /// Nothing for a part with no units, or one already drawn that way.
+    func setPartSplit(_ id: UUID, _ split: Bool) {
+        guard let index = chips.firstIndex(where: { $0.id == id }),
+              !chips[index].part.units.isEmpty, chips[index].isSplit != split else { return }
+        recordEdit(.schematic, "Change View") {
+            if split { chips[index].split() } else { chips[index].join() }
+            settleWires(attachedTo: id)
+            adoptLooseEnds(chips: [id])
+        }
+    }
+
+    /// Whether `ref` names a unit of a part drawn as its units.
+    private func placementIndex(_ ref: UnitRef) -> Int? {
+        guard let index = chips.firstIndex(where: { $0.id == ref.chipID }),
+              chips[index].unitPlacements.contains(where: { $0.key == ref.key }) else { return nil }
+        return index
+    }
+
+    /// Moves one unit's body corner to `origin` (snapped to the grid).
+    func moveUnit(_ ref: UnitRef, to origin: CGPoint) {
+        guard let index = placementIndex(ref) else { return }
+        recordEdit(.schematic, "Move") {
+            chips[index].updatePlacement(ref.key) { $0.origin = SchematicGrid.snap(origin) }
+            settleWires(attachedTo: ref.chipID)
+            adoptLooseEnds(chips: [ref.chipID])
+        }
+    }
+
+    /// Mirrors one unit left to right.
+    func flipUnit(_ ref: UnitRef) {
+        guard let index = placementIndex(ref) else { return }
+        recordEdit(.schematic, "Flip") {
+            chips[index].updatePlacement(ref.key) { $0.isFlipped.toggle() }
+            settleWires(attachedTo: ref.chipID)
+            adoptLooseEnds(chips: [ref.chipID])
+        }
+    }
+
+    /// Turns one unit a quarter turn. Nothing for a unit drawn as a block.
+    func rotateUnit(_ ref: UnitRef, counterclockwise: Bool = false) {
+        guard let index = placementIndex(ref),
+              chips[index].piece(forUnit: ref.key)?.symbol.canRotate == true else { return }
+        recordEdit(.schematic, "Rotate") {
+            chips[index].updatePlacement(ref.key) {
+                $0.rotation = PlacedChip.normalized($0.rotation + (counterclockwise ? 270 : 90))
+            }
+            settleWires(attachedTo: ref.chipID)
+            adoptLooseEnds(chips: [ref.chipID])
+        }
+    }
+
+    /// Which units of selected parts drawn as their units are picked: the
+    /// ones a drag, Flip or Rotate acts on, drawn fully marked (their
+    /// siblings faintly). A part with no entry has every unit picked. Editor
+    /// state like the selection: never saved, not part of undo.
+    private(set) var pickedUnits: [UUID: Set<String>] = [:]
+
+    /// The picked units of a part: every unit unless some were picked.
+    func picked(_ chip: PlacedChip) -> Set<String> {
+        let all = Set(chip.unitPlacements.map(\.key))
+        guard isSelected(.chip(chip.id)), let some = pickedUnits[chip.id]?.intersection(all), !some.isEmpty else { return all }
+        return some
+    }
+
+    /// A click on a unit: it alone is picked; with `extend` (Shift) it is
+    /// added to, or taken out of, the picked ones.
+    func pick(_ ref: UnitRef, extend: Bool) {
+        guard extend, var some = pickedUnits[ref.chipID] else {
+            pickedUnits[ref.chipID] = [ref.key]
+            return
+        }
+        if some.contains(ref.key) { some.remove(ref.key) } else { some.insert(ref.key) }
+        pickedUnits[ref.chipID] = some.isEmpty ? nil : some
+    }
+
+    /// Picks exactly these units of their parts (a box select).
+    func pickUnits(_ refs: Set<UnitRef>) {
+        for chipID in Set(refs.map(\.chipID)) {
+            pickedUnits[chipID] = Set(refs.filter { $0.chipID == chipID }.map(\.key))
+        }
+    }
+
+    /// Forgets the picks of parts that are no longer selected, so a part
+    /// selected again starts with every unit picked.
+    private func prunePicks() {
+        guard !pickedUnits.isEmpty else { return }
+        let selected = schematicSelectedParts
+        let kept = pickedUnits.filter { selected.contains($0.key) }
+        if kept.count != pickedUnits.count { pickedUnits = kept }
+    }
+
     func chip(at point: CGPoint) -> PlacedChip? {
-        chips.last { $0.hitRect.contains(point) }
+        chips.last { $0.piece(at: point) != nil }
+    }
+
+    /// What is drawn under a point: a part, or the piece of a part drawn as
+    /// its units (plan-67; `PlacedChip.unitKey` says which).
+    func piece(at point: CGPoint) -> PlacedChip? {
+        chips.last { $0.piece(at: point) != nil }?.piece(at: point)
     }
 
     /// The junction within `tolerance` of `point`, if any.
@@ -2835,7 +3087,16 @@ final class SchematicDocument {
         for item in schematicSelection.items {
             switch item {
             case let .chip(id):
-                if let chip = chips.first(where: { $0.id == id }) { base.chips[id] = chip.origin }
+                guard let chip = chips.first(where: { $0.id == id }) else { break }
+                if chip.isSplit {
+                    // Only the picked units move (plan-67).
+                    let keys = picked(chip)
+                    for placement in chip.unitPlacements where keys.contains(placement.key) {
+                        base.units[UnitRef(chipID: id, key: placement.key)] = placement.origin
+                    }
+                } else {
+                    base.chips[id] = chip.origin
+                }
             case let .junction(id):
                 if let junction = junctions.first(where: { $0.id == id }) { base.junctions[id] = junction.point }
             case let .wire(id):
@@ -2868,10 +3129,14 @@ final class SchematicDocument {
     /// moved junction or a moved net label.
     private func moves(_ end: WireEnd, in base: SchematicGroupBase) -> Bool {
         switch end {
-        case let .pin(ref): base.chips[ref.chipID] != nil
-        case let .junction(id): base.junctions[id] != nil
-        case let .busPin(ref): base.ports.contains(ref.portID)
-        case let .label(id): base.labels[id] != nil
+        case let .pin(ref):
+            if base.chips[ref.chipID] != nil { return true }
+            guard !base.units.isEmpty, let chip = chips.first(where: { $0.id == ref.chipID }),
+                  let key = chip.unitKey(ofPin: ref.index) else { return false }
+            return base.units[UnitRef(chipID: ref.chipID, key: key)] != nil
+        case let .junction(id): return base.junctions[id] != nil
+        case let .busPin(ref): return base.ports.contains(ref.portID)
+        case let .label(id): return base.labels[id] != nil
         }
     }
 
@@ -2911,6 +3176,13 @@ final class SchematicDocument {
                 guard let origin = base.chips[chips[index].id] else { continue }
                 let moved = shifted(origin)
                 if chips[index].origin != moved { chips[index].origin = moved }
+            }
+            for (ref, origin) in base.units {
+                guard let index = chips.firstIndex(where: { $0.id == ref.chipID }) else { continue }
+                let moved = shifted(origin)
+                if chips[index].unitPlacements.first(where: { $0.key == ref.key })?.origin != moved {
+                    chips[index].updatePlacement(ref.key) { $0.origin = moved }
+                }
             }
             for index in junctions.indices {
                 guard let point = base.junctions[junctions[index].id] else { continue }
@@ -2958,8 +3230,8 @@ final class SchematicDocument {
                 }
                 wires[index].interior = interior
             }
-            adoptLooseEnds(chips: Set(base.chips.keys), ports: base.ports, junctions: Set(base.junctions.keys),
-                           labels: Set(base.labels.keys))
+            adoptLooseEnds(chips: Set(base.chips.keys).union(base.units.keys.map(\.chipID)), ports: base.ports,
+                           junctions: Set(base.junctions.keys), labels: Set(base.labels.keys))
         }
     }
 
@@ -3006,6 +3278,11 @@ final class SchematicDocument {
                     socket: chip.socket
                 )
                 placed.showsReference = chip.showsReference
+                if chip.isSplit {
+                    placed.setPlacements(chip.unitPlacements.map {
+                        UnitPlacement(key: $0.key, origin: shifted($0.origin), isFlipped: $0.isFlipped, rotation: $0.rotation)
+                    })
+                }
                 placed.board = placed.footprint.map {
                     BoardLayout.nextSpot(for: $0, among: chips + pastedChips, pad1: placed.part.firstPinDesignator,
                                          hasPinOneMark: placed.part.hasPinOneMark, grid: self.board.grid)

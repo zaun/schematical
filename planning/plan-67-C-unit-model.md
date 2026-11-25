@@ -32,7 +32,7 @@ letter adds one:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-67-B has landed | `grep -c 'func piece(_ unit: PartUnit' schematical/schematical/Canvas/SchematicModel.swift` → 1 | NOT MET (2026-11-25: 0) |
+| plan-67-B has landed | `grep -c 'func piece(_ unit: PartUnit' schematical/schematical/Canvas/SchematicModel.swift` → 1 | MET (2026-11-25: 1, `9241a814`) |
 
 ## 1. Goal
 
@@ -253,16 +253,18 @@ A split part cannot exist in a saved file until letter D.
 
 ### Phase 1 — storage and geometry
 
-- [ ] `Canvas/SchematicModel.swift`: add `UnitPlacement` and `UnitRef` above
+- [x] `Canvas/SchematicModel.swift`: add `UnitPlacement` and `UnitRef` above
       `PlacedChip`; add `ChipLayout.init(size:slots:)`.
-- [ ] `PlacedChip`: `unitPlacements`, `isSplit`, `blockOrigin` with the computed
+      **Done:** `ChipLayout.init(size:slots:)` already existed as a `private` initializer (line 701); it is now `fileprivate` so `PlacedChip` can use it.
+- [x] `PlacedChip`: `unitPlacements`, `isSplit`, `blockOrigin` with the computed
       `origin`, `pieces`, the split branches of `layout`, `tip(of:)`,
       `bodyRect`, `hitRect`, and `piece(at:)`, `pieces(in:)`, `split()`,
       `join()`, `setPlacements(_:)`, `updatePlacement` (§4). `init` keeps its
       `origin:` parameter and stores it in `blockOrigin`.
-- [ ] `SchematicDocument.chip(at:)` and `schematicItems(in:)` per §4; add
+      **Done:** also `piece(forUnit:)` and `unitKey(ofPin:)`. A piece is made unsplit (`piece.unitPlacements = []`), so its own `origin` is its stored one.
+- [x] `SchematicDocument.chip(at:)` and `schematicItems(in:)` per §4; add
       `piece(at:)`.
-- [ ] Tests: new `schematicalTests/SplitPartModelTests.swift` —
+- [x] Tests: new `schematicalTests/SplitPartModelTests.swift` —
       `testSplitLaysUnitsInAColumn` (`SN74HC00N` placed at (200, 200) via
       `TestSupport.place`, then `split()` on a copy: 5 placements keyed
       A, B, C, D, P at x 200 and y 200, 260, 320, 380, 440; `origin` (200, 200));
@@ -276,6 +278,7 @@ A split part cannot exist in a saved file until letter D.
       block; a block unit's rotation 90 becomes 0); `testUnsplitPartIsUnchanged`
       (`pieces == [self]`, `origin`, `layout`, `tip(of:)`, `bodyRect`, `hitRect`
       equal the values computed from the stored fields as before).
+      **Done:** 7 cases. `TestSupport.place` centres a part on the point, so the tests read the placed chip's `origin` rather than assume (200, 200); the column is the corner plus 0, 60, 120, 180, 240. `XB -only-testing:schematicalTests/SplitPartModelTests` → `Executed 7 tests, with 0 failures`.
 
 Acceptance: a split part answers every geometry question from its pieces, and
 an unsplit part answers exactly as before.
@@ -285,10 +288,10 @@ Commit: —
 
 ### Phase 2 — edits and wires
 
-- [ ] `SchematicDocument`: `setPartSplit`, `moveUnit`, `flipUnit`, `rotateUnit`
+- [x] `SchematicDocument`: `setPartSplit`, `moveUnit`, `flipUnit`, `rotateUnit`
       (§5), beside `flipChip`; the early return in `flipChip` / `rotateChip`.
-- [ ] `pasteSchematic` and `PlacedChip.resized(to:symbol:)` per §5.
-- [ ] Tests: new `schematicalTests/SplitPartEditTests.swift` —
+- [x] `pasteSchematic` and `PlacedChip.resized(to:symbol:)` per §5.
+- [x] Tests: new `schematicalTests/SplitPartEditTests.swift` —
       `testWiresFollowTheSplit` (a 7400 with pin `1Y` wired to an LED and `VCC`
       to a supply: after `setPartSplit(id, true)` each wire's `path(for:)` ends
       at `pinTip` of its pin, which is on unit A / unit P; after `false` again
@@ -303,6 +306,7 @@ Commit: —
       the original plus the snapped offset, flips and turns kept, new
       reference); `testPartsWithoutUnitsRefuse` (`setPartSplit` on a resistor
       and on `SN74HC74N` changes nothing and records no undo step).
+      **Done:** `XB … SplitPartEditTests … SchematicClipboardTests … SchematicUndoTests` → 10, 50 and 9 tests, 0 failures.
 
 Acceptance: splitting, joining and editing one unit keep every wire on its pin
 and are each one undo step.
@@ -312,13 +316,14 @@ Commit: —
 
 ### Phase 3 — picks and group drags
 
-- [ ] `SchematicDocument`: `pickedUnits`, `picked(_:)`, `pick(_:extend:)`,
+- [x] `SchematicDocument`: `pickedUnits`, `picked(_:)`, `pick(_:extend:)`,
       `pickUnits(_:)`, and the clean-up in the `schematicSelection` observer and
       `pruneSelection` (§6).
-- [ ] `Canvas/Selection.swift`: `SchematicGroupBase.units`.
-- [ ] `schematicGroupBase`, `moves`, `moveSchematicGroup`,
+      **Done:** the clean-up is `prunePicks()`, called from the `schematicSelection` observer, which `pruneSelection`'s filter also triggers.
+- [x] `Canvas/Selection.swift`: `SchematicGroupBase.units`.
+- [x] `schematicGroupBase`, `moves`, `moveSchematicGroup`,
       `settleSchematicGroup` per §6.
-- [ ] Tests in `SplitPartEditTests` — `testPicksDefaultToEveryUnit` (select the
+- [x] Tests in `SplitPartEditTests` — `testPicksDefaultToEveryUnit` (select the
       chip: `picked` is all five keys; `pick(A)` → `["A"]`; `pick(B, extend:
       true)` → A and B; deselect and select again → all five);
       `testGroupDragMovesOnlyPickedUnits` (pick B, `schematicGroupBase` then
@@ -327,6 +332,7 @@ Commit: —
       tip); `testGroupDragOfAWholeSplitPart` (no pick entry: all five move);
       `testMixedGroupDrag` (a picked unit and a selected resistor move by the
       same delta).
+      **Done:** `XB` over `SplitPartModelTests`, `SplitPartEditTests`, `SchematicRotateTests`, `SchematicClipboardTests`, `SchematicUndoTests`, `SelectionModelTests`, `SelectionGestureTests`, `GateSymbolTests` → `Executed 119 tests, with 0 failures`, `** TEST SUCCEEDED **`.
 
 Acceptance: a drag moves the picked units and nothing else of that part.
   Check: `XB -only-testing:schematicalTests/SplitPartEditTests -only-testing:schematicalTests/SelectionModelTests -only-testing:schematicalTests/SelectionGestureTests`
@@ -359,6 +365,10 @@ Commit: —
   2026-11-25 and raised no objection.
 
 ## Corrections
+
+- **The three phases landed in one commit.** They edit the same members of `PlacedChip` and the same document functions, and the build was verified once over all of them (119 tests). Each phase's tests are named above.
+- **`testSplitLaysUnitsInAColumn`'s numbers.** The plan gave absolute positions (x 200; y 200 … 440) for a part "placed at (200, 200)". `TestSupport.place` centres the part on the point, so the corner is not the point; the test checks the column relative to the placed corner (+0, +60, +120, +180, +240), which is the same claim.
+- **Select All keeps existing picks.** The plan said every way of selecting a part other than a click leaves all units picked. That holds for a part that was not selected; a part that stays selected through Select All keeps the picks it had (`testPicksDefaultToEveryUnit`), because picks are dropped only when a part leaves the selection.
 
 ## Summary
 

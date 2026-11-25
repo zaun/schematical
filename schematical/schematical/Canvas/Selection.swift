@@ -142,6 +142,9 @@ nonisolated struct ItemSelection<Item: Hashable>: Equatable {
 /// The drag applies one snapped delta to all of it.
 nonisolated struct SchematicGroupBase: Equatable {
     var chips: [UUID: CGPoint] = [:]
+    /// The picked units of selected parts drawn as their units (plan-67):
+    /// where each unit's corner was. Such a part is not in `chips`.
+    var units: [UnitRef: CGPoint] = [:]
     var junctions: [UUID: CGPoint] = [:]
     /// Selected wires' stored bends. Their ends stay attached.
     var wires: [UUID: [CGPoint]] = [:]
