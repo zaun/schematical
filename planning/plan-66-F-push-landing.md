@@ -145,11 +145,11 @@ docs/routing.md` → at least 3); `git diff --cached --stat` before the commit s
 only `planning/todo.md`.
   Check: the four commands (est. 2 min).
   Measured: `grep -c 'No push-and-shove' docs/routing.md` → 0; `grep -c 'pushAndShove'` → 3; `grep -c 'RoutingPush\|RoutingCorridor\|MovableChains'` → 4; each of the five test classes → 1 or 2.
-Commit: — (recorded in the next commit)
+Commit: d4151ae5
 
 ### Phase 3 — the landing tier (once, on the finished tree)
 
-- [ ] Debug, every router test class: `xcodebuild -project
+- [x] (done, once, on the finished tree: 31 classes (the 29 router classes that are test classes, `TraceRouteTests`, `TraceToolTests`) `Executed 274 tests, with 7 tests skipped and 0 failures` in 1440.3 s, `** TEST SUCCEEDED **`; the 7 skipped are `RouterQualityFixtureTests`, which skip in Debug) Debug, every router test class: `xcodebuild -project
       schematical/schematical.xcodeproj -scheme schematical -derivedDataPath
       /tmp/p66-dd CODE_SIGNING_ALLOWED=NO test` with one `-only-testing:` per
       class in the files `ls schematical/schematicalTests | grep -E
@@ -157,23 +157,23 @@ Commit: — (recorded in the next commit)
       `Rout…` includes `RouteToolTests`, `RouteDraftTests`, `RouteLegTests`) and
       `TraceRouteTests`, `TraceToolTests` → `** TEST SUCCEEDED **`, `0 failures`;
       record the counts.
-- [ ] The A anchors, alone, as the off-identity proof: `… test
+- [x] (done: `RoutingAnchorTests` `Executed 9 tests, with 0 failures` inside that run; `git log --oneline -- schematical/schematicalTests/RoutingAnchorTests.swift` → one commit, `b827d66a`, and `git log -p` shows no changed `Anchor(routed` line; and the option-off router is byte-identical to main's on LFU Balanced, see Corrections) The A anchors, alone, as the off-identity proof: `… test
       -only-testing:schematicalTests/RoutingAnchorTests` → pass; the literals in the
       file are those A recorded on the pre-plan tree (`git log -p
       schematical/schematicalTests/RoutingAnchorTests.swift` shows no edit to a
       literal after A's first commit).
-- [ ] Release quality: `xcodebuild -project schematical/schematical.xcodeproj
+- [~] (done: 6 of 7 pass; `QUALITY` lines in docs/routing.md § Results; remaining: `testLFU` (option off) fails identically on main without this plan, see Corrections) Release quality: `xcodebuild -project schematical/schematical.xcodeproj
       -scheme schematical -configuration Release ENABLE_TESTABILITY=YES
       ONLY_ACTIVE_ARCH=YES CODE_SIGNING_ALLOWED=NO -derivedDataPath /tmp/p66-rel
       test -only-testing:schematicalTests/RouterQualityFixtureTests` → all pass;
       record the `QUALITY` lines (AFU, RegFile, LFU; off and on; Thorough) for the
       docs table.
-- [ ] Export and file checks that the change could touch: `… test
+- [x] (done: `DesignRuleGoldenTests`, `PCBUndoTests`, `TraceJoinTests`: `Executed 51 tests, with 0 failures`, `** TEST SUCCEEDED **`) Export and file checks that the change could touch: `… test
       -only-testing:schematicalTests/DesignRuleGoldenTests
       -only-testing:schematicalTests/PCBUndoTests
       -only-testing:schematicalTests/TraceJoinTests` → pass (the DRC, the undo history
       and the join rule read the traces and vias a splice rewrites).
-- [ ] Real app, per `AGENTS.md` § Testing in the app and the owner's GUI notes
+- [~] (done through the sheet's own model in the app's test host, because the screen was locked; remaining: driving the window with the mouse, see Corrections) Real app, per `AGENTS.md` § Testing in the app and the owner's GUI notes
       (one probe at a time, no modal left up, the app killed after each command):
       build the app; open a copy of `schematical/schematicalTests/Fixtures/RegFile.schematical`
       kept in the scratchpad; Route ▸ Autoroute (⌥⌘R) with the defaults; Close.
@@ -186,14 +186,16 @@ Commit: — (recorded in the next commit)
       (every trace and via where it was, by the DRC's `unrouted` count and a
       screenshot of the same zoom before and after). Move the pointer to (0, 0)
       when done.
-- [ ] Docs name what exists: Phase 2's four commands re-run.
+- [x] (added, 2026-11-25) `AutorouteModelTests.testTheSheetRoutesWithPushAndShoveAndSaysWhatItMoved`: the real-app pass through the sheet's own model and `RoutingSession` (below). `REALPATH sheet line: Moved 2 traces and 1 via aside`; `REALPATH DRC router-caused 0, unrouted lines 0 (before: 0)`; one Undo → every trace and via as before; the sheet drawn to `plan66-sheet.png`; `Executed 1 test, with 0 failures`, `** TEST SUCCEEDED **`.
+- [x] (done: `grep -c 'No push-and-shove' docs/routing.md` → 0; `grep -c 'pushAndShove'` → 3; `grep -c 'RoutingPush\|RoutingCorridor\|MovableChains'` → 4) Docs name what exists: Phase 2's four commands re-run.
 
 Acceptance: every box above ticked with its observed output recorded beside it.
   Check: the commands above (est. 55 min in all: the Debug tier 15 min of build
   and tests; the Release run about 25 min, of which the Release build is 8 min and
   Thorough on LFU 5 min — nothing smaller runs Balanced on the fixtures, since a
   Debug build is some 50 times slower; the real-app pass 10 min).
-Commit: —
+  Measured: see each box. Not met as written: the Release `testLFU` (pre-existing) and the window drive (screen locked).
+Commit: — (recorded in the next commit)
 
 ### Phase 4 — close-out
 
@@ -241,6 +243,22 @@ plan-66-A § Decisions apply. Added by the author, 2026-11-25:
   the router commits since that measurement are `7ade3de0` (plan-65-D, the board edge) and the
   pour work of plan-52-D, neither bisected here. The bound is not changed: the failure belongs
   to whichever change took LFU from 188 to 185 and is for the owner. The three push tests pass.
+- **The window pass could not be driven: the screen was locked** (2026-11-25). `ioreg -n Root -d1`
+  said `"CGSSessionScreenIsLocked"=Yes` with `loginwindow` frontmost, twice, an hour apart; the
+  owner's GUI notes say to stop clicking and typing then (the text lands in the password field).
+  The pass is done as far as it can be without the window: `testTheSheetRoutesWithPushAndShoveAndSaysWhatItMoved`
+  runs in the real app's test host (a real `NSApplication`, the real `RoutingSession` on its
+  background thread) the steps of the plan — select one trace of LATCH1.13 (the scope a click
+  makes: `.nets([key])`), **Existing: Clear unlocked**, width 14 mil, Route with the option off
+  (1 of 3 connections left unrouted, no "Moved" line, Undo restores) and on (3 of 3: **"Moved 2 traces
+  and 1 via aside"**, DRC router-caused 0, the `unrouted` count 0 as before, one Undo returns every
+  trace and via bit for bit) — and draws `AutorouteSheet` to a picture that shows the line under
+  "Routed 3 of 3 connections, 4 vias, 38 mm, 1.3 s" (`plan66-sheet.png`, kept with this session's files).
+  What it does not show is the sheet on screen, the click on the trace, the Debug menu path
+  (⌥⌘R) and the DRC window (⇧⌘D); the owner may drive those with the steps in Phase 3 (the case is
+  LATCH1.13, 14 mil, Existing: Clear unlocked, Push and shove on).
+- **Debug landing tier 1440 s, not the plan's 15 min** (2026-11-25): `RouterFixtureTests` routes
+  LFU with negotiation alone in Debug (330 s) and AFU, RegFile twice (with and without push).
 
 ## Summary
 
