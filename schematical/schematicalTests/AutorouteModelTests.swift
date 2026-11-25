@@ -19,12 +19,14 @@ final class AutorouteModelTests: XCTestCase {
         model.options.strategy = .thorough
         model.options.grid = 0.254
         model.options.existing = .clearAuto
+        model.options.pushAndShove = true
         model.options.scope = .nets([.ground])
         let again = AutorouteModel(document: TestSupport.newDocument(), defaults: store)
         var expected = model.options
         expected.scope = .all
         XCTAssertEqual(again.options, expected)
         XCTAssertEqual(again.options.scope, .all)
+        XCTAssertTrue(again.options.pushAndShove)
     }
 
     func testASelectedFootprintIsTheSelectionScope() throws {

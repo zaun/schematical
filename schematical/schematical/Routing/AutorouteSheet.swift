@@ -117,6 +117,8 @@ struct AutorouteSheet: View {
                 Toggle("Tune length groups", isOn: $model.options.tuneGroups)
                 Toggle("Route pairs side by side", isOn: $model.options.routePairs)
                 Toggle("Fan out to Planes", isOn: $model.options.fanoutPlanes)
+                Toggle("Push and shove", isOn: $model.options.pushAndShove)
+                    .help("Move other nets' unlocked traces and vias aside to make room. Locked copper never moves.")
             }
         }
         .formStyle(.grouped)

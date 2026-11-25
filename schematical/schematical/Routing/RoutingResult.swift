@@ -46,6 +46,12 @@ nonisolated struct RoutingStats: Hashable, Sendable {
     /// Improvement moves tried and kept (`RoutingPolish`).
     var polishTried = 0
     var polishKept = 0
+    /// Push moves tried and kept, and the traces and vias they moved
+    /// (plan-66-D/E fill these; zero until then and whenever the option is off).
+    var pushTried = 0
+    var pushKept = 0
+    var movedTraces = 0
+    var movedVias = 0
     /// Whether the run stopped early (cancelled or out of time).
     var stopped = false
 }

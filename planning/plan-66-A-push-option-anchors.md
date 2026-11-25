@@ -248,26 +248,26 @@ letter, and their literals are in the file.
   Measured: `Executed 30 tests, with 0 failures in 100.3 s`, `** TEST SUCCEEDED **`
   (anchors 9 in 47.6 s, Negotiation 10 in 27.1 s, Polish 11 in 25.6 s). The nine
   anchors are 8 board tests (four boards × Fast, Balanced) plus RegFile.
-Commit: — (recorded in the next commit)
+Commit: b827d66a
 
 ### Phase 2 — the option and the counters
 
-- [ ] `Routing/RoutingOptions.swift`: `var pushAndShove = false` with a doc
+- [x] (done; the Check below passes) `Routing/RoutingOptions.swift`: `var pushAndShove = false` with a doc
       comment ("move other nets' unlocked copper aside to make room;
       locked copper never moves"); add `pushAndShove` to `CodingKeys`, decode it
       with `decodeIfPresent(Bool.self, forKey: .pushAndShove) ?? false`, encode it.
-- [ ] `Routing/RoutingResult.swift`: in `RoutingStats` add `var pushTried = 0`,
+- [x] (done) `Routing/RoutingResult.swift`: in `RoutingStats` add `var pushTried = 0`,
       `pushKept = 0`, `movedTraces = 0`, `movedVias = 0` (all `Int`, documented
       as "filled by plan-66-D/E").
-- [ ] `Routing/AutorouteSheet.swift`: after the `Fan out to Planes` toggle
+- [x] (done; toggle after "Fan out to Planes") `Routing/AutorouteSheet.swift`: after the `Fan out to Planes` toggle
       (line 119) add `Toggle("Push and shove", isOn: $model.options.pushAndShove)`
       with `.help("Move other nets' unlocked traces and vias aside to make room.
       Locked copper never moves.")`.
-- [ ] `schematicalTests/RoutingOptionsTests.swift`: `testEveryFieldRoundTrips`
+- [x] (done: round-trip sets it; `testAnOldSavedValueHasPushAndShoveOff` added) `schematicalTests/RoutingOptionsTests.swift`: `testEveryFieldRoundTrips`
       sets `pushAndShove = true` and round-trips it; a new
       `testAnOldSavedValueHasPushAndShoveOff` decodes a JSON of the current
       `standard` options with the `pushAndShove` key removed and expects `false`.
-- [ ] `schematicalTests/AutorouteModelTests.swift`:
+- [x] (done) `schematicalTests/AutorouteModelTests.swift`:
       `testOptionsAreRememberedButNotTheScope` also sets and reads back
       `pushAndShove`.
 
@@ -277,7 +277,9 @@ shows the toggle, and the anchors still pass (nothing reads the option).
   -only-testing:schematicalTests/AutorouteModelTests
   -only-testing:schematicalTests/RoutingAnchorTests` → `** TEST SUCCEEDED **`
   (est. 2 min).
-Commit: —
+  Measured: `Executed 23 tests, with 0 failures` (RoutingOptionsTests 5, AutorouteModelTests 9,
+  RoutingAnchorTests 9 in 48.2 s — every anchor literal unchanged), `** TEST SUCCEEDED **`.
+Commit: — (recorded in the next commit)
 
 ## Validation Plan
 
