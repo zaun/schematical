@@ -112,7 +112,7 @@ Commit: d4a2d80b
 Acceptance: each of the five interactions works through its function and is one undo step.
   Check: `XB -only-testing:schematicalTests/CutoutCanvasTests -only-testing:schematicalTests/PourCanvasTests -only-testing:schematicalTests/KeyboardHelpTests -only-testing:schematicalTests/CutoutModelTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 4 min).
   Observed: CutoutCanvasTests 10 + PourCanvasTests 19 + KeyboardHelpTests 6 + CutoutModelTests 14, 0 failures, TEST SUCCEEDED.
-Commit: —
+Commit: 45dfde61
 
 ## Validation Plan
 
@@ -120,7 +120,7 @@ Commit: —
 - Coverage check: `PourCanvasTests` draws the same code (`draw`, `finishRect`, `pourItem`), so a break of the pour paths fails there.
 - Runtime proof: J drives the real window (drag a cutout, move it, resize it, undo).
 - Doc sync: the keyboard help (this sub-plan); `docs/agent-control.md` is J's.
-- Final gate (run ONCE, after Phase 2): the Phase 2 check (est. 4 min).
+- Final gate (run ONCE, after Phase 2): the Phase 2 check (est. 4 min). Observed: the Phase 2 run above, 0 failures.
 
 ## Decisions
 
