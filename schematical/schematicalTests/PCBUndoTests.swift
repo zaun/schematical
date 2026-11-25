@@ -119,6 +119,21 @@ final class PCBUndoTests: XCTestCase {
         XCTAssertEqual(doc.texts.first { $0.id == text }?.side, .bottom)
     }
 
+    /// Several selected texts change layer and font size together, one undo
+    /// step each.
+    func testSetLayerAndSizeOfSeveralTexts() throws {
+        let doc = TestSupport.newDocument()
+        let a = doc.addText(at: p(20, 20))
+        let b = doc.addText(at: p(20, 60))
+        assertStep(doc, "Change Layer") { doc.setTextLayer([a, b], .document) }
+        assertStep(doc, "Change Font Size") { doc.setTextSize([a, b], 90) }
+        for id in [a, b] {
+            let text = try XCTUnwrap(doc.texts.first { $0.id == id })
+            XCTAssertEqual(text.layer, .document)
+            XCTAssertEqual(text.size, 90)
+        }
+    }
+
     // MARK: Board
 
     func testSetBoardSize() throws {

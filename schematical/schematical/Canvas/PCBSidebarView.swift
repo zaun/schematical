@@ -56,6 +56,17 @@ struct PCBSidebarView: View {
         return document.boardSelection.isEmpty ? .board : .selection
     }
 
+    /// The ids of the selected texts when the selection is only texts (two
+    /// or more); empty otherwise.
+    static func textIDs(of document: SchematicDocument) -> [UUID] {
+        var ids: [UUID] = []
+        for item in document.boardSelection.items {
+            guard case let .text(id) = item, document.texts.contains(where: { $0.id == id }) else { return [] }
+            ids.append(id)
+        }
+        return ids
+    }
+
     var body: some View {
         Form {
             Section {
@@ -105,7 +116,9 @@ struct PCBSidebarView: View {
                         .id(keepout.id)
                 }
             case .selection:
-                MultiPositionSection(document: document)
+                let textIDs = Self.textIDs(of: document)
+                if !textIDs.isEmpty { MultiTextSection(document: document, ids: textIDs) }
+                MultiPositionSection(document: document, showsSide: textIDs.isEmpty)
                 let footprints = document.boardSelection.items.compactMap { item -> UUID? in
                     if case let .footprint(id) = item, document.chips.contains(where: { $0.id == id && $0.board != nil }) {
                         return id
@@ -149,12 +162,14 @@ struct PCBSidebarView: View {
 /// turning it on locks them all.
 struct MultiPositionSection: View {
     let document: SchematicDocument
+    /// False when the Text section (all texts) already offers the side.
+    var showsSide = true
 
     var body: some View {
         let items = Array(document.boardSelection.items)
         let sides = Set(items.compactMap { side(of: $0) })
         Section("Position") {
-            if !sides.isEmpty {
+            if showsSide, !sides.isEmpty {
                 Picker("Layer", selection: Binding<BoardSide?>(
                     get: { sides.count == 1 ? sides.first : nil },
                     set: { if let side = $0 { document.setSide(of: items, side) } }
@@ -181,6 +196,82 @@ struct MultiPositionSection: View {
         case let .text(id): document.texts.first { $0.id == id }?.side
         default: nil
         }
+    }
+}
+
+// MARK: - Several texts
+
+/// The Text section for a selection of only board texts: Side, Layer and
+/// Font Size, each applied to all of them as one undo step. When they
+/// disagree, a Side or Layer shows no segment selected and the Font Size
+/// field shows "Mixed".
+struct MultiTextSection: View {
+    let document: SchematicDocument
+    let ids: [UUID]
+
+    @State private var size = ""
+    @FocusState private var sizeFocused: Bool
+
+    private var texts: [BoardText] { document.texts.filter { ids.contains($0.id) } }
+
+    var body: some View {
+        let texts = texts
+        let sides = Set(texts.map(\.side))
+        let layers = Set(texts.map(\.layer))
+        let sizes = Set(texts.map(\.size))
+        Section("Text") {
+            Picker("Side", selection: Binding<BoardSide?>(
+                get: { sides.count == 1 ? sides.first : nil },
+                set: { if let side = $0 { document.setSide(of: ids.map { BoardItem.text($0) }, side) } }
+            )) {
+                ForEach(BoardSide.allCases, id: \.self) { side in
+                    Text(side.title).tag(Optional(side))
+                }
+            }
+            .pickerStyle(.segmented)
+            .disabled(document.board.layers == 1)
+            Picker("Layer", selection: Binding<TextLayer?>(
+                get: { layers.count == 1 ? layers.first : nil },
+                set: { if let layer = $0 { document.setTextLayer(ids, layer) } }
+            )) {
+                ForEach(TextLayer.allCases, id: \.self) { layer in
+                    Text(layer.title).tag(Optional(layer))
+                }
+            }
+            .pickerStyle(.segmented)
+            LabeledContent("Font Size") {
+                HStack(spacing: 4) {
+                    TextField("Font Size", text: $size, prompt: Text("Mixed"))
+                        .labelsHidden()
+                        .multilineTextAlignment(.trailing)
+                        .focused($sizeFocused)
+                        .onSubmit(commitSize)
+                    Text("mil")
+                        .foregroundStyle(.secondary)
+                    Stepper("Font Size", value: Binding(
+                        get: { sizes.count == 1 ? sizes.first! : BoardText.defaultSize },
+                        set: { document.setTextSize(ids, $0); showSize() }
+                    ), in: BoardText.sizeRange, step: 5)
+                    .labelsHidden()
+                }
+            }
+        }
+        .onAppear { showSize() }
+        .onChange(of: sizes) { _, _ in showSize() }
+        .onChange(of: sizeFocused) { _, focused in if !focused { commitSize() } }
+    }
+
+    private func commitSize() {
+        if let value = Int(size.trimmingCharacters(in: .whitespaces)) {
+            document.setTextSize(ids, value)
+        }
+        showSize()
+    }
+
+    /// The shared size, or empty (the "Mixed" prompt) when they differ.
+    private func showSize() {
+        let sizes = Set(texts.map(\.size))
+        size = sizes.count == 1 ? String(sizes.first!) : ""
     }
 }
 

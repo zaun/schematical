@@ -3593,6 +3593,20 @@ final class SchematicDocument {
         }
     }
 
+    /// Sets the layer of every text in `ids`, as one undo step.
+    func setTextLayer(_ ids: some Collection<UUID>, _ layer: TextLayer) {
+        recordEdit(.pcb, "Change Layer") {
+            for id in ids { setTextLayer(id, layer) }
+        }
+    }
+
+    /// Sets the font size (mil) of every text in `ids`, as one undo step.
+    func setTextSize(_ ids: some Collection<UUID>, _ size: Int) {
+        recordEdit(.pcb, "Change Font Size") {
+            for id in ids { setTextSize(id, size) }
+        }
+    }
+
     /// Puts a text on the top or bottom of the board. Its box stays where it
     /// is. Does nothing on a 1-layer board, except to bring a text back to Top.
     func setTextSide(_ id: UUID, _ side: BoardSide) {
