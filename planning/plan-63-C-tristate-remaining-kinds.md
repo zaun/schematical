@@ -16,7 +16,7 @@ recorded here.
 
 References:
 
-- `planning/plan-63-B-erc-pin-types.md` (the function, the hook, the golden),
+- `planning/completed/plan-63-B-erc-pin-types.md` (the function, the hook, the golden),
   `planning/plan-63-data/README.md`, `count_roles.txt`.
 - `docs/parts-format.md` (the keys below), `scripts/kicad-compare.py`,
   `planning/kicad-compare.md`.
@@ -25,7 +25,7 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-63-B is complete | `/tmp/logic-build/erc_pins_check` → exit 0, and `grep -c '' backend/tests/golden/erc_pins.txt` → 40174 | NOT MET until B lands |
+| plan-63-B is complete | `/tmp/logic-build/erc_pins_check` → exit 0, and `grep -c '' backend/tests/golden/erc_pins.txt` → 40174 | MET (`erc_pins_check: 40174 parts match the golden`; 40174 lines, 2026-11-25, in `/tmp/logic-build-wt63`) |
 | The rest as plan-63-A § Prerequisites | its four commands | MET (2026-11-25) |
 
 If plan-63-B is not complete, this plan cannot start, full stop.
@@ -98,21 +98,22 @@ Rejected: the same as 63-B (names; engine probing).
 
 ### Phase 1 — register, shift, counter (the sequential kinds)
 
-- [ ] `backend/src/models/register.c`, `shift.c`, `counter.c` (and the
+- [x] `backend/src/models/register.c`, `shift.c`, `counter.c` (and the
       files of their models that bind an output enable: `shift_special.c`,
       `counter_div.c`): in each kind's model struct a `tristate(const void
       *dev, const void *bound, size_t pin)` callback beside `open_drain`, set by
       every model with an output enable (§ 2's keys) to the pins it drives Z;
       each kind's table gets `<kind>_pin_tristate` forwarding it
       (as `shift_pin_open_drain` does, `shift.c:1296`).
-- [ ] `erc_pins_test`: `SN74HC595N`: QA–QH tri_state, `QH'` output;
+- [x] `erc_pins_test`: `SN74HC595N`: QA–QH tri_state, `QH'` output;
       `74ACT11374DWR`: every `output` pin tri_state; `SN74ALS561AN`: every
       `output` pin tri_state; a part of each kind with no enable
       (`SN74HC163N`, already asserted in 63-B) stays output.
 
 Acceptance: the three kinds answer by their data.
   Check: `cmake --build /tmp/logic-build --target erc_pins_test listing_check trace_check && /tmp/logic-build/erc_pins_test && /tmp/logic-build/trace_check | tail -1` → every line `PASS`; `trace_check` as before (est. 8 min).
-Commit: —
+  Result (2026-11-25, `/tmp/logic-build-wt63`): `erc_pins_test: all passed`; `trace_check` and `listing_check` last line `40174 parts compared, 0 skipped`. The golden was regenerated here, not in Phase 2, because `erc_pins_check` is a ctest and must pass at every commit: 321 lines changed (`register` 162, `shift` 126, `counter` 33), each only `o` → `t` (`ot.py` over the old and new file: `changed lines 321 not an o->t only change 0`). The counts equal the parts that name an output enable for `register` (162) and `counter` (33); `shift` is 126 of 170 (the rest are open-drain TPIC parts, which answer `open_collector`, and parts whose enable gates only an `inout` bus).
+Commit: (recorded in the next commit)
 
 ### Phase 2 — mux, converter, serial
 
@@ -171,7 +172,8 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+1. Phase 1 changed `shift.c`, `shift_special.c` (the `fifo` and `serial-in` models, the only ones there that bind an `outputEnable`), `counter.c` (the `sync` model: a unit's `q` with its `outputEnable`, and its register's outputs with the register's) and `register.c`; `counter_div.c` and the other shift models name no output enable and are unchanged (the plan listed `shift_special.c` and `counter_div.c` as files "that bind an output enable"). `SN74ALS561AN`'s carries `RCO` and `CCO` are not gated by `OE` (the model drives them with `counter_drive` outside `drive_bits`), so the test names the `Q` pins and asserts the carries are `output`, not "every `output` pin tri_state" as § Phase 1 had it.
+2. The counter and shift models' hook is a field `tristate` of their own model structs (`CounterModel.tristate(bound, pin)`, `ShiftModel.tristate(dev, bound, pin)`), beside `open_drain`; the plan's `seq.h` is not involved.
 
 ## Summary
 

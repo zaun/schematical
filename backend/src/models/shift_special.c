@@ -787,9 +787,23 @@ static void fifo_changed(Sim *sim, SimInstance *inst, ShiftHeader *h, size_t pin
     fifo_eval(sim, inst, (FifoState *)h, 0);
 }
 
+/* The four data outputs: the FIFO's "outputEnable" is required and gates them. */
+static int fifo_tristate(const void *dev, const void *bound, size_t pin) {
+    const FifoBound *b = bound;
+    size_t i;
+
+    (void)dev;
+    for (i = 0; i < 4; i++) {
+        if (b->outputs[i] == pin) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 const ShiftModel FIFO_MODEL = {
     "fifo", FIFO_KEYS, FIFO_EXTRA, fifo_load, fifo_bind, fifo_create, fifo_start, fifo_changed,
-    fifo_timer, NULL
+    fifo_timer, NULL, NULL, fifo_tristate
 };
 
 /* ---- serial-in (SN74LV8153) ---------------------------------------------------- */
@@ -1022,7 +1036,21 @@ static void serin_changed(Sim *sim, SimInstance *inst, ShiftHeader *h, size_t pi
     serin_eval(sim, inst, (SerInState *)h, 0);
 }
 
+/* The eight parallel outputs: the "outputEnable" is required and gates them. */
+static int serin_tristate(const void *dev, const void *bound, size_t pin) {
+    const SerInBound *b = bound;
+    size_t i;
+
+    (void)dev;
+    for (i = 0; i < 8; i++) {
+        if (b->outputs[i] == pin) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 const ShiftModel SERIN_MODEL = {
     "serial-in", SERIN_KEYS, NULL, serin_load, serin_bind, serin_create, serin_start,
-    serin_changed, serin_timer, NULL
+    serin_changed, serin_timer, NULL, NULL, serin_tristate
 };

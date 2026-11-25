@@ -142,6 +142,24 @@ static void check_tristate(void) {
     }
 }
 
+/* register, shift and counter parts with an output enable (plan-63-C phase 1). */
+static void check_sequential_tristate(void) {
+    static const char *const STORAGE[] = {"QA", "QB", "QC", "QD", "QE", "QF", "QG", "QH"};
+    size_t i;
+
+    for (i = 0; i < sizeof STORAGE / sizeof STORAGE[0]; i++) {
+        named_pin("SN74HC595N", STORAGE[i], ERC_TRI_STATE, 0);
+    }
+    named_pin("SN74HC595N", "QH'", ERC_OUTPUT, 0);
+    role_is("74ACT11374DWR", PIN_OUTPUT, ERC_TRI_STATE);
+    /* The counter's Q pins are gated by OE; its carries (RCO, CCO) are not. */
+    for (i = 0; i < 4; i++) {
+        named_pin("SN74ALS561AN", STORAGE[i], ERC_TRI_STATE, 0);
+    }
+    named_pin("SN74ALS561AN", "RCO", ERC_OUTPUT, 0);
+    named_pin("SN74ALS561AN", "CCO", ERC_OUTPUT, 0);
+}
+
 static void check_passive_kinds(void) {
     every_pin_is("GENERIC-LED", ERC_PASSIVE);
     every_pin_is("GENERIC-RESISTOR", ERC_PASSIVE);
@@ -183,6 +201,7 @@ int main(void) {
     check_names();
     check_plain();
     check_tristate();
+    check_sequential_tristate();
     check_passive_kinds();
     check_supplies();
     check_regulator();
