@@ -106,7 +106,7 @@ Rejected: a new `Kind.cutout` (it would renumber every golden's group order for 
 Acceptance: the fill has a clean hole round a cutout, follows a moved one, and the existing fill tests pass unedited.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/CutoutPourTests -only-testing:schematicalTests/PourFillTests -only-testing:schematicalTests/PourConnectivityTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 4 min; the two existing classes are the no-cutout byte-identity check for the fill).
   Observed: CutoutPourTests 5 + PourFillTests 16 + PourConnectivityTests 11, 0 failures, TEST SUCCEEDED.
-Commit: —
+Commit: d34ff290
 
 ### Phase 2 — The design rule check
 
@@ -117,7 +117,7 @@ Commit: —
 Acceptance: the cutout cases above give exactly those messages and the existing DRC tests and goldens pass unedited.
   Check: `XB -only-testing:schematicalTests/CutoutDesignRuleTests -only-testing:schematicalTests/DesignRuleCheckTests -only-testing:schematicalTests/DesignRuleGoldenTests -only-testing:schematicalTests/PourDesignRuleTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 4 min; `DesignRuleGoldenTests` is the no-cutout byte-identity check, and nothing smaller covers it).
   Observed: CutoutDesignRuleTests 8 + DesignRuleCheckTests + DesignRuleGoldenTests + PourDesignRuleTests (the whole phase-1+2 set: 63 tests), 0 failures, TEST SUCCEEDED.
-Commit: —
+Commit: 93131cf4
 
 ## Validation Plan
 
@@ -125,7 +125,7 @@ Commit: —
 - Coverage check: the filler and the checker are exercised by the existing classes named in each check, so an edit that breaks the no-cutout path fails there.
 - Runtime proof: none beyond the tests; the real window shows it after E (J drives it).
 - Doc sync: `docs/file-format.md` § Pours (the fill also stays out of cutouts; `:281`–`:300`) and § Cutouts (the DRC messages); `docs/routing.md` is D's.
-- Final gate (run ONCE, after Phase 2): the union of both phases' test classes (est. 6 min).
+- Final gate (run ONCE, after Phase 2): the union of both phases' test classes (est. 6 min). Observed: 63 tests in the seven classes, 0 failures, `** TEST SUCCEEDED **`.
 
 ## Decisions
 
