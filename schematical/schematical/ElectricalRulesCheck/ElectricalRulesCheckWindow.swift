@@ -20,6 +20,15 @@ nonisolated struct ElectricalRulesCheckTarget: Codable, Hashable, Sendable {
 
 // MARK: - Menu command
 
+/// Window › Design Rule Check and Window › Electrical Rules Check, as one entry of the app's
+/// commands (a `CommandsBuilder` takes at most ten).
+struct CheckCommands: Commands {
+    var body: some Commands {
+        DesignRuleCheckCommands()
+        ElectricalRulesCheckCommands()
+    }
+}
+
 /// Window › Electrical Rules Check (⌥⌘E), enabled on the Schematic page only.
 struct ElectricalRulesCheckCommands: Commands {
     @FocusedValue(\.schematicEditor) private var editor

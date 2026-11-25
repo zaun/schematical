@@ -171,16 +171,15 @@ Commit: 3cd00f8e
 
 ### Phase 4 — Landing
 
-- [ ] `planning/todo.md`: tick `Electrical rule check (ERC)` as `[x] … (plan-63)`
-      with `git add -p planning/todo.md` taking only that hunk (the file has the
-      owner's other uncommitted changes).
-- [ ] The README of `planning/plan-63-data` gets a "Results" line (the comparison table).
-- [ ] Archive each sub-plan not yet archived to `planning/completed/` (`git mv`; each is archived as it completes).
-- [ ] The final gate below.
+- [~] `planning/todo.md`: tick `Electrical rule check (ERC)` as `[x] … (plan-63)`: done in the main checkout after the merge, staging only that line (the owner's other uncommitted edits are in that file there, Corrections 6). Remaining: that one commit.
+- [x] The README of `planning/plan-63-data` gets a "Results" line (the comparison table).
+- [x] Archive each sub-plan not yet archived to `planning/completed/` (`git mv`; each is archived as it completes): A–F were archived as they landed, this one with this commit.
+- [x] The final gate below.
 
 Acceptance: the final gate passes.
   Check: see Validation Plan (est. 35 min).
-Commit: —
+  Result (2026-11-25): see the Validation Plan's final gate.
+Commit: (this file's last commit, with the archive)
 
 ## Validation Plan
 
@@ -188,7 +187,7 @@ Commit: —
 - Coverage check: `ctest --test-dir /tmp/logic-build -N | grep -c erc` → 3 (`erc_pins_test`, `erc_pins_check`, `erc_test`); the 16 rules each appear in `ErcCases` (`grep -c 'case ' ErcSettings.swift` → 16 and each rule name occurs in `ErcPinChecksTests` or `ErcDrawingChecksTests`).
 - Runtime proof: the comparison table; and the owner's real-window pass (open AFU, ⌥⌘E, run, select, exclude, close).
 - Doc sync: `docs/backend.md`, `docs/file-format.md`, `docs/export.md`, `docs/agent-control.md`.
-- Final gate (run ONCE, after Phase 4): `cmake --build /tmp/logic-build && ctest --test-dir /tmp/logic-build -R 'erc_|voltage|listing|trace'` → 100% passed (est. 10 min); `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/PowerFlagTests -only-testing:schematicalTests/NetLabelTests -only-testing:schematicalTests/ErcSettingsTests -only-testing:schematicalTests/ErcPinChecksTests -only-testing:schematicalTests/ErcDrawingChecksTests -only-testing:schematicalTests/ErcResultsModelTests -only-testing:schematicalTests/ErcMarkerTests -only-testing:schematicalTests/KiCadExportTests -only-testing:schematicalTests/AutomationTests -only-testing:schematicalTests/UndoHistoryTests -only-testing:schematicalTests/SchematicUndoTests -only-testing:schematicalTests/DesignRuleCheckTests -only-testing:schematicalTests/KeyboardHelpTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 25 min). The whole Debug suite is not run: it stalls in `AutorouteModelTests testTheSummaryOnAFU` (plan-61-D).
+- Final gate (run ONCE, after Phase 4): `cmake --build /tmp/logic-build && ctest --test-dir /tmp/logic-build -R 'erc_|voltage|listing|trace'` → 100% passed (est. 10 min); `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/PowerFlagTests -only-testing:schematicalTests/NetLabelTests -only-testing:schematicalTests/ErcSettingsTests -only-testing:schematicalTests/ErcPinChecksTests -only-testing:schematicalTests/ErcDrawingChecksTests -only-testing:schematicalTests/ErcResultsModelTests -only-testing:schematicalTests/ErcMarkerTests -only-testing:schematicalTests/KiCadExportTests -only-testing:schematicalTests/AutomationTests -only-testing:schematicalTests/UndoHistoryTests -only-testing:schematicalTests/SchematicUndoTests -only-testing:schematicalTests/DesignRuleCheckTests -only-testing:schematicalTests/KeyboardHelpTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 25 min). The whole Debug suite is not run: it stalls in `AutorouteModelTests testTheSummaryOnAFU` (plan-61-D). Result (2026-11-25): run on the worktree after merging main (plan-64): `ctest --test-dir /tmp/logic-build-wt63 -R 'erc_|voltage|listing|trace'` → `100% tests passed, 0 tests failed out of 6`; the xcodebuild classes (the 16 listed, with `SchematicNSDocumentTests` and `ErcCompareTests`): `Executed 272 tests, with 2 tests skipped and 0 failures`, `** TEST SUCCEEDED **`; `erc-compare.py` on the merged tree: `designs: 19; rows compared: 304`, `0 differences`. Before the merge the same gate: 246 tests, 0 failures, 1 skipped. The whole Debug suite was not run (it stalls in `AutorouteModelTests testTheSummaryOnAFU`).
 
 ## Decisions
 
@@ -203,6 +202,8 @@ Commit: —
 3. **What the comparison found in the app, and fixed.** (a) A card's edge connector: the export writes it as a symbol of passive pins (`EDGE1`) on the edge bus's nets; KiCad therefore saw drivers and a second pin that the app did not (17 + 18 `pin_not_driven` and 24 `isolated_pin_label` in AFU and LFU). The app's ERC now counts each wired port of the edge bus as a passive pin on its net (`ErcChecker.checkPins`; it reports nothing on them), after which `pin_not_driven` and `pin_not_connected` agree to the pin on all three fixtures. (b) `isolated_pin_label`: the rule is "a label on a lone pin, and no other label of its name anywhere", not "a net with one pin" (`ErcDrawingRules.checkLabels`; a bus wire with a wired port counts as a label of its name); `planning/plan-63-data/README.md` states it so, and `ErcDrawingChecksTests.testALabelOnANetWithOnePinIsIsolated` has the second-label case. The AFU fixture now has 0 violations (plan-63-E Corrections 6 said 17 and 4).
 4. **What the script compares differently from § 3**, each read off the first run: KiCad's reports on the export's own `EDGE1` / `HEADER1` symbol are dropped; `pin_to_pin` is compared by count and by the set of pins involved (three outputs on one net give two pairs either way, not the same two); `no_connect_connected` by count (a No Connect wired to a pin sits at the wire's far end, and KiCad names a pin of the net that is not always the flagged one: `noConnectConnected` has U1.1 for the app, U2.3 for KiCad).
 5. **The `DELIBERATE` list** (`scripts/erc-compare.py`), each with its reason in the file: `duplicate_reference` (not reported by `kicad-cli`), `single_global_label` (the export writes local labels), `multiple_net_names` in AFU and LFU (labels the export adds), `four_way_junction` in AFU (verified in the export: four wire runs end at (193.04, 63.5), two of them the same segment).
+7. **Merging main (plan-64, Document Info) found three things.** Both plans added a field to the same places (`DocumentState`, `UndoKey`, `replaceContents`, the file, `EditorMenus`, the child windows, the help, the docs): both fields are kept, and the two undo keys sit side by side. `schematicalApp.swift`'s `.commands { … }` then had 11 entries and a `CommandsBuilder` takes 10 ("extra argument in call"): the two checks' menu commands are one `CheckCommands` (`ElectricalRulesCheckWindow.swift`). The post-merge gate and the comparison were re-run (Validation Plan).
+8. Phases 2 and 3 landed in one commit (the script and the fixes it asked for were written together), so their `Commit:` lines carry one hash.
 6. **`planning/todo.md`** is ticked in the main checkout after the merge, by staging only that line: the owner has other uncommitted edits in that file there, and a commit in the worktree that touched it would make the merge refuse.
 
 ## Summary
