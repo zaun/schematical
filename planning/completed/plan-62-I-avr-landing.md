@@ -180,6 +180,23 @@ plan-62-A § Decisions. None added.
   already and `AGENTS.md` forbids creating one unasked. Merging is the
   owner's call.
 - No gate found a defect, so no letter was reopened.
+- The owner then asked for the merge into `main` (2026-11-25, keeping the
+  worktree). `main` had advanced 23 commits (plan-61, the document
+  architecture), so `main` was merged into `worktree-sim` first (ce8c9483)
+  and the landing tier re-run on the merged tree:
+  - one conflict, `docs/file-format.md`'s `memoryFile` row: main's new text
+    with this plan's "EEPROMs and simulated microcontrollers" opening;
+  - `AvrAppTests.testLoadFileUndo` did not compile: plan-61 made
+    `undoName`, `undo()` and `redo()` take no page. Fixed in the test;
+  - the harness did not build for any script: `build.sh` leaves out
+    `schematicalApp.swift`, which since plan-61 defines `AppDelegate`, and
+    `SchematicNSDocument` reads `AppDelegate.isTestHost`. Fixed with
+    `scripts/harness/support/AppDelegateStandIn.swift`;
+  - results: backend 0 warnings, `100% tests passed, 0 tests failed out of
+    70`; goldens against `main`: `126 parts.txt lines, 126 traces.txt lines,
+    all within the 126 parts`; the nine app classes `Executed 146 tests,
+    with 0 failures`, `** TEST SUCCEEDED **`; the harness 9 `ok` lines,
+    exit 0.
 
 ## Summary
 

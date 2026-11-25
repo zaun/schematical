@@ -146,10 +146,10 @@ final class AvrAppTests: XCTestCase {
         let file = MemoryFile(url: URL(fileURLWithPath: "/tmp/firmware.hex"), bookmark: nil)
         doc.setMemoryFile(mcu.id, file)
         XCTAssertEqual(doc.chips.first { $0.id == mcu.id }?.memoryFile, file)
-        XCTAssertEqual(doc.undoName(on: .schematic), "Change Load File")
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertEqual(doc.undoName, "Change Load File")
+        XCTAssertTrue(doc.undo())
         XCTAssertNil(doc.chips.first { $0.id == mcu.id }?.memoryFile, "undo clears it")
-        XCTAssertTrue(doc.redo(on: .schematic))
+        XCTAssertTrue(doc.redo())
         XCTAssertEqual(doc.chips.first { $0.id == mcu.id }?.memoryFile, file, "redo sets it again")
 
         // A microcontroller with no simulation model takes no load file.
