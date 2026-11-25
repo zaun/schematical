@@ -104,6 +104,21 @@ Notes:
   are not positions (`"<name> has no position N"`); `circuit_start` gives
   each of its unwired pins a net of its own so the chain A1–B1–B2 holds
   (plan-27-D).
+- `circuit_set_switch_state(circuit, part, state)` (plan-58-B): moves the knob
+  of a slide switch, a `switch` device with `"states"` (see `docs/parts-format.md`
+  § `switch`), to knob position `state` (1 … `PartSwitch.states`). The contacts
+  the state does not list open first, then the ones it lists close (break before
+  make), each exactly as `circuit_set_switch` would, and one voltage check
+  follows when a contact closed during a run (the run stops on a failure, like
+  a closing tactile switch). A new circuit starts the knob in the device's
+  `"rest"` position: `circuit_add_part` records that state's contacts closed
+  and `circuit_start` applies them once the nets exist, so the voltage check
+  at start sees them. Errors: `"<name> is not a slide switch"`, `"<name> has no
+  position N (1 … K)"`. `circuit_set_switch` still addresses single contacts of
+  every switch; the backend keeps no knob position of its own, only the
+  recorded contacts. A light is on when it was on at any time during the last
+  `circuit_advance`, so the advance right after a move still shows the old
+  state (`slide_test` settles with two).
 - `circuit_advance` returns 0 once the run has stopped (a short circuit is
   `"smoke: ..."`, and `circuit_shorted_net` names the net).
 - **Diodes** (plan-29-H). A diode part drives nothing; each of its
@@ -332,6 +347,9 @@ Notes:
   - A switch that closes during a run and makes the circuit fail stops the
     run like a short: `circuit_advance` returns 0 and `circuit_error` is the
     text (the contact is still applied).
+  - A slide switch's closed contacts (plan-58-B) are the same recorded
+    contacts: its rest state's are applied by `circuit_start` before the
+    check, and `circuit_set_switch_state` runs the check once after the move.
   - `circuit_voltage_problem` returns the first problem (net, part, pin,
     voltages) after either refusal.
   - A supply and GND on one net is still a short (`smoke:`), not a voltage
@@ -657,6 +675,10 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   missing, a part rejected after its footprint checked, an unknown key)
   reports its message and leaves the part and footprint counts unchanged.
 - `switch_test`, `sram_test`, `display7_test` — model benches.
+- `slide_test` (plan-58-B) — the switch kind's `states` / `rest` keys: the
+  loader and its error messages, and an SPDT On-On, a DPDT On-Off-On and an
+  SPST On-Off in a circuit (LEDs, nets), unwired pins, refused states, and the
+  voltage check on a move.
 - `nixie_test` — the `nixie` kind on fixture tubes: the loader's rules and
   rejections, the model (a glyph glows while the anode reads 1 and its
   cathode 0; two anode pins of one name are joined), and the voltage check

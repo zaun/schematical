@@ -57,12 +57,12 @@ Every other letter points here.
 
 | Must be true | Command | Status |
 |---|---|---|
-| Backend tests green | `cmake -S backend -B /tmp/logic-p58 -DCMAKE_BUILD_TYPE=Release && cmake --build /tmp/logic-p58 -j8 && ctest --test-dir /tmp/logic-p58 -j8` → `100% tests passed` | MET at planning (2026-11-24): plan-51-J's gate on this tree was `100% tests passed, 0 tests failed out of 61`; **T0 = 61** (`grep -c '^logic_test' backend/CMakeLists.txt` → 61) |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p58 -DCMAKE_BUILD_TYPE=Release && cmake --build /tmp/logic-p58 -j8 && ctest --test-dir /tmp/logic-p58 -j8` → `100% tests passed` | MET (re-run 2026-11-24 in P-58: `100% tests passed, 0 tests failed out of 61`; planning-time note:): plan-51-J's gate on this tree was `100% tests passed, 0 tests failed out of 61`; **T0 = 61** (`grep -c '^logic_test' backend/CMakeLists.txt` → 61) |
 | Switch baseline recorded | `grep -c '|switch|' backend/tests/golden/parts.txt` → 2070 parts; `grep -c '"id"' schematical/schematical/Parts/switch.json` → 186 devices | MET: **S0 = 2070** parts, 186 devices (2026-11-24) |
 | Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt` / `traces.txt` / `footprints.txt` → 37090 / 37090 / 2929 | MET: **P0 = R0 = 37090**, **F0 = 2929** (2026-11-24) |
 | The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p58-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET at plan-51-J (297 app tests green, 2026-11-24); not re-run at planning |
 | No slide-switch support yet | `grep -c 'states' backend/src/models/switch.c` → 0; `ls planning/plan-58-[B-H]-* \| wc -l` → 7 (this plan's files) | MET (2026-11-24) |
-| Safari has a DigiKey page open and passes Cloudflare | `scripts/safari-digikey.sh "https://www.digikey.com/en/products/filter/slide-switches/213" 8 'document.title'` → `Slide Switches \| Switches \| DigiKey` | MET during the planning census (2026-11-24); about 100 page loads later Cloudflare challenged the window (`Just a moment...`): tick "Verify you are human" once in the DigiKey tab, then re-run this command |
+| Safari has a DigiKey page open and passes Cloudflare | `scripts/safari-digikey.sh "https://www.digikey.com/en/products/filter/slide-switches/213" 8 'document.title'` → `Slide Switches \| Switches \| DigiKey` | MET again (2026-11-24 at P-58: the first four runs returned `Just a moment...`; after the owner ticked the box, `Slide Switches | Switches | DigiKey`); it passed during the planning census, then about 100 page loads later Cloudflare challenged the window (`Just a moment...`): tick "Verify you are human" once in the DigiKey tab, then re-run this command |
 | Tools exist | `pdftotext -v`, `pdfinfo -v`, `python3 --version`, `node --version` each exit 0 | MET (2026-11-24: all used during planning) |
 
 Everything below is written against the world where these hold.
@@ -105,11 +105,11 @@ planning-time `candidates.tsv`.
 |---|---|---|
 | Slide Switches at DigiKey (category 213), all | 3601 | `scripts/safari-digikey.sh "https://www.digikey.com/en/products/filter/slide-switches/213" 10 'document.body.innerText.match(/Results:\s*[\d,]+/)[0]'` → `Results: 3,601` |
 | …In Stock + Active | 940 | same URL with `?s=N4IgjCBcpgnAHLKoDGUBmBDANgZwKYA0IA9lANogAMIAugL7EC0ATMiGpFnkaRSAFY69EUA` → `Results: 940` |
-| Parts of the four makers, SPST/SPDT/DPST/DPDT, In Stock + Active (distinct maker + part number) | 422 | `census/list.sh /tmp/p58/raw && python3 -I census/build.py /tmp/p58/raw planning/plan-58-data/candidates.tsv` → `422 parts` (16 DigiKey pages) |
-| …by maker | C&K 185 (DigiKey names it `C&K` and `Littelfuse/C&K`), NKK 91, CIT 75, E-Switch 71 | `awk -F'\t' 'NR>1{print $1}' planning/plan-58-data/candidates.tsv \| sort \| uniq -c` |
+| Parts of the four makers, SPST/SPDT/DPST/DPDT, In Stock + Active (distinct maker + part number) | 422 | `census/list.sh /tmp/p58/raw && python3 -I census/build.py /tmp/p58/raw planning/plan-58-data/candidates.tsv` → `422 parts` (16 DigiKey pages); re-run at P-58, 2026-11-24: **423 parts** (see Corrections) |
+| …by maker | C&K 185 → 186 at P-58 (DigiKey names it `C&K` and `Littelfuse/C&K`), NKK 91, CIT 75, E-Switch 71 | `awk -F'\t' 'NR>1{print $1}' planning/plan-58-data/candidates.tsv \| sort \| uniq -c` |
 | `add` after DigiKey rules | 296 (C&K 119, NKK 71, E-Switch 63, CIT 43) | `awk -F'\t' '$18=="add"' planning/plan-58-data/candidates.tsv \| wc -l` → 296 |
-| `out`: panel mount 90, no DigiKey stock 21, line-voltage selector 7, On-Mom 3, illuminated 3, On-Off-On/On-On-On 2 | 126 (C&K 66, CIT 32, NKK 20, E-Switch 8) | `awk -F'\t' '$18=="out"{print $19}' planning/plan-58-data/candidates.tsv \| cut -c1-30 \| sort \| uniq -c` |
-| `add` by circuit and action | SPDT On-On 130, DPDT On-On 103, SPDT On-Off-On 24, DPDT On-Off-On 18, SPST On-Off 15, DPST On-Off 6 | `awk -F'\t' '$18=="add"{print $4, $5}' … \| sort \| uniq -c` |
+| `out`: panel mount 90, no DigiKey stock 21, line-voltage selector 7, On-Mom 3, illuminated 3, On-Off-On/On-On-On 2 | 126 (C&K 66, CIT 32, NKK 20, E-Switch 8); at P-58 **127** (panel mount 91, C&K 67) | `awk -F'\t' '$18=="out"{print $19}' planning/plan-58-data/candidates.tsv \| cut -c1-30 \| sort \| uniq -c` |
+| `add` by circuit and action | SPDT On-On 130, DPDT On-On 103, SPDT On-Off-On 24, DPDT On-Off-On 18, SPST On-Off 15, DPST On-Off 6; at P-58 SPDT On-On 131, SPDT On-Off-On 23, the rest the same (296 total, C&K 119, NKK 71, E-Switch 63, CIT 43) | `awk -F'\t' '$18=="add"{print $4, $5}' … \| sort \| uniq -c` |
 | Distinct (maker, series) / (series, mounting) / (series, mounting, circuit) of `add` rows | 36 / 66 / 108 | a python count over `candidates.tsv` (planning-time probe) |
 | Distinct datasheet URLs of `add` rows | 40 (littelfuse.com 12 + 1 DigiKey, nkkswitches.com 8, citrelay.com 11, E-Switch 7 on `configured-product-images.s3.amazonaws.com` + 1 DigiKey) | `awk -F'\t' '$18=="add"{print $16}' … \| sort -u \| wc -l` → 40 |
 | …that download as a PDF with Safari's request headers | 38 of 40 (the 2 `mm.digikey.com` ones, protocol-relative `//mm.digikey.com/…`, fail from `curl`: Cloudflare; `scripts/safari-digikey-pdf.sh` fetches them) | planning-time probe: `curl -sL --http2 --compressed` with the plan-27 header set → `%PDF-` for 38 |
@@ -219,32 +219,32 @@ circuit digits); `pins` is `designator=name;…` using the names of § 4 of plan
 
 ### Phase 1 — re-run the census
 
-- [ ] Re-run every Prerequisites command; update the Status column.
-- [ ] `census/list.sh /tmp/p58/raw` (16 pages; the planning-time run took 4 min, Safari) → one line per
-      page, no `FAILED`; if a page fails after its 5 tries, re-run just it:
+- [x] Re-run every Prerequisites command; update the Status column. (backend `100% tests passed, 0 tests failed out of 61`; S0 2070 / 186; P0 = R0 37090, F0 2929; `states` 0; 7 other plan files; Safari `Slide Switches | Switches | DigiKey`; tools exit 0. The app-build row was not re-run: plan-51-J's gate stands.)
+- [x] `census/list.sh /tmp/p58/raw` (16 pages; the planning-time run took 4 min, Safari) → one line per
+      page, no `FAILED` (16 lines, `count N rows N` equal on each, e.g. `C&K SPDT count 88 rows 88`); if a page fails after its 5 tries, re-run just it:
       `census/list.sh /tmp/p58/raw <maker> <circuit>`.
-- [ ] `python3 -I census/build.py /tmp/p58/raw planning/plan-58-data/candidates.tsv`.
-- [ ] Record the new populations in § 2's table (and in Corrections where a
+- [x] `python3 -I census/build.py /tmp/p58/raw planning/plan-58-data/candidates.tsv` → `423 parts`.
+- [x] Record the new populations in § 2's table (and in Corrections where a
       count differs from the planning-time one).
 
 Acceptance: `candidates.tsv` has a header and one row per part; every row's
 `decision` is `add`, `out` or `check`; each (maker, circuit) page's count equals
 its row count.
-  Check: `awk -F'\t' 'NR>1{n++; d[$18]++} END{print n, d["add"], d["out"], d["check"]}' planning/plan-58-data/candidates.tsv` prints the four counts, and `awk -F'\t' 'NR>1 && $18!="add" && $18!="out" && $18!="check"' planning/plan-58-data/candidates.tsv | wc -l` → 0 (est. 6 min).
-Commit: —
+  Check: `awk -F'\t' 'NR>1{n++; d[$18]++} END{print n, d["add"], d["out"], d["check"]}' planning/plan-58-data/candidates.tsv` prints the four counts, and `awk -F'\t' 'NR>1 && $18!="add" && $18!="out" && $18!="check"' planning/plan-58-data/candidates.tsv | wc -l` → 0 (est. 6 min). Measured: `423 296 127 ` (check column empty) and `0`.
+Commit: ca7a70d3
 
 ### Phase 2 — download the datasheets
 
-- [ ] `census/fetch.py <candidates.tsv> /tmp/p58/pdf` : the distinct `datasheet`
+- [x] `census/fetch.py <candidates.tsv> /tmp/p58/pdf` → `40 urls; 40 are PDFs; 0 missing`, exit 0 (the 2 `mm.digikey.com` ones through Safari) : the distinct `datasheet`
       URLs of the `add` rows (a `//host/…` URL gets `https:`). Headers: Safari
       18.6's full set for `www.littelfuse.com`; plain `curl`-style for the
       others; `mm.digikey.com` through `scripts/safari-digikey-pdf.sh`, one at a
       time. A body that does not start with `%PDF-` is not kept; `pdfinfo` must
       open the file. Writes `/tmp/p58/pdf/index.tsv` (md5 of URL, status, bytes,
       `%PDF`, url). Exit 1 lists missing files.
-- [ ] `census/textscan.py <candidates.tsv> /tmp/p58/pdf /tmp/p58/scan.tsv`: adds `pdf`,
+- [x] `census/textscan.py <candidates.tsv> /tmp/p58/pdf /tmp/p58/scan.tsv` → 296 `add` rows with `pdf` = 1, `hit` = 1 on 93 (C&K 54, NKK 19, E-Switch 20, CIT 0), `dead` = 1 on 0: adds `pdf`,
       `hit`, `dead` (§ 4.1) with `pdftotext -layout`.
-- [ ] Tests: `fetch.py --selftest` (header set, `%PDF-` check, protocol-relative
+- [x] Tests (both print `ok`): `fetch.py --selftest` (header set, `%PDF-` check, protocol-relative
       URL) and `textscan.py --selftest` (verbatim / spaced / obsolete cases on
       three inline strings).
 
@@ -252,28 +252,28 @@ Acceptance: every `add` row has `pdf` and `hit` filled; the number of distinct
 downloaded PDFs equals the number of distinct URLs minus the ones listed as
 missing.
   Check: `python3 -I planning/plan-58-data/census/textscan.py --selftest` →
-  `ok`, and `awk -F'\t' 'NR>1 && $18=="add" && $20==""' /tmp/p58/scan.tsv | wc -l` → 0 (est. 5 min).
-Commit: —
+  `ok`, and `awk -F'\t' 'NR>1 && $18=="add" && $20==""' /tmp/p58/scan.tsv | wc -l` → 0 (est. 5 min). Measured: `ok`, `ok`, `0`.
+Commit: 54cf8eee
 
 ### Phase 3 — decide, place, document
 
-- [ ] `census/decide.py <candidates.tsv> /tmp/p58/pdf`: § 4.1's rules;
+- [x] `census/decide.py <candidates.tsv> /tmp/p58/pdf` (after copying `scan.tsv` over `candidates.tsv`, which adds `pdf`, `hit`, `dead`) → `93 add`, `127 out`, `203 pending`, no `skip`: § 4.1's rules;
       `--skipped` writes the "Slide switches (plan-58)" section of
       `datasheets/skipped-parts.md` (one line per `skip` row: maker, part
-      number, reason); `--verify-skipped` re-reads that section.
-- [ ] `census/place.py <candidates.tsv> /tmp/p58/pdf`: copies the PDFs the
+      number, reason); `--verify-skipped` re-reads that section (`0 skip rows written`; the section says `None: every kept row's datasheet downloaded as a PDF.`; `--verify-skipped` → `0 skip rows missing …`, exit 0).
+- [x] `census/place.py <candidates.tsv> /tmp/p58/pdf` → `40 PDFs placed for 40 URLs`; `--verify` → `40 URLs, 40 PDFs, 0 problems`: copies the PDFs the
       `add` / `pending` rows need to `datasheets/switch/slide/<maker>/`,
       writes `datasheets/switch/slide/datasheets.tsv`; `--verify` recomputes
       the hashes.
-- [ ] `census/maker-urls.py --list`: the datasheet URLs not on the maker's own
-      site (E-Switch's 8); for each, find the same document on the maker's site
+- [x] `census/maker-urls.py --list` → 2 URLs (see Corrections: not 8; the S3 bucket is E-Switch's own host): the datasheet URLs not on the maker's own
+      site; for each, find the same document on the maker's site
       and write `planning/plan-58-data/maker-urls.tsv` (`url`, `maker_url`, empty
       `maker_url` when the maker's site has none: the DigiKey URL then stays).
-      `--verify` fetches each `maker_url` and requires `%PDF-`.
-- [ ] `census/specs-skeleton.py <candidates.tsv> planning/plan-58-data/specs.tsv`.
-- [ ] Obsolete check (AGENTS.md): any PDF whose every row has `dead` = 1 →
-      delete it, add its line to `datasheets/obsolete-not-included.md`.
-- [ ] Update `planning/plan-58-data/README.md` with the scripts of Phase 2–3.
+      `--verify` fetches each `maker_url` and requires `%PDF-` (`2 non-maker URLs, 1 with a maker URL, 0 missing, 0 not PDFs`).
+- [x] `census/specs-skeleton.py <candidates.tsv> planning/plan-58-data/specs.tsv` → `108 rows` (= distinct (maker, series, mounting, circuit) of the 296 `add` + `pending` rows).
+- [x] Obsolete check (AGENTS.md): any PDF whose every row has `dead` = 1 →
+      delete it, add its line to `datasheets/obsolete-not-included.md`. None: `dead` = 0 on all 296 rows (`awk -F'\t' 'NR>1 && $18=="add"{d[$22]++} END{for(k in d)print k,d[k]}' /tmp/p58/scan.tsv` → `0 296`), so no PDF is deleted and `obsolete-not-included.md` is untouched.
+- [x] Update `planning/plan-58-data/README.md` with the scripts of Phase 2–3.
 
 Acceptance: `decision` has no `check`; `decide.py --verify-skipped` and
 `place.py --verify` and `maker-urls.py --verify` all exit 0; `specs.tsv` has
@@ -281,8 +281,8 @@ one row per distinct (maker, series, mounting, circuit) of the `add` and
 `pending` rows.
   Check: `python3 -I planning/plan-58-data/census/place.py --verify && python3 -I
   planning/plan-58-data/census/decide.py --verify-skipped && python3 -I
-  planning/plan-58-data/census/maker-urls.py --verify` → each exits 0 (est. 6 min).
-Commit: —
+  planning/plan-58-data/census/maker-urls.py --verify` → each exits 0 (est. 6 min). Measured: `40 URLs, 40 PDFs, 0 problems` / `0 skip rows missing from skipped-parts.md, 0 rows `check`` / `2 non-maker URLs, 1 with a maker URL, 0 missing, 0 not PDFs`, all exit 0.
+Commit: 8c57178a
 
 ## Validation Plan
 
@@ -316,7 +316,10 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- **2026-11-24, Phase 1: the census differs from the planning-time one by two parts.** `build.py` on the fresh pages gives 423 parts (planning-time 422): `diff <(cut -f1,2 old) <(cut -f1,2 new)` shows `C&K S802C21S207DQ` (new, Panel Mount, Snap-In: `out`) and `NKK AS12AP` (new, `add`) and `NKK MSN13ASG40` gone (out of stock since). `add` stays 296; by action SPDT On-On is 131 (was 130) and SPDT On-Off-On 23 (was 24); `out` is 127 (was 126). No later letter's scope is derived from these counts, so none is re-scoped. § 2's table carries both numbers.
+- **2026-11-24, Phase 2: `hit` is 93 of 296, not 102; CIT has 0 hits, not 10.** The planning probe was a case-blind substring test; `textscan.py` also requires the number to stand on its own (plan-27-A Correction 6). The 10 CIT "hits" of the probe (`MS1202L6`, `MS1206L6`, `MS1247L4`, `MS2201L3`, `MS2205L6`, `MS2208L4`, `MS2210L4`, `MS2211L4`, `MS2219L4`, `MS2241L9`) are not part numbers in the PDF: `pdftotext -layout` of `Switch-MS1202.pdf` line 17 reads `1. Series  MS1202   L6`, the series and the actuator length printed in separate cells of the ordering-key table, which the substring test joined. They are `pending` like the other 203 (C–F read the key). C&K 54, NKK 19 (probe 18: `AS12AP` is new), E-Switch 20 match the probe. § 2's table row "`add` rows whose part number is verbatim" is 93 of 296 (C&K 54 of 119, NKK 19 of 71, E-Switch 20 of 63, CIT 0 of 43), so `pending` is 203 (was 194).
+- **2026-11-24, Phase 3: 2 datasheet URLs are not the maker's, not 8.** § 2 and Phase 3 counted E-Switch's S3 bucket (`configured-product-images.s3.amazonaws.com`, 7 URLs) as not the maker's site. It is: E-Switch's own product pages link their datasheets there (`curl` of `e-switch.com/product/500-series-miniature-slide-switch/`, `…/500a-…`, `…/500r-…`, `…/eg-series-subminiature-slide-switch/` shows `https://configured-product-images.s3.amazonaws.com/Datasheets/500.pdf`, `500A.pdf`, `500R.pdf`, `EG.pdf`), and plan-27 treated the bucket as the maker's host too. So only the two `mm.digikey.com` URLs need `maker-urls.tsv`: E-Switch EG → `S3 Datasheets/EG.pdf` (same 15-page document, newer revision); C&K `SS-12D07-VG 4 NS GA PA` → no maker copy (DigiKey's file is a one-page 2006 COMAX customer drawing; the SS series datasheet on littelfuse.com is a different document, left to plan-58-C: the one row is `pending`). The S3 `EG.pdf` and DigiKey's `EG_Series.pdf` are both placed (rows name both URLs).
+- **2026-11-24, Phase 3: `decide.py --skipped` wiped `skipped-parts.md` on its first run** (it opened the file for writing before reading it: 1192 lines deleted). Restored from the last commit, the read moved ahead of the open, re-run: `datasheets/skipped-parts.md | 10 ++++++++++`. No other file was touched by it.
 
 ## Summary
 

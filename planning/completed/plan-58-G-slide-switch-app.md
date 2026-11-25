@@ -42,10 +42,10 @@ The gate for the whole feature is in plan-58-A § Prerequisites. This letter add
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-58-F is complete | `ls planning/completed/plan-58-F-* \| wc -l` → 1 | NOT MET until F lands |
-| Slide parts are in the library | `grep -c 'states=' backend/tests/golden/parts.txt` → ≥ 1 | NOT MET until C lands |
-| No slide code in the app yet | `grep -rc 'slideSwitch' schematical/schematical --include='*.swift' \| grep -v ':0' \| wc -l` → 0 | MET (2026-11-24) |
-| The drawer's Switches & Relays group exists | `grep -c 'Switches & Relays' schematical/schematical/Parts/switch.json` → ≥ 1 | MET (2026-11-24) |
+| plan-58-F is complete | `ls planning/completed/plan-58-F-* \| wc -l` → 1 | MET (2026-11-24; re-run: 1) |
+| Slide parts are in the library | `grep -c 'states=' backend/tests/golden/parts.txt` → ≥ 1 | MET (2026-11-24; re-run: 271) |
+| No slide code in the app yet | `grep -rc 'slideSwitch' schematical/schematical --include='*.swift' \| grep -v ':0' \| wc -l` → 0 | MET (2026-11-24; re-run before any edit: 0) |
+| The drawer's Switches & Relays group exists | `grep -c 'Switches & Relays' schematical/schematical/Parts/switch.json` → ≥ 1 | MET (2026-11-24; re-run: 220) |
 
 If plan-58-F is not complete, this plan cannot start, full stop.
 
@@ -204,13 +204,15 @@ In the checks below `XC` = `xcodebuild -project schematical/schematical.xcodepro
 
 ### Phase 1 — catalog, drawer, chip state, file
 
-- [ ] Re-run the measured list (§ 2) and record the files; `PartCatalog.swift`:
+- [x] Re-run the measured list (§ 2) and record the files (33 lines in the same 10 files: AutomationSimulation 1,
+      PartCatalog 15, PartFacts 2, PartLook 1, ReferenceLabel 1, SchematicCanvasView 1, SchematicExportScene 1,
+      SchematicModel 8, SchematicFile 1, Simulation 2); `PartCatalog.swift`:
       `Details.slideSwitch`, `isSlideSwitch`, loader, `symbol(for:)`, drawer row detail,
       the three DIP-count guards (§ 4.1). `PartSymbol.slideSwitch` with pin layout
       (`ChipLayout`) from the pinout; `PartFacts.swift` kind name and rows (§ 4.4).
-- [ ] `SchematicModel.swift` / `SchematicFile.swift`: `PlacedChip` init rest
+- [x] `SchematicModel.swift` / `SchematicFile.swift`: `PlacedChip` init rest
       mask, `slidePosition`, saved `switches` (§ 4.2).
-- [ ] Tests: `schematical/schematicalTests/SlideSwitchTests.swift` — drawer path and leaves
+- [x] Tests: `schematical/schematicalTests/SlideSwitchTests.swift` — drawer path and leaves
       (`Switches & Relays/Slide/SPDT On-On`), details of an SPDT On-On, an SPDT On-Off-On
       and a DPDT part (masks, rest), symbol, kind name and sidebar rows, DIP count menu
       absent for a slide leaf, file round-trip of the position, a file with a bad
@@ -219,17 +221,18 @@ In the checks below `XC` = `xcodebuild -project schematical/schematical.xcodepro
 Acceptance: the catalog and file tests pass; the three existing switch test
 classes still pass.
   Check: `$XC test -only-testing:schematicalTests/SlideSwitchTests -only-testing:schematicalTests/TactileSwitchTests -only-testing:schematicalTests/PlaySwitchResetTests -only-testing:schematicalTests/PowerSwitchTests` → `** TEST SUCCEEDED **` (est. 12 min: build plus four small classes).
-Commit: —
+Measured: 2026-11-24, `** TEST SUCCEEDED **`: SlideSwitchTests 12 tests, TactileSwitchTests 11, PlaySwitchResetTests 1, PowerSwitchTests 7 (31 tests, 0 failures).
+Commit: 25219bb2
 
 ### Phase 2 — symbol, click, simulation
 
-- [ ] `Canvas/SlideSwitchSymbolView.swift` (§ 4.4) for the four circuits, and its
+- [x] `Canvas/SlideSwitchSymbolView.swift` (§ 4.4) for the four circuits, and its
       cases in `SchematicExportScene.swift`, `ReferenceLabel.swift`, the canvas'
       hit-testing and drawing switch (`SchematicCanvasView.swift:1193` and the
       other places of the measured list).
-- [ ] `SchematicModel.setSlideState` and the click handling (§ 4.3);
+- [x] `SchematicModel.setSlideState` and the click handling (§ 4.3);
       `Simulation.setSlide` and the netlist start state; `restoreSwitches` covers it.
-- [ ] Tests (`SlideSwitchTests.swift`): `setSlideState` flips `switchesOn` and
+- [x] Tests (`SlideSwitchTests.swift`): `setSlideState` flips `switchesOn` and
       `slidePosition`, the ping-pong order for three positions, a refused move
       (3 V-rated slide switch on a 5 V net: the message and no change), undo restores,
       the simulation (SPDT between 5 V and two `GENERIC-LED`s: LED 1 lit, LED 2 lit
@@ -238,18 +241,23 @@ Commit: —
 Acceptance: the tests above pass; the symbols draw in every position of the four circuits
 (SPST on/off, SPDT 1/2 and 1/2/3, DPST on/off, DPDT 1/2 and 1/2/3) in the harness images.
   Check: `$XC test -only-testing:schematicalTests/SlideSwitchTests -only-testing:schematicalTests/DrawerPerformanceTests` → `** TEST SUCCEEDED **` (est. 12 min).
-Commit: —
+Measured: 2026-11-24, `** TEST SUCCEEDED **`: SlideSwitchTests 22 tests, DrawerPerformanceTests 7 (29 tests, 0 failures). The harness
+(`scripts/harness/slide-switch.swift`, committed in Phase 3) printed `ok` for all 8 checks; its images
+`/tmp/p58g-gallery-1.png` (SPST On/Off, SPDT On-On 1/2, SPDT On-Off-On 1/2/3) and `/tmp/p58g-gallery-2.png`
+(DPST On/Off, DPDT On-On 1/2, DPDT On-Off-On 1/2/3) were read: the blade, the green on a closed pole, the dashed link of
+the two poles and the knob are right in every position, and the pins sit where § 4.4 puts them.
+Commit: 763fd8ab
 
 ### Phase 3 — automation, BOM, docs, harness
 
-- [ ] `AutomationSimulation.swift` `set_switch` (§ 4.5) and its test
+- [x] `AutomationSimulation.swift` `set_switch` (§ 4.5) and its test
       (`AutomationTests`: position select, missing position refused, `on=false` refused).
-- [ ] BOM: a slide switch lists with its part number and `function`
+- [x] BOM: a slide switch lists with its part number and `function`
       (`BillOfMaterialsTests` case).
-- [ ] Docs: `docs/file-format.md` `switches` row ("DIP and slide switches"),
+- [x] Docs: `docs/file-format.md` `switches` row ("DIP and slide switches"),
       `docs/agent-control.md` (`set_switch`), `docs/parts-format.md` § drawer
       categories (`Switches & Relays | DIP; Tactile; Relay (plan-47); Slide`).
-- [ ] `scripts/harness/slide-switch.swift` (model: `tactile-switch.swift`): on the real
+- [x] `scripts/harness/slide-switch.swift` (model: `tactile-switch.swift`): on the real
       catalog places an SPDT On-On, an SPDT On-Off-On and a DPDT On-On slide
       switch, wires 5 V → switch → `GENERIC-LED`s, checks the drawer leaves,
       the click order, the simulation's LEDs, the file round trip and writes the
@@ -258,7 +266,12 @@ Commit: —
 Acceptance: `AutomationTests` and `BillOfMaterialsTests` pass with the new cases;
 the harness prints only `ok` lines and its images show the knob positions.
   Check: `rm -rf /tmp/p58-h && scripts/harness/build.sh scripts/harness/slide-switch.swift /tmp/p58-h && /tmp/p58-h/H.app/Contents/MacOS/harness /tmp` → every line `ok`, exit 0 (est. 6 min), and `$XC test -only-testing:schematicalTests/AutomationTests -only-testing:schematicalTests/BillOfMaterialsTests` → `** TEST SUCCEEDED **` (est. 12 min).
-Commit: —
+Measured: 2026-11-24. Harness (built with `APP=/tmp/p58-dd/Build/Products/Debug/schematical.app`, which is the `$XC` build the script
+would otherwise repeat in `/tmp/p58-h/dd`): 8 checks, every line `ok`, `all checks ok`, exit 0; images `/tmp/p58g-circuit.png`,
+`/tmp/p58g-sidebar.png`, `/tmp/p58g-gallery-1.png`, `/tmp/p58g-gallery-2.png` read (knob positions, blades and the sidebar's
+Circuit / Action / Position / Actuator rows are right). `$XC test` AutomationTests (33 tests, incl. the two new) and
+BillOfMaterialsTests (8, incl. the new): `** TEST SUCCEEDED **`, 41 tests, 0 failures.
+Commit: 747044c7
 
 ## Validation Plan
 
@@ -274,6 +287,7 @@ Commit: —
   plus `PartKindKeysTests`, `PartKindRoundTripTests`, `KindInfoTests`, `KindGuideTests`,
   `SchematicFileV5Tests`, `PCBUndoTests`, `KiCadExportTests`, `EasyEDAProExportTests`,
   `ReferencePrefixTests` → `** TEST SUCCEEDED **` (est. 40 min).
+  Measured (2026-11-24, after the Part Editor fix of Corrections): `** TEST SUCCEEDED **`, 229 tests, 0 failures (16 classes, about 2 min of test time).
 
 ## Decisions
 
@@ -286,7 +300,62 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- **Phase 1 — the symbol cases land with `PartSymbol.slideSwitch`.** Swift's
+  `switch` over `PartSymbol` is exhaustive (`SchematicCanvasView`,
+  `SchematicExportScene`, `ReferenceLabel`, `ChipLayout`), so the case, the layout
+  and the canvas / export / label cases compile only together. Phase 1 therefore
+  carries `SlideSwitchSymbolView` as far as the box, header and pin stubs; Phase 2
+  adds the blades, knob and the click.
+- **Phase 1 — `SchematicFile.swift:772` needed no code change.** It already saves
+  `switches` for every part except a tactile switch, so a slide switch saves like
+  a DIP switch (only a comment was added). Its `isTactileSwitch` is not a
+  `.tactileSwitch` pattern, so the Validation Plan's coverage grep does not list it.
+- **Phase 1 — `TactileSwitchTests.firstDip` named every non-tactile switch a DIP
+  switch** (`kind == PART_SWITCH && !isTactileSwitch`) and picked a slide part
+  (`1101M2S3CQE2` sorts first), so `testDipSwitchUnchanged` failed. The helper now
+  also says `!isSlideSwitch` (one line; no assertion changed). `PlaySwitchResetTests`
+  and `TestSupport.firstDip` already require `count >= 2`, which a slide part
+  (count nil) never has.
+- **Phase 2 — no 3 V-rated slide switch exists in the library** (ratings are
+  5, 6, 12, 15, 20, 24, 28, 30, 125 V; the lowest is `JS102000SAQN`, 5 V). The
+  refusal test (`testRefusedMove`, harness check 6) uses that part with a net above
+  its rating instead: 12 V → the C pin of a 28 V switch (`1101M2S3CQE2`), its B
+  pin wired to the B pin of the 5 V part. Moving the 28 V switch to position 2
+  would join 12 V to the 5 V part, and is refused with `Can't turn on: S2 pin 3
+  (B) gets 12 V; JS102000SAQN is rated 5 V.`; a single 5 V-rated switch cannot be
+  tested alone because any pin on a net above its rating is refused when wired.
+- **Phase 2 — the simulation start uses `circuit_set_switch_state`.** The
+  backend's new circuit starts a slide switch in its `rest` position, and the
+  per-contact starts only close contacts, so a switch drawn in another position
+  would keep its rest contact closed. `SchematicNetlist` gains `slideStates`
+  (the part index and knob position of each slide switch); `build` calls
+  `circuit_set_switch_state` for them and `positionCounts` is 0 for a slide
+  switch (the contacts are `switchesOn`, for the voltage check). Test
+  `testSimulation` starts a run in position 2 to prove it.
+- **Phase 3 — the BOM line has no `function` field.** `BillOfMaterialsLine` is
+  part number, package, value, color and description; a slide switch's
+  description is its circuit and action (`SPDT slide switch, On-Off-On`), so the
+  line lists it by part number and, in the description, its function. The
+  `BillOfMaterialsTests` case checks that for every slide part (the description
+  names both words of `function`) rather than adding a column.
+- **Validation Plan coverage check.** `for f in $(grep -rl 'tactileSwitch' …); do grep -L 'slideSwitch' $f; done`
+  lists only `Simulation/Simulation.swift`: `NetlistBuilder` reads the tactile
+  switch's `.tactileSwitch` details and handles a slide switch by `chip.slidePosition`
+  (it never names the symbol or details case). Every other file that names it also names `.slideSwitch`.
+- **Phase 2 — the BoardPreview look.** A slide part would have drawn as a DIP
+  package (`PartLook` read `PART_SWITCH` as `.dipSwitch(positions:)`); it is now
+  `.block(height: 5)`.
+- **Final gate — the Part Editor knew nothing of `states` / `rest`.** The first
+  gate run failed `PartKindKeysTests` (`switch: ["rest", "states"]` have no
+  control in the form), `PartKindRoundTripTests.testSwitch` (the 271 slide parts
+  came back with extras `device.rest` / `device.states`; its shipped count was
+  still 2070, now 2341) and, after the form was fixed, `KindGuideTests` (no step
+  of the guide had the two keys). Without them, opening a slide part in the Part
+  Editor and saving it would drop its states. `Editor/SwitchDraft.swift` gained
+  `rest` (integer) and `states` (list of number lists), `SwitchGuide`
+  (`Editor/Wizard/Guides/LedGuide.swift`) gained the two keys in the "The switch"
+  step with field help, and `PartKindRoundTripTests.expected["switch"]` is 2341
+  (commit a8552549). Plans B–F did not touch the editor, and none of them ran these classes.
 
 ## Summary
 

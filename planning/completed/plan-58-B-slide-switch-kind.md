@@ -38,9 +38,9 @@ The gate for the whole feature is in plan-58-A § Prerequisites. This letter add
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-58-A is complete | `ls planning/completed/plan-58-A-*` → one file | NOT MET until A lands |
-| `PartSwitch` is still the plan-27 shape | `grep -c 'unsigned momentary; unsigned normally_closed; unsigned joined;' backend/include/parts.h` → 1 | MET (2026-11-24) |
-| The kind has no slide keys yet | `grep -c '"states"' backend/src/models/switch.c` → 0 | MET (2026-11-24) |
+| plan-58-A is complete | `ls planning/completed/plan-58-A-*` → one file | MET (2026-11-24, P-58: A archived in the worktree, commit df339161) |
+| `PartSwitch` is still the plan-27 shape | `grep -c 'unsigned momentary; unsigned normally_closed; unsigned joined;' backend/include/parts.h` → 1 | MET (2026-11-24; re-run at P-58 start → 1) |
+| The kind has no slide keys yet | `grep -c '"states"' backend/src/models/switch.c` → 0 | MET (2026-11-24; re-run at P-58 start → 0) |
 
 If plan-58-A is not complete, this plan cannot start, full stop.
 
@@ -192,17 +192,17 @@ Position 1 is the one the datasheet's circuit table or diagram lists first
 
 ### Phase 1 — loader, struct, docs
 
-- [ ] `backend/src/models/switch.c`: add `"states"` and `"rest"` to `DEVICE_KEYS`;
+- [x] `backend/src/models/switch.c`: add `"states"` and `"rest"` to `DEVICE_KEYS`;
       read and validate them (§ 4.1) in `switch_load_device`; fill the new
       `PartSwitch` fields; bind nothing new (`switch_bind_pinout` already binds
       every contact).
-- [ ] `backend/include/parts.h`: the three fields and `part_switch_state_contacts`
+- [x] `backend/include/parts.h`: the three fields and `part_switch_state_contacts`
       (defined in `switch.c`); update the `PartSwitch` comment.
-- [ ] `backend/tests/support/listing.c:302`: append ` states=<n> rest=<r>` to a
+- [x] `backend/tests/support/listing.c:302`: append ` states=<n> rest=<r>` to a
       switch's facts only when `states > 0` (existing lines unchanged).
-- [ ] `docs/parts-format.md` § `switch`: the two keys, the slide-switch rules,
+- [x] `docs/parts-format.md` § `switch`: the two keys, the slide-switch rules,
       § 4.3's naming table, the drawer `["Switches & Relays","Slide"]`.
-- [ ] Tests: `backend/tests/slide_test.c` (new) loads the inline fixture
+- [x] Tests: `backend/tests/slide_test.c` (new; Phase 1 part: `case_loader`, `case_errors`) loads the inline fixture
       (SPDT On-On `SLIDE-SPDT`, SPDT On-Off-On `SLIDE-SPDT3`, DPDT On-Off-On
       `SLIDE-DPDT3`, SPST On-Off `SLIDE-SPST`, one `ratedVolts` 3 part
       `SLIDE-LV`) and checks the loader: `part_switch_state_contacts` for every
@@ -211,15 +211,15 @@ Position 1 is the one the datasheet's circuit table or diagram lists first
 
 Acceptance: the fixture loads; each bad fixture fails with its message; the
 golden files do not change.
-  Check: `cmake -S backend -B /tmp/logic-p58 && cmake --build /tmp/logic-p58 -j8 --target slide_test listing_check && /tmp/logic-p58/slide_test && /tmp/logic-p58/listing_check --print | diff - backend/tests/golden/parts.txt` → every line `ok`, empty diff (est. 4 min).
-Commit: —
+  Check: `cmake -S backend -B /tmp/logic-p58 && cmake --build /tmp/logic-p58 -j8 --target slide_test listing_check && /tmp/logic-p58/slide_test && /tmp/logic-p58/listing_check --print | diff - backend/tests/golden/parts.txt` → every line `ok`, empty diff (est. 4 min). Measured: 22 `ok` lines and `PASS`, `slide_test` exit 0, empty diff of `listing_check --print` against `parts.txt`.
+Commit: 10553879
 
 ### Phase 2 — circuit behavior
 
-- [ ] `backend/src/circuit.c`: the rest-state recording in `circuit_add_part`, the
+- [x] `backend/src/circuit.c`: the rest-state recording in `circuit_add_part`, the
       `circuit_start` condition, `circuit_set_switch_state` (§ 4.2);
       `backend/include/circuit.h` declaration.
-- [ ] `slide_test.c`: SPDT On-On between a 5 V supply and two `GENERIC-LED`s:
+- [x] `slide_test.c` (cases `case_leds`, `case_dpdt3`, `case_spst`, `case_unwired`, `case_refused`, `case_voltage`): SPDT On-On between a 5 V supply and two `GENERIC-LED`s:
       LED 1 lit at start, `circuit_set_switch_state(…, 2)` → LED 2 lit and LED 1
       dark; DPDT On-Off-On starts all-open, state 1 closes contacts 1 and 3,
       state 3 closes 2 and 4; SPST On-Off starts open, state 1 closes, state 2
@@ -227,13 +227,13 @@ Commit: —
       and a non-slide part fail with the messages of § 4.2; `SLIDE-LV` (3 V) on
       a 5 V net: moving the knob that would join the 5 V net to its terminals
       is refused by the voltage check the way `tactile_test` checks it.
-- [ ] `docs/backend.md`: `circuit_set_switch_state` in § Using it, the slide
+- [x] `docs/backend.md`: `circuit_set_switch_state` in § Using it, the slide
       switch under the voltage check's list of closed contacts.
 
 Acceptance: `slide_test` prints only `ok` lines; `tactile_test` and `switch_test`
 still pass; the three golden files are unchanged.
-  Check: `cmake --build /tmp/logic-p58 -j8 && ctest --test-dir /tmp/logic-p58 -R 'slide_test|tactile_test|switch_test|listing_check|trace_check' --output-on-failure` → `100% tests passed` (est. 6 min).
-Commit: —
+  Check: `cmake --build /tmp/logic-p58 -j8 && ctest --test-dir /tmp/logic-p58 -R 'slide_test|tactile_test|switch_test|listing_check|trace_check' --output-on-failure` → `100% tests passed` (est. 6 min). Measured: `100% tests passed, 0 tests failed out of 6`; `slide_test` 42 `ok` lines + `PASS`; `listing_check --print | diff - parts.txt` → 0 lines; `git status --short backend/tests/golden` → empty. Final gate: `ctest -N | tail -1` → `Total Tests: 62`, `ctest -j8` (Release) → `100% tests passed, 0 tests failed out of 62`.
+Commit: bbd4433f
 
 ## Validation Plan
 
@@ -256,7 +256,8 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- **2026-11-24, Phase 2: a light needs two advances after a move.** `circuit_part_lights` reports a light that was on at any time during the last `circuit_advance`, so the advance right after `circuit_set_switch_state(…, 2)` still shows LED 1 (the contact opens inside that advance: measured `led1=1 led2=1`, then `led1=0 led2=1` after a second advance). `slide_test` settles with two advances after each move (`settle`) and `docs/backend.md` says so. The nets (`circuit_net_value`) are already right after one.
+- **2026-11-24, Phase 1: § 4.1 lists one error too many.** `"states" needs "rest" no later than state K` and `"rest" must be 1 … K` describe the same condition (`rest` above the number of states; `rest` is optional, default 1, so it can never be missing). The loader has the second only, and `slide_test` checks it for `rest` = 3 and `rest` = 0. The other five § 4.1 errors, the three `cannot be combined with` errors and `"rest" needs "states"` are each refused with their message by a bad fixture in `slide_test.c` (`case_errors`).
 
 ## Summary
 

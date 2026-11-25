@@ -29,9 +29,9 @@ The gate for the whole feature is in plan-58-A § Prerequisites. This letter add
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-58-E is complete | `ls planning/completed/plan-58-E-* \| wc -l` → 1 | NOT MET until E lands |
-| The generator exists | `ls planning/plan-58-data/gen-parts.py planning/plan-58-data/census/scheme-check.py planning/plan-58-data/census/specs-check.py planning/plan-58-data/census/fp-load.sh \| wc -l` → 4 | NOT MET until C lands |
-| CIT Relay & Switch's PDFs are placed | `ls datasheets/switch/slide/cit/*.pdf \| wc -l` → 11 (or fewer, when A skipped a PDF's rows) | NOT MET until A lands |
+| plan-58-E is complete | `ls planning/completed/plan-58-E-* \| wc -l` → 1 | MET (2026-11-24, P-58) |
+| The generator exists | `ls planning/plan-58-data/gen-parts.py planning/plan-58-data/census/scheme-check.py planning/plan-58-data/census/specs-check.py planning/plan-58-data/census/fp-load.sh \| wc -l` → 4 | MET (2026-11-24, P-58: plan-58-C archived, 98c5cefb; plan-58-D archived, 7b2c459b; plan-58-E archived, b29a5e07) |
+| CIT Relay & Switch's PDFs are placed | `ls datasheets/switch/slide/cit/*.pdf \| wc -l` → 11 (or fewer, when A skipped a PDF's rows) | MET (2026-11-24) |
 | No CIT slide parts yet | `python3 -I -c "import csv;t=open('schematical/schematical/Parts/switch.json').read();m=[r['mpn'] for r in csv.DictReader(open('planning/plan-58-data/candidates.tsv'),delimiter='\t') if r['maker']=='CIT' and r['decision']=='add'];print(sum(('\"name\":\"'+x+'\"') in t for x in m))"` → 0 | MET (2026-11-24) |
 
 If plan-58-E is not complete, this plan cannot start, full stop.
@@ -96,44 +96,47 @@ data; the image-against-drawing comparison catches it) and the same gate
 
 ### Phase 1 — decide the pending rows
 
-- [ ] Read each CIT Relay & Switch PDF's part-number key; add the CIT Relay & Switch rows to
+- [x] Read each CIT Relay & Switch PDF's part-number key; add the CIT Relay & Switch rows to
       `planning/plan-58-data/schemes.tsv` (plan-58-C § 4.1).
-- [ ] `python3 -I planning/plan-58-data/census/scheme-check.py --maker 'CIT'`; commit
+- [x] `python3 -I planning/plan-58-data/census/scheme-check.py --maker 'CIT'`; commit
       `candidates.tsv` and the skipped-parts section.
 
 Acceptance: no CIT Relay & Switch row is `pending`; each `skip` reason is listed in
 `datasheets/skipped-parts.md`.
   Check: `awk -F'\t' '$1=="CIT" && $18=="pending"' planning/plan-58-data/candidates.tsv \| wc -l` → 0 (est. 3 min).
-Commit: —
+  Measured: `scheme-check.py --maker 'CIT'` → `CIT 43 add, 0 skip, 0 pending`; `awk` pending count → 0; `decide.py --verify-skipped` exit 0
+Commit: 6cc51962
 
 ### Phase 2 — footprints and specs
 
-- [ ] For each of CIT Relay & Switch's (series, mounting, circuit) lines (15 at planning): read
+- [x] For each of CIT Relay & Switch's (series, mounting, circuit) lines (15 at planning): read
       the PDF drawing, write the footprint (plan-58-C § 4.3) as a ready object in
       `planning/plan-58-data/footprints-F.json` and its `specs.tsv` row (§ 4.2).
-- [ ] `python3 -I planning/plan-58-data/census/specs-check.py --maker 'CIT'` and
+- [x] `python3 -I planning/plan-58-data/census/specs-check.py --maker 'CIT'` and
       `planning/plan-58-data/census/fp-load.sh planning/plan-58-data/footprints-F.json`.
-- [ ] For every new footprint: a rendered image beside the datasheet page, read
+- [x] For every new footprint: a rendered image beside the datasheet page, read
       pair by pair, fixing any mismatch.
 
 Acceptance: every CIT Relay & Switch row has a spec whose footprint is staged and has its
 pads; the staged footprints load; each image matches its drawing.
   Check: `python3 -I planning/plan-58-data/census/specs-check.py --maker 'CIT' && planning/plan-58-data/census/fp-load.sh planning/plan-58-data/footprints-F.json` → `specs ok`, then only `unused footprint` lines for the staged ids and `load ok` (est. 6 min).
-Commit: —
+  Measured: `specs-check.py --maker 'CIT'` → `specs ok (43 rows, 15 specs)`; `fp-load.sh footprints-F.json` → `15 footprints appended`, `15 new footprints: load ok`
+Commit: f4630bba
 
 ### Phase 3 — parts
 
-- [ ] `python3 -I planning/plan-58-data/gen-parts.py --maker 'CIT'` (the earlier
+- [x] `python3 -I planning/plan-58-data/gen-parts.py --maker 'CIT'` (the earlier
       makers' parts stay: the generator rebuilds every maker already in the region).
-- [ ] Regenerate the goldens (`listing_check --print`, `trace_check --print`,
+- [x] Regenerate the goldens (`listing_check --print`, `trace_check --print`,
       `footprint_check --print`) and review: only added lines, in each file.
-- [ ] `node scripts/check-datasheets.js --host www.citrelay.com` → exit 0.
+- [x] `node scripts/check-datasheets.js --host www.citrelay.com` → exit 0.
 
 Acceptance: `grep -c 'states=' backend/tests/golden/parts.txt` equals the previous
 total plus the number of CIT Relay & Switch `add` rows; the generator run is idempotent; `ctest`
 passes (the library pass of `slide_test` covers the new devices).
   Check: `python3 -I planning/plan-58-data/gen-parts.py --maker 'CIT' --dry-run && cmake --build /tmp/logic-p58 -j8 && ctest --test-dir /tmp/logic-p58 -j8 -R 'slide_test|listing_check|trace_check|footprint_check|library_check'` → no change, `100% tests passed` (est. 12 min).
-Commit: —
+  Measured: `gen-parts.py --maker 'CIT'` written, then `--dry-run` → `no changes`; goldens regenerated: no golden line removed, `grep -c 'states=' backend/tests/golden/parts.txt` → 271; `ctest -j8` → `100% tests passed, 0 tests failed out of 62`; `check-datasheets.js --host www.citrelay.com` → `0 failed`
+Commit: 36139930
 
 ## Validation Plan
 
@@ -153,7 +156,9 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- **2026-11-24, Phase 1: 0 pending rows do not fit their key and are `skip`** (none); CIT has 43 `add` rows after Phase 1. `schemes.tsv` regexes are written from each datasheet's ordering key (positions and listed letters only).
+- **2026-11-24, Phase 2: the footprints were drawn by parallel sub-agents, one per group of series** (1000; MS1202-MS2241), each reading its PDFs' drawings as page images, rendering every footprint with `census/fp-render.py` and comparing it with the drawing; the lead merged the fragments (`merge-specs.py`, `fp-load.sh`: 15 footprints, 15 spec rows for 43 `add` rows). Open questions of each sub-agent are in the footprints' `note` fields (top vs bottom view, the body outline's position against the pads where the drawing gives no tie, terminals renumbered to 1..n where a datasheet skips numbers). Images are rendered from the JSON (see plan-58-C Corrections), not by the app.
+- **2026-11-24, Phase 3: all 43 CIT rows were `add` after Phase 1** (every number fits its datasheet's ordering key; the MS series' `L<length>` and the 1000 series' key). `grep -c 'states=' backend/tests/golden/parts.txt` is now the sum of the four makers' `add` rows (C&K 105, NKK 67, E-Switch 56, CIT 43 = 271).
 
 ## Summary
 

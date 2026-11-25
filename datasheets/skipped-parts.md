@@ -1356,3 +1356,20 @@ one-of-a-kind and variant-quota rules are in plan-45-A § 3 and are not skips.
 | 5430904 | Phoenix Contact BCH 3.50 mm shrouded header | `connector` / Connector → Terminal block | not in stock at DigiKey on 2026-11-24 |
 | 2473010000, 1124280000 | Weidmüller Omnimate LLFS 7.50 mm push-in; Omnimate SL 7.62 mm header | `connector` / Connector → Terminal block | not in stock at DigiKey on 2026-11-24 |
 | 691412120005B, 691412120006B, 691412120008B, 691412120009B | Würth WR-TBL 412B 3.50 mm spring | `connector` / Connector → Terminal block | not in stock at DigiKey on 2026-11-24 |
+
+## Slide switches (plan-58)
+
+In-stock Active SPST / SPDT / DPST / DPDT slide switches of C&K / Littelfuse, NKK, CIT Relay &
+Switch and E-Switch (`planning/plan-58-data/candidates.tsv`, DigiKey category Slide Switches)
+left out for want of a datasheet PDF. Written by `planning/plan-58-data/census/decide.py --skipped`.
+Rows left out by rule (panel mount, momentary, line-voltage, illuminated, no DigiKey stock) are
+`out` in that file and are not listed here.
+
+| Part(s) | Series | Would have gone into | Why skipped |
+|---|---|---|---|
+| 1101M2S3WBE2 | C&K 1000 | `switch` / Switches & Relays → Slide | number does not fit the datasheet's part-number key |
+| L101011ML04Q, L102011ML04Q, L102021ML04Q, L201011MS02Q, L201011MS02QE, L202011MS02G, L202021MA04Q, L202021MA04QE, L202031MS02Q, L202121MA04Q, L202121MS02Q, L202121MS02QE | C&K L | `switch` / Switches & Relays → Slide | number does not fit the datasheet's part-number key |
+| V80201MS02Q | C&K V | `switch` / Switches & Relays → Slide | number does not fit the datasheet's part-number key |
+| EG1249, EG1257, EG1270, EG1271, EG1271A, EG2210A-REDACTUATOR, EG2219 | E-Switch EG | `switch` / Switches & Relays → Slide | number does not fit the datasheet's part-number key |
+| AS11BW, AS12CV/A, AS13AW | NKK AS | `switch` / Switches & Relays → Slide | number does not fit the datasheet's part-number key |
+| MSN12ANA03 | NKK M | `switch` / Switches & Relays → Slide | number does not fit the datasheet's part-number key |

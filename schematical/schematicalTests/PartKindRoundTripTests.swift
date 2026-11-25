@@ -12,7 +12,7 @@ final class PartKindRoundTripTests: XCTestCase {
         "dff": 867, "jkff": 186, "mux": 346, "decoder": 352,
         "latch": 768, "buffer": 2137, "arith": 107,
         "counter": 733, "shift": 597,
-        "sram": 172, "eeprom": 174, "switch": 2070, "led": 1, "7seg": 60, "oscillator": 1145, "supply": 18,
+        "sram": 172, "eeprom": 174, "switch": 2341, "led": 1, "7seg": 60, "oscillator": 1145, "supply": 18,
         "cpu": 21, "pio": 7, "serial": 247, "charlcd": 72, "connector": 1541, "converter": 1914, "rtc": 16,
         "diode": 11166, "header": 80, "register": 220,
         // plan-46-C.

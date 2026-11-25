@@ -194,6 +194,10 @@ nonisolated enum PartSymbol: Hashable {
     /// A tactile (push-button) switch, plan-27: side A's pins on the left,
     /// side B's on the right, a button in the middle.
     case tactileSwitch
+    /// A slide switch (plan-58): the common terminal on the left, the throws
+    /// on the right, a blade for each pole and a knob on a slot under them
+    /// (`SlideSwitchSymbolView`).
+    case slideSwitch
     case sevenSegment
     /// A nixie tube: cathodes on the left, the anode on the right, the tube
     /// in the middle (`NixieSymbolView`).
@@ -347,6 +351,8 @@ nonisolated struct ChipLayout: Hashable {
             self = Self.dipSwitch(pins)
         case .tactileSwitch:
             self = Self.tactileSwitch(pins)
+        case .slideSwitch:
+            self = Self.slideSwitch(pins, circuit: part.slideStates?.circuit ?? "SPDT")
         case .sevenSegment:
             self = Self.sevenSegment(pins, display: part.display)
         case .nixie:
@@ -570,6 +576,47 @@ nonisolated struct ChipLayout: Hashable {
         }
         return ChipLayout(
             size: CGSize(width: switchBodyWidth, height: headerHeight + pitch * CGFloat(rows)),
+            slots: slots
+        )
+    }
+
+    /// Slide switch body width, and the height of the strip under the poles
+    /// that holds the knob's slot (`SlideSwitchSymbolView`).
+    static let slideBodyWidth: CGFloat = 120
+    static let slideKnobStrip: CGFloat = 20
+
+    /// A slide switch (plan-58): per pole, the common terminal (`C`, `C1`, …) on
+    /// the left, midway between its two throws (`A` above `B`) on the right;
+    /// SPST and DPST poles have `A` on the left and `B` on the right, one row
+    /// each. Pins are placed by name, so the pinout's order does not matter.
+    private static func slideSwitch(_ pins: [ChipPin], circuit: String) -> ChipLayout {
+        let poles = circuit.hasPrefix("D") ? 2 : 1
+        let hasCommon = circuit.hasSuffix("DT")
+        func pin(_ base: String, _ pole: Int) -> ChipPin? {
+            let names = poles == 1 ? [base] : ["\(base)\(pole + 1)"]
+            return pins.first { names.contains($0.name) }
+        }
+        var slots: [PinSlot] = []
+        let rows = hasCommon ? 2 * poles : poles
+        for pole in 0..<poles {
+            if hasCommon {
+                let top = centerY(forRow: 2 * pole), bottom = centerY(forRow: 2 * pole + 1)
+                if let common = pin("C", pole) { slots.append(PinSlot(pin: common, side: .left, centerY: (top + bottom) / 2)) }
+                if let a = pin("A", pole) { slots.append(PinSlot(pin: a, side: .right, centerY: top)) }
+                if let b = pin("B", pole) { slots.append(PinSlot(pin: b, side: .right, centerY: bottom)) }
+            } else {
+                if let a = pin("A", pole) { slots.append(PinSlot(pin: a, side: .left, centerY: centerY(forRow: pole))) }
+                if let b = pin("B", pole) { slots.append(PinSlot(pin: b, side: .right, centerY: centerY(forRow: pole))) }
+            }
+        }
+        // Any other pin the part has keeps a place on the right below the poles.
+        let placed = Set(slots.map(\.pin.index))
+        for (offset, pin) in pins.filter({ !placed.contains($0.index) }).enumerated() {
+            slots.append(PinSlot(pin: pin, side: .right, centerY: centerY(forRow: rows + offset)))
+        }
+        let total = rows + slots.filter { $0.centerY > centerY(forRow: rows - 1) }.count
+        return ChipLayout(
+            size: CGSize(width: slideBodyWidth, height: headerHeight + pitch * CGFloat(total) + slideKnobStrip),
             slots: slots
         )
     }
@@ -980,6 +1027,9 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     /// For a DIP switch, whether each position is ON, position 1 first. Empty
     /// for every other part.
     var switchesOn: [Bool] = []
+    /// Which way a click moves a slide switch's knob along its positions: 1
+    /// toward the last, -1 toward the first. Not saved.
+    var slideDirection = 1
     /// Where the footprint sits on the PCB. Set exactly when the part has a
     /// footprint (every part but VCC and GND).
     var board: BoardPlacement?
@@ -1071,12 +1121,20 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         self.socket = socket.flatMap { ChipSocket.fits($0.part, part) ? $0 : nil }
         // A switch has one state per position, OFF unless given; others none.
         // A tactile switch has one, "pressed", and always starts released
-        // (the file never stores it; plan-27-J).
+        // (the file never stores it; plan-27-J). A slide switch has one per
+        // contact, and always is in one of its knob positions: the one the
+        // given contacts are, else its rest position (plan-58-G).
         var positions = 0
         if case let .dipSwitch(count, _, _) = part.details {
             positions = count
         }
-        if part.isTactileSwitch {
+        if let slide = part.slideStates {
+            let contacts = part.slideContacts
+            let given = (0..<contacts).map { $0 < switchesOn.count && switchesOn[$0] }
+            let mask = given.enumerated().reduce(UInt32(0)) { $1.element ? $0 | (1 << UInt32($1.offset)) : $0 }
+            let state = switchesOn.count == contacts ? slide.masks.firstIndex(of: mask) : nil
+            self.switchesOn = Self.contacts(mask: slide.masks[state ?? slide.rest - 1], count: contacts)
+        } else if part.isTactileSwitch {
             self.switchesOn = [false]
         } else {
             self.switchesOn = (0..<positions).map { $0 < switchesOn.count && switchesOn[$0] }
@@ -1085,6 +1143,29 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
 
     /// The orderable part number, as saved in a file.
     var partNumber: String { part.name }
+
+    /// A slide switch's contacts closed by the knob position whose mask is `mask`,
+    /// contact 1 first.
+    static func contacts(mask: UInt32, count: Int) -> [Bool] {
+        (0..<count).map { mask & (1 << UInt32($0)) != 0 }
+    }
+
+    /// A slide switch's knob position (1-based): the one whose closed contacts
+    /// are exactly `switchesOn`. Nil for any other part.
+    var slidePosition: Int? {
+        guard let slide = part.slideStates else { return nil }
+        let mask = switchesOn.enumerated().reduce(UInt32(0)) { $1.element ? $0 | (1 << UInt32($1.offset)) : $0 }
+        return slide.masks.firstIndex(of: mask).map { $0 + 1 }
+    }
+
+    /// The knob position a click moves a slide switch to: the next one in the
+    /// order 1 → 2 → … → N → N-1 → … → 1, by `slideDirection`. Nil for any
+    /// other part.
+    var nextSlidePosition: Int? {
+        guard let slide = part.slideStates, let position = slidePosition else { return nil }
+        let next = position + slideDirection
+        return (1...slide.positions).contains(next) ? next : position - slideDirection
+    }
 
     /// The same chip on another part (a header's new size): id, reference,
     /// symbol, origin, flip, board placement, gender, memory file and
@@ -5164,6 +5245,39 @@ final class SchematicDocument {
             editorMessage = nil
             chips[index].switchesOn[position - 1].toggle()
             return chips[index].switchesOn[position - 1]
+        }
+    }
+
+    /// Moves a slide switch's knob to position `state` (1-based): its contacts
+    /// become exactly those the position closes. Returns the position, or nil
+    /// when the chip is not a slide switch, has no such position, or the move
+    /// would close a contact the voltage check refuses (the knob stays and
+    /// `editorMessage` says why). Outside play mode a recorded edit ("Move
+    /// Switch"); in play mode an input, put back by `restoreSwitches`.
+    @discardableResult
+    func setSlideState(_ id: UUID, to state: Int) -> Int? {
+        return recordEdit(.schematic, "Move Switch") { () -> Int? in
+            guard let index = chips.firstIndex(where: { $0.id == id }),
+                  let slide = chips[index].part.slideStates,
+                  (1...slide.positions).contains(state) else { return nil }
+            let contacts = chips[index].part.slideContacts
+            let closed = PlacedChip.contacts(mask: slide.masks[state - 1], count: contacts)
+            if closed.indices.contains(where: { closed[$0] && !chips[index].switchesOn[$0] }), let library {
+                var candidate = chips
+                candidate[index].switchesOn = closed
+                if let issue = VoltageCheck.firstNew(before: chips, wires, after: candidate, wires,
+                                                     buses: buses, labels: netLabels,
+                                                     known: currentVoltageIssues(library), library: library) {
+                    editorMessage = VoltageCheck.message(issue, chips: chips, edit: .turnOn)
+                    return nil
+                }
+            }
+            editorMessage = nil
+            if let before = chips[index].slidePosition, before != state {
+                chips[index].slideDirection = state > before ? 1 : -1
+            }
+            chips[index].switchesOn = closed
+            return state
         }
     }
 

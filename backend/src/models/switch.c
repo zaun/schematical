@@ -11,6 +11,11 @@
  * the positions that are always closed and that set_switch cannot address.
  * "bodySize" (optional) is the nominal body [length, width] in mm, data for
  * the app's drawer.
+ *
+ * Slide switches (plan-58-B): "states" lists, for each knob position (2 or 3),
+ * the contacts that are closed there; "rest" (default 1) is the position a new
+ * circuit starts in. The contacts stay the primitive (circuit_set_switch); the
+ * circuit's circuit_set_switch_state moves the knob.
  */
 
 #include <math.h>
@@ -21,7 +26,10 @@
 #include "model_pins.h"
 
 static const char *const DEVICE_KEYS[] = {"actuator", "contacts", "ratedVolts", "momentary",
-                                           "normallyClosed", "joined", "bodySize", NULL};
+                                           "normallyClosed", "joined", "bodySize", "states",
+                                           "rest", NULL};
+
+#define MAX_SLIDE_CONTACTS 8   /* state_mask is one bit per contact */
 
 typedef struct {
     PartSwitch info;
@@ -89,6 +97,76 @@ static int read_body_size(KindContext *ctx, const cJSON *json, uint32_t out[2]) 
     return 0;
 }
 
+/* Reads the optional "states" and "rest" (plan-58-B § 4.1). A device with
+   "states" is a slide switch. */
+static int read_states(KindContext *ctx, const cJSON *json, PartSwitch *info) {
+    const cJSON *states = cJSON_GetObjectItemCaseSensitive(json, "states");
+    const cJSON *rest = cJSON_GetObjectItemCaseSensitive(json, "rest");
+    const cJSON *entry;
+    size_t k = 0;
+
+    if (states == NULL) {
+        if (rest != NULL) {
+            return kind_error(ctx, "\"rest\" needs \"states\"");
+        }
+        return 0;
+    }
+    if (cJSON_GetObjectItemCaseSensitive(json, "momentary") != NULL) {
+        return kind_error(ctx, "\"states\" cannot be combined with \"momentary\"");
+    }
+    if (cJSON_GetObjectItemCaseSensitive(json, "normallyClosed") != NULL) {
+        return kind_error(ctx, "\"states\" cannot be combined with \"normallyClosed\"");
+    }
+    if (cJSON_GetObjectItemCaseSensitive(json, "joined") != NULL) {
+        return kind_error(ctx, "\"states\" cannot be combined with \"joined\"");
+    }
+    if (!cJSON_IsArray(states) || cJSON_GetArraySize(states) < 2 || cJSON_GetArraySize(states) > 3) {
+        return kind_error(ctx, "\"states\" must be 2 or 3 arrays of contact numbers");
+    }
+    if (info->positions > MAX_SLIDE_CONTACTS) {
+        return kind_error(ctx, "a switch with \"states\" has at most %d contacts, not %u",
+                          MAX_SLIDE_CONTACTS, info->positions);
+    }
+    cJSON_ArrayForEach(entry, states) {
+        const cJSON *number;
+        uint8_t mask = 0;
+
+        if (!cJSON_IsArray(entry)) {
+            return kind_error(ctx, "\"states\" must be 2 or 3 arrays of contact numbers");
+        }
+        kind_push(ctx, "states[%zu]", k);
+        cJSON_ArrayForEach(number, entry) {
+            double value = cJSON_IsNumber(number) ? number->valuedouble : 0;
+
+            if (!cJSON_IsNumber(number) || value != (double)(long)value) {
+                return kind_error(ctx, "a state lists contact numbers");
+            }
+            if (value < 1 || value > (double)info->positions) {
+                return kind_error(ctx, "contact %ld does not exist (the device has %u contacts)",
+                                  (long)value, info->positions);
+            }
+            if (mask & (uint8_t)(1u << ((unsigned)value - 1))) {
+                return kind_error(ctx, "contact %ld twice", (long)value);
+            }
+            mask |= (uint8_t)(1u << ((unsigned)value - 1));
+        }
+        kind_pop(ctx);
+        info->state_mask[k++] = mask;
+    }
+    info->states = (unsigned)k;
+    info->rest = 1;
+    if (rest != NULL) {
+        double value = cJSON_IsNumber(rest) ? rest->valuedouble : 0;
+
+        if (!cJSON_IsNumber(rest) || value != (double)(long)value || value < 1 ||
+            value > (double)info->states) {
+            return kind_error(ctx, "\"rest\" must be 1 … %u", info->states);
+        }
+        info->rest = (unsigned)value;
+    }
+    return 0;
+}
+
 static void *switch_load_device(KindContext *ctx, const cJSON *json) {
     SwitchDevice *device = kind_alloc(ctx, sizeof(*device));
     const cJSON *contacts = kind_member(ctx, json, "contacts", 1);
@@ -148,6 +226,9 @@ static void *switch_load_device(KindContext *ctx, const cJSON *json) {
         kind_error(ctx, "\"normallyClosed\" needs \"momentary\"");
         return NULL;
     }
+    if (read_states(ctx, json, &device->info) != 0) {
+        return NULL;
+    }
     /* ratedVolts: the contacts' switching rating. */
     if (kind_volts(ctx, json, "ratedVolts", 1000, &device->info.rated_mv) != 0) {
         return NULL;
@@ -187,6 +268,15 @@ static void *switch_bind_pinout(KindContext *ctx, const void *raw, const PartPin
         kind_pop(ctx);
     }
     return bound;
+}
+
+int part_switch_state_contacts(const Part *part, unsigned state, uint32_t *mask) {
+    if (part == NULL || part->kind != PART_SWITCH || part->dip_switch->states == 0 || state < 1 ||
+        state > part->dip_switch->states) {
+        return 0;
+    }
+    *mask = part->dip_switch->state_mask[state - 1];
+    return 1;
 }
 
 int switch_contact_pins(const Part *part, unsigned position, size_t *a, size_t *b) {

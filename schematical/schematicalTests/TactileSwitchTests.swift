@@ -17,7 +17,7 @@ final class TactileSwitchTests: XCTestCase {
     }
 
     private func firstDip() throws -> CatalogPart {
-        try XCTUnwrap(drawerParts.filter { $0.kind == PART_SWITCH && !$0.isTactileSwitch }
+        try XCTUnwrap(drawerParts.filter { $0.kind == PART_SWITCH && !$0.isTactileSwitch && !$0.isSlideSwitch }
             .sorted { $0.name < $1.name }.first)
     }
 

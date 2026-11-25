@@ -33,10 +33,10 @@ The gate for the whole feature is in plan-58-A § Prerequisites. This letter add
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-58-A and plan-58-B are complete | `ls planning/completed/plan-58-A-* planning/completed/plan-58-B-* \| wc -l` → 2 | NOT MET until they land |
-| The `switch` kind accepts `"states"` | `grep -c '"states"' backend/src/models/switch.c` → ≥ 1 | NOT MET until B lands |
-| C&K's PDFs are placed | `ls datasheets/switch/slide/ck/*.pdf \| wc -l` → 13 (or fewer, when A skipped a PDF's rows) | NOT MET until A lands |
-| `Parts/switch.json` has no slide devices | `grep -c '"id": *"slide_' schematical/schematical/Parts/switch.json` → 0 | MET (2026-11-24) |
+| plan-58-A and plan-58-B are complete | `ls planning/completed/plan-58-A-* planning/completed/plan-58-B-* \| wc -l` → 2 | MET (2026-11-24, P-58: A df339161, B 4f8ba5a5 archived in the worktree) |
+| The `switch` kind accepts `"states"` | `grep -c '"states"' backend/src/models/switch.c` → ≥ 1 | MET (2026-11-24: 5) |
+| C&K's PDFs are placed | `ls datasheets/switch/slide/ck/*.pdf \| wc -l` → 13 (or fewer, when A skipped a PDF's rows) | MET (2026-11-24: 13) |
+| `Parts/switch.json` has no slide devices | `grep -c '"id": *"slide_' schematical/schematical/Parts/switch.json` → 0 | MET (2026-11-24; re-run at P-58 → 0) |
 
 If plan-58-A or plan-58-B is not complete, this plan cannot start, full stop.
 
@@ -201,56 +201,56 @@ with the same arguments changes nothing.
 
 ### Phase 1 — decide the pending rows
 
-- [ ] Read each C&K PDF's part-number key; write `planning/plan-58-data/schemes.tsv`
+- [x] Read each C&K PDF's part-number key (7 series have pending rows: 1000, L, S, V, TS, AYZ, SS); write `planning/plan-58-data/schemes.tsv`
       (C&K rows, § 4.1) and `census/scheme-check.py` with `--selftest`.
-- [ ] `python3 -I census/scheme-check.py --maker 'C&K'`; commit the new
+- [x] `python3 -I census/scheme-check.py --maker 'C&K'` → `C&K 105 add, 14 skip, 0 pending`; commit the new
       `candidates.tsv` and the skipped-parts section.
 
 Acceptance: no C&K row is `pending`; each `skip` reason is listed in
 `datasheets/skipped-parts.md`.
-  Check: `awk -F'\t' '$1=="C&K" && $18=="pending"' planning/plan-58-data/candidates.tsv \| wc -l` → 0 and `python3 -I planning/plan-58-data/census/scheme-check.py --selftest` → `ok` (est. 3 min).
-Commit: —
+  Check: `awk -F'\t' '$1=="C&K" && $18=="pending"' planning/plan-58-data/candidates.tsv \| wc -l` → 0 and `python3 -I planning/plan-58-data/census/scheme-check.py --selftest` → `ok` (est. 3 min). Measured: `0`, `ok`; `decide.py --verify-skipped` → exit 0.
+Commit: 04452919
 
 ### Phase 2 — footprints and specs
 
-- [ ] For each of C&K's (series, mounting, circuit) lines (51 at planning): read
+- [x] For each of C&K's (series, mounting, circuit) lines (58 spec rows for 105 `add` rows after Phase 1, `awk -F'\t' '$1=="C&K"' planning/plan-58-data/specs.tsv | wc -l` → 58; 58 footprints): read
       the PDF drawing (open the page; the layout is usually a drawing, not text),
       write the footprint (§ 4.3) as a ready object in
       `planning/plan-58-data/footprints-C.json` (`{"footprints":[…]}`) and its
       `specs.tsv` row (§ 4.2). Footprints shared by several lines are written once.
-- [ ] Write `census/specs-check.py` (with `--selftest`) and `census/fp-load.sh <footprints-X.json>`,
+- [x] Write `census/specs-check.py` (with `--selftest`; also `census/merge-specs.py`, `census/fp-merge.py`, `census/fp-render.py`) and `census/fp-load.sh <footprints-X.json>` (`58 new footprints: load ok`),
       then run both on `footprints-C.json`: `fp-load.sh` copies the tree's `Parts/` to a
       temp dir, appends the staged footprints, runs `footprint_check` there; the
       only failures allowed are `unused footprint` for exactly the staged ids, and
       there is no load error.
-- [ ] For every new footprint: a rendered image (the app's footprint renderer
+- [x] For every new footprint: a rendered image (`census/fp-render.py` from the JSON, see Corrections; the app's footprint renderer
       through the harness, as `scripts/harness/tactile-footprints.swift` does for the
       tactile ones) beside the datasheet page; read each pair and fix any mismatch.
 
 Acceptance: every C&K row has a spec whose footprint is staged and has its
 pads; the staged footprints load; each image matches its drawing.
-  Check: `python3 -I planning/plan-58-data/census/specs-check.py --maker 'C&K' && planning/plan-58-data/census/fp-load.sh planning/plan-58-data/footprints-C.json` → `specs ok`, then only `unused footprint` lines for the staged ids and `load ok` (est. 8 min).
-Commit: —
+  Check: `python3 -I planning/plan-58-data/census/specs-check.py --maker 'C&K' && planning/plan-58-data/census/fp-load.sh planning/plan-58-data/footprints-C.json` → `specs ok`, then only `unused footprint` lines for the staged ids and `load ok` (est. 8 min). Measured: `specs ok (105 rows, 58 specs)` and `58 new footprints: load ok`.
+Commit: ab839757
 
 ### Phase 3 — generator and parts
 
-- [ ] `planning/plan-58-data/gen-parts.py` (§ 4.4) with `--selftest` (a three-row
+- [x] `planning/plan-58-data/gen-parts.py` (§ 4.4) with `--selftest` (15 `ok` lines) (a three-row
       inline `candidates.tsv`/`specs.tsv`: one device per distinct key, pin
       names, the `slide_` region placement before `tact_`, the footprint move, idempotence, each refusal).
-- [ ] `python3 -I planning/plan-58-data/gen-parts.py --maker 'C&K'` writes the
+- [x] `python3 -I planning/plan-58-data/gen-parts.py --maker 'C&K'` → `24 slide devices, 105 slide parts written; 13 datasheets.json entries and 58 footprints added`; second run `no changes`; writes the
       devices, parts and `datasheets.json` entries.
-- [ ] Regenerate the goldens (`listing_check --print > parts.txt`, `trace_check --print > traces.txt`,
-      `footprint_check --print > footprints.txt`) and review: only added lines, in each file.
-- [ ] `backend/tests/slide_test.c`: add a library pass that loads the real
+- [x] Regenerate the goldens (`git diff --stat backend/tests/golden` → `footprints.txt 58 +`, `parts.txt 105 +`, `traces.txt 105 +`, no line removed; `listing_check --print > parts.txt`, `trace_check --print > traces.txt`,
+      `footprint_check --print > footprints.txt`) and review: only added lines, in each file).
+- [x] `backend/tests/slide_test.c` (`case_library`: `105 library slide switches checked`): add a library pass that loads the real
       library and checks, for every device whose `id` starts `slide_`: 2–3 states,
       `rest` in range, contacts and pins as plan-58-B § 4.3 says for its circuit,
       each part's footprint has the pinout's pads (so a generator slip fails a test).
-- [ ] `node scripts/check-datasheets.js --host www.littelfuse.com` → exit 0.
+- [x] `node scripts/check-datasheets.js --host www.littelfuse.com` → `68 of 68 URLs serve a PDF; 0 failed.`, exit 0.
 
 Acceptance: `grep -c 'states=' backend/tests/golden/parts.txt` equals the number
 of C&K `add` rows; the generator run is idempotent; `ctest` passes.
-  Check: `python3 -I planning/plan-58-data/gen-parts.py --selftest && python3 -I planning/plan-58-data/gen-parts.py --maker 'C&K' --dry-run && cmake --build /tmp/logic-p58 -j8 && ctest --test-dir /tmp/logic-p58 -j8 -R 'slide_test|listing_check|trace_check|footprint_check|library_check'` → `ok`, no change, `100% tests passed` (est. 12 min).
-Commit: —
+  Check: `python3 -I planning/plan-58-data/gen-parts.py --selftest && python3 -I planning/plan-58-data/gen-parts.py --maker 'C&K' --dry-run && cmake --build /tmp/logic-p58 -j8 && ctest --test-dir /tmp/logic-p58 -j8 -R 'slide_test|listing_check|trace_check|footprint_check|library_check'` → `ok`, no change, `100% tests passed` (est. 12 min). Measured: `grep -c 'states=' backend/tests/golden/parts.txt` → 105; generator `--dry-run` → `no changes`; `ctest -j8` → `100% tests passed, 0 tests failed out of 62`.
+Commit: ebcbe22e
 
 ## Validation Plan
 
@@ -279,7 +279,13 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- **2026-11-24, Phase 3: `datasheets.json` entries are inserted in place, not re-sorted.** plan-27's generator re-sorted the whole file; it is only nearly sorted now (9 adjacent inversions: other plans append blocks), so that rewrote 700 lines. `gen-parts.py` inserts each new entry before the first existing entry with a greater id and leaves every other line alone (`git diff --stat` → `datasheets.json | 13 +`).
+- **2026-11-24, Phase 3: C&K's DigiKey drawing of the SS COMAX row is a datasheet id with an underscore** (`ss-12d07-vg_ga_pa`, from the placed file `SS-12D07-VG_GA_PA.pdf`); the loader accepts it (`ctest` green).
+- **2026-11-24, Phase 2: the footprints were drawn by five parallel sub-agents, one per group of series, each reading its PDFs' drawings as page images.** Groups: 1000; ES + GS; JS + AYZ; OS + SK + SS; L + S + V + TS. Each wrote a footprints file and a specs fragment (`planning/plan-58-data/work-C/`, removed after the merge), ran `specs-check.py --specs <fragment>` and rendered and read each image beside its drawing. The lead merged them (`census/merge-specs.py`: `58 fragment rows merged`, `--prune 'C&K'`: 4 empty skeleton rows of lines whose `pending` rows were skipped dropped) and looked at the rendered contact sheets for plausibility (pads, numbering, holes); not every footprint again against its PDF page. The sub-agents' open questions are in the footprints' `note` fields: top vs bottom view of drawings that do not say (taken as the component side), the body outline's position against the pads where the drawing gives no tie, SPDT / SPST / DPST footprints taken as subsets of the series' DPDT layout where the datasheet draws only the DPDT (L, S, V), and datasheet terminals renumbered to 1..n where they skip numbers (ES SPST / DPST, S201, TS02, V).
+- **2026-11-24, Phase 2: images are rendered from the JSON (`census/fp-render.py`, PIL), not by the app's renderer.** `scripts/harness/tactile-footprints.swift` lists parts by the app's `isTactileSwitch`; the slide classification is plan-58-G's, so the app-side look at every slide footprint is G's (and H's) runtime proof.
+- **2026-11-24, Phase 2: `fp-merge.py`'s overlap test is circle-aware.** plan-27's test compared bounding boxes, which flagged a 0.9 mm non-plated peg hole at (±3.4, 0) beside a 1.0 x 1.6 land at (±2.5, ±1.2) (`JS-SMDRA-3P-B`, `JS-SMDRA-6P`: the boxes overlap by 0.05 mm at the corner, the shapes do not: the corner is 0.57 mm from the hole's centre, its radius 0.45). A round pad with width = height is now a circle in the test.
+- **2026-11-24, Phase 1: 14 of the 65 pending rows do not fit their key and are `skip`.** `1101M2S3WBE2` (the 1000 series key lists terminations A, C, AV2, Z, V3, V4; `W` appears only as `W3` in a seal note); L series: the key (p.1) allows function L101/L102/L103/L202, actuator 01/02/11, mounting MS, termination 02, contact Q, so the right-angle `ML04` / `MA04` parts, the 03 / 12 actuators, L201 and the G contact do not fit (12 rows); `V80201MS02Q` (V key actuators 12, 02, 13, 14). The other 51 fit (1000: 27 of 28, L: 4 of 16, S: 6 of 6, V: 5 of 6, TS: 7 of 7, AYZ: 1, SS: 1). `schemes.tsv` regexes are written from the keys' positions and listed letters only; the 1000 series' S2 / S1 actuators are tied to the 110X / 120X functions as the key's notes say.
+- **2026-11-24, Phase 1: the C&K `add` count is 105, not 119.** `add` after Phase 1 is the 54 verbatim rows plus 51 key-fitting rows; § 2's 119 counted the 14 skipped rows. Later checks use 105: `grep -c 'states=' backend/tests/golden/parts.txt` = 105 after Phase 3.
 
 ## Summary
 
