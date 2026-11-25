@@ -263,7 +263,7 @@ Commit: f5af17b5
 Acceptance: each rule fires on its case and not on its near miss; the example runs.
   Result (2026-11-25): `ErcDrawingChecksTests` 13 tests, 0 failures; the `AFU` fixture (`Fixture.open("AFU")`): 21 violations in 0.01 s: pin_not_driven 17, isolated_pin_label 4, no duplicate_reference.
   Check: `xcodebuild test … -only-testing:schematicalTests/ErcDrawingChecksTests -only-testing:schematicalTests/ErcPinChecksTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 8 min).
-Commit: BATCH3
+Commit: 3055f601
 
 ## Validation Plan
 
