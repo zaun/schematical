@@ -41,7 +41,7 @@ import SwiftUI
 ///   edits its words.
 ///
 /// Clicking a DIP switch lever flips that position, with the Pointer tool or
-/// in play mode. A press that drags moves the part (or pans) instead.
+/// in play mode; clicking a slide switch moves its knob to the next position. A press that drags moves the part (or pans) instead.
 ///
 /// Parts dragged from the drawer are dropped here and centred on the drop point.
 /// The schematic is drawn in world coordinates and scaled by the viewport's zoom.
@@ -867,6 +867,14 @@ struct SchematicCanvasView: View {
     /// document and, in play mode, in the running simulation. A position the
     /// document refuses to turn ON never reaches the simulation.
     private func toggleSwitchLever(at point: CGPoint) {
+        // A slide switch moves its knob to the next position on a click
+        // anywhere on its body (plan-58-G).
+        if let chip = document.chip(at: point), let next = chip.nextSlidePosition {
+            if let state = document.setSlideState(chip.id, to: next) {
+                simulation.setSlide(chip.id, state: state)
+            }
+            return
+        }
         guard let chip = document.chip(at: point),
               let position = chip.switchPosition(at: point),
               let isOn = document.toggleSwitch(chip.id, position: position) else { return }

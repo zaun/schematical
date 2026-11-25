@@ -222,17 +222,17 @@ Acceptance: the catalog and file tests pass; the three existing switch test
 classes still pass.
   Check: `$XC test -only-testing:schematicalTests/SlideSwitchTests -only-testing:schematicalTests/TactileSwitchTests -only-testing:schematicalTests/PlaySwitchResetTests -only-testing:schematicalTests/PowerSwitchTests` → `** TEST SUCCEEDED **` (est. 12 min: build plus four small classes).
 Measured: 2026-11-24, `** TEST SUCCEEDED **`: SlideSwitchTests 12 tests, TactileSwitchTests 11, PlaySwitchResetTests 1, PowerSwitchTests 7 (31 tests, 0 failures).
-Commit: —
+Commit: 25219bb2
 
 ### Phase 2 — symbol, click, simulation
 
-- [ ] `Canvas/SlideSwitchSymbolView.swift` (§ 4.4) for the four circuits, and its
+- [x] `Canvas/SlideSwitchSymbolView.swift` (§ 4.4) for the four circuits, and its
       cases in `SchematicExportScene.swift`, `ReferenceLabel.swift`, the canvas'
       hit-testing and drawing switch (`SchematicCanvasView.swift:1193` and the
       other places of the measured list).
-- [ ] `SchematicModel.setSlideState` and the click handling (§ 4.3);
+- [x] `SchematicModel.setSlideState` and the click handling (§ 4.3);
       `Simulation.setSlide` and the netlist start state; `restoreSwitches` covers it.
-- [ ] Tests (`SlideSwitchTests.swift`): `setSlideState` flips `switchesOn` and
+- [x] Tests (`SlideSwitchTests.swift`): `setSlideState` flips `switchesOn` and
       `slidePosition`, the ping-pong order for three positions, a refused move
       (3 V-rated slide switch on a 5 V net: the message and no change), undo restores,
       the simulation (SPDT between 5 V and two `GENERIC-LED`s: LED 1 lit, LED 2 lit
@@ -241,6 +241,11 @@ Commit: —
 Acceptance: the tests above pass; the symbols draw in every position of the four circuits
 (SPST on/off, SPDT 1/2 and 1/2/3, DPST on/off, DPDT 1/2 and 1/2/3) in the harness images.
   Check: `$XC test -only-testing:schematicalTests/SlideSwitchTests -only-testing:schematicalTests/DrawerPerformanceTests` → `** TEST SUCCEEDED **` (est. 12 min).
+Measured: 2026-11-24, `** TEST SUCCEEDED **`: SlideSwitchTests 22 tests, DrawerPerformanceTests 7 (29 tests, 0 failures). The harness
+(`scripts/harness/slide-switch.swift`, committed in Phase 3) printed `ok` for all 8 checks; its images
+`/tmp/p58g-gallery-1.png` (SPST On/Off, SPDT On-On 1/2, SPDT On-Off-On 1/2/3) and `/tmp/p58g-gallery-2.png`
+(DPST On/Off, DPDT On-On 1/2, DPDT On-Off-On 1/2/3) were read: the blade, the green on a closed pole, the dashed link of
+the two poles and the knob are right in every position, and the pins sit where § 4.4 puts them.
 Commit: —
 
 ### Phase 3 — automation, BOM, docs, harness
@@ -305,6 +310,25 @@ Commit: —
   also says `!isSlideSwitch` (one line; no assertion changed). `PlaySwitchResetTests`
   and `TestSupport.firstDip` already require `count >= 2`, which a slide part
   (count nil) never has.
+- **Phase 2 — no 3 V-rated slide switch exists in the library** (ratings are
+  5, 6, 12, 15, 20, 24, 28, 30, 125 V; the lowest is `JS102000SAQN`, 5 V). The
+  refusal test (`testRefusedMove`, harness check 6) uses that part with a net above
+  its rating instead: 12 V → the C pin of a 28 V switch (`1101M2S3CQE2`), its B
+  pin wired to the B pin of the 5 V part. Moving the 28 V switch to position 2
+  would join 12 V to the 5 V part, and is refused with `Can't turn on: S2 pin 3
+  (B) gets 12 V; JS102000SAQN is rated 5 V.`; a single 5 V-rated switch cannot be
+  tested alone because any pin on a net above its rating is refused when wired.
+- **Phase 2 — the simulation start uses `circuit_set_switch_state`.** The
+  backend's new circuit starts a slide switch in its `rest` position, and the
+  per-contact starts only close contacts, so a switch drawn in another position
+  would keep its rest contact closed. `SchematicNetlist` gains `slideStates`
+  (the part index and knob position of each slide switch); `build` calls
+  `circuit_set_switch_state` for them and `positionCounts` is 0 for a slide
+  switch (the contacts are `switchesOn`, for the voltage check). Test
+  `testSimulation` starts a run in position 2 to prove it.
+- **Phase 2 — the BoardPreview look.** A slide part would have drawn as a DIP
+  package (`PartLook` read `PART_SWITCH` as `.dipSwitch(positions:)`); it is now
+  `.block(height: 5)`.
 
 ## Summary
 

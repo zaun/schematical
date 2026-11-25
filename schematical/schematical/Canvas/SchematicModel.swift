@@ -5166,6 +5166,39 @@ final class SchematicDocument {
         }
     }
 
+    /// Moves a slide switch's knob to position `state` (1-based): its contacts
+    /// become exactly those the position closes. Returns the position, or nil
+    /// when the chip is not a slide switch, has no such position, or the move
+    /// would close a contact the voltage check refuses (the knob stays and
+    /// `editorMessage` says why). Outside play mode a recorded edit ("Move
+    /// Switch"); in play mode an input, put back by `restoreSwitches`.
+    @discardableResult
+    func setSlideState(_ id: UUID, to state: Int) -> Int? {
+        return recordEdit(.schematic, "Move Switch") { () -> Int? in
+            guard let index = chips.firstIndex(where: { $0.id == id }),
+                  let slide = chips[index].part.slideStates,
+                  (1...slide.positions).contains(state) else { return nil }
+            let contacts = chips[index].part.slideContacts
+            let closed = PlacedChip.contacts(mask: slide.masks[state - 1], count: contacts)
+            if closed.indices.contains(where: { closed[$0] && !chips[index].switchesOn[$0] }), let library {
+                var candidate = chips
+                candidate[index].switchesOn = closed
+                if let issue = VoltageCheck.firstNew(before: chips, wires, after: candidate, wires,
+                                                     buses: buses, labels: netLabels,
+                                                     known: currentVoltageIssues(library), library: library) {
+                    editorMessage = VoltageCheck.message(issue, chips: chips, edit: .turnOn)
+                    return nil
+                }
+            }
+            editorMessage = nil
+            if let before = chips[index].slidePosition, before != state {
+                chips[index].slideDirection = state > before ? 1 : -1
+            }
+            chips[index].switchesOn = closed
+            return state
+        }
+    }
+
     // MARK: Pins
 
     /// Where a wire leaves or enters a pin: the end of its pin stub.

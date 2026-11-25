@@ -77,5 +77,97 @@ struct SlideSwitchSymbolView: View {
                 )
             }
         }
+
+        guard let slide = chip.part.slideStates else { return }
+        let circuit = slide.circuit
+        let poles = circuit.hasPrefix("D") ? 2 : 1
+        let throwing = circuit.hasSuffix("DT")
+        let left = box.minX + 16, right = box.maxX - 16
+        func slot(_ base: String, _ pole: Int) -> ChipLayout.PinSlot? {
+            let name = poles == 1 ? base : "\(base)\(pole + 1)"
+            return layout.slots.first { $0.pin.name == name }
+        }
+        let on = chip.switchesOn
+        /// How far along each blade the dashed linkage joins them.
+        let linkFraction: CGFloat = 0.55
+
+        var linkPoints: [CGPoint] = []
+        for pole in 0..<poles {
+            // The pivot (the common terminal, or `A` on a one-throw pole) and its throws.
+            let pivotSlot = throwing ? slot("C", pole) : slot("A", pole)
+            let throwSlots = throwing ? [slot("A", pole), slot("B", pole)] : [slot("B", pole)]
+            guard let pivotSlot, throwSlots.allSatisfy({ $0 != nil }) else { continue }
+            let pivot = CGPoint(x: left, y: pivotSlot.centerY)
+            let contacts = throwSlots.compactMap { $0 }.map { CGPoint(x: right, y: $0.centerY) }
+            let firstContact = throwing ? 2 * pole : pole
+            let closed = contacts.indices.first { index in
+                on.indices.contains(firstContact + index) && on[firstContact + index]
+            }
+
+            // Leads from the pins to the pivot and the throws, and the dots.
+            var leads = Path()
+            leads.move(to: CGPoint(x: box.minX, y: pivot.y))
+            leads.addLine(to: pivot)
+            for contact in contacts {
+                leads.move(to: contact)
+                leads.addLine(to: CGPoint(x: box.maxX, y: contact.y))
+            }
+            painter.stroke(leads, with: outline.opacity(0.6), lineWidth: 1)
+            for point in [pivot] + contacts {
+                painter.fill(Path(ellipseIn: CGRect(x: point.x - 2.5, y: point.y - 2.5, width: 5, height: 5)),
+                             with: outline)
+            }
+
+            // The blade: onto the connected throw; else half way (a one-throw
+            // pole lifts it off its terminal).
+            let tip: CGPoint
+            if let closed {
+                tip = contacts[closed]
+            } else if throwing {
+                tip = CGPoint(x: pivot.x + (right - left) * 0.6, y: pivot.y)
+            } else {
+                tip = CGPoint(x: right - 8, y: pivot.y - 9)
+            }
+            var blade = Path()
+            blade.move(to: pivot)
+            blade.addLine(to: tip)
+            if closed != nil {
+                painter.stroke(blade, with: .switchOn, lineWidth: 5)
+            }
+            painter.stroke(blade, with: outline, lineWidth: 2)
+            linkPoints.append(CGPoint(x: pivot.x + (tip.x - pivot.x) * linkFraction,
+                                      y: pivot.y + (tip.y - pivot.y) * linkFraction))
+        }
+
+        // The mechanical link between the two poles' blades.
+        if linkPoints.count == 2 {
+            var link = Path()
+            link.move(to: linkPoints[0])
+            link.addLine(to: linkPoints[1])
+            painter.stroke(link, with: outline.opacity(0.6),
+                           style: StrokeStyle(lineWidth: 1, dash: [3, 2]))
+        }
+
+        // The knob's slot, a dot for each position, and the knob at the current one.
+        let slotY = box.maxY - ChipLayout.slideKnobStrip / 2
+        let track = CGRect(x: left, y: slotY - 4, width: right - left, height: 8)
+        painter.fill(Path(roundedRect: track, cornerRadius: 4), with: .paper)
+        painter.stroke(Path(roundedRect: track, cornerRadius: 4), with: outline.opacity(0.6), lineWidth: 1)
+        let knobSize = CGSize(width: 16, height: 12)
+        func knobX(_ position: Int) -> CGFloat {
+            let steps = max(slide.positions - 1, 1)
+            return left + knobSize.width / 2 + (right - left - knobSize.width) * CGFloat(position - 1) / CGFloat(steps)
+        }
+        for position in 1...slide.positions {
+            painter.fill(Path(ellipseIn: CGRect(x: knobX(position) - 1.5, y: slotY - 1.5, width: 3, height: 3)),
+                         with: outline.opacity(0.6))
+        }
+        if let position = chip.slidePosition {
+            let knob = CGRect(x: knobX(position) - knobSize.width / 2, y: slotY - knobSize.height / 2,
+                              width: knobSize.width, height: knobSize.height)
+            let connected = on.contains(true)
+            painter.fill(Path(roundedRect: knob, cornerRadius: 2), with: connected ? .knobOn : outline)
+            painter.stroke(Path(roundedRect: knob, cornerRadius: 2), with: outline, lineWidth: 1)
+        }
     }
 }

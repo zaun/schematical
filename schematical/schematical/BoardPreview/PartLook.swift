@@ -102,6 +102,8 @@ struct PartLook {
             return .nixie(endView: part.dekatron?.view == "end", tint: ledTint(part.dekatron?.color ?? "Orange"))
         case PART_SWITCH:
             if part.isTactileSwitch { return .tactile }
+            // A slide switch is a metal housing, 5 mm tall (plan-58-G).
+            if part.isSlideSwitch { return .block(height: 5) }
             return .dipSwitch(positions: max(1, chip.switchesOn.count))
         case PART_LED:
             let tint = ledTint(chip.color ?? "Red")
