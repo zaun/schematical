@@ -155,7 +155,7 @@ extension AutomationTools {
             summary: "PCB: add text at x,y mm (its top-left), on the silkscreen (default) or document layer.",
             properties: [
                 "text": Schema.string("The words"), "x": Schema.number("mm"), "y": Schema.number("mm"),
-                "size": Schema.integer("Font size in mil (10–1000, default 50)"),
+                "size": Schema.integer("Font size in mil (10–1000, default 60)"),
                 "layer": Schema.string("silkscreen or document", options: TextLayer.allCases.map(\.rawValue)),
                 "side": Schema.string("top or bottom", options: ["top", "bottom"]),
                 "rotation": Schema.integer("0, 90, 180, 270"),

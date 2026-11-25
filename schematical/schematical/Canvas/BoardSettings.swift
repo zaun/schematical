@@ -420,7 +420,7 @@ nonisolated struct BoardText: Identifiable, Hashable, Sendable {
     var locked = false
 
     static let sizeRange = 10...1000
-    static let defaultSize = 50
+    static let defaultSize = 60
 
     /// The font size in mm (1 mil = 0.0254 mm).
     var sizeMM: Double { Double(size) * 0.0254 }

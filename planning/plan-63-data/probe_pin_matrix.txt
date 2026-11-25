@@ -1,0 +1,57 @@
+type counts: {'endpoint_off_grid': 232, 'lib_symbol_issues': 168, 'no_connect_connected': 13, 'pin_not_connected': 20, 'pin_not_driven': 7, 'pin_to_pin': 24, 'power_pin_not_driven': 12, 'wire_dangling': 1}
+row/col order: ['input', 'output', 'bidirectional', 'tri_state', 'passive', 'free', 'unspecified', 'power_in', 'power_out', 'open_collector', 'open_emitter', 'no_connect']
+input           [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]
+output          [0, 2, 0, 1, 0, 0, 1, 0, 2, 2, 2, 0]
+bidirectional   [0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0]
+tri_state       [0, 1, 0, 0, 0, 0, 1, 1, 2, 1, 1, 0]
+passive         [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]
+free            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+unspecified     [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0]
+power_in        [0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0]
+power_out       [0, 2, 1, 2, 0, 0, 1, 0, 2, 2, 2, 0]
+open_collector  [0, 2, 0, 1, 0, 0, 1, 0, 2, 0, 0, 0]
+open_emitter    [0, 2, 1, 1, 0, 0, 1, 0, 2, 0, 0, 0]
+no_connect      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+per pair (net of 2 pins): rules other than pin_to_pin
+  input + input: {'pin_not_driven': 'error'}
+  input + free: {'pin_not_driven': 'error'}
+  input + unspecified: {'pin_not_driven': 'error'}
+  input + power_in: {'power_pin_not_driven': 'error'}
+  input + open_collector: {'pin_not_driven': 'error'}
+  input + open_emitter: {'pin_not_driven': 'error'}
+  input + no_connect: {'pin_not_connected': 'error', 'pin_not_driven': 'error', 'no_connect_connected': 'warning'}
+  output + power_in: {'power_pin_not_driven': 'error'}
+  output + no_connect: {'pin_not_connected': 'error', 'no_connect_connected': 'warning'}
+  bidirectional + power_in: {'power_pin_not_driven': 'error'}
+  bidirectional + no_connect: {'pin_not_connected': 'error', 'no_connect_connected': 'warning'}
+  tri_state + power_in: {'power_pin_not_driven': 'error'}
+  tri_state + no_connect: {'pin_not_connected': 'error', 'no_connect_connected': 'warning'}
+  passive + power_in: {'power_pin_not_driven': 'error'}
+  passive + no_connect: {'pin_not_connected': 'error', 'no_connect_connected': 'warning'}
+  free + power_in: {'power_pin_not_driven': 'error'}
+  free + no_connect: {'no_connect_connected': 'warning'}
+  unspecified + power_in: {'power_pin_not_driven': 'error'}
+  unspecified + no_connect: {'pin_not_connected': 'error', 'no_connect_connected': 'warning'}
+  power_in + power_in: {'power_pin_not_driven': 'error'}
+  power_in + open_collector: {'power_pin_not_driven': 'error'}
+  power_in + open_emitter: {'power_pin_not_driven': 'error'}
+  power_in + no_connect: {'pin_not_connected': 'error', 'power_pin_not_driven': 'error', 'no_connect_connected': 'warning'}
+  power_out + no_connect: {'pin_not_connected': 'error', 'no_connect_connected': 'warning'}
+  open_collector + no_connect: {'pin_not_connected': 'error', 'no_connect_connected': 'warning'}
+  open_emitter + no_connect: {'pin_not_connected': 'error', 'no_connect_connected': 'warning'}
+  no_connect + no_connect: {'wire_dangling': 'error', 'no_connect_connected': 'warning'}
+
+per single pin, no wire:
+  input: {'pin_not_connected': 'error', 'pin_not_driven': 'error'}
+  output: {'pin_not_connected': 'error'}
+  bidirectional: {'pin_not_connected': 'error'}
+  tri_state: {'pin_not_connected': 'error'}
+  passive: {'pin_not_connected': 'error'}
+  free: {}
+  unspecified: {'pin_not_connected': 'error'}
+  power_in: {'pin_not_connected': 'error', 'power_pin_not_driven': 'error'}
+  power_out: {'pin_not_connected': 'error'}
+  open_collector: {'pin_not_connected': 'error'}
+  open_emitter: {'pin_not_connected': 'error'}
+  no_connect: {}

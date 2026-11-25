@@ -206,7 +206,7 @@ A missing key takes its default. A text:
 | `id`       | UUID    | Unique within the file, across parts, junctions, wires and texts.    |
 | `text`     | string  | The words; may hold line breaks (`\n`). Never empty.                 |
 | `x`, `y`   | number  | mm: the text's top-left at rotation 0, which it rotates about. Snapped to the 0.635 mm grid on open. |
-| `size`     | integer | Font size in mil (1/1000 inch), 10 to 1000. Default 50.             |
+| `size`     | integer | Font size in mil (1/1000 inch), 10 to 1000. Default 60.             |
 | `layer`    | string  | `"silkscreen"` (default) or `"document"`.                           |
 | `rotation` | integer | 0 (default), 90, 180 or 270 degrees clockwise.                      |
 | `side`     | string  | `"top"` (default) or `"bottom"`. A bottom text is drawn mirrored inside its own box. Always written; not allowed on a 1-layer board. |

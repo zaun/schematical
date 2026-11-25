@@ -1,0 +1,40 @@
+wire, both ends free:
+    [('unconnected_wire_endpoint', 'warning'), ('wire_dangling', 'error')]
+passive pin -> wire -> free end:
+    [('pin_not_connected', 'error'), ('unconnected_wire_endpoint', 'warning')]
+passive pin -> wire -> passive pin:
+    []
+label alone:
+    [('label_dangling', 'error')]
+label on a wire whose other end is free:
+    [('label_dangling', 'error'), ('unconnected_wire_endpoint', 'warning')]
+label on a wire between two passive pins:
+    []
+labels C1 and C2 on one wire (multiple names):
+    [('multiple_net_names', 'warning')]
+label on two wires meeting at its point:
+    []
+two nets labelled CLK and clk:
+    [('isolated_pin_label', 'warning'), ('similar_labels', 'warning')]
+power symbols +5V and +5v on separate nets:
+    [('pin_not_connected', 'error'), ('power_pin_not_driven', 'error'), ('similar_power', 'warning')]
+label 'gnd' on a net, power symbol GND on another:
+    [('isolated_pin_label', 'warning'), ('pin_not_connected', 'error'), ('power_pin_not_driven', 'error'), ('similar_label_and_power', 'warning')]
+No Connect on an unwired pin:
+    []
+No Connect on a wired pin:
+    [('no_connect_connected', 'warning')]
+No Connect alone:
+    [('no_connect_dangling', 'warning')]
+two parts both U1:
+    [('pin_not_connected', 'error')]
+part U? (unannotated):
+    [('pin_not_connected', 'error')]
+wire T-junction without a junction dot:
+    [('pin_not_connected', 'error'), ('unconnected_wire_endpoint', 'warning')]
+two same-name labels J, each on a free-ended wire, no pins:
+    [('label_dangling', 'error'), ('unconnected_wire_endpoint', 'warning')]
+two same-name labels K alone, no wires, no pins:
+    [('label_dangling', 'error')]
+two labels L1 and L2 joined by one wire, no pins:
+    [('label_dangling', 'error'), ('multiple_net_names', 'warning')]
