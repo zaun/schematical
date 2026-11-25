@@ -1,0 +1,10 @@
+mpn	verdict	reason	why
+LT1055S8#TRPBF	add		textscan `dead`: the OBSOLETE PACKAGE heading after the order table's SO-8 rows belongs to the TO-5 rows below it, not to the SO-8 part
+LT1055CN8#PBF	add		textscan `dead`: same document and heading; the PDIP-8 row is not under it
+LM2904WHYST	add		textscan `dead`: revision-history line `Added order code LM2904WHYST and removed obsolete order code LM2904WHD`; the part is added there
+TS321AIYLT	add		textscan `dead`: revision-history line `Removed obsolete order codes (TS321ID …)`; TS321AIYLT is not one of them
+ICM7555ESA+	add		the ordering table prints ICM7555ESA; the document's package-code note says a "+" in the package code is RoHS status
+ICM7555ISA+	add		same
+ICM7555IPA+	add		same
+ICM7556ISD+	add		same
+ICM7556IPD+	add		same
