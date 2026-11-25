@@ -275,11 +275,11 @@ Acceptance: all `RoutingChainTests` and `RoutingProblemTests` pass.
   52 s the fixtures took in plan-38).
   Measured: `RoutingChainTests` 14 tests, 0 failures (78.4 s), `RoutingProblemTests` 11, 0 failures; with the anchors:
   `Executed 20 tests, with 0 failures`, `** TEST SUCCEEDED **`.
-Commit: — (recorded in the next commit)
+Commit: 9a2ef872
 
 ## Validation Plan
 
-- Tests: `RoutingChainTests` (new, 8), `RoutingProblemTests` (+1). Negative
+- Tests: `RoutingChainTests` (new, 14), `RoutingProblemTests` (+1). Negative
   cases: every fixed-chain rule has a test.
 - Coverage check: the new file is in the `schematical` target, so the tests
   exercise it; the partition test runs it over a routed fixture.
