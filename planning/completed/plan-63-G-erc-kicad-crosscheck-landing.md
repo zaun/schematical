@@ -171,7 +171,7 @@ Commit: 3cd00f8e
 
 ### Phase 4 — Landing
 
-- [~] `planning/todo.md`: tick `Electrical rule check (ERC)` as `[x] … (plan-63)`: done in the main checkout after the merge, staging only that line (the owner's other uncommitted edits are in that file there, Corrections 6). Remaining: that one commit.
+- [x] `planning/todo.md`: ticked `Electrical rule check (ERC)` in the main checkout after the merge, staging only that line (`git update-index` with the committed file plus the tick: the owner's other uncommitted edits in that file stay uncommitted, Corrections 6): d2511e6e.
 - [x] The README of `planning/plan-63-data` gets a "Results" line (the comparison table).
 - [x] Archive each sub-plan not yet archived to `planning/completed/` (`git mv`; each is archived as it completes): A–F were archived as they landed, this one with this commit.
 - [x] The final gate below.
