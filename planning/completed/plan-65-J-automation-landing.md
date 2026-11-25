@@ -112,7 +112,7 @@ Commit: 97aa521a
 - [x] Record in this phase's Commit line: what was driven, the pictures' findings in one line each, and any fix made (a fix is its own commit with a test).
 
 Acceptance: the pictures show what the tests assert; any defect found is fixed with a test before the landing gate.
-  **Acceptance as met (amended 2026-11-25, after three attempts at the live click path failed; see Corrections).** The original text above asked for the real window and the real File menu. That could not be
+  **The acceptance above was NOT met as written (the live click path was never driven). What was checked instead is recorded here as a substitute, not as the acceptance being met (2026-11-25, after three failed attempts; see Corrections).** The original text asked for the real window and the real File menu. That could not be
   done here: the owner's app holds the automation port and the same bundle id, a second copy cannot be made frontmost, and a test that attaches and ends a sheet hangs the test host. The acceptance that was checked instead, each
   with its output recorded in this file and in Corrections: (1) File ▸ Import ▸ `DXF…` exists, before Export: `CutoutPicturesTests.testTheFileMenuHasImportDXF` (the test host's main menu) and System Events on a running copy of the merged build (its File menu lists `Import` between `Revert To` and `Export`);
   (2) everything behind the click: `DXFImportTests` (14 tests: state, placement, both modes, units, offset, one exactly-undoable step, refusals and their messages, the sheet rendered, `loadDXF` on a file, a binary file and a non-DXF file);
