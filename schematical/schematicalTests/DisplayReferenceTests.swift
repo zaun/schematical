@@ -44,9 +44,9 @@ final class DisplayReferenceTests: XCTestCase {
         let hidden = try XCTUnwrap(doc.chips.first)
         XCTAssertFalse(hidden.showsReference)
         XCTAssertNil(ReferenceLabel.anchor(for: hidden))
-        XCTAssertEqual(doc.undoName(on: .schematic), "Hide Reference")
+        XCTAssertEqual(doc.undoName, "Hide Reference")
 
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertTrue(doc.undo())
         XCTAssertTrue(try XCTUnwrap(doc.chips.first).showsReference)
     }
 

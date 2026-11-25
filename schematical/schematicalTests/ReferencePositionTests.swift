@@ -128,14 +128,14 @@ final class ReferencePositionTests: XCTestCase {
         let c = try withPart()
         c.doc.moveReference(c.id, toCentre: p(210, 195))
         let moved = try chip(c.doc, c.id).board?.referenceOffset
-        XCTAssertEqual(c.doc.undoName(on: .pcb), "Move Reference")
+        XCTAssertEqual(c.doc.undoName, "Move Reference")
         c.doc.resetReference(c.id)
-        XCTAssertEqual(c.doc.undoName(on: .pcb), "Reset Reference")
-        XCTAssertTrue(c.doc.undo(on: .pcb))
+        XCTAssertEqual(c.doc.undoName, "Reset Reference")
+        XCTAssertTrue(c.doc.undo())
         XCTAssertEqual(try chip(c.doc, c.id).board?.referenceOffset, moved)
-        XCTAssertTrue(c.doc.undo(on: .pcb))
+        XCTAssertTrue(c.doc.undo())
         XCTAssertEqual(try chip(c.doc, c.id).board?.referenceOffset, .zero)
-        XCTAssertTrue(c.doc.redo(on: .pcb))
+        XCTAssertTrue(c.doc.redo())
         XCTAssertEqual(try chip(c.doc, c.id).board?.referenceOffset, moved)
     }
 

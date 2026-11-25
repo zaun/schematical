@@ -95,9 +95,9 @@ final class PourConnectivityTests: XCTestCase {
         try requireThroughHole(doc)
         _ = doc.addPour(rect: wholeBoard(doc), layer: .top)
         XCTAssertEqual(doc.ratsnest().count, 1)
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.ratsnest().count, 2)
-        XCTAssertTrue(doc.redo(on: .pcb))
+        XCTAssertTrue(doc.redo())
         XCTAssertEqual(doc.ratsnest().count, 1)
     }
 

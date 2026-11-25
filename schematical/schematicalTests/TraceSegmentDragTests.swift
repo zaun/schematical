@@ -113,8 +113,8 @@ final class TraceSegmentDragTests: XCTestCase {
         doc.settleTraceSegment(base)
         doc.endGesture()
         XCTAssertNotEqual(doc.traces.first?.points, before)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Move Segment")
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertEqual(doc.undoName, "Move Segment")
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.traces.first?.points, before)
     }
 

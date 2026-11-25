@@ -58,7 +58,7 @@ final class RoutingApplyTests: XCTestCase {
         let summary = doc.applyRouting(try handResult(problem, k: k, a: a), problem: problem)
         XCTAssertEqual(summary.addedTraces, 1)
         XCTAssertEqual(summary.addedVias, 1)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Autoroute")
+        XCTAssertEqual(doc.undoName, "Autoroute")
         let trace = try XCTUnwrap(doc.traces.first)
         XCTAssertTrue(trace.auto)
         XCTAssertEqual(trace.width, 20)
@@ -66,9 +66,9 @@ final class RoutingApplyTests: XCTestCase {
         XCTAssertEqual(doc.boardSelection.items, [.trace(trace.id), .via(doc.vias[0].id)])
         XCTAssertTrue(doc.ratsnest().isEmpty)
         let after = doc.state
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.state, before)
-        XCTAssertTrue(doc.redo(on: .pcb))
+        XCTAssertTrue(doc.redo())
         XCTAssertEqual(doc.state, after)
     }
 
@@ -111,10 +111,10 @@ final class RoutingApplyTests: XCTestCase {
 
     func testAnEmptyResultRecordsNothing() throws {
         let (doc, _, _, _) = try powerPair()
-        let name = doc.undoName(on: .pcb)
+        let name = doc.undoName
         let summary = doc.applyRouting(RoutingResult(), problem: problem(doc))
         XCTAssertEqual(summary.addedTraces, 0)
-        XCTAssertEqual(doc.undoName(on: .pcb), name)
+        XCTAssertEqual(doc.undoName, name)
     }
 
     /// AFU, routed (Balanced) and applied once.
@@ -141,9 +141,9 @@ final class RoutingApplyTests: XCTestCase {
         })
         let removed = doc.unroute(nets: [target.net], onlyAuto: true)
         XCTAssertGreaterThan(removed, 0)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Unroute")
+        XCTAssertEqual(doc.undoName, "Unroute")
         XCTAssertEqual(doc.ratsnest().count, 1, "a two-pad net's one connection")
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.ratsnest().count, 0)
 
         let total = doc.traces.count
@@ -152,7 +152,7 @@ final class RoutingApplyTests: XCTestCase {
         XCTAssertEqual(doc.traces.count, 0, "AFU had no traces before routing")
         XCTAssertEqual(doc.vias.count, 0)
         XCTAssertEqual(doc.ratsnest().count, 115)
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.traces.count, total)
     }
 
@@ -173,7 +173,7 @@ final class RoutingApplyTests: XCTestCase {
         XCTAssertEqual(doc.unroute(nets: [net], onlyAuto: false), 1, "the hand trace")
         XCTAssertFalse(doc.traces.contains { $0.id == hand })
         XCTAssertTrue(doc.traces.contains { $0.id == auto.id }, "locked copper survives every mode")
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertTrue(doc.traces.contains { $0.id == hand })
     }
 

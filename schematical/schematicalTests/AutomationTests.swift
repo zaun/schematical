@@ -674,7 +674,7 @@ final class AutomationTests: XCTestCase {
         XCTAssertEqual(doc.pours.first?.layer, .top)
         let bounds = doc.boardOutlineBounds
         XCTAssertEqual(doc.pours.first?.rect.width ?? 0, bounds?.width ?? -1, accuracy: doc.board.traceGrid)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Add Pour")
+        XCTAssertEqual(doc.undoName, "Add Pour")
         let board = await call("get_board", id)
         XCTAssertTrue(board.text.contains("POURS"), board.text)
         XCTAssertTrue(board.text.contains("net=ground"), board.text)
@@ -719,7 +719,7 @@ final class AutomationTests: XCTestCase {
         result = await call("delete", id, ["items": ["pour:" + pour, "keepout:" + keepout]])
         XCTAssertFalse(result.isError, result.text)
         XCTAssertTrue(doc.pours.isEmpty && doc.keepouts.isEmpty)
-        XCTAssertTrue(doc.undo(on: .schematic) || doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.pours.count + doc.keepouts.count, 2, "undo of the delete restores both")
     }
 }

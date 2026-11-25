@@ -15,7 +15,7 @@ final class BoardGridTests: XCTestCase {
         XCTAssertEqual(doc.board.traceGrid, 0.3175)
         doc.setBoardGrid(1.27)
         XCTAssertEqual(doc.board.traceGrid, 0.635)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Change Grid")
+        XCTAssertEqual(doc.undoName, "Change Grid")
     }
 
     func testGridClamps() {

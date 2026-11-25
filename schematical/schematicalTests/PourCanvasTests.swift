@@ -89,8 +89,8 @@ final class PourCanvasTests: XCTestCase {
         let edge = doc.pours[0].rect
         XCTAssertTrue(doc.deleteBoardItem(at: p(edge.minX, 25), tolerance: 0.5))
         XCTAssertTrue(doc.pours.isEmpty)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Delete")
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertEqual(doc.undoName, "Delete")
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.pours.map(\.id), [id])
         let keepout = doc.addKeepout(rect: r(60, 10, 5, 5))
         XCTAssertTrue(doc.deleteBoardItem(at: p(60, 12), tolerance: 0.5))
@@ -208,7 +208,7 @@ final class PourCanvasTests: XCTestCase {
         XCTAssertEqual(doc.pours[0].layer, .bottom)
         XCTAssertEqual(doc.pours[0].rect.width, 40, accuracy: doc.board.traceGrid)
         XCTAssertEqual(doc.pours[0].rect.height, 30, accuracy: doc.board.traceGrid)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Add Pour")
+        XCTAssertEqual(doc.undoName, "Add Pour")
         // Dragged up and to the left: the same rectangle.
         XCTAssertTrue(PCBCanvasView.finishRect(doc, kind: .pour, from: p(50, 40), to: p(10, 10), moved: 800, layer: .top))
         XCTAssertEqual(doc.pours[1].rect.origin.x, doc.pours[0].rect.origin.x, accuracy: 1e-9)
@@ -227,7 +227,7 @@ final class PourCanvasTests: XCTestCase {
         XCTAssertTrue(PCBCanvasView.finishRect(doc, kind: .keepout, from: p(10, 10), to: p(30, 25), moved: 500, layer: .top))
         XCTAssertEqual(doc.keepouts.count, 1)
         XCTAssertNil(doc.keepouts[0].layers)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Add Keep-out")
+        XCTAssertEqual(doc.undoName, "Add Keep-out")
     }
 
     // MARK: plan-52-F: resize handles
@@ -283,10 +283,10 @@ final class PourCanvasTests: XCTestCase {
         doc.beginGesture(.pcb)
         for x in [52, 55, 58, 60] as [CGFloat] { doc.resizePourItem(item, handle: .right, to: p(x, 25)) }
         doc.endGesture()
-        XCTAssertEqual(doc.undoName(on: .pcb), "Resize")
+        XCTAssertEqual(doc.undoName, "Resize")
         XCTAssertEqual(doc.pours[0].rect.maxX, BoardGrid.snap(60, spacing: doc.board.traceGrid), accuracy: 1e-9)
         XCTAssertEqual(doc.pours[0].rect.minX, original.minX)
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.pours[0].rect, original)
         let keepout = doc.addKeepout(rect: r(70, 10, 10, 10))
         doc.resizePourItem(.keepout(keepout), handle: .bottom, to: p(75, 30))

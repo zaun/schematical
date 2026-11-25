@@ -49,7 +49,7 @@ final class BoardCopperCacheTests: XCTestCase {
         assertFresh(doc, "via added")
 
         // Undone, one step at a time, back to the opened board.
-        while doc.undo(on: .pcb) { assertFresh(doc, "undone") }
+        while doc.undo() { assertFresh(doc, "undone") }
         XCTAssertEqual(doc.ratsnest().count, before)
     }
 

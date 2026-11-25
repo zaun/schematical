@@ -246,7 +246,7 @@ final class UserLibraryUpdateTests: XCTestCase {
         let chipB = try place(docB, v1, at: CGPoint(x: 300, y: 300))
         _ = try TestSupport.place(docC, "SN74HC00N", at: CGPoint(x: 100, y: 100))
         let chipsC = docC.chips.map(\.id)
-        XCTAssertNotNil(docA.undoName(on: .schematic))
+        XCTAssertNotNil(docA.undoName)
 
         let v2 = try store.updateUserLibraryPart(uuid: uuid, fileText: try genericText(uuid, "UP-GEN", pins: 3))
         XCTAssertEqual(v2.pins.count, 3)
@@ -271,14 +271,14 @@ final class UserLibraryUpdateTests: XCTestCase {
         XCTAssertEqual(loose.first?.isLoose, true)
         XCTAssertEqual(loose.first?.point, tip5)
         // The undo history ends at the update; each affected window's simulation was stopped once.
-        XCTAssertNil(docA.undoName(on: .schematic))
-        XCTAssertNil(docB.undoName(on: .schematic))
+        XCTAssertNil(docA.undoName)
+        XCTAssertNil(docB.undoName)
         XCTAssertEqual(stopsA.count, 1)
         XCTAssertEqual(stopsB.count, 1)
         // A document without the part is untouched.
         XCTAssertEqual(stopsC.count, 0)
         XCTAssertEqual(docC.chips.map(\.id), chipsC)
-        XCTAssertNotNil(docC.undoName(on: .schematic))
+        XCTAssertNotNil(docC.undoName)
     }
 
     func testTheUpdatedChipKeepsItsBoardPad1() throws {

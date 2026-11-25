@@ -90,14 +90,14 @@ final class SchematicRotateTests: XCTestCase {
 
         doc.rotateChip(led.id)
         XCTAssertEqual(turn(led.id), 90)
-        XCTAssertEqual(doc.undoName(on: .schematic), "Rotate")
+        XCTAssertEqual(doc.undoName, "Rotate")
         doc.rotateChip(led.id, counterclockwise: true)
         doc.rotateChip(led.id, counterclockwise: true)
         XCTAssertEqual(turn(led.id), 270)
         XCTAssertEqual(doc.wires.count, 1, "the wire stays")
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(turn(led.id), 0)
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(turn(led.id), 90)
 
         // A wire end follows its pin.
@@ -116,7 +116,7 @@ final class SchematicRotateTests: XCTestCase {
         doc.rotateChip(gate.id)
         doc.rotateChip(supply.id)
         XCTAssertEqual(doc.chips.map(\.rotation), [0, 0])
-        XCTAssertNotEqual(doc.undoName(on: .schematic), "Rotate")
+        XCTAssertNotEqual(doc.undoName, "Rotate")
         for symbol in [PartSymbol.block, .vcc, .ground, .pullUp, .pullDown, .transistor, .dipSwitch, .header] {
             XCTAssertFalse(symbol.canRotate, "\(symbol)")
         }

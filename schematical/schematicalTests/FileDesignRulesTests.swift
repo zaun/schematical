@@ -110,10 +110,10 @@ final class FileDesignRulesTests: XCTestCase {
         let doc = TestSupport.newDocument()
         let before = doc.board
         doc.setDesignRules(odd, manufacturer: .jlcpcb)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Change Design Rules")
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertEqual(doc.undoName, "Change Design Rules")
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.board, before)
-        XCTAssertTrue(doc.redo(on: .pcb))
+        XCTAssertTrue(doc.redo())
         XCTAssertEqual(doc.board.rules, odd)
     }
 

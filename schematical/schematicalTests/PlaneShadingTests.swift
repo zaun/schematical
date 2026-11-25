@@ -90,7 +90,7 @@ final class PlaneShadingTests: XCTestCase {
         XCTAssertEqual(doc.board.style(of: .inner(2)).clearance(rules: rules), 0.15)
 
         doc.setLayerClearance(.inner(2), 0.5)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Change Plane Clearance")
+        XCTAssertEqual(doc.undoName, "Change Plane Clearance")
         XCTAssertEqual(doc.board.style(of: .inner(2)).clearance(rules: rules), 0.5)
         XCTAssertEqual(doc.board.style(of: .inner(3)).clearance(rules: rules), 0.15, "each Plane its own")
         doc.setLayerClearance(.inner(2), 50)

@@ -199,7 +199,7 @@ final class DesignRuleCheckWizardTests: XCTestCase {
         try type("0.5", intoField: 1)
         XCTAssertEqual(doc.board.rules.minClearance, 0.5)
         XCTAssertEqual(doc.board.rulesTitle, "PCBWay (modified)")
-        XCTAssertEqual(doc.undoName(on: .pcb), "Change Design Rules")
+        XCTAssertEqual(doc.undoName, "Change Design Rules")
         snapshot("2-rules-changed")
 
         // Step 2: the results, under the changed rule.
@@ -214,7 +214,7 @@ final class DesignRuleCheckWizardTests: XCTestCase {
                       window.title + " / " + window.subtitle)
 
         // Undo puts the rule back and the list follows.
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         settle(1)
         XCTAssertEqual(doc.board.rules, .pcbway)
         snapshot("4-results-after-undo")
