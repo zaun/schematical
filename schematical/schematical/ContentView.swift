@@ -773,6 +773,8 @@ struct ContentView: View {
                 Button("Cancel", role: .cancel) { document.cancelPendingRemoval() }
             }
             .onChange(of: page) { _, newPage in
+                // The page is restored with the window (plan-61-C).
+                model.platformDocument?.pageDidChange()
                 // The simulation never runs on the PCB page. Coming back to
                 // the Schematic does not restart it.
                 if newPage == .pcb {

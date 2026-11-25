@@ -145,6 +145,36 @@ final class SchematicNSDocument: NSDocument {
     }
 }
 
+// MARK: - Restoration
+
+extension SchematicNSDocument {
+    private static let pageKey = "editorPage"
+
+    /// The system restores a document's window; the app adds the page
+    /// (Schematic or PCB) it showed.
+    override func encodeRestorableState(with coder: NSCoder) {
+        super.encodeRestorableState(with: coder)
+        coder.encode(model.page.rawValue as NSString, forKey: Self.pageKey)
+    }
+
+    /// The editor shows the model's page, so setting it here is enough,
+    /// before or after the window is on screen.
+    override func restoreState(with coder: NSCoder) {
+        super.restoreState(with: coder)
+        guard let raw = coder.decodeObject(of: NSString.self, forKey: Self.pageKey) as String?,
+              let page = EditorPage(rawValue: raw) else { return }
+        model.page = page
+    }
+
+    /// The editor changed page: the saved state is out of date.
+    func pageDidChange() {
+        invalidateRestorableState()
+        for controller in windowControllers {
+            controller.window?.invalidateRestorableState()
+        }
+    }
+}
+
 // MARK: - Printing
 
 extension SchematicNSDocument {

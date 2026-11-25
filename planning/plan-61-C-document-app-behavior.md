@@ -188,15 +188,15 @@ Commit: 03aadf24
 Acceptance: both tests pass.
   Check: `xcodebuild test … -only-testing:schematicalTests/SchematicNSDocumentTests -only-testing:schematicalTests/PartFileSaveOpenTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 5 min). Result, with the three export classes: `Executed 80 tests, with 1 test skipped and 0 failures`, `** TEST SUCCEEDED **`. The built app, read by pid through the Accessibility API: started with a `.schpart` file → `windows: ['p61-sample']` (the Part Editor on that file, no Untitled, no alert); already running with Untitled, then sent the file → `windows: ['p61-sample', 'Untitled']`.
 - [x] Added during execution (Corrections 4): `SchematicNSDocument.scheduleAutosaving()` does nothing in the app that hosts the unit tests; the tests no longer give a system document a file they did not write (`testEachExampleReadsAndWritesAsBefore` writes copies to a temporary folder; the three export tests set the model's URL); `testDocumentsDoNotAutosaveInTheTestHost`.
-Commit: —
+Commit: cf4b01cd
 
 ### Phase 5 — The restored page
 
-- [ ] `ContentView`'s page is initialized from `model.page` and writes back to it in its existing `onChange(of: page)`; the document's `encodeRestorableState(with:)` and `restoreState(with:)` carry it and `invalidateRestorableState()` is called on change.
-- [ ] Test: a document with `model.page = .pcb` encoded with an `NSKeyedArchiver` and restored into a second document gives `.pcb`.
+- [x] `ContentView`'s page is initialized from `model.page` and writes back to it in its existing `onChange(of: page)`; the document's `encodeRestorableState(with:)` and `restoreState(with:)` carry it and `invalidateRestorableState()` is called on change. Done: the editor's page *is* `model.page` (since phase 3, Corrections 2), so there is nothing to initialize or write back; `onChange(of: page)` calls the document's `pageDidChange()`, which invalidates the restorable state. `restoreState(with:)` sets the model's page, and the editor follows it whether or not its window is built yet.
+- [x] Test: a document with `model.page = .pcb` encoded with an `NSKeyedArchiver` and restored into a second document gives `.pcb`. Done: `testTheRestoredWindowShowsThePageItShowed` (both pages, and saved state with no page in it).
 
 Acceptance: the test passes.
-  Check: as phase 1 (est. 5 min).
+  Check: as phase 1 (est. 5 min). Result: `Executed 17 tests, with 1 test skipped and 0 failures`, `** TEST SUCCEEDED **`.
 Commit: —
 
 ## Validation Plan
@@ -205,7 +205,7 @@ Commit: —
 - Coverage check: each line of § 1 has a phase and each phase a test or a recorded check.
 - Runtime proof: phase 2's `osascript` check; `evidence/plan61-probes-H.txt` is the reference for the rest.
 - Doc sync: `docs/export.md`.
-- Final gate (once): the four classes above in one `xcodebuild test` → `** TEST SUCCEEDED **` (est. 7 min).
+- Final gate (once): the four classes above in one `xcodebuild test` → `** TEST SUCCEEDED **` (est. 7 min). Run 2026-11-24 with `DesignRuleCheckWizardTests` added and the app in front: `Executed 60 tests, with 0 failures`, none skipped, `** TEST SUCCEEDED **`.
 
 ## Decisions
 

@@ -538,4 +538,40 @@ final class SchematicNSDocumentTests: XCTestCase {
         XCTAssertFalse(document.hasUnautosavedChanges && document.autosavedContentsFileURL != nil)
         XCTAssertNil(document.autosavedContentsFileURL)
     }
+
+    // MARK: plan-61-C phase 5 — the restored page
+
+    /// What a document saves for restoration, read back into another one.
+    private func restore(from source: SchematicNSDocument, into target: SchematicNSDocument) throws {
+        let archiver = NSKeyedArchiver(requiringSecureCoding: true)
+        source.encodeRestorableState(with: archiver)
+        archiver.finishEncoding()
+        let unarchiver = try NSKeyedUnarchiver(forReadingFrom: archiver.encodedData)
+        unarchiver.requiresSecureCoding = true
+        target.restoreState(with: unarchiver)
+        unarchiver.finishDecoding()
+    }
+
+    func testTheRestoredWindowShowsThePageItShowed() throws {
+        let quit = newDocument()
+        quit.model.page = .pcb
+        let relaunched = newDocument()
+        XCTAssertEqual(relaunched.model.page, .schematic)
+        try restore(from: quit, into: relaunched)
+        XCTAssertEqual(relaunched.model.page, .pcb)
+
+        // And back: a window that showed the Schematic restores to it.
+        let other = newDocument()
+        other.model.page = .pcb
+        try restore(from: newDocument(), into: other)
+        XCTAssertEqual(other.model.page, .schematic)
+
+        // State saved with no page (an older build's) leaves the page alone.
+        let empty = NSKeyedArchiver(requiringSecureCoding: true)
+        empty.finishEncoding()
+        let unarchiver = try NSKeyedUnarchiver(forReadingFrom: empty.encodedData)
+        other.model.page = .pcb
+        other.restoreState(with: unarchiver)
+        XCTAssertEqual(other.model.page, .pcb)
+    }
 }
