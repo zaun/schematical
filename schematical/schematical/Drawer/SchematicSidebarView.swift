@@ -78,6 +78,9 @@ struct SchematicSidebarView: View {
                             LabeledContent(rows[index].label, value: rows[index].value)
                         }
                     }
+                    if simulation.isRunning, let sections = simulation.timerSections[chip.id], !sections.isEmpty {
+                        TimingSection(sections: sections)
+                    }
                     if let path = chip.part.datasheetMarkdown {
                         Section {
                             ShowDatasheetButton(target: MarkdownDatasheetTarget(
@@ -191,5 +194,34 @@ private struct NotePanel: View {
         document.editingNoteID = nil
         // After this pass, so the editor is on screen to take focus.
         DispatchQueue.main.async { isEditing = true }
+    }
+}
+
+/// A running 555 timer's state (plan-48-H): per timer section its mode and, for an astable
+/// section, the frequency, duty and times; for a one-shot, the pulse; for a section the
+/// circuit does not time, why.
+private struct TimingSection: View {
+    let sections: [TimerSection]
+
+    var body: some View {
+        ForEach(sections.indices, id: \.self) { index in
+            let section = sections[index]
+            Section(sections.count > 1 ? "Timing: Timer \(index + 1)" : "Timing") {
+                LabeledContent("Mode", value: TimerText.mode(section))
+                switch section.mode {
+                case TIMER_ASTABLE:
+                    LabeledContent("Frequency", value: TimerText.frequency(section))
+                    LabeledContent("Duty", value: TimerText.duty(section))
+                    LabeledContent("High", value: TimerText.duration(section.highPs))
+                    LabeledContent("Low", value: TimerText.duration(section.lowPs))
+                case TIMER_ONE_SHOT:
+                    LabeledContent("Pulse", value: TimerText.duration(section.highPs))
+                case TIMER_STOPPED:
+                    LabeledContent("Reason", value: TimerText.reason(section.reason))
+                default:
+                    EmptyView()
+                }
+            }
+        }
     }
 }

@@ -13,6 +13,9 @@ struct ChipBlockView: View {
     let isHovered: Bool
     /// Pins (`ChipPin.index`) with a wire on them: their numbers are not drawn.
     var connectedPins: Set<Int> = []
+    /// Why a running timer is not timing (plan-48-H): a warning mark at the block's top right
+    /// corner, with the reason as its tooltip. Nil draws no mark.
+    var timerWarning: String?
 
     var body: some View {
         let layout = chip.layout
@@ -24,6 +27,17 @@ struct ChipBlockView: View {
                        connectedPins: connectedPins)
         }
         .frame(width: layout.size.width + 2 * margin, height: layout.size.height)
+        .overlay(alignment: .topTrailing) {
+            if let reason = timerWarning {
+                Image(systemName: "exclamationmark.triangle.fill")
+                    .font(.system(size: 12))
+                    .foregroundStyle(.yellow)
+                    .padding(.top, 2)
+                    .padding(.trailing, margin + 2)
+                    .help(reason)
+                    .accessibilityLabel("Not timing: \(reason)")
+            }
+        }
     }
 
     /// Draws the chip, its top-left corner at the view's (0, 0).

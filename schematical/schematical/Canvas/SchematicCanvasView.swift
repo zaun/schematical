@@ -1131,7 +1131,9 @@ private struct SchematicPartsLayer: View {
                             chip: chip,
                             isSelected: document.isSelected(.chip(chip.id)),
                             isHovered: chip.id == hoveredChipID,
-                            connectedPins: connectedPins[chip.id] ?? []
+                            connectedPins: connectedPins[chip.id] ?? [],
+                            timerWarning: simulation.isRunning
+                                ? TimerText.warning(simulation.timerSections[chip.id] ?? []) : nil
                         )
                     case .barrelJack:
                         BarrelJackSymbolView(

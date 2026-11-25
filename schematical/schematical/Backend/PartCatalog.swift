@@ -319,6 +319,34 @@ nonisolated struct BuzzerInfo: Hashable, Sendable {
     let splCDB: UInt32
 }
 
+/// A 555-type timer part's facts (plan-48-H), from the backend's `PartTimer`.
+nonisolated struct TimerInfo: Hashable, Sendable {
+    /// Timer sections: 1, or 2 for a 556.
+    let timers: Int
+    /// "bipolar" or "cmos".
+    let process: String
+    /// The highest astable frequency, in hertz.
+    let maxHz: UInt64
+}
+
+/// An op-amp part's facts (plan-48-H), from the backend's `PartOpamp`. A
+/// value is 0 when the datasheet and DigiKey give none.
+nonisolated struct OpampInfo: Hashable, Sendable {
+    /// "general", "jfet" or "cmos".
+    let type: String
+    /// Amplifiers in the package: 1, 2 or 4.
+    let amplifiers: Int
+    /// Rail-to-rail input and output.
+    let railIn: Bool
+    let railOut: Bool
+    /// The gain bandwidth product in hertz.
+    let gbwHz: UInt64
+    /// The slew rate in millivolts per microsecond.
+    let slewMvUs: UInt32
+    /// The maximum input offset voltage in microvolts.
+    let vosUv: UInt32
+}
+
 nonisolated struct DisplayInfo: Hashable, Sendable {
     /// One LED: a segment of a digit (1 = leftmost), or a colon or dot LED
     /// (digit 0; segment "L1", "L2" or "L3").
@@ -713,6 +741,11 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case relay(RelayInfo)
         /// A buzzer (plan-47), its facts (`BuzzerInfo`).
         case buzzer(BuzzerInfo)
+        /// A 555-type timer (plan-48), its facts (`TimerInfo`).
+        case timer(TimerInfo)
+        /// An operational amplifier (plan-48): facts only, it drives nothing
+        /// in play mode (`OpampInfo`).
+        case opamp(OpampInfo)
     }
 
     let name: String
@@ -964,6 +997,18 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         return nil
     }
 
+    /// A timer part's facts (plan-48-H); nil for every other kind.
+    var timer: TimerInfo? {
+        if case let .timer(info) = details { return info }
+        return nil
+    }
+
+    /// An op-amp part's facts (plan-48-H); nil for every other kind.
+    var opamp: OpampInfo? {
+        if case let .opamp(info) = details { return info }
+        return nil
+    }
+
     /// The number the drawer sorts the parts of a leaf by (plan-47-M): a
     /// crystal's frequency, an inductor's inductance, a fuse's rated (a PTC's
     /// hold) current, a buzzer's frequency, a relay's coil voltage; nil for
@@ -1189,6 +1234,10 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
             // The rated voltage and the technology.
             return (info.ratedMV > 0 ? [PartFacts.volts(mV: info.ratedMV)] : [])
                 + (info.technology.isEmpty ? [] : [PartFacts.capitalized(info.technology)])
+        case let .timer(info):
+            return [info.process == "cmos" ? "CMOS" : "Bipolar"]
+        case let .opamp(info):
+            return info.gbwHz > 0 ? [PartFacts.hertz(info.gbwHz)] : []
         }
     }
 }
@@ -1494,6 +1543,13 @@ extension CatalogPart {
                 driver: string(buzzer.driver), technology: string(buzzer.technology), hz: buzzer.hz,
                 ratedMV: buzzer.rated_mv, minMV: buzzer.min_mv, maxMV: buzzer.max_mv, uA: buzzer.ua,
                 splCDB: buzzer.spl_cdb))
+        } else if let timer = part.timer?.pointee {
+            details = .timer(TimerInfo(timers: Int(timer.timer_count), process: string(timer.process),
+                                       maxHz: timer.max_hz))
+        } else if let opamp = part.opamp?.pointee {
+            details = .opamp(OpampInfo(
+                type: string(opamp.type), amplifiers: Int(opamp.amplifier_count), railIn: opamp.rail_in != 0,
+                railOut: opamp.rail_out != 0, gbwHz: opamp.gbw_hz, slewMvUs: opamp.slew_mv_us, vosUv: opamp.vos_uv))
         } else {
             details = .supply(level: 0, mv: 0, pull: false)
         }

@@ -52,6 +52,16 @@ struct SchematicNetlist {
     /// reads each frame (plan-47-N).
     var buzzers: [BuzzerTone.Buzzer] = []
 
+    /// The placed values `circuit_set_part_value` takes (plan-48-H), for every
+    /// generic resistor, pull resistor and generic capacitor: a resistor's or
+    /// pull part's in milliohms, a capacitor's in femtofarads. The 555 timing
+    /// analysis reads them.
+    var values: [(part: Int, value: UInt64)] = []
+
+    /// The 555 timers of the circuit: part index, chip and the number of
+    /// timer sections, whose state the controller reads once at start.
+    var timerParts: [(part: Int, chip: UUID, sections: Int)] = []
+
     func isFuse(part: Int) -> Bool { fuseParts.contains(part) }
 }
 
@@ -257,6 +267,25 @@ enum NetlistBuilder {
                                              hz: Double(info.hz), plusNet: net))
         }
 
+        // Placed values for the 555 timing analysis: every generic resistor, pull
+        // resistor and generic capacitor sends its value, default included.
+        var values: [(part: Int, value: UInt64)] = []
+        for (index, chip) in chips.enumerated() {
+            if chip.part.isGenericResistor || chip.part.isPullResistor {
+                let ohms = chip.ohms ?? ResistorValue.defaultOhms
+                let milliohms = UInt64((ohms * 1000).rounded())
+                if milliohms > 0 { values.append((part: index, value: milliohms)) }
+            } else if chip.part.isGenericCapacitor {
+                let farads = chip.farads ?? CapacitorValue.defaultFarads
+                let femtofarads = UInt64((farads * 1e15).rounded())
+                if femtofarads > 0 { values.append((part: index, value: femtofarads)) }
+            }
+        }
+        var timerParts: [(part: Int, chip: UUID, sections: Int)] = []
+        for (index, chip) in chips.enumerated() {
+            if let info = chip.part.timer { timerParts.append((part: index, chip: chip.id, sections: info.timers)) }
+        }
+
         return SchematicNetlist(
             partNames: chips.map(\.partNumber),
             netCount: netCount,
@@ -268,7 +297,9 @@ enum NetlistBuilder {
             netOfWire: netOfWire,
             lcdParts: chips.indices.filter { chips[$0].part.kind == PART_CHARLCD },
             fuseParts: chips.indices.filter { chips[$0].part.kind == PART_FUSE },
-            buzzers: buzzers
+            buzzers: buzzers,
+            values: values,
+            timerParts: timerParts
         )
     }
 }
@@ -331,6 +362,10 @@ final class SimulationController {
     /// (plan-47-N). Empty outside play mode. `BuzzerSound` plays them unless
     /// the setting is off or the process is silenced.
     private(set) var buzzerVoices: [UUID: Double] = [:]
+    /// What each placed 555 timer is doing, by chip id, one entry per timer section (plan-48-H):
+    /// read once, right after a successful start (the timing analysis runs once, at start).
+    /// Empty outside play mode.
+    private(set) var timerSections: [UUID: [TimerSection]] = [:]
     /// The snapshots of the last `BuzzerTone.windowPS` of circuit time, whose
     /// oldest gives a steady pitch to a transducer.
     private var toneHistory: [SimulationSnapshot] = []
@@ -437,6 +472,9 @@ final class SimulationController {
         )
         netlist = built
         self.engine = engine
+        timerSections = Dictionary(uniqueKeysWithValues: built.timerParts.map {
+            ($0.chip, engine.timerSections(part: $0.part, count: $0.sections))
+        })
         isRunning = true
         apply(engine.snapshotNow(), generation: current)
         engine.start()
@@ -473,6 +511,10 @@ final class SimulationController {
         for (part, ohms) in netlist.ohms.enumerated() {
             if let ohms { _ = circuit_set_resistance(circuit, part, ohms) }
         }
+        // Placed values for the 555 timing analysis (plan-48-H).
+        for item in netlist.values where circuit_set_part_value(circuit, item.part, item.value) != 0 {
+            return false
+        }
         for load in loads {
             let result = load.values.withUnsafeBufferPointer {
                 circuit_memory_load(circuit, load.part, 0, $0.baseAddress, $0.count)
@@ -504,6 +546,7 @@ final class SimulationController {
         shortedNets = []
         blownFuses = []
         buzzerVoices = [:]
+        timerSections = [:]
         toneHistory = []
         sound?.stop()
         sound = nil

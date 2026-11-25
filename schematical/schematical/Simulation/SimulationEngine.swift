@@ -267,6 +267,20 @@ nonisolated final class SimulationEngine: @unchecked Sendable {
         circuit_set_switch(circuit, part, UInt32(position), on ? 1 : 0)
     }
 
+    /// What a timer part's sections are doing (`circuit_timer_state`); a section the backend
+    /// does not report is left out.
+    func timerSections(part: Int, count: Int) -> [TimerSection] {
+        lock.lock()
+        defer { lock.unlock() }
+        guard !destroyed else { return [] }
+        return (0..<count).compactMap { section in
+            var state = TimerState()
+            guard circuit_timer_state(circuit, part, UInt32(section), &state) == 0 else { return nil }
+            return TimerSection(mode: state.mode, reason: state.reason, firstPs: state.first_ps,
+                                highPs: state.high_ps, lowPs: state.low_ps)
+        }
+    }
+
     func memorySize(part: Int) -> MemorySize? {
         lock.lock()
         defer { lock.unlock() }

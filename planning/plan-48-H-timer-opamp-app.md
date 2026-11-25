@@ -29,9 +29,9 @@ plan-48-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-48-G complete | `ls planning/completed/plan-48-G-*.md` → exists, or every G box ticked | NOT MET (2026-11-16: not started) |
-| The generics are in the catalog | `grep -c '^GENERIC-555|\|^GENERIC-OPAMP|' backend/tests/golden/parts.txt` → 2 | NOT MET (G Phase 1) |
-| The app does not know the kinds yet | `grep -c 'PART_TIMER\|PART_OPAMP' schematical/schematical/Backend/PartCatalog.swift schematical/schematical/Backend/PartFacts.swift` → 0 and 0 | MET (2026-11-16) |
+| plan-48-G complete | `ls planning/completed/plan-48-G-*.md` → exists, or every G box ticked | MET (2026-11-24: every G box ticked) |
+| The generics are in the catalog | `grep -c '^GENERIC-555|\|^GENERIC-OPAMP|' backend/tests/golden/parts.txt` → 2 | MET (2026-11-24: `grep -c '^GENERIC-555|\|^GENERIC-OPAMP|' backend/tests/golden/parts.txt` → 2) |
+| The app does not know the kinds yet | `grep -c 'PART_TIMER\|PART_OPAMP' schematical/schematical/Backend/PartCatalog.swift schematical/schematical/Backend/PartFacts.swift` → 0 and 0 | MET (2026-11-16; 2026-11-24 before this letter: 0 and 0) |
 
 Everything below is written against the world where these hold.
 
@@ -191,10 +191,10 @@ start, for every placed timer, and cleared on stop.
 
 ### Phase 1 — Details, facts, kind names, the drawer
 
-- [ ] `Backend/PartCatalog.swift` per § 3.1 (each case only if absent: the
+- [x] `Backend/PartCatalog.swift` per § 3.1 (each case only if absent: the
       prerequisite's grep).
-- [ ] `Backend/PartFacts.swift` per § 3.2.
-- [ ] Tests: `schematicalTests/TimerOpampTests.swift` (from
+- [x] `Backend/PartFacts.swift` per § 3.2.
+- [x] Tests: `schematicalTests/TimerOpampTests.swift` (from
       `ResistorTests`): `GENERIC-555` and `GENERIC-OPAMP` kind names, facts
       rows and detail labels; a dual timer's and a quad op-amp's names (the
       first such catalog part by name); `ReferenceCategory.of` →
@@ -206,16 +206,17 @@ start, for every placed timer, and cleared on stop.
 Acceptance: the facts, names, reference and drawer are right on the real
 catalog.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p48-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/TimerOpampTests` → `** TEST SUCCEEDED **` (est. 8 min: build + one test class).
+  Result (derived data `/tmp/p48-dd2`): `TimerOpampTests` (4 tests: the generic 555, the dual and CMOS timers, the op-amps, the drawer) and `KindInfoTests` → `** TEST SUCCEEDED **`. MET.
 Commit: —
 
 ### Phase 2 — Placed values, the timer state, the Timing section and the mark
 
-- [ ] `Simulation/Simulation.swift` per § 3.3 and § 3.4;
+- [x] `Simulation/Simulation.swift` per § 3.3 and § 3.4;
       `Simulation/SimulationEngine.swift` `timerSections(part:count:)`.
-- [ ] `Backend/TimerText.swift` per § 3.4.
-- [ ] `Drawer/SchematicSidebarView.swift` and `Canvas/ChipBlockView.swift`
+- [x] `Backend/TimerText.swift` per § 3.4.
+- [x] `Drawer/SchematicSidebarView.swift` and `Canvas/ChipBlockView.swift`
       per § 3.5.
-- [ ] Tests (`TimerOpampTests`): `TimerText` for the times of plan-48-E § 6
+- [x] Tests (`TimerOpampTests`): `TimerText` for the times of plan-48-E § 6
       (k) (`687 Hz`, `52.4 % high`, `762 µs`, `693 µs`) and of (r) (`1.1
       ms`); the netlist's `values` for a document with a 4.7 kΩ generic
       resistor (4700000), a default pull-up (1000000) and a 100 nF generic
@@ -226,21 +227,23 @@ Commit: —
 
 Acceptance: a placed 555 times from the placed values and reports its state.
   Check: `xcodebuild … test -only-testing:schematicalTests/TimerOpampTests -only-testing:schematicalTests/PullResistorTests -only-testing:schematicalTests/ResistorTests -only-testing:schematicalTests/CapacitorTests` → `** TEST SUCCEEDED **` (est. 10 min).
+  Result: those four classes and `KindInfoTests` → `** TEST SUCCEEDED **` (8 `TimerOpampTests` tests: + `testTimerText`, `testNetlistValues`, `testAstableCircuit`, `testMisWiredCircuit`). MET.
 Commit: —
 
 ### Phase 3 — The harness
 
-- [ ] `scripts/harness/timer-app.swift` (from `resistor-app.swift`): the
+- [x] `scripts/harness/timer-app.swift` (from `resistor-app.swift`): the
       checks of § 1 on the app's real catalog, document and
       `SimulationController`; two 0.6 s runs (the astable document: the OUT
       net's changes above 0 and the LED's on-time above 0; the mis-wired
       document: 0 changes, LED dark, the mark's accessibility label
       present); renders the placed timer with its mark and a placed op-amp
-      to `/tmp/p48-symbols.png`.
-- [ ] `DrawerPerformanceTests` and `PartEditorWindowTests` stay green.
+      to `/tmp/p48-symbols.png` (also `/tmp/p48-timing.png`, the running mis-wired circuit with the mark, and `/tmp/p48-sidebar.png`, its Timing section).
+- [x] `DrawerPerformanceTests` and `PartEditorWindowTests` stay green.
 
 Acceptance: the drawer, the sidebar and the play-mode outcome work end to end.
   Check: `rm -rf /tmp/p48-harness && APP=/tmp/p48-dd/Build/Products/Debug/schematical.app scripts/harness/build.sh scripts/harness/timer-app.swift /tmp/p48-harness && /tmp/p48-harness/H.app/Contents/MacOS/harness` → every line `ok`, exit 0; and `xcodebuild … test -only-testing:schematicalTests/TimerOpampTests -only-testing:schematicalTests/DrawerPerformanceTests -only-testing:schematicalTests/PartEditorWindowTests` → `** TEST SUCCEEDED **` (est. 15 min: app build, harness, three test classes).
+  Result: the harness (`/tmp/p48/harness.sh`: build, then `/tmp/p48-harness/H.app/Contents/MacOS/harness /tmp`) → every line `ok`, `all checks ok`, exit 0 (Timing rows `Astable, 687 Hz, 52.4 % high`; high 762 µs, low 693 µs; the mis-wired run `Not timing`, OUT not toggling, LED dark, mark label `Not timing: The resistors and capacitors on TRIG, THRES and DISCH do not form an astable or a one-shot circuit`); `TimerOpampTests`, `DrawerPerformanceTests`, `PartEditorWindowTests` → `** TEST SUCCEEDED **`. MET.
 Commit: —
 
 ## Validation Plan
@@ -272,6 +275,18 @@ Commit: —
   analysis.
 
 ## Corrections
+
+1. **`circuit_set_resistance` already sends a generic resistor's value** (for the regulators, plan-42-I,
+   `SchematicNetlist.ohms`); `SchematicNetlist.values` is the new, wider list for the 555 analysis
+   (generic resistors, pull resistors, generic capacitors). Both are sent; the backend reads the
+   timer analysis' value first (plan-48-E Corrections 1).
+2. **`SchematicNetlist.timerParts`** (part index, chip, number of sections) is new: the controller needs
+   the chip → part map to read each timer's sections once at start (`SimulationEngine.timerSections`).
+3. **The mark** is an overlay of `ChipBlockView` (the SwiftUI view), not drawn by `paint`: exports and
+   the PCB view never show it; the canvas passes `timerWarning` only while the run is on.
+4. **Kind tests with counts** that this letter's kinds changed were fixed in G (Corrections 4) and here
+   (`KindInfoTests`: 49 kinds, the `other` group is `opamp`, `generic`).
+5. **The harness' op-amp facts** include `Supply range` and `Input max` (the generic rows every part has).
 
 ## Summary
 

@@ -303,6 +303,23 @@ nonisolated enum PartFacts {
             }
             if info.uA > 0 { add("Current", info.uA >= 1000 ? amps(mA: info.uA / 1000) : "\(info.uA) µA") }
             if info.splCDB > 0 { add("Sound level", "\(trimmed(Double(info.splCDB) / 100, decimals: 1)) dB") }
+        case let .timer(info):
+            if info.timers > 1 { add("Timers", String(info.timers)) }
+            add("Process", info.process == "cmos" ? "CMOS" : "Bipolar")
+            if info.maxHz > 0 { add("Max frequency", hertz(info.maxHz)) }
+        case let .opamp(info):
+            if info.amplifiers > 1 { add("Amplifiers", String(info.amplifiers)) }
+            add("Input", opampType(info.type))
+            if info.gbwHz > 0 { add("Gain bandwidth", hertz(info.gbwHz)) }
+            if info.slewMvUs > 0 { add("Slew rate", "\(trimmed(Double(info.slewMvUs) / 1000, decimals: 3)) V/µs") }
+            if info.vosUv > 0 {
+                add("Offset (max)", info.vosUv >= 1000 ? "\(trimmed(Double(info.vosUv) / 1000, decimals: 3)) mV"
+                                                       : "\(info.vosUv) µV")
+            }
+            if info.railIn || info.railOut {
+                add("Rail-to-rail", info.railIn && info.railOut ? "Input and output" : info.railOut ? "Output" : "Input")
+            }
+            add("Play mode", "Not simulated: drives nothing")
         case let .regulator(info):
             add("Type", regulatorType(info))
             if info.regulators > 1 { add("Regulators", String(info.regulators)) }
@@ -400,6 +417,8 @@ nonisolated enum PartFacts {
         case PART_FUSE: return "Fuse"
         case PART_RELAY: return "Relay"
         case PART_BUZZER: return "Buzzer"
+        case PART_TIMER: return "Timer"
+        case PART_OPAMP: return "Op-amp"
         default: return ""
         }
     }
@@ -441,6 +460,15 @@ nonisolated enum PartFacts {
         }
     }
 
+    /// An op-amp's input type as the sidebar shows it.
+    static func opampType(_ type: String) -> String {
+        switch type {
+        case "jfet": "JFET"
+        case "cmos": "CMOS"
+        default: "General purpose"
+        }
+    }
+
     static func kindName(_ part: CatalogPart) -> String {
         if part.isTactileSwitch { return "Tactile switch" }
         if case let .resistor(_, _, _, resistors) = part.details, resistors > 1 { return "Resistor array" }
@@ -454,6 +482,14 @@ nonisolated enum PartFacts {
             }
         }
         if let info = part.powerswitch { return powerSwitchName(info) }
+        if let info = part.timer, info.timers == 2 { return "Dual timer" }
+        if let info = part.opamp {
+            switch info.amplifiers {
+            case 2: return "Dual op-amp"
+            case 4: return "Quad op-amp"
+            default: break
+            }
+        }
         if let info = part.crystal, info.type == "resonator" { return "Ceramic resonator" }
         if let info = part.fuse, info.isPTC { return "Resettable fuse" }
         if let info = part.relay {
