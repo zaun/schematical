@@ -89,6 +89,7 @@ struct DocumentInfoForm: View {
                                              set: { document.setInfoDescription($0) }))
                         .font(.system(.body, design: .monospaced))
                         .frame(height: 96)
+                        .modelRecordsUndo()
                 }
             }
             Section("Dates") {
