@@ -33,10 +33,10 @@ The gate for the whole feature is in plan-58-A § Prerequisites. This letter add
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-58-A and plan-58-B are complete | `ls planning/completed/plan-58-A-* planning/completed/plan-58-B-* \| wc -l` → 2 | NOT MET until they land |
-| The `switch` kind accepts `"states"` | `grep -c '"states"' backend/src/models/switch.c` → ≥ 1 | NOT MET until B lands |
-| C&K's PDFs are placed | `ls datasheets/switch/slide/ck/*.pdf \| wc -l` → 13 (or fewer, when A skipped a PDF's rows) | NOT MET until A lands |
-| `Parts/switch.json` has no slide devices | `grep -c '"id": *"slide_' schematical/schematical/Parts/switch.json` → 0 | MET (2026-11-24) |
+| plan-58-A and plan-58-B are complete | `ls planning/completed/plan-58-A-* planning/completed/plan-58-B-* \| wc -l` → 2 | MET (2026-11-24, P-58: A df339161, B 4f8ba5a5 archived in the worktree) |
+| The `switch` kind accepts `"states"` | `grep -c '"states"' backend/src/models/switch.c` → ≥ 1 | MET (2026-11-24: 5) |
+| C&K's PDFs are placed | `ls datasheets/switch/slide/ck/*.pdf \| wc -l` → 13 (or fewer, when A skipped a PDF's rows) | MET (2026-11-24: 13) |
+| `Parts/switch.json` has no slide devices | `grep -c '"id": *"slide_' schematical/schematical/Parts/switch.json` → 0 | MET (2026-11-24; re-run at P-58 → 0) |
 
 If plan-58-A or plan-58-B is not complete, this plan cannot start, full stop.
 
@@ -201,14 +201,14 @@ with the same arguments changes nothing.
 
 ### Phase 1 — decide the pending rows
 
-- [ ] Read each C&K PDF's part-number key; write `planning/plan-58-data/schemes.tsv`
+- [x] Read each C&K PDF's part-number key (7 series have pending rows: 1000, L, S, V, TS, AYZ, SS); write `planning/plan-58-data/schemes.tsv`
       (C&K rows, § 4.1) and `census/scheme-check.py` with `--selftest`.
-- [ ] `python3 -I census/scheme-check.py --maker 'C&K'`; commit the new
+- [x] `python3 -I census/scheme-check.py --maker 'C&K'` → `C&K 105 add, 14 skip, 0 pending`; commit the new
       `candidates.tsv` and the skipped-parts section.
 
 Acceptance: no C&K row is `pending`; each `skip` reason is listed in
 `datasheets/skipped-parts.md`.
-  Check: `awk -F'\t' '$1=="C&K" && $18=="pending"' planning/plan-58-data/candidates.tsv \| wc -l` → 0 and `python3 -I planning/plan-58-data/census/scheme-check.py --selftest` → `ok` (est. 3 min).
+  Check: `awk -F'\t' '$1=="C&K" && $18=="pending"' planning/plan-58-data/candidates.tsv \| wc -l` → 0 and `python3 -I planning/plan-58-data/census/scheme-check.py --selftest` → `ok` (est. 3 min). Measured: `0`, `ok`; `decide.py --verify-skipped` → exit 0.
 Commit: —
 
 ### Phase 2 — footprints and specs
@@ -279,7 +279,8 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- **2026-11-24, Phase 1: 14 of the 65 pending rows do not fit their key and are `skip`.** `1101M2S3WBE2` (the 1000 series key lists terminations A, C, AV2, Z, V3, V4; `W` appears only as `W3` in a seal note); L series: the key (p.1) allows function L101/L102/L103/L202, actuator 01/02/11, mounting MS, termination 02, contact Q, so the right-angle `ML04` / `MA04` parts, the 03 / 12 actuators, L201 and the G contact do not fit (12 rows); `V80201MS02Q` (V key actuators 12, 02, 13, 14). The other 51 fit (1000: 27 of 28, L: 4 of 16, S: 6 of 6, V: 5 of 6, TS: 7 of 7, AYZ: 1, SS: 1). `schemes.tsv` regexes are written from the keys' positions and listed letters only; the 1000 series' S2 / S1 actuators are tied to the 110X / 120X functions as the key's notes say.
+- **2026-11-24, Phase 1: the C&K `add` count is 105, not 119.** `add` after Phase 1 is the 54 verbatim rows plus 51 key-fitting rows; § 2's 119 counted the 14 skipped rows. Later checks use 105: `grep -c 'states=' backend/tests/golden/parts.txt` = 105 after Phase 3.
 
 ## Summary
 

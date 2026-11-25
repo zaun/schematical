@@ -1203,4 +1203,8 @@ left out for want of a datasheet PDF. Written by `planning/plan-58-data/census/d
 Rows left out by rule (panel mount, momentary, line-voltage, illuminated, no DigiKey stock) are
 `out` in that file and are not listed here.
 
-None: every kept row's datasheet downloaded as a PDF.
+| Part(s) | Series | Would have gone into | Why skipped |
+|---|---|---|---|
+| 1101M2S3WBE2 | C&K 1000 | `switch` / Switches & Relays → Slide | number does not fit the datasheet's part-number key |
+| L101011ML04Q, L102011ML04Q, L102021ML04Q, L201011MS02Q, L201011MS02QE, L202011MS02G, L202021MA04Q, L202021MA04QE, L202031MS02Q, L202121MA04Q, L202121MS02Q, L202121MS02QE | C&K L | `switch` / Switches & Relays → Slide | number does not fit the datasheet's part-number key |
+| V80201MS02Q | C&K V | `switch` / Switches & Relays → Slide | number does not fit the datasheet's part-number key |

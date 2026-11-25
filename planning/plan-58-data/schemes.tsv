@@ -1,0 +1,8 @@
+maker	series	regex	source
+C&K	1000	(?:110[13]M2S[2-6]|120[13]M2S[13-6])(?:AV2|A|C|V3|V4)[BQGP][EI][123]	littelfuse-c-k-slide-1000-series-datasheet.pdf p.2 (Ordering Number: function 1101/1103/1201/1203, mounting M2, actuator S1-S6 [S2 on 110X, S1 on 120X], termination A/C/AV2/V3/V4, contact B/Q/G/P, seal E/I, colour 1-3)
+C&K	L	L(?:101|102|103|202)(?:01|02|11)1MS02Q(?:E)?(?:2)?	c-amp-k-slide-switch-l-series-datasheet.pdf p.1 (Ordering Number: function L101/L102/L103/L202, actuator 01/02/11, detent 1, mounting MS, termination 02, contact Q, seal E, cap colour 2)
+C&K	S	S(?:101|202|802|102|112|201|602|701|702)(?:03|04|09|12|13|C2|C3|C5)[12](?:SS|MS|S2|TS)(?:03|02|04|07|08|WC)[BQG]E?[DLMN]?	littelfuse-c-k-slide-s-series-datasheet.pdf p.1 (Ordering Number: function, actuator, detent 1/2, mounting SS/MS/S2/TS, termination, contact B/Q/G, seal E, housing marking D/L/M/N)
+C&K	V	V(?:802|701|702|801)(?:12|02|13|14)(?:SS|MA|MS|S2)(?:05|02|08)QE?	littelfuse-c-k-slide-v-series-datasheet.pdf p.1 (Ordering Number: function V802/V701/V702/V801, actuator 12/02/13/14, mounting SS/MA/MS/S2, termination 05/02/08, contact Q, seal E)
+C&K	TS	(?:TS0[13][ACW]|TS02[CW])[BQGPSR]E	littelfuse-c-k-slide-ts-series-datasheet.pdf p.1 (Ordering Number: function TS01/TS02/TS03, termination A/C/W [A on TS01 and TS03 only], contact B/Q/G/P/S/R, seal E)
+C&K	AYZ	AYZ(?:0102|0103|0202|0203)(?:AG|AU)RLC	littelfuse-c-k-slide-ayz-series-datasheet.pdf p.1 (Ordering Number: AYZ-function 0102/0103/0202/0203-contact AG/AU-RL-C)
+C&K	SS, COMAX	SS-12D07-VG [23467] NS(?: GA)?(?: PA)?	littelfuse-c-k-slide-ss-series-datasheet.pdf p.1 (part number list: SS-12D07-VG NS, knob 2/3/4/6/7 mm); the row's own datasheet is the one-page COMAX drawing SS-12D07-VG_GA_PA.pdf
