@@ -1,0 +1,157 @@
+letter	company	package	supplier	footprint	note	pdf
+C	adi	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	10-MSOP	MSOP-10-ADI-MS	reuse: ADI RM-10 outline only (ad8591 Fig.45, MO-187-BA, body 3.0x3.0, 0.50 BSC, no land pattern); same JEDEC outline as the LTC MS10 recommended pad layout of MSOP-10-ADI-MS (precedent MSOP-8-ADI-MS8 for RM-8)	*
+C	adi	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	10-uMAX/uSOP	MSOP-10-ADI-MS	reuse: Maxim U10 uMAX (max4230 package table only, land pattern drawing not in PDF), MO-187-BA 3.0x3.0 0.5 pitch; same outline as LTC MS10 layout	*
+C	adi	14-SOIC (0.154", 3.90mm Width)	14-SO	SOIC-14-ADI-S14	new: LTC S14 recommended solder pad layout p.17 (pad .045x.030 in, .160 gap, span 5.207, body 3.9x8.65)	*
+C	adi	14-SOIC (0.154", 3.90mm Width)	14-SOIC	SOIC-14	reuse: ADI R-14 / Maxim SD14 outline only (MS-012-AB, body 3.9x8.65, 1.27 pitch, no land pattern); IPC-type TI D0014A pattern 1.55x0.6 span 5.4 for the same outline	*
+C	adi	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	TSSOP-14	reuse: ADI RU-14 / Maxim UD14 outline only (MO-153-AB-1, body 4.4x5.0, 0.65 pitch, 6.40 BSC, no land pattern); IPC-type TI PW0014A pattern 1.5x0.45 span 5.8 for the same outline	*
+C	adi	16-SSOP (0.154", 3.90mm Width)	16-SSOP	SSOP-16-ADI-GN	reuse: LTC DWG 05-08-1641 Rev B GN recommended solder pad layout (.0165 x .045 pads, .0250 pitch, .254 min outer) = same drawing as SSOP-16-ADI-GN	*
+C	adi	5-TSSOP, SC-70-5, SOT-353	SC-70-5	SC70-5-ADI-X5	reuse: ADI KS-5 outline MO-203-AA (body 1.25 x 2.00, 0.65 pitch) has no land pattern, same JEDEC outline as SC70-5-ADI-X5; Maxim X5+1 PDFs name outline 21-0076 / land pattern 90-0188 = exactly SC70-5-ADI-X5	*
+C	adi	6-TSSOP, SC-88, SOT-363	SC-70-6	SC70-6-ADI-KS-6	reuse: no land pattern in the datasheet (X6SN-1 outline 21-0077 names 90-0189 only), JEDEC MO-203 6-lead, body 1.25 x 2.00, 0.65 pitch, L 0.26-0.46, b 0.15-0.30, HE 1.80-2.40 = same outline as SC70-6-ADI-KS-6	*
+C	adi	8-SOIC (0.154", 3.90mm Width)	8-SO	SOIC-8-ADI-S8	reuse: LTC DWG 05-08-1610 S8 recommended solder pad layout (.030 x .045 pads, .160 between rows, .050 pitch) = SOIC-8-ADI-S8	*
+C	adi	8-SOIC (0.154", 3.90mm Width)	8-SOIC	SOIC-8	reuse: no land pattern in the datasheet, ADI R-8 outline MS-012-AA (body 3.90 x 4.90, 1.27 pitch), same JEDEC outline as SOIC-8	datasheets/opamp/adi/ad797.pdf
+C	adi	8-SOIC (0.154", 3.90mm Width)	8-SOIC	SOIC-8	reuse: no land pattern in the datasheet, ADI R-8 outline MS-012-AA (body 3.90 x 4.90, 1.27 pitch), same JEDEC outline as SOIC-8	datasheets/opamp/adi/ad820.pdf
+C	adi	8-SOIC (0.154", 3.90mm Width)	8-SOIC	SOIC-8	reuse: no land pattern in the datasheet, ADI R-8 outline MS-012-AA (body 3.90 x 4.90, 1.27 pitch), same JEDEC outline as SOIC-8	datasheets/opamp/adi/ad823.pdf
+C	adi	8-SOIC (0.154", 3.90mm Width)	8-SOIC	SOIC-8	reuse: no land pattern in the datasheet, ADI R-8 outline MS-012-AA (body 3.90 x 4.90, 1.27 pitch), same JEDEC outline as SOIC-8	datasheets/opamp/adi/ad823a.pdf
+C	adi	8-SOIC (0.154", 3.90mm Width)	8-SOIC	SOIC-8	reuse: no land pattern in the datasheet, ADI R-8 outline MS-012-AA (body 3.90 x 4.90, 1.27 pitch), same JEDEC outline as SOIC-8	datasheets/opamp/adi/ad825.pdf
+C	adi	8-SOIC (0.154", 3.90mm Width)	8-SOIC	SOIC-8	reuse: no land pattern in the datasheet, ADI R-8 outline MS-012-AA (body 3.90 x 4.90, 1.27 pitch), same JEDEC outline as SOIC-8	datasheets/opamp/adi/ad8510_8512_8513.pdf
+C	adi	8-SOIC (0.154", 3.90mm Width)	8-SOIC	SOIC-8	reuse: no land pattern in the datasheet, ADI R-8 outline MS-012-AA (body 3.90 x 4.90, 1.27 pitch), same JEDEC outline as SOIC-8	datasheets/opamp/adi/ad8541_8542_8544.pdf
+C	adi	8-SOIC (0.154", 3.90mm Width)	8-SOIC	SOIC-8	reuse: no land pattern in the datasheet, ADI R-8 outline MS-012-AA (body 3.90 x 4.90, 1.27 pitch), same JEDEC outline as SOIC-8	datasheets/opamp/adi/ad8601_8602_8604.pdf
+C	adi	8-SOIC (0.154", 3.90mm Width)	8-SOIC	SOIC-8	reuse: no land pattern in the datasheet, ADI R-8 outline MS-012-AA (body 3.90 x 4.90, 1.27 pitch), same JEDEC outline as SOIC-8	datasheets/opamp/adi/ad8603_8607_8609.pdf
+C	adi	8-SOIC (0.154", 3.90mm Width)	8-SOIC	SOIC-8	reuse: no land pattern in the datasheet, ADI R-8 outline MS-012-AA (body 3.90 x 4.90, 1.27 pitch), same JEDEC outline as SOIC-8	datasheets/opamp/adi/ad8610_8620.pdf
+C	adi	8-SOIC (0.154", 3.90mm Width)	8-SOIC	SOIC-8	reuse: no land pattern in the datasheet, ADI R-8 outline MS-012-AA (body 3.90 x 4.90, 1.27 pitch), same JEDEC outline as SOIC-8	datasheets/opamp/adi/ad8615_8616_8618.pdf
+C	adi	8-SOIC (0.154", 3.90mm Width)	8-SOIC	SOIC-8	reuse: no land pattern in the datasheet, ADI R-8 outline MS-012-AA (body 3.90 x 4.90, 1.27 pitch), same JEDEC outline as SOIC-8	datasheets/opamp/adi/ad8625_8626_8627.pdf
+C	adi	8-SOIC (0.154", 3.90mm Width)	8-SOIC	SOIC-8	reuse: no land pattern in the datasheet, ADI R-8 outline MS-012-AA (body 3.90 x 4.90, 1.27 pitch), same JEDEC outline as SOIC-8	datasheets/opamp/adi/ad8655_8656.pdf
+C	adi	8-SOIC (0.154", 3.90mm Width)	8-SOIC	SOIC-8	reuse: no land pattern in the datasheet, ADI R-8 outline MS-012-AA (body 3.90 x 4.90, 1.27 pitch), same JEDEC outline as SOIC-8	datasheets/opamp/adi/ad8665_ad8666_ad8668.pdf
+C	adi	8-SOIC (0.154", 3.90mm Width)	8-SOIC	SOIC-8	reuse: no land pattern in the datasheet, ADI R-8 outline MS-012-AA (body 3.90 x 4.90, 1.27 pitch), same JEDEC outline as SOIC-8	datasheets/opamp/adi/ad8675.pdf
+C	adi	8-SOIC (0.154", 3.90mm Width)	8-SOIC	SOIC-8	reuse: no land pattern in the datasheet, ADI R-8 outline MS-012-AA (body 3.90 x 4.90, 1.27 pitch), same JEDEC outline as SOIC-8	datasheets/opamp/adi/ada4004-1_4004-2_4004-4.pdf
+C	adi	8-SOIC (0.154", 3.90mm Width)	8-SOIC	SOIC-8	reuse: no land pattern in the datasheet, ADI R-8 outline MS-012-AA (body 3.90 x 4.90, 1.27 pitch), same JEDEC outline as SOIC-8	datasheets/opamp/adi/ada4062-2_4062-4.pdf
+C	adi	8-SOIC (0.154", 3.90mm Width)	8-SOIC	SOIC-8	reuse: no land pattern in the datasheet, ADI R-8 outline MS-012-AA (body 3.90 x 4.90, 1.27 pitch), same JEDEC outline as SOIC-8	datasheets/opamp/adi/ada4084-1_4084-2_4084-4.pdf
+C	adi	8-SOIC (0.154", 3.90mm Width)	8-SOIC	SOIC-8	reuse: no land pattern in the datasheet, ADI R-8 outline MS-012-AA (body 3.90 x 4.90, 1.27 pitch), same JEDEC outline as SOIC-8	datasheets/opamp/adi/ada4177-1_4177-2_4177-4.pdf
+C	adi	8-SOIC (0.154", 3.90mm Width)	8-SOIC	SOIC-8	reuse: no land pattern in the datasheet, ADI R-8 outline MS-012-AA (body 3.90 x 4.90, 1.27 pitch), same JEDEC outline as SOIC-8	datasheets/opamp/adi/op196_296_496.pdf
+C	adi	8-SOIC (0.154", 3.90mm Width)	8-SOIC	SOIC-8	reuse: no land pattern in the datasheet, ADI R-8 outline MS-012-AA (body 3.90 x 4.90, 1.27 pitch), same JEDEC outline as SOIC-8	datasheets/opamp/adi/op27.pdf
+C	adi	8-SOIC (0.154", 3.90mm Width)	8-SOIC	SOIC-8	reuse: no land pattern in the datasheet, ADI R-8 outline MS-012-AA (body 3.90 x 4.90, 1.27 pitch), same JEDEC outline as SOIC-8	datasheets/opamp/adi/op295_495.pdf
+C	adi	8-SOIC (0.154", 3.90mm Width)	8-SOIC	SOIC-8	reuse: no land pattern in the datasheet, ADI R-8 outline MS-012-AA (body 3.90 x 4.90, 1.27 pitch), same JEDEC outline as SOIC-8	datasheets/opamp/adi/op777_727_747.pdf
+C	adi	8-SOIC (0.154", 3.90mm Width)	8-SOIC	SOIC-8-MAXIM-S8	reuse: Maxim S8-2 outline 21-0041, land pattern 90-0096 named = SOIC-8-MAXIM-S8	datasheets/timer/adi/icm7555-icm7556.pdf
+C	adi	8-TFSOP (0.049", 1.25mm Width)	SC-70-8	SC70-8-ADI-X8C-1	new: Maxim 21-0460 8L SC70 outline (max9613 p.11), no land pattern drawn, R2 from mid-values; max9636 PDF has only the 21-0460/90-0348 reference	*
+C	adi	8-TSSOP (0.173", 4.40mm Width)	8-TSSOP	TSSOP-8	reuse: no land pattern, ADI RU-8 MO-153-AA 8-lead 4.4x3.0 0.65 pitch (op162 p.18, op196 p.17) = TSSOP-8 (TI PW0008A, MO-153)	*
+C	adi	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	MSOP-8-ADI-MS8	reuse: no land pattern, ADI RM-8 MO-187-AA 3.0x3.0 0.65 pitch, same outline as MS8	datasheets/opamp/adi/ad8510_8512_8513.pdf
+C	adi	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	MSOP-8-ADI-MS8	reuse: no land pattern, ADI RM-8 MO-187-AA 3.0x3.0 0.65 pitch, same outline as MS8	datasheets/opamp/adi/ad8519_8529.pdf
+C	adi	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	MSOP-8-ADI-MS8	reuse: no land pattern, ADI RM-8 MO-187-AA 3.0x3.0 0.65 pitch, same outline as MS8	datasheets/opamp/adi/ad8565_8566_8567.pdf
+C	adi	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	MSOP-8-ADI-MS8	reuse: no land pattern, ADI RM-8 MO-187-AA 3.0x3.0 0.65 pitch, same outline as MS8	datasheets/opamp/adi/ad8603_8607_8609.pdf
+C	adi	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	MSOP-8-ADI-MS8	reuse: no land pattern, ADI RM-8 MO-187-AA 3.0x3.0 0.65 pitch, same outline as MS8	datasheets/opamp/adi/ad8613_8617_8619.pdf
+C	adi	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	MSOP-8-ADI-MS8	reuse: no land pattern, ADI RM-8 MO-187-AA 3.0x3.0 0.65 pitch, same outline as MS8	datasheets/opamp/adi/ad8625_8626_8627.pdf
+C	adi	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	MSOP-8-ADI-MS8	reuse: no land pattern, ADI RM-8 MO-187-AA 3.0x3.0 0.65 pitch, same outline as MS8	datasheets/opamp/adi/ad8641_8642_8643.pdf
+C	adi	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	MSOP-8-ADI-MS8	reuse: no land pattern, ADI RM-8 MO-187-AA 3.0x3.0 0.65 pitch, same outline as MS8	datasheets/opamp/adi/ad8655_8656.pdf
+C	adi	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	MSOP-8-ADI-MS8	reuse: no land pattern, ADI RM-8 MO-187-AA 3.0x3.0 0.65 pitch, same outline as MS8	datasheets/opamp/adi/ad8663_8667_8669.pdf
+C	adi	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	MSOP-8-ADI-MS8	reuse: no land pattern, ADI RM-8 MO-187-AA 3.0x3.0 0.65 pitch, same outline as MS8	datasheets/opamp/adi/ad8691_8692_8694.pdf
+C	adi	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	MSOP-8-ADI-MS8	reuse: no land pattern, ADI RM-8 MO-187-AA 3.0x3.0 0.65 pitch, same outline as MS8	datasheets/opamp/adi/ada4000-1_4000-2_4000-4.pdf
+C	adi	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	MSOP-8-ADI-MS8	reuse: no land pattern, ADI RM-8 MO-187-AA 3.0x3.0 0.65 pitch, same outline as MS8	datasheets/opamp/adi/ada4505-1_4505-2_4505-4.pdf
+C	adi	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	MSOP-8-ADI-MS8	reuse: no land pattern, ADI RM-8 MO-187-AA 3.0x3.0 0.65 pitch, same outline as MS8	datasheets/opamp/adi/ada4666-2.pdf
+C	adi	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	MSOP-8-ADI-MS8	reuse: no land pattern, ADI RM-8 MO-187-AA 3.0x3.0 0.65 pitch, same outline as MS8	datasheets/opamp/adi/ada4891-1_4891-2_4891-3_4891-4.pdf
+C	adi	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	MSOP-8-ADI-MS8	reuse: no land pattern, ADI RM-8 MO-187-AA 3.0x3.0 0.65 pitch, same outline as MS8	datasheets/opamp/adi/op777_727_747.pdf
+C	adi	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	MSOP-8-ADI-MS8	reuse: LTC DWG 05-08-1660 Rev G solder pad layout, 5.10 overall, pads 0.889x0.42 (p.19)	datasheets/opamp/adi/601567ff.pdf
+C	adi	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	MSOP-8-ADI-MS8-F	new: LTC DWG 05-08-1660 Rev F solder pad layout, 5.23 overall (span 4.341), pads 0.889x0.42	datasheets/opamp/adi/14901afd.pdf
+C	adi	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	MSOP-8-ADI-MS8-F	new: LTC DWG 05-08-1660 Rev F solder pad layout, 5.23 overall (span 4.341), pads 0.889x0.42	datasheets/opamp/adi/16389fg.pdf
+C	adi	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	MSOP-8-ADI-MS8-F	new: LTC DWG 05-08-1660 Rev F solder pad layout, 5.23 overall (span 4.341), pads 0.889x0.42	datasheets/opamp/adi/600345fd.pdf
+C	adi	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MSOP	MSOP-8-ADI-MS8-F	new: LTC DWG 05-08-1660 Rev F solder pad layout, 5.23 overall (span 4.341), pads 0.889x0.42	datasheets/opamp/adi/6244fb.pdf
+C	adi	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-uMAX/uSOP	MSOP-8-ADI-MS8	reuse: Maxim U8-1 / 21-0036 uMAX 8, 3.0x3.0 0.65 pitch = MO-187-AA; PDF only references outline 21-0036 / land 90-0092, no drawing	datasheets/opamp/adi/max4162-max4164.pdf
+C	adi	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-uMAX/uSOP	MSOP-8-ADI-MS8	reuse: Maxim U8-1 / 21-0036 uMAX 8, 3.0x3.0 0.65 pitch = MO-187-AA; PDF only references outline 21-0036 / land 90-0092, no drawing	datasheets/opamp/adi/max4249-max4257.pdf
+C	adi	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-uMAX/uSOP	MSOP-8-ADI-MS8	reuse: Maxim U8-1 / 21-0036 uMAX 8, 3.0x3.0 0.65 pitch = MO-187-AA; PDF only references outline 21-0036 / land 90-0092, no drawing	datasheets/opamp/adi/max44241-max44246.pdf
+C	adi	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-uMAX/uSOP	MSOP-8-ADI-MS8	reuse: Maxim U8-1 / 21-0036 uMAX 8, 3.0x3.0 0.65 pitch = MO-187-AA; PDF only references outline 21-0036 / land 90-0092, no drawing	datasheets/opamp/adi/max4475-max4489.pdf
+C	adi	SC-74A, SOT-753	SOT-23-5	SOT23-5	reuse: no land pattern; ADI RJ-5 MO-178-AA 1.6x2.9 0.95 pitch (ad8515 p.16) and Maxim U5 21-0057 = TI DBV0005A (MO-178)	*
+C	adi	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	TSOT23-5-ADI-S5	reuse LTC DWG 05-08-1635 S5 solder pad layout: 1.22 x 0.62, span 2.62, pitch 0.95, same as 4411fa.pdf p.8	datasheets/opamp/adi/1782fc.pdf
+C	adi	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	TSOT23-5-ADI-S5	reuse LTC DWG 05-08-1635 S5 solder pad layout: 1.22 x 0.62, span 2.62, pitch 0.95, same as 4411fa.pdf p.8	datasheets/opamp/adi/1783fd.pdf
+C	adi	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	TSOT23-5-ADI-S5	reuse LTC DWG 05-08-1635 S5 solder pad layout: 1.22 x 0.62, span 2.62, pitch 0.95, same as 4411fa.pdf p.8	datasheets/opamp/adi/1797fc.pdf
+C	adi	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	TSOT23-5-ADI-S5	reuse LTC DWG 05-08-1635 S5 solder pad layout: 1.22 x 0.62, span 2.62, pitch 0.95, same as 4411fa.pdf p.8	datasheets/opamp/adi/1800fa.pdf
+C	adi	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	TSOT23-5-ADI-S5	reuse LTC DWG 05-08-1635 S5 solder pad layout: 1.22 x 0.62, span 2.62, pitch 0.95, same as 4411fa.pdf p.8	datasheets/opamp/adi/1880fa.pdf
+C	adi	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	TSOT23-5-ADI-S5	reuse LTC DWG 05-08-1635 S5 solder pad layout: 1.22 x 0.62, span 2.62, pitch 0.95, same as 4411fa.pdf p.8	datasheets/opamp/adi/600345fd.pdf
+C	adi	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	TSOT23-5-ADI-S5	reuse LTC DWG 05-08-1635 S5 solder pad layout: 1.22 x 0.62, span 2.62, pitch 0.95, same as 4411fa.pdf p.8	datasheets/opamp/adi/601567ff.pdf
+C	adi	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	TSOT23-5-ADI-S5	reuse LTC DWG 05-08-1635 S5 solder pad layout: 1.22 x 0.62, span 2.62, pitch 0.95, same as 4411fa.pdf p.8	datasheets/opamp/adi/622012fc.pdf
+C	adi	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	TSOT23-5-ADI-S5	reuse LTC DWG 05-08-1635 S5 solder pad layout: 1.22 x 0.62, span 2.62, pitch 0.95, same as 4411fa.pdf p.8	datasheets/opamp/adi/624012fe.pdf
+C	adi	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	TSOT-5-ADI-UJ	reuse: no land pattern in the datasheet, same JEDEC outline MO-193-AB UJ-5 as TSOT-5-ADI-UJ	datasheets/opamp/adi/ad8603_8607_8609.pdf
+C	adi	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	TSOT-5-ADI-UJ	reuse: no land pattern in the datasheet, same JEDEC outline MO-193-AB UJ-5 as TSOT-5-ADI-UJ	datasheets/opamp/adi/ad8615_8616_8618.pdf
+C	adi	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	TSOT-5-ADI-UJ	reuse: no land pattern in the datasheet, same JEDEC outline MO-193-AB UJ-5 as TSOT-5-ADI-UJ	datasheets/opamp/adi/ad8677.pdf
+C	adi	SOT-23-5 Thin, TSOT-23-5	TSOT-23-5	TSOT-5-ADI-UJ	reuse: no land pattern in the datasheet, same JEDEC outline MO-193-AB UJ-5 as TSOT-5-ADI-UJ	datasheets/opamp/adi/ada4000-1_4000-2_4000-4.pdf
+C	adi	SOT-23-6	SOT-23-6	SOT23-6-ADI-RJ6	reuse: no land pattern in the datasheet, Maxim 21-0058 (L 0.35-0.55, b 0.35-0.50, E 2.60-3.00, e 0.95) is within 0.05 of ADI RJ-6 MO-178-AB; body 1.6 x 2.9	*
+C	adi	SOT-23-6 Thin, TSOT-23-6	TSOT-23-6	TSOT-6-ADI-S6	reuse LTC DWG 05-08-1636 S6 solder pad layout: 1.22 x 0.62, span 2.62, pitch 0.95	*
+C	adi	SOT-23-6 Thin, TSOT-23-6	TSOT-6	TSOT-6-ADI-UJ	reuse: no land pattern in the datasheet, ADI UJ-6 MO-193-AA outline p.29 (L 0.30-0.60, b 0.30-0.50, tip to tip 2.55-3.05, body 1.60 x 2.90)	*
+C	adi	SOT-23-8	SOT-23-8	SOT23-8-ADI-RJ-8	new: no land pattern in the datasheets; ADI RJ-8 MO-178-BA (ad8502_8504.pdf p.14) and Maxim 21-0078 K8 have the same leads (L 0.30-0.60, b 0.22-0.38, e 0.65), IPC pads 1.25 x 0.35 span 2.55	*
+C	adi	14-DIP (0.300", 7.62mm)	14-PDIP	PDIP-14	reuse: ICM7556 P14-3 (Maxim 21-0043, MS-001-AA): 14 pins, 2.54 pitch, 7.62 row spacing; PDF has only a package table, no drawing and no land pattern; pads as PDIP-14 (Renesas E14.3 body 6.6 x 19.2 mid vs 6.35 x 19.3)	*
+C	adi	8-DIP (0.300", 7.62mm)	8-PDIP	PDIP-8	reuse: LTC N8 05-08-1510 (10556fd.pdf p.17) / Maxim P8-1: 8 pins, .100 pitch, .300-.325 row spacing, no land pattern; same MS-001 outline as PDIP-8 (body .255 = 6.48 wide vs 6.35)	*
+C	renesas	8-SOIC (0.154", 3.90mm Width)	8-SOIC	SOIC-8-RENESAS-M8.15	new: M8.15 p.10 typical recommended land pattern, pads 2.20 x 0.60, pitch 1.27, centre span 5.20 (SOIC-8 is 1.55 x 0.6 span 5.4), body 3.9 x 4.9	*
+C	renesas	8-DIP (0.300", 7.62mm)	8-PDIP	PDIP-8	reuse: E8.3 (MS-001-BA) p.11: 8 pins, 2.54 pitch, eA 7.62, no land pattern; body E1 6.10-7.11 x D 9.01-10.16 vs 6.35 x 9.59	*
+C	st	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	10-MiniSO	MSOP-10-ADI-MS	reuse: no land pattern in the datasheet (Fig.48 / Fig.59 MiniSO10 outline only; the SO8 footprint page is not this package), same outline as MSOP-10-ADI-MS: D 3.00 x E1 3.00, lead span 4.90, e 0.50, 10 pins (MO-187-BA)	*
+C	st	14-SOIC (0.154", 3.90mm Width)	14-SO	SOIC-14-ST-SO-14	new: ST SO-14 recommended footprint Fig.29 en.cd00000533 p.13 (pads 0.57x1.40, span 5.3; same in cd00003624, cd00127596, lm2902b; other PDFs show the identical SO-14 outline D 8.55-8.75 E1 3.8-4.0 without land pattern)	*
+C	st	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	TSSOP-14-ST	new: ST TSSOP-14 recommended footprint Fig.31 en.cd00000533 p.15 (pads 1.20x0.40, span 5.6; same in dm00078536, cd00144611, lm2902b; other PDFs show the identical outline without land pattern)	*
+C	st	16-SOIC (0.154", 3.90mm Width)	16-SO	SOIC-16	reuse: no land pattern in the datasheet, same JEDEC outline MS-012-AC as SOIC-16 (SO16 narrow D 9.8-10, F 3.8-4.0, e 1.27)	*
+C	st	5-TSSOP, SC-70-5, SOT-353	SC-70-5	SC70-5	reuse: no land pattern in the datasheet, same JEDEC outline MO-203 as SC70-5 (SC70-5 D 2.0 E1 1.25 e 0.65)	*
+C	st	6-TSSOP, SC-88, SOT-363	SC-70-6	SC70-6-ST	new: ST SC70-6 recommended footprint Fig.29 en.cd00219052 p.23 (pads 1.05x0.40, pitch 0.65, gap 0.80, span 1.85)	*
+C	st	8-SOIC (0.154", 3.90mm Width)	8-SO	SOIC-8-ST-SO8N	reuse: ST SO8 recommended footprint Figure 58 p.32 (0.6 x8, 3.9 gap, 6.7 outer, 1.27 pitch = pads 1.4 x 0.6 span 5.3) equals SOIC-8-ST-SO8N	datasheets/opamp/st/en.dm00760331.pdf
+C	st	8-SOIC (0.154", 3.90mm Width)	8-SO	SOIC-8	reuse: no land pattern in the datasheet (SO8 outline only), same JEDEC outline MS-012-AA 3.9 x 4.9 e 1.27 as SOIC-8 (TI D0008A)	*
+C	st	8-SOIC (0.154", 3.90mm Width)	8-SOIC	SOIC-8	reuse: no land pattern in the datasheet (SO-8 outline only), same JEDEC outline MS-012-AA 3.9 x 4.9 e 1.27 as SOIC-8 (TI D0008A)	*
+C	st	8-TSSOP (0.173", 4.40mm Width)	8-TSSOP	TSSOP-8	reuse: no land pattern in the datasheet (TSSOP8 outline only, D 3.00 E1 4.40 e 0.65), same JEDEC outline MO-153-AA as TSSOP-8 (TI PW0008A)	*
+C	st	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MiniSO	MSOP-8-ST-MINISO8	new: ST MiniSO8 recommended footprint Figure 44 p.23 (0.5 x8, 2.4 gap, 5.2 outer, 0.65 pitch = pads 1.4 x 0.5 span 3.8), body 3.0 x 3.0	datasheets/opamp/st/tsb622.pdf
+C	st	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-MiniSO	VSSOP-8-DGK	reuse: no land pattern in the datasheet (MiniSO8 outline only, D 3.00 E1 3.00 e 0.65), same JEDEC outline MO-187-AA as VSSOP-8-DGK (TI DGK0008A)	*
+C	st	SC-74A, SOT-753	SOT-23-5	SOT23-5	reuse: no land pattern in the line's datasheets (SOT23-5 outline only, D 2.90 E1 1.60 e 0.95), same JEDEC outline MO-178-AA as SOT23-5 (TI DBV0005A)	*
+C	ti	10-PowerTFSOP, 10-MSOP (0.118", 3.00mm Width)	10-HVSSOP	HVSSOP-10-DGQ	reuse DGQ0010D example board layout: 10X 1.45x0.3, 0.5 pitch, 4.4 span, thermal pad 1.83x1.89, body 3.0x3.0	datasheets/opamp/ti/slos232e.pdf
+C	ti	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	10-VSSOP	VSSOP-10	reuse DGS0010A example board layout: 10X 1.45x0.3, 0.5 pitch, 4.4 span, body 3.0x3.0	datasheets/opamp/ti/lmv981-n.pdf
+C	ti	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	10-VSSOP	VSSOP-10	reuse DGS0010A example board layout: 10X 1.45x0.3, 0.5 pitch, 4.4 span, body 3.0x3.0	datasheets/opamp/ti/opa2363.pdf
+C	ti	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	10-VSSOP	VSSOP-10	reuse DGS0010A example board layout: 10X 1.45x0.3, 0.5 pitch, 4.4 span, body 3.0x3.0	datasheets/opamp/ti/slos251d.pdf
+C	ti	10-TFSOP, 10-MSOP (0.118", 3.00mm Width)	10-VSSOP	VSSOP-10	reuse: PDF has no drawing (only ordering table, package DGS), same TI package code DGS0010A as sibling PDFs of the line	datasheets/opamp/ti/opa341.pdf
+C	ti	14-SOIC (0.154", 3.90mm Width)	14-SOIC	SOIC-14	reuse D0014A example board layout: 14X 1.55x0.6, 1.27 pitch, 5.4 span (all PDFs with a drawing); opa4743.pdf and tlc552.pdf have no drawing, same TI package D	*
+C	ti	14-SOIC (0.209", 5.30mm Width)	14-SO	SOP-14	reuse TI NS 14-pin SOP (R-PDSO-G14, 5.3 x 10.2 body, 1.27 pitch, 7.0 span, 1.85x0.6): na556.pdf has no NS drawing (only D0014A, DB0014A, J0014A)	datasheets/timer/ti/na556.pdf
+C	ti	14-SOIC (0.209", 5.30mm Width)	14-SOP	SOP-14	reuse TI NS 14-pin SOP (R-PDSO-G14, 5.3 x 10.2 body, 1.27 pitch, 7.0 span, 1.85x0.6): na556.pdf has no NS drawing (only D0014A, DB0014A, J0014A)	datasheets/timer/ti/na556.pdf
+C	ti	14-SSOP (0.209", 5.30mm Width)	14-SSOP	SSOP-14	reuse: TI DB0014A board layout 14X 1.85x0.45, 0.65 pitch, span 7	datasheets/timer/ti/na556.pdf
+C	ti	14-TFSOP (0.173", 4.40mm Width)	14-TVSOP	TVSOP-14	reuse: DGV0014A is the TVSOP-14 outline of the library footprint; PDF lists DGV but has no DGV drawing page	datasheets/opamp/ti/lmv824-n.pdf
+C	ti	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP	TSSOP-14	reuse: TI PW0014A example board layout 14X 1.5x0.45, 0.65 pitch, span 5.8 (same in all 12 PDFs)	*
+C	ti	16-TSSOP (0.173", 4.40mm Width)	16-TSSOP	TSSOP-16	reuse: TI PW0016A example board layout 16X 1.5x0.45, 0.65 pitch, span 5.8	datasheets/opamp/ti/slos218f.pdf
+C	ti	20-PowerTSSOP (0.173", 4.40mm Width)	20-HTSSOP	HTSSOP-20-TI-PWP0020W	reuse: TI PWP0020W 4231145/A 20X 1.5x0.45, span 5.8, thermal pad 2.79x3.64, body 4.4x6.5 (tlc082-q1.pdf)	datasheets/opamp/ti/tlc082-q1.pdf
+C	ti	5-TSSOP, SC-70-5, SOT-353	SC-70-5	SC70-5	reuse: TI DCK0005A example board layout, 5X 0.95 x 0.4, 2X 0.65 pitch, 2.2 span (same in all 8 PDFs)	*
+C	ti	6-TSSOP, SC-88, SOT-363	SC-70-6	SC70-6	reuse: TI DCK0006A example board layout, 6X 0.9 x 0.4, 4X 0.65 pitch, 2.2 span	*
+C	ti	8-PowerSOIC (0.154", 3.90mm Width)	8-SO PowerPad	SOIC-8-EP-DDA	new: TI DDA0008J example board layout p.23, 8X 1.55 x 0.6, 1.27 pitch, 5.4 span, thermal pad 2.6 x 3.1	*
+C	ti	8-SOIC (0.154", 3.90mm Width)	8-SOIC	SOIC-8	reuse: TI D0008A example board layout 4214825, 8X 1.55 x 0.6, 6X 1.27 pitch, 5.4 span (identical in the 48 PDFs that print it; opa137.pdf, opa341.pdf, slos049d.pdf print no drawing: same TI D package; tlc551.pdf prints only the MS-012 outline 4040047, 3.9 x 4.9 body)	*
+C	ti	8-SOIC (0.209", 5.30mm Width)	8-SO	SOP-8-PS	reuse: no drawing and no land pattern for PS in tl092.pdf, na555.pdf, tlc555.pdf; TI PS outline 5.3 x 6.2 body (tlc555.pdf p.1 lists SOP 6.2 x 7.8 mm) same as SOP-8-PS	*
+C	ti	8-TSSOP (0.173", 4.40mm Width)	8-TSSOP	TSSOP-8	reuse TI PW0008A land pattern 8X 1.5x0.45, 0.65 pitch, 5.8 span (same in rc4558 p.PW0008A, slos209g, tlv6742, na555)	*
+C	ti	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	8-VSSOP	VSSOP-8-DGK	reuse TI DGK0008A land pattern 8X 1.4x0.45, 0.65 pitch, 4.4 span (same in all 5 PDFs)	*
+C	ti	8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad	8-HVSSOP	HVSSOP-8-TI-DGN0008	reuse TI DGN0008D land pattern 1.4x0.45, 4.4 span, thermal pad 1.57x1.89 vs footprint 1.61x1.88 (within 0.05), slos254f.pdf	*
+C	ti	SC-74A, SOT-753	SOT-23-5	SOT23-5	reuse TI DBV0005A land pattern 5X 1.1x0.6, 0.95 pitch, 2.6 span (opa4743 has no drawing: NA/250 is DBV per its ordering table)	*
+C	ti	SOT-23-6	SOT-23-6	SOT23-6	reuse TI DBV0006A land pattern 6X 1.1x0.6, 0.95 pitch, 2.6 span (opa2363.pdf)	*
+C	ti	TO-263-8, D2PAK (7 Leads + Tab), TO-263CA	TO-263 (DDPAK-7)	TO-263-7-KTW	new: KTW0007A example board layout p.21, lead pads 3.45 x 0.94 pitch 1.27, tab land 8.4 x 10.5	*
+C	ti	14-DIP (0.300", 7.62mm)	14-PDIP	PDIP-14	reuse: TI N (R-PDIP-T14) 300 mil / 2.54 pitch through-hole; no land pattern in these PDFs (only package addendum / tube data), same outline as PDIP-14	*
+C	ti	8-DIP (0.300", 7.62mm)	8-PDIP	PDIP-8	reuse: TI P (R-PDIP-T8) 300 mil / 2.54 pitch through-hole; no land pattern in these PDFs (only package addendum / tube data), same outline as PDIP-8	*
+D	adi	10-UFQFN, CSP	10-LFCSP-UQ (1.6x1.3)	LFCSP-10-ADI-CP-10-10	new: CP-10-10 outline p.18, 1.3x1.6 body, 0.40 pitch, no land pattern (IPC nominal)	*
+D	adi	10-WFDFN Exposed Pad	10-DFN (3x3)	DFN-10-ADI-DD	reuse: LTC DD10 05-08-1699 Rev C p.15, pad 0.70x0.25, outer 3.55, EP 1.65x2.38	*
+D	adi	14-UFBGA, WLCSP	14-WLCSP (1.128x2.123)	WLCSP-14-ADI-CB-14-2	new: CB-14-2 p.16, 3x9 staggered balls, pitch 0.347x0.20, ball 0.267	*
+D	adi	16-WFQFN Exposed Pad, CSP	16-LFCSP-WQ (3x3)	LFCSP-16-ADI-CP-16-27	new: CP-16-27 p.14, b 0.25, EP 1.50 SQ (CP-16-22 has 1.60)	datasheets/opamp/adi/ad8641_8642_8643.pdf
+D	adi	16-WFQFN Exposed Pad, CSP	16-LFCSP-WQ (3x3)	LFCSP-17-ADI-CP-16-22	new: CP-16-22 land pattern of LFCSP-16-ADI-CP-16-22, p.23, EP numbered 17	datasheets/opamp/adi/ada4096-2_4096-4.pdf
+D	adi	16-WQFN Exposed Pad, CSP	16-LFCSP (4x4)	LFCSP-16-ADI-CP-16-23	reuse: CP-16-23 p.12, 4x4, pitch 0.65, L 0.60, EP 2.10 SQ	*
+D	adi	5-UFBGA, WLCSP	5-WLCSP (0.9x1.29)	WLCSP-5-ADI-CB-5-1	new: CB-5-1 p.21 Fig.60, balls A1 A2 B C1 C2 pitch 0.5/0.433, ball 0.20, body 0.90x1.29, outline only (pins numbered 1-5 as the single-5a pinout)	*
+D	adi	6-UFLGA	6-UTLGA (1.5x1.0)	LGA-6-MAXIM-Y61A1-1	new: Maxim 21-0190 Y61A1-1 max44280.pdf p.14, 1.5x1.0 body, e 0.50, L 0.35 x b 0.20, outline only (IPC nominal pads 0.65x0.25)	*
+D	adi	6-WDFN Exposed Pad	6-TDFN (3x3)	TDFN-6-MAXIM-T633	new: Maxim 21-0137 T633-2 (table in max8559.pdf p.12; MAX4238 PDF has no drawing), 3x3, e 0.95, EP 1.50x2.30, pin 7 = EP	*
+D	adi	6-XFBGA, WLBGA	6-WLP (1.23x.83)	WLP-6-ADI-N60G1	reuse: no land pattern in the datasheet (AN1891), N60S1+1 21-100491 p.4: 0.4 pitch, b 0.27, 3x2, body 1.228x0.828 vs 1.22x0.82	*
+D	adi	6-XFBGA, WLPBGA	6-WLP (1.08x0.73)	WLP-6-ADI-N60D1	new: N60D1+1 21-100086 (no drawing in the PDF), 3x2 balls pitch 0.35, body 1.08x0.73, pad 0.20 (AN1891 not in tree)	*
+D	adi	6-XFBGA, WLPBGA	6-WLP (1.24x0.84)	WLP-6-ADI-N60G1	reuse: no land pattern in the datasheet (refers to AN1891), N60C1+1 21-100055 is a 6-bump 0.4 mm pitch 3x2 WLP, body 1.24x0.84 vs 1.22x0.82 of N60G1 (within 0.1)	datasheets/opamp/adi/max44290.pdf
+D	adi	8-UFDFN, CSP	8-LFCSP-UD (2x2)	LFCSP-8-ADI-CP-8-6	new: CP-8-6 outline only, p.18 Fig.65, 2x2 body, 0.5 pitch, terminal 0.60x0.25, no exposed pad (IPC nominal)	datasheets/opamp/adi/ada4691-2_4691-4_4692-2_4692-4.pdf
+D	adi	8-WFBGA, CSPBGA	8-UCSP (1.6x1.6)	UCSP-8-MAXIM-B9-5	new: Maxim 21-0093 B9-5 (max4036-max4039.pdf p.21), 1.60x1.60, e 0.50, b 0.35, B2 depopulated, no land pattern	datasheets/opamp/adi/max4249-max4257.pdf
+D	adi	8-WFBGA, WLCSP	8-WLCSP (1.43x1.775)	WLCSP-8-ADI-CB-8-1	new: CB-8-1 p.23 Fig.64, 1.43x1.775, e 0.50, ball 0.32, B2 depopulated, outline only	datasheets/opamp/adi/ad8605_8606_8608.pdf
+D	adi	8-WFDFN Exposed Pad	8-DFN (3x3)	DFN-8-ADI-DD8	reuse: LTC DD8 05-08-1698 Rev C recommended solder pad (0.25x0.70, pitch 0.50, outer 3.5, EP 2.38x1.65), same numbers in all three PDFs	*
+D	adi	8-WFDFN Exposed Pad, CSP	8-LFCSP-WD (3x3)	LFCSP-9-ADI-CP-8-11	new: CP-8-11 outline (p.34), no land pattern; same pads as LFCSP-8-ADI-CP-8-11 but the exposed pad is numbered pin 9 (spec pin 9=EP)	datasheets/opamp/adi/ada4084-1_4084-2_4084-4.pdf
+D	adi	8-WFDFN Exposed Pad, CSP	8-LFCSP-WD (3x3)	LFCSP-9-ADI-CP-8-11	new: CP-8-11 outline MO-229-WEED p.29, same numbers; pin 9=EP	datasheets/opamp/adi/ada4661-2.pdf
+D	adi	8-WFDFN Exposed Pad, CSP	8-LFCSP-WD (3x3)	LFCSP-9-ADI-CP-8-11	new: CP-8-11 outline MO-229-WEED p.29, same numbers; pin 9=EP	datasheets/opamp/adi/ada4666-2.pdf
+D	adi	8-WFDFN Exposed Pad, CSP	8-LFCSP-WD (3x3)	LFCSP-8-ADI-CP-8-11	reuse: CP-8-11 outline p.20 (MO-229-W3030D-4), no land pattern, same outline; spec pinout dual-8 has no pin 9 (EPAD optional)	datasheets/opamp/adi/ada4841-1_4841-2.pdf
+D	adi	9-UFBGA, WLCSP	9-WLCSP (1.21x1.22)	WLCSP-9-ADI-CB-9-3	new: CB-9-3 p.17 Fig 63 outline only, ball 0.267 -> pad 0.20, pitch 0.4, body 1.21x1.22	*
+D	adi	9-XFBGA, WLBGA	9-WLP (1.23x1.23)	WLP-9-ADI-N91G1	new: Maxim 21-100549 N91G1+1 p.5, bump 0.27, pitch 0.4, body 1.228 sq, pad 0.25 per AN1891 as WLP-6-ADI-N60G1	*
+D	st	16-UFQFN	16-QFN (3x3)	QFN-16-3X3-ST	new: QFN16 3x3 outline p.23-24, no land pattern and no exposed pad, R4 pads 0.70x0.29 span 2.90	*
+D	st	16-VFQFN Exposed Pad	16-QFN (3x3)	QFN-16-3X3-ST-EP1.7	new: QFN16 3x3 recommended footprint p.17 Fig 33, pads 0.70x0.30, span 2.80, EP 1.70	datasheets/opamp/st/en.cd00000533.pdf
+D	st	16-VFQFN Exposed Pad	16-QFN (3x3)	QFN-16-3X3-ST-EP1.7	new: same footprint p.14 Fig 30 (identical figure)	datasheets/opamp/st/en.cd00001046.pdf
+D	st	16-VFQFN Exposed Pad	16-QFN (3x3)	QFN-16-3X3-ST-EP1.7	new: same footprint p.26 Fig 47 (identical figure)	datasheets/opamp/st/en.dm00078536.pdf
+D	st	16-VFQFN Exposed Pad	16-QFN (3x3)	QFN-16-3X3-ST-EP1.7	reuse: wettable-flank footprint p.25 Fig 37 pads 0.65x0.30 span 2.80 EP 1.75, within 0.05 of the shared object	datasheets/opamp/st/en.dm00047334.pdf
+D	st	16-VFQFN Exposed Pad	16-QFN (3x3)	QFN-16-3X3-ST-EP0.7	new: OA4NP footprint recommendation p.29 Fig 46, pads 1.00x0.30, outer 4.00 -> span 3.00, centre land 0.70	datasheets/opamp/st/en.dm00109017.pdf
+D	st	8-UFDFN Exposed Pad	8-DFN (2x2)	DFN-8-2X2-ST	new: ST DFN8 2x2 recommended footprint (0.30x0.75 pads, 0.5 pitch, 2.80 outer, centre 1.60x0.45); en.dm00041851 (LMV822) has the same outline table, no land pattern	*
+D	st	8-WFDFN	8-DFN (2x2)	DFN-8-2X2-ST-NOEP	new: DFN8 2x2 A0.75 no exposed pad, outline only (p.24 Table 9, L 0.55 b 0.20), IPC R4 computed pads 0.85x0.25 span 1.75	*
+D	ti	10-VFDFN Exposed Pad	10-VSON (3x3)	VSON-10-DRC-J	reuse: DRC0010J board layout p.54 (0.6x0.24 pads, 2.8 span, EP 1.65x2.4 with four 0.25 tabs, 3.4 overall)	*
+D	ti	6-UFDFN	6-USON (1.5x1)	USON-6-TI-NKK0006A	new: NKK0006A land pattern p.25 (pads 0.2x0.55, pin 1 0.625, 0.5 pitch, rows 0.85 apart)	*
+D	ti	8-UFBGA	8-uSMD (1.41x1.44)	DSBGA-8-TI-YPB0008	new: YPB0008 board layout p.30 (dia 0.16, 0.5 pitch, 3x3 with B2 empty)	*
+D	ti	8-WFDFN Exposed Pad	8-WSON (2x2)	WSON-8-DSG	reuse: DSG0008A 4218900/E: pad 0.5x0.25, pitch 0.5, span 1.9, EP 0.9x1.6, body 2.0 (1.9-2.1)	*
+D	ti	8-XFBGA, DSBGA	8-DSBGA (1.9x0.9)	DSBGA-8-YZD	new: YZD0008 4219545/A p.25: 8X 0.245 round, 0.5 pitch, body 0.97x2.06 (not YZP 0.89x1.89)	*
+D	ti	8-XFDFN Exposed Pad	8-X1SON (3x3)	X1SON-9-DNX	new: DNX0008A 4221623/A p.28: 8X 0.6x0.25 rounded, pitch 0.5, span 2.8, EP 1.65x2.38 numbered 9, body 3x3	*

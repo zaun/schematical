@@ -23,8 +23,8 @@ plan-48-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-48-C complete | `ls planning/completed/plan-48-C-*.md` → exists, or every C box ticked | NOT MET (2026-11-16: not started) |
-| The tools exist | `ls planning/plan-48-data/census/fp-check.py planning/plan-48-data/census/fp-load.sh` → two paths | NOT MET (C Phase 1 writes them) |
+| plan-48-C complete | `ls planning/completed/plan-48-C-*.md` → exists, or every C box ticked | MET (2026-11-24: every C box ticked) |
+| The tools exist | `ls planning/plan-48-data/census/fp-check.py planning/plan-48-data/census/fp-load.sh` → two paths | MET (2026-11-24) |
 
 Everything below is written against the world where these hold.
 
@@ -95,30 +95,39 @@ plan-48-C § 3.1 applies. In addition:
 
 ### Phase 1 — DFN, SON and QFN (TI, ST, ADI)
 
-- [ ] TI: `10-VSON (3x3)`, `8-X1SON (3x3)` and every other TI `D` line of
-      the final file that is no ball package: reuse check or draw; map rows.
-- [ ] ST: `8-DFN (2x2)` (two DigiKey packages), `16-QFN (3x3)` (two): reuse
-      check or draw; map rows.
-- [ ] ADI: `8-DFN (3x3)`, `8-LFCSP-WD (3x3)`, `8-LFCSP-UD (2x2)`, `6-TDFN
+- [x] TI: `10-VSON (3x3)`, `8-X1SON (3x3)` and every other TI `D` line of
+      the final file that is no ball package: reuse check or draw; map rows. Reuse `VSON-10-DRC-J`, `WSON-8-DSG`; new `X1SON-9-DNX` (TI DNX0008A,
+      exposed pad numbered 9), `USON-6-TI-NKK0006A`.
+- [x] ST: `8-DFN (2x2)` (two DigiKey packages), `16-QFN (3x3)` (two): reuse
+      check or draw; map rows. New: `DFN-8-2X2-ST`, `DFN-8-2X2-ST-NOEP`, `QFN-16-3X3-ST`, `QFN-16-3X3-ST-EP1.7`, `QFN-16-3X3-ST-EP0.7`
+      (the TSV524 wettable-flank pattern shares `QFN-16-3X3-ST-EP1.7`, exactly on the 0.05 mm limit).
+- [x] ADI: `8-DFN (3x3)`, `8-LFCSP-WD (3x3)`, `8-LFCSP-UD (2x2)`, `6-TDFN
       (3x3)`, `6-DFN (2x3)`, `16-LFCSP-WQ (3x3)`, `16-LFCSP (4x4)`,
       `10-LFCSP-UQ (1.6x1.3)`: reuse check (including plan-42's ids when
-      present) or draw; map rows.
+      present) or draw; map rows. New: `LFCSP-8-ADI-CP-8-6`, `LFCSP-9-ADI-CP-8-11` (exposed pad numbered 9),
+      `LFCSP-10-ADI-CP-10-10`, `LFCSP-16-ADI-CP-16-27`, `LFCSP-17-ADI-CP-16-22` (pad numbered 17), `TDFN-6-MAXIM-T633`; reuse `DFN-8-ADI-DD8`,
+      `DFN-10-ADI-DD`, `LFCSP-8-ADI-CP-8-11`, `LFCSP-16-ADI-CP-16-23`.
 
 Acceptance: every non-ball `D` line is mapped and the objects load.
   Check: `python3 -I planning/plan-48-data/census/fp-check.py D | grep -c 'DFN\|SON\|QFN\|LFCSP'` → 0, and `planning/plan-48-data/census/fp-load.sh planning/plan-48-data/footprints-C.json planning/plan-48-data/footprints-D.json` → only `extra footprint` / `unused footprint` lines for the new ids (est. 4 min).
+  Result: `fp-check.py D` → `28 lines, 0 without a footprint` (no line printed, so `grep -c` → 0); `fp-load.sh` → `34 new footprints: load ok`. MET.
 Commit: —
 
 ### Phase 2 — Ball packages
 
-- [ ] TI: `8-uSMD (1.41x1.44)` (LMC555), `8-DSBGA (1.9x0.9)`: reuse check
-      against `DSBGA-8-YFP` / `DSBGA-8-YZP`, or draw; map rows.
-- [ ] ADI: `4-WLP`, `5-WLCSP`, the `6-WLP` lines, `8-UCSP`, `8-WLCSP`,
+- [x] TI: `8-uSMD (1.41x1.44)` (LMC555), `8-DSBGA (1.9x0.9)`: reuse check
+      against `DSBGA-8-YFP` / `DSBGA-8-YZP`, or draw; map rows. New: `DSBGA-8-TI-YPB0008` (LMC555, balls A1–C3 without B2), `DSBGA-8-YZD`
+      (OPA2347; `dual`, pads 1–8 as the datasheet's pin figure numbers them: the part's pinout is numbered, so the first reading, a ball grid, was changed).
+- [x] ADI: `4-WLP`, `5-WLCSP`, the `6-WLP` lines, `8-UCSP`, `8-WLCSP`,
       `9-WLCSP`, `9-WLP`, `14-WLCSP`: draw from each datasheet's outline
-      (reuse where two share one outline); map rows.
-- [ ] `fp-check.py` gains the ball-name comparison of § 3.
+      (reuse where two share one outline); map rows. New: `WLCSP-5-ADI-CB-5-1`, `WLP-6-ADI-N60D1`, `UCSP-8-MAXIM-B9-5`, `WLCSP-8-ADI-CB-8-1`,
+      `WLCSP-9-ADI-CB-9-3`, `WLP-9-ADI-N91G1`, `WLCSP-14-ADI-CB-14-2`, `LGA-6-MAXIM-Y61A1-1`; reuse `WLP-6-ADI-N60G1`.
+- [x] `fp-check.py` gains the ball-name comparison of § 3.
 
 Acceptance: every `D` line is mapped; every new object loads; ball names agree.
   Check: `python3 -I planning/plan-48-data/census/fp-check.py D` → `<n> lines, 0 without a footprint`, no `ball names differ` line; `fp-load.sh footprints-C.json footprints-D.json` → only `extra footprint` / `unused footprint` lines for exactly the new ids (est. 4 min).
+  Result: `28 lines, 0 without a footprint`, `0 spec rows whose pin designators differ from their footprint` (the comparison covers numbers as well as ball names; its first run found
+  `ada4096-2_4096-4.pdf`'s numbered pad 17 and the OPA2347's numbered bumps: both fixed above); `fp-load.sh` → `34 new footprints: load ok`. MET.
 Commit: —
 
 ## Validation Plan
@@ -137,6 +146,15 @@ Commit: —
   WLP lines with the same ball grid and pad size share a footprint.
 
 ## Corrections
+
+1. **Counts.** `footprints-D.json`: 23 new footprints (`python3 -I -c "import json;print(len(json.load(open('planning/plan-48-data/footprints-D.json'))['footprints']))"` → 23); 28 `D` lines (planning: 26 with a picked row; the final pick of B has 28). The two files
+   together: 34 (11 + 23), the number `fp-load.sh` reports.
+2. **Numbered exposed pads are pins.** Where the part's pinout (B) names the exposed pad as the last pin (`9=EP`, `17=EP`), the footprint has that pin:
+   `LFCSP-9-ADI-CP-8-11`, `LFCSP-17-ADI-CP-16-22`, `X1SON-9-DNX` (`slots` with `0`, `perSide` set by `fp-collect.py` for an odd pin count). Where the datasheet leaves the pad unnumbered
+   (`WSON-8-DSG`, `QFN-16-3X3-ST-*`, `HTSSOP-20-TI-PWP0020W`), it is the footprint's `centre` pad and no pin.
+3. **Estimated sizes.** `WLP-6-ADI-N60D1` (MAX40007: the datasheet has no outline drawing; pad 0.20 round by the library's other 0.35-pitch footprints), `LGA-6-MAXIM-Y61A1-1` and `UCSP-8-MAXIM-B9-5`
+   (pads computed from the outline), `WLCSP-9-ADI-CB-9-3` (ball diameter read from an image) are the least firmly sourced; their `note`s say so.
+4. **`fp-check.py`** now compares pin designators (numbers and ball names) of every spec row with its footprint's pads, for both letters (instead of a ball-names-only check).
 
 ## Summary
 

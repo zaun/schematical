@@ -28,8 +28,8 @@ plan-48-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-48-B complete | `ls planning/completed/plan-48-B-*.md` → exists, or every B box ticked | NOT MET (2026-11-16: not started) |
-| The final package lines exist | `head -1 planning/plan-48-data/footprints-needed.txt` → the header, and `awk -F'\t' '!/^#/ && $8==0' planning/plan-48-data/footprints-needed.txt \| wc -l` → 0 (the `--add` form lists only lines with an `add` row) | NOT MET (B Phase 3 writes it; the planning-time file lists the download set: 13 lines without a picked row) |
+| plan-48-B complete | `ls planning/completed/plan-48-B-*.md` → exists, or every B box ticked | MET (2026-11-24: every B box ticked; B Corrections 5: 11 `add` rows still need a stock lookup (A Phase 1 `[~]`), after which `final.py` and `fp-work.py` are rerun for what changed) |
+| The final package lines exist | `head -1 planning/plan-48-data/footprints-needed.txt` → the header, and `awk -F'\t' '!/^#/ && $8==0' planning/plan-48-data/footprints-needed.txt \| wc -l` → 0 (the `--add` form lists only lines with an `add` row) | MET (2026-11-24: header present; `awk -F'\t' '!/^#/ && $8==0' planning/plan-48-data/footprints-needed.txt \| wc -l` → 0; C 58 lines, D 28) |
 
 Everything below is written against the world where these hold.
 
@@ -125,45 +125,54 @@ the paths and the letter set (`C`, `D`) changed; `fp-load.sh` builds
 
 ### Phase 1 — Tools; DIP, SOIC, SOP
 
-- [ ] `census/fp-check.py`, `fp-load.sh`, `fp-merge.py` per § 3.2;
-      `footprint-map.tsv` and `footprints-C.json` created empty.
-- [ ] The `8-PDIP`, `14-PDIP` lines (TI, ADI, Renesas): reuse check against
-      `PDIP-8` / `PDIP-14`, or draw; map rows.
-- [ ] The `8-SOIC`, `8-SO`, `14-SOIC`, `14-SO`, `16-SO` (3.9 mm), `8-SO` /
+- [x] `census/fp-check.py`, `fp-load.sh`, `fp-merge.py` per § 3.2 (plus `fp-show.py`, `fp-work.py`, `fp-collect.py`);
+      `footprint-map.tsv` and `footprints-C.json` created (written from the readers' slices by `fp-collect.py`).
+      The 58 `C` and 28 `D` lines were read by 18 subagents (`/tmp/p48/fpbrief.md`), 5 lines each.
+- [x] The `8-PDIP`, `14-PDIP` lines (TI, ADI, Renesas): reuse check against
+      `PDIP-8` / `PDIP-14`, or draw; map rows. All reuse `PDIP-8` / `PDIP-14` (Corrections 3).
+- [x] The `8-SOIC`, `8-SO`, `14-SOIC`, `14-SO`, `16-SO` (3.9 mm), `8-SO` /
       `14-SO` / `14-SOP` (5.3 mm) and the `8-SO PowerPad` lines, per maker:
-      reuse check or draw; map rows.
+      reuse check or draw; map rows. New: `SOIC-14-ADI-S14`, `SOIC-8-RENESAS-M8.15`, `SOIC-14-ST-SO-14`,
+      `SOIC-8-EP-DDA` (TI DDA0008J); the rest reuse (`SOIC-8`, `SOIC-14`, `SOIC-16`, `SOP-8-PS`, `SOP-14`, `SOIC-8-ADI-S8`,
+      `SOIC-8-MAXIM-S8`, `SOIC-8-ST-SO8N`).
 
 Acceptance: every DIP, SOIC and SOP line is mapped and the new objects load.
   Check: `python3 -I planning/plan-48-data/census/fp-check.py C | grep -c 'DIP\|SOIC\|-SO\b\|SOP'` → 0 missing lines of these packages, and `planning/plan-48-data/census/fp-load.sh planning/plan-48-data/footprints-C.json` → only `extra footprint` / `unused footprint` lines for the new ids (est. 4 min: one `footprint_check` build).
+  Result: `fp-check.py C` → `58 lines, 0 without a footprint`, `0 spec rows whose pin designators differ from their footprint`; `fp-load.sh footprints-C.json footprints-D.json` → `34 new footprints: load ok`. MET.
 Commit: —
 
 ### Phase 2 — SSOP, TSSOP, TVSOP, MSOP / VSSOP / µMAX / MiniSO
 
-- [ ] The `14-SSOP`, `16-SSOP`, `8-TSSOP`, `14-TSSOP`, `16-TSSOP`,
-      `20-HTSSOP`, `14-TVSOP` lines: reuse check or draw; map rows.
-- [ ] The 8- and 10-lead `VSSOP`, `HVSSOP`, `MSOP`, `uMAX/uSOP`, `MiniSO`
+- [x] The `14-SSOP`, `16-SSOP`, `8-TSSOP`, `14-TSSOP`, `16-TSSOP`,
+      `20-HTSSOP`, `14-TVSOP` lines: reuse check or draw; map rows. New: `TSSOP-14-ST`; the rest reuse (`SSOP-14`, `SSOP-16-ADI-GN`,
+      `TSSOP-8`, `TSSOP-14`, `TSSOP-16`, `HTSSOP-20-TI-PWP0020W`, `TVSOP-14`).
+- [x] The 8- and 10-lead `VSSOP`, `HVSSOP`, `MSOP`, `uMAX/uSOP`, `MiniSO`
       lines (3.0 mm bodies; the `H` forms with their exposed pad): reuse
-      check against `VSSOP-8`, `VSSOP-8-DGK`, `VSSOP-10`, or draw; map rows.
+      check against `VSSOP-8`, `VSSOP-8-DGK`, `VSSOP-10`, or draw; map rows. New: `MSOP-8-ADI-MS8-F` (LTC Rev F pad layout, span 4.341),
+      `MSOP-8-ST-MINISO8`; reuse `MSOP-10-ADI-MS`, `MSOP-8-ADI-MS8`, `VSSOP-8-DGK`, `VSSOP-10`, `HVSSOP-10-DGQ`, `HVSSOP-8-TI-DGN0008`.
 
 Acceptance: these lines are mapped and the objects load.
   Check: `fp-check.py C | grep -c 'SSOP\|TVSOP\|MSOP\|uMAX\|MiniSO'` → 0, and `fp-load.sh footprints-C.json` as in Phase 1 (est. 4 min).
+  Result: same run as Phase 1 (`58 lines, 0 without a footprint`; `34 new footprints: load ok`). MET.
 Commit: —
 
 ### Phase 3 — SOT-23, TSOT, SC-70, TO-263
 
-- [ ] The `SOT-23-5`, `SOT-23-6`, `SOT-23-8` lines (TI, ADI, ST): reuse check
-      against `SOT23-5`, `SOT23-6`, `SOT23-8-DCN`, or draw; map rows.
-- [ ] The `TSOT-23-5`, `TSOT-23-6`, `TSOT-6`, `TSOT-23-8` lines: reuse check
+- [x] The `SOT-23-5`, `SOT-23-6`, `SOT-23-8` lines (TI, ADI, ST): reuse check
+      against `SOT23-5`, `SOT23-6`, `SOT23-8-DCN`, or draw; map rows. New: `SOT23-8-ADI-RJ-8` (IPC nominal, no maker land pattern); reuse `SOT23-5`, `SOT23-6`, `SOT23-6-ADI-RJ6`.
+- [x] The `TSOT-23-5`, `TSOT-23-6`, `TSOT-6`, `TSOT-23-8` lines: reuse check
       against `SOT23-THIN-6`, `SOT23-THIN-8` and, when present,
-      `TSOT-5-ADI-UJ` (plan-42's id; § 3.1 shared ids); else draw; map rows.
-- [ ] The `SC-70-5`, `SC-70-6`, `SC-70-8` lines: reuse check against
+      `TSOT-5-ADI-UJ` (plan-42's id; § 3.1 shared ids); else draw; map rows. All reuse: `TSOT23-5-ADI-S5`, `TSOT-5-ADI-UJ`, `TSOT-6-ADI-S6`, `TSOT-6-ADI-UJ`
+      (already in the library).
+- [x] The `SC-70-5`, `SC-70-6`, `SC-70-8` lines: reuse check against
       `SC70-5`, `SC70-6`, `SC70-6-ADI-KS-6`; `SC-70-8` is drawn (no 8-lead
-      SC-70 exists); map rows.
-- [ ] The `TO-263 (DDPAK-7)` line: drawn from its TI drawing (`explicit`
-      style: seven leads and the tab), when it still carries an `add` row.
+      SC-70 exists); map rows. New: `SC70-8-ADI-X8C-1`, `SC70-6-ST`; reuse `SC70-5`, `SC70-5-ADI-X5`, `SC70-6`, `SC70-6-ADI-KS-6`.
+- [x] The `TO-263 (DDPAK-7)` line: drawn from its TI drawing (`explicit`
+      style: seven leads and the tab), when it still carries an `add` row. New: `TO-263-7-KTW` (TI KTW0007A; the tab is the unnumbered pad).
 
 Acceptance: every `C` line is mapped; every new object loads.
   Check: `python3 -I planning/plan-48-data/census/fp-check.py C` → `<n> lines, 0 without a footprint`; `fp-load.sh footprints-C.json` → only `extra footprint` / `unused footprint` lines for exactly the ids of `footprints-C.json` (est. 4 min).
+  Result: `58 lines, 0 without a footprint`; `fp-load.sh` (C and D together) → `34 new footprints: load ok`. MET.
 Commit: —
 
 ## Validation Plan
@@ -182,6 +191,24 @@ Commit: —
   final pick (the TO-263 line has one picked part at planning time).
 
 ## Corrections
+
+1. **Counts.** `footprints-C.json` has 11 new footprints (`python3 -I -c "import json;print(len(json.load(open('planning/plan-48-data/footprints-C.json'))['footprints']))"` → 11); the map
+   (`footprint-map.tsv`, C and D together) has 156 rows: 115 reuse, 41 new. 58 `C` lines.
+2. **Outline-only datasheets (the common case: ADI, Maxim, ST, Renesas print no land pattern).** § 3.1's
+   "IPC-7351 nominal pattern of the dimensions' mid-values" is applied only when no
+   existing footprint has the same JEDEC outline; otherwise the existing footprint of that outline (same pin count,
+   lead pitch, body within 0.1 mm) is reused and the map `note` says `no land pattern in the datasheet, same JEDEC
+   outline`. This is a loosening of the reuse check (the existing pattern is a maker's or IPC pattern of that outline, not
+   the one computed from this drawing): ADI R-8 → `SOIC-8` (TI D), ADI RM-8 → `MSOP-8-ADI-MS8`, ADI RJ-5 → `SOT23-5`,
+   ADI RU-8 / ST TSSOP8 → `TSSOP-8`, and the like. Where a datasheet prints its own land pattern that differs from the
+   existing one (ST SO-14, ST TSSOP14, ST SC70-6, ST MiniSO8, Renesas M8.15, LTC Rev F MS8) a new footprint is drawn.
+3. **DIP bodies.** The DIP datasheets print no land pattern; the plastic DIP outline (MS-001, 2.54 mm pitch, 7.62 mm
+   row spacing) is that of `PDIP-8` / `PDIP-14`; the datasheets' body width (6.5–6.6 mm) is 0.13–0.25 mm above the footprint's 6.35 mm,
+   outside the 0.1 mm body rule; reused anyway (a courtyard difference inside the outline's own tolerance; pads and drill equal).
+4. **Not checked against a drawing** (no drawing in the PDF; reused on the package code): `opa341.pdf` (DGS), `opa4743.pdf`, `tlc552.pdf`,
+   `lmv824-n.pdf` (DGV), `na556.pdf` NS (reused `SOP-14`). The ST SOT-23-5 pattern of `tsb622.pdf` p.19 (span 2.30) is not
+   used (that PDF is not a document of the SOT-23-5 line; the line reuses `SOT23-5`).
+5. **Shared ids.** No id of the 11 is in `Parts/footprints.json` (`grep` per id by the readers; `fp-load.sh` appends each and loads).
 
 ## Summary
 
