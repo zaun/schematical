@@ -247,7 +247,7 @@ Delivers G as a running app that opens and saves files; no probes yet.
 Acceptance: the app starts with an Untitled document, and a file passed with `open -a` opens in a window named after it.
   Check: `open -a <spike.app> examples/6502.schematical; osascript -e 'tell application "System Events" to tell process "SchematicalSpike59" to get name of every window'` → output contains `6502` (est. 3 min incl. incremental build).
   Result: file open met: probe `docs` → `window '6502.schematical' visible=true … model … parts=103` after `open -a <spike.app> examples/6502.schematical` (System Events lists no window while the screen is locked, Corrections 4). File › New (`newDocument:`) → `name=Untitled url=nil … window 'Untitled'`. **Not met while locked:** a cold launch with no file and no saved state shows no document at all (`documents=0`), as the base app shows no window (Corrections 8); the Untitled-at-launch half of this acceptance is in `findings.md` § Checks that need the unlocked screen.
-Commit: (this commit; hash in the next)
+Commit: f1a6b701
 
 ### Phase 3 — File probes F1–F7 on G
 
@@ -263,7 +263,7 @@ Commit: (this commit; hash in the next)
 
 Acceptance: seven verdict rows for G.
   Check: `rg -c '^\| F[1-7] \| [^|]+\| (works|workaround|blocked) \|' planning/plan-59-data/findings.md` → `7` (est. 2–3 h of driving; the probes are the work). — ran: `7`.
-Commit: (this commit; hash in the next)
+Commit: f1a6b701
 
 ### Phase 4 — Undo and dirty probes U1–U5 on G
 
@@ -273,16 +273,16 @@ Commit: (this commit; hash in the next)
 
 Acceptance: five verdict rows (U1–U5) for G.
   Check: `rg -c '^\| U[1-5] \| [^|]+\| (works|workaround|blocked) \|' planning/plan-59-data/findings.md` → `5` (est. 3 h; the undo bridge is the work). — ran: `5`.
-Commit: (this commit; hash in the next)
+Commit: f1a6b701
 
 ### Phase 5 — Save the evidence
 
 - [x] `git -C <wt> diff 2d10a029 > planning/plan-59-data/spike-G-core.patch` (the worktree stays for plan-59-B). — 1197 lines, taken with `git add -N .` first so the three new files are in it.
-- [~] Fill this plan's `Commit:` lines and tick its boxes. — boxes ticked; the hashes of this commit go in with the next one.
+- [x] Fill this plan's `Commit:` lines and tick its boxes. — phase 1 `3640db49`, phases 2–5 `f1a6b701`.
 
 Acceptance: the patch applies to a clean checkout of the base commit.
   Check: `git apply --check planning/plan-59-data/spike-G-core.patch` run in a second throwaway `git worktree add --detach <scratch>/chk 2d10a029` → exit 0, then `git worktree remove <scratch>/chk` (est. 2 min). — ran `scripts/chk.sh spike-G-core.patch`: `git apply --check spike-G-core.patch -> exit 0`.
-Commit: (this commit; hash in the next)
+Commit: f1a6b701
 
 ## Validation Plan
 
