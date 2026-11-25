@@ -180,20 +180,20 @@ window, and the owner chose parity); drawing markers into the export scene.
 Acceptance: the window opens from the menu on the Schematic page, lists, selects, excludes.
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/ErcResultsModelTests -only-testing:schematicalTests/KeyboardHelpTests -only-testing:schematicalTests/DesignRuleCheckTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 8 min).
   Result (2026-11-25, in the worktree): `ErcResultsModelTests` 7, `KeyboardHelpTests` 6, `DesignRuleCheckTests` 17: `Executed 30 tests, with 0 failures`, `** TEST SUCCEEDED **`; the window, the menu command and the child-window wiring compile in the app target. The real-window pass (⌥⌘E on the Schematic page) is the owner's (plan-63-G Validation Plan).
-Commit: (recorded in the next commit)
+Commit: c92ee10c
 
 ### Phase 2 — Markers and bringing a line into view
 
-- [ ] `Canvas/SchematicModel.swift`: `ErcMarker`, `var ercMarkers: [ErcMarker]` and
+- [x] `Canvas/SchematicModel.swift`: `ErcMarker`, `var ercMarkers: [ErcMarker]` and
       `var ercFocus: ErcFocus?` (editor state, not in `DocumentState`).
       `ErcResultsModel` writes the markers of the non-excluded violations after each
       run and clears them (and the focus) in `deinit`/`onDisappear` of the window
       and when the document closes (`SchematicNSDocument.close()` already closes child
       windows, `ChildWindows.swift`: the window's disappearance clears them).
-- [ ] New `Canvas/ErcMarkerLayer.swift` and its place in `SchematicCanvasView.worldLayer`
+- [x] New `Canvas/ErcMarkerLayer.swift` and its place in `SchematicCanvasView.worldLayer`
       after `PinMarkerLayer` (`:301`); `SchematicCanvasView` handles `ercFocus` with
       `viewport.pan(to:)` as § 3 says (a `CanvasViewport.centre(on:)` helper, tested).
-- [ ] Tests (new `schematicalTests/ErcMarkerTests.swift`): markers follow the results
+- [x] Tests (new `schematicalTests/ErcMarkerTests.swift`): markers follow the results
       and are empty when the model is released; a violation's marker point is the pin's tip;
       `CanvasViewport.centre(on:)` puts the point at the view's centre
       (`world(size/2)` equals the point); `SchematicExport.svg(SchematicScene(doc))` (as `SchematicSVGTests.svgText`) of a
@@ -201,7 +201,8 @@ Commit: (recorded in the next commit)
 
 Acceptance: markers appear for each shown violation, clear with the window, and never reach an export.
   Check: `xcodebuild test … -only-testing:schematicalTests/ErcMarkerTests -only-testing:schematicalTests/SchematicSVGTests -only-testing:schematicalTests/SchematicSceneTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 8 min).
-Commit: —
+  Result (2026-11-25): `ErcMarkerTests` 6, `ErcResultsModelTests` 7, `SchematicSVGTests` 6, `SchematicSceneTests` 9: `Executed 28 tests, with 0 failures`, `** TEST SUCCEEDED **`. "Empty when the model is released" is `clearMarkers()` (a model cannot touch the document from `deinit`); the window calls it on `onDisappear`, which runs when the child window closes (`ChildWindowCenter.forget` replaces its root view). A marker is 7 units, 11 when its line is selected.
+Commit: (recorded in the next commit)
 
 ### Phase 3 — Automation and docs
 

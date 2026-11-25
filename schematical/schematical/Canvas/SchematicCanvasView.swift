@@ -153,6 +153,10 @@ struct SchematicCanvasView: View {
             } action: { newSize in
                 viewport.updateSize(newSize)
             }
+            .onChange(of: document.ercFocus) { _, focus in
+                // A line selected in the Electrical Rules Check: bring its mark into view.
+                if let focus { viewport.reveal(focus.point) }
+            }
             .gesture(canvasGesture)
             .simultaneousGesture(pinchGesture)
             .scrollPans(viewport) { scrolledMidPress(by: $0) }
@@ -306,6 +310,11 @@ struct SchematicCanvasView: View {
                 highlight: highlightPoint,
                 area: gridRect
             )
+
+            // The Electrical Rules Check's marks: on screen only, never in an export.
+            if !document.ercMarkers.isEmpty {
+                ErcMarkerLayer(markers: document.ercMarkers, selected: document.ercSelectedKeys, area: gridRect)
+            }
         }
         .scaleEffect(zoom, anchor: .topLeading)
         .offset(viewport.offset)

@@ -2076,6 +2076,21 @@ final class SchematicDocument {
     /// few seconds.
     var editorMessage: String?
 
+    /// The Electrical Rules Check window's marks on the schematic (plan-63-F):
+    /// editor state like the selection, never saved and not an undo step.
+    var ercMarkers: [ErcMarker] = []
+    /// The keys of the violations whose lines are selected in that window.
+    var ercSelectedKeys: Set<String> = []
+    /// The point a selected line asks the canvas to bring into view.
+    private(set) var ercFocus: ErcFocus?
+    private var ercFocusSerial = 0
+
+    /// Asks the canvas to bring `point` into view.
+    func focusErc(on point: CGPoint) {
+        ercFocusSerial += 1
+        ercFocus = ErcFocus(point: point, serial: ercFocusSerial)
+    }
+
     /// The part library, for the voltage check. With none, no edit is
     /// refused.
     /// The backend library (nil in some tests); the voltage check and the ERC read it.

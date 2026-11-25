@@ -50,6 +50,19 @@ final class ErcResultsModel {
         let ids = Set(rows.map(\.id))
         if !selection.isSubset(of: ids) { selection = selection.intersection(ids) }
         hasRun = true
+        publishMarkers()
+    }
+
+    /// Puts a mark on the schematic at each violation shown (never an excluded one).
+    private func publishMarkers() {
+        document.ercMarkers = violations.map { ErcMarker(point: $0.point, severity: $0.severity, key: $0.key) }
+        document.ercSelectedKeys = Set(selectedRows.map(\.key))
+    }
+
+    /// Takes the marks off the schematic (the window closes).
+    func clearMarkers() {
+        document.ercMarkers = []
+        document.ercSelectedKeys = []
     }
 
     private static func numbered(_ list: [ErcViolation]) -> [ErcViolation] {
@@ -71,6 +84,8 @@ final class ErcResultsModel {
     func select(_ ids: Set<Int>) {
         let target = items(of: ids)
         if !target.items.isEmpty { document.selectSchematicItems(target.items) }
+        document.ercSelectedKeys = Set(rows.filter { ids.contains($0.id) }.map(\.key))
+        if let point = target.point { document.focusErc(on: point) }
     }
 
     /// Excludes the selected lines (one undo step); the list reruns.

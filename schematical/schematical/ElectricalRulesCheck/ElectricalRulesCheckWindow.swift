@@ -297,6 +297,7 @@ struct ElectricalRulesCheckTable: View {
             model.run()
         }
         .onChange(of: model.selection) { _, chosen in model.select(chosen) }
+        .onDisappear { model.clearMarkers() }
         .onChange(of: model.showsExcluded) { _, _ in model.selection = [] }
     }
 
