@@ -1,7 +1,7 @@
 # Part file format
 
 Every orderable part (gate, flip-flop, latch, decoder, counter, shift register, SRAM, EEPROM, switch, LED,
-diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character LCD module, oscillator, crystal, inductor, fuse, relay, buzzer, 555 timer, supply, microprocessor, microcontroller, serial controller, serial memory, LED and LCD driver, programmable logic device, IC socket) is described in a JSON part file in
+diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character LCD module, oscillator, crystal, inductor, fuse, relay, buzzer, 555 timer, op-amp, supply, microprocessor, microcontroller, serial controller, serial memory, LED and LCD driver, programmable logic device, IC socket) is described in a JSON part file in
 `schematical/schematical/Parts/`, one file per kind:
 
 | File | Kind |
@@ -21,6 +21,7 @@ diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character
 | `relay.json` | `relay` |
 | `buzzer.json` | `buzzer` |
 | `timer.json` | `timer` |
+| `opamp.json` | `opamp` |
 | `supply.json` | `supply` |
 | `latch.json` | `latch` |
 | `decoder.json` | `decoder` |
@@ -316,8 +317,8 @@ charlcd and serialmem **devices**, and on any **part** of those kinds:
 
 | Key | Value |
 |---|---|
-| `"vcc"` | `[min, max]` volts: the recommended supply range, 0 < min < max ≤ 30 |
-| `"inputMax"` | optional: the highest voltage an input (or inout) takes when it is above `vcc` max, e.g. `5.5` for 5 V-tolerant LVC inputs; at least the resolved `vcc` max, at most 30. Without it an input takes at most the `vcc` max. |
+| `"vcc"` | `[min, max]` volts: the recommended supply range, 0 < min < max ≤ 100 |
+| `"inputMax"` | optional: the highest voltage an input (or inout) takes when it is above `vcc` max, e.g. `5.5` for 5 V-tolerant LVC inputs; at least the resolved `vcc` max, at most 100. Without it an input takes at most the `vcc` max. |
 
 Resolution, per part:
 
@@ -1210,6 +1211,53 @@ Part keys: `"vcc"`, `"inputMax"` (a part ends with a range). The listing line
  "timers": [{"trigger": "TRIG", "threshold": "THRES", "discharge": "DISCH", "output": "OUT",
              "reset": "RESET", "control": "CONT"}],
  "parts": [{"name": "NE555P", "manufacturer": "Texas Instruments", "package": "DIP", "pinout": "555-8",
+            "footprint": "PDIP-8"}]}
+```
+
+### `opamp`
+
+Operational amplifiers with one, two or four amplifiers (plan-48):
+`"kind": "opamp"`, run by `backend/src/models/opamp.c`. In play mode an op-amp
+is **facts only**: its model is passive (no callbacks, the capacitor shape),
+it drives nothing, its output pins stay undriven (Z), and, unlike a device
+with `"simulated": false`, a placed op-amp does not turn Run off. The voltage
+check tests its `V+` pin against `vcc` (the single-supply span `V+` − `V-`:
+the app has no negative supply, so `V-` is wired to ground) and skips every
+amplifier pin (inputs and outputs are analog, `part_pin_analog`).
+
+Device keys:
+
+| Key | Value |
+|---|---|
+| `"type"` | `"general"`, `"jfet"` or `"cmos"` (`unknown op-amp type "X"`) |
+| `"amplifiers"` | 1, 2 or 4 entries (`"amplifiers" must have 1, 2 or 4 entries`), each `{"plus", "minus", "output"}` (pin names, all required) |
+| `"gbwHz"` | optional: the gain bandwidth product in whole hertz, 0 to 1e11 (0 = not given) |
+| `"slewVus"` | optional: the slew rate in V/µs, 0 to 100000 (`"slewVus" must be from 0 to 100000`; `PartOpamp.slew_mv_us`) |
+| `"vosMv"` | optional: the maximum input offset voltage in mV, 0 to 1000 (`PartOpamp.vos_uv`, microvolts) |
+| `"railIn"`, `"railOut"` | optional booleans, default false: rail-to-rail input / output |
+| `"vcc"`, `"inputMax"` | the supply span `V+` − `V-`, as every kind |
+
+Pin rules: each `plus` and `minus` pin exists once and has the role `input`
+(`op-amp pin "IN1+" must be an input`), each `output` pin the role `output`
+(`op-amp pin "OUT1" must be an output`); no pin is named twice (`op-amp pin
+"OUT1" is named twice`); the pinout has at least one `power` and one `ground`
+pin (`an op-amp needs a power pin and a ground pin`). Every other pin is an
+`input` (shutdown, enable, offset null, bias set), an `output` (a flag), `ground`
+(a numbered exposed pad) or `nc`. Part keys: `"vcc"`, `"inputMax"`, `"vosMv"` (a
+grade's own offset); a part ends with a range. The listing line ends `type=<t> amps=<n>
+gbw=<hz> slew=<mV/us> vos=<uV> rin=<0|1> rout=<0|1>`.
+
+```json
+{"id": "opamp_dual_general", "function": "General purpose op-amp", "description": "Dual op-amp",
+ "drawer": ["Analog", "Op-amps", "Dual"],
+ "pinouts": {"dual-8": [{"number":1,"name":"OUT1","role":"output"}, {"number":2,"name":"IN1-","role":"input"},
+   {"number":3,"name":"IN1+","role":"input"}, {"number":4,"name":"V-","role":"ground"},
+   {"number":5,"name":"IN2+","role":"input"}, {"number":6,"name":"IN2-","role":"input"},
+   {"number":7,"name":"OUT2","role":"output"}, {"number":8,"name":"V+","role":"power"}]},
+ "type": "general", "gbwHz": 1000000, "slewVus": 0.5, "vosMv": 7, "vcc": [3, 32],
+ "amplifiers": [{"plus": "IN1+", "minus": "IN1-", "output": "OUT1"},
+                {"plus": "IN2+", "minus": "IN2-", "output": "OUT2"}],
+ "parts": [{"name": "LM358P", "manufacturer": "Texas Instruments", "package": "DIP", "pinout": "dual-8",
             "footprint": "PDIP-8"}]}
 ```
 

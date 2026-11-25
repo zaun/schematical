@@ -261,7 +261,7 @@ int kind_ns(KindContext *ctx, const cJSON *value, const char *what, uint64_t *ps
     return 0;
 }
 
-#define VOLTS_MAX 30.0
+#define VOLTS_MAX 100.0
 
 static int volts_value(const cJSON *item, double max_v, uint32_t *mv) {
     if (!cJSON_IsNumber(item) || !(item->valuedouble >= 0) || item->valuedouble > max_v) {

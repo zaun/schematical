@@ -29,7 +29,7 @@ typedef enum {
     PART_CAPACITOR, PART_REGISTER, PART_MCU, PART_RESISTOR, PART_TRANSISTOR,
     PART_GENERIC, PART_SERIALMEM, PART_NIXIE, PART_REGULATOR, PART_CRYSTAL, PART_DEKATRON, PART_LCD,
     PART_LEDDRIVER, PART_LCDDRIVER, PART_POWERSWITCH, PART_PLD, PART_SOCKET,
-    PART_INDUCTOR, PART_FUSE, PART_RELAY, PART_BUZZER, PART_TIMER
+    PART_INDUCTOR, PART_FUSE, PART_RELAY, PART_BUZZER, PART_TIMER, PART_OPAMP
 } PartKind;
 
 /* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */
@@ -314,6 +314,13 @@ typedef struct { const char *driver, *technology; uint32_t hz, rated_mv, min_mv,
    from the resistors and capacitors wired to it (timer_state.h). */
 typedef struct { size_t timer_count; const char *process; uint64_t max_hz, tpd_ps; } PartTimer;
 
+/* An operational amplifier (plan-48-F): facts only. type "general", "jfet"
+   or "cmos"; amplifier_count 1, 2 or 4; rail_in / rail_out: rail-to-rail
+   input / output; gbw_hz, slew_mv_us (millivolts per microsecond) and vos_uv
+   (max input offset, microvolts): 0 = not given. */
+typedef struct { const char *type; size_t amplifier_count; uint8_t rail_in, rail_out;
+                 uint64_t gbw_hz; uint32_t slew_mv_us, vos_uv; } PartOpamp;
+
 /* A microcontroller (plan-36-F): facts only, no simulation model (its
    device says "simulated": false). core: "avr", "avrrc", "avrxt", "avrxm",
    "cortex-m0plus", "xtensa-lx6", "xtensa-lx7" or "riscv". max_hz: the
@@ -457,6 +464,7 @@ typedef struct Part {
     const PartRelay *relay;
     const PartBuzzer *buzzer;
     const PartTimer *timer;
+    const PartOpamp *opamp;
     /* Dual-supply parts (plan-20-F): domain 0 is the A side (its vcc is
        Part.vcc), domain 1 the B side; NULL/0 for single-supply parts. */
     const PartSupplyDomain *domains; size_t domain_count;

@@ -24,8 +24,8 @@ plan-48-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-48-E complete | `ls planning/completed/plan-48-E-*.md` → exists, or every E box ticked | NOT MET (2026-11-16: not started) |
-| The kind is absent | `grep -c 'PART_OPAMP' backend/include/parts.h` → 0; `ls backend/src/models/opamp.c` → no such file | MET (2026-11-16) |
+| plan-48-E complete | `ls planning/completed/plan-48-E-*.md` → exists, or every E box ticked | MET (2026-11-24: every E box ticked) |
+| The kind is absent | `grep -c 'PART_OPAMP' backend/include/parts.h` → 0; `ls backend/src/models/opamp.c` → no such file | MET (2026-11-16; 2026-11-24 before this letter: 0, no file) |
 
 Everything below is written against the world where these hold.
 
@@ -130,31 +130,33 @@ The passive shape of `capacitor.c`: `.name`, `.pin_count`, `.create`
 
 ### Phase 1 — The kind, the tests
 
-- [ ] `backend/include/parts.h`: `PART_OPAMP` after the current last
+- [x] `backend/include/parts.h`: `PART_OPAMP` after the current last
       `PartKind`, `PartOpamp`, `const PartOpamp *opamp;` on `Part`.
-- [ ] `backend/src/models/opamp.c`: `OPAMP_KIND` and `OPAMP_MODEL` per § 3.
-- [ ] `backend/src/library/kinds.c`: the `extern` and `&OPAMP_KIND` at the
+- [x] `backend/src/models/opamp.c`: `OPAMP_KIND` and `OPAMP_MODEL` per § 3.
+- [x] `backend/src/library/kinds.c`: the `extern` and `&OPAMP_KIND` at the
       end of `KINDS[]` (`grep -c 'OPAMP_KIND' backend/src/library/kinds.c` →
       0 before, 2 after); `backend/CMakeLists.txt`: `src/models/opamp.c`
       and `logic_test(opamp_test)`.
-- [ ] `backend/tests/support/listing.c`: `case PART_OPAMP: return "opamp"`
+- [x] `backend/tests/support/listing.c`: `case PART_OPAMP: return "opamp"`
       and the facts line `type=%s amps=%zu gbw=%llu slew=%u vos=%u rin=%u
       rout=%u`; `TRACE_LAST_KIND` and `listing_check.c`'s two array sizes →
       `PART_OPAMP` (moot when a later kind already sizes them).
-- [ ] `backend/tests/support/opamp_fixture.h` and `backend/tests/opamp_test.c`:
+- [x] `backend/tests/support/opamp_fixture.h` and `backend/tests/opamp_test.c`:
       the cases of § 5.
 
 Acceptance: the kind loads, stays passive, and the voltage check treats it
 as § 1 says.
   Check: `cmake -S backend -B /tmp/logic-p48-f && cmake --build /tmp/logic-p48-f -j8 && /tmp/logic-p48-f/opamp_test` → every line `PASS`; `ctest --test-dir /tmp/logic-p48-f -j8` → `100% tests passed`, T0 + 2 programs (est. 4 min: a build from scratch).
+  Result (2026-11-24, build dir `/tmp/logic-p48-e`): `opamp_test: all passed`; `ctest --test-dir /tmp/logic-p48-e -j8` → `100% tests passed, 0 tests failed out of 67` (T0 = 65, `timer_test`, `opamp_test`); `listing_check` / `trace_check` goldens unchanged (39903 parts). MET.
 Commit: —
 
 ### Phase 2 — Docs
 
-- [ ] `docs/parts-format.md` and `docs/backend.md` per § 4.
+- [x] `docs/parts-format.md` and `docs/backend.md` per § 4.
 
 Acceptance: the docs name the kind.
   Check: `grep -n '^### `opamp`' docs/parts-format.md` → 1 line; `grep -c 'opamp.c' docs/backend.md` → above 0 (est. < 1 min).
+  Result: `1217:### `opamp``; `2`. MET.
 Commit: —
 
 ## 5. `opamp_test` cases
@@ -217,6 +219,16 @@ pinout, `"railIn": true`, `"railOut": true`, `"vcc": [1.8, 5.5]`, part
   drawn in the app.
 
 ## Corrections
+
+1. **The `vcc` ceiling was 30 V for every kind** (`VOLTS_MAX` in `kind_util.c`; `parts-format.md`
+   § Values; `library_check` "vcc max > 30"), and the fixture's `[3, 32]` (and the spans of 106 of the 600 picked op-amps,
+   up to 90 V in `specs.tsv`) did not load. The ceiling for
+   `"vcc"` and `"inputMax"` is now **100 V** (`#define VOLTS_MAX 100.0`; the docs' two lines; the test case is "vcc max > 100",
+   `[2, 101]`). It only widens what a part file may declare; no existing part's check changes (goldens
+   unchanged). This is a change to the loader, not to the voltage check's rules.
+2. **Other pins may also be `output`** (OPA452's FLAG), besides § 3.1's `input`, `ground`, `nc`
+   (an `inout` other pin is refused); the model never drives it.
+3. **Test counts.** `ctest` → 67 of 67 (T0 = 65, plus `timer_test` and `opamp_test`).
 
 ## Summary
 

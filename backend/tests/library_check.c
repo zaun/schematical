@@ -3463,8 +3463,8 @@ static void check_voltage_cases(void) {
                 "\"vcc\" must be [min, max] in volts");
     expect_fail("vcc min >= max", VGATE("{'HC':{'rise':9,'fall':9,'vcc':[6,6]}}", "", ""),
                 "timing.HC: \"vcc\": min must be below max");
-    expect_fail("vcc max > 30", VGATE("{'HC':{'rise':9,'fall':9,'vcc':[2,31]}}", "", ""),
-                "\"vcc\": each value must be from 0 to 30");
+    expect_fail("vcc max > 100", VGATE("{'HC':{'rise':9,'fall':9,'vcc':[2,101]}}", "", ""),
+                "\"vcc\": each value must be from 0 to 100");
     expect_fail("vcc min 0", VGATE("{'HC':{'rise':9,'fall':9,'vcc':[0,5]}}", "", ""),
                 "\"vcc\": min must be above 0");
     expect_fail("inputMax below the entry max",

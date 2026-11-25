@@ -489,6 +489,8 @@ backend/
                            the wiring: the four circuits, their times and the
                            reasons a section is stopped), and the public
                            include/timer_state.h (TimerState, TimerReason);
+                           opamp.c (the opamp kind: loader, facts and a
+                           passive model, plan-48-F);
                            cpu.c + cpu.h (the cpu kind: loader, the model
                            that forwards to a core adapter, input sampling,
                            the instruction tracker), cpu6502.c (the
@@ -619,6 +621,11 @@ guide has device.<key>`: add the key to a step of
 `Guides/<Kind>Guide.swift` (and a `FieldGuide` for it; a required key must
 say where to find it).
 
+A kind with facts only that must not block a run stays simulated with a
+passive model, the `capacitor.c` shape (no `pin_changed`, no `timer`) —
+`opamp.c` (plan-48-F): a placed part drives nothing and does not turn Run
+off, which `"simulated": false` would for the whole schematic.
+
 A kind with no simulation model (plan-36's `mcu`, plan-46's `generic`, `pld`)
 sets `"simulated": false` on its devices, so `circuit_add_part` refuses its parts, and still
 ships a passive model (no callbacks, the `header.c` shape) so the engine
@@ -704,6 +711,11 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   capacitors (parallel parts combine, a pull-up part is a resistor to the
   supply), RESET, a button trigger, every reason a section is stopped
   (shape, supply, CONT, speed, no value) and the two circuit calls.
+- `opamp_test` — the `opamp` kind (plan-48-F) on fixture parts next to the
+  real part files: the facts, the analog pins, the loader's rejections, and
+  a circuit with an op-amp (it drives nothing and stays simulated, its V+
+  pin is range-checked, an input above V+ is not a voltage problem, an
+  inverter next to it still runs).
 - `dekatron_test` — the `dekatron` kind: the loader's rules and rejections
   (on fixture tubes), the model on the real GC10B and OG-8 (a glow that
   steps one position for two overlapping guide pulses, counts backward for
