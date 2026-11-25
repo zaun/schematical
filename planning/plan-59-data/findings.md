@@ -94,3 +94,48 @@ The screen was locked while the probes ran (plan-59-A Corrections 4). These were
 | The title bar says Edited and its menu offers Save, Rename, Move | U1, A7 | `NSDocument.isDocumentEdited`, the File menu's items and their actions |
 | Edit › Undo and Redo show `Undo Move` while the window is key | U3 | `undoManager.undoMenuItemTitle`; the items are the system's `undo:` and `redo:` |
 | ⌘Z typed in a focused field | U4 | `insertText` on the field editor and `undo:` sent up the responder chain |
+
+## Selection
+
+Counts over the 27 rows (`rg -c` per verdict and column on the table above; F7 and A15 are `info` and do not decide viability):
+
+| Candidate | works | workaround | blocked | of which info rows |
+|---|---|---|---|---|
+| G | 15 | 9 | 3 (F2, A7, A8) | F7 workaround, A15 works |
+| H | 19 | 6 | 2 (A6, A7) | F7 works, A15 works |
+
+Rule step 1: neither candidate is viable (each has a `blocked` row that is not `info`). Steps 2 and 3 do not apply. Step 4: the candidate with fewer `blocked` rows is H (2 against 3). `probes.md` has four steps; plan-59-D's "steps 1–5" counts one too many.
+
+Chosen: H (rule step 4)
+
+A7 is `blocked` for both by its own pass line (keep the title hidden and show the title's controls). Leaving it out, G has 2 `blocked` rows (F2, A8) and H has 1 (A6), and the rule still picks H.
+
+What separates the two, from the evidence:
+
+- The file's URL. G's reader and writer never get it (F1 workaround, F2 blocked: Save As writes load-file paths against the old folder, Duplicate loses a load file that has no bookmark). H gets it from AppKit in both directions (F1, F2 works).
+- The main actor. G's snapshot is called on a background thread with the main thread parked, and reads the document by casting its isolation away (F4). H's runs on the main thread.
+- Revert. G gets a new document object and needed the editor view re-identified to stop showing the old one (A6). H reloads the same object.
+- What G gets for nothing and H declares: the File menu's document items (A1) and the child windows as scenes (A5).
+- H's open defect: a closed document's model, `SchematicDocument` and `SimulationController` are not freed (A6); G frees them unless a Memory window was open.
+
+Questions for the owner (plan-59-D phase 2), one per `blocked` row of H and one per `workaround` or behavior the user will see change:
+
+1. A7: show the document's title in the title bar (title menu, proxy icon, Edited), or keep it hidden as today.
+2. U1, A11: documents autosave in place, as system document apps do (no Save / Don't Save prompt for a saved file; versions; Revert To), or keep explicit saving.
+3. A9: what a launch with nothing to open shows.
+4. A8: tabs follow the system's tab setting, or always tab as today.
+5. A6: how the migration plan treats the objects H does not free at close.
+6. A3: KiCad export asks for a folder.
+7. U5: ⌘Z while the simulation runs.
+8. F7: what opening a `.schpart` file does.
+
+## Owner answers
+
+Q: A7, show the document's title in the title bar? → A: Show the title; the title menu, proxy icon and Edited mark come with it (2026-11-24)
+Q: U1 and A11, autosave in place? → A: Autosave in place, the standard macOS model; only an untitled document asks on close and quit (2026-11-24)
+Q: A9, what does a launch with nothing to open show? → A: An Untitled document, as today; opening a file replaces the untouched Untitled window (2026-11-24)
+Q: A8, tabs by the system setting or always? → A: Neither alone: an app setting with three choices, System, Always Tabs, Always Windows, default Always Tabs ("This is more of a VSCode than a Pages style app") (2026-11-24)
+Q: A6, the objects H does not free at close? → A: A must-fix phase with a test in the migration plan; if no public-API fix is found there the phase stops the plan and returns to the owner (2026-11-24)
+Q: A3, KiCad export? → A: Choose a folder; the three files are written into it (2026-11-24)
+Q: U5, Undo while the simulation runs? → A: Undo and Redo are disabled while playing, validated by the document (2026-11-24)
+Q: F7, opening a `.schpart` file? → A: It opens in a Part Editor, as File › Open Part… does (2026-11-24)
