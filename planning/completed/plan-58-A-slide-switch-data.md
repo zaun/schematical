@@ -282,7 +282,7 @@ one row per distinct (maker, series, mounting, circuit) of the `add` and
   Check: `python3 -I planning/plan-58-data/census/place.py --verify && python3 -I
   planning/plan-58-data/census/decide.py --verify-skipped && python3 -I
   planning/plan-58-data/census/maker-urls.py --verify` → each exits 0 (est. 6 min). Measured: `40 URLs, 40 PDFs, 0 problems` / `0 skip rows missing from skipped-parts.md, 0 rows `check`` / `2 non-maker URLs, 1 with a maker URL, 0 missing, 0 not PDFs`, all exit 0.
-Commit: —
+Commit: 8c57178a
 
 ## Validation Plan
 
