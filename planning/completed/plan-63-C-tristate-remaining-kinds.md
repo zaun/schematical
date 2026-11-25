@@ -154,7 +154,7 @@ Commit: 62c00489
 Acceptance: the script runs and its table is recorded.
   Check: `python3 scripts/kicad-pin-types.py 2>&1 | tail -30` → the table (est. 3 min).
   Result: ran in 17 s and printed the table recorded in § Results (60793 pins compared, 94.4% equal; four pairs above 100 pins, each a KiCad convention).
-Commit: (recorded in the next commit)
+Commit: f2b6bf6c
 
 ## Results
 
