@@ -131,6 +131,79 @@ final class DocumentInfoTests: XCTestCase {
         XCTAssertNil(doc.documentInfo.updated)
     }
 
+    // MARK: The file
+
+    private func encoded(_ doc: SchematicDocument) throws -> Data {
+        try SchematicFile(document: doc, fileURL: nil).encoded()
+    }
+
+    private func reopened(_ data: Data) throws -> SchematicDocument {
+        let opened = newDocument()
+        try SchematicFile.decode(data).apply(to: opened, catalog: TestSupport.catalog, fileURL: nil)
+        return opened
+    }
+
+    func testADefaultDocumentWritesNoDocumentInfo() throws {
+        let text = try String(data: encoded(newDocument()), encoding: .utf8) ?? ""
+        XCTAssertFalse(text.contains("documentInfo"))
+    }
+
+    func testEveryFieldRoundTrips() throws {
+        let doc = newDocument()
+        doc.setInfoTitle("Clock board")
+        doc.setInfoAuthor("J. Smith")
+        doc.setInfoRevision("B-draft")
+        doc.setInfoDescription("Line one\nLine two")
+        doc.setAutomaticDates(false)
+        doc.setInfoCreated(Date(timeIntervalSince1970: 1_795_615_629))
+        doc.setInfoUpdated(Date(timeIntervalSince1970: 1_795_619_999))
+        doc.editDocumentInfo("Show") { $0.titleBlock = CGPoint(x: 400, y: 520) }
+        let opened = try reopened(try encoded(doc))
+        XCTAssertEqual(opened.documentInfo, doc.documentInfo)
+        XCTAssertEqual(opened.documentInfo.titleBlock, CGPoint(x: 400, y: 520))
+        XCTAssertFalse(opened.documentInfo.automaticDates)
+        // Saved twice, the same bytes.
+        XCTAssertEqual(try encoded(opened), try encoded(doc))
+    }
+
+    func testDatesAreWrittenAsISO8601UTC() throws {
+        let doc = newDocument()
+        doc.setInfoCreated(Date(timeIntervalSince1970: 1_795_615_629))
+        let text = try String(data: encoded(doc), encoding: .utf8) ?? ""
+        XCTAssertTrue(text.contains("\"created\" : \"2026-11-25T14:07:09Z\""), text)
+        XCTAssertFalse(text.contains("automaticDates"), "automatic is the default and is left out")
+        XCTAssertFalse(text.contains("titleBlock"))
+    }
+
+    func testTitleBlockSnapsToTheGridOnOpen() throws {
+        let doc = newDocument()
+        doc.editDocumentInfo("Show") { $0.titleBlock = CGPoint(x: 104, y: 57) }
+        let opened = try reopened(try encoded(doc))
+        XCTAssertEqual(opened.documentInfo.titleBlock, CGPoint(x: 100, y: 60))
+    }
+
+    func testABadDateIsRefused() throws {
+        let doc = newDocument()
+        doc.setInfoCreated(Date(timeIntervalSince1970: 1_000_000))
+        let text = try String(data: encoded(doc), encoding: .utf8) ?? ""
+        let broken = text.replacingOccurrences(of: "1970-01-12T13:46:40Z", with: "yesterday")
+        XCTAssertNotEqual(broken, text)
+        let file = try SchematicFile.decode(Data(broken.utf8))
+        XCTAssertThrowsError(try file.apply(to: newDocument(), catalog: TestSupport.catalog, fileURL: nil)) { error in
+            guard case SchematicFileError.badDocumentInfo = error else { return XCTFail("\(error)") }
+        }
+    }
+
+    func testAFileWithoutTheKeyOpensWithTheDefault() throws {
+        let doc = newDocument()
+        doc.setInfoTitle("Clock")
+        let opened = newDocument()
+        var file = try SchematicFile.decode(try encoded(doc))
+        file.documentInfo = nil
+        try file.apply(to: opened, catalog: TestSupport.catalog, fileURL: nil)
+        XCTAssertEqual(opened.documentInfo, DocumentInfo())
+    }
+
     func testStampingIsNotAnUndoStep() {
         let doc = newDocument()
         doc.setInfoTitle("Clock")

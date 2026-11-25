@@ -102,7 +102,11 @@ final class SchematicNSDocumentTests: XCTestCase {
             let reference = TestSupport.newDocument(library: PartCatalogStore.shared.library)
             _ = try SchematicFile.decode(Data(contentsOf: url))
                 .apply(to: reference, catalog: PartCatalogStore.shared, fileURL: url)
-            XCTAssertEqual(written, SchematicFile(document: reference, fileURL: copy), url.lastPathComponent)
+            // plan-64-A: a write dates the file (automatic dates, the default);
+            // nothing else about it differs.
+            let stamped = try XCTUnwrap(document.model.document.documentInfo.updated, url.lastPathComponent)
+            reference.stampDates(now: stamped)
+            XCTAssertEqual(written,SchematicFile(document: reference, fileURL: copy), url.lastPathComponent)
             XCTAssertFalse(document.model.document.undoManager.canUndo, "an opened file has no undo history")
             XCTAssertFalse(document.isDocumentEdited, url.lastPathComponent)
         }
@@ -181,6 +185,28 @@ final class SchematicNSDocumentTests: XCTestCase {
         XCTAssertTrue(doc.undo())
         XCTAssertNotEqual(doc.netLabels.first?.name, "C")
         XCTAssertEqual(doc.undoName, "Add Net Label")
+    }
+
+    /// plan-64-A: every write of the file dates it. With automatic dates on,
+    /// Created is set by the first write and kept; Updated moves each time.
+    /// With them off, a write changes neither.
+    func testWritingStampsTheDates() throws {
+        let document = newDocument()
+        let doc = document.model.document
+        XCTAssertNil(doc.documentInfo.updated)
+        _ = try document.data(ofType: Self.type)
+        let first = try XCTUnwrap(doc.documentInfo.updated)
+        XCTAssertEqual(doc.documentInfo.created, first)
+        Thread.sleep(forTimeInterval: 0.05)
+        _ = try document.data(ofType: Self.type)
+        XCTAssertEqual(doc.documentInfo.created, first, "Created is kept")
+        XCTAssertGreaterThan(try XCTUnwrap(doc.documentInfo.updated), first)
+
+        let manual = newDocument()
+        manual.model.document.setAutomaticDates(false)
+        _ = try manual.data(ofType: Self.type)
+        XCTAssertNil(manual.model.document.documentInfo.created)
+        XCTAssertNil(manual.model.document.documentInfo.updated)
     }
 
     /// Reading into a document again (Revert) stops its simulation and ends

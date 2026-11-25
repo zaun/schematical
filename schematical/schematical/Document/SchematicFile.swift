@@ -445,6 +445,21 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         var framed: Bool? = nil
     }
 
+    /// The document's information (plan-64): every key optional. Dates are
+    /// ISO 8601, UTC. `titleBlock` is present exactly when the title block
+    /// is on the schematic.
+    struct DocumentInfoEntry: Codable, Equatable, Sendable {
+        var title: String? = nil
+        var author: String? = nil
+        var revision: String? = nil
+        var description: String? = nil
+        var created: String? = nil
+        var updated: String? = nil
+        /// Written only as `false`.
+        var automaticDates: Bool? = nil
+        var titleBlock: Point? = nil
+    }
+
     /// A net label: its point (`x`, `y`, canvas units), net name, type
     /// (`"input"`, `"output"`, `"inout"`, `"passive"` or `"noConnect"`)
     /// and whether it runs left.
@@ -594,6 +609,9 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
     /// Net labels, in drawing order. Written only when there are some;
     /// missing means none.
     var labels: [Label]? = nil
+    /// The document's title, author, dates and title block (plan-64).
+    /// Written only when it is not the default; missing means the default.
+    var documentInfo: DocumentInfoEntry? = nil
     /// Version 5: the single part files (plan-32-A) of the custom parts the
     /// schematic places, once each, in order of first placement. Written only
     /// when there are some.
@@ -672,6 +690,8 @@ nonisolated enum SchematicFileError: LocalizedError {
     case badPCB(String)
     /// A schematic text block that isn't valid; the detail names it.
     case badNote(String)
+    /// A date in the document info that isn't ISO 8601; the detail names it.
+    case badDocumentInfo(String)
     /// A bus whose lines, joints or wires aren't valid; the detail names it.
     case badBus(String)
     /// A part's color, footprint or gender that the part doesn't offer.
@@ -717,6 +737,8 @@ nonisolated enum SchematicFileError: LocalizedError {
             "The bus is not valid: \(detail)."
         case let .badNote(detail):
             "The text block is not valid: \(detail)."
+        case let .badDocumentInfo(detail):
+            "The document info is not valid: \(detail)."
         case let .badPartOption(reference, detail):
             "\(reference): \(detail)"
         case let .badOhms(reference, ohms):
@@ -827,6 +849,7 @@ extension SchematicFile {
             Note(id: note.id, text: note.text, x: note.origin.x, y: note.origin.y,
                  size: note.size, framed: note.framed)
         }
+        documentInfo = document.documentInfo == DocumentInfo() ? nil : Self.entry(document.documentInfo)
         labels = document.netLabels.isEmpty ? nil : document.netLabels.map { label in
             Label(id: label.id, name: label.name, x: label.origin.x, y: label.origin.y,
                   type: label.style.rawValue, flipped: label.isFlipped ? true : nil)
@@ -1307,7 +1330,8 @@ extension SchematicFile {
             pours: pours,
             keepouts: keepouts,
             notes: placedNotes,
-            netLabels: placedLabels
+            netLabels: placedLabels,
+            documentInfo: try Self.documentInfo(documentInfo)
         )
         return embedded
     }
@@ -1349,6 +1373,53 @@ extension SchematicFile {
         }
         result.framed = entry.framed ?? result.framed
         return result
+    }
+
+    /// A date as the file writes it: ISO 8601, UTC, whole seconds.
+    private static func dateText(_ date: Date) -> String {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime]
+        formatter.timeZone = TimeZone(identifier: "UTC")
+        return formatter.string(from: date)
+    }
+
+    /// The file form of the document info: empty text, unset dates, automatic
+    /// dates and a hidden title block are left out.
+    private static func entry(_ info: DocumentInfo) -> DocumentInfoEntry {
+        DocumentInfoEntry(
+            title: info.title.isEmpty ? nil : info.title,
+            author: info.author.isEmpty ? nil : info.author,
+            revision: info.revision.isEmpty ? nil : info.revision,
+            description: info.description.isEmpty ? nil : info.description,
+            created: info.created.map(dateText),
+            updated: info.updated.map(dateText),
+            automaticDates: info.automaticDates ? nil : false,
+            titleBlock: info.titleBlock.map { Point(x: $0.x, y: $0.y) })
+    }
+
+    /// The stored document info, with defaults for missing keys. The title
+    /// block's top-left is snapped to the grid.
+    private static func documentInfo(_ entry: DocumentInfoEntry?) throws -> DocumentInfo {
+        var info = DocumentInfo()
+        guard let entry else { return info }
+        info.title = entry.title ?? ""
+        info.author = entry.author ?? ""
+        info.revision = entry.revision ?? ""
+        info.description = entry.description ?? ""
+        func date(_ text: String?, _ key: String) throws -> Date? {
+            guard let text else { return nil }
+            let formatter = ISO8601DateFormatter()
+            formatter.formatOptions = [.withInternetDateTime]
+            guard let parsed = formatter.date(from: text) else {
+                throw SchematicFileError.badDocumentInfo("\(key) \"\(text)\" is not a date")
+            }
+            return parsed
+        }
+        info.created = try date(entry.created, "created")
+        info.updated = try date(entry.updated, "updated")
+        info.automaticDates = entry.automaticDates ?? true
+        info.titleBlock = entry.titleBlock.map { SchematicGrid.snap(CGPoint(x: $0.x, y: $0.y)) }
+        return info
     }
 
     // MARK: PCB values

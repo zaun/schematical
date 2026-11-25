@@ -191,28 +191,28 @@ Lands the data with nothing reading it, so it is safe alone.
 
 Acceptance: `DocumentInfoTests` and `UndoHistoryTests` pass; the app builds.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p64-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/DocumentInfoTests -only-testing:schematicalTests/UndoHistoryTests` → `** TEST SUCCEEDED **` (est. 8 min: incremental app build 5, two test classes 3).
-Commit: —
+Commit: 7c514298
 
 ### Phase 2 — The file, and the stamp on save
 
-- [ ] `SchematicFile.swift`: `struct DocumentInfoEntry: Codable, Equatable, Sendable` (shape in § 4, all fields
-      optional, `titleBlock: Point?` using the existing `SchematicFile.Point` (`x`, `y` doubles, :65)) and `var documentInfo: DocumentInfoEntry? = nil` on `SchematicFile`, with its doc comment.
-- [ ] `SchematicFile.init(document:fileURL:)` (:826): `documentInfo = document.documentInfo == DocumentInfo() ? nil :
+- [x] `SchematicFile.swift`: `struct DocumentInfoEntry: Codable, Equatable, Sendable` (shape in § 4, all fields
+      optional, `titleBlock: Point?` using the existing `SchematicFile.Point` (`x`, `y` doubles, :65)) and `var documentInfo: DocumentInfoEntry? = nil` on `SchematicFile`, with its doc comment. — done
+- [x] `SchematicFile.init(document:fileURL:)` (:826): `documentInfo = document.documentInfo == DocumentInfo() ? nil :
       DocumentInfoEntry(document.documentInfo)`. Dates written with `ISO8601DateFormatter` (`.withInternetDateTime`,
-      UTC, no fractional seconds).
-- [ ] `SchematicFile.apply` (:1296): decode into a `DocumentInfo` (`Self.documentInfo(entry)` beside `Self.note`),
+      UTC, no fractional seconds). — done
+- [x] `SchematicFile.apply` (:1296): decode into a `DocumentInfo` (`Self.documentInfo(entry)` beside `Self.note`),
       snapping `titleBlock`; pass `documentInfo:` to `replaceContents`. Add `SchematicFileError.badDocumentInfo(String)`
-      with its message beside `badNote` (:674, :718).
-- [ ] `SchematicNSDocument.swift` `snapshot()` (:146): call `model.document.stampDates()` before `SchematicFile(…)`.
-- [ ] `docs/file-format.md`: a `documentInfo` row in the top-level table (after `labels`), a `## Document info`
+      with its message beside `badNote` (:674, :718). — done
+- [x] `SchematicNSDocument.swift` `snapshot()` (:146): call `model.document.stampDates()` before `SchematicFile(…)`. — done
+- [x] `docs/file-format.md`: a `documentInfo` row in the top-level table (after `labels`), a `## Document info`
       section (shape, field table, "optional; an older build ignores it; the version stays 4", the automatic-dates
-      rule, "written only when not the default"), and the bad-value rule in the validation list (near :653).
-- [ ] Tests (`DocumentInfoTests`): a default document encodes with no `documentInfo` key (`String(data:)` does
+      rule, "written only when not the default"), and the bad-value rule in the validation list (near :653). — done
+- [x] Tests (`DocumentInfoTests`): a default document encodes with no `documentInfo` key (`String(data:)` does
       not contain it); a full info round-trips through `SchematicFile.encoded()` / `decode` / `apply` (all six
       fields, `automaticDates` false, `titleBlock`); `titleBlock` (104, 57) opens as (100, 60); a bad `created` throws
       `badDocumentInfo`; a file with no key opens as `DocumentInfo()`. In `SchematicNSDocumentTests.swift`: writing a
       document with `data(ofType:)` stamps `created` and `updated` (both non-nil) and a second write moves `updated`
-      only; with automatic dates off neither moves.
+      only; with automatic dates off neither moves. — done: DocumentInfoTests + SchematicNSDocumentTests.testWritingStampsTheDates; xcodebuild test DocumentInfoTests SchematicNSDocumentTests SchematicFileV5Tests -> ** TEST SUCCEEDED **, 43 tests, 0 failures
 
 Acceptance: a default document's saved bytes are unchanged; a stamped document round-trips.
   Check: `xcodebuild … test -only-testing:schematicalTests/DocumentInfoTests -only-testing:schematicalTests/SchematicNSDocumentTests -only-testing:schematicalTests/SchematicFileV5Tests` → `** TEST SUCCEEDED **` (est. 10 min; `SchematicFileV5Tests` (j) is the existing save → open → save same-bytes check, so it catches a default file that changed).
@@ -244,7 +244,11 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- Phase 2: `SchematicNSDocumentTests.testEachExampleReadsAndWritesAsBefore` compares what `data(ofType:)` writes for
+  each example with a reference `SchematicFile`; the new stamp gives the written file a `documentInfo` the reference
+  lacks (10 failures, one per example, `xcodebuild … test` 2026-11-25). The test was kept and now stamps the
+  reference with the written file's `updated` (`reference.stampDates(now:)`), so it still proves nothing else
+  differs. The plan had listed `SchematicFileV5Tests`, not this test, as the same-bytes check; both pass.
 
 ## Summary
 

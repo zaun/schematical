@@ -85,6 +85,7 @@ to the grid on open.
 | `board`         | object  | Optional. The PCB's settings and texts ([Board](#board)). Written by every build that has it; a file without it opens with the defaults. |
 | `notes`         | array   | Text blocks on the schematic, in drawing order ([Notes](#notes)). Always written, `[]` when there are none; missing means none. Older builds ignore it. |
 | `labels`        | array   | Net labels on the schematic, in drawing order ([Net labels](#net-labels)). Written only when there are some; missing means none. Older builds ignore it, but refuse a wire that ends on a label. |
+| `documentInfo`  | object  | The document's title, author, revision, description, dates and title block ([Document info](#document-info)). Written only when it is not the default; missing means the default. Older builds ignore it. |
 | `customParts`   | array   | Version 5. The custom parts the schematic places ([Custom parts](#custom-parts)). Written only when there are some, and then `version` is 5; missing means none. |
 
 On open, `nextReference` is raised if needed so that it is higher than every
@@ -560,6 +561,33 @@ are drawn under everything else and never simulated.
 | `size`     | integer | Font size in points, 6 to 72. Default 12.                            |
 | `framed`   | boolean | Whether the block has a frame around it. Default `true`.             |
 
+## Document info
+
+What Window ▸ Document Info (⌘I) edits: the schematic's title, author,
+revision, description and dates, and whether, and where, a title block shows
+them on the Schematic page.
+
+```json
+"documentInfo": {
+  "title": "Clock board", "author": "J. Smith", "revision": "B",
+  "description": "Divides the 4 MHz clock.",
+  "created": "2026-11-25T14:07:00Z", "updated": "2026-11-25T16:30:12Z",
+  "automaticDates": false,
+  "titleBlock": { "x": 400, "y": 520 }
+}
+```
+
+| Field            | Type    | Meaning                                                              |
+|------------------|---------|----------------------------------------------------------------------|
+| `title`, `author`, `revision`, `description` | string | Free text; `description` may hold line breaks (`\n`). Left out when empty. |
+| `created`, `updated` | string | ISO 8601 date and time in UTC, whole seconds. Left out when not set. |
+| `automaticDates` | boolean | Written only as `false`. Missing or `true` means a save sets `updated` (and `created`, while it is not set) to the time of the write; `false` means the dates are the user's and a save leaves them. |
+| `titleBlock`     | object  | The title block's top-left (`x`, `y`, canvas units; snapped to the grid on open). Present exactly when the title block is on the schematic. |
+
+The whole key is left out when every field is at its default, so a schematic
+that was never given any information is byte for byte what it was. The
+version stays 4 (5 with custom parts): an older build ignores the key.
+
 ## Net labels
 
 Flags the schematic's Net Label tool places. Every label with the same
@@ -651,6 +679,7 @@ Opening fails, and the canvas is left unchanged, if:
 - an ID is used more than once across parts, junctions, wires, buses, bus
   lines, bus wires, ports, board texts, traces, pours, keep-outs, notes and net labels;
 - a note's `text` is empty, or its `size` is not 6 to 72;
+- `documentInfo`'s `created` or `updated` is not an ISO 8601 date and time ("The document info is not valid: …");
 - a net label's `name` is not 1 to 8 characters with no spaces, or its
   `type` is not `input`, `output`, `inout`, `passive` or `noConnect` ("The net label is not valid:
   net label <id> …");
