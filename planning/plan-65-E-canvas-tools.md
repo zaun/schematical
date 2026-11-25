@@ -98,19 +98,20 @@ Byte-identity is not a gate here (behaviour is added); the no-cutout check is th
 Acceptance: a cutout is a hole in the drawing; a board without one draws as before.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/CutoutCanvasTests -only-testing:schematicalTests/PourCanvasTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 4 min; `PourCanvasTests` draws boards without cutouts, so it is the no-cutout check).
   Observed: CutoutCanvasTests 3 + PourCanvasTests 19, 0 failures, TEST SUCCEEDED.
-Commit: —
+Commit: d4a2d80b
 
 ### Phase 2 — The Cutout tool, selection, move and resize
 
-- [ ] `Canvas/PCBCanvasView.swift`: `PCBTool.cutout` (title `Cutout`, tooltip `Cutout — drag a rectangle, circle or slot to cut out of the board`, symbol `rectangle.dashed`); `CutoutShape`; the press returns `.drawRect(kind: .cutout, …)`; `finishRect(…cutoutShape:)` per § 3; the preview stroke.
-- [ ] `ContentView.swift`: `@State cutoutShape`, the menu beside the Trace layer menu, passed to the canvas.
+- [x] `Canvas/PCBCanvasView.swift`: `PCBTool.cutout` (title `Cutout`, tooltip `Cutout — drag a rectangle, circle or slot to cut out of the board`, symbol `rectangle.dashed`); `CutoutShape`; the press returns `.drawRect(kind: .cutout, …)`; `finishRect(…cutoutShape:)` per § 3; the preview stroke.
+- [x] `ContentView.swift`: `@State cutoutShape`, the menu beside the Trace layer menu, passed to the canvas.
 - [x] `Canvas/BoardCutout.swift`: `Shape.distance(to point: CGPoint) -> Double` (to the nearest segment of `polygon`). Done in plan-65-A Phase 1 (`BoardCutoutTests.testDistanceToTheEdge`); the property is named `loop`, not `polygon`.
-- [ ] `Canvas/SchematicModel.swift`: `pourItem(at:…)` returns `.cutout`; `deleteBoardItem(at:…)` gets a `.cutout(id)?` case calling `deleteCutout`; `Canvas/PourSection.swift`: `pourHandle(at:)` and `resizePourItem` for a selected rounded cutout.
-- [ ] `Help/KeyboardHelp.swift`: a `Cutout` entry beside `Keep-out` (`:156`) and the Delete entry (`:157`) says `… pour, keep-out or cutout edge …`; `PCBTool.delete`'s tooltip (`PCBCanvasView.swift:1330`) the same.
-- [ ] Tests `CutoutCanvasTests` (second half): `finishRect` with `.cutout` and each `CutoutShape` makes a rounded cutout whose `kind` is `rectangle`, `circle` (square, radius half the side) and `slot`; a drag under 3 points or a side under 0.5 mm makes nothing; `pourItem(at:)` finds a polygon cutout and a circle on their edges and not 3 mm inside or outside; a handle drag changes `setCutoutRect` and one undo restores it; a Delete-tool press on a cutout's edge removes it (one step) and 3 mm inside it removes nothing; a group drag of a cutout and a keep-out moves both by one snapped delta; `KeyboardHelpTests` passes with the new entry.
+- [x] `Canvas/SchematicModel.swift`: `pourItem(at:…)` returns `.cutout`; `deleteBoardItem(at:…)` gets a `.cutout(id)?` case calling `deleteCutout`; `Canvas/PourSection.swift`: `pourHandle(at:)` and `resizePourItem` for a selected rounded cutout.
+- [x] `Help/KeyboardHelp.swift`: a `Cutout` entry beside `Keep-out` (`:156`) and the Delete entry (`:157`) says `… pour, keep-out or cutout edge …`; `PCBTool.delete`'s tooltip (`PCBCanvasView.swift:1330`) the same.
+- [x] Tests `CutoutCanvasTests` (second half): `finishRect` with `.cutout` and each `CutoutShape` makes a rounded cutout whose `kind` is `rectangle`, `circle` (square, radius half the side) and `slot`; a drag under 3 points or a side under 0.5 mm makes nothing; `pourItem(at:)` finds a polygon cutout and a circle on their edges and not 3 mm inside or outside; a handle drag changes `setCutoutRect` and one undo restores it; a Delete-tool press on a cutout's edge removes it (one step) and 3 mm inside it removes nothing; a group drag of a cutout and a keep-out moves both by one snapped delta; `KeyboardHelpTests` passes with the new entry.
 
 Acceptance: each of the five interactions works through its function and is one undo step.
   Check: `XB -only-testing:schematicalTests/CutoutCanvasTests -only-testing:schematicalTests/PourCanvasTests -only-testing:schematicalTests/KeyboardHelpTests -only-testing:schematicalTests/CutoutModelTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 4 min).
+  Observed: CutoutCanvasTests 10 + PourCanvasTests 19 + KeyboardHelpTests 6 + CutoutModelTests 14, 0 failures, TEST SUCCEEDED.
 Commit: —
 
 ## Validation Plan
@@ -128,7 +129,8 @@ Commit: —
 
 ## Corrections
 
-<Filled in during execution.>
+- 2026-11-25: a circle or slot drawn with the tool came out a plain rectangle with a radius: `addCutout` snapped the box to the trace grid but kept the old radius, so `kind` (radius = half the short side, to 1e-9) no longer held. `addCutout` now keeps a circle square and a circle or slot fully rounded after snapping, and `setCutoutRect` keeps a circle or slot fully rounded when it is resized (found by `testFinishRectMakesEachShape`; plan-65-A's API section did not say this). A rectangle with a radius keeps its radius, clamped.
+- 2026-11-25: `PCBTool.delete`'s tooltip now names pours, keep-outs and cutouts (it already deleted the first two; the keyboard help said so, the tooltip did not).
 
 ## Summary
 

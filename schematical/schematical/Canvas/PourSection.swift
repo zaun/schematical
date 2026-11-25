@@ -50,6 +50,11 @@ extension SchematicDocument {
         case let .keepout(id)?:
             guard let keepout = keepouts.first(where: { $0.id == id }), !keepout.locked else { return nil }
             return (.keepout(id), keepout.rect)
+        case let .cutout(id)?:
+            // A rounded cutout has handles; a polygon moves and deletes whole (plan-65-E).
+            guard let cutout = cutouts.first(where: { $0.id == id }), !cutout.locked,
+                  case let .rounded(rect, _) = cutout.shape else { return nil }
+            return (.cutout(id), rect)
         default:
             return nil
         }
@@ -79,6 +84,9 @@ extension SchematicDocument {
         case let .keepout(id):
             guard let rect = keepouts.first(where: { $0.id == id })?.rect else { return }
             setKeepoutRect(id, handle.resized(rect, to: snapped))
+        case let .cutout(id):
+            guard case let .rounded(rect, _)? = cutouts.first(where: { $0.id == id })?.shape else { return }
+            setCutoutRect(id, handle.resized(rect, to: snapped))
         default:
             break
         }

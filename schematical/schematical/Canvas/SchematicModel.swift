@@ -4029,6 +4029,9 @@ final class SchematicDocument {
         case let .keepout(id)?:
             deleteKeepout(id)
             return true
+        case let .cutout(id)?:
+            deleteCutout(id)
+            return true
         default:
             return false
         }
@@ -4850,8 +4853,13 @@ final class SchematicDocument {
             let stored: BoardCutout.Shape
             switch shape {
             case let .rounded(rect, radius):
-                let fitted = BoardCutout.normalized(snappedRect(rect), radius: radius)
-                stored = .rounded(rect: fitted.rect, radius: fitted.radius)
+                // A circle or slot stays one when the grid moves its sides: fully rounded, and a circle square.
+                let full = BoardCutout(id: UUID(), shape: shape).kind != .rectangle
+                let square = BoardCutout(id: UUID(), shape: shape).kind == .circle
+                var box = snappedRect(rect)
+                if square { let side = max(box.width, box.height); box.size = CGSize(width: side, height: side) }
+                let fitted = BoardCutout.normalized(box, radius: radius)
+                stored = .rounded(rect: fitted.rect, radius: full ? min(fitted.rect.width, fitted.rect.height) / 2 : fitted.radius)
             case let .polygon(points):
                 stored = .polygon(BoardGeometry.clockwise(points))
             }
@@ -4879,8 +4887,11 @@ final class SchematicDocument {
         recordEdit(.pcb, name) {
             guard let index = cutouts.firstIndex(where: { $0.id == id }), !cutouts[index].locked,
                   case let .rounded(_, radius) = cutouts[index].shape else { return }
+            // A circle or slot stays fully rounded when it is resized.
+            let full = cutouts[index].kind != .rectangle
             let fitted = BoardCutout.normalized(snappedRect(rect), radius: radius)
-            let target = BoardCutout.Shape.rounded(rect: fitted.rect, radius: fitted.radius)
+            let target = BoardCutout.Shape.rounded(
+                rect: fitted.rect, radius: full ? min(fitted.rect.width, fitted.rect.height) / 2 : fitted.radius)
             if cutouts[index].shape != target { cutouts[index].shape = target }
         }
     }
@@ -4920,6 +4931,10 @@ final class SchematicDocument {
         if let keepout = keepouts.last(where: {
             keepoutIsShown($0, visible) && Self.distance(from: point, toBoundaryOf: $0.rect) <= tolerance
         }) { return .keepout(keepout.id) }
+        // A cutout, by its edge (a polygon's or a rounded one's own, not its box).
+        if let cutout = cutouts.last(where: { Double($0.shape.distance(to: point)) <= Double(tolerance) }) {
+            return .cutout(cutout.id)
+        }
         return nil
     }
 

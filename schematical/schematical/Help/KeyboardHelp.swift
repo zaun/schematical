@@ -154,7 +154,8 @@ nonisolated enum KeyboardHelp {
             entry("Hole", "Click to place a drilled or mounting hole, drag to move it"),
             entry("Pour", "Drag a rectangle to flood it with copper on the layer the menu picks; it keeps clear of other nets"),
             entry("Keep-out", "Drag a rectangle the pours stay out of"),
-            entry("Delete", "Click a trace, via, hole, text, pour or keep-out edge to delete it"),
+            entry("Cutout", "Drag a rectangle, circle or slot (the menu beside the Trace layer) to cut it out of the board"),
+            entry("Delete", "Click a trace, via, hole, text, pour, keep-out or cutout edge to delete it"),
             entry("Route", "Click a pad to route its net, an unrouted line to route that connection"),
         ]),
         HelpSection(title: "Route", entries: [

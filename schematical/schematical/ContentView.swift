@@ -59,6 +59,8 @@ struct ContentView: View {
     }
     /// The layer the PCB Trace tool draws on (the trace layer menu).
     @State private var traceLayer: CopperLayer = .top
+    /// What the Cutout tool draws (plan-65).
+    @State private var cutoutShape: CutoutShape = .rectangle
     /// Whether the sidebar is shown: the parts drawer on the Schematic page,
     /// the inspector on the PCB page. One flag for both pages.
     @State private var isSidebarShown = true
@@ -440,6 +442,7 @@ struct ContentView: View {
         case .pcb:
             PCBCanvasView(document: document, viewport: boardViewport, tool: pcbTool,
                           visible: BoardVisibility(hidden: hiddenLayers), traceLayer: traceLayer,
+                          cutoutShape: cutoutShape,
                           traceAngle: traceAngle, traceAssist: traceAssist,
                           onShowLayer: { hiddenLayers.remove(.copper($0)) },
                           onLayerChange: { layer in
@@ -643,6 +646,17 @@ struct ContentView: View {
                             }
                         }
                         .help("Layer for the Trace tool")
+
+                        // The Cutout tool's shape. Picking one also picks the tool.
+                        Menu(cutoutShape.title) {
+                            ForEach(CutoutShape.allCases) { shape in
+                                Button(shape.title) {
+                                    cutoutShape = shape
+                                    pcbTool = .cutout
+                                }
+                            }
+                        }
+                        .help("Shape for the Cutout tool")
 
                         // The Trace tool's router assist (plan-38-L), remembered.
                         Toggle(isOn: $traceAssist) {
