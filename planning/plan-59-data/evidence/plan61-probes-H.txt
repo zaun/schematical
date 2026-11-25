@@ -1,0 +1,28 @@
+== plain launch, nothing to restore
+active=true documents=1 models=2
+[0] SchematicNSDocument name=6502.schematical url=
+didFinishLaunching: event=1868656752 plain=true documents=1
+next main-queue turn: documents=1
+== title bar with the title shown
+active=true documents=1 models=2
+[0] SchematicNSDocument name=6502.schematical url=
+title='6502.schematical' subtitle='' titleVisibility=visible toolbarStyle=4 representedURL=6502.schematical documentIconButton=hidden isDocumentEdited=false closeButton=present tabs=1 tab.title='Optional("6502.schematical")'
+== tab setting: default (tabs)
+'6502.schematical' tabGroupWindows=2 tabbingMode=1 userPref=
+'nixie.schematical' tabGroupWindows=2 tabbingMode=1 userPref
+== tab setting: windows
+didFinishLaunching: event=nil plain=false documents=1
+next main-queue turn: documents=1
+'6502.schematical' tabGroupWindows=0 tabbingMode=2 userPref=
+'nixie.schematical' tabGroupWindows=0 tabbingMode=2 userPref
+== .schpart sent to the app
+Part Editor scene onOpenURL test.schpart
+'Untitled';'6502.schematical';'nixie.schematical';'Part Editor';
+
+== plain launch after a clean quit (nothing to restore)
+active=true documents=1 models=1
+[0] SchematicNSDocument name=Untitled url=nil
+didFinishLaunching: event=1868656752 plain=true documents=0
+next main-queue turn: documents=0
+then open 6502.schematical: [0] SchematicNSDocument name=6502.schematical (the blank Untitled is gone)
+titlebar: title=6502.schematical titleVisibility=visible
