@@ -381,15 +381,16 @@ final class SimulationController {
         }
     }
 
-    /// Starts the document's circuit. Each EEPROM with a load file gets the
-    /// file's contents first; a file that can't be read or parsed stops the
-    /// start with a message naming the part.
+    /// Starts the document's circuit. Each EEPROM, and each simulated
+    /// microcontroller (its flash), with a load file gets the file's contents
+    /// first; a file that can't be read or parsed stops the start with a
+    /// message naming the part.
     func start(document: SchematicDocument) {
         let netlist = NetlistBuilder.build(chips: document.chips, wires: document.wires, buses: document.buses,
                                            labels: document.netLabels)
         var loads: [(part: Int, values: [UInt32])] = []
-        for (index, chip) in document.chips.enumerated() where chip.part.kind == PART_EEPROM {
-            guard let file = chip.memoryFile, let size = chip.part.memorySize else { continue }
+        for (index, chip) in document.chips.enumerated() where chip.part.hasLoadFile {
+            guard let file = chip.memoryFile, let size = chip.part.loadFileSize else { continue }
             do {
                 loads.append((part: index, values: try MemoryFileAccess.image(file, size: size)))
             } catch {

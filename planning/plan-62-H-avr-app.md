@@ -196,11 +196,11 @@ the same picker, bookmark, path rules and messages.
 
 ### Phase 1 — the load file on a microcontroller
 
-- [ ] `Backend/PartCatalog.swift`: § 3.1.
-- [ ] `Canvas/SchematicModel.swift:1090`, `:5167–5174`;
+- [x] `Backend/PartCatalog.swift`: § 3.1.
+- [x] `Canvas/SchematicModel.swift:1090`, `:5167–5174`;
       `Document/SchematicFile.swift:1048–1052`;
       `Simulation/Simulation.swift:384–408`: § 3.2.
-- [ ] `schematicalTests/AvrAppTests.swift` (new), with two firmware files
+- [x] `schematicalTests/AvrAppTests.swift` (new), with two firmware files
       written to a temporary folder by the test from byte arrays built
       with `oracle.js asm` and pasted in as Intel HEX strings (`led_on`:
       set DDRB5 and PORTB5, loop; `led_off`: loop):
@@ -219,32 +219,34 @@ the same picker, bookmark, path rules and messages.
 
 Acceptance: the five tests pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p62-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/AvrAppTests -only-testing:schematicalTests/SchematicUndoTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 10 min, an incremental app build).
+  Observed: 2026-11-24: `AvrAppTests` 10 tests, `SchematicUndoTests` 50, `KindInfoTests` 5, `McuTests` 4: 69 tests, 0 failures, `** TEST SUCCEEDED **`.
 Commit: —
 
 ### Phase 2 — the Processor window
 
-- [ ] `Memory/LoadFileBar.swift` (moved from `MemoryWindow.swift`).
-- [ ] `Cpu/CpuWindow.swift`: § 3.3; `Canvas/SchematicCanvasView.swift:189`.
-- [ ] `AvrAppTests.swift`: `testProcessorState`: with `led_on` running,
+- [x] `Memory/LoadFileBar.swift` (moved from `MemoryWindow.swift`).
+- [x] `Cpu/CpuWindow.swift`: § 3.3; `Canvas/SchematicCanvasView.swift:189`.
+- [x] `AvrAppTests.swift`: `testProcessorState`: with `led_on` running,
       `simulation.cpuState(of:)` is `.running`, has 35 registers named
       `PC`, `SP`, `SREG`, `R0`…`R31`, `flags` has the 8 labels of § 3.3
       and its `I` cell is clear, and `instructionText` ends with the
       loop's `RJMP .-2`; `testHasProcessorWindow`: true for
       `ATMEGA328P-PU` and `W65C02S6TPG-14`, false for `ATTINY85-20PU` and
       `SN74HC00N`.
-- [ ] `scripts/harness/avr-app.swift`: builds the Phase 1 circuit, renders
+- [x] `scripts/harness/avr-app.swift`: builds the Phase 1 circuit, renders
       `CpuInspector` with `Harness.renderHosted` stopped with no file
       (`/tmp/p62-h/avr-stopped.png`), stopped with `led_on`
       (`avr-file.png`) and running (`avr-running.png`), and prints `ok`
       lines for: the bar's file name in the stopped view's model, the LED
       lit, 35 registers.
-- [ ] `Editor/KindInfo.swift`, `Help/Acknowledgements.swift`,
+- [x] `Editor/KindInfo.swift`, `Help/Acknowledgements.swift`,
       `docs/file-format.md`: § 3.4.
 
 Acceptance: the tests pass; the harness prints only `ok` lines and the
 three images show the bar, the file name, and the registers with the flag
 row.
   Check: the Phase 1 `xcodebuild` line with `-only-testing:schematicalTests/AvrAppTests -only-testing:schematicalTests/KindInfoTests` → `** TEST SUCCEEDED **` (est. 10 min); `rm -rf /tmp/p62-h && APP=/tmp/p62-dd/Build/Products/Debug/schematical.app scripts/harness/build.sh scripts/harness/avr-app.swift /tmp/p62-h && /tmp/p62-h/H.app/Contents/MacOS/harness /tmp/p62-h` → every line `ok`, exit 0, then view the three PNGs (est. 5 min).
+  Observed: 2026-11-24: the same run (69 tests, 0 failures); the harness printed 9 `ok` lines and no FAIL, exit 0; the three PNGs viewed (see Corrections).
 Commit: —
 
 ## Validation Plan
@@ -262,6 +264,24 @@ plan-62-A § Decisions: the firmware is chosen in the Processor window,
 which a double-click opens; no flash viewer.
 
 ## Corrections
+
+- `AvrAppTests` has 10 tests, not 7: `testPartCapabilities` (it holds the
+  planned `testHasProcessorWindow` and checks `hasLoadFile`, `loadFileSize`
+  and `isMemory` too), `testFirmwareRuns`, `testNoFirmwareStillRuns`,
+  `testUnreadableFirmwareStopsTheStart`, `testFirmwareTooBigStopsTheStart`
+  (a HEX byte at 0x8000, past 32 KB of flash), `testLoadFileUndo`,
+  `testLoadFileRoundTrip`, `testProcessorState`, `testLoadProblem`,
+  `testSregFlags`.
+- § 3.3: the window's firmware check is a static function,
+  `CpuInspector.loadProblem(of:)`, so a test can call it; it is nil when no
+  file is chosen (an erased chip is no problem).
+- Both phases were built and tested in one run and landed in one commit: the
+  app builds once, and Phase 1's tests live in the file Phase 2 adds to.
+- The harness's three images are kept as
+  `planning/plan-62-data/h-avr-stopped.png`, `h-avr-file.png` and
+  `h-avr-running.png`. Viewed: the bar with "led_on.hex" and Choose… / Clear
+  (disabled while running), `Running · 1092568 cycles`, PC 0004, SP 08FF,
+  SREG 00, R0–R31, the flag row I T H S V N Z C, `0004  FF CF  RJMP .-2`.
 
 ## Summary
 

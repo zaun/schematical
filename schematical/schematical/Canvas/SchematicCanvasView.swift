@@ -185,8 +185,9 @@ struct SchematicCanvasView: View {
                         onOpenMemory(chip.id)
                         return
                     }
-                    // A processor opens its processor window the same way.
-                    if let chip = document.chip(at: point), chip.part.isCpu {
+                    // A processor, or a simulated microcontroller, opens its
+                    // processor window the same way.
+                    if let chip = document.chip(at: point), chip.part.hasProcessorWindow {
                         onOpenCpu(chip.id)
                         return
                     }
