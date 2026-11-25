@@ -93,7 +93,7 @@ Commit: 9dc8e4ea
 Acceptance: A–H are under `planning/completed/` and only `plan-58-data` is left in `planning/`.
   Check: `ls planning | grep -c '^plan-58-[A-H]'` → 0 and `ls planning/completed | grep -c '^plan-58-[A-H]'` → 8 (est. 1 min).
   Measured: `ls planning | grep -c '^plan-58-[A-H]'` → 0 after the archive move, `ls planning/completed | grep -c '^plan-58-[A-H]'` → 8; every letter A-G carries its phase hashes (`grep -c '^Commit: —' planning/completed/plan-58-[A-G]-*` → 0 each); `planning/todo.md` item ticked in the main checkout after the merge (Corrections).
-Commit: —
+Commit: 4c694ada
 
 ## Validation Plan
 
