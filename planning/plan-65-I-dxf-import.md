@@ -22,7 +22,7 @@ The shared gate is in plan-65-A. This sub-plan adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-65-H is complete | `ls planning/completed \| grep -c '^plan-65-H'` → 1 | NOT MET (2026-11-25: H is written, not landed) |
+| plan-65-H is complete | `ls planning/completed \| grep -c '^plan-65-H'` → 1 | MET (2026-11-25: H landed, 1) |
 
 Everything below is written against the world where these hold.
 
@@ -87,12 +87,13 @@ Rejected: importing straight after the panel with default choices (the layer and
 
 ### Phase 1 — State, placement and the document step
 
-- [ ] `Document/DXFImportState.swift`: `DXFImportState`, `DXFPlacedImport`, `DXFPlacement.place`; `problem` per § 1 (`BoardSettings.problem(outline:)`, `BoardCutout.problem` for each cutout, and "no outline" / "no cutouts" texts).
-- [ ] `Canvas/SchematicModel.swift`: `applyDXFImport(_ placed: DXFPlacedImport, mode: DXFImportMode)` per § 3.
-- [ ] Tests `schematicalTests/DXFImportTests.swift` (from `DXFFixtures`): `roundedBoard` in mode 1 → outline bounds (0, 0, 60, 40), 2 cutouts, board type `.custom`, width 60 and height 40, `isFreeForm`; `kicadEdgeProbe` (negative y) in mode 1 → outline's top-left (0, 0) and the circle at y 12…18 (the y flip: DXF −15 → 15 from the top of a 30-high outline) ; `inchBoard` with the units menu left at the file's → 50.8 × 25.4; `openChain` (units code 0) takes the document's units; mode 2 with offset (0, 40) puts the `roundedBoard`'s circle centre at (15, 20) from a 40-high board's top-left; undo of an import restores `board`, `cutouts` and the selection exactly (compare `DocumentState`) and is one step; a mode-1 import over a board with 2 cutouts and a card type ends with only the DXF's cutouts and type `.custom`; `problem` is the width message for a 1200 mm outline and "no cutouts" for a DXF with only an outline in mode 2; layer defaults (`Edge`, `Dims` → `Edge`).
+- [x] `Document/DXFImportState.swift`: `DXFImportState`, `DXFPlacedImport`, `DXFPlacement.place`; `problem` per § 1 (`BoardSettings.problem(outline:)`, `BoardCutout.problem` for each cutout, and "no outline" / "no cutouts" texts).
+- [x] `Canvas/SchematicModel.swift`: `applyDXFImport(_ placed: DXFPlacedImport, mode: DXFImportMode)` per § 3.
+- [x] Tests `schematicalTests/DXFImportTests.swift` (from `DXFFixtures`): `roundedBoard` in mode 1 → outline bounds (0, 0, 60, 40), 2 cutouts, board type `.custom`, width 60 and height 40, `isFreeForm`; `kicadEdgeProbe` (negative y) in mode 1 → outline's top-left (0, 0) and the circle at y 12…18 (the y flip: DXF −15 → 15 from the top of a 30-high outline) ; `inchBoard` with the units menu left at the file's → 50.8 × 25.4; `openChain` (units code 0) takes the document's units; mode 2 with offset (0, 40) puts the `roundedBoard`'s circle centre at (15, 20) from a 40-high board's top-left; undo of an import restores `board`, `cutouts` and the selection exactly (compare `DocumentState`) and is one step; a mode-1 import over a board with 2 cutouts and a card type ends with only the DXF's cutouts and type `.custom`; `problem` is the width message for a 1200 mm outline and "no cutouts" for a DXF with only an outline in mode 2; layer defaults (`Edge`, `Dims` → `Edge`).
 
 Acceptance: both modes place loops as above and each import is one exactly-undoable step.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/DXFImportTests -only-testing:schematicalTests/CutoutModelTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 3 min).
+  Observed: DXFImportTests 9 (this phase's) + CutoutModelTests 14, 0 failures, TEST SUCCEEDED.
 Commit: —
 
 ### Phase 2 — The sheet and the menu

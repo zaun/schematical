@@ -1,5 +1,20 @@
 import SwiftUI
 
+/// File › Import, before Export: a DXF drawing's loops as the board's edge and its cutouts
+/// (plan-65-I, `SchematicExporter.importDXF`).
+struct SchematicImportMenu: View {
+    let file: SchematicExporter?
+
+    var body: some View {
+        Menu("Import") {
+            Button("DXF…") {
+                Task { await file?.importDXF() }
+            }
+            .disabled(file == nil)
+        }
+    }
+}
+
 /// File › Export, after the document's Save items: an image of the focused
 /// window's schematic, PCB page or board render (the options sheet,
 /// `ImageExportDialog`), a PDF of the schematic and each PCB layer at 1:1

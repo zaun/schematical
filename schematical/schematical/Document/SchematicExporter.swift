@@ -152,6 +152,41 @@ final class SchematicExporter {
         await UserLibraryPrompts.addShowingFailures(parts, catalog: catalog, on: window)
     }
 
+    // MARK: Import
+
+    /// What File ▸ Import ▸ DXF… hands back: the placed loops and the mode.
+    struct DXFImportChoice {
+        var placed: DXFPlacedImport
+        var mode: DXFImportMode
+    }
+
+    /// Reads a DXF drawing; throws `DXFError` for a binary or non-DXF file.
+    func loadDXF(from url: URL) throws -> DXFDrawing {
+        try DXFReader.parse(data: Data(contentsOf: url))
+    }
+
+    /// File > Import > DXF…: asks for a drawing, shows what it holds in `DXFImportSheet`, and
+    /// applies the choice as one undo step (`SchematicDocument.applyDXFImport`).
+    func importDXF() async {
+        let panel = NSOpenPanel()
+        panel.allowedContentTypes = [UTType(filenameExtension: "dxf") ?? .data]
+        panel.canChooseDirectories = false
+        panel.allowsMultipleSelection = false
+        if let fileURL { panel.directoryURL = fileURL.deletingLastPathComponent() }
+        guard await run(panel) == .OK, let url = panel.url else { return }
+        do {
+            let drawing = try loadDXF(from: url)
+            let state = DXFImportState(fileName: url.lastPathComponent, drawing: drawing, board: document.board)
+            let choice: DXFImportChoice? = await runSheet { finish in
+                DXFImportSheet(state: state, onCancel: { finish(nil) },
+                               onImport: { finish(DXFImportChoice(placed: state.placed, mode: state.mode)) })
+            }
+            if let choice { document.applyDXFImport(choice.placed, mode: choice.mode) }
+        } catch {
+            present(error, title: "Couldn't import “\(url.lastPathComponent)”")
+        }
+    }
+
     /// File > Export > Image…: the options sheet (`ImageExportDialog`),
     /// then where to save, then the file. An export is not a save: the
     /// window's file and saved state are unchanged.
@@ -542,6 +577,8 @@ struct SchematicFileCommands: Commands {
             }
 
             Divider()
+
+            SchematicImportMenu(file: file)
 
             SchematicExportMenu(file: file)
 

@@ -3373,6 +3373,27 @@ final class SchematicDocument {
         return true
     }
 
+    /// File ▸ Import ▸ DXF… (plan-65-I), one undo step named `Import DXF`. *Outline and
+    /// cutouts*: the board takes the outline (a free-form Custom board), every cutout it had
+    /// is replaced by the DXF's, and nothing else moves. *Cutouts only*: the DXF's loops are added.
+    /// The new cutouts are the selection. Does nothing, with no step, when the outline is
+    /// refused (`BoardSettings.problem(outline:)`) or there is nothing to import.
+    func applyDXFImport(_ placed: DXFPlacedImport, mode: DXFImportMode) {
+        recordEdit(.pcb, "Import DXF") {
+            if mode == .outlineAndCutouts {
+                guard let outline = placed.outline, setBoardOutline(outline) else { return }
+                cutouts.removeAll()
+            }
+            guard mode == .outlineAndCutouts || !placed.cutouts.isEmpty else { return }
+            var added: [BoardItem] = []
+            for loop in placed.cutouts {
+                if let id = addCutout(.polygon(loop)) { added.append(.cutout(id)) }
+            }
+            boardSelection.set(Set(added))
+            pruneSelection()
+        }
+    }
+
     /// Puts the rectangle back: the free-form outline is dropped and the
     /// board keeps its width and height (the old bounds).
     func resetBoardOutline() {
