@@ -31,6 +31,8 @@ add_library(logic STATIC
     src/models/avr_gpio.c
     src/models/avr_clock.c
     src/models/avr_timer.c
+    src/models/avr_timer_tiny.c
+    src/models/avr_usi.c
     src/models/avr_usart.c
     src/models/avr_spi.c
     src/models/avr_twi.c
@@ -242,7 +244,8 @@ logic_test(capacitor_test)
 logic_test(mcu_test)
 logic_test(avr_serial_test)
 logic_test(avr_board_test)
-foreach(AVR_TEST avr_core_test avr_periph_test mcu_test avr_serial_test avr_board_test)
+logic_test(avr_tiny_test)
+foreach(AVR_TEST avr_core_test avr_periph_test mcu_test avr_serial_test avr_board_test avr_tiny_test)
     target_compile_definitions(${AVR_TEST} PRIVATE
         AVR_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/avr"
         AVR_TMP="${CMAKE_CURRENT_BINARY_DIR}")

@@ -109,6 +109,10 @@ struct AvrCpu {
 /* A CPU with flash_bytes of program memory (erased: 0xFF) and sram_bytes of
    SRAM after the 0x100 register bytes, reset. NULL when out of memory. */
 AvrCpu *avr_cpu_create(uint32_t flash_bytes, uint32_t sram_bytes);
+/* The same with the whole data space given: data_size bytes of registers,
+   I/O and SRAM. An ATtiny25/45/85's SRAM starts at 0x60, so its data space
+   is 0x60 + its SRAM (avr8js: `new CPU(flash, sram - 0xa0)`). */
+AvrCpu *avr_cpu_create_data(uint32_t flash_bytes, uint32_t data_size);
 void avr_cpu_destroy(AvrCpu *cpu);
 /* avr8js's CPU.reset(): SP to the top of memory, pc 0, no pending
    interrupt, no clock event. Memory is not cleared. */
@@ -221,6 +225,9 @@ struct AvrPort {
     AvrInterrupt pcint;              /* valid when config.has_pin_change */
     struct { AvrPortListenerFn fn; void *ctx; } listener;
     struct { AvrExternalClockFn fn; void *ctx; } external_clock[8];
+    /* Not in avr8js: told when the level the outside puts on a pin changes
+       (avr_port_set_pin), whatever DDR says. The USI watches its pins so. */
+    struct { AvrExternalClockFn fn; void *ctx; } pin_watch[8];
     AvrPortHook hooks[10];
     size_t hook_count;
     uint8_t pin_value;
@@ -312,6 +319,78 @@ typedef struct {
 
 void avr_timer_init(AvrTimer *timer, AvrCpu *cpu, const AvrTimerConfig *config);
 void avr_timer_reset(AvrTimer *timer);
+
+/* ---- avr_timer_tiny.c: src/peripherals/timer-attiny.ts ---------------------- */
+
+/* Timer/Counter1 of the ATtiny25/45/85 (avr8js's ATtinyTimer1Config). */
+typedef struct {
+    uint16_t TCCR1, GTCCR, TCNT1, OCR1A, OCR1B, OCR1C, TIFR, TIMSK;
+    uint8_t ovf_interrupt, comp_a_interrupt, comp_b_interrupt;   /* vector word addresses */
+    uint8_t TOV1, OCF1A, OCF1B;      /* TIFR bits */
+    uint8_t TOIE1, OCIE1A, OCIE1B;   /* TIMSK bits */
+    uint16_t comp_port_b;            /* PORTB's address */
+    uint8_t comp_pin_a, comp_pin_b;  /* OC1A, OC1B */
+    uint16_t dividers[16];           /* by CS13:10 */
+    /* Not in avr8js: the inverted outputs /OC1A and /OC1B (PWM mode with
+       COM1x = 01), and PLLCSR. */
+    uint8_t comp_pin_a_inverted, comp_pin_b_inverted;
+    uint16_t PLLCSR;
+} AvrTinyTimer1Config;
+
+typedef struct {
+    AvrCpu *cpu;
+    AvrTinyTimer1Config config;
+    int64_t last_cycle;
+    int tcnt, tcnt_next, tcnt_updated;
+    int ocr_a, ocr_b, ocr_c;
+    int ocr_a_next, ocr_b_next;      /* not in avr8js: OCR1A/B are latched at TOP in PWM mode */
+    int divider, update_divider, counting_up;
+    int inverted_a, inverted_b;      /* not in avr8js: /OC1A, /OC1B are connected */
+    AvrWriteHook tifr_hook, timsk_hook, gtccr_hook;   /* Timer0's, called first */
+    AvrInterrupt OVF, OCFA, OCFB;
+} AvrTinyTimer1;
+
+/* After the other timers: TIFR, TIMSK and GTCCR are shared with Timer0,
+   whose hooks this one chains to. */
+void avr_tiny_timer1_init(AvrTinyTimer1 *timer, AvrCpu *cpu, const AvrTinyTimer1Config *config);
+void avr_tiny_timer1_reset(AvrTinyTimer1 *timer);
+
+/* ---- avr_usi.c: the Universal Serial Interface (not an avr8js port) --------- */
+
+typedef struct {
+    uint16_t USICR, USISR, USIDR, USIBR;
+    uint8_t start_interrupt, overflow_interrupt;   /* vector word addresses */
+    uint16_t port;                   /* the PORT address of the USI's pins */
+    uint8_t data_in_pin;             /* DI, and SDA in two-wire mode */
+    uint8_t data_out_pin;            /* DO */
+    uint8_t clock_pin;               /* USCK, and SCL in two-wire mode */
+} AvrUsiConfig;
+
+/* What the USI does with one of its pins. */
+typedef enum {
+    AVR_USI_PIN_PORT,    /* nothing: the port has the pin */
+    AVR_USI_PIN_LOW,
+    AVR_USI_PIN_HIGH,
+    AVR_USI_PIN_FLOAT    /* released, and no pull-up */
+} AvrUsiPin;
+
+typedef struct AvrUsi {
+    AvrCpu *cpu;
+    AvrUsiConfig config;
+    AvrPort *port;
+    int output_latch;                /* the bit the data output shows */
+    int scl_hold;                    /* two-wire: the USI holds SCL low */
+    int usiclk;                      /* USICLK as last written (it reads 0) */
+    int buffer_follows;              /* the next shift also goes to USIBR */
+    AvrCallback on_pins;             /* avr_usi_pin's answers may have changed */
+    AvrInterrupt START, OVF;
+} AvrUsi;
+
+/* After the ports. */
+void avr_usi_init(AvrUsi *usi, AvrCpu *cpu, const AvrUsiConfig *config);
+void avr_usi_reset(AvrUsi *usi);
+/* What the USI does with port bit `bit` now. */
+AvrUsiPin avr_usi_pin(const AvrUsi *usi, int bit);
 
 /* ---- avr_usart.c: src/peripherals/usart.ts (plan-62-C) --------------------- */
 
@@ -450,6 +529,9 @@ typedef struct {
     AvrAdcInput mux_channels[AVR_ADC_MUX_INPUTS];
     AvrAdcReference adc_references[8];
     uint8_t reference_count;
+    /* Not in avr8js: the ADMUX bit that, with REFS1, selects the 2.56 V
+       reference (REFS2 of the ATtiny25/45/85: bit 4). 0 = none. */
+    uint8_t refs2_mask;
 } AvrAdcConfig;
 
 typedef struct AvrAdc {

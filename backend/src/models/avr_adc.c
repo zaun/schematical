@@ -42,6 +42,14 @@ static double reference_voltage(const AvrAdc *adc) {
         refs |= 4;
     }
     type = refs < adc->config.reference_count ? adc->config.adc_references[refs] : AVR_ADC_RESERVED;
+    if (!adc->cpu->exact && adc->config.refs2_mask != 0 && (admux & adc->config.refs2_mask) &&
+        (refs & 2)) {
+        /* The ATtiny25/45/85's REFS2 (ADMUX bit 4) with REFS1: the internal
+           2.56 V reference (datasheet table 17-3). avr8js looks for REFS2 in
+           bit 3, which is MUX3 on these chips, so its config cannot say
+           this. `exact` keeps avr8js's answer for the oracle tests. */
+        return 2.56;
+    }
     switch (type) {
         case AVR_ADC_AVCC: return adc->avcc;
         case AVR_ADC_AREF: return adc->aref;

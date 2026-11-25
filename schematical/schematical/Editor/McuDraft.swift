@@ -11,7 +11,7 @@ enum McuDraft {
     static let f3: Field = Field(key: "eeprom", label: "Eeprom", type: .integer)
     static let f4: Field = Field(key: "flash", label: "Flash", type: .integer, required: true)
     static let f5: Field = Field(key: "inputMax", label: "Input Max", type: .number(unit: "V"))
-    static let f6: Field = Field(key: "model", label: "Model", type: .suggested(["atmega168pb", "atmega328", "atmega328pb"]))
+    static let f6: Field = Field(key: "model", label: "Model", type: .suggested(["atmega168pb", "atmega328", "atmega328pb", "attiny85"]))
     static let f7: Field = Field(key: "ram", label: "Ram", type: .integer, required: true)
     static let f8: Field = Field(key: "simulated", label: "Simulated", type: .bool)
     static let f9: Field = Field(key: "vcc", label: "Vcc", type: .voltRange, required: true)

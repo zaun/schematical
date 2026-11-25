@@ -167,7 +167,7 @@ function normalize(value) {
   }
   if (value && typeof value === 'object') {
     const keys = Object.keys(value);
-    if (keys.length === 8 && keys.every((key, index) => key === String(index))) {
+    if (keys.length >= 8 && keys.every((key, index) => key === String(index))) {
       return keys.map((key) => normalize(value[key]));
     }
     const out = {};
@@ -199,6 +199,15 @@ function firstDifference(ours, theirs, where) {
 function layoutCheck(layoutFile) {
   const layout = JSON.parse(fs.readFileSync(layoutFile, 'utf8'));
   const pairs = [];
+  if (layout.tinyTimer1) {
+    // The ATtiny25/45/85: avr8js has a config for its Timer1 alone.
+    const difference = firstDifference(normalize(layout.tinyTimer1), normalize(avr8js.attinyTimer1Config), 'timer1');
+    if (difference) {
+      fail('layout ' + layout.name + ' differs: ' + difference);
+    }
+    process.stdout.write('layout ' + layout.name + ' equal\n');
+    return;
+  }
   for (const port of layout.ports) {
     pairs.push(['port' + port.letter, portConfig(port), avr8js['port' + port.letter + 'Config']]);
   }
@@ -234,7 +243,9 @@ function run(scenarioFile, layoutFile) {
   const layout = JSON.parse(fs.readFileSync(layoutFile, 'utf8'));
   const flash = new Uint16Array(scenario.flash / 2).fill(0xffff); // erased
   parseIntelHex(scenario.program, new Uint8Array(flash.buffer));
-  const cpu = new avr8js.CPU(flash, scenario.sram);
+  // avr8js puts the SRAM after 0x100 bytes of registers; a layout whose SRAM
+  // starts lower (0x60 on an ATtiny25/45/85) gets that much less.
+  const cpu = new avr8js.CPU(flash, scenario.sram + layout.sramStart - 0x100);
   const out = [];
 
   // The order the C chip builds its peripherals in (avr_chip_create).
@@ -250,6 +261,10 @@ function run(scenarioFile, layoutFile) {
   for (const timer of layout.timers) {
     new avr8js.AVRTimer(cpu, timer);
   }
+  if (layout.tinyTimer1) {
+    new avr8js.ATtinyTimer1(cpu, layout.tinyTimer1);
+  }
+  // The USI is not built: avr8js's AVRUSI is not the oracle of ours (avr_usi.c).
   // The scripted outside of the serial peripherals: the C test's is the same.
   const usarts = layout.usarts.map((config, index) => {
     const usart = new avr8js.AVRUSART(cpu, config, RUN_HZ);

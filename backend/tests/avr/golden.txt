@@ -19,4 +19,9 @@ run watchdog 9000 ff02978873d457da
 run m48_vectors 2512 816031013b2e7ec6
 run m168pb_porte 561 277b08b30adfee24
 run m328pb_extras 4064 b03f2c6209a8109e
+run t85_gpio 1504 9e54d05d2728d17c
+run t85_timer0 20055 31482535bf9eedf5
+run t85_timer1 60089 9eed55ded1eba184
+run t85_periph 60000 0f5c87d851cf84cb
+run t25_small 4018 44b15b39ea972559
 dasm 63902 ddc4f5879f07bbcb

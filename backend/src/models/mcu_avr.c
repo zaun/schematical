@@ -2,21 +2,25 @@
  * The engine adapter for AVR microcontrollers (plan-62-E): an AvrChip
  * (avr_chip.h, the C port of avr8js) on the event engine.
  *
+ * The clock pins and the reset pin are the layout's (avr_chip.h): XTAL1
+ * PB6, XTAL2 PB7 and RESET PC6 on the ATmegas; XTAL1 PB3, XTAL2 PB4 and
+ * RESET PB5 on the ATtiny25/45/85.
+ *
  * Startup. For AVR_STARTUP_PS after the circuit starts the chip is in reset:
- * every port pin Z. It counts rising edges on PB6 (XTAL1).
+ * every port pin Z. It counts rising edges on XTAL1.
  *
  * Clock, chosen once at the end of startup (a real chip chooses with fuses,
  * which do not exist here):
- *   - 2 or more rising edges on PB6 during startup: an external clock. One
- *     CPU cycle per rising edge of PB6 (per `prescaler` edges, CLKPR). PB6
- *     and PB7 are clock pins: never driven, and PINB6/PINB7 read 0. CLKPR
- *     resets to 0.
+ *   - 2 or more rising edges on XTAL1 during startup: an external clock. One
+ *     CPU cycle per rising edge of XTAL1 (per `prescaler` edges, CLKPR).
+ *     XTAL1 and XTAL2 are clock pins: never driven, and their PIN bits read
+ *     0. CLKPR resets to 0.
  *   - otherwise the internal 8 MHz oscillator divided by 8 (CLKPR resets to
  *     3, the CKDIV8 fuse): a CPU cycle is 125 ns x prescaler, 1 us until the
- *     firmware writes CLKPR. PB6 and PB7 are port pins.
+ *     firmware writes CLKPR. XTAL1 and XTAL2 are port pins.
  *
- * Reset. PC6 is the reset pin, not a port pin: the chip pulls it up (weak
- * 1); while it reads 0 or X the chip is in reset, every port pin Z; when it
+ * Reset. The reset pin is not a port pin: the chip pulls it up (weak 1);
+ * while it reads 0 or X the chip is in reset, every port pin Z; when it
  * reads 1 again the chip restarts. A watchdog reset restarts it the same
  * way.
  *
@@ -29,6 +33,9 @@
  *
  * Serial pins. The USART, SPI and TWI put their bytes on pins in
  * mcu_avr_serial.c, which takes a pin from its port with an override here.
+ * The USI (ATtiny25/45/85) works on pins by itself (avr_usi.c): it is asked
+ * what it does with each of its pins whenever one is updated, and it sees
+ * the level of every pin through its port.
  */
 
 #include <stdlib.h>
@@ -95,6 +102,21 @@ static void update_pin(McuAvr *mcu, size_t pin) {
         case MCU_OVERRIDE_NONE:
             break;
     }
+    if (mcu->chip->layout.has_usi && port == mcu->chip->usi.port) {
+        switch (avr_usi_pin(&mcu->chip->usi, map->bit)) {
+            case AVR_USI_PIN_LOW:
+                drive(mcu, pin, LOGIC_0, DRIVE_STRONG);
+                return;
+            case AVR_USI_PIN_HIGH:
+                drive(mcu, pin, LOGIC_1, DRIVE_STRONG);
+                return;
+            case AVR_USI_PIN_FLOAT:
+                drive(mcu, pin, LOGIC_Z, DRIVE_STRONG);
+                return;
+            case AVR_USI_PIN_PORT:
+                break;
+        }
+    }
     switch (avr_port_pin_state(port, map->bit)) {
         case AVR_PIN_LOW: drive(mcu, pin, LOGIC_0, DRIVE_STRONG); break;
         case AVR_PIN_HIGH: drive(mcu, pin, LOGIC_1, DRIVE_STRONG); break;
@@ -155,6 +177,19 @@ static void update_all_pins(McuAvr *mcu) {
 
     for (port = 0; port < mcu->chip->port_count; port++) {
         update_port_pins(mcu, port);
+    }
+}
+
+/* The USI changed what it does with its pins. */
+static void usi_pins(void *ctx) {
+    McuAvr *mcu = ctx;
+    const AvrUsi *usi = &mcu->chip->usi;
+    size_t port;
+
+    for (port = 0; port < mcu->chip->port_count; port++) {
+        if (&mcu->chip->ports[port] == usi->port) {
+            update_port_pins(mcu, port);
+        }
     }
 }
 
@@ -498,7 +533,7 @@ McuAvr *mcu_avr_create(const Part *part, const McuAvrPins *pins) {
     McuAvr *mcu = calloc(1, sizeof(*mcu));
     const AvrLayout *layout = pins->layout;
     size_t port, pin;
-    int bit;
+    int bit, channel;
 
     if (mcu == NULL) {
         return NULL;
@@ -531,19 +566,20 @@ McuAvr *mcu_avr_create(const Part *part, const McuAvrPins *pins) {
             mcu->pin_map[pin].kind = MCU_PIN_PORT;
             mcu->pin_map[pin].port = (uint8_t)port;
             mcu->pin_map[pin].bit = (uint8_t)bit;
-            /* On every device of the three layouts XTAL1 is PB6, XTAL2 is
-               PB7 and RESET is PC6 (planning/plan-62-data/atdf_signals.txt). */
-            if (letter == 'B' && bit == 6) {
+            /* The layout's clock pins, reset pin and ADC inputs. */
+            if (letter == layout->xtal1.port && bit == layout->xtal1.bit) {
                 mcu->xtal1 = pin;
-            } else if (letter == 'B' && bit == 7) {
+            } else if (letter == layout->xtal2.port && bit == layout->xtal2.bit) {
                 mcu->xtal2 = pin;
-            } else if (letter == 'C' && bit == 6) {
+            } else if (letter == layout->reset.port && bit == layout->reset.bit) {
                 mcu->reset_pin = pin;
                 mcu->pin_map[pin].kind = MCU_PIN_RESET;
-            } else if (letter == 'C' && bit <= 5) {
-                mcu->pin_map[pin].adc_channel = (int8_t)bit;   /* ADC0-ADC5 */
-            } else if (letter == 'E' && (bit == 2 || bit == 3)) {
-                mcu->pin_map[pin].adc_channel = (int8_t)(bit + 4);   /* ADC6 on PE2, ADC7 on PE3 */
+            }
+            for (channel = 0; channel < AVR_LAYOUT_ADC_PINS; channel++) {
+                if (letter == layout->adc_pins[channel].port && bit == layout->adc_pins[channel].bit &&
+                    mcu->pin_map[pin].kind == MCU_PIN_PORT) {
+                    mcu->pin_map[pin].adc_channel = (int8_t)channel;
+                }
             }
         }
         mcu->listeners[port].mcu = mcu;
@@ -561,6 +597,10 @@ McuAvr *mcu_avr_create(const Part *part, const McuAvrPins *pins) {
     }
     mcu->chip->after_reset.fn = chip_reset_itself;
     mcu->chip->after_reset.ctx = mcu;
+    if (mcu->chip->layout.has_usi) {
+        mcu->chip->usi.on_pins.fn = usi_pins;
+        mcu->chip->usi.on_pins.ctx = mcu;
+    }
     mcu->state = MCU_STARTUP;
     mcu_avr_serial_init(mcu);
     return mcu;

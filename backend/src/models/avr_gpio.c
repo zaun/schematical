@@ -235,11 +235,30 @@ static int pcifr_hook(void *ctx, uint8_t value, uint8_t old_value, uint16_t addr
     size_t p;
 
     (void)old_value;
-    (void)addr;
     (void)mask;
     for (p = 0; p < cpu->port_count; p++) {
         if (cpu->ports[p]->config.has_pin_change) {
             avr_clear_interrupt_by_flag(cpu, &cpu->ports[p]->pcint, value);
+        }
+    }
+    if (!cpu->exact) {
+        /* On an ATtiny25/45/85 the pin-change flag and INT0's flag share one
+           register (GIFR). avr8js keeps one write hook per register, and
+           this one replaces the external interrupts' hook, so in avr8js a
+           write of 1 to INTF0 does not clear it. The datasheet (9.3.3)
+           clears it; so do we. `exact` keeps avr8js's behavior for the
+           oracle tests. */
+        int i;
+
+        for (p = 0; p < cpu->port_count; p++) {
+            for (i = 0; i < 8; i++) {
+                AvrInterrupt *external = &cpu->ports[p]->external_ints[i];
+
+                if (cpu->ports[p]->config.external[i].present && !external->constant &&
+                    external->flag_register == addr) {
+                    avr_clear_interrupt_by_flag(cpu, external, value);
+                }
+            }
         }
     }
     return 1;
@@ -344,12 +363,16 @@ AvrPinState avr_port_pin_state(const AvrPort *port, int index) {
 
 void avr_port_set_pin(AvrPort *port, int index, int value) {
     uint8_t bit_mask = (uint8_t)(1 << index);
+    int changed = ((port->pin_value & bit_mask) != 0) != (value != 0);
 
     port->pin_value &= (uint8_t)~bit_mask;
     if (value) {
         port->pin_value |= bit_mask;
     }
     update_pin_register(port, port->cpu->data[port->config.DDR]);
+    if (changed && port->pin_watch[index].fn != NULL) {
+        port->pin_watch[index].fn(port->pin_watch[index].ctx, value != 0);
+    }
 }
 
 void avr_port_override_pin(AvrPort *port, int pin, AvrPinOverride mode) {
