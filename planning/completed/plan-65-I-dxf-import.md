@@ -105,7 +105,7 @@ Commit: 7544702e
 Acceptance: the file panel and the sheet open from the menu, the summary and reasons match the plan, and a parse error shows an alert and changes nothing.
   Check: `xcodebuild … test -only-testing:schematicalTests/DXFImportTests -only-testing:schematicalTests/SchematicExportActionTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 4 min); the real menu is driven in J.
   Observed: DXFImportTests 12 + SchematicExportActionTests 8, 0 failures, TEST SUCCEEDED.
-Commit: —
+Commit: 55b7a0e0
 
 ## Validation Plan
 
