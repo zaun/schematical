@@ -13,7 +13,7 @@ still an obstacle, never both and never neither.
 
 References:
 
-- `planning/plan-66-A-push-option-anchors.md` (§ 3 design, § Prerequisites,
+- `planning/completed/plan-66-A-push-option-anchors.md` (§ 3 design, § Prerequisites,
   § Decisions — read first).
 - `schematical/schematical/Routing/RoutingProblemBuilder.swift` (the builder),
   `RoutingProblem.swift`, `CopperGeometry.swift` (`CopperGeometry.shape(of:)`,
@@ -33,8 +33,8 @@ The gate for the whole feature is in plan-66-A § Prerequisites. This letter add
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-66-A is complete and archived | `ls planning/completed/plan-66-A-* \| wc -l` → 1 | NOT MET (2026-11-25: 0; A is unwritten code) |
-| The option and the counters exist | `grep -c 'pushAndShove' schematical/schematical/Routing/RoutingOptions.swift` → at least 3 | NOT MET (2026-11-25: 0) |
+| plan-66-A is complete and archived | `ls planning/completed/plan-66-A-* \| wc -l` → 1 | MET (2026-11-25, in `worktree-P-66`: 1) |
+| The option and the counters exist | `grep -c 'pushAndShove' schematical/schematical/Routing/RoutingOptions.swift` → at least 3 | MET (2026-11-25: 4) |
 
 If plan-66-A is not complete, this plan cannot start, full stop.
 

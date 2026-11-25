@@ -13,7 +13,7 @@ letter that owns the code and recorded in that letter's Corrections.
 
 References:
 
-- `planning/plan-66-A-push-option-anchors.md` … `plan-66-E-push-integration.md`
+- `planning/completed/plan-66-A-push-option-anchors.md` … `plan-66-E-push-integration.md`
   (each letter's Acceptance and Validation Plan; A § 3 is the design).
 - `docs/routing.md` (§ The Autoroute sheet, § The engine, § Limits, § Results,
   § Code map); `AGENTS.md` (§ Git, § Testing in the app).

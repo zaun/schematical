@@ -13,7 +13,7 @@ fixtures prove that nothing router-caused breaks and nothing routes worse.
 
 References:
 
-- `planning/plan-66-A-push-option-anchors.md` (§ 3, § Decisions),
+- `planning/completed/plan-66-A-push-option-anchors.md` (§ 3, § Decisions),
   `plan-66-D-push-primitive.md` (`tryPush`, the constants).
 - `Routing/Router.swift:295-362` (`routeAll`), `437-515` (`join`),
   `168-175` (`better`), `RoutingPolish.swift:47-153` (`attempt`, `polish`),

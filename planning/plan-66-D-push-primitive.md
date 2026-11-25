@@ -13,7 +13,7 @@ not call it until E, so with D alone the router's results do not change.
 
 References:
 
-- `planning/plan-66-A-push-option-anchors.md` (§ 3, § Decisions),
+- `planning/completed/plan-66-A-push-option-anchors.md` (§ 3, § Decisions),
   `plan-66-B-movable-chains.md`, `plan-66-C-chains-in-the-engine.md` (entries
   with `chain`, `touched`, `replace`; `pushPrice`).
 - `Routing/Router.swift:437-515` (`join`: the hard search, the relaxed detour,

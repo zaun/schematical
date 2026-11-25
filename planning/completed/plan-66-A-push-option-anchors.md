@@ -291,7 +291,7 @@ Commit: — (recorded in the next commit)
 - Runtime proof: none beyond tests; the real-app pass is plan-66-F.
 - Doc sync: none in this letter; `docs/routing.md`'s option table gets its row in
   plan-66-F, once the option does something.
-- Final gate (run once, here): the two Check commands above (est. 4 min).
+- Final gate (run once, here): the two Check commands above (est. 4 min) — both run, one per phase: `Executed 30 tests, with 0 failures` and `Executed 23 tests, with 0 failures`, each `** TEST SUCCEEDED **`.
 
 ## Decisions
 

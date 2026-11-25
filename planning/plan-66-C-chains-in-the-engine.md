@@ -15,7 +15,7 @@ copper as fixed obstacles, and proves the apply path with hand-made results.
 
 References:
 
-- `planning/plan-66-A-push-option-anchors.md` (§ 3, § Prerequisites, § Decisions),
+- `planning/completed/plan-66-A-push-option-anchors.md` (§ 3, § Prerequisites, § Decisions),
   `plan-66-B-movable-chains.md` (the types).
 - `Routing/RoutingState.swift` (`add`, `remove`, `rip`, `victims`, `groups`),
   `RoutingGrid.swift` (`init`, `stamp`, `restoreFixed`), `RoutingSearch.swift:244-266`
