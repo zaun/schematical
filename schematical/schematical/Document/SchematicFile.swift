@@ -75,7 +75,7 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         var x: Double
         var y: Double
         var flipped: Bool
-        /// LEDs, diodes, resistors and capacitors only: how far the part is
+        /// Parts drawn as their own symbol only (`PartSymbol.canRotate`): how far the part is
         /// turned clockwise on the Schematic, 0, 90, 180 or 270. Left out when 0.
         var rotation: Int? = nil
         /// DIP switches only: whether each position is ON, position 1 first.
