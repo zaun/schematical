@@ -1082,6 +1082,7 @@
       "ratedVolts": 20,
       "parts": [
         {"name":"1203M2S3V3BE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-CK-1000-THT-6P-B"},
+        {"name":"500RDP3S1M2RE","manufacturer":"E-Switch","datasheet":"500r","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-ESW-500R-THT-6P"},
         {"name":"ES23MABE","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-es-series-datasheet","package":"THT right angle","pinout":"p6_231564","footprint":"SW-SLIDE-CK-ES-THTRA-6P"},
         {"name":"ES23MCBE","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-es-series-datasheet","package":"THT","pinout":"p6_231564","footprint":"SW-SLIDE-CK-ES-THT-6P"}
       ]
@@ -1217,6 +1218,8 @@
       "ratedVolts": 12,
       "parts": [
         {"name":"AYZ0202AGRLC","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-ayz-series-datasheet","package":"SMD","pinout":"p6_213546","footprint":"SW-SLIDE-CK-AYZ-SMD-6P"},
+        {"name":"EG2209","manufacturer":"E-Switch","datasheet":"eg","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-ESW-EG-THT-6P-C"},
+        {"name":"EG2209A","manufacturer":"E-Switch","datasheet":"eg","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-ESW-EG-THT-6P-C"},
         {"name":"OS202011MA0QN1","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-os-series-datasheet","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-CK-OS-THTRA-6P"},
         {"name":"OS202011MA0QS1","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-os-series-datasheet","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-CK-OS-THTRA-6P"},
         {"name":"OS202011MS2QS1","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-os-series-datasheet","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-CK-OS-THT-6P"}
@@ -1260,6 +1263,8 @@
         {"name":"1201M2S3ABE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-CK-1000-THTRA-6P"},
         {"name":"1201M2S3CBE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-CK-1000-THT-6P"},
         {"name":"1201M2S3V3BE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-CK-1000-THT-6P-B"},
+        {"name":"500SDP1S1M2REA","manufacturer":"E-Switch","datasheet":"500","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-ESW-500-THT-6P"},
+        {"name":"500SDP1S3M7REA","manufacturer":"E-Switch","datasheet":"500","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-ESW-500-THTRAV-6P"},
         {"name":"ES21MCBE","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-es-series-datasheet","package":"THT","pinout":"p6_231564","footprint":"SW-SLIDE-CK-ES-THT-6P"}
       ]
     },
@@ -1326,6 +1331,9 @@
         {"name":"1201M2S3CQE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-CK-1000-THT-6P"},
         {"name":"1201M2S3V3GE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-CK-1000-THT-6P-B"},
         {"name":"1201M2S3V4QE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-CK-1000-THT-6P-B"},
+        {"name":"500SDP1S1M2QEA","manufacturer":"E-Switch","datasheet":"500","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-ESW-500-THT-6P"},
+        {"name":"500SDP1S1M6QEA","manufacturer":"E-Switch","datasheet":"500","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-ESW-500-THTRA-6P"},
+        {"name":"500SDP1S1M7QEA","manufacturer":"E-Switch","datasheet":"500","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-ESW-500-THTRAV-6P"},
         {"name":"AS22AB","manufacturer":"NKK Switches","datasheet":"aslides","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-NKK-AS-THT-6P-B"},
         {"name":"AS22AH","manufacturer":"NKK Switches","datasheet":"aslides","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-NKK-AS-THTRA-6P"},
         {"name":"AS22AP","manufacturer":"NKK Switches","datasheet":"aslides","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-NKK-AS-THT-6P"},
@@ -1338,6 +1346,36 @@
         {"name":"MSN22BNG03","manufacturer":"NKK Switches","datasheet":"msn_slidesnonillum_dp","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-NKK-M-THT-6P"},
         {"name":"SS22SBP4","manufacturer":"NKK Switches","datasheet":"ssnonilluminated","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-NKK-SS-THT-6P-B"},
         {"name":"SS22SDH4","manufacturer":"NKK Switches","datasheet":"ssnonilluminated","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-NKK-SS-THTRA-6P"}
+      ]
+    },
+    {
+      "id": "slide_dpdt_onon_30v_recessed",
+      "function": "DPDT On-On",
+      "description": "DPDT slide switch, On-On",
+      "drawer": ["Switches & Relays","Slide"],
+      "note": "Rating 30 V: DigiKey Voltage Rating - DC",
+      "pinouts": {
+        "p6_213546": [
+          {"number":1,"name":"A1","role":"inout"},
+          {"number":2,"name":"C1","role":"inout"},
+          {"number":3,"name":"B1","role":"inout"},
+          {"number":4,"name":"A2","role":"inout"},
+          {"number":5,"name":"C2","role":"inout"},
+          {"number":6,"name":"B2","role":"inout"}
+        ]
+      },
+      "actuator": "Recessed",
+      "contacts": [
+        ["C1","A1"],
+        ["C1","B1"],
+        ["C2","A2"],
+        ["C2","B2"]
+      ],
+      "states": [[1,3],[2,4]],
+      "rest": 1,
+      "ratedVolts": 30,
+      "parts": [
+        {"name":"600DP1S1M4Q","manufacturer":"E-Switch","datasheet":"600","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-ESW-600-THT-6P"}
       ]
     },
     {
@@ -1398,6 +1436,17 @@
       "rest": 1,
       "ratedVolts": 30,
       "parts": [
+        {"name":"EG2201","manufacturer":"E-Switch","datasheet":"eg","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-ESW-EG-THT-6P"},
+        {"name":"EG2201A","manufacturer":"E-Switch","datasheet":"eg","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-ESW-EG-THT-6P"},
+        {"name":"EG2201B","manufacturer":"E-Switch","datasheet":"eg","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-ESW-EG-THT-6P"},
+        {"name":"EG2207","manufacturer":"E-Switch","datasheet":"eg","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-ESW-EG-THT-6P-B"},
+        {"name":"EG2208","manufacturer":"E-Switch","datasheet":"eg","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-ESW-EG-THTRA-6P"},
+        {"name":"EG2208A","manufacturer":"E-Switch","datasheet":"eg","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-ESW-EG-THTRA-6P"},
+        {"name":"EG2210","manufacturer":"E-Switch","datasheet":"eg","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-ESW-EG-THTRA-6P-B"},
+        {"name":"EG2210A","manufacturer":"E-Switch","datasheet":"eg","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-ESW-EG-THTRA-6P-B"},
+        {"name":"EG2211","manufacturer":"E-Switch","datasheet":"eg","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-ESW-EG-THTRA-6P-C"},
+        {"name":"EG2214","manufacturer":"E-Switch","datasheet":"eg","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-ESW-EG-THTRA-6P-D"},
+        {"name":"EG2215","manufacturer":"E-Switch","datasheet":"eg","package":"THT right angle","pinout":"p6_213546","footprint":"SW-SLIDE-ESW-EG-THTRA-6P-E"},
         {"name":"OS202011MV4QN1","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-os-series-datasheet","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-CK-OS-THT-6P-B"},
         {"name":"OS202011MV4QS1","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-os-series-datasheet","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-CK-OS-THT-6P-B"},
         {"name":"OS202013MT5QN1","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-os-series-datasheet","package":"THT","pinout":"p6_213546","footprint":"SW-SLIDE-CK-OS-THT-6P-C"},
@@ -1580,6 +1629,8 @@
         {"name":"1103M2S3AV2BE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-CK-1000-THTRAV-3P"},
         {"name":"1103M2S3CBE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-CK-1000-THT-3P"},
         {"name":"1103M2S6CBE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-CK-1000-THT-3P"},
+        {"name":"500ASSP3M6RE","manufacturer":"E-Switch","datasheet":"500a","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-ESW-500A-THTRA-3P"},
+        {"name":"500RSP3S1M6RE","manufacturer":"E-Switch","datasheet":"500r","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-ESW-500R-THTRA-3P"},
         {"name":"ES03MAVBE","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-es-series-datasheet","package":"THT right angle","pinout":"p3_231","footprint":"SW-SLIDE-CK-ES-THTRAV-3P"},
         {"name":"ES03MSABE","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-es-series-datasheet","package":"SMD right angle","pinout":"p3_231","footprint":"SW-SLIDE-CK-ES-SMDRA-3P"},
         {"name":"TS03ABE","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-ts-series-datasheet","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-CK-TS-THTRA-3P"},
@@ -1609,6 +1660,9 @@
       "ratedVolts": 28,
       "parts": [
         {"name":"1103M2S3CQE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-CK-1000-THT-3P"},
+        {"name":"500ASSP3M2QE","manufacturer":"E-Switch","datasheet":"500a","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-ESW-500A-THT-3P"},
+        {"name":"500SSP3S1M2QEA","manufacturer":"E-Switch","datasheet":"500","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-ESW-500-THT-3P"},
+        {"name":"500SSP3S1M6QEA","manufacturer":"E-Switch","datasheet":"500","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-ESW-500-THTRA-3P"},
         {"name":"AS13AH","manufacturer":"NKK Switches","datasheet":"aslides","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-NKK-AS-THTRA-3P"},
         {"name":"AS13AP","manufacturer":"NKK Switches","datasheet":"aslides","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-NKK-AS-THT-3P"},
         {"name":"AS13AV","manufacturer":"NKK Switches","datasheet":"aslides","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-NKK-AS-THTRAV-3P"},
@@ -1673,6 +1727,7 @@
       "parts": [
         {"name":"AYZ0102AGRLC","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-ayz-series-datasheet","package":"SMD right angle","pinout":"p3_213","footprint":"SW-SLIDE-CK-AYZ-SMDRA-3P"},
         {"name":"AYZ0102AURLC","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-ayz-series-datasheet","package":"SMD right angle","pinout":"p3_213","footprint":"SW-SLIDE-CK-AYZ-SMDRA-3P"},
+        {"name":"EG1248","manufacturer":"E-Switch","datasheet":"eg","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-ESW-EG-THT-3P-B"},
         {"name":"OS102011MA1QN1","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-os-series-datasheet","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-CK-OS-THTRA-3P"},
         {"name":"OS102011MA1QN1C","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-os-series-datasheet","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-CK-OS-THTRA-3P"},
         {"name":"OS102011MA1QS1","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-os-series-datasheet","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-CK-OS-THTRA-3P"},
@@ -1682,6 +1737,31 @@
         {"name":"OS102011MS2QS1","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-os-series-datasheet","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-CK-OS-THT-3P"},
         {"name":"SM0320102","manufacturer":"NKK Switches","datasheet":"smslides","package":"THT","pinout":"p3_132","footprint":"SW-SLIDE-NKK-SM-THT-3P"},
         {"name":"SMVA001","manufacturer":"NKK Switches","datasheet":"smva001","package":"THT","pinout":"p3_132","footprint":"SW-SLIDE-NKK-SM-THT-3P"}
+      ]
+    },
+    {
+      "id": "slide_spdt_onon_15v_standard",
+      "function": "SPDT On-On",
+      "description": "SPDT slide switch, On-On",
+      "drawer": ["Switches & Relays","Slide"],
+      "note": "Rating 15 V: DigiKey Voltage Rating - DC",
+      "pinouts": {
+        "p3_231": [
+          {"number":1,"name":"B","role":"inout"},
+          {"number":2,"name":"C","role":"inout"},
+          {"number":3,"name":"A","role":"inout"}
+        ]
+      },
+      "actuator": "Standard",
+      "contacts": [
+        ["C","A"],
+        ["C","B"]
+      ],
+      "states": [[1],[2]],
+      "rest": 1,
+      "ratedVolts": 15,
+      "parts": [
+        {"name":"EG1224","manufacturer":"E-Switch","datasheet":"eg","package":"THT right angle","pinout":"p3_231","footprint":"SW-SLIDE-ESW-EG-THTRA-3P-C"}
       ]
     },
     {
@@ -1721,11 +1801,55 @@
         {"name":"1101M2S4AV2BE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-CK-1000-THTRAV-3P"},
         {"name":"1101M2S4CBE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-CK-1000-THT-3P"},
         {"name":"1101M2S5CBE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-CK-1000-THT-3P"},
+        {"name":"500ASSP1M2RE","manufacturer":"E-Switch","datasheet":"500a","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-ESW-500A-THT-3P"},
+        {"name":"500ASSP1M6RE","manufacturer":"E-Switch","datasheet":"500a","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-ESW-500A-THTRA-3P"},
+        {"name":"500RSP1S1M2RE","manufacturer":"E-Switch","datasheet":"500r","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-ESW-500R-THT-3P"},
+        {"name":"500RSP1S1M6RE","manufacturer":"E-Switch","datasheet":"500r","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-ESW-500R-THTRA-3P"},
+        {"name":"500SSP1S1M51REA","manufacturer":"E-Switch","datasheet":"500","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-ESW-500-THT-3P"},
+        {"name":"500SSP1S1M6REA","manufacturer":"E-Switch","datasheet":"500","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-ESW-500-THTRA-3P"},
+        {"name":"500SSP1S1M7REA","manufacturer":"E-Switch","datasheet":"500","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-ESW-500-THTRAV-3P"},
+        {"name":"500SSP1S2M7REA","manufacturer":"E-Switch","datasheet":"500","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-ESW-500-THTRAV-3P"},
+        {"name":"500SSP1S3M6REA","manufacturer":"E-Switch","datasheet":"500","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-ESW-500-THTRA-3P"},
+        {"name":"600SP1S2M1R","manufacturer":"E-Switch","datasheet":"600","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-ESW-600-THT-3P"},
         {"name":"ES01MAVBE","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-es-series-datasheet","package":"THT right angle","pinout":"p3_231","footprint":"SW-SLIDE-CK-ES-THTRAV-3P"},
         {"name":"ES01MSABE","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-es-series-datasheet","package":"SMD right angle","pinout":"p3_231","footprint":"SW-SLIDE-CK-ES-SMDRA-3P"},
         {"name":"GS01MABE","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-gs-series-datasheet","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-CK-GS-THTRA-3P"},
         {"name":"GS01MCBE","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-gs-series-datasheet","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-CK-GS-THT-3P"},
         {"name":"TS01CBE","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-ts-series-datasheet","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-CK-TS-THT-3P"}
+      ]
+    },
+    {
+      "id": "slide_spdt_onon_24v_standard",
+      "function": "SPDT On-On",
+      "description": "SPDT slide switch, On-On",
+      "drawer": ["Switches & Relays","Slide"],
+      "note": "Rating 24 V: DigiKey Voltage Rating - DC",
+      "pinouts": {
+        "p3_132": [
+          {"number":1,"name":"C","role":"inout"},
+          {"number":2,"name":"B","role":"inout"},
+          {"number":3,"name":"A","role":"inout"}
+        ],
+        "p3_213": [
+          {"number":1,"name":"A","role":"inout"},
+          {"number":2,"name":"C","role":"inout"},
+          {"number":3,"name":"B","role":"inout"}
+        ]
+      },
+      "actuator": "Standard",
+      "contacts": [
+        ["C","A"],
+        ["C","B"]
+      ],
+      "states": [[1],[2]],
+      "rest": 1,
+      "ratedVolts": 24,
+      "parts": [
+        {"name":"EG1215AA","manufacturer":"E-Switch","datasheet":"eg1215","package":"SMD right angle","pinout":"p3_213","footprint":"SW-SLIDE-ESW-EG-SMDRA-3P"},
+        {"name":"EGJ1210AAG1","manufacturer":"E-Switch","datasheet":"egj1210","package":"SMD","pinout":"p3_132","footprint":"SW-SLIDE-ESW-EGJ1210-SMD-3P"},
+        {"name":"EGJ1210AAG2","manufacturer":"E-Switch","datasheet":"egj1210","package":"SMD right angle","pinout":"p3_132","footprint":"SW-SLIDE-ESW-EGJ1210-SMDRA-3P"},
+        {"name":"EGJ1210AAT1","manufacturer":"E-Switch","datasheet":"egj1210","package":"THT","pinout":"p3_132","footprint":"SW-SLIDE-ESW-EGJ1210-THT-3P"},
+        {"name":"EGJ1210AAT2","manufacturer":"E-Switch","datasheet":"egj1210","package":"THT right angle","pinout":"p3_132","footprint":"SW-SLIDE-ESW-EGJ1210-THTRA-3P"}
       ]
     },
     {
@@ -1789,6 +1913,14 @@
         {"name":"1101M2S3V3QE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-CK-1000-THT-3P-B"},
         {"name":"1101M2S4AQE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-CK-1000-THTRA-3P"},
         {"name":"1101M2S5AQE2","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-1000-series-datasheet","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-CK-1000-THTRA-3P"},
+        {"name":"500ASSP1M2QE","manufacturer":"E-Switch","datasheet":"500a","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-ESW-500A-THT-3P"},
+        {"name":"500ASSP1M6QE","manufacturer":"E-Switch","datasheet":"500a","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-ESW-500A-THTRA-3P"},
+        {"name":"500ASSP1SM6QE","manufacturer":"E-Switch","datasheet":"500a","package":"SMD right angle","pinout":"p3_213","footprint":"SW-SLIDE-ESW-500A-SMDRA-3P"},
+        {"name":"500SSP1S1M2QEA","manufacturer":"E-Switch","datasheet":"500","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-ESW-500-THT-3P"},
+        {"name":"500SSP1S1M6QEA","manufacturer":"E-Switch","datasheet":"500","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-ESW-500-THTRA-3P"},
+        {"name":"500SSP1S1M7QEA","manufacturer":"E-Switch","datasheet":"500","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-ESW-500-THTRAV-3P"},
+        {"name":"500SSP1S2M2QEA","manufacturer":"E-Switch","datasheet":"500","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-ESW-500-THT-3P"},
+        {"name":"500SSP1S2M7QEA","manufacturer":"E-Switch","datasheet":"500","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-ESW-500-THTRAV-3P"},
         {"name":"AS12AH","manufacturer":"NKK Switches","datasheet":"aslides","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-NKK-AS-THTRA-3P"},
         {"name":"AS12AP","manufacturer":"NKK Switches","datasheet":"aslides","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-NKK-AS-THT-3P"},
         {"name":"AS12AV","manufacturer":"NKK Switches","datasheet":"aslides","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-NKK-AS-THTRAV-3P"},
@@ -1847,6 +1979,11 @@
           {"number":1,"name":"A","role":"inout"},
           {"number":2,"name":"C","role":"inout"},
           {"number":3,"name":"B","role":"inout"}
+        ],
+        "p3_231": [
+          {"number":1,"name":"B","role":"inout"},
+          {"number":2,"name":"C","role":"inout"},
+          {"number":3,"name":"A","role":"inout"}
         ]
       },
       "actuator": "Standard",
@@ -1858,6 +1995,12 @@
       "rest": 1,
       "ratedVolts": 30,
       "parts": [
+        {"name":"600SP1S2M1Q","manufacturer":"E-Switch","datasheet":"600","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-ESW-600-THT-3P"},
+        {"name":"EG1206","manufacturer":"E-Switch","datasheet":"eg","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-ESW-EG-THTRA-3P"},
+        {"name":"EG1206A","manufacturer":"E-Switch","datasheet":"eg","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-ESW-EG-THTRA-3P"},
+        {"name":"EG1213","manufacturer":"E-Switch","datasheet":"eg","package":"THT right angle","pinout":"p3_231","footprint":"SW-SLIDE-ESW-EG-THTRA-3P-B"},
+        {"name":"EG1218","manufacturer":"E-Switch","datasheet":"eg","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-ESW-EG-THT-3P"},
+        {"name":"EG1247","manufacturer":"E-Switch","datasheet":"eg","package":"THT right angle","pinout":"p3_231","footprint":"SW-SLIDE-ESW-EG-THTRA-3P-D"},
         {"name":"SK-12D07-VG 4 NS PA","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-sk-series-datasheet","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-CK-SK-THTRA-3P"},
         {"name":"SK-12F17-G 7","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-slide-sk-series-datasheet","package":"THT right angle","pinout":"p3_213","footprint":"SW-SLIDE-CK-SK-THTRA-3P-B"},
         {"name":"SS-12D07-VG 4 NS GA PA","manufacturer":"Littelfuse","datasheet":"ss-12d07-vg_ga_pa","package":"THT","pinout":"p3_213","footprint":"SW-SLIDE-CK-SS-THT-3P"},

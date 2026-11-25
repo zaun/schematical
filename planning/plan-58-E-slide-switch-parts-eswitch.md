@@ -121,20 +121,21 @@ Acceptance: every E-Switch row has a spec whose footprint is staged and has its
 pads; the staged footprints load; each image matches its drawing.
   Check: `python3 -I planning/plan-58-data/census/specs-check.py --maker 'E-Switch' && planning/plan-58-data/census/fp-load.sh planning/plan-58-data/footprints-E.json` → `specs ok`, then only `unused footprint` lines for the staged ids and `load ok` (est. 6 min).
   Measured: `specs-check.py --maker 'E-Switch'` → `specs ok (56 rows, 33 specs)`; `fp-load.sh footprints-E.json` → `33 footprints appended`, `33 new footprints: load ok`
-Commit: —
+Commit: 0fd23f62
 
 ### Phase 3 — parts
 
-- [ ] `python3 -I planning/plan-58-data/gen-parts.py --maker 'E-Switch'` (the earlier
+- [x] `python3 -I planning/plan-58-data/gen-parts.py --maker 'E-Switch'` (the earlier
       makers' parts stay: the generator rebuilds every maker already in the region).
-- [ ] Regenerate the goldens (`listing_check --print`, `trace_check --print`,
+- [x] Regenerate the goldens (`listing_check --print`, `trace_check --print`,
       `footprint_check --print`) and review: only added lines, in each file.
-- [ ] `node scripts/check-datasheets.js --host <each host of the new datasheets.json URLs>` → exit 0 (the hosts: `grep -h '"url"' schematical/schematical/Parts/datasheets.json` lines for the new ids).
+- [x] `node scripts/check-datasheets.js --host <each host of the new datasheets.json URLs>` → exit 0 (the hosts: `grep -h '"url"' schematical/schematical/Parts/datasheets.json` lines for the new ids).
 
 Acceptance: `grep -c 'states=' backend/tests/golden/parts.txt` equals the previous
 total plus the number of E-Switch `add` rows; the generator run is idempotent; `ctest`
 passes (the library pass of `slide_test` covers the new devices).
   Check: `python3 -I planning/plan-58-data/gen-parts.py --maker 'E-Switch' --dry-run && cmake --build /tmp/logic-p58 -j8 && ctest --test-dir /tmp/logic-p58 -j8 -R 'slide_test|listing_check|trace_check|footprint_check|library_check'` → no change, `100% tests passed` (est. 12 min).
+  Measured: `gen-parts.py --maker 'E-Switch'` written, then `--dry-run` → `no changes`; goldens regenerated: no golden line removed, `grep -c 'states=' backend/tests/golden/parts.txt` → 228; `ctest -j8` → `100% tests passed, 0 tests failed out of 62`; `check-datasheets.js --host configured-product-images.s3.amazonaws.com` → `0 failed`
 Commit: —
 
 ## Validation Plan
@@ -158,6 +159,7 @@ Commit: —
 - **2026-11-24, Phase 1: 7 pending rows do not fit their key and are `skip`** (EG: EG1249, EG1257, EG1270, EG1271, EG1271A, EG2210A-REDACTUATOR, EG2219); E-Switch has 56 `add` rows after Phase 1. `schemes.tsv` regexes are written from each datasheet's ordering key (positions and listed letters only).
 - **2026-11-24, Phase 1: `EG_Series.pdf` (DigiKey's copy of the EG datasheet) is deleted.** Its only two rows (`EG1257`, `EG2210A-REDACTUATOR`) are `skip` (no EG datasheet prints their numbers and the EG family has no key), so no `add` / `pending` row needs the PDF any more: `place.py --prune` (new) removed it and its `datasheets.tsv` line, and its `maker-urls.tsv` row (the S3 `EG.pdf` mapping) went with it; `place.py --verify` → `39 URLs, 39 PDFs, 0 problems`, `maker-urls.py --verify` → `1 non-maker URLs, 0 with a maker URL, 0 missing`. The `EG` scheme keeps only `EG1215AA`: the EG datasheet (EG.pdf) lists the part numbers it prints and gives no ordering key, so every other pending EG number (`EG1249`, `EG1270`, `EG1271`, `EG1271A`, `EG2219`) is `skip` as well (7 skips: those 5, `EG1257`, `EG2210A-REDACTUATOR`).
 - **2026-11-24, Phase 2: the footprints were drawn by parallel sub-agents, one per group of series** (500; 500A + 500R + 600; EG + EGJ1210), each reading its PDFs' drawings as page images, rendering every footprint with `census/fp-render.py` and comparing it with the drawing; the lead merged the fragments (`merge-specs.py`, `fp-load.sh`: 33 footprints, 33 spec rows for 56 `add` rows). Open questions of each sub-agent are in the footprints' `note` fields (top vs bottom view, the body outline's position against the pads where the drawing gives no tie, terminals renumbered to 1..n where a datasheet skips numbers). Images are rendered from the JSON (see plan-58-C Corrections), not by the app.
+- **2026-11-24, Phase 3: E-Switch's datasheets are on E-Switch's own host** (`configured-product-images.s3.amazonaws.com`, linked from e-switch.com's product pages; see plan-58-A Corrections), so `check-datasheets.js --host configured-product-images.s3.amazonaws.com` (69 of 69 URLs serve a PDF) is the host check; the new lines add no pinout rename (plan-58-D Corrections).
 
 ## Summary
 
