@@ -135,29 +135,39 @@ Commit: f9514cba
 Acceptance: the six kinds answer; the golden is final.
   Check: `cmake --build /tmp/logic-build --target erc_pins_test erc_pins_check listing_check trace_check voltage_test && /tmp/logic-build/erc_pins_test && /tmp/logic-build/erc_pins_check && /tmp/logic-build/listing_check | tail -1 && /tmp/logic-build/trace_check | tail -1 && /tmp/logic-build/voltage_test | tail -1` → all pass, the last three as before (est. 9 min).
   Result (2026-11-25, `/tmp/logic-build-wt63`): `erc_pins_test: all passed`; `erc_pins_check: 40174 parts match the golden`; `listing_check` and `trace_check` last line `40174 parts compared, 0 skipped`; `voltage_test: all passed`. This phase's golden change: 210 lines, each only `o` → `t` (`ot.py`: `changed lines 210 not an o->t only change 0`): `mux` 141, `converter` 63, `serial` 6. Golden `t` lines per kind (`awk -F'|' '$3 ~ /t/ {c[$2]++} END {for (k in c) print k, c[k]}'`): buffer 1324, counter 33, converter 63, dff 238, latch 623, mux 141, register 162, serial 6, shift 126.
-Commit: (recorded in the next commit)
+Commit: 62c00489
 
 ### Phase 3 — Compare with KiCad's symbols
 
-- [ ] `scripts/kicad-pin-types.py` (`python3 scripts/kicad-pin-types.py
+- [x] `scripts/kicad-pin-types.py` (`python3 scripts/kicad-pin-types.py
       [--kicad <SharedSupport dir>]`): imports `scripts/kicad-compare.py` by
       `importlib`, reads `backend/tests/golden/erc_pins.txt`, and for each part
       that `find_symbols` matches, compares pin by pin number our type with the
       symbol's `(pin <type>)`; prints (1) a table of (our type, KiCad's type)
       pair counts, (2) the parts where tri_state and output disagree, by kind
       (counts and the first three names). It writes nothing to `planning/kicad-compare.md`.
-- [ ] Record the output in § Results below, and for each (our, KiCad) pair
+- [x] Record the output in § Results below, and for each (our, KiCad) pair
       with more than 100 pins say in one line why it differs (a KiCad
       convention, such as `passive` for a connector, or a defect to fix); a defect
       found is fixed in the kind's hook and the golden regenerated in this phase.
 
 Acceptance: the script runs and its table is recorded.
   Check: `python3 scripts/kicad-pin-types.py 2>&1 | tail -30` → the table (est. 3 min).
-Commit: —
+  Result: ran in 17 s and printed the table recorded in § Results (60793 pins compared, 94.4% equal; four pairs above 100 pins, each a KiCad convention).
+Commit: (recorded in the next commit)
 
 ## Results
 
-(Filled in by Phase 3: the pair table, and a line for each pair of more than 100 pins.)
+`python3 scripts/kicad-pin-types.py` (2026-11-25, KiCad 10.0.8's symbols, 17 s): **5377 parts matched to a KiCad symbol; 4474 compared (same pin count as the symbol), 903 skipped (another package); 60793 pins compared.** Equal types: (`bidirectional`/`bidirectional` 18002, `input`/`input` 17320, `output`/`output` 7477, `power_in`/`power_in` 7307, `tri_state`/`tri_state` 3399, `passive`/`passive` 2583, `no_connect` 741, `open_collector` 490, `power_out` 78 = 57,397 pins, 94.4%). The 3,396 that differ, the pairs of more than 100 pins:
+
+| Ours / KiCad's | Pins | Why (kinds, examples) |
+|---|---|---|
+| `power_in` / `passive` | 1665 | A KiCad convention: its microcontroller symbols (mcu 1503 of them; `AT90CAN128`) and some buffer, converter and regulator symbols type VCC and GND `passive`. Ours are `power_in` by role. No change. |
+| `bidirectional` / `tri_state` | 496 | KiCad types a transceiver's A/B ports (`74HC245`, buffer 244) and EEPROM/SRAM data pins (eeprom 184, sram 8) `tri_state`; ours are `inout`, so `bidirectional`. Against another 3-state or bidirectional pin the pin map treats the two alike; against a plain `output` ours is the more lenient (no warning). A convention, no change; the plan's "eeprom/sram answer by role" stands. |
+| `input` / `passive` | 247 | Analog and reference pins KiCad leaves passive (`AREF`, `ISET`, a character LCD's backlight anode): mcu 224, powerswitch 7, regulator 7, charlcd 6. Ours follow the part file's role. No change. |
+| `passive` / `input` | 220 | A transistor's base (transistor 207, `BC846BPDW1T1G`) and a 7-segment display's anode (7seg 13): KiCad types them `input`; the plan makes every pin of those kinds `passive` (README § mapping). As a driven-by-passive net is never `pin_not_driven`, the result is the same for a base fed by a resistor. No change. |
+
+Below 100 pins: `tri_state` / `output` 81 (latch 40, buffer 37, mux 4: parts whose output enable our data names and KiCad's symbol does not: `SN74LV1T125`, `CD4508B`, `CD40109B`; the part data is ours to follow), `output` / `tri_state` 40 and `open_collector` / `tri_state` 80: the same disagreement the other way and open-drain parts KiCad types 3-state. No defect was found in a hook; no hook or the golden changed in this phase.
 
 ## Validation Plan
 
@@ -165,7 +175,7 @@ Commit: —
 - Coverage check: `ctest --test-dir /tmp/logic-build -R erc_pins` lists both tests; the six kinds' key paths in § 2 each appear in at least one asserted part.
 - Runtime proof: the Phase 3 table.
 - Doc sync: `docs/backend.md`.
-- Final gate (once, after Phase 3): `ctest --test-dir /tmp/logic-build -R 'erc_pins|voltage|listing|trace'` → 100% passed (est. 8 min).
+- Final gate (once, after Phase 3): `ctest --test-dir /tmp/logic-build -R 'erc_pins|voltage|listing|trace'` → 100% passed (est. 8 min). Result (2026-11-25, `/tmp/logic-build-wt63`): `100% tests passed, 0 tests failed out of 5` (12 s).
 
 ## Decisions
 

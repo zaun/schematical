@@ -576,6 +576,10 @@ part-file key that does it:
 | `converter`, `lcddriver`, `leddriver` | `bus.oe` | the parallel bus's data pins |
 | `serial` | `tristate` (the `ns16550` model's TRI pin) | every output pin of the part |
 
+`python3 scripts/kicad-pin-types.py` compares these types with the pin types of
+KiCad's stock symbols for the parts that have one (`--pair OURS:KICAD` lists
+examples of a pair); its result is in `planning/completed/plan-63-C-tristate-remaining-kinds.md`.
+
 The HD-6406's `hd6406.oe` names an output pin (the chip's own OE strobe), not
 an enable, so it gates nothing.
 
