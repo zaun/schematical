@@ -299,17 +299,18 @@ None. No public header, part file, document format or golden changes.
 
 ### Phase 1 — the oracle in the tree
 
-- [ ] Download `https://registry.npmjs.org/avr8js/-/avr8js-0.21.1.tgz` to
+- [x] Download `https://registry.npmjs.org/avr8js/-/avr8js-0.21.1.tgz` to
       `/tmp/p62/`, check `shasum -a 256` equals the hash in References, and
       copy `package/dist/cjs/**/*.js` (18 files) and `package/LICENSE` to
       `backend/tools/avr8js/` (the `.js` files under `dist/cjs/`).
-- [ ] Write `backend/tools/avr8js/README.md`: version, tarball URL, sha256,
+- [x] Write `backend/tools/avr8js/README.md`: version, tarball URL, sha256,
       source commit, "unmodified", and that only `oracle.js` uses it.
-- [ ] Write `backend/tools/avr8js-oracle/oracle.js` with the `step`
+- [x] Write `backend/tools/avr8js-oracle/oracle.js` with the `step`
       subcommand of § 3.1 and § 3.4.
 
 Acceptance: the oracle prints the step lines.
   Check: `node backend/tools/avr8js-oracle/oracle.js step 305419896 4 | wc -l` → `262144` (est. 5 s).
+  Observed 2026-11-24: `262144`; sha256 of the tarball equal; 18 `.js` files; no `nan`/`undefined` in the output.
 Commit: —
 
 ### Phase 2 — the CPU core
