@@ -202,23 +202,24 @@ Commit: c92ee10c
 Acceptance: markers appear for each shown violation, clear with the window, and never reach an export.
   Check: `xcodebuild test … -only-testing:schematicalTests/ErcMarkerTests -only-testing:schematicalTests/SchematicSVGTests -only-testing:schematicalTests/SchematicSceneTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 8 min).
   Result (2026-11-25): `ErcMarkerTests` 6, `ErcResultsModelTests` 7, `SchematicSVGTests` 6, `SchematicSceneTests` 9: `Executed 28 tests, with 0 failures`, `** TEST SUCCEEDED **`. "Empty when the model is released" is `clearMarkers()` (a model cannot touch the document from `deinit`); the window calls it on `onDisappear`, which runs when the child window closes (`ChildWindowCenter.forget` replaces its root view). A marker is 7 units, 11 when its line is selected.
-Commit: (recorded in the next commit)
+Commit: c0e91c98
 
 ### Phase 3 — Automation and docs
 
-- [ ] `Automation/AutomationRead.swift`: `run_erc` beside `run_drc` (read-only):
+- [x] `Automation/AutomationRead.swift`: `run_erc` beside `run_drc` (read-only):
       `no violations`, or `<n> violations` and one line each, `<i>. [<severity>]
       [<rule>] <reference>: <message>`; honours severities and exclusions. A
       `schematic` mention in `Automation/AutomationTools.swift:344` workflow text:
       "... check → run_erc → ... run_drc". `docs/agent-control.md:59`: `run_erc`.
-- [ ] Tests in `AutomationTests`: `run_erc` on an empty document says `no violations`;
+- [x] Tests in `AutomationTests`: `run_erc` on an empty document says `no violations`;
       on a drawing with an unwired input it returns `1 violations` and the line with
       `pin_not_connected`.
-- [ ] Docs: `docs/agent-control.md` lists `run_erc` (the ERC's own rules are in `docs/file-format.md`, 63-E, and `docs/backend.md`, 63-B and 63-D; no other doc describes menus).
+- [x] Docs: `docs/agent-control.md` lists `run_erc` (the ERC's own rules are in `docs/file-format.md`, 63-E, and `docs/backend.md`, 63-B and 63-D; no other doc describes menus).
 
 Acceptance: `run_erc` returns the list the window shows.
   Check: `xcodebuild test … -only-testing:schematicalTests/AutomationTests -only-testing:schematicalTests/AutomationWindowToolsTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 7 min).
-Commit: —
+  Result (2026-11-25): `AutomationTests` 34 (1 skipped: `testFileToolsAreOffWithoutASharedFolder`, a folder is shared on this Mac) and `AutomationWindowToolsTests` 5: `Executed 39 tests, with 1 test skipped and 0 failures`, `** TEST SUCCEEDED **`; the new `testRunErcListsTheViolations`: an empty document says `no violations`, a placed `SN74HC00N` lists `[error] [pin_not_connected] U1.1: Pin not connected`, an ignored rule is gone.
+Commit: BATCHF
 
 ## Validation Plan
 
@@ -226,7 +227,7 @@ Commit: —
 - Coverage check: `grep -rl 'ElectricalRulesCheck' schematical/schematical` lists `ContentView`, `Document/ChildWindows`, `Document/EditorMenus`, `schematicalApp` and the new folder's files (the wiring files of § 2 that the DRC also has, except `AutorouteSheet`).
 - Runtime proof: in the real app (the owner's pass, per AGENTS.md "Testing in the app": move the pointer to (0, 0) afterwards): open `examples/8bit-cpu/AFU.schematical` (a real file, in the app), ⌥⌘E, run, select a line and see the marker and the selection, exclude it, close the window and see the markers go.
 - Doc sync: `docs/agent-control.md`.
-- Final gate (once, after Phase 3): the three Phase checks together (est. 20 min). The landing gates of the whole plan are 63-G's.
+- Final gate (once, after Phase 3): the three Phase checks together (est. 20 min). The landing gates of the whole plan are 63-G's. Result (2026-11-25): all eight classes together: `Executed 90 tests, with 1 test skipped and 0 failures`, `** TEST SUCCEEDED **`. Result (2026-11-25): all eight classes together: `Executed 90 tests, with 1 test skipped and 0 failures`, `** TEST SUCCEEDED **`.
 
 ## Decisions
 
@@ -237,7 +238,11 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+1. § 2 counted 7 files that name `DesignRuleCheck`; the ERC adds the same wiring in `ContentView`, `Document/ChildWindows`, `Document/EditorMenus` and `schematicalApp` and no `AutorouteSheet` equivalent (the autorouter opens the DRC; nothing opens the ERC). The window's file is `ElectricalRulesCheck/ElectricalRulesCheckWindow.swift` and its model `ErcResultsModel.swift`, in a new `ElectricalRulesCheck` folder, as 63-E's `ErcSettings.swift` and `ErcChecker.swift`.
+2. Phase 2 added `ErcMarker` / `ErcFocus` types to `Canvas/ErcMarkerLayer.swift` and `ercSelectedKeys` to the document (the selected lines' keys, so their marks are drawn larger), which § 3 did not list. `CanvasViewport` got `centre(on:)` and `reveal(_:margin:)` (a point more than 40 screen points inside the view stays where it is).
+3. The "markers are empty when the model is released" test is `clearMarkers()` called by the window's `onDisappear`: a model's `deinit` is nonisolated and cannot clear the document's marks. If the window is closed without `onDisappear` firing, the marks stay until the window is opened and closed again; `ChildWindowCenter.forget` replaces the hosted root view, which does run `onDisappear` (read at `Document/ChildWindows.swift`, `forget`).
+4. Phase 3's `run_erc` prints `<n> violations` even for 1 (as `run_drc` prints `<n> issues`).
+5. The window itself was compiled and its model, markers and menu wiring tested; it was not opened in a real window by this plan's executor. The owner's real-window pass is plan-63-G's Validation Plan.
 
 ## Summary
 

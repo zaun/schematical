@@ -76,6 +76,20 @@ extension AutomationTools {
                 return Out.text("\(issues.count) issues\n" + lines.joined(separator: "\n"))
             }),
         AutomationTool(
+            name: "run_erc",
+            summary: "Run the electrical rules check on the schematic, by KiCad's rules: unconnected pins, inputs "
+                + "nothing drives, output conflicts on a net, power pins no supply or Power Flag drives, dangling "
+                + "wires and labels, No Connect flags, similar names. One violation per line. Run it after wiring.",
+            readOnly: true,
+            run: { context, _ in
+                let violations = context!.document.electricalRulesCheck()
+                if violations.isEmpty { return Out.text("no violations") }
+                let lines = violations.map {
+                    "\($0.index). [\($0.severity.rawValue)] [\($0.rule.rawValue)] \($0.reference): \($0.message)"
+                }
+                return Out.text("\(violations.count) violations\n" + lines.joined(separator: "\n"))
+            }),
+        AutomationTool(
             name: "render",
             summary: "A picture of the design (PNG) so you can check your work. view: schematic, pcb (the editing "
                 + "page with ratsnest lines), front or back (the made board). region crops to a rectangle given as "

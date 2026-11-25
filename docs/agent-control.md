@@ -56,7 +56,10 @@ Every tool except the few marked *(no window)* takes an optional `window`
 
 **Read** — `get_design` (text, or `format=json`; `geometry=true` adds pin tips), `get_nets`,
 `search_parts`*(no window)*, `get_part`*(no window)*, `get_selection`,
-`get_board`, `run_drc`, `render` (schematic, pcb, front, back; `region`
+`get_board`, `run_erc` (the electrical rules check of the schematic, by KiCad's
+rules, one violation per line: `<n>. [error|warning] [rule] <reference>: <message>`;
+it honours the file's severities and exclusions, as Window › Electrical Rules
+Check does), `run_drc`, `render` (schematic, pcb, front, back; `region`
 crops to zoom in).
 
 A pin's active-low flag (the part file's `"activeLow"`, `docs/parts-format.md`

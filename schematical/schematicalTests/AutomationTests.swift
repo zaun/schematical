@@ -139,7 +139,7 @@ final class AutomationTests: XCTestCase {
             XCTAssertEqual(schema?["type"] as? String, "object")
             XCTAssertTrue(JSONSerialization.isValidJSONObject(definition), "\(definition["name"] ?? "?") isn't JSON")
         }
-        for expected in ["place_part", "connect", "route", "render", "run_drc", "batch", "undo", "simulation_start",
+        for expected in ["place_part", "connect", "route", "render", "run_drc", "run_erc", "batch", "undo", "simulation_start",
                          "set_switch", "get_nets", "move_footprint", "set_layer", "open", "save"] {
             XCTAssertTrue(names.contains(expected), "missing \(expected)")
         }
@@ -162,6 +162,26 @@ final class AutomationTests: XCTestCase {
         let design = await call("get_design", id)
         XCTAssertTrue(design.text.contains("D1 GENERIC-LED"), design.text)
         XCTAssertTrue(design.text.contains("D1.1 -> D2.2"), design.text)
+    }
+
+    /// plan-63-F: `run_erc` lists the electrical rules check's violations, one per line.
+    func testRunErcListsTheViolations() async {
+        let (id, doc) = newWindow()
+        var result = await call("run_erc", id)
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(result.text, "no violations")
+
+        result = await call("place_part", id, ["part": "SN74HC00N", "x": 200, "y": 200])
+        XCTAssertFalse(result.isError, result.text)
+        result = await call("run_erc", id)
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertTrue(result.text.hasPrefix("14 violations") || result.text.contains(" violations\n"), result.text)
+        XCTAssertTrue(result.text.contains("[error] [pin_not_connected] U1.1: Pin not connected"), result.text)
+
+        // The file's severities and exclusions are honoured.
+        doc.setErcSeverity(.pinNotConnected, .ignore)
+        result = await call("run_erc", id)
+        XCTAssertFalse(result.text.contains("pin_not_connected"), result.text)
     }
 
     func testAMistakeNamesTheValidChoices() async {

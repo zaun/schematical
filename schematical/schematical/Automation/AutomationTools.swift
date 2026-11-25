@@ -341,7 +341,7 @@ enum AutomationGuide {
     everything you do shows on screen and is undoable (undo/redo), one step per call (or per batch).
 
     Workflow: search_parts → place_part → connect (draw the schematic) → get_design / get_nets / render to \
-    check → run_drc → move_footprint / route (lay out the PCB) → run_drc → render (pcb, front). \
+    check → run_erc → run_drc → move_footprint / route (lay out the PCB) → run_drc → render (pcb, front). \
     Look at your work with render often; it returns a picture.
 
     Addressing: parts by reference ("U1", "R2"); pins by designator or name ("U1.14", "D1.K", "U1.VCC"). \
