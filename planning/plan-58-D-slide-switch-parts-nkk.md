@@ -106,21 +106,22 @@ Acceptance: no NKK row is `pending`; each `skip` reason is listed in
 `datasheets/skipped-parts.md`.
   Check: `awk -F'\t' '$1=="NKK" && $18=="pending"' planning/plan-58-data/candidates.tsv \| wc -l` → 0 (est. 3 min).
   Measured: `scheme-check.py --maker 'NKK'` → `NKK 67 add, 4 skip, 0 pending`; `awk` pending count → 0; `decide.py --verify-skipped` exit 0
-Commit: —
+Commit: 5cba86ae
 
 ### Phase 2 — footprints and specs
 
-- [ ] For each of NKK's (series, mounting, circuit) lines (19 at planning): read
+- [x] For each of NKK's (series, mounting, circuit) lines (19 at planning): read
       the PDF drawing, write the footprint (plan-58-C § 4.3) as a ready object in
       `planning/plan-58-data/footprints-D.json` and its `specs.tsv` row (§ 4.2).
-- [ ] `python3 -I planning/plan-58-data/census/specs-check.py --maker 'NKK'` and
+- [x] `python3 -I planning/plan-58-data/census/specs-check.py --maker 'NKK'` and
       `planning/plan-58-data/census/fp-load.sh planning/plan-58-data/footprints-D.json`.
-- [ ] For every new footprint: a rendered image beside the datasheet page, read
+- [x] For every new footprint: a rendered image beside the datasheet page, read
       pair by pair, fixing any mismatch.
 
 Acceptance: every NKK row has a spec whose footprint is staged and has its
 pads; the staged footprints load; each image matches its drawing.
   Check: `python3 -I planning/plan-58-data/census/specs-check.py --maker 'NKK' && planning/plan-58-data/census/fp-load.sh planning/plan-58-data/footprints-D.json` → `specs ok`, then only `unused footprint` lines for the staged ids and `load ok` (est. 6 min).
+  Measured: `specs-check.py --maker 'NKK'` → `specs ok (67 rows, 29 specs)`; `fp-load.sh footprints-D.json` → `28 footprints appended`, `28 new footprints: load ok`
 Commit: —
 
 ### Phase 3 — parts
@@ -156,6 +157,7 @@ Commit: —
 ## Corrections
 
 - **2026-11-24, Phase 1: 4 pending rows do not fit their key and are `skip`** (AS: AS11BW, AS12CV/A, AS13AW; M: MSN12ANA03); NKK has 67 `add` rows after Phase 1. `schemes.tsv` regexes are written from each datasheet's ordering key (positions and listed letters only).
+- **2026-11-24, Phase 2: the footprints were drawn by parallel sub-agents, one per group of series** (AS; M + FS + CS; SS + SS3 + SM), each reading its PDFs' drawings as page images, rendering every footprint with `census/fp-render.py` and comparing it with the drawing; the lead merged the fragments (`merge-specs.py`, `fp-load.sh`: 28 footprints, 29 spec rows for 67 `add` rows). Open questions of each sub-agent are in the footprints' `note` fields (top vs bottom view, the body outline's position against the pads where the drawing gives no tie, terminals renumbered to 1..n where a datasheet skips numbers). Images are rendered from the JSON (see plan-58-C Corrections), not by the app.
 
 ## Summary
 

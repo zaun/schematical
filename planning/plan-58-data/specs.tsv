@@ -95,22 +95,32 @@ E-Switch	EGJ1210	Surface Mount	SPDT		Gull Wing
 E-Switch	EGJ1210	Surface Mount, Right Angle	SPDT		Gull Wing			
 E-Switch	EGJ1210	Through Hole	SPDT		PC Pin			
 E-Switch	EGJ1210	Through Hole, Right Angle	SPDT		PC Pin			
-NKK	AS	Through Hole	DPDT		PC Pin			
-NKK	AS	Through Hole	SPDT		PC Pin; Wire Wrap			
-NKK	AS	Through Hole	SPST		PC Pin; Wire Wrap			
-NKK	AS	Through Hole, Right Angle	DPDT		PC Pin			
-NKK	AS	Through Hole, Right Angle	SPDT		PC Pin			
-NKK	AS	Through Hole, Right Angle	SPST		PC Pin			
-NKK	AS	Through Hole, Right Angle, Vertical	DPDT		PC Pin			
-NKK	AS	Through Hole, Right Angle, Vertical	SPDT		PC Pin			
-NKK	CS	Through Hole	DPDT		PC Pin			
-NKK	CS	Through Hole	SPDT		PC Pin			
-NKK	FS	Through Hole	DPDT		PC Pin			
-NKK	M	Through Hole	DPDT		PC Pin			
-NKK	M	Through Hole	SPDT		PC Pin			
-NKK	SM	Through Hole	SPDT		PC Pin			
-NKK	SS	Through Hole	DPDT		PC Pin			
-NKK	SS	Through Hole	SPDT		PC Pin			
-NKK	SS	Through Hole, Right Angle	DPDT		PC Pin			
-NKK	SS	Through Hole, Right Angle	SPDT		PC Pin			
-NKK	SS3	Surface Mount, Right Angle	SPDT		Gull Wing			
+NKK	AS	Through Hole	DPDT	AS2[23]AP|AS22BP	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-NKK-AS-THT-6P	Aslides.pdf p.4 (H7) Straight PC double pole layout and p.3 schematics; common 2 / 5, left position (listed first) joins 2-1 and 5-4: A1=1, B1=3, A2=4, B2=6
+NKK	AS	Through Hole	DPDT	AS2[23][AB]B	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-NKK-AS-THT-6P-B	Aslides.pdf p.5 (H8) Straight PC bracket double pole layout (AS22AB) and p.3 schematics; common 2 / 5, left position joins 2-1 and 5-4: A1=1, B1=3, A2=4, B2=6
+NKK	AS	Through Hole	SPDT	AS1[23][AC]P	PC Pin; Wire Wrap	2=C;1=A;3=B	SW-SLIDE-NKK-AS-THT-3P	Aslides.pdf p.4 (H7) Straight PC single pole layout and p.3 schematics; common 2, left position (listed first) joins 2-1: A=1, B=3
+NKK	AS	Through Hole	SPST	AS11[AC]P	PC Pin; Wire Wrap	1=A;2=B	SW-SLIDE-NKK-AS-THT-2P	Aslides.pdf p.4 (H7) Straight PC layout (AS12AP, single throw has no terminal 2) and p.3 schematic AS11 (3-1 closed in the left position); datasheet terminals 1 and 3 renumbered 1,2: A=terminal 1, B=terminal 3
+NKK	AS	Through Hole, Right Angle	DPDT	AS2[23][ABC]H	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-NKK-AS-THTRA-6P	Aslides.pdf p.5 (H8) Right Angle PC double pole layout (AS22AH) and p.3 schematics; common 2 / 5, left position joins 2-1 and 5-4: A1=1, B1=3, A2=4, B2=6
+NKK	AS	Through Hole, Right Angle	SPDT	AS1[23][ABC]H	PC Pin	2=C;1=A;3=B	SW-SLIDE-NKK-AS-THTRA-3P	Aslides.pdf p.5 (H8) Right Angle PC single pole layout (AS12AH) and p.3 schematics; common 2, left position joins 2-1: A=1, B=3
+NKK	AS	Through Hole, Right Angle	SPST	AS11[ABC]H	PC Pin	1=A;2=B	SW-SLIDE-NKK-AS-THTRA-2P	Aslides.pdf p.5 (H8) Right Angle PC layout (AS12AH, single throw has no terminal 2) and p.3 schematic AS11 (3-1 closed in the left position); datasheet terminals 1 and 3 renumbered 1,2: A=terminal 1, B=terminal 3
+NKK	AS	Through Hole, Right Angle, Vertical	DPDT	AS2[23][ABC]V	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-NKK-AS-THTRAV-6P	Aslides.pdf p.5 (H8) Vertical PC double pole layout (AS22AV) and p.3 schematics; common 2 / 5, left position joins 2-1 and 5-4: A1=1, B1=3, A2=4, B2=6
+NKK	AS	Through Hole, Right Angle, Vertical	SPDT	AS1[23][ABC]V	PC Pin	2=C;1=A;3=B	SW-SLIDE-NKK-AS-THTRAV-3P	Aslides.pdf p.5 (H8) Vertical PC single pole layout (AS12AV) and p.3 schematics; common 2, left position joins 2-1: A=1, B=3
+NKK	CS	Through Hole	DPDT	CS22[AB]NW03	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-NKK-CS-THT-6P	cs.pdf p.3 (H12) Poles & Circuits CS22: left 2-1 5-4, right 2-3 5-6; C1=2 A1=1 B1=3, C2=5 A2=4 B2=6; footprint cs.pdf p.4
+NKK	CS	Through Hole	SPDT	CS12[AB]NW03	PC Pin	2=C;1=A;3=B	SW-SLIDE-NKK-CS-THT-3P	cs.pdf p.3 (H12) Poles & Circuits CS12: left 2-1, right 2-3; C=2 A=1 B=3; footprint cs.pdf p.4
+NKK	FS	Through Hole	DPDT	FS22A[AB]P	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-NKK-FS-THT-6P	FS.pdf p.2 (H15) Pole & Circuit FS22: left 2-1 5-4, right 2-3 5-6; C1=2 A1=1 B1=3, C2=5 A2=4 B2=6; footprint FS.pdf p.3
+NKK	M	Through Hole	DPDT	MSN2[23][AB]S[WGA]30	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-NKK-M-THTRA-6P	MSN_SlidesNonillum_DP.pdf p.4 (H33) MSN22/23 terminals as for 03; terminal 30 right-angle PC with bracket, footprint p.7 (MSN22BSG30)
+NKK	M	Through Hole	DPDT	MSN2[23][AB]S[WGA]40	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-NKK-M-THTRAV-6P	MSN_SlidesNonillum_DP.pdf p.4 (H33) MSN22/23 terminals as for 03; terminal 40 vertical PC with bracket, footprint p.7 (MSN22BSG40)
+NKK	M	Through Hole	DPDT	MSN2[23][AB][NF][WGA]03	PC Pin	2=C1;1=A1;3=B1;5=C2;4=A2;6=B2	SW-SLIDE-NKK-M-THT-6P	MSN_SlidesNonillum_DP.pdf p.4 (H33) MSN22/23: left 2-1 5-4, right 2-3 5-6; C1=2 A1=1 B1=3, C2=5 A2=4 B2=6; terminal 03 straight PC, footprint p.6
+NKK	M	Through Hole	SPDT	MSN1[23][AB]S[WGA]30	PC Pin	2=C;1=A;3=B	SW-SLIDE-NKK-M-THTRA-3P	MSN_SlidesNonillum_DP.pdf p.4 (H33) MSN12/13 terminals as for 03; terminal 30 right-angle PC with bracket, footprint p.7 (MSN12ASG30)
+NKK	M	Through Hole	SPDT	MSN1[23][AB]S[WGA]40	PC Pin	2=C;1=A;3=B	SW-SLIDE-NKK-M-THTRAV-3P	MSN_SlidesNonillum_DP.pdf p.4 (H33) MSN12/13 terminals as for 03; terminal 40 vertical PC with bracket, footprint p.7 (MSN12ASG40)
+NKK	M	Through Hole	SPDT	MSN1[23][AB][NF][WGA]03	PC Pin	2=C;1=A;3=B	SW-SLIDE-NKK-M-THT-3P	MSN_SlidesNonillum_DP.pdf p.4 (H33) MSN12/13: left 2-1, right 2-3; C=2 A=1 B=3; terminal 03 straight PC, footprint p.6 (MSN12ANG03)
+NKK	SM	Through Hole	SPDT	SM0320102	PC Pin	1=C;3=A;2=B	SW-SLIDE-NKK-SM-THT-3P	smslides.pdf p.2 (H43): terminals numbered on the switch, 1 (COM), right position (listed first) joins 1-3 so A=3, B=2 (left 1-2)
+NKK	SM	Through Hole	SPDT	SMVA001	PC Pin	1=C;3=A;2=B	SW-SLIDE-NKK-SM-THT-3P	SMVA001.pdf p.1 (SM with legend): terminals numbered on the switch, 1 (COM), right position (listed first) joins 1-3 so A=3, B=2 (left 1-2)
+NKK	SS	Through Hole	DPDT	SS22SBP[24]	PC Pin	1=A1;2=C1;3=B1;4=A2;5=C2;6=B2	SW-SLIDE-NKK-SS-THT-6P-B	SSnonilluminated.pdf p.3 (H46) Poles & Circuits: terminals 1,2(COM),3 and 4,5(COM),6; right position (listed first) joins 2-1 and 5-4 so A1=1,B1=3,A2=4,B2=6; layout SSnonilluminated.pdf p.4 spacing B (2.0 mm)
+NKK	SS	Through Hole	DPDT	SS22SDP2	PC Pin	1=A1;2=C1;3=B1;4=A2;5=C2;6=B2	SW-SLIDE-NKK-SS-THT-6P	SSnonilluminated.pdf p.3 (H46) Poles & Circuits: terminals 1,2(COM),3 and 4,5(COM),6; right position (listed first) joins 2-1 and 5-4 so A1=1,B1=3,A2=4,B2=6; layout SSnonilluminated.pdf p.4 spacing D
+NKK	SS	Through Hole	SPDT	SS12SBP[24]	PC Pin	1=A;2=C;3=B	SW-SLIDE-NKK-SS-THT-3P-B	SSnonilluminated.pdf p.3 (H46) Poles & Circuits: terminals 1,2(COM),3; right position (listed first) joins 2-1 so A=1, B=3 (left 2-3); layout SSnonilluminated.pdf p.4 spacing B (2.0 mm)
+NKK	SS	Through Hole	SPDT	SS12SDP[24]	PC Pin	1=A;2=C;3=B	SW-SLIDE-NKK-SS-THT-3P	SSnonilluminated.pdf p.3 (H46) Poles & Circuits: terminals 1,2(COM),3; right position (listed first) joins 2-1 so A=1, B=3 (left 2-3); layout SSnonilluminated.pdf p.4 spacing D
+NKK	SS	Through Hole, Right Angle	DPDT	SS22SBH[24]	PC Pin	1=A1;2=C1;3=B1;4=A2;5=C2;6=B2	SW-SLIDE-NKK-SS-THTRA-6P-B	SSnonilluminated.pdf p.3 (H46) Poles & Circuits: terminals 1,2(COM),3 and 4,5(COM),6; right position (listed first) joins 2-1 and 5-4 so A1=1,B1=3,A2=4,B2=6; layout SSnonilluminated.pdf p.4 spacing B (2.0 mm), side actuated
+NKK	SS	Through Hole, Right Angle	DPDT	SS22SDH[24]	PC Pin	1=A1;2=C1;3=B1;4=A2;5=C2;6=B2	SW-SLIDE-NKK-SS-THTRA-6P	SSnonilluminated.pdf p.3 (H46) Poles & Circuits: terminals 1,2(COM),3 and 4,5(COM),6; right position (listed first) joins 2-1 and 5-4 so A1=1,B1=3,A2=4,B2=6; layout SSnonilluminated.pdf p.4 spacing D, side actuated
+NKK	SS	Through Hole, Right Angle	SPDT	SS12SBH[24]	PC Pin	1=A;2=C;3=B	SW-SLIDE-NKK-SS-THTRA-3P-B	SSnonilluminated.pdf p.3 (H46) Poles & Circuits: terminals 1,2(COM),3; right position (listed first) joins 2-1 so A=1, B=3 (left 2-3); layout SSnonilluminated.pdf p.4 spacing B (2.0 mm), side actuated
+NKK	SS	Through Hole, Right Angle	SPDT	SS12SDH[24]	PC Pin	1=A;2=C;3=B	SW-SLIDE-NKK-SS-THTRA-3P	SSnonilluminated.pdf p.3 (H46) Poles & Circuits: terminals 1,2(COM),3; right position (listed first) joins 2-1 so A=1, B=3 (left 2-3); layout SSnonilluminated.pdf p.4 spacing D, side actuated
+NKK	SS3	Surface Mount, Right Angle	SPDT	SS312SAH4(?:-R)?	Gull Wing	1=B;2=C;3=A	SW-SLIDE-NKK-SS3-SMDRA-3P	SS3surfaceMount.pdf p.4 (H56) Poles & Circuits: terminals 1,2(COM),3; right position (listed first) joins 2-3 so A=3, B=1 (left 2-1); land pattern p.4 (H56)
