@@ -195,7 +195,7 @@ None outside `backend/tests/avr/` and `backend/tools/`.
 Acceptance: 10 scenarios equal avr8js.
   Check: `ctest --test-dir /tmp/sim-rel -R avr_periph_test --output-on-failure` → `layout atmega328 equal` and 10 `ok` lines (est. 1 min).
   Observed: 2026-11-24: `layout atmega328 equal` with USART0, SPI, TWI in the layout; `ok usart`, `ok spi`, `ok twi` and the 7 earlier scenarios against the live oracle.
-Commit: —
+Commit: 6ae1ebef
 
 ### Phase 2 — ADC, EEPROM, watchdog
 
@@ -213,7 +213,7 @@ Commit: —
 Acceptance: 13 scenarios equal avr8js; the full reset holds.
   Check: `ctest --test-dir /tmp/sim-rel -R 'avr_' --output-on-failure` → 13 `ok <scenario>` lines, `ok watchdog_full_reset`, 2 tests passed (est. 1 min).
   Observed: 2026-11-24: 13 `ok <scenario>` lines against the live oracle, `ok watchdog_full_reset`; `ctest -R avr_` 2 of 2 passed.
-Commit: —
+Commit: 6ae1ebef
 
 ## Validation Plan
 
