@@ -128,7 +128,7 @@ Commit: ab912759
       with the option on and off — routed, vias, corners, wire, seconds, pushes
       tried and kept, pieces moved — from the Phase 3 Release runs (the same
       layout as "Now (2026-11)"); one sentence on what the three boards show.
-- [~] (remaining: the edit itself, after the merge — see Corrections) `planning/todo.md`, by hunk (the file has the owner's uncommitted edits):
+- [x] (done after the merge, on main, as `8e644d28`: `git apply --cached` of the one hunk, so the owner's other edits stayed unstaged; same edit made in the working file; see Corrections) `planning/todo.md`, by hunk (the file has the owner's uncommitted edits):
       replace line 118 with two lines — `- [x] Push-and-shove routing in the
       autorouter. (plan-66)` and `- [ ] Later: teardrops (a board option, not an
       autorouter option; not planned yet).` Commit only those hunks: copy `git show
@@ -207,7 +207,7 @@ Acceptance: `ls planning/plan-66-*.md 2>/dev/null | wc -l` → 0; `ls
 planning/completed/plan-66-* | wc -l` → 6.
   Check: the two commands (est. 1 min). Measured: `ls planning/plan-66-*.md 2>/dev/null | wc -l` → 0;
   `ls planning/completed/plan-66-* | wc -l` → 6.
-Commit: — (recorded in the next commit, on `main`)
+Commit: 3966e0d0 (the close-out), merged into main as a fast-forward at `3efdc8e7`
 
 ## Validation Plan
 
