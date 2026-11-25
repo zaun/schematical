@@ -29,8 +29,8 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-63-D is complete | `cmake --build /tmp/logic-build --target erc_test >/dev/null && /tmp/logic-build/erc_test \| tail -1` → `0 failures` | NOT MET until D lands |
-| plan-63-A is complete | `grep -c powerFlag schematical/schematical/Canvas/NetLabel.swift` → a number above 0 | NOT MET until A lands |
+| plan-63-D is complete | `cmake --build /tmp/logic-build --target erc_test >/dev/null && /tmp/logic-build/erc_test \| tail -1` → `0 failures` | MET (`erc_test: 0 failures`, 2026-11-25, in `/tmp/logic-build-wt63`) |
+| plan-63-A is complete | `grep -c powerFlag schematical/schematical/Canvas/NetLabel.swift` → a number above 0 | MET (`4`, 2026-11-25) |
 | The rest as plan-63-A § Prerequisites | its four commands | MET (2026-11-25) |
 
 If plan-63-A or plan-63-D is not complete, this plan cannot start, full stop.
@@ -174,7 +174,7 @@ field). An older build ignores the key (`docs/file-format.md:198`: "Older builds
 
 ### Phase 1 — Settings, undo and the file
 
-- [ ] New `schematical/schematical/ElectricalRulesCheck/ErcSettings.swift`:
+- [x] New `schematical/schematical/ElectricalRulesCheck/ErcSettings.swift`:
       `ErcRule` (16 cases, `title`, `defaultSeverity`: error for `pin_not_connected`,
       `pin_not_driven`, `power_pin_not_driven`, `wire_dangling`, `label_dangling`,
       `duplicate_reference`; warning for `no_connect_connected`, `no_connect_dangling`,
@@ -183,18 +183,18 @@ field). An older build ignores the key (`docs/file-format.md:198`: "Older builds
       map's cell is the severity, 1 warning and 2 error, 0 off; ignore for `single_global_label` and
       `four_way_junction`), `ErcSeverity`, `ErcSettings`, and the default pin map as
       `[[UInt8]]` read from `ERC_DEFAULT_PIN_MAP`.
-- [ ] `Canvas/UndoHistory.swift`: `erc` in `DocumentState`; `UndoKey.erc`,
+- [x] `Canvas/UndoHistory.swift`: `erc` in `DocumentState`; `UndoKey.erc`,
       `UndoValue.erc(ErcSettings)`; the diff and the apply, as `.board` has them.
       `Canvas/SchematicModel.swift`: `private(set) var erc = ErcSettings()`, in
       `state` / `setState` / `replaceContents(…, erc: ErcSettings = ErcSettings())`;
       `setErcSeverity(_:_:)`, `setErcPinMap(_:)`, `resetErcSettings()`,
       `excludeErc(_ key:)`, `includeErc(_ key:)`, each `recordEdit(.schematic, "Change
       ERC Settings" / "Exclude Violation")`.
-- [ ] `Document/SchematicFile.swift`: the `erc` key per § Compatibility, read and
+- [x] `Document/SchematicFile.swift`: the `erc` key per § Compatibility, read and
       written (default settings write nothing); `badErc`. `docs/file-format.md`: a
       section "Electrical rules check" beside "Board design rules", and the top-level
       table row.
-- [ ] Tests (new `schematicalTests/ErcSettingsTests.swift`): defaults for the 16 rules
+- [x] Tests (new `schematicalTests/ErcSettingsTests.swift`): defaults for the 16 rules
       match the README table; an edit is one undo step and redo restores it; the file
       round trip keeps severities, a changed pin map and exclusions; a default
       document writes no `erc` key (the JSON has none); each bad input is refused
@@ -202,7 +202,8 @@ field). An older build ignores the key (`docs/file-format.md:198`: "Older builds
 
 Acceptance: settings edit, undo, save and reopen.
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/ErcSettingsTests -only-testing:schematicalTests/UndoHistoryTests -only-testing:schematicalTests/SchematicUndoTests -only-testing:schematicalTests/FileDesignRulesTests 2>&1 | tail -3` → `** TEST SUCCEEDED **` (est. 8 min).
-Commit: —
+  Result (2026-11-25, in the worktree): `ErcSettingsTests` 9, `UndoHistoryTests` 13, `SchematicUndoTests` 50, `FileDesignRulesTests` 22: `Executed 94 tests, with 0 failures`, `** TEST SUCCEEDED **`; the app also compiles `erc.h` / `erc_pins.c` / `erc_check.c` (the 63-B and 63-D backend files) in this build.
+Commit: (recorded in the next commit)
 
 ### Phase 2 — The pin rules on a drawing
 

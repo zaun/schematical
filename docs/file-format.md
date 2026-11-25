@@ -85,6 +85,7 @@ to the grid on open.
 | `board`         | object  | Optional. The PCB's settings and texts ([Board](#board)). Written by every build that has it; a file without it opens with the defaults. |
 | `notes`         | array   | Text blocks on the schematic, in drawing order ([Notes](#notes)). Always written, `[]` when there are none; missing means none. Older builds ignore it. |
 | `labels`        | array   | Net labels on the schematic, in drawing order ([Net labels](#net-labels)). Written only when there are some; missing means none. Older builds ignore it, but refuse a wire that ends on a label. |
+| `erc`           | object  | The electrical rules check's settings ([Electrical rules check](#electrical-rules-check)). Written only when a severity, the pin map or an exclusion differs from KiCad's defaults; missing means the defaults. Older builds ignore it. |
 | `customParts`   | array   | Version 5. The custom parts the schematic places ([Custom parts](#custom-parts)). Written only when there are some, and then `version` is 5; missing means none. |
 
 On open, `nextReference` is raised if needed so that it is higher than every
@@ -662,6 +663,10 @@ Opening fails, and the canvas is left unchanged, if:
 - a net label's `name` is not 1 to 8 characters with no spaces, or its
   `type` is not `input`, `output`, `inout`, `passive`, `noConnect` or `powerFlag` ("The net label is not valid:
   net label <id> …");
+- `erc.severities` names a rule that is not KiCad's or has no severity of its own
+  (`pin_to_pin`), or gives a word that is not `error`, `warning` or `ignore`, or
+  `erc.pinMap` is not 12 rows of 12 numbers 0 to 2 that are the same either side of
+  the diagonal ("The electrical rules check settings are not valid: erc.…");
 - a `partNumber` is not in the catalog (the error lists every missing one);
 - an LED's `color` is not one of its colors (`U3: "Purple" is not a color of
   GENERIC-LED`), or a `footprint` is not one of the part's footprint choices
@@ -798,6 +803,28 @@ with no `designRules` (saved before the rules were kept in the file) opens
 with the Settings of the Mac opening it, and carries them from its next
 save. An older build ignores the key, uses its own Settings, and drops the
 key when it saves.
+
+## Electrical rules check
+
+```json
+"erc": { "severities": { "pin_not_connected": "warning" },
+         "pinMap": [[0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2], "… 11 more rows"],
+         "exclusions": ["pin_not_connected|chip:6F1C2E8A-…:3"] }
+```
+
+The electrical rules check (plan-63, Window › Electrical Rules Check, ⌥⌘E)
+follows KiCad's ERC. Its settings are the file's, so the same file checks the
+same way on every Mac. A change is an undo step. Only what differs from KiCad's
+defaults is written, and the whole object is left out when nothing differs.
+
+| Field | Type | Meaning |
+|-------|------|---------|
+| `severities` | object | Rule name → `"error"`, `"warning"` or `"ignore"`, for the rules whose severity is not KiCad's default. The rule names are KiCad's: `pin_not_connected`, `pin_not_driven`, `power_pin_not_driven`, `no_connect_connected`, `no_connect_dangling`, `wire_dangling`, `unconnected_wire_endpoint`, `label_dangling`, `isolated_pin_label`, `multiple_net_names`, `similar_labels`, `similar_label_and_power`, `duplicate_reference`, `single_global_label` and `four_way_junction`. `pin_to_pin` has no severity of its own: the pin map's cell is its severity. A name that is not one of these, or a word that is not one of the three, is refused ("The electrical rules check settings are not valid: erc.severities: …"). |
+| `pinMap` | array | The pin-conflict map when it is not KiCad's: 12 rows of 12 numbers (0 ok, 1 warning, 2 error) in KiCad's pin-type order (input, output, bidirectional, tri-state, passive, free, unspecified, power input, power output, open collector, open emitter, unconnected), the same either side of the diagonal. Anything else is refused. |
+| `exclusions` | array of strings | The violations the user excluded, each by its key: the rule name, `\|`, then the sorted ids of what it names, joined by `\|`: `chip:<part id>:<pin designator>`, `wire:<id>`, `label:<id>`, `junction:<id>` or `part:<id>`. A key no violation has any more is ignored. |
+
+A file with no `erc` opens with KiCad's defaults. An older build ignores the
+key and drops it when it saves.
 
 ## Older versions
 

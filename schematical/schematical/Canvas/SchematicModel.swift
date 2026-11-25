@@ -2044,6 +2044,10 @@ final class SchematicDocument {
     /// The PCB's size, layers, colour and units. Changed through the edit
     /// functions, so every change is an undo step.
     private(set) var board = BoardSettings() { didSet { copperRevision &+= 1 } }
+    /// The electrical rules check's settings (plan-63-E): severities, the pin
+    /// map and the excluded violations. Changed through the edit functions
+    /// (`setErcSeverity` …), so every change is an undo step.
+    private(set) var erc = ErcSettings()
     /// Free texts on the PCB, in drawing order.
     private(set) var texts: [BoardText] = []
     /// Copper traces on the PCB, in drawing order (plan-16).
@@ -2093,7 +2097,9 @@ final class SchematicDocument {
                          nextReference: Int, board: BoardSettings, texts: [BoardText],
                          traces: [BoardTrace], vias: [BoardVia] = [], holes: [BoardHole] = [],
                          pours: [BoardPour] = [], keepouts: [BoardKeepout] = [],
-                         notes: [SchematicNote] = [], netLabels: [NetLabel] = []) {
+                         notes: [SchematicNote] = [], netLabels: [NetLabel] = [],
+                         erc: ErcSettings = ErcSettings()) {
+        self.erc = erc
         self.chips = chips
         self.notes = notes
         self.netLabels = netLabels
@@ -2161,7 +2167,7 @@ final class SchematicDocument {
     var state: DocumentState {
         DocumentState(chips: chips, wires: wires, junctions: junctions, buses: buses, notes: notes,
                       netLabels: netLabels, nextReference: nextReference, board: board, texts: texts, traces: traces, vias: vias, holes: holes,
-                      pours: pours, keepouts: keepouts)
+                      pours: pours, keepouts: keepouts, erc: erc)
     }
 
     /// Writes a state back (undo, redo), then drops selections and editor
@@ -2181,6 +2187,7 @@ final class SchematicDocument {
         if holes != s.holes { holes = s.holes }
         if pours != s.pours { pours = s.pours }
         if keepouts != s.keepouts { keepouts = s.keepouts }
+        if erc != s.erc { erc = s.erc }
         pruneSelection()
         if let id = editingNoteID, !notes.contains(where: { $0.id == id }) { editingNoteID = nil }
         if let id = selectedBusID, bus(id) == nil { selectedBusID = nil }
@@ -4247,6 +4254,55 @@ final class SchematicDocument {
             case .top: if vias[index].tentedTop != tented { vias[index].tentedTop = tented }
             case .bottom: if vias[index].tentedBottom != tented { vias[index].tentedBottom = tented }
             }
+        }
+    }
+
+    // MARK: Electrical rules check settings (plan-63-E)
+
+    /// Sets a rule's severity (the default clears the change). One undo step.
+    func setErcSeverity(_ rule: ErcRule, _ severity: ErcSeverity) {
+        guard rule.hasSeverity else { return }
+        recordEdit(.schematic, "Change ERC Settings") {
+            var next = erc
+            next.set(severity, for: rule)
+            if next != erc { erc = next }
+        }
+    }
+
+    /// Sets one cell of the pin map and its mirror. One undo step.
+    func setErcPinMap(_ a: Int, _ b: Int, to level: UInt8) {
+        recordEdit(.schematic, "Change ERC Settings") {
+            var next = erc
+            next.setPinMap(a, b, to: level)
+            if next != erc { erc = next }
+        }
+    }
+
+    /// Back to KiCad's severities and pin map; the exclusions stay. One undo step.
+    func resetErcSettings() {
+        recordEdit(.schematic, "Reset ERC Settings") {
+            var next = erc
+            next.severities = [:]
+            next.pinMap = nil
+            if next != erc { erc = next }
+        }
+    }
+
+    /// Excludes violations by key (`ErcViolation.key`). One undo step.
+    func excludeErc(_ keys: Set<String>) {
+        recordEdit(.schematic, "Exclude Violation") {
+            var next = erc
+            next.exclusions.formUnion(keys)
+            if next != erc { erc = next }
+        }
+    }
+
+    /// Puts excluded violations back. One undo step.
+    func includeErc(_ keys: Set<String>) {
+        recordEdit(.schematic, "Include Violation") {
+            var next = erc
+            next.exclusions.subtract(keys)
+            if next != erc { erc = next }
         }
     }
 

@@ -598,6 +598,20 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
     /// schematic places, once each, in order of first placement. Written only
     /// when there are some.
     var customParts: [JSONValue]? = nil
+    /// The electrical rules check's settings (plan-63-E): written only when a
+    /// severity, the pin map or an exclusion differs from KiCad's defaults;
+    /// missing means the defaults.
+    var erc: ErcEntry? = nil
+
+    /// `erc`: what differs from the defaults. `severities` maps a rule name to
+    /// `error`, `warning` or `ignore`; `pinMap` is 12 rows of 12 numbers
+    /// 0 (ok), 1 (warning) or 2 (error), symmetric, in KiCad's pin-type order;
+    /// `exclusions` are `ErcViolation.key` strings.
+    struct ErcEntry: Codable, Equatable, Sendable {
+        var severities: [String: String]?
+        var pinMap: [[Int]]?
+        var exclusions: [String]?
+    }
 }
 
 /// Any JSON value, for the custom parts a schematic embeds whole.
@@ -666,6 +680,8 @@ nonisolated enum SchematicFileError: LocalizedError {
     case missingLabel(wire: UUID, label: UUID)
     /// A net label that isn't valid; the detail names it.
     case badLabel(String)
+    /// The electrical rules check's settings that aren't valid; the detail names the field.
+    case badErc(String)
     case badRotation(reference: String, rotation: Int)
     /// A board setting, footprint origin or mark, or board text that isn't
     /// valid; the detail names it.
@@ -709,6 +725,8 @@ nonisolated enum SchematicFileError: LocalizedError {
             "Wire \(wire.uuidString) connects to net label \(label.uuidString), which is not in the file."
         case let .badLabel(detail):
             "The net label is not valid: \(detail)."
+        case let .badErc(detail):
+            "The electrical rules check settings are not valid: \(detail)."
         case let .badRotation(reference, rotation):
             "\(reference) has PCB rotation \(rotation); it must be 0, 90, 180 or 270."
         case let .badPCB(detail):
@@ -831,6 +849,7 @@ extension SchematicFile {
             Label(id: label.id, name: label.name, x: label.origin.x, y: label.origin.y,
                   type: label.style.rawValue, flipped: label.isFlipped ? true : nil)
         }
+        erc = Self.entry(document.erc)
         let settings = document.board
         board = Board(
             width: settings.width,
@@ -969,6 +988,7 @@ extension SchematicFile {
         }
 
         let settings = try boardSettings()
+        let ercSettings = try Self.ercSettings(erc)
 
         // Custom parts first (plan-32-B), so placed parts can resolve to them.
         // Registering one is for the session, like File › Load Part….
@@ -1307,9 +1327,48 @@ extension SchematicFile {
             pours: pours,
             keepouts: keepouts,
             notes: placedNotes,
-            netLabels: placedLabels
+            netLabels: placedLabels,
+            erc: ercSettings
         )
         return embedded
+    }
+
+    // MARK: Electrical rules check (plan-63-E)
+
+    /// The file form of a document's ERC settings; nil when they are the defaults.
+    private static func entry(_ settings: ErcSettings) -> ErcEntry? {
+        guard !settings.isDefault else { return nil }
+        return ErcEntry(
+            severities: settings.severities.isEmpty
+                ? nil : Dictionary(uniqueKeysWithValues: settings.severities.map { ($0.key.rawValue, $0.value.rawValue) }),
+            pinMap: settings.pinMap.map { $0.map { $0.map(Int.init) } },
+            exclusions: settings.exclusions.isEmpty ? nil : settings.exclusions.sorted())
+    }
+
+    /// The settings a file's `erc` says; the defaults when it has none. Throws
+    /// `badErc` for a rule or severity the app does not know, or a pin map that is
+    /// not 12 rows of 12 numbers 0 to 2, symmetric.
+    private static func ercSettings(_ entry: ErcEntry?) throws -> ErcSettings {
+        var settings = ErcSettings()
+        guard let entry else { return settings }
+        for (name, word) in entry.severities ?? [:] {
+            guard let rule = ErcRule(rawValue: name), rule.hasSeverity else {
+                throw SchematicFileError.badErc("erc.severities: \"\(name)\" is not a rule with a severity")
+            }
+            guard let severity = ErcSeverity(rawValue: word) else {
+                throw SchematicFileError.badErc("erc.severities.\(name): \"\(word)\" must be error, warning or ignore")
+            }
+            settings.set(severity, for: rule)
+        }
+        if let rows = entry.pinMap {
+            let map = rows.map { $0.map { UInt8(clamping: $0) } }
+            guard rows.allSatisfy({ $0.allSatisfy { (0...2).contains($0) } }), ErcSettings.isValid(pinMap: map) else {
+                throw SchematicFileError.badErc("erc.pinMap must be 12 rows of 12 numbers 0, 1 or 2, the same either side of the diagonal")
+            }
+            settings.setPinMap(map)
+        }
+        settings.exclusions = Set(entry.exclusions ?? [])
+        return settings
     }
 
     /// A stored net label, with defaults for missing keys. Its point is
