@@ -55,12 +55,12 @@ These are a precondition on the whole of plan-65, stated once here.
 |---|---|---|
 | plan number 65 is this plan's alone | `ls planning planning/completed \| grep '^plan-65' \| grep -v -E '^plan-65-([A-J]-\|data)'` → no output | MET (2026-11-25) |
 | plan-52 is complete (pours, keep-outs and the fill that reads the outline) | `ls planning/completed \| grep -c '^plan-52-[A-H]'` → 8 | MET (2026-11-25: 8) |
-| Xcode builds and tests the app | `xcodebuild -version` → `Xcode 26.3` or later; `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/HoleTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` | MET (2026-11-25: `Xcode 26.3`; `Executed 6 tests, with 0 failures`, 49 s with a cold `$DD`) |
+| Xcode builds and tests the app | `xcodebuild -version` → `Xcode 26.3` or later; `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/HoleTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` | MET (2026-11-25: `Xcode 26.3`; `Executed 6 tests, with 0 failures`, 49 s with a cold `$DD`; re-run in the worktree 2026-11-25: `** TEST SUCCEEDED **`) |
 | KiCad 10's CLI and python are installed (plan-65-G and H check against them) | `ls ~/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli` → the path | MET (2026-11-25) |
 | the files plan-65 edits have no uncommitted changes of another session | `git status --porcelain -- schematical/schematical/Canvas schematical/schematical/Document schematical/schematical/DesignRuleCheck schematical/schematical/Routing schematical/schematical/Automation schematical/schematical/BoardPreview schematical/schematical/Help docs` → no output | MET (2026-11-25: no output) |
 
 Everything below is written against the world where these hold. `$DD` in the checks is a scratch derived-data folder (any empty
-directory). Every `xcodebuild … test` in plan-65 runs under `timeout 1800` (the test host is the real app; a hung host on the owner's
+directory). Every `xcodebuild … test` in plan-65 runs with the Bash tool's `timeout` parameter set (macOS has no `timeout` command: `timeout: command not found`, 2026-11-25) (the test host is the real app; a hung host on the owner's
 screen is killed, not waited for: memory *GUI probe etiquette*), and `…` in a check stands for `-project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD`.
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
@@ -118,8 +118,8 @@ screen is killed, not waited for: memory *GUI probe etiquette*), and `…` in a 
 - New source and test files need no project-file edit: `grep -c PBXFileSystemSynchronizedRootGroup schematical/schematical.xcodeproj/project.pbxproj` → 5.
 - The check command form works on this tree: `XB -only-testing:schematicalTests/HoleTests CODE_SIGNING_ALLOWED=NO` → `Executed 6 tests, with 0 failures`, `** TEST SUCCEEDED **`, 49 s wall with a cold `$DD` (2026-11-25).
 - `CGPath.subtracting`, `union` and `componentsSeparated` give exact results on shapes like these: `planning/plan-52-data/README.md` (`mismatch 0 of 200000` sample points). C and G rely on it; A does not call them.
-- The flattening rule in § 4 gives, for a 0.01 mm sagitta, 16 segments for a 0.5 mm radius, 29 for 1.6 mm, 50 for 5 mm and 158 for 50 mm
-  (`python3 -c "import math; print(math.ceil(2*math.pi/(2*math.acos(1-0.01/1.6))))"` → 29), so a 3.2 mm round hole is a 29-gon.
+- The flattening rule in § 4 gives, for a 0.01 mm sagitta, 16 segments for a 0.5 mm radius, 32 for 1.6 mm, 52 for 5 mm and 160 for 50 mm (per quarter turn: 4, 8, 13, 40)
+  (`python3 -c "import math; print(max(4, math.ceil((math.pi/2)/(2*math.acos(1-0.01/1.6)))))"` → 8 per quarter), so a 3.2 mm round hole is a 32-gon.
 
 ## 3. Design Overview (the whole plan-65)
 
@@ -239,12 +239,12 @@ inside the box) and select-all, `pruneSelection`, and the selection list rows (`
 
 ### Phase 1 — Value types and `BoardEdge` (no callers)
 
-- [ ] `Canvas/BoardCutout.swift`: `BoardCutout`, `Shape`, `Kind`, `flatness`, `polygon`, `bounds`, `translated`, `problem`, `normalized`, circle and slot constructors, per § 4.1.
-- [ ] `Canvas/BoardEdge.swift`: `BoardEdge` per § 4.2.
-- [ ] Tests `schematicalTests/BoardCutoutTests.swift`: a rectangle's four corners from the top-left, clockwise; a 3.2 mm circle has 29 points, every point 1.6 mm ± 1e-9 from its centre and every chord's midpoint within 0.01 mm of the circle; a slot's end caps; a radius larger than half the short side is refused by `normalized` and by `problem`; a bow-tie polygon is refused; `kind` of a circle, slot, rectangle and polygon; `BoardGeometry.clockwise` reverses a counter-clockwise square and leaves a clockwise one; `BoardGeometry.crossesItself` is true for a bow-tie and false for an L-shape; `BoardEdge.contains` for a point in the outline, in a cutout, outside the outline, on a cutout that overlaps another and on one that crosses the outline; `segments` count is the sum of the loops' point counts; an empty outline gives an edge that contains nothing.
+- [x] `Canvas/BoardCutout.swift`: `BoardCutout`, `Shape`, `Kind`, `flatness`, `polygon`, `bounds`, `translated`, `problem`, `normalized`, circle and slot constructors, per § 4.1.
+- [x] `Canvas/BoardEdge.swift`: `BoardEdge` per § 4.2.
+- [x] Tests `schematicalTests/BoardCutoutTests.swift` (17 tests; `BoardCutout.Shape.distance(to:)`, which plan-65-E lists, was written here with its test): a rectangle's four corners from the top-left, clockwise; a 3.2 mm circle has 32 points, every point 1.6 mm ± 1e-9 from its centre and every chord's midpoint within 0.01 mm of the circle; a slot's end caps; a radius larger than half the short side is refused by `normalized` and by `problem`; a bow-tie polygon is refused; `kind` of a circle, slot, rectangle and polygon; `BoardGeometry.clockwise` reverses a counter-clockwise square and leaves a clockwise one; `BoardGeometry.crossesItself` is true for a bow-tie and false for an L-shape; `BoardEdge.contains` for a point in the outline, in a cutout, outside the outline, on a cutout that overlaps another and on one that crosses the outline; `segments` count is the sum of the loops' point counts; an empty outline gives an edge that contains nothing.
 
 Acceptance: the types exist, are `Sendable` (the build has no concurrency diagnostics) and the tests pass.
-  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/BoardCutoutTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 2 min: a build and one fast test class).
+  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/BoardCutoutTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 2 min: a build and one fast test class). Observed: `Executed 17 tests, with 0 failures`, `** TEST SUCCEEDED **`.
 Commit: —
 
 ### Phase 2 — Document state, undo, selection and the edit API
@@ -276,7 +276,8 @@ Commit: —
 
 ## Corrections
 
-<Filled in during execution.>
+- 2026-11-25: the plan said to run checks under `timeout 1800`; `timeout` does not exist on this Mac (`zsh: command not found: timeout`). Checks run with the Bash tool's own `timeout` parameter instead (plan-65-J's `timeout 3000` likewise).
+- 2026-11-25: the plan counted a 3.2 mm circle as a 29-gon, using the segments per full circle; the rule it states (at least 4 per quarter turn, `ceil((π/2)/(2·acos(1 − 0.01/r)))` per quarter) gives 8 per quarter, 32 in all (`python3 -c "import math; print(max(4, math.ceil((math.pi/2)/(2*math.acos(1-0.01/1.6)))))"` → 8). A, C and § 2 corrected: 16, 32, 52, 160 segments for radii 0.5, 1.6, 5, 50 mm.
 
 ## Summary
 
