@@ -8,7 +8,10 @@ final class MarkdownDatasheetTests: XCTestCase {
     func testConvertedPartHasMarkdownDatasheet() throws {
         let part = try TestSupport.part("SN74HC08N")
         XCTAssertEqual(part.datasheetMarkdown, "gate-and/sn74hc08.md")
-        XCTAssertNil(try TestSupport.part("SN74HC00N").datasheetMarkdown)
+        // The NAND's was converted too (it was this test's example of a part without one).
+        XCTAssertEqual(try TestSupport.part("SN74HC00N").datasheetMarkdown, "gate-nand/sn74hc00.md")
+        // A part with no datasheet has no Markdown.
+        XCTAssertNil(try TestSupport.part("GENERIC-LED").datasheetMarkdown)
     }
 
     func testEveryMarkdownDatasheetIsBundled() throws {
